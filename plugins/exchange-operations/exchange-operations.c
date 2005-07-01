@@ -1,3 +1,24 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
+ *
+ * Praveen Kumar <kpraveen@novell.com>
+ * Copyright (C) 2005 Novell, Inc.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ *
+ */
+
 #include <string.h>
 
 #include "exchange-operations.h"
@@ -17,10 +38,10 @@ e_plugin_lib_enable (EPluginLib *eplib, int enable)
 		exchange_global_config_listener = exchange_config_listener_new ();
 		g_atexit (free_exchange_listener);
 	}
-	g_print ("*** DEBUG: Exchange config listener is initialized ***\n");
 	return 0;
 }
 
+/* FIXME: See if a GLib variant of this function available */
 gboolean
 exchange_operations_tokenize_string (char **string, char *token, char delimit)
 {
@@ -39,55 +60,108 @@ exchange_operations_tokenize_string (char **string, char *token, char delimit)
 }
 
 gboolean
-exchange_operations_cta_add_node_to_tree (GtkTreeStore *store, GtkTreeIter *parent, const char *nuri, const char *ruri) 
+exchange_operations_cta_add_node_to_tree (GtkTreeStore *store, GtkTreeIter *parent, const char *ruri) 
 {
 	GtkTreeIter iter;
-	char *luri=(char *)nuri;
+	char *luri=(char *)ruri;
 	char nodename[80];
-	gchar *readname;
+	gchar *uri;
 	gboolean status, found;
 	
-	g_print ("TOKENIZER: String passed to tokenizer %s\n", luri);
 	exchange_operations_tokenize_string (&luri, nodename, '/');
-	g_print ("TOKENIZER: Token - %s Residue - %s\n", nodename, luri);
+
        	if (!nodename[0]) {
 		return TRUE;
 	}
+
+	if (!parent) {
+	  uri = g_strdup (nodename);
+	}
+	else {
+	  gchar *tmpuri;
+	  gtk_tree_model_get (GTK_TREE_MODEL (store), parent, 1, &tmpuri, -1);
+	  uri = g_strconcat (tmpuri, "/", nodename, NULL);
+	  g_free (tmpuri);
+	}
+
 	if (!strcmp (nodename, "personal") && !parent) {
+		/* FIXME: Don't hardcode this */
 		strcpy (nodename, "Personal Folders");
 	}
 
 	found = FALSE;
 	status = gtk_tree_model_iter_children (GTK_TREE_MODEL (store), &iter, parent);
 	while (status) {
-		g_print ("Reading name...\n");
-		gtk_tree_model_get (GTK_TREE_MODEL (store), &iter, 0, &readname, -1);
-		g_print ("Name read - %s\n", readname);
-		if (!strcmp (nodename, readname)) {
-			g_print ("Found. Inserting as child.\n");
-			found = TRUE;
-			exchange_operations_cta_add_node_to_tree (store, &iter, luri, ruri);
-			break;
-		}
-		g_free (readname);
-		status = gtk_tree_model_iter_next (GTK_TREE_MODEL (store), &iter);
+	  gchar *readname;
+	  gtk_tree_model_get (GTK_TREE_MODEL (store), &iter, 0, &readname, -1);
+	  if (!strcmp (nodename, readname)) {
+	    found = TRUE;
+	    exchange_operations_cta_add_node_to_tree (store, &iter, luri);
+	    g_free (readname);
+	    break;
+	  }
+	  status = gtk_tree_model_iter_next (GTK_TREE_MODEL (store), &iter);
 	}
+
 	if (!found) {
-		g_print ("Not found. Inserting node %s\n", nodename);
-		gtk_tree_store_append (store, &iter, parent);		
-		gtk_tree_store_set (store, &iter, 0, nodename, 1, ruri, -1);		
-		exchange_operations_cta_add_node_to_tree (store, &iter, luri, ruri);				
+	  gtk_tree_store_append (store, &iter, parent);		
+	  gtk_tree_store_set (store, &iter, 0, nodename, 1, uri, -1);		
+	  exchange_operations_cta_add_node_to_tree (store, &iter, luri);				
 	}
+
+	g_free (uri);
 	return TRUE;
 }
 
+void
+exchange_operations_cta_select_node_from_tree (GtkTreeStore *store, GtkTreeIter *parent, const char *nuri, const char *ruri, GtkTreeSelection *selection) 
+{
+	char *luri=(char *)nuri;
+	char nodename[80];
+	GtkTreeIter iter;
+	gboolean status;
+
+	exchange_operations_tokenize_string (&luri, nodename, '/');
+
+       	if (!nodename[0]) {
+		return;
+	}
+
+	if (!strcmp (nodename, "personal") && !parent) {
+		/* FIXME: Don't hardcode this */
+		strcpy (nodename, "Personal Folders");
+	}
+
+	status = gtk_tree_model_iter_children (GTK_TREE_MODEL (store), &iter, parent);
+	while (status) {
+		gchar *readname;
+		gtk_tree_model_get (GTK_TREE_MODEL (store), &iter, 0, &readname, -1);
+		if (!strcmp (nodename, readname)) {
+			gchar *readruri;
+			gtk_tree_model_get (GTK_TREE_MODEL (store), &iter, 1, &readruri, -1);
+			if (!strcmp (ruri, readruri)) {
+				gtk_tree_selection_select_iter (selection, &iter);
+				return;
+			}
+			g_free (readname);
+			g_free (readruri);
+			exchange_operations_cta_select_node_from_tree (store, &iter, luri, ruri, selection);
+			break;
+		}
+		status = gtk_tree_model_iter_next (GTK_TREE_MODEL (store), &iter);
+	}
+	return;
+}
+
 ExchangeAccount *
-exchange_operations_get_exchange_account (void) {
+exchange_operations_get_exchange_account (void) 
+{
 	ExchangeAccount *account;
 	GSList *acclist;
 
 	acclist = exchange_config_listener_get_accounts (exchange_global_config_listener);
-	account = acclist->data; /* FIXME: Need to be changed for handling multiple accounts */
+	/* FIXME: Need to be changed for handling multiple accounts */
+	account = acclist->data; 
 	
 	return account;
 }

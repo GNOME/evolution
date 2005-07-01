@@ -18,6 +18,10 @@ liborg_gnome_exchange_operations_la_SOURCES = 		\
 	exchange-operations.h				\
 	exchange-config-listener.c			\
 	exchange-config-listener.h			\
+	exchange-calendar.c				\
+	exchange-contacts.c				\
+	exchange-change-password.c			\
+	exchange-change-password.h			\
 	exchange-account-setup.c				
 
 liborg_gnome_exchange_operations_la_LIBADD = 		\

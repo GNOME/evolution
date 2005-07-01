@@ -1,3 +1,19 @@
+2005-07-01  Praveen Kumar <kpraveen@novell.com>
+
+	* Makefile.am : Added new file entries for calendar , contacts
+	  and change-password
+	* exchange-account-setup.c (btn_chpass_clicked) : enabled the code
+	* exchange-operations.c (exchange_operations_cta_add_node_to_tree) : 
+	  This now stores the relative uri of the node to the model
+	 (exchange_operations_cta_select_node_from_tree) : Added new. This 
+	 selects the node for a given relative uri.
+	* exchange-operations.h : Similar
+	* org-gnome-exchange-operations.eplug.in : Added commit hook action
+	  for calendar and contacts
+	* exchange-change-password.c : Added new
+	* exchange-calendar.c : Added new
+	* exchange-contacts.c : Added new
+
 2005-07-01  Sarfraaz Ahmed <asarfraaz@novell.com>
 
 	* exchange-account-setup.c(print_error) : Added new. This prints the

@@ -113,38 +113,21 @@ static void
 btn_chpass_clicked (GtkButton *button, gpointer data)
 {
 	ExchangeAccount *account;
-	GSList *acclist;
 	char *old_password, *new_password;
-#if 0
-	if (!exchange_global_config_listener) {
-		g_print ("FATAL: Exchange global config listener is not initialized.\n");
-		return;
-	}
-	else {
-		g_print ("Exchange global config listener is initialized sucessfully.\n");
-	}
-#endif
-	acclist = exchange_config_listener_get_accounts (exchange_global_config_listener);
 
-	/* FIXME: For now, we have only one account in the list.
-	   Find a way to handle multiple accounts.
-	*/
-	if (!acclist)
-		return;
-	account = acclist->data; 
+	account = exchange_operations_get_exchange_account ();
 					
 	old_password = exchange_account_get_password (account);
 	if (!old_password) {
-		printf ("could not fetch old password\n");
+		g_print ("Could not fetch old password\n");
 		return;
 	}
-
+	new_password = exchange_get_new_password (old_password, TRUE);
 	g_print ("Current password is \"%s\"\n", old_password);
-	//new_password = exchange_get_new_password (old_password, TRUE);
 	exchange_account_set_password (account, old_password, new_password);
 	
-//	g_free (old_password);
-//	g_free (new_password);	
+	g_free (old_password);
+	g_free (new_password);	
 }
 
 static void
