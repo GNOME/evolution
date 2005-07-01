@@ -259,7 +259,7 @@ struct _user_message_msg {
 	struct _mail_msg msg;
 
 	CamelSessionAlertType type;
-	const char *prompt;
+	char *prompt;
 
 	unsigned int allow_cancel:1;
 	unsigned int result:1;
@@ -346,7 +346,15 @@ do_user_message (struct _mail_msg *mm)
 	}
 }
 
-static struct _mail_msg_op user_message_op = { NULL, do_user_message, NULL, NULL };
+static void
+free_user_message(struct _mail_msg *mm)
+{
+	struct _user_message_msg *m = (struct _user_message_msg *)mm;
+
+	g_free(m->prompt);
+}
+
+static struct _mail_msg_op user_message_op = { NULL, do_user_message, NULL, free_user_message };
 
 static gboolean
 alert_user(CamelSession *session, CamelSessionAlertType type, const char *prompt, gboolean cancel)
@@ -364,7 +372,7 @@ alert_user(CamelSession *session, CamelSessionAlertType type, const char *prompt
 	m = mail_msg_new (&user_message_op, user_message_reply, sizeof (*m));
 	m->ismain = pthread_self() == mail_gui_thread;
 	m->type = type;
-	m->prompt = prompt;
+	m->prompt = g_strdup(prompt);
 	m->allow_cancel = cancel;
 
 	if (m->ismain)
