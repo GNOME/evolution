@@ -48,6 +48,9 @@
 #include <camel/camel-mime-filter.h>
 #include <camel/camel-mime-filter-tohtml.h>
 #include <camel/camel-mime-filter-enriched.h>
+#include <camel/camel-mime-filter-pgp.h>
+#include <camel/camel-mime-filter-basic.h>
+#include <camel/camel-gpg-context.h>
 #include <camel/camel-cipher-context.h>
 #include <camel/camel-multipart.h>
 #include <camel/camel-stream-mem.h>
@@ -659,6 +662,117 @@ efh_format_secure(EMFormat *emf, CamelStream *stream, CamelMimePart *part, Camel
 }
 
 static void
+efh_inlinepgp_signed(EMFormatHTML *efh, CamelStream *stream, CamelMimePart *ipart, EMFormatHandler *info)
+{
+	
+	CamelCipherContext *cipher;
+	CamelCipherValidity *valid;
+	CamelException *ex;
+	CamelMimePart *opart=NULL;
+	CamelContentType *type;
+	CamelStreamFilter *filtered_stream;
+	CamelStream *ostream;
+	CamelDataWrapper *dw;
+	CamelMimeFilterPgp *pgp_filter;
+
+	/* Check we're passed valid input */
+	type = camel_mime_part_get_content_type(ipart);
+	if (!camel_content_type_is(type, "application", "x-inlinepgp-signed")) {
+		em_format_format_error((EMFormat *)efh, stream, 
+				"Invalid mime type passed to inline PGP format");
+		return;
+	}
+
+	ex = camel_exception_new();
+	cipher = camel_gpg_context_new (((EMFormat *)efh)->session);
+	/* Verify the signature of the message */
+	valid = camel_cipher_verify(cipher, ipart, ex);
+	if (!valid) {
+		/* Display an error */
+		em_format_format_error((EMFormat *)efh, stream, ex->desc ? ex->desc : 
+				_("Unknown error verifying signed messaage"));
+		camel_exception_free(ex);
+		camel_object_unref(cipher);
+		return;
+    	}
+        
+	/* Setup output stream */
+	ostream = camel_stream_mem_new();
+	filtered_stream = camel_stream_filter_new_with_stream(ostream);
+
+	/* Add PGP header / footer filter */
+	pgp_filter = (CamelMimeFilterPgp *)camel_mime_filter_pgp_new();
+	camel_stream_filter_add(filtered_stream, (CamelMimeFilter *)pgp_filter);
+	camel_object_unref(pgp_filter);
+	
+	/* Pass through the filters that have been setup */
+	dw = camel_medium_get_content_object((CamelMedium *)ipart);
+	camel_data_wrapper_decode_to_stream(dw, (CamelStream *)filtered_stream);
+	camel_stream_flush((CamelStream *)filtered_stream);
+	camel_object_unref(filtered_stream);
+	
+	/* Extract new part and display it as text/plain */ 
+	dw = camel_data_wrapper_new();
+	camel_data_wrapper_construct_from_stream(dw, ostream);
+	camel_data_wrapper_set_mime_type(dw, "text/plain");
+	opart = camel_mime_part_new();
+	camel_medium_set_content_object((CamelMedium *)opart, dw);
+	camel_mime_part_set_content_type(opart, "text/plain");
+	
+	/* Pass it off to the real formatter */	
+	em_format_format_secure((EMFormat *)efh, stream, opart, valid);
+
+	/* Clean Up */
+	camel_object_unref(dw);
+	camel_object_unref(opart);
+	camel_object_unref(ostream);
+	camel_object_unref(cipher);
+	camel_exception_free(ex);	
+}
+
+static void
+efh_inlinepgp_encrypted(EMFormatHTML *efh, CamelStream *stream, CamelMimePart *ipart, EMFormatHandler *info)
+{	
+	CamelCipherContext *cipher;
+	CamelCipherValidity *valid;
+	CamelException *ex;
+	CamelMimePart *opart;
+	CamelContentType *type;
+    
+	/* Check we're passed valid input */
+	type = camel_mime_part_get_content_type(ipart);
+	if (!camel_content_type_is(type, "application", "x-inlinepgp-encrypted")) {
+		em_format_format_error((EMFormat *)efh, stream, 
+				"Invalid mime type passed to inline PGP format encrypted");
+		return;
+	}
+	
+	cipher = camel_gpg_context_new (((EMFormat *)efh)->session);
+	ex = camel_exception_new();
+	opart = camel_mime_part_new();
+	/* Decrypt the message */
+	valid = camel_cipher_decrypt (cipher, ipart, opart, ex);	
+	if (!valid) {
+		/* Display an error */
+		em_format_format_error((EMFormat *)efh, stream, ex->desc ? ex->desc : 
+				_("Unknown error decrypting messaage"));
+		camel_exception_free(ex);
+		camel_object_unref(cipher);
+		camel_object_unref(opart);
+		return;
+	}
+
+	/* Pass it off to the real formatter */	
+	em_format_format_secure((EMFormat *)efh, stream, opart, valid);
+
+	/* Clean Up */
+	camel_object_unref(opart);
+	camel_object_unref (cipher);
+	camel_exception_free (ex);
+}
+
+	
+static void
 efh_text_plain(EMFormatHTML *efh, CamelStream *stream, CamelMimePart *part, EMFormatHandler *info)
 {
 	CamelStreamFilter *filtered_stream;
@@ -670,10 +784,6 @@ efh_text_plain(EMFormatHTML *efh, CamelStream *stream, CamelMimePart *part, EMFo
 	guint32 flags;
 	int i, count, len;
 	struct _EMFormatHTMLCache *efhc;
-
-	camel_stream_printf (stream,
-			     "<div style=\"border: solid #%06x 1px; background-color: #%06x; padding: 10px;\">\n",
-			     efh->frame_colour & 0xffffff, efh->content_colour & 0xffffff);
 
 	flags = efh->text_html_flags;
 	
@@ -742,10 +852,14 @@ efh_text_plain(EMFormatHTML *efh, CamelStream *stream, CamelMimePart *part, EMFo
 
 		type = camel_mime_part_get_content_type(newpart);
 		if (camel_content_type_is (type, "text", "*")) {
+			camel_stream_printf (stream,
+   					"<div style=\"border: solid #%06x 1px; background-color: #%06x; padding: 10px;\">\n",
+   					efh->frame_colour & 0xffffff, efh->content_colour & 0xffffff);
 			camel_stream_write_string(stream, "<tt>\n");
 			em_format_format_text((EMFormat *)efh, (CamelStream *)filtered_stream, camel_medium_get_content_object((CamelMedium *)newpart));
 			camel_stream_flush((CamelStream *)filtered_stream);
 			camel_stream_write_string(stream, "</tt>\n");
+			camel_stream_write_string(stream, "</div>\n");
 		} else {
 			g_string_append_printf(((EMFormat *)efh)->part_id, ".inline.%d", i);
 			em_format_part((EMFormat *)efh, stream, newpart);
@@ -754,7 +868,6 @@ efh_text_plain(EMFormatHTML *efh, CamelStream *stream, CamelMimePart *part, EMFo
 	}
 
 	camel_object_unref(filtered_stream);
-	camel_stream_write_string(stream, "</div>\n");
 }
 
 static void
@@ -1114,6 +1227,8 @@ static EMFormatHandler type_builtin_table[] = {
 	{ "message/external-body", (EMFormatFunc)efh_message_external },
 	{ "message/delivery-status", (EMFormatFunc)efh_message_deliverystatus },
 	{ "multipart/related", (EMFormatFunc)efh_multipart_related },
+	{ "application/x-inlinepgp-signed", (EMFormatFunc)efh_inlinepgp_signed },
+	{ "application/x-inlinepgp-encrypted", (EMFormatFunc)efh_inlinepgp_encrypted },
 
 	/* This is where one adds those busted, non-registered types,
 	   that some idiot mailer writers out there decide to pull out

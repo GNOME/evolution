@@ -102,6 +102,7 @@ enum {
 	EMIF_BINHEX,
 	EMIF_POSTSCRIPT,
 	EMIF_PGPSIGNED,
+	EMIF_PGPENCRYPTED,
 };
 const struct {
 	const char *name;
@@ -112,7 +113,8 @@ const struct {
 	{ "application/octet-stream", CAMEL_TRANSFER_ENCODING_UUENCODE, },
 	{ "application/mac-binhex40", CAMEL_TRANSFER_ENCODING_7BIT, },
 	{ "application/postscript", CAMEL_TRANSFER_ENCODING_7BIT, },
-	{ "text/plain", CAMEL_TRANSFER_ENCODING_7BIT, 1, },
+	{ "application/x-inlinepgp-signed", CAMEL_TRANSFER_ENCODING_DEFAULT, },
+	{ "application/x-inlinepgp-encrypted", CAMEL_TRANSFER_ENCODING_DEFAULT, },	
 };
 
 static void
@@ -124,12 +126,16 @@ emif_add_part(EMInlineFilter *emif, const char *data, int len)
 	CamelMimePart *part;
 	const char *mimetype;
 
-	if (emif->state == EMIF_PLAIN)
+	if (emif->state == EMIF_PLAIN || emif->state == EMIF_PGPSIGNED || emif->state == EMIF_PGPENCRYPTED)
 		type = emif->base_encoding;
 	else
 		type = emif_types[emif->state].type;
 
 	g_byte_array_append(emif->data, data, len);
+	/* check the part will actually have content */
+	if (emif->data->len <= 0) {
+		return;
+	}
 	mem = camel_stream_mem_new_with_byte_array(emif->data);
 	emif->data = g_byte_array_new();
 
@@ -223,17 +229,18 @@ emif_scan(CamelMimeFilter *f, char *in, size_t len, int final)
 				emif_add_part(emif, data_start, start-data_start);
 				data_start = start;
 				emif->state = EMIF_POSTSCRIPT;
-#if 0
-/* This should be hooked in once someone can work out how to handle it.
-   Maybe we need a multipart_gpg_inline_signed or some crap, if it
-   can't be converted to a real multipart/signed */
 			} else if (strncmp(start, "-----BEGIN PGP SIGNED MESSAGE-----", 34) == 0) {
 				inptr[-1] = '\n';
 				emif_add_part(emif, data_start, start-data_start);
 				data_start = start;
 				emif->state = EMIF_PGPSIGNED;
-#endif
+			} else if (strncmp(start, "-----BEGIN PGP MESSAGE-----", 27) == 0) {
+				inptr[-1] = '\n';
+				emif_add_part(emif, data_start, start-data_start);
+				data_start = start;
+				emif->state = EMIF_PGPENCRYPTED;
 			}
+
 			break;
 		case EMIF_UUENC:
 			if (strcmp(start, "end") == 0) {
@@ -279,8 +286,15 @@ emif_scan(CamelMimeFilter *f, char *in, size_t len, int final)
 			}
 			break;
 		case EMIF_PGPSIGNED:
-			/* This is currently a noop - it just turns it into a text part */
 			if (strcmp(start, "-----END PGP SIGNATURE-----") == 0) {
+				inptr[-1] = '\n';
+				emif_add_part(emif, data_start, inptr-data_start);
+				data_start = inptr;
+				emif->state = EMIF_PLAIN;
+			}
+			break;
+		case EMIF_PGPENCRYPTED:
+			if (strcmp(start, "-----END PGP MESSAGE-----") == 0) {
 				inptr[-1] = '\n';
 				emif_add_part(emif, data_start, inptr-data_start);
 				data_start = inptr;
