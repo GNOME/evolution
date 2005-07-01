@@ -17,7 +17,7 @@
 
 #include <time.h>
 #include <sys/time.h>
-#include <misc/e-unicode.h>
+#include <gal/widgets/e-unicode.h>
 
 #ifdef __linux__
 #undef _GNU_SOURCE
@@ -27,7 +27,7 @@
 #include <ctype.h>
 #include <glib.h>
 #include <libgnome/gnome-i18n.h>
-#include <e-util/e-util.h>
+#include <gal/util/e-util.h>
 #include "e-time-utils.h"
 
 

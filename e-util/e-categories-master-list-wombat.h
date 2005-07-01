@@ -2,7 +2,7 @@
 #ifndef _E_CATEGORIES_MASTER_LIST_WOMBAT_H_
 #define _E_CATEGORIES_MASTER_LIST_WOMBAT_H_
 
-#include <misc/e-categories-master-list-array.h>
+#include <gal/widgets/e-categories-master-list-array.h>
 
 G_BEGIN_DECLS
 

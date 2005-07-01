@@ -36,7 +36,7 @@
 #include <stdio.h>
 #include <time.h>
 
-#include <e-util/e-util.h>
+#include <gal/util/e-util.h>
 
 #include "e-mktemp.h"
 

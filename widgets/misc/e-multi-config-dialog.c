@@ -28,11 +28,11 @@
 
 #include "e-clipped-label.h"
 
-#include <table/e-table-scrolled.h>
-#include <table/e-table-memory-store.h>
-#include <table/e-cell-pixbuf.h>
-#include <table/e-cell-vbox.h>
-#include <table/e-cell-text.h>
+#include <gal/e-table/e-table-scrolled.h>
+#include <gal/e-table/e-table-memory-store.h>
+#include <gal/e-table/e-cell-pixbuf.h>
+#include <gal/e-table/e-cell-vbox.h>
+#include <gal/e-table/e-cell-text.h>
 
 #include <gdk-pixbuf/gdk-pixbuf.h>
 

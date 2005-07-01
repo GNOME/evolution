@@ -29,7 +29,7 @@
 #ifndef _E_CELL_PERCENT_H_
 #define _E_CELL_PERCENT_H_
 
-#include <table/e-cell-text.h>
+#include <gal/e-table/e-cell-text.h>
 
 #define E_CELL_PERCENT_TYPE        (e_cell_percent_get_type ())
 #define E_CELL_PERCENT(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_CELL_PERCENT_TYPE, ECellPercent))

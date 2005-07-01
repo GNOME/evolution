@@ -26,7 +26,7 @@
 
 #include "e-task-bar.h"
 
-#include "misc/e-clipped-label.h"
+#include "widgets/misc/e-clipped-label.h"
 
 struct _ETaskBarPrivate
 {

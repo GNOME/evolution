@@ -30,7 +30,7 @@
 #define _E_CELL_DATE_EDIT_H_
 
 #include <time.h>
-#include <table/e-cell-popup.h>
+#include <gal/e-table/e-cell-popup.h>
 
 #define E_CELL_DATE_EDIT_TYPE        (e_cell_date_edit_get_type ())
 #define E_CELL_DATE_EDIT(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_CELL_DATE_EDIT_TYPE, ECellDateEdit))

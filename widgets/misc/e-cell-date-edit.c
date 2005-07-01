@@ -40,8 +40,8 @@
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtk.h>
 
-#include <table/e-table-item.h>
-#include <table/e-cell-text.h>
+#include <gal/e-table/e-table-item.h>
+#include <gal/e-table/e-cell-text.h>
 
 #include <libgnomeui/gnome-messagebox.h>
 #include <libgnome/gnome-i18n.h>

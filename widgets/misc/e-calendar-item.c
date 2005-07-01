@@ -44,7 +44,7 @@
 #include <gtk/gtksignal.h>
 #include <gdk/gdkkeysyms.h>
 #include <libgnome/gnome-i18n.h>
-#include <e-util/e-util.h>
+#include <gal/util/e-util.h>
 
 static const int e_calendar_item_days_in_month[12] = {
 	31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31
