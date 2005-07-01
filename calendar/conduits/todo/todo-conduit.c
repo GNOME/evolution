@@ -1191,6 +1191,7 @@ add_record (GnomePilotConduitSyncAbs *conduit,
 	e_pilot_map_insert (ctxt->map, remote->ID, uid, FALSE);
 
 	g_object_unref (comp);
+	g_free (uid);
 
 	return retval;
 }

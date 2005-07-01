@@ -646,6 +646,8 @@ process_multi_day (ECalConduitContext *ctxt, ECalChange *ccc, GList **multi_comp
 
 		event_start = day_end;
 		day_end = time_day_end_with_zone (event_start, ctxt->timezone);
+
+		g_free (new_uid);
 	}
 	dt_start.value = old_start_value;
 	dt_end.value = old_end_value;

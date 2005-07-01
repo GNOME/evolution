@@ -1,3 +1,8 @@
+2005-06-27  Mark G. Adams <mark.g.adams@sympatico.ca>
+
+	* conduits/todo/todo-conduit.c: (add_record): Fix leak of uids
+	* conduits/calendar/calendar-conduit.c: (process_multi_day): Fix leak of uids
+
 2005-07-01  Praveen Kumar <kpraveen@novell.com>
 
 	* gui/e-cal-config.h : Added the source type field in
