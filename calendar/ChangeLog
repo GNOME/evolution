@@ -1,3 +1,11 @@
+2005-07-01  Praveen Kumar <kpraveen@novell.com>
+
+	* gui/e-cal-config.h : Added the source type field in
+	_ECalConfigTargetSource
+	* gui/dialogs/calendar-setup.c (calendar_setup_edit_calendar) : Set
+	the source type as calendar
+	(calendar_setup_edit_task_list) : Set the source type as tasks.
+
 2005-06-25  Chenthill Palanisamy  <pchenthill@novell.com>
 	
 	* gui/dialogs/event-editor.c

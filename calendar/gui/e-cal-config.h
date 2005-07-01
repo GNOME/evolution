@@ -24,6 +24,7 @@
 
 #include <glib-object.h>
 
+#include <libecal/e-cal.h>
 #include "e-util/e-config.h"
 
 #ifdef __cplusplus
@@ -52,6 +53,7 @@ struct _ECalConfigTargetSource {
 	EConfigTarget target;
 
 	struct _ESource *source;
+        ECalSourceType *source_type;
 };
 
 typedef struct _EConfigItem ECalConfigItem;

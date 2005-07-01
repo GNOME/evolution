@@ -442,6 +442,7 @@ calendar_setup_edit_calendar (struct _GtkWindow *parent, ESource *source, ESourc
 	e_config_add_page_check ((EConfig *) ec, NULL, eccp_check_complete, sdialog);
 
 	target = e_cal_config_target_new_source (ec, sdialog->source);
+	target->source_type = E_CAL_SOURCE_TYPE_EVENT;
 	e_config_set_target ((EConfig *) ec, (EConfigTarget *) target);
 
 	if (source)
@@ -510,6 +511,7 @@ calendar_setup_edit_task_list (struct _GtkWindow *parent, ESource *source)
 	e_config_add_page_check ((EConfig *) ec, NULL, eccp_check_complete, sdialog);
 
 	target = e_cal_config_target_new_source (ec, sdialog->source);
+	target->source_type = E_CAL_SOURCE_TYPE_TODO;
 	e_config_set_target ((EConfig *) ec, (EConfigTarget *) target);
 
 	sdialog->window = e_config_create_window ((EConfig *)ec, NULL, _("Task List Properties"));
