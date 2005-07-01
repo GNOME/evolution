@@ -1,9 +1,9 @@
-+2005-06-24  Harish Krishnaswamy <kharish@novell.com> 
+2005-06-24  Harish Krishnaswamy <kharish@novell.com> 
 
 	(patch submitted by Andre Klapper <a9016009@gmx.de>)
 	* e-shell-window-commands.c: changed copyright year from 2004 to 2005
 
-+2005-06-23  Not Zed  <NotZed@Ximian.com>
+2005-06-23  Not Zed  <NotZed@Ximian.com>
 
 	* e-shell-window-commands.c: added jonathan dieter.  Fixed up the
 	busted utf8 and duplicates.
