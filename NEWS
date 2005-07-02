@@ -1,3 +1,57 @@
+Evolution 2.3.4 2005-07-02
+---------------------------
+
+Bugzilla bugs fixed (see http://bugzilla.gnome.org/show_bug.cgi):
+
+Mail :
+	#307398 - blank IMAP warning messages (Michael Zucchi)
+	#301466 - Could not able to create a vFolder with Match all condition (Brian Mury) 
+
+New plugins - exchange-operations (Sarfraaz Ahmed, Praveen Kumar)
+	    - default-mailer (Jonathan Dieter, Michael Zucchi) 	
+
+Other fixes and changes :
+	
+	- Get around circular dependencies using fake bootstrap libraries 
+	  and updates for Win32 support (Tor Lillqvist) 
+	- Inline-pgp signature/encryption support (Matt Brown) 
+	- gal clean up (Kaushal Kumar)
+	- Do not pass data to gtkhtml that it cannot handle (Michael Zucchi)
+	- Copyright year update (Andre Klapper) 
+	- utility function to display the busy cursor (Srinivasa Ragavan)
+	- fix memory leaks in conduits (Mark G Adams)
+	- add source type to ECalConfigTargetSource (Praveen Kumar)
+	- fix attachment desensitization and fixes for delegation support (Chenthill)
+	- compare backends for long events in the day view (Jedy Wang)
+	- disable widgets appropriately for non-organizers in Event editor
+	  (viren l) 
+	- Fix free/busy query updates from the GW backend (viren l)
+	- Fix circular dependancies in the contact-list-editor (Harish)
+	- set default parameter to email attribute. (Sushma)
+
+Updated Translations:
+
+	- bg (Alexander Shopov)
+	- cs (Miloslav Trmac)
+	- cy (Rhys Jones)
+	- da (Martin Willemoes Hansen)
+	- de (Andre Klapper)
+	- de (Hendrik Richter)
+	- en_AU (Not Zed)
+	- en_CA (Adam Weinberger)
+	- es (Francisco Javier F. Serrador)
+	- et (Ivar Smolin)
+	- et (Priit Laes)
+	- fi (Ilkka Tuohela)
+	- nb, no (Terance Sola)
+	- sk (Marcel Telka)
+	- zh_CN (Funda Wang)
+	- zh_TW (Abel Cheung)
+	- zh_TW  (Chao-Hsiung Liao)
+	- POTFILES.in (Kaushal Kumar)
+	- POTFILES.in (Not Zed)
+	- POTFILES.in (Sarfraaz Ahmed)
+
 Evolution 2.3.3.1 2005-06-15
 -----------------------------
 
