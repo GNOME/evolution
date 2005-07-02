@@ -132,6 +132,7 @@ e_select_names_editable_get_emails (ESelectNamesEditable *esne)
 	GList *destinations;
 	EDestination *destination;
 	GList *result = NULL;
+	gboolean contact_list = FALSE;
 
 	g_return_val_if_fail (E_SELECT_NAMES_EDITABLE (esne), NULL);
 
@@ -149,7 +150,15 @@ e_select_names_editable_get_emails (ESelectNamesEditable *esne)
 			result = g_list_append (result, g_strdup (e_destination_get_email (l->data)));
 		}
 	} else {
-		result = g_list_append (result, g_strdup (e_destination_get_email (destination)));
+		/* check if the contact is contact list, it does not contain all the email ids  */
+		/* we dont expand it currently, TODO do we need to expand it by getting it from addressbook*/
+		if (e_contact_get (e_destination_get_contact (destination), E_CONTACT_IS_LIST)) {
+			/* If its a contact_list which is not expanded, it wont have a email id,
+			   so we can use the name as the email id */
+
+			 result = g_list_append (result, g_strdup (e_destination_get_name (destination)));
+		} else
+			 result = g_list_append (result, g_strdup (e_destination_get_email (destination)));
 	}
 
 	g_list_free (destinations);

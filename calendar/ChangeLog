@@ -1,3 +1,11 @@
+2005-07-02  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	* gui/e-meeting-list-view.c: (process_section):
+	* gui/e-select-names-editable.c:
+	(e_select_names_editable_get_emails): If the contact list
+	does not have all the mail ids, use the name of the contact
+	list as the email id.
+
 2005-07-01  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	* gui/e-cal-model.c: (e_cal_model_class_init),

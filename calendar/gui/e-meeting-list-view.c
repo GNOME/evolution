@@ -537,6 +537,7 @@ static void
 process_section (EMeetingListView *view, GList *destinations, icalparameter_role role)
 {
 	EMeetingListViewPrivate *priv;
+	gboolean contact_list = FALSE;
 	GList *l;
 
 	priv = view->priv;
@@ -548,6 +549,11 @@ process_section (EMeetingListView *view, GList *destinations, icalparameter_role
 		if (e_destination_is_evolution_list (destination)) {
 			list_dests = e_destination_list_get_dests (destination);
 		} else {
+			/* check if the contact is contact list which is not expanded yet */
+			/* we dont expand it currently, TODO do we need to expand it by default */
+			if (e_contact_get (e_destination_get_contact (destination), E_CONTACT_IS_LIST))
+				contact_list = TRUE;
+			
 			card_dest.next = NULL;
 			card_dest.prev = NULL;
 			card_dest.data = destination;
@@ -581,7 +587,12 @@ process_section (EMeetingListView *view, GList *destinations, icalparameter_role
 
 			/* If we couldn't get the attendee prior, get the email address as the default */
 			if (attendee == NULL || *attendee == '\0') {
-				attendee = e_destination_get_email (dest);
+				/* If its a contact_list which is not expanded it wont have a email id,
+				   so we can use the name as the email id */
+				if (!contact_list)
+					attendee = e_destination_get_email (dest);
+				else
+					attendee = e_destination_get_name (dest);
 			}
 		
 			if (attendee == NULL || *attendee == '\0')
