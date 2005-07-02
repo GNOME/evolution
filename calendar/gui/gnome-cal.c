@@ -719,7 +719,7 @@ update_query (GnomeCalendar *gcal)
 	if (priv->updating == TRUE) {
 		return;
 	}
-	e_calendar_view_set_status_message (E_CALENDAR_VIEW (priv->week_view), _("Updating query"));
+	e_calendar_view_set_status_message (E_CALENDAR_VIEW (priv->week_view), _("Updating query"), -1);
 	e_calendar_item_clear_marks (priv->date_navigator->calitem);
 
 	priv->updating = TRUE;
@@ -741,7 +741,7 @@ update_query (GnomeCalendar *gcal)
 
 	real_sexp = adjust_e_cal_view_sexp (gcal, priv->sexp);
 	if (!real_sexp) {
-		e_calendar_view_set_status_message (E_CALENDAR_VIEW (priv->week_view), NULL);
+		e_calendar_view_set_status_message (E_CALENDAR_VIEW (priv->week_view), NULL, -1);
 		priv->updating = FALSE;
 		return; /* No time range is set, so don't start a query */
 	}
@@ -776,7 +776,7 @@ update_query (GnomeCalendar *gcal)
 	/* free memory */
 	priv->updating = FALSE;
 	g_free (real_sexp);
-	e_calendar_view_set_status_message (E_CALENDAR_VIEW (priv->week_view), NULL);
+	e_calendar_view_set_status_message (E_CALENDAR_VIEW (priv->week_view), NULL, -1);
 	update_todo_view (gcal);
 }
 
@@ -1226,6 +1226,28 @@ config_categories_changed_cb (EConfigListener *config_listener, const char *key,
 	g_ptr_array_free (cat_array, TRUE);
 }
 
+
+static void
+view_progress_cb (ECalModel *model, const char *message, int percent, ECalSourceType type, GnomeCalendar *gcal)
+{
+	if (type == E_CAL_SOURCE_TYPE_EVENT) {
+		e_calendar_view_set_status_message (E_CALENDAR_VIEW (gcal->priv->week_view), message, percent);
+	} else if (type == E_CAL_SOURCE_TYPE_TODO) {
+		e_calendar_table_set_status_message (E_CALENDAR_TABLE (gcal->priv->todo), message, percent);
+	}
+}
+
+static void
+view_done_cb (ECalModel *model, ECalendarStatus status, ECalSourceType type, GnomeCalendar *gcal)
+{
+	if (type == E_CAL_SOURCE_TYPE_EVENT) {
+		e_calendar_view_set_status_message (E_CALENDAR_VIEW (gcal->priv->week_view), NULL, -1);
+	} else if (type == E_CAL_SOURCE_TYPE_TODO) {
+		e_calendar_table_set_status_message (E_CALENDAR_TABLE (gcal->priv->todo), NULL, -1);
+	}
+			
+}
+
 static void
 setup_widgets (GnomeCalendar *gcal)
 {
@@ -1234,6 +1256,7 @@ setup_widgets (GnomeCalendar *gcal)
 	gchar *filename;
 	ETable *etable;
 	GtkAdjustment *adjustment;
+	ECalModel *w_model;
 	int i;
 
 	priv = gcal->priv;
@@ -1313,6 +1336,11 @@ setup_widgets (GnomeCalendar *gcal)
 
 	g_signal_connect (etable, "selection_change",
 			  G_CALLBACK (table_selection_change_cb), gcal);
+	
+	g_signal_connect (e_calendar_table_get_model (priv->todo), "cal_view_progress",
+				G_CALLBACK (view_progress_cb), gcal);
+	g_signal_connect (e_calendar_table_get_model (priv->todo), "cal_view_done",
+				G_CALLBACK (view_done_cb), gcal);
 
 	/* Timeout check to hide completed items */
 	priv->update_timeout = g_timeout_add_full (G_PRIORITY_LOW, 60000, (GSourceFunc) update_todo_view_cb, gcal, NULL);	
@@ -1350,6 +1378,11 @@ setup_widgets (GnomeCalendar *gcal)
 	g_signal_connect (adjustment, "value_changed",
 			  G_CALLBACK (week_view_adjustment_changed_cb),
 			  gcal);
+	w_model = e_calendar_view_get_model (priv->week_view);
+	g_signal_connect (w_model, "cal_view_progress",
+				G_CALLBACK (view_progress_cb), gcal);
+	g_signal_connect (w_model, "cal_view_done",
+				G_CALLBACK (view_done_cb), gcal);
 	
 	/* The Month View. */
 	priv->month_view = e_week_view_new ();
@@ -1366,7 +1399,7 @@ setup_widgets (GnomeCalendar *gcal)
 	g_signal_connect (adjustment, "value_changed",
 			  G_CALLBACK (month_view_adjustment_changed_cb),
 			  gcal);
-
+			
 	/* The List View. */
 	priv->list_view = e_cal_list_view_new ();
 
@@ -2212,10 +2245,10 @@ client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar *gcal)
 
 	switch (source_type) {
 	case E_CAL_SOURCE_TYPE_EVENT:
-		e_calendar_view_set_status_message (E_CALENDAR_VIEW (priv->week_view), NULL);
+		e_calendar_view_set_status_message (E_CALENDAR_VIEW (priv->week_view), NULL, -1);
 		break;
 	case E_CAL_SOURCE_TYPE_TODO:
-		e_calendar_table_set_status_message (E_CALENDAR_TABLE (priv->todo), NULL);
+		e_calendar_table_set_status_message (E_CALENDAR_TABLE (priv->todo), NULL, -1);
 		break;
 	default:
 		break;
@@ -2255,7 +2288,7 @@ client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar *gcal)
 	switch (source_type) {
 	case E_CAL_SOURCE_TYPE_EVENT :
 		msg = g_strdup_printf (_("Loading appointments at %s"), e_cal_get_uri (ecal));
-		e_calendar_view_set_status_message (E_CALENDAR_VIEW (priv->week_view), msg);
+		e_calendar_view_set_status_message (E_CALENDAR_VIEW (priv->week_view), msg, -1);
 		g_free (msg);
 
 		/* add client to the views */
@@ -2269,17 +2302,17 @@ client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar *gcal)
 		/* update date navigator query */
 		update_query (gcal);
 
-		e_calendar_view_set_status_message (E_CALENDAR_VIEW (priv->week_view), NULL);
+		e_calendar_view_set_status_message (E_CALENDAR_VIEW (priv->week_view), NULL, -1);
 		break;
 		
 	case E_CAL_SOURCE_TYPE_TODO :
 		msg = g_strdup_printf (_("Loading tasks at %s"), e_cal_get_uri (ecal));
-		e_calendar_table_set_status_message (E_CALENDAR_TABLE (priv->todo), msg);
+		e_calendar_table_set_status_message (E_CALENDAR_TABLE (priv->todo), msg, -1);
 		g_free (msg);
 
 		e_cal_model_add_client (e_calendar_table_get_model (E_CALENDAR_TABLE (priv->todo)), ecal);
 
-		e_calendar_table_set_status_message (E_CALENDAR_TABLE (priv->todo), NULL);
+		e_calendar_table_set_status_message (E_CALENDAR_TABLE (priv->todo), NULL, -1);
 		break;
 		
 	default:
@@ -2305,10 +2338,10 @@ default_client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar 
 
 	switch (source_type) {
 	case E_CAL_SOURCE_TYPE_EVENT:
-		e_calendar_view_set_status_message (E_CALENDAR_VIEW (priv->week_view), NULL);
+		e_calendar_view_set_status_message (E_CALENDAR_VIEW (priv->week_view), NULL, -1);
 		break;		
 	case E_CAL_SOURCE_TYPE_TODO:
-		e_calendar_table_set_status_message (E_CALENDAR_TABLE (priv->todo), NULL);
+		e_calendar_table_set_status_message (E_CALENDAR_TABLE (priv->todo), NULL, -1);
 		break;
 	default:
 		break;
@@ -2377,10 +2410,10 @@ open_ecal (GnomeCalendar *gcal, ECal *cal, gboolean only_if_exists, open_func of
 	msg = g_strdup_printf (_("Opening %s"), e_cal_get_uri (cal));
 	switch (e_cal_get_source_type (cal)) {
 	case E_CAL_SOURCE_TYPE_EVENT :
-		e_calendar_view_set_status_message (E_CALENDAR_VIEW (priv->week_view), msg);
+		e_calendar_view_set_status_message (E_CALENDAR_VIEW (priv->week_view), msg, -1);
 		break;
 	case E_CAL_SOURCE_TYPE_TODO :
-		e_calendar_table_set_status_message (E_CALENDAR_TABLE (priv->todo), msg);
+		e_calendar_table_set_status_message (E_CALENDAR_TABLE (priv->todo), msg, -1);
 		break;
 	default:
 		g_assert_not_reached ();
@@ -2440,7 +2473,7 @@ backend_died_cb (ECal *ecal, gpointer data)
 	case E_CAL_SOURCE_TYPE_EVENT:		
 		id = "calendar:calendar-crashed";
 		
-		e_calendar_view_set_status_message (E_CALENDAR_VIEW (priv->week_view), NULL);
+		e_calendar_view_set_status_message (E_CALENDAR_VIEW (priv->week_view), NULL, -1);
 
 		gtk_signal_emit (GTK_OBJECT (gcal), gnome_calendar_signals[SOURCE_REMOVED], source_type, source);
 		break;
@@ -2448,7 +2481,7 @@ backend_died_cb (ECal *ecal, gpointer data)
 	case E_CAL_SOURCE_TYPE_TODO:
 		id = "calendar:tasks-crashed";
 		
-		e_calendar_table_set_status_message (E_CALENDAR_TABLE (priv->todo), NULL);
+		e_calendar_table_set_status_message (E_CALENDAR_TABLE (priv->todo), NULL, -1);
 
 		gtk_signal_emit (GTK_OBJECT (gcal), gnome_calendar_signals[SOURCE_REMOVED], source_type, source);
 		break;
@@ -3264,7 +3297,7 @@ gnome_calendar_purge (GnomeCalendar *gcal, time_t older_than)
 				"                      (make-time \"%s\"))",
 				start, end);
 
-	e_calendar_view_set_status_message (E_CALENDAR_VIEW (priv->week_view), _("Purging"));
+	e_calendar_view_set_status_message (E_CALENDAR_VIEW (priv->week_view), _("Purging"), -1);
 
 	/* FIXME Confirm expunge */
 	for (l = priv->clients_list[E_CAL_SOURCE_TYPE_EVENT]; l != NULL; l = l->next) {
@@ -3301,7 +3334,7 @@ gnome_calendar_purge (GnomeCalendar *gcal, time_t older_than)
 		g_list_free (objects);
 	}
 
-	e_calendar_view_set_status_message (E_CALENDAR_VIEW (priv->week_view), NULL);
+	e_calendar_view_set_status_message (E_CALENDAR_VIEW (priv->week_view), NULL, -1);
 
 	g_free (sexp);
 	g_free (start);

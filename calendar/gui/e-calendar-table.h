@@ -102,7 +102,8 @@ void	   e_calendar_table_save_state		(ECalendarTable *cal_table,
 void       e_calendar_table_set_activity_handler (ECalendarTable *cal_table,
 						  EActivityHandler *activity_handler);
 void       e_calendar_table_set_status_message (ECalendarTable *cal_table,
-						const gchar *message);
+						const gchar *message,
+						int percent);
 
 G_END_DECLS
 

@@ -550,7 +550,7 @@ e_calendar_view_set_activity_handler (ECalendarView *cal_view, EActivityHandler 
 }
 
 void
-e_calendar_view_set_status_message (ECalendarView *cal_view, const gchar *message)
+e_calendar_view_set_status_message (ECalendarView *cal_view, const gchar *message, int percent)
 {
 	ECalendarViewPrivate *priv;
 	
@@ -576,7 +576,15 @@ e_calendar_view_set_status_message (ECalendarView *cal_view, const gchar *messag
 
 		g_free (client_id);
 	} else {
-		e_activity_handler_operation_progressing (priv->activity_handler, priv->activity_id, message, -1.0);
+		double progress;
+		
+		if (percent < 0)
+			progress = -1.0;
+		else {
+			progress = ((double) percent / 100);
+		}
+
+		e_activity_handler_operation_progressing (priv->activity_handler, priv->activity_id, message, progress);
 	}
 }
 
@@ -650,7 +658,7 @@ e_calendar_view_cut_clipboard (ECalendarView *cal_view)
 	if (!selected)
 		return;
 
-	e_calendar_view_set_status_message (cal_view, _("Deleting selected objects"));
+	e_calendar_view_set_status_message (cal_view, _("Deleting selected objects"), -1);
 
 	e_calendar_view_copy_clipboard (cal_view);
 	for (l = selected; l != NULL; l = l->next) {
@@ -693,7 +701,7 @@ e_calendar_view_cut_clipboard (ECalendarView *cal_view)
 		g_object_unref (comp);
 	}
 
-	e_calendar_view_set_status_message (cal_view, NULL);
+	e_calendar_view_set_status_message (cal_view, NULL, -1);
 
 	g_list_free (selected);
 }
@@ -777,7 +785,7 @@ clipboard_get_text_cb (GtkClipboard *clipboard, const gchar *text, ECalendarView
 	if (kind != ICAL_VCALENDAR_COMPONENT && kind != ICAL_VEVENT_COMPONENT)
 		return;
 
-	e_calendar_view_set_status_message (cal_view, _("Updating objects"));
+	e_calendar_view_set_status_message (cal_view, _("Updating objects"), -1);
 	e_calendar_view_get_selected_time_range (cal_view, &selected_time_start, &selected_time_end);
 
 	if ((selected_time_end - selected_time_start) == 60 * 60 * 24)
@@ -816,7 +824,7 @@ clipboard_get_text_cb (GtkClipboard *clipboard, const gchar *text, ECalendarView
 		e_calendar_view_add_event (cal_view, client, selected_time_start, default_zone, icalcomp, in_top_canvas);
 	}
 
-	e_calendar_view_set_status_message (cal_view, NULL);
+	e_calendar_view_set_status_message (cal_view, NULL, -1);
 }
 
 void
@@ -1201,14 +1209,14 @@ transfer_selected_items (ECalendarView *cal_view, gboolean remove_item)
 
 	/* process all selected events */
 	if (remove_item)
-		e_calendar_view_set_status_message (cal_view, _("Moving items"));
+		e_calendar_view_set_status_message (cal_view, _("Moving items"), -1);
 	else
-		e_calendar_view_set_status_message (cal_view, _("Copying items"));
+		e_calendar_view_set_status_message (cal_view, _("Copying items"), -1);
 
 	for (l = selected; l != NULL; l = l->next)
 		transfer_item_to ((ECalendarViewEvent *) l->data, dest_client, remove_item);
 
-	e_calendar_view_set_status_message (cal_view, NULL);
+	e_calendar_view_set_status_message (cal_view, NULL, -1);
 
 	/* free memory */
 	g_object_unref (destination_source);

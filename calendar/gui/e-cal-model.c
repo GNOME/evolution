@@ -100,6 +100,8 @@ static void remove_client (ECalModel *model, ECalModelClient *client_data);
 enum {
 	TIME_RANGE_CHANGED,
 	ROW_APPENDED,
+	CAL_VIEW_PROGRESS,
+	CAL_VIEW_DONE,
 	LAST_SIGNAL
 };
 
@@ -148,6 +150,23 @@ e_cal_model_class_init (ECalModelClass *klass)
 			      NULL, NULL,
 			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE, 0);
+	signals[CAL_VIEW_PROGRESS] =
+		g_signal_new ("cal_view_progress",
+			      G_TYPE_FROM_CLASS (klass),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (ECalModelClass, cal_view_progress),
+			      NULL, NULL,
+	                      e_calendar_marshal_VOID__STRING_INT_INT,
+			      G_TYPE_NONE, 3, G_TYPE_STRING, G_TYPE_INT, G_TYPE_INT);
+	signals[CAL_VIEW_DONE] =
+		g_signal_new ("cal_view_done",
+			      G_TYPE_FROM_CLASS (klass),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (ECalModelClass, cal_view_done),
+			      NULL, NULL,
+			      e_calendar_marshal_VOID__INT_INT,
+			      G_TYPE_NONE, 2, G_TYPE_INT, G_TYPE_INT);
+
 }
 
 static void
@@ -1417,20 +1436,25 @@ static void
 e_cal_view_progress_cb (ECalView *query, const char *message, int percent, gpointer user_data)
 {
 	ECalModel *model = (ECalModel *) user_data;
+	ECal *client = e_cal_view_get_client (query);
 
 	g_return_if_fail (E_IS_CAL_MODEL (model));
 
-	/* FIXME Update status bar */
+	g_signal_emit (G_OBJECT (model), signals[CAL_VIEW_PROGRESS], 0, message, 
+			percent, e_cal_get_source_type (client));
 }
 
 static void
 e_cal_view_done_cb (ECalView *query, ECalendarStatus status, gpointer user_data)
 {
  	ECalModel *model = (ECalModel *) user_data;
+	ECal *client = e_cal_view_get_client (query);
 
 	g_return_if_fail (E_IS_CAL_MODEL (model));
 
-	/* FIXME Clear status bar */
+	/* emit the signal on the model and let the view catch it to display */
+	g_signal_emit (G_OBJECT (model), signals[CAL_VIEW_DONE], 0, status,
+			e_cal_get_source_type (client));
 }
 
 static void

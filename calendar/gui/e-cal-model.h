@@ -92,6 +92,8 @@ typedef struct {
 	/* Signals */
 	void (* time_range_changed) (ECalModel *model, time_t start, time_t end);
 	void (* row_appended) (ECalModel *model);
+	void (* cal_view_progress) (ECalModel *model, const char *message, int progress, ECalSourceType type);
+	void (* cal_view_done) (ECalModel *model, ECalendarStatus status, ECalSourceType type);
 } ECalModelClass;
 
 GType               e_cal_model_get_type                       (void);

@@ -330,6 +330,21 @@ model_row_changed_cb (ETableModel *etm, int row, gpointer data)
 }
 
 static void
+view_progress_cb (ECalModel *model, const char *message, int percent, ECalSourceType type, ETasks *tasks)
+{
+	e_calendar_table_set_status_message (E_CALENDAR_TABLE (e_tasks_get_calendar_table (tasks)), 
+			message, percent);
+}
+
+static void
+view_done_cb (ECalModel *model, ECalendarStatus status, ECalSourceType type, ETasks *tasks)
+{
+	e_calendar_table_set_status_message (E_CALENDAR_TABLE (e_tasks_get_calendar_table (tasks)), 
+			NULL, -1);
+			
+}
+
+static void
 setup_config (ETasks *tasks)
 {
 	ETasksPrivate *priv;
@@ -540,6 +555,11 @@ setup_widgets (ETasks *tasks)
 	model = e_calendar_table_get_model (E_CALENDAR_TABLE (priv->tasks_view));
 	g_signal_connect (G_OBJECT (model), "model_row_changed",
 			  G_CALLBACK (model_row_changed_cb), tasks);
+	
+	g_signal_connect (G_OBJECT (model), "cal_view_progress",
+				G_CALLBACK (view_progress_cb), tasks);
+	g_signal_connect (G_OBJECT (model), "cal_view_done",
+				G_CALLBACK (view_done_cb), tasks);
 }
 
 /* Class initialization function for the gnome calendar */
@@ -744,7 +764,7 @@ set_status_message (ETasks *tasks, const char *message, ...)
 
 	priv = tasks->priv;
 	
-	e_calendar_table_set_status_message (E_CALENDAR_TABLE (priv->tasks_view), msg_string);
+	e_calendar_table_set_status_message (E_CALENDAR_TABLE (priv->tasks_view), msg_string, -1);
 }
 
 /* Callback from the calendar client when an error occurs in the backend */
@@ -784,7 +804,7 @@ backend_died_cb (ECal *client, gpointer data)
 
 	gtk_signal_emit (GTK_OBJECT (tasks), e_tasks_signals[SOURCE_REMOVED], source);
 
-	e_calendar_table_set_status_message (E_CALENDAR_TABLE (e_tasks_get_calendar_table (tasks)), NULL);
+	e_calendar_table_set_status_message (E_CALENDAR_TABLE (e_tasks_get_calendar_table (tasks)), NULL, -1);
 	
 	e_error_run (GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (tasks))),
 		     "calendar:tasks-crashed", NULL);

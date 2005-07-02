@@ -691,7 +691,7 @@ delete_selected_components (ECalendarTable *cal_table)
 
 	objs = get_selected_objects (cal_table);
 
-	e_calendar_table_set_status_message (cal_table, _("Deleting selected objects"));
+	e_calendar_table_set_status_message (cal_table, _("Deleting selected objects"), -1);
 
 	for (l = objs; l; l = l->next) {
 		ECalModelComponent *comp_data = (ECalModelComponent *) l->data;
@@ -703,7 +703,7 @@ delete_selected_components (ECalendarTable *cal_table)
 		g_clear_error (&error);
 	}
 
-	e_calendar_table_set_status_message (cal_table, NULL);
+	e_calendar_table_set_status_message (cal_table, NULL, -1);
 
 	g_slist_free (objs);
 }
@@ -870,7 +870,7 @@ clipboard_get_text_cb (GtkClipboard *clipboard, const gchar *text, ECalendarTabl
 
 	client = e_cal_model_get_default_client (cal_table->model);
 	
-	e_calendar_table_set_status_message (cal_table, _("Updating objects"));
+	e_calendar_table_set_status_message (cal_table, _("Updating objects"), -1);
 
 	if (kind == ICAL_VCALENDAR_COMPONENT) {
 		icalcomponent_kind child_kind;
@@ -916,7 +916,7 @@ clipboard_get_text_cb (GtkClipboard *clipboard, const gchar *text, ECalendarTabl
 		g_object_unref (comp);
 	}
 
-	e_calendar_table_set_status_message (cal_table, NULL);
+	e_calendar_table_set_status_message (cal_table, NULL, -1);
 }
 
 /**
@@ -1343,7 +1343,7 @@ e_calendar_table_set_activity_handler (ECalendarTable *cal_table, EActivityHandl
 }
 
 void
-e_calendar_table_set_status_message (ECalendarTable *cal_table, const gchar *message)
+e_calendar_table_set_status_message (ECalendarTable *cal_table, const gchar *message, int percent)
 {
         g_return_if_fail (E_IS_CALENDAR_TABLE (cal_table));
 
@@ -1366,6 +1366,15 @@ e_calendar_table_set_status_message (ECalendarTable *cal_table, const gchar *mes
 
                 g_free (client_id);
         } else {
-                e_activity_handler_operation_progressing (cal_table->activity_handler, cal_table->activity_id, message, -1.0);
+		
+		double progress;
+		
+		if (percent < 0)
+			progress = -1.0;
+		else {
+			progress = ((double) percent / 100);
+		}
+
+                e_activity_handler_operation_progressing (cal_table->activity_handler, cal_table->activity_id, message, progress);
 	}
 }

@@ -1,3 +1,28 @@
+2005-07-01  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	* gui/e-cal-model.c: (e_cal_model_class_init),
+	(e_cal_view_progress_cb), (e_cal_view_done_cb):
+	* gui/e-cal-model.h: Added two new signals to notify
+	the progress information from the model to UI.
+	* gui/e-calendar-marshal.list: Added a new item to marshal
+	the string,int,int arguments.
+	* gui/e-calendar-table.h:
+	* gui/e-calendar-table.c: (delete_selected_components),
+	(clipboard_get_text_cb), (e_calendar_table_set_status_message):
+	* gui/e-calendar-view.h:
+	* gui/e-calendar-view.c: (e_calendar_view_set_status_message),
+	(e_calendar_view_cut_clipboard), (clipboard_get_text_cb),
+	(transfer_selected_items):
+	* gui/e-tasks.c: (view_progress_cb), (view_done_cb),
+	(setup_widgets), (set_status_message), (backend_died_cb):
+	* gui/gnome-cal.c: (update_query), (view_progress_cb),
+	(view_done_cb), (setup_widgets), (client_cal_opened_cb),
+	(default_client_cal_opened_cb), (open_ecal), (backend_died_cb),
+	(gnome_calendar_purge): Added a new variable to 
+	e_calendar_view_set_status_message and
+       	e_calendar_table_set_status_message methods to show the progress
+	information.
+
 2005-06-27  Mark G. Adams <mark.g.adams@sympatico.ca>
 
 	* conduits/todo/todo-conduit.c: (add_record): Fix leak of uids
