@@ -117,4 +117,4 @@ EGwConnection * get_cnc (CamelStore *store);
 }
 #endif /* __cplusplus */
 
-#endif /* __EM_COMPOSER_PREFS_H__ */
+#endif /* __SHARE_FOLDER_H__ */
