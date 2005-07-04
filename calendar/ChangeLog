@@ -1,3 +1,9 @@
+2005-07-04  Srinivasa Ragavan <sragavan@novell.com>
+
+	* gui/dialogs/meeting-page.c: (meeting_page_construct) Added 
+	vertical scrollbar policy of list view to always so that it does
+	not extend the view when there are more contacts.
+
 2005-07-02  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	* gui/e-meeting-list-view.c: (process_section):
