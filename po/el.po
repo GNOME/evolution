@@ -39,14 +39,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: el\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-06-21 13:59+0800\n"
-"PO-Revision-Date: 2005-05-19 10:17+0300\n"
+"POT-Creation-Date: 2005-07-05 01:30+0300\n"
+"PO-Revision-Date: 2005-07-05 01:47+0300\n"
 "Last-Translator: Nikos Charonitakis <charosn@her.forthnet.gr>\n"
 "Language-Team: Greek <team@gnome.gr>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms:  nplurals=2; plural=(n != 1);\n"
+"Plural-Forms:  nplurals=2; plural=(n != 1);"
 
 #: ../a11y/addressbook/ea-addressbook-view.c:94
 #: ../a11y/addressbook/ea-addressbook-view.c:103
@@ -126,7 +126,7 @@ msgstr "Νέο Ραντεβού"
 msgid "New All Day Event"
 msgstr "Νέο Γεγονός Ολόκληρης της Ημέρας"
 
-#: ../a11y/calendar/ea-cal-view.c:308 ../calendar/gui/e-calendar-view.c:1483
+#: ../a11y/calendar/ea-cal-view.c:308 ../calendar/gui/e-calendar-view.c:1491
 msgid "New Meeting"
 msgstr "Νέα Συνάντηση"
 
@@ -185,7 +185,7 @@ msgstr "%A %d %b %Y"
 #. specifiers or add anything.
 #: ../a11y/calendar/ea-gnome-calendar.c:190
 #: ../calendar/gui/calendar-component.c:663
-#: ../calendar/gui/e-day-view-top-item.c:719 ../calendar/gui/e-day-view.c:1516
+#: ../calendar/gui/e-day-view-top-item.c:719 ../calendar/gui/e-day-view.c:1515
 #: ../calendar/gui/e-week-view-main-item.c:321
 msgid "%a %d %b"
 msgstr "%d %a %b"
@@ -217,7 +217,7 @@ msgstr "%d %b %Y"
 #. change the specifiers or add anything.
 #: ../a11y/calendar/ea-gnome-calendar.c:220
 #: ../calendar/gui/calendar-component.c:689
-#: ../calendar/gui/e-day-view-top-item.c:723 ../calendar/gui/e-day-view.c:1532
+#: ../calendar/gui/e-day-view-top-item.c:723 ../calendar/gui/e-day-view.c:1531
 #: ../calendar/gui/e-week-view-main-item.c:335
 msgid "%d %b"
 msgstr "%d %b"
@@ -319,9 +319,8 @@ msgid "click"
 msgstr "κλικ"
 
 #: ../a11y/e-table/gal-a11y-e-table-column-header.c:135
-#, fuzzy
 msgid "sort"
-msgstr "Ακύρωση ταξινόμησης"
+msgstr "ταξινόμηση"
 
 #: ../a11y/widgets/ea-calendar-item.c:296
 #: ../a11y/widgets/ea-calendar-item.c:302
@@ -360,7 +359,7 @@ msgstr ""
 
 #: ../addressbook/addressbook.error.xml.h:2
 msgid "Address '{0}' already exists."
-msgstr "Η διεύθυνση '{0}'  υπάρχει ήδη."
+msgstr "Η διεύθυνση  '{0}'   υπάρχει ήδη."
 
 #: ../addressbook/addressbook.error.xml.h:3
 msgid "Cannot move contact."
@@ -397,9 +396,8 @@ msgid "Error loading addressbook."
 msgstr "Σφάλμα κατά τη φόρτωση του βιβλίου διευθύνσεων."
 
 #: ../addressbook/addressbook.error.xml.h:10
-#, fuzzy
 msgid "Error saving {0} to {1}: {2}"
-msgstr "Σφάλμα αποθήκευσης επαφών σε {0}: {1} "
+msgstr "Σφάλμα αποθήκευσης  {0}  σε  {1} :  {2} "
 
 #: ../addressbook/addressbook.error.xml.h:11
 msgid "Failed to authenticate with LDAP server."
@@ -471,9 +469,8 @@ msgid "Unable to perform search."
 msgstr "Αδυναμία εκτέλεσης αναζήτησης."
 
 #: ../addressbook/addressbook.error.xml.h:24
-#, fuzzy
 msgid "Unable to save {0}."
-msgstr "Αδυναμία αποθήκευσης επαφών."
+msgstr "Αδυναμία αποθήκευσης  {0}."
 
 #: ../addressbook/addressbook.error.xml.h:25
 msgid "Would you like to save your changes?"
@@ -601,7 +598,7 @@ msgstr "Διαχείριση των πιστοποιητικών S/MIME εδώ"
 #. create the local source group
 #. On This Computer is always first and vFolders is always last
 #: ../addressbook/gui/component/addressbook-component.c:133
-#: ../addressbook/gui/component/addressbook-migrate.c:493
+#: ../addressbook/gui/component/addressbook-migrate.c:501
 #: ../calendar/gui/calendar-component.c:208 ../calendar/gui/migration.c:462
 #: ../calendar/gui/migration.c:555 ../calendar/gui/tasks-component.c:188
 #: ../mail/em-folder-tree-model.c:197 ../mail/em-folder-tree-model.c:199
@@ -615,7 +612,7 @@ msgstr "Σε αυτό τον υπολογιστή"
 #. Create the default Person addressbook
 #. orange
 #: ../addressbook/gui/component/addressbook-component.c:141
-#: ../addressbook/gui/component/addressbook-migrate.c:501
+#: ../addressbook/gui/component/addressbook-migrate.c:509
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:20
 #: ../calendar/gui/calendar-component.c:216 ../calendar/gui/migration.c:470
 #: ../calendar/gui/migration.c:563 ../calendar/gui/tasks-component.c:196
@@ -626,7 +623,7 @@ msgstr "Προσωπικό"
 
 #. Create the LDAP source group
 #: ../addressbook/gui/component/addressbook-component.c:149
-#: ../addressbook/gui/component/addressbook-migrate.c:509
+#: ../addressbook/gui/component/addressbook-migrate.c:517
 msgid "On LDAP Servers"
 msgstr "Σε διακομιστές LDAP"
 
@@ -731,15 +728,15 @@ msgstr "Εισαγωγή..."
 msgid "Migrating `%s':"
 msgstr "Εισαγωγή `%s':"
 
-#: ../addressbook/gui/component/addressbook-migrate.c:637
+#: ../addressbook/gui/component/addressbook-migrate.c:645
 msgid "LDAP Servers"
 msgstr "Διακομιστές LDAP"
 
-#: ../addressbook/gui/component/addressbook-migrate.c:752
+#: ../addressbook/gui/component/addressbook-migrate.c:760
 msgid "Autocompletion Settings"
 msgstr "Ρυθμίσεις αυτόματης συμπλήρωσης"
 
-#: ../addressbook/gui/component/addressbook-migrate.c:1123
+#: ../addressbook/gui/component/addressbook-migrate.c:1131
 msgid ""
 "The location and hierarchy of the Evolution contact folders has changed "
 "since Evolution 1.x.\n"
@@ -751,7 +748,7 @@ msgstr ""
 "\n"
 "Περιμένετε μέχρι το Evolution να εισάγει τους φακέλους σας..."
 
-#: ../addressbook/gui/component/addressbook-migrate.c:1137
+#: ../addressbook/gui/component/addressbook-migrate.c:1145
 msgid ""
 "The format of mailing list contacts has changed.\n"
 "\n"
@@ -761,7 +758,7 @@ msgstr ""
 "\n"
 "Περιμένετε μέχρι το Evolution να εισάγει τους φακέλους σας..."
 
-#: ../addressbook/gui/component/addressbook-migrate.c:1146
+#: ../addressbook/gui/component/addressbook-migrate.c:1154
 msgid ""
 "The way Evolution stores some phone numbers has changed.\n"
 "\n"
@@ -771,7 +768,7 @@ msgstr ""
 "\n"
 "Περιμένετε μέχρι το Evolution να εισάγει τους φακέλους σας..."
 
-#: ../addressbook/gui/component/addressbook-migrate.c:1156
+#: ../addressbook/gui/component/addressbook-migrate.c:1164
 msgid ""
 "Evolution's Palm Sync changelog and map files have changed.\n"
 "\n"
@@ -883,8 +880,12 @@ msgstr "Αν θα εμφανίζεται το ταμπλό της προεπισ
 #: ../calendar/gui/dialogs/url-editor-dialog.glade.h:1
 #: ../composer/e-msg-composer-attachment.glade.h:1
 #: ../mail/mail-dialogs.glade.h:2 ../mail/message-tags.glade.h:1
+#: ../plugins/exchange-operations/exchange-change-password.glade.h:1
 #: ../plugins/groupwise-features/properties.glade.h:1
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.glade.h:1
+#: ../widgets/menus/gal-view-instance-save-as-dialog.glade.h:2
+#: ../widgets/menus/gal-view-new-dialog.glade.h:1
+#: ../widgets/misc/gal-categories.glade.h:1
 msgid "*"
 msgstr "*"
 
@@ -1123,6 +1124,7 @@ msgstr "Μέθοδος _πιστοποίησης:"
 #: ../calendar/gui/dialogs/calendar-setup.c:244
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:8
 #: ../mail/mail-config.glade.h:165
+#: ../widgets/menus/gal-view-instance-save-as-dialog.glade.h:4
 msgid "_Name:"
 msgstr "_Όνομα:"
 
@@ -1385,6 +1387,7 @@ msgstr "Διεύθυνση"
 #: ../addressbook/gui/widgets/e-minicard-view-widget.c:121
 #: ../addressbook/gui/widgets/e-minicard-view.c:519
 #: ../addressbook/gui/widgets/e-minicard.c:174
+#: ../widgets/menus/gal-define-views-model.c:181
 #: ../widgets/table/e-cell-text.c:1768 ../widgets/text/e-entry.c:1312
 #: ../widgets/text/e-entry.c:1313 ../widgets/text/e-text.c:3584
 #: ../widgets/text/e-text.c:3585
@@ -2830,7 +2833,7 @@ msgid "Send Message to Contact"
 msgstr "Αποστολή Μηνύματος στην Επαφή"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:927
-#: ../calendar/gui/calendar-commands.c:120 ../calendar/gui/print.c:2501
+#: ../calendar/gui/calendar-commands.c:119 ../calendar/gui/print.c:2501
 #: ../ui/evolution-addressbook.xml.h:16 ../ui/evolution-calendar.xml.h:19
 #: ../ui/evolution-mail-message.xml.h:74 ../ui/evolution-tasks.xml.h:14
 msgid "Print"
@@ -3053,6 +3056,8 @@ msgstr "Ιστοσελίδα"
 #: ../widgets/table/e-table-group-leaf.c:630
 #: ../widgets/table/e-table-item.c:3008 ../widgets/table/e-table-item.c:3009
 #: ../widgets/text/e-text.c:3626 ../widgets/text/e-text.c:3627
+#: ../widgets/table/e-table-group-container.c:971
+#: ../widgets/table/e-table-group-container.c:972
 msgid "Width"
 msgstr "Πλάτος"
 
@@ -3066,6 +3071,8 @@ msgstr "Πλάτος"
 #: ../widgets/table/e-table-group-leaf.c:623
 #: ../widgets/table/e-table-item.c:3014 ../widgets/table/e-table-item.c:3015
 #: ../widgets/text/e-text.c:3634 ../widgets/text/e-text.c:3635
+#: ../widgets/table/e-table-group-container.c:964
+#: ../widgets/table/e-table-group-container.c:965
 msgid "Height"
 msgstr "Ύψος"
 
@@ -3422,10 +3429,9 @@ msgstr "Σφάλμα αφαίρεσης επαφής"
 msgid ""
 "Opening %d contact will open %d new window as well.\n"
 "Do you really want to display this contact?"
-msgid_plural ""
 "Opening %d contacts will open %d new windows as well.\n"
 "Do you really want to display all of these contacts?"
-msgstr[0] ""
+msgstr ""
 "Ανοίγοντας %d επαφή θα γίνει άνοιγμα %d  νέου παραθύρου.\n"
 "Θέλετε να εμφανίσετε αυτή την επαφή;Ανοίγοντας %d επαφή θα γίνει άνοιγμα %d  "
 "νέων παραθύρων.\n"
@@ -3434,7 +3440,6 @@ msgstr[0] ""
 "Θέλετε να εμφανίσετε αυτή την επαφή;Ανοίγοντας %d επαφή θα γίνει άνοιγμα %d  "
 "νέων παραθύρων.\n"
 "Θέλετε να εμφανίσετε αυτές τις επαφές;"
-msgstr[1] ""
 "Ανοίγοντας %d επαφή θα γίνει άνοιγμα %d  νέου παραθύρου.\n"
 "Θέλετε να εμφανίσετε αυτή την επαφή;Ανοίγοντας %d επαφή θα γίνει άνοιγμα %d  "
 "νέων παραθύρων.\n"
@@ -4227,15 +4232,15 @@ msgstr "Εισάγετε κωδικό"
 msgid "Split Multi-Day Events:"
 msgstr "Διαχωρισμός Γεγονότων Multi-Day:"
 
-#: ../calendar/conduits/calendar/calendar-conduit.c:1359
-#: ../calendar/conduits/calendar/calendar-conduit.c:1360
+#: ../calendar/conduits/calendar/calendar-conduit.c:1361
+#: ../calendar/conduits/calendar/calendar-conduit.c:1362
 #: ../calendar/conduits/todo/todo-conduit.c:879
 #: ../calendar/conduits/todo/todo-conduit.c:880
 msgid "Could not start evolution-data-server"
 msgstr "Δεν ήταν δυνατή η εκκίνηση του  evolution-data-server"
 
-#: ../calendar/conduits/calendar/calendar-conduit.c:1468
-#: ../calendar/conduits/calendar/calendar-conduit.c:1471
+#: ../calendar/conduits/calendar/calendar-conduit.c:1470
+#: ../calendar/conduits/calendar/calendar-conduit.c:1473
 msgid "Could not read pilot's Calendar application block"
 msgstr ""
 "Δεν ήταν δυνατή η ανανέωση του τμήματος ημερολογίου του Υπολογιστή Παλάμης"
@@ -4288,7 +4293,7 @@ msgid "Evolution's Tasks component"
 msgstr "Στοιχείο Εργασιών του Evolution."
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:10
-#: ../calendar/gui/e-tasks.c:1222 ../calendar/gui/print.c:1822
+#: ../calendar/gui/e-tasks.c:1242 ../calendar/gui/print.c:1822
 #: ../calendar/gui/tasks-component.c:519 ../calendar/gui/tasks-component.c:994
 #: ../calendar/gui/tasks-control.c:408
 #: ../calendar/importers/icalendar-importer.c:83
@@ -4346,6 +4351,7 @@ msgstr "Χρόνος της _χρονικής μετάθεσης:"
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:51
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:6
 #: ../filter/filter.glade.h:11 ../mail/mail-config.glade.h:158
+#: ../plugins/exchange-operations/exchange-delegates.glade.h:13
 #: ../ui/evolution-addressbook.xml.h:34 ../ui/evolution-calendar.xml.h:41
 #: ../ui/evolution-composer-entries.xml.h:8
 #: ../ui/evolution-mail-messagedisplay.xml.h:5
@@ -4806,16 +4812,16 @@ msgstr "Η τοποθεσία περιέχει"
 msgid "Unmatched"
 msgstr "Αταίριαστο"
 
-#: ../calendar/gui/calendar-commands.c:120
+#: ../calendar/gui/calendar-commands.c:119
 #: ../calendar/gui/calendar-component.c:708
 #: ../calendar/gui/dialogs/calendar-setup.c:369
-#: ../calendar/gui/gnome-cal.c:1974
+#: ../calendar/gui/gnome-cal.c:2006
 #: ../plugins/groupwise-features/camel-gw-listener.c:382
 #: ../plugins/groupwise-features/camel-gw-listener.c:412
 msgid "Calendar"
 msgstr "Ημερολόγιο"
 
-#: ../calendar/gui/calendar-commands.c:355
+#: ../calendar/gui/calendar-commands.c:354
 msgid ""
 "This operation will permanently erase all events older than the selected "
 "amount of time. If you continue, you will not be able to recover these "
@@ -4825,11 +4831,11 @@ msgstr ""
 "παλαιότερα από την επιλεγμένη ημερομηνία. Αν συνεχίσετε, δε θα μπορέσετε να "
 "τα ανακτήσετε."
 
-#: ../calendar/gui/calendar-commands.c:361
+#: ../calendar/gui/calendar-commands.c:360
 msgid "Purge events older than"
 msgstr "Εκκαθάριση γεγονότων παλαιότερων από"
 
-#: ../calendar/gui/calendar-commands.c:366
+#: ../calendar/gui/calendar-commands.c:365
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:20
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:12
 #: ../filter/filter.glade.h:14 ../plugins/calendar-http/calendar-http.c:265
@@ -4857,7 +4863,7 @@ msgid "Weather"
 msgstr "Καιρός"
 
 #: ../calendar/gui/calendar-component.c:535
-#: ../calendar/gui/dialogs/calendar-setup.c:450
+#: ../calendar/gui/dialogs/calendar-setup.c:451
 msgid "New Calendar"
 msgstr "Νέο Ημερολόγιο"
 
@@ -5494,11 +5500,11 @@ msgstr "Χ_ρώμα:"
 msgid "Tasks List"
 msgstr "Λίστα Εργασιών"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:448
+#: ../calendar/gui/dialogs/calendar-setup.c:449
 msgid "Calendar Properties"
 msgstr "Ιδιότητες Ημερολογίου"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:515
+#: ../calendar/gui/dialogs/calendar-setup.c:517
 msgid "Task List Properties"
 msgstr "Ιδιότητες Λίστας Εργασιών"
 
@@ -5630,7 +5636,7 @@ msgstr[1] "%d συνημμένα μηνύματα"
 
 #: ../calendar/gui/dialogs/comp-editor.c:421
 #: ../calendar/gui/e-calendar-table.c:1164
-#: ../calendar/gui/e-calendar-view.c:1513 ../composer/e-msg-composer.c:2899
+#: ../calendar/gui/e-calendar-view.c:1521 ../composer/e-msg-composer.c:2899
 #: ../mail/em-folder-tree.c:1047 ../mail/em-folder-view.c:1033
 #: ../mail/message-list.c:1708 ../ui/evolution-addressbook.xml.h:31
 #: ../ui/evolution-calendar.xml.h:39 ../ui/evolution-composer-entries.xml.h:7
@@ -5649,71 +5655,71 @@ msgstr "_Μετακίνηση"
 msgid "Cancel _Drag"
 msgstr "Ακύρωση _Drag"
 
-#: ../calendar/gui/dialogs/comp-editor.c:697
+#: ../calendar/gui/dialogs/comp-editor.c:705
 msgid "Could not update object"
 msgstr "Δεν ήταν δυνατή η ενημέρωση του αντικειμένου"
 
-#: ../calendar/gui/dialogs/comp-editor.c:883 ../composer/e-msg-composer.c:2308
+#: ../calendar/gui/dialogs/comp-editor.c:892 ../composer/e-msg-composer.c:2308
 #, fuzzy, c-format
 msgid "<b>%d</b> Attachment"
 msgid_plural "<b>%d</b> Attachments"
-msgstr[0] "<b>%d</b> συνημμένο αρχείο"
-msgstr[1] "<b>%d</b> συνημμένα αρχεία"
+msgstr[0] "<b>%d</b> Συνημμένο"
+msgstr[1] "<b>%d</b> Συνημμένα"
 
-#: ../calendar/gui/dialogs/comp-editor.c:978
+#: ../calendar/gui/dialogs/comp-editor.c:987
 #, fuzzy
 msgid "_Attachment Bar (drop attachments here)"
 msgstr "Απόκρυψη εργαλειοθήκης συνη_μμένων (ρίξτε τα συνημμένα εδώ)"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1588
-#: ../calendar/gui/dialogs/comp-editor.c:1631
+#: ../calendar/gui/dialogs/comp-editor.c:1597
+#: ../calendar/gui/dialogs/comp-editor.c:1640
 msgid "Edit Appointment"
 msgstr "Επεξεργασία Ραντεβού"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1594
-#: ../calendar/gui/dialogs/comp-editor.c:1637
+#: ../calendar/gui/dialogs/comp-editor.c:1603
+#: ../calendar/gui/dialogs/comp-editor.c:1646
 #, c-format
 msgid "Meeting - %s"
-msgstr "Συνάντηση - %s"
-
-#: ../calendar/gui/dialogs/comp-editor.c:1596
-#: ../calendar/gui/dialogs/comp-editor.c:1639
-#, c-format
-msgid "Appointment - %s"
-msgstr "Ραντεβού - %s"
-
-#: ../calendar/gui/dialogs/comp-editor.c:1600
-#: ../calendar/gui/dialogs/comp-editor.c:1643
-#, c-format
-msgid "Assigned Task - %s"
-msgstr "Ανατιθέ_μενη εργασία- %s"
-
-#: ../calendar/gui/dialogs/comp-editor.c:1602
-#: ../calendar/gui/dialogs/comp-editor.c:1645
-#, c-format
-msgid "Task - %s"
-msgstr "Εργασία - %s"
+msgstr "Συνάντηση  -  %s"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1605
 #: ../calendar/gui/dialogs/comp-editor.c:1648
 #, c-format
-msgid "Journal entry - %s"
-msgstr "Ημερολογιακή καταχώριση - %s"
+msgid "Appointment - %s"
+msgstr "Ραντεβού   -   %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1616
-#: ../calendar/gui/dialogs/comp-editor.c:1658
+#: ../calendar/gui/dialogs/comp-editor.c:1609
+#: ../calendar/gui/dialogs/comp-editor.c:1652
+#, c-format
+msgid "Assigned Task - %s"
+msgstr "Ανατιθέ_μενη εργασία  -   %s"
+
+#: ../calendar/gui/dialogs/comp-editor.c:1611
+#: ../calendar/gui/dialogs/comp-editor.c:1654
+#, c-format
+msgid "Task - %s"
+msgstr "Εργασία   -   %s"
+
+#: ../calendar/gui/dialogs/comp-editor.c:1614
+#: ../calendar/gui/dialogs/comp-editor.c:1657
+#, c-format
+msgid "Journal entry - %s"
+msgstr "Ημερολογιακή καταχώριση   -   %s"
+
+#: ../calendar/gui/dialogs/comp-editor.c:1625
+#: ../calendar/gui/dialogs/comp-editor.c:1667
 msgid "No summary"
 msgstr "Χωρίς περίληψη"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2137
-#: ../calendar/gui/dialogs/comp-editor.c:2170
-#: ../calendar/gui/dialogs/comp-editor.c:2194
+#: ../calendar/gui/dialogs/comp-editor.c:2141
+#: ../calendar/gui/dialogs/comp-editor.c:2174
+#: ../calendar/gui/dialogs/comp-editor.c:2198
 msgid "Changes made to this item may be discarded if an update arrives"
 msgstr ""
 "Οι αλλαγές που έγιναν σε αυτό το αντικείμενο μπορεί να απορριφθούν αν "
 "καταφθάσει μια ενημέρωση"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2218
+#: ../calendar/gui/dialogs/comp-editor.c:2222
 msgid "Unable to use current version!"
 msgstr "Δεν ήταν δυνατή η εκτέλεση της τρέχουσας έκδοση!"
 
@@ -5798,72 +5804,72 @@ msgstr "Ραντεβού"
 msgid "Recurrence"
 msgstr "Επανεμφάνιση"
 
-#: ../calendar/gui/dialogs/event-editor.c:166
-#: ../calendar/gui/dialogs/event-editor.c:249
-#: ../calendar/gui/dialogs/event-editor.c:422
+#: ../calendar/gui/dialogs/event-editor.c:164
+#: ../calendar/gui/dialogs/event-editor.c:248
+#: ../calendar/gui/dialogs/event-editor.c:420
 msgid "Scheduling"
 msgstr "Δρομολόγηση"
 
-#: ../calendar/gui/dialogs/event-editor.c:175
+#: ../calendar/gui/dialogs/event-editor.c:174
 #, fuzzy
 msgid "Delegatees"
 msgstr "Εξουσιοδοτήθηκε"
 
-#: ../calendar/gui/dialogs/event-editor.c:179
+#: ../calendar/gui/dialogs/event-editor.c:178
 #, fuzzy
 msgid "Attendees"
 msgstr "Παρευρισκόμενος"
 
-#: ../calendar/gui/dialogs/event-editor.c:252
-#: ../calendar/gui/dialogs/event-editor.c:425
+#: ../calendar/gui/dialogs/event-editor.c:251
+#: ../calendar/gui/dialogs/event-editor.c:423
 msgid "Invitations"
 msgstr "Προσκλήσεις"
 
-#: ../calendar/gui/dialogs/event-page.c:725
+#: ../calendar/gui/dialogs/event-page.c:729
 msgid "Event with no start date"
 msgstr "Γεγονός χωρίς ημερομηνία έναρξης"
 
-#: ../calendar/gui/dialogs/event-page.c:728
+#: ../calendar/gui/dialogs/event-page.c:732
 msgid "Event with no end date"
 msgstr "Γεγονός χωρίς ημερομηνία λήξης"
 
-#: ../calendar/gui/dialogs/event-page.c:894
+#: ../calendar/gui/dialogs/event-page.c:898
 #: ../calendar/gui/dialogs/task-page.c:556
 msgid "Start date is wrong"
 msgstr "Η ημερομηνία έναρξης είναι λανθασμένη"
 
-#: ../calendar/gui/dialogs/event-page.c:904
+#: ../calendar/gui/dialogs/event-page.c:908
 msgid "End date is wrong"
 msgstr "Η ημερομηνία λήξης είναι λάθος"
 
-#: ../calendar/gui/dialogs/event-page.c:927
+#: ../calendar/gui/dialogs/event-page.c:931
 msgid "Start time is wrong"
 msgstr "Η ώρα έναρξης είναι λανθασμένη"
 
-#: ../calendar/gui/dialogs/event-page.c:934
+#: ../calendar/gui/dialogs/event-page.c:938
 msgid "End time is wrong"
 msgstr "Η ώρα λήξης είναι λανθασμένη"
 
-#: ../calendar/gui/dialogs/event-page.c:1680
+#: ../calendar/gui/dialogs/event-page.c:1684
 #, c-format
 msgid "Unable to open the calendar '%s'."
 msgstr "Αδυναμία ανοίγματος του ημερολογίου '%s'."
 
-#: ../calendar/gui/dialogs/event-page.c:1886
+#: ../calendar/gui/dialogs/event-page.c:1890
 #, c-format
 msgid "%d day before appointment"
 msgid_plural "%d days before appointment"
 msgstr[0] "%d ημέρα πριν από ραντεβού"
 msgstr[1] "%d ημέρες πριν από ραντεβού"
 
-#: ../calendar/gui/dialogs/event-page.c:1894
+#: ../calendar/gui/dialogs/event-page.c:1898
 #, c-format
 msgid "%d hour before appointment"
 msgid_plural "%d hours before appointment"
 msgstr[0] "%d ώρα πριν από ραντεβού"
 msgstr[1] "%d ώρες πριν από ραντεβού"
 
-#: ../calendar/gui/dialogs/event-page.c:1902
+#: ../calendar/gui/dialogs/event-page.c:1906
 #, c-format
 msgid "%d minute before appointement"
 msgid_plural "%d minutes before appointment"
@@ -5926,7 +5932,7 @@ msgstr "Τα_ξινόμηση:"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:14
 #: ../calendar/gui/dialogs/task-page.glade.h:8
-#: ../calendar/gui/e-cal-list-view.c:255 ../calendar/gui/e-cal-model.c:305
+#: ../calendar/gui/e-cal-list-view.c:254 ../calendar/gui/e-cal-model.c:324
 #: ../calendar/gui/e-calendar-table.c:362
 msgid "Confidential"
 msgstr "Εμπιστευτικό"
@@ -5941,15 +5947,15 @@ msgstr "Τοπο_θεσία:"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:17
 #: ../calendar/gui/dialogs/task-page.glade.h:10
-#: ../calendar/gui/e-cal-list-view.c:254 ../calendar/gui/e-cal-model.c:303
+#: ../calendar/gui/e-cal-list-view.c:253 ../calendar/gui/e-cal-model.c:322
 #: ../calendar/gui/e-calendar-table.c:361
 msgid "Private"
 msgstr "Ιδιωτικό"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:18
 #: ../calendar/gui/dialogs/task-page.glade.h:11
-#: ../calendar/gui/e-cal-list-view.c:253 ../calendar/gui/e-cal-model.c:294
-#: ../calendar/gui/e-cal-model.c:301 ../calendar/gui/e-calendar-table.c:360
+#: ../calendar/gui/e-cal-list-view.c:252 ../calendar/gui/e-cal-model.c:313
+#: ../calendar/gui/e-cal-model.c:320 ../calendar/gui/e-calendar-table.c:360
 msgid "Public"
 msgstr "Δημόσιο"
 
@@ -5990,9 +5996,8 @@ msgid "<b>Dele_gatees</b>"
 msgstr "<b>Υπο_γραφές:</b>"
 
 #: ../calendar/gui/dialogs/meeting-page.c:307
-#, fuzzy
 msgid "<b>From:</b>"
-msgstr "<b>Οικία</b>"
+msgstr "<b>Από:</b>"
 
 #. an empty string is the same as 'None'
 #. Put the "None" and "UTC" entries at the top of the combo's list.
@@ -6008,6 +6013,7 @@ msgstr "<b>Οικία</b>"
 #: ../mail/em-folder-view.c:1062
 #: ../plugins/calendar-weather/calendar-weather.c:371
 #: ../plugins/calendar-weather/calendar-weather.c:425
+#: ../plugins/exchange-operations/exchange-delegates.glade.h:7
 #: ../plugins/itip-formatter/itip-formatter.c:1539
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.c:190
 #: ../widgets/misc/e-cell-date-edit.c:248 ../widgets/misc/e-dateedit.c:465
@@ -6144,35 +6150,41 @@ msgstr "Ομάδα Λίστας Εργασιών"
 msgid "Task List Name"
 msgstr "Όνομα Λίστας Εργασιών"
 
-#: ../calendar/gui/dialogs/recur-comp.c:51
+#: ../calendar/gui/dialogs/recur-comp.c:52
 msgid "You are modifying a recurring event, what would you like to modify?"
 msgstr ""
 "Τροποποιείτε ένα επαναλαμβανόμενο γεγονός, τι θα θέλατε να τροποποιήσετε;"
 
-#: ../calendar/gui/dialogs/recur-comp.c:55
+#: ../calendar/gui/dialogs/recur-comp.c:54
+#, fuzzy
+msgid "You are delegating a recurring event, what would like to delegate?"
+msgstr ""
+"Τροποποιείτε ένα επαναλαμβανόμενο γεγονός, τι θα θέλατε να τροποποιήσετε;"
+
+#: ../calendar/gui/dialogs/recur-comp.c:58
 msgid "You are modifying a recurring task, what would you like to modify?"
 msgstr ""
 "Τροποποιείτε μια επαναλαμβανόμενη εργασία, τι θα θέλατε να τροποποιήσετε;"
 
-#: ../calendar/gui/dialogs/recur-comp.c:59
+#: ../calendar/gui/dialogs/recur-comp.c:62
 msgid ""
 "You are modifying a recurring journal entry, what would you like to modify?"
 msgstr ""
 "Τροποποιείτε μια επαναλαμβανόμενη καταχώρηση, τι θα θέλατε να τροποποιήσετε;"
 
-#: ../calendar/gui/dialogs/recur-comp.c:87
+#: ../calendar/gui/dialogs/recur-comp.c:90
 msgid "This Instance Only"
 msgstr "Αυτή την εμφάνιση μόνο"
 
-#: ../calendar/gui/dialogs/recur-comp.c:91
+#: ../calendar/gui/dialogs/recur-comp.c:94
 msgid "This and Prior Instances"
 msgstr "Αυτή και προηγούμενες εμφανίσεις"
 
-#: ../calendar/gui/dialogs/recur-comp.c:97
+#: ../calendar/gui/dialogs/recur-comp.c:100
 msgid "This and Future Instances"
 msgstr "Αυτή και μελλοντικές εμφανίσεις"
 
-#: ../calendar/gui/dialogs/recur-comp.c:102
+#: ../calendar/gui/dialogs/recur-comp.c:105
 msgid "All Instances"
 msgstr "Όλες τις εμφανίσεις"
 
@@ -6327,7 +6339,7 @@ msgstr "Χαμηλή"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:8
 #: ../calendar/gui/e-cal-component-preview.c:250
-#: ../calendar/gui/e-cal-model.c:899 ../calendar/gui/e-calendar-table.c:383
+#: ../calendar/gui/e-cal-model.c:918 ../calendar/gui/e-calendar-table.c:383
 #: ../mail/message-list.c:1007
 msgid "Normal"
 msgstr "Κανονική"
@@ -6555,11 +6567,10 @@ msgid "Due Date:"
 msgstr "Ημερομηνία Λήξης:"
 
 #. write status
-#. translators: exchange out of office status header
 #. Status
 #: ../calendar/gui/e-cal-component-preview.c:222
 #: ../calendar/gui/e-itip-control.c:1132
-#: ../plugins/exchange-account-setup/exchange-account-setup.c:227
+#: ../plugins/exchange-operations/exchange-account-setup.c:251
 #: ../plugins/itip-formatter/itip-view.c:888
 msgid "Status:"
 msgstr "Κατάσταση:"
@@ -6607,7 +6618,7 @@ msgstr ""
 "\n"
 "45.436845,125.862501"
 
-#: ../calendar/gui/e-cal-model-tasks.c:1017 ../calendar/gui/e-cal-model.c:905
+#: ../calendar/gui/e-cal-model-tasks.c:1017 ../calendar/gui/e-cal-model.c:924
 #: ../calendar/gui/e-meeting-list-view.c:192
 #: ../calendar/gui/e-meeting-store.c:168 ../calendar/gui/e-meeting-store.c:178
 #: ../calendar/gui/e-meeting-store.c:808
@@ -6615,7 +6626,7 @@ msgstr ""
 msgid "Yes"
 msgstr "Ναι"
 
-#: ../calendar/gui/e-cal-model-tasks.c:1017 ../calendar/gui/e-cal-model.c:905
+#: ../calendar/gui/e-cal-model-tasks.c:1017 ../calendar/gui/e-cal-model.c:924
 #: ../calendar/gui/e-meeting-list-view.c:193
 #: ../calendar/gui/e-meeting-store.c:180
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:2
@@ -6623,7 +6634,7 @@ msgid "No"
 msgstr "Όχι"
 
 #. This is the default filename used for temporary file creation
-#: ../calendar/gui/e-cal-model.c:307 ../calendar/gui/e-cal-model.c:310
+#: ../calendar/gui/e-cal-model.c:326 ../calendar/gui/e-cal-model.c:329
 #: ../calendar/gui/e-itip-control.c:1149 ../calendar/gui/e-itip-control.c:1290
 #: ../calendar/gui/e-meeting-list-view.c:168
 #: ../calendar/gui/e-meeting-list-view.c:182
@@ -6637,11 +6648,11 @@ msgstr "Όχι"
 msgid "Unknown"
 msgstr "Άγνωστο"
 
-#: ../calendar/gui/e-cal-model.c:901
+#: ../calendar/gui/e-cal-model.c:920
 msgid "Recurring"
 msgstr "Επανάληψη"
 
-#: ../calendar/gui/e-cal-model.c:903
+#: ../calendar/gui/e-cal-model.c:922
 msgid "Assigned"
 msgstr "Ανάθεση"
 
@@ -6694,22 +6705,22 @@ msgid "Task Table"
 msgstr "Πίνακας εργασίας"
 
 #: ../calendar/gui/e-calendar-table.c:694
-#: ../calendar/gui/e-calendar-view.c:653
+#: ../calendar/gui/e-calendar-view.c:661
 msgid "Deleting selected objects"
 msgstr "Διαγραφή επιλεγμένων αντικειμένων"
 
 #: ../calendar/gui/e-calendar-table.c:873
-#: ../calendar/gui/e-calendar-view.c:780
+#: ../calendar/gui/e-calendar-view.c:788
 msgid "Updating objects"
 msgstr "Αναβάθμιση Αντικειμένων"
 
 #: ../calendar/gui/e-calendar-table.c:1014
-#: ../calendar/gui/e-calendar-view.c:1083 ../composer/e-msg-composer.c:1241
+#: ../calendar/gui/e-calendar-view.c:1091 ../composer/e-msg-composer.c:1241
 msgid "Save as..."
 msgstr "Αποθήκευση ως..."
 
 #: ../calendar/gui/e-calendar-table.c:1156
-#: ../calendar/gui/e-calendar-view.c:1506 ../ui/evolution-addressbook.xml.h:37
+#: ../calendar/gui/e-calendar-view.c:1514 ../ui/evolution-addressbook.xml.h:37
 msgid "_Open"
 msgstr "_Άνοιγμα"
 
@@ -6718,28 +6729,28 @@ msgid "Open _Web Page"
 msgstr "Άνοιγμα Ιστο_σελίδας"
 
 #: ../calendar/gui/e-calendar-table.c:1158
-#: ../calendar/gui/e-calendar-view.c:1507 ../mail/em-folder-view.c:1043
+#: ../calendar/gui/e-calendar-view.c:1515 ../mail/em-folder-view.c:1043
 #: ../mail/em-popup.c:494
 msgid "_Save As..."
 msgstr "Αποθήκευση _Ως..."
 
 #: ../calendar/gui/e-calendar-table.c:1159
-#: ../calendar/gui/e-calendar-view.c:1487
-#: ../calendar/gui/e-calendar-view.c:1508 ../mail/em-folder-view.c:1044
+#: ../calendar/gui/e-calendar-view.c:1495
+#: ../calendar/gui/e-calendar-view.c:1516 ../mail/em-folder-view.c:1044
 #: ../ui/evolution-addressbook.xml.h:40 ../ui/evolution-calendar.xml.h:44
 #: ../ui/evolution-mail-message.xml.h:117 ../ui/evolution-tasks.xml.h:25
 msgid "_Print..."
 msgstr "_Εκτύπωση..."
 
 #: ../calendar/gui/e-calendar-table.c:1163
-#: ../calendar/gui/e-calendar-view.c:1512 ../ui/evolution-addressbook.xml.h:1
+#: ../calendar/gui/e-calendar-view.c:1520 ../ui/evolution-addressbook.xml.h:1
 #: ../ui/evolution-calendar.xml.h:1 ../ui/evolution-tasks.xml.h:1
 msgid "C_ut"
 msgstr "_Αποκοπή"
 
 #: ../calendar/gui/e-calendar-table.c:1165
-#: ../calendar/gui/e-calendar-view.c:1490
-#: ../calendar/gui/e-calendar-view.c:1514 ../ui/evolution-addressbook.xml.h:38
+#: ../calendar/gui/e-calendar-view.c:1498
+#: ../calendar/gui/e-calendar-view.c:1522 ../ui/evolution-addressbook.xml.h:38
 #: ../ui/evolution-calendar.xml.h:43 ../ui/evolution-composer-entries.xml.h:9
 #: ../ui/evolution-tasks.xml.h:24
 msgid "_Paste"
@@ -6763,7 +6774,7 @@ msgstr "_Σημείωση επιλεγμένων εργασιών ως ολοκ�
 
 #. FIXME: need to disable for undeletable folders
 #: ../calendar/gui/e-calendar-table.c:1176
-#: ../calendar/gui/e-calendar-view.c:1526 ../mail/em-folder-tree.c:2119
+#: ../calendar/gui/e-calendar-view.c:1534 ../mail/em-folder-tree.c:2119
 #: ../mail/em-folder-view.c:1047 ../ui/evolution-addressbook.xml.h:33
 #: ../ui/evolution-calendar.xml.h:40 ../ui/evolution-mail-list.xml.h:26
 #: ../ui/evolution-tasks.xml.h:21
@@ -6809,74 +6820,74 @@ msgstr "Ημερομηνία έναρξης"
 msgid "Task sort"
 msgstr "Ταξινόμηση Εργασιών"
 
-#: ../calendar/gui/e-calendar-view.c:1204
+#: ../calendar/gui/e-calendar-view.c:1212
 msgid "Moving items"
 msgstr "Μετακίνηση αντικειμένων"
 
-#: ../calendar/gui/e-calendar-view.c:1206
+#: ../calendar/gui/e-calendar-view.c:1214
 msgid "Copying items"
 msgstr "Αντιγραφή αντικειμένων"
 
-#: ../calendar/gui/e-calendar-view.c:1481
+#: ../calendar/gui/e-calendar-view.c:1489
 msgid "New _Appointment..."
 msgstr "Νέο Ρ_αντεβού..."
 
-#: ../calendar/gui/e-calendar-view.c:1482
+#: ../calendar/gui/e-calendar-view.c:1490
 msgid "New All Day _Event"
 msgstr "Νέο _Γεγονός Ολόκληρης της Ημέρας"
 
-#: ../calendar/gui/e-calendar-view.c:1484
+#: ../calendar/gui/e-calendar-view.c:1492
 msgid "New Task"
 msgstr "Νέα Εργασία"
 
 #. FIXME: hook in this somehow
-#: ../calendar/gui/e-calendar-view.c:1494
+#: ../calendar/gui/e-calendar-view.c:1502
 msgid "Current View"
 msgstr "Τρέχουσα Προβολή"
 
-#: ../calendar/gui/e-calendar-view.c:1496 ../ui/evolution-calendar.xml.h:26
+#: ../calendar/gui/e-calendar-view.c:1504 ../ui/evolution-calendar.xml.h:26
 msgid "Select _Today"
 msgstr "Επιλογή _Σημερινής Μέρας"
 
-#: ../calendar/gui/e-calendar-view.c:1497
+#: ../calendar/gui/e-calendar-view.c:1505
 msgid "_Select Date..."
 msgstr "Επιλο_γή Ημερομηνίας..."
 
 #. TODO: Why is this in a context menu when it applies globally?
-#: ../calendar/gui/e-calendar-view.c:1502 ../ui/evolution-calendar.xml.h:45
+#: ../calendar/gui/e-calendar-view.c:1510 ../ui/evolution-calendar.xml.h:45
 msgid "_Publish Free/Busy Information"
 msgstr "Δημο_σίευση πληροφοριών Διαθεσιμότητας"
 
-#: ../calendar/gui/e-calendar-view.c:1518
+#: ../calendar/gui/e-calendar-view.c:1526
 msgid "Cop_y to Calendar..."
 msgstr "Α_ντιγραφή στο Ημερολόγιο..."
 
-#: ../calendar/gui/e-calendar-view.c:1519
+#: ../calendar/gui/e-calendar-view.c:1527
 msgid "Mo_ve to Calendar..."
 msgstr "Με_τακίνηση στο Ημερολόγιο..."
 
-#: ../calendar/gui/e-calendar-view.c:1520
+#: ../calendar/gui/e-calendar-view.c:1528
 #, fuzzy
 msgid "_Delegate Meeting..."
 msgstr "Προγραμματισμός _Συνάντησης..."
 
-#: ../calendar/gui/e-calendar-view.c:1521
+#: ../calendar/gui/e-calendar-view.c:1529
 msgid "_Schedule Meeting..."
 msgstr "Προγραμματισμός _Συνάντησης..."
 
-#: ../calendar/gui/e-calendar-view.c:1522
+#: ../calendar/gui/e-calendar-view.c:1530
 msgid "_Forward as iCalendar..."
 msgstr "Προώ_θηση ως iCalendar..."
 
-#: ../calendar/gui/e-calendar-view.c:1527
+#: ../calendar/gui/e-calendar-view.c:1535
 msgid "Make this Occurrence _Movable"
 msgstr "Να γίνει μετακινούμενη αυτή η επανά_ληψη"
 
-#: ../calendar/gui/e-calendar-view.c:1528
+#: ../calendar/gui/e-calendar-view.c:1536
 msgid "Delete this _Occurrence"
 msgstr "Διαγραφή αυτής της _Εμφάνισης"
 
-#: ../calendar/gui/e-calendar-view.c:1529
+#: ../calendar/gui/e-calendar-view.c:1537
 msgid "Delete _All Occurrences"
 msgstr "Διαγραφή Ό_λων των Εμφανίσεων"
 
@@ -6922,19 +6933,19 @@ msgstr "%02i τμήματα λεπτών"
 #. month, %B = full month name. You can change the
 #. order but don't change the specifiers or add
 #. anything.
-#: ../calendar/gui/e-day-view-top-item.c:715 ../calendar/gui/e-day-view.c:1499
+#: ../calendar/gui/e-day-view-top-item.c:715 ../calendar/gui/e-day-view.c:1498
 #: ../calendar/gui/e-week-view-main-item.c:312 ../calendar/gui/print.c:1517
 msgid "%A %d %B"
 msgstr "%A %d %B"
 
 #. String to use in 12-hour time format for times in the morning.
-#: ../calendar/gui/e-day-view.c:752 ../calendar/gui/e-week-view.c:512
+#: ../calendar/gui/e-day-view.c:751 ../calendar/gui/e-week-view.c:512
 #: ../calendar/gui/print.c:841
 msgid "am"
 msgstr "πμ"
 
 #. String to use in 12-hour time format for times in the afternoon.
-#: ../calendar/gui/e-day-view.c:755 ../calendar/gui/e-week-view.c:515
+#: ../calendar/gui/e-day-view.c:754 ../calendar/gui/e-week-view.c:515
 #: ../calendar/gui/print.c:843
 msgid "pm"
 msgstr "μμ"
@@ -7399,6 +7410,8 @@ msgstr "Άτομο"
 
 #: ../calendar/gui/e-meeting-list-view.c:165
 #: ../calendar/gui/e-meeting-store.c:101 ../calendar/gui/e-meeting-store.c:118
+#: ../widgets/table/e-table-config-no-group.glade.h:7
+#: ../widgets/table/e-table-config.glade.h:7
 msgid "Group"
 msgstr "Ομάδα"
 
@@ -7543,7 +7556,7 @@ msgstr "Απαιτούμενα Άτομα και έ_νας Πόρος"
 msgid "Enter the password for %s"
 msgstr "Εισάγετε κωδικό πρόσβασης για %s"
 
-#: ../calendar/gui/e-tasks.c:763 ../calendar/gui/gnome-cal.c:2412
+#: ../calendar/gui/e-tasks.c:783 ../calendar/gui/gnome-cal.c:2444
 #, c-format
 msgid ""
 "Error on %s:\n"
@@ -7552,24 +7565,24 @@ msgstr ""
 "Σφάλμα στο  %s:\n"
 " %s"
 
-#: ../calendar/gui/e-tasks.c:811
+#: ../calendar/gui/e-tasks.c:831
 msgid "Loading tasks"
 msgstr "Φόρτωση εργασιών"
 
-#: ../calendar/gui/e-tasks.c:895
+#: ../calendar/gui/e-tasks.c:915
 #, c-format
 msgid "Opening tasks at %s"
 msgstr "Άνοιγμα ενεργειών στο %s"
 
-#: ../calendar/gui/e-tasks.c:1091
+#: ../calendar/gui/e-tasks.c:1111
 msgid "Completing tasks..."
 msgstr "Ολοκλήρωση εργασιών..."
 
-#: ../calendar/gui/e-tasks.c:1114
+#: ../calendar/gui/e-tasks.c:1134
 msgid "Deleting selected objects..."
 msgstr "Διαγραφή επιλεγμένων αντικειμένων..."
 
-#: ../calendar/gui/e-tasks.c:1141
+#: ../calendar/gui/e-tasks.c:1161
 msgid "Expunging"
 msgstr "Εξάλειψη"
 
@@ -7584,39 +7597,41 @@ msgstr "Κουμπί ζώνης ώρας "
 msgid "%d %B"
 msgstr "%d %B"
 
-#: ../calendar/gui/gnome-cal.c:723
+#: ../calendar/gui/gnome-cal.c:722
 msgid "Updating query"
 msgstr "Αναβάθμιση ερωτήματος"
 
 #. bonobo displays this string so it must be in locale
-#: ../calendar/gui/gnome-cal.c:2089 ../widgets/menus/gal-view-menus.c:350
+#: ../calendar/gui/gnome-cal.c:2121 ../widgets/menus/gal-view-instance.c:585
+#: ../widgets/menus/gal-view-menus.c:350
 msgid "Custom View"
 msgstr "Προσαρμοσμένη Προβολή"
 
-#: ../calendar/gui/gnome-cal.c:2090
+#: ../calendar/gui/gnome-cal.c:2122 ../widgets/menus/gal-view-instance.c:586
 msgid "Save Custom View"
 msgstr "Αποθήκευση Προσαρμοσμένης Προβολής"
 
-#: ../calendar/gui/gnome-cal.c:2095 ../widgets/menus/gal-view-menus.c:372
+#: ../calendar/gui/gnome-cal.c:2127 ../widgets/menus/gal-view-instance.c:590
+#: ../widgets/menus/gal-view-menus.c:372
 msgid "Define Views..."
 msgstr "Καθορισμός Προβολών..."
 
-#: ../calendar/gui/gnome-cal.c:2258
+#: ../calendar/gui/gnome-cal.c:2290
 #, c-format
 msgid "Loading appointments at %s"
 msgstr "Φόρτωση ραντεβού σε %s"
 
-#: ../calendar/gui/gnome-cal.c:2277
+#: ../calendar/gui/gnome-cal.c:2309
 #, c-format
 msgid "Loading tasks at %s"
 msgstr "Φόρτωση εργασιών σε %s"
 
-#: ../calendar/gui/gnome-cal.c:2378
+#: ../calendar/gui/gnome-cal.c:2410
 #, c-format
 msgid "Opening %s"
 msgstr "Άνοιγμα %s"
 
-#: ../calendar/gui/gnome-cal.c:3268
+#: ../calendar/gui/gnome-cal.c:3300
 msgid "Purging"
 msgstr "Εκκαθάριση"
 
@@ -10619,7 +10634,9 @@ msgstr "Αποστολή Μηνυμάτων"
 msgid "Defaults"
 msgstr "Προεπιλογές"
 
+#. Security settings
 #: ../mail/em-account-editor.c:2207 ../mail/mail-config.glade.h:122
+#: ../plugins/exchange-operations/exchange-account-setup.c:301
 msgid "Security"
 msgstr "Ασφάλεια"
 
@@ -10940,7 +10957,7 @@ msgstr "ξεκινά με"
 msgid "Stop Processing"
 msgstr "Διακοπή Επεξεργασίας"
 
-#: ../mail/em-filter-i18n.h:65 ../mail/em-format-html.c:1541
+#: ../mail/em-filter-i18n.h:65 ../mail/em-format-html.c:1671
 #: ../mail/em-format-quote.c:310 ../mail/em-format.c:848
 #: ../mail/em-mailer-prefs.c:88 ../mail/message-list.etspec.h:13
 #: ../mail/message-tag-followup.c:330
@@ -11277,7 +11294,7 @@ msgstr "Κλικ εδώ για μήνυμα σε %s"
 msgid "Matches: %d"
 msgstr "Ταιριάσματα: %d"
 
-#: ../mail/em-format-html-display.c:653 ../mail/em-format-html.c:578
+#: ../mail/em-format-html-display.c:653 ../mail/em-format-html.c:596
 msgid "Unsigned"
 msgstr "Μη υπογεγραμμένο"
 
@@ -11289,7 +11306,7 @@ msgstr ""
 "Αυτό το μήνυμα είναι υπογεγραμμένο. Δεν υπάρχει εγγύηση ότι το μήνυμα είναι "
 "αυθεντικό."
 
-#: ../mail/em-format-html-display.c:654 ../mail/em-format-html.c:579
+#: ../mail/em-format-html-display.c:654 ../mail/em-format-html.c:597
 msgid "Valid signature"
 msgstr "Έγκυρη υπογραφή"
 
@@ -11301,7 +11318,7 @@ msgstr ""
 "Αυτό το μήνυμα είναι υπογεγραμμένο και έγκυρο, ο αποστολέας του μηνύματος "
 "είναι και αυτός που ισχυρίζεται ότι είναι."
 
-#: ../mail/em-format-html-display.c:655 ../mail/em-format-html.c:580
+#: ../mail/em-format-html-display.c:655 ../mail/em-format-html.c:598
 msgid "Invalid signature"
 msgstr "Μη έγκυρη υπογραφή"
 
@@ -11325,7 +11342,7 @@ msgstr ""
 "Αυτό το μήνυμα είναι υπογεγραμμένο με μια έγκυρη υπογραφή, αλλά δεν είναι "
 "δυνατή η επιβεβαίωση του αποστολέα."
 
-#: ../mail/em-format-html-display.c:662 ../mail/em-format-html.c:587
+#: ../mail/em-format-html-display.c:662 ../mail/em-format-html.c:605
 msgid "Unencrypted"
 msgstr "Μη κρυπτογραφημένο"
 
@@ -11337,7 +11354,7 @@ msgstr ""
 "Αυτό το μήνυμα δεν είναι κρυπτογραφημένο. Το περιεχόμενο του μπορεί να "
 "αναγνωστεί κατά τη μεταφορά του στο διαδίκτυο."
 
-#: ../mail/em-format-html-display.c:663 ../mail/em-format-html.c:588
+#: ../mail/em-format-html-display.c:663 ../mail/em-format-html.c:606
 msgid "Encrypted, weak"
 msgstr "Αδύναμα κρυπτογραφημένο"
 
@@ -11351,7 +11368,7 @@ msgstr ""
 "κρυπτογράφησης. Θα είναι δύσκολο αλλά όχι αδύνατο σε ένα τρίτο να διαβάσει "
 "το περιεχόμενο του μηνύματος μέσα σε ένα λογικό χρόνο."
 
-#: ../mail/em-format-html-display.c:664 ../mail/em-format-html.c:589
+#: ../mail/em-format-html-display.c:664 ../mail/em-format-html.c:607
 msgid "Encrypted"
 msgstr "Κρυπτογραφημένο"
 
@@ -11363,7 +11380,7 @@ msgstr ""
 "Αυτό το μήνυμα είναι κρυπτογραφημένο. Θα είναι δύσκολο σε ένα τρίτο να "
 "διαβάσει το περιεχόμενο του μηνύματος."
 
-#: ../mail/em-format-html-display.c:665 ../mail/em-format-html.c:590
+#: ../mail/em-format-html-display.c:665 ../mail/em-format-html.c:608
 msgid "Encrypted, strong"
 msgstr "Ισχυρά κρυπτογραφημένο"
 
@@ -11414,128 +11431,138 @@ msgstr "Κουμπί συνημμένου"
 msgid "Page %d of %d"
 msgstr "Σελίδα %d από %d"
 
-#: ../mail/em-format-html.c:471 ../mail/em-format-html.c:473
+#: ../mail/em-format-html.c:474 ../mail/em-format-html.c:476
 #, c-format
 msgid "Retrieving `%s'"
 msgstr "Παραλαμβάνεται '%s'"
 
-#: ../mail/em-format-html.c:581
+#: ../mail/em-format-html.c:599
 msgid "Valid signature but cannot verify sender"
 msgstr "Έγκυρη υπογραφή, αδυναμία επιβεβαίωσης αποστολέα"
 
-#: ../mail/em-format-html.c:839
+#: ../mail/em-format-html.c:693
+#, fuzzy
+msgid "Unknown error verifying signed messaage"
+msgstr "Άγνωστο σφάλμα επιβεβαίωσης υπογραφής"
+
+#: ../mail/em-format-html.c:758
+#, fuzzy
+msgid "Unknown error decrypting messaage"
+msgstr "Άγνωστο σφάλμα επιβεβαίωσης υπογραφής"
+
+#: ../mail/em-format-html.c:967
 msgid "Malformed external-body part."
 msgstr "Κακοδιατυπωμένο εξωτερικό μέρος μηνύματος."
 
-#: ../mail/em-format-html.c:869
+#: ../mail/em-format-html.c:997
 #, c-format
 msgid "Pointer to FTP site (%s)"
 msgstr "Δείκτης σε σελίδα FTP (%s)"
 
-#: ../mail/em-format-html.c:880
+#: ../mail/em-format-html.c:1008
 #, c-format
 msgid "Pointer to local file (%s) valid at site \"%s\""
 msgstr "Δείκτης σε τοπικό αρχείο (%s) έγκυρο στη σελίδα \"%s\""
 
-#: ../mail/em-format-html.c:882
+#: ../mail/em-format-html.c:1010
 #, c-format
 msgid "Pointer to local file (%s)"
 msgstr "Δείκτης σε τοπικό αρχείο (%s)"
 
-#: ../mail/em-format-html.c:903
+#: ../mail/em-format-html.c:1031
 #, c-format
 msgid "Pointer to remote data (%s)"
 msgstr "Δείκτης σε απομακρυσμένα δεδομένα (%s)"
 
-#: ../mail/em-format-html.c:914
+#: ../mail/em-format-html.c:1042
 #, c-format
 msgid "Pointer to unknown external data (\"%s\" type)"
 msgstr "Δείκτης σε άγνωστα εξωτερικά δεδομένα (τύπος \"%s\")"
 
-#: ../mail/em-format-html.c:1140
+#: ../mail/em-format-html.c:1270
 msgid "Formatting message"
 msgstr "Μορφοποίηση μηνυμάτων"
 
-#: ../mail/em-format-html.c:1433 ../mail/em-format-quote.c:197
+#: ../mail/em-format-html.c:1563 ../mail/em-format-quote.c:197
 #: ../mail/em-format.c:843 ../mail/em-mailer-prefs.c:83
 #: ../mail/message-list.etspec.h:7 ../mail/message-tag-followup.c:326
 msgid "From"
 msgstr "Από"
 
-#: ../mail/em-format-html.c:1433 ../mail/em-format-quote.c:197
+#: ../mail/em-format-html.c:1563 ../mail/em-format-quote.c:197
 #: ../mail/em-format.c:844 ../mail/em-mailer-prefs.c:84
 msgid "Reply-To"
 msgstr "Απάντηση Σε"
 
-#: ../mail/em-format-html.c:1433 ../mail/em-format-quote.c:197
+#: ../mail/em-format-html.c:1563 ../mail/em-format-quote.c:197
 #: ../mail/em-format.c:845 ../mail/em-mailer-prefs.c:85
 #: ../mail/message-list.etspec.h:14
 msgid "To"
 msgstr "Προς"
 
-#: ../mail/em-format-html.c:1433 ../mail/em-format-quote.c:197
+#: ../mail/em-format-html.c:1563 ../mail/em-format-quote.c:197
 #: ../mail/em-format.c:846 ../mail/em-mailer-prefs.c:86
 msgid "Cc"
 msgstr "Αντίγραφο:"
 
-#: ../mail/em-format-html.c:1433 ../mail/em-format-quote.c:197
+#: ../mail/em-format-html.c:1563 ../mail/em-format-quote.c:197
 #: ../mail/em-format.c:847 ../mail/em-mailer-prefs.c:87
 msgid "Bcc"
 msgstr "Ιδιαίτερη Κοινοποίηση"
 
 #. pseudo-header
-#: ../mail/em-format-html.c:1545 ../mail/em-format-quote.c:319
+#: ../mail/em-format-html.c:1675 ../mail/em-format-quote.c:319
 #: ../mail/em-mailer-prefs.c:986
 msgid "Mailer"
 msgstr "Πρόγραμμα αλληλογραφίας"
 
 #. translators: strftime format for local time equivalent in Date header display, with day
-#: ../mail/em-format-html.c:1572
+#: ../mail/em-format-html.c:1702
 msgid "<I> (%a, %R %Z)</I>"
 msgstr "<I> (%a, %R %Z)</I>"
 
 #. translators: strftime format for local time equivalent in Date header display, without day
-#: ../mail/em-format-html.c:1575
+#: ../mail/em-format-html.c:1705
 msgid "<I> (%R %Z)</I>"
 msgstr "<I> (%R %Z)</I>"
 
-#: ../mail/em-format-html.c:1585 ../mail/em-format-quote.c:326
+#: ../mail/em-format-html.c:1715 ../mail/em-format-quote.c:326
 #: ../mail/em-format.c:849 ../mail/em-mailer-prefs.c:89
 #: ../mail/message-list.etspec.h:2
 msgid "Date"
 msgstr "Ημερομηνία"
 
-#: ../mail/em-format-html.c:1608 ../mail/em-format.c:850
+#: ../mail/em-format-html.c:1738 ../mail/em-format.c:850
 #: ../mail/em-mailer-prefs.c:90
 msgid "Newsgroups"
 msgstr "Ομάδες συζήτησης"
 
-#: ../mail/em-format.c:1099
+#: ../mail/em-format.c:1101
 #, c-format
 msgid "%s attachment"
 msgstr " %s επισύναψη"
 
-#: ../mail/em-format.c:1138 ../mail/em-format.c:1271
+#: ../mail/em-format.c:1140 ../mail/em-format.c:1273
 msgid "Could not parse S/MIME message: Unknown error"
 msgstr "Αδυναμία ανάλυσης μηνύματος S/MIME: Άγνωστο σφάλμα"
 
-#: ../mail/em-format.c:1261
+#: ../mail/em-format.c:1263
 msgid "Unsupported encryption type for multipart/encrypted"
 msgstr "Μη υποστηριζόμενος τύπος κρυπτογράφησης για  multipart/encrypted"
 
-#: ../mail/em-format.c:1409
+#: ../mail/em-format.c:1411
 msgid "Could not parse MIME message. Displaying as source."
 msgstr "Δεν ήταν δυνατή η ανάλυση του μηνύματος MIME. Προβολή ως πηγή."
 
-#: ../mail/em-format.c:1428
+#: ../mail/em-format.c:1430
 msgid "Unsupported signature format"
 msgstr "Μη υποστηριζόμενη μορφή υπογραφής"
 
-#: ../mail/em-format.c:1436
+#: ../mail/em-format.c:1438
 msgid "Error verifying signature"
 msgstr "Σφάλμα επιβεβαίωσης υπογραφής"
 
-#: ../mail/em-format.c:1436
+#: ../mail/em-format.c:1438
 msgid "Unknown error verifying signature"
 msgstr "Άγνωστο σφάλμα επιβεβαίωσης υπογραφής"
 
@@ -11829,7 +11856,7 @@ msgid ""
 "they really want to do it."
 msgstr ""
 "Αν ένας χρήστης προσπαθεί να ανοίξει 10 ή περισσότερα μηνύματα μαζί, να "
-"γίνεται ερώτησηαν στα αλήθεια το θέλει."
+"γίνεται ερώτηση αν στα αλήθεια το θέλει."
 
 #: ../mail/evolution-mail.schemas.in.in.h:28
 msgid ""
@@ -12498,6 +12525,7 @@ msgid "Failed upgrading Mail settings or folders."
 msgstr "Αποτυχία αναβάθμισης ρυθμίσεων αλληλογραφίας ή φακέλων."
 
 #: ../mail/mail-config.glade.h:1 ../mail/mail-dialogs.glade.h:1
+#: ../widgets/menus/gal-view-instance-save-as-dialog.glade.h:1
 msgid "    "
 msgstr "    "
 
@@ -13806,14 +13834,13 @@ msgstr ""
 "ένα παραλήπτη στο πεδία Πρός ή Κοιν."
 
 #: ../mail/mail.error.xml.h:59
-#, fuzzy
 msgid "Mark all messages as read"
-msgstr "Σήμανση όλων των εμφανών μηνυμάτων ως αναγνωσμένα"
+msgstr "Σήμανση όλων των μηνυμάτων ως αναγνωσμένα"
 
 #: ../mail/mail.error.xml.h:60
 #, fuzzy
 msgid "Mark all messages as read in the selected folder"
-msgstr "_Σήμανση μηνυμάτων ως αναγνωσμένα μετά από"
+msgstr "Σήμανση όλων των μηνυμάτων  στον επιλεγμένο φάκελο ως αναγνωσμένα"
 
 #: ../mail/mail.error.xml.h:61
 msgid "Missing folder."
@@ -14338,7 +14365,7 @@ msgstr ""
 
 #: ../plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:3
 msgid "BBDB"
-msgstr ""
+msgstr "BBDB"
 
 #: ../plugins/calendar-file/org-gnome-calendar-file.eplug.xml.h:1
 msgid "Local Calendars"
@@ -14429,12 +14456,12 @@ msgid "Mark as default folder"
 msgstr "Σημείωση ως τον προεπιλεγμένο φάκελο"
 
 #. i18n: "Secure Password Authentication" is an Outlookism
-#: ../plugins/exchange-account-setup/exchange-account-setup.c:68
+#: ../plugins/exchange-operations/exchange-account-setup.c:58
 msgid "Secure Password"
 msgstr "Ασφαλής κωδικός"
 
 #. i18n: "NTLM" probably doesn't translate
-#: ../plugins/exchange-account-setup/exchange-account-setup.c:71
+#: ../plugins/exchange-operations/exchange-account-setup.c:61
 msgid ""
 "This option will connect to the Exchange server using secure password (NTLM) "
 "authentication."
@@ -14442,11 +14469,11 @@ msgstr ""
 "Με αυτή την επιλογή θα γίνει σύνδεση στον εξυπηρετητή Exchange με τη χρήση "
 "πιστοποίησης ασφαλή κωδικού (NTLM)."
 
-#: ../plugins/exchange-account-setup/exchange-account-setup.c:79
+#: ../plugins/exchange-operations/exchange-account-setup.c:69
 msgid "Plaintext Password"
 msgstr "Κωδικός απλού κειμένου"
 
-#: ../plugins/exchange-account-setup/exchange-account-setup.c:81
+#: ../plugins/exchange-operations/exchange-account-setup.c:71
 msgid ""
 "This option will connect to the Exchange server using standard plaintext "
 "password authentication."
@@ -14454,13 +14481,12 @@ msgstr ""
 "Με αυτή την επιλογή θα συνδεθείτε στον εξυπηρετητή Exchange με τη χρήση "
 "πιστοποίησηςκανονικού κωδικού απλού κειμένου."
 
-#: ../plugins/exchange-account-setup/exchange-account-setup.c:194
+#: ../plugins/exchange-operations/exchange-account-setup.c:239
 #, fuzzy
-msgid "Could not read out-of-office state"
-msgstr "Δεν ήταν δυνατή η δημιουργία μηνύματος."
+msgid "Out Of Office"
+msgstr "Εκτός Γραφείου"
 
-#. Description section
-#: ../plugins/exchange-account-setup/exchange-account-setup.c:211
+#: ../plugins/exchange-operations/exchange-account-setup.c:246
 msgid ""
 "The message specified below will be automatically sent to \n"
 "each person who sends mail to you while you are out of the office."
@@ -14468,46 +14494,143 @@ msgstr ""
 "Το παρακάτω μήνυμα θα στέλνεται αυτόματα στο καθένα που σας στέλνει\n"
 "μήνυμα όταν βρίσκεστε εκτός γραφείου."
 
-#: ../plugins/exchange-account-setup/exchange-account-setup.c:239
-#: ../plugins/exchange-account-setup/exchange-account-setup.c:249
+#: ../plugins/exchange-operations/exchange-account-setup.c:258
+#: ../plugins/exchange-operations/exchange-account-setup.c:263
 msgid "I am out of the office"
 msgstr "Αυτή τη στιγμή απουσιάζω από το γραφείο"
 
-#: ../plugins/exchange-account-setup/exchange-account-setup.c:242
-#: ../plugins/exchange-account-setup/exchange-account-setup.c:246
+#: ../plugins/exchange-operations/exchange-account-setup.c:259
+#: ../plugins/exchange-operations/exchange-account-setup.c:262
 msgid "I am in the office"
 msgstr "Αυτή τη στιγμή είμαι στο γραφείο"
 
-#: ../plugins/exchange-account-setup/exchange-account-setup.c:275
-msgid "Out of office Message:"
-msgstr "Μήνυμα Εκτός Γραφείου:"
+#: ../plugins/exchange-operations/exchange-account-setup.c:309
+#, fuzzy
+msgid "Change the password for Exchange account"
+msgstr "Εισάγετε κωδικό πρόσβασης για %s"
 
-#: ../plugins/exchange-account-setup/exchange-account-setup.c:319
+#: ../plugins/exchange-operations/exchange-account-setup.c:311
+#: ../plugins/exchange-operations/exchange-change-password.glade.h:2
+msgid "Change Password"
+msgstr "Αλλαγή κωδικού"
+
+#: ../plugins/exchange-operations/exchange-account-setup.c:312
+msgid "Manage the delegate settings for Exchange account"
+msgstr ""
+
+#: ../plugins/exchange-operations/exchange-account-setup.c:314
+#, fuzzy
+msgid "Delegation Assitant"
+msgstr "Βοηθός Ρύθμισης του Evolution"
+
+#. Miscelleneous settings
+#: ../plugins/exchange-operations/exchange-account-setup.c:324
+msgid "Miscelleneous"
+msgstr "Διάφορα"
+
+#: ../plugins/exchange-operations/exchange-account-setup.c:332
+#, fuzzy
+msgid "View the size of all Exchange folders"
+msgstr "με όλους τους τοπικούς φακέλους"
+
+#: ../plugins/exchange-operations/exchange-account-setup.c:334
+msgid "Folders Size"
+msgstr "Μέγεθος φακέλων"
+
+#: ../plugins/exchange-operations/exchange-account-setup.c:341
 msgid "Exchange Settings"
 msgstr "Ρυθμίσεις Exchange "
 
-#: ../plugins/exchange-account-setup/exchange-account-setup.c:507
-#: ../plugins/exchange-account-setup/exchange-ask-password.c:200
+#: ../plugins/exchange-operations/exchange-account-setup.c:632
 msgid "_OWA Url:"
 msgstr "_OWA Url:"
 
-#: ../plugins/exchange-account-setup/exchange-account-setup.c:532
-#: ../plugins/exchange-account-setup/exchange-ask-password.c:193
+#: ../plugins/exchange-operations/exchange-account-setup.c:657
 msgid "A_uthenticate"
 msgstr "Πι_στοποίηση"
 
-#: ../plugins/exchange-account-setup/exchange-account-setup.c:597
-#, fuzzy
-msgid "Could not update out-of-office state"
-msgstr "Δεν ήταν δυνατή η ενημέρωση του αντικειμένου"
-
-#: ../plugins/exchange-account-setup/exchange-account-setup.c:724
+#: ../plugins/exchange-operations/exchange-account-setup.c:849
 msgid "Authentication Type"
 msgstr "Τύπος Πιστοποίησης"
 
-#: ../plugins/exchange-account-setup/exchange-account-setup.c:738
+#: ../plugins/exchange-operations/exchange-account-setup.c:863
 msgid "Ch_eck for Supported Types"
 msgstr "_Έλεγχος για υποστηριζόμενους τύπους "
+
+#: ../plugins/exchange-operations/exchange-change-password.glade.h:3
+msgid "Confirm Password:"
+msgstr "Επιβεβαίωση κωδικού:"
+
+#: ../plugins/exchange-operations/exchange-change-password.glade.h:4
+msgid "Current Password:"
+msgstr "Τρέχον κωδικός:"
+
+#: ../plugins/exchange-operations/exchange-change-password.glade.h:5
+msgid "New Password:"
+msgstr "Νέος κωδικός:"
+
+#: ../plugins/exchange-operations/exchange-change-password.glade.h:6
+msgid "Your current password has expired. Please change your password now."
+msgstr ""
+
+#: ../plugins/exchange-operations/exchange-delegates.glade.h:1
+msgid "Author (read, create)"
+msgstr ""
+
+#: ../plugins/exchange-operations/exchange-delegates.glade.h:2
+msgid "C_alendar:"
+msgstr "_Ημερολόγιο:"
+
+#: ../plugins/exchange-operations/exchange-delegates.glade.h:3
+msgid "Co_ntacts:"
+msgstr "Ε_παφές: "
+
+#: ../plugins/exchange-operations/exchange-delegates.glade.h:4
+#, fuzzy
+msgid "Delegate Permissions"
+msgstr "Εξουσιοδοτήθηκε"
+
+#: ../plugins/exchange-operations/exchange-delegates.glade.h:5
+#, fuzzy
+msgid "Delegates"
+msgstr "Εξουσιοδοτήθηκε"
+
+#: ../plugins/exchange-operations/exchange-delegates.glade.h:6
+msgid "Editor (read, create, edit)"
+msgstr ""
+
+#: ../plugins/exchange-operations/exchange-delegates.glade.h:8
+#, fuzzy
+msgid "Permissions for"
+msgstr "Δεν επιτρέπεται η πρόσβαση"
+
+#: ../plugins/exchange-operations/exchange-delegates.glade.h:9
+msgid "Reviewer (read-only)"
+msgstr ""
+
+#: ../plugins/exchange-operations/exchange-delegates.glade.h:10
+msgid ""
+"These users will be able to send mail on your behalf\n"
+"and access your folders with the permissions you give them."
+msgstr ""
+
+#: ../plugins/exchange-operations/exchange-delegates.glade.h:12
+#, fuzzy
+msgid "_Delegate can see private items"
+msgstr "Δημιουργία νέου αντικείμενου δοκιμής"
+
+#: ../plugins/exchange-operations/exchange-delegates.glade.h:14
+msgid "_Inbox:"
+msgstr "Ει_σερχόμενα:"
+
+#: ../plugins/exchange-operations/exchange-delegates.glade.h:15
+msgid "_Tasks:"
+msgstr "_Εργασίες:"
+
+#: ../plugins/exchange-operations/exchange-folder-tree.glade.h:1
+#, fuzzy
+msgid "Exchange Folder Tree"
+msgstr "Δέντρο φάκελου αλληλογραφίας"
 
 #: ../plugins/folder-unsubscribe/folder-unsubscribe.c:57
 #, c-format
@@ -14546,9 +14669,8 @@ msgid "Groupwise Features"
 msgstr "Groupware Suite"
 
 #: ../plugins/groupwise-features/properties.glade.h:2
-#, fuzzy
 msgid "<b>Users :</b>"
-msgstr "<b>Χρήστες:</b> "
+msgstr "<b>Χρήστες  :</b> "
 
 #: ../plugins/groupwise-features/properties.glade.h:4
 #: ../widgets/table/e-table-click-to-add.c:510
@@ -15301,9 +15423,8 @@ msgid "Enable and disable plugins"
 msgstr "Ενεργοποίηση και απενεργοποίηση πρόσθετων λειτουργιών"
 
 #: ../plugins/plugin-manager/org-gnome-plugin-manager.xml.h:2
-#, fuzzy
 msgid "Plugins"
-msgstr "Πρόσθετη Λειτουργία"
+msgstr "Πρόσθετες Λειτουργίες"
 
 #: ../plugins/plugin-manager/plugin-manager.c:45
 msgid "Author(s)"
@@ -15318,6 +15439,8 @@ msgid "Path"
 msgstr "Διαδρομή"
 
 #: ../plugins/plugin-manager/plugin-manager.c:48
+#: ../widgets/table/e-table-config-no-group.glade.h:6
+#: ../widgets/table/e-table-config.glade.h:6
 msgid "Description"
 msgstr "Περιγραφή"
 
@@ -15377,9 +15500,8 @@ msgid "A plugin for saving all attachments or parts of a message at once."
 msgstr ""
 
 #: ../plugins/save-attachments/org-gnome-save-attachments.eplug.xml.h:2
-#, fuzzy
 msgid "Save attachments"
-msgstr "Αποθήκευση όλων των συνημμένων"
+msgstr "Αποθήκευση  συνημμένων"
 
 #: ../plugins/save-attachments/org-gnome-save-attachments.xml.h:1
 msgid "Save Attachments ..."
@@ -15451,7 +15573,7 @@ msgstr "ποσοστό ολοκλήρωσης"
 
 #: ../plugins/save-calendar/csv-format.c:398
 msgid "Url"
-msgstr ""
+msgstr "Url"
 
 #: ../plugins/save-calendar/csv-format.c:399
 msgid "Attendees List"
@@ -15532,7 +15654,7 @@ msgstr ""
 #: ../plugins/select-one-source/org-gnome-select-one-source.eplug.xml.h:1
 #, fuzzy
 msgid "Select one source"
-msgstr "Επιλογή φακέλου"
+msgstr "Επιλογή μίας πηγής"
 
 #: ../plugins/select-one-source/org-gnome-select-one-source.eplug.xml.h:2
 #, fuzzy
@@ -15922,25 +16044,25 @@ msgstr "Δεν ήταν δυνατή η εκτέλεση του Bug buddy."
 #. The translator-credits string is for translators to list
 #. * per language credits for translation, displayed in the
 #. * about box
-#: ../shell/e-shell-window-commands.c:508
+#: ../shell/e-shell-window-commands.c:507
 msgid "translator-credits"
 msgstr ""
 "Κώστας Παπαδήμας <pkst@gnome.org>\n"
 "Νίκος Χαρωνιτάκης <charosn@her.forthnet.gr>"
 
-#: ../shell/e-shell-window-commands.c:522
+#: ../shell/e-shell-window-commands.c:521
 msgid "Groupware Suite"
 msgstr "Groupware Suite"
 
-#: ../shell/e-shell-window-commands.c:749
+#: ../shell/e-shell-window-commands.c:748
 msgid "_Work Online"
 msgstr "Εργασία Ε_ντός Δικτύου"
 
-#: ../shell/e-shell-window-commands.c:762 ../ui/evolution.xml.h:47
+#: ../shell/e-shell-window-commands.c:761 ../ui/evolution.xml.h:47
 msgid "_Work Offline"
 msgstr "_Εργασία Χωρίς Σύνδεση"
 
-#: ../shell/e-shell-window-commands.c:775
+#: ../shell/e-shell-window-commands.c:774
 msgid "Work Offline"
 msgstr "Εργασία Χωρίς Σύνδεση"
 
@@ -16566,6 +16688,8 @@ msgid "_Edit CA Trust"
 msgstr "_Επεξεργασία εμπιστοσύνης CA"
 
 #: ../smime/gui/smime-ui.glade.h:49
+#: ../widgets/table/e-table-config-no-group.glade.h:20
+#: ../widgets/table/e-table-config.glade.h:21
 msgid "dialog1"
 msgstr "διάλογος1"
 
@@ -17116,9 +17240,8 @@ msgid "F_older"
 msgstr "_Φάκελος"
 
 #: ../ui/evolution-mail-global.xml.h:9
-#, fuzzy
 msgid "Message F_ilters"
-msgstr "Φίλτρα Μηνυμάτων"
+msgstr "_Φίλτρα Μηνυμάτων"
 
 #: ../ui/evolution-mail-global.xml.h:10
 #, fuzzy
@@ -17128,7 +17251,7 @@ msgstr "Λίστα Μηνύματων"
 #: ../ui/evolution-mail-global.xml.h:11
 #, fuzzy
 msgid "Message _Preview"
-msgstr "Κεφαλίδα Μηνύματος"
+msgstr "_Προεπισκόπηση Μηνύματος"
 
 #: ../ui/evolution-mail-global.xml.h:12
 #, fuzzy
@@ -17173,9 +17296,8 @@ msgid "_New Search _Folder (FIXME)"
 msgstr ""
 
 #: ../ui/evolution-mail-global.xml.h:21
-#, fuzzy
 msgid "_New..."
-msgstr "_Νέο"
+msgstr "_Νέο..."
 
 #: ../ui/evolution-mail-global.xml.h:22
 #, fuzzy
@@ -17185,7 +17307,7 @@ msgstr "Συνδρομές Φακέλων"
 #: ../ui/evolution-mail-list.xml.h:1
 #, fuzzy
 msgid "Change the name of this folder"
-msgstr "Αλλαγή των ιδιοτήτων αυτού του φακέλου"
+msgstr "Αλλαγή ονόματος αυτού του φακέλου"
 
 #: ../ui/evolution-mail-list.xml.h:2
 msgid "Change the properties of this folder"
@@ -17235,16 +17357,13 @@ msgstr ""
 "φάκελο"
 
 #: ../ui/evolution-mail-list.xml.h:13
-#, fuzzy
 msgid "Permanently remove this folder"
-msgstr ""
-"Μόνιμη απομάκρυνση όλων των μηνυμάτων που έχουν διαγραφεί από αυτόν τον "
-"φάκελο"
+msgstr "Μόνιμη απομάκρυνση αυτού του φακέλου"
 
 #: ../ui/evolution-mail-list.xml.h:14
 #, fuzzy
 msgid "Select _All Messages"
-msgstr "Επιλογή όλων των μηνυμάτων που εμφανίζονται"
+msgstr "Επιλογή _όλων των μηνυμάτων"
 
 #: ../ui/evolution-mail-list.xml.h:15
 msgid "Select all and only the messages that are not currently selected"
@@ -17261,7 +17380,7 @@ msgstr "Επιλογή όλων των μηνυμάτων που εμφανίζ�
 #: ../ui/evolution-mail-list.xml.h:18
 #, fuzzy
 msgid "Show _Messages"
-msgstr "_Μηνύματα"
+msgstr "Εμφάνιση _Μηνυμάτων"
 
 #: ../ui/evolution-mail-list.xml.h:19
 msgid "Show messages that have been temporarily hidden"
@@ -17286,18 +17405,17 @@ msgstr "Μη Αναγνωσμένο Μήνυμα:"
 
 #: ../ui/evolution-mail-list.xml.h:25
 msgid "_All"
-msgstr ""
+msgstr "_Όλα"
 
 #: ../ui/evolution-mail-list.xml.h:27 ../ui/evolution-mail-message.xml.h:110
 #: ../ui/evolution-mail-messagedisplay.xml.h:7
-#, fuzzy
 msgid "_Message"
-msgstr "_Μηνύματα"
+msgstr "_Μήνυμα"
 
 #: ../ui/evolution-mail-list.xml.h:30
 #, fuzzy
 msgid "_Selected Messages"
-msgstr "Απόκρυψη Επι_λεγμένων Μηνυμάτων"
+msgstr "_Επιλεγμένα μηνύματα"
 
 #: ../ui/evolution-mail-message.xml.h:1
 msgid "A_dd Sender to Address Book"
@@ -17468,9 +17586,8 @@ msgid "Increase the text size"
 msgstr "Μεγέθυνση του κειμένου"
 
 #: ../ui/evolution-mail-message.xml.h:48
-#, fuzzy
 msgid "Mar_k as"
-msgstr "Σήμανση _ως Αναγνωσμένο"
+msgstr "_Σήμανση ως"
 
 #: ../ui/evolution-mail-message.xml.h:49
 msgid "Mark the selected message(s) as having been read"
@@ -17503,7 +17620,7 @@ msgstr "Σήμανση των επιλεγμένων μηνυμάτων για �
 #: ../ui/evolution-mail-message.xml.h:56
 #, fuzzy
 msgid "Message Source"
-msgstr "Σώμα Μηνύματος"
+msgstr "Πηγή μηνύματος"
 
 #: ../ui/evolution-mail-message.xml.h:57
 msgid "Move"
@@ -17588,12 +17705,11 @@ msgstr "Εύρεση κειμένου στο σώμα του μηνύματος 
 #: ../ui/evolution-mail-message.xml.h:85
 #, fuzzy
 msgid "Select _All Text"
-msgstr "Επιλογή όλου του κειμένου"
+msgstr "Επιλογή _όλου του κειμένου"
 
 #: ../ui/evolution-mail-message.xml.h:86
-#, fuzzy
 msgid "Select all the text in a message"
-msgstr "Επιλογή όλων των μηνυμάτων που εμφανίζονται"
+msgstr "Επιλογή όλου του κειμένου μέσα σε ένα μήνυμα"
 
 #: ../ui/evolution-mail-message.xml.h:87
 msgid "Set up the page settings for your current printer"
@@ -17654,23 +17770,21 @@ msgid "_Caret Mode"
 msgstr "Λειτου_ργία Caret "
 
 #: ../ui/evolution-mail-message.xml.h:102
-#, fuzzy
 msgid "_Delete Message"
-msgstr "Απόκρυψη _Διαγραμμένων Μηνυμάτων"
+msgstr "_Διαγραφή μηνύματος"
 
 #: ../ui/evolution-mail-message.xml.h:104
 #, fuzzy
 msgid "_Find in Message..."
-msgstr "Εύρεση στο Μήνυμα"
+msgstr "_Εύρεση στο Μήνυμα..."
 
 #: ../ui/evolution-mail-message.xml.h:106
 msgid "_Go To"
-msgstr "_Μετάβαση Σε"
+msgstr "_Μετάβαση σε"
 
 #: ../ui/evolution-mail-message.xml.h:107
-#, fuzzy
 msgid "_Important"
-msgstr "Σημαντικό"
+msgstr "_Σημαντικό"
 
 #: ../ui/evolution-mail-message.xml.h:108
 #, fuzzy
@@ -17678,18 +17792,16 @@ msgid "_Junk"
 msgstr "Ανεπιθύμητα μηνύματα"
 
 #: ../ui/evolution-mail-message.xml.h:109
-#, fuzzy
 msgid "_Load Images"
-msgstr "Φόρτωση _Εικόνων"
+msgstr "_Φόρτωση  εικόνων"
 
 #: ../ui/evolution-mail-message.xml.h:112
 msgid "_Next Message"
 msgstr "Επόμε_νο Μήνυμα"
 
 #: ../ui/evolution-mail-message.xml.h:113
-#, fuzzy
 msgid "_Normal Size"
-msgstr "Κανονική"
+msgstr "_Κανονικό μέγεθος"
 
 #: ../ui/evolution-mail-message.xml.h:114
 #, fuzzy
@@ -17697,23 +17809,20 @@ msgid "_Not Junk"
 msgstr "Επιθυμητά Μηνύματα"
 
 #: ../ui/evolution-mail-message.xml.h:115
-#, fuzzy
 msgid "_Open in New Window"
-msgstr "Άνοιγμα σε _Νέο παράθυρο"
+msgstr "_Άνοιγμα σε  νέο παράθυρο"
 
 #: ../ui/evolution-mail-message.xml.h:116
 msgid "_Previous Message"
 msgstr "_Προηγούμενο Μήνυμα"
 
 #: ../ui/evolution-mail-message.xml.h:118
-#, fuzzy
 msgid "_Read"
-msgstr "Αναγνωσμένα"
+msgstr "_Αναγνωσμένα"
 
 #: ../ui/evolution-mail-message.xml.h:120
-#, fuzzy
 msgid "_Save Message..."
-msgstr "Αποθήκευση μηνύματος..."
+msgstr "Απο_θήκευση μηνύματος..."
 
 #: ../ui/evolution-mail-message.xml.h:121
 #, fuzzy
@@ -18141,9 +18250,8 @@ msgid "_About Evolution..."
 msgstr "Π_ερί του Evolution..."
 
 #: ../ui/evolution.xml.h:31
-#, fuzzy
 msgid "_Close Window"
-msgstr "Κλείσιμο αυτού του παραθύρου"
+msgstr "_Κλείσιμο παραθύρου"
 
 #: ../ui/evolution.xml.h:34
 msgid "_Help"
@@ -18170,13 +18278,12 @@ msgid "_Quick Reference"
 msgstr "_Γρήγορη αναφορά"
 
 #: ../ui/evolution.xml.h:40
-#, fuzzy
 msgid "_Quit"
-msgstr "_Αποκοπή"
+msgstr "Έ_ξοδος"
 
 #: ../ui/evolution.xml.h:41
 msgid "_Send / Receive"
-msgstr "_Αποστολή / Λήψη"
+msgstr "_Αποστολή  /  Λήψη"
 
 #: ../ui/evolution.xml.h:42
 msgid "_Switcher Appearance"
@@ -18285,9 +18392,64 @@ msgid ""
 "zone.\n"
 "Use the right mouse button to zoom out."
 msgstr ""
-"Κάντε χρήση του αριστερού πλήκτρου του ποντικιού για να μεγενθύνετε μια "
+"Κάντε χρήση του αριστερού πλήκτρου του ποντικιού για να μεγεθύνετε μια "
 "περιοχή στο χάρτη και επιλέξτε μια ζώνη αλλαγής ώρας:\n"
 "Με το δεξί πλήκτρο του ποντικιού κάνετε σμίκρυνση του χάρτη."
+
+#: ../widgets/menus/gal-define-views-dialog.c:76
+#: ../widgets/menus/gal-define-views-model.c:188
+#, fuzzy
+msgid "Collection"
+msgstr "τοποθεσία"
+
+#: ../widgets/menus/gal-define-views-dialog.c:325
+#: ../widgets/menus/gal-define-views.glade.h:4
+#, fuzzy, no-c-format
+msgid "Define Views for %s"
+msgstr "Καθορισμός Προβολών..."
+
+#: ../widgets/menus/gal-define-views-dialog.c:333
+#: ../widgets/menus/gal-define-views-dialog.c:335
+#, fuzzy
+msgid "Define Views"
+msgstr "Καθορισμός Προβολών..."
+
+#: ../widgets/menus/gal-define-views.glade.h:2
+#, fuzzy, no-c-format
+msgid "Define Views for \"%s\""
+msgstr "Καθορισμός Προβολών..."
+
+#: ../widgets/menus/gal-define-views.glade.h:5
+#, fuzzy
+msgid "_Edit..."
+msgstr "_Επεξεργασία"
+
+#: ../widgets/menus/gal-view-instance-save-as-dialog.c:182
+#, fuzzy
+msgid "Instance"
+msgstr "Όλες τις εμφανίσεις"
+
+#: ../widgets/menus/gal-view-instance-save-as-dialog.c:232
+#, fuzzy
+msgid "Save Current View"
+msgstr "Τρέχουσα Προβολή"
+
+#: ../widgets/menus/gal-view-instance-save-as-dialog.glade.h:3
+#, fuzzy
+msgid "_Create new view"
+msgstr "Δημιουργία νέου αντικείμενου δοκιμής"
+
+#: ../widgets/menus/gal-view-instance-save-as-dialog.glade.h:5
+msgid "_Replace existing view"
+msgstr ""
+
+#: ../widgets/menus/gal-view-new-dialog.glade.h:2
+msgid "Name of new view:"
+msgstr ""
+
+#: ../widgets/menus/gal-view-new-dialog.glade.h:3
+msgid "Type of view:"
+msgstr ""
 
 #: ../widgets/menus/gal-view-factory-etable.c:39
 #: ../widgets/table/e-table-header-item.c:1845
@@ -18311,6 +18473,22 @@ msgstr "Εργοστάσιο"
 #: ../widgets/menus/gal-view-new-dialog.c:115
 msgid "Define New View"
 msgstr "Καθορισμός νέας προβολής"
+
+#: ../widgets/misc/gal-categories.glade.h:2
+msgid "Edit Master Category List..."
+msgstr ""
+
+#: ../widgets/misc/gal-categories.glade.h:3
+msgid "Item(s) belong to these _categories:"
+msgstr ""
+
+#: ../widgets/misc/gal-categories.glade.h:4
+msgid "_Available Categories:"
+msgstr "_Διαθέσιμες κατηγορίες:"
+
+#: ../widgets/misc/gal-categories.glade.h:5
+msgid "categories"
+msgstr "κατηγορίες"
 
 #. Translators: These are the first characters of each day of the
 #. week, 'M' for 'Monday', 'T' for Tuesday etc.
@@ -18361,35 +18539,35 @@ msgstr "Διάστικτο γέμισμα"
 
 #: ../widgets/misc/e-canvas-background.c:484
 #: ../widgets/misc/e-canvas-background.c:485
-#, fuzzy
 msgid "X1"
-msgstr "1"
+msgstr "X1"
 
 #: ../widgets/misc/e-canvas-background.c:491
 #: ../widgets/misc/e-canvas-background.c:492
 msgid "X2"
-msgstr ""
+msgstr "X2"
 
 #: ../widgets/misc/e-canvas-background.c:498
 #: ../widgets/misc/e-canvas-background.c:499
-#, fuzzy
 msgid "Y1"
-msgstr "1"
+msgstr "Y1"
 
 #: ../widgets/misc/e-canvas-background.c:505
 #: ../widgets/misc/e-canvas-background.c:506
 msgid "Y2"
-msgstr ""
+msgstr "Y2"
 
 #: ../widgets/misc/e-canvas-vbox.c:102 ../widgets/misc/e-reflow.c:1430
 #: ../widgets/table/e-table-group-leaf.c:636
 #: ../widgets/table/e-table-item.c:3001
+#: ../widgets/table/e-table-group-container.c:978
 msgid "Minimum width"
 msgstr "Ελάχιστο πλάτος"
 
 #: ../widgets/misc/e-canvas-vbox.c:103 ../widgets/misc/e-reflow.c:1431
 #: ../widgets/table/e-table-group-leaf.c:637
 #: ../widgets/table/e-table-item.c:3002
+#: ../widgets/table/e-table-group-container.c:979
 msgid "Minimum Width"
 msgstr "Ελάχιστο Πλάτος"
 
@@ -18603,9 +18781,8 @@ msgid "_Edit Saved Searches..."
 msgstr "_Επεξεργασία Αποθηκευμένων Αναζητήσεων..."
 
 #: ../widgets/misc/e-filter-bar.h:94 ../widgets/misc/e-filter-bar.h:101
-#, fuzzy
 msgid "_Advanced Search..."
-msgstr "Προχωρημένη Αναζήτηση"
+msgstr "_Προχωρημένη Αναζήτηση..."
 
 #: ../widgets/misc/e-image-chooser.c:172
 msgid "Choose Image"
@@ -18647,7 +18824,6 @@ msgid "Reflow model"
 msgstr "Μοντέλο επιλογής"
 
 #: ../widgets/misc/e-reflow.c:1466 ../widgets/misc/e-reflow.c:1467
-#, fuzzy
 msgid "Column width"
 msgstr "Πλάτος στήλης"
 
@@ -18893,28 +19069,6 @@ msgstr "Χρώμα Στήλης"
 msgid "BG Color Column"
 msgstr "Χρώμα BG Στήλης"
 
-#: ../widgets/table/e-table-config-field.c:254
-msgid "Then By"
-msgstr "Έπειτα κατά"
-
-#: ../widgets/table/e-table-config-field.c:254
-#, fuzzy
-msgid "Group By"
-msgstr "_Ομαδοποίηση Κατά..."
-
-#: ../widgets/table/e-table-config-field.c:254
-#, fuzzy
-msgid "Sort By"
-msgstr "Ταξινόμηση"
-
-#: ../widgets/table/e-table-config-field.c:270
-msgid "Ascending"
-msgstr "Αύξουσα"
-
-#: ../widgets/table/e-table-config-field.c:273
-msgid "Descending"
-msgstr "Φθίνουσα"
-
 #
 #: ../widgets/table/e-table-config.c:150
 msgid "State"
@@ -18957,6 +19111,8 @@ msgstr "Προσθήκη στήλης..."
 #: ../widgets/table/e-table-group-leaf.c:573
 #: ../widgets/table/e-table-group-leaf.c:574
 #: ../widgets/table/e-table-item.c:2959 ../widgets/table/e-table-item.c:2960
+#: ../widgets/table/e-table-group-container.c:901
+#: ../widgets/table/e-table-group-container.c:902
 msgid "Alternating Row Colors"
 msgstr "Εναλλαγές γραμμές χρωμάτων"
 
@@ -18964,6 +19120,8 @@ msgstr "Εναλλαγές γραμμές χρωμάτων"
 #: ../widgets/table/e-table-group-leaf.c:581
 #: ../widgets/table/e-table-item.c:2966 ../widgets/table/e-table-item.c:2967
 #: ../widgets/table/e-tree.c:3271 ../widgets/table/e-tree.c:3272
+#: ../widgets/table/e-table-group-container.c:908
+#: ../widgets/table/e-table-group-container.c:909
 msgid "Horizontal Draw Grid"
 msgstr "Οριζόντια σχεδίαση πλέγματος"
 
@@ -18971,6 +19129,8 @@ msgstr "Οριζόντια σχεδίαση πλέγματος"
 #: ../widgets/table/e-table-group-leaf.c:588
 #: ../widgets/table/e-table-item.c:2973 ../widgets/table/e-table-item.c:2974
 #: ../widgets/table/e-tree.c:3277 ../widgets/table/e-tree.c:3278
+#: ../widgets/table/e-table-group-container.c:915
+#: ../widgets/table/e-table-group-container.c:916
 msgid "Vertical Draw Grid"
 msgstr "Κάθετη σχεδίαση πλέγματος"
 
@@ -18978,12 +19138,16 @@ msgstr "Κάθετη σχεδίαση πλέγματος"
 #: ../widgets/table/e-table-group-leaf.c:595
 #: ../widgets/table/e-table-item.c:2980 ../widgets/table/e-table-item.c:2981
 #: ../widgets/table/e-tree.c:3283 ../widgets/table/e-tree.c:3284
+#: ../widgets/table/e-table-group-container.c:922
+#: ../widgets/table/e-table-group-container.c:923
 msgid "Draw focus"
 msgstr "Εστίαση σχεδίασης"
 
 #: ../widgets/table/e-table-group-leaf.c:601
 #: ../widgets/table/e-table-group-leaf.c:602
 #: ../widgets/table/e-table-item.c:2987 ../widgets/table/e-table-item.c:2988
+#: ../widgets/table/e-table-group-container.c:929
+#: ../widgets/table/e-table-group-container.c:930
 msgid "Cursor mode"
 msgstr "Λειτουργία δρομέα"
 
@@ -18992,17 +19156,23 @@ msgstr "Λειτουργία δρομέα"
 #: ../widgets/table/e-table-item.c:2994 ../widgets/table/e-table-item.c:2995
 #: ../widgets/table/e-table.c:3316 ../widgets/table/e-tree.c:3265
 #: ../widgets/table/e-tree.c:3266
+#: ../widgets/table/e-table-group-container.c:943
+#: ../widgets/table/e-table-group-container.c:944
 msgid "Length Threshold"
 msgstr "Διάρκεια αφετηρίας"
 
 #: ../widgets/table/e-table-group-leaf.c:615
 #: ../widgets/table/e-table-group-leaf.c:616
 #: ../widgets/table/e-table-item.c:2952 ../widgets/table/e-table-item.c:2953
+#: ../widgets/table/e-table-group-container.c:936
+#: ../widgets/table/e-table-group-container.c:937
 msgid "Selection model"
 msgstr "Μοντέλο επιλογής"
 
 #: ../widgets/table/e-table-group-leaf.c:643
 #: ../widgets/table/e-table-group-leaf.c:644
+#: ../widgets/table/e-table-group-container.c:957
+#: ../widgets/table/e-table-group-container.c:958
 msgid "Frozen"
 msgstr "Παγωμένο"
 
@@ -19011,6 +19181,8 @@ msgstr "Παγωμένο"
 #: ../widgets/table/e-table-item.c:3028 ../widgets/table/e-table-item.c:3029
 #: ../widgets/table/e-table.c:3323 ../widgets/table/e-tree.c:3297
 #: ../widgets/table/e-tree.c:3298
+#: ../widgets/table/e-table-group-container.c:950
+#: ../widgets/table/e-table-group-container.c:951
 msgid "Uniform row height"
 msgstr "Ομοιόμορφο ύψος γραμμής"
 
@@ -19050,7 +19222,6 @@ msgstr "Προσθήκη μιας Στήλης..."
 msgid "Alignment"
 msgstr "Στοίχιση"
 
-#
 #: ../widgets/table/e-table-header-item.c:1503
 msgid "Best Fit"
 msgstr "Καλύτερο Ταίριασμα"
@@ -19090,9 +19261,8 @@ msgid "Table model"
 msgstr "Κελί πίνακα"
 
 #: ../widgets/table/e-table-item.c:3021 ../widgets/table/e-table-item.c:3022
-#, fuzzy
 msgid "Cursor row"
-msgstr "Γραμμή Δρομέα"
+msgstr "Γραμμή δρομέα"
 
 #: ../widgets/table/e-table.c:3330
 msgid "Always Search"
@@ -19125,7 +19295,7 @@ msgstr ""
 #: ../widgets/text/e-entry-test.c:50
 #, fuzzy
 msgid "Copyright (C) 2000, Helix Code, Inc."
-msgstr "Πνευματικά Δικαιώματα (C) 2000, Ximian, Inc."
+msgstr "Πνευματικά Δικαιώματα  (C)  2000, Ximian, Inc."
 
 #: ../widgets/text/e-entry-test.c:52
 #, fuzzy
@@ -19138,9 +19308,8 @@ msgid "Event Processor"
 msgstr "Processor Γεγονότος"
 
 #: ../widgets/text/e-entry.c:1256 ../widgets/text/e-entry.c:1257
-#, fuzzy
 msgid "Font"
-msgstr "Γραμματοσειρές"
+msgstr "Γραμματοσειρά"
 
 #: ../widgets/text/e-entry.c:1270 ../widgets/text/e-entry.c:1271
 #, fuzzy
@@ -19175,7 +19344,7 @@ msgstr "Χαρακτήρες Break"
 #: ../widgets/text/e-entry.c:1347 ../widgets/text/e-entry.c:1348
 #: ../widgets/text/e-text.c:3619 ../widgets/text/e-text.c:3620
 msgid "Max lines"
-msgstr " Μεγ γραμμές"
+msgstr "Μεγ. γραμμές"
 
 #: ../widgets/text/e-entry.c:1354 ../widgets/text/e-entry.c:1355
 #: ../widgets/text/e-text.c:3648 ../widgets/text/e-text.c:3649
@@ -19260,7 +19429,149 @@ msgstr "Περιεχόμενο IM"
 
 #: ../widgets/text/e-text.c:3683 ../widgets/text/e-text.c:3684
 msgid "Handle Popup"
-msgstr "χειρισμός αναδυομένου"
+msgstr "Χειρισμός αναδυομένου"
+
+#: ../widgets/table/e-table-config-no-group.glade.h:1
+#: ../widgets/table/e-table-config.glade.h:1
+msgid "<- _Remove"
+msgstr "<-_Απομάκρυνση"
+
+#: ../widgets/table/e-table-config-no-group.glade.h:2
+#: ../widgets/table/e-table-config.glade.h:2
+#, fuzzy
+msgid "A_vailable Fields:"
+msgstr "Εγγράψιμα Πεδία"
+
+#: ../widgets/table/e-table-config-no-group.glade.h:3
+#: ../widgets/table/e-table-config.glade.h:3
+msgid "Ascending"
+msgstr "Αύξουσα"
+
+#: ../widgets/table/e-table-config-no-group.glade.h:4
+#: ../widgets/table/e-table-config.glade.h:4
+#, fuzzy
+msgid "Clear All"
+msgstr "Εκκα_θάριση Σημαίας"
+
+#: ../widgets/table/e-table-config-no-group.glade.h:5
+#: ../widgets/table/e-table-config.glade.h:5
+msgid "Descending"
+msgstr "Φθίνουσα"
+
+#: ../widgets/table/e-table-config-no-group.glade.h:8
+#: ../widgets/table/e-table-config.glade.h:8
+#, fuzzy
+msgid "Group Items By"
+msgstr "Ομαδοποίηση κατά"
+
+#: ../widgets/table/e-table-config-no-group.glade.h:9
+#: ../widgets/table/e-table-config.glade.h:9
+msgid "Move _Down"
+msgstr ""
+
+#: ../widgets/table/e-table-config-no-group.glade.h:10
+#: ../widgets/table/e-table-config.glade.h:10
+#, fuzzy
+msgid "Move _Up"
+msgstr "Μετακίνηση"
+
+#: ../widgets/table/e-table-config-no-group.glade.h:11
+msgid "Sh_ow these fields in order:"
+msgstr ""
+
+#: ../widgets/table/e-table-config-no-group.glade.h:12
+#: ../widgets/table/e-table-config.glade.h:11
+msgid "Show Fields"
+msgstr "Εμφάνιση πεδίων"
+
+#: ../widgets/table/e-table-config-no-group.glade.h:13
+#: ../widgets/table/e-table-config.glade.h:12
+msgid "Show field in View"
+msgstr ""
+
+#: ../widgets/table/e-table-config-no-group.glade.h:14
+#: ../widgets/table/e-table-config.glade.h:13
+#, fuzzy
+msgid "Sort"
+msgstr "Sorter"
+
+#: ../widgets/table/e-table-config-no-group.glade.h:15
+#: ../widgets/table/e-table-config.glade.h:14
+#, fuzzy
+msgid "Sort Items By"
+msgstr "Ταξινόμηση κατά"
+
+#: ../widgets/table/e-table-config-no-group.glade.h:16
+#: ../widgets/table/e-table-config.glade.h:15
+msgid "Then By"
+msgstr "Έπειτα κατά"
+
+#: ../widgets/table/e-table-config-no-group.glade.h:17
+#: ../widgets/table/e-table-config.glade.h:16
+msgid "_Add ->"
+msgstr "_Προσθήκη ->"
+
+#: ../widgets/table/e-table-config-no-group.glade.h:18
+#: ../widgets/table/e-table-config.glade.h:17
+msgid "_Fields Shown..."
+msgstr ""
+
+#: ../widgets/table/e-table-config-no-group.glade.h:19
+#: ../widgets/table/e-table-config.glade.h:20
+#, fuzzy
+msgid "_Sort..."
+msgstr "Ει_σαγωγή..."
+
+#: ../widgets/table/e-table-config.glade.h:18
+#, fuzzy
+msgid "_Group By..."
+msgstr "Ομαδοποίηση κατά"
+
+#: ../widgets/table/e-table-config.glade.h:19
+msgid "_Show these fields in order:"
+msgstr ""
+
+#: ../widgets/table/e-table-field-chooser.glade.h:1
+#, fuzzy
+msgid "Field Chooser"
+msgstr " Όνομα πεδίου"
+
+#: ../widgets/table/e-table-field-chooser.glade.h:2
+msgid ""
+"To add a column to your table, drag it into\n"
+"the location in which you want it to appear."
+msgstr ""
+
+#: ../widgets/table/e-table-group-container.c:350
+#, c-format
+msgid "%s : %s (%d item)"
+msgstr ""
+
+#: ../widgets/table/e-table-group-container.c:351
+#, c-format
+msgid "%s : %s (%d items)"
+msgstr ""
+
+#: ../widgets/table/e-table-group-container.c:356
+#, c-format
+msgid "%s (%d item)"
+msgstr "%s (%d αντικείμενο)"
+
+#: ../widgets/table/e-table-group-container.c:357
+#, c-format
+msgid "%s (%d items)"
+msgstr "%s (%d αντικείμενα)"
+
+#, fuzzy
+#~ msgid "Could not read out-of-office state"
+#~ msgstr "Δεν ήταν δυνατή η δημιουργία μηνύματος."
+
+#~ msgid "Out of office Message:"
+#~ msgstr "Μήνυμα Εκτός Γραφείου:"
+
+#, fuzzy
+#~ msgid "Could not update out-of-office state"
+#~ msgstr "Δεν ήταν δυνατή η ενημέρωση του αντικειμένου"
 
 #~ msgid "Save Appointment"
 #~ msgstr "Αποθήκευση Ραντεβού"
@@ -19474,9 +19785,6 @@ msgstr "χειρισμός αναδυομένου"
 
 #~ msgid "end-time"
 #~ msgstr "χρόνος λήξης"
-
-#~ msgid "location"
-#~ msgstr "τοποθεσία"
 
 #~ msgid "start-time"
 #~ msgstr "χρόνος έναρξης:"
