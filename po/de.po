@@ -9,7 +9,7 @@
 #
 # Sprachregelungen:
 # task = Aufgabe (Auftrag klingt nach Buchhaltung)
-# mailbox = Postfach (dt. Mailbox ist die Uebersetzung von "BBS")
+# mailbox = Postfach (dt. Mailbox ist die Übersetzung von "BBS")
 # cc = Kopie
 # bcc = Blindkopie
 # 
@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-06-21 13:59+0800\n"
-"PO-Revision-Date: 2005-06-15 18:57+0200\n"
+"PO-Revision-Date: 2005-07-04 17:11+0200\n"
 "Last-Translator: Hendrik Richter <hendi@gnome-de.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -2710,7 +2710,7 @@ msgstr "Komplexe Suche"
 
 #: ../addressbook/gui/widgets/e-addressbook-model.c:148
 msgid "No contacts"
-msgstr "Keine Kontake"
+msgstr "Keine Kontakte"
 
 #: ../addressbook/gui/widgets/e-addressbook-model.c:151
 #, c-format
@@ -4746,7 +4746,7 @@ msgstr ""
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:65
 msgid "Whether to set a default reminder for appointments."
-msgstr "Soll eine Vorgaberinnerung für Termine festgelegt werden?"
+msgstr "Soll eine Vorgabeerinnerung für Termine festgelegt werden?"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:66
 msgid ""
@@ -8577,7 +8577,7 @@ msgstr "Amerika/Indiana/Vevay"
 
 #: ../calendar/zones.h:111
 msgid "America/Indianapolis"
-msgstr "Amerika/Indianaplois"
+msgstr "Amerika/Indianapolis"
 
 #: ../calendar/zones.h:112
 msgid "America/Inuvik"
@@ -11558,7 +11558,7 @@ msgstr ""
 
 #: ../mail/em-format.c:1261
 msgid "Unsupported encryption type for multipart/encrypted"
-msgstr "Nicht unterstützer Verschlüsselungstyp für multipart/encrypted"
+msgstr "Nicht unterstützter Verschlüsselungstyp für multipart/encrypted"
 
 #: ../mail/em-format.c:1409
 msgid "Could not parse MIME message. Displaying as source."
@@ -11969,11 +11969,11 @@ msgstr "Nach angegebenem Intervall als gelesen markieren."
 
 #: ../mail/evolution-mail.schemas.in.in.h:46
 msgid "Mark citations in the message \"Preview\""
-msgstr "Zitate in der Nachrichtenvorschau kenzeichnen"
+msgstr "Zitate in der Nachrichtenvorschau kennzeichnen"
 
 #: ../mail/evolution-mail.schemas.in.in.h:47
 msgid "Mark citations in the message \"Preview\"."
-msgstr "Zitate in der Nachrichtenvorschau kenzeichnen."
+msgstr "Zitate in der Nachrichtenvorschau kennzeichnen."
 
 #: ../mail/evolution-mail.schemas.in.in.h:48
 msgid "Message Window default height"
@@ -12298,7 +12298,7 @@ msgstr "Bitte warten"
 
 #: ../mail/importers/elm-importer.c:244
 msgid "Importing Elm data"
-msgstr "Elm-Daten weden importiert"
+msgstr "Elm-Daten werden importiert"
 
 #: ../mail/importers/elm-importer.c:436
 msgid ""
@@ -12361,7 +12361,7 @@ msgstr ""
 "Einige Ihrer Netscape-E-Mail-Filter greifen auf\n"
 "E-Mail-Prioritäten zurück, die von Evolution nicht\n"
 "verarbeitet werden. Stattdessen verwendet Evolution\n"
-"ein Bewertungsystem zwischen -3 und +3. Diese\n"
+"ein Bewertungssystem zwischen -3 und +3. Diese\n"
 "Bewertungen können E-Mails zugewiesen und\n"
 "entsprechend gefiltert werden.\n"
 "\n"
@@ -13000,7 +13000,7 @@ msgstr "Dicktengleiche HTML-Druckschrift wählen"
 
 #: ../mail/mail-config.glade.h:125
 msgid "Select HTML variable width font"
-msgstr "HTML-Proprtionalschrift wählen"
+msgstr "HTML-Proportionalschrift wählen"
 
 #: ../mail/mail-config.glade.h:126
 msgid "Select HTML variable width font for printing"
@@ -14008,11 +14008,11 @@ msgid ""
 "    &quot;{1}&quot;\n"
 "And have been updated."
 msgstr ""
-"Die folgende(n) Filteregel(n):\n"
+"Die folgende(n) Filterregel(n):\n"
 "{0}\n"
 "verwendete(n) den soeben entfernten Ordner:\n"
 "    »{1}«\n"
-"Und wurde(n) aktualisiert.Der bzw. die folgende(n) vOrdner:\n"
+"Und wurde(n) aktualisiert. Der bzw. die folgende(n) vOrdner:\n"
 "%sverwenden den gelöschten Ordner:\n"
 "   »%s«\n"
 "Und wurden aktualisiert."
@@ -16244,7 +16244,7 @@ msgstr ""
 "nicht zu eigens dem Zweck entwickelt, Wutausbrüche\n"
 "zu provozieren.\n"
 "\n"
-"Wir hoffen, dass Ihnen das Ergebnis unsrer harten Arbeit\n"
+"Wir hoffen, dass Ihnen das Ergebnis unserer harten Arbeit\n"
 "gefällt und freuen uns auf Ihren Beitrag zu diesem Projekt!\n"
 
 #: ../shell/main.c:254
@@ -17386,7 +17386,7 @@ msgstr "Alle sichtbaren Nachrichten wählen"
 
 #: ../ui/evolution-mail-list.xml.h:15
 msgid "Select all and only the messages that are not currently selected"
-msgstr "Auschließlich alle momentan nicht gewählten Nachrichten markieren"
+msgstr "Ausschließlich alle momentan nicht gewählten Nachrichten markieren"
 
 #: ../ui/evolution-mail-list.xml.h:16
 msgid "Select all messages in the same thread as the selected message"
@@ -18732,7 +18732,7 @@ msgstr "Sucheditor"
 #. FIXME: get the toplevel window...
 #: ../widgets/misc/e-filter-bar.c:220
 msgid "Save Search"
-msgstr "Suche speichren"
+msgstr "Suche speichern"
 
 #: ../widgets/misc/e-filter-bar.h:92 ../widgets/misc/e-filter-bar.h:99
 msgid "_Save Search..."
@@ -20738,7 +20738,7 @@ msgstr "Handle-Popup"
 #~ msgstr "Dekodierer gescheitert, Fehler %d"
 
 #~ msgid "S/MIME Decrypt: No encrypted content found"
-#~ msgstr "S/MIME-Entschlüselung: Kein entschlüsselter Inhalt gefunden"
+#~ msgstr "S/MIME-Entschlüsselung: Kein entschlüsselter Inhalt gefunden"
 
 #~ msgid "import keys: unimplemented"
 #~ msgstr "Schlüssel importieren: Nicht implementiert"
@@ -20973,7 +20973,7 @@ msgstr "Handle-Popup"
 
 #~ msgid "Only check for Junk messages in the INBOX folder"
 #~ msgstr ""
-#~ "Ausschließlich den Eingangsordner auf unerwünsche Nachrichten prüfen"
+#~ "Ausschließlich den Eingangsordner auf unerwünschte Nachrichten prüfen"
 
 #~ msgid "Automatically synchronize remote mail locally"
 #~ msgstr "Entfernte E-Mails automatisch lokal synchronisieren"
@@ -21617,7 +21617,7 @@ msgstr "Handle-Popup"
 
 #~ msgid "Summary and folder mismatch, even after a sync"
 #~ msgstr ""
-#~ "Zusammenfassung und Order stimmen nicht überein, sogar nach einer "
+#~ "Zusammenfassung und Ordner stimmen nicht überein, sogar nach einer "
 #~ "Synchronisierung"
 
 #~ msgid "Unknown error: %s"
@@ -22104,7 +22104,7 @@ msgstr "Handle-Popup"
 
 #~ msgid "Cannot send message: one or more invalid recipients"
 #~ msgstr ""
-#~ "Nachricht konnte nicht verschickt werdenn: mindestens ein Empfänger "
+#~ "Nachricht konnte nicht verschickt werden: mindestens ein Empfänger "
 #~ "ungültig"
 
 #~ msgid "SMTP Greeting"
