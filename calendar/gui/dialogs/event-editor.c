@@ -155,7 +155,7 @@ event_editor_construct (EventEditor *ee, ECal *client)
 			event_page_show_options (priv->event_page);
 
 		comp_editor_set_group_item (COMP_EDITOR (ee), TRUE);
-		if ((flags & COMP_EDITOR_USER_ORG) || (flags & COMP_EDITOR_DELEGATE)) {
+		if ((flags & COMP_EDITOR_USER_ORG) || (flags & COMP_EDITOR_DELEGATE)|| (flags & COMP_EDITOR_NEW_ITEM)) {
 			priv->sched_page = schedule_page_new (priv->model);
 			g_object_ref (priv->sched_page);
 			gtk_object_sink (GTK_OBJECT (priv->sched_page));
