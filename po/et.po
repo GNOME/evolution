@@ -1,6 +1,6 @@
 # Evolution'i eesti keele tõlge.
 # Estonian translation of Evolution
-# 
+#
 # Copyright (C) 2001-2005 Free Software Foundation, Inc.
 # This file is distributed under the same license as the evolution package.
 # 
@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Evolution CVS HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-07-02 05:18+0000\n"
-"PO-Revision-Date: 2005-07-02 11:06+0300\n"
+"PO-Revision-Date: 2005-07-04 14:42+0300\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -317,9 +317,8 @@ msgid "Combo Button"
 msgstr ""
 
 #: ../a11y/widgets/ea-combo-button.c:50
-#, fuzzy
 msgid "Activate Default"
-msgstr "Kasuta _vaikekodeeringut"
+msgstr ""
 
 #: ../a11y/widgets/ea-combo-button.c:52
 msgid "Popup Menu"
@@ -1178,7 +1177,7 @@ msgstr "Novell Groupwise"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:21
 msgid "Personal Information"
-msgstr "Isiklik teave"
+msgstr "Isiklikud andmed"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:22
 msgid "Telephone"
@@ -2423,31 +2422,30 @@ msgid "E-_mail:"
 msgstr "E-_post:"
 
 #: ../addressbook/gui/contact-editor/eab-editor.c:323
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Are you sure you want\n"
 "to delete contact list (%s) ?"
 msgstr ""
 "Kas sa tõesti soovid\n"
-"kustutada need kontaktid?"
+"kustutada kontaktide loend (%s) ?"
 
 #: ../addressbook/gui/contact-editor/eab-editor.c:326
-#, fuzzy
 msgid ""
 "Are you sure you want\n"
 "to delete these contact lists?"
 msgstr ""
 "Kas sa tõesti soovid\n"
-"kustutada need kontaktid?"
+"kustutada need kontaktide loendid?"
 
 #: ../addressbook/gui/contact-editor/eab-editor.c:331
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Are you sure you want\n"
 "to delete contact (%s) ?"
 msgstr ""
 "Kas sa tõesti soovid\n"
-"kustutada need kontaktid?"
+"kustutada kontakti (%s)?"
 
 #: ../addressbook/gui/contact-editor/eab-editor.c:334
 msgid ""
@@ -2573,9 +2571,8 @@ msgid "Contact List Editor"
 msgstr "Kontaktiloendi redaktor"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:6
-#, fuzzy
 msgid "Insert email addresses from Address Book"
-msgstr "Lisab aadressiraamatust e-posti aadressi"
+msgstr "Aadressiraamatust e-posti aadressi lisamine"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:7
 msgid "Members"
@@ -3934,9 +3931,9 @@ msgid "Don't Send"
 msgstr "Ära saada"
 
 #: ../calendar/calendar.error.xml.h:29
-#, fuzzy
 msgid "Download in progress. Do you want to save the appointment?"
-msgstr "Kas sa tõesti soovid kustutada seda sündmust?"
+msgstr ""
+"Hetkel toimub allalaadimine. Kas sa tõesti soovid kustutada seda sündmust?"
 
 #: ../calendar/calendar.error.xml.h:30
 msgid "Download in progress. Do you want to save the task?"
@@ -4339,9 +4336,8 @@ msgid "invalid time"
 msgstr "vigane aeg"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:1
-#, fuzzy
 msgid "Alarm programs"
-msgstr "Programmi käivitamine"
+msgstr "Alarmprogrammid"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:2
 #, fuzzy
@@ -4365,21 +4361,19 @@ msgstr ""
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:6
 msgid ""
 "Color to draw the Marcus Bains Line in the Time bar (empty for default)."
-msgstr ""
+msgstr "Marcus Bains'i joone värvus ajaribal (vaikimisi tühi)."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:7
 msgid "Color to draw the Marcus Bains line in the Day View."
-msgstr ""
+msgstr "Marcus Bains'i joone värvus päeva vaatel."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:8
-#, fuzzy
 msgid "Compress weekends in month view"
-msgstr "_Nädalalõpud kuvatakse kokkusurutud vormis"
+msgstr "Kuuvaatel kuvatakse nädalalõpud kokkusurutud vormis"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:9
-#, fuzzy
 msgid "Confirm expunge"
-msgstr "_Kinnituse küsimine enne kataloogi puhastamist"
+msgstr "Kinnituse küsimine enne puhastamist"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:10
 msgid "Days on which the start and end of work hours should be indicated."
@@ -4387,15 +4381,15 @@ msgstr ""
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:11
 msgid "Default appointment reminder"
-msgstr ""
+msgstr "Kohtumise vaikimisi meeldetuletaja"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:12
 msgid "Default reminder units"
-msgstr ""
+msgstr "Meeldetuletaja vaikimisi ühikud"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:13
 msgid "Default reminder value"
-msgstr ""
+msgstr "Meeldetuletaja vaikimisi väärtus"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:14
 msgid "Free/busy server urls"
@@ -4444,15 +4438,15 @@ msgstr ""
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:25
 msgid "Marcus Bains Line"
-msgstr ""
+msgstr "Marcus Bains'i joon"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:26
 msgid "Marcus Bains Line Color - Day View"
-msgstr ""
+msgstr "Marcus Bains'i joone värv - päeva vaade"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:27
 msgid "Marcus Bains Line Color - Time bar"
-msgstr ""
+msgstr "Marcus Bains'i joone värv - ajariba"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:28
 #, fuzzy
@@ -4617,6 +4611,7 @@ msgstr "_Sündmuste lõpuaegade näitamine nädala ja kuu vaadetel"
 msgid ""
 "Whether to draw the Marcus Bains Line (line at current time) in the calendar."
 msgstr ""
+"Kas kalendris kuvatakse Marcus Bains'i joont (joon praeguse aja kohal)."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:64
 #, fuzzy
@@ -5202,9 +5197,8 @@ msgid "Monday"
 msgstr "Esmaspäev"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:29
-#, fuzzy
 msgid "Publishing Table"
-msgstr "<b>Avalikustamine</b>"
+msgstr ""
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:30
 msgid "S_un"
@@ -5354,9 +5348,9 @@ msgstr ""
 "Kalendri sisu kopeerimine kohapeale tarvitamiseks võrguvabas keskkonnas"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:290
-#, fuzzy
 msgid "Copy task list contents locally for offline operation"
-msgstr "Raamatu sisu kopeerimine kohapeale tarvitamiseks võrguvabas keskkonnas"
+msgstr ""
+"Ülesannete sisu kopeerimine kohapeale tarvitamiseks võrguvabas keskkonnas"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:343
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:4
@@ -5415,15 +5409,15 @@ msgstr "nädalat"
 
 #: ../calendar/gui/dialogs/changed-comp.c:60
 msgid "This event has been deleted."
-msgstr "Antud sündmus on kustutatud."
+msgstr "See sündmus on kustutatud."
 
 #: ../calendar/gui/dialogs/changed-comp.c:64
 msgid "This task has been deleted."
-msgstr "Antud ülesanne on kustutatud."
+msgstr "See ülesanne on kustutatud."
 
 #: ../calendar/gui/dialogs/changed-comp.c:68
 msgid "This journal entry has been deleted."
-msgstr "Antud päeviku sissekanne on kustutatud."
+msgstr "See päeviku sissekanne on kustutatud."
 
 #: ../calendar/gui/dialogs/changed-comp.c:77
 #, c-format
@@ -5438,15 +5432,15 @@ msgstr "%s  Sa ei muutnud midagi. Kas sulgeda aken?"
 
 #: ../calendar/gui/dialogs/changed-comp.c:84
 msgid "This event has been changed."
-msgstr "Antud sündmust on muudetud."
+msgstr "Seda sündmust on muudetud."
 
 #: ../calendar/gui/dialogs/changed-comp.c:88
 msgid "This task has been changed."
-msgstr "Antud ülesannet on muudetud."
+msgstr "Seda ülesannet on muudetud."
 
 #: ../calendar/gui/dialogs/changed-comp.c:92
 msgid "This journal entry has been changed."
-msgstr "Antud päeviku sissekannet on muudetud."
+msgstr "Seda päeviku sissekannet on muudetud."
 
 #: ../calendar/gui/dialogs/changed-comp.c:101
 #, c-format
@@ -5533,9 +5527,8 @@ msgstr[0] "<b>%d</b> fail manusena"
 msgstr[1] "<b>%d</b> faili manusena"
 
 #: ../calendar/gui/dialogs/comp-editor.c:987
-#, fuzzy
 msgid "_Attachment Bar (drop attachments here)"
-msgstr "_Manuseriba peitmine (tõsta manused siia)"
+msgstr "_Manuseriba (tõsta manused siia)"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1597
 #: ../calendar/gui/dialogs/comp-editor.c:1640
@@ -5674,14 +5667,12 @@ msgid "Scheduling"
 msgstr "Plaanimine"
 
 #: ../calendar/gui/dialogs/event-editor.c:174
-#, fuzzy
 msgid "Delegatees"
-msgstr "Delegeeritud"
+msgstr ""
 
 #: ../calendar/gui/dialogs/event-editor.c:178
-#, fuzzy
 msgid "Attendees"
-msgstr "Osaleja"
+msgstr "Osalejad"
 
 #: ../calendar/gui/dialogs/event-editor.c:251
 #: ../calendar/gui/dialogs/event-editor.c:423
@@ -5854,14 +5845,12 @@ msgid "_Start time:"
 msgstr "_Algus:"
 
 #: ../calendar/gui/dialogs/meeting-page.c:303
-#, fuzzy
 msgid "<b>Dele_gatees</b>"
-msgstr "<b>_Allkirjad</b>"
+msgstr ""
 
 #: ../calendar/gui/dialogs/meeting-page.c:307
-#, fuzzy
 msgid "<b>From:</b>"
-msgstr "<b>Kodu</b>"
+msgstr "<b>Saatja:</b>"
 
 #. an empty string is the same as 'None'
 #. Put the "None" and "UTC" entries at the top of the combo's list.
@@ -6724,9 +6713,8 @@ msgid "Mo_ve to Calendar..."
 msgstr "_Tõsta kalendrisse..."
 
 #: ../calendar/gui/e-calendar-view.c:1520
-#, fuzzy
 msgid "_Delegate Meeting..."
-msgstr "_Ajasta koosolek..."
+msgstr "_Delegeeri koosolek..."
 
 #: ../calendar/gui/e-calendar-view.c:1521
 msgid "_Schedule Meeting..."
@@ -7824,14 +7812,14 @@ msgid "Selected year (%Y)"
 msgstr "Valitud aasta (%Y)"
 
 #: ../calendar/gui/print.c:2320
-#, fuzzy, c-format
+#, c-format
 msgid "Summary: %s"
-msgstr "Kokkuvõte:"
+msgstr "Kokkuvõte: %s"
 
 #: ../calendar/gui/print.c:2328
-#, fuzzy, c-format
+#, c-format
 msgid "Location: %s"
-msgstr "Asukoht:"
+msgstr "Asukoht: %s"
 
 #: ../calendar/gui/print.c:2371
 #, c-format
@@ -9611,14 +9599,12 @@ msgid "Click here to select folders to post to"
 msgstr "Klõpsa siia, et valida kaustad kuhu postitada"
 
 #: ../composer/e-msg-composer-hdrs.c:641
-#, fuzzy
 msgid "Post To:"
 msgstr "Postita kellele:"
 
 #: ../composer/e-msg-composer-select-file.c:81
-#, fuzzy
 msgid "A_ttach"
-msgstr "Manusta"
+msgstr "_Manusta"
 
 #: ../composer/e-msg-composer.c:737
 msgid ""
@@ -9671,9 +9657,8 @@ msgid "Compose a message"
 msgstr "Sõnumi koostamine"
 
 #: ../composer/e-msg-composer.c:3484
-#, fuzzy
 msgid "_Attachment Bar"
-msgstr "Manus"
+msgstr "_Manuseriba"
 
 #: ../composer/e-msg-composer.c:4557
 msgid ""
@@ -9934,7 +9919,7 @@ msgid ""
 "A file by that name already exists.\n"
 "Overwrite it?"
 msgstr ""
-"Antud nimega fail on juba olemas.\n"
+"Selle nimega fail on juba olemas.\n"
 "Kirjutada üle?"
 
 #: ../e-util/e-dialog-utils.c:269 ../e-util/e-system.error.xml.h:6
@@ -14328,38 +14313,32 @@ msgid "Author (read, create)"
 msgstr ""
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:2
-#, fuzzy
 msgid "C_alendar:"
-msgstr "Kalender:"
+msgstr "K_alender:"
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:3
-#, fuzzy
 msgid "Co_ntacts:"
-msgstr "Kontaktid:"
+msgstr "Ko_ntaktid:"
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:4
-#, fuzzy
 msgid "Delegate Permissions"
-msgstr "Delegeeritud"
+msgstr ""
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:5
-#, fuzzy
 msgid "Delegates"
-msgstr "Delegeeritud"
+msgstr ""
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:6
 msgid "Editor (read, create, edit)"
 msgstr ""
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:8
-#, fuzzy
 msgid "Permissions for"
-msgstr "Juurdepääs keelatud"
+msgstr ""
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:9
-#, fuzzy
 msgid "Reviewer (read-only)"
-msgstr "Teenus on valmis"
+msgstr ""
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:10
 msgid ""
@@ -14368,9 +14347,8 @@ msgid ""
 msgstr ""
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:12
-#, fuzzy
 msgid "_Delegate can see private items"
-msgstr "Loob uue testikirje"
+msgstr ""
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:14
 msgid "_Inbox:"
@@ -14381,9 +14359,8 @@ msgid "_Tasks:"
 msgstr "_Ülesanded:"
 
 #: ../plugins/exchange-operations/exchange-folder-tree.glade.h:1
-#, fuzzy
 msgid "Exchange Folder Tree"
-msgstr "Kirjakaustade puu"
+msgstr "Exchange kirjakaustade puu"
 
 #: ../plugins/folder-unsubscribe/folder-unsubscribe.c:57
 #, c-format
@@ -14395,9 +14372,8 @@ msgid "Allows unsubscribing of mail folders in the folder tree context menu."
 msgstr ""
 
 #: ../plugins/folder-unsubscribe/org-gnome-mail-folder-unsubscribe.eplug.xml.h:2
-#, fuzzy
 msgid "Unsubscribe Folders"
-msgstr "_Lõpeta postiloendi tellimus"
+msgstr "Lõpeta kausta tellimus"
 
 #: ../plugins/groupwise-features/camel-gw-listener.c:413
 msgid "Checklist"
@@ -14417,9 +14393,8 @@ msgid "A plugin for the features in Groupwise accounts."
 msgstr ""
 
 #: ../plugins/groupwise-features/org-gnome-groupwise-features.eplug.xml.h:2
-#, fuzzy
 msgid "Groupwise Features"
-msgstr "Grupitöö vahend"
+msgstr ""
 
 #: ../plugins/groupwise-features/properties.glade.h:2
 msgid "<b>Users :</b>"
@@ -14472,18 +14447,16 @@ msgid "Enter the users and set permissions"
 msgstr ""
 
 #: ../plugins/groupwise-features/share-folder-common.c:337
-#, fuzzy
 msgid "New _Shared Folder..."
-msgstr "_Uus kataloog..."
+msgstr "Uus _jagatud kataloog..."
 
 #: ../plugins/groupwise-features/share-folder-common.c:440
 msgid "Sharing"
-msgstr ""
+msgstr "Jagamine"
 
 #: ../plugins/itip-formatter/itip-formatter.c:688
-#, fuzzy
 msgid "Unable to parse item"
-msgstr "Litsentsifaili pole võimalik lugeda"
+msgstr ""
 
 #: ../plugins/itip-formatter/itip-formatter.c:741
 #, c-format
@@ -14921,9 +14894,8 @@ msgid ""
 msgstr ""
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:3
-#, fuzzy
 msgid "This meeting has been delegated"
-msgstr "Antud sündmus on kustutatud."
+msgstr "See kohtumine on kustutatud"
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:4
 #, fuzzy
@@ -18147,19 +18119,16 @@ msgid "Edit Master Category List..."
 msgstr ""
 
 #: ../widgets/misc/gal-categories.glade.h:3
-#, fuzzy
 msgid "Item(s) belong to these _categories:"
-msgstr "Antud kontakt kuulub järgnevatesse kategooriatesse:"
+msgstr "See kontakt kuulub järgnevatesse _kategooriatesse:"
 
 #: ../widgets/misc/gal-categories.glade.h:4
-#, fuzzy
 msgid "_Available Categories:"
-msgstr "_Kategooriad"
+msgstr "_Saadaolevad kategooriad:"
 
 #: ../widgets/misc/gal-categories.glade.h:5
-#, fuzzy
 msgid "categories"
-msgstr "Kategooriad"
+msgstr "kategooriad"
 
 #. Translators: These are the first characters of each day of the
 #. week, 'M' for 'Monday', 'T' for Tuesday etc.
