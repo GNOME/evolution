@@ -821,9 +821,10 @@ handleuri_got_folder(char *uri, CamelFolder *folder, void *data)
 
 	if (folder != NULL) {
 		const char *reply = camel_url_get_param(url, "reply");
+		const char *forward = camel_url_get_param(url, "forward");
+		int mode;
 
 		if (reply) {
-			int mode;
 
 			if (!strcmp(reply, "all"))
 				mode = REPLY_MODE_ALL;
@@ -833,6 +834,27 @@ handleuri_got_folder(char *uri, CamelFolder *folder, void *data)
 				mode = REPLY_MODE_SENDER;
 
 			em_utils_reply_to_message(folder, camel_url_get_param(url, "uid"), NULL, mode, NULL);
+		} else if (forward) {
+			GPtrArray *uids;
+			const char* uid;
+
+			uid = camel_url_get_param(url, "uid");
+			if (uid == NULL) 
+				g_warning("Could not forward the message. UID is NULL.");
+			else {
+				uids = g_ptr_array_new();
+				g_ptr_array_add(uids, g_strdup(uid));
+
+				if (!strcmp(forward, "attached")) 
+					em_utils_forward_attached(folder, uids, uri);
+				else if (!strcmp(forward, "inline"))
+					em_utils_forward_inline(folder, uids, uri);
+				else if (!strcmp(forward, "quoted"))
+					em_utils_forward_quoted(folder, uids, uri);
+				else { /* Just the default forward */
+					em_utils_forward_messages(folder, uids, uri);
+				}
+			}
 		} else {
 			emmb = (EMMessageBrowser *)em_message_browser_window_new();
 			/*message_list_set_threaded(((EMFolderView *)emmb)->list, emfv->list->threaded);*/
