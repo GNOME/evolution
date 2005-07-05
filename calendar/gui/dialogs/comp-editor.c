@@ -57,6 +57,7 @@
 #include "cancel-comp.h"
 #include "recur-comp.h"
 #include "comp-editor.h"
+#include "../e-cal-popup.h"
 
 #include "cal-attachment-bar.h"
 #include "misc/e-expander.h"
@@ -447,7 +448,7 @@ drag_data_received (CompEditor *editor, GdkDragContext *context,
 		return;
 
 	if (context->action == GDK_ACTION_ASK) {
-		EMPopup *emp;
+		ECalPopup *ecp;
 		GSList *menus = NULL;
 		GtkMenu *menu;
 		int i;
@@ -466,12 +467,12 @@ drag_data_received (CompEditor *editor, GdkDragContext *context,
 		memcpy(m->selection->data, selection->data, selection->length);
 		m->selection->length = selection->length;
 
-		emp = em_popup_new("org.gnome.evolution.mail.editor.popup.drop");
+		ecp = e_cal_popup_new("org.gnome.evolution.calendar.editor.popup.drop");
 		for (i=0;i<sizeof(drop_popup_menu)/sizeof(drop_popup_menu[0]);i++)
 			menus = g_slist_append(menus, &drop_popup_menu[i]);
 
-		e_popup_add_items((EPopup *)emp, menus, NULL, drop_popup_free, m);
-		menu = e_popup_create_menu_once((EPopup *)emp, NULL, 0);
+		e_popup_add_items((EPopup *)ecp, menus, NULL, drop_popup_free, m);
+		menu = e_popup_create_menu_once((EPopup *)ecp, NULL, 0);
 		gtk_menu_popup(menu, NULL, NULL, NULL, NULL, 0, time);
 	} else {
 		drop_action(editor, context, context->action, selection, info, time);

@@ -47,6 +47,7 @@ struct _ECalendarView;
 enum _e_cal_popup_target_t {
 	E_CAL_POPUP_TARGET_SELECT,
 	E_CAL_POPUP_TARGET_SOURCE,
+	E_CAL_POPUP_TARGET_ATTACHMENTS,
 };
 
 /**
@@ -99,8 +100,21 @@ enum _e_cal_popup_target_source_t {
 	E_CAL_POPUP_SOURCE_NO_OFFLINE = 1 <<4
 };
 
+/**
+ * enum _e_cal_popup_target_attachments_t - ECalPopupTargetAttachments qualifiers.
+ * 
+ * @E_CAL_POPUP_ATTACHMENTS_ONE: There is one and only one attachment selected.
+ * @E_CAL_POPUP_ATTACHMENTS_MANY: There is one or more attachments selected.
+ * 
+ **/
+enum _e_cal_popup_target_attachments_t {
+	E_CAL_POPUP_ATTACHMENTS_ONE = 1<<0, /* only 1 selected */
+	E_CAL_POPUP_ATTACHMENTS_MANY = 1<<1, /* one or more selected */
+};
+
 typedef struct _ECalPopupTargetSelect ECalPopupTargetSelect;
 typedef struct _ECalPopupTargetSource ECalPopupTargetSource;
+typedef struct _ECalPopupTargetAttachments ECalPopupTargetAttachments;
 
 /**
  * struct _ECalPopupTargetSelect - A list of address cards.
@@ -136,6 +150,20 @@ struct _ECalPopupTargetSource {
 	struct _ESourceSelector *selector;
 };
 
+/**
+ * struct _ECalPopupTargetAttachments - A list of calendar attachments.
+ * 
+ * @target: Superclass.
+ * @attachments: A GSList list of CalAttachments.
+ *
+ * This target is used to represent a selected list of attachments in
+ * the calendar attachment area.
+ **/
+struct _ECalPopupTargetAttachments {
+	EPopupTarget target;
+	GSList *attachments;
+};
+
 typedef struct _EPopupItem ECalPopupItem;
 
 /* The object */
@@ -155,6 +183,7 @@ ECalPopup *e_cal_popup_new(const char *menuid);
 
 ECalPopupTargetSelect *e_cal_popup_target_new_select(ECalPopup *eabp, struct _ECalModel *model, GPtrArray *events);
 ECalPopupTargetSource *e_cal_popup_target_new_source(ECalPopup *eabp, struct _ESourceSelector *selector);
+ECalPopupTargetAttachments * e_cal_popup_target_new_attachments (ECalPopup *ecp, GSList *attachments);
 
 /* ********************************************************************** */
 

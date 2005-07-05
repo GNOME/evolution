@@ -58,7 +58,7 @@
 #include "e-util/e-icon-factory.h"
 #include "e-util/e-error.h"
 #include "e-util/e-mktemp.h"
-#include "mail/em-popup.h"
+#include "../e-cal-popup.h"
 
 #define ICON_WIDTH 64
 #define ICON_SEPARATORS " /-_"
@@ -470,9 +470,9 @@ cab_remove(EPopup *ep, EPopupItem *item, void *data)
 
 /* Popup menu handling.  */
 static EPopupItem cab_popups[] = {
-	{ E_POPUP_ITEM, "10.attach", N_("_Remove"), cab_remove, NULL, GTK_STOCK_REMOVE, EM_POPUP_ATTACHMENTS_MANY },
-	{ E_POPUP_ITEM, "20.attach", N_("_Properties"), cab_properties, NULL, GTK_STOCK_PROPERTIES, EM_POPUP_ATTACHMENTS_ONE },
-	{ E_POPUP_BAR, "30.attach.00", NULL, NULL, NULL, NULL, EM_POPUP_ATTACHMENTS_MANY|EM_POPUP_ATTACHMENTS_ONE },
+	{ E_POPUP_ITEM, "10.attach", N_("_Remove"), cab_remove, NULL, GTK_STOCK_REMOVE, E_CAL_POPUP_ATTACHMENTS_MANY },
+	{ E_POPUP_ITEM, "20.attach", N_("_Properties"), cab_properties, NULL, GTK_STOCK_PROPERTIES, E_CAL_POPUP_ATTACHMENTS_ONE },
+	{ E_POPUP_BAR, "30.attach.00", NULL, NULL, NULL, NULL, E_CAL_POPUP_ATTACHMENTS_MANY|E_CAL_POPUP_ATTACHMENTS_ONE },
 	{ E_POPUP_ITEM, "30.attach.01", N_("_Add attachment..."), cab_add, NULL, GTK_STOCK_ADD, 0 },
 };
 
@@ -512,8 +512,8 @@ cab_popup(CalAttachmentBar *bar, GdkEventButton *event, int id)
 	GList *p;
 	GSList *attachments = NULL, *menus = NULL;
 	int i;
-	EMPopup *emp;
-	EMPopupTargetAttachments *t;
+	ECalPopup *ecp;
+	ECalPopupTargetAttachments *t;
 	GtkMenu *menu;
 	CalAttachment *attachment;
 
@@ -538,18 +538,18 @@ cab_popup(CalAttachmentBar *bar, GdkEventButton *event, int id)
 	for (i=0;i<sizeof(cab_popups)/sizeof(cab_popups[0]);i++)
 		menus = g_slist_prepend(menus, &cab_popups[i]);
 
-	/** @HookPoint-EMPopup: Composer Attachment Bar Context Menu
-	 * @Id: org.gnome.evolution.mail.composer.attachmentbar.popup
+	/** @HookPoint-ECalPopup: Calendar Attachment Bar Context Menu
+	 * @Id: org.gnome.evolution.calendar.attachmentbar.popup
 	 * @Class: org.gnome.evolution.mail.popup:1.0
-	 * @Target: EMPopupTargetAttachments
+	 * @Target: ECalPopupTargetAttachments
 	 *
-	 * This is the context menu on the composer attachment bar.
+	 * This is the context menu on the calendar attachment bar.
 	 */
-	emp = em_popup_new("org.gnome.evolution.mail.composer.attachmentbar.popup");
-	e_popup_add_items((EPopup *)emp, menus, NULL, cab_popups_free, bar);
-	t = em_popup_target_new_attachments(emp, attachments);
+	ecp = e_cal_popup_new("org.gnome.evolution.calendar.attachmentbar.popup");
+	e_popup_add_items((EPopup *)ecp, menus, NULL, cab_popups_free, bar);
+	t = e_cal_popup_target_new_attachments(ecp, attachments);
 	t->target.widget = (GtkWidget *)bar;
-	menu = e_popup_create_menu_once((EPopup *)emp, (EPopupTarget *)t, 0);
+	menu = e_popup_create_menu_once((EPopup *)ecp, (EPopupTarget *)t, 0);
 
 	if (event == NULL)
 		gtk_menu_popup(menu, NULL, NULL, cab_popup_position, bar, 0, gtk_get_current_event_time());

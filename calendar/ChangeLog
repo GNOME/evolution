@@ -1,3 +1,12 @@
+2005-07-05  Srinivasa Ragavan <sragavan@novell.com>
+	
+	* gui/e-cal-popup.c: Created new target type
+	* gui/e-cal-popup.h: Added #define for the new target type
+	* gui/dialogs/cal-attachment-bar.c: (cab_popup) Poped e-cal instead of 
+	em_*. Removed mailer code from calendar
+	* gui/dialogs/comp-editor.c: (drag_data_received) Poped e-cal instead of
+	em_*. Removed mailer code from calendar.
+
 2005-07-04  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	* gui/calendar-component.c: (create_new_event): Set

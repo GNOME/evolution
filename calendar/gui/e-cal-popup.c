@@ -309,6 +309,33 @@ e_cal_popup_target_new_source(ECalPopup *eabp, ESourceSelector *selector)
 	return t;
 }
 
+/**
+ * e_cal_popup_target_new_attachments:
+ * @ecp: 
+ * @attachments: A list of CalAttachment objects, reffed for
+ * the list.  Will be unreff'd once finished with.
+ * 
+ * Owns the list @attachments and their items after they're passed in.
+ * 
+ * Return value: 
+ **/
+ECalPopupTargetAttachments *
+e_cal_popup_target_new_attachments(ECalPopup *ecp, GSList *attachments)
+{
+	ECalPopupTargetAttachments *t = e_popup_target_new(&ecp->popup, E_CAL_POPUP_TARGET_ATTACHMENTS, sizeof(*t));
+	guint32 mask = ~0;
+	int len = g_slist_length(attachments);
+
+	t->attachments = attachments;
+	if (len > 0)
+		mask &= ~ E_CAL_POPUP_ATTACHMENTS_MANY;
+	if (len == 1)
+		mask &= ~ E_CAL_POPUP_ATTACHMENTS_ONE;
+	t->target.mask = mask;
+
+	return t;
+}
+
 /* ********************************************************************** */
 /* Popup menu plugin handler */
 
@@ -365,9 +392,16 @@ static const EPopupHookTargetMask ecalph_source_masks[] = {
 	{ 0 }
 };
 
+static const EPopupHookTargetMask ecalph_attachments_masks[] = {
+	{ "one", E_CAL_POPUP_ATTACHMENTS_ONE },
+	{ "many", E_CAL_POPUP_ATTACHMENTS_MANY },
+	{ 0 }
+};
+
 static const EPopupHookTargetMap ecalph_targets[] = {
 	{ "select", E_CAL_POPUP_TARGET_SELECT, ecalph_select_masks },
 	{ "source", E_CAL_POPUP_TARGET_SOURCE, ecalph_source_masks },
+	{ "attachments", E_CAL_POPUP_TARGET_ATTACHMENTS, ecalph_attachments_masks },
 	{ 0 }
 };
 
