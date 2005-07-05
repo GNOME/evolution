@@ -30,6 +30,7 @@
 
 #include <exchange-account.h>
 #include <exchange-constants.h>
+#include <exchange-hierarchy.h>
 #include <e-folder-exchange.h>
 #include <e2k-marshal.h>
 #include <e2k-uri.h>
@@ -494,6 +495,59 @@ add_folder_esource (ExchangeAccount *account,
 }
 
 static void
+add_new_sources (ExchangeAccount *account)
+{
+	GPtrArray *exchange_folders;
+
+	exchange_folders = exchange_account_get_folders (account);                                                                                 
+        if (exchange_folders && exchange_folders->len > 0) {
+		int i;
+		const char *folder_type;
+		const char *folder_name;
+		const char *folder_uri;
+		int type;
+		EFolder *folder;
+		ExchangeHierarchy *hier;
+		gboolean create_esource = FALSE;
+
+		for (i = 0; i < exchange_folders->len; i++) {
+
+			folder = exchange_folders->pdata[i];
+			hier = e_folder_exchange_get_hierarchy (folder);
+			if (hier->type != EXCHANGE_HIERARCHY_PUBLIC) {
+				folder_name = e_folder_get_name (folder);
+				folder_uri = e_folder_get_physical_uri (folder); 
+				folder_type = e_folder_get_type_string (folder);
+
+				if (!(strcmp (folder_type, "calendar")) ||
+				    !(strcmp (folder_type, "calendar/public"))) {
+						type = EXCHANGE_CALENDAR_FOLDER;
+						create_esource = TRUE;
+				}
+				else if (!(strcmp (folder_type, "tasks")) ||
+					 !(strcmp (folder_type, "tasks/public"))) {
+						type = EXCHANGE_TASKS_FOLDER;
+						create_esource = TRUE;
+				}
+				else if (!(strcmp (folder_type, "contacts")) ||
+					 !(strcmp (folder_type, "contacts/public")) ||
+					 !(strcmp (folder_type, "contacts/ldap"))) {
+						type = EXCHANGE_CONTACTS_FOLDER;
+						create_esource = TRUE;
+				}
+				else {
+					create_esource = FALSE;
+				}
+
+				if (create_esource)
+					add_folder_esource (account, type, 
+							folder_name, folder_uri);
+			} /* End hierarchy type check */
+		} /* End for loop */
+        } /* End check for a list of folders */
+}
+
+static void
 add_sources (ExchangeAccount *account)
 {
 	GPtrArray *exchange_folders;
@@ -819,6 +873,7 @@ account_added (EAccountList *account_list, EAccount *account)
 		       exchange_account);
 	add_sources (exchange_account);
 	exchange_account_connect (exchange_account);
+	add_new_sources (exchange_account);
 }
 
 struct account_update_data {

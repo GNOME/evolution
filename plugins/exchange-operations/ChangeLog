@@ -1,3 +1,10 @@
+2005-07-05  Sarfraaz Ahmed <asarfraaz@novell.com>
+
+	* exchange-config-listener.c (add_new_sources) : Newly added. This adds
+	the esources for all the folders only if the esource doesnt already
+	exist.
+	(account_added) : Invoke add_new_sources after connect.
+
 2005-07-01  Praveen Kumar <kpraveen@novell.com>
 
 	* Makefile.am : Added new file entries for calendar , contacts
