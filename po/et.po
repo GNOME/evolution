@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Evolution CVS HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-07-02 05:18+0000\n"
-"PO-Revision-Date: 2005-07-04 14:42+0300\n"
+"PO-Revision-Date: 2005-07-06 00:12+0300\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -14018,14 +14018,13 @@ msgid "Restart Evolution"
 msgstr "Evolution'i taaskäivitamine"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.eplug.xml.h:1
-#, fuzzy
 msgid "A plugin for backing up and restore Evolution data and settings."
-msgstr "Evolutioni andmete ja seadistuste varundamine"
+msgstr ""
+"Plugin Evolutioni andmete ja seadistuste varundamiseks ja taastamiseks."
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.eplug.xml.h:2
-#, fuzzy
 msgid "Backup and restore plugin"
-msgstr "Evolutioni andmete ja seadistuste varundamine"
+msgstr "Varundamise ja taastamise plugin"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.xml.h:1
 msgid "Backup Settings..."
@@ -14070,7 +14069,6 @@ msgid "Synchronize with _buddy list now"
 msgstr ""
 
 #: ../plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:1
-#, fuzzy
 msgid "Automatic contacts"
 msgstr "Automaatsed kontaktid"
 
@@ -14085,22 +14083,20 @@ msgid "BBDB"
 msgstr ""
 
 #: ../plugins/calendar-file/org-gnome-calendar-file.eplug.xml.h:1
-#, fuzzy
 msgid "Local Calendars"
-msgstr "Kalendri laadimine"
+msgstr "Kohalikud kalendrid"
 
 #: ../plugins/calendar-file/org-gnome-calendar-file.eplug.xml.h:2
 msgid "Provides core functionality for local calendars."
-msgstr ""
+msgstr "Kohalike kalendrite põhitalitluse tagamine."
 
 #: ../plugins/calendar-http/org-gnome-calendar-http.eplug.xml.h:1
-#, fuzzy
 msgid "HTTP Calendars"
-msgstr "Kalendrid"
+msgstr "HTTP kalendrid"
 
 #: ../plugins/calendar-http/org-gnome-calendar-http.eplug.xml.h:2
 msgid "Provides core functionality for webcal and http calendars."
-msgstr ""
+msgstr "Veebi- ja http kalendrite põhitalitluse tagamine."
 
 #: ../plugins/calendar-weather/calendar-weather.c:54
 #: ../plugins/calendar-weather/calendar-weather.c:60
