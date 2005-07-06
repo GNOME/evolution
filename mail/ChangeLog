@@ -1,3 +1,16 @@
+2005-07-06  Vivek Jain <jvivek@novell.com>
+	
+	* em-junk-filter.c : moved to plugins/sa-junk-plugin
+	* em-junk-filter.h :removed
+	* em-junk.plugin.[ch]: removed
+	* em-junk-hook.[ch] : added new files to have a new hook
+	* Makefile.am :updated to removed/add these files.
+	* mail-session.c: (mail_session_init): 
+	assign NULL to junk_plugin, remove included file
+	"em-junk-filter.h"
+	* mail-component-factory.c : (make_factory)
+	register type for EMJunkHook
+
 2005-07-05  Not Zed  <NotZed@Ximian.com>
 
 	* em-format-html-display.c (efhd_attachment_image): use the cache,

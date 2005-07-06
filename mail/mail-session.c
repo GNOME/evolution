@@ -54,7 +54,6 @@
 #include "mail-ops.h"
 #include <libedataserverui/e-passwords.h>
 #include "libedataserver/e-msgport.h"
-#include "em-junk-filter.h"
 #include "e-util/e-error.h"
 
 #define d(x)
@@ -653,9 +652,7 @@ mail_session_init (const char *base_directory)
 	session_check_junk_notify_id = gconf_client_notify_add (gconf, "/apps/evolution/mail/junk",
 								(GConfClientNotifyFunc) mail_session_check_junk_notify,
 								session, NULL, NULL);
-	session->junk_plugin = CAMEL_JUNK_PLUGIN (em_junk_filter_get_plugin ());
-	if (session->junk_plugin)
-		camel_junk_plugin_init (session->junk_plugin);
+	session->junk_plugin = NULL;
 
 	/* The shell will tell us to go online. */
 	camel_session_set_online ((CamelSession *) session, FALSE);

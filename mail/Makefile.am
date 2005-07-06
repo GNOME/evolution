@@ -88,6 +88,7 @@ mailinclude_HEADERS =				\
 	em-html-stream.h			\
 	em-icon-stream.h			\
 	em-inline-filter.h			\
+	em-junk-hook.h				\
 	em-menu.h				\
 	em-message-browser.h			\
 	em-popup.h				\
@@ -155,10 +156,7 @@ libevolution_mail_la_SOURCES =			\
 	em-html-stream.c			\
 	em-icon-stream.c			\
 	em-inline-filter.c			\
-	em-junk-filter.c			\
-	em-junk-filter.h			\
-	em-junk-plugin.c			\
-	em-junk-plugin.h			\
+	em-junk-hook.c				\
 	em-mailer-prefs.c			\
 	em-mailer-prefs.h			\
 	em-menu.c				\
