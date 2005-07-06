@@ -1,4 +1,8 @@
 2005-07-06  Vivek Jain <jvivek@novell.com>
+	
+	* Makefile.am: Use NO_UNDEFINED. Link with more libraries.
+
+2005-07-06  Vivek Jain <jvivek@novell.com>
 
 	 sa-junk-plugin : plugin that uses spam assasin for junk mail
 	 handling
