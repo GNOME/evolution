@@ -26,6 +26,8 @@
 #endif
 
 #include <stdio.h>
+#include <string.h>
+
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gdk-pixbuf/gdk-pixbuf-loader.h>
 #ifdef HAVE_LIBGNOMEUI_GNOME_THUMBNAIL_H
@@ -37,6 +39,9 @@
 #include "libedataserver/e-msgport.h"
 
 #define d(x) 
+
+/* fixed-point scale factor for scaled images in cache */
+#define EMIS_SCALE (1024)
 
 struct _emis_cache_node {
 	EMCacheNode node;
@@ -98,8 +103,7 @@ em_icon_stream_init (CamelObject *object)
 {
 	EMIconStream *emis = (EMIconStream *)object;
 
-	emis->width = 24;
-	emis->height = 24;
+	emis = emis;
 }
 
 static void
@@ -153,13 +157,47 @@ emis_sync_flush(CamelStream *stream)
 	return 0;
 }
 
+static GdkPixbuf *
+emis_fit(GdkPixbuf *pixbuf, int maxwidth, int maxheight, int *scale)
+{
+	GdkPixbuf *mini = NULL;
+	int width, height;
+
+	width = gdk_pixbuf_get_width(pixbuf);
+	height = gdk_pixbuf_get_height(pixbuf);
+
+	if ((maxwidth && width > maxwidth)
+	    || (maxheight && height > maxheight)) {
+		if (width >= height) {
+			if (scale)
+				*scale = maxwidth * EMIS_SCALE / width;
+			height = height * maxwidth / width;
+			width = maxwidth;
+		} else {
+			if (scale)
+				*scale = maxheight * EMIS_SCALE / height;
+			width = width * maxheight / height;
+			height = maxheight;
+		}
+
+#ifdef HAVE_LIBGNOMEUI_GNOME_THUMBNAIL_H
+		mini = gnome_thumbnail_scale_down_pixbuf(pixbuf, width, height);
+#else
+		mini = gdk_pixbuf_scale_simple(pixbuf, width, height, GDK_INTERP_BILINEAR);
+#endif
+	}
+
+	return mini;
+}
+
 static int
 emis_sync_close(CamelStream *stream)
 {
 	EMIconStream *emis = (EMIconStream *)stream;
-	int width, height, ratio;
 	GdkPixbuf *pixbuf, *mini;
 	struct _emis_cache_node *node;
+	char *scalekey;
+	int scale;
 
 	if (emis->loader == NULL)
 		return -1;
@@ -173,39 +211,22 @@ emis_sync_close(CamelStream *stream)
 		return -1;
 	}
 
-	width = gdk_pixbuf_get_width(pixbuf);
-	height = gdk_pixbuf_get_height(pixbuf);
+	mini = emis_fit(pixbuf, emis->width, emis->height, &scale);
+	gtk_image_set_from_pixbuf(emis->image, mini?mini:pixbuf);
 
-	if (width != emis->width || height != emis->height) {
-		if (width >= height) {
-			if (width > emis->width) {
-				ratio = width / emis->width;
-				width = emis->width;
-				height /= ratio;
-			}
-		} else {
-			if (height > emis->height) {
-				ratio = height / emis->height;
-				height = emis->height;
-				width /= ratio;
-			}
-		}
-
-#ifdef HAVE_LIBGNOMEUI_GNOME_THUMBNAIL_H
-		mini = gnome_thumbnail_scale_down_pixbuf (pixbuf, width, height);
-#else
-		mini = gdk_pixbuf_scale_simple(pixbuf, width, height, GDK_INTERP_BILINEAR);
-#endif
-		gtk_image_set_from_pixbuf(emis->image, mini);
-		pixbuf = mini;
-	} else {
-		g_object_ref(pixbuf);
-		gtk_image_set_from_pixbuf(emis->image, pixbuf);
+	if (emis->keep) {
+		node = (struct _emis_cache_node *)em_cache_node_new(emis_cache, emis->key);
+		node->pixbuf = g_object_ref(pixbuf);
+		em_cache_add(emis_cache, (EMCacheNode *)node);
 	}
 
-	node = (struct _emis_cache_node *)em_cache_node_new(emis_cache, emis->key);
-	node->pixbuf = pixbuf;
-	em_cache_add(emis_cache, (EMCacheNode *)node);
+	if (!emis->keep || mini) {
+		scalekey = g_alloca(strlen(emis->key) + 20);
+		sprintf(scalekey, "%s.%x", emis->key, scale);
+		node = (struct _emis_cache_node *)em_cache_node_new(emis_cache, scalekey);
+		node->pixbuf = mini?mini:g_object_ref(pixbuf);
+		em_cache_add(emis_cache, (EMCacheNode *)node);
+	}
 
 	g_object_unref(emis->loader);
 	emis->loader = NULL;
@@ -223,12 +244,15 @@ emis_image_destroy(struct _GtkImage *image, EMIconStream *emis)
 }
 
 CamelStream *
-em_icon_stream_new(GtkImage *image, const char *key)
+em_icon_stream_new(GtkImage *image, const char *key, unsigned int maxwidth, unsigned int maxheight, int keep)
 {
 	EMIconStream *new;
 
 	new = EM_ICON_STREAM(camel_object_new(EM_ICON_STREAM_TYPE));
+	new->width = maxwidth;
+	new->height = maxheight;
 	new->image = image;
+	new->keep = keep;
 	new->destroy_id = g_signal_connect(image, "destroy", G_CALLBACK(emis_image_destroy), new);
 	new->loader = gdk_pixbuf_loader_new();
 	new->key = g_strdup(key);
@@ -237,22 +261,77 @@ em_icon_stream_new(GtkImage *image, const char *key)
 }
 
 GdkPixbuf *
-em_icon_stream_get_image(const char *key)
+em_icon_stream_get_image(const char *key, unsigned int maxwidth, unsigned int maxheight)
 {
 	struct _emis_cache_node *node;
 	GdkPixbuf *pb = NULL;
 
 	/* forces the cache to be setup if not */
+	em_icon_stream_get_type();	
+
+	node = (struct _emis_cache_node *)em_cache_lookup(emis_cache, key);
+	if (node) {
+		int width, height;
+
+		pb = node->pixbuf;
+		g_object_ref(pb);
+		em_cache_node_unref(emis_cache, (EMCacheNode *)node);
+
+		width = gdk_pixbuf_get_width(pb);
+		height = gdk_pixbuf_get_height(pb);
+
+		if ((maxwidth && width > maxwidth)
+		    || (maxheight && height > maxheight)) {
+			unsigned int scale;
+			char *realkey;
+
+			if (width >= height)
+				scale = width * EMIS_SCALE / maxwidth;
+			else
+				scale = height * EMIS_SCALE / maxheight;
+
+			realkey = g_alloca(strlen(key)+20);
+			sprintf(realkey, "%s.%x", key, scale);
+			node = (struct _emis_cache_node *)em_cache_lookup(emis_cache, realkey);
+			if (node) {
+				g_object_unref(pb);
+				pb = node->pixbuf;
+				g_object_ref(pb);
+				em_cache_node_unref(emis_cache, (EMCacheNode *)node);
+			} else {
+				GdkPixbuf *mini = emis_fit(pb, maxwidth, maxheight, NULL);
+
+				g_object_unref(pb);
+				pb = mini;
+				node = (struct _emis_cache_node *)em_cache_node_new(emis_cache, realkey);
+				node->pixbuf = pb;
+				g_object_ref(pb);
+				em_cache_add(emis_cache, (EMCacheNode *)node);
+			}
+		}
+	}
+
+	return pb;
+}
+
+int
+em_icon_stream_is_resized(const char *key, unsigned int maxwidth, unsigned int maxheight)
+{
+	int res = FALSE;
+	struct _emis_cache_node *node;
+	
+	/* forces the cache to be setup if not */
 	em_icon_stream_get_type();
 
 	node = (struct _emis_cache_node *)em_cache_lookup(emis_cache, key);
 	if (node) {
-		pb = node->pixbuf;
-		g_object_ref(pb);
+		res = (maxwidth && gdk_pixbuf_get_width(node->pixbuf) > maxwidth)
+			|| (maxheight && gdk_pixbuf_get_width(node->pixbuf) > maxheight);
+
 		em_cache_node_unref(emis_cache, (EMCacheNode *)node);
 	}
 
-	return pb;
+	return res;
 }
 
 void

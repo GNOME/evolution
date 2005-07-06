@@ -30,6 +30,7 @@
 #include <gtkhtml/gtkhtml-embedded.h>
 #include <gtkhtml/gtkhtml-search.h>
 
+#include <gtk/gtkeventbox.h>
 #include <gtk/gtkvbox.h>
 #include <gtk/gtkhbox.h>
 #include <gtk/gtkbutton.h>
@@ -106,6 +107,9 @@ static int efhd_html_button_press_event (GtkWidget *widget, GdkEventButton *even
 static void efhd_html_link_clicked (GtkHTML *html, const char *url, EMFormatHTMLDisplay *efhd);
 static void efhd_html_on_url (GtkHTML *html, const char *url, EMFormatHTMLDisplay *efhd);
 
+static void efhd_attachment_frame(EMFormat *emf, CamelStream *stream, EMFormatPURI *puri);
+static gboolean efhd_attachment_image(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject *pobject);
+
 struct _attach_puri {
 	EMFormatPURI puri;
 
@@ -119,7 +123,13 @@ struct _attach_puri {
 	GtkHTML *frame;
 	CamelStream *output;
 	unsigned int shown:1;
+
+	/* image stuff */
+	int fit_width;
+	int fit_height;
+	GtkImage *image;
 };
+
 
 static void efhd_iframe_created(GtkHTML *html, GtkHTML *iframe, EMFormatHTMLDisplay *efh);
 /*static void efhd_url_requested(GtkHTML *html, const char *url, GtkHTMLStream *handle, EMFormatHTMLDisplay *efh);
@@ -903,9 +913,51 @@ efhd_format_secure(EMFormat *emf, CamelStream *stream, CamelMimePart *part, Came
 	}
 }
 
+static void
+efhd_image(EMFormatHTML *efh, CamelStream *stream, CamelMimePart *part, EMFormatHandler *handle)
+{
+	char *classid;
+	struct _attach_puri *info;
+	
+	classid = g_strdup_printf("image%s", ((EMFormat *)efh)->part_id->str);
+	info = (struct _attach_puri *)em_format_add_puri((EMFormat *)efh, sizeof(*info), classid, part, efhd_attachment_frame);
+	em_format_html_add_pobject(efh, sizeof(EMFormatHTMLPObject), classid, part, efhd_attachment_image);
+
+	info->handle = handle;
+	info->shown = TRUE;
+	info->snoop_mime_type = ((EMFormat *) efh)->snoop_mime_type;
+	info->fit_width = ((GtkWidget *)((EMFormatHTML *)info->puri.format)->html)->allocation.width - 12;
+
+	camel_stream_printf(stream, "<td><object classid=\"%s\"></object></td>", classid);
+	g_free(classid);
+}
+
 /* ********************************************************************** */
 
 static EMFormatHandler type_builtin_table[] = {
+	{ "image/gif", (EMFormatFunc)efhd_image },
+	{ "image/jpeg", (EMFormatFunc)efhd_image },
+	{ "image/png", (EMFormatFunc)efhd_image },
+	{ "image/x-png", (EMFormatFunc)efhd_image },
+	{ "image/tiff", (EMFormatFunc)efhd_image },
+	{ "image/x-bmp", (EMFormatFunc)efhd_image },
+	{ "image/bmp", (EMFormatFunc)efhd_image },
+	{ "image/svg", (EMFormatFunc)efhd_image },
+	{ "image/x-cmu-raster", (EMFormatFunc)efhd_image },
+	{ "image/x-ico", (EMFormatFunc)efhd_image },
+	{ "image/x-portable-anymap", (EMFormatFunc)efhd_image },
+	{ "image/x-portable-bitmap", (EMFormatFunc)efhd_image },
+	{ "image/x-portable-graymap", (EMFormatFunc)efhd_image },
+	{ "image/x-portable-pixmap", (EMFormatFunc)efhd_image },
+	{ "image/x-xpixmap", (EMFormatFunc)efhd_image },
+
+	/* This is where one adds those busted, non-registered types,
+	   that some idiot mailer writers out there decide to pull out
+	   of their proverbials at random. */
+
+	{ "image/jpg", (EMFormatFunc)efhd_image },
+	{ "image/pjpeg", (EMFormatFunc)efhd_image },
+
 	{ "x-evolution/message/prefix", (EMFormatFunc)efhd_message_prefix },
 };
 
@@ -1059,10 +1111,30 @@ efhd_attachment_button_show(GtkWidget *w, void *data)
 	efhd_attachment_show(NULL, NULL, data);
 }
 
+static void
+efhd_image_fit(EPopup *ep, EPopupItem *item, void *data)
+{
+	struct _attach_puri *info = data;
+
+	info->fit_width = ((GtkWidget *)((EMFormatHTML *)info->puri.format)->html)->allocation.width - 12;
+	gtk_image_set_from_pixbuf(info->image, em_icon_stream_get_image(info->puri.cid, info->fit_width, info->fit_height));
+}
+
+static void
+efhd_image_unfit(EPopup *ep, EPopupItem *item, void *data)
+{
+	struct _attach_puri *info = data;
+
+	info->fit_width = 0;
+	gtk_image_set_from_pixbuf((GtkImage *)info->image, em_icon_stream_get_image(info->puri.cid, info->fit_width, info->fit_height));
+}
+
 static EPopupItem efhd_menu_items[] = {
 	{ E_POPUP_BAR, "05.display", },
 	{ E_POPUP_ITEM, "05.display.00", N_("_View Inline"), efhd_attachment_show },
 	{ E_POPUP_ITEM, "05.display.00", N_("_Hide"), efhd_attachment_show },
+	{ E_POPUP_ITEM, "05.display.01", N_("_Fit to Width"), efhd_image_fit, NULL, NULL, EM_POPUP_PART_IMAGE },
+	{ E_POPUP_ITEM, "05.display.01", N_("Show _Original Size"), efhd_image_unfit, NULL, NULL, EM_POPUP_PART_IMAGE },
 };
 
 static void
@@ -1088,7 +1160,6 @@ efhd_attachment_popup(GtkWidget *w, GdkEventButton *event, struct _attach_puri *
 	GSList *menus = NULL;
 	EMPopup *emp;
 	EMPopupTargetPart *target;
-	EPopupItem *item;
 
 	d(printf("attachment popup, button %d\n", event->button));
 
@@ -1113,8 +1184,14 @@ efhd_attachment_popup(GtkWidget *w, GdkEventButton *event, struct _attach_puri *
 	if (info->handle) {
 		/* show/hide menus, only if we have an inline handler */
 		menus = g_slist_prepend(menus, &efhd_menu_items[0]);
-		item = &efhd_menu_items[info->shown?2:1];
-		menus = g_slist_prepend(menus, item);
+		menus = g_slist_prepend(menus, &efhd_menu_items[info->shown?2:1]);
+		if (info->shown && info->image) {
+			if (info->fit_width != 0) {
+				if (em_icon_stream_is_resized(info->puri.cid, info->fit_width, info->fit_height))
+				    menus = g_slist_prepend(menus, &efhd_menu_items[4]);
+			} else
+				menus = g_slist_prepend(menus, &efhd_menu_items[3]);
+		}
 	}
 
 	e_popup_add_items((EPopup *)emp, menus, NULL, efhd_menu_items_free, info);
@@ -1126,6 +1203,15 @@ efhd_attachment_popup(GtkWidget *w, GdkEventButton *event, struct _attach_puri *
 		gtk_menu_popup(menu, NULL, NULL, (GtkMenuPositionFunc)efhd_popup_place_widget, w, 0, gtk_get_current_event_time());
 
 	return TRUE;
+}
+
+static gboolean
+efhd_image_popup(GtkWidget *w, GdkEventButton *event, struct _attach_puri *info)
+{
+	if (event && event->button != 3)
+		return FALSE;
+
+	return efhd_attachment_popup(w, event, info);
 }
 
 static gboolean
@@ -1213,6 +1299,73 @@ efhd_write_icon_job(struct _EMFormatHTMLJob *job, int cancelled)
 	camel_stream_close(job->stream);
 }
 
+static void
+efhd_image_resized(GtkWidget *w, GtkAllocation *event, struct _attach_puri *info)
+{
+	GdkPixbuf *pb;
+	int width;
+
+	if (info->fit_width == 0)
+		return;
+
+	width = ((GtkWidget *)((EMFormatHTML *)info->puri.format)->html)->allocation.width - 12;
+	if (info->fit_width == width)
+		return;
+	info->fit_width = width;
+	pb = em_icon_stream_get_image(info->puri.cid, info->fit_width, info->fit_height);
+	gtk_image_set_from_pixbuf(info->image, pb);
+	g_object_unref(pb);
+}
+
+static gboolean
+efhd_attachment_image(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject *pobject)
+{
+	GtkWidget *box;	
+	EMFormatHTMLJob *job;
+	struct _attach_puri *info;
+	GdkPixbuf *pixbuf;
+	GtkTargetEntry drag_types[] = {
+		{ NULL, 0, 0 },
+		{ "text/uri-list", 0, 1 },
+	};
+	char *simple_type;
+
+	info = (struct _attach_puri *)em_format_find_puri((EMFormat *)efh, pobject->classid);
+
+	info->image = (GtkImage *)gtk_image_new();
+	pixbuf = em_icon_stream_get_image(pobject->classid, info->fit_width, info->fit_height);
+	if (pixbuf) {
+		gtk_image_set_from_pixbuf(info->image, pixbuf);
+		g_object_unref(pixbuf);
+	} else {
+		job = em_format_html_job_new(efh, efhd_write_icon_job, pobject);	
+		job->stream = (CamelStream *)em_icon_stream_new((GtkImage *)info->image, pobject->classid, info->fit_width, info->fit_height, TRUE);
+		em_format_html_job_queue(efh, job);
+	}
+
+	box = gtk_event_box_new();
+	gtk_container_add((GtkContainer *)box, (GtkWidget *)info->image);
+	gtk_widget_show_all(box);
+	gtk_container_add((GtkContainer *)eb, box);
+
+	g_signal_connect(eb, "size_allocate", G_CALLBACK(efhd_image_resized), info);
+	
+	simple_type = camel_content_type_simple(((CamelDataWrapper *)pobject->part)->mime_type);
+	camel_strdown(simple_type);
+	
+	drag_types[0].target = simple_type;
+	gtk_drag_source_set(box, GDK_BUTTON1_MASK, drag_types, sizeof(drag_types)/sizeof(drag_types[0]), GDK_ACTION_COPY);
+	g_free(simple_type);
+
+	g_signal_connect(box, "drag-data-get", G_CALLBACK(efhd_drag_data_get), pobject);
+	g_signal_connect (box, "drag-data-delete", G_CALLBACK(efhd_drag_data_delete), pobject);
+
+	g_signal_connect(box, "button_press_event", G_CALLBACK(efhd_image_popup), info);
+	g_signal_connect(box, "popup_menu", G_CALLBACK(efhd_attachment_popup_menu), info);
+
+	return TRUE;
+}
+
 /* attachment button callback */
 static gboolean
 efhd_attachment_button(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject *pobject)
@@ -1266,13 +1419,13 @@ efhd_attachment_button(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObje
 	camel_strdown(simple_type);
 
 	/* FIXME: offline parts, just get icon */
-	if (camel_content_type_is (((CamelDataWrapper *)pobject->part)->mime_type, "image", "*")) {
+	if (camel_content_type_is(((CamelDataWrapper *)pobject->part)->mime_type, "image", "*")) {
 		EMFormatHTMLJob *job;
 		GdkPixbuf *mini;
 		char *key;
 
 		key = pobject->classid;
-		mini = em_icon_stream_get_image(key);
+		mini = em_icon_stream_get_image(key, 24, 24);
 		if (mini) {
 			d(printf("got image from cache '%s'\n", key));
 			gtk_image_set_from_pixbuf((GtkImage *)w, mini);
@@ -1280,7 +1433,7 @@ efhd_attachment_button(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObje
 		} else {
 			d(printf("need to create icon image '%s'\n", key));
 			job = em_format_html_job_new(efh, efhd_write_icon_job, pobject);
-			job->stream = (CamelStream *)em_icon_stream_new((GtkImage *)w, key);
+			job->stream = (CamelStream *)em_icon_stream_new((GtkImage *)w, key, 24, 24, FALSE);
 			em_format_html_job_queue(efh, job);
 		}
 	} else {
@@ -1307,7 +1460,6 @@ efhd_attachment_button(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObje
 
 	a11y = gtk_widget_get_accessible (button);
 	atk_object_set_name (a11y, _("Attachment Button"));
-
 
 	g_signal_connect(button, "button_press_event", G_CALLBACK(efhd_attachment_popup), info);
 	g_signal_connect(button, "popup_menu", G_CALLBACK(efhd_attachment_popup_menu), info);

@@ -1,3 +1,29 @@
+2005-07-05  Not Zed  <NotZed@Ximian.com>
+
+	* em-format-html-display.c (efhd_attachment_image): use the cache,
+	since we set it up.
+	(efhd_image): added a (private!) format handler for all the image
+	types so we intercept them and handle them directly.
+	(efhd_image_fit, efhd_image_unfit): replace the resize callback
+	with two much simpler ones.
+
+	* em-icon-stream.c (em_icon_stream_get_image): added 'fit to'
+	arguments.  Changed dramatically to get approximate fit-to image,
+	update cache, etc.
+	(em_icon_stream_is_resized): added 'fit to' arguments.  changed to
+	manipulate the cache properly.
+	(emis_fit): helper to fit an image to a size.
+	(em_icon_stream_new): added 'fit to' arguments rather than poking
+	structures.
+
+	* em-format-html-display.c (efhd_attachment_image): fixed a memory
+	leak, various style issues.  Removed all scaling code.
+	(efhd_attachment_popup): show menu's appropriately.  add back the
+	hide/show menu always.
+	(efhd_image_popup): fix formatting.
+
+	** Applied patch from Srini for scaling images to fit by default.
+
 2005-07-04  Veerapuram Varadhan <vvaradhan@novell.com>
 
 	* mail-component.c: (handleuri_got_folder): Added "forward"
