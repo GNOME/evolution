@@ -1,3 +1,8 @@
+2005-07-06  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	* gui/dialogs/event-page.c: (sensitize_widgets): Enable alarms
+	even if we are not organizer.
+
 2005-07-06  Sankar P  <psankar@novell.com>
 
 	* gui/dialogs/comp-editor.c (response_cb):

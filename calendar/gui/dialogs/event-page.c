@@ -628,7 +628,7 @@ sensitize_widgets (EventPage *epage)
 	gtk_widget_set_sensitive (priv->description, !read_only && sens);
 	gtk_widget_set_sensitive (priv->classification, !read_only && sens);
 	gtk_widget_set_sensitive (priv->show_time_as_busy, !read_only && sens);
-	gtk_widget_set_sensitive (priv->alarm, !read_only && sens);
+	gtk_widget_set_sensitive (priv->alarm, !read_only);
 	gtk_widget_set_sensitive (priv->alarm_time, !read_only && !custom && alarm);
 	gtk_widget_set_sensitive (priv->alarm_custom, alarm);
 	if (custom)
