@@ -1,0 +1,8 @@
+2005-07-06  Vivek Jain <jvivek@novell.com>
+
+	 sa-junk-plugin : plugin that uses spam assasin for junk mail
+	 handling
+	 moved em-junk-filter.c from mail/ to here and modified it to listen
+	 to the callbacks from the plugin.
+	 
+
