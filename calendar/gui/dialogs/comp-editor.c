@@ -806,7 +806,8 @@ response_cb (GtkWidget *widget, int response, gpointer data)
 	CompEditorPrivate *priv;
 	ECalComponentText text;
 	gboolean delegated;
-	
+	ECalComponent *comp;
+
 	priv = editor->priv;
 	delegated = (priv->flags & COMP_EDITOR_DELEGATE);
 
@@ -831,23 +832,21 @@ response_cb (GtkWidget *widget, int response, gpointer data)
 			return;
 		}	
 		commit_all_fields (editor);
-		
 		if (e_cal_component_is_instance (priv->comp))
 			if (!recur_component_dialog (priv->client, priv->comp, &priv->mod, GTK_WINDOW (editor), delegated))
 				return;
-	
-		if (save_comp_with_send (editor)) {
-	
-			e_cal_component_get_summary (priv->comp, &text);
-		
-			if (!text.value) {
-				if (!send_component_prompt_subject ((GtkWindow *) editor, priv->client, priv->comp))
-					return;
-			}
-			close_dialog (editor);
-		}
 
+		comp = comp_editor_get_current_comp (editor);
+		e_cal_component_get_summary (comp, &text);
+		g_object_unref (comp);
+
+		if (!text.value) 
+			if (!send_component_prompt_subject ((GtkWindow *) editor, priv->client, priv->comp))
+				return;
+		if (save_comp_with_send (editor)) 
+			close_dialog (editor);
 		break;
+
 	case GTK_RESPONSE_HELP:
 		comp_editor_show_help (editor);
 

@@ -1,3 +1,12 @@
+2005-07-06  Sankar P  <psankar@novell.com>
+
+	* gui/dialogs/comp-editor.c (response_cb):
+	Changed the way in which calendars having null summary are handled.
+	Fixes #237844
+	
+	* calendar-errors.xml:
+	Changed the button label from Send to Save
+
 2005-07-05  Srinivasa Ragavan <sragavan@novell.com>
 	
 	* gui/e-cal-popup.c: Created new target type
