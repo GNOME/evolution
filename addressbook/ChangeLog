@@ -1,3 +1,9 @@
+2005-07-06  Vivek Jain <jvivek@novell.com>
+	
+	* gui/component/addressbook-view.c: (popup_event_callback)
+	* gui/widget/e-addressbook-view.c :(do_popup_menu)
+	added comments about the hookpoints
+
 2005-07-06  Srinivasa Ragavan <sragavan@novell.com>
 	* gui/widgets/eab-gui-util.c: (contact_added_cb): Fixed for bug 
 	309245.

@@ -999,6 +999,14 @@ do_popup_menu(EABView *view, GdkEvent *event)
 		contact_and_book->closure = cards;
 		e_selection_model_foreach(selection_model, get_card_1, contact_and_book);
 	}
+	
+	/** @HookPoint-EABPopup:Addressbook view Context Menu
+	 * @Id: org.gnome.evolution.addressbook.view.popup
+	 * @Class: org.gnome.evolution.addresbook.popup:1.0
+	 * @Target: EABPopupTargetSelect
+	 *
+	 * The context menu on the contacts view.
+	 */
 
 	ep = eab_popup_new("org.gnome.evolution.addressbook.view.popup");
 	t = eab_popup_target_new_select(ep, view->book, !eab_model_editable(view->model), cards);

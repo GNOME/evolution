@@ -775,6 +775,14 @@ popup_event_callback(ESourceSelector *selector, ESource *source, GdkEventButton 
 	int i;
 	GtkMenu *menu;
 
+	/** @HookPoint-EABPopup:Addressbook Source Selector Context Menu
+	 * @Id: org.gnome.evolution.addressbook.source.popup
+	 * @Class: org.gnome.evolution.addresbook.popup:1.0
+	 * @Target: EABPopupTargetSource
+	 *
+	 * The context menu on the source selector in the contacts window.
+	 */
+
 	ep = eab_popup_new("org.gnome.evolution.addressbook.source.popup");
 	t = eab_popup_target_new_source(ep, selector);
 	t->target.widget = (GtkWidget *)view->priv->notebook;
