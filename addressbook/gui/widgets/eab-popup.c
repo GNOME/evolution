@@ -155,6 +155,13 @@ eab_popup_target_new_select(EABPopup *eabp, struct _EBook *book, int readonly, G
 		}
 	}
 
+	if (cards->len == 1) {
+		if (e_contact_get (E_CONTACT(cards->pdata[0]), E_CONTACT_IS_LIST))
+			mask &= ~EAB_POPUP_LIST;
+		else
+			mask &= ~EAB_POPUP_CONTACT;
+	}
+
 	if (has_email)
 		mask &= ~EAB_POPUP_SELECT_EMAIL;
 

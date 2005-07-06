@@ -65,6 +65,8 @@ enum _eab_popup_target_select_t {
 	EAB_POPUP_SELECT_ANY = 1<<2,
 	EAB_POPUP_SELECT_EDITABLE = 1<<3,
 	EAB_POPUP_SELECT_EMAIL = 1<<4,
+	EAB_POPUP_LIST = 1<<5,
+	EAB_POPUP_CONTACT = 1<<6,
 };
 
 /**

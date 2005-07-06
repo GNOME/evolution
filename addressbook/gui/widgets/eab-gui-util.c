@@ -671,7 +671,7 @@ contact_added_cb (EBook* book, EBookStatus status, const char *id, gpointer user
 {
 	ContactCopyProcess *process = user_data;
 
-	if (status != E_BOOK_ERROR_OK) {
+	if (status != E_BOOK_ERROR_OK && status != E_BOOK_ERROR_CANCELLED) {
 		eab_error_dialog (_("Error adding contact"), status);
 	} else {
 		process_unref (process);

@@ -897,6 +897,15 @@ move_to_folder (EPopup *ep, EPopupItem *pitem, void *data)
 }
 
 static void
+open_contact (EPopup *ep, EPopupItem *pitem, void *data)
+{
+	ContactAndBook *contact_and_book = data;
+
+	eab_view_view (contact_and_book->view);
+}
+
+
+static void
 new_card (EPopup *ep, EPopupItem *pitem, void *data)
 {
 	/*ContactAndBook *contact_and_book = data;*/
@@ -917,13 +926,18 @@ new_list (EPopup *ep, EPopupItem *pitem, void *data)
 }
 
 static EPopupItem eabv_popup_items[] = {
+	{ E_POPUP_ITEM, "05.open", N_("_Open"), open_contact, NULL, NULL, EAB_POPUP_SELECT_ANY|EAB_POPUP_SELECT_EDITABLE },
+	{ E_POPUP_BAR, "10.bar" },
 	{ E_POPUP_ITEM, "10.new",  N_("New Contact..."), new_card, NULL, "stock_contact", 0, EAB_POPUP_SELECT_EDITABLE},
 	{ E_POPUP_ITEM, "15.newlist", N_("New Contact List..."), new_list, NULL, "stock_contact-list", 0, EAB_POPUP_SELECT_EDITABLE },
 
 	{ E_POPUP_BAR, "20.bar" },
 	{ E_POPUP_ITEM, "30.saveas", N_("Save as VCard..."), save_as, NULL, "stock_save-as", 0, EAB_POPUP_SELECT_ANY },
-	{ E_POPUP_ITEM, "40.forward", N_("Forward Contact"), send_as, NULL, "stock_mail-forward", 0, EAB_POPUP_SELECT_ANY },
-	{ E_POPUP_ITEM, "50.mailto", N_("Send Message to Contact"), send_to, NULL, "stock_mail-send", 0, EAB_POPUP_SELECT_ANY|EAB_POPUP_SELECT_EMAIL },
+	{ E_POPUP_ITEM, "40.forward", N_("Forward Contact"), send_as, NULL, "stock_mail-forward", EAB_POPUP_SELECT_ONE },
+	{ E_POPUP_ITEM, "40.forward", N_("Forward Contacts"), send_as, NULL, "stock_mail-forward", EAB_POPUP_SELECT_MANY },
+	{ E_POPUP_ITEM, "50.mailto", N_("Send Message to Contact"), send_to, NULL, "stock_mail-send", EAB_POPUP_SELECT_ONE|EAB_POPUP_SELECT_EMAIL|EAB_POPUP_CONTACT },
+	{ E_POPUP_ITEM, "50.mailto", N_("Send Message to List"), send_to, NULL, "stock_mail-send", EAB_POPUP_SELECT_ONE|EAB_POPUP_SELECT_EMAIL|EAB_POPUP_LIST },
+	{ E_POPUP_ITEM, "50.mailto", N_("Send Message to Contacts"), send_to, NULL, "stock_mail-send", EAB_POPUP_SELECT_MANY|EAB_POPUP_SELECT_EMAIL },
 	{ E_POPUP_ITEM, "60.print", N_("Print"), print, NULL, "stock_print", 0, EAB_POPUP_SELECT_ANY },
 
 	{ E_POPUP_BAR, "70.bar" },

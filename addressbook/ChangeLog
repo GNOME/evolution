@@ -1,3 +1,11 @@
+2005-07-06  Srinivasa Ragavan <sragavan@novell.com>
+	* gui/widgets/eab-gui-util.c: (contact_added_cb): Fixed for bug 
+	309245.
+	* /gui/widgets/e-addressbook-view.c:  Fixes the bug 206774, 242154.
+	* gui/widgets/eab-popup.c: (eab_popup_target_new_select)  Fixes the
+	bug 206774, 242154.
+	* gui/widgets/eab-popup.h: Fixes the bug 206774, 242154.
+
 2005-06-25  Harish Krishnaswamy <kharish@novell.com>
 
 	* gui/contact-list-editor/Makefile.am: The previous commit breaks
