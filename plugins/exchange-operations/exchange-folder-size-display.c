@@ -32,6 +32,7 @@
 #include <gtk/gtkmessagedialog.h>
 #include <gtk/gtktreeselection.h>
 #include <gtk/gtktreeview.h>
+#include "exchange-folder-size-display.h"
 
 enum {
         COLUMN_NAME,

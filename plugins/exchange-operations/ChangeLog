@@ -1,5 +1,10 @@
 2005-07-07  Sarfraaz Ahmed <asarfraaz@novell.com>
 
+	* exchange-account-setup.c : Include exchange-folder-size-display.h
+	* exchange-folder-size-display.c : Similar
+
+2005-07-07  Sarfraaz Ahmed <asarfraaz@novell.com>
+
 	* exchange-account-setup.c (btn_fsize_clicked) : Implemented new to
 	invoke the folder size table.
 	(org_gnome_exchange_settings) : Minor re-ordering

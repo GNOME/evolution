@@ -43,6 +43,7 @@
 #include <e-util/e-dialog-utils.h>
 #include "exchange-config-listener.h"
 #include "exchange-operations.h"
+#include "exchange-folder-size-display.h"
 #include "mail/em-account-editor.h"
 #include "mail/em-config.h"
 
@@ -161,7 +162,7 @@ btn_fsize_clicked (GtkButton *button, gpointer data)
 	account = acclist->data; 
 
 	model = exchange_account_folder_size_get_model (account);
-	exchange_folder_size_display (model, button);
+	exchange_folder_size_display (model, GTK_WIDGET (button));
 }
 
 /* only used in editor */
