@@ -383,7 +383,7 @@ msgstr "此連絡人的電子郵件地址已經存在。您無論如何都要加
 # Novell Translation
 #: ../addressbook/addressbook.error.xml.h:2
 msgid "Address '{0}' already exists."
-msgstr "通訊錄“{0}”已存在"
+msgstr "通訊錄「{0}」已存在"
 
 # Novell Translation
 #: ../addressbook/addressbook.error.xml.h:3
@@ -420,7 +420,7 @@ msgstr "無法移除通訊錄。"
 # Novell Translation
 #: ../addressbook/addressbook.error.xml.h:8
 msgid "Delete address book '{0}'?"
-msgstr "刪除通訊錄“{0}”？"
+msgstr "刪除通訊錄「{0}」？"
 
 # composer/e-msg-composer.c:805
 # Novell Translation
@@ -1197,13 +1197,13 @@ msgid ""
 "one level beneath your base."
 msgstr ""
 "搜尋範圍會定義您想從網路目錄樹往下延伸搜尋的深度。\"sub\" 的搜尋範圍會包括搜"
-"尋基礎底下所有的項目。“一個”的搜尋範圍只會包括基礎底下的一個層級。"
+"尋基礎底下所有的項目。「一個」的搜尋範圍只會包括基礎底下的一個層級。"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:35
 msgid ""
 "This is the full name of your ldap server. For example, \"ldap.mycompany.com"
 "\"."
-msgstr "這是您的 ldap 伺服器的完整名稱。例如：“ldap.mycompany.com”。"
+msgstr "這是您的 ldap 伺服器的完整名稱。例如：「ldap.mycompany.com」。"
 
 # Novell Translation
 #: ../addressbook/gui/component/ldap-config.glade.h:36
@@ -1218,7 +1218,7 @@ msgid ""
 "setting this to \"Email Address\" requires anonymous access to your ldap "
 "server."
 msgstr ""
-"這是 Evolution 將要用來驗證您的方法。注意要設定此項至“電子郵件位址”需要您的 "
+"這是 Evolution 將要用來驗證您的方法。注意要設定此項至「電子郵件位址」需要您的 "
 "LDAP 伺服器的匿名存取。"
 
 # Novell Translation
@@ -4033,12 +4033,12 @@ msgstr "選擇一個動作"
 #: ../addressbook/gui/widgets/eab-popup-control.c:575
 #, c-format
 msgid "Create a new contact \"%s\""
-msgstr "建立新的連絡人 “%s”"
+msgstr "建立新的連絡人 「%s」"
 
 #: ../addressbook/gui/widgets/eab-popup-control.c:591
 #, c-format
 msgid "Add address to existing contact \"%s\""
-msgstr "新增住址到既存之連絡人 “%s”"
+msgstr "新增住址到既存之連絡人 「%s」"
 
 # addressbook/gui/widgets/e-minicard-control.c:282
 # Novell Translation
@@ -4641,12 +4641,12 @@ msgstr "您確定要傳送沒有摘要的工作？"
 # Novell Translation
 #: ../calendar/calendar.error.xml.h:25
 msgid "Delete calendar '{0}'?"
-msgstr "刪除行事曆“{0}”？"
+msgstr "刪除行事曆「{0}」？"
 
 # ui/evolution-contact-editor.xml.h:2
 #: ../calendar/calendar.error.xml.h:26
 msgid "Delete task list '{0}'?"
-msgstr "刪除工作清單“{0}”？"
+msgstr "刪除工作清單「{0}」？"
 
 # Novell Translation
 #: ../calendar/calendar.error.xml.h:27
@@ -5267,7 +5267,7 @@ msgstr "工作日開始於幾點，以 24 小時格式，0 至 23。"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:22
 msgid "Intervals shown in Day and Work Week views, in minutes."
-msgstr "在“日”和“工作週”檢視中顯示間隔，以分鐘計。"
+msgstr "在「日」和「工作週」檢視中顯示間隔，以分鐘計。"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:23
 msgid "Last alarm time"
@@ -5423,13 +5423,13 @@ msgstr "24 小時制格式"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:53
 msgid "Units for a default reminder, \"minutes\", \"hours\" or \"days\"."
-msgstr "預設提醒單位，“分鐘”、“小時”或“日”。"
+msgstr "預設提醒單位，「分鐘」、「小時」或「日」。"
 
 # Novell Translation
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:54
 msgid ""
 "Units for determining when to hide tasks, \"minutes\", \"hours\" or \"days\"."
-msgstr "決定何時隱藏工作的單位，“分鐘”、“小時”或“日”。"
+msgstr "決定何時隱藏工作的單位，「分鐘」、「小時」或「日」。"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:56
 msgid "Week start"
@@ -11281,13 +11281,13 @@ msgstr "確定要放棄您正在撰寫且標題為 '{0}'的郵件？"
 # Novell Translation
 #: ../composer/mail-composer.error.xml.h:4
 msgid "Because &quot;{0}&quot;, you may need to select different mail options."
-msgstr "因為“{0}”，所以您可能需要選取不同的郵件選項。"
+msgstr "因為「{0}」，所以您可能需要選取不同的郵件選項。"
 
 # Novell Translation
 #: ../composer/mail-composer.error.xml.h:5 ../e-util/e-system.error.xml.h:1
 #: ../mail/mail.error.xml.h:16
 msgid "Because &quot;{1}&quot;."
-msgstr "因為“{1}”。"
+msgstr "因為「{1}」。"
 
 # Novell Translation
 #: ../composer/mail-composer.error.xml.h:6
@@ -11296,7 +11296,7 @@ msgid ""
 "you choose to save the message in your Drafts folder. This will allow you to "
 "continue the message at a later date."
 msgstr ""
-"關閉此撰寫視窗會永久放棄郵件，除非您選擇儲存郵件至您的“草稿”資料夾。這樣可以"
+"關閉此撰寫視窗會永久放棄郵件，除非您選擇儲存郵件至您的「草稿」資料夾。這樣可以"
 "讓您以後再繼續撰寫郵件。"
 
 # camel/camel-movemail.c:306
@@ -11315,7 +11315,7 @@ msgstr "無法建立郵件。"
 # Novell Translation
 #: ../composer/mail-composer.error.xml.h:9
 msgid "Could not read signature file &quot;{0}&quot;."
-msgstr "無法讀取簽名檔案“{0}”。"
+msgstr "無法讀取簽名檔案「{0}」。"
 
 # camel/camel-movemail.c:306
 # Novell Translation
@@ -11327,7 +11327,7 @@ msgstr "無法擷取郵件來附加 (從 {0})。"
 # Novell Translation
 #: ../composer/mail-composer.error.xml.h:11
 msgid "Could not save to autosave file &quot;{0}&quot;."
-msgstr "無法儲存至自動儲存檔案“{0}”。"
+msgstr "無法儲存至自動儲存檔案「{0}」。"
 
 # Novell Translation
 #: ../composer/mail-composer.error.xml.h:12
@@ -11354,7 +11354,7 @@ msgstr "下載尚在進行中。您是否要寄出此郵件？"
 # Novell Translation
 #: ../composer/mail-composer.error.xml.h:16
 msgid "Error saving to autosave because &quot;{1}&quot;."
-msgstr "儲存至自動儲存時發生錯誤，因為“{1}”。"
+msgstr "儲存至自動儲存時發生錯誤，因為「{1}」。"
 
 # Novell Translation
 #: ../composer/mail-composer.error.xml.h:17
@@ -11468,9 +11468,9 @@ msgid ""
 "\n"
 "Would you like to change your status to \"In the Office\"? "
 msgstr ""
-"<b>目前您的狀態是“不在辦公室”。</b>\n"
+"<b>目前您的狀態是「不在辦公室」。</b>\n"
 "\n"
-"您要變更您的狀態為“在辦公室”嗎？ "
+"您要變更您的狀態為「在辦公室」嗎？ "
 
 # widgets/meeting-time-sel/e-meeting-time-sel.c:394
 # Novell Translation
@@ -11966,19 +11966,19 @@ msgstr "外寄"
 # Novell Translation
 #: ../filter/filter.error.xml.h:1
 msgid "Bad regular expression &quot;{0}&quot;."
-msgstr "錯誤的正規表示式“{0}”。"
+msgstr "錯誤的正規表示式「{0}」。"
 
 # Novell Translation
 #: ../filter/filter.error.xml.h:2
 msgid "Could not compile regular expression &quot;{1}&quot;."
-msgstr "無法編譯正規表示式“{1}”。"
+msgstr "無法編譯正規表示式「{1}」。"
 
 # camel/providers/local/camel-mbox-store.c:119
 # camel/providers/local/camel-mbox-store.c:146
 # Novell Translation
 #: ../filter/filter.error.xml.h:3
 msgid "File &quot;{0}&quot; does not exist or is not a regular file."
-msgstr "檔案“{0}”不存在或者不是一般檔案。"
+msgstr "檔案「{0}」不存在或者不是一般檔案。"
 
 # widgets/meeting-time-sel/e-meeting-time-sel.c:631
 # Novell Translation
@@ -12000,7 +12000,7 @@ msgstr "缺少名稱。"
 # Novell Translation
 #: ../filter/filter.error.xml.h:7
 msgid "Name &quot;{0}&quot; already used."
-msgstr "已使用名稱“{0}”。"
+msgstr "已使用名稱「{0}」。"
 
 # Novell Translation
 #: ../filter/filter.error.xml.h:8
@@ -12748,7 +12748,7 @@ msgstr "移至資料夾(_M)"
 #: ../mail/em-folder-tree.c:1751 ../mail/mail-ops.c:1055
 #, c-format
 msgid "Scanning folders in \"%s\""
-msgstr "掃描“%s”內的資料夾"
+msgstr "掃描「%s」內的資料夾"
 
 #: ../mail/em-folder-tree.c:2107 ../ui/evolution-addressbook.xml.h:44
 #: ../ui/evolution-mail-global.xml.h:23
@@ -12782,7 +12782,7 @@ msgstr "重新命名(_R)..."
 #: ../mail/em-folder-utils.c:104
 #, c-format
 msgid "Copying `%s' to `%s'"
-msgstr "將“%s”複製到“%s”"
+msgstr "將「%s」複製到「%s」"
 
 # shell/e-shell-importer.c:601
 #: ../mail/em-folder-utils.c:367 ../mail/em-folder-utils.c:383
@@ -12801,7 +12801,7 @@ msgstr "複製(_O)"
 #: ../mail/em-folder-utils.c:521
 #, c-format
 msgid "Rename the \"%s\" folder to:"
-msgstr "重新命名資料夾“%s”為："
+msgstr "重新命名資料夾「%s」為："
 
 # mail/mail-ops.c:1195
 # mail/mail-ops.c:1333
@@ -13190,7 +13190,7 @@ msgstr "FTP 站指示 (%s)"
 #: ../mail/em-format-html.c:1008
 #, c-format
 msgid "Pointer to local file (%s) valid at site \"%s\""
-msgstr "本地端檔案 (%s) 於 “%s”有效的指示"
+msgstr "本地端檔案 (%s) 於 「%s」有效的指示"
 
 # mail/mail-format.c:1803
 #: ../mail/em-format-html.c:1010
@@ -13207,7 +13207,7 @@ msgstr "遠端資料指示 (%s)"
 #: ../mail/em-format-html.c:1042
 #, c-format
 msgid "Pointer to unknown external data (\"%s\" type)"
-msgstr "不明的外部檔案指示 (“%s”類型)"
+msgstr "不明的外部檔案指示 (「%s」類型)"
 
 # mail/mail-ops.c:898
 # Novell Translation
@@ -13799,12 +13799,12 @@ msgstr "在指定的時限過後，標示成已閱讀。"
 # Novell Translation
 #: ../mail/evolution-mail.schemas.in.in.h:46
 msgid "Mark citations in the message \"Preview\""
-msgstr "在郵件“預覽”中標示引用"
+msgstr "在郵件「預覽」中標示引用"
 
 # Novell Translation
 #: ../mail/evolution-mail.schemas.in.in.h:47
 msgid "Mark citations in the message \"Preview\"."
-msgstr "在郵件“預覽”中標示引用。"
+msgstr "在郵件「預覽」中標示引用。"
 
 # calendar/gui/dialogs/task-editor-dialog.glade.h:26
 # Novell Translation
@@ -13949,12 +13949,12 @@ msgstr "在郵件清單中顯示刪除的郵件"
 # Novell Translation
 #: ../mail/evolution-mail.schemas.in.in.h:73
 msgid "Show the \"Preview\" pane"
-msgstr "顯示“預覽”窗格"
+msgstr "顯示「預覽」窗格"
 
 # Novell Translation
 #: ../mail/evolution-mail.schemas.in.in.h:74
 msgid "Show the \"Preview\" pane."
-msgstr "顯示“預覽”窗格。"
+msgstr "顯示「預覽」窗格。"
 
 # Novell Translation
 #: ../mail/evolution-mail.schemas.in.in.h:75
@@ -13964,7 +13964,7 @@ msgstr "新郵件送到時要播放的音效檔案"
 # Novell Translation
 #: ../mail/evolution-mail.schemas.in.in.h:76
 msgid "Specifies the type of New Mail Notification the user wishes to use."
-msgstr "指定使用者要使用的“新郵件通知”類型。"
+msgstr "指定使用者要使用的「新郵件通知」類型。"
 
 # Novell Translation
 #: ../mail/evolution-mail.schemas.in.in.h:77
@@ -14260,7 +14260,7 @@ msgstr "掃描 %s"
 #: ../mail/importers/netscape-importer.c:73
 #, c-format
 msgid "Priority Filter \"%s\""
-msgstr "優先順序過濾器“%s”"
+msgstr "優先順序過濾器「%s」"
 
 #: ../mail/importers/netscape-importer.c:662
 msgid ""
@@ -14282,7 +14282,7 @@ msgstr ""
 "給電子郵件，並且根據此數值來過濾。\n"
 "\n"
 "\n"
-"目前的解決方案是加入一組名為“優先順序過濾器”\n"
+"目前的解決方案是加入一組名為「優先順序過濾器」\n"
 "的過濾器來將 Netscape 的電子郵件優先權轉換為\n"
 "Evolution 的點數，而受影響的過濾器會使用點數來\n"
 "代替優先權。請檢查匯入的過濾器以確定一切仍然\n"
@@ -14296,7 +14296,7 @@ msgid ""
 "These filters will be dropped."
 msgstr ""
 "有些 Netscape 郵件過濾器使用\n"
-"“忽略對話”或“監看對話”的\n"
+"「忽略對話」或「監看對話」的\n"
 "功能，而 Evolution 並不支援它。\n"
 "這些過濾器則會被丟棄。"
 
@@ -14780,7 +14780,7 @@ msgstr ""
 "您現在可以開始使用 Evolution\n"
 "收發電子郵件。\n"
 "\n"
-"按一下“套用”，儲存您的設定值。"
+"按一下「套用」，儲存您的設定值。"
 
 #: ../mail/mail-config.glade.h:66
 msgid "De_fault"
@@ -14942,7 +14942,7 @@ msgid ""
 "below do not need to be filled in, unless you wish to include this "
 "information in email you send."
 msgstr ""
-"請在下面輸入您的名稱及電郵地址。“選擇性”的欄位不一定要填，除非您希望在送出的"
+"請在下面輸入您的名稱及電郵地址。「選擇性」的欄位不一定要填，除非您希望在送出的"
 "郵件內包含這些資訊。"
 
 #: ../mail/mail-config.glade.h:111
@@ -15091,7 +15091,7 @@ msgid ""
 "For example: \"Work\" or \"Personal\""
 msgstr ""
 "輸入您想要用來代表這個帳號的名稱。\n"
-"例如：“工作”或“個人”"
+"例如：「工作」或「個人」"
 
 #: ../mail/mail-config.glade.h:148
 msgid "User_name:"
@@ -15111,7 +15111,7 @@ msgid ""
 msgstr ""
 "歡迎使用 Evolution 郵件組態助理。\n"
 "\n"
-"按一下“下一步”開始。 "
+"按一下「下一步」開始。 "
 
 #: ../mail/mail-config.glade.h:154
 msgid "_Add Signature"
@@ -15276,7 +15276,7 @@ msgid ""
 "Please select a follow up action from the \"Flag\" menu."
 msgstr ""
 "您選擇要跟隨的郵件已在下面列出。\n"
-"請從“標幟”選單中選擇跟隨的動作。"
+"請從「標幟」選單中選擇跟隨的動作。"
 
 # Novell Translation
 #: ../mail/mail-dialogs.glade.h:20
@@ -15355,14 +15355,14 @@ msgid ""
 "Appending to local `Sent' folder instead."
 msgstr ""
 "無法附加至 %s：%s\n"
-"改附加至本地“寄件匣”。"
+"改附加至本地「寄件匣」。"
 
 # camel/camel-movemail.c:274
 # Novell Translation
 #: ../mail/mail-ops.c:619
 #, c-format
 msgid "Failed to append to local `Sent' folder: %s"
-msgstr "無法附加至本地“寄件匣”：%s"
+msgstr "無法附加至本地「寄件匣」：%s"
 
 # mail/mail-ops.c:718
 #: ../mail/mail-ops.c:731
@@ -15436,7 +15436,7 @@ msgstr "移除資料夾 %s"
 #: ../mail/mail-ops.c:1455
 #, c-format
 msgid "Storing folder '%s'"
-msgstr "貯藏資料夾“%s”"
+msgstr "貯藏資料夾「%s」"
 
 # Novell Translation
 #: ../mail/mail-ops.c:1520
@@ -15698,7 +15698,7 @@ msgstr "新增虛擬資料夾"
 #: ../mail/mail.error.xml.h:1
 msgid ""
 "A folder named &quot;{1}&quot; already exists. Please use a different name."
-msgstr "已經有名稱為“{1}”的資料夾存在。請使用不同的名稱。"
+msgstr "已經有名稱為「{1}」的資料夾存在。請使用不同的名稱。"
 
 # Novell Translation
 #: ../mail/mail.error.xml.h:2
@@ -15708,7 +15708,7 @@ msgid ""
 "You can choose to ignore this folder, overwrite or append its contents, or "
 "quit.\n"
 msgstr ""
-"“{1}”的非空白資料夾已經存在。\n"
+"「{1}」的非空白資料夾已經存在。\n"
 "\n"
 "您可以選擇忽略此資料夾、覆寫或附加它的內容或者結束。\n"
 
@@ -15750,7 +15750,7 @@ msgstr "要永久移除所有資料夾中所有刪除的郵件？"
 msgid ""
 "Are you sure you want to permanently remove all the deleted messages in "
 "folder &quot;{0}&quot;?"
-msgstr "要永久移除資料夾“{0}”中所有刪除的郵件？"
+msgstr "要永久移除資料夾「{0}」中所有刪除的郵件？"
 
 # mail/mail-callbacks.c:1085
 # Novell Translation
@@ -15773,33 +15773,33 @@ msgstr "要傳送沒有主旨的郵件？"
 # Novell Translation
 #: ../mail/mail.error.xml.h:15
 msgid "Because &quot;{0}&quot;."
-msgstr "因為“{0}”。"
+msgstr "因為「{0}」。"
 
 # Novell Translation
 #: ../mail/mail.error.xml.h:17
 msgid "Because &quot;{2}&quot;."
-msgstr "因為“{2}”。"
+msgstr "因為「{2}」。"
 
 # camel/providers/local/camel-mbox-store.c:138
 # camel/providers/local/camel-mbox-store.c:161
 # Novell Translation
 #: ../mail/mail.error.xml.h:18
 msgid "Cannot add vFolder &quot;{0}&quot;."
-msgstr "無法新增 vFolder “{0}”。"
+msgstr "無法新增 vFolder 「{0}」。"
 
 # camel/providers/local/camel-local-store.c:142
 # camel/providers/local/camel-local-store.c:158
 # Novell Translation
 #: ../mail/mail.error.xml.h:19
 msgid "Cannot copy folder &quot;{0}&quot; to &quot;{1}&quot;."
-msgstr "無法將“{0}”資料夾複製至“{1}”。"
+msgstr "無法將「{0}」資料夾複製至「{1}」。"
 
 # camel/providers/local/camel-local-store.c:142
 # camel/providers/local/camel-local-store.c:158
 # Novell Translation
 #: ../mail/mail.error.xml.h:20
 msgid "Cannot create folder &quot;{0}&quot;."
-msgstr "無法建立資料夾“{0}”。"
+msgstr "無法建立資料夾「{0}」。"
 
 # mail/mail-display.c:236
 # Novell Translation
@@ -15811,21 +15811,21 @@ msgstr "無法建立暫時儲存目錄。"
 # Novell Translation
 #: ../mail/mail.error.xml.h:22
 msgid "Cannot create the save directory, because &quot;{1}&quot;"
-msgstr "無法建立儲存目錄，因為“{1}”"
+msgstr "無法建立儲存目錄，因為「{1}」"
 
 # camel/providers/local/camel-mbox-store.c:138
 # camel/providers/local/camel-mbox-store.c:161
 # Novell Translation
 #: ../mail/mail.error.xml.h:23
 msgid "Cannot delete folder &quot;{0}&quot;."
-msgstr "無法刪除資料夾“{0}”。"
+msgstr "無法刪除資料夾「{0}」。"
 
 # camel/providers/local/camel-mbox-store.c:138
 # camel/providers/local/camel-mbox-store.c:161
 # Novell Translation
 #: ../mail/mail.error.xml.h:24
 msgid "Cannot delete system folder &quot;{0}&quot;."
-msgstr "無法刪除系統資料夾“{0}”。"
+msgstr "無法刪除系統資料夾「{0}」。"
 
 # camel/providers/local/camel-maildir-store.c:100
 # camel/providers/local/camel-mbox-store.c:101
@@ -15833,32 +15833,32 @@ msgstr "無法刪除系統資料夾“{0}”。"
 # Novell Translation
 #: ../mail/mail.error.xml.h:25
 msgid "Cannot edit vFolder &quot;{0}&quot; as it does not exist."
-msgstr "無法編輯 vFolder“{0}”，因為它不存在。"
+msgstr "無法編輯 vFolder「{0}」，因為它不存在。"
 
 # camel/providers/local/camel-mbox-store.c:138
 # camel/providers/local/camel-mbox-store.c:161
 # Novell Translation
 #: ../mail/mail.error.xml.h:26
 msgid "Cannot move folder &quot;{0}&quot; to &quot;{1}&quot;."
-msgstr "無法將“{0}”資料夾移至“{1}”。"
+msgstr "無法將「{0}」資料夾移至「{1}」。"
 
 # camel/providers/local/camel-mbox-summary.c:655
 # Novell Translation
 #: ../mail/mail.error.xml.h:27
 msgid "Cannot open source &quot;{1}&quot;"
-msgstr "無法開啟來源“{1}”"
+msgstr "無法開啟來源「{1}」"
 
 # camel/providers/local/camel-mbox-summary.c:655
 # Novell Translation
 #: ../mail/mail.error.xml.h:28
 msgid "Cannot open source &quot;{2}&quot;."
-msgstr "無法開啟來源“{2}”。"
+msgstr "無法開啟來源「{2}」。"
 
 # camel/camel-filter-driver.c:671
 # Novell Translation
 #: ../mail/mail.error.xml.h:29
 msgid "Cannot open target &quot;{2}&quot;."
-msgstr "無法開啟目標“{2}”。"
+msgstr "無法開啟目標「{2}」。"
 
 #: ../mail/mail.error.xml.h:30
 msgid ""
@@ -15866,7 +15866,7 @@ msgid ""
 "problem.  You will not be able to use this provider until you can accept its "
 "license."
 msgstr ""
-"無法讀取授權條款檔案“{0}”，應該是安裝問題造成的。在您同意這項授權之前將無法使"
+"無法讀取授權條款檔案「{0}」，應該是安裝問題造成的。在您同意這項授權之前將無法使"
 "用它。"
 
 # camel/providers/local/camel-mbox-store.c:138
@@ -15874,13 +15874,13 @@ msgstr ""
 # Novell Translation
 #: ../mail/mail.error.xml.h:31
 msgid "Cannot rename &quot;{0}&quot; to &quot;{1}&quot;."
-msgstr "無法將“{0}”重新命名成“{1}”。"
+msgstr "無法將「{0}」重新命名成「{1}」。"
 
 # camel/providers/local/camel-local-store.c:237
 # Novell Translation
 #: ../mail/mail.error.xml.h:32
 msgid "Cannot rename or move system folder &quot;{0}&quot;."
-msgstr "無法重新命名或移動系統資料夾“{0}”。"
+msgstr "無法重新命名或移動系統資料夾「{0}」。"
 
 # Novell Translation
 #: ../mail/mail.error.xml.h:33
@@ -15891,7 +15891,7 @@ msgstr "無法儲存帳號變更。"
 # Novell Translation
 #: ../mail/mail.error.xml.h:34
 msgid "Cannot save to directory &quot;{0}&quot;."
-msgstr "無法儲存至目錄“{0}”。"
+msgstr "無法儲存至目錄「{0}」。"
 
 # camel/providers/local/camel-maildir-folder.c:197
 # camel/providers/local/camel-maildir-folder.c:209
@@ -15903,13 +15903,13 @@ msgstr "無法儲存至目錄“{0}”。"
 # Novell Translation
 #: ../mail/mail.error.xml.h:35
 msgid "Cannot save to file &quot;{0}&quot;."
-msgstr "無法儲存至檔案“{0}”。"
+msgstr "無法儲存至檔案「{0}」。"
 
 # mail/mail-config.glade.h:74
 # Novell Translation
 #: ../mail/mail.error.xml.h:36
 msgid "Cannot set signature script &quot;{0}&quot;."
-msgstr "無法設定簽名程序檔“{0}”。"
+msgstr "無法設定簽名程序檔「{0}」。"
 
 # Novell Translation
 #: ../mail/mail.error.xml.h:37
@@ -15939,7 +15939,7 @@ msgstr "無法儲存簽名檔案。"
 # Novell Translation
 #: ../mail/mail.error.xml.h:39
 msgid "Delete &quot;{0}&quot;?"
-msgstr "刪除“{0}”？"
+msgstr "刪除「{0}」？"
 
 # calendar/gui/e-calendar-table.c:714
 # Novell Translation
@@ -16059,8 +16059,8 @@ msgid ""
 "recipient."
 msgstr ""
 "很多電子郵件系統會新增 Apparently-To 標頭至只有密件副本收件者的郵件。如果加入"
-"了此標頭，會永遠列示郵件中所有的收件者。要避免此情況，您應該至少新增一個“收件"
-"者：”或“副本：”收件者。"
+"了此標頭，會永遠列示郵件中所有的收件者。要避免此情況，您應該至少新增一個「收件"
+"者：」或「副本：」收件者。"
 
 # ui/evolution-mail.xml.h:51
 #: ../mail/mail.error.xml.h:59
@@ -16097,8 +16097,8 @@ msgid ""
 "Please enter a valid email address in the To: field. You can search for "
 "email addresses by clicking on the To: button next to the entry box."
 msgstr ""
-"請在“收件者：”欄位輸入一個有效的電子郵件地址。您可以按一下輸入方塊旁邊的“收件"
-"者：”按鈕，搜尋電子郵件地址。"
+"請在「收件者：」欄位輸入一個有效的電子郵件地址。您可以按一下輸入方塊旁邊的「收件"
+"者：」按鈕，搜尋電子郵件地址。"
 
 # Novell Translation
 #: ../mail/mail.error.xml.h:67
@@ -16119,7 +16119,7 @@ msgstr "請稍候。"
 # Novell Translation
 #: ../mail/mail.error.xml.h:71
 msgid "Problem migrating old mail folder &quot;{0}&quot;."
-msgstr "移轉舊郵件資料夾“{0}”發生問題。"
+msgstr "移轉舊郵件資料夾「{0}」發生問題。"
 
 #: ../mail/mail.error.xml.h:72
 msgid "Querying server"
@@ -16141,7 +16141,7 @@ msgstr "要求讀信回條。"
 # Novell Translation
 #: ../mail/mail.error.xml.h:75
 msgid "Really delete folder &quot;{0}&quot; and all of its subfolders?"
-msgstr "確定要刪除資料夾“{0}”以及它所有的子資料夾?"
+msgstr "確定要刪除資料夾「{0}」以及它所有的子資料夾?"
 
 # Novell Translation
 #: ../mail/mail.error.xml.h:76
@@ -16170,8 +16170,8 @@ msgstr ""
 "您傳送的連絡人清單是設定成隱藏清單收件者。\n"
 "\n"
 "很多電子郵件系統會新增 Apparently-To 標頭至只有密件副本收件者的郵件。如果新增"
-"此標頭，會列示郵件中所有的收件者。要避免此情況，您應該至少新增一個“收件"
-"者：”或“副本：”收件者。 "
+"此標頭，會列示郵件中所有的收件者。要避免此情況，您應該至少新增一個「收件"
+"者：」或「副本：」收件者。 "
 
 # Novell Translation
 #: ../mail/mail.error.xml.h:81
@@ -16185,7 +16185,7 @@ msgstr ""
 "以下過濾器：\n"
 "{0}\n"
 "使用現在移除的資料夾：\n"
-"    “{1}”\n"
+"    「{1}」\n"
 "而且已更新。"
 
 # Novell Translation
@@ -16200,7 +16200,7 @@ msgstr ""
 "以下 vFolder:\n"
 "{0}\n"
 "使用現在移除的資料夾:\n"
-"    “{1}”\n"
+"    「{1}」\n"
 "而且已更新。"
 
 # Novell Translation
@@ -16211,9 +16211,9 @@ msgid ""
 "The message is stored in the Outbox folder.  Check the message for errors "
 "and resend."
 msgstr ""
-"訊息已透過“sendmail”外部應用程式傳送。Sendmail 報告以下錯誤：狀態 67：未傳送"
+"訊息已透過「sendmail」外部應用程式傳送。Sendmail 報告以下錯誤：狀態 67：未傳送"
 "郵件。\n"
-"訊息儲存在“寄件信箱”資料夾。請檢查訊息的錯誤，然後重新傳送。"
+"訊息儲存在「寄件信箱」資料夾。請檢查訊息的錯誤，然後重新傳送。"
 
 # Novell Translation
 #: ../mail/mail.error.xml.h:93
@@ -16314,12 +16314,12 @@ msgstr ""
 # Novell Translation
 #: ../mail/mail.error.xml.h:110
 msgid "Your login to your server &quot;{0}&quot; as &quot;{0}&quot; failed."
-msgstr "您登入伺服器“{0}”以“{0}”身分，但失敗。"
+msgstr "您登入伺服器「{0}」以「{0}」身分，但失敗。"
 
 # Novell Translation
 #: ../mail/mail.error.xml.h:111
 msgid "Your message with the subject &quot;{0}&quot; was not delivered."
-msgstr "未傳遞主旨為“{0}”的郵件。"
+msgstr "未傳遞主旨為「{0}」的郵件。"
 
 #: ../mail/mail.error.xml.h:112
 msgid "_Append"
@@ -17023,7 +17023,7 @@ msgstr "Exchange 資料夾樹"
 #: ../plugins/folder-unsubscribe/folder-unsubscribe.c:57
 #, c-format
 msgid "Unsubscribing from folder \"%s\""
-msgstr "取消訂閱資料夾 “%s”"
+msgstr "取消訂閱資料夾 「%s」"
 
 #: ../plugins/folder-unsubscribe/org-gnome-mail-folder-unsubscribe.eplug.xml.h:1
 msgid "Allows unsubscribing of mail folders in the folder tree context menu."
@@ -17143,7 +17143,7 @@ msgstr "無法分析項目"
 #: ../plugins/itip-formatter/itip-formatter.c:741
 #, c-format
 msgid "Unable to send item to calendar '%s'.  %s"
-msgstr "無法傳送項目至行事曆“%s”。%s"
+msgstr "無法傳送項目至行事曆「%s」。%s"
 
 #: ../plugins/itip-formatter/itip-formatter.c:752
 #, c-format
@@ -18180,7 +18180,7 @@ msgstr ""
 "歡迎使用 Evolution。以下畫面會讓\n"
 "Evolution 連線至您的電子郵件帳號，然後從其他應用程式輸入檔案。\n"
 "\n"
-"請按一下“下一步”按鈕繼續。 "
+"請按一下「下一步」按鈕繼續。 "
 
 #: ../plugins/startup-wizard/startup-wizard.c:314
 #: ../shell/e-shell-importer.c:159
@@ -18338,7 +18338,7 @@ msgid ""
 "\"toolbar\". If \"toolbar\" is set, the style of the buttons is determined "
 "by the GNOME toolbar setting."
 msgstr ""
-"視窗按鈕的風格。可以是“文字”、“圖示”、“兩者”、“工具列”。如果設為“工具列”，按"
+"視窗按鈕的風格。可以是「文字」、「圖示」、「兩者」、「工具列」。如果設為「工具列」，按"
 "鈕的風格會依 GNOME 工具列設定值決定。"
 
 # Novell Translation
@@ -18389,7 +18389,7 @@ msgstr "作用中的連線"
 
 #: ../shell/e-active-connection-dialog.glade.h:3
 msgid "Click OK to close these connections and go offline"
-msgstr "按“確定”關閉這些連線以離線"
+msgstr "按「確定」關閉這些連線以離線"
 
 # shell/e-shell-folder-title-bar.c:459
 # shell/e-shell-folder-title-bar.c:460
@@ -18413,7 +18413,7 @@ msgid ""
 msgstr ""
 "選取要匯入 Evolution 的檔案，並且在清單內選定檔案類型。\n"
 "\n"
-"若您不清楚檔案類型，請選擇“自動”。Evolution 會嘗試找出適當的處理方法。"
+"若您不清楚檔案類型，請選擇「自動」。Evolution 會嘗試找出適當的處理方法。"
 
 # ui/evolution.xml.h:4
 # Novell Translation
@@ -18432,7 +18432,7 @@ msgstr ""
 "Evolution 已經檢查從以下應用程式輸入的\n"
 "設定值：Pine、Netscape、Elm、iCalendar。找不到可以\n"
 "輸入的設定值。如果您想\n"
-"再試一次，請按一下“上一步”按鈕。\n"
+"再試一次，請按一下「上一步」按鈕。\n"
 
 # shell/e-shell-importer.c:212
 # shell/e-shell-importer.c:243
@@ -18573,7 +18573,7 @@ msgstr "資料夾名稱不可以包括 \"#\"字元。"
 
 #: ../shell/e-shell-utils.c:141
 msgid "'.' and '..' are reserved folder names."
-msgstr "“.”和“..”是資料夾保留名稱。"
+msgstr "「.」和「..」是資料夾保留名稱。"
 
 #: ../shell/e-shell-window-commands.c:69
 msgid "The GNOME Pilot tools do not appear to be installed on this system."
@@ -18717,7 +18717,7 @@ msgstr "建立新的測試項目"
 # shell/importer/import.glade.h:1
 #: ../shell/importer/import.glade.h:1
 msgid "Click \"Import\" to begin importing the file into Evolution. "
-msgstr "按“匯入”開始將檔案匯入到 Evolution。"
+msgstr "按「匯入」開始將檔案匯入到 Evolution。"
 
 # shell/importer/import.glade.h:2
 #: ../shell/importer/import.glade.h:2
@@ -20960,7 +20960,7 @@ msgstr "切換寄件者選擇器的顯示狀態"
 # Novell Translation
 #: ../ui/evolution-message-composer.xml.h:34
 msgid "Toggles whether the Post-To field is displayed"
-msgstr "切換是否顯示“張貼至”欄位"
+msgstr "切換是否顯示「張貼至」欄位"
 
 # ui/evolution-message-composer.xml.h:40
 #: ../ui/evolution-message-composer.xml.h:35
@@ -20971,7 +20971,7 @@ msgstr "切換回覆欄位的顯示狀態"
 # Novell Translation
 #: ../ui/evolution-message-composer.xml.h:36
 msgid "Toggles whether the To field is displayed"
-msgstr "切換是否顯示“收件者”欄位"
+msgstr "切換是否顯示「收件者」欄位"
 
 #: ../ui/evolution-message-composer.xml.h:37
 msgid "_Attachment..."
@@ -22430,7 +22430,7 @@ msgstr "懷舊外觀"
 
 #: ../widgets/table/e-tree.c:3312
 msgid "Draw lines and +/- expanders."
-msgstr "繪出線修與 +/- 展開符號。"
+msgstr "繪出線條與 +/- 展開符號。"
 
 #: ../widgets/text/e-entry-test.c:49
 msgid "Minicard Test"
