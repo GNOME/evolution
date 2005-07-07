@@ -22,6 +22,7 @@
 #include <config.h>
 #endif
 
+#include <string.h>
 #include <libgnome/gnome-i18n.h>
 #include <glade/glade.h>
 #include <gtk/gtk.h>
