@@ -57,6 +57,7 @@
 		<hook class="org.gnome.evolution.mail.popup:1.0">
 			<menu id="org.gnome.evolution.mail.foldertree.popup" target="folder" factory = "org_gnome_create_option">
 			</menu>
+			<menu id="org.gnome.evolution.mail.folderview.popup" target="select" factory = "org_gnome_junk_settings"/>
 			<menu id="org.gnome.evolution.mail.folderview.popup" target="select">
 				<item
 					type="item"
@@ -96,6 +97,7 @@
 					activate="org_gnome_compose_send_options"/>
 			</menu>
 		</hook>
+
 	</e-plugin>
 
 </e-plugin-list>

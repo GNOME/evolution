@@ -25,7 +25,10 @@ liborg_gnome_groupwise_features_la_SOURCES = \
 		mail-send-options.c          \
 		mail-send-options.h          \
 		status-track.c               \
-		addressbook-groupwise.c
+		addressbook-groupwise.c      \
+		junk-mail-settings.c	\
+		junk-settings.c \
+		junk-settings.h
 
 liborg_gnome_groupwise_features_la_LIBADD=			\
 	$(top_builddir)/e-util/libeutil.la			\
@@ -40,7 +43,7 @@ liborg_gnome_groupwise_features_la_LIBADD=			\
 
 liborg_gnome_groupwise_features_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)
 
-glade_DATA =properties.glade 
+glade_DATA =properties.glade junk-settings.glade 
 
 error_DATA = org-gnome-shared-folder.errors.xml
 errordir = $(privdatadir)/errors

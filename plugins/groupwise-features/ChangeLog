@@ -1,3 +1,16 @@
+2005-07-07  Vivek Jain <jvivek@novell.com>
+	
+	* org-gnome-groupwise-features.eplug.xml:
+	 have one more hookitem in folderview.popup
+	 for displaying junk mail settings
+	 
+	 added four more files
+	 * junk-mail-settings.c
+	 * junk-settings.c
+	 * junk-settings.h
+	 * junk-settings.glade
+	* Makefile.am : updated to add these files 
+
 2005-06-27  Sushma Rai  <rsushma@novell.com>
 
 	* org-gnome-groupwise-features.eplug.xml:
