@@ -141,7 +141,6 @@ ensure_sources (AddressbookComponent *component)
 		ESource *source = e_source_new (_("Personal"), PERSONAL_RELATIVE_URI);
 		e_source_group_add_source (on_this_computer, source, -1);
 
-		/* Enable autocompletion on default Person addressbook */
 		e_source_set_property (source, "completion", "true");
 
 		personal_source = source;
