@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-07-02 16:20-0400\n"
-"PO-Revision-Date: 2005-07-02 19:18-0400\n"
+"POT-Creation-Date: 2005-07-07 13:03-0400\n"
+"PO-Revision-Date: 2005-07-07 19:18-0400\n"
 "Last-Translator: Adam Weinberger <adamw@gnome.org>\n"
 "Language-Team: Canadian English <adamw@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -24,12 +24,12 @@ msgid "evolution addressbook"
 msgstr "evolution addressbook"
 
 #: a11y/addressbook/ea-minicard-view.c:34
-#: addressbook/gui/component/addressbook-component.c:196
+#: addressbook/gui/component/addressbook-component.c:198
 msgid "New Contact"
 msgstr "New Contact"
 
 #: a11y/addressbook/ea-minicard-view.c:35
-#: addressbook/gui/component/addressbook-component.c:204
+#: addressbook/gui/component/addressbook-component.c:206
 msgid "New Contact List"
 msgstr "New Contact List"
 
@@ -505,7 +505,7 @@ msgstr "Configure autocomplete here"
 
 #. Create the contacts group
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:5
-#: addressbook/gui/component/addressbook-view.c:1119
+#: addressbook/gui/component/addressbook-view.c:1127
 #: calendar/gui/calendar-component.c:246 calendar/gui/migration.c:388
 msgid "Contacts"
 msgstr "Contacts"
@@ -569,42 +569,42 @@ msgid "Personal"
 msgstr "Personal"
 
 #. Create the LDAP source group
-#: addressbook/gui/component/addressbook-component.c:149
-#: addressbook/gui/component/addressbook-migrate.c:517
+#: addressbook/gui/component/addressbook-component.c:151
+#: addressbook/gui/component/addressbook-migrate.c:519
 msgid "On LDAP Servers"
 msgstr "On LDAP Servers"
 
-#: addressbook/gui/component/addressbook-component.c:197
+#: addressbook/gui/component/addressbook-component.c:199
 msgid "_Contact"
 msgstr "_Contact"
 
-#: addressbook/gui/component/addressbook-component.c:198
+#: addressbook/gui/component/addressbook-component.c:200
 msgid "Create a new contact"
 msgstr "Create a new contact"
 
-#: addressbook/gui/component/addressbook-component.c:205
+#: addressbook/gui/component/addressbook-component.c:207
 msgid "Contact _List"
 msgstr "Contact _List"
 
-#: addressbook/gui/component/addressbook-component.c:206
+#: addressbook/gui/component/addressbook-component.c:208
 msgid "Create a new contact list"
 msgstr "Create a new contact list"
 
-#: addressbook/gui/component/addressbook-component.c:212
+#: addressbook/gui/component/addressbook-component.c:214
 #: addressbook/gui/component/addressbook-config.c:1120
 #: addressbook/gui/component/addressbook-view.c:757
 msgid "New Address Book"
 msgstr "New Address Book"
 
-#: addressbook/gui/component/addressbook-component.c:213
+#: addressbook/gui/component/addressbook-component.c:215
 msgid "Address _Book"
 msgstr "Address _Book"
 
-#: addressbook/gui/component/addressbook-component.c:214
+#: addressbook/gui/component/addressbook-component.c:216
 msgid "Create a new address book"
 msgstr "Create a new address book"
 
-#: addressbook/gui/component/addressbook-component.c:287
+#: addressbook/gui/component/addressbook-component.c:289
 msgid "Failed upgrading Addressbook settings or folders."
 msgstr "Failed upgrading Addressbook settings or folders."
 
@@ -674,15 +674,15 @@ msgstr "Migrating..."
 msgid "Migrating `%s':"
 msgstr "Migrating `%s':"
 
-#: addressbook/gui/component/addressbook-migrate.c:645
+#: addressbook/gui/component/addressbook-migrate.c:647
 msgid "LDAP Servers"
 msgstr "LDAP Servers"
 
-#: addressbook/gui/component/addressbook-migrate.c:760
+#: addressbook/gui/component/addressbook-migrate.c:762
 msgid "Autocompletion Settings"
 msgstr "Autocompletion Settings"
 
-#: addressbook/gui/component/addressbook-migrate.c:1131
+#: addressbook/gui/component/addressbook-migrate.c:1133
 msgid ""
 "The location and hierarchy of the Evolution contact folders has changed "
 "since Evolution 1.x.\n"
@@ -694,7 +694,7 @@ msgstr ""
 "\n"
 "Please be patient while Evolution migrates your folders..."
 
-#: addressbook/gui/component/addressbook-migrate.c:1145
+#: addressbook/gui/component/addressbook-migrate.c:1147
 msgid ""
 "The format of mailing list contacts has changed.\n"
 "\n"
@@ -704,7 +704,7 @@ msgstr ""
 "\n"
 "Please be patient while Evolution migrates your folders..."
 
-#: addressbook/gui/component/addressbook-migrate.c:1154
+#: addressbook/gui/component/addressbook-migrate.c:1156
 msgid ""
 "The way Evolution stores some phone numbers has changed.\n"
 "\n"
@@ -714,7 +714,7 @@ msgstr ""
 "\n"
 "Please be patient while Evolution migrates your folders..."
 
-#: addressbook/gui/component/addressbook-migrate.c:1164
+#: addressbook/gui/component/addressbook-migrate.c:1166
 msgid ""
 "Evolution's Palm Sync changelog and map files have changed.\n"
 "\n"
@@ -725,7 +725,7 @@ msgstr ""
 "Please be patient while Evolution migrates your Pilot Sync data..."
 
 #: addressbook/gui/component/addressbook-view.c:758
-#: addressbook/gui/widgets/e-addressbook-view.c:937
+#: addressbook/gui/widgets/e-addressbook-view.c:951
 #: calendar/gui/calendar-component.c:537 calendar/gui/tasks-component.c:441
 #: mail/em-filter-i18n.h:11 ui/evolution-addressbook.xml.h:8
 #: ui/evolution-calendar.xml.h:5 ui/evolution-mail-message.xml.h:25
@@ -738,7 +738,7 @@ msgstr "Delete"
 msgid "Properties..."
 msgstr "Properties..."
 
-#: addressbook/gui/component/addressbook-view.c:1130
+#: addressbook/gui/component/addressbook-view.c:1138
 msgid "Contact Source Selector"
 msgstr "Contact Source Selector"
 
@@ -2744,68 +2744,86 @@ msgid "Address Book"
 msgstr "Address Book"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:806
-#: addressbook/gui/widgets/e-addressbook-view.c:924
-#: addressbook/gui/widgets/e-addressbook-view.c:1986
+#: addressbook/gui/widgets/e-addressbook-view.c:935
+#: addressbook/gui/widgets/e-addressbook-view.c:2008
 #: ui/evolution-addressbook.xml.h:19
 msgid "Save as VCard..."
 msgstr "Save as VCard..."
 
-#: addressbook/gui/widgets/e-addressbook-view.c:920
+#: addressbook/gui/widgets/e-addressbook-view.c:929
+#: calendar/gui/e-calendar-table.c:1156 calendar/gui/e-calendar-view.c:1514
+#: ui/evolution-addressbook.xml.h:37
+msgid "_Open"
+msgstr "_Open"
+
+#: addressbook/gui/widgets/e-addressbook-view.c:931
 msgid "New Contact..."
 msgstr "New Contact..."
 
-#: addressbook/gui/widgets/e-addressbook-view.c:921
+#: addressbook/gui/widgets/e-addressbook-view.c:932
 msgid "New Contact List..."
 msgstr "New Contact List..."
 
-#: addressbook/gui/widgets/e-addressbook-view.c:925
+#: addressbook/gui/widgets/e-addressbook-view.c:936
 #: ui/evolution-addressbook.xml.h:10
 msgid "Forward Contact"
 msgstr "Forward Contact"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:926
+#: addressbook/gui/widgets/e-addressbook-view.c:937
+msgid "Forward Contacts"
+msgstr "Forward Contacts"
+
+#: addressbook/gui/widgets/e-addressbook-view.c:938
 msgid "Send Message to Contact"
 msgstr "Send Message to Contact"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:927
+#: addressbook/gui/widgets/e-addressbook-view.c:939
+msgid "Send Message to List"
+msgstr "Send Message to List"
+
+#: addressbook/gui/widgets/e-addressbook-view.c:940
+msgid "Send Message to Contacts"
+msgstr "Send Message to Contacts"
+
+#: addressbook/gui/widgets/e-addressbook-view.c:941
 #: calendar/gui/calendar-commands.c:119 calendar/gui/print.c:2501
 #: ui/evolution-addressbook.xml.h:16 ui/evolution-calendar.xml.h:19
 #: ui/evolution-mail-message.xml.h:74 ui/evolution-tasks.xml.h:14
 msgid "Print"
 msgstr "Print"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:930
+#: addressbook/gui/widgets/e-addressbook-view.c:944
 msgid "Copy to Address Book..."
 msgstr "Copy to Address Book..."
 
-#: addressbook/gui/widgets/e-addressbook-view.c:931
+#: addressbook/gui/widgets/e-addressbook-view.c:945
 msgid "Move to Address Book..."
 msgstr "Move to Address Book..."
 
-#: addressbook/gui/widgets/e-addressbook-view.c:934
+#: addressbook/gui/widgets/e-addressbook-view.c:948
 #: ui/evolution-addressbook.xml.h:6 ui/evolution-tasks.xml.h:4
 msgid "Cut"
 msgstr "Cut"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:935
+#: addressbook/gui/widgets/e-addressbook-view.c:949
 #: calendar/gui/calendar-component.c:536 calendar/gui/tasks-component.c:440
 #: ui/evolution-addressbook.xml.h:2 ui/evolution-mail-message.xml.h:11
 #: ui/evolution-tasks.xml.h:2
 msgid "Copy"
 msgstr "Copy"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:936
+#: addressbook/gui/widgets/e-addressbook-view.c:950
 #: ui/evolution-addressbook.xml.h:13 ui/evolution-tasks.xml.h:11
 msgid "Paste"
 msgstr "Paste"
 
 #. All, unmatched, separator
-#: addressbook/gui/widgets/e-addressbook-view.c:1539
+#: addressbook/gui/widgets/e-addressbook-view.c:1561
 #: calendar/gui/cal-search-bar.c:346
 msgid "Any Category"
 msgstr "Any Category"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:1738
+#: addressbook/gui/widgets/e-addressbook-view.c:1760
 msgid "Print cards"
 msgstr "Print cards"
 
@@ -5471,14 +5489,14 @@ msgstr " (Due "
 msgid "Due "
 msgstr "Due "
 
-#: calendar/gui/dialogs/comp-editor.c:184 composer/e-msg-composer.c:2654
+#: calendar/gui/dialogs/comp-editor.c:185 composer/e-msg-composer.c:2654
 #, c-format
 msgid "Attached message - %s"
 msgstr "Attached message - %s"
 
 #. translators, this count will always be >1
-#: calendar/gui/dialogs/comp-editor.c:189
-#: calendar/gui/dialogs/comp-editor.c:358 composer/e-msg-composer.c:2659
+#: calendar/gui/dialogs/comp-editor.c:190
+#: calendar/gui/dialogs/comp-editor.c:359 composer/e-msg-composer.c:2659
 #: composer/e-msg-composer.c:2835
 #, c-format
 msgid "Attached message"
@@ -5486,7 +5504,7 @@ msgid_plural "%d attached messages"
 msgstr[0] "Attached message"
 msgstr[1] "%d attached messages"
 
-#: calendar/gui/dialogs/comp-editor.c:421 calendar/gui/e-calendar-table.c:1164
+#: calendar/gui/dialogs/comp-editor.c:422 calendar/gui/e-calendar-table.c:1164
 #: calendar/gui/e-calendar-view.c:1521 composer/e-msg-composer.c:2899
 #: mail/em-folder-tree.c:1047 mail/em-folder-view.c:1033
 #: mail/message-list.c:1708 ui/evolution-addressbook.xml.h:31
@@ -5495,18 +5513,18 @@ msgstr[1] "%d attached messages"
 msgid "_Copy"
 msgstr "_Copy"
 
-#: calendar/gui/dialogs/comp-editor.c:422 composer/e-msg-composer.c:2900
+#: calendar/gui/dialogs/comp-editor.c:423 composer/e-msg-composer.c:2900
 #: mail/em-folder-tree.c:1048 mail/em-folder-utils.c:383
 #: mail/em-folder-view.c:929 mail/message-list.c:1709
 msgid "_Move"
 msgstr "_Move"
 
-#: calendar/gui/dialogs/comp-editor.c:424 composer/e-msg-composer.c:2902
+#: calendar/gui/dialogs/comp-editor.c:425 composer/e-msg-composer.c:2902
 #: mail/em-folder-tree.c:1050 mail/message-list.c:1711
 msgid "Cancel _Drag"
 msgstr "Cancel _Drag"
 
-#: calendar/gui/dialogs/comp-editor.c:705
+#: calendar/gui/dialogs/comp-editor.c:706
 msgid "Could not update object"
 msgstr "Could not update object"
 
@@ -6399,7 +6417,7 @@ msgstr "Due Date:"
 #. Status
 #: calendar/gui/e-cal-component-preview.c:222
 #: calendar/gui/e-itip-control.c:1132
-#: plugins/exchange-operations/exchange-account-setup.c:251
+#: plugins/exchange-operations/exchange-account-setup.c:264
 #: plugins/itip-formatter/itip-view.c:888
 msgid "Status:"
 msgstr "Status:"
@@ -6539,11 +6557,6 @@ msgstr "Updating objects"
 #: composer/e-msg-composer.c:1241
 msgid "Save as..."
 msgstr "Save as..."
-
-#: calendar/gui/e-calendar-table.c:1156 calendar/gui/e-calendar-view.c:1514
-#: ui/evolution-addressbook.xml.h:37
-msgid "_Open"
-msgstr "_Open"
 
 #: calendar/gui/e-calendar-table.c:1157
 msgid "Open _Web Page"
@@ -10421,7 +10434,7 @@ msgstr "Defaults"
 
 #. Security settings
 #: mail/em-account-editor.c:2207 mail/mail-config.glade.h:122
-#: plugins/exchange-operations/exchange-account-setup.c:301
+#: plugins/exchange-operations/exchange-account-setup.c:314
 msgid "Security"
 msgstr "Security"
 
@@ -11069,16 +11082,16 @@ msgid "Click to mail %s"
 msgstr "Click to mail %s"
 
 #. message-search popup match count string
-#: mail/em-format-html-display.c:406
+#: mail/em-format-html-display.c:416
 #, c-format
 msgid "Matches: %d"
 msgstr "Matches: %d"
 
-#: mail/em-format-html-display.c:653 mail/em-format-html.c:596
+#: mail/em-format-html-display.c:663 mail/em-format-html.c:596
 msgid "Unsigned"
 msgstr "Unsigned"
 
-#: mail/em-format-html-display.c:653
+#: mail/em-format-html-display.c:663
 msgid ""
 "This message is not signed. There is no guarantee that this message is "
 "authentic."
@@ -11086,11 +11099,11 @@ msgstr ""
 "This message is not signed. There is no guarantee that this message is "
 "authentic."
 
-#: mail/em-format-html-display.c:654 mail/em-format-html.c:597
+#: mail/em-format-html-display.c:664 mail/em-format-html.c:597
 msgid "Valid signature"
 msgstr "Valid signature"
 
-#: mail/em-format-html-display.c:654
+#: mail/em-format-html-display.c:664
 msgid ""
 "This message is signed and is valid meaning that it is very likely that this "
 "message is authentic."
@@ -11098,11 +11111,11 @@ msgstr ""
 "This message is signed and is valid meaning that it is very likely that this "
 "message is authentic."
 
-#: mail/em-format-html-display.c:655 mail/em-format-html.c:598
+#: mail/em-format-html-display.c:665 mail/em-format-html.c:598
 msgid "Invalid signature"
 msgstr "Invalid signature"
 
-#: mail/em-format-html-display.c:655
+#: mail/em-format-html-display.c:665
 msgid ""
 "The signature of this message cannot be verified, it may have been altered "
 "in transit."
@@ -11110,11 +11123,11 @@ msgstr ""
 "The signature of this message cannot be verified, it may have been altered "
 "in transit."
 
-#: mail/em-format-html-display.c:656
+#: mail/em-format-html-display.c:666
 msgid "Valid signature, cannot verify sender"
 msgstr "Valid signature, cannot verify sender"
 
-#: mail/em-format-html-display.c:656
+#: mail/em-format-html-display.c:666
 msgid ""
 "This message is signed with a valid signature, but the sender of the message "
 "cannot be verified."
@@ -11122,11 +11135,11 @@ msgstr ""
 "This message is signed with a valid signature, but the sender of the message "
 "cannot be verified."
 
-#: mail/em-format-html-display.c:662 mail/em-format-html.c:605
+#: mail/em-format-html-display.c:672 mail/em-format-html.c:605
 msgid "Unencrypted"
 msgstr "Unencrypted"
 
-#: mail/em-format-html-display.c:662
+#: mail/em-format-html-display.c:672
 msgid ""
 "This message is not encrypted.  Its content may be viewed in transit across "
 "the Internet."
@@ -11134,11 +11147,11 @@ msgstr ""
 "This message is not encrypted.  Its content may be viewed in transit across "
 "the Internet."
 
-#: mail/em-format-html-display.c:663 mail/em-format-html.c:606
+#: mail/em-format-html-display.c:673 mail/em-format-html.c:606
 msgid "Encrypted, weak"
 msgstr "Encrypted, weak"
 
-#: mail/em-format-html-display.c:663
+#: mail/em-format-html-display.c:673
 msgid ""
 "This message is encrypted, but with a weak encryption algorithm.  It would "
 "be difficult, but not impossible for an outsider to view the content of this "
@@ -11148,11 +11161,11 @@ msgstr ""
 "be difficult, but not impossible for an outsider to view the content of this "
 "message in a practical amount of time."
 
-#: mail/em-format-html-display.c:664 mail/em-format-html.c:607
+#: mail/em-format-html-display.c:674 mail/em-format-html.c:607
 msgid "Encrypted"
 msgstr "Encrypted"
 
-#: mail/em-format-html-display.c:664
+#: mail/em-format-html-display.c:674
 msgid ""
 "This message is encrypted.  It would be difficult for an outsider to view "
 "the content of this message."
@@ -11160,11 +11173,11 @@ msgstr ""
 "This message is encrypted.  It would be difficult for an outsider to view "
 "the content of this message."
 
-#: mail/em-format-html-display.c:665 mail/em-format-html.c:608
+#: mail/em-format-html-display.c:675 mail/em-format-html.c:608
 msgid "Encrypted, strong"
 msgstr "Encrypted, strong"
 
-#: mail/em-format-html-display.c:665
+#: mail/em-format-html-display.c:675
 msgid ""
 "This message is encrypted, with a strong encryption algorithm.  It would be "
 "very difficult for an outsider to view the content of this message in a "
@@ -11174,35 +11187,43 @@ msgstr ""
 "very difficult for an outsider to view the content of this message in a "
 "practical amount of time."
 
-#: mail/em-format-html-display.c:766 smime/gui/smime-ui.glade.h:48
+#: mail/em-format-html-display.c:776 smime/gui/smime-ui.glade.h:48
 msgid "_View Certificate"
 msgstr "_View Certificate"
 
-#: mail/em-format-html-display.c:781
+#: mail/em-format-html-display.c:791
 msgid "This certificate is not viewable"
 msgstr "This certificate is not viewable"
 
-#: mail/em-format-html-display.c:1011
+#: mail/em-format-html-display.c:1063
 msgid "Completed on %B %d, %Y, %l:%M %p"
 msgstr "Completed on %B %d, %Y, %l:%M %p"
 
-#: mail/em-format-html-display.c:1019
+#: mail/em-format-html-display.c:1071
 msgid "Overdue:"
 msgstr "Overdue:"
 
-#: mail/em-format-html-display.c:1022
+#: mail/em-format-html-display.c:1074
 msgid "by %B %d, %Y, %l:%M %p"
 msgstr "by %B %d, %Y, %l:%M %p"
 
-#: mail/em-format-html-display.c:1064
+#: mail/em-format-html-display.c:1134
 msgid "_View Inline"
 msgstr "_View Inline"
 
-#: mail/em-format-html-display.c:1065
+#: mail/em-format-html-display.c:1135
 msgid "_Hide"
 msgstr "_Hide"
 
-#: mail/em-format-html-display.c:1309
+#: mail/em-format-html-display.c:1136
+msgid "_Fit to Width"
+msgstr "_Fit to Width"
+
+#: mail/em-format-html-display.c:1137
+msgid "Show _Original Size"
+msgstr "Show _Original Size"
+
+#: mail/em-format-html-display.c:1462
 msgid "Attachment Button"
 msgstr "Attachment Button"
 
@@ -11340,10 +11361,6 @@ msgstr "Error verifying signature"
 #: mail/em-format.c:1438
 msgid "Unknown error verifying signature"
 msgstr "Unknown error verifying signature"
-
-#: mail/em-junk-filter.c:111
-msgid "Spamassassin (built-in)"
-msgstr "Spamassassin (built-in)"
 
 #: mail/em-mailer-prefs.c:101
 msgid "Every time"
@@ -12275,7 +12292,7 @@ msgstr "Mail _Folder"
 msgid "Create a new mail folder"
 msgstr "Create a new mail folder"
 
-#: mail/mail-component.c:893
+#: mail/mail-component.c:915
 msgid "Failed upgrading Mail settings or folders."
 msgstr "Failed upgrading Mail settings or folders."
 
@@ -13228,16 +13245,16 @@ msgstr "Updating..."
 msgid "Waiting..."
 msgstr "Waiting..."
 
-#: mail/mail-session.c:208
+#: mail/mail-session.c:207
 #, c-format
 msgid "Enter Password for %s"
 msgstr "Enter Password for %s"
 
-#: mail/mail-session.c:210
+#: mail/mail-session.c:209
 msgid "Enter Password"
 msgstr "Enter Password"
 
-#: mail/mail-session.c:239
+#: mail/mail-session.c:238
 msgid "User canceled operation."
 msgstr "User cancelled operation."
 
@@ -14185,12 +14202,12 @@ msgid "Mark as default folder"
 msgstr "Mark as default folder"
 
 #. i18n: "Secure Password Authentication" is an Outlookism
-#: plugins/exchange-operations/exchange-account-setup.c:58
+#: plugins/exchange-operations/exchange-account-setup.c:59
 msgid "Secure Password"
 msgstr "Secure Password"
 
 #. i18n: "NTLM" probably doesn't translate
-#: plugins/exchange-operations/exchange-account-setup.c:61
+#: plugins/exchange-operations/exchange-account-setup.c:62
 msgid ""
 "This option will connect to the Exchange server using secure password (NTLM) "
 "authentication."
@@ -14198,11 +14215,11 @@ msgstr ""
 "This option will connect to the Exchange server using secure password (NTLM) "
 "authentication."
 
-#: plugins/exchange-operations/exchange-account-setup.c:69
+#: plugins/exchange-operations/exchange-account-setup.c:70
 msgid "Plaintext Password"
 msgstr "Plaintext Password"
 
-#: plugins/exchange-operations/exchange-account-setup.c:71
+#: plugins/exchange-operations/exchange-account-setup.c:72
 msgid ""
 "This option will connect to the Exchange server using standard plaintext "
 "password authentication."
@@ -14210,11 +14227,11 @@ msgstr ""
 "This option will connect to the Exchange server using standard plaintext "
 "password authentication."
 
-#: plugins/exchange-operations/exchange-account-setup.c:239
+#: plugins/exchange-operations/exchange-account-setup.c:252
 msgid "Out Of Office"
 msgstr "Out Of Office"
 
-#: plugins/exchange-operations/exchange-account-setup.c:246
+#: plugins/exchange-operations/exchange-account-setup.c:259
 msgid ""
 "The message specified below will be automatically sent to \n"
 "each person who sends mail to you while you are out of the office."
@@ -14222,63 +14239,66 @@ msgstr ""
 "The message specified below will be automatically sent to \n"
 "each person who sends mail to you while you are out of the office."
 
-#: plugins/exchange-operations/exchange-account-setup.c:258
-#: plugins/exchange-operations/exchange-account-setup.c:263
+#: plugins/exchange-operations/exchange-account-setup.c:271
+#: plugins/exchange-operations/exchange-account-setup.c:276
 msgid "I am out of the office"
 msgstr "I am out of the office"
 
-#: plugins/exchange-operations/exchange-account-setup.c:259
-#: plugins/exchange-operations/exchange-account-setup.c:262
+#: plugins/exchange-operations/exchange-account-setup.c:272
+#: plugins/exchange-operations/exchange-account-setup.c:275
 msgid "I am in the office"
 msgstr "I am in the office"
 
-#: plugins/exchange-operations/exchange-account-setup.c:309
+#. Change Password
+#: plugins/exchange-operations/exchange-account-setup.c:324
 msgid "Change the password for Exchange account"
 msgstr "Change the password for Exchange account"
 
-#: plugins/exchange-operations/exchange-account-setup.c:311
+#: plugins/exchange-operations/exchange-account-setup.c:326
 #: plugins/exchange-operations/exchange-change-password.glade.h:2
 msgid "Change Password"
 msgstr "Change Password"
 
-#: plugins/exchange-operations/exchange-account-setup.c:312
+#. Delegation Assistant
+#: plugins/exchange-operations/exchange-account-setup.c:330
 msgid "Manage the delegate settings for Exchange account"
 msgstr "Manage the delegate settings for Exchange account"
 
-#: plugins/exchange-operations/exchange-account-setup.c:314
+#: plugins/exchange-operations/exchange-account-setup.c:332
 msgid "Delegation Assitant"
 msgstr "Delegation Assitant"
 
 #. Miscelleneous settings
-#: plugins/exchange-operations/exchange-account-setup.c:324
+#: plugins/exchange-operations/exchange-account-setup.c:343
 msgid "Miscelleneous"
 msgstr "Miscelleneous"
 
-#: plugins/exchange-operations/exchange-account-setup.c:332
+#. Folder Size
+#: plugins/exchange-operations/exchange-account-setup.c:353
 msgid "View the size of all Exchange folders"
 msgstr "View the size of all Exchange folders"
 
-#: plugins/exchange-operations/exchange-account-setup.c:334
+#: plugins/exchange-operations/exchange-account-setup.c:355
 msgid "Folders Size"
 msgstr "Folders Size"
 
-#: plugins/exchange-operations/exchange-account-setup.c:341
+#: plugins/exchange-operations/exchange-account-setup.c:362
 msgid "Exchange Settings"
 msgstr "Exchange Settings"
 
-#: plugins/exchange-operations/exchange-account-setup.c:632
+#: plugins/exchange-operations/exchange-account-setup.c:653
 msgid "_OWA Url:"
 msgstr "_OWA URL:"
 
-#: plugins/exchange-operations/exchange-account-setup.c:657
+#: plugins/exchange-operations/exchange-account-setup.c:678
 msgid "A_uthenticate"
 msgstr "A_uthenticate"
 
-#: plugins/exchange-operations/exchange-account-setup.c:849
+#: plugins/exchange-operations/exchange-account-setup.c:870
 msgid "Authentication Type"
 msgstr "Authentication Type"
 
-#: plugins/exchange-operations/exchange-account-setup.c:863
+#: plugins/exchange-operations/exchange-account-setup.c:884
 msgid "Ch_eck for Supported Types"
 msgstr "Ch_eck for Supported Types"
 
@@ -15416,6 +15436,10 @@ msgstr "Thread messages by subject"
 #: plugins/subject-thread/subject-thread.c:54
 msgid "Fall back to threading messages by sub_ject"
 msgstr "Fall back to threading messages by sub_ject"
+
+#: plugins/sa-junk-plugin/em-junk-filter.c:97
+msgid "Spamassassin (built-in)"
+msgstr "Spamassassin (built-in)"
 
 #: shell/GNOME_Evolution_Shell.server.in.in.h:1
 msgid "Evolution Shell"
