@@ -1,3 +1,10 @@
+2005-07-07  Frederic Crozat  <fcrozat@mandriva.com>
+
+	* gui/component/addressbook-component.c: (ensure_sources):
+	* gui/component/addressbook-migrate.c: (create_groups):
+	Enable autocompletion on personal addressbook when creating it
+	(Mandriva bug #16427).
+
 2005-04-28  Ross Burton  <ross@burtonini.com>
 
 	* gui/widgets/e-addressbook-view.c:
