@@ -223,6 +223,15 @@ init_importers ()
 	}
 }
 
+static void
+startup_wizard_delete () {
+	free_importers ();
+
+	gtk_main_quit ();
+	_exit (0);
+}
+
+
 void
 startup_wizard (EPlugin *ep, ESEventTargetUpgrade *target)
 {
@@ -253,8 +262,6 @@ startup_wizard (EPlugin *ep, ESEventTargetUpgrade *target)
 	emae = em_account_editor_new (NULL, EMAE_DRUID, "org.gnome.evolution.mail.config.accountWizard");
 
 	gtk_window_set_title (GTK_WINDOW (emae->editor), _("Evolution Setup Assistant"));
-	gtk_window_set_type_hint (GTK_WINDOW (emae->editor), GDK_WINDOW_TYPE_HINT_NORMAL);
-	gtk_window_set_wmclass (GTK_WINDOW (emae->editor), "startup-wizard", "Evolution:shell");
 
 	start_page = GNOME_DRUID_PAGE_EDGE (e_config_page_get ((EConfig *) emae->config, "0.start"));
 	gnome_druid_page_edge_set_title (start_page, _("Welcome"));
@@ -263,6 +270,7 @@ startup_wizard (EPlugin *ep, ESEventTargetUpgrade *target)
 					"to your email accounts, and to import files from other applications. \n"
 					"\n"
 					"Please click the \"Forward\" button to continue. "));
+	g_signal_connect (emae->editor, "delete-event", G_CALLBACK (startup_wizard_delete), NULL);
 	
 	gtk_widget_show (emae->editor);
 	gtk_main ();
