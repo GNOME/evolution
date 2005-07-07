@@ -225,7 +225,6 @@ mail/em-format-html-print.c
 mail/em-format-html.c
 mail/em-format-quote.c
 mail/em-format.c
-mail/em-junk-filter.c
 mail/em-mailer-prefs.c
 mail/em-migrate.c
 mail/em-popup.c
@@ -321,6 +320,7 @@ plugins/startup-wizard/org-gnome-evolution-startup-wizard.eplug.xml
 plugins/startup-wizard/startup-wizard.c
 plugins/subject-thread/org-gnome-subject-thread.eplug.xml
 plugins/subject-thread/subject-thread.c
+plugins/sa-junk-plugin/em-junk-filter.c
 shell/GNOME_Evolution_Shell.server.in.in
 shell/GNOME_Evolution_Test.server.in.in
 shell/apps_evolution_shell.schemas.in.in

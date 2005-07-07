@@ -1,3 +1,8 @@
+2005-07-07 Vivek Jain <jvivek@novell.com>
+	
+	* POTFILES.in : updated with the changed location of 
+	em-junk-filter.c
+	
 2005-07-07  Alexander Shopov  <ash@contact.bg>
 
 	* bg.po: Updated Bulgarian translation by
