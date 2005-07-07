@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 2.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-06-21 13:59+0800\n"
-"PO-Revision-Date: 2005-06-17 10:51+0300\n"
+"POT-Creation-Date: 2005-07-07 09:13+0300\n"
+"PO-Revision-Date: 2005-07-07 08:56+0300\n"
 "Last-Translator: Rostislav \"zbrox\" Raykov <zbrox@i-space.org>\n"
 "Language-Team: Bulgarian <dict@fsa-bg.org>\n"
 "MIME-Version: 1.0\n"
@@ -101,7 +101,7 @@ msgstr "Нова среща"
 msgid "New All Day Event"
 msgstr "Ново събитие за целия ден"
 
-#: ../a11y/calendar/ea-cal-view.c:308 ../calendar/gui/e-calendar-view.c:1483
+#: ../a11y/calendar/ea-cal-view.c:308 ../calendar/gui/e-calendar-view.c:1491
 msgid "New Meeting"
 msgstr "Ново събрание"
 
@@ -160,7 +160,7 @@ msgstr "%a %d %b %Y"
 #. specifiers or add anything.
 #: ../a11y/calendar/ea-gnome-calendar.c:190
 #: ../calendar/gui/calendar-component.c:663
-#: ../calendar/gui/e-day-view-top-item.c:719 ../calendar/gui/e-day-view.c:1516
+#: ../calendar/gui/e-day-view-top-item.c:719 ../calendar/gui/e-day-view.c:1515
 #: ../calendar/gui/e-week-view-main-item.c:321
 msgid "%a %d %b"
 msgstr "%a %d %b"
@@ -192,7 +192,7 @@ msgstr "%d %B %Y"
 #. change the specifiers or add anything.
 #: ../a11y/calendar/ea-gnome-calendar.c:220
 #: ../calendar/gui/calendar-component.c:689
-#: ../calendar/gui/e-day-view-top-item.c:723 ../calendar/gui/e-day-view.c:1532
+#: ../calendar/gui/e-day-view-top-item.c:723 ../calendar/gui/e-day-view.c:1531
 #: ../calendar/gui/e-week-view-main-item.c:335
 msgid "%d %b"
 msgstr "%d %b"
@@ -294,9 +294,8 @@ msgid "click"
 msgstr "натискане"
 
 #: ../a11y/e-table/gal-a11y-e-table-column-header.c:135
-#, fuzzy
 msgid "sort"
-msgstr "Премахване на сортирането"
+msgstr "подреждане"
 
 #: ../a11y/widgets/ea-calendar-item.c:296
 #: ../a11y/widgets/ea-calendar-item.c:302
@@ -334,7 +333,7 @@ msgstr ""
 
 #: ../addressbook/addressbook.error.xml.h:2
 msgid "Address '{0}' already exists."
-msgstr "Адресникът \"{0}\" вече съществува."
+msgstr "Адресникът „{0}“ вече съществува."
 
 #: ../addressbook/addressbook.error.xml.h:3
 msgid "Cannot move contact."
@@ -352,7 +351,7 @@ msgid ""
 msgstr ""
 "Проверете дали паролата е написана правилно и дали използвате поддържан "
 "метод за идентификация. Запомнете, че при много пароли големите и малките "
-"букви имат значение; проверете дали е натиснат клавиша \"Caps Lock\"."
+"букви имат значение; проверете дали е натиснат клавиша „Caps Lock“."
 
 #: ../addressbook/addressbook.error.xml.h:6
 msgid "Could not get schema information for LDAP server."
@@ -364,7 +363,7 @@ msgstr "Адресникът не може да бъде премахнат."
 
 #: ../addressbook/addressbook.error.xml.h:8
 msgid "Delete address book '{0}'?"
-msgstr "Изтриване на адресника \"{0}\"?"
+msgstr "Изтриване на адресника „{0}“?"
 
 #: ../addressbook/addressbook.error.xml.h:9
 msgid "Error loading addressbook."
@@ -528,7 +527,7 @@ msgstr "Конфигуриране на авт. довършване"
 
 #. Create the contacts group
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:5
-#: ../addressbook/gui/component/addressbook-view.c:1119
+#: ../addressbook/gui/component/addressbook-view.c:1127
 #: ../calendar/gui/calendar-component.c:246 ../calendar/gui/migration.c:388
 msgid "Contacts"
 msgstr "Контакти"
@@ -568,7 +567,7 @@ msgstr "Управление на S/MIME сертификати"
 #. create the local source group
 #. On This Computer is always first and vFolders is always last
 #: ../addressbook/gui/component/addressbook-component.c:133
-#: ../addressbook/gui/component/addressbook-migrate.c:493
+#: ../addressbook/gui/component/addressbook-migrate.c:501
 #: ../calendar/gui/calendar-component.c:208 ../calendar/gui/migration.c:462
 #: ../calendar/gui/migration.c:555 ../calendar/gui/tasks-component.c:188
 #: ../mail/em-folder-tree-model.c:197 ../mail/em-folder-tree-model.c:199
@@ -582,7 +581,7 @@ msgstr "На този компютър"
 #. Create the default Person addressbook
 #. orange
 #: ../addressbook/gui/component/addressbook-component.c:141
-#: ../addressbook/gui/component/addressbook-migrate.c:501
+#: ../addressbook/gui/component/addressbook-migrate.c:509
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:20
 #: ../calendar/gui/calendar-component.c:216 ../calendar/gui/migration.c:470
 #: ../calendar/gui/migration.c:563 ../calendar/gui/tasks-component.c:196
@@ -593,7 +592,7 @@ msgstr "Лични"
 
 #. Create the LDAP source group
 #: ../addressbook/gui/component/addressbook-component.c:149
-#: ../addressbook/gui/component/addressbook-migrate.c:509
+#: ../addressbook/gui/component/addressbook-migrate.c:517
 msgid "On LDAP Servers"
 msgstr "На LDAP сървъри"
 
@@ -644,8 +643,7 @@ msgstr "_Тип:"
 #: ../addressbook/gui/component/addressbook-config.c:609
 msgid "Copy book content locally for offline operation"
 msgstr ""
-"Копиране на съдържанието на адресника за локална употреба в режим \"Изключен"
-"\""
+"Копиране на съдържанието на адресника за локална употреба в режим „Изключен“"
 
 #: ../addressbook/gui/component/addressbook-config.c:904
 #: ../addressbook/gui/component/ldap-config.glade.h:23
@@ -698,17 +696,17 @@ msgstr "Мигриране..."
 #: ../calendar/gui/migration.c:189 ../mail/em-migrate.c:1231
 #, c-format
 msgid "Migrating `%s':"
-msgstr "Мигриране на \"%s\":"
+msgstr "Мигриране на „%s“:"
 
-#: ../addressbook/gui/component/addressbook-migrate.c:637
+#: ../addressbook/gui/component/addressbook-migrate.c:645
 msgid "LDAP Servers"
 msgstr "LDAP сървъри"
 
-#: ../addressbook/gui/component/addressbook-migrate.c:752
+#: ../addressbook/gui/component/addressbook-migrate.c:760
 msgid "Autocompletion Settings"
 msgstr "Настройки за автоматично допълване"
 
-#: ../addressbook/gui/component/addressbook-migrate.c:1123
+#: ../addressbook/gui/component/addressbook-migrate.c:1131
 msgid ""
 "The location and hierarchy of the Evolution contact folders has changed "
 "since Evolution 1.x.\n"
@@ -720,7 +718,7 @@ msgstr ""
 "\n"
 "Изчакайте, докато Evolution мигрира вашите папки..."
 
-#: ../addressbook/gui/component/addressbook-migrate.c:1137
+#: ../addressbook/gui/component/addressbook-migrate.c:1145
 msgid ""
 "The format of mailing list contacts has changed.\n"
 "\n"
@@ -730,7 +728,7 @@ msgstr ""
 "\n"
 "Изчакайте, докато Evolution мигрира вашите папки..."
 
-#: ../addressbook/gui/component/addressbook-migrate.c:1146
+#: ../addressbook/gui/component/addressbook-migrate.c:1154
 msgid ""
 "The way Evolution stores some phone numbers has changed.\n"
 "\n"
@@ -740,7 +738,7 @@ msgstr ""
 "\n"
 "Изчакайте, докато Evolution мигрира вашите папки..."
 
-#: ../addressbook/gui/component/addressbook-migrate.c:1156
+#: ../addressbook/gui/component/addressbook-migrate.c:1164
 msgid ""
 "Evolution's Palm Sync changelog and map files have changed.\n"
 "\n"
@@ -752,11 +750,11 @@ msgstr ""
 "Изчакайте, докато Evolution мигрира вашите Pilot Sync данни..."
 
 #: ../addressbook/gui/component/addressbook-view.c:758
-#: ../addressbook/gui/widgets/e-addressbook-view.c:937
+#: ../addressbook/gui/widgets/e-addressbook-view.c:951
 #: ../calendar/gui/calendar-component.c:537
 #: ../calendar/gui/tasks-component.c:441 ../mail/em-filter-i18n.h:11
 #: ../ui/evolution-addressbook.xml.h:8 ../ui/evolution-calendar.xml.h:5
-#: ../ui/evolution-mail-message.xml.h:25 ../ui/evolution-tasks.xml.h:6
+#: ../ui/evolution-mail-message.xml.h:26 ../ui/evolution-tasks.xml.h:6
 msgid "Delete"
 msgstr "Изтриване"
 
@@ -766,7 +764,7 @@ msgstr "Изтриване"
 msgid "Properties..."
 msgstr "Настройки..."
 
-#: ../addressbook/gui/component/addressbook-view.c:1130
+#: ../addressbook/gui/component/addressbook-view.c:1138
 msgid "Contact Source Selector"
 msgstr "Избиране на контакти"
 
@@ -832,7 +830,7 @@ msgstr "Разположение на вертикалния панел"
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:10
 msgid "Whether to show the preview pane."
-msgstr "Показване на панела \"Предварителен преглед на писмата\"."
+msgstr "Показване на панела „Предварителен преглед на писмата“."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:1
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:1
@@ -849,8 +847,12 @@ msgstr "Показване на панела \"Предварителен пре
 #: ../calendar/gui/dialogs/url-editor-dialog.glade.h:1
 #: ../composer/e-msg-composer-attachment.glade.h:1
 #: ../mail/mail-dialogs.glade.h:2 ../mail/message-tags.glade.h:1
+#: ../plugins/exchange-operations/exchange-change-password.glade.h:1
 #: ../plugins/groupwise-features/properties.glade.h:1
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.glade.h:1
+#: ../widgets/menus/gal-view-instance-save-as-dialog.glade.h:2
+#: ../widgets/menus/gal-view-new-dialog.glade.h:1
+#: ../widgets/misc/gal-categories.glade.h:1
 msgid "*"
 msgstr "*"
 
@@ -1006,15 +1008,15 @@ msgid ""
 "one level beneath your base."
 msgstr ""
 "Обхватът на търсене определя колко навътре да се търси в дървото с "
-"директории. \"В цялото дърво\" ще включва всички записи под основата за "
-"търсене. \"Едно ниво\" ще включва само записите, които са едно ниво под "
+"директории. „В цялото дърво“ ще включва всички записи под основата за "
+"търсене. „Едно ниво“ ще включва само записите, които са едно ниво под "
 "основата."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:35
 msgid ""
 "This is the full name of your ldap server. For example, \"ldap.mycompany.com"
 "\"."
-msgstr "Това е пълното име на LDAP сървъра. Примерно, \"ldap.company.com\"."
+msgstr "Това е пълното име на LDAP сървъра. Примерно, „ldap.company.com“."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:36
 msgid ""
@@ -1031,7 +1033,7 @@ msgid ""
 "server."
 msgstr ""
 "Това е методът, който Evolution ще използва за удостоверяване. Забележете, "
-"че ако го настроите на \"Електронен адрес\", достъпът до ldap сървъра трябва "
+"че ако го настроите на „Електронен адрес“, достъпът до ldap сървъра трябва "
 "да е анонимен."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:38
@@ -1085,6 +1087,7 @@ msgstr "_Метод за идентификация в системата:"
 #: ../calendar/gui/dialogs/calendar-setup.c:244
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:8
 #: ../mail/mail-config.glade.h:165
+#: ../widgets/menus/gal-view-instance-save-as-dialog.glade.h:4
 msgid "_Name:"
 msgstr "_Име:"
 
@@ -1347,6 +1350,7 @@ msgstr "Адрес"
 #: ../addressbook/gui/widgets/e-minicard-view-widget.c:121
 #: ../addressbook/gui/widgets/e-minicard-view.c:519
 #: ../addressbook/gui/widgets/e-minicard.c:174
+#: ../widgets/menus/gal-define-views-model.c:181
 #: ../widgets/table/e-cell-text.c:1768 ../widgets/text/e-entry.c:1312
 #: ../widgets/text/e-entry.c:1313 ../widgets/text/e-text.c:3584
 #: ../widgets/text/e-text.c:3585
@@ -2767,68 +2771,86 @@ msgid "Address Book"
 msgstr "Адресник"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:806
-#: ../addressbook/gui/widgets/e-addressbook-view.c:924
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1986
+#: ../addressbook/gui/widgets/e-addressbook-view.c:935
+#: ../addressbook/gui/widgets/e-addressbook-view.c:2008
 #: ../ui/evolution-addressbook.xml.h:19
 msgid "Save as VCard..."
 msgstr "Запазване като VCard..."
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:920
+#: ../addressbook/gui/widgets/e-addressbook-view.c:929
+#: ../calendar/gui/e-calendar-table.c:1156
+#: ../calendar/gui/e-calendar-view.c:1514 ../ui/evolution-addressbook.xml.h:37
+msgid "_Open"
+msgstr "_Отваряне"
+
+#: ../addressbook/gui/widgets/e-addressbook-view.c:931
 msgid "New Contact..."
 msgstr "Нов контакт..."
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:921
+#: ../addressbook/gui/widgets/e-addressbook-view.c:932
 msgid "New Contact List..."
 msgstr "Нов списък с контакти..."
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:925
+#: ../addressbook/gui/widgets/e-addressbook-view.c:936
 #: ../ui/evolution-addressbook.xml.h:10
 msgid "Forward Contact"
 msgstr "Препращане на контакт"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:926
+#: ../addressbook/gui/widgets/e-addressbook-view.c:937
+msgid "Forward Contacts"
+msgstr "Препращане на контакти"
+
+#: ../addressbook/gui/widgets/e-addressbook-view.c:938
 msgid "Send Message to Contact"
 msgstr "Изпращане на съобщение до контакт"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:927
-#: ../calendar/gui/calendar-commands.c:120 ../calendar/gui/print.c:2501
+#: ../addressbook/gui/widgets/e-addressbook-view.c:939
+msgid "Send Message to List"
+msgstr "Изпращане на съобщение до списък"
+
+#: ../addressbook/gui/widgets/e-addressbook-view.c:940
+msgid "Send Message to Contacts"
+msgstr "Изпращане на съобщение до контакти"
+
+#: ../addressbook/gui/widgets/e-addressbook-view.c:941
+#: ../calendar/gui/calendar-commands.c:119 ../calendar/gui/print.c:2501
 #: ../ui/evolution-addressbook.xml.h:16 ../ui/evolution-calendar.xml.h:19
 #: ../ui/evolution-mail-message.xml.h:74 ../ui/evolution-tasks.xml.h:14
 msgid "Print"
 msgstr "Печат"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:930
+#: ../addressbook/gui/widgets/e-addressbook-view.c:944
 msgid "Copy to Address Book..."
 msgstr "Копиране в адресника..."
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:931
+#: ../addressbook/gui/widgets/e-addressbook-view.c:945
 msgid "Move to Address Book..."
 msgstr "Преместване в адресника..."
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:934
+#: ../addressbook/gui/widgets/e-addressbook-view.c:948
 #: ../ui/evolution-addressbook.xml.h:6 ../ui/evolution-tasks.xml.h:4
 msgid "Cut"
 msgstr "Изрязване"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:935
+#: ../addressbook/gui/widgets/e-addressbook-view.c:949
 #: ../calendar/gui/calendar-component.c:536
 #: ../calendar/gui/tasks-component.c:440 ../ui/evolution-addressbook.xml.h:2
-#: ../ui/evolution-mail-message.xml.h:11 ../ui/evolution-tasks.xml.h:2
+#: ../ui/evolution-mail-message.xml.h:12 ../ui/evolution-tasks.xml.h:2
 msgid "Copy"
 msgstr "Копиране"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:936
+#: ../addressbook/gui/widgets/e-addressbook-view.c:950
 #: ../ui/evolution-addressbook.xml.h:13 ../ui/evolution-tasks.xml.h:11
 msgid "Paste"
 msgstr "Поставяне"
 
 #. All, unmatched, separator
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1539
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1561
 #: ../calendar/gui/cal-search-bar.c:346
 msgid "Any Category"
 msgstr "Всяка категория"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1738
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1760
 msgid "Print cards"
 msgstr "Печатане на карти"
 
@@ -3014,6 +3036,8 @@ msgstr "Интернет страница"
 #: ../widgets/table/e-table-group-leaf.c:630
 #: ../widgets/table/e-table-item.c:3008 ../widgets/table/e-table-item.c:3009
 #: ../widgets/text/e-text.c:3626 ../widgets/text/e-text.c:3627
+#: ../widgets/table/e-table-group-container.c:971
+#: ../widgets/table/e-table-group-container.c:972
 msgid "Width"
 msgstr "Ширина"
 
@@ -3027,6 +3051,8 @@ msgstr "Ширина"
 #: ../widgets/table/e-table-group-leaf.c:623
 #: ../widgets/table/e-table-item.c:3014 ../widgets/table/e-table-item.c:3015
 #: ../widgets/text/e-text.c:3634 ../widgets/text/e-text.c:3635
+#: ../widgets/table/e-table-group-container.c:964
+#: ../widgets/table/e-table-group-container.c:965
 msgid "Height"
 msgstr "Височина"
 
@@ -3274,8 +3300,8 @@ msgid ""
 "load the addressbook once in online mode to download its contents"
 msgstr ""
 "Отварянето на този адресник е неуспешно. Това означава, че адресникът не е "
-"обозначен за употреба в режим \"Изключен\" или все още не е изтеглен. "
-"Изтеглете адресника, когато сте в режим \"Включен\"."
+"обозначен за употреба в режим „Изключен“ или все още не е изтеглен. "
+"Изтеглете адресника, когато сте в режим „Включен“."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:98
 msgid ""
@@ -3468,12 +3494,12 @@ msgstr "Избор на действие"
 #: ../addressbook/gui/widgets/eab-popup-control.c:575
 #, c-format
 msgid "Create a new contact \"%s\""
-msgstr "Създаване на нов контакт \"%s\""
+msgstr "Създаване на нов контакт „%s“"
 
 #: ../addressbook/gui/widgets/eab-popup-control.c:591
 #, c-format
 msgid "Add address to existing contact \"%s\""
-msgstr "Добавяне на адрес към съществуващия контакт \"%s\""
+msgstr "Добавяне на адрес към съществуващия контакт „%s“"
 
 #: ../addressbook/gui/widgets/eab-popup-control.c:869
 msgid "Querying Address Book..."
@@ -3915,15 +3941,15 @@ msgstr ""
 
 #: ../calendar/calendar.error.xml.h:13
 msgid "Are you sure you want to delete the '{0}' task?"
-msgstr "Сигурни ли сте, че искате да изтриете задачата \"{0}\"?"
+msgstr "Сигурни ли сте, че искате да изтриете задачата „{0}“?"
 
 #: ../calendar/calendar.error.xml.h:14
 msgid "Are you sure you want to delete the appointment titled '{0}'?"
-msgstr "Сигурни ли сте, че искате да изтриете срещата, наименувана \"{0}\"?"
+msgstr "Сигурни ли сте, че искате да изтриете срещата, наименувана „{0}“?"
 
 #: ../calendar/calendar.error.xml.h:15
 msgid "Are you sure you want to delete the journal entry '{0}'?"
-msgstr "Сигурни ли сте, че искате да изтриете записа в дневника \"{0}\"?"
+msgstr "Сигурни ли сте, че искате да изтриете записа в дневника „{0}“?"
 
 #: ../calendar/calendar.error.xml.h:16
 msgid "Are you sure you want to delete these {0} appointments?"
@@ -3963,11 +3989,11 @@ msgstr "Сигурни ли сте, че искате да изпратите з
 
 #: ../calendar/calendar.error.xml.h:25
 msgid "Delete calendar '{0}'?"
-msgstr "Изтриване на календара \"{0}\"?"
+msgstr "Изтриване на календара „{0}“?"
 
 #: ../calendar/calendar.error.xml.h:26
 msgid "Delete task list '{0}'?"
-msgstr "Изтриване на списъка със задачи \"{0}\"?"
+msgstr "Изтриване на списъка със задачи „{0}“?"
 
 #: ../calendar/calendar.error.xml.h:27
 msgid "Discard Changes"
@@ -4075,11 +4101,11 @@ msgstr "Програмата за задачи спря неочаквано."
 
 #: ../calendar/calendar.error.xml.h:47
 msgid "The calendar is not marked for offline usage"
-msgstr "Календарът не е избран за работа в режим \"Изключен\""
+msgstr "Календарът не е избран за работа в режим „Изключен“"
 
 #: ../calendar/calendar.error.xml.h:48
 msgid "The task list is not marked for offline usage"
-msgstr "Списъкът със задачи не е избран за работа в режим \"Изключен\""
+msgstr "Списъкът със задачи не е избран за работа в режим „Изключен“"
 
 #: ../calendar/calendar.error.xml.h:49
 msgid "This calendar will be removed permanently."
@@ -4142,7 +4168,6 @@ msgstr "Вашите задачи няма да бъдат налични, до�
 
 #: ../calendar/calendar.error.xml.h:64
 #: ../ui/evolution-message-composer.xml.h:49
-#: ../ui/evolution-signature-editor.xml.h:15
 msgid "_Save"
 msgstr "_Запазване"
 
@@ -4164,15 +4189,15 @@ msgstr "Въвеждане на парола"
 msgid "Split Multi-Day Events:"
 msgstr "Разделяне на събития, по-дълги от един ден:"
 
-#: ../calendar/conduits/calendar/calendar-conduit.c:1359
-#: ../calendar/conduits/calendar/calendar-conduit.c:1360
+#: ../calendar/conduits/calendar/calendar-conduit.c:1361
+#: ../calendar/conduits/calendar/calendar-conduit.c:1362
 #: ../calendar/conduits/todo/todo-conduit.c:879
 #: ../calendar/conduits/todo/todo-conduit.c:880
 msgid "Could not start evolution-data-server"
 msgstr "Не може да се стартира evolution-data-server"
 
-#: ../calendar/conduits/calendar/calendar-conduit.c:1468
-#: ../calendar/conduits/calendar/calendar-conduit.c:1471
+#: ../calendar/conduits/calendar/calendar-conduit.c:1470
+#: ../calendar/conduits/calendar/calendar-conduit.c:1473
 msgid "Could not read pilot's Calendar application block"
 msgstr "Не може да се прочете календара от pilot"
 
@@ -4224,7 +4249,7 @@ msgid "Evolution's Tasks component"
 msgstr "Компонент за задачи на Evolution"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:10
-#: ../calendar/gui/e-tasks.c:1222 ../calendar/gui/print.c:1822
+#: ../calendar/gui/e-tasks.c:1242 ../calendar/gui/print.c:1822
 #: ../calendar/gui/tasks-component.c:519 ../calendar/gui/tasks-component.c:994
 #: ../calendar/gui/tasks-control.c:408
 #: ../calendar/importers/icalendar-importer.c:83
@@ -4284,13 +4309,14 @@ msgstr "Време за _отлагане:"
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:51
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:6
 #: ../filter/filter.glade.h:11 ../mail/mail-config.glade.h:158
+#: ../plugins/exchange-operations/exchange-delegates.glade.h:13
 #: ../ui/evolution-addressbook.xml.h:34 ../ui/evolution-calendar.xml.h:41
 #: ../ui/evolution-composer-entries.xml.h:8
 #: ../ui/evolution-mail-messagedisplay.xml.h:5
 #: ../ui/evolution-message-composer.xml.h:42
-#: ../ui/evolution-signature-editor.xml.h:12
+#: ../ui/evolution-signature-editor.xml.h:23
 #: ../ui/evolution-subscribe.xml.h:10 ../ui/evolution-tasks.xml.h:22
-#: ../ui/evolution.xml.h:32
+#: ../ui/evolution.xml.h:35
 msgid "_Edit"
 msgstr "_Редактиране"
 
@@ -4400,11 +4426,11 @@ msgstr "Питане за потвърждение при изтриване н�
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:3
 msgid "Background color of tasks that are due today, in \"#rrggbb\" format."
-msgstr "Фонов цвят на задачите, които са за днес, във формат \"#rrggbb\"."
+msgstr "Фонов цвят на задачите, които са за днес, във формат „#rrggbb“."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:4
 msgid "Background color of tasks that are overdue, in \"#rrggbb\" format."
-msgstr "Фонов цвят на просрочените задачи, във формат \"#rrggbb\"."
+msgstr "Фонов цвят на просрочените задачи, във формат „#rrggbb“."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:5
 msgid "Calendars to run alarms for"
@@ -4602,7 +4628,7 @@ msgid ""
 "untranslated Olsen timezone database location like \"America/New York\"."
 msgstr ""
 "Стандартният часови пояс за дати и време в календара, във вид на непреведена "
-"база от данни на Olsen за местоположения, например \"America/New York\"."
+"база от данни на Olsen за местоположения, например „America/New York“."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:48
 #, no-c-format
@@ -4632,15 +4658,14 @@ msgstr "24 часов формат на времето"
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:53
 msgid "Units for a default reminder, \"minutes\", \"hours\" or \"days\"."
 msgstr ""
-"Мерни единици в подразбиращото се напомняне - \"минути\", \"часове\" или "
-"\"дни\"."
+"Мерни единици в подразбиращото се напомняне - „минути“, „часове“ или „дни“."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:54
 msgid ""
 "Units for determining when to hide tasks, \"minutes\", \"hours\" or \"days\"."
 msgstr ""
-"Единици за определяне кога да се скриват задачи, \"минути\", \"часове\" или "
-"\"дни\"."
+"Единици за определяне кога да се скриват задачи, „минути“, „часове“ или "
+"„дни“."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:56
 msgid "Week start"
@@ -4739,16 +4764,16 @@ msgstr "Местонахождението съдържа"
 msgid "Unmatched"
 msgstr "Несъвпадащ"
 
-#: ../calendar/gui/calendar-commands.c:120
+#: ../calendar/gui/calendar-commands.c:119
 #: ../calendar/gui/calendar-component.c:708
 #: ../calendar/gui/dialogs/calendar-setup.c:369
-#: ../calendar/gui/gnome-cal.c:1974
+#: ../calendar/gui/gnome-cal.c:2006
 #: ../plugins/groupwise-features/camel-gw-listener.c:382
 #: ../plugins/groupwise-features/camel-gw-listener.c:412
 msgid "Calendar"
 msgstr "Календар"
 
-#: ../calendar/gui/calendar-commands.c:355
+#: ../calendar/gui/calendar-commands.c:354
 msgid ""
 "This operation will permanently erase all events older than the selected "
 "amount of time. If you continue, you will not be able to recover these "
@@ -4757,11 +4782,11 @@ msgstr ""
 "Тази операция ще изтрие завинаги всички събития, по-стари от избраното "
 "време. Ако продължите, няма да можете да възстановите тези събития."
 
-#: ../calendar/gui/calendar-commands.c:361
+#: ../calendar/gui/calendar-commands.c:360
 msgid "Purge events older than"
 msgstr "Прочистване на събития, по-стари от"
 
-#: ../calendar/gui/calendar-commands.c:366
+#: ../calendar/gui/calendar-commands.c:365
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:20
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:12
 #: ../filter/filter.glade.h:14 ../plugins/calendar-http/calendar-http.c:265
@@ -4789,7 +4814,7 @@ msgid "Weather"
 msgstr "Време"
 
 #: ../calendar/gui/calendar-component.c:535
-#: ../calendar/gui/dialogs/calendar-setup.c:450
+#: ../calendar/gui/dialogs/calendar-setup.c:451
 msgid "New Calendar"
 msgstr "Нов календар"
 
@@ -4801,7 +4826,7 @@ msgstr "Неуспех при осъвременяването на календ
 #, c-format
 msgid "Unable to open the calendar '%s' for creating events and meetings"
 msgstr ""
-"Неуспех при отварянето на календара \"%s\" за създаване на събития и събрания"
+"Неуспех при отварянето на календара „%s“ за създаване на събития и събрания"
 
 #: ../calendar/gui/calendar-component.c:1155
 msgid "There is no calendar available for creating events and meetings"
@@ -5044,7 +5069,7 @@ msgstr "_Премахване"
 
 #: ../calendar/gui/dialogs/cal-attachment-bar.c:474
 #: ../composer/e-msg-composer-attachment-bar.c:471
-#: ../mail/em-folder-tree.c:2123 ../ui/evolution-mail-list.xml.h:28
+#: ../mail/em-folder-tree.c:2123 ../ui/evolution-mail-list.xml.h:31
 msgid "_Properties"
 msgstr "_Настройки"
 
@@ -5408,13 +5433,13 @@ msgstr "меню за опциите за избиране на единицит
 #: ../calendar/gui/dialogs/calendar-setup.c:287
 msgid "Copy calendar contents locally for offline operation"
 msgstr ""
-"Копиране на събитията в календара за локална употреба в режим \"Изключен\""
+"Копиране на събитията в календара за локална употреба в режим „Изключен“"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:290
 msgid "Copy task list contents locally for offline operation"
 msgstr ""
 "Копиране на съдържанието на списъка със задачи за локална употреба в режим "
-"\"Изключен\""
+"„Изключен“"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:343
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:4
@@ -5425,11 +5450,11 @@ msgstr "_Цвят:"
 msgid "Tasks List"
 msgstr "Списък със задачи"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:448
+#: ../calendar/gui/dialogs/calendar-setup.c:449
 msgid "Calendar Properties"
 msgstr "Настройки на календара"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:515
+#: ../calendar/gui/dialogs/calendar-setup.c:517
 msgid "Task List Properties"
 msgstr "Настройки на списък със задачи"
 
@@ -5542,14 +5567,14 @@ msgstr " (Краен срок "
 msgid "Due "
 msgstr "Краен срок "
 
-#: ../calendar/gui/dialogs/comp-editor.c:184 ../composer/e-msg-composer.c:2654
+#: ../calendar/gui/dialogs/comp-editor.c:185 ../composer/e-msg-composer.c:2654
 #, c-format
 msgid "Attached message - %s"
 msgstr "Прикачено писмо - %s"
 
 #. translators, this count will always be >1
-#: ../calendar/gui/dialogs/comp-editor.c:189
-#: ../calendar/gui/dialogs/comp-editor.c:358 ../composer/e-msg-composer.c:2659
+#: ../calendar/gui/dialogs/comp-editor.c:190
+#: ../calendar/gui/dialogs/comp-editor.c:359 ../composer/e-msg-composer.c:2659
 #: ../composer/e-msg-composer.c:2835
 #, c-format
 msgid "Attached message"
@@ -5557,9 +5582,9 @@ msgid_plural "%d attached messages"
 msgstr[0] "Прикачено писмо"
 msgstr[1] "%d прикачени писма"
 
-#: ../calendar/gui/dialogs/comp-editor.c:421
+#: ../calendar/gui/dialogs/comp-editor.c:422
 #: ../calendar/gui/e-calendar-table.c:1164
-#: ../calendar/gui/e-calendar-view.c:1513 ../composer/e-msg-composer.c:2899
+#: ../calendar/gui/e-calendar-view.c:1521 ../composer/e-msg-composer.c:2899
 #: ../mail/em-folder-tree.c:1047 ../mail/em-folder-view.c:1033
 #: ../mail/message-list.c:1708 ../ui/evolution-addressbook.xml.h:31
 #: ../ui/evolution-calendar.xml.h:39 ../ui/evolution-composer-entries.xml.h:7
@@ -5567,80 +5592,80 @@ msgstr[1] "%d прикачени писма"
 msgid "_Copy"
 msgstr "_Копиране"
 
-#: ../calendar/gui/dialogs/comp-editor.c:422 ../composer/e-msg-composer.c:2900
+#: ../calendar/gui/dialogs/comp-editor.c:423 ../composer/e-msg-composer.c:2900
 #: ../mail/em-folder-tree.c:1048 ../mail/em-folder-utils.c:383
 #: ../mail/em-folder-view.c:929 ../mail/message-list.c:1709
 msgid "_Move"
 msgstr "Пре_местване"
 
-#: ../calendar/gui/dialogs/comp-editor.c:424 ../composer/e-msg-composer.c:2902
+#: ../calendar/gui/dialogs/comp-editor.c:425 ../composer/e-msg-composer.c:2902
 #: ../mail/em-folder-tree.c:1050 ../mail/message-list.c:1711
 msgid "Cancel _Drag"
 msgstr "Отказване на _извлачването"
 
-#: ../calendar/gui/dialogs/comp-editor.c:697
+#: ../calendar/gui/dialogs/comp-editor.c:706
 msgid "Could not update object"
 msgstr "Обектът не може да бъде актуализиран"
 
-#: ../calendar/gui/dialogs/comp-editor.c:883 ../composer/e-msg-composer.c:2308
+#: ../calendar/gui/dialogs/comp-editor.c:892 ../composer/e-msg-composer.c:2308
 #, c-format
 msgid "<b>%d</b> Attachment"
 msgid_plural "<b>%d</b> Attachments"
 msgstr[0] "<b>%d</b> прикрепен файл"
 msgstr[1] "<b>%d</b> прикрепени файла"
 
-#: ../calendar/gui/dialogs/comp-editor.c:978
+#: ../calendar/gui/dialogs/comp-editor.c:987
 msgid "_Attachment Bar (drop attachments here)"
 msgstr "Лент_а за прикрепени файлове (пускайте обектите за прикачване тук)"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1588
-#: ../calendar/gui/dialogs/comp-editor.c:1631
+#: ../calendar/gui/dialogs/comp-editor.c:1597
+#: ../calendar/gui/dialogs/comp-editor.c:1640
 msgid "Edit Appointment"
 msgstr "Редактиране на среща"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1594
-#: ../calendar/gui/dialogs/comp-editor.c:1637
+#: ../calendar/gui/dialogs/comp-editor.c:1603
+#: ../calendar/gui/dialogs/comp-editor.c:1646
 #, c-format
 msgid "Meeting - %s"
 msgstr "Събрание - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1596
-#: ../calendar/gui/dialogs/comp-editor.c:1639
+#: ../calendar/gui/dialogs/comp-editor.c:1605
+#: ../calendar/gui/dialogs/comp-editor.c:1648
 #, c-format
 msgid "Appointment - %s"
 msgstr "Среща - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1600
-#: ../calendar/gui/dialogs/comp-editor.c:1643
+#: ../calendar/gui/dialogs/comp-editor.c:1609
+#: ../calendar/gui/dialogs/comp-editor.c:1652
 #, c-format
 msgid "Assigned Task - %s"
 msgstr "Назначена задача - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1602
-#: ../calendar/gui/dialogs/comp-editor.c:1645
+#: ../calendar/gui/dialogs/comp-editor.c:1611
+#: ../calendar/gui/dialogs/comp-editor.c:1654
 #, c-format
 msgid "Task - %s"
 msgstr "Задача - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1605
-#: ../calendar/gui/dialogs/comp-editor.c:1648
+#: ../calendar/gui/dialogs/comp-editor.c:1614
+#: ../calendar/gui/dialogs/comp-editor.c:1657
 #, c-format
 msgid "Journal entry - %s"
 msgstr "Запис в дневника - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1616
-#: ../calendar/gui/dialogs/comp-editor.c:1658
+#: ../calendar/gui/dialogs/comp-editor.c:1625
+#: ../calendar/gui/dialogs/comp-editor.c:1667
 msgid "No summary"
 msgstr "Няма обобщение"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2137
-#: ../calendar/gui/dialogs/comp-editor.c:2170
-#: ../calendar/gui/dialogs/comp-editor.c:2194
+#: ../calendar/gui/dialogs/comp-editor.c:2141
+#: ../calendar/gui/dialogs/comp-editor.c:2174
+#: ../calendar/gui/dialogs/comp-editor.c:2198
 msgid "Changes made to this item may be discarded if an update arrives"
 msgstr ""
 "Промените по този запис може да бъдат презаписани, ако пристигне обновяване"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2218
+#: ../calendar/gui/dialogs/comp-editor.c:2222
 msgid "Unable to use current version!"
 msgstr "Не може да се използва текущата версия!"
 
@@ -5724,70 +5749,70 @@ msgstr "Среща"
 msgid "Recurrence"
 msgstr "Повторение"
 
-#: ../calendar/gui/dialogs/event-editor.c:166
-#: ../calendar/gui/dialogs/event-editor.c:249
-#: ../calendar/gui/dialogs/event-editor.c:422
+#: ../calendar/gui/dialogs/event-editor.c:164
+#: ../calendar/gui/dialogs/event-editor.c:248
+#: ../calendar/gui/dialogs/event-editor.c:420
 msgid "Scheduling"
 msgstr "Разпределение"
 
-#: ../calendar/gui/dialogs/event-editor.c:175
+#: ../calendar/gui/dialogs/event-editor.c:174
 msgid "Delegatees"
 msgstr "Делегирани"
 
-#: ../calendar/gui/dialogs/event-editor.c:179
+#: ../calendar/gui/dialogs/event-editor.c:178
 msgid "Attendees"
 msgstr "Присъстващи"
 
-#: ../calendar/gui/dialogs/event-editor.c:252
-#: ../calendar/gui/dialogs/event-editor.c:425
+#: ../calendar/gui/dialogs/event-editor.c:251
+#: ../calendar/gui/dialogs/event-editor.c:423
 msgid "Invitations"
 msgstr "Покани"
 
-#: ../calendar/gui/dialogs/event-page.c:725
+#: ../calendar/gui/dialogs/event-page.c:729
 msgid "Event with no start date"
 msgstr "Събитие без начална дата"
 
-#: ../calendar/gui/dialogs/event-page.c:728
+#: ../calendar/gui/dialogs/event-page.c:732
 msgid "Event with no end date"
 msgstr "Събитие без крайна дата"
 
-#: ../calendar/gui/dialogs/event-page.c:894
+#: ../calendar/gui/dialogs/event-page.c:898
 #: ../calendar/gui/dialogs/task-page.c:556
 msgid "Start date is wrong"
 msgstr "Началната дата е грешна"
 
-#: ../calendar/gui/dialogs/event-page.c:904
+#: ../calendar/gui/dialogs/event-page.c:908
 msgid "End date is wrong"
 msgstr "Крайната дата е грешна"
 
-#: ../calendar/gui/dialogs/event-page.c:927
+#: ../calendar/gui/dialogs/event-page.c:931
 msgid "Start time is wrong"
 msgstr "Началният час е грешен"
 
-#: ../calendar/gui/dialogs/event-page.c:934
+#: ../calendar/gui/dialogs/event-page.c:938
 msgid "End time is wrong"
 msgstr "Крайният час е грешен"
 
-#: ../calendar/gui/dialogs/event-page.c:1680
+#: ../calendar/gui/dialogs/event-page.c:1684
 #, c-format
 msgid "Unable to open the calendar '%s'."
-msgstr "Не може да се отвори календара \"%s\"."
+msgstr "Не може да се отвори календара „%s“."
 
-#: ../calendar/gui/dialogs/event-page.c:1886
+#: ../calendar/gui/dialogs/event-page.c:1890
 #, c-format
 msgid "%d day before appointment"
 msgid_plural "%d days before appointment"
 msgstr[0] "%d ден преди среща"
 msgstr[1] "%d дни преди среща"
 
-#: ../calendar/gui/dialogs/event-page.c:1894
+#: ../calendar/gui/dialogs/event-page.c:1898
 #, c-format
 msgid "%d hour before appointment"
 msgid_plural "%d hours before appointment"
 msgstr[0] "%d час преди среща"
 msgstr[1] "%d часа преди среща"
 
-#: ../calendar/gui/dialogs/event-page.c:1902
+#: ../calendar/gui/dialogs/event-page.c:1906
 #, c-format
 msgid "%d minute before appointement"
 msgid_plural "%d minutes before appointment"
@@ -5850,7 +5875,7 @@ msgstr "Класи_фикация:"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:14
 #: ../calendar/gui/dialogs/task-page.glade.h:8
-#: ../calendar/gui/e-cal-list-view.c:255 ../calendar/gui/e-cal-model.c:305
+#: ../calendar/gui/e-cal-list-view.c:254 ../calendar/gui/e-cal-model.c:324
 #: ../calendar/gui/e-calendar-table.c:362
 msgid "Confidential"
 msgstr "Поверително"
@@ -5865,15 +5890,15 @@ msgstr "Местоположен_ие:"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:17
 #: ../calendar/gui/dialogs/task-page.glade.h:10
-#: ../calendar/gui/e-cal-list-view.c:254 ../calendar/gui/e-cal-model.c:303
+#: ../calendar/gui/e-cal-list-view.c:253 ../calendar/gui/e-cal-model.c:322
 #: ../calendar/gui/e-calendar-table.c:361
 msgid "Private"
 msgstr "Частен"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:18
 #: ../calendar/gui/dialogs/task-page.glade.h:11
-#: ../calendar/gui/e-cal-list-view.c:253 ../calendar/gui/e-cal-model.c:294
-#: ../calendar/gui/e-cal-model.c:301 ../calendar/gui/e-calendar-table.c:360
+#: ../calendar/gui/e-cal-list-view.c:252 ../calendar/gui/e-cal-model.c:313
+#: ../calendar/gui/e-cal-model.c:320 ../calendar/gui/e-calendar-table.c:360
 msgid "Public"
 msgstr "Публичен"
 
@@ -5913,9 +5938,8 @@ msgid "<b>Dele_gatees</b>"
 msgstr "<b>Деле_гирани</b>"
 
 #: ../calendar/gui/dialogs/meeting-page.c:307
-#, fuzzy
 msgid "<b>From:</b>"
-msgstr "<b>Домашен</b>"
+msgstr "<b>От:</b>"
 
 #. an empty string is the same as 'None'
 #. Put the "None" and "UTC" entries at the top of the combo's list.
@@ -5931,6 +5955,7 @@ msgstr "<b>Домашен</b>"
 #: ../mail/em-folder-view.c:1062
 #: ../plugins/calendar-weather/calendar-weather.c:371
 #: ../plugins/calendar-weather/calendar-weather.c:425
+#: ../plugins/exchange-operations/exchange-delegates.glade.h:7
 #: ../plugins/itip-formatter/itip-formatter.c:1539
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.c:190
 #: ../widgets/misc/e-cell-date-edit.c:248 ../widgets/misc/e-dateedit.c:465
@@ -6067,32 +6092,36 @@ msgstr "Група списъци със задачи"
 msgid "Task List Name"
 msgstr "Име на списък със задачи"
 
-#: ../calendar/gui/dialogs/recur-comp.c:51
+#: ../calendar/gui/dialogs/recur-comp.c:52
 msgid "You are modifying a recurring event, what would you like to modify?"
 msgstr "Променяте повтарящо се събитие, какво искате да промените?"
 
-#: ../calendar/gui/dialogs/recur-comp.c:55
+#: ../calendar/gui/dialogs/recur-comp.c:54
+msgid "You are delegating a recurring event, what would like to delegate?"
+msgstr "Делегирате повтарящо се събитие, какво искате да делегирате?"
+
+#: ../calendar/gui/dialogs/recur-comp.c:58
 msgid "You are modifying a recurring task, what would you like to modify?"
 msgstr "Променяте повтаряща се задача, какво искате да промените?"
 
-#: ../calendar/gui/dialogs/recur-comp.c:59
+#: ../calendar/gui/dialogs/recur-comp.c:62
 msgid ""
 "You are modifying a recurring journal entry, what would you like to modify?"
 msgstr "Променяте повтарящ се запис в дневника, какво искате да промените?"
 
-#: ../calendar/gui/dialogs/recur-comp.c:87
+#: ../calendar/gui/dialogs/recur-comp.c:90
 msgid "This Instance Only"
 msgstr "Само в този случай"
 
-#: ../calendar/gui/dialogs/recur-comp.c:91
+#: ../calendar/gui/dialogs/recur-comp.c:94
 msgid "This and Prior Instances"
 msgstr "В този и предишните случаи"
 
-#: ../calendar/gui/dialogs/recur-comp.c:97
+#: ../calendar/gui/dialogs/recur-comp.c:100
 msgid "This and Future Instances"
 msgstr "В този и бъдещите случаи"
 
-#: ../calendar/gui/dialogs/recur-comp.c:102
+#: ../calendar/gui/dialogs/recur-comp.c:105
 msgid "All Instances"
 msgstr "Всички случаи"
 
@@ -6245,7 +6274,7 @@ msgstr "Ниско"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:8
 #: ../calendar/gui/e-cal-component-preview.c:250
-#: ../calendar/gui/e-cal-model.c:899 ../calendar/gui/e-calendar-table.c:383
+#: ../calendar/gui/e-cal-model.c:918 ../calendar/gui/e-calendar-table.c:383
 #: ../mail/message-list.c:1007
 msgid "Normal"
 msgstr "Нормално"
@@ -6301,7 +6330,7 @@ msgstr "Крайният срок е невалиден"
 #: ../calendar/gui/dialogs/task-page.c:873
 #, c-format
 msgid "Unable to open tasks in '%s'."
-msgstr "Не може да се отворят задачите в \"%s\"."
+msgstr "Не може да се отворят задачите в „%s“."
 
 #: ../calendar/gui/dialogs/task-page.glade.h:9
 msgid "D_escription:"
@@ -6473,11 +6502,10 @@ msgid "Due Date:"
 msgstr "Крайна дата:"
 
 #. write status
-#. translators: exchange out of office status header
 #. Status
 #: ../calendar/gui/e-cal-component-preview.c:222
 #: ../calendar/gui/e-itip-control.c:1132
-#: ../plugins/exchange-account-setup/exchange-account-setup.c:227
+#: ../plugins/exchange-operations/exchange-account-setup.c:251
 #: ../plugins/itip-formatter/itip-view.c:888
 msgid "Status:"
 msgstr "Състояние:"
@@ -6525,7 +6553,7 @@ msgstr ""
 "\n"
 "45.436845,125.862501"
 
-#: ../calendar/gui/e-cal-model-tasks.c:1017 ../calendar/gui/e-cal-model.c:905
+#: ../calendar/gui/e-cal-model-tasks.c:1017 ../calendar/gui/e-cal-model.c:924
 #: ../calendar/gui/e-meeting-list-view.c:192
 #: ../calendar/gui/e-meeting-store.c:168 ../calendar/gui/e-meeting-store.c:178
 #: ../calendar/gui/e-meeting-store.c:808
@@ -6533,7 +6561,7 @@ msgstr ""
 msgid "Yes"
 msgstr "Да"
 
-#: ../calendar/gui/e-cal-model-tasks.c:1017 ../calendar/gui/e-cal-model.c:905
+#: ../calendar/gui/e-cal-model-tasks.c:1017 ../calendar/gui/e-cal-model.c:924
 #: ../calendar/gui/e-meeting-list-view.c:193
 #: ../calendar/gui/e-meeting-store.c:180
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:2
@@ -6541,7 +6569,7 @@ msgid "No"
 msgstr "Не"
 
 #. This is the default filename used for temporary file creation
-#: ../calendar/gui/e-cal-model.c:307 ../calendar/gui/e-cal-model.c:310
+#: ../calendar/gui/e-cal-model.c:326 ../calendar/gui/e-cal-model.c:329
 #: ../calendar/gui/e-itip-control.c:1149 ../calendar/gui/e-itip-control.c:1290
 #: ../calendar/gui/e-meeting-list-view.c:168
 #: ../calendar/gui/e-meeting-list-view.c:182
@@ -6555,11 +6583,11 @@ msgstr "Не"
 msgid "Unknown"
 msgstr "Неизвестен"
 
-#: ../calendar/gui/e-cal-model.c:901
+#: ../calendar/gui/e-cal-model.c:920
 msgid "Recurring"
 msgstr "Повтарящ се"
 
-#: ../calendar/gui/e-cal-model.c:903
+#: ../calendar/gui/e-cal-model.c:922
 msgid "Assigned"
 msgstr "Назначен"
 
@@ -6612,52 +6640,47 @@ msgid "Task Table"
 msgstr "Таблица със задачи"
 
 #: ../calendar/gui/e-calendar-table.c:694
-#: ../calendar/gui/e-calendar-view.c:653
+#: ../calendar/gui/e-calendar-view.c:661
 msgid "Deleting selected objects"
 msgstr "Изтриване на избраните обекти"
 
 #: ../calendar/gui/e-calendar-table.c:873
-#: ../calendar/gui/e-calendar-view.c:780
+#: ../calendar/gui/e-calendar-view.c:788
 msgid "Updating objects"
 msgstr "Обновяване на обектите"
 
 #: ../calendar/gui/e-calendar-table.c:1014
-#: ../calendar/gui/e-calendar-view.c:1083 ../composer/e-msg-composer.c:1241
+#: ../calendar/gui/e-calendar-view.c:1091 ../composer/e-msg-composer.c:1241
 msgid "Save as..."
 msgstr "Запазване като..."
-
-#: ../calendar/gui/e-calendar-table.c:1156
-#: ../calendar/gui/e-calendar-view.c:1506 ../ui/evolution-addressbook.xml.h:37
-msgid "_Open"
-msgstr "_Отваряне"
 
 #: ../calendar/gui/e-calendar-table.c:1157
 msgid "Open _Web Page"
 msgstr "Отваряне на _интернет страница"
 
 #: ../calendar/gui/e-calendar-table.c:1158
-#: ../calendar/gui/e-calendar-view.c:1507 ../mail/em-folder-view.c:1043
+#: ../calendar/gui/e-calendar-view.c:1515 ../mail/em-folder-view.c:1043
 #: ../mail/em-popup.c:494
 msgid "_Save As..."
 msgstr "Запазване _като..."
 
 #: ../calendar/gui/e-calendar-table.c:1159
-#: ../calendar/gui/e-calendar-view.c:1487
-#: ../calendar/gui/e-calendar-view.c:1508 ../mail/em-folder-view.c:1044
+#: ../calendar/gui/e-calendar-view.c:1495
+#: ../calendar/gui/e-calendar-view.c:1516 ../mail/em-folder-view.c:1044
 #: ../ui/evolution-addressbook.xml.h:40 ../ui/evolution-calendar.xml.h:44
 #: ../ui/evolution-mail-message.xml.h:117 ../ui/evolution-tasks.xml.h:25
 msgid "_Print..."
 msgstr "_Разпечатване..."
 
 #: ../calendar/gui/e-calendar-table.c:1163
-#: ../calendar/gui/e-calendar-view.c:1512 ../ui/evolution-addressbook.xml.h:1
+#: ../calendar/gui/e-calendar-view.c:1520 ../ui/evolution-addressbook.xml.h:1
 #: ../ui/evolution-calendar.xml.h:1 ../ui/evolution-tasks.xml.h:1
 msgid "C_ut"
 msgstr "Из_рязване"
 
 #: ../calendar/gui/e-calendar-table.c:1165
-#: ../calendar/gui/e-calendar-view.c:1490
-#: ../calendar/gui/e-calendar-view.c:1514 ../ui/evolution-addressbook.xml.h:38
+#: ../calendar/gui/e-calendar-view.c:1498
+#: ../calendar/gui/e-calendar-view.c:1522 ../ui/evolution-addressbook.xml.h:38
 #: ../ui/evolution-calendar.xml.h:43 ../ui/evolution-composer-entries.xml.h:9
 #: ../ui/evolution-tasks.xml.h:24
 msgid "_Paste"
@@ -6681,9 +6704,9 @@ msgstr "_Отбелязване на избраните задачи като п
 
 #. FIXME: need to disable for undeletable folders
 #: ../calendar/gui/e-calendar-table.c:1176
-#: ../calendar/gui/e-calendar-view.c:1526 ../mail/em-folder-tree.c:2119
+#: ../calendar/gui/e-calendar-view.c:1534 ../mail/em-folder-tree.c:2119
 #: ../mail/em-folder-view.c:1047 ../ui/evolution-addressbook.xml.h:33
-#: ../ui/evolution-calendar.xml.h:40 ../ui/evolution-mail-list.xml.h:26
+#: ../ui/evolution-calendar.xml.h:40 ../ui/evolution-mail-list.xml.h:29
 #: ../ui/evolution-tasks.xml.h:21
 msgid "_Delete"
 msgstr "_Изтриване"
@@ -6727,73 +6750,73 @@ msgstr "Начална дата"
 msgid "Task sort"
 msgstr "Подреждане на задачи"
 
-#: ../calendar/gui/e-calendar-view.c:1204
+#: ../calendar/gui/e-calendar-view.c:1212
 msgid "Moving items"
 msgstr "Преместване на обекти"
 
-#: ../calendar/gui/e-calendar-view.c:1206
+#: ../calendar/gui/e-calendar-view.c:1214
 msgid "Copying items"
 msgstr "Копиране на обекти"
 
-#: ../calendar/gui/e-calendar-view.c:1481
+#: ../calendar/gui/e-calendar-view.c:1489
 msgid "New _Appointment..."
 msgstr "Нова _среща..."
 
-#: ../calendar/gui/e-calendar-view.c:1482
+#: ../calendar/gui/e-calendar-view.c:1490
 msgid "New All Day _Event"
 msgstr "Всички нови _събития за деня"
 
-#: ../calendar/gui/e-calendar-view.c:1484
+#: ../calendar/gui/e-calendar-view.c:1492
 msgid "New Task"
 msgstr "Нова задача"
 
 #. FIXME: hook in this somehow
-#: ../calendar/gui/e-calendar-view.c:1494
+#: ../calendar/gui/e-calendar-view.c:1502
 msgid "Current View"
 msgstr "Текущ изглед"
 
-#: ../calendar/gui/e-calendar-view.c:1496 ../ui/evolution-calendar.xml.h:26
+#: ../calendar/gui/e-calendar-view.c:1504 ../ui/evolution-calendar.xml.h:26
 msgid "Select _Today"
 msgstr "Избиране на _днес"
 
-#: ../calendar/gui/e-calendar-view.c:1497
+#: ../calendar/gui/e-calendar-view.c:1505
 msgid "_Select Date..."
 msgstr "Избор на д_ата..."
 
 #. TODO: Why is this in a context menu when it applies globally?
-#: ../calendar/gui/e-calendar-view.c:1502 ../ui/evolution-calendar.xml.h:45
+#: ../calendar/gui/e-calendar-view.c:1510 ../ui/evolution-calendar.xml.h:45
 msgid "_Publish Free/Busy Information"
 msgstr "_Публикуване на информация свободен/зает"
 
-#: ../calendar/gui/e-calendar-view.c:1518
+#: ../calendar/gui/e-calendar-view.c:1526
 msgid "Cop_y to Calendar..."
 msgstr "Копиране в _календар..."
 
-#: ../calendar/gui/e-calendar-view.c:1519
+#: ../calendar/gui/e-calendar-view.c:1527
 msgid "Mo_ve to Calendar..."
 msgstr "Преме_стване в календар..."
 
-#: ../calendar/gui/e-calendar-view.c:1520
+#: ../calendar/gui/e-calendar-view.c:1528
 msgid "_Delegate Meeting..."
 msgstr "_Делегиране на събрание..."
 
-#: ../calendar/gui/e-calendar-view.c:1521
+#: ../calendar/gui/e-calendar-view.c:1529
 msgid "_Schedule Meeting..."
 msgstr "Насрочване на с_ъбрание..."
 
-#: ../calendar/gui/e-calendar-view.c:1522
+#: ../calendar/gui/e-calendar-view.c:1530
 msgid "_Forward as iCalendar..."
 msgstr "Препра_ща като iCalendar..."
 
-#: ../calendar/gui/e-calendar-view.c:1527
+#: ../calendar/gui/e-calendar-view.c:1535
 msgid "Make this Occurrence _Movable"
 msgstr "Прави това събитие пр_еместваемо"
 
-#: ../calendar/gui/e-calendar-view.c:1528
+#: ../calendar/gui/e-calendar-view.c:1536
 msgid "Delete this _Occurrence"
 msgstr "Изтриване на това с_ъбитие"
 
-#: ../calendar/gui/e-calendar-view.c:1529
+#: ../calendar/gui/e-calendar-view.c:1537
 msgid "Delete _All Occurrences"
 msgstr "Изтриване на всички _събития"
 
@@ -6839,19 +6862,19 @@ msgstr "Разделения от по %02i минути"
 #. month, %B = full month name. You can change the
 #. order but don't change the specifiers or add
 #. anything.
-#: ../calendar/gui/e-day-view-top-item.c:715 ../calendar/gui/e-day-view.c:1499
+#: ../calendar/gui/e-day-view-top-item.c:715 ../calendar/gui/e-day-view.c:1498
 #: ../calendar/gui/e-week-view-main-item.c:312 ../calendar/gui/print.c:1517
 msgid "%A %d %B"
 msgstr "%A %d %B"
 
 #. String to use in 12-hour time format for times in the morning.
-#: ../calendar/gui/e-day-view.c:752 ../calendar/gui/e-week-view.c:512
+#: ../calendar/gui/e-day-view.c:751 ../calendar/gui/e-week-view.c:512
 #: ../calendar/gui/print.c:841
 msgid "am"
 msgstr "сутрин"
 
 #. String to use in 12-hour time format for times in the afternoon.
-#: ../calendar/gui/e-day-view.c:755 ../calendar/gui/e-week-view.c:515
+#: ../calendar/gui/e-day-view.c:754 ../calendar/gui/e-week-view.c:515
 #: ../calendar/gui/print.c:843
 msgid "pm"
 msgstr "следобед"
@@ -7317,6 +7340,8 @@ msgstr "Индивидуално"
 
 #: ../calendar/gui/e-meeting-list-view.c:165
 #: ../calendar/gui/e-meeting-store.c:101 ../calendar/gui/e-meeting-store.c:118
+#: ../widgets/table/e-table-config-no-group.glade.h:7
+#: ../widgets/table/e-table-config.glade.h:7
 msgid "Group"
 msgstr "Група"
 
@@ -7461,7 +7486,7 @@ msgstr "Нужни хора и _един ресурс"
 msgid "Enter the password for %s"
 msgstr "Въведете паролата за %s"
 
-#: ../calendar/gui/e-tasks.c:763 ../calendar/gui/gnome-cal.c:2412
+#: ../calendar/gui/e-tasks.c:783 ../calendar/gui/gnome-cal.c:2444
 #, c-format
 msgid ""
 "Error on %s:\n"
@@ -7470,24 +7495,24 @@ msgstr ""
 "Грешка в %s:\n"
 " %s"
 
-#: ../calendar/gui/e-tasks.c:811
+#: ../calendar/gui/e-tasks.c:831
 msgid "Loading tasks"
 msgstr "Зареждане на задачи"
 
-#: ../calendar/gui/e-tasks.c:895
+#: ../calendar/gui/e-tasks.c:915
 #, c-format
 msgid "Opening tasks at %s"
 msgstr "Отваряне на задачи в %s"
 
-#: ../calendar/gui/e-tasks.c:1091
+#: ../calendar/gui/e-tasks.c:1111
 msgid "Completing tasks..."
 msgstr "Завършване на задачи..."
 
-#: ../calendar/gui/e-tasks.c:1114
+#: ../calendar/gui/e-tasks.c:1134
 msgid "Deleting selected objects..."
 msgstr "Изтриване на избраните обекти..."
 
-#: ../calendar/gui/e-tasks.c:1141
+#: ../calendar/gui/e-tasks.c:1161
 msgid "Expunging"
 msgstr "Зачеркване"
 
@@ -7502,39 +7527,41 @@ msgstr "Бутон за часови пояс"
 msgid "%d %B"
 msgstr "%d %B"
 
-#: ../calendar/gui/gnome-cal.c:723
+#: ../calendar/gui/gnome-cal.c:722
 msgid "Updating query"
 msgstr "Актуализиране на заявката"
 
 #. bonobo displays this string so it must be in locale
-#: ../calendar/gui/gnome-cal.c:2089 ../widgets/menus/gal-view-menus.c:350
+#: ../calendar/gui/gnome-cal.c:2121 ../widgets/menus/gal-view-instance.c:585
+#: ../widgets/menus/gal-view-menus.c:350
 msgid "Custom View"
 msgstr "Личен изглед"
 
-#: ../calendar/gui/gnome-cal.c:2090
+#: ../calendar/gui/gnome-cal.c:2122 ../widgets/menus/gal-view-instance.c:586
 msgid "Save Custom View"
 msgstr "Запазване на личния изглед"
 
-#: ../calendar/gui/gnome-cal.c:2095 ../widgets/menus/gal-view-menus.c:372
+#: ../calendar/gui/gnome-cal.c:2127 ../widgets/menus/gal-view-instance.c:590
+#: ../widgets/menus/gal-view-menus.c:372
 msgid "Define Views..."
 msgstr "Дефиниране на изгледите..."
 
-#: ../calendar/gui/gnome-cal.c:2258
+#: ../calendar/gui/gnome-cal.c:2290
 #, c-format
 msgid "Loading appointments at %s"
 msgstr "Зареждане на срещи на %s"
 
-#: ../calendar/gui/gnome-cal.c:2277
+#: ../calendar/gui/gnome-cal.c:2309
 #, c-format
 msgid "Loading tasks at %s"
 msgstr "Зареждане на задачи на %s"
 
-#: ../calendar/gui/gnome-cal.c:2378
+#: ../calendar/gui/gnome-cal.c:2410
 #, c-format
 msgid "Opening %s"
 msgstr "Отваряне на %s..."
 
-#: ../calendar/gui/gnome-cal.c:3268
+#: ../calendar/gui/gnome-cal.c:3300
 msgid "Purging"
 msgstr "Прочистване"
 
@@ -7592,7 +7619,7 @@ msgstr "Септември"
 
 #: ../calendar/gui/goto-dialog.glade.h:14
 msgid "_Select Today"
-msgstr "_Избиране на \"Днес\""
+msgstr "_Избиране на „Днес“"
 
 #: ../calendar/gui/itip-utils.c:352 ../calendar/gui/itip-utils.c:401
 #: ../calendar/gui/itip-utils.c:441
@@ -7681,13 +7708,13 @@ msgstr "Неуспех при мигрирането на старите нас�
 #: ../calendar/gui/migration.c:777
 #, c-format
 msgid "Unable to migrate calendar `%s'"
-msgstr "Неуспех при мигрирането на календара \"%s\""
+msgstr "Неуспех при мигрирането на календара „%s“"
 
 #. FIXME: domain/code
 #: ../calendar/gui/migration.c:944
 #, c-format
 msgid "Unable to migrate tasks `%s'"
-msgstr "Неуспех при мигрирането на задачите \"%s\""
+msgstr "Неуспех при мигрирането на задачите „%s“"
 
 #: ../calendar/gui/print.c:492
 msgid "1st"
@@ -7948,8 +7975,8 @@ msgstr "Неуспех при актуализирането на задачит
 #, c-format
 msgid "Unable to open the task list '%s' for creating events and meetings"
 msgstr ""
-"Неуспех при отварянето на списъка със задачи \"%s\" за създаване на събития "
-"и събрания."
+"Неуспех при отварянето на списъка със задачи „%s“ за създаване на събития и "
+"събрания."
 
 #: ../calendar/gui/tasks-component.c:875
 msgid "There is no calendar available for creating tasks"
@@ -9753,8 +9780,8 @@ msgid ""
 "Are you sure you want to discard the message, titled '{0}', you are "
 "composing?"
 msgstr ""
-"Сигурни ли сте, че искате да се откажете от писмото, озаглавено \"{0}\", "
-"което пишете в момента?"
+"Сигурни ли сте, че искате да се откажете от писмото, озаглавено „{0}“, което "
+"пишете в момента?"
 
 #: ../composer/mail-composer.error.xml.h:4
 msgid "Because &quot;{0}&quot;, you may need to select different mail options."
@@ -9774,7 +9801,7 @@ msgid ""
 "continue the message at a later date."
 msgstr ""
 "Ако затворите този прозорец, ще загубите това писмо за постоянно, освен ако "
-"не изберете да запазите писмото в папката \"Чернови\". Това ще позволи да "
+"не изберете да запазите писмото в папката „Чернови“. Това ще позволи да "
 "продължите писмото по-късно."
 
 #: ../composer/mail-composer.error.xml.h:7
@@ -9831,7 +9858,7 @@ msgstr "Възвръщане"
 
 #: ../composer/mail-composer.error.xml.h:19
 msgid "The file `{0}' is not a regular file and cannot be sent in a message."
-msgstr "Файлът \"{0}\" не е обикновен файл и не може да бъде изпратен в писмо."
+msgstr "Файлът „{0}“ не е обикновен файл и не може да бъде изпратен в писмо."
 
 #: ../composer/mail-composer.error.xml.h:20
 msgid ""
@@ -9866,7 +9893,7 @@ msgstr "Предупреждение: писмото е променено"
 
 #: ../composer/mail-composer.error.xml.h:27
 msgid "You cannot attach the file `{0}' to this message."
-msgstr "Не можете да прикрепите файла \"{0}\" към това писмо."
+msgstr "Не можете да прикрепите файла „{0}“ към това писмо."
 
 #: ../composer/mail-composer.error.xml.h:28
 msgid "You need to configure an account before you can compose mail."
@@ -9902,13 +9929,13 @@ msgid ""
 "\n"
 "Would you like to change your status to \"In the Office\"? "
 msgstr ""
-"<b>Вашето текущо състояние е \"Не съм в офиса\". </b>\n"
+"<b>Вашето текущо състояние е „Не съм в офиса“. </b>\n"
 "\n"
-"Искате ли да го промените \"В офиса съм\"?"
+"Искате ли да го промените „В офиса съм“?"
 
 #: ../designs/OOA/ooa.glade.h:4
 msgid "<b>Out of Office Message:</b>"
-msgstr "<b>Съобщение \"Не съм в офиса\":</b>"
+msgstr "<b>Съобщение „Не съм в офиса“:</b>"
 
 #: ../designs/OOA/ooa.glade.h:5
 msgid "<b>Status:</b>"
@@ -10036,7 +10063,7 @@ msgstr "Заявка на Evolution"
 msgid ""
 "<span weight=\"bold\">Internal error, unknown error '%s' requested</span>"
 msgstr ""
-"<span weight=\"bold\">Вътрешна грешка, непозната грешка \"%s\" се изисква</"
+"<span weight=\"bold\">Вътрешна грешка, непозната грешка „%s“ се изисква</"
 "span>"
 
 #: ../e-util/e-system.error.xml.h:2
@@ -10528,7 +10555,9 @@ msgstr "Изпращане на писмо"
 msgid "Defaults"
 msgstr "Стандартни"
 
+#. Security settings
 #: ../mail/em-account-editor.c:2207 ../mail/mail-config.glade.h:122
+#: ../plugins/exchange-operations/exchange-account-setup.c:301
 msgid "Security"
 msgstr "Сигурност"
 
@@ -10732,7 +10761,7 @@ msgid "is not Flagged"
 msgstr "не е отбелязано"
 
 #: ../mail/em-filter-i18n.h:35 ../mail/mail-config.glade.h:93
-#: ../ui/evolution-mail-message.xml.h:47
+#: ../ui/evolution-mail-message.xml.h:48
 msgid "Junk"
 msgstr "Спам"
 
@@ -10849,7 +10878,7 @@ msgstr "започва с"
 msgid "Stop Processing"
 msgstr "Спиране на обработването"
 
-#: ../mail/em-filter-i18n.h:65 ../mail/em-format-html.c:1541
+#: ../mail/em-filter-i18n.h:65 ../mail/em-format-html.c:1671
 #: ../mail/em-format-quote.c:310 ../mail/em-format.c:848
 #: ../mail/em-mailer-prefs.c:88 ../mail/message-list.etspec.h:13
 #: ../mail/message-tag-followup.c:330
@@ -10971,12 +11000,12 @@ msgstr "Преместване в _папка"
 #: ../mail/em-folder-tree.c:1751 ../mail/mail-ops.c:1055
 #, c-format
 msgid "Scanning folders in \"%s\""
-msgstr "Сканиране на папки в \"%s\""
+msgstr "Сканиране на папки в „%s“"
 
 #: ../mail/em-folder-tree.c:2107 ../ui/evolution-addressbook.xml.h:44
-#: ../ui/evolution-mail-global.xml.h:23
+#: ../ui/evolution-mail-global.xml.h:25
 #: ../ui/evolution-mail-messagedisplay.xml.h:8
-#: ../ui/evolution-message-composer.xml.h:52 ../ui/evolution.xml.h:46
+#: ../ui/evolution-message-composer.xml.h:52 ../ui/evolution.xml.h:49
 msgid "_View"
 msgstr "_Изглед"
 
@@ -10997,14 +11026,14 @@ msgstr "Пре_местване..."
 msgid "_New Folder..."
 msgstr "_Нова папка..."
 
-#: ../mail/em-folder-tree.c:2120 ../ui/evolution-mail-list.xml.h:29
+#: ../mail/em-folder-tree.c:2120 ../ui/evolution-mail-list.xml.h:32
 msgid "_Rename..."
 msgstr "П_реименуване..."
 
 #: ../mail/em-folder-utils.c:104
 #, c-format
 msgid "Copying `%s' to `%s'"
-msgstr "Копиране на \"%s\" в \"%s\""
+msgstr "Копиране на „%s“ в „%s“"
 
 #: ../mail/em-folder-utils.c:367 ../mail/em-folder-utils.c:383
 #: ../mail/em-folder-view.c:929 ../mail/em-folder-view.c:944
@@ -11020,7 +11049,7 @@ msgstr "_Копиране"
 #: ../mail/em-folder-utils.c:521
 #, c-format
 msgid "Rename the \"%s\" folder to:"
-msgstr "Преименуване на папката \"%s\" на:"
+msgstr "Преименуване на папката „%s“ на:"
 
 #: ../mail/em-folder-utils.c:523
 msgid "Rename Folder"
@@ -11028,13 +11057,13 @@ msgstr "Преименуване на папка"
 
 #: ../mail/em-folder-utils.c:529
 msgid "Folder names cannot contain '/'"
-msgstr "Името на папката не може да съдържа \"/\""
+msgstr "Името на папката не може да съдържа „/“"
 
 #: ../mail/em-folder-utils.c:599
 #: ../plugins/groupwise-features/share-folder-common.c:140
 #, c-format
 msgid "Creating folder `%s'"
-msgstr "Създаване на папка \"%s\""
+msgstr "Създаване на папка „%s“"
 
 #: ../mail/em-folder-utils.c:748
 #: ../plugins/groupwise-features/install-shared.c:156
@@ -11052,7 +11081,8 @@ msgstr "Указване къде да бъде създадена папкат�
 msgid "Reply to _All"
 msgstr "Отговаряне на _всички"
 
-#: ../mail/em-folder-view.c:1038 ../ui/evolution-mail-message.xml.h:119
+#. <menuitem name="MessagePostReply" verb="" _label="Post a Repl_y"/>
+#: ../mail/em-folder-view.c:1038 ../ui/evolution-mail-message.xml.h:120
 msgid "_Reply to Sender"
 msgstr "Отгова_ряне на подателя"
 
@@ -11181,26 +11211,26 @@ msgid "Click to mail %s"
 msgstr "Натиснете, за да изпратите писмо на %s"
 
 #. message-search popup match count string
-#: ../mail/em-format-html-display.c:406
+#: ../mail/em-format-html-display.c:416
 #, c-format
 msgid "Matches: %d"
 msgstr "Съвпадения: %d"
 
-#: ../mail/em-format-html-display.c:653 ../mail/em-format-html.c:578
+#: ../mail/em-format-html-display.c:663 ../mail/em-format-html.c:596
 msgid "Unsigned"
 msgstr "Неподписано"
 
-#: ../mail/em-format-html-display.c:653
+#: ../mail/em-format-html-display.c:663
 msgid ""
 "This message is not signed. There is no guarantee that this message is "
 "authentic."
 msgstr "Това писмо не е подписано. Няма гаранции, че това писмо е автентично."
 
-#: ../mail/em-format-html-display.c:654 ../mail/em-format-html.c:579
+#: ../mail/em-format-html-display.c:664 ../mail/em-format-html.c:597
 msgid "Valid signature"
 msgstr "Валиден подпис"
 
-#: ../mail/em-format-html-display.c:654
+#: ../mail/em-format-html-display.c:664
 msgid ""
 "This message is signed and is valid meaning that it is very likely that this "
 "message is authentic."
@@ -11208,11 +11238,11 @@ msgstr ""
 "Това писмо е подписано и е валидно, което означава, че най-вероятно е "
 "автентично."
 
-#: ../mail/em-format-html-display.c:655 ../mail/em-format-html.c:580
+#: ../mail/em-format-html-display.c:665 ../mail/em-format-html.c:598
 msgid "Invalid signature"
 msgstr "Невалиден подпис"
 
-#: ../mail/em-format-html-display.c:655
+#: ../mail/em-format-html-display.c:665
 msgid ""
 "The signature of this message cannot be verified, it may have been altered "
 "in transit."
@@ -11220,11 +11250,11 @@ msgstr ""
 "Подписът на това писмо не може да бъде проверен. Възможно е то вече да е "
 "било променено, преди да бъде получено."
 
-#: ../mail/em-format-html-display.c:656
+#: ../mail/em-format-html-display.c:666
 msgid "Valid signature, cannot verify sender"
 msgstr "Валиден подпис, не може да се потвърди изпращача"
 
-#: ../mail/em-format-html-display.c:656
+#: ../mail/em-format-html-display.c:666
 msgid ""
 "This message is signed with a valid signature, but the sender of the message "
 "cannot be verified."
@@ -11232,11 +11262,11 @@ msgstr ""
 "Това писмо е подписано с валиден подпис, но изпращачът не може да бъде "
 "проверен."
 
-#: ../mail/em-format-html-display.c:662 ../mail/em-format-html.c:587
+#: ../mail/em-format-html-display.c:672 ../mail/em-format-html.c:605
 msgid "Unencrypted"
 msgstr "Некриптирано"
 
-#: ../mail/em-format-html-display.c:662
+#: ../mail/em-format-html-display.c:672
 msgid ""
 "This message is not encrypted.  Its content may be viewed in transit across "
 "the Internet."
@@ -11244,11 +11274,11 @@ msgstr ""
 "Това писмо не е криптирано. Докато пътува през интернет, трети лица могат да "
 "видят неговото съдържание."
 
-#: ../mail/em-format-html-display.c:663 ../mail/em-format-html.c:588
+#: ../mail/em-format-html-display.c:673 ../mail/em-format-html.c:606
 msgid "Encrypted, weak"
 msgstr "Слабо криптиране"
 
-#: ../mail/em-format-html-display.c:663
+#: ../mail/em-format-html-display.c:673
 msgid ""
 "This message is encrypted, but with a weak encryption algorithm.  It would "
 "be difficult, but not impossible for an outsider to view the content of this "
@@ -11258,11 +11288,11 @@ msgstr ""
 "трудно, но не невъзможно да декриптират неговото съдържание за сравнително "
 "кратък период от време."
 
-#: ../mail/em-format-html-display.c:664 ../mail/em-format-html.c:589
+#: ../mail/em-format-html-display.c:674 ../mail/em-format-html.c:607
 msgid "Encrypted"
 msgstr "Криптирано"
 
-#: ../mail/em-format-html-display.c:664
+#: ../mail/em-format-html-display.c:674
 msgid ""
 "This message is encrypted.  It would be difficult for an outsider to view "
 "the content of this message."
@@ -11270,11 +11300,11 @@ msgstr ""
 "Това писмо е криптирано. На трети лица ще бъде много трудно да видят "
 "неговото съдържание."
 
-#: ../mail/em-format-html-display.c:665 ../mail/em-format-html.c:590
+#: ../mail/em-format-html-display.c:675 ../mail/em-format-html.c:608
 msgid "Encrypted, strong"
 msgstr "Силно криптирано"
 
-#: ../mail/em-format-html-display.c:665
+#: ../mail/em-format-html-display.c:675
 msgid ""
 "This message is encrypted, with a strong encryption algorithm.  It would be "
 "very difficult for an outsider to view the content of this message in a "
@@ -11283,35 +11313,43 @@ msgstr ""
 "Това писмо е криптирано чрез много силен алгоритъм. За трети лица ще бъде "
 "много трудно да го декриптират."
 
-#: ../mail/em-format-html-display.c:766 ../smime/gui/smime-ui.glade.h:48
+#: ../mail/em-format-html-display.c:776 ../smime/gui/smime-ui.glade.h:48
 msgid "_View Certificate"
 msgstr "_Преглед на сертификат"
 
-#: ../mail/em-format-html-display.c:781
+#: ../mail/em-format-html-display.c:791
 msgid "This certificate is not viewable"
 msgstr "Този сертификат не може да се преглежда"
 
-#: ../mail/em-format-html-display.c:1011
+#: ../mail/em-format-html-display.c:1063
 msgid "Completed on %B %d, %Y, %l:%M %p"
 msgstr "Завършено на %B %d, %Y, %l:%M %p"
 
-#: ../mail/em-format-html-display.c:1019
+#: ../mail/em-format-html-display.c:1071
 msgid "Overdue:"
 msgstr "Просрочено:"
 
-#: ../mail/em-format-html-display.c:1022
+#: ../mail/em-format-html-display.c:1074
 msgid "by %B %d, %Y, %l:%M %p"
 msgstr "от %B %d, %Y, %l:%M %p"
 
-#: ../mail/em-format-html-display.c:1064
+#: ../mail/em-format-html-display.c:1134
 msgid "_View Inline"
 msgstr "_Вграден преглед"
 
-#: ../mail/em-format-html-display.c:1065
+#: ../mail/em-format-html-display.c:1135
 msgid "_Hide"
 msgstr "_Скриване"
 
-#: ../mail/em-format-html-display.c:1309
+#: ../mail/em-format-html-display.c:1136
+msgid "_Fit to Width"
+msgstr "Съразмерно ширината"
+
+#: ../mail/em-format-html-display.c:1137
+msgid "Show _Original Size"
+msgstr "Оригинален раз_мер"
+
+#: ../mail/em-format-html-display.c:1462
 msgid "Attachment Button"
 msgstr "Бутон за прикрепените файлове"
 
@@ -11320,134 +11358,138 @@ msgstr "Бутон за прикрепените файлове"
 msgid "Page %d of %d"
 msgstr "Страница %d от %d"
 
-#: ../mail/em-format-html.c:471 ../mail/em-format-html.c:473
+#: ../mail/em-format-html.c:474 ../mail/em-format-html.c:476
 #, c-format
 msgid "Retrieving `%s'"
-msgstr "Получаване на \"%s\""
+msgstr "Получаване на „%s“"
 
-#: ../mail/em-format-html.c:581
+#: ../mail/em-format-html.c:599
 msgid "Valid signature but cannot verify sender"
 msgstr "Валиден подпис, но не може да се потвърди изпращача"
 
-#: ../mail/em-format-html.c:839
+#: ../mail/em-format-html.c:693
+msgid "Unknown error verifying signed messaage"
+msgstr "Неизвестна грешка при проверката на подписа"
+
+#: ../mail/em-format-html.c:758
+msgid "Unknown error decrypting messaage"
+msgstr "Неизвестна грешка при дешифриране на съобщението"
+
+#: ../mail/em-format-html.c:967
 msgid "Malformed external-body part."
 msgstr "Зле форматирана външна част на тялото на писмото"
 
-#: ../mail/em-format-html.c:869
+#: ../mail/em-format-html.c:997
 #, c-format
 msgid "Pointer to FTP site (%s)"
 msgstr "Указател към FTP сайт (%s)"
 
-#: ../mail/em-format-html.c:880
+#: ../mail/em-format-html.c:1008
 #, c-format
 msgid "Pointer to local file (%s) valid at site \"%s\""
-msgstr "Указател към локален файл (%s), валиден на сайта \"%s\""
+msgstr "Указател към локален файл (%s), валиден на сайта „%s“"
 
-#: ../mail/em-format-html.c:882
+#: ../mail/em-format-html.c:1010
 #, c-format
 msgid "Pointer to local file (%s)"
 msgstr "Указател към локален файл (%s)"
 
-#: ../mail/em-format-html.c:903
+#: ../mail/em-format-html.c:1031
 #, c-format
 msgid "Pointer to remote data (%s)"
 msgstr "Указател към отдалечени данни (%s)"
 
-#: ../mail/em-format-html.c:914
+#: ../mail/em-format-html.c:1042
 #, c-format
 msgid "Pointer to unknown external data (\"%s\" type)"
-msgstr "Указател към неизвестни външни данни (тип \"%s\")"
+msgstr "Указател към неизвестни външни данни (тип „%s“)"
 
-#: ../mail/em-format-html.c:1140
+#: ../mail/em-format-html.c:1270
 msgid "Formatting message"
 msgstr "Форматиране на писмо"
 
-#: ../mail/em-format-html.c:1433 ../mail/em-format-quote.c:197
+#: ../mail/em-format-html.c:1563 ../mail/em-format-quote.c:197
 #: ../mail/em-format.c:843 ../mail/em-mailer-prefs.c:83
 #: ../mail/message-list.etspec.h:7 ../mail/message-tag-followup.c:326
 msgid "From"
 msgstr "От"
 
-#: ../mail/em-format-html.c:1433 ../mail/em-format-quote.c:197
+#: ../mail/em-format-html.c:1563 ../mail/em-format-quote.c:197
 #: ../mail/em-format.c:844 ../mail/em-mailer-prefs.c:84
 msgid "Reply-To"
 msgstr "Отговор до"
 
-#: ../mail/em-format-html.c:1433 ../mail/em-format-quote.c:197
+#: ../mail/em-format-html.c:1563 ../mail/em-format-quote.c:197
 #: ../mail/em-format.c:845 ../mail/em-mailer-prefs.c:85
 #: ../mail/message-list.etspec.h:14
 msgid "To"
 msgstr "До"
 
-#: ../mail/em-format-html.c:1433 ../mail/em-format-quote.c:197
+#: ../mail/em-format-html.c:1563 ../mail/em-format-quote.c:197
 #: ../mail/em-format.c:846 ../mail/em-mailer-prefs.c:86
 msgid "Cc"
 msgstr "Копие до"
 
-#: ../mail/em-format-html.c:1433 ../mail/em-format-quote.c:197
+#: ../mail/em-format-html.c:1563 ../mail/em-format-quote.c:197
 #: ../mail/em-format.c:847 ../mail/em-mailer-prefs.c:87
 msgid "Bcc"
 msgstr "Скрито копие до"
 
 #. pseudo-header
-#: ../mail/em-format-html.c:1545 ../mail/em-format-quote.c:319
+#: ../mail/em-format-html.c:1675 ../mail/em-format-quote.c:319
 #: ../mail/em-mailer-prefs.c:986
 msgid "Mailer"
 msgstr "Пощенска програма"
 
 #. translators: strftime format for local time equivalent in Date header display, with day
-#: ../mail/em-format-html.c:1572
+#: ../mail/em-format-html.c:1702
 msgid "<I> (%a, %R %Z)</I>"
 msgstr "<I> (%a, %R %Z)</I>"
 
 #. translators: strftime format for local time equivalent in Date header display, without day
-#: ../mail/em-format-html.c:1575
+#: ../mail/em-format-html.c:1705
 msgid "<I> (%R %Z)</I>"
 msgstr "<I> (%R %Z)</I>"
 
-#: ../mail/em-format-html.c:1585 ../mail/em-format-quote.c:326
+#: ../mail/em-format-html.c:1715 ../mail/em-format-quote.c:326
 #: ../mail/em-format.c:849 ../mail/em-mailer-prefs.c:89
 #: ../mail/message-list.etspec.h:2
 msgid "Date"
 msgstr "Дата"
 
-#: ../mail/em-format-html.c:1608 ../mail/em-format.c:850
+#: ../mail/em-format-html.c:1738 ../mail/em-format.c:850
 #: ../mail/em-mailer-prefs.c:90
 msgid "Newsgroups"
 msgstr "Групи за новини"
 
-#: ../mail/em-format.c:1099
+#: ../mail/em-format.c:1101
 #, c-format
 msgid "%s attachment"
 msgstr "%s прикачен файл"
 
-#: ../mail/em-format.c:1138 ../mail/em-format.c:1271
+#: ../mail/em-format.c:1140 ../mail/em-format.c:1273
 msgid "Could not parse S/MIME message: Unknown error"
 msgstr "Неуспех при анализирането на на S/MIME писмото: неизвестна грешка"
 
-#: ../mail/em-format.c:1261
+#: ../mail/em-format.c:1263
 msgid "Unsupported encryption type for multipart/encrypted"
 msgstr "Неподдържан метод за криптиране за multipart/encrypted"
 
-#: ../mail/em-format.c:1409
+#: ../mail/em-format.c:1411
 msgid "Could not parse MIME message. Displaying as source."
 msgstr "Не може да се анализира MIME писмо. Показва се в изходен код."
 
-#: ../mail/em-format.c:1428
+#: ../mail/em-format.c:1430
 msgid "Unsupported signature format"
 msgstr "Неподдържан формат на подписа"
 
-#: ../mail/em-format.c:1436
+#: ../mail/em-format.c:1438
 msgid "Error verifying signature"
 msgstr "Грешка при проверката на подписа"
 
-#: ../mail/em-format.c:1436
+#: ../mail/em-format.c:1438
 msgid "Unknown error verifying signature"
 msgstr "Неизвестна грешка при проверката на подписа"
-
-#: ../mail/em-junk-filter.c:111
-msgid "Spamassassin (built-in)"
-msgstr "Spamassassin (вграден)"
 
 #: ../mail/em-mailer-prefs.c:101
 msgid "Every time"
@@ -11480,43 +11522,43 @@ msgstr ""
 #: ../mail/em-migrate.c:1632
 #, c-format
 msgid "Unable to create new folder `%s': %s"
-msgstr "Неуспех при създаването на новата папка \"%s\": %s"
+msgstr "Неуспех при създаването на новата папка „%s“: %s"
 
 #: ../mail/em-migrate.c:1658
 #, c-format
 msgid "Unable to copy folder `%s' to `%s': %s"
-msgstr "Неуспех при копирането на папка \"%s\" в \"%s\": %s"
+msgstr "Неуспех при копирането на папка „%s“ в „%s“: %s"
 
 #: ../mail/em-migrate.c:1843
 #, c-format
 msgid "Unable to scan for existing mailboxes at `%s': %s"
-msgstr "Неуспех при сканирането за съществуващи пощенски кутии на \"%s\":·%s"
+msgstr "Неуспех при сканирането за съществуващи пощенски кутии на „%s“: %s"
 
 #: ../mail/em-migrate.c:2047
 #, c-format
 msgid "Unable to open old POP keep-on-server data `%s': %s"
-msgstr "Неуспех при отварянето на стари данни, пазени на POP сървър \"%s\": %s"
+msgstr "Неуспех при отварянето на стари данни, пазени на POP сървър „%s“: %s"
 
 #: ../mail/em-migrate.c:2061
 #, c-format
 msgid "Unable to create POP3 keep-on-server data directory `%s': %s"
 msgstr ""
-"Неуспех при създаването на папка за данни, пазени на POP3 сървър \"%s: %s"
+"Неуспех при създаването на папка за данни, пазени на POP3 сървър „%s“: %s"
 
 #: ../mail/em-migrate.c:2090
 #, c-format
 msgid "Unable to copy POP3 keep-on-server data `%s': %s"
-msgstr "Неуспех при копирането на данни, пазени на POP3 сървър \"%s\": %s"
+msgstr "Неуспех при копирането на данни, пазени на POP3 сървър „%s“: %s"
 
 #: ../mail/em-migrate.c:2561 ../mail/em-migrate.c:2573
 #, c-format
 msgid "Failed to create local mail storage `%s': %s"
-msgstr "Неуспех при създаването на локалното хранилище за пощата \"%s\": %s"
+msgstr "Неуспех при създаването на локалното хранилище за пощата „%s“: %s"
 
 #: ../mail/em-migrate.c:2693
 #, c-format
 msgid "Unable to create local mail folders at `%s': %s"
-msgstr "Неуспех при създаване на локални папки към \"%s\": %s"
+msgstr "Неуспех при създаване на локални папки към „%s“: %s"
 
 #: ../mail/em-migrate.c:2711
 msgid ""
@@ -11524,7 +11566,7 @@ msgid ""
 "xmldb' does not exist or is corrupt."
 msgstr ""
 "Неуспех при четенето на настройките от предишната инсталация на Evolution, "
-"\"evolution/config.xmldb\" не съществува или е повреден."
+"„evolution/config.xmldb“ не съществува или е повреден."
 
 #: ../mail/em-popup.c:382
 msgid "Save As..."
@@ -11701,7 +11743,7 @@ msgstr "Изобразяване на индикатори за грешки в 
 
 #: ../mail/evolution-mail.schemas.in.in.h:21
 msgid "Empty Trash folders on exit"
-msgstr "Изчистване на папката \"Кошче\" при спирането на програмата"
+msgstr "Изчистване на папката „Кошче“ при спирането на програмата"
 
 #: ../mail/evolution-mail.schemas.in.in.h:22
 msgid "Empty all Trash folders when exiting Evolution."
@@ -11713,7 +11755,7 @@ msgstr "Включване на курсора при четене на писм
 
 #: ../mail/evolution-mail.schemas.in.in.h:24
 msgid "Enable/disable caret mode"
-msgstr "Активиране/спиране на режим \"Каретка\""
+msgstr "Активиране/спиране на режим „Каретка“"
 
 #: ../mail/evolution-mail.schemas.in.in.h:25
 msgid "Height of the message-list pane"
@@ -11775,7 +11817,7 @@ msgid ""
 "List of labels known to the mail component of Evolution. The list contains "
 "strings containing name:color where color uses the HTML hex encoding."
 msgstr ""
-"Списък с цветови етикети в Evolution. Съдържа двойки \"име:цвят\", където "
+"Списък с цветови етикети в Evolution. Съдържа двойки „име:цвят“, където "
 "цветът е в шестнадесетичен HTML формат."
 
 #: ../mail/evolution-mail.schemas.in.in.h:36
@@ -11869,7 +11911,7 @@ msgstr "Нов тип информиране за поща"
 
 #: ../mail/evolution-mail.schemas.in.in.h:55
 msgid "Prompt on empty subject"
-msgstr "Запитване при непопълнено поле \"Тема\""
+msgstr "Запитване при непопълнено поле „Тема“"
 
 #: ../mail/evolution-mail.schemas.in.in.h:56
 msgid "Prompt the user when he or she tries to expunge a folder."
@@ -11886,7 +11928,7 @@ msgstr "Предупреждаване при изтриване"
 
 #: ../mail/evolution-mail.schemas.in.in.h:59
 msgid "Prompt when user only fills Bcc"
-msgstr "Предупреждаване, когато потребителя попълни само \"Скрито копие до\""
+msgstr "Предупреждаване, когато потребителя попълни само „Скрито копие до“"
 
 #: ../mail/evolution-mail.schemas.in.in.h:60
 msgid "Prompt when user tries to open 10 or more messages at once"
@@ -11906,7 +11948,7 @@ msgstr ""
 msgid "Prompt when user tries to send a message with no To or Cc recipients."
 msgstr ""
 "Предупреждаване на потребителя при изпращане на писма без адрес в полетата "
-"\"До\" или \"Копие до\"."
+"„До“ или „Копие до“."
 
 #: ../mail/evolution-mail.schemas.in.in.h:63
 msgid "Prompt when user tries to send unwanted HTML"
@@ -11951,11 +11993,11 @@ msgstr "Показване на изтритите писма в списъка 
 
 #: ../mail/evolution-mail.schemas.in.in.h:73
 msgid "Show the \"Preview\" pane"
-msgstr "Показване на панела \"Предварителен преглед на писмата\"."
+msgstr "Показване на панела „Предварителен преглед на писмата“."
 
 #: ../mail/evolution-mail.schemas.in.in.h:74
 msgid "Show the \"Preview\" pane."
-msgstr "Показване на панела \"Предварителен преглед на писмата\"."
+msgstr "Показване на панела „Предварителен преглед на писмата“."
 
 #: ../mail/evolution-mail.schemas.in.in.h:75
 msgid "Sound file to play when new mail arrives."
@@ -11983,7 +12025,7 @@ msgstr "Терминален шрифт"
 
 #: ../mail/evolution-mail.schemas.in.in.h:81
 msgid "The last time empty trash was run, in days since the epoch."
-msgstr "Последният път, когато е изчиствано кошчето, в дни от \"Епохата\"."
+msgstr "Последният път, когато е изчиствано кошчето, в дни от „Епохата“."
 
 #: ../mail/evolution-mail.schemas.in.in.h:82
 msgid "The terminal font for mail display"
@@ -12002,7 +12044,7 @@ msgid ""
 msgstr ""
 "Този ключ трябва да съдържа списък с XML структури, описващи специфичните "
 "заглавни части, и дали да бъдат показвани. Форматът на XML структурата е "
-"\"&lt;header·enabled&gt;·-·set·enabled\" в случай, че заглавната част трябва "
+"„&lt;header enabled&gt; - set enabled“ в случай, че заглавната част трябва "
 "да бъде показвана."
 
 #: ../mail/evolution-mail.schemas.in.in.h:85
@@ -12015,7 +12057,7 @@ msgstr "Подреждане на списъка с писма в нишки"
 
 #: ../mail/evolution-mail.schemas.in.in.h:87
 msgid "Thread the message-list based on Subject"
-msgstr "Подреждане на списъка с писма в нишки на основата на \"Тема\"."
+msgstr "Подреждане на списъка с писма в нишки на основата на „Тема“."
 
 #: ../mail/evolution-mail.schemas.in.in.h:88
 msgid "Timeout for marking message as Seen"
@@ -12059,51 +12101,51 @@ msgstr "Шрифт с променлива ширина"
 
 #: ../mail/evolution-mail.schemas.in.in.h:98
 msgid "View/Bcc menu item is checked"
-msgstr "\"Изглед/Скрито копие до\" е активирано"
+msgstr "„Изглед/Скрито копие до“ е активирано"
 
 #: ../mail/evolution-mail.schemas.in.in.h:99
 msgid "View/Bcc menu item is checked."
-msgstr "\"Изглед/Скрито копие до\" е активирано."
+msgstr "„Изглед/Скрито копие до“ е активирано."
 
 #: ../mail/evolution-mail.schemas.in.in.h:100
 msgid "View/Cc menu item is checked"
-msgstr "\"Изглед/Копие до\" е активирано"
+msgstr "„Изглед/Копие до“ е активирано"
 
 #: ../mail/evolution-mail.schemas.in.in.h:101
 msgid "View/Cc menu item is checked."
-msgstr "\"Изглед/Копие до\" е активирано."
+msgstr "„Изглед/Копие до“ е активирано."
 
 #: ../mail/evolution-mail.schemas.in.in.h:102
 msgid "View/From menu item is checked"
-msgstr "\"Изглед/От\" е активирано"
+msgstr "„Изглед/От“ е активирано"
 
 #: ../mail/evolution-mail.schemas.in.in.h:103
 msgid "View/From menu item is checked."
-msgstr "\"Изглед/От\" е активирано."
+msgstr "„Изглед/От“ е активирано."
 
 #: ../mail/evolution-mail.schemas.in.in.h:104
 msgid "View/PostTo menu item is checked"
-msgstr "\"Изглед/Копиране в папка\" е активирано"
+msgstr "„Изглед/Копиране в папка“ е активирано"
 
 #: ../mail/evolution-mail.schemas.in.in.h:105
 msgid "View/PostTo menu item is checked."
-msgstr "\"Изглед/Копиране в папка\" е активирано."
+msgstr "„Изглед/Копиране в папка“ е активирано."
 
 #: ../mail/evolution-mail.schemas.in.in.h:106
 msgid "View/ReplyTo menu item is checked"
-msgstr "\"Изглед/Отговор до\" е активирано"
+msgstr "„Изглед/Отговор до“ е активирано"
 
 #: ../mail/evolution-mail.schemas.in.in.h:107
 msgid "View/ReplyTo menu item is checked."
-msgstr "\"Изглед/Отговор до\" е активирано."
+msgstr "„Изглед/Отговор до“ е активирано."
 
 #: ../mail/evolution-mail.schemas.in.in.h:108
 msgid ""
 "Whether or not to fall back on threading by subjects when the messages do "
 "not contain In-Reply-To or References headers."
 msgstr ""
-"Дали да се използва преглед на писмата в нишки по \"Тема\", когато те не "
-"съдържат заглавни части \"В отговор на\" или \"Препратки\"."
+"Дали да се използва преглед на писмата в нишки по „Тема“, когато те не "
+"съдържат заглавни части „В отговор на“ или „Препратки“."
 
 #: ../mail/importers/GNOME_Evolution_Mail_Importers.server.in.in.h:1
 msgid "Evolution Elm importer"
@@ -12184,7 +12226,7 @@ msgstr "Избор в коя папка да се внесе"
 #: ../mail/importers/mail-importer.c:226
 #, c-format
 msgid "Importing `%s'"
-msgstr "Внасяне на \"%s\""
+msgstr "Внасяне на „%s“"
 
 #: ../mail/importers/evolution-outlook-importer.c:305
 #: ../mail/importers/mail-importer.c:140
@@ -12194,12 +12236,12 @@ msgstr "Внася се пощенска кутия"
 #: ../mail/importers/mail-importer.c:363
 #, c-format
 msgid "Scanning %s"
-msgstr "Сканиране на \"%s\""
+msgstr "Сканиране на „%s“"
 
 #: ../mail/importers/netscape-importer.c:73
 #, c-format
 msgid "Priority Filter \"%s\""
-msgstr "Филтър за приоритета \"%s\""
+msgstr "Филтър за приоритета „%s“"
 
 #: ../mail/importers/netscape-importer.c:662
 msgid ""
@@ -12221,8 +12263,8 @@ msgstr ""
 "които могат да бъдат назначени на електронни писма и после\n"
 "съответно по това да се филтрират.\n"
 "\n"
-"Като заобиколен начин, добавен е набор от филтри наречен \"Филтър\n"
-"по приоритети\". Той конвертира пощенските приоритети от Netscape към\n"
+"Като заобиколен начин, добавен е набор от филтри наречен „Филтър\n"
+"по приоритети“. Той конвертира пощенските приоритети от Netscape към\n"
 "оценките на Evolution и засегнатите филтри използват също оценки,\n"
 "вместо приоритети. Проверете внесените филтри, за да се уверите\n"
 "все пак, че всичко работи както се предполага."
@@ -12235,7 +12277,7 @@ msgid ""
 "These filters will be dropped."
 msgstr ""
 "Някои от филтрите ви от Netscape използват\n"
-"\"Ignore Thread\" или \"Watch Thread\", което не се\n"
+"„Ignore Thread“ или „Watch Thread“, което не се\n"
 "поддържа в Evolution.\n"
 "Въпросните филтри ще бъдат пропуснати."
 
@@ -12394,11 +12436,12 @@ msgstr "По_щенска папка"
 msgid "Create a new mail folder"
 msgstr "Създаване на нова пощенска папка"
 
-#: ../mail/mail-component.c:893
+#: ../mail/mail-component.c:915
 msgid "Failed upgrading Mail settings or folders."
 msgstr "Неуспех при обновяването на пощенските настройки или папки."
 
 #: ../mail/mail-config.glade.h:1 ../mail/mail-dialogs.glade.h:1
+#: ../widgets/menus/gal-view-instance-save-as-dialog.glade.h:1
 msgid "    "
 msgstr "    "
 
@@ -12645,7 +12688,7 @@ msgstr ""
 "Сега можете да изпращате и получавате е-поща като\n"
 "използвате Evolution. \n"
 "\n"
-"Натиснете \"Прилагане\", за да запазите настройките."
+"Натиснете „Прилагане“, за да запазите настройките."
 
 #: ../mail/mail-config.glade.h:66
 msgid "De_fault"
@@ -12787,7 +12830,7 @@ msgid ""
 "below do not need to be filled in, unless you wish to include this "
 "information in email you send."
 msgstr ""
-"Въведете вашето име и адрес на е-поща. \"Допълнителните\" полета отдолу не "
+"Въведете вашето име и адрес на е-поща. „Допълнителните“ полета отдолу не "
 "трябва да бъдат попълвани, освен ако не искате да включвате тази информация "
 "в писмата, които изпращате."
 
@@ -12798,8 +12841,8 @@ msgstr "Изберете от следните опции"
 #: ../mail/mail-config.glade.h:112
 msgid "Pr_ompt when sending messages with only Bcc recipients defined"
 msgstr ""
-"Напомняне при изпращане на писма с получатели само в полето \"Скрито копие "
-"до:\""
+"Напомняне при изпращане на писма с получатели само в полето „Скрито копие "
+"до:“"
 
 #: ../mail/mail-config.glade.h:113
 msgid "Quote original message"
@@ -12924,7 +12967,7 @@ msgid ""
 "For example: \"Work\" or \"Personal\""
 msgstr ""
 "Напишете името, чрез което искате да отличавате този абонамент.\n"
-"Например: \"Работен\" или \"Личен\""
+"Например: „Работен“ или „Личен“"
 
 #: ../mail/mail-config.glade.h:148
 msgid "User_name:"
@@ -12942,7 +12985,7 @@ msgid ""
 msgstr ""
 "Добре дошли в асистента за настройка на пощата в Evolution.\n"
 "\n"
-"Натиснете \"Напред\", за да започнете. "
+"Натиснете „Напред“, за да започнете. "
 
 #: ../mail/mail-config.glade.h:154
 msgid "_Add Signature"
@@ -12998,7 +13041,7 @@ msgstr "Запит_ване при изпращане на HTML писма до 
 
 #: ../mail/mail-config.glade.h:169
 msgid "_Prompt when sending messages with an empty subject line"
-msgstr "Запитва_не при изпращане на съобщения с празно поле \"Тема\""
+msgstr "Запитва_не при изпращане на съобщения с празно поле „Тема“"
 
 #: ../mail/mail-config.glade.h:170
 msgid "_Reply style:"
@@ -13089,7 +13132,7 @@ msgid ""
 "Please select a follow up action from the \"Flag\" menu."
 msgstr ""
 "Писмата, които сте избрали като следващи в разговор, са изброени долу.\n"
-"Изберете подходящото действие от менюто \"Отбелязване\"."
+"Изберете подходящото действие от менюто „Отбелязване“."
 
 #: ../mail/mail-dialogs.glade.h:20
 msgid "_Accept License"
@@ -13158,12 +13201,12 @@ msgid ""
 "Appending to local `Sent' folder instead."
 msgstr ""
 "Грешка при добавянето към %s: %s\n"
-"Вместо това писмото е добавено към локалната папка \"Изпратени\"."
+"Вместо това писмото е добавено към локалната папка „Изпратени“."
 
 #: ../mail/mail-ops.c:619
 #, c-format
 msgid "Failed to append to local `Sent' folder: %s"
-msgstr "Грешка при добавянето към локалната папка \"Изпратени\": %s"
+msgstr "Грешка при добавянето към локалната папка „Изпратени“: %s"
 
 #: ../mail/mail-ops.c:731
 #, c-format
@@ -13219,17 +13262,17 @@ msgstr "Изтриване на папка %s"
 #: ../mail/mail-ops.c:1455
 #, c-format
 msgid "Storing folder '%s'"
-msgstr "Запазване на папка \"%s\""
+msgstr "Запазване на папка „%s“"
 
 #: ../mail/mail-ops.c:1520
 #, c-format
 msgid "Expunging and storing account '%s'"
-msgstr "Зачеркване и запазване на абонамент \"%s\""
+msgstr "Зачеркване и запазване на абонамент „%s“"
 
 #: ../mail/mail-ops.c:1521
 #, c-format
 msgid "Storing account '%s'"
-msgstr "Запазване на абонамент \"%s\""
+msgstr "Запазване на абонамент „%s“"
 
 #: ../mail/mail-ops.c:1576
 msgid "Refreshing folder"
@@ -13242,7 +13285,7 @@ msgstr "Изтриване на папка"
 #: ../mail/mail-ops.c:1660
 #, c-format
 msgid "Emptying trash in '%s'"
-msgstr "Изчистване на кошчето в \"%s\""
+msgstr "Изчистване на кошчето в „%s“"
 
 #: ../mail/mail-ops.c:1661
 msgid "Local Folders"
@@ -13352,16 +13395,16 @@ msgstr "Актуализиране..."
 msgid "Waiting..."
 msgstr "Изчакване..."
 
-#: ../mail/mail-session.c:208
+#: ../mail/mail-session.c:207
 #, c-format
 msgid "Enter Password for %s"
 msgstr "Въведете парола за %s"
 
-#: ../mail/mail-session.c:210
+#: ../mail/mail-session.c:209
 msgid "Enter Password"
 msgstr "Въвеждане на парола"
 
-#: ../mail/mail-session.c:239
+#: ../mail/mail-session.c:238
 msgid "User canceled operation."
 msgstr "Потребителят прекрати операцията."
 
@@ -13381,12 +13424,12 @@ msgstr "Име:"
 #: ../mail/mail-tools.c:116
 #, c-format
 msgid "Could not create spool directory `%s': %s"
-msgstr "Неуспех при създаването на директория spool \"%s\": %s"
+msgstr "Неуспех при създаването на директория spool „%s“: %s"
 
 #: ../mail/mail-tools.c:143
 #, c-format
 msgid "Trying to movemail a non-mbox source `%s'"
-msgstr "Опит за преместване на източник, различен от mbox \"%s\""
+msgstr "Опит за преместване на източник, различен от mbox „%s“"
 
 #: ../mail/mail-tools.c:242
 #, c-format
@@ -13400,7 +13443,7 @@ msgstr "Препратено писмо"
 #: ../mail/mail-tools.c:284
 #, c-format
 msgid "Invalid folder: `%s'"
-msgstr "Невалидна папка: \"%s\""
+msgstr "Невалидна папка: „%s“"
 
 #: ../mail/mail-vfolder.c:91
 #, c-format
@@ -13410,12 +13453,12 @@ msgstr "Настройка на vFolder: %s"
 #: ../mail/mail-vfolder.c:240
 #, c-format
 msgid "Updating vFolders for '%s:%s'"
-msgstr "Актуализиране на vFolders за \"%s:%s\""
+msgstr "Актуализиране на vFolders за „%s:%s“"
 
 #: ../mail/mail-vfolder.c:247
 #, c-format
 msgid "Updating vFolders for '%s'"
-msgstr "Актуализиране на vFolders за \"%s\""
+msgstr "Актуализиране на vFolders за „%s“"
 
 #: ../mail/mail-vfolder.c:1009
 msgid "Edit vFolder"
@@ -13490,7 +13533,7 @@ msgstr "Сигурни ли сте, че искате да изпратите п
 msgid "Are you sure you want to send a message with only BCC recipients?"
 msgstr ""
 "Сигурни ли сте, че искате да изпратите писмото само с получатели в полето "
-"\"Скрито копие до\"?"
+"„Скрито копие до“?"
 
 #: ../mail/mail.error.xml.h:14
 msgid "Are you sure you want to send a message without a subject?"
@@ -13596,7 +13639,7 @@ msgid ""
 "passwords are case sensitive; your caps lock might be on."
 msgstr ""
 "Уверете се, че паролата е написана правилно. Запомнете, че при много пароли "
-"големите и малките букви имат значение. Може би клавишът \"Caps Lock\" е "
+"големите и малките букви имат значение. Може би клавишът „Caps Lock“ е "
 "натиснат."
 
 #: ../mail/mail.error.xml.h:38
@@ -13696,10 +13739,10 @@ msgid ""
 "your message anyway. To avoid this, you should add at least one To: or CC: "
 "recipient."
 msgstr ""
-"Много системи за поща добавят заглавна част \"Очевидно до\" към писмата, "
-"които имат само получатели със \"Скрито копие до\". Ако тази заглавна част е "
+"Много системи за поща добавят заглавна част „Очевидно до“ към писмата, които "
+"имат само получатели със „Скрито копие до“. Ако тази заглавна част е "
 "добавена, всички получатели ще се покажат така или иначе. За да избегнете "
-"това, добавете поне един получател в полето \"До\" или \"Копие до\"."
+"това, добавете поне един получател в полето „До“ или „Копие до“."
 
 #: ../mail/mail.error.xml.h:59
 msgid "Mark all messages as read"
@@ -13730,8 +13773,8 @@ msgid ""
 "Please enter a valid email address in the To: field. You can search for "
 "email addresses by clicking on the To: button next to the entry box."
 msgstr ""
-"Добавете верен адрес на е-поща в полето \"До\". Можете да търсите адресите "
-"чрез натискане на бутона \"До:\", който се намира до полето за въвеждане на "
+"Добавете верен адрес на е-поща в полето „До“. Можете да търсите адресите "
+"чрез натискане на бутона „До:“, който се намира до полето за въвеждане на "
 "адреси."
 
 #: ../mail/mail.error.xml.h:67
@@ -13782,7 +13825,7 @@ msgid ""
 "System folders are required for Ximian Evolution to function correctly and "
 "cannot be renamed, moved, or deleted."
 msgstr ""
-"За да работи правилно Ximian·Evolution, програмата се нуждае от системни "
+"За да работи правилно Ximian Evolution, програмата се нуждае от системни "
 "папки, които не можете да преименувате, премествате или изтривате."
 
 #: ../mail/mail.error.xml.h:78
@@ -13796,10 +13839,10 @@ msgid ""
 msgstr ""
 "Списъкът, до който пращате писмото, е конфигуриран да скрива получателите.\n"
 "\n"
-"Много системи за поща добавят заглавна част \"Очевидно до\" към писмата, "
-"които имат само получатели със \"Скрито копие до\". Ако тази заглавна част е "
+"Много системи за поща добавят заглавна част „Очевидно до“ към писмата, които "
+"имат само получатели със „Скрито копие до“. Ако тази заглавна част е "
 "добавена, всички получатели ще се покажат така или иначе. За да избегнете "
-"това, добавете поне един получател в полето \"До\" или \"Копие до\". "
+"това, добавете поне един получател в полето „До“ или „Копие до“. "
 
 #: ../mail/mail.error.xml.h:81
 msgid ""
@@ -13838,8 +13881,8 @@ msgid ""
 msgstr ""
 "Писмото се изпраща през външната програма &quot;sendmail&quot;. Sendmail "
 "върна следната грешка: status 67: mail not sent.\n"
-"Писмото е запазено в папката \"За изпращане\". Проверете за грешки и "
-"опитайте отново."
+"Писмото е запазено в папката „За изпращане“. Проверете за грешки и опитайте "
+"отново."
 
 #: ../mail/mail.error.xml.h:93
 msgid "The script file must exist and be executable."
@@ -14072,7 +14115,7 @@ msgstr "Последвал отговор"
 msgid "For Your Information"
 msgstr "За ваша информация"
 
-#: ../mail/message-tag-followup.c:78 ../ui/evolution-mail-message.xml.h:41
+#: ../mail/message-tag-followup.c:78 ../ui/evolution-mail-message.xml.h:42
 msgid "Forward"
 msgstr "Препращане"
 
@@ -14165,7 +14208,8 @@ msgid "A plugin for backing up and restore Evolution data and settings."
 msgstr ""
 "Модул за създаване и възстановяване на настройките и данните на Evolution."
 
-#: ../plugins/backup-restore/org-gnome-backup-restore.eplug.xml.h:2
+#. the path to the shared library
+#: ../plugins/backup-restore/org-gnome-backup-restore.eplug.xml.h:3
 msgid "Backup and restore plugin"
 msgstr "Модул за създаване и възстановяване на резервни копия"
 
@@ -14323,12 +14367,12 @@ msgid "Mark as default folder"
 msgstr "Обозначаване като стандартна папка"
 
 #. i18n: "Secure Password Authentication" is an Outlookism
-#: ../plugins/exchange-account-setup/exchange-account-setup.c:68
+#: ../plugins/exchange-operations/exchange-account-setup.c:58
 msgid "Secure Password"
 msgstr "Сигурна парола"
 
 #. i18n: "NTLM" probably doesn't translate
-#: ../plugins/exchange-account-setup/exchange-account-setup.c:71
+#: ../plugins/exchange-operations/exchange-account-setup.c:61
 msgid ""
 "This option will connect to the Exchange server using secure password (NTLM) "
 "authentication."
@@ -14336,22 +14380,21 @@ msgstr ""
 "При тази опция свързването с Exchange сървъра става чрез сигурно (NTLM) "
 "удостоверяване."
 
-#: ../plugins/exchange-account-setup/exchange-account-setup.c:79
+#: ../plugins/exchange-operations/exchange-account-setup.c:69
 msgid "Plaintext Password"
 msgstr "Обикновена парола в текстов формат"
 
-#: ../plugins/exchange-account-setup/exchange-account-setup.c:81
+#: ../plugins/exchange-operations/exchange-account-setup.c:71
 msgid ""
 "This option will connect to the Exchange server using standard plaintext "
 "password authentication."
 msgstr "Свързване към сървъра, тип Exchange, чрез стандартно удостоверяване."
 
-#: ../plugins/exchange-account-setup/exchange-account-setup.c:194
-msgid "Could not read out-of-office state"
-msgstr "Състоянието \"Извън офиса\" не може да бъде прочетено."
+#: ../plugins/exchange-operations/exchange-account-setup.c:239
+msgid "Out Of Office"
+msgstr "Извън офиса"
 
-#. Description section
-#: ../plugins/exchange-account-setup/exchange-account-setup.c:211
+#: ../plugins/exchange-operations/exchange-account-setup.c:246
 msgid ""
 "The message specified below will be automatically sent to \n"
 "each person who sends mail to you while you are out of the office."
@@ -14359,50 +14402,142 @@ msgstr ""
 "Писмото, посочено по-долу, ще бъде пращано автоматично до всеки, \n"
 "който ви изпрати писмо, докато сте извън офиса."
 
-#: ../plugins/exchange-account-setup/exchange-account-setup.c:239
-#: ../plugins/exchange-account-setup/exchange-account-setup.c:249
+#: ../plugins/exchange-operations/exchange-account-setup.c:258
+#: ../plugins/exchange-operations/exchange-account-setup.c:263
 msgid "I am out of the office"
 msgstr "В момента не съм в офиса"
 
-#: ../plugins/exchange-account-setup/exchange-account-setup.c:242
-#: ../plugins/exchange-account-setup/exchange-account-setup.c:246
+#: ../plugins/exchange-operations/exchange-account-setup.c:259
+#: ../plugins/exchange-operations/exchange-account-setup.c:262
 msgid "I am in the office"
 msgstr "В момента съм в офиса"
 
-#: ../plugins/exchange-account-setup/exchange-account-setup.c:275
-msgid "Out of office Message:"
-msgstr "Съобщение \"Не съм в офиса\":"
+#: ../plugins/exchange-operations/exchange-account-setup.c:309
+msgid "Change the password for Exchange account"
+msgstr "Смяна на паролата за Exchange сметката"
 
-#: ../plugins/exchange-account-setup/exchange-account-setup.c:319
+#: ../plugins/exchange-operations/exchange-account-setup.c:311
+#: ../plugins/exchange-operations/exchange-change-password.glade.h:2
+msgid "Change Password"
+msgstr "Смяна на паролата"
+
+#: ../plugins/exchange-operations/exchange-account-setup.c:312
+msgid "Manage the delegate settings for Exchange account"
+msgstr "Управление на настройките за делегиране за Exchange сметката"
+
+#: ../plugins/exchange-operations/exchange-account-setup.c:314
+msgid "Delegation Assitant"
+msgstr "Асистент по делегирането"
+
+#. Miscelleneous settings
+#: ../plugins/exchange-operations/exchange-account-setup.c:324
+msgid "Miscelleneous"
+msgstr "Разни"
+
+#: ../plugins/exchange-operations/exchange-account-setup.c:332
+msgid "View the size of all Exchange folders"
+msgstr "Преглед на размера на всички Exchange папки"
+
+#: ../plugins/exchange-operations/exchange-account-setup.c:334
+msgid "Folders Size"
+msgstr "Размер на папките"
+
+#: ../plugins/exchange-operations/exchange-account-setup.c:341
 msgid "Exchange Settings"
 msgstr "Настройки на Exchange"
 
-#: ../plugins/exchange-account-setup/exchange-account-setup.c:507
-#: ../plugins/exchange-account-setup/exchange-ask-password.c:200
+#: ../plugins/exchange-operations/exchange-account-setup.c:632
 msgid "_OWA Url:"
 msgstr "_OWA Url:"
 
-#: ../plugins/exchange-account-setup/exchange-account-setup.c:532
-#: ../plugins/exchange-account-setup/exchange-ask-password.c:193
+#: ../plugins/exchange-operations/exchange-account-setup.c:657
 msgid "A_uthenticate"
 msgstr "_Удостоверяване"
 
-#: ../plugins/exchange-account-setup/exchange-account-setup.c:597
-msgid "Could not update out-of-office state"
-msgstr "Състоянието \"Извън офиса\" не може да бъде актуализирано "
-
-#: ../plugins/exchange-account-setup/exchange-account-setup.c:724
+#: ../plugins/exchange-operations/exchange-account-setup.c:849
 msgid "Authentication Type"
 msgstr "Тип удостоверяване"
 
-#: ../plugins/exchange-account-setup/exchange-account-setup.c:738
+#: ../plugins/exchange-operations/exchange-account-setup.c:863
 msgid "Ch_eck for Supported Types"
 msgstr "_Проверка за поддържани типове"
+
+#: ../plugins/exchange-operations/exchange-change-password.glade.h:3
+msgid "Confirm Password:"
+msgstr "Потвърждение на паролата:"
+
+#: ../plugins/exchange-operations/exchange-change-password.glade.h:4
+msgid "Current Password:"
+msgstr "Текуща парола:"
+
+#: ../plugins/exchange-operations/exchange-change-password.glade.h:5
+msgid "New Password:"
+msgstr "Нова парола:"
+
+#: ../plugins/exchange-operations/exchange-change-password.glade.h:6
+msgid "Your current password has expired. Please change your password now."
+msgstr "Текущата Ви парола е с изтекъл срок. Променете я сега."
+
+#: ../plugins/exchange-operations/exchange-delegates.glade.h:1
+msgid "Author (read, create)"
+msgstr "Автор (четене, създаване)"
+
+#: ../plugins/exchange-operations/exchange-delegates.glade.h:2
+msgid "C_alendar:"
+msgstr "_Календар:"
+
+#: ../plugins/exchange-operations/exchange-delegates.glade.h:3
+msgid "Co_ntacts:"
+msgstr "_Контакти:"
+
+#: ../plugins/exchange-operations/exchange-delegates.glade.h:4
+msgid "Delegate Permissions"
+msgstr "Правомощия на делегатите"
+
+#: ../plugins/exchange-operations/exchange-delegates.glade.h:5
+msgid "Delegates"
+msgstr "Делегирани"
+
+#: ../plugins/exchange-operations/exchange-delegates.glade.h:6
+msgid "Editor (read, create, edit)"
+msgstr "Редактор (четене, създаване, редактиране)"
+
+#: ../plugins/exchange-operations/exchange-delegates.glade.h:8
+msgid "Permissions for"
+msgstr "Правомощия на"
+
+#: ../plugins/exchange-operations/exchange-delegates.glade.h:9
+msgid "Reviewer (read-only)"
+msgstr "Преглеждащ (само четене)"
+
+#: ../plugins/exchange-operations/exchange-delegates.glade.h:10
+msgid ""
+"These users will be able to send mail on your behalf\n"
+"and access your folders with the permissions you give them."
+msgstr ""
+"Тези потребители ще могат да изпращат поща от ваше име\n"
+"и да имат достъп до папките ви с разрешенията, които им дадете."
+
+#: ../plugins/exchange-operations/exchange-delegates.glade.h:12
+msgid "_Delegate can see private items"
+msgstr "_Делегатът може да вижда лични обекти"
+
+#: ../plugins/exchange-operations/exchange-delegates.glade.h:14
+msgid "_Inbox:"
+msgstr "Входящи:"
+
+#: ../plugins/exchange-operations/exchange-delegates.glade.h:15
+msgid "_Tasks:"
+msgstr "_Задачи:"
+
+#: ../plugins/exchange-operations/exchange-folder-tree.glade.h:1
+msgid "Exchange Folder Tree"
+msgstr "Дървовидна структура на Exchange"
 
 #: ../plugins/folder-unsubscribe/folder-unsubscribe.c:57
 #, c-format
 msgid "Unsubscribing from folder \"%s\""
-msgstr "Отписване от папка \"%s\""
+msgstr "Отписване от папка „%s“"
 
 #: ../plugins/folder-unsubscribe/org-gnome-mail-folder-unsubscribe.eplug.xml.h:1
 msgid "Allows unsubscribing of mail folders in the folder tree context menu."
@@ -14499,41 +14634,40 @@ msgstr "Неуспех при анализирането на елемента"
 #: ../plugins/itip-formatter/itip-formatter.c:741
 #, c-format
 msgid "Unable to send item to calendar '%s'.  %s"
-msgstr "Не може да се изпрати елемент към календара \"%s\".  %s"
+msgstr "Не може да се изпрати елемент към календара „%s“.  %s"
 
 #: ../plugins/itip-formatter/itip-formatter.c:752
 #, c-format
 msgid "Sent to calendar '%s' as accepted"
-msgstr "Изпратено до календар \"%s\" като прието"
+msgstr "Изпратено до календар „%s“ като прието"
 
 #: ../plugins/itip-formatter/itip-formatter.c:756
 #, c-format
 msgid "Sent to calendar '%s' as tentative"
-msgstr "Изпратено до календар \"%s\" като несигурен"
+msgstr "Изпратено до календар „%s“ като несигурен"
 
 #: ../plugins/itip-formatter/itip-formatter.c:761
 #, c-format
 msgid "Sent to calendar '%s' as declined"
-msgstr "Изпратено до календар \"%s\" като отказ"
+msgstr "Изпратено до календар „%s“ като отказ"
 
 #: ../plugins/itip-formatter/itip-formatter.c:766
 #, c-format
 msgid "Sent to calendar '%s' as cancelled"
-msgstr "Изпратено до календар \"%s\" като отменено"
+msgstr "Изпратено до календар „%s“ като отменено"
 
 #: ../plugins/itip-formatter/itip-formatter.c:859
 #, c-format
 msgid "Organizer has removed the delegate %s "
-msgstr ""
+msgstr "Организатора е махнал делегата %s "
 
 #: ../plugins/itip-formatter/itip-formatter.c:866
 msgid "Sent a cancellation notice to the delegate"
-msgstr ""
+msgstr "На делегата е изпратено известие за отмяна"
 
 #: ../plugins/itip-formatter/itip-formatter.c:868
-#, fuzzy
 msgid "Could not send the cancellation notice to the delegate"
-msgstr "Искате ли да изпратите известие за отмяна за този запис в дневника?"
+msgstr "Не може да се изпрати известие за отмяна на делегатите"
 
 #: ../plugins/itip-formatter/itip-formatter.c:940
 msgid "Attendee status could not be updated because the status is invalid"
@@ -14635,7 +14769,7 @@ msgstr "Днес %H:%M:%S"
 #. in 12-hour format.
 #: ../plugins/itip-formatter/itip-view.c:197
 msgid "Today %l:%M:%S %p"
-msgstr "Днес %l:%M:%S·%p"
+msgstr "Днес %l:%M:%S %p"
 
 #. strftime format of a weekday and a date.
 #: ../plugins/itip-formatter/itip-view.c:207
@@ -14664,7 +14798,7 @@ msgstr "Утре %l:%M %p"
 #. in 12-hour format.
 #: ../plugins/itip-formatter/itip-view.c:225
 msgid "Tomorrow %l:%M:%S %p"
-msgstr "Утре %l:%M:%S·%p"
+msgstr "Утре %l:%M:%S %p"
 
 #. strftime format of a weekday.
 #: ../plugins/itip-formatter/itip-view.c:244
@@ -14767,9 +14901,9 @@ msgid "<b>%s</b> has published the following meeting information:"
 msgstr "<b>%s</b> публикува следната информация за събрание:"
 
 #: ../plugins/itip-formatter/itip-view.c:346
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> has delegated the following meeting to you:"
-msgstr "<b>%s</b> отказа следното събрание."
+msgstr "<b>%s</b> делегира следното събрание на вас:"
 
 #: ../plugins/itip-formatter/itip-view.c:349
 #, c-format
@@ -14916,9 +15050,8 @@ msgid "Comment:"
 msgstr "Коментар:"
 
 #: ../plugins/itip-formatter/itip-view.c:960
-#, fuzzy
 msgid "Send u_pdates to attendees"
-msgstr "Неуспех при актуализирането на участник. %s"
+msgstr "Изпращане на обновената информация на участниците"
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.eplug.xml.h:1
 msgid "Displays text/calendar parts in messages."
@@ -14933,11 +15066,12 @@ msgid ""
 "&quot;{0}&quot; has delegated the meeting. Do you want to add the delegate "
 "&quot;{1}&quot; ?"
 msgstr ""
+"&quot;{0}&quot; е делегирал събранието. Искате ли да добавите делегата &quot;"
+"{1}&quot; ?"
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:3
-#, fuzzy
 msgid "This meeting has been delegated"
-msgstr "Това събитие е било изтрито."
+msgstr "Тази среща е била делегирана"
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:4
 msgid ""
@@ -15030,7 +15164,7 @@ msgid ""
 "You should receive an answer from the mailing list shortly after the message "
 "has been sent."
 msgstr ""
-"Електронно писмо ще бъде изпратено към URL \"{0}\". Можете или да изпратите "
+"Електронно писмо ще бъде изпратено към URL „{0}“. Можете или да изпратите "
 "съобщението автоматично, или да го видите и промените преди това.\n"
 "\n"
 "Трябва да получите отговор от пощенския списък скоро след като писмото ви е "
@@ -15124,19 +15258,19 @@ msgstr "Отписване от пощенския списък на избра�
 
 #: ../plugins/mark-calendar-offline/org-gnome-mark-calendar-offline.eplug.xml.h:1
 msgid "Mark calendar offline"
-msgstr "Отбелязване на календара като \"изключен\""
+msgstr "Отбелязване на календара като „изключен“"
 
 #: ../plugins/mark-calendar-offline/org-gnome-mark-calendar-offline.eplug.xml.h:2
 msgid "Marks the selected calendar for offline viewing."
-msgstr "Отбелязване на избраните писма за преглед в режим \"Изключен\""
+msgstr "Отбелязване на избраните писма за преглед в режим „Изключен“"
 
 #: ../plugins/mark-calendar-offline/org-gnome-mark-calendar-offline.eplug.xml.h:3
 msgid "_Do not make this available offline"
-msgstr "Да не бъде _налично в режим \"Изключен\""
+msgstr "Да не бъде _налично в режим „Изключен“"
 
 #: ../plugins/mark-calendar-offline/org-gnome-mark-calendar-offline.eplug.xml.h:4
 msgid "_Mark Calendar for offline use"
-msgstr "_Отбелязване на календара за работа в режим \"Изключен\""
+msgstr "_Отбелязване на календара за работа в режим „Изключен“"
 
 #: ../plugins/new-mail-notify/org-gnome-new-mail-notify.eplug.xml.h:1
 msgid "Generates a D-BUS message when new mail arrives."
@@ -15179,6 +15313,8 @@ msgid "Path"
 msgstr "Път"
 
 #: ../plugins/plugin-manager/plugin-manager.c:48
+#: ../widgets/table/e-table-config-no-group.glade.h:6
+#: ../widgets/table/e-table-config.glade.h:6
 msgid "Description"
 msgstr "Описание"
 
@@ -15231,7 +15367,7 @@ msgstr "Показване само на ОБИКНОВЕН"
 
 #: ../plugins/prefer-plain/prefer-plain.c:150
 msgid "HTML Mode"
-msgstr "Режим \"HTML\""
+msgstr "Режим „HTML“"
 
 #: ../plugins/print-message/org-gnome-print-message.eplug.xml.h:1
 msgid "Gives an option to print mail from composer"
@@ -15243,7 +15379,8 @@ msgstr ""
 "Модул за едновременно запазване на всички прикрепени файлове или части от "
 "писмо."
 
-#: ../plugins/save-attachments/org-gnome-save-attachments.eplug.xml.h:2
+#. the path to the shared library
+#: ../plugins/save-attachments/org-gnome-save-attachments.eplug.xml.h:3
 msgid "Save attachments"
 msgstr "Запазване на прикрепените файлове"
 
@@ -15265,7 +15402,6 @@ msgstr "MIME тип"
 
 #: ../plugins/save-attachments/save-attachments.c:359
 #: ../ui/evolution-message-composer.xml.h:18
-#: ../ui/evolution-signature-editor.xml.h:6
 msgid "Save"
 msgstr "Запазване"
 
@@ -15430,7 +15566,7 @@ msgstr ""
 "Добре дошли в Evolution. Следващите няколко екрана ще позволят на Evolution "
 "да се свърже с вашите абонаменти и да внесе файлове от други програми. \n"
 "\n"
-"Натиснете бутона \"Продължаване\". "
+"Натиснете бутона „Продължаване“. "
 
 #: ../plugins/startup-wizard/startup-wizard.c:306
 #: ../shell/e-shell-importer.c:159
@@ -15447,7 +15583,7 @@ msgstr "От %s:"
 msgid "Indicates if threading of messages should fall back to subject."
 msgstr ""
 "Показва дали изобразяването на списъка като нишки да бъде на основата на "
-"\"Тема\"."
+"„Тема“."
 
 #: ../plugins/subject-thread/org-gnome-subject-thread.eplug.xml.h:2
 msgid "Subject Threading"
@@ -15455,7 +15591,7 @@ msgstr "_Нишка по тема"
 
 #: ../plugins/subject-thread/org-gnome-subject-thread.eplug.xml.h:3
 msgid "Thread messages by subject"
-msgstr "Подреждане на списъка с писма в нишки на основата на \"Тема\"."
+msgstr "Подреждане на списъка с писма в нишки на основата на „Тема“."
 
 #. Create the checkbox we will display, complete with mnemonic that is unique in the dialog
 #: ../plugins/subject-thread/subject-thread.c:54
@@ -15513,7 +15649,7 @@ msgid ""
 "List of paths for the folders to be synchronized to disk for offline usage"
 msgstr ""
 "Списък с пътища към папките, които трябва да бъдат синхронизирани с цел "
-"използване в режим \"Изключен\""
+"използване в режим „Изключен“"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:9
 msgid "Printer settings"
@@ -15527,7 +15663,7 @@ msgstr ""
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:11 ../shell/main.c:468
 msgid "Start in offline mode"
-msgstr "Стартиране в режим \"Изключен\""
+msgstr "Стартиране в режим „Изключен“"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:12
 msgid ""
@@ -15562,9 +15698,9 @@ msgid ""
 "\"toolbar\". If \"toolbar\" is set, the style of the buttons is determined "
 "by the GNOME toolbar setting."
 msgstr ""
-"Стилът на изобразяване на бутоните. Може да бъде \"text\", \"icons\", \"both"
-"\", \"toolbar\". Ако зададете \"toolbar\", стилът на изобразяване ще зависи "
-"от стандартните настройки на GNOME."
+"Стилът на изобразяване на бутоните. Може да бъде „text“, „icons“, „both“, "
+"„toolbar“. Ако зададете „toolbar“, стилът на изобразяване ще зависи от "
+"стандартните настройки на GNOME."
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:18
 msgid "Toolbar is visible"
@@ -15573,7 +15709,7 @@ msgstr "Лентата с инструменти е видима"
 #: ../shell/apps_evolution_shell.schemas.in.in.h:19
 msgid "Whether Evolution will start up in offline mode instead of online mode."
 msgstr ""
-"Дали Evolution да стартира в режим \"Изключен\", вместо в режим \"Включен\"."
+"Дали Evolution да стартира в режим „Изключен“, вместо в режим „Включен“."
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:20
 msgid "Whether the toolbar should be visible."
@@ -15609,8 +15745,7 @@ msgstr "Активни връзки"
 #: ../shell/e-active-connection-dialog.glade.h:3
 msgid "Click OK to close these connections and go offline"
 msgstr ""
-"Натиснете \"Да\", за да затворите връзките и да преминете в режим \"Изключен"
-"\""
+"Натиснете „Да“, за да затворите връзките и да преминете в режим „Изключен“"
 
 #: ../shell/e-shell-folder-title-bar.c:586
 #: ../shell/e-shell-folder-title-bar.c:587
@@ -15632,8 +15767,8 @@ msgstr ""
 "Изберете файла, който искате да внесете в Evolution и изберете типа му от "
 "списъка.\n"
 "\n"
-"Ако не знаете, може да изберете \"Автоматично\" и Evolution ще се опита да "
-"го определи."
+"Ако не знаете, може да изберете „Автоматично“ и Evolution ще се опита да го "
+"определи."
 
 #: ../shell/e-shell-importer.c:156
 msgid "Choose the destination for this import"
@@ -15649,7 +15784,7 @@ msgstr ""
 "Evolution провери за следните програми:\n"
 "Pine, Netscape, Elm, iCalendar, но не беше\n"
 "намерено нищо за внасяне. Ако искате да\n"
-"опитате отново, то натиснете бутона \"Назад\".\n"
+"опитате отново, то натиснете бутона „Назад“.\n"
 
 #: ../shell/e-shell-importer.c:233 ../shell/e-shell-importer.c:267
 #, c-format
@@ -15667,7 +15802,7 @@ msgstr "Избор на вносител"
 #: ../shell/e-shell-importer.c:468 ../shell/e-shell-importer.c:1092
 #, c-format
 msgid "File %s does not exist"
-msgstr "Файлът \"%s\" не съществува."
+msgstr "Файлът „%s“ не съществува."
 
 #: ../shell/e-shell-importer.c:476
 msgid "Importing"
@@ -15751,19 +15886,19 @@ msgstr "Папката няма име."
 
 #: ../shell/e-shell-utils.c:123
 msgid "Folder name cannot contain the Return character."
-msgstr "В името на папката не може да се съдържа символа \"Return\""
+msgstr "В името на папката не може да се съдържа символа „Return“"
 
 #: ../shell/e-shell-utils.c:129
 msgid "Folder name cannot contain the character \"/\"."
-msgstr "В името на папката не може да се съдържа символа \"/\"."
+msgstr "В името на папката не може да се съдържа символа „/“."
 
 #: ../shell/e-shell-utils.c:135
 msgid "Folder name cannot contain the character \"#\"."
-msgstr "В името на папката не може да се съдържа символа \"#\"."
+msgstr "В името на папката не може да се съдържа символа „#“."
 
 #: ../shell/e-shell-utils.c:141
 msgid "'.' and '..' are reserved folder names."
-msgstr "\".\" и \"..\" са запазени имена на папка."
+msgstr "„.“ и „..“ са запазени имена на папка."
 
 #: ../shell/e-shell-window-commands.c:69
 msgid "The GNOME Pilot tools do not appear to be installed on this system."
@@ -15785,48 +15920,48 @@ msgstr "Bug buddy не може да бъде стартиран."
 #. The translator-credits string is for translators to list
 #. * per language credits for translation, displayed in the
 #. * about box
-#: ../shell/e-shell-window-commands.c:508
+#: ../shell/e-shell-window-commands.c:507
 msgid "translator-credits"
 msgstr ""
-"Владимир \"Kaladan\" Петков <vpetkov@i-space,org>\n"
-"Ростислав \"zbrox\" Райков <zbrox@i-space.org>\n"
+"Владимир „Kaladan“ Петков <vpetkov@i-space,org>\n"
+"Ростислав „zbrox“ Райков <zbrox@i-space.org>\n"
 "Ясен Праматаров <turin@fsa-bg.org>\n"
 "\n"
 "Проектът за превод на GNOME има нужда от подкрепа.\n"
 "Научете повече за нас на http://gnome.cult.bg\n"
 "Докладвайте за грешки на http://gnome.cult.bg/bugs"
 
-#: ../shell/e-shell-window-commands.c:522
+#: ../shell/e-shell-window-commands.c:521
 msgid "Groupware Suite"
 msgstr "Програма за работа в група"
 
-#: ../shell/e-shell-window-commands.c:749
+#: ../shell/e-shell-window-commands.c:748
 msgid "_Work Online"
-msgstr "Работа в режим \"_Включен\""
+msgstr "Работа в режим „_Включен“"
 
-#: ../shell/e-shell-window-commands.c:762 ../ui/evolution.xml.h:47
+#: ../shell/e-shell-window-commands.c:761 ../ui/evolution.xml.h:50
 msgid "_Work Offline"
-msgstr "Работа в режим \"_Изключен\""
+msgstr "Работа в режим „_Изключен“"
 
-#: ../shell/e-shell-window-commands.c:775
+#: ../shell/e-shell-window-commands.c:774
 msgid "Work Offline"
-msgstr "Работа в режим \"Изключен\""
+msgstr "Работа в режим „Изключен“"
 
 #: ../shell/e-shell-window.c:341
 msgid "Evolution is currently online.  Click on this button to work offline."
 msgstr ""
-"Evolution в момента е в режим \"Включен\". Натиснете този бутон, за да "
-"влезете в режим \"Изключен\"."
+"Evolution в момента е в режим „Включен“. Натиснете този бутон, за да влезете "
+"в режим „Изключен“."
 
 #: ../shell/e-shell-window.c:349
 msgid "Evolution is in the process of going offline."
-msgstr "Evolution в момента влиза в режим \"Изключен\"."
+msgstr "Evolution в момента влиза в режим „Изключен“."
 
 #: ../shell/e-shell-window.c:356
 msgid "Evolution is currently offline.  Click on this button to work online."
 msgstr ""
-"Evolution в момента е в режим \"Изключен\". Натиснете този бутон, за да се "
-"върнете в режим \"Включен\"."
+"Evolution в момента е в режим „Изключен“. Натиснете този бутон, за да се "
+"върнете в режим „Включен“."
 
 #: ../shell/e-shell-window.c:712
 #, c-format
@@ -15880,7 +16015,7 @@ msgstr "Създаване на нов тестови елемент"
 
 #: ../shell/importer/import.glade.h:1
 msgid "Click \"Import\" to begin importing the file into Evolution. "
-msgstr "Натиснете \"Внасяне\", за да започне внасянето на файла в Evolution. "
+msgstr "Натиснете „Внасяне“, за да започне внасянето на файла в Evolution. "
 
 #: ../shell/importer/import.glade.h:2
 msgid "Evolution Import Assistant"
@@ -15990,7 +16125,7 @@ msgstr "Стартиране на Evolution, активирайки избран
 
 #: ../shell/main.c:470
 msgid "Start in online mode"
-msgstr "Стартиране в режим \"Включен\""
+msgstr "Стартиране в режим „Включен“"
 
 #: ../shell/main.c:473
 msgid "Forcibly shut down all Evolution components"
@@ -16072,7 +16207,7 @@ msgstr ""
 "\n"
 "Ако изберете да премахнете тези данни, цялото съдържание на папката &quot;"
 "evolution&quot; ще бъде премахнато за постоянно.  Ако изберете да запазите "
-"данните, може ръчно да премахнете съдържанието на \"evolution\", когато "
+"данните, може ръчно да премахнете съдържанието на „evolution“, когато "
 "пожелаете.\n"
 
 #: ../shell/shell.error.xml.h:16
@@ -16143,7 +16278,7 @@ msgid ""
 "\n"
 "Edit trust settings:"
 msgstr ""
-"Сертификатът \"%s\" е сертификат на CA.\n"
+"Сертификатът „%s“ е сертификат на CA.\n"
 "\n"
 "Редактиране на настройките за доверие:"
 
@@ -16208,7 +16343,7 @@ msgstr "Интерфейс за преглед на сертификати: %s"
 #: ../smime/gui/component.c:45
 #, c-format
 msgid "Enter the password for `%s'"
-msgstr "Въведете паролата за \"%s\""
+msgstr "Въведете паролата за „%s“"
 
 #. we're setting the password initially
 #: ../smime/gui/component.c:68
@@ -16425,6 +16560,8 @@ msgid "_Edit CA Trust"
 msgstr "_Редактиране на CA доверие"
 
 #: ../smime/gui/smime-ui.glade.h:49
+#: ../widgets/table/e-table-config-no-group.glade.h:20
+#: ../widgets/table/e-table-config.glade.h:21
 msgid "dialog1"
 msgstr "прозорец1"
 
@@ -16678,7 +16815,7 @@ msgstr "Стандартна тема за писмото."
 #: ../tools/killev.c:61
 #, c-format
 msgid "Could not execute '%s': %s\n"
-msgstr "Не може да се изпълни \"%s\": %s\n"
+msgstr "Не може да се изпълни „%s“: %s\n"
 
 #: ../tools/killev.c:76
 #, c-format
@@ -16771,7 +16908,7 @@ msgid "View the current contact"
 msgstr "Преглеждане на текущия контакт"
 
 #: ../ui/evolution-addressbook.xml.h:30 ../ui/evolution-calendar.xml.h:38
-#: ../ui/evolution-mail-list.xml.h:24 ../ui/evolution-tasks.xml.h:19
+#: ../ui/evolution-tasks.xml.h:19
 msgid "_Actions"
 msgstr "_Действия"
 
@@ -16839,7 +16976,7 @@ msgstr "Списък"
 msgid "Month"
 msgstr "Месец"
 
-#: ../ui/evolution-calendar.xml.h:15 ../ui/evolution-mail-message.xml.h:59
+#: ../ui/evolution-calendar.xml.h:15 ../ui/evolution-mail-message.xml.h:60
 msgid "Next"
 msgstr "Следващ"
 
@@ -16877,7 +17014,7 @@ msgstr "Избор на определена дата"
 
 #: ../ui/evolution-calendar.xml.h:28
 msgid "Select today"
-msgstr "Избиране на \"Днес\""
+msgstr "Избиране на „Днес“"
 
 #: ../ui/evolution-calendar.xml.h:29
 msgid "Show as list"
@@ -16967,7 +17104,7 @@ msgstr "Създаване или редактиране на дефиниции
 msgid "Empty _Trash"
 msgstr "Изчистване на _кошчето"
 
-#: ../ui/evolution-mail-global.xml.h:8 ../ui/evolution-mail-list.xml.h:6
+#: ../ui/evolution-mail-global.xml.h:8 ../ui/evolution-mail-list.xml.h:7
 #: ../ui/evolution-subscribe.xml.h:2
 msgid "F_older"
 msgstr "_Папка"
@@ -16977,17 +17114,14 @@ msgid "Message F_ilters"
 msgstr "Пощенски _филтри"
 
 #: ../ui/evolution-mail-global.xml.h:10
-msgid "Message _List As"
-msgstr "Списък на писмата _като"
-
-#: ../ui/evolution-mail-global.xml.h:11
 msgid "Message _Preview"
 msgstr "Пре_глед на писмата"
 
-#: ../ui/evolution-mail-global.xml.h:12
+#: ../ui/evolution-mail-global.xml.h:11
 msgid "Move the selected folder into another folder"
 msgstr "Преместване на избраната папка в друга"
 
+#. Alphabetical by name, yo
 #: ../ui/evolution-mail-global.xml.h:13
 msgid "Permanently remove all deleted messages from all folders"
 msgstr "Изтриване за постоянно на всички писма от тези папки"
@@ -17017,14 +17151,13 @@ msgid "_Move Folder To..."
 msgstr "Пре_местване на папка в..."
 
 #: ../ui/evolution-mail-global.xml.h:20
-msgid "_New Search _Folder (FIXME)"
-msgstr "_Ново търсене на _папка"
-
-#: ../ui/evolution-mail-global.xml.h:21
 msgid "_New..."
 msgstr "_Нов..."
 
-#: ../ui/evolution-mail-global.xml.h:22
+#.
+#. <menuitem name="CreateVFolder" verb="CreateVFolder" _label="_New Search _Folder (FIXME)"/>
+#.
+#: ../ui/evolution-mail-global.xml.h:24
 msgid "_Subscriptions"
 msgstr "_Абонаменти"
 
@@ -17036,99 +17169,99 @@ msgstr "Промяна на името на тази папка"
 msgid "Change the properties of this folder"
 msgstr "Промяна настройките за тази папка"
 
-#: ../ui/evolution-mail-list.xml.h:3 ../ui/evolution-mail-message.xml.h:12
+#: ../ui/evolution-mail-list.xml.h:3 ../ui/evolution-mail-message.xml.h:13
 msgid "Copy selected message(s) to the clipboard"
 msgstr "Копиране на избраните писма в буфера за обмен"
 
-#: ../ui/evolution-mail-list.xml.h:4 ../ui/evolution-mail-message.xml.h:23
+#. Alphabetical by name, yo
+#: ../ui/evolution-mail-list.xml.h:5 ../ui/evolution-mail-message.xml.h:24
 msgid "Cut selected message(s) to the clipboard"
 msgstr "Изрязване на избраните писма в буфера за обмен"
 
-#: ../ui/evolution-mail-list.xml.h:5
+#: ../ui/evolution-mail-list.xml.h:6
 msgid "E_xpunge"
 msgstr "За_черкване"
 
-#: ../ui/evolution-mail-list.xml.h:7
+#: ../ui/evolution-mail-list.xml.h:8
 msgid "Group By _Threads"
 msgstr "Групиране по _нишки"
 
-#: ../ui/evolution-mail-list.xml.h:8
+#: ../ui/evolution-mail-list.xml.h:9
 msgid "Hide _Deleted Messages"
 msgstr "Скриване на _изтритите писма"
 
-#: ../ui/evolution-mail-list.xml.h:9
+#: ../ui/evolution-mail-list.xml.h:10
 msgid ""
 "Hide deleted messages rather than displaying them with a line through them"
 msgstr "Скриване на изтритите писма, вместо да се показват като зачертани"
 
-#: ../ui/evolution-mail-list.xml.h:10
+#: ../ui/evolution-mail-list.xml.h:11
 msgid "Mark Me_ssages as Read"
 msgstr "_Отбелязване на писмата като прочетени"
 
-#: ../ui/evolution-mail-list.xml.h:11 ../ui/evolution-mail-message.xml.h:68
+#: ../ui/evolution-mail-list.xml.h:12 ../ui/evolution-mail-message.xml.h:69
 msgid "Paste message(s) from the clipboard"
 msgstr "Поставяне на писмата от буфера за обмен"
 
-#: ../ui/evolution-mail-list.xml.h:12
+#: ../ui/evolution-mail-list.xml.h:13
 msgid "Permanently remove all deleted messages from this folder"
 msgstr "Изтриване за постоянно на всички писма от тази папка"
 
-#: ../ui/evolution-mail-list.xml.h:13
+#: ../ui/evolution-mail-list.xml.h:14
 msgid "Permanently remove this folder"
 msgstr "Изтриване за постоянно на тази папка"
 
-#: ../ui/evolution-mail-list.xml.h:14
+#: ../ui/evolution-mail-list.xml.h:15
 msgid "Select _All Messages"
 msgstr "Избиране на _всички писма"
 
-#: ../ui/evolution-mail-list.xml.h:15
+#: ../ui/evolution-mail-list.xml.h:16
 msgid "Select all and only the messages that are not currently selected"
 msgstr "Избор на всички и само писма, които не са били избрани в момента"
 
-#: ../ui/evolution-mail-list.xml.h:16
+#: ../ui/evolution-mail-list.xml.h:17
 msgid "Select all messages in the same thread as the selected message"
 msgstr "Избор на всички писма в някоя нишка като избраното съобщение"
 
-#: ../ui/evolution-mail-list.xml.h:17
+#: ../ui/evolution-mail-list.xml.h:18
 msgid "Select all visible messages"
 msgstr "Избор на всички видими писма"
 
-#: ../ui/evolution-mail-list.xml.h:18
+#: ../ui/evolution-mail-list.xml.h:19
 msgid "Show _Messages"
 msgstr "Показване на _писмата"
 
-#: ../ui/evolution-mail-list.xml.h:19
+#: ../ui/evolution-mail-list.xml.h:20
 msgid "Show messages that have been temporarily hidden"
 msgstr "Показване на писма, които са били временно скрити"
 
-#: ../ui/evolution-mail-list.xml.h:20
+#: ../ui/evolution-mail-list.xml.h:21
 msgid "Temporarily hide all messages that have already been read"
 msgstr "Временно скриване на всички писма, които са били прочетени"
 
-#: ../ui/evolution-mail-list.xml.h:21
+#: ../ui/evolution-mail-list.xml.h:22
 msgid "Temporarily hide the selected messages"
 msgstr "Временно скриване на избраните писма"
 
-#: ../ui/evolution-mail-list.xml.h:22
+#: ../ui/evolution-mail-list.xml.h:23
 msgid "Threaded Message list"
 msgstr "Изглед по нишки"
 
-#: ../ui/evolution-mail-list.xml.h:23
+#.
+#. <menuitem name="ViewShowSelected" verb="" _label="_Selected Messages"/>
+#.
+#: ../ui/evolution-mail-list.xml.h:27
 msgid "Un_read Messages"
 msgstr "_Непрочетени писма:"
 
-#: ../ui/evolution-mail-list.xml.h:25
+#: ../ui/evolution-mail-list.xml.h:28
 msgid "_All"
 msgstr "_Всички"
 
-#: ../ui/evolution-mail-list.xml.h:27 ../ui/evolution-mail-message.xml.h:110
+#: ../ui/evolution-mail-list.xml.h:30 ../ui/evolution-mail-message.xml.h:110
 #: ../ui/evolution-mail-messagedisplay.xml.h:7
 msgid "_Message"
 msgstr "_Писмо"
-
-#: ../ui/evolution-mail-list.xml.h:30
-msgid "_Selected Messages"
-msgstr "Из_браните писма"
 
 #: ../ui/evolution-mail-message.xml.h:1
 msgid "A_dd Sender to Address Book"
@@ -17138,241 +17271,238 @@ msgstr "_Добавяне на изпращача към адресника"
 msgid "A_pply Filters"
 msgstr "П_рилагане на филтри"
 
-#: ../ui/evolution-mail-message.xml.h:3
+#. Alphabetical by name, yo
+#: ../ui/evolution-mail-message.xml.h:4
 msgid "Add Sender to Address Book"
 msgstr "Добавяне на изпращача към адресника"
 
-#: ../ui/evolution-mail-message.xml.h:4
+#: ../ui/evolution-mail-message.xml.h:5
 msgid "All Message _Headers"
 msgstr "Всички _заглавни части"
 
-#: ../ui/evolution-mail-message.xml.h:5
+#: ../ui/evolution-mail-message.xml.h:6
 msgid "Apply filter rules to the selected messages"
 msgstr "Използване на филтър с правила за избраните писма"
 
-#: ../ui/evolution-mail-message.xml.h:6
+#: ../ui/evolution-mail-message.xml.h:7
 msgid "Check for _Junk"
 msgstr "Проверка за _спам"
 
-#: ../ui/evolution-mail-message.xml.h:7
+#: ../ui/evolution-mail-message.xml.h:8
 msgid "Compose _New Message"
 msgstr "Писане на _ново писмо"
 
-#: ../ui/evolution-mail-message.xml.h:8
+#: ../ui/evolution-mail-message.xml.h:9
 msgid "Compose a reply to all of the recipients of the selected message"
 msgstr "Отговаряне на всички получатели на избраното писмо"
 
-#: ../ui/evolution-mail-message.xml.h:9
+#: ../ui/evolution-mail-message.xml.h:10
 msgid "Compose a reply to the mailing list of the selected message"
 msgstr "Създаване на отговор до пощенския списък на избраното писмо"
 
-#: ../ui/evolution-mail-message.xml.h:10
+#: ../ui/evolution-mail-message.xml.h:11
 msgid "Compose a reply to the sender of the selected message"
 msgstr "Създаване на отговор до изпращача на избраното писмо"
 
-#: ../ui/evolution-mail-message.xml.h:13
+#: ../ui/evolution-mail-message.xml.h:14
 msgid "Copy selected messages to another folder"
 msgstr "Копиране на избраното писмо в друга папка"
 
-#: ../ui/evolution-mail-message.xml.h:14
+#: ../ui/evolution-mail-message.xml.h:15
 msgid "Create R_ule"
 msgstr "Създаване на п_равило"
 
-#: ../ui/evolution-mail-message.xml.h:15
+#: ../ui/evolution-mail-message.xml.h:16
 msgid "Create a rule to filter messages from this sender"
 msgstr "Създаване на правило за филтриране на писма от този изпращач"
 
-#: ../ui/evolution-mail-message.xml.h:16
+#: ../ui/evolution-mail-message.xml.h:17
 msgid "Create a rule to filter messages to these recipients"
 msgstr "Създаване на правило за филтриране на писма за тези получатели"
 
-#: ../ui/evolution-mail-message.xml.h:17
+#: ../ui/evolution-mail-message.xml.h:18
 msgid "Create a rule to filter messages to this mailing list"
 msgstr "Създаване на правило за филтриране на писма до този пощенски списък"
 
-#: ../ui/evolution-mail-message.xml.h:18
+#: ../ui/evolution-mail-message.xml.h:19
 msgid "Create a rule to filter messages with this subject"
 msgstr "Създаване на правило за филтриране на писма с тази тема"
 
-#: ../ui/evolution-mail-message.xml.h:19
+#: ../ui/evolution-mail-message.xml.h:20
 msgid "Create a vFolder for these recipients"
 msgstr "Създаване на vFolder за тези получатели"
 
-#: ../ui/evolution-mail-message.xml.h:20
+#: ../ui/evolution-mail-message.xml.h:21
 msgid "Create a vFolder for this mailing list"
 msgstr "Създаване на vFolder за този пощенски списък"
 
-#: ../ui/evolution-mail-message.xml.h:21
+#: ../ui/evolution-mail-message.xml.h:22
 msgid "Create a vFolder for this sender"
 msgstr "Създаване на vFolder за този изпращач"
 
-#: ../ui/evolution-mail-message.xml.h:22
+#: ../ui/evolution-mail-message.xml.h:23
 msgid "Create a vFolder for this subject"
 msgstr "Създаване на vFolder за тази тема"
 
-#: ../ui/evolution-mail-message.xml.h:24
+#: ../ui/evolution-mail-message.xml.h:25
 msgid "Decrease the text size"
 msgstr "Намаляване на размера на текста"
 
-#: ../ui/evolution-mail-message.xml.h:26
+#: ../ui/evolution-mail-message.xml.h:27
 msgid "Display the next important message"
 msgstr "Показване на следващото важно писмо"
 
-#: ../ui/evolution-mail-message.xml.h:27
+#: ../ui/evolution-mail-message.xml.h:28
 msgid "Display the next message"
 msgstr "Показване на следващото писмо"
 
-#: ../ui/evolution-mail-message.xml.h:28
+#: ../ui/evolution-mail-message.xml.h:29
 msgid "Display the next unread message"
 msgstr "Показване на следващото непрочетено писмо"
 
-#: ../ui/evolution-mail-message.xml.h:29
+#: ../ui/evolution-mail-message.xml.h:30
 msgid "Display the next unread thread"
 msgstr "Показване на следващата непрочетена нишка"
 
-#: ../ui/evolution-mail-message.xml.h:30
+#: ../ui/evolution-mail-message.xml.h:31
 msgid "Display the previous important message"
 msgstr "Показване на предишното важно писмо"
 
-#: ../ui/evolution-mail-message.xml.h:31
+#: ../ui/evolution-mail-message.xml.h:32
 msgid "Display the previous message"
 msgstr "Показване на предишното писмо"
 
-#: ../ui/evolution-mail-message.xml.h:32
+#: ../ui/evolution-mail-message.xml.h:33
 msgid "Display the previous unread message"
 msgstr "Показване на предишно непрочетено писмо"
 
-#: ../ui/evolution-mail-message.xml.h:33
+#: ../ui/evolution-mail-message.xml.h:34
 msgid "Filter on Mailing _List..."
 msgstr "Филтър по пощенски _списък..."
 
-#: ../ui/evolution-mail-message.xml.h:34
+#: ../ui/evolution-mail-message.xml.h:35
 msgid "Filter on Se_nder..."
 msgstr "Филтър по _изпращач..."
 
-#: ../ui/evolution-mail-message.xml.h:35
+#: ../ui/evolution-mail-message.xml.h:36
 msgid "Filter on _Recipients..."
 msgstr "Филтър по п_олучатели..."
 
-#: ../ui/evolution-mail-message.xml.h:36
+#: ../ui/evolution-mail-message.xml.h:37
 msgid "Filter on _Subject..."
 msgstr "Филтър по _тема..."
 
-#: ../ui/evolution-mail-message.xml.h:37
+#: ../ui/evolution-mail-message.xml.h:38
 msgid "Filter the selected messages for junk status"
 msgstr "Отбелязване на избраните писма като спам"
 
-#: ../ui/evolution-mail-message.xml.h:38
+#: ../ui/evolution-mail-message.xml.h:39
 msgid "Flag selected message(s) for follow-up"
 msgstr "Отбелязване на избраното писмо като част от разговор"
 
-#: ../ui/evolution-mail-message.xml.h:39
+#: ../ui/evolution-mail-message.xml.h:40
 msgid "Follow _Up..."
 msgstr "Про_следяване..."
 
-#: ../ui/evolution-mail-message.xml.h:40
+#: ../ui/evolution-mail-message.xml.h:41
 msgid "Force images in HTML mail to be loaded"
 msgstr "Принуждаване изображенията в HTML писмо да бъдат заредени"
 
-#: ../ui/evolution-mail-message.xml.h:42
+#: ../ui/evolution-mail-message.xml.h:43
 msgid "Forward the selected message in the body of a new message"
 msgstr "Препращане на избраното писмо в тялото като ново писмо"
 
-#: ../ui/evolution-mail-message.xml.h:43
+#: ../ui/evolution-mail-message.xml.h:44
 msgid "Forward the selected message quoted like a reply"
 msgstr "Препращане на избраното писмо, цитирано като отговор"
 
-#: ../ui/evolution-mail-message.xml.h:44
+#: ../ui/evolution-mail-message.xml.h:45
 msgid "Forward the selected message to someone"
 msgstr "Препращане на избраното писмо до някой"
 
-#: ../ui/evolution-mail-message.xml.h:45
+#: ../ui/evolution-mail-message.xml.h:46
 msgid "Forward the selected message to someone as an attachment"
 msgstr "Препращане на избраното писмо до някой като прикачено"
 
-#: ../ui/evolution-mail-message.xml.h:46
+#: ../ui/evolution-mail-message.xml.h:47
 msgid "Increase the text size"
 msgstr "Увеличаване на размера на текста"
 
-#: ../ui/evolution-mail-message.xml.h:48
+#: ../ui/evolution-mail-message.xml.h:49
 msgid "Mar_k as"
 msgstr "Отбелязване _като"
 
-#: ../ui/evolution-mail-message.xml.h:49
+#: ../ui/evolution-mail-message.xml.h:50
 msgid "Mark the selected message(s) as having been read"
 msgstr "Отбелязване на избраното писмо/а като прочетено"
 
-#: ../ui/evolution-mail-message.xml.h:50
+#: ../ui/evolution-mail-message.xml.h:51
 msgid "Mark the selected message(s) as important"
 msgstr "Отбелязване на избраното писмо/а като важно"
 
-#: ../ui/evolution-mail-message.xml.h:51
+#: ../ui/evolution-mail-message.xml.h:52
 msgid "Mark the selected message(s) as junk"
 msgstr "Отбелязване на избраното писмо като спам"
 
-#: ../ui/evolution-mail-message.xml.h:52
+#: ../ui/evolution-mail-message.xml.h:53
 msgid "Mark the selected message(s) as not being junk"
 msgstr "Премахване на отбелязването на избраното писмо/а като спам"
 
-#: ../ui/evolution-mail-message.xml.h:53
+#: ../ui/evolution-mail-message.xml.h:54
 msgid "Mark the selected message(s) as not having been read"
 msgstr "Отбелязване на избраното писмо/а като непрочетено"
 
-#: ../ui/evolution-mail-message.xml.h:54
+#: ../ui/evolution-mail-message.xml.h:55
 msgid "Mark the selected message(s) as unimportant"
 msgstr "Отбелязване на избраното писмо/а като неважно"
 
-#: ../ui/evolution-mail-message.xml.h:55
+#: ../ui/evolution-mail-message.xml.h:56
 msgid "Mark the selected messages for deletion"
 msgstr "Отбелязване на избраните писма за изтриване"
 
-#: ../ui/evolution-mail-message.xml.h:56
+#: ../ui/evolution-mail-message.xml.h:57
 msgid "Message Source"
 msgstr "Код на писмото"
 
-#: ../ui/evolution-mail-message.xml.h:57
+#: ../ui/evolution-mail-message.xml.h:58
 msgid "Move"
 msgstr "Преместване"
 
-#: ../ui/evolution-mail-message.xml.h:58
+#: ../ui/evolution-mail-message.xml.h:59
 msgid "Move selected message(s) to another folder"
 msgstr "Преместване на избраните писма в друга папка"
 
-#: ../ui/evolution-mail-message.xml.h:60
+#: ../ui/evolution-mail-message.xml.h:61
 msgid "Next _Important Message"
 msgstr "Следващо _важно писмо"
 
-#: ../ui/evolution-mail-message.xml.h:61
+#: ../ui/evolution-mail-message.xml.h:62
 msgid "Next _Thread"
 msgstr "Следваща _нишка"
 
-#: ../ui/evolution-mail-message.xml.h:62
+#: ../ui/evolution-mail-message.xml.h:63
 msgid "Next _Unread Message"
 msgstr "Следващо _непрочетено писмо"
 
-#: ../ui/evolution-mail-message.xml.h:63
+#: ../ui/evolution-mail-message.xml.h:64
 msgid "Not Junk"
 msgstr "Не е спам"
 
-#: ../ui/evolution-mail-message.xml.h:64
+#: ../ui/evolution-mail-message.xml.h:65
 msgid "Open a window for composing a mail message"
 msgstr "Отваряне на прозорец за писане на писмо"
 
-#: ../ui/evolution-mail-message.xml.h:65
+#: ../ui/evolution-mail-message.xml.h:66
 msgid "Open the selected message in a new window"
 msgstr "Отваряне на избраните писма в нов прозорец"
 
-#: ../ui/evolution-mail-message.xml.h:66
+#: ../ui/evolution-mail-message.xml.h:67
 msgid "Open the selected message in the composer for editing"
 msgstr "Отваряне на избраното писмо в редактора"
 
-#: ../ui/evolution-mail-message.xml.h:67
+#: ../ui/evolution-mail-message.xml.h:68
 msgid "P_revious Unread Message"
 msgstr "П_редишно непрочетено писмо"
-
-#: ../ui/evolution-mail-message.xml.h:69
-msgid "Post a Repl_y"
-msgstr "Изпращане на отго_вор"
 
 #: ../ui/evolution-mail-message.xml.h:70
 msgid "Post a reply to a message in a Public folder"
@@ -17468,7 +17598,7 @@ msgstr "_Намаляване"
 
 #: ../ui/evolution-mail-message.xml.h:99
 msgid "_Caret Mode"
-msgstr "Режим \"_Каретка\""
+msgstr "Режим „_Каретка“"
 
 #: ../ui/evolution-mail-message.xml.h:102
 msgid "_Delete Message"
@@ -17518,25 +17648,30 @@ msgstr "_Предишно писмо"
 msgid "_Read"
 msgstr "П_рочитане"
 
-#: ../ui/evolution-mail-message.xml.h:120
+#: ../ui/evolution-mail-message.xml.h:121
 msgid "_Save Message..."
 msgstr "_Запазване на писмо..."
 
-#: ../ui/evolution-mail-message.xml.h:121
+#: ../ui/evolution-mail-message.xml.h:122
 msgid "_Undelete Message"
 msgstr "_Възстановяване на писмо"
 
-#: ../ui/evolution-mail-message.xml.h:122
+#: ../ui/evolution-mail-message.xml.h:123
 msgid "_Unread"
 msgstr "_Непрочетено"
 
-#: ../ui/evolution-mail-message.xml.h:123
+#: ../ui/evolution-mail-message.xml.h:124
 msgid "_Zoom In"
 msgstr "_Намаляване"
 
+#.
+#. <cmd name="FileSave" _label="Save"
+#. _tip="Save the current file" pixtype="stock" pixname="Save"
+#. accel="*Ctrl*s"/>
+#.
 #: ../ui/evolution-mail-messagedisplay.xml.h:1
 #: ../ui/evolution-message-composer.xml.h:4
-#: ../ui/evolution-signature-editor.xml.h:2
+#: ../ui/evolution-signature-editor.xml.h:7
 msgid "Close"
 msgstr "Затваряне"
 
@@ -17544,7 +17679,7 @@ msgstr "Затваряне"
 msgid "Close this window"
 msgstr "Затваряне на този прозорец"
 
-#: ../ui/evolution-mail-messagedisplay.xml.h:3 ../ui/evolution.xml.h:17
+#: ../ui/evolution-mail-messagedisplay.xml.h:3 ../ui/evolution.xml.h:16
 msgid "Main toolbar"
 msgstr "Главна лента с инструменти"
 
@@ -17555,8 +17690,8 @@ msgstr "_Затваряне"
 
 #: ../ui/evolution-mail-messagedisplay.xml.h:6
 #: ../ui/evolution-message-composer.xml.h:43
-#: ../ui/evolution-signature-editor.xml.h:13
-#: ../ui/evolution-subscribe.xml.h:11 ../ui/evolution.xml.h:33
+#: ../ui/evolution-signature-editor.xml.h:24
+#: ../ui/evolution-subscribe.xml.h:11 ../ui/evolution.xml.h:36
 msgid "_File"
 msgstr "_Файл"
 
@@ -17574,8 +17709,13 @@ msgstr ""
 "Изберете, за да получавате уведомление, когато писмото ви е прочетено (не се "
 "препоръчва)"
 
+#.
+#. <cmd name="FileSave" _label="Save"
+#. _tip="Save the current file" pixtype="stock" pixname="Save"
+#. accel="*Ctrl*s"/>
+#.
 #: ../ui/evolution-message-composer.xml.h:5
-#: ../ui/evolution-signature-editor.xml.h:3
+#: ../ui/evolution-signature-editor.xml.h:13
 msgid "Close the current file"
 msgstr "Затваряне на текущия файл"
 
@@ -17592,7 +17732,7 @@ msgid "Encrypt this message with your S/MIME Encryption Certificate"
 msgstr "Криптиране на това съобщение със S/MIME сертификат за криптиране"
 
 #: ../ui/evolution-message-composer.xml.h:9
-#: ../ui/evolution-signature-editor.xml.h:4
+#: ../ui/evolution-signature-editor.xml.h:14
 msgid "For_mat"
 msgstr "_Формат"
 
@@ -17641,7 +17781,6 @@ msgid "Save in folder..."
 msgstr "Запазване в папка..."
 
 #: ../ui/evolution-message-composer.xml.h:23
-#: ../ui/evolution-signature-editor.xml.h:9
 msgid "Save the current file"
 msgstr "Запазване на текущия файл"
 
@@ -17654,7 +17793,7 @@ msgid "Save the message in a specified folder"
 msgstr "Запазва писмото в определена папка"
 
 #: ../ui/evolution-message-composer.xml.h:27
-#: ../ui/evolution-signature-editor.xml.h:11
+#: ../ui/evolution-signature-editor.xml.h:22
 msgid "Send the mail in HTML format"
 msgstr "Изпращане на писмото в HTML формат"
 
@@ -17673,32 +17812,32 @@ msgstr "Подписване на съобщението с вашия S/MIME с
 #: ../ui/evolution-message-composer.xml.h:31
 msgid "Toggles whether the BCC field is displayed"
 msgstr ""
-"Превключване между това дали полето \"Скрито копие до\" да бъде показвано "
-"или не"
+"Превключване между това дали полето „Скрито копие до“ да бъде показвано или "
+"не"
 
 #: ../ui/evolution-message-composer.xml.h:32
 msgid "Toggles whether the CC field is displayed"
 msgstr ""
-"Превключване между това дали полето \"Копие до\" да бъде показвано или не"
+"Превключване между това дали полето „Копие до“ да бъде показвано или не"
 
 #: ../ui/evolution-message-composer.xml.h:33
 msgid "Toggles whether the From chooser is displayed"
-msgstr "Превключване между това дали полето \"От\" да бъде показвано или не"
+msgstr "Превключване между това дали полето „От“ да бъде показвано или не"
 
 #: ../ui/evolution-message-composer.xml.h:34
 msgid "Toggles whether the Post-To field is displayed"
 msgstr ""
-"Превключване между това дали полето \"Копиране в папка\" да бъде показвано "
-"или не"
+"Превключване между това дали полето „Копиране в папка“ да бъде показвано или "
+"не"
 
 #: ../ui/evolution-message-composer.xml.h:35
 msgid "Toggles whether the Reply-To field is displayed"
 msgstr ""
-"Превключване между това дали полето \"Отговор до\" да бъде показвано или не"
+"Превключване между това дали полето „Отговор до“ да бъде показвано или не"
 
 #: ../ui/evolution-message-composer.xml.h:36
 msgid "Toggles whether the To field is displayed"
-msgstr "Превключване между това дали полето \"До\" да бъде показвано или не"
+msgstr "Превключване между това дали полето „До“ да бъде показвано или не"
 
 #: ../ui/evolution-message-composer.xml.h:37
 msgid "_Attachment..."
@@ -17706,11 +17845,11 @@ msgstr "_Прикачен..."
 
 #: ../ui/evolution-message-composer.xml.h:38
 msgid "_Bcc Field"
-msgstr "Полето \"_Скрито копие до\""
+msgstr "Полето „_Скрито копие до“"
 
 #: ../ui/evolution-message-composer.xml.h:39
 msgid "_Cc Field"
-msgstr "Полето \"_Копие до\""
+msgstr "Полето „_Копие до“"
 
 #: ../ui/evolution-message-composer.xml.h:41
 msgid "_Delete all"
@@ -17718,10 +17857,10 @@ msgstr "Изтриване на _всичко"
 
 #: ../ui/evolution-message-composer.xml.h:44
 msgid "_From Field"
-msgstr "Полето \"_От\""
+msgstr "Полето „_От“"
 
 #: ../ui/evolution-message-composer.xml.h:45
-#: ../ui/evolution-signature-editor.xml.h:14
+#: ../ui/evolution-signature-editor.xml.h:25
 msgid "_Insert"
 msgstr "_Вмъкване"
 
@@ -17731,11 +17870,11 @@ msgstr "_Отваряне..."
 
 #: ../ui/evolution-message-composer.xml.h:47
 msgid "_Post-To Field"
-msgstr "Полето \"Копие в _папка\""
+msgstr "Полето „Копие в _папка“"
 
 #: ../ui/evolution-message-composer.xml.h:48
 msgid "_Reply-To Field"
-msgstr "Полето \"_Отговор до\""
+msgstr "Полето „_Отговор до“"
 
 #: ../ui/evolution-message-composer.xml.h:50
 msgid "_Security"
@@ -17743,25 +17882,28 @@ msgstr "_Сигурност"
 
 #: ../ui/evolution-message-composer.xml.h:51
 msgid "_To Field"
-msgstr "Полето \"_До\""
+msgstr "Полето „_До“"
 
 #: ../ui/evolution-signature-editor.xml.h:1
 msgid "C_lose"
 msgstr "_Затваряне"
 
-#: ../ui/evolution-signature-editor.xml.h:5
+#: ../ui/evolution-signature-editor.xml.h:15
 msgid "H_TML"
 msgstr "H_TML"
 
-#: ../ui/evolution-signature-editor.xml.h:7
+#: ../ui/evolution-signature-editor.xml.h:16
 msgid "Save and Close"
 msgstr "Запазване и затваряне"
 
-#: ../ui/evolution-signature-editor.xml.h:8
+#.
+#. <menuitem name="FileSave" verb="" _label="_Save"/>
+#.
+#: ../ui/evolution-signature-editor.xml.h:20
 msgid "Save and _Close"
 msgstr "Запазване и _затваряне"
 
-#: ../ui/evolution-signature-editor.xml.h:10
+#: ../ui/evolution-signature-editor.xml.h:21
 msgid "Save the current file and close the window"
 msgstr "Запазване на текущия файл и затваряне на прозореца"
 
@@ -17870,135 +18012,135 @@ msgid "Display window buttons with text only"
 msgstr "Изобразяване на бутоните само с текст"
 
 #: ../ui/evolution.xml.h:10
-msgid "Evolution _FAQ"
-msgstr "_Често задавани въпроси"
-
-#: ../ui/evolution.xml.h:11
 msgid "Exit the program"
 msgstr "Спиране на програмата"
 
-#: ../ui/evolution.xml.h:12
+#: ../ui/evolution.xml.h:11
 msgid "Forget _Passwords"
 msgstr "Забравяне на _пароли"
 
-#: ../ui/evolution.xml.h:13
+#: ../ui/evolution.xml.h:12
 msgid "Forget remembered passwords so you will be prompted for them again"
 msgstr ""
 "Забравяне на запомнената парола, така че да бъдете запитани за нея отново"
 
-#: ../ui/evolution.xml.h:14
+#: ../ui/evolution.xml.h:13
 msgid "Hide window buttons"
 msgstr "Скриване на бутоните за прозореца"
 
-#: ../ui/evolution.xml.h:15
+#: ../ui/evolution.xml.h:14
 msgid "Icons _and text"
 msgstr "_Икони и текст"
 
-#: ../ui/evolution.xml.h:16
+#: ../ui/evolution.xml.h:15
 msgid "Import data from other programs"
 msgstr "Внасяне на данни от други програми"
 
-#: ../ui/evolution.xml.h:18
+#: ../ui/evolution.xml.h:17
 msgid "New _Window"
 msgstr "Нов _прозорец"
 
-#: ../ui/evolution.xml.h:19
+#: ../ui/evolution.xml.h:18
 msgid "Prefere_nces"
 msgstr "_Настройки"
 
-#: ../ui/evolution.xml.h:20
+#: ../ui/evolution.xml.h:19
 msgid "Send / Receive"
 msgstr "Изпращане / получаване"
 
-#: ../ui/evolution.xml.h:21
+#: ../ui/evolution.xml.h:20
 msgid "Send queued items and retrieve new items"
 msgstr "Изпращане на обекти, чакащи на опашката и извличане на нови обекти."
 
-#: ../ui/evolution.xml.h:22
+#: ../ui/evolution.xml.h:21
 msgid "Set up Pilot configuration"
 msgstr "Настройка на Pilot"
 
-#: ../ui/evolution.xml.h:23
+#: ../ui/evolution.xml.h:22
 msgid "Show information about Evolution"
 msgstr "Показване на информация относно Evolution"
 
-#: ../ui/evolution.xml.h:24
+#: ../ui/evolution.xml.h:23
 msgid "Submit Bug Report"
 msgstr "Изпращане на доклад за грешка"
 
-#: ../ui/evolution.xml.h:25
+#. <menuitem name="HelpFAQ" verb=""
+#. _label="Evolution _FAQ"/>
+#.
+#. <separator/>
+#: ../ui/evolution.xml.h:28
 msgid "Submit _Bug Report"
 msgstr "Изпращане на _доклад за грешка"
 
-#: ../ui/evolution.xml.h:26
+#: ../ui/evolution.xml.h:29
 msgid "Submit a bug report using Bug Buddy"
 msgstr "Изпращане на доклад за грешка чрез Bug Buddy"
 
-#: ../ui/evolution.xml.h:27
+#: ../ui/evolution.xml.h:30
 msgid "Toggle whether we are working offline."
-msgstr "Превключване на работа в режим \"Включен\"/\"Изключен\""
+msgstr "Превключване на работа в режим „Включен“/„Изключен“"
 
-#: ../ui/evolution.xml.h:28
+#: ../ui/evolution.xml.h:31
 msgid "Tool_bar"
 msgstr "Лента с _инструменти"
 
-#: ../ui/evolution.xml.h:29
+#: ../ui/evolution.xml.h:32
 msgid "Tool_bar style"
 msgstr "Стил на лентата с _инструменти"
 
-#: ../ui/evolution.xml.h:30
+#: ../ui/evolution.xml.h:33
 msgid "_About Evolution..."
 msgstr "_Относно Evolution..."
 
-#: ../ui/evolution.xml.h:31
+#: ../ui/evolution.xml.h:34
 msgid "_Close Window"
 msgstr "Зат_варяне на този прозорец"
 
-#: ../ui/evolution.xml.h:34
+#: ../ui/evolution.xml.h:37
 msgid "_Help"
 msgstr "_Помощ"
 
-#: ../ui/evolution.xml.h:35
+#: ../ui/evolution.xml.h:38
 msgid "_Hide buttons"
 msgstr "_Скриване на бутоните"
 
-#: ../ui/evolution.xml.h:36
+#: ../ui/evolution.xml.h:39
 msgid "_Icons only"
 msgstr "Са_мо икони"
 
-#: ../ui/evolution.xml.h:37
+#: ../ui/evolution.xml.h:40
 msgid "_Import..."
 msgstr "_Внасяне..."
 
-#: ../ui/evolution.xml.h:38
+#: ../ui/evolution.xml.h:41
 msgid "_New"
 msgstr "_Нов"
 
-#: ../ui/evolution.xml.h:39
+#: ../ui/evolution.xml.h:42
 msgid "_Quick Reference"
 msgstr "_Бърза справка"
 
-#: ../ui/evolution.xml.h:40
+#: ../ui/evolution.xml.h:43
 msgid "_Quit"
 msgstr "_Спиране на програмата"
 
-#: ../ui/evolution.xml.h:41
+#: ../ui/evolution.xml.h:44
 msgid "_Send / Receive"
 msgstr "_Изпращане / получаване"
 
-#: ../ui/evolution.xml.h:42
+#: ../ui/evolution.xml.h:45
 msgid "_Switcher Appearance"
 msgstr "_Изглед на превключвател"
 
-#: ../ui/evolution.xml.h:43
+#: ../ui/evolution.xml.h:46
 msgid "_Synchronization Options..."
 msgstr "Опции за _синхронизация..."
 
-#: ../ui/evolution.xml.h:44
+#: ../ui/evolution.xml.h:47
 msgid "_Text only"
 msgstr "Само _текст"
 
-#: ../ui/evolution.xml.h:45
+#: ../ui/evolution.xml.h:48
 msgid "_Tools"
 msgstr "Инс_трументи"
 
@@ -18097,6 +18239,55 @@ msgstr ""
 "изберете часови пояс.\n"
 "Използвайте десния бутон, за да се намалите мащаба."
 
+#: ../widgets/menus/gal-define-views-dialog.c:76
+#: ../widgets/menus/gal-define-views-model.c:188
+msgid "Collection"
+msgstr "Колекция"
+
+#: ../widgets/menus/gal-define-views-dialog.c:325
+#: ../widgets/menus/gal-define-views.glade.h:4
+#, no-c-format
+msgid "Define Views for %s"
+msgstr "Дефиниране на изгледите за %s"
+
+#: ../widgets/menus/gal-define-views-dialog.c:333
+#: ../widgets/menus/gal-define-views-dialog.c:335
+msgid "Define Views"
+msgstr "Дефиниране на изгледите"
+
+#: ../widgets/menus/gal-define-views.glade.h:2
+#, no-c-format
+msgid "Define Views for \"%s\""
+msgstr "Дефиниране на изгледите за „%s“"
+
+#: ../widgets/menus/gal-define-views.glade.h:5
+msgid "_Edit..."
+msgstr "_Редактиране..."
+
+#: ../widgets/menus/gal-view-instance-save-as-dialog.c:182
+msgid "Instance"
+msgstr "Пример"
+
+#: ../widgets/menus/gal-view-instance-save-as-dialog.c:232
+msgid "Save Current View"
+msgstr "Запазване на текущия изглед"
+
+#: ../widgets/menus/gal-view-instance-save-as-dialog.glade.h:3
+msgid "_Create new view"
+msgstr "Създаване на нов изглед"
+
+#: ../widgets/menus/gal-view-instance-save-as-dialog.glade.h:5
+msgid "_Replace existing view"
+msgstr "_Замяна на съществуващия изглед"
+
+#: ../widgets/menus/gal-view-new-dialog.glade.h:2
+msgid "Name of new view:"
+msgstr "Име на новия изглед:"
+
+#: ../widgets/menus/gal-view-new-dialog.glade.h:3
+msgid "Type of view:"
+msgstr "Вид изглед:"
+
 #: ../widgets/menus/gal-view-factory-etable.c:39
 #: ../widgets/table/e-table-header-item.c:1845
 #: ../widgets/table/e-table-scrolled.c:224
@@ -18119,6 +18310,22 @@ msgstr "Фабрика"
 #: ../widgets/menus/gal-view-new-dialog.c:115
 msgid "Define New View"
 msgstr "Определяне на нов изглед"
+
+#: ../widgets/misc/gal-categories.glade.h:2
+msgid "Edit Master Category List..."
+msgstr "Редактиране на главния списък с категории..."
+
+#: ../widgets/misc/gal-categories.glade.h:3
+msgid "Item(s) belong to these _categories:"
+msgstr "Обект(и) принадлежащ(и) към тези _категории:"
+
+#: ../widgets/misc/gal-categories.glade.h:4
+msgid "_Available Categories:"
+msgstr "_Налични категории:"
+
+#: ../widgets/misc/gal-categories.glade.h:5
+msgid "categories"
+msgstr "категории"
 
 #. Translators: These are the first characters of each day of the
 #. week, 'M' for 'Monday', 'T' for Tuesday etc.
@@ -18155,49 +18362,48 @@ msgstr "Цвят за запълване"
 #: ../widgets/text/e-text.c:3548 ../widgets/text/e-text.c:3555
 #: ../widgets/text/e-text.c:3556
 msgid "GDK fill color"
-msgstr "GDK запълващ цвят"
+msgstr "Запълващ цвят на GDK"
 
 #: ../widgets/misc/e-canvas-background.c:477 ../widgets/text/e-entry.c:1305
 #: ../widgets/text/e-text.c:3562 ../widgets/text/e-text.c:3563
 msgid "Fill stipple"
-msgstr "Fill stipple"
+msgstr "Запълващ пунктир"
 
 #: ../widgets/misc/e-canvas-background.c:478 ../widgets/text/e-entry.c:1306
-#, fuzzy
 msgid "FIll stipple"
-msgstr "Fill stipple"
+msgstr "Запълващ пунктир"
 
 #: ../widgets/misc/e-canvas-background.c:484
 #: ../widgets/misc/e-canvas-background.c:485
-#, fuzzy
 msgid "X1"
-msgstr "1"
+msgstr "X1"
 
 #: ../widgets/misc/e-canvas-background.c:491
 #: ../widgets/misc/e-canvas-background.c:492
 msgid "X2"
-msgstr ""
+msgstr "X2"
 
 #: ../widgets/misc/e-canvas-background.c:498
 #: ../widgets/misc/e-canvas-background.c:499
-#, fuzzy
 msgid "Y1"
-msgstr "1"
+msgstr "Y1"
 
 #: ../widgets/misc/e-canvas-background.c:505
 #: ../widgets/misc/e-canvas-background.c:506
 msgid "Y2"
-msgstr ""
+msgstr "Y2"
 
 #: ../widgets/misc/e-canvas-vbox.c:102 ../widgets/misc/e-reflow.c:1430
 #: ../widgets/table/e-table-group-leaf.c:636
 #: ../widgets/table/e-table-item.c:3001
+#: ../widgets/table/e-table-group-container.c:978
 msgid "Minimum width"
 msgstr "Минимална ширина"
 
 #: ../widgets/misc/e-canvas-vbox.c:103 ../widgets/misc/e-reflow.c:1431
 #: ../widgets/table/e-table-group-leaf.c:637
 #: ../widgets/table/e-table-item.c:3002
+#: ../widgets/table/e-table-group-container.c:979
 msgid "Minimum Width"
 msgstr "Минимална височина"
 
@@ -18442,17 +18648,14 @@ msgid "Sync Categories:"
 msgstr "Синхронизиране на категории:"
 
 #: ../widgets/misc/e-reflow.c:1452 ../widgets/misc/e-reflow.c:1453
-#, fuzzy
 msgid "Empty message"
-msgstr "_Редактиране на писмото"
+msgstr "Празно съобщение"
 
 #: ../widgets/misc/e-reflow.c:1459 ../widgets/misc/e-reflow.c:1460
-#, fuzzy
 msgid "Reflow model"
-msgstr "Модел на избиране"
+msgstr "Модел на изливане на текста"
 
 #: ../widgets/misc/e-reflow.c:1466 ../widgets/misc/e-reflow.c:1467
-#, fuzzy
 msgid "Column width"
 msgstr "Ширина на колоната"
 
@@ -18508,7 +18711,7 @@ msgstr "Колона на показалец"
 
 #: ../widgets/misc/e-selection-model.c:214
 msgid "Sorter"
-msgstr "Сортър"
+msgstr "Подреждане по"
 
 #: ../widgets/misc/e-selection-model.c:221
 msgid "Selection Mode"
@@ -18676,7 +18879,7 @@ msgstr "Фокусирана колона"
 
 #: ../widgets/table/e-cell-pixbuf.c:411
 msgid "Unselected Column"
-msgstr "От-избрана колона"
+msgstr "Неизбрана колона"
 
 #: ../widgets/table/e-cell-text.c:1740
 msgid "Strikeout Column"
@@ -18688,7 +18891,7 @@ msgstr "Подчертана колона"
 
 #: ../widgets/table/e-cell-text.c:1754
 msgid "Bold Column"
-msgstr "Удебелена колона"
+msgstr "Получерна колона"
 
 #: ../widgets/table/e-cell-text.c:1761
 msgid "Color Column"
@@ -18697,28 +18900,6 @@ msgstr "Оцветена колона"
 #: ../widgets/table/e-cell-text.c:1775
 msgid "BG Color Column"
 msgstr "Фонов цвят на колона"
-
-#: ../widgets/table/e-table-config-field.c:254
-msgid "Then By"
-msgstr "След това по"
-
-#: ../widgets/table/e-table-config-field.c:254
-#, fuzzy
-msgid "Group By"
-msgstr "_Групиране по..."
-
-#: ../widgets/table/e-table-config-field.c:254
-#, fuzzy
-msgid "Sort By"
-msgstr "Подреждане"
-
-#: ../widgets/table/e-table-config-field.c:270
-msgid "Ascending"
-msgstr "Възходящо"
-
-#: ../widgets/table/e-table-config-field.c:273
-msgid "Descending"
-msgstr "Низходящо"
 
 #: ../widgets/table/e-table-config.c:150
 msgid "State"
@@ -18752,7 +18933,7 @@ msgstr "ИиП код"
 #: ../widgets/table/e-table-field-chooser.c:86
 #: ../widgets/table/e-table-header-item.c:1824
 msgid "Full Header"
-msgstr "Пълен хедър"
+msgstr "Пълна заглавна част"
 
 #: ../widgets/table/e-table-field-chooser-dialog.c:126
 msgid "Add a column..."
@@ -18761,33 +18942,43 @@ msgstr "Добавяне на колона..."
 #: ../widgets/table/e-table-group-leaf.c:573
 #: ../widgets/table/e-table-group-leaf.c:574
 #: ../widgets/table/e-table-item.c:2959 ../widgets/table/e-table-item.c:2960
+#: ../widgets/table/e-table-group-container.c:901
+#: ../widgets/table/e-table-group-container.c:902
 msgid "Alternating Row Colors"
-msgstr "Alternating Row Colors"
+msgstr "Сменящи се цветове на редовете"
 
 #: ../widgets/table/e-table-group-leaf.c:580
 #: ../widgets/table/e-table-group-leaf.c:581
 #: ../widgets/table/e-table-item.c:2966 ../widgets/table/e-table-item.c:2967
 #: ../widgets/table/e-tree.c:3271 ../widgets/table/e-tree.c:3272
+#: ../widgets/table/e-table-group-container.c:908
+#: ../widgets/table/e-table-group-container.c:909
 msgid "Horizontal Draw Grid"
-msgstr "Horizontal Draw Grid"
+msgstr "Хоризонтална решетка"
 
 #: ../widgets/table/e-table-group-leaf.c:587
 #: ../widgets/table/e-table-group-leaf.c:588
 #: ../widgets/table/e-table-item.c:2973 ../widgets/table/e-table-item.c:2974
 #: ../widgets/table/e-tree.c:3277 ../widgets/table/e-tree.c:3278
+#: ../widgets/table/e-table-group-container.c:915
+#: ../widgets/table/e-table-group-container.c:916
 msgid "Vertical Draw Grid"
-msgstr "Vertical Draw Grid"
+msgstr "Вертикална решетка"
 
 #: ../widgets/table/e-table-group-leaf.c:594
 #: ../widgets/table/e-table-group-leaf.c:595
 #: ../widgets/table/e-table-item.c:2980 ../widgets/table/e-table-item.c:2981
 #: ../widgets/table/e-tree.c:3283 ../widgets/table/e-tree.c:3284
+#: ../widgets/table/e-table-group-container.c:922
+#: ../widgets/table/e-table-group-container.c:923
 msgid "Draw focus"
 msgstr "Рисуване на фокус"
 
 #: ../widgets/table/e-table-group-leaf.c:601
 #: ../widgets/table/e-table-group-leaf.c:602
 #: ../widgets/table/e-table-item.c:2987 ../widgets/table/e-table-item.c:2988
+#: ../widgets/table/e-table-group-container.c:929
+#: ../widgets/table/e-table-group-container.c:930
 msgid "Cursor mode"
 msgstr "Режим на показалеца"
 
@@ -18796,17 +18987,23 @@ msgstr "Режим на показалеца"
 #: ../widgets/table/e-table-item.c:2994 ../widgets/table/e-table-item.c:2995
 #: ../widgets/table/e-table.c:3316 ../widgets/table/e-tree.c:3265
 #: ../widgets/table/e-tree.c:3266
+#: ../widgets/table/e-table-group-container.c:943
+#: ../widgets/table/e-table-group-container.c:944
 msgid "Length Threshold"
-msgstr "Length Threshold"
+msgstr "Праг по дължина"
 
 #: ../widgets/table/e-table-group-leaf.c:615
 #: ../widgets/table/e-table-group-leaf.c:616
 #: ../widgets/table/e-table-item.c:2952 ../widgets/table/e-table-item.c:2953
+#: ../widgets/table/e-table-group-container.c:936
+#: ../widgets/table/e-table-group-container.c:937
 msgid "Selection model"
 msgstr "Модел на избиране"
 
 #: ../widgets/table/e-table-group-leaf.c:643
 #: ../widgets/table/e-table-group-leaf.c:644
+#: ../widgets/table/e-table-group-container.c:957
+#: ../widgets/table/e-table-group-container.c:958
 msgid "Frozen"
 msgstr "Замръзнал"
 
@@ -18815,6 +19012,8 @@ msgstr "Замръзнал"
 #: ../widgets/table/e-table-item.c:3028 ../widgets/table/e-table-item.c:3029
 #: ../widgets/table/e-table.c:3323 ../widgets/table/e-tree.c:3297
 #: ../widgets/table/e-tree.c:3298
+#: ../widgets/table/e-table-group-container.c:950
+#: ../widgets/table/e-table-group-container.c:951
 msgid "Uniform row height"
 msgstr "Стандартна височина на колона"
 
@@ -18869,7 +19068,7 @@ msgstr "Персонифициране на текущия изглед..."
 #: ../widgets/table/e-table-header-item.c:1817 ../widgets/text/e-entry.c:1263
 #: ../widgets/text/e-entry.c:1264
 msgid "Fontset"
-msgstr "Fontset"
+msgstr "Набор от шрифтове"
 
 #: ../widgets/table/e-table-header-item.c:1838
 #: ../widgets/table/e-table-sorter.c:175
@@ -18883,19 +19082,16 @@ msgid "Tree"
 msgstr "Дърво"
 
 #: ../widgets/table/e-table-item.c:2938 ../widgets/table/e-table-item.c:2939
-#, fuzzy
 msgid "Table header"
-msgstr "Лошо форматирана заглавна част"
+msgstr "Заглавка на таблицата"
 
 #: ../widgets/table/e-table-item.c:2945 ../widgets/table/e-table-item.c:2946
-#, fuzzy
 msgid "Table model"
-msgstr "Клетка на таблица"
+msgstr "Модел на таблицата"
 
 #: ../widgets/table/e-table-item.c:3021 ../widgets/table/e-table-item.c:3022
-#, fuzzy
 msgid "Cursor row"
-msgstr "Ред на показалец"
+msgstr "Ред на показалеца"
 
 #: ../widgets/table/e-table.c:3330
 msgid "Always Search"
@@ -18907,7 +19103,7 @@ msgstr "Натискане за добавяне"
 
 #: ../widgets/table/e-tree.c:3290 ../widgets/table/e-tree.c:3291
 msgid "ETree table adapter"
-msgstr "ETree table adapter"
+msgstr "Адаптер за таблица ETree"
 
 #: ../widgets/table/e-tree.c:3304 ../widgets/table/e-tree.c:3305
 msgid "Always search"
@@ -18919,21 +19115,19 @@ msgstr "Ретро изглед"
 
 #: ../widgets/table/e-tree.c:3312
 msgid "Draw lines and +/- expanders."
-msgstr "Draw lines and +/- expanders."
+msgstr "Изчертаване на линиите и символите за разширяване „+“ и „-“"
 
 #: ../widgets/text/e-entry-test.c:49
 msgid "Minicard Test"
-msgstr ""
+msgstr "Тест с миникарти"
 
 #: ../widgets/text/e-entry-test.c:50
-#, fuzzy
 msgid "Copyright (C) 2000, Helix Code, Inc."
-msgstr "Авторски права 2000 Ximian, Inc."
+msgstr "Авторски права 2000 Helix Code, Inc."
 
 #: ../widgets/text/e-entry-test.c:52
-#, fuzzy
 msgid "This should test the minicard canvas item"
-msgstr "Това ще изпробва кода за разпечатване на контакти"
+msgstr "Това трябва да тества канавата с миникарти"
 
 #: ../widgets/text/e-entry.c:1242 ../widgets/text/e-entry.c:1243
 #: ../widgets/text/e-text.c:3455 ../widgets/text/e-text.c:3456
@@ -18941,14 +19135,12 @@ msgid "Event Processor"
 msgstr "Процесор на събития"
 
 #: ../widgets/text/e-entry.c:1256 ../widgets/text/e-entry.c:1257
-#, fuzzy
 msgid "Font"
-msgstr "Шрифтове"
+msgstr "Шрифт"
 
 #: ../widgets/text/e-entry.c:1270 ../widgets/text/e-entry.c:1271
-#, fuzzy
 msgid "GDKFont"
-msgstr "Шрифтове"
+msgstr "GDKFont"
 
 #: ../widgets/text/e-entry.c:1277 ../widgets/text/e-entry.c:1278
 #: ../widgets/text/e-text.c:3491 ../widgets/text/e-text.c:3492
@@ -19007,15 +19199,15 @@ msgstr "Позиция на показалеца"
 
 #: ../widgets/text/e-entry.c:1389 ../widgets/text/e-entry.c:1390
 msgid "Emulate label resize"
-msgstr ""
+msgstr "Емулация на преоразмеряване на етикети"
 
 #: ../widgets/text/e-text.c:2696
 msgid "Input Methods"
-msgstr "Методи за инпут"
+msgstr "Методи за вход"
 
 #: ../widgets/text/e-text.c:3469 ../widgets/text/e-text.c:3470
 msgid "Bold"
-msgstr "Удебелено"
+msgstr "Получерно"
 
 #: ../widgets/text/e-text.c:3476 ../widgets/text/e-text.c:3477
 msgid "Strikeout"
@@ -19027,19 +19219,19 @@ msgstr "Котва"
 
 #: ../widgets/text/e-text.c:3498 ../widgets/text/e-text.c:3499
 msgid "Clip Width"
-msgstr "Ширина на Clip"
+msgstr "Ширина на изрязката"
 
 #: ../widgets/text/e-text.c:3505 ../widgets/text/e-text.c:3506
 msgid "Clip Height"
-msgstr "Височина на Clip"
+msgstr "Височина на изрязка"
 
 #: ../widgets/text/e-text.c:3512 ../widgets/text/e-text.c:3513
 msgid "Clip"
-msgstr "Clip"
+msgstr "Изрязка"
 
 #: ../widgets/text/e-text.c:3519 ../widgets/text/e-text.c:3520
 msgid "Fill clip rectangle"
-msgstr "Fill clip rectangle"
+msgstr "Запълване на изрязка"
 
 #: ../widgets/text/e-text.c:3526 ../widgets/text/e-text.c:3527
 msgid "X Offset"
@@ -19065,6 +19257,157 @@ msgstr "Контекст за IM"
 msgid "Handle Popup"
 msgstr "Handle Popup"
 
+#: ../widgets/table/e-table-config-no-group.glade.h:1
+#: ../widgets/table/e-table-config.glade.h:1
+msgid "<- _Remove"
+msgstr "<- _Премахване"
+
+#: ../widgets/table/e-table-config-no-group.glade.h:2
+#: ../widgets/table/e-table-config.glade.h:2
+msgid "A_vailable Fields:"
+msgstr "Налични полета:"
+
+#: ../widgets/table/e-table-config-no-group.glade.h:3
+#: ../widgets/table/e-table-config.glade.h:3
+msgid "Ascending"
+msgstr "Възходящо"
+
+#: ../widgets/table/e-table-config-no-group.glade.h:4
+#: ../widgets/table/e-table-config.glade.h:4
+msgid "Clear All"
+msgstr "Изчистване на всичко"
+
+#: ../widgets/table/e-table-config-no-group.glade.h:5
+#: ../widgets/table/e-table-config.glade.h:5
+msgid "Descending"
+msgstr "Низходящо"
+
+#: ../widgets/table/e-table-config-no-group.glade.h:8
+#: ../widgets/table/e-table-config.glade.h:8
+msgid "Group Items By"
+msgstr "Групиране на обекти по"
+
+#: ../widgets/table/e-table-config-no-group.glade.h:9
+#: ../widgets/table/e-table-config.glade.h:9
+msgid "Move _Down"
+msgstr "Преместване на_долу"
+
+#: ../widgets/table/e-table-config-no-group.glade.h:10
+#: ../widgets/table/e-table-config.glade.h:10
+msgid "Move _Up"
+msgstr "Преместване нагоре"
+
+#: ../widgets/table/e-table-config-no-group.glade.h:11
+msgid "Sh_ow these fields in order:"
+msgstr "Показване на _тези полета в реда:"
+
+#: ../widgets/table/e-table-config-no-group.glade.h:12
+#: ../widgets/table/e-table-config.glade.h:11
+msgid "Show Fields"
+msgstr "Показване на полета"
+
+#: ../widgets/table/e-table-config-no-group.glade.h:13
+#: ../widgets/table/e-table-config.glade.h:12
+msgid "Show field in View"
+msgstr "Показване на поле в изглед"
+
+#: ../widgets/table/e-table-config-no-group.glade.h:14
+#: ../widgets/table/e-table-config.glade.h:13
+msgid "Sort"
+msgstr "Сортиране"
+
+#: ../widgets/table/e-table-config-no-group.glade.h:15
+#: ../widgets/table/e-table-config.glade.h:14
+msgid "Sort Items By"
+msgstr "Сортиране на обектите по"
+
+#: ../widgets/table/e-table-config-no-group.glade.h:16
+#: ../widgets/table/e-table-config.glade.h:15
+msgid "Then By"
+msgstr "След това по"
+
+#: ../widgets/table/e-table-config-no-group.glade.h:17
+#: ../widgets/table/e-table-config.glade.h:16
+msgid "_Add ->"
+msgstr "Доб_авяне ->"
+
+#: ../widgets/table/e-table-config-no-group.glade.h:18
+#: ../widgets/table/e-table-config.glade.h:17
+msgid "_Fields Shown..."
+msgstr "_Показани полета..."
+
+#: ../widgets/table/e-table-config-no-group.glade.h:19
+#: ../widgets/table/e-table-config.glade.h:20
+msgid "_Sort..."
+msgstr "_Сортиране..."
+
+#: ../widgets/table/e-table-config.glade.h:18
+msgid "_Group By..."
+msgstr "_Групиране по..."
+
+#: ../widgets/table/e-table-config.glade.h:19
+msgid "_Show these fields in order:"
+msgstr "_Показване на тези полета в реда:"
+
+#: ../widgets/table/e-table-field-chooser.glade.h:1
+msgid "Field Chooser"
+msgstr "Избор на поле"
+
+#: ../widgets/table/e-table-field-chooser.glade.h:2
+msgid ""
+"To add a column to your table, drag it into\n"
+"the location in which you want it to appear."
+msgstr ""
+"За да добавите колона към таблицата си я изтеглете\n"
+"към мястото, където искате тя да се появи."
+
+#: ../widgets/table/e-table-group-container.c:350
+#, c-format
+msgid "%s : %s (%d item)"
+msgstr "%s : %s (%d обект)"
+
+#: ../widgets/table/e-table-group-container.c:351
+#, c-format
+msgid "%s : %s (%d items)"
+msgstr "%s : %s (%d обекти)"
+
+#: ../widgets/table/e-table-group-container.c:356
+#, c-format
+msgid "%s (%d item)"
+msgstr "%s (%d обект)"
+
+#: ../widgets/table/e-table-group-container.c:357
+#, c-format
+msgid "%s (%d items)"
+msgstr "%s (%d обекти)"
+
+#~ msgid "Spamassassin (built-in)"
+#~ msgstr "Spamassassin (вграден)"
+
+#~ msgid "Message _List As"
+#~ msgstr "Списък на писмата _като"
+
+#~ msgid "_New Search _Folder (FIXME)"
+#~ msgstr "_Ново търсене на _папка"
+
+#~ msgid "_Selected Messages"
+#~ msgstr "Из_браните писма"
+
+#~ msgid "Post a Repl_y"
+#~ msgstr "Изпращане на отго_вор"
+
+#~ msgid "Evolution _FAQ"
+#~ msgstr "_Често задавани въпроси"
+
+#~ msgid "Could not read out-of-office state"
+#~ msgstr "Състоянието „Извън офиса“ не може да бъде прочетено."
+
+#~ msgid "Out of office Message:"
+#~ msgstr "Съобщение „Не съм в офиса“:"
+
+#~ msgid "Could not update out-of-office state"
+#~ msgstr "Състоянието „Извън офиса“ не може да бъде актуализирано "
+
 #~ msgid "From:"
 #~ msgstr "От:"
 
@@ -19089,7 +19432,7 @@ msgstr "Handle Popup"
 #~ msgstr "Невалиден потребител"
 
 #~ msgid "You cannot share folder with specified user \"{0}\""
-#~ msgstr "Не можете да споделяте папка с потребителя \"{0}\""
+#~ msgstr "Не можете да споделяте папка с потребителя „{0}“"
 
 #~ msgid "Specify User"
 #~ msgstr "Определяне на потребител"
@@ -19099,7 +19442,7 @@ msgstr "Handle Popup"
 #~ "Трябва да определите потребителско име, което да се добави към списъка"
 
 #~ msgid "Cannot Create shared folder in offline mode."
-#~ msgstr "Не може да се създаде споделена папка в режим \"Изключен\"."
+#~ msgstr "Не може да се създаде споделена папка в режим „Изключен“."
 
 #~ msgid "Disable the mono plugin environment."
 #~ msgstr "Спиране на модула за обкръжението Mono."
@@ -19117,16 +19460,16 @@ msgstr "Handle Popup"
 #~ msgstr "Показване на прикачени"
 
 #~ msgid "File exists \"{0}\"."
-#~ msgstr "Файлът \"{0}\" съществува."
+#~ msgstr "Файлът „{0}“ съществува."
 
 #~ msgid "Cannot save file \"{0}\"."
-#~ msgstr "Не може да се запази файла \"{0}\"."
+#~ msgstr "Не може да се запази файла „{0}“."
 
 #~ msgid "Because \"{1}\"."
-#~ msgstr "Защото \"{1}\"."
+#~ msgstr "Защото „{1}“."
 
 #~ msgid "Cannot open file \"{0}\"."
-#~ msgstr "Не може да се отвори файла \"{0}\"."
+#~ msgstr "Не може да се отвори файла „{0}“."
 
 #~ msgid "Your server needs to be updated"
 #~ msgstr "Вашия сървър трябва да бъде актуализиран"
@@ -19149,9 +19492,6 @@ msgstr "Handle Popup"
 
 #~ msgid "end-time"
 #~ msgstr "край:"
-
-#~ msgid "location"
-#~ msgstr "местоположение"
 
 #~ msgid "start-time"
 #~ msgstr "начало"
@@ -19196,7 +19536,7 @@ msgstr "Handle Popup"
 #~ msgstr "Управление на модулите..."
 
 #~ msgid "%s%d/%s%d/%s%d %s%d:%s%d:%s%d"
-#~ msgstr "%s%d/%s%d/%s%d·%s%d:%s%d:%s%d"
+#~ msgstr "%s%d/%s%d/%s%d %s%d:%s%d:%s%d"
 
 #~ msgid ""
 #~ "Uid%sSummary%sDescription List%sCategories List%sComment List%sCompleted%"
@@ -19242,7 +19582,7 @@ msgstr "Handle Popup"
 #~ "Въвеждането на всички данни, необходими за настройката на Evolution, е "
 #~ "успешно. \n"
 #~ "\n"
-#~ "Натиснете \"Прилагане\", за да ги запазите. "
+#~ "Натиснете „Прилагане“, за да ги запазите. "
 
 #~ msgid "Post Ne_w Message"
 #~ msgstr "Изпращане на ново писмо"
@@ -19282,9 +19622,6 @@ msgstr "Handle Popup"
 
 #~ msgid "Mark as Unimp_ortant"
 #~ msgstr "Отбелязване като не_важно"
-
-#~ msgid "Original Si_ze"
-#~ msgstr "Оригинален раз_мер"
 
 #~ msgid "S_earch in Message..."
 #~ msgstr "Т_ърсене в писмо..."
@@ -19342,7 +19679,7 @@ msgstr "Handle Popup"
 #~ "Mail Receipt\n"
 #~ msgstr ""
 #~ "Без\n"
-#~ "Mail·Receipt\n"
+#~ "Mail Receipt\n"
 
 #~ msgid ""
 #~ "\n"
