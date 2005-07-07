@@ -2360,7 +2360,7 @@ msgstr "Muudetud"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:2578
 msgid "Please select an image for this contact"
-msgstr "Palun vali selle kontaki jaoks pilt"
+msgstr "Palun vali selle kontakti jaoks pilt"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:2579
 msgid "No image"
