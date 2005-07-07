@@ -1,3 +1,10 @@
+2005-07-06  Frederic Crozat  <fcrozat@mandriva.com>
+
+	* startup-wizard.c: (startup_wizard_delete), (startup_wizard):
+	Exit evolution when closing wizard using window manager
+	control ; don't set hint or wmclass, it is too late, window is already
+	realized.
+
 2005-06-27  Tor Lillqvist  <tml@novell.com>
 
 	* Makefile.am: Use NO_UNDEFINED. Link with more libraries.
