@@ -1,3 +1,14 @@
+2005-07-07  Sarfraaz Ahmed <asarfraaz@novell.com>
+
+	* exchange-account-setup.c (btn_fsize_clicked) : Implemented new to
+	invoke the folder size table.
+	(org_gnome_exchange_settings) : Minor re-ordering
+	* exchange-folder-size-display.c : Newly added to handle the UI code
+	for folder size display
+	* exchange-folder-size-display.h : Similar
+	* exchange-folder-size.[ch] : Removed
+	* Makefile.am : Include exchange-folder-size-display.[ch]
+
 2005-07-05  Sarfraaz Ahmed <asarfraaz@novell.com>
 
 	* exchange-config-listener.c (add_new_sources) : Newly added. This adds

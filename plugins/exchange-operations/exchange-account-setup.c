@@ -149,7 +149,19 @@ btn_dass_clicked (GtkButton *button, gpointer data)
 static void
 btn_fsize_clicked (GtkButton *button, gpointer data)
 {
-	/* TODO: Add folders size display code here */
+	ExchangeAccount *account;
+	GtkListStore *model;
+	GSList *acclist;
+
+	acclist = exchange_config_listener_get_accounts (exchange_global_config_listener);
+
+	/* FIXME: For now, we have only one account in the list.
+	   Find a way to handle multiple accounts.
+	*/
+	account = acclist->data; 
+
+	model = exchange_account_folder_size_get_model (account);
+	exchange_folder_size_display (model, button);
 }
 
 /* only used in editor */
@@ -306,14 +318,20 @@ org_gnome_exchange_settings(EPlugin *epl, EConfigHookItemFactoryData *data)
 	gtk_container_add (GTK_CONTAINER (frm_auth), GTK_WIDGET (vbox_auth));
 
 	tbl_auth = (GtkTable*) gtk_object_new (GTK_TYPE_TABLE, "n-rows", 2, "n-columns", 2, "homogeneous", FALSE, "row-spacing", 6, "column-spacing", 6, NULL);
+
+	/* Change Password */
 	lbl_chpass = (GtkLabel*) gtk_object_new (GTK_TYPE_LABEL, "label", _("Change the password for Exchange account"), NULL);
 	gtk_misc_set_alignment (GTK_MISC (lbl_chpass), 0, 0.5);
 	btn_chpass = (GtkButton*) gtk_object_new (GTK_TYPE_BUTTON, "label", _("Change Password"), NULL);
+	gtk_signal_connect (GTK_OBJECT (btn_chpass), "clicked", G_CALLBACK (btn_chpass_clicked), NULL);
+
+	/* Delegation Assistant */
 	lbl_dass = (GtkLabel*) gtk_object_new (GTK_TYPE_LABEL, "label", _("Manage the delegate settings for Exchange account"), NULL);
 	gtk_misc_set_alignment (GTK_MISC (lbl_dass), 0, 0.5);
 	btn_dass = (GtkButton*) gtk_object_new (GTK_TYPE_BUTTON, "label", _("Delegation Assitant"));
-	gtk_signal_connect (GTK_OBJECT (btn_chpass), "clicked", G_CALLBACK (btn_chpass_clicked), NULL);
 	gtk_signal_connect (GTK_OBJECT (btn_dass), "clicked", G_CALLBACK (btn_dass_clicked), NULL);
+
+	/* Add items to the table */
 	gtk_table_attach_defaults (tbl_auth, GTK_WIDGET (lbl_chpass), 0, 1, 0, 1);
 	gtk_table_attach (tbl_auth, GTK_WIDGET (btn_chpass), 1, 2, 0, 1, GTK_FILL, GTK_FILL, 0, 0);
 	gtk_table_attach_defaults (tbl_auth, GTK_WIDGET (lbl_dass), 0, 1, 1, 2);
@@ -329,6 +347,8 @@ org_gnome_exchange_settings(EPlugin *epl, EConfigHookItemFactoryData *data)
 	gtk_container_add (GTK_CONTAINER (frm_misc), GTK_WIDGET (vbox_misc));
 
 	tbl_misc = (GtkTable*) gtk_object_new (GTK_TYPE_TABLE, "n-rows", 1, "n-columns", 1, "homogeneous", FALSE, "row-spacing", 6, "column-spacing", 6, NULL);
+
+	/* Folder Size */
 	lbl_fsize = (GtkLabel*) gtk_object_new (GTK_TYPE_LABEL, "label", _("View the size of all Exchange folders"), NULL);
 	gtk_misc_set_alignment (GTK_MISC (lbl_fsize), 0, 0.5);
 	btn_fsize = (GtkButton*) gtk_object_new (GTK_TYPE_BUTTON, "label", _("Folders Size"), NULL);
