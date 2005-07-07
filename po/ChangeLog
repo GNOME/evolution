@@ -1,3 +1,9 @@
+2005-07-07  Frederic Crozat  <fcrozat@mandriva.com>
+
+	* POTFILES.in: remove e-shell-startup-wizard.c
+	and evolution-startup-wizard.glade, they are not
+	used (plugin is used instead).
+
 2005-07-04  Priit Laes  <plaes@cvs.gnome.org>
 
 	* et.po: Translation updated by Ivar Smolin.

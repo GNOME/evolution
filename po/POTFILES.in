@@ -294,14 +294,12 @@ shell/e-shell-folder-title-bar.c
 shell/e-shell-importer.c
 shell/e-shell-offline-handler.c
 shell/e-shell-settings-dialog.c
-shell/e-shell-startup-wizard.c
 shell/e-shell-utils.c
 shell/e-shell-window-commands.c
 shell/e-shell-window.c
 shell/e-shell.c
 shell/e-user-creatable-items-handler.c
 shell/evolution-shell-component-utils.c
-shell/evolution-startup-wizard.glade
 shell/evolution-test-component.c
 shell/importer/import.glade
 shell/importer/intelligent.c

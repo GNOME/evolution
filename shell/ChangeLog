@@ -1,3 +1,18 @@
+2005-07-07  Frederic Crozat  <fcrozat@mandriva.com>
+
+	* e-shell-startup-wizard.c:
+	* e-shell-startup-wizard.h:
+	* evolution-startup-wizard.glade: Removed, startup-wizard 
+	is handled using plugin now.
+	* e-shell.c: Don't include removed header.
+	* Makefile.am: Don't build / install removed files.
+
+2005-07-06  Frederic Crozat  <fcrozat@mandriva.com>
+
+	* Makefile.am: Don't build e-shell-startup-wizard.[ch] and don't
+	install evolution-startup-wizard.glade, everything is handled
+	using plugin now.
+
 2005-06-21  Not Zed  <NotZed@Ximian.com>
 
 	* e-shell-window-commands.c: add brian mury to contributors.
