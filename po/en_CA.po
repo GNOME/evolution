@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-07-07 13:03-0400\n"
-"PO-Revision-Date: 2005-07-07 19:18-0400\n"
+"POT-Creation-Date: 2005-07-08 16:21-0400\n"
+"PO-Revision-Date: 2005-07-08 19:18-0400\n"
 "Last-Translator: Adam Weinberger <adamw@gnome.org>\n"
 "Language-Team: Canadian English <adamw@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -3270,15 +3270,16 @@ msgstr ""
 "marked for offline usage or not yet downloaded for offline usage. Please "
 "load the addressbook once in online mode to download its contents"
 
-#: addressbook/gui/widgets/eab-gui-util.c:98
+#: addressbook/gui/widgets/eab-gui-util.c:99
+#, c-format
 msgid ""
-"We were unable to open this addressbook.  Please check that the path exists "
-"and that you have permission to access it."
+"We were unable to open this addressbook.  Please check that the path %s "
+"exists and that you have permission to access it."
 msgstr ""
-"We were unable to open this addressbook.  Please check that the path exists "
-"and that you have permission to access it."
+"We were unable to open this addressbook.  Please check that the path %s "
+"exists and that you have permission to access it."
 
-#: addressbook/gui/widgets/eab-gui-util.c:105
+#: addressbook/gui/widgets/eab-gui-util.c:107
 msgid ""
 "We were unable to open this addressbook.  This either means you have entered "
 "an incorrect URI, or the LDAP server is unreachable."
@@ -3286,7 +3287,7 @@ msgstr ""
 "We were unable to open this addressbook.  This either means you have entered "
 "an incorrect URI, or the LDAP server is unreachable."
 
-#: addressbook/gui/widgets/eab-gui-util.c:110
+#: addressbook/gui/widgets/eab-gui-util.c:112
 msgid ""
 "This version of Evolution does not have LDAP support compiled in to it.  If "
 "you want to use LDAP in Evolution, you must install an LDAP-enabled "
@@ -3296,7 +3297,7 @@ msgstr ""
 "you want to use LDAP in Evolution, you must install an LDAP-enabled "
 "Evolution package."
 
-#: addressbook/gui/widgets/eab-gui-util.c:117
+#: addressbook/gui/widgets/eab-gui-util.c:119
 msgid ""
 "We were unable to open this addressbook.  This either means you have entered "
 "an incorrect URI, or the server is unreachable."
@@ -3304,7 +3305,7 @@ msgstr ""
 "We were unable to open this addressbook.  This either means you have entered "
 "an incorrect URI, or the server is unreachable."
 
-#: addressbook/gui/widgets/eab-gui-util.c:137
+#: addressbook/gui/widgets/eab-gui-util.c:140
 msgid ""
 "More cards matched this query than either the server is \n"
 "configured to return or Evolution is configured to display.\n"
@@ -3316,7 +3317,7 @@ msgstr ""
 "Please make your search more specific or raise the result limit in\n"
 "the directory server preferences for this addressbook."
 
-#: addressbook/gui/widgets/eab-gui-util.c:143
+#: addressbook/gui/widgets/eab-gui-util.c:146
 msgid ""
 "The time to execute this query exceeded the server limit or the limit\n"
 "you have configured for this addressbook.  Please make your search\n"
@@ -3328,45 +3329,45 @@ msgstr ""
 "more specific or raise the time limit in the directory server\n"
 "preferences for this addressbook."
 
-#: addressbook/gui/widgets/eab-gui-util.c:149
+#: addressbook/gui/widgets/eab-gui-util.c:152
 msgid "The backend for this addressbook was unable to parse this query."
 msgstr "The backend for this addressbook was unable to parse this query."
 
-#: addressbook/gui/widgets/eab-gui-util.c:152
+#: addressbook/gui/widgets/eab-gui-util.c:155
 msgid "The backend for this addressbook refused to perform this query."
 msgstr "The backend for this addressbook refused to perform this query."
 
-#: addressbook/gui/widgets/eab-gui-util.c:155
+#: addressbook/gui/widgets/eab-gui-util.c:158
 msgid "This query did not complete successfully."
 msgstr "This query did not complete successfully."
 
-#: addressbook/gui/widgets/eab-gui-util.c:177
+#: addressbook/gui/widgets/eab-gui-util.c:180
 msgid "Error adding list"
 msgstr "Error adding list"
 
-#: addressbook/gui/widgets/eab-gui-util.c:177
-#: addressbook/gui/widgets/eab-gui-util.c:675
+#: addressbook/gui/widgets/eab-gui-util.c:180
+#: addressbook/gui/widgets/eab-gui-util.c:678
 msgid "Error adding contact"
 msgstr "Error adding contact"
 
-#: addressbook/gui/widgets/eab-gui-util.c:188
+#: addressbook/gui/widgets/eab-gui-util.c:191
 msgid "Error modifying list"
 msgstr "Error modifying list"
 
-#: addressbook/gui/widgets/eab-gui-util.c:188
+#: addressbook/gui/widgets/eab-gui-util.c:191
 msgid "Error modifying contact"
 msgstr "Error modifying contact"
 
-#: addressbook/gui/widgets/eab-gui-util.c:200
+#: addressbook/gui/widgets/eab-gui-util.c:203
 msgid "Error removing list"
 msgstr "Error removing list"
 
-#: addressbook/gui/widgets/eab-gui-util.c:200
-#: addressbook/gui/widgets/eab-gui-util.c:633
+#: addressbook/gui/widgets/eab-gui-util.c:203
+#: addressbook/gui/widgets/eab-gui-util.c:636
 msgid "Error removing contact"
 msgstr "Error removing contact"
 
-#: addressbook/gui/widgets/eab-gui-util.c:282
+#: addressbook/gui/widgets/eab-gui-util.c:285
 #, c-format
 msgid ""
 "Opening %d contact will open %d new window as well.\n"
@@ -3381,7 +3382,7 @@ msgstr[1] ""
 "Opening %d contacts will open %d new windows as well.\n"
 "Do you really want to display all of these contacts?"
 
-#: addressbook/gui/widgets/eab-gui-util.c:311
+#: addressbook/gui/widgets/eab-gui-util.c:314
 #, c-format
 msgid ""
 "%s already exists\n"
@@ -3390,54 +3391,54 @@ msgstr ""
 "%s already exists\n"
 "Do you want to overwrite it?"
 
-#: addressbook/gui/widgets/eab-gui-util.c:315
+#: addressbook/gui/widgets/eab-gui-util.c:318
 msgid "Overwrite"
 msgstr "Overwrite"
 
 #. more than one, finding the total number of contacts might
 #. * hit performance while saving large number of contacts
 #.
-#: addressbook/gui/widgets/eab-gui-util.c:360
 #: addressbook/gui/widgets/eab-gui-util.c:363
+#: addressbook/gui/widgets/eab-gui-util.c:366
 msgid "contact"
 msgid_plural "contacts"
 msgstr[0] "contact"
 msgstr[1] "contacts"
 
 #. This is a filename. Translators take note.
-#: addressbook/gui/widgets/eab-gui-util.c:410
+#: addressbook/gui/widgets/eab-gui-util.c:413
 msgid "card.vcf"
 msgstr "card.vcf"
 
-#: addressbook/gui/widgets/eab-gui-util.c:580
+#: addressbook/gui/widgets/eab-gui-util.c:583
 msgid "list"
 msgstr "list"
 
-#: addressbook/gui/widgets/eab-gui-util.c:729
+#: addressbook/gui/widgets/eab-gui-util.c:732
 msgid "Move contact to"
 msgstr "Move contact to"
 
-#: addressbook/gui/widgets/eab-gui-util.c:731
+#: addressbook/gui/widgets/eab-gui-util.c:734
 msgid "Copy contact to"
 msgstr "Copy contact to"
 
-#: addressbook/gui/widgets/eab-gui-util.c:734
+#: addressbook/gui/widgets/eab-gui-util.c:737
 msgid "Move contacts to"
 msgstr "Move contacts to"
 
-#: addressbook/gui/widgets/eab-gui-util.c:736
+#: addressbook/gui/widgets/eab-gui-util.c:739
 msgid "Copy contacts to"
 msgstr "Copy contacts to"
 
-#: addressbook/gui/widgets/eab-gui-util.c:739
+#: addressbook/gui/widgets/eab-gui-util.c:742
 msgid "Select target addressbook."
 msgstr "Select target addressbook."
 
-#: addressbook/gui/widgets/eab-gui-util.c:962
+#: addressbook/gui/widgets/eab-gui-util.c:965
 msgid "Multiple VCards"
 msgstr "Multiple VCards"
 
-#: addressbook/gui/widgets/eab-gui-util.c:965
+#: addressbook/gui/widgets/eab-gui-util.c:968
 #, c-format
 msgid "VCard for %s"
 msgstr "VCard for %s"
@@ -6417,7 +6418,7 @@ msgstr "Due Date:"
 #. Status
 #: calendar/gui/e-cal-component-preview.c:222
 #: calendar/gui/e-itip-control.c:1132
-#: plugins/exchange-operations/exchange-account-setup.c:264
+#: plugins/exchange-operations/exchange-account-setup.c:257
 #: plugins/itip-formatter/itip-view.c:888
 msgid "Status:"
 msgstr "Status:"
@@ -10434,7 +10435,7 @@ msgstr "Defaults"
 
 #. Security settings
 #: mail/em-account-editor.c:2207 mail/mail-config.glade.h:122
-#: plugins/exchange-operations/exchange-account-setup.c:314
+#: plugins/exchange-operations/exchange-account-setup.c:307
 msgid "Security"
 msgstr "Security"
 
@@ -14202,12 +14203,12 @@ msgid "Mark as default folder"
 msgstr "Mark as default folder"
 
 #. i18n: "Secure Password Authentication" is an Outlookism
-#: plugins/exchange-operations/exchange-account-setup.c:59
+#: plugins/exchange-operations/exchange-account-setup.c:60
 msgid "Secure Password"
 msgstr "Secure Password"
 
 #. i18n: "NTLM" probably doesn't translate
-#: plugins/exchange-operations/exchange-account-setup.c:62
+#: plugins/exchange-operations/exchange-account-setup.c:63
 msgid ""
 "This option will connect to the Exchange server using secure password (NTLM) "
 "authentication."
@@ -14215,11 +14216,11 @@ msgstr ""
 "This option will connect to the Exchange server using secure password (NTLM) "
 "authentication."
 
-#: plugins/exchange-operations/exchange-account-setup.c:70
+#: plugins/exchange-operations/exchange-account-setup.c:71
 msgid "Plaintext Password"
 msgstr "Plaintext Password"
 
-#: plugins/exchange-operations/exchange-account-setup.c:72
+#: plugins/exchange-operations/exchange-account-setup.c:73
 msgid ""
 "This option will connect to the Exchange server using standard plaintext "
 "password authentication."
@@ -14227,11 +14228,11 @@ msgstr ""
 "This option will connect to the Exchange server using standard plaintext "
 "password authentication."
 
-#: plugins/exchange-operations/exchange-account-setup.c:252
+#: plugins/exchange-operations/exchange-account-setup.c:245
 msgid "Out Of Office"
 msgstr "Out Of Office"
 
-#: plugins/exchange-operations/exchange-account-setup.c:259
+#: plugins/exchange-operations/exchange-account-setup.c:252
 msgid ""
 "The message specified below will be automatically sent to \n"
 "each person who sends mail to you while you are out of the office."
@@ -14239,66 +14240,66 @@ msgstr ""
 "The message specified below will be automatically sent to \n"
 "each person who sends mail to you while you are out of the office."
 
-#: plugins/exchange-operations/exchange-account-setup.c:271
-#: plugins/exchange-operations/exchange-account-setup.c:276
+#: plugins/exchange-operations/exchange-account-setup.c:264
+#: plugins/exchange-operations/exchange-account-setup.c:269
 msgid "I am out of the office"
 msgstr "I am out of the office"
 
-#: plugins/exchange-operations/exchange-account-setup.c:272
-#: plugins/exchange-operations/exchange-account-setup.c:275
+#: plugins/exchange-operations/exchange-account-setup.c:265
+#: plugins/exchange-operations/exchange-account-setup.c:268
 msgid "I am in the office"
 msgstr "I am in the office"
 
 #. Change Password
-#: plugins/exchange-operations/exchange-account-setup.c:324
+#: plugins/exchange-operations/exchange-account-setup.c:317
 msgid "Change the password for Exchange account"
 msgstr "Change the password for Exchange account"
 
-#: plugins/exchange-operations/exchange-account-setup.c:326
+#: plugins/exchange-operations/exchange-account-setup.c:319
 #: plugins/exchange-operations/exchange-change-password.glade.h:2
 msgid "Change Password"
 msgstr "Change Password"
 
 #. Delegation Assistant
-#: plugins/exchange-operations/exchange-account-setup.c:330
+#: plugins/exchange-operations/exchange-account-setup.c:323
 msgid "Manage the delegate settings for Exchange account"
 msgstr "Manage the delegate settings for Exchange account"
 
-#: plugins/exchange-operations/exchange-account-setup.c:332
+#: plugins/exchange-operations/exchange-account-setup.c:325
 msgid "Delegation Assitant"
 msgstr "Delegation Assitant"
 
 #. Miscelleneous settings
-#: plugins/exchange-operations/exchange-account-setup.c:343
+#: plugins/exchange-operations/exchange-account-setup.c:336
 msgid "Miscelleneous"
 msgstr "Miscelleneous"
 
 #. Folder Size
-#: plugins/exchange-operations/exchange-account-setup.c:353
+#: plugins/exchange-operations/exchange-account-setup.c:346
 msgid "View the size of all Exchange folders"
 msgstr "View the size of all Exchange folders"
 
-#: plugins/exchange-operations/exchange-account-setup.c:355
+#: plugins/exchange-operations/exchange-account-setup.c:348
 msgid "Folders Size"
 msgstr "Folders Size"
 
-#: plugins/exchange-operations/exchange-account-setup.c:362
+#: plugins/exchange-operations/exchange-account-setup.c:355
 msgid "Exchange Settings"
 msgstr "Exchange Settings"
 
-#: plugins/exchange-operations/exchange-account-setup.c:653
+#: plugins/exchange-operations/exchange-account-setup.c:646
 msgid "_OWA Url:"
 msgstr "_OWA URL:"
 
-#: plugins/exchange-operations/exchange-account-setup.c:678
+#: plugins/exchange-operations/exchange-account-setup.c:671
 msgid "A_uthenticate"
 msgstr "A_uthenticate"
 
-#: plugins/exchange-operations/exchange-account-setup.c:870
+#: plugins/exchange-operations/exchange-account-setup.c:863
 msgid "Authentication Type"
 msgstr "Authentication Type"
 
-#: plugins/exchange-operations/exchange-account-setup.c:884
+#: plugins/exchange-operations/exchange-account-setup.c:877
 msgid "Ch_eck for Supported Types"
 msgstr "Ch_eck for Supported Types"
 
@@ -14445,7 +14446,7 @@ msgstr "_Shared With ..."
 msgid "_Sharing"
 msgstr "_Sharing"
 
-#: plugins/groupwise-features/send-options.c:82
+#: plugins/groupwise-features/send-options.c:83
 #, c-format
 msgid "%sEnter password for %s (user %s)"
 msgstr "%sEnter password for %s (user %s)"
@@ -15391,15 +15392,15 @@ msgstr "_Show only this Task List"
 msgid "Startup wizard"
 msgstr "Startup wizard"
 
-#: plugins/startup-wizard/startup-wizard.c:255
+#: plugins/startup-wizard/startup-wizard.c:264
 msgid "Evolution Setup Assistant"
 msgstr "Evolution Setup Assistant"
 
-#: plugins/startup-wizard/startup-wizard.c:260
+#: plugins/startup-wizard/startup-wizard.c:267
 msgid "Welcome"
 msgstr "Welcome"
 
-#: plugins/startup-wizard/startup-wizard.c:261
+#: plugins/startup-wizard/startup-wizard.c:268
 msgid ""
 "Welcome to Evolution. The next few screens will allow Evolution to connect "
 "to your email accounts, and to import files from other applications. \n"
@@ -15411,11 +15412,11 @@ msgstr ""
 "\n"
 "Please click the \"Forward\" button to continue. "
 
-#: plugins/startup-wizard/startup-wizard.c:306 shell/e-shell-importer.c:159
+#: plugins/startup-wizard/startup-wizard.c:314 shell/e-shell-importer.c:159
 msgid "Please select the information that you would like to import:"
 msgstr "Please select the information that you would like to import:"
 
-#: plugins/startup-wizard/startup-wizard.c:321 shell/e-shell-importer.c:905
+#: plugins/startup-wizard/startup-wizard.c:329 shell/e-shell-importer.c:905
 #, c-format
 msgid "From %s:"
 msgstr "From %s:"
