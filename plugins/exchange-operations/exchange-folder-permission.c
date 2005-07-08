@@ -36,8 +36,8 @@
 #include <mail/em-menu.h>
 
 static void org_folder_permissions_cb (EPopup *ep, EPopupItem *p, void *data);
-void org_gnome_folder_permissions (EPlugin *ep, EMPopupTargetFolder *t);
-void org_gnome_menu_folder_permissions (EPlugin *ep, EMMenuTargetSelect *target);
+void org_gnome_exchange_folder_permissions (EPlugin *ep, EMPopupTargetFolder *t);
+void org_gnome_exchange_menu_folder_permissions (EPlugin *ep, EMMenuTargetSelect *target);
 
 gchar *selected_exchange_folder_uri = NULL;
 
@@ -52,7 +52,7 @@ popup_free (EPopup *ep, GSList *items, void *data)
 }
 
 void
-org_gnome_folder_permissions (EPlugin *ep, EMPopupTargetFolder *t)
+org_gnome_exchange_folder_permissions (EPlugin *ep, EMPopupTargetFolder *t)
 {
 	GSList *menus = NULL;
 	int i = 0;
@@ -110,7 +110,7 @@ org_folder_permissions_cb (EPopup *ep, EPopupItem *p, void *data)
 }
 
 void
-org_gnome_menu_folder_permissions (EPlugin *ep, EMMenuTargetSelect *target)
+org_gnome_exchange_menu_folder_permissions (EPlugin *ep, EMMenuTargetSelect *target)
 {
 	GSList *accounts, *acc;
 	ExchangeAccount *account = NULL;

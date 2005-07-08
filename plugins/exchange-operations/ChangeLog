@@ -1,5 +1,16 @@
 2005-07-08  Shakti Sen <shprasad@novell.com>
 
+	* Makefile.am: Included files exchange-permissions-dialog.c,
+	  exchange-permissions-dialog.h, exchange-folder-permission.c,
+	  org-gnome-folder-permissions.xml & exchange-permissions-dialog.glade
+	* exchange-folder-permission.c: Renamed the function name 
+	  org_gnome_menu_folder_permissions to 
+	  org_gnome_exchnage_menu_folder_permissions
+	* org-gnome-exchange-operations.eplug.in: Added the hook class for 
+	  Folder Permissions.
+
+2005-07-08  Shakti Sen <shprasad@novell.com>
+
 	* exchange-folder-permission.c: Added new file for Folder Permissions.
 	* exchange-permissions-dialog.c: Added new file for Folder Permissions.
 	* exchange-permissions-dialog.h: Added new file for Folder Permissions.
