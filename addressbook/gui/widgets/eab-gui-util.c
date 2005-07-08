@@ -80,7 +80,7 @@ eab_error_dialog (const char *msg, EBookStatus status)
 void
 eab_load_error_dialog (GtkWidget *parent, ESource *source, EBookStatus status)
 {
-	char *label_string, *uri;
+	char *label_string, *label = NULL, *uri;
 	
 	g_return_if_fail (source != NULL);
 
@@ -94,9 +94,11 @@ eab_load_error_dialog (GtkWidget *parent, ESource *source, EBookStatus status)
 	}
 		
 	else if (!strncmp (uri, "file:", 5)) {
-		label_string = 
+		const char *path = uri+7; /* file:// */
+		label = g_strdup_printf (
 			_("We were unable to open this addressbook.  Please check that the "
-			  "path exists and that you have permission to access it.");
+			  "path %s exists and that you have permission to access it."), path);
+		label_string = label;
 	}
 	else if (!strncmp (uri, "ldap:", 5)) {
 		/* special case for ldap: contact folders so we can tell the user about openldap */
@@ -120,7 +122,8 @@ eab_load_error_dialog (GtkWidget *parent, ESource *source, EBookStatus status)
 	}
 	
 	e_error_run ((GtkWindow *) parent, "addressbook:load-error", label_string, NULL);
-	
+
+	g_free (label);	
 	g_free (uri);
 }
 

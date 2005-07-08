@@ -1,3 +1,8 @@
+2005-07-08  Frederic Crozat  <fcrozat@mandriva.com>
+
+	* gui/widgets/eab-gui-util.c (eab_load_error_dialog): Including the
+	file path in the error string. Fixes #309624
+
 2005-07-07  Frederic Crozat  <fcrozat@mandriva.com>
 
 	* gui/component/addressbook-component.c: (ensure_sources):
