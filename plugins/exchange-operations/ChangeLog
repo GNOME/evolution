@@ -1,3 +1,21 @@
+2005-07-08  Shakti Sen <shprasad@novell.com>
+
+	* exchange-folder-permission.c: Added new file for Folder Permissions.
+	* exchange-permissions-dialog.c: Added new file for Folder Permissions.
+	* exchange-permissions-dialog.h: Added new file for Folder Permissions.
+	* exchange-permissions-dialog.glade: Added newly for Folder Permissions 
+	  support.
+	* org-gnome-folder-permissions.xml: Added new file for Folder 
+	  Permissions support.
+	* exchange-folder-subscription.c: Added new file for Folder 
+	  Subscribe/Unsubcribe support.
+	* exchange-folder-subscription.h: Added new file for Folder 
+	  Subscribe/Unsubcribe support.
+	* exchange-folder.c: Added new file for Folder Subscribe/Unsubcribe
+	  support.
+	* org-gnome-folder-subscription.xml:  Added new file for Folder 
+	  Subscribe/Unsubcribe support.
+
 2005-07-07  Sarfraaz Ahmed <asarfraaz@novell.com>
 
 	* exchange-account-setup.c : Include exchange-folder-size-display.h

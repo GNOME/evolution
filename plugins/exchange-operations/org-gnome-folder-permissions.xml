@@ -1,0 +1,17 @@
+<Root>
+  <commands>
+    <cmd name="CheckFolderPermission" _label="Permissions..."
+      _tip="Check folder permissions"/>
+  </commands>
+
+  <menu>
+    <placeholder name="FolderPlaceholder">
+      <submenu name="Folder">
+	<placeholder name="MessagesInFolder">
+	  <separator f="" name="emaillist5"/>
+	  <menuitem name="CheckFolderPermission" verb=""/>
+	</placeholder>
+      </submenu>
+    </placeholder>
+  </menu>
+</Root>
