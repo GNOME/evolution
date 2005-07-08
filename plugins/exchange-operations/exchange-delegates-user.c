@@ -25,10 +25,10 @@
 
 #include "exchange-delegates-user.h"
 
-#include "e2k-global-catalog.h"
-#include "e2k-marshal.h"
-#include "e2k-sid.h"
-#include "e2k-utils.h"
+#include <e2k-global-catalog.h>
+#include <e2k-marshal.h>
+#include <e2k-sid.h>
+#include <e2k-utils.h>
 
 #include <e-util/e-dialog-utils.h>
 #include <e-util/e-dialog-widgets.h>

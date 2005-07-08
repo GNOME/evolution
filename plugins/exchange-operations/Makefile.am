@@ -24,6 +24,12 @@ liborg_gnome_exchange_operations_la_SOURCES = 		\
 	exchange-contacts.c				\
 	exchange-change-password.c			\
 	exchange-change-password.h			\
+	exchange-delegates-user.c			\
+	exchange-delegates-user.h			\
+	exchange-delegates.c				\
+	exchange-delegates.h				\
+	exchange-user-dialog.c				\
+	exchange-user-dialog.h				\
 	exchange-folder-size-display.c			\
 	exchange-folder-size-display.h			\
 	exchange-account-setup.c			\

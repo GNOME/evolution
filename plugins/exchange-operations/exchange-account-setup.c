@@ -46,6 +46,7 @@
 #include "exchange-folder-size-display.h"
 #include "mail/em-account-editor.h"
 #include "mail/em-config.h"
+#include "exchange-delegates.h"
 
 
 GtkWidget* org_gnome_exchange_settings(EPlugin *epl, EConfigHookItemFactoryData *data);
@@ -135,16 +136,8 @@ static void
 btn_dass_clicked (GtkButton *button, gpointer data)
 {
 	ExchangeAccount *account;
-	GSList *acclist;
-
-	acclist = exchange_config_listener_get_accounts (exchange_global_config_listener);
-
-	/* FIXME: For now, we have only one account in the list.
-	   Find a way to handle multiple accounts.
-	*/
-	account = acclist->data; 
-
-	/* TODO: Put delegate assistant display code here */
+	account = exchange_operations_get_exchange_account ();
+	exchange_delegates (account, gtk_widget_get_ancestor (GTK_WIDGET (button), GTK_TYPE_WINDOW));
 }
 
 static void
@@ -330,8 +323,8 @@ org_gnome_exchange_settings(EPlugin *epl, EConfigHookItemFactoryData *data)
 	lbl_dass = (GtkLabel*) gtk_object_new (GTK_TYPE_LABEL, "label", _("Manage the delegate settings for Exchange account"), NULL);
 	gtk_misc_set_alignment (GTK_MISC (lbl_dass), 0, 0.5);
 	btn_dass = (GtkButton*) gtk_object_new (GTK_TYPE_BUTTON, "label", _("Delegation Assitant"));
+	gtk_signal_connect (GTK_OBJECT (btn_chpass), "clicked", G_CALLBACK (btn_chpass_clicked), NULL);
 	gtk_signal_connect (GTK_OBJECT (btn_dass), "clicked", G_CALLBACK (btn_dass_clicked), NULL);
-
 	/* Add items to the table */
 	gtk_table_attach_defaults (tbl_auth, GTK_WIDGET (lbl_chpass), 0, 1, 0, 1);
 	gtk_table_attach (tbl_auth, GTK_WIDGET (btn_chpass), 1, 2, 0, 1, GTK_FILL, GTK_FILL, 0, 0);

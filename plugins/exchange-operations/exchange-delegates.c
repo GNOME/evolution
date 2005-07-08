@@ -30,13 +30,13 @@
 
 #include "exchange-delegates.h"
 #include "exchange-delegates-user.h"
+#include "exchange-user-dialog.h"
 
 #include <exchange-account.h>
 #include <e2k-propnames.h>
 #include <e2k-security-descriptor.h>
 #include <e2k-sid.h>
 #include <e2k-uri.h>
-#include <e2k-user-dialog.h>
 #include <e2k-utils.h>
 
 #include <e-util/e-dialog-utils.h>

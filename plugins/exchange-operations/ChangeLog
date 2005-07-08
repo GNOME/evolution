@@ -1,3 +1,16 @@
+2005-07-08  Praveen Kumar <kpraveen@novell.com>
+
+	* Makefile.am : Added entries for the files providing the delegation
+	assistant feature
+	* exchange-user-dialog.c : Added new 
+	* exchange-user-dialog.h : Added new
+	* exchange-account-setup.c (btn_dass_clicked) : Enabled the code for
+	for invoking the delegation assistant window
+	* exchange-delegates-user.c : Modified to include the header files 
+	from include path instead of the local directory
+	* exchange-permissions-dialog.c : Modified an occurence to include
+	the file exchange-user-dialog.c instead of e2k-folder-dialog.c
+
 2005-07-08  Shakti Sen <shprasad@novell.com>
 
 	* Makefile.am: Included files exchange-permissions-dialog.c,
