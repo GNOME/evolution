@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 2.3.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-07-08 06:34+0800\n"
-"PO-Revision-Date: 2005-07-08 06:40+0800\n"
+"POT-Creation-Date: 2005-07-09 14:53+0800\n"
+"PO-Revision-Date: 2005-07-09 16:07+0800\n"
 "Last-Translator: Chao-Hsiung Liao <j_h_liau@yahoo.com.tw>\n"
 "Language-Team: Chinese (traditional) <community@linuxhall.org>\n"
 "MIME-Version: 1.0\n"
@@ -1218,8 +1218,8 @@ msgid ""
 "setting this to \"Email Address\" requires anonymous access to your ldap "
 "server."
 msgstr ""
-"這是 Evolution 將要用來驗證您的方法。注意要設定此項至「電子郵件位址」需要您的 "
-"LDAP 伺服器的匿名存取。"
+"這是 Evolution 將要用來驗證您的方法。注意要設定此項至「電子郵件位址」需要您"
+"的 LDAP 伺服器的匿名存取。"
 
 # Novell Translation
 #: ../addressbook/gui/component/ldap-config.glade.h:38
@@ -3810,15 +3810,18 @@ msgstr ""
 
 # addressbook/gui/component/addressbook.c:458
 # Novell Translation
-#: ../addressbook/gui/widgets/eab-gui-util.c:98
+#: ../addressbook/gui/widgets/eab-gui-util.c:99
+#, c-format
 msgid ""
-"We were unable to open this addressbook.  Please check that the path exists "
-"and that you have permission to access it."
-msgstr "無法開啟這個通訊錄。請檢查路徑是否存在而且您有權限存取它。"
+"We were unable to open this addressbook.  Please check that the path %s "
+"exists and that you have permission to access it."
+msgstr ""
+"無法開啟這個通訊錄。  請檢查路徑 %s "
+"是否存在而且您有權限存取它。"
 
 # addressbook/gui/component/addressbook.c:445
 # Novell Translation
-#: ../addressbook/gui/widgets/eab-gui-util.c:105
+#: ../addressbook/gui/widgets/eab-gui-util.c:107
 msgid ""
 "We were unable to open this addressbook.  This either means you have entered "
 "an incorrect URI, or the LDAP server is unreachable."
@@ -3826,7 +3829,7 @@ msgstr "無法開啟這個通訊錄。這表示您輸入錯誤的 URI，或無�
 
 # addressbook/gui/component/addressbook.c:450
 # Novell Translation
-#: ../addressbook/gui/widgets/eab-gui-util.c:110
+#: ../addressbook/gui/widgets/eab-gui-util.c:112
 msgid ""
 "This version of Evolution does not have LDAP support compiled in to it.  If "
 "you want to use LDAP in Evolution, you must install an LDAP-enabled "
@@ -3837,13 +3840,13 @@ msgstr ""
 
 # addressbook/gui/component/addressbook.c:445
 # Novell Translation
-#: ../addressbook/gui/widgets/eab-gui-util.c:117
+#: ../addressbook/gui/widgets/eab-gui-util.c:119
 msgid ""
 "We were unable to open this addressbook.  This either means you have entered "
 "an incorrect URI, or the server is unreachable."
 msgstr "無法開啟這個通訊錄。這表示您輸入錯誤的URI，或伺服器無法連線。"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:137
+#: ../addressbook/gui/widgets/eab-gui-util.c:140
 msgid ""
 "More cards matched this query than either the server is \n"
 "configured to return or Evolution is configured to display.\n"
@@ -3855,7 +3858,7 @@ msgstr ""
 "請使用更加明確的查詢或是提高此目錄服務的目錄\n"
 "伺服器偏好設定中的結果上限。"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:143
+#: ../addressbook/gui/widgets/eab-gui-util.c:146
 msgid ""
 "The time to execute this query exceeded the server limit or the limit\n"
 "you have configured for this addressbook.  Please make your search\n"
@@ -3867,55 +3870,55 @@ msgstr ""
 "或是提高此目錄服務的目錄伺服器偏好設定中的\n"
 "結果上限。"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:149
+#: ../addressbook/gui/widgets/eab-gui-util.c:152
 msgid "The backend for this addressbook was unable to parse this query."
 msgstr "此目錄服務的後端程式無法解析這次的查詢。"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:152
+#: ../addressbook/gui/widgets/eab-gui-util.c:155
 msgid "The backend for this addressbook refused to perform this query."
 msgstr "此目錄服務的後端程式拒絕執行這次的查詢。"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:155
+#: ../addressbook/gui/widgets/eab-gui-util.c:158
 msgid "This query did not complete successfully."
 msgstr "這次的查詢並未完全成功。"
 
 # shell/e-shell-importer.c:404
-#: ../addressbook/gui/widgets/eab-gui-util.c:177
+#: ../addressbook/gui/widgets/eab-gui-util.c:180
 msgid "Error adding list"
 msgstr "新增清單時發生錯誤"
 
 # shell/e-shell-importer.c:404
 # Novell Translation
-#: ../addressbook/gui/widgets/eab-gui-util.c:177
-#: ../addressbook/gui/widgets/eab-gui-util.c:675
+#: ../addressbook/gui/widgets/eab-gui-util.c:180
+#: ../addressbook/gui/widgets/eab-gui-util.c:678
 msgid "Error adding contact"
 msgstr "新增連絡人時發生錯誤"
 
 # shell/e-shell-importer.c:404
-#: ../addressbook/gui/widgets/eab-gui-util.c:188
+#: ../addressbook/gui/widgets/eab-gui-util.c:191
 msgid "Error modifying list"
 msgstr "編輯清單時發生錯誤"
 
 # shell/e-shell-importer.c:404
 # Novell Translation
-#: ../addressbook/gui/widgets/eab-gui-util.c:188
+#: ../addressbook/gui/widgets/eab-gui-util.c:191
 msgid "Error modifying contact"
 msgstr "修改連絡人時發生錯誤"
 
 # executive-summary/component/e-summary.c:940
-#: ../addressbook/gui/widgets/eab-gui-util.c:200
+#: ../addressbook/gui/widgets/eab-gui-util.c:203
 msgid "Error removing list"
 msgstr "移除清單時發生錯誤"
 
 # executive-summary/component/e-summary.c:940
 # Novell Translation
-#: ../addressbook/gui/widgets/eab-gui-util.c:200
-#: ../addressbook/gui/widgets/eab-gui-util.c:633
+#: ../addressbook/gui/widgets/eab-gui-util.c:203
+#: ../addressbook/gui/widgets/eab-gui-util.c:636
 msgid "Error removing contact"
 msgstr "移除連絡人時發生錯誤"
 
 # Novell Translation
-#: ../addressbook/gui/widgets/eab-gui-util.c:282
+#: ../addressbook/gui/widgets/eab-gui-util.c:285
 #, c-format
 msgid ""
 "Opening %d contact will open %d new window as well.\n"
@@ -3924,11 +3927,11 @@ msgid ""
 "Do you really want to display all of these contacts?"
 msgstr ""
 "開啟 %d 個連絡人會一併開啟 %d 個新視窗。\n"
-"確定要顯示所有的連絡人？"
+"確定要顯示這個連絡人？"
 "開啟 %d 個連絡人會一併開啟 %d 個新視窗。\n"
-"確定要顯示所有的連絡人？"
+"確定要顯示所有這些連絡人？"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:311
+#: ../addressbook/gui/widgets/eab-gui-util.c:314
 #, c-format
 msgid ""
 "%s already exists\n"
@@ -3939,37 +3942,37 @@ msgstr ""
 
 # mail/mail-callbacks.c:1140
 # mail/mail-display.c:92
-#: ../addressbook/gui/widgets/eab-gui-util.c:315
+#: ../addressbook/gui/widgets/eab-gui-util.c:318
 msgid "Overwrite"
 msgstr "覆寫"
 
 #. more than one, finding the total number of contacts might
 #. * hit performance while saving large number of contacts
 #.
-#: ../addressbook/gui/widgets/eab-gui-util.c:360
 #: ../addressbook/gui/widgets/eab-gui-util.c:363
+#: ../addressbook/gui/widgets/eab-gui-util.c:366
 msgid "contact"
 msgid_plural "contacts"
 msgstr[0] "個連絡人"
 msgstr[1] "個連絡人"
 
 #. This is a filename. Translators take note.
-#: ../addressbook/gui/widgets/eab-gui-util.c:410
+#: ../addressbook/gui/widgets/eab-gui-util.c:413
 msgid "card.vcf"
 msgstr "card.vcf"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:580
+#: ../addressbook/gui/widgets/eab-gui-util.c:583
 msgid "list"
 msgstr "清單"
 
 # Novell Translation
-#: ../addressbook/gui/widgets/eab-gui-util.c:729
+#: ../addressbook/gui/widgets/eab-gui-util.c:732
 msgid "Move contact to"
 msgstr "將連絡人移到"
 
 # calendar/gui/e-calendar-table.c:714
 # Novell Translation
-#: ../addressbook/gui/widgets/eab-gui-util.c:731
+#: ../addressbook/gui/widgets/eab-gui-util.c:734
 msgid "Copy contact to"
 msgstr "複製連絡人到"
 
@@ -3978,7 +3981,7 @@ msgstr "複製連絡人到"
 # calendar/gui/dialogs/task-editor-dialog.glade.h:14
 # calendar/gui/e-calendar-table.c:419
 # Novell Translation
-#: ../addressbook/gui/widgets/eab-gui-util.c:734
+#: ../addressbook/gui/widgets/eab-gui-util.c:737
 msgid "Move contacts to"
 msgstr "將連絡人移到"
 
@@ -3987,22 +3990,22 @@ msgstr "將連絡人移到"
 # calendar/gui/dialogs/task-editor-dialog.glade.h:14
 # calendar/gui/e-calendar-table.c:419
 # Novell Translation
-#: ../addressbook/gui/widgets/eab-gui-util.c:736
+#: ../addressbook/gui/widgets/eab-gui-util.c:739
 msgid "Copy contacts to"
 msgstr "複製連絡人到"
 
 # Novell Translation
-#: ../addressbook/gui/widgets/eab-gui-util.c:739
+#: ../addressbook/gui/widgets/eab-gui-util.c:742
 msgid "Select target addressbook."
 msgstr "選取目標通訊錄。"
 
 # addressbook/backend/ebook/e-card.c:3745
-#: ../addressbook/gui/widgets/eab-gui-util.c:962
+#: ../addressbook/gui/widgets/eab-gui-util.c:965
 msgid "Multiple VCards"
 msgstr "多重 VCard"
 
 # addressbook/backend/ebook/e-card.c:3753
-#: ../addressbook/gui/widgets/eab-gui-util.c:965
+#: ../addressbook/gui/widgets/eab-gui-util.c:968
 #, c-format
 msgid "VCard for %s"
 msgstr "給 %s 的 VCard"
@@ -7676,7 +7679,7 @@ msgstr "截止日期："
 #. Status
 #: ../calendar/gui/e-cal-component-preview.c:222
 #: ../calendar/gui/e-itip-control.c:1132
-#: ../plugins/exchange-operations/exchange-account-setup.c:264
+#: ../plugins/exchange-operations/exchange-account-setup.c:257
 #: ../plugins/itip-formatter/itip-view.c:888
 msgid "Status:"
 msgstr "狀態:"
@@ -11296,8 +11299,8 @@ msgid ""
 "you choose to save the message in your Drafts folder. This will allow you to "
 "continue the message at a later date."
 msgstr ""
-"關閉此撰寫視窗會永久放棄郵件，除非您選擇儲存郵件至您的「草稿」資料夾。這樣可以"
-"讓您以後再繼續撰寫郵件。"
+"關閉此撰寫視窗會永久放棄郵件，除非您選擇儲存郵件至您的「草稿」資料夾。這樣可"
+"以讓您以後再繼續撰寫郵件。"
 
 # camel/camel-movemail.c:306
 # Novell Translation
@@ -12236,7 +12239,7 @@ msgstr "預設值"
 
 #. Security settings
 #: ../mail/em-account-editor.c:2207 ../mail/mail-config.glade.h:122
-#: ../plugins/exchange-operations/exchange-account-setup.c:314
+#: ../plugins/exchange-operations/exchange-account-setup.c:307
 msgid "Security"
 msgstr "安全性"
 
@@ -14942,8 +14945,8 @@ msgid ""
 "below do not need to be filled in, unless you wish to include this "
 "information in email you send."
 msgstr ""
-"請在下面輸入您的名稱及電郵地址。「選擇性」的欄位不一定要填，除非您希望在送出的"
-"郵件內包含這些資訊。"
+"請在下面輸入您的名稱及電郵地址。「選擇性」的欄位不一定要填，除非您希望在送出"
+"的郵件內包含這些資訊。"
 
 #: ../mail/mail-config.glade.h:111
 msgid "Please select among the following options"
@@ -15866,8 +15869,8 @@ msgid ""
 "problem.  You will not be able to use this provider until you can accept its "
 "license."
 msgstr ""
-"無法讀取授權條款檔案「{0}」，應該是安裝問題造成的。在您同意這項授權之前將無法使"
-"用它。"
+"無法讀取授權條款檔案「{0}」，應該是安裝問題造成的。在您同意這項授權之前將無法"
+"使用它。"
 
 # camel/providers/local/camel-mbox-store.c:138
 # camel/providers/local/camel-mbox-store.c:161
@@ -16059,8 +16062,8 @@ msgid ""
 "recipient."
 msgstr ""
 "很多電子郵件系統會新增 Apparently-To 標頭至只有密件副本收件者的郵件。如果加入"
-"了此標頭，會永遠列示郵件中所有的收件者。要避免此情況，您應該至少新增一個「收件"
-"者：」或「副本：」收件者。"
+"了此標頭，會永遠列示郵件中所有的收件者。要避免此情況，您應該至少新增一個「收"
+"件者：」或「副本：」收件者。"
 
 # ui/evolution-mail.xml.h:51
 #: ../mail/mail.error.xml.h:59
@@ -16097,8 +16100,8 @@ msgid ""
 "Please enter a valid email address in the To: field. You can search for "
 "email addresses by clicking on the To: button next to the entry box."
 msgstr ""
-"請在「收件者：」欄位輸入一個有效的電子郵件地址。您可以按一下輸入方塊旁邊的「收件"
-"者：」按鈕，搜尋電子郵件地址。"
+"請在「收件者：」欄位輸入一個有效的電子郵件地址。您可以按一下輸入方塊旁邊的"
+"「收件者：」按鈕，搜尋電子郵件地址。"
 
 # Novell Translation
 #: ../mail/mail.error.xml.h:67
@@ -16211,8 +16214,8 @@ msgid ""
 "The message is stored in the Outbox folder.  Check the message for errors "
 "and resend."
 msgstr ""
-"訊息已透過「sendmail」外部應用程式傳送。Sendmail 報告以下錯誤：狀態 67：未傳送"
-"郵件。\n"
+"訊息已透過「sendmail」外部應用程式傳送。Sendmail 報告以下錯誤：狀態 67：未傳"
+"送郵件。\n"
 "訊息儲存在「寄件信箱」資料夾。請檢查訊息的錯誤，然後重新傳送。"
 
 # Novell Translation
@@ -16799,13 +16802,13 @@ msgstr "標示為預設資料夾"
 # camel/providers/pop3/camel-pop3-provider.c:67
 # mail/mail-config.glade.h:52
 #. i18n: "Secure Password Authentication" is an Outlookism
-#: ../plugins/exchange-operations/exchange-account-setup.c:59
+#: ../plugins/exchange-operations/exchange-account-setup.c:60
 msgid "Secure Password"
 msgstr "安全密碼"
 
 # camel/camel-sasl-kerberos4.c:42
 #. i18n: "NTLM" probably doesn't translate
-#: ../plugins/exchange-operations/exchange-account-setup.c:62
+#: ../plugins/exchange-operations/exchange-account-setup.c:63
 msgid ""
 "This option will connect to the Exchange server using secure password (NTLM) "
 "authentication."
@@ -16817,24 +16820,24 @@ msgstr "這個選項將會使用安全密碼(NTLM)驗證連線至 Exchange 伺�
 # camel/providers/nntp/camel-nntp-store.c:291
 # camel/providers/pop3/camel-pop3-provider.c:67
 # mail/mail-config.glade.h:52
-#: ../plugins/exchange-operations/exchange-account-setup.c:70
+#: ../plugins/exchange-operations/exchange-account-setup.c:71
 msgid "Plaintext Password"
 msgstr "明文密碼"
 
 # camel/providers/imap/camel-imap-provider.c:82
-#: ../plugins/exchange-operations/exchange-account-setup.c:72
+#: ../plugins/exchange-operations/exchange-account-setup.c:73
 msgid ""
 "This option will connect to the Exchange server using standard plaintext "
 "password authentication."
 msgstr "這個選項將會使用標準純文字驗證連線至 Exchange 伺服器。"
 
 # widgets/meeting-time-sel/e-meeting-time-sel.c:394
-#: ../plugins/exchange-operations/exchange-account-setup.c:252
+#: ../plugins/exchange-operations/exchange-account-setup.c:245
 msgid "Out Of Office"
 msgstr "不在辦公室"
 
 # Novell Translation
-#: ../plugins/exchange-operations/exchange-account-setup.c:259
+#: ../plugins/exchange-operations/exchange-account-setup.c:252
 msgid ""
 "The message specified below will be automatically sent to \n"
 "each person who sends mail to you while you are out of the office."
@@ -16843,21 +16846,21 @@ msgstr ""
 "每一位在您離開辦公室時傳送郵件給您的人。"
 
 # Novell Translation
-#: ../plugins/exchange-operations/exchange-account-setup.c:271
-#: ../plugins/exchange-operations/exchange-account-setup.c:276
+#: ../plugins/exchange-operations/exchange-account-setup.c:264
+#: ../plugins/exchange-operations/exchange-account-setup.c:269
 msgid "I am out of the office"
 msgstr "我目前不在辦公室"
 
 # Novell Translation
-#: ../plugins/exchange-operations/exchange-account-setup.c:272
-#: ../plugins/exchange-operations/exchange-account-setup.c:275
+#: ../plugins/exchange-operations/exchange-account-setup.c:265
+#: ../plugins/exchange-operations/exchange-account-setup.c:268
 msgid "I am in the office"
 msgstr "我目前在辦公室"
 
 # camel/camel-smime-context.c:194
 # Novell Translation
 #. Change Password
-#: ../plugins/exchange-operations/exchange-account-setup.c:324
+#: ../plugins/exchange-operations/exchange-account-setup.c:317
 msgid "Change the password for Exchange account"
 msgstr "改變 Exchange 帳號的密碼"
 
@@ -16867,61 +16870,61 @@ msgstr "改變 Exchange 帳號的密碼"
 # camel/providers/nntp/camel-nntp-store.c:291
 # camel/providers/pop3/camel-pop3-provider.c:67
 # mail/mail-config.glade.h:52
-#: ../plugins/exchange-operations/exchange-account-setup.c:326
+#: ../plugins/exchange-operations/exchange-account-setup.c:319
 #: ../plugins/exchange-operations/exchange-change-password.glade.h:2
 msgid "Change Password"
 msgstr "改變密碼"
 
 #. Delegation Assistant
-#: ../plugins/exchange-operations/exchange-account-setup.c:330
+#: ../plugins/exchange-operations/exchange-account-setup.c:323
 msgid "Manage the delegate settings for Exchange account"
 msgstr "管理 Exchange 帳號的授權設定"
 
 # shell/importer/import.glade.h:2
-#: ../plugins/exchange-operations/exchange-account-setup.c:332
+#: ../plugins/exchange-operations/exchange-account-setup.c:325
 msgid "Delegation Assitant"
 msgstr "委派設定助理"
 
 #. Miscelleneous settings
-#: ../plugins/exchange-operations/exchange-account-setup.c:343
+#: ../plugins/exchange-operations/exchange-account-setup.c:336
 msgid "Miscelleneous"
 msgstr "雜項"
 
 #. Folder Size
-#: ../plugins/exchange-operations/exchange-account-setup.c:353
+#: ../plugins/exchange-operations/exchange-account-setup.c:346
 msgid "View the size of all Exchange folders"
 msgstr "檢視所有 Exchange 資料夾的大小"
 
 # camel/providers/imap/camel-imap-provider.c:48
 # shell/e-shell-view.c:552
-#: ../plugins/exchange-operations/exchange-account-setup.c:355
+#: ../plugins/exchange-operations/exchange-account-setup.c:348
 msgid "Folders Size"
 msgstr "資料夾大小"
 
 # ui/evolution-event-editor.xml.h:9
 # ui/evolution-task-editor-dialog.xml.h:10
-#: ../plugins/exchange-operations/exchange-account-setup.c:362
+#: ../plugins/exchange-operations/exchange-account-setup.c:355
 msgid "Exchange Settings"
 msgstr "Exchange 設定值"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:653
+#: ../plugins/exchange-operations/exchange-account-setup.c:646
 msgid "_OWA Url:"
 msgstr "_OWA 網址:"
 
 # camel/camel-sasl-anonymous.c:110
 # camel/camel-sasl-plain.c:87
-#: ../plugins/exchange-operations/exchange-account-setup.c:678
+#: ../plugins/exchange-operations/exchange-account-setup.c:671
 msgid "A_uthenticate"
 msgstr "驗證(_U)"
 
 # mail/mail-config.glade.h:11
-#: ../plugins/exchange-operations/exchange-account-setup.c:870
+#: ../plugins/exchange-operations/exchange-account-setup.c:863
 msgid "Authentication Type"
 msgstr "驗證類型"
 
 # mail/mail-config.glade.h:1
 # Novell Translation
-#: ../plugins/exchange-operations/exchange-account-setup.c:884
+#: ../plugins/exchange-operations/exchange-account-setup.c:877
 msgid "Ch_eck for Supported Types"
 msgstr "檢查支援的類型(_E) "
 
@@ -18338,8 +18341,8 @@ msgid ""
 "\"toolbar\". If \"toolbar\" is set, the style of the buttons is determined "
 "by the GNOME toolbar setting."
 msgstr ""
-"視窗按鈕的風格。可以是「文字」、「圖示」、「兩者」、「工具列」。如果設為「工具列」，按"
-"鈕的風格會依 GNOME 工具列設定值決定。"
+"視窗按鈕的風格。可以是「文字」、「圖示」、「兩者」、「工具列」。如果設為「工"
+"具列」，按鈕的風格會依 GNOME 工具列設定值決定。"
 
 # Novell Translation
 #: ../shell/apps_evolution_shell.schemas.in.in.h:18
