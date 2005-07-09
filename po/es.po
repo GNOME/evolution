@@ -17,8 +17,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-07-07 23:07+0200\n"
-"PO-Revision-Date: 2005-07-07 23:16+0200\n"
+"POT-Creation-Date: 2005-07-09 13:50+0200\n"
+"PO-Revision-Date: 2005-07-09 13:57+0200\n"
 "Last-Translator: \n"
 "Language-Team:  <es@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -3319,15 +3319,14 @@ msgstr ""
 "uso desconectado. Por favor, cargue la libreta de direcciones una vez en "
 "modo conectado para descargar su contenido"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:98
+#: ../addressbook/gui/widgets/eab-gui-util.c:99
+#, c-format
 msgid ""
-"We were unable to open this addressbook.  Please check that the path exists "
-"and that you have permission to access it."
-msgstr ""
-"No se pudo abrir esta libreta de direcciones. Compruebe que la ruta exista y "
-"que tenga permisos para acceder a ella."
+"We were unable to open this addressbook.  Please check that the path %s "
+"exists and that you have permission to access it."
+msgstr "No se pudo abrir esta libreta de direcciones. Compruebe que la ruta %s exista y que tenga permisos para acceder a ella."
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:105
+#: ../addressbook/gui/widgets/eab-gui-util.c:107
 msgid ""
 "We were unable to open this addressbook.  This either means you have entered "
 "an incorrect URI, or the LDAP server is unreachable."
@@ -3335,7 +3334,7 @@ msgstr ""
 "No se pudo abrir esta libreta de direcciones.  Esto significa que ha "
 "introducido una URI errónea, o que el servidor LDAP es inaccesible."
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:110
+#: ../addressbook/gui/widgets/eab-gui-util.c:112
 msgid ""
 "This version of Evolution does not have LDAP support compiled in to it.  If "
 "you want to use LDAP in Evolution, you must install an LDAP-enabled "
@@ -3345,7 +3344,7 @@ msgstr ""
 "usar LDAP en Evolution debe instalar un paquete de Evolution con LDAP "
 "activado."
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:117
+#: ../addressbook/gui/widgets/eab-gui-util.c:119
 msgid ""
 "We were unable to open this addressbook.  This either means you have entered "
 "an incorrect URI, or the server is unreachable."
@@ -3353,7 +3352,7 @@ msgstr ""
 "No se pudo abrir esta libreta de direcciones. Esto significa que ha "
 "introducido una URI errónea, o que el servidor LDAP es inaccesible."
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:137
+#: ../addressbook/gui/widgets/eab-gui-util.c:140
 msgid ""
 "More cards matched this query than either the server is \n"
 "configured to return or Evolution is configured to display.\n"
@@ -3366,7 +3365,7 @@ msgstr ""
 "aumente el límite de resultados en las preferencias del servidor\n"
 "de directorios para esta libreta de direcciones."
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:143
+#: ../addressbook/gui/widgets/eab-gui-util.c:146
 msgid ""
 "The time to execute this query exceeded the server limit or the limit\n"
 "you have configured for this addressbook.  Please make your search\n"
@@ -3379,47 +3378,47 @@ msgstr ""
 "tiempo en las opciones del servidor de directorios para esta libreta\n"
 " de direcciones."
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:149
+#: ../addressbook/gui/widgets/eab-gui-util.c:152
 msgid "The backend for this addressbook was unable to parse this query."
 msgstr ""
 "El backend de esta libreta de direcciones no pudo analizar esta consulta."
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:152
+#: ../addressbook/gui/widgets/eab-gui-util.c:155
 msgid "The backend for this addressbook refused to perform this query."
 msgstr ""
 "El backend para esta libreta de direcciones rehusó a efectuar esta consulta."
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:155
+#: ../addressbook/gui/widgets/eab-gui-util.c:158
 msgid "This query did not complete successfully."
 msgstr "Esta consulta no se completó con éxito."
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:177
+#: ../addressbook/gui/widgets/eab-gui-util.c:180
 msgid "Error adding list"
 msgstr "Error al añadir la lista"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:177
-#: ../addressbook/gui/widgets/eab-gui-util.c:675
+#: ../addressbook/gui/widgets/eab-gui-util.c:180
+#: ../addressbook/gui/widgets/eab-gui-util.c:678
 msgid "Error adding contact"
 msgstr "Error al añadir el contacto"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:188
+#: ../addressbook/gui/widgets/eab-gui-util.c:191
 msgid "Error modifying list"
 msgstr "Error al modificar la lista"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:188
+#: ../addressbook/gui/widgets/eab-gui-util.c:191
 msgid "Error modifying contact"
 msgstr "Error al modificar el contacto"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:200
+#: ../addressbook/gui/widgets/eab-gui-util.c:203
 msgid "Error removing list"
 msgstr "Error al eliminar la lista"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:200
-#: ../addressbook/gui/widgets/eab-gui-util.c:633
+#: ../addressbook/gui/widgets/eab-gui-util.c:203
+#: ../addressbook/gui/widgets/eab-gui-util.c:636
 msgid "Error removing contact"
 msgstr "Error al eliminar el contacto"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:282
+#: ../addressbook/gui/widgets/eab-gui-util.c:285
 #, c-format
 msgid ""
 "Opening %d contact will open %d new window as well.\n"
@@ -3434,7 +3433,7 @@ msgstr[1] ""
 "Abrir %d contactos abrirá %d ventanas nuevas también.\n"
 "¿Quiere realmente mostrar todos estos contactos?"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:311
+#: ../addressbook/gui/widgets/eab-gui-util.c:314
 #, c-format
 msgid ""
 "%s already exists\n"
@@ -3443,54 +3442,54 @@ msgstr ""
 "%s ya existe\n"
 "¿Quiere sobreescribirlo?"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:315
+#: ../addressbook/gui/widgets/eab-gui-util.c:318
 msgid "Overwrite"
 msgstr "Sobreescribir"
 
 #. more than one, finding the total number of contacts might
 #. * hit performance while saving large number of contacts
 #.
-#: ../addressbook/gui/widgets/eab-gui-util.c:360
 #: ../addressbook/gui/widgets/eab-gui-util.c:363
+#: ../addressbook/gui/widgets/eab-gui-util.c:366
 msgid "contact"
 msgid_plural "contacts"
 msgstr[0] "contacto"
 msgstr[1] "contactos"
 
 #. This is a filename. Translators take note.
-#: ../addressbook/gui/widgets/eab-gui-util.c:410
+#: ../addressbook/gui/widgets/eab-gui-util.c:413
 msgid "card.vcf"
 msgstr "tarjeta.vcf"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:580
+#: ../addressbook/gui/widgets/eab-gui-util.c:583
 msgid "list"
 msgstr "lista"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:729
+#: ../addressbook/gui/widgets/eab-gui-util.c:732
 msgid "Move contact to"
 msgstr "Mover contacto a"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:731
+#: ../addressbook/gui/widgets/eab-gui-util.c:734
 msgid "Copy contact to"
 msgstr "Copiar contacto a"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:734
+#: ../addressbook/gui/widgets/eab-gui-util.c:737
 msgid "Move contacts to"
 msgstr "Mover contactos a"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:736
+#: ../addressbook/gui/widgets/eab-gui-util.c:739
 msgid "Copy contacts to"
 msgstr "Copiar contactos a"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:739
+#: ../addressbook/gui/widgets/eab-gui-util.c:742
 msgid "Select target addressbook."
 msgstr "Seleccione la libreta de direcciones destino."
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:962
+#: ../addressbook/gui/widgets/eab-gui-util.c:965
 msgid "Multiple VCards"
 msgstr "VCards múltiples"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:965
+#: ../addressbook/gui/widgets/eab-gui-util.c:968
 #, c-format
 msgid "VCard for %s"
 msgstr "VCard para %s"
@@ -6549,7 +6548,7 @@ msgstr "Fecha de vencimiento:"
 #. Status
 #: ../calendar/gui/e-cal-component-preview.c:222
 #: ../calendar/gui/e-itip-control.c:1132
-#: ../plugins/exchange-operations/exchange-account-setup.c:264
+#: ../plugins/exchange-operations/exchange-account-setup.c:257
 #: ../plugins/itip-formatter/itip-view.c:888
 msgid "Status:"
 msgstr "Estado:"
@@ -10599,7 +10598,7 @@ msgstr "Predeterminados"
 
 #. Security settings
 #: ../mail/em-account-editor.c:2207 ../mail/mail-config.glade.h:122
-#: ../plugins/exchange-operations/exchange-account-setup.c:314
+#: ../plugins/exchange-operations/exchange-account-setup.c:307
 msgid "Security"
 msgstr "Seguridad"
 
@@ -14393,12 +14392,12 @@ msgid "Mark as default folder"
 msgstr "Marcar como carpeta predeterminada"
 
 #. i18n: "Secure Password Authentication" is an Outlookism
-#: ../plugins/exchange-operations/exchange-account-setup.c:59
+#: ../plugins/exchange-operations/exchange-account-setup.c:60
 msgid "Secure Password"
 msgstr "Contraseña segura"
 
 #. i18n: "NTLM" probably doesn't translate
-#: ../plugins/exchange-operations/exchange-account-setup.c:62
+#: ../plugins/exchange-operations/exchange-account-setup.c:63
 msgid ""
 "This option will connect to the Exchange server using secure password (NTLM) "
 "authentication."
@@ -14406,11 +14405,11 @@ msgstr ""
 "Esta opción conectará con el servidor Exchange usando autenticación con "
 "contraseña segura (NTLM)."
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:70
+#: ../plugins/exchange-operations/exchange-account-setup.c:71
 msgid "Plaintext Password"
 msgstr "Contraseña en texto simple"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:72
+#: ../plugins/exchange-operations/exchange-account-setup.c:73
 msgid ""
 "This option will connect to the Exchange server using standard plaintext "
 "password authentication."
@@ -14418,11 +14417,11 @@ msgstr ""
 "Esta opción conectará con el servidor Exchange usando autenticación con  "
 "contraseña estándar de texto simple."
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:252
+#: ../plugins/exchange-operations/exchange-account-setup.c:245
 msgid "Out Of Office"
 msgstr "Fuera de la oficina"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:259
+#: ../plugins/exchange-operations/exchange-account-setup.c:252
 msgid ""
 "The message specified below will be automatically sent to \n"
 "each person who sends mail to you while you are out of the office."
@@ -14430,66 +14429,66 @@ msgstr ""
 "El mensaje especificado abajo se enviará automáticamente a cada\n"
 " persona que le envíe correo mientras está fuera de la oficina."
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:271
-#: ../plugins/exchange-operations/exchange-account-setup.c:276
+#: ../plugins/exchange-operations/exchange-account-setup.c:264
+#: ../plugins/exchange-operations/exchange-account-setup.c:269
 msgid "I am out of the office"
 msgstr "Ahora estoy fuera de la oficina"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:272
-#: ../plugins/exchange-operations/exchange-account-setup.c:275
+#: ../plugins/exchange-operations/exchange-account-setup.c:265
+#: ../plugins/exchange-operations/exchange-account-setup.c:268
 msgid "I am in the office"
 msgstr "Ahora estoy en la oficina"
 
 #. Change Password
-#: ../plugins/exchange-operations/exchange-account-setup.c:324
+#: ../plugins/exchange-operations/exchange-account-setup.c:317
 msgid "Change the password for Exchange account"
 msgstr "Cambia la contraseña para la cuenta de Exchange"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:326
+#: ../plugins/exchange-operations/exchange-account-setup.c:319
 #: ../plugins/exchange-operations/exchange-change-password.glade.h:2
 msgid "Change Password"
 msgstr "Cambiar contraseña"
 
 #. Delegation Assistant
-#: ../plugins/exchange-operations/exchange-account-setup.c:330
+#: ../plugins/exchange-operations/exchange-account-setup.c:323
 msgid "Manage the delegate settings for Exchange account"
 msgstr "Gestione los ajustes de delegaciones para la cuenta Exchange"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:332
+#: ../plugins/exchange-operations/exchange-account-setup.c:325
 msgid "Delegation Assitant"
 msgstr "Asistente de delegaciones"
 
 #. Miscelleneous settings
-#: ../plugins/exchange-operations/exchange-account-setup.c:343
+#: ../plugins/exchange-operations/exchange-account-setup.c:336
 msgid "Miscelleneous"
 msgstr "Misceláneo"
 
 #. Folder Size
-#: ../plugins/exchange-operations/exchange-account-setup.c:353
+#: ../plugins/exchange-operations/exchange-account-setup.c:346
 msgid "View the size of all Exchange folders"
 msgstr "Vea el tamaño de todas las carpetas Exchange"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:355
+#: ../plugins/exchange-operations/exchange-account-setup.c:348
 msgid "Folders Size"
 msgstr "Tamaño de las carpetas"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:362
+#: ../plugins/exchange-operations/exchange-account-setup.c:355
 msgid "Exchange Settings"
 msgstr "Configuración de Exchange"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:653
+#: ../plugins/exchange-operations/exchange-account-setup.c:646
 msgid "_OWA Url:"
 msgstr "Url _OWA:"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:678
+#: ../plugins/exchange-operations/exchange-account-setup.c:671
 msgid "A_uthenticate"
 msgstr "A_utenticación"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:870
+#: ../plugins/exchange-operations/exchange-account-setup.c:863
 msgid "Authentication Type"
 msgstr "Tipo de autenticación"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:884
+#: ../plugins/exchange-operations/exchange-account-setup.c:877
 msgid "Ch_eck for Supported Types"
 msgstr "_Comprobar tipos soportados "
 
