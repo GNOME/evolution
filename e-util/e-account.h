@@ -69,6 +69,8 @@ typedef enum _e_account_item_t {
 	E_ACCOUNT_SMIME_ENCRYPT_TO_SELF,
 	E_ACCOUNT_SMIME_ENCRYPT_DEFAULT,
 
+	E_ACCOUNT_PROXY_PARENT_UID,
+
 	E_ACCOUNT_ITEM_LAST
 } e_account_item_t;
 
@@ -124,6 +126,8 @@ typedef struct _EAccount {
 	gboolean pgp_always_sign;
 	gboolean pgp_no_imip_sign;
 	gboolean pgp_always_trust;
+
+	char *parent_uid;
 
 	char *smime_sign_key;
 	char *smime_encrypt_key;

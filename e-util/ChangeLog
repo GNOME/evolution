@@ -1,3 +1,9 @@
+2005-07-10  Shreyas Srinivasan
+
+	* e-util/e-account.[ch]: Add structures to handle proxies.
+	* e-util/e-account-list.[ch]: Add functions to remove proxy
+	accounts and account's proxies.
+	
 2005-06-18  Tor Lillqvist  <tml@novell.com>
 
 	* Makefile.am (WIN32_BOOTSTRAP_LIBS): Use bootstrap library for

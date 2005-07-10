@@ -108,6 +108,8 @@ e_account_init (EAccount *account)
 	account->source = g_new0 (EAccountService, 1);
 	account->transport = g_new0 (EAccountService, 1);
 
+	account->parent_uid = NULL;
+	
 	account->source->auto_check = FALSE;
 	account->source->auto_check_time = 10;
 }
@@ -149,7 +151,7 @@ e_account_finalize (GObject *object)
 	identity_destroy (account->id);
 	service_destroy (account->source);
 	service_destroy (account->transport);
-
+	
 	g_free (account->drafts_folder_uri);
 	g_free (account->sent_folder_uri);
 
@@ -159,6 +161,8 @@ e_account_finalize (GObject *object)
 	g_free (account->pgp_key);
 	g_free (account->smime_sign_key);
 	g_free (account->smime_encrypt_key);
+
+	g_free (account->parent_uid);
 
 	G_OBJECT_CLASS (e_account_parent_class)->finalize (object);
 }
@@ -486,6 +490,15 @@ e_account_set_from_xml (EAccount *account, const char *xml)
 					}
 				}
 			}
+		} else if (!strcmp (node->name, "proxy")) {
+			if (node->children) {
+				for (cur = node->children; cur; cur = cur->next) {
+					if (!strcmp (cur->name, "parent-uid")) {
+						changed |= xml_set_content (cur, &account->parent_uid);
+						break;
+					}
+				}
+			}
 		}
 	}
 
@@ -563,7 +576,7 @@ e_account_import (EAccount *dest, EAccount *src)
 	dest->smime_encrypt_to_self = src->smime_encrypt_to_self;
 	g_free (dest->smime_encrypt_key);
 	dest->smime_encrypt_key = g_strdup (src->smime_encrypt_key);
-
+	
 	g_signal_emit(dest, signals[CHANGED], 0, -1);
 }
 
@@ -651,6 +664,11 @@ e_account_to_xml (EAccount *account)
 		xmlNewTextChild (node, NULL, "sign-key-id", account->smime_sign_key);
 	if (account->smime_encrypt_key)
 		xmlNewTextChild (node, NULL, "encrypt-key-id", account->smime_encrypt_key);
+
+	if (account->parent_uid) {
+		node = xmlNewChild (root, NULL, "proxy", NULL);
+		xmlNewTextChild (node, NULL, "parent-uid", account->parent_uid);
+	}	
 
 	xmlDocDumpMemory (doc, &xmlbuf, &n);
 	xmlFreeDoc (doc);
@@ -778,6 +796,8 @@ static struct _account_info {
 	{ /* E_ACCOUNT_SMIME_SIGN_DEFAULT */ 0, TYPE_BOOL, G_STRUCT_OFFSET(EAccount, smime_sign_default) },
 	{ /* E_ACCOUNT_SMIME_ENCRYPT_TO_SELF */ 0, TYPE_BOOL, G_STRUCT_OFFSET(EAccount, smime_encrypt_to_self) },
 	{ /* E_ACCOUNT_SMIME_ENCRYPT_DEFAULT */ 0, TYPE_BOOL, G_STRUCT_OFFSET(EAccount, smime_encrypt_default) },
+
+	{ /* E_ACCOUNT_PROXY_PARENT_UID, */ 0, TYPE_STRING, G_STRUCT_OFFSET(EAccount, parent_uid) },
 };
 
 static GHashTable *ea_option_table;

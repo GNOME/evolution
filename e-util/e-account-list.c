@@ -28,7 +28,7 @@
 #include <string.h>
 
 struct EAccountListPrivate {
-	GConfClient *gconf;
+ 	GConfClient *gconf;
 	guint notify_id;
 };
 
@@ -293,6 +293,45 @@ e_account_list_save (EAccountList *account_list)
 	gconf_client_suggest_sync (account_list->priv->gconf, NULL);
 }
 
+void 
+e_account_list_prune_proxies (EAccountList *account_list)
+{
+	EAccount *account;
+	EIterator *iter;
+	
+	for (iter = e_list_get_iterator (E_LIST (account_list));
+	     e_iterator_is_valid (iter);
+	     e_iterator_next (iter)) {
+		account = (EAccount *)e_iterator_get (iter);
+		if (account->parent_uid) 
+			e_account_list_remove (account_list, account);
+	}
+
+	e_account_list_save (account_list);
+	g_object_unref (iter);
+}
+
+void 
+e_account_list_remove_account_proxies (EAccountList *accounts, EAccount *account)
+{
+	EAccount *child_account;
+
+	while ( (child_account = e_account_list_find (accounts, E_ACCOUNT_FIND_PARENT_UID, account->uid))) {
+		e_account_list_remove (accounts, child_account);
+		child_account = NULL;
+	}
+
+	e_account_list_save (accounts);
+}
+
+int
+e_account_list_account_has_proxies (EAccountList *accounts, EAccount *account)
+{
+	if (e_account_list_find (accounts, E_ACCOUNT_FIND_PARENT_UID, account->uid))
+		return TRUE;
+
+	return FALSE;
+}
 /**
  * e_account_list_add:
  * @accounts: 
@@ -451,6 +490,10 @@ e_account_list_find(EAccountList *accounts, e_account_find_t type, const char *k
 		case E_ACCOUNT_FIND_ID_ADDRESS:
 			if (account->id)
 				found = g_ascii_strcasecmp(account->id->address, key) == 0;
+			break;
+		case E_ACCOUNT_FIND_PARENT_UID:
+			if (account->parent_uid)
+				found = strcmp(account->parent_uid, key) == 0;
 			break;
 		}
 
