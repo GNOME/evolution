@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<e-plugin-list>
+  <e-plugin id="org.gnome.proxy.login" 
+   type="shlib" domain="evolution" _name="Disable Account"
+   location="@PLUGINDIR@/libproxy-login.so">
+    <_description>Allows disabling of accounts.</_description>
+    <author name="Shreyas Srinivasan" email="sshreyas@novell.com"/>
+    <hook class="org.gnome.evolution.mail.popup:1.0">
+      <menu id="org.gnome.evolution.mail.foldertree.popup" target="folder"
+factory = "org_gnome_create_proxy_login_option">
+      </menu>
+    </hook>
+  </e-plugin>
+</e-plugin-list>
