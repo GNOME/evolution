@@ -18,9 +18,6 @@ liborg_gnome_groupwise_features_la_SOURCES = \
 	       	share-folder.c 		     \
 		share-folder.h               \
 		install-shared.c             \
-		groupwise-account-setup.c    \
-		camel-gw-listener.c          \
-		camel-gw-listener.h          \
 		send-options.c               \
 		mail-send-options.c          \
 		mail-send-options.h          \

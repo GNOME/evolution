@@ -8,24 +8,6 @@
 		<author name="Parthasarathi Susarla" email="sparthasarathi@novell.com"/>
 		<_description>A plugin for the features in Groupwise accounts.</_description>
 		<hook class="org.gnome.evolution.mail.config:1.0">
-			<group id="org.gnome.evolution.mail.config.accountDruid" target="account">
-				<item 
-				      type="item_table" 
-				      path="20.receive_options/30.soapport/50.dummy" 
-				      factory="org_gnome_gw_account_setup"/>
-			</group>
-			<group id="org.gnome.evolution.mail.config.accountEditor" target="account">
-				<item 
-				      type="item_table" 
-				      path="20.receive_options/30.soapport/50.dummy" 
-				      factory="org_gnome_gw_account_setup"/>
-			</group>
-			<group id="org.gnome.evolution.mail.config.accountWizard" target="account">
-				<item 
-				      type="item_table" 
-				      path="20.receive_options/30.soapport/50.dummy" 
-				      factory="org_gnome_gw_account_setup"/>
-			</group>
 			<group id="org.gnome.evolution.mail.folderConfig" target="folder"
 				check= "shared_folder_check"
 				commit="shared_folder_commit"
