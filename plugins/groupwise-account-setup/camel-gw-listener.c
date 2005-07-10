@@ -491,7 +491,92 @@ get_addressbook_names_from_server (char *source_url)
 	e_error_run (NULL, "mail:gw-accountsetup-error", poa_address, NULL);
 	return NULL;
 }
-                                                                                                         
+         
+static void
+add_proxy_esource (const char *conf_key, const char *group_name,  const char *source_name, CamelURL *url, const char* parent_id_name)
+{
+	ESourceList *source_list;
+	ESourceGroup *group;
+	ESource *source;
+        GConfClient* client;
+	GSList *ids, *temp ;
+	char *source_selection_key;
+	char *relative_uri;
+	const char *soap_port;
+	const char * use_ssl;
+	const char *poa_address;
+	const char *offline_sync;
+	
+	poa_address = url->host;
+	if (!poa_address || strlen (poa_address) ==0)
+		return;
+
+	soap_port = camel_url_get_param (url, "soap_port");
+
+ 	if (!soap_port || strlen (soap_port) == 0)
+		soap_port = "7191";
+
+	use_ssl = camel_url_get_param (url, "use_ssl");
+
+
+	offline_sync = camel_url_get_param (url, "offline_sync");
+	
+	client = gconf_client_get_default();	
+	source_list = e_source_list_new_for_gconf (client, conf_key);
+	group = e_source_group_new (group_name,  GROUPWISE_URI_PREFIX);
+
+	if (!e_source_list_add_group (source_list, group, -1))
+		return;
+
+	relative_uri = g_strdup_printf ("%s@%s/", url->user, poa_address);
+	source = e_source_new (source_name, relative_uri);
+	e_source_set_property (source, "auth", "1");
+	e_source_set_property (source, "username", url->user);
+	e_source_set_property (source, "port", camel_url_get_param (url, "soap_port"));
+	e_source_set_property (source, "auth-domain", "Groupwise");
+	e_source_set_property (source, "use_ssl", use_ssl);
+	e_source_set_property (source, "offline_sync", offline_sync ? "1" : "0" );
+	e_source_set_property (source, "parent_id_name", parent_id_name);
+	e_source_group_add_source (group, source, -1);
+	e_source_list_sync (source_list, NULL);
+
+	if (!strcmp (conf_key, CALENDAR_SOURCES)) 
+		source_selection_key = SELECTED_CALENDARS;
+	else if (!strcmp (conf_key, TASKS_SOURCES))
+		source_selection_key = SELECTED_TASKS;
+	else 
+		source_selection_key = NULL;
+
+	if (source_selection_key) {
+		ids = gconf_client_get_list (client, source_selection_key , GCONF_VALUE_STRING, NULL);
+		ids = g_slist_append (ids, g_strdup (e_source_peek_uid (source)));
+		gconf_client_set_list (client,  source_selection_key, GCONF_VALUE_STRING, ids, NULL);
+		temp  = ids;
+
+		for (; temp != NULL; temp = g_slist_next (temp))
+			g_free (temp->data);
+
+		g_slist_free (ids);
+	}
+	
+	g_object_unref (source);
+	g_object_unref (group);
+	g_object_unref (source_list);
+	g_object_unref (client);
+	g_free (relative_uri);
+}
+                                                                                
+static void 
+add_proxy_sources (GwAccountInfo *info, const char *parent_name)
+{
+	CamelURL *url;
+	
+	url = camel_url_new (info->source_url, NULL);
+	add_proxy_esource ("/apps/evolution/calendar/sources", info->name, _("Calendar"), url, parent_name);
+	add_proxy_esource ("/apps/evolution/tasks/sources", info->name, _("Tasks"), url, parent_name);
+	
+	camel_url_free (url);
+}
 
 static gboolean
 add_addressbook_sources (EAccount *account)
@@ -890,91 +975,4 @@ camel_gw_listener_new ()
 	camel_gw_listener_construct (config_listener);
 
 	return config_listener;
-}
-
-static void 
-add_proxy_sources (GwAccountInfo *info, const char *parent_name)
-{
-	CamelURL *url;
-	
-	url = camel_url_new (info->source_url, NULL);
-	add_proxy_esource ("/apps/evolution/calendar/sources", info->name, _("Calendar"), url, parent_name);
-	add_proxy_esource ("/apps/evolution/tasks/sources", info->name, _("Tasks"), url, parent_name);
-	
-	camel_url_free (url);
-}
-
-
-static void
-add_proxy_esource (const char *conf_key, const char *group_name,  const char *source_name, CamelURL *url, const char* parent_id_name)
-{
-	ESourceList *source_list;
-	ESourceGroup *group;
-	ESource *source;
-        GConfClient* client;
-	GSList *ids, *temp ;
-	char *source_selection_key;
-	char *relative_uri;
-	const char *soap_port;
-	const char * use_ssl;
-	const char *poa_address;
-	const char *offline_sync;
-	
-	poa_address = url->host;
-	if (!poa_address || strlen (poa_address) ==0)
-		return;
-
-	soap_port = camel_url_get_param (url, "soap_port");
-
- 	if (!soap_port || strlen (soap_port) == 0)
-		soap_port = "7191";
-
-	use_ssl = camel_url_get_param (url, "use_ssl");
-
-
-	offline_sync = camel_url_get_param (url, "offline_sync");
-	
-	client = gconf_client_get_default();	
-	source_list = e_source_list_new_for_gconf (client, conf_key);
-	group = e_source_group_new (group_name,  GROUPWISE_URI_PREFIX);
-
-	if (!e_source_list_add_group (source_list, group, -1))
-		return;
-
-	relative_uri = g_strdup_printf ("%s@%s/", url->user, poa_address);
-	source = e_source_new (source_name, relative_uri);
-	e_source_set_property (source, "auth", "1");
-	e_source_set_property (source, "username", url->user);
-	e_source_set_property (source, "port", camel_url_get_param (url, "soap_port"));
-	e_source_set_property (source, "auth-domain", "Groupwise");
-	e_source_set_property (source, "use_ssl", use_ssl);
-	e_source_set_property (source, "offline_sync", offline_sync ? "1" : "0" );
-	e_source_set_property (source, "parent_id_name", parent_id_name);
-	e_source_group_add_source (group, source, -1);
-	e_source_list_sync (source_list, NULL);
-
-	if (!strcmp (conf_key, CALENDAR_SOURCES)) 
-		source_selection_key = SELECTED_CALENDARS;
-	else if (!strcmp (conf_key, TASKS_SOURCES))
-		source_selection_key = SELECTED_TASKS;
-	else 
-		source_selection_key = NULL;
-
-	if (source_selection_key) {
-		ids = gconf_client_get_list (client, source_selection_key , GCONF_VALUE_STRING, NULL);
-		ids = g_slist_append (ids, g_strdup (e_source_peek_uid (source)));
-		gconf_client_set_list (client,  source_selection_key, GCONF_VALUE_STRING, ids, NULL);
-		temp  = ids;
-
-		for (; temp != NULL; temp = g_slist_next (temp))
-			g_free (temp->data);
-
-		g_slist_free (ids);
-	}
-	
-	g_object_unref (source);
-	g_object_unref (group);
-	g_object_unref (source_list);
-	g_object_unref (client);
-	g_free (relative_uri);
 }
