@@ -1,3 +1,8 @@
+2005-07-10  Shreyas Srinivasan <sshreyas@novell.com>
+
+	* e-msg-composer-hdrs.c: Take into account store
+	permissions (Read Only). These are proxy specific as of now.
+	
 2005-06-03  Srinivasa Ragavan <sragavan@novell.com>
 
 	* e-msg-composer.c (e_msg_composer_attach): Fixed to show the

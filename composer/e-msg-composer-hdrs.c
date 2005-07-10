@@ -56,8 +56,11 @@
 #include "e-util/e-error.h"
 
 #include <camel/camel.h>
+#include <camel/camel-store.h>
+#include <camel/camel-session.h>
 #include "e-msg-composer-hdrs.h"
 #include "mail/mail-config.h"
+#include "mail/mail-session.h"
 /*#include "mail/em-folder-selection-button.h"*/
 #include "mail/em-folder-selector.h"
 
@@ -228,22 +231,24 @@ account_added_cb (EAccountList *accounts, EAccount *account, EMsgComposerHdrs *h
 	omenu = e_msg_composer_hdrs_get_from_omenu (hdrs);
 	menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (omenu));
 	
-	label = g_strdup_printf ("%s <%s>", account->id->name, account->id->address);
-	item = gtk_menu_item_new_with_label (label);
-	gtk_widget_show (item);
-	g_free (label);
+	if (account_can_send (account)) {
+		label = g_strdup_printf ("%s <%s>", account->id->name, account->id->address);
+		item = gtk_menu_item_new_with_label (label);
+		gtk_widget_show (item);
+		g_free (label);
+
+		g_object_ref (account);
+		g_object_set_data ((GObject *) item, "account", account);
+		g_signal_connect (item, "activate", G_CALLBACK (from_changed), hdrs);
 	
-	g_object_ref (account);
-	g_object_set_data ((GObject *) item, "account", account);
-	g_signal_connect (item, "activate", G_CALLBACK (from_changed), hdrs);
+		/* this is so we can later set which one we want */
+		hdrs->priv->from_options = g_slist_append (hdrs->priv->from_options, item);
 	
-	/* this is so we can later set which one we want */
-	hdrs->priv->from_options = g_slist_append (hdrs->priv->from_options, item);
+		gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
 	
-	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
-	
-	toplevel = gtk_widget_get_toplevel ((GtkWidget *) hdrs);
-	gtk_widget_set_sensitive (toplevel, TRUE);
+		toplevel = gtk_widget_get_toplevel ((GtkWidget *) hdrs);
+		gtk_widget_set_sensitive (toplevel, TRUE);
+	}
 }
 
 static void
@@ -253,7 +258,7 @@ account_changed_cb (EAccountList *accounts, EAccount *account, EMsgComposerHdrs 
 	EAccount *acnt;
 	GSList *node;
 	char *text;
-	
+
 	node = hdrs->priv->from_options;
 	while (node != NULL) {
 		item = node->data;
@@ -277,7 +282,7 @@ account_removed_cb (EAccountList *accounts, EAccount *account, EMsgComposerHdrs 
 	GtkWidget *item, *omenu, *toplevel;
 	EAccount *acnt;
 	GSList *node;
-	
+
 	node = priv->from_options;
 	while (node != NULL) {
 		item = node->data;
@@ -316,6 +321,26 @@ account_removed_cb (EAccountList *accounts, EAccount *account, EMsgComposerHdrs 
 	}
 }
 
+gboolean
+account_can_send (EAccount *account)
+{
+	static CamelStore *store;
+	CamelException ex;
+	
+	if (!account->parent_uid) 
+		return TRUE;
+		 
+       	if (!(store = (CamelStore *) camel_session_get_service (session, e_account_get_string(account, E_ACCOUNT_SOURCE_URL), CAMEL_PROVIDER_STORE, &ex))) {
+		camel_exception_clear (&ex);
+		return FALSE;
+	}
+
+	if (store->permissions & CAMEL_PROXY_STORE_WRITE) 
+		return TRUE;
+		       
+	return FALSE;
+}
+
 static GtkWidget *
 create_from_optionmenu (EMsgComposerHdrs *hdrs)
 {
@@ -327,7 +352,7 @@ create_from_optionmenu (EMsgComposerHdrs *hdrs)
 	EAccount *account;
 	EIterator *iter;
 	char *uid;
-	
+
 	omenu = gtk_option_menu_new ();
 	menu = gtk_menu_new ();
 	
@@ -340,8 +365,8 @@ create_from_optionmenu (EMsgComposerHdrs *hdrs)
 	iter = e_list_get_iterator ((EList *) priv->accounts);
 	while (e_iterator_is_valid (iter)) {
 		account = (EAccount *) e_iterator_get (iter);
-		
-		if (account->id->address)
+
+		if (account->id->address && account_can_send (account))
 			g_ptr_array_add (addresses, account->id->address);
 		
 		e_iterator_next (iter);
@@ -360,7 +385,7 @@ create_from_optionmenu (EMsgComposerHdrs *hdrs)
 			continue;
 		}
 		
-		if (account->id->address && *account->id->address) {
+		if (account->id->address && *account->id->address && account_can_send (account)) {
 			/* If the account has a unique email address, just
 			 * show that. Otherwise include the account name.
 			 */
@@ -569,7 +594,7 @@ static void
 entry_changed (GtkWidget *entry, EMsgComposerHdrs *hdrs)
 {
 	const char *subject;
-	
+
 	subject = e_msg_composer_hdrs_get_subject (hdrs);
 	g_signal_emit (hdrs, signals[SUBJECT_CHANGED], 0, subject);
 	g_signal_emit (hdrs, signals[HDRS_CHANGED], 0);
@@ -1090,7 +1115,7 @@ e_msg_composer_hdrs_set_from_account (EMsgComposerHdrs *hdrs,
 	g_return_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs));
 	
 	omenu = GTK_OPTION_MENU (e_msg_composer_hdrs_get_from_omenu (hdrs));
-	
+
 	if (!account_name) {
 		gconf = gconf_client_get_default ();
 		uid = gconf_client_get_string (gconf, "/apps/evolution/mail/default_account", NULL);
@@ -1104,24 +1129,26 @@ e_msg_composer_hdrs_set_from_account (EMsgComposerHdrs *hdrs,
 		item = l->data;
 		
 		account = g_object_get_data ((GObject *) item, "account");
-		if (account_name) {
-			if (account->name && !strcmp (account_name, account->name)) {
-				/* set the correct optionlist item */
+		if (account_can_send (account))
+		{
+			if (account_name) {
+				if (account->name && !strcmp (account_name, account->name)) {
+					/* set the correct optionlist item */
+					gtk_option_menu_set_history (omenu, i);
+					g_signal_emit_by_name (item, "activate", hdrs);
+					g_free (uid);
+					
+					return;
+				}
+			} else if (uid && !strcmp (account->uid, uid)) {
+				/* set the default optionlist item */
 				gtk_option_menu_set_history (omenu, i);
 				g_signal_emit_by_name (item, "activate", hdrs);
 				g_free (uid);
 				
 				return;
 			}
-		} else if (uid && !strcmp (account->uid, uid)) {
-			/* set the default optionlist item */
-			gtk_option_menu_set_history (omenu, i);
-			g_signal_emit_by_name (item, "activate", hdrs);
-			g_free (uid);
-			
-			return;
 		}
-		
 		l = l->next;
 		i++;
 	}
@@ -1172,7 +1199,7 @@ e_msg_composer_hdrs_set_to (EMsgComposerHdrs *hdrs,
 			    EDestination **to_destv)
 {
 	char *str;
-	
+
 	g_return_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs));
 
 	destinations_to_name_selector_entry (E_NAME_SELECTOR_ENTRY (hdrs->priv->to.entry), to_destv);
@@ -1183,7 +1210,7 @@ e_msg_composer_hdrs_set_cc (EMsgComposerHdrs *hdrs,
 			    EDestination **cc_destv)
 {
 	char *str;
-	
+
 	g_return_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs));
 
 	destinations_to_name_selector_entry (E_NAME_SELECTOR_ENTRY (hdrs->priv->cc.entry), cc_destv);
@@ -1197,7 +1224,7 @@ e_msg_composer_hdrs_set_bcc (EMsgComposerHdrs *hdrs,
 			     EDestination **bcc_destv)
 {
 	char *str;
-	
+
 	g_return_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs));
 
 	destinations_to_name_selector_entry (E_NAME_SELECTOR_ENTRY (hdrs->priv->bcc.entry), bcc_destv);
@@ -1362,7 +1389,7 @@ e_msg_composer_hdrs_get_from (EMsgComposerHdrs *hdrs)
 {
 	CamelInternetAddress *addr;
 	EAccount *account;
-	
+
 	g_return_val_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs), NULL);
 	
 	if (!(account = hdrs->account)) {
