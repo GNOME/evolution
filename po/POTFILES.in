@@ -320,6 +320,13 @@ plugins/startup-wizard/org-gnome-evolution-startup-wizard.eplug.xml
 plugins/startup-wizard/startup-wizard.c
 plugins/subject-thread/org-gnome-subject-thread.eplug.xml
 plugins/subject-thread/subject-thread.c
+plugins/mail-account-disable/mail-account-disable.c
+plugins/proxy/org-gnome-proxy-errors.xml
+plugins/proxy/proxy-listing.glade
+plugins/proxy/proxy-add-dialog.glade
+plugins/proxy-login/proxy-login.c
+plugins/proxy-login/org-gnome-proxy-login-errors.xml
+plugins/proxy-login/proxy-login-dialog.glade
 plugins/sa-junk-plugin/em-junk-filter.c
 shell/GNOME_Evolution_Shell.server.in.in
 shell/GNOME_Evolution_Test.server.in.in

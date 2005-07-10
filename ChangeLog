@@ -1,3 +1,19 @@
+2005-07-10  Shreyas Srinivasan <sshreyas@novell.com>
+
+	* configure.in: Add mail-account-disable, proxy, proxy-login and
+	groupwise-account-setup to the plugin list.
+	* plugins/proxy/*: Plugin to implement Proxy assignment on a
+	groupwise account.
+	* plugins/proxy-login/*: Plugin to implement Proxy Login on a
+	groupwise account.
+	* plugins/mail-account-disable/*: Plugin to add Disable/ Proxy
+	Logout to a store menu on right click.
+	* plugins/groupwise-account-setup/*: Make the
+	camel-groupwise-listener load on startup.
+	* plugins/groupwise-features/*: Remove the
+	camel-groupwise-listener code as it runs in a different plugin.
+	* po/POTFILES.in: Add files which need to be translated.
+	
 2005-07-02  Harish Krishnaswamy  <kharish@novell.com>
 
 	* configure.in: bump version
