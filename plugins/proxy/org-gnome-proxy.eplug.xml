@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<e-plugin-list>
+	<e-plugin id="org.gnome.evolution.proxy" type="shlib" name="proxy" description="proxy acl"
+		location="@PLUGINDIR@/liborg-gnome-proxy.so">
+	    <_description>Allows disabling of accounts.</_description>
+	    <author name="Sankar P" email="psankar@novell.com"/>
+			<hook class="org.gnome.evolution.mail.config:1.0">
+				<group id="org.gnome.evolution.mail.config.accountEditor" 
+				target="account" commit = "proxy_commit" abort="proxy_abort">
+					<item type="page" path="60.proxy" factory="org_gnome_proxy"/>
+				</group>
+			</hook>
+	</e-plugin>
+</e-plugin-list>
