@@ -249,6 +249,15 @@ The message is stored in the Outbox folder.  Check the message for errors and re
   <button stock="gtk-no" _label="Don't delete" response="GTK_RESPONSE_NO"/>
  </error>
 
+<error id="ask-delete-account-with-proxies" type="question" default="GTK_RESPONSE_NO" modal="true">
+  <_title>Delete account?</_title>
+  <_primary>Are you sure you want to delete this account and all its proxies?</_primary>
+  <_secondary xml:space="preserve">If you proceed, the account information and
+all proxy information will be deleted permanently.</_secondary>
+  <button stock="gtk-delete" response="GTK_RESPONSE_YES"/>
+  <button stock="gtk-no" _label="Don't delete" response="GTK_RESPONSE_NO"/>
+ </error>
+
  <error id="no-save-signature" type="error">
   <_primary>Could not save signature file.</_primary>
   <_secondary xml:space="preserve">Because &quot;{0}&quot;.</_secondary>

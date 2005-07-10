@@ -1,3 +1,13 @@
+2005-07-10  Shreyas Srinivasan <sshreyas@novell.com>
+
+	* mail-config.[ch]: Add new functions to remove proxy accounts and
+	proxies created by the account.
+	* mail-compnent.c: Remove proxy accounts at startup
+	* mail.error.xml: Add warnings for proxy disable and removal of a
+	proxy when its parents are removed.
+	* em-account-prefs.c: Add checks not to display proxies and
+	handling of parent removal/ disabling.
+	
 2005-07-06  Vivek Jain <jvivek@novell.com>
 	
 	* em-junk-filter.c : moved to plugins/sa-junk-plugin

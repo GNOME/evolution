@@ -359,6 +359,7 @@ mc_startup(MailComponent *mc)
 	started = 1;
 
 	mc_setup_local_store(mc);
+	mail_config_prune_proxies ();
 	load_accounts(mc, mail_config_get_accounts());
 	vfolder_load_storage();
 }
@@ -711,6 +712,7 @@ impl_quit(PortableServer_Servant servant, CORBA_Environment *ev)
 {
 	MailComponent *mc = MAIL_COMPONENT(bonobo_object_from_servant(servant));
 
+	mail_config_prune_proxies ();
 	switch (mc->priv->quit_state) {
 	case MC_QUIT_START: {
 		int now = time(NULL)/60/60/24, days;

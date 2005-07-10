@@ -192,7 +192,7 @@ account_edit_clicked (GtkButton *button, gpointer user_data)
 		if (gtk_tree_selection_get_selected (selection, &model, &iter))
 			gtk_tree_model_get (model, &iter, 3, &account, -1);
 		
-		if (account) {
+		if (account && !account->parent_uid && !mail_config_has_proxies (account)) {
 			EMAccountEditor *emae;
 
 			/** @HookPoint-EMConfig: Mail Account Editor
@@ -227,6 +227,7 @@ account_delete_clicked (GtkButton *button, gpointer user_data)
 	GtkTreeModel *model;
 	GtkTreeIter iter;
 	int ans;
+	gboolean has_proxies = FALSE;
 	
 	selection = gtk_tree_view_get_selection (prefs->table);
 	if (gtk_tree_selection_get_selected (selection, &model, &iter))
@@ -235,14 +236,20 @@ account_delete_clicked (GtkButton *button, gpointer user_data)
 	/* make sure we have a valid account selected and that we aren't editing anything... */
 	if (account == NULL || prefs->editor != NULL)
 		return;
-	
-	ans = e_error_run(PREFS_WINDOW(prefs), "mail:ask-delete-account", NULL);
+
+	has_proxies = mail_config_has_proxies (account);
+	ans = e_error_run(PREFS_WINDOW(prefs), has_proxies?"mail:ask-delete-account-with-proxies":"mail:ask-delete-account",NULL);
+		
 	if (ans == GTK_RESPONSE_YES) {
 		int len;
 		
 		/* remove it from the folder-tree in the shell */
 		if (account->enabled && account->source && account->source->url)
 			mail_component_remove_store_by_uri (mail_component_peek (), account->source->url);
+		
+		/* remove all the proxies account has created*/
+		if (has_proxies)
+			mail_config_remove_account_proxies (account);
 		
 		/* remove it from the config file */
 		mail_config_remove_account (account);
@@ -298,7 +305,7 @@ account_able_changed(EAccount *account)
 			mail_component_load_store_by_uri (component,
 							  account->source->url,
 							  account->name);
-		else
+		else     
 			mail_component_remove_store_by_uri (component, account->source->url);
 	}
 
@@ -323,8 +330,8 @@ account_able_clicked (GtkButton *button, gpointer user_data)
 		gtk_button_set_label (prefs->mail_able, account->enabled ? _("Disable") : _("Enable"));
 
 		/* let the rest of the application know it changed */
-		e_account_list_change(mail_config_get_accounts(), account);
-		account_able_changed(account);
+		e_account_list_change (mail_config_get_accounts(), account);
+		account_able_changed (account);
 	}
 }
 
@@ -344,17 +351,32 @@ account_able_toggled (GtkCellRendererToggle *renderer, char *arg1, gpointer user
 	
 	if (gtk_tree_model_get_iter (model, &iter, path)) {
 		gtk_tree_model_get (model, &iter, 3, &account, -1);
+
+		if (mail_config_has_proxies (account)) {
+			int ans;	
+
+			ans = e_error_run(PREFS_WINDOW(prefs), "mail:ask-delete-proxy-accounts",NULL);
+
+			if (ans == GTK_RESPONSE_NO) {	
+				gtk_tree_path_free (path);
+				return;
+			}			
+
+			mail_config_remove_account_proxies (account);
+			gtk_widget_set_sensitive (GTK_WIDGET (prefs->mail_edit), 1);		
+		}
+
 		account->enabled = !account->enabled;
+		e_account_list_change(mail_config_get_accounts(), account);
+		account_able_changed (account);
 		gtk_list_store_set ((GtkListStore *) model, &iter, 0, account->enabled, -1);
-		
+
 		if (gtk_tree_selection_iter_is_selected (selection, &iter))
 			gtk_button_set_label (prefs->mail_able, account->enabled ? _("Disable") : _("Enable"));
 
 		/* let the rest of the application know it changed */
-		e_account_list_change(mail_config_get_accounts(), account);
-		account_able_changed(account);
 	}
-	
+
 	gtk_tree_path_free (path);
 }
 
@@ -371,6 +393,7 @@ account_cursor_change (GtkTreeSelection *selection, EMAccountPrefs *prefs)
 	EAccount *account = NULL;
 	GtkTreeModel *model;
 	GtkTreeIter iter;
+ 	const char *url = NULL;
 	int state;
 
 	state = gconf_client_key_is_writable(mail_config_get_gconf_client(), "/apps/evolution/mail/accounts", NULL);
@@ -378,6 +401,7 @@ account_cursor_change (GtkTreeSelection *selection, EMAccountPrefs *prefs)
 		state = gtk_tree_selection_get_selected (selection, &model, &iter);
 		if (state) {
 			gtk_tree_model_get (model, &iter, 3, &account, -1);
+			url = e_account_get_string (account, E_ACCOUNT_SOURCE_URL);
 			if (account->source && account->enabled)
 				gtk_button_set_label (prefs->mail_able, _("Disable"));
 			else
@@ -389,8 +413,10 @@ account_cursor_change (GtkTreeSelection *selection, EMAccountPrefs *prefs)
 	} else {
 		gtk_widget_set_sensitive (GTK_WIDGET (prefs), FALSE);
 	}
+	
+	if( url != NULL ) 
+		gtk_widget_set_sensitive (GTK_WIDGET (prefs->mail_edit), !mail_config_has_proxies(account));
 
-	gtk_widget_set_sensitive (GTK_WIDGET (prefs->mail_edit), state);
 	gtk_widget_set_sensitive (GTK_WIDGET (prefs->mail_delete), state);
 	gtk_widget_set_sensitive (GTK_WIDGET (prefs->mail_default), state);
 	gtk_widget_set_sensitive (GTK_WIDGET (prefs->mail_able), state);
@@ -419,30 +445,32 @@ mail_accounts_load (EMAccountPrefs *prefs)
 		CamelURL *url;
 		
 		account = (EAccount *) e_iterator_get (node);
+
+		if (!account->parent_uid) {
+			url = account->source && account->source->url ? camel_url_new (account->source->url, NULL) : NULL;
+	
+			gtk_list_store_append (model, &iter);
+			if (account == default_account) {
+				/* translators: default account indicator */
+				name = val = g_strdup_printf ("%s %s", account->name, _("[Default]"));
+			} else {
+				val = account->name;
+				name = NULL;
+			}
+
+			gtk_list_store_set (model, &iter,
+					    0, account->enabled,
+					    1, val,
+					    2, url && url->protocol ? url->protocol : (char *) _("None"),
+					    3, account,
+					    -1);
+			g_free (name);
+			
+			if (url)
+				camel_url_free (url);
 		
-		url = account->source && account->source->url ? camel_url_new (account->source->url, NULL) : NULL;
-		
-		gtk_list_store_append (model, &iter);
-		if (account == default_account) {
-			/* translators: default account indicator */
-			name = val = g_strdup_printf ("%s %s", account->name, _("[Default]"));
-		} else {
-			val = account->name;
-			name = NULL;
+			row++;
 		}
-		
-		gtk_list_store_set (model, &iter,
-				    0, account->enabled,
-				    1, val,
-				    2, url && url->protocol ? url->protocol : (char *) _("None"),
-				    3, account,
-				    -1);
-		g_free (name);
-		
-		if (url)
-			camel_url_free (url);
-		
-		row++;
 		
 		e_iterator_next (node);
 	}

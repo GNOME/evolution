@@ -671,6 +671,24 @@ mail_config_get_account_by_transport_url (const char *transport_url)
 	return NULL;
 }
 
+int
+mail_config_has_proxies (EAccount *account)
+{
+	return e_account_list_account_has_proxies (config->accounts, account);
+}
+
+void
+mail_config_remove_account_proxies (EAccount *account)
+{
+	e_account_list_remove_account_proxies (config->accounts, account);
+}
+
+void
+mail_config_prune_proxies (void)
+{
+	e_account_list_prune_proxies (config->accounts);
+}
+
 EAccountList *
 mail_config_get_accounts (void)
 {
