@@ -41,7 +41,6 @@
 #include <libsoup/soup-uri.h>
 #include "calendar-config.h"
 #include "itip-utils.h"
-#include "dialogs/cal-attachment.h"
 
 #define GNOME_EVOLUTION_COMPOSER_OAFIID "OAFIID:GNOME_Evolution_Mail_Composer:" BASE_VERSION
 

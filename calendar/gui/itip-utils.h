@@ -20,6 +20,14 @@ typedef enum {
 	E_CAL_COMPONENT_METHOD_DECLINECOUNTER
 } ECalComponentItipMethod;
 
+struct CalMimeAttach {
+	char *filename;
+	char *content_type;
+	char *description;
+	char *encoded_data;
+	guint length;
+};
+
 EAccountList *itip_addresses_get (void);
 EAccount *itip_addresses_get_default (void);
 

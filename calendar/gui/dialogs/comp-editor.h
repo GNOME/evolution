@@ -26,7 +26,6 @@
 #include "../itip-utils.h"
 #include "comp-editor-page.h"
 #include "evolution-shell-component-utils.h"
-#include "cal-attachment-bar.h"
 
 G_BEGIN_DECLS
 

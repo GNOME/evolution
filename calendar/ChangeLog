@@ -1,3 +1,14 @@
+2005-07-11  Srinivasa Ragavan <sragavan@novell.com>
+
+	* gui/itip-utils.[ch]: Added a structure.
+	* gui/dialogs/Makefile.am: Removed cal-attachment*
+	* gui/dialogs/comp-editor.[ch]: (attach_message) (drop_action)
+	(send_timezone) (save_comp) (response_cb) (delete_event_cb) 
+	(attachment_bar_changed_cb) (attachment_bar_icon_clicked_cb)
+	(setup_widgets) (set_icon_from_comp) (fill_widgets) (real_edit_comp)
+	Removed the attachment bar specific to calendar and made a merged
+	one at widgets/misc/e-attachment*
+
 2005-07-11  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	* conduits/calendar/calendar-conduit.c: (process_multi_day),
