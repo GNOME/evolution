@@ -1,3 +1,13 @@
+2005-07-11  Shakti Sen <shprasad@novell.com>
+
+	* Makefile.am: Included files exchange-folder-subscription.c,
+	exchange-folder-subscription.h, exchange-folder.c and 
+	org-gnome-folder-subscription.xml 
+	* exchange-folder.c: Renamed all the function names starting with
+	org_gnome_* to org_gnome_exchnage* to resolve name space collision.
+	* org-gnome-exchange-operations.eplug.in: Added the hook class for
+	'Subscribe/Unsubscribe Folder'.
+
 2005-07-08  Praveen Kumar <kpraveen@novell.com>
 
 	* Makefile.am : Added entries for the files providing the delegation

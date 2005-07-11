@@ -35,13 +35,13 @@
 #include "addressbook/gui/widgets/eab-popup.h"
 
 
-void org_gnome_folder_subscription (EPlugin *ep, EMMenuTargetSelect *target);
-void org_gnome_check_subscribed (EPlugin *ep, ECalPopupTargetSource *target);
-void org_gnome_folder_unsubscribe (EPlugin *ep, EPopupItem *p, void *data);
-void org_gnome_check_address_book_subscribed (EPlugin *ep, EABPopupTargetSource *target);
-void org_gnome_folder_ab_unsubscribe (EPlugin *ep, EPopupItem *p, void *data);
-void org_gnome_check_inbox_subscribed (EPlugin *ep, EMPopupTargetFolder *target);
-void org_gnome_folder_inbox_unsubscribe (EPlugin *ep, EPopupItem *p, void *data);
+void org_gnome_exchange_folder_subscription (EPlugin *ep, EMMenuTargetSelect *target);
+void org_gnome_exchange_check_subscribed (EPlugin *ep, ECalPopupTargetSource *target);
+void org_gnome_exchange_folder_unsubscribe (EPlugin *ep, EPopupItem *p, void *data);
+void org_gnome_exchange_check_address_book_subscribed (EPlugin *ep, EABPopupTargetSource *target);
+void org_gnome_exchange_folder_ab_unsubscribe (EPlugin *ep, EPopupItem *p, void *data);
+void org_gnome_exchange_check_inbox_subscribed (EPlugin *ep, EMPopupTargetFolder *target);
+void org_gnome_exchange_folder_inbox_unsubscribe (EPlugin *ep, EPopupItem *p, void *data);
 void popup_free (EPopup *ep, GSList *items, void *data);
 void popup_inbox_free (EPopup *ep, GSList *items, void *data);
 void popup_ab_free (EPopup *ep, GSList *items, void *data);
@@ -50,7 +50,7 @@ void popup_ab_free (EPopup *ep, GSList *items, void *data);
 
 
 static EPopupItem popup_inbox_items[] = {
-	{ E_POPUP_ITEM, "29.inbox_unsubscribe", N_("Unsubscribe Folder..."), org_gnome_folder_inbox_unsubscribe, NULL, "stock_new-dir", 0, EM_POPUP_FOLDER_INFERIORS }
+	{ E_POPUP_ITEM, "29.inbox_unsubscribe", N_("Unsubscribe Folder..."), org_gnome_exchange_folder_inbox_unsubscribe, NULL, "stock_new-dir", 0, EM_POPUP_FOLDER_INFERIORS }
 };
 
 void
@@ -60,13 +60,13 @@ popup_inbox_free (EPopup *ep, GSList *items, void *data)
 }
 
 void
-org_gnome_folder_inbox_unsubscribe (EPlugin *ep, EPopupItem *p, void *data)
+org_gnome_exchange_folder_inbox_unsubscribe (EPlugin *ep, EPopupItem *p, void *data)
 {
 	// To be done:
 }
 
 void
-org_gnome_check_inbox_subscribed (EPlugin *ep, EMPopupTargetFolder *target)
+org_gnome_exchange_check_inbox_subscribed (EPlugin *ep, EMPopupTargetFolder *target)
 {
 	GSList *menus = NULL;
 	int i = 0;
@@ -94,7 +94,7 @@ org_gnome_check_inbox_subscribed (EPlugin *ep, EMPopupTargetFolder *target)
 }
 
 static EPopupItem popup_items[] = {
-	{ E_POPUP_ITEM, "29.calendar_unsubscribe", N_("Unsubscribe Folder..."), org_gnome_folder_unsubscribe, NULL, "stock_new-dir", 0, EM_POPUP_FOLDER_INFERIORS }
+	{ E_POPUP_ITEM, "29.calendar_unsubscribe", N_("Unsubscribe Folder..."), org_gnome_exchange_folder_unsubscribe, NULL, "stock_new-dir", 0, EM_POPUP_FOLDER_INFERIORS }
 };
 
 void
@@ -104,7 +104,7 @@ popup_free (EPopup *ep, GSList *items, void *data)
 }
 
 static EPopupItem popup_ab_items[] = {
-	{ E_POPUP_ITEM, "29.address_book_unsubscribe", N_("Unsubscribe Folder..."), org_gnome_folder_ab_unsubscribe, NULL, "stock_new-dir", 0, EM_POPUP_FOLDER_INFERIORS }
+	{ E_POPUP_ITEM, "29.address_book_unsubscribe", N_("Unsubscribe Folder..."), org_gnome_exchange_folder_ab_unsubscribe, NULL, "stock_new-dir", 0, EM_POPUP_FOLDER_INFERIORS }
 };
 
 void
@@ -114,7 +114,7 @@ popup_ab_free (EPopup *ep, GSList *items, void *data)
 }
 
 void
-org_gnome_check_address_book_subscribed (EPlugin *ep, EABPopupTargetSource *target)  
+org_gnome_exchange_check_address_book_subscribed (EPlugin *ep, EABPopupTargetSource *target)  
 {
 	GSList *menus = NULL;
 	int i = 0;
@@ -147,7 +147,7 @@ org_gnome_check_address_book_subscribed (EPlugin *ep, EABPopupTargetSource *targ
 }
 
 void
-org_gnome_check_subscribed (EPlugin *ep, ECalPopupTargetSource *target)
+org_gnome_exchange_check_subscribed (EPlugin *ep, ECalPopupTargetSource *target)
 {
 	GSList *menus = NULL;
 	int i = 0;
@@ -277,7 +277,7 @@ unsubscribe_dialog_response (GtkDialog *dialog, int response, gpointer data)
 }
 
 void
-org_gnome_folder_ab_unsubscribe (EPlugin *ep, EPopupItem *p, void *data)
+org_gnome_exchange_folder_ab_unsubscribe (EPlugin *ep, EPopupItem *p, void *data)
 {
 	GtkWidget *dialog = NULL;
 	EABPopupTargetSource *target = data;
@@ -321,7 +321,7 @@ org_gnome_folder_ab_unsubscribe (EPlugin *ep, EPopupItem *p, void *data)
 	unsubscribe_dialog_ab_response (dialog, response, data);
 }
 void
-org_gnome_folder_unsubscribe (EPlugin *ep, EPopupItem *p, void *data)
+org_gnome_exchange_folder_unsubscribe (EPlugin *ep, EPopupItem *p, void *data)
 {
 	GtkWidget *dialog = NULL;
 	ECalPopupTargetSource *target = data;
@@ -367,7 +367,7 @@ org_gnome_folder_unsubscribe (EPlugin *ep, EPopupItem *p, void *data)
 
 
 void
-org_gnome_folder_subscription (EPlugin *ep, EMMenuTargetSelect *target)
+org_gnome_exchange_folder_subscription (EPlugin *ep, EMMenuTargetSelect *target)
 {
 	GSList *accounts, *acc;
 	ExchangeAccount *account = NULL;
