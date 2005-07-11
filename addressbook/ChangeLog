@@ -1,4 +1,4 @@
-2005-07-08  Frederic Crozat  <fcrozat@mandriva.com>
+2005-07-08  Sushma Rai  <rsushma@novell.com>
 
 	* gui/widgets/eab-gui-util.c (eab_load_error_dialog): Including the
 	file path in the error string. Fixes #309624
