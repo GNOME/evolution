@@ -35,9 +35,6 @@ errordir = $(privdatadir)/errors
 
 idl_DATA = $(IDLS)
 
-glade_DATA =					\
-	e-msg-composer-attachment.glade
-
 noinst_LTLIBRARIES = libcomposer.la
 
 INCLUDES =								\
@@ -64,10 +61,6 @@ INCLUDES =								\
 libcomposer_la_SOURCES = 			\
 	$(IDL_GENERATED)			\
 	$(HTML_EDITOR_GENERATED)		\
-	e-msg-composer-attachment-bar.c		\
-	e-msg-composer-attachment-bar.h		\
-	e-msg-composer-attachment.c		\
-	e-msg-composer-attachment.h		\
 	e-msg-composer-hdrs.c			\
 	e-msg-composer-hdrs.h			\
 	e-msg-composer-select-file.c		\
@@ -81,7 +74,6 @@ libcomposer_la_SOURCES = 			\
 
 EXTRA_DIST =					\
 	mail-composer.error.xml			\
-	$(glade_DATA)				\
 	$(IDLS)					\
 	ChangeLog.pre-1-4
 

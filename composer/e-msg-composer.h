@@ -31,7 +31,6 @@ typedef struct _EMsgComposerClass  EMsgComposerClass;
 #include <bonobo/bonobo-window.h>
 #include <bonobo/bonobo-ui-component.h>
 
-#include "e-msg-composer-attachment-bar.h"
 #include "e-msg-composer-hdrs.h"
 #include "Editor.h"
 

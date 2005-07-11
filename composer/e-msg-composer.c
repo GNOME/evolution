@@ -120,7 +120,8 @@
 #include "mail/em-menu.h"
 
 #include "e-msg-composer.h"
-#include "e-msg-composer-attachment-bar.h"
+#include "e-attachment.h"
+#include "e-attachment-bar.h"
 #include "e-msg-composer-hdrs.h"
 #include "e-msg-composer-select-file.h"
 
@@ -427,8 +428,8 @@ add_inlined_images (EMsgComposer *composer, CamelMultipart *multipart)
 static CamelMimeMessage *
 build_message (EMsgComposer *composer, gboolean save_html_object_data)
 {
-	EMsgComposerAttachmentBar *attachment_bar =
-		E_MSG_COMPOSER_ATTACHMENT_BAR (composer->attachment_bar);
+	EAttachmentBar *attachment_bar =
+		E_ATTACHMENT_BAR (composer->attachment_bar);
 	EMsgComposerHdrs *hdrs = E_MSG_COMPOSER_HDRS (composer->hdrs);
 	CamelDataWrapper *plain, *html, *current;
 	CamelTransferEncoding plain_encoding;
@@ -599,7 +600,7 @@ build_message (EMsgComposer *composer, gboolean save_html_object_data)
 	} else
 		current = plain;
 	
-	if (e_msg_composer_attachment_bar_get_num_attachments (attachment_bar)) {
+	if (e_attachment_bar_get_num_attachments (attachment_bar)) {
 		CamelMultipart *multipart = camel_multipart_new ();
 		
 		if (composer->is_alternative) {
@@ -618,7 +619,7 @@ build_message (EMsgComposer *composer, gboolean save_html_object_data)
 		camel_multipart_add_part (multipart, part);
 		camel_object_unref (part);
 		
-		e_msg_composer_attachment_bar_to_multipart (attachment_bar, multipart, composer->charset);
+		e_attachment_bar_to_multipart (attachment_bar, multipart, composer->charset);
 		
 		if (composer->is_alternative) {
 			int i;
@@ -1654,19 +1655,26 @@ menu_file_close_cb (BonoboUIComponent *uic,
 	composer = E_MSG_COMPOSER (data);
 	do_exit (composer);
 }
+
+static void
+add_to_bar (GtkWidget *composer, GSList *names, int is_inline)
+{
+	while (names) {
+		e_attachment_bar_attach((EAttachmentBar *)((EMsgComposer *)composer)->attachment_bar, names->data, is_inline ? "inline" : "attachment");
+		names = g_slist_next(names);
+	}
+}
 	
 static void
 menu_file_add_attachment_cb (BonoboUIComponent *uic,
 			     void *data,
 			     const char *path)
 {
-	EMsgComposer *composer;
-	
-	composer = E_MSG_COMPOSER (data);
-	
-	e_msg_composer_attachment_bar_attach
-		(E_MSG_COMPOSER_ATTACHMENT_BAR (composer->attachment_bar),
-		 NULL);
+	EMsgComposer *composer = E_MSG_COMPOSER (data);
+	GtkWindow *toplevel = E_MSG_COMPOSER (gtk_widget_get_toplevel (GTK_WIDGET (composer->attachment_bar)));
+	GtkWidget **attachment_selector = e_attachment_bar_get_selector(E_ATTACHMENT_BAR(composer->attachment_bar));
+
+	e_msg_composer_select_file_attachments (toplevel, attachment_selector, add_to_bar);
 }
 
 static void
@@ -2296,13 +2304,13 @@ setup_ui (EMsgComposer *composer)
 /* Miscellaneous callbacks.  */
 
 static void
-attachment_bar_changed_cb (EMsgComposerAttachmentBar *bar,
+attachment_bar_changed_cb (EAttachmentBar *bar,
 			   void *data)
 {
 	EMsgComposer *composer = E_MSG_COMPOSER (data);
 
-	guint attachment_num = e_msg_composer_attachment_bar_get_num_attachments (
-		E_MSG_COMPOSER_ATTACHMENT_BAR (composer->attachment_bar));
+	guint attachment_num = e_attachment_bar_get_num_attachments (
+		E_ATTACHMENT_BAR (composer->attachment_bar));
 	if (attachment_num) {
 		gchar *num_text = g_strdup_printf (
 			ngettext ("<b>%d</b> Attachment", "<b>%d</b> Attachments", attachment_num),
@@ -2660,7 +2668,7 @@ attach_message(EMsgComposer *composer, CamelMimeMessage *msg)
 
 	camel_medium_set_content_object((CamelMedium *)mime_part, (CamelDataWrapper *)msg);
 	camel_mime_part_set_content_type(mime_part, "message/rfc822");
-	e_msg_composer_attachment_bar_attach_mime_part(E_MSG_COMPOSER_ATTACHMENT_BAR(composer->attachment_bar), mime_part);
+	e_attachment_bar_attach_mime_part(E_ATTACHMENT_BAR(composer->attachment_bar), mime_part);
 	camel_object_unref(mime_part);
 }
 
@@ -2683,8 +2691,8 @@ struct _drop_data {
 int
 e_msg_composer_get_remote_download_count (EMsgComposer *composer)
 {
-	return e_msg_composer_attachment_bar_get_download_count 
-				(E_MSG_COMPOSER_ATTACHMENT_BAR (composer->attachment_bar));
+	return e_attachment_bar_get_download_count 
+				(E_ATTACHMENT_BAR (composer->attachment_bar));
 }
 
 static void
@@ -2742,12 +2750,13 @@ drop_action(EMsgComposer *composer, GdkDragContext *context, guint32 action, Gtk
 				}
 
 				if (!g_ascii_strcasecmp (url->protocol, "file"))
-					e_msg_composer_attachment_bar_attach
-						(E_MSG_COMPOSER_ATTACHMENT_BAR (composer->attachment_bar),
-					 	url->path);
+					e_attachment_bar_attach
+						(E_ATTACHMENT_BAR (composer->attachment_bar),
+					 	url->path,
+						"attachment");
 				else	{
-					e_msg_composer_attachment_bar_attach_remote_file 
-						(E_MSG_COMPOSER_ATTACHMENT_BAR (composer->attachment_bar),
+					e_attachment_bar_attach_remote_file 
+						(E_ATTACHMENT_BAR (composer->attachment_bar),
 						str);
 				}
 				g_free (str);
@@ -2767,8 +2776,8 @@ drop_action(EMsgComposer *composer, GdkDragContext *context, guint32 action, Gtk
 		camel_mime_part_set_content (mime_part, selection->data, selection->length, content_type);
 		camel_mime_part_set_disposition (mime_part, "inline");
 		
-		e_msg_composer_attachment_bar_attach_mime_part
-			(E_MSG_COMPOSER_ATTACHMENT_BAR (composer->attachment_bar),
+		e_attachment_bar_attach_mime_part
+			(E_ATTACHMENT_BAR (composer->attachment_bar),
 			 mime_part);
 		
 		camel_object_unref (mime_part);
@@ -2835,7 +2844,7 @@ drop_action(EMsgComposer *composer, GdkDragContext *context, guint32 action, Gtk
 					desc = g_strdup_printf(ngettext("Attached message", "%d attached messages", uids->len), uids->len);
 					camel_mime_part_set_description(mime_part, desc);
 					g_free(desc);
-					e_msg_composer_attachment_bar_attach_mime_part(E_MSG_COMPOSER_ATTACHMENT_BAR(composer->attachment_bar), mime_part);
+					e_attachment_bar_attach_mime_part(E_ATTACHMENT_BAR(composer->attachment_bar), mime_part);
 					camel_object_unref(mime_part);
 					camel_object_unref(mp);
 				}
@@ -3355,6 +3364,148 @@ e_msg_composer_unrealize (GtkWidget *widget, gpointer data)
 	g_object_unref (gconf);
 }
 
+/* Callbacks.  */
+
+static void
+emcab_add(EPopup *ep, EPopupItem *item, void *data)
+{
+	EAttachmentBar *bar = data;
+	GtkWindow *toplevel = E_MSG_COMPOSER (gtk_widget_get_toplevel (GTK_WIDGET (bar)));
+	GtkWidget **attachment_selector = e_attachment_bar_get_selector(E_ATTACHMENT_BAR(bar));
+
+	e_msg_composer_select_file_attachments (toplevel, attachment_selector, add_to_bar);
+}
+
+static void
+emcab_properties(EPopup *ep, EPopupItem *item, void *data)
+{
+	EAttachmentBar *bar = data;
+	
+	e_attachment_bar_edit_selected(bar);
+}
+
+static void
+emcab_remove(EPopup *ep, EPopupItem *item, void *data)
+{
+	EAttachmentBar *bar = data;
+
+	e_attachment_bar_remove_selected(bar);
+}
+
+/* Popup menu handling.  */
+static EPopupItem emcab_popups[] = {
+	{ E_POPUP_ITEM, "10.attach", N_("_Remove"), emcab_remove, NULL, GTK_STOCK_REMOVE, EM_POPUP_ATTACHMENTS_MANY },
+	{ E_POPUP_ITEM, "20.attach", N_("_Properties"), emcab_properties, NULL, GTK_STOCK_PROPERTIES, EM_POPUP_ATTACHMENTS_ONE },
+	{ E_POPUP_BAR, "30.attach.00", NULL, NULL, NULL, NULL, EM_POPUP_ATTACHMENTS_MANY|EM_POPUP_ATTACHMENTS_ONE },
+	{ E_POPUP_ITEM, "30.attach.01", N_("_Add attachment..."), emcab_add, NULL, GTK_STOCK_ADD, 0 },
+};
+
+static void
+emcab_popup_position(GtkMenu *menu, int *x, int *y, gboolean *push_in, gpointer user_data)
+{
+	EAttachmentBar *bar = user_data;
+	GnomeIconList *icon_list = user_data;
+	GList *selection;
+	GnomeCanvasPixbuf *image;
+	
+	gdk_window_get_origin (((GtkWidget*) bar)->window, x, y);
+	
+	selection = gnome_icon_list_get_selection (icon_list);
+	if (selection == NULL)
+		return;
+	
+	image = gnome_icon_list_get_icon_pixbuf_item (icon_list, (gint)selection->data);
+	if (image == NULL)
+		return;
+	
+	/* Put menu to the center of icon. */
+	*x += (int)(image->item.x1 + image->item.x2) / 2;
+	*y += (int)(image->item.y1 + image->item.y2) / 2;
+}
+
+static void
+emcab_popups_free(EPopup *ep, GSList *l, void *data)
+{
+	g_slist_free(l);
+}
+
+/* if id != -1, then use it as an index for target of the popup */
+
+static void
+emcab_popup(EAttachmentBar *bar, GdkEventButton *event, int id)
+{
+	GSList *attachments = NULL, *menus = NULL;
+	int i;
+	EMPopup *emp;
+	EMPopupTargetAttachments *t;
+	GtkMenu *menu;
+
+	attachments = e_attachment_bar_get_attachment(bar, id);
+	
+	for (i=0;i<sizeof(emcab_popups)/sizeof(emcab_popups[0]);i++)
+		menus = g_slist_prepend(menus, &emcab_popups[i]);
+
+	/** @HookPoint-EMPopup: Composer Attachment Bar Context Menu
+	 * @Id: org.gnome.evolution.mail.composer.attachmentbar.popup
+	 * @Class: org.gnome.evolution.mail.popup:1.0
+	 * @Target: EMPopupTargetAttachments
+	 *
+	 * This is the context menu on the composer attachment bar.
+	 */
+	emp = em_popup_new("org.gnome.evolution.mail.composer.attachmentbar.popup");
+	e_popup_add_items((EPopup *)emp, menus, NULL,emcab_popups_free, bar);
+	t = em_popup_target_new_attachments(emp, attachments);
+	t->target.widget = (GtkWidget *)bar;
+	menu = e_popup_create_menu_once((EPopup *)emp, (EPopupTarget *)t, 0);
+
+	if (event == NULL)
+		gtk_menu_popup(menu, NULL, NULL, emcab_popup_position, bar, 0, gtk_get_current_event_time());
+	else
+		gtk_menu_popup(menu, NULL, NULL, NULL, NULL, event->button, event->time);
+}
+
+static gboolean 
+popup_menu_event (GtkWidget *widget)
+{
+	emcab_popup((EAttachmentBar *)widget, NULL, -1);
+	return TRUE;
+}
+
+
+static int
+button_press_event (GtkWidget *widget, GdkEventButton *event)
+{
+	EAttachmentBar *bar = (EAttachmentBar *)widget;
+	GnomeIconList *icon_list = GNOME_ICON_LIST(widget);
+	int icon_number;
+	
+	if (event->button != 3)
+		return FALSE;
+	
+	icon_number = gnome_icon_list_get_icon_at (icon_list, event->x, event->y);
+	if (icon_number >= 0) {
+		gnome_icon_list_unselect_all(icon_list);
+		gnome_icon_list_select_icon (icon_list, icon_number);
+	}
+
+	emcab_popup(bar, event, icon_number);
+	
+	return TRUE;
+}
+
+static gint
+key_press_event(GtkWidget *widget, GdkEventKey *event)
+{
+        EAttachmentBar *bar = E_ATTACHMENT_BAR(widget);
+
+        if (event->keyval == GDK_Delete) {
+                e_attachment_bar_remove_selected (bar);
+                return TRUE;
+        }
+                                                                                
+        return FALSE;
+}
+
 static EMsgComposer *
 create_composer (int visible_mask)
 {
@@ -3472,7 +3623,12 @@ create_composer (int visible_mask)
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (composer->attachment_scrolled_window),
 					GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	
-	composer->attachment_bar = e_msg_composer_attachment_bar_new (NULL);
+	composer->attachment_bar = e_attachment_bar_new (NULL);
+
+	g_signal_connect (composer->attachment_bar, "button_press_event", G_CALLBACK (button_press_event), NULL);
+	g_signal_connect (composer->attachment_bar, "key_press_event", G_CALLBACK (key_press_event), NULL);
+	g_signal_connect (composer->attachment_bar, "popup-menu", G_CALLBACK (popup_menu_event), NULL);
+	
 	GTK_WIDGET_SET_FLAGS (composer->attachment_bar, GTK_CAN_FOCUS);
 	gtk_container_add (GTK_CONTAINER (composer->attachment_scrolled_window),
 			   composer->attachment_bar);
@@ -4405,12 +4561,14 @@ handle_mailto (EMsgComposer *composer, const char *mailto)
 				/* Change file url to absolute path */
 				if (!g_ascii_strncasecmp (content, "file:", 5)) {
 					url = camel_url_new (content, NULL);
-					e_msg_composer_attachment_bar_attach (E_MSG_COMPOSER_ATTACHMENT_BAR (composer->attachment_bar),
-									      url->path);
+					e_attachment_bar_attach (E_ATTACHMENT_BAR (composer->attachment_bar),
+							 	 url->path,
+								 "attachment");
 					camel_url_free (url);
 				} else {
-					e_msg_composer_attachment_bar_attach (E_MSG_COMPOSER_ATTACHMENT_BAR (composer->attachment_bar),
-									      content);
+					e_attachment_bar_attach (E_ATTACHMENT_BAR (composer->attachment_bar),
+								 content,
+								 "attachment");
 				}
 			} else if (!g_ascii_strcasecmp (header, "from")) {
 				/* Ignore */
@@ -4604,13 +4762,13 @@ e_msg_composer_add_header (EMsgComposer *composer, const char *name,
 void
 e_msg_composer_attach (EMsgComposer *composer, CamelMimePart *attachment)
 {
-	EMsgComposerAttachmentBar *bar;
+	EAttachmentBar *bar;
 	
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 	g_return_if_fail (CAMEL_IS_MIME_PART (attachment));
 	
-	bar = E_MSG_COMPOSER_ATTACHMENT_BAR (composer->attachment_bar);
-	e_msg_composer_attachment_bar_attach_mime_part (bar, attachment);
+	bar = E_ATTACHMENT_BAR (composer->attachment_bar);
+	e_attachment_bar_attach_mime_part (bar, attachment);
 	gtk_widget_show (composer->attachment_expander);
 	gtk_widget_show (composer->attachment_scrolled_window);
 

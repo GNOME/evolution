@@ -1,3 +1,15 @@
+2005-07-11  Srinivasa Ragavan <sragavan@novell.com>
+
+	* Makefile.am: Removed em-attachment* from the build.
+	Remains in the CVS, just incase to revert in case of issues.
+	Should go away after 2.3.5.
+	
+	* e-msg-composer.c: (add_inlined_images) (build_message) (menu_file_close_cb) 
+	(setup_ui) (attach_message) (drop_action) (e_msg_composer_unrealize) 
+	(create_composer) (handle_mailto) (e_msg_composer_add_header)
+	Changed the code to use e_attachment_* from em_attachment*
+
+	* e-msg-composer.h: Added removed old header includes
 2005-07-10  Shreyas Srinivasan <sshreyas@novell.com>
 
 	* e-msg-composer-hdrs.c: Take into account store
