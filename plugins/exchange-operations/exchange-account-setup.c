@@ -129,7 +129,8 @@ btn_chpass_clicked (GtkButton *button, gpointer data)
 	new_password = exchange_get_new_password (old_password, TRUE);
 	g_print ("Current password is \"%s\"\n", old_password);
  	result = exchange_account_set_password (account, old_password, new_password);
- 	exchange_operations_report_error (account, result);
+	if (result != EXCHANGE_ACCOUNT_CONNECT_SUCCESS)
+		exchange_operations_report_error (account, result);
 	
 	g_free (old_password);
 	g_free (new_password);	

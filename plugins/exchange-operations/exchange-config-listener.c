@@ -872,7 +872,8 @@ account_added (EAccountList *account_list, EAccount *account)
 		       exchange_account);
 	add_sources (exchange_account);
  	exchange_account_connect (exchange_account, NULL, &result);
- 	exchange_operations_report_error (exchange_account, result);
+	if (result != EXCHANGE_ACCOUNT_CONNECT_SUCCESS)
+		exchange_operations_report_error (exchange_account, result);
 	add_new_sources (exchange_account);
 }
 

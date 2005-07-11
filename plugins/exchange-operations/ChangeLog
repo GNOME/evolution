@@ -1,5 +1,13 @@
 2005-07-11  Sarfraaz Ahmed <asarfraaz@novell.com>
 
+	* exchange-operations.c (exchange_operations_report_error) : Check that
+	the result is not a success and only then print the error
+	* exchange-account-setup.c (btn_chpass_clicked) : Call the error 
+	reporting routine only if there is a failure.
+	* exchange-config-listener.c (account_added) : Similar
+
+2005-07-11  Sarfraaz Ahmed <asarfraaz@novell.com>
+
 	Patch submitted by ArunPrakash <arunp@novell.com>
 	* exchange-operations.c (exchange_operations_report_error) : Newly 
 	added, to report errors using e_error_run. Also a list of error-ids is 

@@ -192,6 +192,9 @@ exchange_operations_report_error (ExchangeAccount *account, ExchangeAccountResul
 	gchar *error_string;
 
 	g_return_if_fail (account != NULL);
+
+	if (result == EXCHANGE_ACCOUNT_CONNECT_SUCCESS)
+		return;
 	
 	error_string = g_strconcat ("org-gnome-exchange-operations:", error_ids[result], NULL);
 	
