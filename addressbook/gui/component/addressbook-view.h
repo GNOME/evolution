@@ -57,4 +57,8 @@ GtkWidget         *addressbook_view_peek_sidebar          (AddressbookView *view
 GtkWidget         *addressbook_view_peek_statusbar        (AddressbookView *view);
 BonoboControl     *addressbook_view_peek_folder_view      (AddressbookView *view);
 
+void              addressbook_view_edit_contact           (AddressbookView* view, 
+							   const char* source_id, 
+							   const char* contact_id);
+
 #endif /* _ADDRESSBOOK_VIEW_H_ */

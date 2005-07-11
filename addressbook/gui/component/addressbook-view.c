@@ -1405,3 +1405,42 @@ addressbook_view_peek_folder_view (AddressbookView *view)
 
 	return view->priv->folder_view_control;
 }
+
+void
+addressbook_view_edit_contact (AddressbookView* view, 
+			       const char* source_uid, 
+			       const char* contact_uid)
+{
+	AddressbookViewPrivate *priv = view->priv;
+
+	ESource* source = NULL;
+	EContact* contact = NULL;
+	EBook* book = NULL;
+ 
+	if (!source_uid || !contact_uid)
+		return;
+
+	source = e_source_list_peek_source_by_uid (priv->source_list, source_uid);
+	if (!source)
+		return;
+
+	/* FIXME: Can I unref this book? */
+	book = e_book_new (source, NULL);		
+	if (!book)
+		return;
+
+	if (!e_book_open (book, TRUE, NULL)) {
+		g_object_unref (book);
+		return;
+	}
+
+	e_book_get_contact (book, contact_uid, &contact, NULL);
+	
+	if (!contact) {
+		g_object_unref (book);
+		return;
+	}
+	eab_show_contact_editor (book, contact, FALSE, FALSE);
+	g_object_unref (contact);
+	g_object_unref (book);
+}

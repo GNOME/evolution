@@ -44,6 +44,7 @@
 #include <gtk/gtkimage.h>
 #include <gconf/gconf-client.h>
 #include <e-util/e-util.h>
+#include <libedataserver/e-url.h>
 
 #ifdef ENABLE_SMIME
 #include "smime/gui/component.h"
@@ -58,6 +59,7 @@ static BonoboObjectClass *parent_class = NULL;
 struct _AddressbookComponentPrivate {
 	GConfClient *gconf_client;
 	char *base_directory;
+	GList *views;
 };
 
 static void
@@ -159,6 +161,24 @@ ensure_sources (AddressbookComponent *component)
 	g_free (base_uri);
 }
 
+static void
+view_destroyed_cb (gpointer data, GObject *where_the_object_was)
+{
+	AddressbookComponent *addressbook_component = data;
+	AddressbookComponentPrivate *priv;
+	GList *l;
+	
+	priv = addressbook_component->priv;
+
+	for (l = priv->views; l; l = l->next) {
+		AddressbookView *view = l->data;
+		if (G_OBJECT (view) == where_the_object_was) {
+			priv->views = g_list_remove (priv->views, view);
+			break;
+		}
+	}
+}
+
 /* Evolution::Component CORBA methods.  */
 
 static void
@@ -168,6 +188,8 @@ impl_createControls (PortableServer_Servant servant,
 		     Bonobo_Control *corba_statusbar_control,
 		     CORBA_Environment *ev)
 {
+	AddressbookComponent *addressbook_component = ADDRESSBOOK_COMPONENT (bonobo_object_from_servant (servant));
+	AddressbookComponentPrivate *priv = addressbook_component->priv;
 	AddressbookView *view = addressbook_view_new ();
 	BonoboControl *sidebar_control;
 	BonoboControl *view_control;
@@ -176,6 +198,9 @@ impl_createControls (PortableServer_Servant servant,
 	sidebar_control = bonobo_control_new (addressbook_view_peek_sidebar (view));
 	view_control = addressbook_view_peek_folder_view (view);
 	statusbar_control = bonobo_control_new (addressbook_view_peek_statusbar (view));
+
+	g_object_weak_ref (G_OBJECT (view), view_destroyed_cb, addressbook_component);
+	priv->views = g_list_append (priv->views, view);
 
 	*corba_sidebar_control = CORBA_Object_duplicate (BONOBO_OBJREF (sidebar_control), ev);
 	*corba_view_control = CORBA_Object_duplicate (BONOBO_OBJREF (view_control), ev);
@@ -278,6 +303,75 @@ impl_requestCreateItem (PortableServer_Servant servant,
 }
 
 static void
+impl_handleURI (PortableServer_Servant servant,
+		const char* uri,
+		CORBA_Environment *ev)
+{
+	AddressbookComponent *addressbook_component = ADDRESSBOOK_COMPONENT (bonobo_object_from_servant (servant));
+	AddressbookComponentPrivate *priv;
+	AddressbookView *view = NULL;
+
+	GList *l;
+	char *src_uid = NULL;
+	char *contact_uid = NULL;
+
+	priv = addressbook_component->priv;
+	l = g_list_last (priv->views);
+	if (!l)
+		return;
+	
+	view = l->data;
+		
+	if (!strncmp (uri, "contacts:", 9)) {
+		EUri *euri = e_uri_new (uri);
+		const char *p;
+		char *header, *content;
+		size_t len, clen;
+
+		p = euri->query;
+		if (p) {
+			while (*p) {
+				len = strcspn (p, "=&");
+			
+				/* If it's malformed, give up. */
+				if (p[len] != '=')
+					break;
+			
+				header = (char *) p;
+				header[len] = '\0';
+				p += len + 1;
+			
+				clen = strcspn (p, "&");
+			
+				content = g_strndup (p, clen);
+
+				if (!g_ascii_strcasecmp (header, "source-uid")) {
+					src_uid = g_strdup (content);
+				} else if (!g_ascii_strcasecmp (header, "contact-uid")) {
+					contact_uid = g_strdup (content);
+				}
+
+				g_free (content);
+
+				p += clen;
+				if (*p == '&') {
+					p++;
+					if (!strcmp (p, "amp;"))
+						p += 4;
+				}
+			}
+			
+			addressbook_view_edit_contact (view, src_uid, contact_uid);
+			
+			g_free (src_uid);
+			g_free (contact_uid);
+		}
+		e_uri_free (euri);
+	}
+	
+}
+
+static void
 impl_upgradeFromVersion (PortableServer_Servant servant, short major, short minor, short revision, CORBA_Environment *ev)
 {
 	GError *err = NULL;
@@ -307,12 +401,19 @@ static void
 impl_dispose (GObject *object)
 {
 	AddressbookComponentPrivate *priv = ADDRESSBOOK_COMPONENT (object)->priv;
+	GList *l;
 
 	if (priv->gconf_client != NULL) {
 		g_object_unref (priv->gconf_client);
 		priv->gconf_client = NULL;
 	}
 
+	for (l = priv->views; l; l = l->next) {
+		AddressbookView *view = l->data;
+		g_object_weak_unref (G_OBJECT (view), view_destroyed_cb, ADDRESSBOOK_COMPONENT (object));
+	}
+	g_list_free (priv->views);
+	priv->views = NULL;
 	(* G_OBJECT_CLASS (parent_class)->dispose) (object);
 }
 
@@ -340,6 +441,7 @@ addressbook_component_class_init (AddressbookComponentClass *class)
 	epv->requestCreateItem       = impl_requestCreateItem;
 	epv->upgradeFromVersion      = impl_upgradeFromVersion;
 	epv->requestQuit             = impl_requestQuit;
+	epv->handleURI               = impl_handleURI;
 
 	object_class->dispose  = impl_dispose;
 	object_class->finalize = impl_finalize;

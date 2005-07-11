@@ -1,3 +1,9 @@
+2005-07-09  Veerapuram Varadhan <vvaradhan@novell.com>
+	
+	* gui/component/addressbook-component.c: (impl_createControls):
+	* gui/component/addressbook-view.[c,h]: (addressbook_view_edit_contact):
+	(impl_handleURI): Handle contacts:// uris.
+	
 2005-07-08  Sushma Rai  <rsushma@novell.com>
 
 	* gui/widgets/eab-gui-util.c (eab_load_error_dialog): Including the
