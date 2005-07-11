@@ -924,6 +924,29 @@ e_config_create_window(EConfig *emp, struct _GtkWindow *parent, const char *titl
 	return w;
 }
 
+static gboolean
+ec_idle_handler_for_rebuild (gpointer data)
+{
+	EConfig *emp = (EConfig*) data;
+
+	ec_rebuild (emp);
+	if (emp->type == E_CONFIG_DRUID) {
+		if (emp->priv->druid_page) {
+			gnome_druid_set_page((GnomeDruid *)emp->widget, (GnomeDruidPage *)emp->priv->druid_page->frame);
+			ec_druid_check_current(emp);
+		}
+	} else {
+		if (emp->window) {
+			if (e_config_page_check(emp, NULL)) {
+				gtk_dialog_set_response_sensitive((GtkDialog *)emp->window, GTK_RESPONSE_OK, TRUE);
+			} else {
+				gtk_dialog_set_response_sensitive((GtkDialog *)emp->window, GTK_RESPONSE_OK, FALSE);
+			}
+		}
+	}
+	return FALSE;
+}
+
 /**
  * e_config_target_changed:
  * @emp: 
@@ -939,8 +962,10 @@ e_config_create_window(EConfig *emp, struct _GtkWindow *parent, const char *titl
  **/
 void e_config_target_changed(EConfig *emp, e_config_target_change_t how)
 {
-	if (how == E_CONFIG_TARGET_CHANGED_REBUILD)
-		ec_rebuild(emp);
+	if (how == E_CONFIG_TARGET_CHANGED_REBUILD) {
+		g_idle_add (ec_idle_handler_for_rebuild, emp);
+		return;
+	}
 
 	if (emp->type == E_CONFIG_DRUID) {
 		if (emp->priv->druid_page) {

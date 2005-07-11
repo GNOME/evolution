@@ -1,3 +1,10 @@
+2005-07-11 Vivek Jain <jvivek@novell.com>
+	
+	* e-config.c: (e_config_target_changed):
+	added a idle handler that calls ec_rebuild after callback operations
+	are completed.
+	**Fixes #307794
+	
 2005-07-10  Shreyas Srinivasan
 
 	* e-util/e-account.[ch]: Add structures to handle proxies.
