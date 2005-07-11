@@ -1,3 +1,11 @@
+2005-07-11  Vivek Jain  <jvivek@novell.com>
+	
+	* new-mail-notify.c :(send_dbus_message)
+	check whether memory could be allocated. Return if the 
+	message is NULL so that we don't unref it again, will save crash.
+	**Fixes #274329 sort of bugs, in case reported even after 
+	david's fix.
+
 2005-05-11  Not Zed  <NotZed@Ximian.com>
 
 	* Makefile.am: added built_sources/cleanfiles

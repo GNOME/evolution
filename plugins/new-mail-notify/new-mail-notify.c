@@ -57,6 +57,9 @@ send_dbus_message (const char *message_name, const char *data)
 					   DBUS_INTERFACE,
 					   message_name);
 
+	if (message == NULL) 
+		return;
+
 	/* Appends the data as an argument to the message */
 	dbus_message_append_args (message,
 #if DBUS_VERSION >= 310
