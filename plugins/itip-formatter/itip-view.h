@@ -165,6 +165,10 @@ const char *itip_view_get_rsvp_comment (ItipView *view);
 void itip_view_set_buttons_sensitive (ItipView *view, gboolean sensitive);
 gboolean itip_view_get_buttons_sensitive (ItipView *view);
 
+void itip_view_set_show_recur_check (ItipView *view, gboolean show);
+gboolean itip_view_get_recur_check_state (ItipView *view);
+
+
 G_END_DECLS
 
 #endif

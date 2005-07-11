@@ -112,6 +112,9 @@ struct _ItipViewPrivate {
 	GtkWidget *rsvp_comment_entry;
 	gboolean rsvp_show;
 
+	GtkWidget *recur_box;
+	GtkWidget *recur_check;
+
 	GtkWidget *update_box;
 	GtkWidget *update_check;
 	gboolean update_show;
@@ -689,9 +692,11 @@ static void
 set_buttons (ItipView *view) 
 {
 	ItipViewPrivate *priv;
-	
+	gboolean is_recur_set = FALSE;
+
 	priv = view->priv;
 
+	is_recur_set = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (priv->recur_check));
 	gtk_container_foreach (GTK_CONTAINER (priv->button_box), (GtkCallback) gtk_widget_destroy, NULL);
 
 	/* Everything gets the open button */
@@ -703,9 +708,9 @@ set_buttons (ItipView *view)
 		set_one_button (view, "_Accept", GTK_STOCK_APPLY, ITIP_VIEW_RESPONSE_ACCEPT);
 		break;
 	case ITIP_VIEW_MODE_REQUEST:
-		set_one_button (view, "_Decline", GTK_STOCK_CANCEL, ITIP_VIEW_RESPONSE_DECLINE);
-		set_one_button (view, "_Tentative", GTK_STOCK_DIALOG_QUESTION, ITIP_VIEW_RESPONSE_TENTATIVE);
-		set_one_button (view, "_Accept", GTK_STOCK_APPLY, ITIP_VIEW_RESPONSE_ACCEPT);
+		set_one_button (view, is_recur_set ? "_Decline all" : "_Decline", GTK_STOCK_CANCEL, ITIP_VIEW_RESPONSE_DECLINE);
+		set_one_button (view, is_recur_set ? "_Tentative all" : "_Tentative", GTK_STOCK_DIALOG_QUESTION, ITIP_VIEW_RESPONSE_TENTATIVE);
+		set_one_button (view, is_recur_set ? "_Accept all" : "_Accept", GTK_STOCK_APPLY, ITIP_VIEW_RESPONSE_ACCEPT);
 		break;
 	case ITIP_VIEW_MODE_ADD:
 		set_one_button (view, "_Decline", GTK_STOCK_CANCEL, ITIP_VIEW_RESPONSE_DECLINE);
@@ -809,6 +814,20 @@ rsvp_toggled_cb (GtkWidget *widget, gpointer data)
 	gtk_widget_set_sensitive (priv->rsvp_comment_header, rsvp);
 	gtk_widget_set_sensitive (priv->rsvp_comment_entry, rsvp);
 }
+
+static void
+recur_toggled_cb (GtkWidget *widget, gpointer data) 
+{
+	ItipView *view = data;
+	ItipViewPrivate *priv;
+	gboolean is_recur;
+	
+	priv = view->priv;
+	
+	is_recur = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (priv->recur_check));
+	itip_view_set_mode (view, priv->mode);
+}
+
 
 static void
 itip_view_init (ItipView *view)
@@ -960,6 +979,16 @@ itip_view_init (ItipView *view)
 	priv->update_check = gtk_check_button_new_with_mnemonic (_("Send u_pdates to attendees"));
 	gtk_widget_show (priv->update_check);
 	gtk_box_pack_start (GTK_BOX (priv->update_box), priv->update_check, FALSE, FALSE, 0);
+
+	/* The recurrence check button */
+	priv->recur_box = gtk_vbox_new (FALSE, 12);
+	gtk_widget_show (priv->recur_box);
+	gtk_box_pack_start (GTK_BOX (vbox), priv->recur_box, FALSE, FALSE, 0);
+
+	priv->recur_check = gtk_check_button_new_with_mnemonic (_("A_pply to all instances"));
+	gtk_box_pack_start (GTK_BOX (priv->recur_box), priv->recur_check, FALSE, FALSE, 0);
+
+	g_signal_connect (priv->recur_check, "toggled", G_CALLBACK (recur_toggled_cb), view);
 
 	/* The buttons for actions */
 	priv->button_box = gtk_hbutton_box_new ();
@@ -1847,4 +1876,22 @@ itip_view_get_buttons_sensitive (ItipView *view)
 	return priv->buttons_sensitive;
 }
 
+gboolean	
+itip_view_get_recur_check_state (ItipView *view)
+{
+	return gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (view->priv->recur_check));
+}
+
+void
+itip_view_set_show_recur_check (ItipView *view, gboolean show)
+{
+	g_return_if_fail (view != NULL);
+	g_return_if_fail (ITIP_IS_VIEW (view));	
 	
+	if (show)
+		gtk_widget_show (view->priv->recur_check);
+	else  {
+		gtk_widget_hide (view->priv->recur_check);
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (view->priv->recur_check), FALSE);
+	}
+}

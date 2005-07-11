@@ -1,3 +1,15 @@
+2005-07-11  Harish Krishnaswamy  <kharish@novell.com>
+
+	* itip-formatter.c (source_selected_cb), 
+	(find_cal_opened_cb), (extract_itip_data): enable the
+	'Apply to all instances' option for gw recurrence instances.
+	(view_response_cb): embed X-GW-RECUR-INSTANCE-MOD-TYPE property in the
+	component to indicate whether the accept/decline status applies
+	to the instance or the entire group.
+	* itip-view.[ch]: (set_buttons), (recur_toggled_cb), (itip_view_init),
+	(itip_view_get_recur_check_state), (itip_view_set_show_recur_check):
+	utility methods to manipulate the recur_check widget.
+
 2005-06-27  Tor Lillqvist  <tml@novell.com>
 
 	* Makefile.am: Use NO_UNDEFINED. Link with more libraries.

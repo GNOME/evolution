@@ -334,6 +334,30 @@ source_selected_cb (ItipView *view, ESource *source, gpointer data)
 	itip_view_set_buttons_sensitive (ITIP_VIEW (pitip->view), FALSE);
 
 	start_calendar_server (pitip, source, pitip->type, cal_opened_cb, pitip);
+	/* If it is a GW recurrence instance, enable the 'Apply to all
+	 * instances' option */
+	if (e_cal_get_static_capability (pitip->current_ecal, CAL_STATIC_CAPABILITY_RECURRENCES_NO_MASTER)) {
+		gboolean is_instance = FALSE;
+		icalcomponent *icalcomp = e_cal_component_get_icalcomponent (pitip->comp);
+		icalproperty *icalprop;
+
+		icalprop = icalcomponent_get_first_property (icalcomp, ICAL_X_PROPERTY);
+		while (icalprop) {
+			const char *x_name;
+
+			x_name = icalproperty_get_x_name (icalprop);
+			if (!strcmp (x_name, "X-GW-RECURRENCE-KEY")) {
+				is_instance = TRUE;
+				break;
+			}
+			icalprop = icalcomponent_get_next_property (icalcomp, ICAL_X_PROPERTY);
+		}
+		if (is_instance)
+			itip_view_set_show_recur_check (ITIP_VIEW (pitip->view), TRUE);
+		else
+			itip_view_set_show_recur_check (ITIP_VIEW (pitip->view), FALSE);
+	}
+		
 }
 
 static void
@@ -404,6 +428,9 @@ find_cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
 						      "Found the appointment in the calendar '%s'", e_source_peek_name (source));
 
 		set_buttons_sensitive (pitip);
+		if (e_cal_get_static_capability (pitip->current_ecal, CAL_STATIC_CAPABILITY_RECURRENCES_NO_MASTER))
+			itip_view_set_show_recur_check (ITIP_VIEW (pitip->view), TRUE);
+
 	}
 
 	zone = calendar_config_get_icaltimezone ();
@@ -1099,7 +1126,7 @@ extract_itip_data (FormatItipPObject *pitip, GtkContainer *container)
 
 		return FALSE;
 	}
-	
+
 	prop = icalcomponent_get_first_property (pitip->main_comp, ICAL_METHOD_PROPERTY);
 	if (prop == NULL) {
 		pitip->method = ICAL_METHOD_PUBLISH;
@@ -1291,9 +1318,17 @@ view_response_cb (GtkWidget *widget, ItipViewResponse response, gpointer data)
 {
 	FormatItipPObject *pitip = data;
 	gboolean status = FALSE;
+	icalproperty *prop;
+
 
 	if (!pitip->my_address && pitip->current_ecal != NULL)
 		e_cal_get_cal_address (pitip->current_ecal, &pitip->my_address, NULL);
+
+	/* check if it is a  recur instance (no master object) and
+	 * add a property */
+	prop = icalproperty_new_x ("All");	
+	icalproperty_set_x_name (prop, "X-GW-RECUR-INSTANCES-MOD-TYPE");
+	icalcomponent_add_property (e_cal_component_get_icalcomponent (pitip->comp), prop);
 
 	switch (response) {
 	case ITIP_VIEW_RESPONSE_ACCEPT:
