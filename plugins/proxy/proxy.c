@@ -604,43 +604,56 @@ org_gnome_proxy (EPlugin *epl, EConfigHookItemFactoryData *data)
 	GtkButton *addProxy, *removeProxy, *editProxy;
 	proxyDialog *prd;
 	proxyDialogPrivate *priv;
-	
+
 	target_account = (EMConfigTargetAccount *)data->config->target;
 	account = target_account->account;
-	prd = proxy_dialog_new ();
-	g_object_set_data ((GObject *) account, "prd", prd);
-	priv = prd->priv;
 
-	if(!g_strrstr (e_account_get_string(account, E_ACCOUNT_SOURCE_URL), "groupwise://"))
-		return NULL;
+	if (account->enabled) {
+		prd = proxy_dialog_new ();
+		g_object_set_data ((GObject *) account, "prd", prd);
+		priv = prd->priv;
 
-	priv->xml_tab = glade_xml_new (EVOLUTION_GLADEDIR "/proxy-listing.glade", "proxy_vbox", NULL);
-	tab_dialog = GTK_WIDGET (glade_xml_get_widget (priv->xml_tab, "proxy_vbox"));
-	priv->tree = GTK_TREE_VIEW (glade_xml_get_widget (priv->xml_tab, "proxy_access_list"));
-	priv->store =  gtk_tree_store_new (2,
-					   GDK_TYPE_PIXBUF,
-					   G_TYPE_STRING
-					   );
-	proxy_setup_meta_tree_view (account);
+		if(!g_strrstr (e_account_get_string(account, E_ACCOUNT_SOURCE_URL), "groupwise://"))
+			return NULL;
 
-	addProxy = (GtkButton *) glade_xml_get_widget (priv->xml_tab, "add_proxy");
-	removeProxy = (GtkButton *) glade_xml_get_widget (priv->xml_tab, "remove_proxy");
-	editProxy = (GtkButton *) glade_xml_get_widget (priv->xml_tab, "edit_proxy");
+		priv->xml_tab = glade_xml_new (EVOLUTION_GLADEDIR "/proxy-listing.glade", "proxy_vbox", NULL);
+		tab_dialog = GTK_WIDGET (glade_xml_get_widget (priv->xml_tab, "proxy_vbox"));
+		priv->tree = GTK_TREE_VIEW (glade_xml_get_widget (priv->xml_tab, "proxy_access_list"));
+		priv->store =  gtk_tree_store_new (2,
+				GDK_TYPE_PIXBUF,
+				G_TYPE_STRING
+				);
+		proxy_setup_meta_tree_view (account);
 
-	g_signal_connect (addProxy, "clicked", G_CALLBACK(proxy_add_account), account);	
-	g_signal_connect (removeProxy, "clicked", G_CALLBACK(proxy_remove_account), account);
-	g_signal_connect (editProxy, "clicked", G_CALLBACK(proxy_edit_account), account);
+		addProxy = (GtkButton *) glade_xml_get_widget (priv->xml_tab, "add_proxy");
+		removeProxy = (GtkButton *) glade_xml_get_widget (priv->xml_tab, "remove_proxy");
+		editProxy = (GtkButton *) glade_xml_get_widget (priv->xml_tab, "edit_proxy");
 
-	prd->cnc = proxy_get_cnc(account);
+		g_signal_connect (addProxy, "clicked", G_CALLBACK(proxy_add_account), account);	
+		g_signal_connect (removeProxy, "clicked", G_CALLBACK(proxy_remove_account), account);
+		g_signal_connect (editProxy, "clicked", G_CALLBACK(proxy_edit_account), account);
 
-	if (e_gw_connection_get_proxy_access_list(prd->cnc, &proxy_list)!= E_GW_CONNECTION_STATUS_OK) 
-		return NULL;
-	
-	g_object_set_data ((GObject *) account, "proxy_list", proxy_list);
-	proxy_update_tree_view (account);
-	gtk_notebook_append_page ((GtkNotebook *)(data->parent), (GtkWidget *)tab_dialog, gtk_label_new("Proxy"));
-	gtk_widget_show_all (tab_dialog);
+		prd->cnc = proxy_get_cnc(account);
 
+		if (e_gw_connection_get_proxy_access_list(prd->cnc, &proxy_list)!= E_GW_CONNECTION_STATUS_OK) 
+			return NULL;
+
+		g_object_set_data ((GObject *) account, "proxy_list", proxy_list);
+		proxy_update_tree_view (account);
+		gtk_notebook_append_page ((GtkNotebook *)(data->parent), (GtkWidget *)tab_dialog, gtk_label_new("Proxy"));
+		gtk_widget_show_all (tab_dialog);
+	} else {
+		GtkWidget *err_tab;
+		GtkWidget *label;
+		
+		err_tab = gtk_vbox_new (TRUE, 10);
+		label = gtk_label_new (_("The Proxy tab will be available only when the account is enabled."));
+		gtk_box_pack_start ((GtkBox *)err_tab, label, TRUE, TRUE, 10);
+		
+		gtk_notebook_append_page ((GtkNotebook *)(data->parent), (GtkWidget *)err_tab, gtk_label_new("Proxy"));
+		gtk_widget_show_all (err_tab);
+
+	}
 	return NULL;
 }
 

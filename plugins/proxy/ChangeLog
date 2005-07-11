@@ -1,5 +1,13 @@
 2005-07-11  Sankar P  <psankar@novell.com>
 
+	* proxy.c : (org_gnome_proxy)
+	Made changes so that the proxy list will be loaded only when the 
+	account edited is enabled. So a new connection need not be created,
+	when an account is edited and a connection is not present.
+	Fixes #309999
+
+2005-07-11  Sankar P  <psankar@novell.com>
+
 	* proxy.c : 
 	(proxy_edit_account) : Added code to hide the contacts button
 	while editing proxy access rights for a proxy.
