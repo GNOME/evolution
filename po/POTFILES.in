@@ -281,7 +281,7 @@ plugins/exchange-operations/exchange-delegates.glade
 plugins/exchange-operations/exchange-folder-tree.glade
 plugins/folder-unsubscribe/folder-unsubscribe.c
 plugins/folder-unsubscribe/org-gnome-mail-folder-unsubscribe.eplug.xml
-plugins/groupwise-features/camel-gw-listener.c
+plugins/groupwise-account-setup/camel-gw-listener.c
 plugins/groupwise-features/install-shared.c
 plugins/groupwise-features/org-gnome-compose-send-options.xml
 plugins/groupwise-features/org-gnome-groupwise-features.eplug.xml

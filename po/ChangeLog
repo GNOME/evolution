@@ -1,3 +1,7 @@
+2005-07-11  Vivek Jain <jvivek@novell.com>
+	
+	* POTFILES.in : relocated camel-gw-listener.c
+
 2005-07-11  Sankar P <psankar@novell.com>
 
 	* POTFILES.in : Added the proxy.c file to the list.
