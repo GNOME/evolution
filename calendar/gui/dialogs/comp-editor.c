@@ -608,41 +608,34 @@ get_attachment_list (CompEditor *editor)
 
 	for (p = parts; p!=NULL ; p = p->next) {
 		CamelDataWrapper *wrapper;
-		CamelStreamMem *mstream;
-		unsigned char *buffer = NULL;
-		int fd;
+		CamelStream *stream;
 		char *attach_file_url;
+		char *safe_fname;
 	
 		wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (p->data));
-		mstream = (CamelStreamMem *) camel_stream_mem_new ();
 			
-		camel_data_wrapper_decode_to_stream (wrapper, (CamelStream *) mstream);
-		buffer = g_memdup (mstream->buffer->data, mstream->buffer->len);
-
-
 		/* Extract the content from the stream and write it down
 		 * as a mime part file into the directory denoting the
 		 * calendar source */
+		safe_fname = camel_file_util_safe_filename(camel_mime_part_get_filename ((CamelMimePart *)p->data));
 		attach_file_url = g_strconcat (local_store,
 					       comp_uid,  "-",
-			 		       camel_file_util_safe_filename
-		   			       (camel_mime_part_get_filename ((CamelMimePart *)p->data)), NULL); 
+			 		       safe_fname,
+		   			       NULL); 
+		g_free (safe_fname);
 
-		fd = open (attach_file_url+7, O_RDWR|O_CREAT|O_TRUNC, 0600);
-		if (fd == -1) {
+		stream = camel_stream_fs_new_with_name(attach_file_url+7, O_RDWR|O_CREAT|O_TRUNC, 0600);
+		if (!stream) {
 			/* TODO handle error conditions */
-			g_message ("DEBUG: could not open the file descriptor\n");
+			g_message ("DEBUG: could not open the file to write\n");
 			continue;
 		}
+		
+		camel_data_wrapper_decode_to_stream (wrapper, (CamelStream *) stream);
+		camel_stream_close (stream);
+		g_object_unref (stream);
 
-		/* write the camel mime part  (attachment->body) into the file*/
-		if (camel_write (fd, buffer, mstream->buffer->len) == -1) {
-			/* TODO handle error condition */
-			g_message ("DEBUG: camel write failed.\n");
-			continue;
-		}
 		list = g_slist_append (list, g_strdup (attach_file_url));
-		/* do i need to close the fd */
 		g_free (attach_file_url);
 	}
 
@@ -974,7 +967,7 @@ attachment_bar_changed_cb (EAttachmentBar *bar,
 }
 
 static	gboolean 
-attachment_bar_icon_clicked_cb (EAttachmentBar *bar, GdkEvent *event, void *data)
+attachment_bar_icon_clicked_cb (EAttachmentBar *bar, GdkEvent *event, CompEditor *editor)
 {
 	GnomeIconList *icon_list;
 	GList *p;
@@ -986,8 +979,23 @@ attachment_bar_icon_clicked_cb (EAttachmentBar *bar, GdkEvent *event, void *data
 		icon_list = GNOME_ICON_LIST (bar);
 		p = gnome_icon_list_get_selection (icon_list);
 		if (p) {
+			EAttachment *attachment;
+			GSList *list;
+			const char *comp_uid= NULL;
+			const char *local_store = e_cal_get_local_attachment_store (editor->priv->client);
+
+			e_cal_component_get_uid (editor->priv->comp, &comp_uid);			
 			num = GPOINTER_TO_INT (p->data);
-			attach_file_url = e_attachment_bar_get_nth_attachment_filename (bar, num);	
+			list = e_attachment_bar_get_attachment (bar, num);
+			attachment = list->data;
+			g_slist_free (list);
+			
+			attach_file_url = g_strconcat (local_store,
+							comp_uid,
+							"-",
+							camel_mime_part_get_filename(attachment->body),
+							NULL);
+						
 			/* launch the url now */
 			/* TODO should send GError and handle error conditions
 			 * here */
@@ -1080,7 +1088,6 @@ cab_popups_free(EPopup *ep, GSList *l, void *data)
 static void
 cab_popup(EAttachmentBar *bar, GdkEventButton *event, int id)
 {
-	GList *p;
 	GSList *attachments = NULL, *menus = NULL;
 	int i;
 	ECalPopup *ecp;
@@ -1206,7 +1213,7 @@ setup_widgets (CompEditor *editor)
 	g_signal_connect (priv->attachment_bar, "changed",
 			  G_CALLBACK (attachment_bar_changed_cb), editor);
 	g_signal_connect (GNOME_ICON_LIST (priv->attachment_bar), "event",
-			  G_CALLBACK (attachment_bar_icon_clicked_cb), NULL);			
+			  G_CALLBACK (attachment_bar_icon_clicked_cb), editor);			
 	priv->attachment_expander_label =
 		gtk_label_new_with_mnemonic (_("_Attachment Bar (drop attachments here)"));
 	priv->attachment_expander_num = gtk_label_new ("");
@@ -2023,13 +2030,13 @@ set_attachment_list (CompEditor *editor, GSList *attach_list)
 		/* return if it's not a regular file */
 		if (!S_ISREG (statbuf.st_mode)) {
 			g_warning ("Cannot attach file %s: not a regular file", file_name);
-			return NULL;
+			return;
 		}
 		
 		stream = camel_stream_fs_new_with_name (file_name, O_RDONLY, 0);
 		if (!stream) {
 			g_warning ("Cannot attach file %s: %s", file_name, g_strerror (errno));
-			return NULL;
+			return;
 		}
 
 		mime_type = attachment_guess_mime_type (file_name);
@@ -2415,6 +2422,8 @@ comp_editor_get_mime_attach_list (CompEditor *editor)
 		cal_mime_attach->content_type = g_strdup (camel_data_wrapper_get_mime_type (wrapper));
 		
 		attach_list = g_slist_append (attach_list, cal_mime_attach);
+
+		g_object_unref (mstream);
 		
 	}
 
