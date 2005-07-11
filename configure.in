@@ -1221,7 +1221,7 @@ EVO_SET_COMPILE_FLAGS(TZDIALOG, libecal-$EDS_PACKAGE >= $EDS_REQUIRED, $GNOME_FU
 AC_SUBST(TZDIALOG_CFLAGS)
 AC_SUBST(TZDIALOG_LIBS)
 
-EVO_SET_COMPILE_FLAGS(E_WIDGETS, glib-2.0 libbonoboui-2.0 >= $BONOBOUI_REQUIRED gnome-vfs-2.0 libgnomeui-2.0 libglade-2.0 libgnomecanvas-2.0 libxml-2.0 gconf-2.0 libedataserverui-$EDS_PACKAGE)
+EVO_SET_COMPILE_FLAGS(E_WIDGETS, glib-2.0 libbonoboui-2.0 >= $BONOBOUI_REQUIRED gnome-vfs-2.0 gnome-vfs-module-2.0 libgnomeui-2.0 libglade-2.0 libgnomecanvas-2.0 libxml-2.0 gconf-2.0 libedataserverui-$EDS_PACKAGE)
 AC_SUBST(E_WIDGETS_CFLAGS)
 AC_SUBST(E_WIDGETS_LIBS)
  

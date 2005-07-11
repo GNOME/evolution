@@ -1,3 +1,11 @@
+2005-07-11  Srinivasa Ragavan <sragavan@novell.com>
+	
+	* Makefile.am: Added e-attachment-bar.[ch] e-attachment.[ch]
+	e-attachment.glade.
+	* e-attachment.[ch]: Merge of em-attachment.[ch] and cal-attachment.[ch]
+	* e-attachment-bar.[ch]: Merge of em-attachment-bar.[ch] and
+	cal-attachment-bar.[ch].
+
 2005-06-23  Kaushal Kumar  <kakumar@novell.com>
 
 	* Makefile.am: Use 'misc' for widgetsincludedir, instead of 

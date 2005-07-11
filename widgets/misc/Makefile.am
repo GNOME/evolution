@@ -27,7 +27,8 @@ pilot_headers =
 endif
 
 glade_DATA = e-send-options.glade \
-	     gal-categories.glade
+	     gal-categories.glade \
+	     e-attachment.glade
 
 libemiscwidgets_la_LDFLAGS = $(ICONV_LIBS)
 
@@ -35,6 +36,8 @@ libemiscwidgets_la_LDFLAGS = $(ICONV_LIBS)
 widgetsinclude_HEADERS =			\
 	$(pilot_headers)			\
 	e-activity-handler.h			\
+	e-attachment.h				\
+	e-attachment-bar.h			\
 	e-calendar.h				\
 	e-calendar-item.h			\
 	e-cell-date-edit.h			\
@@ -82,6 +85,8 @@ libemiscwidgets_la_SOURCES =			\
 	$(pilot_sources)			\
 	e-activity-handler.c			\
 	e-calendar.c				\
+	e-attachment.c				\
+	e-attachment-bar.c			\
 	e-calendar-item.c			\
 	e-cell-date-edit.c			\
 	e-cell-percent.c			\
