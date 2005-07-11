@@ -3326,8 +3326,14 @@ gnome_calendar_purge (GnomeCalendar *gcal, time_t older_than)
 							     &remove);
 
 			/* FIXME Better error handling */
-			if (remove)
-				e_cal_remove_object (client, icalcomponent_get_uid (m->data), NULL);
+			if (remove) {
+				const char *uid = icalcomponent_get_uid (m->data);
+
+				if (e_cal_util_component_is_instance (m->data) || e_cal_util_component_has_recurrences (m->data))
+					e_cal_remove_object_with_mod (client, uid, NULL, CALOBJ_MOD_ALL, NULL);
+				else
+					e_cal_remove_object (client, uid, NULL);
+			}
 		}
 
 		g_list_foreach (objects, (GFunc) icalcomponent_free, NULL);

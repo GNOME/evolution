@@ -955,7 +955,7 @@ meeting_page_construct (MeetingPage *mpage, EMeetingStore *ems,
 			ECal *client)
 {
 	MeetingPagePrivate *priv;
-	char *backend_address;
+	char *backend_address = NULL;
 	EIterator *it;
 	EAccount *def_account;
 	GList *address_strings = NULL, *l;
@@ -1005,6 +1005,9 @@ meeting_page_construct (MeetingPage *mpage, EMeetingStore *ems,
 		}
 	}
 	
+	if (backend_address)
+		g_free (backend_address);
+
 	g_object_unref(it);
 
 	if (address_strings)

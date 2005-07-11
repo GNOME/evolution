@@ -654,7 +654,11 @@ process_multi_day (ECalConduitContext *ctxt, ECalChange *ccc, GList **multi_comp
 	
 	e_cal_component_get_uid (ccc->comp, &uid);
 	/* FIXME Error handling */
-	e_cal_remove_object (ctxt->client, uid, NULL);
+	if (e_cal_component_is_instance (ccc->comp) || e_cal_component_has_recurrences (ccc->comp))
+		e_cal_remove_object_with_mod (ctxt->client, uid, NULL, CALOBJ_MOD_ALL, NULL);
+	else
+		e_cal_remove_object (ctxt->client, uid, NULL);
+
 	ccc->type = E_CAL_CHANGE_DELETED;
 
  cleanup:
@@ -1749,7 +1753,10 @@ delete_record (GnomePilotConduitSyncAbs *conduit,
 
 	e_pilot_map_remove_by_uid (ctxt->map, uid);
 	/* FIXME Error handling */
-	e_cal_remove_object (ctxt->client, uid, NULL);
+	if (e_cal_component_is_instance (local->comp) || e_cal_component_has_recurrences (local->comp))
+		e_cal_remove_object_with_mod (ctxt->client, uid, NULL, CALOBJ_MOD_ALL, NULL);
+	else
+		e_cal_remove_object (ctxt->client, uid, NULL);
 	
         return 0;
 }

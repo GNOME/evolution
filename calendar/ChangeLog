@@ -1,3 +1,18 @@
+2005-07-11  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	* conduits/calendar/calendar-conduit.c: (process_multi_day),
+	(delete_record):
+	* gui/dialogs/comp-editor.c: (save_comp), (delete_comp):
+	* gui/e-calendar-view.c: (e_calendar_view_cut_clipboard),
+	(delete_event), (transfer_item_to):
+	* gui/e-itip-control.c: (remove_item):
+	* gui/gnome-cal.c: (gnome_calendar_purge):
+	* gui/dialogs/meeting-page.c: (meeting_page_construct): Use 
+	e_cal_remove_with_mod for removing recurring apppointment and call
+       	e_cal_remove_object for non-recurring ones.
+	* gui/itip-utils.c: (itip_organizer_is_user),
+	(itip_get_comp_attendee): Fixed some memory leaks.
+
 2005-07-06  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	* gui/dialogs/event-page.c: (sensitize_widgets): Enable alarms

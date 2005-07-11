@@ -103,7 +103,7 @@ itip_organizer_is_user (ECalComponent *comp, ECal *client)
   		strip = itip_strip_mailto (organizer.value);
   
  		if (e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_ORGANIZER_NOT_EMAIL_ADDRESS)) { 
- 			char *email;
+ 			char *email = NULL;
  			
   			if (e_cal_get_cal_address (client, &email, NULL) && !g_strcasecmp (email, strip)) {
 				g_free (email);
@@ -111,6 +111,7 @@ itip_organizer_is_user (ECalComponent *comp, ECal *client)
  				return TRUE;
 			}
 			
+			g_free (email);
  			return FALSE;
  		}
  	
@@ -181,6 +182,7 @@ itip_get_comp_attendee (ECalComponent *comp, ECal *client)
 			g_free (address);
 			return user_email;	
 		}
+		g_free (address);
 	}
 
 	for (it = e_list_get_iterator((EList *)al);

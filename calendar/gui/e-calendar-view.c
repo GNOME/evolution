@@ -691,7 +691,8 @@ e_calendar_view_cut_clipboard (ECalendarView *cal_view)
 							      &error);
 				icalcomponent_free (icalcomp);
 			} else
-				e_cal_remove_object (event->comp_data->client, uid, &error);
+				e_cal_remove_object_with_mod (event->comp_data->client, uid, NULL, 
+						CALOBJ_MOD_ALL, &error);
 		} else
 			e_cal_remove_object (event->comp_data->client, uid, &error);
 		delete_error_dialog (error, E_CAL_COMPONENT_EVENT);
@@ -864,7 +865,10 @@ delete_event (ECalendarView *cal_view, ECalendarViewEvent *event)
 			return;
 		}
 
-		e_cal_remove_object (event->comp_data->client, uid, &error);
+		if (e_cal_util_component_is_instance (event->comp_data->icalcomp) || e_cal_util_component_is_instance (event->comp_data->icalcomp))
+			e_cal_remove_object_with_mod (event->comp_data->client, uid, NULL, CALOBJ_MOD_ALL, &error);
+		else
+			e_cal_remove_object (event->comp_data->client, uid, &error);
 		
 		delete_error_dialog (error, E_CAL_COMPONENT_EVENT);
 		g_clear_error (&error);
@@ -1178,8 +1182,13 @@ transfer_item_to (ECalendarViewEvent *event, ECal *dest_client, gboolean remove_
 	}
 
 	/* remove the item from the source calendar */
-	if (remove_item)
-		e_cal_remove_object (event->comp_data->client, uid, NULL);
+	if (remove_item) {
+		if (e_cal_util_component_is_instance (event->comp_data->icalcomp) || e_cal_util_component_is_instance (event->comp_data->icalcomp))
+			e_cal_remove_object_with_mod (event->comp_data->client, uid, 
+					NULL, CALOBJ_MOD_ALL, NULL);
+		else
+			e_cal_remove_object (event->comp_data->client, uid, NULL);
+	}
 }
 
 static void
@@ -1326,9 +1335,7 @@ on_delegate (EPopup *ep, EPopupItem *pitem, void *data)
 	selected = e_calendar_view_get_selected_events (cal_view);
 	if (selected) {
 		ECalendarViewEvent *event = (ECalendarViewEvent *) selected->data;
-		char *address;
 		
-		e_cal_get_cal_address (event->comp_data->client, &address, NULL);
 		clone = icalcomponent_new_clone (event->comp_data->icalcomp);
 		set_attendee_status_for_delegate (clone, event->comp_data->client);
 

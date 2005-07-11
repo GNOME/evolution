@@ -2001,7 +2001,10 @@ remove_item (EItipControl *itip)
 		return;
 	
 	e_cal_component_get_uid (priv->comp, &uid);
-	e_cal_remove_object (priv->current_ecal, uid, &error);
+	if (e_cal_component_has_recurrences (priv->comp))
+		e_cal_remove_object_with_mod (priv->current_ecal, uid, NULL, CALOBJ_MOD_ALL, &error);
+	else
+		e_cal_remove_object (priv->current_ecal, uid, &error);
 	if (!error || error->code == E_CALENDAR_STATUS_OBJECT_NOT_FOUND) {
 		dialog = gnome_ok_dialog (_("Removal Complete"));
 		gnome_dialog_run_and_close (GNOME_DIALOG (dialog));

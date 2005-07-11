@@ -719,7 +719,12 @@ save_comp (CompEditor *editor)
 				     e_cal_get_source (priv->source_client)) &&
 		    cal_comp_is_on_server (priv->comp, priv->source_client)) {
 			/* Comp found a new home. Remove it from old one. */
-			e_cal_remove_object (priv->source_client, orig_uid, NULL);
+			
+			if (e_cal_component_is_instance (priv->comp) || e_cal_component_has_recurrences (priv->comp))
+				e_cal_remove_object_with_mod (priv->source_client, orig_uid, NULL,
+						CALOBJ_MOD_ALL, NULL);
+			else
+				e_cal_remove_object (priv->source_client, orig_uid, NULL);
 
 			/* Let priv->source_client point to new home, so we can move it
 			 * again this session. */
@@ -1159,7 +1164,11 @@ delete_comp (CompEditor *editor)
 	priv = editor->priv;
 
 	e_cal_component_get_uid (priv->comp, &uid);
-	e_cal_remove_object (priv->client, uid, NULL);
+	if (e_cal_component_is_instance (priv->comp)|| e_cal_component_has_recurrences (priv->comp))
+		e_cal_remove_object_with_mod (priv->client, uid, NULL,
+				CALOBJ_MOD_ALL, NULL);
+	else
+		e_cal_remove_object (priv->client, uid, NULL);
 	close_dialog (editor);
 }
 
