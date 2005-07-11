@@ -1,0 +1,11 @@
+2005-07-11  Sankar P  <psankar@novell.com>
+
+	* proxy.c : 
+	(proxy_edit_account) : Added code to hide the contacts button
+	while editing proxy access rights for a proxy.
+	Fixes #309992
+
+2005-07-11  Sankar P  <psankar@novell.com>
+	
+	* proxy.c :
+	Included <string.h> header to avoid the compiler warnings.

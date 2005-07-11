@@ -62,6 +62,7 @@
 #include <libedataserverui/e-passwords.h>
 #include <libedataserverui/e-name-selector.h>
 #include <proxy.h>
+#include <string.h>
 
 #define GW(name) glade_xml_get_widget (priv->xml, name)
 
@@ -812,7 +813,7 @@ proxy_load_edit_dialog (EAccount *account, proxyHandler *edited)
 	priv = prd->priv;
 	gtk_entry_set_text ((GtkEntry *) priv->account_name, edited->proxy_email);
 	gtk_widget_set_sensitive (priv->account_name, FALSE);
-
+	
 	if (edited->permissions & E_GW_PROXY_MAIL_READ)
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON (priv->mail_read), TRUE);
 
@@ -885,6 +886,7 @@ proxy_edit_account (GtkWidget *button, EAccount *account)
 			g_signal_connect ((GtkWidget *)okButton, "clicked", G_CALLBACK (proxy_edit_ok), account);
 			g_signal_connect ((GtkWidget *)proxyCancel, "clicked", G_CALLBACK (proxy_cancel), account);
 			proxy_load_edit_dialog (account, edited);
+			gtk_widget_hide (contacts);
 			gtk_widget_show (GTK_WIDGET (priv->main));		
 		}	
         }
