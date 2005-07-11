@@ -3393,3 +3393,39 @@ ECalMenu *gnome_calendar_get_calendar_menu (GnomeCalendar *gcal)
  
  	return gcal->priv->calendar_menu;
 }
+
+void
+gnome_calendar_edit_appointment (GnomeCalendar *gcal,
+				 const char* src_uid,
+				 const char* comp_uid,
+				 const char* comp_rid)
+{
+	ECal *client = NULL;
+	GList *l;
+	icalcomponent* icalcomp = NULL;
+	icalproperty *attendee_prop = NULL;
+
+	if (!src_uid || !comp_uid)
+		return;
+	
+	for (l = gcal->priv->clients_list[E_CAL_SOURCE_TYPE_EVENT]; l != NULL; l = l->next) {
+		client = l->data;
+		ESource *client_src = e_cal_get_source (client);
+
+		if (!strcmp (src_uid, e_source_peek_uid (client_src)))
+			break;
+	}
+
+	if (!client) 
+		return;
+
+	e_cal_get_object (client, comp_uid, comp_rid, &icalcomp, NULL);
+
+	if (!icalcomp)
+		return;
+
+	attendee_prop = icalcomponent_get_first_property (icalcomp, ICAL_ATTENDEE_PROPERTY);
+	e_calendar_view_edit_appointment (gcal->priv->views[gcal->priv->current_view_type],
+					  client, icalcomp, attendee_prop ? TRUE:FALSE); 
+	icalcomponent_free (icalcomp);
+}

@@ -187,6 +187,12 @@ void       gnome_calendar_purge                 (GnomeCalendar  *gcal,
 
 
 
+/* Direct calendar component operations */
+void       gnome_calendar_edit_appointment      (GnomeCalendar *gcal,
+						 const char* src_uid,
+						 const char* comp_uid,
+						 const char* comp_rid);
+
 G_END_DECLS
 
 #endif

@@ -31,6 +31,14 @@
 	* gui/itip-utils.c: (itip_organizer_is_user),
 	(itip_get_comp_attendee): Fixed some memory leaks.
 
+2005-07-07  Veerapuram Varadhan <vvaradhan@novell.com>
+
+	* gui/calendar-component.c: (impl_handleURI): Added support for
+	opening a calendar-item in the editor when its source-UID and UID/RID
+	is passed in the command-line.
+	* gui/gnome-cal.[c,h]: (gnome_calendar_edit_appointment): Newly added
+	for the above functionality.
+	
 2005-07-06  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	* gui/dialogs/event-page.c: (sensitize_widgets): Enable alarms

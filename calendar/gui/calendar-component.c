@@ -764,9 +764,20 @@ impl_handleURI (PortableServer_Servant servant, const char *uri, CORBA_Environme
 {
 	CalendarComponent *calendar_component = CALENDAR_COMPONENT (bonobo_object_from_servant (servant));
 	CalendarComponentPrivate *priv;
+	GList *l;
+	CalendarComponentView *view = NULL;
+	char *src_uid = NULL;
+	char *uid = NULL;
+	char *rid = NULL;
 
 	priv = calendar_component->priv;
+			
+	l = g_list_last (priv->views);
+	if (!l)
+		return;
 
+	view = l->data;
+		
 	if (!strncmp (uri, "calendar:", 9)) {
 		EUri *euri = e_uri_new (uri);
 		const char *p;
@@ -795,8 +806,14 @@ impl_handleURI (PortableServer_Servant servant, const char *uri, CORBA_Environme
 					start = time_from_isodate (content);
 				} else if (!g_ascii_strcasecmp (header, "enddate")) {
 					end = time_from_isodate (content);
+				} else if (!g_ascii_strcasecmp (header, "source-uid")) {
+					src_uid = g_strdup (content);
+				} else if (!g_ascii_strcasecmp (header, "comp-uid")) {
+					uid = g_strdup (content);
+				} else if (!g_ascii_strcasecmp (header, "comp-rid")) {
+					rid = g_strdup (content);
 				}
-			
+
 				g_free (content);
 
 				p += clen;
@@ -808,20 +825,18 @@ impl_handleURI (PortableServer_Servant servant, const char *uri, CORBA_Environme
 			}
 
 			if (start != -1) {
-				GList *l;
 			
 				if (end == -1)
 					end = start;
-			
-				l = g_list_last (priv->views);
-				if (l) {
-					CalendarComponentView *view = l->data;
-				
 					gnome_calendar_set_selected_time_range (view->calendar, start, end);
-				}
 			}
+			if (src_uid && uid)
+				gnome_calendar_edit_appointment (view->calendar, src_uid, uid, rid);
+			
+			g_free (src_uid);
+			g_free (uid);
+			g_free (rid);
 		}
-
 		e_uri_free (euri);
 	}
 }
