@@ -27,6 +27,7 @@
 #endif
 
 #include "exchange-config-listener.h"
+#include "exchange-operations.h"
 
 #include <exchange-account.h>
 #include <exchange-constants.h>
@@ -34,9 +35,8 @@
 #include <e-folder-exchange.h>
 #include <e2k-marshal.h>
 #include <e2k-uri.h>
-// SURF : #include "mail-stub-listener.h"
 
-// SURF : #include <libedataserver/e-dialog-utils.h>
+#include <e-util/e-error.h>
 
 #include <libedataserver/e-source.h>
 #include <libedataserver/e-source-list.h>
@@ -833,6 +833,7 @@ account_added (EAccountList *account_list, EAccount *account)
 {
 	ExchangeConfigListener *config_listener;
 	ExchangeAccount *exchange_account;
+	ExchangeAccountResult result;
 
 	if (!is_active_exchange_account (account))
 		return;
@@ -840,9 +841,7 @@ account_added (EAccountList *account_list, EAccount *account)
 	config_listener = EXCHANGE_CONFIG_LISTENER (account_list);
 	if (config_listener->priv->configured_account) {
 		/* Multiple accounts configured. */
-		/* SURF : e_notice (NULL, GTK_MESSAGE_ERROR,
-			  _("You may only configure a single Exchange account"));
-		*/
+		e_error_run (NULL, "org-gnome-exchange-operations:single-account-error", NULL);
 		return;
 	}
 
@@ -872,7 +871,8 @@ account_added (EAccountList *account_list, EAccount *account)
 	g_signal_emit (config_listener, signals[EXCHANGE_ACCOUNT_CREATED], 0,
 		       exchange_account);
 	add_sources (exchange_account);
-	exchange_account_connect (exchange_account);
+ 	exchange_account_connect (exchange_account, NULL, &result);
+ 	exchange_operations_report_error (exchange_account, result);
 	add_new_sources (exchange_account);
 }
 
@@ -1036,10 +1036,7 @@ account_changed (EAccountList *account_list, EAccount *account)
 		remove_account_esources (priv->exchange_account);
 
 	/* Nope. Let the user know we're ignoring him. */
-	/* SURF : e_notice (NULL, GTK_MESSAGE_WARNING,
-		  _("Changes to Exchange account configuration will "
-		    "take\nplace after you quit and restart Evolution."));
-	*/
+	e_error_run (NULL, "org-gnome-exchange-operations:apply-restart", NULL);
 
 	/* But note the new URI so if he changes something else, we
 	 * only warn again if he changes again.
@@ -1083,15 +1080,11 @@ account_removed (EAccountList *account_list, EAccount *account)
 		priv->configured_name = NULL;
 	} else {
 		if (account->enabled) {
-			/* SURF : e_notice (NULL, GTK_MESSAGE_INFO,
-				_("The Exchange account will be removed when you quit Evolution"));
-			*/
+			e_error_run (NULL, "org-gnome-exchange-operations:remove-quit", NULL);
 		}
 		else {
 			/* The account is in use. We can't remove it. */
-			/* SURF : e_notice (NULL, GTK_MESSAGE_INFO,
-			  	_("The Exchange account will be disabled when you quit Evolution"));
-			*/
+			e_error_run (NULL, "org-gnome-exchange-operations:disable-quit", NULL);
 		}
 	}
 }

@@ -26,6 +26,7 @@
 
 #include "e-util/e-plugin.h"
 #include "exchange-config-listener.h"
+#include <exchange-account.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -42,6 +43,8 @@ gboolean exchange_operations_tokenize_string (char **string, char *token, char d
 
 gboolean exchange_operations_cta_add_node_to_tree (GtkTreeStore *store, GtkTreeIter *parent, const char *nuri);
 void exchange_operations_cta_select_node_from_tree (GtkTreeStore *store, GtkTreeIter *parent, const char *nuri, const char *ruri, GtkTreeSelection *selection) ;
+
+void exchange_operations_report_error (ExchangeAccount *account, ExchangeAccountResult result);
 
 #ifdef __cplusplus
 }

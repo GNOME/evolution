@@ -55,9 +55,14 @@ glade_DATA =							\
 	exchange-folder-tree.glade				\
 	exchange-permissions-dialog.glade			
 
+error_DATA = org-gnome-exchange-operations.error
+errordir = $(privdatadir)/errors
+
 EXTRA_DIST = 							\
 	org-gnome-exchange-operations.eplug.in			\
+	org-gnome-exchange-operations.error.xml			\
 	org-gnome-folder-permissions.xml			\
 	org-gnome-folder-subscription.xml			\
-	$(glade_DATA)
+	$(glade_DATA)						
 
+BUILT_SOURCES = $(error_DATA)

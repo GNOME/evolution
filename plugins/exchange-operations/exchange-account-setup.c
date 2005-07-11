@@ -48,6 +48,7 @@
 #include "mail/em-config.h"
 #include "exchange-delegates.h"
 
+#define ERROR_DOMAIN	"org-gnome-exchange-operations"
 
 GtkWidget* org_gnome_exchange_settings(EPlugin *epl, EConfigHookItemFactoryData *data);
 GtkWidget *org_gnome_exchange_owa_url(EPlugin *epl, EConfigHookItemFactoryData *data);
@@ -116,6 +117,7 @@ btn_chpass_clicked (GtkButton *button, gpointer data)
 {
 	ExchangeAccount *account;
 	char *old_password, *new_password;
+ 	ExchangeAccountResult result;
 
 	account = exchange_operations_get_exchange_account ();
 					
@@ -126,7 +128,8 @@ btn_chpass_clicked (GtkButton *button, gpointer data)
 	}
 	new_password = exchange_get_new_password (old_password, TRUE);
 	g_print ("Current password is \"%s\"\n", old_password);
-	exchange_account_set_password (account, old_password, new_password);
+ 	result = exchange_account_set_password (account, old_password, new_password);
+ 	exchange_operations_report_error (account, result);
 	
 	g_free (old_password);
 	g_free (new_password);	
@@ -226,8 +229,9 @@ org_gnome_exchange_settings(EPlugin *epl, EConfigHookItemFactoryData *data)
 	/* See if oof info found already */
 	
 	if (!exchange_oof_get (account, &oof_state, &message)) {
-                /* SURF : e_notice (NULL, GTK_MESSAGE_ERROR,
-                          _("Could not read out-of-office state")); */
+
+		e_error_run (NULL, ERROR_DOMAIN ":state-read-error", NULL);
+
                 return NULL;
         }
 	
@@ -365,90 +369,48 @@ print_error (const char *owa_url, E2kAutoconfigResult result)
 	switch (result) {
 
 		case E2K_AUTOCONFIG_CANT_CONNECT:
-		if (!strncmp (owa_url, "http:", 5)) {
-			old = "http";
-			new = "https";
-		} else {
-			old = "https";
-			new = "http";
-		}
+			if (!strncmp (owa_url, "http:", 5)) {
+				old = "http";
+				new = "https";
+			} else {
+				old = "https";
+				new = "http";
+			}
 
-		/* SURF : e_notice (NULL, GTK_MESSAGE_ERROR,
-			  _("Could not connect to the Exchange "
-			    "server.\nMake sure the URL is correct "
-			    "(try \"%s\" instead of \"%s\"?) "
-			    "and try again."), new, old);
-		*/
-		break;
+			e_error_run (NULL, ERROR_DOMAIN ":account-connect-error", "", NULL);
+			
+			break;
 
 		case E2K_AUTOCONFIG_CANT_RESOLVE:
-		/* SURF :	e_notice (NULL, GTK_MESSAGE_ERROR,
-			  	_("Could not locate Exchange server.\n"
-			    	  "Make sure the server name is spelled correctly "
-			    	  "and try again."));
-		*/
-			break;
+
+			e_error_run (NULL, ERROR_DOMAIN ":account-resolve-error", "", NULL);
+				break;
 
 		case E2K_AUTOCONFIG_AUTH_ERROR:
 		case E2K_AUTOCONFIG_AUTH_ERROR_TRY_NTLM:
 		case E2K_AUTOCONFIG_AUTH_ERROR_TRY_BASIC:
-		/* SURF :	e_notice (NULL, GTK_MESSAGE_ERROR,
-			  	_("Could not authenticate to the Exchange "
-			    	  "server.\nMake sure the username and "
-			    	  "password are correct and try again."));
-		*/
+			e_error_run (NULL, ERROR_DOMAIN ":password-incorrect", NULL);
 			break;
 
 		case E2K_AUTOCONFIG_AUTH_ERROR_TRY_DOMAIN:
-		/* SURF : 		e_notice (NULL, GTK_MESSAGE_ERROR,
-			  	_("Could not authenticate to the Exchange "
-			    	  "server.\nMake sure the username and "
-			    	  "password are correct and try again.\n\n"
-			    	  "You may need to specify the Windows "
-			    	  "domain name as part of your username "
-			    	  "(eg, \"MY-DOMAIN\\%s\")."),
-			  	  ac->username);
-		*/
+			e_error_run (NULL, ERROR_DOMAIN ":account-domain-error", NULL);
 			break;
 
 		case E2K_AUTOCONFIG_NO_OWA:
 		case E2K_AUTOCONFIG_NOT_EXCHANGE:
-		/* SURF :	e_notice (NULL, GTK_MESSAGE_ERROR,
-			  	_("Could not find OWA data at the indicated URL.\n"
-			    	  "Make sure the URL is correct and try again."));
-		*/
+			e_error_run (NULL, ERROR_DOMAIN ":account-wss-error", NULL);
 			break;
 
 		case E2K_AUTOCONFIG_CANT_BPROPFIND:
-		/* SURF :	e_notice (
-				NULL, GTK_MESSAGE_ERROR,
-				_("Ximian Connector requires access to certain "
-			  	"functionality on the Exchange Server that appears "
-			  	"to be disabled or blocked.  (This is usually "
-			  	"unintentional.)  Your Exchange Administrator will "
-			  	"need to enable this functionality in order for "
-			  	"you to be able to use Ximian Connector.\n\n"
-			  	"For information to provide to your Exchange "
-			  	"administrator, please follow the link below:\n"
-				"http://support.novell.com/cgi-bin/search/searchtid.cgi?/ximian/ximian328.html "));
-		*/
+			e_error_run (NULL, ERROR_DOMAIN ":connect-exchange-error", NULL);
 			break;
 
 		case E2K_AUTOCONFIG_EXCHANGE_5_5:
-		/* SURF :	e_notice (
-				NULL, GTK_MESSAGE_ERROR,
-				_("The Exchange server URL you provided is for an "
-			  	"Exchange 5.5 Server. Ximian Connector supports "
-			  	"Microsoft Exchange 2000 and 2003 only."));
-		*/
+			e_error_run (NULL, ERROR_DOMAIN ":account-version-error", NULL);
 			break;
 
 		default:
-		/* SURF :	e_notice (NULL, GTK_MESSAGE_ERROR,
-			  	_("Could not configure Exchange account because "
-			    	  "an unknown error occurred. Check the URL, "
-			    	  "username, and password, and try again."));
-		*/
+			e_error_run (NULL, ERROR_DOMAIN ":configure-error", NULL);
 			break;
 
 	}
@@ -732,8 +694,8 @@ set_oof_info ()
         }
 
 	if (!exchange_oof_set (account, oof_data->state, oof_data->message)) {
-		/* SURF : e_notice (NULL, GTK_MESSAGE_ERROR,
-				_("Could not update out-of-office state")); */
+
+		e_error_run (NULL, ERROR_DOMAIN ":state-update-error", NULL);
 	}
 
 }

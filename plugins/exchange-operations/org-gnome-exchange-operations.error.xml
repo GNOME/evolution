@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<error-list domain="org-gnome-exchange-operations">
+
+ <error id="single-account-error" type="error">
+  <_primary>You may only configure a single Exchange account.</_primary>
+ </error>
+
+ <error id="apply-restart" type="info">
+  <_primary>Please restart Evolution</_primary>
+  <_secondary>Changes to Exchange account configuration will take place after you quit and restart Evolution.</_secondary>
+ </error>
+
+ <error id="remove-quit" type="info">
+  <_primary>The Exchange account will be removed when you quit Evolution</_primary>
+ </error>
+
+ <error id="disable-quit" type="info">
+  <_primary>The Exchange account will be disabled when you quit Evolution</_primary>
+ </error>
+
+ <error id="state-read-error" type="error">
+  <_primary>Could not read out-of-office state</_primary>
+ </error>
+
+ <error id="state-update-error" type="error">
+  <_primary>Could not update out-of-office state</_primary>
+ </error>
+
+ <error id="config-error" type="error">
+  <_primary>Cannot change password due to configuration problems.</_primary>
+ </error>
+ 
+ <error id="password-weak-error" type="error">
+  <_primary>Server rejected password because it is too weak.</_primary>
+  <_secondary>Try again with a different password.</_secondary>
+ </error>
+
+ <error id="password-change-error" type="error">
+  <_primary>Could not change password.</_primary>
+ </error>
+
+ <error id="password-change-success" type="info">
+  <_primary>Password successfully changed.</_primary>
+ </error>
+
+ <error id="account-offline" type="info">
+  <_primary>Exchange Account is offline.</_primary>
+  <_secondary>Cannot display folders.</_secondary>
+ </error>
+
+ <error id="password-incorrect" type="error">
+  <_primary>Could not authenticate to server.</_primary>
+  <_secondary>Make sure the username and password are correct and try again.</_secondary>
+ </error>
+
+ <error id="account-domain-error" type="error">
+  <_primary>Could not authenticate to server.</_primary>
+  <_secondary xml:space="preserve">This probably means that your server requires 
+you to specify the Windows domain name 
+as part of your username (eg, &quot;DOMAIN\user&quot;).
+
+Or you might have just typed your password wrong.</_secondary>
+ </error>
+
+ <error id="account-mailbox-na" type="error">
+  <_primary>Mailbox for {0} is not on this server.</_primary>
+ </error>
+
+ <error id="account-version-error" type="error">
+  <_primary>The Exchange server is not compatible with Exchange Connector.</_primary>
+  <_secondary xml:space="preserve">The server is runinng Exchange 5.5. Exchange Connector 
+supports Microsoft Exchange 2000 and 2003 only.</_secondary>
+ </error>
+
+ <error id="account-wss-error" type="error">
+  <_primary>Could not find Exchange Web Storage System.</_primary>
+  <_secondary>If OWA is running on a different path, you must specify that in the account configuration dialog.</_secondary>
+ </error>
+
+ <error id="account-no-mailbox" type="info">
+  <_primary>No mailbox for user {0} on {1}.</_primary>
+ </error>
+
+ <error id="account-resolve-error" type="error">
+  <_primary>Could not locate server {0}.</_primary>
+  <_secondary>Make sure the server name is spelled correctly and try again.</_secondary>
+ </error>
+
+ <error id="account-connect-error" type="error">
+  <_primary>Could not connect to server {0}.</_primary>
+  <_secondary>Make sure the URL is correct and try again.</_secondary>
+ </error>
+
+ <error id="password-expired" type="error">
+  <_primary>Your password has expired.</_primary>
+ </error>
+
+ <error id="account-unknown-error" type="error">
+  <_primary>Could not connect to server {0}.</_primary>
+  <_secondary>Unknown error.</_secondary>
+ </error>
+
+ <error id="account-quota-error" type="error">
+  <_primary>You have exceeded your quota for storing mails on this server.</_primary>
+  <_secondary>You will not be able to either send or recieve mails now.</_secondary>
+ </error>
+
+ <error id="account-quota-send-error" type="warning">
+  <_primary>You are nearing your quota available for storing mails on this server.</_primary>
+  <_secondary>You will not be able to send mails till you clear up some space by deleting some mails.</_secondary>
+ </error>
+
+ <error id="account-quota-warn" type="warning">
+  <_primary>You are nearing your quota available for storing mails on this server.</_primary>
+  <_secondary>Try to clear up some space by deleting some mails.</_secondary>
+ </error>
+
+ <error id="connector-exchange-error" type="error">
+  <_primary>Exchange Connector access error.</_primary>
+  <_secondary xml:space="preserve">Exchange Connector requires access to certain
+functionality on the Exchange Server that appears
+to be disabled or blocked.  (This is usually 
+unintentional.)  Your Exchange Administrator will 
+need to enable this functionality in order for 
+you to be able to use Ximian Connector.
+
+For information to provide to your Exchange 
+administrator, please follow the link below:
+
+http://support.novell.com/cgi-bin/search/searchtid.cgi?/ximian/ximian328.html
+  </_secondary>
+ </error>
+
+ <error id="configure-error" type="error">
+  <_secondary xml:space="preserve">Could not configure Exchange account because 
+an unknown error occurred. Check the URL, 
+username, and password, and try again.</_secondary>
+ </error>
+
+</error-list>
+
+

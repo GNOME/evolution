@@ -1,3 +1,20 @@
+2005-07-11  Sarfraaz Ahmed <asarfraaz@novell.com>
+
+	Patch submitted by ArunPrakash <arunp@novell.com>
+	* exchange-operations.c (exchange_operations_report_error) : Newly 
+	added, to report errors using e_error_run. Also a list of error-ids is 
+	added.
+	* exchange-config-listener.c (account_added) (account_removed) :
+	Modified the usage of e_notice to e_error_run. Also the error from
+	exchange_account_connect is reported using 
+	exchange_operations_report_error.
+	* exchange-account-setup.c (btn_chpass_clicked) 
+	(org_gnome_exchange_settings) (print_error) (set_oof_info): Changed to 
+	use exchange_operations_report_error and e_error_run functions.
+	* org-gnome-exchange-operations.error.xml : Newly added, defines
+	the list of error messages used in the plugin.
+	* Makefile.am : Modified for org-gnome-exchange-operations.error.xml
+
 2005-07-11  Shakti Sen <shprasad@novell.com>
 
 	* Makefile.am: Included files exchange-folder-subscription.c,
