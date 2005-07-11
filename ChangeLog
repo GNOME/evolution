@@ -1,3 +1,8 @@
+2005-07-11  Sarfraaz Ahmed <asarfraaz@novell.com>
+
+	* plugins/exchange-account-setup : Removed this directory. This
+	functionality has now been moved to exchange-operations.
+
 2005-07-11  Srinivasa Ragavan <sragavan@novell.com>
 	
 	* configure.in: Added gnome-vfs-module-2.0  to E_WIDGETS_CFLAGS 
