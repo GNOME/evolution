@@ -324,6 +324,7 @@ plugins/mail-account-disable/mail-account-disable.c
 plugins/proxy/org-gnome-proxy-errors.xml
 plugins/proxy/proxy-listing.glade
 plugins/proxy/proxy-add-dialog.glade
+plugins/proxy/proxy.c
 plugins/proxy-login/proxy-login.c
 plugins/proxy-login/org-gnome-proxy-login-errors.xml
 plugins/proxy-login/proxy-login-dialog.glade
