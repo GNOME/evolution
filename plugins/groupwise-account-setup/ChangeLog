@@ -1,0 +1,12 @@
+2005-07-12 Vivek Jain <jvivek@novell.com>
+	
+	* Makefile.am: included missing header file
+
+2005-07-12 Vivek Jain <jvivek@novell.com>
+	
+	have a ChangeLog and transfer the changelog entry from the main
+	ChangeLog
+	(2005-07-10  Shreyas Srinivasan <sshreyas@novell.com>)
+	* groupwise-account-setup/*: Make the
+	camel-groupwise-listener load on startup. (new plugin)
+

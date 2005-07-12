@@ -13,6 +13,7 @@ plugin_LTLIBRARIES = liborg-gnome-gw-account-setup.la
 
 liborg_gnome_gw_account_setup_la_SOURCES = \
 			camel-gw-listener.c	\
+			camel-gw-listener.h	\
 			groupwise-account-setup.c
 
 liborg_gnome_gw_account_setup_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)
