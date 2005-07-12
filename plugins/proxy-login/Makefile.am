@@ -12,7 +12,7 @@ INCLUDES =						\
 plugin_DATA = org-gnome-proxy-login.eplug
 plugin_LTLIBRARIES = libproxy-login.la
 
-libproxy_login_la_SOURCES = proxy-login.c
+libproxy_login_la_SOURCES = proxy-login.c proxy-login.h
 libproxy_login_la_LDFLAGS = -module -avoid-version
 
 glade_DATA = proxy-login-dialog.glade

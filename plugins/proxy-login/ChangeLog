@@ -1,0 +1,4 @@
+2005-07-12  Sankar P  <psankar@novell.com>
+
+	* Makefile.am :
+	Added missed header files to the SOURCES.
