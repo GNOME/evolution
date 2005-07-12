@@ -1,3 +1,10 @@
+2005-07-12  Vivek Jain <jvivek@novell.com>
+	
+	(put the changelog entry here
+	2005-07-10  Shreyas Srinivasan <sshreyas@novell.com>)
+
+	* POTFILES.in: Add files which need to be translated.
+
 2005-07-11  Marcel Telka  <marcel@telka.sk>
 
 	* sk.po: Updated Slovak translation.
