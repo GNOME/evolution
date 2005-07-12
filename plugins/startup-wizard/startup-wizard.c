@@ -3,27 +3,20 @@
  *  JP Rosevear <jpr@novell.com>
  *  Copyright (C) 2005 Novell, Inc.
  *
- *  Permission is hereby granted, free of charge, to any person
- *  obtaining a copy of this software and associated documentation
- *  files (the "Software"), to deal in the Software without
- *  restriction, including without limitation the rights to use, copy,
- *  modify, merge, publish, distribute, sublicense, and/or sell copies
- *  of the Software, and to permit persons to whom the Software is
- *  furnished to do so, subject to the following conditions:
- *  
- *  The above copyright notice and this permission notice shall be
- *  included in all copies or substantial portions of the Software.
- *  
- *  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
- *  EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
- *  MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
- *  NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
- *  HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
- *  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
- *  DEALINGS IN THE SOFTWARE.
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of version 2 of the GNU General Public
+ * License as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public
+ * License along with this program; if not, write to the
+ * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+ * Boston, MA 02111-1307, USA.
  */
-
 
 #include <gconf/gconf-client.h>
 #include <glib/gi18n.h>
@@ -35,26 +28,10 @@
 #include "e-util/e-icon-factory.h"
 #include "e-util/e-gtk-utils.h"
 #include "shell/es-event.h"
-#include "shell/importer/GNOME_Evolution_Importer.h"
 #include "mail/em-config.h"
 #include "mail/em-account-editor.h"
 #include "calendar/gui/calendar-config.h"
 
-typedef struct _IntelligentImporterData {
-	CORBA_Object object;
-	Bonobo_Control control;
-	
-	char *name;
-	char *blurb;
-	char *iid;
-} IntelligentImporterData;
-
-typedef struct _SelectedImporterData{
-	CORBA_Object importer;
-	char *iid;
-} SelectedImporterData;
-
-#define IMPORT_PAGE_DATA "StartupWizard::ImportData"
 #define IMPORT_TIMEZONE_DIALOG "StartupWizard::TimezoneDialog"
 
 void startup_wizard (EPlugin *ep, ESEventTargetUpgrade *target);
@@ -67,166 +44,19 @@ void startup_wizard_abort (EPlugin *ep, EMConfigTargetAccount *target);
 static GList *useable_importers = NULL;
 gboolean useable_importers_init = FALSE;
 
-static void
-free_importers ()
-{
-	GList *l;
-
-	for (l = useable_importers; l; l = l->next) {
-		IntelligentImporterData *iid;
-
-		/* FIXME free the rest */
-		iid = l->data;
-		if (iid->object != CORBA_OBJECT_NIL) 
-			bonobo_object_release_unref (iid->object, NULL);
-	}
-
-	g_list_free (useable_importers);
-	useable_importers = NULL;
-}
-
 static GList *
 get_intelligent_importers (void)
 {
-	Bonobo_ServerInfoList *info_list;
-	GList *iids_ret = NULL;
-	CORBA_Environment ev;
-	char *query;
-	int i;
-
-	CORBA_exception_init (&ev);
-	query = g_strdup_printf ("repo_ids.has ('IDL:GNOME/Evolution/IntelligentImporter:%s')", BASE_VERSION);
-	info_list = bonobo_activation_query (query, NULL, &ev);
-	g_free (query);
-
-	if (BONOBO_EX (&ev) || info_list == CORBA_OBJECT_NIL) {
-		g_warning ("Cannot find importers -- %s", BONOBO_EX_REPOID (&ev));
-		CORBA_exception_free (&ev);
-		return NULL;
-	}
-	CORBA_exception_free (&ev);
-
-	for (i = 0; i < info_list->_length; i++) {
-		const Bonobo_ServerInfo *info;
-
-		info = info_list->_buffer + i;
-		iids_ret = g_list_prepend (iids_ret, g_strdup (info->iid));
-	}
-
-	return iids_ret;
+	return NULL;
 }
 
 static void
-init_importers ()
+init_importers (void)
 {
-	GList *importer_ids, *l;
-
-	if (useable_importers_init)
-		return;
-	
-	useable_importers_init = TRUE;
-	
-	importer_ids = get_intelligent_importers ();
-	if (!importer_ids)
-		return;
-
-	for (l = importer_ids; l; l = l->next) {
-		CORBA_Environment ev;
-		CORBA_Object object;
-		Bonobo_Control control;
-		char *iid = l->data;
-		char *name, *blurb;
-		IntelligentImporterData *id;
-		gboolean can_run;
-
-		CORBA_exception_init (&ev);
-		object = bonobo_activation_activate_from_id (iid, 0, NULL, &ev);
-		if (BONOBO_EX (&ev)) {
-			g_warning ("Could not start %s:%s", iid, CORBA_exception_id (&ev));
-
-			CORBA_exception_free (&ev);
-			continue;
-		}
-
-		if (object == CORBA_OBJECT_NIL) {
-			g_warning ("Could not activate component %s", iid);
-
-			CORBA_exception_free (&ev);
-			continue;
-		}
-
-		can_run = GNOME_Evolution_IntelligentImporter_canImport (object, &ev);
-		if (BONOBO_EX (&ev)) {
-			g_warning ("Could not call canImport(%s): %s", iid, CORBA_exception_id (&ev));
-
-			bonobo_object_release_unref (object, &ev);
-			CORBA_exception_free (&ev);
-			continue;
-		}
-		
-		if (can_run == FALSE) {
-			bonobo_object_release_unref (object, &ev);
-			CORBA_exception_free (&ev);
-			continue;
-		}
-
-		name = GNOME_Evolution_IntelligentImporter__get_importername (object, &ev);
-		if (BONOBO_EX (&ev)) {
-			g_warning ("Could not get name(%s): %s", iid, CORBA_exception_id (&ev));
-
-			bonobo_object_release_unref (object, &ev);
-			CORBA_exception_free (&ev);
-			continue;
-		}
-
-		blurb = GNOME_Evolution_IntelligentImporter__get_message (object, &ev);
-		if (BONOBO_EX (&ev)) {
-			g_warning ("Could not get message(%s): %s", iid, CORBA_exception_id (&ev));
-
-			bonobo_object_release_unref (object, &ev);
-			CORBA_exception_free (&ev);
-			CORBA_free (name);
-			continue;
-		}
-
-		control = Bonobo_Unknown_queryInterface (object, "IDL:Bonobo/Control:1.0", &ev);
-		if (BONOBO_EX (&ev)) {
-			g_warning ("Could not QI for Bonobo/Control:1.0 %s:%s", iid, CORBA_exception_id (&ev));
-
-			bonobo_object_release_unref (object, &ev);
-			CORBA_exception_free (&ev);
-			CORBA_free (name);
-			CORBA_free (blurb);
-			continue;
-		}
-
-		if (control == CORBA_OBJECT_NIL) {
-			g_warning ("Could not get importer control for %s", iid);
-
-			bonobo_object_release_unref (object, &ev);
-			CORBA_exception_free (&ev);
-			CORBA_free (name);
-			CORBA_free (blurb);
-			continue;
-		}
-
-		CORBA_exception_free (&ev);
-
-		id = g_new0 (IntelligentImporterData, 1);
-		id->iid = g_strdup (iid);
-		id->object = object;
-		id->name = name;
-		id->blurb = blurb;
-		id->control = control;
-
-		useable_importers = g_list_prepend (useable_importers, id);
-	}
 }
 
 static void
-startup_wizard_delete () {
-	free_importers ();
-
+startup_wizard_delete (void) {
 	gtk_main_quit ();
 	_exit (0);
 }
@@ -301,14 +131,8 @@ startup_wizard_timezone_page (EPlugin *ep, EConfigHookItemFactoryData *hook_data
 GtkWidget *
 startup_wizard_importer_page (EPlugin *ep, EConfigHookItemFactoryData *hook_data)
 {
-	GtkWidget *page, *label, *sep, *table;
-	GList *l;
-	int i;
-	
-	init_importers ();
-	if (!useable_importers)
-		return NULL;
-	
+	return NULL;
+#if 0	
 	page = gnome_druid_page_standard_new_with_vals ("Importing files", NULL, NULL);
 
 	label = gtk_label_new (_("Please select the information that you would like to import:"));
@@ -345,8 +169,10 @@ startup_wizard_importer_page (EPlugin *ep, EConfigHookItemFactoryData *hook_data
 	gnome_druid_append_page (GNOME_DRUID (hook_data->parent), GNOME_DRUID_PAGE (page));
 
 	return GTK_WIDGET (page);
+#endif
 }
 
+#if 0
 static void
 start_importers (GList *p)
 {
@@ -415,6 +241,7 @@ do_import ()
 		g_list_free (selected);
 	}
 }
+#endif
 
 void
 startup_wizard_commit (EPlugin *ep, EMConfigTargetAccount *target)
@@ -423,9 +250,8 @@ startup_wizard_commit (EPlugin *ep, EMConfigTargetAccount *target)
 	ETimezoneDialog *etd;
 	icaltimezone *zone;
 
-	/* This frees the importers */
-	do_import ();
-	
+	/*FIXME: do_import ();*/
+
 	/* Set Timezone */
 	etd = g_object_get_data (G_OBJECT (ec), IMPORT_TIMEZONE_DIALOG);
 	if (etd) {
@@ -449,8 +275,6 @@ startup_wizard_abort (EPlugin *ep, EMConfigTargetAccount *target)
 	EConfig *ec = ((EConfigTarget *)target)->config;
 	ETimezoneDialog *etd;
 
-	free_importers ();
-	
 	etd = g_object_get_data (G_OBJECT (ec), IMPORT_TIMEZONE_DIALOG);
 	if (etd) {
 		/* Need to do this otherwise the timezone widget gets destroyed but the
