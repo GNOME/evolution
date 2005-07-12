@@ -1,3 +1,56 @@
+Evolution 2.3.5 2005-07-12
+---------------------------
+
+Bugzilla bugs fixed (see http://bugzilla.gnome.org/show_bug.cgi):
+
+	#309624 - An addressbook error tells me to check a filesystem path, but doesn't tell me what it is (Sushma)
+	#237844 - Create a appointment with all blank properties (Sankar)
+	#307794 - Evolution crashs in Mail Account creation druid (Vivek)
+	#274329 - Evolution crashes on load, with notification to d-bus enabled. (Vivek)
+	#242165 - "search in any field" produces wrong results
+	#309245 - Unnecessary confirmation popup dialog while copying contacts (Srinivasa Ragavan) 
+	#206774 - Context menu should be different for Lists and Individuals (Srinivasa Ragavan)
+	#242154 - "Open" should be first menu entry when right-clicking on a contact (Srinivasa Ragavan)
+
+New plugins :
+
+	sa-junk - junk filtering through spam assassin (Vivek)
+	Groupwise proxy - proxy support for GW (Sankar, Shreyas)
+	
+Other fixes and changes :
+
+	- Unify mail and calendar attachment bar (Srinivasa Ragavan)
+	- Handle contact:// and calendar:// uris (Veerapuram Varadhan)
+	- Enable autocompletion on personal addressbook on creation (Frederic Crozat)
+	- Miscellaneous recurrence fixes (Chenthill) 
+	- Enable alarms for non-organizers (Chenthill) 
+	- Set vertical scrollbar to always in meeting page (Srinivasa Ragavan)
+	- Show progress information in calendar (Chenthill)
+	- Add forward command line option to uri handling in mail (Veerapuram Varadhan)
+	- Exit evolution when closing wizard using wm control (Frederic Crozat)
+	- GW Junk mail handling (Vivek)
+	- Exchange Folder size support (Sarfraaz)
+	- Exchange Subscribe/Unsubscribe support (Shakti Sen)
+	- Exchange Folder Permissions support (Shakti Sen)
+	- Exchange Delegation support (Praveen Kumar)	- 
+	- Improved error handling in Exchange operations plugin (Arun Prakash)
+
+	
+Updated Translations:
+
+	- bg (Rostislav Raykov)
+	- de (Hendrik Richter)
+	- de (Jens Seidel)
+	- el (Nikos Charonitakis)
+	- en_CA (Adam Weinberger)
+	- es (Francisco Javier F. Serrador)
+	- et (Ivar Smolin)
+	- nb, no (Terance Sola)
+	- sr, sr@Latn (Igor Nestorović)
+	- vi (Clytie Siddall)
+	- zh_TW (Chao-Hsiung Liao)
+	- POTFILES (Sankar P, Vivek Jain)
+
 Evolution 2.3.4 2005-07-02
 ---------------------------
 
