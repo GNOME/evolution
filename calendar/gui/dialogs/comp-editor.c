@@ -628,12 +628,19 @@ get_attachment_list (CompEditor *editor)
 		if (!stream) {
 			/* TODO handle error conditions */
 			g_message ("DEBUG: could not open the file to write\n");
+			g_free (attach_file_url);
 			continue;
 		}
 		
-		camel_data_wrapper_decode_to_stream (wrapper, (CamelStream *) stream);
+		if (camel_data_wrapper_decode_to_stream (wrapper, (CamelStream *) stream) == -1) {
+			g_free (attach_file_url);
+			camel_stream_close (stream);
+			camel_object_unref (stream);
+			g_message ("DEBUG: could not write to file\n");
+		}
+
 		camel_stream_close (stream);
-		g_object_unref (stream);
+		camel_object_unref (stream);
 
 		list = g_slist_append (list, g_strdup (attach_file_url));
 		g_free (attach_file_url);
@@ -1992,7 +1999,7 @@ attachment_guess_mime_type (const char *file_name)
 static void 
 set_attachment_list (CompEditor *editor, GSList *attach_list)
 {
-	GSList *parts = NULL, *attachment_list = NULL, *p = NULL;
+	GSList *p = NULL;
 	const char *comp_uid= NULL;
 	const char *local_store = e_cal_get_local_attachment_store (editor->priv->client);
 
@@ -2391,7 +2398,6 @@ comp_editor_close (CompEditor *editor)
 GSList *
 comp_editor_get_mime_attach_list (CompEditor *editor) 
 {
-	GSList *mime_attach_list;
 	struct CalMimeAttach *cal_mime_attach;
 	GSList *attach_list = NULL, *l, *parts;
 
@@ -2423,7 +2429,7 @@ comp_editor_get_mime_attach_list (CompEditor *editor)
 		
 		attach_list = g_slist_append (attach_list, cal_mime_attach);
 
-		g_object_unref (mstream);
+		camel_object_unref (mstream);
 		
 	}
 

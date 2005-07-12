@@ -1,4 +1,11 @@
+2005-07-12  Srinivasa Ragavan <sragavan@novell.com>
+
+	* gui/dialogs/comp-editor.c: (get_attachment_list) (attachment_guess_mime_type)
+	(comp_editor_close) (comp_editor_get_mime_attach_list) Fixed some compiler 
+	warning and checked some negative cases
+	
 2005-07-11  Srinivasa Ragavan <sragavan@novell.com>
+
 	* gui/dialogs/comp-editor.c:(get_attachment_list) (attachment_bar_changed_cb)
 	(attachment_bar_icon_clicked_cb) (cab_popups_free) (setup_widgets)
 	(set_attachment_list) (comp_editor_get_mime_attach_list)
