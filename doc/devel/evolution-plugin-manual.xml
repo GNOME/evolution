@@ -12,6 +12,7 @@
 <!ENTITY e-config-reference SYSTEM "e-config.xml">
 <!ENTITY e-event-reference SYSTEM "e-event.xml">
 <!ENTITY e-plugin-reference SYSTEM "e-plugin.xml">
+<!ENTITY e-import-reference SYSTEM "e-import.xml">
 
 <!ENTITY em-popup-reference SYSTEM "em-popup.xml">
 <!ENTITY em-format-reference SYSTEM "em-format.xml">
@@ -25,6 +26,7 @@
 
 <!ENTITY es-events SYSTEM "es-events.xml">
 <!ENTITY es-menus SYSTEM "es-menus.xml">
+<!ENTITY es-importers SYSTEM "es-importers.xml">
 
 ]>
 <?xml-stylesheet href="sdocbook.css" type="text/css"?>
@@ -1810,6 +1812,119 @@
 	  </para>
 	</sect2>
       </sect1>
+
+      <sect1 id="plugin-hooks-import">
+	<title>
+	  Importers
+	</title>
+	<para>
+	  Importers let &Evolution; import data from other or older programs
+	  into its native format.
+	</para>
+	<para>
+	  Importers are driven from a druid in the shell, they can work on
+	  individual files, or multiple component application data.  All
+	  importers go through the same interface, is this data
+	  present/supported, how do you control the import, and import the data.
+	</para>
+	<sect2>
+	  <title>Defining an import hook</title>
+	  <programlisting>
+	    <![CDATA[
+<hook class="org.gnome.evolution.import:1.0:1.0">
+ <importer
+   target="home | uri"
+   supported="funcion spec"
+   get-widget="function spec" ?
+   import="function spec"
+   cancel="function spec" ?
+   name="name"
+   description="description" ?/> *
+</hook>]]></programlisting>
+	  <variablelist>
+	    <varlistentry>
+	      <term><parameter>target</parameter></term>
+	      <listitem>
+		<simpara>
+		  The target type for this importer.  File importers are of a
+		  type <constant>uri</constant> and application importers are
+		  of type <constant>home</constant> (indicating a 'home
+		  directory').
+		</simpara>
+	      </listitem>
+	    </varlistentry>
+	    <varlistentry>
+	      <term><parameter>supported</parameter></term>
+	      <listitem>
+		<simpara>
+		  A function to call to determine if the file is supported or
+		  not.  The function will be passed the target, and returns
+		  non-NULL if the file is known or the application data exists.
+		</simpara>
+	      </listitem>
+	    </varlistentry>
+	    <varlistentry>
+	      <term><parameter>get-widget</parameter></term>
+	      <listitem>
+		<simpara>
+		  A factory method to get a widget to control the import.  For
+		  file-based importers, this should return a widget which lets
+		  the user select the destination for the import.  For
+		  application importers this should return a widget which lets
+		  the user choose what to import.  Where possible, the
+		  application importer should record whether or not the data
+		  has already been imported and default any checkboxes
+		  accordingly.
+		</simpara>
+	      </listitem>
+	    </varlistentry>
+	    <varlistentry>
+	      <term><parameter>import</parameter></term>
+	      <listitem>
+		<simpara>
+		  The function to call to import the data.  This function
+		  should generally invoke another thread, or run via an idle
+		  handler callback.  During the import it may call <link
+		    linkend="API-e-import-status">e_import_status()</link> to
+		  report progress.  It must call <link
+		    linkend="API-e-import-complete">e_import_complete()</link>
+		  once the import is complete, or has failed, or there was no
+		  work selected by the user.
+		</simpara>
+	      </listitem>
+	    </varlistentry>
+	    <varlistentry>
+	      <term><parameter>cancel</parameter></term>
+	      <listitem>
+		<simpara>
+		  This optional callback will be invoked if the user activates
+		  the cancel button on the import window.  It should try to
+		  short-cut further processing where possible.
+		</simpara>
+	      </listitem>
+	    </varlistentry>
+	    <varlistentry>
+	      <term><parameter>name</parameter></term>
+	      <listitem>
+		<simpara>
+		  The short name description of the importer, which will be
+		  used in the import type selection dropdown, or next to the
+		  application importer widgets.
+		</simpara>
+	      </listitem>
+	    </varlistentry>
+	    <varlistentry>
+	      <term><parameter>description</parameter></term>
+	      <listitem>
+		<simpara>
+		  A longer description of the importer.  Currently unused.
+		</simpara>
+	      </listitem>
+	    </varlistentry>
+	  </variablelist>
+	</sect2>
+      </sect1>
+
     </chapter>
   </part>
 
@@ -2745,6 +2860,22 @@
 	&es-events;
       </sect1>
 
+      <sect1 id="shell-hooks-import">
+	<title>Importers</title>
+
+	<para>
+	  Importers are currently global to the shell.  The importer class is
+	  <interfacename>org.gnome.evolution.import:1.0</interfacename>.
+	</para>
+	<para>
+	  Each plugin callback is passed the target.  Once the target has been
+	  passed to get-widget, the same target will be passed to import or
+	  cancel.  This allows information to be stored non-globally across
+	  invocations by utilising the GData field in the target.
+	</para>
+	&es-importers;
+      </sect1>
+
     </chapter>
 
   </part>
@@ -2870,6 +3001,17 @@
 	event listeners into dynamically loaded event handlers.
       </para>
       &em-format-reference;
+    </chapter>
+
+    <chapter>
+      <title>
+	EImport
+      </title>
+      <para>
+	The EImport object is used to hold a list of EImportImporter
+	structures, which are used to drive the importer window.
+      </para>
+      &e-import-reference;
     </chapter>
   </part>
 

@@ -24,6 +24,10 @@
 	   { 'files' => [ 'e-plugin.h', 'e-plugin.c' ],
 	     'module' => 'e-util' },
 
+	   'e-import.xml' =>
+	   { 'files' => [ 'e-import.c', 'e-import.c' ],
+	     'module' => 'e-util' },
+
 	   'em-popup.xml' =>
 	   { 'files' => [ 'em-popup.h', 'em-popup.c' ],
 	     'module' => 'mail' },
@@ -228,6 +232,10 @@ END
 	    { 'type' => 'HookPoint',
 	      'files' => [ 'e-shell-window.c' ],
 	      'module' => 'shell' },
+	   'es-importers.xml' =>
+	    { 'type' => 'HookClass',
+	      'files' => [ 'e-import.c' ],
+	      'module' => 'e-util' },
 	   'es-events.xml' =>
 	    { 'type' => 'Event',
 	      'files' => [ 'e-shell.c' ],
