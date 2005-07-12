@@ -46,10 +46,12 @@
 #include "tasks-component.h"
 
 #include <e-util/e-plugin.h>
+#include <e-util/e-import.h>
 #include "e-cal-config.h"
 #include "e-cal-popup.h"
 #include "e-cal-menu.h"
 #include "e-cal-event.h"
+#include "calendar/importers/evolution-calendar-importer.h"
 
 #define FACTORY_ID "OAFIID:GNOME_Evolution_Calendar_Factory:" BASE_VERSION
 
@@ -131,6 +133,8 @@ launch_alarm_daemon (void)
 static void
 initialize (void)
 {
+	EImportClass *klass;
+
 	comp_editor_registry = E_COMP_EDITOR_REGISTRY (e_comp_editor_registry_new ());
 	
 #if 0
@@ -148,8 +152,12 @@ initialize (void)
 	e_plugin_hook_register_type (e_cal_menu_hook_get_type());
 	e_plugin_hook_register_type (e_cal_config_hook_get_type ());
 	e_plugin_hook_register_type (e_cal_event_hook_get_type ());
-}
 
+	klass = g_type_class_ref(e_import_get_type());
+	e_import_class_add_importer(klass, gnome_calendar_importer_peek(), NULL, NULL);
+	e_import_class_add_importer(klass, ical_importer_peek(), NULL, NULL);
+	e_import_class_add_importer(klass, vcal_importer_peek(), NULL, NULL);
+}
 
 static BonoboObject *
 factory (BonoboGenericFactory *factory,

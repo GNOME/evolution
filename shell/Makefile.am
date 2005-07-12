@@ -1,5 +1,3 @@
-SUBDIRS = importer
-
 INCLUDES =							\
 	-I$(top_srcdir)/widgets					\
 	-I$(top_srcdir)/widgets/misc				\
@@ -134,7 +132,6 @@ evolution_SOURCES =				\
 
 evolution_LDADD =							\
 	libeshell.la							\
-	importer/libevolution-importer.la				\
 	$(top_builddir)/widgets/e-timezone-dialog/libetimezonedialog.la	\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la			\
 	$(top_builddir)/e-util/libeutil.la				\
@@ -176,7 +173,8 @@ errordir = $(privdatadir)/errors
 @EVO_PLUGIN_RULE@
 
 glade_DATA =						\
-	e-active-connection-dialog.glade
+	e-active-connection-dialog.glade		\
+	import.glade
 
 # GConf schemas
 

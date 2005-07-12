@@ -23,14 +23,12 @@
 #ifndef EVOLUTION_CALENDAR_IMPORTER_H
 #define EVOLUTION_CALENDAR_IMPORTER_H
 
-#include <bonobo/bonobo-object.h>
-
 G_BEGIN_DECLS
 
-BonoboObject *ical_importer_new (void);
-BonoboObject *vcal_importer_new (void);
+struct _EImportImporter *ical_importer_peek(void);
+struct _EImportImporter *vcal_importer_peek(void);
 
-BonoboObject *gnome_calendar_importer_new (void);
+struct _EImportImporter *gnome_calendar_importer_peek(void);
 
 G_END_DECLS
 

@@ -30,6 +30,37 @@
 	bug 206774, 242154.
 	* gui/widgets/eab-popup.h: Fixes the bug 206774, 242154.
 
+2005-07-06  Not Zed  <NotZed@Ximian.com>
+
+	* Makefile.am (SUBDIRS): build importers before the gui code.
+
+	* gui/component/Makefile.am (libevolution_addressbook_la_LIBADD):
+	link to importer plugin builtins.
+
+	* importers/Makefile.am: just build a shared library with all the
+	importers in it, we dont install a plugin, it is just linked to
+	the main app for simplicity.
+
+	* importers/GNOME_Evolution_Addressbook_VCard_Importer.server.in.in: 
+	* importers/GNOME_Evolution_Addressbook_LDIF_Importer.server.in.in:
+	removed.
+
+	* importers/evolution-vcard-importer.c: ported
+	to eimport, simplified some logic (why test extensions and then test
+	file content anyway), fixed some memory leaks, etc.
+
+	* importers/evolution-ldif-importer.c (ldif_import): remove
+	progress dialog stuff, move to update e-import api.
+
+2005-07-01  Not Zed  <NotZed@Ximian.com>
+
+	* gui/component/addressbook-component.c
+	(addressbook_component_init): hookup the builtin importer
+	'plugins'.
+
+	* importers/*: fix for importers->eplugin, also added a
+	window/progress dialog and cancel button.
+
 2005-06-25  Harish Krishnaswamy <kharish@novell.com>
 
 	* gui/contact-list-editor/Makefile.am: The previous commit breaks

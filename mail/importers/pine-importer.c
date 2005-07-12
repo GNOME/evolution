@@ -33,139 +33,61 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include <dirent.h>
-#include <ctype.h>
 #include <string.h>
 
 #include <glib.h>
+#include <glib/gi18n.h>
+#include <gtk/gtkvbox.h>
+#include <gtk/gtkcheckbutton.h>
 
-#include <libgnomeui/gnome-messagebox.h>
-#include <gtk/gtk.h>
-
-#include <gconf/gconf.h>
 #include <gconf/gconf-client.h>
-
-#include <bonobo/bonobo-object.h>
-#include <bonobo/bonobo-generic-factory.h>
-#include <bonobo/bonobo-control.h>
-#include <bonobo/bonobo-context.h>
-#include <bonobo/bonobo-main.h>
-#include <bonobo/bonobo-exception.h>
-#include <bonobo/bonobo-moniker-util.h>
-
-#include <importer/evolution-intelligent-importer.h>
-#include <importer/evolution-importer-client.h>
-#include <importer/GNOME_Evolution_Importer.h>
-
-#include "mail-importer.h"
-
-#include "mail/mail-mt.h"
-#include "mail/mail-component.h"
 
 #include <libebook/e-book.h>
 #include <libebook/e-destination.h>
 
-#define KEY "pine-mail-imported"
+#include <camel/camel-operation.h>
 
-/*#define SUPER_IMPORTER_DEBUG*/
-#ifdef SUPER_IMPORTER_DEBUG
+#include "mail-importer.h"
+
+#include "mail/mail-mt.h"
+#include "e-util/e-import.h"
+#include "e-util/e-error.h"
+
 #define d(x) x
-#else
-#define d(x)
-#endif
 
-typedef struct {
-	EvolutionIntelligentImporter *ii;
+struct _pine_import_msg {
+	struct _mail_msg msg;
+
+	EImport *import;
+	EImportTarget *target;
 
 	GMutex *status_lock;
 	char *status_what;
 	int status_pc;
 	int status_timeout_id;
-	CamelOperation *cancel;	/* cancel/status port */
-
-	GtkWidget *mail;
-	GtkWidget *address;
-
-	gboolean do_mail;
-	gboolean done_mail;
-	gboolean do_address;
-	gboolean done_address;
-
-	/* GUI */
-	GtkWidget *dialog;
-	GtkWidget *label;
-	GtkWidget *progressbar;
-} PineImporter;
-
-static void
-pine_importer_response(GtkWidget *w, guint button, void *data)
-{
-	PineImporter *importer = data;
-
-	if (button == GTK_RESPONSE_CANCEL
-	    && importer->cancel)
-		camel_operation_cancel(importer->cancel);
-}
-
-static GtkWidget *
-create_importer_gui (PineImporter *importer)
-{
-	GtkWidget *dialog;
-
-	dialog = gtk_message_dialog_new(NULL, 0/*GTK_DIALOG_NO_SEPARATOR*/,
-					GTK_MESSAGE_INFO, GTK_BUTTONS_CANCEL,
-					_("Evolution is importing your old Pine data"));
-	gtk_window_set_title (GTK_WINDOW (dialog), _("Importing..."));
-
-	importer->label = gtk_label_new (_("Please wait"));
-	importer->progressbar = gtk_progress_bar_new ();
-	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), importer->label, FALSE, FALSE, 0);
-	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), importer->progressbar, FALSE, FALSE, 0);
-	g_signal_connect(dialog, "response", G_CALLBACK(pine_importer_response), importer);
-
-	return dialog;
-}
-
-static void
-pine_store_settings (PineImporter *importer)
-{
-	GConfClient *gconf = gconf_client_get_default ();
-
-	gconf_client_set_bool (gconf, "/apps/evolution/importer/pine/mail", importer->done_mail, NULL);
-	gconf_client_set_bool (gconf, "/apps/evolution/importer/pine/address", importer->done_address, NULL);
-	g_object_unref(gconf);
-}
-
-static void
-pine_restore_settings (PineImporter *importer)
-{
-	GConfClient *gconf = gconf_client_get_default ();
-
-	importer->done_mail = gconf_client_get_bool (gconf, "/apps/evolution/importer/pine/mail", NULL);
-	importer->done_address = gconf_client_get_bool (gconf, "/apps/evolution/importer/pine/address", NULL);
-	g_object_unref(gconf);
-}
+	CamelOperation *status;
+};
 
 static gboolean
-pine_can_import (EvolutionIntelligentImporter *ii, void *closure)
+pine_supported(EImport *ei, EImportTarget *target, EImportImporter *im)
 {
-	PineImporter *importer = closure;
+	EImportTargetHome *s;
 	char *maildir, *addrfile;
-	gboolean md_exists = FALSE, addr_exists = FALSE;
+	gboolean md_exists, addr_exists;
 	struct stat st;
-	
-	maildir = g_build_filename(g_get_home_dir(), "mail", NULL);
+
+	if (target->type != E_IMPORT_TARGET_HOME)
+		return FALSE;
+
+	s = (EImportTargetHome *)target;
+
+	maildir = g_build_filename(s->homedir, "mail", NULL);
 	md_exists = lstat(maildir, &st) == 0 && S_ISDIR(st.st_mode);
-	g_free (maildir);
+	g_free(maildir);
 
-	importer->do_mail = md_exists && !importer->done_mail;
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (importer->mail), importer->do_mail);
-	gtk_widget_set_sensitive (importer->mail, md_exists);
-
-	addrfile = g_build_filename(g_get_home_dir(), ".addressbook", NULL);
+	addrfile = g_build_filename(s->homedir, ".addressbook", NULL);
 	addr_exists = lstat(addrfile, &st) == 0 && S_ISREG(st.st_mode);
 	g_free (addrfile);
-
-	gtk_widget_set_sensitive (importer->address, addr_exists);
 
 	return md_exists || addr_exists;
 }
@@ -243,7 +165,7 @@ import_contact(EBook *book, char *line)
 }
 
 static void
-import_contacts(PineImporter *importer)
+import_contacts(void)
 {
 	ESource *primary;
 	ESourceList *source_list;
@@ -302,12 +224,6 @@ import_contacts(PineImporter *importer)
 	g_object_unref(book);
 }
 
-struct _pine_import_msg {
-	struct _mail_msg msg;
-
-	PineImporter *importer;
-};
-
 static char *
 pine_import_describe (struct _mail_msg *mm, int complete)
 {
@@ -325,14 +241,14 @@ pine_import_import(struct _mail_msg *mm)
 {
 	struct _pine_import_msg *m = (struct _pine_import_msg *) mm;
 
-	if (m->importer->do_address)
-		import_contacts(m->importer);
+	if (GPOINTER_TO_INT(g_datalist_get_data(&m->target->data, "pine-do-addr")))
+		import_contacts();
 
-	if (m->importer->do_mail) {
+	if (GPOINTER_TO_INT(g_datalist_get_data(&m->target->data, "pine-do-mail"))) {
 		char *path;
 
 		path = g_build_filename(g_get_home_dir(), "mail", NULL);
-		mail_importer_import_folders_sync(path, pine_special_folders, 0, m->importer->cancel);
+		mail_importer_import_folders_sync(path, pine_special_folders, 0, m->status);
 		g_free(path);
 	}
 }
@@ -340,41 +256,44 @@ pine_import_import(struct _mail_msg *mm)
 static void
 pine_import_imported(struct _mail_msg *mm)
 {
+	struct _pine_import_msg *m = (struct _pine_import_msg *)mm;
+
+	printf("importing complete\n");
+
+	if (!camel_exception_is_set(&mm->ex)) {
+		GConfClient *gconf;
+
+		gconf = gconf_client_get_default();
+		if (GPOINTER_TO_INT(g_datalist_get_data(&m->target->data, "pine-do-addr")))
+			gconf_client_set_bool(gconf, "/apps/evolution/importer/pine/addr", TRUE, NULL);
+		if (GPOINTER_TO_INT(g_datalist_get_data(&m->target->data, "pine-do-mail")))
+			gconf_client_set_bool(gconf, "/apps/evolution/importer/pine/mail", TRUE, NULL);
+		g_object_unref(gconf);
+	}
+
+	e_import_complete(m->import, (EImportTarget *)m->target);
 }
 
 static void
 pine_import_free(struct _mail_msg *mm)
 {
-	/*struct _pine_import_msg *m = (struct _pine_import_msg *)mm;*/
-}
+	struct _pine_import_msg *m = (struct _pine_import_msg *)mm;
 
-static struct _mail_msg_op pine_import_op = {
-	pine_import_describe,
-	pine_import_import,
-	pine_import_imported,
-	pine_import_free,
-};
+	camel_operation_unref(m->status);
 
-static int
-mail_importer_pine_import(PineImporter *importer)
-{
-	struct _pine_import_msg *m;
-	int id;
+	g_free(m->status_what);
+	g_mutex_free(m->status_lock);
 
-	m = mail_msg_new(&pine_import_op, NULL, sizeof (*m));
-	m->importer = importer;
+	g_source_remove(m->status_timeout_id);
+	m->status_timeout_id = 0;
 
-	id = m->msg.seq;
-	
-	e_thread_put(mail_thread_queued, (EMsg *) m);
-
-	return id;
+	g_object_unref(m->import);
 }
 
 static void
 pine_status(CamelOperation *op, const char *what, int pc, void *data)
 {
-	PineImporter *importer = data;
+	struct _pine_import_msg *importer = data;
 
 	if (pc == CAMEL_OPERATION_START)
 		pc = 0;
@@ -391,125 +310,129 @@ pine_status(CamelOperation *op, const char *what, int pc, void *data)
 static gboolean
 pine_status_timeout(void *data)
 {
-	PineImporter *importer = data;
+	struct _pine_import_msg *importer = data;
 	int pc;
 	char *what;
 
-	if (!importer->status_what)
-		return TRUE;
+	if (importer->status_what) {
+		g_mutex_lock(importer->status_lock);
+		what = importer->status_what;
+		importer->status_what = NULL;
+		pc = importer->status_pc;
+		g_mutex_unlock(importer->status_lock);
 
-	g_mutex_lock(importer->status_lock);
-	what = importer->status_what;
-	importer->status_what = NULL;
-	pc = importer->status_pc;
-	g_mutex_unlock(importer->status_lock);
+		e_import_status(importer->import, (EImportTarget *)importer->target, what, pc);
+	}
 
-	gtk_progress_bar_set_fraction((GtkProgressBar *)importer->progressbar, (gfloat)(pc/100.0));
-	gtk_progress_bar_set_text((GtkProgressBar *)importer->progressbar, what);
-	
 	return TRUE;
 }
 
-static void
-pine_create_structure (EvolutionIntelligentImporter *ii, void *closure)
+static struct _mail_msg_op pine_import_op = {
+	pine_import_describe,
+	pine_import_import,
+	pine_import_imported,
+	pine_import_free,
+};
+
+static int
+mail_importer_pine_import(EImport *ei, EImportTarget *target)
 {
-	PineImporter *importer = closure;
+	struct _pine_import_msg *m;
+	int id;
 
-	if (importer->do_address || importer->do_mail) {
-		importer->dialog = create_importer_gui (importer);
-		gtk_widget_show_all (importer->dialog);
-		importer->status_timeout_id = g_timeout_add(100, pine_status_timeout, importer);
-		importer->cancel = camel_operation_new(pine_status, importer);
+	m = mail_msg_new(&pine_import_op, NULL, sizeof (*m));
+	g_datalist_set_data(&target->data, "pine-msg", m);
+	m->import = ei;
+	g_object_ref(m->import);
+	m->target = target;
+	m->status_timeout_id = g_timeout_add(100, pine_status_timeout, m);
+	m->status_lock = g_mutex_new();
+	m->status = camel_operation_new(pine_status, m);
 
-		mail_msg_wait(mail_importer_pine_import(importer));
+	id = m->msg.seq;
+	
+	e_thread_put(mail_thread_queued, (EMsg *)m);
 
-		camel_operation_unref(importer->cancel);
-		g_source_remove(importer->status_timeout_id);
-		importer->status_timeout_id = 0;
-
-		if (importer->do_address)
-			importer->done_address = TRUE;
-		if (importer->do_mail)
-			importer->done_mail = TRUE;
-	}
-
-	pine_store_settings (importer);
-
-	bonobo_object_unref (BONOBO_OBJECT (ii));
+	return id;
 }
 
 static void
-pine_destroy_cb (PineImporter *importer, GtkObject *object)
+checkbox_mail_toggle_cb(GtkToggleButton *tb, EImportTarget *target)
 {
-	pine_store_settings (importer);
-
-	if (importer->status_timeout_id)
-		g_source_remove(importer->status_timeout_id);
-	g_free(importer->status_what);
-	g_mutex_free(importer->status_lock);
-
-	if (importer->dialog)
-		gtk_widget_destroy(importer->dialog);
-
-	g_free(importer);
+	g_datalist_set_data(&target->data, "pine-do-mail", GINT_TO_POINTER(gtk_toggle_button_get_active(tb)));
 }
 
-/* Fun inity stuff */
-
-/* Fun control stuff */
 static void
-checkbox_toggle_cb(GtkToggleButton *tb, gboolean *do_item)
+checkbox_addr_toggle_cb(GtkToggleButton *tb, EImportTarget *target)
 {
-	*do_item = gtk_toggle_button_get_active(tb);
+	g_datalist_set_data(&target->data, "pine-do-addr", GINT_TO_POINTER(gtk_toggle_button_get_active(tb)));
 }
 
-static BonoboControl *
-create_checkboxes_control (PineImporter *importer)
+static GtkWidget *
+pine_getwidget(EImport *ei, EImportTarget *target, EImportImporter *im)
 {
-	GtkWidget *hbox;
-	BonoboControl *control;
+	GtkWidget *box, *w;
+	GConfClient *gconf;
+	gboolean done_mail, done_addr;
 
-	hbox = gtk_hbox_new (FALSE, 2);
+	gconf = gconf_client_get_default ();
+	done_mail = gconf_client_get_bool (gconf, "/apps/evolution/importer/pine/mail", NULL);
+	done_addr = gconf_client_get_bool (gconf, "/apps/evolution/importer/pine/address", NULL);
+	g_object_unref(gconf);
 
-	importer->mail = gtk_check_button_new_with_label (_("Mail"));
-	gtk_signal_connect (GTK_OBJECT (importer->mail), "toggled",
-			    GTK_SIGNAL_FUNC (checkbox_toggle_cb),
-			    &importer->do_mail);
+	g_datalist_set_data(&target->data, "pine-do-mail", GINT_TO_POINTER(!done_mail));
+	g_datalist_set_data(&target->data, "pine-do-addr", GINT_TO_POINTER(!done_addr));
 
-	importer->address = gtk_check_button_new_with_label (_("Addressbook"));
-	gtk_signal_connect (GTK_OBJECT (importer->address), "toggled",
-			    GTK_SIGNAL_FUNC (checkbox_toggle_cb),
-			    &importer->do_address);
+	box = gtk_vbox_new(FALSE, 2);
 
-	gtk_box_pack_start (GTK_BOX (hbox), importer->mail, FALSE, FALSE, 0);
-	gtk_box_pack_start (GTK_BOX (hbox), importer->address, FALSE, FALSE, 0);
+	w = gtk_check_button_new_with_label(_("Mail"));
+	gtk_toggle_button_set_active((GtkToggleButton *)w, !done_mail);
+	g_signal_connect(w, "toggled", G_CALLBACK(checkbox_mail_toggle_cb), target);
+	gtk_box_pack_start((GtkBox *)box, w, FALSE, FALSE, 0);
 
-	gtk_widget_show_all (hbox);
-	control = bonobo_control_new (hbox);
-	return control;
+	w = gtk_check_button_new_with_label(_("Addressbook"));
+	gtk_toggle_button_set_active((GtkToggleButton *)w, !done_addr);
+	g_signal_connect(w, "toggled", G_CALLBACK(checkbox_addr_toggle_cb), target);
+	gtk_box_pack_start((GtkBox *)box, w, FALSE, FALSE, 0);
+
+	gtk_widget_show_all(box);
+
+	return box;
 }
 
-BonoboObject *
-pine_intelligent_importer_new(void)
+static void
+pine_import(EImport *ei, EImportTarget *target, EImportImporter *im)
 {
-	EvolutionIntelligentImporter *importer;
-	BonoboControl *control;
-	PineImporter *pine;
-	char *message = N_("Evolution has found Pine mail files.\n"
-			   "Would you like to import them into Evolution?");
+	if (GPOINTER_TO_INT(g_datalist_get_data(&target->data, "pine-do-mail"))
+	    || GPOINTER_TO_INT(g_datalist_get_data(&target->data, "pine-do-addr")))
+		mail_importer_pine_import(ei, target);
+	else
+		e_import_complete(ei, target);
+}
 
-	pine = g_new0 (PineImporter, 1);
-	pine->status_lock = g_mutex_new();
-	pine_restore_settings(pine);
-	importer = evolution_intelligent_importer_new (pine_can_import,
-						       pine_create_structure,
-						       _("Pine"),
-						       _(message), pine);
-	g_object_weak_ref((GObject *)importer, (GWeakNotify)pine_destroy_cb, pine);
-	pine->ii = importer;
+static void
+pine_cancel(EImport *ei, EImportTarget *target, EImportImporter *im)
+{
+	struct _pine_import_msg *m = g_datalist_get_data(&target->data, "pine-msg");
 
-	control = create_checkboxes_control(pine);
-	bonobo_object_add_interface(BONOBO_OBJECT(importer), BONOBO_OBJECT(control));
+	if (m)
+		camel_operation_cancel(m->status);
+}
 
-	return BONOBO_OBJECT(importer);
+static EImportImporter pine_importer = {
+	E_IMPORT_TARGET_HOME,
+	0,
+	pine_supported,
+	pine_getwidget,
+	pine_import,
+	pine_cancel,
+};
+
+EImportImporter *
+pine_importer_peek(void)
+{
+	pine_importer.name = _("Evolution Pine importer");
+	pine_importer.description = _("Import mail from Pine.");
+
+	return &pine_importer;
 }

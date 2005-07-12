@@ -106,34 +106,9 @@ ec_target_free(EImport *ep, EImportTarget *t)
 		break; }
 	}
 
+	g_datalist_clear(&t->data);
 	g_free(t);
 	g_object_unref(ep);
-}
-
-static void
-ec_set_target(EImport *emp, EImportTarget *target)
-{
-	EImportClass *k = (EImportClass *)G_OBJECT_GET_CLASS(emp);
-	struct _EImportImporters *ei;
-
-	if (emp->target)
-		e_import_target_free(emp, target);
-
-	emp->target = target;
-	emp->importer = NULL;
-
-	if (target== NULL)
-		return;
-
-	for (ei = (struct _EImportImporters *)k->importers.head;
-	     ei->next;
-	     ei = ei->next) {
-		if (ei->importer->type == target->type
-		    && ei->importer->supported(emp, ei->importer, ei->importer->user_data)) {
-			emp->importer = ei->importer;
-			break;
-		}
-	}
 }
 
 static void
@@ -144,7 +119,6 @@ ep_class_init(GObjectClass *klass)
 	g_type_class_add_private(klass, sizeof(struct _EImportPrivate));
 
 	klass->finalize = ep_finalise;
-	((EImportClass *)klass)->set_target = ec_set_target;
 	((EImportClass *)klass)->target_free = ec_target_free;
 }
 
@@ -198,10 +172,20 @@ EImport *e_import_construct(EImport *ep, const char *id)
 	return ep;
 }
 
+EImport *e_import_new(const char *id)
+{
+	EImport *ei = g_object_new(e_import_get_type(), NULL);
+
+	return e_import_construct(ei, id);
+}
+
 /**
  * e_import_import:
  * @ei: 
- * @done:
+ * @t: Target to import.
+ * @im: Importer to use.
+ * @status: Status callback, called with progress information.
+ * @done: Complete callback, will always be called once complete.
  * @data:
  * 
  * Run the import function of the selected importer.  Once the
@@ -212,66 +196,64 @@ EImport *e_import_construct(EImport *ep, const char *id)
  * When complete, the @done callback will be called.
  **/
 void
-e_import_import(EImport *ei, EImportCompleteFunc done, void *data)
+e_import_import(EImport *ei, EImportTarget *t, EImportImporter *im, EImportStatusFunc status, EImportCompleteFunc done, void *data)
 {
-	g_return_if_fail(ei->importer != NULL);
-	g_return_if_fail(ei->target != NULL);
+	g_return_if_fail(im != NULL);
+	g_return_if_fail(im != NULL);
 
+	ei->status = status;
 	ei->done = done;
 	ei->done_data = data;
 
-	ei->importer->import(ei, ei->importer, ei->importer->user_data);
+	im->import(ei, t, im);
+}
+
+void e_import_cancel(EImport *ei, EImportTarget *t, EImportImporter *im)
+{
+	if (im->cancel)
+		im->cancel(ei, t, im);
 }
 
 /**
  * e_import_get_widget:
- * @ei: An import object on which the target has been set.
+ * @ei:
+ * @target: Target of interest
+ * @im: Importer to get widget of
  * 
  * Gets a widget that the importer uses to configure its
  * destination.  This widget should be packed into a container
- * widget.
+ * widget.  It should not be shown_all.
  * 
  * Return value: NULL if the importer doesn't support/require
  * a destination.
  **/
 struct _GtkWidget *
-e_import_get_widget(EImport *ei)
+e_import_get_widget(EImport *ei, EImportTarget *target, EImportImporter *im)
 {
-	g_return_val_if_fail(ei->importer != NULL, NULL);
-	g_return_val_if_fail(ei->target != NULL, NULL);
+	g_return_val_if_fail(im != NULL, NULL);
+	g_return_val_if_fail(target != NULL, NULL);
 
-	return ei->importer->get_widget(ei, ei->importer, ei->importer->user_data);
+	return im->get_widget(ei, target, im);
 }
 
 /**
  * e_import_complete:
  * @ei: 
+ * @target: Target just completed (unused currently)
  * 
  * Signify that an import is complete.  This must be called by
  * importer implementations when they are done.
  **/
-void e_import_complete(EImport *ei)
+void e_import_complete(EImport *ei, EImportTarget *target)
 {
 	if (ei->done)
 		ei->done(ei, ei->done_data);
 }
 
-/**
- * e_import_set_target:
- * @emp: An initialised EImport.
- * @target: A target allocated from @emp.
- * 
- * Sets the target object for the import window.  Generally the target
- * is set only once, and will supply its own "changed" signal which
- * can be used to drive the modal.  This is a virtual method so that
- * the implementing class can connect to the changed signal and
- * initiate a e_import_target_changed() call where appropriate.
- **/
-void
-e_import_set_target(EImport *emp, EImportTarget *target)
+void e_import_status(EImport *ei, EImportTarget *target, const char *what, int pc)
 {
-	if (emp->target != target)
-		((EImportClass *)G_OBJECT_GET_CLASS(emp))->set_target(emp, target);
+	if (ei->status)
+		ei->status(ei, what, pc, ei->done_data);
 }
 
 /**
@@ -280,8 +262,9 @@ e_import_set_target(EImport *emp, EImportTarget *target)
  * @target: 
  * 
  * Get a list of importers.  If @target is supplied, then only
- * importers which support the location specified by the target are
- * listed.  If @target is NULL, then all importers are listed.
+ * importers which support the type and location specified by the
+ * target are listed.  If @target is NULL, then all importers are
+ * listed.
  * 
  * Return value: A list of importers.  The list should be freed when
  * no longer needed.
@@ -298,9 +281,8 @@ e_import_get_importers(EImport *emp, EImportTarget *target)
 	     ei = ei->next) {
 		if (target == NULL
 		    || (ei->importer->type == target->type
-			&& ei->importer->supported(emp, ei->importer, ei->importer->user_data))) {
+			&& ei->importer->supported(emp, target, ei->importer))) {
 			importers = g_slist_append(importers, ei->importer);
-			break;
 		}
 	}
 
@@ -334,10 +316,14 @@ e_import_class_add_importer(EImportClass *klass, EImportImporter *importer, EImp
 		en = en->next;
 	}
 
-	node->next = ei->next;
-	node->next->prev = node;
-	node->prev = ei;
-	ei->next = node;
+	if (en == NULL)
+		e_dlist_addtail(&klass->importers, (EDListNode *)node);
+	else {
+		node->next = ei->next;
+		node->next->prev = node;
+		node->prev = ei;
+		ei->next = node;
+	}
 }
 
 void e_import_class_remove_importer(EImportClass *klass, EImportImporter *f)
@@ -377,6 +363,7 @@ void *e_import_target_new(EImport *ep, int type, size_t size)
 	t->import = ep;
 	g_object_ref(ep);
 	t->type = type;
+	g_datalist_init(&t->data);
 
 	return t;
 }
@@ -452,32 +439,40 @@ static const EImportHookTargetMask eih_no_masks[] = {
 
 static const EImportHookTargetMap eih_targets[] = {
 	{ "uri", E_IMPORT_TARGET_URI, eih_no_masks },
-	{ "home", E_IMPORT_TARGET_URI, eih_no_masks },
+	{ "home", E_IMPORT_TARGET_HOME, eih_no_masks },
 	{ 0 }
 };
 
-static gboolean eih_supported(EImport *ei, EImportImporter *im, void *data)
+static gboolean eih_supported(EImport *ei, EImportTarget *target, EImportImporter *im)
 {
 	struct _EImportHookImporter *ihook = (EImportHookImporter *)im;
 	EImportHook *hook = im->user_data;
 
-	return e_plugin_invoke(hook->hook.plugin, ihook->supported, ei) != NULL;
+	return e_plugin_invoke(hook->hook.plugin, ihook->supported, target) != NULL;
 }
 
-static struct _GtkWidget *eih_get_widget(EImport *ei, EImportImporter *im, void *data)
+static struct _GtkWidget *eih_get_widget(EImport *ei, EImportTarget *target, EImportImporter *im)
 {
 	struct _EImportHookImporter *ihook = (EImportHookImporter *)im;
 	EImportHook *hook = im->user_data;
 
-	return e_plugin_invoke(hook->hook.plugin, ihook->get_widget, ei);
+	return e_plugin_invoke(hook->hook.plugin, ihook->get_widget, target);
 }
 
-static void eih_import(EImport *ei, EImportImporter *im, void *data)
+static void eih_import(EImport *ei, EImportTarget *target, EImportImporter *im)
 {
 	struct _EImportHookImporter *ihook = (EImportHookImporter *)im;
 	EImportHook *hook = im->user_data;
 
-	e_plugin_invoke(hook->hook.plugin, ihook->import, ei);
+	e_plugin_invoke(hook->hook.plugin, ihook->import, target);
+}
+
+static void eih_cancel(EImport *ei, EImportTarget *target, EImportImporter *im)
+{
+	struct _EImportHookImporter *ihook = (EImportHookImporter *)im;
+	EImportHook *hook = im->user_data;
+
+	e_plugin_invoke(hook->hook.plugin, ihook->cancel, target);
 }
 
 static void
@@ -514,6 +509,7 @@ emph_construct_importer(EPluginHook *eph, xmlNodePtr root)
 	item->supported = e_plugin_xml_prop(root, "supported");
 	item->get_widget = e_plugin_xml_prop(root, "get-widget");
 	item->import = e_plugin_xml_prop(root, "import");
+	item->cancel = e_plugin_xml_prop(root, "cancel");
 
 	item->importer.name = e_plugin_xml_prop(root, "name");
 	item->importer.description = e_plugin_xml_prop(root, "description");
@@ -527,6 +523,8 @@ emph_construct_importer(EPluginHook *eph, xmlNodePtr root)
 	item->importer.import = eih_import;
 	if (item->get_widget)
 		item->importer.get_widget = eih_get_widget;
+	if (item->cancel)
+		item->importer.cancel = eih_cancel;
 
 	return item;
 error:
@@ -585,7 +583,6 @@ emph_class_init(EPluginHookClass *klass)
 	((GObjectClass *)klass)->finalize = emph_finalise;
 	klass->construct = emph_construct;
 
-	/* this is actually an abstract implementation but list it anyway */
 	klass->id = "org.gnome.evolution.import:1.0";
 
 	d(printf("EImportHook: init class %p '%s'\n", klass, g_type_name(((GObjectClass *)klass)->g_type_class.g_type)));

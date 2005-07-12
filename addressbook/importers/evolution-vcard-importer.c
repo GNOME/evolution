@@ -19,7 +19,7 @@
  *
  * Authors: Chris Toshok <toshok@ximian.com>
  *          JP Rosevear <jpr@ximian.com>
- *
+ * 	    Michael Zucchi <notzed@ximian.com>
  */
 
 #ifdef HAVE_CONFIG_H
@@ -29,36 +29,37 @@
 #include <stdio.h>
 #include <string.h>
 
-#include <gtk/gtkcheckbutton.h>
-#include <gtk/gtkhbox.h>
 #include <gtk/gtkvbox.h>
-#include <gtk/gtkmain.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtkradiobutton.h>
-#include <gtk/gtknotebook.h>
-#include <bonobo/bonobo-context.h>
-#include <bonobo/bonobo-shlib-factory.h>
-#include <bonobo/bonobo-control.h>
+#include <glib/gi18n.h>
 
 #include <libebook/e-book.h>
 #include <libedataserverui/e-source-selector.h>
 
-#include <importer/evolution-importer.h>
-#include <importer/GNOME_Evolution_Importer.h>
 #include <util/eab-book-util.h>
 #include <libebook/e-destination.h>
 
-#define COMPONENT_FACTORY_IID "OAFIID:GNOME_Evolution_Addressbook_VCard_ImporterFactory:" BASE_VERSION
-#define COMPONENT_IID "OAFIID:GNOME_Evolution_Addressbook_VCard_Importer:" BASE_VERSION
+#include "e-util/e-import.h"
+
+#include "evolution-addressbook-importers.h"
 
 typedef struct {
+	EImport *import;
+	EImportTarget *target;
+
+	guint idle_id;
+
+	int state;		/* 0 - importing, 1 - cancelled/complete */
+	int total;
+	int count;
+
 	ESource *primary;
 	
 	GList *contactlist;
 	GList *iterator;
 	EBook *book;
-	gboolean ready;
 } VCardImporter;
+
+static void vcard_import_done(VCardImporter *gci);
 
 static void
 add_to_notes (EContact *contact, EContactField field)
@@ -84,37 +85,11 @@ add_to_notes (EContact *contact, EContactField field)
 	g_free (new_text);
 }
 
-/* EvolutionImporter methods */
 static void
-process_item_fn (EvolutionImporter *importer,
-		 CORBA_Object listener,
-		 void *closure,
-		 CORBA_Environment *ev)
+vcard_import_contact(VCardImporter *gci, EContact *contact)
 {
-	VCardImporter *gci = (VCardImporter *) closure;
-	EContact *contact;
 	EContactPhoto *photo;
 	GList *attrs, *attr;
-
-	if (gci->iterator == NULL)
-		gci->iterator = gci->contactlist;
-	
-	if (gci->ready == FALSE) {
-		GNOME_Evolution_ImporterListener_notifyResult (listener,
-							       GNOME_Evolution_ImporterListener_NOT_READY,
-							       gci->iterator ? TRUE : FALSE, 
-							       ev);
-		return;
-	}
-	
-	if (gci->iterator == NULL) {
-		GNOME_Evolution_ImporterListener_notifyResult (listener,
-							       GNOME_Evolution_ImporterListener_UNSUPPORTED_OPERATION,
-							       FALSE, ev);
-		return;
-	}
-	
-	contact = gci->iterator->data;
 
 	/* Apple's addressbook.app exports PHOTO's without a TYPE
 	   param, so let's figure out the format here if there's a
@@ -247,25 +222,34 @@ process_item_fn (EvolutionImporter *importer,
 
 	/* FIXME Error checking */
 	e_book_add_contact (gci->book, contact, NULL);
-	
-	gci->iterator = gci->iterator->next;
-	
-	GNOME_Evolution_ImporterListener_notifyResult (listener,
-						       GNOME_Evolution_ImporterListener_OK,
-						       gci->iterator ? TRUE : FALSE, 
-						       ev);
-	if (ev->_major != CORBA_NO_EXCEPTION) {
-		g_warning ("Error notifying listeners.");
-	}
-	
-	return;
 }
 
-static char *supported_extensions[3] = {
-	".vcf",
-	".gcrd",
-	NULL
-};
+static gboolean
+vcard_import_contacts(void *data)
+{
+	VCardImporter *gci = data;
+	int count = 0;
+	GList *iterator = gci->iterator;
+
+	if (gci->state == 0) {
+		while (count < 50 && iterator) {
+			vcard_import_contact(gci, iterator->data);
+			count++;
+			iterator = iterator->next;
+		}
+		gci->count += count;
+		gci->iterator = iterator;
+		if (iterator == NULL)
+			gci->state = 1;
+	}
+	if (gci->state == 1) {
+		vcard_import_done(gci);
+		return FALSE;
+	} else {
+		e_import_status(gci->import, gci->target, _("Importing ..."), gci->count * 100 / gci->total);
+		return TRUE;
+	}
+}
 
 #define BOM (gunichar2)0xFEFF
 #define ANTIBOM (gunichar2)0xFFFE
@@ -321,7 +305,6 @@ utf16_to_utf8 (gunichar2 *utf16)
 	return g_utf16_to_utf8 (utf16, -1, NULL, NULL, NULL);
 }
 
-
 enum _VCardEncoding {
 	VCARD_ENCODING_NONE,
 	VCARD_ENCODING_UTF8,
@@ -330,7 +313,6 @@ enum _VCardEncoding {
 };
 
 typedef enum _VCardEncoding VCardEncoding;
-
 
 /* Actually check the contents of this file */
 static VCardEncoding
@@ -384,129 +366,123 @@ guess_vcard_encoding (const char *filename)
 	return encoding;
 }
 
-static gboolean 
-check_file_is_vcard (const char *filename)
+static void
+primary_selection_changed_cb (ESourceSelector *selector, EImportTarget *target)
 {
-	return guess_vcard_encoding (filename) != VCARD_ENCODING_NONE;
+	g_datalist_set_data_full(&target->data, "vcard-source",
+				 g_object_ref(e_source_selector_peek_primary_selection(selector)),
+				 g_object_unref);
 }
 
-static void
-primary_selection_changed_cb (ESourceSelector *selector, gpointer data)
+static GtkWidget *
+vcard_getwidget(EImport *ei, EImportTarget *target, EImportImporter *im)
 {
-	VCardImporter *gci = data;
-
-	if (gci->primary)
-		g_object_unref (gci->primary);
-	gci->primary = g_object_ref (e_source_selector_peek_primary_selection (selector));
-}
-
-static void
-create_control_fn (EvolutionImporter *importer, Bonobo_Control *control, void *closure)
-{
-	VCardImporter *gci = closure;
 	GtkWidget *vbox, *selector;
 	ESource *primary;
 	ESourceList *source_list;	
-	
-	vbox = gtk_vbox_new (FALSE, FALSE);
-	
+
 	/* FIXME Better error handling */
 	if (!e_book_get_addressbooks (&source_list, NULL))
-		return;		
+		return NULL;
+
+	vbox = gtk_vbox_new (FALSE, FALSE);
 
 	selector = e_source_selector_new (source_list);
 	e_source_selector_show_selection (E_SOURCE_SELECTOR (selector), FALSE);
 	gtk_box_pack_start (GTK_BOX (vbox), selector, FALSE, TRUE, 6);
 	
-	/* FIXME What if no sources? */
-	primary = e_source_list_peek_source_any (source_list);
+	primary = g_datalist_get_data(&target->data, "vcard-source");
+	if (primary == NULL) {
+		primary = e_source_list_peek_source_any (source_list);
+		g_object_ref(primary);
+		g_datalist_set_data_full(&target->data, "vcard-source", primary, g_object_unref);
+	}
 	e_source_selector_set_primary_selection (E_SOURCE_SELECTOR (selector), primary);
-	if (!gci->primary)
-		gci->primary = g_object_ref (primary);
 	g_object_unref (source_list);
-		
-	g_signal_connect (G_OBJECT (selector), "primary_selection_changed",
-			  G_CALLBACK (primary_selection_changed_cb), gci);
+
+	g_signal_connect (selector, "primary_selection_changed", G_CALLBACK (primary_selection_changed_cb), target);
 
 	gtk_widget_show_all (vbox);
-	
-	*control = BONOBO_OBJREF (bonobo_control_new (vbox));
+
+	return vbox;
 }
 
 static gboolean
-support_format_fn (EvolutionImporter *importer,
-		   const char *filename,
-		   void *closure)
+vcard_supported(EImport *ei, EImportTarget *target, EImportImporter *im)
 {
-	char *ext;
-	int i;
+	EImportTargetURI *s;
 
-	ext = strrchr (filename, '.');
-	if (ext == NULL) {
-		return check_file_is_vcard (filename);
-	}
-	for (i = 0; supported_extensions[i] != NULL; i++) {
-		if (g_ascii_strcasecmp (supported_extensions[i], ext) == 0) {
-			return check_file_is_vcard (filename);
-		}
-	}
+	if (target->type != E_IMPORT_TARGET_URI)
+		return FALSE;
 
-	return FALSE;
+	s = (EImportTargetURI *)target;
+	if (s->uri_src == NULL)
+		return TRUE;
+
+	if (!strncmp(s->uri_src, "file:///", 8))
+		return FALSE;
+
+	/* FIXME: need to parse the url properly */
+	return guess_vcard_encoding(s->uri_src+7) != VCARD_ENCODING_NONE;
 }
 
 static void
-importer_destroy_cb (gpointer data,
-		     GObject *where_object_was)
+vcard_import_done(VCardImporter *gci)
 {
-	VCardImporter *gci = data;
+	if (gci->idle_id)
+		g_source_remove(gci->idle_id);
 
-	if (gci->primary)
-		g_object_unref (gci->primary);
-	
-	if (gci->book)
-		g_object_unref (gci->book);
-
+	g_object_unref (gci->book);
 	g_list_foreach (gci->contactlist, (GFunc) g_object_unref, NULL);
 	g_list_free (gci->contactlist);
 
+	e_import_complete(gci->import, gci->target);
+	g_object_unref(gci->import);
 	g_free (gci);
 }
 
-static gboolean
-load_file_fn (EvolutionImporter *importer,
-	      const char *filename,
-	      void *closure)
+static void
+vcard_import(EImport *ei, EImportTarget *target, EImportImporter *im)
 {
 	VCardImporter *gci;
 	char *contents;
 	VCardEncoding encoding;
+	EBook *book;
+	EImportTargetURI *s = (EImportTargetURI *)target;
 
-	encoding = guess_vcard_encoding (filename);
+	/* FIXME: get filename properly */
+	encoding = guess_vcard_encoding(s->uri_src+7);
 	if (encoding == VCARD_ENCODING_NONE) {
-		return FALSE;
+		/* this check is superfluous, we've already checked otherwise we can't get here ... */
+		e_import_complete(ei, target);
+		return;
 	}
 
-	gci = (VCardImporter *) closure;
-	gci->contactlist = NULL;
-	gci->iterator = NULL;
-	gci->ready = FALSE;
-	
-	/* Load the book */
-	gci->book = e_book_new (gci->primary, NULL);
-	if (!gci->book) {
-		g_message (G_STRLOC ":Couldn't create EBook.");
-		return FALSE;
+	book = e_book_new(g_datalist_get_data(&target->data, "vcard-source"), NULL);
+	if (book == NULL) {
+		g_message(G_STRLOC ":Couldn't create EBook.");
+		e_import_complete(ei, target);
+		return;
 	}
-	e_book_open (gci->book, TRUE, NULL);
 
-	/* Load the file and the contacts */
-	if (!g_file_get_contents (filename, &contents, NULL, NULL)) {
+	if (!g_file_get_contents (s->uri_src+7, &contents, NULL, NULL)) {
 		g_message (G_STRLOC ":Couldn't read file.");
-		return FALSE;
+		e_import_complete(ei, target);
+		g_object_unref(book);
+		return;
 	}
+
+	gci = g_malloc0(sizeof(*gci));
+	g_datalist_set_data(&target->data, "vcard-data", gci);
+	gci->import = g_object_ref(ei);
+	gci->target = target;
+	gci->book = book;
+
+	e_book_open (gci->book, TRUE, NULL);
 
 	if (encoding == VCARD_ENCODING_UTF16) {
 		gchar *tmp;
+
 		gunichar2 *contents_utf16 = (gunichar2*)contents;
 		tmp = utf16_to_utf8 (contents_utf16);
 		g_free (contents);
@@ -520,33 +496,38 @@ load_file_fn (EvolutionImporter *importer,
 
 	gci->contactlist = eab_contact_list_from_string (contents);
 	g_free (contents);
+	gci->iterator = gci->contactlist;
+	gci->total = g_list_length(gci->contactlist);
 
-	gci->ready = TRUE;
-
-	return TRUE;
+	if (gci->iterator)
+		gci->idle_id = g_idle_add(vcard_import_contacts, gci);
+	else
+		vcard_import_done(gci);
 }
 					   
-static BonoboObject *
-factory_fn (BonoboGenericFactory *_factory,
-	    const char *component_id,
-	    void *closure)
+static void
+vcard_cancel(EImport *ei, EImportTarget *target, EImportImporter *im)
 {
-	EvolutionImporter *importer;
-	VCardImporter *gci;
+	VCardImporter *gci = g_datalist_get_data(&target->data, "vcard-data");
 
-	if (!strcmp (component_id, COMPONENT_IID)) {
-		gci = g_new0 (VCardImporter, 1);
-		importer = evolution_importer_new (create_control_fn, support_format_fn, 
-						   load_file_fn, process_item_fn, NULL, gci);
-	
-		g_object_weak_ref (G_OBJECT (importer),
-				   importer_destroy_cb, gci);
-		return BONOBO_OBJECT (importer);
-	}
-	else {
-		g_warning (COMPONENT_FACTORY_IID ": Don't know what to do with %s", component_id);
-		return NULL;
-	}
+	if (gci)
+		gci->state = 1;
 }
 
-BONOBO_ACTIVATION_SHLIB_FACTORY (COMPONENT_FACTORY_IID, "Evolution VCard Importer Factory", factory_fn, NULL)
+static EImportImporter vcard_importer = {
+	E_IMPORT_TARGET_URI,
+	0,
+	vcard_supported,
+	vcard_getwidget,
+	vcard_import,
+	vcard_cancel,
+};
+
+EImportImporter *
+evolution_vcard_importer_peek(void)
+{
+	vcard_importer.name = _("VCard (.vcf, .gcrd)");
+	vcard_importer.description = _("Evolution VCard Importer");
+
+	return &vcard_importer;
+}

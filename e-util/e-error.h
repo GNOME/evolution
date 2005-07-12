@@ -33,6 +33,8 @@ struct _GtkWindow;
  * Several more basic ones are needed.
  */
 
+#define E_ERROR_INFO "builtin:info"
+#define E_ERROR_INFO_PRIMARY "builtin:info-primary"
 #define E_ERROR_WARNING "builtin:warning"
 #define E_ERROR_WARNING_PRIMARY "builtin:warning-primary"
 #define E_ERROR_ERROR "builtin:error"

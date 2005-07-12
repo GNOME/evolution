@@ -114,6 +114,17 @@
 	
 	* POTFILES.skip: Added the gal files which need to be skipped.
 
+2005-07-06  Not Zed  <NotZed@Ximian.com>
+
+	* POTFILES.in: removed addressbook importer .server files, added
+	addressbook importer .c files.
+	remove mail & calendar importer .server file
+
+2005-07-01  Not Zed  <NotZed@Ximian.com>
+
+	* POTFILES.in: move import.glade to shell/ and remove
+	intelligent.c
+
 2005-06-27  Francisco Javier F. Serrador  <serrador@cvs.gnome.org>
 
 	* es.po: Updated Spanish translation.

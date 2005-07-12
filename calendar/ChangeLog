@@ -127,6 +127,29 @@
        	(event_editor_construct): Do not desensitize the attachment
 	bar as there will be no way to open an attachement.
 
+2005-07-06  Not Zed  <NotZed@Ximian.com>
+
+	* importers/icalendar-importer.c (ivcal_getwidget): fix a missing
+	init on sd.
+	(ivcal_getwidget): pack the notebook with fill on.
+
+	* importers/Makefile.am: remove -module flags.
+
+	* Makefile.am: build importers before the gui.
+
+	* gui/main.c (initialize): register the inbuild calendar importers.
+
+	* importers/icalendar-importer.c: Converted to eplugin, cleaned up
+	some stuff as well.  Put the selectors in scrolledwindows so they
+	dont grow unbounded.
+	(gnome_calendar_getwidget): set the default actions based on
+	wether we've run or not.
+	(update_single_object): removed dead code?
+
+2005-07-05  Not Zed  <NotZed@Ximian.com>
+
+	* importers/icalendar-importer.c: start work on e-plugin importer.
+
 2005-06-27  Tor Lillqvist  <tml@novell.com>
 
 	* */Makefile.am: Prune unnecessary and nonexistent directories

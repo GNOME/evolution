@@ -43,8 +43,6 @@
 
 #include "evolution-shell-component-utils.h"
 
-#include "importer/intelligent.h"
-
 #include <glib.h>
 
 #include <gtk/gtkmain.h>

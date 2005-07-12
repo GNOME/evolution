@@ -24,52 +24,48 @@
 #include <config.h>
 #endif
 
+#include <glib/gi18n.h>
+
 #include <string.h>
 #include <unistd.h>
 #include <sys/types.h>
 #include <fcntl.h>
+
+#include <gtk/gtkmain.h>
 #include <gtk/gtkcheckbutton.h>
 #include <gtk/gtkhbox.h>
 #include <gtk/gtkvbox.h>
-#include <gtk/gtkmain.h>
-#include <gtk/gtklabel.h>
 #include <gtk/gtkradiobutton.h>
 #include <gtk/gtknotebook.h>
-#include <libgnome/gnome-util.h>
-#include <libgnome/gnome-i18n.h>
-#include <bonobo/bonobo-control.h>
-#include <bonobo/bonobo-exception.h>
+#include <gtk/gtkscrolledwindow.h>
+
 #include <libecal/e-cal.h>
 #include <libedataserverui/e-source-selector.h>
-#include <importer/evolution-importer.h>
-#include <importer/evolution-intelligent-importer.h>
-#include <importer/GNOME_Evolution_Importer.h>
 #include <libical/icalvcal.h>
-#include <e-util/e-dialog-widgets.h>
 #include "evolution-calendar-importer.h"
 #include "common/authentication.h"
+
+#include "e-util/e-import.h"
 
 /* We timeout after 2 minutes, when opening the folders. */
 #define IMPORTER_TIMEOUT_SECONDS 120
 
-
 typedef struct {
-	EvolutionImporter *importer;
+	EImport *import;
+	EImportTarget *target;
 
-	GtkWidget *nb;
-	
-	ESource *primary;
-	ESourceSelector *selectors[E_CAL_SOURCE_TYPE_LAST];
+	guint idle_id;
 
 	ECal *client;
 	ECalSourceType source_type;
 
 	icalcomponent *icalcomp;
+
+	int cancelled:1;
 } ICalImporter;
 
 typedef struct {
-	gboolean do_calendar;
-	gboolean do_tasks;
+	int cancelled:1;
 } ICalIntelligentImporter;
 
 static const int import_type_map[] = {
@@ -84,26 +80,18 @@ static const char *import_type_strings[] = {
 	NULL
 };
 
-
 /*
  * Functions shared by iCalendar & vCalendar importer.
  */
 
 static void
-importer_destroy_cb (gpointer user_data)
+ivcal_import_done(ICalImporter *ici)
 {
-	ICalImporter *ici = (ICalImporter *) user_data;
-	
-	g_return_if_fail (ici != NULL);
-	
-	if (ici->client)
-		g_object_unref (ici->client);
-	
-	if (ici->icalcomp != NULL) {
-		icalcomponent_free (ici->icalcomp);
-		ici->icalcomp = NULL;
-	}
+	g_object_unref (ici->client);
+	icalcomponent_free (ici->icalcomp);
 
+	e_import_complete(ici->import, ici->target);
+	g_object_unref(ici->import);
 	g_free (ici);
 }
 
@@ -136,7 +124,6 @@ prepare_events (icalcomponent *icalcomp, GList **vtodos)
 	}
 }
 
-
 /* This removes all components except VTODOs and VTIMEZONEs from the toplevel
    icalcomponent, and adds the given list of VTODO components. The list is
    freed afterwards. */
@@ -167,28 +154,10 @@ prepare_tasks (icalcomponent *icalcomp, GList *vtodos)
 }
 
 static gboolean
-update_single_object (ECal *client, icalcomponent *icalcomp)
-{
-	char *uid;
-	icalcomponent *tmp_icalcomp;
-
-	uid = (char *) icalcomponent_get_uid (icalcomp);
-
-	/* FIXME Shouldn't we check for RIDs here? */
-	/* FIXME Should we always create a new UID? */
-	if (uid && e_cal_get_object (client, uid, NULL, &tmp_icalcomp, NULL))
-		return e_cal_modify_object (client, icalcomp, CALOBJ_MOD_ALL, NULL);
-
-	return e_cal_create_object (client, icalcomp, &uid, NULL);	
-}
-
-static gboolean
 update_objects (ECal *client, icalcomponent *icalcomp)
 {
-	icalcomponent *subcomp;
 	icalcomponent_kind kind;
 	icalcomponent *vcal;
-	GError *error = NULL;
 	gboolean success = TRUE;
 
 	kind = icalcomponent_isa (icalcomp);
@@ -214,154 +183,200 @@ update_objects (ECal *client, icalcomponent *icalcomp)
 	return success;
 }
 
+struct _selector_data {
+	EImportTarget *target;
+	GtkWidget *selector;
+	GtkWidget *notebook;
+	int page;
+};
+
 static void
-button_toggled_cb (GtkWidget *widget, gpointer data)
+button_toggled_cb (GtkWidget *widget, struct _selector_data *sd)
 {
-	ICalImporter *ici = data;
-
-	ici->source_type = e_dialog_radio_get (widget, import_type_map);
-	gtk_notebook_set_current_page (GTK_NOTEBOOK (ici->nb), ici->source_type);
-
-	/* If we switched pages we have a new primary source */
-	if (ici->primary)
-		g_object_unref (ici->primary);
-	ici->primary = g_object_ref (e_source_selector_peek_primary_selection (ici->selectors[ici->source_type]));
+	g_datalist_set_data_full(&sd->target->data, "primary-source",
+				 g_object_ref(e_source_selector_peek_primary_selection((ESourceSelector *)sd->selector)),
+				 g_object_unref);
+	g_datalist_set_data(&sd->target->data, "primary-type", GINT_TO_POINTER(import_type_map[sd->page]));
+	gtk_notebook_set_page((GtkNotebook *)sd->notebook, sd->page);
 }
 
 static void
-primary_selection_changed_cb (ESourceSelector *selector, gpointer data)
+primary_selection_changed_cb (ESourceSelector *selector, EImportTarget *target)
 {
-	ICalImporter *ici = data;
-
-	if (ici->primary)
-		g_object_unref (ici->primary);
-	ici->primary = g_object_ref (e_source_selector_peek_primary_selection (selector));
+	g_datalist_set_data_full(&target->data, "primary-source",
+				 g_object_ref(e_source_selector_peek_primary_selection(selector)),
+				 g_object_unref);
 }
 
-static void
-create_control_fn (EvolutionImporter *importer, Bonobo_Control *control, void *closure)
+static GtkWidget *
+ivcal_getwidget(EImport *ei, EImportTarget *target, EImportImporter *im)
 {
-	ICalImporter *ici = (ICalImporter *) closure;
-	GtkWidget *vbox, *hbox, *rb = NULL;
+	GtkWidget *vbox, *hbox, *first = NULL;
 	GSList *group = NULL;
-	ESourceList *source_list;	
 	int i;
-	
+	GtkWidget *nb;
+
 	vbox = gtk_vbox_new (FALSE, FALSE);
 	
 	hbox = gtk_hbox_new (FALSE, FALSE);
 	gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, TRUE, 6);
 
+	nb = gtk_notebook_new ();
+	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (nb), FALSE);
+	gtk_box_pack_start (GTK_BOX (vbox), nb, TRUE, TRUE, 6);
+
 	/* Type of icalendar items */
 	for (i = 0; import_type_map[i] != -1; i++) {
-		rb = gtk_radio_button_new_with_label (group, import_type_strings[i]);
-		gtk_box_pack_start (GTK_BOX (hbox), rb, FALSE, FALSE, 6);
-		g_signal_connect (G_OBJECT (rb), "toggled", G_CALLBACK (button_toggled_cb), ici);
-		if (!group)
-			group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (rb));
-	}
-	e_dialog_radio_set (rb, import_type_map[0], import_type_map);
-	
-	/* The source selector notebook */
-	ici->nb = gtk_notebook_new ();
-	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (ici->nb), FALSE);
-	gtk_container_add (GTK_CONTAINER (vbox), ici->nb);
-	
-	/* The source selectors */
-	for (i = 0; import_type_map[i] != -1; i++) {
-		GtkWidget *selector;
+		GtkWidget *selector, *rb;
+		ESourceList *source_list;
 		ESource *primary;
+		GtkWidget *scrolled;
+		struct _selector_data *sd;
 
 		/* FIXME Better error handling */
 		if (!e_cal_get_sources (&source_list, import_type_map[i], NULL))
-			return;		
+			continue;
 
 		selector = e_source_selector_new (source_list);
 		e_source_selector_show_selection (E_SOURCE_SELECTOR (selector), FALSE);
-		gtk_notebook_append_page (GTK_NOTEBOOK (ici->nb), selector, NULL);
+		scrolled = gtk_scrolled_window_new(NULL, NULL);
+		gtk_scrolled_window_set_policy((GtkScrolledWindow *)scrolled, GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
+		gtk_container_add((GtkContainer *)scrolled, selector);
+		gtk_notebook_append_page (GTK_NOTEBOOK (nb), scrolled, NULL);
 
 		/* FIXME What if no sources? */
 		primary = e_source_list_peek_source_any (source_list);
 		e_source_selector_set_primary_selection (E_SOURCE_SELECTOR (selector), primary);
-		if (!ici->primary)
-			ici->primary = g_object_ref (primary);
+
+		g_signal_connect (selector, "primary_selection_changed", G_CALLBACK (primary_selection_changed_cb), target);
+
+		rb = gtk_radio_button_new_with_label (group, import_type_strings[i]);
+		gtk_box_pack_start (GTK_BOX (hbox), rb, FALSE, FALSE, 6);
+
+		sd = g_malloc0(sizeof(*sd));
+		sd->target = target;
+		sd->selector = selector;
+		sd->notebook = nb;
+		sd->page = i;
+		g_object_set_data_full((GObject *)rb, "selector-data", sd, g_free);
+		g_signal_connect(G_OBJECT (rb), "toggled", G_CALLBACK (button_toggled_cb), sd);
+
+		if (!group)
+			group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (rb));
+		if (first == NULL) {
+			g_datalist_set_data_full(&target->data, "primary-source", g_object_ref(primary), g_object_unref);
+			g_datalist_set_data(&target->data, "primary-type", GINT_TO_POINTER(import_type_map[i]));
+			first = rb;
+		}
 		g_object_unref (source_list);
-		
-		g_signal_connect (G_OBJECT (selector), "primary_selection_changed",
-				  G_CALLBACK (primary_selection_changed_cb), ici);
-		
-		ici->selectors[import_type_map[i]] = E_SOURCE_SELECTOR (selector);
 	}
+	if (first)
+		gtk_toggle_button_set_active((GtkToggleButton *)first, TRUE);
 
 	gtk_widget_show_all (vbox);
-	
-	*control = BONOBO_OBJREF (bonobo_control_new (vbox));
+
+	return vbox;
 }
 
-static void
-process_item_fn (EvolutionImporter *importer,
-		 CORBA_Object listener,
-		 void *closure,
-		 CORBA_Environment *ev)
+static gboolean
+ivcal_import_items(void *d)
 {
-	ECalLoadState state;
-	ICalImporter *ici = (ICalImporter *) closure;
-	GNOME_Evolution_ImporterListener_ImporterResult result;
-	
-	result = GNOME_Evolution_ImporterListener_OK;
-
-	g_return_if_fail (ici != NULL);
-	g_return_if_fail (ici->icalcomp != NULL);
-
-	state = e_cal_get_load_state (ici->client);
-	if (state == E_CAL_LOAD_LOADING) {
-		GNOME_Evolution_ImporterListener_notifyResult (
-			listener,
-			GNOME_Evolution_ImporterListener_BUSY,
-			TRUE, ev);
-		return;
-	} else if (state != E_CAL_LOAD_LOADED) {
-		GNOME_Evolution_ImporterListener_notifyResult (
-			listener,
-			GNOME_Evolution_ImporterListener_UNSUPPORTED_OPERATION,
-			FALSE, ev);
-		return;
-	}
+	ICalImporter *ici = d;
 
 	switch (ici->source_type) {
 	case E_CAL_SOURCE_TYPE_EVENT:
 		prepare_events (ici->icalcomp, NULL);
 		if (!update_objects (ici->client, ici->icalcomp))
-			result = GNOME_Evolution_ImporterListener_BAD_DATA;
+			/* FIXME: e_error ... */;
 		break;
 	case E_CAL_SOURCE_TYPE_TODO:
 		prepare_tasks (ici->icalcomp, NULL);
 		if (!update_objects (ici->client, ici->icalcomp))
-			result = GNOME_Evolution_ImporterListener_BAD_DATA;
+			/* FIXME: e_error ... */;
 		break;
 	default:
 		g_assert_not_reached ();
 	}
 
-	GNOME_Evolution_ImporterListener_notifyResult (listener, result, FALSE, ev);
+	ivcal_import_done(ici);
+	ici->idle_id = 0;
+
+	return FALSE;
 }
 
+static void
+ivcal_opened(ECal *ecal, ECalendarStatus status, ICalImporter *ici)
+{
+	if (!ici->cancelled && status == E_CALENDAR_STATUS_OK) {
+		e_import_status(ici->import, ici->target, _("Importing ..."), 0);
+		ici->idle_id = g_idle_add(ivcal_import_items, ici);
+	} else
+		ivcal_import_done(ici);
+}
 
+static void
+ivcal_import(EImport *ei, EImportTarget *target, icalcomponent *icalcomp)
+{
+	ECal *client;
+	ECalSourceType type;
+
+	type = GPOINTER_TO_INT(g_datalist_get_data(&target->data, "primary-type"));
+
+	client = auth_new_cal_from_source (g_datalist_get_data(&target->data, "primary-source"), type);
+	if (client) {
+		ICalImporter *ici = g_malloc0(sizeof(*ici));
+
+		ici->import = ei;
+		g_datalist_set_data(&target->data, "ivcal-data", ici);
+		g_object_ref(ei);
+		ici->target = target;
+		ici->icalcomp = icalcomp;
+		ici->client = client;
+		ici->source_type = type;
+		e_import_status(ei, target, _("Opening calendar"), 0);
+		g_signal_connect(client, "cal-opened", G_CALLBACK(ivcal_opened), ici);
+		e_cal_open_async(client, TRUE);
+		return;
+	} else {
+		icalcomponent_free(icalcomp);
+		e_import_complete(ei, target);
+	}
+}
+
+static void
+ivcal_cancel(EImport *ei, EImportTarget *target, EImportImporter *im)
+{
+	ICalImporter *ici = g_datalist_get_data(&target->data, "ivcal-data");
+
+	if (ici)
+		ici->cancelled = 1;
+}
+
+/* ********************************************************************** */
 /*
  * iCalendar importer functions.
  */
 
 static gboolean
-support_format_fn (EvolutionImporter *importer,
-		   const char *filename,
-		   void *closure)
+ical_supported(EImport *ei, EImportTarget *target, EImportImporter *im)
 {
-	char *contents ;
-	icalcomponent *icalcomp;
+	char *contents;
 	gboolean ret = FALSE;
+	EImportTargetURI *s;
 
-	if (g_file_get_contents (filename, &contents, NULL, NULL)) {
-		/* parse the file */
+	if (target->type != E_IMPORT_TARGET_URI)
+		return FALSE;
+
+	s = (EImportTargetURI *)target;
+	if (s->uri_src == NULL)
+		return TRUE;
+
+	if (strncmp(s->uri_src, "file:///", 8) != 0)
+		return FALSE;
+
+	if (g_file_get_contents (s->uri_src+7, &contents, NULL, NULL)) {
+		icalcomponent *icalcomp;
+
 		icalcomp = e_cal_util_parse_ics_string (contents);
 		g_free (contents);
 
@@ -377,78 +392,71 @@ support_format_fn (EvolutionImporter *importer,
 	return ret;
 }
 
-static gboolean
-load_file_fn (EvolutionImporter *importer,
-	      const char *filename,
-	      void *closure)
+static void
+ical_import(EImport *ei, EImportTarget *target, EImportImporter *im)
 {
 	char *contents;
-	gboolean ret = FALSE;
-	ICalImporter *ici = (ICalImporter *) closure;
+	icalcomponent *icalcomp;
+	EImportTargetURI *s = (EImportTargetURI *)target;
 
-	g_return_val_if_fail (ici != NULL, FALSE);
-
-	if (g_file_get_contents (filename, &contents, NULL, NULL)) {
-		icalcomponent *icalcomp;
-
-		/* parse the file */
-		icalcomp = e_cal_util_parse_ics_string (contents);
-		g_free (contents);
-		
-		if (icalcomp) {
-			/* create the neccessary ECal */
-			if (ici->client)
-				g_object_unref (ici->client);
-			ici->client = auth_new_cal_from_source (ici->primary, ici->source_type);
-
-			if (ici->client) {
-				if (e_cal_open (ici->client, TRUE, NULL)) {
-					ici->icalcomp = icalcomp;
-					ret = TRUE;
-				}
-			}
-		}
+	/* FIXME: uri */
+	if (!g_file_get_contents (s->uri_src+7, &contents, NULL, NULL)) {
+		e_import_complete(ei, target);
+		return;
 	}
 
-	return ret;
+	icalcomp = e_cal_util_parse_ics_string (contents);
+	g_free (contents);
+
+	if (icalcomp)
+		ivcal_import(ei, target, icalcomp);
+	else
+		e_import_complete(ei, target);
 }
 
-BonoboObject *
-ical_importer_new (void)
+static EImportImporter ical_importer = {
+	E_IMPORT_TARGET_URI,
+	0,
+	ical_supported,
+	ivcal_getwidget,
+	ical_import,
+	ivcal_cancel,
+};
+
+EImportImporter *
+ical_importer_peek(void)
 {
-	ICalImporter *ici;
-	
-	ici = g_new0 (ICalImporter, 1);
+	ical_importer.name = _("iCalendar files (.ics)");
+	ical_importer.description = _("Evolution iCalendar importer");
 
-	ici->client = NULL;
-	ici->icalcomp = NULL;
-	ici->importer = evolution_importer_new (create_control_fn,
-						support_format_fn,
-						load_file_fn,
-						process_item_fn,
-						NULL,
-						ici);
-
-	g_object_weak_ref (G_OBJECT (ici->importer), (GWeakNotify) importer_destroy_cb, ici);
-
-	return BONOBO_OBJECT (ici->importer);
+	return &ical_importer;
 }
 
-
-
+/* ********************************************************************** */
 /*
  * vCalendar importer functions.
  */
 
 static gboolean
-vcal_support_format_fn (EvolutionImporter *importer,
-			const char *filename,
-			void *closure)
+vcal_supported(EImport *ei, EImportTarget *target, EImportImporter *im)
 {
 	char *contents;
 	gboolean ret = FALSE;
+	EImportTargetURI *s;
 
-	if (g_file_get_contents (filename, &contents, NULL, NULL)) {
+	if (target->type != E_IMPORT_TARGET_URI)
+		return FALSE;
+
+	s = (EImportTargetURI *)target;
+	if (s->uri_src == NULL)
+		return TRUE;
+
+	if (strncmp(s->uri_src, "file:///", 8) != 0)
+		return FALSE;
+
+	/* Z: Wow, this is *efficient* */
+
+	if (g_file_get_contents(s->uri_src+7, &contents, NULL, NULL)) {
 		VObject *vcal;
 
 		/* parse the file */
@@ -502,116 +510,96 @@ load_vcalendar_file (const char *filename)
 	return icalcomp;
 }
 
-static gboolean
-vcal_load_file_fn (EvolutionImporter *importer,
-		   const char *filename,
-		   void *closure)
-{
-	gboolean ret = FALSE;
-	ICalImporter *ici = (ICalImporter *) closure;
-	icalcomponent *icalcomp;
-
-	g_return_val_if_fail (ici != NULL, FALSE);
-
-	icalcomp = load_vcalendar_file (filename);
-	if (icalcomp) {
-		/* create the neccessary ECal */
-		if (ici->client)
-			g_object_unref (ici->client);
-		ici->client = auth_new_cal_from_source (ici->primary, ici->source_type);
-		
-		if (ici->client) {
-			if (e_cal_open (ici->client, TRUE, NULL)) {
-				ici->icalcomp = icalcomp;
-				ret = TRUE;
-			}
-		}
-	}
-
-	return ret;
-}
-
-BonoboObject *
-vcal_importer_new (void)
-{
-	ICalImporter *ici;
-
-	ici = g_new0 (ICalImporter, 1);
-	ici->icalcomp = NULL;
-	ici->importer = evolution_importer_new (create_control_fn,
-						vcal_support_format_fn,
-						vcal_load_file_fn,
-						process_item_fn,
-						NULL,
-						ici);
-
-	g_object_weak_ref (G_OBJECT (ici->importer), (GWeakNotify) importer_destroy_cb, ici);
-
-	return BONOBO_OBJECT (ici->importer);
-}
-
-
-
-
-
-
 static void
-gnome_calendar_importer_destroy_cb (gpointer user_data)
+vcal_import(EImport *ei, EImportTarget *target, EImportImporter *im)
 {
-	ICalIntelligentImporter *ici = (ICalIntelligentImporter *) user_data;
+	icalcomponent *icalcomp;
+	EImportTargetURI *s = (EImportTargetURI *)target;
 
-	g_return_if_fail (ici != NULL);
-
-	g_free (ici);
+	/* FIXME: uri */
+	icalcomp = load_vcalendar_file(s->uri_src+7);
+	if (icalcomp)
+		ivcal_import(ei, target, icalcomp);
+	else
+		e_import_complete(ei, target);
 }
 
+static EImportImporter vcal_importer = {
+	E_IMPORT_TARGET_URI,
+	0,
+	vcal_supported,
+	ivcal_getwidget,
+	vcal_import,
+	ivcal_cancel,
+};
 
+EImportImporter *
+vcal_importer_peek(void)
+{
+	vcal_importer.name = _("vCalendar files (.vcf)");
+	vcal_importer.description = _("Evolution vCalendar importer");
+
+	return &vcal_importer;
+}
+
+/* ********************************************************************** */
 
 static gboolean
-gnome_calendar_can_import_fn (EvolutionIntelligentImporter *ii,
-			      void *closure)
+gnome_calendar_supported(EImport *ei, EImportTarget *target, EImportImporter *im)
 {
 	char *filename;
-	gboolean gnome_calendar_exists;
+	gboolean res;
+	EImportTargetHome *s = (EImportTargetHome *)target;
 
-	filename = gnome_util_home_file ("user-cal.vcf");
-	gnome_calendar_exists = g_file_exists (filename);
+	if (target->type != E_IMPORT_TARGET_HOME)
+		return FALSE;
+
+	filename = g_build_filename(s->homedir, "user-cal.vcf", NULL);
+	res = g_file_test(filename, G_FILE_TEST_IS_REGULAR);
 	g_free (filename);
 
-	return gnome_calendar_exists;
+	return res;
 }
 
-
 static void
-gnome_calendar_import_data_fn (EvolutionIntelligentImporter *ii,
-			       void *closure)
+gnome_calendar_import(EImport *ei, EImportTarget *target, EImportImporter *im)
 {
-	ICalIntelligentImporter *ici = closure;
 	icalcomponent *icalcomp = NULL;
 	char *filename;
 	GList *vtodos;
 	ECal *calendar_client = NULL, *tasks_client = NULL;
 	int t;
+	int do_calendar, do_tasks;
+	EImportTargetHome *s = (EImportTargetHome *)target;
+	ICalIntelligentImporter *ici;
+
+	/* This is pretty shitty, everything runs in the gui thread and can block
+	   for quite some time */
+
+	do_calendar = GPOINTER_TO_INT(g_datalist_get_data(&target->data, "gnomecal-do-cal"));
+	do_tasks = GPOINTER_TO_INT(g_datalist_get_data(&target->data, "gnomecal-do-tasks"));
 
 	/* If neither is selected, just return. */
-	if (!ici->do_calendar && !ici->do_tasks) {
+	if (!do_calendar && !do_tasks)
 		return;
-	}
+
+	e_import_status(ei, target, _("Opening calendar"), 0);
 
 	/* Try to open the default calendar & tasks folders. */
-	if (ici->do_calendar) {
+	if (do_calendar) {
 		calendar_client = auth_new_cal_from_default (E_CAL_SOURCE_TYPE_EVENT);
+		if (!calendar_client)
 			goto out;
 	}
 
-	if (ici->do_tasks) {
+	if (do_tasks) {
 		tasks_client = auth_new_cal_from_default (E_CAL_SOURCE_TYPE_TODO);
 		if (!tasks_client)
 			goto out;
 	}
 
 	/* Load the Gnome Calendar file and convert to iCalendar. */
-	filename = gnome_util_home_file ("user-cal.vcf");
+	filename = g_build_filename(s->homedir, "user-cal.vcf", NULL);
 	icalcomp = load_vcalendar_file (filename);
 	g_free (filename);
 
@@ -619,10 +607,8 @@ gnome_calendar_import_data_fn (EvolutionIntelligentImporter *ii,
 	if (!icalcomp)
 		goto out;
 
-	/*
-	 * Import the calendar events into the default calendar folder.
-	 */
-	prepare_events (icalcomp, &vtodos);
+	ici = g_malloc0(sizeof(*ici));
+	g_datalist_set_data_full(&target->data, "gnomecal-data", ici, g_free);
 
 	/* Wait for client to finish opening the calendar & tasks folders. */
 	for (t = 0; t < IMPORTER_TIMEOUT_SECONDS; t++) {
@@ -635,34 +621,42 @@ gnome_calendar_import_data_fn (EvolutionIntelligentImporter *ii,
 		while (gtk_events_pending ())
 			gtk_main_iteration ();
 
-		if (ici->do_calendar)
+		if (do_calendar)
 			calendar_state = e_cal_get_load_state (calendar_client);
 
-		if (ici->do_tasks)
+		if (do_tasks)
 			tasks_state = e_cal_get_load_state (tasks_client);
 
 		if (calendar_state == E_CAL_LOAD_LOADED
 		    && tasks_state == E_CAL_LOAD_LOADED)
 			break;
 
-		g_usleep (1000000);
+		sleep(1);
+		if (ici->cancelled)
+			goto out;
 	}
 
 	/* If we timed out, just return. */
 	if (t == IMPORTER_TIMEOUT_SECONDS)
 		goto out;
 
-	/* Import the calendar events. */
-	/* FIXME: What do intelligent importers do about errors? */
-	if (ici->do_calendar)
+	e_import_status(ei, target, _("Importing ..."), 0);
+
+	/*
+	 * Import the calendar events into the default calendar folder.
+	 */
+	prepare_events (icalcomp, &vtodos);
+	if (do_calendar)
 		update_objects (calendar_client, icalcomp);
 
+	if (ici->cancelled)
+		goto out;
 
 	/*
 	 * Import the tasks into the default tasks folder.
 	 */
 	prepare_tasks (icalcomp, vtodos);
-	if (ici->do_tasks)
+	if (do_tasks)
 		update_objects (tasks_client, icalcomp);
 
  out:
@@ -672,67 +666,77 @@ gnome_calendar_import_data_fn (EvolutionIntelligentImporter *ii,
 		g_object_unref (calendar_client);
 	if (tasks_client)
 		g_object_unref (tasks_client);
+
+	e_import_complete(ei, target);
 }
 
-
-/* Fun with aggregation */
 static void
-checkbox_toggle_cb (GtkToggleButton *tb,
-		    gboolean *do_item)
+calendar_toggle_cb(GtkToggleButton *tb, EImportTarget *target)
 {
-	*do_item = gtk_toggle_button_get_active (tb);
+	g_datalist_set_data(&target->data, "gnomecal-do-cal", GINT_TO_POINTER(gtk_toggle_button_get_active(tb)));
 }
 
-static BonoboControl *
-create_checkboxes_control (ICalIntelligentImporter *ici)
+static void
+tasks_toggle_cb(GtkToggleButton *tb, EImportTarget *target)
 {
-	GtkWidget *hbox, *calendar_checkbox, *tasks_checkbox;
-	BonoboControl *control;
+	g_datalist_set_data(&target->data, "gnomecal-do-tasks", GINT_TO_POINTER(gtk_toggle_button_get_active(tb)));
+}
+
+static GtkWidget *
+gnome_calendar_getwidget(EImport *ei, EImportTarget *target, EImportImporter *im)
+{
+	GtkWidget *hbox, *w;
+	GConfClient *gconf;
+	gboolean done_cal, done_tasks;
+
+	gconf = gconf_client_get_default ();
+	done_cal = gconf_client_get_bool (gconf, "/apps/evolution/importer/gnome-calendar/calendar", NULL);
+	done_tasks = gconf_client_get_bool (gconf, "/apps/evolution/importer/gnome-calendar/tasks", NULL);
+	g_object_unref(gconf);
+
+	g_datalist_set_data(&target->data, "gnomecal-do-cal", GINT_TO_POINTER(!done_cal));
+	g_datalist_set_data(&target->data, "gnomecal-do-tasks", GINT_TO_POINTER(!done_tasks));
 
 	hbox = gtk_hbox_new (FALSE, 2);
 
-	calendar_checkbox = gtk_check_button_new_with_label (_("Calendar Events"));
-	g_signal_connect (G_OBJECT (calendar_checkbox), "toggled",
-			  G_CALLBACK (checkbox_toggle_cb),
-			  &ici->do_calendar);
-	gtk_box_pack_start (GTK_BOX (hbox), calendar_checkbox,
-			    FALSE, FALSE, 0);
+	w = gtk_check_button_new_with_label (_("Calendar Events"));
+	gtk_toggle_button_set_active((GtkToggleButton *)w, !done_cal);
+	g_signal_connect (w, "toggled", G_CALLBACK (calendar_toggle_cb), target);
+	gtk_box_pack_start (GTK_BOX (hbox), w, FALSE, FALSE, 0);
 
-	tasks_checkbox = gtk_check_button_new_with_label (_("Tasks"));
-	g_signal_connect (G_OBJECT (tasks_checkbox), "toggled",
-			  G_CALLBACK (checkbox_toggle_cb),
-			  &ici->do_tasks);
-	gtk_box_pack_start (GTK_BOX (hbox), tasks_checkbox,
-			    FALSE, FALSE, 0);
+	w = gtk_check_button_new_with_label (_("Tasks"));
+	gtk_toggle_button_set_active((GtkToggleButton *)w, !done_tasks);
+	g_signal_connect (w, "toggled", G_CALLBACK (tasks_toggle_cb), target);
+	gtk_box_pack_start (GTK_BOX (hbox), w, FALSE, FALSE, 0);
 
 	gtk_widget_show_all (hbox);
-	control = bonobo_control_new (hbox);
-	return control;
+
+	return hbox;
 }
 
-BonoboObject *
-gnome_calendar_importer_new (void)
+static void
+gnome_calendar_cancel(EImport *ei, EImportTarget *target, EImportImporter *im)
 {
-	EvolutionIntelligentImporter *importer;
-	ICalIntelligentImporter *ici;
-	BonoboControl *control;
-	char *message = N_("Evolution has found Gnome Calendar files.\n"
-			   "Would you like to import them into Evolution?");
+	ICalIntelligentImporter *ici = g_datalist_get_data(&target->data, "gnomecal-data");
 
-	ici = g_new0 (ICalIntelligentImporter, 1);
+	if (ici)
+		ici->cancelled = 1;
+}
 
-	importer = evolution_intelligent_importer_new (gnome_calendar_can_import_fn,
-						       gnome_calendar_import_data_fn,
-						       _("Gnome Calendar"),
-						       _(message),
-						       ici);
+static EImportImporter gnome_calendar_importer = {
+	E_IMPORT_TARGET_HOME,
+	0,
+	gnome_calendar_supported,
+	gnome_calendar_getwidget,
+	gnome_calendar_import,
+	gnome_calendar_cancel,
+};
 
+EImportImporter *
+gnome_calendar_importer_peek(void)
+{
+	gnome_calendar_importer.name = _("Gnome Calendar");
+	gnome_calendar_importer.description = _("Evolution Calendar intelligent importer");
 
-	g_object_weak_ref (G_OBJECT (importer), (GWeakNotify) gnome_calendar_importer_destroy_cb, ici);
-
-	control = create_checkboxes_control (ici);
-	bonobo_object_add_interface (BONOBO_OBJECT (importer),
-				     BONOBO_OBJECT (control));
-
-	return BONOBO_OBJECT (importer);
+	return &gnome_calendar_importer;
 }

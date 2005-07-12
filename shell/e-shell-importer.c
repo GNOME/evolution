@@ -38,16 +38,9 @@
 #include <libgnomeui/gnome-druid-page-standard.h>
 #include <libgnomeui/gnome-file-entry.h>
 
-#include <bonobo-activation/bonobo-activation.h>
-
-#include <bonobo/bonobo-exception.h>
-#include <bonobo/bonobo-widget.h>
-
 #include "e-shell.h"
 #include "e-shell-window.h"
 #include "e-shell-constants.h"
-
-#include "importer/evolution-importer-client.h"
 
 #include <glade/glade.h>
 #include <misc/e-gui-utils.h>
@@ -55,9 +48,10 @@
 #include <e-util/e-gtk-utils.h>
 #include <e-util/e-dialog-utils.h>
 #include <e-util/e-icon-factory.h>
+#include <e-util/e-import.h>
+#include <e-util/e-error.h>
 
 #include "e-shell-importer.h"
-#include "importer/GNOME_Evolution_Importer.h"
 
 typedef struct _ImportDialogFilePage {
 	GtkWidget *vbox;
@@ -65,11 +59,16 @@ typedef struct _ImportDialogFilePage {
 	GtkWidget *filetype;
 	GtkWidget *menu;
 
-	gboolean need_filename;
+	GSList *items;
+
+	EImportTargetURI *target;
+	EImportImporter *importer;
 } ImportDialogFilePage;
 
 typedef struct _ImportDialogDestPage {
 	GtkWidget *vbox;
+
+	GtkWidget *control;
 } ImportDialogDestPage;
 
 typedef struct _ImportDialogTypePage {
@@ -81,9 +80,9 @@ typedef struct _ImportDialogTypePage {
 typedef struct _ImportDialogImporterPage {
 	GtkWidget *vbox;
 
-	GList *importers;
-	gboolean prepared;
-	int running;
+	GSList *importers;
+	GSList *current;
+	EImportTargetHome *target;
 } ImportDialogImporterPage;
 
 typedef struct _ImportData {
@@ -93,7 +92,6 @@ typedef struct _ImportData {
 	GladeXML *wizard;
 	GtkWidget *dialog;
 	GtkWidget *druid;
-	GtkWidget *control;
 	ImportDialogFilePage *filepage;
 	ImportDialogDestPage *destpage;
 	ImportDialogTypePage *typepage;
@@ -107,28 +105,16 @@ typedef struct _ImportData {
 	GnomeDruidPageEdge *finish;
 	GtkWidget *vbox;
 
-	char *filename;
-	char *choosen_iid;
-	EvolutionImporterClient *client;
+	EImport *import;
+
+	/* Used for importing phase of operation */
+	EImportTarget *import_target;
+	EImportImporter *import_importer;
+	GtkWidget *import_dialog;
+	GtkWidget *import_label;
+	GtkWidget *import_progress;
 } ImportData;
 
-typedef struct _IntelligentImporterData {
-	CORBA_Object object;
-	Bonobo_Control control;
-	GtkWidget *widget;
-
-	char *name;
-	char *blurb;
-	char *iid;
-} IntelligentImporterData;
-
-typedef struct _SelectedImporterData{
-	CORBA_Object importer;
-	char *iid;
-} SelectedImporterData;
-
-#define IMPORTER_REPO_ID_QUERY "repo_ids.has ('IDL:GNOME/Evolution/Importer:" BASE_VERSION "')"
-#define IMPORTER_INTEL_REPO_ID_QUERY "repo_ids.has ('IDL:GNOME/Evolution/IntelligentImporter:" BASE_VERSION "')"
 /*#define IMPORTER_DEBUG*/
 
 #ifdef IMPORTER_DEBUG
@@ -188,373 +174,73 @@ create_help (const char *name)
 
 /* Importing functions */
 
-/* Data to be passed around */
-typedef struct _ImporterComponentData {
-	EvolutionImporterClient *client;
-	EvolutionImporterListener *listener;
-	char *filename;
-
-	GtkDialog *dialog;
-	GtkWidget *contents;
-
-	int item;
-
-	gboolean stop;
-} ImporterComponentData;
-
-static gboolean importer_timeout_fn (gpointer data);
-static void
-import_cb (EvolutionImporterListener *listener,
-	   EvolutionImporterResult result,
-	   gboolean more_items,
-	   void *data)
-{
-	ImporterComponentData *icd = (ImporterComponentData *) data;
-	char *label;
-
-	IN;
-	if (icd->stop != TRUE) {
-		if (result == EVOLUTION_IMPORTER_NOT_READY) {
-			g_timeout_add (500, importer_timeout_fn, data);
-			OUT;
-			return;
-		}
-		
-		if (result == EVOLUTION_IMPORTER_BUSY) {
-			g_timeout_add (500, importer_timeout_fn, data);
-			OUT;
-			return;
-		}
-
-		if (more_items) {
-			char *utf8_filename;
-
-			utf8_filename = g_filename_to_utf8 (icd->filename, -1, NULL, NULL, NULL);
-			label = g_strdup_printf (_("Importing %s\nImporting item %d."),
-						 utf8_filename, ++(icd->item));
-			gtk_label_set_text (GTK_LABEL (icd->contents), label);
-			g_free (label);
-			g_free (utf8_filename);
-			while (gtk_events_pending ())
-				gtk_main_iteration ();
-			
-			g_idle_add_full (G_PRIORITY_LOW, importer_timeout_fn, 
-					 data, NULL);
-			OUT;
-			return;
-		}
-	}
-	
-	g_free (icd->filename);
-	if (icd->dialog != NULL)
-		gtk_widget_destroy ((GtkWidget *)icd->dialog);
-	bonobo_object_unref (BONOBO_OBJECT (icd->listener));
-	g_object_unref (icd->client);
-	g_free (icd);
-
-	OUT;
-}
-
-static gboolean
-importer_timeout_fn (gpointer data)
-{
-	ImporterComponentData *icd = (ImporterComponentData *) data;
-	char *label, *utf8_filename;
-
-	IN;
-
-	utf8_filename = g_filename_to_utf8 (icd->filename, -1, NULL, NULL, NULL);
-	label = g_strdup_printf (_("Importing %s\nImporting item %d."),
-				 utf8_filename, icd->item);
-	gtk_label_set_text (GTK_LABEL (icd->contents), label);
-	g_free (label);
-	g_free (utf8_filename);
-	while (gtk_events_pending ())
-		gtk_main_iteration ();
-	
-	evolution_importer_client_process_item (icd->client, icd->listener);
-	OUT;
-	return FALSE;
-}
-
-static void
-dialog_response_cb (GtkDialog *dialog,
-		   int button_number,
-		   ImporterComponentData *icd)
-{
-	if (button_number != GTK_RESPONSE_CANCEL)
-		return; /* Interesting... */
-
-	icd->stop = TRUE;
-}
-
-static void
-dialog_destroy_notify (void *data,
-		       GObject *where_the_dialog_was)
-{
-	ImporterComponentData *icd = (ImporterComponentData *) data;
-
-	icd->dialog = NULL;
-	icd->stop = TRUE;
-}
-
-struct _IIDInfo {
-	char *iid;
-	char *name;
-};
-
-static void
-free_iid_list (GList *list)
-{
-	for (; list; list = list->next) {
-		struct _IIDInfo *iid = list->data;
-
-		g_free (iid->iid);
-		g_free (iid->name);
-		g_free (iid);
-	}
-}
-
-static const char *
-get_name_from_component_info (const Bonobo_ServerInfo *info)
-{
-	const char *name = NULL;
-
-	GSList *language_list = NULL;
-	const GList *l = gnome_i18n_get_language_list("LC_MESSAGES");
-
-	/* copy this piece of code from e-shell-settings-dialog.c:load_pages () */
-	for (language_list=NULL;l;l=l->next)
-		language_list = g_slist_append(language_list, l->data);
-
-	name = bonobo_server_info_prop_lookup ((Bonobo_ServerInfo *) info,
-						"evolution:menu_name",
-						language_list);
-
-	g_slist_free (language_list);
-
-	return name;
-}
-
-static char *
-choose_importer_from_list (GList *importer_list)
-{
-	GtkWidget *dialog, *clist;
-	GList *p;
-	int ans;
-	char *iid;
-
-	dialog = gtk_dialog_new_with_buttons(_("Select importer"), NULL, GTK_DIALOG_DESTROY_WITH_PARENT,
-					     GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-					     GTK_STOCK_OK, GTK_RESPONSE_OK,
-					     NULL);
-	gtk_dialog_set_has_separator (GTK_DIALOG (dialog), FALSE);
-	gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_OK);
-
-	clist = gtk_clist_new (1);
-	for (p = importer_list; p; p = p->next) {
-		struct _IIDInfo *iid;
-		char *text[1];
-		int row;
-
-		iid = p->data;
-		text[0] = iid->name;
-		row = gtk_clist_append (GTK_CLIST (clist), text);
-		gtk_clist_set_row_data (GTK_CLIST (clist), row, iid->iid);
-	}
-
-	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), clist, TRUE, TRUE, 0);
-	gtk_clist_set_selection_mode (GTK_CLIST (clist), GTK_SELECTION_BROWSE);
-	gtk_widget_show (clist);
-
-	ans = gtk_dialog_run((GtkDialog *)dialog);
-	switch (ans) {
-	case GTK_RESPONSE_OK:
-		ans = GPOINTER_TO_INT (GTK_CLIST (clist)->selection->data);
-		iid = gtk_clist_get_row_data (GTK_CLIST (clist), ans);
-		break;
-
-	case 1:
-	default:
-		iid = NULL;
-		break;
-	}
-	
-	gtk_widget_destroy (dialog);
-
-	return g_strdup (iid);
-}
-
-static gboolean
-get_iid_for_filetype (const char *filename, char **ret_iid)
-{
-	Bonobo_ServerInfoList *info_list;
-	CORBA_Environment ev;
-	GList *can_handle = NULL;
-	int i, len = 0;
-
-	CORBA_exception_init (&ev);
-	info_list = bonobo_activation_query (IMPORTER_REPO_ID_QUERY, NULL, &ev);
-
-	for (i = 0; i < info_list->_length; i++) {
-		CORBA_Environment ev2;
-		CORBA_Object importer;
-		const Bonobo_ServerInfo *info;
-		
-		info = info_list->_buffer + i;
-
-		CORBA_exception_init (&ev2);
-		importer = bonobo_activation_activate_from_id ((char *) info->iid, 0, NULL, &ev2);
-		if (ev2._major != CORBA_NO_EXCEPTION) {
-			g_warning ("Error activating %s", info->iid);
-			CORBA_exception_free (&ev2);
-			continue;
-		}
-
-		if (GNOME_Evolution_Importer_supportFormat (importer,
-							    filename, &ev2)) {
-			struct _IIDInfo *iid;
-
-			iid = g_new (struct _IIDInfo, 1);
-			iid->iid = g_strdup (info->iid);
-			iid->name = g_strdup (get_name_from_component_info (info));
-			
-			can_handle = g_list_prepend (can_handle, iid);
-			len++;
-		}
-
-		bonobo_object_release_unref (importer, &ev2);
-		CORBA_exception_free (&ev2);
-	}
-
-	CORBA_free (info_list);
-
-	if (len == 1) {
-		struct _IIDInfo *iid;
-		
-		iid = can_handle->data;
-
-		*ret_iid = g_strdup (iid->iid);
-		
-		free_iid_list (can_handle);
-		g_list_free (can_handle);
-		
-		return TRUE;
-	} else if (len > 1) {
-		/* Display all the IIDs */
-		*ret_iid = choose_importer_from_list (can_handle);
-		
-		free_iid_list (can_handle);
-		g_list_free (can_handle);
-
-		return *ret_iid ? TRUE : FALSE;
-	} else {
-		*ret_iid = NULL;
-		
-		return TRUE;
-	}
-}
-
-static void
-start_import (gpointer parent, const char *filename, EvolutionImporterClient *client)
-{
-	ImporterComponentData *icd;
-	char *label;
-	char *utf8_filename;
-	
-	utf8_filename = g_filename_to_utf8 (filename, -1, NULL, NULL, NULL);
-	if (!g_file_test (filename, G_FILE_TEST_EXISTS | G_FILE_TEST_IS_REGULAR)) {
-
-		e_notice (parent, GTK_MESSAGE_ERROR, _("File %s does not exist"), utf8_filename);
-		g_free (utf8_filename);
-		return;
-	}
-
-	icd = g_new (ImporterComponentData, 1);
-	icd->client = g_object_ref (client);
-	icd->stop = FALSE;
-	icd->dialog = GTK_DIALOG (gtk_dialog_new_with_buttons(_("Importing"), NULL, 0,
-							      GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-							      NULL));
-	gtk_dialog_set_has_separator (icd->dialog, FALSE);
-	g_signal_connect (icd->dialog, "response", G_CALLBACK (dialog_response_cb), icd);
-
-	g_object_weak_ref (G_OBJECT(icd->dialog), dialog_destroy_notify, icd);
-
-	label = g_strdup_printf (_("Importing %s.\n"), utf8_filename);
-	icd->contents = gtk_label_new (label);
-	g_free (label);
-	
-	gtk_box_pack_start (GTK_BOX (icd->dialog->vbox), icd->contents, TRUE, TRUE, 0);
-	gtk_widget_show_all (GTK_WIDGET (icd->dialog));
-	while (gtk_events_pending ())
-		gtk_main_iteration ();
-
-	if (evolution_importer_client_load_file (icd->client, filename) == FALSE) {
-		label = g_strdup_printf (_("Error loading %s"), utf8_filename);
-		e_notice (icd->dialog, GTK_MESSAGE_ERROR, _("Error loading %s"), filename);
-
-		gtk_label_set_text (GTK_LABEL (icd->contents), label);
-		g_free (label);
-		while (gtk_events_pending ())
-			gtk_main_iteration ();
-		
-		g_object_unref (icd->client);
-		if (icd->dialog)
-			gtk_widget_destroy (GTK_WIDGET (icd->dialog));
-		g_free (icd);
-		g_free (utf8_filename);
-		return;
-	}
-
-	icd->filename = g_strdup (filename);
-	icd->item = 1;
-	
-	label = g_strdup_printf (_("Importing %s\nImporting item 1."),
-				 utf8_filename);
-	gtk_label_set_text (GTK_LABEL (icd->contents), label);
-	g_free (label);
-	g_free (utf8_filename);
-	while (gtk_events_pending ())
-		gtk_main_iteration ();
-
-	icd->listener = evolution_importer_listener_new (import_cb, icd);
-	evolution_importer_client_process_item (icd->client, icd->listener);
-}
-
 static void
 filename_changed (GtkEntry *entry,
 		  ImportData *data)
 {
 	ImportDialogFilePage *page;
 	const char *filename;
+	int fileok;
 
 	page = data->filepage;
 
 	filename = gtk_entry_get_text (entry);
-	if (filename != NULL && *filename != '\0')
-		page->need_filename = FALSE;
-	else
-		page->need_filename = TRUE;
 
-	gnome_druid_set_buttons_sensitive (GNOME_DRUID (data->druid), 
-					   TRUE, !page->need_filename, TRUE, FALSE);
+	fileok = filename && filename[0] && g_file_test(filename, G_FILE_TEST_IS_REGULAR);
+	if (fileok) {
+		GSList *l, *item;
+		EImportImporter *first = NULL;
+		int i=0, firstitem=0;
+
+		g_free(page->target->uri_src);
+		page->target->uri_src = g_strdup_printf("file://%s", filename);
+
+		l = e_import_get_importers(data->import, (EImportTarget *)page->target);
+		item = page->items;
+		while (item) {
+			EImportImporter *eii = g_object_get_data(item->data, "importer");
+
+			if (g_slist_find(l, eii) != NULL) {
+				if (first == NULL) {
+					firstitem = i;
+					first = eii;
+				}
+				gtk_widget_set_sensitive(item->data, TRUE);
+				fileok = TRUE;
+			} else {
+				if (page->importer == eii)
+					page->importer = NULL;
+				gtk_widget_set_sensitive(item->data, FALSE);
+			}
+			i++;
+			item = item->next;
+		}
+		g_slist_free(l);
+
+		if (page->importer == NULL && first) {
+			page->importer = first;
+			gtk_option_menu_set_history((GtkOptionMenu *)page->filetype, firstitem);
+		}
+		fileok = first != NULL;
+	} else {
+		GSList *item;
+
+		for (item = page->items;item;item=item->next)
+			gtk_widget_set_sensitive(item->data, FALSE);
+	}
+
+	gnome_druid_set_buttons_sensitive(GNOME_DRUID (data->druid), TRUE, fileok, TRUE, FALSE);
 }
 
 static void
 item_selected (GtkWidget *item,
 	       ImportData *data)
 {
-	char *iid;
-
-	g_free (data->choosen_iid);
-	iid = g_object_get_data (G_OBJECT (item), "bonoboiid");
-	if (iid == NULL)
-		data->choosen_iid = g_strdup ("Automatic");
-	else
-		data->choosen_iid = g_strdup (iid);
+	data->filepage->importer = g_object_get_data((GObject *)item, "importer");
+	filename_changed((GtkEntry *)gnome_file_entry_gtk_entry((GnomeFileEntry *)data->filepage->filename), data);
 }
 
+#if 0
 static int
 compare_info_name (const void *data1, const void  *data2)
 {
@@ -575,54 +261,7 @@ compare_info_name (const void *data1, const void  *data2)
 	}
 	return g_utf8_collate (name1, name2);
 }
-
-static GtkWidget *
-create_plugin_menu (ImportData *data)
-{
-	Bonobo_ServerInfoList *info_list;
-	CORBA_Environment ev;
-	int i;
-	GtkWidget *menu;
-	GtkWidget *item;
-
-	menu = gtk_menu_new ();
-	item = gtk_menu_item_new_with_label (_("Automatic"));
-	g_object_set_data_full ((GObject *)item, "bonoboiid", g_strdup ("Automatic"), g_free);
-	gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-
-	CORBA_exception_init (&ev);
-	info_list = bonobo_activation_query (IMPORTER_REPO_ID_QUERY, NULL, &ev);
-	/* Sort info list to get a consistent ordering of the items in the
-	 * combo box from one run of evolution to another.
-	 */
-	qsort (info_list->_buffer, info_list->_length, 
-	       sizeof (Bonobo_ServerInfo),
-	       compare_info_name);
-
-	for (i = 0; i < info_list->_length; i++) {
-		const Bonobo_ServerInfo *info;
-		char *name = NULL;
-
-		info = info_list->_buffer + i;
-
-		name = g_strdup (get_name_from_component_info (info));
-		if (name == NULL) {
-			name = g_strdup (info->iid);
-		}
-
-		item = gtk_menu_item_new_with_label (name);
-		g_free (name);
-		gtk_widget_show (item);
-		g_signal_connect (item, "activate",
-				  G_CALLBACK (item_selected), data);
-
-		g_object_set_data_full ((GObject *)item, "bonoboiid", g_strdup (info->iid), g_free);
-		gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-	}
-	CORBA_free (info_list);
-
-	return menu;
-}
+#endif
 
 static ImportDialogFilePage *
 importer_file_page_new (ImportData *data)
@@ -634,7 +273,6 @@ importer_file_page_new (ImportData *data)
 	page = g_new0 (ImportDialogFilePage, 1);
 
 	page->vbox = gtk_vbox_new (FALSE, 5);
-	page->need_filename = TRUE;
 
 	table = gtk_table_new (2, 2, FALSE);
 	gtk_table_set_row_spacings (GTK_TABLE (table), 2);
@@ -665,8 +303,6 @@ importer_file_page_new (ImportData *data)
 	gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);
 
 	page->filetype = gtk_option_menu_new ();
-	page->menu = create_plugin_menu (data);
-	gtk_option_menu_set_menu (GTK_OPTION_MENU (page->filetype), page->menu);
 	gtk_table_attach (GTK_TABLE (table), page->filetype, 1, 2, 
 			  row, row + 1, GTK_EXPAND | GTK_FILL, 0, 0, 0);
 	gtk_label_set_mnemonic_widget(GTK_LABEL(label), page->filetype);
@@ -675,7 +311,6 @@ importer_file_page_new (ImportData *data)
 
 	return page;
 }
-
 
 static ImportDialogDestPage *
 importer_dest_page_new (ImportData *data)
@@ -721,214 +356,60 @@ importer_importer_page_new (ImportData *data)
 	sep = gtk_hseparator_new ();
 	gtk_box_pack_start (GTK_BOX (page->vbox), sep, FALSE, FALSE, 0);
 
-	page->prepared = FALSE;
 	gtk_widget_show_all (page->vbox);
 
 	return page;
 }
 
-static GList *
-get_intelligent_importers (void)
-{
-	Bonobo_ServerInfoList *info_list;
-	GList *iids_ret = NULL;
-	CORBA_Environment ev;
-	int i;
-
-	CORBA_exception_init (&ev);
-	info_list = bonobo_activation_query (IMPORTER_INTEL_REPO_ID_QUERY, NULL, &ev);
-	CORBA_exception_free (&ev);
-
-	for (i = 0; i < info_list->_length; i++) {
-		const Bonobo_ServerInfo *info;
-
-		info = info_list->_buffer + i;
-		iids_ret = g_list_prepend (iids_ret, g_strdup (info->iid));
-	}
-
-	return iids_ret;
-}
-
 static gboolean
-prepare_intelligent_page (GnomeDruidPage *page,
+prepare_intelligent_page (GnomeDruidPage *dpage,
 			  GnomeDruid *druid,
 			  ImportData *data)
 {
-	GtkWidget *dialog;
-	ImportDialogImporterPage *import;
-	GList *l, *importers;
-	GtkWidget *table, *no_data;
-	int running = 0;
+	GSList *l;
+	GtkWidget *table;
+	int row;
+	ImportDialogImporterPage *page = data->importerpage;
 
-	if (data->importerpage->prepared == TRUE) {
-		if (data->importerpage->running == 0)
-			gnome_druid_set_buttons_sensitive(druid, TRUE, FALSE, TRUE, FALSE);
-		return TRUE;
-	}
+	if (page->target != NULL)
+		return FALSE;
 
-	data->importerpage->prepared = TRUE;
+	page->target = e_import_target_new_home(data->import, g_get_home_dir());
 
-	dialog = gtk_message_dialog_new(NULL, 0, GTK_MESSAGE_INFO, GTK_BUTTONS_NONE, "%s",
-					_("Please wait...\nScanning for existing setups"));
-	e_make_widget_backing_stored (dialog);
-#if !GTK_CHECK_VERSION(2,4,0)
-	/* not needed for message_dialog with GTK+ 2.4 */
-	gtk_dialog_set_has_separator (GTK_DIALOG (dialog), FALSE);
-#endif
+	if (data->importerpage->importers)
+		g_slist_free(data->importerpage->importers);
+	l = data->importerpage->importers = e_import_get_importers(data->import, (EImportTarget *)page->target);
 
-	gtk_window_set_title (GTK_WINDOW (dialog), _("Starting Intelligent Importers"));
-	gtk_widget_show_all (dialog);
-	gtk_widget_show_now (dialog);
-
-	gtk_widget_queue_draw (dialog);
-	gdk_flush ();
-
-	while (gtk_events_pending ()) {
-		gtk_main_iteration ();
-	}
-
-	import = data->importerpage;
-	importers = get_intelligent_importers ();
-	if (importers == NULL) {
-		/* No importers, go directly to finish, do not pass go
-		   Do not collect $200 */
-		import->running = 0;
-		no_data = create_help ("nodata_html");
-		gtk_box_pack_start (GTK_BOX (data->importerpage->vbox), no_data,
-				    FALSE, TRUE, 0);
+	if (l == NULL) {
+		gtk_box_pack_start(GTK_BOX (data->importerpage->vbox), create_help("nodata_html"), FALSE, TRUE, 0);
 		gnome_druid_set_buttons_sensitive(druid, TRUE, FALSE, TRUE, FALSE);
-		gtk_widget_destroy (dialog);
 		return TRUE;
 	}
 
-	table = gtk_table_new (g_list_length (importers), 2, FALSE);
-	for (l = importers; l; l = l->next) {
-		GtkWidget *label;
-		IntelligentImporterData *id;
-		CORBA_Environment ev;
-		gboolean can_run;
+	table = gtk_table_new(g_slist_length(l), 2, FALSE);
+	row = 0;
+	for (;l;l=l->next) {
+		EImportImporter *eii = l->data;
 		char *str;
-		
-		id = g_new0 (IntelligentImporterData, 1);
-		id->iid = g_strdup (l->data);
+		GtkWidget *w, *label;
 
-		CORBA_exception_init (&ev);
-		id->object = bonobo_activation_activate_from_id ((char *) id->iid, 0, NULL, &ev);
-		if (BONOBO_EX (&ev)) {
-			g_warning ("Could not start %s:%s", id->iid,
-				   CORBA_exception_id (&ev));
+		w = e_import_get_widget(data->import, (EImportTarget *)page->target, eii);
 
-			CORBA_exception_free (&ev);
-			/* Clean up the IID */
-			g_free (id->iid);
-			g_free (id);
-			continue;
-		}
+		str = g_strdup_printf(_("From %s:"), eii->name);
+		label = gtk_label_new(str);
+		gtk_widget_show(label);
+		g_free(str);
 
-		if (id->object == CORBA_OBJECT_NIL) {
-			g_warning ("Could not activate component %s", id->iid);
-			CORBA_exception_free (&ev);
+		gtk_misc_set_alignment((GtkMisc *)label, 0, .5); 
 
-			g_free (id->iid);
-			g_free (id);
-			continue;
-		}
-
-		can_run = GNOME_Evolution_IntelligentImporter_canImport (id->object, &ev);
-		if (BONOBO_EX (&ev)) {
-			g_warning ("Could not call canImport(%s): %s", id->iid,
-				   CORBA_exception_id (&ev));
-			bonobo_object_release_unref (id->object, &ev);
-			CORBA_exception_free (&ev);
-
-			g_free (id->iid);
-			g_free (id);
-			continue;
-		}
-
-		if (can_run == FALSE) {
-			bonobo_object_release_unref (id->object, &ev);
-			CORBA_exception_free (&ev);
-			g_free (id->iid);
-			g_free (id);
-			continue;
-		}
-
-		running++;
-		id->name = GNOME_Evolution_IntelligentImporter__get_importername (id->object, &ev);
-		if (BONOBO_EX (&ev)) {
-			g_warning ("Could not get name(%s): %s", id->iid,
-				   CORBA_exception_id (&ev));
-			bonobo_object_release_unref (id->object, &ev);
-			CORBA_exception_free (&ev);
-			g_free (id->iid);
-			g_free (id);
-			continue;
-		}
-
-		id->blurb = GNOME_Evolution_IntelligentImporter__get_message (id->object, &ev);
-		if (BONOBO_EX (&ev)) {
-			g_warning ("Could not get message(%s): %s",
-				   id->iid, CORBA_exception_id (&ev));
-			bonobo_object_release_unref (id->object, &ev);
-			CORBA_exception_free (&ev);
-			g_free (id->iid);
-			CORBA_free (id->name);
-			g_free (id);
-			continue;
-		}
-
-		id->control = Bonobo_Unknown_queryInterface (id->object,
-							     "IDL:Bonobo/Control:1.0", &ev);
-		if (BONOBO_EX (&ev)) {
-			g_warning ("Could not QI for Bonobo/Control:1.0 %s:%s",
-				   id->iid, CORBA_exception_id (&ev));
-			bonobo_object_release_unref (id->object, &ev);
-			CORBA_exception_free (&ev);
-			g_free (id->iid);
-			CORBA_free (id->name);
-			CORBA_free (id->blurb);
-			continue;
-		}
-
-		if (id->control != CORBA_OBJECT_NIL) {
-			id->widget = bonobo_widget_new_control_from_objref (id->control, CORBA_OBJECT_NIL);
-			gtk_widget_show (id->widget);
-		} else {
-			id->widget = gtk_label_new ("");
-			gtk_widget_show (id->widget);
-		}
-
-		CORBA_exception_free (&ev);
-
-		import->importers = g_list_prepend (import->importers, id);
-		str = g_strdup_printf (_("From %s:"), id->name);
-		label = gtk_label_new (str);
-		g_free (str);
-		
-		gtk_misc_set_alignment (GTK_MISC (label), 0, .5); 
-
-		gtk_table_attach (GTK_TABLE (table), label, 0, 1, running - 1,
-				  running, GTK_FILL, 0, 0, 0);
-		gtk_table_attach (GTK_TABLE (table), id->widget, 1, 2,
-				  running - 1, running, GTK_FILL, 0, 3, 0);
-		gtk_box_pack_start (GTK_BOX (data->importerpage->vbox), table,
-				    FALSE, FALSE, 0);
+		gtk_table_attach((GtkTable *)table, label, 0, 1, row, row+1, GTK_FILL, 0, 0, 0);
+		if (w)
+			gtk_table_attach((GtkTable *)table, w, 1, 2, row, row+1, GTK_FILL, 0, 3, 0);
+		row++;
 	}
 
-	gtk_widget_show_all (table);
-
-	if (running == 0) {
-		no_data = create_help ("nodata_html");
-		gtk_box_pack_start (GTK_BOX (data->importerpage->vbox), no_data,
-				    FALSE, TRUE, 0);
-		gnome_druid_set_buttons_sensitive(druid, TRUE, FALSE, TRUE, FALSE);
-		gtk_widget_destroy (dialog);
-		return TRUE;
-	}
-
-	import->running = running;
-	gtk_widget_destroy (dialog);
+	gtk_widget_show(table);
+	gtk_box_pack_start((GtkBox *)data->importerpage->vbox, table, FALSE, FALSE, 0);
 
 	return FALSE;
 }
@@ -958,95 +439,57 @@ import_druid_weak_notify (void *blah,
 {
 	ImportData *data = (ImportData *) blah;
 
-	g_object_unref (data->wizard);
-	g_free (data->choosen_iid);
-	g_free (data);
+	if (data->importerpage->target)
+		e_import_target_free(data->import, data->importerpage->target);
+	g_slist_free(data->importerpage->importers);
+
+	if (data->filepage->target)
+		e_import_target_free(data->import, data->filepage->target);
+	g_slist_free(data->filepage->items);
+
+	g_object_unref(data->import);
+		
+	g_object_unref(data->wizard);
+	g_free(data);
 }
 
 static void
-free_importers (ImportData *data)
+import_status(EImport *import, const char *what, int pc, void *d)
 {
-	GList *l;
+	ImportData *data = d;
 
-	for (l = data->importerpage->importers; l; l = l->next) {
-		IntelligentImporterData *iid;
-
-		iid = l->data;
-		if (iid->object != CORBA_OBJECT_NIL) {
-			bonobo_object_release_unref (iid->object, NULL);
-		}
-	}
-
-	g_list_free (data->importerpage->importers);
+	gtk_progress_bar_set_fraction((GtkProgressBar *)data->import_progress, (gfloat)(pc/100.0));
+	gtk_progress_bar_set_text((GtkProgressBar *)data->import_progress, what);
 }
 
 static void
-start_importers (GList *p)
+import_dialog_response(GtkDialog *d, guint button, ImportData *data)
 {
-	CORBA_Environment ev;
-	
-	for (; p; p = p->next) {
-		SelectedImporterData *sid = p->data;
-
-		CORBA_exception_init (&ev);
-		GNOME_Evolution_IntelligentImporter_importData (sid->importer, &ev);
-		if (BONOBO_EX (&ev)) {
-			g_warning ("Error importing %s\n%s", sid->iid,
-				   CORBA_exception_id (&ev));
-		}
-		CORBA_exception_free (&ev);
-	}
+	if (button == GTK_RESPONSE_CANCEL)
+		e_import_cancel(data->import, data->import_target, data->import_importer);
 }
 
 static void
-do_import (ImportData *data)
+import_done(EImport *ei, void *d)
 {
-	CORBA_Environment ev;
-	GList *l, *selected = NULL;
+	ImportData *data = d;
 
-	for (l = data->importerpage->importers; l; l = l->next) {
-		IntelligentImporterData *importer_data;
-		SelectedImporterData *sid;
-		char *iid;
+	gtk_widget_destroy(data->import_dialog);
+	gtk_widget_destroy(data->dialog);
+}
 
-		importer_data = l->data;
-		iid = g_strdup (importer_data->iid);
+static void
+import_intelligent_done(EImport *ei, void *d)
+{
+	ImportData *data = d;
 
-		sid = g_new (SelectedImporterData, 1);
-		sid->iid = iid;
-
-		CORBA_exception_init (&ev);
-		sid->importer = bonobo_object_dup_ref (importer_data->object, &ev);
-		if (BONOBO_EX (&ev)) {
-			g_warning ("Error duplication %s\n(%s)", iid,
-				   CORBA_exception_id (&ev));
-			g_free (iid);
-			CORBA_exception_free (&ev);
-			g_free (sid);
-			continue;
-		}
-		CORBA_exception_free (&ev);
-
-		selected = g_list_prepend (selected, sid);
-	}
-
-	free_importers (data);
-
-	if (selected != NULL) {
-		start_importers (selected);
-
-		for (l = selected; l; l = l->next) {
-			SelectedImporterData *sid = l->data;
-
-			CORBA_exception_init (&ev);
-			bonobo_object_release_unref (sid->importer, &ev);
-			CORBA_exception_free (&ev);
-
-			g_free (sid->iid);
-			g_free (sid);
-		}
-		g_list_free (selected);
-	}
+	if (data->importerpage->current
+	    && (data->importerpage->current = data->importerpage->current->next)) {
+		import_status(ei, "", 0, d);
+		data->import_importer = data->importerpage->current->data;
+		e_import_import(data->import, (EImportTarget *)data->importerpage->target, data->import_importer, import_status, import_intelligent_done, data);
+	} else
+		import_done(ei, d);
 }
 				
 static void
@@ -1054,23 +497,80 @@ import_druid_finish (GnomeDruidPage *page,
 		     GnomeDruid *druid,
 		     ImportData *data)
 {
-	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->typepage->intelligent))) {
-		do_import (data);
+	EImportCompleteFunc done = NULL;
+	char *msg = NULL;
+
+	if (gtk_toggle_button_get_active((GtkToggleButton *)data->typepage->intelligent)) {
+		data->importerpage->current = data->importerpage->importers;
+		if (data->importerpage->current) {
+			data->import_target = (EImportTarget *)data->importerpage->target;
+			data->import_importer = data->importerpage->current->data;
+			done = import_intelligent_done;
+			msg = g_strdup_printf(_("Importing data."));
+		}
 	} else {
-		start_import (druid, data->filename, data->client);
+		if (data->filepage->importer) {
+			data->import_importer = data->filepage->importer;
+			data->import_target = (EImportTarget *)data->filepage->target;
+			done = import_done;
+			msg = g_strdup_printf(_("Importing `%s'"), data->filepage->target->uri_src);
+		}
 	}
 
-	gtk_widget_destroy (data->dialog);
+	if (done) {
+		data->import_dialog = e_error_new(NULL, "shell:importing", msg, NULL);
+		g_signal_connect(data->import_dialog, "response", G_CALLBACK(import_dialog_response), data);
+		data->import_label = gtk_label_new(_("Please wait"));
+		data->import_progress = gtk_progress_bar_new();
+		gtk_box_pack_start(GTK_BOX(((GtkDialog *)data->import_dialog)->vbox), data->import_label, FALSE, FALSE, 0);
+		gtk_box_pack_start(GTK_BOX(((GtkDialog *)data->import_dialog)->vbox), data->import_progress, FALSE, FALSE, 0);
+		gtk_widget_show_all(data->import_dialog);
+
+		e_import_import(data->import, data->import_target, data->import_importer, import_status, import_done, data);
+	} else {
+		gtk_widget_destroy(data->dialog);
+	}
+
+	g_free(msg);
 }
 
 static gboolean
-prepare_file_page (GnomeDruidPage *page,
+prepare_file_page (GnomeDruidPage *dpage,
 		   GnomeDruid *druid,
 		   ImportData *data)
 {
-	gnome_druid_set_buttons_sensitive (druid, TRUE, 
-					   !data->filepage->need_filename, 
-					   TRUE, FALSE);
+	GtkWidget *item, *menu;
+	GSList *importers;
+	ImportDialogFilePage *page = data->filepage;
+
+	if (page->target != NULL) {
+		filename_changed((GtkEntry *)gnome_file_entry_gtk_entry((GnomeFileEntry *)data->filepage->filename), data);
+		return FALSE;
+	}
+
+	page->target = e_import_target_new_uri(data->import, NULL, NULL);
+	importers = e_import_get_importers(data->import, (EImportTarget *)page->target);
+
+	menu = gtk_menu_new();
+	while (importers) {
+		EImportImporter *eii = importers->data;
+
+		item = gtk_menu_item_new_with_label(eii->name);
+		gtk_widget_show(item);
+		g_object_set_data((GObject *)item, "importer", eii);
+		g_signal_connect(item, "activate", G_CALLBACK(item_selected), data);
+		gtk_menu_shell_append((GtkMenuShell *)menu, item);
+
+		data->filepage->items = g_slist_append(data->filepage->items, item);
+		importers = importers->next;
+	}
+	g_slist_free(importers);
+
+	data->filepage->menu = menu;
+	gtk_option_menu_set_menu((GtkOptionMenu *)data->filepage->filetype, menu);
+
+	filename_changed((GtkEntry *)gnome_file_entry_gtk_entry((GnomeFileEntry *)data->filepage->filename), data);
+
 	return FALSE;
 }
 
@@ -1079,69 +579,28 @@ next_file_page (GnomeDruidPage *page,
 		GnomeDruid *druid,
 		ImportData *data)
 {
-	char *real_iid = NULL;
-	char *utf8_filename;
-
-	/* Get and test the file name */
-	if (data->filename)
-		g_free (data->filename);
-	utf8_filename = gnome_file_entry_get_full_path (GNOME_FILE_ENTRY (data->filepage->filename), FALSE);
-	data->filename = g_filename_from_utf8 (utf8_filename, -1, NULL, NULL, NULL);
-	
-	if (!g_file_test (data->filename, G_FILE_TEST_EXISTS | G_FILE_TEST_IS_REGULAR)) {
-		e_notice (druid, GTK_MESSAGE_ERROR, _("File %s does not exist"), utf8_filename);
-		gnome_druid_set_page (druid, GNOME_DRUID_PAGE (data->filedialog));
-		g_free (utf8_filename);
-		return TRUE;
-	}
-
-	/* Work out the component to use */
-	if (data->choosen_iid == NULL || strcmp (data->choosen_iid, "Automatic") == 0) {
-		if (!get_iid_for_filetype (data->filename, &real_iid)) {
-			gnome_druid_set_page (druid, GNOME_DRUID_PAGE (data->filedialog));
-
-			g_free (utf8_filename);
-			return TRUE;			
-		}	
-	} else {
-		real_iid = g_strdup (data->choosen_iid);
-	}
-
-	if (!real_iid) {
-		e_notice (druid, GTK_MESSAGE_ERROR, _("No importer available for file %s"), utf8_filename);
-		gnome_druid_set_page (druid, GNOME_DRUID_PAGE (data->filedialog));
-
-		g_free (utf8_filename);
-		return TRUE;
-	}
-
-	if (data->client)
-		g_object_unref (data->client);
-	data->client = evolution_importer_client_new_from_id (real_iid);
-	g_free (real_iid);
-	g_free (utf8_filename);
-
-	if (!data->client) {
-		e_notice (druid, GTK_MESSAGE_ERROR, _("Unable to execute importer"));
-		gnome_druid_set_page (druid, GNOME_DRUID_PAGE (data->filedialog));
-
-		return TRUE;
-	}
-	
+	/* We dont sensitise the next button if we're not already usable */
 	return FALSE;
 }
 
 static gboolean
-prepare_dest_page (GnomeDruidPage *page,
+prepare_dest_page (GnomeDruidPage *dpage,
 		   GnomeDruid *druid,
 		   ImportData *data)
-{	
-	/* Add the widget */
-	if (data->control)
-		gtk_container_remove (GTK_CONTAINER (data->destpage->vbox), data->control);
-	data->control = evolution_importer_client_create_control (data->client);
-	gtk_box_pack_start((GtkBox *)data->destpage->vbox, data->control, FALSE, FALSE, 0);
-	gtk_widget_show_all (data->destpage->vbox);
+{
+	ImportDialogDestPage *page = data->destpage;
+
+	if (page->control)
+		gtk_container_remove((GtkContainer *)page->vbox, page->control);
+
+	page->control = e_import_get_widget(data->import, (EImportTarget *)data->filepage->target, data->filepage->importer);
+	if (page->control == NULL) {
+		/* Coding error, not needed for translators */
+		page->control = gtk_label_new("** PLUGIN ERROR ** No settings for importer");
+		gtk_widget_show(page->control);
+	}
+
+	gtk_box_pack_start((GtkBox *)data->destpage->vbox, page->control, TRUE, TRUE, 0);
 
 	return FALSE;
 }
@@ -1175,11 +634,7 @@ back_finish_page (GnomeDruidPage *page,
 		  ImportData *data)
 {
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->typepage->intelligent))) {
-		if (data->importerpage->running != 0) {
-			gnome_druid_set_page (druid, GNOME_DRUID_PAGE (data->intelligent));
-		} else {
-			gnome_druid_set_page (druid, GNOME_DRUID_PAGE (data->typedialog));
-		}
+		gnome_druid_set_page (druid, GNOME_DRUID_PAGE (data->intelligent));
 	} else {
 		gnome_druid_set_page (druid, GNOME_DRUID_PAGE (data->destdialog));
 	}
@@ -1216,7 +671,9 @@ e_shell_importer_start_import (EShellWindow *shell_window)
 	if (dialog_open) {
 		return;
 	}
-	
+
+	data->import = e_import_new("org.gnome.evolution.shell.importer");
+
 	icon = e_icon_factory_get_icon ("stock_mail-import", E_ICON_SIZE_DIALOG);
 	
 	dialog_open = TRUE;

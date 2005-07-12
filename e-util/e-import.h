@@ -44,12 +44,13 @@ typedef struct _EImportFactory EImportFactory;
 typedef struct _EImportTarget EImportTarget;
 
 typedef void (*EImportCompleteFunc)(EImport *ei, void *data);
+typedef void (*EImportStatusFunc)(EImport *ei, const char *what, int pc, void *data);
 
 typedef void (*EImportFactoryFunc)(EImport *ei, void *data);
 typedef void (*EImportImporterFunc)(EImportImporter *importer, void *data);
-typedef gboolean (*EImportSupportedFunc)(EImport *ei, EImportImporter *im, void *data);
-typedef struct _GtkWidget *(*EImportWidgetFunc)(EImport *ei, EImportImporter *im, void *data);
-typedef void (*EImportImportFunc)(EImport *ei, EImportImporter *im, void *data);
+typedef gboolean (*EImportSupportedFunc)(EImport *ei, EImportTarget *, EImportImporter *im);
+typedef struct _GtkWidget *(*EImportWidgetFunc)(EImport *ei, EImportTarget *, EImportImporter *im);
+typedef void (*EImportImportFunc)(EImport *ei, EImportTarget *, EImportImporter *im);
 
 /* The global target types, implementors may add additional ones */
 enum _e_import_target_t {
@@ -78,6 +79,7 @@ struct _EImportImporter {
 	EImportSupportedFunc supported;
 	EImportWidgetFunc get_widget;
 	EImportImportFunc import;
+	EImportImportFunc cancel;
 
 	void *user_data;
 
@@ -91,6 +93,9 @@ struct _EImportImporter {
  * 
  * @import: The parent object.
  * @type: The type of target, defined by implementing classes.
+ * @data: This can be used to store run-time information
+ * about this target.  Any allocated data must be set so
+ * as to free it when the target is freed.
  * 
  * The base target object is used as the parent and placeholder for
  * import context for a given importer.
@@ -99,6 +104,8 @@ struct _EImportTarget {
 	struct _EImport *import;
 
 	guint32 type;
+
+	GData *data;
 
 	/* implementation fields follow, depends on target type */
 };
@@ -124,8 +131,9 @@ struct _EImportTargetHome {
  * 
  * @object: Superclass.
  * @id: ID of importer.
- * @target: The current target.
- * @importer: The chosen importer for the target.
+ * @status: Status callback of current running import.
+ * @done: Completion callback of current running import.
+ * @done_data: Callback data for both of above.
  *
  **/
 struct _EImport {
@@ -133,9 +141,7 @@ struct _EImport {
 
 	char *id;
 
-	EImportTarget *target;
-	EImportImporter *importer;
-
+	EImportStatusFunc status;
 	EImportCompleteFunc done;
 	void *done_data;
 };
@@ -158,11 +164,12 @@ struct _EImportClass {
 
 	EDList importers;
 
-	void (*set_target)(EImport *ep, EImportTarget *t);
 	void (*target_free)(EImport *ep, EImportTarget *t);
 };
 
 GType e_import_get_type(void);
+
+EImport *e_import_new(const char *id);
 
 /* Static class methods */
 void e_import_class_add_importer(EImportClass *klass, EImportImporter *importer, EImportImporterFunc freefunc, void *data);
@@ -171,13 +178,14 @@ void e_import_class_remove_importer(EImportClass *klass, EImportImporter *f);
 GSList *e_import_get_importers(EImport *emp, EImportTarget *target);
 
 EImport *e_import_construct(EImport *, const char *id);
-void e_import_import(EImport *ei, EImportCompleteFunc done, void *data);
 
-struct _GtkWidget *e_import_get_widget(EImport *ei);
+void e_import_import(EImport *ei, EImportTarget *, EImportImporter *, EImportStatusFunc status, EImportCompleteFunc done, void *data);
+void e_import_cancel(EImport *, EImportTarget *, EImportImporter *);
 
-void e_import_set_target(EImport *emp, EImportTarget *target);
-struct _GtkWidget *e_import_create_window(EImport *emp, struct _GtkWindow *parent, const char *title);
-void e_import_complete(EImport *);
+struct _GtkWidget *e_import_get_widget(EImport *ei, EImportTarget *, EImportImporter *);
+
+void e_import_status(EImport *, EImportTarget *, const char *what, int pc);
+void e_import_complete(EImport *, EImportTarget *);
 
 void *e_import_target_new(EImport *ep, int type, size_t size);
 void e_import_target_free(EImport *ep, void *o);
@@ -210,6 +218,7 @@ struct _EImportHookImporter {
 	char *supported;
 	char *get_widget;
 	char *import;
+	char *cancel;
 };
 
 /**

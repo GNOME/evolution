@@ -32,9 +32,11 @@
 #include "addressbook/gui/contact-editor/eab-editor.h"
 #include "addressbook/gui/widgets/eab-gui-util.h"
 #include "e-util/e-plugin.h"
+#include "e-util/e-import.h"
 #include "addressbook/gui/widgets/eab-popup.h"
 #include "addressbook/gui/widgets/eab-menu.h"
 #include "addressbook/gui/widgets/eab-config.h"
+#include "addressbook/importers/evolution-addressbook-importers.h"
 
 #include "misc/e-task-bar.h"
 #include "misc/e-info-label.h"
@@ -471,10 +473,16 @@ addressbook_component_init (AddressbookComponent *component)
 #endif
 
 	if (first) {
+		EImportClass *klass;
+
 		first = FALSE;
 		e_plugin_hook_register_type(eab_popup_hook_get_type());
 		e_plugin_hook_register_type(eab_menu_hook_get_type());
 		e_plugin_hook_register_type(eab_config_hook_get_type());
+
+		klass = g_type_class_ref(e_import_get_type());
+		e_import_class_add_importer(klass, evolution_ldif_importer_peek(), NULL, NULL);
+		e_import_class_add_importer(klass, evolution_vcard_importer_peek(), NULL, NULL);
 	}
 }
 

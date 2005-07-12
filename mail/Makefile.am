@@ -11,8 +11,6 @@ INCLUDES =						\
 	-I$(top_builddir)/composer			\
 	-I$(top_builddir)/shell				\
 	-I$(top_srcdir)/shell				\
-	-I$(top_srcdir)/shell/importer			\
-	-I$(top_builddir)/shell/importer		\
 	-I$(top_srcdir)/smime/lib			\
 	-I$(top_srcdir)/smime/gui			\
 	$(EVOLUTION_MAIL_CFLAGS)			\
@@ -211,7 +209,6 @@ SMIME_LIB=$(top_builddir)/smime/gui/libevolution-smime.la
 endif
 
 libevolution_mail_la_LIBADD =					\
-	$(top_builddir)/shell/importer/libevolution-importer.la	\
 	$(top_builddir)/mail/importers/libevolution-mail-importers.la\
 	$(top_builddir)/e-util/libeutil.la			\
 	$(top_builddir)/shell/libeshell.la			\

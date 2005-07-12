@@ -3,7 +3,7 @@ CONDUIT_SUBDIR=conduit
 endif
 
 SUBDIRS =	\
-	util printing gui importers tools $(CONDUIT_SUBDIR)
+	util printing importers gui tools $(CONDUIT_SUBDIR)
 
 error_DATA = addressbook.error
 errordir = $(privdatadir)/errors

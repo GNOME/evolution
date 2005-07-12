@@ -44,6 +44,7 @@
 #include "em-format-html-display.h"
 
 #include "importers/mail-importer.h"
+#include "e-util/e-import.h"
 
 #include <bonobo-activation/bonobo-activation.h>
 #include <bonobo/bonobo-shlib-factory.h>
@@ -89,6 +90,8 @@ make_factory (PortableServer_POA poa, const char *iid, gpointer impl_ptr, CORBA_
 	static int init = 0;
 
 	if (!init) {
+		EImportClass *klass;
+
 		init = 1;
 
 		mail_config_init();
@@ -106,6 +109,11 @@ make_factory (PortableServer_POA poa, const char *iid, gpointer impl_ptr, CORBA_
 		e_plugin_hook_register_type(em_format_hook_get_type());
 		e_plugin_hook_register_type(em_event_hook_get_type());
 		e_plugin_hook_register_type(em_junk_hook_get_type());
+
+		klass = g_type_class_ref(e_import_get_type());
+		e_import_class_add_importer(klass, mbox_importer_peek(), NULL, NULL);
+		e_import_class_add_importer(klass, elm_importer_peek(), NULL, NULL);
+		e_import_class_add_importer(klass, pine_importer_peek(), NULL, NULL);
 	}
 
 	return bonobo_shlib_factory_std (FACTORY_ID, poa, impl_ptr, factory, NULL, ev);

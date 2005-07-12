@@ -112,6 +112,7 @@ mail_importer_add_line (MailImporter *importer,
 
 struct _BonoboObject *mail_importer_factory_cb(struct _BonoboGenericFactory *factory, const char *iid, void *data)
 {
+#if 0
 	if (strcmp(iid, ELM_INTELLIGENT_IMPORTER_IID) == 0)
 		return elm_intelligent_importer_new();
 	else if (strcmp(iid, PINE_INTELLIGENT_IMPORTER_IID) == 0)
@@ -122,7 +123,7 @@ struct _BonoboObject *mail_importer_factory_cb(struct _BonoboGenericFactory *fac
 		return mbox_importer_new();
 	else if (strcmp(iid, OUTLOOK_IMPORTER_IID) == 0)
 		return outlook_importer_new();
-
+#endif
 	return NULL;
 }
 
@@ -132,6 +133,9 @@ struct _import_mbox_msg {
 	char *path;
 	char *uri;
 	CamelOperation *cancel;
+
+	void (*done)(void *data, CamelException *ex);
+	void *done_data;
 };
 
 static char *
@@ -281,6 +285,10 @@ fail1:
 static void
 import_mbox_done(struct _mail_msg *mm)
 {
+	struct _import_mbox_msg *m = (struct _import_mbox_msg *)mm;
+
+	if (m->done)
+		m->done(m->done_data, &mm->ex);
 }
 
 static void
@@ -302,7 +310,7 @@ static struct _mail_msg_op import_mbox_op = {
 };
 
 int
-mail_importer_import_mbox(const char *path, const char *folderuri, CamelOperation *cancel)
+mail_importer_import_mbox(const char *path, const char *folderuri, CamelOperation *cancel, void (*done)(void *data, CamelException *), void *data)
 {
 	struct _import_mbox_msg *m;
 	int id;
@@ -310,6 +318,8 @@ mail_importer_import_mbox(const char *path, const char *folderuri, CamelOperatio
 	m = mail_msg_new(&import_mbox_op, NULL, sizeof (*m));
 	m->path = g_strdup(path);
 	m->uri = g_strdup(folderuri);
+	m->done = done;
+	m->done_data = data;
 	if (cancel) {
 		m->cancel = cancel;
 		camel_operation_ref(cancel);

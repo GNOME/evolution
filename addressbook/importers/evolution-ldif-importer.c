@@ -10,6 +10,8 @@
  *
  * Multi-line value support, mailing list support, base64 support, and
  * various fixups: Chris Toshok (toshok@ximian.com)
+ *
+ * Made re-entrant, converted to eplugin, Michael Zucchi <notzed@ximian.com>
  */
 
 #ifdef HAVE_CONFIG_H
@@ -20,33 +22,39 @@
 #include <ctype.h>
 #include <string.h>
 
-#include <gtk/gtkwidget.h>
+#include <glib/gi18n.h>
+
 #include <gtk/gtkvbox.h>
-#include <libgnome/gnome-init.h>
-#include <bonobo/bonobo-shlib-factory.h>
-#include <bonobo/bonobo-main.h>
-#include <bonobo/bonobo-control.h>
 
 #include <libebook/e-book.h>
 #include <libedataserverui/e-source-selector.h>
 
-#include <importer/evolution-importer.h>
-#include <importer/GNOME_Evolution_Importer.h>
 #include <libebook/e-destination.h>
 
-#define COMPONENT_FACTORY_IID "OAFIID:GNOME_Evolution_Addressbook_LDIF_ImporterFactory:" BASE_VERSION
-#define COMPONENT_IID "OAFIID:GNOME_Evolution_Addressbook_LDIF_Importer:" BASE_VERSION
+#include "e-util/e-import.h"
 
-static GHashTable *dn_contact_hash;
+#include "evolution-addressbook-importers.h"
 
 typedef struct {
-	ESource *primary;
-	
-	GList *contactlist;
-	GList *iterator;
+	EImport *import;
+	EImportTarget *target;
+
+	guint idle_id;
+
+	GHashTable *dn_contact_hash;
+
+	int state;		/* 0 - initial scan, 1 - list cards, 2 - cancelled/complete */
+	FILE *file;
+	gulong size;
+
 	EBook *book;
-	gboolean ready;
+
+	GSList *contacts;
+	GSList *list_contacts;
+	GSList *list_iterator;
 } LDIFImporter;
+
+static void ldif_import_done(LDIFImporter *gci);
 
 static struct {
 	char *ldif_attribute;
@@ -204,7 +212,7 @@ getValue( char **src )
 }
 
 static gboolean
-parseLine (EContact *contact, EContactAddress *address, char **buf)
+parseLine (LDIFImporter *gci, EContact *contact, EContactAddress *address, char **buf)
 {
 	char *ptr;
 	char *colon, *value;
@@ -284,7 +292,7 @@ parseLine (EContact *contact, EContactAddress *address, char **buf)
 		/* handle objectclass/dn/member out here */
 		if (!field_handled) {
 			if (!g_ascii_strcasecmp (ptr, "dn"))
-				g_hash_table_insert (dn_contact_hash, g_strdup(ldif_value->str), contact);
+				g_hash_table_insert (gci->dn_contact_hash, g_strdup(ldif_value->str), contact);
 			else if (!g_ascii_strcasecmp (ptr, "objectclass") && !g_ascii_strcasecmp (ldif_value->str, "groupofnames")) {
 				e_contact_set (contact, E_CONTACT_IS_LIST, GINT_TO_POINTER (TRUE));
 			}
@@ -316,7 +324,7 @@ parseLine (EContact *contact, EContactAddress *address, char **buf)
 }
 
 static EContact *
-getNextLDIFEntry( FILE *f )
+getNextLDIFEntry(LDIFImporter *gci, FILE *f )
 {
 	EContact *contact;
 	EContactAddress *address;
@@ -345,7 +353,7 @@ getNextLDIFEntry( FILE *f )
 
 	buf = str->str;
 	while (buf) {
-		if (!parseLine (contact, address, &buf)) {
+		if (!parseLine (gci, contact, address, &buf)) {
 			/* parsing error */
 			g_object_unref (contact);
 			return NULL;
@@ -381,7 +389,7 @@ resolve_list_card (LDIFImporter *gci, EContact *contact)
 	for (l = email; l; l = l->next) {
 		/* mozilla stuffs dn's in the EMAIL list for contact lists */
 		char *dn = l->data;
-		EContact *dn_contact = g_hash_table_lookup (dn_contact_hash, dn);
+		EContact *dn_contact = g_hash_table_lookup (gci->dn_contact_hash, dn);
 
 		/* break list chains here, since we don't support them just yet */
 		if (dn_contact && !e_contact_get (dn_contact, E_CONTACT_IS_LIST)) {
@@ -405,38 +413,6 @@ resolve_list_card (LDIFImporter *gci, EContact *contact)
 	g_list_free (email);
 	g_list_foreach (email_attrs, (GFunc) e_vcard_attribute_free, NULL);
 	g_list_free (email_attrs);
-}
-
-static GList *
-create_contacts_from_ldif (const char *filename)
-{
-	GList * list = NULL;
-	GList * list_list = NULL;
-	FILE * file;
-	EContact *contact;
-
-	if(!( file = fopen( filename, "r" ) )) {
-		g_warning("Can't open .ldif file");
-		return NULL;
-	}
-
-	dn_contact_hash = g_hash_table_new (g_str_hash, g_str_equal);
-
-	while ((contact = getNextLDIFEntry (file))) {
-
-		if (e_contact_get (contact, E_CONTACT_IS_LIST))
-			list_list = g_list_append (list_list, contact);
-		else
-			list = g_list_append (list, contact);
-	}
-
-	fclose (file);
-
-	list = g_list_reverse (list);
-	list_list = g_list_reverse (list_list);
-	list = g_list_concat (list, list_list);
-
-	return list;
 }
 
 static void
@@ -463,101 +439,95 @@ add_to_notes (EContact *contact, EContactField field)
 	g_free (new_text);
 }
 
-/* EvolutionImporter methods */
-static void
-process_item_fn (EvolutionImporter *importer,
-		 CORBA_Object listener,
-		 void *closure,
-		 CORBA_Environment *ev)
+static gboolean
+ldif_import_contacts(void *d)
 {
-	LDIFImporter *gci = (LDIFImporter *) closure;
+	LDIFImporter *gci = d;
+	FILE * file;
 	EContact *contact;
+	GSList *iter;
+	int count = 0;
 
-	if (gci->iterator == NULL)
-		gci->iterator = gci->contactlist;
+	/* We process all normal cards immediately and keep the list
+	   ones till the end */
 
-	if (gci->ready == FALSE) {
-		GNOME_Evolution_ImporterListener_notifyResult (listener,
-							       GNOME_Evolution_ImporterListener_NOT_READY,
-							       gci->iterator ? TRUE : FALSE, 
-							       ev);
-		return;
+	if (gci->state == 0) {
+		while (count < 50 && (contact = getNextLDIFEntry(gci, file))) {
+			if (e_contact_get (contact, E_CONTACT_IS_LIST)) {
+				gci->list_contacts = g_slist_prepend(gci->list_contacts, contact);
+			} else {
+				add_to_notes(contact, E_CONTACT_OFFICE);
+				add_to_notes(contact, E_CONTACT_SPOUSE);
+				add_to_notes(contact, E_CONTACT_BLOG_URL);
+				e_book_add_contact(gci->book, contact, NULL);
+				gci->contacts = g_slist_prepend(gci->contacts, contact);
+			}
+			count++;
+		}
+		if (contact == NULL) {
+			gci->state = 1;
+			gci->list_iterator = gci->list_contacts;
+		}
 	}
-	
-	if (gci->iterator == NULL) {
-		GNOME_Evolution_ImporterListener_notifyResult (listener,
-							       GNOME_Evolution_ImporterListener_UNSUPPORTED_OPERATION,
-							       FALSE, ev);
-		return;
+	if (gci->state == 1) {
+		for (iter = gci->list_iterator;count < 50 && iter;iter=iter->next) {
+			contact = iter->data;
+			resolve_list_card(gci, contact);
+			e_book_add_contact(gci->book, contact, NULL);
+			count++;
+		}
+		gci->list_iterator = iter;
+		if (iter == NULL)
+			gci->state = 2;
 	}
-
-	contact = gci->iterator->data;
-	if (e_contact_get (contact, E_CONTACT_IS_LIST))
-		resolve_list_card (gci, contact);
-	else {
-		/* Work around the fact that these fields no longer show up in the UI */
-		add_to_notes (contact, E_CONTACT_OFFICE);
-		add_to_notes (contact, E_CONTACT_SPOUSE);
-		add_to_notes (contact, E_CONTACT_BLOG_URL);
+	if (gci->state == 2) {
+		ldif_import_done(gci);
+		return FALSE;
+	} else {
+		e_import_status(gci->import, gci->target, _("Importing ..."), ftell(gci->file) * 100 / gci->size);
+		return TRUE;
 	}
-
-	/* FIXME Error checking */
-	e_book_add_contact (gci->book, contact, NULL);
-
-	gci->iterator = gci->iterator->next;
-
-	GNOME_Evolution_ImporterListener_notifyResult (listener,
-						       GNOME_Evolution_ImporterListener_OK,
-						       gci->iterator ? TRUE : FALSE, 
-						       ev);
-	if (ev->_major != CORBA_NO_EXCEPTION) {
-		g_warning ("Error notifying listeners.");
-	}
-	
-	return;
 }
 
 static void
-primary_selection_changed_cb (ESourceSelector *selector, gpointer data)
+primary_selection_changed_cb (ESourceSelector *selector, EImportTarget *target)
 {
-	LDIFImporter *gci = data;
-
-	if (gci->primary)
-		g_object_unref (gci->primary);
-	gci->primary = g_object_ref (e_source_selector_peek_primary_selection (selector));
+	g_datalist_set_data_full(&target->data, "ldif-source",
+				 g_object_ref(e_source_selector_peek_primary_selection(selector)),
+				 g_object_unref);
 }
 
-static void
-create_control_fn (EvolutionImporter *importer, Bonobo_Control *control, void *closure)
+static GtkWidget *
+ldif_getwidget(EImport *ei, EImportTarget *target, EImportImporter *im)
 {
-	LDIFImporter *gci = closure;
 	GtkWidget *vbox, *selector;
 	ESource *primary;
 	ESourceList *source_list;	
-	
-	vbox = gtk_vbox_new (FALSE, FALSE);
-	
+
 	/* FIXME Better error handling */
 	if (!e_book_get_addressbooks (&source_list, NULL))
-		return;		
+		return NULL;
 
+	vbox = gtk_vbox_new (FALSE, FALSE);
+	
 	selector = e_source_selector_new (source_list);
 	e_source_selector_show_selection (E_SOURCE_SELECTOR (selector), FALSE);
 	gtk_box_pack_start (GTK_BOX (vbox), selector, FALSE, TRUE, 6);
-	
-	/* FIXME What if no sources? */
-	primary = e_source_list_peek_source_any (source_list);
+
+	primary = g_datalist_get_data(&target->data, "ldif-source");
+	if (primary == NULL) {
+		primary = e_source_list_peek_source_any (source_list);
+		g_object_ref(primary);
+		g_datalist_set_data_full(&target->data, "ldif-source", primary, g_object_unref);
+	}
 	e_source_selector_set_primary_selection (E_SOURCE_SELECTOR (selector), primary);
-	if (!gci->primary)
-		gci->primary = g_object_ref (primary);
 	g_object_unref (source_list);
-		
-	g_signal_connect (G_OBJECT (selector), "primary_selection_changed",
-			  G_CALLBACK (primary_selection_changed_cb), gci);
+
+	g_signal_connect (selector, "primary_selection_changed", G_CALLBACK (primary_selection_changed_cb), target);
 
 	gtk_widget_show_all (vbox);
-	
-	*control = BONOBO_OBJREF (bonobo_control_new (vbox));
+
+	return vbox;
 }
 
 static char *supported_extensions[2] = {
@@ -565,20 +535,28 @@ static char *supported_extensions[2] = {
 };
 
 static gboolean
-support_format_fn (EvolutionImporter *importer,
-		   const char *filename,
-		   void *closure)
+ldif_supported(EImport *ei, EImportTarget *target, EImportImporter *im)
 {
 	char *ext;
 	int i;
+	EImportTargetURI *s;
 
-	ext = strrchr (filename, '.');
-	if (ext == NULL) {
+	if (target->type != E_IMPORT_TARGET_URI)
 		return FALSE;
-	}
+
+	s = (EImportTargetURI *)target;
+	if (s->uri_src == NULL)
+		return TRUE;
+
+	if (!strncmp(s->uri_src, "file:///", 8))
+		return FALSE;
+
+	ext = strrchr(s->uri_src, '.');
+	if (ext == NULL)
+		return FALSE;
 
 	for (i = 0; supported_extensions[i] != NULL; i++) {
-		if (strcmp (supported_extensions[i], ext) == 0)
+		if (g_ascii_strcasecmp(supported_extensions[i], ext) == 0)
 			return TRUE;
 	}
 
@@ -586,70 +564,92 @@ support_format_fn (EvolutionImporter *importer,
 }
 
 static void
-importer_destroy_cb (gpointer data,
-		     GObject *where_object_was)
+free_dn_hash(void *k, void *v, void *d)
 {
-	LDIFImporter *gci = data;
+	g_free(k);
+}
 
-	if (gci->primary)
-		g_object_unref (gci->primary);
-	
-	if (gci->book)
-		g_object_unref (gci->book);
+static void
+ldif_import_done(LDIFImporter *gci)
+{
+	if (gci->idle_id)
+		g_source_remove(gci->idle_id);
 
-	g_list_foreach (gci->contactlist, (GFunc) g_object_unref, NULL);
-	g_list_free (gci->contactlist);
+	g_object_unref(gci->book);
+	g_slist_foreach(gci->contacts, (GFunc) g_object_unref, NULL);
+	g_slist_foreach(gci->list_contacts, (GFunc) g_object_unref, NULL);
+	g_slist_free(gci->contacts);
+	g_slist_free(gci->list_contacts);
+	g_hash_table_foreach(gci->dn_contact_hash, free_dn_hash, NULL);
+	g_hash_table_destroy(gci->dn_contact_hash);
+
+	e_import_complete(gci->import, gci->target);
+	g_object_unref(gci->import);
 
 	g_free (gci);
 }
 
-static gboolean
-load_file_fn (EvolutionImporter *importer,
-	      const char *filename,
-	      void *closure)
+static void
+ldif_import(EImport *ei, EImportTarget *target, EImportImporter *im)
 {
 	LDIFImporter *gci;
+	EBook *book;
+	FILE *file;
+	EImportTargetURI *s = (EImportTargetURI *)target;
 
-	gci = (LDIFImporter *) closure;
-	gci->contactlist = NULL;
-	gci->iterator = NULL;
-	gci->ready = FALSE;
-
-	/* Load the book and the cards */
-	gci->book = e_book_new (gci->primary, NULL);
-	if (!gci->book) {
-		g_message (G_STRLOC ":Couldn't create EBook.");
-		return FALSE;
+	book = e_book_new(g_datalist_get_data(&target->data, "ldif-source"), NULL);
+	if (book == NULL) {
+		g_message(G_STRLOC ":Couldn't create EBook.");
+		e_import_complete(ei, target);
+		return;
 	}
-	e_book_open (gci->book, TRUE, NULL);
-	gci->contactlist = create_contacts_from_ldif (filename);
-	gci->ready = TRUE;
 
-	return TRUE;
+	file = fopen(s->uri_src, "r");
+	if (file == NULL) {
+		g_message(G_STRLOC ":Can't open .ldif file");
+		e_import_complete(ei, target);
+		g_object_unref(book);
+		return;
+	}
+
+	gci = g_malloc0(sizeof(*gci));
+	g_datalist_set_data(&target->data, "ldif-data", gci);
+	gci->import = g_object_ref(ei);
+	gci->target = target;
+	gci->book = book;
+	gci->file = file;
+	gci->size = fseek(file, 0, SEEK_END);
+	fseek(file, 0, SEEK_SET);
+	gci->dn_contact_hash = g_hash_table_new(g_str_hash, g_str_equal);
+
+	e_book_open(gci->book, TRUE, NULL);
+
+	gci->idle_id = g_idle_add(ldif_import_contacts, gci);
 }
-					   
-static BonoboObject *
-factory_fn (BonoboGenericFactory *_factory,
-	    const char *component_id,
-	    void *closure)
+
+static void
+ldif_cancel(EImport *ei, EImportTarget *target, EImportImporter *im)
 {
-	EvolutionImporter *importer;
-	LDIFImporter *gci;
+	LDIFImporter *gci = g_datalist_get_data(&target->data, "ldif-data");
 
-	if (!strcmp (component_id, COMPONENT_IID)) {
-		gci = g_new0 (LDIFImporter, 1);
-		importer = evolution_importer_new (create_control_fn, support_format_fn, 
-						   load_file_fn, process_item_fn, NULL, gci);
-	
-		g_object_weak_ref (G_OBJECT (importer),
-				   importer_destroy_cb, gci);
-	
-		return BONOBO_OBJECT (importer);
-	}
-	else {
-		g_warning (COMPONENT_FACTORY_IID ": Don't know what to do with %s", component_id);
-		return NULL;
-	}
+	if (gci)
+		gci->state = 2;
 }
 
-BONOBO_ACTIVATION_SHLIB_FACTORY (COMPONENT_FACTORY_IID, "Evolution LDIF importer Factory", factory_fn, NULL)
+static EImportImporter ldif_importer = {
+	E_IMPORT_TARGET_URI,
+	0,
+	ldif_supported,
+	ldif_getwidget,
+	ldif_import,
+	ldif_cancel,
+};
+
+EImportImporter *
+evolution_ldif_importer_peek(void)
+{
+	ldif_importer.name = _("LDAP Data Interchange Format (.ldif)");
+	ldif_importer.description = _("Evolution LDIF importer");
+
+	return &ldif_importer;
+}

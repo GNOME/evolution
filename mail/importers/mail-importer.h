@@ -49,6 +49,12 @@ char *mail_importer_make_local_folder(const char *folderpath);
 struct _BonoboObject;
 struct _BonoboGenericFactory;
 struct _CamelOperation;
+struct _CamelException;
+
+struct _EImportImporter *mbox_importer_peek(void);
+
+struct _EImportImporter *elm_importer_peek(void);
+struct _EImportImporter *pine_importer_peek(void);
 
 #define ELM_INTELLIGENT_IMPORTER_IID "OAFIID:GNOME_Evolution_Mail_Elm_Intelligent_Importer:" BASE_VERSION
 #define PINE_INTELLIGENT_IMPORTER_IID "OAFIID:GNOME_Evolution_Mail_Pine_Intelligent_Importer:" BASE_VERSION
@@ -74,7 +80,7 @@ struct _BonoboObject *mail_importer_factory_cb(struct _BonoboGenericFactory *fac
 #define MSG_FLAG_MARKED 0x0004
 #define MSG_FLAG_EXPUNGED 0x0008
 
-int mail_importer_import_mbox(const char *path, const char *folderuri, struct _CamelOperation *cancel);
+int mail_importer_import_mbox(const char *path, const char *folderuri, struct _CamelOperation *cancel, void (*done)(void *data, struct _CamelException *), void *data);
 void mail_importer_import_mbox_sync(const char *path, const char *folderuri, struct _CamelOperation *cancel);
 
 struct _MailImporterSpecial {

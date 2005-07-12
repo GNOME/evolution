@@ -62,8 +62,8 @@ addressbook/gui/widgets/eab-vcard-control.c
 addressbook/gui/widgets/gal-view-factory-minicard.c
 addressbook/gui/widgets/gal-view-factory-treeview.c
 addressbook/gui/widgets/test-reflow.c
-addressbook/importers/GNOME_Evolution_Addressbook_LDIF_Importer.server.in.in
-addressbook/importers/GNOME_Evolution_Addressbook_VCard_Importer.server.in.in
+addressbook/importers/evolution-ldif-importer.c
+addressbook/importers/evolution-vcard-importer.c
 addressbook/printing/e-contact-print-envelope.c
 addressbook/printing/e-contact-print.c
 addressbook/printing/e-contact-print.glade
@@ -170,7 +170,6 @@ calendar/gui/print.c
 calendar/gui/tasks-component.c
 calendar/gui/tasks-control.c
 calendar/gui/weekday-picker.c
-calendar/importers/GNOME_Evolution_Calendar_Importer.server.in.in
 calendar/importers/icalendar-importer.c
 calendar/zones.h
 composer/e-msg-composer-attachment-bar.c
@@ -233,7 +232,6 @@ mail/em-utils.c
 mail/em-vfolder-editor.c
 mail/em-vfolder-rule.c
 mail/evolution-mail.schemas.in.in
-mail/importers/GNOME_Evolution_Mail_Importers.server.in.in
 mail/importers/elm-importer.c
 mail/importers/evolution-mbox-importer.c
 mail/importers/evolution-outlook-importer.c
@@ -346,8 +344,7 @@ shell/e-shell.c
 shell/e-user-creatable-items-handler.c
 shell/evolution-shell-component-utils.c
 shell/evolution-test-component.c
-shell/importer/import.glade
-shell/importer/intelligent.c
+shell/import.glade
 shell/main.c
 shell/shell.error.xml
 smime/gui/ca-trust-dialog.c

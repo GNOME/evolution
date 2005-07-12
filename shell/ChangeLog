@@ -1,3 +1,18 @@
+2005-07-06  Not Zed  <NotZed@Ximian.com>
+
+	* e-shell-importer.c (import_druid_finish): now setup a window to
+	display importer progress, so it doesn't have to be copied for all
+	importers & they can all share it.
+	(import_druid_finish): fix the error id/prompt
+
+2005-07-01  Not Zed  <NotZed@Ximian.com>
+
+	* import.glade: moved from importer/ to here.
+
+	* importer/*: Killed all of this off.
+
+	* Makefile.am: remove importer/ and related stuff.
+
 2005-06-24  Harish Krishnaswamy <kharish@novell.com> 
 
 	(patch submitted by Andre Klapper <a9016009@gmx.de>)

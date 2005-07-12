@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <error-list domain="shell">
 
+ <error id="importing" type="info">
+    <_title>Importing ...</_title>
+    <secondary>{0}</secondary>
+    <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
+ </error>
+
  <error id="upgrade-nospace" type="error">
   <_primary>Insufficient disk space for upgrade.</_primary>
   <_secondary xml:space="preserve">Upgrading your data and settings will require upto {0} of disk space, but you only have {1} available.
