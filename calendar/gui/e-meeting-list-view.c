@@ -537,27 +537,72 @@ static void
 process_section (EMeetingListView *view, GList *destinations, icalparameter_role role)
 {
 	EMeetingListViewPrivate *priv;
-	gboolean contact_list = FALSE;
 	GList *l;
 
 	priv = view->priv;
 	for (l = destinations; l; l = g_list_next (l)) {
-		EDestination *destination = l->data;
+		EDestination *destination = l->data, *des = NULL;
 		const GList *list_dests, *l;
 		GList card_dest;
 
 		if (e_destination_is_evolution_list (destination)) {
 			list_dests = e_destination_list_get_dests (destination);
 		} else {
+			EContact *contact = e_destination_get_contact (destination);
 			/* check if the contact is contact list which is not expanded yet */
-			/* we dont expand it currently, TODO do we need to expand it by default */
-			if (e_contact_get (e_destination_get_contact (destination), E_CONTACT_IS_LIST))
-				contact_list = TRUE;
-			
-			card_dest.next = NULL;
-			card_dest.prev = NULL;
-			card_dest.data = destination;
-			list_dests = &card_dest;
+			/* we expand it by getting the list again from the server forming the query */
+			if (e_contact_get (contact , E_CONTACT_IS_LIST)) {
+				EBook *book = NULL;
+				ENameSelectorDialog *dialog;
+				EContactStore *c_store;
+				GList *books, *l;
+				char *uri = e_contact_get (contact, E_CONTACT_BOOK_URI);
+
+				dialog = e_name_selector_peek_dialog (view->priv->name_selector);
+				c_store = dialog->name_selector_model->contact_store;
+				books = e_contact_store_get_books (c_store);
+
+				for (l = books; l; l = l->next) {
+					EBook *b = l->data;
+					if (g_str_equal (uri, e_book_get_uri (b))) {
+						book = b;
+						break;
+					}
+				}
+				
+				if (book) {
+					GList *contacts;
+					EContact *n_con = NULL;
+					char *qu;
+					EBookQuery *query;
+
+					qu = g_strdup_printf ("(is \"full_name\" \"%s\")", 
+							(char *) e_contact_get (contact, E_CONTACT_FULL_NAME));
+					query = e_book_query_from_string (qu); 
+
+					if (!e_book_get_contacts (book, query, &contacts, NULL)) {
+						g_warning ("Could not get contact from the book \n");
+						return;
+					} else {
+						des = e_destination_new ();
+						n_con = contacts->data;
+
+						e_destination_set_contact (des, n_con, 0);
+						list_dests = e_destination_list_get_dests (des);
+
+						g_list_foreach (contacts, (GFunc) g_object_unref, NULL); 	 
+						g_list_free (contacts);
+					}
+
+					e_book_query_unref (query);
+					g_free (qu);
+				}
+			} else {
+				card_dest.next = NULL;
+				card_dest.prev = NULL;
+				card_dest.data = destination;
+				list_dests = &card_dest;
+			}
 		}		
 		
 		for (l = list_dests; l; l = l->next) {
@@ -587,12 +632,7 @@ process_section (EMeetingListView *view, GList *destinations, icalparameter_role
 
 			/* If we couldn't get the attendee prior, get the email address as the default */
 			if (attendee == NULL || *attendee == '\0') {
-				/* If its a contact_list which is not expanded it wont have a email id,
-				   so we can use the name as the email id */
-				if (!contact_list)
-					attendee = e_destination_get_email (dest);
-				else
-					attendee = e_destination_get_name (dest);
+				attendee = e_destination_get_email (dest);
 			}
 		
 			if (attendee == NULL || *attendee == '\0')
@@ -608,7 +648,12 @@ process_section (EMeetingListView *view, GList *destinations, icalparameter_role
 				e_meeting_attendee_set_cn (ia, g_strdup (name));
 			}
 		}
-		
+
+		if (des) {
+			g_object_unref (des);
+			des = NULL;
+		}
+				
 	}
 }
 

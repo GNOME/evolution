@@ -1,3 +1,9 @@
+2005-07-12  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	* gui/e-meeting-list-view.c: 
+	(process_section): Expand the mailing list into list of email
+	ids if the server has not expanded them while autocompletion.
+
 2005-07-12  Srinivasa Ragavan <sragavan@novell.com>
 
 	* gui/dialogs/comp-editor.c: (get_attachment_list) (attachment_guess_mime_type)
