@@ -1,3 +1,8 @@
+2005-07-12  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	* configure.in: Removed the shell/importer from
+	AC_OUPUT.
+
 2005-07-12  Harish Krishnaswamy  <kharish@novell.com>
 
 	* configure.in: bump version

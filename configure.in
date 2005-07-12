@@ -1627,7 +1627,6 @@ help/quickref/Makefile
 help/quickref/C/Makefile
 shell/Makefile
 shell/evolution-nognome
-shell/importer/Makefile
 ui/Makefile
 views/Makefile
 views/addressbook/Makefile
