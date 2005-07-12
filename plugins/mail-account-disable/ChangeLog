@@ -1,0 +1,9 @@
+2005-07-12 Vivek Jain <jvivek@novell.com>
+	
+	have a ChangeLog and transfer the changelog entry from the main
+	ChangeLog
+	(2005-07-10  Shreyas Srinivasan <sshreyas@novell.com>)
+
+	* plugins/mail-account-disable/*: Plugin to add Disable/ Proxy
+	Logout to a store menu on right click.
+
