@@ -19,6 +19,7 @@ New plugins :
 	
 Other fixes and changes :
 
+	- Importers refactoring (Michael Zucchi)
 	- Unify mail and calendar attachment bar (Srinivasa Ragavan)
 	- Handle contact:// and calendar:// uris (Veerapuram Varadhan)
 	- Enable autocompletion on personal addressbook on creation (Frederic Crozat)
@@ -29,6 +30,7 @@ Other fixes and changes :
 	- Add forward command line option to uri handling in mail (Veerapuram Varadhan)
 	- Exit evolution when closing wizard using wm control (Frederic Crozat)
 	- GW Junk mail handling (Vivek)
+	- Attachment UI fixes and refactoring (Michael Zucchi) 
 	- Exchange Folder size support (Sarfraaz)
 	- Exchange Subscribe/Unsubscribe support (Shakti Sen)
 	- Exchange Folder Permissions support (Shakti Sen)
