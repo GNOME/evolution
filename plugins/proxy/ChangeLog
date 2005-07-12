@@ -1,6 +1,12 @@
 2005-07-12  Sankar P  <psankar@novell.com>
 
 	* Makefile.am :
+	Added org-gnome-proxy-errors.xml file to the EXTRA_DIST and 
+	added CLEANFILES. 
+
+2005-07-12  Sankar P  <psankar@novell.com>
+
+	* Makefile.am :
 	Added missed header files to the SOURCES.
 
 2005-07-11  Sankar P  <psankar@novell.com>
