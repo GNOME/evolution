@@ -1,4 +1,9 @@
 2005-07-12  Sankar P  <psankar@novell.com>
 
 	* Makefile.am :
+	Added CLEANFILES element and glade and error files to EXTRA_DIST.
+
+2005-07-12  Sankar P  <psankar@novell.com>
+
+	* Makefile.am :
 	Added missed header files to the SOURCES.
