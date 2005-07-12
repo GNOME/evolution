@@ -1,3 +1,8 @@
+2005-07-12  Vivek Jain <jvivek@novell.com>
+	
+	* configure.in : added sa-junk-plugin to 
+	base plugins and AC_OUTPUT section
+
 2005-07-11  Sarfraaz Ahmed <asarfraaz@novell.com>
 
 	* plugins/exchange-account-setup : Removed this directory. This
@@ -12,17 +17,6 @@
 
 	* configure.in: Add mail-account-disable, proxy, proxy-login and
 	groupwise-account-setup to the plugin list.
-	* plugins/proxy/*: Plugin to implement Proxy assignment on a
-	groupwise account.
-	* plugins/proxy-login/*: Plugin to implement Proxy Login on a
-	groupwise account.
-	* plugins/mail-account-disable/*: Plugin to add Disable/ Proxy
-	Logout to a store menu on right click.
-	* plugins/groupwise-account-setup/*: Make the
-	camel-groupwise-listener load on startup.
-	* plugins/groupwise-features/*: Remove the
-	camel-groupwise-listener code as it runs in a different plugin.
-	* po/POTFILES.in: Add files which need to be translated.
 	
 2005-07-02  Harish Krishnaswamy  <kharish@novell.com>
 
