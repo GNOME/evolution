@@ -1,5 +1,10 @@
 2005-07-12  Vivek Jain <jvivek@novell.com>
 	
+	* configure.in : correted twice inclusion of sa-junk-plugin in
+	"plugins_base"section
+
+2005-07-12  Vivek Jain <jvivek@novell.com>
+	
 	* configure.in : added sa-junk-plugin to 
 	base plugins and AC_OUTPUT section
 
