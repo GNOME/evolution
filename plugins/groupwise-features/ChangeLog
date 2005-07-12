@@ -1,3 +1,10 @@
+2005-07-12  Vivek Jain <jvivek@novell.com>
+	
+	transferred ChangeLog entry here
+	(2005-07-10  Shreyas Srinivasan <sshreyas@novell.com>)
+	* plugins/groupwise-features/*: Remove the
+	camel-groupwise-listener code as it runs in a different plugin.
+
 2005-07-07  Frederic Crozat  <fcrozat@mandriva.com>
 
 	* send-options.c: Add missing header.
