@@ -1,5 +1,8 @@
 2005-07-13  Tor Lillqvist  <tml@novell.com>
 
+	* configure.in: Don't attempt to build the sa-junk-plugin on
+	Win32, it's very Unix-specific.
+
 	* win32/libevolution-mail.def: Add more entries.
 
 2005-07-12  Harish Krishnaswamy  <kharish@novell.com>
