@@ -1,3 +1,12 @@
+2005-07-13  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* em-mailer-prefs.c: (em_mailer_prefs_construct): Free font name
+	* mail-config.c: (config_write_style): Free font name and name
+	  of citation color.
+	* message-list.c: (regen_list_regened), (regen_list_free): Free
+	  search string. Thanks to Michael Zucchi for walking me through
+	  this one. My brain wasn't running on all it's cylinders...
+
 2005-07-10  Shreyas Srinivasan <sshreyas@novell.com>
 
 	* mail-config.[ch]: Add new functions to remove proxy accounts and

@@ -249,6 +249,7 @@ config_write_style (void)
 	gboolean custom;
 	char *fix_font;
 	char *var_font;
+	char *citation_color;
 	FILE *rc;
 	
 	if (!(rc = fopen (config->gtkrc, "wt"))) {
@@ -259,7 +260,7 @@ config_write_style (void)
 	custom = gconf_client_get_bool (config->gconf, "/apps/evolution/mail/display/fonts/use_custom", NULL);
 	var_font = gconf_client_get_string (config->gconf, "/apps/evolution/mail/display/fonts/variable", NULL);
 	fix_font = gconf_client_get_string (config->gconf, "/apps/evolution/mail/display/fonts/monospace", NULL);
-
+	citation_color = gconf_client_get_string (config->gconf, "/apps/evolution/mail/display/citation_colour", NULL);
  	CONFIG_GET_SPELL_VALUE (int, "/spell_error_color_red",   red, (void)0, (int));
  	CONFIG_GET_SPELL_VALUE (int, "/spell_error_color_green", green, (void)0, (int));
  	CONFIG_GET_SPELL_VALUE (int, "/spell_error_color_blue",  blue, (void)0, (int));
@@ -270,7 +271,8 @@ config_write_style (void)
 
 	if (gconf_client_get_bool (config->gconf, "/apps/evolution/mail/display/mark_citations", NULL))
 		fprintf (rc, "        GtkHTML::cite_color = \"%s\"\n",
-			 gconf_client_get_string (config->gconf, "/apps/evolution/mail/display/citation_colour", NULL));
+			 citation_color);
+	g_free (citation_color);
 
 	if (custom && var_font && fix_font) {
 		fprintf (rc,
@@ -278,6 +280,9 @@ config_write_style (void)
 			 "        font_name = \"%s\"\n",
 			 fix_font, var_font); 
 	}
+	g_free (fix_font);
+	g_free (var_font);
+
 	fprintf (rc, "}\n\n");
 	
 	fprintf (rc, "widget \"*.EMFolderView.*.GtkHTML\" style \"evolution-mail-custom-fonts\"\n");

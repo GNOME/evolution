@@ -814,6 +814,7 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs)
 	font = gconf_client_get_string (prefs->gconf, "/apps/evolution/mail/display/fonts/variable", NULL);
 	prefs->font_variable = GNOME_FONT_PICKER (glade_xml_get_widget (gui, "FontVariable"));
 	gnome_font_picker_set_font_name (prefs->font_variable, font);
+	g_free (font);
 	g_object_set_data ((GObject *) prefs->font_variable, "key", "/apps/evolution/mail/display/fonts/variable");
 	g_signal_connect (prefs->font_variable, "font-set", G_CALLBACK (font_changed), prefs);
 	if (!gconf_client_key_is_writable (prefs->gconf, "/apps/evolution/mail/display/fonts/variable", NULL))

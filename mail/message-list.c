@@ -3587,6 +3587,7 @@ regen_list_regened (struct _mail_msg *mm)
         if (m->ml->search && m->ml->search != m->search)
                 g_free (m->ml->search);
 	m->ml->search = m->search;
+	m->search = NULL;
 
 	m->ml->regen = g_list_remove(m->ml->regen, m);
 
@@ -3618,6 +3619,7 @@ regen_list_free (struct _mail_msg *mm)
 	if (m->tree)
 		camel_folder_thread_messages_unref (m->tree);
 	
+	g_free (m->search);
 	g_free (m->hideexpr);
 	
 	camel_object_unref (m->folder);
