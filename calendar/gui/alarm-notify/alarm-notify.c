@@ -338,6 +338,7 @@ alarm_notify_add_calendar (AlarmNotify *an, ECalSourceType source_type,  ESource
 	/* See if we already know about this uri */
 	if (g_hash_table_lookup (priv->uri_client_hash[source_type], str_uri)) {
 		g_mutex_unlock (an->priv->mutex);
+		g_free (str_uri);
 		return;
 	}
 	/* if loading of this requires password and password is not currently availble in e-password
@@ -346,6 +347,7 @@ alarm_notify_add_calendar (AlarmNotify *an, ECalSourceType source_type,  ESource
 	if ((e_source_get_property (source, "auth") && 
 	     (!e_passwords_get_password (e_source_get_property(source, "auth-domain"), str_uri)))) {
 		g_mutex_unlock (an->priv->mutex);
+		g_free (str_uri);
 		return;
 	}
 	client = auth_new_cal_from_source (source, source_type);
@@ -355,6 +357,7 @@ alarm_notify_add_calendar (AlarmNotify *an, ECalSourceType source_type,  ESource
 		g_signal_connect (G_OBJECT (client), "cal_opened", G_CALLBACK (cal_opened_cb), an);
 		e_cal_open_async (client, FALSE);
 	}
+	g_free (str_uri);
 	g_mutex_unlock (an->priv->mutex);
 }
 

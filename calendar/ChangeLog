@@ -1,3 +1,10 @@
+2005-07-08  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* gui/alarm-notify/alarm-notify.c: (alarm_notify_add_calendar):
+	Free the uri to the source in a few cases. 
+	* gui/calendar-config.c: (calendar_config_get_icaltimezone):
+	Free the timezone location.
+
 2005-07-12  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	* gui/e-meeting-list-view.c: 

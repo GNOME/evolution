@@ -195,9 +195,10 @@ calendar_config_get_icaltimezone (void)
 	calendar_config_init ();
 	
 	location = calendar_config_get_timezone ();
-	if (location)
+	if (location) {
 		zone = icaltimezone_get_builtin_timezone (location);
-
+		g_free (location);
+	}
 	if (!zone)
 		zone = icaltimezone_get_utc_timezone ();
 	
