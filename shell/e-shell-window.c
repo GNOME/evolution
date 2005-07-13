@@ -670,6 +670,7 @@ setup_widgets (EShellWindow *window)
 		
 		e_sidebar_set_mode (E_SIDEBAR (priv->sidebar), mode);
 	}
+	g_free (style);
 
 	/* The tool bar */
 	visible = gconf_client_get_bool (gconf_client,

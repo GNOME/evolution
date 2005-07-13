@@ -1,3 +1,7 @@
+2005-07-07  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* e-shell-window.c: (setup_widgets): Free the style here.
+
 2005-07-06  Not Zed  <NotZed@Ximian.com>
 
 	* e-shell-importer.c (import_druid_finish): now setup a window to
