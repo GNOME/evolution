@@ -492,7 +492,7 @@ build_message (EMsgComposer *composer, gboolean save_html_object_data)
 		}
 		
 		/* FIXME: we may want to do better than this... */
-		charset = best_charset (data, composer->charset, &plain_encoding);
+
 		type = camel_content_type_new ("text", "plain");
 		if ((charset = best_charset (data, composer->charset, &plain_encoding))) {
 			camel_content_type_set_param (type, "charset", charset);

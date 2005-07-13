@@ -194,8 +194,11 @@ select_attach_response(GtkWidget *selector, guint response, struct _EMsgComposer
 		char *path;
 
 #ifdef USE_GTKFILECHOOSER
+		char *filename;
 		names = gtk_file_chooser_get_filenames (GTK_FILE_CHOOSER (selector));
-		path = g_path_get_dirname (gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (selector)));
+		filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (selector));
+		path = g_path_get_dirname (filename);
+		g_free (filename);
 #else
 		char **files;
 		int i;
