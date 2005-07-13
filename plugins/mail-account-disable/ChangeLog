@@ -1,3 +1,12 @@
+2005-07-13  Tor Lillqvist  <tml@novell.com>
+
+	* Makefile.am (INCLUDES): Remove duplicated line.
+	(LDFLAGS): Use NO_UNDEFINED.
+	(LIBADD): Link with the required libraries, but let's do it only
+	on Win32.
+
+	* org-gnome-mail-account-disable.eplug.xml: Use SOEXT.
+
 2005-07-12 Vivek Jain <jvivek@novell.com>
 	
 	have a ChangeLog and transfer the changelog entry from the main

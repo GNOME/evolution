@@ -107,7 +107,6 @@ e_calendar_weather_migrate (EPlugin *epl, ECalEventTargetComponent *data)
 		g_object_unref (weather);
 
 	e_source_list_sync (source_list, NULL);
-	return 0;
 }
 
 static void

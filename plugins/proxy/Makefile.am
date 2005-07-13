@@ -15,6 +15,7 @@ plugin_LTLIBRARIES = liborg-gnome-proxy.la
 liborg_gnome_proxy_la_SOURCES = proxy.c proxy.h
 liborg_gnome_proxy_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)
 liborg_gnome_proxy_la_LIBADD =				\
+	$(top_builddir)/e-util/libeutil.la		\
 	$(EVOLUTION_MAIL_LIBS)				\
 	$(CAMEL_GROUPWISE_LIBS)
 
@@ -31,6 +32,6 @@ EXTRA_DIST = 					\
 		$(error_DATA)			\
 		$(glade_DATA) 			\
 		org-gnome-proxy.eplug.xml	\
-      		org-gnome-proxy-errors.xml	
+		org-gnome-proxy-errors.xml	
 
 CLEANFILES = $(BUILT_SOURCES)

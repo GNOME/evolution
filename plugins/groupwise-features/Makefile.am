@@ -1,3 +1,7 @@
+if OS_WIN32
+NO_UNDEFINED_REQUIRED_LIBS = $(top_builddir)/mail/libevolution-mail.la
+endif
+
 INCLUDES =						\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/widgets				\
@@ -32,6 +36,7 @@ liborg_gnome_groupwise_features_la_LIBADD=			\
 	$(top_builddir)/calendar/gui/libevolution-calendar.la	\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la		\
 	$(top_builddir)/filter/libfilter.la			\
+	$(NO_UNDEFINED_REQUIRED_LIBS)				\
 	$(EVOLUTION_CALENDAR_LIBS)				\
 	$(EVOLUTION_MAIL_LIBS)					\
 	$(CAMEL_GROUPWISE_LIBS)

@@ -1,3 +1,12 @@
+2005-07-13  Tor Lillqvist  <tml@novell.com>
+
+	* Makefile.am (LIBADD): Link with libeutil. Link with
+	libevolution-mail on Win32 only. (Have I understood correctly that
+	it isn't considered a good idea on Unix to link plugins at
+	link-time with libevolution-mail?)
+
+	* org-gnome-proxy-login.eplug.xml: Use SOEXT.
+
 2005-07-12  Sankar P  <psankar@novell.com>
 
 	* Makefile.am :

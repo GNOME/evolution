@@ -2,7 +2,7 @@
 <e-plugin-list>
   <e-plugin id="org.gnome.mail.account.disable" 
    type="shlib" domain="evolution" _name="Disable Account"
-   location="@PLUGINDIR@/libmail-account-disable.so">
+   location="@PLUGINDIR@/libmail-account-disable@SOEXT@">
     <_description>Allows disabling of accounts.</_description>
     <author name="Shreyas Srinivasan" email="sshreyas@novell.com"/>
     <hook class="org.gnome.evolution.mail.popup:1.0">

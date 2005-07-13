@@ -1,6 +1,12 @@
+if OS_WIN32
+NO_UNDEFINED_REQUIRED_LIBS = 				\
+	$(top_builddir)/e-util/libeutil.la		\
+	$(top_builddir)/mail/libevolution-mail.la	\
+	$(EVOLUTION_MAIL_LIBS)
+endif
+
 INCLUDES =						\
 	-I$(top_srcdir)					\
-	$(EVOLUTION_MAIL_CFLAGS)			\
 	$(EVOLUTION_MAIL_CFLAGS)			\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"
 
@@ -10,6 +16,7 @@ plugin_DATA = org-gnome-mail-account-disable.eplug
 plugin_LTLIBRARIES = libmail-account-disable.la
 
 libmail_account_disable_la_SOURCES = mail-account-disable.c
-libmail_account_disable_la_LDFLAGS = -module -avoid-version
+libmail_account_disable_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)
+libmail_account_disable_la_LIBADD = $(NO_UNDEFINED_REQUIRED_LIBS)
 
 EXTRA_DIST = org-gnome-mail-account-disable.eplug.xml

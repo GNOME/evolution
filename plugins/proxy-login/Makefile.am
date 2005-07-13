@@ -15,7 +15,13 @@ plugin_LTLIBRARIES = libproxy-login.la
 libproxy_login_la_SOURCES = proxy-login.c proxy-login.h
 libproxy_login_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)
 
+if OS_WIN32
+NO_UNDEFINED_REQUIRED_LIBS = $(top_builddir)/mail/libevolution-mail.la
+endif
+
 libproxy_login_la_LIBADD =				\
+		$(top_builddir)/e-util/libeutil.la	\
+		$(NO_UNDEFINED_REQUIRED_LIBS)		\
 		$(EVOLUTION_MAIL_LIBS)			\
 		$(CAMEL_GROUPWISE_LIBS)
 

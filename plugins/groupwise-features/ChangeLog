@@ -1,3 +1,9 @@
+2005-07-13  Tor Lillqvist  <tml@novell.com>
+
+	* Makefile.am (NO_UNDEFINED_REQUIRED_LIBS): As the code does use
+	functions from libevolution-mail, link with it. But OK, let's do
+	it (at build time) only on Win32, then.
+
 2005-07-12  Vivek Jain <jvivek@novell.com>
 	
 	transferred ChangeLog entry here

@@ -1,3 +1,7 @@
+2005-07-13  Tor Lillqvist  <tml@novell.com>
+
+	* Makefile.am (LIBADD): Link with libeutil.
+
 2005-07-12  Sankar P  <psankar@novell.com>
 
 	* Makefile.am :

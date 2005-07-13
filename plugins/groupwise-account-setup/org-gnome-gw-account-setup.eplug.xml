@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <e-plugin-list>
   <e-plugin id="org.gnome.evolution.plugin.gw-account-setup" type="shlib" _name="Groupwise Account Setup"
-    location="@PLUGINDIR@/liborg-gnome-gw-account-setup.so" load-on-startup="true">
+    location="@PLUGINDIR@/liborg-gnome-gw-account-setup@SOEXT@" load-on-startup="true">
     <author name="Sivaiah Nallagatla" email="snallagatla@novell.com"/>
     <description>A plugin to setup groupwise calendar and contacts sources.</description>
     
