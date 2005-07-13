@@ -1,3 +1,8 @@
+2005-07-13  Tor Lillqvist  <tml@novell.com>
+
+	* Makefile.am (INCLUDES): There are no camel or
+	addressbook/backend directories in evolution.
+
 2005-07-11  Srinivasa Ragavan <sragavan@novell.com>
 
 	* Makefile.am: Removed em-attachment* from the build.
