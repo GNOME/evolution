@@ -1,3 +1,9 @@
+2005-07-13  Not Zed  <NotZed@Ximian.com>
+
+	* startup-wizard.c (startup_wizard_importer_page)
+	(startup_wizard_commit): re-write the importer stuff to use the
+	eplugin stuff.
+
 2005-07-12  Not Zed  <NotZed@Ximian.com>
 
 	* startup-wizard.c: removed all the importer stuff.  fixed the
