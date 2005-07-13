@@ -1,3 +1,15 @@
+2005-07-13  Sushma Rai  <rsushma@novell.com>
+
+	* addressbook/importers/evolution-vcard-importer.c (vcard_supported):
+	Return false in the source URI does not start with "file://".
+
+	* addressbook/importers/evolution-ldif-importer.c 
+	(ldif_import_contacts): Using the proper file pointer.
+	(ldif_supported): Return false in the source URI does not start with 
+	"file://".
+	(ldif_import_done): Close the file opened.
+	(ldif_import): Opening the proper file.
+
 2005-07-09  Veerapuram Varadhan <vvaradhan@novell.com>
 	
 	* gui/component/addressbook-component.c: (impl_createControls):

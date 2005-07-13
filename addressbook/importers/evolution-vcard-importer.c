@@ -419,7 +419,7 @@ vcard_supported(EImport *ei, EImportTarget *target, EImportImporter *im)
 	if (s->uri_src == NULL)
 		return TRUE;
 
-	if (!strncmp(s->uri_src, "file:///", 8))
+	if (strncmp(s->uri_src, "file:///", 8) != 0)
 		return FALSE;
 
 	/* FIXME: need to parse the url properly */

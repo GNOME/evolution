@@ -443,7 +443,6 @@ static gboolean
 ldif_import_contacts(void *d)
 {
 	LDIFImporter *gci = d;
-	FILE * file;
 	EContact *contact;
 	GSList *iter;
 	int count = 0;
@@ -452,7 +451,7 @@ ldif_import_contacts(void *d)
 	   ones till the end */
 
 	if (gci->state == 0) {
-		while (count < 50 && (contact = getNextLDIFEntry(gci, file))) {
+		while (count < 50 && (contact = getNextLDIFEntry(gci, gci->file))) {
 			if (e_contact_get (contact, E_CONTACT_IS_LIST)) {
 				gci->list_contacts = g_slist_prepend(gci->list_contacts, contact);
 			} else {
@@ -548,7 +547,7 @@ ldif_supported(EImport *ei, EImportTarget *target, EImportImporter *im)
 	if (s->uri_src == NULL)
 		return TRUE;
 
-	if (!strncmp(s->uri_src, "file:///", 8))
+	if (strncmp(s->uri_src, "file:///", 8) != 0)
 		return FALSE;
 
 	ext = strrchr(s->uri_src, '.');
@@ -575,6 +574,7 @@ ldif_import_done(LDIFImporter *gci)
 	if (gci->idle_id)
 		g_source_remove(gci->idle_id);
 
+	fclose (gci->file);
 	g_object_unref(gci->book);
 	g_slist_foreach(gci->contacts, (GFunc) g_object_unref, NULL);
 	g_slist_foreach(gci->list_contacts, (GFunc) g_object_unref, NULL);
@@ -604,7 +604,7 @@ ldif_import(EImport *ei, EImportTarget *target, EImportImporter *im)
 		return;
 	}
 
-	file = fopen(s->uri_src, "r");
+	file = fopen(s->uri_src+7, "r");
 	if (file == NULL) {
 		g_message(G_STRLOC ":Can't open .ldif file");
 		e_import_complete(ei, target);
