@@ -1,9 +1,9 @@
 # Evolution'i eesti keele tõlge.
-# Estonian translation of Evolution
+# Estonian translation of Evolution.
 #
 # Copyright (C) 2001-2005 Free Software Foundation, Inc.
 # This file is distributed under the same license as the evolution package.
-# 
+#
 # Ilmar Kerm <ikerm@hot.ee>, 2001
 # Ivar Smolin <okul@linux.ee>, 2002, 2003, 2005
 # Kaarel Jõgi <kaarel@gg.ee>, 2002
@@ -13,10 +13,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Evolution CVS HEAD\n"
+"Project-Id-Version: Evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-07-02 05:18+0000\n"
-"PO-Revision-Date: 2005-07-06 00:12+0300\n"
+"PO-Revision-Date: 2005-07-14 13:22+0300\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -5606,7 +5606,7 @@ msgstr "Päeviku sissekannet pole võimalik tänu corba veale kustutada"
 
 #: ../calendar/gui/dialogs/delete-error.c:63
 msgid "The item could not be deleted due to a corba error"
-msgstr "Seda elementi pole võimalik tänu corba veale kustutada"
+msgstr "Seda kirjet pole võimalik tänu corba veale kustutada"
 
 #: ../calendar/gui/dialogs/delete-error.c:70
 msgid "The event could not be deleted because permission was denied"
@@ -5622,7 +5622,7 @@ msgstr "Päeviku sissekannet ei saanud kustutada, kuna juurdepääs puudub"
 
 #: ../calendar/gui/dialogs/delete-error.c:79
 msgid "The item could not be deleted because permission was denied"
-msgstr "Elementi ei saanud kustutada, kuna juurdepääs puudub"
+msgstr "Kirjet pole võimalik kustutada, kuna juurdepääs puudub"
 
 #: ../calendar/gui/dialogs/delete-error.c:86
 msgid "The event could not be deleted due to an error"
@@ -5638,7 +5638,7 @@ msgstr "Päeviku sissekannet ei ole vea tõttu võimalik kustutada"
 
 #: ../calendar/gui/dialogs/delete-error.c:95
 msgid "The item could not be deleted due to an error"
-msgstr "Elementi ei ole vea tõttu võimalik kustutada"
+msgstr "Kirjet pole vea tõttu võimalik kustutada"
 
 #: ../calendar/gui/dialogs/e-delegate-dialog.glade.h:1
 msgid "Contacts..."
@@ -7110,7 +7110,7 @@ msgstr "Manus ei sisalda arusaadavat kalendriteadet"
 
 #: ../calendar/gui/e-itip-control.c:1675
 msgid "The attachment has no viewable calendar items"
-msgstr "Manus ei sisalda vaadeldavaid kalendri elemente"
+msgstr "Manus ei sisalda vaadeldavaid kalendrikirjeid"
 
 #: ../calendar/gui/e-itip-control.c:1909
 msgid "Update complete\n"
@@ -11019,9 +11019,8 @@ msgid "Mark as _Not Junk"
 msgstr "Märgista _mitterämpsuks"
 
 #: ../mail/em-folder-view.c:1059
-#, fuzzy
 msgid "Mark for Follo_w Up..."
-msgstr "_Jälgi..."
+msgstr ""
 
 #: ../mail/em-folder-view.c:1067
 msgid "Fla_g Completed"
@@ -11082,19 +11081,16 @@ msgid "_Copy Link Location"
 msgstr "Kopeeri _lingi asukoht"
 
 #: ../mail/em-folder-view.c:2405
-#, fuzzy
 msgid "Create _vFolder"
-msgstr "Kausta loomine"
+msgstr "_vKausta loomine"
 
 #: ../mail/em-folder-view.c:2406
-#, fuzzy
 msgid "_From this Address"
-msgstr "E-posti _aadress:"
+msgstr "_Sellelt aadressilt"
 
 #: ../mail/em-folder-view.c:2407
-#, fuzzy
 msgid "_To this Address"
-msgstr "_Aadress:"
+msgstr "S_ellele aadressile"
 
 #: ../mail/em-folder-view.c:2688
 #, c-format
@@ -12360,7 +12356,7 @@ msgstr "<span weight=\"bold\">Üldine</span>"
 
 #: ../mail/mail-config.glade.h:19
 msgid "<span weight=\"bold\">Labels and Colors</span>"
-msgstr "<span weight=\"bold\">Märgid ja värvid</span>"
+msgstr "<span weight=\"bold\">Sildid ja värvid</span>"
 
 #: ../mail/mail-config.glade.h:20
 msgid "<span weight=\"bold\">Loading Images</span>"
@@ -13588,14 +13584,12 @@ msgid ""
 msgstr ""
 
 #: ../mail/mail.error.xml.h:59
-#, fuzzy
 msgid "Mark all messages as read"
-msgstr "Märgib kõik peitmata sõnumid loetuks"
+msgstr "Kõigi sõnumite loetuksmärkimine"
 
 #: ../mail/mail.error.xml.h:60
-#, fuzzy
 msgid "Mark all messages as read in the selected folder"
-msgstr "_Märgi sõnum loetuks peale"
+msgstr "Kõigi valitud kataloogis olevate sõnumite loetuksmärkimine"
 
 #: ../mail/mail.error.xml.h:61
 msgid "Missing folder."
@@ -13607,11 +13601,11 @@ msgstr "Ühtegi allikat pole valitud."
 
 #: ../mail/mail.error.xml.h:64
 msgid "Opening too many messages at once may take a long time."
-msgstr ""
+msgstr "Ühekorraga paljude sõnumite avamisele võib kuluda kaua aega."
 
 #: ../mail/mail.error.xml.h:65
 msgid "Please check your account settings and try again."
-msgstr ""
+msgstr "Palun kontrolli oma kontosätteid ja proovi uuesti."
 
 #: ../mail/mail.error.xml.h:66
 msgid ""
@@ -13764,7 +13758,7 @@ msgstr "Sul on saatmata sõnumeid, kas tõesti soovid lõpetada?"
 
 #: ../mail/mail.error.xml.h:105
 msgid "You may not create two accounts with the same name."
-msgstr "Sa ei saa luua ühe nimega kahte kontot."
+msgstr "Sa ei saa luua kahte sama nimega kontot."
 
 #: ../mail/mail.error.xml.h:106
 msgid "You must name this vFolder."
@@ -14145,12 +14139,11 @@ msgstr ""
 
 #: ../plugins/calendar-weather/org-gnome-calendar-weather.eplug.xml.h:1
 msgid "Provides core functionality for weather calendars."
-msgstr ""
+msgstr "Tagab ilmakalendrite põhitalitluse."
 
 #: ../plugins/calendar-weather/org-gnome-calendar-weather.eplug.xml.h:2
-#, fuzzy
 msgid "Weather Calendars"
-msgstr "Kuu kalender"
+msgstr "Ilmakalendrid"
 
 #: ../plugins/copy-tool/org-gnome-copy-tool.eplug.xml.h:1
 msgid ""
@@ -14553,12 +14546,12 @@ msgstr ""
 
 #: ../plugins/itip-formatter/itip-formatter.c:1857
 msgid "<span weight=\"bold\">Conflict Search</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Konfliktide otsing</span>"
 
 #. Source selector
 #: ../plugins/itip-formatter/itip-formatter.c:1870
 msgid "Select the calendars to search for meeting conflicts"
-msgstr ""
+msgstr "Vali kalendrid, millest tuleb koosolekute konflikte otsida"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1887
 msgid "Conflict Search Table"
@@ -14879,9 +14872,8 @@ msgid "Displays text/calendar parts in messages."
 msgstr "Kuvab järgmise tähtsa sõnumi"
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.eplug.xml.h:2
-#, fuzzy
 msgid "Itip Formatter"
-msgstr "Importijad"
+msgstr ""
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:1
 msgid ""
@@ -15159,7 +15151,7 @@ msgstr ""
 #. but then we also need to create our own section frame
 #: ../plugins/prefer-plain/org-gnome-prefer-plain.eplug.xml.h:6
 msgid "Plain Text Mode"
-msgstr ""
+msgstr "Lihtteksti režiim"
 
 #: ../plugins/prefer-plain/org-gnome-prefer-plain.eplug.xml.h:7
 msgid "Prefer plain-text"
@@ -15300,19 +15292,16 @@ msgid "iCalendar format (.ics)"
 msgstr "iKalendri vorming (.ics)"
 
 #: ../plugins/save-calendar/org-gnome-save-calendar.eplug.xml.h:1
-#, fuzzy
 msgid "Save Selected"
-msgstr "Ühtegi pole valitud"
+msgstr ""
 
 #: ../plugins/save-calendar/org-gnome-save-calendar.eplug.xml.h:2
-#, fuzzy
 msgid "Save to _Disk"
-msgstr "Salvesta ülesanne"
+msgstr "Salvesta _kettale"
 
 #: ../plugins/save-calendar/org-gnome-save-calendar.eplug.xml.h:3
-#, fuzzy
 msgid "Saves selected calendar or tasks list to disk."
-msgstr "Salvesta valitud kontaktid VKaardina."
+msgstr "Valitud kalendri või ülesannete salvestamine kettale."
 
 #.
 #. * Translator: the %FT%T is the thirth argument for a strftime function.
@@ -15587,7 +15576,7 @@ msgid ""
 "Importing item %d."
 msgstr ""
 "Impordin %s\n"
-"Impordin elementi %d."
+"Impordin kirjet %d."
 
 #: ../shell/e-shell-importer.c:347
 msgid "Select importer"
@@ -15619,7 +15608,7 @@ msgid ""
 "Importing item 1."
 msgstr ""
 "Impordin %s\n"
-"Impordin elementi 1."
+"Impordin kirjet 1."
 
 #: ../shell/e-shell-importer.c:589
 msgid "Automatic"
@@ -15720,11 +15709,7 @@ msgstr ""
 "Ilmar Kerm <ikerm@hot.ee>, 2001\n"
 "Ivar Smolin <okul@linux.ee>, 2002, 2003, 2005\n"
 "Kaarel Jõgi <kaarel@gg.ee>, 2002\n"
-"Priit Laes <amd@tt.ee>, 2003, 2004, 2005\n"
-"\n"
-"GNOME Translation Project Eesti meeskond.\n"
-"http://et-gnome.sourceforge.net\n"
-"Veateated, parandused: <gnome-et@linux.ee>"
+"Priit Laes <amd@tt.ee>, 2003, 2004, 2005"
 
 #: ../shell/e-shell-window-commands.c:521
 msgid "Groupware Suite"
@@ -16766,11 +16751,11 @@ msgstr "Vali _kuupäev"
 
 #: ../ui/evolution-calendar.xml.h:27
 msgid "Select a specific date"
-msgstr "Valib kindla kuupäeva"
+msgstr "Määratud kuupäeva valimine"
 
 #: ../ui/evolution-calendar.xml.h:28
 msgid "Select today"
-msgstr "Valib tänase kuupäeva"
+msgstr "Tänase kuupäeva valimine"
 
 #: ../ui/evolution-calendar.xml.h:29
 msgid "Show as list"
@@ -17776,7 +17761,7 @@ msgstr "Evolutionist..."
 
 #: ../ui/evolution.xml.h:2
 msgid "Change Evolution's settings"
-msgstr "Muudab Evolutioni seadeid "
+msgstr "Evolutioni sätete muutmine"
 
 #: ../ui/evolution.xml.h:3
 msgid "Change the visibility of the toolbar"
@@ -17788,19 +17773,19 @@ msgstr "Loob uue akna, mis kuvab seda kausta"
 
 #: ../ui/evolution.xml.h:6
 msgid "Display window buttons using the desktop toolbar setting"
-msgstr ""
+msgstr "Aknanuppude näitamine vastavalt töölaua tööriistariba sätetele"
 
 #: ../ui/evolution.xml.h:7
 msgid "Display window buttons with icons and text"
-msgstr ""
+msgstr "Aknanuppude näitamine ikoonide ja tekstina"
 
 #: ../ui/evolution.xml.h:8
 msgid "Display window buttons with icons only"
-msgstr ""
+msgstr "Aknanuppude näitamine ainult ikoonidena"
 
 #: ../ui/evolution.xml.h:9
 msgid "Display window buttons with text only"
-msgstr ""
+msgstr "Aknanuppude näitamine ainult tekstina"
 
 #: ../ui/evolution.xml.h:10
 msgid "Evolution _FAQ"
