@@ -583,6 +583,13 @@ emph_class_init(EPluginHookClass *klass)
 	((GObjectClass *)klass)->finalize = emph_finalise;
 	klass->construct = emph_construct;
 
+	/** @HookClass: Evolution Importers
+	 * @Id: org.gnome.evolution.import:1.0
+	 * @Target: EImportTarget
+	 * 
+	 * A hook for data importers.
+	 **/
+
 	klass->id = "org.gnome.evolution.import:1.0";
 
 	d(printf("EImportHook: init class %p '%s'\n", klass, g_type_name(((GObjectClass *)klass)->g_type_class.g_type)));
