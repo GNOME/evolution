@@ -1,3 +1,9 @@
+2005-07-14  Vivek Jain  <jvivek@novell.com>
+	
+	* proxy.c: (proxy_commit),(proxy_abort):
+	 NULL checks before we do anything else here (quite likely to be NULL)
+	**Fixes #310347
+
 2005-07-13  Tor Lillqvist  <tml@novell.com>
 
 	* Makefile.am (LIBADD): Link with libeutil.

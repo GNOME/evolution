@@ -488,6 +488,9 @@ proxy_abort (GtkWidget *button, EConfigHookItemFactoryData *data)
 	account = target_account->account;
 	prd = g_object_get_data ((GObject *)account, "prd");    
 	proxy_list = (GList *) g_object_get_data ((GObject *) account, "proxy_dialog");
+	
+	if (prd == NULL || proxy_list == NULL)
+		return;
 
 	g_list_foreach (proxy_list, (GFunc) free_proxy_handler, NULL);
 	g_list_free (proxy_list);
@@ -507,9 +510,12 @@ proxy_commit (GtkWidget *button, EConfigHookItemFactoryData *data)
 	target_account = (EMConfigTargetAccount *)data->config->target;
 	account = target_account->account;
 	prd = g_object_get_data ((GObject *)account, "prd");    
-	priv = prd->priv;
 	l = g_object_get_data ( (GObject *)account, "proxy_list") ;
 
+	if (prd == NULL || l == NULL)
+		return;
+	
+	priv = prd->priv;
 	for (;l; l = g_list_next (l)) {
 		aclInstance = (proxyHandler *) l->data;
 
