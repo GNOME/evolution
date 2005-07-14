@@ -190,11 +190,11 @@ address_button_clicked_cb (GtkButton *button, gpointer data)
 	hdrs = emchas->hdrs;
 	priv = hdrs->priv;
 	
-	if(button == hdrs->priv->to.label)
+	if(button == (GtkButton *)hdrs->priv->to.label)
 		gtk_widget_grab_focus(hdrs->priv->to.entry);
-	else if(button == priv->cc.label)
+	else if(button == (GtkButton *)priv->cc.label)
 		gtk_widget_grab_focus(hdrs->priv->cc.entry);
-	else if(button == priv->bcc.label)
+	else if(button == (GtkButton *)priv->bcc.label)
 		gtk_widget_grab_focus(hdrs->priv->bcc.entry);
 
 	name_selector_dialog = e_name_selector_peek_dialog (priv->name_selector);
@@ -342,7 +342,7 @@ account_can_send (EAccount *account)
 		return FALSE;
 	}
 
-	if (store->permissions & CAMEL_PROXY_STORE_WRITE) 
+	if (store->mode & CAMEL_STORE_WRITE) 
 		return TRUE;
 		       
 	return FALSE;
