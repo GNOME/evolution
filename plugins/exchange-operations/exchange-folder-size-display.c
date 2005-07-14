@@ -75,7 +75,6 @@ exchange_folder_size_display (GtkListStore *model, GtkWidget *parent)
         GtkTreeViewColumn *column;
 	GtkTreeSortable *sortable;
 	GtkCellRenderer *cell;
-        GHashTable *folder_size_table;
         GladeXML *xml;
         GtkWidget *dialog, *table;
 	GList *l;

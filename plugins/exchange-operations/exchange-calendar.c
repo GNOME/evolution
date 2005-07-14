@@ -129,21 +129,20 @@ GtkWidget *
 e_exchange_calendar_pcalendar (EPlugin *epl, EConfigHookItemFactoryData *data)
 {
 	static GtkWidget *lbl_pcalendar, *scrw_pcalendar, *tv_pcalendar;
+	static GtkWidget *hidden = NULL;
 	GtkWidget *parent;
 	GtkTreeStore *ts_pcalendar;
 	GtkCellRenderer *cr_calendar;
 	GtkTreeViewColumn *tvc_calendar;
 	GPtrArray *callist;
-	gchar *ruri;
-	ExchangeAccount *account;
-	gchar *account_name;
-	ECalSourceType *type;
-	int row, i;
 	ECalConfigTargetSource *t = (ECalConfigTargetSource *) data->target;
 	EUri *uri;
+	ExchangeAccount *account;
+	gchar *ruri;
+	gchar *account_name;
         gchar *uri_text;
 	gboolean src_exists = TRUE;
-	static GtkWidget *hidden = NULL;
+	int row, i;
 
 	if (!hidden)
 		hidden = gtk_label_new ("");

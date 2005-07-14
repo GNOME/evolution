@@ -1,3 +1,10 @@
+2005-07-14  Sarfraaz Ahmed <asarfraaz@novell.com>
+
+	* exchange-account-setup.c :
+	* exchange-calendar.c :
+	* exchange-folder-size-display.c :
+	* exchange-permissions-dialog.c : Fixed some compile time warnings
+
 2005-07-13  Shakti Sen <shprasad@novell.com>
 
 	* exchange-operations.c: Checked for if the exchange account

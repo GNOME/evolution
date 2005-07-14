@@ -381,16 +381,14 @@ static void
 add_clicked (GtkButton *button, gpointer user_data)
 {
 	ExchangePermissionsDialog *dialog = user_data;
-	GtkWidget *user_dialog;
 	E2kGlobalCatalog *gc;
 	E2kGlobalCatalogStatus status;
 	E2kGlobalCatalogEntry *entry;
 	E2kSid *sid2;
+	GtkTreeIter iter;
 	const guint8 *bsid, *bsid2;
 	char *email = NULL;
-	int result;
 	gboolean valid;
-	GtkTreeIter iter;
 
 	gc = exchange_account_get_global_catalog (dialog->priv->account);
 	if (!gc) {

@@ -37,16 +37,17 @@
 #include <camel/camel-url.h>
 #include <camel/camel-service.h>
 #include <libedataserver/e-xml-hash-utils.h>
-#include <exchange/e2k-validate.h>
-#include <exchange/exchange-oof.h>
-#include <exchange/exchange-account.h>
 #include <e-util/e-dialog-utils.h>
+#include <e2k-validate.h>
+#include <exchange-oof.h>
+#include <exchange-account.h>
 #include "exchange-config-listener.h"
 #include "exchange-operations.h"
 #include "exchange-folder-size-display.h"
 #include "mail/em-account-editor.h"
 #include "mail/em-config.h"
 #include "exchange-delegates.h"
+#include "exchange-change-password.h"
 
 #define ERROR_DOMAIN	"org-gnome-exchange-operations"
 
@@ -522,12 +523,6 @@ owa_editor_entry_changed(GtkWidget *entry, EConfig *config)
 	url_string = camel_url_to_string(url, 0);
 	e_account_set_string(target->account, E_ACCOUNT_SOURCE_URL, url_string);
 	g_free(url_string);
-}
-
-static void
-destroy_label(GtkWidget *old, GtkWidget *label)
-{
-	gtk_widget_destroy(label);
 }
 
 static char *
