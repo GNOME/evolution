@@ -1,3 +1,18 @@
+2005-07-13  Shakti Sen <shprasad@novell.com>
+
+	* exchange-operations.c: Checked for if the exchange account
+	exist/configured.
+	* exchange-folder-permission.c: Replaced all the occurences of function
+	exchange_config_listener_get_accounts() with
+	exchange_operations_get_exchange_account() and returns if it doesn't 
+	exist. Also took care to avoid some compile time warnings.
+	* exchange-folder.c: Same. Also took care to avoid some compile time
+	warnings.
+	* exchange-folder-subscription.c: Included 
+	exchange-folder-subscription.h file to avoid compilation warning.
+
+	Fixes bug #310233.
+
 2005-07-13  Praveen Kumar <kpraveen@novell.com>
 
 	* org-gnome-exchange-operations.eplug.in : Modified the eplug file to 

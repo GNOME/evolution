@@ -35,6 +35,7 @@
 #include <libedataserver/e-xml-hash-utils.h>
 #include <libedataserverui/e-name-selector.h>
 #include "exchange-config-listener.h"
+#include "exchange-folder-subscription.h"
 
 
 static void
@@ -167,7 +168,6 @@ create_folder_subscription_dialog (gchar *mail_account, gchar **user_email_addre
 	EDestinationStore *destination_store;
 	GList *destinations;
 	EDestination *destination;
-	gchar *temp;
 
 
 	glade_xml = glade_xml_new (CONNECTOR_GLADEDIR "/e-foreign-folder-dialog.glade",

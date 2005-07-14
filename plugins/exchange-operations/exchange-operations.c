@@ -176,12 +176,13 @@ exchange_operations_cta_select_node_from_tree (GtkTreeStore *store, GtkTreeIter 
 ExchangeAccount *
 exchange_operations_get_exchange_account (void) 
 {
-	ExchangeAccount *account;
+	ExchangeAccount *account = NULL;
 	GSList *acclist;
 
 	acclist = exchange_config_listener_get_accounts (exchange_global_config_listener);
 	/* FIXME: Need to be changed for handling multiple accounts */
-	account = acclist->data; 
+	if (acclist)
+		account = acclist->data; 
 	
 	return account;
 }

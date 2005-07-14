@@ -34,6 +34,7 @@
 #include "exchange-operations.h"
 #include <mail/em-popup.h>
 #include <mail/em-menu.h>
+#include "exchange-permissions-dialog.h"
 
 static void org_folder_permissions_cb (EPopup *ep, EPopupItem *p, void *data);
 void org_gnome_exchange_folder_permissions (EPlugin *ep, EMPopupTargetFolder *t);
@@ -57,14 +58,13 @@ org_gnome_exchange_folder_permissions (EPlugin *ep, EMPopupTargetFolder *t)
 	GSList *menus = NULL;
 	int i = 0;
 	static int first =1;
-	GSList *accounts, *acc;
 	ExchangeAccount *account = NULL;
 	EFolder *folder = NULL;
 
-	accounts = exchange_config_listener_get_accounts (exchange_global_config_listener);
-	for (acc = accounts; acc;  acc = acc->next) {
-		account = acc->data;
-	}
+	account = exchange_operations_get_exchange_account ();
+
+	if (!account)
+		return;
 
 	folder = exchange_account_get_folder (account, t->uri);
 
@@ -94,14 +94,13 @@ org_gnome_exchange_folder_permissions (EPlugin *ep, EMPopupTargetFolder *t)
 static void
 org_folder_permissions_cb (EPopup *ep, EPopupItem *p, void *data)
 {
-	GSList *accounts, *acc;
 	ExchangeAccount *account = NULL;
 	EFolder *folder = NULL;
 
-	accounts = exchange_config_listener_get_accounts (exchange_global_config_listener);
-	for (acc = accounts; acc;  acc = acc->next) {
-		account = acc->data;
-	}
+	account = exchange_operations_get_exchange_account ();
+
+	if (!account)
+		return;
 
 	folder = exchange_account_get_folder (account, selected_exchange_folder_uri);
 	if (folder)
@@ -112,17 +111,16 @@ org_folder_permissions_cb (EPopup *ep, EPopupItem *p, void *data)
 void
 org_gnome_exchange_menu_folder_permissions (EPlugin *ep, EMMenuTargetSelect *target)
 {
-	GSList *accounts, *acc;
 	ExchangeAccount *account = NULL;
 	EFolder *folder = NULL;
 
 	if (target == NULL)
 		return;
 
-	accounts = exchange_config_listener_get_accounts (exchange_global_config_listener);
-	for (acc = accounts; acc;  acc = acc->next) {
-		account = acc->data;
-	}
+	account = exchange_operations_get_exchange_account ();
+
+	if (!account)
+		return;
 
 	folder = exchange_account_get_folder (account, target->uri);
 	if (folder)
