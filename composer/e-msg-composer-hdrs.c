@@ -189,6 +189,13 @@ address_button_clicked_cb (GtkButton *button, gpointer data)
 	emchas = data;
 	hdrs = emchas->hdrs;
 	priv = hdrs->priv;
+	
+	if(button == hdrs->priv->to.label)
+		gtk_widget_grab_focus(hdrs->priv->to.entry);
+	else if(button == priv->cc.label)
+		gtk_widget_grab_focus(hdrs->priv->cc.entry);
+	else if(button == priv->bcc.label)
+		gtk_widget_grab_focus(hdrs->priv->bcc.entry);
 
 	name_selector_dialog = e_name_selector_peek_dialog (priv->name_selector);
 	gtk_widget_show (GTK_WIDGET (name_selector_dialog));
@@ -524,6 +531,7 @@ post_browser_response (EMFolderSelector *emfs, int response, EMsgComposerHdrs *h
 {
 	if (response == GTK_RESPONSE_OK) {
 		GList *uris = em_folder_selector_get_selected_uris (emfs);
+
 		e_msg_composer_hdrs_set_post_to_list (hdrs, uris);
 		hdrs->priv->post_custom = FALSE;
 		g_list_foreach (uris, (GFunc) g_free, NULL);
@@ -541,6 +549,7 @@ post_browser_clicked_cb (GtkButton *button, EMsgComposerHdrs *hdrs)
 	GtkWidget *dialog;
 	GList *post_items;
 	
+	gtk_widget_grab_focus(hdrs->priv->post_to.entry);
 	model = mail_component_peek_tree_model (mail_component_peek ());
 	emft = (EMFolderTree *) em_folder_tree_new_with_model (model);
 	em_folder_tree_set_multiselect (emft, TRUE);

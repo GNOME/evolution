@@ -1,3 +1,10 @@
+2005-07-13 S.Antony Vincent Pandian <santony@gmail.com>
+
+	** See bug #309869
+
+        * e-msg-composer-hdrs.c: moves the focus to the corresponding
+	header buttons' entry fields.
+
 2005-07-13  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* e-msg-composer-select-file.c: (select_attach_response): Don't
