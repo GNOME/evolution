@@ -379,12 +379,12 @@ proxy_login_add_new_store (char *uri, CamelStore *store, void *user_data)
 	if (store == NULL)
 		return;
 	if (pld->permissions & E_GW_PROXY_MAIL_READ)
-	    store->permissions |= CAMEL_PROXY_STORE_READ;
+	    store->mode |= CAMEL_STORE_READ;
 
 	if (pld->permissions & E_GW_PROXY_MAIL_WRITE)
-	    store->permissions |= CAMEL_PROXY_STORE_WRITE;
+	    store->mode |= CAMEL_STORE_WRITE;
 
-	store->permissions = pld->permissions;
+	store->mode = pld->permissions;
 	store->flags |= CAMEL_STORE_PROXY;
 	mail_component_add_store (component, store, account->name);
 }

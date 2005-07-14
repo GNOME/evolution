@@ -1,3 +1,8 @@
+2005-07-14  Not Zed  <NotZed@Ximian.com>
+
+	* proxy-login.c (proxy_login_add_new_store): fixed the store
+	permission names.
+
 2005-07-13  Tor Lillqvist  <tml@novell.com>
 
 	* Makefile.am (LIBADD): Link with libeutil. Link with
