@@ -1,3 +1,8 @@
+2005-07-15  Shreyas Srinivasan  <sshreyas@novell.com>
+
+	* e-msg-composer-hdrs.c: (account_can_send) unref the store which
+	was being leaked.
+	
 2005-07-14  Not Zed  <NotZed@Ximian.com>
 
 	* e-msg-composer-hdrs.c (address_button_clicked_cb): add casts in

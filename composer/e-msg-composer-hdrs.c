@@ -333,19 +333,19 @@ account_can_send (EAccount *account)
 {
 	static CamelStore *store;
 	CamelException ex;
+	gboolean result = FALSE;
 	
 	if (!account->parent_uid) 
 		return TRUE;
 		 
-       	if (!(store = (CamelStore *) camel_session_get_service (session, e_account_get_string(account, E_ACCOUNT_SOURCE_URL), CAMEL_PROVIDER_STORE, &ex))) {
+       	if (!(store = (CamelStore *) camel_session_get_service (session, e_account_get_string(account, E_ACCOUNT_SOURCE_URL), CAMEL_PROVIDER_STORE, &ex))) 
 		camel_exception_clear (&ex);
-		return FALSE;
+	else if (store->mode & CAMEL_STORE_WRITE) {
+		result = TRUE;
+		g_object_unref (store);
 	}
 
-	if (store->mode & CAMEL_STORE_WRITE) 
-		return TRUE;
-		       
-	return FALSE;
+	return result;
 }
 
 static GtkWidget *
