@@ -1,3 +1,8 @@
+2005-07-15  Shreyas Srinivasan  <sshreyas@novell.com>
+
+	*plugins/mail-account-disable/org-gnome-mail-account-disable.eplug.xml
+	: Add file for translation.
+	
 2005-07-14  Priit Laes  <plaes@cvs.gnome.org>
 
 	* et.po: Translation updated by Ivar Smolin.

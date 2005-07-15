@@ -319,6 +319,7 @@ plugins/startup-wizard/startup-wizard.c
 plugins/subject-thread/org-gnome-subject-thread.eplug.xml
 plugins/subject-thread/subject-thread.c
 plugins/mail-account-disable/mail-account-disable.c
+plugins/mail-account-disable/org-gnome-mail-account-disable.eplug.xml
 plugins/proxy/org-gnome-proxy-errors.xml
 plugins/proxy/proxy-listing.glade
 plugins/proxy/proxy-add-dialog.glade
