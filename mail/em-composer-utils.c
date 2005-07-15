@@ -49,6 +49,7 @@
 
 #include "e-util/e-account-list.h"
 
+#include <camel/camel-multipart.h>
 #include <camel/camel-string-utils.h>
 #include <camel/camel-stream-mem.h>
 #include <camel/camel-nntp-address.h>

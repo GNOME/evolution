@@ -1,3 +1,9 @@
+2005-07-14  Vivek Jain <jvivek@novell.com>
+
+	* em-composer-utils.c : included missing header
+	file camel-multipart.h
+	**Fixes #310330
+
 2005-07-13  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* em-mailer-prefs.c: (em_mailer_prefs_construct): Free font name
