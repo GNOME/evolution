@@ -1,3 +1,10 @@
+2005-07-15  Shakti Sen <shprasad@novell.com>
+
+	* Makefile.am: Included the e-foreign-folder-dialog.glade file.
+	* e-foreign-folder-dialog.glade: Added newly.
+
+	Fixes bug #310369.
+
 2005-07-14  Sarfraaz Ahmed <asarfraaz@novell.com>
 
 	* exchange-account-setup.c :
