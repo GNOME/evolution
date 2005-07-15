@@ -1,3 +1,12 @@
+2005-07-15  Sushma Rai  <rsushma@novell.com>
+
+	* gui/component/addressbook-migrate.c (migrate_contacts): unref query.
+	(migrate_contact_lists_for_local_folders): Similar.
+	(migrate_company_phone_for_local_folders): Similar. 
+
+	* util/eab-book-util.c: using e_book_query_unref instead of 
+	g_object_unref.
+
 2005-07-13  Sushma Rai  <rsushma@novell.com>
 
 	* addressbook/importers/evolution-vcard-importer.c (vcard_supported):

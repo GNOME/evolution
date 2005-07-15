@@ -248,6 +248,7 @@ migrate_contacts (MigrationContext *context, EBook *old_book, EBook *new_book)
 
 	/* both books are loaded, start the actual migration */
 	e_book_get_contacts (old_book, query, &contacts, NULL);
+	e_book_query_unref (query);	
 
 	num_contacts = g_list_length (contacts);
 	for (l = contacts; l; l = l->next) {
@@ -844,8 +845,8 @@ migrate_contact_lists_for_local_folders (MigrationContext *context, ESourceGroup
 		}
 
 		query = e_book_query_any_field_contains ("");
-
 		e_book_get_contacts (book, query, &contacts, NULL);
+		e_book_query_unref (query);
 
 		num_converted = 0;
 		num_contacts = g_list_length (contacts);
@@ -919,8 +920,8 @@ migrate_company_phone_for_local_folders (MigrationContext *context, ESourceGroup
 		}
 
 		query = e_book_query_any_field_contains ("");
-
 		e_book_get_contacts (book, query, &contacts, NULL);
+		e_book_query_unref (query);
 
 		num_converted = 0;
 		num_contacts = g_list_length (contacts);

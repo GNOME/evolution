@@ -173,7 +173,7 @@ eab_nickname_query (EBook                 *book,
 	retval = e_book_async_get_contacts (book, query, cb, closure);
 
 	g_free (query_string);
-	g_object_unref (query);
+	e_book_query_unref (query);
 
 	return retval;
 }
