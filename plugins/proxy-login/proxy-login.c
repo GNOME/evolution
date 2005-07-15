@@ -146,7 +146,6 @@ proxy_login_init (GObject *object)
 	priv = g_new0 (proxyLoginPrivate, 1);
 	prd->priv = priv;
 	
-	prd->permissions = 0;
 	prd->proxy_list = NULL;
 	priv->xml = NULL;
 	priv->main = NULL;
@@ -323,6 +322,7 @@ proxy_soap_login (char *email)
 	char *proxy_source_url = NULL, *parent_source_url = NULL ;
 	char *name;
 	int i;
+	int permissions = 0;
 	
 	for (i=0; email[i]!='\0' && email[i]!='@' ; i++);
 	if (email[i]=='@')
@@ -335,9 +335,8 @@ proxy_soap_login (char *email)
 	srcAccount = pld->account;
 	cnc = proxy_login_get_cnc(srcAccount);
 	proxy_get_password (srcAccount, &user_name, &password);
-	pld->permissions = 0;
-	proxy_cnc = e_gw_connection_get_proxy_connection (cnc, user_name, password, email, &pld->permissions);
-
+	proxy_cnc = e_gw_connection_get_proxy_connection (cnc, user_name, password, email, &permissions);
+	
 	if (proxy_cnc) {
 		parent = camel_url_new (e_account_get_string(srcAccount, E_ACCOUNT_SOURCE_URL), NULL);
 		parent_source_url = camel_url_to_string (parent, CAMEL_URL_HIDE_PASSWORD);
@@ -355,6 +354,7 @@ proxy_soap_login (char *email)
 		e_account_list_add(accounts, dstAccount);
 		e_account_list_change (accounts, srcAccount);
 		e_account_list_save(accounts);
+		g_object_set_data ((GObject *)dstAccount, "permissions", permissions);
 		mail_get_store(e_account_get_string(dstAccount, E_ACCOUNT_SOURCE_URL), NULL, proxy_login_add_new_store, dstAccount);
 
 		g_free (proxy_source_url);
@@ -376,15 +376,14 @@ proxy_login_add_new_store (char *uri, CamelStore *store, void *user_data)
 {
 	MailComponent *component = mail_component_peek ();
 	EAccount *account = user_data;
+	int permissions = g_object_get_data ((GObject *)account, "permissions");
+
 	if (store == NULL)
 		return;
-	if (pld->permissions & E_GW_PROXY_MAIL_READ)
-	    store->mode |= CAMEL_STORE_READ;
 
-	if (pld->permissions & E_GW_PROXY_MAIL_WRITE)
-	    store->mode |= CAMEL_STORE_WRITE;
+	if (!(permissions & E_GW_PROXY_MAIL_WRITE))
+	    store->mode &= !CAMEL_STORE_WRITE;
 
-	store->mode = pld->permissions;
 	store->flags |= CAMEL_STORE_PROXY;
 	mail_component_add_store (component, store, account->name);
 }

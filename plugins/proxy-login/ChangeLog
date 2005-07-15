@@ -1,3 +1,8 @@
+2005-07-15  Sankar P  <psankar@novell.com>
+
+	* proxy-login.c: Put permissions on the store instead of the
+	global structure as it gets unref before store_add.
+	
 2005-07-14  Not Zed  <NotZed@Ximian.com>
 
 	* proxy-login.c (proxy_login_add_new_store): fixed the store
