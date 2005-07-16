@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution Gnome 2.12\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-07-13 05:29+0000\n"
-"PO-Revision-Date: 2005-07-13 17:51+0930\n"
+"POT-Creation-Date: 2005-07-16 05:29+0000\n"
+"PO-Revision-Date: 2005-07-16 16:40+0930\n"
 "Last-Translator: Clytie Siddall <clytie@riverland.net.au>\n"
 "Language-Team: Gnome-Vi <gnomevi-list@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -559,7 +559,7 @@ msgstr "Quản lý chứng nhận S/MIME của bạn ở đây"
 #. create the local source group
 #. On This Computer is always first and vFolders is always last
 #: ../addressbook/gui/component/addressbook-component.c:137
-#: ../addressbook/gui/component/addressbook-migrate.c:501
+#: ../addressbook/gui/component/addressbook-migrate.c:502
 #: ../calendar/gui/calendar-component.c:208 ../calendar/gui/migration.c:462
 #: ../calendar/gui/migration.c:555 ../calendar/gui/tasks-component.c:188
 #: ../mail/em-folder-tree-model.c:197 ../mail/em-folder-tree-model.c:199
@@ -573,7 +573,7 @@ msgstr "Trên máy này"
 #. Create the default Person addressbook
 #. orange
 #: ../addressbook/gui/component/addressbook-component.c:145
-#: ../addressbook/gui/component/addressbook-migrate.c:509
+#: ../addressbook/gui/component/addressbook-migrate.c:510
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:20
 #: ../calendar/gui/calendar-component.c:216 ../calendar/gui/migration.c:470
 #: ../calendar/gui/migration.c:563 ../calendar/gui/tasks-component.c:196
@@ -584,7 +584,7 @@ msgstr "Cá nhân"
 
 #. Create the LDAP source group
 #: ../addressbook/gui/component/addressbook-component.c:155
-#: ../addressbook/gui/component/addressbook-migrate.c:519
+#: ../addressbook/gui/component/addressbook-migrate.c:520
 msgid "On LDAP Servers"
 msgstr "Trên máy chủ LDAP"
 
@@ -689,15 +689,15 @@ msgstr "Đang nâng cấp..."
 msgid "Migrating `%s':"
 msgstr "Đang nâng cấp «%s»"
 
-#: ../addressbook/gui/component/addressbook-migrate.c:647
+#: ../addressbook/gui/component/addressbook-migrate.c:648
 msgid "LDAP Servers"
 msgstr "Máy chủ LDAP"
 
-#: ../addressbook/gui/component/addressbook-migrate.c:762
+#: ../addressbook/gui/component/addressbook-migrate.c:763
 msgid "Autocompletion Settings"
 msgstr "Thiết lập Tự động hoàn tất"
 
-#: ../addressbook/gui/component/addressbook-migrate.c:1133
+#: ../addressbook/gui/component/addressbook-migrate.c:1134
 msgid ""
 "The location and hierarchy of the Evolution contact folders has changed "
 "since Evolution 1.x.\n"
@@ -709,7 +709,7 @@ msgstr ""
 "\n"
 "Hãy kiên nhẫn trong khi Evolution chuyển đổi các danh mục..."
 
-#: ../addressbook/gui/component/addressbook-migrate.c:1147
+#: ../addressbook/gui/component/addressbook-migrate.c:1148
 msgid ""
 "The format of mailing list contacts has changed.\n"
 "\n"
@@ -719,7 +719,7 @@ msgstr ""
 "\n"
 "Hãy kiên nhẫn trong khi Evolution chuyển đổi các danh mục của bạn..."
 
-#: ../addressbook/gui/component/addressbook-migrate.c:1156
+#: ../addressbook/gui/component/addressbook-migrate.c:1157
 msgid ""
 "The way Evolution stores some phone numbers has changed.\n"
 "\n"
@@ -729,7 +729,7 @@ msgstr ""
 "\n"
 "Hãy kiên nhẫn trong khi Evolution chuyển đổi các danh mục của bạn..."
 
-#: ../addressbook/gui/component/addressbook-migrate.c:1166
+#: ../addressbook/gui/component/addressbook-migrate.c:1167
 msgid ""
 "Evolution's Palm Sync changelog and map files have changed.\n"
 "\n"
@@ -1110,7 +1110,7 @@ msgstr "thẻ"
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:14
 #: ../filter/filter.glade.h:16 ../mail/em-account-editor.c:1940
 #: ../plugins/calendar-http/calendar-http.c:263
-#: ../plugins/calendar-weather/calendar-weather.c:564
+#: ../plugins/calendar-weather/calendar-weather.c:563
 msgid "minutes"
 msgstr "phút"
 
@@ -2574,7 +2574,7 @@ msgid "_IM Service:"
 msgstr "Dịch vụ t_in nhắn:"
 
 #: ../addressbook/gui/contact-editor/im.glade.h:5
-#: ../plugins/calendar-weather/calendar-weather.c:410
+#: ../plugins/calendar-weather/calendar-weather.c:409
 msgid "_Location:"
 msgstr "Đị_a điểm:"
 
@@ -3523,7 +3523,7 @@ msgstr "Khung xem thẻ"
 msgid "GTK Tree View"
 msgstr "Khung xem Cây GTK"
 
-#: ../addressbook/importers/evolution-ldif-importer.c:487
+#: ../addressbook/importers/evolution-ldif-importer.c:486
 #: ../addressbook/importers/evolution-vcard-importer.c:249
 #: ../calendar/importers/icalendar-importer.c:311
 #: ../calendar/importers/icalendar-importer.c:643 ../shell/shell.error.xml.h:4
@@ -4774,7 +4774,7 @@ msgstr "Tẩy mọi sự kiện trước"
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:20
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:12
 #: ../filter/filter.glade.h:14 ../plugins/calendar-http/calendar-http.c:265
-#: ../plugins/calendar-weather/calendar-weather.c:566
+#: ../plugins/calendar-weather/calendar-weather.c:565
 #: ../widgets/misc/e-send-options.glade.h:36
 msgid "days"
 msgstr "ngày"
@@ -4995,7 +4995,7 @@ msgstr "giờ"
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:24
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:13
 #: ../filter/filter.glade.h:15 ../plugins/calendar-http/calendar-http.c:264
-#: ../plugins/calendar-weather/calendar-weather.c:565
+#: ../plugins/calendar-weather/calendar-weather.c:564
 msgid "hours"
 msgstr "giờ"
 
@@ -5084,7 +5084,7 @@ msgid "Suggest automatic display of attachment"
 msgstr "Đề nghị tự động hiển thị đính kèm"
 
 #: ../calendar/gui/dialogs/cal-attachment-select-file.c:190
-#: ../composer/e-msg-composer-select-file.c:235
+#: ../composer/e-msg-composer-select-file.c:238
 msgid "Attach file(s)"
 msgstr "Đính kèm tập tin"
 
@@ -5472,7 +5472,7 @@ msgstr "Thêm _Danh sách công việc"
 
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:9
 #: ../plugins/calendar-http/calendar-http.c:248
-#: ../plugins/calendar-weather/calendar-weather.c:549
+#: ../plugins/calendar-weather/calendar-weather.c:548
 msgid "_Refresh:"
 msgstr "_Làm tươi:"
 
@@ -5483,7 +5483,7 @@ msgstr "Địa chỉ _Mạng:"
 
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:15
 #: ../filter/filter.glade.h:21 ../plugins/calendar-http/calendar-http.c:266
-#: ../plugins/calendar-weather/calendar-weather.c:567
+#: ../plugins/calendar-weather/calendar-weather.c:566
 msgid "weeks"
 msgstr "tuần"
 
@@ -5940,8 +5940,8 @@ msgstr "<b>Từ</b>"
 #: ../filter/filter-rule.c:881 ../mail/em-account-editor.c:683
 #: ../mail/em-account-editor.c:1346 ../mail/em-account-prefs.c:464
 #: ../mail/em-folder-view.c:1062
-#: ../plugins/calendar-weather/calendar-weather.c:371
-#: ../plugins/calendar-weather/calendar-weather.c:425
+#: ../plugins/calendar-weather/calendar-weather.c:370
+#: ../plugins/calendar-weather/calendar-weather.c:424
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:7
 #: ../plugins/itip-formatter/itip-formatter.c:1574
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.c:190
@@ -6487,7 +6487,7 @@ msgstr "Ngày đến hạn:"
 #. Status
 #: ../calendar/gui/e-cal-component-preview.c:222
 #: ../calendar/gui/e-itip-control.c:1132
-#: ../plugins/exchange-operations/exchange-account-setup.c:262
+#: ../plugins/exchange-operations/exchange-account-setup.c:263
 #: ../plugins/itip-formatter/itip-view.c:907
 msgid "Status:"
 msgstr "Trạng thái:"
@@ -9587,15 +9587,15 @@ msgstr "Thái Bình Dương/Wallis"
 msgid "Pacific/Yap"
 msgstr "Thái Bình Dương/Yap"
 
-#: ../composer/e-msg-composer-hdrs.c:550
+#: ../composer/e-msg-composer-hdrs.c:559
 msgid "Posting destination"
 msgstr "Đích gửi đến"
 
-#: ../composer/e-msg-composer-hdrs.c:551
+#: ../composer/e-msg-composer-hdrs.c:560
 msgid "Choose folders to post the message to."
 msgstr "Hãy chọn các danh mục để gửi thư ấy vào."
 
-#: ../composer/e-msg-composer-hdrs.c:585
+#: ../composer/e-msg-composer-hdrs.c:594
 msgid "Click here for the address book"
 msgstr "Nhấn vào đây để xem Sổ địa chỉ"
 
@@ -9606,45 +9606,45 @@ msgstr "Nhấn vào đây để xem Sổ địa chỉ"
 #. * because that causes from_changed to be called, which
 #. * expects the reply_to fields to be initialized.
 #.
-#: ../composer/e-msg-composer-hdrs.c:615
+#: ../composer/e-msg-composer-hdrs.c:624
 msgid "_Reply-To:"
 msgstr "Trả _lời cho:"
 
 #.
 #. * From
 #.
-#: ../composer/e-msg-composer-hdrs.c:622
+#: ../composer/e-msg-composer-hdrs.c:631
 msgid "Fr_om:"
 msgstr "_Từ:"
 
 #.
 #. * Subject
 #.
-#: ../composer/e-msg-composer-hdrs.c:629
+#: ../composer/e-msg-composer-hdrs.c:638
 msgid "S_ubject:"
 msgstr "Chủ _đề:"
 
-#: ../composer/e-msg-composer-hdrs.c:639
+#: ../composer/e-msg-composer-hdrs.c:648
 msgid "_To:"
 msgstr "Ch_o:"
 
-#: ../composer/e-msg-composer-hdrs.c:640
+#: ../composer/e-msg-composer-hdrs.c:649
 msgid "Enter the recipients of the message"
 msgstr "Nhập người nhận thư"
 
-#: ../composer/e-msg-composer-hdrs.c:643
+#: ../composer/e-msg-composer-hdrs.c:652
 msgid "_Cc:"
 msgstr "_Cc:"
 
-#: ../composer/e-msg-composer-hdrs.c:644
+#: ../composer/e-msg-composer-hdrs.c:653
 msgid "Enter the addresses that will receive a carbon copy of the message"
 msgstr "Chép cho: hãy nhập các địa chỉ sẽ nhận một bản sao của thư ấy."
 
-#: ../composer/e-msg-composer-hdrs.c:647
+#: ../composer/e-msg-composer-hdrs.c:656
 msgid "_Bcc:"
 msgstr "_Bcc:"
 
-#: ../composer/e-msg-composer-hdrs.c:648
+#: ../composer/e-msg-composer-hdrs.c:657
 msgid ""
 "Enter the addresses that will receive a carbon copy of the message without "
 "appearing in the recipient list of the message."
@@ -9656,15 +9656,15 @@ msgstr ""
 #.
 #. * Post-To
 #.
-#: ../composer/e-msg-composer-hdrs.c:655
+#: ../composer/e-msg-composer-hdrs.c:664
 msgid "_Post To:"
 msgstr "_Gửi tới:"
 
-#: ../composer/e-msg-composer-hdrs.c:660
+#: ../composer/e-msg-composer-hdrs.c:669
 msgid "Click here to select folders to post to"
 msgstr "Nhấn vào đây để chọn thư mục gửi đến"
 
-#: ../composer/e-msg-composer-hdrs.c:666
+#: ../composer/e-msg-composer-hdrs.c:675
 msgid "Post To:"
 msgstr "Gửi tới:"
 
@@ -10514,7 +10514,7 @@ msgstr "Mặc định"
 
 #. Security settings
 #: ../mail/em-account-editor.c:2207 ../mail/mail-config.glade.h:122
-#: ../plugins/exchange-operations/exchange-account-setup.c:312
+#: ../plugins/exchange-operations/exchange-account-setup.c:313
 msgid "Security"
 msgstr "Bảo mật"
 
@@ -10553,7 +10553,7 @@ msgid "Mail Accounts Table"
 msgstr "Bảng tài khoản thư"
 
 #: ../mail/em-composer-prefs.c:306 ../mail/em-composer-prefs.c:429
-#: ../mail/mail-config.c:953
+#: ../mail/mail-config.c:958
 msgid "Unnamed"
 msgstr "Chưa tên"
 
@@ -10569,18 +10569,18 @@ msgstr "Thêm tập lệnh chữ ký"
 msgid "Signature(s)"
 msgstr "Chữ ký"
 
-#: ../mail/em-composer-utils.c:852
+#: ../mail/em-composer-utils.c:853
 msgid "-------- Forwarded Message --------"
 msgstr "━━━Thư đã chuyển tiếp━━━"
 
-#: ../mail/em-composer-utils.c:1644
+#: ../mail/em-composer-utils.c:1645
 msgid "an unknown sender"
 msgstr "không biết người gửi ấy"
 
 #. Note to translators: this is the attribution string used when quoting messages.
 #. * each ${Variable} gets replaced with a value. To see a full list of available
 #. * variables, see em-composer-utils.c:1514
-#: ../mail/em-composer-utils.c:1691
+#: ../mail/em-composer-utils.c:1692
 msgid ""
 "On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} "
 "${TimeZone}, ${Sender} wrote:"
@@ -11383,7 +11383,7 @@ msgstr "Bcc"
 
 #. pseudo-header
 #: ../mail/em-format-html.c:1675 ../mail/em-format-quote.c:319
-#: ../mail/em-mailer-prefs.c:986
+#: ../mail/em-mailer-prefs.c:987
 msgid "Mailer"
 msgstr "Trình thư"
 
@@ -12125,7 +12125,9 @@ msgid "Importing..."
 msgstr "Đang nhập..."
 
 #: ../mail/importers/evolution-outlook-importer.c:261
-#: ../mail/importers/netscape-importer.c:1253 ../shell/e-shell-importer.c:523
+#: ../mail/importers/netscape-importer.c:1253
+#: ../plugins/startup-wizard/startup-wizard.c:236
+#: ../shell/e-shell-importer.c:523
 msgid "Please wait"
 msgstr "Vui lòng chờ"
 
@@ -13584,7 +13586,9 @@ msgstr ""
 msgid ""
 "If you proceed, the account information and\n"
 "all proxy information will be deleted permanently."
-msgstr "Nếu bạn tiếp tục, sẽ xóa bỏ vĩnh viễn thông tin tài khoản ấy và các thông tin ủy nhiệm của nó."
+msgstr ""
+"Nếu bạn tiếp tục, sẽ xóa bỏ vĩnh viễn thông tin tài khoản ấy và các thông "
+"tin ủy nhiệm của nó."
 
 #: ../mail/mail.error.xml.h:56
 msgid "If you proceed, the account information will be deleted permanently."
@@ -14200,19 +14204,19 @@ msgstr "Thời tiết: trời có nắng"
 msgid "Weather: Thunderstorms"
 msgstr "Thời tiết: bão kèm sấm"
 
-#: ../plugins/calendar-weather/calendar-weather.c:268
+#: ../plugins/calendar-weather/calendar-weather.c:267
 msgid "Select a location"
 msgstr "Chọn địa điểm"
 
-#: ../plugins/calendar-weather/calendar-weather.c:655
+#: ../plugins/calendar-weather/calendar-weather.c:654
 msgid "_Units:"
 msgstr "_Đơn vị"
 
-#: ../plugins/calendar-weather/calendar-weather.c:662
+#: ../plugins/calendar-weather/calendar-weather.c:661
 msgid "Metric (Celsius, cm, etc)"
 msgstr "Mét (chia trăm độ, cm v.v.)"
 
-#: ../plugins/calendar-weather/calendar-weather.c:663
+#: ../plugins/calendar-weather/calendar-weather.c:662
 msgid "Imperial (Fahrenheit, inches, etc)"
 msgstr "Mỹ (ái đo nhiệt Fa-ren-hét, insơ v.v.)"
 
@@ -14246,12 +14250,12 @@ msgid "Mark as default folder"
 msgstr "Đánh dấu là danh mục mặc định"
 
 #. i18n: "Secure Password Authentication" is an Outlookism
-#: ../plugins/exchange-operations/exchange-account-setup.c:61
+#: ../plugins/exchange-operations/exchange-account-setup.c:62
 msgid "Secure Password"
 msgstr "Mật khẩu bảo mật"
 
 #. i18n: "NTLM" probably doesn't translate
-#: ../plugins/exchange-operations/exchange-account-setup.c:64
+#: ../plugins/exchange-operations/exchange-account-setup.c:65
 msgid ""
 "This option will connect to the Exchange server using secure password (NTLM) "
 "authentication."
@@ -14259,11 +14263,11 @@ msgstr ""
 "Tùy chọn này sẽ kết nối đến máy phục vụ Exchange dùng cách xác thực mặt khẩu "
 "bảo mật (NTLM)."
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:72
+#: ../plugins/exchange-operations/exchange-account-setup.c:73
 msgid "Plaintext Password"
 msgstr "Mật khẩu chữ thô"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:74
+#: ../plugins/exchange-operations/exchange-account-setup.c:75
 msgid ""
 "This option will connect to the Exchange server using standard plaintext "
 "password authentication."
@@ -14271,11 +14275,11 @@ msgstr ""
 "Tùy chọn này sẽ kết nối tới máy phục vụ Exchannge dùng cách xác thực mật "
 "khẩu chữ thô (không mã hóa)."
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:250
+#: ../plugins/exchange-operations/exchange-account-setup.c:251
 msgid "Out Of Office"
 msgstr "Ở ngoại văn phòng"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:257
+#: ../plugins/exchange-operations/exchange-account-setup.c:258
 msgid ""
 "The message specified below will be automatically sent to \n"
 "each person who sends mail to you while you are out of the office."
@@ -14283,66 +14287,66 @@ msgstr ""
 "Thông điệp dưới đây sẽ được gửi tự động\n"
 "tới mỗi người gửi thư cho bạn khi bạn ở ngoài văn phòng."
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:269
-#: ../plugins/exchange-operations/exchange-account-setup.c:274
+#: ../plugins/exchange-operations/exchange-account-setup.c:270
+#: ../plugins/exchange-operations/exchange-account-setup.c:275
 msgid "I am out of the office"
 msgstr "Tôi hiện thời ở ngoài văn phòng"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:270
-#: ../plugins/exchange-operations/exchange-account-setup.c:273
+#: ../plugins/exchange-operations/exchange-account-setup.c:271
+#: ../plugins/exchange-operations/exchange-account-setup.c:274
 msgid "I am in the office"
 msgstr "Tôi đang ở trong văn phòng"
 
 #. Change Password
-#: ../plugins/exchange-operations/exchange-account-setup.c:322
+#: ../plugins/exchange-operations/exchange-account-setup.c:323
 msgid "Change the password for Exchange account"
 msgstr "Thay đổi mật khẩu cho tài khoản Exchange"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:324
+#: ../plugins/exchange-operations/exchange-account-setup.c:325
 #: ../plugins/exchange-operations/exchange-change-password.glade.h:2
 msgid "Change Password"
 msgstr "Đổi mật khẩu"
 
 #. Delegation Assistant
-#: ../plugins/exchange-operations/exchange-account-setup.c:328
+#: ../plugins/exchange-operations/exchange-account-setup.c:329
 msgid "Manage the delegate settings for Exchange account"
 msgstr "Quản lý thiết lập ủy nhiệm cho tài khoản Exchange"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:330
+#: ../plugins/exchange-operations/exchange-account-setup.c:331
 msgid "Delegation Assitant"
 msgstr "Trợ tá ủy nhiệm"
 
 #. Miscelleneous settings
-#: ../plugins/exchange-operations/exchange-account-setup.c:341
+#: ../plugins/exchange-operations/exchange-account-setup.c:342
 msgid "Miscelleneous"
 msgstr "Linh tinh"
 
 #. Folder Size
-#: ../plugins/exchange-operations/exchange-account-setup.c:351
+#: ../plugins/exchange-operations/exchange-account-setup.c:352
 msgid "View the size of all Exchange folders"
 msgstr "Xem kích thước của mọi danh mục Exchange"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:353
+#: ../plugins/exchange-operations/exchange-account-setup.c:354
 msgid "Folders Size"
 msgstr "Cỡ danh mục"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:360
+#: ../plugins/exchange-operations/exchange-account-setup.c:361
 msgid "Exchange Settings"
 msgstr "Thiết lập Exchange"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:609
+#: ../plugins/exchange-operations/exchange-account-setup.c:604
 msgid "_OWA Url:"
 msgstr "Địa chỉ Mạng _OWA:"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:634
+#: ../plugins/exchange-operations/exchange-account-setup.c:629
 msgid "A_uthenticate"
 msgstr "_Xác thực"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:826
+#: ../plugins/exchange-operations/exchange-account-setup.c:821
 msgid "Authentication Type"
 msgstr "Loại xác thực"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:840
+#: ../plugins/exchange-operations/exchange-account-setup.c:835
 msgid "Ch_eck for Supported Types"
 msgstr "_Kiểm tra kiểu được hỗ trợ "
 
@@ -14494,8 +14498,8 @@ msgid "_Sharing"
 msgstr "Dùng _chung"
 
 #: ../plugins/groupwise-features/send-options.c:83
-#: ../plugins/proxy/proxy.c:459 ../plugins/proxy-login/proxy-login.c:222
-#: ../plugins/proxy-login/proxy-login.c:264
+#: ../plugins/proxy/proxy.c:459 ../plugins/proxy-login/proxy-login.c:221
+#: ../plugins/proxy-login/proxy-login.c:263
 #, c-format
 msgid "%sEnter password for %s (user %s)"
 msgstr "%sNhập mật khẩu cho «%s» (người dùng «%s»)"
@@ -15439,15 +15443,15 @@ msgstr "_Hiện chỉ danh sách công việc này"
 msgid "Startup wizard"
 msgstr "Phụ tá khởi động"
 
-#: ../plugins/startup-wizard/startup-wizard.c:94
+#: ../plugins/startup-wizard/startup-wizard.c:85
 msgid "Evolution Setup Assistant"
 msgstr "Trợ tá thiết lập Evolution"
 
-#: ../plugins/startup-wizard/startup-wizard.c:97
+#: ../plugins/startup-wizard/startup-wizard.c:88
 msgid "Welcome"
 msgstr "Chào mừng"
 
-#: ../plugins/startup-wizard/startup-wizard.c:98
+#: ../plugins/startup-wizard/startup-wizard.c:89
 msgid ""
 "Welcome to Evolution. The next few screens will allow Evolution to connect "
 "to your email accounts, and to import files from other applications. \n"
@@ -15460,16 +15464,21 @@ msgstr ""
 "\n"
 "Vui lòng nhấn nút «Tiếp» để tiếp tục."
 
-#: ../plugins/startup-wizard/startup-wizard.c:138
+#: ../plugins/startup-wizard/startup-wizard.c:140
 #: ../shell/e-shell-importer.c:145
 msgid "Please select the information that you would like to import:"
 msgstr "Hãy chọn thông tin bạn muốn nhập:"
 
-#: ../plugins/startup-wizard/startup-wizard.c:153
+#: ../plugins/startup-wizard/startup-wizard.c:154
 #: ../shell/e-shell-importer.c:398
 #, c-format
 msgid "From %s:"
 msgstr "Từ «%s»:"
+
+#: ../plugins/startup-wizard/startup-wizard.c:234
+#: ../shell/e-shell-importer.c:509
+msgid "Importing data."
+msgstr "Đang nhập dữ liệu."
 
 #: ../plugins/subject-thread/org-gnome-subject-thread.eplug.xml.h:1
 msgid "Indicates if threading of messages should fall back to subject."
@@ -15495,6 +15504,14 @@ msgstr "_Tắt"
 #: ../plugins/mail-account-disable/mail-account-disable.c:47
 msgid "Proxy _Logout"
 msgstr "Đăng _xuất ủy nhiệm"
+
+#: ../plugins/mail-account-disable/org-gnome-mail-account-disable.eplug.xml.h:1
+msgid "Allows disabling of accounts."
+msgstr "Cho phép vô hiệu hóa tài khoản"
+
+#: ../plugins/mail-account-disable/org-gnome-mail-account-disable.eplug.xml.h:2
+msgid "Disable Account"
+msgstr "Vô hiệu hóa tài khoản"
 
 #: ../plugins/proxy/proxy-listing.glade.h:1
 msgid "Proxy"
@@ -15551,11 +15568,11 @@ msgstr "_Đọc"
 msgid "_Write"
 msgstr "_Ghi"
 
-#: ../plugins/proxy/proxy.c:650
+#: ../plugins/proxy/proxy.c:656
 msgid "The Proxy tab will be available only when the account is enabled."
 msgstr "Thanh Ủy nhiệm sẽ sẵn sàng chỉ khi tài khoản đ"
 
-#: ../plugins/proxy-login/proxy-login.c:486
+#: ../plugins/proxy-login/proxy-login.c:485
 msgid "_Proxy Login..."
 msgstr "Đăng nhập ủy_ nhiệm..."
 
@@ -15773,10 +15790,6 @@ msgstr "_Nhập dữ liệu và thiết lập từ chương trình cũ"
 msgid "Import a _single file"
 msgstr "Nhập một _tập tin đơn"
 
-#: ../shell/e-shell-importer.c:509
-msgid "Importing data."
-msgstr "Đang nhập dữ liệu."
-
 #: ../shell/e-shell-importer.c:698
 msgid "_Import"
 msgstr "_Nhập"
@@ -15860,7 +15873,7 @@ msgstr "Evolution đang chuyển sang ngoại tuyến."
 msgid "Evolution is currently offline.  Click on this button to work online."
 msgstr "Evolution đang ngoại tuyến. Nhấn nút này để chuyển sang trực tuyến."
 
-#: ../shell/e-shell-window.c:712
+#: ../shell/e-shell-window.c:713
 #, c-format
 msgid "Switch to %s"
 msgstr "Chuyển sang «%s»"
