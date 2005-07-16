@@ -2,13 +2,14 @@
 # Courtesy of Prevod.org team (http://prevod.org/) -- 2003, 2004, 2005.
 # This file is distributed under the same license as the evolution package.
 # Maintainer: Igor Nestorović <jung@one.ekof.bg.ac.yu>
-#
+# 
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-07-11 15:36+0200\n"
-"PO-Revision-Date: 2005-07-10 22:43+0200\n"
+"POT-Creation-Date: 2005-07-16 12:35+0200\n"
+"PO-Revision-Date: 2005-07-16 00:50+0200\n"
 "Last-Translator: Igor Nestorović <jung@one.ekof.bg.ac.yu>\n"
 "Language-Team: Serbian (sr) <gnom@prevod.org>\n"
 "MIME-Version: 1.0\n"
@@ -24,12 +25,12 @@ msgid "evolution addressbook"
 msgstr "adresar evolucije"
 
 #: ../a11y/addressbook/ea-minicard-view.c:34
-#: ../addressbook/gui/component/addressbook-component.c:198
+#: ../addressbook/gui/component/addressbook-component.c:225
 msgid "New Contact"
 msgstr "Novi kontakt"
 
 #: ../a11y/addressbook/ea-minicard-view.c:35
-#: ../addressbook/gui/component/addressbook-component.c:206
+#: ../addressbook/gui/component/addressbook-component.c:233
 msgid "New Contact List"
 msgstr "Nova kontakt lista"
 
@@ -204,7 +205,7 @@ msgstr "%d. %b"
 
 #: ../a11y/calendar/ea-gnome-calendar.c:247
 #: ../a11y/calendar/ea-gnome-calendar.c:255
-#: ../calendar/importers/icalendar-importer.c:726
+#: ../calendar/importers/icalendar-importer.c:738
 msgid "Gnome Calendar"
 msgstr "Gnomov kalendar"
 
@@ -583,8 +584,8 @@ msgstr "Upravljajte S/MIME sertifikatima ovde"
 # On This Computer is always first and VFolders is always last
 #. create the local source group
 #. On This Computer is always first and vFolders is always last
-#: ../addressbook/gui/component/addressbook-component.c:133
-#: ../addressbook/gui/component/addressbook-migrate.c:501
+#: ../addressbook/gui/component/addressbook-component.c:137
+#: ../addressbook/gui/component/addressbook-migrate.c:502
 #: ../calendar/gui/calendar-component.c:208 ../calendar/gui/migration.c:462
 #: ../calendar/gui/migration.c:555 ../calendar/gui/tasks-component.c:188
 #: ../mail/em-folder-tree-model.c:197 ../mail/em-folder-tree-model.c:199
@@ -600,8 +601,8 @@ msgstr "Na ovom računaru"
 #. Create the default Person task list
 #. Create the default Person addressbook
 #. orange
-#: ../addressbook/gui/component/addressbook-component.c:141
-#: ../addressbook/gui/component/addressbook-migrate.c:509
+#: ../addressbook/gui/component/addressbook-component.c:145
+#: ../addressbook/gui/component/addressbook-migrate.c:510
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:20
 #: ../calendar/gui/calendar-component.c:216 ../calendar/gui/migration.c:470
 #: ../calendar/gui/migration.c:563 ../calendar/gui/tasks-component.c:196
@@ -611,42 +612,42 @@ msgid "Personal"
 msgstr "Lično"
 
 #. Create the LDAP source group
-#: ../addressbook/gui/component/addressbook-component.c:151
-#: ../addressbook/gui/component/addressbook-migrate.c:519
+#: ../addressbook/gui/component/addressbook-component.c:155
+#: ../addressbook/gui/component/addressbook-migrate.c:520
 msgid "On LDAP Servers"
 msgstr "Na LDAP serverima"
 
-#: ../addressbook/gui/component/addressbook-component.c:199
+#: ../addressbook/gui/component/addressbook-component.c:226
 msgid "_Contact"
 msgstr "_Kontakt"
 
-#: ../addressbook/gui/component/addressbook-component.c:200
+#: ../addressbook/gui/component/addressbook-component.c:227
 msgid "Create a new contact"
 msgstr "Pravi novi kontakt"
 
-#: ../addressbook/gui/component/addressbook-component.c:207
+#: ../addressbook/gui/component/addressbook-component.c:234
 msgid "Contact _List"
 msgstr "Kontakt li_sta"
 
-#: ../addressbook/gui/component/addressbook-component.c:208
+#: ../addressbook/gui/component/addressbook-component.c:235
 msgid "Create a new contact list"
 msgstr "Pravi novu kontakt listu"
 
-#: ../addressbook/gui/component/addressbook-component.c:214
+#: ../addressbook/gui/component/addressbook-component.c:241
 #: ../addressbook/gui/component/addressbook-config.c:1120
 #: ../addressbook/gui/component/addressbook-view.c:757
 msgid "New Address Book"
 msgstr "Novi adresar"
 
-#: ../addressbook/gui/component/addressbook-component.c:215
+#: ../addressbook/gui/component/addressbook-component.c:242
 msgid "Address _Book"
 msgstr "_Adresar"
 
-#: ../addressbook/gui/component/addressbook-component.c:216
+#: ../addressbook/gui/component/addressbook-component.c:243
 msgid "Create a new address book"
 msgstr "Pravi novi adresar"
 
-#: ../addressbook/gui/component/addressbook-component.c:289
+#: ../addressbook/gui/component/addressbook-component.c:385
 msgid "Failed upgrading Addressbook settings or folders."
 msgstr "Neuspela nadogradnja podešavanja adresara ili njegovih fascikli."
 
@@ -675,7 +676,7 @@ msgid "General"
 msgstr "Opšte"
 
 #: ../addressbook/gui/component/addressbook-config.c:905
-#: ../mail/importers/pine-importer.c:479
+#: ../mail/importers/pine-importer.c:393
 msgid "Addressbook"
 msgstr "Adresar"
 
@@ -717,15 +718,15 @@ msgstr "Prenošenje..."
 msgid "Migrating `%s':"
 msgstr "Prenošenje `%s':"
 
-#: ../addressbook/gui/component/addressbook-migrate.c:647
+#: ../addressbook/gui/component/addressbook-migrate.c:648
 msgid "LDAP Servers"
 msgstr "LDAP serveri"
 
-#: ../addressbook/gui/component/addressbook-migrate.c:762
+#: ../addressbook/gui/component/addressbook-migrate.c:763
 msgid "Autocompletion Settings"
 msgstr "Podešavanja samodopunjavanja"
 
-#: ../addressbook/gui/component/addressbook-migrate.c:1133
+#: ../addressbook/gui/component/addressbook-migrate.c:1134
 msgid ""
 "The location and hierarchy of the Evolution contact folders has changed "
 "since Evolution 1.x.\n"
@@ -737,7 +738,7 @@ msgstr ""
 "\n"
 "Budite strpljivi dok Evolucija prenosi fascikle..."
 
-#: ../addressbook/gui/component/addressbook-migrate.c:1147
+#: ../addressbook/gui/component/addressbook-migrate.c:1148
 msgid ""
 "The format of mailing list contacts has changed.\n"
 "\n"
@@ -747,7 +748,7 @@ msgstr ""
 "\n"
 "Budite strpljivi dok Evolucija prenosi fascikle..."
 
-#: ../addressbook/gui/component/addressbook-migrate.c:1156
+#: ../addressbook/gui/component/addressbook-migrate.c:1157
 msgid ""
 "The way Evolution stores some phone numbers has changed.\n"
 "\n"
@@ -757,7 +758,7 @@ msgstr ""
 "\n"
 "Budite strpljivi dok Evolucija prenosi fascikle..."
 
-#: ../addressbook/gui/component/addressbook-migrate.c:1166
+#: ../addressbook/gui/component/addressbook-migrate.c:1167
 msgid ""
 "Evolution's Palm Sync changelog and map files have changed.\n"
 "\n"
@@ -1141,7 +1142,7 @@ msgstr "karte"
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:14
 #: ../filter/filter.glade.h:16 ../mail/em-account-editor.c:1940
 #: ../plugins/calendar-http/calendar-http.c:263
-#: ../plugins/calendar-weather/calendar-weather.c:564
+#: ../plugins/calendar-weather/calendar-weather.c:563
 msgid "minutes"
 msgstr "minuta"
 
@@ -2347,6 +2348,8 @@ msgid "Zimbabwe"
 msgstr "Zimbabve"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-fullname.c:89
+#: ../plugins/exchange-operations/exchange-delegates.c:939
+#: ../plugins/exchange-operations/exchange-permissions-dialog.c:696
 #: ../plugins/plugin-manager/plugin-manager.c:44
 #: ../plugins/save-attachments/save-attachments.c:362
 #: ../widgets/menus/gal-view-new-dialog.c:73
@@ -2604,8 +2607,11 @@ msgstr "Ime n_aloga:"
 msgid "_IM Service:"
 msgstr "Usluga _brzog glasnika:"
 
+#. FIXME: Take care of i18n
 #: ../addressbook/gui/contact-editor/im.glade.h:5
-#: ../plugins/calendar-weather/calendar-weather.c:410
+#: ../plugins/calendar-weather/calendar-weather.c:409
+#: ../plugins/exchange-operations/exchange-calendar.c:181
+#: ../plugins/exchange-operations/exchange-contacts.c:175
 msgid "_Location:"
 msgstr "_Mesto:"
 
@@ -2819,23 +2825,20 @@ msgid "Forward Contact"
 msgstr "Prosledi kontakt"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:937
-#, fuzzy
 msgid "Forward Contacts"
-msgstr "Prosledi kontakt"
+msgstr "Prosledi kontakte"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:938
 msgid "Send Message to Contact"
-msgstr "Pošalji kontaktu poruku"
+msgstr "Pošalji poruku kontaku"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:939
-#, fuzzy
 msgid "Send Message to List"
-msgstr "Pošalji kontaktu poruku"
+msgstr "Pošalji poruku na listu"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:940
-#, fuzzy
 msgid "Send Message to Contacts"
-msgstr "Pošalji kontaktu poruku"
+msgstr "Pošalji poruku kontaktima"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:941
 #: ../calendar/gui/calendar-commands.c:119 ../calendar/gui/print.c:2501
@@ -3017,6 +3020,7 @@ msgstr "Radio"
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:9
 #: ../calendar/gui/e-meeting-list-view.c:378
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:9
+#: ../plugins/exchange-operations/exchange-permissions-dialog.c:700
 msgid "Role"
 msgstr "Uloga"
 
@@ -3333,13 +3337,13 @@ msgstr ""
 "adresar kada se povežete radi preuzimanja njegovog sadržaja"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:99
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "We were unable to open this addressbook.  Please check that the path %s "
 "exists and that you have permission to access it."
 msgstr ""
-"Otvaranje ovog adresara nije uspelo.  Proverite da putanja postoji i da imate "
-"prava pristupa."
+"Otvaranje ovog adresara nije uspelo.  Proverite da putanja %s postoji i da "
+"imate prava pristupa."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:107
 msgid ""
@@ -3438,18 +3442,18 @@ msgid_plural ""
 "Opening %d contacts will open %d new windows as well.\n"
 "Do you really want to display all of these contacts?"
 msgstr[0] ""
-"Otvaranje %d kontakta će otvoriti i %d nova prozora.\n"
-"Da li zaista želite da ovaj kontakt bude prikazan?Otvaranje %d kontakta će "
+"Otvaranje %d kontakta će otvoriti i %d nov prozor.\n"
+"Da li zaista želite da ovaj kontakt bude prikazan?Otvaranje %d kontakata će "
 "otvoriti i %d nova prozora.\n"
 "Da li zaista želite da ovi kontakti budu prikazani?"
 msgstr[1] ""
-"Otvaranje %d kontakta će otvoriti i %d nova prozora.\n"
-"Da li zaista želite da ovaj kontakt bude prikazan?Otvaranje %d kontakta će "
+"Otvaranje %d kontakta će otvoriti i %d nov prozor.\n"
+"Da li zaista želite da ovaj kontakt bude prikazan?Otvaranje %d kontakata će "
 "otvoriti i %d nova prozora.\n"
 "Da li zaista želite da ovi kontakti budu prikazani?"
 msgstr[2] ""
-"Otvaranje %d kontakta će otvoriti i %d nova prozora.\n"
-"Da li zaista želite da ovaj kontakt bude prikazan?Otvaranje %d kontakta će "
+"Otvaranje %d kontakta će otvoriti i %d nov prozor.\n"
+"Da li zaista želite da ovaj kontakt bude prikazan?Otvaranje %d kontakata će "
 "otvoriti i %d nova prozora.\n"
 "Da li zaista želite da ovi kontakti budu prikazani?"
 
@@ -3582,21 +3586,28 @@ msgstr "Pregled karte"
 msgid "GTK Tree View"
 msgstr "Pregled GTK stabla"
 
-#: ../addressbook/importers/GNOME_Evolution_Addressbook_LDIF_Importer.server.in.in.h:1
+#: ../addressbook/importers/evolution-ldif-importer.c:486
+#: ../addressbook/importers/evolution-vcard-importer.c:249
+#: ../calendar/importers/icalendar-importer.c:311
+#: ../calendar/importers/icalendar-importer.c:643 ../shell/shell.error.xml.h:4
+msgid "Importing ..."
+msgstr "Uvoženje ..."
+
+#: ../addressbook/importers/evolution-ldif-importer.c:651
+msgid "LDAP Data Interchange Format (.ldif)"
+msgstr "LDAP oblik razmene podataka (.ldif)"
+
+#: ../addressbook/importers/evolution-ldif-importer.c:652
 msgid "Evolution LDIF importer"
 msgstr "Evolucija LDIF uvoznik"
 
-#: ../addressbook/importers/GNOME_Evolution_Addressbook_LDIF_Importer.server.in.in.h:2
-msgid "LDAP Data Interchange Format (.ldif)"
-msgstr "LDAP format razmene podataka (.ldif)"
-
-#: ../addressbook/importers/GNOME_Evolution_Addressbook_VCard_Importer.server.in.in.h:1
-msgid "Evolution VCard Importer"
-msgstr "Evolucija VKarta uvoznik"
-
-#: ../addressbook/importers/GNOME_Evolution_Addressbook_VCard_Importer.server.in.in.h:2
+#: ../addressbook/importers/evolution-vcard-importer.c:529
 msgid "VCard (.vcf, .gcrd)"
 msgstr "VKarta (.vcf, .gcrd)"
+
+#: ../addressbook/importers/evolution-vcard-importer.c:530
+msgid "Evolution VCard Importer"
+msgstr "Evolucija VKarta uvoznik"
 
 #: ../addressbook/printing/e-contact-print-envelope.c:213
 #: ../addressbook/printing/e-contact-print-envelope.c:234
@@ -4254,7 +4265,7 @@ msgid "Calendar and Tasks"
 msgstr "Kalendar i zaduženja"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:2
-#: ../calendar/gui/calendar-component.c:1292
+#: ../calendar/gui/calendar-component.c:1307
 msgid "Calendars"
 msgstr "Kalendari"
 
@@ -4290,8 +4301,8 @@ msgstr "Deo Evolucija zaduženja"
 #: ../calendar/gui/e-tasks.c:1242 ../calendar/gui/print.c:1822
 #: ../calendar/gui/tasks-component.c:519 ../calendar/gui/tasks-component.c:994
 #: ../calendar/gui/tasks-control.c:408
-#: ../calendar/importers/icalendar-importer.c:83
-#: ../calendar/importers/icalendar-importer.c:701
+#: ../calendar/importers/icalendar-importer.c:79
+#: ../calendar/importers/icalendar-importer.c:707
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:384
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:576
 #: ../plugins/proxy/proxy-add-dialog.glade.h:12
@@ -4831,7 +4842,7 @@ msgstr "Obriši događaje starije od"
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:20
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:12
 #: ../filter/filter.glade.h:14 ../plugins/calendar-http/calendar-http.c:265
-#: ../plugins/calendar-weather/calendar-weather.c:566
+#: ../plugins/calendar-weather/calendar-weather.c:565
 #: ../widgets/misc/e-send-options.glade.h:36
 msgid "days"
 msgstr "dana"
@@ -4859,68 +4870,68 @@ msgstr "Vreme"
 msgid "New Calendar"
 msgstr "Novi kalendar"
 
-#: ../calendar/gui/calendar-component.c:843
+#: ../calendar/gui/calendar-component.c:858
 msgid "Failed upgrading calendars."
 msgstr "Neuspela nadogradnja kalendara."
 
-#: ../calendar/gui/calendar-component.c:1139
+#: ../calendar/gui/calendar-component.c:1154
 #, c-format
 msgid "Unable to open the calendar '%s' for creating events and meetings"
 msgstr "Nije moguće otvoriti kalendar '%s' za pravljenje događaja i sastanaka"
 
-#: ../calendar/gui/calendar-component.c:1155
+#: ../calendar/gui/calendar-component.c:1170
 msgid "There is no calendar available for creating events and meetings"
 msgstr "Nema dostupnog kalendara za pravljenje događaja i sastanaka"
 
-#: ../calendar/gui/calendar-component.c:1267
+#: ../calendar/gui/calendar-component.c:1282
 msgid "Calendar Source Selector"
 msgstr "Birač izvora kalendara"
 
-#: ../calendar/gui/calendar-component.c:1458
+#: ../calendar/gui/calendar-component.c:1473
 msgid "New appointment"
 msgstr "Novi zakazani sastanak"
 
-#: ../calendar/gui/calendar-component.c:1459
+#: ../calendar/gui/calendar-component.c:1474
 msgid "_Appointment"
 msgstr "_Zakazani sastanak"
 
-#: ../calendar/gui/calendar-component.c:1460
+#: ../calendar/gui/calendar-component.c:1475
 msgid "Create a new appointment"
 msgstr "Zakazuje sastanak"
 
-#: ../calendar/gui/calendar-component.c:1466
+#: ../calendar/gui/calendar-component.c:1481
 msgid "New meeting"
 msgstr "Novi sastanak"
 
-#: ../calendar/gui/calendar-component.c:1467
+#: ../calendar/gui/calendar-component.c:1482
 msgid "M_eeting"
 msgstr "S_astanak"
 
-#: ../calendar/gui/calendar-component.c:1468
+#: ../calendar/gui/calendar-component.c:1483
 msgid "Create a new meeting request"
 msgstr "Pravi novi zahtev za sastankom"
 
-#: ../calendar/gui/calendar-component.c:1474
+#: ../calendar/gui/calendar-component.c:1489
 msgid "New all day appointment"
 msgstr "Novi celodnevni sastanak"
 
-#: ../calendar/gui/calendar-component.c:1475
+#: ../calendar/gui/calendar-component.c:1490
 msgid "All Day A_ppointment"
 msgstr "Celo_dnevni sastanak"
 
-#: ../calendar/gui/calendar-component.c:1476
+#: ../calendar/gui/calendar-component.c:1491
 msgid "Create a new all-day appointment"
 msgstr "Pravi novi celodnevni sastanak"
 
-#: ../calendar/gui/calendar-component.c:1482
+#: ../calendar/gui/calendar-component.c:1497
 msgid "New calendar"
 msgstr "Novi kalendar"
 
-#: ../calendar/gui/calendar-component.c:1483
+#: ../calendar/gui/calendar-component.c:1498
 msgid "Cale_ndar"
 msgstr "Kale_ndar"
 
-#: ../calendar/gui/calendar-component.c:1484
+#: ../calendar/gui/calendar-component.c:1499
 msgid "Create a new calendar"
 msgstr "Pravi novi kalendar"
 
@@ -4952,7 +4963,7 @@ msgstr "Metod nije podržan pri otvaranju kalendara"
 msgid "Permission denied to open the calendar"
 msgstr "Zabranjen pristup kalendaru"
 
-#: ../calendar/gui/comp-editor-factory.c:437 ../shell/e-shell.c:1288
+#: ../calendar/gui/comp-editor-factory.c:437 ../shell/e-shell.c:1286
 msgid "Unknown error"
 msgstr "Nepoznata greška"
 
@@ -5053,7 +5064,7 @@ msgstr "sat(i)"
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:24
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:13
 #: ../filter/filter.glade.h:15 ../plugins/calendar-http/calendar-http.c:264
-#: ../plugins/calendar-weather/calendar-weather.c:565
+#: ../plugins/calendar-weather/calendar-weather.c:564
 msgid "hours"
 msgstr "sati"
 
@@ -5098,13 +5109,13 @@ msgstr "%.0fG"
 
 #: ../calendar/gui/dialogs/cal-attachment-bar.c:311
 #: ../calendar/gui/dialogs/cal-attachment-bar.c:1106
-#: ../calendar/gui/dialogs/comp-editor.c:2420
+#: ../calendar/gui/dialogs/comp-editor.c:2426
 #: ../composer/e-msg-composer-attachment-bar.c:307 ../mail/em-utils.c:438
 msgid "attachment"
 msgstr "prilog"
 
 #: ../calendar/gui/dialogs/cal-attachment-bar.c:473
-#: ../calendar/gui/dialogs/comp-editor.c:1052
+#: ../calendar/gui/dialogs/comp-editor.c:1059
 #: ../calendar/gui/dialogs/meeting-page.c:889
 #: ../composer/e-msg-composer-attachment-bar.c:470
 #: ../composer/e-msg-composer.c:3397
@@ -5113,7 +5124,7 @@ msgid "_Remove"
 msgstr "_Ukloni"
 
 #: ../calendar/gui/dialogs/cal-attachment-bar.c:474
-#: ../calendar/gui/dialogs/comp-editor.c:1053
+#: ../calendar/gui/dialogs/comp-editor.c:1060
 #: ../composer/e-msg-composer-attachment-bar.c:471
 #: ../composer/e-msg-composer.c:3398 ../mail/em-folder-tree.c:2123
 #: ../ui/evolution-mail-list.xml.h:31
@@ -5121,7 +5132,7 @@ msgid "_Properties"
 msgstr "O_sobine"
 
 #: ../calendar/gui/dialogs/cal-attachment-bar.c:476
-#: ../calendar/gui/dialogs/comp-editor.c:1055
+#: ../calendar/gui/dialogs/comp-editor.c:1062
 #: ../composer/e-msg-composer-attachment-bar.c:473
 #: ../composer/e-msg-composer.c:3400
 msgid "_Add attachment..."
@@ -5142,7 +5153,7 @@ msgid "Suggest automatic display of attachment"
 msgstr "Predloži automatski prikaz priloga"
 
 #: ../calendar/gui/dialogs/cal-attachment-select-file.c:190
-#: ../composer/e-msg-composer-select-file.c:235
+#: ../composer/e-msg-composer-select-file.c:238
 msgid "Attach file(s)"
 msgstr "Prilaže datoteku(e)"
 
@@ -5529,7 +5540,7 @@ msgstr "_Dodaj listu zaduženja"
 
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:9
 #: ../plugins/calendar-http/calendar-http.c:248
-#: ../plugins/calendar-weather/calendar-weather.c:549
+#: ../plugins/calendar-weather/calendar-weather.c:548
 msgid "_Refresh:"
 msgstr "O_sveži:"
 
@@ -5540,7 +5551,7 @@ msgstr "_Adresa (URL):"
 
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:15
 #: ../filter/filter.glade.h:21 ../plugins/calendar-http/calendar-http.c:266
-#: ../plugins/calendar-weather/calendar-weather.c:567
+#: ../plugins/calendar-weather/calendar-weather.c:566
 msgid "weeks"
 msgstr "nedelje"
 
@@ -5650,11 +5661,11 @@ msgstr "Pre_mesti"
 msgid "Cancel _Drag"
 msgstr "Otkaži _prevlačenje"
 
-#: ../calendar/gui/dialogs/comp-editor.c:758
+#: ../calendar/gui/dialogs/comp-editor.c:765
 msgid "Could not update object"
 msgstr "Nije moguće osvežiti objekat"
 
-#: ../calendar/gui/dialogs/comp-editor.c:949 ../composer/e-msg-composer.c:2316
+#: ../calendar/gui/dialogs/comp-editor.c:956 ../composer/e-msg-composer.c:2316
 #, c-format
 msgid "<b>%d</b> Attachment"
 msgid_plural "<b>%d</b> Attachments"
@@ -5662,58 +5673,58 @@ msgstr[0] "<b>%d</b> prilog"
 msgstr[1] "<b>%d</b> priloga"
 msgstr[2] "<b>%d</b> priloga"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1218
+#: ../calendar/gui/dialogs/comp-editor.c:1225
 msgid "_Attachment Bar (drop attachments here)"
 msgstr "_Linija priloga (ovde prevucite priloge)"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1832
-#: ../calendar/gui/dialogs/comp-editor.c:1875
+#: ../calendar/gui/dialogs/comp-editor.c:1839
+#: ../calendar/gui/dialogs/comp-editor.c:1882
 msgid "Edit Appointment"
 msgstr "Uredi zakazani sastanak"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1838
-#: ../calendar/gui/dialogs/comp-editor.c:1881
+#: ../calendar/gui/dialogs/comp-editor.c:1845
+#: ../calendar/gui/dialogs/comp-editor.c:1888
 #, c-format
 msgid "Meeting - %s"
 msgstr "Sastanak - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1840
-#: ../calendar/gui/dialogs/comp-editor.c:1883
+#: ../calendar/gui/dialogs/comp-editor.c:1847
+#: ../calendar/gui/dialogs/comp-editor.c:1890
 #, c-format
 msgid "Appointment - %s"
 msgstr "Zakazani sastanak - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1844
-#: ../calendar/gui/dialogs/comp-editor.c:1887
+#: ../calendar/gui/dialogs/comp-editor.c:1851
+#: ../calendar/gui/dialogs/comp-editor.c:1894
 #, c-format
 msgid "Assigned Task - %s"
 msgstr "Dodeljeno zaduženje - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1846
-#: ../calendar/gui/dialogs/comp-editor.c:1889
+#: ../calendar/gui/dialogs/comp-editor.c:1853
+#: ../calendar/gui/dialogs/comp-editor.c:1896
 #, c-format
 msgid "Task - %s"
 msgstr "Zaduženje - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1849
-#: ../calendar/gui/dialogs/comp-editor.c:1892
+#: ../calendar/gui/dialogs/comp-editor.c:1856
+#: ../calendar/gui/dialogs/comp-editor.c:1899
 #, c-format
 msgid "Journal entry - %s"
 msgstr "Unos u dnevnik - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1860
-#: ../calendar/gui/dialogs/comp-editor.c:1902
+#: ../calendar/gui/dialogs/comp-editor.c:1867
+#: ../calendar/gui/dialogs/comp-editor.c:1909
 msgid "No summary"
 msgstr "Nema pregleda"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2509
-#: ../calendar/gui/dialogs/comp-editor.c:2542
-#: ../calendar/gui/dialogs/comp-editor.c:2566
+#: ../calendar/gui/dialogs/comp-editor.c:2515
+#: ../calendar/gui/dialogs/comp-editor.c:2548
+#: ../calendar/gui/dialogs/comp-editor.c:2572
 msgid "Changes made to this item may be discarded if an update arrives"
 msgstr ""
 "Promene načinjene na ovom predmetu mogu biti zanemarene ako bude osvežen"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2590
+#: ../calendar/gui/dialogs/comp-editor.c:2596
 msgid "Unable to use current version!"
 msgstr "Nije moguće korišćenje tekuće verzije!"
 
@@ -5782,6 +5793,7 @@ msgid "Contacts..."
 msgstr "Kontakti..."
 
 #: ../calendar/gui/dialogs/e-delegate-dialog.glade.h:2
+#: ../plugins/exchange-operations/exchange-delegates.c:420
 msgid "Delegate To:"
 msgstr "Delegiraj:"
 
@@ -6009,8 +6021,8 @@ msgstr "<b>Šalje:</b>"
 #: ../filter/filter-rule.c:881 ../mail/em-account-editor.c:683
 #: ../mail/em-account-editor.c:1346 ../mail/em-account-prefs.c:464
 #: ../mail/em-folder-view.c:1062
-#: ../plugins/calendar-weather/calendar-weather.c:371
-#: ../plugins/calendar-weather/calendar-weather.c:425
+#: ../plugins/calendar-weather/calendar-weather.c:370
+#: ../plugins/calendar-weather/calendar-weather.c:424
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:7
 #: ../plugins/itip-formatter/itip-formatter.c:1574
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.c:190
@@ -6153,9 +6165,8 @@ msgid "You are modifying a recurring event, what would you like to modify?"
 msgstr "Menjate povratni događaj, šta želite da izmenite?"
 
 #: ../calendar/gui/dialogs/recur-comp.c:54
-#, fuzzy
 msgid "You are delegating a recurring event, what would like to delegate?"
-msgstr "Menjate povratni događaj, šta želite da izmenite?"
+msgstr "Delegirate povratni događaj, šta želite da delegirate?"
 
 #: ../calendar/gui/dialogs/recur-comp.c:58
 msgid "You are modifying a recurring task, what would you like to modify?"
@@ -6570,7 +6581,7 @@ msgstr "Datum završetka:"
 #. Status
 #: ../calendar/gui/e-cal-component-preview.c:222
 #: ../calendar/gui/e-itip-control.c:1132
-#: ../plugins/exchange-operations/exchange-account-setup.c:262
+#: ../plugins/exchange-operations/exchange-account-setup.c:263
 #: ../plugins/itip-formatter/itip-view.c:907
 msgid "Status:"
 msgstr "Status:"
@@ -8141,45 +8152,42 @@ msgstr "Štampaj zaduženja"
 msgid "SMTWTFS"
 msgstr "NPUSČPS"
 
-#: ../calendar/importers/GNOME_Evolution_Calendar_Importer.server.in.in.h:1
-msgid "Evolution Calendar intelligent importer"
-msgstr "Evolucija kalendar inteligentni uvoznik"
-
-#: ../calendar/importers/GNOME_Evolution_Calendar_Importer.server.in.in.h:2
-msgid "Evolution iCalendar importer"
-msgstr "Evolucija iCalendar uvoznik"
-
-#: ../calendar/importers/GNOME_Evolution_Calendar_Importer.server.in.in.h:3
-msgid "Evolution vCalendar importer"
-msgstr "Evolucija vCalendar uvoznik"
-
-#: ../calendar/importers/GNOME_Evolution_Calendar_Importer.server.in.in.h:4
-msgid "iCalendar files (.ics)"
-msgstr "iCalendar datoteke (.ics)"
-
-#: ../calendar/importers/GNOME_Evolution_Calendar_Importer.server.in.in.h:5
-msgid "vCalendar files (.vcf)"
-msgstr "vCalendar datoteke (.vcf)"
-
-#: ../calendar/importers/icalendar-importer.c:82
+#: ../calendar/importers/icalendar-importer.c:78
 msgid "Appointments and Meetings"
 msgstr "Zakazivanje i sastanci"
 
-#: ../calendar/importers/icalendar-importer.c:486
+#: ../calendar/importers/icalendar-importer.c:336
+#: ../calendar/importers/icalendar-importer.c:586
+msgid "Opening calendar"
+msgstr "Otvaranje kalendara"
+
+#: ../calendar/importers/icalendar-importer.c:429
+msgid "iCalendar files (.ics)"
+msgstr "iCalendar datoteke (.ics)"
+
+#: ../calendar/importers/icalendar-importer.c:430
+msgid "Evolution iCalendar importer"
+msgstr "Evolucija iCalendar uvoznik"
+
+#: ../calendar/importers/icalendar-importer.c:494
 msgid "Reminder!!"
 msgstr "Podsetnik!!"
 
-#: ../calendar/importers/icalendar-importer.c:694
+#: ../calendar/importers/icalendar-importer.c:539
+msgid "vCalendar files (.vcf)"
+msgstr "vCalendar datoteke (.vcf)"
+
+#: ../calendar/importers/icalendar-importer.c:540
+msgid "Evolution vCalendar importer"
+msgstr "Evolucija vCalendar uvoznik"
+
+#: ../calendar/importers/icalendar-importer.c:702
 msgid "Calendar Events"
 msgstr "Kalendarski događaji"
 
-#: ../calendar/importers/icalendar-importer.c:719
-msgid ""
-"Evolution has found Gnome Calendar files.\n"
-"Would you like to import them into Evolution?"
-msgstr ""
-"Evolucija je pronašla datoteke Gnomovog kalendara.\n"
-"Želite li da ih uvezete u Evoluciju?"
+#: ../calendar/importers/icalendar-importer.c:739
+msgid "Evolution Calendar intelligent importer"
+msgstr "Evolucija kalendar inteligentni uvoznik"
 
 # * We only place them here so gettext picks them up for translation.
 # * Don't include in any C files.
@@ -9713,15 +9721,15 @@ msgstr "Pacifik/Volis"
 msgid "Pacific/Yap"
 msgstr "Pacifik/Jap"
 
-#: ../composer/e-msg-composer-hdrs.c:550
+#: ../composer/e-msg-composer-hdrs.c:559
 msgid "Posting destination"
 msgstr "Odredišna pošta"
 
-#: ../composer/e-msg-composer-hdrs.c:551
+#: ../composer/e-msg-composer-hdrs.c:560
 msgid "Choose folders to post the message to."
 msgstr "Izaberite fascikle za slanje poruke."
 
-#: ../composer/e-msg-composer-hdrs.c:585
+#: ../composer/e-msg-composer-hdrs.c:594
 msgid "Click here for the address book"
 msgstr "Kliknite ovde za adresar."
 
@@ -9736,45 +9744,45 @@ msgstr "Kliknite ovde za adresar."
 #. * because that causes from_changed to be called, which
 #. * expects the reply_to fields to be initialized.
 #.
-#: ../composer/e-msg-composer-hdrs.c:615
+#: ../composer/e-msg-composer-hdrs.c:624
 msgid "_Reply-To:"
 msgstr "_Odgovor:"
 
 #.
 #. * From
 #.
-#: ../composer/e-msg-composer-hdrs.c:622
+#: ../composer/e-msg-composer-hdrs.c:631
 msgid "Fr_om:"
 msgstr "Š_alje:"
 
 #.
 #. * Subject
 #.
-#: ../composer/e-msg-composer-hdrs.c:629
+#: ../composer/e-msg-composer-hdrs.c:638
 msgid "S_ubject:"
 msgstr "Na_slov:"
 
-#: ../composer/e-msg-composer-hdrs.c:639
+#: ../composer/e-msg-composer-hdrs.c:648
 msgid "_To:"
 msgstr "_Prima:"
 
-#: ../composer/e-msg-composer-hdrs.c:640
+#: ../composer/e-msg-composer-hdrs.c:649
 msgid "Enter the recipients of the message"
 msgstr "Unesite primaoce poruke"
 
-#: ../composer/e-msg-composer-hdrs.c:643
+#: ../composer/e-msg-composer-hdrs.c:652
 msgid "_Cc:"
 msgstr "_Kopija (Cc):"
 
-#: ../composer/e-msg-composer-hdrs.c:644
+#: ../composer/e-msg-composer-hdrs.c:653
 msgid "Enter the addresses that will receive a carbon copy of the message"
 msgstr "Unesite adrese koje će primiti umnožak (cc) poruke"
 
-#: ../composer/e-msg-composer-hdrs.c:647
+#: ../composer/e-msg-composer-hdrs.c:656
 msgid "_Bcc:"
 msgstr "_Nevidljiva kopija (Bcc):"
 
-#: ../composer/e-msg-composer-hdrs.c:648
+#: ../composer/e-msg-composer-hdrs.c:657
 msgid ""
 "Enter the addresses that will receive a carbon copy of the message without "
 "appearing in the recipient list of the message."
@@ -9785,15 +9793,15 @@ msgstr ""
 #.
 #. * Post-To
 #.
-#: ../composer/e-msg-composer-hdrs.c:655
+#: ../composer/e-msg-composer-hdrs.c:664
 msgid "_Post To:"
 msgstr "S_lanje na:"
 
-#: ../composer/e-msg-composer-hdrs.c:660
+#: ../composer/e-msg-composer-hdrs.c:669
 msgid "Click here to select folders to post to"
 msgstr "Kliknite ovde da izaberete fascikle za slanje"
 
-#: ../composer/e-msg-composer-hdrs.c:666
+#: ../composer/e-msg-composer-hdrs.c:675
 msgid "Post To:"
 msgstr "Slanje na:"
 
@@ -10614,9 +10622,9 @@ msgstr "Kontrola postavki Evolucija pošte"
 
 # 48x48/emblems/emblem-mail.icon.in.h:1
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:11 ../mail/em-folder-view.c:493
-#: ../mail/importers/elm-importer.c:418
+#: ../mail/importers/elm-importer.c:342
 #: ../mail/importers/netscape-importer.c:1902
-#: ../mail/importers/pine-importer.c:474 ../mail/mail-component.c:559
+#: ../mail/importers/pine-importer.c:388 ../mail/mail-component.c:559
 #: ../mail/mail-component.c:646 ../plugins/proxy/proxy-add-dialog.glade.h:6
 msgid "Mail"
 msgstr "Pošta"
@@ -10683,7 +10691,7 @@ msgstr "Podrazumevano"
 
 #. Security settings
 #: ../mail/em-account-editor.c:2207 ../mail/mail-config.glade.h:122
-#: ../plugins/exchange-operations/exchange-account-setup.c:312
+#: ../plugins/exchange-operations/exchange-account-setup.c:313
 msgid "Security"
 msgstr "Sigurnost"
 
@@ -10722,7 +10730,7 @@ msgid "Mail Accounts Table"
 msgstr "Tabela poštanskih naloga"
 
 #: ../mail/em-composer-prefs.c:306 ../mail/em-composer-prefs.c:429
-#: ../mail/mail-config.c:953
+#: ../mail/mail-config.c:958
 msgid "Unnamed"
 msgstr "Bez imena"
 
@@ -10738,11 +10746,11 @@ msgstr "Dodaj skriptu za potpis"
 msgid "Signature(s)"
 msgstr "Potpis(i)"
 
-#: ../mail/em-composer-utils.c:852
+#: ../mail/em-composer-utils.c:853
 msgid "-------- Forwarded Message --------"
 msgstr "-------- Prosleđena poruka --------"
 
-#: ../mail/em-composer-utils.c:1644
+#: ../mail/em-composer-utils.c:1645
 msgid "an unknown sender"
 msgstr "nepoznati pošiljalac"
 
@@ -10751,7 +10759,7 @@ msgstr "nepoznati pošiljalac"
 #. Note to translators: this is the attribution string used when quoting messages.
 #. * each ${Variable} gets replaced with a value. To see a full list of available
 #. * variables, see em-composer-utils.c:1514
-#: ../mail/em-composer-utils.c:1691
+#: ../mail/em-composer-utils.c:1692
 msgid ""
 "On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} "
 "${TimeZone}, ${Sender} wrote:"
@@ -11169,7 +11177,7 @@ msgstr "Umnožavanje `%s' u `%s'"
 
 #: ../mail/em-folder-utils.c:367 ../mail/em-folder-utils.c:383
 #: ../mail/em-folder-view.c:929 ../mail/em-folder-view.c:944
-#: ../mail/importers/evolution-mbox-importer.c:120
+#: ../mail/importers/evolution-mbox-importer.c:85
 #: ../mail/importers/evolution-outlook-importer.c:134
 msgid "Select folder"
 msgstr "Izaberite fasciklu"
@@ -11472,14 +11480,12 @@ msgid "_Hide"
 msgstr "_Sakrij"
 
 #: ../mail/em-format-html-display.c:1136
-#, fuzzy
 msgid "_Fit to Width"
-msgstr "Iseci širinu"
+msgstr "_Prilagodi na širinu"
 
 #: ../mail/em-format-html-display.c:1137
-#, fuzzy
 msgid "Show _Original Size"
-msgstr "Izvorna _veličina"
+msgstr "Prikaži _originalnu veličinu"
 
 #: ../mail/em-format-html-display.c:1462
 msgid "Attachment Button"
@@ -11500,14 +11506,12 @@ msgid "Valid signature but cannot verify sender"
 msgstr "Ispravan potpis ali nije moguća provera pošiljaoca"
 
 #: ../mail/em-format-html.c:693
-#, fuzzy
 msgid "Unknown error verifying signed messaage"
-msgstr "Nepoznata greška pri proveri potpisa"
+msgstr "Nepoznata greška pri proveri potpisane poruke"
 
 #: ../mail/em-format-html.c:758
-#, fuzzy
 msgid "Unknown error decrypting messaage"
-msgstr "Nepoznata greška pri proveri potpisa"
+msgstr "Nepoznata greška pri dešifrovanju poruke"
 
 #: ../mail/em-format-html.c:967
 msgid "Malformed external-body part."
@@ -11571,7 +11575,7 @@ msgstr "Nevidljiva kopija (Bcc)"
 
 #. pseudo-header
 #: ../mail/em-format-html.c:1675 ../mail/em-format-quote.c:319
-#: ../mail/em-mailer-prefs.c:986
+#: ../mail/em-mailer-prefs.c:987
 msgid "Mailer"
 msgstr "Pošiljalac"
 
@@ -12269,93 +12273,60 @@ msgstr ""
 "Da li pokušati prikaz niza rasprave po naslovu kada poruke ne sadrže "
 "zaglavlja Odgovor ili Reference."
 
-#: ../mail/importers/GNOME_Evolution_Mail_Importers.server.in.in.h:1
-msgid "Evolution Elm importer"
-msgstr "Evolucija Elm uvoznik"
-
-#: ../mail/importers/GNOME_Evolution_Mail_Importers.server.in.in.h:2
-msgid "Evolution Netscape Mail importer"
-msgstr "Evolucija Netscape pošta uvoznik"
-
-#: ../mail/importers/GNOME_Evolution_Mail_Importers.server.in.in.h:3
-msgid "Evolution Outlook Express 4 importer"
-msgstr "Evolucija Outlook Express 4 uvoznik"
-
-#: ../mail/importers/GNOME_Evolution_Mail_Importers.server.in.in.h:4
-msgid "Evolution Pine importer"
-msgstr "Evolucija Pine uvoznik"
-
-#: ../mail/importers/GNOME_Evolution_Mail_Importers.server.in.in.h:5
-msgid "Evolution mbox importer"
-msgstr "Evolucija mbox uvoznik"
-
-#: ../mail/importers/GNOME_Evolution_Mail_Importers.server.in.in.h:6
-msgid "MBox (mbox)"
-msgstr "MBox (mbox)"
-
-#: ../mail/importers/GNOME_Evolution_Mail_Importers.server.in.in.h:7
-msgid "Outlook Express 4 (.mbx)"
-msgstr "Outlook Express 4 (.mbx)"
-
-#: ../mail/importers/elm-importer.c:88
-msgid "Evolution is importing your old Elm mail"
-msgstr "Evolucija uvozi staru Elm poštu"
-
-#: ../mail/importers/elm-importer.c:89
-#: ../mail/importers/evolution-mbox-importer.c:225
-#: ../mail/importers/evolution-outlook-importer.c:259
-#: ../mail/importers/netscape-importer.c:1251
-#: ../mail/importers/pine-importer.c:117
-msgid "Importing..."
-msgstr "Uvoženje..."
-
-#: ../mail/importers/elm-importer.c:91
-#: ../mail/importers/evolution-mbox-importer.c:227
-#: ../mail/importers/evolution-outlook-importer.c:261
-#: ../mail/importers/netscape-importer.c:1253
-#: ../mail/importers/pine-importer.c:119
-msgid "Please wait"
-msgstr "Sačekajte"
-
-#: ../mail/importers/elm-importer.c:244
+#: ../mail/importers/elm-importer.c:193
 msgid "Importing Elm data"
 msgstr "Uvoženje Elm podataka"
 
-#: ../mail/importers/elm-importer.c:436
-msgid ""
-"Evolution has found Elm mail files\n"
-"Would you like to import them into Evolution?"
-msgstr ""
-"Evolucija je pronašla Elm datoteke pošte\n"
-"Želite li da ih uvezete u Evoluciju?"
+#: ../mail/importers/elm-importer.c:382
+msgid "Evolution Elm importer"
+msgstr "Evolucija Elm uvoznik"
 
-#: ../mail/importers/elm-importer.c:444
-msgid "Elm"
-msgstr "Elm"
+#: ../mail/importers/elm-importer.c:383
+msgid "Import mail from Elm."
+msgstr "Važna pošta iz programa Elm."
 
-#: ../mail/importers/evolution-mbox-importer.c:117
+#: ../mail/importers/evolution-mbox-importer.c:82
 #: ../mail/importers/evolution-outlook-importer.c:131
 msgid "Destination folder:"
 msgstr "Odredišna fascikla:"
 
-#: ../mail/importers/evolution-mbox-importer.c:120
+#: ../mail/importers/evolution-mbox-importer.c:85
 #: ../mail/importers/evolution-outlook-importer.c:134
 msgid "Select folder to import into"
 msgstr "Izaberite fasciklu za uvoz"
 
-#: ../mail/importers/evolution-mbox-importer.c:223
+#: ../mail/importers/evolution-mbox-importer.c:216
+msgid "Berkeley Mailbox (mbox)"
+msgstr "Berkli sanduče (mbox)"
+
+#: ../mail/importers/evolution-mbox-importer.c:217
+msgid "Importer Berkeley Mailbox format folders"
+msgstr "Uvoznik za fascikle oblika Berkli sandučeta"
+
 #: ../mail/importers/evolution-outlook-importer.c:257
-#: ../mail/importers/mail-importer.c:226
+#: ../mail/importers/mail-importer.c:230 ../shell/e-shell-importer.c:516
 #, c-format
 msgid "Importing `%s'"
 msgstr "Uvoženje `%s'"
 
+#: ../mail/importers/evolution-outlook-importer.c:259
+#: ../mail/importers/netscape-importer.c:1251
+msgid "Importing..."
+msgstr "Uvoženje..."
+
+#: ../mail/importers/evolution-outlook-importer.c:261
+#: ../mail/importers/netscape-importer.c:1253
+#: ../plugins/startup-wizard/startup-wizard.c:236
+#: ../shell/e-shell-importer.c:523
+msgid "Please wait"
+msgstr "Sačekajte"
+
 #: ../mail/importers/evolution-outlook-importer.c:305
-#: ../mail/importers/mail-importer.c:140
+#: ../mail/importers/mail-importer.c:144
 msgid "Importing mailbox"
 msgstr "Uvoženje mailbox-a"
 
-#: ../mail/importers/mail-importer.c:363
+#: ../mail/importers/mail-importer.c:373
 #, c-format
 msgid "Scanning %s"
 msgstr "Pretraga %s"
@@ -12441,25 +12412,17 @@ msgstr ""
 "Evolucija je pronašla Netscape datoteke pošte.\n"
 "Želite li da budu uvežene u Evoluciju?"
 
-#: ../mail/importers/pine-importer.c:116
-msgid "Evolution is importing your old Pine data"
-msgstr "Evolucija uvozi stare Pine podatke."
-
-#: ../mail/importers/pine-importer.c:314
+#: ../mail/importers/pine-importer.c:230
 msgid "Importing Pine data"
 msgstr "Uvoženje Pine podataka"
 
-#: ../mail/importers/pine-importer.c:498
-msgid ""
-"Evolution has found Pine mail files.\n"
-"Would you like to import them into Evolution?"
-msgstr ""
-"Evolucija je pronašla Pine datoteke pošte.\n"
-"Želite li da ih uvezete u Evoluciju?"
+#: ../mail/importers/pine-importer.c:434
+msgid "Evolution Pine importer"
+msgstr "Evolucija Pine uvoznik"
 
-#: ../mail/importers/pine-importer.c:506
-msgid "Pine"
-msgstr "Pine"
+#: ../mail/importers/pine-importer.c:435
+msgid "Import mail from Pine."
+msgstr "Uvezi poštu iz programa Pine."
 
 #: ../mail/mail-autofilter.c:78
 #, c-format
@@ -12570,6 +12533,7 @@ msgid "Failed upgrading Mail settings or folders."
 msgstr "Neuspela nadogradnja podešavanja pošte ili fascikli."
 
 #: ../mail/mail-config.glade.h:1 ../mail/mail-dialogs.glade.h:1
+#: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:1
 #: ../widgets/menus/gal-view-instance-save-as-dialog.glade.h:1
 msgid "    "
 msgstr "    "
@@ -13627,9 +13591,8 @@ msgstr ""
 "pišete."
 
 #: ../mail/mail.error.xml.h:8
-#, fuzzy
 msgid "Are you sure you want to delete this account and all its proxies?"
-msgstr "Sigurno želite da obrišete ovaj nalog?"
+msgstr "Sigurno želite da obrišete ovaj nalog i sve pripadajuće elemente?"
 
 #: ../mail/mail.error.xml.h:9
 msgid "Are you sure you want to delete this account?"
@@ -13841,11 +13804,12 @@ msgstr ""
 "trajno obrisani."
 
 #: ../mail/mail.error.xml.h:54
-#, fuzzy
 msgid ""
 "If you proceed, the account information and\n"
 "all proxy information will be deleted permanently."
-msgstr "Ukoliko nastavite, podaci naloga biće trajno obrisani."
+msgstr ""
+"Ukoliko nastavite, podaci naloga i svi pripadajući\n"
+"podaci će biti trajno obrisani."
 
 #: ../mail/mail.error.xml.h:56
 msgid "If you proceed, the account information will be deleted permanently."
@@ -14450,19 +14414,19 @@ msgstr "Vreme: sunčano"
 msgid "Weather: Thunderstorms"
 msgstr "Vreme: Grmljavine"
 
-#: ../plugins/calendar-weather/calendar-weather.c:268
+#: ../plugins/calendar-weather/calendar-weather.c:267
 msgid "Select a location"
 msgstr "Izaberite mesto"
 
-#: ../plugins/calendar-weather/calendar-weather.c:655
+#: ../plugins/calendar-weather/calendar-weather.c:654
 msgid "_Units:"
 msgstr "_Jedinice:"
 
-#: ../plugins/calendar-weather/calendar-weather.c:662
+#: ../plugins/calendar-weather/calendar-weather.c:661
 msgid "Metric (Celsius, cm, etc)"
 msgstr "Metrične (Celzijus, cm, itd.)"
 
-#: ../plugins/calendar-weather/calendar-weather.c:663
+#: ../plugins/calendar-weather/calendar-weather.c:662
 msgid "Imperial (Fahrenheit, inches, etc)"
 msgstr "Imperijalne (Farenhajt, inči, itd.)"
 
@@ -14495,13 +14459,31 @@ msgstr "Alat za umnožavanje"
 msgid "Mark as default folder"
 msgstr "Označava kao podrazumevanu fasciklu"
 
+#: ../plugins/exchange-operations/e-foreign-folder-dialog.glade.h:1
+msgid "Open Other User's Folder"
+msgstr "Otvara fasciklu drugog korisnika"
+
+#: ../plugins/exchange-operations/e-foreign-folder-dialog.glade.h:2
+#, fuzzy
+msgid "_Account:"
+msgstr "Ime n_aloga:"
+
+#: ../plugins/exchange-operations/e-foreign-folder-dialog.glade.h:3
+msgid "_Folder Name:"
+msgstr "_Ime fascikle:"
+
+#: ../plugins/exchange-operations/e-foreign-folder-dialog.glade.h:4
+#, fuzzy
+msgid "_User:"
+msgstr "_Korisničko ime:"
+
 #. i18n: "Secure Password Authentication" is an Outlookism
-#: ../plugins/exchange-operations/exchange-account-setup.c:61
+#: ../plugins/exchange-operations/exchange-account-setup.c:62
 msgid "Secure Password"
 msgstr "Sigurna lozinka"
 
 #. i18n: "NTLM" probably doesn't translate
-#: ../plugins/exchange-operations/exchange-account-setup.c:64
+#: ../plugins/exchange-operations/exchange-account-setup.c:65
 msgid ""
 "This option will connect to the Exchange server using secure password (NTLM) "
 "authentication."
@@ -14509,11 +14491,11 @@ msgstr ""
 "Ova opcija će povezati na Exchange server korišćenjem prijave sigurnom "
 "lozinkom (NTLM)."
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:72
+#: ../plugins/exchange-operations/exchange-account-setup.c:73
 msgid "Plaintext Password"
 msgstr "Tekstualna lozinka"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:74
+#: ../plugins/exchange-operations/exchange-account-setup.c:75
 msgid ""
 "This option will connect to the Exchange server using standard plaintext "
 "password authentication."
@@ -14521,12 +14503,11 @@ msgstr ""
 "Ova opcija će povezati na Exchange server korišćenjem prijave tekstualnom "
 "lozinke."
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:250
-#, fuzzy
+#: ../plugins/exchange-operations/exchange-account-setup.c:251
 msgid "Out Of Office"
 msgstr "Van kancelarije"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:257
+#: ../plugins/exchange-operations/exchange-account-setup.c:258
 msgid ""
 "The message specified below will be automatically sent to \n"
 "each person who sends mail to you while you are out of the office."
@@ -14534,157 +14515,607 @@ msgstr ""
 "Dole izabrana poruka će biti automatski poslata svakoj osobi \n"
 "koja Vam pošalje poštu dok ste van kancelarije."
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:269
-#: ../plugins/exchange-operations/exchange-account-setup.c:274
+#: ../plugins/exchange-operations/exchange-account-setup.c:270
+#: ../plugins/exchange-operations/exchange-account-setup.c:275
 msgid "I am out of the office"
 msgstr "Nisam u kancelariji"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:270
-#: ../plugins/exchange-operations/exchange-account-setup.c:273
+#: ../plugins/exchange-operations/exchange-account-setup.c:271
+#: ../plugins/exchange-operations/exchange-account-setup.c:274
 msgid "I am in the office"
 msgstr "U kancelariji sam"
 
 #. Change Password
-#: ../plugins/exchange-operations/exchange-account-setup.c:322
-#, fuzzy
+#: ../plugins/exchange-operations/exchange-account-setup.c:323
 msgid "Change the password for Exchange account"
-msgstr "Unesite lozinku za %s"
+msgstr "Unesite lozinku za nalog Exchange"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:324
+#: ../plugins/exchange-operations/exchange-account-setup.c:325
 #: ../plugins/exchange-operations/exchange-change-password.glade.h:2
-#, fuzzy
 msgid "Change Password"
-msgstr "Unesite lozinku"
+msgstr "Izmenite lozinku"
 
 #. Delegation Assistant
-#: ../plugins/exchange-operations/exchange-account-setup.c:328
+#: ../plugins/exchange-operations/exchange-account-setup.c:329
 msgid "Manage the delegate settings for Exchange account"
-msgstr ""
+msgstr "Upravljajte podešavanjima delegata za nalog Exchange"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:330
-#, fuzzy
+#: ../plugins/exchange-operations/exchange-account-setup.c:331
 msgid "Delegation Assitant"
-msgstr "Pomoćnik za pravljenje kalendara"
+msgstr "Pomoćnik za delegiranje"
 
 #. Miscelleneous settings
-#: ../plugins/exchange-operations/exchange-account-setup.c:341
-#, fuzzy
+#: ../plugins/exchange-operations/exchange-account-setup.c:342
 msgid "Miscelleneous"
-msgstr "<b>Razno</b>"
+msgstr "Razno"
 
 #. Folder Size
-#: ../plugins/exchange-operations/exchange-account-setup.c:351
-#, fuzzy
+#: ../plugins/exchange-operations/exchange-account-setup.c:352
 msgid "View the size of all Exchange folders"
-msgstr "Pregledaj izabranu fasciklu"
+msgstr "Pregledaj veličine svih Exchange fascikli"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:353
-#, fuzzy
+#: ../plugins/exchange-operations/exchange-account-setup.c:354
 msgid "Folders Size"
-msgstr "Fascikle"
+msgstr "Veličina Fascikli"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:360
+#: ../plugins/exchange-operations/exchange-account-setup.c:361
 msgid "Exchange Settings"
 msgstr "Exchange podešavanja"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:609
+#: ../plugins/exchange-operations/exchange-account-setup.c:604
 msgid "_OWA Url:"
 msgstr "_OWA adresa (Url):"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:634
+#: ../plugins/exchange-operations/exchange-account-setup.c:629
 msgid "A_uthenticate"
 msgstr "_Prijava"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:826
+#: ../plugins/exchange-operations/exchange-account-setup.c:821
 msgid "Authentication Type"
 msgstr "Tip prijave"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:840
+#: ../plugins/exchange-operations/exchange-account-setup.c:835
 msgid "Ch_eck for Supported Types"
 msgstr "_Proveri podržane tipove"
 
+#. User entered a wrong existing
+#. * password. Prompt him again.
+#.
+#: ../plugins/exchange-operations/exchange-change-password.c:115
+msgid ""
+"The current password does not match the existing password for your account. "
+"Please enter the correct password"
+msgstr ""
+
+#: ../plugins/exchange-operations/exchange-change-password.c:122
+msgid "The two passwords do not match. Please re-enter the passwords."
+msgstr ""
+
 #: ../plugins/exchange-operations/exchange-change-password.glade.h:3
-#, fuzzy
 msgid "Confirm Password:"
-msgstr "Unesite lozinku"
+msgstr "Potvrdite lozinku:"
 
 #: ../plugins/exchange-operations/exchange-change-password.glade.h:4
-#, fuzzy
 msgid "Current Password:"
-msgstr "Sigurna lozinka"
+msgstr "Sadašnja lozinka:"
 
 #: ../plugins/exchange-operations/exchange-change-password.glade.h:5
-#, fuzzy
 msgid "New Password:"
-msgstr "_Lozinka:"
+msgstr "Nova lozinka:"
 
 #: ../plugins/exchange-operations/exchange-change-password.glade.h:6
 msgid "Your current password has expired. Please change your password now."
+msgstr "Sadašnja lozinka je istekla. Izmenite Vašu lozinku sada."
+
+#: ../plugins/exchange-operations/exchange-delegates.c:222
+msgid ""
+"No Global Catalog server configured for this account.\n"
+"Unable to edit delegates."
 msgstr ""
+
+#: ../plugins/exchange-operations/exchange-delegates.c:261
+#, fuzzy
+msgid ""
+"Could not read folder permissions.\n"
+"Unable to edit delegates."
+msgstr "Nije moguće poslati obaveštenje o poništenju delegatu"
+
+#: ../plugins/exchange-operations/exchange-delegates.c:268
+msgid ""
+"Could not determine folder permissions for delegates.\n"
+"Unable to edit delegates."
+msgstr ""
+
+#: ../plugins/exchange-operations/exchange-delegates.c:420
+#, fuzzy
+msgid "Delegate To"
+msgstr "Delegiraj:"
+
+#: ../plugins/exchange-operations/exchange-delegates.c:436
+#, fuzzy, c-format
+msgid "Could not make %s a delegate"
+msgstr "Nije moguće pravljenje poruke."
+
+#: ../plugins/exchange-operations/exchange-delegates.c:446
+msgid "You cannot make yourself your own delegate"
+msgstr ""
+
+#: ../plugins/exchange-operations/exchange-delegates.c:455
+#, c-format
+msgid "%s is already a delegate"
+msgstr ""
+
+#: ../plugins/exchange-operations/exchange-delegates.c:564
+#, fuzzy, c-format
+msgid "Remove the delegate %s?"
+msgstr "Organizator je uklonio delegata %s "
+
+#: ../plugins/exchange-operations/exchange-delegates.c:681
+#, fuzzy
+msgid "Could not access Active Directory"
+msgstr ""
+"Nije moguće pravljenje fascikle %s:\n"
+"%s"
+
+#: ../plugins/exchange-operations/exchange-delegates.c:696
+#, fuzzy
+msgid "Could not find self in Active Directory"
+msgstr "Nije moguće otvoriti cache direktorijum: %s"
+
+#: ../plugins/exchange-operations/exchange-delegates.c:709
+#, fuzzy, c-format
+msgid "Could not find delegate %s in Active Directory"
+msgstr "Nije moguće otvoriti cache direktorijum: %s"
+
+#: ../plugins/exchange-operations/exchange-delegates.c:721
+#, fuzzy, c-format
+msgid "Could not remove delegate %s"
+msgstr "Nije moguć upis podataka: %s"
+
+#: ../plugins/exchange-operations/exchange-delegates.c:781
+#, fuzzy
+msgid "Could not update list of delegates."
+msgstr "Nije moguće osvežiti netačan objekat"
+
+#: ../plugins/exchange-operations/exchange-delegates.c:799
+#, fuzzy, c-format
+msgid "Could not add delegate %s"
+msgstr "Nije moguće brisanje fascikle: %s"
+
+#: ../plugins/exchange-operations/exchange-delegates.c:815
+#, fuzzy, c-format
+msgid ""
+"Failed to update delegates:\n"
+"%s"
+msgstr "Nisje moguće privremeno čuvanje poruke %s: %s"
+
+#: ../plugins/exchange-operations/exchange-delegates.c:968
+#, fuzzy
+msgid "Error reading delegates list."
+msgstr "Greška pri učitavanju liste zaduženja"
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:1
 msgid "Author (read, create)"
-msgstr ""
+msgstr "Autor (čita, pravi)"
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:2
 msgid "C_alendar:"
 msgstr "K_alendar"
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:3
-#, fuzzy
 msgid "Co_ntacts:"
-msgstr "Kontakti: "
+msgstr "Ko_ntakti: "
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:4
-#, fuzzy
 msgid "Delegate Permissions"
-msgstr "Delegati"
+msgstr "Delegiraj ovlašćenja"
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:5
-#, fuzzy
 msgid "Delegates"
 msgstr "Delegati"
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:6
 msgid "Editor (read, create, edit)"
-msgstr ""
+msgstr "Uređivač (čita, pravi, uređuje)"
 
 # E_BOOK_ERROR_URI_ALREADY_LOADED
 # E_BOOK_ERROR_PERMISSION_DENIED
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:8
-#, fuzzy
 msgid "Permissions for"
-msgstr "Zabranjen pristup"
+msgstr "Ovlašćenja za"
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:9
-#, fuzzy
 msgid "Reviewer (read-only)"
-msgstr "Servis spreman"
+msgstr "Recenzent (samo za čitanje)"
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:10
 msgid ""
 "These users will be able to send mail on your behalf\n"
 "and access your folders with the permissions you give them."
 msgstr ""
+"Ovi korisnici će moći da šalju poštu u Vaše ime\n"
+"i pristupaju Vašim fasciklama sa ovlašćenjima koja im dodelite."
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:12
-#, fuzzy
 msgid "_Delegate can see private items"
-msgstr "Napravi novu probni predmet"
+msgstr "_Delegati mogu da vide lične predmete"
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:14
-#, fuzzy
 msgid "_Inbox:"
-msgstr "Sanduče"
+msgstr "_Sanduče:"
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:15
 msgid "_Tasks:"
 msgstr "Za_duženja:"
 
-#: ../plugins/exchange-operations/exchange-folder-tree.glade.h:1
+#: ../plugins/exchange-operations/exchange-delegates-user.c:144
 #, fuzzy
+msgid "Custom"
+msgstr "Prilagođen pregled"
+
+# E_BOOK_ERROR_URI_ALREADY_LOADED
+# E_BOOK_ERROR_PERMISSION_DENIED
+#: ../plugins/exchange-operations/exchange-delegates-user.c:191
+#: ../plugins/exchange-operations/exchange-permissions-dialog.c:181
+#, fuzzy, c-format
+msgid "Permissions for %s"
+msgstr "Ovlašćenja za"
+
+#: ../plugins/exchange-operations/exchange-folder.c:55
+#: ../plugins/exchange-operations/exchange-folder.c:98
+#: ../plugins/exchange-operations/exchange-folder.c:108
+#, fuzzy
+msgid "Unsubscribe Folder..."
+msgstr "Odjavi fascikle"
+
+#: ../plugins/exchange-operations/exchange-folder.c:300
+#: ../plugins/exchange-operations/exchange-folder.c:343
+#, fuzzy, c-format
+msgid "Really unsubscribe from folder \"%s\"?"
+msgstr "Odjava sa fascikle „%s\""
+
+#: ../plugins/exchange-operations/exchange-folder.c:312
+#: ../plugins/exchange-operations/exchange-folder.c:355
+#, fuzzy, c-format
+msgid "Unsubscribe from \"%s\""
+msgstr "Odjava sa fascikle „%s\""
+
+# E_BOOK_ERROR_URI_ALREADY_LOADED
+# E_BOOK_ERROR_PERMISSION_DENIED
+#: ../plugins/exchange-operations/exchange-folder-permission.c:46
+#: ../plugins/exchange-operations/org-gnome-folder-permissions.xml.h:2
+#, fuzzy
+msgid "Permissions..."
+msgstr "Ovlašćenja za"
+
+#: ../plugins/exchange-operations/exchange-folder-tree.glade.h:1
 msgid "Exchange Folder Tree"
-msgstr "Stablo fascikle za poštu"
+msgstr "Stablo Exchange fascikli"
+
+#: ../plugins/exchange-operations/exchange-permissions-dialog.c:224
+#, fuzzy
+msgid "Could not read folder permissions"
+msgstr "Nije moguće preimenovanje fascikle: %s"
+
+#: ../plugins/exchange-operations/exchange-permissions-dialog.c:266
+#, fuzzy
+msgid "Could not update folder permissions."
+msgstr "Nije moguće brisanje fascikle: %s"
+
+#: ../plugins/exchange-operations/exchange-permissions-dialog.c:295
+#, fuzzy, c-format
+msgid "Could not update folder permissions. %s"
+msgstr "Nije moguće otvoriti fasciklu u '%s"
+
+# E_BOOK_ERROR_URI_ALREADY_LOADED
+# E_BOOK_ERROR_PERMISSION_DENIED
+#: ../plugins/exchange-operations/exchange-permissions-dialog.c:297
+#, fuzzy
+msgid "(Permission denied.)"
+msgstr "Zabranjen pristup"
+
+#: ../plugins/exchange-operations/exchange-permissions-dialog.c:396
+msgid ""
+"Unable to add user to access control list:\n"
+"No Global Catalog server is configured for this account."
+msgstr ""
+
+#: ../plugins/exchange-operations/exchange-permissions-dialog.c:414
+#, fuzzy, c-format
+msgid "No such user %s"
+msgstr "Nema takve fascikle %s"
+
+#: ../plugins/exchange-operations/exchange-permissions-dialog.c:418
+#, c-format
+msgid "%s cannot be added to an access control list"
+msgstr ""
+
+#: ../plugins/exchange-operations/exchange-permissions-dialog.c:423
+#, fuzzy, c-format
+msgid "Unknown error looking up %s"
+msgstr "Nepoznata greška: %s"
+
+#: ../plugins/exchange-operations/exchange-permissions-dialog.c:440
+#, fuzzy, c-format
+msgid "%s is already in the list"
+msgstr "Ta osoba već prisustvuje sastanku!"
+
+#: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:2
+#, fuzzy
+msgid "<b>Permissions</b>"
+msgstr "<b>Podešavanja</b>"
+
+#: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:3
+#, fuzzy
+msgid "Cannot Delete"
+msgstr "Unesi delegata"
+
+#: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:4
+#, fuzzy
+msgid "Cannot Edit"
+msgstr "Uređivač za kontakte"
+
+#: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:5
+#, fuzzy
+msgid "Create items"
+msgstr "Napravi pra_vilo"
+
+#: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:6
+#, fuzzy
+msgid "Create subfolders"
+msgstr "Napravi fasciklu"
+
+#: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:7
+#, fuzzy
+msgid "Delete Any Items"
+msgstr "Delegati"
+
+#: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:8
+#, fuzzy
+msgid "Delete Own Items"
+msgstr "Delegati"
+
+#: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:9
+#, fuzzy
+msgid "Edit Any Items"
+msgstr "Uređivanje filtera"
+
+#: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:10
+#, fuzzy
+msgid "Edit Own Items"
+msgstr "Uređivanje filtera"
+
+#: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:11
+#, fuzzy
+msgid "Folder contact"
+msgstr "%d kontakt"
+
+#: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:12
+#, fuzzy
+msgid "Folder owner"
+msgstr "vFascikla na p_ošiljaoca"
+
+#: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:13
+#, fuzzy
+msgid "Folder visible"
+msgstr "%d aVaIaDbaIaVaIb"
+
+#: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:14
+#, fuzzy
+msgid "Read items"
+msgstr "Priznanice"
+
+#: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:15
+#, fuzzy
+msgid "Role: "
+msgstr "Uloga"
+
+#: ../plugins/exchange-operations/exchange-user-dialog.c:144
+#, fuzzy
+msgid "Select User"
+msgstr "Izaberite fasciklu"
+
+#: ../plugins/exchange-operations/exchange-user-dialog.c:182
+msgid "Addressbook..."
+msgstr "Adresar..."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:1
+msgid "Cannot change password due to configuration problems."
+msgstr ""
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:2
+#, fuzzy
+msgid "Cannot display folders."
+msgstr ""
+"Nije moguće preimenovati fasciklu:\n"
+"%s"
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:3
+msgid ""
+"Changes to Exchange account configuration will take place after you quit and "
+"restart Evolution."
+msgstr ""
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:4
+#, fuzzy
+msgid "Could not authenticate to server."
+msgstr "Nije moguća prijava na server: %s"
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:5
+#, fuzzy
+msgid "Could not change password."
+msgstr "Izmenite lozinku"
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:6
+msgid ""
+"Could not configure Exchange account because \n"
+"an unknown error occurred. Check the URL, \n"
+"username, and password, and try again."
+msgstr ""
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:9
+#, fuzzy
+msgid "Could not connect to server {0}."
+msgstr "Nije moguće povezivanje na POP server %s"
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:10
+msgid "Could not find Exchange Web Storage System."
+msgstr ""
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:11
+#, fuzzy
+msgid "Could not locate server {0}."
+msgstr "Nije moguće pravljenje poruke."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:12
+msgid "Could not read out-of-office state"
+msgstr "Neuspelo čitanje stanja za van kancelarije"
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:13
+msgid "Could not update out-of-office state"
+msgstr "Nije moguće da osvežiti stanje za van kancelarije"
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:14
+msgid "Exchange Account is offline."
+msgstr ""
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:15
+msgid "Exchange Connector access error."
+msgstr ""
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:16
+msgid ""
+"Exchange Connector requires access to certain\n"
+"functionality on the Exchange Server that appears\n"
+"to be disabled or blocked.  (This is usually \n"
+"unintentional.)  Your Exchange Administrator will \n"
+"need to enable this functionality in order for \n"
+"you to be able to use Ximian Connector.\n"
+"\n"
+"For information to provide to your Exchange \n"
+"administrator, please follow the link below:\n"
+"\n"
+"http://support.novell.com/cgi-bin/search/searchtid.cgi?/ximian/ximian328."
+"html\n"
+"  "
+msgstr ""
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:28
+msgid ""
+"If OWA is running on a different path, you must specify that in the account "
+"configuration dialog."
+msgstr ""
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:29
+msgid "Mailbox for {0} is not on this server."
+msgstr ""
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:30
+msgid "Make sure the URL is correct and try again."
+msgstr ""
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:31
+msgid "Make sure the server name is spelled correctly and try again."
+msgstr ""
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:32
+msgid "Make sure the username and password are correct and try again."
+msgstr ""
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:33
+msgid "No mailbox for user {0} on {1}."
+msgstr ""
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:34
+msgid "Password successfully changed."
+msgstr ""
+
+# shell:noshell-reason title
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:35
+#, fuzzy
+msgid "Please restart Evolution"
+msgstr "Ponovo pokreće Evoluciju"
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:36
+msgid "Server rejected password because it is too weak."
+msgstr ""
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:37
+msgid "The Exchange account will be disabled when you quit Evolution"
+msgstr ""
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:38
+msgid "The Exchange account will be removed when you quit Evolution"
+msgstr ""
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:39
+msgid "The Exchange server is not compatible with Exchange Connector."
+msgstr ""
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:40
+msgid ""
+"The server is runinng Exchange 5.5. Exchange Connector \n"
+"supports Microsoft Exchange 2000 and 2003 only."
+msgstr ""
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:42
+msgid ""
+"This probably means that your server requires \n"
+"you to specify the Windows domain name \n"
+"as part of your username (eg, &quot;DOMAIN\\user&quot;).\n"
+"\n"
+"Or you might have just typed your password wrong."
+msgstr ""
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:47
+msgid "Try again with a different password."
+msgstr ""
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:48
+msgid "Try to clear up some space by deleting some mails."
+msgstr ""
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:49
+#, fuzzy
+msgid "Unknown error."
+msgstr "Nepoznata greška"
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:50
+#, fuzzy
+msgid "You are nearing your quota available for storing mails on this server."
+msgstr "Za čitanje i smeštanje pošte na IMAP servere."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:51
+msgid "You have exceeded your quota for storing mails on this server."
+msgstr ""
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:52
+msgid "You may only configure a single Exchange account."
+msgstr ""
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:53
+msgid "You will not be able to either send or recieve mails now."
+msgstr ""
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:54
+msgid ""
+"You will not be able to send mails till you clear up some space by deleting "
+"some mails."
+msgstr ""
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:55
+msgid "Your password has expired."
+msgstr ""
+
+#: ../plugins/exchange-operations/org-gnome-folder-permissions.xml.h:1
+#, fuzzy
+msgid "Check folder permissions"
+msgstr "Delegiraj ovlašćenja"
+
+#: ../plugins/exchange-operations/org-gnome-folder-subscription.xml.h:1
+#, fuzzy
+msgid "Subscribe to Other User's Folder"
+msgstr "Otvara fasciklu drugog korisnika"
 
 #: ../plugins/folder-unsubscribe/folder-unsubscribe.c:57
 #, c-format
@@ -14758,8 +15189,8 @@ msgid "_Sharing"
 msgstr "_Deljenje"
 
 #: ../plugins/groupwise-features/send-options.c:83
-#: ../plugins/proxy/proxy.c:459 ../plugins/proxy-login/proxy-login.c:222
-#: ../plugins/proxy-login/proxy-login.c:264
+#: ../plugins/proxy/proxy.c:459 ../plugins/proxy-login/proxy-login.c:221
+#: ../plugins/proxy-login/proxy-login.c:263
 #, c-format
 msgid "%sEnter password for %s (user %s)"
 msgstr "%sUnesite lozinku za %s (korisnik %s)"
@@ -15214,9 +15645,8 @@ msgid "Send u_pdates to attendees"
 msgstr "Pošalji o_svežene podatke učesnicima"
 
 #: ../plugins/itip-formatter/itip-view.c:988
-#, fuzzy
 msgid "A_pply to all instances"
-msgstr "Sve unose"
+msgstr "Pri_meni na sve strukture"
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.eplug.xml.h:1
 msgid "Displays text/calendar parts in messages."
@@ -15708,15 +16138,15 @@ msgstr "_Prikaži samo ovu listu zaduženja"
 msgid "Startup wizard"
 msgstr "Čarobnjak za početak"
 
-#: ../plugins/startup-wizard/startup-wizard.c:264
+#: ../plugins/startup-wizard/startup-wizard.c:85
 msgid "Evolution Setup Assistant"
 msgstr "Pomoćnik Evolucija podešavanja"
 
-#: ../plugins/startup-wizard/startup-wizard.c:267
+#: ../plugins/startup-wizard/startup-wizard.c:88
 msgid "Welcome"
 msgstr "Dobro došli"
 
-#: ../plugins/startup-wizard/startup-wizard.c:268
+#: ../plugins/startup-wizard/startup-wizard.c:89
 msgid ""
 "Welcome to Evolution. The next few screens will allow Evolution to connect "
 "to your email accounts, and to import files from other applications. \n"
@@ -15729,16 +16159,21 @@ msgstr ""
 "\n"
 "Kliknite „Napred\" da nastavite. "
 
-#: ../plugins/startup-wizard/startup-wizard.c:314
-#: ../shell/e-shell-importer.c:159
+#: ../plugins/startup-wizard/startup-wizard.c:140
+#: ../shell/e-shell-importer.c:145
 msgid "Please select the information that you would like to import:"
 msgstr "Izaberite podatke koje želite da uvezete:"
 
-#: ../plugins/startup-wizard/startup-wizard.c:329
-#: ../shell/e-shell-importer.c:905
+#: ../plugins/startup-wizard/startup-wizard.c:154
+#: ../shell/e-shell-importer.c:398
 #, c-format
 msgid "From %s:"
 msgstr "Od %s:"
+
+#: ../plugins/startup-wizard/startup-wizard.c:234
+#: ../shell/e-shell-importer.c:509
+msgid "Importing data."
+msgstr "Uvoženje podataka."
 
 #: ../plugins/subject-thread/org-gnome-subject-thread.eplug.xml.h:1
 msgid "Indicates if threading of messages should fall back to subject."
@@ -15758,18 +16193,24 @@ msgid "Fall back to threading messages by sub_ject"
 msgstr "Vrati se na nizanje poruka po nas_lovu"
 
 #: ../plugins/mail-account-disable/mail-account-disable.c:46
-#, fuzzy
 msgid "_Disable"
-msgstr "Onemogući"
+msgstr "_Onemogući"
 
 #: ../plugins/mail-account-disable/mail-account-disable.c:47
 msgid "Proxy _Logout"
-msgstr ""
+msgstr "_Odjava sa mrežnog posrednika"
+
+#: ../plugins/mail-account-disable/org-gnome-mail-account-disable.eplug.xml.h:1
+msgid "Allows disabling of accounts."
+msgstr "Dozvoljava blokiranje naloga."
+
+#: ../plugins/mail-account-disable/org-gnome-mail-account-disable.eplug.xml.h:2
+msgid "Disable Account"
+msgstr "Onemogući nalog"
 
 #: ../plugins/proxy/proxy-listing.glade.h:1
-#, fuzzy
 msgid "Proxy"
-msgstr "Zan."
+msgstr "Mrežni posrednik"
 
 #: ../plugins/proxy/proxy-listing.glade.h:2 ../smime/gui/smime-ui.glade.h:49
 #: ../widgets/table/e-table-config-no-group.glade.h:20
@@ -15778,46 +16219,40 @@ msgid "dialog1"
 msgstr "prozorče1"
 
 #: ../plugins/proxy/proxy-add-dialog.glade.h:1
-#, fuzzy
 msgid "<b>Name</b>"
-msgstr "<b>Početak</b>"
+msgstr "<b>Ime</b>"
 
 #: ../plugins/proxy/proxy-add-dialog.glade.h:2
 msgid "Access Rights"
-msgstr ""
+msgstr "Prava pristupa"
 
 #: ../plugins/proxy/proxy-add-dialog.glade.h:3
-#, fuzzy
 msgid "Add/Edit"
-msgstr "Uređivanje"
+msgstr "Dodaj/uredi"
 
 #: ../plugins/proxy/proxy-add-dialog.glade.h:5
-#, fuzzy
 msgid "Con_tacts"
-msgstr "Kontakti"
+msgstr "Kon_takti"
 
 #: ../plugins/proxy/proxy-add-dialog.glade.h:7
 msgid "Modify _folders/options/rules/"
-msgstr ""
+msgstr "Izmeni _fascikle/opcije/pravila/"
 
 #: ../plugins/proxy/proxy-add-dialog.glade.h:8
 msgid "Read items marked _private"
-msgstr ""
+msgstr "Čitaj predmete označene kao _lično"
 
 #: ../plugins/proxy/proxy-add-dialog.glade.h:9
-#, fuzzy
 msgid "Reminder Notes"
 msgstr "Podsetnici"
 
 #: ../plugins/proxy/proxy-add-dialog.glade.h:10
-#, fuzzy
 msgid "Subscribe to my _alarms"
-msgstr "Pri_javi se na listu"
+msgstr "Prijavi se na moja _upozorenja"
 
 #: ../plugins/proxy/proxy-add-dialog.glade.h:11
-#, fuzzy
 msgid "Subscribe to my _notifications"
-msgstr "Pri_javi se na listu"
+msgstr "Prijavi se na moja _obaveštenja"
 
 #: ../plugins/proxy/proxy-add-dialog.glade.h:13
 #: ../ui/evolution-mail-message.xml.h:118
@@ -15825,28 +16260,25 @@ msgid "_Read"
 msgstr "Pro_čitaj"
 
 #: ../plugins/proxy/proxy-add-dialog.glade.h:14
-#, fuzzy
 msgid "_Write"
-msgstr "_Štampaj"
+msgstr "_Piši"
 
-#: ../plugins/proxy/proxy.c:650
+#: ../plugins/proxy/proxy.c:656
 msgid "The Proxy tab will be available only when the account is enabled."
 msgstr ""
+"Jezičak za mrežnog posrednika će biti dostupan samo kada nalog bude otključan."
 
-#: ../plugins/proxy-login/proxy-login.c:486
-#, fuzzy
+#: ../plugins/proxy-login/proxy-login.c:485
 msgid "_Proxy Login..."
-msgstr "Štam_paj..."
+msgstr "Prijava za mrežnog _posrednika..."
 
 #: ../plugins/proxy-login/proxy-login-dialog.glade.h:1
-#, fuzzy
 msgid "<b>Account Name</b>"
-msgstr "Ime naloga"
+msgstr "<b>Ime naloga</b>"
 
 #: ../plugins/proxy-login/proxy-login-dialog.glade.h:2
-#, fuzzy
 msgid "Proxy Login"
-msgstr "Prijava"
+msgstr "Prijava za mrežnog posrednika"
 
 #: ../plugins/sa-junk-plugin/em-junk-filter.c:97
 msgid "Spamassassin (built-in)"
@@ -15996,11 +16428,11 @@ msgstr "Kliknite OK da prekinete vezu i radite van mreže"
 msgid "(Untitled)"
 msgstr "(Bezimeno)"
 
-#: ../shell/e-shell-importer.c:147
+#: ../shell/e-shell-importer.c:133
 msgid "Choose the type of importer to run:"
 msgstr "Izaberite tip uvoznika:"
 
-#: ../shell/e-shell-importer.c:150
+#: ../shell/e-shell-importer.c:136
 msgid ""
 "Choose the file that you want to import into Evolution, and select what type "
 "of file it is from the list.\n"
@@ -16014,11 +16446,11 @@ msgstr ""
 "Možete izabrati \"Automatsko\" ukoliko ne znate, i Evolucija će pokušati da "
 "sama završi posao."
 
-#: ../shell/e-shell-importer.c:156
+#: ../shell/e-shell-importer.c:142
 msgid "Choose the destination for this import"
 msgstr "Izaberite odredište za ovaj uvoz"
 
-#: ../shell/e-shell-importer.c:162
+#: ../shell/e-shell-importer.c:148
 msgid ""
 "Evolution checked for settings to import from the following\n"
 "applications: Pine, Netscape, Elm, iCalendar. No importable\n"
@@ -16030,93 +16462,27 @@ msgstr ""
 "koja bi se mogla uvesti. Ukoliko želite da pokušate\n"
 "ponovo, kliknite na dugme „Nazad\".\n"
 
-#: ../shell/e-shell-importer.c:233 ../shell/e-shell-importer.c:267
-#, c-format
-msgid ""
-"Importing %s\n"
-"Importing item %d."
-msgstr ""
-"Uvoženje %s\n"
-"Uvoženje predmeta %d."
-
-#: ../shell/e-shell-importer.c:347
-msgid "Select importer"
-msgstr "Izaberite uvoznik"
-
-#: ../shell/e-shell-importer.c:468 ../shell/e-shell-importer.c:1092
-#, c-format
-msgid "File %s does not exist"
-msgstr "Datoteka %s ne postoji"
-
-#: ../shell/e-shell-importer.c:476
-msgid "Importing"
-msgstr "Uvoženje"
-
-#: ../shell/e-shell-importer.c:484
-#, c-format
-msgid "Importing %s.\n"
-msgstr "Uvoženje %s.\n"
-
-#: ../shell/e-shell-importer.c:494 ../shell/e-shell-importer.c:495
-#, c-format
-msgid "Error loading %s"
-msgstr "Greška pri učitavanju %s"
-
-#: ../shell/e-shell-importer.c:513
-#, c-format
-msgid ""
-"Importing %s\n"
-"Importing item 1."
-msgstr ""
-"Uvoženje %s\n"
-"Uvozi se predmet 1."
-
-#: ../shell/e-shell-importer.c:589
-msgid "Automatic"
-msgstr "Automatsko"
-
-#: ../shell/e-shell-importer.c:645
+#: ../shell/e-shell-importer.c:283
 msgid "F_ilename:"
 msgstr "_Ime datoteke:"
 
-#: ../shell/e-shell-importer.c:650
+#: ../shell/e-shell-importer.c:288
 msgid "Select a file"
 msgstr "Izaberite datoteku"
 
-#: ../shell/e-shell-importer.c:662
+#: ../shell/e-shell-importer.c:300
 msgid "File _type:"
 msgstr "_Tip datoteke:"
 
-#: ../shell/e-shell-importer.c:701
+#: ../shell/e-shell-importer.c:336
 msgid "Import data and settings from _older programs"
 msgstr "Uvezi podatke i podešavanja iz _starijih programa"
 
-#: ../shell/e-shell-importer.c:704
+#: ../shell/e-shell-importer.c:339
 msgid "Import a _single file"
 msgstr "Uvezi _jednu datoteku"
 
-#: ../shell/e-shell-importer.c:772
-msgid ""
-"Please wait...\n"
-"Scanning for existing setups"
-msgstr ""
-"Sačekajte...\n"
-"Pretraga za postojećim podešavanjima"
-
-#: ../shell/e-shell-importer.c:779
-msgid "Starting Intelligent Importers"
-msgstr "Pokrećanje inteligentnih uvoznika"
-
-#: ../shell/e-shell-importer.c:1111
-#, c-format
-msgid "No importer available for file %s"
-msgstr "Nema dostupnog uvoznika za datoteku %s"
-
-#: ../shell/e-shell-importer.c:1125
-msgid "Unable to execute importer"
-msgstr "Nije moguće pokretanje uvoznika"
-
-#: ../shell/e-shell-importer.c:1241
+#: ../shell/e-shell-importer.c:698
 msgid "_Import"
 msgstr "U_voz"
 
@@ -16198,37 +16564,37 @@ msgid "Evolution is currently offline.  Click on this button to work online."
 msgstr ""
 "Evolucija trenutno nije na mreži.  Kliknite na ovo dugme za rad na mreži."
 
-#: ../shell/e-shell-window.c:712
+#: ../shell/e-shell-window.c:713
 #, c-format
 msgid "Switch to %s"
 msgstr "Pređi na %s"
 
-#: ../shell/e-shell.c:622
+#: ../shell/e-shell.c:620
 msgid "Uknown system error."
 msgstr "Nepoznata sistemska greška."
 
-#: ../shell/e-shell.c:824 ../shell/e-shell.c:825
+#: ../shell/e-shell.c:822 ../shell/e-shell.c:823
 #, c-format
 msgid "%ld KB"
 msgstr "%ld KB"
 
-#: ../shell/e-shell.c:1278 ../widgets/misc/e-cell-date-edit.c:256
+#: ../shell/e-shell.c:1276 ../widgets/misc/e-cell-date-edit.c:256
 msgid "OK"
 msgstr "OK"
 
-#: ../shell/e-shell.c:1280
+#: ../shell/e-shell.c:1278
 msgid "Invalid arguments"
 msgstr "Neispravni argumenti"
 
-#: ../shell/e-shell.c:1282
+#: ../shell/e-shell.c:1280
 msgid "Cannot register on OAF"
 msgstr "Nije moguća registracija na OAF"
 
-#: ../shell/e-shell.c:1284
+#: ../shell/e-shell.c:1282
 msgid "Configuration Database not found"
 msgstr "Baza sa podešavanjima nije nađena"
 
-#: ../shell/e-shell.c:1286
+#: ../shell/e-shell.c:1284
 msgid "Generic error"
 msgstr "Opšta greška"
 
@@ -16248,35 +16614,35 @@ msgstr "_Proba"
 msgid "Create a new test item"
 msgstr "Napravi novu probni predmet"
 
-#: ../shell/importer/import.glade.h:1
+#: ../shell/import.glade.h:1
 msgid "Click \"Import\" to begin importing the file into Evolution. "
 msgstr "Kliknite na „Uvezi\" da započnete uvoz datoteke u Evoluciju. "
 
-#: ../shell/importer/import.glade.h:2
+#: ../shell/import.glade.h:2
 msgid "Evolution Import Assistant"
 msgstr "Pomoćnik Evolucije za uvoz"
 
-#: ../shell/importer/import.glade.h:3
+#: ../shell/import.glade.h:3
 msgid "Import File"
 msgstr "Uvezi datoteku"
 
-#: ../shell/importer/import.glade.h:4
+#: ../shell/import.glade.h:4
 msgid "Import Location"
 msgstr "Uvezi mesto"
 
-#: ../shell/importer/import.glade.h:5
+#: ../shell/import.glade.h:5
 msgid "Importer Type"
 msgstr "Tip uvoznika"
 
-#: ../shell/importer/import.glade.h:6
+#: ../shell/import.glade.h:6
 msgid "Select Importers"
 msgstr "Izaberite uvoznike"
 
-#: ../shell/importer/import.glade.h:7
+#: ../shell/import.glade.h:7
 msgid "Select a File"
 msgstr "Izaberite datoteku"
 
-#: ../shell/importer/import.glade.h:8
+#: ../shell/import.glade.h:8
 msgid ""
 "Welcome to the Evolution Import Assistant.\n"
 "With this assistant you will be guided through the process of\n"
@@ -16285,26 +16651,6 @@ msgstr ""
 "Dobro došli u program pomoćnika Evolucije za uvoz.\n"
 "Ovaj pomoćnik će vas provesti kroz postupak\n"
 "uvoza spoljnih datoteka u Evoluciju."
-
-#: ../shell/importer/intelligent.c:193
-msgid "Importers"
-msgstr "Uvoznici"
-
-#: ../shell/importer/intelligent.c:195 ../smime/gui/smime-ui.glade.h:29
-msgid "Import"
-msgstr "Uvezi"
-
-#: ../shell/importer/intelligent.c:199
-msgid "Don't import"
-msgstr "Ne uvozi"
-
-#: ../shell/importer/intelligent.c:203
-msgid "Don't ask me again"
-msgstr "Ne pitaj me ponovo"
-
-#: ../shell/importer/intelligent.c:211
-msgid "Evolution can import data from the following files:"
-msgstr "Evolucija može da uveze podatke iz sledećih datoteka:"
 
 #. Preview/Alpha/Beta version warning message
 #: ../shell/main.c:230
@@ -16401,16 +16747,16 @@ msgstr "Obrisati stare podatke iz verzije {0}?"
 msgid "Evolution can not start."
 msgstr "Evolucija se ne može pokrenuti."
 
-#: ../shell/shell.error.xml.h:4
+#: ../shell/shell.error.xml.h:5
 msgid "Insufficient disk space for upgrade."
 msgstr "Nedovoljno mesta na disku za dograđivanje."
 
 # shell:upgrade-remove-1-4-confirm primary
-#: ../shell/shell.error.xml.h:5
+#: ../shell/shell.error.xml.h:6
 msgid "Really delete old data?"
 msgstr "Zaista obrisati stare podatke?"
 
-#: ../shell/shell.error.xml.h:6
+#: ../shell/shell.error.xml.h:7
 msgid ""
 "The entire contents of the &quot;evolution&quot; directory is about to be be "
 "permanently removed.\n"
@@ -16430,7 +16776,7 @@ msgstr ""
 "Posle brisanja, ne možete da se vratite na prethodnu verziju Evolucije bez "
 "ručne intervencije.\n"
 
-#: ../shell/shell.error.xml.h:12
+#: ../shell/shell.error.xml.h:13
 msgid ""
 "The previous version of evolution stored its data in a different location.\n"
 "\n"
@@ -16446,11 +16792,11 @@ msgstr ""
 "ove podatke, moraćete ručno da uklonite sadržaj iz &quot;evolution&quot;kada "
 "Vam odgovara.\n"
 
-#: ../shell/shell.error.xml.h:16
+#: ../shell/shell.error.xml.h:17
 msgid "Upgrade from previous version failed: {0}"
 msgstr "Neuspela nadogradnja sa prethodne verzije: {0}"
 
-#: ../shell/shell.error.xml.h:17
+#: ../shell/shell.error.xml.h:18
 msgid ""
 "Upgrading your data and settings will require upto {0} of disk space, but "
 "you only have {1} available.\n"
@@ -16464,7 +16810,7 @@ msgstr ""
 "Moraćete da oslobodite više mesta u ličnom direktorijumu pre nego što možete "
 "da nastavite."
 
-#: ../shell/shell.error.xml.h:20
+#: ../shell/shell.error.xml.h:21
 msgid ""
 "Your system configuration does not match your Evolution configuration.\n"
 "\n"
@@ -16474,7 +16820,7 @@ msgstr ""
 "\n"
 "Kliknite na pomoć za detalje"
 
-#: ../shell/shell.error.xml.h:23
+#: ../shell/shell.error.xml.h:24
 msgid ""
 "Your system configuration does not match your Evolution configuration:\n"
 "\n"
@@ -16488,15 +16834,15 @@ msgstr ""
 "\n"
 "Kliknite na pomoć za detalje."
 
-#: ../shell/shell.error.xml.h:28
+#: ../shell/shell.error.xml.h:29
 msgid "_Keep Data"
 msgstr "_Zadrži podatke"
 
-#: ../shell/shell.error.xml.h:29
+#: ../shell/shell.error.xml.h:30
 msgid "_Remind Me Later"
 msgstr "_Podseti me kasnije"
 
-#: ../shell/shell.error.xml.h:30
+#: ../shell/shell.error.xml.h:31
 msgid ""
 "{1}\n"
 "\n"
@@ -16719,6 +17065,10 @@ msgstr "Sertifikat potpisnika e-poruke"
 #: ../smime/gui/smime-ui.glade.h:27
 msgid "Expires On"
 msgstr "Ističe"
+
+#: ../smime/gui/smime-ui.glade.h:29
+msgid "Import"
+msgstr "Uvezi"
 
 #: ../smime/gui/smime-ui.glade.h:30
 msgid "Issued On"
@@ -18459,59 +18809,52 @@ msgstr ""
 
 #: ../widgets/menus/gal-define-views-dialog.c:76
 #: ../widgets/menus/gal-define-views-model.c:188
-#, fuzzy
 msgid "Collection"
-msgstr "Saradnja"
+msgstr "Kolekcija"
 
 #: ../widgets/menus/gal-define-views-dialog.c:325
 #: ../widgets/menus/gal-define-views.glade.h:4
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Define Views for %s"
-msgstr "Odredi preglede..."
+msgstr "Odredi preglede za %s"
 
 #: ../widgets/menus/gal-define-views-dialog.c:333
 #: ../widgets/menus/gal-define-views-dialog.c:335
-#, fuzzy
 msgid "Define Views"
-msgstr "Odredi preglede..."
+msgstr "Odredi preglede"
 
 #: ../widgets/menus/gal-define-views.glade.h:2
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Define Views for \"%s\""
-msgstr "Odredi preglede..."
+msgstr "Odredi preglede za „%s\""
 
 #: ../widgets/menus/gal-define-views.glade.h:5
-#, fuzzy
 msgid "_Edit..."
-msgstr "_Uređivanje"
+msgstr "_Uredi..."
 
 #: ../widgets/menus/gal-view-instance-save-as-dialog.c:182
-#, fuzzy
 msgid "Instance"
-msgstr "Sve unose"
+msgstr "Struktura"
 
 #: ../widgets/menus/gal-view-instance-save-as-dialog.c:232
-#, fuzzy
 msgid "Save Current View"
-msgstr "Trenutni pregled"
+msgstr "Sačuvaj trenutni pregled"
 
 #: ../widgets/menus/gal-view-instance-save-as-dialog.glade.h:3
-#, fuzzy
 msgid "_Create new view"
-msgstr "Napravi novi prozor"
+msgstr "_Napravi novi pregled"
 
 #: ../widgets/menus/gal-view-instance-save-as-dialog.glade.h:5
 msgid "_Replace existing view"
-msgstr ""
+msgstr "_Zameni postojeći pregled"
 
 #: ../widgets/menus/gal-view-new-dialog.glade.h:2
 msgid "Name of new view:"
-msgstr ""
+msgstr "Ime novog pregleda:"
 
 #: ../widgets/menus/gal-view-new-dialog.glade.h:3
-#, fuzzy
 msgid "Type of view:"
-msgstr "Tip pregleda za prikaz"
+msgstr "Tip pregleda:"
 
 #: ../widgets/menus/gal-view-factory-etable.c:39
 #: ../widgets/table/e-table-header-item.c:1845
@@ -18530,7 +18873,7 @@ msgstr "Sačuvaj prilagođen pregled..."
 
 #: ../widgets/menus/gal-view-new-dialog.c:80
 msgid "Factory"
-msgstr "Proizvođač"
+msgstr "Fabrika"
 
 #: ../widgets/menus/gal-view-new-dialog.c:115
 msgid "Define New View"
@@ -18538,22 +18881,19 @@ msgstr "Odredi novi pregled"
 
 #: ../widgets/misc/gal-categories.glade.h:2
 msgid "Edit Master Category List..."
-msgstr ""
+msgstr "Uredi Glavnu listu kategorija..."
 
 #: ../widgets/misc/gal-categories.glade.h:3
-#, fuzzy
 msgid "Item(s) belong to these _categories:"
-msgstr "Ovaj kontakt pripada ovim kategorijama:"
+msgstr "Predmet(i) pripada(ju) ovim _kategorijama:"
 
 #: ../widgets/misc/gal-categories.glade.h:4
-#, fuzzy
 msgid "_Available Categories:"
-msgstr "Ka_tegorije"
+msgstr "Dostupne _kategorije:"
 
 #: ../widgets/misc/gal-categories.glade.h:5
-#, fuzzy
 msgid "categories"
-msgstr "Kategorije"
+msgstr "kategorije"
 
 # week, 'M' for 'Monday', 'T' for Tuesday etc.
 #. Translators: These are the first characters of each day of the
@@ -19488,15 +19828,13 @@ msgstr "Barataj iskačućim prozorom"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:1
 #: ../widgets/table/e-table-config.glade.h:1
-#, fuzzy
 msgid "<- _Remove"
-msgstr "_Ukloni"
+msgstr "<- _Ukloni"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:2
 #: ../widgets/table/e-table-config.glade.h:2
-#, fuzzy
 msgid "A_vailable Fields:"
-msgstr "Polja za upis"
+msgstr "Do_stupna polja:"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:3
 #: ../widgets/table/e-table-config.glade.h:3
@@ -19505,9 +19843,8 @@ msgstr "Rastuće"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:4
 #: ../widgets/table/e-table-config.glade.h:4
-#, fuzzy
 msgid "Clear All"
-msgstr "Sklo_ni oznaku"
+msgstr "Očisti sve"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:5
 #: ../widgets/table/e-table-config.glade.h:5
@@ -19516,47 +19853,42 @@ msgstr "Opadajuće"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:8
 #: ../widgets/table/e-table-config.glade.h:8
-#, fuzzy
 msgid "Group Items By"
-msgstr "Grupiši po"
+msgstr "Grupiši predmete po"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:9
 #: ../widgets/table/e-table-config.glade.h:9
 msgid "Move _Down"
-msgstr ""
+msgstr "Pomeri na _dole"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:10
 #: ../widgets/table/e-table-config.glade.h:10
-#, fuzzy
 msgid "Move _Up"
-msgstr "Premesti"
+msgstr "Premesti na _gore"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:11
 msgid "Sh_ow these fields in order:"
-msgstr ""
+msgstr "Pri_kaži ova polja ovim redom:"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:12
 #: ../widgets/table/e-table-config.glade.h:11
-#, fuzzy
 msgid "Show Fields"
-msgstr "_Prima polje"
+msgstr "Prikaži polja"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:13
 #: ../widgets/table/e-table-config.glade.h:12
 msgid "Show field in View"
-msgstr ""
+msgstr "Prikaži polje u pregledu"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:14
 #: ../widgets/table/e-table-config.glade.h:13
-#, fuzzy
 msgid "Sort"
-msgstr "Poredavanje"
+msgstr "Razvrstaj"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:15
 #: ../widgets/table/e-table-config.glade.h:14
-#, fuzzy
 msgid "Sort Items By"
-msgstr "Razvrstaj po"
+msgstr "Razvrstaj predmete po"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:16
 #: ../widgets/table/e-table-config.glade.h:15
@@ -19565,69 +19897,58 @@ msgstr "Onda po"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:17
 #: ../widgets/table/e-table-config.glade.h:16
-#, fuzzy
 msgid "_Add ->"
-msgstr "_Dodaj"
+msgstr "_Dodaj ->"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:18
 #: ../widgets/table/e-table-config.glade.h:17
 msgid "_Fields Shown..."
-msgstr ""
+msgstr "Prikazana _polja"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:19
 #: ../widgets/table/e-table-config.glade.h:20
-#, fuzzy
 msgid "_Sort..."
-msgstr "_Prečica..."
+msgstr "_Razvrstaj..."
 
 #: ../widgets/table/e-table-config.glade.h:18
-#, fuzzy
 msgid "_Group By..."
-msgstr "Grupiši po"
+msgstr "_Grupiši po..."
 
 #: ../widgets/table/e-table-config.glade.h:19
 msgid "_Show these fields in order:"
-msgstr ""
+msgstr "_Prikaži ova polja po redu:"
 
 #: ../widgets/table/e-table-field-chooser.glade.h:1
-#, fuzzy
 msgid "Field Chooser"
-msgstr "Ime polja"
+msgstr "Birač polja"
 
 #: ../widgets/table/e-table-field-chooser.glade.h:2
 msgid ""
 "To add a column to your table, drag it into\n"
 "the location in which you want it to appear."
 msgstr ""
+"Za dodavanje kolone u tabelu, prevucite\n"
+"je na mesto gde želite da se pojavi."
 
 #: ../widgets/table/e-table-group-container.c:350
 #, c-format
 msgid "%s : %s (%d item)"
-msgstr ""
+msgstr "%s : %s (%d predmet)"
 
 #: ../widgets/table/e-table-group-container.c:351
 #, c-format
 msgid "%s : %s (%d items)"
-msgstr ""
+msgstr "%s : %s (%d predmeta)"
 
 #: ../widgets/table/e-table-group-container.c:356
-#, fuzzy, c-format
+#, c-format
 msgid "%s (%d item)"
-msgstr "%s (%d)"
+msgstr "%s (%d predmet)"
 
 #: ../widgets/table/e-table-group-container.c:357
-#, fuzzy, c-format
+#, c-format
 msgid "%s (%d items)"
-msgstr "%s (%s)"
-
-#~ msgid "Could not read out-of-office state"
-#~ msgstr "Neuspelo čitanje stanja za van kancelarije"
-
-#~ msgid "Out of office Message:"
-#~ msgstr "Poruka za van kancelarije:"
-
-#~ msgid "Could not update out-of-office state"
-#~ msgstr "Nije moguće da osvežiti stanje za van kancelarije"
+msgstr "%s (%d predmeta)"
 
 #~ msgid "Message _List As"
 #~ msgstr "_Lista poruka kao"
@@ -19643,6 +19964,117 @@ msgstr "%s (%s)"
 
 #~ msgid "Evolution _FAQ"
 #~ msgstr "Pi_tanja i odgovori u vezi Evolucije"
+
+#~ msgid ""
+#~ "Evolution has found Gnome Calendar files.\n"
+#~ "Would you like to import them into Evolution?"
+#~ msgstr ""
+#~ "Evolucija je pronašla datoteke Gnomovog kalendara.\n"
+#~ "Želite li da ih uvezete u Evoluciju?"
+
+#~ msgid "Evolution Netscape Mail importer"
+#~ msgstr "Evolucija Netscape pošta uvoznik"
+
+#~ msgid "Evolution Outlook Express 4 importer"
+#~ msgstr "Evolucija Outlook Express 4 uvoznik"
+
+#~ msgid "Evolution mbox importer"
+#~ msgstr "Evolucija mbox uvoznik"
+
+#~ msgid "MBox (mbox)"
+#~ msgstr "MBox (mbox)"
+
+#~ msgid "Outlook Express 4 (.mbx)"
+#~ msgstr "Outlook Express 4 (.mbx)"
+
+#~ msgid "Evolution is importing your old Elm mail"
+#~ msgstr "Evolucija uvozi staru Elm poštu"
+
+#~ msgid ""
+#~ "Evolution has found Elm mail files\n"
+#~ "Would you like to import them into Evolution?"
+#~ msgstr ""
+#~ "Evolucija je pronašla Elm datoteke pošte\n"
+#~ "Želite li da ih uvezete u Evoluciju?"
+
+#~ msgid "Elm"
+#~ msgstr "Elm"
+
+#~ msgid "Evolution is importing your old Pine data"
+#~ msgstr "Evolucija uvozi stare Pine podatke."
+
+#~ msgid ""
+#~ "Evolution has found Pine mail files.\n"
+#~ "Would you like to import them into Evolution?"
+#~ msgstr ""
+#~ "Evolucija je pronašla Pine datoteke pošte.\n"
+#~ "Želite li da ih uvezete u Evoluciju?"
+
+#~ msgid "Pine"
+#~ msgstr "Pine"
+
+#~ msgid ""
+#~ "Importing %s\n"
+#~ "Importing item %d."
+#~ msgstr ""
+#~ "Uvoženje %s\n"
+#~ "Uvoženje predmeta %d."
+
+#~ msgid "Select importer"
+#~ msgstr "Izaberite uvoznik"
+
+#~ msgid "File %s does not exist"
+#~ msgstr "Datoteka %s ne postoji"
+
+#~ msgid "Importing"
+#~ msgstr "Uvoženje"
+
+#~ msgid "Importing %s.\n"
+#~ msgstr "Uvoženje %s.\n"
+
+#~ msgid "Error loading %s"
+#~ msgstr "Greška pri učitavanju %s"
+
+#~ msgid ""
+#~ "Importing %s\n"
+#~ "Importing item 1."
+#~ msgstr ""
+#~ "Uvoženje %s\n"
+#~ "Uvozi se predmet 1."
+
+#~ msgid "Automatic"
+#~ msgstr "Automatsko"
+
+#~ msgid ""
+#~ "Please wait...\n"
+#~ "Scanning for existing setups"
+#~ msgstr ""
+#~ "Sačekajte...\n"
+#~ "Pretraga za postojećim podešavanjima"
+
+#~ msgid "Starting Intelligent Importers"
+#~ msgstr "Pokrećanje inteligentnih uvoznika"
+
+#~ msgid "No importer available for file %s"
+#~ msgstr "Nema dostupnog uvoznika za datoteku %s"
+
+#~ msgid "Unable to execute importer"
+#~ msgstr "Nije moguće pokretanje uvoznika"
+
+#~ msgid "Importers"
+#~ msgstr "Uvoznici"
+
+#~ msgid "Don't import"
+#~ msgstr "Ne uvozi"
+
+#~ msgid "Don't ask me again"
+#~ msgstr "Ne pitaj me ponovo"
+
+#~ msgid "Evolution can import data from the following files:"
+#~ msgstr "Evolucija može da uveze podatke iz sledećih datoteka:"
+
+#~ msgid "Out of office Message:"
+#~ msgstr "Poruka za van kancelarije:"
 
 #~ msgid "Your server needs to be updated"
 #~ msgstr "Serveru je potrebno osvežavanje"
@@ -20805,9 +21237,6 @@ msgstr "%s (%s)"
 #~ msgid "Select Calendar Folder"
 #~ msgstr "Izaberite fasciklu kalendara"
 
-#~ msgid "Open Other User's Folder"
-#~ msgstr "Otvara fasciklu drugog korisnika"
-
 #~ msgid "Downloading images"
 #~ msgstr "Preuzimanje slika"
 
@@ -20979,14 +21408,8 @@ msgstr "%s (%s)"
 #~ msgid "Print Envelope"
 #~ msgstr "Štampaj koverat"
 
-#~ msgid "Could not update invalid object"
-#~ msgstr "Nije moguće osvežiti netačan objekat"
-
 #~ msgid "A folder named \"%s\" already exists.  Please use a different name."
 #~ msgstr "Fascikla imena „%s“ već postoji. Upotrebite drugo ime."
-
-#~ msgid "Opening calendar at %s"
-#~ msgstr "Otvaranje kalendara u %s"
 
 #~ msgid "Unsupported schema"
 #~ msgstr "Nepodržana šema"
@@ -21297,9 +21720,6 @@ msgstr "%s (%s)"
 
 #~ msgid "DIGEST-MD5"
 #~ msgstr "DIGEST-MD5"
-
-#~ msgid "Could not connect to POP server %s"
-#~ msgstr "Nije moguće povezivanje na POP server %s"
 
 #~ msgid "Remove selected items from the attachment list"
 #~ msgstr "Ukloni izabrane predmete sa liste priloga"
@@ -22123,13 +22543,6 @@ msgstr "%s (%s)"
 #~ msgid "Spool folders cannot be renamed"
 #~ msgstr "Spool fascikla ne može biti preimenovana"
 
-#~ msgid ""
-#~ "Cannot rename folder:\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Nije moguće preimenovati fasciklu:\n"
-#~ "%s"
-
 #~ msgid "Operation not supported"
 #~ msgstr "Operacija nije podržana"
 
@@ -22262,9 +22675,6 @@ msgstr "%s (%s)"
 #~ msgid "`%s' is not a mailbox file."
 #~ msgstr "`%s' nije mailbox datoteka."
 
-#~ msgid "_Folder Name:"
-#~ msgstr "_Ime fascikle:"
-
 #~ msgid "Addressbook:"
 #~ msgstr "Adresar:"
 
@@ -22394,13 +22804,6 @@ msgstr "%s (%s)"
 #~ "%s"
 #~ msgstr ""
 #~ "Nije moguće pravljenje fascikle `%s':\n"
-#~ "%s"
-
-#~ msgid ""
-#~ "Could not create directory %s:\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Nije moguće pravljenje fascikle %s:\n"
 #~ "%s"
 
 #~ msgid "Business 2"
@@ -22536,9 +22939,6 @@ msgstr "%s (%s)"
 #~ msgid "Error"
 #~ msgstr "Greška"
 
-#~ msgid "For reading and storing mail on IMAP servers."
-#~ msgstr "Za čitanje i smeštanje pošte na IMAP servere."
-
 #~ msgid "File a_s:"
 #~ msgstr "Smesti k_ao:"
 
@@ -22646,9 +23046,6 @@ msgstr "%s (%s)"
 
 #~ msgid "480"
 #~ msgstr "480"
-
-#~ msgid "Cannot authenticate to server: %s"
-#~ msgstr "Nije moguća prijava na server: %s"
 
 #~ msgid "This option will connect to the server using a simple password."
 #~ msgstr "Ova opcija će povezati na server korišćenjem obične lozinke."
@@ -22787,9 +23184,6 @@ msgstr "%s (%s)"
 #~ msgid "%s - Message"
 #~ msgstr "%s - Poruka"
 
-#~ msgid "Addressbook..."
-#~ msgstr "Adresar..."
-
 #~ msgid "_Home:"
 #~ msgstr "_Kuća:"
 
@@ -22862,9 +23256,6 @@ msgstr "%s (%s)"
 
 #~ msgid "The folder is not empty"
 #~ msgstr "Fascikla nije prazna"
-
-#~ msgid "That person is already attending the meeting!"
-#~ msgstr "Ta osoba već prisustvuje sastanku!"
 
 #~ msgid "Use _Daemon"
 #~ msgstr "Koristi _uslužni program"
@@ -23291,9 +23682,6 @@ msgstr "%s (%s)"
 #~ "Nije moguće dobiti poruku: %s\n"
 #~ "  %s"
 
-#~ msgid "Could not delete folder: %s"
-#~ msgstr "Nije moguće brisanje fascikle: %s"
-
 #~ msgid "Failed to decrypt MIME part: parse error"
 #~ msgstr "Neuspelo dešifrovanje MIME dela: greška pri čitanju"
 
@@ -23311,9 +23699,6 @@ msgstr "%s (%s)"
 
 #~ msgid "Cannot move folder `%s': illegal operation"
 #~ msgstr "Nije moguće premestiti fasciklu „%s“: neispravna operacija"
-
-#~ msgid "Could not open the folder in '%s'"
-#~ msgstr "Nije moguće otvoriti fasciklu u '%s"
 
 #~ msgid ""
 #~ "The provided target_name parameter contained an invalid or unsupported "
@@ -23347,9 +23732,6 @@ msgstr "%s (%s)"
 
 #~ msgid "Spool `%s' cannot be opened: %s"
 #~ msgstr "Spool `%s' nije moguće otvoriti: %s"
-
-#~ msgid "No such folder %s"
-#~ msgstr "Nema takve fascikle %s"
 
 #~ msgid "Remove this shortcut group"
 #~ msgstr "Ukloni ovu grupu prečica"
@@ -23396,9 +23778,6 @@ msgstr "%s (%s)"
 
 #~ msgid "Operation failed: %s"
 #~ msgstr "Operacija nije uspela: %s"
-
-#~ msgid "Edit Filters"
-#~ msgstr "Uređivanje filtera"
 
 #~ msgid "This is a provider for reading from and posting toUSENET newsgroups."
 #~ msgstr "Ovo je ponuđač za čitanje i slanje na USENET grupe vesti."
@@ -23643,9 +24022,6 @@ msgstr "%s (%s)"
 #~ msgid "ISDN"
 #~ msgstr "ISDN"
 
-#~ msgid "%d visible"
-#~ msgstr "%d aVaIaDbaIaVaIb"
-
 #~ msgid "<b>Completed:</b> "
 #~ msgstr "<b>Završetak:</b> "
 
@@ -23784,9 +24160,6 @@ msgstr "%s (%s)"
 #~ msgid "Purging event %s"
 #~ msgstr "Briše događaj %s"
 
-#~ msgid "Could not rename folder: %s"
-#~ msgstr "Nije moguće preimenovanje fascikle: %s"
-
 #~ msgid "<b>Due:</b> "
 #~ msgstr "<b>Do:</b> "
 
@@ -23835,9 +24208,6 @@ msgstr "%s (%s)"
 
 #~ msgid "Required Information"
 #~ msgstr "Neophodne informacije"
-
-#~ msgid "Unknown error: %s"
-#~ msgstr "Nepoznata greška: %s"
 
 #~ msgid ""
 #~ "Since the contact list you are sending to is configured to hide the "
@@ -24180,9 +24550,6 @@ msgstr "%s (%s)"
 #~ msgid "Self-signed certificate in chain"
 #~ msgstr "Samopotpisani sertifikat u lancu"
 
-#~ msgid "Could not open cache directory: %s"
-#~ msgstr "Nije moguće otvoriti cache direktorijum: %s"
-
 #~ msgid "Open Other _User's Folder..."
 #~ msgstr "Otvori fasciklu drugog _korisnika..."
 
@@ -24227,9 +24594,6 @@ msgstr "%s (%s)"
 
 #~ msgid "Open a new Evolution window"
 #~ msgstr "_Prozor Evolucije"
-
-#~ msgid "Failed to cache message %s: %s"
-#~ msgstr "Nisje moguće privremeno čuvanje poruke %s: %s"
 
 #~ msgid "You must specify a location to get the calendar from."
 #~ msgstr "Morate navesti putanju sa koje da preuzmem kalendar"
@@ -24720,9 +25084,6 @@ msgstr "%s (%s)"
 
 #~ msgid "Requested mail action not taken: mailbox unavailable"
 #~ msgstr "Tražena radnja za poštu nije preduzeta: nedostupan mailbox"
-
-#~ msgid "Important mail (local)"
-#~ msgstr "Važna poruka (lokalno)"
 
 #~ msgid "Getting message %d of %d"
 #~ msgstr "Primanje poruke %d od %d"
