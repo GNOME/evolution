@@ -1,3 +1,7 @@
+2005-07-16  Sarfraaz Ahmed <asarfraaz@novell.com>
+
+	* exchange-ask-password.c : Removed. Is no longer being used
+
 2005-07-15  Shakti Sen <shprasad@novell.com>
 
 	* Makefile.am: Included the e-foreign-folder-dialog.glade file.
