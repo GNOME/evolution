@@ -1,3 +1,7 @@
+2005-07-16  Sarfraaz Ahmed <asarfraaz@novell.com>
+
+	* POTFILES.in : Added missing exchange files.
+
 2005-07-15  Shreyas Srinivasan  <sshreyas@novell.com>
 
 	*plugins/mail-account-disable/org-gnome-mail-account-disable.eplug.xml
