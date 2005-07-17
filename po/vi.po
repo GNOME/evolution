@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution Gnome 2.12\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-07-16 05:29+0000\n"
-"PO-Revision-Date: 2005-07-16 16:40+0930\n"
+"POT-Creation-Date: 2005-07-16 21:26+0000\n"
+"PO-Revision-Date: 2005-07-17 20:57+0930\n"
 "Last-Translator: Clytie Siddall <clytie@riverland.net.au>\n"
 "Language-Team: Gnome-Vi <gnomevi-list@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -2316,6 +2316,8 @@ msgid "Zimbabwe"
 msgstr "Dim-ba-bu-ê"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-fullname.c:89
+#: ../plugins/exchange-operations/exchange-delegates.c:939
+#: ../plugins/exchange-operations/exchange-permissions-dialog.c:696
 #: ../plugins/plugin-manager/plugin-manager.c:44
 #: ../plugins/save-attachments/save-attachments.c:362
 #: ../widgets/menus/gal-view-new-dialog.c:73
@@ -2573,8 +2575,11 @@ msgstr "Tên tài _khoản:"
 msgid "_IM Service:"
 msgstr "Dịch vụ t_in nhắn:"
 
+#. FIXME: Take care of i18n
 #: ../addressbook/gui/contact-editor/im.glade.h:5
 #: ../plugins/calendar-weather/calendar-weather.c:409
+#: ../plugins/exchange-operations/exchange-calendar.c:181
+#: ../plugins/exchange-operations/exchange-contacts.c:175
 msgid "_Location:"
 msgstr "Đị_a điểm:"
 
@@ -2981,6 +2986,7 @@ msgstr "Rađiô"
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:9
 #: ../calendar/gui/e-meeting-list-view.c:378
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:9
+#: ../plugins/exchange-operations/exchange-permissions-dialog.c:700
 msgid "Role"
 msgstr "Vai trò"
 
@@ -5724,6 +5730,7 @@ msgid "Contacts..."
 msgstr "Liên lạc..."
 
 #: ../calendar/gui/dialogs/e-delegate-dialog.glade.h:2
+#: ../plugins/exchange-operations/exchange-delegates.c:420
 msgid "Delegate To:"
 msgstr "Ủy nhiệm cho:"
 
@@ -12327,6 +12334,7 @@ msgid "Failed upgrading Mail settings or folders."
 msgstr "Không cập nhật thiết lập hay danh mục Thư được."
 
 #: ../mail/mail-config.glade.h:1 ../mail/mail-dialogs.glade.h:1
+#: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:1
 #: ../widgets/menus/gal-view-instance-save-as-dialog.glade.h:1
 msgid "    "
 msgstr "    "
@@ -14249,6 +14257,22 @@ msgstr "Công cụ chép"
 msgid "Mark as default folder"
 msgstr "Đánh dấu là danh mục mặc định"
 
+#: ../plugins/exchange-operations/e-foreign-folder-dialog.glade.h:1
+msgid "Open Other User's Folder"
+msgstr "Mở danh mục của người dùng khác"
+
+#: ../plugins/exchange-operations/e-foreign-folder-dialog.glade.h:2
+msgid "_Account:"
+msgstr "Tài _khoản:"
+
+#: ../plugins/exchange-operations/e-foreign-folder-dialog.glade.h:3
+msgid "_Folder Name:"
+msgstr "_Tên danh mục:"
+
+#: ../plugins/exchange-operations/e-foreign-folder-dialog.glade.h:4
+msgid "_User:"
+msgstr "_Người dùng:"
+
 #. i18n: "Secure Password Authentication" is an Outlookism
 #: ../plugins/exchange-operations/exchange-account-setup.c:62
 msgid "Secure Password"
@@ -14350,6 +14374,19 @@ msgstr "Loại xác thực"
 msgid "Ch_eck for Supported Types"
 msgstr "_Kiểm tra kiểu được hỗ trợ "
 
+#. User entered a wrong existing
+#. * password. Prompt him again.
+#.
+#: ../plugins/exchange-operations/exchange-change-password.c:115
+msgid ""
+"The current password does not match the existing password for your account. "
+"Please enter the correct password"
+msgstr "Mật khẩu hiện thời không khớp với mật khẩu tồn tại cho tài khoản bạn. Hãy nhập mật khẩu đúng."
+
+#: ../plugins/exchange-operations/exchange-change-password.c:122
+msgid "The two passwords do not match. Please re-enter the passwords."
+msgstr "Hai mật khẩu không khớp. Hãy nhập lại."
+
 #: ../plugins/exchange-operations/exchange-change-password.glade.h:3
 msgid "Confirm Password:"
 msgstr "Xác nhận mật khẩu:"
@@ -14367,6 +14404,89 @@ msgid "Your current password has expired. Please change your password now."
 msgstr ""
 "Mật khẩu hiện thời của bạn đã hết hạn. Hãy thay đổi mật khẩu bạn ngay bây "
 "giờ."
+
+#: ../plugins/exchange-operations/exchange-delegates.c:222
+msgid ""
+"No Global Catalog server configured for this account.\n"
+"Unable to edit delegates."
+msgstr "Không có trình phục vụ Phân loại Toàn cục được cấu hình cho tài khoản này.\n"
+"Không thể hiệu chỉnh người được ủy nhiệm."
+
+#: ../plugins/exchange-operations/exchange-delegates.c:261
+msgid ""
+"Could not read folder permissions.\n"
+"Unable to edit delegates."
+msgstr "Không gửi được quyền truy cập danh mục.\n"
+"Không thể hiệu chỉnh người được ủy nhiệm."
+
+#: ../plugins/exchange-operations/exchange-delegates.c:268
+msgid ""
+"Could not determine folder permissions for delegates.\n"
+"Unable to edit delegates."
+msgstr "Không thể xác định quyền truy cập danh mục cho người được ủy nhiệm.\n"
+"Không thể hiệu chỉnh người được ủy nhiệm."
+
+#: ../plugins/exchange-operations/exchange-delegates.c:420
+msgid "Delegate To"
+msgstr "Ủy nhiệm cho"
+
+#: ../plugins/exchange-operations/exchange-delegates.c:436
+#, c-format
+msgid "Could not make %s a delegate"
+msgstr "Không thể ủy nhiệm cho «%s»."
+
+#: ../plugins/exchange-operations/exchange-delegates.c:446
+msgid "You cannot make yourself your own delegate"
+msgstr "Bạn không thể ủy nhiệm cho mình."
+
+#: ../plugins/exchange-operations/exchange-delegates.c:455
+#, c-format
+msgid "%s is already a delegate"
+msgstr "«%s» là một người được ủy nhiệm rồi."
+
+#: ../plugins/exchange-operations/exchange-delegates.c:564
+#, c-format
+msgid "Remove the delegate %s?"
+msgstr "Loại bỏ người được ủy nhiệm «%s» không?"
+
+#: ../plugins/exchange-operations/exchange-delegates.c:681
+msgid "Could not access Active Directory"
+msgstr "Không truy cập được danh mục hoạt động."
+
+#: ../plugins/exchange-operations/exchange-delegates.c:696
+msgid "Could not find self in Active Directory"
+msgstr "Không tìm thấy chính nó trong thư mục hoạt động."
+
+#: ../plugins/exchange-operations/exchange-delegates.c:709
+#, c-format
+msgid "Could not find delegate %s in Active Directory"
+msgstr "Không tìm thấy người được ủy nhiệm «%s» trong thư mục hoạt động."
+
+#: ../plugins/exchange-operations/exchange-delegates.c:721
+#, c-format
+msgid "Could not remove delegate %s"
+msgstr "Không thể loại bỏ người được ủy nhiệm «%s»."
+
+#: ../plugins/exchange-operations/exchange-delegates.c:781
+msgid "Could not update list of delegates."
+msgstr "Không thể cập nhật danh sách các người được ủy nhiệm."
+
+#: ../plugins/exchange-operations/exchange-delegates.c:799
+#, c-format
+msgid "Could not add delegate %s"
+msgstr "Không thể thêm người được ủy nhiệm «%s»."
+
+#: ../plugins/exchange-operations/exchange-delegates.c:815
+#, c-format
+msgid ""
+"Failed to update delegates:\n"
+"%s"
+msgstr "Không thể cập nhật người được ủy nhiệm:\n"
+"%s"
+
+#: ../plugins/exchange-operations/exchange-delegates.c:968
+msgid "Error reading delegates list."
+msgstr "Gặp lỗi khi đọc danh sách các người được ủy nhiệm."
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:1
 msgid "Author (read, create)"
@@ -14421,9 +14541,356 @@ msgstr "Hộp _Đến"
 msgid "_Tasks:"
 msgstr "_Công việc"
 
+#: ../plugins/exchange-operations/exchange-delegates-user.c:144
+msgid "Custom"
+msgstr "Tự chọn"
+
+#: ../plugins/exchange-operations/exchange-delegates-user.c:191
+#: ../plugins/exchange-operations/exchange-permissions-dialog.c:181
+#, c-format
+msgid "Permissions for %s"
+msgstr "Quyền hạn cho «%s»"
+
+#: ../plugins/exchange-operations/exchange-folder.c:55
+#: ../plugins/exchange-operations/exchange-folder.c:98
+#: ../plugins/exchange-operations/exchange-folder.c:108
+msgid "Unsubscribe Folder..."
+msgstr "Bỏ đăng ký danh mục..."
+
+#: ../plugins/exchange-operations/exchange-folder.c:300
+#: ../plugins/exchange-operations/exchange-folder.c:343
+#, c-format
+msgid "Really unsubscribe from folder \"%s\"?"
+msgstr "Thật sự bỏ đăng ký trên danh mục «%s» không?"
+
+#: ../plugins/exchange-operations/exchange-folder.c:312
+#: ../plugins/exchange-operations/exchange-folder.c:355
+#, c-format
+msgid "Unsubscribe from \"%s\""
+msgstr "Bỏ đăng ký trên danh mục «%s»"
+
+#: ../plugins/exchange-operations/exchange-folder-permission.c:46
+#: ../plugins/exchange-operations/org-gnome-folder-permissions.xml.h:2
+msgid "Permissions..."
+msgstr "Quyền hạn..."
+
 #: ../plugins/exchange-operations/exchange-folder-tree.glade.h:1
 msgid "Exchange Folder Tree"
 msgstr "Cây danh mục Exchange"
+
+#: ../plugins/exchange-operations/exchange-permissions-dialog.c:224
+msgid "Could not read folder permissions"
+msgstr "Không đọc được quyền truy cập danh mục."
+
+#: ../plugins/exchange-operations/exchange-permissions-dialog.c:266
+msgid "Could not update folder permissions."
+msgstr "Không thể cập nhật quyền truy cập danh mục."
+
+#: ../plugins/exchange-operations/exchange-permissions-dialog.c:295
+#, c-format
+msgid "Could not update folder permissions. %s"
+msgstr "Không thể cập nhật quyền truy cập danh mục. %s"
+
+#: ../plugins/exchange-operations/exchange-permissions-dialog.c:297
+msgid "(Permission denied.)"
+msgstr "(Không đủ quyền truy cập.)"
+
+#: ../plugins/exchange-operations/exchange-permissions-dialog.c:396
+msgid ""
+"Unable to add user to access control list:\n"
+"No Global Catalog server is configured for this account."
+msgstr "Không thêm được người dùng vào danh sách điều khiển truy cập:\n"
+"Không có trình phục vụ phân loại toàn cục được cấu hình cho tài khoản này."
+
+#: ../plugins/exchange-operations/exchange-permissions-dialog.c:414
+#, c-format
+msgid "No such user %s"
+msgstr "Không có người dùng như vậy «%s»."
+
+#: ../plugins/exchange-operations/exchange-permissions-dialog.c:418
+#, c-format
+msgid "%s cannot be added to an access control list"
+msgstr "Không thêm được «%s» vào một danh sách điều khiển truy cập."
+
+#: ../plugins/exchange-operations/exchange-permissions-dialog.c:423
+#, c-format
+msgid "Unknown error looking up %s"
+msgstr "Gặp lỗi lạ khi tra cứu «%s»."
+
+#: ../plugins/exchange-operations/exchange-permissions-dialog.c:440
+#, c-format
+msgid "%s is already in the list"
+msgstr "«%s» đã có trong danh sách."
+
+#: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:2
+msgid "<b>Permissions</b>"
+msgstr "<b>Quyền hạn</b>"
+
+#: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:3
+msgid "Cannot Delete"
+msgstr "Không thể xóa bỏ"
+
+#: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:4
+msgid "Cannot Edit"
+msgstr "Không thể hiệu chỉnh"
+
+#: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:5
+msgid "Create items"
+msgstr "Tạo mục"
+
+#: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:6
+msgid "Create subfolders"
+msgstr "Tạo danh mục con"
+
+#: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:7
+msgid "Delete Any Items"
+msgstr "Xóa bỏ mọi mục"
+
+#: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:8
+msgid "Delete Own Items"
+msgstr "Xóa bỏ mục mình"
+
+#: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:9
+msgid "Edit Any Items"
+msgstr "Hiệu chỉnh mọi mục"
+
+#: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:10
+msgid "Edit Own Items"
+msgstr "Hiệu chỉnh mục mình"
+
+#: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:11
+msgid "Folder contact"
+msgstr "Liên lạc danh mục"
+
+#: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:12
+msgid "Folder owner"
+msgstr "Người sở hữu danh mục"
+
+#: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:13
+msgid "Folder visible"
+msgstr "Hiển thị danh mục"
+
+#: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:14
+msgid "Read items"
+msgstr "Mục đã đọc"
+
+#: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:15
+msgid "Role: "
+msgstr "Vai trò: "
+
+#: ../plugins/exchange-operations/exchange-user-dialog.c:144
+msgid "Select User"
+msgstr "Chọn người dùng"
+
+#: ../plugins/exchange-operations/exchange-user-dialog.c:182
+msgid "Addressbook..."
+msgstr "Sổ địa chỉ..."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:1
+msgid "Cannot change password due to configuration problems."
+msgstr "Không thể thay đổi mật khẩu vì vấn đề cấu hình."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:2
+msgid "Cannot display folders."
+msgstr "Không thể hiển thị danh mục."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:3
+msgid ""
+"Changes to Exchange account configuration will take place after you quit and "
+"restart Evolution."
+msgstr "Các thay đổi trong cấu hình tài khoản Evolution sẽ có tác động sau khi bạn thoát rồi khởi chạy lại trình Evolution."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:4
+msgid "Could not authenticate to server."
+msgstr "Không thể xác thực tới máy phục vụ."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:5
+msgid "Could not change password."
+msgstr "Không thể thay đổi mật khẩu."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:6
+msgid ""
+"Could not configure Exchange account because \n"
+"an unknown error occurred. Check the URL, \n"
+"username, and password, and try again."
+msgstr "Không thể cấu hình tài khoản Exchange\n"
+"vì gặp một lỗi lạ. Bạn hãy kiểm tra đã gõ đúng\n"
+"địa chỉ Mạng, tên người dùng và mật khẩu\n"
+"rồi thử lại."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:9
+msgid "Could not connect to server {0}."
+msgstr "Không thể kết nối đến máy phục vụ {0}."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:10
+msgid "Could not find Exchange Web Storage System."
+msgstr "Không tìm thấy Hệ thống Cất giữ Mạng Exchange."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:11
+msgid "Could not locate server {0}."
+msgstr "Không thể định vị máy phục vụ {0}."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:12
+msgid "Could not read out-of-office state"
+msgstr "Không đọc được tính trạng ngoài-văn-phòng."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:13
+msgid "Could not update out-of-office state"
+msgstr "Không thể cập nhật tính trạng ngoài-văn-phòng."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:14
+msgid "Exchange Account is offline."
+msgstr "Tài khoản Exchange ngoại tuyến."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:15
+msgid "Exchange Connector access error."
+msgstr "Lỗi truy cập Exchange Connector."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:16
+msgid ""
+"Exchange Connector requires access to certain\n"
+"functionality on the Exchange Server that appears\n"
+"to be disabled or blocked.  (This is usually \n"
+"unintentional.)  Your Exchange Administrator will \n"
+"need to enable this functionality in order for \n"
+"you to be able to use Ximian Connector.\n"
+"\n"
+"For information to provide to your Exchange \n"
+"administrator, please follow the link below:\n"
+"\n"
+"http://support.novell.com/cgi-bin/search/searchtid.cgi?/ximian/ximian328."
+"html\n"
+"  "
+msgstr ""
+"Trình Exchange Connector cần thiết truy cập\n"
+"chức năng nào đó trên máy phục vụ Exchange\n"
+"dương như tắt hay bị trở ngại.\n"
+"(Thường không phải do chủ tâm.)\n"
+"Quản trị Exchange của bạn sẽ cần phải hiệu lực\n"
+"chức năng này để cho phép bạn sử dụng trình\n"
+"Ximian Connector.\n"
+"\n"
+"Để xem thông tin cần cung cấp cho quản trị Exchange,\n"
+"hãy theo liên kết bên dưới đây:\n"
+"\n"
+"http://support.novell.com/cgi-bin/search/searchtid.cgi?/ximian/ximian328."
+"html\n"
+"  "
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:28
+msgid ""
+"If OWA is running on a different path, you must specify that in the account "
+"configuration dialog."
+msgstr "Nếu OWA đang chạy trên đường dẫn khác thì bạn cần phải ghi rõ nó trong hộp thoại cấu hình tài khoản."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:29
+msgid "Mailbox for {0} is not on this server."
+msgstr "Không có hộp thư cho «{0}» trên máy phục vụ này."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:30
+msgid "Make sure the URL is correct and try again."
+msgstr "Hãy kiểm tra xem gõ địa chỉ Mạng đúng, rồi thử lại."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:31
+msgid "Make sure the server name is spelled correctly and try again."
+msgstr "Hãy kiểm tra xem gõ tên phục vụ đúng, rồi thử lại."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:32
+msgid "Make sure the username and password are correct and try again."
+msgstr "Hãy kiểm tra xem gõ tên người dùng và mật khẩu đúng, rồi thử lại."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:33
+msgid "No mailbox for user {0} on {1}."
+msgstr "Không có hộp thư cho người dùng «{0}» trên «{1}»."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:34
+msgid "Password successfully changed."
+msgstr "Mật khẩu đã thay đổi rồi."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:35
+msgid "Please restart Evolution"
+msgstr "Hãy khởi chạy lại Evolution"
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:36
+msgid "Server rejected password because it is too weak."
+msgstr "Máy phục vụ đã từ chối mật khẩu vì quá yếu."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:37
+msgid "The Exchange account will be disabled when you quit Evolution"
+msgstr "Tài khoản Exchange sẽ bị vô hiệu hóa khi bạn thoát trình Evolution."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:38
+msgid "The Exchange account will be removed when you quit Evolution"
+msgstr "Tài khoản Exchange sẽ bị loại bỏ khi bạn thoát trình Evolution."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:39
+msgid "The Exchange server is not compatible with Exchange Connector."
+msgstr "Tài khoản Exchange không tương thích với Exchange Connector."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:40
+msgid ""
+"The server is runinng Exchange 5.5. Exchange Connector \n"
+"supports Microsoft Exchange 2000 and 2003 only."
+msgstr "Máy phục vụ có chạy phần mềm Exchange phiên bản 5.5.\n"
+"Exchange Connector hỗ trợ chỉ Exchange phiên bản 2000 và 2003."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:42
+msgid ""
+"This probably means that your server requires \n"
+"you to specify the Windows domain name \n"
+"as part of your username (eg, &quot;DOMAIN\\user&quot;).\n"
+"\n"
+"Or you might have just typed your password wrong."
+msgstr "Rất có thể có nghĩa là máy phục vụ cần thiết\n"
+"bạn ghi rõi tên miền Windows là phần của tên người dùng\n"
+"(v.d. «MIỀN\\người_dùng»).\n"
+"\n"
+"Hoạc có lẽ bạn đã gõ sai mật khẩu."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:47
+msgid "Try again with a different password."
+msgstr "Hãy thử lại với một mật khẩu mới."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:48
+msgid "Try to clear up some space by deleting some mails."
+msgstr "Bạn hãy cố giải phóng thêm chỗ trống bằng cách xóa bỏ một số thư."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:49
+msgid "Unknown error."
+msgstr "Không biết lỗi ấy."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:50
+msgid "You are nearing your quota available for storing mails on this server."
+msgstr "Bạn gần vượt quá giới hạn lưu thư trên máy phục vụ này."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:51
+msgid "You have exceeded your quota for storing mails on this server."
+msgstr "Bạn đã vượt quá giới hạn lưu thư trên máy phục vụ này."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:52
+msgid "You may only configure a single Exchange account."
+msgstr "Bạn có thể cấu hình chỉ một tài khoản Exchange riêng lẻ."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:53
+msgid "You will not be able to either send or recieve mails now."
+msgstr "Vậy bạn sẽ không thể gởi hay nhận thư."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:54
+msgid ""
+"You will not be able to send mails till you clear up some space by deleting "
+"some mails."
+msgstr "Bạn sẽ không thể gởi thư đến khi bạn giải phóng thêm chỗ trống bằng cách xóa bỏ một số thư."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:55
+msgid "Your password has expired."
+msgstr "Mật khẩu bạn đã hết hạn."
+
+#: ../plugins/exchange-operations/org-gnome-folder-permissions.xml.h:1
+msgid "Check folder permissions"
+msgstr "Hãy kiểm tra quyền truy cập danh mục là đúng."
+
+#: ../plugins/exchange-operations/org-gnome-folder-subscription.xml.h:1
+msgid "Subscribe to Other User's Folder"
+msgstr "Đăng ký với danh mục của người dùng khác"
 
 #: ../plugins/folder-unsubscribe/folder-unsubscribe.c:57
 #, c-format
