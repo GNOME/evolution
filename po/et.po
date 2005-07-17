@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Evolution GNOME 2.10\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-04-19 11:58+0000\n"
-"PO-Revision-Date: 2005-07-14 13:22+0300\n"
+"PO-Revision-Date: 2005-07-15 18:22+0300\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -576,7 +576,7 @@ msgstr "K_ontakt"
 
 #: ../addressbook/gui/component/addressbook-component.c:198
 msgid "Create a new contact"
-msgstr "Loob uue kontakti"
+msgstr "Uue kontakti loomine"
 
 #: ../addressbook/gui/component/addressbook-component.c:205
 msgid "Contact _List"
@@ -584,7 +584,7 @@ msgstr "Kontaktide _nimekiri"
 
 #: ../addressbook/gui/component/addressbook-component.c:206
 msgid "Create a new contact list"
-msgstr "Loob uue kontaktide nimekirja"
+msgstr "Uue kontaktide nimekirja loomine"
 
 #: ../addressbook/gui/component/addressbook-component.c:212
 #: ../addressbook/gui/component/addressbook-config.c:1120
@@ -598,7 +598,7 @@ msgstr "_Aadressiraamat"
 
 #: ../addressbook/gui/component/addressbook-component.c:214
 msgid "Create a new address book"
-msgstr "Lisab uue aadressiraamatu"
+msgstr "Uue aadressiraamatu loomine"
 
 #: ../addressbook/gui/component/addressbook-component.c:287
 msgid "Failed upgrading Addressbook settings or folders."
@@ -4049,7 +4049,7 @@ msgstr "Viga kalendri laadimisel"
 #. calendar:prompt-no-contents-offline-calendar secondary
 #: ../calendar/calendar-errors.xml.h:136
 msgid "The calendar is not marked for offline usage"
-msgstr ""
+msgstr "Kalender pole märgitud autonoomses režiimis kasutamiseks"
 
 #. calendar:prompt-no-contents-offline-tasks primary
 #: ../calendar/calendar-errors.xml.h:138
@@ -4059,7 +4059,7 @@ msgstr "Viga ülesandeloendi laadimisel"
 #. calendar:prompt-no-contents-offline-tasks secondary
 #: ../calendar/calendar-errors.xml.h:140
 msgid "The task list is not marked for offline usage"
-msgstr ""
+msgstr "Ülesannete nimekiri pole märgitud autonoomses režiimis kasutamiseks"
 
 #. calendar:server-version secondary
 #: ../calendar/calendar-errors.xml.h:146
@@ -4317,14 +4317,12 @@ msgid "Ask for confirmation when deleting items"
 msgstr "K_irjete kustutamisel küsitakse nõusolekut"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:3
-#, fuzzy
 msgid "Background color of tasks that are due today, in \"#rrggbb\" format."
-msgstr "Täna tähtaja ületavate ülesannete värv"
+msgstr "Täna tähtaja ületavate ülesannete värv, \"#rrggbb\" vorgmingus."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:4
-#, fuzzy
 msgid "Background color of tasks that are overdue, in \"#rrggbb\" format."
-msgstr "Tähtaja ületanud ülesannete värvus"
+msgstr "Tähtaja ületanud ülesannete värv, \"#rrggbb\" vorgmingus."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:5
 msgid "Calendars to run alarms for"
@@ -4387,13 +4385,12 @@ msgid "Hour the workday starts on, in twenty four hour format, 0 to 23."
 msgstr ""
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:20
-#, fuzzy
 msgid "Last alarm time"
-msgstr "algusaeg"
+msgstr "Viimase alarmi aeg"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:21
 msgid "List of server urls for free/busy publishing."
-msgstr ""
+msgstr "Serveri url-ide loend vaba/hõivatud andmete avaldamiseks."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:22
 msgid "Minute the workday ends on, 0 to 59"
@@ -4698,7 +4695,7 @@ msgstr "_Sündmus"
 
 #: ../calendar/gui/calendar-component.c:1469
 msgid "Create a new appointment"
-msgstr "Lisab uue sündmuse"
+msgstr "Uue sündmuse lisamine"
 
 #: ../calendar/gui/calendar-component.c:1475
 msgid "New meeting"
@@ -4710,7 +4707,7 @@ msgstr "K_oosolek"
 
 #: ../calendar/gui/calendar-component.c:1477
 msgid "Create a new meeting request"
-msgstr "Loob uue koosoleku kutse"
+msgstr "Uue koosolekukutse loomine"
 
 #: ../calendar/gui/calendar-component.c:1483
 msgid "New all day appointment"
@@ -4722,7 +4719,7 @@ msgstr "Kogu _päeva hõlmav sündmus"
 
 #: ../calendar/gui/calendar-component.c:1485
 msgid "Create a new all-day appointment"
-msgstr "Lisab uue, kogu päeva hõlmava sündmuse"
+msgstr "Uue kogu päeva hõlmava sündmuse lisamine"
 
 #: ../calendar/gui/calendar-component.c:1491
 msgid "New calendar"
@@ -4734,7 +4731,7 @@ msgstr "_Kalender"
 
 #: ../calendar/gui/calendar-component.c:1493
 msgid "Create a new calendar"
-msgstr "Loob uue kalendri"
+msgstr "Uue kalendri loomine"
 
 #: ../calendar/gui/calendar-view-factory.c:109
 msgid "Day View"
@@ -6987,7 +6984,7 @@ msgstr "Vigane ülesande sõnum"
 #: ../calendar/gui/e-itip-control.c:1460
 #, c-format
 msgid "<b>%s</b> has published free/busy information."
-msgstr "<b>%s</b> avalikustas vaba/hõivatud info."
+msgstr "<b>%s</b> avalikustas vaba/hõivatud andmed."
 
 #: ../calendar/gui/e-itip-control.c:1461
 msgid "Free/Busy Information"
@@ -6996,7 +6993,7 @@ msgstr "Vaba/hõivatud teave"
 #: ../calendar/gui/e-itip-control.c:1465
 #, c-format
 msgid "<b>%s</b> requests your free/busy information."
-msgstr "<b>%s</b> soovib saada sinu vaba/hõivatud infot."
+msgstr "<b>%s</b> soovib saada sinu vaba/hõivatud andmeid."
 
 #: ../calendar/gui/e-itip-control.c:1466
 msgid "Free/Busy Request"
@@ -7807,7 +7804,7 @@ msgstr "_Ülesanne"
 
 #: ../calendar/gui/tasks-component.c:1152
 msgid "Create a new task"
-msgstr "Lisab uue ülesande"
+msgstr "Uue ülesande loomine"
 
 #: ../calendar/gui/tasks-component.c:1158
 msgid "New assigned task"
@@ -7819,7 +7816,7 @@ msgstr "_Omistatud ülesanne"
 
 #: ../calendar/gui/tasks-component.c:1160
 msgid "Create a new assigned task"
-msgstr "Lisab uue omistatud ülesande"
+msgstr "Uue omistatud ülesande loomine"
 
 #: ../calendar/gui/tasks-component.c:1166
 msgid "New task list"
@@ -7831,7 +7828,7 @@ msgstr "Ü_lesannete nimekiri"
 
 #: ../calendar/gui/tasks-component.c:1168
 msgid "Create a new task list"
-msgstr "Lisab uue ülesannete nimekirja"
+msgstr "Uue ülesannete nimekirja loomine"
 
 #: ../calendar/gui/tasks-control.c:370
 msgid ""
@@ -11423,11 +11420,11 @@ msgstr "Tsiteeringu esiletoomise värv."
 
 #: ../mail/evolution-mail.schemas.in.in.h:6
 msgid "Composer Window default height"
-msgstr "Sõnumiredaktori vaikimisi akna kõrgus"
+msgstr "Sõnumiredaktori akna vaikimisi kõrgus"
 
 #: ../mail/evolution-mail.schemas.in.in.h:7
 msgid "Composer Window default width"
-msgstr "Sõnumiredaktori vaikimisi akna laius"
+msgstr "Sõnumiredaktori akna vaikimisi laius"
 
 #: ../mail/evolution-mail.schemas.in.in.h:8
 msgid "Default charset in which to compose messages"
@@ -11451,15 +11448,15 @@ msgstr "Vaikimisi edastamisstiil"
 
 #: ../mail/evolution-mail.schemas.in.in.h:13
 msgid "Default height of the Composer Window"
-msgstr "Vaikimisi redaktoriakna kõrgus"
+msgstr "Redaktoriakna vaikimisi kõrgus"
 
 #: ../mail/evolution-mail.schemas.in.in.h:14
 msgid "Default height of the Message Window"
-msgstr "Vaikimisi sõnumiakna kõrgus"
+msgstr "Sõnumiakna vaikimisi kõrgus"
 
 #: ../mail/evolution-mail.schemas.in.in.h:15
 msgid "Default height of the Subscribe dialog"
-msgstr "Tellimisdialoogi kõrguse vaikeväärtus"
+msgstr "Tellimisdialoogi vaikimisi kõrgus"
 
 #: ../mail/evolution-mail.schemas.in.in.h:16
 msgid "Default reply style"
@@ -11467,15 +11464,15 @@ msgstr "Vaikimisi vastamise laad"
 
 #: ../mail/evolution-mail.schemas.in.in.h:17
 msgid "Default width of the Composer Window"
-msgstr "Vaikimisi redaktoriakna laius"
+msgstr "Redaktoriakna vaikimisi laius"
 
 #: ../mail/evolution-mail.schemas.in.in.h:18
 msgid "Default width of the Message Window"
-msgstr "Vaikimisi sõnumiakna laius"
+msgstr "Sõnumiakna vaikimisi laius"
 
 #: ../mail/evolution-mail.schemas.in.in.h:19
 msgid "Default width of the Subscribe dialog"
-msgstr "Tellimisdialoogi laiuse vaikeväärtus"
+msgstr "Tellimisdialoogi vaikimisi laius"
 
 #: ../mail/evolution-mail.schemas.in.in.h:20
 msgid "Draw spelling error indicators on words as you type."
@@ -11605,7 +11602,7 @@ msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.in.h:48
 msgid "Message Window default height"
-msgstr "Vaikimisi sõnumiakna kõrgus"
+msgstr "Sõnumiakna vaikimisi kõrgus"
 
 #: ../mail/evolution-mail.schemas.in.in.h:49
 msgid "Message Window default width"
@@ -11735,11 +11732,11 @@ msgstr "Õigekirjakontrolli teostatakse jooksvalt"
 
 #: ../mail/evolution-mail.schemas.in.in.h:78
 msgid "Subscribe dialog default height"
-msgstr ""
+msgstr "Tellimisdialoogi vaikimisi kõrgus"
 
 #: ../mail/evolution-mail.schemas.in.in.h:79
 msgid "Subscribe dialog default width"
-msgstr ""
+msgstr "Tellimisdialoogi vaikimisi laius"
 
 #: ../mail/evolution-mail.schemas.in.in.h:80
 msgid "Terminal font"
@@ -13992,26 +13989,23 @@ msgstr "Märkida vaikimisi kaustaks"
 
 #: ../plugins/default-source/default-source.c:108
 msgid "Mark as default folder"
-msgstr "Vaikekausta kasutamine mustandite jaoks?"
+msgstr "Märgitud vaikimisi kaustaks"
 
 #. i18n: "Secure Password Authentication" is an Outlookism
 #: ../plugins/exchange-account-setup/exchange-account-setup.c:59
-#, fuzzy
 msgid "Secure Password"
-msgstr "Parooli sisestamine"
+msgstr "Turvaline parool"
 
 #. i18n: "NTLM" probably doesn't translate
 #: ../plugins/exchange-account-setup/exchange-account-setup.c:62
-#, fuzzy
 msgid ""
 "This option will connect to the Exchange server using secure password (NTLM) "
 "authentication."
-msgstr "See valik loob ühenduse serverisse kasutades Kerberos 4 autentimist."
+msgstr ""
 
 #: ../plugins/exchange-account-setup/exchange-account-setup.c:70
-#, fuzzy
 msgid "Plaintext Password"
-msgstr "Parooli sisestamine"
+msgstr "Avatekstiline parool"
 
 #: ../plugins/exchange-account-setup/exchange-account-setup.c:72
 #, fuzzy
@@ -14046,9 +14040,8 @@ msgid "Out of office Message:"
 msgstr "Puhkuseteade:"
 
 #: ../plugins/exchange-account-setup/exchange-account-setup.c:302
-#, fuzzy
 msgid "Exchange Settings"
-msgstr "Seaded"
+msgstr "Exchange sätted"
 
 #: ../plugins/exchange-account-setup/exchange-account-setup.c:475
 #: ../plugins/exchange-account-setup/exchange-ask-password.c:200
@@ -14057,19 +14050,16 @@ msgstr ""
 
 #: ../plugins/exchange-account-setup/exchange-account-setup.c:500
 #: ../plugins/exchange-account-setup/exchange-ask-password.c:193
-#, fuzzy
 msgid "A_uthenticate"
-msgstr "Autentimine"
+msgstr "A_utentimine"
 
 #: ../plugins/exchange-account-setup/exchange-account-setup.c:722
-#, fuzzy
 msgid "Authentication Type"
-msgstr "Autentimine"
+msgstr "Autentimise tüüp"
 
 #: ../plugins/exchange-account-setup/exchange-account-setup.c:736
-#, fuzzy
 msgid "Ch_eck for Supported Types"
-msgstr "_Toetatavate tüüpide tuvastus"
+msgstr "_Tuvasta toetatud tüübid"
 
 #: ../plugins/folder-unsubscribe/folder-unsubscribe.c:57
 #, c-format
@@ -14154,10 +14144,12 @@ msgid ""
 "The message does contain a calendar, but the calendar contains no events, "
 "tasks or free/busy information"
 msgstr ""
+"Sõnum sisaldab kalendrit, kuid kalender ei sisalda sündmusi, ülesandeid ega "
+"vaba/hõivatud andmeid"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1034
 msgid "The calendar attached contains multiple items"
-msgstr ""
+msgstr "Manuseks olev kalender sisaldab mitut kirjet"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1035
 msgid ""
@@ -14680,7 +14672,7 @@ msgstr "RDF vorming (.rdf)"
 #: ../plugins/save-calendar/save-calendar.c:171
 #: ../plugins/save-calendar/save-calendar.c:181
 msgid "Select destination file"
-msgstr "Vali sihtfail"
+msgstr "Sihtfaili valimine"
 
 #: ../plugins/save-calendar/save-calendar.c:216
 #, c-format
@@ -14688,6 +14680,8 @@ msgid ""
 "The suggested filename extension of this filetype (%s) is unused in the "
 "chosen filename. Do you want to continue?"
 msgstr ""
+"Selle failitüübi (%s) jaoks soovitatud failinime laiendit pole kasutatud. "
+"Kas sa soovid jätkata?"
 
 #: ../plugins/send-options/send-options.c:82
 #, c-format
@@ -14818,14 +14812,12 @@ msgid "A GNOME Print description of the current printer settings"
 msgstr ""
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:2
-#, fuzzy
 msgid "Configuration version"
-msgstr "E-posti seadistused"
+msgstr "Seadistuste versioon"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:3
-#, fuzzy
 msgid "Default sidebar width"
-msgstr "Vaikimisi akna laius."
+msgstr "Külgpaani vaikimisi laius"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:4
 msgid "Default window height"
@@ -14866,19 +14858,16 @@ msgid ""
 msgstr ""
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:13
-#, fuzzy
 msgid "The default height for the main window, in pixels."
-msgstr "Vaikimisi sõnumiakna kõrgus"
+msgstr "Peaakna vaikimisi kõrgus pikslites."
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:14
-#, fuzzy
 msgid "The default width for the main window, in pixels."
-msgstr "Vaikimisi sõnumiakna laius"
+msgstr "Peaakna vaikimisi laius pikslites."
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:15
-#, fuzzy
 msgid "The default width for the sidebar, in pixels."
-msgstr "Vaikimisi kaustariba paani laius"
+msgstr "Külgpaani vaikimisi laius pikslites."
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:16
 msgid ""
@@ -14911,19 +14900,16 @@ msgid ""
 msgstr ""
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:22
-#, fuzzy
 msgid "Whether the window buttons should be visible."
-msgstr "Millal nupud peaksid olema nähtavad."
+msgstr "Millal aknanupud peaksid nähtavad olema."
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:23
-#, fuzzy
 msgid "Window button style"
-msgstr "Akna _nupud"
+msgstr "Aknanupu stiil"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:24
-#, fuzzy
 msgid "Window buttons are visible"
-msgstr "Nupud on nähtavad"
+msgstr "Aknanupud on nähtavad"
 
 #: ../shell/e-active-connection-dialog.glade.h:1
 msgid "<b>Active Connections</b>"
@@ -15168,11 +15154,11 @@ msgstr ""
 #: ../shell/e-shell-window.c:713
 #, c-format
 msgid "Switch to %s"
-msgstr "Lülitub ümber: %s"
+msgstr "Ümberlülitumine %s peale"
 
 #: ../shell/e-shell.c:598
 msgid "Uknown system error."
-msgstr "Tundmatu süsteemi viga."
+msgstr "Tundmatu süsteemne viga."
 
 #: ../shell/e-shell.c:800 ../shell/e-shell.c:801
 #, c-format
@@ -16054,7 +16040,7 @@ msgstr "Trükkimise eel_vaade"
 
 #: ../ui/evolution-addressbook.xml.h:18
 msgid "Print selected contacts"
-msgstr "Trükib valitud kontaktid"
+msgstr "Valitud kontaktide printimine"
 
 #: ../ui/evolution-addressbook.xml.h:20
 msgid "Save selected contacts as a VCard."
@@ -16154,11 +16140,11 @@ msgstr "Liigu"
 
 #: ../ui/evolution-calendar.xml.h:11
 msgid "Go back"
-msgstr "Liigub tagasi"
+msgstr "Tagasiliikumine"
 
 #: ../ui/evolution-calendar.xml.h:12
 msgid "Go forward"
-msgstr "Liigub edasi"
+msgstr "Edasiliikumine"
 
 #: ../ui/evolution-calendar.xml.h:13
 msgid "List"
@@ -16182,19 +16168,19 @@ msgstr "Eelmine"
 
 #: ../ui/evolution-calendar.xml.h:21
 msgid "Print this calendar"
-msgstr "Trükib kalendri"
+msgstr "Kalendri printimine"
 
 #: ../ui/evolution-calendar.xml.h:22
 msgid "Publish Free/Busy information for this calendar"
-msgstr "Avalikusta selle kalendri vaba/hõivatud teave"
+msgstr "Selle kalendri vaba/hõivatud teabe avalikustamine"
 
 #: ../ui/evolution-calendar.xml.h:23 ../ui/evolution-tasks.xml.h:17
 msgid "Purg_e"
-msgstr "_Puhastamine"
+msgstr "_Puhasta"
 
 #: ../ui/evolution-calendar.xml.h:24
 msgid "Purge old appointments and meetings"
-msgstr "Puhasta vanadest sündmustest ja koosolekutest"
+msgstr "Vanadest sündmustest ja koosolekutest puhastamine"
 
 #: ../ui/evolution-calendar.xml.h:25
 msgid "Select _Date"
@@ -16210,23 +16196,23 @@ msgstr "Tänase kuupäeva valimine"
 
 #: ../ui/evolution-calendar.xml.h:29
 msgid "Show as list"
-msgstr "Näita loendit"
+msgstr "Näitamine loendina"
 
 #: ../ui/evolution-calendar.xml.h:30
 msgid "Show one day"
-msgstr "Näita ühte päeva"
+msgstr "Ühe päeva näitamine"
 
 #: ../ui/evolution-calendar.xml.h:31
 msgid "Show one month"
-msgstr "Näita ühte kuud"
+msgstr "Ühe kuu näitamine"
 
 #: ../ui/evolution-calendar.xml.h:32
 msgid "Show one week"
-msgstr "Näita ühte nädalat"
+msgstr "Ühe nädala näitamine"
 
 #: ../ui/evolution-calendar.xml.h:33
 msgid "Show the working week"
-msgstr "Näita ühte töönädalat"
+msgstr "Ühe töönädala näitamine"
 
 #: ../ui/evolution-calendar.xml.h:35
 msgid "View the current appointment"
@@ -16242,7 +16228,7 @@ msgstr "Töönädal"
 
 #: ../ui/evolution-calendar.xml.h:42
 msgid "_Open Appointment"
-msgstr "_Sündmus avamine"
+msgstr "_Ava sündmus"
 
 #: ../ui/evolution-composer-entries.xml.h:1
 msgid "Copy selected text to the clipboard"
@@ -16690,7 +16676,7 @@ msgstr "Trükitava sõnumi eelvaatlemine"
 
 #: ../ui/evolution-mail-message.xml.h:82
 msgid "Print this message"
-msgstr "Trükib valitud sõnumi"
+msgstr "Valitud sõnumi printimine"
 
 #: ../ui/evolution-mail-message.xml.h:83
 msgid "Re_direct"
@@ -16832,7 +16818,7 @@ msgstr "Sulge"
 
 #: ../ui/evolution-mail-messagedisplay.xml.h:2 ../ui/evolution.xml.h:5
 msgid "Close this window"
-msgstr "Sulgeb akna"
+msgstr "Akna sulgemine"
 
 #: ../ui/evolution-mail-messagedisplay.xml.h:3 ../ui/evolution.xml.h:19
 msgid "Main toolbar"
@@ -17119,7 +17105,7 @@ msgstr "Trükitavate kontaktide eelvaatlemine"
 
 #: ../ui/evolution-tasks.xml.h:16
 msgid "Print the list of tasks"
-msgstr "Trükib ülesannete nimekirja"
+msgstr "Ülesannete nimekirja printimine"
 
 #: ../ui/evolution-tasks.xml.h:18
 msgid "View the selected task"
@@ -17143,7 +17129,7 @@ msgstr "Muuda tööriistariba nähtavalolekut"
 
 #: ../ui/evolution.xml.h:6
 msgid "Create a new window displaying this folder"
-msgstr "Loob uue akna, mis kuvab seda kausta"
+msgstr "Uue akna loomine, mis kuvab seda kausta"
 
 #: ../ui/evolution.xml.h:7
 msgid "Display window buttons using the desktop toolbar setting"
@@ -17171,7 +17157,7 @@ msgstr "Evolutioni _KKK"
 
 #: ../ui/evolution.xml.h:13
 msgid "Exit the program"
-msgstr "Väljub programmist"
+msgstr "Programmist väljumine"
 
 #: ../ui/evolution.xml.h:14
 msgid "Forget _Passwords"
@@ -17179,7 +17165,7 @@ msgstr "Unusta _paroolid"
 
 #: ../ui/evolution.xml.h:15
 msgid "Forget remembered passwords so you will be prompted for them again"
-msgstr "Unustab meeldejäetud paroolid, vajadusel küsitakse paroolid uuesti."
+msgstr "Meeldejäetud paroolide unustamine, vajadusel küsitakse paroolid uuesti."
 
 #: ../ui/evolution.xml.h:16
 msgid "Hide window buttons"
@@ -17191,7 +17177,7 @@ msgstr "_Ikoonid ja tekst"
 
 #: ../ui/evolution.xml.h:18
 msgid "Import data from other programs"
-msgstr "Impordib andmeid teistest programmidest"
+msgstr "Andmete importimine teistest programmidest"
 
 #: ../ui/evolution.xml.h:20
 msgid "New _Window"
@@ -17211,7 +17197,7 @@ msgstr "Saada / võta vastu"
 
 #: ../ui/evolution.xml.h:24
 msgid "Send queued items and retrieve new items"
-msgstr "Saadab ära järjekorras olevad sõnumid ja tõmbab ära uued sõnumid"
+msgstr "Järjekorras olevate sõnumite ärasaatmine ja uute vastuvõtmine"
 
 #: ../ui/evolution.xml.h:25
 msgid "Set up Pilot configuration"
@@ -17425,7 +17411,7 @@ msgstr "Protsendi väärtus peab olema 0 - 100."
 
 #: ../widgets/misc/e-charset-picker.c:63
 msgid "Baltic"
-msgstr "balti"
+msgstr "Balti"
 
 #: ../widgets/misc/e-charset-picker.c:64
 msgid "Central European"
@@ -17433,7 +17419,7 @@ msgstr "Kesk-Euroopa"
 
 #: ../widgets/misc/e-charset-picker.c:65
 msgid "Chinese"
-msgstr "hiina"
+msgstr "Hiina"
 
 #: ../widgets/misc/e-charset-picker.c:66
 msgid "Cyrillic"
@@ -17441,23 +17427,23 @@ msgstr "Kirillitsa"
 
 #: ../widgets/misc/e-charset-picker.c:67
 msgid "Greek"
-msgstr "kreeka"
+msgstr "Kreeka"
 
 #: ../widgets/misc/e-charset-picker.c:68
 msgid "Hebrew"
-msgstr "heebrea"
+msgstr "Heebrea"
 
 #: ../widgets/misc/e-charset-picker.c:69
 msgid "Japanese"
-msgstr "jaapani"
+msgstr "Jaapani"
 
 #: ../widgets/misc/e-charset-picker.c:70
 msgid "Korean"
-msgstr "korea"
+msgstr "Korea"
 
 #: ../widgets/misc/e-charset-picker.c:71
 msgid "Turkish"
-msgstr "türgi"
+msgstr "Türgi"
 
 #: ../widgets/misc/e-charset-picker.c:72
 msgid "Unicode"
@@ -17465,16 +17451,16 @@ msgstr "Unicode"
 
 #: ../widgets/misc/e-charset-picker.c:73
 msgid "Western European"
-msgstr "lääne-euroopa"
+msgstr "Lääne-Euroopa"
 
 #: ../widgets/misc/e-charset-picker.c:74
 msgid "Western European, New"
-msgstr "Lääne-euroopa, uust"
+msgstr "Lääne-Euroopa, uust"
 
 #: ../widgets/misc/e-charset-picker.c:91 ../widgets/misc/e-charset-picker.c:92
 #: ../widgets/misc/e-charset-picker.c:93
 msgid "Traditional"
-msgstr "traditsiooniline"
+msgstr "Traditsiooniline"
 
 #: ../widgets/misc/e-charset-picker.c:94 ../widgets/misc/e-charset-picker.c:95
 #: ../widgets/misc/e-charset-picker.c:96 ../widgets/misc/e-charset-picker.c:97
@@ -17483,11 +17469,11 @@ msgstr "Lihtsustatud"
 
 #: ../widgets/misc/e-charset-picker.c:100
 msgid "Ukrainian"
-msgstr "ukraina"
+msgstr "Ukraina"
 
 #: ../widgets/misc/e-charset-picker.c:103
 msgid "Visual"
-msgstr "visuaalne"
+msgstr "Visuaalne"
 
 #: ../widgets/misc/e-charset-picker.c:171
 #, c-format
@@ -17673,9 +17659,8 @@ msgstr "Katekooriate sünkroniseerimine:"
 #. To translators: This is the accessibility name of
 #. the search bar's text entry widget
 #: ../widgets/misc/e-search-bar.c:345
-#, fuzzy
 msgid "Search Text Entry"
-msgstr "Otsinguredaktor"
+msgstr ""
 
 #: ../widgets/misc/e-search-bar.c:549
 msgid "_Search"
@@ -17695,11 +17680,11 @@ msgstr "Otsingu tüüp"
 
 #: ../widgets/misc/e-search-bar.c:851
 msgid "Item ID"
-msgstr "Elemendi (id_ID)"
+msgstr "Kirje ID"
 
 #: ../widgets/misc/e-search-bar.c:858
 msgid "Subitem ID"
-msgstr "Alamelemendi (ID)"
+msgstr "Alamkirje ID"
 
 #: ../widgets/misc/e-search-bar.c:865
 msgid "Text"
@@ -17710,9 +17695,8 @@ msgid "Find _Now"
 msgstr "_Otsing"
 
 #: ../widgets/misc/e-send-options.c:506
-#, fuzzy
 msgid "When de_leted:"
-msgstr "%d kustutatut"
+msgstr ""
 
 #: ../widgets/misc/e-send-options.glade.h:1
 #, fuzzy
@@ -17729,9 +17713,8 @@ msgid "<b>Return Notification</b>"
 msgstr "<b>Autentimine</b>"
 
 #: ../widgets/misc/e-send-options.glade.h:4
-#, fuzzy
 msgid "<b>Status Tracking</b>"
-msgstr "<b>Otsimine</b>"
+msgstr "<b>Oleku jälgimine</b>"
 
 #: ../widgets/misc/e-send-options.glade.h:5
 msgid "A_uto-delete sent item"
@@ -17742,19 +17725,16 @@ msgid "C_lassification"
 msgstr "_Liigitamine"
 
 #: ../widgets/misc/e-send-options.glade.h:7
-#, fuzzy
 msgid "Creat_e a sent item to track information"
-msgstr "CMS Vastuvõtja teavet pole võimalik luua"
+msgstr ""
 
 #: ../widgets/misc/e-send-options.glade.h:8
-#, fuzzy
 msgid "Deli_vered and opened"
-msgstr "Vastused ja eelnenud"
+msgstr ""
 
 #: ../widgets/misc/e-send-options.glade.h:9
-#, fuzzy
 msgid "Gene_ral Options"
-msgstr "Üldine"
+msgstr "Ü_ldised valikud"
 
 #: ../widgets/misc/e-send-options.glade.h:10
 msgid ""
@@ -17769,17 +17749,18 @@ msgid ""
 msgstr ""
 
 #: ../widgets/misc/e-send-options.glade.h:15
-#, fuzzy
 msgid ""
 "Public\n"
 "Private\n"
 "Confidential\n"
-msgstr "Salajane"
+msgstr ""
+"Avalik\n"
+"Privaatne\n"
+"Salajane\n"
 
 #: ../widgets/misc/e-send-options.glade.h:19
-#, fuzzy
 msgid "R_eply requested"
-msgstr "_Vastamise stiil:"
+msgstr ""
 
 #: ../widgets/misc/e-send-options.glade.h:21
 msgid "Sta_tus  Tracking"
@@ -17792,11 +17773,14 @@ msgid ""
 "Standard\n"
 "Low"
 msgstr ""
+"Kirjeldamata\n"
+"Kõrge\n"
+"Tavaline\n"
+"Madal"
 
 #: ../widgets/misc/e-send-options.glade.h:26
-#, fuzzy
 msgid "W_ithin"
-msgstr "Laius"
+msgstr ""
 
 #: ../widgets/misc/e-send-options.glade.h:27
 msgid "When acce_pted: "
