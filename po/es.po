@@ -17,8 +17,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-07-12 23:53+0200\n"
-"PO-Revision-Date: 2005-07-13 00:00+0200\n"
+"POT-Creation-Date: 2005-07-17 11:50+0200\n"
+"PO-Revision-Date: 2005-07-17 12:21+0200\n"
 "Last-Translator: \n"
 "Language-Team:  <es@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -575,7 +575,7 @@ msgstr "Gestione sus certificados S/MIME aquí"
 #. create the local source group
 #. On This Computer is always first and vFolders is always last
 #: ../addressbook/gui/component/addressbook-component.c:137
-#: ../addressbook/gui/component/addressbook-migrate.c:501
+#: ../addressbook/gui/component/addressbook-migrate.c:502
 #: ../calendar/gui/calendar-component.c:208 ../calendar/gui/migration.c:462
 #: ../calendar/gui/migration.c:555 ../calendar/gui/tasks-component.c:188
 #: ../mail/em-folder-tree-model.c:197 ../mail/em-folder-tree-model.c:199
@@ -589,7 +589,7 @@ msgstr "En este equipo"
 #. Create the default Person addressbook
 #. orange
 #: ../addressbook/gui/component/addressbook-component.c:145
-#: ../addressbook/gui/component/addressbook-migrate.c:509
+#: ../addressbook/gui/component/addressbook-migrate.c:510
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:20
 #: ../calendar/gui/calendar-component.c:216 ../calendar/gui/migration.c:470
 #: ../calendar/gui/migration.c:563 ../calendar/gui/tasks-component.c:196
@@ -600,7 +600,7 @@ msgstr "Privado"
 
 #. Create the LDAP source group
 #: ../addressbook/gui/component/addressbook-component.c:155
-#: ../addressbook/gui/component/addressbook-migrate.c:519
+#: ../addressbook/gui/component/addressbook-migrate.c:520
 msgid "On LDAP Servers"
 msgstr "En servidores LDAP"
 
@@ -705,15 +705,15 @@ msgstr "Migrando..."
 msgid "Migrating `%s':"
 msgstr "Migrando «%s»:"
 
-#: ../addressbook/gui/component/addressbook-migrate.c:647
+#: ../addressbook/gui/component/addressbook-migrate.c:648
 msgid "LDAP Servers"
 msgstr "Servidores LDAP"
 
-#: ../addressbook/gui/component/addressbook-migrate.c:762
+#: ../addressbook/gui/component/addressbook-migrate.c:763
 msgid "Autocompletion Settings"
 msgstr "Configuración de autocompletado"
 
-#: ../addressbook/gui/component/addressbook-migrate.c:1133
+#: ../addressbook/gui/component/addressbook-migrate.c:1134
 msgid ""
 "The location and hierarchy of the Evolution contact folders has changed "
 "since Evolution 1.x.\n"
@@ -725,7 +725,7 @@ msgstr ""
 "\n"
 "Tenga paciencia mientras Evolution migra sus carpetas..."
 
-#: ../addressbook/gui/component/addressbook-migrate.c:1147
+#: ../addressbook/gui/component/addressbook-migrate.c:1148
 msgid ""
 "The format of mailing list contacts has changed.\n"
 "\n"
@@ -735,7 +735,7 @@ msgstr ""
 "\n"
 "Tenga paciencia mientras Evolution migra sus carpetas..."
 
-#: ../addressbook/gui/component/addressbook-migrate.c:1156
+#: ../addressbook/gui/component/addressbook-migrate.c:1157
 msgid ""
 "The way Evolution stores some phone numbers has changed.\n"
 "\n"
@@ -745,7 +745,7 @@ msgstr ""
 "\n"
 "Tenga paciencia mientras Evolution migra sus carpetas..."
 
-#: ../addressbook/gui/component/addressbook-migrate.c:1166
+#: ../addressbook/gui/component/addressbook-migrate.c:1167
 msgid ""
 "Evolution's Palm Sync changelog and map files have changed.\n"
 "\n"
@@ -1135,7 +1135,7 @@ msgstr "tarjetas"
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:14
 #: ../filter/filter.glade.h:16 ../mail/em-account-editor.c:1940
 #: ../plugins/calendar-http/calendar-http.c:263
-#: ../plugins/calendar-weather/calendar-weather.c:564
+#: ../plugins/calendar-weather/calendar-weather.c:563
 msgid "minutes"
 msgstr "minutos"
 
@@ -2340,6 +2340,8 @@ msgid "Zimbabwe"
 msgstr "Zimbabwe"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-fullname.c:89
+#: ../plugins/exchange-operations/exchange-delegates.c:939
+#: ../plugins/exchange-operations/exchange-permissions-dialog.c:696
 #: ../plugins/plugin-manager/plugin-manager.c:44
 #: ../plugins/save-attachments/save-attachments.c:362
 #: ../widgets/menus/gal-view-new-dialog.c:73
@@ -2597,8 +2599,11 @@ msgstr "_Nombre de la cuenta:"
 msgid "_IM Service:"
 msgstr "Servicio de _MI:"
 
+#. FIXME: Take care of i18n
 #: ../addressbook/gui/contact-editor/im.glade.h:5
-#: ../plugins/calendar-weather/calendar-weather.c:410
+#: ../plugins/calendar-weather/calendar-weather.c:409
+#: ../plugins/exchange-operations/exchange-calendar.c:181
+#: ../plugins/exchange-operations/exchange-contacts.c:175
 msgid "_Location:"
 msgstr "_Lugar:"
 
@@ -3007,6 +3012,7 @@ msgstr "Radio"
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:9
 #: ../calendar/gui/e-meeting-list-view.c:378
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:9
+#: ../plugins/exchange-operations/exchange-permissions-dialog.c:700
 msgid "Role"
 msgstr "Papel"
 
@@ -3559,7 +3565,7 @@ msgstr "Vista de la tarjeta"
 msgid "GTK Tree View"
 msgstr "Vista de árbol GTK"
 
-#: ../addressbook/importers/evolution-ldif-importer.c:487
+#: ../addressbook/importers/evolution-ldif-importer.c:486
 #: ../addressbook/importers/evolution-vcard-importer.c:249
 #: ../calendar/importers/icalendar-importer.c:311
 #: ../calendar/importers/icalendar-importer.c:643 ../shell/shell.error.xml.h:4
@@ -4841,7 +4847,7 @@ msgstr "Purgar acontecimientos anteriores a"
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:20
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:12
 #: ../filter/filter.glade.h:14 ../plugins/calendar-http/calendar-http.c:265
-#: ../plugins/calendar-weather/calendar-weather.c:566
+#: ../plugins/calendar-weather/calendar-weather.c:565
 #: ../widgets/misc/e-send-options.glade.h:36
 msgid "days"
 msgstr "días"
@@ -5063,7 +5069,7 @@ msgstr "hora(s)"
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:24
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:13
 #: ../filter/filter.glade.h:15 ../plugins/calendar-http/calendar-http.c:264
-#: ../plugins/calendar-weather/calendar-weather.c:565
+#: ../plugins/calendar-weather/calendar-weather.c:564
 msgid "hours"
 msgstr "horas"
 
@@ -5151,7 +5157,7 @@ msgid "Suggest automatic display of attachment"
 msgstr "Sugerir mostrar adjuntos automáticamente"
 
 #: ../calendar/gui/dialogs/cal-attachment-select-file.c:190
-#: ../composer/e-msg-composer-select-file.c:235
+#: ../composer/e-msg-composer-select-file.c:238
 msgid "Attach file(s)"
 msgstr "Adjuntar archivo(s)"
 
@@ -5541,7 +5547,7 @@ msgstr "_Añadir lista de tareas"
 
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:9
 #: ../plugins/calendar-http/calendar-http.c:248
-#: ../plugins/calendar-weather/calendar-weather.c:549
+#: ../plugins/calendar-weather/calendar-weather.c:548
 msgid "_Refresh:"
 msgstr "_Refrescar:"
 
@@ -5552,7 +5558,7 @@ msgstr "_URL:"
 
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:15
 #: ../filter/filter.glade.h:21 ../plugins/calendar-http/calendar-http.c:266
-#: ../plugins/calendar-weather/calendar-weather.c:567
+#: ../plugins/calendar-weather/calendar-weather.c:566
 msgid "weeks"
 msgstr "semanas"
 
@@ -5795,6 +5801,7 @@ msgid "Contacts..."
 msgstr "Contactos..."
 
 #: ../calendar/gui/dialogs/e-delegate-dialog.glade.h:2
+#: ../plugins/exchange-operations/exchange-delegates.c:420
 msgid "Delegate To:"
 msgstr "Delegar en:"
 
@@ -6014,8 +6021,8 @@ msgstr "<b>De:</b>"
 #: ../filter/filter-rule.c:881 ../mail/em-account-editor.c:683
 #: ../mail/em-account-editor.c:1346 ../mail/em-account-prefs.c:464
 #: ../mail/em-folder-view.c:1062
-#: ../plugins/calendar-weather/calendar-weather.c:371
-#: ../plugins/calendar-weather/calendar-weather.c:425
+#: ../plugins/calendar-weather/calendar-weather.c:370
+#: ../plugins/calendar-weather/calendar-weather.c:424
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:7
 #: ../plugins/itip-formatter/itip-formatter.c:1574
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.c:190
@@ -6568,7 +6575,7 @@ msgstr "Fecha de vencimiento:"
 #. Status
 #: ../calendar/gui/e-cal-component-preview.c:222
 #: ../calendar/gui/e-itip-control.c:1132
-#: ../plugins/exchange-operations/exchange-account-setup.c:262
+#: ../plugins/exchange-operations/exchange-account-setup.c:263
 #: ../plugins/itip-formatter/itip-view.c:907
 msgid "Status:"
 msgstr "Estado:"
@@ -9678,15 +9685,15 @@ msgstr "Pacífico/Wallis"
 msgid "Pacific/Yap"
 msgstr "Pacífico/Yap"
 
-#: ../composer/e-msg-composer-hdrs.c:550
+#: ../composer/e-msg-composer-hdrs.c:559
 msgid "Posting destination"
 msgstr "Destino donde publicar"
 
-#: ../composer/e-msg-composer-hdrs.c:551
+#: ../composer/e-msg-composer-hdrs.c:560
 msgid "Choose folders to post the message to."
 msgstr "Elija las carpetas en las que publicar el mensaje."
 
-#: ../composer/e-msg-composer-hdrs.c:585
+#: ../composer/e-msg-composer-hdrs.c:594
 msgid "Click here for the address book"
 msgstr "Pulse aquí para acceder a la libreta de direcciones"
 
@@ -9697,45 +9704,45 @@ msgstr "Pulse aquí para acceder a la libreta de direcciones"
 #. * because that causes from_changed to be called, which
 #. * expects the reply_to fields to be initialized.
 #.
-#: ../composer/e-msg-composer-hdrs.c:615
+#: ../composer/e-msg-composer-hdrs.c:624
 msgid "_Reply-To:"
 msgstr "_Responder a:"
 
 #.
 #. * From
 #.
-#: ../composer/e-msg-composer-hdrs.c:622
+#: ../composer/e-msg-composer-hdrs.c:631
 msgid "Fr_om:"
 msgstr "_De:"
 
 #.
 #. * Subject
 #.
-#: ../composer/e-msg-composer-hdrs.c:629
+#: ../composer/e-msg-composer-hdrs.c:638
 msgid "S_ubject:"
 msgstr "_Asunto:"
 
-#: ../composer/e-msg-composer-hdrs.c:639
+#: ../composer/e-msg-composer-hdrs.c:648
 msgid "_To:"
 msgstr "_Para:"
 
-#: ../composer/e-msg-composer-hdrs.c:640
+#: ../composer/e-msg-composer-hdrs.c:649
 msgid "Enter the recipients of the message"
 msgstr "Escriba los destinatarios del mensaje"
 
-#: ../composer/e-msg-composer-hdrs.c:643
+#: ../composer/e-msg-composer-hdrs.c:652
 msgid "_Cc:"
 msgstr "_Cc:"
 
-#: ../composer/e-msg-composer-hdrs.c:644
+#: ../composer/e-msg-composer-hdrs.c:653
 msgid "Enter the addresses that will receive a carbon copy of the message"
 msgstr "Escriba las direcciones que recibirán una copia del mensaje"
 
-#: ../composer/e-msg-composer-hdrs.c:647
+#: ../composer/e-msg-composer-hdrs.c:656
 msgid "_Bcc:"
 msgstr "_Cco:"
 
-#: ../composer/e-msg-composer-hdrs.c:648
+#: ../composer/e-msg-composer-hdrs.c:657
 msgid ""
 "Enter the addresses that will receive a carbon copy of the message without "
 "appearing in the recipient list of the message."
@@ -9746,15 +9753,15 @@ msgstr ""
 #.
 #. * Post-To
 #.
-#: ../composer/e-msg-composer-hdrs.c:655
+#: ../composer/e-msg-composer-hdrs.c:664
 msgid "_Post To:"
 msgstr "_Publicar en:"
 
-#: ../composer/e-msg-composer-hdrs.c:660
+#: ../composer/e-msg-composer-hdrs.c:669
 msgid "Click here to select folders to post to"
 msgstr "Pulse aquí para seleccionar las carpetas en las que publicar"
 
-#: ../composer/e-msg-composer-hdrs.c:666
+#: ../composer/e-msg-composer-hdrs.c:675
 msgid "Post To:"
 msgstr "Publicar en:"
 
@@ -10615,7 +10622,7 @@ msgstr "Predeterminados"
 
 #. Security settings
 #: ../mail/em-account-editor.c:2207 ../mail/mail-config.glade.h:122
-#: ../plugins/exchange-operations/exchange-account-setup.c:312
+#: ../plugins/exchange-operations/exchange-account-setup.c:313
 msgid "Security"
 msgstr "Seguridad"
 
@@ -10654,7 +10661,7 @@ msgid "Mail Accounts Table"
 msgstr "Tabla de cuentas de correo"
 
 #: ../mail/em-composer-prefs.c:306 ../mail/em-composer-prefs.c:429
-#: ../mail/mail-config.c:953
+#: ../mail/mail-config.c:958
 msgid "Unnamed"
 msgstr "Sin nombre"
 
@@ -10670,18 +10677,18 @@ msgstr "Añadir firma"
 msgid "Signature(s)"
 msgstr "Firma(s)"
 
-#: ../mail/em-composer-utils.c:852
+#: ../mail/em-composer-utils.c:853
 msgid "-------- Forwarded Message --------"
 msgstr "--------- Mensaje reenviado --------"
 
-#: ../mail/em-composer-utils.c:1644
+#: ../mail/em-composer-utils.c:1645
 msgid "an unknown sender"
 msgstr "un remitente desconocido"
 
 #. Note to translators: this is the attribution string used when quoting messages.
 #. * each ${Variable} gets replaced with a value. To see a full list of available
 #. * variables, see em-composer-utils.c:1514
-#: ../mail/em-composer-utils.c:1691
+#: ../mail/em-composer-utils.c:1692
 msgid ""
 "On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} "
 "${TimeZone}, ${Sender} wrote:"
@@ -11497,7 +11504,7 @@ msgstr "Cco"
 
 #. pseudo-header
 #: ../mail/em-format-html.c:1675 ../mail/em-format-quote.c:319
-#: ../mail/em-mailer-prefs.c:986
+#: ../mail/em-mailer-prefs.c:987
 msgid "Mailer"
 msgstr "Transporte"
 
@@ -12241,7 +12248,9 @@ msgid "Importing..."
 msgstr "Importando..."
 
 #: ../mail/importers/evolution-outlook-importer.c:261
-#: ../mail/importers/netscape-importer.c:1253 ../shell/e-shell-importer.c:523
+#: ../mail/importers/netscape-importer.c:1253
+#: ../plugins/startup-wizard/startup-wizard.c:236
+#: ../shell/e-shell-importer.c:523
 msgid "Please wait"
 msgstr "Por favor espere"
 
@@ -12450,6 +12459,7 @@ msgid "Failed upgrading Mail settings or folders."
 msgstr "Fallo al actualizar la configuración de correo o carpetas."
 
 #: ../mail/mail-config.glade.h:1 ../mail/mail-dialogs.glade.h:1
+#: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:1
 #: ../widgets/menus/gal-view-instance-save-as-dialog.glade.h:1
 msgid "    "
 msgstr "    "
@@ -14332,19 +14342,19 @@ msgstr "Meteorología: Soleado"
 msgid "Weather: Thunderstorms"
 msgstr "Meteorología: Tormenta"
 
-#: ../plugins/calendar-weather/calendar-weather.c:268
+#: ../plugins/calendar-weather/calendar-weather.c:267
 msgid "Select a location"
 msgstr "Seleccione un lugar"
 
-#: ../plugins/calendar-weather/calendar-weather.c:655
+#: ../plugins/calendar-weather/calendar-weather.c:654
 msgid "_Units:"
 msgstr "_Unidades:"
 
-#: ../plugins/calendar-weather/calendar-weather.c:662
+#: ../plugins/calendar-weather/calendar-weather.c:661
 msgid "Metric (Celsius, cm, etc)"
 msgstr "Métrica (Celsius, cm, etc)"
 
-#: ../plugins/calendar-weather/calendar-weather.c:663
+#: ../plugins/calendar-weather/calendar-weather.c:662
 msgid "Imperial (Fahrenheit, inches, etc)"
 msgstr "Imperial (Fahrenheit, pulgadas, etc)"
 
@@ -14377,13 +14387,29 @@ msgstr "Herraienta de copia"
 msgid "Mark as default folder"
 msgstr "Marcar como carpeta predeterminada"
 
+#: ../plugins/exchange-operations/e-foreign-folder-dialog.glade.h:1
+msgid "Open Other User's Folder"
+msgstr "Abrir la carpeta de otro usuario"
+
+#: ../plugins/exchange-operations/e-foreign-folder-dialog.glade.h:2
+msgid "_Account:"
+msgstr "_Cuenta:"
+
+#: ../plugins/exchange-operations/e-foreign-folder-dialog.glade.h:3
+msgid "_Folder Name:"
+msgstr "Nombre de la _carpeta:"
+
+#: ../plugins/exchange-operations/e-foreign-folder-dialog.glade.h:4
+msgid "_User:"
+msgstr "_Usuario:"
+
 #. i18n: "Secure Password Authentication" is an Outlookism
-#: ../plugins/exchange-operations/exchange-account-setup.c:61
+#: ../plugins/exchange-operations/exchange-account-setup.c:62
 msgid "Secure Password"
 msgstr "Contraseña segura"
 
 #. i18n: "NTLM" probably doesn't translate
-#: ../plugins/exchange-operations/exchange-account-setup.c:64
+#: ../plugins/exchange-operations/exchange-account-setup.c:65
 msgid ""
 "This option will connect to the Exchange server using secure password (NTLM) "
 "authentication."
@@ -14391,11 +14417,11 @@ msgstr ""
 "Esta opción conectará con el servidor Exchange usando autenticación con "
 "contraseña segura (NTLM)."
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:72
+#: ../plugins/exchange-operations/exchange-account-setup.c:73
 msgid "Plaintext Password"
 msgstr "Contraseña en texto simple"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:74
+#: ../plugins/exchange-operations/exchange-account-setup.c:75
 msgid ""
 "This option will connect to the Exchange server using standard plaintext "
 "password authentication."
@@ -14403,11 +14429,11 @@ msgstr ""
 "Esta opción conectará con el servidor Exchange usando autenticación con  "
 "contraseña estándar de texto simple."
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:250
+#: ../plugins/exchange-operations/exchange-account-setup.c:251
 msgid "Out Of Office"
 msgstr "Fuera de la oficina"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:257
+#: ../plugins/exchange-operations/exchange-account-setup.c:258
 msgid ""
 "The message specified below will be automatically sent to \n"
 "each person who sends mail to you while you are out of the office."
@@ -14415,68 +14441,81 @@ msgstr ""
 "El mensaje especificado abajo se enviará automáticamente a cada\n"
 " persona que le envíe correo mientras está fuera de la oficina."
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:269
-#: ../plugins/exchange-operations/exchange-account-setup.c:274
+#: ../plugins/exchange-operations/exchange-account-setup.c:270
+#: ../plugins/exchange-operations/exchange-account-setup.c:275
 msgid "I am out of the office"
 msgstr "Ahora estoy fuera de la oficina"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:270
-#: ../plugins/exchange-operations/exchange-account-setup.c:273
+#: ../plugins/exchange-operations/exchange-account-setup.c:271
+#: ../plugins/exchange-operations/exchange-account-setup.c:274
 msgid "I am in the office"
 msgstr "Ahora estoy en la oficina"
 
 #. Change Password
-#: ../plugins/exchange-operations/exchange-account-setup.c:322
+#: ../plugins/exchange-operations/exchange-account-setup.c:323
 msgid "Change the password for Exchange account"
 msgstr "Cambia la contraseña para la cuenta de Exchange"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:324
+#: ../plugins/exchange-operations/exchange-account-setup.c:325
 #: ../plugins/exchange-operations/exchange-change-password.glade.h:2
 msgid "Change Password"
 msgstr "Cambiar contraseña"
 
 #. Delegation Assistant
-#: ../plugins/exchange-operations/exchange-account-setup.c:328
+#: ../plugins/exchange-operations/exchange-account-setup.c:329
 msgid "Manage the delegate settings for Exchange account"
 msgstr "Gestione los ajustes de delegaciones para la cuenta Exchange"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:330
+#: ../plugins/exchange-operations/exchange-account-setup.c:331
 msgid "Delegation Assitant"
 msgstr "Asistente de delegaciones"
 
 #. Miscelleneous settings
-#: ../plugins/exchange-operations/exchange-account-setup.c:341
+#: ../plugins/exchange-operations/exchange-account-setup.c:342
 msgid "Miscelleneous"
 msgstr "Misceláneo"
 
 #. Folder Size
-#: ../plugins/exchange-operations/exchange-account-setup.c:351
+#: ../plugins/exchange-operations/exchange-account-setup.c:352
 msgid "View the size of all Exchange folders"
 msgstr "Vea el tamaño de todas las carpetas Exchange"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:353
+#: ../plugins/exchange-operations/exchange-account-setup.c:354
 msgid "Folders Size"
 msgstr "Tamaño de las carpetas"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:360
+#: ../plugins/exchange-operations/exchange-account-setup.c:361
 msgid "Exchange Settings"
 msgstr "Configuración de Exchange"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:609
+#: ../plugins/exchange-operations/exchange-account-setup.c:604
 msgid "_OWA Url:"
 msgstr "Url _OWA:"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:634
+#: ../plugins/exchange-operations/exchange-account-setup.c:629
 msgid "A_uthenticate"
 msgstr "A_utenticación"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:826
+#: ../plugins/exchange-operations/exchange-account-setup.c:821
 msgid "Authentication Type"
 msgstr "Tipo de autenticación"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:840
+#: ../plugins/exchange-operations/exchange-account-setup.c:835
 msgid "Ch_eck for Supported Types"
 msgstr "_Comprobar tipos soportados "
+
+#. User entered a wrong existing
+#. * password. Prompt him again.
+#.
+#: ../plugins/exchange-operations/exchange-change-password.c:115
+msgid ""
+"The current password does not match the existing password for your account. "
+"Please enter the correct password"
+msgstr "La contraseña actual no coincide con la contraseña existente para su cuenta. Por favor introduzca la contraseña correcta"
+
+#: ../plugins/exchange-operations/exchange-change-password.c:122
+msgid "The two passwords do not match. Please re-enter the passwords."
+msgstr "Las dos contraseñas no coinciden. Por favor, vuelva a introducir las contraseñas."
 
 #: ../plugins/exchange-operations/exchange-change-password.glade.h:3
 msgid "Confirm Password:"
@@ -14493,6 +14532,93 @@ msgstr "Contraseña nueva:"
 #: ../plugins/exchange-operations/exchange-change-password.glade.h:6
 msgid "Your current password has expired. Please change your password now."
 msgstr "Su contraseña actual ha caducado. Cambie su contraseña ahora."
+
+#: ../plugins/exchange-operations/exchange-delegates.c:222
+msgid ""
+"No Global Catalog server configured for this account.\n"
+"Unable to edit delegates."
+msgstr ""
+"No hay un servidor de Catálogo Global configurado para esta cuenta.\n"
+"No se pueden editar delegados."
+
+#: ../plugins/exchange-operations/exchange-delegates.c:261
+msgid ""
+"Could not read folder permissions.\n"
+"Unable to edit delegates."
+msgstr ""
+"No se pudo leer los permisos de la carpeta.\n"
+"Imposible editar delegados."
+
+#: ../plugins/exchange-operations/exchange-delegates.c:268
+msgid ""
+"Could not determine folder permissions for delegates.\n"
+"Unable to edit delegates."
+msgstr ""
+"No se pudieron determinar los permisos de la carpeta para delegados.\n"
+"Imposible editar delegados."
+
+#: ../plugins/exchange-operations/exchange-delegates.c:420
+msgid "Delegate To"
+msgstr "Delegar en:"
+
+#: ../plugins/exchange-operations/exchange-delegates.c:436
+#, c-format
+msgid "Could not make %s a delegate"
+msgstr "No se pudo hacer de %s un delegado"
+
+#: ../plugins/exchange-operations/exchange-delegates.c:446
+msgid "You cannot make yourself your own delegate"
+msgstr "No puede hacerse así mismo su propio delegado"
+
+#: ../plugins/exchange-operations/exchange-delegates.c:455
+#, c-format
+msgid "%s is already a delegate"
+msgstr "%s ya es un delegado"
+
+#: ../plugins/exchange-operations/exchange-delegates.c:564
+#, c-format
+msgid "Remove the delegate %s?"
+msgstr "¿Desea quitar el delegado %s?"
+
+#: ../plugins/exchange-operations/exchange-delegates.c:681
+msgid "Could not access Active Directory"
+msgstr "No se pudo acceder al Active Directory"
+
+#: ../plugins/exchange-operations/exchange-delegates.c:696
+msgid "Could not find self in Active Directory"
+msgstr "No se pudo encontrar a sí mismo en el Active Directory"
+
+#: ../plugins/exchange-operations/exchange-delegates.c:709
+#, c-format
+msgid "Could not find delegate %s in Active Directory"
+msgstr "No se pudo encontrar al delegado %s en el Active Directory"
+
+#: ../plugins/exchange-operations/exchange-delegates.c:721
+#, c-format
+msgid "Could not remove delegate %s"
+msgstr "No se pudo quitar al delegado %s"
+
+#: ../plugins/exchange-operations/exchange-delegates.c:781
+msgid "Could not update list of delegates."
+msgstr "No se pudo actualizar la lista de delegados."
+
+#: ../plugins/exchange-operations/exchange-delegates.c:799
+#, c-format
+msgid "Could not add delegate %s"
+msgstr "No se pudo añadir el delegado %s"
+
+#: ../plugins/exchange-operations/exchange-delegates.c:815
+#, c-format
+msgid ""
+"Failed to update delegates:\n"
+"%s"
+msgstr ""
+"Falló al actualizar delegados:\n"
+"%s"
+
+#: ../plugins/exchange-operations/exchange-delegates.c:968
+msgid "Error reading delegates list."
+msgstr "Error al leer la lista de delegados."
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:1
 msgid "Author (read, create)"
@@ -14546,9 +14672,357 @@ msgstr "_Bandeja de entrada:"
 msgid "_Tasks:"
 msgstr "_Tareas:"
 
+#: ../plugins/exchange-operations/exchange-delegates-user.c:144
+msgid "Custom"
+msgstr "Personalizado"
+
+#: ../plugins/exchange-operations/exchange-delegates-user.c:191
+#: ../plugins/exchange-operations/exchange-permissions-dialog.c:181
+#, c-format
+msgid "Permissions for %s"
+msgstr "Permisos para %s"
+
+#: ../plugins/exchange-operations/exchange-folder.c:55
+#: ../plugins/exchange-operations/exchange-folder.c:98
+#: ../plugins/exchange-operations/exchange-folder.c:108
+msgid "Unsubscribe Folder..."
+msgstr "_Desuscribirse de la carpeta..."
+
+#: ../plugins/exchange-operations/exchange-folder.c:300
+#: ../plugins/exchange-operations/exchange-folder.c:343
+#, c-format
+msgid "Really unsubscribe from folder \"%s\"?"
+msgstr "¿Seguro que desea desuscribirse de la carpeta «%s»?"
+
+#: ../plugins/exchange-operations/exchange-folder.c:312
+#: ../plugins/exchange-operations/exchange-folder.c:355
+#, c-format
+msgid "Unsubscribe from \"%s\""
+msgstr "Desuscribirse de «%s»"
+
+#: ../plugins/exchange-operations/exchange-folder-permission.c:46
+#: ../plugins/exchange-operations/org-gnome-folder-permissions.xml.h:2
+msgid "Permissions..."
+msgstr "Permisos..."
+
 #: ../plugins/exchange-operations/exchange-folder-tree.glade.h:1
 msgid "Exchange Folder Tree"
 msgstr "Árbol de carpetas de Exchange"
+
+#: ../plugins/exchange-operations/exchange-permissions-dialog.c:224
+msgid "Could not read folder permissions"
+msgstr "No se pudieron leer los permisos de la carpeta"
+
+#: ../plugins/exchange-operations/exchange-permissions-dialog.c:266
+msgid "Could not update folder permissions."
+msgstr "No se pudo actualizar los permisos de la carpeta."
+
+#: ../plugins/exchange-operations/exchange-permissions-dialog.c:295
+#, c-format
+msgid "Could not update folder permissions. %s"
+msgstr "No se pudo actualizar los permisos de la carpeta. %s"
+
+#: ../plugins/exchange-operations/exchange-permissions-dialog.c:297
+msgid "(Permission denied.)"
+msgstr "(Permiso denegado.)"
+
+#: ../plugins/exchange-operations/exchange-permissions-dialog.c:396
+msgid ""
+"Unable to add user to access control list:\n"
+"No Global Catalog server is configured for this account."
+msgstr ""
+"No se pudo añadir al usuario a la lista de control de acceso:\n"
+"No hay configurado un servidor de Catálogo GLobal para esta cuenta."
+
+#: ../plugins/exchange-operations/exchange-permissions-dialog.c:414
+#, c-format
+msgid "No such user %s"
+msgstr "No existe ese usuario %s"
+
+#: ../plugins/exchange-operations/exchange-permissions-dialog.c:418
+#, c-format
+msgid "%s cannot be added to an access control list"
+msgstr "%s no  puede añadirse a la lista de control de acceso"
+
+#: ../plugins/exchange-operations/exchange-permissions-dialog.c:423
+#, c-format
+msgid "Unknown error looking up %s"
+msgstr "Error desconocido al buscar %s"
+
+#: ../plugins/exchange-operations/exchange-permissions-dialog.c:440
+#, c-format
+msgid "%s is already in the list"
+msgstr "%s ya está en la lista"
+
+#: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:2
+msgid "<b>Permissions</b>"
+msgstr "<b>Permisos</b>"
+
+#: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:3
+msgid "Cannot Delete"
+msgstr "No se puede borrar"
+
+#: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:4
+msgid "Cannot Edit"
+msgstr "No se puede editar"
+
+#: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:5
+msgid "Create items"
+msgstr "Crear elementos"
+
+#: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:6
+msgid "Create subfolders"
+msgstr "Crear subcarpetas"
+
+#: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:7
+msgid "Delete Any Items"
+msgstr "Delegar cualquier elemento"
+
+#: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:8
+msgid "Delete Own Items"
+msgstr "Boarrar los elementos propios"
+
+#: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:9
+msgid "Edit Any Items"
+msgstr "Editar cualquier elemento"
+
+#: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:10
+msgid "Edit Own Items"
+msgstr "Editar los elementos propios"
+
+#: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:11
+msgid "Folder contact"
+msgstr "Contacto de la carpeta"
+
+#: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:12
+msgid "Folder owner"
+msgstr "Dueño de la carpeta"
+
+#: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:13
+msgid "Folder visible"
+msgstr "Visibilidad de la carpeta"
+
+#: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:14
+msgid "Read items"
+msgstr "Leer elementos"
+
+#: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:15
+msgid "Role: "
+msgstr "Rol:"
+
+#: ../plugins/exchange-operations/exchange-user-dialog.c:144
+msgid "Select User"
+msgstr "Seleccionar usuario"
+
+#: ../plugins/exchange-operations/exchange-user-dialog.c:182
+msgid "Addressbook..."
+msgstr "Libreta de direcciones..."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:1
+msgid "Cannot change password due to configuration problems."
+msgstr "No se puede cambiar la contraseña debido a problemas de configuración."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:2
+msgid "Cannot display folders."
+msgstr "No se pueden mostrar carpetas."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:3
+msgid ""
+"Changes to Exchange account configuration will take place after you quit and "
+"restart Evolution."
+msgstr "Los cambios a la configuración de la cuenta Exchange tendrán lugar después de salir y reiniciar Evolution."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:4
+msgid "Could not authenticate to server."
+msgstr "No se pudo autenticar con el servidor."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:5
+msgid "Could not change password."
+msgstr "No se pudo cambiar la contraseña."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:6
+msgid ""
+"Could not configure Exchange account because \n"
+"an unknown error occurred. Check the URL, \n"
+"username, and password, and try again."
+msgstr ""
+"No se puedo caonfigurar la cuenta de Exchange porque \n"
+"ocurrió un error desconocido. Compruebe la URL,\n"
+"usuario y contraseña e inténtelo otra vez."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:9
+msgid "Could not connect to server {0}."
+msgstr "No se pudo conectar con el servidor {0}."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:10
+msgid "Could not find Exchange Web Storage System."
+msgstr "No se pudo encontrar el sistema de almacenamiento Web de Exchange."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:11
+msgid "Could not locate server {0}."
+msgstr "No se pudo localizar el servidor {0}"
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:12
+msgid "Could not read out-of-office state"
+msgstr "No se pudo leer el estado de disponibilidad"
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:13
+msgid "Could not update out-of-office state"
+msgstr "No se pudo actualizar el estado de disponibilidad"
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:14
+msgid "Exchange Account is offline."
+msgstr "La cuenta de Exchange está desconectada."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:15
+msgid "Exchange Connector access error."
+msgstr "Error de acceso del conector de Exchange."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:16
+msgid ""
+"Exchange Connector requires access to certain\n"
+"functionality on the Exchange Server that appears\n"
+"to be disabled or blocked.  (This is usually \n"
+"unintentional.)  Your Exchange Administrator will \n"
+"need to enable this functionality in order for \n"
+"you to be able to use Ximian Connector.\n"
+"\n"
+"For information to provide to your Exchange \n"
+"administrator, please follow the link below:\n"
+"\n"
+"http://support.novell.com/cgi-bin/search/searchtid.cgi?/ximian/ximian328."
+"html\n"
+"  "
+msgstr ""
+"Exchange Connector requiere acceso a cierta funcionalidad\n"
+"en el servidor de Exhange que parece estar desactivada\n"
+"o bloqueada. (Esto normalmente no es intencional). Su \n"
+"administrador de Exchange tendrá que activar esta\n"
+"funcionalidad para que usted pueda usar Ximian Connector.\n"
+"\n"
+"La información que puede proporcionar a su administrador\n"
+"de Exchange, puede obtenerla del enlace de abajo:\n"
+"\n"
+"http://support.novell.com/cgi-bin/search/searchtid.cgi?/ximian/ximian328.html\n"
+"  "
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:28
+msgid ""
+"If OWA is running on a different path, you must specify that in the account "
+"configuration dialog."
+msgstr "Si OWA se está ejecutando en ua ruta diferente, debe especificarla en el diálogo de configuración de cuenta."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:29
+msgid "Mailbox for {0} is not on this server."
+msgstr "El buzón de {0} no está en este servidor."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:30
+msgid "Make sure the URL is correct and try again."
+msgstr "Asegúrese de que la URL es correcta e intente de nuevo."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:31
+msgid "Make sure the server name is spelled correctly and try again."
+msgstr "Asegúrese de que el nombre de servidor está escrito correctamente e inténtelo de nuevo."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:32
+msgid "Make sure the username and password are correct and try again."
+msgstr "Asegúrese de que el usuario y contraseña son coreectos e inténte de nuevo."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:33
+msgid "No mailbox for user {0} on {1}."
+msgstr "No hay buzñon para el usuario {0} en {1}."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:34
+msgid "Password successfully changed."
+msgstr "Contraseña cambiada con éxito."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:35
+msgid "Please restart Evolution"
+msgstr "Por favor, reinicie Evolution"
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:36
+msgid "Server rejected password because it is too weak."
+msgstr "El servidor rechazó la contraseña porque es demasiado débil."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:37
+msgid "The Exchange account will be disabled when you quit Evolution"
+msgstr "La cuenta de Exchange se desactivará cuando salga de Evolution"
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:38
+msgid "The Exchange account will be removed when you quit Evolution"
+msgstr "La cuenta de Exchange se eliminará cuando salga de Evolution"
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:39
+msgid "The Exchange server is not compatible with Exchange Connector."
+msgstr "El servidor Exchange no es compatible con Exchange Connector."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:40
+msgid ""
+"The server is runinng Exchange 5.5. Exchange Connector \n"
+"supports Microsoft Exchange 2000 and 2003 only."
+msgstr ""
+"El servidor está funcionando con Exchange 5.5. Exchage Connector\n"
+"sólo soporta Microsoft Exchange 2000 y 2003."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:42
+msgid ""
+"This probably means that your server requires \n"
+"you to specify the Windows domain name \n"
+"as part of your username (eg, &quot;DOMAIN\\user&quot;).\n"
+"\n"
+"Or you might have just typed your password wrong."
+msgstr ""
+"Esto probablemente signifca que su servidor requiere \n"
+"que le especifique el nombre de dominio de Windows \n"
+"como parte del nombre de usuario <(eg, &quot;DOMAIN\\\\user&quot;).\n"
+"\n"
+"O quizá tan sólo ha escrito mal la contraseña."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:47
+msgid "Try again with a different password."
+msgstr "Inténtelo con una contraseña diferente."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:48
+msgid "Try to clear up some space by deleting some mails."
+msgstr "Intente hacer algo de espacio borrando algunos correos."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:49
+msgid "Unknown error."
+msgstr "Error desconocido."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:50
+msgid "You are nearing your quota available for storing mails on this server."
+msgstr "Está cerca de su cuota disponible para almacenar correo en este servidor."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:51
+msgid "You have exceeded your quota for storing mails on this server."
+msgstr "Ha excedido su cuota para almacenar correo en este servidor."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:52
+msgid "You may only configure a single Exchange account."
+msgstr "Sólo puede configurar una sola cuenta de Exchange."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:53
+msgid "You will not be able to either send or recieve mails now."
+msgstr "No podrá ni enviar ni recibir mensajes ahora."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:54
+msgid ""
+"You will not be able to send mails till you clear up some space by deleting "
+"some mails."
+msgstr "No podrá enviar mensajes hasta que haga algo de espacio borrando algunos correos."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:55
+msgid "Your password has expired."
+msgstr "Su contraseña ha caducado."
+
+#: ../plugins/exchange-operations/org-gnome-folder-permissions.xml.h:1
+msgid "Check folder permissions"
+msgstr "Compruebe los permisos de la carpeta"
+
+#: ../plugins/exchange-operations/org-gnome-folder-subscription.xml.h:1
+msgid "Subscribe to Other User's Folder"
+msgstr "Subscribirse a la carpeta de otro usuario"
 
 #: ../plugins/folder-unsubscribe/folder-unsubscribe.c:57
 #, c-format
@@ -14624,8 +15098,8 @@ msgid "_Sharing"
 msgstr "_Compartir"
 
 #: ../plugins/groupwise-features/send-options.c:83
-#: ../plugins/proxy/proxy.c:459 ../plugins/proxy-login/proxy-login.c:222
-#: ../plugins/proxy-login/proxy-login.c:264
+#: ../plugins/proxy/proxy.c:459 ../plugins/proxy-login/proxy-login.c:221
+#: ../plugins/proxy-login/proxy-login.c:263
 #, c-format
 msgid "%sEnter password for %s (user %s)"
 msgstr "%s Introduzca la contraseña para %s (usuario %s)"
@@ -15587,15 +16061,15 @@ msgstr "_Mostrar sólo en esta lista de tareas"
 msgid "Startup wizard"
 msgstr "Asistente de inicio"
 
-#: ../plugins/startup-wizard/startup-wizard.c:94
+#: ../plugins/startup-wizard/startup-wizard.c:85
 msgid "Evolution Setup Assistant"
 msgstr "Asistente de configuración de Evolution"
 
-#: ../plugins/startup-wizard/startup-wizard.c:97
+#: ../plugins/startup-wizard/startup-wizard.c:88
 msgid "Welcome"
 msgstr "Bienvenido"
 
-#: ../plugins/startup-wizard/startup-wizard.c:98
+#: ../plugins/startup-wizard/startup-wizard.c:89
 msgid ""
 "Welcome to Evolution. The next few screens will allow Evolution to connect "
 "to your email accounts, and to import files from other applications. \n"
@@ -15608,16 +16082,21 @@ msgstr ""
 "\n"
 "Por favor pulse el botón «Adelante» para continuar. "
 
-#: ../plugins/startup-wizard/startup-wizard.c:138
+#: ../plugins/startup-wizard/startup-wizard.c:140
 #: ../shell/e-shell-importer.c:145
 msgid "Please select the information that you would like to import:"
 msgstr "Seleccione la información que quiera importar:"
 
-#: ../plugins/startup-wizard/startup-wizard.c:153
+#: ../plugins/startup-wizard/startup-wizard.c:154
 #: ../shell/e-shell-importer.c:398
 #, c-format
 msgid "From %s:"
 msgstr "De %s:"
+
+#: ../plugins/startup-wizard/startup-wizard.c:234
+#: ../shell/e-shell-importer.c:509
+msgid "Importing data."
+msgstr "Importando datos."
 
 #: ../plugins/subject-thread/org-gnome-subject-thread.eplug.xml.h:1
 msgid "Indicates if threading of messages should fall back to subject."
@@ -15643,6 +16122,14 @@ msgstr "_Desactivar"
 #: ../plugins/mail-account-disable/mail-account-disable.c:47
 msgid "Proxy _Logout"
 msgstr "_Cerrar sesión proxy"
+
+#: ../plugins/mail-account-disable/org-gnome-mail-account-disable.eplug.xml.h:1
+msgid "Allows disabling of accounts."
+msgstr "Permitir desactivar cuentas."
+
+#: ../plugins/mail-account-disable/org-gnome-mail-account-disable.eplug.xml.h:2
+msgid "Disable Account"
+msgstr "Desactivar cuenta"
 
 #: ../plugins/proxy/proxy-listing.glade.h:1
 msgid "Proxy"
@@ -15699,11 +16186,12 @@ msgstr "_Leído"
 msgid "_Write"
 msgstr "_Escribir"
 
-#: ../plugins/proxy/proxy.c:650
+#: ../plugins/proxy/proxy.c:656
 msgid "The Proxy tab will be available only when the account is enabled."
-msgstr "La solapa del Proxy estará disponible sólo cuando la cuenta esté activada."
+msgstr ""
+"La solapa del Proxy estará disponible sólo cuando la cuenta esté activada."
 
-#: ../plugins/proxy-login/proxy-login.c:486
+#: ../plugins/proxy-login/proxy-login.c:485
 msgid "_Proxy Login..."
 msgstr "Sesión _proxy..."
 
@@ -15922,10 +16410,6 @@ msgstr "Importar datos y configuración de programas _antiguos"
 msgid "Import a _single file"
 msgstr "Importar un _único archivo"
 
-#: ../shell/e-shell-importer.c:509
-msgid "Importing data."
-msgstr "Importando datos."
-
 #: ../shell/e-shell-importer.c:698
 msgid "_Import"
 msgstr "_Importar"
@@ -16010,7 +16494,7 @@ msgid "Evolution is currently offline.  Click on this button to work online."
 msgstr ""
 "Evolution está desconectado.  Pulse este botón para trabajar conectado."
 
-#: ../shell/e-shell-window.c:712
+#: ../shell/e-shell-window.c:713
 #, c-format
 msgid "Switch to %s"
 msgstr "Cambiar a %s"
