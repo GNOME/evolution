@@ -1,3 +1,11 @@
+2005-07-18  Praveen Kumar <kpraveen@novell.com>
+
+	* exchange-account-setup.c (btn_chpass_clicked) : Handle the case
+	of user clicking "Cancel" button in "Change Password" dialog. Fixes
+	bug 310356.
+	(org_gnome_exchange_setting) : Removed the duplicate signal handler
+	registered for "Change Password" button.
+	
 2005-07-16  Sarfraaz Ahmed <asarfraaz@novell.com>
 
 	* exchange-ask-password.c : Removed. Is no longer being used

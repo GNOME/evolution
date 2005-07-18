@@ -128,6 +128,10 @@ btn_chpass_clicked (GtkButton *button, gpointer data)
 		return;
 	}
 	new_password = exchange_get_new_password (old_password, TRUE);
+	if (!new_password) {
+		/* "Cacel" button was hit */
+		return;
+	}
 	g_print ("Current password is \"%s\"\n", old_password);
  	result = exchange_account_set_password (account, old_password, new_password);
 	if (result != EXCHANGE_ACCOUNT_CONNECT_SUCCESS)
@@ -329,7 +333,6 @@ org_gnome_exchange_settings(EPlugin *epl, EConfigHookItemFactoryData *data)
 	lbl_dass = (GtkLabel*) gtk_object_new (GTK_TYPE_LABEL, "label", _("Manage the delegate settings for Exchange account"), NULL);
 	gtk_misc_set_alignment (GTK_MISC (lbl_dass), 0, 0.5);
 	btn_dass = (GtkButton*) gtk_object_new (GTK_TYPE_BUTTON, "label", _("Delegation Assitant"));
-	gtk_signal_connect (GTK_OBJECT (btn_chpass), "clicked", G_CALLBACK (btn_chpass_clicked), NULL);
 	gtk_signal_connect (GTK_OBJECT (btn_dass), "clicked", G_CALLBACK (btn_dass_clicked), NULL);
 	/* Add items to the table */
 	gtk_table_attach_defaults (tbl_auth, GTK_WIDGET (lbl_chpass), 0, 1, 0, 1);
