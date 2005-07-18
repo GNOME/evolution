@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Evolution GNOME 2.10\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-04-19 11:58+0000\n"
-"PO-Revision-Date: 2005-07-15 18:22+0300\n"
+"PO-Revision-Date: 2005-07-18 14:28+0300\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -4312,9 +4312,8 @@ msgid "Alarm programs"
 msgstr "Alarmprogrammid"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:2
-#, fuzzy
 msgid "Ask for confirmation when deleting items"
-msgstr "K_irjete kustutamisel küsitakse nõusolekut"
+msgstr "Nõusoleku küsimine kirjete kustutamisel"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:3
 msgid "Background color of tasks that are due today, in \"#rrggbb\" format."
@@ -4401,14 +4400,12 @@ msgid "Minute the workday starts on, 0 to 59."
 msgstr "Minut, millal tööpäev algab, 0 kuni 59."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:24
-#, fuzzy
 msgid "Month view horizontal pane position"
-msgstr "Horisontaalpaani asukoht"
+msgstr "Kuuvaate rõhtpaani asukoht"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:25
-#, fuzzy
 msgid "Month view vertical pane position"
-msgstr "Vertikaalpaani asukoht põhivaates"
+msgstr "Kuuvaate püstpaani asukoht"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:26
 msgid "Number of units for determining for a default reminder."
@@ -4435,11 +4432,10 @@ msgid ""
 msgstr ""
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:31
-#, fuzzy
 msgid ""
 "Position of the vertical pane, between task list and the task preview pane, "
 "in pixels."
-msgstr "Vertikaalpaani asukoht ülesandevaates"
+msgstr ""
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:32
 msgid ""
@@ -4458,18 +4454,16 @@ msgid "Programs that are allowed to be run by alarms."
 msgstr ""
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:35
-#, fuzzy
 msgid "Show appointment end times in week and month views"
-msgstr "_Sündmuste lõpuaegade näitamine nädala ja kuu vaadetel"
+msgstr "Sündmuste lõpuaegade näitamine nädala ja kuu vaadetel"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:36
 msgid "Show display alarms in notification tray"
 msgstr ""
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:37
-#, fuzzy
 msgid "Show week numbers in date navigator"
-msgstr "_Kuupäeva valikul kuvatakse nädalate numbreid"
+msgstr "Nädalanumbrite näitamine kuupäevavalikus"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:38
 msgid "Tasks due today color"
@@ -4532,14 +4526,12 @@ msgid "Whether or not to use the notification tray for display alarms."
 msgstr ""
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:53
-#, fuzzy
 msgid "Whether to ask for confirmation when deleting an appointment or task."
-msgstr "Kas küsida nõusolekut sündmuste kustutamisel"
+msgstr "Kas sündmuste või ülesannete kustutamisel küsitakse nõusolekut."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:54
-#, fuzzy
 msgid "Whether to ask for confirmation when expunging appointments and tasks."
-msgstr "Kas küsida nõusolekut sündmuste kustutamisel"
+msgstr "Kas sündmuste või ülesannete puhastamisel küsitakse nõusolekut."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:55
 msgid ""
@@ -4548,31 +4540,25 @@ msgid ""
 msgstr ""
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:56
-#, fuzzy
 msgid "Whether to display the end time of events in the week and month views."
-msgstr "_Sündmuste lõpuaegade näitamine nädala ja kuu vaadetel"
+msgstr "Kas sündmuste lõpuaegu kuvatakse nädala ja kuu vaadetel."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:57
-#, fuzzy
 msgid "Whether to hide completed tasks in the tasks view."
-msgstr "Kas peita lõpetatud ülesanded"
+msgstr "Kas lõpetatud ülesanded peidetakse ülesandevaates."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:58
-#, fuzzy
 msgid "Whether to set a default reminder for appointments."
-msgstr "Kas küsida nõusolekut sündmuste kustutamisel"
+msgstr "Kas sündmustele seatakse vaikimisi meeldetuletaja."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:59
-#, fuzzy
 msgid ""
 "Whether to show times in twenty four hour format instead of using am/pm."
-msgstr ""
-"Kas näidata kellaaega 24-tunnises vormingus või kasutada EL/PL vormingut"
+msgstr "Kas kellaaegu kuvatakse 24-tunnises või EL/PL vormingus."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:60
-#, fuzzy
 msgid "Whether to show week numbers in the date navigator."
-msgstr "Kas kuvada nädalate numbreid kuupäevasirvijas"
+msgstr "Kas nädalate numbreid näidatakse kuupäevasirvijas."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:61
 msgid "Work days"
@@ -4929,9 +4915,8 @@ msgstr "_Lisa manus..."
 
 #: ../calendar/gui/dialogs/cal-attachment-bar.c:699
 #: ../composer/e-msg-composer-attachment-bar.c:703
-#, fuzzy
 msgid "Attachment Bar"
-msgstr "Manus"
+msgstr "Manuseriba"
 
 #: ../calendar/gui/dialogs/cal-attachment-select-file.c:96
 #: ../calendar/gui/dialogs/cal-attachment-select-file.c:115
@@ -6148,9 +6133,9 @@ msgid "Due date is wrong"
 msgstr "Tähtaja kuupäev on vale"
 
 #: ../calendar/gui/dialogs/task-page.c:874
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to open tasks in '%s'."
-msgstr "Ülesandeid pole võimalik avada '%s'."
+msgstr "Ülesandeid pole võimalik '%s'-s avada."
 
 #: ../calendar/gui/dialogs/task-page.glade.h:4
 msgid "Ad_vanced send options"
@@ -10758,9 +10743,9 @@ msgid "Scanning folders in \"%s\""
 msgstr "\"%s\" kaustade läbivaatamine"
 
 #: ../mail/em-folder-tree.c:2024
-#, fuzzy, c-format
+#, c-format
 msgid "Copying `%s' to `%s'"
-msgstr "Sõnumite kopeerimine %s kausta"
+msgstr "Kopeerimine `%s' -> `%s'"
 
 #: ../mail/em-folder-tree.c:2298 ../mail/em-folder-tree.c:2312
 #: ../mail/em-folder-view.c:876 ../mail/em-folder-view.c:891
@@ -11330,9 +11315,8 @@ msgid "_Open Link in Browser"
 msgstr "Ava _viit veebilehitsejas"
 
 #: ../mail/em-popup.c:550
-#, fuzzy
 msgid "_Send New Message To..."
-msgstr "S_aada sõnum..."
+msgstr ""
 
 #: ../mail/em-popup.c:551
 msgid "_Add to Addressbook"
@@ -11650,11 +11634,9 @@ msgid "Prompt when user only fills Bcc"
 msgstr "Kinnituse küsimine, kui kasutaja määrab ainult pimekoopia"
 
 #: ../mail/evolution-mail.schemas.in.in.h:60
-#, fuzzy
 msgid "Prompt when user tries to open 10 or more messages at once"
 msgstr ""
-"Kinnituse küsimine, kui püütakse saata sõnumit, millel pole tavalist saajat "
-"ega pimekoopa saajat määratud."
+"Kinnituse küsimine, kui korraga püütakse saata kümmet või enamat sõnumit"
 
 #: ../mail/evolution-mail.schemas.in.in.h:61
 msgid ""
@@ -11787,14 +11769,12 @@ msgid "UID string of the default account."
 msgstr "Vaikimisi määratud konto UID string."
 
 #: ../mail/evolution-mail.schemas.in.in.h:91
-#, fuzzy
 msgid "Use Spamassassin daemon and client"
-msgstr "Kasuta Spamassassin'i deemonit ja klienti"
+msgstr "Spamassassin'i deemoni ja kliendi kasutamine"
 
 #: ../mail/evolution-mail.schemas.in.in.h:92
-#, fuzzy
 msgid "Use Spamassassin daemon and client (spamc/spamd)"
-msgstr "Kasuta Spamassassini deemonit ja klienti (spamc/spamd)"
+msgstr "Spamassassin'i deemoni ja kliendi (spamc/spamd) kasutamine"
 
 #: ../mail/evolution-mail.schemas.in.in.h:93
 msgid "Use custom fonts"
@@ -12991,10 +12971,8 @@ msgstr "_Tühjenda prügikast"
 
 #. mail:ask-open-many primary
 #: ../mail/mail-errors.xml.h:53
-#, fuzzy
 msgid "Are you sure you want to open {0} messages at once?"
-msgstr ""
-"Oled sa kindel, et soovid saata seda sõnumit pimekoopia adressaatidele?"
+msgstr "Oled sa kindel, et soovid korraga avada {0} sõnumit?"
 
 #. mail:ask-open-many secondary
 #: ../mail/mail-errors.xml.h:55
@@ -13002,9 +12980,8 @@ msgid "Opening too many messages at once may take a long time."
 msgstr "Ühekorraga paljude sõnumite avamisele võib kuluda kaua aega."
 
 #: ../mail/mail-errors.xml.h:56
-#, fuzzy
 msgid "_Open Messages"
-msgstr "_Ava sõnum"
+msgstr "_Ava sõnumid"
 
 #. mail:exit-unsaved primary
 #: ../mail/mail-errors.xml.h:58
@@ -13860,9 +13837,8 @@ msgid "Subject contains"
 msgstr "Teema sisaldab"
 
 #: ../mail/searchtypes.xml.h:6
-#, fuzzy
 msgid "Subject or Sender contains"
-msgstr "Teema sisaldab"
+msgstr "Teema või saatja sisaldab"
 
 #: ../plugins/backup-restore/backup-restore.c:51
 msgid "Select name of Evolution archive"
@@ -14008,22 +13984,21 @@ msgid "Plaintext Password"
 msgstr "Avatekstiline parool"
 
 #: ../plugins/exchange-account-setup/exchange-account-setup.c:72
-#, fuzzy
 msgid ""
 "This option will connect to the Exchange server using standard plaintext "
 "password authentication."
 msgstr ""
-"See valik loob ühenduse IMAPv4rev1 serveriga kasutades tavalist parooli."
+"See valik loob ühenduse Exchange serveriga kasutades avatekstilise parooliga "
+"autentimist."
 
 #. Description section
 #: ../plugins/exchange-account-setup/exchange-account-setup.c:193
-#, fuzzy
 msgid ""
 "The message specified below will be automatically sent to \n"
 "each person who sends mail to you while you are out of the office."
 msgstr ""
-"<small>See allpool näidatud sõnum saadetakse automaatselt igale isikule,\n"
-"kes saadab sulle kirja ajal kui sa puhkusel oled.</small>"
+"Allpool näidatav sõnum saadetakse automaatselt igale isikule,\n"
+"kes saadab sulle sinu puhkusel olemise ajal sõnumi."
 
 #: ../plugins/exchange-account-setup/exchange-account-setup.c:221
 #: ../plugins/exchange-account-setup/exchange-account-setup.c:231
@@ -14113,9 +14088,9 @@ msgid "Attendee status could not be updated because the status is invalid"
 msgstr "Osavõtja olekut ei ole võimailk uuendada, kuna selle olek on vigane"
 
 #: ../plugins/itip-formatter/itip-formatter.c:844
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to update attendee. %s"
-msgstr "Kalendrit `%s' pole võimalik siirdada"
+msgstr "Osalejat pole võimalik uuendada. %s"
 
 #: ../plugins/itip-formatter/itip-formatter.c:848
 msgid "Attendee status updated"
@@ -14383,9 +14358,9 @@ msgid "<b>%s</b> has proposed the following meeting changes."
 msgstr "<b>%s</b> esitas järgnevad koosoleku muudatused."
 
 #: ../plugins/itip-formatter/itip-view.c:374
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> through %s has declined the following meeting changes:"
-msgstr "<b>%s</b> tühistas %s kaudu järgneva koosoleku:"
+msgstr "<b>%s</b> tühistas %s kaudu järgnevad koosolekumuutused:"
 
 #: ../plugins/itip-formatter/itip-view.c:376
 #, c-format
@@ -14403,9 +14378,9 @@ msgid "<b>%s</b> has published the following task:"
 msgstr "<b>%s</b> avalikustas järgmise ülesande:"
 
 #: ../plugins/itip-formatter/itip-view.c:410
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> requests the assignment of %s to the following task:"
-msgstr "<b>%s</b> taotleb, et %s osaleks järgneval koosolekul:"
+msgstr "<b>%s</b> taotleb %s määramist järgneva ülesande täitjaks:"
 
 #: ../plugins/itip-formatter/itip-view.c:413
 #, c-format
@@ -14435,9 +14410,9 @@ msgid ""
 msgstr "<b>%s</b> soovib saada värskeimat infot järgneva ülesande kohta:"
 
 #: ../plugins/itip-formatter/itip-view.c:429
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> has sent back the following assigned task response:"
-msgstr "<b>%s</b> nõustus järgneva koosolekuga:"
+msgstr "<b>%s</b> saatis järgneva määratud ülesande vastuse tagasi:"
 
 #: ../plugins/itip-formatter/itip-view.c:433
 #, c-format
@@ -14547,7 +14522,7 @@ msgstr ""
 #. Create the checkbox we will display, complete with mnemonic that is unique in the dialog
 #: ../plugins/new-mail-notify/new-mail-notify.c:66
 msgid "_Generates a D-BUS message when new mail arrives"
-msgstr "_Genereerib uue kirja saabumisel D-BUS sõnumi"
+msgstr "Uue kirja saabumisel D-BUS sõnumi genereerimine"
 
 #: ../plugins/plugin-manager/org-gnome-plugin-manager.xml.h:1
 msgid "Enable and disable plugins"
@@ -16273,9 +16248,8 @@ msgid "Create or edit rules for filtering new mail"
 msgstr "Loob või muudab uute sõnumite filtreerimisreegleid"
 
 #: ../ui/evolution-mail-global.xml.h:5
-#, fuzzy
 msgid "Create or edit vFolder definitions"
-msgstr "Loo või muuda vKausta ???"
+msgstr "vKausta kirjelduste loomine või muutmine"
 
 #: ../ui/evolution-mail-global.xml.h:6
 msgid "Empty _Trash"
@@ -17696,21 +17670,19 @@ msgstr "_Otsing"
 
 #: ../widgets/misc/e-send-options.c:506
 msgid "When de_leted:"
-msgstr ""
+msgstr "Kui _kustutatakse:"
 
 #: ../widgets/misc/e-send-options.glade.h:1
-#, fuzzy
 msgid "<b>Delivery Options</b>"
-msgstr "<b>Saatmise valikud</b>"
+msgstr "<b>Kohaletoimetamise valikud</b>"
 
 #: ../widgets/misc/e-send-options.glade.h:2
 msgid "<b>Replies</b>"
 msgstr "<b>Vastused</b>"
 
 #: ../widgets/misc/e-send-options.glade.h:3
-#, fuzzy
 msgid "<b>Return Notification</b>"
-msgstr "<b>Autentimine</b>"
+msgstr "<b>Tagastusteated</b>"
 
 #: ../widgets/misc/e-send-options.glade.h:4
 msgid "<b>Status Tracking</b>"
@@ -17787,9 +17759,8 @@ msgid "When acce_pted: "
 msgstr "Kui _nõustutakse:"
 
 #: ../widgets/misc/e-send-options.glade.h:28
-#, fuzzy
 msgid "When co_mpleted:"
-msgstr "_Lõpetamise kuupäev:"
+msgstr "Kui _lõpetatakse:"
 
 #: ../widgets/misc/e-send-options.glade.h:29
 msgid "When decli_ned:    "
