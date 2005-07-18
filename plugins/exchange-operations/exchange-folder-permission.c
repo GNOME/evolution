@@ -30,20 +30,25 @@
 #include <libedataserver/e-xml-hash-utils.h>
 #include <exchange/exchange-account.h>
 #include <e-util/e-dialog-utils.h>
-#include "exchange-config-listener.h"
-#include "exchange-operations.h"
+#include <calendar/gui/e-cal-popup.h>
+#include <libedataserverui/e-source-selector.h>
 #include <mail/em-popup.h>
 #include <mail/em-menu.h>
+#include "exchange-config-listener.h"
+#include "exchange-operations.h"
 #include "exchange-permissions-dialog.h"
+#include "addressbook/gui/widgets/eab-popup.h"
 
 static void org_folder_permissions_cb (EPopup *ep, EPopupItem *p, void *data);
 void org_gnome_exchange_folder_permissions (EPlugin *ep, EMPopupTargetFolder *t);
 void org_gnome_exchange_menu_folder_permissions (EPlugin *ep, EMMenuTargetSelect *target);
+void org_gnome_exchange_calendar_permissions (EPlugin *ep, ECalPopupTargetSource *target);
+void org_gnome_exchange_addressbook_permissions (EPlugin *ep, EABPopupTargetSource *target);
 
 gchar *selected_exchange_folder_uri = NULL;
 
 static EPopupItem popup_items[] = {
-	{ E_POPUP_ITEM, "40.emc.30", N_("Permissions..."), org_folder_permissions_cb, NULL, "stock_new-dir", 0, EM_POPUP_FOLDER_INFERIORS }
+	{ E_POPUP_ITEM, "30.emc.10", N_("Permissions..."), org_folder_permissions_cb, NULL, "stock_new-dir", 0, EM_POPUP_FOLDER_INFERIORS }
 };
 
 static void
@@ -53,13 +58,104 @@ popup_free (EPopup *ep, GSList *items, void *data)
 }
 
 void
+org_gnome_exchange_calendar_permissions (EPlugin *ep, ECalPopupTargetSource *target)
+{
+	GSList *menus = NULL;
+	int i = 0;
+	static int first =0;
+	ExchangeAccount *account = NULL;
+	EFolder *folder = NULL;
+	ESource *source = NULL;
+	gchar *uri = NULL;
+
+	source = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (target->selector));
+	uri = (gchar *) e_source_get_uri (source);
+
+	if (! g_strrstr (uri, "exchange://"))	{
+		return ;
+	}
+
+	account = exchange_operations_get_exchange_account ();
+
+	if (!account)
+		return;
+
+	folder = exchange_account_get_folder (account, uri);
+
+	if (!folder)
+		return;
+
+	selected_exchange_folder_uri = uri;
+
+	/* for translation*/
+	if (!first) {
+		popup_items[0].label =  _(popup_items[0].label);
+		first++;
+
+	}
+
+	for (i = 0; i < sizeof (popup_items) / sizeof (popup_items[0]); i++)
+		menus = g_slist_prepend (menus, &popup_items[i]);
+
+	e_popup_add_items (target->target.popup, menus, NULL, popup_free, NULL);
+
+}
+
+void
+org_gnome_exchange_addressbook_permissions (EPlugin *ep, EABPopupTargetSource *target)
+{
+	GSList *menus = NULL;
+	int i = 0;
+	static int first =0;
+	ExchangeAccount *account = NULL;
+	EFolder *folder = NULL;
+	ESource *source = NULL;
+	gchar *uri = NULL;
+
+	source = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (target->selector));
+	uri = (gchar *) e_source_get_uri (source);
+
+	if (! g_strrstr (uri, "exchange://"))	{
+		return ;
+	}
+
+	account = exchange_operations_get_exchange_account ();
+
+	if (!account)
+		return;
+
+
+	folder = exchange_account_get_folder (account, uri);
+
+	if (!folder) {
+		return;
+	}
+
+	selected_exchange_folder_uri = uri;
+
+	/* for translation*/
+	if (!first) {
+		popup_items[0].label =  _(popup_items[0].label);
+		first++;
+	}
+
+	for (i = 0; i < sizeof (popup_items) / sizeof (popup_items[0]); i++)
+		menus = g_slist_prepend (menus, &popup_items[i]);
+
+	e_popup_add_items (target->target.popup, menus, NULL, popup_free, NULL);
+}
+
+void
 org_gnome_exchange_folder_permissions (EPlugin *ep, EMPopupTargetFolder *t)
 {
 	GSList *menus = NULL;
 	int i = 0;
-	static int first =1;
+	static int first =0;
 	ExchangeAccount *account = NULL;
 	EFolder *folder = NULL;
+
+	if (! g_strrstr (t->uri, "exchange://"))
+		return ;
 
 	account = exchange_operations_get_exchange_account ();
 
@@ -72,17 +168,12 @@ org_gnome_exchange_folder_permissions (EPlugin *ep, EMPopupTargetFolder *t)
 	if (!folder)
 		return;
 
-	if (! g_strrstr (t->uri, "exchange://") && !folder)
-		return ;
-
 	selected_exchange_folder_uri = t->uri;
 	/* for translation*/
-	if (first) {
+	if (!first) {
 		popup_items[0].label =  _(popup_items[0].label);
-
+		first++;
 	}
-
-	first++;
 
 	for (i = 0; i < sizeof (popup_items) / sizeof (popup_items[0]); i++)
 		menus = g_slist_prepend (menus, &popup_items[i]);

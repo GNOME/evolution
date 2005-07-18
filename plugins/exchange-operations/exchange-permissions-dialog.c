@@ -560,8 +560,7 @@ display_role (ExchangePermissionsDialog *dialog)
 			    -1);
 
 	if (role == E2K_PERMISSIONS_ROLE_CUSTOM) {
-		gtk_widget_show (dialog->priv->separator);
-		gtk_widget_show (dialog->priv->custom);
+		/* FIXME: To show Custom */
 		role = E2K_PERMISSIONS_ROLE_NUM_ROLES + 1;
 	}
 	gtk_combo_box_set_active (GTK_COMBO_BOX (dialog->priv->role_optionmenu), role);

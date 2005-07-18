@@ -78,6 +78,18 @@
 		<menu id="org.gnome.evolution.mail.foldertree.popup" target="folder" factory = "org_gnome_exchange_folder_permissions">
 		</menu>
 	</hook> 
+	<hook class="org.gnome.evolution.calendar.popup:1.0">
+		<menu id="org.gnome.evolution.calendar.source.popup" target="source" factory="org_gnome_exchange_calendar_permissions">
+		</menu>
+	</hook>
+	<hook class="org.gnome.evolution.calendar.popup:1.0">
+		<menu id="org.gnome.evolution.tasks.source.popup" target="source" factory="org_gnome_exchange_calendar_permissions">
+		</menu>
+	</hook>
+	<hook class="org.gnome.evolution.addressbook.popup:1.0">
+		<menu id="org.gnome.evolution.addressbook.source.popup" target="source" factory="org_gnome_exchange_addressbook_permissions">
+		</menu>
+	</hook>
 	<hook class="org.gnome.evolution.mail.bonobomenu:1.0">
 	<menu id="org.gnome.evolution.mail.browser" target="select">
 	<ui file="@PLUGINDIR@/org-gnome-folder-permissions.xml"/>

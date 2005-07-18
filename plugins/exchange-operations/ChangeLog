@@ -1,3 +1,15 @@
+2005-07-15  Shakti Sen <shprasad@novell.com>
+
+	* exchange-folder-permission.c: Added the functions 
+	org_gnome_exchange_calendar_permissions() and
+	org_gnome_exchange_addressbook_permissions() to support 
+	'Folder Permissions' for 'Calendar', 'Tasks' and 'Contacts' components.
+	Also taken care of a bug #310493.
+	* org-gnome-exchange-operations.eplug.in: Added the class hooks.
+
+	Fixes bug#310479.
+	Fixes bug#310493 as well.
+
 2005-07-18  Praveen Kumar <kpraveen@novell.com>
 
 	* exchange-account-setup.c (btn_chpass_clicked) : Handle the case
