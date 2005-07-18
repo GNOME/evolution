@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-07-17 13:48+0000\n"
-"PO-Revision-Date: 2005-07-17 18:08+0300\n"
+"PO-Revision-Date: 2005-07-18 15:12+0300\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -2430,7 +2430,7 @@ msgid ""
 "to delete contact list (%s) ?"
 msgstr ""
 "Kas sa tõesti soovid\n"
-"kustutada kontaktide loend (%s) ?"
+"kustutada kontaktide loendit (%s) ?"
 
 #: ../addressbook/gui/contact-editor/eab-editor.c:326
 msgid ""
@@ -4379,9 +4379,8 @@ msgid "Alarm programs"
 msgstr "Alarmprogrammid"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:2
-#, fuzzy
 msgid "Ask for confirmation when deleting items"
-msgstr "K_irjete kustutamisel küsitakse nõusolekut"
+msgstr "Nõusoleku küsimine kirjete kustutamisel"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:3
 msgid "Background color of tasks that are due today, in \"#rrggbb\" format."
@@ -4494,14 +4493,12 @@ msgid "Minute the workday starts on, 0 to 59."
 msgstr "Minut, millal tööpäev algab, 0 kuni 59."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:30
-#, fuzzy
 msgid "Month view horizontal pane position"
-msgstr "Horisontaalpaani asukoht"
+msgstr "Kuuvaate rõhtpaani asukoht"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:31
-#, fuzzy
 msgid "Month view vertical pane position"
-msgstr "Vertikaalpaani asukoht põhivaates"
+msgstr "Kuuvaate püstpaani asukoht"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:32
 msgid "Number of units for determining for a default reminder."
@@ -4551,18 +4548,16 @@ msgid "Programs that are allowed to be run by alarms."
 msgstr ""
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:41
-#, fuzzy
 msgid "Show appointment end times in week and month views"
-msgstr "_Sündmuste lõpuaegade näitamine nädala ja kuu vaadetel"
+msgstr "Sündmuste lõpuaegade näitamine nädala ja kuu vaadetel"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:42
 msgid "Show display alarms in notification tray"
 msgstr ""
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:43
-#, fuzzy
 msgid "Show week numbers in date navigator"
-msgstr "_Kuupäeva valikul kuvatakse nädalate numbreid"
+msgstr "Nädalanumbrite näitamine kuupäevavalikus"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:44
 msgid "Tasks due today color"
@@ -4623,14 +4618,12 @@ msgid "Whether or not to use the notification tray for display alarms."
 msgstr ""
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:59
-#, fuzzy
 msgid "Whether to ask for confirmation when deleting an appointment or task."
-msgstr "Kas küsida nõusolekut sündmuste kustutamisel"
+msgstr "Kas sündmuste või ülesannete kustutamisel küsitakse nõusolekut."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:60
-#, fuzzy
 msgid "Whether to ask for confirmation when expunging appointments and tasks."
-msgstr "Kas küsida nõusolekut sündmuste kustutamisel"
+msgstr "Kas sündmuste või ülesannete puhastamisel küsitakse nõusolekut."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:61
 msgid ""
@@ -4639,9 +4632,8 @@ msgid ""
 msgstr ""
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:62
-#, fuzzy
 msgid "Whether to display the end time of events in the week and month views."
-msgstr "_Sündmuste lõpuaegade näitamine nädala ja kuu vaadetel"
+msgstr "Kas sündmuste lõpuaegu kuvatakse nädala ja kuu vaadetel."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:63
 msgid ""
@@ -4650,26 +4642,21 @@ msgstr ""
 "Kas kalendris kuvatakse Marcus Bains'i joont (joon praeguse aja kohal)."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:64
-#, fuzzy
 msgid "Whether to hide completed tasks in the tasks view."
-msgstr "Kas peita lõpetatud ülesanded"
+msgstr "Kas lõpetatud ülesanded peidetakse ülesandevaates."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:65
-#, fuzzy
 msgid "Whether to set a default reminder for appointments."
-msgstr "Kas küsida nõusolekut sündmuste kustutamisel"
+msgstr "Kas sündmustele seatakse vaikimisi meeldetuletaja."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:66
-#, fuzzy
 msgid ""
 "Whether to show times in twenty four hour format instead of using am/pm."
-msgstr ""
-"Kas näidata kellaaega 24-tunnises vormingus või kasutada EL/PL vormingut"
+msgstr "Kas kellaaegu kuvatakse 24-tunnises või EL/PL vormingus."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:67
-#, fuzzy
 msgid "Whether to show week numbers in the date navigator."
-msgstr "Kas kuvada nädalate numbreid kuupäevasirvijas"
+msgstr "Kas nädalate numbreid näidatakse kuupäevasirvijas."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:68
 msgid "Work days"
@@ -5034,9 +5021,8 @@ msgstr "_Lisa manus..."
 
 #: ../calendar/gui/dialogs/cal-attachment-bar.c:736
 #: ../composer/e-msg-composer-attachment-bar.c:740
-#, fuzzy
 msgid "Attachment Bar"
-msgstr "Manus"
+msgstr "Manuseriba"
 
 #: ../calendar/gui/dialogs/cal-attachment-select-file.c:96
 #: ../calendar/gui/dialogs/cal-attachment-select-file.c:115
@@ -6284,9 +6270,9 @@ msgid "Due date is wrong"
 msgstr "Tähtaja kuupäev on vale"
 
 #: ../calendar/gui/dialogs/task-page.c:873
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to open tasks in '%s'."
-msgstr "Ülesandeid pole võimalik avada '%s'."
+msgstr "Ülesandeid pole võimalik '%s'-s avada."
 
 #: ../calendar/gui/dialogs/task-page.glade.h:9
 msgid "D_escription:"
@@ -9724,15 +9710,13 @@ msgstr ""
 "Kas sa tõesti soovid tühistada sõnumit '{0}', mille koostamine on pooleli?"
 
 #: ../composer/mail-composer.error.xml.h:4
-#, fuzzy
 msgid "Because &quot;{0}&quot;, you may need to select different mail options."
-msgstr "Sa pead sõnumile valima teised seaded, põhjus: \"{0}\"."
+msgstr "Sa pead sõnumile valima teised seaded, põhjus: &quot;{0}&quot;."
 
 #: ../composer/mail-composer.error.xml.h:5 ../e-util/e-system.error.xml.h:1
 #: ../mail/mail.error.xml.h:17
-#, fuzzy
 msgid "Because &quot;{1}&quot;."
-msgstr "Kuna \"{1}\"."
+msgstr "Kuna &quot;{1}&quot;."
 
 #: ../composer/mail-composer.error.xml.h:6
 msgid ""
@@ -9752,18 +9736,16 @@ msgid "Could not create message."
 msgstr "Sõnumit pole võimalik luua."
 
 #: ../composer/mail-composer.error.xml.h:9
-#, fuzzy
 msgid "Could not read signature file &quot;{0}&quot;."
-msgstr "Signatuurifaili \"{0}\" ei õnnestu lugeda."
+msgstr "Signatuurifaili &quot;{0}&quot; pole võimalik lugeda."
 
 #: ../composer/mail-composer.error.xml.h:10
 msgid "Could not retrieve messages to attach from {0}."
 msgstr ""
 
 #: ../composer/mail-composer.error.xml.h:11
-#, fuzzy
 msgid "Could not save to autosave file &quot;{0}&quot;."
-msgstr "Faili \"{0}\" pole võimalik automaatselt salvestada."
+msgstr "Faili &quot;{0}&quot; pole võimalik automaatselt salvestada."
 
 #: ../composer/mail-composer.error.xml.h:12
 msgid "Directories can not be attached to Messages."
@@ -9782,9 +9764,8 @@ msgid "Download in progress. Do you want to send the mail?"
 msgstr ""
 
 #: ../composer/mail-composer.error.xml.h:16
-#, fuzzy
 msgid "Error saving to autosave because &quot;{1}&quot;."
-msgstr "Viga faili automaatsel salvestamisel, põhjus: \"{1}\"."
+msgstr "Viga faili automaatsel salvestamisel, põhjus: &quot;{1}&quot;."
 
 #: ../composer/mail-composer.error.xml.h:17
 msgid ""
@@ -9989,23 +9970,20 @@ msgstr ""
 "<span weight=\"bold\">Sisemine viga, tundmatu viga '%s'  küsitud</span>"
 
 #: ../e-util/e-system.error.xml.h:2
-#, fuzzy
 msgid "Cannot open file &quot;{0}&quot;."
-msgstr "Faili \"{0}\" pole võimalik avada."
+msgstr "Faili &quot;{0}&quot; pole võimalik avada."
 
 #: ../e-util/e-system.error.xml.h:3
-#, fuzzy
 msgid "Cannot save file &quot;{0}&quot;."
-msgstr "Faili \"{0}\" pole võimalik salvestada."
+msgstr "Faili &quot;{0}&quot; pole võimalik salvestada."
 
 #: ../e-util/e-system.error.xml.h:4
 msgid "Do you wish to overwrite it?"
 msgstr "Kas sa soovid seda üle kirjutada?"
 
 #: ../e-util/e-system.error.xml.h:5
-#, fuzzy
 msgid "File exists &quot;{0}&quot;."
-msgstr "Fail \"{0}\" on juba olemas."
+msgstr "Fail &quot;{0}&quot; on juba olemas."
 
 #: ../e-util/e-system.error.xml.h:7 ../mail/mail.error.xml.h:120
 msgid "_Overwrite"
@@ -10251,19 +10229,16 @@ msgid "Outgoing"
 msgstr "Väljaminev"
 
 #: ../filter/filter.error.xml.h:1
-#, fuzzy
 msgid "Bad regular expression &quot;{0}&quot;."
-msgstr "Vigane regulaaravaldis \"{0}\"."
+msgstr "Vigane regulaaravaldis &quot;{0}&quot;."
 
 #: ../filter/filter.error.xml.h:2
-#, fuzzy
 msgid "Could not compile regular expression &quot;{1}&quot;."
-msgstr "Regulaaravaldiselt \"{1}\" ei õnnestu kompileerida."
+msgstr "Regulaaravaldist &quot;{1}&quot; pole võimalik kompileerida."
 
 #: ../filter/filter.error.xml.h:3
-#, fuzzy
 msgid "File &quot;{0}&quot; does not exist or is not a regular file."
-msgstr "Faili \"{0}\" ei ole olemas või pole see tavaline fail."
+msgstr "Faili &quot;{0}&quot; pole olemas või pole see tavaline fail."
 
 #: ../filter/filter.error.xml.h:4
 msgid "Missing date."
@@ -10278,9 +10253,8 @@ msgid "Missing name."
 msgstr "Puuduv nimi."
 
 #: ../filter/filter.error.xml.h:7
-#, fuzzy
 msgid "Name &quot;{0}&quot; already used."
-msgstr "Nimi \"{0}\" on juba kasutusel."
+msgstr "Nimi &quot;{0}&quot; on juba kasutusel."
 
 #: ../filter/filter.error.xml.h:8
 msgid "Please choose another name."
@@ -10957,9 +10931,9 @@ msgid "_Rename..."
 msgstr "_Nimeta ümber..."
 
 #: ../mail/em-folder-utils.c:104
-#, fuzzy, c-format
+#, c-format
 msgid "Copying `%s' to `%s'"
-msgstr "Sõnumite kopeerimine %s kausta"
+msgstr "Kopeerimine `%s' -> `%s'"
 
 #: ../mail/em-folder-utils.c:367 ../mail/em-folder-utils.c:383
 #: ../mail/em-folder-view.c:929 ../mail/em-folder-view.c:944
@@ -11518,9 +11492,8 @@ msgid "_Open Link in Browser"
 msgstr "Ava _viit veebilehitsejas"
 
 #: ../mail/em-popup.c:550
-#, fuzzy
 msgid "_Send New Message To..."
-msgstr "S_aada sõnum..."
+msgstr ""
 
 #: ../mail/em-popup.c:551
 msgid "_Add to Addressbook"
@@ -11842,11 +11815,9 @@ msgid "Prompt when user only fills Bcc"
 msgstr "Kinnituse küsimine, kui kasutaja määrab ainult pimekoopia"
 
 #: ../mail/evolution-mail.schemas.in.in.h:60
-#, fuzzy
 msgid "Prompt when user tries to open 10 or more messages at once"
 msgstr ""
-"Kinnituse küsimine, kui püütakse saata sõnumit, millel pole tavalist saajat "
-"ega pimekoopa saajat määratud."
+"Kinnituse küsimine, kui korraga püütakse saata kümmet või enamat sõnumit"
 
 #: ../mail/evolution-mail.schemas.in.in.h:61
 msgid ""
@@ -11979,14 +11950,12 @@ msgid "UID string of the default account."
 msgstr "Vaikimisi määratud konto UID string."
 
 #: ../mail/evolution-mail.schemas.in.in.h:91
-#, fuzzy
 msgid "Use Spamassassin daemon and client"
-msgstr "Kasuta Spamassassin'i deemonit ja klienti"
+msgstr "Spamassassin'i deemoni ja kliendi kasutamine"
 
 #: ../mail/evolution-mail.schemas.in.in.h:92
-#, fuzzy
 msgid "Use Spamassassin daemon and client (spamc/spamd)"
-msgstr "Kasuta Spamassassini deemonit ja klienti (spamc/spamd)"
+msgstr "Spamassassin'i deemoni ja kliendi (spamc/spamd) kasutamine"
 
 #: ../mail/evolution-mail.schemas.in.in.h:93
 msgid "Use custom fonts"
@@ -13347,10 +13316,8 @@ msgid "Are you sure you want to delete this account?"
 msgstr "Kas sa tõesti soovid kustutada seda kontot?"
 
 #: ../mail/mail.error.xml.h:10
-#, fuzzy
 msgid "Are you sure you want to open {0} messages at once?"
-msgstr ""
-"Oled sa kindel, et soovid saata seda sõnumit pimekoopia adressaatidele?"
+msgstr "Oled sa kindel, et soovid korraga avada {0} sõnumit?"
 
 #: ../mail/mail.error.xml.h:11
 msgid ""
@@ -13383,73 +13350,61 @@ msgid "Are you sure you want to send a message without a subject?"
 msgstr "Oled sa kindel, et soovid seda sõnumit saata ilma pealkirjata?"
 
 #: ../mail/mail.error.xml.h:16
-#, fuzzy
 msgid "Because &quot;{0}&quot;."
-msgstr "Kuna \"{0}\"."
+msgstr "Kuna &quot;{0}&quot;."
 
 #: ../mail/mail.error.xml.h:18
-#, fuzzy
 msgid "Because &quot;{2}&quot;."
-msgstr "Kuna \"{2}\"."
+msgstr "Kuna &quot;{2}&quot;."
 
 #: ../mail/mail.error.xml.h:19
-#, fuzzy
 msgid "Cannot add vFolder &quot;{0}&quot;."
-msgstr "vKausta \"{0}\" pole võimalik lisada."
+msgstr "vKausta &quot;{0}&quot; pole võimalik lisada."
 
 #: ../mail/mail.error.xml.h:20
-#, fuzzy
 msgid "Cannot copy folder &quot;{0}&quot; to &quot;{1}&quot;."
-msgstr "Kausta \"{0}\" pole võimalik kopeerida \"{1}\" kausta."
+msgstr "Kausta &quot;{0}&quot; pole võimalik kopeerida &quot;{1}&quot; kausta."
 
 #: ../mail/mail.error.xml.h:21
-#, fuzzy
 msgid "Cannot create folder &quot;{0}&quot;."
-msgstr "Kausta \"{0}\" pole võimalik luua."
+msgstr "Kausta &quot;{0}&quot; pole võimalik luua."
 
 #: ../mail/mail.error.xml.h:22
 msgid "Cannot create temporary save directory."
 msgstr "Ajutist salvestuskataloogi pole võimalik luua."
 
 #: ../mail/mail.error.xml.h:23
-#, fuzzy
 msgid "Cannot create the save directory, because &quot;{1}&quot;"
-msgstr "Salvestuskataloogi pole võimalik luua, sest \"{1}\""
+msgstr "Salvestuskataloogi pole võimalik luua, sest &quot;{1}&quot;"
 
 #: ../mail/mail.error.xml.h:24
-#, fuzzy
 msgid "Cannot delete folder &quot;{0}&quot;."
-msgstr "Kausta \"{0}\" pole võimalik kustutada."
+msgstr "Kausta &quot;{0}&quot; pole võimalik kustutada."
 
 #: ../mail/mail.error.xml.h:25
-#, fuzzy
 msgid "Cannot delete system folder &quot;{0}&quot;."
-msgstr "Süsteemikausta \"{0}\" pole võimalik kustutada."
+msgstr "Süsteemikausta &quot;{0}&quot; pole võimalik kustutada."
 
 #: ../mail/mail.error.xml.h:26
-#, fuzzy
 msgid "Cannot edit vFolder &quot;{0}&quot; as it does not exist."
-msgstr "vKausta \"{0}\" pole võimalik redigeerida, kuna seda ei ole olemas."
+msgstr ""
+"vKausta &quot;{0}&quot; pole võimalik redigeerida, kuna seda pole olemas."
 
 #: ../mail/mail.error.xml.h:27
-#, fuzzy
 msgid "Cannot move folder &quot;{0}&quot; to &quot;{1}&quot;."
-msgstr "Kausta \"{0}\" pole võimalik liigutada \"{1}\" kausta."
+msgstr "Kausta &quot;{0}&quot; pole võimalik liigutada &quot;{1}&quot; kausta."
 
 #: ../mail/mail.error.xml.h:28
-#, fuzzy
 msgid "Cannot open source &quot;{1}&quot;"
-msgstr "Allikat \"{1}\" pole võimalik avada"
+msgstr "Allikat &quot;{1}&quot; pole võimalik avada"
 
 #: ../mail/mail.error.xml.h:29
-#, fuzzy
 msgid "Cannot open source &quot;{2}&quot;."
-msgstr "Allikat \"{2}\" pole võimalik avada."
+msgstr "Allikat &quot;{2}&quot; pole võimalik avada."
 
 #: ../mail/mail.error.xml.h:30
-#, fuzzy
 msgid "Cannot open target &quot;{2}&quot;."
-msgstr "Sihtkohta \"{2}\" pole võimalik avada."
+msgstr "Sihtkohta &quot;{2}&quot; pole võimalik avada."
 
 #: ../mail/mail.error.xml.h:31
 msgid ""
@@ -13459,33 +13414,29 @@ msgid ""
 msgstr ""
 
 #: ../mail/mail.error.xml.h:32
-#, fuzzy
 msgid "Cannot rename &quot;{0}&quot; to &quot;{1}&quot;."
-msgstr "\"{0}\"-a pole võimalik ümber nimetada \"{1}\"-ks."
+msgstr "&quot;{0}&quot; pole võimalik &quot;{1}&quot;-ks ümber nimetada."
 
 #: ../mail/mail.error.xml.h:33
-#, fuzzy
 msgid "Cannot rename or move system folder &quot;{0}&quot;."
-msgstr "Süsteemikausta \"{0}\" pole võimalik ümber nimetada ega liigutada."
+msgstr ""
+"Süsteemikausta &quot;{0}&quot; pole võimalik ümber nimetada ega liigutada."
 
 #: ../mail/mail.error.xml.h:34
 msgid "Cannot save changes to account."
 msgstr "Konto muudatusi pole võimalik salvestada."
 
 #: ../mail/mail.error.xml.h:35
-#, fuzzy
 msgid "Cannot save to directory &quot;{0}&quot;."
-msgstr "Kataloogi \"{0}\" pole võimalik salvestada."
+msgstr "Kataloogi &quot;{0}&quot; alla pole võimalik salvestada."
 
 #: ../mail/mail.error.xml.h:36
-#, fuzzy
 msgid "Cannot save to file &quot;{0}&quot;."
-msgstr "Faili \"{0}\" pole võimalik salvestada."
+msgstr "Faili &quot;{0}&quot; pole võimalik salvestada."
 
 #: ../mail/mail.error.xml.h:37
-#, fuzzy
 msgid "Cannot set signature script &quot;{0}&quot;."
-msgstr "Signatuuriskripti \"{0}\" pole võimalik määrata."
+msgstr "Signatuuriskripti &quot;{0}&quot; pole võimalik määrata."
 
 #: ../mail/mail.error.xml.h:38
 msgid ""
@@ -13501,9 +13452,8 @@ msgid "Could not save signature file."
 msgstr "Signatuurifaili pole võimalik salvestada."
 
 #: ../mail/mail.error.xml.h:40
-#, fuzzy
 msgid "Delete &quot;{0}&quot;?"
-msgstr "Kustuta \"{0}\"?"
+msgstr "Kustuta &quot;{0}&quot;?"
 
 #: ../mail/mail.error.xml.h:41
 msgid "Delete account?"
@@ -13646,7 +13596,7 @@ msgstr "Palun oota."
 
 #: ../mail/mail.error.xml.h:74
 msgid "Problem migrating old mail folder &quot;{0}&quot;."
-msgstr ""
+msgstr "Probleem vana postikausta &quot;{0}&quot; migreerimisel."
 
 #: ../mail/mail.error.xml.h:75
 msgid "Querying server"
@@ -13662,14 +13612,12 @@ msgid "Read receipt requested."
 msgstr "_Vastamise stiil:"
 
 #: ../mail/mail.error.xml.h:78
-#, fuzzy
 msgid "Really delete folder &quot;{0}&quot; and all of its subfolders?"
-msgstr "Kas tõesti kustutada kaust \"{0}\" ja selle kõik alamkaustad?"
+msgstr "Kas tõesti kustutada kaust &quot;{0}&quot; ja selle kõik alamkaustad?"
 
 #: ../mail/mail.error.xml.h:79
-#, fuzzy
 msgid "Send Receipt"
-msgstr "Saada / võta vastu"
+msgstr ""
 
 #: ../mail/mail.error.xml.h:80
 msgid ""
@@ -13793,13 +13741,13 @@ msgid ""
 msgstr ""
 
 #: ../mail/mail.error.xml.h:113
-#, fuzzy
 msgid "Your login to your server &quot;{0}&quot; as &quot;{0}&quot; failed."
-msgstr "Tõrge serverisse \"{0}\" sisselogimisel kasutajana \"{0}\"."
+msgstr ""
+"Tõrge serverisse &quot;{0}&quot; sisselogimisel kasutajana &quot;{0}&quot;."
 
 #: ../mail/mail.error.xml.h:114
 msgid "Your message with the subject &quot;{0}&quot; was not delivered."
-msgstr ""
+msgstr "Sinu sõnumit teemaga &quot;{0}&quot; ei toimetatud kohale."
 
 #: ../mail/mail.error.xml.h:115
 msgid "_Append"
@@ -13818,9 +13766,8 @@ msgid "_Expunge"
 msgstr "_Puhasta"
 
 #: ../mail/mail.error.xml.h:119
-#, fuzzy
 msgid "_Open Messages"
-msgstr "_Ava sõnum"
+msgstr "_Ava sõnumid"
 
 #: ../mail/mail.error.xml.h:122
 msgid "vFolders automatically updated."
@@ -13982,9 +13929,8 @@ msgid "Subject contains"
 msgstr "Teema sisaldab"
 
 #: ../mail/searchtypes.xml.h:6
-#, fuzzy
 msgid "Subject or Sender contains"
-msgstr "Teema sisaldab"
+msgstr "Teema või saatja sisaldab"
 
 #: ../plugins/audio-inline/org-gnome-audio-inline.eplug.xml.h:1
 msgid ""
@@ -14220,25 +14166,24 @@ msgid "Plaintext Password"
 msgstr "Avatekstiline parool"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:75
-#, fuzzy
 msgid ""
 "This option will connect to the Exchange server using standard plaintext "
 "password authentication."
 msgstr ""
-"See valik loob ühenduse IMAPv4rev1 serveriga kasutades tavalist parooli."
+"See valik loob ühenduse Exchange serveriga kasutades avatekstilise parooliga "
+"autentimist."
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:251
 msgid "Out Of Office"
 msgstr "Kontorist väljas"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:258
-#, fuzzy
 msgid ""
 "The message specified below will be automatically sent to \n"
 "each person who sends mail to you while you are out of the office."
 msgstr ""
-"<small>See allpool näidatud sõnum saadetakse automaatselt igale isikule,\n"
-"kes saadab sulle kirja ajal kui sa puhkusel oled.</small>"
+"Allpool näidatav sõnum saadetakse automaatselt igale isikule,\n"
+"kes saadab sulle sinu puhkusel olemise ajal sõnumi."
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:270
 #: ../plugins/exchange-operations/exchange-account-setup.c:275
@@ -14528,9 +14473,8 @@ msgid "Could not update folder permissions. %s"
 msgstr "Kausta pole võimalik avada: %s: %s"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:297
-#, fuzzy
 msgid "(Permission denied.)"
-msgstr "Juurdepääs keelatud"
+msgstr "(Juurdepääs keelatud.)"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:396
 msgid ""
@@ -14539,9 +14483,9 @@ msgid ""
 msgstr ""
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:414
-#, fuzzy, c-format
+#, c-format
 msgid "No such user %s"
-msgstr "Kausta %s ei leitud"
+msgstr "Kasutajat %s pole olemas"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:418
 #, c-format
@@ -14549,39 +14493,34 @@ msgid "%s cannot be added to an access control list"
 msgstr ""
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:423
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown error looking up %s"
-msgstr "Tundmatu viga: %s"
+msgstr "Tundmatu viga %s lahendamisel"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:440
-#, fuzzy, c-format
+#, c-format
 msgid "%s is already in the list"
-msgstr "%s postiloend"
+msgstr "%s on juba loendis"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:2
-#, fuzzy
 msgid "<b>Permissions</b>"
-msgstr "<b>Valikud</b>"
+msgstr "<b>Õigused</b>"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:3
-#, fuzzy
 msgid "Cannot Delete"
-msgstr "Sisesta Delegaat"
+msgstr "Kustutamine pole võimalik"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:4
-#, fuzzy
 msgid "Cannot Edit"
-msgstr "Kontaktiredaktor"
+msgstr "Redigeerimine pole võimalik"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:5
-#, fuzzy
 msgid "Create items"
-msgstr "Kausta loomine"
+msgstr ""
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:6
-#, fuzzy
 msgid "Create subfolders"
-msgstr "Kausta loomine"
+msgstr ""
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:7
 msgid "Delete Any Items"
@@ -14592,38 +14531,32 @@ msgid "Delete Own Items"
 msgstr ""
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:9
-#, fuzzy
 msgid "Edit Any Items"
-msgstr "Muuda sündmust"
+msgstr ""
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:10
 msgid "Edit Own Items"
 msgstr ""
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:11
-#, fuzzy
 msgid "Folder contact"
-msgstr "%d kontakt"
+msgstr "Kausta kontakt"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:12
-#, fuzzy
 msgid "Folder owner"
-msgstr "vKaust _saatja järgi"
+msgstr "Kausta omanik"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:13
-#, fuzzy
 msgid "Folder visible"
-msgstr "Kausta suurus"
+msgstr "Kaust on nähtaval"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:14
-#, fuzzy
 msgid "Read items"
-msgstr "%s (%d kirjet)"
+msgstr ""
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:15
-#, fuzzy
 msgid "Role: "
-msgstr "Roll"
+msgstr "Roll: "
 
 #: ../plugins/exchange-operations/exchange-user-dialog.c:144
 #, fuzzy
@@ -14640,9 +14573,8 @@ msgid "Cannot change password due to configuration problems."
 msgstr ""
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:2
-#, fuzzy
 msgid "Cannot display folders."
-msgstr "Kausta %s pole võimalik luua: %s"
+msgstr "Kaustu pole võimalik kuvada"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:3
 msgid ""
@@ -14651,14 +14583,12 @@ msgid ""
 msgstr ""
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:4
-#, fuzzy
 msgid "Could not authenticate to server."
-msgstr "Ei saa autentida serverisse: %s"
+msgstr "Serverisse pole võimalik autentida."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:5
-#, fuzzy
 msgid "Could not change password."
-msgstr "Parooli muutmine"
+msgstr "Parooli pole võimalik muuta."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:6
 msgid ""
@@ -14668,9 +14598,8 @@ msgid ""
 msgstr ""
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:9
-#, fuzzy
 msgid "Could not connect to server {0}."
-msgstr "Ei saa luua ühendust POP serveriga %s"
+msgstr "Serveriga {0} pole võimalik ühenduda."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:10
 msgid "Could not find Exchange Web Storage System."
@@ -14791,9 +14720,8 @@ msgid "Try to clear up some space by deleting some mails."
 msgstr ""
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:49
-#, fuzzy
 msgid "Unknown error."
-msgstr "Tundmatu viga"
+msgstr "Tundmatu viga."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:50
 #, fuzzy
@@ -14860,11 +14788,11 @@ msgstr "Saatmise valikud"
 
 #: ../plugins/groupwise-features/org-gnome-groupwise-features.eplug.xml.h:1
 msgid "A plugin for the features in Groupwise accounts."
-msgstr ""
+msgstr "Plugin Groupwise kontode võimaluste jaoks."
 
 #: ../plugins/groupwise-features/org-gnome-groupwise-features.eplug.xml.h:2
 msgid "Groupwise Features"
-msgstr ""
+msgstr "Groupwise võimalused"
 
 #: ../plugins/groupwise-features/properties.glade.h:2
 msgid "<b>Users :</b>"
@@ -14975,9 +14903,9 @@ msgid "Attendee status could not be updated because the status is invalid"
 msgstr "Osavõtja olekut ei ole võimailk uuendada, kuna selle olek on vigane"
 
 #: ../plugins/itip-formatter/itip-formatter.c:993
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to update attendee. %s"
-msgstr "Kalendrit `%s' pole võimalik siirdada"
+msgstr "Osalejat pole võimalik uuendada. %s"
 
 #: ../plugins/itip-formatter/itip-formatter.c:997
 msgid "Attendee status updated"
@@ -15249,9 +15177,9 @@ msgid "<b>%s</b> has proposed the following meeting changes."
 msgstr "<b>%s</b> esitas järgnevad koosoleku muudatused."
 
 #: ../plugins/itip-formatter/itip-view.c:381
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> through %s has declined the following meeting changes:"
-msgstr "<b>%s</b> tühistas %s kaudu järgneva koosoleku:"
+msgstr "<b>%s</b> tühistas %s kaudu järgnevad koosolekumuutused:"
 
 #: ../plugins/itip-formatter/itip-view.c:383
 #, c-format
@@ -15269,9 +15197,9 @@ msgid "<b>%s</b> has published the following task:"
 msgstr "<b>%s</b> avalikustas järgmise ülesande:"
 
 #: ../plugins/itip-formatter/itip-view.c:417
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> requests the assignment of %s to the following task:"
-msgstr "<b>%s</b> taotleb, et %s osaleks järgneval koosolekul:"
+msgstr "<b>%s</b> taotleb %s määramist järgneva ülesande täitjaks:"
 
 #: ../plugins/itip-formatter/itip-view.c:420
 #, c-format
@@ -15301,9 +15229,9 @@ msgid ""
 msgstr "<b>%s</b> soovib saada värskeimat infot järgneva ülesande kohta:"
 
 #: ../plugins/itip-formatter/itip-view.c:436
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> has sent back the following assigned task response:"
-msgstr "<b>%s</b> nõustus järgneva koosolekuga:"
+msgstr "<b>%s</b> saatis järgneva määratud ülesande vastuse tagasi:"
 
 #: ../plugins/itip-formatter/itip-view.c:440
 #, c-format
@@ -15357,19 +15285,20 @@ msgid "A_pply to all instances"
 msgstr "Kõik juhtumid"
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.eplug.xml.h:1
-#, fuzzy
 msgid "Displays text/calendar parts in messages."
-msgstr "Kuvab järgmise tähtsa sõnumi"
+msgstr "Teksti- ja kalendriosade kuvamine sõnumis."
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.eplug.xml.h:2
 msgid "Itip Formatter"
-msgstr ""
+msgstr "Itip vormindaja"
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:1
 msgid ""
 "&quot;{0}&quot; has delegated the meeting. Do you want to add the delegate "
 "&quot;{1}&quot; ?"
 msgstr ""
+"&quot;{0}&quot; delegeeris koosoleku. Kas sa soovid lisada delegaati "
+"&quot;{1}&quot; ?"
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:3
 msgid "This meeting has been delegated"
@@ -15553,12 +15482,11 @@ msgstr "Koostab vastuse valitud sõnumi postiloendisse"
 
 #: ../plugins/mark-calendar-offline/org-gnome-mark-calendar-offline.eplug.xml.h:1
 msgid "Mark calendar offline"
-msgstr ""
+msgstr "Kalendri märkimine autonoomse režiimi jaoks"
 
 #: ../plugins/mark-calendar-offline/org-gnome-mark-calendar-offline.eplug.xml.h:2
-#, fuzzy
 msgid "Marks the selected calendar for offline viewing."
-msgstr "Märgib valitud sõnumid kustutatuks"
+msgstr "Kalendri märkimine autonoomses režiimis vaatamiseks."
 
 #: ../plugins/mark-calendar-offline/org-gnome-mark-calendar-offline.eplug.xml.h:3
 msgid "_Do not make this available offline"
@@ -15569,23 +15497,20 @@ msgid "_Mark Calendar for offline use"
 msgstr "_Märgi kalender kasutamiseks autonoomses režiimis"
 
 #: ../plugins/new-mail-notify/org-gnome-new-mail-notify.eplug.xml.h:1
-#, fuzzy
 msgid "Generates a D-BUS message when new mail arrives."
-msgstr "_Genereerib uue kirja saabumisel D-BUS sõnumi"
+msgstr "Uue kirja saabumisel D-BUS sõnumi genereerimine"
 
 #: ../plugins/new-mail-notify/org-gnome-new-mail-notify.eplug.xml.h:2
-#, fuzzy
 msgid "New Mail Notification"
-msgstr "Uuest sõnumist teatamise tüüp"
+msgstr "Uuest sõnumist teatamine"
 
 #: ../plugins/new-mail-notify/org-gnome-new-mail-notify.eplug.xml.h:3
-#, fuzzy
 msgid "New mail notify"
 msgstr "Uuest sõnumist teatamine"
 
 #: ../plugins/plugin-manager/org-gnome-plugin-manager.eplug.xml.h:1
 msgid "A plugin for managing which plugins are enabled or disabled."
-msgstr ""
+msgstr "Plugin määramaks millised pluginad on lubatud ja millised mitte."
 
 #: ../plugins/plugin-manager/org-gnome-plugin-manager.eplug.xml.h:2
 msgid "Plugin manager"
@@ -15669,7 +15594,7 @@ msgstr ""
 
 #: ../plugins/save-attachments/org-gnome-save-attachments.eplug.xml.h:1
 msgid "A plugin for saving all attachments or parts of a message at once."
-msgstr ""
+msgstr "Plugin kõigi sõnumi manuste või osade ühekorraga salvestamiseks."
 
 #: ../plugins/save-attachments/org-gnome-save-attachments.eplug.xml.h:2
 msgid "Save attachments"
@@ -15783,7 +15708,7 @@ msgstr "iKalendri vorming (.ics)"
 
 #: ../plugins/save-calendar/org-gnome-save-calendar.eplug.xml.h:1
 msgid "Save Selected"
-msgstr ""
+msgstr "Valitu salvestamine"
 
 #: ../plugins/save-calendar/org-gnome-save-calendar.eplug.xml.h:2
 msgid "Save to _Disk"
@@ -15869,23 +15794,20 @@ msgstr "Programmist %s:"
 
 #: ../plugins/startup-wizard/startup-wizard.c:234
 #: ../shell/e-shell-importer.c:509
-#, fuzzy
 msgid "Importing data."
-msgstr "Elm'i andmete importimine"
+msgstr "Andmete importimine."
 
 #: ../plugins/subject-thread/org-gnome-subject-thread.eplug.xml.h:1
 msgid "Indicates if threading of messages should fall back to subject."
 msgstr ""
 
 #: ../plugins/subject-thread/org-gnome-subject-thread.eplug.xml.h:2
-#, fuzzy
 msgid "Subject Threading"
-msgstr "Vali _teemalõim"
+msgstr "Jutulõng teema järgi"
 
 #: ../plugins/subject-thread/org-gnome-subject-thread.eplug.xml.h:3
-#, fuzzy
 msgid "Thread messages by subject"
-msgstr "Esitab sõnumeid jutulõngadena"
+msgstr "Jutulõngade koostamine teema järgi"
 
 #. Create the checkbox we will display, complete with mnemonic that is unique in the dialog
 #: ../plugins/subject-thread/subject-thread.c:54
@@ -15893,28 +15815,24 @@ msgid "Fall back to threading messages by sub_ject"
 msgstr ""
 
 #: ../plugins/mail-account-disable/mail-account-disable.c:46
-#, fuzzy
 msgid "_Disable"
-msgstr "Keela"
+msgstr "_Keela"
 
 #: ../plugins/mail-account-disable/mail-account-disable.c:47
 msgid "Proxy _Logout"
 msgstr ""
 
 #: ../plugins/mail-account-disable/org-gnome-mail-account-disable.eplug.xml.h:1
-#, fuzzy
 msgid "Allows disabling of accounts."
-msgstr "Kontode nimekiri"
+msgstr "Kontode keelamise võimaldamine."
 
 #: ../plugins/mail-account-disable/org-gnome-mail-account-disable.eplug.xml.h:2
-#, fuzzy
 msgid "Disable Account"
-msgstr "Postikontod"
+msgstr "Konto keelamine"
 
 #: ../plugins/proxy/proxy-listing.glade.h:1
-#, fuzzy
 msgid "Proxy"
-msgstr "Tähtsus"
+msgstr "Proksi"
 
 #: ../plugins/proxy/proxy-listing.glade.h:2 ../smime/gui/smime-ui.glade.h:49
 #: ../widgets/table/e-table-config-no-group.glade.h:20
@@ -15923,9 +15841,8 @@ msgid "dialog1"
 msgstr "dialog1"
 
 #: ../plugins/proxy/proxy-add-dialog.glade.h:1
-#, fuzzy
 msgid "<b>Name</b>"
-msgstr "<b>Kodu</b>"
+msgstr "<b>Nimi</b>"
 
 #: ../plugins/proxy/proxy-add-dialog.glade.h:2
 msgid "Access Rights"
@@ -15937,9 +15854,8 @@ msgid "Add/Edit"
 msgstr "Redigeermine"
 
 #: ../plugins/proxy/proxy-add-dialog.glade.h:5
-#, fuzzy
 msgid "Con_tacts"
-msgstr "Kontaktid"
+msgstr "Kon_taktid"
 
 #: ../plugins/proxy/proxy-add-dialog.glade.h:7
 msgid "Modify _folders/options/rules/"
@@ -15950,30 +15866,25 @@ msgid "Read items marked _private"
 msgstr ""
 
 #: ../plugins/proxy/proxy-add-dialog.glade.h:9
-#, fuzzy
 msgid "Reminder Notes"
-msgstr "_Tuleta mulle hiljem meelde"
+msgstr ""
 
 #: ../plugins/proxy/proxy-add-dialog.glade.h:10
-#, fuzzy
 msgid "Subscribe to my _alarms"
-msgstr "_Telli postiloend"
+msgstr ""
 
 #: ../plugins/proxy/proxy-add-dialog.glade.h:11
-#, fuzzy
 msgid "Subscribe to my _notifications"
-msgstr "_Telli postiloend"
+msgstr ""
 
 #: ../plugins/proxy/proxy-add-dialog.glade.h:13
 #: ../ui/evolution-mail-message.xml.h:118
-#, fuzzy
 msgid "_Read"
-msgstr "Loetud"
+msgstr ""
 
 #: ../plugins/proxy/proxy-add-dialog.glade.h:14
-#, fuzzy
 msgid "_Write"
-msgstr "_Trüki"
+msgstr ""
 
 #: ../plugins/proxy/proxy.c:656
 msgid "The Proxy tab will be available only when the account is enabled."
@@ -15985,14 +15896,12 @@ msgid "_Proxy Login..."
 msgstr "_Trüki..."
 
 #: ../plugins/proxy-login/proxy-login-dialog.glade.h:1
-#, fuzzy
 msgid "<b>Account Name</b>"
-msgstr "Konto nimi"
+msgstr "<b>Konto nimi</b>"
 
 #: ../plugins/proxy-login/proxy-login-dialog.glade.h:2
-#, fuzzy
 msgid "Proxy Login"
-msgstr "Kasutajanimi"
+msgstr ""
 
 #: ../plugins/sa-junk-plugin/em-junk-filter.c:97
 msgid "Spamassassin (built-in)"
@@ -16456,7 +16365,6 @@ msgid ""
 msgstr ""
 
 #: ../shell/shell.error.xml.h:13
-#, fuzzy
 msgid ""
 "The previous version of evolution stored its data in a different location.\n"
 "\n"
@@ -16467,9 +16375,10 @@ msgid ""
 msgstr ""
 "Evolution'i eelmine versioon hoidis andmeid teises kohas.\n"
 "\n"
-"Kui sa valid andmete eemaldamise, siis eemaldatakse kogu \"evolution\" "
-"kataloogi jäädavalt. Kui sa valid andmete säilitamise, siis võid sa hiljem "
-"omal vabal valikul käsitsi eemaldada kataloogi  \"evolution\".\n"
+"Kui sa valid andmete eemaldamise, siis eemaldatakse kogu "
+"&quot;evolution&quot; kataloogi jäädavalt. Kui sa valid andmete säilitamise, "
+"siis võid sa hiljem omal vabal valikul käsitsi eemaldada kataloogi "
+"&quot;evolution&quot;.\n"
 
 #: ../shell/shell.error.xml.h:17
 msgid "Upgrade from previous version failed: {0}"
@@ -17341,9 +17250,8 @@ msgid "Create or edit rules for filtering new mail"
 msgstr "Loob või muudab uute sõnumite filtreerimisreegleid"
 
 #: ../ui/evolution-mail-global.xml.h:6
-#, fuzzy
 msgid "Create or edit vFolder definitions"
-msgstr "Loo või muuda vKausta ???"
+msgstr "vKausta kirjelduste loomine või muutmine"
 
 #: ../ui/evolution-mail-global.xml.h:7
 msgid "Empty _Trash"
@@ -18991,21 +18899,19 @@ msgstr ""
 
 #: ../widgets/misc/e-send-options.c:515
 msgid "When de_leted:"
-msgstr ""
+msgstr "Kui _kustutatakse:"
 
 #: ../widgets/misc/e-send-options.glade.h:1
-#, fuzzy
 msgid "<b>Delivery Options</b>"
-msgstr "<b>Saatmise valikud</b>"
+msgstr "<b>Kohaletoimetamise valikud</b>"
 
 #: ../widgets/misc/e-send-options.glade.h:2
 msgid "<b>Replies</b>"
 msgstr "<b>Vastused</b>"
 
 #: ../widgets/misc/e-send-options.glade.h:3
-#, fuzzy
 msgid "<b>Return Notification</b>"
-msgstr "<b>Autentimine</b>"
+msgstr "<b>Tagastusteated</b>"
 
 #: ../widgets/misc/e-send-options.glade.h:4
 msgid "<b>Status Tracking</b>"
@@ -19077,9 +18983,8 @@ msgid "When acce_pted:"
 msgstr "Kui _nõustutakse:"
 
 #: ../widgets/misc/e-send-options.glade.h:25
-#, fuzzy
 msgid "When co_mpleted:"
-msgstr "_Lõpetamise kuupäev:"
+msgstr "Kui _lõpetatakse:"
 
 #: ../widgets/misc/e-send-options.glade.h:26
 #, fuzzy
