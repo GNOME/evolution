@@ -377,7 +377,7 @@ eti_get_index_at (AtkTable *table, gint row, gint column)
 	if (!item)
 		return -1;
 
-	return column + row * item->cols;
+	return column + (row + 1) * item->cols;
 }
 
 static gint
@@ -401,7 +401,7 @@ eti_get_row_at_index (AtkTable *table, gint index)
 	if (!item)
 		return -1;
 
-	return index / item->cols;
+	return index / item->cols - 1;
 }
 
 static gint
@@ -425,7 +425,7 @@ eti_get_n_rows (AtkTable *table)
 	if (!item)
 		return -1;
 
-	return item->rows + 1;
+	return item->rows;
 }
 
 static gint
@@ -688,7 +688,7 @@ eti_rows_inserted (ETableModel * model, int row, int count,
                 for (j = 0; j < n_cols; j ++) {
 			g_signal_emit_by_name (table_item,
 					       "children_changed::add",
-                                               ( (i*n_cols) + j), NULL, NULL);
+                                               ( ((i + 1)*n_cols) + j), NULL, NULL);
 		}
         }
 
@@ -718,7 +718,7 @@ eti_rows_deleted (ETableModel * model, int row, int count,
                 for (j = 0; j < n_cols; j ++) {
 			g_signal_emit_by_name (table_item,
 					       "children_changed::remove",
-                                               ( (i*n_cols) + j), NULL, NULL);
+                                               ( ((i + 1)*n_cols) + j), NULL, NULL);
 		}
         }
 	g_signal_emit_by_name (table_item, "visible-data-changed");
@@ -833,7 +833,7 @@ eti_header_structure_changed (ETableHeader *eth, AtkObject *a11y)
 			if (prev_state[i] == ETI_HEADER_REMOVED) {
 				g_signal_emit_by_name (G_OBJECT(a11y_item), "column-deleted", i, 1);
 				for (j = 0 ; j < n_rows; j ++)
-					g_signal_emit_by_name (G_OBJECT(a11y_item), "children_changed::remove", (j*prev_n_cols+i), NULL, NULL);
+					g_signal_emit_by_name (G_OBJECT(a11y_item), "children_changed::remove", ((j+1)*prev_n_cols+i), NULL, NULL);
 			}
 		}
 	}
@@ -843,7 +843,7 @@ eti_header_structure_changed (ETableHeader *eth, AtkObject *a11y)
 			if (state[i] == ETI_HEADER_NEW_ADDED) {
 				g_signal_emit_by_name (G_OBJECT(a11y_item), "column-inserted", i, 1);
 				for (j = 0 ; j < n_rows; j ++)
-					g_signal_emit_by_name (G_OBJECT(a11y_item), "children_changed::add", (j*n_cols+i), NULL, NULL);
+					g_signal_emit_by_name (G_OBJECT(a11y_item), "children_changed::add", ((j+1)*n_cols+i), NULL, NULL);
 			}
 		}
 	}

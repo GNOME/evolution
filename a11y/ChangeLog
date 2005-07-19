@@ -1,3 +1,13 @@
+2005-07-18  Li Yuan  <li.yuan@sun.com>
+
+	Fixes #310136 #310138.
+	* e-table/gal-a11y-e-table-item.c: (eti_get_index_at),
+	(eti_get_row_at_index), (eti_get_n_rows), (eti_rows_inserted),
+	(eti_rows_deleted), (eti_header_structure_changed):
+	The first items of e-table are column-header. So we should add
+	number of columns when change (row, col) to index, or subtract
+	when change index to (row, col).
+
 2005-06-18  Tor Lillqvist  <tml@novell.com>
 
 	* Makefile.am
