@@ -1,3 +1,8 @@
+2005-07-19  Vivek Jain <jvivek@novell.com>
+	
+	* POTFILES.in : added plugins/groupwise-features/junk-mail
+	files
+
 2005-07-19  Nikos Charonitakis  <charosn@her.forthnet.gr>
 
 	* el.po: Updated Greek translation.
