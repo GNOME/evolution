@@ -1,3 +1,11 @@
+2005-07-19  Shakti Sen <shprasad@novell.com>
+
+	* exchange-permissions-dialog.c (display_role, get_widgets):
+	Added a label named 'Custom' to show appropriate role in the 'Role:'
+	combo box.
+
+	Fixes bug#310837
+
 2005-07-18  Sarfraaz Ahmed <asarfraaz@novell.com>
 
 	* exchange-folder-size-display.c (parent_destroyed) : This is no longer

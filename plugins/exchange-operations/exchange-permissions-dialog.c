@@ -66,6 +66,9 @@ struct _ExchangePermissionsDialogPrivate {
 
 	/* The Role menu */
 	GtkComboBox *role_optionmenu;
+
+	/* Custom label is added or not */
+	gboolean custom_added;
 	
 	GtkWidget *separator, *custom;
 	E2kPermissionsRole selected_role;
@@ -560,9 +563,19 @@ display_role (ExchangePermissionsDialog *dialog)
 			    -1);
 
 	if (role == E2K_PERMISSIONS_ROLE_CUSTOM) {
-		/* FIXME: To show Custom */
-		role = E2K_PERMISSIONS_ROLE_NUM_ROLES + 1;
+		if (dialog->priv->custom_added == FALSE) {
+			gtk_combo_box_append_text (GTK_COMBO_BOX (dialog->priv->role_optionmenu), _("Custom"));
+			dialog->priv->custom_added = TRUE;
+		}
+		role = E2K_PERMISSIONS_ROLE_NUM_ROLES;
 	}
+	else	{
+		if (dialog->priv->custom_added) {
+			gtk_combo_box_remove_text (GTK_COMBO_BOX (dialog->priv->role_optionmenu), E2K_PERMISSIONS_ROLE_NUM_ROLES);
+			dialog->priv->custom_added = FALSE;
+		}
+	}
+		
 	gtk_combo_box_set_active (GTK_COMBO_BOX (dialog->priv->role_optionmenu), role);
 }
 
@@ -722,6 +735,8 @@ get_widgets (ExchangePermissionsDialog *dialog, GladeXML *xml)
 	GET_WIDGET (role_optionmenu, GTK_COMBO_BOX);
 	g_signal_connect (dialog->priv->role_optionmenu, "changed",
 			  G_CALLBACK (role_changed), dialog);
+
+	dialog->priv->custom_added = FALSE;
 
 #define GET_TOGGLE(name, value, callback) \
 	GET_WIDGET (name, GTK_TOGGLE_BUTTON); \
