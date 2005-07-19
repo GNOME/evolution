@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-07-17 13:48+0000\n"
-"PO-Revision-Date: 2005-07-19 12:00+0300\n"
+"PO-Revision-Date: 2005-07-19 16:24+0300\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -3956,7 +3956,7 @@ msgstr "Kustutada kalender '{0}'?"
 
 #: ../calendar/calendar.error.xml.h:26
 msgid "Delete task list '{0}'?"
-msgstr "Kas kustutata ülesannete loend '{0}'?"
+msgstr "Kas kustutata ülesandeloend '{0}'?"
 
 #: ../calendar/calendar.error.xml.h:27
 msgid "Discard Changes"
@@ -4069,7 +4069,7 @@ msgstr "Kalender pole märgitud autonoomses režiimis kasutamiseks"
 
 #: ../calendar/calendar.error.xml.h:48
 msgid "The task list is not marked for offline usage"
-msgstr "Ülesannete nimekiri pole märgitud autonoomses režiimis kasutamiseks"
+msgstr "Ülesandeloend pole märgitud autonoomses režiimis kasutamiseks"
 
 #: ../calendar/calendar.error.xml.h:49
 msgid "This calendar will be removed permanently."
@@ -4525,11 +4525,11 @@ msgid ""
 msgstr ""
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:37
-#, fuzzy
 msgid ""
 "Position of the vertical pane, between the task list and the task preview "
 "pane, in pixels."
-msgstr "Vertikaalpaani asukoht ülesandevaates"
+msgstr ""
+"Vertikaalpaani asukoht pikslites ülesande- ja ülesande eelvaatepaanide vahel."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:38
 msgid ""
@@ -5380,7 +5380,7 @@ msgstr ""
 #: ../calendar/gui/dialogs/calendar-setup.c:290
 msgid "Copy task list contents locally for offline operation"
 msgstr ""
-"Ülesannete sisu kopeerimine kohapeale tarvitamiseks võrguvabas keskkonnas"
+"Ülesandeloendi sisu kopeerimine kohapeale tarvitamiseks võrguvabas keskkonnas"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:343
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:4
@@ -7946,7 +7946,7 @@ msgstr "Uue omistatud ülesande loomine"
 
 #: ../calendar/gui/tasks-component.c:1168
 msgid "New task list"
-msgstr "Uus ülesannete nimekiri"
+msgstr "Uus ülesandeloend"
 
 #: ../calendar/gui/tasks-component.c:1169
 msgid "Task l_ist"
@@ -7954,7 +7954,7 @@ msgstr "Ü_lesannete nimekiri"
 
 #: ../calendar/gui/tasks-component.c:1170
 msgid "Create a new task list"
-msgstr "Uue ülesannete nimekirja loomine"
+msgstr "Uue ülesandeloendi loomine"
 
 #: ../calendar/gui/tasks-control.c:370
 msgid ""
@@ -15752,7 +15752,7 @@ msgstr "_Näita ainult seda kalendrit"
 
 #: ../plugins/select-one-source/org-gnome-select-one-source.eplug.xml.h:4
 msgid "_Show only this Task List"
-msgstr ""
+msgstr "_Näita ainult seda ülesandeloendit"
 
 #: ../plugins/startup-wizard/org-gnome-evolution-startup-wizard.eplug.xml.h:1
 msgid "Startup wizard"
