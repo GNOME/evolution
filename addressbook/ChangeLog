@@ -1,3 +1,9 @@
+2005-07-19  Arunprakash <arunp@novell.com>
+
+	* gui/widgets/eab-gui-util.c: Added two new entries in array 
+	status_to_string for two left out values of EBookStatus. Fixes #310343.
+	(eab_error_dialog): Marked status_str for translation.
+
 2005-07-15  Sushma Rai  <rsushma@novell.com>
 
 	* gui/component/addressbook-migrate.c (migrate_contacts): unref query.

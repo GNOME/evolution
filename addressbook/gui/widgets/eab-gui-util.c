@@ -65,7 +65,9 @@ static const char *status_to_string[] = {
 	/* E_BOOK_ERROR_TLS_NOT_AVAILABLE */                    N_("TLS not Available"),
 	/* E_BOOK_ERROR_CORBA_EXCEPTION */                      NULL,
 	/* E_BOOK_ERROR_NO_SUCH_SOURCE */                       N_("No such source"),
-	/* E_BOOK_ERROR_OTHER_ERROR */                          N_("Other error")
+	/* E_BOOK_ERROR_OFFLINE_UNAVAILABLE */			N_("Not available in offline mode"),
+	/* E_BOOK_ERROR_OTHER_ERROR */                          N_("Other error"),
+	/* E_BOOK_ERROR_INVALID_SERVER_VERSION */		N_("Invalid server version")
 };
 
 void
@@ -74,7 +76,7 @@ eab_error_dialog (const char *msg, EBookStatus status)
 	const char *status_str = status_to_string [status];
 	
 	if (status_str)
-		e_error_run (NULL, "addressbook:generic-error", msg, status_str, NULL);
+		e_error_run (NULL, "addressbook:generic-error", msg, _(status_str), NULL);
 }
 
 void
