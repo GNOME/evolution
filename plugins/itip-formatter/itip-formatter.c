@@ -102,6 +102,7 @@ typedef struct {
 typedef struct {
 	FormatItipPObject *pitip;
 	char *uid;
+	char *rid;
 
 	char *sexp;
 
@@ -109,6 +110,8 @@ typedef struct {
 } FormatItipFindData;
 
 typedef void (* FormatItipOpenFunc) (ECal *ecal, ECalendarStatus status, gpointer data);
+
+static gboolean check_is_instance (icalcomponent *icalcomp);
 
 static void
 find_my_address (FormatItipPObject *pitip, icalcomponent *ical_comp, icalparameter_partstat *status)
@@ -272,6 +275,7 @@ cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
 
 		return;
 	}
+	
 
 	zone = calendar_config_get_icaltimezone ();
 	e_cal_set_default_timezone (ecal, zone, NULL);
@@ -334,30 +338,20 @@ source_selected_cb (ItipView *view, ESource *source, gpointer data)
 	itip_view_set_buttons_sensitive (ITIP_VIEW (pitip->view), FALSE);
 
 	start_calendar_server (pitip, source, pitip->type, cal_opened_cb, pitip);
+
 	/* If it is a GW recurrence instance, enable the 'Apply to all
 	 * instances' option */
 	if (e_cal_get_static_capability (pitip->current_ecal, CAL_STATIC_CAPABILITY_RECURRENCES_NO_MASTER)) {
-		gboolean is_instance = FALSE;
 		icalcomponent *icalcomp = e_cal_component_get_icalcomponent (pitip->comp);
-		icalproperty *icalprop;
-
-		icalprop = icalcomponent_get_first_property (icalcomp, ICAL_X_PROPERTY);
-		while (icalprop) {
-			const char *x_name;
-
-			x_name = icalproperty_get_x_name (icalprop);
-			if (!strcmp (x_name, "X-GW-RECURRENCE-KEY")) {
-				is_instance = TRUE;
-				break;
-			}
-			icalprop = icalcomponent_get_next_property (icalcomp, ICAL_X_PROPERTY);
-		}
-		if (is_instance)
+	
+		if (check_is_instance (icalcomp))
 			itip_view_set_show_recur_check (ITIP_VIEW (pitip->view), TRUE);
 		else
 			itip_view_set_show_recur_check (ITIP_VIEW (pitip->view), FALSE);
-	}
+	} else
+		itip_view_set_show_recur_check (ITIP_VIEW (pitip->view), FALSE);
 		
+ 		
 }
 
 static void
@@ -405,7 +399,8 @@ find_cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
 		e_cal_free_object_list (objects);
 	}
 
-	if (e_cal_get_object (ecal, fd->uid, NULL, &icalcomp, NULL)) {
+
+	if (e_cal_get_object (ecal, fd->uid, fd->rid, &icalcomp, NULL)) {
 		icalcomponent_free (icalcomp);
 		
 		pitip->current_ecal = ecal;
@@ -428,9 +423,14 @@ find_cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
 						      "Found the appointment in the calendar '%s'", e_source_peek_name (source));
 
 		set_buttons_sensitive (pitip);
-		if (e_cal_get_static_capability (pitip->current_ecal, CAL_STATIC_CAPABILITY_RECURRENCES_NO_MASTER))
-			itip_view_set_show_recur_check (ITIP_VIEW (pitip->view), TRUE);
-
+		if (e_cal_get_static_capability (ecal, CAL_STATIC_CAPABILITY_RECURRENCES_NO_MASTER)) {
+			icalcomponent *icalcomp = e_cal_component_get_icalcomponent (pitip->comp);
+			
+			if (check_is_instance (icalcomp))
+				itip_view_set_show_recur_check (ITIP_VIEW (pitip->view), TRUE);
+			else
+				itip_view_set_show_recur_check (ITIP_VIEW (pitip->view), FALSE);
+		}
 	}
 
 	zone = calendar_config_get_icaltimezone ();
@@ -506,6 +506,7 @@ find_cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
 		}
 		
 		g_free (fd->uid);
+		g_free (fd->rid);
 		g_free (fd);
 	}
 }
@@ -516,8 +517,10 @@ find_server (FormatItipPObject *pitip, ECalComponent *comp)
 	FormatItipFindData *fd = NULL;
 	GSList *groups, *l;
 	const char *uid;
+	const char *rid;
 
 	e_cal_component_get_uid (comp, &uid);
+	rid = e_cal_component_get_recurid_as_string (comp);
 
 	pitip->progress_info_id = itip_view_add_lower_info_item (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_PROGRESS, 
 								 "Searching for an existing version of this appointment");
@@ -544,6 +547,7 @@ find_server (FormatItipPObject *pitip, ECalComponent *comp)
 				fd = g_new0 (FormatItipFindData, 1);
 				fd->pitip = pitip;
 				fd->uid = g_strdup (uid);
+				fd->rid = g_strdup (rid);
 				
 				if (pitip->start_time && pitip->end_time) {
 					start = isodate_from_time_t (pitip->start_time);
@@ -1326,9 +1330,11 @@ view_response_cb (GtkWidget *widget, ItipViewResponse response, gpointer data)
 
 	/* check if it is a  recur instance (no master object) and
 	 * add a property */
-	prop = icalproperty_new_x ("All");	
-	icalproperty_set_x_name (prop, "X-GW-RECUR-INSTANCES-MOD-TYPE");
-	icalcomponent_add_property (e_cal_component_get_icalcomponent (pitip->comp), prop);
+	if (itip_view_get_recur_check_state (ITIP_VIEW (pitip->view))) {
+		prop = icalproperty_new_x ("All");	
+		icalproperty_set_x_name (prop, "X-GW-RECUR-INSTANCES-MOD-TYPE");
+		icalcomponent_add_property (pitip->ical_comp, prop);
+	}
 
 	switch (response) {
 	case ITIP_VIEW_RESPONSE_ACCEPT:
@@ -1461,6 +1467,26 @@ view_response_cb (GtkWidget *widget, ItipViewResponse response, gpointer data)
 }
 
 static gboolean
+check_is_instance (icalcomponent *icalcomp) 
+{
+	icalproperty *icalprop;
+
+	icalprop = icalcomponent_get_first_property (icalcomp, ICAL_X_PROPERTY);
+	while (icalprop) {
+		const char *x_name;
+
+		x_name = icalproperty_get_x_name (icalprop);
+		if (!strcmp (x_name, "X-GW-RECURRENCE-KEY")) {
+			return TRUE;
+			break;
+		}
+		icalprop = icalcomponent_get_next_property (icalcomp, ICAL_X_PROPERTY);
+	}
+
+	return FALSE;
+}
+
+static gboolean
 format_itip_object (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject *pobject)
 {
 	FormatItipPObject *pitip = (FormatItipPObject *) pobject;
@@ -1470,6 +1496,7 @@ format_itip_object (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject 
 	icaltimezone *from_zone, *to_zone;
 	GString *gstring = NULL;
 	GSList *list, *l;
+	icalcomponent *icalcomp;
 	const char *string;
 	int i;
 
@@ -1646,7 +1673,7 @@ format_itip_object (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject 
 			from_zone = icaltimezone_get_utc_timezone ();
 		else if (!datetime.value->is_utc && datetime.tzid) 
 			from_zone = icalcomponent_get_timezone (pitip->top_level, datetime.tzid);
-		else
+		else	
 			from_zone = NULL;
 		
 		start_tm = icaltimetype_to_tm_with_zone (datetime.value, from_zone, to_zone);
@@ -1654,7 +1681,22 @@ format_itip_object (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject 
 		itip_view_set_start (ITIP_VIEW (pitip->view), &start_tm);
 		pitip->start_time = icaltime_as_timet_with_zone (*datetime.value, from_zone);
 	}
-	e_cal_component_free_datetime (&datetime);
+
+	icalcomp = e_cal_component_get_icalcomponent (pitip->comp);
+
+	/* Set the recurrence id */
+	if (check_is_instance (icalcomp)) {
+		ECalComponentRange *recur_id;
+
+		*datetime.value = icaltime_convert_to_zone (*datetime.value, to_zone);
+		datetime.tzid = icaltimezone_get_tzid (to_zone);
+
+		recur_id = g_new0 (ECalComponentRange, 1);
+		recur_id->type = E_CAL_COMPONENT_RANGE_SINGLE;
+		recur_id->datetime = datetime;
+		e_cal_component_set_recurid (pitip->comp, recur_id);
+	}
+	
 
 	e_cal_component_get_dtend (pitip->comp, &datetime);
 	pitip->end_time = 0;

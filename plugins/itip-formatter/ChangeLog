@@ -1,3 +1,14 @@
+2005-07-19  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	* itip-formatter.c: 
+	(source_selected_cb), (find_cal_opened_cb): Check if 
+	the component is a recurring and show the recurring check box.
+	(view_response_cb): Set the MOD-TYPE property while accepting
+	all instances.
+	(check_is_instance): Checks if its a recurring event.
+	(format_itip_object):
+	(find_server): Set the recurrence id.
+
 2005-07-11  Harish Krishnaswamy  <kharish@novell.com>
 
 	* itip-formatter.c (source_selected_cb), 
