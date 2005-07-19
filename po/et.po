@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-07-17 13:48+0000\n"
-"PO-Revision-Date: 2005-07-18 15:12+0300\n"
+"PO-Revision-Date: 2005-07-19 12:00+0300\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -11267,14 +11267,12 @@ msgid "Valid signature but cannot verify sender"
 msgstr "Signatuur kehtib kuid saatjat pole võimalik tuvastada"
 
 #: ../mail/em-format-html.c:693
-#, fuzzy
 msgid "Unknown error verifying signed messaage"
-msgstr "Tundmatu viga allkirja tõestamisel"
+msgstr "Tundmatu viga signeeritud sõnumi verifitseerimisel"
 
 #: ../mail/em-format-html.c:758
-#, fuzzy
 msgid "Unknown error decrypting messaage"
-msgstr "Tundmatu viga allkirja tõestamisel"
+msgstr "Tundmatu viga sõnumi lahtikrüptimisel"
 
 #: ../mail/em-format-html.c:967
 msgid "Malformed external-body part."
@@ -11453,7 +11451,7 @@ msgstr ""
 #: ../mail/em-migrate.c:2561 ../mail/em-migrate.c:2573
 #, c-format
 msgid "Failed to create local mail storage `%s': %s"
-msgstr ""
+msgstr "Tõrge kohaliku postisalvesti `%s' loomisel: %s"
 
 #: ../mail/em-migrate.c:2693
 #, c-format
@@ -11723,15 +11721,15 @@ msgid "Load images for HTML messages over http"
 msgstr "Laadi HTML sõnumite pildid üle http"
 
 #: ../mail/evolution-mail.schemas.in.in.h:39
-#, fuzzy
 msgid ""
 "Load images for HTML messages over http(s). Possible values are: 0 - Never "
 "load images off the net 1 - Load images in mail from contacts 2 - Always "
 "load images off the net"
 msgstr ""
-"Laadi HTML sõnumite pildid üle http(s). Võimalikud väärtused on: 0 - Kunagi "
-"ära laadi pilte võrgust maha 2 - Laadi pildid ainult siis kui saatja on "
-"aadressiraamatus 3 - Alati laadi pildid võrgust maha."
+"HTML sõnumite piltide laadimine üle http(s) protokolli. Võimalikud väärtused "
+"on: 0 - Pilte ei laadita mitte kunagi võrgust maha 1 - Pildid laaditakse "
+"ainult kontaktide hulgast tulnud sõnumite puhul 2 - Pildid laaditakse alati "
+"võrgust maha"
 
 #: ../mail/evolution-mail.schemas.in.in.h:40
 msgid "Log filter actions"
@@ -12032,9 +12030,8 @@ msgid "Evolution Elm importer"
 msgstr "Evolutioni Elm'i importija"
 
 #: ../mail/importers/elm-importer.c:383
-#, fuzzy
 msgid "Import mail from Elm."
-msgstr "Postkasti importimine"
+msgstr "Postkasti importimine programmist Elm."
 
 #: ../mail/importers/evolution-mbox-importer.c:82
 #: ../mail/importers/evolution-outlook-importer.c:131
@@ -12152,14 +12149,13 @@ msgid "Evolution Pine importer"
 msgstr "Evolutioni Pine'i importija"
 
 #: ../mail/importers/pine-importer.c:435
-#, fuzzy
 msgid "Import mail from Pine."
-msgstr "Üksiku _faili importimine"
+msgstr "Postkasti importimine programmist Pine."
 
 #: ../mail/mail-autofilter.c:78
 #, c-format
 msgid "Mail to %s"
-msgstr ""
+msgstr "Sõnumi saaja: %s"
 
 #: ../mail/mail-autofilter.c:242 ../mail/mail-autofilter.c:281
 #, c-format
@@ -12345,9 +12341,8 @@ msgid "<span weight=\"bold\">Message Fonts</span>"
 msgstr "<span weight=\"bold\">Sõnumi kirjatüübid</span>"
 
 #: ../mail/mail-config.glade.h:23
-#, fuzzy
 msgid "<span weight=\"bold\">Message Receipts</span>"
-msgstr "<span weight=\"bold\">Sõnumi kirjatüübid</span>"
+msgstr "<span weight=\"bold\">Sõnumi saajad</span>"
 
 #: ../mail/mail-config.glade.h:24
 msgid "<span weight=\"bold\">New Mail Notification</span>"
@@ -12709,9 +12704,8 @@ msgid "Select HTML variable width font for printing"
 msgstr "Vali trükkimise jaoks HTML muutuva laiusega kirjatüüp"
 
 #: ../mail/mail-config.glade.h:127
-#, fuzzy
 msgid "Send message receipts:"
-msgstr "_Saada sõnum"
+msgstr ""
 
 #: ../mail/mail-config.glade.h:129
 msgid "Sending Mail"
@@ -13607,9 +13601,8 @@ msgid "Querying server for a list of supported authentication mechanisms."
 msgstr "Serverilt autentimismehhanismide loendi küsimine."
 
 #: ../mail/mail.error.xml.h:77
-#, fuzzy
 msgid "Read receipt requested."
-msgstr "_Vastamise stiil:"
+msgstr ""
 
 #: ../mail/mail.error.xml.h:78
 msgid "Really delete folder &quot;{0}&quot; and all of its subfolders?"
@@ -17236,14 +17229,12 @@ msgid "Cancel the current mail operation"
 msgstr "Katkestab käimasoleva sõnumioperatsiooni"
 
 #: ../ui/evolution-mail-global.xml.h:3
-#, fuzzy
 msgid "Copy the selected folder into another folder"
-msgstr "Kopeerib valitud sõnumi teise kausta"
+msgstr "Valitud kausta kopeerimine teise kausta alla"
 
 #: ../ui/evolution-mail-global.xml.h:4
-#, fuzzy
 msgid "Create a new folder for storing mail"
-msgstr "Loo vKaust selle postiloendi jaoks"
+msgstr "Uue kausta loomine e-posti hoidmiseks"
 
 #: ../ui/evolution-mail-global.xml.h:5
 msgid "Create or edit rules for filtering new mail"
@@ -17263,24 +17254,20 @@ msgid "F_older"
 msgstr "Ka_ust"
 
 #: ../ui/evolution-mail-global.xml.h:9
-#, fuzzy
 msgid "Message F_ilters"
-msgstr "Kirjade filtrid"
+msgstr "Sõnumif_iltrid"
 
 #: ../ui/evolution-mail-global.xml.h:10
-#, fuzzy
 msgid "Message _List As"
-msgstr "Sõnum on rämps"
+msgstr ""
 
 #: ../ui/evolution-mail-global.xml.h:11
-#, fuzzy
 msgid "Message _Preview"
-msgstr "Sõnumi päis"
+msgstr ""
 
 #: ../ui/evolution-mail-global.xml.h:12
-#, fuzzy
 msgid "Move the selected folder into another folder"
-msgstr "Tõstab valitud sõnumi(d) teise kausta"
+msgstr "Valitud kausta tõstmine teise kausta alla"
 
 #: ../ui/evolution-mail-global.xml.h:13
 msgid "Permanently remove all deleted messages from all folders"
@@ -17318,23 +17305,20 @@ msgid "_New Search _Folder (FIXME)"
 msgstr ""
 
 #: ../ui/evolution-mail-global.xml.h:21
-#, fuzzy
 msgid "_New..."
-msgstr "_Uus"
+msgstr "_Uus..."
 
 #: ../ui/evolution-mail-global.xml.h:22
-#, fuzzy
 msgid "_Subscriptions"
-msgstr "Kaustade tellimused"
+msgstr "_Tellimused"
 
 #: ../ui/evolution-mail-list.xml.h:1
-#, fuzzy
 msgid "Change the name of this folder"
-msgstr "Muuda kausta omadusi"
+msgstr "Kausta nime muutmine"
 
 #: ../ui/evolution-mail-list.xml.h:2
 msgid "Change the properties of this folder"
-msgstr "Muuda kausta omadusi"
+msgstr "Kausta omaduste muutmine"
 
 #: ../ui/evolution-mail-list.xml.h:3 ../ui/evolution-mail-message.xml.h:12
 msgid "Copy selected message(s) to the clipboard"
@@ -17375,9 +17359,8 @@ msgid "Permanently remove all deleted messages from this folder"
 msgstr "Eemaldab lõplikult sellest kaustadest kõik kustutatud sõnumid"
 
 #: ../ui/evolution-mail-list.xml.h:13
-#, fuzzy
 msgid "Permanently remove this folder"
-msgstr "Eemaldab lõplikult sellest kaustadest kõik kustutatud sõnumid"
+msgstr "Kausta lõplik eemaldamine"
 
 #: ../ui/evolution-mail-list.xml.h:14
 #, fuzzy
@@ -17423,15 +17406,13 @@ msgid "Un_read Messages"
 msgstr "Lugemata sõnumeid:"
 
 #: ../ui/evolution-mail-list.xml.h:25
-#, fuzzy
 msgid "_All"
-msgstr "_Alarm"
+msgstr "_Kõik"
 
 #: ../ui/evolution-mail-list.xml.h:27 ../ui/evolution-mail-message.xml.h:110
 #: ../ui/evolution-mail-messagedisplay.xml.h:7
-#, fuzzy
 msgid "_Message"
-msgstr "_Sõnumid"
+msgstr "_Sõnum"
 
 #: ../ui/evolution-mail-list.xml.h:30
 #, fuzzy
@@ -17485,9 +17466,8 @@ msgid "Copy selected messages to another folder"
 msgstr "Kopeerib valitud sõnumi teise kausta"
 
 #: ../ui/evolution-mail-message.xml.h:14
-#, fuzzy
 msgid "Create R_ule"
-msgstr "Kausta loomine"
+msgstr ""
 
 #: ../ui/evolution-mail-message.xml.h:15
 msgid "Create a rule to filter messages from this sender"
@@ -17639,9 +17619,8 @@ msgid "Mark the selected messages for deletion"
 msgstr "Märgib valitud sõnumid kustutatuks"
 
 #: ../ui/evolution-mail-message.xml.h:56
-#, fuzzy
 msgid "Message Source"
-msgstr "Sõnumite säilitamine"
+msgstr ""
 
 #: ../ui/evolution-mail-message.xml.h:57
 msgid "Move"
@@ -17758,9 +17737,8 @@ msgid "Un-delete the selected messages"
 msgstr "Taastab valitud sõnumi"
 
 #: ../ui/evolution-mail-message.xml.h:93
-#, fuzzy
 msgid "Uni_mportant"
-msgstr "Tähtis"
+msgstr "_Vähetähtis"
 
 #: ../ui/evolution-mail-message.xml.h:94
 #, fuzzy
@@ -17787,38 +17765,32 @@ msgid "Zoom _Out"
 msgstr ""
 
 #: ../ui/evolution-mail-message.xml.h:99
-#, fuzzy
 msgid "_Caret Mode"
-msgstr "_Redigeerimisrežiim"
+msgstr ""
 
 #: ../ui/evolution-mail-message.xml.h:102
-#, fuzzy
 msgid "_Delete Message"
-msgstr "Peida _kustutatud sõnumid"
+msgstr "_Kustuta sõnum"
 
 #: ../ui/evolution-mail-message.xml.h:104
-#, fuzzy
 msgid "_Find in Message..."
-msgstr "Otsing sõnumist"
+msgstr "_Otsi sõnumist..."
 
 #: ../ui/evolution-mail-message.xml.h:106
 msgid "_Go To"
 msgstr "_Liigu"
 
 #: ../ui/evolution-mail-message.xml.h:107
-#, fuzzy
 msgid "_Important"
-msgstr "Tähtis"
+msgstr "_Tähtis"
 
 #: ../ui/evolution-mail-message.xml.h:108
-#, fuzzy
 msgid "_Junk"
-msgstr "Rämpspost"
+msgstr "_Rämps"
 
 #: ../ui/evolution-mail-message.xml.h:109
-#, fuzzy
 msgid "_Load Images"
-msgstr "_Lae pildid"
+msgstr "_Laadi pildid"
 
 #: ../ui/evolution-mail-message.xml.h:112
 msgid "_Next Message"
@@ -17835,23 +17807,20 @@ msgid "_Not Junk"
 msgstr "Ei ole rämps"
 
 #: ../ui/evolution-mail-message.xml.h:115
-#, fuzzy
 msgid "_Open in New Window"
-msgstr "Uues _aknas avamine"
+msgstr "_Ava uues aknas"
 
 #: ../ui/evolution-mail-message.xml.h:116
 msgid "_Previous Message"
 msgstr "_Eelmine sõnum"
 
 #: ../ui/evolution-mail-message.xml.h:120
-#, fuzzy
 msgid "_Save Message..."
-msgstr "Sõnumi salvestamine..."
+msgstr "_Salvesta sõnum..."
 
 #: ../ui/evolution-mail-message.xml.h:121
-#, fuzzy
 msgid "_Undelete Message"
-msgstr "_Järgmine sõnum"
+msgstr ""
 
 #: ../ui/evolution-mail-message.xml.h:122
 #, fuzzy
@@ -17914,9 +17883,8 @@ msgid "Encrypt this message with PGP"
 msgstr "Krüpti sõnum PGPga"
 
 #: ../ui/evolution-message-composer.xml.h:8
-#, fuzzy
 msgid "Encrypt this message with your S/MIME Encryption Certificate"
-msgstr "Krüptib kirja sinu S/MIME krüptimissertifikaadi abil"
+msgstr "Sõnumi krüptimine sinu S/MIME krüptimissertifikaadi abil"
 
 #: ../ui/evolution-message-composer.xml.h:9
 #: ../ui/evolution-signature-editor.xml.h:4
@@ -17940,9 +17908,8 @@ msgid "PGP Sign"
 msgstr "PGP allkiri"
 
 #: ../ui/evolution-message-composer.xml.h:15
-#, fuzzy
 msgid "Request read receipt"
-msgstr "Nõutav osaleja"
+msgstr ""
 
 #: ../ui/evolution-message-composer.xml.h:16
 msgid "S/MIME Encrypt"
@@ -18301,9 +18268,8 @@ msgid "_Quick Reference"
 msgstr "_Kiirviide"
 
 #: ../ui/evolution.xml.h:40
-#, fuzzy
 msgid "_Quit"
-msgstr "_Tsiteeritud"
+msgstr "_Välju"
 
 #: ../ui/evolution.xml.h:41
 msgid "_Send / Receive"
