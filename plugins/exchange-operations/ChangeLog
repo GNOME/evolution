@@ -1,3 +1,11 @@
+2005-07-18  Sarfraaz Ahmed <asarfraaz@novell.com>
+
+	* exchange-folder-size-display.c (parent_destroyed) : This is no longer
+	needed. gtk_widget_destroy will take care of destroying it. 
+	Fixes #310699
+	* exchange-account-setup.c (org_gnome_exchange_settings) : Fixed a 
+	warning. Alignment cannot be set for a radio button
+
 2005-07-15  Shakti Sen <shprasad@novell.com>
 
 	* exchange-folder-permission.c: Added the functions 

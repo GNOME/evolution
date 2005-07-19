@@ -63,12 +63,6 @@ format_size_func (GtkTreeViewColumn *col,
 	g_free (new_text);
 }
 
-static void
-parent_destroyed (gpointer dialog, GObject *ex_parent)
-{
-	gtk_dialog_response (dialog, GTK_RESPONSE_CANCEL);
-}
-
 void
 exchange_folder_size_display (GtkListStore *model, GtkWidget *parent)
 {
@@ -88,10 +82,10 @@ exchange_folder_size_display (GtkListStore *model, GtkWidget *parent)
         g_return_if_fail (xml != NULL);
         dialog = glade_xml_get_widget (xml, "folder_tree");
         table = glade_xml_get_widget (xml, "folder_treeview");
+	g_object_unref (xml);
 
         e_dialog_set_transient_for (GTK_WINDOW (dialog), parent);
 	/* fsize->parent = parent; */
-        g_object_weak_ref (G_OBJECT (parent), parent_destroyed, dialog);
 
         /* Set up the table */
 	sortable = GTK_TREE_SORTABLE (model);
@@ -118,5 +112,4 @@ exchange_folder_size_display (GtkListStore *model, GtkWidget *parent)
                                  GTK_TREE_MODEL (model));
 	response = gtk_dialog_run (GTK_DIALOG (dialog));
         gtk_widget_destroy (dialog);
-        g_object_unref (xml);
 }

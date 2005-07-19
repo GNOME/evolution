@@ -164,7 +164,8 @@ btn_fsize_clicked (GtkButton *button, gpointer data)
 	account = acclist->data; 
 
 	model = exchange_account_folder_size_get_model (account);
-	exchange_folder_size_display (model, GTK_WIDGET (button));
+	if (model)
+		exchange_folder_size_display (model, GTK_WIDGET (button));
 }
 
 /* only used in editor */
@@ -278,8 +279,6 @@ org_gnome_exchange_settings(EPlugin *epl, EConfigHookItemFactoryData *data)
 		radio_iof = (GtkRadioButton*) gtk_object_new (GTK_TYPE_RADIO_BUTTON, "label", _("I am in the office"), NULL);
 		radio_oof = (GtkRadioButton*) gtk_object_new (GTK_TYPE_RADIO_BUTTON, "label", _("I am out of the office"), "group", radio_iof, NULL);
 	}
-	gtk_misc_set_alignment (GTK_MISC (radio_iof), 0, 0.5);
-	gtk_misc_set_alignment (GTK_MISC (radio_oof), 0, 0.5);
 	gtk_signal_connect (GTK_OBJECT (radio_oof), "toggled", G_CALLBACK (toggled_state), NULL);
 	
 
