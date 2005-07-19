@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-07-17 13:48+0000\n"
-"PO-Revision-Date: 2005-07-19 16:24+0300\n"
+"PO-Revision-Date: 2005-07-19 19:10+0300\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -2771,23 +2771,20 @@ msgid "Forward Contact"
 msgstr "Edasta kontakt"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:937
-#, fuzzy
 msgid "Forward Contacts"
-msgstr "Edasta kontakt"
+msgstr "Edasta kontaktid"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:938
 msgid "Send Message to Contact"
 msgstr "Saada kontaktile sõnum"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:939
-#, fuzzy
 msgid "Send Message to List"
-msgstr "Saada kontaktile sõnum"
+msgstr "Saada sõnum postiloendisse"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:940
-#, fuzzy
 msgid "Send Message to Contacts"
-msgstr "Saada kontaktile sõnum"
+msgstr "Saada kontaktidele sõnum"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:941
 #: ../calendar/gui/calendar-commands.c:119 ../calendar/gui/print.c:2501
@@ -2802,7 +2799,7 @@ msgstr "Kopeeri aadressiraamatusse..."
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:945
 msgid "Move to Address Book..."
-msgstr "Liiguta aadressiraamatusse..."
+msgstr "Tõsta aadressiraamatusse..."
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:948
 #: ../ui/evolution-addressbook.xml.h:6 ../ui/evolution-tasks.xml.h:4
@@ -3510,9 +3507,8 @@ msgstr "GTK Puuvaade"
 #: ../addressbook/importers/evolution-vcard-importer.c:249
 #: ../calendar/importers/icalendar-importer.c:311
 #: ../calendar/importers/icalendar-importer.c:643 ../shell/shell.error.xml.h:4
-#, fuzzy
 msgid "Importing ..."
-msgstr "Importimine..."
+msgstr "Importimine ..."
 
 #: ../addressbook/importers/evolution-ldif-importer.c:651
 msgid "LDAP Data Interchange Format (.ldif)"
@@ -4484,7 +4480,6 @@ msgid "Marcus Bains Line Color - Time bar"
 msgstr "Marcus Bains'i joone värv - ajariba"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:28
-#, fuzzy
 msgid "Minute the workday ends on, 0 to 59."
 msgstr "Minut, millal tööpäev lõpeb, 0 kuni 59"
 
@@ -5538,7 +5533,7 @@ msgstr "_Kopeeri"
 #: ../mail/em-folder-tree.c:1048 ../mail/em-folder-utils.c:383
 #: ../mail/em-folder-view.c:929 ../mail/message-list.c:1709
 msgid "_Move"
-msgstr "_Liiguta"
+msgstr "_Tõsta"
 
 #: ../calendar/gui/dialogs/comp-editor.c:428 ../composer/e-msg-composer.c:2911
 #: ../mail/em-folder-tree.c:1050 ../mail/message-list.c:1711
@@ -7986,9 +7981,8 @@ msgstr "Sündmused ja koosolekud"
 
 #: ../calendar/importers/icalendar-importer.c:336
 #: ../calendar/importers/icalendar-importer.c:586
-#, fuzzy
 msgid "Opening calendar"
-msgstr "Uus kalender"
+msgstr "Kalendri avamine"
 
 #: ../calendar/importers/icalendar-importer.c:429
 msgid "iCalendar files (.ics)"
@@ -8966,7 +8960,7 @@ msgstr "Aasia/Pyongyang"
 
 #: ../calendar/zones.h:242
 msgid "Asia/Qatar"
-msgstr "Aasia/Qatar"
+msgstr "Aasia/Katar"
 
 #: ../calendar/zones.h:243
 msgid "Asia/Qyzylorda"
@@ -9010,7 +9004,7 @@ msgstr "Aasia/Taipei"
 
 #: ../calendar/zones.h:253
 msgid "Asia/Tashkent"
-msgstr "Aasia/Tashkent"
+msgstr "Aasia/Taškent"
 
 #: ../calendar/zones.h:254
 msgid "Asia/Tbilisi"
@@ -9230,7 +9224,7 @@ msgstr "Euroopa/London"
 
 #: ../calendar/zones.h:308
 msgid "Europe/Luxembourg"
-msgstr "Euroopa/Luxembourg"
+msgstr "Euroopa/Luksemburg"
 
 #: ../calendar/zones.h:309
 msgid "Europe/Madrid"
@@ -10188,9 +10182,8 @@ msgid "_Rule name:"
 msgstr "_Reegli nimi:"
 
 #: ../filter/filter-rule.c:819
-#, fuzzy
 msgid "If"
-msgstr "I"
+msgstr "Kui"
 
 #: ../filter/filter-rule.c:858
 msgid "if all criteria are met"
@@ -10491,9 +10484,8 @@ msgid "Protocol"
 msgstr "Protokoll"
 
 #: ../mail/em-account-prefs.c:517
-#, fuzzy
 msgid "Mail Accounts Table"
-msgstr "Postikontod"
+msgstr "Postikontode tabel"
 
 #: ../mail/em-composer-prefs.c:306 ../mail/em-composer-prefs.c:429
 #: ../mail/mail-config.c:958
@@ -10868,7 +10860,7 @@ msgstr "Kirjakaustade puu"
 #: ../mail/em-folder-tree.c:922
 #, c-format
 msgid "Moving folder %s"
-msgstr "Kausta %s liigutamine"
+msgstr "Kausta %s tõstmine"
 
 #: ../mail/em-folder-tree.c:924
 #, c-format
@@ -10878,7 +10870,7 @@ msgstr "Kausta %s kopeerimine"
 #: ../mail/em-folder-tree.c:931 ../mail/message-list.c:1613
 #, c-format
 msgid "Moving messages into folder %s"
-msgstr "Sõnumite liigutamine %s kausta"
+msgstr "Sõnumite tõstmine %s kausta"
 
 #: ../mail/em-folder-tree.c:933 ../mail/message-list.c:1615
 #, c-format
@@ -10919,7 +10911,7 @@ msgstr "_Kopeeri..."
 
 #: ../mail/em-folder-tree.c:2113
 msgid "_Move..."
-msgstr "_Liiguta..."
+msgstr "_Tõsta..."
 
 #. FIXME: need to disable for nochildren folders
 #: ../mail/em-folder-tree.c:2117
@@ -11241,12 +11233,11 @@ msgstr "_Peida"
 
 #: ../mail/em-format-html-display.c:1136
 msgid "_Fit to Width"
-msgstr ""
+msgstr "_Sobita laiusega"
 
 #: ../mail/em-format-html-display.c:1137
-#, fuzzy
 msgid "Show _Original Size"
-msgstr "_Algne suurus"
+msgstr "Näita _algset suurust"
 
 #: ../mail/em-format-html-display.c:1462
 msgid "Attachment Button"
@@ -11296,12 +11287,12 @@ msgstr "Viide kohalikule failile (%s)"
 #: ../mail/em-format-html.c:1031
 #, c-format
 msgid "Pointer to remote data (%s)"
-msgstr ""
+msgstr "Viide kaugandmetele (%s)"
 
 #: ../mail/em-format-html.c:1042
 #, c-format
 msgid "Pointer to unknown external data (\"%s\" type)"
-msgstr ""
+msgstr "Viide tundmatutele välistele andmetele (tüüp \"%s\")"
 
 #: ../mail/em-format-html.c:1270
 msgid "Formatting message"
@@ -12581,18 +12572,16 @@ msgid "Inline"
 msgstr "Samal joonel"
 
 #: ../mail/mail-config.glade.h:94
-#, fuzzy
 msgid "Languages Table"
-msgstr "Keel"
+msgstr "Keeltetabel"
 
 #: ../mail/mail-config.glade.h:96
 msgid "Mail Configuration"
 msgstr "E-posti seadistused"
 
 #: ../mail/mail-config.glade.h:97
-#, fuzzy
 msgid "Mail Headers Table"
-msgstr "Kirjakaustade puu"
+msgstr "Sõnumipäiste tabel"
 
 #: ../mail/mail-config.glade.h:99
 msgid "Mailbox location"
@@ -12736,9 +12725,8 @@ msgid "Signatures"
 msgstr "Allkirjad"
 
 #: ../mail/mail-config.glade.h:136
-#, fuzzy
 msgid "Signatures Table"
-msgstr "Allkirjad"
+msgstr "Allkirjatabel"
 
 #: ../mail/mail-config.glade.h:137
 msgid "Specify _filename:"
@@ -13039,7 +13027,7 @@ msgstr "Sõnumi salvestamine kausta"
 #: ../mail/mail-ops.c:942
 #, c-format
 msgid "Moving messages to %s"
-msgstr "Sõnumite liigutamine %s kausta"
+msgstr "Sõnumite tõstmine kausta %s"
 
 #: ../mail/mail-ops.c:942
 #, c-format
@@ -13275,10 +13263,10 @@ msgid "New vFolder"
 msgstr "Uus vKaust"
 
 #: ../mail/mail.error.xml.h:1
-#, fuzzy
 msgid ""
 "A folder named &quot;{1}&quot; already exists. Please use a different name."
-msgstr "Kaust nimega \"{1}\" on juba olemas. Palun kasuta teistsugust nime."
+msgstr ""
+"Kaust nimega &quot;{1}&quot; on juba olemas. Palun kasuta teistsugust nime."
 
 #: ../mail/mail.error.xml.h:2
 msgid ""
@@ -13301,9 +13289,8 @@ msgid ""
 msgstr ""
 
 #: ../mail/mail.error.xml.h:8
-#, fuzzy
 msgid "Are you sure you want to delete this account and all its proxies?"
-msgstr "Kas sa tõesti soovid kustutada seda kontot?"
+msgstr "Kas sa tõesti soovid kustutada seda kontot ja kõiki selle proksisid?"
 
 #: ../mail/mail.error.xml.h:9
 msgid "Are you sure you want to delete this account?"
@@ -13322,13 +13309,12 @@ msgstr ""
 "kaustadest?"
 
 #: ../mail/mail.error.xml.h:12
-#, fuzzy
 msgid ""
 "Are you sure you want to permanently remove all the deleted messages in "
 "folder &quot;{0}&quot;?"
 msgstr ""
 "Kas sa tõesti soovid jäädavalt eemaldada kõik kustutatud sõnumid kaustast "
-"\"{0}\"?"
+"&quot;{0}&quot;?"
 
 #: ../mail/mail.error.xml.h:13
 msgid "Are you sure you want to send a message in HTML format?"
@@ -13386,7 +13372,7 @@ msgstr ""
 
 #: ../mail/mail.error.xml.h:27
 msgid "Cannot move folder &quot;{0}&quot; to &quot;{1}&quot;."
-msgstr "Kausta &quot;{0}&quot; pole võimalik liigutada &quot;{1}&quot; kausta."
+msgstr "Kausta &quot;{0}&quot; pole võimalik tõsta &quot;{1}&quot; kausta."
 
 #: ../mail/mail.error.xml.h:28
 msgid "Cannot open source &quot;{1}&quot;"
@@ -13413,8 +13399,7 @@ msgstr "&quot;{0}&quot; pole võimalik &quot;{1}&quot;-ks ümber nimetada."
 
 #: ../mail/mail.error.xml.h:33
 msgid "Cannot rename or move system folder &quot;{0}&quot;."
-msgstr ""
-"Süsteemikausta &quot;{0}&quot; pole võimalik ümber nimetada ega liigutada."
+msgstr "Süsteemikausta &quot;{0}&quot; pole võimalik ümber nimetada ega tõsta."
 
 #: ../mail/mail.error.xml.h:34
 msgid "Cannot save changes to account."
@@ -14108,14 +14093,12 @@ msgid ""
 msgstr ""
 
 #: ../plugins/copy-tool/org-gnome-copy-tool.eplug.xml.h:2
-#, fuzzy
 msgid "Copy _Email Address"
-msgstr "E-posti _aadress:"
+msgstr "Kopeeri _e-posti aadress"
 
 #: ../plugins/copy-tool/org-gnome-copy-tool.eplug.xml.h:3
-#, fuzzy
 msgid "Copy tool"
-msgstr "Kopeeri kausta"
+msgstr ""
 
 #: ../plugins/default-source/default-source.c:82
 #: ../plugins/default-source/default-source.c:108
@@ -14128,19 +14111,16 @@ msgid "Open Other User's Folder"
 msgstr "Saadetud _sõnumite kaust:"
 
 #: ../plugins/exchange-operations/e-foreign-folder-dialog.glade.h:2
-#, fuzzy
 msgid "_Account:"
-msgstr "_Konto nimi:"
+msgstr "_Konto:"
 
 #: ../plugins/exchange-operations/e-foreign-folder-dialog.glade.h:3
-#, fuzzy
 msgid "_Folder Name:"
 msgstr "_Kausta nimi:"
 
 #: ../plugins/exchange-operations/e-foreign-folder-dialog.glade.h:4
-#, fuzzy
 msgid "_User:"
-msgstr "_Kasutajanimi:"
+msgstr "_Kasutaja:"
 
 #. i18n: "Secure Password Authentication" is an Outlookism
 #: ../plugins/exchange-operations/exchange-account-setup.c:62
@@ -14204,9 +14184,8 @@ msgid "Manage the delegate settings for Exchange account"
 msgstr ""
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:331
-#, fuzzy
 msgid "Delegation Assitant"
-msgstr "Evolution'i seadistusabiline"
+msgstr "Delegeerimisabiline"
 
 #. Miscelleneous settings
 #: ../plugins/exchange-operations/exchange-account-setup.c:342
@@ -14279,12 +14258,12 @@ msgid ""
 msgstr ""
 
 #: ../plugins/exchange-operations/exchange-delegates.c:261
-#, fuzzy
 msgid ""
 "Could not read folder permissions.\n"
 "Unable to edit delegates."
 msgstr ""
-"Kas soovid teisi osalejaid selle päevikukirje katkestamisest teavitada?"
+"Kausta ligipääsuõiguseid pole võimalik lugeda.\n"
+"Seetõttu pole delegaate võimalik redigeerida."
 
 #: ../plugins/exchange-operations/exchange-delegates.c:268
 msgid ""
@@ -14293,72 +14272,67 @@ msgid ""
 msgstr ""
 
 #: ../plugins/exchange-operations/exchange-delegates.c:420
-#, fuzzy
 msgid "Delegate To"
-msgstr "Delegeerida:"
+msgstr "Delegeerida kellele"
 
 #: ../plugins/exchange-operations/exchange-delegates.c:436
-#, fuzzy, c-format
+#, c-format
 msgid "Could not make %s a delegate"
-msgstr "Sõnumit pole võimalik luua."
+msgstr "%s pole võimalik delegaadiks määrata"
 
 #: ../plugins/exchange-operations/exchange-delegates.c:446
 msgid "You cannot make yourself your own delegate"
-msgstr ""
+msgstr "Ennast pole enda delegaadiks võimalik teha"
 
 #: ../plugins/exchange-operations/exchange-delegates.c:455
 #, c-format
 msgid "%s is already a delegate"
-msgstr ""
+msgstr "%s on juba delegaat"
 
 #: ../plugins/exchange-operations/exchange-delegates.c:564
 #, c-format
 msgid "Remove the delegate %s?"
-msgstr ""
+msgstr "Eemaldada delegaat %s?"
 
 #: ../plugins/exchange-operations/exchange-delegates.c:681
-#, fuzzy
 msgid "Could not access Active Directory"
-msgstr ""
-"Ei suuda luua kataloogi %s:\n"
-"%s"
+msgstr "Active Directory't pole võimalik kasutada"
 
 #: ../plugins/exchange-operations/exchange-delegates.c:696
-#, fuzzy
 msgid "Could not find self in Active Directory"
-msgstr "Puhvermälu kausta pole võimalik avada: %s "
+msgstr "Active Directory'st pole võimalik ennast leida"
 
 #: ../plugins/exchange-operations/exchange-delegates.c:709
-#, fuzzy, c-format
+#, c-format
 msgid "Could not find delegate %s in Active Directory"
-msgstr "Puhvermälu kausta pole võimalik avada: %s "
+msgstr "Delegaati %s pole võimalik Active Directory'st leida"
 
 #: ../plugins/exchange-operations/exchange-delegates.c:721
-#, fuzzy, c-format
+#, c-format
 msgid "Could not remove delegate %s"
-msgstr "Andmeid pole võimalik kirjutada: %s"
+msgstr "Delegaati %s pole võimalik eemaldada"
 
 #: ../plugins/exchange-operations/exchange-delegates.c:781
-#, fuzzy
 msgid "Could not update list of delegates."
-msgstr "Objekti pole võimalik uuendada!"
+msgstr "Delegaatide loendit pole võimalik uuendada."
 
 #: ../plugins/exchange-operations/exchange-delegates.c:799
-#, fuzzy, c-format
+#, c-format
 msgid "Could not add delegate %s"
-msgstr "Sõnumit pole võimalik saata: %s"
+msgstr "Delegaati %s pole võimalik lisada"
 
 #: ../plugins/exchange-operations/exchange-delegates.c:815
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Failed to update delegates:\n"
 "%s"
-msgstr "Tõrge sõnumi %s puhverdamisel: %s"
+msgstr ""
+"Tõrge delegaatide uuendamisel:\n"
+"%s"
 
 #: ../plugins/exchange-operations/exchange-delegates.c:968
-#, fuzzy
 msgid "Error reading delegates list."
-msgstr "Viga ülesandeloendi laadimisel"
+msgstr "Viga delegaatide loendi lugemisel."
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:1
 msgid "Author (read, create)"
@@ -14411,59 +14385,54 @@ msgid "_Tasks:"
 msgstr "_Ülesanded:"
 
 #: ../plugins/exchange-operations/exchange-delegates-user.c:144
-#, fuzzy
 msgid "Custom"
-msgstr "Kohandatud vaade"
+msgstr "Kohandatud"
 
 #: ../plugins/exchange-operations/exchange-delegates-user.c:191
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:181
-#, fuzzy, c-format
+#, c-format
 msgid "Permissions for %s"
-msgstr "Juurdepääs keelatud"
+msgstr "%s ligipääsuõigused"
 
 #: ../plugins/exchange-operations/exchange-folder.c:55
 #: ../plugins/exchange-operations/exchange-folder.c:98
 #: ../plugins/exchange-operations/exchange-folder.c:108
-#, fuzzy
 msgid "Unsubscribe Folder..."
-msgstr "Lõpeta kausta tellimus"
+msgstr "Lõpeta kausta tellimus..."
 
 #: ../plugins/exchange-operations/exchange-folder.c:300
 #: ../plugins/exchange-operations/exchange-folder.c:343
-#, fuzzy, c-format
+#, c-format
 msgid "Really unsubscribe from folder \"%s\"?"
-msgstr "Kausta \"%s\" tellimusest loobumine"
+msgstr "Kas tõesti loobuda kausta \"%s\" tellimusest?"
 
 #: ../plugins/exchange-operations/exchange-folder.c:312
 #: ../plugins/exchange-operations/exchange-folder.c:355
-#, fuzzy, c-format
+#, c-format
 msgid "Unsubscribe from \"%s\""
-msgstr "Kausta \"%s\" tellimusest loobumine"
+msgstr "\"%s\" tellimusest loobumine"
 
 #: ../plugins/exchange-operations/exchange-folder-permission.c:46
 #: ../plugins/exchange-operations/org-gnome-folder-permissions.xml.h:2
-#, fuzzy
 msgid "Permissions..."
-msgstr "Juurdepääs keelatud"
+msgstr "Ligipääsuõigused..."
 
 #: ../plugins/exchange-operations/exchange-folder-tree.glade.h:1
 msgid "Exchange Folder Tree"
 msgstr "Exchange kirjakaustade puu"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:224
-#, fuzzy
 msgid "Could not read folder permissions"
-msgstr "Kataloogi pole võimalik ümber nimetada: %s"
+msgstr "Kausta ligipääsuõiguseid pole võimalik lugeda"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:266
-#, fuzzy
 msgid "Could not update folder permissions."
-msgstr "Kausta pole võimalik salvestada: %s"
+msgstr "Kausta ligipääsuõiguseid pole võimalik uuendada."
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:295
-#, fuzzy, c-format
+#, c-format
 msgid "Could not update folder permissions. %s"
-msgstr "Kausta pole võimalik avada: %s: %s"
+msgstr "Kausta ligipääsuõiguseid pole võimalik uuendada. %s"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:297
 msgid "(Permission denied.)"
@@ -14552,14 +14521,12 @@ msgid "Role: "
 msgstr "Roll: "
 
 #: ../plugins/exchange-operations/exchange-user-dialog.c:144
-#, fuzzy
 msgid "Select User"
-msgstr "Kausta valimine"
+msgstr "Kasutaja valimine"
 
 #: ../plugins/exchange-operations/exchange-user-dialog.c:182
-#, fuzzy
 msgid "Addressbook..."
-msgstr "Aadressiraamat"
+msgstr "Aadressiraamat..."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:1
 msgid "Cannot change password due to configuration problems."
@@ -14599,9 +14566,8 @@ msgid "Could not find Exchange Web Storage System."
 msgstr ""
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:11
-#, fuzzy
 msgid "Could not locate server {0}."
-msgstr "Sõnumit pole võimalik luua."
+msgstr "Serveri {0} asukohta pole võimalik tuvastada."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:12
 #, fuzzy
@@ -14650,7 +14616,7 @@ msgstr ""
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:30
 msgid "Make sure the URL is correct and try again."
-msgstr ""
+msgstr "Veendu, et URL on õige ja proovi uuesti."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:31
 msgid "Make sure the server name is spelled correctly and try again."
@@ -14658,7 +14624,7 @@ msgstr ""
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:32
 msgid "Make sure the username and password are correct and try again."
-msgstr ""
+msgstr "Veendu, et kasutajanimi ja parool on õiged ning proovi uuesti."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:33
 msgid "No mailbox for user {0} on {1}."
@@ -14666,16 +14632,15 @@ msgstr ""
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:34
 msgid "Password successfully changed."
-msgstr ""
+msgstr "Parool on edukalt muudetud."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:35
-#, fuzzy
 msgid "Please restart Evolution"
-msgstr "Evolution'i taaskäivitamine"
+msgstr "Palun taaskäivita Evolution"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:36
 msgid "Server rejected password because it is too weak."
-msgstr ""
+msgstr "Server lükkas parooli tagasi kuna see on liiga nõrk."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:37
 msgid "The Exchange account will be disabled when you quit Evolution"
@@ -14694,6 +14659,8 @@ msgid ""
 "The server is runinng Exchange 5.5. Exchange Connector \n"
 "supports Microsoft Exchange 2000 and 2003 only."
 msgstr ""
+"Serveris töötab Exchange 5.5. Exchange Connector, mis\n"
+"toetab ainult Microsoft Exchange versioone 2000 ja 2003."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:42
 msgid ""
@@ -14717,9 +14684,8 @@ msgid "Unknown error."
 msgstr "Tundmatu viga."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:50
-#, fuzzy
 msgid "You are nearing your quota available for storing mails on this server."
-msgstr "E-posti loetakse ja hoitakse IMAP serveris."
+msgstr ""
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:51
 msgid "You have exceeded your quota for storing mails on this server."
@@ -14744,9 +14710,8 @@ msgid "Your password has expired."
 msgstr ""
 
 #: ../plugins/exchange-operations/org-gnome-folder-permissions.xml.h:1
-#, fuzzy
 msgid "Check folder permissions"
-msgstr "Kausta kooskõlalisuse kontrollimine"
+msgstr "Kausta ligipääsuõiguste kontrollimine"
 
 #: ../plugins/exchange-operations/org-gnome-folder-subscription.xml.h:1
 #, fuzzy
@@ -15351,7 +15316,6 @@ msgid "Get list _usage information"
 msgstr "_Hangi postilendi kasutusteave"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:4
-#, fuzzy
 msgid "Mailing List Actions"
 msgstr "Postiloendi toimingud"
 
@@ -15905,9 +15869,8 @@ msgid "Evolution Shell"
 msgstr "Evolutioni kest"
 
 #: ../shell/GNOME_Evolution_Shell.server.in.in.h:2
-#, fuzzy
 msgid "Evolution Shell Config factory"
-msgstr "Evolutioni kest"
+msgstr "Evolutioni kesta seadistamise factory"
 
 #: ../shell/GNOME_Evolution_Test.server.in.in.h:1
 msgid "Evolution Test"
@@ -16988,7 +16951,7 @@ msgstr "Kustutab valitud kontaktid"
 
 #: ../ui/evolution-addressbook.xml.h:11
 msgid "Move Contact(s) to Another Folder..."
-msgstr "Liiguta kontakt(id) teise kausta..."
+msgstr "Tõsta kontakt(id) teise kausta..."
 
 #: ../ui/evolution-addressbook.xml.h:12
 msgid "Move to Folder..."
@@ -17363,9 +17326,8 @@ msgid "Permanently remove this folder"
 msgstr "Kausta lõplik eemaldamine"
 
 #: ../ui/evolution-mail-list.xml.h:14
-#, fuzzy
 msgid "Select _All Messages"
-msgstr "Valib kõik peitmata sõnumid"
+msgstr "Vali _kõik sõnumid"
 
 #: ../ui/evolution-mail-list.xml.h:15
 msgid "Select all and only the messages that are not currently selected"
@@ -17380,9 +17342,8 @@ msgid "Select all visible messages"
 msgstr "Valib kõik peitmata sõnumid"
 
 #: ../ui/evolution-mail-list.xml.h:18
-#, fuzzy
 msgid "Show _Messages"
-msgstr "_Sõnumid"
+msgstr "Näita _sõnumeid"
 
 #: ../ui/evolution-mail-list.xml.h:19
 msgid "Show messages that have been temporarily hidden"
@@ -17401,9 +17362,8 @@ msgid "Threaded Message list"
 msgstr "Esitab sõnumeid jutulõngadena"
 
 #: ../ui/evolution-mail-list.xml.h:23
-#, fuzzy
 msgid "Un_read Messages"
-msgstr "Lugemata sõnumeid:"
+msgstr "_Lugemata sõnumid"
 
 #: ../ui/evolution-mail-list.xml.h:25
 msgid "_All"
@@ -17415,9 +17375,8 @@ msgid "_Message"
 msgstr "_Sõnum"
 
 #: ../ui/evolution-mail-list.xml.h:30
-#, fuzzy
 msgid "_Selected Messages"
-msgstr "Peida _valitud sõnumid"
+msgstr "_Valitud sõnumid"
 
 #: ../ui/evolution-mail-message.xml.h:1
 msgid "A_dd Sender to Address Book"
@@ -17432,9 +17391,8 @@ msgid "Add Sender to Address Book"
 msgstr "Saatja lisamine aadressiraamatusse"
 
 #: ../ui/evolution-mail-message.xml.h:4
-#, fuzzy
 msgid "All Message _Headers"
-msgstr "Sõnumi päis"
+msgstr "Kõik sõnumi _päised"
 
 #: ../ui/evolution-mail-message.xml.h:5
 msgid "Apply filter rules to the selected messages"
@@ -17624,7 +17582,7 @@ msgstr ""
 
 #: ../ui/evolution-mail-message.xml.h:57
 msgid "Move"
-msgstr "Liiguta"
+msgstr "Tõsta"
 
 #: ../ui/evolution-mail-message.xml.h:58
 msgid "Move selected message(s) to another folder"
