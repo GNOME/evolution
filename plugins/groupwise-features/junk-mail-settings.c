@@ -74,7 +74,7 @@ junk_mail_settings (EPopup *ep, EPopupItem *item, void *data)
 	CamelStore *store = folder->parent_store;	
 	cnc = get_cnc (store);	
 
-	dialog =  gtk_dialog_new_with_buttons ("Junk Settings",
+	dialog =  gtk_dialog_new_with_buttons (_("Junk Settings"),
 			NULL,
 			GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
 			GTK_STOCK_CANCEL,
@@ -87,7 +87,7 @@ junk_mail_settings (EPopup *ep, EPopupItem *item, void *data)
 	gtk_container_set_border_width ((GtkContainer *) ((GtkDialog *) dialog)->vbox, 12);
 	box = gtk_vbox_new (FALSE, 6);
 	w = gtk_label_new ("");		
-	gtk_label_set_markup (GTK_LABEL (w), "<b>Junk Mail Settings</b>");
+	gtk_label_set_markup (GTK_LABEL (w), _("<b>Junk Mail Settings</b>"));
 	gtk_box_pack_start ((GtkBox *) box, w, FALSE, FALSE, 6);
 
 	junk_tab = junk_settings_new (cnc);
@@ -124,13 +124,13 @@ org_gnome_junk_settings(EPlugin *ep, EMPopupTargetSelect *t)
 	GSList *menus = NULL;
 	
 	int i = 0;
-	static int first =1;
+	static int first = 0;
 	
 	if (! g_strrstr (t->uri, "groupwise://"))
 		return ;
 	
 	/* for translation*/
-	if (first == 1) {
+	if (!first) {
 		popup_items[0].label =  _(popup_items[0].label);
 	
 	}

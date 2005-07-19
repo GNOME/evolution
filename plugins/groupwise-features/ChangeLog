@@ -1,3 +1,7 @@
+2005-07-19  Vivek Jain <jvivek@novell.com>
+
+	* junk-mail-settings.c: Marked strings for translation
+
 2005-07-13  Tor Lillqvist  <tml@novell.com>
 
 	* Makefile.am (NO_UNDEFINED_REQUIRED_LIBS): As the code does use

@@ -348,13 +348,13 @@ org_gnome_create_option(EPlugin *ep, EMPopupTargetFolder *t)
 {
 	GSList *menus = NULL;
 	int i = 0;
-	static int first =1;
+	static int first = 0;
 	
 	if (! g_strrstr (t->uri, "groupwise://"))
 		return ;
 	
 	/* for translation*/
-	if (first) {
+	if (!first) {
 		popup_items[0].label =  _(popup_items[0].label);
 	
 	}
