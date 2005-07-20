@@ -90,6 +90,7 @@ AC_SUBST(localedir)
 
 dnl Initialize libtool
 AM_DISABLE_STATIC
+AC_LIBTOOL_WIN32_DLL
 AM_PROG_LIBTOOL
 
 dnl Win32
@@ -100,12 +101,16 @@ case "$host" in
     NO_UNDEFINED='-no-undefined'
     SOEXT='.dll'
     SA_JUNK_PLUGIN=''
+    DL_LIB=''
+    SOFTOKN3_LIB=''
     ;;
 *)  os_win32=no
     NO_UNDEFINED=''
     SOCKET_LIBS=''
     SOEXT='.so'
     SA_JUNK_PLUGIN=sa-junk-plugin
+    DL_LIB='-ldl'
+    SOFTOKN3_LIB='-lsoftokn3'
     ;;
 esac
 AC_MSG_RESULT([$os_win32])
@@ -842,10 +847,10 @@ dnl If the user specifies --with-foo or --enable-nss=static, then we have to do 
 [Please specify the path to libnspr4.a]
 [Example: --with-nspr-libs=/usr/lib])
        				else
-	       				nsprlibs="-ldl $with_nspr_libs/libplc4.a $with_nspr_libs/libplds4.a $with_nspr_libs/libnspr4.a $PTHREAD_LIB"
+	       				nsprlibs="$DL_LIB $with_nspr_libs/libplc4.a $with_nspr_libs/libplds4.a $with_nspr_libs/libnspr4.a $PTHREAD_LIB"
 				fi
 			else
-				nsprlibs="-ldl -lplc4 -lplds4 -lnspr4 $PTHREAD_LIB"
+				nsprlibs="$DL_LIB -lplc4 -lplds4 -lnspr4 $PTHREAD_LIB"
 			fi
 			
 			AC_CACHE_CHECK([for Mozilla nspr libraries], moz_nspr_libs,
@@ -924,7 +929,7 @@ dnl If the user specifies --with-foo or --enable-nss=static, then we have to do 
 					esac
 				fi
 			else
-		 		nsslibs="-lssl3 -lsmime3 -lnss3 -lsoftokn3"
+		 		nsslibs="-lssl3 -lsmime3 -lnss3 $SOFTOKN3_LIB"
 	 		fi	
 			
 			AC_CACHE_CHECK([for Mozilla nss libraries], moz_nss_libs,
@@ -934,7 +939,7 @@ dnl If the user specifies --with-foo or --enable-nss=static, then we have to do 
 		      		LIBS="$nsslibs $nsprlibs"
 				AC_TRY_LINK_FUNC(NSS_Init, moz_nss_libs="yes", moz_nss_libs="no")
 				if test "$moz_nss_libs" = no; then
-					nsslibs="-lssl3 -lsmime3 -lnss3 -lsoftokn3"
+					nsslibs="-lssl3 -lsmime3 -lnss3 $SOFTOKN3_LIB"
 					LDFLAGS="$LDFLAGS -L$with_nspr_libs $nsprlibs -L$with_nss_libs $nsslibs"
 					AC_TRY_LINK_FUNC(NSS_Init, moz_nss_libs="yes", moz_nss_libs="no")	
 				fi
@@ -1205,7 +1210,7 @@ else
 	fi
 fi
 
-EVO_SET_COMPILE_FLAGS(CERT_UI, glib-2.0 gobject-2.0 gthread-2.0,
+EVO_SET_COMPILE_FLAGS(CERT_UI, libedataserverui-$EDS_PACKAGE >= $EDS_REQUIRED libglade-2.0 gtk+-2.0 glib-2.0 gobject-2.0 gthread-2.0,
                       $MANUAL_NSS_CFLAGS $MOZILLA_NSS_CFLAGS,
 	              $MOZILLA_L_DIR $MANUAL_NSS_LIBS $MOZILLA_NSS_LIBS)
 AC_SUBST(CERT_UI_CFLAGS)

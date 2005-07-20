@@ -1,3 +1,15 @@
+2005-07-20  Tor Lillqvist  <tml@novell.com>
+
+	* configure.in: Add AC_LIBTOOL_WIN32_DLL. It is apparently
+	required when using bleeding edge libtool.
+
+	Enable building with Mozilla nspr and nss on Win32. No -ldl on
+	Win32. No import library for softokn3.dll provided by the Mozilla
+	people for some reason.
+
+	Add libedataserverui, libglade and gtk+ to the dependencies of
+	CERT_UI, as the libraries in smime call functions from them.
+
 2005-07-19  Sankar P  <psankar@novell.com>
 
 	* configure.in : Removed the proxy and proxy-login plugins as they are 
