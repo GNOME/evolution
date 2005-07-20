@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution Gnome 2.12\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-07-16 21:26+0000\n"
-"PO-Revision-Date: 2005-07-17 20:57+0930\n"
+"POT-Creation-Date: 2005-07-20 05:26+0000\n"
+"PO-Revision-Date: 2005-07-20 17:32+0930\n"
 "Last-Translator: Clytie Siddall <clytie@riverland.net.au>\n"
 "Language-Team: Gnome-Vi <gnomevi-list@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -471,6 +471,7 @@ msgstr ""
 "Evolution."
 
 #: ../addressbook/addressbook.error.xml.h:30 ../mail/em-vfolder-rule.c:494
+#: ../plugins/groupwise-features/junk-settings.glade.h:4
 #: ../plugins/groupwise-features/properties.glade.h:10
 msgid "_Add"
 msgstr "_Thêm"
@@ -2317,7 +2318,7 @@ msgstr "Dim-ba-bu-ê"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-fullname.c:89
 #: ../plugins/exchange-operations/exchange-delegates.c:939
-#: ../plugins/exchange-operations/exchange-permissions-dialog.c:696
+#: ../plugins/exchange-operations/exchange-permissions-dialog.c:708
 #: ../plugins/plugin-manager/plugin-manager.c:44
 #: ../plugins/save-attachments/save-attachments.c:362
 #: ../widgets/menus/gal-view-new-dialog.c:73
@@ -2986,7 +2987,7 @@ msgstr "Rađiô"
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:9
 #: ../calendar/gui/e-meeting-list-view.c:378
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:9
-#: ../plugins/exchange-operations/exchange-permissions-dialog.c:700
+#: ../plugins/exchange-operations/exchange-permissions-dialog.c:712
 msgid "Role"
 msgstr "Vai trò"
 
@@ -3283,12 +3284,22 @@ msgstr "Không có TLS"
 msgid "No such source"
 msgstr "Không có nguồn như vậy"
 
-#. E_BOOK_ERROR_OTHER_ERROR
+#. E_BOOK_ERROR_OFFLINE_UNAVAILABLE
 #: ../addressbook/gui/widgets/eab-gui-util.c:68
+msgid "Not available in offline mode"
+msgstr "Không sẵn sàng trong chế độ ngoại tuyến"
+
+#. E_BOOK_ERROR_OTHER_ERROR
+#: ../addressbook/gui/widgets/eab-gui-util.c:69
 msgid "Other error"
 msgstr "Lỗi khác"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:90
+#. E_BOOK_ERROR_INVALID_SERVER_VERSION
+#: ../addressbook/gui/widgets/eab-gui-util.c:70
+msgid "Invalid server version"
+msgstr "Phiên bản máy phục vụ không hợp lệ"
+
+#: ../addressbook/gui/widgets/eab-gui-util.c:92
 msgid ""
 "We were unable to open this addressbook. This either means this book is not "
 "marked for offline usage or not yet downloaded for offline usage. Please "
@@ -3298,7 +3309,7 @@ msgstr ""
 "khi ngoại tuyến, hoặc chưa tải nó về để sử dụng ngoại tuyến. Hãy tải sổ địa "
 "chỉ ấy một lần trong chế độ trực tuyến, để tải nội dung nó về."
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:99
+#: ../addressbook/gui/widgets/eab-gui-util.c:101
 #, c-format
 msgid ""
 "We were unable to open this addressbook.  Please check that the path %s "
@@ -3307,7 +3318,7 @@ msgstr ""
 "Không thể mở sổ địa chỉ này. Vui lòng kiểm tra lại có đường dẫn «%s» và bạn "
 "có quyền truy cập vào nó."
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:107
+#: ../addressbook/gui/widgets/eab-gui-util.c:109
 msgid ""
 "We were unable to open this addressbook.  This either means you have entered "
 "an incorrect URI, or the LDAP server is unreachable."
@@ -3315,7 +3326,7 @@ msgstr ""
 "Không mở được sổ địa chỉ này. Nguyên nhân hoặc là do bạn đã gõ sai địa chỉ "
 "Mạng, hoặc là do máy phục vụ LDAP không thể truy cập."
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:112
+#: ../addressbook/gui/widgets/eab-gui-util.c:114
 msgid ""
 "This version of Evolution does not have LDAP support compiled in to it.  If "
 "you want to use LDAP in Evolution, you must install an LDAP-enabled "
@@ -3324,7 +3335,7 @@ msgstr ""
 "Phiên bản Evolution này không được biên dịch để hỗ trợ LDAP. Nếu bạn muốn "
 "dùng LDAP trong Evolution, bạn phải cài đặt gói Evolution hỗ trợ LDAP."
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:119
+#: ../addressbook/gui/widgets/eab-gui-util.c:121
 msgid ""
 "We were unable to open this addressbook.  This either means you have entered "
 "an incorrect URI, or the server is unreachable."
@@ -3332,7 +3343,7 @@ msgstr ""
 "Không mở được sổ địa chỉ này. Nguyên nhân hoặc là do bạn đã gõ sai địa chỉ "
 "Mạng ấy, hoặc là do máy phục vụ không thể truy cập."
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:140
+#: ../addressbook/gui/widgets/eab-gui-util.c:142
 msgid ""
 "More cards matched this query than either the server is \n"
 "configured to return or Evolution is configured to display.\n"
@@ -3344,7 +3355,7 @@ msgstr ""
 "có thể hiển thị. Bạn hãy tìm kiếm chính xác hơn hoặc tăng giới hạn\n"
 "kết quả trong Sở thích máy phục vụ thư mục cho sổ địa chỉ này."
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:146
+#: ../addressbook/gui/widgets/eab-gui-util.c:148
 msgid ""
 "The time to execute this query exceeded the server limit or the limit\n"
 "you have configured for this addressbook.  Please make your search\n"
@@ -3356,45 +3367,45 @@ msgstr ""
 "Vui lòng tìm kiếm chính xác hơn hoặc tăng giới hạn thời gian trong\n"
 "Sở thích máy phục vụ thư mục cho sổ địa chỉ này."
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:152
+#: ../addressbook/gui/widgets/eab-gui-util.c:154
 msgid "The backend for this addressbook was unable to parse this query."
 msgstr "Hậu phương cho sổ địa chỉ này không thể phân tách truy vấn này."
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:155
+#: ../addressbook/gui/widgets/eab-gui-util.c:157
 msgid "The backend for this addressbook refused to perform this query."
 msgstr "Hậu phương cho sổ địa chỉ này từ chối thực hiện truy vấn này."
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:158
+#: ../addressbook/gui/widgets/eab-gui-util.c:160
 msgid "This query did not complete successfully."
 msgstr "Truy vấn không hoàn tất."
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:180
+#: ../addressbook/gui/widgets/eab-gui-util.c:182
 msgid "Error adding list"
 msgstr "Gặp lỗi khi thêm danh sách"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:180
-#: ../addressbook/gui/widgets/eab-gui-util.c:678
+#: ../addressbook/gui/widgets/eab-gui-util.c:182
+#: ../addressbook/gui/widgets/eab-gui-util.c:680
 msgid "Error adding contact"
 msgstr "Gặp lỗi khi thêm liên lạc"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:191
+#: ../addressbook/gui/widgets/eab-gui-util.c:193
 msgid "Error modifying list"
 msgstr "Gặp lỗi khi sửa đổi danh sách"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:191
+#: ../addressbook/gui/widgets/eab-gui-util.c:193
 msgid "Error modifying contact"
 msgstr "Gặp lỗi khi sửa đổi liên lạc"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:203
+#: ../addressbook/gui/widgets/eab-gui-util.c:205
 msgid "Error removing list"
 msgstr "Gặp lỗi khi loại bỏ danh sách"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:203
-#: ../addressbook/gui/widgets/eab-gui-util.c:636
+#: ../addressbook/gui/widgets/eab-gui-util.c:205
+#: ../addressbook/gui/widgets/eab-gui-util.c:638
 msgid "Error removing contact"
 msgstr "Gặp lỗi khi loại bỏ liên lạc"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:285
+#: ../addressbook/gui/widgets/eab-gui-util.c:287
 #, c-format
 msgid ""
 "Opening %d contact will open %d new window as well.\n"
@@ -3406,7 +3417,7 @@ msgstr[0] ""
 "[0] Việc mở %d liên lạc sẽ mở %d cửa sổ mới cùng lúc.\n"
 "Bạn có thật sự muốn hiển thị các liên lạc này không?"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:314
+#: ../addressbook/gui/widgets/eab-gui-util.c:316
 #, c-format
 msgid ""
 "%s already exists\n"
@@ -3415,54 +3426,54 @@ msgstr ""
 "Có «%s» rồi.\n"
 "Bạn có muốn ghi đè lên nó không?"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:318
+#: ../addressbook/gui/widgets/eab-gui-util.c:320
 msgid "Overwrite"
 msgstr "Ghi đè"
 
 #. more than one, finding the total number of contacts might
 #. * hit performance while saving large number of contacts
 #.
-#: ../addressbook/gui/widgets/eab-gui-util.c:363
-#: ../addressbook/gui/widgets/eab-gui-util.c:366
+#: ../addressbook/gui/widgets/eab-gui-util.c:365
+#: ../addressbook/gui/widgets/eab-gui-util.c:368
 msgid "contact"
 msgid_plural "contacts"
 msgstr[0] "liên lạc"
 
 # Filename: do not translate/ tên tập tin: đừng dịch
 #. This is a filename. Translators take note.
-#: ../addressbook/gui/widgets/eab-gui-util.c:413
+#: ../addressbook/gui/widgets/eab-gui-util.c:415
 msgid "card.vcf"
 msgstr "card.vcf"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:583
+#: ../addressbook/gui/widgets/eab-gui-util.c:585
 msgid "list"
 msgstr "danh sách"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:732
+#: ../addressbook/gui/widgets/eab-gui-util.c:734
 msgid "Move contact to"
 msgstr "Chuyển liên lạc tới"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:734
+#: ../addressbook/gui/widgets/eab-gui-util.c:736
 msgid "Copy contact to"
 msgstr "Chép liên lạc tới"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:737
+#: ../addressbook/gui/widgets/eab-gui-util.c:739
 msgid "Move contacts to"
 msgstr "Chuyển các liên lạc tới"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:739
+#: ../addressbook/gui/widgets/eab-gui-util.c:741
 msgid "Copy contacts to"
 msgstr "Chép các liên lạc tới"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:742
+#: ../addressbook/gui/widgets/eab-gui-util.c:744
 msgid "Select target addressbook."
 msgstr "Chọn sổ địa chỉ đích."
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:965
+#: ../addressbook/gui/widgets/eab-gui-util.c:967
 msgid "Multiple VCards"
 msgstr "Nhiều VCard"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:968
+#: ../addressbook/gui/widgets/eab-gui-util.c:970
 #, c-format
 msgid "VCard for %s"
 msgstr "VCard cho «%s»"
@@ -4245,7 +4256,7 @@ msgstr "Thành phần công việc Evolution"
 #: ../calendar/importers/icalendar-importer.c:707
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:384
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:576
-#: ../plugins/proxy/proxy-add-dialog.glade.h:12
+#: ../plugins/groupwise-features/proxy-add-dialog.glade.h:12
 msgid "Tasks"
 msgstr "Công việc"
 
@@ -4281,7 +4292,7 @@ msgstr ""
 "%s cho đến %s"
 
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:1
-#: ../plugins/proxy/proxy-add-dialog.glade.h:4
+#: ../plugins/groupwise-features/proxy-add-dialog.glade.h:4
 msgid "Appointments"
 msgstr "Cuộc hẹn"
 
@@ -5056,6 +5067,7 @@ msgstr "đính kèm"
 #: ../calendar/gui/dialogs/meeting-page.c:889
 #: ../composer/e-msg-composer-attachment-bar.c:470
 #: ../composer/e-msg-composer.c:3397
+#: ../plugins/groupwise-features/junk-settings.glade.h:8
 #: ../plugins/groupwise-features/properties.glade.h:14
 msgid "_Remove"
 msgstr "_Loại bỏ"
@@ -5950,7 +5962,7 @@ msgstr "<b>Từ</b>"
 #: ../plugins/calendar-weather/calendar-weather.c:370
 #: ../plugins/calendar-weather/calendar-weather.c:424
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:7
-#: ../plugins/itip-formatter/itip-formatter.c:1574
+#: ../plugins/itip-formatter/itip-formatter.c:1601
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.c:190
 #: ../widgets/misc/e-cell-date-edit.c:248 ../widgets/misc/e-dateedit.c:465
 #: ../widgets/misc/e-dateedit.c:1504 ../widgets/misc/e-dateedit.c:1673
@@ -6494,7 +6506,7 @@ msgstr "Ngày đến hạn:"
 #. Status
 #: ../calendar/gui/e-cal-component-preview.c:222
 #: ../calendar/gui/e-itip-control.c:1132
-#: ../plugins/exchange-operations/exchange-account-setup.c:263
+#: ../plugins/exchange-operations/exchange-account-setup.c:268
 #: ../plugins/itip-formatter/itip-view.c:907
 msgid "Status:"
 msgstr "Trạng thái:"
@@ -6564,8 +6576,8 @@ msgstr "Không"
 #: ../calendar/gui/e-meeting-list-view.c:182
 #: ../calendar/gui/e-meeting-store.c:124 ../calendar/gui/e-meeting-store.c:159
 #: ../calendar/gui/e-meeting-store.c:224 ../mail/em-utils.c:1175
-#: ../plugins/itip-formatter/itip-formatter.c:235
-#: ../plugins/itip-formatter/itip-formatter.c:1599
+#: ../plugins/itip-formatter/itip-formatter.c:238
+#: ../plugins/itip-formatter/itip-formatter.c:1626
 #: ../plugins/plugin-manager/plugin-manager.c:72
 #: ../shell/e-component-registry.c:205 ../shell/e-component-registry.c:211
 #: ../widgets/misc/e-charset-picker.c:62
@@ -6970,12 +6982,12 @@ msgstr ""
 #: ../calendar/gui/e-meeting-list-view.c:204
 #: ../calendar/gui/e-meeting-store.c:188 ../calendar/gui/e-meeting-store.c:211
 #: ../calendar/gui/itip-utils.c:548
-#: ../plugins/itip-formatter/itip-formatter.c:1587
+#: ../plugins/itip-formatter/itip-formatter.c:1614
 msgid "Accepted"
 msgstr "Đã chấp nhận"
 
 #: ../calendar/gui/e-itip-control.c:1141 ../calendar/gui/itip-utils.c:551
-#: ../plugins/itip-formatter/itip-formatter.c:1590
+#: ../plugins/itip-formatter/itip-formatter.c:1617
 msgid "Tentatively Accepted"
 msgstr "Tạm đã chấp nhận"
 
@@ -6983,7 +6995,7 @@ msgstr "Tạm đã chấp nhận"
 #: ../calendar/gui/e-meeting-list-view.c:205
 #: ../calendar/gui/e-meeting-store.c:190 ../calendar/gui/e-meeting-store.c:213
 #: ../calendar/gui/itip-utils.c:554 ../calendar/gui/itip-utils.c:583
-#: ../plugins/itip-formatter/itip-formatter.c:1593
+#: ../plugins/itip-formatter/itip-formatter.c:1620
 msgid "Declined"
 msgstr "Bị từ chối"
 
@@ -7205,7 +7217,7 @@ msgid "Attendee status updated\n"
 msgstr "Đã cập nhật trạng thái người tham dự rồi.\n"
 
 #: ../calendar/gui/e-itip-control.c:1979
-#: ../plugins/itip-formatter/itip-formatter.c:1001
+#: ../plugins/itip-formatter/itip-formatter.c:1005
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr ""
 "Không thể cập nhật trạng thái người tham dự vì không còn có lại mục ấy."
@@ -7374,7 +7386,7 @@ msgstr "Chưa chắc"
 #: ../calendar/gui/e-meeting-list-view.c:207
 #: ../calendar/gui/e-meeting-store.c:194 ../calendar/gui/e-meeting-store.c:217
 #: ../calendar/gui/itip-utils.c:557
-#: ../plugins/itip-formatter/itip-formatter.c:1596
+#: ../plugins/itip-formatter/itip-formatter.c:1623
 msgid "Delegated"
 msgstr "Ủy nhiệm"
 
@@ -10455,7 +10467,8 @@ msgstr "Điều khiển sở thích thư tín Evolution."
 #: ../mail/importers/elm-importer.c:342
 #: ../mail/importers/netscape-importer.c:1902
 #: ../mail/importers/pine-importer.c:388 ../mail/mail-component.c:559
-#: ../mail/mail-component.c:646 ../plugins/proxy/proxy-add-dialog.glade.h:6
+#: ../mail/mail-component.c:646
+#: ../plugins/groupwise-features/proxy-add-dialog.glade.h:6
 msgid "Mail"
 msgstr "Thư tín"
 
@@ -10521,7 +10534,7 @@ msgstr "Mặc định"
 
 #. Security settings
 #: ../mail/em-account-editor.c:2207 ../mail/mail-config.glade.h:122
-#: ../plugins/exchange-operations/exchange-account-setup.c:313
+#: ../plugins/exchange-operations/exchange-account-setup.c:316
 msgid "Security"
 msgstr "Bảo mật"
 
@@ -12400,7 +12413,7 @@ msgid "<span weight=\"bold\">Filter Options</span>"
 msgstr "<span weight=\"bold\">Tùy chọn bộ lọc</span>"
 
 #: ../mail/mail-config.glade.h:18
-#: ../plugins/itip-formatter/itip-formatter.c:1868
+#: ../plugins/itip-formatter/itip-formatter.c:1910
 msgid "<span weight=\"bold\">General</span>"
 msgstr "<span weight=\"bold\">Tổng quát</span>"
 
@@ -14299,11 +14312,11 @@ msgstr ""
 "Tùy chọn này sẽ kết nối tới máy phục vụ Exchannge dùng cách xác thực mật "
 "khẩu chữ thô (không mã hóa)."
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:251
+#: ../plugins/exchange-operations/exchange-account-setup.c:256
 msgid "Out Of Office"
 msgstr "Ở ngoại văn phòng"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:258
+#: ../plugins/exchange-operations/exchange-account-setup.c:263
 msgid ""
 "The message specified below will be automatically sent to \n"
 "each person who sends mail to you while you are out of the office."
@@ -14311,66 +14324,66 @@ msgstr ""
 "Thông điệp dưới đây sẽ được gửi tự động\n"
 "tới mỗi người gửi thư cho bạn khi bạn ở ngoài văn phòng."
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:270
 #: ../plugins/exchange-operations/exchange-account-setup.c:275
+#: ../plugins/exchange-operations/exchange-account-setup.c:280
 msgid "I am out of the office"
 msgstr "Tôi hiện thời ở ngoài văn phòng"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:271
-#: ../plugins/exchange-operations/exchange-account-setup.c:274
+#: ../plugins/exchange-operations/exchange-account-setup.c:276
+#: ../plugins/exchange-operations/exchange-account-setup.c:279
 msgid "I am in the office"
 msgstr "Tôi đang ở trong văn phòng"
 
 #. Change Password
-#: ../plugins/exchange-operations/exchange-account-setup.c:323
+#: ../plugins/exchange-operations/exchange-account-setup.c:326
 msgid "Change the password for Exchange account"
 msgstr "Thay đổi mật khẩu cho tài khoản Exchange"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:325
+#: ../plugins/exchange-operations/exchange-account-setup.c:328
 #: ../plugins/exchange-operations/exchange-change-password.glade.h:2
 msgid "Change Password"
 msgstr "Đổi mật khẩu"
 
 #. Delegation Assistant
-#: ../plugins/exchange-operations/exchange-account-setup.c:329
+#: ../plugins/exchange-operations/exchange-account-setup.c:332
 msgid "Manage the delegate settings for Exchange account"
 msgstr "Quản lý thiết lập ủy nhiệm cho tài khoản Exchange"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:331
+#: ../plugins/exchange-operations/exchange-account-setup.c:334
 msgid "Delegation Assitant"
 msgstr "Trợ tá ủy nhiệm"
 
 #. Miscelleneous settings
-#: ../plugins/exchange-operations/exchange-account-setup.c:342
+#: ../plugins/exchange-operations/exchange-account-setup.c:344
 msgid "Miscelleneous"
 msgstr "Linh tinh"
 
 #. Folder Size
-#: ../plugins/exchange-operations/exchange-account-setup.c:352
+#: ../plugins/exchange-operations/exchange-account-setup.c:354
 msgid "View the size of all Exchange folders"
 msgstr "Xem kích thước của mọi danh mục Exchange"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:354
+#: ../plugins/exchange-operations/exchange-account-setup.c:356
 msgid "Folders Size"
 msgstr "Cỡ danh mục"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:361
+#: ../plugins/exchange-operations/exchange-account-setup.c:363
 msgid "Exchange Settings"
 msgstr "Thiết lập Exchange"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:604
+#: ../plugins/exchange-operations/exchange-account-setup.c:606
 msgid "_OWA Url:"
 msgstr "Địa chỉ Mạng _OWA:"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:629
+#: ../plugins/exchange-operations/exchange-account-setup.c:631
 msgid "A_uthenticate"
 msgstr "_Xác thực"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:821
+#: ../plugins/exchange-operations/exchange-account-setup.c:823
 msgid "Authentication Type"
 msgstr "Loại xác thực"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:835
+#: ../plugins/exchange-operations/exchange-account-setup.c:837
 msgid "Ch_eck for Supported Types"
 msgstr "_Kiểm tra kiểu được hỗ trợ "
 
@@ -14381,7 +14394,9 @@ msgstr "_Kiểm tra kiểu được hỗ trợ "
 msgid ""
 "The current password does not match the existing password for your account. "
 "Please enter the correct password"
-msgstr "Mật khẩu hiện thời không khớp với mật khẩu tồn tại cho tài khoản bạn. Hãy nhập mật khẩu đúng."
+msgstr ""
+"Mật khẩu hiện thời không khớp với mật khẩu tồn tại cho tài khoản bạn. Hãy "
+"nhập mật khẩu đúng."
 
 #: ../plugins/exchange-operations/exchange-change-password.c:122
 msgid "The two passwords do not match. Please re-enter the passwords."
@@ -14409,21 +14424,24 @@ msgstr ""
 msgid ""
 "No Global Catalog server configured for this account.\n"
 "Unable to edit delegates."
-msgstr "Không có trình phục vụ Phân loại Toàn cục được cấu hình cho tài khoản này.\n"
+msgstr ""
+"Không có trình phục vụ Phân loại Toàn cục được cấu hình cho tài khoản này.\n"
 "Không thể hiệu chỉnh người được ủy nhiệm."
 
 #: ../plugins/exchange-operations/exchange-delegates.c:261
 msgid ""
 "Could not read folder permissions.\n"
 "Unable to edit delegates."
-msgstr "Không gửi được quyền truy cập danh mục.\n"
+msgstr ""
+"Không gửi được quyền truy cập danh mục.\n"
 "Không thể hiệu chỉnh người được ủy nhiệm."
 
 #: ../plugins/exchange-operations/exchange-delegates.c:268
 msgid ""
 "Could not determine folder permissions for delegates.\n"
 "Unable to edit delegates."
-msgstr "Không thể xác định quyền truy cập danh mục cho người được ủy nhiệm.\n"
+msgstr ""
+"Không thể xác định quyền truy cập danh mục cho người được ủy nhiệm.\n"
 "Không thể hiệu chỉnh người được ủy nhiệm."
 
 #: ../plugins/exchange-operations/exchange-delegates.c:420
@@ -14481,7 +14499,8 @@ msgstr "Không thể thêm người được ủy nhiệm «%s»."
 msgid ""
 "Failed to update delegates:\n"
 "%s"
-msgstr "Không thể cập nhật người được ủy nhiệm:\n"
+msgstr ""
+"Không thể cập nhật người được ủy nhiệm:\n"
 "%s"
 
 #: ../plugins/exchange-operations/exchange-delegates.c:968
@@ -14542,11 +14561,12 @@ msgid "_Tasks:"
 msgstr "_Công việc"
 
 #: ../plugins/exchange-operations/exchange-delegates-user.c:144
+#: ../plugins/exchange-operations/exchange-permissions-dialog.c:567
 msgid "Custom"
 msgstr "Tự chọn"
 
 #: ../plugins/exchange-operations/exchange-delegates-user.c:191
-#: ../plugins/exchange-operations/exchange-permissions-dialog.c:181
+#: ../plugins/exchange-operations/exchange-permissions-dialog.c:184
 #, c-format
 msgid "Permissions for %s"
 msgstr "Quyền hạn cho «%s»"
@@ -14569,7 +14589,7 @@ msgstr "Thật sự bỏ đăng ký trên danh mục «%s» không?"
 msgid "Unsubscribe from \"%s\""
 msgstr "Bỏ đăng ký trên danh mục «%s»"
 
-#: ../plugins/exchange-operations/exchange-folder-permission.c:46
+#: ../plugins/exchange-operations/exchange-folder-permission.c:51
 #: ../plugins/exchange-operations/org-gnome-folder-permissions.xml.h:2
 msgid "Permissions..."
 msgstr "Quyền hạn..."
@@ -14578,46 +14598,47 @@ msgstr "Quyền hạn..."
 msgid "Exchange Folder Tree"
 msgstr "Cây danh mục Exchange"
 
-#: ../plugins/exchange-operations/exchange-permissions-dialog.c:224
+#: ../plugins/exchange-operations/exchange-permissions-dialog.c:227
 msgid "Could not read folder permissions"
 msgstr "Không đọc được quyền truy cập danh mục."
 
-#: ../plugins/exchange-operations/exchange-permissions-dialog.c:266
+#: ../plugins/exchange-operations/exchange-permissions-dialog.c:269
 msgid "Could not update folder permissions."
 msgstr "Không thể cập nhật quyền truy cập danh mục."
 
-#: ../plugins/exchange-operations/exchange-permissions-dialog.c:295
+#: ../plugins/exchange-operations/exchange-permissions-dialog.c:298
 #, c-format
 msgid "Could not update folder permissions. %s"
 msgstr "Không thể cập nhật quyền truy cập danh mục. %s"
 
-#: ../plugins/exchange-operations/exchange-permissions-dialog.c:297
+#: ../plugins/exchange-operations/exchange-permissions-dialog.c:300
 msgid "(Permission denied.)"
 msgstr "(Không đủ quyền truy cập.)"
 
-#: ../plugins/exchange-operations/exchange-permissions-dialog.c:396
+#: ../plugins/exchange-operations/exchange-permissions-dialog.c:399
 msgid ""
 "Unable to add user to access control list:\n"
 "No Global Catalog server is configured for this account."
-msgstr "Không thêm được người dùng vào danh sách điều khiển truy cập:\n"
+msgstr ""
+"Không thêm được người dùng vào danh sách điều khiển truy cập:\n"
 "Không có trình phục vụ phân loại toàn cục được cấu hình cho tài khoản này."
 
-#: ../plugins/exchange-operations/exchange-permissions-dialog.c:414
+#: ../plugins/exchange-operations/exchange-permissions-dialog.c:417
 #, c-format
 msgid "No such user %s"
 msgstr "Không có người dùng như vậy «%s»."
 
-#: ../plugins/exchange-operations/exchange-permissions-dialog.c:418
+#: ../plugins/exchange-operations/exchange-permissions-dialog.c:421
 #, c-format
 msgid "%s cannot be added to an access control list"
 msgstr "Không thêm được «%s» vào một danh sách điều khiển truy cập."
 
-#: ../plugins/exchange-operations/exchange-permissions-dialog.c:423
+#: ../plugins/exchange-operations/exchange-permissions-dialog.c:426
 #, c-format
 msgid "Unknown error looking up %s"
 msgstr "Gặp lỗi lạ khi tra cứu «%s»."
 
-#: ../plugins/exchange-operations/exchange-permissions-dialog.c:440
+#: ../plugins/exchange-operations/exchange-permissions-dialog.c:443
 #, c-format
 msgid "%s is already in the list"
 msgstr "«%s» đã có trong danh sách."
@@ -14698,7 +14719,9 @@ msgstr "Không thể hiển thị danh mục."
 msgid ""
 "Changes to Exchange account configuration will take place after you quit and "
 "restart Evolution."
-msgstr "Các thay đổi trong cấu hình tài khoản Evolution sẽ có tác động sau khi bạn thoát rồi khởi chạy lại trình Evolution."
+msgstr ""
+"Các thay đổi trong cấu hình tài khoản Evolution sẽ có tác động sau khi bạn "
+"thoát rồi khởi chạy lại trình Evolution."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:4
 msgid "Could not authenticate to server."
@@ -14713,7 +14736,8 @@ msgid ""
 "Could not configure Exchange account because \n"
 "an unknown error occurred. Check the URL, \n"
 "username, and password, and try again."
-msgstr "Không thể cấu hình tài khoản Exchange\n"
+msgstr ""
+"Không thể cấu hình tài khoản Exchange\n"
 "vì gặp một lỗi lạ. Bạn hãy kiểm tra đã gõ đúng\n"
 "địa chỉ Mạng, tên người dùng và mật khẩu\n"
 "rồi thử lại."
@@ -14776,11 +14800,14 @@ msgstr ""
 "http://support.novell.com/cgi-bin/search/searchtid.cgi?/ximian/ximian328."
 "html\n"
 "  "
+
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:28
 msgid ""
 "If OWA is running on a different path, you must specify that in the account "
 "configuration dialog."
-msgstr "Nếu OWA đang chạy trên đường dẫn khác thì bạn cần phải ghi rõ nó trong hộp thoại cấu hình tài khoản."
+msgstr ""
+"Nếu OWA đang chạy trên đường dẫn khác thì bạn cần phải ghi rõ nó trong hộp "
+"thoại cấu hình tài khoản."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:29
 msgid "Mailbox for {0} is not on this server."
@@ -14830,7 +14857,8 @@ msgstr "Tài khoản Exchange không tương thích với Exchange Connector."
 msgid ""
 "The server is runinng Exchange 5.5. Exchange Connector \n"
 "supports Microsoft Exchange 2000 and 2003 only."
-msgstr "Máy phục vụ có chạy phần mềm Exchange phiên bản 5.5.\n"
+msgstr ""
+"Máy phục vụ có chạy phần mềm Exchange phiên bản 5.5.\n"
 "Exchange Connector hỗ trợ chỉ Exchange phiên bản 2000 và 2003."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:42
@@ -14840,7 +14868,8 @@ msgid ""
 "as part of your username (eg, &quot;DOMAIN\\user&quot;).\n"
 "\n"
 "Or you might have just typed your password wrong."
-msgstr "Rất có thể có nghĩa là máy phục vụ cần thiết\n"
+msgstr ""
+"Rất có thể có nghĩa là máy phục vụ cần thiết\n"
 "bạn ghi rõi tên miền Windows là phần của tên người dùng\n"
 "(v.d. «MIỀN\\người_dùng»).\n"
 "\n"
@@ -14878,7 +14907,9 @@ msgstr "Vậy bạn sẽ không thể gởi hay nhận thư."
 msgid ""
 "You will not be able to send mails till you clear up some space by deleting "
 "some mails."
-msgstr "Bạn sẽ không thể gởi thư đến khi bạn giải phóng thêm chỗ trống bằng cách xóa bỏ một số thư."
+msgstr ""
+"Bạn sẽ không thể gởi thư đến khi bạn giải phóng thêm chỗ trống bằng cách xóa "
+"bỏ một số thư."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:55
 msgid "Your password has expired."
@@ -14909,6 +14940,43 @@ msgstr "Bỏ đăng ký danh mục"
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:414
 msgid "Checklist"
 msgstr "Danh sách kiểm"
+
+#: ../plugins/groupwise-features/junk-mail-settings.c:77
+msgid "Junk Settings"
+msgstr "Thiết lập Rác"
+
+#: ../plugins/groupwise-features/junk-mail-settings.c:90
+msgid "<b>Junk Mail Settings</b>"
+msgstr "<b>Thiết lập Thư Rác</b>"
+
+#: ../plugins/groupwise-features/junk-mail-settings.c:112
+msgid "Junk Mail Settings..."
+msgstr "Thiết lập Thư Rác.."
+
+#: ../plugins/groupwise-features/junk-settings.glade.h:1
+msgid "<b>Junk List :</b>"
+msgstr "<b>Danh sách Rác</b>"
+
+#: ../plugins/groupwise-features/junk-settings.glade.h:2
+msgid "Email:"
+msgstr "Thư điện tử:"
+
+#: ../plugins/groupwise-features/junk-settings.glade.h:3
+msgid "Junk Mail Settings"
+msgstr "Thiết lập Thư Rác"
+
+#: ../plugins/groupwise-features/junk-settings.glade.h:5
+#: ../plugins/mail-account-disable/mail-account-disable.c:46
+msgid "_Disable"
+msgstr "_Tắt"
+
+#: ../plugins/groupwise-features/junk-settings.glade.h:6
+msgid "_Enable"
+msgstr "_Bật"
+
+#: ../plugins/groupwise-features/junk-settings.glade.h:7
+msgid "_Junk List"
+msgstr "Danh sách _Rác"
 
 #: ../plugins/groupwise-features/org-gnome-compose-send-options.xml.h:1
 msgid "Add Send Options to groupwise messages"
@@ -14965,8 +15033,9 @@ msgid "_Sharing"
 msgstr "Dùng _chung"
 
 #: ../plugins/groupwise-features/send-options.c:83
-#: ../plugins/proxy/proxy.c:459 ../plugins/proxy-login/proxy-login.c:221
-#: ../plugins/proxy-login/proxy-login.c:263
+#: ../plugins/groupwise-features/proxy.c:459
+#: ../plugins/groupwise-features/proxy-login.c:221
+#: ../plugins/groupwise-features/proxy-login.c:263
 #, c-format
 msgid "%sEnter password for %s (user %s)"
 msgstr "%sNhập mật khẩu cho «%s» (người dùng «%s»)"
@@ -14987,67 +15056,67 @@ msgstr "Danh mục _chung mới..."
 msgid "Sharing"
 msgstr "Dùng chung"
 
-#: ../plugins/itip-formatter/itip-formatter.c:715
+#: ../plugins/itip-formatter/itip-formatter.c:719
 msgid "Unable to parse item"
 msgstr "Không thể phân tach mục"
 
-#: ../plugins/itip-formatter/itip-formatter.c:768
+#: ../plugins/itip-formatter/itip-formatter.c:772
 #, c-format
 msgid "Unable to send item to calendar '%s'.  %s"
 msgstr "Không gửi được mục cho lịch «%s». %s"
 
-#: ../plugins/itip-formatter/itip-formatter.c:779
+#: ../plugins/itip-formatter/itip-formatter.c:783
 #, c-format
 msgid "Sent to calendar '%s' as accepted"
 msgstr "Đã gửi cho lịch «%s»: đã chấp nhận"
 
-#: ../plugins/itip-formatter/itip-formatter.c:783
+#: ../plugins/itip-formatter/itip-formatter.c:787
 #, c-format
 msgid "Sent to calendar '%s' as tentative"
 msgstr "Đã gửi cho lịch «%s»: dự định"
 
-#: ../plugins/itip-formatter/itip-formatter.c:788
+#: ../plugins/itip-formatter/itip-formatter.c:792
 #, c-format
 msgid "Sent to calendar '%s' as declined"
 msgstr "Đã gửi cho lịch «%s»: bị từ chối"
 
-#: ../plugins/itip-formatter/itip-formatter.c:793
+#: ../plugins/itip-formatter/itip-formatter.c:797
 #, c-format
 msgid "Sent to calendar '%s' as cancelled"
 msgstr "Đã gửi cho lịch «%s»: bị hủy bỏ"
 
-#: ../plugins/itip-formatter/itip-formatter.c:886
+#: ../plugins/itip-formatter/itip-formatter.c:890
 #, c-format
 msgid "Organizer has removed the delegate %s "
 msgstr "Bộ tổ chức đã loại bỏ người được ủy nhiệm «%s»."
 
-#: ../plugins/itip-formatter/itip-formatter.c:893
+#: ../plugins/itip-formatter/itip-formatter.c:897
 msgid "Sent a cancellation notice to the delegate"
 msgstr "Đã gởi một thông báo hủy bỏ cho người được ủy nhiệm."
 
-#: ../plugins/itip-formatter/itip-formatter.c:895
+#: ../plugins/itip-formatter/itip-formatter.c:899
 msgid "Could not send the cancellation notice to the delegate"
 msgstr "Không gửi được thông báo hủy bỏ cho người được ủy nhiệm.?"
 
-#: ../plugins/itip-formatter/itip-formatter.c:967
+#: ../plugins/itip-formatter/itip-formatter.c:971
 msgid "Attendee status could not be updated because the status is invalid"
 msgstr ""
 "Không thể cập nhật trạng thái người tham dự vì trạng thái không hợp lệ."
 
-#: ../plugins/itip-formatter/itip-formatter.c:993
+#: ../plugins/itip-formatter/itip-formatter.c:997
 #, c-format
 msgid "Unable to update attendee. %s"
 msgstr "Không cập nhật được người tham dự. %s"
 
-#: ../plugins/itip-formatter/itip-formatter.c:997
+#: ../plugins/itip-formatter/itip-formatter.c:1001
 msgid "Attendee status updated"
 msgstr "Đã cập nhật trạng thái người tham dự rồi."
 
-#: ../plugins/itip-formatter/itip-formatter.c:1124
+#: ../plugins/itip-formatter/itip-formatter.c:1128
 msgid "The calendar attached is not valid"
 msgstr "Lịch đã đính kèm không hợp lệ"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1125
+#: ../plugins/itip-formatter/itip-formatter.c:1129
 msgid ""
 "The message claims to contain a calendar, but the calendar is not valid "
 "iCalendar."
@@ -15055,15 +15124,15 @@ msgstr ""
 "Thư này tuyên bố chứa một lịch, nhưng mà lịch ấy không phải là một iCalendar "
 "hợp lệ."
 
-#: ../plugins/itip-formatter/itip-formatter.c:1159
-#: ../plugins/itip-formatter/itip-formatter.c:1174
-#: ../plugins/itip-formatter/itip-formatter.c:1250
+#: ../plugins/itip-formatter/itip-formatter.c:1163
+#: ../plugins/itip-formatter/itip-formatter.c:1178
+#: ../plugins/itip-formatter/itip-formatter.c:1254
 msgid "The item in the calendar is not valid"
 msgstr "Mục ấy trong lịch không hợp lệ."
 
-#: ../plugins/itip-formatter/itip-formatter.c:1160
-#: ../plugins/itip-formatter/itip-formatter.c:1175
-#: ../plugins/itip-formatter/itip-formatter.c:1251
+#: ../plugins/itip-formatter/itip-formatter.c:1164
+#: ../plugins/itip-formatter/itip-formatter.c:1179
+#: ../plugins/itip-formatter/itip-formatter.c:1255
 msgid ""
 "The message does contain a calendar, but the calendar contains no events, "
 "tasks or free/busy information"
@@ -15071,36 +15140,36 @@ msgstr ""
 "Thư ấy có phải chứa một lịch, nhưng mà lịch ấy không chứa sự kiện nào, công "
 "việc nào hay thông tin rảnh/bận nào."
 
-#: ../plugins/itip-formatter/itip-formatter.c:1185
+#: ../plugins/itip-formatter/itip-formatter.c:1189
 msgid "The calendar attached contains multiple items"
 msgstr "Lịch đã đính kèm chứa nhiều mục"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1186
+#: ../plugins/itip-formatter/itip-formatter.c:1190
 msgid ""
 "To process all of these items, the file should be saved and the calendar "
 "imported"
 msgstr "Để xử lý mọi mục này thì nên lưu tập tin này và nhập lịch ấy."
 
-#: ../plugins/itip-formatter/itip-formatter.c:1859
+#: ../plugins/itip-formatter/itip-formatter.c:1901
 msgid "Meetings and Tasks"
 msgstr "Cuộc họp và Công việc"
 
 #. Delete message after acting
 #. FIXME Need a schema for this
-#: ../plugins/itip-formatter/itip-formatter.c:1882
+#: ../plugins/itip-formatter/itip-formatter.c:1924
 msgid "_Delete message after acting"
 msgstr "_Xóa bỏ thư sau hành động"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1892
+#: ../plugins/itip-formatter/itip-formatter.c:1934
 msgid "<span weight=\"bold\">Conflict Search</span>"
 msgstr "<span weight=\"bold\">Tìm kiếm xung đột</span>"
 
 #. Source selector
-#: ../plugins/itip-formatter/itip-formatter.c:1905
+#: ../plugins/itip-formatter/itip-formatter.c:1947
 msgid "Select the calendars to search for meeting conflicts"
 msgstr "Chọn những lịch cần tìm kiệm cuộc họp có xung đột với nhau"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1922
+#: ../plugins/itip-formatter/itip-formatter.c:1964
 msgid "Conflict Search Table"
 msgstr "Bảng tìm kiếm xung đột"
 
@@ -15964,10 +16033,6 @@ msgstr "Hiển thị mạch trong danh sách thư, theo Chủ đề"
 msgid "Fall back to threading messages by sub_ject"
 msgstr "Trở về tạo mạch thư theo _chủ đề"
 
-#: ../plugins/mail-account-disable/mail-account-disable.c:46
-msgid "_Disable"
-msgstr "_Tắt"
-
 #: ../plugins/mail-account-disable/mail-account-disable.c:47
 msgid "Proxy _Logout"
 msgstr "Đăng _xuất ủy nhiệm"
@@ -15980,74 +16045,75 @@ msgstr "Cho phép vô hiệu hóa tài khoản"
 msgid "Disable Account"
 msgstr "Vô hiệu hóa tài khoản"
 
-#: ../plugins/proxy/proxy-listing.glade.h:1
+#: ../plugins/groupwise-features/proxy-listing.glade.h:1
 msgid "Proxy"
 msgstr "Ủy nhiệm"
 
-#: ../plugins/proxy/proxy-listing.glade.h:2 ../smime/gui/smime-ui.glade.h:49
+#: ../plugins/groupwise-features/proxy-listing.glade.h:2
+#: ../smime/gui/smime-ui.glade.h:49
 #: ../widgets/table/e-table-config-no-group.glade.h:20
 #: ../widgets/table/e-table-config.glade.h:21
 msgid "dialog1"
 msgstr "dialog1"
 
-#: ../plugins/proxy/proxy-add-dialog.glade.h:1
+#: ../plugins/groupwise-features/proxy-add-dialog.glade.h:1
 msgid "<b>Name</b>"
 msgstr "<b>Tên</b>"
 
-#: ../plugins/proxy/proxy-add-dialog.glade.h:2
+#: ../plugins/groupwise-features/proxy-add-dialog.glade.h:2
 msgid "Access Rights"
 msgstr "Quyền truy cập"
 
-#: ../plugins/proxy/proxy-add-dialog.glade.h:3
+#: ../plugins/groupwise-features/proxy-add-dialog.glade.h:3
 msgid "Add/Edit"
 msgstr "Thêm/Hiệu chỉnh"
 
-#: ../plugins/proxy/proxy-add-dialog.glade.h:5
+#: ../plugins/groupwise-features/proxy-add-dialog.glade.h:5
 msgid "Con_tacts"
 msgstr "_Liên lạc"
 
-#: ../plugins/proxy/proxy-add-dialog.glade.h:7
+#: ../plugins/groupwise-features/proxy-add-dialog.glade.h:7
 msgid "Modify _folders/options/rules/"
 msgstr "Sửa đổi _danh mục/tùy chọn/quy tắc/"
 
-#: ../plugins/proxy/proxy-add-dialog.glade.h:8
+#: ../plugins/groupwise-features/proxy-add-dialog.glade.h:8
 msgid "Read items marked _private"
 msgstr "Đọc mục có dấu _Riêng"
 
-#: ../plugins/proxy/proxy-add-dialog.glade.h:9
+#: ../plugins/groupwise-features/proxy-add-dialog.glade.h:9
 msgid "Reminder Notes"
 msgstr "Chú thích nhắc nhớ"
 
-#: ../plugins/proxy/proxy-add-dialog.glade.h:10
+#: ../plugins/groupwise-features/proxy-add-dialog.glade.h:10
 msgid "Subscribe to my _alarms"
 msgstr "Đăng ký với _báo động tôi"
 
-#: ../plugins/proxy/proxy-add-dialog.glade.h:11
+#: ../plugins/groupwise-features/proxy-add-dialog.glade.h:11
 msgid "Subscribe to my _notifications"
 msgstr "Đăng ký với _thông báo tôi"
 
-#: ../plugins/proxy/proxy-add-dialog.glade.h:13
+#: ../plugins/groupwise-features/proxy-add-dialog.glade.h:13
 #: ../ui/evolution-mail-message.xml.h:118
 msgid "_Read"
 msgstr "_Đọc"
 
-#: ../plugins/proxy/proxy-add-dialog.glade.h:14
+#: ../plugins/groupwise-features/proxy-add-dialog.glade.h:14
 msgid "_Write"
 msgstr "_Ghi"
 
-#: ../plugins/proxy/proxy.c:656
+#: ../plugins/groupwise-features/proxy.c:656
 msgid "The Proxy tab will be available only when the account is enabled."
 msgstr "Thanh Ủy nhiệm sẽ sẵn sàng chỉ khi tài khoản đ"
 
-#: ../plugins/proxy-login/proxy-login.c:485
+#: ../plugins/groupwise-features/proxy-login.c:485
 msgid "_Proxy Login..."
 msgstr "Đăng nhập ủy_ nhiệm..."
 
-#: ../plugins/proxy-login/proxy-login-dialog.glade.h:1
+#: ../plugins/groupwise-features/proxy-login-dialog.glade.h:1
 msgid "<b>Account Name</b>"
 msgstr "<b>Tên tài khoản</b>"
 
-#: ../plugins/proxy-login/proxy-login-dialog.glade.h:2
+#: ../plugins/groupwise-features/proxy-login-dialog.glade.h:2
 msgid "Proxy Login"
 msgstr "Đăng nhập ủy nhiệm"
 
