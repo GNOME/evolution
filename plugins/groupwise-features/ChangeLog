@@ -1,3 +1,9 @@
+2005-07-20  Vivek Jain <jvivek@novell.com>
+	
+	* mail-send-options.c: connect to sod-signal and get the input data in
+	the callback "feed_input_data"
+	** Fixes #310854
+
 2005-07-20  Sankar P  <psankar@novell.com>
 
 	* Consolidated the proxy and proxy-login plugins into the 

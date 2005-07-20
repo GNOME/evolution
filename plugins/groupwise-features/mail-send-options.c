@@ -56,6 +56,69 @@ add_day_to_time (time_t time, int days)
 }
 
 static void
+feed_input_data(ESendOptionsDialog * dialog, gint state, gpointer data)
+{
+	EMsgComposer *comp;
+	char value [100];
+	char *temp = NULL;
+
+	comp = (EMsgComposer *) data;
+	/* we are bothered only for ok response: other cases are handled generally*/
+	if (state == GTK_RESPONSE_OK) {	
+		if (dialog->data->gopts->reply_enabled) {
+			if (dialog->data->gopts->reply_convenient)
+				e_msg_composer_add_header (comp, X_REPLY_CONVENIENT ,"1" ) ;
+			else if (dialog->data->gopts->reply_within) {
+				time_t t;
+				t = add_day_to_time (time (NULL), dialog->data->gopts->reply_within);
+				strftime (value, 17, "%Y%m%dT%H%M%SZ", gmtime (&t));
+				e_msg_composer_add_header (comp, X_REPLY_WITHIN , value) ;
+			}
+		}
+
+		if (dialog->data->gopts->expiration_enabled) {
+			if (dialog->data->gopts->expire_after != 0) {
+				time_t t;
+				t = add_day_to_time (time (NULL), dialog->data->gopts->expire_after);
+				strftime (value, 17, "%Y%m%dT%H%M%SZ", gmtime (&t));
+				e_msg_composer_add_header (comp, X_EXPIRE_AFTER, value) ;
+			}
+		}
+		if (dialog->data->gopts->delay_enabled) {
+			strftime (value, 17, "%Y%m%dT%H%M%SZ", gmtime (&dialog->data->gopts->delay_until));
+			e_msg_composer_add_header (comp, X_DELAY_UNTIL, value) ;
+		}
+
+		/*Status Tracking Options*/
+		if (dialog->data->sopts->tracking_enabled) {
+			temp = g_strdup_printf ("%d",dialog->data->sopts->track_when) ;
+			e_msg_composer_add_header (comp, X_TRACK_WHEN, temp) ;
+			g_free (temp) ;
+		}
+
+		if (dialog->data->sopts->autodelete) {
+			e_msg_composer_add_header (comp, X_AUTODELETE, "1") ;
+		}
+		if (dialog->data->sopts->opened) {
+			temp = g_strdup_printf ("%d",dialog->data->sopts->opened) ;
+			e_msg_composer_add_header (comp, X_RETURN_NOTIFY_OPEN, temp) ;
+			g_free (temp) ;
+		}
+		if (dialog->data->sopts->declined) {
+			temp = g_strdup_printf ("%d",dialog->data->sopts->declined) ;
+			e_msg_composer_add_header (comp, X_RETURN_NOTIFY_DELETE, temp) ;
+			g_free (temp) ;
+		}
+
+		if (dialog->data->gopts->priority) {
+			temp = g_strdup_printf ("%d",dialog->data->gopts->priority);
+			e_msg_composer_add_header (comp, X_SEND_OPT_PRIORITY,temp);
+			g_free (temp);
+		}
+	} 
+}
+
+static void
 send_options_commit (EMsgComposer *comp, gpointer user_data)
 {
 	if (!user_data && !E_IS_SENDOPTIONS_DIALOG (user_data))
@@ -71,12 +134,12 @@ void
 org_gnome_compose_send_options (EPlugin *ep, EMMenuTargetWidget *t)
 {
 	struct _EMenuTarget menu = t->target ;
+
 	EMsgComposer *comp = (struct _EMsgComposer *)menu.widget ;
 	EAccount *account = NULL; 
 	char *temp = NULL;
 	char *url;
-	char value [100];
-
+	
 	account = e_msg_composer_get_preferred_account (comp) ;
 	url = g_strdup (account->transport->url) ;
 	temp = strstr (url, "groupwise") ;
@@ -92,57 +155,9 @@ org_gnome_compose_send_options (EPlugin *ep, EMMenuTargetWidget *t)
 
 	e_sendoptions_dialog_run (dialog, menu.widget, E_ITEM_MAIL) ;
 	
-	if (dialog->data->gopts->reply_enabled) {
-		if (dialog->data->gopts->reply_convenient)
-			e_msg_composer_add_header (comp, X_REPLY_CONVENIENT ,"1" ) ;
-		else if (dialog->data->gopts->reply_within) {
-			time_t t;
-			t = add_day_to_time (time (NULL), dialog->data->gopts->reply_within);
-			strftime (value, 17, "%Y%m%dT%H%M%SZ", gmtime (&t));
-			e_msg_composer_add_header (comp, X_REPLY_WITHIN , value) ;
-		}
-	}
+	g_signal_connect (dialog, "sod_response",
+				  G_CALLBACK (feed_input_data), comp);
 
-	if (dialog->data->gopts->expiration_enabled) {
-		if (dialog->data->gopts->expire_after != 0) {
-			time_t t;
-			t = add_day_to_time (time (NULL), dialog->data->gopts->expire_after);
-			strftime (value, 17, "%Y%m%dT%H%M%SZ", gmtime (&t));
-			e_msg_composer_add_header (comp, X_EXPIRE_AFTER, value) ;
-		}
-	}
-	if (dialog->data->gopts->delay_enabled) {
-		strftime (value, 17, "%Y%m%dT%H%M%SZ", gmtime (&dialog->data->gopts->delay_until));
-		e_msg_composer_add_header (comp, X_DELAY_UNTIL, value) ;
-	}
-
-	/*Status Tracking Options*/
-	if (dialog->data->sopts->tracking_enabled) {
-		temp = g_strdup_printf ("%d",dialog->data->sopts->track_when) ;
-		e_msg_composer_add_header (comp, X_TRACK_WHEN, temp) ;
-		g_free (temp) ;
-	}
-
-	if (dialog->data->sopts->autodelete) {
-		e_msg_composer_add_header (comp, X_AUTODELETE, "1") ;
-	}
-	if (dialog->data->sopts->opened) {
-		temp = g_strdup_printf ("%d",dialog->data->sopts->opened) ;
-		e_msg_composer_add_header (comp, X_RETURN_NOTIFY_OPEN, temp) ;
-		g_free (temp) ;
-	}
-	if (dialog->data->sopts->declined) {
-		temp = g_strdup_printf ("%d",dialog->data->sopts->declined) ;
-		e_msg_composer_add_header (comp, X_RETURN_NOTIFY_DELETE, temp) ;
-		g_free (temp) ;
-	}
-
-	if (dialog->data->gopts->priority) {
-		temp = g_strdup_printf ("%d",dialog->data->gopts->priority);
-		e_msg_composer_add_header (comp, X_SEND_OPT_PRIORITY,temp);
-		g_free (temp);
-	}
-       	
 	g_signal_connect (GTK_WIDGET (comp), "destroy",
 				  G_CALLBACK (send_options_commit), dialog);
 }
