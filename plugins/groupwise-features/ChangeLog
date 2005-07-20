@@ -1,3 +1,9 @@
+2005-07-20  Shreyas Srinivasan <sshreyas@novell.com>
+
+	* proxy.c: Fix #310710. Make code little smart. Stop
+	adding tabs continously. Still does not reuse structures
+	on multiple invocations though.
+	
 2005-07-20  Vivek Jain <jvivek@novell.com>
 	
 	* mail-send-options.c: connect to sod-signal and get the input data in
