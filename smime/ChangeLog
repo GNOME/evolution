@@ -1,3 +1,9 @@
+2005-07-20  Tor Lillqvist  <tml@novell.com>
+
+	* gui/Makefile.am: Use privsolib so the DLL gets installed in
+	bindir on Win32. (See ChangeLog entry in .. from 2005-06-18.) Link
+	with libeshell. Use NO_UNDEFINED.
+
 2005-06-06  JP Rosevear  <jpr@novell.com>
 
 	* lib/e-cert-db.c (install_loadable_roots): pull up missing merge

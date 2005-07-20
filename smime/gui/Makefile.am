@@ -16,7 +16,7 @@ INCLUDES =						\
 	$(EVOLUTION_ADDRESSBOOK_CFLAGS)			\
 	$(CERT_UI_CFLAGS)
 
-privlib_LTLIBRARIES = libevolution-smime.la
+privsolib_LTLIBRARIES = libevolution-smime.la
 
 libevolution_smime_la_SOURCES = 	\
 	ca-trust-dialog.c		\
@@ -34,9 +34,11 @@ libevolution_smime_la_SOURCES = 	\
 
 
 libevolution_smime_la_LIBADD =			\
+	$(top_builddir)/shell/libeshell.la	\
 	$(top_builddir)/smime/lib/libessmime.la	\
 	$(CERT_UI_LIBS)
 
+libevolution_smime_la_LDFLAGS = $(NO_UNDEFINED)
 
 glade_DATA = smime-ui.glade
 
