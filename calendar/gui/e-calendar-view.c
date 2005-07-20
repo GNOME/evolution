@@ -1419,9 +1419,7 @@ on_unrecur_appointment (EPopup *ep, EPopupItem *pitem, void *data)
 	   the start & end times to the instances times. */
 	new_comp = e_cal_component_new ();
 	e_cal_component_set_icalcomponent (new_comp, icalcomponent_new_clone (event->comp_data->icalcomp));
-	if ((prop = icalcomponent_get_first_property (e_cal_component_get_icalcomponent (new_comp),
-						      ICAL_RECURRENCEID_PROPERTY)))
-		icalcomponent_remove_property (e_cal_component_get_icalcomponent (new_comp), prop);
+	
 	new_uid = e_cal_component_gen_uid ();
 	e_cal_component_set_uid (new_comp, new_uid);
 	g_free (new_uid);

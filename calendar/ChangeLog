@@ -1,3 +1,9 @@
+2005-07-20  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #309680
+	* gui/e-calendar-view.c (on_unrecur_appointment): Remove 
+	the recurrence id only from e_cal_comp.
+
 2005-07-08  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* gui/alarm-notify/alarm-notify.c: (alarm_notify_add_calendar):
