@@ -1,3 +1,8 @@
+2005-07-19  Srinivasa Ragavan <sragavan@novell.com>
+
+	* em-folder-tree.c: (emft_popup_move) calling the wrong api to
+	move a folder. Infact it was copying for move.
+
 2005-07-14  Vivek Jain <jvivek@novell.com>
 
 	* em-composer-utils.c : included missing header

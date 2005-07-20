@@ -2020,7 +2020,7 @@ emft_popup_move(EPopup *ep, EPopupItem *item, void *data)
 	CamelFolderInfo *fi = NULL;
 
 	if ((fi = em_folder_tree_get_selected_folder_info (emft)) != NULL) {
-		em_folder_utils_copy_folder(fi);
+		em_folder_utils_move_folder(fi);
 	}
 }
 
