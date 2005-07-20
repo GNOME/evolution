@@ -104,6 +104,7 @@ struct _ESendOptionsDialog {
 
 struct _ESendOptionsDialogClass {
 	GObjectClass parent_class;
+	void (* sod_response) (ESendOptionsDialog *sd, gint status);
 };
 
 GType  e_sendoptions_dialog_get_type     (void);

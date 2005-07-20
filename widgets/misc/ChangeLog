@@ -1,3 +1,11 @@
+2005-07-20  Vivek Jain  <jvivek@novell.com>
+	
+	* e-send-options.h : ESendOptionsDialogClass: has a member new virtual
+	method for default callback of "sod_response"
+	* e-send-options.c : introduced a new signal "sod_response"
+	captures the response for the child dialog and makes it available at the
+	object level (useful for the external members invoking the dialog)
+
 2005-07-20  Srinivasa Ragavan <sragavan@novell.com>
 
 	* e-attachment-bar.[ch]:(remove_attachment) (update) (e_attachment_bar_get_selector) 

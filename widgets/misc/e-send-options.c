@@ -104,6 +104,12 @@ static void e_sendoptions_dialog_dispose (GObject *object);
 static void e_send_options_cb (GtkDialog *dialog, gint state, gpointer func_data);
 
 static GObjectClass *parent_class = NULL;
+enum {
+	SOD_RESPONSE,
+	LAST_SIGNAL
+};
+
+static guint signals[LAST_SIGNAL] = {0};
 
 static void
 e_send_options_get_widgets_data (ESendOptionsDialog *sod)
@@ -588,7 +594,7 @@ static void e_send_options_cb (GtkDialog *dialog, gint state, gpointer func_data
 
     sod = func_data;
     priv = sod->priv;
-
+	
     switch (state) {
 	case GTK_RESPONSE_OK:
 	    e_send_options_get_widgets_data (sod);
@@ -607,6 +613,8 @@ static void e_send_options_cb (GtkDialog *dialog, gint state, gpointer func_data
 		g_warning ("%s", error->message);
 	    break;
     }
+    g_signal_emit (G_OBJECT (func_data), signals[SOD_RESPONSE], 0, state);
+
 }
 
 gboolean 
@@ -787,6 +795,15 @@ e_sendoptions_dialog_class_init (GObjectClass *object)
 
 	object_class->finalize = e_sendoptions_dialog_finalize;
 	object_class->dispose = e_sendoptions_dialog_dispose;
+	signals[SOD_RESPONSE] = g_signal_new ("sod_response",
+			G_TYPE_FROM_CLASS (klass),
+			G_SIGNAL_RUN_FIRST,
+			G_STRUCT_OFFSET (ESendOptionsDialogClass, sod_response),
+			NULL, NULL,
+			g_cclosure_marshal_VOID__INT,
+			G_TYPE_NONE, 1,
+			G_TYPE_INT);
+
 }
 
 GType e_sendoptions_dialog_get_type (void)
