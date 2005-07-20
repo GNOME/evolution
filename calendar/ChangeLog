@@ -1,3 +1,11 @@
+2005-07-20  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #310340
+	* gui/e-calendar-view.c:
+	(e_calendar_view_delete_selected_occurrence): Check if the 
+	backend supports having master object for recurrences and set
+	the recurrence id accordingly.
+
 2005-07-20  Srinivasa Ragavan <sragavan@novell.com>
 	
 	* gui/dialogs/comp-editor.c: (get_attachment_list) (comp_editor_get_mime_attach_list)
@@ -25,7 +33,7 @@
 2005-07-12  Srinivasa Ragavan <sragavan@novell.com>
 
 	* gui/dialogs/comp-editor.c: (get_attachment_list) (attachment_guess_mime_type)
-	(comp_editor_close) (comp_editor_get_mime_attach_list) Fixed some compiler 
+	(comp_editor_close) (comp_editor_get_mime_attach_list): Fixed some compiler 
 	warning and checked some negative cases
 	
 2005-07-11  Srinivasa Ragavan <sragavan@novell.com>

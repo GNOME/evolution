@@ -938,11 +938,14 @@ e_calendar_view_delete_selected_occurrence (ECalendarView *cal_view)
 	e_cal_component_get_dtstart (comp, &dt);
 	e_cal_get_timezone (event->comp_data->client, dt.tzid, &zone, NULL);
 
-	if (zone)
-		itt = icaltime_from_timet_with_zone (event->comp_data->instance_start, TRUE, zone);
-	else
-		itt = icaltime_from_timet (event->comp_data->instance_start, TRUE);
-	rid = icaltime_as_ical_string (itt);
+	if (!e_cal_get_recurrences_no_master (event->comp_data->client)) {
+		if (zone)
+			itt = icaltime_from_timet_with_zone (event->comp_data->instance_start, TRUE, zone);
+		else
+			itt = icaltime_from_timet (event->comp_data->instance_start, TRUE);
+		rid = icaltime_as_ical_string (itt);
+	} else
+		rid = e_cal_component_get_recurid_as_string (comp);
 
 	e_cal_component_free_datetime (&dt);
 
@@ -952,7 +955,7 @@ e_calendar_view_delete_selected_occurrence (ECalendarView *cal_view)
 			if (itip_organizer_is_user (comp, event->comp_data->client)
 			    && cancel_component_dialog ((GtkWindow *) gtk_widget_get_toplevel (GTK_WIDGET (cal_view)),
 							event->comp_data->client,
-							comp, TRUE)) {
+							comp, TRUE) && !e_cal_get_save_schedules (event->comp_data->client)) {
 				if (!e_cal_component_is_instance (comp)) {
 					ECalComponentRange range;
 
