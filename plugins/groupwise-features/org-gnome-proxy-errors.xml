@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<error-list domain="org.gnome.evolution.proxy">
+<error id="invalid-user" type="error">
+<primary>Invalid user</primary>
+<secondary>
+Proxy access cannot be given to user &quot;{0}&quot; 
+</secondary>
+</error>
+
+<error id="no-user" type="error">
+<primary>Specify User</primary>
+<secondary>
+You have to specify a valid user name to give proxy rights.
+</secondary>
+</error>
+
+<error id="user-is-proxy" type="error">
+<primary>Specify User</primary>
+<secondary>
+You have already given proxy permissions to this user. 
+</secondary>
+</error>
+
+</error-list>

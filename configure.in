@@ -1412,7 +1412,7 @@ AC_SUBST_FILE(EVO_PLUGIN_RULE)
 AC_ARG_ENABLE(plugins, [  --enable-plugins=[no/base/all/experimental/list]      Enable plugins.],enable_plugins="$enableval",enable_plugins=all)
 
 dnl Add any new plugins here
-plugins_base="calendar-file calendar-http calendar-weather itip-formatter plugin-manager default-source addressbook-file startup-wizard print-message mark-all-read groupwise-features groupwise-account-setup mail-account-disable proxy proxy-login $SA_JUNK_PLUGIN $EXCHANGE_PLUGIN $MONO_PLUGIN" 
+plugins_base="calendar-file calendar-http calendar-weather itip-formatter plugin-manager default-source addressbook-file startup-wizard print-message mark-all-read groupwise-features groupwise-account-setup mail-account-disable $SA_JUNK_PLUGIN $EXCHANGE_PLUGIN $MONO_PLUGIN" 
 
 plugins_standard="bbdb subject-thread save-calendar select-one-source copy-tool mail-to-task mark-calendar-offline audio-inline mailing-list-actions new-mail-notify default-mailer" 
 
@@ -1695,8 +1695,6 @@ plugins/print-message/Makefile
 plugins/groupwise-account-setup/Makefile
 plugins/groupwise-features/Makefile
 plugins/mail-account-disable/Makefile
-plugins/proxy/Makefile
-plugins/proxy-login/Makefile
 plugins/sa-junk-plugin/Makefile
 smime/Makefile
 smime/lib/Makefile

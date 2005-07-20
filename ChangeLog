@@ -1,3 +1,8 @@
+2005-07-19  Sankar P  <psankar@novell.com>
+
+	* configure.in : Removed the proxy and proxy-login plugins as they are 
+	merged into the groupwise-features plugin.
+	
 2005-07-13  Tor Lillqvist  <tml@novell.com>
 
 	* configure.in: Add libedataserverui to the IMPORTERS dependency

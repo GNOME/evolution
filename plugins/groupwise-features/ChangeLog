@@ -1,6 +1,55 @@
+2005-07-20  Sankar P  <psankar@novell.com>
+
+	* Consolidated the proxy and proxy-login plugins into the 
+	groupwise-features plugins and merged the ChangeLogs and copied the 
+	following files from their old plugins directories.
+
+	* proxy.[ch]
+	* proxy-login.[ch]
+	* org-gnome-proxy-errors.xml
+	* org-gnome-proxy-login-errors.xml
+	* proxy-login-dialog.glade
+	* proxy-listing.glade
+	* proxy-add-dialog.glade
+
 2005-07-19  Vivek Jain <jvivek@novell.com>
 
 	* junk-mail-settings.c: Marked strings for translation
+
+2005-07-15  Sankar P  <psankar@novell.com>
+
+	* proxy-login.h: Removed the permissions from the structure, 
+	since it is no longer needed.
+
+2005-07-15  Sankar P  <psankar@novell.com>
+
+	* proxy-login.c: Put permissions on the store instead of the
+	global structure as it gets unref before store_add.
+	
+2005-07-14  Not Zed  <NotZed@Ximian.com>
+
+	* proxy-login.c (proxy_login_add_new_store): fixed the store
+	permission names.
+
+2005-07-14  Vivek Jain  <jvivek@novell.com>
+	
+	* proxy.c: (proxy_commit),(proxy_abort):
+	 NULL checks before we do anything else here (quite likely to be NULL)
+	**Fixes #310347
+
+2005-07-13  Tor Lillqvist  <tml@novell.com>
+
+	* Makefile.am (LIBADD): Link with libeutil. Link with
+	libevolution-mail on Win32 only. (Have I understood correctly that
+	it isn't considered a good idea on Unix to link plugins at
+	link-time with libevolution-mail?)
+
+	* org-gnome-proxy-login.eplug.xml: Use SOEXT.
+
+2005-07-13  Tor Lillqvist  <tml@novell.com>
+
+	* Makefile.am (LIBADD): Link with libeutil.
+
 
 2005-07-13  Tor Lillqvist  <tml@novell.com>
 
@@ -8,12 +57,53 @@
 	functions from libevolution-mail, link with it. But OK, let's do
 	it (at build time) only on Win32, then.
 
+2005-07-12  Sankar P  <psankar@novell.com>
+
+	* Makefile.am :
+	Added CLEANFILES element and glade and error files to EXTRA_DIST.
+
+2005-07-12  Sankar P  <psankar@novell.com>
+
+	* Makefile.am :
+	Added missed header files to the SOURCES.
+	
+2005-07-12  Sankar P  <psankar@novell.com>
+
+	* Makefile.am :
+	Added org-gnome-proxy-errors.xml file to the EXTRA_DIST and 
+	added CLEANFILES. 
+
+2005-07-12  Sankar P  <psankar@novell.com>
+
+	* Makefile.am :
+	Added missed header files to the SOURCES.
+
 2005-07-12  Vivek Jain <jvivek@novell.com>
 	
 	transferred ChangeLog entry here
 	(2005-07-10  Shreyas Srinivasan <sshreyas@novell.com>)
 	* plugins/groupwise-features/*: Remove the
 	camel-groupwise-listener code as it runs in a different plugin.
+
+2005-07-11  Sankar P  <psankar@novell.com>
+
+	* proxy.c : (org_gnome_proxy)
+	Made changes so that the proxy list will be loaded only when the 
+	account edited is enabled. So a new connection need not be created,
+	when an account is edited and a connection is not present.
+	Fixes #309999
+
+2005-07-11  Sankar P  <psankar@novell.com>
+
+	* proxy.c : 
+	(proxy_edit_account) : Added code to hide the contacts button
+	while editing proxy access rights for a proxy.
+	Fixes #309992
+
+2005-07-11  Sankar P  <psankar@novell.com>
+	
+	* proxy.c :
+	Included <string.h> header to avoid the compiler warnings.
 
 2005-07-07  Frederic Crozat  <fcrozat@mandriva.com>
 

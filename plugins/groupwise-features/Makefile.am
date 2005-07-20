@@ -10,26 +10,31 @@ INCLUDES =						\
 	$(EVOLUTION_CALENDAR_CFLAGS)			\
 	$(EVOLUTION_ADDRESSBOOK_CFLAGS)			\
 	$(CAMEL_GROUPWISE_CFLAGS)			\
-	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"
+	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
+	-DEVOLUTION_IMAGESDIR=\""$(imagesdir)"\"	
 
 @EVO_PLUGIN_RULE@
 
 plugin_DATA = org-gnome-groupwise-features.eplug org-gnome-compose-send-options.xml
 plugin_LTLIBRARIES = liborg-gnome-groupwise-features.la
 
-liborg_gnome_groupwise_features_la_SOURCES = \
-		share-folder-common.c	     \
-	       	share-folder.c 		     \
-		share-folder.h               \
-		install-shared.c             \
-		send-options.c               \
-		mail-send-options.c          \
-		mail-send-options.h          \
-		status-track.c               \
-		addressbook-groupwise.c      \
-		junk-mail-settings.c	\
-		junk-settings.c \
-		junk-settings.h
+liborg_gnome_groupwise_features_la_SOURCES = 	\
+		share-folder-common.c	     	\
+	       	share-folder.c 		     	\
+		share-folder.h               	\
+		install-shared.c             	\
+		send-options.c               	\
+		mail-send-options.c          	\
+		mail-send-options.h          	\
+		status-track.c               	\
+		addressbook-groupwise.c      	\
+		junk-mail-settings.c		\
+		junk-settings.c 		\
+		junk-settings.h			\
+		proxy.h				\
+		proxy.c				\
+		proxy-login.h			\
+		proxy-login.c				
 
 liborg_gnome_groupwise_features_la_LIBADD=			\
 	$(top_builddir)/e-util/libeutil.la			\
@@ -45,14 +50,27 @@ liborg_gnome_groupwise_features_la_LIBADD=			\
 
 liborg_gnome_groupwise_features_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)
 
-glade_DATA =properties.glade junk-settings.glade 
+glade_DATA =			\
+	properties.glade	\
+	junk-settings.glade 	\
+	proxy-add-dialog.glade	\
+	proxy-listing.glade	\
+	proxy-login-dialog.glade
 
-error_DATA = org-gnome-shared-folder.errors.xml
+error_DATA = 					\
+	org-gnome-shared-folder.errors.xml	\
+	org-gnome-proxy-errors.xml		\
+	org-gnome-proxy-login-errors.xml
+
 errordir = $(privdatadir)/errors
+
+BUILT_SOURCES = $(error_i18n)
 
 EXTRA_DIST =						\
 	$(error_DATA)					\
 	$(glade_DATA) 					\
 	org-gnome-compose-send-options.xml		\
-	org-gnome-groupwise-features.eplug.xml
+	org-gnome-groupwise-features.eplug.xml		\
+	org-gnome-proxy-login-errors.xml
+
 CLEANFILES = $(BUILT_SOURCES)

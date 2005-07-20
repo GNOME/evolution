@@ -6,6 +6,9 @@
 		<author name="Vivek Jain" email="jvivek@novell.com" />
 		<author name="Chenthill Palanisamy" email="pchenthill@novell.com"/>
 		<author name="Parthasarathi Susarla" email="sparthasarathi@novell.com"/>
+	    	<author name="Sankar P" email="psankar@novell.com"/>
+    		<author name="Shreyas Srinivasan" email="sshreyas@novell.com"/>
+
 		<_description>A plugin for the features in Groupwise accounts.</_description>
 		<hook class="org.gnome.evolution.mail.config:1.0">
 			<group id="org.gnome.evolution.mail.folderConfig" target="folder"
@@ -79,7 +82,20 @@
 					activate="org_gnome_compose_send_options"/>
 			</menu>
 		</hook>
-
+	
+		<hook class="org.gnome.evolution.mail.config:1.0">
+			<group id="org.gnome.evolution.mail.config.accountEditor" 
+				target="account" commit = "proxy_commit" abort="proxy_abort">
+				<item type="page" path="60.proxy" factory="org_gnome_proxy"/>
+			</group>
+		</hook>
+		
+		<hook class="org.gnome.evolution.mail.popup:1.0">
+		      <menu id="org.gnome.evolution.mail.foldertree.popup" target="folder"
+			factory = "org_gnome_create_proxy_login_option">
+		      </menu>
+		</hook>
+		
 	</e-plugin>
 
 </e-plugin-list>
