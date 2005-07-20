@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-07-17 13:48+0000\n"
-"PO-Revision-Date: 2005-07-19 19:10+0300\n"
+"PO-Revision-Date: 2005-07-20 14:07+0300\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -648,7 +648,7 @@ msgstr "Aadressiraamat"
 
 #: ../addressbook/gui/component/addressbook-config.c:909
 msgid "Server Information"
-msgstr "Serveri teave"
+msgstr "Serveri andmed"
 
 #: ../addressbook/gui/component/addressbook-config.c:911
 msgid "Authentication"
@@ -3276,13 +3276,13 @@ msgid ""
 msgstr ""
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:99
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "We were unable to open this addressbook.  Please check that the path %s "
 "exists and that you have permission to access it."
 msgstr ""
-"Aadressiraamatu avamine nurjus.  Palun kontrolli, kas otsingutee on õige ja "
-"kas sul on sellele vajalikud ligipääsuõigused."
+"Aadressiraamatut pole võimalik avada.  Palun kontrolli, kas rada %s on "
+"olemas ja kas sul on sellele vajalikud pääsuõigused."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:107
 msgid ""
@@ -3846,14 +3846,14 @@ msgid ""
 "All information in these journal entries will be deleted and can not be "
 "restored."
 msgstr ""
-"Kõik nende päevikukirjete kohta käiv teave kustutatakse ja seda ei ole "
+"Kõik nende päevikukirjete kohta käivad andmed kustutatakse ja neid pole "
 "võimalik enam taastada."
 
 #: ../calendar/calendar.error.xml.h:6
 msgid ""
 "All information in this journal will be deleted and can not be restored."
 msgstr ""
-"Kõik selle päeviku kohta käiv teave kustutatakse ja seda ei ole võimalik "
+"Kõik selle päeviku kohta käivad andmed kustutatakse ja neid pole võimalik "
 "enam taastada."
 
 #: ../calendar/calendar.error.xml.h:7
@@ -3861,20 +3861,20 @@ msgid ""
 "All information on these appointments will be deleted and can not be "
 "restored."
 msgstr ""
-"Kõik nende sündmuste kohta käiv teave kustutatakse ja seda ei ole võimalik "
+"Kõik nende sündmuste kohta käivad andmed kustutatakse ja neid pole võimalik "
 "enam taastada."
 
 #: ../calendar/calendar.error.xml.h:8
 msgid "All information on these tasks will be deleted and can not be restored."
 msgstr ""
-"Kõik nende ülesannete kohta käiv teave kustutatakse ja seda ei ole võimalik "
+"Kõik nende ülesannete kohta käivad andmed kustutatakse ja neid pole võimalik "
 "enam taastada."
 
 #: ../calendar/calendar.error.xml.h:9
 msgid ""
 "All information on this appointment will be deleted and can not be restored."
 msgstr ""
-"Kõik selle sündmuse kohta käiv teave kustutatakse ja seda ei ole võimalik "
+"Kõik selle sündmuse kohta käivad andmed kustutatakse ja neid pole võimalik "
 "enam taastada."
 
 #: ../calendar/calendar.error.xml.h:10
@@ -3882,20 +3882,20 @@ msgid ""
 "All information on this journal entry will be deleted and can not be "
 "restored."
 msgstr ""
-"Kõik selle päevikukirje kohta käiv teave kustutatakse ja seda ei ole "
+"Kõik selle päevikukirje kohta käivad andmed kustutatakse ja neid pole "
 "võimalik enam taastada."
 
 #: ../calendar/calendar.error.xml.h:11
 msgid ""
 "All information on this meeting will be deleted and can not be restored."
 msgstr ""
-"Kõik selle koosoleku kohta käiv teave kustutatakse ja seda ei ole võimalik "
+"Kõik selle koosoleku kohta käivad andmed kustutatakse ja neid pole võimalik "
 "enam taastada."
 
 #: ../calendar/calendar.error.xml.h:12
 msgid "All information on this task will be deleted and can not be restored."
 msgstr ""
-"Kõik selle ülesande kohta käiv teave kustutatakse ja seda ei ole võimalik "
+"Kõik selle ülesande kohta käivad andmed kustutatakse ja neid pole võimalik "
 "enam taastada."
 
 #: ../calendar/calendar.error.xml.h:13
@@ -4040,16 +4040,16 @@ msgid ""
 "Sending updated information allows other participants to keep their "
 "calendars up to date."
 msgstr ""
-"Värskendatud teave aitab teistel osalejatel nende kalendreid ajakohasena "
-"hoida"
+"Värskendatud andmete saatmine aitab teistel osalejatel nende kalendreid "
+"ajakohasena hoida"
 
 #: ../calendar/calendar.error.xml.h:43
 msgid ""
 "Sending updated information allows other participants to keep their task "
 "lists up to date."
 msgstr ""
-"Värskendatud teave aitab teistel osalejatel nende ülesannete nimekirja "
-"ajakohasena hoida"
+"Värskendatud andmete saatmine aitab teistel osalejatel nende ülesannete "
+"nimekirja ajakohasena hoida"
 
 #: ../calendar/calendar.error.xml.h:45
 msgid "The Evolution calendar has quit unexpectedly."
@@ -4106,7 +4106,7 @@ msgstr "Kas soovid osalejaid teavitada koosoleku muutusest?"
 
 #: ../calendar/calendar.error.xml.h:58
 msgid "Would you like to send updated task information to participants?"
-msgstr "Kas soovid saata osalejatele värskemat teavet ülesande kohta?"
+msgstr "Kas soovid saata osalejatele värskemaid andmeid ülesande kohta?"
 
 #: ../calendar/calendar.error.xml.h:60
 msgid "You have made changes to this appointment, but not yet saved them."
@@ -4310,7 +4310,7 @@ msgstr "Kirjeldus puudub."
 
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1056
 msgid "No location information available."
-msgstr "Asukoha kohta puudub teave."
+msgstr "Asukoha kohta puuduvad andmed."
 
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1072
 #, c-format
@@ -7143,7 +7143,7 @@ msgstr ""
 
 #: ../calendar/gui/e-itip-control.c:1947
 msgid "This response is not from a current attendee.  Add as an attendee?"
-msgstr "See vastus pole praegu kohalviibijalt. Kas lisame ta kohalviibijaks?"
+msgstr "See vastus pole praeguselt osalejalt. Kas lisame ta osalejaks?"
 
 #: ../calendar/gui/e-itip-control.c:1959
 msgid "Attendee status could not be updated because of an invalid status!\n"
@@ -10423,9 +10423,8 @@ msgid "Select Folder"
 msgstr "Kausta valimine"
 
 #: ../mail/em-account-editor.c:758
-#, fuzzy
 msgid "Ask for each message"
-msgstr "Sõnumit ei leitud"
+msgstr "Küsitakse iga sõnumi kohta"
 
 #: ../mail/em-account-editor.c:1719 ../mail/mail-config.glade.h:90
 msgid "Identity"
@@ -11638,11 +11637,11 @@ msgstr "_Väljumisel tühjendatakse kõik prügikaustad."
 
 #: ../mail/evolution-mail.schemas.in.in.h:23
 msgid "Enable caret mode, so that you can see a cursor when reading mail."
-msgstr "Luba kursorirežiim, seega sa näed kirja lugedes kursori asukohta."
+msgstr "Kursorirežiimi lubamine - siis on kirja lugemisel kursori asukoht näha."
 
 #: ../mail/evolution-mail.schemas.in.in.h:24
 msgid "Enable/disable caret mode"
-msgstr ""
+msgstr "Kursorirežiimi lubamine/keelamine"
 
 #: ../mail/evolution-mail.schemas.in.in.h:25
 msgid "Height of the message-list pane"
@@ -12341,7 +12340,7 @@ msgstr "<span weight=\"bold\">Uutest sõnumitest teatamine</span>"
 
 #: ../mail/mail-config.glade.h:25
 msgid "<span weight=\"bold\">Optional Information</span>"
-msgstr "<span weight=\"bold\">Mittekohustuslik teave</span>"
+msgstr "<span weight=\"bold\">Mittekohustuslikud andmed</span>"
 
 #: ../mail/mail-config.glade.h:26
 msgid "<span weight=\"bold\">Options</span>"
@@ -12357,7 +12356,7 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:29
 msgid "<span weight=\"bold\">Required Information</span>"
-msgstr "<span weight=\"bold\">Kohustuslik teave</span>"
+msgstr "<span weight=\"bold\">Kohustuslikud andmed</span>"
 
 #: ../mail/mail-config.glade.h:30
 msgid "<span weight=\"bold\">Secure MIME (S/MIME)</span>"
@@ -12620,7 +12619,7 @@ msgid ""
 "Please enter information about the way you will send mail. If you are not "
 "sure, ask your system administrator or Internet Service Provider."
 msgstr ""
-"Palun sisesta teave oma e-posti väljasaatmise kohta. Kui sa ei tea, mida "
+"Palun sisesta andmed oma e-posti väljasaatmise kohta. Kui sa ei tea, mida "
 "siia sisestada, küsi oma lisateavet oma süsteemiülemalt või interneti "
 "teenusepakkujalt."
 
@@ -12632,7 +12631,7 @@ msgid ""
 msgstr ""
 "Palun sisesta allpool olevasse vormi oma nimi ja e-posti aadress. "
 "Mittekohustuslikud väljad võib täita siis, kui sa soovid nendes väljades "
-"olevat teavet lisada enda saadetud sõnumitesse."
+"olevaid andmeid lisada enda saadetud sõnumitesse."
 
 #: ../mail/mail-config.glade.h:111
 msgid "Please select among the following options"
@@ -13491,15 +13490,16 @@ msgstr ""
 "sõnumid ja alamkaustad."
 
 #: ../mail/mail.error.xml.h:54
-#, fuzzy
 msgid ""
 "If you proceed, the account information and\n"
 "all proxy information will be deleted permanently."
-msgstr "Kui sa seda teed, siis konto kohta käiv teave kustutatakse jäädavalt."
+msgstr ""
+"Kui sa seda teed, siis konto ja kõik proksi\n"
+"andmed kustutatakse jäädavalt."
 
 #: ../mail/mail.error.xml.h:56
 msgid "If you proceed, the account information will be deleted permanently."
-msgstr "Kui sa seda teed, siis konto kohta käiv teave kustutatakse jäädavalt."
+msgstr "Kui sa seda teed, siis konto andmed kustutatakse jäädavalt."
 
 #: ../mail/mail.error.xml.h:57
 msgid ""
@@ -14106,9 +14106,8 @@ msgid "Mark as default folder"
 msgstr "Märgitud vaikimisi kaustaks"
 
 #: ../plugins/exchange-operations/e-foreign-folder-dialog.glade.h:1
-#, fuzzy
 msgid "Open Other User's Folder"
-msgstr "Saadetud _sõnumite kaust:"
+msgstr "Teiste kasutajate kaustade avamine"
 
 #: ../plugins/exchange-operations/e-foreign-folder-dialog.glade.h:2
 msgid "_Account:"
@@ -14194,9 +14193,8 @@ msgstr "Muu"
 
 #. Folder Size
 #: ../plugins/exchange-operations/exchange-account-setup.c:352
-#, fuzzy
 msgid "View the size of all Exchange folders"
-msgstr "koos kõigi kohalike kalatoogidega"
+msgstr "Kõikide Exchange kaustade suuruse vaatamine"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:354
 msgid "Folders Size"
@@ -14262,7 +14260,7 @@ msgid ""
 "Could not read folder permissions.\n"
 "Unable to edit delegates."
 msgstr ""
-"Kausta ligipääsuõiguseid pole võimalik lugeda.\n"
+"Kausta pääsuõiguseid pole võimalik lugeda.\n"
 "Seetõttu pole delegaate võimalik redigeerida."
 
 #: ../plugins/exchange-operations/exchange-delegates.c:268
@@ -14392,7 +14390,7 @@ msgstr "Kohandatud"
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:181
 #, c-format
 msgid "Permissions for %s"
-msgstr "%s ligipääsuõigused"
+msgstr "%s pääsuõigused"
 
 #: ../plugins/exchange-operations/exchange-folder.c:55
 #: ../plugins/exchange-operations/exchange-folder.c:98
@@ -14415,7 +14413,7 @@ msgstr "\"%s\" tellimusest loobumine"
 #: ../plugins/exchange-operations/exchange-folder-permission.c:46
 #: ../plugins/exchange-operations/org-gnome-folder-permissions.xml.h:2
 msgid "Permissions..."
-msgstr "Ligipääsuõigused..."
+msgstr "Pääsuõigused..."
 
 #: ../plugins/exchange-operations/exchange-folder-tree.glade.h:1
 msgid "Exchange Folder Tree"
@@ -14423,16 +14421,16 @@ msgstr "Exchange kirjakaustade puu"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:224
 msgid "Could not read folder permissions"
-msgstr "Kausta ligipääsuõiguseid pole võimalik lugeda"
+msgstr "Kausta pääsuõiguseid pole võimalik lugeda"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:266
 msgid "Could not update folder permissions."
-msgstr "Kausta ligipääsuõiguseid pole võimalik uuendada."
+msgstr "Kausta pääsuõiguseid pole võimalik uuendada."
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:295
 #, c-format
 msgid "Could not update folder permissions. %s"
-msgstr "Kausta ligipääsuõiguseid pole võimalik uuendada. %s"
+msgstr "Kausta pääsuõiguseid pole võimalik uuendada. %s"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:297
 msgid "(Permission denied.)"
@@ -14570,14 +14568,12 @@ msgid "Could not locate server {0}."
 msgstr "Serveri {0} asukohta pole võimalik tuvastada."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:12
-#, fuzzy
 msgid "Could not read out-of-office state"
-msgstr "Sõnumit pole võimalik luua."
+msgstr ""
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:13
-#, fuzzy
 msgid "Could not update out-of-office state"
-msgstr "Objekti pole võimalik uuendada!"
+msgstr ""
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:14
 msgid "Exchange Account is offline."
@@ -14711,12 +14707,11 @@ msgstr ""
 
 #: ../plugins/exchange-operations/org-gnome-folder-permissions.xml.h:1
 msgid "Check folder permissions"
-msgstr "Kausta ligipääsuõiguste kontrollimine"
+msgstr "Kausta pääsuõiguste kontrollimine"
 
 #: ../plugins/exchange-operations/org-gnome-folder-subscription.xml.h:1
-#, fuzzy
 msgid "Subscribe to Other User's Folder"
-msgstr "_Kaustade tellimine..."
+msgstr ""
 
 #: ../plugins/folder-unsubscribe/folder-unsubscribe.c:57
 #, c-format
@@ -14851,10 +14846,8 @@ msgid "Sent a cancellation notice to the delegate"
 msgstr ""
 
 #: ../plugins/itip-formatter/itip-formatter.c:895
-#, fuzzy
 msgid "Could not send the cancellation notice to the delegate"
-msgstr ""
-"Kas soovid teisi osalejaid selle päevikukirje katkestamisest teavitada?"
+msgstr "Tühistusteadet pole võimalik delegaadile saata"
 
 #: ../plugins/itip-formatter/itip-formatter.c:967
 msgid "Attendee status could not be updated because the status is invalid"
@@ -15233,14 +15226,12 @@ msgid "Comment:"
 msgstr "Kommentaar:"
 
 #: ../plugins/itip-formatter/itip-view.c:979
-#, fuzzy
 msgid "Send u_pdates to attendees"
-msgstr "Kalendrit `%s' pole võimalik siirdada"
+msgstr "Uuenduste saatmine osalejatele"
 
 #: ../plugins/itip-formatter/itip-view.c:988
-#, fuzzy
 msgid "A_pply to all instances"
-msgstr "Kõik juhtumid"
+msgstr ""
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.eplug.xml.h:1
 msgid "Displays text/calendar parts in messages."
@@ -15263,10 +15254,9 @@ msgid "This meeting has been delegated"
 msgstr "See kohtumine on kustutatud"
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:4
-#, fuzzy
 msgid ""
 "This response is not from a current attendee. Add the sender as an attendee?"
-msgstr "See vastus pole praegu kohalviibijalt. Kas lisame ta kohalviibijaks?"
+msgstr "See vastus pole praeguselt osalejalt. Kas lisame ta osalejaks?"
 
 #: ../plugins/mail-to-meeting/org-gnome-mail-to-meeting.eplug.xml.h:1
 msgid ""
@@ -15410,9 +15400,8 @@ msgid "_Send message"
 msgstr "_Saada sõnum"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:2
-#, fuzzy
 msgid "Contact the owner of the mailing list this message belongs to"
-msgstr "Koostab vastuse valitud sõnumi postiloendisse"
+msgstr "Ühenduse võtmine postiloendi omanikuga"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:3
 msgid "Get an archive of the list this message belongs to"
@@ -15423,19 +15412,16 @@ msgid "Get information about the usage of the list this message belongs to"
 msgstr ""
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:8
-#, fuzzy
 msgid "Post a message to the mailing list this message belongs to"
-msgstr "Koostab vastuse valitud sõnumi postiloendisse"
+msgstr "Sõnumi postitamine postiloendi omanikule"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:9
-#, fuzzy
 msgid "Subscribe to the mailing list this message belongs to"
-msgstr "Koostab vastuse valitud sõnumi postiloendisse"
+msgstr "Postiloendi, kust see sõnum pärit on, tellimine"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:10
-#, fuzzy
 msgid "Unsubscribe to the mailing list this message belongs to"
-msgstr "Koostab vastuse valitud sõnumi postiloendisse"
+msgstr "Postiloendi, kust see sõnum pärit on, tellimusest loobumine"
 
 #: ../plugins/mark-calendar-offline/org-gnome-mark-calendar-offline.eplug.xml.h:1
 msgid "Mark calendar offline"
@@ -15741,7 +15727,7 @@ msgstr ""
 #: ../plugins/startup-wizard/startup-wizard.c:140
 #: ../shell/e-shell-importer.c:145
 msgid "Please select the information that you would like to import:"
-msgstr "Palun valige teave, mida soovite importida:"
+msgstr "Palun valige andmed, mida soovite importida:"
 
 #: ../plugins/startup-wizard/startup-wizard.c:154
 #: ../shell/e-shell-importer.c:398
@@ -15806,9 +15792,8 @@ msgid "Access Rights"
 msgstr ""
 
 #: ../plugins/proxy/proxy-add-dialog.glade.h:3
-#, fuzzy
 msgid "Add/Edit"
-msgstr "Redigeermine"
+msgstr "Lisa/Redigeermi"
 
 #: ../plugins/proxy/proxy-add-dialog.glade.h:5
 msgid "Con_tacts"
@@ -15848,9 +15833,8 @@ msgid "The Proxy tab will be available only when the account is enabled."
 msgstr ""
 
 #: ../plugins/proxy-login/proxy-login.c:485
-#, fuzzy
 msgid "_Proxy Login..."
-msgstr "_Trüki..."
+msgstr "_Proksi sisselogimine..."
 
 #: ../plugins/proxy-login/proxy-login-dialog.glade.h:1
 msgid "<b>Account Name</b>"
@@ -17241,9 +17225,8 @@ msgid "Post a message to a Public folder"
 msgstr "Sõnumi postitamine avalikku kausta"
 
 #: ../ui/evolution-mail-global.xml.h:15
-#, fuzzy
 msgid "Search F_olders"
-msgstr "Kausta valimine"
+msgstr "Kaustade _otsimine"
 
 #: ../ui/evolution-mail-global.xml.h:16
 msgid "Show message preview window"
@@ -17254,14 +17237,12 @@ msgid "Subscribe or unsubscribe to folders on remote servers"
 msgstr ""
 
 #: ../ui/evolution-mail-global.xml.h:18
-#, fuzzy
 msgid "_Copy Folder To..."
-msgstr "_Kopeeri kausta..."
+msgstr "_Kopeeri kaustad asukohta..."
 
 #: ../ui/evolution-mail-global.xml.h:19
-#, fuzzy
 msgid "_Move Folder To..."
-msgstr "_Tõsta kausta..."
+msgstr "_Tõsta kaustad asukohta..."
 
 #: ../ui/evolution-mail-global.xml.h:20
 msgid "_New Search _Folder (FIXME)"
@@ -17309,9 +17290,8 @@ msgid ""
 msgstr ""
 
 #: ../ui/evolution-mail-list.xml.h:10
-#, fuzzy
 msgid "Mark Me_ssages as Read"
-msgstr "_Märgi sõnum loetuks peale"
+msgstr "_Märgi sõnumid loetuks"
 
 #: ../ui/evolution-mail-list.xml.h:11 ../ui/evolution-mail-message.xml.h:68
 msgid "Paste message(s) from the clipboard"
@@ -17399,9 +17379,8 @@ msgid "Apply filter rules to the selected messages"
 msgstr "Rakendab filtreerimisreeglid valitud sõnumitele"
 
 #: ../ui/evolution-mail-message.xml.h:6
-#, fuzzy
 msgid "Check for _Junk"
-msgstr "Kontrollin uusi sõnumeid"
+msgstr "Kontrolli _rämpsu"
 
 #: ../ui/evolution-mail-message.xml.h:7
 msgid "Compose _New Message"
@@ -17544,9 +17523,8 @@ msgid "Increase the text size"
 msgstr "Suurendab teksti suurust"
 
 #: ../ui/evolution-mail-message.xml.h:48
-#, fuzzy
 msgid "Mar_k as"
-msgstr "_Märgi loetuks"
+msgstr "Märgi _kui"
 
 #: ../ui/evolution-mail-message.xml.h:49
 msgid "Mark the selected message(s) as having been read"
@@ -17661,14 +17639,12 @@ msgid "Search for text in the body of the displayed message"
 msgstr "Otsib teksti kuvatud sõnumi sisust"
 
 #: ../ui/evolution-mail-message.xml.h:85
-#, fuzzy
 msgid "Select _All Text"
-msgstr "Vali kogu tekst"
+msgstr "V_ali kogu tekst"
 
 #: ../ui/evolution-mail-message.xml.h:86
-#, fuzzy
 msgid "Select all the text in a message"
-msgstr "Valib kõik peitmata sõnumid"
+msgstr "Sõnumi kogu teksti valimine"
 
 #: ../ui/evolution-mail-message.xml.h:87
 msgid "Set up the page settings for your current printer"
@@ -17699,24 +17675,20 @@ msgid "Uni_mportant"
 msgstr "_Vähetähtis"
 
 #: ../ui/evolution-mail-message.xml.h:94
-#, fuzzy
 msgid "VFolder on Mailing _List..."
-msgstr "vKaust _postiloendi järgi..."
+msgstr "vKaust posti_loendi järgi..."
 
 #: ../ui/evolution-mail-message.xml.h:95
-#, fuzzy
 msgid "VFolder on Recipients..."
-msgstr "vKaust _adressaatide järgi..."
+msgstr "VKaust saajate järgi..."
 
 #: ../ui/evolution-mail-message.xml.h:96
-#, fuzzy
 msgid "VFolder on S_ubject..."
-msgstr "vKaust _teema järgi..."
+msgstr "vKaust teema järgi..."
 
 #: ../ui/evolution-mail-message.xml.h:97
-#, fuzzy
 msgid "VFolder on Sen_der..."
-msgstr "vKaust _saatja järgi..."
+msgstr "vKaust saatja järgi..."
 
 #: ../ui/evolution-mail-message.xml.h:98
 msgid "Zoom _Out"
@@ -17724,7 +17696,7 @@ msgstr ""
 
 #: ../ui/evolution-mail-message.xml.h:99
 msgid "_Caret Mode"
-msgstr ""
+msgstr "_Kursorirežiim"
 
 #: ../ui/evolution-mail-message.xml.h:102
 msgid "_Delete Message"
@@ -17755,14 +17727,12 @@ msgid "_Next Message"
 msgstr "_Järgmine sõnum"
 
 #: ../ui/evolution-mail-message.xml.h:113
-#, fuzzy
 msgid "_Normal Size"
-msgstr "_Tavaline kuva"
+msgstr "_Tavaline suurus"
 
 #: ../ui/evolution-mail-message.xml.h:114
-#, fuzzy
 msgid "_Not Junk"
-msgstr "Ei ole rämps"
+msgstr "_Pole rämps"
 
 #: ../ui/evolution-mail-message.xml.h:115
 msgid "_Open in New Window"
@@ -17778,12 +17748,11 @@ msgstr "_Salvesta sõnum..."
 
 #: ../ui/evolution-mail-message.xml.h:121
 msgid "_Undelete Message"
-msgstr ""
+msgstr "_Tühista kustutus"
 
 #: ../ui/evolution-mail-message.xml.h:122
-#, fuzzy
 msgid "_Unread"
-msgstr "Märgi _mitteloetuks"
+msgstr "_Lugemata"
 
 #: ../ui/evolution-mail-message.xml.h:123
 msgid "_Zoom In"
@@ -18350,9 +18319,9 @@ msgstr "Kollektsioon"
 
 #: ../widgets/menus/gal-define-views-dialog.c:325
 #: ../widgets/menus/gal-define-views.glade.h:4
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Define Views for %s"
-msgstr "Kirjelda vaateid..."
+msgstr "Kirjelda %s vaateid..."
 
 #: ../widgets/menus/gal-define-views-dialog.c:333
 #: ../widgets/menus/gal-define-views-dialog.c:335
@@ -18362,7 +18331,7 @@ msgstr "Kirjelda vaateid"
 #: ../widgets/menus/gal-define-views.glade.h:2
 #, no-c-format
 msgid "Define Views for \"%s\""
-msgstr ""
+msgstr "\"%s\" jaoks vaadete kirjeldamine"
 
 #: ../widgets/menus/gal-define-views.glade.h:5
 msgid "_Edit..."
@@ -18717,9 +18686,8 @@ msgid "_Edit Saved Searches..."
 msgstr "_Redigeeri salvestatud otsinguid..."
 
 #: ../widgets/misc/e-filter-bar.h:94 ../widgets/misc/e-filter-bar.h:101
-#, fuzzy
 msgid "_Advanced Search..."
-msgstr "Laiendatud otsing"
+msgstr "_Laiendatud otsing..."
 
 #: ../widgets/misc/e-image-chooser.c:172
 msgid "Choose Image"
@@ -18902,7 +18870,6 @@ msgid "W_ithin"
 msgstr ""
 
 #: ../widgets/misc/e-send-options.glade.h:24
-#, fuzzy
 msgid "When acce_pted:"
 msgstr "Kui _nõustutakse:"
 
@@ -18911,7 +18878,6 @@ msgid "When co_mpleted:"
 msgstr "Kui _lõpetatakse:"
 
 #: ../widgets/misc/e-send-options.glade.h:26
-#, fuzzy
 msgid "When decli_ned:"
 msgstr "Kui k_eeldutakse:"
 
@@ -18932,7 +18898,6 @@ msgid "_Delivered"
 msgstr "_Kohale toimetatud"
 
 #: ../widgets/misc/e-send-options.glade.h:32
-#, fuzzy
 msgid "_Set expiration date"
 msgstr "_Määra aegumistähtaeg"
 
@@ -18945,9 +18910,8 @@ msgid "_When convenient"
 msgstr ""
 
 #: ../widgets/misc/e-send-options.glade.h:35
-#, fuzzy
 msgid "_When opened:"
-msgstr "_Lõpetamise kuupäev:"
+msgstr "Kui _avatakse:"
 
 #: ../widgets/misc/e-task-widget.c:208
 #, c-format
@@ -19175,7 +19139,7 @@ msgstr ""
 #: ../widgets/table/e-table-header-item.c:1838
 #: ../widgets/table/e-table-sorter.c:175
 msgid "Sort Info"
-msgstr "Sortimisteave"
+msgstr "Sortimisandmed"
 
 #: ../widgets/table/e-table-header-item.c:1852
 #: ../widgets/table/e-tree-scrolled.c:223
