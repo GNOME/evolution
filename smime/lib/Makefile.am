@@ -13,7 +13,7 @@ INCLUDES =						\
 	$(EVOLUTION_ADDRESSBOOK_CFLAGS)			\
 	$(CERT_UI_CFLAGS)
 
-privlib_LTLIBRARIES = libessmime.la
+privsolib_LTLIBRARIES = libessmime.la
 
 libessmime_la_SOURCES = 	\
 	$(MARSHAL_GENERATED)	\
@@ -27,6 +27,12 @@ libessmime_la_SOURCES = 	\
 	e-cert-db.h		\
 	e-pkcs12.c		\
 	e-pkcs12.h
+
+libessmime_la_LIBADD =				\
+	$(top_builddir)/e-util/libeutil.la	\
+	$(CERT_UI_LIBS)
+
+libessmime_la_LDFLAGS = $(NO_UNDEFINED)
 
 MARSHAL_GENERATED = smime-marshal.c smime-marshal.h
 @EVO_MARSHAL_RULE@
