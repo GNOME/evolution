@@ -1,3 +1,8 @@
+2005-07-20  Srinivasa Ragavan <sragavan@novell.com>
+	
+	* gui/dialogs/comp-editor.c: (get_attachment_list) (comp_editor_get_mime_attach_list)
+	made it use e_attachment_bar_get_parts instead of the old api
+
 2005-07-20  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #309680

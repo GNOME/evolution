@@ -604,7 +604,7 @@ get_attachment_list (CompEditor *editor)
 
 	e_cal_component_get_uid (editor->priv->comp, &comp_uid);
 
-	parts = e_attachment_bar_get_attachment_part_list((EAttachmentBar *)editor->priv->attachment_bar);
+	parts = e_attachment_bar_get_parts((EAttachmentBar *)editor->priv->attachment_bar);
 
 	for (p = parts; p!=NULL ; p = p->next) {
 		CamelDataWrapper *wrapper;
@@ -2402,7 +2402,7 @@ comp_editor_get_mime_attach_list (CompEditor *editor)
 	GSList *attach_list = NULL, *l, *parts;
 
 	/* TODO assert sanity of bar */
-	parts = e_attachment_bar_get_attachment_part_list (editor->priv->attachment_bar);
+	parts = e_attachment_bar_get_parts (editor->priv->attachment_bar);
 	for (l = parts; l ; l = l->next) {
 		
 		CamelDataWrapper *wrapper;
