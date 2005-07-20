@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Evolution GNOME 2.10\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-04-19 11:58+0000\n"
-"PO-Revision-Date: 2005-07-18 14:28+0300\n"
+"PO-Revision-Date: 2005-07-19 19:10+0300\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -2729,7 +2729,7 @@ msgstr "Kopeeri aadressiraamatusse..."
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:929
 msgid "Move to Address Book..."
-msgstr "Liiguta aadressiraamatusse..."
+msgstr "Tõsta aadressiraamatusse..."
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:932
 #: ../ui/evolution-addressbook.xml.h:6 ../ui/evolution-tasks.xml.h:4
@@ -4004,7 +4004,7 @@ msgstr "See kalender eemaldatakse jäädavalt."
 #. calendar:prompt-delete-task-list primary
 #: ../calendar/calendar-errors.xml.h:120
 msgid "Delete task list '{0}'?"
-msgstr "Kas kustutata ülesannete loend '{0}'?"
+msgstr "Kas kustutata ülesandeloend '{0}'?"
 
 #. calendar:prompt-delete-task-list secondary
 #: ../calendar/calendar-errors.xml.h:122
@@ -4059,7 +4059,7 @@ msgstr "Viga ülesandeloendi laadimisel"
 #. calendar:prompt-no-contents-offline-tasks secondary
 #: ../calendar/calendar-errors.xml.h:140
 msgid "The task list is not marked for offline usage"
-msgstr "Ülesannete nimekiri pole märgitud autonoomses režiimis kasutamiseks"
+msgstr "Ülesandeloend pole märgitud autonoomses režiimis kasutamiseks"
 
 #. calendar:server-version secondary
 #: ../calendar/calendar-errors.xml.h:146
@@ -5417,7 +5417,7 @@ msgstr "_Kopeeri"
 #: ../mail/em-folder-tree.c:1048 ../mail/em-folder-tree.c:2312
 #: ../mail/em-folder-view.c:876 ../mail/message-list.c:1708
 msgid "_Move"
-msgstr "_Liiguta"
+msgstr "_Tõsta"
 
 #: ../calendar/gui/dialogs/comp-editor.c:415 ../composer/e-msg-composer.c:2909
 #: ../mail/em-folder-tree.c:1050 ../mail/message-list.c:1710
@@ -7805,7 +7805,7 @@ msgstr "Uue omistatud ülesande loomine"
 
 #: ../calendar/gui/tasks-component.c:1166
 msgid "New task list"
-msgstr "Uus ülesannete nimekiri"
+msgstr "Uus ülesandeloend"
 
 #: ../calendar/gui/tasks-component.c:1167
 msgid "Task l_ist"
@@ -7813,7 +7813,7 @@ msgstr "Ü_lesannete nimekiri"
 
 #: ../calendar/gui/tasks-component.c:1168
 msgid "Create a new task list"
-msgstr "Uue ülesannete nimekirja loomine"
+msgstr "Uue ülesandeloendi loomine"
 
 #: ../calendar/gui/tasks-control.c:370
 msgid ""
@@ -8827,7 +8827,7 @@ msgstr "Aasia/Pyongyang"
 
 #: ../calendar/zones.h:242
 msgid "Asia/Qatar"
-msgstr "Aasia/Qatar"
+msgstr "Aasia/Katar"
 
 #: ../calendar/zones.h:243
 msgid "Asia/Qyzylorda"
@@ -8871,7 +8871,7 @@ msgstr "Aasia/Taipei"
 
 #: ../calendar/zones.h:253
 msgid "Asia/Tashkent"
-msgstr "Aasia/Tashkent"
+msgstr "Aasia/Taškent"
 
 #: ../calendar/zones.h:254
 msgid "Asia/Tbilisi"
@@ -9091,7 +9091,7 @@ msgstr "Euroopa/London"
 
 #: ../calendar/zones.h:308
 msgid "Europe/Luxembourg"
-msgstr "Euroopa/Luxembourg"
+msgstr "Euroopa/Luksemburg"
 
 #: ../calendar/zones.h:309
 msgid "Europe/Madrid"
@@ -10708,7 +10708,7 @@ msgstr "Kirjakaustade puu"
 #: ../mail/em-folder-tree.c:922
 #, c-format
 msgid "Moving folder %s"
-msgstr "Kausta %s liigutamine"
+msgstr "Kausta %s tõstmine"
 
 #: ../mail/em-folder-tree.c:924
 #, c-format
@@ -10718,7 +10718,7 @@ msgstr "Kausta %s kopeerimine"
 #: ../mail/em-folder-tree.c:931 ../mail/message-list.c:1612
 #, c-format
 msgid "Moving messages into folder %s"
-msgstr "Sõnumite liigutamine %s kausta"
+msgstr "Sõnumite tõstmine %s kausta"
 
 #: ../mail/em-folder-tree.c:933 ../mail/message-list.c:1614
 #, c-format
@@ -10800,7 +10800,7 @@ msgstr "_Kopeeri..."
 
 #: ../mail/em-folder-tree.c:2810
 msgid "_Move..."
-msgstr "_Liiguta..."
+msgstr "_Tõsta..."
 
 #. FIXME: need to disable for nochildren folders
 #: ../mail/em-folder-tree.c:2814
@@ -11117,12 +11117,12 @@ msgstr "Viide kohalikule failile (%s)"
 #: ../mail/em-format-html.c:904
 #, c-format
 msgid "Pointer to remote data (%s)"
-msgstr ""
+msgstr "Viide kaugandmetele (%s)"
 
 #: ../mail/em-format-html.c:915
 #, c-format
 msgid "Pointer to unknown external data (\"%s\" type)"
-msgstr ""
+msgstr "Viide tundmatutele välistele andmetele (tüüp \"%s\")"
 
 #: ../mail/em-format-html.c:1137
 msgid "Formatting message"
@@ -11276,7 +11276,7 @@ msgstr ""
 #: ../mail/em-migrate.c:2561 ../mail/em-migrate.c:2573
 #, c-format
 msgid "Failed to create local mail storage `%s': %s"
-msgstr ""
+msgstr "Tõrge kohaliku postisalvesti `%s' loomisel: %s"
 
 #: ../mail/em-migrate.c:2693
 #, c-format
@@ -12025,7 +12025,7 @@ msgstr "Pine"
 #: ../mail/mail-autofilter.c:75
 #, c-format
 msgid "Mail to %s"
-msgstr ""
+msgstr "Sõnumi saaja: %s"
 
 #: ../mail/mail-autofilter.c:239 ../mail/mail-autofilter.c:278
 #, c-format
@@ -13447,7 +13447,7 @@ msgstr "Sõnumi salvestamine kausta"
 #: ../mail/mail-ops.c:938
 #, c-format
 msgid "Moving messages to %s"
-msgstr "Sõnumite liigutamine %s kausta"
+msgstr "Sõnumite tõstmine kausta %s"
 
 #: ../mail/mail-ops.c:938
 #, c-format
@@ -15994,7 +15994,7 @@ msgstr "Kustutab valitud kontaktid"
 
 #: ../ui/evolution-addressbook.xml.h:11
 msgid "Move Contact(s) to Another Folder..."
-msgstr "Liiguta kontakt(id) teise kausta..."
+msgstr "Tõsta kontakt(id) teise kausta..."
 
 #: ../ui/evolution-addressbook.xml.h:12
 msgid "Move to Folder..."
@@ -16293,7 +16293,7 @@ msgstr "vKausta _redaktor..."
 
 #: ../ui/evolution-mail-list.xml.h:1
 msgid "Change the properties of this folder"
-msgstr "Muuda kausta omadusi"
+msgstr "Kausta omaduste muutmine"
 
 #: ../ui/evolution-mail-list.xml.h:2 ../ui/evolution-mail-message.xml.h:10
 msgid "Copy selected message(s) to the clipboard"
@@ -16594,7 +16594,7 @@ msgstr "Märgib valitud sõnumid kustutatuks"
 
 #: ../ui/evolution-mail-message.xml.h:63
 msgid "Move"
-msgstr "Liiguta"
+msgstr "Tõsta"
 
 #: ../ui/evolution-mail-message.xml.h:64
 msgid "Move selected message(s) to another folder"
@@ -17139,7 +17139,8 @@ msgstr "Unusta _paroolid"
 
 #: ../ui/evolution.xml.h:15
 msgid "Forget remembered passwords so you will be prompted for them again"
-msgstr "Meeldejäetud paroolide unustamine, vajadusel küsitakse paroolid uuesti."
+msgstr ""
+"Meeldejäetud paroolide unustamine, vajadusel küsitakse paroolid uuesti."
 
 #: ../ui/evolution.xml.h:16
 msgid "Hide window buttons"
