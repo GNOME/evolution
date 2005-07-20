@@ -1,3 +1,8 @@
+2005-07-20  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	* itip-formatter.c: (format_itip_object): Fixed a memory
+	leak and a crash when start date does is not present.
+
 2005-07-19  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	* itip-formatter.c: 

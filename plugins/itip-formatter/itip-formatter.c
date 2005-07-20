@@ -1685,7 +1685,7 @@ format_itip_object (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject 
 	icalcomp = e_cal_component_get_icalcomponent (pitip->comp);
 
 	/* Set the recurrence id */
-	if (check_is_instance (icalcomp)) {
+	if (check_is_instance (icalcomp) && datetime.value) {
 		ECalComponentRange *recur_id;
 
 		*datetime.value = icaltime_convert_to_zone (*datetime.value, to_zone);
@@ -1695,8 +1695,8 @@ format_itip_object (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject 
 		recur_id->type = E_CAL_COMPONENT_RANGE_SINGLE;
 		recur_id->datetime = datetime;
 		e_cal_component_set_recurid (pitip->comp, recur_id);
-	}
-	
+	} else
+       		e_cal_component_free_datetime (&datetime);
 
 	e_cal_component_get_dtend (pitip->comp, &datetime);
 	pitip->end_time = 0;
