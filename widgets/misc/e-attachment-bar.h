@@ -52,7 +52,8 @@ typedef struct _EAttachmentBarPrivate EAttachmentBarPrivate;
 
 struct _EAttachmentBar {
 	GnomeIconList parent;
-	
+	gboolean expand;
+
 	EAttachmentBarPrivate *priv;
 };
 
@@ -78,7 +79,8 @@ void e_attachment_bar_add_attachment (EAttachmentBar *bar, EAttachment *attachme
 void e_attachment_bar_edit_selected (EAttachmentBar *bar);
 void e_attachment_bar_remove_selected (EAttachmentBar *bar);
 GtkWidget ** e_attachment_bar_get_selector(EAttachmentBar *bar);
-GSList *e_attachment_bar_get_attachment_part_list (EAttachmentBar *bar);
+GSList *e_attachment_bar_get_parts (EAttachmentBar *bar);
+GSList *e_attachment_bar_get_selected (EAttachmentBar *bar);
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

@@ -60,6 +60,7 @@ struct _EAttachment {
 	
 	GnomeVFSAsyncHandle *handle;
 	gboolean is_available_local;
+	int percentage;
 	char *file_name;
 	char *description;
 	gboolean disposition;
@@ -74,14 +75,16 @@ struct _EAttachmentClass {
 	GObjectClass parent_class;
 
 	void (*changed)	(EAttachment *attachment);
+	void (*update) (EAttachment *attachment, char *msg);
 };
 
 GType e_attachment_get_type (void);
 EAttachment *e_attachment_new (const char *file_name,
 			       const char *disposition,
 			       CamelException *ex);
-EAttachment * e_attachment_new_remote_file (const char *file_name,
+EAttachment * e_attachment_new_remote_file (const char *url,
 			       		    const char *disposition,
+					    const char *path,
 	  	   			    CamelException *ex);
 void e_attachment_build_remote_file (const char *filename,
 				     EAttachment *attachment,

@@ -49,6 +49,7 @@
 #include <camel/camel-mime-filter-bestenc.h>
 #include <camel/camel-mime-part.h>
 
+#include "e-util/e-util.h"
 #include "e-util/e-gui-utils.h"
 #include "e-util/e-icon-factory.h"
 #include "e-util/e-error.h"
@@ -207,11 +208,39 @@ remove_attachment (EAttachmentBar *bar,
 /* Icon list contents handling.  */
 
 static void
+calculate_height_width(EAttachmentBar *bar, int *new_width, int *new_height)
+{
+        int width, height, icon_width;
+        PangoFontMetrics *metrics;
+        PangoContext *context;
+        GnomeIconList *icon_list;
+
+	icon_list = GNOME_ICON_LIST (bar);
+			
+        context = gtk_widget_get_pango_context ((GtkWidget *) bar);
+        metrics = pango_context_get_metrics (context, ((GtkWidget *) bar)->style->font_desc, pango_context_get_language (context));
+        width = PANGO_PIXELS (pango_font_metrics_get_approximate_char_width (metrics)) * 15;
+	/* This should be *2, but the icon list creates too much space above ... */
+	height = PANGO_PIXELS (pango_font_metrics_get_ascent (metrics) + pango_font_metrics_get_descent (metrics)) * 3;
+	pango_font_metrics_unref (metrics);
+	icon_width = ICON_WIDTH + ICON_SPACING + ICON_BORDER + ICON_TEXT_SPACING;
+
+	if (new_width)
+		*new_width = MAX (icon_width, width);
+
+	if (new_height)
+		*new_height = ICON_WIDTH + ICON_SPACING + ICON_BORDER + ICON_TEXT_SPACING + height;
+
+	return;
+}
+
+static void
 update (EAttachmentBar *bar)
 {
 	EAttachmentBarPrivate *priv;
 	GnomeIconList *icon_list;
 	GList *p;
+	int bar_width, bar_height;
 	
 	priv = bar->priv;
 	icon_list = GNOME_ICON_LIST (bar);
@@ -365,16 +394,38 @@ update (EAttachmentBar *bar)
 	}
 	
 	gnome_icon_list_thaw (icon_list);
+
+	/* Resize */
+	if (bar->expand) {
+		gtk_widget_get_size_request ((GtkWidget *)bar, &bar_width, &bar_height);
+	
+		if (bar->priv->num_attachments) {
+			int per_col, rows, height, width;
+	
+			calculate_height_width(bar, &width, &height);
+			per_col = bar_width / width;
+			rows = bar->priv->num_attachments / per_col;
+			gtk_widget_set_size_request ((GtkWidget *)bar, bar_width, (rows+1) * height);
+		}
+	}
 }
 
 static void
-update_remote_file (EAttachmentBar *bar, EAttachment *attachment, char *msg)
+update_remote_file (EAttachment *attachment, EAttachmentBar *bar)
 {
 	EAttachmentBarPrivate *priv;
 	GnomeIconList *icon_list;
 	GnomeIconTextItem *item;
-	
+	char *msg, *base;
 	priv = bar->priv;
+
+	if (attachment->percentage == -1)
+		return update (bar);
+	
+	base = g_path_get_basename(attachment->file_name);
+	msg = g_strdup_printf("%s (%d\%)", base, attachment->percentage);
+	g_free(base);
+
 	icon_list = GNOME_ICON_LIST (bar);
 	
 	gnome_icon_list_freeze (icon_list);
@@ -455,6 +506,28 @@ e_attachment_bar_get_selector(EAttachmentBar *bar)
 	return &bar->priv->attach;
 }
 
+GSList *
+e_attachment_bar_get_selected (EAttachmentBar *bar)
+{
+	GSList *attachments = NULL;
+	GList *p;
+
+	p = gnome_icon_list_get_selection((GnomeIconList *)bar);
+	for ( ; p != NULL; p = p->next) {
+		int num = GPOINTER_TO_INT(p->data);
+		EAttachment *attachment = g_list_nth_data(bar->priv->attachments, num);
+			
+		if (attachment && g_slist_find(attachments, attachment) == NULL) {
+			g_object_ref(attachment);
+			attachments = g_slist_prepend(attachments, attachment);
+		}
+	}
+	attachments = g_slist_reverse(attachments);
+	
+	return attachments;
+}
+
+/* FIXME: Cleanup this, since there is a api to get selected attachments */
 /* if id != -1, then use it as an index for target of the popup */
 GSList *
 e_attachment_bar_get_attachment (EAttachmentBar *bar, int id)
@@ -490,18 +563,18 @@ e_attachment_bar_get_attachment (EAttachmentBar *bar, int id)
 
 /* Just the GSList has to be freed by the caller */
 GSList *
-e_attachment_bar_get_attachment_part_list (EAttachmentBar *bar)
+e_attachment_bar_get_parts (EAttachmentBar *bar)
 {
         EAttachment *attachment;
-        GSList *p = NULL, *part_list = NULL;
+        GList *p = NULL;
+	GSList *part_list = NULL;
 
         for ( p = bar->priv->attachments; p!= NULL; p = p->next) {
                 attachment = p->data;
-
-                if (attachment && attachment->is_available_local) {
+                if (attachment && attachment->is_available_local)
                         part_list = g_slist_prepend(part_list, attachment->body);
-                }
         }
+	
         return part_list;
 }
 
@@ -529,6 +602,182 @@ destroy (GtkObject *object)
 	
 	if (GTK_OBJECT_CLASS (parent_class)->destroy != NULL)
 		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+}
+
+static char *
+temp_save_part(CamelMimePart *part)
+{
+	const char *filename;
+	char *tmpdir, *path, *mfilename = NULL;
+	CamelStream *stream;
+	CamelDataWrapper *wrapper;
+
+	tmpdir = e_mkdtemp("evolution-tmp-XXXXXX");
+	if (tmpdir == NULL) {
+		return NULL;
+	}
+
+	filename = camel_mime_part_get_filename (part);
+	if (filename == NULL) {
+		/* This is the default filename used for temporary file creation */
+		filename = _("Unknown");
+	} else {
+		mfilename = g_strdup(filename);
+		e_filename_make_safe(mfilename);
+		filename = mfilename;
+	}
+
+	path = g_build_filename(tmpdir, filename, NULL);
+	g_free(tmpdir);
+	g_free(mfilename);
+
+	wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (part));
+	stream = camel_stream_fs_new_with_name (path, O_RDWR|O_CREAT|O_TRUNC, 0600);
+
+	if (!stream) {
+		/* TODO handle error conditions */
+		g_message ("DEBUG: could not open the file to write\n");
+		g_free (path);
+		return NULL;
+	}
+
+	if (camel_data_wrapper_decode_to_stream (wrapper, (CamelStream *) stream) == -1) {
+		g_free (path);
+		camel_stream_close (stream);
+		camel_object_unref (stream);
+		g_message ("DEBUG: could not write to file\n");
+		return NULL;
+	}
+
+	camel_stream_close(stream);
+	camel_object_unref(stream);
+
+	return path;
+}
+
+static void
+eab_drag_data_get(EAttachmentBar *bar, GdkDragContext *drag, GtkSelectionData *data, guint info, guint time)
+{
+	char *path;
+	GList *tmp;
+	gchar **uris;
+	int length, i=0;
+
+	if (info)
+		return;
+	
+	tmp = gnome_icon_list_get_selection (GNOME_ICON_LIST(bar));
+	length = g_list_length (tmp);
+
+	uris = g_malloc0(sizeof(bar) * (length+1));
+
+	for (; tmp; tmp = tmp->next) {
+		int num = GPOINTER_TO_INT(tmp->data);
+		EAttachment *attachment = g_list_nth_data(bar->priv->attachments, num);	
+		char *uri;
+
+		if (!attachment->is_available_local)
+			continue;
+
+		uri = g_object_get_data((GObject *)attachment, "e-drag-uri");
+		if (uri) {
+			uris[i] = uri;
+			i++;
+			continue;
+		}
+		path = temp_save_part(attachment->body);
+		/* If we are not able to save, ignore it*/
+		if (path == NULL) 
+			continue;
+		
+		uri = g_strdup_printf("file://%s\r\n", path);
+		g_free(path);
+		g_object_set_data_full((GObject *)attachment, "e-drag-uri", uri, g_free);
+		uris[i] = uri;
+		i++;
+	}
+	uris[i]=0;
+	gtk_selection_data_set_uris(data, uris);
+	
+	g_free (uris);
+
+	return;
+}
+
+static gboolean
+eab_button_release_event(EAttachmentBar *bar, GdkEventButton *event, gpointer dummy)
+{
+	GnomeIconList *icon_list = GNOME_ICON_LIST(bar);
+	GList *selected;
+	int length;
+	GtkTargetEntry drag_types[] = {
+		{ "text/uri-list", 0, 0 },
+	};	
+
+	if (event && event->button == 1) {
+		selected = gnome_icon_list_get_selection(icon_list);
+		length = g_list_length (selected);
+		if (length)
+			gtk_drag_source_set((GtkWidget *)bar, GDK_BUTTON1_MASK, drag_types, G_N_ELEMENTS(drag_types), GDK_ACTION_COPY);
+		else
+			gtk_drag_source_unset((GtkWidget *)bar);
+	}
+
+	return FALSE;
+}
+
+static gboolean
+eab_button_press_event(EAttachmentBar *bar, GdkEventButton *event, gpointer dummy)
+{
+	GnomeIconList *icon_list = GNOME_ICON_LIST(bar);
+	GList *selected = NULL, *tmp;
+	int length, icon_number;
+	gboolean take_selected = FALSE;
+	GtkTargetEntry drag_types[] = {
+		{ "text/uri-list", 0, 0 },
+	};	
+
+	selected = gnome_icon_list_get_selection(icon_list);
+	length = g_list_length(selected);
+
+	if (event) {
+		icon_number = gnome_icon_list_get_icon_at(icon_list, event->x, event->y);
+		if (icon_number < 0) { 
+			/* When nothing is selected deselect all*/
+			gnome_icon_list_unselect_all(icon_list);
+			length = 0;
+			selected = NULL;
+		}
+	
+		if (event->button == 1) {
+			/* If something is selected, then allow drag or else help to select */
+			if (length)
+				gtk_drag_source_set((GtkWidget *)bar, GDK_BUTTON1_MASK, drag_types, G_N_ELEMENTS(drag_types), GDK_ACTION_COPY);
+			else
+				gtk_drag_source_unset((GtkWidget *)bar);
+			return FALSE;
+		}
+	
+		/* If not r-click dont progress any more.*/
+		if (event->button != 3)
+			return FALSE;	
+
+		/* When a r-click on something, if it is in the already selected list, consider a r-click of multiple things
+		 * or deselect all and select only this for r-click 
+		 */
+		if (icon_number >= 0) {
+			for (tmp = selected; tmp; tmp = tmp->next) {
+				if (GPOINTER_TO_INT(tmp->data) == icon_number)
+					take_selected = TRUE;
+			}
+	
+			if (!take_selected) {
+				gnome_icon_list_unselect_all(icon_list);
+				gnome_icon_list_select_icon(icon_list, icon_number);
+			}
+		}
+	} 
+	return FALSE;
 }
 
 /* Initialization.  */
@@ -573,6 +822,7 @@ init (EAttachmentBar *bar)
 	priv->path = NULL;
 	
 	bar->priv = priv;
+	bar->expand = FALSE;
 }
 
 
@@ -603,28 +853,19 @@ e_attachment_bar_new (GtkAdjustment *adj)
 {
 	EAttachmentBar *new;
 	GnomeIconList *icon_list;
-	int width, height, icon_width, window_height;
-	PangoFontMetrics *metrics;
-	PangoContext *context;
+	int icon_width, window_height;
 	
 	new = g_object_new (e_attachment_bar_get_type (), NULL);
 	
 	icon_list = GNOME_ICON_LIST (new);
 	
-	context = gtk_widget_get_pango_context ((GtkWidget *) new);
-	metrics = pango_context_get_metrics (context, ((GtkWidget *) new)->style->font_desc, pango_context_get_language (context));
-	width = PANGO_PIXELS (pango_font_metrics_get_approximate_char_width (metrics)) * 15;
-	/* This should be *2, but the icon list creates too much space above ... */
-	height = PANGO_PIXELS (pango_font_metrics_get_ascent (metrics) + pango_font_metrics_get_descent (metrics)) * 3;
-	pango_font_metrics_unref (metrics);
-	
-	icon_width = ICON_WIDTH + ICON_SPACING + ICON_BORDER + ICON_TEXT_SPACING;
-	icon_width = MAX (icon_width, width);
+	calculate_height_width (new, &icon_width, &window_height);
 	
 	gnome_icon_list_construct (icon_list, icon_width, adj, 0);
 	
-	window_height = ICON_WIDTH + ICON_SPACING + ICON_BORDER + ICON_TEXT_SPACING + height;
 	gtk_widget_set_size_request (GTK_WIDGET (new), icon_width * 4, window_height);
+
+        GTK_WIDGET_SET_FLAGS (new, GTK_CAN_FOCUS);
 	
 	gnome_icon_list_set_separators (icon_list, ICON_SEPARATORS);
 	gnome_icon_list_set_row_spacing (icon_list, ICON_ROW_SPACING);
@@ -635,6 +876,10 @@ e_attachment_bar_new (GtkAdjustment *adj)
 
 	atk_object_set_name (gtk_widget_get_accessible (GTK_WIDGET (new)), 
 			_("Attachment Bar"));
+
+	g_signal_connect (new, "button_release_event", G_CALLBACK(eab_button_release_event), NULL);
+	g_signal_connect (new, "button_press_event", G_CALLBACK(eab_button_press_event), NULL);
+	g_signal_connect (new, "drag-data-get", G_CALLBACK(eab_drag_data_get), NULL);
 	
 	return GTK_WIDGET (new);
 }
@@ -783,88 +1028,6 @@ e_attachment_bar_add_attachment (EAttachmentBar *bar,
 	add_common (bar, attachment);
 }
 
-typedef struct DownloadInfo {
-	EAttachment *attachment;
-	EAttachmentBar *bar;
-	gchar *file_name;
-}DownloadInfo;
-
-static int
-async_progress_update_cb (GnomeVFSAsyncHandle      *handle,
-			  GnomeVFSXferProgressInfo *info,
-			  DownloadInfo *download_info)
-{
-	int percent=0;
-	switch (info->status) {
-	case GNOME_VFS_XFER_PROGRESS_STATUS_OK:
-	{
-		gchar *base_path =  g_path_get_basename(download_info->attachment->file_name);
-		if (info->file_size) {
-			percent = info->bytes_copied*100/info->file_size;
-			update_remote_file (download_info->bar, 
-					    download_info->attachment, 
-					    g_strdup_printf("%s (%d\%)", base_path, percent));
-		} else {
-			update_remote_file (download_info->bar, 
-					    download_info->attachment, 
-					    g_strdup_printf("%s (%d\%)", base_path, percent));	
-		}
-		g_free (base_path);
-		
-		if (info->phase == GNOME_VFS_XFER_PHASE_COMPLETED) {
-			CamelException ex;
-			
-			download_info->attachment->is_available_local = TRUE;
-			download_info->attachment->handle = NULL;
-			camel_exception_init (&ex);
-			e_attachment_build_remote_file (download_info->file_name, download_info->attachment, "attachment", &ex);
-			update(download_info->bar);
-			g_free (download_info->file_name);
-			g_free (download_info);
-		}
-		return TRUE;
-		break;
-	}
-	case GNOME_VFS_XFER_PROGRESS_STATUS_VFSERROR:
-		gnome_vfs_async_cancel (handle);
-		g_free (download_info->file_name);
-		g_free (download_info);
-		return FALSE;
-		break;
-
-	default:
-		break;
-	}
-
-	return TRUE;
-}
-
-static void
-download_to_local_path (GnomeVFSURI  *source_uri, GnomeVFSURI  *target_uri, DownloadInfo *download_info)
-			
-{
-	GnomeVFSResult       result;
-	GList               *source_uri_list = NULL;
-	GList               *target_uri_list = NULL;
-
-	source_uri_list = g_list_prepend (source_uri_list, source_uri);
-	target_uri_list = g_list_prepend (target_uri_list, target_uri);
-
-	/* Callback info */
-	result = gnome_vfs_async_xfer (&download_info->attachment->handle,                        /* handle_return   */
-				       source_uri_list,                       /* source_uri_list */
-				       target_uri_list,                       /* target_uri_list */
-				       GNOME_VFS_XFER_DEFAULT,                /* xfer_options    */
-				       GNOME_VFS_XFER_ERROR_MODE_ABORT,       /* error_mode      */ 
-				       GNOME_VFS_XFER_OVERWRITE_MODE_REPLACE, /* overwrite_mode  */ 
-				       GNOME_VFS_PRIORITY_DEFAULT,            /* priority        */
-				       async_progress_update_cb,              /* progress_update_callback */
-				       download_info,                         /* update_callback_data     */
-				       NULL,                                  /* progress_sync_callback   */
-				       NULL);                                 /* sync_callback_data       */
-}
-
-
 int 
 e_attachment_bar_get_download_count (EAttachmentBar *bar)
 {
@@ -891,37 +1054,22 @@ e_attachment_bar_attach_remote_file (EAttachmentBar *bar,
 {
 	EAttachment *attachment;
 	CamelException ex;
-	gchar *tmpfile;
-	gchar *base;
+
+	g_return_if_fail (E_IS_ATTACHMENT_BAR (bar));
 
 	if (!bar->priv->path)
 		bar->priv->path = e_mkdtemp("attach-XXXXXX");
-	base = g_path_get_basename (url);
-	
-	g_return_if_fail (E_IS_ATTACHMENT_BAR (bar));
-	tmpfile = g_build_filename (bar->priv->path, base, NULL);
-
-	g_free (base);
 
 	camel_exception_init (&ex);
-	attachment = e_attachment_new_remote_file (tmpfile, "attachment", &ex);
+	attachment = e_attachment_new_remote_file (url, "attachment", bar->priv->path, &ex);
+	g_signal_connect (attachment, "update", G_CALLBACK(update_remote_file), bar);
 	if (attachment) {
-		DownloadInfo *download_info;
-		download_info = g_new (DownloadInfo, 1);
-		download_info->attachment = attachment;
-		download_info->bar =bar;
-		download_info->file_name = g_strdup (tmpfile);
 		add_common (bar, attachment);
-		download_to_local_path (gnome_vfs_uri_new(url), gnome_vfs_uri_new(tmpfile), download_info);
-
 	} else {
 		e_error_run((GtkWindow *)gtk_widget_get_toplevel((GtkWidget *)bar), "mail-composer:no-attach",
 			    attachment->file_name, camel_exception_get_description(&ex), NULL);
 		camel_exception_clear (&ex);
 	}
-
-	g_free (tmpfile);
-	
 }
 
 void

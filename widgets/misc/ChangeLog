@@ -1,3 +1,13 @@
+2005-07-20  Srinivasa Ragavan <sragavan@novell.com>
+
+	* e-attachment-bar.[ch]:(remove_attachment) (update) (e_attachment_bar_get_selector) 
+	(e_attachment_bar_get_attachment) (destroy) (init) (e_attachment_bar_new) 
+	(e_attachment_bar_add_attachment) (e_attachment_bar_attach_remote_file)
+	Cleaned up most of it. Added the DnD.
+	* e-attachment.[ch]: (real_changed) (class_init) (init) (e_attachment_new) 
+	(e_attachment_new_remote_file) (e_attachment_build_remote_file): Moved the
+	remote download code from bar to here and few cleanups.
+	
 2005-07-11  Srinivasa Ragavan <sragavan@novell.com>
 	
 	* Makefile.am: Added e-attachment-bar.[ch] e-attachment.[ch]

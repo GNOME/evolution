@@ -44,6 +44,7 @@
 
 enum {
 	CHANGED,
+	UPDATE,
 	LAST_SIGNAL
 };
 static guint signals[LAST_SIGNAL] = { 0 };
@@ -91,6 +92,12 @@ real_changed (EAttachment *attachment)
 	g_return_if_fail (E_IS_ATTACHMENT (attachment));
 }
 
+static void
+real_update_attachment (EAttachment *attachment, char *msg)
+{
+	g_return_if_fail (E_IS_ATTACHMENT (attachment));
+}
+
 
 static void
 class_init (EAttachmentClass *klass)
@@ -102,6 +109,7 @@ class_init (EAttachmentClass *klass)
 	
 	object_class->finalize = finalise;
 	klass->changed = real_changed;
+	klass->update = real_update_attachment;
 	
 	signals[CHANGED] = g_signal_new ("changed",
 					 E_TYPE_ATTACHMENT,
@@ -111,6 +119,15 @@ class_init (EAttachmentClass *klass)
 					 NULL,
 					 g_cclosure_marshal_VOID__VOID,
 					 G_TYPE_NONE, 0);
+	signals[UPDATE] = g_signal_new ("update",
+					 E_TYPE_ATTACHMENT,
+					 G_SIGNAL_RUN_FIRST,
+					 G_STRUCT_OFFSET (EAttachmentClass, update),
+					 NULL,
+					 NULL,
+					 g_cclosure_marshal_VOID__VOID,
+					 G_TYPE_NONE, 0);
+					 
 }
 
 static void
@@ -122,6 +139,7 @@ init (EAttachment *attachment)
 	attachment->pixbuf_cache = NULL;
 	attachment->index = -1;
 	attachment->file_name = NULL;
+	attachment->percentage = -1;
 	attachment->description = NULL;
 	attachment->disposition = FALSE;
 	attachment->sign = CAMEL_CIPHER_VALIDITY_SIGN_NONE;
@@ -193,6 +211,7 @@ e_attachment_new (const char *file_name,
 	struct stat statbuf;
 	char *mime_type;
 	char *filename;
+	char *uri;
 	
 	g_return_val_if_fail (file_name != NULL, NULL);
 	
@@ -265,19 +284,101 @@ e_attachment_new (const char *file_name,
 	new->guessed_type = TRUE;
 	new->handle = NULL;
 	new->is_available_local = TRUE;
+	uri = g_strdup_printf("file://%s\r\n", file_name);
+	g_object_set_data_full((GObject *)new, "e-drag-uri", uri, g_free);
 	
 	return new;
 }
 
 
+typedef struct DownloadInfo {
+	EAttachment *attachment;
+	gchar *file_name;
+}DownloadInfo;
+
+static int
+async_progress_update_cb (GnomeVFSAsyncHandle      *handle,
+			  GnomeVFSXferProgressInfo *info,
+			  DownloadInfo *download_info)
+{
+	switch (info->status) {
+	case GNOME_VFS_XFER_PROGRESS_STATUS_OK:
+	{
+		if (info->file_size) {
+			download_info->attachment->percentage = info->bytes_copied*100/info->file_size;
+			g_signal_emit (download_info->attachment, signals[UPDATE], 0);
+		} else {
+			download_info->attachment->percentage = 0;
+			g_signal_emit (download_info->attachment, signals[UPDATE], 0);
+		}
+		
+		if (info->phase == GNOME_VFS_XFER_PHASE_COMPLETED) {
+			CamelException ex;
+			
+			download_info->attachment->is_available_local = TRUE;
+			download_info->attachment->handle = NULL;
+			camel_exception_init (&ex);
+			e_attachment_build_remote_file (download_info->file_name, download_info->attachment, "attachment", &ex);
+			download_info->attachment->percentage = -1;
+			g_signal_emit (download_info->attachment, signals[UPDATE], 0);
+			g_free (download_info->file_name);
+			g_free (download_info);
+		}
+		return TRUE;
+		break;
+	}
+	case GNOME_VFS_XFER_PROGRESS_STATUS_VFSERROR:
+		gnome_vfs_async_cancel (handle);
+		g_free (download_info->file_name);
+		g_free (download_info);
+		return FALSE;
+		break;
+
+	default:
+		break;
+	}
+
+	return TRUE;
+}
+
+static void
+download_to_local_path (GnomeVFSURI  *source_uri, GnomeVFSURI  *target_uri, DownloadInfo *download_info)
+			
+{
+	GnomeVFSResult       result;
+	GList               *source_uri_list = NULL;
+	GList               *target_uri_list = NULL;
+
+	source_uri_list = g_list_prepend (source_uri_list, source_uri);
+	target_uri_list = g_list_prepend (target_uri_list, target_uri);
+
+	/* Callback info */
+	result = gnome_vfs_async_xfer (&download_info->attachment->handle,                        /* handle_return   */
+				       source_uri_list,                       /* source_uri_list */
+				       target_uri_list,                       /* target_uri_list */
+				       GNOME_VFS_XFER_DEFAULT,                /* xfer_options    */
+				       GNOME_VFS_XFER_ERROR_MODE_ABORT,       /* error_mode      */ 
+				       GNOME_VFS_XFER_OVERWRITE_MODE_REPLACE, /* overwrite_mode  */ 
+				       GNOME_VFS_PRIORITY_DEFAULT,            /* priority        */
+				       async_progress_update_cb,              /* progress_update_callback */
+				       download_info,                         /* update_callback_data     */
+				       NULL,                                  /* progress_sync_callback   */
+				       NULL);                                 /* sync_callback_data       */
+}
+
 EAttachment *
-e_attachment_new_remote_file (const char *file_name,
-			       		   const char *disposition,
-			       		   CamelException *ex)
+e_attachment_new_remote_file (const char *url,
+			      const char *disposition,
+			      const char *path,
+			      CamelException *ex)
 {
 	EAttachment *new;
-	
-	g_return_val_if_fail (file_name != NULL, NULL);
+	DownloadInfo *download_info;
+	gchar *base;
+
+	g_return_val_if_fail (url != NULL, NULL);
+
+	base = g_path_get_basename (url);
 	
 	new = g_object_new (E_TYPE_ATTACHMENT, NULL);
 	new->editor_gui = NULL;
@@ -286,8 +387,16 @@ e_attachment_new_remote_file (const char *file_name,
 	new->guessed_type = FALSE;
 	new->handle = NULL;
 	new->is_available_local = FALSE;
-	new->file_name = g_path_get_basename(file_name);
-	
+	new->percentage = 0;
+	new->file_name = g_build_filename (path, base, NULL);
+
+	g_free(base);
+
+	download_info = g_new (DownloadInfo, 1);
+	download_info->attachment = new;
+	download_info->file_name = g_strdup (new->file_name);
+	download_to_local_path (gnome_vfs_uri_new(url), gnome_vfs_uri_new(new->file_name), download_info);
+
 	return new;
 }
 
@@ -303,6 +412,7 @@ e_attachment_build_remote_file (const char *file_name,
 	struct stat statbuf;
 	char *mime_type;
 	char *filename;
+	char *uri;
 	
 	g_return_if_fail (file_name != NULL);
 	
@@ -379,6 +489,9 @@ e_attachment_build_remote_file (const char *file_name,
 		g_free (attachment->file_name);
 		attachment->file_name = NULL;
 	}
+	uri = g_strdup_printf("file://%s\r\n", file_name);
+	g_object_set_data_full((GObject *)attachment, "e-drag-uri", uri, g_free);
+	
 }
 
 
