@@ -1,5 +1,8 @@
 2005-07-21  Not Zed  <NotZed@Ximian.com>
 
+	* em-folder-browser.c: reverted dobey's busted view->hide* menu
+	stuff.
+
 	* em-account-editor.c (emae_option_entry): if we get a null
 	default, then set "" on the entry.
 	(emae_option_entry): set the default value on the url if it
