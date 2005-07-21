@@ -1,3 +1,11 @@
+2005-07-21  Sankar P  <psankar@novell.com>
+
+	* shell.error.xml : Added string for forget password prompt.
+
+	* e-shell-window-commands.c: (command_forget_passwords)
+	Added call to a confirmation dialog before forgetting passwords.
+	Fixes bug #216021
+
 2005-07-21  Not Zed  <NotZed@Ximian.com>
 
 	* e-shell-window-commands.c: fix the pixmap location for the

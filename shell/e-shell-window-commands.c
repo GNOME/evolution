@@ -648,7 +648,8 @@ command_forget_passwords (BonoboUIComponent *ui_component,
 			  void *data,
 			  const char *path)
 {
-	e_passwords_forget_passwords();
+	if (e_error_run (NULL, "shell:forget-passwords", NULL) == GTK_RESPONSE_OK) 
+		e_passwords_forget_passwords();
 }
 
 /* Tools menu.  */
