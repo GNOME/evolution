@@ -132,7 +132,7 @@ void       eab_view_send                (EABView  *view);
 void       eab_view_send_to             (EABView  *view);
 void       eab_view_print               (EABView  *view);
 void       eab_view_print_preview       (EABView  *view);
-void       eab_view_delete_selection    (EABView  *view);
+void       eab_view_delete_selection    (EABView  *view, gboolean is_delete);
 void       eab_view_cut                 (EABView  *view);
 void       eab_view_copy                (EABView  *view);
 void       eab_view_paste               (EABView  *view);

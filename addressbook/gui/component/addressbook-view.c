@@ -179,7 +179,7 @@ delete_contact_cb (BonoboUIComponent *uih, void *user_data, const char *path)
 	AddressbookView *view = (AddressbookView *) user_data;
 	EABView *v = get_current_view (view);
 	if (v)
-		eab_view_delete_selection(v);
+		eab_view_delete_selection(v, TRUE);
 }
 
 static void

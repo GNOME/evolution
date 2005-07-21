@@ -1,3 +1,13 @@
+2005-07-21  Sushma Rai  <rsushma@novell.com>
+
+	* gui/widgets/e-addressbook-view.[ch] (eab_view_delete_selection):
+	Prompt for confirmation only while deleting the contact, and not for
+	cut operation.
+	(delete)(eab_view_cut): Using the flag to inidicate delete/cut.
+
+	* addressbook/gui/component/addressbook-view.c (delete_contact_cb):
+	Similar. Fixes #311090
+
 2005-07-19  Arunprakash <arunp@novell.com>
 
 	* gui/widgets/eab-gui-util.c: Added two new entries in array 

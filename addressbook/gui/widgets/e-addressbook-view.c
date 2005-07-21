@@ -877,7 +877,7 @@ delete (EPopup *ep, EPopupItem *pitem, void *data)
 {
 	ContactAndBook *contact_and_book = data;
 
-	eab_view_delete_selection(contact_and_book->view);
+	eab_view_delete_selection(contact_and_book->view, TRUE);
 }
 
 static void
@@ -1851,7 +1851,7 @@ eab_view_print_preview(EABView *view)
 }
 
 void
-eab_view_delete_selection(EABView *view)
+eab_view_delete_selection(EABView *view, gboolean is_delete)
 {
 	GList *list, *l;
 	gboolean plural = FALSE, is_list = FALSE;
@@ -1869,7 +1869,9 @@ eab_view_delete_selection(EABView *view)
 	if (e_contact_get (contact, E_CONTACT_IS_LIST))
 		is_list = TRUE;
 
-	if (!eab_editor_confirm_delete(GTK_WINDOW(gtk_widget_get_toplevel(view->widget)),
+	/* confirm delete */
+	if (is_delete && 
+	    !eab_editor_confirm_delete(GTK_WINDOW(gtk_widget_get_toplevel(view->widget)),
 				       plural, is_list, name)) {
 		g_free (name);
 		return;
@@ -2039,7 +2041,7 @@ void
 eab_view_cut (EABView *view)
 {
 	eab_view_copy (view);
-	eab_view_delete_selection (view);
+	eab_view_delete_selection (view, FALSE);
 }
 
 void
