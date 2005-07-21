@@ -388,7 +388,7 @@ org_gnome_exchange_folder_subscription (EPlugin *ep, EMMenuTargetSelect *target)
 	if (!folder) {
 		return;
 	}
-
+#if 0
 	hier = e_folder_exchange_get_hierarchy (folder);
 	folder_display_name = g_strdup_printf ("%s's %s", hier->owner_name, folder_name);
 	folder_type = (gchar *) e_folder_get_type_string (folder);
@@ -405,9 +405,10 @@ org_gnome_exchange_folder_subscription (EPlugin *ep, EMMenuTargetSelect *target)
 		 !(strcmp (folder_type, "contacts/public")) ||
 		 !(strcmp (folder_type, "contacts/ldap"))) {
 			add_folder_esource (account, EXCHANGE_CONTACTS_FOLDER, folder_display_name, physical_uri);
-}
+	}
 
-g_free (folder_display_name);
-exchange_account_open_folder (account, g_strdup_printf ("/%s", user_email_address));
+	g_free (folder_display_name);
+#endif
+	exchange_account_open_folder (account, g_strdup_printf ("/%s", user_email_address));
 }
 

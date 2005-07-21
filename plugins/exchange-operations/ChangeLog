@@ -1,3 +1,13 @@
+2005-07-21  Sarfraaz Ahmed <asarfraaz@novell.com>
+
+	* exchange-calendar.c (e_exchange_calendar_get_calendars): Rescan the
+	tree before fetching the folder list.
+	* exchange-contacts.c (e_exchange_contacts_get_contacts): Similar
+	* exchange-config-listener.c (account_added): Dont add the sources here
+	now. Its now taken care while the folders are being created in e-d-s.
+	* exchange-folder.c (org_gnome_exchange_folder_subscription): Dont add
+	the esources here.
+
 2005-07-19  Shakti Sen <shprasad@novell.com>
 
 	* exchange-permissions-dialog.c (display_role, get_widgets):

@@ -71,6 +71,7 @@ e_exchange_contacts_get_contacts (void)
 	prefix_len = strlen (uri_prefix);
 
 	contacts_list = g_ptr_array_new ();
+	exchange_account_rescan_tree (account);
 	folder_array = exchange_account_get_folders (account);
 
 	for (i=0; i<folder_array->len; ++i) {
