@@ -108,15 +108,12 @@ static void
 emft_copy_folders__copy (struct _mail_msg *mm)
 {
 	struct _EMCopyFolders *m = (struct _EMCopyFolders *) mm;
-	guint32 flags = CAMEL_STORE_FOLDER_INFO_FAST | CAMEL_STORE_FOLDER_INFO_RECURSIVE;
+	guint32 flags = CAMEL_STORE_FOLDER_INFO_FAST | CAMEL_STORE_FOLDER_INFO_RECURSIVE | CAMEL_STORE_FOLDER_INFO_SUBSCRIBED;
 	GList *pending = NULL, *deleting = NULL, *l;
 	GString *fromname, *toname;
 	CamelFolderInfo *fi;
 	const char *tmp;
 	int fromlen;
-	
-	if (camel_store_supports_subscriptions (m->fromstore))
-		flags |= CAMEL_STORE_FOLDER_INFO_SUBSCRIBED;
 	
 	if (!(fi = camel_store_get_folder_info (m->fromstore, m->frombase, flags, &mm->ex)))
 		return;
@@ -431,11 +428,8 @@ emfu_delete_rec (CamelStore *store, CamelFolderInfo *fi, CamelException *ex)
 static void
 emfu_delete_folders (CamelStore *store, const char *full_name, CamelException *ex)
 {
-	guint32 flags = CAMEL_STORE_FOLDER_INFO_RECURSIVE | CAMEL_STORE_FOLDER_INFO_FAST;
+	guint32 flags = CAMEL_STORE_FOLDER_INFO_RECURSIVE | CAMEL_STORE_FOLDER_INFO_FAST | CAMEL_STORE_FOLDER_INFO_SUBSCRIBED;
 	CamelFolderInfo *fi;
-	
-	if (camel_store_supports_subscriptions (store))
-		flags |= CAMEL_STORE_FOLDER_INFO_SUBSCRIBED;
 	
 	fi = camel_store_get_folder_info (store, full_name, flags, ex);
 	if (camel_exception_is_set (ex))

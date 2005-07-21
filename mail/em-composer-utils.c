@@ -1071,10 +1071,13 @@ em_utils_redirect_message_by_uid (CamelFolder *folder, const char *uid)
 }
 
 static void
-emu_handle_receipt_message(CamelFolder *folder, const char *uid, CamelMimeMessage *msg, void *data)
+emu_handle_receipt_message(CamelFolder *folder, const char *uid, CamelMimeMessage *msg, void *data, CamelException *ex)
 {
 	if (msg)
 		em_utils_handle_receipt(folder, uid, msg);
+
+	/* we dont care really if we can't get the message */
+	camel_exception_clear(ex);
 }
 
 /* Message disposition notifications, rfc 2298 */
@@ -1095,7 +1098,7 @@ em_utils_handle_receipt (CamelFolder *folder, const char *uid, CamelMimeMessage 
 	}
 
 	if (msg == NULL) {
-		mail_get_message(folder, uid, emu_handle_receipt_message, NULL, mail_thread_new);
+		mail_get_messagex(folder, uid, emu_handle_receipt_message, NULL, mail_thread_new);
 		camel_message_info_free(info);
 		return;
 	}

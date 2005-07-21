@@ -1061,10 +1061,7 @@ static void
 get_folderinfo_get (struct _mail_msg *mm)
 {
 	struct _get_folderinfo_msg *m = (struct _get_folderinfo_msg *)mm;
-	guint32 flags = CAMEL_STORE_FOLDER_INFO_RECURSIVE;
-	
-	if (camel_store_supports_subscriptions (m->store))
-		flags |= CAMEL_STORE_FOLDER_INFO_SUBSCRIBED;
+	guint32 flags = CAMEL_STORE_FOLDER_INFO_RECURSIVE|CAMEL_STORE_FOLDER_INFO_FAST | CAMEL_STORE_FOLDER_INFO_SUBSCRIBED;
 	
 	m->info = camel_store_get_folder_info (m->store, NULL, flags, &mm->ex);
 }
@@ -1786,6 +1783,44 @@ mail_get_message(CamelFolder *folder, const char *uid, void (*done) (CamelFolder
 	struct _get_message_msg *m;
 	
 	m = mail_msg_new(&get_message_op, NULL, sizeof(*m));
+	m->folder = folder;
+	camel_object_ref(folder);
+	m->uid = g_strdup(uid);
+	m->data = data;
+	m->done = done;
+	m->cancel = camel_operation_new(NULL, NULL);
+	
+	e_thread_put(thread, (EMsg *)m);
+}
+
+typedef void (*get_done)(CamelFolder *folder, const char *uid, CamelMimeMessage *msg, void *data, CamelException *);
+
+static void get_messagex_got(struct _mail_msg *mm)
+{
+	struct _get_message_msg *m = (struct _get_message_msg *)mm;
+
+	if (m->done) {
+		get_done done = (get_done)m->done;
+		done(m->folder, m->uid, m->message, m->data, &mm->ex);
+	}
+}
+
+static struct _mail_msg_op get_messagex_op = {
+	get_message_desc,
+	get_message_get,
+	get_messagex_got,
+	get_message_free,
+};
+
+/* This is temporary, to avoid having to rewrite everything that uses
+   mail_get_message; it adds an exception argument to the callback */
+void
+mail_get_messagex(CamelFolder *folder, const char *uid, void (*done) (CamelFolder *folder, const char *uid, CamelMimeMessage *msg, void *data, CamelException *),
+		 void *data, EThread *thread)
+{
+	struct _get_message_msg *m;
+	
+	m = mail_msg_new(&get_messagex_op, NULL, sizeof(*m));
 	m->folder = folder;
 	camel_object_ref(folder);
 	m->uid = g_strdup(uid);

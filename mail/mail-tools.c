@@ -293,7 +293,7 @@ mail_tool_uri_to_folder (const char *uri, guint32 flags, CamelException *ex)
 		return NULL;
 	}
 
-	store = camel_session_get_store (session, uri + offset, ex);
+	store = camel_session_get_service(session, uri+offset, CAMEL_PROVIDER_STORE, ex);
 	if (store) {
 		const char *name;
 

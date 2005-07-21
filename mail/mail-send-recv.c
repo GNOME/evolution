@@ -683,10 +683,97 @@ receive_get_folder(CamelFilterDriver *d, const char *uri, void *data, CamelExcep
 	return folder;
 }
 
-static void
-receive_update_got_folderinfo (CamelStore *store, CamelFolderInfo *info, void *data)
+/* ********************************************************************** */
+
+struct _refresh_folders_msg {
+	struct _mail_msg msg;
+
+	struct _send_info *info;
+	GPtrArray *folders;
+	CamelStore *store;
+};
+
+static char *
+refresh_folders_desc (struct _mail_msg *mm, int done)
 {
-	receive_done ("", data);
+	return g_strdup_printf(_("Checking for new mail"));
+}
+
+static void
+refresh_folders_get (struct _mail_msg *mm)
+{
+	struct _refresh_folders_msg *m = (struct _refresh_folders_msg *)mm;
+	int i;
+	CamelFolder *folder;
+
+	for (i=0;i<m->folders->len;i++) {
+		folder = mail_tool_uri_to_folder(m->folders->pdata[i], 0, NULL);
+		if (folder) {
+			camel_folder_refresh_info(folder, NULL);
+			camel_object_unref(folder);
+		}
+		if (camel_operation_cancel_check(m->info->cancel))
+			break;
+	}
+}
+
+static void
+refresh_folders_got (struct _mail_msg *mm)
+{
+	struct _refresh_folders_msg *m = (struct _refresh_folders_msg *)mm;
+
+	receive_done("", m->info);
+}
+
+static void
+refresh_folders_free (struct _mail_msg *mm)
+{
+	struct _refresh_folders_msg *m = (struct _refresh_folders_msg *)mm;
+	int i;
+
+	for (i=0;i<m->folders->len;i++)
+		g_free(m->folders->pdata[i]);
+	g_ptr_array_free(m->folders, TRUE);
+	camel_object_unref(m->store);
+}
+
+static struct _mail_msg_op refresh_folders_op = {
+	refresh_folders_desc,
+	refresh_folders_get,
+	refresh_folders_got,
+	refresh_folders_free,
+};
+
+static void
+get_folders(GPtrArray *folders, CamelFolderInfo *info)
+{
+	while (info) {
+		g_ptr_array_add(folders, g_strdup(info->uri));
+		get_folders(folders, info->child);
+		info = info->next;
+	}
+}
+
+static void
+receive_update_got_folderinfo(CamelStore *store, CamelFolderInfo *info, void *data)
+{
+	if (info) {
+		GPtrArray *folders = g_ptr_array_new();
+		struct _refresh_folders_msg *m;
+		struct _send_info *sinfo = data;
+
+		get_folders(folders, info);
+
+		m = mail_msg_new(&refresh_folders_op, NULL, sizeof(*m));
+		m->store = store;
+		camel_object_ref(store);
+		m->folders = folders;
+		m->info = sinfo;
+
+		e_thread_put(mail_thread_new, (EMsg *)m);
+	} else {
+		receive_done ("", data);
+	}
 }
 
 static void
@@ -697,7 +784,7 @@ receive_update_got_store (char *uri, CamelStore *store, void *data)
 	if (store) {
 		mail_note_store(store, info->cancel, receive_update_got_folderinfo, info);
 	} else {
-		receive_done ("", info);
+		receive_done("", info);
 	}
 }
 
@@ -849,6 +936,24 @@ auto_account_changed(EAccountList *eal, EAccount *ea, void *dummy)
 	auto_account_commit(info);
 }
 
+static void
+auto_online(CamelObject *o, void *ed, void *d)
+{
+	EIterator *iter;
+	EAccountList *accounts;
+	struct _auto_data *info;
+
+	if (!GPOINTER_TO_INT(ed))
+		return;
+
+	accounts = mail_config_get_accounts ();
+	for (iter = e_list_get_iterator((EList *)accounts);e_iterator_is_valid(iter);e_iterator_next(iter)) {
+		info  = g_object_get_data((GObject *)e_iterator_get(iter), "mail-autoreceive");
+		if (info && info->timeout_id)
+			auto_timeout(info);
+	}
+}
+
 /* call to setup initial, and after changes are made to the config */
 /* FIXME: Need a cleanup funciton for when object is deactivated */
 void
@@ -869,6 +974,8 @@ mail_autoreceive_init(void)
 
 	for (iter = e_list_get_iterator((EList *)accounts);e_iterator_is_valid(iter);e_iterator_next(iter))
 		auto_account_added(accounts, (EAccount *)e_iterator_get(iter), NULL);
+
+	camel_object_hook_event(mail_component_peek_session(NULL), "online", auto_online, NULL);
 }
 
 /* we setup the download info's in a hashtable, if we later need to build the gui, we insert

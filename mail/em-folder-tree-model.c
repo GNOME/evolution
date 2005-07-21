@@ -443,7 +443,7 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model, GtkTreeIter *ite
 	
 	/* HACK: if we have the folder, and its the outbox folder, we need the total count, not unread */
 	/* This is duplicated in mail-folder-cache too, should perhaps be functionised */
-	unread = fi->unread == -1 ? 0 : fi->unread;
+	unread = fi->unread;
 	if (mail_note_get_folder_from_uri(fi->uri, &folder) && folder) {
 		if (folder == mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_OUTBOX)) {
 			int total;
@@ -482,11 +482,13 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model, GtkTreeIter *ite
 			    COL_POINTER_CAMEL_STORE, si->store,
 			    COL_STRING_FULL_NAME, fi->full_name,
 			    COL_STRING_URI, fi->uri,
-			    COL_UINT_UNREAD, unread,
 			    COL_UINT_FLAGS, flags,
 			    COL_BOOL_IS_STORE, FALSE,
 			    COL_BOOL_LOAD_SUBDIRS, load,
 			    -1);
+
+	if (unread != ~0)
+		gtk_tree_store_set ((GtkTreeStore *) model, iter, COL_UINT_UNREAD, unread, -1);
 	
 	if (load) {
 		/* create a placeholder node for our subfolders... */
@@ -1103,7 +1105,7 @@ em_folder_tree_model_set_unread_count (EMFolderTreeModel *model, CamelStore *sto
 	u(printf("set unread count %p '%s' %d\n", store, full, unread));
 
 	if (unread < 0)
-		unread = 0;
+		return;
 	
 	if (!(si = g_hash_table_lookup (model->store_hash, store))) {
 		u(printf("  can't find store\n"));

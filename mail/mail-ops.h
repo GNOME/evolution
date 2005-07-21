@@ -57,6 +57,11 @@ void mail_get_message (CamelFolder *folder, const char *uid,
 		       void *data,
 		       EThread *thread);
 
+void
+mail_get_messagex(CamelFolder *folder, const char *uid,
+		  void (*done) (CamelFolder *folder, const char *uid, CamelMimeMessage *msg, void *data, CamelException *),
+		  void *data, EThread *thread);
+
 /* get several messages */
 void mail_get_messages (CamelFolder *folder, GPtrArray *uids,
 			void (*done) (CamelFolder *folder, GPtrArray *uids, GPtrArray *msgs, void *data),

@@ -390,7 +390,7 @@ setup_folder(CamelFolderInfo *fi, struct _store_info *si)
 	if (mfi) {
 		update_1folder(mfi, 0, fi);
 	} else {
-		/*d(printf("Adding new folder: %s (%s) %d unread\n", fi->path, fi->url, fi->unread_message_count));*/
+		d(printf("Adding new folder: %s (%s) %d unread\n", fi->path, fi->url, fi->unread_message_count));
 		mfi = g_malloc0(sizeof(*mfi));
 		mfi->full_name = g_strdup(fi->full_name);
 		mfi->uri = g_strdup(fi->uri);
@@ -403,7 +403,7 @@ setup_folder(CamelFolderInfo *fi, struct _store_info *si)
 		up = g_malloc0(sizeof(*up));
 		up->full_name = g_strdup(mfi->full_name);
 		up->uri = g_strdup(fi->uri);
-		up->unread = (fi->unread==-1)?0:fi->unread;
+		up->unread = fi->unread;
 		up->store = si->store;
 		camel_object_ref(up->store);
 		

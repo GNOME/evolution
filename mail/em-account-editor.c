@@ -1814,8 +1814,14 @@ emae_option_entry(EMAccountEditorService *service, CamelURL *url, const char *na
 	GtkWidget *w;
 	const char *val = camel_url_get_param(url, name);
 
-	if (val == NULL)
-		val = def;
+	if (val == NULL) {
+		if (def) {
+			val = def;
+			camel_url_set_param(url, name, val);
+			emae_uri_changed(service, url);
+		} else
+			val = "";
+	}
 
 	w = g_object_new(gtk_entry_get_type(),
 			 "text", val,

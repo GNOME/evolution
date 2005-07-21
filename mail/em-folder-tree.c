@@ -1757,10 +1757,7 @@ static void
 emft_get_folder_info__get (struct _mail_msg *mm)
 {
 	struct _EMFolderTreeGetFolderInfo *m = (struct _EMFolderTreeGetFolderInfo *) mm;
-	guint32 flags = m->flags;
-	
-	if (camel_store_supports_subscriptions (m->store))
-		flags |= CAMEL_STORE_FOLDER_INFO_SUBSCRIBED;
+	guint32 flags = m->flags | CAMEL_STORE_FOLDER_INFO_SUBSCRIBED;
 	
 	m->fi = camel_store_get_folder_info (m->store, m->top, flags, &mm->ex);
 }
@@ -1937,7 +1934,7 @@ emft_tree_row_expanded (GtkTreeView *treeview, GtkTreeIter *root, GtkTreePath *t
 	m->emft = emft;
 	g_object_ref(emft);
 	m->top = full_name;
-	m->flags = CAMEL_STORE_FOLDER_INFO_RECURSIVE;
+	m->flags = CAMEL_STORE_FOLDER_INFO_RECURSIVE|CAMEL_STORE_FOLDER_INFO_FAST;
 	
 	e_thread_put (mail_thread_new, (EMsg *) m);
 }

@@ -1,3 +1,63 @@
+2005-07-21  Not Zed  <NotZed@Ximian.com>
+
+	* em-account-editor.c (emae_option_entry): if we get a null
+	default, then set "" on the entry.
+	(emae_option_entry): set the default value on the url if it
+	doesn't exist already.
+
+2005-07-20  Not Zed  <NotZed@Ximian.com>
+
+	* mail-send-recv.c (refresh_folders_desc, refresh_folders_get)
+	(refresh_folders_got, refresh_folders_free, get_folders)
+	(receive_update_got_folderinfo, receive_update_got_store): refresh
+	all the folders manually and directly.
+
+	* mail-folder-cache.c (setup_folder): propagate even -1 unread
+	counts, they get ignored later.
+
+	* em-composer-utils.c (emu_handle_receipt_message)
+	(em_utils_handle_receipt): use getmessagex too, so we can always
+	clear any error.
+
+	* em-folder-view.c (emfv_message_selected_timeout)
+	(emfv_list_done_message_selected): use getmessagex and do
+	something meaninful with the error.
+
+	* mail-ops.c (mail_get_messagex): added new get message which
+	returns an exception.
+
+2005-07-19  Not Zed  <NotZed@Ximian.com>
+
+	* mail-tools.c (mail_tool_uri_to_folder): dont get the service
+	connected, it will connect if it needs to.
+
+	* mail-ops.c (get_folderinfo_get): * em-folder-utils.c
+	(emft_copy_folders__copy)
+	(emfu_delete_folders): * em-folder-tree.c
+	(emft_get_folder_info__get): Always request subscribed folders, if
+	the backend doesn't implement it it will ignore it.
+
+2005-07-13  Not Zed  <NotZed@Ximian.com>
+
+	* mail-send-recv.c (mail_autoreceive_init, auto_online): listen to
+	session online events, and if we are online, trigger an
+	auto-receive of all auto-check accounts.
+
+2005-07-11  Not Zed  <NotZed@Ximian.com>
+
+	* mail-send-recv.c (auto_account_commit): force an update
+	immediately if we're setting up the timeout to start with.
+
+	* em-folder-tree-model.c (em_folder_tree_model_set_unread_count):
+	noop if the unread count < 0.
+	(em_folder_tree_model_set_folder_info): only set the unread count
+	if we actually have one.
+
+	* em-folder-tree.c (emft_tree_row_expanded): get the folder list
+	'fast'.
+
+	* mail-ops.c (get_folderinfo_get): get the folder list 'fast'.
+
 2005-07-19  Srinivasa Ragavan <sragavan@novell.com>
 
 	* em-folder-tree.c: (emft_popup_move) calling the wrong api to

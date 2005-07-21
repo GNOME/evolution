@@ -87,6 +87,7 @@
 #include "em-event.h"
 
 #include <gtkhtml/gtkhtml.h>
+#include <gtkhtml/gtkhtml-stream.h>
 
 #include "mail-mt.h"
 #include "mail-ops.h"
@@ -2166,7 +2167,7 @@ do_mark_seen (gpointer user_data)
 }
 
 static void
-emfv_list_done_message_selected(CamelFolder *folder, const char *uid, CamelMimeMessage *msg, void *data)
+emfv_list_done_message_selected(CamelFolder *folder, const char *uid, CamelMimeMessage *msg, void *data, CamelException *ex)
 {
 	EMFolderView *emfv = data;
 	EMEvent *eme;
@@ -2211,6 +2212,17 @@ emfv_list_done_message_selected(CamelFolder *folder, const char *uid, CamelMimeM
 		} else {
 			emfv_set_seen (emfv, uid);
 		}
+	} else if (camel_exception_is_set(ex)) {
+		GtkHTMLStream *hstream = gtk_html_begin(((EMFormatHTML *)emfv->preview)->html);
+
+		/* Display the error inline rather than popping up an annoying box.
+		   We also clear the exception, this stops the box popping up */
+
+		gtk_html_stream_printf(hstream, "<h2>%s</h2><p>%s</p>",
+				       _("Unable to retrieve message"),
+				       ex->desc);
+		gtk_html_stream_close(hstream, GTK_HTML_STREAM_OK);
+		camel_exception_clear(ex);
 	}
 	
 	emfv->priv->nomarkseen = FALSE;
@@ -2231,7 +2243,7 @@ emfv_message_selected_timeout(void *data)
 			g_object_ref (emfv);
 			/* TODO: we should manage our own thread stuff, would make cancelling outstanding stuff easier */
 			e_profile_event_emit("goto.load", emfv->displayed_uid, 0);
-			mail_get_message(emfv->folder, emfv->displayed_uid, emfv_list_done_message_selected, emfv, mail_thread_queued);
+			mail_get_messagex(emfv->folder, emfv->displayed_uid, emfv_list_done_message_selected, emfv, mail_thread_queued);
 		} else {
 			e_profile_event_emit("goto.empty", "", 0);
 			g_free(emfv->priv->selected_uid);
