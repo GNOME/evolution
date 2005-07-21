@@ -1,3 +1,12 @@
+2005-07-21  Harish Krishnaswamy  <kharish@novell.com>
+
+	* gui/gnome-cal.c (gnome_calendar_class_init),
+	(adjust_e_cal_view_sexp), (display_view),
+	(gnome_calendar_change_view):
+	* gui/gnome-cal.h:
+	Fixes #245331. Keybindings for switching b/w
+	calendar views.
+
 2005-07-20  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #310340

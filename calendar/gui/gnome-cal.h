@@ -89,6 +89,8 @@ struct _GnomeCalendarClass {
 
 	void (* calendar_focus_change)  (GnomeCalendar *gcal, gboolean in);
 	void (* taskpad_focus_change)   (GnomeCalendar *gcal, gboolean in);
+ 	void (* change_view) (GnomeCalendar *gcal,
+ 			       GnomeCalendarViewType view_type);
 
         void (* source_added)           (GnomeCalendar *gcal, ECalSourceType source_type, ESource *source);
         void (* source_removed)         (GnomeCalendar *gcal, ECalSourceType source_type, ESource *source);

@@ -189,6 +189,7 @@ enum {
 	GOTO_DATE,
 	SOURCE_ADDED,
 	SOURCE_REMOVED,
+ 	CHANGE_VIEW,
 	LAST_SIGNAL
 };
 
@@ -207,6 +208,8 @@ static guint gnome_calendar_signals[LAST_SIGNAL];
 static void gnome_calendar_destroy (GtkObject *object);
 static void gnome_calendar_goto_date (GnomeCalendar *gcal,
 				      GnomeCalendarGotoDateType goto_date);
+static void gnome_calendar_change_view (GnomeCalendar *gcal,
+					 GnomeCalendarViewType view_type);
 
 static void gnome_calendar_set_pane_positions	(GnomeCalendar	*gcal);
 static void update_view_times (GnomeCalendar *gcal, time_t start_time);
@@ -314,6 +317,17 @@ gnome_calendar_class_init (GnomeCalendarClass *class)
 			      1,
 			      G_TYPE_INT);
 
+	gnome_calendar_signals[CHANGE_VIEW] =
+		g_signal_new ("change_view",
+			      G_TYPE_FROM_CLASS (object_class),
+			      G_SIGNAL_RUN_FIRST | G_SIGNAL_ACTION,
+			      G_STRUCT_OFFSET (GnomeCalendarClass, change_view),
+			      NULL, NULL,
+			      g_cclosure_marshal_VOID__INT,
+			      G_TYPE_NONE,
+			      1,
+			      G_TYPE_INT);
+
 	object_class->destroy = gnome_calendar_destroy;
 
 	class->dates_shown_changed = NULL;
@@ -324,6 +338,7 @@ gnome_calendar_class_init (GnomeCalendarClass *class)
 	class->source_added = NULL;
 	class->source_removed = NULL;
 	class->goto_date = gnome_calendar_goto_date;
+ 	class->change_view = gnome_calendar_change_view;
 
 	/*
 	 * Key bindings
@@ -396,6 +411,35 @@ gnome_calendar_class_init (GnomeCalendarClass *class)
 				      "goto_date",1,
 				      G_TYPE_ENUM,
 				      GNOME_CAL_GOTO_SAME_DAY_OF_NEXT_WEEK);
+ 
+ 	/* Ctrl+Alt+ Y/W/E/M/L to switch between
+	 * DayView/WorkWeekView/WeekView/MonthView/ListView */
+    	gtk_binding_entry_add_signal (binding_set, GDK_y,
+ 				      GDK_CONTROL_MASK | GDK_MOD1_MASK,
+ 				      "change_view", 1,
+ 				      G_TYPE_ENUM,
+ 				      GNOME_CAL_DAY_VIEW);
+ 	gtk_binding_entry_add_signal (binding_set, GDK_w,
+ 				      GDK_CONTROL_MASK | GDK_MOD1_MASK,
+ 				      "change_view", 1,
+ 				      G_TYPE_ENUM,
+ 				      GNOME_CAL_WORK_WEEK_VIEW);
+ 	gtk_binding_entry_add_signal (binding_set, GDK_e,
+ 				      GDK_CONTROL_MASK | GDK_MOD1_MASK,
+ 				      "change_view", 1,
+ 				      G_TYPE_ENUM,
+ 				      GNOME_CAL_WEEK_VIEW);
+ 	gtk_binding_entry_add_signal (binding_set, GDK_m,
+ 				      GDK_CONTROL_MASK | GDK_MOD1_MASK,
+ 				      "change_view", 1,
+ 				      G_TYPE_ENUM,
+ 				      GNOME_CAL_MONTH_VIEW);
+	gtk_binding_entry_add_signal (binding_set, GDK_l,
+ 				      GDK_CONTROL_MASK | GDK_MOD1_MASK,
+ 				      "change_view", 1,
+ 				      G_TYPE_ENUM,
+ 				      GNOME_CAL_LIST_VIEW);
+
 	/* init the accessibility support for gnome_calendar */
 	gnome_calendar_a11y_init ();
 
@@ -697,8 +741,6 @@ adjust_e_cal_view_sexp (GnomeCalendar *gcal, const char *sexp)
 				    "     %s)",
 				    start, end,
 				    sexp);
-
-
 	g_free (start);
 	g_free (end);
 
@@ -1933,6 +1975,14 @@ display_view (GnomeCalendar *gcal, GnomeCalendarViewType view_type, gboolean gra
 	g_object_set (G_OBJECT (priv->date_navigator->calitem),
 		      "preserve_day_when_moving", preserve_day,
 		      NULL);
+}
+
+static void gnome_calendar_change_view (GnomeCalendar *gcal, GnomeCalendarViewType view_type)
+{
+	if (gnome_calendar_get_view(gcal) == view_type)
+		return;
+	
+	gnome_calendar_set_view(gcal, view_type);
 }
 
 /* Callback used when the view collection asks us to display a particular view */
