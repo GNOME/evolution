@@ -1,6 +1,11 @@
+2005-07-21  Shreyas Srinivasan  <sshreyas@novell.com>
+
+	* e-msg-composer-hdrs.c (account_can_send): Use camel_object_unref
+	instead of g_object_unref.
+	
 2005-07-15  Shreyas Srinivasan  <sshreyas@novell.com>
 
-	* e-msg-composer-hdrs.c: (account_can_send) unref the store which
+	* e-msg-composer-hdrs.c (account_can_send): unref the store which
 	was being leaked.
 	
 2005-07-14  Not Zed  <NotZed@Ximian.com>

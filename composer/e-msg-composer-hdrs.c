@@ -338,13 +338,13 @@ account_can_send (EAccount *account)
 	if (!account->parent_uid) 
 		return TRUE;
 		 
-       	if (!(store = (CamelStore *) camel_session_get_service (session, e_account_get_string(account, E_ACCOUNT_SOURCE_URL), CAMEL_PROVIDER_STORE, &ex))) 
+       	if (!(store = (CamelStore *) camel_session_get_service (session, e_account_get_string(account, E_ACCOUNT_SOURCE_URL), CAMEL_PROVIDER_STORE, &ex))) {	  
 		camel_exception_clear (&ex);
-	else if (store->mode & CAMEL_STORE_WRITE) {
+		return result;
+	} else if (store->mode & CAMEL_STORE_WRITE)
 		result = TRUE;
-		g_object_unref (store);
-	}
 
+	camel_object_unref (store);
 	return result;
 }
 
