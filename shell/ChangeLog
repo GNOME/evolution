@@ -1,3 +1,11 @@
+2005-07-21  Not Zed  <NotZed@Ximian.com>
+
+	* e-shell-window-commands.c: fix the pixmap location for the
+	settings menu.
+
+	* e-shell-window.c (setup_widgets): reverted dobey's patch to put
+	the components in the useless tools window.
+
 2005-07-07  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* e-shell-window.c: (setup_widgets): Free the style here.

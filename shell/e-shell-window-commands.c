@@ -715,7 +715,7 @@ static EPixmap pixmaps [] = {
 	E_PIXMAP ("/menu/File/OpenNewWindow", "stock_new-window", E_ICON_SIZE_MENU),
 	E_PIXMAP ("/menu/File/FileImporter", "stock_mail-import", E_ICON_SIZE_MENU),
 	E_PIXMAP ("/menu/File/ToggleOffline", "stock_disconnect", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/menu/Tools/Settings", "gnome-settings", E_ICON_SIZE_MENU),
+	E_PIXMAP ("/menu/Edit/Settings", "gnome-settings", E_ICON_SIZE_MENU),
 	
 	E_PIXMAP_END
 };
