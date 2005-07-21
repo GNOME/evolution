@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Evolution GNOME 2.10\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-04-19 11:58+0000\n"
-"PO-Revision-Date: 2005-07-19 19:10+0300\n"
+"PO-Revision-Date: 2005-07-21 18:25+0300\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -635,7 +635,7 @@ msgstr "Aadressiraamat"
 
 #: ../addressbook/gui/component/addressbook-config.c:909
 msgid "Server Information"
-msgstr "Serveri teave"
+msgstr "Serveri andmed"
 
 #: ../addressbook/gui/component/addressbook-config.c:911
 msgid "Authentication"
@@ -1061,7 +1061,7 @@ msgstr "_Ajapiirang:"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:52
 msgid "_Use secure connection:"
-msgstr "_Turvalise ühenduse kasutamine:"
+msgstr "_Turvalist ühendust kasutatakse:"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:53
 msgid "cards"
@@ -3671,7 +3671,7 @@ msgstr "NUMBER"
 #: ../addressbook/tools/evolution-addressbook-export.c:91
 msgid ""
 "Command line arguments error, please use --help option to see the usage."
-msgstr ""
+msgstr "Käsureaargumentide viga, kasutusspikri saamiseks kasuta --help võtit."
 
 #: ../addressbook/tools/evolution-addressbook-export.c:105
 msgid "Only support csv or vcard format."
@@ -3738,7 +3738,7 @@ msgstr "Kas sa tõesti soovid kustutada seda koosolekut?"
 msgid ""
 "All information on this meeting will be deleted and can not be restored."
 msgstr ""
-"Kõik selle koosoleku kohta käiv teave kustutatakse ja seda ei ole võimalik "
+"Kõik selle koosoleku kohta käivad andmed kustutatakse ja neid pole võimalik "
 "enam taastada."
 
 #. calendar:prompt-cancel-task secondary
@@ -3762,7 +3762,7 @@ msgstr "Kas sa tõesti soovid kustutada seda ülesannet?"
 #: ../calendar/calendar-errors.xml.h:46
 msgid "All information on this task will be deleted and can not be restored."
 msgstr ""
-"Kõik selle ülesande kohta käiv teave kustutatakse ja seda ei ole võimalik "
+"Kõik selle ülesande kohta käivad andmed kustutatakse ja neid pole võimalik "
 "enam taastada."
 
 #. calendar:prompt-cancel-journal primary
@@ -3791,7 +3791,7 @@ msgid ""
 "All information on this journal entry will be deleted and can not be "
 "restored."
 msgstr ""
-"Kõik selle päevikukirje kohta käiv teave kustutatakse ja seda ei ole "
+"Kõik selle päevikukirje kohta käivad andmed kustutatakse ja neid pole "
 "võimalik enam taastada."
 
 #. calendar:prompt-delete-titled-appointment primary
@@ -3805,7 +3805,7 @@ msgstr "Kas sa tõesti soovid kustutada sündmust nimega '{0}'?"
 msgid ""
 "All information on this appointment will be deleted and can not be restored."
 msgstr ""
-"Kõik selle sündmuse kohta käiv teave kustutatakse ja seda ei ole võimalik "
+"Kõik selle sündmuse kohta käivad andmed kustutatakse ja neid pole võimalik "
 "enam taastada."
 
 #. calendar:prompt-delete-appointment primary
@@ -3829,7 +3829,7 @@ msgstr "Kas sa tõesti soovid kustutada päevikukirjet '{0}'?"
 msgid ""
 "All information in this journal will be deleted and can not be restored."
 msgstr ""
-"Kõik selle päeviku kohta käiv teave kustutatakse ja seda ei ole võimalik "
+"Kõik selle päeviku kohta käivad andmed kustutatakse ja neid pole võimalik "
 "enam taastada."
 
 #. calendar:prompt-delete-appointments primary
@@ -3843,7 +3843,7 @@ msgid ""
 "All information on these appointments will be deleted and can not be "
 "restored."
 msgstr ""
-"Kõik nende sündmuste kohta käiv teave kustutatakse ja seda ei ole võimalik "
+"Kõik nende sündmuste kohta käivad andmed kustutatakse ja neid pole võimalik "
 "enam taastada."
 
 #. calendar:prompt-delete-tasks primary
@@ -3855,7 +3855,7 @@ msgstr "Kas sa tõesti soovid kustutada neid {0} ülesandeid?"
 #: ../calendar/calendar-errors.xml.h:62
 msgid "All information on these tasks will be deleted and can not be restored."
 msgstr ""
-"Kõik nende ülesannete kohta käiv teave kustutatakse ja seda ei ole võimalik "
+"Kõik nende ülesannete kohta käivad andmed kustutatakse ja neid pole võimalik "
 "enam taastada."
 
 #. calendar:prompt-delete-journals primary
@@ -3869,7 +3869,7 @@ msgid ""
 "All information in these journal entries will be deleted and can not be "
 "restored."
 msgstr ""
-"Kõik nende päevikukirjete kohta käiv teave kustutatakse ja seda ei ole "
+"Kõik nende päevikukirjete kohta käivad andmed kustutatakse ja neid pole "
 "võimalik enam taastada."
 
 #. calendar:prompt-save-appointment title
@@ -3940,8 +3940,8 @@ msgid ""
 "Sending updated information allows other participants to keep their "
 "calendars up to date."
 msgstr ""
-"Värskendatud teave aitab teistel osalejatel nende kalendreid ajakohasena "
-"hoida"
+"Värskendatud andmete saatmine aitab teistel osalejatel nende kalendreid "
+"ajakohasena hoida"
 
 #. calendar:prompt-send-task primary
 #: ../calendar/calendar-errors.xml.h:96
@@ -3960,7 +3960,7 @@ msgstr ""
 #. calendar:prompt-send-updated-task-info primary
 #: ../calendar/calendar-errors.xml.h:102
 msgid "Would you like to send updated task information to participants?"
-msgstr "Kas soovid saata osalejatele värskemat teavet ülesande kohta?"
+msgstr "Kas soovid saata osalejatele värskemaid andmeid ülesande kohta?"
 
 #. calendar:prompt-send-updated-task-info secondary
 #: ../calendar/calendar-errors.xml.h:104
@@ -3968,8 +3968,8 @@ msgid ""
 "Sending updated information allows other participants to keep their task "
 "lists up to date."
 msgstr ""
-"Värskendatud teave aitab teistel osalejatel nende ülesannete nimekirja "
-"ajakohasena hoida"
+"Värskendatud andmete saatmine aitab teistel osalejatel nende ülesannete "
+"nimekirja ajakohasena hoida"
 
 #. calendar:tasks-crashed primary
 #: ../calendar/calendar-errors.xml.h:108
@@ -4206,7 +4206,7 @@ msgstr "Algus:"
 #: ../ui/evolution-subscribe.xml.h:10 ../ui/evolution-tasks.xml.h:22
 #: ../ui/evolution.xml.h:38
 msgid "_Edit"
-msgstr "_Redaktor"
+msgstr "_Redigeeri"
 
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:8
 msgid "_Snooze"
@@ -4247,7 +4247,7 @@ msgstr "Kirjeldus puudub."
 
 #: ../calendar/gui/alarm-notify/alarm-queue.c:981
 msgid "No location information available."
-msgstr "Asukoha kohta puudub teave."
+msgstr "Asukoha kohta puuduvad andmed."
 
 #: ../calendar/gui/alarm-notify/alarm-queue.c:997
 #, c-format
@@ -4502,7 +4502,7 @@ msgstr "Ajavöönd"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:46
 msgid "Twenty four hour time format"
-msgstr ""
+msgstr "Kahekümneneljatunnine ajavorming"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:47
 msgid "Units for a default reminder, \"minutes\", \"hours\" or \"days\"."
@@ -5391,7 +5391,7 @@ msgstr "Tähtaeg "
 #: ../calendar/gui/dialogs/comp-editor.c:181 ../composer/e-msg-composer.c:2676
 #, c-format
 msgid "Attached message - %s"
-msgstr ""
+msgstr "Manustatud sõnum - %s"
 
 #. translators, this count will always be >1
 #: ../calendar/gui/dialogs/comp-editor.c:186
@@ -6574,11 +6574,11 @@ msgstr "Ülesannete sortimine"
 
 #: ../calendar/gui/e-calendar-view.c:1186
 msgid "Moving items"
-msgstr ""
+msgstr "Kirjete tõstmine"
 
 #: ../calendar/gui/e-calendar-view.c:1188
 msgid "Copying items"
-msgstr ""
+msgstr "Kirjete kopeerimine"
 
 #: ../calendar/gui/e-calendar-view.c:1373
 msgid "New _Appointment..."
@@ -7023,7 +7023,7 @@ msgstr ""
 
 #: ../calendar/gui/e-itip-control.c:1947
 msgid "This response is not from a current attendee.  Add as an attendee?"
-msgstr "See vastus pole praegu kohalviibijalt. Kas lisame ta kohalviibijaks?"
+msgstr "See vastus pole praeguselt osalejalt. Kas lisame ta osalejaks?"
 
 #: ../calendar/gui/e-itip-control.c:1959
 msgid "Attendee status could not be updated because of an invalid status!\n"
@@ -11472,11 +11472,12 @@ msgstr "_Väljumisel tühjendatakse kõik prügikaustad."
 
 #: ../mail/evolution-mail.schemas.in.in.h:23
 msgid "Enable caret mode, so that you can see a cursor when reading mail."
-msgstr "Luba kursorirežiim, seega sa näed kirja lugedes kursori asukohta."
+msgstr ""
+"Kursorirežiimi lubamine - siis on kirja lugemisel kursori asukoht näha."
 
 #: ../mail/evolution-mail.schemas.in.in.h:24
 msgid "Enable/disable caret mode"
-msgstr ""
+msgstr "Kursorirežiimi lubamine/keelamine"
 
 #: ../mail/evolution-mail.schemas.in.in.h:25
 msgid "Height of the message-list pane"
@@ -12145,11 +12146,11 @@ msgstr "<b>_Keeled</b>"
 
 #: ../mail/mail-config.glade.h:7
 msgid "<small>This will make the the filter more reliable, but slower</small>"
-msgstr ""
+msgstr "<small>See teeb filtris usaldusväärsemaks aga ka aeglasemaks</small>"
 
 #: ../mail/mail-config.glade.h:8
 msgid "<span weight=\"bold\">Account Information</span>"
-msgstr "<span weight=\"bold\">Teave konto kohta</span>"
+msgstr "<span weight=\"bold\">Konto andmed</span>"
 
 #: ../mail/mail-config.glade.h:9
 msgid "<span weight=\"bold\">Alerts</span>"
@@ -12214,7 +12215,7 @@ msgstr "<span weight=\"bold\">Uutest sõnumitest teatamine</span>"
 
 #: ../mail/mail-config.glade.h:24
 msgid "<span weight=\"bold\">Optional Information</span>"
-msgstr "<span weight=\"bold\">Mittekohustuslik teave</span>"
+msgstr "<span weight=\"bold\">Mittekohustuslikud andmed</span>"
 
 #: ../mail/mail-config.glade.h:25
 msgid "<span weight=\"bold\">Options</span>"
@@ -12230,7 +12231,7 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:28
 msgid "<span weight=\"bold\">Required Information</span>"
-msgstr "<span weight=\"bold\">Kohustuslik teave</span>"
+msgstr "<span weight=\"bold\">Kohustuslikud andmed</span>"
 
 #: ../mail/mail-config.glade.h:29
 msgid "<span weight=\"bold\">Secure MIME (S/MIME)</span>"
@@ -12246,7 +12247,7 @@ msgstr "<span weight=\"bold\">Saadetud sõnumid ja mustandid</span>"
 
 #: ../mail/mail-config.glade.h:32
 msgid "<span weight=\"bold\">Server Configuration</span>"
-msgstr "<span weight=\"bold\">Serveri seaded</span>"
+msgstr "<span weight=\"bold\">Serveri sätted</span>"
 
 #: ../mail/mail-config.glade.h:34
 msgid "Account Management"
@@ -12270,11 +12271,11 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:39
 msgid "Alway_s carbon-copy (cc) to:"
-msgstr "_Alati saada koopia (cc):"
+msgstr "_Alati koopia saatmine (cc):"
 
 #: ../mail/mail-config.glade.h:40
 msgid "Always _blind carbon-copy (bcc) to:"
-msgstr "Alati saada _pimekoopia (cc):"
+msgstr "Alati _pimekoopia saatmine (bcc):"
 
 #: ../mail/mail-config.glade.h:41
 msgid "Always _trust keys in my keyring when encrypting"
@@ -12485,7 +12486,7 @@ msgid ""
 "Please enter information about the way you will send mail. If you are not "
 "sure, ask your system administrator or Internet Service Provider."
 msgstr ""
-"Palun sisesta teave oma e-posti väljasaatmise kohta. Kui sa ei tea, mida "
+"Palun sisesta andmed oma e-posti väljasaatmise kohta. Kui sa ei tea, mida "
 "siia sisestada, küsi oma lisateavet oma süsteemiülemalt või interneti "
 "teenusepakkujalt."
 
@@ -12497,7 +12498,7 @@ msgid ""
 msgstr ""
 "Palun sisesta allpool olevasse vormi oma nimi ja e-posti aadress. "
 "Mittekohustuslikud väljad võib täita siis, kui sa soovid nendes väljades "
-"olevat teavet lisada enda saadetud sõnumitesse."
+"olevaid andmeid lisada enda saadetud sõnumitesse."
 
 #: ../mail/mail-config.glade.h:108
 msgid "Please select among the following options"
@@ -13200,7 +13201,7 @@ msgstr "Kas sa tõesti soovid kustutada seda kontot?"
 #. mail:ask-delete-account secondary
 #: ../mail/mail-errors.xml.h:177
 msgid "If you proceed, the account information will be deleted permanently."
-msgstr "Kui sa seda teed, siis konto kohta käiv teave kustutatakse jäädavalt."
+msgstr "Kui sa seda teed, siis konto andmed kustutatakse jäädavalt."
 
 #: ../mail/mail-errors.xml.h:178
 msgid "Don't delete"
@@ -13896,7 +13897,7 @@ msgstr "<span weight=\"bold\">Automaatsed kontaktid</span>"
 #: ../plugins/bbdb/bbdb.c:420
 msgid ""
 "_Automatically create entries in the addressbook when responding to mail"
-msgstr ""
+msgstr "_Aadressiraamatu kirjete automaatne loomine sõnumile vastamisel"
 
 #: ../plugins/bbdb/bbdb.c:438
 msgid "<span weight=\"bold\">Instant Messaging Contacts</span>"
@@ -13908,6 +13909,7 @@ msgid ""
 "Periodically synchronize contact information and images from my _instant "
 "messenger"
 msgstr ""
+"Kontaktandmete _perioodiline sünkroniseerimine välksõnumivahendiga"
 
 #. Synchronize now button.
 #: ../plugins/bbdb/bbdb.c:458
@@ -14056,7 +14058,7 @@ msgstr "Saatmise valikud"
 
 #: ../plugins/itip-formatter/itip-formatter.c:704
 msgid "Unable to parse item"
-msgstr ""
+msgstr "Kirjet pole võimalik analüüsida"
 
 #: ../plugins/itip-formatter/itip-formatter.c:757
 #, c-format
@@ -14448,7 +14450,7 @@ msgstr "Kommentaar:"
 #. org.gnome.mailing-list-actions:no-header primary
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions-errors.xml.h:2
 msgid "Action not available"
-msgstr ""
+msgstr "Toiming pole saadaval"
 
 #. org.gnome.mailing-list-actions:no-header secondary
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions-errors.xml.h:4
@@ -14508,7 +14510,7 @@ msgstr ""
 #. org.gnome.mailing-list-actions:no-action primary
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions-errors.xml.h:24
 msgid "No e-mail action"
-msgstr ""
+msgstr "Puudub e-posti toiming"
 
 #. org.gnome.mailing-list-actions:no-action secondary
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions-errors.xml.h:26
@@ -14725,7 +14727,7 @@ msgstr ""
 
 #: ../plugins/shared-folder/share-folder-common.c:315
 msgid "Users"
-msgstr ""
+msgstr "Kasutajad"
 
 #: ../plugins/shared-folder/share-folder-common.c:316
 msgid "Enter the users and set permissions"
@@ -14757,7 +14759,7 @@ msgstr ""
 #: ../plugins/startup-wizard/startup-wizard.c:306
 #: ../shell/e-shell-importer.c:159 ../shell/e-shell-startup-wizard.c:750
 msgid "Please select the information that you would like to import:"
-msgstr "Palun valige teave, mida soovite importida:"
+msgstr "Palun valige andmed, mida soovite importida:"
 
 #: ../plugins/startup-wizard/startup-wizard.c:321
 #: ../shell/e-shell-importer.c:899 ../shell/e-shell-startup-wizard.c:700
@@ -15803,7 +15805,7 @@ msgstr "PKCS #1 RSA krüptimine"
 
 #: ../smime/lib/e-cert.c:669
 msgid "Certificate Key Usage"
-msgstr ""
+msgstr "Sertifikaadi võtmekasutus"
 
 #: ../smime/lib/e-cert.c:672
 msgid "Netscape Certificate Type"
@@ -17015,7 +17017,7 @@ msgstr "Salvesta ja _sulge"
 
 #: ../ui/evolution-signature-editor.xml.h:10
 msgid "Save the current file and close the window"
-msgstr "Salvestab aktiivne fail ja sulge aken"
+msgstr "Aktiivse faili salvestamine ja akna sulgemine"
 
 #: ../ui/evolution-subscribe.xml.h:1
 msgid "Add folder to your list of subscribed folders"
