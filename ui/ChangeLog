@@ -1,3 +1,9 @@
+2005-07-21  Not Zed  <NotZed@Ximian.com>
+
+	* evolution.xml: removed the useless tools menu.
+
+	* evolution-mail-list.xml: reverted dobey's broken hide menus.
+
 2005-06-03  ANdre Klapper <a9016009@gmx.de>
 	* evolution-mail-message.xml: Removing duplicate mnemonic,
 	this fixes bug 306153

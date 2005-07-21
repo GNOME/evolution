@@ -40,18 +40,17 @@
     <cmd name="FolderRename"
      _tip="Change the name of this folder"/>
 
-    <cmd name="HideDeleted"
-     _tip="Hide deleted messages rather than displaying them with a line through them"
-     type="toggle" />
+    <cmd name="HideDeleted" _tip="Hide deleted messages rather than displaying them with a line through them"
+     pixtype="pixbuf" />
 
-    <cmd name="ViewHideRead"  _tip="Temporarily hide all messages that have already been read"
-     type="radio" group="Message_Filter"/>
+    <cmd name="ViewHideRead" _tip="Temporarily hide all messages that have already been read"
+     pixtype="pixbuf" />
 
     <cmd name="ViewShowSelected" _tip="Temporarily hide the selected messages"
-     type="radio" group="Message_Filter"/>
+     pixtype="pixbuf" />
 
     <cmd name="ViewShowAll" _tip="Show messages that have been temporarily hidden"
-     type="radio" group="Message_Filter"/>
+     pixtype="pixbuf" />
 
     <cmd name="ViewThreaded"
      _tip="Threaded Message list"
@@ -68,27 +67,15 @@
 
     <submenu name="View">
 
-      <placeholder name="MailMessageFilter">
-        <submenu name="FilterMessages" _label="Show _Messages">
-
-          <menuitem name="ViewShowAll" verb="" _label="_All"/>
-<!--
-	  <menuitem name="ViewShowSelected" verb="" _label="_Selected Messages"/>
--->
-          <menuitem name="ViewHideRead" verb="" _label="Un_read Messages"/>
-
-	</submenu>
-
-      </placeholder>
-
       <placeholder name="MailMessageView">
         <menuitem name="ViewThreaded" verb="" _label="Group By _Threads"/>
         <menuitem name="HideDeleted" verb="" _label="Hide _Deleted Messages"/>
+ 	<separator f="" name="emaillist"/>
+	<menuitem name="ViewHideSelected" verb="" _label="Hide S_elected Messages"/>
+	<menuitem name="ViewHideRead" verb="" _label="Hide _Read Messages"/>
+	<menuitem name="ViewShowAll" verb="" _label="Sh_ow Hidden Messages"/>
       </placeholder>
 
-      <placeholder name="MailListView">
-	<separator f="" name="emaillist"/>
-     </placeholder>
     </submenu>
 
     <placeholder name="MessagePlaceholder">

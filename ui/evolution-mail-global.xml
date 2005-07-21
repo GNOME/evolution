@@ -114,10 +114,6 @@
       </submenu>
     </placeholder>
 
-    <submenu name="Tools">
-      <placeholder name="ComponentPlaceholder"/>
-    </submenu>
-
   </menu>
 
   <dockitem name="Toolbar">

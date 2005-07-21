@@ -107,6 +107,7 @@
 
     <submenu name="View" _label="_View">
       <placeholder name="ViewBegin"/>
+      <submenu name="Window" _label="_Window"/>
       <menuitem name="ViewToolbar" id="ViewToolbar" verb="" accel="*Control**Shift*o"/>
       <placeholder name="ViewPreview"/>
       <submenu name="Buttons" _label="_Switcher Appearance">
@@ -128,10 +129,6 @@
 
     <placeholder name="ActionsPlaceholder">
     </placeholder>
-
-    <submenu name="Tools" _label="_Tools">
-      <placeholder name="ComponentPlaceholder"/>
-    </submenu>
 
     <placeholder name="SearchPlaceholder">
     </placeholder>
