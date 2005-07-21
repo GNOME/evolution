@@ -11,9 +11,5 @@
       </placeholder>
     </submenu>
 
-    <submenu name="Tools">
-      <placeholder name="ComponentPlaceholder"/>
-    </submenu>
-
   </menu>
 </Root>
