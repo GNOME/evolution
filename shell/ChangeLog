@@ -1,3 +1,8 @@
+2005-07-22  Sankar P  <psankar@novell.com>
+
+	* shell.error.xml : Changed the strings to be more interactive 
+	and consistent with the exisiting dialog prompts.
+
 2005-07-21  Sankar P  <psankar@novell.com>
 
 	* shell.error.xml : Added string for forget password prompt.

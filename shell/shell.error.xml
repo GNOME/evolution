@@ -74,8 +74,8 @@ Click help for details.</_secondary>
  </error>
 
  <error id="forget-passwords" type="question" default="GTK_RESPONSE_OK">
-  <_primary>Are you sure you want to forget the passwords?</_primary>
-  <_secondary xml:space="preserve">Clicking the Forget button will forget your passwords and during next login, you will be prompted for password.</_secondary>
+  <_primary>Are you sure you want to forget all remembered passwords? </_primary>
+  <_secondary xml:space="preserve">Forgetting your passwords will clear all remembered passwords. You will be reprompted next time they are needed. </_secondary>
   <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
   <button _label="_Forget" response="GTK_RESPONSE_OK"/>
  </error>
