@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Evolution GNOME 2.10\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-04-19 11:58+0000\n"
-"PO-Revision-Date: 2005-07-21 18:25+0300\n"
+"PO-Revision-Date: 2005-07-22 18:58+0300\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -13225,7 +13225,7 @@ msgstr "Signatuuriskripti \"{0}\" pole võimalik määrata."
 #. mail:signature-notscript secondary
 #: ../mail/mail-errors.xml.h:186
 msgid "The script file must exist and be executable."
-msgstr ""
+msgstr "Skriptifail peab olemas olema ja peab olema käivitatav."
 
 #. mail:ask-signature-changed title
 #: ../mail/mail-errors.xml.h:188
@@ -13803,7 +13803,7 @@ msgstr "Edasta"
 
 #: ../mail/message-tag-followup.c:79
 msgid "No Response Necessary"
-msgstr ""
+msgstr "Vastus pole tarvilik"
 
 #: ../mail/message-tag-followup.c:81 ../ui/evolution-mail-message.xml.h:85
 msgid "Reply"
@@ -13908,8 +13908,7 @@ msgstr "<span weight=\"bold\">Kiirsuhtluse kontaktid</span>"
 msgid ""
 "Periodically synchronize contact information and images from my _instant "
 "messenger"
-msgstr ""
-"Kontaktandmete _perioodiline sünkroniseerimine välksõnumivahendiga"
+msgstr "Kontaktandmete _perioodiline sünkroniseerimine välksõnumivahendiga"
 
 #. Synchronize now button.
 #: ../plugins/bbdb/bbdb.c:458
