@@ -1,3 +1,9 @@
+2005-07-22  Sushma Rai  <rsushma@novell.com>
+
+	* gui/component/GNOME_Evolution_Addressbook.server.in.in: Using 
+	autocompletion stock icon instead of contacts icon, for 
+	autocompletion. Fixes #257329.	
+
 2005-07-22  Arunprakash <arunp@novell.com>
 
 	* gui/contact-editor/e-contact-editor.c (name_entry_changed): Modified
