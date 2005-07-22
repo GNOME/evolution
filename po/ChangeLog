@@ -1,3 +1,9 @@
+2005-07-22  Shakti Sen <shprasad@novell.com>
+
+	* POTFILES.in :
+	added plugins/exchange-operations/org-gnome-exchange-*-subscription.xml
+	files.
+
 2005-07-22  Adam Weinberger  <adamw@gnome.org>
 
 	* en_CA.po: Updated Canadian English translation.
