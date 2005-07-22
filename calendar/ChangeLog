@@ -1,3 +1,15 @@
+2005-07-21  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #309602
+	* gui/e-day-view.c: (set_text_as_bold),
+	(e_day_view_update_event_label),
+	(e_day_view_update_long_event_label),
+	(e_day_view_ensure_rows_visible):
+	* gui/e-week-view.c: (set_text_as_bold),
+	(e_week_view_update_event_cb): Check if the backend
+	allows to adding the unaccepted appointments to calendar
+	and show its summary as bold text.
+	
 2005-07-21  Harish Krishnaswamy  <kharish@novell.com>
 
 	* gui/gnome-cal.c (gnome_calendar_class_init),

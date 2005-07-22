@@ -1805,6 +1805,38 @@ e_week_view_recalc_display_start_day	(EWeekView	*week_view)
 	return FALSE;
 }
 
+/*  Checks if the users participation status is Needs action and shows the summary as bold text*/
+static void
+set_text_as_bold (EWeekViewEvent *event, EWeekViewEventSpan *span)
+{
+	ECalComponent *comp;	
+	char *address;
+	GSList *attendees, *l;
+	ECalComponentAttendee *at = NULL;
+
+	comp = e_cal_component_new ();
+	e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
+	address = itip_get_comp_attendee (comp, event->comp_data->client); 
+	e_cal_component_get_attendee_list (comp, &attendees);
+
+	for (l = attendees; l; l = l->next) {
+		ECalComponentAttendee *attendee = l->data;
+
+		if (g_str_equal (itip_strip_mailto (attendee->value), address)) {
+			at = attendee;	
+			break;
+		}	
+	}
+
+	/* The attendee has not yet accepted the meeting, display the summary as bolded */
+	if (at && (at->status == ICAL_PARTSTAT_NEEDSACTION)) {
+		gnome_canvas_item_set (span->text_item, "bold", TRUE, NULL);
+	}
+
+	e_cal_component_free_attendee_list (attendees);
+	g_object_unref (comp);
+	g_free (address);
+}
 
 static gboolean
 e_week_view_update_event_cb (EWeekView *week_view,
@@ -1839,7 +1871,7 @@ e_week_view_update_event_cb (EWeekView *week_view,
 		}
 	}
 	g_signal_emit_by_name (G_OBJECT(week_view),
-			       "event_changed", event);
+                              "event_changed", event);
 
 
 	return TRUE;
@@ -2634,6 +2666,11 @@ e_week_view_reshape_event_span (EWeekView *week_view,
 					       "fill_color_gdk", &widget->style->text[GTK_STATE_NORMAL],
 					       "im_context", E_CANVAS (week_view->main_canvas)->im_context,
 					       NULL);
+		
+		if (e_cal_get_static_capability (event->comp_data->client, CAL_STATIC_CAPABILITY_HAS_UNACCEPTED_MEETING) 
+				&& e_cal_util_component_has_attendee (event->comp_data->icalcomp)) {
+			set_text_as_bold (event, span);
+		}
 
 		g_signal_connect (span->text_item, "event",
 				  G_CALLBACK (e_week_view_on_text_item_event),
