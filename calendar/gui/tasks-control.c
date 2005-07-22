@@ -53,6 +53,7 @@
 #include "print.h"
 #include "tasks-control.h"
 #include "evolution-shell-component-utils.h"
+#include "e-util/e-menu.h"
 
 #define FIXED_MARGIN                            .05
 
@@ -235,6 +236,7 @@ tasks_control_activate (BonoboControl *control, ETasks *tasks)
 
 	g_signal_connect (tasks, "selection_changed", G_CALLBACK (selection_changed_cb), control);
 
+	e_menu_activate ((EMenu *)gnome_tasks_get_tasks_menu (tasks), uic, 1);
 	cal_table = e_tasks_get_calendar_table (tasks);
 	etable = e_calendar_table_get_table (cal_table);
 	n_selected = e_table_selected_count (etable);
@@ -259,6 +261,7 @@ tasks_control_deactivate (BonoboControl *control, ETasks *tasks)
 
 	g_assert (uic != NULL);
 
+	e_menu_activate ((EMenu *)gnome_tasks_get_tasks_menu (tasks), uic, 0);
 	e_tasks_set_ui_component (tasks, NULL);
 
 	e_tasks_discard_view_menus (tasks);

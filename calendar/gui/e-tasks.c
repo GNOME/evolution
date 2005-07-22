@@ -54,6 +54,7 @@
 #include "e-cal-component-preview.h"
 #include "e-tasks.h"
 #include "common/authentication.h"
+#include "e-cal-menu.h"
 
 
 /* Private part of the GnomeCalendar structure */
@@ -73,6 +74,9 @@ struct _ETasksPrivate {
 	
 	/* Calendar search bar for tasks */
 	GtkWidget *search_bar;
+
+	/* Tasks menu */
+	ECalMenu *tasks_menu;
 
 	/* Paned widget */
 	GtkWidget *paned;
@@ -97,6 +101,7 @@ static void update_view (ETasks *tasks);
 
 static void config_categories_changed_cb (EConfigListener *config_listener, const char *key, gpointer user_data);
 static void backend_error_cb (ECal *client, const char *message, gpointer data);
+ECalMenu *gnome_tasks_get_tasks_menu (ETasks *tasks);
 
 /* Signal IDs */
 enum {
@@ -160,6 +165,15 @@ table_cursor_change_cb (ETable *etable, int row, gpointer data)
 	
 	g_object_unref (comp);
 }
+
+ECalMenu *
+gnome_tasks_get_tasks_menu (ETasks *tasks)
+{
+        g_return_val_if_fail (E_IS_TASKS (tasks), NULL);
+
+        return tasks->priv->tasks_menu;
+}
+
 
 /* Callback used when the selection changes in the table. */
 static void
@@ -654,6 +668,7 @@ e_tasks_init (ETasks *tasks)
 	priv->current_uid = NULL;
 	priv->sexp = g_strdup ("#t");
 	priv->default_client = NULL;
+	priv->tasks_menu = e_cal_menu_new ("org.gnome.evolution.tasks.view");
 	update_view (tasks);
 }
 
