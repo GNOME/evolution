@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-07-21 05:29+0000\n"
-"PO-Revision-Date: 2005-07-21 18:25+0300\n"
+"POT-Creation-Date: 2005-07-22 13:27+0000\n"
+"PO-Revision-Date: 2005-07-22 18:58+0300\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -1146,7 +1146,9 @@ msgid "Contact"
 msgstr "Kontakt"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:13
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:531
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:522
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:529
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2256
 msgid "Contact Editor"
 msgstr "Kontaktiredaktor"
 
@@ -2388,15 +2390,15 @@ msgstr "Vajalikud väljad"
 msgid "Changed"
 msgstr "Muudetud"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2578
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2599
 msgid "Please select an image for this contact"
 msgstr "Palun vali selle kontakti jaoks pilt"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2579
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2600
 msgid "No image"
 msgstr "Puuduv pilt"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2855
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2876
 msgid ""
 "The contact data is invalid:\n"
 "\n"
@@ -2404,7 +2406,7 @@ msgstr ""
 "Kontaktandmed on vigased:\n"
 "\n"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2907
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2928
 msgid "Invalid contact."
 msgstr "Vigane kontakt."
 
@@ -2558,8 +2560,8 @@ msgstr "_KS teenus:"
 #. FIXME: Take care of i18n
 #: ../addressbook/gui/contact-editor/im.glade.h:5
 #: ../plugins/calendar-weather/calendar-weather.c:409
-#: ../plugins/exchange-operations/exchange-calendar.c:181
-#: ../plugins/exchange-operations/exchange-contacts.c:175
+#: ../plugins/exchange-operations/exchange-calendar.c:189
+#: ../plugins/exchange-operations/exchange-contacts.c:164
 msgid "_Location:"
 msgstr "_Asukoht:"
 
@@ -2747,7 +2749,7 @@ msgstr "Aadressiraamat"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:806
 #: ../addressbook/gui/widgets/e-addressbook-view.c:935
-#: ../addressbook/gui/widgets/e-addressbook-view.c:2008
+#: ../addressbook/gui/widgets/e-addressbook-view.c:2010
 #: ../ui/evolution-addressbook.xml.h:19
 msgid "Save as VCard..."
 msgstr "Salvesta vKaardina..."
@@ -3517,7 +3519,7 @@ msgstr "GTK Puuvaade"
 #: ../addressbook/importers/evolution-ldif-importer.c:486
 #: ../addressbook/importers/evolution-vcard-importer.c:249
 #: ../calendar/importers/icalendar-importer.c:311
-#: ../calendar/importers/icalendar-importer.c:643 ../shell/shell.error.xml.h:4
+#: ../calendar/importers/icalendar-importer.c:643 ../shell/shell.error.xml.h:6
 msgid "Importing ..."
 msgstr "Importimine ..."
 
@@ -3975,8 +3977,7 @@ msgstr "Ära saada"
 
 #: ../calendar/calendar.error.xml.h:29
 msgid "Download in progress. Do you want to save the appointment?"
-msgstr ""
-"Hetkel toimub allalaadimine. Kas sa soovid sündmust kustutada?"
+msgstr "Hetkel toimub allalaadimine. Kas sa soovid sündmust kustutada?"
 
 #: ../calendar/calendar.error.xml.h:30
 msgid "Download in progress. Do you want to save the task?"
@@ -4218,9 +4219,9 @@ msgid "Evolution's Tasks component"
 msgstr "Evolutioni ülesannetekomponent"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:10
-#: ../calendar/gui/e-tasks.c:1242 ../calendar/gui/print.c:1822
+#: ../calendar/gui/e-tasks.c:1257 ../calendar/gui/print.c:1822
 #: ../calendar/gui/tasks-component.c:519 ../calendar/gui/tasks-component.c:994
-#: ../calendar/gui/tasks-control.c:408
+#: ../calendar/gui/tasks-control.c:411
 #: ../calendar/importers/icalendar-importer.c:79
 #: ../calendar/importers/icalendar-importer.c:707
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:384
@@ -4709,7 +4710,7 @@ msgstr "Puudub"
 #: ../calendar/gui/calendar-commands.c:119
 #: ../calendar/gui/calendar-component.c:708
 #: ../calendar/gui/dialogs/calendar-setup.c:369
-#: ../calendar/gui/gnome-cal.c:2006
+#: ../calendar/gui/gnome-cal.c:2081
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:383
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:413
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:575
@@ -7431,7 +7432,7 @@ msgstr "Vajalikud inimesed ja _üks ressurss"
 msgid "Enter the password for %s"
 msgstr "Sisesta parool %s jaoks"
 
-#: ../calendar/gui/e-tasks.c:783 ../calendar/gui/gnome-cal.c:2444
+#: ../calendar/gui/e-tasks.c:798 ../calendar/gui/gnome-cal.c:2519
 #, c-format
 msgid ""
 "Error on %s:\n"
@@ -7440,24 +7441,24 @@ msgstr ""
 "Viga tegevusel %s:\n"
 " %s"
 
-#: ../calendar/gui/e-tasks.c:831
+#: ../calendar/gui/e-tasks.c:846
 msgid "Loading tasks"
 msgstr "Ülesannete laadimine"
 
-#: ../calendar/gui/e-tasks.c:915
+#: ../calendar/gui/e-tasks.c:930
 #, c-format
 msgid "Opening tasks at %s"
 msgstr "Avan ülesanded asukohast %s"
 
-#: ../calendar/gui/e-tasks.c:1111
+#: ../calendar/gui/e-tasks.c:1126
 msgid "Completing tasks..."
 msgstr "Ülesannete lõpetamine..."
 
-#: ../calendar/gui/e-tasks.c:1134
+#: ../calendar/gui/e-tasks.c:1149
 msgid "Deleting selected objects..."
 msgstr "Valitud objektide kustutamine..."
 
-#: ../calendar/gui/e-tasks.c:1161
+#: ../calendar/gui/e-tasks.c:1176
 msgid "Expunging"
 msgstr "Puhastamine"
 
@@ -7472,41 +7473,41 @@ msgstr "Ajavööndi nupp"
 msgid "%d %B"
 msgstr "%d. %B"
 
-#: ../calendar/gui/gnome-cal.c:722
+#: ../calendar/gui/gnome-cal.c:789
 msgid "Updating query"
 msgstr "Päringu uuendamine"
 
 #. bonobo displays this string so it must be in locale
-#: ../calendar/gui/gnome-cal.c:2121 ../widgets/menus/gal-view-instance.c:585
+#: ../calendar/gui/gnome-cal.c:2196 ../widgets/menus/gal-view-instance.c:585
 #: ../widgets/menus/gal-view-menus.c:350
 msgid "Custom View"
 msgstr "Kohandatud vaade"
 
-#: ../calendar/gui/gnome-cal.c:2122 ../widgets/menus/gal-view-instance.c:586
+#: ../calendar/gui/gnome-cal.c:2197 ../widgets/menus/gal-view-instance.c:586
 msgid "Save Custom View"
 msgstr "Salvesta kohandatud vaade"
 
-#: ../calendar/gui/gnome-cal.c:2127 ../widgets/menus/gal-view-instance.c:590
+#: ../calendar/gui/gnome-cal.c:2202 ../widgets/menus/gal-view-instance.c:590
 #: ../widgets/menus/gal-view-menus.c:372
 msgid "Define Views..."
 msgstr "Kirjelda vaateid..."
 
-#: ../calendar/gui/gnome-cal.c:2290
+#: ../calendar/gui/gnome-cal.c:2365
 #, c-format
 msgid "Loading appointments at %s"
 msgstr ""
 
-#: ../calendar/gui/gnome-cal.c:2309
+#: ../calendar/gui/gnome-cal.c:2384
 #, c-format
 msgid "Loading tasks at %s"
 msgstr ""
 
-#: ../calendar/gui/gnome-cal.c:2410
+#: ../calendar/gui/gnome-cal.c:2485
 #, c-format
 msgid "Opening %s"
 msgstr "%s avamine"
 
-#: ../calendar/gui/gnome-cal.c:3300
+#: ../calendar/gui/gnome-cal.c:3375
 msgid "Purging"
 msgstr "Puhastamine"
 
@@ -7965,7 +7966,7 @@ msgstr "Ü_lesannete nimekiri"
 msgid "Create a new task list"
 msgstr "Uue ülesandeloendi loomine"
 
-#: ../calendar/gui/tasks-control.c:370
+#: ../calendar/gui/tasks-control.c:373
 msgid ""
 "This operation will permanently erase all tasks marked as completed. If you "
 "continue, you will not be able to recover these tasks.\n"
@@ -7976,11 +7977,11 @@ msgstr ""
 "lõpetatud. Kui sa jätkad, siis neid ülesandeid ei ole võimalik taastada.\n"
 "Kas tõesti kustutada need ülesanded? "
 
-#: ../calendar/gui/tasks-control.c:373
+#: ../calendar/gui/tasks-control.c:376
 msgid "Do not ask me again."
 msgstr "Seda küsimust rohkem mitte esitada."
 
-#: ../calendar/gui/tasks-control.c:408
+#: ../calendar/gui/tasks-control.c:411
 msgid "Print Tasks"
 msgstr "Trüki ülesanded"
 
@@ -10911,7 +10912,7 @@ msgstr "\"%s\" kaustade läbivaatamine"
 #: ../mail/em-folder-tree.c:2104 ../ui/evolution-addressbook.xml.h:44
 #: ../ui/evolution-mail-global.xml.h:23
 #: ../ui/evolution-mail-messagedisplay.xml.h:8
-#: ../ui/evolution-message-composer.xml.h:52 ../ui/evolution.xml.h:46
+#: ../ui/evolution-message-composer.xml.h:52 ../ui/evolution.xml.h:45
 msgid "_View"
 msgstr "_Vaade"
 
@@ -13467,7 +13468,7 @@ msgstr "Loobu muudatustest?"
 
 #: ../mail/mail.error.xml.h:43
 msgid "Do you want the operation to be performed in the subfolders?"
-msgstr ""
+msgstr "Kas sa soovid seda operatsiooni teostada ka alamkaustades?"
 
 #: ../mail/mail.error.xml.h:44
 msgid "Do you wish to save your changes?"
@@ -13667,7 +13668,7 @@ msgstr ""
 
 #: ../mail/mail.error.xml.h:96
 msgid "The script file must exist and be executable."
-msgstr ""
+msgstr "Skriptifail peab olemas olema ja peab olema käivitatav."
 
 #: ../mail/mail.error.xml.h:97
 msgid ""
@@ -13896,7 +13897,7 @@ msgstr "Edasta"
 
 #: ../mail/message-tag-followup.c:79
 msgid "No Response Necessary"
-msgstr ""
+msgstr "Vastus pole tarvilik"
 
 #: ../mail/message-tag-followup.c:81 ../ui/evolution-mail-message.xml.h:79
 msgid "Reply"
@@ -14020,8 +14021,7 @@ msgstr "<span weight=\"bold\">Kiirsuhtluse kontaktid</span>"
 msgid ""
 "Periodically synchronize contact information and images from my _instant "
 "messenger"
-msgstr ""
-"Kontaktandmete _perioodiline sünkroniseerimine välksõnumivahendiga"
+msgstr "Kontaktandmete _perioodiline sünkroniseerimine välksõnumivahendiga"
 
 #. Synchronize now button.
 #: ../plugins/bbdb/bbdb.c:458
@@ -14375,7 +14375,7 @@ msgstr ""
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:5
 msgid "Delegates"
-msgstr ""
+msgstr "Delegaadid"
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:6
 msgid "Editor (read, create, edit)"
@@ -14460,7 +14460,7 @@ msgstr "Kausta pääsuõiguseid pole võimalik uuendada. %s"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:300
 msgid "(Permission denied.)"
-msgstr "(Juurdepääs keelatud.)"
+msgstr "(Ligipääs keelatud.)"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:399
 msgid ""
@@ -14494,35 +14494,35 @@ msgstr "<b>Õigused</b>"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:3
 msgid "Cannot Delete"
-msgstr "Kustutamine pole võimalik"
+msgstr "Ei tohi kustutada"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:4
 msgid "Cannot Edit"
-msgstr "Redigeerimine pole võimalik"
+msgstr "Ei tohi muuta"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:5
 msgid "Create items"
-msgstr ""
+msgstr "Tohib luua kirjeid"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:6
 msgid "Create subfolders"
-msgstr ""
+msgstr "Tohib luua alamkaustu"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:7
 msgid "Delete Any Items"
-msgstr ""
+msgstr "Tohib kustutada ükskõik mis kirjet"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:8
 msgid "Delete Own Items"
-msgstr ""
+msgstr "Tohib kustutada enda kirjeid"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:9
 msgid "Edit Any Items"
-msgstr ""
+msgstr "Tohib muuta ükskõik mis kirjet"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:10
 msgid "Edit Own Items"
-msgstr ""
+msgstr "Tohib muuta enda kirjeid"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:11
 msgid "Folder contact"
@@ -14538,7 +14538,7 @@ msgstr "Kaust on nähtaval"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:14
 msgid "Read items"
-msgstr ""
+msgstr "Tohib lugeda kirjeid"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:15
 msgid "Role: "
@@ -14738,6 +14738,18 @@ msgstr "Kausta pääsuõiguste kontrollimine"
 #: ../plugins/exchange-operations/org-gnome-folder-subscription.xml.h:1
 msgid "Subscribe to Other User's Folder"
 msgstr ""
+
+#: ../plugins/exchange-operations/org-gnome-exchange-ab-subscription.xml.h:1
+msgid "Subscribe to Other User's Contacts"
+msgstr ""
+
+#: ../plugins/exchange-operations/org-gnome-exchange-cal-subscription.xml.h:1
+msgid "Subscribe to Other User's Calendar"
+msgstr "Teiste kasutajate kalendrite tellimine"
+
+#: ../plugins/exchange-operations/org-gnome-exchange-tasks-subscription.xml.h:1
+msgid "Subscribe to Other User's Tasks"
+msgstr "Teiste kasutajate ülesannete tellimine"
 
 #: ../plugins/folder-unsubscribe/folder-unsubscribe.c:57
 #, c-format
@@ -16153,15 +16165,15 @@ msgstr ""
 msgid "Groupware Suite"
 msgstr "Grupitöö vahend"
 
-#: ../shell/e-shell-window-commands.c:748
+#: ../shell/e-shell-window-commands.c:749
 msgid "_Work Online"
 msgstr "Ühendu v_õrku"
 
-#: ../shell/e-shell-window-commands.c:761 ../ui/evolution.xml.h:47
+#: ../shell/e-shell-window-commands.c:762 ../ui/evolution.xml.h:47
 msgid "_Work Offline"
 msgstr "Siirdu aut_onoomsesse olekusse"
 
-#: ../shell/e-shell-window-commands.c:774
+#: ../shell/e-shell-window-commands.c:775
 msgid "Work Offline"
 msgstr "Siirdu autonoomsesse olekusse"
 
@@ -16181,7 +16193,7 @@ msgstr ""
 "Evolution on hetkel autonoomses olekus.  Võrku ühendumiseks vajuta seda "
 "nuppu."
 
-#: ../shell/e-shell-window.c:713
+#: ../shell/e-shell-window.c:714
 #, c-format
 msgid "Switch to %s"
 msgstr "Ümberlülitumine %s peale"
@@ -16333,26 +16345,38 @@ msgstr ""
 "  Täiendava teabe saamiseks käivita %s --help.\n"
 
 #: ../shell/shell.error.xml.h:1
+msgid "Are you sure you want to forget all remembered passwords?"
+msgstr "Kas sa tõesti soovid unustada kõik meeldejäetud paroolid?"
+
+#: ../shell/shell.error.xml.h:2
 msgid "Continue"
 msgstr "Jätka"
 
-#: ../shell/shell.error.xml.h:2
+#: ../shell/shell.error.xml.h:3
 msgid "Delete old data from version {0}?"
 msgstr "Kas kustutada vanad andmed versioonist {0}?"
 
-#: ../shell/shell.error.xml.h:3
+#: ../shell/shell.error.xml.h:4
 msgid "Evolution can not start."
 msgstr "Evolution ei ole võimeline käivituma."
 
 #: ../shell/shell.error.xml.h:5
+msgid ""
+"Forgetting your passwords will clear all remembered passwords. You will be "
+"reprompted next time they are needed. "
+msgstr ""
+"Meeldejäetud paroolide unustamine nullib ära kõik meeldejäetud paroolid. "
+"Paroolid küsitakse uuesti järgmisel korral, mil neid vaja läheb."
+
+#: ../shell/shell.error.xml.h:7
 msgid "Insufficient disk space for upgrade."
 msgstr "Uuendamiseks napib kettaruumi."
 
-#: ../shell/shell.error.xml.h:6
+#: ../shell/shell.error.xml.h:8
 msgid "Really delete old data?"
 msgstr "Kas tõesti kustutada vanad andmed?"
 
-#: ../shell/shell.error.xml.h:7
+#: ../shell/shell.error.xml.h:9
 msgid ""
 "The entire contents of the &quot;evolution&quot; directory is about to be be "
 "permanently removed.\n"
@@ -16365,7 +16389,7 @@ msgid ""
 "without manual intervention.\n"
 msgstr ""
 
-#: ../shell/shell.error.xml.h:13
+#: ../shell/shell.error.xml.h:15
 msgid ""
 "The previous version of evolution stored its data in a different location.\n"
 "\n"
@@ -16381,11 +16405,11 @@ msgstr ""
 "võid sa hiljem omal vabal valikul käsitsi eemaldada kataloogi &quot;"
 "evolution&quot;.\n"
 
-#: ../shell/shell.error.xml.h:17
+#: ../shell/shell.error.xml.h:19
 msgid "Upgrade from previous version failed: {0}"
 msgstr "Tõrge eelmisest versioonist uuendamisel: {0}"
 
-#: ../shell/shell.error.xml.h:18
+#: ../shell/shell.error.xml.h:20
 msgid ""
 "Upgrading your data and settings will require upto {0} of disk space, but "
 "you only have {1} available.\n"
@@ -16398,14 +16422,14 @@ msgstr ""
 "\n"
 "Enne jätkamise pead Sa oma kodukataloogi looma rohkem vaba ruumi."
 
-#: ../shell/shell.error.xml.h:21
+#: ../shell/shell.error.xml.h:23
 msgid ""
 "Your system configuration does not match your Evolution configuration.\n"
 "\n"
 "Click help for details"
 msgstr ""
 
-#: ../shell/shell.error.xml.h:24
+#: ../shell/shell.error.xml.h:26
 msgid ""
 "Your system configuration does not match your Evolution configuration:\n"
 "\n"
@@ -16414,15 +16438,19 @@ msgid ""
 "Click help for details."
 msgstr ""
 
-#: ../shell/shell.error.xml.h:29
+#: ../shell/shell.error.xml.h:31
+msgid "_Forget"
+msgstr "_Unusta"
+
+#: ../shell/shell.error.xml.h:32
 msgid "_Keep Data"
 msgstr "_Säilita andmed"
 
-#: ../shell/shell.error.xml.h:30
+#: ../shell/shell.error.xml.h:33
 msgid "_Remind Me Later"
 msgstr "_Tuleta mulle hiljem meelde"
 
-#: ../shell/shell.error.xml.h:31
+#: ../shell/shell.error.xml.h:34
 msgid ""
 "{1}\n"
 "\n"
@@ -17060,7 +17088,7 @@ msgid "View the current contact"
 msgstr "Kuva käesolev kontakt"
 
 #: ../ui/evolution-addressbook.xml.h:30 ../ui/evolution-calendar.xml.h:38
-#: ../ui/evolution-mail-list.xml.h:24 ../ui/evolution-tasks.xml.h:19
+#: ../ui/evolution-mail-list.xml.h:25 ../ui/evolution-tasks.xml.h:19
 msgid "_Actions"
 msgstr "_Tegevused"
 
@@ -17342,82 +17370,78 @@ msgid "Group By _Threads"
 msgstr ""
 
 #: ../ui/evolution-mail-list.xml.h:8
+msgid "Hide S_elected Messages"
+msgstr "Peida _valitud sõnumid"
+
+#: ../ui/evolution-mail-list.xml.h:9
 msgid "Hide _Deleted Messages"
 msgstr "Peida _kustutatud sõnumid"
 
-#: ../ui/evolution-mail-list.xml.h:9
+#: ../ui/evolution-mail-list.xml.h:10
+msgid "Hide _Read Messages"
+msgstr "Peida _loetud sõnumid"
+
+#: ../ui/evolution-mail-list.xml.h:11
 msgid ""
 "Hide deleted messages rather than displaying them with a line through them"
 msgstr ""
 
-#: ../ui/evolution-mail-list.xml.h:10
+#: ../ui/evolution-mail-list.xml.h:12
 msgid "Mark Me_ssages as Read"
 msgstr "_Märgi sõnumid loetuks"
 
-#: ../ui/evolution-mail-list.xml.h:11 ../ui/evolution-mail-message.xml.h:68
+#: ../ui/evolution-mail-list.xml.h:13 ../ui/evolution-mail-message.xml.h:68
 msgid "Paste message(s) from the clipboard"
 msgstr "Asetab sõnumid lõikepuhvrist"
 
-#: ../ui/evolution-mail-list.xml.h:12
+#: ../ui/evolution-mail-list.xml.h:14
 msgid "Permanently remove all deleted messages from this folder"
 msgstr "Eemaldab lõplikult sellest kaustadest kõik kustutatud sõnumid"
 
-#: ../ui/evolution-mail-list.xml.h:13
+#: ../ui/evolution-mail-list.xml.h:15
 msgid "Permanently remove this folder"
 msgstr "Kausta lõplik eemaldamine"
 
-#: ../ui/evolution-mail-list.xml.h:14
+#: ../ui/evolution-mail-list.xml.h:16
 msgid "Select _All Messages"
 msgstr "Vali _kõik sõnumid"
 
-#: ../ui/evolution-mail-list.xml.h:15
+#: ../ui/evolution-mail-list.xml.h:17
 msgid "Select all and only the messages that are not currently selected"
 msgstr "Valib kõik sõnumid, mis hetkel ei ole valitud"
 
-#: ../ui/evolution-mail-list.xml.h:16
+#: ../ui/evolution-mail-list.xml.h:18
 msgid "Select all messages in the same thread as the selected message"
 msgstr "Valib kõik valitud sõnumiga samas jutulõngas olevad sõnumid"
 
-#: ../ui/evolution-mail-list.xml.h:17
+#: ../ui/evolution-mail-list.xml.h:19
 msgid "Select all visible messages"
 msgstr "Valib kõik peitmata sõnumid"
 
-#: ../ui/evolution-mail-list.xml.h:18
-msgid "Show _Messages"
-msgstr "Näita _sõnumeid"
+#: ../ui/evolution-mail-list.xml.h:20
+msgid "Sh_ow Hidden Messages"
+msgstr "_Näita peidetud sõnumeid"
 
-#: ../ui/evolution-mail-list.xml.h:19
+#: ../ui/evolution-mail-list.xml.h:21
 msgid "Show messages that have been temporarily hidden"
 msgstr "Toob ajutiselt peidetud sõnumid peidust välja"
 
-#: ../ui/evolution-mail-list.xml.h:20
+#: ../ui/evolution-mail-list.xml.h:22
 msgid "Temporarily hide all messages that have already been read"
 msgstr "Viib kõik loetud sõnumid ajutiselt peitu"
 
-#: ../ui/evolution-mail-list.xml.h:21
+#: ../ui/evolution-mail-list.xml.h:23
 msgid "Temporarily hide the selected messages"
 msgstr "Viib valitud sõnumid ajutiselt peitu"
 
-#: ../ui/evolution-mail-list.xml.h:22
+#: ../ui/evolution-mail-list.xml.h:24
 msgid "Threaded Message list"
 msgstr "Esitab sõnumeid jutulõngadena"
-
-#: ../ui/evolution-mail-list.xml.h:23
-msgid "Un_read Messages"
-msgstr "_Lugemata sõnumid"
-
-#: ../ui/evolution-mail-list.xml.h:25
-msgid "_All"
-msgstr "_Kõik"
 
 #: ../ui/evolution-mail-list.xml.h:27 ../ui/evolution-mail-message.xml.h:110
 #: ../ui/evolution-mail-messagedisplay.xml.h:7
 msgid "_Message"
 msgstr "_Sõnum"
-
-#: ../ui/evolution-mail-list.xml.h:30
-msgid "_Selected Messages"
-msgstr "_Valitud sõnumid"
 
 #: ../ui/evolution-mail-message.xml.h:1
 msgid "A_dd Sender to Address Book"
@@ -18275,9 +18299,9 @@ msgstr ""
 msgid "_Text only"
 msgstr "Ainult _tekst"
 
-#: ../ui/evolution.xml.h:45
-msgid "_Tools"
-msgstr "T_ööriistad"
+#: ../ui/evolution.xml.h:46
+msgid "_Window"
+msgstr "_Aken"
 
 #: ../views/addressbook/galview.xml.h:1
 msgid "By _Company"
@@ -19506,6 +19530,21 @@ msgstr "%s (%d kirje)"
 msgid "%s (%d items)"
 msgstr "%s (%d kirjet)"
 
+#~ msgid "Show _Messages"
+#~ msgstr "Näita _sõnumeid"
+
+#~ msgid "Un_read Messages"
+#~ msgstr "_Lugemata sõnumid"
+
+#~ msgid "_All"
+#~ msgstr "_Kõik"
+
+#~ msgid "_Selected Messages"
+#~ msgstr "_Valitud sõnumid"
+
+#~ msgid "_Tools"
+#~ msgstr "T_ööriistad"
+
 #~ msgid ""
 #~ "Evolution has found Gnome Calendar files.\n"
 #~ "Would you like to import them into Evolution?"
@@ -19718,14 +19757,8 @@ msgstr "%s (%d kirjet)"
 #~ msgid "vFolder _Editor..."
 #~ msgstr "vKausta _redaktor..."
 
-#~ msgid "Hide _Read Messages"
-#~ msgstr "Peida _loetud sõnumid"
-
 #~ msgid "Mark All as _Read"
 #~ msgstr "Märgi kõik _loetuks"
-
-#~ msgid "Sh_ow Hidden Messages"
-#~ msgstr "_Näita peidetud sõnumeid"
 
 #~ msgid "_Folder"
 #~ msgstr "_Kaust"
@@ -19798,9 +19831,6 @@ msgstr "%s (%d kirjet)"
 
 #~ msgid "Window B_uttons"
 #~ msgstr "Akna _nupud"
-
-#~ msgid "_Window"
-#~ msgstr "_Aken"
 
 #~ msgid "_Advanced..."
 #~ msgstr "_Täpsemalt..."
