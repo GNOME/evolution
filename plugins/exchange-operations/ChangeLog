@@ -1,3 +1,17 @@
+2005-07-22  Praveen Kumar <kpraveen@novell.com>
+
+	* exchange-calendar.c : Handling the rename of calendars. This
+	addresses the bug 310433
+	* exchange-config-listener.c : Removed the functions
+	add_folder_esource and remove_folder_esource
+	* exchange-contacts.c : Handling the rename of addressbooks. Also 
+	modified the way of Exchange addressbook ESource URI handling to be 
+	the same way as calendar ESource URI handling
+	* exchange-operations.c (exchange_operations_update_child_esources) :
+	Added new to handle the rename of the ESources of all child folders 
+	in the case of parent folder being renamed.
+	* exchange-operations.h : Added prototype for the new function
+	
 2005-07-21  Sarfraaz Ahmed <asarfraaz@novell.com>
 
 	* exchange-calendar.c (e_exchange_calendar_get_calendars): Rescan the

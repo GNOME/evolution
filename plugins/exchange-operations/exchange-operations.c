@@ -218,3 +218,24 @@ exchange_operations_report_error (ExchangeAccount *account, ExchangeAccountResul
 	g_free (error_string);
 }
 
+void exchange_operations_update_child_esources (ESource *source, const gchar *old_path, const gchar *new_path)
+{
+	ESourceGroup *group;
+	GSList *sources, *tsource;
+	group = e_source_peek_group (source);
+	sources = e_source_group_peek_sources (group);
+	for (tsource = sources; tsource != NULL; tsource = tsource->next) {
+		gchar *ruri;
+		ruri = e_source_peek_relative_uri (tsource->data);
+		if (g_strrstr (ruri, old_path)) {
+			/* This ESource points to one of the child folders */
+			gchar **tmpv, *truri;
+			/* A nasty search and replace */
+		  	tmpv = g_strsplit (ruri, old_path, -1);
+			truri = g_strjoinv (new_path, tmpv);
+			e_source_set_relative_uri (tsource->data, truri);
+			g_strfreev (tmpv);
+			g_free (truri);	
+		}
+	}
+}

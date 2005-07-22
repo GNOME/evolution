@@ -46,6 +46,8 @@ void exchange_operations_cta_select_node_from_tree (GtkTreeStore *store, GtkTree
 
 void exchange_operations_report_error (ExchangeAccount *account, ExchangeAccountResult result);
 
+void exchange_operations_update_child_esources (ESource *source, const gchar *old_path, const gchar *new_path);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

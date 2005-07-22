@@ -43,6 +43,9 @@ enum {
 	NUM_COLS
 };
 
+gboolean calendar_src_exists = FALSE;
+gchar *calendar_old_source_uri = NULL;
+
 GPtrArray *e_exchange_calendar_get_calendars (ECalSourceType *ftype);
 void e_exchange_calendar_pcalendar_on_change (GtkTreeView *treeview, ESource *source);
 GtkWidget *e_exchange_calendar_pcalendar (EPlugin *epl, EConfigHookItemFactoryData *data);
@@ -142,7 +145,6 @@ e_exchange_calendar_pcalendar (EPlugin *epl, EConfigHookItemFactoryData *data)
 	gchar *ruri;
 	gchar *account_name;
         gchar *uri_text;
-	gboolean src_exists = TRUE;
 	int row, i;
 
 	if (!hidden)
@@ -167,8 +169,13 @@ e_exchange_calendar_pcalendar (EPlugin *epl, EConfigHookItemFactoryData *data)
 	e_uri_free (uri);
 	g_free (uri_text);
 
-	if (!strlen (e_source_peek_relative_uri (t->source))) {
-		src_exists = FALSE;
+	if (strlen (e_source_peek_relative_uri (t->source))) {
+		calendar_src_exists = TRUE;
+		g_free (calendar_old_source_uri);
+		calendar_old_source_uri = g_strdup (e_source_peek_relative_uri (t->source));
+	}
+	else {
+		calendar_src_exists = FALSE;
 	}
 	
 	parent = data->parent;
@@ -211,7 +218,7 @@ e_exchange_calendar_pcalendar (EPlugin *epl, EConfigHookItemFactoryData *data)
 	gtk_table_attach (GTK_TABLE (parent), scrw_pcalendar, 0, 2, row+1, row+2, GTK_EXPAND|GTK_FILL, 0, 0, 0);
 	gtk_widget_show_all (scrw_pcalendar);
   
-	if (src_exists) {
+	if (calendar_src_exists) {
 		gchar *uri_prefix, *sruri, *tmpruri;
 		int prefix_len;
 		GtkTreeSelection *selection;
@@ -260,7 +267,7 @@ e_exchange_calendar_commit (EPlugin *epl, EConfigTarget *target)
 {
 	ECalConfigTargetSource *t = (ECalConfigTargetSource *) target;
 	ESource *source = t->source;
-	gchar *uri_text, *gruri, *gname, *ruri, *ftype, *path, *path_prefix;
+	gchar *uri_text, *gruri, *gname, *ruri, *ftype, *path, *path_prefix, *oldpath=NULL;
 	int prefix_len;
 
 	ExchangeAccount *account;
@@ -291,11 +298,37 @@ e_exchange_calendar_commit (EPlugin *epl, EConfigTarget *target)
 
 	gname = (gchar*) e_source_peek_name (source);
 	gruri = (gchar*) e_source_peek_relative_uri (source);
-	ruri = g_strconcat (gruri, "/", gname, NULL);
+	if (calendar_src_exists) {
+		gchar *tmpruri, *tmpdelimit;
+		tmpruri = g_strdup (gruri);
+		tmpdelimit = g_strrstr (tmpruri, "/");
+		tmpdelimit[0] = '\0';
+		ruri = g_strconcat (tmpruri, "/", gname, NULL);
+		g_free (tmpruri);
+	}
+	else {
+		ruri = g_strconcat (gruri, "/", gname, NULL);
+	}
 	e_source_set_relative_uri (source, ruri);
-	path = g_strdup_printf ("/%s", ruri+prefix_len);
 
-	result = exchange_account_create_folder (account, path, ftype);
+	path = g_strdup_printf ("/%s", ruri+prefix_len);
+	
+	if (!calendar_src_exists) {
+		/* Create the new folder */
+		result = exchange_account_create_folder (account, path, ftype);
+	}
+	else if (strcmp (e_source_peek_relative_uri (source), calendar_old_source_uri)) {
+		/* Rename the folder */
+		oldpath = g_strdup_printf ("/%s", calendar_old_source_uri+prefix_len);
+		result = exchange_account_xfer_folder (account, oldpath, path, TRUE);
+		exchange_operations_update_child_esources (source, 
+							   calendar_old_source_uri, 
+							   ruri);
+	}
+	else {
+		/* Nothing happened specific to exchange; just return */
+		return;
+	}
 
 	switch (result) {
 		/* TODO: Modify all these error messages using e_error */
@@ -329,4 +362,7 @@ e_exchange_calendar_commit (EPlugin *epl, EConfigTarget *target)
 	g_free (ruri);
 	g_free (path);
 	g_free (ftype);
+	g_free (oldpath);
+	g_free (calendar_old_source_uri);
+	calendar_old_source_uri = NULL;
 }

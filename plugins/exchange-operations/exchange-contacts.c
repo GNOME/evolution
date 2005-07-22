@@ -45,7 +45,9 @@ enum {
 	NUM_COLS
 };
 
-gchar *contacts_uri=NULL;
+gboolean contacts_src_exists = FALSE;
+gchar *contacts_old_src_uri = NULL;
+
 
 GPtrArray *e_exchange_contacts_get_contacts (void);
 void e_exchange_contacts_pcontacts_on_change (GtkTreeView *treeview, ESource *source);
@@ -107,14 +109,9 @@ e_exchange_contacts_pcontacts_on_change (GtkTreeView *treeview, ESource *source)
 	gchar *ruri;
 	
 	gtk_tree_model_get (model, &iter, CONTACTSRURI_COL, &ruri, -1);
-	es_ruri = g_strconcat ("exchange://", account->account_filename, "/", ruri, NULL);
+	es_ruri = g_strconcat (account->account_filename, "/", ruri, NULL);
 	e_source_set_relative_uri (source, es_ruri);
-	/*
-	if (contacts_uri) {
-		g_free (contacts_uri);
-	}
-	contacts_uri = g_strdup (es_ruri);
-	*/
+
 	g_free (ruri);
 	g_free (es_ruri);
 } 
@@ -131,18 +128,12 @@ e_exchange_contacts_pcontacts (EPlugin *epl, EConfigHookItemFactoryData *data)
 	ExchangeAccount *account;
 
 	int i;
-	gboolean src_exists=FALSE;
 
 	EABConfigTargetSource *t = (EABConfigTargetSource *) data->target;
 	ESource *source = t->source;
 
 	if (data->old) {
-		/* FIXME: Review this */
-		/*
-		gtk_widget_destroy (lbl_pcontacts);
-		gtk_widget_destroy (scrw_pcontacts);
-		gtk_widget_destroy (tv_pcontacts);
-		*/
+		gtk_widget_destroy (vb_pcontacts);
 	}
 
         uri_text = e_source_get_uri (source);
@@ -153,17 +144,14 @@ e_exchange_contacts_pcontacts (EPlugin *epl, EConfigHookItemFactoryData *data)
 
 	g_free (uri_text);
 
-	if (e_source_peek_absolute_uri (source)) {
-		src_exists = TRUE;
+	if (strcmp (e_source_peek_relative_uri (source), e_source_peek_uid (source))) {
+		contacts_src_exists = TRUE;
+		g_free (contacts_old_src_uri);
+		contacts_old_src_uri = g_strdup (e_source_peek_relative_uri (source));
 	}
 	else {
+		contacts_src_exists = FALSE;
 		e_source_set_relative_uri (source, ""); /* FIXME: Nasty hack */
-		/*
-		if (contacts_uri) {
-			g_free (contacts_uri);
-			contacts_uri = NULL;
-		}
-		*/
 	}
 
 	account = exchange_operations_get_exchange_account ();
@@ -206,16 +194,15 @@ e_exchange_contacts_pcontacts (EPlugin *epl, EConfigHookItemFactoryData *data)
 	gtk_box_pack_start (GTK_BOX (vb_pcontacts), scrw_pcontacts, FALSE, FALSE, 0);
 	gtk_widget_show_all (vb_pcontacts);
 	
-	if (src_exists) {
+	if (contacts_src_exists) {
 		gchar *uri_prefix, *sruri, *tmpruri;
 		int prefix_len;
 		GtkTreeSelection *selection;
 
-		uri_prefix = g_strconcat ("exchange://", account->account_filename, "/", NULL);
+		tmpruri = (gchar*)e_source_peek_relative_uri (t->source);
+		uri_prefix = g_strconcat (account->account_filename, "/", NULL);
 		prefix_len = strlen (uri_prefix);
 		
-		tmpruri = (gchar*)e_source_peek_absolute_uri (t->source);
-
 		if (g_str_has_prefix (tmpruri, uri_prefix)) {
 			sruri = g_strdup (tmpruri+prefix_len);
 		}
@@ -224,7 +211,11 @@ e_exchange_contacts_pcontacts (EPlugin *epl, EConfigHookItemFactoryData *data)
 		}
 		
 		selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (tv_pcontacts));
-		exchange_operations_cta_select_node_from_tree (ts_pcontacts, NULL, sruri, sruri, selection);
+		exchange_operations_cta_select_node_from_tree (ts_pcontacts, 
+							       NULL, 
+							       sruri, 
+							       sruri, 
+							       selection);
 		gtk_widget_set_sensitive (tv_pcontacts, FALSE);		
 		
 		g_free (uri_prefix);
@@ -244,7 +235,6 @@ e_exchange_contacts_check (EPlugin *epl, EConfigHookPageCheckData *data)
 
 	if (!strncmp (e_source_group_peek_base_uri (group), "exchange", 8)) {
 		if (!strlen (e_source_peek_relative_uri (t->source))) {
-			//if (!contacts_uri) {
 			return FALSE;
 		}
 	}
@@ -257,7 +247,7 @@ e_exchange_contacts_commit (EPlugin *epl, EConfigTarget *target)
 {
 	EABConfigTargetSource *t = (EABConfigTargetSource *) target;
 	ESource *source = t->source;
-	gchar *uri_text, *gname, *gruri, *ruri, *path, *path_prefix;
+	gchar *uri_text, *gname, *gruri, *ruri, *path, *path_prefix, *oldpath=NULL;
 	int prefix_len;
 
 	ExchangeAccount *account;
@@ -268,29 +258,46 @@ e_exchange_contacts_commit (EPlugin *epl, EConfigTarget *target)
 		g_free (uri_text);
 		return ;
 	}	
-	
 	g_free (uri_text);
-	
+
 	account = exchange_operations_get_exchange_account ();
-	path_prefix = g_strconcat ("exchange://", account->account_filename, "/", NULL);
+	path_prefix = g_strconcat (account->account_filename, "/", NULL);
 	prefix_len = strlen (path_prefix);
+	g_free (path_prefix);
 
 	gname = (gchar*) e_source_peek_name (source);
 	gruri = (gchar*) e_source_peek_relative_uri (source);
-	ruri = g_strconcat (gruri, "/", gname, NULL);
-	//ruri = g_strconcat (contacts_uri, "/", gname, NULL);
-
-	g_print ("Setting absolute URI to %s\n", ruri);
-
-	e_source_set_absolute_uri (source, ruri);
-
-	g_print ("Read absolute URI as %s\n", e_source_peek_absolute_uri(source));
-
-	/* FIXME: This creates some problem. Identify the cause */
-	//e_source_set_relative_uri (source, ""); /* FIXME: Nasty hack */
+	if (contacts_src_exists) {
+		gchar *tmpruri, *tmpdelimit;
+		tmpruri = g_strdup (gruri);
+		tmpdelimit = g_strrstr (tmpruri, "/");
+		tmpdelimit[0] = '\0';
+		ruri = g_strconcat (tmpruri, "/", gname, NULL);
+		g_free (tmpruri);
+	}
+	else {
+		ruri = g_strconcat (gruri, "/", gname, NULL);
+	}
+	e_source_set_relative_uri (source, ruri);
 
 	path = g_strdup_printf ("/%s", ruri+prefix_len);
-	result = exchange_account_create_folder (account, path, "contacts");
+	
+	if (!contacts_src_exists) {
+		/* Create the new folder */
+		result = exchange_account_create_folder (account, path, "contacts");
+	}
+	else if (strcmp (e_source_peek_relative_uri (source), contacts_old_src_uri)) {
+		/* Rename the folder */
+		oldpath = g_strdup_printf ("/%s", contacts_old_src_uri+prefix_len);
+		result = exchange_account_xfer_folder (account, oldpath, path, TRUE);
+		exchange_operations_update_child_esources (source, 
+							   contacts_old_src_uri, 
+							   ruri);
+	}
+	else {
+		/* Nothing happened specific to exchange; just return */
+		return;
+	}
 
 	switch (result) {
 		/* TODO: Modify all these error messages using e_error */
@@ -319,10 +326,9 @@ e_exchange_contacts_commit (EPlugin *epl, EConfigTarget *target)
 		g_print ("Generic error\n");
 		break;
 	}
-	/*
-	g_free (contacts_uri);
-	contacts_uri = NULL;
-	*/
 	g_free (ruri);
 	g_free (path);
+	g_free (oldpath);
+	g_free (contacts_old_src_uri);
+	contacts_old_src_uri = NULL;
 }
