@@ -112,6 +112,39 @@
 			activate="org_gnome_exchange_folder_subscription"/>
 		</menu>
 	</hook>
+	<hook class="org.gnome.evolution.calendar.bonobomenu:1.0">
+		<menu id="org.gnome.evolution.calendar.view" target="select">
+		<ui file="@PLUGINDIR@/org-gnome-exchange-cal-subscription.xml"/>
+		<item
+			type="item"
+			verb="FolderSubscription"
+			path="/commands/FolderSubscription"
+			enable="all"
+			activate="org_gnome_exchange_folder_subscription"/>
+		</menu>
+	</hook>
+	<hook class="org.gnome.evolution.calendar.bonobomenu:1.0">
+		<menu id="org.gnome.evolution.tasks.view" target="select">
+		<ui file="@PLUGINDIR@/org-gnome-exchange-task-subscription.xml"/>
+		<item
+			type="item"
+			verb="FolderSubscription"
+			path="/commands/FolderSubscription"
+			enable="all"
+			activate="org_gnome_exchange_folder_subscription"/>
+		</menu>
+	</hook>
+	<hook class="org.gnome.evolution.addressbook.bonobomenu:1.0">
+		<menu id="org.gnome.evolution.addressbook.view" target="select">
+		<ui file="@PLUGINDIR@/org-gnome-exchange-ab-subscription.xml"/>
+		<item
+			type="item"
+			verb="FolderSubscription"
+			path="/commands/FolderSubscription"
+			enable="all"
+			activate="org_gnome_exchange_folder_subscription"/>
+		</menu>
+	</hook>
 	<hook class="org.gnome.evolution.calendar.popup:1.0">
 		<menu id="org.gnome.evolution.calendar.source.popup" target="source" factory="org_gnome_exchange_check_subscribed">
 		</menu>

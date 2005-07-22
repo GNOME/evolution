@@ -1,3 +1,16 @@
+2005-07-20  Shakti Sen <shprasad@novell.com>
+
+	* Makefile.am: Included files org-gnome-exchange-ab-subscription.xml,
+	org-gnome-exchange-tasks-subscription.xml and
+	org-gnome-exchange-cal-subscription.xml.
+	* org-gnome-exchange-ab-subscription.xml: Added newly to add
+	"Subscribe to Other User's Contacts' menu-item in 'File' menu for
+	address book.
+	* org-gnome-exchange-tasks-subscription.xml: Same for 'Tasks'.
+	* org-gnome-exchange-cal-subscription.xml: Same for 'Calendar'.
+
+	Fixes bug #310985.
+
 2005-07-22  Praveen Kumar <kpraveen@novell.com>
 
 	* exchange-calendar.c : Handling the rename of calendars. This

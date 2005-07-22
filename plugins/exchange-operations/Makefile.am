@@ -12,7 +12,10 @@ INCLUDES = -I .						\
 
 plugin_DATA = org-gnome-exchange-operations.eplug 	\
 	org-gnome-folder-permissions.xml		\
-	org-gnome-folder-subscription.xml
+	org-gnome-folder-subscription.xml		\
+	org-gnome-exchange-tasks-subscription.xml	\
+	org-gnome-exchange-cal-subscription.xml		\
+	org-gnome-exchange-ab-subscription.xml
 
 plugin_LTLIBRARIES = liborg-gnome-exchange-operations.la
 
@@ -64,6 +67,9 @@ EXTRA_DIST = 							\
 	org-gnome-exchange-operations.error.xml			\
 	org-gnome-folder-permissions.xml			\
 	org-gnome-folder-subscription.xml			\
+	org-gnome-exchange-tasks-subscription.xml		\
+	org-gnome-exchange-cal-subscription.xml			\
+	org-gnome-exchange-ab-subscription.xml			\
 	$(glade_DATA)						
 
 BUILT_SOURCES = $(error_DATA)
