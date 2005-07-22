@@ -1,3 +1,9 @@
+2005-07-22  Vivek Jain <jvivek@novell.com>
+	
+	* share-folder.c : Put back the fix I committed on 
+	2005-03-31, not sure when it got reverted.
+	**Fixes #311217
+
 2005-07-20  Shreyas Srinivasan <sshreyas@novell.com>
 
 	* proxy.c: Fix #310710. Make code little smart. Stop
