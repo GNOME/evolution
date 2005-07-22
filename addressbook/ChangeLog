@@ -1,3 +1,13 @@
+2005-07-22  Arunprakash <arunp@novell.com>
+
+	* gui/contact-editor/e-contact-editor.c (name_entry_changed): Modified
+	to reset the title of the contact editor when the name is deleted
+	completely.
+	(file_as_entry_changed) : Modified to update the title with the new
+	file_as name.
+	(fill_in_simple) : Modified to set the title initially with the file_as
+	name. Fixes #235830.
+
 2005-07-21  Sushma Rai  <rsushma@novell.com>
 
 	* gui/widgets/e-addressbook-view.[ch] (eab_view_delete_selection):

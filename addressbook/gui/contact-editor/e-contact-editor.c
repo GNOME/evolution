@@ -517,20 +517,26 @@ name_entry_changed (GtkWidget *widget, EContactEditor *editor)
 	string = gtk_entry_get_text (GTK_ENTRY (widget));
 	editor->name = e_contact_name_from_string (string);
 	file_as_set_style (editor, style);
+
+	if (string && !*string)
+		gtk_window_set_title (GTK_WINDOW (editor->app), _("Contact Editor"));
 }
 
 static void
 file_as_entry_changed (GtkWidget *widget, EContactEditor *editor)
 {
 	char *string = gtk_editable_get_chars (GTK_EDITABLE (widget), 0, -1);
-	char *title;
+	gchar *title = _("Contact Editor");
 
-	if (string && *string)
-		title = string;
-	else
-		title = _("Contact Editor");
+	if (string && *string) {
+		title = g_strconcat (title, " - ", string, NULL);
+		gtk_window_set_title (GTK_WINDOW (editor->app), title);
+		g_free (title);
+	}
+	else {
+		gtk_window_set_title (GTK_WINDOW (editor->app), title);
+	}
 
-	gtk_window_set_title (GTK_WINDOW (editor->app), title);
 	g_free (string);
 }
 
@@ -2247,6 +2253,8 @@ static void
 fill_in_simple (EContactEditor *editor)
 {
 	EContactName *name;
+	gchar *title = _("Contact Editor");
+	gchar *filename;
 	gint          i;
 
 	for (i = 0; i < G_N_ELEMENTS (simple_field_map); i++) {
@@ -2275,6 +2283,19 @@ fill_in_simple (EContactEditor *editor)
 		e_contact_name_free (editor->name);
 
 	editor->name = name;
+
+	/* Update the contact editor title */
+
+	filename = (gchar *) e_contact_get (editor->contact, E_CONTACT_FILE_AS);
+
+	if (filename) {
+		title = g_strconcat (title, " - ", filename, NULL);
+		gtk_window_set_title (GTK_WINDOW (editor->app), title);
+		g_free (title);
+	}
+	else {
+		gtk_window_set_title (GTK_WINDOW (editor->app), title);
+	}
 
 	/* Update file_as combo options */
 
