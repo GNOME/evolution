@@ -1326,6 +1326,30 @@ set_instance_times (ECalModelComponent *comp_data, icaltimezone *zone)
 		(icaltime_as_timet (end_time) - icaltime_as_timet (start_time));
 }
 
+/* We do this check since the calendar items are downloaded from the server in the open_method,
+   since the default timezone might not be set there */
+static void
+ensure_dates_are_in_default_zone (icalcomponent *icalcomp)
+{
+	icaltimetype dt;
+	icaltimezone *zone = calendar_config_get_icaltimezone ();
+
+	if (!zone)
+		return;
+
+	dt = icalcomponent_get_dtstart (icalcomp);
+	if (dt.is_utc) {
+		dt = icaltime_convert_to_zone (dt, zone);
+		icalcomponent_set_dtstart (icalcomp, dt);
+	}
+
+	dt = icalcomponent_get_dtend (icalcomp);
+	if (dt.is_utc) {
+		dt = icaltime_convert_to_zone (dt, zone);
+		icalcomponent_set_dtend (icalcomp, dt);
+	}
+}
+
 static void
 e_cal_view_objects_added_cb (ECalView *query, GList *objects, gpointer user_data)
 {
@@ -1349,6 +1373,8 @@ e_cal_view_objects_added_cb (ECalView *query, GList *objects, gpointer user_data
  			g_ptr_array_remove (priv->objects, comp_data);
  			e_cal_model_free_component_data (comp_data);
  		}
+
+		ensure_dates_are_in_default_zone (l->data);
 
 		if ((priv->flags & E_CAL_MODEL_FLAGS_EXPAND_RECURRENCES)) {
 			RecurrenceExpansionData rdata;

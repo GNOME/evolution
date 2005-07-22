@@ -1,3 +1,12 @@
+2005-07-22  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #309991
+	* gui/e-cal-model.c: (ensure_dates_are_in_default_zone),
+	(e_cal_view_objects_added_cb): 
+	* gui/gnome-cal.c: (ensure_dates_are_in_default_zone),
+	(dn_e_cal_view_objects_added_cb): If the start date and end
+	date are in UTC convert them to default zone while displaying.
+
 2005-07-21  Shakti Sen  <shprasad@novell.com>
 
 	* gui/e-tasks.c (e_tasks_init): Creating the tasks-menu.
