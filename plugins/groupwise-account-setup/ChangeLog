@@ -1,3 +1,9 @@
+2005-07-23  Sushma Rai  <rsushma@novell.com>
+
+	* camel-gw-listener.c (add_addressbook_sources): marking 
+	"Novell GroupWise Address Book" for offline usage by default. This is
+	needed as we now reply from cache always.
+
 2005-07-13  Tor Lillqvist  <tml@novell.com>
 
 	* org-gnome-gw-account-setup.eplug.xml: Use SOEXT.
