@@ -1,5 +1,6 @@
 2005-07-23  Adam Weinberger  <adamw@gnome.org>
 
+	* POTFILES.in, POTFILES.skip: Added many files, sorted.
 	* en_CA.po: Updated Canadian English translation.
 
 2005-07-23  Žygimantas Beručka  <uid0@akl.lt>

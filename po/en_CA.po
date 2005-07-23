@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-07-23 14:23-0400\n"
+"POT-Creation-Date: 2005-07-23 14:37-0400\n"
 "PO-Revision-Date: 2005-07-23 19:18-0400\n"
 "Last-Translator: Adam Weinberger <adamw@gnome.org>\n"
 "Language-Team: Canadian English <adamw@gnome.org>\n"
@@ -827,7 +827,7 @@ msgstr "Whether to show the preview pane."
 #: widgets/e-timezone-dialog/e-timezone-dialog.glade.h:1
 #: widgets/menus/gal-view-instance-save-as-dialog.glade.h:2
 #: widgets/menus/gal-view-new-dialog.glade.h:1
-#: widgets/misc/gal-categories.glade.h:1
+#: widgets/misc/e-attachment.glade.h:1 widgets/misc/gal-categories.glade.h:1
 msgid "*"
 msgstr "*"
 
@@ -3012,11 +3012,12 @@ msgstr "Web Site"
 #: widgets/misc/e-reflow.c:1438 widgets/table/e-table-click-to-add.c:517
 #: widgets/table/e-table-col.c:98
 #: widgets/table/e-table-field-chooser-item.c:667
+#: widgets/table/e-table-group-container.c:971
+#: widgets/table/e-table-group-container.c:972
 #: widgets/table/e-table-group-leaf.c:629
 #: widgets/table/e-table-group-leaf.c:630 widgets/table/e-table-item.c:3008
 #: widgets/table/e-table-item.c:3009 widgets/text/e-text.c:3626
-#: widgets/text/e-text.c:3627 widgets/table/e-table-group-container.c:971
-#: widgets/table/e-table-group-container.c:972
+#: widgets/text/e-text.c:3627
 msgid "Width"
 msgstr "Width"
 
@@ -3025,11 +3026,12 @@ msgstr "Width"
 #: widgets/misc/e-canvas-vbox.c:109 widgets/misc/e-reflow.c:1445
 #: widgets/misc/e-reflow.c:1446 widgets/table/e-table-click-to-add.c:524
 #: widgets/table/e-table-field-chooser-item.c:674
+#: widgets/table/e-table-group-container.c:964
+#: widgets/table/e-table-group-container.c:965
 #: widgets/table/e-table-group-leaf.c:622
 #: widgets/table/e-table-group-leaf.c:623 widgets/table/e-table-item.c:3014
 #: widgets/table/e-table-item.c:3015 widgets/text/e-text.c:3634
-#: widgets/text/e-text.c:3635 widgets/table/e-table-group-container.c:964
-#: widgets/table/e-table-group-container.c:965
+#: widgets/text/e-text.c:3635
 msgid "Height"
 msgstr "Height"
 
@@ -5002,18 +5004,21 @@ msgstr "Alarms"
 
 #: calendar/gui/dialogs/cal-attachment-bar.c:110
 #: composer/e-msg-composer-attachment-bar.c:105
+#: widgets/misc/e-attachment-bar.c:105
 #, c-format
 msgid "%.0fK"
 msgstr "%.0fK"
 
 #: calendar/gui/dialogs/cal-attachment-bar.c:113
 #: composer/e-msg-composer-attachment-bar.c:108
+#: widgets/misc/e-attachment-bar.c:108
 #, c-format
 msgid "%.0fM"
 msgstr "%.0fM"
 
 #: calendar/gui/dialogs/cal-attachment-bar.c:116
 #: composer/e-msg-composer-attachment-bar.c:111
+#: widgets/misc/e-attachment-bar.c:111
 #, c-format
 msgid "%.0fG"
 msgstr "%.0fG"
@@ -5022,6 +5027,7 @@ msgstr "%.0fG"
 #: calendar/gui/dialogs/cal-attachment-bar.c:1106
 #: calendar/gui/dialogs/comp-editor.c:2426
 #: composer/e-msg-composer-attachment-bar.c:307 mail/em-utils.c:438
+#: widgets/misc/e-attachment-bar.c:336
 msgid "attachment"
 msgstr "attachment"
 
@@ -5049,6 +5055,7 @@ msgstr "_Add attachment..."
 
 #: calendar/gui/dialogs/cal-attachment-bar.c:736
 #: composer/e-msg-composer-attachment-bar.c:740
+#: widgets/misc/e-attachment-bar.c:878
 msgid "Attachment Bar"
 msgstr "Attachment Bar"
 
@@ -5058,6 +5065,7 @@ msgstr "Attachment Bar"
 #: composer/e-msg-composer-attachment.glade.h:6
 #: composer/e-msg-composer-select-file.c:96
 #: composer/e-msg-composer-select-file.c:116
+#: widgets/misc/e-attachment.glade.h:6
 msgid "Suggest automatic display of attachment"
 msgstr "Suggest automatic display of attachment"
 
@@ -5073,7 +5081,9 @@ msgstr "Attach file(s)"
 #: composer/e-msg-composer-attachment.c:187
 #: composer/e-msg-composer-attachment.c:203
 #: composer/e-msg-composer-attachment.c:297
-#: composer/e-msg-composer-attachment.c:313
+#: composer/e-msg-composer-attachment.c:313 widgets/misc/e-attachment.c:220
+#: widgets/misc/e-attachment.c:236 widgets/misc/e-attachment.c:421
+#: widgets/misc/e-attachment.c:437
 #, c-format
 msgid "Cannot attach file %s: %s"
 msgstr "Cannot attach file %s: %s"
@@ -5081,13 +5091,15 @@ msgstr "Cannot attach file %s: %s"
 #: calendar/gui/dialogs/cal-attachment.c:218
 #: calendar/gui/dialogs/cal-attachment.c:327
 #: composer/e-msg-composer-attachment.c:195
-#: composer/e-msg-composer-attachment.c:305
+#: composer/e-msg-composer-attachment.c:305 widgets/misc/e-attachment.c:228
+#: widgets/misc/e-attachment.c:429
 #, c-format
 msgid "Cannot attach file %s: not a regular file"
 msgstr "Cannot attach file %s: not a regular file"
 
 #: calendar/gui/dialogs/cal-attachment.glade.h:2
 #: composer/e-msg-composer-attachment.glade.h:2
+#: widgets/misc/e-attachment.glade.h:2
 msgid "Attachment Properties"
 msgstr "Attachment Properties"
 
@@ -5095,16 +5107,19 @@ msgstr "Attachment Properties"
 #: calendar/gui/e-cal-component-preview.c:267
 #: calendar/gui/e-itip-control.c:1164 calendar/gui/e-itip-control.glade.h:6
 #: composer/e-msg-composer-attachment.glade.h:3 mail/mail-config.glade.h:69
+#: widgets/misc/e-attachment.glade.h:3
 msgid "Description:"
 msgstr "Description:"
 
 #: calendar/gui/dialogs/cal-attachment.glade.h:4
 #: composer/e-msg-composer-attachment.glade.h:4
+#: widgets/misc/e-attachment.glade.h:4
 msgid "File name:"
 msgstr "File name:"
 
 #: calendar/gui/dialogs/cal-attachment.glade.h:5
 #: composer/e-msg-composer-attachment.glade.h:5
+#: widgets/misc/e-attachment.glade.h:5
 msgid "MIME type:"
 msgstr "MIME type:"
 
@@ -5907,7 +5922,7 @@ msgstr "<b>From:</b>"
 #: composer/e-msg-composer.c:2120 filter/filter-rule.c:881
 #: mail/em-account-editor.c:683 mail/em-account-editor.c:1346
 #: mail/em-account-prefs.c:464 mail/em-folder-view.c:1063
-#: plugins/calendar-weather/calendar-weather.c:370
+#: mail/em-junk-hook.c:78 plugins/calendar-weather/calendar-weather.c:370
 #: plugins/calendar-weather/calendar-weather.c:424
 #: plugins/exchange-operations/exchange-delegates.glade.h:7
 #: plugins/itip-formatter/itip-formatter.c:1601
@@ -6522,7 +6537,8 @@ msgstr "No"
 #: mail/em-utils.c:1175 plugins/itip-formatter/itip-formatter.c:238
 #: plugins/itip-formatter/itip-formatter.c:1626
 #: plugins/plugin-manager/plugin-manager.c:72 shell/e-component-registry.c:205
-#: shell/e-component-registry.c:211 widgets/misc/e-charset-picker.c:62
+#: shell/e-component-registry.c:211 widgets/misc/e-attachment-bar.c:623
+#: widgets/misc/e-charset-picker.c:62
 msgid "Unknown"
 msgstr "Unknown"
 
@@ -6606,6 +6622,7 @@ msgstr "_Save As..."
 
 #: calendar/gui/e-calendar-table.c:1159 calendar/gui/e-calendar-view.c:1503
 #: calendar/gui/e-calendar-view.c:1524 mail/em-folder-view.c:1045
+#: plugins/print-message/org-gnome-print-message.xml.h:3
 #: ui/evolution-addressbook.xml.h:40 ui/evolution-calendar.xml.h:44
 #: ui/evolution-mail-message.xml.h:117 ui/evolution-tasks.xml.h:25
 msgid "_Print..."
@@ -9635,6 +9652,7 @@ msgstr ""
 "account"
 
 #: composer/e-msg-composer.c:1223 composer/e-msg-composer.c:1256
+#: plugins/mail-remote/e-corba-utils.c:135
 msgid "Unknown reason"
 msgstr "Unknown reason"
 
@@ -9825,7 +9843,9 @@ msgstr "_Discard Changes"
 msgid "_Save Message"
 msgstr "_Save Message"
 
-#: data/evolution.desktop.in.in.h:1 shell/main.c:509
+#: data/evolution.desktop.in.in.h:1
+#: plugins/default-mailer/org-gnome-default-mailer.error.xml.h:2
+#: shell/main.c:509
 msgid "Evolution"
 msgstr "Evolution"
 
@@ -11092,6 +11112,7 @@ msgstr "Default"
 
 #: mail/em-folder-view.c:2066
 #: plugins/print-message/org-gnome-print-message.eplug.xml.h:2
+#: plugins/print-message/print-message.c:83
 msgid "Print Message"
 msgstr "Print Message"
 
@@ -14212,6 +14233,28 @@ msgstr "Copy _Email Address"
 msgid "Copy tool"
 msgstr "Copy tool"
 
+#: plugins/default-mailer/apps-evolution-mail-prompts-checkdefault.schemas.in.in.h:1
+msgid "Check whether Evolution is the default mailer"
+msgstr "Check whether Evolution is the default mailer"
+
+#: plugins/default-mailer/apps-evolution-mail-prompts-checkdefault.schemas.in.in.h:2
+msgid ""
+"Every time Evolution starts, check whether or not it is the default mailer."
+msgstr ""
+"Every time Evolution starts, check whether or not it is the default mailer."
+
+#: plugins/default-mailer/org-gnome-default-mailer.eplug.xml.h:1
+msgid "Checks whether Evolution is the default mail client on startup."
+msgstr "Checks whether Evolution is the default mail client on startup."
+
+#: plugins/default-mailer/org-gnome-default-mailer.eplug.xml.h:2
+msgid "Default Mail Client "
+msgstr "Default Mail Client "
+
+#: plugins/default-mailer/org-gnome-default-mailer.error.xml.h:1
+msgid "Do you want to make Evolution your default e-mail client?"
+msgstr "Do you want to make Evolution your default e-mail client?"
+
 #: plugins/default-source/default-source.c:82
 #: plugins/default-source/default-source.c:108
 msgid "Mark as default folder"
@@ -14365,6 +14408,17 @@ msgstr "New Password:"
 msgid "Your current password has expired. Please change your password now."
 msgstr "Your current password has expired. Please change your password now."
 
+#: plugins/exchange-operations/exchange-delegates-user.c:144
+#: plugins/exchange-operations/exchange-permissions-dialog.c:567
+msgid "Custom"
+msgstr "Custom"
+
+#: plugins/exchange-operations/exchange-delegates-user.c:191
+#: plugins/exchange-operations/exchange-permissions-dialog.c:184
+#, c-format
+msgid "Permissions for %s"
+msgstr "Permissions for %s"
+
 #: plugins/exchange-operations/exchange-delegates.c:222
 msgid ""
 "No Global Catalog server configured for this account.\n"
@@ -14504,16 +14558,14 @@ msgstr "_Inbox:"
 msgid "_Tasks:"
 msgstr "_Tasks:"
 
-#: plugins/exchange-operations/exchange-delegates-user.c:144
-#: plugins/exchange-operations/exchange-permissions-dialog.c:567
-msgid "Custom"
-msgstr "Custom"
+#: plugins/exchange-operations/exchange-folder-permission.c:51
+#: plugins/exchange-operations/org-gnome-folder-permissions.xml.h:2
+msgid "Permissions..."
+msgstr "Permissions..."
 
-#: plugins/exchange-operations/exchange-delegates-user.c:191
-#: plugins/exchange-operations/exchange-permissions-dialog.c:184
-#, c-format
-msgid "Permissions for %s"
-msgstr "Permissions for %s"
+#: plugins/exchange-operations/exchange-folder-tree.glade.h:1
+msgid "Exchange Folder Tree"
+msgstr "Exchange Folder Tree"
 
 #: plugins/exchange-operations/exchange-folder.c:55
 #: plugins/exchange-operations/exchange-folder.c:98
@@ -14532,15 +14584,6 @@ msgstr "Really unsubscribe from folder \"%s\"?"
 #, c-format
 msgid "Unsubscribe from \"%s\""
 msgstr "Unsubscribe from \"%s\""
-
-#: plugins/exchange-operations/exchange-folder-permission.c:51
-#: plugins/exchange-operations/org-gnome-folder-permissions.xml.h:2
-msgid "Permissions..."
-msgstr "Permissions..."
-
-#: plugins/exchange-operations/exchange-folder-tree.glade.h:1
-msgid "Exchange Folder Tree"
-msgstr "Exchange Folder Tree"
 
 #: plugins/exchange-operations/exchange-permissions-dialog.c:227
 msgid "Could not read folder permissions"
@@ -14650,6 +14693,14 @@ msgstr "Select User"
 #: plugins/exchange-operations/exchange-user-dialog.c:182
 msgid "Addressbook..."
 msgstr "Address book..."
+
+#: plugins/exchange-operations/org-gnome-exchange-ab-subscription.xml.h:1
+msgid "Subscribe to Other User's Contacts"
+msgstr "Subscribe to Other User's Contacts"
+
+#: plugins/exchange-operations/org-gnome-exchange-cal-subscription.xml.h:1
+msgid "Subscribe to Other User's Calendar"
+msgstr "Subscribe to Other User's Calendar"
 
 #: plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:1
 msgid "Cannot change password due to configuration problems."
@@ -14857,6 +14908,10 @@ msgstr ""
 msgid "Your password has expired."
 msgstr "Your password has expired."
 
+#: plugins/exchange-operations/org-gnome-exchange-tasks-subscription.xml.h:1
+msgid "Subscribe to Other User's Tasks"
+msgstr "Subscribe to Other User's Tasks"
+
 #: plugins/exchange-operations/org-gnome-folder-permissions.xml.h:1
 msgid "Check folder permissions"
 msgstr "Check folder permissions"
@@ -14864,18 +14919,6 @@ msgstr "Check folder permissions"
 #: plugins/exchange-operations/org-gnome-folder-subscription.xml.h:1
 msgid "Subscribe to Other User's Folder"
 msgstr "Subscribe to Other User's Folder"
-
-#: plugins/exchange-operations/org-gnome-exchange-ab-subscription.xml.h:1
-msgid "Subscribe to Other User's Contacts"
-msgstr "Subscribe to Other User's Contacts"
-
-#: plugins/exchange-operations/org-gnome-exchange-cal-subscription.xml.h:1
-msgid "Subscribe to Other User's Calendar"
-msgstr "Subscribe to Other User's Calendar"
-
-#: plugins/exchange-operations/org-gnome-exchange-tasks-subscription.xml.h:1
-msgid "Subscribe to Other User's Tasks"
-msgstr "Subscribe to Other User's Tasks"
 
 #: plugins/folder-unsubscribe/folder-unsubscribe.c:57
 #, c-format
@@ -14893,6 +14936,10 @@ msgstr "Unsubscribe Folders"
 #: plugins/groupwise-account-setup/camel-gw-listener.c:414
 msgid "Checklist"
 msgstr "Checklist"
+
+#: plugins/groupwise-account-setup/org-gnome-gw-account-setup.eplug.xml.h:1
+msgid "Groupwise Account Setup"
+msgstr "Groupwise Account Setup"
 
 #: plugins/groupwise-features/junk-mail-settings.c:77
 msgid "Junk Settings"
@@ -14985,13 +15032,85 @@ msgstr "_Shared With ..."
 msgid "_Sharing"
 msgstr "_Sharing"
 
-#: plugins/groupwise-features/send-options.c:83
-#: plugins/groupwise-features/proxy.c:470
+#: plugins/groupwise-features/proxy-add-dialog.glade.h:1
+msgid "<b>Name</b>"
+msgstr "<b>Name</b>"
+
+#: plugins/groupwise-features/proxy-add-dialog.glade.h:2
+msgid "Access Rights"
+msgstr "Access Rights"
+
+#: plugins/groupwise-features/proxy-add-dialog.glade.h:3
+msgid "Add/Edit"
+msgstr "Add/Edit"
+
+#: plugins/groupwise-features/proxy-add-dialog.glade.h:5
+msgid "Con_tacts"
+msgstr "Con_tacts"
+
+#: plugins/groupwise-features/proxy-add-dialog.glade.h:7
+msgid "Modify _folders/options/rules/"
+msgstr "Modify _folders/options/rules/"
+
+#: plugins/groupwise-features/proxy-add-dialog.glade.h:8
+msgid "Read items marked _private"
+msgstr "Read items marked _private"
+
+#: plugins/groupwise-features/proxy-add-dialog.glade.h:9
+msgid "Reminder Notes"
+msgstr "Reminder Notes"
+
+#: plugins/groupwise-features/proxy-add-dialog.glade.h:10
+msgid "Subscribe to my _alarms"
+msgstr "Subscribe to my _alarms"
+
+#: plugins/groupwise-features/proxy-add-dialog.glade.h:11
+msgid "Subscribe to my _notifications"
+msgstr "Subscribe to my _notifications"
+
+#: plugins/groupwise-features/proxy-add-dialog.glade.h:13
+#: ui/evolution-mail-message.xml.h:118
+msgid "_Read"
+msgstr "_Read"
+
+#: plugins/groupwise-features/proxy-add-dialog.glade.h:14
+msgid "_Write"
+msgstr "_Write"
+
+#: plugins/groupwise-features/proxy-listing.glade.h:1
+msgid "Proxy"
+msgstr "Proxy"
+
+#: plugins/groupwise-features/proxy-listing.glade.h:2
+#: smime/gui/smime-ui.glade.h:49
+#: widgets/table/e-table-config-no-group.glade.h:20
+#: widgets/table/e-table-config.glade.h:21
+msgid "dialog1"
+msgstr "dialogue1"
+
+#: plugins/groupwise-features/proxy-login-dialog.glade.h:1
+msgid "<b>Account Name</b>"
+msgstr "<b>Account Name</b>"
+
+#: plugins/groupwise-features/proxy-login-dialog.glade.h:2
+msgid "Proxy Login"
+msgstr "Proxy Login"
+
 #: plugins/groupwise-features/proxy-login.c:221
 #: plugins/groupwise-features/proxy-login.c:263
+#: plugins/groupwise-features/proxy.c:470
+#: plugins/groupwise-features/send-options.c:83
 #, c-format
 msgid "%sEnter password for %s (user %s)"
 msgstr "%sEnter password for %s (user %s)"
+
+#: plugins/groupwise-features/proxy-login.c:485
+msgid "_Proxy Login..."
+msgstr "_Proxy Login..."
+
+#: plugins/groupwise-features/proxy.c:664
+msgid "The Proxy tab will be available only when the account is enabled."
+msgstr "The Proxy tab will be available only when the account is enabled."
 
 #: plugins/groupwise-features/share-folder-common.c:317
 msgid "Users"
@@ -15466,6 +15585,36 @@ msgid ""
 msgstr ""
 "This response is not from a current attendee. Add the sender as an attendee?"
 
+#: plugins/mail-account-disable/mail-account-disable.c:47
+msgid "Proxy _Logout"
+msgstr "Proxy _Logout"
+
+#: plugins/mail-account-disable/org-gnome-mail-account-disable.eplug.xml.h:1
+msgid "Allows disabling of accounts."
+msgstr "Allows disabling of accounts."
+
+#: plugins/mail-account-disable/org-gnome-mail-account-disable.eplug.xml.h:2
+msgid "Disable Account"
+msgstr "Disable Account"
+
+#: plugins/mail-remote/client.c:30
+#, c-format
+msgid "System error: %s"
+msgstr "System error: %s"
+
+#: plugins/mail-remote/client.c:32
+#, c-format
+msgid "Camel error: %s"
+msgstr "Camel error: %s"
+
+#: plugins/mail-remote/evolution-mail-store.c:476
+msgid "Account cannot send e-mail"
+msgstr "Account cannot send e-mail"
+
+#: plugins/mail-remote/evolution-mail-store.c:605
+msgid "No store available"
+msgstr "No store available"
+
 #: plugins/mail-to-meeting/org-gnome-mail-to-meeting.eplug.xml.h:1
 msgid ""
 "A plugin which allows the creation of meetings from the contents of a mail "
@@ -15665,6 +15814,14 @@ msgstr "_Do not make this available offline"
 msgid "_Mark Calendar for offline use"
 msgstr "_Mark Calendar for offline use"
 
+#: plugins/mono/org-gnome-evolution-mono.eplug.xml.h:1
+msgid "A plugin which implements mono plugins."
+msgstr "A plugin which implements mono plugins."
+
+#: plugins/mono/org-gnome-evolution-mono.eplug.xml.h:2
+msgid "Mono Loader"
+msgstr "Mono Loader"
+
 #: plugins/new-mail-notify/org-gnome-new-mail-notify.eplug.xml.h:1
 msgid "Generates a D-BUS message when new mail arrives."
 msgstr "Generates a D-BUS message when new mail arrives."
@@ -15764,6 +15921,28 @@ msgstr "HTML Mode"
 #: plugins/print-message/org-gnome-print-message.eplug.xml.h:1
 msgid "Gives an option to print mail from composer"
 msgstr "Gives an option to print mail from composer"
+
+#: plugins/print-message/org-gnome-print-message.xml.h:1
+#: ui/evolution-addressbook.xml.h:17 ui/evolution-calendar.xml.h:20
+#: ui/evolution-mail-message.xml.h:75 ui/evolution-tasks.xml.h:15
+msgid "Print Pre_view"
+msgstr "Print Pre_view"
+
+#: plugins/print-message/org-gnome-print-message.xml.h:2
+msgid "Prints the message"
+msgstr "Prints the message"
+
+#: plugins/sa-junk-plugin/em-junk-filter.c:97
+msgid "Spamassassin (built-in)"
+msgstr "Spamassassin (built-in)"
+
+#: plugins/sa-junk-plugin/org-gnome-sa-junk-plugin.eplug.xml.h:1
+msgid "Sa junk-plugin"
+msgstr "SA Junk Plugin"
+
+#: plugins/sa-junk-plugin/org-gnome-sa-junk-plugin.eplug.xml.h:2
+msgid "learns junk messages using spamd."
+msgstr "detects junk messages using \"spamd\"."
 
 #: plugins/save-attachments/org-gnome-save-attachments.eplug.xml.h:1
 msgid "A plugin for saving all attachments or parts of a message at once."
@@ -15987,94 +16166,6 @@ msgstr "Thread messages by subject"
 #: plugins/subject-thread/subject-thread.c:54
 msgid "Fall back to threading messages by sub_ject"
 msgstr "Fall back to threading messages by sub_ject"
-
-#: plugins/mail-account-disable/mail-account-disable.c:47
-msgid "Proxy _Logout"
-msgstr "Proxy _Logout"
-
-#: plugins/mail-account-disable/org-gnome-mail-account-disable.eplug.xml.h:1
-msgid "Allows disabling of accounts."
-msgstr "Allows disabling of accounts."
-
-#: plugins/mail-account-disable/org-gnome-mail-account-disable.eplug.xml.h:2
-msgid "Disable Account"
-msgstr "Disable Account"
-
-#: plugins/groupwise-features/proxy-listing.glade.h:1
-msgid "Proxy"
-msgstr "Proxy"
-
-#: plugins/groupwise-features/proxy-listing.glade.h:2
-#: smime/gui/smime-ui.glade.h:49
-#: widgets/table/e-table-config-no-group.glade.h:20
-#: widgets/table/e-table-config.glade.h:21
-msgid "dialog1"
-msgstr "dialogue1"
-
-#: plugins/groupwise-features/proxy-add-dialog.glade.h:1
-msgid "<b>Name</b>"
-msgstr "<b>Name</b>"
-
-#: plugins/groupwise-features/proxy-add-dialog.glade.h:2
-msgid "Access Rights"
-msgstr "Access Rights"
-
-#: plugins/groupwise-features/proxy-add-dialog.glade.h:3
-msgid "Add/Edit"
-msgstr "Add/Edit"
-
-#: plugins/groupwise-features/proxy-add-dialog.glade.h:5
-msgid "Con_tacts"
-msgstr "Con_tacts"
-
-#: plugins/groupwise-features/proxy-add-dialog.glade.h:7
-msgid "Modify _folders/options/rules/"
-msgstr "Modify _folders/options/rules/"
-
-#: plugins/groupwise-features/proxy-add-dialog.glade.h:8
-msgid "Read items marked _private"
-msgstr "Read items marked _private"
-
-#: plugins/groupwise-features/proxy-add-dialog.glade.h:9
-msgid "Reminder Notes"
-msgstr "Reminder Notes"
-
-#: plugins/groupwise-features/proxy-add-dialog.glade.h:10
-msgid "Subscribe to my _alarms"
-msgstr "Subscribe to my _alarms"
-
-#: plugins/groupwise-features/proxy-add-dialog.glade.h:11
-msgid "Subscribe to my _notifications"
-msgstr "Subscribe to my _notifications"
-
-#: plugins/groupwise-features/proxy-add-dialog.glade.h:13
-#: ui/evolution-mail-message.xml.h:118
-msgid "_Read"
-msgstr "_Read"
-
-#: plugins/groupwise-features/proxy-add-dialog.glade.h:14
-msgid "_Write"
-msgstr "_Write"
-
-#: plugins/groupwise-features/proxy.c:664
-msgid "The Proxy tab will be available only when the account is enabled."
-msgstr "The Proxy tab will be available only when the account is enabled."
-
-#: plugins/groupwise-features/proxy-login.c:485
-msgid "_Proxy Login..."
-msgstr "_Proxy Login..."
-
-#: plugins/groupwise-features/proxy-login-dialog.glade.h:1
-msgid "<b>Account Name</b>"
-msgstr "<b>Account Name</b>"
-
-#: plugins/groupwise-features/proxy-login-dialog.glade.h:2
-msgid "Proxy Login"
-msgstr "Proxy Login"
-
-#: plugins/sa-junk-plugin/em-junk-filter.c:97
-msgid "Spamassassin (built-in)"
-msgstr "Spamassassin (built-in)"
 
 #: shell/GNOME_Evolution_Shell.server.in.in.h:1
 msgid "Evolution Shell"
@@ -17235,11 +17326,6 @@ msgstr "Paste the clipboard"
 #: ui/evolution-addressbook.xml.h:15
 msgid "Previews the contacts to be printed"
 msgstr "Previews the contacts to be printed"
-
-#: ui/evolution-addressbook.xml.h:17 ui/evolution-calendar.xml.h:20
-#: ui/evolution-mail-message.xml.h:75 ui/evolution-tasks.xml.h:15
-msgid "Print Pre_view"
-msgstr "Print Pre_view"
 
 #: ui/evolution-addressbook.xml.h:18
 msgid "Print selected contacts"
@@ -18618,6 +18704,12 @@ msgstr "Define Views for \"%s\""
 msgid "_Edit..."
 msgstr "_Edit..."
 
+#: widgets/menus/gal-view-factory-etable.c:39
+#: widgets/table/e-table-header-item.c:1845
+#: widgets/table/e-table-scrolled.c:224 widgets/table/e-table-scrolled.c:225
+msgid "Table"
+msgstr "Table"
+
 #: widgets/menus/gal-view-instance-save-as-dialog.c:182
 msgid "Instance"
 msgstr "Instance"
@@ -18633,20 +18725,6 @@ msgstr "_Create new view"
 #: widgets/menus/gal-view-instance-save-as-dialog.glade.h:5
 msgid "_Replace existing view"
 msgstr "_Replace existing view"
-
-#: widgets/menus/gal-view-new-dialog.glade.h:2
-msgid "Name of new view:"
-msgstr "Name of new view:"
-
-#: widgets/menus/gal-view-new-dialog.glade.h:3
-msgid "Type of view:"
-msgstr "Type of view:"
-
-#: widgets/menus/gal-view-factory-etable.c:39
-#: widgets/table/e-table-header-item.c:1845
-#: widgets/table/e-table-scrolled.c:224 widgets/table/e-table-scrolled.c:225
-msgid "Table"
-msgstr "Table"
 
 #: widgets/menus/gal-view-menus.c:291
 msgid "_Current View"
@@ -18664,21 +18742,13 @@ msgstr "Factory"
 msgid "Define New View"
 msgstr "Define New View"
 
-#: widgets/misc/gal-categories.glade.h:2
-msgid "Edit Master Category List..."
-msgstr "Edit Master Category List..."
+#: widgets/menus/gal-view-new-dialog.glade.h:2
+msgid "Name of new view:"
+msgstr "Name of new view:"
 
-#: widgets/misc/gal-categories.glade.h:3
-msgid "Item(s) belong to these _categories:"
-msgstr "Item(s) belong to these _categories:"
-
-#: widgets/misc/gal-categories.glade.h:4
-msgid "_Available Categories:"
-msgstr "_Available Categories:"
-
-#: widgets/misc/gal-categories.glade.h:5
-msgid "categories"
-msgstr "categories"
+#: widgets/menus/gal-view-new-dialog.glade.h:3
+msgid "Type of view:"
+msgstr "Type of view:"
 
 #. Translators: These are the first characters of each day of the
 #. week, 'M' for 'Monday', 'T' for Tuesday etc.
@@ -18747,14 +18817,14 @@ msgid "Y2"
 msgstr "Y2"
 
 #: widgets/misc/e-canvas-vbox.c:102 widgets/misc/e-reflow.c:1430
-#: widgets/table/e-table-group-leaf.c:636 widgets/table/e-table-item.c:3001
 #: widgets/table/e-table-group-container.c:978
+#: widgets/table/e-table-group-leaf.c:636 widgets/table/e-table-item.c:3001
 msgid "Minimum width"
 msgstr "Minimum width"
 
 #: widgets/misc/e-canvas-vbox.c:103 widgets/misc/e-reflow.c:1431
-#: widgets/table/e-table-group-leaf.c:637 widgets/table/e-table-item.c:3002
 #: widgets/table/e-table-group-container.c:979
+#: widgets/table/e-table-group-leaf.c:637 widgets/table/e-table-item.c:3002
 msgid "Minimum Width"
 msgstr "Minimum Width"
 
@@ -19210,6 +19280,22 @@ msgstr "%s (%d%% complete)"
 msgid "click here to go to url"
 msgstr "Click here to go to URL"
 
+#: widgets/misc/gal-categories.glade.h:2
+msgid "Edit Master Category List..."
+msgstr "Edit Master Category List..."
+
+#: widgets/misc/gal-categories.glade.h:3
+msgid "Item(s) belong to these _categories:"
+msgstr "Item(s) belong to these _categories:"
+
+#: widgets/misc/gal-categories.glade.h:4
+msgid "_Available Categories:"
+msgstr "_Available Categories:"
+
+#: widgets/misc/gal-categories.glade.h:5
+msgid "categories"
+msgstr "categories"
+
 #: widgets/table/e-cell-combo.c:177
 msgid "popup list"
 msgstr "popup list"
@@ -19250,6 +19336,90 @@ msgstr "Colour Column"
 msgid "BG Color Column"
 msgstr "BG Colour Column"
 
+#: widgets/table/e-table-config-no-group.glade.h:1
+#: widgets/table/e-table-config.glade.h:1
+msgid "<- _Remove"
+msgstr "<- _Remove"
+
+#: widgets/table/e-table-config-no-group.glade.h:2
+#: widgets/table/e-table-config.glade.h:2
+msgid "A_vailable Fields:"
+msgstr "A_vailable Fields:"
+
+#: widgets/table/e-table-config-no-group.glade.h:3
+#: widgets/table/e-table-config.glade.h:3
+msgid "Ascending"
+msgstr "Ascending"
+
+#: widgets/table/e-table-config-no-group.glade.h:4
+#: widgets/table/e-table-config.glade.h:4
+msgid "Clear All"
+msgstr "Clear All"
+
+#: widgets/table/e-table-config-no-group.glade.h:5
+#: widgets/table/e-table-config.glade.h:5
+msgid "Descending"
+msgstr "Descending"
+
+#: widgets/table/e-table-config-no-group.glade.h:8
+#: widgets/table/e-table-config.glade.h:8
+msgid "Group Items By"
+msgstr "Group Items By"
+
+#: widgets/table/e-table-config-no-group.glade.h:9
+#: widgets/table/e-table-config.glade.h:9
+msgid "Move _Down"
+msgstr "Move _Down"
+
+#: widgets/table/e-table-config-no-group.glade.h:10
+#: widgets/table/e-table-config.glade.h:10
+msgid "Move _Up"
+msgstr "Move _Up"
+
+#: widgets/table/e-table-config-no-group.glade.h:11
+msgid "Sh_ow these fields in order:"
+msgstr "Sh_ow these fields in order:"
+
+#: widgets/table/e-table-config-no-group.glade.h:12
+#: widgets/table/e-table-config.glade.h:11
+msgid "Show Fields"
+msgstr "Show Fields"
+
+#: widgets/table/e-table-config-no-group.glade.h:13
+#: widgets/table/e-table-config.glade.h:12
+msgid "Show field in View"
+msgstr "Show field in View"
+
+#: widgets/table/e-table-config-no-group.glade.h:14
+#: widgets/table/e-table-config.glade.h:13
+msgid "Sort"
+msgstr "Sort"
+
+#: widgets/table/e-table-config-no-group.glade.h:15
+#: widgets/table/e-table-config.glade.h:14
+msgid "Sort Items By"
+msgstr "Sort Items By"
+
+#: widgets/table/e-table-config-no-group.glade.h:16
+#: widgets/table/e-table-config.glade.h:15
+msgid "Then By"
+msgstr "Then By"
+
+#: widgets/table/e-table-config-no-group.glade.h:17
+#: widgets/table/e-table-config.glade.h:16
+msgid "_Add ->"
+msgstr "_Add ->"
+
+#: widgets/table/e-table-config-no-group.glade.h:18
+#: widgets/table/e-table-config.glade.h:17
+msgid "_Fields Shown..."
+msgstr "_Fields Shown..."
+
+#: widgets/table/e-table-config-no-group.glade.h:19
+#: widgets/table/e-table-config.glade.h:20
+msgid "_Sort..."
+msgstr "_Sort..."
+
 #: widgets/table/e-table-config.c:150
 msgid "State"
 msgstr "State"
@@ -19270,6 +19440,14 @@ msgstr "Not sorted"
 msgid "No grouping"
 msgstr "No grouping"
 
+#: widgets/table/e-table-config.glade.h:18
+msgid "_Group By..."
+msgstr "_Group By..."
+
+#: widgets/table/e-table-config.glade.h:19
+msgid "_Show these fields in order:"
+msgstr "_Show these fields in order:"
+
 #: widgets/table/e-table-field-chooser-dialog.c:77
 #: widgets/table/e-table-field-chooser-item.c:646
 #: widgets/table/e-table-field-chooser.c:79
@@ -19288,78 +19466,113 @@ msgstr "Full Header"
 msgid "Add a column..."
 msgstr "Add a column..."
 
+#: widgets/table/e-table-field-chooser.glade.h:1
+msgid "Field Chooser"
+msgstr "Field Chooser"
+
+#: widgets/table/e-table-field-chooser.glade.h:2
+msgid ""
+"To add a column to your table, drag it into\n"
+"the location in which you want it to appear."
+msgstr ""
+"To add a column to your table, drag it into\n"
+"the location in which you want it to appear."
+
+#: widgets/table/e-table-group-container.c:350
+#, c-format
+msgid "%s : %s (%d item)"
+msgstr "%s : %s (%d item)"
+
+#: widgets/table/e-table-group-container.c:351
+#, c-format
+msgid "%s : %s (%d items)"
+msgstr "%s : %s (%d items)"
+
+#: widgets/table/e-table-group-container.c:356
+#, c-format
+msgid "%s (%d item)"
+msgstr "%s (%d item)"
+
+#: widgets/table/e-table-group-container.c:357
+#, c-format
+msgid "%s (%d items)"
+msgstr "%s (%d items)"
+
+#: widgets/table/e-table-group-container.c:901
+#: widgets/table/e-table-group-container.c:902
 #: widgets/table/e-table-group-leaf.c:573
 #: widgets/table/e-table-group-leaf.c:574 widgets/table/e-table-item.c:2959
 #: widgets/table/e-table-item.c:2960
-#: widgets/table/e-table-group-container.c:901
-#: widgets/table/e-table-group-container.c:902
 msgid "Alternating Row Colors"
 msgstr "Alternating Row Colours"
 
+#: widgets/table/e-table-group-container.c:908
+#: widgets/table/e-table-group-container.c:909
 #: widgets/table/e-table-group-leaf.c:580
 #: widgets/table/e-table-group-leaf.c:581 widgets/table/e-table-item.c:2966
 #: widgets/table/e-table-item.c:2967 widgets/table/e-tree.c:3271
-#: widgets/table/e-tree.c:3272 widgets/table/e-table-group-container.c:908
-#: widgets/table/e-table-group-container.c:909
+#: widgets/table/e-tree.c:3272
 msgid "Horizontal Draw Grid"
 msgstr "Horizontal Draw Grid"
 
+#: widgets/table/e-table-group-container.c:915
+#: widgets/table/e-table-group-container.c:916
 #: widgets/table/e-table-group-leaf.c:587
 #: widgets/table/e-table-group-leaf.c:588 widgets/table/e-table-item.c:2973
 #: widgets/table/e-table-item.c:2974 widgets/table/e-tree.c:3277
-#: widgets/table/e-tree.c:3278 widgets/table/e-table-group-container.c:915
-#: widgets/table/e-table-group-container.c:916
+#: widgets/table/e-tree.c:3278
 msgid "Vertical Draw Grid"
 msgstr "Vertical Draw Grid"
 
+#: widgets/table/e-table-group-container.c:922
+#: widgets/table/e-table-group-container.c:923
 #: widgets/table/e-table-group-leaf.c:594
 #: widgets/table/e-table-group-leaf.c:595 widgets/table/e-table-item.c:2980
 #: widgets/table/e-table-item.c:2981 widgets/table/e-tree.c:3283
-#: widgets/table/e-tree.c:3284 widgets/table/e-table-group-container.c:922
-#: widgets/table/e-table-group-container.c:923
+#: widgets/table/e-tree.c:3284
 msgid "Draw focus"
 msgstr "Draw focus"
 
+#: widgets/table/e-table-group-container.c:929
+#: widgets/table/e-table-group-container.c:930
 #: widgets/table/e-table-group-leaf.c:601
 #: widgets/table/e-table-group-leaf.c:602 widgets/table/e-table-item.c:2987
 #: widgets/table/e-table-item.c:2988
-#: widgets/table/e-table-group-container.c:929
-#: widgets/table/e-table-group-container.c:930
 msgid "Cursor mode"
 msgstr "Cursor mode"
 
+#: widgets/table/e-table-group-container.c:936
+#: widgets/table/e-table-group-container.c:937
+#: widgets/table/e-table-group-leaf.c:615
+#: widgets/table/e-table-group-leaf.c:616 widgets/table/e-table-item.c:2952
+#: widgets/table/e-table-item.c:2953
+msgid "Selection model"
+msgstr "Selection model"
+
+#: widgets/table/e-table-group-container.c:943
+#: widgets/table/e-table-group-container.c:944
 #: widgets/table/e-table-group-leaf.c:608
 #: widgets/table/e-table-group-leaf.c:609 widgets/table/e-table-item.c:2994
 #: widgets/table/e-table-item.c:2995 widgets/table/e-table.c:3316
 #: widgets/table/e-tree.c:3265 widgets/table/e-tree.c:3266
-#: widgets/table/e-table-group-container.c:943
-#: widgets/table/e-table-group-container.c:944
 msgid "Length Threshold"
 msgstr "Length Threshold"
 
-#: widgets/table/e-table-group-leaf.c:615
-#: widgets/table/e-table-group-leaf.c:616 widgets/table/e-table-item.c:2952
-#: widgets/table/e-table-item.c:2953
-#: widgets/table/e-table-group-container.c:936
-#: widgets/table/e-table-group-container.c:937
-msgid "Selection model"
-msgstr "Selection model"
-
-#: widgets/table/e-table-group-leaf.c:643
-#: widgets/table/e-table-group-leaf.c:644
-#: widgets/table/e-table-group-container.c:957
-#: widgets/table/e-table-group-container.c:958
-msgid "Frozen"
-msgstr "Frozen"
-
+#: widgets/table/e-table-group-container.c:950
+#: widgets/table/e-table-group-container.c:951
 #: widgets/table/e-table-group-leaf.c:650
 #: widgets/table/e-table-group-leaf.c:651 widgets/table/e-table-item.c:3028
 #: widgets/table/e-table-item.c:3029 widgets/table/e-table.c:3323
 #: widgets/table/e-tree.c:3297 widgets/table/e-tree.c:3298
-#: widgets/table/e-table-group-container.c:950
-#: widgets/table/e-table-group-container.c:951
 msgid "Uniform row height"
 msgstr "Uniform row height"
+
+#: widgets/table/e-table-group-container.c:957
+#: widgets/table/e-table-group-container.c:958
+#: widgets/table/e-table-group-leaf.c:643
+#: widgets/table/e-table-group-leaf.c:644
+msgid "Frozen"
+msgstr "Frozen"
 
 #: widgets/table/e-table-header-item.c:1472
 msgid "Customize Current View"
@@ -19598,127 +19811,3 @@ msgstr "IM Context"
 #: widgets/text/e-text.c:3683 widgets/text/e-text.c:3684
 msgid "Handle Popup"
 msgstr "Handle Popup"
-
-#: widgets/table/e-table-config-no-group.glade.h:1
-#: widgets/table/e-table-config.glade.h:1
-msgid "<- _Remove"
-msgstr "<- _Remove"
-
-#: widgets/table/e-table-config-no-group.glade.h:2
-#: widgets/table/e-table-config.glade.h:2
-msgid "A_vailable Fields:"
-msgstr "A_vailable Fields:"
-
-#: widgets/table/e-table-config-no-group.glade.h:3
-#: widgets/table/e-table-config.glade.h:3
-msgid "Ascending"
-msgstr "Ascending"
-
-#: widgets/table/e-table-config-no-group.glade.h:4
-#: widgets/table/e-table-config.glade.h:4
-msgid "Clear All"
-msgstr "Clear All"
-
-#: widgets/table/e-table-config-no-group.glade.h:5
-#: widgets/table/e-table-config.glade.h:5
-msgid "Descending"
-msgstr "Descending"
-
-#: widgets/table/e-table-config-no-group.glade.h:8
-#: widgets/table/e-table-config.glade.h:8
-msgid "Group Items By"
-msgstr "Group Items By"
-
-#: widgets/table/e-table-config-no-group.glade.h:9
-#: widgets/table/e-table-config.glade.h:9
-msgid "Move _Down"
-msgstr "Move _Down"
-
-#: widgets/table/e-table-config-no-group.glade.h:10
-#: widgets/table/e-table-config.glade.h:10
-msgid "Move _Up"
-msgstr "Move _Up"
-
-#: widgets/table/e-table-config-no-group.glade.h:11
-msgid "Sh_ow these fields in order:"
-msgstr "Sh_ow these fields in order:"
-
-#: widgets/table/e-table-config-no-group.glade.h:12
-#: widgets/table/e-table-config.glade.h:11
-msgid "Show Fields"
-msgstr "Show Fields"
-
-#: widgets/table/e-table-config-no-group.glade.h:13
-#: widgets/table/e-table-config.glade.h:12
-msgid "Show field in View"
-msgstr "Show field in View"
-
-#: widgets/table/e-table-config-no-group.glade.h:14
-#: widgets/table/e-table-config.glade.h:13
-msgid "Sort"
-msgstr "Sort"
-
-#: widgets/table/e-table-config-no-group.glade.h:15
-#: widgets/table/e-table-config.glade.h:14
-msgid "Sort Items By"
-msgstr "Sort Items By"
-
-#: widgets/table/e-table-config-no-group.glade.h:16
-#: widgets/table/e-table-config.glade.h:15
-msgid "Then By"
-msgstr "Then By"
-
-#: widgets/table/e-table-config-no-group.glade.h:17
-#: widgets/table/e-table-config.glade.h:16
-msgid "_Add ->"
-msgstr "_Add ->"
-
-#: widgets/table/e-table-config-no-group.glade.h:18
-#: widgets/table/e-table-config.glade.h:17
-msgid "_Fields Shown..."
-msgstr "_Fields Shown..."
-
-#: widgets/table/e-table-config-no-group.glade.h:19
-#: widgets/table/e-table-config.glade.h:20
-msgid "_Sort..."
-msgstr "_Sort..."
-
-#: widgets/table/e-table-config.glade.h:18
-msgid "_Group By..."
-msgstr "_Group By..."
-
-#: widgets/table/e-table-config.glade.h:19
-msgid "_Show these fields in order:"
-msgstr "_Show these fields in order:"
-
-#: widgets/table/e-table-field-chooser.glade.h:1
-msgid "Field Chooser"
-msgstr "Field Chooser"
-
-#: widgets/table/e-table-field-chooser.glade.h:2
-msgid ""
-"To add a column to your table, drag it into\n"
-"the location in which you want it to appear."
-msgstr ""
-"To add a column to your table, drag it into\n"
-"the location in which you want it to appear."
-
-#: widgets/table/e-table-group-container.c:350
-#, c-format
-msgid "%s : %s (%d item)"
-msgstr "%s : %s (%d item)"
-
-#: widgets/table/e-table-group-container.c:351
-#, c-format
-msgid "%s : %s (%d items)"
-msgstr "%s : %s (%d items)"
-
-#: widgets/table/e-table-group-container.c:356
-#, c-format
-msgid "%s (%d item)"
-msgstr "%s (%d item)"
-
-#: widgets/table/e-table-group-container.c:357
-#, c-format
-msgid "%s (%d items)"
-msgstr "%s (%d items)"
