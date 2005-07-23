@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution Gnome 2.12\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-07-21 22:27+0000\n"
-"PO-Revision-Date: 2005-07-22 16:21+0930\n"
+"POT-Creation-Date: 2005-07-22 21:29+0000\n"
+"PO-Revision-Date: 2005-07-23 15:03+0930\n"
 "Last-Translator: Clytie Siddall <clytie@riverland.net.au>\n"
 "Language-Team: Gnome-Vi <gnomevi-list@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -1167,7 +1167,9 @@ msgid "Contact"
 msgstr "Liên lạc"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:13
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:531
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:522
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:529
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2256
 msgid "Contact Editor"
 msgstr "Bộ hiệu chỉnh liên lạc"
 
@@ -2409,15 +2411,15 @@ msgstr "Trường cần thiết"
 msgid "Changed"
 msgstr "Đã thay đổi"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2578
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2599
 msgid "Please select an image for this contact"
 msgstr "Hãy chọn ảnh cho liên lạc này"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2579
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2600
 msgid "No image"
 msgstr "Không ảnh"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2855
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2876
 msgid ""
 "The contact data is invalid:\n"
 "\n"
@@ -2425,7 +2427,7 @@ msgstr ""
 "Dữ liệu liên lạc không hợp lệ:\n"
 "\n"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2907
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2928
 msgid "Invalid contact."
 msgstr "Liên lạc không hợp lệ."
 
@@ -2579,8 +2581,8 @@ msgstr "Dịch vụ t_in nhắn:"
 #. FIXME: Take care of i18n
 #: ../addressbook/gui/contact-editor/im.glade.h:5
 #: ../plugins/calendar-weather/calendar-weather.c:409
-#: ../plugins/exchange-operations/exchange-calendar.c:182
-#: ../plugins/exchange-operations/exchange-contacts.c:176
+#: ../plugins/exchange-operations/exchange-calendar.c:189
+#: ../plugins/exchange-operations/exchange-contacts.c:164
 msgid "_Location:"
 msgstr "Đị_a điểm:"
 
@@ -3315,8 +3317,8 @@ msgid ""
 "We were unable to open this addressbook.  Please check that the path %s "
 "exists and that you have permission to access it."
 msgstr ""
-"Không thể mở sổ địa chỉ này. Vui lòng kiểm tra lại có đường dẫn « %s » và bạn "
-"có quyền truy cập vào nó."
+"Không thể mở sổ địa chỉ này. Vui lòng kiểm tra lại có đường dẫn « %s » và "
+"bạn có quyền truy cập vào nó."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:109
 msgid ""
@@ -4249,9 +4251,9 @@ msgid "Evolution's Tasks component"
 msgstr "Thành phần công việc Evolution"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:10
-#: ../calendar/gui/e-tasks.c:1242 ../calendar/gui/print.c:1822
+#: ../calendar/gui/e-tasks.c:1257 ../calendar/gui/print.c:1822
 #: ../calendar/gui/tasks-component.c:519 ../calendar/gui/tasks-component.c:994
-#: ../calendar/gui/tasks-control.c:408
+#: ../calendar/gui/tasks-control.c:411
 #: ../calendar/importers/icalendar-importer.c:79
 #: ../calendar/importers/icalendar-importer.c:707
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:384
@@ -4767,7 +4769,7 @@ msgstr "Không khớp"
 #: ../calendar/gui/calendar-commands.c:119
 #: ../calendar/gui/calendar-component.c:708
 #: ../calendar/gui/dialogs/calendar-setup.c:369
-#: ../calendar/gui/gnome-cal.c:2056
+#: ../calendar/gui/gnome-cal.c:2081
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:383
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:413
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:575
@@ -7481,7 +7483,7 @@ msgstr "Người cần thiết _và một tài nguyên"
 msgid "Enter the password for %s"
 msgstr "Hãy nhập mật khẩu cho « %s »"
 
-#: ../calendar/gui/e-tasks.c:783 ../calendar/gui/gnome-cal.c:2494
+#: ../calendar/gui/e-tasks.c:798 ../calendar/gui/gnome-cal.c:2519
 #, c-format
 msgid ""
 "Error on %s:\n"
@@ -7490,24 +7492,24 @@ msgstr ""
 "Lỗi khi « %s »:\n"
 " %s"
 
-#: ../calendar/gui/e-tasks.c:831
+#: ../calendar/gui/e-tasks.c:846
 msgid "Loading tasks"
 msgstr "Đang tải công việc"
 
-#: ../calendar/gui/e-tasks.c:915
+#: ../calendar/gui/e-tasks.c:930
 #, c-format
 msgid "Opening tasks at %s"
 msgstr "Đang mở công việc tại « %s »"
 
-#: ../calendar/gui/e-tasks.c:1111
+#: ../calendar/gui/e-tasks.c:1126
 msgid "Completing tasks..."
 msgstr "Đang hoàn tất công việc..."
 
-#: ../calendar/gui/e-tasks.c:1134
+#: ../calendar/gui/e-tasks.c:1149
 msgid "Deleting selected objects..."
 msgstr "Đang xóa bỏ các đối tượng được chọn..."
 
-#: ../calendar/gui/e-tasks.c:1161
+#: ../calendar/gui/e-tasks.c:1176
 msgid "Expunging"
 msgstr "Đang xóa hẳn"
 
@@ -7522,41 +7524,41 @@ msgstr "Nút múi giờ "
 msgid "%d %B"
 msgstr "%d %B"
 
-#: ../calendar/gui/gnome-cal.c:764
+#: ../calendar/gui/gnome-cal.c:789
 msgid "Updating query"
 msgstr "Đang cập nhật truy vấn"
 
 #. bonobo displays this string so it must be in locale
-#: ../calendar/gui/gnome-cal.c:2171 ../widgets/menus/gal-view-instance.c:585
+#: ../calendar/gui/gnome-cal.c:2196 ../widgets/menus/gal-view-instance.c:585
 #: ../widgets/menus/gal-view-menus.c:350
 msgid "Custom View"
 msgstr "Khung xem tự chọn"
 
-#: ../calendar/gui/gnome-cal.c:2172 ../widgets/menus/gal-view-instance.c:586
+#: ../calendar/gui/gnome-cal.c:2197 ../widgets/menus/gal-view-instance.c:586
 msgid "Save Custom View"
 msgstr "Lưu khung xem tự chọn..."
 
-#: ../calendar/gui/gnome-cal.c:2177 ../widgets/menus/gal-view-instance.c:590
+#: ../calendar/gui/gnome-cal.c:2202 ../widgets/menus/gal-view-instance.c:590
 #: ../widgets/menus/gal-view-menus.c:372
 msgid "Define Views..."
 msgstr "Định nghĩa khung xem..."
 
-#: ../calendar/gui/gnome-cal.c:2340
+#: ../calendar/gui/gnome-cal.c:2365
 #, c-format
 msgid "Loading appointments at %s"
 msgstr "Đang tải cuộc hẹn lúc « %s »"
 
-#: ../calendar/gui/gnome-cal.c:2359
+#: ../calendar/gui/gnome-cal.c:2384
 #, c-format
 msgid "Loading tasks at %s"
 msgstr "Đang tải công việc lúc « %s »"
 
-#: ../calendar/gui/gnome-cal.c:2460
+#: ../calendar/gui/gnome-cal.c:2485
 #, c-format
 msgid "Opening %s"
 msgstr "Đang mở « %s »"
 
-#: ../calendar/gui/gnome-cal.c:3350
+#: ../calendar/gui/gnome-cal.c:3375
 msgid "Purging"
 msgstr "Đang tẩy"
 
@@ -8014,7 +8016,7 @@ msgstr "_Danh sách công việc"
 msgid "Create a new task list"
 msgstr "Tạo danh sách công việc mới"
 
-#: ../calendar/gui/tasks-control.c:370
+#: ../calendar/gui/tasks-control.c:373
 msgid ""
 "This operation will permanently erase all tasks marked as completed. If you "
 "continue, you will not be able to recover these tasks.\n"
@@ -8026,11 +8028,11 @@ msgstr ""
 "\n"
 "Bạn có thật sự muốn xóa bỏ những công việc này sao?"
 
-#: ../calendar/gui/tasks-control.c:373
+#: ../calendar/gui/tasks-control.c:376
 msgid "Do not ask me again."
 msgstr "Đừng hỏi tôi lần nữa."
 
-#: ../calendar/gui/tasks-control.c:408
+#: ../calendar/gui/tasks-control.c:411
 msgid "Print Tasks"
 msgstr "In công việc"
 
@@ -14931,6 +14933,18 @@ msgstr "Hãy kiểm tra quyền truy cập danh mục là đúng."
 msgid "Subscribe to Other User's Folder"
 msgstr "Đăng ký với danh mục của người dùng khác"
 
+#: ../plugins/exchange-operations/org-gnome-exchange-ab-subscription.xml.h:1
+msgid "Subscribe to Other User's Contacts"
+msgstr "Đăng ký với các liên lạc của người dùng khác"
+
+#: ../plugins/exchange-operations/org-gnome-exchange-cal-subscription.xml.h:1
+msgid "Subscribe to Other User's Calendar"
+msgstr "Đăng ký với lịch của người dùng khác"
+
+#: ../plugins/exchange-operations/org-gnome-exchange-tasks-subscription.xml.h:1
+msgid "Subscribe to Other User's Tasks"
+msgstr "Đăng ký với các công việc của người dùng khác"
+
 #: ../plugins/folder-unsubscribe/folder-unsubscribe.c:57
 #, c-format
 msgid "Unsubscribing from folder \"%s\""
@@ -16586,26 +16600,27 @@ msgstr ""
 "  Hãy dùng lệnh «%s --help» (trợ giúp) để biết thêm thông tin.\n"
 
 #: ../shell/shell.error.xml.h:1
-msgid "Are you sure you want to forget the passwords?"
-msgstr "Bạn có chắc muốn quên các mật khẩu không?"
+msgid "Are you sure you want to forget all remembered passwords?"
+msgstr "Bạn có chắc muốn quên các mật khẩu đã nhớ không?"
 
 #: ../shell/shell.error.xml.h:2
-msgid ""
-"Clicking the Forget button will forget your passwords and during next login, "
-"you will be prompted for password."
-msgstr "Nhắp vào nút « Quên » sẽ quên các mật khẩu thì lần sau đăng nhập, bạn sẽ cần phải nhập mật khẩu."
-
-#: ../shell/shell.error.xml.h:3
 msgid "Continue"
 msgstr "Tiếp"
 
-#: ../shell/shell.error.xml.h:4
+#: ../shell/shell.error.xml.h:3
 msgid "Delete old data from version {0}?"
 msgstr "Xóa bỏ dữ liệu cũ từ phiên bản {0} không?"
 
-#: ../shell/shell.error.xml.h:5
+#: ../shell/shell.error.xml.h:4
 msgid "Evolution can not start."
 msgstr "Evolution không khởi chạy được."
+
+#: ../shell/shell.error.xml.h:5
+msgid ""
+"Forgetting your passwords will clear all remembered passwords. You will be "
+"reprompted next time they are needed. "
+msgstr ""
+"Quên đi các mật khẩu đã nhớ sẽ xóa hết mật khẩu đã nhớ,. Như vậy bạn sẽ lại được nhắc nhập mật khẩu lần sau cần thiết."
 
 #: ../shell/shell.error.xml.h:7
 msgid "Insufficient disk space for upgrade."
