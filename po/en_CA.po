@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-07-22 06:18-0400\n"
-"PO-Revision-Date: 2005-07-22 19:18-0400\n"
+"POT-Creation-Date: 2005-07-23 14:23-0400\n"
+"PO-Revision-Date: 2005-07-23 19:18-0400\n"
 "Last-Translator: Adam Weinberger <adamw@gnome.org>\n"
 "Language-Team: Canadian English <adamw@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -1152,7 +1152,9 @@ msgid "Contact"
 msgstr "Contact"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:13
-#: addressbook/gui/contact-editor/e-contact-editor.c:531
+#: addressbook/gui/contact-editor/e-contact-editor.c:522
+#: addressbook/gui/contact-editor/e-contact-editor.c:529
+#: addressbook/gui/contact-editor/e-contact-editor.c:2256
 msgid "Contact Editor"
 msgstr "Contact Editor"
 
@@ -2393,15 +2395,15 @@ msgstr "Required Fields"
 msgid "Changed"
 msgstr "Changed"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:2578
+#: addressbook/gui/contact-editor/e-contact-editor.c:2599
 msgid "Please select an image for this contact"
 msgstr "Please select an image for this contact"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:2579
+#: addressbook/gui/contact-editor/e-contact-editor.c:2600
 msgid "No image"
 msgstr "No image"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:2855
+#: addressbook/gui/contact-editor/e-contact-editor.c:2876
 msgid ""
 "The contact data is invalid:\n"
 "\n"
@@ -2409,7 +2411,7 @@ msgstr ""
 "The contact data is invalid:\n"
 "\n"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:2907
+#: addressbook/gui/contact-editor/e-contact-editor.c:2928
 msgid "Invalid contact."
 msgstr "Invalid contact."
 
@@ -4730,7 +4732,7 @@ msgid "Unmatched"
 msgstr "Unmatched"
 
 #: calendar/gui/calendar-commands.c:119 calendar/gui/calendar-component.c:708
-#: calendar/gui/dialogs/calendar-setup.c:369 calendar/gui/gnome-cal.c:2056
+#: calendar/gui/dialogs/calendar-setup.c:369 calendar/gui/gnome-cal.c:2081
 #: plugins/groupwise-account-setup/camel-gw-listener.c:383
 #: plugins/groupwise-account-setup/camel-gw-listener.c:413
 #: plugins/groupwise-account-setup/camel-gw-listener.c:575
@@ -7409,7 +7411,7 @@ msgstr "Required people and _one resource"
 msgid "Enter the password for %s"
 msgstr "Enter the password for %s"
 
-#: calendar/gui/e-tasks.c:798 calendar/gui/gnome-cal.c:2494
+#: calendar/gui/e-tasks.c:798 calendar/gui/gnome-cal.c:2519
 #, c-format
 msgid ""
 "Error on %s:\n"
@@ -7450,41 +7452,41 @@ msgstr "Timezone Button"
 msgid "%d %B"
 msgstr "%d %B"
 
-#: calendar/gui/gnome-cal.c:764
+#: calendar/gui/gnome-cal.c:789
 msgid "Updating query"
 msgstr "Updating query"
 
 #. bonobo displays this string so it must be in locale
-#: calendar/gui/gnome-cal.c:2171 widgets/menus/gal-view-instance.c:585
+#: calendar/gui/gnome-cal.c:2196 widgets/menus/gal-view-instance.c:585
 #: widgets/menus/gal-view-menus.c:350
 msgid "Custom View"
 msgstr "Custom View"
 
-#: calendar/gui/gnome-cal.c:2172 widgets/menus/gal-view-instance.c:586
+#: calendar/gui/gnome-cal.c:2197 widgets/menus/gal-view-instance.c:586
 msgid "Save Custom View"
 msgstr "Save Custom View"
 
-#: calendar/gui/gnome-cal.c:2177 widgets/menus/gal-view-instance.c:590
+#: calendar/gui/gnome-cal.c:2202 widgets/menus/gal-view-instance.c:590
 #: widgets/menus/gal-view-menus.c:372
 msgid "Define Views..."
 msgstr "Define Views..."
 
-#: calendar/gui/gnome-cal.c:2340
+#: calendar/gui/gnome-cal.c:2365
 #, c-format
 msgid "Loading appointments at %s"
 msgstr "Loading appointments at %s"
 
-#: calendar/gui/gnome-cal.c:2359
+#: calendar/gui/gnome-cal.c:2384
 #, c-format
 msgid "Loading tasks at %s"
 msgstr "Loading tasks at %s"
 
-#: calendar/gui/gnome-cal.c:2460
+#: calendar/gui/gnome-cal.c:2485
 #, c-format
 msgid "Opening %s"
 msgstr "Opening %s"
 
-#: calendar/gui/gnome-cal.c:3350
+#: calendar/gui/gnome-cal.c:3375
 msgid "Purging"
 msgstr "Purging"
 
@@ -14862,6 +14864,18 @@ msgstr "Check folder permissions"
 #: plugins/exchange-operations/org-gnome-folder-subscription.xml.h:1
 msgid "Subscribe to Other User's Folder"
 msgstr "Subscribe to Other User's Folder"
+
+#: plugins/exchange-operations/org-gnome-exchange-ab-subscription.xml.h:1
+msgid "Subscribe to Other User's Contacts"
+msgstr "Subscribe to Other User's Contacts"
+
+#: plugins/exchange-operations/org-gnome-exchange-cal-subscription.xml.h:1
+msgid "Subscribe to Other User's Calendar"
+msgstr "Subscribe to Other User's Calendar"
+
+#: plugins/exchange-operations/org-gnome-exchange-tasks-subscription.xml.h:1
+msgid "Subscribe to Other User's Tasks"
+msgstr "Subscribe to Other User's Tasks"
 
 #: plugins/folder-unsubscribe/folder-unsubscribe.c:57
 #, c-format
