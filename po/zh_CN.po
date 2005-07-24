@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the evolution package.
 # Wang Li <charles@linux.net.cn>, 2002, 2003.
 # Partly comes from Sun_l10n group, 2003
-# Funda Wang <fundawang@linux.net.cn>, 2003, 2004.
+# Funda Wang <fundawang@linux.net.cn>, 2003, 2004, 2005.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-07-23 05:28+0000\n"
+"POT-Creation-Date: 2005-07-23 21:26+0000\n"
 "PO-Revision-Date: 2005-07-23 15:41+0800\n"
 "Last-Translator: Funda Wang <fundawang@linux.net.cn>\n"
 "Language-Team: zh_CN <i18n-translation@lists.linux.net.cn>\n"
@@ -828,6 +828,7 @@ msgstr "是否显示预览面板。"
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.glade.h:1
 #: ../widgets/menus/gal-view-instance-save-as-dialog.glade.h:2
 #: ../widgets/menus/gal-view-new-dialog.glade.h:1
+#: ../widgets/misc/e-attachment.glade.h:1
 #: ../widgets/misc/gal-categories.glade.h:1
 msgid "*"
 msgstr "*"
@@ -2997,12 +2998,12 @@ msgstr "网站"
 #: ../widgets/table/e-table-click-to-add.c:517
 #: ../widgets/table/e-table-col.c:98
 #: ../widgets/table/e-table-field-chooser-item.c:667
+#: ../widgets/table/e-table-group-container.c:971
+#: ../widgets/table/e-table-group-container.c:972
 #: ../widgets/table/e-table-group-leaf.c:629
 #: ../widgets/table/e-table-group-leaf.c:630
 #: ../widgets/table/e-table-item.c:3008 ../widgets/table/e-table-item.c:3009
 #: ../widgets/text/e-text.c:3626 ../widgets/text/e-text.c:3627
-#: ../widgets/table/e-table-group-container.c:971
-#: ../widgets/table/e-table-group-container.c:972
 msgid "Width"
 msgstr "宽度"
 
@@ -3012,12 +3013,12 @@ msgstr "宽度"
 #: ../widgets/misc/e-reflow.c:1445 ../widgets/misc/e-reflow.c:1446
 #: ../widgets/table/e-table-click-to-add.c:524
 #: ../widgets/table/e-table-field-chooser-item.c:674
+#: ../widgets/table/e-table-group-container.c:964
+#: ../widgets/table/e-table-group-container.c:965
 #: ../widgets/table/e-table-group-leaf.c:622
 #: ../widgets/table/e-table-group-leaf.c:623
 #: ../widgets/table/e-table-item.c:3014 ../widgets/table/e-table-item.c:3015
 #: ../widgets/text/e-text.c:3634 ../widgets/text/e-text.c:3635
-#: ../widgets/table/e-table-group-container.c:964
-#: ../widgets/table/e-table-group-container.c:965
 msgid "Height"
 msgstr "高度"
 
@@ -4610,8 +4611,7 @@ msgstr "是否在周视图和月视图中显示事件的结束时间。"
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:63
 msgid ""
 "Whether to draw the Marcus Bains Line (line at current time) in the calendar."
-msgstr ""
-"是否在日历中绘制 Marcus Bains 线(当前时间线)。"
+msgstr "是否在日历中绘制 Marcus Bains 线(当前时间线)。"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:64
 msgid "Whether to hide completed tasks in the tasks view."
@@ -4943,18 +4943,21 @@ msgstr "提醒"
 
 #: ../calendar/gui/dialogs/cal-attachment-bar.c:110
 #: ../composer/e-msg-composer-attachment-bar.c:105
+#: ../widgets/misc/e-attachment-bar.c:105
 #, c-format
 msgid "%.0fK"
 msgstr "%.0fK"
 
 #: ../calendar/gui/dialogs/cal-attachment-bar.c:113
 #: ../composer/e-msg-composer-attachment-bar.c:108
+#: ../widgets/misc/e-attachment-bar.c:108
 #, c-format
 msgid "%.0fM"
 msgstr "%.0fM"
 
 #: ../calendar/gui/dialogs/cal-attachment-bar.c:116
 #: ../composer/e-msg-composer-attachment-bar.c:111
+#: ../widgets/misc/e-attachment-bar.c:111
 #, c-format
 msgid "%.0fG"
 msgstr "%.0fG"
@@ -4963,6 +4966,7 @@ msgstr "%.0fG"
 #: ../calendar/gui/dialogs/cal-attachment-bar.c:1106
 #: ../calendar/gui/dialogs/comp-editor.c:2426
 #: ../composer/e-msg-composer-attachment-bar.c:307 ../mail/em-utils.c:438
+#: ../widgets/misc/e-attachment-bar.c:336
 msgid "attachment"
 msgstr "附件"
 
@@ -4993,6 +4997,7 @@ msgstr "添加附件(_A)..."
 
 #: ../calendar/gui/dialogs/cal-attachment-bar.c:736
 #: ../composer/e-msg-composer-attachment-bar.c:740
+#: ../widgets/misc/e-attachment-bar.c:878
 msgid "Attachment Bar"
 msgstr "附件栏"
 
@@ -5002,6 +5007,7 @@ msgstr "附件栏"
 #: ../composer/e-msg-composer-attachment.glade.h:6
 #: ../composer/e-msg-composer-select-file.c:96
 #: ../composer/e-msg-composer-select-file.c:116
+#: ../widgets/misc/e-attachment.glade.h:6
 msgid "Suggest automatic display of attachment"
 msgstr "建议自动显示附件"
 
@@ -5018,6 +5024,8 @@ msgstr "添加附件"
 #: ../composer/e-msg-composer-attachment.c:203
 #: ../composer/e-msg-composer-attachment.c:297
 #: ../composer/e-msg-composer-attachment.c:313
+#: ../widgets/misc/e-attachment.c:220 ../widgets/misc/e-attachment.c:236
+#: ../widgets/misc/e-attachment.c:421 ../widgets/misc/e-attachment.c:437
 #, c-format
 msgid "Cannot attach file %s: %s"
 msgstr "无法附加文件 %s：%s"
@@ -5026,12 +5034,14 @@ msgstr "无法附加文件 %s：%s"
 #: ../calendar/gui/dialogs/cal-attachment.c:327
 #: ../composer/e-msg-composer-attachment.c:195
 #: ../composer/e-msg-composer-attachment.c:305
+#: ../widgets/misc/e-attachment.c:228 ../widgets/misc/e-attachment.c:429
 #, c-format
 msgid "Cannot attach file %s: not a regular file"
 msgstr "无法附加文件 %s：不是普通文件"
 
 #: ../calendar/gui/dialogs/cal-attachment.glade.h:2
 #: ../composer/e-msg-composer-attachment.glade.h:2
+#: ../widgets/misc/e-attachment.glade.h:2
 msgid "Attachment Properties"
 msgstr "附件属性"
 
@@ -5040,17 +5050,19 @@ msgstr "附件属性"
 #: ../calendar/gui/e-itip-control.c:1164
 #: ../calendar/gui/e-itip-control.glade.h:6
 #: ../composer/e-msg-composer-attachment.glade.h:3
-#: ../mail/mail-config.glade.h:69
+#: ../mail/mail-config.glade.h:69 ../widgets/misc/e-attachment.glade.h:3
 msgid "Description:"
 msgstr "描述："
 
 #: ../calendar/gui/dialogs/cal-attachment.glade.h:4
 #: ../composer/e-msg-composer-attachment.glade.h:4
+#: ../widgets/misc/e-attachment.glade.h:4
 msgid "File name:"
 msgstr "文件名："
 
 #: ../calendar/gui/dialogs/cal-attachment.glade.h:5
 #: ../composer/e-msg-composer-attachment.glade.h:5
+#: ../widgets/misc/e-attachment.glade.h:5
 msgid "MIME type:"
 msgstr "MIME 类型："
 
@@ -5854,7 +5866,7 @@ msgstr "<b>来自：</b>"
 #: ../calendar/gui/e-itip-control.c:1104 ../composer/e-msg-composer.c:2120
 #: ../filter/filter-rule.c:881 ../mail/em-account-editor.c:683
 #: ../mail/em-account-editor.c:1346 ../mail/em-account-prefs.c:464
-#: ../mail/em-folder-view.c:1063
+#: ../mail/em-folder-view.c:1063 ../mail/em-junk-hook.c:78
 #: ../plugins/calendar-weather/calendar-weather.c:370
 #: ../plugins/calendar-weather/calendar-weather.c:424
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:7
@@ -6476,6 +6488,7 @@ msgstr "否"
 #: ../plugins/itip-formatter/itip-formatter.c:1626
 #: ../plugins/plugin-manager/plugin-manager.c:72
 #: ../shell/e-component-registry.c:205 ../shell/e-component-registry.c:211
+#: ../widgets/misc/e-attachment-bar.c:623
 #: ../widgets/misc/e-charset-picker.c:62
 msgid "Unknown"
 msgstr "未知"
@@ -6564,6 +6577,7 @@ msgstr "另存为(_S)..."
 #: ../calendar/gui/e-calendar-table.c:1159
 #: ../calendar/gui/e-calendar-view.c:1503
 #: ../calendar/gui/e-calendar-view.c:1524 ../mail/em-folder-view.c:1045
+#: ../plugins/print-message/org-gnome-print-message.xml.h:3
 #: ../ui/evolution-addressbook.xml.h:40 ../ui/evolution-calendar.xml.h:44
 #: ../ui/evolution-mail-message.xml.h:117 ../ui/evolution-tasks.xml.h:25
 msgid "_Print..."
@@ -9583,6 +9597,7 @@ msgid ""
 msgstr "无法对寄出的信件加密：未对此账户设置加密证书"
 
 #: ../composer/e-msg-composer.c:1223 ../composer/e-msg-composer.c:1256
+#: ../plugins/mail-remote/e-corba-utils.c:135
 msgid "Unknown reason"
 msgstr "未知原因"
 
@@ -9761,7 +9776,9 @@ msgstr "丢弃更改(_D)"
 msgid "_Save Message"
 msgstr "保存信件(_S)"
 
-#: ../data/evolution.desktop.in.in.h:1 ../shell/main.c:509
+#: ../data/evolution.desktop.in.in.h:1
+#: ../plugins/default-mailer/org-gnome-default-mailer.error.xml.h:2
+#: ../shell/main.c:509
 msgid "Evolution"
 msgstr "Evolution"
 
@@ -11013,6 +11030,7 @@ msgstr "默认"
 
 #: ../mail/em-folder-view.c:2066
 #: ../plugins/print-message/org-gnome-print-message.eplug.xml.h:2
+#: ../plugins/print-message/print-message.c:83
 msgid "Print Message"
 msgstr "打印信件"
 
@@ -13563,7 +13581,8 @@ msgid ""
 "    &quot;{1}&quot;\n"
 "And have been updated."
 msgstr ""
-"下列过滤器规则：\n{0}\n"
+"下列过滤器规则：\n"
+"{0}\n"
 "使用现已删除的文件夹：\n"
 "“{1}”\n"
 "已经更新。"
@@ -13576,7 +13595,8 @@ msgid ""
 "    &quot;{1}&quot;\n"
 "And have been updated."
 msgstr ""
-"下列虚拟文件夹：\n{0}\n"
+"下列虚拟文件夹：\n"
+"{0}\n"
 "使用现已删除的文件夹：\n"
 "“{1}”\n"
 "已经更新。"
@@ -14052,6 +14072,27 @@ msgstr "复制电子邮件地址(_E)"
 msgid "Copy tool"
 msgstr "复制工具"
 
+#: ../plugins/default-mailer/apps-evolution-mail-prompts-checkdefault.schemas.in.in.h:1
+msgid "Check whether Evolution is the default mailer"
+msgstr "检查 Evolution 是否是默认邮件程序"
+
+#: ../plugins/default-mailer/apps-evolution-mail-prompts-checkdefault.schemas.in.in.h:2
+msgid ""
+"Every time Evolution starts, check whether or not it is the default mailer."
+msgstr "每次启动 Evolution 的时候，检查它是否是默认邮件程序。"
+
+#: ../plugins/default-mailer/org-gnome-default-mailer.eplug.xml.h:1
+msgid "Checks whether Evolution is the default mail client on startup."
+msgstr "启动时检查 Evolution 是否是默认的邮件客户端。"
+
+#: ../plugins/default-mailer/org-gnome-default-mailer.eplug.xml.h:2
+msgid "Default Mail Client "
+msgstr "默认邮件客户端"
+
+#: ../plugins/default-mailer/org-gnome-default-mailer.error.xml.h:1
+msgid "Do you want to make Evolution your default e-mail client?"
+msgstr "您是否想要将 Evolution 设置为您的默认电子邮件客户端？"
+
 #: ../plugins/default-source/default-source.c:82
 #: ../plugins/default-source/default-source.c:108
 msgid "Mark as default folder"
@@ -14199,6 +14240,17 @@ msgstr "新建密码码："
 msgid "Your current password has expired. Please change your password now."
 msgstr "您目前的密码已经过期。请立即更改您的密码。"
 
+#: ../plugins/exchange-operations/exchange-delegates-user.c:144
+#: ../plugins/exchange-operations/exchange-permissions-dialog.c:567
+msgid "Custom"
+msgstr "自定义"
+
+#: ../plugins/exchange-operations/exchange-delegates-user.c:191
+#: ../plugins/exchange-operations/exchange-permissions-dialog.c:184
+#, c-format
+msgid "Permissions for %s"
+msgstr "%s 的权限"
+
 #: ../plugins/exchange-operations/exchange-delegates.c:222
 msgid ""
 "No Global Catalog server configured for this account.\n"
@@ -14336,16 +14388,14 @@ msgstr "收件箱(_I)："
 msgid "_Tasks:"
 msgstr "任务(_T)："
 
-#: ../plugins/exchange-operations/exchange-delegates-user.c:144
-#: ../plugins/exchange-operations/exchange-permissions-dialog.c:567
-msgid "Custom"
-msgstr "自定义"
+#: ../plugins/exchange-operations/exchange-folder-permission.c:51
+#: ../plugins/exchange-operations/org-gnome-folder-permissions.xml.h:2
+msgid "Permissions..."
+msgstr "权限..."
 
-#: ../plugins/exchange-operations/exchange-delegates-user.c:191
-#: ../plugins/exchange-operations/exchange-permissions-dialog.c:184
-#, c-format
-msgid "Permissions for %s"
-msgstr "%s 的权限"
+#: ../plugins/exchange-operations/exchange-folder-tree.glade.h:1
+msgid "Exchange Folder Tree"
+msgstr "Exchange 文件夹树"
 
 #: ../plugins/exchange-operations/exchange-folder.c:55
 #: ../plugins/exchange-operations/exchange-folder.c:98
@@ -14364,15 +14414,6 @@ msgstr "真的要退订文件夹“%s”吗？"
 #, c-format
 msgid "Unsubscribe from \"%s\""
 msgstr "退订“%s”"
-
-#: ../plugins/exchange-operations/exchange-folder-permission.c:51
-#: ../plugins/exchange-operations/org-gnome-folder-permissions.xml.h:2
-msgid "Permissions..."
-msgstr "权限..."
-
-#: ../plugins/exchange-operations/exchange-folder-tree.glade.h:1
-msgid "Exchange Folder Tree"
-msgstr "Exchange 文件夹树"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:227
 msgid "Could not read folder permissions"
@@ -14482,6 +14523,14 @@ msgstr "选择用户"
 #: ../plugins/exchange-operations/exchange-user-dialog.c:182
 msgid "Addressbook..."
 msgstr "地址簿..."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-ab-subscription.xml.h:1
+msgid "Subscribe to Other User's Contacts"
+msgstr "订阅其他用户的联系人"
+
+#: ../plugins/exchange-operations/org-gnome-exchange-cal-subscription.xml.h:1
+msgid "Subscribe to Other User's Calendar"
+msgstr "订阅其他用户的日历"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:1
 msgid "Cannot change password due to configuration problems."
@@ -14677,6 +14726,10 @@ msgstr "您将无法发送邮件，除非您通过删除邮件来清理空间。
 msgid "Your password has expired."
 msgstr "您的密码已经过期。"
 
+#: ../plugins/exchange-operations/org-gnome-exchange-tasks-subscription.xml.h:1
+msgid "Subscribe to Other User's Tasks"
+msgstr "订阅其他用户的任务"
+
 #: ../plugins/exchange-operations/org-gnome-folder-permissions.xml.h:1
 msgid "Check folder permissions"
 msgstr "更改文件夹权限"
@@ -14684,18 +14737,6 @@ msgstr "更改文件夹权限"
 #: ../plugins/exchange-operations/org-gnome-folder-subscription.xml.h:1
 msgid "Subscribe to Other User's Folder"
 msgstr "订阅其他用户的文件夹"
-
-#: ../plugins/exchange-operations/org-gnome-exchange-ab-subscription.xml.h:1
-msgid "Subscribe to Other User's Contacts"
-msgstr "订阅其他用户的联系人"
-
-#: ../plugins/exchange-operations/org-gnome-exchange-cal-subscription.xml.h:1
-msgid "Subscribe to Other User's Calendar"
-msgstr "订阅其他用户的日历"
-
-#: ../plugins/exchange-operations/org-gnome-exchange-tasks-subscription.xml.h:1
-msgid "Subscribe to Other User's Tasks"
-msgstr "订阅其他用户的任务"
 
 #: ../plugins/folder-unsubscribe/folder-unsubscribe.c:57
 #, c-format
@@ -14713,6 +14754,10 @@ msgstr "退订文件夹"
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:414
 msgid "Checklist"
 msgstr "待办清单"
+
+#: ../plugins/groupwise-account-setup/org-gnome-gw-account-setup.eplug.xml.h:1
+msgid "Groupwise Account Setup"
+msgstr "Groupwise 账户设置"
 
 #: ../plugins/groupwise-features/junk-mail-settings.c:77
 msgid "Junk Settings"
@@ -14805,13 +14850,85 @@ msgstr "共享对象(_S)..."
 msgid "_Sharing"
 msgstr "共享(_S)"
 
-#: ../plugins/groupwise-features/send-options.c:83
-#: ../plugins/groupwise-features/proxy.c:470
+#: ../plugins/groupwise-features/proxy-add-dialog.glade.h:1
+msgid "<b>Name</b>"
+msgstr "<b>名称</b>"
+
+#: ../plugins/groupwise-features/proxy-add-dialog.glade.h:2
+msgid "Access Rights"
+msgstr "访问权限"
+
+#: ../plugins/groupwise-features/proxy-add-dialog.glade.h:3
+msgid "Add/Edit"
+msgstr "添加/编辑"
+
+#: ../plugins/groupwise-features/proxy-add-dialog.glade.h:5
+msgid "Con_tacts"
+msgstr "联系人(_T)"
+
+#: ../plugins/groupwise-features/proxy-add-dialog.glade.h:7
+msgid "Modify _folders/options/rules/"
+msgstr "修改文件夹/选项/规则(_F)"
+
+#: ../plugins/groupwise-features/proxy-add-dialog.glade.h:8
+msgid "Read items marked _private"
+msgstr "读取标为私有的项目(_P)"
+
+#: ../plugins/groupwise-features/proxy-add-dialog.glade.h:9
+msgid "Reminder Notes"
+msgstr "提醒备忘"
+
+#: ../plugins/groupwise-features/proxy-add-dialog.glade.h:10
+msgid "Subscribe to my _alarms"
+msgstr "订阅我的提醒(_A)"
+
+#: ../plugins/groupwise-features/proxy-add-dialog.glade.h:11
+msgid "Subscribe to my _notifications"
+msgstr "订阅我的通知(_N)"
+
+#: ../plugins/groupwise-features/proxy-add-dialog.glade.h:13
+#: ../ui/evolution-mail-message.xml.h:118
+msgid "_Read"
+msgstr "读取(_R)"
+
+#: ../plugins/groupwise-features/proxy-add-dialog.glade.h:14
+msgid "_Write"
+msgstr "写入(_W)"
+
+#: ../plugins/groupwise-features/proxy-listing.glade.h:1
+msgid "Proxy"
+msgstr "代理服务器"
+
+#: ../plugins/groupwise-features/proxy-listing.glade.h:2
+#: ../smime/gui/smime-ui.glade.h:49
+#: ../widgets/table/e-table-config-no-group.glade.h:20
+#: ../widgets/table/e-table-config.glade.h:21
+msgid "dialog1"
+msgstr "dialog1"
+
+#: ../plugins/groupwise-features/proxy-login-dialog.glade.h:1
+msgid "<b>Account Name</b>"
+msgstr "<b>账户名</b>"
+
+#: ../plugins/groupwise-features/proxy-login-dialog.glade.h:2
+msgid "Proxy Login"
+msgstr "代理服务器登录"
+
 #: ../plugins/groupwise-features/proxy-login.c:221
 #: ../plugins/groupwise-features/proxy-login.c:263
+#: ../plugins/groupwise-features/proxy.c:470
+#: ../plugins/groupwise-features/send-options.c:83
 #, c-format
 msgid "%sEnter password for %s (user %s)"
 msgstr "%s输入 %s 的密码(用户 %s)"
+
+#: ../plugins/groupwise-features/proxy-login.c:485
+msgid "_Proxy Login..."
+msgstr "代理服务器登录(_P)..."
+
+#: ../plugins/groupwise-features/proxy.c:664
+msgid "The Proxy tab will be available only when the account is enabled."
+msgstr "代理服务器标签仅当账户启用时才可用。"
 
 #: ../plugins/groupwise-features/share-folder-common.c:317
 msgid "Users"
@@ -15274,6 +15391,36 @@ msgid ""
 "This response is not from a current attendee. Add the sender as an attendee?"
 msgstr "此响应并非来自当前参与者。将响应者加为参与者吗？"
 
+#: ../plugins/mail-account-disable/mail-account-disable.c:47
+msgid "Proxy _Logout"
+msgstr "代理服务器注销(_L)"
+
+#: ../plugins/mail-account-disable/org-gnome-mail-account-disable.eplug.xml.h:1
+msgid "Allows disabling of accounts."
+msgstr "允许禁用账户。"
+
+#: ../plugins/mail-account-disable/org-gnome-mail-account-disable.eplug.xml.h:2
+msgid "Disable Account"
+msgstr "禁用账户"
+
+#: ../plugins/mail-remote/client.c:30
+#, c-format
+msgid "System error: %s"
+msgstr "系统错误：%s"
+
+#: ../plugins/mail-remote/client.c:32
+#, c-format
+msgid "Camel error: %s"
+msgstr "Camel 错误：%s"
+
+#: ../plugins/mail-remote/evolution-mail-store.c:476
+msgid "Account cannot send e-mail"
+msgstr "账户无法发送电子邮件"
+
+#: ../plugins/mail-remote/evolution-mail-store.c:605
+msgid "No store available"
+msgstr "没有可用的存储"
+
 #: ../plugins/mail-to-meeting/org-gnome-mail-to-meeting.eplug.xml.h:1
 msgid ""
 "A plugin which allows the creation of meetings from the contents of a mail "
@@ -15315,7 +15462,7 @@ msgstr "获得列表存档(_A)"
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:3
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:6
 msgid "Get list _usage information"
-msgstr "获得列表使用信息(_U)"
+msgstr "获得列表用法信息(_U)"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:4
 msgid "Mailing List Actions"
@@ -15461,6 +15608,14 @@ msgstr "不将此日历标为离线(_D)"
 msgid "_Mark Calendar for offline use"
 msgstr "将日历标为离线使用(_M)"
 
+#: ../plugins/mono/org-gnome-evolution-mono.eplug.xml.h:1
+msgid "A plugin which implements mono plugins."
+msgstr "实现 mono 插件的插件。"
+
+#: ../plugins/mono/org-gnome-evolution-mono.eplug.xml.h:2
+msgid "Mono Loader"
+msgstr "Mono 装入器"
+
 #: ../plugins/new-mail-notify/org-gnome-new-mail-notify.eplug.xml.h:1
 msgid "Generates a D-BUS message when new mail arrives."
 msgstr "新邮件到达时生成 D-BUS 信息。"
@@ -15559,6 +15714,28 @@ msgstr "HTML 模式"
 #: ../plugins/print-message/org-gnome-print-message.eplug.xml.h:1
 msgid "Gives an option to print mail from composer"
 msgstr "在撰写器中添加打印邮件的选项"
+
+#: ../plugins/print-message/org-gnome-print-message.xml.h:1
+#: ../ui/evolution-addressbook.xml.h:17 ../ui/evolution-calendar.xml.h:20
+#: ../ui/evolution-mail-message.xml.h:75 ../ui/evolution-tasks.xml.h:15
+msgid "Print Pre_view"
+msgstr "打印预览(_V)"
+
+#: ../plugins/print-message/org-gnome-print-message.xml.h:2
+msgid "Prints the message"
+msgstr "打印该信件"
+
+#: ../plugins/sa-junk-plugin/em-junk-filter.c:97
+msgid "Spamassassin (built-in)"
+msgstr "垃圾克星(内置)"
+
+#: ../plugins/sa-junk-plugin/org-gnome-sa-junk-plugin.eplug.xml.h:1
+msgid "Sa junk-plugin"
+msgstr "垃圾邮件学习插件"
+
+#: ../plugins/sa-junk-plugin/org-gnome-sa-junk-plugin.eplug.xml.h:2
+msgid "learns junk messages using spamd."
+msgstr "使用 spamd 学习垃圾邮件。"
 
 #: ../plugins/save-attachments/org-gnome-save-attachments.eplug.xml.h:1
 msgid "A plugin for saving all attachments or parts of a message at once."
@@ -15784,94 +15961,6 @@ msgstr "基于主题按线索编排信件列表"
 msgid "Fall back to threading messages by sub_ject"
 msgstr "默认按照主体对线索中的信件排序(_J)"
 
-#: ../plugins/mail-account-disable/mail-account-disable.c:47
-msgid "Proxy _Logout"
-msgstr "代理服务器注销(_L)"
-
-#: ../plugins/mail-account-disable/org-gnome-mail-account-disable.eplug.xml.h:1
-msgid "Allows disabling of accounts."
-msgstr "允许禁用账户。"
-
-#: ../plugins/mail-account-disable/org-gnome-mail-account-disable.eplug.xml.h:2
-msgid "Disable Account"
-msgstr "禁用账户"
-
-#: ../plugins/groupwise-features/proxy-listing.glade.h:1
-msgid "Proxy"
-msgstr "代理服务器"
-
-#: ../plugins/groupwise-features/proxy-listing.glade.h:2
-#: ../smime/gui/smime-ui.glade.h:49
-#: ../widgets/table/e-table-config-no-group.glade.h:20
-#: ../widgets/table/e-table-config.glade.h:21
-msgid "dialog1"
-msgstr "dialog1"
-
-#: ../plugins/groupwise-features/proxy-add-dialog.glade.h:1
-msgid "<b>Name</b>"
-msgstr "<b>名称</b>"
-
-#: ../plugins/groupwise-features/proxy-add-dialog.glade.h:2
-msgid "Access Rights"
-msgstr "访问权限"
-
-#: ../plugins/groupwise-features/proxy-add-dialog.glade.h:3
-msgid "Add/Edit"
-msgstr "添加/编辑"
-
-#: ../plugins/groupwise-features/proxy-add-dialog.glade.h:5
-msgid "Con_tacts"
-msgstr "联系人(_T)"
-
-#: ../plugins/groupwise-features/proxy-add-dialog.glade.h:7
-msgid "Modify _folders/options/rules/"
-msgstr "修改文件夹/选项/规则(_F)"
-
-#: ../plugins/groupwise-features/proxy-add-dialog.glade.h:8
-msgid "Read items marked _private"
-msgstr "读取标为私有的项目(_P)"
-
-#: ../plugins/groupwise-features/proxy-add-dialog.glade.h:9
-msgid "Reminder Notes"
-msgstr "提醒备忘"
-
-#: ../plugins/groupwise-features/proxy-add-dialog.glade.h:10
-msgid "Subscribe to my _alarms"
-msgstr "订阅我的提醒(_A)"
-
-#: ../plugins/groupwise-features/proxy-add-dialog.glade.h:11
-msgid "Subscribe to my _notifications"
-msgstr "订阅我的通知(_N)"
-
-#: ../plugins/groupwise-features/proxy-add-dialog.glade.h:13
-#: ../ui/evolution-mail-message.xml.h:118
-msgid "_Read"
-msgstr "读取(_R)"
-
-#: ../plugins/groupwise-features/proxy-add-dialog.glade.h:14
-msgid "_Write"
-msgstr "写入(_W)"
-
-#: ../plugins/groupwise-features/proxy.c:664
-msgid "The Proxy tab will be available only when the account is enabled."
-msgstr "代理服务器标签仅当账户启用时才可用。"
-
-#: ../plugins/groupwise-features/proxy-login.c:485
-msgid "_Proxy Login..."
-msgstr "代理服务器登录(_P)..."
-
-#: ../plugins/groupwise-features/proxy-login-dialog.glade.h:1
-msgid "<b>Account Name</b>"
-msgstr "<b>账户名</b>"
-
-#: ../plugins/groupwise-features/proxy-login-dialog.glade.h:2
-msgid "Proxy Login"
-msgstr "代理服务器登录"
-
-#: ../plugins/sa-junk-plugin/em-junk-filter.c:97
-msgid "Spamassassin (built-in)"
-msgstr "垃圾克星(内置)"
-
 #: ../shell/GNOME_Evolution_Shell.server.in.in.h:1
 msgid "Evolution Shell"
 msgstr "Evolution 外壳"
@@ -16025,7 +16114,7 @@ msgid ""
 msgstr ""
 "选择您希望导入到 Evolution 的文件，并从列表中选择文件的类型。\n"
 "\n"
-"如果您不清楚，可以选择“自动”，Evolution 将试图为您确定类型。"
+"如果您不清楚，可以选择“自动”，Evolution 将尝试为您确定类型。"
 
 #: ../shell/e-shell-importer.c:142
 msgid "Choose the destination for this import"
@@ -16112,7 +16201,7 @@ msgstr "无法运行 Bug buddy。"
 #. * about box
 #: ../shell/e-shell-window-commands.c:507
 msgid "translator-credits"
-msgstr "开源软件国际化之简体中文组 http://i18n.linux.net.cn"
+msgstr "开源软件国际化之简体中文组\nhttp://i18n.linux.net.cn"
 
 #: ../shell/e-shell-window-commands.c:521
 msgid "Groupware Suite"
@@ -17004,11 +17093,6 @@ msgstr "粘贴剪贴板"
 #: ../ui/evolution-addressbook.xml.h:15
 msgid "Previews the contacts to be printed"
 msgstr "预览将要打印的联系人"
-
-#: ../ui/evolution-addressbook.xml.h:17 ../ui/evolution-calendar.xml.h:20
-#: ../ui/evolution-mail-message.xml.h:75 ../ui/evolution-tasks.xml.h:15
-msgid "Print Pre_view"
-msgstr "打印预览(_V)"
 
 #: ../ui/evolution-addressbook.xml.h:18
 msgid "Print selected contacts"
@@ -18388,6 +18472,13 @@ msgstr "定义“%s”的视图"
 msgid "_Edit..."
 msgstr "编辑(_E)..."
 
+#: ../widgets/menus/gal-view-factory-etable.c:39
+#: ../widgets/table/e-table-header-item.c:1845
+#: ../widgets/table/e-table-scrolled.c:224
+#: ../widgets/table/e-table-scrolled.c:225
+msgid "Table"
+msgstr "表格"
+
 #: ../widgets/menus/gal-view-instance-save-as-dialog.c:182
 msgid "Instance"
 msgstr "实例"
@@ -18403,21 +18494,6 @@ msgstr "创建新视图(_C)"
 #: ../widgets/menus/gal-view-instance-save-as-dialog.glade.h:5
 msgid "_Replace existing view"
 msgstr "替换现有视图(_R)"
-
-#: ../widgets/menus/gal-view-new-dialog.glade.h:2
-msgid "Name of new view:"
-msgstr "新视图的名称："
-
-#: ../widgets/menus/gal-view-new-dialog.glade.h:3
-msgid "Type of view:"
-msgstr "视图类型："
-
-#: ../widgets/menus/gal-view-factory-etable.c:39
-#: ../widgets/table/e-table-header-item.c:1845
-#: ../widgets/table/e-table-scrolled.c:224
-#: ../widgets/table/e-table-scrolled.c:225
-msgid "Table"
-msgstr "表格"
 
 #: ../widgets/menus/gal-view-menus.c:291
 msgid "_Current View"
@@ -18435,21 +18511,13 @@ msgstr "工厂"
 msgid "Define New View"
 msgstr "定义新视图"
 
-#: ../widgets/misc/gal-categories.glade.h:2
-msgid "Edit Master Category List..."
-msgstr "编辑主类别列表..."
+#: ../widgets/menus/gal-view-new-dialog.glade.h:2
+msgid "Name of new view:"
+msgstr "新视图的名称："
 
-#: ../widgets/misc/gal-categories.glade.h:3
-msgid "Item(s) belong to these _categories:"
-msgstr "属于这些类别的项目(_C)："
-
-#: ../widgets/misc/gal-categories.glade.h:4
-msgid "_Available Categories:"
-msgstr "可用类别(_A)："
-
-#: ../widgets/misc/gal-categories.glade.h:5
-msgid "categories"
-msgstr "类别"
+#: ../widgets/menus/gal-view-new-dialog.glade.h:3
+msgid "Type of view:"
+msgstr "视图类型："
 
 #. Translators: These are the first characters of each day of the
 #. week, 'M' for 'Monday', 'T' for Tuesday etc.
@@ -18518,16 +18586,16 @@ msgid "Y2"
 msgstr "Y2"
 
 #: ../widgets/misc/e-canvas-vbox.c:102 ../widgets/misc/e-reflow.c:1430
+#: ../widgets/table/e-table-group-container.c:978
 #: ../widgets/table/e-table-group-leaf.c:636
 #: ../widgets/table/e-table-item.c:3001
-#: ../widgets/table/e-table-group-container.c:978
 msgid "Minimum width"
 msgstr "最小宽度"
 
 #: ../widgets/misc/e-canvas-vbox.c:103 ../widgets/misc/e-reflow.c:1431
+#: ../widgets/table/e-table-group-container.c:979
 #: ../widgets/table/e-table-group-leaf.c:637
 #: ../widgets/table/e-table-item.c:3002
-#: ../widgets/table/e-table-group-container.c:979
 msgid "Minimum Width"
 msgstr "最小宽度"
 
@@ -18982,6 +19050,22 @@ msgstr "%s (%d%% 完成)"
 msgid "click here to go to url"
 msgstr "单击此处转到 URL"
 
+#: ../widgets/misc/gal-categories.glade.h:2
+msgid "Edit Master Category List..."
+msgstr "编辑主类别列表..."
+
+#: ../widgets/misc/gal-categories.glade.h:3
+msgid "Item(s) belong to these _categories:"
+msgstr "属于这些类别的项目(_C)："
+
+#: ../widgets/misc/gal-categories.glade.h:4
+msgid "_Available Categories:"
+msgstr "可用类别(_A)："
+
+#: ../widgets/misc/gal-categories.glade.h:5
+msgid "categories"
+msgstr "类别"
+
 #: ../widgets/table/e-cell-combo.c:177
 msgid "popup list"
 msgstr "弹出列表"
@@ -19022,6 +19106,90 @@ msgstr "给列着色"
 msgid "BG Color Column"
 msgstr "给列着背景色"
 
+#: ../widgets/table/e-table-config-no-group.glade.h:1
+#: ../widgets/table/e-table-config.glade.h:1
+msgid "<- _Remove"
+msgstr "<- 删除(_R)"
+
+#: ../widgets/table/e-table-config-no-group.glade.h:2
+#: ../widgets/table/e-table-config.glade.h:2
+msgid "A_vailable Fields:"
+msgstr "可用域(_V)："
+
+#: ../widgets/table/e-table-config-no-group.glade.h:3
+#: ../widgets/table/e-table-config.glade.h:3
+msgid "Ascending"
+msgstr "升序"
+
+#: ../widgets/table/e-table-config-no-group.glade.h:4
+#: ../widgets/table/e-table-config.glade.h:4
+msgid "Clear All"
+msgstr "全部清除"
+
+#: ../widgets/table/e-table-config-no-group.glade.h:5
+#: ../widgets/table/e-table-config.glade.h:5
+msgid "Descending"
+msgstr "降序"
+
+#: ../widgets/table/e-table-config-no-group.glade.h:8
+#: ../widgets/table/e-table-config.glade.h:8
+msgid "Group Items By"
+msgstr "分组依据"
+
+#: ../widgets/table/e-table-config-no-group.glade.h:9
+#: ../widgets/table/e-table-config.glade.h:9
+msgid "Move _Down"
+msgstr "下移(_D)"
+
+#: ../widgets/table/e-table-config-no-group.glade.h:10
+#: ../widgets/table/e-table-config.glade.h:10
+msgid "Move _Up"
+msgstr "上移(_U)"
+
+#: ../widgets/table/e-table-config-no-group.glade.h:11
+msgid "Sh_ow these fields in order:"
+msgstr "按顺序显示这些域(_O)："
+
+#: ../widgets/table/e-table-config-no-group.glade.h:12
+#: ../widgets/table/e-table-config.glade.h:11
+msgid "Show Fields"
+msgstr "显示域"
+
+#: ../widgets/table/e-table-config-no-group.glade.h:13
+#: ../widgets/table/e-table-config.glade.h:12
+msgid "Show field in View"
+msgstr "在视图中显示域"
+
+#: ../widgets/table/e-table-config-no-group.glade.h:14
+#: ../widgets/table/e-table-config.glade.h:13
+msgid "Sort"
+msgstr "排序"
+
+#: ../widgets/table/e-table-config-no-group.glade.h:15
+#: ../widgets/table/e-table-config.glade.h:14
+msgid "Sort Items By"
+msgstr "排序依据"
+
+#: ../widgets/table/e-table-config-no-group.glade.h:16
+#: ../widgets/table/e-table-config.glade.h:15
+msgid "Then By"
+msgstr "然后按"
+
+#: ../widgets/table/e-table-config-no-group.glade.h:17
+#: ../widgets/table/e-table-config.glade.h:16
+msgid "_Add ->"
+msgstr "添加(_A) ->"
+
+#: ../widgets/table/e-table-config-no-group.glade.h:18
+#: ../widgets/table/e-table-config.glade.h:17
+msgid "_Fields Shown..."
+msgstr "显示的域(_F)..."
+
+#: ../widgets/table/e-table-config-no-group.glade.h:19
+#: ../widgets/table/e-table-config.glade.h:20
+msgid "_Sort..."
+msgstr "排序(_S)..."
+
 #: ../widgets/table/e-table-config.c:150
 msgid "State"
 msgstr "状态"
@@ -19042,6 +19210,14 @@ msgstr "未排序"
 msgid "No grouping"
 msgstr "未分组"
 
+#: ../widgets/table/e-table-config.glade.h:18
+msgid "_Group By..."
+msgstr "分组依据(_G)..."
+
+#: ../widgets/table/e-table-config.glade.h:19
+msgid "_Show these fields in order:"
+msgstr "按顺序显示这些域(_S)："
+
 #: ../widgets/table/e-table-field-chooser-dialog.c:77
 #: ../widgets/table/e-table-field-chooser-item.c:646
 #: ../widgets/table/e-table-field-chooser.c:79
@@ -19060,83 +19236,113 @@ msgstr "完整标题"
 msgid "Add a column..."
 msgstr "添加一列..."
 
+#: ../widgets/table/e-table-field-chooser.glade.h:1
+msgid "Field Chooser"
+msgstr "域选择器"
+
+#: ../widgets/table/e-table-field-chooser.glade.h:2
+msgid ""
+"To add a column to your table, drag it into\n"
+"the location in which you want it to appear."
+msgstr "要在您的表格中添加列，请将其拖曳到您想要其出现的位置。"
+
+#: ../widgets/table/e-table-group-container.c:350
+#, c-format
+msgid "%s : %s (%d item)"
+msgstr "%s：%s (%d 项)"
+
+#: ../widgets/table/e-table-group-container.c:351
+#, c-format
+msgid "%s : %s (%d items)"
+msgstr "%s：%s (%d 项)"
+
+#: ../widgets/table/e-table-group-container.c:356
+#, c-format
+msgid "%s (%d item)"
+msgstr "%s (%d 项)"
+
+#: ../widgets/table/e-table-group-container.c:357
+#, c-format
+msgid "%s (%d items)"
+msgstr "%s (%d 项)"
+
+#: ../widgets/table/e-table-group-container.c:901
+#: ../widgets/table/e-table-group-container.c:902
 #: ../widgets/table/e-table-group-leaf.c:573
 #: ../widgets/table/e-table-group-leaf.c:574
 #: ../widgets/table/e-table-item.c:2959 ../widgets/table/e-table-item.c:2960
-#: ../widgets/table/e-table-group-container.c:901
-#: ../widgets/table/e-table-group-container.c:902
 msgid "Alternating Row Colors"
 msgstr "交替行色"
 
+#: ../widgets/table/e-table-group-container.c:908
+#: ../widgets/table/e-table-group-container.c:909
 #: ../widgets/table/e-table-group-leaf.c:580
 #: ../widgets/table/e-table-group-leaf.c:581
 #: ../widgets/table/e-table-item.c:2966 ../widgets/table/e-table-item.c:2967
 #: ../widgets/table/e-tree.c:3271 ../widgets/table/e-tree.c:3272
-#: ../widgets/table/e-table-group-container.c:908
-#: ../widgets/table/e-table-group-container.c:909
 msgid "Horizontal Draw Grid"
 msgstr "水平绘制网格"
 
+#: ../widgets/table/e-table-group-container.c:915
+#: ../widgets/table/e-table-group-container.c:916
 #: ../widgets/table/e-table-group-leaf.c:587
 #: ../widgets/table/e-table-group-leaf.c:588
 #: ../widgets/table/e-table-item.c:2973 ../widgets/table/e-table-item.c:2974
 #: ../widgets/table/e-tree.c:3277 ../widgets/table/e-tree.c:3278
-#: ../widgets/table/e-table-group-container.c:915
-#: ../widgets/table/e-table-group-container.c:916
 msgid "Vertical Draw Grid"
 msgstr "垂直绘制网格"
 
+#: ../widgets/table/e-table-group-container.c:922
+#: ../widgets/table/e-table-group-container.c:923
 #: ../widgets/table/e-table-group-leaf.c:594
 #: ../widgets/table/e-table-group-leaf.c:595
 #: ../widgets/table/e-table-item.c:2980 ../widgets/table/e-table-item.c:2981
 #: ../widgets/table/e-tree.c:3283 ../widgets/table/e-tree.c:3284
-#: ../widgets/table/e-table-group-container.c:922
-#: ../widgets/table/e-table-group-container.c:923
 msgid "Draw focus"
 msgstr "绘制焦点"
 
+#: ../widgets/table/e-table-group-container.c:929
+#: ../widgets/table/e-table-group-container.c:930
 #: ../widgets/table/e-table-group-leaf.c:601
 #: ../widgets/table/e-table-group-leaf.c:602
 #: ../widgets/table/e-table-item.c:2987 ../widgets/table/e-table-item.c:2988
-#: ../widgets/table/e-table-group-container.c:929
-#: ../widgets/table/e-table-group-container.c:930
 msgid "Cursor mode"
 msgstr "光标模式"
 
+#: ../widgets/table/e-table-group-container.c:936
+#: ../widgets/table/e-table-group-container.c:937
+#: ../widgets/table/e-table-group-leaf.c:615
+#: ../widgets/table/e-table-group-leaf.c:616
+#: ../widgets/table/e-table-item.c:2952 ../widgets/table/e-table-item.c:2953
+msgid "Selection model"
+msgstr "选择模型"
+
+#: ../widgets/table/e-table-group-container.c:943
+#: ../widgets/table/e-table-group-container.c:944
 #: ../widgets/table/e-table-group-leaf.c:608
 #: ../widgets/table/e-table-group-leaf.c:609
 #: ../widgets/table/e-table-item.c:2994 ../widgets/table/e-table-item.c:2995
 #: ../widgets/table/e-table.c:3316 ../widgets/table/e-tree.c:3265
 #: ../widgets/table/e-tree.c:3266
-#: ../widgets/table/e-table-group-container.c:943
-#: ../widgets/table/e-table-group-container.c:944
 msgid "Length Threshold"
 msgstr "长度阀值"
 
-#: ../widgets/table/e-table-group-leaf.c:615
-#: ../widgets/table/e-table-group-leaf.c:616
-#: ../widgets/table/e-table-item.c:2952 ../widgets/table/e-table-item.c:2953
-#: ../widgets/table/e-table-group-container.c:936
-#: ../widgets/table/e-table-group-container.c:937
-msgid "Selection model"
-msgstr "选择模型"
-
-#: ../widgets/table/e-table-group-leaf.c:643
-#: ../widgets/table/e-table-group-leaf.c:644
-#: ../widgets/table/e-table-group-container.c:957
-#: ../widgets/table/e-table-group-container.c:958
-msgid "Frozen"
-msgstr "冻结"
-
+#: ../widgets/table/e-table-group-container.c:950
+#: ../widgets/table/e-table-group-container.c:951
 #: ../widgets/table/e-table-group-leaf.c:650
 #: ../widgets/table/e-table-group-leaf.c:651
 #: ../widgets/table/e-table-item.c:3028 ../widgets/table/e-table-item.c:3029
 #: ../widgets/table/e-table.c:3323 ../widgets/table/e-tree.c:3297
 #: ../widgets/table/e-tree.c:3298
-#: ../widgets/table/e-table-group-container.c:950
-#: ../widgets/table/e-table-group-container.c:951
 msgid "Uniform row height"
 msgstr "统一行高"
+
+#: ../widgets/table/e-table-group-container.c:957
+#: ../widgets/table/e-table-group-container.c:958
+#: ../widgets/table/e-table-group-leaf.c:643
+#: ../widgets/table/e-table-group-leaf.c:644
+msgid "Frozen"
+msgstr "冻结"
 
 #: ../widgets/table/e-table-header-item.c:1472
 msgid "Customize Current View"
@@ -19377,126 +19583,3 @@ msgstr "输入法环境"
 #: ../widgets/text/e-text.c:3683 ../widgets/text/e-text.c:3684
 msgid "Handle Popup"
 msgstr "处理弹出"
-
-#: ../widgets/table/e-table-config-no-group.glade.h:1
-#: ../widgets/table/e-table-config.glade.h:1
-msgid "<- _Remove"
-msgstr "<- 删除(_R)"
-
-#: ../widgets/table/e-table-config-no-group.glade.h:2
-#: ../widgets/table/e-table-config.glade.h:2
-msgid "A_vailable Fields:"
-msgstr "可用域(_V)："
-
-#: ../widgets/table/e-table-config-no-group.glade.h:3
-#: ../widgets/table/e-table-config.glade.h:3
-msgid "Ascending"
-msgstr "升序"
-
-#: ../widgets/table/e-table-config-no-group.glade.h:4
-#: ../widgets/table/e-table-config.glade.h:4
-msgid "Clear All"
-msgstr "全部清除"
-
-#: ../widgets/table/e-table-config-no-group.glade.h:5
-#: ../widgets/table/e-table-config.glade.h:5
-msgid "Descending"
-msgstr "降序"
-
-#: ../widgets/table/e-table-config-no-group.glade.h:8
-#: ../widgets/table/e-table-config.glade.h:8
-msgid "Group Items By"
-msgstr "分组依据"
-
-#: ../widgets/table/e-table-config-no-group.glade.h:9
-#: ../widgets/table/e-table-config.glade.h:9
-msgid "Move _Down"
-msgstr "下移(_D)"
-
-#: ../widgets/table/e-table-config-no-group.glade.h:10
-#: ../widgets/table/e-table-config.glade.h:10
-msgid "Move _Up"
-msgstr "上移(_U)"
-
-#: ../widgets/table/e-table-config-no-group.glade.h:11
-msgid "Sh_ow these fields in order:"
-msgstr "按顺序显示这些域(_O)："
-
-#: ../widgets/table/e-table-config-no-group.glade.h:12
-#: ../widgets/table/e-table-config.glade.h:11
-msgid "Show Fields"
-msgstr "显示域"
-
-#: ../widgets/table/e-table-config-no-group.glade.h:13
-#: ../widgets/table/e-table-config.glade.h:12
-msgid "Show field in View"
-msgstr "在视图中显示域"
-
-#: ../widgets/table/e-table-config-no-group.glade.h:14
-#: ../widgets/table/e-table-config.glade.h:13
-msgid "Sort"
-msgstr "排序"
-
-#: ../widgets/table/e-table-config-no-group.glade.h:15
-#: ../widgets/table/e-table-config.glade.h:14
-msgid "Sort Items By"
-msgstr "排序依据"
-
-#: ../widgets/table/e-table-config-no-group.glade.h:16
-#: ../widgets/table/e-table-config.glade.h:15
-msgid "Then By"
-msgstr "然后按"
-
-#: ../widgets/table/e-table-config-no-group.glade.h:17
-#: ../widgets/table/e-table-config.glade.h:16
-msgid "_Add ->"
-msgstr "添加(_A) ->"
-
-#: ../widgets/table/e-table-config-no-group.glade.h:18
-#: ../widgets/table/e-table-config.glade.h:17
-msgid "_Fields Shown..."
-msgstr "显示的域(_F)..."
-
-#: ../widgets/table/e-table-config-no-group.glade.h:19
-#: ../widgets/table/e-table-config.glade.h:20
-msgid "_Sort..."
-msgstr "排序(_S)..."
-
-#: ../widgets/table/e-table-config.glade.h:18
-msgid "_Group By..."
-msgstr "分组依据(_G)..."
-
-#: ../widgets/table/e-table-config.glade.h:19
-msgid "_Show these fields in order:"
-msgstr "按顺序显示这些域(_S)："
-
-#: ../widgets/table/e-table-field-chooser.glade.h:1
-msgid "Field Chooser"
-msgstr "域选择器"
-
-#: ../widgets/table/e-table-field-chooser.glade.h:2
-msgid ""
-"To add a column to your table, drag it into\n"
-"the location in which you want it to appear."
-msgstr "要在您的表格中添加列，请将其拖曳到您想要其出现的位置。"
-
-#: ../widgets/table/e-table-group-container.c:350
-#, c-format
-msgid "%s : %s (%d item)"
-msgstr "%s：%s (%d 项)"
-
-#: ../widgets/table/e-table-group-container.c:351
-#, c-format
-msgid "%s : %s (%d items)"
-msgstr "%s：%s (%d 项)"
-
-#: ../widgets/table/e-table-group-container.c:356
-#, c-format
-msgid "%s (%d item)"
-msgstr "%s (%d 项)"
-
-#: ../widgets/table/e-table-group-container.c:357
-#, c-format
-msgid "%s (%d items)"
-msgstr "%s (%d 项)"
-
