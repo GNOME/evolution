@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution Gnome 2.12\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-07-22 21:29+0000\n"
-"PO-Revision-Date: 2005-07-23 15:03+0930\n"
+"POT-Creation-Date: 2005-07-23 21:26+0000\n"
+"PO-Revision-Date: 2005-07-24 13:03+0930\n"
 "Last-Translator: Clytie Siddall <clytie@riverland.net.au>\n"
 "Language-Team: Gnome-Vi <gnomevi-list@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -846,6 +846,7 @@ msgstr "Có nên hiển thị ô cửa sổ xem trước hay không."
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.glade.h:1
 #: ../widgets/menus/gal-view-instance-save-as-dialog.glade.h:2
 #: ../widgets/menus/gal-view-new-dialog.glade.h:1
+#: ../widgets/misc/e-attachment.glade.h:1
 #: ../widgets/misc/gal-categories.glade.h:1
 msgid "*"
 msgstr "*"
@@ -3030,12 +3031,12 @@ msgstr "Nơi Mạng"
 #: ../widgets/table/e-table-click-to-add.c:517
 #: ../widgets/table/e-table-col.c:98
 #: ../widgets/table/e-table-field-chooser-item.c:667
+#: ../widgets/table/e-table-group-container.c:971
+#: ../widgets/table/e-table-group-container.c:972
 #: ../widgets/table/e-table-group-leaf.c:629
 #: ../widgets/table/e-table-group-leaf.c:630
 #: ../widgets/table/e-table-item.c:3008 ../widgets/table/e-table-item.c:3009
 #: ../widgets/text/e-text.c:3626 ../widgets/text/e-text.c:3627
-#: ../widgets/table/e-table-group-container.c:971
-#: ../widgets/table/e-table-group-container.c:972
 msgid "Width"
 msgstr "Rộng"
 
@@ -3045,12 +3046,12 @@ msgstr "Rộng"
 #: ../widgets/misc/e-reflow.c:1445 ../widgets/misc/e-reflow.c:1446
 #: ../widgets/table/e-table-click-to-add.c:524
 #: ../widgets/table/e-table-field-chooser-item.c:674
+#: ../widgets/table/e-table-group-container.c:964
+#: ../widgets/table/e-table-group-container.c:965
 #: ../widgets/table/e-table-group-leaf.c:622
 #: ../widgets/table/e-table-group-leaf.c:623
 #: ../widgets/table/e-table-item.c:3014 ../widgets/table/e-table-item.c:3015
 #: ../widgets/text/e-text.c:3634 ../widgets/text/e-text.c:3635
-#: ../widgets/table/e-table-group-container.c:964
-#: ../widgets/table/e-table-group-container.c:965
 msgid "Height"
 msgstr "Cao"
 
@@ -5041,18 +5042,21 @@ msgstr "Báo động"
 # Variable and unit: do not translate/ biến và đơn vị: đừng dịch
 #: ../calendar/gui/dialogs/cal-attachment-bar.c:110
 #: ../composer/e-msg-composer-attachment-bar.c:105
+#: ../widgets/misc/e-attachment-bar.c:105
 #, c-format
 msgid "%.0fK"
 msgstr "%.0fK"
 
 #: ../calendar/gui/dialogs/cal-attachment-bar.c:113
 #: ../composer/e-msg-composer-attachment-bar.c:108
+#: ../widgets/misc/e-attachment-bar.c:108
 #, c-format
 msgid "%.0fM"
 msgstr "%.0fM"
 
 #: ../calendar/gui/dialogs/cal-attachment-bar.c:116
 #: ../composer/e-msg-composer-attachment-bar.c:111
+#: ../widgets/misc/e-attachment-bar.c:111
 #, c-format
 msgid "%.0fG"
 msgstr "%.0fG"
@@ -5061,6 +5065,7 @@ msgstr "%.0fG"
 #: ../calendar/gui/dialogs/cal-attachment-bar.c:1106
 #: ../calendar/gui/dialogs/comp-editor.c:2426
 #: ../composer/e-msg-composer-attachment-bar.c:307 ../mail/em-utils.c:438
+#: ../widgets/misc/e-attachment-bar.c:336
 msgid "attachment"
 msgstr "đính kèm"
 
@@ -5091,6 +5096,7 @@ msgstr "_Thêm đính kèm..."
 
 #: ../calendar/gui/dialogs/cal-attachment-bar.c:736
 #: ../composer/e-msg-composer-attachment-bar.c:740
+#: ../widgets/misc/e-attachment-bar.c:878
 msgid "Attachment Bar"
 msgstr "Thanh đính kèm"
 
@@ -5100,6 +5106,7 @@ msgstr "Thanh đính kèm"
 #: ../composer/e-msg-composer-attachment.glade.h:6
 #: ../composer/e-msg-composer-select-file.c:96
 #: ../composer/e-msg-composer-select-file.c:116
+#: ../widgets/misc/e-attachment.glade.h:6
 msgid "Suggest automatic display of attachment"
 msgstr "Đề nghị tự động hiển thị đính kèm"
 
@@ -5116,6 +5123,8 @@ msgstr "Đính kèm tập tin"
 #: ../composer/e-msg-composer-attachment.c:203
 #: ../composer/e-msg-composer-attachment.c:297
 #: ../composer/e-msg-composer-attachment.c:313
+#: ../widgets/misc/e-attachment.c:220 ../widgets/misc/e-attachment.c:236
+#: ../widgets/misc/e-attachment.c:421 ../widgets/misc/e-attachment.c:437
 #, c-format
 msgid "Cannot attach file %s: %s"
 msgstr "Không thể đính kèm tập tin « %s »: %s"
@@ -5124,12 +5133,14 @@ msgstr "Không thể đính kèm tập tin « %s »: %s"
 #: ../calendar/gui/dialogs/cal-attachment.c:327
 #: ../composer/e-msg-composer-attachment.c:195
 #: ../composer/e-msg-composer-attachment.c:305
+#: ../widgets/misc/e-attachment.c:228 ../widgets/misc/e-attachment.c:429
 #, c-format
 msgid "Cannot attach file %s: not a regular file"
 msgstr "Không thể đính kèm tập tin « %s »: không phải tập tin bình thường."
 
 #: ../calendar/gui/dialogs/cal-attachment.glade.h:2
 #: ../composer/e-msg-composer-attachment.glade.h:2
+#: ../widgets/misc/e-attachment.glade.h:2
 msgid "Attachment Properties"
 msgstr "Thuộc tính đính kèm"
 
@@ -5138,17 +5149,19 @@ msgstr "Thuộc tính đính kèm"
 #: ../calendar/gui/e-itip-control.c:1164
 #: ../calendar/gui/e-itip-control.glade.h:6
 #: ../composer/e-msg-composer-attachment.glade.h:3
-#: ../mail/mail-config.glade.h:69
+#: ../mail/mail-config.glade.h:69 ../widgets/misc/e-attachment.glade.h:3
 msgid "Description:"
 msgstr "Mô tả:"
 
 #: ../calendar/gui/dialogs/cal-attachment.glade.h:4
 #: ../composer/e-msg-composer-attachment.glade.h:4
+#: ../widgets/misc/e-attachment.glade.h:4
 msgid "File name:"
 msgstr "Tên tập tin:"
 
 #: ../calendar/gui/dialogs/cal-attachment.glade.h:5
 #: ../composer/e-msg-composer-attachment.glade.h:5
+#: ../widgets/misc/e-attachment.glade.h:5
 msgid "MIME type:"
 msgstr "Kiểu MIME:"
 
@@ -5960,7 +5973,7 @@ msgstr "<b>Từ</b>"
 #: ../calendar/gui/e-itip-control.c:1104 ../composer/e-msg-composer.c:2120
 #: ../filter/filter-rule.c:881 ../mail/em-account-editor.c:683
 #: ../mail/em-account-editor.c:1346 ../mail/em-account-prefs.c:464
-#: ../mail/em-folder-view.c:1063
+#: ../mail/em-folder-view.c:1063 ../mail/em-junk-hook.c:78
 #: ../plugins/calendar-weather/calendar-weather.c:370
 #: ../plugins/calendar-weather/calendar-weather.c:424
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:7
@@ -6582,6 +6595,7 @@ msgstr "Không"
 #: ../plugins/itip-formatter/itip-formatter.c:1626
 #: ../plugins/plugin-manager/plugin-manager.c:72
 #: ../shell/e-component-registry.c:205 ../shell/e-component-registry.c:211
+#: ../widgets/misc/e-attachment-bar.c:623
 #: ../widgets/misc/e-charset-picker.c:62
 msgid "Unknown"
 msgstr "Không biết"
@@ -6670,6 +6684,7 @@ msgstr "Lư_u mới..."
 #: ../calendar/gui/e-calendar-table.c:1159
 #: ../calendar/gui/e-calendar-view.c:1503
 #: ../calendar/gui/e-calendar-view.c:1524 ../mail/em-folder-view.c:1045
+#: ../plugins/print-message/org-gnome-print-message.xml.h:3
 #: ../ui/evolution-addressbook.xml.h:40 ../ui/evolution-calendar.xml.h:44
 #: ../ui/evolution-mail-message.xml.h:117 ../ui/evolution-tasks.xml.h:25
 msgid "_Print..."
@@ -9708,6 +9723,7 @@ msgstr ""
 "này."
 
 #: ../composer/e-msg-composer.c:1223 ../composer/e-msg-composer.c:1256
+#: ../plugins/mail-remote/e-corba-utils.c:135
 msgid "Unknown reason"
 msgstr "Không biết sao"
 
@@ -9897,7 +9913,9 @@ msgid "_Save Message"
 msgstr "_Lưu thư"
 
 # Name: do not translate/ tên: đừng dịch
-#: ../data/evolution.desktop.in.in.h:1 ../shell/main.c:509
+#: ../data/evolution.desktop.in.in.h:1
+#: ../plugins/default-mailer/org-gnome-default-mailer.error.xml.h:2
+#: ../shell/main.c:509
 msgid "Evolution"
 msgstr "Evolution"
 
@@ -11162,6 +11180,7 @@ msgstr "Mặc định"
 
 #: ../mail/em-folder-view.c:2066
 #: ../plugins/print-message/org-gnome-print-message.eplug.xml.h:2
+#: ../plugins/print-message/print-message.c:83
 msgid "Print Message"
 msgstr "In thư"
 
@@ -14275,6 +14294,27 @@ msgstr "Chép địa chỉ _thư"
 msgid "Copy tool"
 msgstr "Công cụ chép"
 
+#: ../plugins/default-mailer/apps-evolution-mail-prompts-checkdefault.schemas.in.in.h:1
+msgid "Check whether Evolution is the default mailer"
+msgstr "Kiểm tra nếu Evolution là trình thư mặc định."
+
+#: ../plugins/default-mailer/apps-evolution-mail-prompts-checkdefault.schemas.in.in.h:2
+msgid ""
+"Every time Evolution starts, check whether or not it is the default mailer."
+msgstr "Mỗi lần khởi chạy Evolution, kiểm tra nếu nó là trình thư mặc định."
+
+#: ../plugins/default-mailer/org-gnome-default-mailer.eplug.xml.h:1
+msgid "Checks whether Evolution is the default mail client on startup."
+msgstr "Kiểm tra nếu Evolution là trình thư mặc định, khi khởi chạy."
+
+#: ../plugins/default-mailer/org-gnome-default-mailer.eplug.xml.h:2
+msgid "Default Mail Client "
+msgstr "Trình khách thư mặc định"
+
+#: ../plugins/default-mailer/org-gnome-default-mailer.error.xml.h:1
+msgid "Do you want to make Evolution your default e-mail client?"
+msgstr "Bạn có muốn đặt Evolution là trình khách thư điện tử mặc định của bạn không?"
+
 #: ../plugins/default-source/default-source.c:82
 #: ../plugins/default-source/default-source.c:108
 msgid "Mark as default folder"
@@ -14430,6 +14470,17 @@ msgstr ""
 "Mật khẩu hiện thời của bạn đã hết hạn. Hãy thay đổi mật khẩu bạn ngay bây "
 "giờ."
 
+#: ../plugins/exchange-operations/exchange-delegates-user.c:144
+#: ../plugins/exchange-operations/exchange-permissions-dialog.c:567
+msgid "Custom"
+msgstr "Tự chọn"
+
+#: ../plugins/exchange-operations/exchange-delegates-user.c:191
+#: ../plugins/exchange-operations/exchange-permissions-dialog.c:184
+#, c-format
+msgid "Permissions for %s"
+msgstr "Quyền hạn cho « %s »"
+
 #: ../plugins/exchange-operations/exchange-delegates.c:222
 msgid ""
 "No Global Catalog server configured for this account.\n"
@@ -14570,16 +14621,14 @@ msgstr "Hộp _Đến"
 msgid "_Tasks:"
 msgstr "_Công việc"
 
-#: ../plugins/exchange-operations/exchange-delegates-user.c:144
-#: ../plugins/exchange-operations/exchange-permissions-dialog.c:567
-msgid "Custom"
-msgstr "Tự chọn"
+#: ../plugins/exchange-operations/exchange-folder-permission.c:51
+#: ../plugins/exchange-operations/org-gnome-folder-permissions.xml.h:2
+msgid "Permissions..."
+msgstr "Quyền hạn..."
 
-#: ../plugins/exchange-operations/exchange-delegates-user.c:191
-#: ../plugins/exchange-operations/exchange-permissions-dialog.c:184
-#, c-format
-msgid "Permissions for %s"
-msgstr "Quyền hạn cho « %s »"
+#: ../plugins/exchange-operations/exchange-folder-tree.glade.h:1
+msgid "Exchange Folder Tree"
+msgstr "Cây danh mục Exchange"
 
 #: ../plugins/exchange-operations/exchange-folder.c:55
 #: ../plugins/exchange-operations/exchange-folder.c:98
@@ -14598,15 +14647,6 @@ msgstr "Thật sự bỏ đăng ký trên danh mục « %s » không?"
 #, c-format
 msgid "Unsubscribe from \"%s\""
 msgstr "Bỏ đăng ký trên danh mục « %s »"
-
-#: ../plugins/exchange-operations/exchange-folder-permission.c:51
-#: ../plugins/exchange-operations/org-gnome-folder-permissions.xml.h:2
-msgid "Permissions..."
-msgstr "Quyền hạn..."
-
-#: ../plugins/exchange-operations/exchange-folder-tree.glade.h:1
-msgid "Exchange Folder Tree"
-msgstr "Cây danh mục Exchange"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:227
 msgid "Could not read folder permissions"
@@ -14716,6 +14756,14 @@ msgstr "Chọn người dùng"
 #: ../plugins/exchange-operations/exchange-user-dialog.c:182
 msgid "Addressbook..."
 msgstr "Sổ địa chỉ..."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-ab-subscription.xml.h:1
+msgid "Subscribe to Other User's Contacts"
+msgstr "Đăng ký với các liên lạc của người dùng khác"
+
+#: ../plugins/exchange-operations/org-gnome-exchange-cal-subscription.xml.h:1
+msgid "Subscribe to Other User's Calendar"
+msgstr "Đăng ký với lịch của người dùng khác"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:1
 msgid "Cannot change password due to configuration problems."
@@ -14925,6 +14973,10 @@ msgstr ""
 msgid "Your password has expired."
 msgstr "Mật khẩu bạn đã hết hạn."
 
+#: ../plugins/exchange-operations/org-gnome-exchange-tasks-subscription.xml.h:1
+msgid "Subscribe to Other User's Tasks"
+msgstr "Đăng ký với các công việc của người dùng khác"
+
 #: ../plugins/exchange-operations/org-gnome-folder-permissions.xml.h:1
 msgid "Check folder permissions"
 msgstr "Hãy kiểm tra quyền truy cập danh mục là đúng."
@@ -14932,18 +14984,6 @@ msgstr "Hãy kiểm tra quyền truy cập danh mục là đúng."
 #: ../plugins/exchange-operations/org-gnome-folder-subscription.xml.h:1
 msgid "Subscribe to Other User's Folder"
 msgstr "Đăng ký với danh mục của người dùng khác"
-
-#: ../plugins/exchange-operations/org-gnome-exchange-ab-subscription.xml.h:1
-msgid "Subscribe to Other User's Contacts"
-msgstr "Đăng ký với các liên lạc của người dùng khác"
-
-#: ../plugins/exchange-operations/org-gnome-exchange-cal-subscription.xml.h:1
-msgid "Subscribe to Other User's Calendar"
-msgstr "Đăng ký với lịch của người dùng khác"
-
-#: ../plugins/exchange-operations/org-gnome-exchange-tasks-subscription.xml.h:1
-msgid "Subscribe to Other User's Tasks"
-msgstr "Đăng ký với các công việc của người dùng khác"
 
 #: ../plugins/folder-unsubscribe/folder-unsubscribe.c:57
 #, c-format
@@ -14962,6 +15002,10 @@ msgstr "Bỏ đăng ký danh mục"
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:414
 msgid "Checklist"
 msgstr "Danh sách kiểm"
+
+#: ../plugins/groupwise-account-setup/org-gnome-gw-account-setup.eplug.xml.h:1
+msgid "Groupwise Account Setup"
+msgstr "Thiết lập tài khoản Groupwise"
 
 #: ../plugins/groupwise-features/junk-mail-settings.c:77
 msgid "Junk Settings"
@@ -15054,13 +15098,85 @@ msgstr "_Chung với ..."
 msgid "_Sharing"
 msgstr "Dùng _chung"
 
-#: ../plugins/groupwise-features/send-options.c:83
-#: ../plugins/groupwise-features/proxy.c:470
+#: ../plugins/groupwise-features/proxy-add-dialog.glade.h:1
+msgid "<b>Name</b>"
+msgstr "<b>Tên</b>"
+
+#: ../plugins/groupwise-features/proxy-add-dialog.glade.h:2
+msgid "Access Rights"
+msgstr "Quyền truy cập"
+
+#: ../plugins/groupwise-features/proxy-add-dialog.glade.h:3
+msgid "Add/Edit"
+msgstr "Thêm/Hiệu chỉnh"
+
+#: ../plugins/groupwise-features/proxy-add-dialog.glade.h:5
+msgid "Con_tacts"
+msgstr "_Liên lạc"
+
+#: ../plugins/groupwise-features/proxy-add-dialog.glade.h:7
+msgid "Modify _folders/options/rules/"
+msgstr "Sửa đổi _danh mục/tùy chọn/quy tắc/"
+
+#: ../plugins/groupwise-features/proxy-add-dialog.glade.h:8
+msgid "Read items marked _private"
+msgstr "Đọc mục có dấu _Riêng"
+
+#: ../plugins/groupwise-features/proxy-add-dialog.glade.h:9
+msgid "Reminder Notes"
+msgstr "Chú thích nhắc nhớ"
+
+#: ../plugins/groupwise-features/proxy-add-dialog.glade.h:10
+msgid "Subscribe to my _alarms"
+msgstr "Đăng ký với _báo động tôi"
+
+#: ../plugins/groupwise-features/proxy-add-dialog.glade.h:11
+msgid "Subscribe to my _notifications"
+msgstr "Đăng ký với _thông báo tôi"
+
+#: ../plugins/groupwise-features/proxy-add-dialog.glade.h:13
+#: ../ui/evolution-mail-message.xml.h:118
+msgid "_Read"
+msgstr "_Đọc"
+
+#: ../plugins/groupwise-features/proxy-add-dialog.glade.h:14
+msgid "_Write"
+msgstr "_Ghi"
+
+#: ../plugins/groupwise-features/proxy-listing.glade.h:1
+msgid "Proxy"
+msgstr "Ủy nhiệm"
+
+#: ../plugins/groupwise-features/proxy-listing.glade.h:2
+#: ../smime/gui/smime-ui.glade.h:49
+#: ../widgets/table/e-table-config-no-group.glade.h:20
+#: ../widgets/table/e-table-config.glade.h:21
+msgid "dialog1"
+msgstr "dialog1"
+
+#: ../plugins/groupwise-features/proxy-login-dialog.glade.h:1
+msgid "<b>Account Name</b>"
+msgstr "<b>Tên tài khoản</b>"
+
+#: ../plugins/groupwise-features/proxy-login-dialog.glade.h:2
+msgid "Proxy Login"
+msgstr "Đăng nhập ủy nhiệm"
+
 #: ../plugins/groupwise-features/proxy-login.c:221
 #: ../plugins/groupwise-features/proxy-login.c:263
+#: ../plugins/groupwise-features/proxy.c:470
+#: ../plugins/groupwise-features/send-options.c:83
 #, c-format
 msgid "%sEnter password for %s (user %s)"
 msgstr "%sNhập mật khẩu cho « %s » (người dùng « %s »)"
+
+#: ../plugins/groupwise-features/proxy-login.c:485
+msgid "_Proxy Login..."
+msgstr "Đăng nhập ủy_ nhiệm..."
+
+#: ../plugins/groupwise-features/proxy.c:664
+msgid "The Proxy tab will be available only when the account is enabled."
+msgstr "Thanh Ủy nhiệm sẽ sẵn sàng chỉ khi tài khoản đ"
 
 #: ../plugins/groupwise-features/share-folder-common.c:317
 msgid "Users"
@@ -15534,6 +15650,36 @@ msgstr ""
 "Hồi đáp này không phải đến từ một người dự hiện thời. Thêm người này như là "
 "người tham dự không?"
 
+#: ../plugins/mail-account-disable/mail-account-disable.c:47
+msgid "Proxy _Logout"
+msgstr "Đăng _xuất ủy nhiệm"
+
+#: ../plugins/mail-account-disable/org-gnome-mail-account-disable.eplug.xml.h:1
+msgid "Allows disabling of accounts."
+msgstr "Cho phép vô hiệu hóa tài khoản"
+
+#: ../plugins/mail-account-disable/org-gnome-mail-account-disable.eplug.xml.h:2
+msgid "Disable Account"
+msgstr "Vô hiệu hóa tài khoản"
+
+#: ../plugins/mail-remote/client.c:30
+#, c-format
+msgid "System error: %s"
+msgstr "Lỗi hệ thống: %s"
+
+#: ../plugins/mail-remote/client.c:32
+#, c-format
+msgid "Camel error: %s"
+msgstr "Lỗi Camel: %s"
+
+#: ../plugins/mail-remote/evolution-mail-store.c:476
+msgid "Account cannot send e-mail"
+msgstr "Tài khoản không gởi được thư điện tử."
+
+#: ../plugins/mail-remote/evolution-mail-store.c:605
+msgid "No store available"
+msgstr "Không có kho."
+
 #: ../plugins/mail-to-meeting/org-gnome-mail-to-meeting.eplug.xml.h:1
 msgid ""
 "A plugin which allows the creation of meetings from the contents of a mail "
@@ -15727,6 +15873,14 @@ msgstr "_Không cho phép điều này sẵn sàng ngoại tuyến"
 msgid "_Mark Calendar for offline use"
 msgstr "_Nhãn lịch để dùng ngoại tuyến"
 
+#: ../plugins/mono/org-gnome-evolution-mono.eplug.xml.h:1
+msgid "A plugin which implements mono plugins."
+msgstr "Bộ cầm phít thực hiện bộ cầm phít một nguồn."
+
+#: ../plugins/mono/org-gnome-evolution-mono.eplug.xml.h:2
+msgid "Mono Loader"
+msgstr "Bộ tải điều một nguồn"
+
 #: ../plugins/new-mail-notify/org-gnome-new-mail-notify.eplug.xml.h:1
 msgid "Generates a D-BUS message when new mail arrives."
 msgstr "Tạo ra một thông điệp D-BUS khi nhận thư mới."
@@ -15827,6 +15981,28 @@ msgstr "Chế độ HTML"
 #: ../plugins/print-message/org-gnome-print-message.eplug.xml.h:1
 msgid "Gives an option to print mail from composer"
 msgstr "Cung cấp tùy chọn để in thư từ bộ soạn"
+
+#: ../plugins/print-message/org-gnome-print-message.xml.h:1
+#: ../ui/evolution-addressbook.xml.h:17 ../ui/evolution-calendar.xml.h:20
+#: ../ui/evolution-mail-message.xml.h:75 ../ui/evolution-tasks.xml.h:15
+msgid "Print Pre_view"
+msgstr "_Xem thử bản in"
+
+#: ../plugins/print-message/org-gnome-print-message.xml.h:2
+msgid "Prints the message"
+msgstr "In thư này"
+
+#: ../plugins/sa-junk-plugin/em-junk-filter.c:97
+msgid "Spamassassin (built-in)"
+msgstr "Spamassassin (sẵn có)"
+
+#: ../plugins/sa-junk-plugin/org-gnome-sa-junk-plugin.eplug.xml.h:1
+msgid "Sa junk-plugin"
+msgstr "Bộ cầm phít Thư rác SA"
+
+#: ../plugins/sa-junk-plugin/org-gnome-sa-junk-plugin.eplug.xml.h:2
+msgid "learns junk messages using spamd."
+msgstr "học biết phát hiện thư rác, dùng trình nền spamd"
 
 #: ../plugins/save-attachments/org-gnome-save-attachments.eplug.xml.h:1
 msgid "A plugin for saving all attachments or parts of a message at once."
@@ -16054,94 +16230,6 @@ msgstr "Hiển thị mạch trong danh sách thư, theo Chủ đề"
 #: ../plugins/subject-thread/subject-thread.c:54
 msgid "Fall back to threading messages by sub_ject"
 msgstr "Trở về tạo mạch thư theo _chủ đề"
-
-#: ../plugins/mail-account-disable/mail-account-disable.c:47
-msgid "Proxy _Logout"
-msgstr "Đăng _xuất ủy nhiệm"
-
-#: ../plugins/mail-account-disable/org-gnome-mail-account-disable.eplug.xml.h:1
-msgid "Allows disabling of accounts."
-msgstr "Cho phép vô hiệu hóa tài khoản"
-
-#: ../plugins/mail-account-disable/org-gnome-mail-account-disable.eplug.xml.h:2
-msgid "Disable Account"
-msgstr "Vô hiệu hóa tài khoản"
-
-#: ../plugins/groupwise-features/proxy-listing.glade.h:1
-msgid "Proxy"
-msgstr "Ủy nhiệm"
-
-#: ../plugins/groupwise-features/proxy-listing.glade.h:2
-#: ../smime/gui/smime-ui.glade.h:49
-#: ../widgets/table/e-table-config-no-group.glade.h:20
-#: ../widgets/table/e-table-config.glade.h:21
-msgid "dialog1"
-msgstr "dialog1"
-
-#: ../plugins/groupwise-features/proxy-add-dialog.glade.h:1
-msgid "<b>Name</b>"
-msgstr "<b>Tên</b>"
-
-#: ../plugins/groupwise-features/proxy-add-dialog.glade.h:2
-msgid "Access Rights"
-msgstr "Quyền truy cập"
-
-#: ../plugins/groupwise-features/proxy-add-dialog.glade.h:3
-msgid "Add/Edit"
-msgstr "Thêm/Hiệu chỉnh"
-
-#: ../plugins/groupwise-features/proxy-add-dialog.glade.h:5
-msgid "Con_tacts"
-msgstr "_Liên lạc"
-
-#: ../plugins/groupwise-features/proxy-add-dialog.glade.h:7
-msgid "Modify _folders/options/rules/"
-msgstr "Sửa đổi _danh mục/tùy chọn/quy tắc/"
-
-#: ../plugins/groupwise-features/proxy-add-dialog.glade.h:8
-msgid "Read items marked _private"
-msgstr "Đọc mục có dấu _Riêng"
-
-#: ../plugins/groupwise-features/proxy-add-dialog.glade.h:9
-msgid "Reminder Notes"
-msgstr "Chú thích nhắc nhớ"
-
-#: ../plugins/groupwise-features/proxy-add-dialog.glade.h:10
-msgid "Subscribe to my _alarms"
-msgstr "Đăng ký với _báo động tôi"
-
-#: ../plugins/groupwise-features/proxy-add-dialog.glade.h:11
-msgid "Subscribe to my _notifications"
-msgstr "Đăng ký với _thông báo tôi"
-
-#: ../plugins/groupwise-features/proxy-add-dialog.glade.h:13
-#: ../ui/evolution-mail-message.xml.h:118
-msgid "_Read"
-msgstr "_Đọc"
-
-#: ../plugins/groupwise-features/proxy-add-dialog.glade.h:14
-msgid "_Write"
-msgstr "_Ghi"
-
-#: ../plugins/groupwise-features/proxy.c:664
-msgid "The Proxy tab will be available only when the account is enabled."
-msgstr "Thanh Ủy nhiệm sẽ sẵn sàng chỉ khi tài khoản đ"
-
-#: ../plugins/groupwise-features/proxy-login.c:485
-msgid "_Proxy Login..."
-msgstr "Đăng nhập ủy_ nhiệm..."
-
-#: ../plugins/groupwise-features/proxy-login-dialog.glade.h:1
-msgid "<b>Account Name</b>"
-msgstr "<b>Tên tài khoản</b>"
-
-#: ../plugins/groupwise-features/proxy-login-dialog.glade.h:2
-msgid "Proxy Login"
-msgstr "Đăng nhập ủy nhiệm"
-
-#: ../plugins/sa-junk-plugin/em-junk-filter.c:97
-msgid "Spamassassin (built-in)"
-msgstr "Spamassassin (sẵn có)"
 
 #: ../shell/GNOME_Evolution_Shell.server.in.in.h:1
 msgid "Evolution Shell"
@@ -16620,7 +16708,8 @@ msgid ""
 "Forgetting your passwords will clear all remembered passwords. You will be "
 "reprompted next time they are needed. "
 msgstr ""
-"Quên đi các mật khẩu đã nhớ sẽ xóa hết mật khẩu đã nhớ,. Như vậy bạn sẽ lại được nhắc nhập mật khẩu lần sau cần thiết."
+"Quên đi các mật khẩu đã nhớ sẽ xóa hết mật khẩu đã nhớ,. Như vậy bạn sẽ lại "
+"được nhắc nhập mật khẩu lần sau cần thiết."
 
 #: ../shell/shell.error.xml.h:7
 msgid "Insufficient disk space for upgrade."
@@ -17313,11 +17402,6 @@ msgstr "Dán khay"
 #: ../ui/evolution-addressbook.xml.h:15
 msgid "Previews the contacts to be printed"
 msgstr "Xem trước liên lạc cần in"
-
-#: ../ui/evolution-addressbook.xml.h:17 ../ui/evolution-calendar.xml.h:20
-#: ../ui/evolution-mail-message.xml.h:75 ../ui/evolution-tasks.xml.h:15
-msgid "Print Pre_view"
-msgstr "_Xem thử bản in"
 
 #: ../ui/evolution-addressbook.xml.h:18
 msgid "Print selected contacts"
@@ -18699,6 +18783,13 @@ msgstr "Định nghĩa khung xem cho « %s »"
 msgid "_Edit..."
 msgstr "_Hiệu chỉnh..."
 
+#: ../widgets/menus/gal-view-factory-etable.c:39
+#: ../widgets/table/e-table-header-item.c:1845
+#: ../widgets/table/e-table-scrolled.c:224
+#: ../widgets/table/e-table-scrolled.c:225
+msgid "Table"
+msgstr "Bảng"
+
 #: ../widgets/menus/gal-view-instance-save-as-dialog.c:182
 msgid "Instance"
 msgstr "Lần"
@@ -18714,21 +18805,6 @@ msgstr "Tạo khung xem _mới"
 #: ../widgets/menus/gal-view-instance-save-as-dialog.glade.h:5
 msgid "_Replace existing view"
 msgstr "Tha_y thế khung xem hiện có"
-
-#: ../widgets/menus/gal-view-new-dialog.glade.h:2
-msgid "Name of new view:"
-msgstr "Tên khung xem mới:"
-
-#: ../widgets/menus/gal-view-new-dialog.glade.h:3
-msgid "Type of view:"
-msgstr "Loại khung xem:"
-
-#: ../widgets/menus/gal-view-factory-etable.c:39
-#: ../widgets/table/e-table-header-item.c:1845
-#: ../widgets/table/e-table-scrolled.c:224
-#: ../widgets/table/e-table-scrolled.c:225
-msgid "Table"
-msgstr "Bảng"
 
 #: ../widgets/menus/gal-view-menus.c:291
 msgid "_Current View"
@@ -18746,21 +18822,13 @@ msgstr "Bộ tạo"
 msgid "Define New View"
 msgstr "Định nghĩa khung xem mới"
 
-#: ../widgets/misc/gal-categories.glade.h:2
-msgid "Edit Master Category List..."
-msgstr "Sửa đổi danh sách phân loại chính..."
+#: ../widgets/menus/gal-view-new-dialog.glade.h:2
+msgid "Name of new view:"
+msgstr "Tên khung xem mới:"
 
-#: ../widgets/misc/gal-categories.glade.h:3
-msgid "Item(s) belong to these _categories:"
-msgstr "Các mục thuộc về những phân _loại này:"
-
-#: ../widgets/misc/gal-categories.glade.h:4
-msgid "_Available Categories:"
-msgstr "_Phân loại sẵn có:"
-
-#: ../widgets/misc/gal-categories.glade.h:5
-msgid "categories"
-msgstr "phân loại"
+#: ../widgets/menus/gal-view-new-dialog.glade.h:3
+msgid "Type of view:"
+msgstr "Loại khung xem:"
 
 #. Translators: These are the first characters of each day of the
 #. week, 'M' for 'Monday', 'T' for Tuesday etc.
@@ -18829,16 +18897,16 @@ msgid "Y2"
 msgstr "Y2"
 
 #: ../widgets/misc/e-canvas-vbox.c:102 ../widgets/misc/e-reflow.c:1430
+#: ../widgets/table/e-table-group-container.c:978
 #: ../widgets/table/e-table-group-leaf.c:636
 #: ../widgets/table/e-table-item.c:3001
-#: ../widgets/table/e-table-group-container.c:978
 msgid "Minimum width"
 msgstr "Độ rộng tối thiểu"
 
 #: ../widgets/misc/e-canvas-vbox.c:103 ../widgets/misc/e-reflow.c:1431
+#: ../widgets/table/e-table-group-container.c:979
 #: ../widgets/table/e-table-group-leaf.c:637
 #: ../widgets/table/e-table-item.c:3002
-#: ../widgets/table/e-table-group-container.c:979
 msgid "Minimum Width"
 msgstr "Độ rộng tối thiểu"
 
@@ -19294,6 +19362,22 @@ msgstr "%s (%d%% hoàn tất)"
 msgid "click here to go to url"
 msgstr "nhấn đây để đi tới địa chỉ Mạng"
 
+#: ../widgets/misc/gal-categories.glade.h:2
+msgid "Edit Master Category List..."
+msgstr "Sửa đổi danh sách phân loại chính..."
+
+#: ../widgets/misc/gal-categories.glade.h:3
+msgid "Item(s) belong to these _categories:"
+msgstr "Các mục thuộc về những phân _loại này:"
+
+#: ../widgets/misc/gal-categories.glade.h:4
+msgid "_Available Categories:"
+msgstr "_Phân loại sẵn có:"
+
+#: ../widgets/misc/gal-categories.glade.h:5
+msgid "categories"
+msgstr "phân loại"
+
 #: ../widgets/table/e-cell-combo.c:177
 msgid "popup list"
 msgstr "danh sách bật lên"
@@ -19334,6 +19418,90 @@ msgstr "Cột màu"
 msgid "BG Color Column"
 msgstr "Cột màu nền"
 
+#: ../widgets/table/e-table-config-no-group.glade.h:1
+#: ../widgets/table/e-table-config.glade.h:1
+msgid "<- _Remove"
+msgstr "← _Loại bỏ"
+
+#: ../widgets/table/e-table-config-no-group.glade.h:2
+#: ../widgets/table/e-table-config.glade.h:2
+msgid "A_vailable Fields:"
+msgstr "Trường có _sẵn:"
+
+#: ../widgets/table/e-table-config-no-group.glade.h:3
+#: ../widgets/table/e-table-config.glade.h:3
+msgid "Ascending"
+msgstr "Tăng dần"
+
+#: ../widgets/table/e-table-config-no-group.glade.h:4
+#: ../widgets/table/e-table-config.glade.h:4
+msgid "Clear All"
+msgstr "Xóa hết"
+
+#: ../widgets/table/e-table-config-no-group.glade.h:5
+#: ../widgets/table/e-table-config.glade.h:5
+msgid "Descending"
+msgstr "Giảm dần"
+
+#: ../widgets/table/e-table-config-no-group.glade.h:8
+#: ../widgets/table/e-table-config.glade.h:8
+msgid "Group Items By"
+msgstr "Nhóm lại mục theo"
+
+#: ../widgets/table/e-table-config-no-group.glade.h:9
+#: ../widgets/table/e-table-config.glade.h:9
+msgid "Move _Down"
+msgstr "Chuyển _xuống"
+
+#: ../widgets/table/e-table-config-no-group.glade.h:10
+#: ../widgets/table/e-table-config.glade.h:10
+msgid "Move _Up"
+msgstr "Chuyển _lên"
+
+#: ../widgets/table/e-table-config-no-group.glade.h:11
+msgid "Sh_ow these fields in order:"
+msgstr "_Hiển thị những trường này theo thứ tự:"
+
+#: ../widgets/table/e-table-config-no-group.glade.h:12
+#: ../widgets/table/e-table-config.glade.h:11
+msgid "Show Fields"
+msgstr "Hiển thị trường"
+
+#: ../widgets/table/e-table-config-no-group.glade.h:13
+#: ../widgets/table/e-table-config.glade.h:12
+msgid "Show field in View"
+msgstr "Hiển thị trường trong khung xem"
+
+#: ../widgets/table/e-table-config-no-group.glade.h:14
+#: ../widgets/table/e-table-config.glade.h:13
+msgid "Sort"
+msgstr "Sắp xếp"
+
+#: ../widgets/table/e-table-config-no-group.glade.h:15
+#: ../widgets/table/e-table-config.glade.h:14
+msgid "Sort Items By"
+msgstr "Sắp xếp mục theo"
+
+#: ../widgets/table/e-table-config-no-group.glade.h:16
+#: ../widgets/table/e-table-config.glade.h:15
+msgid "Then By"
+msgstr "Rồi theo"
+
+#: ../widgets/table/e-table-config-no-group.glade.h:17
+#: ../widgets/table/e-table-config.glade.h:16
+msgid "_Add ->"
+msgstr "_Thêm →"
+
+#: ../widgets/table/e-table-config-no-group.glade.h:18
+#: ../widgets/table/e-table-config.glade.h:17
+msgid "_Fields Shown..."
+msgstr "T_rường đã hiển thị..."
+
+#: ../widgets/table/e-table-config-no-group.glade.h:19
+#: ../widgets/table/e-table-config.glade.h:20
+msgid "_Sort..."
+msgstr "_Sắp xếp..."
+
 #: ../widgets/table/e-table-config.c:150
 msgid "State"
 msgstr "Tính trạng"
@@ -19354,6 +19522,14 @@ msgstr "Chưa sắp xếp"
 msgid "No grouping"
 msgstr "Chưa nhóm lại"
 
+#: ../widgets/table/e-table-config.glade.h:18
+msgid "_Group By..."
+msgstr "_Nhóm lại theo..."
+
+#: ../widgets/table/e-table-config.glade.h:19
+msgid "_Show these fields in order:"
+msgstr "_Hiển thị những trường này theo thứ tự:"
+
 #: ../widgets/table/e-table-field-chooser-dialog.c:77
 #: ../widgets/table/e-table-field-chooser-item.c:646
 #: ../widgets/table/e-table-field-chooser.c:79
@@ -19372,83 +19548,115 @@ msgstr "Phần đầu đầy đủ"
 msgid "Add a column..."
 msgstr "Thêm cột..."
 
+#: ../widgets/table/e-table-field-chooser.glade.h:1
+msgid "Field Chooser"
+msgstr "Bộ chọn trường"
+
+#: ../widgets/table/e-table-field-chooser.glade.h:2
+msgid ""
+"To add a column to your table, drag it into\n"
+"the location in which you want it to appear."
+msgstr ""
+"Để thêm một cột vào bảng,\n"
+"hãy kéo nó vào vị trí đã muốn."
+
+#: ../widgets/table/e-table-group-container.c:350
+#, c-format
+msgid "%s : %s (%d item)"
+msgstr "%s : %s (mục %d)"
+
+#: ../widgets/table/e-table-group-container.c:351
+#, c-format
+msgid "%s : %s (%d items)"
+msgstr "%s : %s (mục %d)"
+
+#: ../widgets/table/e-table-group-container.c:356
+#, c-format
+msgid "%s (%d item)"
+msgstr "%s (mục %d)"
+
+#: ../widgets/table/e-table-group-container.c:357
+#, c-format
+msgid "%s (%d items)"
+msgstr "%s (mục %d)"
+
+#: ../widgets/table/e-table-group-container.c:901
+#: ../widgets/table/e-table-group-container.c:902
 #: ../widgets/table/e-table-group-leaf.c:573
 #: ../widgets/table/e-table-group-leaf.c:574
 #: ../widgets/table/e-table-item.c:2959 ../widgets/table/e-table-item.c:2960
-#: ../widgets/table/e-table-group-container.c:901
-#: ../widgets/table/e-table-group-container.c:902
 msgid "Alternating Row Colors"
 msgstr "Các màu của hàng thay thế"
 
+#: ../widgets/table/e-table-group-container.c:908
+#: ../widgets/table/e-table-group-container.c:909
 #: ../widgets/table/e-table-group-leaf.c:580
 #: ../widgets/table/e-table-group-leaf.c:581
 #: ../widgets/table/e-table-item.c:2966 ../widgets/table/e-table-item.c:2967
 #: ../widgets/table/e-tree.c:3271 ../widgets/table/e-tree.c:3272
-#: ../widgets/table/e-table-group-container.c:908
-#: ../widgets/table/e-table-group-container.c:909
 msgid "Horizontal Draw Grid"
 msgstr "Lưới vẽ ngang"
 
+#: ../widgets/table/e-table-group-container.c:915
+#: ../widgets/table/e-table-group-container.c:916
 #: ../widgets/table/e-table-group-leaf.c:587
 #: ../widgets/table/e-table-group-leaf.c:588
 #: ../widgets/table/e-table-item.c:2973 ../widgets/table/e-table-item.c:2974
 #: ../widgets/table/e-tree.c:3277 ../widgets/table/e-tree.c:3278
-#: ../widgets/table/e-table-group-container.c:915
-#: ../widgets/table/e-table-group-container.c:916
 msgid "Vertical Draw Grid"
 msgstr "Lưới vẽ dọc"
 
+#: ../widgets/table/e-table-group-container.c:922
+#: ../widgets/table/e-table-group-container.c:923
 #: ../widgets/table/e-table-group-leaf.c:594
 #: ../widgets/table/e-table-group-leaf.c:595
 #: ../widgets/table/e-table-item.c:2980 ../widgets/table/e-table-item.c:2981
 #: ../widgets/table/e-tree.c:3283 ../widgets/table/e-tree.c:3284
-#: ../widgets/table/e-table-group-container.c:922
-#: ../widgets/table/e-table-group-container.c:923
 msgid "Draw focus"
 msgstr "Tập trung vẽ"
 
+#: ../widgets/table/e-table-group-container.c:929
+#: ../widgets/table/e-table-group-container.c:930
 #: ../widgets/table/e-table-group-leaf.c:601
 #: ../widgets/table/e-table-group-leaf.c:602
 #: ../widgets/table/e-table-item.c:2987 ../widgets/table/e-table-item.c:2988
-#: ../widgets/table/e-table-group-container.c:929
-#: ../widgets/table/e-table-group-container.c:930
 msgid "Cursor mode"
 msgstr "Chế độ con trỏ"
 
+#: ../widgets/table/e-table-group-container.c:936
+#: ../widgets/table/e-table-group-container.c:937
+#: ../widgets/table/e-table-group-leaf.c:615
+#: ../widgets/table/e-table-group-leaf.c:616
+#: ../widgets/table/e-table-item.c:2952 ../widgets/table/e-table-item.c:2953
+msgid "Selection model"
+msgstr "Mô hình lựa chọn"
+
+#: ../widgets/table/e-table-group-container.c:943
+#: ../widgets/table/e-table-group-container.c:944
 #: ../widgets/table/e-table-group-leaf.c:608
 #: ../widgets/table/e-table-group-leaf.c:609
 #: ../widgets/table/e-table-item.c:2994 ../widgets/table/e-table-item.c:2995
 #: ../widgets/table/e-table.c:3316 ../widgets/table/e-tree.c:3265
 #: ../widgets/table/e-tree.c:3266
-#: ../widgets/table/e-table-group-container.c:943
-#: ../widgets/table/e-table-group-container.c:944
 msgid "Length Threshold"
 msgstr "Ngường độ dài"
 
-#: ../widgets/table/e-table-group-leaf.c:615
-#: ../widgets/table/e-table-group-leaf.c:616
-#: ../widgets/table/e-table-item.c:2952 ../widgets/table/e-table-item.c:2953
-#: ../widgets/table/e-table-group-container.c:936
-#: ../widgets/table/e-table-group-container.c:937
-msgid "Selection model"
-msgstr "Mô hình lựa chọn"
-
-#: ../widgets/table/e-table-group-leaf.c:643
-#: ../widgets/table/e-table-group-leaf.c:644
-#: ../widgets/table/e-table-group-container.c:957
-#: ../widgets/table/e-table-group-container.c:958
-msgid "Frozen"
-msgstr "Đông cứng"
-
+#: ../widgets/table/e-table-group-container.c:950
+#: ../widgets/table/e-table-group-container.c:951
 #: ../widgets/table/e-table-group-leaf.c:650
 #: ../widgets/table/e-table-group-leaf.c:651
 #: ../widgets/table/e-table-item.c:3028 ../widgets/table/e-table-item.c:3029
 #: ../widgets/table/e-table.c:3323 ../widgets/table/e-tree.c:3297
 #: ../widgets/table/e-tree.c:3298
-#: ../widgets/table/e-table-group-container.c:950
-#: ../widgets/table/e-table-group-container.c:951
 msgid "Uniform row height"
 msgstr "Độ cao hàng không đổi"
+
+#: ../widgets/table/e-table-group-container.c:957
+#: ../widgets/table/e-table-group-container.c:958
+#: ../widgets/table/e-table-group-leaf.c:643
+#: ../widgets/table/e-table-group-leaf.c:644
+msgid "Frozen"
+msgstr "Đông cứng"
 
 #: ../widgets/table/e-table-header-item.c:1472
 msgid "Customize Current View"
@@ -19689,127 +19897,3 @@ msgstr "Ngữ cảnh IM"
 #: ../widgets/text/e-text.c:3683 ../widgets/text/e-text.c:3684
 msgid "Handle Popup"
 msgstr "Bộ bật lên móc kéo"
-
-#: ../widgets/table/e-table-config-no-group.glade.h:1
-#: ../widgets/table/e-table-config.glade.h:1
-msgid "<- _Remove"
-msgstr "← _Loại bỏ"
-
-#: ../widgets/table/e-table-config-no-group.glade.h:2
-#: ../widgets/table/e-table-config.glade.h:2
-msgid "A_vailable Fields:"
-msgstr "Trường có _sẵn:"
-
-#: ../widgets/table/e-table-config-no-group.glade.h:3
-#: ../widgets/table/e-table-config.glade.h:3
-msgid "Ascending"
-msgstr "Tăng dần"
-
-#: ../widgets/table/e-table-config-no-group.glade.h:4
-#: ../widgets/table/e-table-config.glade.h:4
-msgid "Clear All"
-msgstr "Xóa hết"
-
-#: ../widgets/table/e-table-config-no-group.glade.h:5
-#: ../widgets/table/e-table-config.glade.h:5
-msgid "Descending"
-msgstr "Giảm dần"
-
-#: ../widgets/table/e-table-config-no-group.glade.h:8
-#: ../widgets/table/e-table-config.glade.h:8
-msgid "Group Items By"
-msgstr "Nhóm lại mục theo"
-
-#: ../widgets/table/e-table-config-no-group.glade.h:9
-#: ../widgets/table/e-table-config.glade.h:9
-msgid "Move _Down"
-msgstr "Chuyển _xuống"
-
-#: ../widgets/table/e-table-config-no-group.glade.h:10
-#: ../widgets/table/e-table-config.glade.h:10
-msgid "Move _Up"
-msgstr "Chuyển _lên"
-
-#: ../widgets/table/e-table-config-no-group.glade.h:11
-msgid "Sh_ow these fields in order:"
-msgstr "_Hiển thị những trường này theo thứ tự:"
-
-#: ../widgets/table/e-table-config-no-group.glade.h:12
-#: ../widgets/table/e-table-config.glade.h:11
-msgid "Show Fields"
-msgstr "Hiển thị trường"
-
-#: ../widgets/table/e-table-config-no-group.glade.h:13
-#: ../widgets/table/e-table-config.glade.h:12
-msgid "Show field in View"
-msgstr "Hiển thị trường trong khung xem"
-
-#: ../widgets/table/e-table-config-no-group.glade.h:14
-#: ../widgets/table/e-table-config.glade.h:13
-msgid "Sort"
-msgstr "Sắp xếp"
-
-#: ../widgets/table/e-table-config-no-group.glade.h:15
-#: ../widgets/table/e-table-config.glade.h:14
-msgid "Sort Items By"
-msgstr "Sắp xếp mục theo"
-
-#: ../widgets/table/e-table-config-no-group.glade.h:16
-#: ../widgets/table/e-table-config.glade.h:15
-msgid "Then By"
-msgstr "Rồi theo"
-
-#: ../widgets/table/e-table-config-no-group.glade.h:17
-#: ../widgets/table/e-table-config.glade.h:16
-msgid "_Add ->"
-msgstr "_Thêm →"
-
-#: ../widgets/table/e-table-config-no-group.glade.h:18
-#: ../widgets/table/e-table-config.glade.h:17
-msgid "_Fields Shown..."
-msgstr "T_rường đã hiển thị..."
-
-#: ../widgets/table/e-table-config-no-group.glade.h:19
-#: ../widgets/table/e-table-config.glade.h:20
-msgid "_Sort..."
-msgstr "_Sắp xếp..."
-
-#: ../widgets/table/e-table-config.glade.h:18
-msgid "_Group By..."
-msgstr "_Nhóm lại theo..."
-
-#: ../widgets/table/e-table-config.glade.h:19
-msgid "_Show these fields in order:"
-msgstr "_Hiển thị những trường này theo thứ tự:"
-
-#: ../widgets/table/e-table-field-chooser.glade.h:1
-msgid "Field Chooser"
-msgstr "Bộ chọn trường"
-
-#: ../widgets/table/e-table-field-chooser.glade.h:2
-msgid ""
-"To add a column to your table, drag it into\n"
-"the location in which you want it to appear."
-msgstr ""
-"Để thêm một cột vào bảng,\n"
-"hãy kéo nó vào vị trí đã muốn."
-
-#: ../widgets/table/e-table-group-container.c:350
-#, c-format
-msgid "%s : %s (%d item)"
-msgstr "%s : %s (mục %d)"
-
-#: ../widgets/table/e-table-group-container.c:351
-#, c-format
-msgid "%s : %s (%d items)"
-msgstr "%s : %s (mục %d)"
-
-#: ../widgets/table/e-table-group-container.c:356
-#, c-format
-msgid "%s (%d item)"
-msgstr "%s (mục %d)"
-
-#: ../widgets/table/e-table-group-container.c:357
-#, c-format
-msgid "%s (%d items)"
-msgstr "%s (mục %d)"
