@@ -1,3 +1,9 @@
+2005-07-25  Srinivasa Ragavan <sragavam@novell.com>
+
+	* addressbook.error.xml: Added a string for resize popup
+	* gui/contact-editor/e-contact-editor.c: (image_selected) Added
+	code to check the size of image and prompt for resize.
+
 2005-07-25  Arunprakash <arunp@novell.com>
 
 	* gui/contact-editor/e-contact-editor.c (file_as_entry_changed)

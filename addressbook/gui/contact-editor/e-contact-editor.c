@@ -2526,8 +2526,9 @@ categories_clicked (GtkWidget *button, EContactEditor *editor)
 static void
 image_selected (EContactEditor *editor)
 {
-	gchar     *file_name;
+	gchar     *file_name, *scaled_file = NULL;
 	GtkWidget *image_chooser;
+	GdkPixbuf *new, *photo;
 
 #ifdef USE_GTKFILECHOOSER
 	file_name = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (editor->file_selector));
@@ -2538,6 +2539,35 @@ image_selected (EContactEditor *editor)
 	if (!file_name)
 		return;
 
+        photo = gdk_pixbuf_new_from_file (file_name, NULL);
+        if (photo) {
+		int width, height;
+		
+		height = gdk_pixbuf_get_height (photo);
+		width = gdk_pixbuf_get_width (photo);
+		
+		if ((height > 96 || width > 96) && e_error_run (GTK_WINDOW (editor), "addressbook:prompt-resize", NULL) == GTK_RESPONSE_YES) {
+
+			if ( width > height) {
+				height = height * 96 / width;
+				width = 96;
+			} else {
+				width = width *96 / height;
+				height = 96;
+			}
+			scaled_file = e_mktemp("eab-XXXXXX");
+
+	               	new = gdk_pixbuf_scale_simple (photo, width, height, GDK_INTERP_BILINEAR);
+        	       	gdk_pixbuf_save (new, scaled_file, "jpeg", NULL, "quality", "100", NULL);
+			file_name = scaled_file;
+			g_object_unref (new);
+		}
+		g_object_unref (photo);
+        } else {
+                return;
+	}
+
+
 	image_chooser = glade_xml_get_widget (editor->gui, "image-chooser");
 
 	g_signal_handlers_block_by_func (image_chooser, image_chooser_changed, editor);
@@ -2546,6 +2576,7 @@ image_selected (EContactEditor *editor)
 
 	editor->image_set = TRUE;
 	object_changed (G_OBJECT (image_chooser), editor);
+	g_free(scaled_file);
 }
 
 static void
