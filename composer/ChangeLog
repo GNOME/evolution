@@ -1,3 +1,8 @@
+2005-07-21 Devashish Sharma <sdevashish@novell.com>
+	* e-message-composer.c: Added Shortcut for Save Draft
+	-(Ctrl+Shift+s) and a toolbar button for the same.
+	Fixes #219242
+
 2005-07-21  Shreyas Srinivasan  <sshreyas@novell.com>
 
 	* e-msg-composer-hdrs.c (account_can_send): Use camel_object_unref
