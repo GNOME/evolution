@@ -1830,6 +1830,8 @@ efh_format_headers(EMFormatHTML *efh, CamelStream *stream, CamelMedium *part)
 
 static void efh_format_message(EMFormat *emf, CamelStream *stream, CamelMimePart *part, const EMFormatHandler *info)
 {
+	const EMFormatHandler *handle;
+
 	/* TODO: make this validity stuff a method */
 	EMFormatHTML *efh = (EMFormatHTML *) emf;
 	CamelCipherValidity *save = emf->valid, *save_parent = emf->valid_parent;
@@ -1842,6 +1844,10 @@ static void efh_format_message(EMFormat *emf, CamelStream *stream, CamelMimePart
 
 	if (!efh->hide_headers)
 		efh_format_headers(efh, stream, (CamelMedium *)part);
+
+	handle = em_format_find_handler(emf, "x-evolution/message/post-header");
+	if (handle)
+		handle->handler(emf, stream, part, handle);
 	
 	camel_stream_printf(stream, EM_FORMAT_HTML_VPAD);
 	em_format_part(emf, stream, part);

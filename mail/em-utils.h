@@ -77,6 +77,7 @@ void em_utils_selection_set_urilist(struct _GtkSelectionData *data, struct _Came
 void em_utils_selection_get_urilist(struct _GtkSelectionData *data, struct _CamelFolder *folder);
 
 char *em_utils_temp_save_part(struct _GtkWidget *parent, struct _CamelMimePart *part);
+void em_utils_save_parts (struct _GtkWidget *parent, const char *prompt, GSList * parts);
 
 gboolean em_utils_folder_is_drafts(struct _CamelFolder *folder, const char *uri);
 gboolean em_utils_folder_is_sent(struct _CamelFolder *folder, const char *uri);

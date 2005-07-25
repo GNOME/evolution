@@ -161,6 +161,9 @@ enum _em_popup_target_folder_t {
 enum _em_popup_target_attachments_t {
 	EM_POPUP_ATTACHMENTS_ONE = 1<<0, /* only 1 selected */
 	EM_POPUP_ATTACHMENTS_MANY = 1<<1, /* one or more selected */
+	EM_POPUP_ATTACHMENTS_MULTIPLE = 1<<2, /* More than 1 selected */
+	EM_POPUP_ATTACHMENTS_IMAGE = 1<<3, /* Image selected */
+	EM_POPUP_ATTACHMENTS_MESSAGE = 1<<4 /* Message selected */
 };
 
 typedef struct _EMPopupTargetSelect EMPopupTargetSelect;

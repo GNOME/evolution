@@ -45,6 +45,7 @@
 #include <gtk/gtkmenuitem.h>
 #include <gtk/gtkmain.h>
 #include <gtk/gtkdnd.h>
+#include <gtk/gtktoolbutton.h>
 
 #include <glade/glade.h>
 
@@ -87,6 +88,8 @@
 #include "em-icon-stream.h"
 #include "em-utils.h"
 #include "em-popup.h"
+#include "e-attachment.h"
+#include "e-attachment-bar.h"
 
 #define d(x)
 
@@ -101,6 +104,18 @@ struct _EMFormatHTMLDisplayPrivate {
 	GtkWidget *search_case_check;
 	char *search_text;
 	int search_wrap;	/* are we doing a wrap search */
+
+	/* for Attachment bar */
+	GtkWidget *attachment_bar;
+	GtkWidget *attachment_box;
+	GtkWidget *label;
+	GtkWidget *arrow;
+	GtkWidget *forward;
+	GtkWidget *down;
+	GtkWidget *save;
+	gboolean  show_bar;
+	gboolean  bar_added;
+	GHashTable *files;
 };
 
 static int efhd_html_button_press_event (GtkWidget *widget, GdkEventButton *event, EMFormatHTMLDisplay *efh);
@@ -109,6 +124,8 @@ static void efhd_html_on_url (GtkHTML *html, const char *url, EMFormatHTMLDispla
 
 static void efhd_attachment_frame(EMFormat *emf, CamelStream *stream, EMFormatPURI *puri);
 static gboolean efhd_attachment_image(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject *pobject);
+static void efhd_message_add_bar(EMFormat *emf, CamelStream *stream, CamelMimePart *part, const EMFormatHandler *info);
+static void efhd_attachment_bar_refresh (EMFormatHTMLDisplay *efhd);
 
 struct _attach_puri {
 	EMFormatPURI puri;
@@ -128,6 +145,10 @@ struct _attach_puri {
 	int fit_width;
 	int fit_height;
 	GtkImage *image;
+
+	/* Signed / Encrypted */
+        camel_cipher_validity_sign_t sign;
+        camel_cipher_validity_encrypt_t encrypt;
 };
 
 
@@ -254,6 +275,10 @@ efhd_init(GObject *o)
 	/* we want to convert url's etc */
 	efh->text_html_flags |= CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS | CAMEL_MIME_FILTER_TOHTML_CONVERT_ADDRESSES;
 #undef efh
+
+	efhd->priv->show_bar = FALSE;
+	efhd->priv->bar_added = FALSE;
+	efhd->priv->files = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
 }
 
 static void
@@ -262,6 +287,9 @@ efhd_finalise(GObject *o)
 	EMFormatHTMLDisplay *efhd = (EMFormatHTMLDisplay *)o;
 
 	/* check pending stuff */
+
+	if (efhd->priv->files)
+		g_hash_table_destroy(efhd->priv->files);
 
 	g_free(efhd->priv->search_text);
 	g_free(efhd->priv);
@@ -959,6 +987,7 @@ static EMFormatHandler type_builtin_table[] = {
 	{ "image/pjpeg", (EMFormatFunc)efhd_image },
 
 	{ "x-evolution/message/prefix", (EMFormatFunc)efhd_message_prefix },
+	{ "x-evolution/message/post-header", (EMFormatFunc)efhd_message_add_bar },
 };
 
 static void
@@ -1007,6 +1036,21 @@ static const EMFormatHandler *efhd_find_handler(EMFormat *emf, const char *mime_
 
 static void efhd_format_clone(EMFormat *emf, CamelFolder *folder, const char *uid, CamelMimeMessage *msg, EMFormat *src)
 {
+	EMFormatHTMLDisplay *efhd = (EMFormatHTMLDisplay *) emf;
+
+	if (emf != src) {
+		if (src)
+			efhd->priv->show_bar = ((EMFormatHTMLDisplay *)src)->priv->show_bar;
+		else
+			efhd->priv->show_bar = FALSE;
+	}
+
+	efhd->priv->attachment_bar = NULL;
+	efhd->priv->bar_added = FALSE;
+	if (efhd->priv->files)
+		g_hash_table_destroy(efhd->priv->files);
+	efhd->priv->files = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
+
 	((EMFormatClass *)efhd_parent)->format_clone(emf, folder, uid, msg, src);
 }
 
@@ -1370,9 +1414,12 @@ efhd_attachment_image(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObjec
 static gboolean
 efhd_attachment_button(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject *pobject)
 {
+	EMFormatHTMLDisplay *efhd = (EMFormatHTMLDisplay *)efh;
+	EAttachment *new;
 	struct _attach_puri *info;
 	GtkWidget *hbox, *w, *button, *mainbox;
-	char *simple_type;
+	char *simple_type, *tmp, *new_file = NULL;
+	const char *file;
 	GtkTargetEntry drag_types[] = {
 		{ NULL, 0, 0 },
 		{ "text/uri-list", 0, 1 },
@@ -1386,6 +1433,47 @@ efhd_attachment_button(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObje
 	g_assert(info != NULL);
 	g_assert(info->forward == NULL);
 
+	file = camel_mime_part_get_filename(info->puri.part);
+
+	new = e_attachment_new_from_mime_part (info->puri.part);
+
+	if (!file) {
+		file = "attachment.dat";
+		camel_mime_part_set_filename(new->body, file);
+	}
+
+	tmp = g_hash_table_lookup (efhd->priv->files, file);
+	if (tmp) {
+		guint count = GPOINTER_TO_UINT(tmp);
+		char *ext;
+		char *tmp_file = g_strdup (file);
+		
+		if ((ext = strrchr(tmp_file, '.'))) {
+			ext[0] = 0;
+			new_file = g_strdup_printf("%s(%d).%s", tmp_file, count++, ext+1);
+		} else {
+			new_file = g_strdup_printf("%s(%d)", tmp_file, count++);
+		}
+
+		g_free (tmp_file);
+		g_hash_table_insert (efhd->priv->files, g_strdup(file), GUINT_TO_POINTER(count));
+		camel_mime_part_set_filename(new->body, new_file);
+			
+		g_free(new_file);
+	} else {
+		g_hash_table_insert (efhd->priv->files, g_strdup(file), GUINT_TO_POINTER(1));
+	}
+
+	/* Store the status of encryption / signature on the attachment for emblem display 
+	 * FIXME: May not work well always
+	 */
+	new->sign = info->sign;
+	new->encrypt = info->encrypt;
+	
+	/* Add the attachment to the bar.*/
+	e_attachment_bar_add_attachment (E_ATTACHMENT_BAR(efhd->priv->attachment_bar), new);
+	efhd_attachment_bar_refresh (efhd);
+	
 	mainbox = gtk_hbox_new(FALSE, 0);
 
 	button = gtk_button_new();
@@ -1644,6 +1732,237 @@ type_ok:
 }
 
 static void
+attachment_bar_arrow_clicked(GtkWidget *w, EMFormatHTMLDisplay *efhd)
+{
+
+	efhd->priv->show_bar = !efhd->priv->show_bar;
+
+	if (efhd->priv->show_bar) {
+		gtk_widget_show(efhd->priv->attachment_box);
+		gtk_widget_show(efhd->priv->down);
+		gtk_widget_hide(efhd->priv->forward);
+	} else {
+		gtk_widget_hide(efhd->priv->attachment_box);
+		gtk_widget_show(efhd->priv->forward);
+		gtk_widget_hide(efhd->priv->down);		
+	}
+}
+
+static void
+attachments_save_all_clicked(GtkWidget *w, EMFormatHTMLDisplay *efhd)
+{
+	GSList *attachment_parts;
+
+	attachment_parts = e_attachment_bar_get_parts(E_ATTACHMENT_BAR(efhd->priv->attachment_bar));
+	em_utils_save_parts(w, _("Select folder to save all attachments..."), attachment_parts);
+}
+
+static void
+efhd_bar_popup_position(GtkMenu *menu, int *x, int *y, gboolean *push_in, gpointer user_data)
+{
+	EAttachmentBar *bar = user_data;
+	GnomeIconList *icon_list = user_data;
+	GList *selection;
+	GnomeCanvasPixbuf *image;
+	
+	gdk_window_get_origin (((GtkWidget*) bar)->window, x, y);
+	
+	selection = gnome_icon_list_get_selection (icon_list);
+	if (selection == NULL)
+		return;
+	
+	image = gnome_icon_list_get_icon_pixbuf_item (icon_list, (gint)selection->data);
+	if (image == NULL)
+		return;
+	
+	/* Put menu to the center of icon. */
+	*x += (int)(image->item.x1 + image->item.x2) / 2;
+	*y += (int)(image->item.y1 + image->item.y2) / 2;
+}
+
+static void
+efhd_bar_save_selected(EPopup *ep, EPopupItem *item, EMFormatHTMLDisplay *efhd)
+{
+	GSList *attachment_parts, *tmp;
+	GSList *parts = NULL;
+
+	attachment_parts = e_attachment_bar_get_selected(E_ATTACHMENT_BAR(efhd->priv->attachment_bar));
+	
+	for (tmp = attachment_parts; tmp; tmp=tmp->next)
+		parts = g_slist_prepend(parts, ((EAttachment *)tmp->data)->body);
+
+	parts = g_slist_reverse(parts);
+	em_utils_save_parts(efhd->priv->attachment_bar, _("Select folder to save selected attachments..."), parts);
+
+	g_slist_foreach(attachment_parts, (GFunc)g_object_unref, NULL);
+	g_slist_free (attachment_parts);
+}
+
+static EPopupItem efhd_bar_menu_items[] = {
+	{ E_POPUP_BAR, "05.display", },
+	{ E_POPUP_ITEM, "05.display.01", N_("Save Selected..."), efhd_bar_save_selected, NULL, NULL, EM_POPUP_ATTACHMENTS_MULTIPLE},
+};
+
+static gboolean
+efhd_bar_button_press_event(EAttachmentBar *bar, GdkEventButton *event, EMFormat *emf)
+{
+	GtkMenu *menu;
+	GSList *list=NULL;
+	EPopupTarget *target;
+	EMPopup *emp;
+	GSList *menus = NULL;
+	int i;
+
+	if (event && event->button != 3)
+		return FALSE;
+
+	/** @HookPoint-EMPopup: Attachment Bar  Context Menu
+	 * @Id: org.gnome.evolution.mail.attachments.popup
+	 * @Class: org.gnome.evolution.mail.popup:1.0
+	 * @Target: EMPopupTargetPart
+	 *
+	 * This is the drop-down menu shown when a user clicks on the attachment bar
+	 * when attachments are selected.
+	 */
+	emp = em_popup_new("org.gnome.evolution.mail.attachments.popup");
+
+	/* Add something like save-selected, foward selected attachments in a mail etc....*/
+	list = e_attachment_bar_get_selected(bar);
+	
+	/* Lets not propagate any more the r-click which is intended to us*/
+	if ( g_slist_length (list) == 0)
+		return TRUE;
+	
+	target = (EPopupTarget *)em_popup_target_new_attachments(emp, list);
+	for (i=0; i<2; i++)
+		menus = g_slist_prepend(menus, &efhd_bar_menu_items[i]);
+	e_popup_add_items((EPopup *)emp, menus, NULL, efhd_menu_items_free, emf);
+
+	((EMPopupTargetPart *)target)->target.widget = (GtkWidget *)bar;
+	menu = e_popup_create_menu_once((EPopup *)emp, (EPopupTarget *)target, 0);
+	if (event)
+		gtk_menu_popup(menu, NULL, NULL, NULL, NULL, event->button, event->time);
+	else
+		gtk_menu_popup(menu, NULL, NULL, (GtkMenuPositionFunc)efhd_bar_popup_position, bar, 0, gtk_get_current_event_time());
+
+	return TRUE;
+}
+
+static gboolean
+efhd_bar_popup_menu_event (EAttachmentBar *bar, EMFormat *emf) 
+{
+	return efhd_bar_button_press_event(bar, NULL, emf);
+}
+
+static void
+efhd_attachment_bar_refresh (EMFormatHTMLDisplay *efhd)
+{
+	int nattachments;
+
+	if (!efhd->priv->attachment_bar)
+		return;
+
+	nattachments = e_attachment_bar_get_num_attachments (E_ATTACHMENT_BAR(efhd->priv->attachment_bar));
+	if (nattachments) {
+		char *txt;
+
+		/* Cant i put in the number of attachments here ?*/
+		txt = g_strdup_printf(ngettext("%d Attachment", "%d Attachments", nattachments), nattachments);
+		gtk_label_set_text ((GtkLabel *)efhd->priv->label, txt);
+		g_free (txt);
+
+		/* Enable the expander button and the save all button.*/
+		gtk_widget_set_sensitive (efhd->priv->arrow, TRUE);
+		gtk_widget_set_sensitive (efhd->priv->save, TRUE);
+	}
+}
+
+static gboolean
+efhd_add_bar(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject *pobject)
+{
+	EMFormatHTMLDisplay *efhd = (EMFormatHTMLDisplay *)efh;
+	struct _EMFormatHTMLDisplayPrivate *priv = efhd->priv;
+	GtkWidget *hbox1, *hbox2, *hbox3, *vbox, *txt, *image;
+	int width, height;
+
+	priv->attachment_bar = e_attachment_bar_new(NULL);
+	((EAttachmentBar *)priv->attachment_bar)->expand = TRUE;
+	
+	priv->forward = gtk_arrow_new(GTK_ARROW_RIGHT, GTK_SHADOW_NONE);
+	priv->down = gtk_arrow_new(GTK_ARROW_DOWN, GTK_SHADOW_NONE);
+	hbox3 = gtk_hbox_new (FALSE, 0);
+	gtk_box_pack_start ((GtkBox *)hbox3, priv->forward, FALSE, FALSE, 0);
+	gtk_box_pack_start ((GtkBox *)hbox3, priv->down, FALSE, FALSE, 0);
+	priv->arrow = (GtkWidget *)gtk_tool_button_new(hbox3, NULL);
+
+	priv->label = gtk_label_new(_("No Attachment"));
+	priv->save = gtk_button_new();
+	image = gtk_image_new_from_stock ("gtk-save", GTK_ICON_SIZE_BUTTON);
+	txt = gtk_label_new(_("Save All"));
+	hbox1 = gtk_hbox_new(FALSE, 0);
+	gtk_box_pack_start((GtkBox *)hbox1, image, FALSE, FALSE, 2);
+	gtk_box_pack_start((GtkBox *)hbox1, txt, FALSE, FALSE, 0);
+
+	gtk_container_add((GtkContainer *)priv->save, hbox1);
+
+	gtk_widget_set_sensitive(priv->arrow, FALSE);
+	gtk_widget_set_sensitive(priv->save, FALSE);
+
+	hbox2 = gtk_hbox_new (FALSE, 0);
+	gtk_box_pack_start ((GtkBox *)hbox2, priv->arrow, FALSE, FALSE, 0);
+	gtk_box_pack_start ((GtkBox *)hbox2, priv->label, FALSE, FALSE, 2);
+	gtk_box_pack_start ((GtkBox *)hbox2, priv->save, FALSE, FALSE, 2);
+
+	priv->attachment_box = gtk_hbox_new (FALSE, 0);
+	gtk_box_pack_start ((GtkBox *)priv->attachment_box, priv->attachment_bar, TRUE, TRUE, 0);
+
+	gtk_widget_get_size_request(priv->attachment_bar, &width, &height);
+
+	/* FIXME: What if the text is more?. Should we reduce the text with appending ...?
+	 * or resize the bar? How to figure out that, it needs more space? */
+	gtk_widget_set_size_request (priv->attachment_bar, 
+					((GtkWidget *)efh->html)->parent->allocation.width - /* FIXME */36,
+					84 /* FIXME: Default show only one row, Dont hardcode size*/);
+	
+	vbox = gtk_vbox_new (FALSE, 0);
+	gtk_box_pack_start ((GtkBox *)vbox, hbox2, FALSE, FALSE, 2);
+	gtk_box_pack_start ((GtkBox *)vbox, priv->attachment_box, TRUE, TRUE, 2);
+
+	gtk_container_add ((GtkContainer *)eb, vbox);
+	gtk_widget_show_all ((GtkWidget *)eb);
+
+	if (priv->show_bar) {
+		gtk_widget_show(priv->down);
+		gtk_widget_hide(priv->forward);
+	} else {
+		gtk_widget_show(priv->forward);
+		gtk_widget_hide(priv->down);
+		gtk_widget_hide(priv->attachment_box);
+	}
+
+	g_signal_connect (priv->arrow, "clicked", G_CALLBACK(attachment_bar_arrow_clicked), efh);
+	g_signal_connect (priv->attachment_bar, "button_press_event", G_CALLBACK(efhd_bar_button_press_event), efhd);
+	g_signal_connect (priv->attachment_bar, "popup-menu", G_CALLBACK(efhd_bar_popup_menu_event), efhd);
+	g_signal_connect (priv->save, "clicked", G_CALLBACK(attachments_save_all_clicked), efh);
+
+	return TRUE;
+}
+
+static void
+efhd_message_add_bar(EMFormat *emf, CamelStream *stream, CamelMimePart *part, const EMFormatHandler *info)
+{
+	EMFormatHTMLDisplay *efhd = (EMFormatHTMLDisplay *) emf;
+	const char *classid = "attachment-bar";
+
+	if (efhd->priv->bar_added)
+		return;
+
+	efhd->priv->bar_added = TRUE;
+	em_format_html_add_pobject((EMFormatHTML *)emf, sizeof(EMFormatHTMLPObject), classid, part, efhd_add_bar);
+	camel_stream_printf(stream, "<td><object classid=\"%s\"></object></td>", classid);
+}
+
+static void
 efhd_format_attachment(EMFormat *emf, CamelStream *stream, CamelMimePart *part, const char *mime_type, const EMFormatHandler *handle)
 {
 	char *classid, *text, *html;
@@ -1655,6 +1974,11 @@ efhd_format_attachment(EMFormat *emf, CamelStream *stream, CamelMimePart *part, 
 	info->handle = handle;
 	info->shown = em_format_is_inline(emf, info->puri.part_id, info->puri.part, handle);
 	info->snoop_mime_type = emf->snoop_mime_type;
+
+	if (emf->valid) {
+		info->sign = emf->valid->sign.status;
+		info->encrypt = emf->valid->encrypt.status;
+	}
 
 	camel_stream_write_string(stream,
 				  EM_FORMAT_HTML_VPAD

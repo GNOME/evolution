@@ -64,6 +64,7 @@
 #include <gconf/gconf-client.h>
 
 #include <e-util/e-util.h>
+#include "e-attachment.h"
 
 static void emp_standard_menu_factory(EPopup *emp, void *data);
 
@@ -365,8 +366,17 @@ em_popup_target_new_attachments(EMPopup *emp, GSList *attachments)
 	t->attachments = attachments;
 	if (len > 0)
 		mask &= ~ EM_POPUP_ATTACHMENTS_MANY;
-	if (len == 1)
+	if (len == 1 && ((EAttachment *)attachments->data)->is_available_local) {
+
+		if (camel_content_type_is(((CamelDataWrapper *) ((EAttachment *) attachments->data)->body)->mime_type, "image", "*"))
+			mask &= ~ EM_POPUP_ATTACHMENTS_IMAGE;
+		if (CAMEL_IS_MIME_MESSAGE(camel_medium_get_content_object((CamelMedium *) ((EAttachment *) attachments->data)->body)))
+			mask &= ~EM_POPUP_ATTACHMENTS_MESSAGE;
+		
 		mask &= ~ EM_POPUP_ATTACHMENTS_ONE;
+	}
+	if (len > 1)
+		mask &= ~ EM_POPUP_ATTACHMENTS_MULTIPLE;
 	t->target.mask = mask;
 
 	return t;
@@ -377,26 +387,39 @@ em_popup_target_new_attachments(EMPopup *emp, GSList *attachments)
 static void
 emp_part_popup_saveas(EPopup *ep, EPopupItem *item, void *data)
 {
-	EMPopupTargetPart *t = (EMPopupTargetPart *)ep->target;
+	EPopupTarget *t = ep->target;
+	CamelMimePart *part = NULL;
 
-	em_utils_save_part(ep->target->widget, _("Save As..."), t->part);
+	/* If it is of type EM_POPUP_TARGET_ATTACHMENTS, we can assume the length is one. */
+	if (t->type == EM_POPUP_TARGET_ATTACHMENTS)
+		part = ((EAttachment *) ((EMPopupTargetAttachments *) t)->attachments->data)->body;
+	else
+		part = ((EMPopupTargetPart *) t)->part;
+
+	em_utils_save_part(ep->target->widget, _("Save As..."), part);
 }
 
 static void
 emp_part_popup_set_background(EPopup *ep, EPopupItem *item, void *data)
 {
-	EMPopupTargetPart *t = (EMPopupTargetPart *)ep->target;
+	EPopupTarget *t = ep->target;
 	GConfClient *gconf;
 	char *str, *filename, *path, *extension;
 	unsigned int i=1;
+	CamelMimePart *part = NULL;
+
+	if (t->type == EM_POPUP_TARGET_ATTACHMENTS) 
+		part = ((EAttachment *) ((EMPopupTargetAttachments *) t)->attachments->data)->body;
+	else
+		part = ((EMPopupTargetPart *) t)->part;
 	
-	filename = g_strdup(camel_mime_part_get_filename(t->part));
+	filename = g_strdup(camel_mime_part_get_filename(part));
 	   
 	/* if filename is blank, create a default filename based on MIME type */
 	if (!filename || !filename[0]) {
 		CamelContentType *ct;
 
-		ct = camel_mime_part_get_content_type(t->part);
+		ct = camel_mime_part_get_content_type(part);
 		g_free (filename);
 		filename = g_strdup_printf (_("untitled_image.%s"), ct->subtype);
 	}
@@ -420,7 +443,7 @@ emp_part_popup_set_background(EPopup *ep, EPopupItem *item, void *data)
 	
 	g_free(filename);
 	
-	if (em_utils_save_part_to_file(ep->target->widget, path, t->part)) {
+	if (em_utils_save_part_to_file(ep->target->widget, path, part)) {
 		gconf = gconf_client_get_default();
 		
 		/* if the filename hasn't changed, blank the filename before 
@@ -452,41 +475,65 @@ emp_part_popup_set_background(EPopup *ep, EPopupItem *item, void *data)
 static void
 emp_part_popup_reply_sender(EPopup *ep, EPopupItem *item, void *data)
 {
-	EMPopupTargetPart *t = (EMPopupTargetPart *)ep->target;
+	EPopupTarget *t = ep->target;
 	CamelMimeMessage *message;
+	CamelMimePart *part;
+
+	if (t->type == EM_POPUP_TARGET_ATTACHMENTS) 
+		part = ((EAttachment *) ((EMPopupTargetAttachments *) t)->attachments->data)->body;
+	else
+		part = ((EMPopupTargetPart *) t)->part;
 	
-	message = (CamelMimeMessage *)camel_medium_get_content_object((CamelMedium *)t->part);
+	message = (CamelMimeMessage *)camel_medium_get_content_object((CamelMedium *)part);
 	em_utils_reply_to_message(NULL, NULL, message, REPLY_MODE_SENDER, NULL);
 }
 
 static void
 emp_part_popup_reply_list (EPopup *ep, EPopupItem *item, void *data)
 {
-	EMPopupTargetPart *t = (EMPopupTargetPart *)ep->target;
+	EPopupTarget *t = ep->target;
 	CamelMimeMessage *message;
-	
-	message = (CamelMimeMessage *)camel_medium_get_content_object((CamelMedium *)t->part);
+	CamelMimePart *part;
+
+	if (t->type == EM_POPUP_TARGET_ATTACHMENTS) 
+		part = ((EAttachment *) ((EMPopupTargetAttachments *) t)->attachments->data)->body;
+	else
+		part = ((EMPopupTargetPart *) t)->part;
+		
+	message = (CamelMimeMessage *)camel_medium_get_content_object((CamelMedium *)part);
 	em_utils_reply_to_message(NULL, NULL, message, REPLY_MODE_LIST, NULL);
 }
 
 static void
 emp_part_popup_reply_all (EPopup *ep, EPopupItem *item, void *data)
 {
-	EMPopupTargetPart *t = (EMPopupTargetPart *)ep->target;
+	EPopupTarget *t = ep->target;
 	CamelMimeMessage *message;
+	CamelMimePart *part;
+
+	if (t->type == EM_POPUP_TARGET_ATTACHMENTS) 
+		part = ((EAttachment *) ((EMPopupTargetAttachments *) t)->attachments->data)->body;
+	else
+		part = ((EMPopupTargetPart *) t)->part;
 	
-	message = (CamelMimeMessage *)camel_medium_get_content_object((CamelMedium *)t->part);
+	message = (CamelMimeMessage *)camel_medium_get_content_object((CamelMedium *)part);
 	em_utils_reply_to_message(NULL, NULL, message, REPLY_MODE_ALL, NULL);
 }
 
 static void
 emp_part_popup_forward (EPopup *ep, EPopupItem *item, void *data)
 {
-	EMPopupTargetPart *t = (EMPopupTargetPart *)ep->target;
+	EPopupTarget *t = ep->target;
 	CamelMimeMessage *message;
+	CamelMimePart *part;
+
+	if (t->type == EM_POPUP_TARGET_ATTACHMENTS) 
+		part = ((EAttachment *) ((EMPopupTargetAttachments *) t)->attachments->data)->body;
+	else
+		part = ((EMPopupTargetPart *) t)->part;	
 
 	/* TODO: have a emfv specific override so we can get the parent folder uri */
-	message = (CamelMimeMessage *)camel_medium_get_content_object((CamelMedium *) t->part);
+	message = (CamelMimeMessage *)camel_medium_get_content_object((CamelMedium *) part);
 	em_utils_forward_message(message, NULL);
 }
 
@@ -499,6 +546,17 @@ static EMPopupItem emp_standard_object_popups[] = {
 	{ E_POPUP_ITEM, "10.part.03", N_("Reply to _All"), emp_part_popup_reply_all, NULL, "stock_mail-reply-to-all", EM_POPUP_PART_MESSAGE},
 	{ E_POPUP_BAR, "20.part", NULL, NULL, NULL, NULL, EM_POPUP_PART_MESSAGE },
 	{ E_POPUP_ITEM, "20.part.00", N_("_Forward"), emp_part_popup_forward, NULL, "stock_mail-forward", EM_POPUP_PART_MESSAGE },
+};
+
+static EMPopupItem emp_attachment_object_popups[] = {
+	{ E_POPUP_ITEM, "00.attach.00", N_("_Save As..."), emp_part_popup_saveas, NULL, "stock_save-as", 0 },
+	{ E_POPUP_ITEM, "00.attach.10", N_("Set as _Background"), emp_part_popup_set_background, NULL, NULL, EM_POPUP_ATTACHMENTS_IMAGE },
+	{ E_POPUP_BAR, "05.attach", NULL, NULL, NULL, NULL, EM_POPUP_ATTACHMENTS_MESSAGE },
+	{ E_POPUP_ITEM, "05.attach.00", N_("_Reply to sender"), emp_part_popup_reply_sender, NULL, "stock_mail-reply" , EM_POPUP_ATTACHMENTS_MESSAGE },
+	{ E_POPUP_ITEM, "05.attach.01", N_("Reply to _List"), emp_part_popup_reply_list, NULL, NULL, EM_POPUP_ATTACHMENTS_MESSAGE},
+	{ E_POPUP_ITEM, "05.attach.03", N_("Reply to _All"), emp_part_popup_reply_all, NULL, "stock_mail-reply-to-all", EM_POPUP_ATTACHMENTS_MESSAGE},
+	{ E_POPUP_BAR, "05.attach.10", NULL, NULL, NULL, NULL, EM_POPUP_ATTACHMENTS_MESSAGE },
+	{ E_POPUP_ITEM, "05.attach.15", N_("_Forward"), emp_part_popup_forward, NULL, "stock_mail-forward", EM_POPUP_ATTACHMENTS_MESSAGE },
 };
 
 static const EPopupItem emp_standard_part_apps_bar = { E_POPUP_BAR, "99.object" };
@@ -563,9 +621,15 @@ static void
 emp_apps_open_in(EPopup *ep, EPopupItem *item, void *data)
 {
 	char *path;
-	EMPopupTargetPart *target = (EMPopupTargetPart *)ep->target;
+	EPopupTarget *target = ep->target;
+	CamelMimePart *part;
 
-	path = em_utils_temp_save_part(target->target.widget, target->part);
+	if (target->type == EM_POPUP_TARGET_ATTACHMENTS) 
+		part = ((EAttachment *) ((EMPopupTargetAttachments *) target)->attachments->data)->body;
+	else
+		part = ((EMPopupTargetPart *) target)->part;
+
+	path = em_utils_temp_save_part(target->widget, part);
 	if (path) {
 		GnomeVFSMimeApplication *app = item->user_data;
 		char *uri;
@@ -610,6 +674,9 @@ emp_standard_menu_factory(EPopup *emp, void *data)
 	int i, len;
 	EPopupItem *items;
 	GSList *menus = NULL;
+	GList *apps = NULL;
+	char *mime_type = NULL;
+	const char *filename = NULL;
 
 	switch (emp->target->type) {
 #if 0
@@ -627,14 +694,42 @@ emp_standard_menu_factory(EPopup *emp, void *data)
 		break; }
 	case EM_POPUP_TARGET_PART: {
 		EMPopupTargetPart *t = (EMPopupTargetPart *)emp->target;
-		GList *apps = gnome_vfs_mime_get_all_applications(t->mime_type);
+		mime_type = g_strdup(t->mime_type);
+		filename = camel_mime_part_get_filename(t->part);		
 
-		/* FIXME: use the snoop_part stuff from em-format.c */
-		if (apps == NULL && strcmp(t->mime_type, "application/octet-stream") == 0) {
-			const char *filename, *name_type;
+		items = emp_standard_object_popups;
+		len = LEN(emp_standard_object_popups);
+		break; }
+	case EM_POPUP_TARGET_ATTACHMENTS: {
+		EMPopupTargetAttachments *t = (EMPopupTargetAttachments *)emp->target;
+		GSList *list = t->attachments;
+		EAttachment *attachment;
+	
+		if (g_slist_length(list) != 1 || !((EAttachment *)list->data)->is_available_local) {
+			items = NULL;
+			len = 0;		
+			break;
+		}
+
+		/* Only one attachment selected */
+		attachment = list->data;
+		mime_type = camel_data_wrapper_get_mime_type((CamelDataWrapper *)attachment->body);
+		filename = camel_mime_part_get_filename(attachment->body);
+
+		items = emp_attachment_object_popups;
+		len = LEN(emp_attachment_object_popups);
+		break; }		
+	default:
+		items = NULL;
+		len = 0;
+	}
+
+	if (mime_type) {
+		apps = gnome_vfs_mime_get_all_applications(mime_type);
+		
+		if (apps == NULL && strcmp(mime_type, "application/octet-stream") == 0) {
+			const char *name_type;
 			
-			filename = camel_mime_part_get_filename(t->part);
-
 			if (filename) {
 				/* GNOME-VFS will misidentify TNEF attachments as MPEG */
 				if (!strcmp (filename, "winmail.dat"))
@@ -645,6 +740,7 @@ emp_standard_menu_factory(EPopup *emp, void *data)
 					apps = gnome_vfs_mime_get_all_applications(name_type);
 			}
 		}
+		g_free (mime_type);
 
 		if (apps) {
 			GString *label = g_string_new("");
@@ -676,13 +772,6 @@ emp_standard_menu_factory(EPopup *emp, void *data)
 			g_string_free(label, TRUE);
 			g_list_free(apps);
 		}
-
-		items = emp_standard_object_popups;
-		len = LEN(emp_standard_object_popups);
-		break; }
-	default:
-		items = NULL;
-		len = 0;
 	}
 
 	for (i=0;i<len;i++) {
@@ -769,6 +858,9 @@ static const EPopupHookTargetMask emph_folder_masks[] = {
 static const EPopupHookTargetMask emph_attachments_masks[] = {
 	{ "one", EM_POPUP_ATTACHMENTS_ONE },
 	{ "many", EM_POPUP_ATTACHMENTS_MANY },
+	{ "multiple", EM_POPUP_ATTACHMENTS_MULTIPLE },
+	{ "image", EM_POPUP_ATTACHMENTS_IMAGE },
+	{ "message", EM_POPUP_ATTACHMENTS_MESSAGE },
 	{ 0 }
 };
 

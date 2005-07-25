@@ -300,7 +300,7 @@ em_utils_edit_filters (GtkWidget *parent)
 /* Saving messages... */
 
 static GtkWidget *
-emu_get_save_filesel (GtkWidget *parent, const char *title, const char *name)
+emu_get_save_filesel (GtkWidget *parent, const char *title, const char *name, GtkFileChooserAction action)
 {
 	GtkWidget *filesel;
 	const char *dir;
@@ -310,7 +310,7 @@ emu_get_save_filesel (GtkWidget *parent, const char *title, const char *name)
 #ifdef USE_GTKFILECHOOSER
 	filesel = gtk_file_chooser_dialog_new (title,
 					       NULL,
-					       GTK_FILE_CHOOSER_ACTION_SAVE,
+					       action,
 					       GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 					       GTK_STOCK_SAVE, GTK_RESPONSE_OK,
 					       NULL);
@@ -439,11 +439,74 @@ em_utils_save_part(GtkWidget *parent, const char *prompt, CamelMimePart *part)
 		}
 	}
 
-	filesel = emu_get_save_filesel(parent, prompt, name);
+	filesel = emu_get_save_filesel(parent, prompt, name, GTK_FILE_CHOOSER_ACTION_SAVE);
 	camel_object_ref(part);
 	g_signal_connect (filesel, "response", G_CALLBACK (emu_save_part_response), part);
 	gtk_widget_show (filesel);
 }
+
+static void
+emu_save_parts_response (GtkWidget *filesel, int response, GSList *parts)
+{
+        char *path = NULL;
+        GSList *selected;
+        if (response == GTK_RESPONSE_OK) {
+#ifdef USE_GTKFILECHOOSER
+                path = gtk_file_chooser_get_current_folder (GTK_FILE_CHOOSER (filesel));
+#else
+                path = gtk_file_selection_get_filename (GTK_FILE_SELECTION (filesel));
+#endif
+
+                emu_update_save_path(path);
+
+                for ( selected = parts; selected != NULL; selected = selected->next) {
+                        const char *file_name;
+			char *safe_name = NULL;
+                        char *file_path;
+                        CamelMimePart *part = selected->data;
+
+                        file_name = camel_mime_part_get_filename(part);
+                        if (file_name == NULL) {
+                                if (CAMEL_IS_MIME_MESSAGE(part)) {
+                                        file_name = camel_mime_message_get_subject((CamelMimeMessage *)part);
+                                        if (file_name == NULL)
+                                                file_name = _("message");
+                                } else {
+                                	file_name = _("attachment");
+                                }
+                        } else {
+				safe_name = g_strdup(file_name);
+				e_filename_make_safe(safe_name);
+				file_name = safe_name;
+			}
+			
+			file_path = g_build_filename (path, file_name, NULL);
+			if (!g_file_test(file_path, (G_FILE_TEST_EXISTS)))
+				mail_save_part(part, file_path, NULL, NULL);
+			else
+				g_warning ("Could not save %s. File already exists", file_path);
+
+			g_free (file_path);
+			g_free (safe_name);
+                }
+
+		g_free (path);
+        }
+	
+	g_slist_free (parts);
+	gtk_widget_destroy((GtkWidget *)filesel);
+}
+
+void
+em_utils_save_parts (GtkWidget *parent, const char *prompt, GSList * parts)
+{
+        GtkWidget *filesel;
+
+        filesel = emu_get_save_filesel (parent, prompt, NULL, GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER);
+        g_signal_connect (filesel, "response", G_CALLBACK (emu_save_parts_response), parts);
+        gtk_widget_show (filesel);
+}
+
 
 /**
  * em_utils_save_part_to_file:
@@ -542,7 +605,7 @@ em_utils_save_messages (GtkWidget *parent, CamelFolder *folder, GPtrArray *uids)
 	g_return_if_fail (CAMEL_IS_FOLDER (folder));
 	g_return_if_fail (uids != NULL);
 
-	filesel = emu_get_save_filesel(parent, _("Save Message..."), NULL);
+	filesel = emu_get_save_filesel(parent, _("Save Message..."), NULL, GTK_FILE_CHOOSER_ACTION_SAVE);
 	camel_object_ref(folder);
 	
 	data = g_malloc(sizeof(struct _save_messages_data));

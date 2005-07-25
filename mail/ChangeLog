@@ -1,3 +1,20 @@
+2005-07-25  Srinivasa Ragavan <sragavan@novell.com>
+
+	* em-format-html-display.c: (efhd_init) (efhd_finalise) ()
+	(efhd_attachment_image) (efhd_attachment_button) (efhd_format_attachment)
+	Added code to create a attachment bar.
+	
+	* em-format-html.c: (efh_format_message) Added code to add bar
+	at the beginning of the message.
+	
+	* em-popup.[ch]: (em_popup_target_new_attachments) (emp_part_popup_set_background) 
+	(emp_standard_menu_factory) Added code to handle the popup menu inside the attachment
+	bar.
+	
+	* em-utils.[ch]: (em_utils_edit_filters) (emu_get_save_filesel) 
+	(em_utils_save_part) (em_utils_save_messages) Added code to handle save selected and
+	save all options of the attachment bar.
+	
 2005-07-21  Not Zed  <NotZed@Ximian.com>
 
 	* em-folder-browser.c: reverted dobey's busted view->hide* menu
