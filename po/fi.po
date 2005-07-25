@@ -211,7 +211,7 @@ msgstr "Hyppäyspainike"
 
 #: ../a11y/calendar/ea-jump-button.c:158
 msgid "Click here, you can find more events."
-msgstr "näpäytä tästä, voit löytää lisää tapahtumia."
+msgstr "napsauta tästä, voit löytää lisää tapahtumia."
 
 #: ../a11y/calendar/ea-week-view.c:155
 #, c-format
@@ -285,7 +285,7 @@ msgstr "lisää näpäyttämällä"
 
 #: ../a11y/e-table/gal-a11y-e-table-click-to-add.c:53
 msgid "click"
-msgstr "näpäytä"
+msgstr "napsauta"
 
 #: ../a11y/e-table/gal-a11y-e-table-column-header.c:135
 msgid "sort"
@@ -6506,7 +6506,7 @@ msgstr "%s tuntemattomalle liipasintyypille"
 #: ../calendar/gui/e-cal-component-preview.c:70 ../mail/em-folder-view.c:2705
 #, c-format
 msgid "Click to open %s"
-msgstr "Näpäytä avataksesi %s"
+msgstr "Napsauta avataksesi %s"
 
 #: ../calendar/gui/e-cal-component-preview.c:155 ../filter/filter-rule.c:796
 msgid "Untitled"
@@ -10260,7 +10260,7 @@ msgstr[1] "%d vuotta sitten"
 
 #: ../filter/filter-datespec.c:280
 msgid "<click here to select a date>"
-msgstr "<näpäytä valitaksesi päiväys>"
+msgstr "<napsauta valitaksesi päiväys>"
 
 #: ../filter/filter-datespec.c:283 ../filter/filter-datespec.c:294
 msgid "now"
@@ -11236,7 +11236,7 @@ msgstr "_Osoitteeseen:"
 #: ../mail/em-folder-view.c:2700
 #, c-format
 msgid "Click to mail %s"
-msgstr "Näpäytä lähettääksesi %s"
+msgstr "Napsauta lähettääksesi %s"
 
 #. message-search popup match count string
 #: ../mail/em-format-html-display.c:416
@@ -12968,7 +12968,7 @@ msgid ""
 msgstr ""
 "Tervetuloa Evolutionin sähköpostitilinn määrittelyn apulaiseen.\n"
 "\n"
-"Näpäytä \"Eteenpäin\" aloittaaksesi."
+"Valitse \"Eteenpäin\" aloittaaksesi."
 
 #: ../mail/mail-config.glade.h:154
 msgid "_Add Signature"
@@ -19404,7 +19404,7 @@ msgstr "%s (%d%% valmiina)"
 
 #: ../widgets/misc/e-url-entry.c:107
 msgid "click here to go to url"
-msgstr "näpäytä tästä siirtyäksesi URLiin"
+msgstr "napsauta tästä siirtyäksesi URLiin"
 
 #: ../widgets/misc/gal-categories.glade.h:2
 msgid "Edit Master Category List..."
