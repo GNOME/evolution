@@ -526,15 +526,15 @@ static void
 file_as_entry_changed (GtkWidget *widget, EContactEditor *editor)
 {
 	char *string = gtk_editable_get_chars (GTK_EDITABLE (widget), 0, -1);
-	gchar *title = _("Contact Editor");
 
 	if (string && *string) {
-		title = g_strconcat (title, " - ", string, NULL);
+		gchar *title;
+		title = g_strdup_printf (_("Contact Editor - %s"), string);
 		gtk_window_set_title (GTK_WINDOW (editor->app), title);
 		g_free (title);
 	}
 	else {
-		gtk_window_set_title (GTK_WINDOW (editor->app), title);
+		gtk_window_set_title (GTK_WINDOW (editor->app), _("Contact Editor"));
 	}
 
 	g_free (string);
@@ -2253,7 +2253,6 @@ static void
 fill_in_simple (EContactEditor *editor)
 {
 	EContactName *name;
-	gchar *title = _("Contact Editor");
 	gchar *filename;
 	gint          i;
 
@@ -2289,13 +2288,13 @@ fill_in_simple (EContactEditor *editor)
 	filename = (gchar *) e_contact_get (editor->contact, E_CONTACT_FILE_AS);
 
 	if (filename) {
-		title = g_strconcat (title, " - ", filename, NULL);
+		gchar *title;
+		title = g_strdup_printf (_("Contact Editor - %s"), filename);
 		gtk_window_set_title (GTK_WINDOW (editor->app), title);
 		g_free (title);
 	}
-	else {
-		gtk_window_set_title (GTK_WINDOW (editor->app), title);
-	}
+	else
+		gtk_window_set_title (GTK_WINDOW (editor->app), _("Contact Editor"));
 
 	/* Update file_as combo options */
 

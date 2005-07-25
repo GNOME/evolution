@@ -1,3 +1,9 @@
+2005-07-25  Arunprakash <arunp@novell.com>
+
+	* gui/contact-editor/e-contact-editor.c (file_as_entry_changed)
+	(fill_in_simple) : Modified the way of constructing the title
+	for the contact editor to facilitate proper translation.
+
 2005-07-22  Sushma Rai  <rsushma@novell.com>
 
 	* gui/component/GNOME_Evolution_Addressbook.server.in.in: Using 
