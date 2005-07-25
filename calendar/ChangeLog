@@ -1,3 +1,13 @@
+2005-07-25  Viren.l  <lviren@novel.com>
+
+	Fixes:248126
+	* gui/tasks-control.c (tasks_control_assign_cmd)
+	(tasks_control_forward_cmd): Added 2 Bonobo UI verbs for Assign Task and Forward as iCalendar
+        and the definitions to commands.
+        * gui/e-calendar-table.[ch] (e_calendar_table_open_task)
+        (e_calendar_table_get_selected_comp): renamed static functions open_task and get_selected_comp
+        and made them public.
+
 2005-07-23  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	* gui/e-cal-popup.[ch]: (needs_to_accept),

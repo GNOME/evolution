@@ -88,8 +88,6 @@ static gint e_calendar_table_on_key_press	(ETable		*table,
 static struct tm e_calendar_table_get_current_time (ECellDateEdit *ecde,
 						    gpointer data);
 static void mark_row_complete_cb (int model_row, gpointer data);
-static ECalModelComponent *get_selected_comp (ECalendarTable *cal_table);
-static void open_task (ECalendarTable *cal_table, ECalModelComponent *comp_data, gboolean assign);
 
 /* Signal IDs */
 enum {
@@ -594,7 +592,7 @@ e_calendar_table_open_selected (ECalendarTable *cal_table)
 	comp_data = get_selected_comp (cal_table);
 	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_ATTENDEE_PROPERTY);
 	if (comp_data != NULL)
-		open_task (cal_table, comp_data, prop ? TRUE : FALSE);
+		e_calendar_table_open_task (cal_table, comp_data, prop ? TRUE : FALSE);
 }
 
 /**
@@ -630,8 +628,8 @@ get_selected_row_cb (int model_row, gpointer data)
 /* Returns the component that is selected in the table; only works if there is
  * one and only one selected row.
  */
-static ECalModelComponent *
-get_selected_comp (ECalendarTable *cal_table)
+ECalModelComponent *
+e_calendar_table_get_selected_comp (ECalendarTable *cal_table)
 {
 	ETable *etable;
 	int row;
@@ -732,7 +730,7 @@ e_calendar_table_delete_selected (ECalendarTable *cal_table)
 		return;
 
 	if (n_selected == 1)
-		comp_data = get_selected_comp (cal_table);
+		comp_data = e_calendar_table_get_selected_comp (cal_table);
 	else
 		comp_data = NULL;
 
@@ -935,8 +933,8 @@ e_calendar_table_paste_clipboard (ECalendarTable *cal_table)
 }
 
 /* Opens a task in the task editor */
-static void
-open_task (ECalendarTable *cal_table, ECalModelComponent *comp_data, gboolean assign)
+void
+e_calendar_table_open_task (ECalendarTable *cal_table, ECalModelComponent *comp_data, gboolean assign)
 {
 	CompEditor *tedit;
 	const char *uid;
@@ -970,7 +968,7 @@ open_task_by_row (ECalendarTable *cal_table, int row)
 
 	comp_data = e_cal_model_get_component_at (cal_table->model, row);
 	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_ATTENDEE_PROPERTY);
-	open_task (cal_table, comp_data, prop ? TRUE : FALSE);
+	e_calendar_table_open_task (cal_table, comp_data, prop ? TRUE : FALSE);
 }
 
 static void
@@ -992,10 +990,10 @@ e_calendar_table_on_open_task (EPopup *ep, EPopupItem *pitem, void *data)
 	ECalModelComponent *comp_data;
 	icalproperty *prop;
 
-	comp_data = get_selected_comp (cal_table);
+	comp_data = e_calendar_table_get_selected_comp (cal_table);
 	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_ATTENDEE_PROPERTY);
 	if (comp_data)
-		open_task (cal_table, comp_data, prop ? TRUE : FALSE);
+		e_calendar_table_open_task (cal_table, comp_data, prop ? TRUE : FALSE);
 }
 
 static void
@@ -1007,7 +1005,7 @@ e_calendar_table_on_save_as (EPopup *ep, EPopupItem *pitem, void *data)
 	char *ical_string;
 	FILE *file;
 
-	comp_data = get_selected_comp (cal_table);
+	comp_data = e_calendar_table_get_selected_comp (cal_table);
 	if (comp_data == NULL)
 		return;
 	
@@ -1039,7 +1037,7 @@ e_calendar_table_on_print_task (EPopup *ep, EPopupItem *pitem, void *data)
 	ECalModelComponent *comp_data;
 	ECalComponent *comp;
 
-	comp_data = get_selected_comp (cal_table);
+	comp_data = e_calendar_table_get_selected_comp (cal_table);
 	if (comp_data == NULL)
 		return;
 	
@@ -1080,9 +1078,9 @@ e_calendar_table_on_assign (EPopup *ep, EPopupItem *pitem, void *data)
 	ECalendarTable *cal_table = data;
 	ECalModelComponent *comp_data;
 
-	comp_data = get_selected_comp (cal_table);
+	comp_data = e_calendar_table_get_selected_comp (cal_table);
 	if (comp_data)
-		open_task (cal_table, comp_data, TRUE);
+		e_calendar_table_open_task (cal_table, comp_data, TRUE);
 }
 
 static void
@@ -1091,7 +1089,7 @@ e_calendar_table_on_forward (EPopup *ep, EPopupItem *pitem, void *data)
 	ECalendarTable *cal_table = data;
 	ECalModelComponent *comp_data;
 
-	comp_data = get_selected_comp (cal_table);
+	comp_data = e_calendar_table_get_selected_comp (cal_table);
 	if (comp_data) {
 		ECalComponent *comp;
 
@@ -1132,7 +1130,7 @@ open_url_cb (EPopup *ep, EPopupItem *pitem, void *data)
 	ECalModelComponent *comp_data;
 	icalproperty *prop;
 
-	comp_data = get_selected_comp (cal_table);
+	comp_data = e_calendar_table_get_selected_comp (cal_table);
 	if (!comp_data)
 		return;
 

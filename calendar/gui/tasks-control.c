@@ -54,6 +54,7 @@
 #include "tasks-control.h"
 #include "evolution-shell-component-utils.h"
 #include "e-util/e-menu.h"
+#include "itip-utils.h"
 
 #define FIXED_MARGIN                            .05
 
@@ -91,8 +92,15 @@ static void tasks_control_print_cmd		(BonoboUIComponent	*uic,
 static void tasks_control_print_preview_cmd	(BonoboUIComponent	*uic,
 						 gpointer		 data,
 						 const char		*path);
+static void tasks_control_assign_cmd           (BonoboUIComponent      *uic,
+                                                gpointer               data,
+                                                const char             *path);
 
+static void tasks_control_forward_cmd          (BonoboUIComponent      *uic,
+                                                gpointer               data,
+                                                const char             *path);
 
+	  
 BonoboControl *
 tasks_control_new (void)
 {
@@ -142,6 +150,10 @@ tasks_control_sensitize_commands (BonoboControl *control, ETasks *tasks, int n_s
 	gboolean read_only = TRUE;
 	ECal *ecal;
 	ECalModel *model;
+	ECalendarTable *cal_table;
+	ECalModelComponent *comp_data;
+	icalproperty *prop;
+	gboolean is_assigned = FALSE;
 
 	uic = bonobo_control_get_ui_component (control);
 	g_assert (uic != NULL);
@@ -149,10 +161,20 @@ tasks_control_sensitize_commands (BonoboControl *control, ETasks *tasks, int n_s
 	if (bonobo_ui_component_get_container (uic) == CORBA_OBJECT_NIL)
 		return;
 
-	model = e_calendar_table_get_model (e_tasks_get_calendar_table (tasks));
+	cal_table = e_tasks_get_calendar_table (tasks);
+	model = e_calendar_table_get_model (cal_table);
+
+	if (n_selected == 1) {
+		comp_data = e_calendar_table_get_selected_comp (cal_table);
+		prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_ATTENDEE_PROPERTY);
+		is_assigned = prop ? TRUE : FALSE;
+	}	
+	
 	ecal = e_cal_model_get_default_client (model);
-	if (ecal)
+
+	if (ecal) 
 		e_cal_is_read_only (ecal, &read_only, NULL);
+		
 
 	bonobo_ui_component_set_prop (uic, "/commands/TasksOpenTask", "sensitive",
 				      n_selected != 1 ? "0" : "1",
@@ -174,6 +196,12 @@ tasks_control_sensitize_commands (BonoboControl *control, ETasks *tasks, int n_s
 				      NULL);
 	bonobo_ui_component_set_prop (uic, "/commands/TasksPurge", "sensitive",
 				      read_only ? "0" : "1",
+				      NULL);
+	bonobo_ui_component_set_prop (uic, "/commands/TasksAssign", "sensitive",
+				      (is_assigned || read_only || n_selected != 1) ? "0" : "1",
+				      NULL);
+	bonobo_ui_component_set_prop (uic, "/commands/TasksForward", "sensitive",
+				      n_selected != 1 ? "0" : "1", 
 				      NULL);
 }
 
@@ -199,7 +227,9 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_VERB ("TasksPurge", tasks_control_purge_cmd),
 	BONOBO_UI_VERB ("TasksPrint", tasks_control_print_cmd),
 	BONOBO_UI_VERB ("TasksPrintPreview", tasks_control_print_preview_cmd),
-
+	BONOBO_UI_VERB ("TasksAssign", tasks_control_assign_cmd),
+        BONOBO_UI_VERB ("TasksForward", tasks_control_forward_cmd),
+     
 	BONOBO_UI_VERB_END
 };
 
@@ -436,3 +466,39 @@ tasks_control_print_preview_cmd (BonoboUIComponent *uic,
 	print_tasks (tasks, TRUE);
 }
 
+static void
+tasks_control_assign_cmd (BonoboUIComponent *uic,
+                         gpointer data,
+                         const char *path)
+{
+              ETasks *tasks;
+              ECalendarTable *cal_table;
+              ECalModelComponent *comp_data;
+
+              tasks = E_TASKS (data);
+              cal_table = e_tasks_get_calendar_table (tasks);
+              comp_data = e_calendar_table_get_selected_comp (cal_table);
+ 	       if (comp_data)
+              e_calendar_table_open_task (cal_table, comp_data, TRUE);
+}
+
+static void
+tasks_control_forward_cmd (BonoboUIComponent *uic,
+                         gpointer data,
+                          const char *path)
+{
+	        ETasks *tasks;
+               ECalendarTable *cal_table;
+               ECalModelComponent *comp_data;
+	
+               tasks = E_TASKS (data);
+               cal_table = e_tasks_get_calendar_table (tasks);
+               comp_data = e_calendar_table_get_selected_comp (cal_table);
+               if (comp_data) {
+                       ECalComponent *comp;
+                       comp = e_cal_component_new ();
+                       e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (comp_data->icalcomp));
+                       itip_send_comp (E_CAL_COMPONENT_METHOD_PUBLISH, comp, comp_data->client, NULL, NULL);
+                       g_object_unref (comp);
+	       }
+}	       

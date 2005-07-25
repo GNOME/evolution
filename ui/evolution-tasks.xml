@@ -13,6 +13,8 @@
     <cmd name="TasksMarkComplete" _tip="Mark selected tasks as complete" accel="*Control*k" sensitive="0"/>
 
     <cmd name="TasksPurge" _label="Purg_e" _tip="Delete completed tasks" accel="*Control*e"/>
+    <cmd name="TasksAssign" _label="_Assign Task" accel="*Control*a"/>
+    <cmd name="TasksForward" _label="_Forward as iCalendar" accel="*Control*f"/>
   </commands>
   
   <menu>
@@ -47,6 +49,8 @@
     <placeholder name="ActionsPlaceholder">
     <submenu name="Actions" _label="_Actions">
 	<menuitem name="TasksPurge" verb=""/>
+	<menuitem name="TasksAssign" verb=""/>
+	<menuitem name="TasksForward" verb=""/>
     </submenu>
     </placeholder>
 

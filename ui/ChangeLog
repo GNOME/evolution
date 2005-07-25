@@ -1,3 +1,8 @@
+2005-07-25  Viren.l <lviren@novell.com>
+
+	* evolution-tasks.xml: Added 2 submenus under action menu.
+	Fixes #248126
+
 2005-07-21 Devashish Sharma <sdevashish@novell.com>
 	* evolution-message-composer.xml: Added Shortcut for Save Draft
 	   -(Ctrl+Shift+S) and a toolbar button for the same.

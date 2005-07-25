@@ -104,6 +104,10 @@ void       e_calendar_table_set_activity_handler (ECalendarTable *cal_table,
 void       e_calendar_table_set_status_message (ECalendarTable *cal_table,
 						const gchar *message,
 						int percent);
+void 	   e_calendar_table_open_task (ECalendarTable *cal_table, 
+				       ECalModelComponent *comp_data, 
+				       gboolean assign);
+ECalModelComponent * e_calendar_table_get_selected_comp (ECalendarTable *cal_table);
 
 G_END_DECLS
 
