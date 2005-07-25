@@ -220,7 +220,7 @@ e_cal_popup_target_new_select(ECalPopup *eabp, struct _ECalModel *model, GPtrArr
 
 		comp = e_cal_component_new ();
 		e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (comp_data->icalcomp));
-		user_email = itip_get_comp_attendee (comp, client);
+		user_email = itip_get_comp_attendee (comp, comp_data->client);
 
 		mask &= ~E_CAL_POPUP_SELECT_ANY;
 		if (t->events->len == 1)

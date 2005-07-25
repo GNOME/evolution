@@ -1,3 +1,9 @@
+2005-07-25  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	* gui/e-cal-popup.c: 
+	(e_cal_popup_target_new_select): send the comp_data->client
+	to itip_get_comp_attendee.
+
 2005-07-25  Viren.l  <lviren@novel.com>
 
 	Fixes:248126
