@@ -102,17 +102,17 @@ supports Microsoft Exchange 2000 and 2003 only.</_secondary>
 
  <error id="account-quota-error" type="error">
   <_primary>You have exceeded your quota for storing mails on this server.</_primary>
-  <_secondary>You will not be able to either send or recieve mails now.</_secondary>
+  <_secondary>Your current usage is : {0}KB. You will not be able to either send or recieve mails now.</_secondary>
  </error>
 
  <error id="account-quota-send-error" type="warning">
   <_primary>You are nearing your quota available for storing mails on this server.</_primary>
-  <_secondary>You will not be able to send mails till you clear up some space by deleting some mails.</_secondary>
+  <_secondary>Your current usage is : {0}KB. You will not be able to send mails till you clear up some space by deleting some mails.</_secondary>
  </error>
 
  <error id="account-quota-warn" type="warning">
   <_primary>You are nearing your quota available for storing mails on this server.</_primary>
-  <_secondary>Try to clear up some space by deleting some mails.</_secondary>
+  <_secondary>Your current usage is : {0}KB. Try to clear up some space by deleting some mails.</_secondary>
  </error>
 
  <error id="connector-exchange-error" type="error">
@@ -137,6 +137,99 @@ an unknown error occurred. Check the URL,
 username, and password, and try again.</_secondary>
  </error>
 
-</error-list>
+ <error id="delegates-no-gcs-error" type="error">
+  <_primary>No Global Catalog server configured for this account.</_primary>
+  <_secondary>Unable to edit delegates.</_secondary>
+ </error>
 
+ <error id="acl-no-gcs-error" type="error">
+  <_primary>Unable to add user to access control list:</_primary>
+  <_secondary>No Global Catalog server configured for this account.</_secondary>
+ </error>
+
+ <error id="delegates-perm-read-error" type="error">
+  <_primary>Could not read folder permissions.</_primary>
+  <_secondary>Unable to edit delegates.</_secondary>
+ </error>
+
+ <error id="perm-read-error" type="error">
+  <_primary>Could not read folder permissions</_primary>
+ </error>
+
+ <error id="perm-deter-error" type="error">
+  <_primary>Unable to edit delegates.</_primary>
+  <_secondary>Could not determine folder permissions for delegates.</_secondary>
+ </error>
+
+ <error id="delegate-error" type="error">
+  <_primary>Could not make {0} a delegate</_primary>
+ </error>
+
+ <error id="delegate-own-error" type="error">
+  <_primary>You cannot make yourself your own delegate</_primary>
+ </error>
+
+ <error id="delegate-existing" type="info">
+  <_primary>{0} is already a delegate</_primary>
+ </error>
+
+ <error id="delegate-fail-error" type="error">
+  <_primary>Failed to update delegates:</_primary>
+  <_secondary>{0}</_secondary>
+ </error>
+
+ <error id="select-user" type="info">
+  <_primary>Please select a user.</_primary>
+ </error>
+
+ <error id="perm-update-error" type="error">
+  <_primary>Could not update folder permissions.</_primary>
+  <_secondary>{0}</_secondary>
+ </error>
+
+ <error id="no-user-error" type="error">
+  <_primary>No such user {0}</_primary>
+ </error>
+
+ <error id="acl-add-error" type="error">
+  <_primary>{0} cannot be added to an access control list</_primary>
+ </error>
+
+ <error id="perm-unknown-error" type="error">
+  <_primary>Unknown error looking up {0}</_primary>
+ </error>
+
+ <error id="perm-existing-error" type="error">
+  <_primary>{0} is already in the list</_primary>
+ </error>
+
+ <error id="folder-exists-error" type="error">
+  <_primary>Folder already exists</_primary>
+ </error>
+
+ <error id="folder-doesnt-exist-error" type="error">
+  <_primary>Folder does not exist</_primary>
+ </error>
+
+ <error id="folder-perm-error" type="error">
+  <_primary>Permission denied</_primary>
+ </error>
+
+ <error id="folder-unknown-type" type="error">
+  <_primary>Unknown type</_primary>
+ </error>
+
+ <error id="folder-offline-error" type="error">
+  <_primary>Folder offline</_primary>
+ </error>
+
+ <error id="folder-unsupported-error" type="error">
+  <_primary>Unsupported operation</_primary>
+ </error>
+
+ <error id="folder-generic-error" type="error">
+  <_primary>Generic error</_primary>
+ </error>
+
+</error-list>
 

@@ -49,8 +49,6 @@
 #include "exchange-delegates.h"
 #include "exchange-change-password.h"
 
-#define ERROR_DOMAIN	"org-gnome-exchange-operations"
-
 GtkWidget* org_gnome_exchange_settings(EPlugin *epl, EConfigHookItemFactoryData *data);
 GtkWidget *org_gnome_exchange_owa_url(EPlugin *epl, EConfigHookItemFactoryData *data);
 gboolean org_gnome_exchange_check_options(EPlugin *epl, EConfigHookPageCheckData *data);

@@ -33,6 +33,8 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus */
 
+#define ERROR_DOMAIN "org-gnome-exchange-operations"
+
 extern ExchangeConfigListener *exchange_global_config_listener;
 
 int e_plugin_lib_enable (EPluginLib *eplib, int enable);

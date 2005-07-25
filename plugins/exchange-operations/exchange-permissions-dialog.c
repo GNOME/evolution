@@ -35,8 +35,10 @@
 #include "e2k-utils.h"
 #include "e-folder-exchange.h"
 #include "exchange-account.h"
+#include "exchange-operations.h"
 
 #include <e-util/e-dialog-utils.h>
+#include <e-util/e-error.h>
 #include <glade/glade-xml.h>
 #include <gtk/gtkbox.h>
 #include <gtk/gtkcellrenderertext.h>
@@ -223,8 +225,7 @@ exchange_permissions_dialog_new (ExchangeAccount *account,
 				       &results, &nresults);
 	if (!E2K_HTTP_STATUS_IS_SUCCESSFUL (status) || nresults < 1) {
 	lose:
-		e_notice (parent, GTK_MESSAGE_ERROR,
-			  _("Could not read folder permissions"));
+		e_error_run (GTK_WINDOW (parent), ERROR_DOMAIN ":perm-read-error", NULL);
 		gtk_widget_destroy (GTK_WIDGET (dialog));
 		return;
 	}
@@ -265,8 +266,7 @@ dialog_response (ExchangePermissionsDialog *dialog, int response,
 
 	binsd = e2k_security_descriptor_to_binary (dialog->priv->sd);
 	if (!binsd) {
-		e_notice (dialog, GTK_MESSAGE_ERROR,
-			  _("Could not update folder permissions."));
+		e_error_run (GTK_WINDOW (dialog), ERROR_DOMAIN ":perm-update-error", "", NULL);
 		return;
 	}
 
@@ -294,10 +294,9 @@ dialog_response (ExchangePermissionsDialog *dialog, int response,
 	gtk_widget_set_sensitive (GTK_WIDGET (dialog), TRUE);
 
 	if (!E2K_HTTP_STATUS_IS_SUCCESSFUL (status)) {
-		e_notice (dialog, GTK_MESSAGE_ERROR,
-			  _("Could not update folder permissions. %s"),
-			  status == E2K_HTTP_UNAUTHORIZED ?
-			  _("(Permission denied.)") : "");
+		e_error_run (GTK_WINDOW (dialog), ERROR_DOMAIN ":perm-update-error",
+			     status == E2K_HTTP_UNAUTHORIZED ?
+			     _("(Permission denied.)") : "", NULL);
 		return;
 	}
 
@@ -398,9 +397,8 @@ add_clicked (GtkButton *button, gpointer user_data)
 	gc = exchange_account_get_global_catalog (dialog->priv->account);
 
 	if (!gc) {
-		e_notice (dialog, GTK_MESSAGE_ERROR,
-			  _("Unable to add user to access control list:\n"
-			    "No Global Catalog server is configured for this account."));
+		e_error_run (GTK_WINDOW (dialog), ERROR_DOMAIN ":acl-no-gcs-error", 
+			     NULL);
 		return;
 	}
 
@@ -424,17 +422,13 @@ add_clicked (GtkButton *button, gpointer user_data)
 	case E2K_GLOBAL_CATALOG_OK:
 		break;
 	case E2K_GLOBAL_CATALOG_NO_SUCH_USER:
-		e_notice (dialog, GTK_MESSAGE_ERROR,
-			  _("No such user %s"), email);
+		e_error_run (GTK_WINDOW (dialog), ERROR_DOMAIN ":no-user-error", email, NULL);
 		break;
 	case E2K_GLOBAL_CATALOG_NO_DATA:
-		e_notice (dialog, GTK_MESSAGE_ERROR,
-			  _("%s cannot be added to an access control list"),
-			  email);
+		e_error_run (GTK_WINDOW (dialog), ERROR_DOMAIN ":acl-add-error", email, NULL);
 		break;
 	default:
-		e_notice (dialog, GTK_MESSAGE_ERROR,
-			  _("Unknown error looking up %s"), email);
+		e_error_run (GTK_WINDOW (dialog), ERROR_DOMAIN ":perm-unknown-error", email, NULL);
 		break;
 	}
 	g_free (email);
@@ -450,9 +444,8 @@ add_clicked (GtkButton *button, gpointer user_data)
 				    -1);
 		bsid2 = e2k_sid_get_binary_sid (sid2);
 		if (e2k_sid_binary_sid_equal (bsid, bsid2)) {
-			e_notice (dialog, GTK_MESSAGE_ERROR,
-				  _("%s is already in the list"),
-				  entry->display_name);
+			e_error_run (GTK_WINDOW (dialog), ERROR_DOMAIN ":perm-existing-error", 
+				     entry->display_name, NULL);
 			e2k_global_catalog_entry_free (gc, entry);
 			gtk_tree_selection_select_iter (dialog->priv->list_selection, &iter);
 			return;

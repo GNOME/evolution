@@ -25,6 +25,7 @@
 
 #include <glade/glade-xml.h>
 #include <gtk/gtk.h>
+#include <e-util/e-error.h>
 #include <exchange/e-folder.h>
 #include <exchange-account.h>
 #include <exchange-hierarchy.h>
@@ -36,7 +37,7 @@
 #include <libedataserverui/e-name-selector.h>
 #include "exchange-config-listener.h"
 #include "exchange-folder-subscription.h"
-
+#include "exchange-operations.h"
 
 static void
 user_response (ENameSelectorDialog *name_selector_dialog, gint response, gpointer data)
@@ -211,7 +212,7 @@ create_folder_subscription_dialog (gchar *mail_account, gchar **user_email_addre
 
 		/* It would be nice to insensitivize the OK button appropriately                   instead of doing this, but unfortunately we can't do this for the
 		   Bonobo control.  */
-		e_notice (dialog, GTK_MESSAGE_ERROR, ("Please select a user."));
+		e_error_run (GTK_WINDOW (dialog), ERROR_DOMAIN ":select-user", NULL);
 
 
 	}

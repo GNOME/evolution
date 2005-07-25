@@ -1,3 +1,20 @@
+2005-07-25  Arunprakash <arunp@novell.com>
+
+	* exchange-delegates.c (get_folder_security) (add_button_clicked_cb)
+	(delegates_apply) : Changed the e_notice calls to e_error_run calls.
+	* exchange-folder-permission.c (create_folder_subscription_dialog) :
+	Same.
+	* exchange-calendar.c (e_exchange_calendar_commit) : Same.
+	* exchange-contacts.c (e_exchange_contacts_commit) : Same.
+	* exchange-folder-subscription.c (create_folder_subscription_dialog) :
+	 Same
+	* exchange-permissions-dialog.c (exchange_permissions_dialog_new)
+	(dialog_response) (add_clicked): Same.
+	* exchange-operations.c (exchange_operations_report_error) : Modified
+	to report the quota value to the user.
+	* org-gnome-exchange-operations.error.xml : Added few more
+	error descriptions needed for the above changes.
+
 2005-07-25  Shakti Sen <shprasad@novell.com>
 
 	* exchange-permissions-dialog.c (add_clicked): Creating the dialog

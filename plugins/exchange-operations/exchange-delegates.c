@@ -31,6 +31,7 @@
 #include "exchange-delegates.h"
 #include "exchange-delegates-user.h"
 #include "exchange-user-dialog.h"
+#include "exchange-operations.h"
 
 #include <exchange-account.h>
 #include <e2k-propnames.h>
@@ -40,6 +41,7 @@
 #include <e2k-utils.h>
 
 #include <e-util/e-dialog-utils.h>
+#include <e-util/e-error.h>
 #include <glade/glade-xml.h>
 #include <gtk/gtkbox.h>
 #include <gtk/gtkcellrenderertext.h>
@@ -218,8 +220,8 @@ get_folder_security (ExchangeDelegates *delegates)
 		return delegates->loaded_folders;
 
 	if (!exchange_account_get_global_catalog (delegates->account)) {
-		e_notice (delegates->table, GTK_MESSAGE_ERROR,
-			  _("No Global Catalog server configured for this account.\nUnable to edit delegates."));
+		e_error_run (GTK_WINDOW (delegates->table), ERROR_DOMAIN ":delegates-no-gcs-error", 
+			     NULL);
 		return FALSE;
 	}
 
@@ -257,15 +259,14 @@ get_folder_security (ExchangeDelegates *delegates)
 	status = e2k_result_iter_free (iter);
 
 	if (!E2K_HTTP_STATUS_IS_SUCCESSFUL (status)) {
-		e_notice (delegates->table, GTK_MESSAGE_ERROR,
-			  _("Could not read folder permissions.\nUnable to edit delegates."));
+		e_error_run (GTK_WINDOW (delegates->table), ERROR_DOMAIN ":delegates-perm-read-error", 
+			     NULL);
 		return FALSE;
 	}
 
 	if (!fill_in_sids (delegates)) {
 		delegates->loaded_folders = FALSE;
-		e_notice (delegates->table, GTK_MESSAGE_ERROR,
-			  _("Could not determine folder permissions for delegates.\nUnable to edit delegates."));
+		e_error_run (GTK_WINDOW (delegates->table), ERROR_DOMAIN ":perm-deter-error", NULL);
 		return FALSE;
 	}
 
@@ -432,8 +433,7 @@ add_button_clicked_cb (GtkWidget *widget, gpointer data)
 	user = exchange_delegates_user_new_from_gc (gc, email,
 						    delegates->creator_entryid);
 	if (!user) {
-		e_notice (parent_window, GTK_MESSAGE_ERROR,
-			  _("Could not make %s a delegate"), email);
+		e_error_run (GTK_WINDOW (parent_window), ERROR_DOMAIN ":delegate-error", email, NULL);
 		g_free (email);
 		return;
 	}
@@ -442,8 +442,7 @@ add_button_clicked_cb (GtkWidget *widget, gpointer data)
 	delegate_exchange_dn = e2k_entryid_to_dn (user->entryid);
 	if (delegate_exchange_dn && !g_ascii_strcasecmp (delegate_exchange_dn, delegates->account->legacy_exchange_dn)) {
 		g_object_unref (user);
-		e_notice (parent_window, GTK_MESSAGE_ERROR,
-			  _("You cannot make yourself your own delegate"));
+		e_error_run (GTK_WINDOW (parent_window), ERROR_DOMAIN ":delegate-own-error", NULL);
 		return;
 	}
 
@@ -451,9 +450,8 @@ add_button_clicked_cb (GtkWidget *widget, gpointer data)
 		match = delegates->users->pdata[u];
 		if (e2k_sid_binary_sid_equal (e2k_sid_get_binary_sid (user->sid),
 					      e2k_sid_get_binary_sid (match->sid))) {
-			e_notice (parent_window, GTK_MESSAGE_INFO,
-				  _("%s is already a delegate"),
-				  user->display_name);
+			e_error_run (GTK_WINDOW (parent_window), ERROR_DOMAIN ":delegate-existing", 
+				     user->display_name, NULL);
 			g_object_unref (user);
 			exchange_delegates_user_edit (match, parent_window);
 			return;
@@ -811,8 +809,7 @@ delegates_apply (ExchangeDelegates *delegates)
 
  done:
 	if (error) {
-		e_notice (delegates->table, GTK_MESSAGE_ERROR,
-			  _("Failed to update delegates:\n%s"), error);
+		e_error_run (GTK_WINDOW (delegates->table), ERROR_DOMAIN ":delegate-fail-error", error, NULL);
 		g_free (error);
 	}
 }

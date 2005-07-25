@@ -191,6 +191,7 @@ void
 exchange_operations_report_error (ExchangeAccount *account, ExchangeAccountResult result)
 {
 	gchar *error_string;
+	gchar *quota_value;
 
 	g_return_if_fail (account != NULL);
 
@@ -211,6 +212,13 @@ exchange_operations_report_error (ExchangeAccount *account, ExchangeAccountResul
 		case EXCHANGE_ACCOUNT_CONNECT_ERROR:
 		case EXCHANGE_ACCOUNT_UNKNOWN_ERROR:
 			e_error_run (NULL, error_string, account->exchange_server, NULL);
+			break;
+		case EXCHANGE_ACCOUNT_QUOTA_RECIEVE_ERROR:
+		case EXCHANGE_ACCOUNT_QUOTA_SEND_ERROR:
+		case EXCHANGE_ACCOUNT_QUOTA_WARN:
+			quota_value = g_strdup_printf ("%d", exchange_account_get_quota_limit (account));
+			e_error_run (NULL, error_string, quota_value, NULL);
+			g_free (quota_value);
 			break;
 		default:
 			e_error_run (NULL, error_string, NULL);

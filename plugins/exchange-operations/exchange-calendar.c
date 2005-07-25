@@ -331,30 +331,26 @@ e_exchange_calendar_commit (EPlugin *epl, EConfigTarget *target)
 	}
 
 	switch (result) {
-		/* TODO: Modify all these error messages using e_error */
-	case EXCHANGE_ACCOUNT_FOLDER_OK:
-		g_print ("Folder created\n");
-		break;
 	case EXCHANGE_ACCOUNT_FOLDER_ALREADY_EXISTS:
-		g_print ("Already exists\n");
+		e_error_run (NULL, ERROR_DOMAIN ":folder-exists-error", NULL);
 		break;
 	case EXCHANGE_ACCOUNT_FOLDER_DOES_NOT_EXIST:
-		g_print ("Doesn't exists\n");
+		e_error_run (NULL, ERROR_DOMAIN ":folder-doesnt-exist-error", NULL);
 		break;
 	case EXCHANGE_ACCOUNT_FOLDER_UNKNOWN_TYPE:
-		g_print ("Unknown type\n");
+		e_error_run (NULL, ERROR_DOMAIN ":folder-unknown-type", NULL);
 		break;
 	case EXCHANGE_ACCOUNT_FOLDER_PERMISSION_DENIED:
-		g_print ("Permission denied\n");
+		e_error_run (NULL, ERROR_DOMAIN ":folder-perm-error", NULL);
 		break;
 	case EXCHANGE_ACCOUNT_FOLDER_OFFLINE:
-		g_print ("Folder offline\n");
+		e_error_run (NULL, ERROR_DOMAIN ":folder-offline-error", NULL);
 		break;
 	case EXCHANGE_ACCOUNT_FOLDER_UNSUPPORTED_OPERATION:
-		g_print ("Unsupported operation\n");
+		e_error_run (NULL, ERROR_DOMAIN ":folder-unsupported-error", NULL);
 		break;
 	case EXCHANGE_ACCOUNT_FOLDER_GENERIC_ERROR:		
-		g_print ("Generic error\n");
+		e_error_run (NULL, ERROR_DOMAIN ":folder-generic-error", NULL);
 		break;
 	}
 	
