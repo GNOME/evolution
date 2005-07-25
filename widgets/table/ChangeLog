@@ -1,3 +1,8 @@
+2005-07-25  Srinivasa Ragavan <sragavan@novell.com>
+
+	* e-table-config.glade: Added code to use stock icons instead of
+	-> and <-
+
 2005-06-23  Kaushal Kumar  <kakumar@novell.com>
 
 	* Makefile.am: Set libetableincludedir to table to match 
