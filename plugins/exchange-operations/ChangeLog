@@ -1,3 +1,10 @@
+2005-07-25  Shakti Sen <shprasad@novell.com>
+
+	* exchange-permissions-dialog.c (add_clicked): Creating the dialog
+	and getting the user.
+
+	Fixes bug #311096.
+
 2005-07-20  Shakti Sen <shprasad@novell.com>
 
 	* Makefile.am: Included files org-gnome-exchange-ab-subscription.xml,

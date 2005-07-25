@@ -389,11 +389,14 @@ add_clicked (GtkButton *button, gpointer user_data)
 	E2kGlobalCatalogEntry *entry;
 	E2kSid *sid2;
 	GtkTreeIter iter;
+	GtkWidget *user_dialog;
 	const guint8 *bsid, *bsid2;
 	char *email = NULL;
 	gboolean valid;
+	gint result;
 
 	gc = exchange_account_get_global_catalog (dialog->priv->account);
+
 	if (!gc) {
 		e_notice (dialog, GTK_MESSAGE_ERROR,
 			  _("Unable to add user to access control list:\n"
@@ -401,7 +404,15 @@ add_clicked (GtkButton *button, gpointer user_data)
 		return;
 	}
 
-	//FIXME: to get the email
+	user_dialog = e2k_user_dialog_new (GTK_WIDGET (dialog), _("Add User:"), _("Add User"));
+	result = gtk_dialog_run (GTK_DIALOG (user_dialog));
+
+	if (result == GTK_RESPONSE_OK)
+		email = e2k_user_dialog_get_user (E2K_USER_DIALOG (user_dialog));
+	else
+		email = NULL;
+	gtk_widget_destroy (user_dialog);
+
 	if (email == NULL)
 		return;
 
