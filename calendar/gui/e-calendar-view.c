@@ -1531,11 +1531,11 @@ static EPopupItem ecv_child_items [] = {
 
 	{ E_POPUP_BAR, "40." },
 
-	{ E_POPUP_ITEM, "41.copyto", N_("Cop_y to Calendar..."), on_copy_to, NULL, NULL, 0, E_CAL_POPUP_SELECT_NOTEDITING },
-	{ E_POPUP_ITEM, "42.moveto", N_("Mo_ve to Calendar..."), on_move_to, NULL, NULL, 0, E_CAL_POPUP_SELECT_NOTEDITING | E_CAL_POPUP_SELECT_EDITABLE },
-	{ E_POPUP_ITEM, "43.delegate", N_("_Delegate Meeting..."), on_delegate, NULL, NULL, 0, E_CAL_POPUP_SELECT_NOTEDITING | E_CAL_POPUP_SELECT_EDITABLE | E_CAL_POPUP_SELECT_DELEGATABLE | E_CAL_POPUP_SELECT_MEETING},
-	{ E_POPUP_ITEM, "44.schedule", N_("_Schedule Meeting..."), on_meeting, NULL, NULL, 0, E_CAL_POPUP_SELECT_NOTEDITING | E_CAL_POPUP_SELECT_EDITABLE | E_CAL_POPUP_SELECT_NOTMEETING },
-	{ E_POPUP_ITEM, "45.forward", N_("_Forward as iCalendar..."), on_forward, NULL, "stock_mail-forward", 0, E_CAL_POPUP_SELECT_NOTEDITING },
+	{ E_POPUP_ITEM, "44.copyto", N_("Cop_y to Calendar..."), on_copy_to, NULL, NULL, 0, E_CAL_POPUP_SELECT_NOTEDITING },
+	{ E_POPUP_ITEM, "45.moveto", N_("Mo_ve to Calendar..."), on_move_to, NULL, NULL, 0, E_CAL_POPUP_SELECT_NOTEDITING | E_CAL_POPUP_SELECT_EDITABLE },
+	{ E_POPUP_ITEM, "46.delegate", N_("_Delegate Meeting..."), on_delegate, NULL, NULL, 0, E_CAL_POPUP_SELECT_NOTEDITING | E_CAL_POPUP_SELECT_EDITABLE | E_CAL_POPUP_SELECT_DELEGATABLE | E_CAL_POPUP_SELECT_MEETING},
+	{ E_POPUP_ITEM, "47.schedule", N_("_Schedule Meeting..."), on_meeting, NULL, NULL, 0, E_CAL_POPUP_SELECT_NOTEDITING | E_CAL_POPUP_SELECT_EDITABLE | E_CAL_POPUP_SELECT_NOTMEETING },
+	{ E_POPUP_ITEM, "48.forward", N_("_Forward as iCalendar..."), on_forward, NULL, "stock_mail-forward", 0, E_CAL_POPUP_SELECT_NOTEDITING },
 
 	{ E_POPUP_BAR, "50." },
 

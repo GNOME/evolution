@@ -1775,8 +1775,9 @@ set_text_as_bold (EDayViewEvent *event)
 		}	
 	}
 
-	/* The attendee has not yet accepted the meeting, display the summary as bolded */
-	if (at && (at->status == ICAL_PARTSTAT_NEEDSACTION)) {
+	/* The attendee has not yet accepted the meeting, display the summary as bolded .
+	   If the attendee is not present, it might have come through a mailing list*/
+	if (!at || (at->status == ICAL_PARTSTAT_NEEDSACTION)) {
 		gnome_canvas_item_set (event->canvas_item, "bold", TRUE, NULL);
 	}
 

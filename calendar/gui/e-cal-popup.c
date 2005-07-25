@@ -163,6 +163,28 @@ is_delegated (icalcomponent *icalcomp, char *user_email)
 	return FALSE;	
 }
 
+static gboolean
+needs_to_accept (icalcomponent *icalcomp, char *user_email) 
+{
+	icalproperty *prop;
+	icalparameter *param;
+	icalparameter_partstat status;
+	const char *delto = NULL;
+	
+	prop = get_attendee_prop (icalcomp, user_email);
+
+	/* It might be a mailing list */
+	if (!prop)	
+		return TRUE;
+	param = icalproperty_get_first_parameter (prop, ICAL_PARTSTAT_PARAMETER);
+	status = icalparameter_get_partstat (param);
+
+	if (status == ICAL_PARTSTAT_ACCEPTED || status == ICAL_PARTSTAT_TENTATIVE)
+		return FALSE;
+
+	return TRUE;
+}
+
 /**
  * e_cal_popup_target_new_select:
  * @eabp:
@@ -194,9 +216,11 @@ e_cal_popup_target_new_select(ECalPopup *eabp, struct _ECalModel *model, GPtrArr
 	} else {
 		ECalModelComponent *comp_data = (ECalModelComponent *)t->events->pdata[0];
 		ECalComponent *comp;
+		char *user_email = NULL;
 
 		comp = e_cal_component_new ();
 		e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (comp_data->icalcomp));
+		user_email = itip_get_comp_attendee (comp, client);
 
 		mask &= ~E_CAL_POPUP_SELECT_ANY;
 		if (t->events->len == 1)
@@ -235,16 +259,19 @@ e_cal_popup_target_new_select(ECalPopup *eabp, struct _ECalModel *model, GPtrArr
 		client = comp_data->client;
 
 		if (e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_DELEGATE_SUPPORTED)) {
-			char *user_email = itip_get_comp_attendee (comp, client);
 
 			if (e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_DELEGATE_TO_MANY))
 				mask &= ~E_CAL_POPUP_SELECT_DELEGATABLE;
 			else if (!user_org && !is_delegated (comp_data->icalcomp, user_email))
 				mask &= ~E_CAL_POPUP_SELECT_DELEGATABLE;
-		
-			g_object_unref (comp);
-
 		}
+
+		if (e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_HAS_UNACCEPTED_MEETING) &&
+				needs_to_accept (comp_data->icalcomp, user_email))
+			mask &= ~E_CAL_POPUP_SELECT_ACCEPTABLE;
+		
+		g_object_unref (comp);
+		g_free (user_email);
 	}
 
 	e_cal_is_read_only(client, &read_only, NULL);
@@ -380,6 +407,7 @@ static const EPopupHookTargetMask ecalph_select_masks[] = {
 	{ "assignable", E_CAL_POPUP_SELECT_ASSIGNABLE },
 	{ "hasurl", E_CAL_POPUP_SELECT_HASURL },
 	{ "delegate", E_CAL_POPUP_SELECT_DELEGATABLE }, 
+	{ "accept", E_CAL_POPUP_SELECT_ACCEPTABLE },
 	{ 0 }
 };
 

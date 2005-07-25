@@ -1,3 +1,16 @@
+2005-07-23  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	* gui/e-cal-popup.[ch]: (needs_to_accept),
+	(e_cal_popup_target_new_select): Added a mask 
+	to check if the meeting needs to be accepted.
+	* gui/e-calendar-view.c: Increased the index of the 
+	labels.
+	* gui/e-day-view.c: (set_text_as_bold):
+	* gui/e-week-view.c: (set_text_as_bold): Show as bold
+	even if the attendee property is not found, since it might
+	be a mailing list. The attendee will be added once he accepts 
+	meeting.
+
 2005-07-22  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #309991
