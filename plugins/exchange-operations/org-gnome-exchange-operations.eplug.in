@@ -158,7 +158,7 @@
 	</hook>
 	<hook class="org.gnome.evolution.calendar.bonobomenu:1.0">
 		<menu id="org.gnome.evolution.tasks.view" target="select">
-		<ui file="@PLUGINDIR@/org-gnome-exchange-task-subscription.xml"/>
+		<ui file="@PLUGINDIR@/org-gnome-exchange-tasks-subscription.xml"/>
 		<item
 			type="item"
 			verb="FolderSubscription"

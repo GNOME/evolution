@@ -1,3 +1,9 @@
+2005-07-25  Shakti Sen <shprasad@novell.com>
+
+	* org-gnome-exchange-operations.eplug.in: Fixed a small typo.
+	The file name is org-gnome-exchange-tasks-subscription.xml, not
+	org-gnome-exchange-task-subscription.xml.
+
 2005-07-25  Sarfraaz Ahmed <asarfraaz@novell.com>
 
 	* exchange-calendar.c (e_exchange_calendar_pcalendar) : Add the size
