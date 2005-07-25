@@ -1,3 +1,8 @@
+2005-07-21 Devashish Sharma <sdevashish@novell.com>
+	* evolution-message-composer.xml: Added Shortcut for Save Draft
+	   -(Ctrl+Shift+S) and a toolbar button for the same.
+	    Fixes #219242
+	    
 2005-07-21  Not Zed  <NotZed@Ximian.com>
 
 	* evolution.xml: removed the useless tools menu.

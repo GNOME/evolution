@@ -7,7 +7,11 @@
 	        <cmd name="FileSave" _label="Save"
 		_tip="Save the current file" pixtype="stock" pixname="gtk-save"
 		accel="*Ctrl*s"/>
-		
+
+		<cmd name="FileSaveDraft" _label="SaveDraft"
+		_tip="Save as draft" pixtype="pixbuf" 
+		accel="*Ctrl**Shift*s"/>
+
 	        <cmd name="FileSaveAs" _label="Save As"
 	        _tip="Save the current file with a different name"
 		pixtype="stock" pixname="gtk-save-as"/>
@@ -147,6 +151,7 @@
 	
 	<dockitem name="Toolbar" behavior="exclusive" look="system">
 		<toolitem name="FileSend" verb="" pixtype="pixbuf" priority="1"/>
+		<toolitem name="FileSaveDraft" verb="" pixtype="pixbuf" priority="1"/>
 		<toolitem name="FileAttach" verb="" pixtype="pixbuf" priority="1"/>	
 
 		<separator f="" name="emailcomposer"/>
