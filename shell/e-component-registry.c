@@ -201,14 +201,10 @@ query_components (EComponentRegistry *registry)
 		}
 
 		label = bonobo_server_info_prop_lookup (& info_list->_buffer[i], "evolution:button_label", language_list);
-		if (label == NULL)
-			label = g_strdup (_("Unknown"));
-
+		
 		tooltips = bonobo_server_info_prop_lookup (& info_list->_buffer[i], "evolution:button_tooltips", language_list);
 
 		menu_label = bonobo_server_info_prop_lookup (& info_list->_buffer[i], "evolution:menu_label", language_list);
-		if (menu_label == NULL)
-			menu_label = g_strdup (_("Unknown"));
 
 		menu_accelerator = bonobo_server_info_prop_lookup (& info_list->_buffer[i], "evolution:menu_accelerator", language_list);
 

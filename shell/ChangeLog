@@ -1,3 +1,10 @@
+2005-07-21  Sarfraaz Ahmed <asarfraaz@novell.com>
+
+	* e-component-registry.c (query_components): Dont enter default values 
+	for button label and menu label
+	* e-shell-window.c (setup_widgets): Dont add the sidebar button when 
+	there is no label.
+
 2005-07-22  Sankar P  <psankar@novell.com>
 
 	* shell.error.xml : Changed the strings to be more interactive 
