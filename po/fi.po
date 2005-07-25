@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-07-24 18:37+0300\n"
-"PO-Revision-Date: 2005-07-24 20:06+0300\n"
+"POT-Creation-Date: 2005-07-25 10:23+0300\n"
+"PO-Revision-Date: 2005-07-25 10:25+0300\n"
 "Last-Translator: Ilkka Tuohela <hile@iki.fi>\n"
 "Language-Team: Finnish <gnome-fi-laatu@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -476,6 +476,7 @@ msgstr ""
 #: ../addressbook/addressbook.error.xml.h:30 ../mail/em-vfolder-rule.c:494
 #: ../plugins/groupwise-features/junk-settings.glade.h:4
 #: ../plugins/groupwise-features/properties.glade.h:10
+#: ../widgets/table/e-table-config.glade.h:15
 msgid "_Add"
 msgstr "_Lisää"
 
@@ -484,6 +485,7 @@ msgid "_Discard"
 msgstr "Hylkää"
 
 #: ../addressbook/addressbook.error.xml.h:32
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:76
 msgid "{0}"
 msgstr "{0}"
 
@@ -1174,8 +1176,8 @@ msgstr "Yhteystieto"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:13
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:522
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:529
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2256
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:537
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2297
 msgid "Contact Editor"
 msgstr "Yhteystiedonhallinta"
 
@@ -2325,8 +2327,8 @@ msgid "Zimbabwe"
 msgstr "Zimbabwe"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-fullname.c:89
-#: ../plugins/exchange-operations/exchange-delegates.c:939
-#: ../plugins/exchange-operations/exchange-permissions-dialog.c:708
+#: ../plugins/exchange-operations/exchange-delegates.c:936
+#: ../plugins/exchange-operations/exchange-permissions-dialog.c:712
 #: ../plugins/plugin-manager/plugin-manager.c:44
 #: ../plugins/save-attachments/save-attachments.c:362
 #: ../widgets/menus/gal-view-new-dialog.c:73
@@ -2417,15 +2419,21 @@ msgstr "Vaaditut kentät"
 msgid "Changed"
 msgstr "Muutettu"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2599
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:532
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2292
+#, c-format
+msgid "Contact Editor - %s"
+msgstr "Yhteystiedon muokkain - %s"
+
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2598
 msgid "Please select an image for this contact"
 msgstr "Valitse kuva tälle yhteystiedolle"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2600
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2599
 msgid "No image"
 msgstr "Ei kuvaa"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2876
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2875
 msgid ""
 "The contact data is invalid:\n"
 "\n"
@@ -2433,7 +2441,7 @@ msgstr ""
 "Yhteystieto on virheellinen:\n"
 "\n"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2928
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2927
 msgid "Invalid contact."
 msgstr "Virheellinen yhteystieto."
 
@@ -2584,11 +2592,10 @@ msgstr "_Tilin nimi:"
 msgid "_IM Service:"
 msgstr "_Pikaviestipalvelu:"
 
-#. FIXME: Take care of i18n
 #: ../addressbook/gui/contact-editor/im.glade.h:5
 #: ../plugins/calendar-weather/calendar-weather.c:409
-#: ../plugins/exchange-operations/exchange-calendar.c:189
-#: ../plugins/exchange-operations/exchange-contacts.c:164
+#: ../plugins/exchange-operations/exchange-calendar.c:209
+#: ../plugins/exchange-operations/exchange-contacts.c:186
 msgid "_Location:"
 msgstr "_Sijainti:"
 
@@ -2996,7 +3003,7 @@ msgstr "Radio"
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:9
 #: ../calendar/gui/e-meeting-list-view.c:378
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:9
-#: ../plugins/exchange-operations/exchange-permissions-dialog.c:712
+#: ../plugins/exchange-operations/exchange-permissions-dialog.c:716
 msgid "Role"
 msgstr "Rooli"
 
@@ -3238,6 +3245,7 @@ msgstr "Omaa yhteystietoa ei ole määritelty"
 #. E_BOOK_ERROR_URI_ALREADY_LOADED
 #. E_BOOK_ERROR_PERMISSION_DENIED
 #: ../addressbook/gui/widgets/eab-gui-util.c:57
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:47
 msgid "Permission denied"
 msgstr "Lupa evätty"
 
@@ -3737,7 +3745,11 @@ msgstr "Osiot:"
 msgid "Shading"
 msgstr "Varjostus"
 
+#. FIXME: Take care of i18n
 #: ../addressbook/printing/e-contact-print.glade.h:36
+#: ../plugins/exchange-operations/exchange-account-setup.c:927
+#: ../plugins/exchange-operations/exchange-calendar.c:200
+#: ../plugins/exchange-operations/exchange-contacts.c:175
 msgid "Size:"
 msgstr "Koko:"
 
@@ -4075,7 +4087,7 @@ msgid "Save Changes"
 msgstr "Tallenna muutokset"
 
 #: ../calendar/calendar.error.xml.h:40
-#: ../ui/evolution-message-composer.xml.h:26
+#: ../ui/evolution-message-composer.xml.h:28
 msgid "Send"
 msgstr "Lähetä"
 
@@ -4178,7 +4190,7 @@ msgstr ""
 "uudestaan."
 
 #: ../calendar/calendar.error.xml.h:64
-#: ../ui/evolution-message-composer.xml.h:49
+#: ../ui/evolution-message-composer.xml.h:51
 #: ../ui/evolution-signature-editor.xml.h:15
 msgid "_Save"
 msgstr "_Tallenna"
@@ -4327,7 +4339,7 @@ msgstr "Torkkumisaika:"
 #: ../ui/evolution-addressbook.xml.h:34 ../ui/evolution-calendar.xml.h:41
 #: ../ui/evolution-composer-entries.xml.h:8
 #: ../ui/evolution-mail-messagedisplay.xml.h:5
-#: ../ui/evolution-message-composer.xml.h:42
+#: ../ui/evolution-message-composer.xml.h:44
 #: ../ui/evolution-signature-editor.xml.h:12
 #: ../ui/evolution-subscribe.xml.h:10 ../ui/evolution-tasks.xml.h:22
 #: ../ui/evolution.xml.h:32
@@ -5069,7 +5081,7 @@ msgstr "%.0fG"
 #: ../calendar/gui/dialogs/cal-attachment-bar.c:1106
 #: ../calendar/gui/dialogs/comp-editor.c:2426
 #: ../composer/e-msg-composer-attachment-bar.c:307 ../mail/em-utils.c:438
-#: ../widgets/misc/e-attachment-bar.c:336
+#: ../mail/em-utils.c:475 ../widgets/misc/e-attachment-bar.c:336
 msgid "attachment"
 msgstr "liite"
 
@@ -5077,16 +5089,17 @@ msgstr "liite"
 #: ../calendar/gui/dialogs/comp-editor.c:1059
 #: ../calendar/gui/dialogs/meeting-page.c:889
 #: ../composer/e-msg-composer-attachment-bar.c:470
-#: ../composer/e-msg-composer.c:3397
+#: ../composer/e-msg-composer.c:3398
 #: ../plugins/groupwise-features/junk-settings.glade.h:8
 #: ../plugins/groupwise-features/properties.glade.h:14
+#: ../widgets/table/e-table-config.glade.h:18
 msgid "_Remove"
 msgstr "_Poista"
 
 #: ../calendar/gui/dialogs/cal-attachment-bar.c:474
 #: ../calendar/gui/dialogs/comp-editor.c:1060
 #: ../composer/e-msg-composer-attachment-bar.c:471
-#: ../composer/e-msg-composer.c:3398 ../mail/em-folder-tree.c:2120
+#: ../composer/e-msg-composer.c:3399 ../mail/em-folder-tree.c:2120
 #: ../ui/evolution-mail-list.xml.h:28
 msgid "_Properties"
 msgstr "_Ominaisuudet..."
@@ -5094,13 +5107,13 @@ msgstr "_Ominaisuudet..."
 #: ../calendar/gui/dialogs/cal-attachment-bar.c:476
 #: ../calendar/gui/dialogs/comp-editor.c:1062
 #: ../composer/e-msg-composer-attachment-bar.c:473
-#: ../composer/e-msg-composer.c:3400
+#: ../composer/e-msg-composer.c:3401
 msgid "_Add attachment..."
 msgstr "_Lisää liite..."
 
 #: ../calendar/gui/dialogs/cal-attachment-bar.c:736
 #: ../composer/e-msg-composer-attachment-bar.c:740
-#: ../widgets/misc/e-attachment-bar.c:878
+#: ../widgets/misc/e-attachment-bar.c:896
 msgid "Attachment Bar"
 msgstr "Liitepalkki"
 
@@ -5590,15 +5603,15 @@ msgstr "(erääntyy "
 msgid "Due "
 msgstr "Erääntyy "
 
-#: ../calendar/gui/dialogs/comp-editor.c:187 ../composer/e-msg-composer.c:2662
+#: ../calendar/gui/dialogs/comp-editor.c:187 ../composer/e-msg-composer.c:2663
 #, c-format
 msgid "Attached message - %s"
 msgstr "Liitetty viesti - %s"
 
 #. translators, this count will always be >1
 #: ../calendar/gui/dialogs/comp-editor.c:192
-#: ../calendar/gui/dialogs/comp-editor.c:362 ../composer/e-msg-composer.c:2667
-#: ../composer/e-msg-composer.c:2844
+#: ../calendar/gui/dialogs/comp-editor.c:362 ../composer/e-msg-composer.c:2668
+#: ../composer/e-msg-composer.c:2845
 #, c-format
 msgid "Attached message"
 msgid_plural "%d attached messages"
@@ -5607,7 +5620,7 @@ msgstr[1] "%d liitettyä viestiä"
 
 #: ../calendar/gui/dialogs/comp-editor.c:425
 #: ../calendar/gui/e-calendar-table.c:1164
-#: ../calendar/gui/e-calendar-view.c:1529 ../composer/e-msg-composer.c:2908
+#: ../calendar/gui/e-calendar-view.c:1529 ../composer/e-msg-composer.c:2909
 #: ../mail/em-folder-tree.c:1047 ../mail/em-folder-view.c:1034
 #: ../mail/message-list.c:1708 ../ui/evolution-addressbook.xml.h:31
 #: ../ui/evolution-calendar.xml.h:39 ../ui/evolution-composer-entries.xml.h:7
@@ -5615,13 +5628,13 @@ msgstr[1] "%d liitettyä viestiä"
 msgid "_Copy"
 msgstr "_Kopioi"
 
-#: ../calendar/gui/dialogs/comp-editor.c:426 ../composer/e-msg-composer.c:2909
+#: ../calendar/gui/dialogs/comp-editor.c:426 ../composer/e-msg-composer.c:2910
 #: ../mail/em-folder-tree.c:1048 ../mail/em-folder-utils.c:380
 #: ../mail/em-folder-view.c:930 ../mail/message-list.c:1709
 msgid "_Move"
 msgstr "_Siirrä"
 
-#: ../calendar/gui/dialogs/comp-editor.c:428 ../composer/e-msg-composer.c:2911
+#: ../calendar/gui/dialogs/comp-editor.c:428 ../composer/e-msg-composer.c:2912
 #: ../mail/em-folder-tree.c:1050 ../mail/message-list.c:1711
 msgid "Cancel _Drag"
 msgstr "Peruuta _raahaus"
@@ -5630,7 +5643,7 @@ msgstr "Peruuta _raahaus"
 msgid "Could not update object"
 msgstr "Kohdetta ei voitu päivittää"
 
-#: ../calendar/gui/dialogs/comp-editor.c:956 ../composer/e-msg-composer.c:2316
+#: ../calendar/gui/dialogs/comp-editor.c:956 ../composer/e-msg-composer.c:2317
 #, c-format
 msgid "<b>%d</b> Attachment"
 msgid_plural "<b>%d</b> Attachments"
@@ -5758,7 +5771,7 @@ msgid "Contacts..."
 msgstr "Yhteystiedot..."
 
 #: ../calendar/gui/dialogs/e-delegate-dialog.glade.h:2
-#: ../plugins/exchange-operations/exchange-delegates.c:420
+#: ../plugins/exchange-operations/exchange-delegates.c:421
 msgid "Delegate To:"
 msgstr "Valtuuta:"
 
@@ -5974,7 +5987,7 @@ msgstr "<b>Lähde:</b>"
 #: ../calendar/gui/dialogs/meeting-page.c:313
 #: ../calendar/gui/dialogs/meeting-page.glade.h:4
 #: ../calendar/gui/e-cal-model-tasks.c:652
-#: ../calendar/gui/e-itip-control.c:1104 ../composer/e-msg-composer.c:2120
+#: ../calendar/gui/e-itip-control.c:1104 ../composer/e-msg-composer.c:2121
 #: ../filter/filter-rule.c:881 ../mail/em-account-editor.c:683
 #: ../mail/em-account-editor.c:1346 ../mail/em-account-prefs.c:464
 #: ../mail/em-folder-view.c:1063 ../mail/em-junk-hook.c:78
@@ -6531,7 +6544,7 @@ msgstr "Eräpäivä:"
 #. Status
 #: ../calendar/gui/e-cal-component-preview.c:222
 #: ../calendar/gui/e-itip-control.c:1132
-#: ../plugins/exchange-operations/exchange-account-setup.c:268
+#: ../plugins/exchange-operations/exchange-account-setup.c:269
 #: ../plugins/itip-formatter/itip-view.c:907
 msgid "Status:"
 msgstr "Tila:"
@@ -6600,12 +6613,12 @@ msgstr "Ei"
 #: ../calendar/gui/e-meeting-list-view.c:168
 #: ../calendar/gui/e-meeting-list-view.c:182
 #: ../calendar/gui/e-meeting-store.c:124 ../calendar/gui/e-meeting-store.c:159
-#: ../calendar/gui/e-meeting-store.c:224 ../mail/em-utils.c:1175
+#: ../calendar/gui/e-meeting-store.c:224 ../mail/em-utils.c:1238
 #: ../plugins/itip-formatter/itip-formatter.c:238
 #: ../plugins/itip-formatter/itip-formatter.c:1626
 #: ../plugins/plugin-manager/plugin-manager.c:72
 #: ../shell/e-component-registry.c:205 ../shell/e-component-registry.c:211
-#: ../widgets/misc/e-attachment-bar.c:623
+#: ../widgets/misc/e-attachment-bar.c:641
 #: ../widgets/misc/e-charset-picker.c:62
 msgid "Unknown"
 msgstr "Tuntematon"
@@ -6687,7 +6700,7 @@ msgstr "_Avaa www-sivu"
 
 #: ../calendar/gui/e-calendar-table.c:1158
 #: ../calendar/gui/e-calendar-view.c:1523 ../mail/em-folder-view.c:1044
-#: ../mail/em-popup.c:494
+#: ../mail/em-popup.c:541 ../mail/em-popup.c:552
 msgid "_Save As..."
 msgstr "Tallenna _nimellä..."
 
@@ -7362,7 +7375,7 @@ msgstr "Henkilö"
 #: ../calendar/gui/e-meeting-list-view.c:165
 #: ../calendar/gui/e-meeting-store.c:101 ../calendar/gui/e-meeting-store.c:118
 #: ../widgets/table/e-table-config-no-group.glade.h:7
-#: ../widgets/table/e-table-config.glade.h:7
+#: ../widgets/table/e-table-config.glade.h:6
 msgid "Group"
 msgstr "Ryhmä"
 
@@ -9757,25 +9770,25 @@ msgstr "Nimeämätön viesti"
 msgid "Open File"
 msgstr "Avaa tiedosto"
 
-#: ../composer/e-msg-composer.c:2004 ../mail/em-account-editor.c:588
+#: ../composer/e-msg-composer.c:2005 ../mail/em-account-editor.c:588
 #: ../mail/em-account-editor.c:633 ../mail/em-account-editor.c:698
 msgid "Autogenerated"
 msgstr "Automaattisesti luotu"
 
-#: ../composer/e-msg-composer.c:2103
+#: ../composer/e-msg-composer.c:2104
 msgid "Si_gnature:"
 msgstr "_Allekirjoitus:"
 
-#: ../composer/e-msg-composer.c:2345 ../composer/e-msg-composer.c:3524
-#: ../composer/e-msg-composer.c:3525
+#: ../composer/e-msg-composer.c:2346 ../composer/e-msg-composer.c:3525
+#: ../composer/e-msg-composer.c:3526
 msgid "Compose a message"
 msgstr "Kirjoita viesti"
 
-#: ../composer/e-msg-composer.c:3640
+#: ../composer/e-msg-composer.c:3641
 msgid "_Attachment Bar"
 msgstr "Liitep_alkki"
 
-#: ../composer/e-msg-composer.c:4715
+#: ../composer/e-msg-composer.c:4716
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)"
 "<b>"
@@ -10581,7 +10594,7 @@ msgstr "Oletusasetukset"
 
 #. Security settings
 #: ../mail/em-account-editor.c:2213 ../mail/mail-config.glade.h:122
-#: ../plugins/exchange-operations/exchange-account-setup.c:316
+#: ../plugins/exchange-operations/exchange-account-setup.c:317
 msgid "Security"
 msgstr "Turvallisuus"
 
@@ -11029,7 +11042,7 @@ msgstr "Etsitään kansioita kohteessa \"%s\""
 #: ../mail/em-folder-tree.c:2104 ../ui/evolution-addressbook.xml.h:44
 #: ../ui/evolution-mail-global.xml.h:23
 #: ../ui/evolution-mail-messagedisplay.xml.h:8
-#: ../ui/evolution-message-composer.xml.h:52 ../ui/evolution.xml.h:45
+#: ../ui/evolution-message-composer.xml.h:54 ../ui/evolution.xml.h:45
 msgid "_View"
 msgstr "_Näytä"
 
@@ -11101,7 +11114,7 @@ msgstr "Luo uusi kansio"
 msgid "Specify where to create the folder:"
 msgstr "Määrittele mihin kansio luodaan:"
 
-#: ../mail/em-folder-view.c:1038 ../mail/em-popup.c:499
+#: ../mail/em-folder-view.c:1038 ../mail/em-popup.c:546 ../mail/em-popup.c:557
 msgid "Reply to _All"
 msgstr "Vastaa k_aikille"
 
@@ -11109,7 +11122,7 @@ msgstr "Vastaa k_aikille"
 msgid "_Reply to Sender"
 msgstr "_Vastaa lähettäjälle"
 
-#: ../mail/em-folder-view.c:1040 ../mail/em-popup.c:501
+#: ../mail/em-folder-view.c:1040 ../mail/em-popup.c:548 ../mail/em-popup.c:559
 #: ../ui/evolution-mail-message.xml.h:105
 msgid "_Forward"
 msgstr "_Välitä"
@@ -11239,16 +11252,16 @@ msgid "Click to mail %s"
 msgstr "Napsauta lähettääksesi %s"
 
 #. message-search popup match count string
-#: ../mail/em-format-html-display.c:416
+#: ../mail/em-format-html-display.c:444
 #, c-format
 msgid "Matches: %d"
 msgstr "Osumia: %d"
 
-#: ../mail/em-format-html-display.c:663 ../mail/em-format-html.c:596
+#: ../mail/em-format-html-display.c:691 ../mail/em-format-html.c:596
 msgid "Unsigned"
 msgstr "Allekirjoittamaton"
 
-#: ../mail/em-format-html-display.c:663
+#: ../mail/em-format-html-display.c:691
 msgid ""
 "This message is not signed. There is no guarantee that this message is "
 "authentic."
@@ -11256,11 +11269,11 @@ msgstr ""
 "Viesti ei ole allekirjoitettu. Ei ole varmaa, että viestin lähettäjä on "
 "varmasti se, jolta viesti näyttää olevan."
 
-#: ../mail/em-format-html-display.c:664 ../mail/em-format-html.c:597
+#: ../mail/em-format-html-display.c:692 ../mail/em-format-html.c:597
 msgid "Valid signature"
 msgstr "Hyväksytty allekirjoitus"
 
-#: ../mail/em-format-html-display.c:664
+#: ../mail/em-format-html-display.c:692
 msgid ""
 "This message is signed and is valid meaning that it is very likely that this "
 "message is authentic."
@@ -11268,11 +11281,11 @@ msgstr ""
 "Tämä viesti on allekirjoitettu ja varmennettu. Viesti on "
 "hyvintodennäköisesti aito."
 
-#: ../mail/em-format-html-display.c:665 ../mail/em-format-html.c:598
+#: ../mail/em-format-html-display.c:693 ../mail/em-format-html.c:598
 msgid "Invalid signature"
 msgstr "Hylätty allekirjoitus"
 
-#: ../mail/em-format-html-display.c:665
+#: ../mail/em-format-html-display.c:693
 msgid ""
 "The signature of this message cannot be verified, it may have been altered "
 "in transit."
@@ -11280,11 +11293,11 @@ msgstr ""
 "Tämän viestin allekirjoitusta ei voida tarkistaa, se on ehkä muuttunut "
 "siirron aikana."
 
-#: ../mail/em-format-html-display.c:666
+#: ../mail/em-format-html-display.c:694
 msgid "Valid signature, cannot verify sender"
 msgstr "Allekirjoitus on kelvollinen, mutta lähettäjää ei voida varmistaa"
 
-#: ../mail/em-format-html-display.c:666
+#: ../mail/em-format-html-display.c:694
 msgid ""
 "This message is signed with a valid signature, but the sender of the message "
 "cannot be verified."
@@ -11292,11 +11305,11 @@ msgstr ""
 "Tämä viesti on allekirjoitettu kelvollisella allekirjoituksella, mutta "
 "viestin lähettäjää ei voida varmistaa."
 
-#: ../mail/em-format-html-display.c:672 ../mail/em-format-html.c:605
+#: ../mail/em-format-html-display.c:700 ../mail/em-format-html.c:605
 msgid "Unencrypted"
 msgstr "Salaamaton"
 
-#: ../mail/em-format-html-display.c:672
+#: ../mail/em-format-html-display.c:700
 msgid ""
 "This message is not encrypted.  Its content may be viewed in transit across "
 "the Internet."
@@ -11304,11 +11317,11 @@ msgstr ""
 "Viesti ei ole salattu. Viestin sisältöä voidaan tutkia sen kulkiessa "
 "Internetin läpi."
 
-#: ../mail/em-format-html-display.c:673 ../mail/em-format-html.c:606
+#: ../mail/em-format-html-display.c:701 ../mail/em-format-html.c:606
 msgid "Encrypted, weak"
 msgstr "Heikosti salattu"
 
-#: ../mail/em-format-html-display.c:673
+#: ../mail/em-format-html-display.c:701
 msgid ""
 "This message is encrypted, but with a weak encryption algorithm.  It would "
 "be difficult, but not impossible for an outsider to view the content of this "
@@ -11318,11 +11331,11 @@ msgstr ""
 "mahdotonta, että ulkopuolinen pystyy purkamaan ja katsomaanviestin sisällön "
 "käytännöllisen lyhyessä ajassa."
 
-#: ../mail/em-format-html-display.c:674 ../mail/em-format-html.c:607
+#: ../mail/em-format-html-display.c:702 ../mail/em-format-html.c:607
 msgid "Encrypted"
 msgstr "Salattu"
 
-#: ../mail/em-format-html-display.c:674
+#: ../mail/em-format-html-display.c:702
 msgid ""
 "This message is encrypted.  It would be difficult for an outsider to view "
 "the content of this message."
@@ -11330,11 +11343,11 @@ msgstr ""
 "Viesti on salattu. Ulkopuolisen on vaikea avata viestin sisältö "
 "luettavakseen."
 
-#: ../mail/em-format-html-display.c:675 ../mail/em-format-html.c:608
+#: ../mail/em-format-html-display.c:703 ../mail/em-format-html.c:608
 msgid "Encrypted, strong"
 msgstr "Salattu vahvalla algoritmilla"
 
-#: ../mail/em-format-html-display.c:675
+#: ../mail/em-format-html-display.c:703
 msgid ""
 "This message is encrypted, with a strong encryption algorithm.  It would be "
 "very difficult for an outsider to view the content of this message in a "
@@ -11344,45 +11357,73 @@ msgstr ""
 "vaikea purkaa salausta ja nähdä tämän viestin sisältön missään "
 "käytännöllisessä ajassa."
 
-#: ../mail/em-format-html-display.c:776 ../smime/gui/smime-ui.glade.h:48
+#: ../mail/em-format-html-display.c:804 ../smime/gui/smime-ui.glade.h:48
 msgid "_View Certificate"
 msgstr "_Näytä varmenne"
 
-#: ../mail/em-format-html-display.c:791
+#: ../mail/em-format-html-display.c:819
 msgid "This certificate is not viewable"
 msgstr "Tätä varmennetta ei voida näyttää"
 
-#: ../mail/em-format-html-display.c:1063
+#: ../mail/em-format-html-display.c:1107
 msgid "Completed on %B %d, %Y, %l:%M %p"
 msgstr "Valmistui %B %d, %Y, %l:%M %p"
 
-#: ../mail/em-format-html-display.c:1071
+#: ../mail/em-format-html-display.c:1115
 msgid "Overdue:"
 msgstr "Eräpäivä ylitetty:"
 
-#: ../mail/em-format-html-display.c:1074
+#: ../mail/em-format-html-display.c:1118
 msgid "by %B %d, %Y, %l:%M %p"
 msgstr "kirjoittanut %d %l:%M %p"
 
-#: ../mail/em-format-html-display.c:1134
+#: ../mail/em-format-html-display.c:1178
 msgid "_View Inline"
 msgstr "Näytä _sisäkkäisesti"
 
-#: ../mail/em-format-html-display.c:1135
+#: ../mail/em-format-html-display.c:1179
 msgid "_Hide"
 msgstr "_Piilota"
 
-#: ../mail/em-format-html-display.c:1136
+#: ../mail/em-format-html-display.c:1180
 msgid "_Fit to Width"
 msgstr "Sovita _leveyteen"
 
-#: ../mail/em-format-html-display.c:1137
+#: ../mail/em-format-html-display.c:1181
 msgid "Show _Original Size"
 msgstr "Näytä alkuperäinen k_oko"
 
-#: ../mail/em-format-html-display.c:1462
+#: ../mail/em-format-html-display.c:1550
 msgid "Attachment Button"
 msgstr "Liitepainike"
+
+#: ../mail/em-format-html-display.c:1757
+msgid "Select folder to save all attachments..."
+msgstr "Valitse kansio, johon kaikki liitteet tallennetaan..."
+
+#: ../mail/em-format-html-display.c:1795
+msgid "Select folder to save selected attachments..."
+msgstr "Valitse kansio, johon valitut liitteet tallennetaan..."
+
+#: ../mail/em-format-html-display.c:1803
+msgid "Save Selected..."
+msgstr "Tallenna valitut..."
+
+#. Cant i put in the number of attachments here ?
+#: ../mail/em-format-html-display.c:1870
+#, c-format
+msgid "%d Attachment"
+msgid_plural "%d Attachments"
+msgstr[0] "%d liite"
+msgstr[1] "%d liitettä"
+
+#: ../mail/em-format-html-display.c:1898
+msgid "No Attachment"
+msgstr "Ei liitteitä"
+
+#: ../mail/em-format-html-display.c:1901
+msgid "Save All"
+msgstr "Tallenna kaikki"
 
 #: ../mail/em-format-html-print.c:130
 #, c-format
@@ -11599,40 +11640,41 @@ msgstr ""
 "Asetuksia ei voitu lukea aikaisemmasta Evolutionin asennuksesta, evolution/"
 "config.xmldb' on joko vaurioitunut tai puuttuu."
 
-#: ../mail/em-popup.c:382
+#: ../mail/em-popup.c:399
 msgid "Save As..."
 msgstr "Tallenna nimellä..."
 
-#: ../mail/em-popup.c:401
+#: ../mail/em-popup.c:424
 #, c-format
 msgid "untitled_image.%s"
 msgstr "nimetön_kuva.%s"
 
-#: ../mail/em-popup.c:495
+#: ../mail/em-popup.c:542 ../mail/em-popup.c:553
 msgid "Set as _Background"
 msgstr "Aseta _taustaksi"
 
-#: ../mail/em-popup.c:497
+#: ../mail/em-popup.c:544 ../mail/em-popup.c:555
 msgid "_Reply to sender"
 msgstr "_Vastaa lähettäjälle"
 
-#: ../mail/em-popup.c:498 ../ui/evolution-mail-message.xml.h:81
+#: ../mail/em-popup.c:545 ../mail/em-popup.c:556
+#: ../ui/evolution-mail-message.xml.h:81
 msgid "Reply to _List"
 msgstr "Vastaa _listalle"
 
-#: ../mail/em-popup.c:549
+#: ../mail/em-popup.c:607
 msgid "_Open Link in Browser"
 msgstr "_Avaa linkki selaimessa"
 
-#: ../mail/em-popup.c:550
+#: ../mail/em-popup.c:608
 msgid "_Send New Message To..."
 msgstr "Lähetä uusi _viesti..."
 
-#: ../mail/em-popup.c:551
+#: ../mail/em-popup.c:609
 msgid "_Add to Addressbook"
 msgstr "_Lisää osoitekirjaan"
 
-#: ../mail/em-popup.c:666
+#: ../mail/em-popup.c:762
 #, c-format
 msgid "Open in %s..."
 msgstr "Avaa ohjelmassa %s..."
@@ -11666,20 +11708,20 @@ msgstr "Älä näytä tätä viestiä uudelleen."
 msgid "Filters"
 msgstr "Suodattimet"
 
-#: ../mail/em-utils.c:436
+#: ../mail/em-utils.c:436 ../mail/em-utils.c:473
 msgid "message"
 msgstr "viesti"
 
-#: ../mail/em-utils.c:545
+#: ../mail/em-utils.c:608
 msgid "Save Message..."
 msgstr "Tallenna viesti..."
 
-#: ../mail/em-utils.c:594
+#: ../mail/em-utils.c:657
 msgid "Add address"
 msgstr "Lisää osoite"
 
 #. Drop filename for messages from a mailbox
-#: ../mail/em-utils.c:1073
+#: ../mail/em-utils.c:1136
 #, c-format
 msgid "Messages from %s"
 msgstr "Viestit %s:ltä"
@@ -14392,33 +14434,33 @@ msgid "_User:"
 msgstr "_Käyttäjä:"
 
 #. i18n: "Secure Password Authentication" is an Outlookism
-#: ../plugins/exchange-operations/exchange-account-setup.c:62
+#: ../plugins/exchange-operations/exchange-account-setup.c:63
 msgid "Secure Password"
 msgstr "Turvallinen salasana"
 
 #. i18n: "NTLM" probably doesn't translate
-#: ../plugins/exchange-operations/exchange-account-setup.c:65
+#: ../plugins/exchange-operations/exchange-account-setup.c:66
 msgid ""
 "This option will connect to the Exchange server using secure password (NTLM) "
 "authentication."
 msgstr "Yhdistä Exchange-palvelimelle käyttäen turvallista salasanaa (NTLM)."
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:73
+#: ../plugins/exchange-operations/exchange-account-setup.c:74
 msgid "Plaintext Password"
 msgstr "Selväkielinen salasana"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:75
+#: ../plugins/exchange-operations/exchange-account-setup.c:76
 msgid ""
 "This option will connect to the Exchange server using standard plaintext "
 "password authentication."
 msgstr ""
 "Yhdistä Exchange-palvelimelle käyttäen tavallista selväkielistä salasanaa."
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:256
+#: ../plugins/exchange-operations/exchange-account-setup.c:257
 msgid "Out Of Office"
 msgstr "Poissa konttorilta"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:263
+#: ../plugins/exchange-operations/exchange-account-setup.c:264
 msgid ""
 "The message specified below will be automatically sent to \n"
 "each person who sends mail to you while you are out of the office."
@@ -14426,66 +14468,66 @@ msgstr ""
 "Alla määritelty viesti lähetään automaattisesti jokaiselle \n"
 "henkilölle, joka lähettää sähköpostia sinulle kun et ole tavoitettavissa."
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:275
-#: ../plugins/exchange-operations/exchange-account-setup.c:280
+#: ../plugins/exchange-operations/exchange-account-setup.c:276
+#: ../plugins/exchange-operations/exchange-account-setup.c:281
 msgid "I am out of the office"
 msgstr "En ole tavoitettavissa"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:276
-#: ../plugins/exchange-operations/exchange-account-setup.c:279
+#: ../plugins/exchange-operations/exchange-account-setup.c:277
+#: ../plugins/exchange-operations/exchange-account-setup.c:280
 msgid "I am in the office"
 msgstr "Olen tavoitettavissa"
 
 #. Change Password
-#: ../plugins/exchange-operations/exchange-account-setup.c:326
+#: ../plugins/exchange-operations/exchange-account-setup.c:327
 msgid "Change the password for Exchange account"
 msgstr "Syötä Exchange-tilin salasana"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:328
+#: ../plugins/exchange-operations/exchange-account-setup.c:329
 #: ../plugins/exchange-operations/exchange-change-password.glade.h:2
 msgid "Change Password"
 msgstr "Vaihda salasana"
 
 #. Delegation Assistant
-#: ../plugins/exchange-operations/exchange-account-setup.c:332
+#: ../plugins/exchange-operations/exchange-account-setup.c:333
 msgid "Manage the delegate settings for Exchange account"
 msgstr "Muokkaa Exchange-tilin valtuutusasetuksia"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:334
+#: ../plugins/exchange-operations/exchange-account-setup.c:335
 msgid "Delegation Assitant"
 msgstr "Delegoinnin apulainen"
 
 #. Miscelleneous settings
-#: ../plugins/exchange-operations/exchange-account-setup.c:344
+#: ../plugins/exchange-operations/exchange-account-setup.c:345
 msgid "Miscelleneous"
 msgstr "Sekalaiset"
 
 #. Folder Size
-#: ../plugins/exchange-operations/exchange-account-setup.c:354
+#: ../plugins/exchange-operations/exchange-account-setup.c:355
 msgid "View the size of all Exchange folders"
 msgstr "Näytä kaikkien Exchange-kansioiden koko"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:356
+#: ../plugins/exchange-operations/exchange-account-setup.c:357
 msgid "Folders Size"
 msgstr "Kansioiden koko"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:363
+#: ../plugins/exchange-operations/exchange-account-setup.c:364
 msgid "Exchange Settings"
 msgstr "Exchangen asetukset"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:606
+#: ../plugins/exchange-operations/exchange-account-setup.c:607
 msgid "_OWA Url:"
 msgstr "_OWA Url:"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:631
+#: ../plugins/exchange-operations/exchange-account-setup.c:632
 msgid "A_uthenticate"
 msgstr "K_irjautuminen"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:823
+#: ../plugins/exchange-operations/exchange-account-setup.c:824
 msgid "Authentication Type"
 msgstr "Kirjautumisen tyyppi"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:837
+#: ../plugins/exchange-operations/exchange-account-setup.c:838
 msgid "Ch_eck for Supported Types"
 msgstr "Tar_kista tuetut tyypit"
 
@@ -14521,100 +14563,53 @@ msgid "Your current password has expired. Please change your password now."
 msgstr "Salasanasi on vanhentunut. Ole hyvä ja vaihda salasanasi nyt."
 
 #: ../plugins/exchange-operations/exchange-delegates-user.c:144
-#: ../plugins/exchange-operations/exchange-permissions-dialog.c:567
+#: ../plugins/exchange-operations/exchange-permissions-dialog.c:571
 msgid "Custom"
 msgstr "Oma näkymä"
 
 #: ../plugins/exchange-operations/exchange-delegates-user.c:191
-#: ../plugins/exchange-operations/exchange-permissions-dialog.c:184
+#: ../plugins/exchange-operations/exchange-permissions-dialog.c:186
 #, c-format
 msgid "Permissions for %s"
 msgstr "Oikeudet käyttäjälle %s"
 
-#: ../plugins/exchange-operations/exchange-delegates.c:222
-msgid ""
-"No Global Catalog server configured for this account.\n"
-"Unable to edit delegates."
-msgstr ""
-"Yhteistä luettelopalvelinta ei ole määritelty tälle tilille.\n"
-"Valtuutuksia ei voida muokata."
-
-#: ../plugins/exchange-operations/exchange-delegates.c:261
-msgid ""
-"Could not read folder permissions.\n"
-"Unable to edit delegates."
-msgstr ""
-"Kansion oikeuksia ei voitu lukea.\n"
-"Valtuutuksia ei voida muokata."
-
-#: ../plugins/exchange-operations/exchange-delegates.c:268
-msgid ""
-"Could not determine folder permissions for delegates.\n"
-"Unable to edit delegates."
-msgstr ""
-"Kansion oikeuksia valtuutetuille ei voitu määritellä.\n"
-"Valtuutuksia ei voida muokata."
-
-#: ../plugins/exchange-operations/exchange-delegates.c:420
+#: ../plugins/exchange-operations/exchange-delegates.c:421
 msgid "Delegate To"
 msgstr "Valtuuta henkilö"
 
-#: ../plugins/exchange-operations/exchange-delegates.c:436
-#, c-format
-msgid "Could not make %s a delegate"
-msgstr "Käyttäjää %s ei voitu merkitä valtuutetuksi"
-
-#: ../plugins/exchange-operations/exchange-delegates.c:446
-msgid "You cannot make yourself your own delegate"
-msgstr "Et voi valtuuttaa itseäsi."
-
-#: ../plugins/exchange-operations/exchange-delegates.c:455
-#, c-format
-msgid "%s is already a delegate"
-msgstr "%s on jo valtuutettu"
-
-#: ../plugins/exchange-operations/exchange-delegates.c:564
+#: ../plugins/exchange-operations/exchange-delegates.c:562
 #, c-format
 msgid "Remove the delegate %s?"
 msgstr "Poistetaanko valtuutus %s?"
 
-#: ../plugins/exchange-operations/exchange-delegates.c:681
+#: ../plugins/exchange-operations/exchange-delegates.c:679
 msgid "Could not access Active Directory"
 msgstr "Active Directorya ei voitu avata"
 
-#: ../plugins/exchange-operations/exchange-delegates.c:696
+#: ../plugins/exchange-operations/exchange-delegates.c:694
 msgid "Could not find self in Active Directory"
 msgstr "Omia tietoja ei löytynyt Active Directorystä"
 
-#: ../plugins/exchange-operations/exchange-delegates.c:709
+#: ../plugins/exchange-operations/exchange-delegates.c:707
 #, c-format
 msgid "Could not find delegate %s in Active Directory"
 msgstr "Valtuutettua %s ei löytynyt Active Directorystä"
 
-#: ../plugins/exchange-operations/exchange-delegates.c:721
+#: ../plugins/exchange-operations/exchange-delegates.c:719
 #, c-format
 msgid "Could not remove delegate %s"
 msgstr "Valtuutettua %s ei voitu poista"
 
-#: ../plugins/exchange-operations/exchange-delegates.c:781
+#: ../plugins/exchange-operations/exchange-delegates.c:779
 msgid "Could not update list of delegates."
 msgstr "Valtuutettujen listaa ei voitu päivittää."
 
-#: ../plugins/exchange-operations/exchange-delegates.c:799
+#: ../plugins/exchange-operations/exchange-delegates.c:797
 #, c-format
 msgid "Could not add delegate %s"
 msgstr "Valtuuutettua %s ei voitu lisätä"
 
-#: ../plugins/exchange-operations/exchange-delegates.c:815
-#, c-format
-msgid ""
-"Failed to update delegates:\n"
-"%s"
-msgstr ""
-"Valtuutuslistan päivitys epäonnistui:\n"
-"%s"
-
-#: ../plugins/exchange-operations/exchange-delegates.c:968
+#: ../plugins/exchange-operations/exchange-delegates.c:965
 msgid "Error reading delegates list."
 msgstr "Virhe luettaessa listaa valtuutetuista."
 
@@ -14697,50 +14692,17 @@ msgstr "Perutaanko todella kansion \"%s\" tilaus?"
 msgid "Unsubscribe from \"%s\""
 msgstr "Peru \"%s\" tilaus"
 
-#: ../plugins/exchange-operations/exchange-permissions-dialog.c:227
-msgid "Could not read folder permissions"
-msgstr "Kansion oikeuksia ei voitu lukea"
-
-#: ../plugins/exchange-operations/exchange-permissions-dialog.c:269
-msgid "Could not update folder permissions."
-msgstr "Kansion oikeuksia ei voitu päivittää."
-
-#: ../plugins/exchange-operations/exchange-permissions-dialog.c:298
-#, c-format
-msgid "Could not update folder permissions. %s"
-msgstr "Kansion oikeuksia ei voitu päivittää. %s"
-
-#: ../plugins/exchange-operations/exchange-permissions-dialog.c:300
+#: ../plugins/exchange-operations/exchange-permissions-dialog.c:299
 msgid "(Permission denied.)"
 msgstr "(Lupa evätty.)"
 
-#: ../plugins/exchange-operations/exchange-permissions-dialog.c:399
-msgid ""
-"Unable to add user to access control list:\n"
-"No Global Catalog server is configured for this account."
-msgstr ""
-"Käyttäjää ei voida lisätä pääsylistalle:\n"
-"Tilille ei ole määritelty yhteistä luettelopalvelinta."
+#: ../plugins/exchange-operations/exchange-permissions-dialog.c:405
+msgid "Add User:"
+msgstr "Lisää käyttäjä:"
 
-#: ../plugins/exchange-operations/exchange-permissions-dialog.c:417
-#, c-format
-msgid "No such user %s"
-msgstr "Käyttäjää %s ei ole olemassa"
-
-#: ../plugins/exchange-operations/exchange-permissions-dialog.c:421
-#, c-format
-msgid "%s cannot be added to an access control list"
-msgstr "%s ei voitu lisätä pääsylistalle"
-
-#: ../plugins/exchange-operations/exchange-permissions-dialog.c:426
-#, c-format
-msgid "Unknown error looking up %s"
-msgstr "Tuntematon virhe etsittäessä %s"
-
-#: ../plugins/exchange-operations/exchange-permissions-dialog.c:443
-#, c-format
-msgid "%s is already in the list"
-msgstr "%s on jo listalla"
+#: ../plugins/exchange-operations/exchange-permissions-dialog.c:405
+msgid "Add User"
+msgstr "Lisää käyttäjä"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:2
 msgid "<b>Permissions</b>"
@@ -14853,30 +14815,50 @@ msgid "Could not connect to server {0}."
 msgstr "Palvelimeen {0} ei saatu yhteyttä."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:10
+msgid "Could not determine folder permissions for delegates."
+msgstr "Kansion oikeuksia valtuutetuille ei voitu selvittää."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:11
 msgid "Could not find Exchange Web Storage System."
 msgstr "Exchange Web Storage Systemiä ei löytynyt."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:11
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:12
 msgid "Could not locate server {0}."
 msgstr "Palvelinta {0} ei löytynyt."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:12
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:13
+msgid "Could not make {0} a delegate"
+msgstr "Käyttäjää {0} ei voitu merkitä valtuutetuksi"
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:14
+msgid "Could not read folder permissions"
+msgstr "Kansion oikeuksia ei voitu lukea"
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:15
+msgid "Could not read folder permissions."
+msgstr "Kansion oikeuksia ei voitu lukea."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:16
 msgid "Could not read out-of-office state"
 msgstr "\"Poissa konttorilta\"-tilaa ei voitu lukea."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:13
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:17
+msgid "Could not update folder permissions."
+msgstr "Kansion oikeuksia ei voitu päivittää."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:18
 msgid "Could not update out-of-office state"
 msgstr "\"Poissa konttorilta\"-tilaa ei voitu päivittää."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:14
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:19
 msgid "Exchange Account is offline."
 msgstr "Exchange-tili on yhteydettömässä tilassa"
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:15
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:20
 msgid "Exchange Connector access error."
 msgstr "Exchange Connectorin yhdistämisvirhe."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:16
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:21
 msgid ""
 "Exchange Connector requires access to certain\n"
 "functionality on the Exchange Server that appears\n"
@@ -14905,7 +14887,28 @@ msgstr ""
 "html\n"
 "  "
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:28
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:33
+msgid "Failed to update delegates:"
+msgstr "Valtuutuslistan päivitys epäonnistui:"
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:34
+msgid "Folder already exists"
+msgstr "Kansio on jo olemassa"
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:35
+msgid "Folder does not exist"
+msgstr "Kansiota ei ole olemassa"
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:36
+msgid "Folder offline"
+msgstr "Kansio on yhteydettömässä tilassa"
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:37
+#: ../shell/e-shell.c:1284
+msgid "Generic error"
+msgstr "Yleinen virhe"
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:38
 msgid ""
 "If OWA is running on a different path, you must specify that in the account "
 "configuration dialog."
@@ -14913,52 +14916,65 @@ msgstr ""
 "Jos OWA on käytössä eri polussa täytyy se määritellä erikseen tilin "
 "asetuksissa."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:29
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:39
 msgid "Mailbox for {0} is not on this server."
 msgstr "Sähköpostit käyttäjälle {0} eivät ole tällä palvelimella."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:30
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:40
 msgid "Make sure the URL is correct and try again."
 msgstr "Tarkista että URL on oikein ja yritä uudestaan."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:31
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:41
 msgid "Make sure the server name is spelled correctly and try again."
-msgstr "Tarkista että palvelimen nimi on kirjoitettu oikein ja yritä uudestaan."
+msgstr ""
+"Tarkista että palvelimen nimi on kirjoitettu oikein ja yritä uudestaan."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:32
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:42
 msgid "Make sure the username and password are correct and try again."
-msgstr "Tarkista että käyttäjätunnus ja salasana ovat oikein ja yritä "
-"uudestaan."
+msgstr ""
+"Tarkista että käyttäjätunnus ja salasana ovat oikein ja yritä uudestaan."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:33
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:43
+msgid "No Global Catalog server configured for this account."
+msgstr "Yhteistä luettelopalvelinta ei ole määritelty tälle tilille."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:44
 msgid "No mailbox for user {0} on {1}."
 msgstr "Käyttäjällä {0} ei ole postilaatikkoa palvelimella {1}."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:34
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:45
+msgid "No such user {0}"
+msgstr "Käyttäjää {0} ei ole olemassa"
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:46
 msgid "Password successfully changed."
 msgstr "Salasanan vaihto onnistui."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:35
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:48
 msgid "Please restart Evolution"
 msgstr "Käynnistä Evolution uudestaan"
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:36
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:49
+msgid "Please select a user."
+msgstr "Valitse käyttäjä."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:50
 msgid "Server rejected password because it is too weak."
 msgstr "Palvelin hylkäsi salasanan, koska se on liian yksinkertainen."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:37
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:51
 msgid "The Exchange account will be disabled when you quit Evolution"
 msgstr "Exchange-tili poistetaan käytöstä kun suljet evolutionin"
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:38
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:52
 msgid "The Exchange account will be removed when you quit Evolution"
 msgstr "Exchange-tili poistetaan, kun suljet Evolutionin"
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:39
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:53
 msgid "The Exchange server is not compatible with Exchange Connector."
 msgstr "Exchange-palvelin ei ole yhteensopiva Exchange Connectorin kanssa."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:40
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:54
 msgid ""
 "The server is runinng Exchange 5.5. Exchange Connector \n"
 "supports Microsoft Exchange 2000 and 2003 only."
@@ -14966,7 +14982,7 @@ msgstr ""
 "Palvelimen version on Exchange 5.5. Exchange Connector \n"
 "tukee versioita Microsoft Exchange 2000 ja 2003."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:42
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:56
 msgid ""
 "This probably means that your server requires \n"
 "you to specify the Windows domain name \n"
@@ -14979,45 +14995,89 @@ msgstr ""
 "osana käyttäjätunnusta (esim. &quot;ALUENIMI\\käyttäjä&quot;).\n"
 "Voi myös olla että syötit väärän salasanan."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:47
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:61
 msgid "Try again with a different password."
 msgstr "Yritä uudestaan eri salasanalla."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:48
-msgid "Try to clear up some space by deleting some mails."
-msgstr "Yritä vapauttaa tilaa poistamalla jotain sähköposteja."
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:62
+msgid "Unable to add user to access control list:"
+msgstr "Käyttäjää ei voitu lisätä pääsylistalle:"
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:49
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:63
+msgid "Unable to edit delegates."
+msgstr "Valtuutuslistan muokkaus epäonnistui."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:64
+msgid "Unknown error looking up {0}"
+msgstr "Tuntematon virhe etsittäessä {0}"
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:65
 msgid "Unknown error."
 msgstr "Tuntematon virhe."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:50
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:66
+msgid "Unknown type"
+msgstr "Tuntematon tyyppi"
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:67
+msgid "Unsupported operation"
+msgstr "Toimenpide ei ole tuettu"
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:68
 msgid "You are nearing your quota available for storing mails on this server."
 msgstr "Sähköpostille varattu tilasi tällä palvelimella alkaa loppua."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:51
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:69
+msgid "You cannot make yourself your own delegate"
+msgstr "Et voi valtuuttaa itseäsi."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:70
 msgid "You have exceeded your quota for storing mails on this server."
 msgstr "Sähköpostille varattu tilasi tällä palvelimella on loppu."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:52
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:71
 msgid "You may only configure a single Exchange account."
 msgstr "Voit määritellä vain yhden Exchange-tilin."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:53
-msgid "You will not be able to either send or recieve mails now."
-msgstr "Et voi lähettää tai vastaanottaa sähköpostia."
-
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:54
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:72
 msgid ""
-"You will not be able to send mails till you clear up some space by deleting "
-"some mails."
+"Your current usage is : {0}KB. Try to clear up some space by deleting some "
+"mails."
 msgstr ""
-"Et voi lähettää sähköpostia ennen kuin olet tehnyt tilaa poistamalla joitain "
-"tallennettuja sähköposteja."
+"Sähköpostisi vievät tällä hetkellä {0}kt. Yritä siivota tilaa poistamalla "
+"joitain viestejä."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:55
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:73
+msgid ""
+"Your current usage is : {0}KB. You will not be able to either send or "
+"recieve mails now."
+msgstr ""
+"Sähköpostisi vievät tällä hetkellä {0}kt. Et voi lähettää tai vastaanottaa "
+"sähköpostia."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:74
+msgid ""
+"Your current usage is : {0}KB. You will not be able to send mails till you "
+"clear up some space by deleting some mails."
+msgstr ""
+"Sähköpostisi vievät tällä hetkellä {0}kt. Et voi lähettää sähköpostia ennen "
+"kuin olet tehnyt tilaa poistamalla joitain tallennettuja viestejä."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:75
 msgid "Your password has expired."
 msgstr "Salasanasi on vanhentunut."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:77
+msgid "{0} cannot be added to an access control list"
+msgstr "{0} ei voitu lisätä pääsylistalle"
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:78
+msgid "{0} is already a delegate"
+msgstr "{0} on jo valtuutettu"
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:79
+msgid "{0} is already in the list"
+msgstr "{0} on jo listalla"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-tasks-subscription.xml.h:1
 msgid "Subscribe to Other User's Tasks"
@@ -15682,9 +15742,8 @@ msgid ""
 "&quot;{0}&quot; has delegated the meeting. Do you want to add the delegate "
 "&quot;{1}&quot; ?"
 msgstr ""
-"&quot;{0}&quot; on valtuuttanut kokouksen. Haluatko lisätä valtuutetun "
-"&quot;{1}&quot; ?"
-
+"&quot;{0}&quot; on valtuuttanut kokouksen. Haluatko lisätä valtuutetun &quot;"
+"{1}&quot; ?"
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:3
 msgid "This meeting has been delegated"
@@ -15974,7 +16033,7 @@ msgstr "Polku"
 
 #: ../plugins/plugin-manager/plugin-manager.c:48
 #: ../widgets/table/e-table-config-no-group.glade.h:6
-#: ../widgets/table/e-table-config.glade.h:6
+#: ../widgets/table/e-table-config.glade.h:5
 msgid "Description"
 msgstr "Kuvaus"
 
@@ -16599,10 +16658,6 @@ msgstr "OAF:ia ei voidaan rekisteröidä"
 #: ../shell/e-shell.c:1282
 msgid "Configuration Database not found"
 msgstr "Asetustietokantaa ei löytynyt"
-
-#: ../shell/e-shell.c:1284
-msgid "Generic error"
-msgstr "Yleinen virhe"
 
 #: ../shell/e-user-creatable-items-handler.c:685
 msgid "New"
@@ -18261,12 +18316,12 @@ msgid "Main toolbar"
 msgstr "Päätyökalupalkki"
 
 #: ../ui/evolution-mail-messagedisplay.xml.h:4
-#: ../ui/evolution-message-composer.xml.h:40 ../ui/evolution-subscribe.xml.h:9
+#: ../ui/evolution-message-composer.xml.h:42 ../ui/evolution-subscribe.xml.h:9
 msgid "_Close"
 msgstr "_Sulje"
 
 #: ../ui/evolution-mail-messagedisplay.xml.h:6
-#: ../ui/evolution-message-composer.xml.h:43
+#: ../ui/evolution-message-composer.xml.h:45
 #: ../ui/evolution-signature-editor.xml.h:13
 #: ../ui/evolution-subscribe.xml.h:11 ../ui/evolution.xml.h:33
 msgid "_File"
@@ -18347,105 +18402,113 @@ msgid "Save _Draft"
 msgstr "Tallenna _luonnos"
 
 #: ../ui/evolution-message-composer.xml.h:22
+msgid "Save as draft"
+msgstr "Tallenna luonnoksena"
+
+#: ../ui/evolution-message-composer.xml.h:23
 msgid "Save in folder..."
 msgstr "Tallenna kansioon..."
 
-#: ../ui/evolution-message-composer.xml.h:23
+#: ../ui/evolution-message-composer.xml.h:24
 #: ../ui/evolution-signature-editor.xml.h:9
 msgid "Save the current file"
 msgstr "Tallenna nykyinen tiedosto"
 
-#: ../ui/evolution-message-composer.xml.h:24
+#: ../ui/evolution-message-composer.xml.h:25
 msgid "Save the current file with a different name"
 msgstr "Tallenna tiedosto uudella nimellä"
 
-#: ../ui/evolution-message-composer.xml.h:25
+#: ../ui/evolution-message-composer.xml.h:26
 msgid "Save the message in a specified folder"
 msgstr "Tallenna viesti johonkin tiettyyn kansioon"
 
 #: ../ui/evolution-message-composer.xml.h:27
+msgid "SaveDraft"
+msgstr "Tallenna luonnos"
+
+#: ../ui/evolution-message-composer.xml.h:29
 #: ../ui/evolution-signature-editor.xml.h:11
 msgid "Send the mail in HTML format"
 msgstr "Lähetä viesti HTML-muodossa"
 
-#: ../ui/evolution-message-composer.xml.h:28
+#: ../ui/evolution-message-composer.xml.h:30
 msgid "Send this message"
 msgstr "Lähetä viesti heti"
 
-#: ../ui/evolution-message-composer.xml.h:29
+#: ../ui/evolution-message-composer.xml.h:31
 msgid "Sign this message with your PGP key"
 msgstr "Allekirjoita viesti PGP-avaimellasi"
 
-#: ../ui/evolution-message-composer.xml.h:30
+#: ../ui/evolution-message-composer.xml.h:32
 msgid "Sign this message with your S/MIME Signature Certificate"
 msgstr "Allekirjoita tämä viesti S/MIME allekirjoitusvarmenteellasi"
 
-#: ../ui/evolution-message-composer.xml.h:31
+#: ../ui/evolution-message-composer.xml.h:33
 msgid "Toggles whether the BCC field is displayed"
 msgstr "Vaihtelee näytetäänkö BCC-kenttä"
 
-#: ../ui/evolution-message-composer.xml.h:32
+#: ../ui/evolution-message-composer.xml.h:34
 msgid "Toggles whether the CC field is displayed"
 msgstr "Määrittää näytetäänkö Kopio-kenttä (CC)."
 
-#: ../ui/evolution-message-composer.xml.h:33
+#: ../ui/evolution-message-composer.xml.h:35
 msgid "Toggles whether the From chooser is displayed"
 msgstr "Määrittää näytetäänkö Lähettäjä-kenttä"
 
-#: ../ui/evolution-message-composer.xml.h:34
+#: ../ui/evolution-message-composer.xml.h:36
 msgid "Toggles whether the Post-To field is displayed"
 msgstr "Määrittää näytetäänkö Postitusosoite-kenttä"
 
-#: ../ui/evolution-message-composer.xml.h:35
+#: ../ui/evolution-message-composer.xml.h:37
 msgid "Toggles whether the Reply-To field is displayed"
 msgstr "Määrittää näytetäänkö Vastausosoite-kenttä"
 
-#: ../ui/evolution-message-composer.xml.h:36
+#: ../ui/evolution-message-composer.xml.h:38
 msgid "Toggles whether the To field is displayed"
 msgstr "Määrittää näytetäänkö Vastaanottaja-kenttä"
 
-#: ../ui/evolution-message-composer.xml.h:37
+#: ../ui/evolution-message-composer.xml.h:39
 msgid "_Attachment..."
 msgstr "_Liite..."
 
-#: ../ui/evolution-message-composer.xml.h:38
+#: ../ui/evolution-message-composer.xml.h:40
 msgid "_Bcc Field"
 msgstr "_BCC-kenttä"
 
-#: ../ui/evolution-message-composer.xml.h:39
+#: ../ui/evolution-message-composer.xml.h:41
 msgid "_Cc Field"
 msgstr "_Kopio-kenttä"
 
-#: ../ui/evolution-message-composer.xml.h:41
+#: ../ui/evolution-message-composer.xml.h:43
 msgid "_Delete all"
 msgstr "_Poista kaikki"
 
-#: ../ui/evolution-message-composer.xml.h:44
+#: ../ui/evolution-message-composer.xml.h:46
 msgid "_From Field"
 msgstr "_Lähettäjä-kenttä"
 
-#: ../ui/evolution-message-composer.xml.h:45
+#: ../ui/evolution-message-composer.xml.h:47
 #: ../ui/evolution-signature-editor.xml.h:14
 msgid "_Insert"
 msgstr "Li_sää"
 
-#: ../ui/evolution-message-composer.xml.h:46
+#: ../ui/evolution-message-composer.xml.h:48
 msgid "_Open..."
 msgstr "_Avaa..."
 
-#: ../ui/evolution-message-composer.xml.h:47
+#: ../ui/evolution-message-composer.xml.h:49
 msgid "_Post-To Field"
 msgstr "_Postitusosoite-kenttä (Post-To)"
 
-#: ../ui/evolution-message-composer.xml.h:48
+#: ../ui/evolution-message-composer.xml.h:50
 msgid "_Reply-To Field"
 msgstr "_Vastausosoite-kenttä"
 
-#: ../ui/evolution-message-composer.xml.h:50
+#: ../ui/evolution-message-composer.xml.h:52
 msgid "_Security"
 msgstr "Turvalli_suus"
 
-#: ../ui/evolution-message-composer.xml.h:51
+#: ../ui/evolution-message-composer.xml.h:53
 msgid "_To Field"
 msgstr "_Vastaanottaja-kenttä"
 
@@ -19463,42 +19526,41 @@ msgid "BG Color Column"
 msgstr "Taustan värinen sarake"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:1
-#: ../widgets/table/e-table-config.glade.h:1
 msgid "<- _Remove"
 msgstr "<- _Poista"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:2
-#: ../widgets/table/e-table-config.glade.h:2
+#: ../widgets/table/e-table-config.glade.h:1
 msgid "A_vailable Fields:"
 msgstr "Valittavat kentät:"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:3
-#: ../widgets/table/e-table-config.glade.h:3
+#: ../widgets/table/e-table-config.glade.h:2
 msgid "Ascending"
 msgstr "Nouseva"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:4
-#: ../widgets/table/e-table-config.glade.h:4
+#: ../widgets/table/e-table-config.glade.h:3
 msgid "Clear All"
 msgstr "Tyhjennä merkki"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:5
-#: ../widgets/table/e-table-config.glade.h:5
+#: ../widgets/table/e-table-config.glade.h:4
 msgid "Descending"
 msgstr "Laskeva"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:8
-#: ../widgets/table/e-table-config.glade.h:8
+#: ../widgets/table/e-table-config.glade.h:7
 msgid "Group Items By"
 msgstr "Ryhmittele kentän mukaan"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:9
-#: ../widgets/table/e-table-config.glade.h:9
+#: ../widgets/table/e-table-config.glade.h:8
 msgid "Move _Down"
 msgstr "Siirrä _alas"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:10
-#: ../widgets/table/e-table-config.glade.h:10
+#: ../widgets/table/e-table-config.glade.h:9
 msgid "Move _Up"
 msgstr "Siirrä _ylös"
 
@@ -19507,37 +19569,36 @@ msgid "Sh_ow these fields in order:"
 msgstr "_Näytä nämä kentät järjestyksessä:"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:12
-#: ../widgets/table/e-table-config.glade.h:11
+#: ../widgets/table/e-table-config.glade.h:10
 msgid "Show Fields"
 msgstr "Näytä kentät"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:13
-#: ../widgets/table/e-table-config.glade.h:12
+#: ../widgets/table/e-table-config.glade.h:11
 msgid "Show field in View"
 msgstr "Näkymässä näytettävät kentät"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:14
-#: ../widgets/table/e-table-config.glade.h:13
+#: ../widgets/table/e-table-config.glade.h:12
 msgid "Sort"
 msgstr "Järjestä"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:15
-#: ../widgets/table/e-table-config.glade.h:14
+#: ../widgets/table/e-table-config.glade.h:13
 msgid "Sort Items By"
 msgstr "Järjestä kentän mukaan"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:16
-#: ../widgets/table/e-table-config.glade.h:15
+#: ../widgets/table/e-table-config.glade.h:14
 msgid "Then By"
 msgstr "sitten"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:17
-#: ../widgets/table/e-table-config.glade.h:16
 msgid "_Add ->"
 msgstr "_Lisää ->"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:18
-#: ../widgets/table/e-table-config.glade.h:17
+#: ../widgets/table/e-table-config.glade.h:16
 msgid "_Fields Shown..."
 msgstr "_Näytettävät kentät..."
 
@@ -19566,7 +19627,7 @@ msgstr "Ei järjestetty"
 msgid "No grouping"
 msgstr "Ei ryhmitystä"
 
-#: ../widgets/table/e-table-config.glade.h:18
+#: ../widgets/table/e-table-config.glade.h:17
 msgid "_Group By..."
 msgstr "_Ryhmittele..."
 
@@ -19943,6 +20004,23 @@ msgid "Handle Popup"
 msgstr "Kahvan ponnahdusikkuna"
 
 #~ msgid ""
+#~ "Could not read folder permissions.\n"
+#~ "Unable to edit delegates."
+#~ msgstr ""
+#~ "Kansion oikeuksia ei voitu lukea.\n"
+#~ "Valtuutuksia ei voida muokata."
+
+#~ msgid "Could not update folder permissions. %s"
+#~ msgstr "Kansion oikeuksia ei voitu päivittää. %s"
+
+#~ msgid ""
+#~ "Unable to add user to access control list:\n"
+#~ "No Global Catalog server is configured for this account."
+#~ msgstr ""
+#~ "Käyttäjää ei voida lisätä pääsylistalle:\n"
+#~ "Tilille ei ole määritelty yhteistä luettelopalvelinta."
+
+#~ msgid ""
 #~ "Evolution has found Gnome Calendar files.\n"
 #~ "Would you like to import them into Evolution?"
 #~ msgstr ""
@@ -19999,9 +20077,6 @@ msgstr "Kahvan ponnahdusikkuna"
 
 #~ msgid "Select importer"
 #~ msgstr "Valitse tuoja"
-
-#~ msgid "File %s does not exist"
-#~ msgstr "Tiedostoa %s ei ole olemassa"
 
 #~ msgid "Importing"
 #~ msgstr "Tuodaan"
