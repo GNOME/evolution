@@ -189,23 +189,26 @@ e_exchange_calendar_pcalendar (EPlugin *epl, EConfigHookItemFactoryData *data)
 	/* REVIEW: Should this handle be freed? - Attn: surf */
 	account = exchange_operations_get_exchange_account ();
 	account_name = account->account_name;
-	cal_name = e_source_peek_name (source);
-	model = exchange_account_folder_size_get_model (account);
-	if (model)
-		folder_size = g_strdup_printf ("%s KB", exchange_folder_size_get_val (model, cal_name));
-	else
-		folder_size = g_strdup ("0 KB");
 
-	/* FIXME: Take care of i18n */
-	lbl_size = gtk_label_new_with_mnemonic (_("Size:"));
-	lbl_size_val = gtk_label_new_with_mnemonic (_(folder_size));
-	gtk_widget_show (lbl_size);
-	gtk_widget_show (lbl_size_val);
-	gtk_misc_set_alignment (GTK_MISC (lbl_size), 0.0, 0.5);
-	gtk_misc_set_alignment (GTK_MISC (lbl_size_val), 0.0, 0.5);
-	gtk_table_attach (GTK_TABLE (parent), lbl_size, 0, 2, row, row+1, GTK_FILL|GTK_EXPAND, 0, 0, 0);
-	gtk_table_attach (GTK_TABLE (parent), lbl_size_val, 1, 3, row, row+1, GTK_FILL|GTK_EXPAND, 0, 0, 0);
+	if (calendar_src_exists) {
+		cal_name = e_source_peek_name (source);
+		model = exchange_account_folder_size_get_model (account);
+		if (model)
+			folder_size = g_strdup_printf ("%s KB", exchange_folder_size_get_val (model, cal_name));
+		else
+			folder_size = g_strdup ("0 KB");
 
+		/* FIXME: Take care of i18n */
+		lbl_size = gtk_label_new_with_mnemonic (_("Size:"));
+		lbl_size_val = gtk_label_new_with_mnemonic (_(folder_size));
+		gtk_widget_show (lbl_size);
+		gtk_widget_show (lbl_size_val);
+		gtk_misc_set_alignment (GTK_MISC (lbl_size), 0.0, 0.5);
+		gtk_misc_set_alignment (GTK_MISC (lbl_size_val), 0.0, 0.5);
+		gtk_table_attach (GTK_TABLE (parent), lbl_size, 0, 2, row, row+1, GTK_FILL|GTK_EXPAND, 0, 0, 0);
+		gtk_table_attach (GTK_TABLE (parent), lbl_size_val, 1, 3, row, row+1, GTK_FILL|GTK_EXPAND, 0, 0, 0);
+		g_free (folder_size);
+	}
 	lbl_pcalendar = gtk_label_new_with_mnemonic (_("_Location:"));
 	gtk_widget_show (lbl_pcalendar);
 	gtk_misc_set_alignment (GTK_MISC (lbl_pcalendar), 0.0, 0.5);
@@ -263,7 +266,6 @@ e_exchange_calendar_pcalendar (EPlugin *epl, EConfigHookItemFactoryData *data)
 	}
 	
 	g_ptr_array_free (callist, TRUE);
-	g_free (folder_size);
 	return tv_pcalendar;
 }
 

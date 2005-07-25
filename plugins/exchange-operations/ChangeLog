@@ -1,3 +1,10 @@
+2005-07-25  Sarfraaz Ahmed <asarfraaz@novell.com>
+
+	* exchange-calendar.c (e_exchange_calendar_pcalendar) : Add the size
+	label only if the calendar exists.
+	* exchange-contacts.c (e_exchange_contacts_pcontacts) : Add the size
+	label only if the addressbook exists.
+
 2005-07-25  Shakti Sen <shprasad@novell.com>
 
 	* Makefile.am: Added EVOLUTION_CALENDAR_CFLAGS and widgets in 'INCLUDES'.

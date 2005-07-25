@@ -161,27 +161,32 @@ e_exchange_contacts_pcontacts (EPlugin *epl, EConfigHookItemFactoryData *data)
 
 	account = exchange_operations_get_exchange_account ();
 	account_name = account->account_name;
-	abook_name = e_source_peek_name (source);
-	model = exchange_account_folder_size_get_model (account);
-	if (model)
-		folder_size = g_strdup_printf ("%s KB", exchange_folder_size_get_val (model, abook_name));
-	else
-		folder_size = g_strdup_printf ("0 KB");
+	hbx_size = NULL;
+	if (contacts_src_exists) {
+		abook_name = e_source_peek_name (source);
+		model = exchange_account_folder_size_get_model (account);
+		if (model)
+			folder_size = g_strdup_printf ("%s KB", exchange_folder_size_get_val (model, abook_name));
+		else
+			folder_size = g_strdup_printf ("0 KB");
 
+		/* FIXME: Take care of i18n */
+		lbl_size = gtk_label_new_with_mnemonic (_("Size:"));
+		lbl_size_val = gtk_label_new_with_mnemonic (_(folder_size));
+		hbx_size = gtk_hbox_new (FALSE, 0);
+		gtk_box_pack_start (hbx_size, lbl_size, FALSE, TRUE, 0);
+		gtk_box_pack_start (hbx_size, lbl_size_val, FALSE, TRUE, 10);
+		gtk_widget_show (lbl_size);
+		gtk_widget_show (lbl_size_val);
+		gtk_misc_set_alignment (GTK_MISC (lbl_size), 0.0, 0.5);
+		gtk_misc_set_alignment (GTK_MISC (lbl_size_val), 0.0, 0.5);
+		g_free (folder_size);
+	}
 	vb_pcontacts = gtk_vbox_new (FALSE, 6);
 	gtk_container_add (GTK_CONTAINER (data->parent), vb_pcontacts);
 
-	/* FIXME: Take care of i18n */
-	lbl_size = gtk_label_new_with_mnemonic (_("Size:"));
-	lbl_size_val = gtk_label_new_with_mnemonic (_(folder_size));
-	hbx_size = gtk_hbox_new (FALSE, 0);
-	gtk_box_pack_start (hbx_size, lbl_size, FALSE, TRUE, 0);
-	gtk_box_pack_start (hbx_size, lbl_size_val, FALSE, TRUE, 10);
-	gtk_widget_show (lbl_size);
-	gtk_widget_show (lbl_size_val);
-	gtk_misc_set_alignment (GTK_MISC (lbl_size), 0.0, 0.5);
-	gtk_misc_set_alignment (GTK_MISC (lbl_size_val), 0.0, 0.5);
-	gtk_box_pack_start (GTK_BOX (vb_pcontacts), hbx_size, FALSE, FALSE, 0);
+	if (hbx_size)
+		gtk_box_pack_start (GTK_BOX (vb_pcontacts), hbx_size, FALSE, FALSE, 0);
 
 	lbl_pcontacts = gtk_label_new_with_mnemonic (_("_Location:"));
 	gtk_widget_show (lbl_pcontacts);
@@ -245,7 +250,6 @@ e_exchange_contacts_pcontacts (EPlugin *epl, EConfigHookItemFactoryData *data)
 	}
 	
 	g_ptr_array_free (conlist, TRUE);  
-	g_free (folder_size);
 	return vb_pcontacts;
 }
 
