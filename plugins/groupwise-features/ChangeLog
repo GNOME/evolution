@@ -1,3 +1,12 @@
+2005-07-23  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	* Makefile.am: Added the new file process-meeting.c
+	and widgets/misc to include headers.
+	* org-gnome-groupwise-features.eplug.xml: Added the
+	hook for processing meetings.
+	* org-gnome-shared-folder.errors.xml: Added the message
+	for asking for error 
+
 2005-07-22  Vivek Jain <jvivek@novell.com>
 	
 	* share-folder.c : Put back the fix I committed on 

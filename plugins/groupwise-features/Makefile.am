@@ -5,6 +5,7 @@ endif
 INCLUDES =						\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/widgets				\
+	-I$(top_srcdir)/widgets/misc			\
 	-I$(top_srcdir)/camel                           \
 	$(EVOLUTION_MAIL_CFLAGS)			\
 	$(EVOLUTION_CALENDAR_CFLAGS)			\
@@ -34,7 +35,8 @@ liborg_gnome_groupwise_features_la_SOURCES = 	\
 		proxy.h				\
 		proxy.c				\
 		proxy-login.h			\
-		proxy-login.c				
+		proxy-login.c			\
+		process-meeting.c
 
 liborg_gnome_groupwise_features_la_LIBADD=			\
 	$(top_builddir)/e-util/libeutil.la			\

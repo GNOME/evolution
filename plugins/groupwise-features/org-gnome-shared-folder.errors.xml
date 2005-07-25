@@ -14,6 +14,15 @@ You cannot share folder with specified user &quot;{0}&quot;
 </secondary>
 </error>
 
+<error id="recurrence" type="question" default="GTK_RESPONSE_YES">
+<primary>This is a recurring meeting</primary>
+<secondary>What would you like to {0}?</secondary>
+ <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
+ <button label="This instance" response="GTK_RESPONSE_NO"/>
+ <button label="All instances" response="GTK_RESPONSE_YES"/>
+</error>
+
+
 
 </error-list>
 

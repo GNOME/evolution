@@ -89,12 +89,11 @@
 				<item type="page" path="60.proxy" factory="org_gnome_proxy"/>
 			</group>
 		</hook>
-		
-		<hook class="org.gnome.evolution.mail.popup:1.0">
-		      <menu id="org.gnome.evolution.mail.foldertree.popup" target="folder"
-			factory = "org_gnome_create_proxy_login_option">
-		      </menu>
+		<hook class="org.gnome.evolution.calendar.popup:1.0">
+			<menu id="org.gnome.evolution.calendar.view.popup" target="select" factory = "org_gnome_accept">
+			</menu>
 		</hook>
+	
 		
 	</e-plugin>
 
