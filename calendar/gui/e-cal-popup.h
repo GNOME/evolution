@@ -83,6 +83,7 @@ enum _e_cal_popup_target_select_t {
 	E_CAL_POPUP_SELECT_HASURL = 1<<11,
 	E_CAL_POPUP_SELECT_MEETING = 1 <<12,
 	E_CAL_POPUP_SELECT_DELEGATABLE = 1<<13,
+	E_CAL_POPUP_SELECT_ACCEPTABLE = 1<<14,
 };
 
 /**
