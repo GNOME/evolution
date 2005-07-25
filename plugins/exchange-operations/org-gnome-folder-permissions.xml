@@ -5,13 +5,13 @@
   </commands>
 
   <menu>
-    <placeholder name="FolderPlaceholder">
-      <submenu name="Folder">
-	<placeholder name="MessagesInFolder">
-	  <separator f="" name="emaillist5"/>
-	  <menuitem name="CheckFolderPermission" verb=""/>
-	</placeholder>
-      </submenu>
-    </placeholder>
+    <submenu name="File">
+      <placeholder name="FileOps">
+        <menuitem name="CheckFolderPermission" verb=""/>
+      </placeholder>
+    </submenu>
+    <submenu name="Tools">
+      <placeholder name="ComponentPlaceholder"/>
+    </submenu>
   </menu>
 </Root>

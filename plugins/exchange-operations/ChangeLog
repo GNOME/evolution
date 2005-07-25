@@ -1,3 +1,15 @@
+2005-07-25  Shakti Sen <shprasad@novell.com>
+
+	* Makefile.am: Added EVOLUTION_CALENDAR_CFLAGS and widgets in 'INCLUDES'.
+	* org-gnome-exchange-operations.eplug.in: Added the hooks for Calendar,
+	Tasks and Contacts.
+	* exchange-folder-permission.c: Added new functions to support 
+	'File->Permissions' for all the components.
+	* org-gnome-folder-permissions.xml: Changed the placeholder from 'Folder'
+	to 'File' menu for 'Permissions' menu-item.
+	
+	Fixes bug #231968 (Partly).
+
 2005-07-25  Sarfraaz Ahmed <asarfraaz@novell.com>
 
 	* exchange-account-setup.c 

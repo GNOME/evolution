@@ -1,9 +1,11 @@
 INCLUDES = -I .						\
 	-I$(top_srcdir)	                                \
+	-I$(top_srcdir)/widgets				\
 	$(EVOLUTION_MAIL_CFLAGS) 			\
 	$(CAMEL_EXCHANGE_CFLAGS)                        \
 	$(CAMEL_CFLAGS)					\
 	$(LDAP_CFLAGS)					\
+	$(EVOLUTION_CALENDAR_CFLAGS)			\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"          \
 	-DCONNECTOR_GLADEDIR=\""$(gladedir)"\"
 

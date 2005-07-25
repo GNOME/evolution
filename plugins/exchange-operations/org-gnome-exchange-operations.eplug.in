@@ -101,6 +101,39 @@
 		activate="org_gnome_exchange_menu_folder_permissions"/>
 	</menu>
 	</hook>
+	<hook class="org.gnome.evolution.calendar.bonobomenu:1.0">
+	<menu id="org.gnome.evolution.calendar.view" target="select">
+	<ui file="@PLUGINDIR@/org-gnome-folder-permissions.xml"/>
+	<item
+		type="item"
+		verb="CheckFolderPermission"
+		path="/commands/CheckFolderPermission"
+		enable="all"
+		activate="org_gnome_exchange_menu_cal_permissions"/>
+	</menu>
+	</hook>
+	<hook class="org.gnome.evolution.calendar.bonobomenu:1.0">
+	<menu id="org.gnome.evolution.tasks.view" target="select">
+	<ui file="@PLUGINDIR@/org-gnome-folder-permissions.xml"/>
+	<item
+		type="item"
+		verb="CheckFolderPermission"
+		path="/commands/CheckFolderPermission"
+		enable="all"
+		activate="org_gnome_exchange_menu_tasks_permissions"/>
+	</menu>
+	</hook>
+	<hook class="org.gnome.evolution.addressbook.bonobomenu:1.0">
+	<menu id="org.gnome.evolution.addressbook.view" target="select">
+	<ui file="@PLUGINDIR@/org-gnome-folder-permissions.xml"/>
+	<item
+		type="item"
+		verb="CheckFolderPermission"
+		path="/commands/CheckFolderPermission"
+		enable="all"
+		activate="org_gnome_exchange_menu_ab_permissions"/>
+	</menu>
+	</hook>
 	<hook class="org.gnome.evolution.mail.bonobomenu:1.0">
 		<menu id="org.gnome.evolution.mail.browser" target="select">
 		<ui file="@PLUGINDIR@/org-gnome-folder-subscription.xml"/>

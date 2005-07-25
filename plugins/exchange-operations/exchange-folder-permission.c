@@ -38,12 +38,18 @@
 #include "exchange-operations.h"
 #include "exchange-permissions-dialog.h"
 #include "addressbook/gui/widgets/eab-popup.h"
+#include "calendar/gui/e-cal-menu.h"
+#include "calendar/gui/e-cal-model.h"
+#include "addressbook/gui/widgets/eab-menu.h"
 
 static void org_folder_permissions_cb (EPopup *ep, EPopupItem *p, void *data);
 void org_gnome_exchange_folder_permissions (EPlugin *ep, EMPopupTargetFolder *t);
 void org_gnome_exchange_menu_folder_permissions (EPlugin *ep, EMMenuTargetSelect *target);
 void org_gnome_exchange_calendar_permissions (EPlugin *ep, ECalPopupTargetSource *target);
 void org_gnome_exchange_addressbook_permissions (EPlugin *ep, EABPopupTargetSource *target);
+void org_gnome_exchange_menu_ab_permissions (EPlugin *ep, EABMenuTargetSelect *target);
+void org_gnome_exchange_menu_tasks_permissions (EPlugin *ep, ECalMenuTargetSelect *target);
+void org_gnome_exchange_menu_cal_permissions (EPlugin *ep, ECalMenuTargetSelect *target);
 
 gchar *selected_exchange_folder_uri = NULL;
 
@@ -216,4 +222,42 @@ org_gnome_exchange_menu_folder_permissions (EPlugin *ep, EMMenuTargetSelect *tar
 	folder = exchange_account_get_folder (account, target->uri);
 	if (folder)
 		exchange_permissions_dialog_new (account, folder, NULL);
+}
+
+void
+org_gnome_exchange_menu_cal_permissions (EPlugin *ep, ECalMenuTargetSelect *target)
+{
+#if 0
+	ExchangeAccount *account = NULL;
+	EFolder *folder = NULL;
+	ECalModel *model = target->model;
+	ECal *ecal;
+	ecal = e_cal_model_get_default_client (model);
+	gchar *uri = e_cal_get_uri (ecal);
+	
+
+	if (target == NULL)
+		return;
+
+	account = exchange_operations_get_exchange_account ();
+
+	if (!account)
+		return;
+
+	//folder = exchange_account_get_folder (account, target->target->uri);
+	//if (folder)
+	//	exchange_permissions_dialog_new (account, folder, NULL);
+#endif
+}
+
+void
+org_gnome_exchange_menu_tasks_permissions (EPlugin *ep, ECalMenuTargetSelect *target)
+{
+
+}
+
+void
+org_gnome_exchange_menu_ab_permissions (EPlugin *ep, EABMenuTargetSelect *target)
+{
+
 }
