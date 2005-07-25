@@ -446,6 +446,9 @@ e_attachment_bar_remove_selected (EAttachmentBar *bar)
 	EAttachment *attachment;
 	GList *attachment_list, *p;
 	int num = 0, left, dlen;
+
+	g_return_if_fail (bar != NULL);
+	g_return_if_fail (E_IS_ATTACHMENT_BAR (bar));
 	
 	icon_list = GNOME_ICON_LIST (bar);
 	
@@ -488,6 +491,9 @@ e_attachment_bar_edit_selected (EAttachmentBar *bar)
 	GnomeIconList *icon_list;
 	GList *selection, *attach;
 	int num;
+
+	g_return_if_fail (bar != NULL);
+	g_return_if_fail (E_IS_ATTACHMENT_BAR (bar));
 	
 	icon_list = GNOME_ICON_LIST (bar);
 	
@@ -503,6 +509,9 @@ e_attachment_bar_edit_selected (EAttachmentBar *bar)
 GtkWidget **
 e_attachment_bar_get_selector(EAttachmentBar *bar)
 {
+	g_return_val_if_fail (bar != NULL, 0);
+	g_return_val_if_fail (E_IS_ATTACHMENT_BAR (bar), 0);
+	
 	return &bar->priv->attach;
 }
 
@@ -511,6 +520,9 @@ e_attachment_bar_get_selected (EAttachmentBar *bar)
 {
 	GSList *attachments = NULL;
 	GList *p;
+
+	g_return_val_if_fail (bar != NULL, 0);
+	g_return_val_if_fail (E_IS_ATTACHMENT_BAR (bar), 0);
 
 	p = gnome_icon_list_get_selection((GnomeIconList *)bar);
 	for ( ; p != NULL; p = p->next) {
@@ -535,6 +547,9 @@ e_attachment_bar_get_attachment (EAttachmentBar *bar, int id)
 	GSList *attachments = NULL;
 	GList *p;
 	EAttachment *attachment;
+
+	g_return_val_if_fail (bar != NULL, 0);
+	g_return_val_if_fail (E_IS_ATTACHMENT_BAR (bar), 0);
 
 	/* We need to check if there are duplicated index in the return list of 
 	   gnome_icon_list_get_selection() because of gnome bugzilla bug #122356.
@@ -568,6 +583,9 @@ e_attachment_bar_get_parts (EAttachmentBar *bar)
         EAttachment *attachment;
         GList *p = NULL;
 	GSList *part_list = NULL;
+
+	g_return_val_if_fail (bar != NULL, 0);
+	g_return_val_if_fail (E_IS_ATTACHMENT_BAR (bar), 0);
 
         for ( p = bar->priv->attachments; p!= NULL; p = p->next) {
                 attachment = p->data;
@@ -1025,6 +1043,9 @@ void
 e_attachment_bar_add_attachment (EAttachmentBar *bar,
 				 EAttachment *attachment)
 {
+	g_return_if_fail (bar != NULL);
+	g_return_if_fail (E_IS_ATTACHMENT_BAR (bar));
+	
 	add_common (bar, attachment);
 }
 
@@ -1034,6 +1055,9 @@ e_attachment_bar_get_download_count (EAttachmentBar *bar)
 	EAttachmentBarPrivate *priv;
 	GList *p;
 	int count=0;
+	
+	g_return_val_if_fail (bar != NULL, 0);
+	g_return_val_if_fail (E_IS_ATTACHMENT_BAR (bar), 0);
 	
 	priv = bar->priv;
 	
@@ -1055,6 +1079,7 @@ e_attachment_bar_attach_remote_file (EAttachmentBar *bar,
 	EAttachment *attachment;
 	CamelException ex;
 
+	g_return_if_fail ( bar!=NULL );
 	g_return_if_fail (E_IS_ATTACHMENT_BAR (bar));
 
 	if (!bar->priv->path)
@@ -1076,6 +1101,7 @@ void
 e_attachment_bar_attach_mime_part (EAttachmentBar *bar,
 				   CamelMimePart *part)
 {
+	g_return_if_fail ( bar!=NULL );
 	g_return_if_fail (E_IS_ATTACHMENT_BAR (bar));
 	
 	add_from_mime_part (bar, part);

@@ -1,3 +1,10 @@
+2005-07-25  Srinivasa Ragavan <sragavan@novell.com>
+
+	* e-attachment-bar,c: (e_attachment_bar_remove_selected) (e_attachment_bar_edit_selected)
+	(e_attachment_bar_get_attachment) (e_attachment_bar_get_parts) 
+	(e_attachment_bar_get_download_count) (e_attachment_bar_attach_remote_file): Added 
+	checks for the parameters.
+	
 2005-07-20  Vivek Jain  <jvivek@novell.com>
 	
 	* e-send-options.h : ESendOptionsDialogClass: has a member new virtual
