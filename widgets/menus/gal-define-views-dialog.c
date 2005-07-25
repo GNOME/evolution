@@ -218,10 +218,10 @@ etable_selection_change_forall_cb (int row, GalDefineViewsDialog *dialog)
 						  !item->built_in);
 			if (GAL_VIEW_GET_CLASS (item->view)->edit)
 				gtk_widget_set_sensitive (glade_xml_get_widget (dialog->gui, "button-modify"),
-						item->built_in);
+						!item->built_in);
 			else
 				gtk_widget_set_sensitive (glade_xml_get_widget (dialog->gui, "button-modify"),
-						!item->built_in);
+						item->built_in);
 		}
 	}
 }
