@@ -38,6 +38,7 @@
 #include "e-util/e-error.h"
 
 #include "exchange-operations.h"
+#include "exchange-folder-size-display.h"
 
 enum {
 	CONTACTSNAME_COL,
@@ -119,15 +120,17 @@ e_exchange_contacts_pcontacts_on_change (GtkTreeView *treeview, ESource *source)
 GtkWidget *
 e_exchange_contacts_pcontacts (EPlugin *epl, EConfigHookItemFactoryData *data)
 {
-	static GtkWidget *lbl_pcontacts, *scrw_pcontacts, *tv_pcontacts, *vb_pcontacts;
+	static GtkWidget *lbl_pcontacts, *scrw_pcontacts, *tv_pcontacts, *vb_pcontacts, *lbl_size, *lbl_size_val, *hbx_size;
 	GtkTreeStore *ts_pcontacts;
 	GtkCellRenderer *cr_contacts;
 	GtkTreeViewColumn *tvc_contacts;
+	GtkListStore *model;
 	GPtrArray *conlist;
 	gchar *ruri, *account_name, *uri_text;
 	ExchangeAccount *account;
 
 	int i;
+	char *folder_size, *abook_name;
 
 	EABConfigTargetSource *t = (EABConfigTargetSource *) data->target;
 	ESource *source = t->source;
@@ -144,7 +147,9 @@ e_exchange_contacts_pcontacts (EPlugin *epl, EConfigHookItemFactoryData *data)
 
 	g_free (uri_text);
 
-	if (strcmp (e_source_peek_relative_uri (source), e_source_peek_uid (source))) {
+	if (e_source_peek_relative_uri (source) &&
+		e_source_peek_uid (source) &&
+		(strcmp (e_source_peek_relative_uri (source), e_source_peek_uid (source)))) {
 		contacts_src_exists = TRUE;
 		g_free (contacts_old_src_uri);
 		contacts_old_src_uri = g_strdup (e_source_peek_relative_uri (source));
@@ -156,11 +161,28 @@ e_exchange_contacts_pcontacts (EPlugin *epl, EConfigHookItemFactoryData *data)
 
 	account = exchange_operations_get_exchange_account ();
 	account_name = account->account_name;
+	abook_name = e_source_peek_name (source);
+	model = exchange_account_folder_size_get_model (account);
+	if (model)
+		folder_size = g_strdup_printf ("%s KB", exchange_folder_size_get_val (model, abook_name));
+	else
+		folder_size = g_strdup_printf ("0 KB");
 
 	vb_pcontacts = gtk_vbox_new (FALSE, 6);
 	gtk_container_add (GTK_CONTAINER (data->parent), vb_pcontacts);
 
 	/* FIXME: Take care of i18n */
+	lbl_size = gtk_label_new_with_mnemonic (_("Size:"));
+	lbl_size_val = gtk_label_new_with_mnemonic (_(folder_size));
+	hbx_size = gtk_hbox_new (FALSE, 0);
+	gtk_box_pack_start (hbx_size, lbl_size, FALSE, TRUE, 0);
+	gtk_box_pack_start (hbx_size, lbl_size_val, FALSE, TRUE, 10);
+	gtk_widget_show (lbl_size);
+	gtk_widget_show (lbl_size_val);
+	gtk_misc_set_alignment (GTK_MISC (lbl_size), 0.0, 0.5);
+	gtk_misc_set_alignment (GTK_MISC (lbl_size_val), 0.0, 0.5);
+	gtk_box_pack_start (GTK_BOX (vb_pcontacts), hbx_size, FALSE, FALSE, 0);
+
 	lbl_pcontacts = gtk_label_new_with_mnemonic (_("_Location:"));
 	gtk_widget_show (lbl_pcontacts);
 	gtk_misc_set_alignment (GTK_MISC (lbl_pcontacts), 0.0, 0.5);
@@ -223,6 +245,7 @@ e_exchange_contacts_pcontacts (EPlugin *epl, EConfigHookItemFactoryData *data)
 	}
 	
 	g_ptr_array_free (conlist, TRUE);  
+	g_free (folder_size);
 	return vb_pcontacts;
 }
 

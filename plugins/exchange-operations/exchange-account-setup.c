@@ -36,6 +36,7 @@
 #include <camel/camel-provider.h>
 #include <camel/camel-url.h>
 #include <camel/camel-service.h>
+#include <camel/camel-folder.h>
 #include <libedataserver/e-xml-hash-utils.h>
 #include <e-util/e-dialog-utils.h>
 #include <e2k-validate.h>
@@ -48,12 +49,14 @@
 #include "mail/em-config.h"
 #include "exchange-delegates.h"
 #include "exchange-change-password.h"
+#include "exchange-folder-size-display.h"
 
 GtkWidget* org_gnome_exchange_settings(EPlugin *epl, EConfigHookItemFactoryData *data);
 GtkWidget *org_gnome_exchange_owa_url(EPlugin *epl, EConfigHookItemFactoryData *data);
 gboolean org_gnome_exchange_check_options(EPlugin *epl, EConfigHookPageCheckData *data);
 GtkWidget *org_gnome_exchange_auth_section (EPlugin *epl, EConfigHookItemFactoryData *data);
 void org_gnome_exchange_commit (EPlugin *epl, EConfigHookItemFactoryData *data);
+GtkWidget* org_gnome_exchange_show_folder_size_factory (EPlugin *epl, EConfigHookItemFactoryData *data); 
 
 CamelServiceAuthType camel_exchange_ntlm_authtype = {
         /* i18n: "Secure Password Authentication" is an Outlookism */
@@ -894,4 +897,45 @@ org_gnome_exchange_auth_section (EPlugin *epl, EConfigHookItemFactoryData *data)
 	g_list_free (authtypes);
 
 	return vbox;
+}
+
+GtkWidget *
+org_gnome_exchange_show_folder_size_factory (EPlugin *epl, EConfigHookItemFactoryData *data)
+{
+	EMConfigTargetFolder *target=  (EMConfigTargetFolder *)data->config->target;
+	CamelFolder *cml_folder = target->folder;
+	ExchangeAccount *account;
+	GtkWidget *lbl_size, *lbl_size_val;
+	GtkListStore *model;
+	GtkVBox *vbx;
+	GtkHBox *hbx_size;
+	char *folder_name, *folder_size;
+	
+	folder_name = camel_folder_get_name (cml_folder);
+	if (!folder_name)
+		folder_name = g_strdup ("name");
+	account = exchange_operations_get_exchange_account ();
+	model = exchange_account_folder_size_get_model (account);
+	if (model)
+		folder_size = g_strdup_printf ("%s KB", exchange_folder_size_get_val (model, folder_name));
+	else
+		folder_size = g_strdup ("0 KB");
+
+	hbx_size = gtk_hbox_new (FALSE, 0);
+	vbx = (GtkVBox *)gtk_notebook_get_nth_page (data->parent, 0);
+
+	lbl_size = gtk_label_new_with_mnemonic (_("Size:"));
+	lbl_size_val = gtk_label_new_with_mnemonic (_(folder_size));
+	gtk_widget_show (lbl_size);
+	gtk_widget_show (lbl_size_val);
+	gtk_misc_set_alignment (GTK_MISC (lbl_size), 0.0, 0.5);
+	gtk_misc_set_alignment (GTK_MISC (lbl_size_val), 0.0, 0.5);
+	gtk_box_pack_start (hbx_size, lbl_size, FALSE, TRUE, 12);
+	gtk_box_pack_start (hbx_size, lbl_size_val, FALSE, TRUE, 10);
+	gtk_widget_show_all (hbx_size);
+
+	gtk_box_pack_start (GTK_BOX (vbx), hbx_size, FALSE, FALSE, 0);
+	g_free (folder_size);
+
+	return hbx_size;
 }

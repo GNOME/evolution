@@ -36,6 +36,7 @@
 #include "e-util/e-error.h"
 
 #include "exchange-operations.h"
+#include "exchange-folder-size-display.h"
 
 enum {
 	CALENDARNAME_COL,
@@ -132,19 +133,23 @@ e_exchange_calendar_pcalendar_on_change (GtkTreeView *treeview, ESource *source)
 GtkWidget *
 e_exchange_calendar_pcalendar (EPlugin *epl, EConfigHookItemFactoryData *data)
 {
-	static GtkWidget *lbl_pcalendar, *scrw_pcalendar, *tv_pcalendar;
+	static GtkWidget *lbl_pcalendar, *scrw_pcalendar, *tv_pcalendar, *lbl_size, *lbl_size_val;
 	static GtkWidget *hidden = NULL;
 	GtkWidget *parent;
 	GtkTreeStore *ts_pcalendar;
 	GtkCellRenderer *cr_calendar;
 	GtkTreeViewColumn *tvc_calendar;
+	GtkListStore *model;
 	GPtrArray *callist;
 	ECalConfigTargetSource *t = (ECalConfigTargetSource *) data->target;
+	ESource *source = t->source;
 	EUri *uri;
 	ExchangeAccount *account;
 	gchar *ruri;
 	gchar *account_name;
         gchar *uri_text;
+	gchar *cal_name;
+	char *folder_size;
 	int row, i;
 
 	if (!hidden)
@@ -184,12 +189,27 @@ e_exchange_calendar_pcalendar (EPlugin *epl, EConfigHookItemFactoryData *data)
 	/* REVIEW: Should this handle be freed? - Attn: surf */
 	account = exchange_operations_get_exchange_account ();
 	account_name = account->account_name;
+	cal_name = e_source_peek_name (source);
+	model = exchange_account_folder_size_get_model (account);
+	if (model)
+		folder_size = g_strdup_printf ("%s KB", exchange_folder_size_get_val (model, cal_name));
+	else
+		folder_size = g_strdup ("0 KB");
 
 	/* FIXME: Take care of i18n */
+	lbl_size = gtk_label_new_with_mnemonic (_("Size:"));
+	lbl_size_val = gtk_label_new_with_mnemonic (_(folder_size));
+	gtk_widget_show (lbl_size);
+	gtk_widget_show (lbl_size_val);
+	gtk_misc_set_alignment (GTK_MISC (lbl_size), 0.0, 0.5);
+	gtk_misc_set_alignment (GTK_MISC (lbl_size_val), 0.0, 0.5);
+	gtk_table_attach (GTK_TABLE (parent), lbl_size, 0, 2, row, row+1, GTK_FILL|GTK_EXPAND, 0, 0, 0);
+	gtk_table_attach (GTK_TABLE (parent), lbl_size_val, 1, 3, row, row+1, GTK_FILL|GTK_EXPAND, 0, 0, 0);
+
 	lbl_pcalendar = gtk_label_new_with_mnemonic (_("_Location:"));
 	gtk_widget_show (lbl_pcalendar);
 	gtk_misc_set_alignment (GTK_MISC (lbl_pcalendar), 0.0, 0.5);
-	gtk_table_attach (GTK_TABLE (parent), lbl_pcalendar, 0, 2, row, row+1, GTK_FILL|GTK_EXPAND, 0, 0, 0);
+	gtk_table_attach (GTK_TABLE (parent), lbl_pcalendar, 0, 2, row+1, row+2, GTK_FILL|GTK_EXPAND, 0, 0, 0);
   
 	ts_pcalendar = gtk_tree_store_new (NUM_COLS, G_TYPE_STRING, G_TYPE_STRING);
 
@@ -215,7 +235,7 @@ e_exchange_calendar_pcalendar (EPlugin *epl, EConfigHookItemFactoryData *data)
 	gtk_label_set_mnemonic_widget (GTK_LABEL (lbl_pcalendar), tv_pcalendar);
 	g_signal_connect (G_OBJECT (tv_pcalendar), "cursor-changed", G_CALLBACK (e_exchange_calendar_pcalendar_on_change), t->source);
 
-	gtk_table_attach (GTK_TABLE (parent), scrw_pcalendar, 0, 2, row+1, row+2, GTK_EXPAND|GTK_FILL, 0, 0, 0);
+	gtk_table_attach (GTK_TABLE (parent), scrw_pcalendar, 0, 2, row+2, row+3, GTK_EXPAND|GTK_FILL, 0, 0, 0);
 	gtk_widget_show_all (scrw_pcalendar);
   
 	if (calendar_src_exists) {
@@ -243,6 +263,7 @@ e_exchange_calendar_pcalendar (EPlugin *epl, EConfigHookItemFactoryData *data)
 	}
 	
 	g_ptr_array_free (callist, TRUE);
+	g_free (folder_size);
 	return tv_pcalendar;
 }
 

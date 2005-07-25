@@ -13,6 +13,7 @@ extern "C" {
 #endif /* __cplusplus */
 
 void exchange_folder_size_display (GtkListStore *model, GtkWidget *parent);
+char * exchange_folder_size_get_val (GtkListStore *model, const char *folder_name);
 
 #ifdef __cplusplus
 }

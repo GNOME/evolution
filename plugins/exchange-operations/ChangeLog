@@ -1,3 +1,18 @@
+2005-07-25  Sarfraaz Ahmed <asarfraaz@novell.com>
+
+	* exchange-account-setup.c 
+	(org_gnome_exchange_show_folder_size_factory): Takes care of displaying
+	the folder size for mail folders.
+	* exchange-calendar.c (e_exchange_calendar_pcalendar): Now also adds
+	the calendar size in the properties page
+	* exchange-contacts.c (e_exchange_contacts_pcontacts): Now also adds 
+	the addressbook size in the properties page.
+	* exchange-folder-size-display.c (exchange_folder_size_get_val) : Fetch
+	the folder size of a particular exchange folder.
+	* exchange-folder-size-display.h : Similar
+	* org-gnome-exchange-operations.eplug.in : Added the hook for the mail
+	properties page.
+
 2005-07-25  Arunprakash <arunp@novell.com>
 
 	* exchange-delegates.c (get_folder_security) (add_button_clicked_cb)

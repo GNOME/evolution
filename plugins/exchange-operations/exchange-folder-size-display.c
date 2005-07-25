@@ -40,6 +40,46 @@ enum {
         NUM_COLUMNS
 };
 
+static void
+free_entries (gpointer name, gpointer value, gpointer data)
+{
+	g_free (name);
+	g_free (value);
+}
+
+static gboolean
+get_folder_size_func (GtkTreeModel *model,
+		  GtkTreePath	    *path,
+                  GtkTreeIter       *iter,
+                 gpointer           user_data)
+{
+	GHashTable *info = (GHashTable *) user_data;
+	gdouble folder_size;
+	char *folder_name;
+	
+	gtk_tree_model_get(model, iter, COLUMN_SIZE, &folder_size, COLUMN_NAME, &folder_name, -1);
+	
+	g_hash_table_insert (info, g_strdup (folder_name), g_strdup_printf ("%.2f", folder_size));
+	return FALSE;
+}
+
+char *
+exchange_folder_size_get_val (GtkListStore *model, const char *folder_name)
+{
+	GHashTable *finfo = g_hash_table_new (g_str_hash, g_str_equal);
+	char *col_name, *folder_size, *fsize;
+
+	gtk_tree_model_foreach (model, get_folder_size_func, finfo);
+
+	if ((fsize = g_hash_table_lookup (finfo, folder_name)) != NULL)
+		folder_size = g_strdup (fsize);
+	else
+		folder_size = g_strdup ("0");
+	
+	g_hash_table_foreach (finfo, free_entries, NULL);
+
+	return folder_size;
+}
 
 static void
 format_size_func (GtkTreeViewColumn *col,

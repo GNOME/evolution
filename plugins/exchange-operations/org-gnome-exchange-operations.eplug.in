@@ -146,22 +146,40 @@
 		</menu>
 	</hook>
 	<hook class="org.gnome.evolution.calendar.popup:1.0">
-		<menu id="org.gnome.evolution.calendar.source.popup" target="source" factory="org_gnome_exchange_check_subscribed">
+		<menu id="org.gnome.evolution.calendar.source.popup" 
+			target="source" 
+			factory="org_gnome_exchange_check_subscribed">
 		</menu>
 	</hook>
 	<hook class="org.gnome.evolution.calendar.popup:1.0">
-		<menu id="org.gnome.evolution.tasks.source.popup" target="source" factory="org_gnome_exchange_check_subscribed">
+		<menu id="org.gnome.evolution.tasks.source.popup" 
+			target="source" 
+			factory="org_gnome_exchange_check_subscribed">
 		</menu>
 	</hook>
 	<hook class="org.gnome.evolution.addressbook.popup:1.0">
-		<menu id="org.gnome.evolution.addressbook.source.popup" target="source" factory="org_gnome_exchange_check_address_book_subscribed">
+		<menu id="org.gnome.evolution.addressbook.source.popup" 
+			target="source" 
+			factory="org_gnome_exchange_check_address_book_subscribed">
 		</menu>
 	</hook>
 	<hook class="org.gnome.evolution.mail.popup:1.0">
-		<menu id="org.gnome.evolution.mail.foldertree.popup" target="folder" factory = "org_gnome_exchange_check_inbox_subscribed">
+		<menu id="org.gnome.evolution.mail.foldertree.popup" 
+			target="folder" 
+			factory = "org_gnome_exchange_check_inbox_subscribed">
 		</menu>
 	</hook>
-
+	<hook class="org.gnome.evolution.mail.config:1.0">
+		<group id="org.gnome.evolution.mail.folderConfig" 
+			target="folder"
+			check= "exchange_show_folder_size_check">
+		<item 
+			type="page" 
+			path="10.size" 
+			label="Size" 
+			factory="org_gnome_exchange_show_folder_size_factory"/>
+		</group>
+	</hook>
 
   </e-plugin>
 </e-plugin-list>
