@@ -1,14 +1,14 @@
 # Vietnamese Translation for evolution.
 # Copyright © 2005 Gnome i18n Project for Vietnamese.
-# pclouds <pclouds@gmx.net>, 2002-2004.
+# Nguyễn Thái Ngọc Duy <pclouds@gmx.net>, 2002-2004.
 # Clytie Siddall <clytie@riverland.net.au>, 2005.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution Gnome 2.12\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-07-25 05:29+0000\n"
-"PO-Revision-Date: 2005-07-25 17:38+0930\n"
+"POT-Creation-Date: 2005-07-26 05:30+0000\n"
+"PO-Revision-Date: 2005-07-26 17:38+0930\n"
 "Last-Translator: Clytie Siddall <clytie@riverland.net.au>\n"
 "Language-Team: Gnome-Vi <gnomevi-list@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -482,6 +482,7 @@ msgid "_Discard"
 msgstr "_Hủy bỏ"
 
 #: ../addressbook/addressbook.error.xml.h:32
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:76
 msgid "{0}"
 msgstr "{0}"
 
@@ -1170,8 +1171,8 @@ msgstr "Liên lạc"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:13
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:522
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:529
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2256
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:537
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2297
 msgid "Contact Editor"
 msgstr "Bộ hiệu chỉnh liên lạc"
 
@@ -2321,8 +2322,8 @@ msgid "Zimbabwe"
 msgstr "Dim-ba-bu-ê"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-fullname.c:89
-#: ../plugins/exchange-operations/exchange-delegates.c:939
-#: ../plugins/exchange-operations/exchange-permissions-dialog.c:708
+#: ../plugins/exchange-operations/exchange-delegates.c:936
+#: ../plugins/exchange-operations/exchange-permissions-dialog.c:712
 #: ../plugins/plugin-manager/plugin-manager.c:44
 #: ../plugins/save-attachments/save-attachments.c:362
 #: ../widgets/menus/gal-view-new-dialog.c:73
@@ -2413,15 +2414,21 @@ msgstr "Trường cần thiết"
 msgid "Changed"
 msgstr "Đã thay đổi"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2599
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:532
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2292
+#, c-format
+msgid "Contact Editor - %s"
+msgstr "Bộ hiệu chỉnh liên lạc — « %s »"
+
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2629
 msgid "Please select an image for this contact"
 msgstr "Hãy chọn ảnh cho liên lạc này"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2600
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2630
 msgid "No image"
 msgstr "Không ảnh"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2876
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2906
 msgid ""
 "The contact data is invalid:\n"
 "\n"
@@ -2429,7 +2436,7 @@ msgstr ""
 "Dữ liệu liên lạc không hợp lệ:\n"
 "\n"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2928
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2958
 msgid "Invalid contact."
 msgstr "Liên lạc không hợp lệ."
 
@@ -2580,11 +2587,10 @@ msgstr "Tên tài _khoản:"
 msgid "_IM Service:"
 msgstr "Dịch vụ t_in nhắn:"
 
-#. FIXME: Take care of i18n
 #: ../addressbook/gui/contact-editor/im.glade.h:5
 #: ../plugins/calendar-weather/calendar-weather.c:409
-#: ../plugins/exchange-operations/exchange-calendar.c:189
-#: ../plugins/exchange-operations/exchange-contacts.c:164
+#: ../plugins/exchange-operations/exchange-calendar.c:212
+#: ../plugins/exchange-operations/exchange-contacts.c:191
 msgid "_Location:"
 msgstr "Đị_a điểm:"
 
@@ -2777,7 +2783,7 @@ msgid "Save as VCard..."
 msgstr "Lưu mới vCard..."
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:929
-#: ../calendar/gui/e-calendar-table.c:1156
+#: ../calendar/gui/e-calendar-table.c:1154
 #: ../calendar/gui/e-calendar-view.c:1522 ../ui/evolution-addressbook.xml.h:37
 msgid "_Open"
 msgstr "_Mở"
@@ -2991,7 +2997,7 @@ msgstr "Rađiô"
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:9
 #: ../calendar/gui/e-meeting-list-view.c:378
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:9
-#: ../plugins/exchange-operations/exchange-permissions-dialog.c:712
+#: ../plugins/exchange-operations/exchange-permissions-dialog.c:716
 msgid "Role"
 msgstr "Vai trò"
 
@@ -3233,6 +3239,7 @@ msgstr "Chưa định nghĩa Tự liên hệ"
 #. E_BOOK_ERROR_URI_ALREADY_LOADED
 #. E_BOOK_ERROR_PERMISSION_DENIED
 #: ../addressbook/gui/widgets/eab-gui-util.c:57
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:47
 msgid "Permission denied"
 msgstr "Không đủ quyền truy cập"
 
@@ -3257,7 +3264,7 @@ msgstr "Chưa hỗ trợ giao thức ấy"
 #: ../calendar/gui/e-cal-component-preview.c:232
 #: ../calendar/gui/e-cal-model-tasks.c:347
 #: ../calendar/gui/e-cal-model-tasks.c:660
-#: ../calendar/gui/e-calendar-table.c:458 ../calendar/gui/print.c:2364
+#: ../calendar/gui/e-calendar-table.c:456 ../calendar/gui/print.c:2364
 msgid "Cancelled"
 msgstr "Bị hủy bỏ"
 
@@ -3729,7 +3736,11 @@ msgstr "Phần:"
 msgid "Shading"
 msgstr "Bóng"
 
+#. FIXME: Take care of i18n
 #: ../addressbook/printing/e-contact-print.glade.h:36
+#: ../plugins/exchange-operations/exchange-account-setup.c:927
+#: ../plugins/exchange-operations/exchange-calendar.c:202
+#: ../plugins/exchange-operations/exchange-contacts.c:174
 msgid "Size:"
 msgstr "Cỡ:"
 
@@ -4255,7 +4266,7 @@ msgstr "Thành phần công việc Evolution"
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:10
 #: ../calendar/gui/e-tasks.c:1257 ../calendar/gui/print.c:1822
 #: ../calendar/gui/tasks-component.c:519 ../calendar/gui/tasks-component.c:994
-#: ../calendar/gui/tasks-control.c:411
+#: ../calendar/gui/tasks-control.c:441
 #: ../calendar/importers/icalendar-importer.c:79
 #: ../calendar/importers/icalendar-importer.c:707
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:384
@@ -4321,7 +4332,7 @@ msgstr "Thời gian _ngủ:"
 #: ../ui/evolution-mail-messagedisplay.xml.h:5
 #: ../ui/evolution-message-composer.xml.h:44
 #: ../ui/evolution-signature-editor.xml.h:12
-#: ../ui/evolution-subscribe.xml.h:10 ../ui/evolution-tasks.xml.h:22
+#: ../ui/evolution-subscribe.xml.h:10 ../ui/evolution-tasks.xml.h:23
 #: ../ui/evolution.xml.h:32
 msgid "_Edit"
 msgstr "_Hiệu chỉnh"
@@ -5098,7 +5109,7 @@ msgstr "_Thêm đính kèm..."
 
 #: ../calendar/gui/dialogs/cal-attachment-bar.c:736
 #: ../composer/e-msg-composer-attachment-bar.c:740
-#: ../widgets/misc/e-attachment-bar.c:878
+#: ../widgets/misc/e-attachment-bar.c:896
 msgid "Attachment Bar"
 msgstr "Thanh đính kèm"
 
@@ -5610,12 +5621,12 @@ msgid_plural "%d attached messages"
 msgstr[0] "%d thư đính kèm"
 
 #: ../calendar/gui/dialogs/comp-editor.c:425
-#: ../calendar/gui/e-calendar-table.c:1164
+#: ../calendar/gui/e-calendar-table.c:1162
 #: ../calendar/gui/e-calendar-view.c:1529 ../composer/e-msg-composer.c:2909
 #: ../mail/em-folder-tree.c:1047 ../mail/em-folder-view.c:1034
 #: ../mail/message-list.c:1708 ../ui/evolution-addressbook.xml.h:31
 #: ../ui/evolution-calendar.xml.h:39 ../ui/evolution-composer-entries.xml.h:7
-#: ../ui/evolution-mail-message.xml.h:100 ../ui/evolution-tasks.xml.h:20
+#: ../ui/evolution-mail-message.xml.h:100 ../ui/evolution-tasks.xml.h:21
 msgid "_Copy"
 msgstr "_Chép"
 
@@ -5759,7 +5770,7 @@ msgid "Contacts..."
 msgstr "Liên lạc..."
 
 #: ../calendar/gui/dialogs/e-delegate-dialog.glade.h:2
-#: ../plugins/exchange-operations/exchange-delegates.c:420
+#: ../plugins/exchange-operations/exchange-delegates.c:421
 msgid "Delegate To:"
 msgstr "Ủy nhiệm cho:"
 
@@ -5899,7 +5910,7 @@ msgstr "_Phân loại:"
 #: ../calendar/gui/dialogs/event-page.glade.h:14
 #: ../calendar/gui/dialogs/task-page.glade.h:8
 #: ../calendar/gui/e-cal-list-view.c:254 ../calendar/gui/e-cal-model.c:324
-#: ../calendar/gui/e-calendar-table.c:362
+#: ../calendar/gui/e-calendar-table.c:360
 msgid "Confidential"
 msgstr "Tin tưởng"
 
@@ -5914,14 +5925,14 @@ msgstr "Đị_a điểm:"
 #: ../calendar/gui/dialogs/event-page.glade.h:17
 #: ../calendar/gui/dialogs/task-page.glade.h:10
 #: ../calendar/gui/e-cal-list-view.c:253 ../calendar/gui/e-cal-model.c:322
-#: ../calendar/gui/e-calendar-table.c:361
+#: ../calendar/gui/e-calendar-table.c:359
 msgid "Private"
 msgstr "Riêng tư"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:18
 #: ../calendar/gui/dialogs/task-page.glade.h:11
 #: ../calendar/gui/e-cal-list-view.c:252 ../calendar/gui/e-cal-model.c:313
-#: ../calendar/gui/e-cal-model.c:320 ../calendar/gui/e-calendar-table.c:360
+#: ../calendar/gui/e-cal-model.c:320 ../calendar/gui/e-calendar-table.c:358
 msgid "Public"
 msgstr "Công cộng"
 
@@ -6268,7 +6279,7 @@ msgstr "<span weight=\"bold\">Trạng thái</span>"
 #: ../calendar/gui/e-cal-component-preview.c:229
 #: ../calendar/gui/e-cal-model-tasks.c:345
 #: ../calendar/gui/e-cal-model-tasks.c:658
-#: ../calendar/gui/e-calendar-table.c:457 ../calendar/gui/e-itip-control.c:896
+#: ../calendar/gui/e-calendar-table.c:455 ../calendar/gui/e-itip-control.c:896
 #: ../calendar/gui/e-meeting-store.c:196 ../calendar/gui/e-meeting-store.c:219
 #: ../calendar/gui/print.c:2361 ../plugins/save-calendar/csv-format.c:390
 msgid "Completed"
@@ -6276,7 +6287,7 @@ msgstr "Xong rồi."
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:5
 #: ../calendar/gui/e-cal-component-preview.c:248
-#: ../calendar/gui/e-calendar-table.c:382 ../mail/message-list.c:1008
+#: ../calendar/gui/e-calendar-table.c:380 ../mail/message-list.c:1008
 msgid "High"
 msgstr "Cao"
 
@@ -6285,19 +6296,19 @@ msgstr "Cao"
 #: ../calendar/gui/e-cal-model-tasks.c:343
 #: ../calendar/gui/e-cal-model-tasks.c:656
 #: ../calendar/gui/e-cal-model-tasks.c:731
-#: ../calendar/gui/e-calendar-table.c:456 ../calendar/gui/print.c:2358
+#: ../calendar/gui/e-calendar-table.c:454 ../calendar/gui/print.c:2358
 msgid "In Progress"
 msgstr "Đang tiến hành"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:7
 #: ../calendar/gui/e-cal-component-preview.c:252
-#: ../calendar/gui/e-calendar-table.c:384 ../mail/message-list.c:1006
+#: ../calendar/gui/e-calendar-table.c:382 ../mail/message-list.c:1006
 msgid "Low"
 msgstr "Thấp"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:8
 #: ../calendar/gui/e-cal-component-preview.c:250
-#: ../calendar/gui/e-cal-model.c:918 ../calendar/gui/e-calendar-table.c:383
+#: ../calendar/gui/e-cal-model.c:918 ../calendar/gui/e-calendar-table.c:381
 #: ../mail/message-list.c:1007
 msgid "Normal"
 msgstr "Bình thường"
@@ -6306,7 +6317,7 @@ msgstr "Bình thường"
 #: ../calendar/gui/e-cal-component-preview.c:236
 #: ../calendar/gui/e-cal-model-tasks.c:341
 #: ../calendar/gui/e-cal-model-tasks.c:654
-#: ../calendar/gui/e-calendar-table.c:455 ../calendar/gui/print.c:2355
+#: ../calendar/gui/e-calendar-table.c:453 ../calendar/gui/print.c:2355
 msgid "Not Started"
 msgstr "Chưa bắt đầu"
 
@@ -6315,7 +6326,7 @@ msgid "P_ercent complete:"
 msgstr "_Phần trăm hoàn tất:"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:11
-#: ../calendar/gui/e-calendar-table.c:385
+#: ../calendar/gui/e-calendar-table.c:383
 msgid "Undefined"
 msgstr "Chưa định nghĩa"
 
@@ -6523,7 +6534,7 @@ msgstr "Ngày đến hạn:"
 #. Status
 #: ../calendar/gui/e-cal-component-preview.c:222
 #: ../calendar/gui/e-itip-control.c:1132
-#: ../plugins/exchange-operations/exchange-account-setup.c:268
+#: ../plugins/exchange-operations/exchange-account-setup.c:269
 #: ../plugins/itip-formatter/itip-view.c:907
 msgid "Status:"
 msgstr "Trạng thái:"
@@ -6551,12 +6562,12 @@ msgid "Summary"
 msgstr "Tóm tắt"
 
 #: ../calendar/gui/e-cal-model-calendar.c:179
-#: ../calendar/gui/e-calendar-table.c:434
+#: ../calendar/gui/e-calendar-table.c:432
 msgid "Free"
 msgstr "Rảnh"
 
 #: ../calendar/gui/e-cal-model-calendar.c:182
-#: ../calendar/gui/e-calendar-table.c:435
+#: ../calendar/gui/e-calendar-table.c:433
 #: ../calendar/gui/e-meeting-time-sel.c:412
 msgid "Busy"
 msgstr "Bận"
@@ -6596,8 +6607,7 @@ msgstr "Không"
 #: ../plugins/itip-formatter/itip-formatter.c:238
 #: ../plugins/itip-formatter/itip-formatter.c:1626
 #: ../plugins/plugin-manager/plugin-manager.c:72
-#: ../shell/e-component-registry.c:205 ../shell/e-component-registry.c:211
-#: ../widgets/misc/e-attachment-bar.c:623
+#: ../widgets/misc/e-attachment-bar.c:641
 #: ../widgets/misc/e-charset-picker.c:62
 msgid "Unknown"
 msgstr "Không biết"
@@ -6610,132 +6620,132 @@ msgstr "Lặp lại"
 msgid "Assigned"
 msgstr "Đã gán"
 
-#: ../calendar/gui/e-calendar-table.c:404
+#: ../calendar/gui/e-calendar-table.c:402
 msgid "0%"
 msgstr "0%"
 
-#: ../calendar/gui/e-calendar-table.c:405
+#: ../calendar/gui/e-calendar-table.c:403
 msgid "10%"
 msgstr "10%"
 
-#: ../calendar/gui/e-calendar-table.c:406
+#: ../calendar/gui/e-calendar-table.c:404
 msgid "20%"
 msgstr "20%"
 
-#: ../calendar/gui/e-calendar-table.c:407
+#: ../calendar/gui/e-calendar-table.c:405
 msgid "30%"
 msgstr "30%"
 
-#: ../calendar/gui/e-calendar-table.c:408
+#: ../calendar/gui/e-calendar-table.c:406
 msgid "40%"
 msgstr "40%"
 
-#: ../calendar/gui/e-calendar-table.c:409
+#: ../calendar/gui/e-calendar-table.c:407
 msgid "50%"
 msgstr "50%"
 
-#: ../calendar/gui/e-calendar-table.c:410
+#: ../calendar/gui/e-calendar-table.c:408
 msgid "60%"
 msgstr "60%"
 
-#: ../calendar/gui/e-calendar-table.c:411
+#: ../calendar/gui/e-calendar-table.c:409
 msgid "70%"
 msgstr "70%"
 
-#: ../calendar/gui/e-calendar-table.c:412
+#: ../calendar/gui/e-calendar-table.c:410
 msgid "80%"
 msgstr "80%"
 
-#: ../calendar/gui/e-calendar-table.c:413
+#: ../calendar/gui/e-calendar-table.c:411
 msgid "90%"
 msgstr "90%"
 
-#: ../calendar/gui/e-calendar-table.c:414
+#: ../calendar/gui/e-calendar-table.c:412
 msgid "100%"
 msgstr "100%"
 
-#: ../calendar/gui/e-calendar-table.c:516
+#: ../calendar/gui/e-calendar-table.c:514
 msgid "Task Table"
 msgstr "Bảng công việc"
 
-#: ../calendar/gui/e-calendar-table.c:694
+#: ../calendar/gui/e-calendar-table.c:692
 #: ../calendar/gui/e-calendar-view.c:661
 msgid "Deleting selected objects"
 msgstr "Đang xóa bỏ các đối tượng được chọn"
 
-#: ../calendar/gui/e-calendar-table.c:873
+#: ../calendar/gui/e-calendar-table.c:871
 #: ../calendar/gui/e-calendar-view.c:789
 msgid "Updating objects"
 msgstr "Đang cập nhật các đối tượng"
 
-#: ../calendar/gui/e-calendar-table.c:1014
+#: ../calendar/gui/e-calendar-table.c:1012
 #: ../calendar/gui/e-calendar-view.c:1098 ../composer/e-msg-composer.c:1242
 msgid "Save as..."
 msgstr "Lưu mới..."
 
-#: ../calendar/gui/e-calendar-table.c:1157
+#: ../calendar/gui/e-calendar-table.c:1155
 msgid "Open _Web Page"
 msgstr "Mở trang _Mạng"
 
-#: ../calendar/gui/e-calendar-table.c:1158
+#: ../calendar/gui/e-calendar-table.c:1156
 #: ../calendar/gui/e-calendar-view.c:1523 ../mail/em-folder-view.c:1044
 #: ../mail/em-popup.c:541 ../mail/em-popup.c:552
 msgid "_Save As..."
 msgstr "Lư_u mới..."
 
-#: ../calendar/gui/e-calendar-table.c:1159
+#: ../calendar/gui/e-calendar-table.c:1157
 #: ../calendar/gui/e-calendar-view.c:1503
 #: ../calendar/gui/e-calendar-view.c:1524 ../mail/em-folder-view.c:1045
 #: ../plugins/print-message/org-gnome-print-message.xml.h:3
 #: ../ui/evolution-addressbook.xml.h:40 ../ui/evolution-calendar.xml.h:44
-#: ../ui/evolution-mail-message.xml.h:117 ../ui/evolution-tasks.xml.h:25
+#: ../ui/evolution-mail-message.xml.h:117 ../ui/evolution-tasks.xml.h:27
 msgid "_Print..."
 msgstr "_In..."
 
-#: ../calendar/gui/e-calendar-table.c:1163
+#: ../calendar/gui/e-calendar-table.c:1161
 #: ../calendar/gui/e-calendar-view.c:1528 ../ui/evolution-addressbook.xml.h:1
 #: ../ui/evolution-calendar.xml.h:1 ../ui/evolution-tasks.xml.h:1
 msgid "C_ut"
 msgstr "_Cắt"
 
-#: ../calendar/gui/e-calendar-table.c:1165
+#: ../calendar/gui/e-calendar-table.c:1163
 #: ../calendar/gui/e-calendar-view.c:1506
 #: ../calendar/gui/e-calendar-view.c:1530 ../ui/evolution-addressbook.xml.h:38
 #: ../ui/evolution-calendar.xml.h:43 ../ui/evolution-composer-entries.xml.h:9
-#: ../ui/evolution-tasks.xml.h:24
+#: ../ui/evolution-tasks.xml.h:26
 msgid "_Paste"
 msgstr "_Dán"
 
-#: ../calendar/gui/e-calendar-table.c:1169
+#: ../calendar/gui/e-calendar-table.c:1167 ../ui/evolution-tasks.xml.h:20
 msgid "_Assign Task"
 msgstr "_Gán công việc"
 
-#: ../calendar/gui/e-calendar-table.c:1170
+#: ../calendar/gui/e-calendar-table.c:1168 ../ui/evolution-tasks.xml.h:24
 msgid "_Forward as iCalendar"
 msgstr "_Chuyển dạng iCalendar"
 
-#: ../calendar/gui/e-calendar-table.c:1171
+#: ../calendar/gui/e-calendar-table.c:1169
 msgid "_Mark as Complete"
 msgstr "Đánh dấu _hoàn tất"
 
-#: ../calendar/gui/e-calendar-table.c:1172
+#: ../calendar/gui/e-calendar-table.c:1170
 msgid "_Mark Selected Tasks as Complete"
 msgstr "Đánh _dấu các công việc đã chọn là hoàn tất"
 
 #. FIXME: need to disable for undeletable folders
-#: ../calendar/gui/e-calendar-table.c:1176
+#: ../calendar/gui/e-calendar-table.c:1174
 #: ../calendar/gui/e-calendar-view.c:1542 ../mail/em-folder-tree.c:2116
 #: ../mail/em-folder-view.c:1048 ../ui/evolution-addressbook.xml.h:33
 #: ../ui/evolution-calendar.xml.h:40 ../ui/evolution-mail-list.xml.h:26
-#: ../ui/evolution-tasks.xml.h:21
+#: ../ui/evolution-tasks.xml.h:22
 msgid "_Delete"
 msgstr "_Xóa bỏ"
 
-#: ../calendar/gui/e-calendar-table.c:1177
+#: ../calendar/gui/e-calendar-table.c:1175
 msgid "_Delete Selected Tasks"
 msgstr "Xóa bỏ các côn_g việc được chọn"
 
-#: ../calendar/gui/e-calendar-table.c:1328
+#: ../calendar/gui/e-calendar-table.c:1326
 #: ../calendar/gui/e-calendar-table.etspec.h:4
 msgid "Click to add a task"
 msgstr "Nhấn để thêm công việc"
@@ -8033,7 +8043,7 @@ msgstr "_Danh sách công việc"
 msgid "Create a new task list"
 msgstr "Tạo danh sách công việc mới"
 
-#: ../calendar/gui/tasks-control.c:373
+#: ../calendar/gui/tasks-control.c:403
 msgid ""
 "This operation will permanently erase all tasks marked as completed. If you "
 "continue, you will not be able to recover these tasks.\n"
@@ -8045,11 +8055,11 @@ msgstr ""
 "\n"
 "Bạn có thật sự muốn xóa bỏ những công việc này sao?"
 
-#: ../calendar/gui/tasks-control.c:376
+#: ../calendar/gui/tasks-control.c:406
 msgid "Do not ask me again."
 msgstr "Đừng hỏi tôi lần nữa."
 
-#: ../calendar/gui/tasks-control.c:411
+#: ../calendar/gui/tasks-control.c:441
 msgid "Print Tasks"
 msgstr "In công việc"
 
@@ -10556,7 +10566,7 @@ msgstr "Mặc định"
 
 #. Security settings
 #: ../mail/em-account-editor.c:2213 ../mail/mail-config.glade.h:122
-#: ../plugins/exchange-operations/exchange-account-setup.c:316
+#: ../plugins/exchange-operations/exchange-account-setup.c:317
 msgid "Security"
 msgstr "Bảo mật"
 
@@ -14368,12 +14378,12 @@ msgid "_User:"
 msgstr "_Người dùng:"
 
 #. i18n: "Secure Password Authentication" is an Outlookism
-#: ../plugins/exchange-operations/exchange-account-setup.c:62
+#: ../plugins/exchange-operations/exchange-account-setup.c:63
 msgid "Secure Password"
 msgstr "Mật khẩu bảo mật"
 
 #. i18n: "NTLM" probably doesn't translate
-#: ../plugins/exchange-operations/exchange-account-setup.c:65
+#: ../plugins/exchange-operations/exchange-account-setup.c:66
 msgid ""
 "This option will connect to the Exchange server using secure password (NTLM) "
 "authentication."
@@ -14381,11 +14391,11 @@ msgstr ""
 "Tùy chọn này sẽ kết nối đến máy phục vụ Exchange dùng cách xác thực mặt khẩu "
 "bảo mật (NTLM)."
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:73
+#: ../plugins/exchange-operations/exchange-account-setup.c:74
 msgid "Plaintext Password"
 msgstr "Mật khẩu chữ thô"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:75
+#: ../plugins/exchange-operations/exchange-account-setup.c:76
 msgid ""
 "This option will connect to the Exchange server using standard plaintext "
 "password authentication."
@@ -14393,11 +14403,11 @@ msgstr ""
 "Tùy chọn này sẽ kết nối tới máy phục vụ Exchannge dùng cách xác thực mật "
 "khẩu chữ thô (không mã hóa)."
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:256
+#: ../plugins/exchange-operations/exchange-account-setup.c:257
 msgid "Out Of Office"
 msgstr "Ở ngoại văn phòng"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:263
+#: ../plugins/exchange-operations/exchange-account-setup.c:264
 msgid ""
 "The message specified below will be automatically sent to \n"
 "each person who sends mail to you while you are out of the office."
@@ -14405,66 +14415,66 @@ msgstr ""
 "Thông điệp dưới đây sẽ được gửi tự động\n"
 "tới mỗi người gửi thư cho bạn khi bạn ở ngoài văn phòng."
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:275
-#: ../plugins/exchange-operations/exchange-account-setup.c:280
+#: ../plugins/exchange-operations/exchange-account-setup.c:276
+#: ../plugins/exchange-operations/exchange-account-setup.c:281
 msgid "I am out of the office"
 msgstr "Tôi hiện thời ở ngoài văn phòng"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:276
-#: ../plugins/exchange-operations/exchange-account-setup.c:279
+#: ../plugins/exchange-operations/exchange-account-setup.c:277
+#: ../plugins/exchange-operations/exchange-account-setup.c:280
 msgid "I am in the office"
 msgstr "Tôi đang ở trong văn phòng"
 
 #. Change Password
-#: ../plugins/exchange-operations/exchange-account-setup.c:326
+#: ../plugins/exchange-operations/exchange-account-setup.c:327
 msgid "Change the password for Exchange account"
 msgstr "Thay đổi mật khẩu cho tài khoản Exchange"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:328
+#: ../plugins/exchange-operations/exchange-account-setup.c:329
 #: ../plugins/exchange-operations/exchange-change-password.glade.h:2
 msgid "Change Password"
 msgstr "Đổi mật khẩu"
 
 #. Delegation Assistant
-#: ../plugins/exchange-operations/exchange-account-setup.c:332
+#: ../plugins/exchange-operations/exchange-account-setup.c:333
 msgid "Manage the delegate settings for Exchange account"
 msgstr "Quản lý thiết lập ủy nhiệm cho tài khoản Exchange"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:334
+#: ../plugins/exchange-operations/exchange-account-setup.c:335
 msgid "Delegation Assitant"
 msgstr "Trợ tá ủy nhiệm"
 
 #. Miscelleneous settings
-#: ../plugins/exchange-operations/exchange-account-setup.c:344
+#: ../plugins/exchange-operations/exchange-account-setup.c:345
 msgid "Miscelleneous"
 msgstr "Linh tinh"
 
 #. Folder Size
-#: ../plugins/exchange-operations/exchange-account-setup.c:354
+#: ../plugins/exchange-operations/exchange-account-setup.c:355
 msgid "View the size of all Exchange folders"
 msgstr "Xem kích thước của mọi danh mục Exchange"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:356
+#: ../plugins/exchange-operations/exchange-account-setup.c:357
 msgid "Folders Size"
 msgstr "Cỡ danh mục"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:363
+#: ../plugins/exchange-operations/exchange-account-setup.c:364
 msgid "Exchange Settings"
 msgstr "Thiết lập Exchange"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:606
+#: ../plugins/exchange-operations/exchange-account-setup.c:607
 msgid "_OWA Url:"
 msgstr "Địa chỉ Mạng _OWA:"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:631
+#: ../plugins/exchange-operations/exchange-account-setup.c:632
 msgid "A_uthenticate"
 msgstr "_Xác thực"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:823
+#: ../plugins/exchange-operations/exchange-account-setup.c:824
 msgid "Authentication Type"
 msgstr "Loại xác thực"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:837
+#: ../plugins/exchange-operations/exchange-account-setup.c:838
 msgid "Ch_eck for Supported Types"
 msgstr "_Kiểm tra kiểu được hỗ trợ "
 
@@ -14502,100 +14512,53 @@ msgstr ""
 "giờ."
 
 #: ../plugins/exchange-operations/exchange-delegates-user.c:144
-#: ../plugins/exchange-operations/exchange-permissions-dialog.c:567
+#: ../plugins/exchange-operations/exchange-permissions-dialog.c:571
 msgid "Custom"
 msgstr "Tự chọn"
 
 #: ../plugins/exchange-operations/exchange-delegates-user.c:191
-#: ../plugins/exchange-operations/exchange-permissions-dialog.c:184
+#: ../plugins/exchange-operations/exchange-permissions-dialog.c:186
 #, c-format
 msgid "Permissions for %s"
 msgstr "Quyền hạn cho « %s »"
 
-#: ../plugins/exchange-operations/exchange-delegates.c:222
-msgid ""
-"No Global Catalog server configured for this account.\n"
-"Unable to edit delegates."
-msgstr ""
-"Không có trình phục vụ Phân loại Toàn cục được cấu hình cho tài khoản này.\n"
-"Không thể hiệu chỉnh người được ủy nhiệm."
-
-#: ../plugins/exchange-operations/exchange-delegates.c:261
-msgid ""
-"Could not read folder permissions.\n"
-"Unable to edit delegates."
-msgstr ""
-"Không gửi được quyền truy cập danh mục.\n"
-"Không thể hiệu chỉnh người được ủy nhiệm."
-
-#: ../plugins/exchange-operations/exchange-delegates.c:268
-msgid ""
-"Could not determine folder permissions for delegates.\n"
-"Unable to edit delegates."
-msgstr ""
-"Không thể xác định quyền truy cập danh mục cho người được ủy nhiệm.\n"
-"Không thể hiệu chỉnh người được ủy nhiệm."
-
-#: ../plugins/exchange-operations/exchange-delegates.c:420
+#: ../plugins/exchange-operations/exchange-delegates.c:421
 msgid "Delegate To"
 msgstr "Ủy nhiệm cho"
 
-#: ../plugins/exchange-operations/exchange-delegates.c:436
-#, c-format
-msgid "Could not make %s a delegate"
-msgstr "Không thể ủy nhiệm cho « %s »."
-
-#: ../plugins/exchange-operations/exchange-delegates.c:446
-msgid "You cannot make yourself your own delegate"
-msgstr "Bạn không thể ủy nhiệm cho mình."
-
-#: ../plugins/exchange-operations/exchange-delegates.c:455
-#, c-format
-msgid "%s is already a delegate"
-msgstr "« %s » là một người được ủy nhiệm rồi."
-
-#: ../plugins/exchange-operations/exchange-delegates.c:564
+#: ../plugins/exchange-operations/exchange-delegates.c:562
 #, c-format
 msgid "Remove the delegate %s?"
 msgstr "Loại bỏ người được ủy nhiệm « %s » không?"
 
-#: ../plugins/exchange-operations/exchange-delegates.c:681
+#: ../plugins/exchange-operations/exchange-delegates.c:679
 msgid "Could not access Active Directory"
 msgstr "Không truy cập được danh mục hoạt động."
 
-#: ../plugins/exchange-operations/exchange-delegates.c:696
+#: ../plugins/exchange-operations/exchange-delegates.c:694
 msgid "Could not find self in Active Directory"
 msgstr "Không tìm thấy chính nó trong thư mục hoạt động."
 
-#: ../plugins/exchange-operations/exchange-delegates.c:709
+#: ../plugins/exchange-operations/exchange-delegates.c:707
 #, c-format
 msgid "Could not find delegate %s in Active Directory"
 msgstr "Không tìm thấy người được ủy nhiệm « %s » trong thư mục hoạt động."
 
-#: ../plugins/exchange-operations/exchange-delegates.c:721
+#: ../plugins/exchange-operations/exchange-delegates.c:719
 #, c-format
 msgid "Could not remove delegate %s"
 msgstr "Không thể loại bỏ người được ủy nhiệm « %s »."
 
-#: ../plugins/exchange-operations/exchange-delegates.c:781
+#: ../plugins/exchange-operations/exchange-delegates.c:779
 msgid "Could not update list of delegates."
 msgstr "Không thể cập nhật danh sách các người được ủy nhiệm."
 
-#: ../plugins/exchange-operations/exchange-delegates.c:799
+#: ../plugins/exchange-operations/exchange-delegates.c:797
 #, c-format
 msgid "Could not add delegate %s"
 msgstr "Không thể thêm người được ủy nhiệm « %s »."
 
-#: ../plugins/exchange-operations/exchange-delegates.c:815
-#, c-format
-msgid ""
-"Failed to update delegates:\n"
-"%s"
-msgstr ""
-"Không thể cập nhật người được ủy nhiệm:\n"
-"%s"
-
-#: ../plugins/exchange-operations/exchange-delegates.c:968
+#: ../plugins/exchange-operations/exchange-delegates.c:965
 msgid "Error reading delegates list."
 msgstr "Gặp lỗi khi đọc danh sách các người được ủy nhiệm."
 
@@ -14652,7 +14615,7 @@ msgstr "Hộp _Đến"
 msgid "_Tasks:"
 msgstr "_Công việc"
 
-#: ../plugins/exchange-operations/exchange-folder-permission.c:51
+#: ../plugins/exchange-operations/exchange-folder-permission.c:57
 #: ../plugins/exchange-operations/org-gnome-folder-permissions.xml.h:2
 msgid "Permissions..."
 msgstr "Quyền hạn..."
@@ -14679,50 +14642,17 @@ msgstr "Thật sự bỏ đăng ký trên danh mục « %s » không?"
 msgid "Unsubscribe from \"%s\""
 msgstr "Bỏ đăng ký trên danh mục « %s »"
 
-#: ../plugins/exchange-operations/exchange-permissions-dialog.c:227
-msgid "Could not read folder permissions"
-msgstr "Không đọc được quyền truy cập danh mục."
-
-#: ../plugins/exchange-operations/exchange-permissions-dialog.c:269
-msgid "Could not update folder permissions."
-msgstr "Không thể cập nhật quyền truy cập danh mục."
-
-#: ../plugins/exchange-operations/exchange-permissions-dialog.c:298
-#, c-format
-msgid "Could not update folder permissions. %s"
-msgstr "Không thể cập nhật quyền truy cập danh mục. %s"
-
-#: ../plugins/exchange-operations/exchange-permissions-dialog.c:300
+#: ../plugins/exchange-operations/exchange-permissions-dialog.c:299
 msgid "(Permission denied.)"
 msgstr "(Không đủ quyền truy cập.)"
 
-#: ../plugins/exchange-operations/exchange-permissions-dialog.c:399
-msgid ""
-"Unable to add user to access control list:\n"
-"No Global Catalog server is configured for this account."
-msgstr ""
-"Không thêm được người dùng vào danh sách điều khiển truy cập:\n"
-"Không có trình phục vụ phân loại toàn cục được cấu hình cho tài khoản này."
+#: ../plugins/exchange-operations/exchange-permissions-dialog.c:405
+msgid "Add User:"
+msgstr "Thêm người dùng:"
 
-#: ../plugins/exchange-operations/exchange-permissions-dialog.c:417
-#, c-format
-msgid "No such user %s"
-msgstr "Không có người dùng như vậy « %s »."
-
-#: ../plugins/exchange-operations/exchange-permissions-dialog.c:421
-#, c-format
-msgid "%s cannot be added to an access control list"
-msgstr "Không thêm được « %s » vào một danh sách điều khiển truy cập."
-
-#: ../plugins/exchange-operations/exchange-permissions-dialog.c:426
-#, c-format
-msgid "Unknown error looking up %s"
-msgstr "Gặp lỗi lạ khi tra cứu « %s »."
-
-#: ../plugins/exchange-operations/exchange-permissions-dialog.c:443
-#, c-format
-msgid "%s is already in the list"
-msgstr "« %s » đã có trong danh sách."
+#: ../plugins/exchange-operations/exchange-permissions-dialog.c:405
+msgid "Add User"
+msgstr "Thêm người dùng"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:2
 msgid "<b>Permissions</b>"
@@ -14836,30 +14766,50 @@ msgid "Could not connect to server {0}."
 msgstr "Không thể kết nối đến máy phục vụ {0}."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:10
+msgid "Could not determine folder permissions for delegates."
+msgstr "Không thể xác định quyền truy cập danh mục cho người được ủy nhiệm."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:11
 msgid "Could not find Exchange Web Storage System."
 msgstr "Không tìm thấy Hệ thống Cất giữ Mạng Exchange."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:11
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:12
 msgid "Could not locate server {0}."
 msgstr "Không thể định vị máy phục vụ {0}."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:12
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:13
+msgid "Could not make {0} a delegate"
+msgstr "Không thể ủy nhiệm cho « {0} »."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:14
+msgid "Could not read folder permissions"
+msgstr "Không đọc được quyền truy cập danh mục."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:15
+msgid "Could not read folder permissions."
+msgstr "Không đọc được quyền truy cập danh mục."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:16
 msgid "Could not read out-of-office state"
 msgstr "Không đọc được tính trạng ngoài-văn-phòng."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:13
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:17
+msgid "Could not update folder permissions."
+msgstr "Không thể cập nhật quyền truy cập danh mục."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:18
 msgid "Could not update out-of-office state"
 msgstr "Không thể cập nhật tính trạng ngoài-văn-phòng."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:14
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:19
 msgid "Exchange Account is offline."
 msgstr "Tài khoản Exchange ngoại tuyến."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:15
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:20
 msgid "Exchange Connector access error."
 msgstr "Lỗi truy cập Exchange Connector."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:16
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:21
 msgid ""
 "Exchange Connector requires access to certain\n"
 "functionality on the Exchange Server that appears\n"
@@ -14890,7 +14840,28 @@ msgstr ""
 "html\n"
 "  "
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:28
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:33
+msgid "Failed to update delegates:"
+msgstr "Không thể cập nhật người được ủy nhiệm:"
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:34
+msgid "Folder already exists"
+msgstr "Có danh mục này rồi."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:35
+msgid "Folder does not exist"
+msgstr "Không có danh mục này."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:36
+msgid "Folder offline"
+msgstr "Danh mục này ngoại tuyến."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:37
+#: ../shell/e-shell.c:1284
+msgid "Generic error"
+msgstr "Lỗi chung chung"
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:38
 msgid ""
 "If OWA is running on a different path, you must specify that in the account "
 "configuration dialog."
@@ -14898,51 +14869,64 @@ msgstr ""
 "Nếu OWA đang chạy trên đường dẫn khác thì bạn cần phải ghi rõ nó trong hộp "
 "thoại cấu hình tài khoản."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:29
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:39
 msgid "Mailbox for {0} is not on this server."
 msgstr "Không có hộp thư cho «{0}» trên máy phục vụ này."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:30
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:40
 msgid "Make sure the URL is correct and try again."
 msgstr "Hãy kiểm tra xem gõ địa chỉ Mạng đúng, rồi thử lại."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:31
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:41
 msgid "Make sure the server name is spelled correctly and try again."
 msgstr "Hãy kiểm tra xem gõ tên phục vụ đúng, rồi thử lại."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:32
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:42
 msgid "Make sure the username and password are correct and try again."
 msgstr "Hãy kiểm tra xem gõ tên người dùng và mật khẩu đúng, rồi thử lại."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:33
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:43
+msgid "No Global Catalog server configured for this account."
+msgstr ""
+"Không có trình phục vụ Phân loại Toàn cục được cấu hình cho tài khoản này."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:44
 msgid "No mailbox for user {0} on {1}."
 msgstr "Không có hộp thư cho người dùng «{0}» trên «{1}»."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:34
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:45
+msgid "No such user {0}"
+msgstr "Không có người dùng như vậy « {0} »."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:46
 msgid "Password successfully changed."
 msgstr "Mật khẩu đã thay đổi rồi."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:35
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:48
 msgid "Please restart Evolution"
 msgstr "Hãy khởi chạy lại Evolution"
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:36
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:49
+msgid "Please select a user."
+msgstr "Hãy chọn một người dùng."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:50
 msgid "Server rejected password because it is too weak."
 msgstr "Máy phục vụ đã từ chối mật khẩu vì quá yếu."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:37
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:51
 msgid "The Exchange account will be disabled when you quit Evolution"
 msgstr "Tài khoản Exchange sẽ bị vô hiệu hóa khi bạn thoát trình Evolution."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:38
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:52
 msgid "The Exchange account will be removed when you quit Evolution"
 msgstr "Tài khoản Exchange sẽ bị loại bỏ khi bạn thoát trình Evolution."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:39
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:53
 msgid "The Exchange server is not compatible with Exchange Connector."
 msgstr "Tài khoản Exchange không tương thích với Exchange Connector."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:40
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:54
 msgid ""
 "The server is runinng Exchange 5.5. Exchange Connector \n"
 "supports Microsoft Exchange 2000 and 2003 only."
@@ -14950,7 +14934,7 @@ msgstr ""
 "Máy phục vụ có chạy phần mềm Exchange phiên bản 5.5.\n"
 "Exchange Connector hỗ trợ chỉ Exchange phiên bản 2000 và 2003."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:42
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:56
 msgid ""
 "This probably means that your server requires \n"
 "you to specify the Windows domain name \n"
@@ -14964,45 +14948,84 @@ msgstr ""
 "\n"
 "Hoạc có lẽ bạn đã gõ sai mật khẩu."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:47
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:61
 msgid "Try again with a different password."
 msgstr "Hãy thử lại với một mật khẩu mới."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:48
-msgid "Try to clear up some space by deleting some mails."
-msgstr "Bạn hãy cố giải phóng thêm chỗ trống bằng cách xóa bỏ một số thư."
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:62
+msgid "Unable to add user to access control list:"
+msgstr "Không thêm được người dùng vào danh sách điều khiển truy cập."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:49
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:63
+msgid "Unable to edit delegates."
+msgstr "Không thể hiệu chỉnh người được ủy nhiệm."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:64
+msgid "Unknown error looking up {0}"
+msgstr "Gặp lỗi lạ khi tra cứu « {0} »."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:65
 msgid "Unknown error."
 msgstr "Không biết lỗi ấy."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:50
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:66
+msgid "Unknown type"
+msgstr "Kiểu không biết"
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:67
+msgid "Unsupported operation"
+msgstr "Không hỗ trợ thao tác này."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:68
 msgid "You are nearing your quota available for storing mails on this server."
 msgstr "Bạn gần vượt quá giới hạn lưu thư trên máy phục vụ này."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:51
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:69
+msgid "You cannot make yourself your own delegate"
+msgstr "Bạn không thể ủy nhiệm cho mình."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:70
 msgid "You have exceeded your quota for storing mails on this server."
 msgstr "Bạn đã vượt quá giới hạn lưu thư trên máy phục vụ này."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:52
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:71
 msgid "You may only configure a single Exchange account."
 msgstr "Bạn có thể cấu hình chỉ một tài khoản Exchange riêng lẻ."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:53
-msgid "You will not be able to either send or recieve mails now."
-msgstr "Vậy bạn sẽ không thể gởi hay nhận thư."
-
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:54
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:72
 msgid ""
-"You will not be able to send mails till you clear up some space by deleting "
-"some mails."
-msgstr ""
-"Bạn sẽ không thể gởi thư đến khi bạn giải phóng thêm chỗ trống bằng cách xóa "
-"bỏ một số thư."
+"Your current usage is : {0}KB. Try to clear up some space by deleting some "
+"mails."
+msgstr "Hiện thời bạn đang sử dụng chỗ: {0}KB. Hãy cố giải phóng thêm chỗ trống bằng cách xóa bỏ một số thư."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:55
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:73
+msgid ""
+"Your current usage is : {0}KB. You will not be able to either send or "
+"recieve mails now."
+msgstr "Hiện thời bạn đang sử dụng chỗ: {0}KB. Vậy bạn sẽ không thể gởi hay nhận thư."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:74
+msgid ""
+"Your current usage is : {0}KB. You will not be able to send mails till you "
+"clear up some space by deleting some mails."
+msgstr ""
+"Hiện thời bạn đang sử dụng chỗ: {0}KB. Bạn sẽ không thể gởi thư đến khi bạn giải phóng thêm chỗ trống bằng cách xóa bỏ một số thư."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:75
 msgid "Your password has expired."
 msgstr "Mật khẩu bạn đã hết hạn."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:77
+msgid "{0} cannot be added to an access control list"
+msgstr "Không thêm được « {0} » vào danh sách điều khiển truy cập."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:78
+msgid "{0} is already a delegate"
+msgstr "« {0} » là một người được ủy nhiệm rồi."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:79
+msgid "{0} is already in the list"
+msgstr "« {0} » đã có trong danh sách."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-tasks-subscription.xml.h:1
 msgid "Subscribe to Other User's Tasks"
@@ -16547,7 +16570,7 @@ msgstr "Evolution đang chuyển sang ngoại tuyến."
 msgid "Evolution is currently offline.  Click on this button to work online."
 msgstr "Evolution đang ngoại tuyến. Nhấn nút này để chuyển sang trực tuyến."
 
-#: ../shell/e-shell-window.c:714
+#: ../shell/e-shell-window.c:717
 #, c-format
 msgid "Switch to %s"
 msgstr "Chuyển sang « %s »"
@@ -16577,10 +16600,6 @@ msgstr "Không thể đăng ký với OAF"
 #: ../shell/e-shell.c:1282
 msgid "Configuration Database not found"
 msgstr "Không tìm thấy cơ sở dữ liệu cấu hình"
-
-#: ../shell/e-shell.c:1284
-msgid "Generic error"
-msgstr "Lỗi chung chung"
 
 #: ../shell/e-user-creatable-items-handler.c:685
 msgid "New"
@@ -18533,7 +18552,7 @@ msgstr "In danh sách các công việc"
 msgid "View the selected task"
 msgstr "Xem công việc được chọn"
 
-#: ../ui/evolution-tasks.xml.h:23
+#: ../ui/evolution-tasks.xml.h:25
 msgid "_Open Task"
 msgstr "_Mở công việc"
 
