@@ -1,3 +1,8 @@
+2005-07-26  Jody Goldberg <jody@gnome.org>
+
+	* Makefile.am : Fix build breakage due to extra whitespace after a
+	  backslash.
+
 2005-07-26  Harish Krishnaswamy  <kharish@novell.com>
 
 	* Makefile.am: Fix make distcheck issues.

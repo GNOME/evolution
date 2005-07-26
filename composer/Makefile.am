@@ -40,7 +40,7 @@ noinst_LTLIBRARIES = libcomposer.la
 INCLUDES =								\
 	-I$(top_srcdir)							\
 	-I$(top_builddir)						\
-	-I$(top_builddir)/composer					\	
+	-I$(top_builddir)/composer					\
 	-I$(top_srcdir)/widgets						\
 	-I$(top_builddir)/widgets					\
 	-I$(top_srcdir)/widgets/misc					\
