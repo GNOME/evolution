@@ -42,8 +42,6 @@
 
 #include "e-util/e-error.h"
 
-#include "evolution-config-control.h"
-
 #include "addressbook/gui/widgets/eab-config.h"
 
 #define d(x)

@@ -1,3 +1,9 @@
+2005-07-26  Harish Krishnaswamy  <kharish@novell.com>
+
+	* gui/component/Makefile.am: fix make distcheck issues.
+	* gui/component/addressbook-config.c: remove duplicate
+	 inclusion of header
+
 2005-07-25  Srinivasa Ragavan <sragavam@novell.com>
 
 	* addressbook.error.xml: Added a string for resize popup
