@@ -1,3 +1,14 @@
+2005-07-26  Harish Krishnaswamy  <kharish@novell.com>
+
+	* plugins/calendar-weather/Makefile.am:
+	* plugins/groupwise-features/Makefile.am:
+	* plugins/mail-account-disable/Makefile.am:
+	* plugins/mailing-list-actions/Makefile.am:
+	* plugins/print-message/Makefile.am: Fix make distcheck issues.
+
+	* configure.in: Bump version number
+	***** Release 2.3.6 *****
+
 2005-07-20  Tor Lillqvist  <tml@novell.com>
 
 	* configure.in: Add AC_LIBTOOL_WIN32_DLL. It is apparently

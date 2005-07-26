@@ -7,6 +7,7 @@ endif
 
 INCLUDES =						\
 	-I$(top_srcdir)					\
+	-I$(top_builddir)/mail				\
 	$(EVOLUTION_MAIL_CFLAGS)			\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"
 

@@ -1,3 +1,95 @@
+Evolution 2.3.6 2005-07-26
+---------------------------
+
+Bugzilla bugs fixed (see http://bugzilla.gnome.org/show_bug.cgi):
+
+	#248126 - Missing options from Task menubar (Viren)
+	#219242 - Save draft shortcut and button (Devashish)
+	#310136 - number of mails in a folder using accessibility interface
+	          (Li Yuan)
+	#310138 - locate first mail in a message list tree using 
+	          accessibility interface (Li Yuan)
+	#310330 - forwarding a mail as inline/quoted makes evolution 
+	          disappear (Vivek)
+	#216021 - Add confirmation dialog to Forget Password (Sankar)
+	#309991 - PROXY: Appointments not shown in proper time-zone (Chenthill)
+	#310985 - "Subscribe to other user's Folder" option should be moved 
+	          to File menu (Shakti)
+	#309602 - Un-accepted GroupWise Appointments Should Give 
+	          Cue On Calendar (Chenthill)
+	#245331 - Keybindings for switching b/w calendar views (Harish)
+	#310340 - 'Delete This Occurence' does not delete that occurence 
+	          in GW calendar (Chenthill)
+	#309680 - "Make this Occurence Movable" for a recurring appointment 
+	          crashes evolution (Chenthill)
+	#309869 - Clicking on buttons in composer doesnt change focus 
+	          to the corresponding fields (Antony)
+	#257329 - autocompletion in the settings uses wrong icon (Sushma)
+	#235830 - Contacts name not displayed during edits (Arunprakash)
+	#311090 - Cut contact asking for confirmation (Sushma)
+	#310343 - Copying contact to same folder - Evolution crashes (Arunprakash)
+	#311096 - Not able to add any user to give permissions (Shakti)
+	#310433 - Renaming a user created Tasks List under exchange account 
+	          creates one more Tasks List (Praveen)
+	#310837 - Folder Permissions' doesn't show the 'Custom' label in the 
+	          'Role' combo box  (Shakti) 	 
+	#310699 - Evolution crashes after viewing the all folders' size (Sarfraaz)
+	#310479 - For exchange calendar 'Permission' option is missing (Shakti)
+	#310493 - Checking any Mail folder permission crashes evolution (Shakti)
+	#310369 - No dialog pops up when you click on Folder->Subscribe (Shakti)
+	#310233 - Evolution crashes when no exchange-account is configured  (Shakti)
+	#310854 - settings message receipts in send options does not send any message (Vivek)
+	#310347 - trying to enable/disable filters for a mail account when the 
+	          account is disabled hangs/crashes evolution (Vivek)
+	#309992 - PROXY: Contacts button not disabled in edit-proxy-access-rights (Vivek)
+	
+Other fixes and changes :
+
+	- fix make distcheck woes all over the module (Harish)
+	- refactor mail refresh code (Michael)
+	- revert broken view->hide menu (Michael) 
+	- attachment bar cleanup (Srinivasa)
+	- mailer memory leak fixes (Kjartan Maraas, Shreyas)
+	- do not enter sidebar button in shell window when there
+	  is no label (Sarfraaz)
+	- Build fixes for Windows support and use of NO_UNDEFINED
+	  (Tor Lillqvist)
+	- Image resize in contact-editor (Srinivasa)
+	- enhance ESendOptionsDialog ui (Vivek)
+	- allow user added categories to be edited and disable
+	  editing on builtin views on etable (Srinivasa)
+	- calendar/contact/task hooks for exchange-operations plugin
+	  (Shakti)
+	- fix error calls in exchange (Arunprakash)
+	- exchange folder size display (Sarfraaz)
+	- mark GW System Addressbook for offline usage by default (Sushma)
+	- consolidate proxy plugins into groupwise features (Sankar)
+	- fix memory leak in itip-formatter (Chenthill)
+	
+
+Updated Translations:
+
+	- bg (Vladimir Petkov)
+	- el (Nikos Charonitakis)
+	- en_CA (Adam Weinberger)
+	- es (Francisco Javier F. Serrador)
+	- et (Ivar Smolin)
+	- fi (Ilkka Tuohela)
+	- ja (Takeshi AIHANA)
+	- lt (Žygimantas Beručka)
+	- nb, no (Kjartan Maraas)
+	- nl (Tino Meinen)
+	- POTFILES (Adam Weinberger)
+	- POTFILES (Sankar P)
+	- POTFILES (Sarfraaz Ahmed)
+	- POTFILES (Shakti Sen)
+	- POTFILES (Vivek Jain)
+	- pt_BR (Raphael Higino)
+	- sk (Marcel Telka)
+	- sr, sr@Latn (Igor Nestorović)
+	- vi (Clytie Siddall)
+	- zh_CN (Funda Wang)
+
 Evolution 2.3.5 2005-07-12
 ---------------------------
 

@@ -2,7 +2,8 @@ eds_datadir = `pkg-config --variable=privdatadir evolution-data-server-1.2`
 weatherdatadir = $(datadir)/evolution/$(BASE_VERSION)/weather
 
 INCLUDES =									\
-	-I$(top_srcdir)/shell							\
+	-I$(top_srcdir)								\
+	-I$(top_builddir)/shell							\
 	$(EVOLUTION_CALENDAR_CFLAGS)						\
 	$(SOURCE_SEL_CFLAGS)							\
 	-DWEATHER_DATADIR=\""$(weatherdatadir)"\"				\
