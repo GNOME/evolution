@@ -1,3 +1,8 @@
+2005-07-26  Harish Krishnaswamy  <kharish@novell.com>
+
+	* Makefile.am, evolution-component.h: fix make distcheck
+	issues.
+
 2005-07-21  Sarfraaz Ahmed <asarfraaz@novell.com>
 
 	* e-component-registry.c (query_components): Dont enter default values 

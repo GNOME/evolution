@@ -25,7 +25,7 @@
 #define _EVOLUTION_COMPONENT_H_
 
 #include <bonobo/bonobo-object.h>
-#include "Evolution.h"
+#include "shell/Evolution.h"
 
 typedef struct _EvolutionComponent        EvolutionComponent;
 typedef struct _EvolutionComponentClass   EvolutionComponentClass;

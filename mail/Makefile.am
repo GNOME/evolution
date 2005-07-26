@@ -7,6 +7,7 @@ INCLUDES =						\
 	-I$(top_srcdir)/widgets/e-text			\
 	-I$(top_srcdir)/widgets/misc			\
 	-I$(top_srcdir)					\
+	-I$(top_srcdir)/mail				\
 	-I$(top_srcdir)/composer			\
 	-I$(top_builddir)/composer			\
 	-I$(top_builddir)/shell				\
