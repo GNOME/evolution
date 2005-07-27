@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Evolution GNOME 2.10\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-04-19 11:58+0000\n"
-"PO-Revision-Date: 2005-07-22 18:58+0300\n"
+"PO-Revision-Date: 2005-07-27 00:12+0300\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -14698,11 +14698,11 @@ msgstr "Sõnum"
 
 #: ../plugins/shared-folder/properties.glade.h:6
 msgid "Shared Folder Notification"
-msgstr ""
+msgstr "Jagatud kataloogi teavitus"
 
 #: ../plugins/shared-folder/properties.glade.h:8
 msgid "The participants will receive the following notification.\n"
-msgstr ""
+msgstr "Osalejad saavad järgneva teate.\n"
 
 #: ../plugins/shared-folder/properties.glade.h:11
 msgid "_Contacts..."
@@ -14710,7 +14710,7 @@ msgstr "_Kontaktid..."
 
 #: ../plugins/shared-folder/properties.glade.h:12
 msgid "_Cutomize notification message"
-msgstr ""
+msgstr "_Kohanda teavitussõnumit"
 
 #: ../plugins/shared-folder/properties.glade.h:13
 msgid "_Not Shared"
@@ -16012,7 +16012,7 @@ msgstr "Trükitavate kontaktide eelvaatlemine"
 #: ../ui/evolution-addressbook.xml.h:17 ../ui/evolution-calendar.xml.h:20
 #: ../ui/evolution-mail-message.xml.h:81 ../ui/evolution-tasks.xml.h:15
 msgid "Print Pre_view"
-msgstr "Trükkimise eel_vaade"
+msgstr "Printimise eel_vaade"
 
 #: ../ui/evolution-addressbook.xml.h:18
 msgid "Print selected contacts"
@@ -16885,15 +16885,15 @@ msgstr "Salvesta kausta..."
 #: ../ui/evolution-message-composer.xml.h:21
 #: ../ui/evolution-signature-editor.xml.h:9
 msgid "Save the current file"
-msgstr "Salvesta käesolev fail"
+msgstr "Käesoleva faili salvestamine"
 
 #: ../ui/evolution-message-composer.xml.h:22
 msgid "Save the current file with a different name"
-msgstr "Salvesta käesolev fail teise nime all"
+msgstr "Käesoleva faili salvestamine teise nime alla"
 
 #: ../ui/evolution-message-composer.xml.h:23
 msgid "Save the message in a specified folder"
-msgstr "Salvesta käesolev fail teise kausta"
+msgstr "Käesoleva faili salvestamine teise kausta"
 
 #: ../ui/evolution-message-composer.xml.h:25
 #: ../ui/evolution-signature-editor.xml.h:11
