@@ -1,3 +1,8 @@
+2005-07-27  Sankar P  <psankar@novell.com>
+
+	* org-gnome-groupwise-features.eplug.xml: Added the hook for
+	the proxy-login feature, since it was removed by mistake.
+	
 2005-07-23  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	* Makefile.am: Added the new file process-meeting.c
