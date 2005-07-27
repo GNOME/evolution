@@ -1118,7 +1118,7 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 			      <child>
 				<widget class="GtkLabel" id="source_host_label">
 				  <property name="visible">True</property>
-				  <property name="label" translatable="yes">_Host:</property>
+				  <property name="label" translatable="yes">_Server:</property>
 				  <property name="use_underline">True</property>
 				  <property name="use_markup">False</property>
 				  <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -1870,7 +1870,7 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 				      <child>
 					<widget class="GtkLabel" id="transport_host_label">
 					  <property name="visible">True</property>
-					  <property name="label" translatable="yes">_Host:</property>
+					  <property name="label" translatable="yes">_Server:</property>
 					  <property name="use_underline">True</property>
 					  <property name="use_markup">False</property>
 					  <property name="justify">GTK_JUSTIFY_RIGHT</property>

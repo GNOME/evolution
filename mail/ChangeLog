@@ -1,3 +1,7 @@
+2005-07-27  Srinivasa Ragavan <sragavan@novell.com>
+	
+	* mail-config.glade: Changed "Host" to "Server"
+
 2005-07-27  Not Zed  <NotZed@Ximian.com>
 
 	* mail-send-recv.c (get_folders): hack to make it honour the
