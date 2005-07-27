@@ -1,3 +1,10 @@
+2005-07-27  Harry Lu  <harry.lu@sun.com>
+
+	Only show the unsubscribe menu if it is an exchange folder.
+	* exchange-folder.c:
+	(org_gnome_exchange_check_address_book_subscribed),
+	(org_gnome_exchange_check_subscribed):
+
 2005-07-25  Shakti Sen <shprasad@novell.com>
 
 	* org-gnome-exchange-operations.eplug.in: Fixed a small typo.

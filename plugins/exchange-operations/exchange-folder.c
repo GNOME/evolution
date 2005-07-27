@@ -124,6 +124,7 @@ org_gnome_exchange_check_address_book_subscribed (EPlugin *ep, EABPopupTargetSou
 	gchar *path = NULL;
 	char *sub_folder = NULL;
 	ExchangeAccount *account = NULL;
+	ESourceGroup *group;
 
 	account = exchange_operations_get_exchange_account ();
 
@@ -131,12 +132,18 @@ org_gnome_exchange_check_address_book_subscribed (EPlugin *ep, EABPopupTargetSou
 		return;
 
 	source = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (target->selector));
+	group = e_source_peek_group (source);
+	if (!group || strcmp (e_source_group_peek_base_uri (group), "exchange://"))
+		return;
+
 	uri = e_source_get_uri (source);
 	path = g_strdup_printf (uri + strlen ("exchange://") + strlen (account->account_filename));
 	sub_folder = strchr (path, '@');
 
-	if (!sub_folder)
+	if (!sub_folder) {
+		g_free (path);
 		return;
+	}
 
 	for (i = 0; i < sizeof (popup_ab_items) / sizeof (popup_ab_items[0]); i++)
 		menus = g_slist_prepend (menus, &popup_ab_items[i]);
@@ -156,6 +163,7 @@ org_gnome_exchange_check_subscribed (EPlugin *ep, ECalPopupTargetSource *target)
 	gchar *path = NULL;
 	char *sub_folder = NULL;
 	ExchangeAccount *account = NULL;
+	ESourceGroup *group;
 
 	account = exchange_operations_get_exchange_account ();
 
@@ -163,12 +171,18 @@ org_gnome_exchange_check_subscribed (EPlugin *ep, ECalPopupTargetSource *target)
 		return;
 
 	source = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (target->selector));
+	group = e_source_peek_group (source);
+	if (!group || strcmp (e_source_group_peek_base_uri (group), "exchange://"))
+		return;
+
 	ruri = (gchar *) e_source_peek_relative_uri (source);
 	path = g_strdup_printf (ruri + strlen (account->account_filename));
 	sub_folder = strchr (path, '@');
 
-	if (!sub_folder)
+	if (!sub_folder) {
+		g_free (path);
 		return;
+	}
 
 	for (i = 0; i < sizeof (popup_items) / sizeof (popup_items[0]); i++)
 		menus = g_slist_prepend (menus, &popup_items[i]);
