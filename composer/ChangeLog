@@ -1,3 +1,10 @@
+2005-07-27  Mengjie Yu  <meng-jie.yu@sun.com>
+
+	* e-msg-composer-select-file.h:
+	C99 keyword 'inline' could not been used as variable name.
+
+	Fixes #310198
+
 2005-07-26  Jody Goldberg <jody@gnome.org>
 
 	* Makefile.am : Fix build breakage due to extra whitespace after a

@@ -28,7 +28,7 @@
 struct _EMsgComposer;
 
 typedef void (*EMsgComposerSelectFileFunc)(struct _EMsgComposer *composer, const char *filename);
-typedef void (*EMsgComposerSelectAttachFunc)(struct _EMsgComposer *composer, GSList *names, int inline);
+typedef void (*EMsgComposerSelectAttachFunc)(struct _EMsgComposer *composer, GSList *names, int isinline);
 
 void e_msg_composer_select_file(struct _EMsgComposer *composer, GtkWidget **w, EMsgComposerSelectFileFunc func, const char *title, int save);
 void e_msg_composer_select_file_attachments(struct _EMsgComposer *composer, GtkWidget **, EMsgComposerSelectAttachFunc func);
