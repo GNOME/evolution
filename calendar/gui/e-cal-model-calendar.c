@@ -32,6 +32,7 @@
 #include "dialogs/send-comp.h"
 
 struct _ECalModelCalendarPrivate {
+	guint reserved;
 };
 
 static void e_cal_model_calendar_finalize (GObject *object);

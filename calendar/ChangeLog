@@ -1,3 +1,12 @@
+2005-07-27  Mengjie Yu  <meng-jie.yu@sun.com>
+
+	* gui/e-cal-model-calendar.c:
+	Add reserved field for an empty structure.
+	* gui/e-cal-model-tasks.c:
+	Add reserved field for an empty structure.
+
+	Fixes #310198
+
 2005-07-25  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	* gui/e-cal-popup.c: 

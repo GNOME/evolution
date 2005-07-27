@@ -32,6 +32,7 @@
 #include "misc.h"
 
 struct _ECalModelTasksPrivate {
+	guint reserved;
 };
 
 static void e_cal_model_tasks_finalize (GObject *object);
