@@ -115,11 +115,13 @@ bbdb_handle_reply (EPlugin *ep, EMEventTargetMessage *target)
 		return;
 
 	cia = camel_mime_message_get_from (target->message);
-	for (i = 0; i < camel_address_length (CAMEL_ADDRESS (cia)); i ++) {
-		const char *name=NULL, *email=NULL;
-		if (!(camel_internet_address_get (cia, i, &name, &email)))
-			continue;
-		bbdb_do_it (book, name, email);
+	if (cia) {
+		for (i = 0; i < camel_address_length (CAMEL_ADDRESS (cia)); i ++) {
+			const char *name=NULL, *email=NULL;
+			if (!(camel_internet_address_get (cia, i, &name, &email)))
+				continue;
+			bbdb_do_it (book, name, email);
+		}
 	}
 
 	/* If this is a reply-all event, process To: and Cc: also. */
@@ -129,19 +131,23 @@ bbdb_handle_reply (EPlugin *ep, EMEventTargetMessage *target)
 	}
 
 	cia = camel_mime_message_get_recipients (target->message, CAMEL_RECIPIENT_TYPE_TO);
-	for (i = 0; i < camel_address_length (CAMEL_ADDRESS (cia)); i ++) {
-		const char *name=NULL, *email=NULL;
-		if (!(camel_internet_address_get (cia, i, &name, &email)))
-			continue;
-		bbdb_do_it (book, name, email);
+	if (cia) {
+		for (i = 0; i < camel_address_length (CAMEL_ADDRESS (cia)); i ++) {
+			const char *name=NULL, *email=NULL;
+			if (!(camel_internet_address_get (cia, i, &name, &email)))
+				continue;
+			bbdb_do_it (book, name, email);
+		}
 	}
 
 	cia = camel_mime_message_get_recipients (target->message, CAMEL_RECIPIENT_TYPE_CC);
-	for (i = 0; i < camel_address_length (CAMEL_ADDRESS (cia)); i ++) {
-		const char *name=NULL, *email=NULL;
-		if (!(camel_internet_address_get (cia, i, &name, &email)))
-			continue;
-		bbdb_do_it (book, name, email);
+	if (cia) {
+		for (i = 0; i < camel_address_length (CAMEL_ADDRESS (cia)); i ++) {
+			const char *name=NULL, *email=NULL;
+			if (!(camel_internet_address_get (cia, i, &name, &email)))
+				continue;
+			bbdb_do_it (book, name, email);
+		}
 	}
 
 	g_object_unref (G_OBJECT (book));

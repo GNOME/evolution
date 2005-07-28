@@ -1,3 +1,9 @@
+2005-07-28  Vivek Jain  <jvivek@novell.com>
+	
+	* bbdb.c:(bbdb_handle_reply):check for NULL
+	before using the address.
+	**Fixes bugs like #274544
+
 2005-05-11  Not Zed  <NotZed@Ximian.com>
 
 	* Makefile.am: setup cleanfiles/built_sources
