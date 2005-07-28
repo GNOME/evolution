@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-07-26 13:32+0000\n"
-"PO-Revision-Date: 2005-07-27 00:12+0300\n"
+"PO-Revision-Date: 2005-07-27 23:53+0300\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -372,7 +372,7 @@ msgstr "Viga aadressiraamatu laadimisel."
 
 #: ../addressbook/addressbook.error.xml.h:10
 msgid "Error saving {0} to {1}: {2}"
-msgstr ""
+msgstr "Viga {0} salvestamisel {1} alla: {2}"
 
 #: ../addressbook/addressbook.error.xml.h:11
 msgid "Failed to authenticate with LDAP server."
@@ -390,6 +390,7 @@ msgstr "Serveri versioon"
 #: ../calendar/calendar.error.xml.h:44
 msgid "Some features may not work properly with your current server"
 msgstr ""
+"Mõningad võimalused võivad sinu käesoleva serveriga ebakorrektselt töötada"
 
 #: ../addressbook/addressbook.error.xml.h:15
 msgid "The Evolution addressbook has quit unexpectedly."
@@ -401,6 +402,9 @@ msgid ""
 "this functionality or it may be misconfigured. Ask your administrator for "
 "supported search bases."
 msgstr ""
+"See LDAP server võib kasutada vanemat LDAP versiooni, mis ei toeta seda "
+"funktsionaalsust. Samas võib see LDAP server olla halvasti seadistatud. Küsi "
+"oma süsteemihaldurilt, milliseid otsingubaase sa peaksid kasutama."
 
 #: ../addressbook/addressbook.error.xml.h:17
 msgid "This address book will be removed permanently."
@@ -412,7 +416,7 @@ msgstr "Seda aadressisaamatud pole võimalik avada."
 
 #: ../addressbook/addressbook.error.xml.h:19
 msgid "This addressbook server does not have any suggested search bases."
-msgstr ""
+msgstr "See aadressiraamatuserver ei oma ühtegi soovituslikku otsingubaasi."
 
 #: ../addressbook/addressbook.error.xml.h:20
 msgid ""
@@ -422,7 +426,7 @@ msgstr ""
 
 #: ../addressbook/addressbook.error.xml.h:21
 msgid "This server does not support LDAPv3 schema information."
-msgstr "See server ei toeta LDAPv3 skeemiinfot."
+msgstr "See server ei toeta LDAPv3 skeemiandmeid."
 
 #: ../addressbook/addressbook.error.xml.h:22
 msgid "Unable to open addressbook"
@@ -445,6 +449,9 @@ msgid ""
 "You are attempting to move a contact from one addressbook to another but it "
 "cannot be removed from the source. Do you want to save a copy instead?"
 msgstr ""
+"Sa proovid tõsta kontakti ühest aadressiraamatust teise kuid lähteraamatust "
+"pole seda võimalik kustutada. Kas sa soovid ümbertõstmise asemel salvestada "
+"koopiat?"
 
 #: ../addressbook/addressbook.error.xml.h:27
 #: ../calendar/calendar.error.xml.h:59
@@ -464,6 +471,7 @@ msgstr ""
 msgid ""
 "Your contacts for {0} will not be available until Evolution is restarted."
 msgstr ""
+"Sinu {0} kontakte pole enne Evolution'i taaskäivitamist võimalik kasutada."
 
 #: ../addressbook/addressbook.error.xml.h:30 ../mail/em-vfolder-rule.c:494
 #: ../plugins/groupwise-features/junk-settings.glade.h:4
@@ -622,7 +630,7 @@ msgstr "Tõrge aadressiraamatu kataloogide või seadistuste uuendamisel."
 
 #: ../addressbook/gui/component/addressbook-config.c:315
 msgid "Base"
-msgstr ""
+msgstr "Baas"
 
 #: ../addressbook/gui/component/addressbook-config.c:510
 #: ../calendar/gui/dialogs/calendar-setup.c:192
@@ -809,7 +817,7 @@ msgstr ""
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:9
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:55
 msgid "Vertical pane position"
-msgstr "Vertikaalpaani asukoht"
+msgstr "Püstpaani asukoht"
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:10
 msgid "Whether to show the preview pane."
@@ -3799,7 +3807,7 @@ msgstr "[vkaard|csv]"
 
 #: ../addressbook/tools/evolution-addressbook-export.c:61
 msgid "Export in asynchronous mode"
-msgstr ""
+msgstr "Eksportimine asünkroonses režiimis"
 
 #: ../addressbook/tools/evolution-addressbook-export.c:63
 msgid ""
@@ -4144,10 +4152,12 @@ msgstr "Sa oled seda ülesannet muutnud aga muudatused on salvestamata."
 #: ../calendar/calendar.error.xml.h:62
 msgid "Your calendars will not be available until Evolution is restarted."
 msgstr ""
+"Sinu kalendreid pole enne Evolution'i taaskäivitamist võimalik kasutada."
 
 #: ../calendar/calendar.error.xml.h:63
 msgid "Your tasks will not be available until Evolution is restarted."
 msgstr ""
+"Sinu ülesandeid pole enne Evolution'i taaskäivitamist võimalik kasutada."
 
 #: ../calendar/calendar.error.xml.h:64
 #: ../ui/evolution-message-composer.xml.h:51
@@ -4347,6 +4357,10 @@ msgid ""
 "Starting at %s\n"
 "Ending at %s"
 msgstr ""
+"Alarm: %s\n"
+"%s\n"
+"Algus: %s\n"
+"Lõpp: %s"
 
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1175
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1199
@@ -4464,15 +4478,15 @@ msgstr "Peida lõpetatud ülesanded"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:17
 msgid "Hide task units"
-msgstr ""
+msgstr "Ülesandeühikute peitmine"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:18
 msgid "Hide task value"
-msgstr ""
+msgstr "Ülesandeväärtuste peitmine"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:19
 msgid "Horizontal pane position"
-msgstr ""
+msgstr "Rõhtpaani asukoht"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:20
 msgid "Hour the workday ends on, in twenty four hour format, 0 to 23."
@@ -4587,7 +4601,7 @@ msgstr "Tänase tähtajaga ülesannete värvus"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:45
 msgid "Tasks vertical pane position"
-msgstr ""
+msgstr "Ülesannete püstpaani asukoht"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:46
 msgid ""
@@ -14204,7 +14218,7 @@ msgstr "Vaikimisi postiklient "
 
 #: ../plugins/default-mailer/org-gnome-default-mailer.error.xml.h:1
 msgid "Do you want to make Evolution your default e-mail client?"
-msgstr ""
+msgstr "Kas sa soovid Evolution'i määrata e-posti vaikimisi kliendiks?"
 
 #: ../plugins/default-source/default-source.c:82
 #: ../plugins/default-source/default-source.c:108
@@ -14312,7 +14326,7 @@ msgstr "Exchange sätted"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:607
 msgid "_OWA Url:"
-msgstr ""
+msgstr "_OWA Url:"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:632
 msgid "A_uthenticate"
@@ -14353,7 +14367,7 @@ msgstr "Uus parool:"
 
 #: ../plugins/exchange-operations/exchange-change-password.glade.h:6
 msgid "Your current password has expired. Please change your password now."
-msgstr ""
+msgstr "Sinu käesolev parool on aegunud. Palun vaheta nüüd oma parool ära."
 
 #: ../plugins/exchange-operations/exchange-delegates-user.c:144
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:571
@@ -14408,7 +14422,7 @@ msgstr "Viga delegaatide loendi lugemisel."
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:1
 msgid "Author (read, create)"
-msgstr ""
+msgstr "Autor (lugemine, loomine)"
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:2
 msgid "C_alendar:"
@@ -14420,7 +14434,7 @@ msgstr "Ko_ntaktid:"
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:4
 msgid "Delegate Permissions"
-msgstr ""
+msgstr "Delegaadid õigused"
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:5
 msgid "Delegates"
@@ -14428,7 +14442,7 @@ msgstr "Delegaadid"
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:6
 msgid "Editor (read, create, edit)"
-msgstr ""
+msgstr "Toimetaja (lugemine, loomine, muutmine)"
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:8
 msgid "Permissions for"
@@ -14436,7 +14450,7 @@ msgstr ""
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:9
 msgid "Reviewer (read-only)"
-msgstr ""
+msgstr "Ülevaataja (ainult lugemiseks)"
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:10
 msgid ""
@@ -14446,7 +14460,7 @@ msgstr ""
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:12
 msgid "_Delegate can see private items"
-msgstr ""
+msgstr "_Delegaadid võivad näha isiklikke kirjeid"
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:14
 msgid "_Inbox:"
@@ -14561,7 +14575,7 @@ msgstr "Aadressiraamat..."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-ab-subscription.xml.h:1
 msgid "Subscribe to Other User's Contacts"
-msgstr ""
+msgstr "Teiste kasutajate kontaktide tellimine"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-cal-subscription.xml.h:1
 msgid "Subscribe to Other User's Calendar"
@@ -14569,7 +14583,7 @@ msgstr "Teiste kasutajate kalendrite tellimine"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:1
 msgid "Cannot change password due to configuration problems."
-msgstr ""
+msgstr "Seadistusprobleemide tõttu pole võimalik parooli muuta."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:2
 msgid "Cannot display folders."
@@ -14687,6 +14701,8 @@ msgid ""
 "If OWA is running on a different path, you must specify that in the account "
 "configuration dialog."
 msgstr ""
+"Kui OWA töötab teise raja peal, siis pead sa selle määrama kontosätete "
+"dialoogis."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:39
 msgid "Mailbox for {0} is not on this server."
@@ -18585,7 +18601,7 @@ msgstr "Tabel"
 
 #: ../widgets/menus/gal-view-instance-save-as-dialog.c:182
 msgid "Instance"
-msgstr ""
+msgstr "Instants"
 
 #: ../widgets/menus/gal-view-instance-save-as-dialog.c:232
 msgid "Save Current View"
@@ -18609,7 +18625,7 @@ msgstr "Salvesta kohandatud vaade..."
 
 #: ../widgets/menus/gal-view-new-dialog.c:80
 msgid "Factory"
-msgstr ""
+msgstr "Factory"
 
 #: ../widgets/menus/gal-view-new-dialog.c:115
 msgid "Define New View"
@@ -18677,7 +18693,7 @@ msgstr "X1"
 #: ../widgets/misc/e-canvas-background.c:491
 #: ../widgets/misc/e-canvas-background.c:492
 msgid "X2"
-msgstr ""
+msgstr "X2"
 
 #: ../widgets/misc/e-canvas-background.c:498
 #: ../widgets/misc/e-canvas-background.c:499
@@ -18687,7 +18703,7 @@ msgstr "Y1"
 #: ../widgets/misc/e-canvas-background.c:505
 #: ../widgets/misc/e-canvas-background.c:506
 msgid "Y2"
-msgstr ""
+msgstr "Y2"
 
 #: ../widgets/misc/e-canvas-vbox.c:102 ../widgets/misc/e-reflow.c:1430
 #: ../widgets/table/e-table-group-container.c:978
