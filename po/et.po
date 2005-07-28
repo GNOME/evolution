@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Evolution GNOME 2.10\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-04-19 11:58+0000\n"
-"PO-Revision-Date: 2005-07-27 00:12+0300\n"
+"PO-Revision-Date: 2005-07-28 00:28+0300\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -295,7 +295,7 @@ msgstr ""
 #. addressbook:ldap-search-base primary
 #: ../addressbook/addressbook-errors.xml.h:10
 msgid "This addressbook server does not have any suggested search bases."
-msgstr ""
+msgstr "See aadressiraamatuserver ei oma ühtegi soovituslikku otsingubaasi."
 
 #. addressbook:ldap-search-base secondary
 #: ../addressbook/addressbook-errors.xml.h:12
@@ -304,11 +304,14 @@ msgid ""
 "this functionality or it may be misconfigured. Ask your administrator for "
 "supported search bases."
 msgstr ""
+"See LDAP server võib kasutada vanemat LDAP versiooni, mis ei toeta seda "
+"funktsionaalsust. Samas võib see LDAP server olla halvasti seadistatud. Küsi "
+"oma süsteemihaldurilt, milliseid otsingubaase sa peaksid kasutama."
 
 #. addressbook:ldap-v3-schema primary
 #: ../addressbook/addressbook-errors.xml.h:14
 msgid "This server does not support LDAPv3 schema information."
-msgstr "See server ei toeta LDAPv3 skeemiinfot."
+msgstr "See server ei toeta LDAPv3 skeemiandmeid."
 
 #. addressbook:ldap-get-schema primary
 #: ../addressbook/addressbook-errors.xml.h:16
@@ -411,6 +414,9 @@ msgid ""
 "You are attempting to move a contact from one addressbook to another but it "
 "cannot be removed from the source. Do you want to save a copy instead?"
 msgstr ""
+"Sa proovid tõsta kontakti ühest aadressiraamatust teise kuid lähteraamatust "
+"pole seda võimalik kustutada. Kas sa soovid ümbertõstmise asemel salvestada "
+"koopiat?"
 
 #. addressbook:save-error primary
 #: ../addressbook/addressbook-errors.xml.h:51
@@ -432,6 +438,7 @@ msgstr "Evolutioni aadressiraamat lõpetas ootamatult."
 msgid ""
 "Your contacts for {0} will not be available until Evolution is restarted."
 msgstr ""
+"Sinu {0} kontakte pole enne Evolution'i taaskäivitamist võimalik kasutada."
 
 #. addressbook:ask-list-add-exists primary
 #: ../addressbook/addressbook-errors.xml.h:59
@@ -606,7 +613,7 @@ msgstr "Tõrge aadressiraamatu kataloogide või seadistuste uuendamisel."
 
 #: ../addressbook/gui/component/addressbook-config.c:315
 msgid "Base"
-msgstr ""
+msgstr "Baas"
 
 #: ../addressbook/gui/component/addressbook-config.c:510
 #: ../calendar/gui/dialogs/calendar-setup.c:191
@@ -793,7 +800,7 @@ msgstr ""
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:9
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:49
 msgid "Vertical pane position"
-msgstr "Vertikaalpaani asukoht"
+msgstr "Püstpaani asukoht"
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:10
 msgid "Whether to show the preview pane."
@@ -3657,7 +3664,7 @@ msgstr "[vkaard|csv]"
 
 #: ../addressbook/tools/evolution-addressbook-export.c:61
 msgid "Export in asynchronous mode"
-msgstr ""
+msgstr "Eksportimine asünkroonses režiimis"
 
 #: ../addressbook/tools/evolution-addressbook-export.c:63
 msgid ""
@@ -3980,6 +3987,7 @@ msgstr ""
 #: ../calendar/calendar-errors.xml.h:110
 msgid "Your tasks will not be available until Evolution is restarted."
 msgstr ""
+"Sinu ülesandeid pole enne Evolution'i taaskäivitamist võimalik kasutada."
 
 #. calendar:calendar-crashed primary
 #: ../calendar/calendar-errors.xml.h:112
@@ -3990,6 +3998,7 @@ msgstr "Evolution'i kalender lõpetas ootamatult."
 #: ../calendar/calendar-errors.xml.h:114
 msgid "Your calendars will not be available until Evolution is restarted."
 msgstr ""
+"Sinu kalendreid pole enne Evolution'i taaskäivitamist võimalik kasutada."
 
 #. calendar:prompt-delete-calendar primary
 #: ../calendar/calendar-errors.xml.h:116
@@ -4257,6 +4266,10 @@ msgid ""
 "Starting at %s\n"
 "Ending at %s"
 msgstr ""
+"Alarm: %s\n"
+"%s\n"
+"Algus: %s\n"
+"Lõpp: %s"
 
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1100
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1124
@@ -4365,15 +4378,15 @@ msgstr "Peida lõpetatud ülesanded"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:15
 msgid "Hide task units"
-msgstr ""
+msgstr "Ülesandeühikute peitmine"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:16
 msgid "Hide task value"
-msgstr ""
+msgstr "Ülesandeväärtuste peitmine"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:17
 msgid "Horizontal pane position"
-msgstr ""
+msgstr "Rõhtpaani asukoht"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:18
 msgid "Hour the workday ends on, in twenty four hour format, 0 to 23."
@@ -4471,7 +4484,7 @@ msgstr "Tänase tähtajaga ülesannete värvus"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:39
 msgid "Tasks vertical pane position"
-msgstr ""
+msgstr "Ülesannete püstpaani asukoht"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:40
 msgid ""
@@ -14022,7 +14035,7 @@ msgstr "Exchange sätted"
 #: ../plugins/exchange-account-setup/exchange-account-setup.c:475
 #: ../plugins/exchange-account-setup/exchange-ask-password.c:200
 msgid "_OWA Url:"
-msgstr ""
+msgstr "_OWA Url:"
 
 #: ../plugins/exchange-account-setup/exchange-account-setup.c:500
 #: ../plugins/exchange-account-setup/exchange-ask-password.c:193
