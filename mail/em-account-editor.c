@@ -2451,7 +2451,7 @@ emae_check_complete(EConfig *ec, const char *pageid, void *data)
 				emae->priv->identity_set = 1;
 				uname = g_locale_to_utf8(g_get_real_name(), -1, NULL, NULL, NULL);
 				if (uname) {
-					gtk_entry_set_text(emae->priv->identity_entries[0], uname);
+					gtk_entry_set_text(emae->priv->identity_entries[1], uname);
 					g_free(uname);
 				}
 			}

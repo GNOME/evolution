@@ -1,6 +1,13 @@
+2005-07-28  Praveen Kumar <kpraveen@novell.com>
+
+	* em-account-editor.c (emae_check_complete) : Update the "Full Name" 
+	text entry with the detected real name of the user. Fixes bug 311778
+	
+
 2005-07-27  Srinivasa Ragavan <sragavan@novell.com>
 	
 	* mail-config.glade: Changed "Host" to "Server"
+
 
 2005-07-27  Not Zed  <NotZed@Ximian.com>
 
