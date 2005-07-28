@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-07-25 10:23+0300\n"
+"POT-Creation-Date: 2005-07-28 10:24+0300\n"
 "PO-Revision-Date: 2005-07-25 10:25+0300\n"
 "Last-Translator: Ilkka Tuohela <hile@iki.fi>\n"
 "Language-Team: Finnish <gnome-fi-laatu@lists.sourceforge.net>\n"
@@ -2425,15 +2425,15 @@ msgstr "Muutettu"
 msgid "Contact Editor - %s"
 msgstr "Yhteystiedon muokkain - %s"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2598
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2629
 msgid "Please select an image for this contact"
 msgstr "Valitse kuva tälle yhteystiedolle"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2599
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2630
 msgid "No image"
 msgstr "Ei kuvaa"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2875
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2906
 msgid ""
 "The contact data is invalid:\n"
 "\n"
@@ -2441,7 +2441,7 @@ msgstr ""
 "Yhteystieto on virheellinen:\n"
 "\n"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2927
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2958
 msgid "Invalid contact."
 msgstr "Virheellinen yhteystieto."
 
@@ -2594,8 +2594,8 @@ msgstr "_Pikaviestipalvelu:"
 
 #: ../addressbook/gui/contact-editor/im.glade.h:5
 #: ../plugins/calendar-weather/calendar-weather.c:409
-#: ../plugins/exchange-operations/exchange-calendar.c:209
-#: ../plugins/exchange-operations/exchange-contacts.c:186
+#: ../plugins/exchange-operations/exchange-calendar.c:212
+#: ../plugins/exchange-operations/exchange-contacts.c:191
 msgid "_Location:"
 msgstr "_Sijainti:"
 
@@ -2789,7 +2789,7 @@ msgid "Save as VCard..."
 msgstr "Tallenna VCardina..."
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:929
-#: ../calendar/gui/e-calendar-table.c:1156
+#: ../calendar/gui/e-calendar-table.c:1154
 #: ../calendar/gui/e-calendar-view.c:1522 ../ui/evolution-addressbook.xml.h:37
 msgid "_Open"
 msgstr "_Avaa"
@@ -3270,7 +3270,7 @@ msgstr "Protokolla ei ole tuettu"
 #: ../calendar/gui/e-cal-component-preview.c:232
 #: ../calendar/gui/e-cal-model-tasks.c:347
 #: ../calendar/gui/e-cal-model-tasks.c:660
-#: ../calendar/gui/e-calendar-table.c:458 ../calendar/gui/print.c:2364
+#: ../calendar/gui/e-calendar-table.c:456 ../calendar/gui/print.c:2364
 msgid "Cancelled"
 msgstr "Peruutettu"
 
@@ -3748,8 +3748,8 @@ msgstr "Varjostus"
 #. FIXME: Take care of i18n
 #: ../addressbook/printing/e-contact-print.glade.h:36
 #: ../plugins/exchange-operations/exchange-account-setup.c:927
-#: ../plugins/exchange-operations/exchange-calendar.c:200
-#: ../plugins/exchange-operations/exchange-contacts.c:175
+#: ../plugins/exchange-operations/exchange-calendar.c:202
+#: ../plugins/exchange-operations/exchange-contacts.c:174
 msgid "Size:"
 msgstr "Koko:"
 
@@ -4274,7 +4274,7 @@ msgstr "Evolutionin tehtävien komponentti"
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:10
 #: ../calendar/gui/e-tasks.c:1257 ../calendar/gui/print.c:1822
 #: ../calendar/gui/tasks-component.c:519 ../calendar/gui/tasks-component.c:994
-#: ../calendar/gui/tasks-control.c:411
+#: ../calendar/gui/tasks-control.c:441
 #: ../calendar/importers/icalendar-importer.c:79
 #: ../calendar/importers/icalendar-importer.c:707
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:384
@@ -4341,7 +4341,7 @@ msgstr "Torkkumisaika:"
 #: ../ui/evolution-mail-messagedisplay.xml.h:5
 #: ../ui/evolution-message-composer.xml.h:44
 #: ../ui/evolution-signature-editor.xml.h:12
-#: ../ui/evolution-subscribe.xml.h:10 ../ui/evolution-tasks.xml.h:22
+#: ../ui/evolution-subscribe.xml.h:10 ../ui/evolution-tasks.xml.h:23
 #: ../ui/evolution.xml.h:32
 msgid "_Edit"
 msgstr "_Muokkaa"
@@ -5619,12 +5619,12 @@ msgstr[0] "Liitetty viesti"
 msgstr[1] "%d liitettyä viestiä"
 
 #: ../calendar/gui/dialogs/comp-editor.c:425
-#: ../calendar/gui/e-calendar-table.c:1164
+#: ../calendar/gui/e-calendar-table.c:1162
 #: ../calendar/gui/e-calendar-view.c:1529 ../composer/e-msg-composer.c:2909
 #: ../mail/em-folder-tree.c:1047 ../mail/em-folder-view.c:1034
 #: ../mail/message-list.c:1708 ../ui/evolution-addressbook.xml.h:31
 #: ../ui/evolution-calendar.xml.h:39 ../ui/evolution-composer-entries.xml.h:7
-#: ../ui/evolution-mail-message.xml.h:100 ../ui/evolution-tasks.xml.h:20
+#: ../ui/evolution-mail-message.xml.h:100 ../ui/evolution-tasks.xml.h:21
 msgid "_Copy"
 msgstr "_Kopioi"
 
@@ -5914,7 +5914,7 @@ msgstr "_Luokittelu:"
 #: ../calendar/gui/dialogs/event-page.glade.h:14
 #: ../calendar/gui/dialogs/task-page.glade.h:8
 #: ../calendar/gui/e-cal-list-view.c:254 ../calendar/gui/e-cal-model.c:324
-#: ../calendar/gui/e-calendar-table.c:362
+#: ../calendar/gui/e-calendar-table.c:360
 msgid "Confidential"
 msgstr "Luottamuksellinen"
 
@@ -5929,14 +5929,14 @@ msgstr "_Sijainti:"
 #: ../calendar/gui/dialogs/event-page.glade.h:17
 #: ../calendar/gui/dialogs/task-page.glade.h:10
 #: ../calendar/gui/e-cal-list-view.c:253 ../calendar/gui/e-cal-model.c:322
-#: ../calendar/gui/e-calendar-table.c:361
+#: ../calendar/gui/e-calendar-table.c:359
 msgid "Private"
 msgstr "Henkilökohtainen"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:18
 #: ../calendar/gui/dialogs/task-page.glade.h:11
 #: ../calendar/gui/e-cal-list-view.c:252 ../calendar/gui/e-cal-model.c:313
-#: ../calendar/gui/e-cal-model.c:320 ../calendar/gui/e-calendar-table.c:360
+#: ../calendar/gui/e-cal-model.c:320 ../calendar/gui/e-calendar-table.c:358
 msgid "Public"
 msgstr "Julkinen"
 
@@ -6284,7 +6284,7 @@ msgstr "<span weight=\"bold\">Tila</span>"
 #: ../calendar/gui/e-cal-component-preview.c:229
 #: ../calendar/gui/e-cal-model-tasks.c:345
 #: ../calendar/gui/e-cal-model-tasks.c:658
-#: ../calendar/gui/e-calendar-table.c:457 ../calendar/gui/e-itip-control.c:896
+#: ../calendar/gui/e-calendar-table.c:455 ../calendar/gui/e-itip-control.c:896
 #: ../calendar/gui/e-meeting-store.c:196 ../calendar/gui/e-meeting-store.c:219
 #: ../calendar/gui/print.c:2361 ../plugins/save-calendar/csv-format.c:390
 msgid "Completed"
@@ -6292,7 +6292,7 @@ msgstr "Valmis"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:5
 #: ../calendar/gui/e-cal-component-preview.c:248
-#: ../calendar/gui/e-calendar-table.c:382 ../mail/message-list.c:1008
+#: ../calendar/gui/e-calendar-table.c:380 ../mail/message-list.c:1008
 msgid "High"
 msgstr "Korkea"
 
@@ -6301,19 +6301,19 @@ msgstr "Korkea"
 #: ../calendar/gui/e-cal-model-tasks.c:343
 #: ../calendar/gui/e-cal-model-tasks.c:656
 #: ../calendar/gui/e-cal-model-tasks.c:731
-#: ../calendar/gui/e-calendar-table.c:456 ../calendar/gui/print.c:2358
+#: ../calendar/gui/e-calendar-table.c:454 ../calendar/gui/print.c:2358
 msgid "In Progress"
 msgstr "Työn alla"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:7
 #: ../calendar/gui/e-cal-component-preview.c:252
-#: ../calendar/gui/e-calendar-table.c:384 ../mail/message-list.c:1006
+#: ../calendar/gui/e-calendar-table.c:382 ../mail/message-list.c:1006
 msgid "Low"
 msgstr "Matala"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:8
 #: ../calendar/gui/e-cal-component-preview.c:250
-#: ../calendar/gui/e-cal-model.c:918 ../calendar/gui/e-calendar-table.c:383
+#: ../calendar/gui/e-cal-model.c:918 ../calendar/gui/e-calendar-table.c:381
 #: ../mail/message-list.c:1007
 msgid "Normal"
 msgstr "Tavallinen"
@@ -6322,7 +6322,7 @@ msgstr "Tavallinen"
 #: ../calendar/gui/e-cal-component-preview.c:236
 #: ../calendar/gui/e-cal-model-tasks.c:341
 #: ../calendar/gui/e-cal-model-tasks.c:654
-#: ../calendar/gui/e-calendar-table.c:455 ../calendar/gui/print.c:2355
+#: ../calendar/gui/e-calendar-table.c:453 ../calendar/gui/print.c:2355
 msgid "Not Started"
 msgstr "Ei aloitettu"
 
@@ -6331,7 +6331,7 @@ msgid "P_ercent complete:"
 msgstr "Pros_enttia valmiina:"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:11
-#: ../calendar/gui/e-calendar-table.c:385
+#: ../calendar/gui/e-calendar-table.c:383
 msgid "Undefined"
 msgstr "Määrittelemätön"
 
@@ -6572,12 +6572,12 @@ msgid "Summary"
 msgstr "Kuvaus"
 
 #: ../calendar/gui/e-cal-model-calendar.c:179
-#: ../calendar/gui/e-calendar-table.c:434
+#: ../calendar/gui/e-calendar-table.c:432
 msgid "Free"
 msgstr "Vapaa"
 
 #: ../calendar/gui/e-cal-model-calendar.c:182
-#: ../calendar/gui/e-calendar-table.c:435
+#: ../calendar/gui/e-calendar-table.c:433
 #: ../calendar/gui/e-meeting-time-sel.c:412
 msgid "Busy"
 msgstr "Varattu"
@@ -6617,7 +6617,6 @@ msgstr "Ei"
 #: ../plugins/itip-formatter/itip-formatter.c:238
 #: ../plugins/itip-formatter/itip-formatter.c:1626
 #: ../plugins/plugin-manager/plugin-manager.c:72
-#: ../shell/e-component-registry.c:205 ../shell/e-component-registry.c:211
 #: ../widgets/misc/e-attachment-bar.c:641
 #: ../widgets/misc/e-charset-picker.c:62
 msgid "Unknown"
@@ -6631,132 +6630,132 @@ msgstr "Toistuva"
 msgid "Assigned"
 msgstr "Annettu tehtäväksi"
 
-#: ../calendar/gui/e-calendar-table.c:404
+#: ../calendar/gui/e-calendar-table.c:402
 msgid "0%"
 msgstr "0%"
 
-#: ../calendar/gui/e-calendar-table.c:405
+#: ../calendar/gui/e-calendar-table.c:403
 msgid "10%"
 msgstr "10%"
 
-#: ../calendar/gui/e-calendar-table.c:406
+#: ../calendar/gui/e-calendar-table.c:404
 msgid "20%"
 msgstr "20%"
 
-#: ../calendar/gui/e-calendar-table.c:407
+#: ../calendar/gui/e-calendar-table.c:405
 msgid "30%"
 msgstr "30%"
 
-#: ../calendar/gui/e-calendar-table.c:408
+#: ../calendar/gui/e-calendar-table.c:406
 msgid "40%"
 msgstr "40%"
 
-#: ../calendar/gui/e-calendar-table.c:409
+#: ../calendar/gui/e-calendar-table.c:407
 msgid "50%"
 msgstr "50%"
 
-#: ../calendar/gui/e-calendar-table.c:410
+#: ../calendar/gui/e-calendar-table.c:408
 msgid "60%"
 msgstr "60%"
 
-#: ../calendar/gui/e-calendar-table.c:411
+#: ../calendar/gui/e-calendar-table.c:409
 msgid "70%"
 msgstr "70%"
 
-#: ../calendar/gui/e-calendar-table.c:412
+#: ../calendar/gui/e-calendar-table.c:410
 msgid "80%"
 msgstr "80%"
 
-#: ../calendar/gui/e-calendar-table.c:413
+#: ../calendar/gui/e-calendar-table.c:411
 msgid "90%"
 msgstr "90%"
 
-#: ../calendar/gui/e-calendar-table.c:414
+#: ../calendar/gui/e-calendar-table.c:412
 msgid "100%"
 msgstr "100%"
 
-#: ../calendar/gui/e-calendar-table.c:516
+#: ../calendar/gui/e-calendar-table.c:514
 msgid "Task Table"
 msgstr "Tehtävätaulukko"
 
-#: ../calendar/gui/e-calendar-table.c:694
+#: ../calendar/gui/e-calendar-table.c:692
 #: ../calendar/gui/e-calendar-view.c:661
 msgid "Deleting selected objects"
 msgstr "Poistetaan valitut kohteet"
 
-#: ../calendar/gui/e-calendar-table.c:873
+#: ../calendar/gui/e-calendar-table.c:871
 #: ../calendar/gui/e-calendar-view.c:789
 msgid "Updating objects"
 msgstr "Päivitetään olioita"
 
-#: ../calendar/gui/e-calendar-table.c:1014
+#: ../calendar/gui/e-calendar-table.c:1012
 #: ../calendar/gui/e-calendar-view.c:1098 ../composer/e-msg-composer.c:1242
 msgid "Save as..."
 msgstr "Tallenna nimellä..."
 
-#: ../calendar/gui/e-calendar-table.c:1157
+#: ../calendar/gui/e-calendar-table.c:1155
 msgid "Open _Web Page"
 msgstr "_Avaa www-sivu"
 
-#: ../calendar/gui/e-calendar-table.c:1158
+#: ../calendar/gui/e-calendar-table.c:1156
 #: ../calendar/gui/e-calendar-view.c:1523 ../mail/em-folder-view.c:1044
 #: ../mail/em-popup.c:541 ../mail/em-popup.c:552
 msgid "_Save As..."
 msgstr "Tallenna _nimellä..."
 
-#: ../calendar/gui/e-calendar-table.c:1159
+#: ../calendar/gui/e-calendar-table.c:1157
 #: ../calendar/gui/e-calendar-view.c:1503
 #: ../calendar/gui/e-calendar-view.c:1524 ../mail/em-folder-view.c:1045
 #: ../plugins/print-message/org-gnome-print-message.xml.h:3
 #: ../ui/evolution-addressbook.xml.h:40 ../ui/evolution-calendar.xml.h:44
-#: ../ui/evolution-mail-message.xml.h:117 ../ui/evolution-tasks.xml.h:25
+#: ../ui/evolution-mail-message.xml.h:117 ../ui/evolution-tasks.xml.h:27
 msgid "_Print..."
 msgstr "T_ulosta..."
 
-#: ../calendar/gui/e-calendar-table.c:1163
+#: ../calendar/gui/e-calendar-table.c:1161
 #: ../calendar/gui/e-calendar-view.c:1528 ../ui/evolution-addressbook.xml.h:1
 #: ../ui/evolution-calendar.xml.h:1 ../ui/evolution-tasks.xml.h:1
 msgid "C_ut"
 msgstr "L_eikkaa"
 
-#: ../calendar/gui/e-calendar-table.c:1165
+#: ../calendar/gui/e-calendar-table.c:1163
 #: ../calendar/gui/e-calendar-view.c:1506
 #: ../calendar/gui/e-calendar-view.c:1530 ../ui/evolution-addressbook.xml.h:38
 #: ../ui/evolution-calendar.xml.h:43 ../ui/evolution-composer-entries.xml.h:9
-#: ../ui/evolution-tasks.xml.h:24
+#: ../ui/evolution-tasks.xml.h:26
 msgid "_Paste"
 msgstr "L_iitä"
 
-#: ../calendar/gui/e-calendar-table.c:1169
+#: ../calendar/gui/e-calendar-table.c:1167 ../ui/evolution-tasks.xml.h:20
 msgid "_Assign Task"
 msgstr "_Anna tehtäväksi"
 
-#: ../calendar/gui/e-calendar-table.c:1170
+#: ../calendar/gui/e-calendar-table.c:1168 ../ui/evolution-tasks.xml.h:24
 msgid "_Forward as iCalendar"
 msgstr "_Välitä iCalendar-muodossa"
 
-#: ../calendar/gui/e-calendar-table.c:1171
+#: ../calendar/gui/e-calendar-table.c:1169
 msgid "_Mark as Complete"
 msgstr "_Merkitse valmiiksi"
 
-#: ../calendar/gui/e-calendar-table.c:1172
+#: ../calendar/gui/e-calendar-table.c:1170
 msgid "_Mark Selected Tasks as Complete"
 msgstr "_Merkitse valitut tehtävät valmiiksi"
 
 #. FIXME: need to disable for undeletable folders
-#: ../calendar/gui/e-calendar-table.c:1176
+#: ../calendar/gui/e-calendar-table.c:1174
 #: ../calendar/gui/e-calendar-view.c:1542 ../mail/em-folder-tree.c:2116
 #: ../mail/em-folder-view.c:1048 ../ui/evolution-addressbook.xml.h:33
 #: ../ui/evolution-calendar.xml.h:40 ../ui/evolution-mail-list.xml.h:26
-#: ../ui/evolution-tasks.xml.h:21
+#: ../ui/evolution-tasks.xml.h:22
 msgid "_Delete"
 msgstr "_Poista"
 
-#: ../calendar/gui/e-calendar-table.c:1177
+#: ../calendar/gui/e-calendar-table.c:1175
 msgid "_Delete Selected Tasks"
 msgstr "_Poista valitut tehtävät"
 
-#: ../calendar/gui/e-calendar-table.c:1328
+#: ../calendar/gui/e-calendar-table.c:1326
 #: ../calendar/gui/e-calendar-table.etspec.h:4
 msgid "Click to add a task"
 msgstr "Lisää tehtävä näpäyttämällä tästä"
@@ -8057,7 +8056,7 @@ msgstr "_Tehtävälista"
 msgid "Create a new task list"
 msgstr "Luo uusi tehtävälista"
 
-#: ../calendar/gui/tasks-control.c:373
+#: ../calendar/gui/tasks-control.c:403
 msgid ""
 "This operation will permanently erase all tasks marked as completed. If you "
 "continue, you will not be able to recover these tasks.\n"
@@ -8069,11 +8068,11 @@ msgstr ""
 "\n"
 "Valmis poistaa nämä tehtävät?"
 
-#: ../calendar/gui/tasks-control.c:376
+#: ../calendar/gui/tasks-control.c:406
 msgid "Do not ask me again."
 msgstr "Älä kysy enää uudestaan"
 
-#: ../calendar/gui/tasks-control.c:411
+#: ../calendar/gui/tasks-control.c:441
 msgid "Print Tasks"
 msgstr "Tulosta tehtävät"
 
@@ -11538,7 +11537,7 @@ msgstr "Uutisryhmät"
 #: ../mail/em-format.c:1101
 #, c-format
 msgid "%s attachment"
-msgstr "%s liite"
+msgstr "Liite: %s"
 
 #: ../mail/em-format.c:1140 ../mail/em-format.c:1273
 msgid "Could not parse S/MIME message: Unknown error"
@@ -14665,7 +14664,7 @@ msgstr "_Saapuneet:"
 msgid "_Tasks:"
 msgstr "_Tehtävät:"
 
-#: ../plugins/exchange-operations/exchange-folder-permission.c:51
+#: ../plugins/exchange-operations/exchange-folder-permission.c:57
 #: ../plugins/exchange-operations/org-gnome-folder-permissions.xml.h:2
 msgid "Permissions..."
 msgstr "Oikeudet..."
@@ -16629,7 +16628,7 @@ msgstr ""
 "Evolution on yhteydettömässä tilassa. Paina tästä siirtyäksesi "
 "yhteydelliseen tilaan."
 
-#: ../shell/e-shell-window.c:714
+#: ../shell/e-shell-window.c:717
 #, c-format
 msgid "Switch to %s"
 msgstr "Vaihda %s:aan"
@@ -18600,7 +18599,7 @@ msgstr "Tulosta lista tehtävistä"
 msgid "View the selected task"
 msgstr "Näytä valitut tehtävät"
 
-#: ../ui/evolution-tasks.xml.h:23
+#: ../ui/evolution-tasks.xml.h:25
 msgid "_Open Task"
 msgstr "Avaa _tehtävä"
 
@@ -19463,7 +19462,7 @@ msgstr "%s (...)"
 #: ../widgets/misc/e-task-widget.c:213
 #, c-format
 msgid "%s (%d%% complete)"
-msgstr "%s (%d%% valmiina)"
+msgstr "%s (%d %% valmiina)"
 
 #: ../widgets/misc/e-url-entry.c:107
 msgid "click here to go to url"
