@@ -1,3 +1,8 @@
+2005-07-27  Praveen Kumar <kpraveen@novell.com>
+
+	* exchange-folder.c (org_gnome_exchange_folder_subscription) : Handle
+	error conditions if folder subscription fails. Fixes bug 311712
+	
 2005-07-27  Harry Lu  <harry.lu@sun.com>
 
 	Only show the unsubscribe menu if it is an exchange folder.

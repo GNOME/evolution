@@ -33,6 +33,8 @@
 #include <mail/em-popup.h>
 #include <mail/em-menu.h>
 #include <libedataserverui/e-source-selector.h>
+#include <e-util/e-error.h>
+
 #include "exchange-operations.h"
 #include "addressbook/gui/widgets/eab-popup.h"
 #include "exchange-folder-subscription.h"
@@ -396,33 +398,38 @@ org_gnome_exchange_folder_subscription (EPlugin *ep, EMMenuTargetSelect *target)
 
 	create_folder_subscription_dialog (account->account_name, &user_email_address, &folder_name);
 
-	if (user_email_address && folder_name)
+	if (user_email_address && folder_name) {
 		result = exchange_account_discover_shared_folder (account, user_email_address, folder_name, &folder);
+		
+		switch (result) {
+		case EXCHANGE_ACCOUNT_FOLDER_ALREADY_EXISTS:
+			e_error_run (NULL, ERROR_DOMAIN ":folder-exists-error", NULL);
+			return;
+		case EXCHANGE_ACCOUNT_FOLDER_DOES_NOT_EXIST:
+			e_error_run (NULL, ERROR_DOMAIN ":folder-doesnt-exist-error", NULL);
+			return;
+		case EXCHANGE_ACCOUNT_FOLDER_UNKNOWN_TYPE:
+			e_error_run (NULL, ERROR_DOMAIN ":folder-unknown-type", NULL);
+		return;
+		case EXCHANGE_ACCOUNT_FOLDER_PERMISSION_DENIED:
+			e_error_run (NULL, ERROR_DOMAIN ":folder-perm-error", NULL);
+			return;
+		case EXCHANGE_ACCOUNT_FOLDER_OFFLINE:
+			e_error_run (NULL, ERROR_DOMAIN ":folder-offline-error", NULL);
+			return;
+		case EXCHANGE_ACCOUNT_FOLDER_UNSUPPORTED_OPERATION:
+			e_error_run (NULL, ERROR_DOMAIN ":folder-unsupported-error", NULL);
+			return;
+		case EXCHANGE_ACCOUNT_FOLDER_GENERIC_ERROR:		
+			e_error_run (NULL, ERROR_DOMAIN ":folder-generic-error", NULL);
+			return;		
+		}
+	}
 
 	if (!folder) {
 		return;
 	}
-#if 0
-	hier = e_folder_exchange_get_hierarchy (folder);
-	folder_display_name = g_strdup_printf ("%s's %s", hier->owner_name, folder_name);
-	folder_type = (gchar *) e_folder_get_type_string (folder);
-	physical_uri = (gchar *) e_folder_get_physical_uri (folder);
-	if (!(strcmp (folder_type, "calendar")) ||
-	    !(strcmp (folder_type, "calendar/public"))) {
-			add_folder_esource (account, EXCHANGE_CALENDAR_FOLDER, folder_display_name, physical_uri);
-	}
-	else if (!(strcmp (folder_type, "tasks")) ||
-		 !(strcmp (folder_type, "tasks/public"))) {
-			add_folder_esource (account, EXCHANGE_TASKS_FOLDER, folder_display_name, physical_uri);
-	}
-	else if (!(strcmp (folder_type, "contacts")) ||
-		 !(strcmp (folder_type, "contacts/public")) ||
-		 !(strcmp (folder_type, "contacts/ldap"))) {
-			add_folder_esource (account, EXCHANGE_CONTACTS_FOLDER, folder_display_name, physical_uri);
-	}
 
-	g_free (folder_display_name);
-#endif
 	exchange_account_open_folder (account, g_strdup_printf ("/%s", user_email_address));
 }
 
