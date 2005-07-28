@@ -1,3 +1,9 @@
+2005-07-28 Vivek Jain <jvivek@novell.com>
+	
+	* evolution-mail-list.xml: HideDeleted has to be a toggle
+	button.
+	**Relevent Comments on #309163
+
 2005-07-25  Viren.l <lviren@novell.com>
 
 	* evolution-tasks.xml: Added 2 submenus under action menu.

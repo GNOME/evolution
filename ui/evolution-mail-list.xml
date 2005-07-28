@@ -41,7 +41,7 @@
      _tip="Change the name of this folder"/>
 
     <cmd name="HideDeleted" _tip="Hide deleted messages rather than displaying them with a line through them"
-     pixtype="pixbuf" />
+     type="toggle" />
 
     <cmd name="ViewHideRead" _tip="Temporarily hide all messages that have already been read"
      pixtype="pixbuf" />
