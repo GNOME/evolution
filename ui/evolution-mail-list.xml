@@ -46,7 +46,7 @@
     <cmd name="ViewHideRead" _tip="Temporarily hide all messages that have already been read"
      pixtype="pixbuf" />
 
-    <cmd name="ViewShowSelected" _tip="Temporarily hide the selected messages"
+    <cmd name="ViewHideSelected" _tip="Temporarily hide the selected messages"
      pixtype="pixbuf" />
 
     <cmd name="ViewShowAll" _tip="Show messages that have been temporarily hidden"

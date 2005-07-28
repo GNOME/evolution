@@ -1,3 +1,8 @@
+2005-07-28  Rodney Dawes  <dobey@novell.com>
+
+	* evolution-mail-list.xml: The command name for hiding selected
+	messages needs to be ViewHideSelected, not ViewShowSelected
+
 2005-07-28 Vivek Jain <jvivek@novell.com>
 	
 	* evolution-mail-list.xml: HideDeleted has to be a toggle
