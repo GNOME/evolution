@@ -1,3 +1,13 @@
+2005-07-27  Vivek Jain  <jvivek@novell.com>
+	
+	* itip-formatter.c : (update_item) 
+	applied patch submitted by <tommi.komulainen@iki.fi>
+	do not send "cid:" to get the part.
+	check part for NULL before using it.
+	(message_foreach_part): do nothing if part is NULL
+	saves crash.
+	**Fixes #272632
+
 2005-07-20  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	* itip-formatter.c: (format_itip_object): Fixed a memory

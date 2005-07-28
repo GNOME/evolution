@@ -666,6 +666,9 @@ message_foreach_part (CamelMimePart *part, GSList **part_list)
 	int parts, i;
 	int go = TRUE;
 
+	if (!part)
+		return;
+
 	*part_list = g_slist_append (*part_list, part);
 	
 	containee = camel_medium_get_content_object (CAMEL_MEDIUM (part));
@@ -738,26 +741,29 @@ update_item (FormatItipPObject *pitip, ItipViewResponse response)
 
 			if (!g_ascii_strncasecmp (uri, "cid:...", 7)) {
 				message_foreach_part ((CamelMimePart *) msg, &parts);
-				
+
 				for (m = parts; m; m = m->next) {
 					part = m->data;
-				
+
 					/* Skip the actual message and the text/calendar part */
 					/* FIXME Do we need to skip anything else? */
 					if (part == (CamelMimePart *) msg || part == pitip->pobject.part)
 						continue;
-				
+
 					new_uri = em_utils_temp_save_part (NULL, part);
 					g_message ("DEBUG: the uri obtained was %s\n", new_uri);
 					new_attachments = g_slist_append (new_attachments, new_uri);
 				}
-			
+
 				g_slist_free (parts);
-			
+
 			} else if (!g_ascii_strncasecmp (uri, "cid:", 4)) {
-				part = camel_mime_message_get_part_by_content_id (msg, uri);
-				new_uri = em_utils_temp_save_part (NULL, part);
-				new_attachments = g_slist_append (new_attachments, new_uri);
+				part = camel_mime_message_get_part_by_content_id (msg, uri + 4);
+				if (part) {
+					new_uri = em_utils_temp_save_part (NULL, part);
+					new_attachments = g_slist_append (new_attachments, new_uri);
+				}
+
 			} else {
 				/* Preserve existing non-cid ones */
 				new_attachments = g_slist_append (new_attachments, g_strdup (uri));
