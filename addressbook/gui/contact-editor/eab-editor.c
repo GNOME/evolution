@@ -269,6 +269,7 @@ eab_editor_prompt_to_save_changes (EABEditor *editor, GtkWindow *window)
 			return FALSE;
 		}
 		eab_editor_save_contact (editor, TRUE);
+		eab_editor_close (EAB_EDITOR (editor));
 		return TRUE;
 	case GTK_RESPONSE_NO:
 		eab_editor_close (EAB_EDITOR (editor));
@@ -298,7 +299,6 @@ eab_editor_request_close_all (void)
 			retval = FALSE;
 			break;
 		}
-		eab_editor_close (editor);
 	}
 
 	return retval;
