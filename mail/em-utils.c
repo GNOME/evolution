@@ -1871,7 +1871,8 @@ em_utils_in_addressbook(CamelInternetAddress *iaddr)
 	time_t now;
 
 	/* TODO: check all addresses? */
-	if (!camel_internet_address_get(iaddr, 0, NULL, &addr))
+	if (iaddr == NULL
+	    || !camel_internet_address_get(iaddr, 0, NULL, &addr))
 		return FALSE;
 
 	pthread_mutex_lock(&emu_addr_lock);
