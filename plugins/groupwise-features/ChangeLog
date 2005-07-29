@@ -1,3 +1,13 @@
+2005-07-29  Vivek Jain <jvivek@novell.com>
+
+	* org-gnome-groupwise-features.eplug.xml:
+	for status strack  removed "Item" tag entries, included a factory method
+
+	* status-track.c :  (org_gnome_track_status): converted to 
+	 factory method to add the item, moved most of its code to
+	new function (track_status), which is a callback for the click
+	 **Fixes #311721
+
 2005-07-27  Sankar P  <psankar@novell.com>
 
 	* org-gnome-groupwise-features.eplug.xml: Added the hook for

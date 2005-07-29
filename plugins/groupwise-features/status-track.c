@@ -32,7 +32,8 @@
 #include "camel/camel-folder.h"
 #include "camel/camel-medium.h"
 #include "camel/camel-mime-message.h"
-#include "mail/em-popup.h"
+#include <mail/em-popup.h>
+#include <mail/em-folder-view.h>
 
 #include <e-gw-connection.h>
 
@@ -68,13 +69,11 @@ add_detail (GtkTable *table, char *label, char *value, int row)
 	row++;
 	return row ;
 }
-/*
- * The format for the options is:
- *			    0        1   2      3          4     5         6      7         8         9
- *     X-gw-status-opt: /TO/CC/BCC;name;email;delivered;opened;accepted;deleted;declined;completed;undelivered::
- */
-void org_gnome_track_status (void *ep, EMPopupTargetSelect *t)
+
+static void 
+track_status (EPopup *ep, EPopupItem *item, void *data)
 {
+	EMPopupTargetSelect *t = (EMPopupTargetSelect *)data;
 	CamelMimeMessage *msg = NULL ;
 	const CamelInternetAddress *from ;
 	const char *namep, *addp ;
@@ -94,17 +93,6 @@ void org_gnome_track_status (void *ep, EMPopupTargetSelect *t)
 	int row = 0;
 
 	/*check if it is a groupwise account*/
-	str = strstr (t->uri, "groupwise") ;
-	if (!str) {
-		g_warning ("Status tracking available for groupwise account only") ;
-		return ;
-	}
-	str = strstr (t->uri, "Sent Items") ;
-	if (!str) {
-		g_warning ("Status tracking available for a sent folder only") ;
-		return ;
-	}
-	
 	/*Get message*/
 	msg = camel_folder_get_message (t->folder, g_ptr_array_index (t->uids, 0), NULL);
 	if (!msg) {
@@ -234,4 +222,45 @@ void org_gnome_track_status (void *ep, EMPopupTargetSelect *t)
 	
 	g_strfreev (temp1) ;
 	
+}
+
+/*
+ * The format for the options is:
+ *			    0        1   2      3          4     5         6      7         8         9
+ *     X-gw-status-opt: /TO/CC/BCC;name;email;delivered;opened;accepted;deleted;declined;completed;undelivered::
+ */
+
+static EPopupItem popup_items[] = {
+{ E_POPUP_ITEM, "50.emfv.05", N_("Track Message Status..."), track_status, NULL, NULL, 0, EM_POPUP_SELECT_ONE|EM_FOLDER_VIEW_SELECT_LISTONLY}
+};
+
+static void 
+popup_free (EPopup *ep, GSList *items, void *data)
+{
+	g_slist_free (items);
+}
+
+void org_gnome_track_status (void *ep, EMPopupTargetSelect *t)
+{
+	GSList *menus = NULL;
+	
+	int i = 0;
+	static int first = 0;
+
+	if (! g_strrstr (t->uri, "groupwise://") || g_ascii_strncasecmp ((t->folder)->full_name, "Sent Items", 10))
+		return;
+	
+	/* for translation*/
+	if (!first) {
+		popup_items[0].label =  _(popup_items[0].label);
+	
+	}
+	
+	first++;
+	
+	for (i = 0; i < sizeof (popup_items) / sizeof (popup_items[0]); i++)
+		menus = g_slist_prepend (menus, &popup_items[i]);
+	
+	e_popup_add_items (t->target.popup, menus, NULL, popup_free, t);
+       	
 }
