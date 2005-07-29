@@ -236,7 +236,7 @@ set_image_from_data (EImageChooser *chooser,
 
 	pixbuf = gdk_pixbuf_loader_get_pixbuf (loader);
 	if (pixbuf)
-		gdk_pixbuf_ref (pixbuf);
+		g_object_ref (pixbuf);
 	gdk_pixbuf_loader_close (loader, NULL);
 	g_object_unref (loader);
 
@@ -306,11 +306,11 @@ set_image_from_data (EImageChooser *chooser,
 					      chooser->priv->image_height / 2 - new_height / 2);
 
 			gtk_image_set_from_pixbuf (GTK_IMAGE (chooser->priv->image), composite);
-			gdk_pixbuf_unref (scaled);
-			gdk_pixbuf_unref (composite);
+			g_object_unref (scaled);
+			g_object_unref (composite);
 		}
 
-		gdk_pixbuf_unref (pixbuf);
+		g_object_unref (pixbuf);
 
 		g_free (chooser->priv->image_buf);
 		chooser->priv->image_buf = data;
@@ -408,8 +408,6 @@ image_drag_data_received_cb (GtkWidget *widget,
 
 	target_type = gdk_atom_name (selection_data->target);
 
-	printf ("target_type == %s\n", target_type);
-
 	if (!strcmp (target_type, URI_LIST_TYPE)) {
 		GnomeVFSResult result;
 		GnomeVFSHandle *handle;
@@ -423,33 +421,22 @@ image_drag_data_received_cb (GtkWidget *widget,
 		else
 			uri = g_strdup (selection_data->data);
 
-		printf ("uri == %s\n", uri);
-
 		result = gnome_vfs_open (&handle, uri, GNOME_VFS_OPEN_READ);
 		if (result == GNOME_VFS_OK) {
 			result = gnome_vfs_get_file_info_from_handle (handle, &info, GNOME_VFS_FILE_INFO_DEFAULT);
 			if (result == GNOME_VFS_OK) {
-				GnomeVFSFileSize num_left;
 				GnomeVFSFileSize num_read;
-				GnomeVFSFileSize total_read;
 
-				printf ("file size = %d\n", (int)info.size);
 				buf = g_malloc (info.size);
 
-				num_left = info.size;
-				total_read = 0;
-
-				while ((result = gnome_vfs_read (handle, buf + total_read, num_left, &num_read)) == GNOME_VFS_OK) {
-					num_left -= num_read;
-					total_read += num_read;
-				}
-
-				printf ("read %d bytes\n", (int)total_read);
-				if (set_image_from_data (chooser, buf, total_read)) {
-					handled = TRUE;
-				}
-				else {
-					/* XXX we should pop up a warning dialog here */
+				if ((result = gnome_vfs_read (handle, buf, info.size, &num_read)) == GNOME_VFS_OK) {
+					if (set_image_from_data (chooser, buf, num_read)) {
+						handled = TRUE;
+					} else {
+						/* XXX we should pop up a warning dialog here */
+						g_free (buf);
+					}
+				} else {
 					g_free (buf);
 				}
 			}

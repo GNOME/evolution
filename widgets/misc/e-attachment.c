@@ -505,31 +505,13 @@ EAttachment *
 e_attachment_new_from_mime_part (CamelMimePart *part)
 {
 	EAttachment *new;
-	CamelMimePart *mime_part;
-	CamelStream *stream;
 	
 	g_return_val_if_fail (CAMEL_IS_MIME_PART (part), NULL);
 	
-	stream = camel_stream_mem_new ();
-	if (camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (part), stream) == -1) {
-		camel_object_unref (stream);
-		return NULL;
-	}
-	
-	camel_stream_reset (stream);
-	mime_part = camel_mime_part_new ();
-	
-	if (camel_data_wrapper_construct_from_stream (CAMEL_DATA_WRAPPER (mime_part), stream) == -1) {
-		camel_object_unref (mime_part);
-		camel_object_unref (stream);
-		return NULL;
-	}
-	
-	camel_object_unref (stream);
-	
 	new = g_object_new (E_TYPE_ATTACHMENT, NULL);
 	new->editor_gui = NULL;
-	new->body = mime_part;
+	camel_object_ref (part);
+	new->body = part;
 	new->guessed_type = FALSE;
 	new->is_available_local = TRUE;
 	new->size = 0;

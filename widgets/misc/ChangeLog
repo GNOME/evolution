@@ -1,3 +1,17 @@
+2005-07-29  Srinivasa Ragavan <sragavan@novell.com>
+
+	* e-attachment.c: (e_attachment_new_from_mime_part) used ref instead of 
+	copying the entire mime part.
+
+2005-07-15  Diego Gonzalez    <diego@pemas.net>
+
+	* e-image-chooser.c (image_drag_data_received_cb) modificatio to
+	  avoid getting into an infinite loop. Also remove some debug
+	  output.
+	  (set_image_from_data): substitute calls to gdk_pixbuf_unref and
+	  gdk_pixbuf_ref and use g_object_ref/unref instead. The first ones
+	  are deprecated API.
+
 2005-07-25  Srinivasa Ragavan <sragavan@novell.com>
 
 	* e-attachment-bar,c: (e_attachment_bar_remove_selected) (e_attachment_bar_edit_selected)
