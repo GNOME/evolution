@@ -1,5 +1,10 @@
 2005-07-29  Srinivasa Ragavan <sragavan@novell.com>
 
+	* tools/evolution-addressbook-export-list-cards.c: (output_n_cards_file)
+	Fixes the bug #269870. Commiting Michael Meeks patch.
+
+2005-07-29  Srinivasa Ragavan <sragavan@novell.com>
+
 	* gui/contact-editor/e-contact-editor.c: (extract_simple_field) (image_selected)
 	Fixed in a genereic way, the resizing of contact photos
 

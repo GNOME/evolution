@@ -590,7 +590,12 @@ output_n_cards_file (FILE * outputfile, GList *contacts, int size, int begin_no,
 			g_free (vcard);
 		}
 	} else if (format == CARD_FORMAT_CSV) {
-		gchar *csv_fields_name = e_contact_csv_get_header_line (pre_defined_fields);
+		gchar *csv_fields_name;
+
+		if (!pre_defined_fields)
+			set_pre_defined_field (&pre_defined_fields);
+
+		csv_fields_name = e_contact_csv_get_header_line (pre_defined_fields);
 		fprintf (outputfile, "%s\n", csv_fields_name);
 		g_free (csv_fields_name);
 
