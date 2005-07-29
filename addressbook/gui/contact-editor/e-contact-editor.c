@@ -62,6 +62,7 @@
 #include "e-util/e-icon-factory.h"
 
 #include "eab-contact-merging.h"
+#include <libgnomevfs/gnome-vfs-ops.h>
 
 #include "e-contact-editor-address.h"
 #include "e-contact-editor-im.h"
@@ -2188,7 +2189,47 @@ extract_simple_field (EContactEditor *editor, GtkWidget *widget, gint field_id)
 		if (editor->image_set &&
 		    e_image_chooser_get_image_data (E_IMAGE_CHOOSER (widget),
 						    &photo.data, &photo.length)) {
+			GdkPixbuf *pixbuf, *new;
+			GdkPixbufLoader *loader = gdk_pixbuf_loader_new();
+			
+			gdk_pixbuf_loader_write (loader, photo.data, photo.length, NULL);
+			gdk_pixbuf_loader_close (loader, NULL);
+			
+			pixbuf = gdk_pixbuf_loader_get_pixbuf (loader);
+			if (pixbuf) {
+				int width, height;
+				
+				g_object_ref (pixbuf);
+		
+				height = gdk_pixbuf_get_height (pixbuf);
+				width = gdk_pixbuf_get_width (pixbuf);
+		
+				if ((height > 96 || width > 96) && e_error_run (GTK_WINDOW (editor), "addressbook:prompt-resize", NULL) == GTK_RESPONSE_YES) {
+
+					if ( width > height) {
+						height = height * 96 / width;
+						width = 96;
+					} else {
+						width = width *96 / height;
+						height = 96;
+					}
+		
+	        		       	new = gdk_pixbuf_scale_simple (pixbuf, width, height, GDK_INTERP_BILINEAR);
+					if (new) {
+						g_free(photo.data);
+		        	       		gdk_pixbuf_save_to_buffer (new, &photo.data, &photo.length, "jpeg", NULL, "quality", "100", NULL);
+						g_object_unref (new);
+					}
+
+				}
+			
+				g_object_unref (pixbuf);
+			}
+
+			g_object_unref (loader);
+			
 			e_contact_set (contact, field_id, &photo);
+			
 			g_free (photo.data);
 		}
 		else {
@@ -2526,9 +2567,8 @@ categories_clicked (GtkWidget *button, EContactEditor *editor)
 static void
 image_selected (EContactEditor *editor)
 {
-	gchar     *file_name, *scaled_file = NULL;
+	gchar     *file_name;
 	GtkWidget *image_chooser;
-	GdkPixbuf *new, *photo;
 
 #ifdef USE_GTKFILECHOOSER
 	file_name = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (editor->file_selector));
@@ -2539,35 +2579,6 @@ image_selected (EContactEditor *editor)
 	if (!file_name)
 		return;
 
-        photo = gdk_pixbuf_new_from_file (file_name, NULL);
-        if (photo) {
-		int width, height;
-		
-		height = gdk_pixbuf_get_height (photo);
-		width = gdk_pixbuf_get_width (photo);
-		
-		if ((height > 96 || width > 96) && e_error_run (GTK_WINDOW (editor), "addressbook:prompt-resize", NULL) == GTK_RESPONSE_YES) {
-
-			if ( width > height) {
-				height = height * 96 / width;
-				width = 96;
-			} else {
-				width = width *96 / height;
-				height = 96;
-			}
-			scaled_file = e_mktemp("eab-XXXXXX");
-
-	               	new = gdk_pixbuf_scale_simple (photo, width, height, GDK_INTERP_BILINEAR);
-        	       	gdk_pixbuf_save (new, scaled_file, "jpeg", NULL, "quality", "100", NULL);
-			file_name = scaled_file;
-			g_object_unref (new);
-		}
-		g_object_unref (photo);
-        } else {
-                return;
-	}
-
-
 	image_chooser = glade_xml_get_widget (editor->gui, "image-chooser");
 
 	g_signal_handlers_block_by_func (image_chooser, image_chooser_changed, editor);
@@ -2576,7 +2587,6 @@ image_selected (EContactEditor *editor)
 
 	editor->image_set = TRUE;
 	object_changed (G_OBJECT (image_chooser), editor);
-	g_free(scaled_file);
 }
 
 static void

@@ -1,3 +1,8 @@
+2005-07-29  Srinivasa Ragavan <sragavan@novell.com>
+
+	* gui/contact-editor/e-contact-editor.c: (extract_simple_field) (image_selected)
+	Fixed in a genereic way, the resizing of contact photos
+
 2005-07-26  Harish Krishnaswamy  <kharish@novell.com>
 
 	* gui/component/Makefile.am: fix make distcheck issues.
