@@ -419,8 +419,10 @@ update_remote_file (EAttachment *attachment, EAttachmentBar *bar)
 	char *msg, *base;
 	priv = bar->priv;
 
-	if (attachment->percentage == -1)
-		return update (bar);
+	if (attachment->percentage == -1) {
+		update (bar);
+		return;
+	}
 	
 	base = g_path_get_basename(attachment->file_name);
 	msg = g_strdup_printf("%s (%d\%)", base, attachment->percentage);

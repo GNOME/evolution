@@ -1,3 +1,10 @@
+2005-07-28  Mengjie Yu  <meng-jie.yu@sun.com>
+
+	* misc/e-attachment-bar.c: (update_remote_file):
+	Void function should not return value.
+
+	Fixes #311837
+
 2005-07-21  Srinivasa Ragavan <sragavan@novell.com>
 
 	* menus/gal-define-views-dialog.c: (etable_selection_change_forall_cb) 
