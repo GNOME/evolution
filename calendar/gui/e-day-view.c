@@ -1880,9 +1880,9 @@ e_day_view_update_event_label (EDayView *day_view,
 			       "text", text,
 			       NULL);
 
-	if (e_cal_get_static_capability (event->comp_data->client, CAL_STATIC_CAPABILITY_HAS_UNACCEPTED_MEETING) 
+/*	if (e_cal_get_static_capability (event->comp_data->client, CAL_STATIC_CAPABILITY_HAS_UNACCEPTED_MEETING) 
 				&& e_cal_util_component_has_attendee (event->comp_data->icalcomp)) 
-		set_text_as_bold (event);
+		set_text_as_bold (event); */
 
 	if (free_text)
 		g_free (text);
@@ -1908,9 +1908,9 @@ e_day_view_update_long_event_label (EDayView *day_view,
 			       "text", summary ? summary : "",
 			       NULL);
 	
-	if (e_cal_get_static_capability (event->comp_data->client, CAL_STATIC_CAPABILITY_HAS_UNACCEPTED_MEETING) 
+/*	if (e_cal_get_static_capability (event->comp_data->client, CAL_STATIC_CAPABILITY_HAS_UNACCEPTED_MEETING) 
 				&& e_cal_util_component_has_attendee (event->comp_data->icalcomp)) 
-		set_text_as_bold (event);
+		set_text_as_bold (event); */
 }
 
 

@@ -1,3 +1,12 @@
+2005-07-29  Chenthill Palanisamy  <pchenthill@novell.com>
+
+
+	* gui/e-day-view.c: (e_day_view_update_event_label),
+	(e_day_view_update_long_event_label):
+	* gui/e-week-view.c: (e_week_view_reshape_event_span):
+	Commenting the code for marking the summary of unaccepted
+	meetings as bold, since pango crashes for some meetings.
+
 2005-07-27  Mengjie Yu  <meng-jie.yu@sun.com>
 
 	* gui/e-cal-model-calendar.c:

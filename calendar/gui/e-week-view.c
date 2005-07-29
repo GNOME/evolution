@@ -2668,10 +2668,11 @@ e_week_view_reshape_event_span (EWeekView *week_view,
 					       "im_context", E_CANVAS (week_view->main_canvas)->im_context,
 					       NULL);
 		
+/*		Uncomment once the pango fix is in 
 		if (e_cal_get_static_capability (event->comp_data->client, CAL_STATIC_CAPABILITY_HAS_UNACCEPTED_MEETING) 
 				&& e_cal_util_component_has_attendee (event->comp_data->icalcomp)) {
 			set_text_as_bold (event, span);
-		}
+		} */
 
 		g_signal_connect (span->text_item, "event",
 				  G_CALLBACK (e_week_view_on_text_item_event),
