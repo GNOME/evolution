@@ -190,10 +190,11 @@ track_status (EPopup *ep, EPopupItem *item, void *data)
 		if (*temp2) {
 			if (strlen(temp2[0]));
 			if (strlen(temp2[1]))
-				add_recipient (table, temp2[1], row) ;
+				add_recipient (table, temp2[1], row++);
+			/*we will decrement the row if there is info to be displayed in the same line*/
 			if (strlen(temp2[2]));
 			if (strlen(temp2[3]))
-				row = add_detail (table,"delivered" , temp2[3], row) ;
+				row = add_detail (table,"delivered" , temp2[3], --row);
 			if (strlen(temp2[4]))
 				row = add_detail (table,"opened" , temp2[3], row) ;
 			if (strlen(temp2[5]))
@@ -205,7 +206,7 @@ track_status (EPopup *ep, EPopupItem *item, void *data)
 			if (strlen(temp2[8]))
 				row = add_detail (table,"completed" , temp2[3], row) ;
 			if (strlen(temp2[9]))
-				row = add_detail (table,"undelivered" , temp2[3], row) ;
+				row = add_detail (table,"undelivered" , temp2[3], --row);
 		}
 		str = *(++ptr) ;
 		g_strfreev (temp2) ;

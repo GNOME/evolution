@@ -1,4 +1,11 @@
 2005-07-29  Vivek Jain <jvivek@novell.com>
+	
+	* status-track.c: (track_status):
+	adjust row counts while calling add_detail
+	so that it doesn't overlap the entries.
+	**Fixes #302817
+
+2005-07-29  Vivek Jain <jvivek@novell.com>
 
 	* org-gnome-groupwise-features.eplug.xml:
 	for status strack  removed "Item" tag entries, included a factory method
