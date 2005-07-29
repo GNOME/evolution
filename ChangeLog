@@ -1,3 +1,11 @@
+2005-07-29  Harish Krishnaswamy  <kharish@novell.com>
+
+	* configure.in: Bump version number
+	
+	*****Release 2.3.6.1***** includes fix for
+	#311731 - (Removing folders from an IMAP) 
+	
+
 2005-07-26  Harish Krishnaswamy  <kharish@novell.com>
 
 	* plugins/calendar-weather/Makefile.am:
