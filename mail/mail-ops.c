@@ -50,6 +50,7 @@
 #include <camel/camel-vtrash-folder.h>
 #include <camel/camel-vee-store.h>
 #include <camel/camel-transport.h>
+#include <camel/camel-multipart.h>
 
 #include "mail-component.h"
 #include "mail-config.h"

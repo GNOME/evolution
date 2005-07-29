@@ -1,5 +1,10 @@
 2005-07-29  Shreyas Srinivasan  <sshreyas@novell.com>
 
+	* mail-ops.c: Fix #311223. Include <camel/camel-multipart.h>
+	so that lazy binding does not fail on CAMEL_IS_MULTIPART.
+	
+2005-07-29  Shreyas Srinivasan  <sshreyas@novell.com>
+
 	* em-account-editor.c (emae_defaults_page): Fix #307358. Check if
 	the provider type exists  before senisitizing widgets.
 	
