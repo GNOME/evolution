@@ -1,9 +1,14 @@
+2005-07-29  Shreyas Srinivasan  <sshreyas@novell.com>
+
+	* em-account-editor.c (emae_defaults_page): Fix #307358. Check if
+	the provider type exists  before senisitizing widgets.
+	
 2005-07-28  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #311440.
 
 	* em-utils.c (em_utils_in_addressbook): handle NULL address.
-
+	
 2005-07-28  Praveen Kumar <kpraveen@novell.com>
 
 	* em-account-editor.c (emae_check_complete) : Update the "Full Name" 
