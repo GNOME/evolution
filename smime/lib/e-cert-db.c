@@ -103,6 +103,7 @@ enum {
 static guint e_cert_db_signals[LAST_SIGNAL];
 
 struct _ECertDBPrivate {
+	guint reserved;
 };
 
 #define PARENT_TYPE G_TYPE_OBJECT

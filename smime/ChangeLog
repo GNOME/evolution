@@ -1,3 +1,10 @@
+2005-07-28  Mengjie Yu  <meng-jie.yu@sun.com>
+
+	* lib/e-cert-db.c:
+	Add reserved field for an empty structure.
+
+	Fixes #311837
+
 2005-07-20  Tor Lillqvist  <tml@novell.com>
 
 	* gui/Makefile.am: Use privsolib so the DLL gets installed in
