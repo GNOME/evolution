@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-07-29 17:15+0900\n"
-"PO-Revision-Date: 2005-07-29 17:14+0900\n"
+"POT-Creation-Date: 2005-07-30 21:12+0900\n"
+"PO-Revision-Date: 2005-07-30 21:09+0900\n"
 "Last-Translator: Takeshi AIHANA <aihana@gnome.gr.jp>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
 "MIME-Version: 1.0\n"
@@ -4515,7 +4515,6 @@ msgid "Hour the workday starts on, in twenty four hour format, 0 to 23."
 msgstr "平日の開始時刻 (24時間制の書式: 0〜23) です。"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:22
-#, fuzzy
 msgid "Intervals shown in Day and Work Week views, in minutes."
 msgstr "日間と平日ビューで表示する時間の間隔 (分単位) です。"
 
@@ -4584,7 +4583,6 @@ msgstr ""
 "す (ピクセル単位)。"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:37
-#, fuzzy
 msgid ""
 "Position of the vertical pane, between the task list and the task preview "
 "pane, in pixels."
@@ -4650,9 +4648,8 @@ msgstr ""
 "メール・アドレスのユーザ部分で、%d はドメイン名でそれぞれ置き換えられます。"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:49
-#, fuzzy
 msgid "Time divisions"
-msgstr "時間を分割する単位(_T):"
+msgstr "時分割"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:50
 msgid "Time the last alarm ran, in time_t."
@@ -5316,9 +5313,8 @@ msgid "Monday"
 msgstr "月曜日"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:29
-#, fuzzy
 msgid "Publishing Table"
-msgstr "<b>公開する場所</b>"
+msgstr "公開する場所の一覧"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:30
 msgid "S_un"
@@ -5467,9 +5463,8 @@ msgid "Copy calendar contents locally for offline operation"
 msgstr "オフライン用にフォルダの内容をローカルへコピーする"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:290
-#, fuzzy
 msgid "Copy task list contents locally for offline operation"
-msgstr "オフライン操作用にアドレス帳の内容をローカルへコピーする"
+msgstr "オフライン操作用にタスク一覧の内容をローカルへコピーする"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:343
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:4
@@ -5784,12 +5779,10 @@ msgid "Scheduling"
 msgstr "スケジュール"
 
 #: ../calendar/gui/dialogs/event-editor.c:174
-#, fuzzy
 msgid "Delegatees"
-msgstr "委任済"
+msgstr "委任者"
 
 #: ../calendar/gui/dialogs/event-editor.c:178
-#, fuzzy
 msgid "Attendees"
 msgstr "出席者"
 
@@ -5964,12 +5957,10 @@ msgid "_Start time:"
 msgstr "開始時刻(_S):"
 
 #: ../calendar/gui/dialogs/meeting-page.c:303
-#, fuzzy
 msgid "<b>Dele_gatees</b>"
-msgstr "<b>署名(_I)</b> "
+msgstr "<b>委任者(_G)</b>"
 
 #: ../calendar/gui/dialogs/meeting-page.c:307
-#, fuzzy
 msgid "<b>From:</b>"
 msgstr "<b>自宅</b> "
 
@@ -6129,9 +6120,8 @@ msgid "You are modifying a recurring event, what would you like to modify?"
 msgstr "繰り返しのイベントを修正中です。何を修正しますか？"
 
 #: ../calendar/gui/dialogs/recur-comp.c:54
-#, fuzzy
 msgid "You are delegating a recurring event, what would like to delegate?"
-msgstr "繰り返しのイベントを修正中です。何を修正しますか？"
+msgstr "繰り返しのイベントを委任中です。何を委任しますか？"
 
 #: ../calendar/gui/dialogs/recur-comp.c:58
 msgid "You are modifying a recurring task, what would you like to modify?"
@@ -6831,9 +6821,8 @@ msgid "Mo_ve to Calendar..."
 msgstr "カレンダへ移動(_V)..."
 
 #: ../calendar/gui/e-calendar-view.c:1536
-#, fuzzy
 msgid "_Delegate Meeting..."
-msgstr "会議のスケジュール(_S)..."
+msgstr "会議の委任(_D)..."
 
 #: ../calendar/gui/e-calendar-view.c:1537
 msgid "_Schedule Meeting..."
@@ -7932,14 +7921,14 @@ msgid "Selected year (%Y)"
 msgstr "年の指定 (%Y年)"
 
 #: ../calendar/gui/print.c:2320
-#, fuzzy, c-format
+#, c-format
 msgid "Summary: %s"
-msgstr "サマリ:"
+msgstr "サマリ: %s"
 
 #: ../calendar/gui/print.c:2328
-#, fuzzy, c-format
+#, c-format
 msgid "Location: %s"
-msgstr "場所:"
+msgstr "場所: %s"
 
 #: ../calendar/gui/print.c:2371
 #, c-format
@@ -8081,9 +8070,8 @@ msgstr "予定と会議"
 
 #: ../calendar/importers/icalendar-importer.c:336
 #: ../calendar/importers/icalendar-importer.c:586
-#, fuzzy
 msgid "Opening calendar"
-msgstr "新しいカレンダ"
+msgstr "カレンダを開く"
 
 #: ../calendar/importers/icalendar-importer.c:429
 msgid "iCalendar files (.ics)"
@@ -9810,16 +9798,15 @@ msgid ""
 msgstr "本当に作成途中の件名 '{0}' のメッセージを破棄してもよろしいですか？"
 
 #: ../composer/mail-composer.error.xml.h:4
-#, fuzzy
 msgid "Because &quot;{0}&quot;, you may need to select different mail options."
 msgstr ""
-"\"{0}\" のため、別のメール・オプションを選択した方が良いかもしれません。"
+"&quot;{0}&quot; のため、別のメール・オプションを選択した方が良いかもしれませ"
+"ん。"
 
 #: ../composer/mail-composer.error.xml.h:5 ../e-util/e-system.error.xml.h:1
 #: ../mail/mail.error.xml.h:17
-#, fuzzy
 msgid "Because &quot;{1}&quot;."
-msgstr "理由は \"{1}\" です。"
+msgstr "理由は &quot;{1}&quot; です。"
 
 #: ../composer/mail-composer.error.xml.h:6
 msgid ""
@@ -9840,18 +9827,16 @@ msgid "Could not create message."
 msgstr "メッセージを作成できませんでした。"
 
 #: ../composer/mail-composer.error.xml.h:9
-#, fuzzy
 msgid "Could not read signature file &quot;{0}&quot;."
-msgstr "署名ファイル \"{0}\" を読み込めませんでした。"
+msgstr "署名ファイル &quot;{0}&quot; を読み込めませんでした。"
 
 #: ../composer/mail-composer.error.xml.h:10
 msgid "Could not retrieve messages to attach from {0}."
 msgstr "{0}から添付されたメッセージを受け取れませんでした。"
 
 #: ../composer/mail-composer.error.xml.h:11
-#, fuzzy
 msgid "Could not save to autosave file &quot;{0}&quot;."
-msgstr "自動保存のファイル \"{0}\" を保存できませんでした。"
+msgstr "自動保存のファイル &quot;{0}&quot; を保存できませんでした。"
 
 #: ../composer/mail-composer.error.xml.h:12
 msgid "Directories can not be attached to Messages."
@@ -10029,7 +10014,6 @@ msgstr ""
 "</small>"
 
 #: ../designs/read_receipts/read.glade.h:6
-#, fuzzy
 msgid "Always send back a read receipt"
 msgstr "常に開封通知を送り返す"
 
@@ -10098,23 +10082,20 @@ msgstr ""
 "span>"
 
 #: ../e-util/e-system.error.xml.h:2
-#, fuzzy
 msgid "Cannot open file &quot;{0}&quot;."
-msgstr "ファイル \"{0}\" を開けません。"
+msgstr "&quot;{0}&quot; というファイルを開けません。"
 
 #: ../e-util/e-system.error.xml.h:3
-#, fuzzy
 msgid "Cannot save file &quot;{0}&quot;."
-msgstr "ファイル \"{0}\" を保存せきません。"
+msgstr "&quot;{0}&quot; というファイルを保存せきません。"
 
 #: ../e-util/e-system.error.xml.h:4
 msgid "Do you wish to overwrite it?"
 msgstr "上書きしてもよろしいですか？"
 
 #: ../e-util/e-system.error.xml.h:5
-#, fuzzy
 msgid "File exists &quot;{0}&quot;."
-msgstr "ファイル \"{0}\" が存在します。"
+msgstr "&quot;{0}&quot; というファイルが存在します。"
 
 #: ../e-util/e-system.error.xml.h:7 ../mail/mail.error.xml.h:120
 msgid "_Overwrite"
@@ -10359,20 +10340,18 @@ msgid "Outgoing"
 msgstr "送信"
 
 #: ../filter/filter.error.xml.h:1
-#, fuzzy
 msgid "Bad regular expression &quot;{0}&quot;."
-msgstr "正規表現 \"{0}\" が正しくありません。"
+msgstr "&quot;{0}&quot; という正規表現は正しくありません。"
 
 #: ../filter/filter.error.xml.h:2
-#, fuzzy
 msgid "Could not compile regular expression &quot;{1}&quot;."
-msgstr "正規表現 \"{1}\" をコンパイルできませんでした。"
+msgstr "&quot;{1}&quot; という正規表現をコンパイルできませんでした。"
 
 #: ../filter/filter.error.xml.h:3
-#, fuzzy
 msgid "File &quot;{0}&quot; does not exist or is not a regular file."
 msgstr ""
-"ファイル \"{0}\" が存在していないか、または通常のファイルではありません。"
+"&quot;{0}&quot; というファイルは存在していないか、または通常のファイルではあ"
+"りません。"
 
 #: ../filter/filter.error.xml.h:4
 msgid "Missing date."
@@ -10387,9 +10366,8 @@ msgid "Missing name."
 msgstr "名前がありません。"
 
 #: ../filter/filter.error.xml.h:7
-#, fuzzy
 msgid "Name &quot;{0}&quot; already used."
-msgstr "名前 \"{0}\" は既に使われています。"
+msgstr "&quot;{0}&quot; という名前は既に使われています。"
 
 #: ../filter/filter.error.xml.h:8
 msgid "Please choose another name."
@@ -11229,28 +11207,24 @@ msgid "Print Message"
 msgstr "メッセージの印刷"
 
 #: ../mail/em-folder-view.c:2222
-#, fuzzy
 msgid "Unable to retrieve message"
-msgstr "エディタからメッセージを取得できません"
+msgstr "メッセージを取得できません"
 
 #: ../mail/em-folder-view.c:2415
 msgid "_Copy Link Location"
 msgstr "リンク先のコピー(_C)"
 
 #: ../mail/em-folder-view.c:2417
-#, fuzzy
 msgid "Create _vFolder"
-msgstr "フォルダの作成"
+msgstr "仮想フォルダの作成(_V)"
 
 #: ../mail/em-folder-view.c:2418
-#, fuzzy
 msgid "_From this Address"
-msgstr "E-メール・アドレス(_A):"
+msgstr "この宛先から(_F)"
 
 #: ../mail/em-folder-view.c:2419
-#, fuzzy
 msgid "_To this Address"
-msgstr "住所(_A):"
+msgstr "この宛先へ(_T)"
 
 #: ../mail/em-folder-view.c:2700
 #, c-format
@@ -11388,14 +11362,12 @@ msgid "_Hide"
 msgstr "隠す(_H)"
 
 #: ../mail/em-format-html-display.c:1180
-#, fuzzy
 msgid "_Fit to Width"
-msgstr "クリップの幅"
+msgstr "幅を合わせる(_F)"
 
 #: ../mail/em-format-html-display.c:1181
-#, fuzzy
 msgid "Show _Original Size"
-msgstr "通常サイズ(_Z)"
+msgstr "通常のサイズ(_O)"
 
 #: ../mail/em-format-html-display.c:1550
 msgid "Attachment Button"
@@ -11410,9 +11382,8 @@ msgid "Select folder to save selected attachments..."
 msgstr "選択した添付ファイルを保存するフォルダの選択..."
 
 #: ../mail/em-format-html-display.c:1803
-#, fuzzy
 msgid "Save Selected..."
-msgstr "検索結果の保存(_S)..."
+msgstr "選択範囲の保存..."
 
 #. Cant i put in the number of attachments here ?
 #: ../mail/em-format-html-display.c:1870
@@ -11445,14 +11416,12 @@ msgid "Valid signature but cannot verify sender"
 msgstr "署名は妥当ですが、差出人を検証できません"
 
 #: ../mail/em-format-html.c:693
-#, fuzzy
 msgid "Unknown error verifying signed messaage"
-msgstr "署名を検証する際に不明なエラーが発生しました"
+msgstr "署名付きのメッセージを検証する際に不明なエラー"
 
 #: ../mail/em-format-html.c:758
-#, fuzzy
 msgid "Unknown error decrypting messaage"
-msgstr "署名を検証する際に不明なエラーが発生しました"
+msgstr "メッセージを解読する際に不明なエラー"
 
 #: ../mail/em-format-html.c:967
 msgid "Malformed external-body part."
@@ -11673,9 +11642,8 @@ msgid "_Open Link in Browser"
 msgstr "リンクをブラウザで開く(_O)"
 
 #: ../mail/em-popup.c:608
-#, fuzzy
 msgid "_Send New Message To..."
-msgstr "メッセージの送信(_N)..."
+msgstr "新しいメッセージの送信(_S)..."
 
 #: ../mail/em-popup.c:609
 msgid "_Add to Addressbook"
@@ -11914,7 +11882,6 @@ msgid "Load images for HTML messages over http"
 msgstr "http を介して受信する HTML メッセージの画像を読み込む"
 
 #: ../mail/evolution-mail.schemas.in.in.h:39
-#, fuzzy
 msgid ""
 "Load images for HTML messages over http(s). Possible values are: 0 - Never "
 "load images off the net 1 - Load images in mail from contacts 2 - Always "
@@ -11922,7 +11889,7 @@ msgid ""
 msgstr ""
 "http(s) を介して受信する HTML メッセージの画像の読み込みオプションです。設定"
 "可能な値: 0: 画像を読み込まない、1: 差出人がアドレス帳に登録されている場合は"
-"読み込む、2: 画像を常に読み込む"
+"読み込む、2: 常に画像を読み込む"
 
 #: ../mail/evolution-mail.schemas.in.in.h:40
 msgid "Log filter actions"
@@ -12229,9 +12196,8 @@ msgid "Evolution Elm importer"
 msgstr "Evolution Elm インポータ"
 
 #: ../mail/importers/elm-importer.c:383
-#, fuzzy
 msgid "Import mail from Elm."
-msgstr "mailbox のインポート"
+msgstr "Elm からのメールのインポート"
 
 #: ../mail/importers/evolution-mbox-importer.c:82
 #: ../mail/importers/evolution-outlook-importer.c:131
@@ -12368,9 +12334,8 @@ msgid "Evolution Pine importer"
 msgstr "Evolution Pine インポータ"
 
 #: ../mail/importers/pine-importer.c:435
-#, fuzzy
 msgid "Import mail from Pine."
-msgstr "ファイル単体をインポートする(_S)"
+msgstr "Pine からのメールのインポート"
 
 #: ../mail/mail-autofilter.c:78
 #, c-format
@@ -12802,18 +12767,16 @@ msgid "Inline"
 msgstr "インラインにする"
 
 #: ../mail/mail-config.glade.h:94
-#, fuzzy
 msgid "Languages Table"
-msgstr "言語"
+msgstr "言語の一覧"
 
 #: ../mail/mail-config.glade.h:96
 msgid "Mail Configuration"
 msgstr "メールの設定"
 
 #: ../mail/mail-config.glade.h:97
-#, fuzzy
 msgid "Mail Headers Table"
-msgstr "メール・フォルダのツリー"
+msgstr "メール・ヘッダの一覧"
 
 #: ../mail/mail-config.glade.h:99
 msgid "Mailbox location"
@@ -12956,9 +12919,8 @@ msgid "Signatures"
 msgstr "署名"
 
 #: ../mail/mail-config.glade.h:136
-#, fuzzy
 msgid "Signatures Table"
-msgstr "署名"
+msgstr "署名の一覧"
 
 #: ../mail/mail-config.glade.h:137
 msgid "Specify _filename:"
@@ -13420,9 +13382,8 @@ msgid "Waiting..."
 msgstr "待機中..."
 
 #: ../mail/mail-send-recv.c:699
-#, fuzzy
 msgid "Checking for new mail"
-msgstr "新着メールのチェック"
+msgstr "新着メールのチェック中"
 
 #: ../mail/mail-session.c:207
 #, c-format
@@ -13498,20 +13459,20 @@ msgid "New vFolder"
 msgstr "新しい仮想フォルダ"
 
 #: ../mail/mail.error.xml.h:1
-#, fuzzy
 msgid ""
 "A folder named &quot;{1}&quot; already exists. Please use a different name."
-msgstr "既に同名のフォルダ \"{1}\" があります。別の名前を使用して下さい。"
+msgstr ""
+"既に &quot;{1}&quot; という同名のフォルダが存在します。別の名前を使用して下さ"
+"い。"
 
 #: ../mail/mail.error.xml.h:2
-#, fuzzy
 msgid ""
 "A non-empty folder at &quot;{1}&quot; already exists.\n"
 "\n"
 "You can choose to ignore this folder, overwrite or append its contents, or "
 "quit.\n"
 msgstr ""
-"\"{1}\" に空ではないフォルダが存在しています。\n"
+"&quot;{1}&quot; に空ではないフォルダが存在します。\n"
 "\n"
 "このフォルダを無視する、上書きする、またはそのフォルダの内容に追加する、また"
 "は終了するから選択することが可能です。\n"
@@ -13532,9 +13493,8 @@ msgstr ""
 "やすくなります。"
 
 #: ../mail/mail.error.xml.h:8
-#, fuzzy
 msgid "Are you sure you want to delete this account and all its proxies?"
-msgstr "このアカウントを削除してもよろしいですか？"
+msgstr "このアカウントと全てのプロキシを削除してもよろしいですか？"
 
 #: ../mail/mail.error.xml.h:9
 msgid "Are you sure you want to delete this account?"
@@ -13553,13 +13513,12 @@ msgstr ""
 "ですか？"
 
 #: ../mail/mail.error.xml.h:12
-#, fuzzy
 msgid ""
 "Are you sure you want to permanently remove all the deleted messages in "
 "folder &quot;{0}&quot;?"
 msgstr ""
-"本当にフォルダ \"{0}\" にある削除マーク付きメッセージの全てを永久に抹消しても"
-"よろしいですか？"
+"本当に &quot;{0}&quot; というフォルダにある、全ての削除マーク付きメッセージを"
+"永久に抹消してもよろしいですか？"
 
 #: ../mail/mail.error.xml.h:13
 msgid "Are you sure you want to send a message in HTML format?"
@@ -13574,113 +13533,95 @@ msgid "Are you sure you want to send a message without a subject?"
 msgstr "件名を付けずにメッセージを送信してもよろしいですか？"
 
 #: ../mail/mail.error.xml.h:16
-#, fuzzy
 msgid "Because &quot;{0}&quot;."
-msgstr "理由は \"{0}\" です。"
+msgstr "理由は &quot;{0}&quot; です。"
 
 #: ../mail/mail.error.xml.h:18
-#, fuzzy
 msgid "Because &quot;{2}&quot;."
-msgstr "理由は \"{2}\" です。"
+msgstr "理由は &quot;{2}&quot; です。"
 
 #: ../mail/mail.error.xml.h:19
-#, fuzzy
 msgid "Cannot add vFolder &quot;{0}&quot;."
-msgstr "仮想フォルダ \"{0}\" を追加できません。"
+msgstr "&quot;{0}&quot; という仮想フォルダを追加できません。"
 
 #: ../mail/mail.error.xml.h:20
-#, fuzzy
 msgid "Cannot copy folder &quot;{0}&quot; to &quot;{1}&quot;."
-msgstr "フォルダ \"{0}\" を \"{1}\" へコピーできません。"
+msgstr "&quot;{0}&quot; というフォルダを &quot;{1}&quot; へコピーできません。"
 
 #: ../mail/mail.error.xml.h:21
-#, fuzzy
 msgid "Cannot create folder &quot;{0}&quot;."
-msgstr "フォルダ \"{0}\" を作成できません。"
+msgstr "&quot;{0}&quot; というフォルダを作成できません。"
 
 #: ../mail/mail.error.xml.h:22
 msgid "Cannot create temporary save directory."
 msgstr "作業フォルダを作成できません。"
 
 #: ../mail/mail.error.xml.h:23
-#, fuzzy
 msgid "Cannot create the save directory, because &quot;{1}&quot;"
-msgstr "保存フォルダを作成できません。理由は \"{1}\""
+msgstr "&quot;{1}&quot; のため、保存フォルダを作成できません。"
 
 #: ../mail/mail.error.xml.h:24
-#, fuzzy
 msgid "Cannot delete folder &quot;{0}&quot;."
-msgstr "フォルダ \"{0}\" を削除できません。"
+msgstr "&quot;{0}&quot; というフォルダを削除できません。"
 
 #: ../mail/mail.error.xml.h:25
-#, fuzzy
 msgid "Cannot delete system folder &quot;{0}&quot;."
-msgstr "システム・フォルダ \"{0}\" を削除できません。"
+msgstr "&quot;{0}&quot; というシステム・フォルダを削除できません。"
 
 #: ../mail/mail.error.xml.h:26
-#, fuzzy
 msgid "Cannot edit vFolder &quot;{0}&quot; as it does not exist."
-msgstr "仮想フォルダ \"{0}\" が存在していないので編集できません。"
+msgstr "&quot;{0}&quot; という仮想フォルダは存在していないので編集できません。"
 
 #: ../mail/mail.error.xml.h:27
-#, fuzzy
 msgid "Cannot move folder &quot;{0}&quot; to &quot;{1}&quot;."
-msgstr "フォルダ \"{0}\" を \"{1}\" へ移動できません。"
+msgstr "&quot;{0}&quot; というフォルダを &quot;{1}&quot; へ移動できません。"
 
 #: ../mail/mail.error.xml.h:28
-#, fuzzy
 msgid "Cannot open source &quot;{1}&quot;"
-msgstr "ソース \"{1}\" を開けません。"
+msgstr "&quot;{1}&quot; というソースを開けません。"
 
 #: ../mail/mail.error.xml.h:29
-#, fuzzy
 msgid "Cannot open source &quot;{2}&quot;."
-msgstr "操作の対象先 \"{2}\" を開けません。"
+msgstr "&quot;{2}&quot; というソースを開けません。"
 
 #: ../mail/mail.error.xml.h:30
-#, fuzzy
 msgid "Cannot open target &quot;{2}&quot;."
-msgstr "操作の対象元 \"{2}\" を開けません。"
+msgstr "&quot;{2}&quot; というターゲットを開けません。"
 
 #: ../mail/mail.error.xml.h:31
-#, fuzzy
 msgid ""
 "Cannot read the license file &quot;{0}&quot;, due to an installation "
 "problem.  You will not be able to use this provider until you can accept its "
 "license."
 msgstr ""
-"ライセンス・ファイル \"{0}\" を読み込めません。\n"
-"      インストールに問題があるようです。そのライセンスを受諾しない限り\n"
-"      このプロバイダを利用することはできません。"
+"&quot;{0}&quot; というライセンス・ファイルを読み込めません。インストールに問"
+"題があるようです。そのライセンスを受諾しない限り、このプロバイダを利用するこ"
+"とはできません。"
 
 #: ../mail/mail.error.xml.h:32
-#, fuzzy
 msgid "Cannot rename &quot;{0}&quot; to &quot;{1}&quot;."
-msgstr "\"{0}\" から \"{1}\" へ名前を変更できません。"
+msgstr "&quot;{0}&quot; から &quot;{1}&quot; へ名前を変更できません。"
 
 #: ../mail/mail.error.xml.h:33
-#, fuzzy
 msgid "Cannot rename or move system folder &quot;{0}&quot;."
-msgstr "システム・フォルダ \"{0}\" の名前変更または移動はできません。"
+msgstr ""
+"&quot;{0}&quot; というシステム・フォルダの名前の変更または移動はできません。"
 
 #: ../mail/mail.error.xml.h:34
 msgid "Cannot save changes to account."
 msgstr "変更したアカウント情報を保存できません。"
 
 #: ../mail/mail.error.xml.h:35
-#, fuzzy
 msgid "Cannot save to directory &quot;{0}&quot;."
-msgstr "フォルダ \"{0}\" へ保存できません。"
+msgstr "&quot;{0}&quot; というフォルダへ保存できません。"
 
 #: ../mail/mail.error.xml.h:36
-#, fuzzy
 msgid "Cannot save to file &quot;{0}&quot;."
-msgstr "ファイル \"{0}\" へ保存できません。"
+msgstr "&quot;{0}&quot; というファイルへ保存できません。"
 
 #: ../mail/mail.error.xml.h:37
-#, fuzzy
 msgid "Cannot set signature script &quot;{0}&quot;."
-msgstr "署名スクリプト \"{0}\" をセットできません。"
+msgstr "&quot;{0}&quot; という署名スクリプトをセットできません。"
 
 #: ../mail/mail.error.xml.h:38
 msgid ""
@@ -13695,9 +13636,8 @@ msgid "Could not save signature file."
 msgstr "署名ファイルを保存できませんでした。"
 
 #: ../mail/mail.error.xml.h:40
-#, fuzzy
 msgid "Delete &quot;{0}&quot;?"
-msgstr "\"{0}\" を削除しますか？"
+msgstr "&quot;{0}&quot; を削除しますか？"
 
 #: ../mail/mail.error.xml.h:41
 msgid "Delete account?"
@@ -13756,11 +13696,12 @@ msgstr ""
 "永久に削除されることになります。"
 
 #: ../mail/mail.error.xml.h:54
-#, fuzzy
 msgid ""
 "If you proceed, the account information and\n"
 "all proxy information will be deleted permanently."
-msgstr "続行すると、アカウント情報が永久に削除されます。"
+msgstr ""
+"続行すると、アカウント情報と\n"
+"全てのプロキシ情報が永久に削除されます。"
 
 #: ../mail/mail.error.xml.h:56
 msgid "If you proceed, the account information will be deleted permanently."
@@ -13798,14 +13739,12 @@ msgstr ""
 "宛先を追加して下さい。"
 
 #: ../mail/mail.error.xml.h:62
-#, fuzzy
 msgid "Mark all messages as read"
-msgstr "全てのメッセージに既読のマークを付けます"
+msgstr "全て既読にする"
 
 #: ../mail/mail.error.xml.h:63
-#, fuzzy
 msgid "Mark all messages as read in the selected folder"
-msgstr "メッセージに\"既読\"マークを付与する時間(_M)"
+msgstr "選択したフォルダにあるメッセージの全てに既読マークを付与します"
 
 #: ../mail/mail.error.xml.h:64
 msgid "Missing folder."
@@ -13820,11 +13759,8 @@ msgid "Opening too many messages at once may take a long time."
 msgstr "一度にたくさんのメッセージを開くには時間がかかります。"
 
 #: ../mail/mail.error.xml.h:68
-#, fuzzy
 msgid "Please check your account settings and try again."
-msgstr ""
-"\n"
-"お使いのアカウントの設定を確認して再度、実行して下さい。\n"
+msgstr "アカウントの設定を確認して、もう一度試してみて下さい。"
 
 #: ../mail/mail.error.xml.h:69
 msgid ""
@@ -13850,9 +13786,9 @@ msgid "Please wait."
 msgstr "少々お待ち下さい。"
 
 #: ../mail/mail.error.xml.h:74
-#, fuzzy
 msgid "Problem migrating old mail folder &quot;{0}&quot;."
-msgstr "古いメール・フォルダ \"{0}\" の移行中に問題が発生しました。"
+msgstr ""
+"&quot;{0}&quot; という古いメール・フォルダを移行する際に問題が発生しました。"
 
 #: ../mail/mail.error.xml.h:75
 msgid "Querying server"
@@ -13863,19 +13799,17 @@ msgid "Querying server for a list of supported authentication mechanisms."
 msgstr "サポートする認証メカニズムのリストを持つ問い合わせサーバです。"
 
 #: ../mail/mail.error.xml.h:77
-#, fuzzy
 msgid "Read receipt requested."
-msgstr "開封通知"
+msgstr "開封通知を要求しました"
 
 #: ../mail/mail.error.xml.h:78
-#, fuzzy
 msgid "Really delete folder &quot;{0}&quot; and all of its subfolders?"
-msgstr "本当にフォルダ \"{0}\" とそのサブフォルダの全てを削除しますか？"
+msgstr ""
+"本当に &quot;{0}&quot; というフォルダとそのサブフォルダの全てを削除しますか？"
 
 #: ../mail/mail.error.xml.h:79
-#, fuzzy
 msgid "Send Receipt"
-msgstr "開封通知"
+msgstr "送信通知"
 
 #: ../mail/mail.error.xml.h:80
 msgid ""
@@ -13902,7 +13836,6 @@ msgstr ""
 "に宛先を追加して下さい。"
 
 #: ../mail/mail.error.xml.h:84
-#, fuzzy
 msgid ""
 "The following filter rule(s):\n"
 "{0}\n"
@@ -13910,14 +13843,13 @@ msgid ""
 "    &quot;{1}&quot;\n"
 "And have been updated."
 msgstr ""
-"次のフィルタ・ルール:\n"
+"次のフィルタ・ルール\n"
 "{0}\n"
 "が削除済みフォルダに使用されています:\n"
-"    \"{1}\"\n"
-"更に更新されています。"
+"    &quot;{1}&quot;\n"
+"また、そのフォルダは更新済みです。"
 
 #: ../mail/mail.error.xml.h:89
-#, fuzzy
 msgid ""
 "The following vFolder(s):\n"
 "{0}\n"
@@ -13925,22 +13857,21 @@ msgid ""
 "    &quot;{1}&quot;\n"
 "And have been updated."
 msgstr ""
-"次の仮想フォルダ:\n"
+"次の仮想フォルダ\n"
 "{0}\n"
 "が削除済みフォルダに使用されています:\n"
-"    \"{1}\"\n"
-"更に更新されています。"
+"    &quot;{1}&quot;\n"
+"また、そのフォルダは更新済です。"
 
 #: ../mail/mail.error.xml.h:94
-#, fuzzy
 msgid ""
 "The message was sent via the &quot;sendmail&quot; external application.  "
 "Sendmail reports the following error: status 67: mail not sent.\n"
 "The message is stored in the Outbox folder.  Check the message for errors "
 "and resend."
 msgstr ""
-"外部アプリケーション \"sendmail\" を介してメッセージが送信されましたが、"
-"Sendmail は次のエラーを報告してきました: status 67: mail no sent\n"
+"外部アプリケーション &quot;sendmail&quot; を介してメッセージが送信されました"
+"が、Sendmail は次のエラーを報告してきました: status 67: mail no sent\n"
 "送信済みボックスにメッセージを保存しました。エラーと再送信のためメッセージを"
 "確認して下さい。"
 
@@ -13974,11 +13905,8 @@ msgid "This signature has been changed, but has not been saved."
 msgstr "この署名は変更されていますが保存されていません。"
 
 #: ../mail/mail.error.xml.h:101
-#, fuzzy
 msgid "Unable to connect to the GroupWise server."
-msgstr ""
-"GroupWise サーバへ\n"
-"接続できません。"
+msgstr "GroupWise サーバへ接続できません。"
 
 #: ../mail/mail.error.xml.h:102
 msgid ""
@@ -14021,7 +13949,6 @@ msgid "You must specify a folder."
 msgstr "フォルダを指定して下さい。"
 
 #: ../mail/mail.error.xml.h:111
-#, fuzzy
 msgid ""
 "You must specify at least one folder as a source.\n"
 "Either by selecting the folders individually, and/or by selecting all local "
@@ -14033,14 +13960,14 @@ msgstr ""
 "またはその両方を選択して下さい。"
 
 #: ../mail/mail.error.xml.h:113
-#, fuzzy
 msgid "Your login to your server &quot;{0}&quot; as &quot;{0}&quot; failed."
-msgstr "サーバ \"{0}\" への (\"{0}\" としての) ログインに失敗しました。"
+msgstr ""
+"サーバ &quot;{0}&quot; というサーバへの (&quot;{0}&quot; としての) ログインに"
+"失敗しました。"
 
 #: ../mail/mail.error.xml.h:114
-#, fuzzy
 msgid "Your message with the subject &quot;{0}&quot; was not delivered."
-msgstr "配送されていない件名 \"{0}\" のメッセージがあります。"
+msgstr "件名が &quot;{0}&quot; というメッセージは配送されませんでした。"
 
 #: ../mail/mail.error.xml.h:115
 msgid "_Append"
@@ -15337,9 +15264,8 @@ msgid "Enter the users and set permissions"
 msgstr "ユーザを入力して権限を設定して下さい"
 
 #: ../plugins/groupwise-features/share-folder-common.c:337
-#, fuzzy
 msgid "New _Shared Folder..."
-msgstr "新しいフォルダ(_N)"
+msgstr "新しい共有フォルダ(_S)..."
 
 #: ../plugins/groupwise-features/share-folder-common.c:440
 msgid "Sharing"
@@ -15617,9 +15543,9 @@ msgid "<b>%s</b> has published the following meeting information:"
 msgstr "<b>%s</b> さんが次の会議召集情報を公開しました:"
 
 #: ../plugins/itip-formatter/itip-view.c:349
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> has delegated the following meeting to you:"
-msgstr "<b>%s</b> さんが次の会議をキャンセルしました:"
+msgstr "<b>%s</b> さんが次の会議をあなたに委任しました:"
 
 #: ../plugins/itip-formatter/itip-view.c:352
 #, c-format
@@ -15769,24 +15695,20 @@ msgid "Comment:"
 msgstr "コメント:"
 
 #: ../plugins/itip-formatter/itip-view.c:979
-#, fuzzy
 msgid "Send u_pdates to attendees"
-msgstr "出席者 %s を更新できません"
+msgstr "更新情報を出席者へ送信(_P)"
 
 #: ../plugins/itip-formatter/itip-view.c:988
-#, fuzzy
 msgid "A_pply to all instances"
-msgstr "全てのインスタンス"
+msgstr "全てのインスタンスの適用(_P)"
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.eplug.xml.h:1
-#, fuzzy
 msgid "Displays text/calendar parts in messages."
-msgstr "次の重要なメッセージを表示します"
+msgstr "メッセージの中にテキスト/カレンダを表示するためのプラグインです。"
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.eplug.xml.h:2
-#, fuzzy
 msgid "Itip Formatter"
-msgstr "インポート"
+msgstr "Itip フォーマッタ"
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:1
 msgid ""
@@ -15801,43 +15723,41 @@ msgid "This meeting has been delegated"
 msgstr "この会議は委任イベントは委任されました"
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:4
-#, fuzzy
 msgid ""
 "This response is not from a current attendee. Add the sender as an attendee?"
-msgstr "これは現在の出席者からの応答ではありません。出席者として追加しますか？"
+msgstr ""
+"これは現在の出席者からの応答ではありません。この送信者を出席者として追加しま"
+"すか？"
 
 #: ../plugins/mail-account-disable/mail-account-disable.c:47
 msgid "Proxy _Logout"
 msgstr "プロキシからログアウト(_L)"
 
 #: ../plugins/mail-account-disable/org-gnome-mail-account-disable.eplug.xml.h:1
-#, fuzzy
 msgid "Allows disabling of accounts."
-msgstr "アカウントのリスト"
+msgstr "アカウントを無効できるプラグインです。"
 
 #: ../plugins/mail-account-disable/org-gnome-mail-account-disable.eplug.xml.h:2
-#, fuzzy
 msgid "Disable Account"
-msgstr "メールのアカウント"
+msgstr "アカウントの無効"
 
 #: ../plugins/mail-remote/client.c:30
-#, fuzzy, c-format
+#, c-format
 msgid "System error: %s"
-msgstr "整合性のエラー: %s"
+msgstr "システム・エラー: %s"
 
 #: ../plugins/mail-remote/client.c:32
-#, fuzzy, c-format
+#, c-format
 msgid "Camel error: %s"
-msgstr "整合性のエラー: %s"
+msgstr "Camel のエラー: %s"
 
 #: ../plugins/mail-remote/evolution-mail-store.c:476
 msgid "Account cannot send e-mail"
 msgstr "アカウントが E-メールを送信できません"
 
 #: ../plugins/mail-remote/evolution-mail-store.c:605
-#, fuzzy
 msgid "No store available"
-msgstr "サマリはありません。"
+msgstr "保存できません"
 
 #: ../plugins/mail-to-meeting/org-gnome-mail-to-meeting.eplug.xml.h:1
 msgid ""
@@ -15846,14 +15766,12 @@ msgid ""
 msgstr "メッセージの内容から会議開催通知を生成するためのプラグインです。"
 
 #: ../plugins/mail-to-meeting/org-gnome-mail-to-meeting.eplug.xml.h:2
-#, fuzzy
 msgid "Con_vert to Meeting"
-msgstr "選択の反転(_I)"
+msgstr "会議へ変換(_V)"
 
 #: ../plugins/mail-to-meeting/org-gnome-mail-to-meeting.eplug.xml.h:3
-#, fuzzy
 msgid "Mail to meeting"
-msgstr "会議である"
+msgstr "メールから会議へ"
 
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml.h:1
 msgid ""
@@ -15866,9 +15784,8 @@ msgid "Con_vert to Task"
 msgstr "タスクへ変換(_V)"
 
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml.h:3
-#, fuzzy
 msgid "Mail to task"
-msgstr "%s へメール"
+msgstr "メールからタスクへ"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:1
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:1
@@ -15886,9 +15803,8 @@ msgid "Get list _usage information"
 msgstr "使用方法の取得(_U)"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:4
-#, fuzzy
 msgid "Mailing List Actions"
-msgstr "メーリング・リスト"
+msgstr "メーリング・リストの操作"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:5
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:7
@@ -16025,49 +15941,42 @@ msgid "Mark calendar offline"
 msgstr "カレンダをオフラインにする"
 
 #: ../plugins/mark-calendar-offline/org-gnome-mark-calendar-offline.eplug.xml.h:2
-#, fuzzy
 msgid "Marks the selected calendar for offline viewing."
-msgstr "選択したメッセージに削除マークを付けます"
+msgstr "選択したカレンダをオフライン表示としてマークします"
 
 #: ../plugins/mark-calendar-offline/org-gnome-mark-calendar-offline.eplug.xml.h:3
 msgid "_Do not make this available offline"
 msgstr "オフラインで利用できないようにする(_D)"
 
 #: ../plugins/mark-calendar-offline/org-gnome-mark-calendar-offline.eplug.xml.h:4
-#, fuzzy
 msgid "_Mark Calendar for offline use"
-msgstr "カレンダがオフラインになっていません"
+msgstr "カレンダをオフラインで使用する(_M)"
 
 #: ../plugins/mono/org-gnome-evolution-mono.eplug.xml.h:1
 msgid "A plugin which implements mono plugins."
 msgstr "Mono のプラグインを実装したプラグインです。"
 
 #: ../plugins/mono/org-gnome-evolution-mono.eplug.xml.h:2
-#, fuzzy
 msgid "Mono Loader"
-msgstr "フォルダへ移動する"
+msgstr "Mono ローダ"
 
 #: ../plugins/new-mail-notify/org-gnome-new-mail-notify.eplug.xml.h:1
-#, fuzzy
 msgid "Generates a D-BUS message when new mail arrives."
-msgstr "新着メールが届いたら D-BUS メッセージを生成する(_G)"
+msgstr "新着メールが届いたら D-BUS メッセージを生成するプラグインです。"
 
 #: ../plugins/new-mail-notify/org-gnome-new-mail-notify.eplug.xml.h:2
-#, fuzzy
 msgid "New Mail Notification"
-msgstr "新着メール通知の種類"
+msgstr "新着メールの通知"
 
 #: ../plugins/new-mail-notify/org-gnome-new-mail-notify.eplug.xml.h:3
-#, fuzzy
 msgid "New mail notify"
-msgstr "新着メール通知の種類"
+msgstr "新着メールの通知"
 
 #: ../plugins/plugin-manager/org-gnome-plugin-manager.eplug.xml.h:1
 msgid "A plugin for managing which plugins are enabled or disabled."
 msgstr "どのプラグインが有効か無効かを管理するためのプラグインです。"
 
 #: ../plugins/plugin-manager/org-gnome-plugin-manager.eplug.xml.h:2
-#, fuzzy
 msgid "Plugin manager"
 msgstr "プラグイン・マネージャ"
 
@@ -16221,29 +16130,24 @@ msgid "Uid"
 msgstr "Uid"
 
 #: ../plugins/save-calendar/csv-format.c:387
-#, fuzzy
 msgid "Description List"
-msgstr "説明"
+msgstr "説明の一覧"
 
 #: ../plugins/save-calendar/csv-format.c:388
-#, fuzzy
 msgid "Categories List"
-msgstr "カテゴリ: %s"
+msgstr "カテゴリの一覧"
 
 #: ../plugins/save-calendar/csv-format.c:389
-#, fuzzy
 msgid "Comment List"
-msgstr "連絡先の一覧(_L)"
+msgstr "連絡先の一覧"
 
 #: ../plugins/save-calendar/csv-format.c:391
-#, fuzzy
 msgid "Created"
-msgstr "作成"
+msgstr "作成済"
 
 #: ../plugins/save-calendar/csv-format.c:392
-#, fuzzy
 msgid "Contact List"
-msgstr "連絡先の一覧(_L)"
+msgstr "連絡先の一覧"
 
 #: ../plugins/save-calendar/csv-format.c:393
 msgid "Start"
@@ -16262,14 +16166,12 @@ msgid "Url"
 msgstr "Url"
 
 #: ../plugins/save-calendar/csv-format.c:399
-#, fuzzy
 msgid "Attendees List"
-msgstr "出席者"
+msgstr "出席者の一覧"
 
 #: ../plugins/save-calendar/csv-format.c:401
-#, fuzzy
 msgid "Modified"
-msgstr "モデル"
+msgstr "変更済"
 
 #: ../plugins/save-calendar/csv-format.c:552
 msgid "Advanced options for the CSV format"
@@ -16308,9 +16210,9 @@ msgid "Save to _Disk"
 msgstr "ディスクへ保存(_D)"
 
 #: ../plugins/save-calendar/org-gnome-save-calendar.eplug.xml.h:3
-#, fuzzy
 msgid "Saves selected calendar or tasks list to disk."
-msgstr "指定した連絡先を vCard 形式で保存します"
+msgstr ""
+"選択したカレンダやタスク一覧をローカルのディスクに保存するプラグインです。"
 
 #.
 #. * Translator: the %FT%T is the thirth argument for a strftime function.
@@ -16340,14 +16242,13 @@ msgstr ""
 "しますか？"
 
 #: ../plugins/select-one-source/org-gnome-select-one-source.eplug.xml.h:1
-#, fuzzy
 msgid "Select one source"
-msgstr "選択モード"
+msgstr "単一ソースの選択"
 
 #: ../plugins/select-one-source/org-gnome-select-one-source.eplug.xml.h:2
-#, fuzzy
 msgid "Selects a single calendar or task source for viewing."
-msgstr "重複する会議を検索するカレンダを選択して下さい:"
+msgstr ""
+"単一のカレンダまたはタスクの情報を表示用に選択するためのプラグインです。"
 
 #: ../plugins/select-one-source/org-gnome-select-one-source.eplug.xml.h:3
 msgid "_Show only this Calendar"
@@ -16395,23 +16296,20 @@ msgstr "差出人 %s:"
 
 #: ../plugins/startup-wizard/startup-wizard.c:234
 #: ../shell/e-shell-importer.c:509
-#, fuzzy
 msgid "Importing data."
-msgstr "Elm データのインポート"
+msgstr "データのインポート中"
 
 #: ../plugins/subject-thread/org-gnome-subject-thread.eplug.xml.h:1
 msgid "Indicates if threading of messages should fall back to subject."
 msgstr "メッセージのスレッド表示を件名表示に戻すかどうかを表します。"
 
 #: ../plugins/subject-thread/org-gnome-subject-thread.eplug.xml.h:2
-#, fuzzy
 msgid "Subject Threading"
-msgstr "スレッドで選択(_T)"
+msgstr "件名でスレッド表示"
 
 #: ../plugins/subject-thread/org-gnome-subject-thread.eplug.xml.h:3
-#, fuzzy
 msgid "Thread messages by subject"
-msgstr "メッセージ一覧を件名でスレッド表示する"
+msgstr "件名でスレッド表示するためのプラグインです。"
 
 #. Create the checkbox we will display, complete with mnemonic that is unique in the dialog
 #: ../plugins/subject-thread/subject-thread.c:54
@@ -16423,9 +16321,8 @@ msgid "Evolution Shell"
 msgstr "Evolution シェル"
 
 #: ../shell/GNOME_Evolution_Shell.server.in.in.h:2
-#, fuzzy
 msgid "Evolution Shell Config factory"
-msgstr "Evolution シェル"
+msgstr "Evolution シェル設定ファクトリ"
 
 #: ../shell/GNOME_Evolution_Test.server.in.in.h:1
 msgid "Evolution Test"
@@ -16506,7 +16403,6 @@ msgstr ""
 "定レベル付き)。"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:17
-#, fuzzy
 msgid ""
 "The style of the window buttons. Can be \"text\", \"icons\", \"both\", "
 "\"toolbar\". If \"toolbar\" is set, the style of the buttons is determined "
@@ -16588,18 +16484,16 @@ msgid "Choose the destination for this import"
 msgstr "インポート先の選択"
 
 #: ../shell/e-shell-importer.c:148
-#, fuzzy
 msgid ""
 "Evolution checked for settings to import from the following\n"
 "applications: Pine, Netscape, Elm, iCalendar. No importable\n"
 "settings found. If you would like to\n"
 "try again, please click the \"Back\" button.\n"
 msgstr ""
-"Evolution がアプリケーションからインポートできる設定を\n"
-"チェックしました: Pine, Netscape, Elm, iCalendar\n"
+"Evolution がアプリケーションからインポートできる設定をチェックしました:\n"
+"Pine、Netscape、Elm、iCalendar\n"
 "インポートできる設定は見つかりませんでした。\n"
-"再度チェックを実行する場合は、\n"
-"[戻る] ボタンをクリックして下さい。\n"
+"再度チェックを実行する場合は、[戻る] ボタンをクリックして下さい。\n"
 
 #: ../shell/e-shell-importer.c:283
 msgid "F_ilename:"
@@ -16909,7 +16803,6 @@ msgid "Really delete old data?"
 msgstr "本当に古いデータを削除しますか？"
 
 #: ../shell/shell.error.xml.h:9
-#, fuzzy
 msgid ""
 "The entire contents of the &quot;evolution&quot; directory is about to be be "
 "permanently removed.\n"
@@ -16921,7 +16814,7 @@ msgid ""
 "Once deleted, you cannot downgrade to the previous version of Evolution "
 "without manual intervention.\n"
 msgstr ""
-"フォルダ \"evolution\" 下の内容を完全に削除しようとしています。\n"
+"&quot;evolution&quot; というフォルダを完全に削除しようとしています。\n"
 "\n"
 "この古いデータを削除する前に、フォルダ下にあるメールや連絡先、カレンダ情報な"
 "どの全てを手動で確認し、このバージョンの Evolution の処理が正しいか確認するこ"
@@ -16931,7 +16824,6 @@ msgstr ""
 "ることはできません。\n"
 
 #: ../shell/shell.error.xml.h:15
-#, fuzzy
 msgid ""
 "The previous version of evolution stored its data in a different location.\n"
 "\n"
@@ -16942,16 +16834,13 @@ msgid ""
 msgstr ""
 "前バージョンの Evolution がデータを別の場所に保存していました。\n"
 "\n"
-"このデータの削除を選択すると、フォルダ \"evolution\" 下の内容を完全に失うこと"
-"になります。このデータをそのままにしておくことを選択すると、都合のよいときに"
-"フォルダ \"evolution\" の内容を手動で削除できます。\n"
+"このデータの削除を選択すると、&quot;evolution&quot; というフォルダを完全に失"
+"うことになります。このデータをそのままにしておくことを選択すると、都合のよい"
+"ときにフォルダ &quot;evolution&quot; の内容を手動で削除できます。\n"
 
 #: ../shell/shell.error.xml.h:19
-#, fuzzy
 msgid "Upgrade from previous version failed: {0}"
-msgstr ""
-"前のバージョンからのアップグレードに失敗しました:\n"
-"{0}"
+msgstr "前のバージョンからのアップグレードに失敗しました: {0}"
 
 #: ../shell/shell.error.xml.h:20
 msgid ""
@@ -16992,9 +16881,8 @@ msgstr ""
 "詳細はヘルプをご覧下さい。"
 
 #: ../shell/shell.error.xml.h:31
-#, fuzzy
 msgid "_Forget"
-msgstr "ポート番号(_P):"
+msgstr "破棄(_F)"
 
 #: ../shell/shell.error.xml.h:32
 msgid "_Keep Data"
@@ -17050,7 +16938,6 @@ msgstr ""
 #: ../smime/gui/certificate-manager.c:385
 #: ../smime/gui/certificate-manager.c:597
 #: ../smime/gui/certificate-manager.c:605
-#, fuzzy
 msgid "Select a certificate to import..."
 msgstr "インポートする証明書の選択..."
 
@@ -17189,9 +17076,8 @@ msgid "Certificate details"
 msgstr "証明書の詳細"
 
 #: ../smime/gui/smime-ui.glade.h:17
-#, fuzzy
 msgid "Certificates Table"
-msgstr "証明書の名前"
+msgstr "証明書の一覧"
 
 #: ../smime/gui/smime-ui.glade.h:18
 msgid "Common Name (CN)"
@@ -18451,7 +18337,6 @@ msgid "Encrypt this message with PGP"
 msgstr "PGP でこのメッセージを暗号化します"
 
 #: ../ui/evolution-message-composer.xml.h:8
-#, fuzzy
 msgid "Encrypt this message with your S/MIME Encryption Certificate"
 msgstr "このメッセージを S/MIME 暗号認証を用いて暗号化します"
 
@@ -18501,9 +18386,8 @@ msgid "Save _Draft"
 msgstr "草案の保存(_D)"
 
 #: ../ui/evolution-message-composer.xml.h:22
-#, fuzzy
 msgid "Save as draft"
-msgstr "草案の保存(_D)"
+msgstr "草案として保存"
 
 #: ../ui/evolution-message-composer.xml.h:23
 msgid "Save in folder..."
@@ -18522,9 +18406,8 @@ msgid "Save the message in a specified folder"
 msgstr "指定のフォルダへメッセージを保存します"
 
 #: ../ui/evolution-message-composer.xml.h:27
-#, fuzzy
 msgid "SaveDraft"
-msgstr "草案の保存(_D)"
+msgstr "SaveDraft"
 
 #: ../ui/evolution-message-composer.xml.h:29
 #: ../ui/evolution-signature-editor.xml.h:22
@@ -18968,15 +18851,14 @@ msgstr ""
 
 #: ../widgets/menus/gal-define-views-dialog.c:76
 #: ../widgets/menus/gal-define-views-model.c:188
-#, fuzzy
 msgid "Collection"
-msgstr "location"
+msgstr "コレクション"
 
 #: ../widgets/menus/gal-define-views-dialog.c:325
 #: ../widgets/menus/gal-define-views.glade.h:4
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Define Views for %s"
-msgstr "ビューの定義..."
+msgstr "\"%s\" ビューの定義"
 
 #: ../widgets/menus/gal-define-views-dialog.c:333
 #: ../widgets/menus/gal-define-views-dialog.c:335
@@ -19082,7 +18964,6 @@ msgid "Fill stipple"
 msgstr "点で埋める"
 
 #: ../widgets/misc/e-canvas-background.c:478 ../widgets/text/e-entry.c:1306
-#, fuzzy
 msgid "FIll stipple"
 msgstr "点で埋める"
 
@@ -19360,17 +19241,14 @@ msgid "Sync Categories:"
 msgstr "カテゴリの同期:"
 
 #: ../widgets/misc/e-reflow.c:1452 ../widgets/misc/e-reflow.c:1453
-#, fuzzy
 msgid "Empty message"
-msgstr "編集する(_E)"
+msgstr "空のメッセージ"
 
 #: ../widgets/misc/e-reflow.c:1459 ../widgets/misc/e-reflow.c:1460
-#, fuzzy
 msgid "Reflow model"
-msgstr "モデルの選択"
+msgstr "Reflow model"
 
 #: ../widgets/misc/e-reflow.c:1466 ../widgets/misc/e-reflow.c:1467
-#, fuzzy
 msgid "Column width"
 msgstr "カラムの幅"
 
@@ -19658,9 +19536,8 @@ msgstr "降順"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:8
 #: ../widgets/table/e-table-config.glade.h:7
-#, fuzzy
 msgid "Group Items By"
-msgstr "グループ化(_G)..."
+msgstr "グループ化"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:9
 #: ../widgets/table/e-table-config.glade.h:8
@@ -19678,9 +19555,8 @@ msgstr "この順番で表示する項目(_O):"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:12
 #: ../widgets/table/e-table-config.glade.h:10
-#, fuzzy
 msgid "Show Fields"
-msgstr "宛先フィールド(_T)"
+msgstr "表示する項目"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:13
 #: ../widgets/table/e-table-config.glade.h:11
@@ -19764,7 +19640,7 @@ msgstr "項目の追加..."
 
 #: ../widgets/table/e-table-field-chooser.glade.h:1
 msgid "Field Chooser"
-msgstr "フィールドの選択"
+msgstr "項目の選択"
 
 #: ../widgets/table/e-table-field-chooser.glade.h:2
 msgid ""
