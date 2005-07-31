@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: evolution-exchange Gnome 2.10.\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-07-30 04:46+0000\n"
-"PO-Revision-Date: 2005-07-30 17:48+0930\n"
+"PO-Revision-Date: 2005-07-31 15:54+0930\n"
 "Last-Translator: Clytie Siddall <clytie@riverland.net.au>\n"
 "Language-Team: Vietnamese <gnomevi-list@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -24,7 +24,7 @@ msgstr "Đang tìm..."
 
 #: ../addressbook/e-book-backend-gal.c:258
 msgid "Reconnecting to LDAP server..."
-msgstr "Đang kết nối lại tới máy chủ LDAP..."
+msgstr "Đang kết nối lại tới máy phục vụ LDAP..."
 
 #: ../addressbook/e-book-backend-gal.c:1300
 msgid "Receiving LDAP search results..."
@@ -125,7 +125,7 @@ msgstr "Danh sách địa chỉ toàn cầu / Thư mục hoạt động"
 #. technical term and may not have translations?
 #: ../camel/camel-exchange-provider.c:55
 msgid "Global Catalog server name:"
-msgstr "Tên máy chủ Danh bạ toàn cầu:"
+msgstr "Tên máy phục vụ Danh bạ toàn cầu:"
 
 #: ../camel/camel-exchange-provider.c:57
 #, c-format
@@ -148,7 +148,7 @@ msgstr "Tự động đồng bộ tài khoản nội bộ"
 #. i18n: copy from evolution:camel-imap-provider.c
 #: ../camel/camel-exchange-provider.c:67
 msgid "Apply filters to new messages in Inbox on this server"
-msgstr "Áp dụng đầu lọc cho thư mới trong hộp Thư Vào trên máy chủ này"
+msgstr "Áp dụng đầu lọc cho thư mới trong hộp Thư Vào trên máy phục vụ này"
 
 #: ../camel/camel-exchange-provider.c:69
 msgid "Check new messages for Junk contents"
@@ -165,7 +165,7 @@ msgstr "Microsoft Exchange"
 #: ../camel/camel-exchange-provider.c:90
 msgid "For handling mail (and other data) on Microsoft Exchange servers"
 msgstr ""
-"Để quản lý thư (và các dữ liệu khác) trên các máy chủ Microsoft Exchange"
+"Để quản lý thư (và các dữ liệu khác) trên các máy phục vụ Microsoft Exchange"
 
 #. i18n: "Secure Password Authentication" is an Outlookism
 #: ../camel/camel-exchange-provider.c:106
@@ -178,7 +178,7 @@ msgid ""
 "This option will connect to the Exchange server using secure password (NTLM) "
 "authentication."
 msgstr ""
-"Tùy chọn này sẽ kết nối tới máy chủ Exchange sử dụng việc xác thực với mật "
+"Tùy chọn này sẽ kết nối tới máy phục vụ Exchange sử dụng việc xác thực với mật "
 "khẩu bảo mật (NTLM)."
 
 #: ../camel/camel-exchange-provider.c:117
@@ -190,13 +190,13 @@ msgid ""
 "This option will connect to the Exchange server using standard plaintext "
 "password authentication."
 msgstr ""
-"Tùy chọn này sẽ kết nối tới máy chủ Exchange sử dụng việc xác thực với mật "
+"Tùy chọn này sẽ kết nối tới máy phục vụ Exchange sử dụng việc xác thực với mật "
 "khẩu gõ thô chuẩn."
 
 #: ../camel/camel-exchange-store.c:267
 #, c-format
 msgid "Exchange server %s"
-msgstr "Máy chủ Exchange %s"
+msgstr "Máy phục vụ Exchange %s"
 
 #: ../camel/camel-exchange-store.c:270
 #, c-format
@@ -276,7 +276,7 @@ msgid ""
 "Could not connect to the Exchange server.\n"
 "Make sure the URL is correct (try \"%s\" instead of \"%s\"?) and try again."
 msgstr ""
-"Không thể kết nối tới máy chủ Exchange.\n"
+"Không thể kết nối tới máy phục vụ Exchange.\n"
 "Cần chắc là địa chỉ Mạng đúng (thử \"%s\" thay vì \"%s\"?) và thử lại lần "
 "nữa."
 
@@ -285,15 +285,15 @@ msgid ""
 "Could not locate Exchange server.\n"
 "Make sure the server name is spelled correctly and try again."
 msgstr ""
-"Không thể định vị máy chủ Exchange.\n"
-"Cần chắc là tên máy chủ đã ghi chính xác và thử lại lần nữa."
+"Không thể định vị máy phục vụ Exchange.\n"
+"Cần chắc là tên máy phục vụ đã ghi chính xác và thử lại lần nữa."
 
 #: ../lib/e2k-autoconfig.c:1490 ../storage/exchange-autoconfig-wizard.c:241
 msgid ""
 "Could not authenticate to the Exchange server.\n"
 "Make sure the username and password are correct and try again."
 msgstr ""
-"Không thể xác thực tới máy chủ Exchange.\n"
+"Không thể xác thực tới máy phục vụ Exchange.\n"
 "Cần chắc là tên người dùng và mật khẩu đều đúng và thử lại lần nữa."
 
 #: ../lib/e2k-autoconfig.c:1498 ../storage/exchange-autoconfig-wizard.c:248
@@ -305,7 +305,7 @@ msgid ""
 "You may need to specify the Windows domain name as part of your username "
 "(eg, \"MY-DOMAIN\\%s\")."
 msgstr ""
-"Không thể xác thực tới máy chủ Exchange.\n"
+"Không thể xác thực tới máy phục vụ Exchange.\n"
 "Cần chắc là tên người dùng và mật khẩu đều đúng và thử lại lần nữa.\n"
 "\n"
 "Có thể bạn cần chỉ rõ tên miền Windows trong tên người dùng của bạn :(vd, "
@@ -331,7 +331,7 @@ msgid ""
 "http://support.novell.com/cgi-bin/search/searchtid.cgi?/ximian/ximian328."
 "html "
 msgstr ""
-"Bộ kết nối Ximian yêu cầu truy cập tới chức năng tương ứng trên máy chủ "
+"Bộ kết nối Ximian yêu cầu truy cập tới chức năng tương ứng trên máy phục vụ "
 "Exchange, nhưng nó bị tắt hoặc bị khóa. (Thông thường không phải do chủ "
 "tâm.) Nhà quản trị Exchange cần phải bật chức năng này thì bạn mới có khả "
 "năng sử dụng Bộ kết nối Ximian.\n"
@@ -345,7 +345,7 @@ msgid ""
 "The Exchange server URL you provided is for an Exchange 5.5 Server. Ximian "
 "Connector supports Microsoft Exchange 2000 and 2003 only."
 msgstr ""
-"Đia chỉ Mạng máy chủ Exchange bạn cung cấp là cho máy chủ Exchange phiên bản "
+"Đia chỉ Mạng máy phục vụ Exchange bạn cung cấp là cho máy phục vụ Exchange phiên bản "
 "5.5. Ximian Connector chỉ hỗ trợ Microsoft Exchange 2000 và 2003 thôi."
 
 #: ../lib/e2k-autoconfig.c:1544 ../storage/exchange-autoconfig-wizard.c:301
@@ -489,7 +489,7 @@ msgstr "Không có địa chỉ Mạng đệ trình thư cho hộp thư này"
 
 #: ../mail/mail-stub-exchange.c:2271
 msgid "Server won't accept mail via Exchange transport"
-msgstr "Máy chủ không chấp nhận thư qua truyền tải Exchange"
+msgstr "Máy phục vụ không chấp nhận thư qua truyền tải Exchange"
 
 #: ../mail/mail-stub-exchange.c:2273
 #, c-format
@@ -797,7 +797,7 @@ msgid ""
 "Server rejected password because it is too weak.\n"
 "Try again with a different password."
 msgstr ""
-"Máy chủ không chấp nhận mật khẩu vì quá yếu.\n"
+"Máy phục vụ không chấp nhận mật khẩu vì quá yếu.\n"
 "Hãy thử lại lần nữa với mật khẩu khác."
 
 #: ../storage/exchange-account.c:1085
@@ -831,7 +831,7 @@ msgid ""
 "Could not authenticate to server. (Password incorrect?)\n"
 "\n"
 msgstr ""
-"Không thể xác thực tới máy chủ. (Mật khẩu không chính xác?)\n"
+"Không thể xác thực tới máy phục vụ. (Mật khẩu không chính xác?)\n"
 "\n"
 
 #: ../storage/exchange-account.c:1378
@@ -845,9 +845,9 @@ msgid ""
 "Or you might have just typed your password wrong.\n"
 "\n"
 msgstr ""
-"Không thể xác thực tới máy chủ.\n"
+"Không thể xác thực tới máy phục vụ.\n"
 "\n"
-"Có thể máy chủ của bạn yêu cầu tên miền\n"
+"Có thể máy phục vụ của bạn yêu cầu tên miền\n"
 "Windows trong tên người dùng\n"
 "(vd, \"TÊN_MIỀN\\người_dùng\").\n"
 "\n"
@@ -857,7 +857,7 @@ msgstr ""
 #: ../storage/exchange-account.c:1420
 #, c-format
 msgid "Mailbox for %s is not on this server."
-msgstr "Hộp thư cho %s không có trên máy chủ này."
+msgstr "Hộp thư cho %s không có trên máy phục vụ này."
 
 #: ../storage/exchange-account.c:1425
 #, c-format
@@ -865,7 +865,7 @@ msgid ""
 "The server '%s' is running Exchange 5.5 and is\n"
 "therefore not compatible with Ximian Connector"
 msgstr ""
-"Máy chủ '%s' đang chạy Exchange phiên bản 5.5.\n"
+"Máy phục vụ '%s' đang chạy Exchange phiên bản 5.5.\n"
 "nên không tương thích với trình Ximian Connector."
 
 #: ../storage/exchange-account.c:1432
@@ -888,7 +888,7 @@ msgstr "Không có hộp thư cho người dùng %s trên %s.\n"
 #: ../storage/exchange-account.c:1460
 #, c-format
 msgid "Could not connect to server %s: %s"
-msgstr "Không thể kết nối tới máy chủ %s: %s"
+msgstr "Không thể kết nối tới máy phục vụ %s: %s"
 
 #: ../storage/exchange-account.c:1448
 msgid "Could not resolve hostname"
@@ -908,7 +908,7 @@ msgid ""
 "For information to provide to your Exchange administrator, please follow the "
 "link below:"
 msgstr ""
-"Bộ kết nối Ximian yêu cầu truy cập tới chức năng tương ứng trên máy chủ "
+"Bộ kết nối Ximian yêu cầu truy cập tới chức năng tương ứng trên máy phục vụ "
 "Exchange, nhưng nó bị tắt hoặc bị khóa. (Thông thường không phải do chủ "
 "tâm.) Nhà quản trị Exchange cần phải bật chức năng này thì bạn mới có khả "
 "năng sử dụng Bộ kết nối Ximian.\n"
@@ -922,7 +922,7 @@ msgid ""
 "and specify the Windows domain name as part of your username (eg, \"MY-DOMAIN"
 "\\%s\")."
 msgstr ""
-"Không thể xác thực tới máy chủ Danh bạ Toàn cầu. Có thể bạn cần quay trở lại "
+"Không thể xác thực tới máy phục vụ Danh bạ Toàn cầu. Có thể bạn cần quay trở lại "
 "và chỉ rõ tên miền Windows trong tên người dùng (vd, \"MIỀN_TÔI\\%s\")."
 
 #: ../storage/exchange-autoconfig-wizard.c:352
@@ -930,8 +930,8 @@ msgid ""
 "Could not connect to specified server.\n"
 "Please check the server name and try again."
 msgstr ""
-"Không thể kết nối tới máy chủ đã chỉ ra.\n"
-"Hãy kiểm tra lại tên máy chủ và thử lại lần nữa."
+"Không thể kết nối tới máy phục vụ đã chỉ ra.\n"
+"Hãy kiểm tra lại tên máy phục vụ và thử lại lần nữa."
 
 #: ../storage/exchange-autoconfig-wizard.c:389
 #: ../storage/exchange-autoconfig-wizard.c:393
@@ -973,7 +973,7 @@ msgstr "Tên đầy đủ:"
 
 #: ../storage/exchange-autoconfig-wizard.glade.h:7
 msgid "GC Server:"
-msgstr "Máy chủ Danh bạ Toàn cầu:"
+msgstr "Máy phục vụ Danh bạ Toàn cầu:"
 
 #: ../storage/exchange-autoconfig-wizard.glade.h:8
 msgid "Make this my default account"
@@ -1038,7 +1038,7 @@ msgid ""
 "your system administrator for the correct value.\n"
 msgstr ""
 "Ximian Connector không thể tìm thấy bản sao Danh bạ Toàn cầu cho trang của "
-"bạn. Hãy nhập tên máy chủ Danh bạ Toàn cầu. Có thể bạn cần hỏi nhà quản trị "
+"bạn. Hãy nhập tên máy phục vụ Danh bạ Toàn cầu. Có thể bạn cần hỏi nhà quản trị "
 "hệ thống giá trị chính xác.\n"
 
 #: ../storage/exchange-autoconfig-wizard.glade.h:26
@@ -1143,7 +1143,7 @@ msgid ""
 "No Global Catalog server configured for this account.\n"
 "Unable to edit delegates."
 msgstr ""
-"Không có máy chủ Danh bạ Toàn cầu nào được cấu hình cho tài khoản này.\n"
+"Không có máy phục vụ Danh bạ Toàn cầu nào được cấu hình cho tài khoản này.\n"
 "Không thể sửa Những người được ủy nhiệm."
 
 #: ../storage/exchange-delegates.c:260
@@ -1459,7 +1459,7 @@ msgid ""
 "No Global Catalog server is configured for this account."
 msgstr ""
 "Không thể thêm người dùng vào danh sách điều khiển truy cập:\n"
-"Không có máy chủ Danh bạ Toàn cầu nào được cấu hình cho tài khoản này."
+"Không có máy phục vụ Danh bạ Toàn cầu nào được cấu hình cho tài khoản này."
 
 #: ../storage/exchange-permissions-dialog.c:402
 msgid "Add User:"
@@ -1630,7 +1630,7 @@ msgstr "Công cụ thiết lập trình Ximian Connector cho Microsoft Exchange"
 
 #: ../storage/ximian-connector.xml.h:1
 msgid "Change your Exchange server password"
-msgstr "Thay đổi mật khẩu máy chủ Exchange của bạn"
+msgstr "Thay đổi mật khẩu máy phục vụ Exchange của bạn"
 
 #: ../storage/ximian-connector.xml.h:2
 msgid "Folder _Size"
@@ -1646,7 +1646,7 @@ msgstr "Đăng ký tới danh mục của _người dùng khác..."
 
 #: ../storage/ximian-connector.xml.h:5
 msgid "Subscribe to a folder belonging to some other user on the server"
-msgstr "Đăng ký tới một danh mục thuộc về một người dùng khác trên máy chủ này"
+msgstr "Đăng ký tới một danh mục thuộc về một người dùng khác trên máy phục vụ này"
 
 #: ../storage/ximian-connector.xml.h:6
 msgid ""
