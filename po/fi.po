@@ -16594,7 +16594,7 @@ msgstr ""
 "Sami Pesonen, 2001-2003\n"
 "Hile Tuohela, 2002-2004\n"
 "\n"
-"http://gnome-fi.org/"
+"http://gnome.fi/"
 
 #: ../shell/e-shell-window-commands.c:521
 msgid "Groupware Suite"
