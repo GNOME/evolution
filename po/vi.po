@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: evolution-exchange Gnome 2.10.\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-07-30 04:46+0000\n"
-"PO-Revision-Date: 2005-07-31 15:54+0930\n"
+"PO-Revision-Date: 2005-08-01 17:20+0930\n"
 "Last-Translator: Clytie Siddall <clytie@riverland.net.au>\n"
 "Language-Team: Vietnamese <gnomevi-list@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -32,11 +32,11 @@ msgstr "Đang nhận kết quả tìm kiếm LDAP..."
 
 #: ../addressbook/e-book-backend-gal.c:1459
 msgid "Error performing search"
-msgstr "Lỗi thực hiện tìm kiếm"
+msgstr "Gặp lỗi khi thực hiện tìm kiếm."
 
 #: ../calendar/e-cal-backend-exchange.c:312
 msgid "Folder not marked for offline support"
-msgstr "Danh mục chưa được đánh dấu hỗ trợ ngoại tuyến"
+msgstr "Danh mục chưa được đánh dấu hỗ trợ ngoại tuyến."
 
 #: ../calendar/e-cal-backend-exchange-calendar.c:1667
 #, c-format
@@ -44,13 +44,13 @@ msgid ""
 "Unable to schedule resource '%s' for recurring meetings.\n"
 "You must book each meeting separately."
 msgstr ""
-"Không thể lên lịch nguồn « %s » cho những cuộc họp định kỳ.\n"
+"Không thể định lịch tài nguyên « %s » cho những cuộc họp định kỳ.\n"
 "Bạn phải ghi riêng rẽ mỗi cuộc họp."
 
 #: ../calendar/e-cal-backend-exchange-calendar.c:1686
 #, c-format
 msgid "The resource '%s' is busy during the selected time period."
-msgstr "Nguồn « %s » bận trong khoảng thời gian đã chọn."
+msgstr "Tài nguyên « %s » bận trong khoảng thời gian đã chọn."
 
 #: ../camel/camel-exchange-folder.c:220
 msgid "Can only expunge in Deleted Items folder"
@@ -66,7 +66,7 @@ msgstr "Thư này không sẵn sàng trong chế độ ngoại tuyến."
 
 #: ../camel/camel-exchange-folder.c:606
 msgid "Moving messages"
-msgstr "Di chuyển thư..."
+msgstr "Đang dii chuyển thư..."
 
 #: ../camel/camel-exchange-folder.c:607
 msgid "Copying messages"
@@ -80,29 +80,29 @@ msgstr "Không thể tạo thư mục %s: %s"
 #: ../camel/camel-exchange-folder.c:948
 #, c-format
 msgid "Could not load summary for %s"
-msgstr "Không thể tải tổng kết cho « %s »."
+msgstr "Không tải được tổng kết cho « %s »."
 
 #: ../camel/camel-exchange-folder.c:956
 #, c-format
 msgid "Could not create cache for %s"
-msgstr "Không thể tạo bộ nhớ tạm cho %s"
+msgstr "Không tạo được bộ nhớ tạm cho %s."
 
 #: ../camel/camel-exchange-folder.c:966
 #, c-format
 msgid "Could not create journal for %s"
-msgstr "Không thể tạo nhật ký cho %s"
+msgstr "Không tạo được nhật ký cho %s."
 
 #: ../camel/camel-exchange-folder.c:1011
 msgid "Scanning for changed messages"
-msgstr "Quét tìm thư đã thay đổi"
+msgstr "Đang quét tìm thư đã thay đổi"
 
 #: ../camel/camel-exchange-folder.c:1037
 msgid "Fetching summary information for new messages"
-msgstr "Lấy thông tin tổng kết về thư mới"
+msgstr "Đang lấy thông tin tổng kết về thư mới"
 
 #: ../camel/camel-exchange-journal.c:272
 msgid "Cannot append message in offline mode: cache unavailable"
-msgstr "Không thể nhập thêm thư trong chế độ ngoại tuyến: không có bộ nhớ tạm."
+msgstr "Không thể phụ thêm thư trong chế độ ngoại tuyến: không có bộ nhớ tạm."
 
 #: ../camel/camel-exchange-journal.c:288
 #, c-format
