@@ -86,6 +86,9 @@ static void account_changed (EAccountList *account_listener,
 static void account_removed (EAccountList *account_listener,
 			     EAccount     *account);
 
+static void exchange_add_autocompletion_folders (GConfClient *gc_client, 
+						 ExchangeAccount *account);
+
 static void
 class_init (GObjectClass *object_class)
 {
@@ -202,9 +205,7 @@ add_defaults_for_account (ExchangeConfigListener *config_listener,
 {
 	EAccount *eaccount;
 
-#if LDEAD
-	add_autocompletion_folders (config_listener->priv->gconf, account);
-#endif
+	exchange_add_autocompletion_folders (config_listener->priv->gconf, account);
 
 	eaccount = config_listener->priv->configured_account;
 	set_special_mail_folder (account, "drafts",
@@ -879,3 +880,46 @@ exchange_config_listener_get_accounts (ExchangeConfigListener *config_listener)
 		return NULL;
 }
 
+/**
+ * exchange_add_autocompletion_folders:
+ * 
+ * @gc_client: GConfClient handle
+ * @account: ExchangeAccount handle
+ *
+ * This function adds the GAL of the Exchange account to the autocompletion list
+ * while configuring a new Exchange account
+ *
+ **/ 
+static void
+exchange_add_autocompletion_folders (GConfClient *gc_client, ExchangeAccount *account)
+{
+	ESourceList *sl=NULL;
+	ESourceGroup *group;
+	ESource *source;
+	GSList *groups, *sources;
+	gboolean found_group=FALSE;
+
+	sl = e_source_list_new_for_gconf (gc_client, CONF_KEY_CONTACTS);
+	groups = e_source_list_peek_groups (sl);
+
+	for ( ; groups != NULL && !found_group; groups = g_slist_next (groups)) {
+		group = E_SOURCE_GROUP (groups->data);		
+		if (strcmp (e_source_group_peek_name (group), account->account_name) == 0
+                    &&
+		    strcmp (e_source_group_peek_base_uri (group), EXCHANGE_URI_PREFIX) == 0) {
+			
+			sources = e_source_group_peek_sources (group);
+			
+			for( ; sources != NULL; sources = g_slist_next (sources)) {
+				source = E_SOURCE (sources->data);
+				if (g_str_has_prefix (e_source_peek_absolute_uri (source),
+						      "gal://")) {
+					/* Set autocompletion on GAL alone by default */
+					e_source_set_property (source, "completion", "true");
+					break;
+				}
+			}
+			found_group = TRUE;
+		}
+	}
+}

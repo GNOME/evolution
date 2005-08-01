@@ -1,3 +1,9 @@
+2005-08-01  Praveen Kumar  <kpraveen@novell.com>
+	* exchnage-config-listener.c 
+	(exchange_add_autocompletion_folders) : Added new
+	(add_defaults_for_account) : Added a call to the newly added function
+	to select GAL for autocompletion by default. Fixes bug 303998
+	
 2005-07-27  Praveen Kumar <kpraveen@novell.com>
 
 	* exchange-folder.c (org_gnome_exchange_folder_subscription) : Handle
