@@ -612,7 +612,7 @@ mail_vfolder_rename_uri(CamelStore *store, const char *cfrom, const char *cto)
 	int changed = 0;
 	char *from, *to;
 
-	d(printf("vfolder rename uri: %s to %s\n", from, to));
+	d(printf("vfolder rename uri: %s to %s\n", cfrom, cto));
 
 	if (context == NULL || uri_is_spethal(store, cfrom) || uri_is_spethal(store, cto))
 		return;
@@ -834,43 +834,80 @@ store_folder_deleted(CamelObject *o, void *event_data, void *data)
 	UNLOCK();
 }
 
+static int
+store_folder_renamed_rec(char *prefix, int ignore, CamelFolderInfo *new)
+{
+	int changed = 0;
+	FilterRule *rule;
+	char *key;
+	GString *old = g_string_new(prefix);
+	CamelFolder *folder;
+
+	while (new) {
+		if (new->child)
+			changed |= store_folder_renamed_rec(prefix, ignore, new->child);
+
+		g_string_truncate(old, strlen(prefix));
+		g_string_append(old, new->full_name+ignore);
+
+		d(printf("Changing folder name in hash table to '%s'\n", new->full_name));
+		if (g_hash_table_lookup_extended(vfolder_hash, old->str, (void **)&key, (void **)&folder)) {
+			g_hash_table_remove(vfolder_hash, key);
+			g_hash_table_insert(vfolder_hash, g_strdup(new->full_name), folder);
+
+			rule = rule_context_find_rule((RuleContext *)context, key, NULL);
+			g_free(key);
+			g_assert(rule);
+			g_signal_handlers_disconnect_matched(rule, G_SIGNAL_MATCH_FUNC|G_SIGNAL_MATCH_DATA, 0,
+							     0, NULL, rule_changed, folder);
+			filter_rule_set_name(rule, new->full_name);
+			g_signal_connect(rule, "changed", G_CALLBACK(rule_changed), folder);
+			changed = 1;
+		} else {
+			g_warning("couldn't find a vfolder rule in our table? %s", new->full_name);
+		}
+		new = new->next;
+	}
+
+	g_string_free(old, TRUE);
+	return changed;
+}
+
 static void
 store_folder_renamed(CamelObject *o, void *event_data, void *data)
 {
 	CamelRenameInfo *info = event_data;
-	FilterRule *rule;
-	char *user;
-	char *key;
-	CamelFolder *folder;
-	
+	char *end, *prefix;
+	int ignore;
+
 	/* This should be more-or-less thread-safe */
 
 	d(printf("Folder renamed to '%s' from '%s'\n", info->new->full_name, info->old_base));
 
 	/* Folder is already renamed? */
 	LOCK();
-	d(printf("Changing folder name in hash table to '%s'\n", info->new->full_name));
-	if (g_hash_table_lookup_extended(vfolder_hash, info->old_base, (void **)&key, (void **)&folder)) {
-		g_hash_table_remove(vfolder_hash, key);
-		g_free(key);
-		g_hash_table_insert(vfolder_hash, g_strdup(info->new->full_name), folder);
-
-		rule = rule_context_find_rule((RuleContext *)context, info->old_base, NULL);
-		g_assert(rule);
-		g_signal_handlers_disconnect_matched(rule, G_SIGNAL_MATCH_FUNC|G_SIGNAL_MATCH_DATA, 0,
-						     0, NULL, rule_changed, folder);
-		filter_rule_set_name(rule, info->new->full_name);
-		g_signal_connect(rule, "changed", G_CALLBACK(rule_changed), folder);
+	end = strrchr(info->new->full_name, '/');
+	if (end == NULL) {
+		ignore = 0;
+		end = strrchr(info->old_base, '/');
+		if (end) {
+			prefix = g_alloca(end-info->old_base+2);
+			memcpy(prefix, info->old_base, end-info->old_base+1);
+			prefix[end-info->old_base+1] = 0;
+		} else
+			prefix = "";
+	} else {
+		ignore = end-info->new->full_name+1;
+		prefix = "";
+	}
+	if (store_folder_renamed_rec(prefix, ignore, info->new)) {
+		char *user;
 
 		user = g_strdup_printf("%s/mail/vfolders.xml", mail_component_peek_base_directory (mail_component_peek ()));
 		rule_context_save((RuleContext *)context, user);
 		g_free(user);
-
-		UNLOCK();
-	} else {
-		UNLOCK();
-		g_warning("couldn't find a vfolder rule in our table? %s", info->new->full_name);
 	}
+	UNLOCK();
 }
 
 void
