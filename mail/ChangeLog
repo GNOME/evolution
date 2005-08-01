@@ -1,3 +1,10 @@
+2005-07-29  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #300607.
+
+	* mail-vfolder.c (store_folder_renamed_rec, store_folder_renamed):
+	rename all folders in the folder tree renamed.
+
 2005-07-29  Shreyas Srinivasan  <sshreyas@novell.com>
 
 	* mail-ops.c: Fix #311223. Include <camel/camel-multipart.h>
