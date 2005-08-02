@@ -41,6 +41,7 @@
 #include <libedataserver/e-iconv.h>
 #include <misc/e-gui-utils.h>
 
+#include <gtk/gtkentry.h>
 #include <gtk/gtktreemodel.h>
 #include <gtk/gtkliststore.h>
 #include <gtk/gtktreeselection.h>
