@@ -70,25 +70,22 @@ org_gnome_exchange_calendar_permissions (EPlugin *ep, ECalPopupTargetSource *tar
 	int i = 0;
 	static int first =0;
 	ExchangeAccount *account = NULL;
-	EFolder *folder = NULL;
 	ESource *source = NULL;
 	gchar *uri = NULL;
-
-	source = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (target->selector));
-	uri = (gchar *) e_source_get_uri (source);
-
-	if (! g_strrstr (uri, "exchange://"))	{
-		return ;
-	}
 
 	account = exchange_operations_get_exchange_account ();
 
 	if (!account)
 		return;
 
-	folder = exchange_account_get_folder (account, uri);
+	source = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (target->selector));
+	uri = (gchar *) e_source_get_uri (source);
 
-	if (!folder)
+	if (uri && ! g_strrstr (uri, "exchange://"))	{
+		return;
+	}
+
+	if (!exchange_account_get_folder (account, uri))
 		return;
 
 	selected_exchange_folder_uri = uri;
@@ -114,28 +111,22 @@ org_gnome_exchange_addressbook_permissions (EPlugin *ep, EABPopupTargetSource *t
 	int i = 0;
 	static int first =0;
 	ExchangeAccount *account = NULL;
-	EFolder *folder = NULL;
 	ESource *source = NULL;
 	gchar *uri = NULL;
-
-	source = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (target->selector));
-	uri = (gchar *) e_source_get_uri (source);
-
-	if (! g_strrstr (uri, "exchange://"))	{
-		return ;
-	}
 
 	account = exchange_operations_get_exchange_account ();
 
 	if (!account)
 		return;
 
+	source = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (target->selector));
+	uri = (gchar *) e_source_get_uri (source);
 
-	folder = exchange_account_get_folder (account, uri);
-
-	if (!folder) {
+	if (!g_strrstr (uri, "exchange://"))
 		return;
-	}
+
+	if (!exchange_account_get_folder (account, uri))
+		return;
 
 	selected_exchange_folder_uri = uri;
 
@@ -152,29 +143,18 @@ org_gnome_exchange_addressbook_permissions (EPlugin *ep, EABPopupTargetSource *t
 }
 
 void
-org_gnome_exchange_folder_permissions (EPlugin *ep, EMPopupTargetFolder *t)
+org_gnome_exchange_folder_permissions (EPlugin *ep, EMPopupTargetFolder *target)
 {
 	GSList *menus = NULL;
 	int i = 0;
 	static int first =0;
-	ExchangeAccount *account = NULL;
-	EFolder *folder = NULL;
+	ExchangeAccount *account = exchange_operations_get_exchange_account ();
 
-	if (! g_strrstr (t->uri, "exchange://"))
+	if (!account || ! g_strrstr (target->uri, "exchange://") ||
+		!exchange_account_get_folder (account, target->uri))
 		return ;
 
-	account = exchange_operations_get_exchange_account ();
-
-	if (!account)
-		return;
-
-	folder = exchange_account_get_folder (account, t->uri);
-
-
-	if (!folder)
-		return;
-
-	selected_exchange_folder_uri = t->uri;
+	selected_exchange_folder_uri = target->uri;
 	/* for translation*/
 	if (!first) {
 		popup_items[0].label =  _(popup_items[0].label);
@@ -184,7 +164,7 @@ org_gnome_exchange_folder_permissions (EPlugin *ep, EMPopupTargetFolder *t)
 	for (i = 0; i < sizeof (popup_items) / sizeof (popup_items[0]); i++)
 		menus = g_slist_prepend (menus, &popup_items[i]);
 
-	e_popup_add_items (t->target.popup, menus, NULL, popup_free, NULL);
+	e_popup_add_items (target->target.popup, menus, NULL, popup_free, NULL);
 
 }
 
@@ -210,9 +190,6 @@ org_gnome_exchange_menu_folder_permissions (EPlugin *ep, EMMenuTargetSelect *tar
 {
 	ExchangeAccount *account = NULL;
 	EFolder *folder = NULL;
-
-	if (target == NULL)
-		return;
 
 	account = exchange_operations_get_exchange_account ();
 

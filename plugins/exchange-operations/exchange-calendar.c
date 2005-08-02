@@ -150,7 +150,9 @@ e_exchange_calendar_pcalendar (EPlugin *epl, EConfigHookItemFactoryData *data)
         gchar *uri_text;
 	gchar *cal_name;
 	char *folder_size;
+	const char *rel_uri;
 	int row, i;
+
 
 	if (!hidden)
 		hidden = gtk_label_new ("");
@@ -165,7 +167,7 @@ e_exchange_calendar_pcalendar (EPlugin *epl, EConfigHookItemFactoryData *data)
 	uri_text = e_source_get_uri (t->source);
 	uri = e_uri_new (uri_text);
 
-	if (strcmp (uri->protocol, "exchange")) {
+	if (uri && strcmp (uri->protocol, "exchange")) {
 		e_uri_free (uri);
                 g_free (uri_text);
 		return hidden;
@@ -174,10 +176,11 @@ e_exchange_calendar_pcalendar (EPlugin *epl, EConfigHookItemFactoryData *data)
 	e_uri_free (uri);
 	g_free (uri_text);
 
-	if (strlen (e_source_peek_relative_uri (t->source))) {
+	rel_uri = e_source_peek_relative_uri (t->source);
+	if (rel_uri && strlen (rel_uri)) {
 		calendar_src_exists = TRUE;
 		g_free (calendar_old_source_uri);
-		calendar_old_source_uri = g_strdup (e_source_peek_relative_uri (t->source));
+		calendar_old_source_uri = g_strdup (rel_uri);
 	}
 	else {
 		calendar_src_exists = FALSE;
@@ -249,7 +252,7 @@ e_exchange_calendar_pcalendar (EPlugin *epl, EConfigHookItemFactoryData *data)
 		uri_prefix = g_strconcat (account->account_filename, "/", NULL);
 		prefix_len = strlen (uri_prefix);
 		
-		tmpruri = (gchar*) e_source_peek_relative_uri (t->source);
+		tmpruri = rel_uri;
 
 		if (g_str_has_prefix (tmpruri, uri_prefix)) {
 			sruri = g_strdup (tmpruri+prefix_len);
@@ -274,10 +277,15 @@ e_exchange_calendar_check (EPlugin *epl, EConfigHookPageCheckData *data)
 {
 	/* FIXME - check pageid */
 	ECalConfigTargetSource *t = (ECalConfigTargetSource *) data->target;
-	ESourceGroup *group = e_source_peek_group (t->source);
+	ESourceGroup *group;
+	const char *base_uri;
+	const char *rel_uri;
 
-	if (!strncmp (e_source_group_peek_base_uri (group), "exchange", 8)) {
-		if (!strlen (e_source_peek_relative_uri (t->source))) {
+	rel_uri = e_source_peek_relative_uri (t->source);
+	group = e_source_peek_group (t->source);
+	base_uri = e_source_group_peek_base_uri (group);
+	if (base_uri && !strncmp (base_uri, "exchange", 8)) {
+		if (rel_uri && !strlen (rel_uri)) {
 			return FALSE;
 		}
 	}
@@ -292,12 +300,11 @@ e_exchange_calendar_commit (EPlugin *epl, EConfigTarget *target)
 	ESource *source = t->source;
 	gchar *uri_text, *gruri, *gname, *ruri, *ftype, *path, *path_prefix, *oldpath=NULL;
 	int prefix_len;
-
 	ExchangeAccount *account;
 	ExchangeAccountFolderResult result;
 		
 	uri_text = e_source_get_uri (source);
-	if (strncmp (uri_text, "exchange", 8)) {
+	if (uri_text && strncmp (uri_text, "exchange", 8)) {
 		g_free (uri_text);
 		return ;
 	}	
@@ -340,7 +347,7 @@ e_exchange_calendar_commit (EPlugin *epl, EConfigTarget *target)
 		/* Create the new folder */
 		result = exchange_account_create_folder (account, path, ftype);
 	}
-	else if (strcmp (e_source_peek_relative_uri (source), calendar_old_source_uri)) {
+	else if (gruri && strcmp (gruri, calendar_old_source_uri)) {
 		/* Rename the folder */
 		oldpath = g_strdup_printf ("/%s", calendar_old_source_uri+prefix_len);
 		result = exchange_account_xfer_folder (account, oldpath, path, TRUE);

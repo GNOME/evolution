@@ -131,6 +131,8 @@ e_exchange_contacts_pcontacts (EPlugin *epl, EConfigHookItemFactoryData *data)
 
 	int i;
 	char *folder_size, *abook_name;
+	const char *rel_uri;
+	const char *uid;
 
 	EABConfigTargetSource *t = (EABConfigTargetSource *) data->target;
 	ESource *source = t->source;
@@ -140,19 +142,19 @@ e_exchange_contacts_pcontacts (EPlugin *epl, EConfigHookItemFactoryData *data)
 	}
 
         uri_text = e_source_get_uri (source);
-	if (strncmp (uri_text, "exchange", 8)) {
+	if (uri_text && strncmp (uri_text, "exchange", 8)) {
 		g_free (uri_text);		
 		return NULL;
 	}
 
 	g_free (uri_text);
 
-	if (e_source_peek_relative_uri (source) &&
-		e_source_peek_uid (source) &&
-		(strcmp (e_source_peek_relative_uri (source), e_source_peek_uid (source)))) {
+	rel_uri = e_source_peek_relative_uri (source);
+	uid = e_source_peek_uid (source);
+	if (rel_uri && uid && (strcmp (rel_uri, uid))) {
 		contacts_src_exists = TRUE;
 		g_free (contacts_old_src_uri);
-		contacts_old_src_uri = g_strdup (e_source_peek_relative_uri (source));
+		contacts_old_src_uri = g_strdup (rel_uri);
 	}
 	else {
 		contacts_src_exists = FALSE;
@@ -226,7 +228,7 @@ e_exchange_contacts_pcontacts (EPlugin *epl, EConfigHookItemFactoryData *data)
 		int prefix_len;
 		GtkTreeSelection *selection;
 
-		tmpruri = (gchar*)e_source_peek_relative_uri (t->source);
+		tmpruri = rel_uri;
 		uri_prefix = g_strconcat (account->account_filename, "/", NULL);
 		prefix_len = strlen (uri_prefix);
 		
@@ -258,10 +260,15 @@ e_exchange_contacts_check (EPlugin *epl, EConfigHookPageCheckData *data)
 {
 	/* FIXME - check pageid */
 	EABConfigTargetSource *t = (EABConfigTargetSource *) data->target;
-	ESourceGroup *group = e_source_peek_group (t->source);
+	ESourceGroup *group;
+	const char *base_uri;
+	const char *rel_uri;
 
-	if (!strncmp (e_source_group_peek_base_uri (group), "exchange", 8)) {
-		if (!strlen (e_source_peek_relative_uri (t->source))) {
+	rel_uri = e_source_peek_relative_uri (t->source);
+	group = e_source_peek_group (t->source);
+	base_uri = e_source_group_peek_base_uri (group);
+	if (base_uri && !strncmp (base_uri, "exchange", 8)) {
+		if (rel_uri && !strlen (rel_uri)) {
 			return FALSE;
 		}
 	}
@@ -276,12 +283,11 @@ e_exchange_contacts_commit (EPlugin *epl, EConfigTarget *target)
 	ESource *source = t->source;
 	gchar *uri_text, *gname, *gruri, *ruri, *path, *path_prefix, *oldpath=NULL;
 	int prefix_len;
-
 	ExchangeAccount *account;
 	ExchangeAccountFolderResult result;
 		
 	uri_text = e_source_get_uri (source);
-	if (strncmp (uri_text, "exchange", 8)) {
+	if (uri_text && strncmp (uri_text, "exchange", 8)) {
 		g_free (uri_text);
 		return ;
 	}	
@@ -313,7 +319,7 @@ e_exchange_contacts_commit (EPlugin *epl, EConfigTarget *target)
 		/* Create the new folder */
 		result = exchange_account_create_folder (account, path, "contacts");
 	}
-	else if (strcmp (e_source_peek_relative_uri (source), contacts_old_src_uri)) {
+	else if (strcmp (gruri, contacts_old_src_uri)) {
 		/* Rename the folder */
 		oldpath = g_strdup_printf ("/%s", contacts_old_src_uri+prefix_len);
 		result = exchange_account_xfer_folder (account, oldpath, path, TRUE);

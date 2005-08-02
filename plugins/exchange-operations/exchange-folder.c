@@ -125,6 +125,7 @@ org_gnome_exchange_check_address_book_subscribed (EPlugin *ep, EABPopupTargetSou
 	gchar *uri = NULL;
 	gchar *path = NULL;
 	char *sub_folder = NULL;
+	const char *base_uri;
 	ExchangeAccount *account = NULL;
 	ESourceGroup *group;
 
@@ -135,7 +136,8 @@ org_gnome_exchange_check_address_book_subscribed (EPlugin *ep, EABPopupTargetSou
 
 	source = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (target->selector));
 	group = e_source_peek_group (source);
-	if (!group || strcmp (e_source_group_peek_base_uri (group), "exchange://"))
+	base_uri = e_source_group_peek_base_uri (group);
+	if (!base_uri || strcmp (base_uri, "exchange://"))
 		return;
 
 	uri = e_source_get_uri (source);
@@ -164,6 +166,7 @@ org_gnome_exchange_check_subscribed (EPlugin *ep, ECalPopupTargetSource *target)
 	gchar *ruri = NULL;
 	gchar *path = NULL;
 	char *sub_folder = NULL;
+	const char *base_uri;
 	ExchangeAccount *account = NULL;
 	ESourceGroup *group;
 
@@ -174,7 +177,8 @@ org_gnome_exchange_check_subscribed (EPlugin *ep, ECalPopupTargetSource *target)
 
 	source = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (target->selector));
 	group = e_source_peek_group (source);
-	if (!group || strcmp (e_source_group_peek_base_uri (group), "exchange://"))
+	base_uri = e_source_group_peek_base_uri (group);
+	if (!basu_uri || strcmp (base_uri, "exchange://"))
 		return;
 
 	ruri = (gchar *) e_source_peek_relative_uri (source);
