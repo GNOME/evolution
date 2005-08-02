@@ -173,6 +173,8 @@ exchange_permissions_dialog_new (ExchangeAccount *account,
 	xmlNode *xml_form;
 	GByteArray *binary_form;
 
+	g_return_if_fail (folder);
+
 	ctx = exchange_account_get_context (account);
 	g_return_if_fail (ctx);
 	xml = glade_xml_new (

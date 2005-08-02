@@ -1,6 +1,7 @@
 INCLUDES = -I .						\
 	-I$(top_srcdir)	                                \
 	-I$(top_srcdir)/widgets				\
+	-I$(top_srcdir)/calendar			\
 	$(EVOLUTION_MAIL_CFLAGS) 			\
 	$(CAMEL_EXCHANGE_CFLAGS)                        \
 	$(CAMEL_CFLAGS)					\
@@ -47,10 +48,13 @@ liborg_gnome_exchange_operations_la_SOURCES = 		\
 	exchange-folder.c
 
 liborg_gnome_exchange_operations_la_LIBADD = 		\
+	$(EVOLUTION_MAIL_LIBS)				\
+	$(CAMEL_EXCHANGE_LIBS)				\
 	$(top_builddir)/e-util/libeutil.la 			\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la		\
-	$(CAMEL_LIBS)						\
-	$(CAMEL_EXCHANGE_LIBS)
+	$(top_builddir)/calendar/gui/libevolution-calendar.la 	\
+	$(top_builddir)/mail/libevolution-mail.la 		\
+	$(top_builddir)/addressbook/gui/component/libevolution-addressbook.la
 
 liborg_gnome_exchange_operations_la_LDFLAGS = -module -avoid-version
 

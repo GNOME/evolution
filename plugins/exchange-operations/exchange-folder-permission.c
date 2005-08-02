@@ -34,6 +34,7 @@
 #include <libedataserverui/e-source-selector.h>
 #include <mail/em-popup.h>
 #include <mail/em-menu.h>
+#include <libebook/e-book.h>
 #include "exchange-config-listener.h"
 #include "exchange-operations.h"
 #include "exchange-permissions-dialog.h"
@@ -204,37 +205,88 @@ org_gnome_exchange_menu_folder_permissions (EPlugin *ep, EMMenuTargetSelect *tar
 void
 org_gnome_exchange_menu_cal_permissions (EPlugin *ep, ECalMenuTargetSelect *target)
 {
-#if 0
 	ExchangeAccount *account = NULL;
 	EFolder *folder = NULL;
-	ECalModel *model = target->model;
-	ECal *ecal;
-	ecal = e_cal_model_get_default_client (model);
-	gchar *uri = e_cal_get_uri (ecal);
-	
-
-	if (target == NULL)
-		return;
+	ECalModel *model = NULL;
+	ECal *ecal = NULL;
+	gchar *uri = NULL;
 
 	account = exchange_operations_get_exchange_account ();
 
-	if (!account)
+	if (!account || !target)
 		return;
 
-	//folder = exchange_account_get_folder (account, target->target->uri);
-	//if (folder)
-	//	exchange_permissions_dialog_new (account, folder, NULL);
-#endif
+	if (target->model)
+		model = E_CAL_MODEL (target->model);
+
+	ecal = e_cal_model_get_default_client (model);
+	uri = (gchar *) e_cal_get_uri (ecal);
+
+	if (!uri)
+		return;
+	else	
+		if (!g_str_has_prefix (uri, "exchange://"))
+			return;
+
+	folder = exchange_account_get_folder (account, uri);
+	exchange_permissions_dialog_new (account, folder, NULL);
 }
 
 void
 org_gnome_exchange_menu_tasks_permissions (EPlugin *ep, ECalMenuTargetSelect *target)
 {
+	ExchangeAccount *account = NULL;
+	EFolder *folder = NULL;
+	ECalModel *model = NULL;
+	ECal *ecal = NULL;
+	gchar *uri = NULL;
+
+	account = exchange_operations_get_exchange_account ();
+
+	if (!account || !target)
+		return;
+
+	if (target->model)
+		model = E_CAL_MODEL (target->model);
+
+	ecal = e_cal_model_get_default_client (model);
+	uri = (gchar *) e_cal_get_uri (ecal);
+
+	if (!uri)
+		return;
+	else	
+		if (!g_str_has_prefix (uri, "exchange://"))
+			return;
+
+	folder = exchange_account_get_folder (account, uri);
+	exchange_permissions_dialog_new (account, folder, NULL);
 
 }
 
 void
 org_gnome_exchange_menu_ab_permissions (EPlugin *ep, EABMenuTargetSelect *target)
 {
+	ExchangeAccount *account = NULL;
+	EFolder *folder = NULL;
+	EBook *ebook = NULL;
+	gchar *uri = NULL;
 
+	account = exchange_operations_get_exchange_account ();
+
+	if (!target || !account)
+		return;
+
+	if (target->book)
+		ebook = E_BOOK (target->book);
+
+	uri = (gchar *) e_book_get_uri (ebook);
+
+	if (!uri)
+		return;
+	else	
+		if (!g_str_has_prefix (uri, "exchange://"))
+			return;
+
+	folder = exchange_account_get_folder (account, uri);
+	exchange_permissions_dialog_new (account, folder, NULL);
 }

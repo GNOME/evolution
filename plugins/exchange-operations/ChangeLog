@@ -1,3 +1,14 @@
+2005-08-02  Shakti Sen <shprasad@blr.novell.com>
+
+	* Makefile.am: Included 'calendar' in INCLUDES and some .la in
+	'liborg_gnome_exchange_operations_la_LIBADD'
+	* exchange-folder-permission.c: Added the functionality for
+	'File->Permissions' menu-item for Calendar, Tasks and Contacts.
+	* exchange-permissions-dialog.c (exchange_permissions_dialog_new):
+	Takes care of 'folder' is not-null.
+
+	Fixes bug #231968.
+	
 2005-08-02  Sarfraaz Ahmed <asarfraaz@novell.com>
 
 	* exchange-calendar.c : Check for NULL target
