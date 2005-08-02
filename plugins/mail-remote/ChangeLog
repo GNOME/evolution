@@ -1,3 +1,8 @@
+2005-08-02  Not Zed  <NotZed@Ximian.com>
+
+	* org-gnome-evolution-mail-remote.eplug.xml: How strange, this was
+	never added, but nobody noticed till now.
+
 2005-06-02  Not Zed  <NotZed@Ximian.com>
 
 	* Evolution.idl: seutp an idl file so we only need to generate one
