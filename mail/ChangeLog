@@ -1,3 +1,9 @@
+2005-08-02  Srinivasa Ragavan <sragavan@novell.com>
+
+	* em-utils.c: (emu_get_save_filesel) (emu_save_part_response) 
+	(emu_save_messages_response) Fixed a bug where the last path is not
+	preserved well.
+
 2005-08-01  Not Zed  <NotZed@Ximian.com>
 
 	* em-subscribe-editor.c (sub_fill_level): always process all nodes

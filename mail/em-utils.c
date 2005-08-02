@@ -356,14 +356,15 @@ emu_get_save_filesel (GtkWidget *parent, const char *title, const char *name, Gt
 }
 
 static void
-emu_update_save_path(const char *filename)
+emu_update_save_path(const char *filename, gboolean path)
 {
-	char *dir = g_path_get_dirname(filename);
+	char *dir = path ? filename : g_path_get_dirname(filename);
 	GConfClient *gconf = gconf_client_get_default();
 
 	gconf_client_set_string(gconf, "/apps/evolution/mail/save_dir", dir, NULL);
 	g_object_unref(gconf);
-	g_free(dir);
+	if (!path)
+		g_free(dir);
 }
 
 static gboolean
@@ -405,7 +406,7 @@ emu_save_part_response(GtkWidget *filesel, int response, CamelMimePart *part)
 		if (!emu_can_save((GtkWindow *)filesel, path))
 			return;
 
-		emu_update_save_path(path);
+		emu_update_save_path(path, FALSE);
 		/* FIXME: popup error if it fails? */
 		mail_save_part(part, path, NULL, NULL);
 	}
@@ -457,7 +458,7 @@ emu_save_parts_response (GtkWidget *filesel, int response, GSList *parts)
                 path = gtk_file_selection_get_filename (GTK_FILE_SELECTION (filesel));
 #endif
 
-                emu_update_save_path(path);
+                emu_update_save_path(path, TRUE);
 
                 for ( selected = parts; selected != NULL; selected = selected->next) {
                         const char *file_name;
@@ -575,7 +576,7 @@ emu_save_messages_response(GtkWidget *filesel, int response, struct _save_messag
 		if (!emu_can_save((GtkWindow *)filesel, path))
 			return;
 
-		emu_update_save_path(path);
+		emu_update_save_path(path, FALSE);
 		mail_save_messages(data->folder, data->uids, path, NULL, NULL);
 		data->uids = NULL;
 	}
