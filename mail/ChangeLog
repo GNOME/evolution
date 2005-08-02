@@ -1,3 +1,8 @@
+2005-08-01  Not Zed  <NotZed@Ximian.com>
+
+	* em-subscribe-editor.c (sub_fill_level): always process all nodes
+	we have, even if we have already seen the top result.
+
 2005-07-29  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #300607.

@@ -294,7 +294,7 @@ sub_fill_level(EMSubscribe *sub, CamelFolderInfo *info,  GtkTreeIter *parent, in
 	/* first, fill a level up */
 	fi = info;
 	while (fi) {
-		if (g_hash_table_lookup(sub->folders, fi->full_name) == NULL) {
+		if ((node = g_hash_table_lookup(sub->folders, fi->full_name)) == NULL) {
 			gboolean state;
 
 			gtk_tree_store_append(treestore, &iter, parent);
@@ -302,20 +302,23 @@ sub_fill_level(EMSubscribe *sub, CamelFolderInfo *info,  GtkTreeIter *parent, in
 			node->info = fi;
 			state = (fi->flags & CAMEL_FOLDER_SUBSCRIBED) != 0;
 			gtk_tree_store_set(treestore, &iter, 0, state, 1, fi->name, 2, node, -1);
-			if ((fi->flags & CAMEL_FOLDER_NOINFERIORS) == 0) {
+			if ((fi->flags & CAMEL_FOLDER_NOINFERIORS) == 0)
 				node->path = gtk_tree_model_get_path((GtkTreeModel *)treestore, &iter);
-				if (node->path) {
-					/* save time, if we have any children alread, dont re-scan */
-					if (fi->child) {
-						d(printf("scanning child '%s'\n", fi->child->full_name));
-						sub_fill_level(sub, fi->child, &iter, FALSE);
-					} else {
-						if (pending)
-							e_dlist_addtail(&sub->pending, (EDListNode *)node);
-					}
-				}
-			}
 			g_hash_table_insert(sub->folders, fi->full_name, node);
+		} else if (node->path) {
+			gtk_tree_model_get_iter(gtk_tree_view_get_model(sub->tree), &iter, node->path);
+		}
+
+		if ((fi->flags & CAMEL_FOLDER_NOINFERIORS) == 0
+		    && node->path) {
+			/* save time, if we have any children alread, dont re-scan */
+			if (fi->child) {
+				d(printf("scanning child '%s'\n", fi->child->full_name));
+				sub_fill_level(sub, fi->child, &iter, FALSE);
+			} else {
+				if (pending)
+					e_dlist_addtail(&sub->pending, (EDListNode *)node);
+			}
 		}
 		fi = fi->next;
 	}
