@@ -589,7 +589,7 @@ e_calendar_table_open_selected (ECalendarTable *cal_table)
 	ECalModelComponent *comp_data;
 	icalproperty *prop;
 
-	comp_data = get_selected_comp (cal_table);
+	comp_data = e_calendar_table_get_selected_comp (cal_table);
 	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_ATTENDEE_PROPERTY);
 	if (comp_data != NULL)
 		e_calendar_table_open_task (cal_table, comp_data, prop ? TRUE : FALSE);

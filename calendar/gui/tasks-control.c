@@ -54,6 +54,8 @@
 #include "tasks-control.h"
 #include "evolution-shell-component-utils.h"
 #include "e-util/e-menu.h"
+#include "e-cal-menu.h"
+#include "e-util/e-menu.h"
 #include "itip-utils.h"
 
 #define FIXED_MARGIN                            .05
@@ -140,6 +142,40 @@ tasks_control_activate_cb		(BonoboControl		*control,
 		tasks_control_deactivate (control, tasks);
 }
 
+struct _tasks_sensitize_item {
+	char *command;
+	guint32 enable;
+};
+
+static void
+sensitize_items(BonoboUIComponent *uic, struct _tasks_sensitize_item *items, guint32 mask)
+{
+	while (items->command) {
+		char command[32];
+
+		g_assert(strlen(items->command)<21);
+		sprintf(command, "/commands/%s", items->command);
+
+		bonobo_ui_component_set_prop (uic, command, "sensitive",
+					      (items->enable & mask) == 0 ? "1" : "0",
+					      NULL);
+		items++;
+	}
+}
+
+static struct _tasks_sensitize_item tasks_sensitize_table[] = {
+	{ "TasksOpenTask", E_CAL_MENU_SELECT_ONE },
+	{ "TasksCut", E_CAL_MENU_SELECT_ANY | E_CAL_MENU_SELECT_EDITABLE },
+	{ "TasksCopy", E_CAL_MENU_SELECT_ANY },
+	{ "TasksPaste", E_CAL_MENU_SELECT_EDITABLE },
+	{ "TasksDelete", E_CAL_MENU_SELECT_ANY | E_CAL_MENU_SELECT_EDITABLE },
+	{ "TasksMarkComplete", E_CAL_MENU_SELECT_ANY | E_CAL_MENU_SELECT_EDITABLE },
+	{ "TasksPurge", E_CAL_MENU_SELECT_EDITABLE },
+	{ "TasksAssign", E_CAL_MENU_SELECT_ONE | E_CAL_MENU_SELECT_EDITABLE | E_CAL_MENU_SELECT_ASSIGNABLE },
+	{ "TasksForward", E_CAL_MENU_SELECT_ONE },
+	{ 0 }
+};
+
 /* Sensitizes the UI Component menu/toolbar commands based on the number of
  * selected tasks.
  */
@@ -150,10 +186,11 @@ tasks_control_sensitize_commands (BonoboControl *control, ETasks *tasks, int n_s
 	gboolean read_only = TRUE;
 	ECal *ecal;
 	ECalModel *model;
+	ECalMenu *menu;
+	ECalMenuTargetSelect *t;
+	GPtrArray *events;
+	GSList *selected = NULL, *l = NULL;
 	ECalendarTable *cal_table;
-	ECalModelComponent *comp_data;
-	icalproperty *prop;
-	gboolean is_assigned = FALSE;
 
 	uic = bonobo_control_get_ui_component (control);
 	g_assert (uic != NULL);
@@ -161,48 +198,27 @@ tasks_control_sensitize_commands (BonoboControl *control, ETasks *tasks, int n_s
 	if (bonobo_ui_component_get_container (uic) == CORBA_OBJECT_NIL)
 		return;
 
+	menu = e_tasks_get_tasks_menu (tasks);
 	cal_table = e_tasks_get_calendar_table (tasks);
 	model = e_calendar_table_get_model (cal_table);
+	events = g_ptr_array_new ();
+	selected = e_calendar_table_get_selected (cal_table);
 
-	if (n_selected == 1) {
-		comp_data = e_calendar_table_get_selected_comp (cal_table);
-		prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_ATTENDEE_PROPERTY);
-		is_assigned = prop ? TRUE : FALSE;
-	}	
-	
+	for (l = selected;l;l = g_slist_next (l)) {
+		g_ptr_array_add (events, e_cal_model_copy_component_data ((ECalModelComponent *)l->data));
+	}
+
+	g_slist_free (selected);
+
+	t = e_cal_menu_target_new_select (menu, model, events);
+
 	ecal = e_cal_model_get_default_client (model);
 
 	if (ecal) 
 		e_cal_is_read_only (ecal, &read_only, NULL);
 		
-
-	bonobo_ui_component_set_prop (uic, "/commands/TasksOpenTask", "sensitive",
-				      n_selected != 1 ? "0" : "1",
-				      NULL);
-	bonobo_ui_component_set_prop (uic, "/commands/TasksCut", "sensitive",
-				      n_selected == 0 || read_only ? "0" : "1",
-				      NULL);
-	bonobo_ui_component_set_prop (uic, "/commands/TasksCopy", "sensitive",
-				      n_selected == 0 ? "0" : "1",
-				      NULL);
-	bonobo_ui_component_set_prop (uic, "/commands/TasksPaste", "sensitive",
-				      read_only ? "0" : "1",
-				      NULL);
-	bonobo_ui_component_set_prop (uic, "/commands/TasksDelete", "sensitive",
-				      n_selected == 0 || read_only ? "0" : "1",
-				      NULL);
-	bonobo_ui_component_set_prop (uic, "/commands/TasksMarkComplete", "sensitive",
-				      n_selected == 0 || read_only ? "0" : "1",
-				      NULL);
-	bonobo_ui_component_set_prop (uic, "/commands/TasksPurge", "sensitive",
-				      read_only ? "0" : "1",
-				      NULL);
-	bonobo_ui_component_set_prop (uic, "/commands/TasksAssign", "sensitive",
-				      (is_assigned || read_only || n_selected != 1) ? "0" : "1",
-				      NULL);
-	bonobo_ui_component_set_prop (uic, "/commands/TasksForward", "sensitive",
-				      n_selected != 1 ? "0" : "1", 
-				      NULL);
+	sensitize_items (uic, tasks_sensitize_table, t->target.mask);
+	e_menu_update_target ((EMenu *)menu, (EMenuTarget *)t);
 }
 
 /* Callback used when the selection in the table changes */
@@ -266,7 +282,7 @@ tasks_control_activate (BonoboControl *control, ETasks *tasks)
 
 	g_signal_connect (tasks, "selection_changed", G_CALLBACK (selection_changed_cb), control);
 
-	e_menu_activate ((EMenu *)gnome_tasks_get_tasks_menu (tasks), uic, 1);
+	e_menu_activate ((EMenu *)e_tasks_get_tasks_menu (tasks), uic, 1);
 	cal_table = e_tasks_get_calendar_table (tasks);
 	etable = e_calendar_table_get_table (cal_table);
 	n_selected = e_table_selected_count (etable);
@@ -291,7 +307,7 @@ tasks_control_deactivate (BonoboControl *control, ETasks *tasks)
 
 	g_assert (uic != NULL);
 
-	e_menu_activate ((EMenu *)gnome_tasks_get_tasks_menu (tasks), uic, 0);
+	e_menu_activate ((EMenu *)e_tasks_get_tasks_menu (tasks), uic, 0);
 	e_tasks_set_ui_component (tasks, NULL);
 
 	e_tasks_discard_view_menus (tasks);

@@ -1,3 +1,18 @@
+2005-08-01  Shakti Sen <shprasad@novell.com>
+
+	* gui/tasks-control.c (tasks_control_sensitize_commands): Added support
+	for the Target selection for 'Tasks'.
+	* gui/e-calendar-table.c (e_calendar_table_open_selected): Resolved
+	one undefined symbol.
+	* gui/e-tasks.c: Renamed the function name from 'e_tasks_get_tasks_menu'
+	to 'e_tasks_get_tasks_menu'
+	* gui/e-tasks.h: Added the declaration for 'e_tasks_get_tasks_menu'.
+	Thus fixes few warning messages.
+	* gui/e-cal-menu.c (e_cal_menu_target_new_select): Set the mask for
+	E_CAL_MENU_SELECT_ASSIGNABLE.
+
+	Fixes bug #231968.
+
 2005-07-29  Chenthill Palanisamy  <pchenthill@novell.com>
 
 

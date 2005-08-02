@@ -101,7 +101,6 @@ static void update_view (ETasks *tasks);
 
 static void config_categories_changed_cb (EConfigListener *config_listener, const char *key, gpointer user_data);
 static void backend_error_cb (ECal *client, const char *message, gpointer data);
-ECalMenu *gnome_tasks_get_tasks_menu (ETasks *tasks);
 
 /* Signal IDs */
 enum {
@@ -167,7 +166,7 @@ table_cursor_change_cb (ETable *etable, int row, gpointer data)
 }
 
 ECalMenu *
-gnome_tasks_get_tasks_menu (ETasks *tasks)
+e_tasks_get_tasks_menu (ETasks *tasks)
 {
         g_return_val_if_fail (E_IS_TASKS (tasks), NULL);
 

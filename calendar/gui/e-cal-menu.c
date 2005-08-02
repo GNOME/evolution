@@ -144,6 +144,11 @@ e_cal_menu_target_new_select(ECalMenu *eabp, struct _ECalModel *model, GPtrArray
 		if (icalcomponent_get_first_property (comp_data->icalcomp, ICAL_URL_PROPERTY))
 			mask &= ~E_CAL_MENU_SELECT_HASURL;
 
+		if (!e_cal_get_static_capability (comp_data->client, CAL_STATIC_CAPABILITY_NO_TASK_ASSIGNMENT)
+		    && !e_cal_get_static_capability (comp_data->client, CAL_STATIC_CAPABILITY_NO_CONV_TO_ASSIGN_TASK)
+		    && !icalcomponent_get_first_property (comp_data->icalcomp, ICAL_ATTENDEE_PROPERTY))
+			mask &= ~E_CAL_MENU_SELECT_ASSIGNABLE;
+
 		if (e_cal_util_component_has_recurrences (comp_data->icalcomp))
 			mask &= ~E_CAL_MENU_SELECT_RECURRING;
 		else if (e_cal_util_component_is_instance (comp_data->icalcomp))
@@ -175,10 +180,6 @@ e_cal_menu_target_new_select(ECalMenu *eabp, struct _ECalModel *model, GPtrArray
 		e_cal_is_read_only(client, &read_only, NULL);
 		if (!read_only)
 			mask &= ~E_CAL_MENU_SELECT_EDITABLE;
-
-		if (!e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_NO_TASK_ASSIGNMENT)
-		    && !e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_NO_CONV_TO_ASSIGN_TASK))
-			mask &= ~E_CAL_MENU_SELECT_ASSIGNABLE;
 	}
 
 	/* This bit isn't implemented ... */
