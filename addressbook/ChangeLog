@@ -1,3 +1,9 @@
+2005-08-01  Devashish Sharma  <sdevashish@novell.com>
+
+	* gui/contact-editor/eab-editor.c (sensitize_ok): fixes the behaviour 
+	of OK button. OK is not enabled until both Full name and File Under are
+	specified. Fixes #258257.
+
 2005-07-29  Srinivasa Ragavan <sragavan@novell.com>
 
 	* gui/contact-editor/eab-editor.c: (eab_editor_prompt_to_save_changes)
@@ -10,8 +16,9 @@
 
 2005-07-29  Srinivasa Ragavan <sragavan@novell.com>
 
-	* gui/contact-editor/e-contact-editor.c: (extract_simple_field) (image_selected)
-	Fixed in a genereic way, the resizing of contact photos
+	* gui/contact-editor/e-contact-editor.c: (extract_simple_field) 
+	(image_selected): Fixed in a genereic way, the resizing of contact 
+	photos.
 
 2005-07-26  Harish Krishnaswamy  <kharish@novell.com>
 
