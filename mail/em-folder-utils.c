@@ -481,7 +481,7 @@ em_folder_utils_delete_folder (CamelFolder *folder)
 	dialog = e_error_new(NULL,
 			     (folder->parent_store && CAMEL_IS_VEE_STORE(folder->parent_store))?"mail:ask-delete-vfolder":"mail:ask-delete-folder",
 			     folder->full_name, NULL);
-	g_object_set_data_full ((GObject *) dialog, "full_name", folder->full_name, g_free);
+	g_object_set_data_full ((GObject *) dialog, "full_name", g_strdup (folder->full_name), g_free);
 	g_object_set_data_full ((GObject *) dialog, "store", folder->parent_store, camel_object_unref);
 	g_signal_connect (dialog, "response", G_CALLBACK (emfu_delete_response), NULL);
 	gtk_widget_show (dialog);

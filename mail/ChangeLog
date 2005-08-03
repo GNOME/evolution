@@ -1,3 +1,9 @@
+2005-07-29  Arunprakash <arunp@novell.com>
+
+	* mail/em-folder-utils.c (em_folder_utils_delete_folder) : Allocated
+	a new string to be used for the error dialog response to avoid
+	multiple frees.
+
 2005-08-01  Shakti Sen <shprasad@novell.com>
 
 	* em-composer-prefs.c: Included 'gtkentry.h' to resolve the
