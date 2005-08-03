@@ -178,7 +178,7 @@ org_gnome_exchange_check_subscribed (EPlugin *ep, ECalPopupTargetSource *target)
 	source = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (target->selector));
 	group = e_source_peek_group (source);
 	base_uri = e_source_group_peek_base_uri (group);
-	if (!basu_uri || strcmp (base_uri, "exchange://"))
+	if (!base_uri || strcmp (base_uri, "exchange://"))
 		return;
 
 	ruri = (gchar *) e_source_peek_relative_uri (source);
@@ -414,7 +414,7 @@ org_gnome_exchange_folder_subscription (EPlugin *ep, EMMenuTargetSelect *target)
 			return;
 		case EXCHANGE_ACCOUNT_FOLDER_UNKNOWN_TYPE:
 			e_error_run (NULL, ERROR_DOMAIN ":folder-unknown-type", NULL);
-		return;
+			return;
 		case EXCHANGE_ACCOUNT_FOLDER_PERMISSION_DENIED:
 			e_error_run (NULL, ERROR_DOMAIN ":folder-perm-error", NULL);
 			return;

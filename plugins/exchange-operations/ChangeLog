@@ -1,3 +1,7 @@
+2005-08-03  Sarfraaz Ahmed <asarfraaz@novell.com>
+
+	* exchange-folder.c : Fixed a build break. A typo.
+
 2005-08-02  Shakti Sen <shprasad@blr.novell.com>
 
 	* Makefile.am: Included 'calendar' in INCLUDES and some .la in
