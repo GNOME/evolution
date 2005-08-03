@@ -224,8 +224,7 @@ static void e_day_view_update_resize (EDayView *day_view,
 				      gint row);
 static void e_day_view_finish_long_event_resize (EDayView *day_view);
 static void e_day_view_finish_resize (EDayView *day_view);
-static void e_day_view_abort_resize (EDayView *day_view,
-				     guint32 time);
+static void e_day_view_abort_resize (EDayView *day_view);
 
 
 static gboolean e_day_view_on_long_event_button_press (EDayView		*day_view,
@@ -3932,6 +3931,12 @@ e_day_view_finish_long_event_resize (EDayView *day_view)
 	comp = e_cal_component_new ();
 	e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
 
+	if (e_cal_component_has_attendees (comp) && !itip_organizer_is_user (comp, client)) {
+		g_object_unref (comp);
+		e_day_view_abort_resize (day_view);
+		return;
+	}
+
 	date.value = &itt;
 	date.tzid = NULL;
 
@@ -4025,6 +4030,12 @@ e_day_view_finish_resize (EDayView *day_view)
 	comp = e_cal_component_new ();
 	e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
 
+	if (e_cal_component_has_attendees (comp) && !itip_organizer_is_user (comp, client))	{
+		g_object_unref (comp);
+		e_day_view_abort_resize (day_view);
+		return;
+	}
+
 	date.value = &itt;
 	/* FIXME: Should probably keep the timezone of the original start
 	   and end times. */
@@ -4093,15 +4104,13 @@ e_day_view_finish_resize (EDayView *day_view)
 
 	e_cal_component_commit_sequence (comp);
 	e_calendar_view_modify_and_send (comp, client, mod, toplevel, TRUE);
-
  out:	
 	g_object_unref (comp);
 }
 
 
 static void
-e_day_view_abort_resize (EDayView *day_view,
-			 guint32 time)
+e_day_view_abort_resize (EDayView *day_view)
 {
 	gint day, event_num;
 
@@ -4109,7 +4118,6 @@ e_day_view_abort_resize (EDayView *day_view,
 		return;
 
 	day_view->resize_drag_pos = E_CALENDAR_VIEW_POS_NONE;
-	gdk_pointer_ungrab (time);
 
 	day = day_view->resize_event_day;
 	event_num = day_view->resize_event_num;
@@ -4795,7 +4803,8 @@ e_day_view_do_key_press (GtkWidget *widget, GdkEventKey *event)
 	/* The Escape key aborts a resize operation. */
 	if (day_view->resize_drag_pos != E_CALENDAR_VIEW_POS_NONE) {
 		if (keyval == GDK_Escape) {
-			e_day_view_abort_resize (day_view, event->time);
+			gdk_pointer_ungrab (event->time);
+			e_day_view_abort_resize (day_view);
 		}
 		return FALSE;
 	}
@@ -5929,6 +5938,11 @@ e_day_view_change_event_time (EDayView *day_view, time_t start_dt, time_t end_dt
 	   the event's time had changed in the "update_event" callback. */
 	comp = e_cal_component_new ();
 	e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
+
+	if (e_cal_component_has_attendees (comp) && !itip_organizer_is_user (comp, client))	{
+		g_object_unref (comp);
+		return;
+	}
 
 	date.value = &itt;
 	/* FIXME: Should probably keep the timezone of the original start
@@ -7275,6 +7289,11 @@ e_day_view_on_top_canvas_drag_data_received  (GtkWidget          *widget,
 			comp = e_cal_component_new ();
 			e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
 
+			if (e_cal_component_has_attendees (comp) && !itip_organizer_is_user (comp, client))	{
+				g_object_unref (comp);
+				return;
+			}
+
 			if (start_offset == 0 && end_offset == 0)
 				all_day_event = TRUE;
 			else
@@ -7493,6 +7512,11 @@ e_day_view_on_main_canvas_drag_data_received  (GtkWidget          *widget,
 			comp = e_cal_component_new ();
 			e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
 
+			if (e_cal_component_has_attendees (comp) && !itip_organizer_is_user (comp, client))	{
+				g_object_unref (comp);
+				return;
+			}
+				
 			date.value = &itt;
 			date.tzid = icaltimezone_get_tzid (e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
 

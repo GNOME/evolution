@@ -1,3 +1,17 @@
+2005-08-03  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #309601
+	* gui/e-day-view.c (e_day_view_on_top_canvas_drag_data_received):
+	 (e_day_view_on_main_canvas_drag_data_received):
+	 (e_day_view_finish_long_event_resize):
+	 (e_day_view_finish_resize):
+	 (e_day_view_change_event_time): Allow modification of the item only 
+	 for organizer.	
+	 * gui/itip-utils.c (itip_organizer_is_user): added the check for the 
+	 static capability "no-organizer".
+	
+	 commiting for viren.l <lviren@novell.com>	
+	 
 2005-08-03  P. S. Chakravarthi	<pchakravarthi@novell.com>
 
 	Fixes #306017
@@ -18,7 +32,7 @@
 	* gui/e-cal-menu.c (e_cal_menu_target_new_select): Set the mask for
 	E_CAL_MENU_SELECT_ASSIGNABLE.
 
-	Fixes bug #231968.
+	Fixes bug #231968
 
 2005-07-29  Chenthill Palanisamy  <pchenthill@novell.com>
 

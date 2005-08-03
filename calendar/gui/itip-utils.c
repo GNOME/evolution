@@ -93,7 +93,7 @@ itip_organizer_is_user (ECalComponent *comp, ECal *client)
 	const char *strip;
 	gboolean user_org = FALSE;
 	
-	if (!e_cal_component_has_organizer (comp))
+	if (!e_cal_component_has_organizer (comp) || e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_NO_ORGANIZER))
 		return FALSE;
 
 	e_cal_component_get_organizer (comp, &organizer);
