@@ -425,7 +425,7 @@ update_remote_file (EAttachment *attachment, EAttachmentBar *bar)
 	}
 	
 	base = g_path_get_basename(attachment->file_name);
-	msg = g_strdup_printf("%s (%d\%)", base, attachment->percentage);
+	msg = g_strdup_printf("%s (%d%%)", base, attachment->percentage);
 	g_free(base);
 
 	icon_list = GNOME_ICON_LIST (bar);

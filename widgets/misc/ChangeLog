@@ -1,3 +1,8 @@
+2005-08-02  David Malcolm  <dmalcolm@redhat.com>
+
+	* e-attachment-bar.c: (update_remote_file): escape the "%" character 
+	correctly.
+
 2005-07-29  Srinivasa Ragavan <sragavan@novell.com>
 
 	* e-attachment.c: (e_attachment_new_from_mime_part) used ref instead of 
