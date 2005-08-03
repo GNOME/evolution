@@ -1,12 +1,22 @@
-2005-08-01  Srinivasa Ragavan <sragavan@novell.com>
+2005-03-03  Sushma Rai  <rsushma@novell.com>
+
+	* gui/widgets/eab-gui-util.c (eab_transfer_contacts): Initialize the
+	flag status to FALSE.
+	(got_book_cb): Set status to TRUE on loading the address book.
+	(contact_added_cb): Set status to FALSE on error or cancel operation.
+	Set status to true on success. Call process_unref always.
+	(delete_contacts): Delete the contacts only on success.
+	Fixes #311133, #273716.	
+
+2005-08-03  Srinivasa Ragavan <sragavan@novell.com>
 
 	* gui/widgets/eab-gui-util.c (eab_load_error_dialog): Made the error dialog
-	for load-error nonmodal, since it block the UI along with popup menu.
+	for load-error nonmodal, since it blocks the UI along with popup menu.
 
 	* gui/component/addressbook-view.c (load_uri_for_selection) 
 	(primary_source_selection_changed_callback) (addressbook_view_init):
-	Checks whether 	the book is already selected. If so it doesnt reselect 
-	it on a r-click. Fixes the bug #309247
+	Checks whether 	the book is already selected. If so it doesn't reselect 
+	it on a right-click. Fixes the bug #309247
 
 2005-08-03  Frank Arnold  <farnold@cvs.gnome.org>
 

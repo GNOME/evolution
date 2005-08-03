@@ -628,6 +628,7 @@ typedef void (*ContactCopyDone) (ContactCopyProcess *process);
 
 struct ContactCopyProcess_ {
 	int count;
+	gboolean book_status;
 	GList *contacts;
 	EBook *source;
 	EBook *destination;
@@ -654,9 +655,11 @@ do_delete (gpointer data, gpointer user_data)
 static void
 delete_contacts (ContactCopyProcess *process)
 {
-	g_list_foreach (process->contacts,
-			do_delete,
-			process->source);
+	if (process->book_status == TRUE) {
+		g_list_foreach (process->contacts,
+				do_delete,
+				process->source);
+	}
 }
 
 static void
@@ -680,10 +683,17 @@ contact_added_cb (EBook* book, EBookStatus status, const char *id, gpointer user
 	ContactCopyProcess *process = user_data;
 
 	if (status != E_BOOK_ERROR_OK && status != E_BOOK_ERROR_CANCELLED) {
+		process->book_status = FALSE;
 		eab_error_dialog (_("Error adding contact"), status);
-	} else {
-		process_unref (process);
+	} 
+	else if (status == E_BOOK_ERROR_CANCELLED) {
+		process->book_status = FALSE;
 	}
+	else {
+		/* success */
+		process->book_status = TRUE;
+	}
+	process_unref (process);
 }
 
 static void
@@ -709,6 +719,7 @@ got_book_cb (EBook *book, EBookStatus status, gpointer closure)
 	process = closure;
 	if (status == E_BOOK_ERROR_OK) {
 		process->destination = book;
+		process->book_status = TRUE;
 		g_object_ref (book);
 		g_list_foreach (process->contacts,
 				do_copy,
@@ -757,6 +768,7 @@ eab_transfer_contacts (EBook *source, GList *contacts /* adopted */, gboolean de
 
 	process = g_new (ContactCopyProcess, 1);
 	process->count = 1;
+	process->book_status = FALSE;
 	process->source = source;
 	g_object_ref (source);
 	process->contacts = contacts;
