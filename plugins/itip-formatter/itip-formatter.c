@@ -740,9 +740,12 @@ update_item (FormatItipPObject *pitip, ItipViewResponse response)
 				g_slist_free (parts);
 			
 			} else if (!g_ascii_strncasecmp (uri, "cid:", 4)) {
-				part = camel_mime_message_get_part_by_content_id (msg, uri);
-				new_uri = em_utils_temp_save_part (NULL, part);
-				new_attachments = g_slist_append (new_attachments, new_uri);
+                               part = camel_mime_message_get_part_by_content_id (msg, uri + 4);
+                               if (part) {
+                                       new_uri = em_utils_temp_save_part (NULL, part);
+                                       new_attachments = g_slist_append (new_attachments, new_uri);
+                               }
+
 			} else {
 				/* Preserve existing non-cid ones */
 				new_attachments = g_slist_append (new_attachments, g_strdup (uri));
