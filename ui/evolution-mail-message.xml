@@ -329,7 +329,7 @@
         <placeholder name="MailMessageActions">
 
           <menuitem name="MessageReplyAll" verb="" _label="Reply"/>
-<!--          <menuitem name="MessagePostReply" verb="" _label="Post a Repl_y"/> -->
+          <menuitem name="MessagePostReply" verb="" _label="Post a Repl_y"/>
           <menuitem name="MessageReplySender" verb="" _label="_Reply to Sender"/>
           <menuitem name="MessageReplyList" verb="" _label="Reply to _List"/>
           <menuitem name="MessageForward" verb="" _label="_Forward"/>

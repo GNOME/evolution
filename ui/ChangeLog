@@ -1,3 +1,8 @@
+2005-08-02  Not Zed  <NotZed@Ximian.com>
+
+	* evolution-mail-message.xml: re-added the post-reply function.
+	There's no way to use news otherwise, duh.  See #302843.
+
 2005-07-28  Rodney Dawes  <dobey@novell.com>
 
 	* evolution-mail-list.xml: The command name for hiding selected
