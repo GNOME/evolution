@@ -1,3 +1,13 @@
+2005-08-01  Srinivasa Ragavan <sragavan@novell.com>
+
+	* gui/widgets/eab-gui-util.c (eab_load_error_dialog): Made the error dialog
+	for load-error nonmodal, since it block the UI along with popup menu.
+
+	* gui/component/addressbook-view.c (load_uri_for_selection) 
+	(primary_source_selection_changed_callback) (addressbook_view_init):
+	Checks whether 	the book is already selected. If so it doesnt reselect 
+	it on a r-click. Fixes the bug #309247
+
 2005-08-03  Frank Arnold  <farnold@cvs.gnome.org>
 
 	* addressbook.error.xml: Marked string for translation

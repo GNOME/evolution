@@ -551,11 +551,14 @@ source_list_changed_cb (ESourceList *source_list, AddressbookView *view)
 
 static void
 load_uri_for_selection (ESourceSelector *selector,
-			AddressbookView *view)
+			AddressbookView *view,
+			gboolean force)
 {
 	ESource *selected_source = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (selector));
+	ESource *primary = get_primary_source (view);
 
-	if (selected_source != NULL)
+	if (selected_source != NULL && 
+	    ((primary && (!g_str_equal (e_source_peek_uid (primary),e_source_peek_uid (selected_source) )))||force))
 		activate_source (view, selected_source);
 }
 
@@ -749,7 +752,7 @@ static void
 primary_source_selection_changed_callback (ESourceSelector *selector,
 					   AddressbookView *view)
 {
-	load_uri_for_selection (selector, view);
+	load_uri_for_selection (selector, view, FALSE);
 	save_primary_selection (view);
 }
 
@@ -1160,7 +1163,7 @@ addressbook_view_init (AddressbookView *view)
 				 G_OBJECT (view), 0);
 
 	load_primary_selection (view);
-	load_uri_for_selection (E_SOURCE_SELECTOR (priv->selector), view);
+	load_uri_for_selection (E_SOURCE_SELECTOR (priv->selector), view, TRUE);
 }
 
 static void

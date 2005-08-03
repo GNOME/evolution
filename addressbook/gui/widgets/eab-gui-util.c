@@ -83,6 +83,7 @@ void
 eab_load_error_dialog (GtkWidget *parent, ESource *source, EBookStatus status)
 {
 	char *label_string, *label = NULL, *uri;
+	GtkWidget *dialog;
 	
 	g_return_if_fail (source != NULL);
 
@@ -123,8 +124,10 @@ eab_load_error_dialog (GtkWidget *parent, ESource *source, EBookStatus status)
 			  "is unreachable.");
 	}
 	
-	e_error_run ((GtkWindow *) parent, "addressbook:load-error", label_string, NULL);
-
+	dialog  = e_error_new ((GtkWindow *) parent, "addressbook:load-error", label_string, NULL);
+	g_signal_connect (dialog, "response", G_CALLBACK (gtk_widget_destroy), NULL);
+	
+	gtk_widget_show (dialog);
 	g_free (label);	
 	g_free (uri);
 }
