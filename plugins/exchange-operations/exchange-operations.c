@@ -61,6 +61,12 @@ e_plugin_lib_enable (EPluginLib *eplib, int enable)
 	return 0;
 }
 
+ExchangeConfigListenerStatus
+exchange_is_offline (gint *mode)
+{	
+	return exchange_config_listener_get_offline_status (exchange_global_config_listener, mode);
+}	
+
 /* FIXME: See if a GLib variant of this function available */
 gboolean
 exchange_operations_tokenize_string (char **string, char *token, char delimit)

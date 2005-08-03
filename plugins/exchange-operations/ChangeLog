@@ -1,3 +1,19 @@
+2005-08-03  Shakti Sen <shprasad@blr.novell.com>
+
+	* exchange-folder.c (org_gnome_exchange_folder_ab_unsubscribe)
+	(org_gnome_exchange_folder_unsubscribe)
+	(org_gnome_exchange_folder_subscription): Added offline/online support
+	and removed some warning messages.
+	* exchange-operations.c: Added a new function exchange_is_offline().
+	* exchange-operations.h: Included a prototype.
+	* exchange-config-listener.c
+	(exchange_config_listener_get_offline_status): Added newly to get the
+	online/offline status.
+	* exchange-config-listener.h: Added the prototype for
+	exchange_config_listener_get_offline_status().
+
+	Fixes bug #311324.
+
 2005-08-03  Sarfraaz Ahmed <asarfraaz@novell.com>
 
 	* exchange-folder.c : Fixed a build break. A typo.

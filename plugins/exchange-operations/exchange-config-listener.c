@@ -839,6 +839,31 @@ idle_construct (gpointer data)
 	return FALSE;
 }
 
+ExchangeConfigListenerStatus
+exchange_config_listener_get_offline_status (ExchangeConfigListener *excl,
+					     gint *mode)
+{
+	ExchangeConfigListenerPrivate *priv;
+	GConfValue *value;
+	ExchangeConfigListenerStatus status = CONFIG_LISTENER_STATUS_OK;
+	gboolean offline = FALSE;
+
+	g_return_val_if_fail (excl != NULL, CONFIG_LISTENER_STATUS_NOT_FOUND);
+
+	priv = excl->priv;
+	value = gconf_client_get (priv->gconf,
+					"/apps/evolution/shell/start_offline", NULL);
+	if (value)
+		offline = gconf_value_get_bool (value);
+
+	if (offline)
+		*mode = OFFLINE_MODE;
+	else
+		*mode = ONLINE_MODE;
+
+	return status;
+
+}	
 /**
  * exchange_config_listener_new:
  *

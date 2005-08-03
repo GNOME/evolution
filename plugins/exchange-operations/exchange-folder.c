@@ -305,11 +305,28 @@ org_gnome_exchange_folder_ab_unsubscribe (EPopup *ep, EPopupItem *p, void *data)
 	gchar *title = NULL;
 	gchar *displayed_folder_name = NULL;
 	gint response;
+	gint mode;
+	ExchangeConfigListenerStatus status;
 
 	account = exchange_operations_get_exchange_account ();
 
 	if (!account)
 		return;
+
+	status = exchange_is_offline (&mode);
+
+	if (status != CONFIG_LISTENER_STATUS_OK) {
+		g_warning ("Config listener not found");
+		return;
+	} else if (mode == OFFLINE_MODE) {
+		g_warning ("Unsubscribe to Other User's Folder is not allowed in Offline mode\n");
+		/* FIXME:
+		   I think throwing an error dialog is not allowed
+		   because of UI freeze.
+		   e_error_run (NULL, ERROR_DOMAIN ":folder-offline-error", NULL);
+		*/
+		return;
+	}	
 
 	source = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (target->selector));
 	displayed_folder_name = (gchar *) e_source_peek_name (source);
@@ -348,11 +365,28 @@ org_gnome_exchange_folder_unsubscribe (EPopup *ep, EPopupItem *p, void *data)
 	gchar *title = NULL;
 	gchar *displayed_folder_name = NULL;
 	gint response;
+	gint mode;
+	ExchangeConfigListenerStatus status;
 
 	account = exchange_operations_get_exchange_account ();
 
 	if (!account)
 		return;
+
+	status = exchange_is_offline (&mode);
+
+	if (status != CONFIG_LISTENER_STATUS_OK) {
+		g_warning ("Config listener not found");
+		return;
+	} else if (mode == OFFLINE_MODE) {
+		g_warning ("Unsubscribe to Other User's Folder is not allowed in Offline mode\n");
+		/* FIXME:
+		   I think throwing an error dialog is not allowed 
+		   because of UI freeze.
+		   e_error_run (NULL, ERROR_DOMAIN ":folder-offline-error", NULL);
+		*/
+		return;
+	}	
 
 	source = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (target->selector));
 	displayed_folder_name = (gchar *) e_source_peek_name (source);
@@ -388,17 +422,31 @@ org_gnome_exchange_folder_subscription (EPlugin *ep, EMMenuTargetSelect *target)
 {
 	ExchangeAccount *account = NULL;
 	EFolder *folder = NULL;
-	ExchangeHierarchy *hier;
 	ExchangeAccountFolderResult result;
-	gchar *folder_display_name = NULL;
-	gchar *folder_type = NULL;
-	gchar *physical_uri = NULL;
 	gchar *user_email_address = NULL, *folder_name = NULL;
+	gint mode;
+	ExchangeConfigListenerStatus status;
 
 	account = exchange_operations_get_exchange_account ();
 
 	if (!account)
 		return;
+
+	status = exchange_is_offline (&mode);
+
+	if (status != CONFIG_LISTENER_STATUS_OK) {
+		g_warning ("Config listener not found");
+		return;
+	}	
+	else if (mode == OFFLINE_MODE) {
+		g_warning ("Subscribe to Other User's Folder is not allowed in Offline mode\n");
+		/* FIXME:
+		   I think throwing an error dialog is not allowed 
+		   because of UI freeze.
+		   e_error_run (NULL, ERROR_DOMAIN ":folder-offline-error", NULL);
+		*/
+		return;
+	}	
 
 	create_folder_subscription_dialog (account->account_name, &user_email_address, &folder_name);
 

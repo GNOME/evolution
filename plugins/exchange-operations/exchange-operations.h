@@ -40,6 +40,7 @@ extern ExchangeConfigListener *exchange_global_config_listener;
 int e_plugin_lib_enable (EPluginLib *eplib, int enable);
 
 ExchangeAccount *exchange_operations_get_exchange_account (void);
+ExchangeConfigListenerStatus exchange_is_offline (gint *mode);
 
 gboolean exchange_operations_tokenize_string (char **string, char *token, char delimit);
 

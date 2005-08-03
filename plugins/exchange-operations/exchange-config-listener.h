@@ -16,6 +16,11 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus */
 
+typedef enum {
+	CONFIG_LISTENER_STATUS_OK,
+	CONFIG_LISTENER_STATUS_NOT_FOUND
+} ExchangeConfigListenerStatus;
+
 #define EXCHANGE_TYPE_CONFIG_LISTENER            (exchange_config_listener_get_type ())
 #define EXCHANGE_CONFIG_LISTENER(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), EXCHANGE_TYPE_CONFIG_LISTENER, ExchangeConfigListener))
 #define EXCHANGE_CONFIG_LISTENER_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), EXCHANGE_TYPE_CONFIG_LISTENER, ExchangeConfigListenerClass))
@@ -50,6 +55,7 @@ GSList                 *exchange_config_listener_get_accounts (ExchangeConfigLis
 
 void 			add_folder_esource (ExchangeAccount *account, FolderType folder_type, const char *folder_name, const char *physical_uri);
 void 			remove_folder_esource (ExchangeAccount *account, FolderType folder_type, const char *physical_uri);
+ExchangeConfigListenerStatus exchange_config_listener_get_offline_status (ExchangeConfigListener *excl, gint *mode);
 
 #ifdef __cplusplus
 }
