@@ -1,3 +1,8 @@
+2005-08-03  Frank Arnold  <farnold@cvs.gnome.org>
+
+	* addressbook.error.xml: Marked string for translation
+	and removed trailing space. Fixes bug #254923 again.
+
 2005-08-01  Devashish Sharma  <sdevashish@novell.com>
 
 	* gui/contact-editor/eab-editor.c (sensitize_ok): fixes the behaviour 
