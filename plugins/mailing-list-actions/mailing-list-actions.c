@@ -136,9 +136,7 @@ void emla_list_action_do (CamelFolder *folder, const char *uid, CamelMimeMessage
 		}
 		
 		/* get URL portion */
-		url = (char *) malloc (end - headerpos);
-		strncpy (url, headerpos, end - headerpos);
-		url[end-headerpos] = '\0';
+		url = g_strndup(headerpos, end - headerpos);
 
 		if (strncmp (url, "mailto:", 6) == 0) {
 			if (emla_action_headers[t].interactive)
@@ -165,7 +163,7 @@ void emla_list_action_do (CamelFolder *folder, const char *uid, CamelMimeMessage
 				goto exit;
 			g_error_free (err);			
 		}
-		free (url);
+		g_free (url);
 		url = NULL;
 		headerpos = end++;
 		
@@ -182,8 +180,7 @@ void emla_list_action_do (CamelFolder *folder, const char *uid, CamelMimeMessage
 exit:
 	free (action_data->uri);
 	free (action_data);
-	if (url)
-		free(url);
+	g_free(url);
 }
 
 void emla_list_help (EPlugin *item, EMMenuTargetSelect* sel)

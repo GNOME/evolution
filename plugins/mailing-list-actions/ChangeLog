@@ -1,3 +1,8 @@
+2005-08-02  Not Zed  <NotZed@Ximian.com>
+
+	* mailing-list-actions.c (emla_list_action_do): allocate enough
+	space for the url.  May be related to #304461.
+
 2005-05-16  Not Zed  <NotZed@Ximian.com>
 
 	* mailing-list-actions.c: moved e-error to e-util
