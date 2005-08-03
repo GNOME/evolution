@@ -923,7 +923,7 @@ e_calendar_view_delete_selected_occurrence (ECalendarView *cal_view)
 	ECalComponent *comp;
 	struct icaltimetype itt;
 	ECalComponentDateTime dt;
-	icaltimezone *zone;
+	icaltimezone *zone = NULL;
 		
 	selected = e_calendar_view_get_selected_events (cal_view);
 	if (!selected)
@@ -936,19 +936,26 @@ e_calendar_view_delete_selected_occurrence (ECalendarView *cal_view)
 	e_cal_component_get_uid (comp, &uid);
 
 	e_cal_component_get_dtstart (comp, &dt);
-	e_cal_get_timezone (event->comp_data->client, dt.tzid, &zone, NULL);
 
-	if (!e_cal_get_recurrences_no_master (event->comp_data->client)) {
-		if (zone)
-			itt = icaltime_from_timet_with_zone (event->comp_data->instance_start, TRUE, zone);
-		else
-			itt = icaltime_from_timet (event->comp_data->instance_start, TRUE);
+	if (dt.tzid) {
+		GError *error = NULL;
+
+		e_cal_get_timezone (event->comp_data->client, dt.tzid, &zone, &error);
+		if (error) {
+			zone = e_calendar_view_get_timezone (cal_view);	
+			g_clear_error(&error);
+		}
+	} else 
+		zone = e_calendar_view_get_timezone (cal_view);
+
+	itt = icaltime_from_timet_with_zone (event->comp_data->instance_start, TRUE, zone ? zone : icaltimezone_get_utc_timezone ());
+
+	if (!e_cal_get_recurrences_no_master (event->comp_data->client)) 
 		rid = icaltime_as_ical_string (itt);
-	} else
+	else
 		rid = e_cal_component_get_recurid_as_string (comp);
 
 	e_cal_component_free_datetime (&dt);
-
 	if (rid) {
 		if (delete_component_dialog (comp, FALSE, 1, e_cal_component_get_vtype (comp), GTK_WIDGET (cal_view))) {
 

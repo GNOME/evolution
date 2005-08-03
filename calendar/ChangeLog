@@ -1,3 +1,10 @@
+2005-08-03  P. S. Chakravarthi	<pchakravarthi@novell.com>
+
+	Fixes #306017
+	* gui/e-calendar-view.c: (e_calendar_view_delete_selected_occurrence):
+	Obtain the default zone information from cal-view and eventually use it to 
+	determine the correct rid for an all-day event.
+
 2005-08-01  Shakti Sen <shprasad@novell.com>
 
 	* gui/tasks-control.c (tasks_control_sensitize_commands): Added support
