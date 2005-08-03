@@ -121,6 +121,9 @@ static void addressbook_view_init	(AddressbookView      *view);
 static void addressbook_view_class_init	(AddressbookViewClass *klass);
 static void addressbook_view_dispose    (GObject *object);
 
+static ESource *find_first_source  (ESourceList *source_list);
+static ESource *get_primary_source (AddressbookView *view);
+
 typedef struct {
 	GtkWidget *editor;
 	char *uid;

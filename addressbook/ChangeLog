@@ -1,3 +1,8 @@
+2005-08-03  Jules Colding  <colding@omesc.com>
+
+	* gui/component/addressbook-view.c: Added forward references to functions that were
+	used before being defined.
+
 2005-03-03  Sushma Rai  <rsushma@novell.com>
 
 	* gui/widgets/eab-gui-util.c (eab_transfer_contacts): Initialize the
