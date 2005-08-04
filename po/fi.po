@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-08-04 06:30+0300\n"
-"PO-Revision-Date: 2005-08-04 06:35+0300\n"
+"POT-Creation-Date: 2005-08-04 17:39+0300\n"
+"PO-Revision-Date: 2005-08-04 17:42+0300\n"
 "Last-Translator: Ilkka Tuohela <hile@iki.fi>\n"
 "Language-Team: Finnish <gnome-fi-laatu@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -775,12 +775,12 @@ msgid "Accessing LDAP Server anonymously"
 msgstr "Otetaan yhteyttä LDAP-palvelimeen anonyymisti"
 
 #: ../addressbook/gui/component/addressbook.c:193
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:479
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:485
 msgid "Failed to authenticate.\n"
 msgstr "Kirjautuminen epäonnistui.\n"
 
 #: ../addressbook/gui/component/addressbook.c:200
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:462
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:464
 #, c-format
 msgid "Enter password for %s (user %s)"
 msgstr "Syötä salasana palvelulle %s (käyttäjä %s)"
@@ -4284,7 +4284,7 @@ msgstr "Evolutionin tehtävien komponentti"
 #: ../calendar/importers/icalendar-importer.c:79
 #: ../calendar/importers/icalendar-importer.c:707
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:384
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:576
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:582
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:12
 msgid "Tasks"
 msgstr "Tehtävät"
@@ -4792,10 +4792,10 @@ msgstr "Ei vastaavaa"
 #: ../calendar/gui/calendar-commands.c:119
 #: ../calendar/gui/calendar-component.c:708
 #: ../calendar/gui/dialogs/calendar-setup.c:369
-#: ../calendar/gui/gnome-cal.c:2081
+#: ../calendar/gui/gnome-cal.c:2094
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:383
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:413
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:575
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:581
 msgid "Calendar"
 msgstr "Kalenteri"
 
@@ -7527,7 +7527,7 @@ msgstr "Vaaditut henkilöt ja _yksi resurssi"
 msgid "Enter the password for %s"
 msgstr "Syötä salasana %s:lle"
 
-#: ../calendar/gui/e-tasks.c:797 ../calendar/gui/gnome-cal.c:2519
+#: ../calendar/gui/e-tasks.c:797 ../calendar/gui/gnome-cal.c:2532
 #, c-format
 msgid ""
 "Error on %s:\n"
@@ -7573,36 +7573,36 @@ msgid "Updating query"
 msgstr "Päivitetään kyselyä"
 
 #. bonobo displays this string so it must be in locale
-#: ../calendar/gui/gnome-cal.c:2196 ../widgets/menus/gal-view-instance.c:585
+#: ../calendar/gui/gnome-cal.c:2209 ../widgets/menus/gal-view-instance.c:585
 #: ../widgets/menus/gal-view-menus.c:350
 msgid "Custom View"
 msgstr "Oma näkymä"
 
-#: ../calendar/gui/gnome-cal.c:2197 ../widgets/menus/gal-view-instance.c:586
+#: ../calendar/gui/gnome-cal.c:2210 ../widgets/menus/gal-view-instance.c:586
 msgid "Save Custom View"
 msgstr "Tallenna oma näkymä"
 
-#: ../calendar/gui/gnome-cal.c:2202 ../widgets/menus/gal-view-instance.c:590
+#: ../calendar/gui/gnome-cal.c:2215 ../widgets/menus/gal-view-instance.c:590
 #: ../widgets/menus/gal-view-menus.c:372
 msgid "Define Views..."
 msgstr "Määrittele näkymät..."
 
-#: ../calendar/gui/gnome-cal.c:2365
+#: ../calendar/gui/gnome-cal.c:2378
 #, c-format
 msgid "Loading appointments at %s"
 msgstr "Ladataan tapaamisia %s"
 
-#: ../calendar/gui/gnome-cal.c:2384
+#: ../calendar/gui/gnome-cal.c:2397
 #, c-format
 msgid "Loading tasks at %s"
 msgstr "Ladataan tehtäviä %s"
 
-#: ../calendar/gui/gnome-cal.c:2485
+#: ../calendar/gui/gnome-cal.c:2498
 #, c-format
 msgid "Opening %s"
 msgstr "Avataan %s"
 
-#: ../calendar/gui/gnome-cal.c:3375
+#: ../calendar/gui/gnome-cal.c:3388
 msgid "Purging"
 msgstr "Tyhjennetään"
 
@@ -15801,8 +15801,8 @@ msgstr "Ei säilöä saatavilla"
 msgid ""
 "A plugin which implements a CORBA interface for accessing mail data remotely."
 msgstr ""
-"Liitännäinen, joka toteuttaa CORBA-rajapinnan sähköpostin lukemiseen "
-"muista ohjelmista."
+"Liitännäinen, joka toteuttaa CORBA-rajapinnan sähköpostin lukemiseen muista "
+"ohjelmista."
 
 #: ../plugins/mail-remote/org-gnome-evolution-mail-remote.eplug.xml.h:2
 msgid "Mail Remote"
@@ -16071,6 +16071,7 @@ msgstr ""
 "Huomio: jotkut muutokset eivät astu voimaan ennen uudelleenkäynnistystä"
 
 #: ../plugins/plugin-manager/plugin-manager.c:210
+#: ../plugins/plugin-manager/plugin-manager.c:271
 msgid "Plugin"
 msgstr "Liitännäinen"
 
@@ -18966,6 +18967,10 @@ msgid "Name of new view:"
 msgstr "Uuden näkymän nimi:"
 
 #: ../widgets/menus/gal-view-new-dialog.glade.h:3
+msgid "Type of View"
+msgstr "Näkymän tyyppi"
+
+#: ../widgets/menus/gal-view-new-dialog.glade.h:4
 msgid "Type of view:"
 msgstr "Näkymän tyyppi:"
 
@@ -19602,6 +19607,7 @@ msgid "Sh_ow these fields in order:"
 msgstr "_Näytä nämä kentät järjestyksessä:"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:12
+#: ../widgets/table/e-table-config.c:563
 #: ../widgets/table/e-table-config.glade.h:10
 msgid "Show Fields"
 msgstr "Näytä kentät"
@@ -19659,6 +19665,10 @@ msgstr "Ei järjestetty"
 #: ../widgets/table/e-table-config.c:355
 msgid "No grouping"
 msgstr "Ei ryhmitystä"
+
+#: ../widgets/table/e-table-config.c:584
+msgid "Available Fields"
+msgstr "Valittavat kentät"
 
 #: ../widgets/table/e-table-config.glade.h:17
 msgid "_Group By..."
