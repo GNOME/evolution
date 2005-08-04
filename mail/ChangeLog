@@ -1,3 +1,14 @@
+2005-08-03  Not Zed  <NotZed@Ximian.com>
+
+	* em-folder-browser.c (emfb_set_folder): not here.
+ 
+	* em-folder-view.c (emfv_set_folder): ref the folder here.
+
+2005-08-03  Not Zed  <NotZed@Ximian.com>
+
+	* em-folder-view.c (emfv_message_reply): try to fix #309647, only
+	act if the selection is actually active.
+
 2005-07-29  Arunprakash <arunp@novell.com>
 
 	* mail/em-folder-utils.c (em_folder_utils_delete_folder) : Allocated

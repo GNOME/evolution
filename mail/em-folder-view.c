@@ -603,6 +603,7 @@ emfv_set_folder(EMFolderView *emfv, CamelFolder *folder, const char *uri)
 		/* We need to set this up to get the right view options for the message-list, 
 		 * even if we're not showing it */
 		emfv_setup_view_instance(emfv);
+		camel_object_ref(folder);
 	}
 	
 	emfv_enable_menus(emfv);
@@ -1388,7 +1389,7 @@ emfv_message_post_reply (BonoboUIComponent *uic, void *data, const char *path)
 static void
 emfv_message_reply(EMFolderView *emfv, int mode)
 {
-	char *selection_string;
+	char *html;
 	guint len;
 	
 	if (emfv->list->cursor_uid == NULL)
@@ -1397,8 +1398,9 @@ emfv_message_reply(EMFolderView *emfv, int mode)
 	if (!em_utils_check_user_can_send_mail ((GtkWidget *) emfv))
 		return;
 
-	selection_string = gtk_html_get_selection_html (((EMFormatHTML *)emfv->preview)->html, &len);
-	if (selection_string && len) {
+	if (gtk_html_command(((EMFormatHTML *)emfv->preview)->html, "is-selection-active")
+	    && (html = gtk_html_get_selection_html (((EMFormatHTML *)emfv->preview)->html, &len))
+	    && len) {
 		CamelMimeMessage *msg, *src;
 		struct _camel_header_raw *header;
 		
@@ -1414,7 +1416,7 @@ emfv_message_reply(EMFolderView *emfv, int mode)
 		}
 		camel_mime_part_set_encoding((CamelMimePart *)msg, CAMEL_TRANSFER_ENCODING_8BIT);
 		camel_mime_part_set_content((CamelMimePart *)msg,
-					    selection_string, len, "text/html");
+					    html, len, "text/html");
 		em_utils_reply_to_message (emfv->folder, emfv->list->cursor_uid, msg, mode, NULL);
 		camel_object_unref(msg);
 	} else {

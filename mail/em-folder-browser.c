@@ -1020,7 +1020,6 @@ emfb_set_folder(EMFolderView *emfv, CamelFolder *folder, const char *uri)
 		int state;
 		GConfClient *gconf = mail_config_get_gconf_client();
 		
-		camel_object_ref(folder);
 		mail_refresh_folder(folder, NULL, NULL);
 
 		emfb->priv->folder_changed_id = camel_object_hook_event(folder, "folder_changed",
