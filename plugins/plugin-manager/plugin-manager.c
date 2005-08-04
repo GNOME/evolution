@@ -268,6 +268,8 @@ org_gnome_plugin_manager_manage(void *ep, ESMenuTargetShell *t)
 	}
 	gtk_tree_view_set_model(m->tree, (GtkTreeModel *)m->model);
 
+	atk_object_set_name (gtk_widget_get_accessible ((GtkWidget *)m->tree), _("Plugin"));
+
 	g_object_set_data_full((GObject *)m->dialog, "plugin-manager", m, eppm_free);
 	g_signal_connect(m->dialog, "response", G_CALLBACK(eppm_response), m);
 

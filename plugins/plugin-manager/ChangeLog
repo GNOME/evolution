@@ -1,3 +1,8 @@
+2005-08-03  Li Yuan  <li.yuan@sun.com>
+
+	* plugin-manager.c: (org_gnome_plugin_manager_manage):
+	Add a11y name to Plugin Table.
+
 2005-07-21  Not Zed  <NotZed@Ximian.com>
 
 	* org-gnome-plugin-manager.xml: Remove the tools menu which
