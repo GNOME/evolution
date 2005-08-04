@@ -1,22 +1,20 @@
-# translation of nb.po to Norwegian Bokmal
 # Norwegian translation of evolution (bokmål dialect).
 # Copyright (C) 1998-2004, 2005 Free Software Foundation, Inc.
-# Kjartan Maraas <kmaraas@gnome.org>, 1998-2004.
+# Kjartan Maraas <kmaraas@gnome.org>, 1998-2005.
 # Terance Edward Sola <terance@lyse.net>, 2005.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: nb\n"
+"Project-Id-Version: evolution 2.3.6.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-08-04 00:41+0200\n"
-"PO-Revision-Date: 2005-08-04 00:41+0200\n"
-"Last-Translator: Terance Edward Sola <terance@lyse.net>\n"
+"POT-Creation-Date: 2005-08-04 14:24+0200\n"
+"PO-Revision-Date: 2005-08-04 15:09+0200\n"
+"Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian Bokmal <i18n-nb@lister.ping.uio.no>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8-bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: KBabel 1.10\n"
 
 #: ../a11y/addressbook/ea-addressbook-view.c:94
 #: ../a11y/addressbook/ea-addressbook-view.c:103
@@ -208,7 +206,7 @@ msgstr "søkefelt for Evolution kalender"
 
 #: ../a11y/calendar/ea-jump-button.c:149
 msgid "Jump button"
-msgstr ""
+msgstr "Hoppeknapp"
 
 #: ../a11y/calendar/ea-jump-button.c:158
 msgid "Click here, you can find more events."
@@ -773,12 +771,12 @@ msgid "Accessing LDAP Server anonymously"
 msgstr "Aksesserer LDAP-tjener anonymt"
 
 #: ../addressbook/gui/component/addressbook.c:193
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:479
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:485
 msgid "Failed to authenticate.\n"
 msgstr "Kunne ikke autentisere.\n"
 
 #: ../addressbook/gui/component/addressbook.c:200
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:462
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:464
 #, c-format
 msgid "Enter password for %s (user %s)"
 msgstr "Oppgi passord for %s (bruker %s)"
@@ -3792,7 +3790,7 @@ msgstr "Opphavsrett © 2000, Ximian, Inc."
 
 #: ../addressbook/printing/test-contact-print-style-editor.c:56
 msgid "This should test the contact print style editor widget"
-msgstr ""
+msgstr "Testprogram for komponent for redigering av stil ved utskrift av kontakt"
 
 #: ../addressbook/printing/test-print.c:52
 msgid "Contact Print Test"
@@ -4282,7 +4280,7 @@ msgstr "Oppgavekomponent for Evolution"
 #: ../calendar/importers/icalendar-importer.c:79
 #: ../calendar/importers/icalendar-importer.c:707
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:384
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:576
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:582
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:12
 msgid "Tasks"
 msgstr "Oppgaver"
@@ -4782,10 +4780,10 @@ msgstr "Ingen treff"
 #: ../calendar/gui/calendar-commands.c:119
 #: ../calendar/gui/calendar-component.c:708
 #: ../calendar/gui/dialogs/calendar-setup.c:369
-#: ../calendar/gui/gnome-cal.c:2081
+#: ../calendar/gui/gnome-cal.c:2094
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:383
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:413
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:575
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:581
 msgid "Calendar"
 msgstr "Kalender"
 
@@ -5618,7 +5616,7 @@ msgstr[1] "%d vedlagte meldinger"
 #: ../calendar/gui/dialogs/comp-editor.c:425
 #: ../calendar/gui/e-calendar-table.c:1162
 #: ../calendar/gui/e-calendar-view.c:1536 ../composer/e-msg-composer.c:2909
-#: ../mail/em-folder-tree.c:1047 ../mail/em-folder-view.c:1034
+#: ../mail/em-folder-tree.c:1047 ../mail/em-folder-view.c:1035
 #: ../mail/message-list.c:1708 ../ui/evolution-addressbook.xml.h:31
 #: ../ui/evolution-calendar.xml.h:39 ../ui/evolution-composer-entries.xml.h:7
 #: ../ui/evolution-mail-message.xml.h:100 ../ui/evolution-tasks.xml.h:21
@@ -5627,7 +5625,7 @@ msgstr "_Kopier"
 
 #: ../calendar/gui/dialogs/comp-editor.c:426 ../composer/e-msg-composer.c:2910
 #: ../mail/em-folder-tree.c:1048 ../mail/em-folder-utils.c:380
-#: ../mail/em-folder-view.c:930 ../mail/message-list.c:1709
+#: ../mail/em-folder-view.c:931 ../mail/message-list.c:1709
 msgid "_Move"
 msgstr "_Flytt"
 
@@ -5987,7 +5985,7 @@ msgstr "<b>Fra:</b> "
 #: ../calendar/gui/e-itip-control.c:1104 ../composer/e-msg-composer.c:2121
 #: ../filter/filter-rule.c:881 ../mail/em-account-editor.c:683
 #: ../mail/em-account-editor.c:1346 ../mail/em-account-prefs.c:464
-#: ../mail/em-folder-view.c:1063 ../mail/em-junk-hook.c:78
+#: ../mail/em-folder-view.c:1064 ../mail/em-junk-hook.c:78
 #: ../plugins/calendar-weather/calendar-weather.c:370
 #: ../plugins/calendar-weather/calendar-weather.c:424
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:7
@@ -6513,7 +6511,7 @@ msgstr "%s ved %s"
 msgid "%s for an unknown trigger type"
 msgstr "%s for en ukjent utløsertype"
 
-#: ../calendar/gui/e-cal-component-preview.c:70 ../mail/em-folder-view.c:2705
+#: ../calendar/gui/e-cal-component-preview.c:70 ../mail/em-folder-view.c:2707
 #, c-format
 msgid "Click to open %s"
 msgstr "Klikk for å åpne %s"
@@ -6695,14 +6693,14 @@ msgid "Open _Web Page"
 msgstr "_Åpne nettside"
 
 #: ../calendar/gui/e-calendar-table.c:1156
-#: ../calendar/gui/e-calendar-view.c:1530 ../mail/em-folder-view.c:1044
+#: ../calendar/gui/e-calendar-view.c:1530 ../mail/em-folder-view.c:1045
 #: ../mail/em-popup.c:541 ../mail/em-popup.c:552
 msgid "_Save As..."
 msgstr "Lagre _som..."
 
 #: ../calendar/gui/e-calendar-table.c:1157
 #: ../calendar/gui/e-calendar-view.c:1510
-#: ../calendar/gui/e-calendar-view.c:1531 ../mail/em-folder-view.c:1045
+#: ../calendar/gui/e-calendar-view.c:1531 ../mail/em-folder-view.c:1046
 #: ../plugins/print-message/org-gnome-print-message.xml.h:3
 #: ../ui/evolution-addressbook.xml.h:40 ../ui/evolution-calendar.xml.h:44
 #: ../ui/evolution-mail-message.xml.h:117 ../ui/evolution-tasks.xml.h:27
@@ -6742,7 +6740,7 @@ msgstr "_Merk valgte oppgaver som fullført"
 #. FIXME: need to disable for undeletable folders
 #: ../calendar/gui/e-calendar-table.c:1174
 #: ../calendar/gui/e-calendar-view.c:1549 ../mail/em-folder-tree.c:2116
-#: ../mail/em-folder-view.c:1048 ../ui/evolution-addressbook.xml.h:33
+#: ../mail/em-folder-view.c:1049 ../ui/evolution-addressbook.xml.h:33
 #: ../ui/evolution-calendar.xml.h:40 ../ui/evolution-mail-list.xml.h:26
 #: ../ui/evolution-tasks.xml.h:22
 msgid "_Delete"
@@ -7519,7 +7517,7 @@ msgstr "Obligatoriske personer _og en ressurs"
 msgid "Enter the password for %s"
 msgstr "Oppgi passord for %s"
 
-#: ../calendar/gui/e-tasks.c:797 ../calendar/gui/gnome-cal.c:2519
+#: ../calendar/gui/e-tasks.c:797 ../calendar/gui/gnome-cal.c:2532
 #, c-format
 msgid ""
 "Error on %s:\n"
@@ -7565,36 +7563,36 @@ msgid "Updating query"
 msgstr "Oppdaterer spørring"
 
 #. bonobo displays this string so it must be in locale
-#: ../calendar/gui/gnome-cal.c:2196 ../widgets/menus/gal-view-instance.c:585
+#: ../calendar/gui/gnome-cal.c:2209 ../widgets/menus/gal-view-instance.c:585
 #: ../widgets/menus/gal-view-menus.c:350
 msgid "Custom View"
 msgstr "Egendefinert visning"
 
-#: ../calendar/gui/gnome-cal.c:2197 ../widgets/menus/gal-view-instance.c:586
+#: ../calendar/gui/gnome-cal.c:2210 ../widgets/menus/gal-view-instance.c:586
 msgid "Save Custom View"
 msgstr "Lagre egendefinert visning"
 
-#: ../calendar/gui/gnome-cal.c:2202 ../widgets/menus/gal-view-instance.c:590
+#: ../calendar/gui/gnome-cal.c:2215 ../widgets/menus/gal-view-instance.c:590
 #: ../widgets/menus/gal-view-menus.c:372
 msgid "Define Views..."
 msgstr "Definer visninger..."
 
-#: ../calendar/gui/gnome-cal.c:2365
+#: ../calendar/gui/gnome-cal.c:2378
 #, c-format
 msgid "Loading appointments at %s"
 msgstr "Laster avtaler på %s"
 
-#: ../calendar/gui/gnome-cal.c:2384
+#: ../calendar/gui/gnome-cal.c:2397
 #, c-format
 msgid "Loading tasks at %s"
 msgstr "Laster oppgaver på %s"
 
-#: ../calendar/gui/gnome-cal.c:2485
+#: ../calendar/gui/gnome-cal.c:2498
 #, c-format
 msgid "Opening %s"
 msgstr "Åpner %s"
 
-#: ../calendar/gui/gnome-cal.c:3375
+#: ../calendar/gui/gnome-cal.c:3388
 msgid "Purging"
 msgstr "Sletter"
 
@@ -9645,15 +9643,15 @@ msgstr "Stillehavet/Wallis"
 msgid "Pacific/Yap"
 msgstr "Stillahavet/Yap"
 
-#: ../composer/e-msg-composer-hdrs.c:559
+#: ../composer/e-msg-composer-hdrs.c:560
 msgid "Posting destination"
 msgstr "Destinasjon for post"
 
-#: ../composer/e-msg-composer-hdrs.c:560
+#: ../composer/e-msg-composer-hdrs.c:561
 msgid "Choose folders to post the message to."
 msgstr "Velg mapper meldingen skal postes til."
 
-#: ../composer/e-msg-composer-hdrs.c:594
+#: ../composer/e-msg-composer-hdrs.c:595
 msgid "Click here for the address book"
 msgstr "Klikk her for å få opp adresseboken"
 
@@ -9664,45 +9662,45 @@ msgstr "Klikk her for å få opp adresseboken"
 #. * because that causes from_changed to be called, which
 #. * expects the reply_to fields to be initialized.
 #.
-#: ../composer/e-msg-composer-hdrs.c:624
+#: ../composer/e-msg-composer-hdrs.c:625
 msgid "_Reply-To:"
 msgstr "Sva_r-til:"
 
 #.
 #. * From
 #.
-#: ../composer/e-msg-composer-hdrs.c:631
+#: ../composer/e-msg-composer-hdrs.c:632
 msgid "Fr_om:"
 msgstr "Fr_a:"
 
 #.
 #. * Subject
 #.
-#: ../composer/e-msg-composer-hdrs.c:638
+#: ../composer/e-msg-composer-hdrs.c:639
 msgid "S_ubject:"
 msgstr "Em_ne:"
 
-#: ../composer/e-msg-composer-hdrs.c:648
+#: ../composer/e-msg-composer-hdrs.c:649
 msgid "_To:"
 msgstr "_Til:"
 
-#: ../composer/e-msg-composer-hdrs.c:649
+#: ../composer/e-msg-composer-hdrs.c:650
 msgid "Enter the recipients of the message"
 msgstr "Skriv inn mottakerene for meldingen"
 
-#: ../composer/e-msg-composer-hdrs.c:652
+#: ../composer/e-msg-composer-hdrs.c:653
 msgid "_Cc:"
 msgstr "_Cc:"
 
-#: ../composer/e-msg-composer-hdrs.c:653
+#: ../composer/e-msg-composer-hdrs.c:654
 msgid "Enter the addresses that will receive a carbon copy of the message"
 msgstr "Skriv inn adressene som skal motta en kopi av meldingen"
 
-#: ../composer/e-msg-composer-hdrs.c:656
+#: ../composer/e-msg-composer-hdrs.c:657
 msgid "_Bcc:"
 msgstr "_Bcc:"
 
-#: ../composer/e-msg-composer-hdrs.c:657
+#: ../composer/e-msg-composer-hdrs.c:658
 msgid ""
 "Enter the addresses that will receive a carbon copy of the message without "
 "appearing in the recipient list of the message."
@@ -9713,15 +9711,15 @@ msgstr ""
 #.
 #. * Post-To
 #.
-#: ../composer/e-msg-composer-hdrs.c:664
+#: ../composer/e-msg-composer-hdrs.c:665
 msgid "_Post To:"
 msgstr "_Post til:"
 
-#: ../composer/e-msg-composer-hdrs.c:669
+#: ../composer/e-msg-composer-hdrs.c:670
 msgid "Click here to select folders to post to"
 msgstr "Klikk her for å velge mapper å poste til"
 
-#: ../composer/e-msg-composer-hdrs.c:675
+#: ../composer/e-msg-composer-hdrs.c:676
 msgid "Post To:"
 msgstr "Post til:"
 
@@ -10795,7 +10793,7 @@ msgstr "Søppel"
 msgid "Junk Test"
 msgstr "Søppeltest"
 
-#: ../mail/em-filter-i18n.h:37 ../mail/em-folder-view.c:1062
+#: ../mail/em-filter-i18n.h:37 ../mail/em-folder-view.c:1063
 #: ../widgets/misc/e-expander.c:189
 msgid "Label"
 msgstr "Etikett"
@@ -11062,13 +11060,13 @@ msgid "Copying `%s' to `%s'"
 msgstr "Kopierer «%s» til «%s»"
 
 #: ../mail/em-folder-utils.c:364 ../mail/em-folder-utils.c:380
-#: ../mail/em-folder-view.c:930 ../mail/em-folder-view.c:945
+#: ../mail/em-folder-view.c:931 ../mail/em-folder-view.c:946
 #: ../mail/importers/evolution-mbox-importer.c:85
 #: ../mail/importers/evolution-outlook-importer.c:134
 msgid "Select folder"
 msgstr "Velg mappe"
 
-#: ../mail/em-folder-utils.c:364 ../mail/em-folder-view.c:945
+#: ../mail/em-folder-utils.c:364 ../mail/em-folder-view.c:946
 msgid "C_opy"
 msgstr "K_opier"
 
@@ -11103,139 +11101,139 @@ msgstr "Opprett mappe"
 msgid "Specify where to create the folder:"
 msgstr "Spesifiser hvor mappen skal opprettes:"
 
-#: ../mail/em-folder-view.c:1038 ../mail/em-popup.c:546 ../mail/em-popup.c:557
+#: ../mail/em-folder-view.c:1039 ../mail/em-popup.c:546 ../mail/em-popup.c:557
 msgid "Reply to _All"
 msgstr "Svar til _alle"
 
-#: ../mail/em-folder-view.c:1039 ../ui/evolution-mail-message.xml.h:119
+#: ../mail/em-folder-view.c:1040 ../ui/evolution-mail-message.xml.h:119
 msgid "_Reply to Sender"
 msgstr "Sva_r til avsender"
 
-#: ../mail/em-folder-view.c:1040 ../mail/em-popup.c:548 ../mail/em-popup.c:559
+#: ../mail/em-folder-view.c:1041 ../mail/em-popup.c:548 ../mail/em-popup.c:559
 #: ../ui/evolution-mail-message.xml.h:105
 msgid "_Forward"
 msgstr "_Videresend"
 
-#: ../mail/em-folder-view.c:1043 ../ui/evolution-mail-message.xml.h:103
+#: ../mail/em-folder-view.c:1044 ../ui/evolution-mail-message.xml.h:103
 msgid "_Edit as New Message..."
 msgstr "R_ediger som ny melding..."
 
-#: ../mail/em-folder-view.c:1049
+#: ../mail/em-folder-view.c:1050
 msgid "U_ndelete"
 msgstr "A_ngre slett"
 
-#: ../mail/em-folder-view.c:1050
+#: ../mail/em-folder-view.c:1051
 msgid "Mo_ve to Folder..."
 msgstr "Fl_ytt til mappe..."
 
-#: ../mail/em-folder-view.c:1051 ../ui/evolution-addressbook.xml.h:32
+#: ../mail/em-folder-view.c:1052 ../ui/evolution-addressbook.xml.h:32
 msgid "_Copy to Folder..."
 msgstr "K_opier til mappe..."
 
-#: ../mail/em-folder-view.c:1054
+#: ../mail/em-folder-view.c:1055
 msgid "Mar_k as Read"
 msgstr "Mer_k som lest"
 
-#: ../mail/em-folder-view.c:1055
+#: ../mail/em-folder-view.c:1056
 msgid "Mark as U_nread"
 msgstr "Merk som _ulest"
 
-#: ../mail/em-folder-view.c:1056
+#: ../mail/em-folder-view.c:1057
 msgid "Mark as _Important"
 msgstr "Merk som v_iktig"
 
-#: ../mail/em-folder-view.c:1057
+#: ../mail/em-folder-view.c:1058
 msgid "_Mark as Unimportant"
 msgstr "_Merk som uviktig"
 
-#: ../mail/em-folder-view.c:1058
+#: ../mail/em-folder-view.c:1059
 msgid "Mark as _Junk"
 msgstr "Merk som _søppel"
 
-#: ../mail/em-folder-view.c:1059
+#: ../mail/em-folder-view.c:1060
 msgid "Mark as _Not Junk"
 msgstr "Merk som _gyldig melding"
 
-#: ../mail/em-folder-view.c:1060
+#: ../mail/em-folder-view.c:1061
 msgid "Mark for Follo_w Up..."
 msgstr "Merk for oppføl_ging..."
 
-#: ../mail/em-folder-view.c:1068
+#: ../mail/em-folder-view.c:1069
 msgid "Fla_g Completed"
 msgstr "Mer_k som fullført"
 
-#: ../mail/em-folder-view.c:1069
+#: ../mail/em-folder-view.c:1070
 msgid "Cl_ear Flag"
 msgstr "Fj_ern flagg"
 
-#: ../mail/em-folder-view.c:1072
+#: ../mail/em-folder-view.c:1073
 msgid "Crea_te Rule From Message"
 msgstr "Oppre_tt regel fra melding"
 
-#: ../mail/em-folder-view.c:1073
+#: ../mail/em-folder-view.c:1074
 msgid "vFolder on _Subject"
 msgstr "Virtuell mappe på e_mne"
 
-#: ../mail/em-folder-view.c:1074
+#: ../mail/em-folder-view.c:1075
 msgid "vFolder on Se_nder"
 msgstr "Virtuell mappe på se_nder"
 
-#: ../mail/em-folder-view.c:1075
+#: ../mail/em-folder-view.c:1076
 msgid "vFolder on _Recipients"
 msgstr "Virtuell mappe på mottake_re"
 
-#: ../mail/em-folder-view.c:1076
+#: ../mail/em-folder-view.c:1077
 msgid "vFolder on Mailing _List"
 msgstr "Virtuell mappe på e-post_liste"
 
-#: ../mail/em-folder-view.c:1080
+#: ../mail/em-folder-view.c:1081
 msgid "Filter on Sub_ject"
 msgstr "Filtrer på em_ne"
 
-#: ../mail/em-folder-view.c:1081
+#: ../mail/em-folder-view.c:1082
 msgid "Filter on Sen_der"
 msgstr "Filtrer på sen_der"
 
-#: ../mail/em-folder-view.c:1082
+#: ../mail/em-folder-view.c:1083
 msgid "Filter on Re_cipients"
 msgstr "Filtrer på motta_ker"
 
-#: ../mail/em-folder-view.c:1083
+#: ../mail/em-folder-view.c:1084
 msgid "Filter on _Mailing List"
 msgstr "Filtrer på e-_postliste"
 
 #. default charset used in mail view
-#: ../mail/em-folder-view.c:1923 ../mail/em-folder-view.c:1967
+#: ../mail/em-folder-view.c:1925 ../mail/em-folder-view.c:1969
 msgid "Default"
 msgstr "Forvalgt"
 
-#: ../mail/em-folder-view.c:2066
+#: ../mail/em-folder-view.c:2068
 #: ../plugins/print-message/org-gnome-print-message.eplug.xml.h:2
 #: ../plugins/print-message/print-message.c:83
 msgid "Print Message"
 msgstr "Skriv ut melding"
 
-#: ../mail/em-folder-view.c:2222
+#: ../mail/em-folder-view.c:2224
 msgid "Unable to retrieve message"
 msgstr "Kunne ikke hente ut melding"
 
-#: ../mail/em-folder-view.c:2415
+#: ../mail/em-folder-view.c:2417
 msgid "_Copy Link Location"
 msgstr "_Kopier lokasjon for lenke"
 
-#: ../mail/em-folder-view.c:2417
+#: ../mail/em-folder-view.c:2419
 msgid "Create _vFolder"
 msgstr "Opprett _virtuell mappe"
 
-#: ../mail/em-folder-view.c:2418
+#: ../mail/em-folder-view.c:2420
 msgid "_From this Address"
 msgstr "_Fra denne adressen"
 
-#: ../mail/em-folder-view.c:2419
+#: ../mail/em-folder-view.c:2421
 msgid "_To this Address"
 msgstr "_Til denne adressen"
 
-#: ../mail/em-folder-view.c:2700
+#: ../mail/em-folder-view.c:2702
 #, c-format
 msgid "Click to mail %s"
 msgstr "Klikk for å sende melding til %s"
@@ -12213,11 +12211,11 @@ msgstr "Velg mappe å importere til"
 
 #: ../mail/importers/evolution-mbox-importer.c:216
 msgid "Berkeley Mailbox (mbox)"
-msgstr ""
+msgstr "Berkeley Mailbox (mbox)"
 
 #: ../mail/importers/evolution-mbox-importer.c:217
 msgid "Importer Berkeley Mailbox format folders"
-msgstr ""
+msgstr "Importer mapper i Berkeley Mailbox format"
 
 #: ../mail/importers/evolution-outlook-importer.c:257
 #: ../mail/importers/mail-importer.c:230 ../shell/e-shell-importer.c:516
@@ -12299,6 +12297,11 @@ msgid ""
 "were modified to test whether that string is or is not\n"
 "contained in the message body."
 msgstr ""
+"Noen av dine Netscape e-postfiltre sjekker\n"
+"om meldingskroppen er lik en gitt streng. Dette\n"
+"er ikke støttet i Evolution. Disse filtrene ble\n"
+"endret slik at de sjekker om strengen finnes i\n"
+"meldingskroppen eller ikke."
 
 #: ../mail/importers/netscape-importer.c:1250
 msgid "Evolution is importing your old Netscape data"
@@ -13475,12 +13478,15 @@ msgid ""
 "You can choose to ignore this folder, overwrite or append its contents, or "
 "quit.\n"
 msgstr ""
+"En mappe med innhold eksisterer allerede i &quot;{1}&quot;.\n"
+"\n"
+"Du kan velge å ignorere denne mappen, overskrive eller legge til innhold der, eller avslutte.\n"
 
 #: ../mail/mail.error.xml.h:6
 msgid ""
 "A read receipt notification has been requested for &quot;{1}&quot;.  Send "
 "the reciept notification to {0}?"
-msgstr ""
+msgstr "En lesekvittering er forespurt for &quot;{1}&quot;. Vil du sende lesekvittering til {0}?"
 
 #: ../mail/mail.error.xml.h:7
 msgid ""
@@ -13593,7 +13599,7 @@ msgid ""
 "Cannot read the license file &quot;{0}&quot;, due to an installation "
 "problem.  You will not be able to use this provider until you can accept its "
 "license."
-msgstr ""
+msgstr "Kan ikke lese lisensfil &quot;{0}&quot; pga et installasjonsproblem. Du vil ikke kunne bruke denne tilbyderen før du har mulighet til å godta lisensen."
 
 #: ../mail/mail.error.xml.h:32
 msgid "Cannot rename &quot;{0}&quot; to &quot;{1}&quot;."
@@ -13729,7 +13735,7 @@ msgid ""
 "BCC recipients. This header, if added, will list all of your recipients to "
 "your message anyway. To avoid this, you should add at least one To: or CC: "
 "recipient."
-msgstr ""
+msgstr "Mange e-postsystemer legger til et Apparently-To-meldingshode i meldinger som kun har BCC-mottakere. Dette meldingshodet vil liste alle mottakere av meldingen likevel. For å unngå dette bør du legge inn minst en mottaker i Til: eller Cc:."
 
 #: ../mail/mail.error.xml.h:62
 msgid "Mark all messages as read"
@@ -13823,6 +13829,9 @@ msgid ""
 "your message. To avoid this, you should add at least one To: or CC: "
 "recipient. "
 msgstr ""
+"Kontaktlisten du sender til er satt opp til å skjule listemottakere.\n"
+"\n"
+"Mange e-postsystemer legger til et Apparently-To-meldingshode i meldinger som kun har BCC-mottakere. Dette meldingshodet vil liste alle mottakere av meldingen likevel. For å unngå dette bør du legge inn minst en mottaker i Til: eller Cc:."
 
 #: ../mail/mail.error.xml.h:84
 msgid ""
@@ -13871,7 +13880,7 @@ msgstr "Skriptfilen må eksistere og være kjørbar."
 msgid ""
 "This folder may have been added implicitly, go to the vFolder editor to add "
 "it explicitly, if required."
-msgstr ""
+msgstr "Denne mappen er lagt til implisitt. Gå til redigering av virtuelle mapper og legg den inn eksplisitt hvis det er nødvendig."
 
 #: ../mail/mail.error.xml.h:98
 msgid ""
@@ -14139,7 +14148,7 @@ msgstr "Emne eller avsender inneholder"
 msgid ""
 "A formatter plugin which displays audio attachments inline and allows you to "
 "play them directly from evolution."
-msgstr ""
+msgstr "Et formatteringstillegg som viser lydfiler i meldinger lar deg spille dem av direkte fra Evolution."
 
 #: ../plugins/audio-inline/org-gnome-audio-inline.eplug.xml.h:2
 msgid "Audio inline plugin"
@@ -14238,7 +14247,7 @@ msgstr "Automatiske kontakter"
 msgid ""
 "Automatically fills your addressbook with names and email addresses as you "
 "reply to mails. Also fills in IM contact information from your buddy lists."
-msgstr ""
+msgstr "Fyller dine adressebøker med navn og e-postadresser automatisk etter hvert som du svarer på meldinger. Fyller også ut IM-kontaktinformasjon fra dine vennelister."
 
 #: ../plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:3
 msgid "BBDB"
@@ -14307,7 +14316,7 @@ msgstr "Imerisk (Fahrenheit, tommer, osv)"
 
 #: ../plugins/calendar-weather/org-gnome-calendar-weather.eplug.xml.h:1
 msgid "Provides core functionality for weather calendars."
-msgstr ""
+msgstr "Innehar kjernefunksjoner for værkalendere."
 
 #: ../plugins/calendar-weather/org-gnome-calendar-weather.eplug.xml.h:2
 msgid "Weather Calendars"
@@ -14317,7 +14326,7 @@ msgstr "Værkalendere"
 msgid ""
 "A test plugin which demonstrates a popup menu plugin which lets you copy "
 "things to the clipboard."
-msgstr ""
+msgstr "Et testtillegg som demonstrerer et oppsprettmenytillegg som lar deg kopiere ting til utklipsstavlen."
 
 #: ../plugins/copy-tool/org-gnome-copy-tool.eplug.xml.h:2
 msgid "Copy _Email Address"
@@ -14431,7 +14440,7 @@ msgstr "Endre passord"
 #. Delegation Assistant
 #: ../plugins/exchange-operations/exchange-account-setup.c:333
 msgid "Manage the delegate settings for Exchange account"
-msgstr ""
+msgstr "Håndter innstillinger for delegater for en Exchange konto"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:335
 msgid "Delegation Assitant"
@@ -14528,12 +14537,12 @@ msgstr "Kunne ikke aksessere Active Directory"
 
 #: ../plugins/exchange-operations/exchange-delegates.c:694
 msgid "Could not find self in Active Directory"
-msgstr ""
+msgstr "Kunne ikke finne meg selv i Active Directory"
 
 #: ../plugins/exchange-operations/exchange-delegates.c:707
 #, c-format
 msgid "Could not find delegate %s in Active Directory"
-msgstr ""
+msgstr "Kunne ikke finne delegat %s i Active Directory"
 
 #: ../plugins/exchange-operations/exchange-delegates.c:719
 #, c-format
@@ -14710,7 +14719,7 @@ msgstr "Adressebok..."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-ab-subscription.xml.h:1
 msgid "Subscribe to Other User's Contacts"
-msgstr ""
+msgstr "Abonner på annen brukers kontakter"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-cal-subscription.xml.h:1
 msgid "Subscribe to Other User's Calendar"
@@ -14728,7 +14737,7 @@ msgstr "Kan ikke vise mapper."
 msgid ""
 "Changes to Exchange account configuration will take place after you quit and "
 "restart Evolution."
-msgstr ""
+msgstr "Endringer i konfigurasjon for Exchange kontoer vil tre i kraft når du har startet Evolution på nytt."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:4
 msgid "Could not authenticate to server."
@@ -14812,6 +14821,17 @@ msgid ""
 "html\n"
 "  "
 msgstr ""
+"Exchange Connector krever tilgang til spesifikk\n"
+"funksjonalitet på Exchange serveren som ser ut\n"
+"til å være deaktivert eller blokkert. (Dette er\n"
+"vanligvis ikke intensjonen.) Din Exchange administrator\n"
+"vil måtte aktivere denne funksjonaliteten for at\n"
+"du skal kunne bruke Exchange Connector.\n"
+"\n"
+"Følg lenken under for å finne informasjonen din\n"
+"Exchange administrator trenger:\n"
+"\n"
+"http://support.novell.com/cgi-bin/search/searchtid.cgi?/ximian/ximian328.html"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:33
 msgid "Failed to update delegates:"
@@ -14838,7 +14858,7 @@ msgstr "Vanlig feil"
 msgid ""
 "If OWA is running on a different path, you must specify that in the account "
 "configuration dialog."
-msgstr ""
+msgstr "Hvis OWA bruker en annen sti må denne oppgis i konfigurasjonsdialogen for kontoen."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:39
 msgid "Mailbox for {0} is not on this server."
@@ -14858,7 +14878,7 @@ msgstr "Se til at brukernavnet og passordet er riktig og prøv igjen."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:43
 msgid "No Global Catalog server configured for this account."
-msgstr ""
+msgstr "Ingen global katalogtjener er konfigurert for denne kontoen."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:44
 msgid "No mailbox for user {0} on {1}."
@@ -14912,6 +14932,11 @@ msgid ""
 "\n"
 "Or you might have just typed your password wrong."
 msgstr ""
+"Dette betyr sannsynligvis at din tjener krever \n"
+"at du oppgir Windows domenenavnet \n"
+"som en del av ditt brukernavn (f.eks &quot;DOMENE\\bruker&quot;).\n"
+"\n"
+"Eller du kan ha skrevet inn feil passord."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:61
 msgid "Try again with a different password."
@@ -15001,7 +15026,7 @@ msgstr "{0} finnes allerede på listen"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-tasks-subscription.xml.h:1
 msgid "Subscribe to Other User's Tasks"
-msgstr ""
+msgstr "Abonner på annen brukers oppgaver"
 
 #: ../plugins/exchange-operations/org-gnome-folder-permissions.xml.h:1
 msgid "Check folder permissions"
@@ -15009,7 +15034,7 @@ msgstr "Sjekk rettighetene for mappen"
 
 #: ../plugins/exchange-operations/org-gnome-folder-subscription.xml.h:1
 msgid "Subscribe to Other User's Folder"
-msgstr ""
+msgstr "Abonner på annen brukers mappe"
 
 #: ../plugins/folder-unsubscribe/folder-unsubscribe.c:57
 #, c-format
@@ -15018,7 +15043,7 @@ msgstr "Fjerner abonnement på mappe «%s»"
 
 #: ../plugins/folder-unsubscribe/org-gnome-mail-folder-unsubscribe.eplug.xml.h:1
 msgid "Allows unsubscribing of mail folders in the folder tree context menu."
-msgstr ""
+msgstr "Lar deg fjerne abonnement på e-postmapper i kontekstmenyen for mappetreet."
 
 #: ../plugins/folder-unsubscribe/org-gnome-mail-folder-unsubscribe.eplug.xml.h:2
 msgid "Unsubscribe Folders"
@@ -15088,7 +15113,7 @@ msgstr "Funksjoner for GroupWise"
 
 #: ../plugins/groupwise-features/process-meeting.c:49
 msgid "Accept Tentatively"
-msgstr ""
+msgstr "Godta tentativt"
 
 #: ../plugins/groupwise-features/properties.glade.h:2
 msgid "<b>Users :</b>"
@@ -15189,7 +15214,7 @@ msgstr "<b>Kontonavn</b>"
 
 #: ../plugins/groupwise-features/proxy-login-dialog.glade.h:2
 msgid "Proxy Login"
-msgstr ""
+msgstr "Proxy-innlogging"
 
 #: ../plugins/groupwise-features/proxy-login.c:221
 #: ../plugins/groupwise-features/proxy-login.c:263
@@ -15205,7 +15230,7 @@ msgstr "_Brukernavn for proxy..."
 
 #: ../plugins/groupwise-features/proxy.c:664
 msgid "The Proxy tab will be available only when the account is enabled."
-msgstr ""
+msgstr "Proxyfanen vil kun være tilgjengelig når kontoen er aktivert."
 
 #: ../plugins/groupwise-features/share-folder-common.c:317
 msgid "Users"
@@ -15318,7 +15343,7 @@ msgstr "Vedlagt kalender inneholder flere oppføringer"
 msgid ""
 "To process all of these items, the file should be saved and the calendar "
 "imported"
-msgstr ""
+msgstr "Du må lagre filen og importere kalenderen for å prosessere alle disse oppføringene"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1907
 msgid "Meetings and Tasks"
@@ -15341,7 +15366,7 @@ msgstr "Velg kalendere som skal gjennomsøkes for å finne møtekonflikter"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1970
 msgid "Conflict Search Table"
-msgstr ""
+msgstr "Tabell for søk etter konflikter"
 
 #. strftime format of a weekday and a date.
 #: ../plugins/itip-formatter/itip-view.c:182 ../ui/evolution-calendar.xml.h:34
@@ -15669,7 +15694,7 @@ msgstr "Formattering av iTip"
 msgid ""
 "&quot;{0}&quot; has delegated the meeting. Do you want to add the delegate "
 "&quot;{1}&quot; ?"
-msgstr ""
+msgstr "&quot;{0}&quot; har delegert møtet. Vil du legge til delegat &quot;{1}&quot;?"
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:3
 msgid "This meeting has been delegated"
@@ -15683,7 +15708,7 @@ msgstr ""
 
 #: ../plugins/mail-account-disable/mail-account-disable.c:47
 msgid "Proxy _Logout"
-msgstr ""
+msgstr "_Logg ut proxy"
 
 #: ../plugins/mail-account-disable/org-gnome-mail-account-disable.eplug.xml.h:1
 msgid "Allows disabling of accounts."
@@ -15720,7 +15745,7 @@ msgstr ""
 
 #: ../plugins/mail-remote/org-gnome-evolution-mail-remote.eplug.xml.h:2
 msgid "Mail Remote"
-msgstr ""
+msgstr "Ekstern tilgang til e-post"
 
 #: ../plugins/mail-to-meeting/org-gnome-mail-to-meeting.eplug.xml.h:1
 msgid ""
@@ -15782,7 +15807,7 @@ msgstr "E-post_liste"
 msgid ""
 "Provide actions for common mailing list commands (subscribe, "
 "unsubscribe, ...)."
-msgstr ""
+msgstr "Vanlige kommandoer for e-postlister (abbonner, fjern abonnement, ...)"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:7
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:11
@@ -15811,6 +15836,9 @@ msgid ""
 "You should receive an answer from the mailing list shortly after the message "
 "has been sent."
 msgstr ""
+"En e-postmelding vil bli sendt til URL «{0}». Du kan enten sende meldingen automatisk eller se på og endre den først.\n"
+"\n"
+"Du skal motta et svar fra e-postlisten snarlig etter at meldingen er sendt."
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:5
 msgid "Malformed header"
@@ -15843,6 +15871,9 @@ msgid ""
 "\n"
 "Header: {0}"
 msgstr ""
+"Handlingen kunne ikke utføres. Dette betyr at meldingshodet for denne handlingen ikke inneholdt en handling vi kunne håndtere.\n"
+"\n"
+"Hode: {0}"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:13
 msgid ""
@@ -15850,6 +15881,9 @@ msgid ""
 "\n"
 "Header: {1}"
 msgstr ""
+"Hode {0} i denne meldingen er ugyldig og kunne ikke prosesseres.\n"
+"\n"
+"Hode: {1}"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:16
 msgid ""
@@ -15974,6 +16008,7 @@ msgstr ""
 "Merk: Noen endringer vil ikke tre i kraft før programmet startes på nytt"
 
 #: ../plugins/plugin-manager/plugin-manager.c:210
+#: ../plugins/plugin-manager/plugin-manager.c:271
 msgid "Plugin"
 msgstr "Tillegg"
 
@@ -15984,6 +16019,9 @@ msgid ""
 "\n"
 "This plugin is unsupported demonstration code only.\n"
 msgstr ""
+"Et testtillegg som demonstrerer et formatteringstillegg som lar deg velge å deaktivere HTML-meldinger.\n"
+"\n"
+"Dette tillegget er kun ment som en demonstrasjon og er ikke støttet.\n"
 
 #. but then we also need to create our own section frame
 #: ../plugins/prefer-plain/org-gnome-prefer-plain.eplug.xml.h:6
@@ -16249,7 +16287,7 @@ msgstr "Importerer data."
 
 #: ../plugins/subject-thread/org-gnome-subject-thread.eplug.xml.h:1
 msgid "Indicates if threading of messages should fall back to subject."
-msgstr ""
+msgstr "Indikerer om tråding av meldinger skal falle tilbake til emne."
 
 #: ../plugins/subject-thread/org-gnome-subject-thread.eplug.xml.h:2
 msgid "Subject Threading"
@@ -16262,7 +16300,7 @@ msgstr "Vis meldingstråder etter emne"
 #. Create the checkbox we will display, complete with mnemonic that is unique in the dialog
 #: ../plugins/subject-thread/subject-thread.c:54
 msgid "Fall back to threading messages by sub_ject"
-msgstr ""
+msgstr "Fall tilbake til tråding av meldinger etter e_mne"
 
 #: ../shell/GNOME_Evolution_Shell.server.in.in.h:1
 msgid "Evolution Shell"
@@ -16330,7 +16368,7 @@ msgstr "Start i frakoblet modus"
 #: ../shell/apps_evolution_shell.schemas.in.in.h:12
 msgid ""
 "The configuration version of Evolution, with major/minor/configuration level"
-msgstr ""
+msgstr "Konfigurasjonsversjon for Evolution med større/mindre/konfigurasjonsnivå"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:13
 msgid "The default height for the main window, in pixels."
@@ -16348,7 +16386,7 @@ msgstr "Forvalgt bredde på sidelinjen i piksler."
 msgid ""
 "The last upgraded configuration version of Evolution, with major/minor/"
 "configuration level"
-msgstr ""
+msgstr "Sist oppgradert konfigurasjonsversjon for Evolution, med major/minor/konfigurasjonsnivå"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:17
 msgid ""
@@ -16711,9 +16749,8 @@ msgstr ""
 "  Bruk %s --help for mer informasjon.\n"
 
 #: ../shell/shell.error.xml.h:1
-#, fuzzy
 msgid "Are you sure you want to forget all remembered passwords?"
-msgstr "Er du sikker på at du vil glemme alle huskede passord?"
+msgstr "Er du sikker på at du vil glemme alle lagrede passord?"
 
 #: ../shell/shell.error.xml.h:2
 msgid "Continue"
@@ -16731,7 +16768,7 @@ msgstr "Evolution kan ikke starte."
 msgid ""
 "Forgetting your passwords will clear all remembered passwords. You will be "
 "reprompted next time they are needed. "
-msgstr ""
+msgstr "Glemming av passord tømmer alle passord som huskes av programmet. Du vil bli spurt igjen neste gang de må oppgis."
 
 #: ../shell/shell.error.xml.h:7
 msgid "Insufficient disk space for upgrade."
@@ -16753,6 +16790,11 @@ msgid ""
 "Once deleted, you cannot downgrade to the previous version of Evolution "
 "without manual intervention.\n"
 msgstr ""
+"Hele innholdet i &quot;evolution&quot;-katalogen er i ferd med å bli fjernet permanent.\n"
+"\n"
+"Det anbefales at du verifiserer manuelt at alle dine meldinger, kontakter og kalenderdata er på plass, og at Evolution fungerer riktig før du sletter gamle data.\n"
+"\n"
+"Når disse er slettet kan du ikke nedgradere til forrige versjon av Evolution uten å gjøre manuelle inngrep.\n"
 
 #: ../shell/shell.error.xml.h:15
 msgid ""
@@ -16763,6 +16805,9 @@ msgid ""
 "keep this data, then you may manually remove the contents of &quot;"
 "evolution&quot; at your convenience.\n"
 msgstr ""
+"Forrige versjon av Evolution lagret sine data på en annen lokasjon.\n"
+"\n"
+"Hvis du velger å fjerne disse dataene vil hele innholdet i &quot;evolution&quot;-katalogen bli fjernet permanent. Hvis du velger å beholde dataene vil du kunne fjerne innholdet i &quot;evolution&quot; manuelt når du ønsker det.\n"
 
 #: ../shell/shell.error.xml.h:19
 msgid "Upgrade from previous version failed: {0}"
@@ -16845,14 +16890,14 @@ msgid ""
 "Because you trust the certificate authority that issued this certificate, "
 "then you trust the authenticity of this certificate unless otherwise "
 "indicated here"
-msgstr ""
+msgstr "Fordi du stoler på sertifikatmyndigheten som utstedte dette sertifikatet stoler du også på at dette sertifikatet er autentisk med mindre annet indikeres her"
 
 #: ../smime/gui/cert-trust-dialog.c:149
 msgid ""
 "Because you do not trust the certificate authority that issued this "
 "certificate, then you do not trust the authenticity of this certificate "
 "unless otherwise indicated here"
-msgstr ""
+msgstr "Fordi du ikke stoler på sertifikatmyndigheten som utstedte dette sertifikatet stoler du heller ikke på at dette sertifikatet er autentisk med mindre annet indikeres her"
 
 #: ../smime/gui/certificate-manager.c:134
 #: ../smime/gui/certificate-manager.c:142
@@ -18658,7 +18703,7 @@ msgstr "_Send / motta"
 
 #: ../ui/evolution.xml.h:42
 msgid "_Switcher Appearance"
-msgstr ""
+msgstr "Ut_seende for bytter"
 
 #: ../ui/evolution.xml.h:43
 msgid "_Synchronization Options..."
@@ -18813,7 +18858,7 @@ msgstr "_Opprett en ny visning"
 
 #: ../widgets/menus/gal-view-instance-save-as-dialog.glade.h:5
 msgid "_Replace existing view"
-msgstr ""
+msgstr "E_rstatt eksisterende visning"
 
 #: ../widgets/menus/gal-view-menus.c:291
 msgid "_Current View"
@@ -18836,6 +18881,10 @@ msgid "Name of new view:"
 msgstr "Navn på ny visning:"
 
 #: ../widgets/menus/gal-view-new-dialog.glade.h:3
+msgid "Type of View"
+msgstr "Type visning"
+
+#: ../widgets/menus/gal-view-new-dialog.glade.h:4
 msgid "Type of view:"
 msgstr "Type visning:"
 
@@ -18882,7 +18931,6 @@ msgid "Fill stipple"
 msgstr "Fyll stiplet"
 
 #: ../widgets/misc/e-canvas-background.c:478 ../widgets/text/e-entry.c:1306
-#, fuzzy
 msgid "FIll stipple"
 msgstr "Fyll stiplet"
 
@@ -19032,7 +19080,7 @@ msgstr "Felt for dato & klokkeslett"
 
 #: ../widgets/misc/e-dateedit.c:335
 msgid "Text entry to input date"
-msgstr ""
+msgstr "Tekstfelt for å oppgi dato"
 
 #: ../widgets/misc/e-dateedit.c:336
 msgid "Text Date Entry"
@@ -19164,9 +19212,8 @@ msgid "Empty message"
 msgstr "Tom e-post"
 
 #: ../widgets/misc/e-reflow.c:1459 ../widgets/misc/e-reflow.c:1460
-#, fuzzy
 msgid "Reflow model"
-msgstr "Utvalgsmodell"
+msgstr "Oppdater modell"
 
 #: ../widgets/misc/e-reflow.c:1466 ../widgets/misc/e-reflow.c:1467
 msgid "Column width"
@@ -19376,7 +19423,7 @@ msgstr "klikk her for å gå til lokasjonen"
 
 #: ../widgets/misc/gal-categories.glade.h:2
 msgid "Edit Master Category List..."
-msgstr ""
+msgstr "Rediger hovedkategorilisten..."
 
 #: ../widgets/misc/gal-categories.glade.h:3
 msgid "Item(s) belong to these _categories:"
@@ -19474,6 +19521,7 @@ msgid "Sh_ow these fields in order:"
 msgstr "V_is disse feltene i rekkefølge:"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:12
+#: ../widgets/table/e-table-config.c:563
 #: ../widgets/table/e-table-config.glade.h:10
 msgid "Show Fields"
 msgstr "Vis felter"
@@ -19481,7 +19529,7 @@ msgstr "Vis felter"
 #: ../widgets/table/e-table-config-no-group.glade.h:13
 #: ../widgets/table/e-table-config.glade.h:11
 msgid "Show field in View"
-msgstr ""
+msgstr "Vis felt i visning"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:14
 #: ../widgets/table/e-table-config.glade.h:12
@@ -19532,6 +19580,10 @@ msgstr "Ikke sortert"
 msgid "No grouping"
 msgstr "Ingen gruppering"
 
+#: ../widgets/table/e-table-config.c:584
+msgid "Available Fields"
+msgstr "Tilgjengelige felt"
+
 #: ../widgets/table/e-table-config.glade.h:17
 msgid "_Group By..."
 msgstr "_Grupper etter..."
@@ -19567,6 +19619,8 @@ msgid ""
 "To add a column to your table, drag it into\n"
 "the location in which you want it to appear."
 msgstr ""
+"For å legge til en kolonne i din tabell kan\n"
+"du dra den til lokasjonen du vil ha den."
 
 #: ../widgets/table/e-table-group-container.c:350
 #, c-format
@@ -19768,16 +19822,15 @@ msgstr "Tegn linjer og +/- utvidere."
 
 #: ../widgets/text/e-entry-test.c:49
 msgid "Minicard Test"
-msgstr ""
+msgstr "Minikort test"
 
 #: ../widgets/text/e-entry-test.c:50
 msgid "Copyright (C) 2000, Helix Code, Inc."
 msgstr "Opphavsrett (C) 2000, Helix Code, Inc."
 
 #: ../widgets/text/e-entry-test.c:52
-#, fuzzy
 msgid "This should test the minicard canvas item"
-msgstr "Testfunksjon for utskrift av kontakter"
+msgstr "Testprogram for minicard canvas-oppføring"
 
 #: ../widgets/text/e-entry.c:1242 ../widgets/text/e-entry.c:1243
 #: ../widgets/text/e-text.c:3455 ../widgets/text/e-text.c:3456
@@ -19849,7 +19902,7 @@ msgstr "Markørposisjon"
 
 #: ../widgets/text/e-entry.c:1389 ../widgets/text/e-entry.c:1390
 msgid "Emulate label resize"
-msgstr ""
+msgstr "Emuler endring av størrelse på etikett"
 
 #: ../widgets/text/e-text.c:2696
 msgid "Input Methods"
