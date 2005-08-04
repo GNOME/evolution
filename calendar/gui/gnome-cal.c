@@ -1667,6 +1667,18 @@ gnome_calendar_destroy (GtkObject *object)
 }
 
 static void
+notify_selected_time_changed (GnomeCalendar *gcal)
+{
+	GnomeCalendarPrivate *priv;
+	int i;
+	
+	priv = gcal->priv;
+	for (i = 0; i < GNOME_CAL_LAST_VIEW; i++) {
+		g_signal_emit_by_name (priv->views[i], "selected_time_changed");
+	}
+}
+
+static void
 gnome_calendar_goto_date (GnomeCalendar *gcal,
 			  GnomeCalendarGotoDateType goto_date)
 {
@@ -1731,6 +1743,7 @@ gnome_calendar_goto_date (GnomeCalendar *gcal,
 		update_view_times (gcal, new_time);
 		gnome_calendar_update_date_navigator (gcal);
 		gnome_calendar_notify_dates_shown_changed (gcal);
+		notify_selected_time_changed (gcal);
 	}
 }
 

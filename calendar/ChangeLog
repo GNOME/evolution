@@ -1,3 +1,12 @@
+2005-08-03  Harry Lu  <harry.lu@sun.com>
+
+	Fix for #312447.
+
+	* gui/gnome-cal.c: (notify_selected_time_changed): new function
+	to emit "selected_time_changed" signal for all views.
+	(gnome_calendar_goto_date): call notify_selected_time_changed
+	after date changing.
+
 2005-08-03  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #309601
