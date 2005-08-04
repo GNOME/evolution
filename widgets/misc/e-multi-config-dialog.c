@@ -68,7 +68,7 @@ static char *list_e_table_spec =
 	"                cell=\"vbox\""
  	"                minimum_width=\"32\""
 	"                resizable=\"true\""
-	"	         _title=\"blah\""
+	"	         _title=\"Category\""
 	"                compare=\"string\"/>"
 	"  <ETableState>"
 	"    <column source=\"0\"/>"

@@ -1,3 +1,13 @@
+2005-08-03  Li Yuan  <li.yuan@sun.com>
+
+	* menus/gal-view-new-dialog.glade:
+	Add a11y name to the left table of config dialog.
+	* misc/e-multi-config-dialog.c: 
+	Add name to the left table of preference dialog.
+	* table/e-table-config.c: (e_table_proxy_etable_shown_new),
+	(e_table_proxy_etable_available_new):
+	Add a11y name to "Show Fields" table and "Available Fields" table.
+
 2005-07-28  Mengjie Yu  <meng-jie.yu@sun.com>
 
 	* misc/e-attachment-bar.c: (update_remote_file):

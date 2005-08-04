@@ -553,10 +553,16 @@ GtkWidget *
 e_table_proxy_etable_shown_new (void)
 {
 	ETableModel *model = NULL;
+	GtkWidget *widget;
+	ETableScrolled *ets;
 
 	model = e_table_subset_variable_new (global_store);
 
-	return e_table_scrolled_new (model, NULL, spec, NULL);
+	widget = e_table_scrolled_new (model, NULL, spec, NULL);
+	ets = E_TABLE_SCROLLED (widget);
+	atk_object_set_name (gtk_widget_get_accessible ((GtkWidget *)ets->table), _("Show Fields"));
+
+	return widget;
 }
 
 GtkWidget *e_table_proxy_etable_available_new (void);
@@ -565,13 +571,19 @@ GtkWidget *
 e_table_proxy_etable_available_new (void)
 {
 	ETableModel *model;
+	GtkWidget *widget;
+	ETableScrolled *ets;
 
 	model = e_table_without_new (global_store,
 				     NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 	e_table_without_show_all (E_TABLE_WITHOUT (model));
 
-	return e_table_scrolled_new (model, NULL, spec, NULL);
+	widget = e_table_scrolled_new (model, NULL, spec, NULL);
+	ets = E_TABLE_SCROLLED (widget);
+	atk_object_set_name (gtk_widget_get_accessible ((GtkWidget *)ets->table), _("Available Fields"));
+
+	return widget;
 }
 
 static void
