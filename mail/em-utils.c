@@ -358,7 +358,7 @@ emu_get_save_filesel (GtkWidget *parent, const char *title, const char *name, Gt
 static void
 emu_update_save_path(const char *filename, gboolean path)
 {
-	char *dir = path ? filename : g_path_get_dirname(filename);
+	char *dir = path ? (char *)filename : g_path_get_dirname(filename);
 	GConfClient *gconf = gconf_client_get_default();
 
 	gconf_client_set_string(gconf, "/apps/evolution/mail/save_dir", dir, NULL);
