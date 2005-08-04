@@ -1,3 +1,17 @@
+2005-08-05  Viren.l <lviren@novell.com>
+
+	Fixes #302460
+	* gui/e-day-view.c (e_day_view_on_event_double_click):
+	  use icalcomponent_get_current_property and invoke 
+	  e_calendar_view_edit_appointment with appropriate 
+	  parameters.	  
+
+2005-08-05  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #312460
+	* gui/itip-utils.c (itip_get_comp_attendee): Removed
+	a double free.
+
 2005-08-03  Harry Lu  <harry.lu@sun.com>
 
 	Fix for #312447.
