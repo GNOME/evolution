@@ -1,13 +1,12 @@
+2005-08-04  Ilkka Tuohela  <hile@iki.fi>
+
+	* fi.po: Updated Finnish translation.
+
 2005-08-04  Terance Sola  <terance@lyse.net>
 
 	* nb.po: Updated Norwegian Bokmål translation.
 	* no.po: Same.
 
-<<<<<<< ChangeLog
-<<<<<<< ChangeLog
-s2005-07-15  Shreyas Srinivasan  <sshreyas@novell.com>
-=======
-=======
 2005-08-03  Adam Weinberger  <adamw@gnome.org>
 
 	* POTFILES.in: Added missing files.
@@ -21,7 +20,6 @@ s2005-07-15  Shreyas Srinivasan  <sshreyas@novell.com>
 
 	* sk.po: Updated Slovak translation.
 
->>>>>>> 1.2102
 2005-07-31  Ilkka Tuohela  <hile@iki.fi>
 
 	* fi.po: Bulk updates to Finnish translation
