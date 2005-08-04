@@ -651,6 +651,9 @@ message_foreach_part (CamelMimePart *part, GSList **part_list)
 	int parts, i;
 	int go = TRUE;
 
+	if (!part)
+		return;
+
 	*part_list = g_slist_append (*part_list, part);
 	
 	containee = camel_medium_get_content_object (CAMEL_MEDIUM (part));

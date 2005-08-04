@@ -5,6 +5,7 @@
 	* itip-formatter (update_item): skip the "cid:" prefix when
 	calling camel_mime_message_get_part_by_content_id. Also, check
 	part for NULL.
+	(message_foreach_part): added check for NULL part
 
 2005-04-07  JP Rosevear  <jpr@novell.com>
 
