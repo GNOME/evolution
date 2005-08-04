@@ -458,24 +458,30 @@ get_addressbook_names_from_server (char *source_url)
 	
 	failed_auth = "";
 	cnc = NULL;
-        do {
-		password_prompt = g_strdup_printf (_("Enter password for %s (user %s)"),
-                                           poa_address, url->user);
-		prompt = g_strconcat (failed_auth, password_prompt, NULL);
-		g_free (password_prompt);
-		password = e_passwords_ask_password (prompt, "Groupwise", key, prompt,
-                                                     E_PASSWORDS_REMEMBER_FOREVER|E_PASSWORDS_SECRET, &remember,
-						     NULL);
-		g_free (prompt);
-		
-		if (!password) 
-			break;
+	do {
+		password = e_passwords_get_password ("Groupwise", key);
+		if (!password) {
+			password_prompt = g_strdup_printf (_("Enter password for %s (user %s)"),
+					poa_address, url->user);
+			prompt = g_strconcat (failed_auth, password_prompt, NULL);
+			g_free (password_prompt);
+			password = e_passwords_ask_password (prompt, "Groupwise", key, prompt,
+					E_PASSWORDS_REMEMBER_FOREVER|E_PASSWORDS_SECRET, &remember,
+					NULL);
+			g_free (prompt);
+
+			if (!password) 
+				break;
+		}
 		cnc = e_gw_connection_new (uri, url->user, password);
 		if (!E_IS_GW_CONNECTION(cnc) && use_ssl && g_str_equal (use_ssl, "when-possible")) {
 			char *http_uri = g_strconcat ("http://", uri + 8, NULL);
 			cnc = e_gw_connection_new (http_uri, url->user, password);
 			g_free (http_uri);
 		}
+
+		g_free (password);
+
 		failed_auth = _("Failed to authenticate.\n");
 		flags |= E_PASSWORDS_REPROMPT;
 	} while (cnc == NULL);
