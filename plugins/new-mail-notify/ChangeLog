@@ -1,3 +1,8 @@
+2005-08-05  Not Zed  <NotZed@Ximian.com>
+
+	* new-mail-notify.c (send_dbus_message): fail if we can't get the
+	bus.  See bug #274329.
+
 2005-04-05  David Malcolm  <dmalcolm@redhat.com>
 
 	* new-mail-notify.c: preprocessor hackery using the value of

@@ -101,6 +101,8 @@ send_dbus_message (const char *message_name, const char *data)
 		if (!bus) {
 			printf ("Failed to connect to the D-BUS daemon: %s\n", error.message);
 			dbus_error_free (&error);
+			g_object_unref(client);
+			return;
 		}
 
 		/* Set up this connection to work in a GLib event loop  */
