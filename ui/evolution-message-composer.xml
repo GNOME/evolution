@@ -8,7 +8,7 @@
 		_tip="Save the current file" pixtype="stock" pixname="gtk-save"
 		accel="*Ctrl*s"/>
 
-		<cmd name="FileSaveDraft" _label="SaveDraft"
+		<cmd name="FileSaveDraft" _label="Save Draft"
 		_tip="Save as draft" pixtype="pixbuf" 
 		accel="*Ctrl**Shift*s"/>
 
