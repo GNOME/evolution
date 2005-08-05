@@ -1,3 +1,9 @@
+2005-03-05  Sushma Rai  <rsushma@novell.com>
+
+	* importers/evolution-ldif-importer.c (ldif_import): Initialize gci->size to
+	the file size, which is used for indicationg the import progress. Fixes the
+	crash due to devide by zero, while importing more than fifty contacts.
+
 2005-08-03  Jules Colding  <colding@omesc.com>
 
 	* gui/component/addressbook-view.c: Added forward references to functions that were

@@ -618,7 +618,8 @@ ldif_import(EImport *ei, EImportTarget *target, EImportImporter *im)
 	gci->target = target;
 	gci->book = book;
 	gci->file = file;
-	gci->size = fseek(file, 0, SEEK_END);
+	fseek(file, 0, SEEK_END);
+	gci->size = ftell(file);
 	fseek(file, 0, SEEK_SET);
 	gci->dn_contact_hash = g_hash_table_new(g_str_hash, g_str_equal);
 
