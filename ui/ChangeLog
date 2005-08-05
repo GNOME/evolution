@@ -1,3 +1,7 @@
+2005-08-05  Devashish Sharma <sdevashish@novell.com>
+
+	* evolution-addressbook.xml: Removes translation issue. Fixes #261971
+
 2005-08-02  Not Zed  <NotZed@Ximian.com>
 
 	* evolution-mail-message.xml: re-added the post-reply function.

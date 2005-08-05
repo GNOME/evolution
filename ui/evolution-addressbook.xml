@@ -52,11 +52,11 @@
 	 _tip="Send a message to the selected contacts."/>
 
     <cmd name="ContactsCopyToFolder" _label="Copy to Folder..."
-	 _tip="Copy Contact(s) to Another Folder..."
+	 _tip="Copy Selected Contacts to Another Folder..."
 	 accel="*Control**Shift*y"/>
 
     <cmd name="ContactsMoveToFolder" _label="Move to Folder..."
-	 _tip="Move Contact(s) to Another Folder..."
+	 _tip="Move Selected Contacts to Another Folder..."
 	 accel="*Control**Shift*v"/>
 
     <cmd name="ContactsViewPreview" _label="_Preview Pane"
