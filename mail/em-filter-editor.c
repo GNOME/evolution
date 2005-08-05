@@ -101,7 +101,7 @@ em_filter_editor_finalise (GObject *obj)
  * Return value: A new #EMFilterEditor object.
  **/
 EMFilterEditor *
-em_filter_editor_new (EMFilterContext *fc, const char **source_names)
+em_filter_editor_new (EMFilterContext *fc, const EMFilterSource *source_names)
 {
 	EMFilterEditor *fe = (EMFilterEditor *) g_object_new (em_filter_editor_get_type(), NULL);
 	GladeXML *gui;
@@ -125,7 +125,7 @@ select_source (GtkMenuItem *mi, EMFilterEditor *fe)
 }
 
 void
-em_filter_editor_construct (EMFilterEditor *fe, EMFilterContext *fc, GladeXML *gui, const char **source_names)
+em_filter_editor_construct (EMFilterEditor *fe, EMFilterContext *fc, GladeXML *gui, const EMFilterSource *source_names)
 {
 	GtkWidget *menu, *item, *omenu;
 	int i;
@@ -134,9 +134,9 @@ em_filter_editor_construct (EMFilterEditor *fe, EMFilterContext *fc, GladeXML *g
 	gtk_option_menu_remove_menu (GTK_OPTION_MENU (omenu));
 	menu = gtk_menu_new ();
 	
-	for (i = 0; source_names[i]; i++) {
-		item = gtk_menu_item_new_with_label (_(source_names[i]));
-		g_object_set_data_full (G_OBJECT (item), "source", g_strdup (source_names[i]), g_free);
+	for (i = 0; source_names[i].source; i++) {
+		item = gtk_menu_item_new_with_label(source_names[i].name);
+		g_object_set_data_full((GObject *)item, "source", g_strdup(source_names[i].source), g_free);
 		gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
 		gtk_widget_show (item);
 		g_signal_connect (item, "activate", G_CALLBACK (select_source), fe);
@@ -144,7 +144,7 @@ em_filter_editor_construct (EMFilterEditor *fe, EMFilterContext *fc, GladeXML *g
 	gtk_option_menu_set_menu (GTK_OPTION_MENU (omenu), menu);
 	gtk_widget_show (omenu);
 	
-	rule_editor_construct ((RuleEditor *) fe, (RuleContext *) fc, gui, source_names[0], _("_Filter Rules"));
+	rule_editor_construct ((RuleEditor *) fe, (RuleContext *) fc, gui, source_names[0].source, _("_Filter Rules"));
 }
 
 static FilterRule *

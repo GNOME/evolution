@@ -35,22 +35,24 @@
 typedef struct _EMFilterEditor EMFilterEditor;
 typedef struct _EMFilterEditorClass EMFilterEditorClass;
 
+typedef struct _EMFilterSource EMFilterSource;
+
+struct _EMFilterSource {
+	char *source;
+	char *name;
+};
+
 struct _EMFilterEditor {
 	RuleEditor parent_object;
-	
 };
 
 struct _EMFilterEditorClass {
 	RuleEditorClass parent_class;
-	
-	/* virtual methods */
-	
-	/* signals */
 };
 
 GtkType em_filter_editor_get_type (void);
 
-EMFilterEditor *em_filter_editor_new (EMFilterContext *f, const char **source_names);
-void em_filter_editor_construct (EMFilterEditor *fe, EMFilterContext *fc, GladeXML *gui, const char **source_names);
+EMFilterEditor *em_filter_editor_new (EMFilterContext *f, const EMFilterSource *source_names);
+void em_filter_editor_construct (EMFilterEditor *fe, EMFilterContext *fc, GladeXML *gui, const EMFilterSource *source_names);
 
 #endif /* ! _EM_FILTER_EDITOR_H */

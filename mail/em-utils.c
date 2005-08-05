@@ -250,10 +250,10 @@ em_filter_editor_response (GtkWidget *dialog, int button, gpointer user_data)
 	filter_editor = NULL;
 }
 
-static const char *em_filter_source_element_names[] = {
-	"incoming",
-	"outgoing",
-	NULL,
+static EMFilterSource em_filter_source_element_names[] = {
+	{ "incoming", },
+	{ "outgoing", },
+	{ 0 }
 };
 
 /**
@@ -286,7 +286,12 @@ em_utils_edit_filters (GtkWidget *parent)
 		e_error_run((GtkWindow *)parent, "mail:filter-load-error", ((RuleContext *)fc)->error, NULL);
 		return;
 	}
-	
+
+	if (em_filter_source_element_names[0].name == NULL) {
+		em_filter_source_element_names[0].name = _("Incoming");
+		em_filter_source_element_names[1].name = _("Outgoing");
+	}
+
 	filter_editor = (GtkWidget *) em_filter_editor_new (fc, em_filter_source_element_names);
 	if (parent != NULL)
 		e_dialog_set_transient_for ((GtkWindow *) filter_editor, parent);

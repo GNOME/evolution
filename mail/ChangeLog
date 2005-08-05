@@ -1,3 +1,35 @@
+2005-08-04  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #273885.
+
+	* em-utils.c (em_utils_edit_filters): setup filter source names
+	properly translated.
+
+	* em-filter-editor.c (em_filter_editor_construct): take an array
+	of structs for the filter source so the incoming/outgoing is
+	properly translated.
+
+	** See bug #312397.
+
+	* em-format-quote.c (emfq_format_message): dont quote credits
+	here.
+	(emfq_format_message_prefix): new prefix handler for credits.
+	(emfq_format_clone): invoke the message prefix before anything
+	else.
+
+	** See bug #310840.
+
+	* em-icon-stream.c (em_icon_stream_get_image): check for /0
+	possibility.
+
+	** See bug #308512.
+
+	* em-account-editor.c (emae_authtype_changed): take into account
+	the writability of the password when sensitising remember
+	password.
+	(get_password): small hack to disable the save-password button
+	when appropriate.
+
 2005-08-05 Srinivasa Ragavan <sragavan@novell.com>
 
 	* em-format-html-display.c (efhd_init) (efhd_complete) (efhd_message_add_bar):

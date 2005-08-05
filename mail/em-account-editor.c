@@ -1412,7 +1412,10 @@ emae_authtype_changed(GtkComboBox *dropdown, EMAccountEditorService *service)
 	}
 	camel_url_free(url);
 
-	gtk_widget_set_sensitive((GtkWidget *)service->remember, authtype?authtype->need_password:FALSE);
+	gtk_widget_set_sensitive((GtkWidget *)service->remember,
+				 authtype
+				 ?(authtype->need_password && e_account_writable(service->emae->account, emae_service_info[service->type].save_passwd_key))
+				 :FALSE);
 }
 
 static void

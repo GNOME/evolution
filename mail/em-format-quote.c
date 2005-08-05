@@ -143,6 +143,9 @@ emfq_format_clone(EMFormat *emf, CamelFolder *folder, const char *uid, CamelMime
 
 	camel_stream_reset(emfq->stream);
 
+	handle = em_format_find_handler(emf, "x-evolution/message/prefix");
+	if (handle)
+		handle->handler(emf, emfq->stream, (CamelMimePart *)msg, handle);
 	handle = em_format_find_handler(emf, "x-evolution/message/rfc822");
 	if (handle)
 		handle->handler(emf, emfq->stream, (CamelMimePart *)msg, handle);	
@@ -363,12 +366,18 @@ emfq_format_headers (EMFormatQuote *emfq, CamelStream *stream, CamelMedium *part
 }
 
 static void
-emfq_format_message(EMFormat *emf, CamelStream *stream, CamelMimePart *part, const EMFormatHandler *info)
+emfq_format_message_prefix(EMFormat *emf, CamelStream *stream, CamelMimePart *part, const EMFormatHandler *info)
 {
 	EMFormatQuote *emfq = (EMFormatQuote *) emf;
 
 	if (emfq->credits)
 		camel_stream_printf(stream, "%s<br>\n", emfq->credits);
+}
+
+static void
+emfq_format_message(EMFormat *emf, CamelStream *stream, CamelMimePart *part, const EMFormatHandler *info)
+{
+	EMFormatQuote *emfq = (EMFormatQuote *) emf;
 
 	if (emfq->flags & EM_FORMAT_QUOTE_CITE)
 		camel_stream_printf(stream, "<!--+GtkHTML:<DATA class=\"ClueFlow\" key=\"orig\" value=\"1\">-->\n"
@@ -517,6 +526,7 @@ static EMFormatHandler type_builtin_table[] = {
 
 	/* internal evolution types */
 	{ "x-evolution/message/rfc822", (EMFormatFunc)emfq_format_message },
+	{ "x-evolution/message/prefix", (EMFormatFunc)emfq_format_message_prefix },
 };
 
 static void

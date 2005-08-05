@@ -285,7 +285,7 @@ em_icon_stream_get_image(const char *key, unsigned int maxwidth, unsigned int ma
 			unsigned int scale;
 			char *realkey;
 
-			if (width >= height)
+			if (maxheight == 0 || width >= height)
 				scale = width * EMIS_SCALE / maxwidth;
 			else
 				scale = height * EMIS_SCALE / maxheight;

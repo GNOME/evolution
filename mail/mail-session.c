@@ -221,6 +221,12 @@ get_password (CamelSession *session, CamelService *service, const char *domain,
 			if (flags & CAMEL_SESSION_PASSWORD_SECRET)
 				eflags |= E_PASSWORDS_SECRET;
 
+			/* HACK: breaks abstraction ...
+			   e_account_writable doesn't use the eaccount, it also uses the same writable key for
+			   source and transport */
+			if (!e_account_writable(NULL, E_ACCOUNT_SOURCE_SAVE_PASSWD))
+				eflags |= E_PASSWORDS_DISABLE_REMEMBER;
+
 			ret = e_passwords_ask_password(title, domain, key, prompt, eflags, &remember, NULL);
 
 			g_free(title);
