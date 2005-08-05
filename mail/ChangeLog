@@ -1,3 +1,8 @@
+2005-08-05 Srinivasa Ragavan <sragavan@novell.com>
+
+	* em-format-html-display.c (efhd_init) (efhd_complete) (efhd_message_add_bar):
+	Fixes the bug #312410. 
+	
 2005-08-04  Srinivasa Ragavan <sragavan@novell.com>
 
 	* em-utls.c (emu_update_save_path): Killed a warning.

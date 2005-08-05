@@ -114,7 +114,6 @@ struct _EMFormatHTMLDisplayPrivate {
 	GtkWidget *down;
 	GtkWidget *save;
 	gboolean  show_bar;
-	gboolean  bar_added;
 	GHashTable *files;
 };
 
@@ -277,8 +276,7 @@ efhd_init(GObject *o)
 #undef efh
 
 	efhd->priv->show_bar = FALSE;
-	efhd->priv->bar_added = FALSE;
-	efhd->priv->files = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
+	efhd->priv->files = NULL;
 }
 
 static void
@@ -679,6 +677,11 @@ efhd_complete(EMFormat *emf)
 
 	if (efhd->priv->search_dialog)
 		efhd_update_matches(efhd);
+
+	if (efhd->priv->files) {
+		g_hash_table_destroy (efhd->priv->files);
+		efhd->priv->files = NULL;
+	}
 }
 
 /* ********************************************************************** */
@@ -1044,12 +1047,6 @@ static void efhd_format_clone(EMFormat *emf, CamelFolder *folder, const char *ui
 		else
 			efhd->priv->show_bar = FALSE;
 	}
-
-	efhd->priv->attachment_bar = NULL;
-	efhd->priv->bar_added = FALSE;
-	if (efhd->priv->files)
-		g_hash_table_destroy(efhd->priv->files);
-	efhd->priv->files = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
 
 	((EMFormatClass *)efhd_parent)->format_clone(emf, folder, uid, msg, src);
 }
@@ -1954,10 +1951,11 @@ efhd_message_add_bar(EMFormat *emf, CamelStream *stream, CamelMimePart *part, co
 	EMFormatHTMLDisplay *efhd = (EMFormatHTMLDisplay *) emf;
 	const char *classid = "attachment-bar";
 
-	if (efhd->priv->bar_added)
+	if (efhd->priv->files)
 		return;
 
-	efhd->priv->bar_added = TRUE;
+	efhd->priv->files = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
+
 	em_format_html_add_pobject((EMFormatHTML *)emf, sizeof(EMFormatHTMLPObject), classid, part, efhd_add_bar);
 	camel_stream_printf(stream, "<td><object classid=\"%s\"></object></td>", classid);
 }
