@@ -1,17 +1,27 @@
-2005-08-06  Chenthill Palanisamy  <pchenthill@novell.com>
+2005-08-05  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	* gui/e-cal-component-preview.c: (write_html): Using format
+	specifier with gtk_html_stream_printf ().
+	* gui/e-calendar-table.c: (e_calendar_table_on_save_as):
+	* gui/e-calendar-view.c: (on_save_as): Using format
+	specifier for fprintf.
+	Vulnerability patch submitted by 
+	"Sitic Vulnerability Advisory <sitic@pts.se>"
+
+2005-08-05  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #311686
 	* gui/e-meeting-list-view.c (row_activated_cb):Added
 	a null check for path.
 
-2005-08-06  Chenthill Palanisamy  <pchenthill@novell.com>
+2005-08-05  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #312460
 	* gui/itip-utils.c (itip_get_comp_attendee): Removed
 	a double free.
 
 
-2005-08-05  Viren.l <lviren@novell.com>
+2005-08-04  Viren.l <lviren@novell.com>
 
 	Fixes #302460
 	* gui/e-day-view.c (e_day_view_on_event_double_click):
