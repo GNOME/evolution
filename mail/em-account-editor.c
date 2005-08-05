@@ -1872,7 +1872,7 @@ emae_option_checkspin_check_changed(GtkToggleButton *toggle, EMAccountEditorServ
 static GtkWidget *
 emae_option_checkspin(EMAccountEditorService *service, CamelURL *url, const char *name, const char *fmt, const char *info)
 {
-	GtkWidget *hbox, *check, *spin, *label;
+	GtkWidget *hbox, *check, *spin, *label = NULL;
 	double min, def, max;
 	char *pre, *post;
 	const char *val;

@@ -1,3 +1,8 @@
+2005-08-05  David Malcolm  <dmalcolm@redhat.com>
+
+	* em-account-editor.c:  (emae_option_checkspin) initialize local 
+	variable "label".
+
 2005-08-04  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #273885.
