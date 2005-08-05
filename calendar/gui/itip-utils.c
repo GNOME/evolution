@@ -182,6 +182,7 @@ itip_get_comp_attendee (ECalComponent *comp, ECal *client)
 			return user_email;	
 		}
 		g_free (address);
+		address = NULL;
 	}
 
 	for (it = e_list_get_iterator((EList *)al);
@@ -197,7 +198,6 @@ itip_get_comp_attendee (ECalComponent *comp, ECal *client)
 			char *user_email = g_strdup (itip_strip_mailto (attendee->value));
 			
 			e_cal_component_free_attendee_list (attendees);
-			g_free (address);
 			return user_email;		
 		}
 	}

@@ -443,7 +443,7 @@ row_activated_cb (GtkTreeSelection *selection, EMeetingListView *view)
        EMeetingAttendeeEditLevel el;
        gint  edit_level;
        GtkTreeModel *model; 
-       GtkTreePath *path;
+       GtkTreePath *path = NULL;
 
        priv = view->priv;
                
@@ -451,6 +451,10 @@ row_activated_cb (GtkTreeSelection *selection, EMeetingListView *view)
        if (gtk_tree_selection_get_selected (selection, &model, &iter)) {
                path = gtk_tree_model_get_path  (model, &iter);
        }
+       
+       if (!path)
+	       return;
+       
        row = gtk_tree_path_get_indices (path)[0];
        existing_attendee = e_meeting_store_find_attendee_at_row (priv->store, row);
        el = e_meeting_attendee_get_edit_level (existing_attendee);
