@@ -336,15 +336,19 @@ proxy_dialog_store_widgets_data (EAccount *account, gint32 dialog)
 					e_error_run (NULL, "org.gnome.evolution.proxy:no-user",NULL ,NULL);
 					return -1; 
 				}
-
+				
 				for (; tmp != NULL; tmp = g_list_next (tmp)) {
 					email = NULL;
 					email = (char *)e_destination_get_email (tmp->data);
 
 					if (g_strrstr (email, "@") == NULL ) {
-						e_error_run (NULL, "org.gnome.evolution.proxy:invalid-user",email ,NULL);
+						e_error_run (NULL, "org.gnome.evolution.proxy:invalid-user", email, NULL);
 						return -1;
 					} 	
+					if (! g_ascii_strcasecmp(e_gw_connection_get_user_email (prd->cnc), email)) {
+						e_error_run (NULL, "org.gnome.evolution.proxy:invalid-user", email, NULL);
+						return -1;
+					}
 
 					/*check whether already exists*/
 					existing_list = g_object_get_data ( (GObject*)account, "proxy_list");
