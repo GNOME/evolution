@@ -529,7 +529,6 @@ em_junk_sa_check_junk(EPlugin *ep, EMJunkHookTarget *target)
 	CamelMimeMessage *msg = target->m;
 
 	d(fprintf (stderr, "em_junk_sa_check_junk\n"));
-	g_print ("checking for junk..?\n");
 	
 	if (!em_junk_sa_is_available ())
 		return FALSE;
