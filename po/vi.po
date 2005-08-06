@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution Gnome 2.12\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-08-04 05:34+0000\n"
-"PO-Revision-Date: 2005-08-04 18:49+0930\n"
+"POT-Creation-Date: 2005-08-06 05:30+0000\n"
+"PO-Revision-Date: 2005-08-06 19:24+0930\n"
 "Last-Translator: Clytie Siddall <clytie@riverland.net.au>\n"
 "Language-Team: Gnome-Vi <gnomevi-list@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -1118,7 +1118,7 @@ msgstr "thẻ"
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:8
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:26
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:14
-#: ../filter/filter.glade.h:16 ../mail/em-account-editor.c:1946
+#: ../filter/filter.glade.h:16 ../mail/em-account-editor.c:1949
 #: ../plugins/calendar-http/calendar-http.c:263
 #: ../plugins/calendar-weather/calendar-weather.c:563
 msgid "minutes"
@@ -3564,11 +3564,11 @@ msgstr "Khung xem Cây GTK"
 msgid "Importing ..."
 msgstr "Đang nhập..."
 
-#: ../addressbook/importers/evolution-ldif-importer.c:651
+#: ../addressbook/importers/evolution-ldif-importer.c:652
 msgid "LDAP Data Interchange Format (.ldif)"
 msgstr "Dạng thức chuyển đổi lẫn nhau dữ liệu LDAP (.ldif)"
 
-#: ../addressbook/importers/evolution-ldif-importer.c:652
+#: ../addressbook/importers/evolution-ldif-importer.c:653
 msgid "Evolution LDIF importer"
 msgstr "Bộ nhập LDIF Evolution"
 
@@ -4788,7 +4788,7 @@ msgstr "Không khớp"
 #: ../calendar/gui/calendar-commands.c:119
 #: ../calendar/gui/calendar-component.c:708
 #: ../calendar/gui/dialogs/calendar-setup.c:369
-#: ../calendar/gui/gnome-cal.c:2081
+#: ../calendar/gui/gnome-cal.c:2094
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:383
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:413
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:581
@@ -5082,8 +5082,8 @@ msgstr "%.0fG"
 #: ../calendar/gui/dialogs/cal-attachment-bar.c:311
 #: ../calendar/gui/dialogs/cal-attachment-bar.c:1106
 #: ../calendar/gui/dialogs/comp-editor.c:2426
-#: ../composer/e-msg-composer-attachment-bar.c:307 ../mail/em-utils.c:439
-#: ../mail/em-utils.c:476 ../widgets/misc/e-attachment-bar.c:336
+#: ../composer/e-msg-composer-attachment-bar.c:307 ../mail/em-utils.c:444
+#: ../mail/em-utils.c:481 ../widgets/misc/e-attachment-bar.c:336
 msgid "attachment"
 msgstr "đính kèm"
 
@@ -6609,7 +6609,7 @@ msgstr "Không"
 #: ../calendar/gui/e-meeting-list-view.c:168
 #: ../calendar/gui/e-meeting-list-view.c:182
 #: ../calendar/gui/e-meeting-store.c:124 ../calendar/gui/e-meeting-store.c:159
-#: ../calendar/gui/e-meeting-store.c:224 ../mail/em-utils.c:1239
+#: ../calendar/gui/e-meeting-store.c:224 ../mail/em-utils.c:1244
 #: ../plugins/itip-formatter/itip-formatter.c:238
 #: ../plugins/itip-formatter/itip-formatter.c:1632
 #: ../plugins/plugin-manager/plugin-manager.c:72
@@ -7518,7 +7518,7 @@ msgstr "Người cần thiết _và một tài nguyên"
 msgid "Enter the password for %s"
 msgstr "Hãy nhập mật khẩu cho « %s »"
 
-#: ../calendar/gui/e-tasks.c:797 ../calendar/gui/gnome-cal.c:2519
+#: ../calendar/gui/e-tasks.c:797 ../calendar/gui/gnome-cal.c:2532
 #, c-format
 msgid ""
 "Error on %s:\n"
@@ -7564,36 +7564,36 @@ msgid "Updating query"
 msgstr "Đang cập nhật truy vấn"
 
 #. bonobo displays this string so it must be in locale
-#: ../calendar/gui/gnome-cal.c:2196 ../widgets/menus/gal-view-instance.c:585
+#: ../calendar/gui/gnome-cal.c:2209 ../widgets/menus/gal-view-instance.c:585
 #: ../widgets/menus/gal-view-menus.c:350
 msgid "Custom View"
 msgstr "Khung xem tự chọn"
 
-#: ../calendar/gui/gnome-cal.c:2197 ../widgets/menus/gal-view-instance.c:586
+#: ../calendar/gui/gnome-cal.c:2210 ../widgets/menus/gal-view-instance.c:586
 msgid "Save Custom View"
 msgstr "Lưu khung xem tự chọn..."
 
-#: ../calendar/gui/gnome-cal.c:2202 ../widgets/menus/gal-view-instance.c:590
+#: ../calendar/gui/gnome-cal.c:2215 ../widgets/menus/gal-view-instance.c:590
 #: ../widgets/menus/gal-view-menus.c:372
 msgid "Define Views..."
 msgstr "Định nghĩa khung xem..."
 
-#: ../calendar/gui/gnome-cal.c:2365
+#: ../calendar/gui/gnome-cal.c:2378
 #, c-format
 msgid "Loading appointments at %s"
 msgstr "Đang tải cuộc hẹn lúc « %s »"
 
-#: ../calendar/gui/gnome-cal.c:2384
+#: ../calendar/gui/gnome-cal.c:2397
 #, c-format
 msgid "Loading tasks at %s"
 msgstr "Đang tải công việc lúc « %s »"
 
-#: ../calendar/gui/gnome-cal.c:2485
+#: ../calendar/gui/gnome-cal.c:2498
 #, c-format
 msgid "Opening %s"
 msgstr "Đang mở « %s »"
 
-#: ../calendar/gui/gnome-cal.c:3375
+#: ../calendar/gui/gnome-cal.c:3388
 msgid "Purging"
 msgstr "Đang tẩy"
 
@@ -10333,10 +10333,11 @@ msgid "Include threads"
 msgstr "Gồm các mạch"
 
 #: ../filter/filter-rule.c:978 ../filter/filter.glade.h:3
+#: ../mail/em-utils.c:291
 msgid "Incoming"
 msgstr "Đến vào"
 
-#: ../filter/filter-rule.c:978
+#: ../filter/filter-rule.c:978 ../mail/em-utils.c:292
 msgid "Outgoing"
 msgstr "Gửi đi"
 
@@ -10552,46 +10553,46 @@ msgstr "Chọn danh mục"
 msgid "Ask for each message"
 msgstr "Hỏi cho mỗi thư"
 
-#: ../mail/em-account-editor.c:1719 ../mail/mail-config.glade.h:90
+#: ../mail/em-account-editor.c:1722 ../mail/mail-config.glade.h:90
 msgid "Identity"
 msgstr "Nhân dạng"
 
-#: ../mail/em-account-editor.c:1755 ../mail/mail-config.glade.h:117
+#: ../mail/em-account-editor.c:1758 ../mail/mail-config.glade.h:117
 msgid "Receiving Email"
 msgstr "Đang nhận thư"
 
-#: ../mail/em-account-editor.c:1938
+#: ../mail/em-account-editor.c:1941
 msgid "Automatically check for _new mail every"
 msgstr "Tự động kiểm tra thư _mới mỗi"
 
-#: ../mail/em-account-editor.c:2106 ../mail/mail-config.glade.h:128
+#: ../mail/em-account-editor.c:2109 ../mail/mail-config.glade.h:128
 msgid "Sending Email"
 msgstr "Đang gửi thư"
 
-#: ../mail/em-account-editor.c:2157 ../mail/mail-config.glade.h:68
+#: ../mail/em-account-editor.c:2160 ../mail/mail-config.glade.h:68
 msgid "Defaults"
 msgstr "Mặc định"
 
 #. Security settings
-#: ../mail/em-account-editor.c:2216 ../mail/mail-config.glade.h:122
+#: ../mail/em-account-editor.c:2219 ../mail/mail-config.glade.h:122
 #: ../plugins/exchange-operations/exchange-account-setup.c:317
 msgid "Security"
 msgstr "Bảo mật"
 
 #. Most sections for this is auto-generated fromt the camel config
-#: ../mail/em-account-editor.c:2253 ../mail/em-account-editor.c:2327
+#: ../mail/em-account-editor.c:2256 ../mail/em-account-editor.c:2330
 msgid "Receiving Options"
 msgstr "Tùy chọn nhận"
 
-#: ../mail/em-account-editor.c:2254 ../mail/em-account-editor.c:2328
+#: ../mail/em-account-editor.c:2257 ../mail/em-account-editor.c:2331
 msgid "Checking for New Mail"
 msgstr "Kiểm tra tìm thư mới"
 
-#: ../mail/em-account-editor.c:2652 ../mail/mail-config.glade.h:34
+#: ../mail/em-account-editor.c:2655 ../mail/mail-config.glade.h:34
 msgid "Account Editor"
 msgstr "Bộ hiệu chỉnh tài khoản"
 
-#: ../mail/em-account-editor.c:2652 ../mail/mail-config.glade.h:80
+#: ../mail/em-account-editor.c:2655 ../mail/mail-config.glade.h:80
 msgid "Evolution Account Assistant"
 msgstr "Phụ tá tài khoản Evolution"
 
@@ -10896,7 +10897,7 @@ msgid "Stop Processing"
 msgstr "Dừng xử lý"
 
 #: ../mail/em-filter-i18n.h:65 ../mail/em-format-html.c:1671
-#: ../mail/em-format-quote.c:310 ../mail/em-format.c:848
+#: ../mail/em-format-quote.c:313 ../mail/em-format.c:848
 #: ../mail/em-mailer-prefs.c:88 ../mail/message-list.etspec.h:13
 #: ../mail/message-tag-followup.c:330
 #: ../plugins/groupwise-features/properties.glade.h:7
@@ -11230,57 +11231,57 @@ msgid "Click to mail %s"
 msgstr "Nhấn để gửi thư cho « %s »"
 
 #. message-search popup match count string
-#: ../mail/em-format-html-display.c:444
+#: ../mail/em-format-html-display.c:442
 #, c-format
 msgid "Matches: %d"
 msgstr "Khớp: %d"
 
-#: ../mail/em-format-html-display.c:691 ../mail/em-format-html.c:596
+#: ../mail/em-format-html-display.c:694 ../mail/em-format-html.c:596
 msgid "Unsigned"
 msgstr "Chưa ký"
 
-#: ../mail/em-format-html-display.c:691
+#: ../mail/em-format-html-display.c:694
 msgid ""
 "This message is not signed. There is no guarantee that this message is "
 "authentic."
 msgstr "Thư này không có chữ ký nên không thể đảm bảo thư này do người ấy gửi."
 
-#: ../mail/em-format-html-display.c:692 ../mail/em-format-html.c:597
+#: ../mail/em-format-html-display.c:695 ../mail/em-format-html.c:597
 msgid "Valid signature"
 msgstr "Chữ ký hợp lệ"
 
-#: ../mail/em-format-html-display.c:692
+#: ../mail/em-format-html-display.c:695
 msgid ""
 "This message is signed and is valid meaning that it is very likely that this "
 "message is authentic."
 msgstr "Thư này có chữ ký và hợp lệ nên rất có thể là thư ấy do người ấy gửi."
 
-#: ../mail/em-format-html-display.c:693 ../mail/em-format-html.c:598
+#: ../mail/em-format-html-display.c:696 ../mail/em-format-html.c:598
 msgid "Invalid signature"
 msgstr "Chữ ký không hợp lệ"
 
-#: ../mail/em-format-html-display.c:693
+#: ../mail/em-format-html-display.c:696
 msgid ""
 "The signature of this message cannot be verified, it may have been altered "
 "in transit."
 msgstr ""
 "Không thể xác minh chữ ký của thư này: có lẽ nó bị giả trong khi truyền."
 
-#: ../mail/em-format-html-display.c:694
+#: ../mail/em-format-html-display.c:697
 msgid "Valid signature, cannot verify sender"
 msgstr "Chữ ký hợp lệ nhưng mà không thể xác minh người gửi."
 
-#: ../mail/em-format-html-display.c:694
+#: ../mail/em-format-html-display.c:697
 msgid ""
 "This message is signed with a valid signature, but the sender of the message "
 "cannot be verified."
 msgstr "Thư này có chữ ký hợp lệ, nhưng mà không thể xác minh người gửi thư."
 
-#: ../mail/em-format-html-display.c:700 ../mail/em-format-html.c:605
+#: ../mail/em-format-html-display.c:703 ../mail/em-format-html.c:605
 msgid "Unencrypted"
 msgstr "Không mật mã"
 
-#: ../mail/em-format-html-display.c:700
+#: ../mail/em-format-html-display.c:703
 msgid ""
 "This message is not encrypted.  Its content may be viewed in transit across "
 "the Internet."
@@ -11288,11 +11289,11 @@ msgstr ""
 "Thư này không mật mã nên bất cứ người nào có xem được nội dung nó trong khi "
 "truyền qua Mạng."
 
-#: ../mail/em-format-html-display.c:701 ../mail/em-format-html.c:606
+#: ../mail/em-format-html-display.c:704 ../mail/em-format-html.c:606
 msgid "Encrypted, weak"
 msgstr "Mật mã yếu"
 
-#: ../mail/em-format-html-display.c:701
+#: ../mail/em-format-html-display.c:704
 msgid ""
 "This message is encrypted, but with a weak encryption algorithm.  It would "
 "be difficult, but not impossible for an outsider to view the content of this "
@@ -11301,21 +11302,21 @@ msgstr ""
 "Thư này mật mã, nhưng mà dùng thuật toán mật mã yếu. Người khác sẽ gặp khó "
 "khăn đọc thư này được một thời gian hữu ích, nhưng mà có thể làm như thế."
 
-#: ../mail/em-format-html-display.c:702 ../mail/em-format-html.c:607
+#: ../mail/em-format-html-display.c:705 ../mail/em-format-html.c:607
 msgid "Encrypted"
 msgstr "Mật mã"
 
-#: ../mail/em-format-html-display.c:702
+#: ../mail/em-format-html-display.c:705
 msgid ""
 "This message is encrypted.  It would be difficult for an outsider to view "
 "the content of this message."
 msgstr "Thư này mật mã. Người khác sẽ gặp khó khăn nhiều đọc nội dung thư."
 
-#: ../mail/em-format-html-display.c:703 ../mail/em-format-html.c:608
+#: ../mail/em-format-html-display.c:706 ../mail/em-format-html.c:608
 msgid "Encrypted, strong"
 msgstr "Mật mã mạnh"
 
-#: ../mail/em-format-html-display.c:703
+#: ../mail/em-format-html-display.c:706
 msgid ""
 "This message is encrypted, with a strong encryption algorithm.  It would be "
 "very difficult for an outsider to view the content of this message in a "
@@ -11324,70 +11325,70 @@ msgstr ""
 "Thư này mật mã dùng thuật toán mật mã mạnh. Người khác sẽ gặp khó khăn rất "
 "nhiều đọc nội dung thư được thời gian hữu ích. "
 
-#: ../mail/em-format-html-display.c:804 ../smime/gui/smime-ui.glade.h:48
+#: ../mail/em-format-html-display.c:807 ../smime/gui/smime-ui.glade.h:48
 msgid "_View Certificate"
 msgstr "_Xem Chứng nhận"
 
-#: ../mail/em-format-html-display.c:819
+#: ../mail/em-format-html-display.c:822
 msgid "This certificate is not viewable"
 msgstr "Chứng nhận này không thể xem"
 
-#: ../mail/em-format-html-display.c:1107
+#: ../mail/em-format-html-display.c:1104
 msgid "Completed on %B %d, %Y, %l:%M %p"
 msgstr "Hoàn thành lúc %d %B, %Y, %l:%M %p"
 
-#: ../mail/em-format-html-display.c:1115
+#: ../mail/em-format-html-display.c:1112
 msgid "Overdue:"
 msgstr "Quá hạn:"
 
-#: ../mail/em-format-html-display.c:1118
+#: ../mail/em-format-html-display.c:1115
 msgid "by %B %d, %Y, %l:%M %p"
 msgstr "trước %d %B, %Y, %l:%M %p"
 
-#: ../mail/em-format-html-display.c:1178
+#: ../mail/em-format-html-display.c:1175
 msgid "_View Inline"
 msgstr "_Xem trực tiếp"
 
-#: ../mail/em-format-html-display.c:1179
+#: ../mail/em-format-html-display.c:1176
 msgid "_Hide"
 msgstr "Ẩ_n"
 
-#: ../mail/em-format-html-display.c:1180
+#: ../mail/em-format-html-display.c:1177
 msgid "_Fit to Width"
 msgstr "_Vừa khít độ rộng"
 
-#: ../mail/em-format-html-display.c:1181
+#: ../mail/em-format-html-display.c:1178
 msgid "Show _Original Size"
 msgstr "Hiển thị kích thước _gốc"
 
-#: ../mail/em-format-html-display.c:1550
+#: ../mail/em-format-html-display.c:1547
 msgid "Attachment Button"
 msgstr "Nút đính kèm"
 
-#: ../mail/em-format-html-display.c:1757
+#: ../mail/em-format-html-display.c:1754
 msgid "Select folder to save all attachments..."
 msgstr "Chọn danh mục nơi cần lưu mọi đính kèm..."
 
-#: ../mail/em-format-html-display.c:1795
+#: ../mail/em-format-html-display.c:1792
 msgid "Select folder to save selected attachments..."
 msgstr "Chọn danh mục nơi cần lưu những đính kèm đã chọn..."
 
-#: ../mail/em-format-html-display.c:1803
+#: ../mail/em-format-html-display.c:1800
 msgid "Save Selected..."
 msgstr "Lưu các điều chọn..."
 
 #. Cant i put in the number of attachments here ?
-#: ../mail/em-format-html-display.c:1870
+#: ../mail/em-format-html-display.c:1867
 #, c-format
 msgid "%d Attachment"
 msgid_plural "%d Attachments"
 msgstr[0] "%d đính kèm"
 
-#: ../mail/em-format-html-display.c:1898
+#: ../mail/em-format-html-display.c:1895
 msgid "No Attachment"
 msgstr "Không có đính kèm"
 
-#: ../mail/em-format-html-display.c:1901
+#: ../mail/em-format-html-display.c:1898
 msgid "Save All"
 msgstr "Lưu tất cả"
 
@@ -11446,35 +11447,35 @@ msgstr "Trỏ tới dữ liệu lạ bên ngoài (kiểu « %s »)"
 msgid "Formatting message"
 msgstr "Đang định dạng thư"
 
-#: ../mail/em-format-html.c:1563 ../mail/em-format-quote.c:197
+#: ../mail/em-format-html.c:1563 ../mail/em-format-quote.c:200
 #: ../mail/em-format.c:843 ../mail/em-mailer-prefs.c:83
 #: ../mail/message-list.etspec.h:7 ../mail/message-tag-followup.c:326
 msgid "From"
 msgstr "Từ"
 
-#: ../mail/em-format-html.c:1563 ../mail/em-format-quote.c:197
+#: ../mail/em-format-html.c:1563 ../mail/em-format-quote.c:200
 #: ../mail/em-format.c:844 ../mail/em-mailer-prefs.c:84
 msgid "Reply-To"
 msgstr "Trả lời cho"
 
-#: ../mail/em-format-html.c:1563 ../mail/em-format-quote.c:197
+#: ../mail/em-format-html.c:1563 ../mail/em-format-quote.c:200
 #: ../mail/em-format.c:845 ../mail/em-mailer-prefs.c:85
 #: ../mail/message-list.etspec.h:14
 msgid "To"
 msgstr "Cho"
 
-#: ../mail/em-format-html.c:1563 ../mail/em-format-quote.c:197
+#: ../mail/em-format-html.c:1563 ../mail/em-format-quote.c:200
 #: ../mail/em-format.c:846 ../mail/em-mailer-prefs.c:86
 msgid "Cc"
 msgstr "Cc"
 
-#: ../mail/em-format-html.c:1563 ../mail/em-format-quote.c:197
+#: ../mail/em-format-html.c:1563 ../mail/em-format-quote.c:200
 #: ../mail/em-format.c:847 ../mail/em-mailer-prefs.c:87
 msgid "Bcc"
 msgstr "Bcc"
 
 #. pseudo-header
-#: ../mail/em-format-html.c:1675 ../mail/em-format-quote.c:319
+#: ../mail/em-format-html.c:1675 ../mail/em-format-quote.c:322
 #: ../mail/em-mailer-prefs.c:987
 msgid "Mailer"
 msgstr "Trình thư"
@@ -11489,7 +11490,7 @@ msgstr "<I> (%a, %R %Z)</I>"
 msgid "<I> (%R %Z)</I>"
 msgstr "<I> (%R %Z)</I>"
 
-#: ../mail/em-format-html.c:1715 ../mail/em-format-quote.c:326
+#: ../mail/em-format-html.c:1715 ../mail/em-format-quote.c:329
 #: ../mail/em-format.c:849 ../mail/em-mailer-prefs.c:89
 #: ../mail/message-list.etspec.h:2
 msgid "Date"
@@ -11670,24 +11671,24 @@ msgstr "Chưa chọn máy phục vụ."
 msgid "Don't show this message again."
 msgstr "Đừng hiện thông điệp này lần nữa."
 
-#: ../mail/em-utils.c:294
+#: ../mail/em-utils.c:299
 msgid "Filters"
 msgstr "Bộ lọc"
 
-#: ../mail/em-utils.c:437 ../mail/em-utils.c:474
+#: ../mail/em-utils.c:442 ../mail/em-utils.c:479
 msgid "message"
 msgstr "thư"
 
-#: ../mail/em-utils.c:609
+#: ../mail/em-utils.c:614
 msgid "Save Message..."
 msgstr "Lưu thư..."
 
-#: ../mail/em-utils.c:658
+#: ../mail/em-utils.c:663
 msgid "Add address"
 msgstr "Thêm địa chỉ"
 
 #. Drop filename for messages from a mailbox
-#: ../mail/em-utils.c:1137
+#: ../mail/em-utils.c:1142
 #, c-format
 msgid "Messages from %s"
 msgstr "Thừ từ « %s »"
@@ -13378,7 +13379,7 @@ msgstr "Nhập mật khẩu cho « %s »"
 msgid "Enter Password"
 msgstr "Nhập mật khẩu"
 
-#: ../mail/mail-session.c:238
+#: ../mail/mail-session.c:244
 msgid "User canceled operation."
 msgstr "Người dùng đã hủy bỏ tác vụ."
 
@@ -17444,8 +17445,8 @@ msgid "Shutting down %s (%s)\n"
 msgstr "Đang tắt « %s » (%s)\n"
 
 #: ../ui/evolution-addressbook.xml.h:3
-msgid "Copy Contact(s) to Another Folder..."
-msgstr "Chép các liên lạc sang danh mục khác..."
+msgid "Copy Selected Contacts to Another Folder..."
+msgstr "Chép các liên lạc được chọn sang danh mục khác..."
 
 #: ../ui/evolution-addressbook.xml.h:4 ../ui/evolution-calendar.xml.h:2
 msgid "Copy the selection"
@@ -17464,8 +17465,8 @@ msgid "Delete selected contacts"
 msgstr "Xoá bỏ các liên lạc được chọn"
 
 #: ../ui/evolution-addressbook.xml.h:11
-msgid "Move Contact(s) to Another Folder..."
-msgstr "Chuyển các liên lạc sang danh mục khác..."
+msgid "Move Selected Contacts to Another Folder..."
+msgstr "Chuyển các liên lạc được chọn sang danh mục khác..."
 
 #: ../ui/evolution-addressbook.xml.h:12
 msgid "Move to Folder..."
@@ -18372,37 +18373,37 @@ msgid "Save As"
 msgstr "Lưu mới"
 
 #: ../ui/evolution-message-composer.xml.h:20
+msgid "Save Draft"
+msgstr "Lưu nháp"
+
+#: ../ui/evolution-message-composer.xml.h:21
 msgid "Save _As..."
 msgstr "Lư_u mới..."
 
-#: ../ui/evolution-message-composer.xml.h:21
+#: ../ui/evolution-message-composer.xml.h:22
 msgid "Save _Draft"
 msgstr "Lưu _nháp"
 
-#: ../ui/evolution-message-composer.xml.h:22
+#: ../ui/evolution-message-composer.xml.h:23
 msgid "Save as draft"
 msgstr "Lưu là nháp"
 
-#: ../ui/evolution-message-composer.xml.h:23
+#: ../ui/evolution-message-composer.xml.h:24
 msgid "Save in folder..."
 msgstr "Lưu vào danh mục..."
 
-#: ../ui/evolution-message-composer.xml.h:24
+#: ../ui/evolution-message-composer.xml.h:25
 #: ../ui/evolution-signature-editor.xml.h:9
 msgid "Save the current file"
 msgstr "Lưu tập tin hiện thời"
 
-#: ../ui/evolution-message-composer.xml.h:25
+#: ../ui/evolution-message-composer.xml.h:26
 msgid "Save the current file with a different name"
 msgstr "Lưu tập tin hiện thời với tên khác"
 
-#: ../ui/evolution-message-composer.xml.h:26
+#: ../ui/evolution-message-composer.xml.h:27
 msgid "Save the message in a specified folder"
 msgstr "Lưu thông điệp vào danh mục xác định"
-
-#: ../ui/evolution-message-composer.xml.h:27
-msgid "SaveDraft"
-msgstr "Lưu_nháp"
 
 #: ../ui/evolution-message-composer.xml.h:29
 #: ../ui/evolution-signature-editor.xml.h:11
@@ -19988,6 +19989,3 @@ msgstr "Ngữ cảnh IM"
 #: ../widgets/text/e-text.c:3683 ../widgets/text/e-text.c:3684
 msgid "Handle Popup"
 msgstr "Bộ bật lên móc kéo"
-
-#~ msgid "_Host:"
-#~ msgstr "_Máy:"
