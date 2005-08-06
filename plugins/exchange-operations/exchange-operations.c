@@ -112,7 +112,7 @@ exchange_operations_cta_add_node_to_tree (GtkTreeStore *store, GtkTreeIter *pare
 
 	if (!strcmp (nodename, "personal") && !parent) {
 		/* FIXME: Don't hardcode this */
-		strcpy (nodename, "Personal Folders");
+		strcpy (nodename, _("Personal Folders"));
 	}
 
 	found = FALSE;
@@ -155,7 +155,7 @@ exchange_operations_cta_select_node_from_tree (GtkTreeStore *store, GtkTreeIter 
 
 	if (!strcmp (nodename, "personal") && !parent) {
 		/* FIXME: Don't hardcode this */
-		strcpy (nodename, "Personal Folders");
+		strcpy (nodename, _("Personal Folders"));
 	}
 
 	status = gtk_tree_model_iter_children (GTK_TREE_MODEL (store), &iter, parent);

@@ -132,11 +132,11 @@ exchange_folder_size_display (GtkListStore *model, GtkWidget *parent)
 	gtk_tree_sortable_set_sort_column_id (sortable, COLUMN_SIZE, GTK_SORT_DESCENDING);
 
         column = gtk_tree_view_column_new_with_attributes (
-                ("Folder Name"), gtk_cell_renderer_text_new (), "text", COLUMN_NAME, NULL);
+                _("Folder Name"), gtk_cell_renderer_text_new (), "text", COLUMN_NAME, NULL);
         gtk_tree_view_append_column (GTK_TREE_VIEW (table),
                                      column);
 
-	col_name = g_strdup_printf ("%s (KB)", ("Folder Size"));
+	col_name = g_strdup_printf ("%s (KB)", _("Folder Size"));
         column = gtk_tree_view_column_new_with_attributes (
                 col_name, gtk_cell_renderer_text_new (), "text", COLUMN_SIZE, NULL);
 	g_free (col_name);
