@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Evolution 2.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-08-05 18:06+0200\n"
+"POT-Creation-Date: 2005-08-06 14:30+0200\n"
 "PO-Revision-Date: 2005-08-05 18:09+0200\n"
 "Last-Translator: Francisco Javier F. Serrador <serrador@es.gnome.org>\n"
 "Language-Team:  <traductores@es.gnome.org>\n"
@@ -15361,7 +15361,7 @@ msgstr "Sesión proxy"
 
 #: ../plugins/groupwise-features/proxy-login.c:221
 #: ../plugins/groupwise-features/proxy-login.c:263
-#: ../plugins/groupwise-features/proxy.c:470
+#: ../plugins/groupwise-features/proxy.c:474
 #: ../plugins/groupwise-features/send-options.c:83
 #, c-format
 msgid "%sEnter password for %s (user %s)"
@@ -15371,7 +15371,7 @@ msgstr "%s Introduzca la contraseña para %s (usuario %s)"
 msgid "_Proxy Login..."
 msgstr "Sesión _proxy..."
 
-#: ../plugins/groupwise-features/proxy.c:664
+#: ../plugins/groupwise-features/proxy.c:668
 msgid "The Proxy tab will be available only when the account is enabled."
 msgstr ""
 "La solapa del Proxy estará disponible sólo cuando la cuenta esté activada."
