@@ -226,7 +226,7 @@ em_utils_check_user_can_send_mail (GtkWidget *parent)
 	return TRUE;
 }
 
-/* Editing Filters/vFolders... */
+/* Editing Filters/Search Folders... */
 
 static GtkWidget *filter_editor = NULL;
 

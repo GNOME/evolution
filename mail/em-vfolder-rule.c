@@ -571,7 +571,7 @@ em_vfolder_editor_sourcelist_new(char *widget_name, char *string1, char *string2
 	
 	renderer = gtk_cell_renderer_text_new();
 	gtk_tree_view_insert_column_with_attributes((GtkTreeView *)table, -1,
-						     _("vFolder source"), renderer,
+						     _("Search Folder source"), renderer,
 						     "text", 0, NULL);
 	
 	selection = gtk_tree_view_get_selection((GtkTreeView *)table);

@@ -1,3 +1,21 @@
+2005-08-07  Rodney Dawes  <dobey@novell.com>
+
+	* em-folder-browser.c (emfb_search_items):
+	* em-folder-tree-model.c (sort_cb, em_folder_tree_model_load_state):
+	* em-folder-tree.c (emft_drop_target):
+	* em-folder-view.c (emfv_popup_items, emfv_uri_popups):
+	* em-utils.c:
+	* em-vfolder-editor.c (em_vfolder_editor_new):
+	* em-vfolder-rule.c (em_vfolder_editor_sourcelist_new):
+	* mail-dialogs.glade:
+	* mail-vfolder.c (vfolder_setup_desc, vfolder_setup_do):
+	(vfolder_adduri_desc, vfolder_load_storage, vfolder_edit):
+	(vfolder_edit_rule, vfolder_gui_add_rule):
+	* mail.error.xml:
+	Change instances of "vfolder" that appear in the UI to use the term
+	"Search Folder" instead
+	Update some comments to use the term "Search Folder" instead of vfolder
+	
 2005-08-05  David Malcolm  <dmalcolm@redhat.com>
 
 	* em-account-editor.c:  (emae_option_checkspin) initialize local 

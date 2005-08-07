@@ -278,18 +278,19 @@ all proxy information will be deleted permanently.</_secondary>
  </error>
 
  <error id="vfolder-notexist" type="error">
-  <_primary>Cannot edit vFolder &quot;{0}&quot; as it does not exist.</_primary>
-  <_secondary xml:space="preserve">This folder may have been added implicitly, go to the vFolder editor to add it explicitly, if required.</_secondary>
+  <_primary>Cannot edit Search Folder &quot;{0}&quot; as it does not exist.</_primary>
+  <_secondary xml:space="preserve">This folder may have been added implicitly,
+go to the Search Folder editor to add it explicitly, if required.</_secondary>
  </error>
 
  <error id="vfolder-notunique" type="error">
-  <_primary>Cannot add vFolder &quot;{0}&quot;.</_primary>
+  <_primary>Cannot add Search Folder &quot;{0}&quot;.</_primary>
   <_secondary xml:space="preserve">A folder named &quot;{1}&quot; already exists. Please use a different name.</_secondary>
  </error>
 
  <error id="vfolder-updated" type="info">
-  <_primary>vFolders automatically updated.</_primary>
-  <_secondary xml:space="preserve">The following vFolder(s):
+  <_primary>Search Folders automatically updated.</_primary>
+  <_secondary xml:space="preserve">The following Search Folder(s):
 {0}
 Used the now removed folder:
     &quot;{1}&quot;
@@ -312,7 +313,7 @@ And have been updated.</_secondary>
 
  <error id="no-name-vfolder" type="error">
   <_primary>Missing name.</_primary>
-  <_secondary xml:space="preserve">You must name this vFolder.</_secondary>
+  <_secondary xml:space="preserve">You must name this Search Folder.</_secondary>
  </error>
 
  <error id="vfolder-no-source" type="error">

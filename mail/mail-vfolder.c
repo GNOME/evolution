@@ -88,7 +88,7 @@ vfolder_setup_desc(struct _mail_msg *mm, int done)
 {
 	struct _setup_msg *m = (struct _setup_msg *)mm;
 
-	return g_strdup_printf(_("Setting up vFolder: %s"), m->folder->full_name);
+	return g_strdup_printf(_("Setting up Search Folder: %s"), m->folder->full_name);
 }
 
 static void
@@ -98,7 +98,7 @@ vfolder_setup_do(struct _mail_msg *mm)
 	GList *l, *list = NULL;
 	CamelFolder *folder;
 
-	d(printf("Setting up vFolder: %s\n", m->folder->full_name));
+	d(printf("Setting up Search Folder: %s\n", m->folder->full_name));
 
 	camel_vee_folder_set_expression((CamelVeeFolder *)m->folder, m->query);
 
@@ -237,14 +237,14 @@ vfolder_adduri_desc(struct _mail_msg *mm, int done)
 			}
 
 			if (loc && url->path)
-				desc = g_strdup_printf(_("Updating vFolders for '%s:%s'"), loc, url->path);
+				desc = g_strdup_printf(_("Updating Search Folders for '%s:%s'"), loc, url->path);
 			camel_url_free(url);
 		}
 		g_free(euri);
 	}
 
 	if (desc == NULL)
-		desc = g_strdup_printf(_("Updating vFolders for '%s'"), m->uri);
+		desc = g_strdup_printf(_("Updating Search Folders for '%s'"), m->uri);
 
 	return desc;
 }
@@ -934,7 +934,7 @@ vfolder_load_storage(void)
 				(CamelObjectEventHookFunc)store_folder_renamed, NULL);
 	
 	d(printf("got store '%s' = %p\n", storeuri, vfolder_store));
-	mail_component_load_store_by_uri (mail_component_peek (), storeuri, _("vFolders"));
+	mail_component_load_store_by_uri (mail_component_peek (), storeuri, _("Search Folders"));
 	
 	/* load our rules */
 	user = g_strdup_printf ("%s/mail/vfolders.xml", mail_component_peek_base_directory (mail_component_peek ()));
@@ -1004,7 +1004,7 @@ vfolder_edit (void)
 	}
 	
 	vfolder_editor = GTK_WIDGET (em_vfolder_editor_new (context));
-	gtk_window_set_title (GTK_WINDOW (vfolder_editor), _("vFolders"));
+	gtk_window_set_title (GTK_WINDOW (vfolder_editor), _("Search Folders"));
 	g_signal_connect(vfolder_editor, "response", G_CALLBACK(em_vfolder_editor_response), NULL);
 	
 	gtk_widget_show (vfolder_editor);
@@ -1043,7 +1043,7 @@ vfolder_edit_rule(const char *uri)
 
 		w = filter_rule_get_widget((FilterRule *)newrule, (RuleContext *)context);
 
-		gd = (GtkDialog *)gtk_dialog_new_with_buttons(_("Edit vFolder"), NULL,
+		gd = (GtkDialog *)gtk_dialog_new_with_buttons(_("Edit Search Folder"), NULL,
 							      GTK_DIALOG_DESTROY_WITH_PARENT,
 							      GTK_STOCK_CANCEL,
 							      GTK_RESPONSE_CANCEL,
@@ -1127,7 +1127,7 @@ vfolder_gui_add_rule(EMVFolderRule *rule)
 
 	w = filter_rule_get_widget((FilterRule *)rule, (RuleContext *)context);
 
-	gd = (GtkDialog *)gtk_dialog_new_with_buttons(_("New vFolder"),
+	gd = (GtkDialog *)gtk_dialog_new_with_buttons(_("New Search Folder"),
 						      NULL,
 						      GTK_DIALOG_DESTROY_WITH_PARENT,
 						      GTK_STOCK_CANCEL,

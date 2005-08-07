@@ -1268,7 +1268,7 @@ emft_drop_target(EMFolderTree *emft, GdkDragContext *context, GtkTreePath *path)
 		}
 		camel_url_free(url);
 		
-		/* vFolders can only be dropped into other vFolders */
+		/* Search Folders can only be dropped into other Search Folders */
 		if (strncmp(src_uri, "vfolder:", 8) == 0) {
 			/* TODO: not sure if this is legal, but it works, force move only for vfolders */
 			context->suggested_action = GDK_ACTION_MOVE;
