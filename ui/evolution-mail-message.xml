@@ -195,16 +195,16 @@
      _tip="Create a rule to filter messages with this subject"/>
 
     <cmd name="ToolsVFolderMailingList"
-     _tip="Create a vFolder for this mailing list"/>
+     _tip="Create a Search Folder for this mailing list"/>
 
     <cmd name="ToolsVFolderRecipient"
-     _tip="Create a vFolder for these recipients"/>
+     _tip="Create a Search Folder for these recipients"/>
 
     <cmd name="ToolsVFolderSender"
-     _tip="Create a vFolder for this sender"/>
+     _tip="Create a Search Folder for this sender"/>
 
     <cmd name="ToolsVFolderSubject"
-     _tip="Create a vFolder for this subject"/>
+     _tip="Create a Search Folder for this subject"/>
 
     <cmd name="ViewFullHeaders"
      _tip="Show message with all email headers"
@@ -374,10 +374,10 @@
 
             <separator f="" name="RuleSeparator"/>
 
-            <menuitem name="ToolsVFolderSubject" verb="" _label="VFolder on S_ubject..."/>
-            <menuitem name="ToolsVFolderSender" verb="" _label="VFolder on Sen_der..."/>
-            <menuitem name="ToolsVFolderRecipient" verb="" _label="VFolder on Recipients..."/>
-            <menuitem name="ToolsVFolderMailingList" verb="" _label="VFolder on Mailing _List..."/>
+            <menuitem name="ToolsVFolderSubject" verb="" _label="Search Folder from S_ubject..."/>
+            <menuitem name="ToolsVFolderSender" verb="" _label="Search Folder from Sen_der..."/>
+            <menuitem name="ToolsVFolderRecipient" verb="" _label="Search Folder from Recipients..."/>
+            <menuitem name="ToolsVFolderMailingList" verb="" _label="Search Folder from Mailing _List..."/>
 
           </submenu>
         </placeholder>

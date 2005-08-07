@@ -1,3 +1,11 @@
+2005-08-07  Rodney Dawes  <dobey@novell.com>
+
+	* evolution-mail-global.xml: Fix the tooltip for the
+	Edit->Search Folders menu item to say "Search Folders" as well
+
+	* evolution-mail-message.xml: Fix the tooltips and text for the menu
+	items to create vfolders from message parts to say "Search Folder"
+
 2005-08-05  Devashish Sharma <sdevashish@novell.com>
 
 	* evolution-message-composer.xml: Uisng the label "Save Draft" instead

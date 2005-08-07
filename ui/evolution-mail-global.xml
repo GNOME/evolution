@@ -33,7 +33,7 @@
      _tip="Subscribe or unsubscribe to folders on remote servers"/>
 
     <cmd name="ToolsVFolders"
-     _tip="Create or edit vFolder definitions"/>
+     _tip="Create or edit Search Folder definitions"/>
 
     <cmd name="ViewPreview"
      _tip="Show message preview window"
