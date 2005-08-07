@@ -82,7 +82,7 @@
   <title>Getting Started</title>
   <para>Evolution&trade; makes the tasks of storing, organizing, and retrieving your personal information easy, so you can work and communicate more effectively with others. It&apos;s a highly evolved <link linkend="groupware">groupware</link> program, an integral part of the Internet-connected desktop.</para>
   <para>Evolution can help you work in a group by handling e-mail, address, and other contact information, and one or more calendars. It can do that on one or several computers, connected directly or over a network, for one person or for large groups.</para>
-  <para>With Evolution, you can accomplish your most common daily tasks quickly. For example, it takes only one or two clicks to enter appointment or contact information sent to you by e-mail, or to send e-mail to a contact or appointment. People who get lots of e-mail will appreciate advanced features like <link linkend="vfolder">vFolders</link>, which let you save searches as though they were ordinary e-mail folders.</para>
+  <para>With Evolution, you can accomplish your most common daily tasks quickly. For example, it takes only one or two clicks to enter appointment or contact information sent to you by e-mail, or to send e-mail to a contact or appointment. People who get lots of e-mail will appreciate advanced features like <link linkend="vfolder">Search Folders</link>, which let you save searches as though they were ordinary e-mail folders.</para>
   <itemizedlist>
    <listitem>
     <para><link linkend="usage-mainwindow-starting">Starting Evolution for the First Time</link></para>
@@ -681,7 +681,7 @@
    <section id="usage-mainwindow-shortcutbar">
     <title>The Shortcut Bar</title>
     <para>Evolution&apos;s most important job is to give you access to your information and help you use it quickly. One way it does that is through the shortcut bar, which is the column on the left side of the main window. The buttons, such as Mail and Contacts, are the shortcuts. Above them is a list of folders for the current Evolution tool.</para>
-    <para>The folder list organizes your e-mail, calendars, contact lists, and task lists in a tree, similar to a <link linkend="filetree">file tree</link>. Most people will find one to four folders at the base of the tree, depending on the tool and their system configuration. Each Evolution tool has at least one, called On This Computer, for local information. For example, the folder list for the e-mail tool shows any remote e-mail storage you have set up, plus local folders and vFolders, or virtual folders, which are discussed in <link linkend="usage-mail-organize-vfolders">Using vFolders</link>. </para>
+    <para>The folder list organizes your e-mail, calendars, contact lists, and task lists in a tree, similar to a <link linkend="filetree">file tree</link>. Most people will find one to four folders at the base of the tree, depending on the tool and their system configuration. Each Evolution tool has at least one, called On This Computer, for local information. For example, the folder list for the e-mail tool shows any remote e-mail storage you have set up, plus local folders and Search Folders, or Search Folders, which are discussed in <link linkend="usage-mail-organize-vfolders">Using Search Folders</link>. </para>
     <para>If you get large amounts of e-mail, you might want more folders than just your Inbox. You can create multiple calendar, task, or contacts folders. </para>
     <para>To create a new folder:</para>
     <orderedlist>
@@ -752,14 +752,14 @@
       <para>It lets you guard your privacy with encryption.</para>
      </listitem>
     </itemizedlist>
-    <para>However, Evolution has some important differences from other e-mail programs. First, it&apos;s built to handle very large amounts of e-mail. The <link linkend="usage-mail-organize-spam">junk e-mail</link>, message <link linkend="usage-mail-organize-filters">filtering</link> and <link linkend="usage-mail-organize-search">searching</link> functions were built for speed and efficiency. There&apos;s also the <link linkend="usage-mail-organize-vfolders">vFolder</link>, an advanced organizational feature not found in some e-mail clients. If you get a lot of e-mail, or if you keep every message you get in case you need to refer to it later, you&apos;ll find this feature especially useful. Here&apos;s a quick explanation of what&apos;s happening in your main Evolution e-mail window. </para>
+    <para>However, Evolution has some important differences from other e-mail programs. First, it&apos;s built to handle very large amounts of e-mail. The <link linkend="usage-mail-organize-spam">junk e-mail</link>, message <link linkend="usage-mail-organize-filters">filtering</link> and <link linkend="usage-mail-organize-search">searching</link> functions were built for speed and efficiency. There&apos;s also the <link linkend="usage-mail-organize-vfolders">Search Folder</link>, an advanced organizational feature not found in some e-mail clients. If you get a lot of e-mail, or if you keep every message you get in case you need to refer to it later, you&apos;ll find this feature especially useful. Here&apos;s a quick explanation of what&apos;s happening in your main Evolution e-mail window. </para>
     <mediaobject id="usage-mail-intro-fig"><imageobject><imagedata format="PNG" fileref="figures/evo_email_a.png"/></imageobject></mediaobject>
     <bridgehead id="bt4ckee">Message list</bridgehead>
     <para>The message list displays all the e-mails that you have. This includes all your read and unread messages, and e-mail that is flagged to be deleted.</para>
     <bridgehead id="bt4ckef">Preview pane</bridgehead>
     <para>This is where your e-mail is displayed.</para>
     <para>If you find the view pane too small, you can resize the pane, enlarge the whole window, or double-click the message in the message list to have it open in a new window. To change the size of a pane, drag on the divider between the two panes. </para>
-    <para>As with folders, you can right-click messages in the message list and get a menu of possible actions, including moving or deleting them, creating filters or vFolders based on them, and marking them as junk mail.</para>
+    <para>As with folders, you can right-click messages in the message list and get a menu of possible actions, including moving or deleting them, creating filters or Search Folders based on them, and marking them as junk mail.</para>
     <para>Most of the e-mail-related actions you want to perform are listed in the Actions menu in the menu bar. The most frequently used ones, like Reply and Forward, also appear as buttons in the toolbar. Most of them are also located in the right-click menu and as keyboard shortcuts.</para>
     <para>For an in-depth guide to the e-mail capabilities of Evolution, read <link linkend="usage-mail">Sending and Receiving E-Mail</link>.</para>
    </section>
@@ -916,7 +916,7 @@
     <para>After you read your mail, you might want to delete it. To delete a message, select it and press the Delete key, click the Trash button, press Ctrl+D, or right-click the message, then click Delete. </para>
     <para>When you press Delete or click the Trash button, your mail isn&rsquo;t actually deleted, but is marked for deletion. Your e-mail is recoverable until you have expunged your mail. When you expunge a folder, you remove all the mail that you have marked for deletion. To show deleted messages, click View &gt; Hide Deleted Messages. You can also find deleted messages in the your Trash folder. </para>
     <para>To permanently erase all the deleted messages in a folder, click Actions &gt; Expunge or press Ctrl+E. To expunge all folders at once, click Actions &gt; Empty Trash.</para>
-    <para>Both local and IMAP Trash folders are actually vFolders that display all messages you have marked for later deletion. For more information about vFolders, see <link linkend="usage-mail-organize-vfolders">Using vFolders</link>. Because emptying your trash expunges the messages in your Trash folder, emptying Trash is the same as expunging deleted mail from all your folders.</para>
+    <para>Both local and IMAP Trash folders are actually Search Folders that display all messages you have marked for later deletion. For more information about Search Folders, see <link linkend="usage-mail-organize-vfolders">Using Search Folders</link>. Because emptying your trash expunges the messages in your Trash folder, emptying Trash is the same as expunging deleted mail from all your folders.</para>
     <para>However, this is not true for the Trash folder on Exchange servers, which behaves just the same as it does in Outlook. It is a normal folder with actual messages in it.</para>
    </section>
 
@@ -1820,7 +1820,7 @@
     <para>The Flag itself is the action you want to remind yourself about. Several are provided for you, such as Call, Forward, and Reply, but you can enter your own note or action if you want. You can set a deadline for the flag as well.</para>
     <para>After you have added a flag, you can mark it as complete or remove it entirely by right-clicking the message, then click either Flag Completed or Clear Flag.</para>
     <para>When you read a flagged message, its flag status is displayed at the top, before the message headers. An overdue message might tell you &ldquo;Overdue: Call by April 07, 2003, 5:00 PM.&rdquo;</para>
-    <para>Flags can help you organize your work in a number of ways. For example, you might add a Flag Status column to your message list and sort that way. Alternately, you could create a vFolder that displays all your flagged messages, then clear the flags when you&apos;re done, so the vFolder contains only messages with upcoming deadlines.</para>
+    <para>Flags can help you organize your work in a number of ways. For example, you might add a Flag Status column to your message list and sort that way. Alternately, you could create a Search Folder that displays all your flagged messages, then clear the flags when you&apos;re done, so the Search Folder contains only messages with upcoming deadlines.</para>
     <para>If you prefer a simpler way to remind yourself about messages, you can mark them as Important by right-clicking the message, then click Mark Important.</para>
    </section>
   </section>
@@ -1871,7 +1871,7 @@
     <para>Searches the message body and all headers for the specified text.</para>
    </formalpara>
    <para>When you&apos;ve typed your search phrase, press Enter or click the Find Now button. Evolution will shows your search results in the message list.</para>
-   <para>For more complex search rules, select Advanced from the Search menu. You might want to create a vFolder instead; see <link linkend="usage-mail-organize-vfolders">Using vFolders</link> for more detail.</para>
+   <para>For more complex search rules, select Advanced from the Search menu. You might want to create a Search Folder instead; see <link linkend="usage-mail-organize-vfolders">Using Search Folders</link> for more detail.</para>
    <para>When you have finished searching, go back to seeing all your messages by clicking the Clear button, or by entering a blank search.</para>
   </section>
 
@@ -2083,7 +2083,7 @@
       <para>Click OK twice.</para>
      </listitem>
     </orderedlist>
-    <para>There is an easy shortcut for fast filter or vFolder creation. </para>
+    <para>There is an easy shortcut for fast filter or Search Folder creation. </para>
     <orderedlist>
      <listitem id="bsh2232">
       <para>Right-click the message in the e-mail list.</para>
@@ -2130,16 +2130,16 @@
   </section>
 
   <section id="usage-mail-organize-vfolders">
-   <title>Using vFolders</title>
-   <para>If filters aren&apos;t flexible enough, or you find yourself performing the same search again and again, consider a vFolder. vFolders, or virtual folders, are an advanced way of viewing your e-mail messages within Evolution. If you get a lot of mail or often forget where you put messages, vFolders can help you keep things organized.</para>
-   <para>A vFolder is really a hybrid of all the other organizational tools: it looks like a folder, it acts like a search, and you set it up like a filter. In other words, a conventional folder actually contains messages, but a vFolder is a view of messages that might be in several different folders. The messages it contains are determined on the fly using a set of criteria you choose in advance.</para>
-   <para>As messages that meet the vFolder criteria arrive or are deleted, Evolution automatically adjusts the vFolder contents. When you delete a message, it is erased from the folder in which it actually exists, as well as any vFolders that display it.</para>
-   <para>The Unmatched vFolder is the opposite of other vFolders: it displays all messages that do not appear in other vFolders.</para>
-   <para>If you use remote e-mail storage like IMAP or Microsoft Exchange, and have created vFolders to search through them, the Unmatched vFolder also searches the remote folders. If you do not create any vFolders that search remote mail stores, the Unmatched vFolder does not search in them either.</para>
-   <para>As an example of using folders, searches, and vFolders, consider the following: To organize his mailbox, Jim sets up a virtual folder for e-mail from his friend and co-worker Anna. He has another vFolder for messages that have novell.com in the address and Evolution in the subject line, so he can keep a record of what people from work send him about Evolution. If Anna sends him a message about anything other than Evolution, it only shows up in the &ldquo;Anna&rdquo; vFolder. When Anna sends him mail about the user interface for Evolution, he can see the message both in the &ldquo;Anna&rdquo; vFolder and in the &ldquo;Internal Evolution Discussion&rdquo; vFolder. </para>
+   <title>Using Search Folders</title>
+   <para>If filters aren&apos;t flexible enough, or you find yourself performing the same search again and again, consider a Search Folder. Search Folders, or Search Folders, are an advanced way of viewing your e-mail messages within Evolution. If you get a lot of mail or often forget where you put messages, Search Folders can help you keep things organized.</para>
+   <para>A Search Folder is really a hybrid of all the other organizational tools: it looks like a folder, it acts like a search, and you set it up like a filter. In other words, a conventional folder actually contains messages, but a Search Folder is a view of messages that might be in several different folders. The messages it contains are determined on the fly using a set of criteria you choose in advance.</para>
+   <para>As messages that meet the Search Folder criteria arrive or are deleted, Evolution automatically adjusts the Search Folder contents. When you delete a message, it is erased from the folder in which it actually exists, as well as any Search Folders that display it.</para>
+   <para>The Unmatched Search Folder is the opposite of other Search Folders: it displays all messages that do not appear in other Search Folders.</para>
+   <para>If you use remote e-mail storage like IMAP or Microsoft Exchange, and have created Search Folders to search through them, the Unmatched Search Folder also searches the remote folders. If you do not create any Search Folders that search remote mail stores, the Unmatched Search Folder does not search in them either.</para>
+   <para>As an example of using folders, searches, and Search Folders, consider the following: To organize his mailbox, Jim sets up a Search Folder for e-mail from his friend and co-worker Anna. He has another Search Folder for messages that have novell.com in the address and Evolution in the subject line, so he can keep a record of what people from work send him about Evolution. If Anna sends him a message about anything other than Evolution, it only shows up in the &ldquo;Anna&rdquo; Search Folder. When Anna sends him mail about the user interface for Evolution, he can see the message both in the &ldquo;Anna&rdquo; Search Folder and in the &ldquo;Internal Evolution Discussion&rdquo; Search Folder. </para>
 
    <section id="vfolder-create">
-    <title>Creating A vFolder</title>
+    <title>Creating A Search Folder</title>
     <orderedlist>
      <listitem id="bsazs7h">
       <para>Click Tools &gt; Virtual Folder Editor.</para>
@@ -2150,7 +2150,7 @@
       
      </listitem>
      <listitem id="bsazsbo">
-      <para>Type the name of the vFolder in the Rule Name field.</para>
+      <para>Type the name of the Search Folder in the Rule Name field.</para>
      </listitem>
      <listitem id="bsazsjd">
       <para>Select your search criteria. For each criterion, you must first select which of the following parts of the message you want the search to examine. The criteria are similar to those for filters.</para>
@@ -2212,22 +2212,22 @@
       </formalpara>
      </listitem>
      <listitem id="bsazxjk">
-      <para>Select the folders where this vFolder will search. Your options are:</para>
+      <para>Select the folders where this Search Folder will search. Your options are:</para>
       <formalpara id="bsmr7jw">
        <title>Specific Folders Only: </title>
-       <para>Uses individual folders for the vFolder source.</para>
+       <para>Uses individual folders for the Search Folder source.</para>
       </formalpara>
       <formalpara id="bsmr82i">
        <title>With All Local Folders: </title>
-       <para>Uses all local folders for the vFolder source in addition to individual folders that are selected.</para>
+       <para>Uses all local folders for the Search Folder source in addition to individual folders that are selected.</para>
       </formalpara>
       <formalpara id="bsmr8jg">
        <title>With All Active Remote Folders: </title>
-       <para>Remote folders are considered active if you are connected to the server; you must be connected to your mail server for the vFolder to include any messages from that source in addition to individual folders that are selected.</para>
+       <para>Remote folders are considered active if you are connected to the server; you must be connected to your mail server for the Search Folder to include any messages from that source in addition to individual folders that are selected.</para>
       </formalpara>
       <formalpara id="bsmr8zu">
        <title>With All Local and Active Remote Folders: </title>
-       <para>Uses all local and active remote folders for the vFolder source in addition to individual folders that are selected.</para>
+       <para>Uses all local and active remote folders for the Search Folder source in addition to individual folders that are selected.</para>
       </formalpara>
      </listitem>
      <listitem id="bsazxwc">
@@ -4079,7 +4079,7 @@ Accepting and Replying to a Meeting Request</title>
    <bridgehead id="bt4ckgc">Opening a Message In a New Window</bridgehead>
    <para>Double-click the message you want to view, or select it and press Enter or Ctrl+O. </para>
    <bridgehead id="bt4ckgd">Creating Filters and Virtual Folders</bridgehead>
-   <para>Right-click a message and select Create Rule From Message. You can also create filters and virtual folders in the Tools menu. </para>
+   <para>Right-click a message and select Create Rule From Message. You can also create filters and Search Folders in the Tools menu. </para>
    <bridgehead id="bt4ckge">Adding a Sender to the Address Book</bridgehead>
    <para>Right-click a message and select Add Sender to Address Book. You can also right-click on any e-mail address to add it to your address book. </para>
   </section>
@@ -4332,13 +4332,13 @@ Accepting and Replying to a Meeting Request</title>
   <glossentry id="vcard">
    <glossterm>vCard</glossterm>
    <glossdef>
-    <para>A file format for the exchange of contact information. When you get an address card attached to an e-mail, it&apos;s probably in vCard format. Contrast with vFolder.</para>
+    <para>A file format for the exchange of contact information. When you get an address card attached to an e-mail, it&apos;s probably in vCard format. Contrast with Search Folder.</para>
    </glossdef>
   </glossentry>
   <glossentry id="vfolder">
-   <glossterm>vFolder</glossterm>
+   <glossterm>Search Folder</glossterm>
    <glossdef>
-    <para>An e-mail organization tool. vFolders allow you to create a folder that contains the results of a complex search. vFolder contents are updated dynamically.</para>
+    <para>An e-mail organization tool. Search Folders allow you to create a folder that contains the results of a complex search. Search Folder contents are updated dynamically.</para>
    </glossdef>
   </glossentry>
  </glossary>
