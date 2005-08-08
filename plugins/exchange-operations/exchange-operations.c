@@ -20,6 +20,7 @@
  */
 
 #include <string.h>
+#include <glib/gi18n.h>
 
 #include "exchange-operations.h"
 #include <e-util/e-error.h>

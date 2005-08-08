@@ -25,6 +25,7 @@
 
 #include <string.h>
 
+#include <glib/gi18n.h>
 #include <e-util/e-dialog-utils.h>
 #include <glade/glade-xml.h>
 #include <gtk/gtkbox.h>

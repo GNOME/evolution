@@ -1,3 +1,9 @@
+2005-08-08  Arunprakash <arunp@novell.com>
+
+	* exchange-folder-size-display.c: Included glib/gi18n.h file for
+	translation. 
+	* exchange-operations.c: Same.
+
 2005-08-05  Arunprakash <arunp@novell.com>
 
 	* exchange-folder-size-display.c (exchange_folder_size_display) :
