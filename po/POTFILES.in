@@ -287,6 +287,7 @@ plugins/exchange-operations/exchange-delegates-user.c
 plugins/exchange-operations/exchange-delegates.c
 plugins/exchange-operations/exchange-delegates.glade
 plugins/exchange-operations/exchange-folder-permission.c
+plugins/exchange-operations/exchange-folder-size-display.c
 plugins/exchange-operations/exchange-folder-tree.glade
 plugins/exchange-operations/exchange-folder.c
 plugins/exchange-operations/exchange-permissions-dialog.c
