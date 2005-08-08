@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 2.3.6.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-08-05 19:20+0800\n"
-"PO-Revision-Date: 2005-08-05 19:24+0800\n"
+"POT-Creation-Date: 2005-08-08 16:39+0800\n"
+"PO-Revision-Date: 2005-08-08 16:49+0800\n"
 "Last-Translator: Chao-Hsiung Liao <j_h_liau@yahoo.com.tw>\n"
 "Language-Team: Chinese (traditional) <community@linuxhall.org>\n"
 "MIME-Version: 1.0\n"
@@ -680,7 +680,7 @@ msgstr "在此管理您的 S/MIME 憑證"
 
 # Novell Translation
 #. create the local source group
-#. On This Computer is always first and vFolders is always last
+#. On This Computer is always first and Search Folders is always last
 #: ../addressbook/gui/component/addressbook-component.c:137
 #: ../addressbook/gui/component/addressbook-migrate.c:502
 #: ../calendar/gui/calendar-component.c:208 ../calendar/gui/migration.c:462
@@ -801,7 +801,7 @@ msgstr "驗證"
 # calendar/gui/dialogs/task-editor-dialog.glade.h:9
 #: ../addressbook/gui/component/addressbook-config.c:912
 #: ../addressbook/gui/component/ldap-config.glade.h:18
-#: ../mail/mail-dialogs.glade.h:8 ../smime/gui/smime-ui.glade.h:20
+#: ../mail/mail-dialogs.glade.h:7 ../smime/gui/smime-ui.glade.h:20
 msgid "Details"
 msgstr "詳細資料"
 
@@ -1018,7 +1018,7 @@ msgstr "是否顯示預覽窗格。"
 #: ../calendar/gui/dialogs/new-task-list.glade.h:1
 #: ../calendar/gui/dialogs/url-editor-dialog.glade.h:1
 #: ../composer/e-msg-composer-attachment.glade.h:1
-#: ../mail/mail-dialogs.glade.h:2 ../mail/message-tags.glade.h:1
+#: ../mail/message-tags.glade.h:1
 #: ../plugins/exchange-operations/exchange-change-password.glade.h:1
 #: ../plugins/groupwise-features/properties.glade.h:1
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.glade.h:1
@@ -4893,7 +4893,7 @@ msgstr "儲存(_S)"
 # ui/evolution-message-composer.xml.h:26
 # Novell Translation
 #: ../calendar/calendar.error.xml.h:65
-#: ../composer/mail-composer.error.xml.h:31 ../mail/mail.error.xml.h:121
+#: ../composer/mail-composer.error.xml.h:31 ../mail/mail.error.xml.h:123
 msgid "_Send"
 msgstr "傳送(_S)"
 
@@ -7766,7 +7766,7 @@ msgstr "開始日期"
 # calendar/gui/e-calendar-table.c:159
 #: ../calendar/gui/e-cal-list-view.etspec.h:5
 #: ../calendar/gui/e-calendar-table.etspec.h:11
-#: ../mail/mail-dialogs.glade.h:17 ../plugins/save-calendar/csv-format.c:386
+#: ../mail/mail-dialogs.glade.h:16 ../plugins/save-calendar/csv-format.c:386
 msgid "Summary"
 msgstr "摘要"
 
@@ -11730,7 +11730,7 @@ msgstr "要覆寫它?"
 msgid "File exists &quot;{0}&quot;."
 msgstr "檔案存在「{0}」。"
 
-#: ../e-util/e-system.error.xml.h:7 ../mail/mail.error.xml.h:120
+#: ../e-util/e-system.error.xml.h:7 ../mail/mail.error.xml.h:122
 msgid "_Overwrite"
 msgstr "覆寫(_O)"
 
@@ -12365,7 +12365,7 @@ msgstr "簽名檔"
 
 # mail/mail-ops.c:1154
 # Novell Translation
-#: ../mail/em-composer-utils.c:853
+#: ../mail/em-composer-utils.c:853 ../mail/em-format-quote.c:389
 msgid "-------- Forwarded Message --------"
 msgstr "-------- 轉遞的郵件 --------"
 
@@ -12674,8 +12674,8 @@ msgstr "<b>然後</b>"
 
 # ui/evolution-mail.xml.h:10
 #: ../mail/em-folder-browser.c:134
-msgid "Create _vFolder From Search..."
-msgstr "從搜尋建立虛擬資料夾(_V)..."
+msgid "C_reate Search Folder From Search..."
+msgstr "從搜尋建立搜尋資料夾(_R)..."
 
 # camel/providers/smtp/camel-smtp-transport.c:178
 #. TODO: can this be done in a loop?
@@ -12715,12 +12715,11 @@ msgstr "建立"
 msgid "Folder _name:"
 msgstr "資料夾名稱(_N):"
 
-# camel/providers/imap/camel-imap-provider.c:48
-# shell/e-shell-view.c:552
+# mail/mail-account-gui.c:682
 #: ../mail/em-folder-tree-model.c:201 ../mail/em-folder-tree-model.c:203
 #: ../mail/mail-vfolder.c:937 ../mail/mail-vfolder.c:1007
-msgid "vFolders"
-msgstr "虛擬資料夾"
+msgid "Search Folders"
+msgstr "搜尋資料夾"
 
 # Novell Translation
 #. UNMATCHED is always last
@@ -12965,23 +12964,23 @@ msgstr "從郵件建立規則(_T)"
 
 # mail/folder-browser.c:653
 #: ../mail/em-folder-view.c:1074
-msgid "vFolder on _Subject"
-msgstr "從主旨建立虛擬資料夾(_S)"
+msgid "Search Folder from _Subject"
+msgstr "從主旨建立搜尋資料夾(_S)"
 
 # mail/folder-browser.c:656
 #: ../mail/em-folder-view.c:1075
-msgid "vFolder on Se_nder"
-msgstr "從寄件者建立虛擬資料夾(_N)"
+msgid "Search Folder from Se_nder"
+msgstr "從寄件者建立搜尋資料夾(_N)"
 
 # mail/folder-browser.c:659
 #: ../mail/em-folder-view.c:1076
-msgid "vFolder on _Recipients"
-msgstr "從收件者建立虛擬資料夾(_R)"
+msgid "Search Folder from _Recipients"
+msgstr "從收件者建立搜尋資料夾(_R)"
 
 # mail/folder-browser.c:662
 #: ../mail/em-folder-view.c:1077
-msgid "vFolder on Mailing _List"
-msgstr "從郵件清單建立虛擬資料夾(_L)"
+msgid "Search Folder from Mailing _List"
+msgstr "從郵件清單建立搜尋資料夾(_L)"
 
 #: ../mail/em-folder-view.c:1081
 msgid "Filter on Sub_ject"
@@ -13023,8 +13022,8 @@ msgstr "複製連結位址(_C)"
 # ui/evolution.xml.h:10
 # Novell Translation
 #: ../mail/em-folder-view.c:2419
-msgid "Create _vFolder"
-msgstr "建立虛擬資料夾(_V)"
+msgid "Create _Search Folder"
+msgstr "建立搜尋資料夾(_S)"
 
 # addressbook/gui/widgets/e-addressbook-view.c:710
 #: ../mail/em-folder-view.c:2420
@@ -13390,32 +13389,32 @@ msgstr "%s 附加檔案"
 
 # mail/mail-format.c:573
 # Novell Translation
-#: ../mail/em-format.c:1140 ../mail/em-format.c:1273
+#: ../mail/em-format.c:1140 ../mail/em-format.c:1279
 msgid "Could not parse S/MIME message: Unknown error"
 msgstr "無法剖析 S/MIME 郵件:未知的錯誤"
 
 # Novell Translation
-#: ../mail/em-format.c:1263
+#: ../mail/em-format.c:1269
 msgid "Unsupported encryption type for multipart/encrypted"
 msgstr "多部份/已加密不支援的加密類型"
 
 # mail/mail-format.c:573
-#: ../mail/em-format.c:1411
+#: ../mail/em-format.c:1417
 msgid "Could not parse MIME message. Displaying as source."
 msgstr "無法解析 MIME 格式的郵件。只好顯示原始檔。"
 
 # Novell Translation
-#: ../mail/em-format.c:1430
+#: ../mail/em-format.c:1436
 msgid "Unsupported signature format"
 msgstr "不支援的簽名格式"
 
 # Novell Translation
-#: ../mail/em-format.c:1438
+#: ../mail/em-format.c:1444
 msgid "Error verifying signature"
 msgstr "檢驗簽名發生錯誤"
 
 # Novell Translation
-#: ../mail/em-format.c:1438
+#: ../mail/em-format.c:1444
 msgid "Unknown error verifying signature"
 msgstr "檢驗簽名發生不明錯誤"
 
@@ -13626,15 +13625,15 @@ msgstr "新增地址"
 msgid "Messages from %s"
 msgstr "來自 %s 的郵件"
 
-# camel/providers/imap/camel-imap-provider.c:48
-# shell/e-shell-view.c:552
+# mail/mail-account-gui.c:682
 #: ../mail/em-vfolder-editor.c:104
-msgid "v_Folders"
-msgstr "虛擬資料夾(_F)"
+msgid "Search _Folders"
+msgstr "搜尋資料夾(_F)"
 
+# mail/mail-account-gui.c:682
 #: ../mail/em-vfolder-rule.c:574
-msgid "vFolder source"
-msgstr "虛擬資料夾來源"
+msgid "Search Folder source"
+msgstr "搜尋資料夾來源"
 
 # mail/mail-config.glade.h:12
 # Novell Translation
@@ -15241,22 +15240,22 @@ msgid "description"
 msgstr "描述"
 
 # Novell Translation
-#: ../mail/mail-dialogs.glade.h:3
-msgid "<b>vFolder Sources</b>"
-msgstr "<b>vFolder 來源</b>"
+#: ../mail/mail-dialogs.glade.h:2
+msgid "<b>Search Folder Sources</b>"
+msgstr "<b>搜尋資料夾來源</b>"
 
 # Novell Translation
-#: ../mail/mail-dialogs.glade.h:4
+#: ../mail/mail-dialogs.glade.h:3
 msgid "<span weight=\"bold\">Digital Signature</span>"
 msgstr "<span weight=\"bold\">數位簽名</span>"
 
 # Novell Translation
-#: ../mail/mail-dialogs.glade.h:5
+#: ../mail/mail-dialogs.glade.h:4
 msgid "<span weight=\"bold\">Encryption</span>"
 msgstr "<span weight=\"bold\">加密</span>"
 
 # mail/mail-search.c:298
-#: ../mail/mail-dialogs.glade.h:6
+#: ../mail/mail-dialogs.glade.h:5
 msgid "Case _Sensitive"
 msgstr "區分大小寫(_S)"
 
@@ -15264,52 +15263,52 @@ msgstr "區分大小寫(_S)"
 # calendar/gui/calendar-model.c:1180
 # calendar/gui/dialogs/task-editor-dialog.glade.h:6
 # calendar/gui/e-calendar-table.c:421
-#: ../mail/mail-dialogs.glade.h:7 ../mail/message-tags.glade.h:2
+#: ../mail/mail-dialogs.glade.h:6 ../mail/message-tags.glade.h:2
 msgid "Co_mpleted"
 msgstr "已完成(_M)"
 
 # mail/mail-search.c:316
-#: ../mail/mail-dialogs.glade.h:9
+#: ../mail/mail-dialogs.glade.h:8
 msgid "F_ind:"
 msgstr "尋找(_I):"
 
 # mail/mail-search.c:268
-#: ../mail/mail-dialogs.glade.h:10
+#: ../mail/mail-dialogs.glade.h:9
 msgid "Find in Message"
 msgstr "在郵件內尋找"
 
-#: ../mail/mail-dialogs.glade.h:11 ../mail/message-tag-followup.c:295
+#: ../mail/mail-dialogs.glade.h:10 ../mail/message-tag-followup.c:295
 #: ../mail/message-tags.glade.h:3
 msgid "Flag to Follow Up"
 msgstr "要跟隨的標幟"
 
 # mail/subscribe-dialog.c:873
 # Novell Translation
-#: ../mail/mail-dialogs.glade.h:12
+#: ../mail/mail-dialogs.glade.h:11
 msgid "Folder Subscriptions"
 msgstr "資料夾訂閱"
 
 # Novell Translation
-#: ../mail/mail-dialogs.glade.h:13
+#: ../mail/mail-dialogs.glade.h:12
 msgid "License Agreement"
 msgstr "授權合約"
 
 # Novell Translation
-#: ../mail/mail-dialogs.glade.h:14
+#: ../mail/mail-dialogs.glade.h:13
 msgid "None Selected"
 msgstr "未選取"
 
-#: ../mail/mail-dialogs.glade.h:15
+#: ../mail/mail-dialogs.glade.h:14
 msgid "S_erver:"
 msgstr "伺服器(_E):"
 
 # mail/mail-config.glade.h:4
 # Novell Translation
-#: ../mail/mail-dialogs.glade.h:16
+#: ../mail/mail-dialogs.glade.h:15
 msgid "Security Information"
 msgstr "保全性資訊"
 
-#: ../mail/mail-dialogs.glade.h:18 ../mail/message-tags.glade.h:4
+#: ../mail/mail-dialogs.glade.h:17 ../mail/message-tags.glade.h:4
 msgid ""
 "The messages you have selected for follow up are listed below.\n"
 "Please select a follow up action from the \"Flag\" menu."
@@ -15318,47 +15317,47 @@ msgstr ""
 "請從「標幟」選單中選擇跟隨的動作。"
 
 # Novell Translation
-#: ../mail/mail-dialogs.glade.h:20
+#: ../mail/mail-dialogs.glade.h:19
 msgid "_Accept License"
 msgstr "接受授權(_A)"
 
-#: ../mail/mail-dialogs.glade.h:21 ../mail/message-tags.glade.h:6
+#: ../mail/mail-dialogs.glade.h:20 ../mail/message-tags.glade.h:6
 msgid "_Due By:"
 msgstr "到期於(_D):"
 
-#: ../mail/mail-dialogs.glade.h:22 ../mail/message-tags.glade.h:7
+#: ../mail/mail-dialogs.glade.h:21 ../mail/message-tags.glade.h:7
 msgid "_Flag:"
 msgstr "標幟(_F):"
 
 # ui/evolution-subscribe.xml.h:8
-#: ../mail/mail-dialogs.glade.h:23
+#: ../mail/mail-dialogs.glade.h:22
 msgid "_Subscribe"
 msgstr "訂閱(_S)"
 
 # mail/mail-config.glade.h:6
 # Novell Translation
-#: ../mail/mail-dialogs.glade.h:24
+#: ../mail/mail-dialogs.glade.h:23
 msgid "_Tick this to accept the license agreement"
 msgstr "選取此項來接受授權合約(_T)"
 
-#: ../mail/mail-dialogs.glade.h:25
+#: ../mail/mail-dialogs.glade.h:24
 #: ../plugins/folder-unsubscribe/org-gnome-mail-folder-unsubscribe.eplug.xml.h:3
 msgid "_Unsubscribe"
 msgstr "取消訂閱(_U)"
 
-#: ../mail/mail-dialogs.glade.h:26
+#: ../mail/mail-dialogs.glade.h:25
 msgid "specific folders only"
 msgstr "只需指定資料夾"
 
-#: ../mail/mail-dialogs.glade.h:27
+#: ../mail/mail-dialogs.glade.h:26
 msgid "with all active remote folders"
 msgstr "包括全部可用的遠端資料夾"
 
-#: ../mail/mail-dialogs.glade.h:28
+#: ../mail/mail-dialogs.glade.h:27
 msgid "with all local and active remote folders"
 msgstr "包括全部本地端及可用的遠端資料夾"
 
-#: ../mail/mail-dialogs.glade.h:29
+#: ../mail/mail-dialogs.glade.h:28
 msgid "with all local folders"
 msgstr "包括全部本地端的資料夾"
 
@@ -15711,31 +15710,32 @@ msgstr "資料夾無效:`%s'"
 # mail/mail-ops.c:1333
 #: ../mail/mail-vfolder.c:91
 #, c-format
-msgid "Setting up vFolder: %s"
-msgstr "設定虛擬資料夾： %s"
+msgid "Setting up Search Folder: %s"
+msgstr "設定搜尋資料夾： %s"
 
 # mail/mail-ops.c:992
 # Novell Translation
 #: ../mail/mail-vfolder.c:240
 #, c-format
-msgid "Updating vFolders for '%s:%s'"
-msgstr "更新 '%s:%s' 的 vFolder"
+msgid "Updating Search Folders for '%s:%s'"
+msgstr "更新 '%s:%s' 的搜尋資料夾"
 
 # mail/mail-ops.c:992
 # Novell Translation
 #: ../mail/mail-vfolder.c:247
 #, c-format
-msgid "Updating vFolders for '%s'"
-msgstr "更新 '%s' 的 vFolder"
+msgid "Updating Search Folders for '%s'"
+msgstr "更新 '%s' 的搜尋資料夾"
 
+# mail/mail-account-gui.c:682
 #: ../mail/mail-vfolder.c:1046
-msgid "Edit vFolder"
-msgstr "編輯虛擬資料夾"
+msgid "Edit Search Folder"
+msgstr "編輯搜尋資料夾"
 
-# ui/evolution.xml.h:59
+# mail/mail-account-gui.c:682
 #: ../mail/mail-vfolder.c:1130
-msgid "New vFolder"
-msgstr "新增虛擬資料夾"
+msgid "New Search Folder"
+msgstr "新增搜尋資料夾"
 
 # Novell Translation
 #: ../mail/mail.error.xml.h:1
@@ -15831,8 +15831,8 @@ msgstr "因為「{2}」。"
 # camel/providers/local/camel-mbox-store.c:161
 # Novell Translation
 #: ../mail/mail.error.xml.h:19
-msgid "Cannot add vFolder &quot;{0}&quot;."
-msgstr "無法新增 vFolder 「{0}」。"
+msgid "Cannot add Search Folder &quot;{0}&quot;."
+msgstr "無法新增搜尋資料夾「{0}」。"
 
 # camel/providers/local/camel-local-store.c:142
 # camel/providers/local/camel-local-store.c:158
@@ -15879,8 +15879,8 @@ msgstr "無法刪除系統資料夾「{0}」。"
 # camel/providers/local/camel-mh-store.c:97
 # Novell Translation
 #: ../mail/mail.error.xml.h:26
-msgid "Cannot edit vFolder &quot;{0}&quot; as it does not exist."
-msgstr "無法編輯 vFolder「{0}」，因為它不存在。"
+msgid "Cannot edit Search Folder &quot;{0}&quot; as it does not exist."
+msgstr "無法編輯搜尋資料夾「{0}」，因為它不存在。"
 
 # camel/providers/local/camel-mbox-store.c:138
 # camel/providers/local/camel-mbox-store.c:161
@@ -16200,11 +16200,16 @@ msgstr "確定要刪除資料夾「{0}」以及它所有的子資料夾?"
 
 # Novell Translation
 #: ../mail/mail.error.xml.h:79
+msgid "Search Folders automatically updated."
+msgstr "搜尋資料夾自動更新。"
+
+# Novell Translation
+#: ../mail/mail.error.xml.h:80
 msgid "Send Receipt"
 msgstr "傳送回條"
 
 # Novell Translation
-#: ../mail/mail.error.xml.h:80
+#: ../mail/mail.error.xml.h:81
 msgid ""
 "System folders are required for Ximian Evolution to function correctly and "
 "cannot be renamed, moved, or deleted."
@@ -16213,7 +16218,7 @@ msgstr ""
 "或刪除。"
 
 # Novell Translation
-#: ../mail/mail.error.xml.h:81
+#: ../mail/mail.error.xml.h:82
 msgid ""
 "The contact list you are sending to is configured to hide list recipients.\n"
 "\n"
@@ -16229,7 +16234,22 @@ msgstr ""
 "者：」或「副本：」收件者。 "
 
 # Novell Translation
-#: ../mail/mail.error.xml.h:84
+#: ../mail/mail.error.xml.h:85
+msgid ""
+"The following Search Folder(s):\n"
+"{0}\n"
+"Used the now removed folder:\n"
+"    &quot;{1}&quot;\n"
+"And have been updated."
+msgstr ""
+"以下搜尋資料夾：\n"
+"{0}\n"
+"使用現在移除的資料夾:\n"
+"    「{1}」\n"
+"而且已更新。"
+
+# Novell Translation
+#: ../mail/mail.error.xml.h:90
 msgid ""
 "The following filter rule(s):\n"
 "{0}\n"
@@ -16244,22 +16264,7 @@ msgstr ""
 "而且已更新。"
 
 # Novell Translation
-#: ../mail/mail.error.xml.h:89
-msgid ""
-"The following vFolder(s):\n"
-"{0}\n"
-"Used the now removed folder:\n"
-"    &quot;{1}&quot;\n"
-"And have been updated."
-msgstr ""
-"以下 vFolder:\n"
-"{0}\n"
-"使用現在移除的資料夾:\n"
-"    「{1}」\n"
-"而且已更新。"
-
-# Novell Translation
-#: ../mail/mail.error.xml.h:94
+#: ../mail/mail.error.xml.h:95
 msgid ""
 "The message was sent via the &quot;sendmail&quot; external application.  "
 "Sendmail reports the following error: status 67: mail not sent.\n"
@@ -16271,27 +16276,28 @@ msgstr ""
 "訊息儲存在「寄件信箱」資料夾。請檢查訊息的錯誤，然後重新傳送。"
 
 # Novell Translation
-#: ../mail/mail.error.xml.h:96
+#: ../mail/mail.error.xml.h:97
 msgid "The script file must exist and be executable."
 msgstr "程序檔必須存在而且可以執行。"
 
 # Novell Translation
-#: ../mail/mail.error.xml.h:97
+#: ../mail/mail.error.xml.h:98
 msgid ""
-"This folder may have been added implicitly, go to the vFolder editor to add "
-"it explicitly, if required."
+"This folder may have been added implicitly,\n"
+"go to the Search Folder editor to add it explicitly, if required."
 msgstr ""
-"此資料夾可能已經自動新增，需要時，請移至虛擬資料夾編輯器，以手動方式新增它。"
+"此資料夾可能已經自動新增。\n"
+"需要時，請移至搜尋資料夾編輯器，以手動方式新增它。"
 
 # Novell Translation
-#: ../mail/mail.error.xml.h:98
+#: ../mail/mail.error.xml.h:100
 msgid ""
 "This message cannot be sent because you have not specified any Recipients"
 msgstr "因為您沒有指定任何收件者，所以無法傳送此郵件。"
 
 # camel/providers/smtp/camel-smtp-transport.c:356
 # Novell Translation
-#: ../mail/mail.error.xml.h:99
+#: ../mail/mail.error.xml.h:101
 msgid ""
 "This server does not support this type of authentication and may not support "
 "authentication at all."
@@ -16299,65 +16305,65 @@ msgstr "此伺服器不支援此驗證類型而且根本不支援驗證。"
 
 # composer/e-msg-composer.c:941
 # Novell Translation
-#: ../mail/mail.error.xml.h:100
+#: ../mail/mail.error.xml.h:102
 msgid "This signature has been changed, but has not been saved."
 msgstr "此簽名已經變更，但尚未儲存。"
 
 # camel/providers/imap/camel-imap-store.c:531
-#: ../mail/mail.error.xml.h:101
+#: ../mail/mail.error.xml.h:103
 msgid "Unable to connect to the GroupWise server."
 msgstr "無法連線至 GroupWise 伺服器。"
 
 # composer/e-msg-composer.c:877
 # Novell Translation
-#: ../mail/mail.error.xml.h:102
+#: ../mail/mail.error.xml.h:104
 msgid ""
 "Unable to open the drafts folder for this account.  Use the system drafts "
 "folder instead?"
 msgstr "無法開啟此帳號的草稿資料夾。使用系統草稿資料夾？"
 
 # mail/mail-ops.c:1728
-#: ../mail/mail.error.xml.h:103
+#: ../mail/mail.error.xml.h:105
 msgid "Unable to read license file."
 msgstr "無法搜尋檔案"
 
-#: ../mail/mail.error.xml.h:104
+#: ../mail/mail.error.xml.h:106
 msgid "Use _Default"
 msgstr "使用預設值(_D)"
 
 # mail/mail-ops.c:1195
 # mail/mail-ops.c:1333
 # Novell Translation
-#: ../mail/mail.error.xml.h:105
+#: ../mail/mail.error.xml.h:107
 msgid "Use default drafts folder?"
 msgstr "使用預設的草稿資料夾？"
 
 # mail/mail-account-editor.c:105
-#: ../mail/mail.error.xml.h:106
+#: ../mail/mail.error.xml.h:108
 msgid "You have not filled in all of the required information."
 msgstr "您沒有填入所有必須的資訊。"
 
-#: ../mail/mail.error.xml.h:107
+#: ../mail/mail.error.xml.h:109
 msgid "You have unsent messages, do you wish to quit anyway?"
 msgstr "您有未寄出的郵件，您無論如何都要離開嗎？"
 
-#: ../mail/mail.error.xml.h:108
+#: ../mail/mail.error.xml.h:110
 msgid "You may not create two accounts with the same name."
 msgstr "您不能用相同的名稱建立兩個帳號。"
 
 # ui/evolution.xml.h:3
 # Novell Translation
-#: ../mail/mail.error.xml.h:109
-msgid "You must name this vFolder."
-msgstr "您必須命名此 vFolder。"
+#: ../mail/mail.error.xml.h:111
+msgid "You must name this Search Folder."
+msgstr "您必須命名此搜尋資料夾。"
 
 # ui/evolution.xml.h:3
-#: ../mail/mail.error.xml.h:110
+#: ../mail/mail.error.xml.h:112
 msgid "You must specify a folder."
 msgstr "您必須指定一個資料夾。"
 
 # Novell Translation
-#: ../mail/mail.error.xml.h:111
+#: ../mail/mail.error.xml.h:113
 msgid ""
 "You must specify at least one folder as a source.\n"
 "Either by selecting the folders individually, and/or by selecting all local "
@@ -16367,40 +16373,35 @@ msgstr ""
 "個別選取資料夾，然後/或選取所有本地資料夾、所有遠端資料夾或二者皆選。"
 
 # Novell Translation
-#: ../mail/mail.error.xml.h:113
+#: ../mail/mail.error.xml.h:115
 msgid "Your login to your server &quot;{0}&quot; as &quot;{0}&quot; failed."
 msgstr "您登入伺服器「{0}」以「{0}」身分，但失敗。"
 
 # Novell Translation
-#: ../mail/mail.error.xml.h:114
+#: ../mail/mail.error.xml.h:116
 msgid "Your message with the subject &quot;{0}&quot; was not delivered."
 msgstr "未傳遞主旨為「{0}」的郵件。"
 
-#: ../mail/mail.error.xml.h:115
+#: ../mail/mail.error.xml.h:117
 msgid "_Append"
 msgstr "添加(_A)"
 
-#: ../mail/mail.error.xml.h:116
+#: ../mail/mail.error.xml.h:118
 msgid "_Discard changes"
 msgstr "放棄變更(_D)"
 
-#: ../mail/mail.error.xml.h:117
+#: ../mail/mail.error.xml.h:119
 msgid "_Empty Trash"
 msgstr "清空垃圾桶(_E)"
 
-#: ../mail/mail.error.xml.h:118
+#: ../mail/mail.error.xml.h:120
 msgid "_Expunge"
 msgstr "清除(_E)"
 
 # ui/evolution-mail.xml.h:114
-#: ../mail/mail.error.xml.h:119
+#: ../mail/mail.error.xml.h:121
 msgid "_Open Messages"
 msgstr "開啟郵件(_O)"
-
-# Novell Translation
-#: ../mail/mail.error.xml.h:122
-msgid "vFolders automatically updated."
-msgstr "vFolders 自動更新。"
 
 # mail/message-list.c:677
 #: ../mail/message-list.c:996
@@ -17154,6 +17155,16 @@ msgstr "工作(_T)："
 msgid "Permissions..."
 msgstr "權限..."
 
+#: ../plugins/exchange-operations/exchange-folder-size-display.c:136
+msgid "Folder Name"
+msgstr "資料夾名稱"
+
+# camel/providers/imap/camel-imap-provider.c:48
+# shell/e-shell-view.c:552
+#: ../plugins/exchange-operations/exchange-folder-size-display.c:140
+msgid "Folder Size"
+msgstr "資料夾大小"
+
 # Novell Translation
 #: ../plugins/exchange-operations/exchange-folder-tree.glade.h:1
 msgid "Exchange Folder Tree"
@@ -17794,7 +17805,7 @@ msgstr "登入代理伺服器"
 # camel/camel-smime-context.c:194
 #: ../plugins/groupwise-features/proxy-login.c:221
 #: ../plugins/groupwise-features/proxy-login.c:263
-#: ../plugins/groupwise-features/proxy.c:470
+#: ../plugins/groupwise-features/proxy.c:474
 #: ../plugins/groupwise-features/send-options.c:83
 #, c-format
 msgid "%sEnter password for %s (user %s)"
@@ -17804,7 +17815,7 @@ msgstr "%s請輸入 %s 所需的密碼(使用者 %s)"
 msgid "_Proxy Login..."
 msgstr "代理伺服器登入(_P)..."
 
-#: ../plugins/groupwise-features/proxy.c:664
+#: ../plugins/groupwise-features/proxy.c:668
 msgid "The Proxy tab will be available only when the account is enabled."
 msgstr "代理伺服器頁籤只有在啟用此帳號時才會出現。"
 
@@ -20758,15 +20769,15 @@ msgstr "複製已選定的資料夾到另一個資料夾"
 msgid "Create a new folder for storing mail"
 msgstr "建立一個新資料夾以儲存郵件"
 
-# ui/evolution-mail.xml.h:20
+# ui/evolution-mail.xml.h:21
 #: ../ui/evolution-mail-global.xml.h:5
+msgid "Create or edit Search Folder definitions"
+msgstr "建立或編輯搜尋資料夾的定義"
+
+# ui/evolution-mail.xml.h:20
+#: ../ui/evolution-mail-global.xml.h:6
 msgid "Create or edit rules for filtering new mail"
 msgstr "為新郵件建立或編輯過濾規則"
-
-# ui/evolution-mail.xml.h:21
-#: ../ui/evolution-mail-global.xml.h:6
-msgid "Create or edit vFolder definitions"
-msgstr "建立或編輯虛擬資料夾的定義"
 
 #: ../ui/evolution-mail-global.xml.h:7
 msgid "Empty _Trash"
@@ -21014,45 +21025,45 @@ msgstr "複製已選定的郵件到另一個資料夾"
 msgid "Create R_ule"
 msgstr "建立規則(_U)"
 
-# ui/evolution-mail.xml.h:11
+# ui/evolution-mail.xml.h:15
 #: ../ui/evolution-mail-message.xml.h:15
+msgid "Create a Search Folder for these recipients"
+msgstr "為這些收件者建立一個搜尋資料夾"
+
+# ui/evolution-mail.xml.h:16
+#: ../ui/evolution-mail-message.xml.h:16
+msgid "Create a Search Folder for this mailing list"
+msgstr "為這個通信論壇建立一個搜尋資料夾"
+
+# ui/evolution-mail.xml.h:17
+#: ../ui/evolution-mail-message.xml.h:17
+msgid "Create a Search Folder for this sender"
+msgstr "為這個寄件者建立一個搜尋資料夾"
+
+# ui/evolution-mail.xml.h:18
+#: ../ui/evolution-mail-message.xml.h:18
+msgid "Create a Search Folder for this subject"
+msgstr "為這個主旨建立一個搜尋資料夾"
+
+# ui/evolution-mail.xml.h:11
+#: ../ui/evolution-mail-message.xml.h:19
 msgid "Create a rule to filter messages from this sender"
 msgstr "為這個寄件者建立過濾器規則"
 
 # ui/evolution-mail.xml.h:12
-#: ../ui/evolution-mail-message.xml.h:16
+#: ../ui/evolution-mail-message.xml.h:20
 msgid "Create a rule to filter messages to these recipients"
 msgstr "為這些收件者建立過濾器規則"
 
 # ui/evolution-mail.xml.h:13
-#: ../ui/evolution-mail-message.xml.h:17
+#: ../ui/evolution-mail-message.xml.h:21
 msgid "Create a rule to filter messages to this mailing list"
 msgstr "為這個通信論壇建立過濾器規則"
 
 # ui/evolution-mail.xml.h:14
-#: ../ui/evolution-mail-message.xml.h:18
+#: ../ui/evolution-mail-message.xml.h:22
 msgid "Create a rule to filter messages with this subject"
 msgstr "為這個主旨建立過濾器規則"
-
-# ui/evolution-mail.xml.h:15
-#: ../ui/evolution-mail-message.xml.h:19
-msgid "Create a vFolder for these recipients"
-msgstr "為這些收件者建立一個虛擬資料夾"
-
-# ui/evolution-mail.xml.h:16
-#: ../ui/evolution-mail-message.xml.h:20
-msgid "Create a vFolder for this mailing list"
-msgstr "為這個通信論壇建立一個虛擬資料夾"
-
-# ui/evolution-mail.xml.h:17
-#: ../ui/evolution-mail-message.xml.h:21
-msgid "Create a vFolder for this sender"
-msgstr "為這個寄件者建立一個虛擬資料夾"
-
-# ui/evolution-mail.xml.h:18
-#: ../ui/evolution-mail-message.xml.h:22
-msgid "Create a vFolder for this subject"
-msgstr "為這個主旨建立一個虛擬資料夾"
 
 #: ../ui/evolution-mail-message.xml.h:24
 msgid "Decrease the text size"
@@ -21289,77 +21300,77 @@ msgstr "重設文字為原始大小"
 msgid "Save the message as a text file"
 msgstr "另存郵件成文字檔案"
 
-# ui/evolution-mail.xml.h:75
+# ui/evolution-mail.xml.h:95
 #: ../ui/evolution-mail-message.xml.h:84
+msgid "Search Folder from Mailing _List..."
+msgstr "通信論壇搜尋資料夾(_L)..."
+
+# ui/evolution-mail.xml.h:97
+#: ../ui/evolution-mail-message.xml.h:85
+msgid "Search Folder from Recipients..."
+msgstr "收件者搜尋資料夾..."
+
+# ui/evolution-mail.xml.h:98
+#: ../ui/evolution-mail-message.xml.h:86
+msgid "Search Folder from S_ubject..."
+msgstr "主旨搜尋資料夾(_U)..."
+
+# ui/evolution-mail.xml.h:96
+#: ../ui/evolution-mail-message.xml.h:87
+msgid "Search Folder from Sen_der..."
+msgstr "寄件者搜尋資料夾(_D)..."
+
+# ui/evolution-mail.xml.h:75
+#: ../ui/evolution-mail-message.xml.h:88
 msgid "Search for text in the body of the displayed message"
 msgstr "搜尋顯示的郵件本文中的文字"
 
 # ui/evolution-addressbook.xml.h:15
 # Novell Translation
-#: ../ui/evolution-mail-message.xml.h:85
+#: ../ui/evolution-mail-message.xml.h:89
 msgid "Select _All Text"
 msgstr "選取所有文字(_A)"
 
 # ui/evolution-mail.xml.h:80
-#: ../ui/evolution-mail-message.xml.h:86
+#: ../ui/evolution-mail-message.xml.h:90
 msgid "Select all the text in a message"
 msgstr "選擇郵件中的所有文字"
 
 # ui/evolution-event-editor.xml.h:50
 # ui/evolution-task-editor-dialog.xml.h:59
-#: ../ui/evolution-mail-message.xml.h:87
+#: ../ui/evolution-mail-message.xml.h:91
 msgid "Set up the page settings for your current printer"
 msgstr "設定您目前印表機的版面設定"
 
 # ui/evolution-mail.xml.h:75
 # Novell Translation
-#: ../ui/evolution-mail-message.xml.h:88
+#: ../ui/evolution-mail-message.xml.h:92
 msgid "Show a blinking cursor in the body of displayed messages"
 msgstr "在顯示的郵件內文中顯示閃爍游標"
 
 # ui/evolution-mail.xml.h:86
-#: ../ui/evolution-mail-message.xml.h:89
+#: ../ui/evolution-mail-message.xml.h:93
 msgid "Show message in the normal style"
 msgstr "使用正常模式顯示郵件"
 
 # ui/evolution-mail.xml.h:87
-#: ../ui/evolution-mail-message.xml.h:90
+#: ../ui/evolution-mail-message.xml.h:94
 msgid "Show message with all email headers"
 msgstr "顯示郵件及詳細檔頭"
 
 # ui/evolution-mail.xml.h:89
-#: ../ui/evolution-mail-message.xml.h:91
+#: ../ui/evolution-mail-message.xml.h:95
 msgid "Show the raw email source of the message"
 msgstr "顯示郵件原始檔"
 
 # ui/evolution-mail.xml.h:94
-#: ../ui/evolution-mail-message.xml.h:92
+#: ../ui/evolution-mail-message.xml.h:96
 msgid "Un-delete the selected messages"
 msgstr "復原選定的郵件"
 
-#: ../ui/evolution-mail-message.xml.h:93
+#: ../ui/evolution-mail-message.xml.h:97
 msgid "Uni_mportant"
 msgstr "不重要(_M)"
-
-# ui/evolution-mail.xml.h:95
-#: ../ui/evolution-mail-message.xml.h:94
-msgid "VFolder on Mailing _List..."
-msgstr "通信論壇虛擬資料夾(_L)..."
-
-# ui/evolution-mail.xml.h:97
-#: ../ui/evolution-mail-message.xml.h:95
-msgid "VFolder on Recipients..."
-msgstr "收件者虛擬資料夾..."
-
-# ui/evolution-mail.xml.h:98
-#: ../ui/evolution-mail-message.xml.h:96
-msgid "VFolder on S_ubject..."
-msgstr "主旨虛擬資料夾(_U)..."
-
-# ui/evolution-mail.xml.h:96
-#: ../ui/evolution-mail-message.xml.h:97
-msgid "VFolder on Sen_der..."
-msgstr "寄件者虛擬資料夾(_D)..."
 
 #: ../ui/evolution-mail-message.xml.h:98
 msgid "Zoom _Out"
@@ -23398,6 +23409,26 @@ msgstr "IM 快顯選單"
 #: ../widgets/text/e-text.c:3683 ../widgets/text/e-text.c:3684
 msgid "Handle Popup"
 msgstr "處理彈出式項目"
+
+# camel/providers/imap/camel-imap-provider.c:48
+# shell/e-shell-view.c:552
+#~ msgid "vFolders"
+#~ msgstr "虛擬資料夾"
+
+# camel/providers/imap/camel-imap-provider.c:48
+# shell/e-shell-view.c:552
+#~ msgid "v_Folders"
+#~ msgstr "虛擬資料夾(_F)"
+
+#~ msgid "vFolder source"
+#~ msgstr "虛擬資料夾來源"
+
+#~ msgid "Edit vFolder"
+#~ msgstr "編輯虛擬資料夾"
+
+# ui/evolution.xml.h:59
+#~ msgid "New vFolder"
+#~ msgstr "新增虛擬資料夾"
 
 #~ msgid "SaveDraft"
 #~ msgstr "儲存草稿"
