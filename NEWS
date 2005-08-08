@@ -1,3 +1,62 @@
+Evolution 2.3.7 2005-08-08
+---------------------------
+
+Bugzilla bugs fixed (see http://bugzilla.gnome.org/show_bug.cgi):
+
+	#261971 - Bad plural form: foo(s) in evolution-addressbook.xml (Devashish)
+	#302843 - Replying to news posting from vFolder (Michael Zucchi)
+	#300881 - crash adding signature (Michael Zucchi)
+	#312397 - Forward Of Message Displays Wrong Names In Comments (Michael Zucchi)
+	#273885 - Many english messages in a translated version of evolution (Michael Zucchi)
+	#310840 - Resizing evolution mail window which contains an image attachment crashes it. (Michael Zucchi)
+	#308512 - Key /apps/evolution/lock/mail/accounts/save_password does not work correctly (Michael Zucchi)
+	#312410 - new attachment ui disappears (Srinivasa Ragavan)
+	#309647 - contents of copy/paster buffer can corrupt initial contents of a reply message (Michael Zucchi)
+	#231968 - Ability to access Permissions dialog from menus (Michael Zucchi)
+	#300607 - "virtual vfolders" aren't moved properly (Michael Zucchi)
+	#311223 - saving a message crashes evolution (Shreyas)
+	#307538 - If receiving mail-tab is set to NONE (Shreyas)
+	#311440 - Crashes on particular e-mail (Michael Zucchi)
+	#311686 - Evolution crashes when adding an attendee in the event editor (Chenthill)
+	#312460 - Evolution crashed on creating recurring meeting with attachment in GW calendar (Chenthill)
+	#302460 - Double clicking in open text field in calendar crashes (Viren) 
+	#312447 - [Gnopernicus]Brlmoniter doesn't show the time changes if using keyboard shortcut to change date (Harry Lu)
+	#309601 - GroupWise Calendar Events Can Be Moved By Attendees (Chenthill)
+	#306017 - 'Delete this occurence' removes all day event on day *before* (Chakravarthi)
+	#309247 - Error loading address book dialog seizes the desktop (Srinivasa Ragavan)
+	#254923 - The image in a contact could be scaled to a sane size (Frank Arnold)
+	#258257 - Evolution allows to save the contact without the contact name (Devashish)
+	#309416 - crash on close (Srinivasa Ragavan)
+	#269870 - evolution-addressbook-export --format=csv does not work (Michael Meeks)
+	#311324 - Unsubscribe folder should not work in offline (Shakti Sen)
+	#310353 - password prompt appears twice even after entering the correct password the first time (Sankar)
+	#304461 - clicking on 'edit message' from the 'subscribe to list' pop-up dialog hangs evolution (Michael Zucchi)
+	#312365 - Proxy access to self should be disabled (Sankar)
+	#302817 - "Sent items" status tracking does not appear properly (Vivek)
+	#311721 - 'Track message status' option present for messages other than in sent items folder also (Vivek)
+
+Updated Translations:
+
+	- cs (Miloslav Trmac)
+	- cy (Rhys Jones)
+	- en_CA (Adam Weinberger)
+	- el (Kostas Papadimas)
+	- es (Francisco Javier F. Serrador)
+	- et (Ivar Smolin)
+	- fi (Ilkka Tuohela)
+	- gu (Ankit Patel)
+	- ja (Takeshi AIHANA)
+	- nb,no (Kjartan Maraas)
+	- nb,no (Terance Sola)
+	- nl (Vincent van Adrighem)
+	- POTFILES (Adam Weinberger)
+	- pt_BR (Raphael Higino)
+	- sk (Marcel Telka)
+	- te (Prajasakti Localisation Team)
+	- vi (Clytie Siddall)
+	- zh_CN (Funda Wang)
+	- zh_TW (Chao-Hsuing Liao)
+
 Evolution 2.3.6 2005-07-26
 ---------------------------
 

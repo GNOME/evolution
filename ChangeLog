@@ -1,3 +1,7 @@
+2005-08-08  Harish Krishnaswamy  <kharish@novell.com>
+
+	* configure.in: Release 2.3.7
+
 2005-08-07  Rodney Dawes  <dobey@novell.com>
 
 	* help/C/evolution.xml: Change references to the term "vfolder" to
