@@ -684,9 +684,11 @@ emae_setup_signatures(EMAccountEditor *emae, GladeXML *xml)
 
 	signatures = mail_config_get_signatures ();
 
-	p->sig_added_id = g_signal_connect(signatures, "signature-added", G_CALLBACK(emae_signature_added), emae);
-	p->sig_removed_id = g_signal_connect(signatures, "signature-removed", G_CALLBACK(emae_signature_removed), emae);
-	p->sig_changed_id = g_signal_connect(signatures, "signature-changed", G_CALLBACK(emae_signature_changed), emae);
+	if (p->sig_added_id == 0) {
+		p->sig_added_id = g_signal_connect(signatures, "signature-added", G_CALLBACK(emae_signature_added), emae);
+		p->sig_removed_id = g_signal_connect(signatures, "signature-removed", G_CALLBACK(emae_signature_removed), emae);
+		p->sig_changed_id = g_signal_connect(signatures, "signature-changed", G_CALLBACK(emae_signature_changed), emae);
+	}
 
 	/* we need to count the 'none' entry before using the index */
 	i = 1;
