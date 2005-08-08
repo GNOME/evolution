@@ -384,8 +384,11 @@ emfq_format_message(EMFormat *emf, CamelStream *stream, CamelMimePart *part, con
 				    "<blockquote type=cite>\n"
 				    "<font color=\"#%06x\">\n",
 				    emfq->citation_colour & 0xffffff);
-	
-	if (emfq->flags & EM_FORMAT_QUOTE_HEADERS)
+
+	if (((CamelMimePart *)emf->message) != part) {
+		camel_stream_printf(stream,  "%s</br>\n", _("-------- Forwarded Message --------"));
+		emfq_format_headers (emfq, stream, (CamelMedium *)part);
+	} else if (emfq->flags & EM_FORMAT_QUOTE_HEADERS)
 		emfq_format_headers (emfq, stream, (CamelMedium *)part);
 	
 	em_format_part (emf, stream, part);
