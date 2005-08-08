@@ -43,8 +43,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.gnome-2-8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-08-03 05:34+0000\n"
-"PO-Revision-Date: 2005-07-28 17:49+0200\n"
+"POT-Creation-Date: 2005-07-30 05:30+0000\n"
+"PO-Revision-Date: 2005-08-01 05:08+0200\n"
 "Last-Translator: Tino Meinen <a.t.meinen@chello.nl>\n"
 "Language-Team: Dutch <vertaling@vrijschrift.org>\n"
 "MIME-Version: 1.0\n"
@@ -2389,7 +2389,7 @@ msgstr "Zimbabwe"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-fullname.c:89
 #: ../plugins/exchange-operations/exchange-delegates.c:936
-#: ../plugins/exchange-operations/exchange-permissions-dialog.c:714
+#: ../plugins/exchange-operations/exchange-permissions-dialog.c:712
 #: ../plugins/plugin-manager/plugin-manager.c:44
 #: ../plugins/save-attachments/save-attachments.c:362
 #: ../widgets/menus/gal-view-new-dialog.c:73
@@ -2657,8 +2657,8 @@ msgstr "_IM-dienst:"
 
 #: ../addressbook/gui/contact-editor/im.glade.h:5
 #: ../plugins/calendar-weather/calendar-weather.c:409
-#: ../plugins/exchange-operations/exchange-calendar.c:215
-#: ../plugins/exchange-operations/exchange-contacts.c:193
+#: ../plugins/exchange-operations/exchange-calendar.c:212
+#: ../plugins/exchange-operations/exchange-contacts.c:191
 msgid "_Location:"
 msgstr "_Locatie:"
 
@@ -3070,7 +3070,7 @@ msgstr "Radio"
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:9
 #: ../calendar/gui/e-meeting-list-view.c:378
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:9
-#: ../plugins/exchange-operations/exchange-permissions-dialog.c:718
+#: ../plugins/exchange-operations/exchange-permissions-dialog.c:716
 msgid "Role"
 msgstr "Rol"
 
@@ -3820,8 +3820,8 @@ msgstr "Schaduw"
 #. FIXME: Take care of i18n
 #: ../addressbook/printing/e-contact-print.glade.h:36
 #: ../plugins/exchange-operations/exchange-account-setup.c:927
-#: ../plugins/exchange-operations/exchange-calendar.c:205
-#: ../plugins/exchange-operations/exchange-contacts.c:176
+#: ../plugins/exchange-operations/exchange-calendar.c:202
+#: ../plugins/exchange-operations/exchange-contacts.c:174
 msgid "Size:"
 msgstr "Grootte:"
 
@@ -4361,9 +4361,9 @@ msgid "Evolution's Tasks component"
 msgstr "Evolution taken-component"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:10
-#: ../calendar/gui/e-tasks.c:1256 ../calendar/gui/print.c:1822
+#: ../calendar/gui/e-tasks.c:1257 ../calendar/gui/print.c:1822
 #: ../calendar/gui/tasks-component.c:519 ../calendar/gui/tasks-component.c:994
-#: ../calendar/gui/tasks-control.c:457
+#: ../calendar/gui/tasks-control.c:441
 #: ../calendar/importers/icalendar-importer.c:79
 #: ../calendar/importers/icalendar-importer.c:707
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:384
@@ -5202,8 +5202,8 @@ msgstr "%.0fG"
 #: ../calendar/gui/dialogs/cal-attachment-bar.c:311
 #: ../calendar/gui/dialogs/cal-attachment-bar.c:1106
 #: ../calendar/gui/dialogs/comp-editor.c:2426
-#: ../composer/e-msg-composer-attachment-bar.c:307 ../mail/em-utils.c:439
-#: ../mail/em-utils.c:476 ../widgets/misc/e-attachment-bar.c:336
+#: ../composer/e-msg-composer-attachment-bar.c:307 ../mail/em-utils.c:438
+#: ../mail/em-utils.c:475 ../widgets/misc/e-attachment-bar.c:336
 msgid "attachment"
 msgstr "bijlage"
 
@@ -5305,9 +5305,11 @@ msgstr "Bestandsnaam:"
 msgid "MIME type:"
 msgstr "MIME type:"
 
+# gebruikt/ingeschakeld
+# is tabelkop en geeft vinkjes of een lokatie wel of niet gebruikt wordt
 #. g_object_set((GObject *)renderer, "activatable", TRUE, NULL);
 #: ../calendar/gui/dialogs/cal-prefs-dialog.c:576
-#: ../mail/em-account-prefs.c:504 ../mail/em-composer-prefs.c:889
+#: ../mail/em-account-prefs.c:504 ../mail/em-composer-prefs.c:888
 #: ../plugins/plugin-manager/plugin-manager.c:213
 msgid "Enabled"
 msgstr "Ingeschakeld"
@@ -5463,9 +5465,11 @@ msgstr "_Zon"
 msgid "Saturday"
 msgstr "Zaterdag"
 
+# standaard wordt dit aangevuld tot:
+# Herinnering geven [15] [minuten] voor het begin van elke afspraak
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:32
 msgid "Sh_ow a reminder"
-msgstr "Laat herinnering zien"
+msgstr "Herinnering geven"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:33
 msgid "Show week _numbers in date navigator"
@@ -5537,7 +5541,7 @@ msgstr "URL _toevoegen"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:48
 msgid "_Ask for confirmation when deleting items"
-msgstr "Vr_aag om bevestiging bij het wissen van items"
+msgstr "_Bevestiging vragen bij het wissen van items"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:49
 msgid "_Compress weekends in month view"
@@ -5573,7 +5577,7 @@ msgstr "Eindtijden van afspraken tonen in week- en maandweergave"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:58
 msgid "_Time divisions:"
-msgstr "Tijd_verdeling:"
+msgstr "Tijd_onderverdeling:"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:59
 msgid "_Tue"
@@ -5635,7 +5639,7 @@ msgstr "Kies een kleur"
 
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:6
 msgid "_Add Calendar"
-msgstr "K_alender toevoegen"
+msgstr "_Agenda toevoegen"
 
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:7
 msgid "_Add Task List"
@@ -6034,11 +6038,11 @@ msgstr "_Aanpassen..."
 #: ../calendar/gui/dialogs/event-page.glade.h:11
 #: ../calendar/gui/dialogs/task-page.glade.h:5
 msgid "Ca_tegories..."
-msgstr "Ca_tegorieën..."
+msgstr "Categorieë_n..."
 
 #: ../calendar/gui/dialogs/event-page.glade.h:12
 msgid "Cale_ndar:"
-msgstr "K_alender:"
+msgstr "_Agenda:"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:13
 #: ../calendar/gui/dialogs/task-page.glade.h:7
@@ -6074,26 +6078,29 @@ msgstr "Privé"
 msgid "Public"
 msgstr "Openbaar"
 
+# bezet mooier dan bezig
 #: ../calendar/gui/dialogs/event-page.glade.h:19
 msgid "Show time as _busy"
-msgstr "Tijd tonen als _bezig"
+msgstr "_Tijd tonen als bezet"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:20
 #: ../calendar/gui/dialogs/task-page.glade.h:13
 msgid "Su_mmary:"
-msgstr "Sa_menvatting:"
+msgstr "_Samenvatting:"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:21
 msgid "This appointment has customized alarms"
 msgstr "Deze afspraak heeft een aangepast alarm"
 
+# de a wordt gebruikt voor _annuleren, de m bij omschrijving
 #: ../calendar/gui/dialogs/event-page.glade.h:22
 msgid "_Alarm"
-msgstr "_Alarm"
+msgstr "Ala_rm"
 
+# de o wordt gebruikt voor _Ok
 #: ../calendar/gui/dialogs/event-page.glade.h:23
 msgid "_Description:"
-msgstr "_Omschrijving:"
+msgstr "O_mschrijving:"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:24
 #: ../calendar/gui/e-meeting-time-sel.c:642
@@ -6568,17 +6575,20 @@ msgstr "_Dagelijks"
 msgid "_Manual"
 msgstr "Hand_matig"
 
+# de W wordt al gebruikt voor _Wekelijks
+# de A voor _Annuleren
 #: ../calendar/gui/dialogs/url-editor-dialog.glade.h:9
 msgid "_Password:"
-msgstr "_Wachtwoord:"
+msgstr "Wa_chtwoord:"
 
+# _O wordt gebruikt voor _Ok
 #: ../calendar/gui/dialogs/url-editor-dialog.glade.h:10
 msgid "_Remember password"
-msgstr "_Onthoud dit wachtwoord"
+msgstr "Wachtwoord o_nthouden"
 
 #: ../calendar/gui/dialogs/url-editor-dialog.glade.h:11
 msgid "_Username:"
-msgstr "Gebr_uikersnaam:"
+msgstr "_Gebruikersnaam:"
 
 #: ../calendar/gui/dialogs/url-editor-dialog.glade.h:12
 msgid "_Weekly"
@@ -6767,7 +6777,7 @@ msgstr "Nee"
 #: ../calendar/gui/e-meeting-list-view.c:168
 #: ../calendar/gui/e-meeting-list-view.c:182
 #: ../calendar/gui/e-meeting-store.c:124 ../calendar/gui/e-meeting-store.c:159
-#: ../calendar/gui/e-meeting-store.c:224 ../mail/em-utils.c:1239
+#: ../calendar/gui/e-meeting-store.c:224 ../mail/em-utils.c:1238
 #: ../plugins/itip-formatter/itip-formatter.c:238
 #: ../plugins/itip-formatter/itip-formatter.c:1632
 #: ../plugins/plugin-manager/plugin-manager.c:72
@@ -7684,7 +7694,7 @@ msgstr "Vereiste mensen en één hulpbr_on"
 msgid "Enter the password for %s"
 msgstr "Voer uw wachtwoord in voor %s"
 
-#: ../calendar/gui/e-tasks.c:797 ../calendar/gui/gnome-cal.c:2519
+#: ../calendar/gui/e-tasks.c:798 ../calendar/gui/gnome-cal.c:2519
 #, c-format
 msgid ""
 "Error on %s:\n"
@@ -7693,24 +7703,24 @@ msgstr ""
 "Fout bij %s:\n"
 " %s"
 
-#: ../calendar/gui/e-tasks.c:845
+#: ../calendar/gui/e-tasks.c:846
 msgid "Loading tasks"
 msgstr "Taken laden"
 
-#: ../calendar/gui/e-tasks.c:929
+#: ../calendar/gui/e-tasks.c:930
 #, c-format
 msgid "Opening tasks at %s"
 msgstr "Bezig met openen taken op %s"
 
-#: ../calendar/gui/e-tasks.c:1125
+#: ../calendar/gui/e-tasks.c:1126
 msgid "Completing tasks..."
 msgstr "Bezig met afronden van taken..."
 
-#: ../calendar/gui/e-tasks.c:1148
+#: ../calendar/gui/e-tasks.c:1149
 msgid "Deleting selected objects..."
 msgstr "Geselecteerde objecten worden verwijderd..."
 
-#: ../calendar/gui/e-tasks.c:1175
+#: ../calendar/gui/e-tasks.c:1176
 msgid "Expunging"
 msgstr "Bezig met schrappen"
 
@@ -8223,7 +8233,7 @@ msgstr "Ta_kenlijst"
 msgid "Create a new task list"
 msgstr "Nieuwe takenlijst toevoegen"
 
-#: ../calendar/gui/tasks-control.c:419
+#: ../calendar/gui/tasks-control.c:403
 msgid ""
 "This operation will permanently erase all tasks marked as completed. If you "
 "continue, you will not be able to recover these tasks.\n"
@@ -8235,11 +8245,11 @@ msgstr ""
 "\n"
 "De taken echt verwijderen?"
 
-#: ../calendar/gui/tasks-control.c:422
+#: ../calendar/gui/tasks-control.c:406
 msgid "Do not ask me again."
 msgstr "Dit bericht niet meer weergeven."
 
-#: ../calendar/gui/tasks-control.c:457
+#: ../calendar/gui/tasks-control.c:441
 msgid "Print Tasks"
 msgstr "Taken afdrukken"
 
@@ -10677,7 +10687,7 @@ msgstr "Regelnaam"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:1
 msgid "Composer Preferences"
-msgstr "Bericht opstellen"
+msgstr "Berichten opstellen"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:2
 msgid ""
@@ -10728,6 +10738,7 @@ msgstr "Evolution e-mail voorkeuren"
 msgid "Mail"
 msgstr "Post"
 
+# E-mailaccounts / E-mail-accounts / E-mail accounts
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:12
 msgid "Mail Accounts"
 msgstr "E-mail accounts"
@@ -10826,26 +10837,25 @@ msgid "Protocol"
 msgstr "Protocol"
 
 #: ../mail/em-account-prefs.c:517
-#, fuzzy
 msgid "Mail Accounts Table"
-msgstr "E-mail accounts"
+msgstr "Mail-accounts tabel"
 
-#: ../mail/em-composer-prefs.c:307 ../mail/em-composer-prefs.c:430
+#: ../mail/em-composer-prefs.c:306 ../mail/em-composer-prefs.c:429
 #: ../mail/mail-config.c:958
 msgid "Unnamed"
 msgstr "Naamloos"
 
 # was eerst Taal / Talen
 # maar dat is niet mooi, gewoon Taal van gemaakt, is duidelijk genoeg
-#: ../mail/em-composer-prefs.c:895
+#: ../mail/em-composer-prefs.c:894
 msgid "Language(s)"
 msgstr "Taal"
 
-#: ../mail/em-composer-prefs.c:938
+#: ../mail/em-composer-prefs.c:937
 msgid "Add signature script"
 msgstr "Handtekening script toevoegen"
 
-#: ../mail/em-composer-prefs.c:958
+#: ../mail/em-composer-prefs.c:957
 msgid "Signature(s)"
 msgstr "Handtekening(en)"
 
@@ -11142,8 +11152,8 @@ msgstr "_vMap van zoekopdracht maken..."
 #: ../mail/em-folder-properties.c:144
 msgid "Total message:"
 msgid_plural "Total messages:"
-msgstr[0] "Berichtentotaal:"
-msgstr[1] "Berichtentotaal:"
+msgstr[0] "Aantal berichten:"
+msgstr[1] "Aantal berichten:"
 
 #: ../mail/em-folder-properties.c:156
 msgid "Unread message:"
@@ -11169,7 +11179,7 @@ msgid "Folder _name:"
 msgstr "Map_naam:"
 
 #: ../mail/em-folder-tree-model.c:201 ../mail/em-folder-tree-model.c:203
-#: ../mail/mail-vfolder.c:937 ../mail/mail-vfolder.c:1007
+#: ../mail/mail-vfolder.c:900 ../mail/mail-vfolder.c:970
 msgid "vFolders"
 msgstr "vMappen"
 
@@ -11593,23 +11603,20 @@ msgid "_Hide"
 msgstr "_Verbergen"
 
 #: ../mail/em-format-html-display.c:1180
-#, fuzzy
 msgid "_Fit to Width"
-msgstr "Clip-breedte"
+msgstr "Op _breedte passend"
 
 #: ../mail/em-format-html-display.c:1181
-#, fuzzy
 msgid "Show _Original Size"
-msgstr "Originele groo_tte"
+msgstr "_Oorspronkelijke grootte"
 
 #: ../mail/em-format-html-display.c:1550
 msgid "Attachment Button"
 msgstr "Bijlageknop"
 
 #: ../mail/em-format-html-display.c:1757
-#, fuzzy
 msgid "Select folder to save all attachments..."
-msgstr "Alle bijlagen opslaan"
+msgstr "Selecteer een map waarin de bijlagen moeten worden opgeslagen..."
 
 #: ../mail/em-format-html-display.c:1795
 msgid "Select folder to save selected attachments..."
@@ -11649,19 +11656,19 @@ msgstr "Bezig met ophalen `%s'"
 msgid "Valid signature but cannot verify sender"
 msgstr "Geldige handtekening, kan afzender niet verifiëren"
 
+# engels spelling: messaage
 #: ../mail/em-format-html.c:693
-#, fuzzy
 msgid "Unknown error verifying signed messaage"
-msgstr "Onbekende fout bij het verifiëren van ondertekening"
+msgstr "Onbekende fout bij het verifiëren van ondertekend bericht"
 
+# engels spelling: messaage
 #: ../mail/em-format-html.c:758
-#, fuzzy
 msgid "Unknown error decrypting messaage"
-msgstr "Onbekende fout bij het verifiëren van ondertekening"
+msgstr "Onbekende fout bij het ontcijferen bericht"
 
 #: ../mail/em-format-html.c:967
 msgid "Malformed external-body part."
-msgstr "Misvormd extern-berichtgedeelte"
+msgstr "Misvormd extern-berichtgedeelte."
 
 #: ../mail/em-format-html.c:997
 #, c-format
@@ -11893,26 +11900,26 @@ msgstr "Aan adresboek _toevoegen"
 msgid "Open in %s..."
 msgstr "Openen in %s..."
 
-#: ../mail/em-subscribe-editor.c:614
+#: ../mail/em-subscribe-editor.c:611
 msgid "This store does not support subscriptions, or they are not enabled."
 msgstr ""
 "Deze opslag ondersteund geen inschrijvingen, of deze mogelijkheid is "
 "uitgeschakeld."
 
-#: ../mail/em-subscribe-editor.c:643
+#: ../mail/em-subscribe-editor.c:640
 msgid "Subscribed"
 msgstr "Geabonneerd"
 
-#: ../mail/em-subscribe-editor.c:647
+#: ../mail/em-subscribe-editor.c:644
 msgid "Folder"
 msgstr "Map"
 
 #. FIXME: This is just to get the shadow, is there a better way?
-#: ../mail/em-subscribe-editor.c:862
+#: ../mail/em-subscribe-editor.c:859
 msgid "Please select a server."
 msgstr "Selecteer een server"
 
-#: ../mail/em-subscribe-editor.c:883
+#: ../mail/em-subscribe-editor.c:880
 msgid "No server has been selected"
 msgstr "Geen server geselecteerd"
 
@@ -11924,20 +11931,20 @@ msgstr "Dit bericht niet meer weergeven."
 msgid "Filters"
 msgstr "Filters"
 
-#: ../mail/em-utils.c:437 ../mail/em-utils.c:474
+#: ../mail/em-utils.c:436 ../mail/em-utils.c:473
 msgid "message"
 msgstr "bericht"
 
-#: ../mail/em-utils.c:609
+#: ../mail/em-utils.c:608
 msgid "Save Message..."
 msgstr "Bericht opslaan..."
 
-#: ../mail/em-utils.c:658
+#: ../mail/em-utils.c:657
 msgid "Add address"
 msgstr "Adres toevoegen"
 
 #. Drop filename for messages from a mailbox
-#: ../mail/em-utils.c:1137
+#: ../mail/em-utils.c:1136
 #, c-format
 msgid "Messages from %s"
 msgstr "Berichten van %s"
@@ -12131,16 +12138,11 @@ msgid "Load images for HTML messages over http"
 msgstr "Laad afbeeldingen voor HTML berichten over http"
 
 #: ../mail/evolution-mail.schemas.in.in.h:39
-#, fuzzy
 msgid ""
 "Load images for HTML messages over http(s). Possible values are: 0 - Never "
 "load images off the net 1 - Load images in mail from contacts 2 - Always "
 "load images off the net"
-msgstr ""
-"Laad afbeeldingen voor berichten met HTML opmaak via HTTP(S). Mogelijke "
-"waardes zijn: 0 - Nooit afbeeldingen van het internet laden. 1 - Laad "
-"afbeeldingen als de afzender in het adresboek staat 2 - Altijd afbeeldingen "
-"laden via het internet"
+msgstr "Afbeeldingen voor berichten met HTML opmaak via http(s) ophalen. De mogelijkheden zijn: 0 - Nooit afbeeldingen van het internet ophalen. 1 - Afbeeldingen ophalen als de afzender in het adresboek staat 2 - Altijd afbeeldingen van het internet ophalen"
 
 #: ../mail/evolution-mail.schemas.in.in.h:40
 msgid "Log filter actions"
@@ -12258,12 +12260,13 @@ msgstr "Herkennen en vervangen van links in de text."
 
 #: ../mail/evolution-mail.schemas.in.in.h:65
 msgid "Recognize smileys in text and replace them with images."
-msgstr "Herken smileys in de text en vervang deze met afbeeldingen."
+msgstr "Herken smileys in de tekst en vervang deze met afbeeldingen."
 
 #: ../mail/evolution-mail.schemas.in.in.h:66
 msgid "Run junk test on incoming mail"
 msgstr "Test inkomende mail op troep"
 
+# standaard email als HTML versturen
 #: ../mail/evolution-mail.schemas.in.in.h:67
 msgid "Send HTML mail by default"
 msgstr "Standaard HTML e-mail versturen"
@@ -12275,11 +12278,11 @@ msgstr "Standaard HTML e-mail versturen."
 # filmpjes weergeven
 #: ../mail/evolution-mail.schemas.in.in.h:69
 msgid "Show Animations"
-msgstr "Bewegende afbeeldingen _weergeven"
+msgstr "Bewegende afbeeldingen weergeven"
 
 #: ../mail/evolution-mail.schemas.in.in.h:70
 msgid "Show animated images as animations."
-msgstr "Bewegende afbeeldingen _weergeven als animaties"
+msgstr "Bewegende afbeeldingen weergeven als animaties"
 
 #: ../mail/evolution-mail.schemas.in.in.h:71
 msgid "Show deleted messages (with a strike-through) in the message-list."
@@ -12287,8 +12290,9 @@ msgstr "Verwijderde berichten (doorgestreept) tonen in de berichtenlijst."
 
 #: ../mail/evolution-mail.schemas.in.in.h:72
 msgid "Show deleted messages in the message-list"
-msgstr "Laat verwijderde berichten in de berichtenlijst zien"
+msgstr "Verwijderde berichten tonen in de berichtenlijst"
 
+# FIXME: dit moet duidelijker
 #: ../mail/evolution-mail.schemas.in.in.h:73
 msgid "Show the \"Preview\" pane"
 msgstr "Toon het voorbeeld paneel"
@@ -12299,7 +12303,7 @@ msgstr "Het voorbeeld weergave paneel tonen."
 
 #: ../mail/evolution-mail.schemas.in.in.h:75
 msgid "Sound file to play when new mail arrives."
-msgstr "Geluids bestand afspelen bij binnenkomst van nieuwe e-mail"
+msgstr "Geluidsbestand afspelen bij binnenkomst van nieuwe e-mail"
 
 #: ../mail/evolution-mail.schemas.in.in.h:76
 msgid "Specifies the type of New Mail Notification the user wishes to use."
@@ -12309,7 +12313,7 @@ msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.in.h:77
 msgid "Spell check inline"
-msgstr "Spellings controle in bericht"
+msgstr "Spellingscontrole in bericht"
 
 #: ../mail/evolution-mail.schemas.in.in.h:78
 msgid "Subscribe dialog default height"
@@ -12459,9 +12463,8 @@ msgid "Evolution Elm importer"
 msgstr "Evolution Elm-import"
 
 #: ../mail/importers/elm-importer.c:383
-#, fuzzy
 msgid "Import mail from Elm."
-msgstr "Bezig met importeren mailbox"
+msgstr "E-mail importeren uit Elm."
 
 #: ../mail/importers/evolution-mbox-importer.c:82
 #: ../mail/importers/evolution-outlook-importer.c:131
@@ -12598,9 +12601,8 @@ msgid "Evolution Pine importer"
 msgstr "Evolution pine-import"
 
 #: ../mail/importers/pine-importer.c:435
-#, fuzzy
 msgid "Import mail from Pine."
-msgstr "Een enkel bestand i_mporteren"
+msgstr "E-mail importeren uit Pine."
 
 #: ../mail/mail-autofilter.c:78
 #, c-format
@@ -12757,24 +12759,24 @@ msgstr "<span weight=\"bold\">Configuratie</span>"
 
 #: ../mail/mail-config.glade.h:14
 msgid "<span weight=\"bold\">Default Behavior</span>"
-msgstr "<span weight=\"bold\">Standaard gedrag</span>"
+msgstr "<span weight=\"bold\">Standaardgedrag</span>"
 
 #: ../mail/mail-config.glade.h:15
 msgid "<span weight=\"bold\">Delete Mail</span>"
-msgstr "<span weight=\"bold\">Verwijder mail</span>"
+msgstr "<span weight=\"bold\">Berichten verwijderen</span>"
 
 #: ../mail/mail-config.glade.h:16
 msgid "<span weight=\"bold\">Displayed Mail _Headers</span>"
-msgstr "<span weight=\"bold\">_Toon mail koppen</span>"
+msgstr "<span weight=\"bold\">_Weergegeven items in de berichtkop</span>"
 
 #: ../mail/mail-config.glade.h:17
 msgid "<span weight=\"bold\">Filter Options</span>"
-msgstr "<span weight=\"bold\">Filter opties</span>"
+msgstr "<span weight=\"bold\">Filteropties</span>"
 
 #: ../mail/mail-config.glade.h:18
 #: ../plugins/itip-formatter/itip-formatter.c:1916
 msgid "<span weight=\"bold\">General</span>"
-msgstr "<span weight=\"bold\">Generiek</span>"
+msgstr "<span weight=\"bold\">Algemeen</span>"
 
 #: ../mail/mail-config.glade.h:19
 msgid "<span weight=\"bold\">Labels and Colors</span>"
@@ -12786,20 +12788,19 @@ msgstr "<span weight=\"bold\">Afbeelding laden</span>"
 
 #: ../mail/mail-config.glade.h:21
 msgid "<span weight=\"bold\">Message Display</span>"
-msgstr "<span weight=\"bold\">Bericht weergave</span>"
+msgstr "<span weight=\"bold\">Berichtweergave</span>"
 
 #: ../mail/mail-config.glade.h:22
 msgid "<span weight=\"bold\">Message Fonts</span>"
-msgstr "<span weight=\"bold\">Bericht lettertype</span>"
+msgstr "<span weight=\"bold\">Berichtlettertype</span>"
 
 #: ../mail/mail-config.glade.h:23
-#, fuzzy
 msgid "<span weight=\"bold\">Message Receipts</span>"
-msgstr "<span weight=\"bold\">Bericht lettertype</span>"
+msgstr "<span weight=\"bold\">Berichtontvangst</span>"
 
 #: ../mail/mail-config.glade.h:24
 msgid "<span weight=\"bold\">New Mail Notification</span>"
-msgstr "<span weight=\"bold\">Nieuwe Mail Notificatie</span>"
+msgstr "<span weight=\"bold\">Melding bij binnekomend bericht</span>"
 
 #: ../mail/mail-config.glade.h:25
 msgid "<span weight=\"bold\">Optional Information</span>"
@@ -12933,13 +12934,14 @@ msgstr "Wi_ssen"
 msgid "Color for _misspelled words:"
 msgstr "Kleur voor _spelfouten:"
 
+# Berichtkleur/kleuren
 #: ../mail/mail-config.glade.h:58
 msgid "Colors"
 msgstr "Kleuren"
 
 #: ../mail/mail-config.glade.h:59
 msgid "Confirm _when expunging a folder"
-msgstr "Bevestigen bij het _legen van een map"
+msgstr "Bevestigen vragen bij het opruimen van een _map"
 
 #: ../mail/mail-config.glade.h:60
 msgid ""
@@ -12990,7 +12992,7 @@ msgstr "E-mail_adres:"
 
 #: ../mail/mail-config.glade.h:77
 msgid "Empty trash folders on e_xit"
-msgstr "_Prullenbakken legen bij afsluiten"
+msgstr "_Prullenbak legen bij het afsluiten van het programma"
 
 #: ../mail/mail-config.glade.h:78
 msgid "Encry_ption certificate:"
@@ -13020,9 +13022,10 @@ msgstr "Berichten opmaken met _HTML"
 msgid "HTML Mail"
 msgstr "HTML e-mail"
 
+# Koppen/Berichtkop (berichtkop is beter in dit geval)
 #: ../mail/mail-config.glade.h:87
 msgid "Headers"
-msgstr "Koppen"
+msgstr "Berichtkop"
 
 #: ../mail/mail-config.glade.h:88
 msgid "Highlight _quotations with"
@@ -13030,7 +13033,7 @@ msgstr "Citaten _accentueren met"
 
 #: ../mail/mail-config.glade.h:89
 msgid "I_nclude remote tests"
-msgstr "_Testen op afstand bijvoegen"
+msgstr "E_xterne testen uitvoeren"
 
 #: ../mail/mail-config.glade.h:92
 msgid "Inline"
@@ -13217,9 +13220,7 @@ msgstr "T_ype: "
 msgid ""
 "The list of languages here reflects only the languages for which you have a "
 "dictionary installed."
-msgstr ""
-"De lijst met talen hieronder, geeft alleen maar aan voor welke talen een "
-"woordenboek geïnstalleerd is."
+msgstr "De lijst met talen hierboven, geeft enkel aan voor welke talen een woordenboek beschikbaar is."
 
 #: ../mail/mail-config.glade.h:142
 msgid ""
@@ -13263,7 +13264,7 @@ msgstr "Handtekening _toevoegen"
 
 #: ../mail/mail-config.glade.h:155
 msgid "_Always load images from the Internet"
-msgstr "_Altijd afbeeldingen ophalen va het internet"
+msgstr "_Altijd afbeeldingen van het internet ophalen"
 
 #: ../mail/mail-config.glade.h:156
 msgid "_Do not notify me when new mail arrives"
@@ -13283,9 +13284,12 @@ msgstr "_Doorstuurstijl:"
 msgid "_Full Name:"
 msgstr "_Volledige naam:"
 
+# Afbeeldingen ophalen als de afzender in het adresboek staat
+# Afbeeldingen laden in e-mail van bekenden
+# (let op dat er ook een gconf-sleutel is waar dezelfde termen in voorkomen)
 #: ../mail/mail-config.glade.h:161
 msgid "_Load images in mail from contacts"
-msgstr "_Afbeeldingen laden in e-mail van bekenden"
+msgstr "Af_beeldingen ophalen als de afzender in het adresboek staat"
 
 #: ../mail/mail-config.glade.h:162
 msgid "_Make this my default account"
@@ -13331,7 +13335,7 @@ msgstr "Beveiligde verbinding gebr_uiken:"
 
 #: ../mail/mail-config.glade.h:174
 msgid "_Use the same fonts as other applications"
-msgstr "_Hetzelfde lettertype gebruiken als de andere programma's"
+msgstr "_Hetzelfde lettertype gebruiken als bij andere programma's"
 
 #: ../mail/mail-config.glade.h:175
 msgid "color"
@@ -13742,11 +13746,11 @@ msgstr "Actualiseren vMappen voor '%s:%s'"
 msgid "Updating vFolders for '%s'"
 msgstr "Actualiseren vMappen voor '%s'"
 
-#: ../mail/mail-vfolder.c:1046
+#: ../mail/mail-vfolder.c:1009
 msgid "Edit vFolder"
 msgstr "vMap bewerken"
 
-#: ../mail/mail-vfolder.c:1130
+#: ../mail/mail-vfolder.c:1093
 msgid "New vFolder"
 msgstr "Nieuwe vMap"
 
@@ -14693,9 +14697,8 @@ msgid "Mark as default folder"
 msgstr "Aanmerken als standaardmap"
 
 #: ../plugins/exchange-operations/e-foreign-folder-dialog.glade.h:1
-#, fuzzy
 msgid "Open Other User's Folder"
-msgstr "Verzonden _berichtenmap:"
+msgstr "Map van andere gebruiker openen"
 
 #: ../plugins/exchange-operations/e-foreign-folder-dialog.glade.h:2
 msgid "_Account:"
@@ -14760,9 +14763,8 @@ msgstr "Ik ben op dit moment aanwezig"
 
 #. Change Password
 #: ../plugins/exchange-operations/exchange-account-setup.c:327
-#, fuzzy
 msgid "Change the password for Exchange account"
-msgstr "Voer uw wachtwoord in voor %s"
+msgstr "Wachtwoord voor Exchange-account wijzigen"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:329
 #: ../plugins/exchange-operations/exchange-change-password.glade.h:2
@@ -14843,12 +14845,12 @@ msgid "Your current password has expired. Please change your password now."
 msgstr "Uw huidige wachtwoord is verlopen. Wijzig nu uw wachtwoord."
 
 #: ../plugins/exchange-operations/exchange-delegates-user.c:144
-#: ../plugins/exchange-operations/exchange-permissions-dialog.c:573
+#: ../plugins/exchange-operations/exchange-permissions-dialog.c:571
 msgid "Custom"
 msgstr "Aangepaste"
 
 #: ../plugins/exchange-operations/exchange-delegates-user.c:191
-#: ../plugins/exchange-operations/exchange-permissions-dialog.c:188
+#: ../plugins/exchange-operations/exchange-permissions-dialog.c:186
 #, c-format
 msgid "Permissions for %s"
 msgstr "Rechten voor %s"
@@ -14860,14 +14862,12 @@ msgstr "Overdragen aan"
 #: ../plugins/exchange-operations/exchange-delegates.c:562
 #, c-format
 msgid "Remove the delegate %s?"
-msgstr ""
+msgstr "De gedelegeerde %s verwijderen?"
 
+# Active Directory is MS-ism?
 #: ../plugins/exchange-operations/exchange-delegates.c:679
-#, fuzzy
 msgid "Could not access Active Directory"
-msgstr ""
-"Kon de directory %s niet aanmaken:\n"
-"%s"
+msgstr "Kon Active Directory niet benaderen"
 
 #: ../plugins/exchange-operations/exchange-delegates.c:694
 #, fuzzy
@@ -14953,44 +14953,42 @@ msgstr "_Inbox:"
 msgid "_Tasks:"
 msgstr "_Taken:"
 
-#: ../plugins/exchange-operations/exchange-folder-permission.c:58
+#: ../plugins/exchange-operations/exchange-folder-permission.c:57
 #: ../plugins/exchange-operations/org-gnome-folder-permissions.xml.h:2
 msgid "Permissions..."
 msgstr "Rechten..."
 
 #: ../plugins/exchange-operations/exchange-folder-tree.glade.h:1
-#, fuzzy
 msgid "Exchange Folder Tree"
-msgstr "Mailmappen-boom"
+msgstr "Exchange mappen-boom"
 
 #: ../plugins/exchange-operations/exchange-folder.c:57
 #: ../plugins/exchange-operations/exchange-folder.c:100
 #: ../plugins/exchange-operations/exchange-folder.c:110
-#, fuzzy
 msgid "Unsubscribe Folder..."
-msgstr "_Abonneren op mappen..."
+msgstr "Abonnement op map opzeggen..."
 
-#: ../plugins/exchange-operations/exchange-folder.c:320
-#: ../plugins/exchange-operations/exchange-folder.c:363
+#: ../plugins/exchange-operations/exchange-folder.c:316
+#: ../plugins/exchange-operations/exchange-folder.c:359
 #, fuzzy, c-format
 msgid "Really unsubscribe from folder \"%s\"?"
 msgstr "Abonnement op map \"%s\" wordt opgezegd"
 
-#: ../plugins/exchange-operations/exchange-folder.c:332
-#: ../plugins/exchange-operations/exchange-folder.c:375
+#: ../plugins/exchange-operations/exchange-folder.c:328
+#: ../plugins/exchange-operations/exchange-folder.c:371
 #, fuzzy, c-format
 msgid "Unsubscribe from \"%s\""
 msgstr "Abonnement op map \"%s\" wordt opgezegd"
 
-#: ../plugins/exchange-operations/exchange-permissions-dialog.c:301
+#: ../plugins/exchange-operations/exchange-permissions-dialog.c:299
 msgid "(Permission denied.)"
 msgstr "(niet toegestaan)"
 
-#: ../plugins/exchange-operations/exchange-permissions-dialog.c:407
+#: ../plugins/exchange-operations/exchange-permissions-dialog.c:405
 msgid "Add User:"
 msgstr "Gebruiker toevoegen:"
 
-#: ../plugins/exchange-operations/exchange-permissions-dialog.c:407
+#: ../plugins/exchange-operations/exchange-permissions-dialog.c:405
 msgid "Add User"
 msgstr "Gebruiker toevoegen"
 
@@ -15020,9 +15018,8 @@ msgid "Delete Any Items"
 msgstr "Overgedragen"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:8
-#, fuzzy
 msgid "Delete Own Items"
-msgstr "Overgedragen"
+msgstr "Eigen items verwijderen"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:9
 #, fuzzy
@@ -15044,9 +15041,8 @@ msgid "Folder owner"
 msgstr "vMap op afze_nder"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:13
-#, fuzzy
 msgid "Folder visible"
-msgstr "Werkbalk is zichtbaar"
+msgstr "Map zichtbaar"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:14
 #, fuzzy
@@ -15058,9 +15054,8 @@ msgid "Role: "
 msgstr "Rol:"
 
 #: ../plugins/exchange-operations/exchange-user-dialog.c:144
-#, fuzzy
 msgid "Select User"
-msgstr "Map selecteren"
+msgstr "Gebruiker selecteren"
 
 #: ../plugins/exchange-operations/exchange-user-dialog.c:182
 msgid "Addressbook..."
@@ -15068,12 +15063,11 @@ msgstr "Adresboek..."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-ab-subscription.xml.h:1
 msgid "Subscribe to Other User's Contacts"
-msgstr ""
+msgstr "Abonneren op adresboek van andere gebruiker"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-cal-subscription.xml.h:1
-#, fuzzy
 msgid "Subscribe to Other User's Calendar"
-msgstr "A_bonneren"
+msgstr "Abonneren op agenda van andere gebruiker"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:1
 msgid "Cannot change password due to configuration problems."
@@ -15162,7 +15156,7 @@ msgstr "Exchange Account is off-line."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:20
 msgid "Exchange Connector access error."
-msgstr ""
+msgstr "Exchange connector toegangsfout."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:21
 msgid ""
@@ -15182,24 +15176,20 @@ msgid ""
 msgstr ""
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:33
-#, fuzzy
 msgid "Failed to update delegates:"
-msgstr "Bufferen van bericht %s mislukt: %s"
+msgstr "Kon gedelegeerden niet bijwerken:"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:34
-#, fuzzy
 msgid "Folder already exists"
-msgstr "Certificaat bestaat reeds"
+msgstr "Map bestaat al"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:35
-#, fuzzy
 msgid "Folder does not exist"
-msgstr "Map `%s' bestaat niet."
+msgstr "Map bestaat niet"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:36
-#, fuzzy
 msgid "Folder offline"
-msgstr "vMap op afze_nder"
+msgstr "Map off-line"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:37
 #: ../shell/e-shell.c:1284
@@ -15222,15 +15212,15 @@ msgstr "Controleer de of de URL correct is en probeer opnieuw."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:41
 msgid "Make sure the server name is spelled correctly and try again."
-msgstr ""
+msgstr "Controleer of de servernaam juist gespeld is en probeer opnieuw."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:42
 msgid "Make sure the username and password are correct and try again."
-msgstr ""
+msgstr "Controleer of de gebruikersnaam en wachtwoord juist gespeld is en probeer opnieuw."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:43
 msgid "No Global Catalog server configured for this account."
-msgstr ""
+msgstr "Geen Global Catalog server geconfigureerd voor dit account."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:44
 msgid "No mailbox for user {0} on {1}."
@@ -15254,7 +15244,7 @@ msgstr "Selecteer een gebruiker."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:50
 msgid "Server rejected password because it is too weak."
-msgstr ""
+msgstr "Server accepteert wachtwoord niet omdat het wachtwoord te zwak is."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:51
 msgid "The Exchange account will be disabled when you quit Evolution"
@@ -15266,7 +15256,7 @@ msgstr ""
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:53
 msgid "The Exchange server is not compatible with Exchange Connector."
-msgstr ""
+msgstr "De Exchange server is niet compatibel met Exchange Connector."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:54
 msgid ""
@@ -15293,9 +15283,8 @@ msgid "Unable to add user to access control list:"
 msgstr "Kan de spoolmap niet verwerken"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:63
-#, fuzzy
 msgid "Unable to edit delegates."
-msgstr "Bufferen van bericht %s mislukt: %s"
+msgstr "Kon gedelegeerde niet bewerken."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:64
 msgid "Unknown error looking up {0}"
@@ -15397,38 +15386,32 @@ msgid "Checklist"
 msgstr "Aftekenlijst"
 
 #: ../plugins/groupwise-account-setup/org-gnome-gw-account-setup.eplug.xml.h:1
-#, fuzzy
 msgid "Groupwise Account Setup"
-msgstr "Groupware suite"
+msgstr "Groupwise-account instellen"
 
 #: ../plugins/groupwise-features/junk-mail-settings.c:77
-#, fuzzy
 msgid "Junk Settings"
-msgstr "Instellingen"
+msgstr "Troep-instellingen"
 
 #: ../plugins/groupwise-features/junk-mail-settings.c:90
-#, fuzzy
 msgid "<b>Junk Mail Settings</b>"
-msgstr "<b>Takenlijst-opties</b>"
+msgstr "<b>Troepmail-instellingen</b>"
 
 #: ../plugins/groupwise-features/junk-mail-settings.c:112
-#, fuzzy
 msgid "Junk Mail Settings..."
-msgstr "Pil_ot-instellingen..."
+msgstr "Troepmail-instellingen..."
 
 #: ../plugins/groupwise-features/junk-settings.glade.h:1
-#, fuzzy
 msgid "<b>Junk List :</b>"
-msgstr "<b>Takenlijst</b>"
+msgstr "<b>Troeplijst :</b>"
 
 #: ../plugins/groupwise-features/junk-settings.glade.h:2
 msgid "Email:"
 msgstr "E-mail:"
 
 #: ../plugins/groupwise-features/junk-settings.glade.h:3
-#, fuzzy
 msgid "Junk Mail Settings"
-msgstr "Instellingen"
+msgstr "Troepmail-instellingen"
 
 #: ../plugins/groupwise-features/junk-settings.glade.h:5
 #: ../plugins/mail-account-disable/mail-account-disable.c:46
@@ -15440,9 +15423,8 @@ msgid "_Enable"
 msgstr "_Gebruiken"
 
 #: ../plugins/groupwise-features/junk-settings.glade.h:7
-#, fuzzy
 msgid "_Junk List"
-msgstr "Troep test"
+msgstr "_Troeplijst"
 
 #: ../plugins/groupwise-features/org-gnome-compose-send-options.xml.h:1
 msgid "Add Send Options to groupwise messages"
@@ -15513,9 +15495,8 @@ msgid "Add/Edit"
 msgstr "Toevoegen/Bewerken"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:5
-#, fuzzy
 msgid "Con_tacts"
-msgstr "Adresboek"
+msgstr "_Adresboek"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:7
 msgid "Modify _folders/options/rules/"
@@ -15526,9 +15507,8 @@ msgid "Read items marked _private"
 msgstr ""
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:9
-#, fuzzy
 msgid "Reminder Notes"
-msgstr "_Help me herinneren"
+msgstr "Herinneringen"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:10
 #, fuzzy
@@ -15577,9 +15557,8 @@ msgid "%sEnter password for %s (user %s)"
 msgstr "%sVoer uw wachtwoord in voor %s (gebruiker %s)"
 
 #: ../plugins/groupwise-features/proxy-login.c:485
-#, fuzzy
 msgid "_Proxy Login..."
-msgstr "Af_drukken..."
+msgstr "_Proxy aanmelding..."
 
 # ingesteld/actief gemaakt/geactiveerd/aangezet
 #: ../plugins/groupwise-features/proxy.c:664
@@ -16034,6 +16013,7 @@ msgstr "Begintijd:"
 msgid "End time:"
 msgstr "Eindtijd:"
 
+# opmerking
 #. Comment
 #: ../plugins/itip-formatter/itip-view.c:915
 #: ../plugins/itip-formatter/itip-view.c:965
@@ -16095,9 +16075,9 @@ msgid "Disable Account"
 msgstr "E-mail accounts"
 
 #: ../plugins/mail-remote/client.c:30
-#, fuzzy, c-format
+#, c-format
 msgid "System error: %s"
-msgstr "Verificatiefout: %s"
+msgstr "Systeemfout: %s"
 
 #: ../plugins/mail-remote/client.c:32
 #, fuzzy, c-format
@@ -16106,12 +16086,11 @@ msgstr "Verificatiefout: %s"
 
 #: ../plugins/mail-remote/evolution-mail-store.c:476
 msgid "Account cannot send e-mail"
-msgstr ""
+msgstr "Account kan geen e-mail verzenden"
 
 #: ../plugins/mail-remote/evolution-mail-store.c:605
-#, fuzzy
 msgid "No store available"
-msgstr "Geen omschrijving beschikbaar."
+msgstr "Geen opslag beschikbaar"
 
 #: ../plugins/mail-to-meeting/org-gnome-mail-to-meeting.eplug.xml.h:1
 msgid ""
@@ -16153,7 +16132,7 @@ msgstr "Contactenlijst bewerken"
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:2
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:5
 msgid "Get list _archive"
-msgstr ""
+msgstr "Lijst_archief ophalen"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:3
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:6
@@ -16304,7 +16283,7 @@ msgstr "Geef een antwoord voor de mailinglijst van het geselecteerde bericht"
 
 #: ../plugins/mark-calendar-offline/org-gnome-mark-calendar-offline.eplug.xml.h:1
 msgid "Mark calendar offline"
-msgstr ""
+msgstr "Agenda op off-line zetten"
 
 #: ../plugins/mark-calendar-offline/org-gnome-mark-calendar-offline.eplug.xml.h:2
 #, fuzzy
@@ -16346,22 +16325,21 @@ msgstr "Nieuwe Mail Notificatie type"
 
 #: ../plugins/plugin-manager/org-gnome-plugin-manager.eplug.xml.h:1
 msgid "A plugin for managing which plugins are enabled or disabled."
-msgstr ""
+msgstr "Een plugin waarmee u kunt beheren welke plugins wel of niet worden gebruikt."
 
 # beheerder
 #: ../plugins/plugin-manager/org-gnome-plugin-manager.eplug.xml.h:2
-#, fuzzy
 msgid "Plugin manager"
 msgstr "Pluginbeheer"
 
+# of/en (of is beter)
 #: ../plugins/plugin-manager/org-gnome-plugin-manager.xml.h:1
 msgid "Enable and disable plugins"
-msgstr "Plugins aan en uitzetten"
+msgstr "Plugins aan of uitzetten"
 
 #: ../plugins/plugin-manager/org-gnome-plugin-manager.xml.h:2
-#, fuzzy
 msgid "Plugins"
-msgstr "Plugin"
+msgstr "Plugins"
 
 #: ../plugins/plugin-manager/plugin-manager.c:45
 msgid "Author(s)"
@@ -16452,6 +16430,7 @@ msgstr "Druk dit bericht af"
 msgid "Spamassassin (built-in)"
 msgstr "Spamassassin (ingebouwd)"
 
+# sa=spamassasin
 #: ../plugins/sa-junk-plugin/org-gnome-sa-junk-plugin.eplug.xml.h:1
 msgid "Sa junk-plugin"
 msgstr ""
@@ -16465,9 +16444,8 @@ msgid "A plugin for saving all attachments or parts of a message at once."
 msgstr ""
 
 #: ../plugins/save-attachments/org-gnome-save-attachments.eplug.xml.h:2
-#, fuzzy
 msgid "Save attachments"
-msgstr "Alle bijlagen opslaan"
+msgstr "Bijlagen opslaan"
 
 # Engels fout: spatie tussen einde zin en ...:
 # Save Attachments ...
@@ -16634,15 +16612,13 @@ msgid "Selects a single calendar or task source for viewing."
 msgstr ""
 "Selecteer de agenda's waarbinnen naar dubbele afspraken moet worden gezocht"
 
-# hier kalender ipv agenda?
 #: ../plugins/select-one-source/org-gnome-select-one-source.eplug.xml.h:3
-#, fuzzy
 msgid "_Show only this Calendar"
-msgstr "Maandkalender"
+msgstr "_Alleen deze agenda tonen"
 
 #: ../plugins/select-one-source/org-gnome-select-one-source.eplug.xml.h:4
 msgid "_Show only this Task List"
-msgstr ""
+msgstr "_Alleen deze takenlijst tonen"
 
 #: ../plugins/startup-wizard/org-gnome-evolution-startup-wizard.eplug.xml.h:1
 msgid "Startup wizard"
@@ -18968,7 +18944,7 @@ msgstr "Opslaan en sluiten"
 
 #: ../ui/evolution-signature-editor.xml.h:8
 msgid "Save and _Close"
-msgstr "Opslaan en _sluiten"
+msgstr "Opslaan en sl_uiten"
 
 #: ../ui/evolution-signature-editor.xml.h:10
 msgid "Save the current file and close the window"
@@ -19808,7 +19784,7 @@ msgstr "Verzonden item a_utomatisch verwijderen"
 
 #: ../widgets/misc/e-send-options.glade.h:6
 msgid "C_lassification"
-msgstr "Classi_ficatie"
+msgstr "_Classificatie"
 
 #: ../widgets/misc/e-send-options.glade.h:7
 msgid "Creat_e a sent item to track information"
@@ -20015,28 +19991,26 @@ msgstr "Items groeperen op"
 #: ../widgets/table/e-table-config-no-group.glade.h:9
 #: ../widgets/table/e-table-config.glade.h:8
 msgid "Move _Down"
-msgstr ""
+msgstr "Naar be_neden"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:10
 #: ../widgets/table/e-table-config.glade.h:9
-#, fuzzy
 msgid "Move _Up"
-msgstr "Verplaatsen"
+msgstr "Naar bo_ven"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:11
 msgid "Sh_ow these fields in order:"
-msgstr ""
+msgstr "_Deze velden op volgorde tonen:"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:12
 #: ../widgets/table/e-table-config.glade.h:10
-#, fuzzy
 msgid "Show Fields"
-msgstr "_Van-veld"
+msgstr "Velden tonen"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:13
 #: ../widgets/table/e-table-config.glade.h:11
 msgid "Show field in View"
-msgstr ""
+msgstr "Veld tonen in weergave"
 
 # sortering/sorteer
 #: ../widgets/table/e-table-config-no-group.glade.h:14
@@ -20095,14 +20069,14 @@ msgstr "_Groeperen op..."
 
 #: ../widgets/table/e-table-config.glade.h:19
 msgid "_Show these fields in order:"
-msgstr ""
+msgstr "_Deze velden op volgorde tonen:"
 
 #: ../widgets/table/e-table-field-chooser-dialog.c:77
 #: ../widgets/table/e-table-field-chooser-item.c:646
 #: ../widgets/table/e-table-field-chooser.c:79
 #: ../widgets/table/e-table-header-item.c:1810
 msgid "DnD code"
-msgstr "DnD code"
+msgstr "DnD-code"
 
 #: ../widgets/table/e-table-field-chooser-dialog.c:84
 #: ../widgets/table/e-table-field-chooser-item.c:653
