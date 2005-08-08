@@ -130,7 +130,7 @@
 	
 2005-07-29  Shreyas Srinivasan  <sshreyas@novell.com>
 
-	* em-account-editor.c (emae_defaults_page): Fix #307358. Check if
+	* em-account-editor.c (emae_defaults_page): Fix #307538. Check if
 	the provider type exists  before senisitizing widgets.
 	
 2005-07-28  Not Zed  <NotZed@Ximian.com>
