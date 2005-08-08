@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD.gu\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-08-06 05:30+0000\n"
-"PO-Revision-Date: 2005-08-06 14:38+0530\n"
+"POT-Creation-Date: 2005-08-07 21:24+0000\n"
+"PO-Revision-Date: 2005-08-08 10:04+0530\n"
 "Last-Translator: Ankit Patel <ankit644@yahoo.com>\n"
 "Language-Team: Gujarati <indianoss-gujarati@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -13,6 +13,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.9.1\n"
 "Plural-Forms: nplurals=2; plural=(n!=1);\n\n"
+"\n"
 "\n"
 "\n"
 "\n"
@@ -559,7 +560,7 @@ msgid "Manage your S/MIME certificates here"
 msgstr "તમારા S/MIME પ્રમાણપત્રોની અંહિ વ્યવસ્થા કરો"
 
 #. create the local source group
-#. On This Computer is always first and vFolders is always last
+#. On This Computer is always first and Search Folders is always last
 #: ../addressbook/gui/component/addressbook-component.c:137
 #: ../addressbook/gui/component/addressbook-migrate.c:502
 #: ../calendar/gui/calendar-component.c:208 ../calendar/gui/migration.c:462
@@ -663,7 +664,7 @@ msgstr "સત્તાધિકરણ"
 
 #: ../addressbook/gui/component/addressbook-config.c:912
 #: ../addressbook/gui/component/ldap-config.glade.h:18
-#: ../mail/mail-dialogs.glade.h:8 ../smime/gui/smime-ui.glade.h:20
+#: ../mail/mail-dialogs.glade.h:7 ../smime/gui/smime-ui.glade.h:20
 msgid "Details"
 msgstr "વિગતો"
 
@@ -834,7 +835,7 @@ msgstr "શું પૂર્વદર્શન તકતી બતાવવી
 #: ../calendar/gui/dialogs/new-task-list.glade.h:1
 #: ../calendar/gui/dialogs/url-editor-dialog.glade.h:1
 #: ../composer/e-msg-composer-attachment.glade.h:1
-#: ../mail/mail-dialogs.glade.h:2 ../mail/message-tags.glade.h:1
+#: ../mail/message-tags.glade.h:1
 #: ../plugins/exchange-operations/exchange-change-password.glade.h:1
 #: ../plugins/groupwise-features/properties.glade.h:1
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.glade.h:1
@@ -4150,7 +4151,7 @@ msgid "_Save"
 msgstr "સંગ્રહો (_S)"
 
 #: ../calendar/calendar.error.xml.h:65
-#: ../composer/mail-composer.error.xml.h:31 ../mail/mail.error.xml.h:121
+#: ../composer/mail-composer.error.xml.h:31 ../mail/mail.error.xml.h:123
 msgid "_Send"
 msgstr "મોકલો (_S)"
 
@@ -6506,7 +6507,7 @@ msgstr "શરુઆતની તારીખ"
 
 #: ../calendar/gui/e-cal-list-view.etspec.h:5
 #: ../calendar/gui/e-calendar-table.etspec.h:11
-#: ../mail/mail-dialogs.glade.h:17 ../plugins/save-calendar/csv-format.c:386
+#: ../mail/mail-dialogs.glade.h:16 ../plugins/save-calendar/csv-format.c:386
 msgid "Summary"
 msgstr "સાર"
 
@@ -10027,7 +10028,7 @@ msgstr "શું તમે તેના પર ફરીથી લખવા મ
 msgid "File exists &quot;{0}&quot;."
 msgstr "ફાઈલ હાજર છે &quot;{0}&quot;."
 
-#: ../e-util/e-system.error.xml.h:7 ../mail/mail.error.xml.h:120
+#: ../e-util/e-system.error.xml.h:7 ../mail/mail.error.xml.h:122
 msgid "_Overwrite"
 msgstr "ની ઉપર ફરીથી લખવું (_O)"
 
@@ -10841,8 +10842,8 @@ msgid "<b>Then</b>"
 msgstr "<b>ત્યારે</b>"
 
 #: ../mail/em-folder-browser.c:134
-msgid "Create _vFolder From Search..."
-msgstr "શોધમાંથી _vFolder બનાવો..."
+msgid "C_reate Search Folder From Search..."
+msgstr "શોધમાંથી શોધ ફોલ્ડર બનાવો (_r)..."
 
 #. TODO: can this be done in a loop?
 #: ../mail/em-folder-properties.c:144
@@ -10876,8 +10877,8 @@ msgstr "ફોલ્ડર નામ (_n):"
 
 #: ../mail/em-folder-tree-model.c:201 ../mail/em-folder-tree-model.c:203
 #: ../mail/mail-vfolder.c:937 ../mail/mail-vfolder.c:1007
-msgid "vFolders"
-msgstr "vફોલ્ડરો"
+msgid "Search Folders"
+msgstr "શોધ ફોલ્ડરો"
 
 #. UNMATCHED is always last
 #: ../mail/em-folder-tree-model.c:207 ../mail/em-folder-tree-model.c:209
@@ -11091,20 +11092,20 @@ msgid "Crea_te Rule From Message"
 msgstr "સંદેશામાંથી નિયમ બનાવો (_t)"
 
 #: ../mail/em-folder-view.c:1074
-msgid "vFolder on _Subject"
-msgstr "vFolder વિષય પર (_S)"
+msgid "Search Folder from _Subject"
+msgstr "વિષયમાંથી ફોલ્ડર શોધો (_S)"
 
 #: ../mail/em-folder-view.c:1075
-msgid "vFolder on Se_nder"
-msgstr "vFolder મોકલનાર પર (_n)"
+msgid "Search Folder from Se_nder"
+msgstr "મોકલનારમાંથી ફોલ્ડર શોધો (_n)"
 
 #: ../mail/em-folder-view.c:1076
-msgid "vFolder on _Recipients"
-msgstr "vFolder મેળવનારાઓ પર (_R)"
+msgid "Search Folder from _Recipients"
+msgstr "મેળવનારમાંથી ફોલ્ડર શોધો (_R)"
 
 #: ../mail/em-folder-view.c:1077
-msgid "vFolder on Mailing _List"
-msgstr "vFolder મેઈલિંગ યાદી પર (_L)"
+msgid "Search Folder from Mailing _List"
+msgstr "મેઈલિંગ યાદીમાંથી ફોલ્ડર શોધો (_L)"
 
 #: ../mail/em-folder-view.c:1081
 msgid "Filter on Sub_ject"
@@ -11142,8 +11143,8 @@ msgid "_Copy Link Location"
 msgstr "કડીની જગ્યાની નકલ કરો (_C)"
 
 #: ../mail/em-folder-view.c:2419
-msgid "Create _vFolder"
-msgstr "_vFolder ફોલ્ડર બનાવો"
+msgid "Create _Search Folder"
+msgstr "શોધ ફોલ્ડર બનાવો (_S)"
 
 #: ../mail/em-folder-view.c:2420
 msgid "_From this Address"
@@ -11618,12 +11619,12 @@ msgid "Messages from %s"
 msgstr "%s માંથી સંદેશાઓ"
 
 #: ../mail/em-vfolder-editor.c:104
-msgid "v_Folders"
-msgstr "v_Folders"
+msgid "Search _Folders"
+msgstr "શોધ ફોલ્ડરો (_F)"
 
 #: ../mail/em-vfolder-rule.c:574
-msgid "vFolder source"
-msgstr "vFolder સ્રોત"
+msgid "Search Folder source"
+msgstr "ફોલ્ડર સ્રોત શોધો"
 
 #: ../mail/evolution-mail.schemas.in.in.h:1
 msgid "Automatic link recognition"
@@ -12970,60 +12971,60 @@ msgstr "રંગ"
 msgid "description"
 msgstr "વર્ણન"
 
-#: ../mail/mail-dialogs.glade.h:3
-msgid "<b>vFolder Sources</b>"
-msgstr "<b>vફોલ્ડર સ્રોતો</b>"
+#: ../mail/mail-dialogs.glade.h:2
+msgid "<b>Search Folder Sources</b>"
+msgstr "<b>ફોલ્ડર સ્રોત શોધો</b>"
 
-#: ../mail/mail-dialogs.glade.h:4
+#: ../mail/mail-dialogs.glade.h:3
 msgid "<span weight=\"bold\">Digital Signature</span>"
 msgstr "<span weight=\"bold\">ડીજીટલ સહી</span>"
 
-#: ../mail/mail-dialogs.glade.h:5
+#: ../mail/mail-dialogs.glade.h:4
 msgid "<span weight=\"bold\">Encryption</span>"
 msgstr "<span weight=\"bold\">એનક્રિપ્શન</span>"
 
-#: ../mail/mail-dialogs.glade.h:6
+#: ../mail/mail-dialogs.glade.h:5
 msgid "Case _Sensitive"
 msgstr "કેસ પ્રત્યે સંવેદનશીલ (_S)"
 
-#: ../mail/mail-dialogs.glade.h:7 ../mail/message-tags.glade.h:2
+#: ../mail/mail-dialogs.glade.h:6 ../mail/message-tags.glade.h:2
 msgid "Co_mpleted"
 msgstr "સમાપ્ત (_m)"
 
-#: ../mail/mail-dialogs.glade.h:9
+#: ../mail/mail-dialogs.glade.h:8
 msgid "F_ind:"
 msgstr "શોધો (_n):"
 
-#: ../mail/mail-dialogs.glade.h:10
+#: ../mail/mail-dialogs.glade.h:9
 msgid "Find in Message"
 msgstr "સંદેશામાં શોધો"
 
-#: ../mail/mail-dialogs.glade.h:11 ../mail/message-tag-followup.c:295
+#: ../mail/mail-dialogs.glade.h:10 ../mail/message-tag-followup.c:295
 #: ../mail/message-tags.glade.h:3
 msgid "Flag to Follow Up"
 msgstr "અનુસરવા માટેની નિશાની"
 
-#: ../mail/mail-dialogs.glade.h:12
+#: ../mail/mail-dialogs.glade.h:11
 msgid "Folder Subscriptions"
 msgstr "ફોલ્ડરની ઉમેદવારી"
 
-#: ../mail/mail-dialogs.glade.h:13
+#: ../mail/mail-dialogs.glade.h:12
 msgid "License Agreement"
 msgstr "લાઈસન્સ મંજૂરીપત્ર"
 
-#: ../mail/mail-dialogs.glade.h:14
+#: ../mail/mail-dialogs.glade.h:13
 msgid "None Selected"
 msgstr "કંઈ પસંદ થયેલ નથી"
 
-#: ../mail/mail-dialogs.glade.h:15
+#: ../mail/mail-dialogs.glade.h:14
 msgid "S_erver:"
 msgstr "સર્વર (_e):"
 
-#: ../mail/mail-dialogs.glade.h:16
+#: ../mail/mail-dialogs.glade.h:15
 msgid "Security Information"
 msgstr "સુરક્ષા જાણકારી"
 
-#: ../mail/mail-dialogs.glade.h:18 ../mail/message-tags.glade.h:4
+#: ../mail/mail-dialogs.glade.h:17 ../mail/message-tags.glade.h:4
 msgid ""
 "The messages you have selected for follow up are listed below.\n"
 "Please select a follow up action from the \"Flag\" menu."
@@ -13031,44 +13032,44 @@ msgstr ""
 "તમે અનુસરવા માટે પસંદ કરેલ દરેક સંદેશાઓ નીચે યાદીત કરેલ છે.\n"
 "મહેરબાની કરીને નીચેની ક્રિયા માટે \"નિશાની\" મેનુ પસંદ કરો."
 
-#: ../mail/mail-dialogs.glade.h:20
+#: ../mail/mail-dialogs.glade.h:19
 msgid "_Accept License"
 msgstr "લાઈસન્સ સ્વીકારો (_A)"
 
-#: ../mail/mail-dialogs.glade.h:21 ../mail/message-tags.glade.h:6
+#: ../mail/mail-dialogs.glade.h:20 ../mail/message-tags.glade.h:6
 msgid "_Due By:"
 msgstr "દ્વારા છેલ્લે (_D):"
 
-#: ../mail/mail-dialogs.glade.h:22 ../mail/message-tags.glade.h:7
+#: ../mail/mail-dialogs.glade.h:21 ../mail/message-tags.glade.h:7
 msgid "_Flag:"
 msgstr "ઝંડો (_F):"
 
-#: ../mail/mail-dialogs.glade.h:23
+#: ../mail/mail-dialogs.glade.h:22
 msgid "_Subscribe"
 msgstr "ઉમેદવારી કરો (_S)"
 
-#: ../mail/mail-dialogs.glade.h:24
+#: ../mail/mail-dialogs.glade.h:23
 msgid "_Tick this to accept the license agreement"
 msgstr "લાઈસન્સની મંજૂરી સ્વીકારવા માટે આને ચિહ્નિત કરો (_T)"
 
-#: ../mail/mail-dialogs.glade.h:25
+#: ../mail/mail-dialogs.glade.h:24
 #: ../plugins/folder-unsubscribe/org-gnome-mail-folder-unsubscribe.eplug.xml.h:3
 msgid "_Unsubscribe"
 msgstr "ઉમેદવારી દૂર કરો (_U)"
 
-#: ../mail/mail-dialogs.glade.h:26
+#: ../mail/mail-dialogs.glade.h:25
 msgid "specific folders only"
 msgstr "માત્ર અમુક ચોક્કસ ફોલ્ડરોમાં જ"
 
-#: ../mail/mail-dialogs.glade.h:27
+#: ../mail/mail-dialogs.glade.h:26
 msgid "with all active remote folders"
 msgstr "બીજા બધા ક્રિયાશીલ દૂરસ્થ ફોલ્ડરો સાથે"
 
-#: ../mail/mail-dialogs.glade.h:28
+#: ../mail/mail-dialogs.glade.h:27
 msgid "with all local and active remote folders"
 msgstr "બીજા બધા સ્થાનિક અને ક્રિયાશીલ દૂરસ્થ ફોલ્ડરો સાથે"
 
-#: ../mail/mail-dialogs.glade.h:29
+#: ../mail/mail-dialogs.glade.h:28
 msgid "with all local folders"
 msgstr "બધા સ્થાનિક ફોલ્ડરો સાથે"
 
@@ -13348,26 +13349,26 @@ msgstr "અયોગ્ય ફોલ્ડર: `%s'"
 
 #: ../mail/mail-vfolder.c:91
 #, c-format
-msgid "Setting up vFolder: %s"
-msgstr "vFolder સુયોજિત કરી રહ્યા છીએ: %s"
+msgid "Setting up Search Folder: %s"
+msgstr "શોધ ફોલ્ડર સુયોજિત કરી રહ્યા છીએ: %s"
 
 #: ../mail/mail-vfolder.c:240
 #, c-format
-msgid "Updating vFolders for '%s:%s'"
-msgstr "'%s:%s' માટે vફોલ્ડરો સુધારી રહ્યા છીએ"
+msgid "Updating Search Folders for '%s:%s'"
+msgstr "'%s:%s' માટે શોધ ફોલ્ડરો સુધારી રહ્યા છીએ"
 
 #: ../mail/mail-vfolder.c:247
 #, c-format
-msgid "Updating vFolders for '%s'"
-msgstr "'%s' માટે vફોલ્ડરો સુધારી રહ્યા છીએ"
+msgid "Updating Search Folders for '%s'"
+msgstr "'%s' માટે શોધ ફોલ્ડરો સુધારી રહ્યા છીએ"
 
 #: ../mail/mail-vfolder.c:1046
-msgid "Edit vFolder"
-msgstr "vFolder માં ફેરફાર કરો"
+msgid "Edit Search Folder"
+msgstr "શોધ ફોલ્ડરમાં ફેરફાર"
 
 #: ../mail/mail-vfolder.c:1130
-msgid "New vFolder"
-msgstr "નવું vFolder"
+msgid "New Search Folder"
+msgstr "નવું શોધ ફોલ્ડર"
 
 #: ../mail/mail.error.xml.h:1
 msgid "A folder named &quot;{1}&quot; already exists. Please use a different name."
@@ -13446,8 +13447,8 @@ msgid "Because &quot;{2}&quot;."
 msgstr "&quot;{2}&quot; ના કારણે."
 
 #: ../mail/mail.error.xml.h:19
-msgid "Cannot add vFolder &quot;{0}&quot;."
-msgstr "vFolder &quot;{0}&quot; ઉમેરી શકતા નથી."
+msgid "Cannot add Search Folder &quot;{0}&quot;."
+msgstr "શોધ ફોલ્ડર &quot;{0}&quot; ઉમેરી શકતા નથી."
 
 #: ../mail/mail.error.xml.h:20
 msgid "Cannot copy folder &quot;{0}&quot; to &quot;{1}&quot;."
@@ -13474,8 +13475,8 @@ msgid "Cannot delete system folder &quot;{0}&quot;."
 msgstr "સિસ્ટમ ફોલ્ડર &quot;{0}&quot; કાઢી શકતા નથી."
 
 #: ../mail/mail.error.xml.h:26
-msgid "Cannot edit vFolder &quot;{0}&quot; as it does not exist."
-msgstr "vFolder &quot;{0}&quot; ફેરફાર કરી શકતા નથી કારણકે તે અસ્તિત્વમાં જ નથી."
+msgid "Cannot edit Search Folder &quot;{0}&quot; as it does not exist."
+msgstr "શોધ ફોલ્ડર &quot;{0}&quot; માં ફેરફાર કરી શકતા નથી કારણ કે તે અસ્તિત્વમાં નથી."
 
 #: ../mail/mail.error.xml.h:27
 msgid "Cannot move folder &quot;{0}&quot; to &quot;{1}&quot;."
@@ -13707,10 +13708,14 @@ msgid "Really delete folder &quot;{0}&quot; and all of its subfolders?"
 msgstr "શું ખરેખર ફોલ્ડર &quot;{0}&quot; અને તેની બધી ઉપડિરેક્ટરીઓ કાઢી નાંખવી છે?"
 
 #: ../mail/mail.error.xml.h:79
+msgid "Search Folders automatically updated."
+msgstr "શોધ ફોલ્ડરો આપોઆપ સુધારાઈ ગયા."
+
+#: ../mail/mail.error.xml.h:80
 msgid "Send Receipt"
 msgstr "મોકલાયેલની રસીદ"
 
-#: ../mail/mail.error.xml.h:80
+#: ../mail/mail.error.xml.h:81
 msgid ""
 "System folders are required for Ximian Evolution to function correctly and "
 "cannot be renamed, moved, or deleted."
@@ -13718,7 +13723,7 @@ msgstr ""
 "સિસ્ટમ ફોલ્ડરોને Ximian ઈવોલ્યુશન ને યોગ્ય રીતે કામ કરવાની જરુર છે અને તેનું નામ બદલી શકાતું "
 "નથી, ખસેડી શકાતી નથી, અથવા કાઢી શકાતું નથી."
 
-#: ../mail/mail.error.xml.h:81
+#: ../mail/mail.error.xml.h:82
 msgid ""
 "The contact list you are sending to is configured to hide list recipients.\n"
 "\n"
@@ -13733,7 +13738,21 @@ msgstr ""
 "હેડર હોય. જો આ હેડર ઉમેરાશે, તો તે તમારા સંદેશા મેળવનરા બધાનેે યાદીત કરે છે. આની અવગણના "
 "કરવા માટે, તમારે ઓછામાં ઓછું એક પ્રતિ અથવા આને પણ હેડર દાખલ કરી દેવું જોઈએ. "
 
-#: ../mail/mail.error.xml.h:84
+#: ../mail/mail.error.xml.h:85
+msgid ""
+"The following Search Folder(s):\n"
+"{0}\n"
+"Used the now removed folder:\n"
+"    &quot;{1}&quot;\n"
+"And have been updated."
+msgstr ""
+"નીચેના શોધ ફોલ્ડર(ો):\n"
+"{0}\n"
+"હવે દૂર કરાયેલ ફોલ્ડરો વપરાય છે:\n"
+"    &quot;{1}&quot;\n"
+"અને હવે સુધારાઈ ગયેલ છે."
+
+#: ../mail/mail.error.xml.h:90
 msgid ""
 "The following filter rule(s):\n"
 "{0}\n"
@@ -13747,21 +13766,7 @@ msgstr ""
 "    &quot;{1}&quot;\n"
 "અને હવે સુધારાઈ ગયેલ છે."
 
-#: ../mail/mail.error.xml.h:89
-msgid ""
-"The following vFolder(s):\n"
-"{0}\n"
-"Used the now removed folder:\n"
-"    &quot;{1}&quot;\n"
-"And have been updated."
-msgstr ""
-"નીચેના vફોલ્ડરો:\n"
-"{0}\n"
-"હમણાં દૂર કરાયેલ ફોલ્ડરો વાપર્યા છે:\n"
-"    &quot;{1}&quot;\n"
-"અને હવે સુધારાઈ ગયું."
-
-#: ../mail/mail.error.xml.h:94
+#: ../mail/mail.error.xml.h:95
 msgid ""
 "The message was sent via the &quot;sendmail&quot; external application.  "
 "Sendmail reports the following error: status 67: mail not sent.\n"
@@ -13772,23 +13777,23 @@ msgstr ""
 "નીચેની ભૂલોનો અહેવાલ આપે છે: સ્થિતિ ૬૭: મેઈલ મોકલાયો નથી.\n"
 "સંદેશો આઉટબોક્સ ફોલ્ડરમાં સંગ્રહાયેલો છે. સંદેશાને ભૂલો અને ફરીથી મોકલવા માટે ચકાસો."
 
-#: ../mail/mail.error.xml.h:96
+#: ../mail/mail.error.xml.h:97
 msgid "The script file must exist and be executable."
 msgstr "સ્ક્રિપ્ટ ફાઈલ હાજર હોવી જ જોઈએ અને તે ચલાવી શકાય તેવી હોવી જોઈએ."
 
-#: ../mail/mail.error.xml.h:97
-msgid ""
-"This folder may have been added implicitly, go to the vFolder editor to add "
-"it explicitly, if required."
-msgstr ""
-"ફોલ્ડર હેતુસર ઉમેરાઈ જશે, તેને બહારથી જાતે ઉમેરવા માટે vFolder સંપાદકમાં જાઓ, જો જરૂરી "
-"હોય."
-
 #: ../mail/mail.error.xml.h:98
+msgid ""
+"This folder may have been added implicitly,\n"
+"go to the Search Folder editor to add it explicitly, if required."
+msgstr ""
+"આ ફોલ્ડર કદાચ ઉમેરાઈ ગયેલ છે,\n"
+"શોધ ફોલ્ડર સંપાદકમાં તેને બાહ્ય રીતે ઉમેરવા માટે જાઓ, જો જરૂરી હોય."
+
+#: ../mail/mail.error.xml.h:100
 msgid "This message cannot be sent because you have not specified any Recipients"
 msgstr "આ સંદેશો મોકલી શકાયો નથી કારણકે તમે કોઈ મેળવનારો સ્પષ્ટ કર્યો નથી"
 
-#: ../mail/mail.error.xml.h:99
+#: ../mail/mail.error.xml.h:101
 msgid ""
 "This server does not support this type of authentication and may not support "
 "authentication at all."
@@ -13796,15 +13801,15 @@ msgstr ""
 "આ સર્વર આ પ્રકારના સત્તાધિકરણને આધાર આપતું નથી અને તે કદાચ બધાનું સત્તાધિકરણને આધાર આપતું "
 "નથી."
 
-#: ../mail/mail.error.xml.h:100
+#: ../mail/mail.error.xml.h:102
 msgid "This signature has been changed, but has not been saved."
 msgstr "સહી બદલાઈ ગયેલ છે, પરંતુ તે સંગ્રહાયેલ નથી."
 
-#: ../mail/mail.error.xml.h:101
+#: ../mail/mail.error.xml.h:103
 msgid "Unable to connect to the GroupWise server."
 msgstr "GroupWise સર્વર સાથે જોડાવામાં અસમર્થ."
 
-#: ../mail/mail.error.xml.h:102
+#: ../mail/mail.error.xml.h:104
 msgid ""
 "Unable to open the drafts folder for this account.  Use the system drafts "
 "folder instead?"
@@ -13812,39 +13817,39 @@ msgstr ""
 "આ ખાતા માટે ડ્રાફ્ટ ફોલ્ડર ખોલવા સમર્થ નથી. સિસ્ટમ ડ્રાફ્ટ ફોલ્ડરો જ તેની જગ્યાએ વાપરવા "
 "છે?"
 
-#: ../mail/mail.error.xml.h:103
+#: ../mail/mail.error.xml.h:105
 msgid "Unable to read license file."
 msgstr "લાઈસન્સ ફાઈલ વાંચવામાં અસમર્થ."
 
-#: ../mail/mail.error.xml.h:104
+#: ../mail/mail.error.xml.h:106
 msgid "Use _Default"
 msgstr "મૂળભુત વાપરો (_D)"
 
-#: ../mail/mail.error.xml.h:105
+#: ../mail/mail.error.xml.h:107
 msgid "Use default drafts folder?"
 msgstr "શું મૂળભુત ડ્રાફ્ટ ફોલ્ડર વાપરવું છે?"
 
-#: ../mail/mail.error.xml.h:106
+#: ../mail/mail.error.xml.h:108
 msgid "You have not filled in all of the required information."
 msgstr "તમે બધી જરુરી જાણકારી ભરી નથી."
 
-#: ../mail/mail.error.xml.h:107
+#: ../mail/mail.error.xml.h:109
 msgid "You have unsent messages, do you wish to quit anyway?"
 msgstr "તમે સંદેશાઓ સુયોજિત કર્યા નથી, શું તમે કોઈપણ રીતે ચાલુ રાખવા માંગો છો?"
 
-#: ../mail/mail.error.xml.h:108
+#: ../mail/mail.error.xml.h:110
 msgid "You may not create two accounts with the same name."
 msgstr "તમે એક જ નામથી બે ખાતાઓ બનાવી શકશો નહિં."
 
-#: ../mail/mail.error.xml.h:109
-msgid "You must name this vFolder."
-msgstr "તમારે આ vફોલ્ડરનું નામ આપવું જ પડશે."
+#: ../mail/mail.error.xml.h:111
+msgid "You must name this Search Folder."
+msgstr "તમારે આ શોધ ફોલ્ડરને નામ આપવું જ જોઈએ."
 
-#: ../mail/mail.error.xml.h:110
+#: ../mail/mail.error.xml.h:112
 msgid "You must specify a folder."
 msgstr "તમારે ફોલ્ડર સ્પષ્ટ કરવું જ પડશે."
 
-#: ../mail/mail.error.xml.h:111
+#: ../mail/mail.error.xml.h:113
 msgid ""
 "You must specify at least one folder as a source.\n"
 "Either by selecting the folders individually, and/or by selecting all local "
@@ -13854,37 +13859,33 @@ msgstr ""
 "ક્યાં તો ફોલ્ડરોને વ્યક્તિગત રીતે પસંદ કરીને, અને/અથવા બધા સ્થાનિક ફોલ્ડરો, બધા દૂરસ્થ "
 "ફોલ્ડરો, અથવા બંને પસંદ કરીને."
 
-#: ../mail/mail.error.xml.h:113
+#: ../mail/mail.error.xml.h:115
 msgid "Your login to your server &quot;{0}&quot; as &quot;{0}&quot; failed."
 msgstr "તમારા સર્વર પરનો તમારો પ્રવેશ &quot;{0}&quot; નો &quot;{0}&quot; તરીકે નિષ્ફળ."
 
-#: ../mail/mail.error.xml.h:114
+#: ../mail/mail.error.xml.h:116
 msgid "Your message with the subject &quot;{0}&quot; was not delivered."
 msgstr "તમારો &quot;{0}&quot; વિષયવાળો સંદેશો પહોંચ્યો નથી."
 
-#: ../mail/mail.error.xml.h:115
+#: ../mail/mail.error.xml.h:117
 msgid "_Append"
 msgstr "ઉમેરો (_A)"
 
-#: ../mail/mail.error.xml.h:116
+#: ../mail/mail.error.xml.h:118
 msgid "_Discard changes"
 msgstr "બદલાવો અવગણો (_D)"
 
-#: ../mail/mail.error.xml.h:117
+#: ../mail/mail.error.xml.h:119
 msgid "_Empty Trash"
 msgstr "કચરાપેટી ખાલી કરો (_E)"
 
-#: ../mail/mail.error.xml.h:118
+#: ../mail/mail.error.xml.h:120
 msgid "_Expunge"
 msgstr "સંપૂર્ણપણે કાઢી નાંખો (_E)"
 
-#: ../mail/mail.error.xml.h:119
+#: ../mail/mail.error.xml.h:121
 msgid "_Open Messages"
 msgstr "સંદેશાઓ ખોલો (_O)"
-
-#: ../mail/mail.error.xml.h:122
-msgid "vFolders automatically updated."
-msgstr "vફોલ્ડરો આપોઆપ સુધારાઈ ગયા."
 
 #: ../mail/message-list.c:996
 msgid "Unseen"
@@ -15121,7 +15122,7 @@ msgstr "પ્રોક્સી પ્રવેશ"
 
 #: ../plugins/groupwise-features/proxy-login.c:221
 #: ../plugins/groupwise-features/proxy-login.c:263
-#: ../plugins/groupwise-features/proxy.c:470
+#: ../plugins/groupwise-features/proxy.c:474
 #: ../plugins/groupwise-features/send-options.c:83
 #, c-format
 msgid "%sEnter password for %s (user %s)"
@@ -15131,7 +15132,7 @@ msgstr "%s%s માટે પાસવર્ડ દાખલ કરો (વપ�
 msgid "_Proxy Login..."
 msgstr "પ્રોક્સી પ્રવેશ (_P)..."
 
-#: ../plugins/groupwise-features/proxy.c:664
+#: ../plugins/groupwise-features/proxy.c:668
 msgid "The Proxy tab will be available only when the account is enabled."
 msgstr "પ્રોક્સી ટેબ માત્ર ત્યારે ઉપલબ્ધ હશે જ્યારે ખાતું સક્રિય કરેલ હોય."
 
@@ -17564,12 +17565,12 @@ msgid "Create a new folder for storing mail"
 msgstr "મેઈલ સંગ્રહવા માટે નવું ફોલ્ડર બનાવો"
 
 #: ../ui/evolution-mail-global.xml.h:5
-msgid "Create or edit rules for filtering new mail"
-msgstr "નવા મેઈલ ગાળવા માટે નિયમો બનાવો અથવા ફેરફાર કરો"
+msgid "Create or edit Search Folder definitions"
+msgstr "શોધ ફોલ્ડર વ્યાખ્યાઓ બનાવો અથવા ફેરફાર કરો"
 
 #: ../ui/evolution-mail-global.xml.h:6
-msgid "Create or edit vFolder definitions"
-msgstr "vFolder વ્યાખ્યાઓ બનાવો અથવા ફેરફાર કરો"
+msgid "Create or edit rules for filtering new mail"
+msgstr "નવા મેઈલ ગાળવા માટે નિયમો બનાવો અથવા ફેરફાર કરો"
 
 #: ../ui/evolution-mail-global.xml.h:7
 msgid "Empty _Trash"
@@ -17782,36 +17783,36 @@ msgid "Create R_ule"
 msgstr "નિયમ બનાવો (_u)"
 
 #: ../ui/evolution-mail-message.xml.h:15
+msgid "Create a Search Folder for these recipients"
+msgstr "આ મેળવનારાઓ માટે શોધ ફોલ્ડર બનાવો"
+
+#: ../ui/evolution-mail-message.xml.h:16
+msgid "Create a Search Folder for this mailing list"
+msgstr "આ મેઈલિંગ યાદી માટે શોધ ફોલ્ડર બનાવો"
+
+#: ../ui/evolution-mail-message.xml.h:17
+msgid "Create a Search Folder for this sender"
+msgstr "આ મોકલનાર માટે શોધ ફોલ્ડર બનાવો"
+
+#: ../ui/evolution-mail-message.xml.h:18
+msgid "Create a Search Folder for this subject"
+msgstr "આ વિષય માટે શોધ ફોલ્ડર બનાવો"
+
+#: ../ui/evolution-mail-message.xml.h:19
 msgid "Create a rule to filter messages from this sender"
 msgstr "આ મોકલનારમાંથી સંગેશા ગાળક માટે નિયમ બનાવો"
 
-#: ../ui/evolution-mail-message.xml.h:16
+#: ../ui/evolution-mail-message.xml.h:20
 msgid "Create a rule to filter messages to these recipients"
 msgstr "આ મેળવનારાઓ માટે સંદેશાઓના ગાળક માટે નિયમ બનાવો"
 
-#: ../ui/evolution-mail-message.xml.h:17
+#: ../ui/evolution-mail-message.xml.h:21
 msgid "Create a rule to filter messages to this mailing list"
 msgstr "આ મેઈલીંગ યાદીમાંથી સંદેશાઓ ગાળવા માટે નિયમ બનાવો"
 
-#: ../ui/evolution-mail-message.xml.h:18
+#: ../ui/evolution-mail-message.xml.h:22
 msgid "Create a rule to filter messages with this subject"
 msgstr "આ વિષય સાતે સંદેશાઓ ગાળવા માટે નિયમ બનાવો"
-
-#: ../ui/evolution-mail-message.xml.h:19
-msgid "Create a vFolder for these recipients"
-msgstr "આ મેળવનારાઓ માટે vFolder બનાવો"
-
-#: ../ui/evolution-mail-message.xml.h:20
-msgid "Create a vFolder for this mailing list"
-msgstr "આ મેઈલિંગ યાદી માટે vFolder બનાવો"
-
-#: ../ui/evolution-mail-message.xml.h:21
-msgid "Create a vFolder for this sender"
-msgstr "આ મોકલનાર માટે vFolder બનાવો"
-
-#: ../ui/evolution-mail-message.xml.h:22
-msgid "Create a vFolder for this subject"
-msgstr "આ વિષય માટે vFolder બનાવો"
 
 #: ../ui/evolution-mail-message.xml.h:24
 msgid "Decrease the text size"
@@ -18010,60 +18011,60 @@ msgid "Save the message as a text file"
 msgstr "સંદેશાને લખાણ ફાઈલ તરીકે સંગ્રહો"
 
 #: ../ui/evolution-mail-message.xml.h:84
+msgid "Search Folder from Mailing _List..."
+msgstr "મેઈલિંગ યાદીમાંથી શોધ ફોલ્ડર (_L)..."
+
+#: ../ui/evolution-mail-message.xml.h:85
+msgid "Search Folder from Recipients..."
+msgstr "મેળવનારાઓમાંથી શોધ ફોલ્ડર..."
+
+#: ../ui/evolution-mail-message.xml.h:86
+msgid "Search Folder from S_ubject..."
+msgstr "વિષયમાંથી શોધ ફોલ્ડર (_u)..."
+
+#: ../ui/evolution-mail-message.xml.h:87
+msgid "Search Folder from Sen_der..."
+msgstr "મોકલનારમાંથી શોધ ફોલ્ડર (_d)..."
+
+#: ../ui/evolution-mail-message.xml.h:88
 msgid "Search for text in the body of the displayed message"
 msgstr "પ્રદર્શિત સંદેશાના ભાગમાં લખાણ માટે શોધ કરો"
 
-#: ../ui/evolution-mail-message.xml.h:85
+#: ../ui/evolution-mail-message.xml.h:89
 msgid "Select _All Text"
 msgstr "બધું લખાણ પસંદ કરો (_A)"
 
-#: ../ui/evolution-mail-message.xml.h:86
+#: ../ui/evolution-mail-message.xml.h:90
 msgid "Select all the text in a message"
 msgstr "સંદેશામાંનુ બધું લખાણ પસંદ કરો"
 
-#: ../ui/evolution-mail-message.xml.h:87
+#: ../ui/evolution-mail-message.xml.h:91
 msgid "Set up the page settings for your current printer"
 msgstr "તમારા વર્તમાન પ્રિન્ટર માટે પાનાના સુયોજનો સુયોજિત કરો"
 
-#: ../ui/evolution-mail-message.xml.h:88
+#: ../ui/evolution-mail-message.xml.h:92
 msgid "Show a blinking cursor in the body of displayed messages"
 msgstr "પ્રદર્શિત સંદેશાઓના ભાગમાં ઝબૂકતું કર્સર બતાવો"
 
-#: ../ui/evolution-mail-message.xml.h:89
+#: ../ui/evolution-mail-message.xml.h:93
 msgid "Show message in the normal style"
 msgstr "સામાન્ય શૈલીમાં સંદેશાને બતાવો"
 
-#: ../ui/evolution-mail-message.xml.h:90
+#: ../ui/evolution-mail-message.xml.h:94
 msgid "Show message with all email headers"
 msgstr "સંદેશાને બધા ઈ-મેઈલ હેડરો સાથે બતાવો"
 
-#: ../ui/evolution-mail-message.xml.h:91
+#: ../ui/evolution-mail-message.xml.h:95
 msgid "Show the raw email source of the message"
 msgstr "સંદેશાના ખરાબ ઈ-મેઈલ સ્રોતને બતાવો"
 
-#: ../ui/evolution-mail-message.xml.h:92
+#: ../ui/evolution-mail-message.xml.h:96
 msgid "Un-delete the selected messages"
 msgstr "પસંદ કરેલ સંદેશાઓને કાઢો નહિં"
 
-#: ../ui/evolution-mail-message.xml.h:93
+#: ../ui/evolution-mail-message.xml.h:97
 msgid "Uni_mportant"
 msgstr "મહત્વનું નથી (_m)"
-
-#: ../ui/evolution-mail-message.xml.h:94
-msgid "VFolder on Mailing _List..."
-msgstr "મેઈલિંગ યાદી પર VFolder (_L)..."
-
-#: ../ui/evolution-mail-message.xml.h:95
-msgid "VFolder on Recipients..."
-msgstr "મેળવનારાઓ પર VFolder (_R)..."
-
-#: ../ui/evolution-mail-message.xml.h:96
-msgid "VFolder on S_ubject..."
-msgstr "વિષય પર VFolder (_S)..."
-
-#: ../ui/evolution-mail-message.xml.h:97
-msgid "VFolder on Sen_der..."
-msgstr "મોકલનાર પર VFolder (_n)..."
 
 #: ../ui/evolution-mail-message.xml.h:98
 msgid "Zoom _Out"
