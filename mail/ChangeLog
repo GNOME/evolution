@@ -1,3 +1,10 @@
+2005-08-04  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #300881.
+
+	* em-account-editor.c (emae_setup_signatures): don't add the
+	signature listener if we've already added it.
+
 2005-08-08  Vivek Jain <jvivek@novell.com>
 	
 	* em-format.c: (emf_multipart_appledouble):
