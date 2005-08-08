@@ -1329,6 +1329,12 @@ view_response_cb (GtkWidget *widget, ItipViewResponse response, gpointer data)
 	FormatItipPObject *pitip = data;
 	gboolean status = FALSE;
 	icalproperty *prop;
+	ECalComponentTransparency trans;
+
+	e_cal_component_get_transparency (pitip->comp, &trans);
+	/* FIXME we should be providing an option to accept as free or busy */
+	if (trans == E_CAL_COMPONENT_TRANSP_NONE)
+		e_cal_component_set_transparency (pitip->comp, E_CAL_COMPONENT_TRANSP_OPAQUE);
 
 
 	if (!pitip->my_address && pitip->current_ecal != NULL)

@@ -1,3 +1,10 @@
+2005-08-09  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #307841
+	* itip-formatter.c: (view_response_cb): Check
+	if the transparency is set and if not set it as
+	Opaque.
+
 2005-07-27  Vivek Jain  <jvivek@novell.com>
 	
 	* itip-formatter.c : (update_item) 
