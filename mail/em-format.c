@@ -1160,6 +1160,7 @@ static void
 emf_multipart_appledouble(EMFormat *emf, CamelStream *stream, CamelMimePart *part, const EMFormatHandler *info)
 {
 	CamelMultipart *mp = (CamelMultipart *)camel_medium_get_content_object((CamelMedium *)part);
+	CamelMimePart *mime_part;
 	int len;
 
 	if (!CAMEL_IS_MULTIPART(mp)) {
@@ -1167,11 +1168,16 @@ emf_multipart_appledouble(EMFormat *emf, CamelStream *stream, CamelMimePart *par
 		return;
 	}
 
-	/* try the data fork for something useful, doubtful but who knows */
-	len = emf->part_id->len;
-	g_string_append_printf(emf->part_id, ".appledouble.1");
-	em_format_part(emf, stream, camel_multipart_get_part(mp, 1));
-	g_string_truncate(emf->part_id, len);
+	mime_part = camel_multipart_get_part(mp, 1);
+	if (mime_part) {
+		/* try the data fork for something useful, doubtful but who knows */
+		len = emf->part_id->len;
+		g_string_append_printf(emf->part_id, ".appledouble.1");
+		em_format_part(emf, stream, mime_part);
+		g_string_truncate(emf->part_id, len);
+	} else
+		em_format_format_source(emf, stream, part);
+
 }
 
 /* RFC ??? */

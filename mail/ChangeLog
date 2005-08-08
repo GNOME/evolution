@@ -1,3 +1,8 @@
+2005-08-08  Vivek Jain <jvivek@novell.com>
+	
+	* em-format.c: (emf_multipart_appledouble):
+	check part before using it, else dump source
+
 2005-08-05  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #312397.
@@ -161,7 +166,7 @@
 	* em-utils.[ch]: (em_utils_edit_filters) (emu_get_save_filesel) 
 	(em_utils_save_part) (em_utils_save_messages) Added code to handle save selected and
 	save all options of the attachment bar.
-	
+
 2005-07-21  Not Zed  <NotZed@Ximian.com>
 
 	* em-folder-browser.c: reverted dobey's busted view->hide* menu
