@@ -8,14 +8,13 @@ msgstr ""
 "Project-Id-Version: evolution-2.4\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-08-09 09:40+0700\n"
-"PO-Revision-Date: 2005-08-04 15:03+0700\n"
+"PO-Revision-Date: 2005-08-09 10:05+0700\n"
 "Last-Translator: Supranee Thirawatthanasuk <supranee@opentle.org>\n"
 "Language-Team: Thai <L10N@opentle.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=0;\n"
-"X-Generator: KBabel 1.9.1\n"
+"Plural-Forms: nplurals=2; plural=0;"
 
 #: ../a11y/addressbook/ea-addressbook-view.c:94
 #: ../a11y/addressbook/ea-addressbook-view.c:103
@@ -1557,7 +1556,7 @@ msgstr "คอสตาริกา"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:189
 msgid "Cote d'Ivoire"
-msgstr ""
+msgstr "โกตดิวัวร์"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:190
 msgid "Croatia"
@@ -2057,7 +2056,7 @@ msgstr "กาตาร์ "
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:314
 msgid "Reunion"
-msgstr "เรอูเนียง"
+msgstr "เรอูนียง"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:315
 msgid "Romania"
@@ -10809,7 +10808,7 @@ msgstr ""
 #: ../mail/em-folder-properties.c:144
 msgid "Total message:"
 msgid_plural "Total messages:"
-msgstr[0] ""
+msgstr[0] "ข้อความทั้งหมด :"
 msgstr[1] "ข้อความทั้งหมด :"
 
 #: ../mail/em-folder-properties.c:156
@@ -14148,7 +14147,7 @@ msgstr "_ชื่อบัญชี :"
 #: ../plugins/exchange-operations/e-foreign-folder-dialog.glade.h:3
 #, fuzzy
 msgid "_Folder Name:"
-msgstr "ชื่่อโ_ฟลเดอร์ :"
+msgstr "ชื่อโ_ฟลเดอร์ :"
 
 #: ../plugins/exchange-operations/e-foreign-folder-dialog.glade.h:4
 #, fuzzy
@@ -14408,7 +14407,7 @@ msgstr "ไม่อนุญาตการใช้สิทธิ์"
 #: ../plugins/exchange-operations/exchange-folder-size-display.c:136
 #, fuzzy
 msgid "Folder Name"
-msgstr "ชื่่อโ_ฟลเดอร์ :"
+msgstr "ชื่อโ_ฟลเดอร์ :"
 
 #: ../plugins/exchange-operations/exchange-folder-size-display.c:140
 #, fuzzy
@@ -14502,7 +14501,7 @@ msgstr "%d ที่อยู่ติดต่อ"
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:12
 #, fuzzy
 msgid "Folder owner"
-msgstr "ชื่่อโ_ฟลเดอร์ :"
+msgstr "ชื่อโ_ฟลเดอร์ :"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:13
 #, fuzzy
@@ -14657,7 +14656,7 @@ msgstr "ไม่มีสมุดที่อยู่"
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:36
 #, fuzzy
 msgid "Folder offline"
-msgstr "ชื่่อโ_ฟลเดอร์ :"
+msgstr "ชื่อโ_ฟลเดอร์ :"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:37
 #: ../shell/e-shell.c:1284
