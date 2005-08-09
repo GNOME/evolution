@@ -1,3 +1,9 @@
+2005-08-10  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	* gui/dialogs/comp-editor.c: (get_attachment_list),
+	(set_attachment_list), (comp_editor_get_mime_attach_list):
+	Removed the warnings.
+
 2005-08-10  Dinesh Layek  < LDinesh@novell.com >
 
         Fixes #310438

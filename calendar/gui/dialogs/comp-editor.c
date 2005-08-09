@@ -47,6 +47,8 @@
 #include <camel/camel-folder.h>
 #include <camel/camel-stream-mem.h>
 #include <camel/camel-mime-message.h>
+#include <camel/camel-file-utils.h>
+#include <camel/camel-stream-fs.h>
 
 #include "mail/mail-tools.h"
 
@@ -60,6 +62,7 @@
 #include "recur-comp.h"
 #include "comp-editor.h"
 #include "../e-cal-popup.h"
+#include "cal-attachment-select-file.h"
 
 #include "e-attachment-bar.h"
 #include "misc/e-expander.h"
@@ -624,7 +627,7 @@ get_attachment_list (CompEditor *editor)
 		   			       NULL); 
 		g_free (safe_fname);
 
-		stream = camel_stream_fs_new_with_name(attach_file_url+7, O_RDWR|O_CREAT|O_TRUNC, 0600);
+		stream = camel_stream_fs_new_with_name((const char *) attach_file_url+7, O_RDWR|O_CREAT|O_TRUNC, 0600);
 		if (!stream) {
 			/* TODO handle error conditions */
 			g_message ("DEBUG: could not open the file to write\n");
@@ -2014,7 +2017,7 @@ set_attachment_list (CompEditor *editor, GSList *attach_list)
 
 	e_cal_component_get_uid (editor->priv->comp, &comp_uid);
 
-	if (e_attachment_bar_get_num_attachments (editor->priv->attachment_bar)) {
+	if (e_attachment_bar_get_num_attachments (E_ATTACHMENT_BAR (editor->priv->attachment_bar))) {
 		/* To prevent repopulating the
 		 * bar due to redraw functions in fill_widget. 
 		 * Assumes it can be set only once.
@@ -2411,13 +2414,13 @@ comp_editor_get_mime_attach_list (CompEditor *editor)
 	GSList *attach_list = NULL, *l, *parts;
 
 	/* TODO assert sanity of bar */
-	parts = e_attachment_bar_get_parts (editor->priv->attachment_bar);
+	parts = e_attachment_bar_get_parts (E_ATTACHMENT_BAR (editor->priv->attachment_bar));
 	for (l = parts; l ; l = l->next) {
 		
 		CamelDataWrapper *wrapper;
 		CamelStreamMem *mstream;
 		unsigned char *buffer = NULL;
-		char *desc;
+		const char *desc;
 
 		cal_mime_attach = g_malloc0 (sizeof (struct CalMimeAttach));
 		wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (l->data));
