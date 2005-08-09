@@ -45,6 +45,8 @@ static const char *plugindir;
 static const char *privdatadir;
 static const char *search_rule_dir;
 static const char *galviewsdir;
+static const char *libexecdir;
+static const char *sounddir;
 
 static HMODULE hmodule;
 G_LOCK_DEFINE_STATIC (mutex);
@@ -94,9 +96,11 @@ setup (void)
                 return;
         }
 
+	/* This requires that the libeutil DLL is installed in $bindir */
         gnome_win32_get_prefixes (hmodule, &full_prefix, &cp_prefix);
 
         localedir = replace_prefix (cp_prefix, EVOLUTION_LOCALEDIR);
+
         g_free (cp_prefix);
 
         gladedir = replace_prefix (full_prefix, EVOLUTION_GLADEDIR);
@@ -108,6 +112,9 @@ setup (void)
 	privdatadir = replace_prefix (full_prefix, EVOLUTION_PRIVDATADIR);
 	search_rule_dir = replace_prefix (full_prefix, SEARCH_RULE_DIR);
 	galviewsdir = replace_prefix (full_prefix, EVOLUTION_GALVIEWSDIR);
+	libexecdir = replace_prefix (full_prefix, EVOLUTION_LIBEXECDIR);
+	sounddir = replace_prefix (full_prefix, EVOLUTION_SOUNDDIR);
+
         g_free (full_prefix);
 
 	G_UNLOCK (mutex);
@@ -134,3 +141,5 @@ GETTER(plugindir)
 GETTER(privdatadir)
 GETTER(search_rule_dir)
 GETTER(galviewsdir)
+GETTER(libexecdir)
+GETTER(sounddir)

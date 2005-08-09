@@ -20,8 +20,10 @@ INCLUDES =								\
 	-DEVOLUTION_PLUGINDIR=\""$(plugindir)"\"			\
 	-DEVOLUTION_PRIVDATADIR=\""$(privdatadir)"\"			\
 	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"			\
-	-DEVOLUTION_GALVIEWSDIR=\""$(viewsdir)"\"			\
 	-DSEARCH_RULE_DIR=\"$(ruledir)\"				\
+	-DEVOLUTION_GALVIEWSDIR=\""$(viewsdir)"\"			\
+	-DEVOLUTION_LIBEXECDIR=\""$(privlibexecdir)"\"			\
+	-DEVOLUTION_SOUNDDIR=\""$(soundsdir)"\"				\
 	-DG_LOG_DOMAIN=\"e-utils\"					\
 	$(GNOME_PILOT_CFLAGS)						\
 	$(EXTRA_GNOME_CFLAGS)                   			\
@@ -29,7 +31,7 @@ INCLUDES =								\
 	$(ICONV_CFLAGS)                        				\
 	$(E_UTIL_CFLAGS)
 
-privlib_LTLIBRARIES = libeutil.la libeconduit.la
+privsolib_LTLIBRARIES = libeutil.la libeconduit.la
 
 eutilinclude_HEADERS = 				\
 	e-account-list.h			\
