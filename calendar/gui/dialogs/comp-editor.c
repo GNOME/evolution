@@ -810,7 +810,16 @@ save_comp_with_send (CompEditor *editor)
 	
 	send = priv->changed && priv->needs_send;
 	delegate = priv->flags & COMP_EDITOR_DELEGATE;
-
+	
+	if (delegate) {
+		icalcomponent *icalcomp = e_cal_component_get_icalcomponent (priv->comp);
+		icalproperty *icalprop;
+		 
+		icalprop = icalproperty_new_x ("1");
+		icalproperty_set_x_name (icalprop, "X-EVOLUTION-DELEGATED");
+		icalcomponent_add_property (icalcomp, icalprop);
+	}
+	
 	if (!save_comp (editor))
 		return FALSE;
 
