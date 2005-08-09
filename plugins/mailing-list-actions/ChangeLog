@@ -1,3 +1,10 @@
+2005-08-08  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #312621.
+
+	* mailing-list-actions.c (emla_list_action_do): noop if msg =
+	NULL.
+
 2005-08-02  Not Zed  <NotZed@Ximian.com>
 
 	* mailing-list-actions.c (emla_list_action_do): allocate enough
