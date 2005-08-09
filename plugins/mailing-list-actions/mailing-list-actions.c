@@ -104,6 +104,9 @@ void emla_list_action_do (CamelFolder *folder, const char *uid, CamelMimeMessage
 	int send_message_response;
 	EAccount *account;
 
+	if (msg == NULL)
+		return;
+
 	for (t = 0; t < emla_n_action_headers; t++) {
 		if (emla_action_headers[t].action == action &&
 		    (header = camel_medium_get_header (CAMEL_MEDIUM (msg), emla_action_headers[t].header)) != NULL)

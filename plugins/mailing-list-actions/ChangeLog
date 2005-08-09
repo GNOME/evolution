@@ -1,3 +1,10 @@
+2005-08-08  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #312621.
+
+	* mailing-list-actions.c (emla_list_action_do): noop if msg =
+	NULL.
+
 2005-02-24  Björn Torkelsson  <torkel@acc.umu.se>
 
 	* org-gnome-mailing-list-actions.eplug.in: Fixed description and
