@@ -1,3 +1,7 @@
+2005-08-09  Theppitak Karoonboonyanan  <thep@linux.thai.net>
+
+	* configure.in: Added "th" (Thai) to ALL_LINGUAS.
+
 2005-08-08  Harish Krishnaswamy  <kharish@novell.com>
 
 	* configure.in: Release 2.3.7
