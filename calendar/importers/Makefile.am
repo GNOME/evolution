@@ -1,6 +1,4 @@
-importersdir = $(privlibdir)
-
-importers_LTLIBRARIES = libevolution-calendar-importers.la
+privsolib_LTLIBRARIES = libevolution-calendar-importers.la
 
 INCLUDES = 						\
 	-DEVOLUTION_SOUNDDIR=\""$(soundsdir)"\"		\
@@ -13,6 +11,8 @@ INCLUDES = 						\
 libevolution_calendar_importers_la_SOURCES = \
 	evolution-calendar-importer.h	     \
 	icalendar-importer.c
+
+libevolution_calendar_importers_la_LDFLAGS = $(NO_UNDEFINED)
 
 libevolution_calendar_importers_la_LIBADD = \
 	$(top_builddir)/e-util/libeutil.la 				\

@@ -1,3 +1,9 @@
+2005-08-10  Tor Lillqvist  <tml@novell.com>
+
+	* importers/Makefile.am: Use privsolib instead of privlib (they
+	are the same on Unix, on Win32 privsolibdir is libdir). Use
+	NO_UNDEFINED.
+
 2005-08-10  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	* gui/dialogs/comp-editor.c: (get_attachment_list),
