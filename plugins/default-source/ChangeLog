@@ -1,3 +1,7 @@
+2005-08-10  Tor Lillqvist  <tml@novell.com>
+
+	* org-gnome-default-source.eplug.in: Use SOEXT.
+
 2005-06-27  Tor Lillqvist  <tml@novell.com>
 
 	* Makefile.am: There is no EVOLUTION_CFLAGS. Use
