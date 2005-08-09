@@ -5,11 +5,11 @@ INCLUDES = 					\
 	-I $(top_srcdir)			\
 	-I $(top_srcdir)/e-util			\
 	-I $(top_srcdir)/widgets/misc		\
-	-DFILTER_GLADEDIR=\"$(gladedir)\"	\
+	-DEVOLUTION_GLADEDIR=\"$(gladedir)\"	\
 	-DG_LOG_DOMAIN=\"filter\"		\
 	$(LIBFILTER_CFLAGS)
 
-privlib_LTLIBRARIES =				\
+privsolib_LTLIBRARIES =				\
 	libfilter.la
 
 libfilter_la_SOURCES =				\
@@ -41,6 +41,13 @@ libfilter_la_SOURCES =				\
 	rule-context.h				\
 	rule-editor.c				\
 	rule-editor.h
+
+libfilter_la_LDFLAGS = $(NO_UNDEFINED)
+
+libfilter_la_LIBADD = 				\
+	$(top_builddir)/e-util/libeutil.la	\
+	$(LIBFILTER_LIBS)			\
+	$(REGEX_LIBS)
 
 EXTRA_DIST =					\
 	$(glade_DATA)				\

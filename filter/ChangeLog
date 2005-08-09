@@ -1,3 +1,21 @@
+2005-08-10  Tor Lillqvist  <tml@novell.com>
+
+	* Makefile.am: Use privsolib instead of privlib. On Unix they are
+	the same, on Win32 privsolibdir is the same as libdir. Use the
+	macro name EVOLUTION_GLADEDIR as in e-util/e-util-private.h
+	instead of FILTER_GLADEDIR, so that the Win32 run-time path lookup
+	mechanism works. Use NO_UNDEFINED. Link explicitly with the actual
+	libraries used.
+
+	* filter-datespec.c: No localtime_r() on Win32, but we can use
+	plain localtime() which is thread-safe in the Microsoft C library.
+
+	* filter-datespec.c
+	* rule-editor.c: Include e-util-private.h for Win32 path run-time
+	lookup. Use EVOLUTION_GLADEDIR instead of FILTER_GLADEDIR, and do
+	the filter.glade pathname construction at run-time so it works
+	even when EVOLUTION_GLADEDIR is a function call on Win32.
+
 2005-05-16  Not Zed  <NotZed@Ximian.com>
 
 	* moved e-error to e-util

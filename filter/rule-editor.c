@@ -32,6 +32,7 @@
 #include <libgnome/gnome-i18n.h>
 
 #include "e-util/e-error.h"
+#include "e-util/e-util-private.h"
 #include "rule-editor.h"
 
 static int enable_undo = 0;
@@ -165,8 +166,12 @@ rule_editor_new (RuleContext *rc, const char *source, const char *label)
 {
 	RuleEditor *re = (RuleEditor *) g_object_new (RULE_TYPE_EDITOR, NULL);
 	GladeXML *gui;
+	char *filter_glade = g_build_filename (EVOLUTION_GLADEDIR,
+					       "filter.glade",
+					       NULL);
 	
-	gui = glade_xml_new (FILTER_GLADEDIR "/filter.glade", "rule_editor", NULL);
+	gui = glade_xml_new (filter_glade, "rule_editor", NULL);
+	g_free (filter_glade);
 	rule_editor_construct (re, rc, gui, source, label);
         gtk_widget_hide(glade_xml_get_widget (gui, "filter_source"));	
 	g_object_unref (gui);

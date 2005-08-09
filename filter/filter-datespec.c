@@ -36,6 +36,11 @@
 #include "filter-datespec.h"
 #include "libedataserver/e-sexp.h"
 #include "e-util/e-error.h"
+#include "e-util/e-util-private.h"
+
+#ifdef G_OS_WIN32
+#define localtime_r(tp,tmp) memcpy(tmp,localtime(tp),sizeof(struct tm))
+#endif
 
 #define d(x)
 
@@ -398,8 +403,12 @@ button_clicked (GtkButton *button, FilterDatespec *fds)
 	GtkWidget *toplevel;
 	GtkDialog *dialog;
 	GladeXML *gui;
+	char *filter_glade = g_build_filename (EVOLUTION_GLADEDIR,
+					       "filter.glade",
+					       NULL);
 	
-	gui = glade_xml_new (FILTER_GLADEDIR "/filter.glade", "filter_datespec", NULL);
+	gui = glade_xml_new (filter_glade, "filter_datespec", NULL);
+	g_free (filter_glade);
 	toplevel = glade_xml_get_widget (gui, "filter_datespec");
 	
 	dialog = (GtkDialog *) gtk_dialog_new ();
