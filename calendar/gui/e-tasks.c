@@ -460,7 +460,6 @@ table_drag_data_delete (ETable         *table,
 	ECalModelComponent *comp_data;
 	ECalModel *model;
 	gboolean read_only = TRUE;
-	
 	priv = tasks->priv;
 	
 	model = e_calendar_table_get_model (E_CALENDAR_TABLE (priv->tasks_view));
@@ -470,7 +469,8 @@ table_drag_data_delete (ETable         *table,
 	if (read_only)
 		return;
 
-	e_cal_remove_object (comp_data->client, icalcomponent_get_uid (comp_data->icalcomp), NULL);
+	if(gdk_drag_drop_succeeded(context))
+		e_cal_remove_object (comp_data->client, icalcomponent_get_uid (comp_data->icalcomp), NULL);
 }
 
 #define E_TASKS_TABLE_DEFAULT_STATE					\
