@@ -48,6 +48,14 @@ o It should not use any gcc extensions, except where they are properly
   of these features as portable macros and should be used when they
   cover the required functionality.
 
+o It must include ChangeLog entries in the appropriate ChangeLog for
+  the file modified.  Use emacs, C-4-a will start a properly formatted
+  ChangeLog entry in the correct ChangeLog file automatically.
+
+o If it is from a bug report, it must reference the bug number, and if
+  it isn't in the gnome bugzilla, it must reference the bug system from
+  whence it came.
+
 1.1 GUI changes
 
 If the change requires non-trivial user interface changes, then they
@@ -161,15 +169,15 @@ If in doubt, ask on the lists.
 2. Patch submission guidelines
 
 This section outlines procedures that should be followed when
-submitting patches to evolution, via the evolution-patches mailing
-list.
+submitting patches for Evolution.
 
-You must subcribe to the list at
-`http://lists.ximian.com/mailman/listinfo/evolution-patches' before you
-can submit patches to it.
+The patch must simply be attached to an appropriate, open bug on
+bugzilla.gnome.org.
 
-Also note that if you attach a patch to a bug report, it should always
-be sent to the list for attention.
+For discussion of the patch, or to expediate processing of the patch,
+an email may be sent to the evolution-patches list.  See the mailing
+lists section for more information.  You may attach patches when
+sending to this list for discussion.
 
 Any non-trival patches (patches of more than 1 or 2 changed lines in
 more than 5 isolated locations) also require copyright assignment.
@@ -183,7 +191,7 @@ re-send the same patch repeatedly.
 
 2.1 Subject Lines
 
-If the patch addresses a specific bug in bugzilla.ximian.com, then the
+If the patch addresses a specific bug in bugzilla.gnome.org, then the
 bug number must be included in the subject line, preferably near the
 beginning of the subject line.  A concise summary of the bug(s) being
 addressed, should be the remainder of the subject.
@@ -226,27 +234,12 @@ is intended to apply to.  If this is not given it will be assumed to
 be the trunk (HEAD), and such patches will and must not be applied to
 any stable branch without further approval.
 
-2.3 ChangeLogs
-
-All patches must include appropriate ChangeLog diff's, to the
-appropriate ChangeLog(s) for the given change (emacs will automatically
-find the correct one, and format the entry appropriately).  All but
-the most trivial of patches will not be considered or discussed
-without this.  It is ok to contain extra ChangeLog entries for other
-pending patches, but they should not be excessively long - it isn't
-that hard to isolate patch diffs.  If the patch addresses a bug in
-bugzilla.ximian.com, then the ChangeLog entry must include some
-reference to that bug number (either the number, or #number, or 'bug
-xxx').  If it addresses a bug in another bug system, it must also
-indicate which bug system ('gnome bugzilla' 'red-hat bugzilla', etc).
-
-2.4 Stable branches
+2.3 Stable branches
 
 Generally, any patch to the stable branch from non-core developers
-must address a specific bug in bugzilla.ximian.com.  The patch should
-also be attached to the bug in question, with the keyword 'patch' set
-on the bug report.  The patch email must identify which stable branch
-and version it is to apply to.
+must address a specific bug in bugzilla.gnome.org.  The patch should
+also be attached to the bug in question.  The patch must not be
+applied until reviewed.
 
 3 Mailing lists
 
@@ -261,17 +254,20 @@ This is a low-volume list (5-10 posts per day on average).
 
 Some patches may be discussed here to get a wider audience, although
 once a patch has been made it should generally be discussed on
-evolution-patches.
+evolution-patches.  Large posts are blocked, so they should be sent to
+the patches list intsead, or reference resources elsewhere.
 
 Feature requests, bug reports, and other user related discussions,
 without the intention to write code to address them, will be ignored.
 
 3.2 Evolution Patches
 
-The patch submission list evolution-patches may be subscribed and
+The patch discussion list evolution-patches may be subscribed and
 viewed at
 `http://lists.ximian.com/mailman/listinfo/evolution-patches'.  Once a
 patch has been written, it may be submitted here for discussion, as
 well as final approval.
+
+Patches may be sent to this list as attachments for discussion.
 
 Any non-patch related postings to this list will be ignored.
