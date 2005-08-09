@@ -1,3 +1,9 @@
+2005-08-10  Tor Lillqvist  <tml@novell.com>
+
+	* importers/Makefile.am: Use privsolib instead of privlib (no
+	difference on Unix, on Win32 privsolib means lib). Use
+	NO_UNDEFINED. Link with libeabutil.la.
+
 2005-03-05  Sushma Rai  <rsushma@novell.com>
 
 	* gui/widgets/eab-contact-display.c (render_contact): Using 

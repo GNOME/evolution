@@ -1,5 +1,5 @@
 
-privlib_LTLIBRARIES = 				\
+privsolib_LTLIBRARIES = 				\
 	libevolution-addressbook-importers.la
 
 INCLUDES = 						\
@@ -16,6 +16,9 @@ libevolution_addressbook_importers_la_SOURCES = \
 	evolution-vcard-importer.c		\
 	evolution-addressbook-importers.h
 
+libevolution_addressbook_importers_la_LDFLAGS = $(NO_UNDEFINED)
+
 libevolution_addressbook_importers_la_LIBADD = \
 	$(top_builddir)/e-util/libeutil.la 				\
+	$(top_builddir)/addressbook/util/libeabutil.la			\
 	$(IMPORTERS_LIBS)
