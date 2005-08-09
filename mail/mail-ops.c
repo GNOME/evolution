@@ -567,7 +567,8 @@ mail_send_message(CamelFolder *queue, const char *uid, const char *destination, 
 	
 	camel_exception_clear (ex);
 
-	if (!( ((CamelService *)xport)->provider->flags & CAMEL_PROVIDER_DISABLE_SENT_FOLDER)) {	
+	if (xport == NULL
+	    || !( ((CamelService *)xport)->provider->flags & CAMEL_PROVIDER_DISABLE_SENT_FOLDER)) {	
 		if (sent_folder_uri) {
 			folder = mail_tool_uri_to_folder (sent_folder_uri, 0, ex);
 			if (camel_exception_is_set(ex)) {

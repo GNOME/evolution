@@ -1,3 +1,10 @@
+2005-08-08  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #304938.
+
+	* mail-ops.c (mail_send_message): don't try to dereference the
+	transport if we don't have one.
+
 2005-08-04  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #300881.
