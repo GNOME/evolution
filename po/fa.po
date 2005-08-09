@@ -7,11 +7,11 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: evolution 1.4\n"
+"Project-Id-Version: evolution gnome-2-10\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-05-15 04:10+0000\n"
-"PO-Revision-Date: 2005-05-15 17:47+0430\n"
-"Last-Translator: Roozbeh Pournader <roozbeh@farsiweb.info>\n"
+"POT-Creation-Date: 2005-08-07 04:27+0000\n"
+"PO-Revision-Date: 2005-08-07 16:47+0430\n"
+"Last-Translator: Meelad Zakaria <meelad@farsiweb.info>\n"
 "Language-Team: Persian <farsi@lists.sharif.edu>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -25,12 +25,12 @@ msgid "evolution addressbook"
 msgstr "دفترچه‌ی نشانی evolution"
 
 #: ../a11y/addressbook/ea-minicard-view.c:34
-#: ../addressbook/gui/component/addressbook-component.c:196
+#: ../addressbook/gui/component/addressbook-component.c:198
 msgid "New Contact"
 msgstr "آشنای جدید"
 
 #: ../a11y/addressbook/ea-minicard-view.c:35
-#: ../addressbook/gui/component/addressbook-component.c:204
+#: ../addressbook/gui/component/addressbook-component.c:206
 msgid "New Contact List"
 msgstr "فهرست آشنای جدید"
 
@@ -424,7 +424,7 @@ msgstr "خطا در ذخیره‌ی آشنا‌ها در {0}: {1}‏"
 #. addressbook:backend-died primary
 #: ../addressbook/addressbook-errors.xml.h:55
 msgid "The Evolution addressbook has quit unexpectedly."
-msgstr ""
+msgstr "دفترچه‌ی نشانی Evolution به طرز غیرمنتظره‌ای خارج شد."
 
 #. addressbook:backend-died secondary
 #: ../addressbook/addressbook-errors.xml.h:57
@@ -526,11 +526,11 @@ msgstr "نمایش‌گر کارت دفترچه‌ی نشانی Evolution"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:10
 msgid "Evolution Addressbook component"
-msgstr ""
+msgstr "مؤلفه‌ی دفترچه‌ی نشانی Evolution"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:11
 msgid "Evolution S/Mime Certificate Management Control"
-msgstr ""
+msgstr "کم"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:12
 msgid "Evolution folder settings configuration control"
@@ -567,42 +567,42 @@ msgid "Personal"
 msgstr "شخصی"
 
 #. Create the LDAP source group
-#: ../addressbook/gui/component/addressbook-component.c:149
-#: ../addressbook/gui/component/addressbook-migrate.c:509
+#: ../addressbook/gui/component/addressbook-component.c:151
+#: ../addressbook/gui/component/addressbook-migrate.c:511
 msgid "On LDAP Servers"
 msgstr "روی کارگزارهای LDAP"
 
-#: ../addressbook/gui/component/addressbook-component.c:197
+#: ../addressbook/gui/component/addressbook-component.c:199
 msgid "_Contact"
 msgstr "آ_شنا"
 
-#: ../addressbook/gui/component/addressbook-component.c:198
+#: ../addressbook/gui/component/addressbook-component.c:200
 msgid "Create a new contact"
 msgstr "ایجاد یک آشنای جدید"
 
-#: ../addressbook/gui/component/addressbook-component.c:205
+#: ../addressbook/gui/component/addressbook-component.c:207
 msgid "Contact _List"
 msgstr "_فهرست آشنا"
 
-#: ../addressbook/gui/component/addressbook-component.c:206
+#: ../addressbook/gui/component/addressbook-component.c:208
 msgid "Create a new contact list"
 msgstr "ایجاد یک فهرست آشنای جدید"
 
-#: ../addressbook/gui/component/addressbook-component.c:212
+#: ../addressbook/gui/component/addressbook-component.c:214
 #: ../addressbook/gui/component/addressbook-config.c:1120
 #: ../addressbook/gui/component/addressbook-view.c:757
 msgid "New Address Book"
 msgstr "دفترچه‌ی نشانی جدید"
 
-#: ../addressbook/gui/component/addressbook-component.c:213
+#: ../addressbook/gui/component/addressbook-component.c:215
 msgid "Address _Book"
 msgstr "دفترچه‌ی نشانی"
 
-#: ../addressbook/gui/component/addressbook-component.c:214
+#: ../addressbook/gui/component/addressbook-component.c:216
 msgid "Create a new address book"
 msgstr "ایجاد یک دفترچه‌ی نشانی جدید"
 
-#: ../addressbook/gui/component/addressbook-component.c:287
+#: ../addressbook/gui/component/addressbook-component.c:289
 msgid "Failed upgrading Addressbook settings or folders."
 msgstr "به‌هنگام‌سازی تنظیمات دفترچه‌ی نشانی یا پوشه‌ها شکست خورد."
 
@@ -673,15 +673,15 @@ msgstr "در حال کوچ دادن..."
 msgid "Migrating `%s':"
 msgstr "در حال کوچ دادن «%s»:"
 
-#: ../addressbook/gui/component/addressbook-migrate.c:637
+#: ../addressbook/gui/component/addressbook-migrate.c:639
 msgid "LDAP Servers"
 msgstr "کارگزارهای LDAP"
 
-#: ../addressbook/gui/component/addressbook-migrate.c:752
+#: ../addressbook/gui/component/addressbook-migrate.c:754
 msgid "Autocompletion Settings"
 msgstr "تنظیمات کامل کردن خودکار"
 
-#: ../addressbook/gui/component/addressbook-migrate.c:1123
+#: ../addressbook/gui/component/addressbook-migrate.c:1125
 msgid ""
 "The location and hierarchy of the Evolution contact folders has changed "
 "since Evolution 1.x.\n"
@@ -693,7 +693,7 @@ msgstr ""
 "\n"
 "لطفاً در مدتی که Evolution پوشه‌هایتان را کوچ می‌دهد صبور باشید..."
 
-#: ../addressbook/gui/component/addressbook-migrate.c:1137
+#: ../addressbook/gui/component/addressbook-migrate.c:1139
 msgid ""
 "The format of mailing list contacts has changed.\n"
 "\n"
@@ -703,7 +703,7 @@ msgstr ""
 "\n"
 "لطفاً در مدتی که Evolution پوشه‌هایتان را کوچ می‌دهد صبور باشید..."
 
-#: ../addressbook/gui/component/addressbook-migrate.c:1146
+#: ../addressbook/gui/component/addressbook-migrate.c:1148
 msgid ""
 "The way Evolution stores some phone numbers has changed.\n"
 "\n"
@@ -713,7 +713,7 @@ msgstr ""
 "\n"
 "لطفاً در مدتی که Evolution پوشه‌هایتان را کوچ می‌دهد صبور باشید..."
 
-#: ../addressbook/gui/component/addressbook-migrate.c:1156
+#: ../addressbook/gui/component/addressbook-migrate.c:1158
 msgid ""
 "Evolution's Palm Sync changelog and map files have changed.\n"
 "\n"
@@ -902,7 +902,7 @@ msgstr ""
 
 #: ../addressbook/gui/component/ldap-config.glade.h:22
 msgid "Find Possible Search Bases"
-msgstr "یافتن پایه‌های جست و جوی ممکن"
+msgstr "پیدا کردن پایه‌های جست و جوی ممکن"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:24
 msgid "Lo_gin:"
@@ -1045,7 +1045,7 @@ msgstr "حدود بارگیری:"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:45
 msgid "_Find Possible Search Bases"
-msgstr "_یافتن پایه‌های جست و جوی ممکن"
+msgstr "_پیدا کردن پایه‌های جست و جوی ممکن"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:46
 msgid "_Log in method:"
@@ -2587,14 +2587,12 @@ msgid "Is New List"
 msgstr "فهرست جدید است"
 
 #: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:707
-#, fuzzy
 msgid "_Members"
-msgstr "اعضا"
+msgstr "اع_ضا"
 
 #: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:710
-#, fuzzy
 msgid "Contact List Members"
-msgstr "اعضای فهرست"
+msgstr "اعضای فهرست آشنا‌ها"
 
 #: ../addressbook/gui/merging/eab-contact-commit-duplicate-detected.glade.h:1
 msgid "Changed Contact:"
@@ -3329,7 +3327,7 @@ msgstr "فهرست"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:704
 msgid "Move contact to"
-msgstr "انتقال آشنا به"
+msgstr "جابه‌جا کردن آشنا به"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:706
 msgid "Copy contact to"
@@ -3337,7 +3335,7 @@ msgstr "نسخه برداری از آشنا در"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:709
 msgid "Move contacts to"
-msgstr "انتقال آشنا‌ها به"
+msgstr "جابه‌جا کردن آشنا‌ها به"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:711
 msgid "Copy contacts to"
@@ -4479,7 +4477,7 @@ msgstr "تکلیف‌هایی که موعدشان امروز سر می‌رسد:
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:39
 msgid "Tasks vertical pane position"
-msgstr ""
+msgstr "موقعیت قاب افقی تکلیف‌ها"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:40
 msgid ""
@@ -4759,7 +4757,7 @@ msgstr "روش هنگام باز کردن تقویم پشتیبانی نمی‌�
 msgid "Permission denied to open the calendar"
 msgstr "باز کردن تقویم مجاز نیست."
 
-#: ../calendar/gui/comp-editor-factory.c:437 ../shell/e-shell.c:1264
+#: ../calendar/gui/comp-editor-factory.c:437 ../shell/e-shell.c:1263
 msgid "Unknown error"
 msgstr "خطای ناشناخته"
 
@@ -5407,7 +5405,7 @@ msgstr "پیغام‌ پیوست شده - %s"
 #, c-format
 msgid "Attached message"
 msgid_plural "%d attached messages"
-msgstr[0] ""
+msgstr[0] "%Id پیغام پیوست شده"
 
 #: ../calendar/gui/dialogs/comp-editor.c:412
 #: ../calendar/gui/e-calendar-table.c:1164
@@ -5654,9 +5652,8 @@ msgstr "۱۵ دقیقه پیش از قرار"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:5
 #: ../calendar/gui/dialogs/task-page.glade.h:1
-#, fuzzy
 msgid "<b>Basics</b>"
-msgstr "تاجیکستان"
+msgstr ""
 
 #: ../calendar/gui/dialogs/event-page.glade.h:6
 #: ../calendar/gui/dialogs/task-page.glade.h:2
@@ -5665,13 +5662,12 @@ msgstr "<b>تاریخ و زمان</b>"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:7
 #: ../calendar/gui/dialogs/task-page.glade.h:3
-#, fuzzy
 msgid "<b>Send Options</b>"
-msgstr "<b>گزینه‌ها</b>"
+msgstr "<b>گزینه‌های ارسال</b>"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:8
 msgid "A_ll day event"
-msgstr "رویداد تمام‌روز"
+msgstr "رویداد _تمام‌روز"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:9
 msgid "Ad_vanced  send options"
@@ -5731,7 +5727,7 @@ msgstr ""
 #: ../calendar/gui/dialogs/event-page.glade.h:20
 #: ../calendar/gui/dialogs/task-page.glade.h:13
 msgid "Su_mmary:"
-msgstr "خلاصه:"
+msgstr "خ_لاصه:"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:21
 msgid "This appointment has customized alarms"
@@ -5769,7 +5765,7 @@ msgstr "زمان آغاز:"
 #: ../mail/em-folder-view.c:1009
 #: ../plugins/calendar-weather/calendar-weather.c:371
 #: ../plugins/calendar-weather/calendar-weather.c:425
-#: ../plugins/itip-formatter/itip-formatter.c:1390
+#: ../plugins/itip-formatter/itip-formatter.c:1396
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.c:190
 #: ../widgets/misc/e-cell-date-edit.c:248 ../widgets/misc/e-dateedit.c:458
 #: ../widgets/misc/e-dateedit.c:1497 ../widgets/misc/e-dateedit.c:1651
@@ -6397,7 +6393,7 @@ msgstr "خیر"
 #: ../calendar/gui/e-meeting-store.c:124 ../calendar/gui/e-meeting-store.c:159
 #: ../calendar/gui/e-meeting-store.c:224 ../mail/em-utils.c:1175
 #: ../plugins/itip-formatter/itip-formatter.c:251
-#: ../plugins/itip-formatter/itip-formatter.c:1412
+#: ../plugins/itip-formatter/itip-formatter.c:1418
 #: ../plugins/plugin-manager/plugin-manager.c:72
 #: ../shell/e-component-registry.c:201 ../shell/e-component-registry.c:205
 #: ../widgets/misc/e-charset-picker.c:62
@@ -6578,7 +6574,7 @@ msgstr "مرتب کردن تکلیف‌ها"
 
 #: ../calendar/gui/e-calendar-view.c:1186
 msgid "Moving items"
-msgstr "در حال انتقال موارد"
+msgstr "در حال جابه‌جایی موارد"
 
 #: ../calendar/gui/e-calendar-view.c:1188
 msgid "Copying items"
@@ -6632,7 +6628,7 @@ msgstr ""
 
 #: ../calendar/gui/e-calendar-view.c:1418
 msgid "Make this Occurrence _Movable"
-msgstr "قابل انتقال کردن این مورد"
+msgstr "قابل _جابه‌جا کردن این مورد"
 
 #: ../calendar/gui/e-calendar-view.c:1419
 msgid "Delete this _Occurrence"
@@ -6800,12 +6796,12 @@ msgstr ""
 #: ../calendar/gui/e-meeting-list-view.c:175
 #: ../calendar/gui/e-meeting-store.c:188 ../calendar/gui/e-meeting-store.c:211
 #: ../calendar/gui/itip-utils.c:421
-#: ../plugins/itip-formatter/itip-formatter.c:1403
+#: ../plugins/itip-formatter/itip-formatter.c:1409
 msgid "Accepted"
 msgstr "پذیرفته شد"
 
 #: ../calendar/gui/e-itip-control.c:1141 ../calendar/gui/itip-utils.c:424
-#: ../plugins/itip-formatter/itip-formatter.c:1406
+#: ../plugins/itip-formatter/itip-formatter.c:1412
 msgid "Tentatively Accepted"
 msgstr "به طور آزمایشی پذیرفته شد"
 
@@ -6813,7 +6809,7 @@ msgstr "به طور آزمایشی پذیرفته شد"
 #: ../calendar/gui/e-meeting-list-view.c:176
 #: ../calendar/gui/e-meeting-store.c:190 ../calendar/gui/e-meeting-store.c:213
 #: ../calendar/gui/itip-utils.c:427 ../calendar/gui/itip-utils.c:453
-#: ../plugins/itip-formatter/itip-formatter.c:1409
+#: ../plugins/itip-formatter/itip-formatter.c:1415
 msgid "Declined"
 msgstr "رد شد"
 
@@ -7030,7 +7026,7 @@ msgid "Attendee status updated\n"
 msgstr ""
 
 #: ../calendar/gui/e-itip-control.c:1979
-#: ../plugins/itip-formatter/itip-formatter.c:852
+#: ../plugins/itip-formatter/itip-formatter.c:858
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr ""
 
@@ -9682,7 +9678,7 @@ msgstr ""
 "\n"
 "لطفاْ اطمینان حاصل کنید که نسخه‌ی صحیح gtkhtml و libgtkhtml نصب شده‌اند."
 
-#: ../data/evolution.desktop.in.in.h:1 ../shell/main.c:517
+#: ../data/evolution.desktop.in.in.h:1 ../shell/main.c:518
 msgid "Evolution"
 msgstr "Evolution"
 
@@ -10068,7 +10064,7 @@ msgstr ""
 
 #: ../filter/filter-rule.c:857
 msgid "Execute actions"
-msgstr ""
+msgstr "اجرای کنش‌ها"
 
 #: ../filter/filter-rule.c:878
 msgid "All related"
@@ -10213,7 +10209,7 @@ msgstr "کنترل ترجیحات نامه‌ی Evolution"
 #: ../mail/importers/elm-importer.c:418
 #: ../mail/importers/netscape-importer.c:1902
 #: ../mail/importers/pine-importer.c:474 ../mail/mail-component.c:557
-#: ../mail/mail-component.c:608
+#: ../mail/mail-component.c:644
 msgid "Mail"
 msgstr "نامه"
 
@@ -10639,7 +10635,7 @@ msgid "Create New Folder"
 msgstr "ایجاد پوشه‌ی جدید"
 
 #: ../mail/em-folder-selector.c:166 ../mail/em-folder-tree.c:2528
-#: ../mail/mail-component.c:770 ../plugins/shared-folder/install-shared.c:144
+#: ../mail/mail-component.c:808 ../plugins/shared-folder/install-shared.c:144
 #: ../plugins/shared-folder/share-folder-common.c:345
 msgid "Specify where to create the folder:"
 msgstr "مشخص کنید پوشه کجا ایجاد شود:"
@@ -10690,7 +10686,7 @@ msgstr "‌درخت پوشه‌ی نامه"
 #: ../mail/em-folder-tree.c:922
 #, c-format
 msgid "Moving folder %s"
-msgstr "در حال انتقال پوشه‌ی %s"
+msgstr "در حال جابه‌جا کردن پوشه‌ی %s"
 
 #: ../mail/em-folder-tree.c:924
 #, c-format
@@ -10700,7 +10696,7 @@ msgstr "در حال نسخه‌برداری از پوشه‌ی %s"
 #: ../mail/em-folder-tree.c:931 ../mail/message-list.c:1612
 #, c-format
 msgid "Moving messages into folder %s"
-msgstr "در حال انتقال پیغام‌ها به پوشه‌ی %s"
+msgstr "در حال جابه‌جایی پیغام‌ها به پوشه‌ی %s"
 
 #: ../mail/em-folder-tree.c:933 ../mail/message-list.c:1614
 #, c-format
@@ -10746,7 +10742,7 @@ msgstr "نسخه‌برداری"
 msgid "Creating folder `%s'"
 msgstr "در حال ایجاد پوشه‌ی '%s'"
 
-#: ../mail/em-folder-tree.c:2528 ../mail/mail-component.c:770
+#: ../mail/em-folder-tree.c:2528 ../mail/mail-component.c:808
 #: ../plugins/shared-folder/install-shared.c:144
 #: ../plugins/shared-folder/share-folder-common.c:345
 msgid "Create folder"
@@ -10782,7 +10778,7 @@ msgstr "_نسخه‌برداری..."
 
 #: ../mail/em-folder-tree.c:2810
 msgid "_Move..."
-msgstr "_انتقال..."
+msgstr "_جابه‌جایی..."
 
 #. FIXME: need to disable for nochildren folders
 #: ../mail/em-folder-tree.c:2814
@@ -11537,19 +11533,19 @@ msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.in.h:40
 msgid "Log filter actions"
-msgstr "ثبت اعمال صافی"
+msgstr "ثبت کنش‌های صافی"
 
 #: ../mail/evolution-mail.schemas.in.in.h:41
 msgid "Log filter actions to the specified log file."
-msgstr "ثبت اعمال صافی در یک پرونده‌ی ثبت وقایع مشخص."
+msgstr "ثبت کنش‌های صافی در یک پرونده‌ی ثبت وقایع مشخص."
 
 #: ../mail/evolution-mail.schemas.in.in.h:42
 msgid "Logfile to log filter actions"
-msgstr "پرونده‌ای که اعمال صافی در آن ثبت می‌شوند"
+msgstr "پرونده‌ای که کنش‌های صافی در آن ثبت می‌شوند"
 
 #: ../mail/evolution-mail.schemas.in.in.h:43
 msgid "Logfile to log filter actions."
-msgstr "پرونده‌ای که اعمال صافی در آن ثبت می‌شوند."
+msgstr "پرونده‌ای که کنش‌های صافی در آن ثبت می‌شوند."
 
 #: ../mail/evolution-mail.schemas.in.in.h:44
 msgid "Mark as Seen after specified timeout"
@@ -12069,31 +12065,31 @@ msgid ", %d unread"
 msgid_plural ", %d unread"
 msgstr[0] "، %Idتا نخوانده"
 
-#: ../mail/mail-component.c:722
+#: ../mail/mail-component.c:760
 msgid "New Mail Message"
 msgstr "پیغام نامه‌ای جدید"
 
-#: ../mail/mail-component.c:723
+#: ../mail/mail-component.c:761
 msgid "_Mail Message"
 msgstr "پیغام نامه‌ای"
 
-#: ../mail/mail-component.c:724
+#: ../mail/mail-component.c:762
 msgid "Compose a new mail message"
 msgstr ""
 
-#: ../mail/mail-component.c:730
+#: ../mail/mail-component.c:768
 msgid "New Mail Folder"
 msgstr "پوشه‌ی نامه‌ی جدید"
 
-#: ../mail/mail-component.c:731
+#: ../mail/mail-component.c:769
 msgid "Mail _Folder"
 msgstr "‌پوشه‌ی نامه"
 
-#: ../mail/mail-component.c:732
+#: ../mail/mail-component.c:770
 msgid "Create a new mail folder"
 msgstr "ایجاد یک پوشه‌ی نامه‌ی جدید"
 
-#: ../mail/mail-component.c:879
+#: ../mail/mail-component.c:917
 msgid "Failed upgrading Mail settings or folders."
 msgstr "ارتقای تنظیمات نامه یا پوشه‌ها شکست خورد"
 
@@ -12162,7 +12158,7 @@ msgid "<span weight=\"bold\">Filter Options</span>"
 msgstr "<span weight=\"bold\">گرینه‌های صافی‌ها</span>"
 
 #: ../mail/mail-config.glade.h:18
-#: ../plugins/itip-formatter/itip-formatter.c:1681
+#: ../plugins/itip-formatter/itip-formatter.c:1687
 msgid "<span weight=\"bold\">General</span>"
 msgstr "<span weight=\"bold\">عمومی</span>"
 
@@ -12338,7 +12334,7 @@ msgstr ""
 "\n"
 "حالا می‌توانید با Evolution نامه دریافت یا ارسال کنید.\n"
 "\n"
-"برای ذخیره شدن تنظیماتتان روی «اعمال» کلیک کنید."
+"برای ذخیره شدن تنظیماتتان روی «اِعمال» کلیک کنید."
 
 #: ../mail/mail-config.glade.h:65
 msgid "De_fault"
@@ -12357,7 +12353,7 @@ msgstr "امضای دیجیتال پیغام‌های صادره (به طور پ
 msgid "Do not quote original message"
 msgstr "پیغام اصلی نقل نشود"
 
-#: ../mail/mail-config.glade.h:71 ../shell/evolution-startup-wizard.glade.h:1
+#: ../mail/mail-config.glade.h:71
 msgid "Done"
 msgstr "انجام شد"
 
@@ -12506,18 +12502,16 @@ msgid "Remember _password"
 msgstr "به خاطر سپردن _گذرواژه"
 
 #: ../mail/mail-config.glade.h:116
-#, fuzzy
 msgid "S_elect..."
-msgstr "انتخاب..."
+msgstr "ان_تخاب..."
 
 #: ../mail/mail-config.glade.h:117
 msgid "S_tandard Font:"
 msgstr "قلم استاندارد:"
 
 #: ../mail/mail-config.glade.h:118
-#, fuzzy
 msgid "Se_lect..."
-msgstr "انتخاب..."
+msgstr "انت_خاب..."
 
 #: ../mail/mail-config.glade.h:120
 msgid "Select HTML fixed width font"
@@ -12552,9 +12546,8 @@ msgid "Server _Type: "
 msgstr "نوع کارگزار_:"
 
 #: ../mail/mail-config.glade.h:129
-#, fuzzy
 msgid "Sig_ning certificate:"
-msgstr "انتخاب نام‌ها"
+msgstr ""
 
 #: ../mail/mail-config.glade.h:130
 msgid "Signat_ure:"
@@ -12581,14 +12574,11 @@ msgid "T_ype: "
 msgstr "_نوع: "
 
 #: ../mail/mail-config.glade.h:136
-#, fuzzy
 msgid ""
 "The list of languages here reflects only the languages for which you have a "
 "dictionary installed."
 msgstr ""
-"این صفحه شما را قادر می‌سازد رفتار و زبان غلط‌یاب املایی را پیکربندی کنید. "
-"فهرست زبان‌هایی که اینجا آمده‌اند تنها شامل زبان‌هایی است که شما برایشان "
-"لغت‌نامه نصب کرده‌اید."
+"این فهرست زبان‌ها فقط زبان‌هایی را نشان می‌دهد که برایشان لغت‌نامه نصب کرده‌اید."
 
 #: ../mail/mail-config.glade.h:137
 msgid ""
@@ -12695,7 +12685,6 @@ msgid "_Show animated images"
 msgstr "نمایش تصاویر متحرک‌"
 
 #: ../mail/mail-config.glade.h:168
-#, fuzzy
 msgid "_Use Secure Connection:"
 msgstr "_استفاده از اتصال امن:"
 
@@ -12724,23 +12713,20 @@ msgid "<span weight=\"bold\">Encryption</span>"
 msgstr "<span weight=\"bold\">رمزنگاری</span>"
 
 #: ../mail/mail-dialogs.glade.h:6
-#, fuzzy
 msgid "Case _Sensitive"
-msgstr "حساس به بزرگی و کوچکی حروف"
+msgstr "_حساس به بزرگی و کوچکی حروف"
 
 #: ../mail/mail-dialogs.glade.h:7 ../mail/message-tags.glade.h:2
-#, fuzzy
 msgid "Co_mpleted"
-msgstr "انجام شده"
+msgstr "ان_جام شده"
 
 #: ../mail/mail-dialogs.glade.h:9
-#, fuzzy
 msgid "F_ind:"
-msgstr "یافتن:"
+msgstr "پ_یدا کردن:"
 
 #: ../mail/mail-dialogs.glade.h:10
 msgid "Find in Message"
-msgstr "یافتن در پیغام"
+msgstr "پیدا کردن در پیغام"
 
 #: ../mail/mail-dialogs.glade.h:11 ../mail/message-tag-followup.c:295
 #: ../mail/message-tags.glade.h:3
@@ -13097,7 +13083,7 @@ msgstr ""
 #. mail:no-rename-special-folder primary
 #: ../mail/mail-errors.xml.h:123
 msgid "Cannot rename or move system folder \"{0}\"."
-msgstr "تغییر نام یا انتقال پشوه‌ی سیستم \"{0}\" ممکن نیست."
+msgstr "تغییر نام یا جابه‌جا کردن پوشه‌ی سیستم «{0}» ممکن نیست."
 
 #. mail:ask-delete-folder title
 #. mail:ask-delete-vfolder title
@@ -13124,24 +13110,24 @@ msgstr ""
 #. mail:no-rename-folder primary
 #: ../mail/mail-errors.xml.h:137 ../mail/mail-errors.xml.h:141
 msgid "Cannot rename \"{0}\" to \"{1}\"."
-msgstr "تغییر نام \"{0}\" به \"{1}\" ممکن نیست"
+msgstr "تغییر نام «{0}» به «{1}» ممکن نیست"
 
 #. mail:no-rename-folder-exists secondary
 #. mail:vfolder-notunique secondary
 #: ../mail/mail-errors.xml.h:139 ../mail/mail-errors.xml.h:201
 msgid "A folder named \"{1}\" already exists. Please use a different name."
-msgstr "پوشه‌ای به نام \"{1}\" از قبل وجود دارد. لطفاْ نام دیگر به کار ببرید."
+msgstr "پوشه‌ای به نام «{1}» از قبل وجود دارد. لطفاْ نام دیگر به کار ببرید."
 
 #. mail:no-rename-folder secondary
 #: ../mail/mail-errors.xml.h:143
 msgid "Because \"{2}\"."
-msgstr "چون \"{2}\"."
+msgstr "چون «{2}».‏"
 
 #. mail:no-move-folder-nostore primary
 #. mail:no-move-folder-to-nostore primary
 #: ../mail/mail-errors.xml.h:145 ../mail/mail-errors.xml.h:149
 msgid "Cannot move folder \"{0}\" to \"{1}\"."
-msgstr "انتقال پوشه‌ی \"{0}\" به \"{1}\" ممکن نیست."
+msgstr "جابه‌جایی پوشه‌ی «{0}» به «{1}» ممکن نیست."
 
 #. mail:no-move-folder-nostore secondary
 #. mail:no-copy-folder-nostore secondary
@@ -13447,7 +13433,7 @@ msgstr "در حال ذخیره‌ی پیغام‌ها در پوشه"
 #: ../mail/mail-ops.c:938
 #, c-format
 msgid "Moving messages to %s"
-msgstr "در حال انتقال پیغام‌ها به %s"
+msgstr "در حال جابه‌جا کردن پیغام‌ها به %s"
 
 #: ../mail/mail-ops.c:938
 #, c-format
@@ -14083,105 +14069,105 @@ msgstr ""
 msgid "Send Options"
 msgstr "گزینه‌ها"
 
-#: ../plugins/itip-formatter/itip-formatter.c:704
+#: ../plugins/itip-formatter/itip-formatter.c:707
 #, fuzzy
 msgid "Unable to parse item"
 msgstr "تجزیه‌ی محتویات پیغام ممکن نیست"
 
-#: ../plugins/itip-formatter/itip-formatter.c:757
+#: ../plugins/itip-formatter/itip-formatter.c:763
 #, fuzzy, c-format
 msgid "Unable to send item to calendar '%s'.  %s"
 msgstr "باز کردن تقویم '%s' ممکن نیست."
 
-#: ../plugins/itip-formatter/itip-formatter.c:768
+#: ../plugins/itip-formatter/itip-formatter.c:774
 #, c-format
 msgid "Sent to calendar '%s' as accepted"
 msgstr ""
 
-#: ../plugins/itip-formatter/itip-formatter.c:772
+#: ../plugins/itip-formatter/itip-formatter.c:778
 #, c-format
 msgid "Sent to calendar '%s' as tentative"
 msgstr ""
 
-#: ../plugins/itip-formatter/itip-formatter.c:777
+#: ../plugins/itip-formatter/itip-formatter.c:783
 #, c-format
 msgid "Sent to calendar '%s' as declined"
 msgstr ""
 
-#: ../plugins/itip-formatter/itip-formatter.c:782
+#: ../plugins/itip-formatter/itip-formatter.c:788
 #, c-format
 msgid "Sent to calendar '%s' as cancelled"
 msgstr ""
 
-#: ../plugins/itip-formatter/itip-formatter.c:833
+#: ../plugins/itip-formatter/itip-formatter.c:839
 #, fuzzy
 msgid "Attendee status could not be updated because the status is invalid"
 msgstr "حذف تکلیف ممکن نیست چون اجازه داده نشد"
 
-#: ../plugins/itip-formatter/itip-formatter.c:844
+#: ../plugins/itip-formatter/itip-formatter.c:850
 #, fuzzy, c-format
 msgid "Unable to update attendee. %s"
 msgstr "باز کردن تقویم '%s' ممکن نیست."
 
-#: ../plugins/itip-formatter/itip-formatter.c:848
+#: ../plugins/itip-formatter/itip-formatter.c:854
 msgid "Attendee status updated"
 msgstr ""
 
-#: ../plugins/itip-formatter/itip-formatter.c:973
+#: ../plugins/itip-formatter/itip-formatter.c:979
 #, fuzzy
 msgid "The calendar attached is not valid"
 msgstr ""
 "داده‌های آشنا نامعتبر است:\n"
 "\n"
 
-#: ../plugins/itip-formatter/itip-formatter.c:974
+#: ../plugins/itip-formatter/itip-formatter.c:980
 msgid ""
 "The message claims to contain a calendar, but the calendar is not valid "
 "iCalendar."
 msgstr ""
 
-#: ../plugins/itip-formatter/itip-formatter.c:1008
-#: ../plugins/itip-formatter/itip-formatter.c:1023
-#: ../plugins/itip-formatter/itip-formatter.c:1078
+#: ../plugins/itip-formatter/itip-formatter.c:1014
+#: ../plugins/itip-formatter/itip-formatter.c:1029
+#: ../plugins/itip-formatter/itip-formatter.c:1084
 msgid "The item in the calendar is not valid"
 msgstr ""
 
-#: ../plugins/itip-formatter/itip-formatter.c:1009
-#: ../plugins/itip-formatter/itip-formatter.c:1024
-#: ../plugins/itip-formatter/itip-formatter.c:1079
+#: ../plugins/itip-formatter/itip-formatter.c:1015
+#: ../plugins/itip-formatter/itip-formatter.c:1030
+#: ../plugins/itip-formatter/itip-formatter.c:1085
 msgid ""
 "The message does contain a calendar, but the calendar contains no events, "
 "tasks or free/busy information"
 msgstr ""
 
-#: ../plugins/itip-formatter/itip-formatter.c:1034
+#: ../plugins/itip-formatter/itip-formatter.c:1040
 msgid "The calendar attached contains multiple items"
 msgstr ""
 
-#: ../plugins/itip-formatter/itip-formatter.c:1035
+#: ../plugins/itip-formatter/itip-formatter.c:1041
 msgid ""
 "To process all of these items, the file should be saved and the calendar "
 "imported"
 msgstr ""
 
-#: ../plugins/itip-formatter/itip-formatter.c:1672
+#: ../plugins/itip-formatter/itip-formatter.c:1678
 #, fuzzy
 msgid "Meetings and Tasks"
 msgstr "تقویم و تکلیف‌ها"
 
 #. Delete message after acting
 #. FIXME Need a schema for this
-#: ../plugins/itip-formatter/itip-formatter.c:1695
+#: ../plugins/itip-formatter/itip-formatter.c:1701
 msgid "_Delete message after acting"
 msgstr ""
 
-#: ../plugins/itip-formatter/itip-formatter.c:1705
+#: ../plugins/itip-formatter/itip-formatter.c:1711
 #, fuzzy
 msgid "<span weight=\"bold\">Conflict Search</span>"
 msgstr "<span weight=\"bold\">پیکربندی</span>"
 
 #. Source selector
-#: ../plugins/itip-formatter/itip-formatter.c:1718
+#: ../plugins/itip-formatter/itip-formatter.c:1724
 msgid "Select the calendars to search for meeting conflicts"
 msgstr ""
 
@@ -14482,16 +14468,15 @@ msgstr "فرمان:"
 
 #. org.gnome.mailing-list-actions:no-header primary
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions-errors.xml.h:2
-#, fuzzy
 msgid "Action not available"
-msgstr "TLS موجود نیست"
+msgstr "کنش موجود نیست"
 
 #. org.gnome.mailing-list-actions:no-header secondary
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions-errors.xml.h:4
 msgid ""
 "This message does not contain the header information required for this "
 "action."
-msgstr ""
+msgstr "این پیغام حاوی اطلاعات سرصفحه‌ی لازم برای این کنش نیست."
 
 #. org.gnome.mailing-list-actions:posting-not-allowed primary
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions-errors.xml.h:6
@@ -14507,9 +14492,8 @@ msgstr ""
 
 #. org.gnome.mailing-list-actions:ask-send-message primary
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions-errors.xml.h:10
-#, fuzzy
 msgid "Send e-mail message to mailing list?"
-msgstr "ارسال پیغام به فهرست..."
+msgstr ""
 
 #. org.gnome.mailing-list-actions:ask-send-message secondary
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions-errors.xml.h:12
@@ -14522,20 +14506,17 @@ msgid ""
 msgstr ""
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions-errors.xml.h:15
-#, fuzzy
 msgid "_Send message"
-msgstr "در حال ارسال پیغام"
+msgstr "ا_رسال پیغام"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions-errors.xml.h:16
-#, fuzzy
 msgid "_Edit message"
-msgstr "در حال ارسال پیغام"
+msgstr "_ویرایش پیغام"
 
 #. org.gnome.mailing-list-actions:malformed-header primary
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions-errors.xml.h:18
-#, fuzzy
 msgid "Malformed header"
-msgstr "سرنامه‌ی پیغام"
+msgstr ""
 
 #. org.gnome.mailing-list-actions:malformed-header secondary
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions-errors.xml.h:20
@@ -14547,9 +14528,8 @@ msgstr ""
 
 #. org.gnome.mailing-list-actions:no-action primary
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions-errors.xml.h:24
-#, fuzzy
 msgid "No e-mail action"
-msgstr "ثبت اعمال صافی"
+msgstr "کنش پست الکترونیکی موجود نیست"
 
 #. org.gnome.mailing-list-actions:no-action secondary
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions-errors.xml.h:26
@@ -14711,7 +14691,7 @@ msgid ""
 "chosen filename. Do you want to continue?"
 msgstr ""
 
-#: ../plugins/send-options/send-options.c:82
+#: ../plugins/send-options/send-options.c:83
 #, c-format
 msgid "%sEnter password for %s (user %s)"
 msgstr "%s گذرواژه‌ی برای %s (کاربر %s) را وارد کنید"
@@ -14798,18 +14778,15 @@ msgstr ""
 msgid "Sharing"
 msgstr "سایه‌ها"
 
-#: ../plugins/startup-wizard/startup-wizard.c:255
-#: ../shell/evolution-startup-wizard.glade.h:2
+#: ../plugins/startup-wizard/startup-wizard.c:264
 msgid "Evolution Setup Assistant"
 msgstr ""
 
-#: ../plugins/startup-wizard/startup-wizard.c:260
-#: ../shell/evolution-startup-wizard.glade.h:5
+#: ../plugins/startup-wizard/startup-wizard.c:267
 msgid "Welcome"
 msgstr "خوش‌آمد"
 
-#: ../plugins/startup-wizard/startup-wizard.c:261
-#: ../shell/evolution-startup-wizard.glade.h:6
+#: ../plugins/startup-wizard/startup-wizard.c:268
 msgid ""
 "Welcome to Evolution. The next few screens will allow Evolution to connect "
 "to your email accounts, and to import files from other applications. \n"
@@ -14817,13 +14794,13 @@ msgid ""
 "Please click the \"Forward\" button to continue. "
 msgstr ""
 
-#: ../plugins/startup-wizard/startup-wizard.c:306
-#: ../shell/e-shell-importer.c:159 ../shell/e-shell-startup-wizard.c:750
+#: ../plugins/startup-wizard/startup-wizard.c:314
+#: ../shell/e-shell-importer.c:159
 msgid "Please select the information that you would like to import:"
 msgstr ""
 
-#: ../plugins/startup-wizard/startup-wizard.c:321
-#: ../shell/e-shell-importer.c:899 ../shell/e-shell-startup-wizard.c:700
+#: ../plugins/startup-wizard/startup-wizard.c:329
+#: ../shell/e-shell-importer.c:899
 #, c-format
 msgid "From %s:"
 msgstr "فرستنده %s:"
@@ -14889,7 +14866,7 @@ msgstr "تنظیمات نمونه"
 msgid "Skip development warning dialog"
 msgstr ""
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:11 ../shell/main.c:472
+#: ../shell/apps_evolution_shell.schemas.in.in.h:11 ../shell/main.c:473
 msgid "Start in offline mode"
 msgstr ""
 
@@ -15056,7 +15033,7 @@ msgstr ""
 msgid "Import a _single file"
 msgstr ""
 
-#: ../shell/e-shell-importer.c:766 ../shell/e-shell-startup-wizard.c:571
+#: ../shell/e-shell-importer.c:766
 msgid ""
 "Please wait...\n"
 "Scanning for existing setups"
@@ -15086,19 +15063,6 @@ msgstr ""
 #: ../shell/e-shell-settings-dialog.c:318
 msgid "Evolution Settings"
 msgstr "تنظیمات Evolution"
-
-#: ../shell/e-shell-startup-wizard.c:577
-msgid "Starting import"
-msgstr ""
-
-#: ../shell/e-shell-startup-wizard.c:797
-msgid ""
-"If you quit the Evolution Setup Assistant now, all of the information that "
-"you have entered will be forgotten. You will need to run this assistant "
-"again before using Evolution.\n"
-"\n"
-"Do you want to quit using the Assistant now?"
-msgstr ""
 
 #: ../shell/e-shell-utils.c:116
 msgid "No folder name specified."
@@ -15140,28 +15104,28 @@ msgstr ""
 #. The translator-credits string is for translators to list
 #. * per language credits for translation, displayed in the
 #. * about box
-#: ../shell/e-shell-window-commands.c:501
+#: ../shell/e-shell-window-commands.c:508
 msgid "translator-credits"
 msgstr ""
 "روزبه پورنادر <roozbeh@farsiweb.info>‏\n"
 "میلاد زکریا <meelad@farsiweb.info>‏\n"
 "حامد ملک <hamed@farsiweb.info>"
 
-#: ../shell/e-shell-window-commands.c:515
+#: ../shell/e-shell-window-commands.c:522
 msgid "Groupware Suite"
 msgstr ""
 
-#: ../shell/e-shell-window-commands.c:742
+#: ../shell/e-shell-window-commands.c:749
 msgid "_Work Online"
-msgstr ""
+msgstr "_کار متصل"
 
-#: ../shell/e-shell-window-commands.c:755 ../ui/evolution.xml.h:51
+#: ../shell/e-shell-window-commands.c:762 ../ui/evolution.xml.h:51
 msgid "_Work Offline"
-msgstr ""
+msgstr "_کار نامتصل"
 
-#: ../shell/e-shell-window-commands.c:768 ../ui/evolution.xml.h:34
+#: ../shell/e-shell-window-commands.c:775 ../ui/evolution.xml.h:34
 msgid "Work Offline"
-msgstr ""
+msgstr "کار نامتصل"
 
 #: ../shell/e-shell-window.c:341
 msgid "Evolution is currently online.  Click on this button to work offline."
@@ -15178,56 +15142,40 @@ msgstr ""
 #: ../shell/e-shell-window.c:713
 #, c-format
 msgid "Switch to %s"
-msgstr ""
+msgstr "تعویض به %s"
 
-#: ../shell/e-shell.c:598
+#: ../shell/e-shell.c:597
 msgid "Uknown system error."
-msgstr ""
+msgstr "خطای سیستم نامعلوم."
 
-#: ../shell/e-shell.c:800 ../shell/e-shell.c:801
+#: ../shell/e-shell.c:799 ../shell/e-shell.c:800
 #, c-format
 msgid "%ld KB"
-msgstr ""
+msgstr "%Ild کیلوبایت"
 
-#: ../shell/e-shell.c:1254 ../widgets/misc/e-cell-date-edit.c:256
+#: ../shell/e-shell.c:1253 ../widgets/misc/e-cell-date-edit.c:256
 msgid "OK"
 msgstr "باشد"
 
-#: ../shell/e-shell.c:1256
+#: ../shell/e-shell.c:1255
 msgid "Invalid arguments"
 msgstr ""
 
-#: ../shell/e-shell.c:1258
+#: ../shell/e-shell.c:1257
 msgid "Cannot register on OAF"
 msgstr ""
 
-#: ../shell/e-shell.c:1260
+#: ../shell/e-shell.c:1259
 msgid "Configuration Database not found"
 msgstr "پایگاه‌داده‌ی پیکربندی پیدا نشد"
 
-#: ../shell/e-shell.c:1262
+#: ../shell/e-shell.c:1261
 msgid "Generic error"
 msgstr "خطای عام"
 
 #: ../shell/e-user-creatable-items-handler.c:685
 msgid "New"
 msgstr "جدید"
-
-#: ../shell/evolution-startup-wizard.glade.h:3
-msgid "Importing Files"
-msgstr "در حال وارد کردن پرونده‌ها"
-
-#: ../shell/evolution-startup-wizard.glade.h:4
-msgid "Timezone "
-msgstr "منطقه‌ی زمانی "
-
-#: ../shell/evolution-startup-wizard.glade.h:9
-msgid ""
-"You have successfully entered all of the information needed to set up "
-"Evolution. \n"
-"\n"
-"Click the \"Apply\" button to save your settings. "
-msgstr ""
 
 #: ../shell/evolution-test-component.c:140
 msgid "New Test"
@@ -15243,7 +15191,7 @@ msgstr "ایجاد یک مورد آزمایشی جدید"
 
 #: ../shell/importer/import.glade.h:1
 msgid "Click \"Import\" to begin importing the file into Evolution. "
-msgstr ""
+msgstr "برای شروع وارد کردن پرونده به Evolution روی «وارد شود» کلیک کنید."
 
 #: ../shell/importer/import.glade.h:2
 msgid "Evolution Import Assistant"
@@ -15255,16 +15203,15 @@ msgstr "وارد کردن پرونده"
 
 #: ../shell/importer/import.glade.h:4
 msgid "Import Location"
-msgstr ""
+msgstr "مکان وارد کننده"
 
 #: ../shell/importer/import.glade.h:5
 msgid "Importer Type"
-msgstr ""
+msgstr "نوع وارد کننده"
 
 #: ../shell/importer/import.glade.h:6
-#, fuzzy
 msgid "Select Importers"
-msgstr "انتخاب نام‌ها"
+msgstr "انتخاب وارد کننده‌ها"
 
 #: ../shell/importer/import.glade.h:7
 msgid "Select a File"
@@ -15279,26 +15226,26 @@ msgstr ""
 
 #: ../shell/importer/intelligent.c:193
 msgid "Importers"
-msgstr ""
+msgstr "وارد کننده‌ها"
 
 #: ../shell/importer/intelligent.c:195 ../smime/gui/smime-ui.glade.h:28
 msgid "Import"
-msgstr ""
+msgstr "وارد شود"
 
 #: ../shell/importer/intelligent.c:199
 msgid "Don't import"
-msgstr ""
+msgstr "وارد نشود"
 
 #: ../shell/importer/intelligent.c:203
 msgid "Don't ask me again"
-msgstr ""
+msgstr "دیگر سؤال نشود"
 
 #: ../shell/importer/intelligent.c:211
 msgid "Evolution can import data from the following files:"
-msgstr ""
+msgstr "Evolution می‌تواند از پرونده‌های زیر داده وارد کند:"
 
 #. Preview/Alpha/Beta version warning message
-#: ../shell/main.c:234
+#: ../shell/main.c:235
 #, no-c-format
 msgid ""
 "Hi.  Thanks for taking the time to download this preview release\n"
@@ -15318,45 +15265,45 @@ msgid ""
 "eagerly await your contributions!\n"
 msgstr ""
 
-#: ../shell/main.c:258
+#: ../shell/main.c:259
 msgid ""
 "Thanks\n"
 "The Evolution Team\n"
 msgstr ""
 
-#: ../shell/main.c:265
+#: ../shell/main.c:266
 msgid "Don't tell me again"
 msgstr ""
 
-#: ../shell/main.c:470
+#: ../shell/main.c:471
 msgid "Start Evolution activating the specified component"
 msgstr ""
 
-#: ../shell/main.c:474
+#: ../shell/main.c:475
 msgid "Start in online mode"
 msgstr ""
 
-#: ../shell/main.c:477
+#: ../shell/main.c:478
 msgid "Forcibly shut down all Evolution components"
 msgstr ""
 
-#: ../shell/main.c:481
+#: ../shell/main.c:482
 msgid "Forcibly re-migrate from Evolution 1.4"
 msgstr ""
 
-#: ../shell/main.c:484
+#: ../shell/main.c:485
 msgid "Send the debugging output of all components to a file."
 msgstr ""
 
-#: ../shell/main.c:487
+#: ../shell/main.c:488
 msgid "Disable the mono plugin environment."
 msgstr ""
 
-#: ../shell/main.c:490
+#: ../shell/main.c:491
 msgid "Disable loading of any plugins."
 msgstr ""
 
-#: ../shell/main.c:521
+#: ../shell/main.c:522
 #, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
@@ -15635,7 +15582,7 @@ msgstr ""
 
 #: ../smime/gui/smime-ui.glade.h:17
 msgid "Common Name (CN)"
-msgstr ""
+msgstr "نام مصطلح (ن‌م)‏"
 
 #: ../smime/gui/smime-ui.glade.h:18
 msgid "Contact Certificates"
@@ -15919,12 +15866,12 @@ msgstr ""
 
 #: ../smime/lib/e-cert.c:964
 msgid "Extensions"
-msgstr ""
+msgstr "ضمیمه‌ها"
 
 #: ../smime/lib/e-cert.c:1035
 #, c-format
 msgid "%s = %s"
-msgstr ""
+msgstr "%s = %s"
 
 #: ../smime/lib/e-cert.c:1091 ../smime/lib/e-cert.c:1211
 msgid "Certificate Signature Algorithm"
@@ -15948,11 +15895,11 @@ msgstr ""
 
 #: ../smime/lib/e-pkcs12.c:264
 msgid "PKCS12 File Password"
-msgstr ""
+msgstr "گذرواژه‌ی پرونده‌ی PKCS12"
 
 #: ../smime/lib/e-pkcs12.c:264
 msgid "Enter password for PKCS12 file:"
-msgstr ""
+msgstr "گذرواژه‌ی پرونده‌ی PKCS12 را وارد کنید:"
 
 #: ../smime/lib/e-pkcs12.c:363
 msgid "Imported Certificate"
@@ -15960,7 +15907,7 @@ msgstr ""
 
 #: ../tools/evolution-launch-composer.c:324
 msgid "An attachment to add."
-msgstr ""
+msgstr "پیوستی برای اضافه کردن."
 
 #: ../tools/evolution-launch-composer.c:325
 msgid "Content type of the attachment."
@@ -16086,7 +16033,7 @@ msgstr "نمایش آشنای جاری"
 #: ../ui/evolution-mail-messagedisplay.xml.h:4 ../ui/evolution-tasks.xml.h:19
 #: ../ui/evolution.xml.h:36
 msgid "_Actions"
-msgstr "اعمال"
+msgstr "_کنش‌ها"
 
 #: ../ui/evolution-addressbook.xml.h:35
 msgid "_Forward Contact..."
@@ -16418,7 +16365,7 @@ msgstr "اضافه کردن فرستنده به دفترچه‌ی نشانی"
 
 #: ../ui/evolution-mail-message.xml.h:2
 msgid "A_pply Filters"
-msgstr "اعمال صافی‌ها"
+msgstr "اِعمال صافی‌ها"
 
 #: ../ui/evolution-mail-message.xml.h:3
 msgid "Add Sender to Address Book"
@@ -16622,11 +16569,11 @@ msgstr "علامت‌گذاری پیغام‌های انتخاب شده برای
 
 #: ../ui/evolution-mail-message.xml.h:63
 msgid "Move"
-msgstr "انتقال"
+msgstr "جابه‌جایی"
 
 #: ../ui/evolution-mail-message.xml.h:64
 msgid "Move selected message(s) to another folder"
-msgstr "انتقال پیغام(های) انتخاب شده به یک پوشه‌ی دیگر"
+msgstr "جابه‌جایی پیغام(های) انتخاب شده به یک پوشه‌ی دیگر"
 
 #: ../ui/evolution-mail-message.xml.h:66
 msgid "Next _Important Message"
@@ -16666,11 +16613,11 @@ msgstr "پست پاسخ"
 
 #: ../ui/evolution-mail-message.xml.h:76
 msgid "Post a reply to a message in a Public folder"
-msgstr ""
+msgstr "پست یک پاسخ به پیغامی در یک پوشه‌ی عمومی"
 
 #: ../ui/evolution-mail-message.xml.h:77
 msgid "Pr_evious Important Message"
-msgstr "پیغام مهم قبلی"
+msgstr "پیغام مهم _قبلی"
 
 #: ../ui/evolution-mail-message.xml.h:78
 msgid "Preview the message to be printed"
@@ -16682,7 +16629,7 @@ msgstr "چاپ این پیغام"
 
 #: ../ui/evolution-mail-message.xml.h:83
 msgid "Re_direct"
-msgstr ""
+msgstr "ت_غییر مسیر"
 
 #: ../ui/evolution-mail-message.xml.h:84
 msgid "Redirect (bounce) the selected message to someone"
@@ -16690,7 +16637,7 @@ msgstr ""
 
 #: ../ui/evolution-mail-message.xml.h:89
 msgid "Reset the text to its original size"
-msgstr ""
+msgstr "تنظیم اندازه‌ی متن به اندازه‌ی اولیه‌ی آن"
 
 #: ../ui/evolution-mail-message.xml.h:90
 msgid "S_earch in Message..."
@@ -16734,7 +16681,7 @@ msgstr "نمایش پیغام با همه‌ی سرنامه‌ها"
 
 #: ../ui/evolution-mail-message.xml.h:100
 msgid "Show the raw email source of the message"
-msgstr ""
+msgstr "نشان دادن مبدأ خام نامه‌ی الکترونیکی این پیغام"
 
 #: ../ui/evolution-mail-message.xml.h:101
 msgid "Text Si_ze"
@@ -16742,7 +16689,7 @@ msgstr "ا_ندازه‌ی متن"
 
 #: ../ui/evolution-mail-message.xml.h:102
 msgid "Un-delete the selected messages"
-msgstr ""
+msgstr "احیای پیغام‌های انتخاب شده"
 
 #: ../ui/evolution-mail-message.xml.h:104
 msgid "_Attached"
@@ -16750,15 +16697,15 @@ msgstr "پیوست شده"
 
 #: ../ui/evolution-mail-message.xml.h:107
 msgid "_Create Filter From Message"
-msgstr ""
+msgstr "_ایجاد صافی از پیغام"
 
 #: ../ui/evolution-mail-message.xml.h:111
 msgid "_Go To"
-msgstr "رفتن به"
+msgstr "_رفتن به"
 
 #: ../ui/evolution-mail-message.xml.h:112
 msgid "_Inline"
-msgstr ""
+msgstr "_درخط"
 
 #: ../ui/evolution-mail-message.xml.h:113
 msgid "_Larger"
@@ -16786,7 +16733,7 @@ msgstr "پیغام قبلی"
 
 #: ../ui/evolution-mail-message.xml.h:122
 msgid "_Quoted"
-msgstr ""
+msgstr "ن_قل قول شده"
 
 #: ../ui/evolution-mail-message.xml.h:125 ../ui/evolution.xml.h:48
 msgid "_Tools"
@@ -16794,27 +16741,23 @@ msgstr "_ابزارها"
 
 #: ../ui/evolution-mail-message.xml.h:126
 msgid "_Undelete"
-msgstr "احیا"
+msgstr "اح_یا"
 
 #: ../ui/evolution-mail-message.xml.h:127
-#, fuzzy
 msgid "vFolder on Mailing _List..."
-msgstr "صافی بر حسب فهرست نامه"
+msgstr "پوشه‌ی مجازی بر حسب ف_هرست نامه..."
 
 #: ../ui/evolution-mail-message.xml.h:128
-#, fuzzy
 msgid "vFolder on Se_nder..."
-msgstr "صافی بر حسب فرستنده"
+msgstr "پوشه‌ی مجازی بر حسب _فرستنده..."
 
 #: ../ui/evolution-mail-message.xml.h:129
-#, fuzzy
 msgid "vFolder on _Recipients..."
-msgstr "فهرست بر حسب گیرنده"
+msgstr "پوشه‌ی مجازی بر حسب _گیرنده‌ها..."
 
 #: ../ui/evolution-mail-message.xml.h:130
-#, fuzzy
 msgid "vFolder on _Subject..."
-msgstr "صافی بر حسب موضوع"
+msgstr "پوشه‌ی مجازی بر حسب _موضوع..."
 
 #: ../ui/evolution-mail-messagedisplay.xml.h:1
 #: ../ui/evolution-message-composer.xml.h:3
@@ -16871,7 +16814,7 @@ msgstr ""
 #: ../ui/evolution-message-composer.xml.h:8
 #: ../ui/evolution-signature-editor.xml.h:4
 msgid "For_mat"
-msgstr "قالب"
+msgstr "_قالب"
 
 #: ../ui/evolution-message-composer.xml.h:9
 msgid "HT_ML"
@@ -16903,11 +16846,11 @@ msgstr "ذخیره به نام"
 
 #: ../ui/evolution-message-composer.xml.h:18
 msgid "Save _As..."
-msgstr "ذخیره به نام..."
+msgstr "ذخیره _به نام..."
 
 #: ../ui/evolution-message-composer.xml.h:19
 msgid "Save _Draft"
-msgstr "ذخیره‌ی پیش‌نویس"
+msgstr "ذخیره‌ی _پیش‌نویس"
 
 #: ../ui/evolution-message-composer.xml.h:20
 msgid "Save in folder..."
@@ -17067,15 +17010,15 @@ msgstr "نوسازی فهرست پوشه‌ها"
 
 #: ../ui/evolution-subscribe.xml.h:5
 msgid "Remove folder from your list of subscribed folders"
-msgstr ""
+msgstr "حذف پوشه از فهرست پوشه‌های مشترک شده"
 
 #: ../ui/evolution-subscribe.xml.h:7
 msgid "Subscribe"
-msgstr ""
+msgstr "مشترک شدن"
 
 #: ../ui/evolution-subscribe.xml.h:8
 msgid "Unsubscribe"
-msgstr ""
+msgstr "لغو اشتراک"
 
 #: ../ui/evolution-tasks.xml.h:3
 msgid "Copy selected task"
@@ -17119,7 +17062,7 @@ msgstr "نمایش تکلیف‌های انتخاب شده"
 
 #: ../ui/evolution-tasks.xml.h:23
 msgid "_Open Task"
-msgstr "باز کردن تکلیف"
+msgstr "_باز کردن تکلیف"
 
 #: ../ui/evolution.xml.h:1
 msgid "About Evolution..."
@@ -17139,23 +17082,23 @@ msgstr "ایجاد پنجره‌ی جدیدی که این پوشه را نمای
 
 #: ../ui/evolution.xml.h:7
 msgid "Display window buttons using the desktop toolbar setting"
-msgstr ""
+msgstr "نمایش دکمه‌های پنجره با استفاده از تنظیمات نوار ابزار رومیزی"
 
 #: ../ui/evolution.xml.h:8
 msgid "Display window buttons with icons and text"
-msgstr ""
+msgstr "نمایش دکمه‌های پنجره با شمایل‌ها و متن"
 
 #: ../ui/evolution.xml.h:9
 msgid "Display window buttons with icons only"
-msgstr ""
+msgstr "نمایش فقط دکمه‌های پنجره با شمایل‌ها"
 
 #: ../ui/evolution.xml.h:10
 msgid "Display window buttons with text only"
-msgstr ""
+msgstr "نمایش فقط دکمه‌های پنجره با متن"
 
 #: ../ui/evolution.xml.h:11
 msgid "E_xit"
-msgstr "خروج"
+msgstr "_خروج"
 
 #: ../ui/evolution.xml.h:12
 msgid "Evolution _FAQ"
@@ -17175,11 +17118,11 @@ msgstr "فراموش کردن پیغام‌های به خاطر سپرده شد�
 
 #: ../ui/evolution.xml.h:16
 msgid "Hide window buttons"
-msgstr ""
+msgstr "مخفی کردن دکمه‌های پنجره"
 
 #: ../ui/evolution.xml.h:17
 msgid "Icons _and text"
-msgstr ""
+msgstr "شمایل _و متن"
 
 #: ../ui/evolution.xml.h:18
 msgid "Import data from other programs"
@@ -17488,11 +17431,11 @@ msgstr "مجموعه نویسه‌ی ناشناس: %s"
 #: ../widgets/misc/e-charset-picker.c:216
 #: ../widgets/misc/e-charset-picker.c:479
 msgid "Character Encoding"
-msgstr ""
+msgstr "کدگذاری نویسه‌ها"
 
 #: ../widgets/misc/e-charset-picker.c:231
 msgid "Enter the character set to use"
-msgstr ""
+msgstr "مجموعه نویسه‌ای که استفاده شود را وارد کنید"
 
 #: ../widgets/misc/e-charset-picker.c:338
 msgid "Other..."
@@ -17503,26 +17446,24 @@ msgid "..."
 msgstr "..."
 
 #: ../widgets/misc/e-dateedit.c:313
-#, fuzzy
 msgid "Date and Time Entry"
-msgstr "<b>تاریخ و زمان</b>"
+msgstr "مدخل تاریخ و زمان"
 
 #: ../widgets/misc/e-dateedit.c:332
 msgid "Text entry to input date"
-msgstr ""
+msgstr "مدخل متنی برای ورود تاریخ"
 
 #: ../widgets/misc/e-dateedit.c:333
 msgid "Text Date Entry"
-msgstr ""
+msgstr "مدخل تاریخ متنی"
 
 #: ../widgets/misc/e-dateedit.c:350
 msgid "Click this button to show a calendar"
 msgstr ""
 
 #: ../widgets/misc/e-dateedit.c:351
-#, fuzzy
 msgid "Date Button"
-msgstr "تاریخ ارسال"
+msgstr "دکمه‌ی تاریخ"
 
 #: ../widgets/misc/e-dateedit.c:371
 msgid "Combo box to select time"
@@ -17642,7 +17583,7 @@ msgstr "انتخاب تصویر"
 
 #: ../widgets/misc/e-map.c:647
 msgid "World Map"
-msgstr ""
+msgstr "نقشه‌ی دنیا"
 
 #: ../widgets/misc/e-map.c:649
 msgid ""
@@ -17652,7 +17593,7 @@ msgstr ""
 
 #: ../widgets/misc/e-pilot-settings.c:103
 msgid "Sync with:"
-msgstr ""
+msgstr "همگام‌سازی با:"
 
 #: ../widgets/misc/e-pilot-settings.c:111
 msgid "Sync Private Records:"
@@ -17675,20 +17616,19 @@ msgstr "جست و جو"
 
 #: ../widgets/misc/e-search-bar.c:555
 msgid "_Find Now"
-msgstr "یافتن فوری"
+msgstr "_پیدا کردن فوری"
 
 #: ../widgets/misc/e-search-bar.c:556 ../widgets/misc/e-search-bar.c:943
 msgid "_Clear"
 msgstr "پاک کردن"
 
 #: ../widgets/misc/e-search-bar.c:647
-#, fuzzy
 msgid "Search Type"
-msgstr "تاریخ آغاز:"
+msgstr "نوع جستجو"
 
 #: ../widgets/misc/e-search-bar.c:851
 msgid "Item ID"
-msgstr ""
+msgstr "شناسه‌ی مورد"
 
 #: ../widgets/misc/e-search-bar.c:858
 msgid "Subitem ID"
@@ -17700,7 +17640,7 @@ msgstr "متن"
 
 #: ../widgets/misc/e-search-bar.c:945
 msgid "Find _Now"
-msgstr "یافتن فوری"
+msgstr "پیدا کردن _فوری"
 
 #: ../widgets/misc/e-send-options.c:506
 #, fuzzy
@@ -17708,14 +17648,12 @@ msgid "When de_leted:"
 msgstr "%Idتا حذف شد"
 
 #: ../widgets/misc/e-send-options.glade.h:1
-#, fuzzy
 msgid "<b>Delivery Options</b>"
-msgstr "<b>گزینه‌ها</b>"
+msgstr "<b>گزینه‌های تحویل</b>"
 
 #: ../widgets/misc/e-send-options.glade.h:2
-#, fuzzy
 msgid "<b>Replies</b>"
-msgstr "<b>تکرار</b>"
+msgstr "<b>پاسخ‌ها</b>"
 
 #: ../widgets/misc/e-send-options.glade.h:3
 #, fuzzy
@@ -17728,12 +17666,10 @@ msgid "<b>Status Tracking</b>"
 msgstr "<b>جست و جو</b>"
 
 #: ../widgets/misc/e-send-options.glade.h:5
-#, fuzzy
 msgid "A_uto-delete sent item"
-msgstr "حذف این مورد"
+msgstr "حذف خودکار موارد ارسال شده"
 
 #: ../widgets/misc/e-send-options.glade.h:6
-#, fuzzy
 msgid "C_lassification"
 msgstr "_طبقه‌بندی"
 
@@ -17807,24 +17743,20 @@ msgid "When decli_ned:    "
 msgstr ""
 
 #: ../widgets/misc/e-send-options.glade.h:30
-#, fuzzy
 msgid "_After:"
-msgstr "پس از"
+msgstr "_پس از:"
 
 #: ../widgets/misc/e-send-options.glade.h:31
-#, fuzzy
 msgid "_All information"
-msgstr "اطلاعات تکلیف"
+msgstr "_همه‌ی اطلاعات"
 
 #: ../widgets/misc/e-send-options.glade.h:32
-#, fuzzy
 msgid "_Delay message delivery"
-msgstr "باقی گذاشتن پیغام روی کارگزار"
+msgstr "به _تأخیر انداختن تحویل پیغام"
 
 #: ../widgets/misc/e-send-options.glade.h:33
-#, fuzzy
 msgid "_Delivered"
-msgstr "_حذف شود"
+msgstr "_تحویل شده"
 
 #: ../widgets/misc/e-send-options.glade.h:35
 msgid "_Set expiration  date"
@@ -17866,17 +17798,22 @@ msgstr "باز کردن پرونده‌ی \"{0}\" ممکن نیست."
 #: ../widgets/misc/e-task-widget.c:208
 #, c-format
 msgid "%s (...)"
-msgstr ""
+msgstr "%s (...)"
 
 #: ../widgets/misc/e-task-widget.c:213
 #, c-format
 msgid "%s (%d%% complete)"
-msgstr ""
+msgstr "%s (٪%Id انجام شده(‏"
 
 #: ../widgets/misc/e-url-entry.c:107
-#, fuzzy
 msgid "click here to go to url"
-msgstr "<برای انتخاب پوشه اینجا کلیک کنید<"
+msgstr "برای رفتن به نشانی اینترنتی اینجا کلیک کنید"
+
+#~ msgid "Importing Files"
+#~ msgstr "در حال وارد کردن پرونده‌ها"
+
+#~ msgid "Timezone "
+#~ msgstr "منطقه‌ی زمانی "
 
 #~ msgid "have "
 #~ msgstr "دارد"
