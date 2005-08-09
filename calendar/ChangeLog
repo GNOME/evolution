@@ -1,3 +1,14 @@
+2005-08-10  Dinesh Layek  < LDinesh@novell.com >
+
+        Fixes #310438
+	* gui/e-tasks.c:
+        (table_drag_data_delete): removing e_cal_object only when the 
+	success flag is true
+        * gui/tasks-component.c:
+	(selector_tree_drag_data_received): made the success flag FALSE 
+	when the data is already present in the destination calendar, 
+	and TRUE otherwise.
+
 2005-08-05  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	* gui/e-cal-component-preview.c: (write_html): Using format

@@ -743,10 +743,10 @@ selector_tree_drag_data_received (GtkWidget *widget,
 		goto finish;
 
 	icalcomp = icalparser_parse_string (data->data);
-	
+
 	if (icalcomp) {
 		char * uid;
-
+		
 		/* FIXME deal with GDK_ACTION_ASK */
 		if (context->action == GDK_ACTION_COPY) {
 			uid = e_cal_component_gen_uid ();
@@ -758,13 +758,25 @@ selector_tree_drag_data_received (GtkWidget *widget,
 		
 		if (client) {
 			if (e_cal_open (client, TRUE, NULL)) {
-				success = TRUE;
-				update_objects (client, icalcomp);
+				icalcomponent *tmp_icalcomp = NULL;
+				GError *error = NULL;
+				uid = icalcomponent_get_uid (icalcomp);
+				if (!e_cal_get_object (client, uid, NULL, &tmp_icalcomp, &error)) {
+			        	if ((error != NULL) && (error->code != E_CALENDAR_STATUS_OBJECT_NOT_FOUND))
+						 g_message ("Failed to search the object in destination task list: %s",error->message);
+					else {
+						success = TRUE;
+						update_objects (client, icalcomp);
+					}
+
+					g_clear_error (&error);
+				} else 
+					icalcomponent_free (tmp_icalcomp);
 			}
-			
+
 			g_object_unref (client);
 		}
-		
+
 		icalcomponent_free (icalcomp);
 	}
 
