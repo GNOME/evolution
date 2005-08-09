@@ -31,6 +31,7 @@
 const char *_e_get_localedir (void) G_GNUC_CONST;
 const char *_e_get_gladedir (void) G_GNUC_CONST;
 const char *_e_get_helpdir (void) G_GNUC_CONST;
+const char *_e_get_etspecdir (void) G_GNUC_CONST;
 const char *_e_get_imagesdir (void) G_GNUC_CONST;
 const char *_e_get_iconsdir (void) G_GNUC_CONST;
 const char *_e_get_category_icons (void) G_GNUC_CONST;
@@ -38,6 +39,8 @@ const char *_e_get_plugindir (void) G_GNUC_CONST;
 const char *_e_get_privdatadir (void) G_GNUC_CONST;
 const char *_e_get_search_rule_dir (void) G_GNUC_CONST;
 const char *_e_get_galviewsdir (void) G_GNUC_CONST;
+const char *_e_get_libexecdir (void) G_GNUC_CONST;
+const char *_e_get_sounddir (void) G_GNUC_CONST;
 
 #undef EVOLUTION_LOCALEDIR
 #define EVOLUTION_LOCALEDIR _e_get_localedir ()
@@ -74,6 +77,12 @@ const char *_e_get_galviewsdir (void) G_GNUC_CONST;
 
 #undef EVOLUTION_GALVIEWSDIR
 #define EVOLUTION_GALVIEWSDIR _e_get_galviewsdir ()
+
+#undef EVOLUTION_LIBEXECDIR
+#define EVOLUTION_LIBEXECDIR _e_get_libexecdir ()
+
+#undef EVOLUTION_SOUNDDIR
+#define EVOLUTION_SOUNDDIR _e_get_sounddir ()
 
 #endif	/* G_OS_WIN32 */
 

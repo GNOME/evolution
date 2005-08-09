@@ -8,6 +8,8 @@
 
 	* e-win32-reloc.c: Handle also the above two paths.
 
+	* e-util-private.h: Ditto here. Also EVOLUTION_ETSPECDIR.
+
 2005-07-11 Vivek Jain <jvivek@novell.com>
 	
 	* e-config.c: (e_config_target_changed):
