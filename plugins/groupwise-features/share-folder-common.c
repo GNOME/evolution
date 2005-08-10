@@ -396,7 +396,6 @@ org_gnome_shared_folder_factory (EPlugin *ep, EConfigHookItemFactoryData *hook_d
 	gchar *folderuri = NULL;
 	gchar *account = NULL;
 	gchar *id = NULL;
-	gchar *sub = NULL;
 	gchar *folder_name = NULL;
 	EGwConnection *cnc;
 	ShareFolder *sharing_tab;
@@ -410,15 +409,20 @@ org_gnome_shared_folder_factory (EPlugin *ep, EConfigHookItemFactoryData *hook_d
 	else
 		return NULL;
 
-	sub =  g_strrstr (folder_name, "/");
-	if (sub)
-		sub++;
-	else
-		sub = folder_name;	
-
 	 /* This is kind of bad..but we don't have types for all these folders.*/
 
-	if ( !( strcmp (sub, "Mailbox") && strcmp (sub, "Calendar") && strcmp (sub, "Contacts") && strcmp (sub, "Documents") && strcmp (sub, "Authored") && strcmp (sub, "Default Library") && strcmp (sub, "Work In Progress") && strcmp (sub, "Cabinet") && strcmp (sub, "Sent Items") && strcmp (sub, "Trash") && strcmp (sub, "Checklist"))) {
+	if ( !( strcmp (folder_name, "Mailbox") 
+	     && strcmp (folder_name, "Calendar") 
+	     && strcmp (folder_name, "Contacts") 
+	     && strcmp (folder_name, "Documents") 
+	     && strcmp (folder_name, "Authored") 
+	     && strcmp (folder_name, "Default Library") 
+	     && strcmp (folder_name, "Work In Progress") 
+	     && strcmp (folder_name, "Cabinet") 
+	     && strcmp (folder_name, "Sent Items") 
+	     && strcmp (folder_name, "Trash") 
+	     && strcmp (folder_name, "Checklist"))) {
+
 		g_free (folderuri);
 		return NULL;
 	}
