@@ -73,6 +73,9 @@ e_xml_get_child_by_name_by_lang (const xmlNode *parent,
 				 const xmlChar *child_name,
 				 const gchar *lang)
 {
+#ifdef G_OS_WIN32
+	gchar *freeme = NULL;
+#endif
 	xmlNode *child;
 	/* This is the default version of the string. */
 	xmlNode *C = NULL;
@@ -81,10 +84,14 @@ e_xml_get_child_by_name_by_lang (const xmlNode *parent,
 	g_return_val_if_fail (child_name != NULL, NULL);
 
 	if (lang == NULL) {
+#ifndef G_OS_WIN32
 #ifdef HAVE_LC_MESSAGES
 		lang = setlocale (LC_MESSAGES, NULL);
 #else
 		lang = setlocale (LC_CTYPE, NULL);
+#endif
+#else
+		lang = freeme = g_win32_getlocale ();
 #endif
 	}
 	for (child = parent->xmlChildrenNode; child != NULL; child = child->next) {
@@ -92,11 +99,17 @@ e_xml_get_child_by_name_by_lang (const xmlNode *parent,
 			xmlChar *this_lang = xmlGetProp (child, "lang");
 			if (this_lang == NULL) {
 				C = child;
-			} else if (xmlStrcmp(this_lang, "lang") == 0) {
+			} else if (xmlStrcmp(this_lang, lang) == 0) {
+#ifdef G_OS_WIN32
+				g_free (freeme);
+#endif
 				return child;
 			}
 		}
 	}
+#ifdef G_OS_WIN32
+	g_free (freeme);
+#endif
 	return C;
 }
 
