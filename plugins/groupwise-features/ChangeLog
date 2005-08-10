@@ -1,5 +1,13 @@
 2005-08-10  Sankar P  <psankar@novell.com>
 
+	* proxy.c :  
+	(proxy_dialog_store_widgets_data)
+	(proxy_commit) : Changed the way in which the EDIT and DELETED flags
+	are handled so that any proxy can be deleted without closing account-editor.
+	Fixes #312313
+	
+2005-08-10  Sankar P  <psankar@novell.com>
+
 	* proxy.c : 
 	Moved the GList to maintain the list of proxies, 
 	into the proxyDialog structure.

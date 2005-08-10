@@ -108,8 +108,6 @@ struct _proxyDialogPrivate {
 	GList *proxy_list;
 };
 
-//static void free_proxy_handler (proxyHandler *handler);
-
 static void
 proxy_dialog_dispose (GObject *object)
 {
@@ -364,6 +362,15 @@ proxy_dialog_store_widgets_data (EAccount *account, gint32 dialog)
 					for (;existing_list; existing_list = g_list_next(existing_list)) {
 						new_proxy = (proxyHandler *) existing_list->data;
 						if ( !g_ascii_strcasecmp (new_proxy->proxy_email, email) ) {
+							if (new_proxy->flags & E_GW_PROXY_DELETED) {
+								new_proxy->permissions = proxy_get_permissions_from_dialog (account);
+								if (new_proxy->flags & E_GW_PROXY_NEW)
+									new_proxy->flags = E_GW_PROXY_NEW;
+								else
+									new_proxy->flags = E_GW_PROXY_EDITED;
+								return 0;
+							}
+
 							
 							e_error_run (NULL, "org.gnome.evolution.proxy:user-is-proxy",email ,NULL);
 							return -1;
@@ -546,7 +553,7 @@ proxy_commit (GtkWidget *button, EConfigHookItemFactoryData *data)
 			if (aclInstance->flags & E_GW_PROXY_NEW )         	
 				e_gw_connection_add_proxy (prd->cnc, aclInstance);		
 
-			if (aclInstance->flags & E_GW_PROXY_DELETED)
+			if ((aclInstance->flags & E_GW_PROXY_DELETED) && !(aclInstance->flags & E_GW_PROXY_NEW))
 				e_gw_connection_remove_proxy (prd->cnc, aclInstance);
 
 			if (aclInstance->flags & E_GW_PROXY_EDITED)
