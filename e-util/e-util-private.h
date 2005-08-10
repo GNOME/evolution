@@ -29,6 +29,10 @@
 #ifdef G_OS_WIN32
 
 const char *_e_get_localedir (void) G_GNUC_CONST;
+const char *_e_get_prefix (void) G_GNUC_CONST;
+const char *_e_get_sysconfdir (void) G_GNUC_CONST;
+const char *_e_get_datadir (void) G_GNUC_CONST;
+const char *_e_get_libdir (void) G_GNUC_CONST;
 const char *_e_get_gladedir (void) G_GNUC_CONST;
 const char *_e_get_helpdir (void) G_GNUC_CONST;
 const char *_e_get_etspecdir (void) G_GNUC_CONST;
@@ -44,6 +48,21 @@ const char *_e_get_sounddir (void) G_GNUC_CONST;
 
 #undef EVOLUTION_LOCALEDIR
 #define EVOLUTION_LOCALEDIR _e_get_localedir ()
+
+#undef PREFIX
+#define PREFIX _e_get_prefix ()
+
+#undef SYSCONFDIR
+#define SYSCONFDIR _e_get_sysconfdir ()
+
+#undef DATADIR
+#define DATADIR _e_get_datadir ()
+
+#undef EVOLUTION_DATADIR
+#define EVOLUTION_DATADIR _e_get_datadir ()
+
+#undef LIBDIR
+#define LIBDIR _e_get_libdir ()
 
 #undef EVOLUTION_GLADEDIR
 #define EVOLUTION_GLADEDIR _e_get_gladedir ()

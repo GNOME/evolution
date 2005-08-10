@@ -2,13 +2,16 @@
 
 	* Makefile.am: Use privsolib instead of privlib. On Unix they are
 	the same, on Win32 privsolibdir is the same as libdir.
-	(INCLUDES): Pass also EVOLUTION_LIBEXECDIR and EVOLUTION_SOUNDDIR
-	so that the Win32 run-time path lookup code in e-win32-reloc.c can
+	(INCLUDES): Pass also EVOLUTION_SYSCONFDIR, EVOLUTION_DATADIR,
+	EVOLUTION_LIBDIR, EVOLUTION_LIBEXECDIR and EVOLUTION_SOUNDDIR so
+	that the Win32 run-time path lookup code in e-win32-reloc.c can
 	handle them, too.
 
-	* e-win32-reloc.c: Handle also the above two paths.
+	* e-win32-reloc.c: Handle also the above, and the bare PREFIX.
 
-	* e-util-private.h: Ditto here. Also EVOLUTION_ETSPECDIR.
+	* e-util-private.h: Ditto here. (PREFIX, SYSCONFDIR, DATADIR and
+	LIBDIR without the EVOLUTION_ prefix, as that is how they are to
+	be used, cf. gnome-program.h.) Also EVOLUTION_ETSPECDIR.
 
 2005-07-11 Vivek Jain <jvivek@novell.com>
 	

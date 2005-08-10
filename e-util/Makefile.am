@@ -11,6 +11,9 @@ INCLUDES =								\
 	-I$(top_builddir)						\
 	-I$(top_srcdir)/widgets						\
 	-DEVOLUTION_PREFIX=\""$(prefix)"\"				\
+	-DEVOLUTION_SYSCONFDIR=\""$(sysconfdir)"\"			\
+	-DEVOLUTION_DATADIR=\""$(datadir)"\"				\
+	-DEVOLUTION_LIBDIR=\""$(datadir)"\"				\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"				\
 	-DEVOLUTION_HELPDIR=\""$(evolutionhelpdir)"\"			\
 	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"			\

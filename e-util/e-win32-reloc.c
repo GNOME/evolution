@@ -35,6 +35,10 @@
 static const char *localedir = NULL;
 
 /* The others are in UTF-8 */
+static const char *prefix;
+static const char *sysconfdir;
+static const char *datadir;
+static const char *libdir;
 static const char *gladedir;
 static const char *helpdir;
 static const char *etspecdir;
@@ -103,6 +107,10 @@ setup (void)
 
         g_free (cp_prefix);
 
+	prefix = g_strdup (full_prefix);
+	sysconfdir = replace_prefix (full_prefix, EVOLUTION_SYSCONFDIR);
+	datadir = replace_prefix (full_prefix, EVOLUTION_DATADIR);
+	libdir = replace_prefix (full_prefix, EVOLUTION_LIBDIR);
         gladedir = replace_prefix (full_prefix, EVOLUTION_GLADEDIR);
         helpdir = replace_prefix (full_prefix, EVOLUTION_HELPDIR);
         etspecdir = replace_prefix (full_prefix, EVOLUTION_ETSPECDIR);
@@ -131,6 +139,10 @@ _e_get_##varbl (void)				\
 }
 
 GETTER(localedir)
+GETTER(prefix)
+GETTER(sysconfdir)
+GETTER(datadir)
+GETTER(libdir)
 GETTER(gladedir)
 GETTER(helpdir)
 GETTER(etspecdir)
