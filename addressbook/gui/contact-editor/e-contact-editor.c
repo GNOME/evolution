@@ -106,6 +106,7 @@ static void save_contact (EContactEditor *ce, gboolean should_close);
 static void entry_activated (EContactEditor *editor);
 
 static void set_entry_text(EContactEditor *editor, GtkEntry *entry, const char *string);
+static void sensitize_ok (EContactEditor *ce);
 
 static EABEditorClass *parent_class = NULL;
 
