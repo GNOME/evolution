@@ -1,3 +1,9 @@
+2005-08-10  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #271984.
+
+	* es-menu.c (esm_class_init): remove debug.
+
 2005-07-26  Harish Krishnaswamy  <kharish@novell.com>
 
 	* Makefile.am, evolution-component.h: fix make distcheck

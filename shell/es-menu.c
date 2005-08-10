@@ -62,8 +62,6 @@ esm_target_free(EMenu *ep, EMenuTarget *t)
 static void
 esm_class_init(GObjectClass *klass)
 {
-	printf("es menu class init\n");
-
 	klass->finalize = esm_finalise;
 	((EMenuClass *)klass)->target_free = esm_target_free;
 }
