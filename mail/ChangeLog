@@ -1,3 +1,10 @@
+2005-08-10  Tor Lillqvist  <tml@novell.com>
+
+	* Makefile.am: Link with all needed libraries. Use -no-undefined
+	on Win32. Work around annoying MSYS feature on Win32 when
+	installing the schemas: Echo the command to a temporary .bat file
+	and run it with cmd.exe...
+
 2005-08-08  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #304938.

@@ -206,7 +206,9 @@ libevolution_mail_la_SOURCES =			\
 	message-tag-followup.h
 
 if ENABLE_SMIME
-SMIME_LIB=$(top_builddir)/smime/gui/libevolution-smime.la
+SMIME_LIBS =						\
+	$(top_builddir)/smime/lib/libessmime.la		\
+	$(top_builddir)/smime/gui/libevolution-smime.la
 endif
 
 libevolution_mail_la_LIBADD =					\
@@ -214,6 +216,8 @@ libevolution_mail_la_LIBADD =					\
 	$(top_builddir)/e-util/libeutil.la			\
 	$(top_builddir)/shell/libeshell.la			\
 	$(top_builddir)/composer/libcomposer.la			\
+	$(top_builddir)/widgets/table/libetable.la		\
+	$(top_builddir)/widgets/text/libetext.la		\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la		\
 	$(top_builddir)/widgets/misc/libefilterbar.la		\
 	$(top_builddir)/filter/libfilter.la			\
@@ -221,11 +225,15 @@ libevolution_mail_la_LIBADD =					\
 	$(top_builddir)/addressbook/util/libeabutil.la		\
 	$(top_builddir)/addressbook/gui/contact-editor/libecontacteditor.la \
 	$(top_builddir)/addressbook/gui/contact-list-editor/libecontactlisteditor.la \
-	$(SMIME_LIB)						\
-	$(EVOLUTION_MAIL_LIBS)
+	$(top_builddir)/mail/importers/libevolution-mail-importers.la\
+	$(SMIME_LIBS)						\
+	$(EVOLUTION_MAIL_LIBS)					\
+	$(GTKHTML_LIBS)						\
+	$(CAMEL_LIBS)						\
+	$(REGEX_LIBS)
 
 libevolution_mail_la_LDFLAGS =				\
-	-avoid-version -module
+	-avoid-version -module $(NO_UNDEFINED)
 
 libevolution_mail_la_DEPENDENCIES = em-filter-i18n.h
 
@@ -296,13 +304,24 @@ schema_DATA = $(schema_in_files:.schemas.in.in=-$(BASE_VERSION).schemas)
 
 @INTLTOOL_SCHEMAS_RULE@
 
+if OS_WIN32
+install-data-local:
+	if test -z "$(DESTDIR)" ; then \
+		for p in $(schema_DATA) ; do \
+			(echo set GCONF_CONFIG_SOURCE=$(GCONF_SCHEMA_CONFIG_SOURCE); \
+			 echo $(GCONFTOOL) --makefile-install-rule $$p) >_temp.bat; \
+			cmd /c _temp.bat; \
+			rm _temp.bat; \
+		done \
+	fi
+else
 install-data-local:
 	if test -z "$(DESTDIR)" ; then \
 		for p in $(schema_DATA) ; do \
 			GCONF_CONFIG_SOURCE=$(GCONF_SCHEMA_CONFIG_SOURCE) $(GCONFTOOL) --makefile-install-rule $$p; \
 		done \
 	fi
-
+endif
 
 # Prologue
 
