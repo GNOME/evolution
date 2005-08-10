@@ -1,5 +1,8 @@
+if OS_WIN32
+WIN32_BOOTSTRAP_LIBS = $(top_builddir)/win32/libevolution-mail.la
+endif
 
-privlib_LTLIBRARIES = libevolution-mail-importers.la
+privsolib_LTLIBRARIES = libevolution-mail-importers.la
 
 INCLUDES = -I.. 					\
 	-I$(srcdir)/..					\
@@ -17,11 +20,14 @@ libevolution_mail_importers_la_SOURCES =	\
 	pine-importer.c				\
 	evolution-mbox-importer.c
 
+libevolution_mail_importers_la_LDFLAGS = $(NO_UNDEFINED)
+
 # these haven't been converted to plugins yet
 #	netscape-importer.c
 #	evolution-outlook-importer.c
 
 libevolution_mail_importers_la_LIBADD =				\
+	$(WIN32_BOOTSTRAP_LIBS)					\
 	$(top_builddir)/e-util/libeutil.la			\
 	$(top_builddir)/filter/libfilter.la			\
 	$(IMPORTERS_LIBS)

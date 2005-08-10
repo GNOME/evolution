@@ -5,6 +5,11 @@
 	installing the schemas: Echo the command to a temporary .bat file
 	and run it with cmd.exe...
 
+	* importers/Makefile.am: Use the bootstrap import library for
+	libevolution-mail.la on Win32 as libevolution-mail.la hasn't been
+	built yet when we come here. Use -no-undefined on Win32. Use
+	privsolib instead of privlib. (See ../ChangeLog.)
+
 2005-08-08  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #304938.
