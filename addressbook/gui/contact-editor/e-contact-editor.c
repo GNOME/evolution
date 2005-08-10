@@ -519,6 +519,7 @@ name_entry_changed (GtkWidget *widget, EContactEditor *editor)
 	editor->name = e_contact_name_from_string (string);
 	file_as_set_style (editor, style);
 
+	sensitize_ok (editor);
 	if (string && !*string)
 		gtk_window_set_title (GTK_WINDOW (editor->app), _("Contact Editor"));
 }
@@ -537,6 +538,7 @@ file_as_entry_changed (GtkWidget *widget, EContactEditor *editor)
 	else {
 		gtk_window_set_title (GTK_WINDOW (editor->app), _("Contact Editor"));
 	}
+	sensitize_ok (editor);
 
 	g_free (string);
 }
@@ -576,9 +578,17 @@ sensitize_ok (EContactEditor *ce)
 {
 	GtkWidget *widget;
 	gboolean   allow_save;
+	GtkWidget *entry_fullname;
+	GtkWidget *entry_file_as;
+	entry_fullname = glade_xml_get_widget (ce->gui, "entry-fullname" );
+	entry_file_as = glade_xml_get_widget (ce->gui, "entry-file-as");
+	const char *name_entry_string = gtk_entry_get_text (GTK_ENTRY (entry_fullname));
+	const char *file_as_entry_string = gtk_entry_get_text (GTK_ENTRY (entry_file_as));
 
 	allow_save = ce->target_editable && ce->changed ? TRUE : FALSE;
 
+	if (!strcmp (name_entry_string, "") || !strcmp (file_as_entry_string, ""))
+		allow_save = FALSE;
 	widget = glade_xml_get_widget (ce->gui, "button-ok");
 	gtk_widget_set_sensitive (widget, allow_save);
 }
