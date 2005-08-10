@@ -1,3 +1,13 @@
+2005-08-10  Sankar P  <psankar@novell.com>
+
+	* proxy.c : 
+	Moved the GList to maintain the list of proxies, 
+	into the proxyDialog structure.
+	Fixes #312352, #312309
+
+	* proxy.h :
+	Added free_proxy_list declaration to avoid compiler warning
+	
 2005-08-10  Vivek Jain <jvivek@novell.com>
 	
 	* share-folder-common.c:(org_gnome_shared_folder_factory)

@@ -104,7 +104,11 @@ struct _proxyDialogPrivate {
 	GtkWidget *options;
 	GtkWidget *private;
         char *help_section;
+
+	GList *proxy_list;
 };
+
+//static void free_proxy_handler (proxyHandler *handler);
 
 static void
 proxy_dialog_dispose (GObject *object)
@@ -137,10 +141,11 @@ free_proxy_handler (proxyHandler *handler)
 void
 free_proxy_list (GList *proxy_list)
 {
-	g_list_foreach (proxy_list, (GFunc) free_proxy_handler, NULL);
-	g_list_free (proxy_list);
-	proxy_list = NULL;
-
+	if (proxy_list) {
+		g_list_foreach (proxy_list, (GFunc) free_proxy_handler, NULL);
+		g_list_free (proxy_list);
+		proxy_list = NULL;
+	}
 }
 
 static void
@@ -156,6 +161,7 @@ proxy_dialog_finalize (GObject *object)
 		g_object_unref (priv->proxy_name_selector);
 
 	if (priv) {
+		free_proxy_list (priv->proxy_list);
 		g_free (priv->help_section);
 		g_object_unref (priv->xml_tab);
 		g_object_unref (prd->priv);
@@ -214,6 +220,8 @@ proxy_dialog_init (GObject *object)
 	priv->options = NULL;
 	priv->private = NULL;
 	priv->help_section = NULL;
+
+	priv->proxy_list = NULL;
 }
 
 GType
@@ -351,7 +359,7 @@ proxy_dialog_store_widgets_data (EAccount *account, gint32 dialog)
 					}
 
 					/*check whether already exists*/
-					existing_list = g_object_get_data ( (GObject*)account, "proxy_list");
+					existing_list = priv->proxy_list;
 
 					for (;existing_list; existing_list = g_list_next(existing_list)) {
 						new_proxy = (proxyHandler *) existing_list->data;
@@ -379,7 +387,8 @@ proxy_dialog_store_widgets_data (EAccount *account, gint32 dialog)
 					new_proxy->uniqueid = NULL;
 					new_proxy->flags =  E_GW_PROXY_NEW;
 					new_proxy->permissions = proxy_get_permissions_from_dialog (account);
-					g_object_set_data_full ((GObject *) account, "proxy_list", g_list_append (g_object_get_data ((GObject*) account,"proxy_list"), new_proxy), (GDestroyNotify) free_proxy_list);
+				
+					priv->proxy_list = g_list_append (priv->proxy_list, new_proxy);
 				}
 			}
 			break;
@@ -497,19 +506,13 @@ proxy_abort (GtkWidget *button, EConfigHookItemFactoryData *data)
 	EMConfigTargetAccount *target_account;
 	EAccount *account;
 	proxyDialog *prd = NULL;
-	GList *proxy_list;
 
 	target_account = (EMConfigTargetAccount *)data->config->target;
 	account = target_account->account;
 	prd = g_object_get_data ((GObject *)account, "prd");    
-	proxy_list = (GList *) g_object_get_data ((GObject *) account, "proxy_dialog");
 	
-	if (prd == NULL || proxy_list == NULL)
+	if (prd == NULL)
 		return;
-
-	g_list_foreach (proxy_list, (GFunc) free_proxy_handler, NULL);
-	g_list_free (proxy_list);
-	proxy_list = NULL;
 
 	g_object_unref (prd);
 	prd = NULL;
@@ -520,21 +523,19 @@ proxy_commit (GtkWidget *button, EConfigHookItemFactoryData *data)
 	EAccount *account;
 	EMConfigTargetAccount *target_account;
 	proxyDialogPrivate *priv;
-	GList *l, *proxy_list;
+	GList *list_iter;
 	proxyHandler *aclInstance;
 	proxyDialog *prd = NULL;
 
 	target_account = (EMConfigTargetAccount *)data->config->target;
 	account = target_account->account;
 	prd = g_object_get_data ((GObject *)account, "prd");    
-	l = g_object_get_data ( (GObject *)account, "proxy_list") ;
-
-	if (prd == NULL || l == NULL)
-		return;
-	
 	priv = prd->priv;
-	for (;l; l = g_list_next (l)) {
-		aclInstance = (proxyHandler *) l->data;
+	list_iter = priv->proxy_list;
+	if (prd == NULL || list_iter == NULL)
+		return;
+	for (;list_iter; list_iter = g_list_next (list_iter)) {
+		aclInstance = (proxyHandler *) list_iter->data;
 
 		/* Handle case where the structure is new and deleted*/
 		if ( !((aclInstance->flags & E_GW_PROXY_NEW) && (aclInstance->flags & E_GW_PROXY_DELETED))) {
@@ -552,11 +553,6 @@ proxy_commit (GtkWidget *button, EConfigHookItemFactoryData *data)
 				e_gw_connection_modify_proxy (prd->cnc, aclInstance);
 		}
 	}
-
-	proxy_list = (GList *) g_object_get_data ((GObject *) account, "proxy_dialog");
-	g_list_foreach (proxy_list, (GFunc) free_proxy_handler, NULL);
-	g_list_free (proxy_list);
-	proxy_list = NULL;
 
 	g_object_unref (prd);
 	prd = NULL;
@@ -594,7 +590,7 @@ proxy_update_tree_view (EAccount *account)
 	proxyDialog *prd = NULL;
     	GtkTreeIter iter;
 	GdkPixbuf *broken_image = NULL;
-	GList *l;
+	GList *list_iter;
 	proxyHandler *aclInstance;
 	gchar *file_name = e_icon_factory_get_icon_filename ("stock_person", E_ICON_SIZE_DIALOG);
 	proxyDialogPrivate *priv;
@@ -604,10 +600,10 @@ proxy_update_tree_view (EAccount *account)
 	broken_image = gdk_pixbuf_new_from_file (file_name, NULL);
 	
 	gtk_tree_store_clear (priv->store);
-	l = g_object_get_data ( (GObject *)account, "proxy_list") ;
+	list_iter = priv->proxy_list;
 
-	for (;l; l = g_list_next(l)) {        
-	        aclInstance = (proxyHandler *) l->data;
+	for (;list_iter; list_iter = g_list_next(list_iter)) {        
+	        aclInstance = (proxyHandler *) list_iter->data;
 
 		if(! (aclInstance->flags & E_GW_PROXY_DELETED )) {
 			gtk_tree_store_append (priv->store, &iter, NULL);
@@ -624,7 +620,6 @@ org_gnome_proxy (EPlugin *epl, EConfigHookItemFactoryData *data)
 {
 	EMConfigTargetAccount *target_account;
 	EAccount *account;
-	GList *proxy_list = NULL;
 	GtkButton *addProxy, *removeProxy, *editProxy;
 	proxyDialog *prd;
 	proxyDialogPrivate *priv;
@@ -657,10 +652,9 @@ org_gnome_proxy (EPlugin *epl, EConfigHookItemFactoryData *data)
 			
 			prd->cnc = proxy_get_cnc(account);
 			
-			if (e_gw_connection_get_proxy_access_list(prd->cnc, &proxy_list)!= E_GW_CONNECTION_STATUS_OK) 
+			priv->proxy_list = NULL;
+			if (e_gw_connection_get_proxy_access_list(prd->cnc, &priv->proxy_list)!= E_GW_CONNECTION_STATUS_OK) 
 				return NULL;
-			
-			g_object_set_data_full ((GObject *) account, "proxy_list", proxy_list, (GDestroyNotify) free_proxy_list);
 			proxy_update_tree_view (account);
 		} else {
 			GtkWidget *label;
@@ -736,11 +730,17 @@ proxy_edit_ok (GtkWidget *button, EAccount *account)
 static proxyHandler * 
 proxy_get_item_from_list (EAccount *account, char *account_name)
 {
-	GList *l = g_object_get_data ((GObject *)account, "proxy_list");
+	proxyDialogPrivate *priv;
+	proxyDialog *prd = NULL;
+	GList *list_iter;
 	proxyHandler *iter;
+	
+	prd = g_object_get_data ((GObject *)account, "prd");    
+	priv = prd->priv;
+	list_iter = priv->proxy_list;
 
-	for (;l; l = g_list_next(l)) {        
-	        iter = (proxyHandler *) l->data;
+	for (;list_iter; list_iter = g_list_next(list_iter)) {        
+	        iter = (proxyHandler *) list_iter->data;
 
 		if ( g_str_equal (iter->proxy_email,account_name))
 			return iter;
