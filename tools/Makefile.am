@@ -1,5 +1,11 @@
-privlibexec_PROGRAMS =			\
+if OS_WIN32
+else
+PLATFORM_DEP_TOOLS = \
 	killev
+endif
+
+privlibexec_PROGRAMS =		\
+	$(PLATFORM_DEP_TOOLS)
 
 INCLUDES =						\
 	-DG_LOG_DOMAIN=\"evolution-tools\"		\

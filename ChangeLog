@@ -1,3 +1,7 @@
+2005-08-10  Tor Lillqvist  <tml@novell.com>
+
+	* tools/Makefile.am: Don't try to build killev on Win32.
+
 2005-08-09  Theppitak Karoonboonyanan  <thep@linux.thai.net>
 
 	* configure.in: Added "th" (Thai) to ALL_LINGUAS.
