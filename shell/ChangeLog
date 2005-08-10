@@ -1,3 +1,22 @@
+2005-08-10  Tor Lillqvist  <tml@novell.com>
+
+	* Makefile.am: Use privsolib instead of privlib. Link with
+	SHELL_LIBS. Use NO_UNDEFINED. Use EXEEXT. Use hack to workaround
+	MSYS feature on Win32 when installing the schemas.
+	(INCLUDES): Define EVOLUTION_IMAGESDIR like in
+	../e-util/e-util-private.h, not EVOLUTION_IMAGES.
+	(idl_defines): Pass marker macro to IDL compiler, see below.
+
+	* Evolution-Component.idl: Don't generate duplicate code in skels
+	and stubs when including this file from other idl files (in
+	particular, ../mail/Evolution-Mail.idl). Use the include_defs and
+	inhibit pragmas unless IDL-compiling in this directory. See
+	lists.ximian.com/pipermail/evolution-patches/2005-June/010899.html
+
+	* e-shell-utils.c
+	* e-shell-windows.c: Ue EVOLUTION_IMAGESDIR in such a way that it
+	works even when it is a function call.
+
 2005-08-10  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #271984.

@@ -4,7 +4,7 @@ INCLUDES =							\
 	-I$(top_srcdir)						\
 	-I$(top_srcdir)/shell					\
 	-I$(top_builddir)/shell                                 \
-	-DEVOLUTION_IMAGES=\""$(imagesdir)"\"			\
+	-DEVOLUTION_IMAGESDIR=\""$(imagesdir)"\"		\
 	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"		\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"			\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"			\
@@ -39,10 +39,13 @@ IDL_GENERATED_C = 		\
 	Evolution-skels.c	\
 	Evolution-stubs.c
 
+idl_defines = \
+	-D__evolution_shell_COMPILATION
+
 IDL_GENERATED = $(IDL_GENERATED_H) $(IDL_GENERATED_C)
 
 $(IDL_GENERATED_H): $(IDLS)
-	$(ORBIT_IDL) -I $(srcdir) $(IDL_INCLUDES) $(srcdir)/Evolution.idl
+	$(ORBIT_IDL) -I $(srcdir) $(idl_defines) $(IDL_INCLUDES) $(srcdir)/Evolution.idl
 
 $(IDL_GENERATED_C): $(IDL_GENERATED_H)
 
@@ -70,7 +73,7 @@ idl_DATA = $(IDLS)
 
 # Shell library
 
-privlib_LTLIBRARIES =	\
+privsolib_LTLIBRARIES =	\
 	libeshell.la
 
 eshellincludedir = $(privincludedir)/shell
@@ -93,9 +96,12 @@ libeshell_la_SOURCES = 				\
 	evolution-shell-component-utils.c	\
 	$(eshellinclude_HEADERS)
 
-libeshell_la_LIBADD =				\
-	$(top_builddir)/e-util/libeutil.la	\
-	$(top_builddir)/widgets/misc/libemiscwidgets.la
+libeshell_la_LDFLAGS = $(NO_UNDEFINED)
+
+libeshell_la_LIBADD =					\
+	$(top_builddir)/e-util/libeutil.la		\
+	$(top_builddir)/widgets/misc/libemiscwidgets.la	\
+	$(SHELL_LIBS)
 
 # Evolution executable
 
@@ -155,7 +161,7 @@ libevolution_test_la_LIBADD = 		\
 	libeshell.la			\
 	$(EVOLUTION_TEST_LIBS)
 
-libevolution_test_la_LDFLAGS = -avoid-version -module
+libevolution_test_la_LDFLAGS = -avoid-version -module $(NO_UNDEFINED)
 
 if ENABLE_TEST_COMPONENT
 testserver_in_files = GNOME_Evolution_Test.server.in.in
@@ -188,24 +194,37 @@ schema_DATA = $(schema_in_files:.schemas.in.in=-$(BASE_VERSION).schemas)
 
 @INTLTOOL_SCHEMAS_RULE@
 
+if OS_WIN32
 install-data-local:
-	if test -z "$(DESTDIR)" ; then												\
-		for p in $(schema_DATA) ; do											\
-			GCONF_CONFIG_SOURCE=$(GCONF_SCHEMA_CONFIG_SOURCE) $(GCONFTOOL) --makefile-install-rule $$p;		\
-		done														\
+	if test -z "$(DESTDIR)" ; then							\
+		for p in $(schema_DATA) ; do						\
+			(echo set GCONF_CONFIG_SOURCE=$(GCONF_SCHEMA_CONFIG_SOURCE);	\
+			 echo $(GCONFTOOL) --makefile-install-rule $$p) >_temp.bat;	\
+			cmd /c _temp.bat; 						\
+			rm _temp.bat;							\
+		done									\
 	fi
+else
+install-data-local:
+	if test -z "$(DESTDIR)" ; then							\
+		for p in $(schema_DATA) ; do						\
+			GCONF_CONFIG_SOURCE=$(GCONF_SCHEMA_CONFIG_SOURCE) 		\
+				$(GCONFTOOL) --makefile-install-rule $$p;		\
+		done									\
+	fi
+endif
 
 install-evolution:
 	$(mkinstalldirs) $(DESTDIR)$(bindir)
-	$(LIBTOOL) --mode=install $(INSTALL_PROGRAM) evolution $(DESTDIR)$(bindir)/evolution-$(BASE_VERSION)
+	$(LIBTOOL) --mode=install $(INSTALL_PROGRAM) evolution$(EXEEXT) $(DESTDIR)$(bindir)/evolution-$(BASE_VERSION)$(EXEEXT)
 if DEFAULT_BINARY
-	cd $(DESTDIR)$(bindir) && rm -f evolution && $(LN_S) evolution-$(BASE_VERSION) evolution
+	cd $(DESTDIR)$(bindir) && rm -f evolution$(EXEEXT) && $(LN_S) evolution-$(BASE_VERSION)$(EXEEXT) evolution$(EXEEXT)
 endif
 
 uninstall-evolution:
-	$(LIBTOOL) --mode=uninstall rm -rf $(DESTDIR)$(bindir)/evolution-$(BASE_VERSION)
+	$(LIBTOOL) --mode=uninstall rm -rf $(DESTDIR)$(bindir)/evolution-$(BASE_VERSION)$(EXEEXT)
 if DEFAULT_BINARY
-	rm -f $(DESTDIR)$(bindir)/evolution
+	rm -f $(DESTDIR)$(bindir)/evolution$(EXEEXT)
 endif
 
 if HAVE_DTAPPINTEGRATE

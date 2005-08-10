@@ -28,6 +28,8 @@
 
 #include "Evolution.h"
 
+#include "e-util/e-util-private.h"
+
 #include "e-component-registry.h"
 #include "e-shell-window-commands.h"
 #include "e-shell-marshal.h"
@@ -464,22 +466,27 @@ static void
 load_icons (void)
 {
 	GdkPixbuf *pixbuf;
+	char *png_file_name;
 
-	pixbuf = gdk_pixbuf_new_from_file (EVOLUTION_IMAGES "/offline.png", NULL);
+	png_file_name = g_build_filename (EVOLUTION_IMAGESDIR, "offline.png", NULL);
+	pixbuf = gdk_pixbuf_new_from_file (png_file_name, NULL);
 	if (pixbuf == NULL) {
-		g_warning ("Cannot load `%s'", EVOLUTION_IMAGES "/offline.png");
+		g_warning ("Cannot load `%s'", png_file_name);
 	} else {
 		gdk_pixbuf_render_pixmap_and_mask (pixbuf, &offline_pixmap, &offline_mask, 128);
 		g_object_unref (pixbuf);
 	}
+	g_free (png_file_name);
 
-	pixbuf = gdk_pixbuf_new_from_file (EVOLUTION_IMAGES "/online.png", NULL);
+	png_file_name = g_build_filename (EVOLUTION_IMAGESDIR, "online.png", NULL);
+	pixbuf = gdk_pixbuf_new_from_file (png_file_name, NULL);
 	if (pixbuf == NULL) {
-		g_warning ("Cannot load `%s'", EVOLUTION_IMAGES "/online.png");
+		g_warning ("Cannot load `%s'", png_file_name);
 	} else {
 		gdk_pixbuf_render_pixmap_and_mask (pixbuf, &online_pixmap, &online_mask, 128);
 		g_object_unref (pixbuf);
 	}
+	g_free (png_file_name);
 }
 
 static void

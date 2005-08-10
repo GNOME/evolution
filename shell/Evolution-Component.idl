@@ -13,6 +13,15 @@
 
 #include <Bonobo.idl>
 
+#ifndef __evolution_shell_COMPILATION
+#ifdef __ORBIT_IDL__
+%{
+#pragma include_defs shell/evolution-component.h
+%}
+#pragma inhibit push
+#endif
+#endif
+
 module GNOME {
 module Evolution {
 	enum CreatableItem {
@@ -102,4 +111,9 @@ module Evolution {
 };
 };
 
+#ifndef __evolution_shell_COMPILATION
+#ifdef __ORBIT_IDL__
+#pragma inhibit pop
 #endif
+#endif
+#endif	/* _GNOME_EVOLUTION_COMPONENT_IDL */

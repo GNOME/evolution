@@ -31,6 +31,8 @@
 #include <libgnome/gnome-util.h>
 #include <libgnome/gnome-i18n.h>
 
+#include "e-util/e-util-private.h"
+
 #include "e-shell-constants.h"
 #include "e-shell-utils.h"
 
@@ -43,7 +45,7 @@ get_icon_path (const char *icon_name)
 	if (g_path_is_absolute (icon_name))
 		icon_path = g_strdup (icon_name);
 	else
-		icon_path = g_build_filename (EVOLUTION_IMAGES, icon_name, NULL);
+		icon_path = g_build_filename (EVOLUTION_IMAGESDIR, icon_name, NULL);
 
 	if (g_file_test (icon_path, G_FILE_TEST_EXISTS)) {
 		return icon_path;
