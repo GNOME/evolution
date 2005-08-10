@@ -585,7 +585,7 @@ emfb_folder_copy(BonoboUIComponent *uid, void *data, const char *path)
 					       emfb->view.folder->full_name,
 					       CAMEL_STORE_FOLDER_INFO_FAST,
 					       &ex)) != NULL)
-		em_folder_utils_copy_folder (fi);
+		em_folder_utils_copy_folder(fi, FALSE);
 
 	camel_exception_clear (&ex);
 
@@ -608,7 +608,7 @@ emfb_folder_move(BonoboUIComponent *uid, void *data, const char *path)
 					       emfb->view.folder->full_name,
 					       CAMEL_STORE_FOLDER_INFO_FAST,
 					       &ex)) != NULL)
-		em_folder_utils_move_folder (fi);
+		em_folder_utils_copy_folder(fi, TRUE);
 
 	camel_exception_clear (&ex);
 

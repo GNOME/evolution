@@ -822,89 +822,16 @@ struct _DragDataReceivedAsync {
 };
 
 static void
-emft_drop_folder_rec (CamelStore *store, CamelFolderInfo *fi, const char *parent_name, CamelException *ex)
-{
-	CamelFolder *src, *dest;
-	CamelFolderInfo *nfi;
-	char *new_name;
-	
-	while (fi != NULL) {
-		if (!(src = mail_tool_uri_to_folder (fi->uri, 0, ex)))
-			break;
-		
-		/* handles dropping to the root properly */
-		if (parent_name && parent_name[0])
-			new_name = g_strdup_printf ("%s/%s", parent_name, src->name);
-		else
-			new_name = g_strdup (src->name);
-		
-		if ((nfi = camel_store_create_folder (store, parent_name, src->name, ex))) {
-			camel_store_free_folder_info (store, nfi);
-			
-			if (camel_store_supports_subscriptions (store))
-				camel_store_subscribe_folder (store, new_name, ex);
-			
-			/* copy the folder to the new location */
-			if ((dest = camel_store_get_folder (store, new_name, 0, ex))) {
-				GPtrArray *uids;
-				
-				uids = camel_folder_get_uids (src);
-				camel_folder_transfer_messages_to (src, uids, dest, NULL, FALSE, ex);
-				camel_folder_free_uids (src, uids);
-				
-				camel_object_unref (dest);
-			}
-		}
-		
-		camel_object_unref (src);
-		
-		if (fi->child)
-			emft_drop_folder_rec (store, fi->child, new_name, ex);
-		
-		g_free (new_name);
-		fi = fi->next;
-	}
-}
-
-static void
 emft_drop_folder(struct _DragDataReceivedAsync *m)
 {
 	CamelFolder *src;
-	char *new_name;
 
 	d(printf(" * Drop folder '%s' onto '%s'\n", m->selection->data, m->full_name));
 
 	if (!(src = mail_tool_uri_to_folder(m->selection->data, 0, &m->msg.ex)))
 		return;
-	
-	/* handles dropping to the root properly */
-	if (m->full_name)
-		new_name = g_strdup_printf("%s/%s", m->full_name, src->name);
-	else
-		new_name = g_strdup(src->name);
-	
-	if (src->parent_store == m->store && m->move) {
-		/* simple case, rename */
-		camel_store_rename_folder(m->store, src->full_name, new_name, &m->msg.ex);
-		m->moved = !camel_exception_is_set (&m->msg.ex);
-	} else {
-		CamelFolderInfo *fi, *nfi;
-		
-		/* FIXME: should check we're not coming from a vfolder, otherwise bad stuff could happen */
-		
-		if ((fi = camel_store_get_folder_info (src->parent_store, src->full_name, CAMEL_STORE_FOLDER_INFO_FAST |
-						       CAMEL_STORE_FOLDER_INFO_RECURSIVE, &m->msg.ex))) {
-			if (!(nfi = camel_store_get_folder_info (m->store, new_name, CAMEL_STORE_FOLDER_INFO_FAST, &m->msg.ex))) {
-				/* Good. The folder doesn't already exist... */
-				camel_exception_clear (&m->msg.ex);
-				emft_drop_folder_rec (m->store, fi, m->full_name, &m->msg.ex);
-			}
-			
-			camel_store_free_folder_info (src->parent_store, fi);
-		}
-	}
-	
-	g_free(new_name);
+
+	em_folder_utils_copy_folders(src->parent_store, src->full_name, m->store, m->full_name?m->full_name:"", m->move);
 	camel_object_unref(src);
 }
 
@@ -2005,9 +1932,9 @@ emft_popup_copy(EPopup *ep, EPopupItem *item, void *data)
 	EMFolderTree *emft = data;
 	CamelFolderInfo *fi = NULL;
 
-	if ((fi = em_folder_tree_get_selected_folder_info (emft)) != NULL) {
-		em_folder_utils_copy_folder (fi);
-	}
+	/* FIXME: use async apis */
+	if ((fi = em_folder_tree_get_selected_folder_info (emft)) != NULL)
+		em_folder_utils_copy_folder(fi, FALSE);
 }
 
 static void
@@ -2016,9 +1943,9 @@ emft_popup_move(EPopup *ep, EPopupItem *item, void *data)
 	EMFolderTree *emft = data;
 	CamelFolderInfo *fi = NULL;
 
-	if ((fi = em_folder_tree_get_selected_folder_info (emft)) != NULL) {
-		em_folder_utils_move_folder(fi);
-	}
+	/* FIXME: use async apis */
+	if ((fi = em_folder_tree_get_selected_folder_info (emft)) != NULL)
+		em_folder_utils_copy_folder(fi, TRUE);
 }
 
 static void

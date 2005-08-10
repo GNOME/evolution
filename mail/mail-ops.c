@@ -490,7 +490,7 @@ mail_send_message(CamelFolder *queue, const char *uid, const char *destination, 
 		tmp = camel_header_raw_find(&xev, "X-Evolution-Transport", NULL);
 		if (tmp)
 			transport_url = g_strstrip(g_strdup(tmp));
-		
+
 		tmp = camel_header_raw_find(&xev, "X-Evolution-Fcc", NULL);
 		if (tmp)
 			sent_folder_uri = g_strstrip(g_strdup(tmp));
@@ -698,7 +698,7 @@ send_queue_send(struct _mail_msg *mm)
 	
 	if (!(uids = camel_folder_get_uids (m->queue)))
 		return;
-	
+
 	send_uids = g_ptr_array_sized_new (uids->len);
 	for (i = 0, j = 0; i < uids->len; i++) {
 		CamelMessageInfo *info;
@@ -765,10 +765,10 @@ send_queue_send(struct _mail_msg *mm)
 		camel_object_unref (m->driver);
 		m->driver = NULL;
 	}
-	
+
 	camel_folder_free_uids (m->queue, uids);
 	g_ptr_array_free (send_uids, TRUE);
-	
+
 	camel_folder_sync (m->queue, TRUE, &ex);
 	camel_exception_clear (&ex);
 	

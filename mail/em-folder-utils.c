@@ -244,11 +244,12 @@ static struct _mail_msg_op copy_folders_op = {
 	emft_copy_folders__free,
 };
 
-static void
-emfu_copy_folders (CamelStore *tostore, const char *tobase, CamelStore *fromstore, const char *frombase, int delete)
+int
+em_folder_utils_copy_folders(CamelStore *fromstore, const char *frombase, CamelStore *tostore, const char *tobase, int delete)
 {
 	struct _EMCopyFolders *m;
-	
+	int seq;
+
 	m = mail_msg_new (&copy_folders_op, NULL, sizeof (struct _EMCopyFolders));
 	camel_object_ref (fromstore);
 	m->fromstore = fromstore;
@@ -257,8 +258,11 @@ emfu_copy_folders (CamelStore *tostore, const char *tobase, CamelStore *fromstor
 	m->frombase = g_strdup (frombase);
 	m->tobase = g_strdup (tobase);
 	m->delete = delete;
-	
+	seq = m->msg.seq;
+
 	e_thread_put (mail_thread_new, (EMsg *) m);
+
+	return seq;
 }
 
 struct _copy_folder_data {
@@ -308,7 +312,7 @@ emfu_copy_folder_selected (const char *uri, void *data)
 	if (tobase == NULL)
 		tobase = "";
 
-	emfu_copy_folders (tostore, tobase, fromstore, cfd->fi->full_name, cfd->delete);
+	em_folder_utils_copy_folders(fromstore, cfd->fi->full_name, tostore, tobase, cfd->delete);
 	
 	camel_url_free (url);
 fail:
@@ -353,31 +357,15 @@ emfu_copy_folder_exclude(EMFolderTree *tree, GtkTreeModel *model, GtkTreeIter *i
 /* FIXME: this interface references the folderinfo without copying it  */
 /* FIXME: these functions must be documented */
 void
-em_folder_utils_copy_folder (CamelFolderInfo *folderinfo)
+em_folder_utils_copy_folder(CamelFolderInfo *folderinfo, int delete)
 {
 	struct _copy_folder_data *cfd;
 	
 	cfd = g_malloc (sizeof (*cfd));
 	cfd->fi = folderinfo;
-	cfd->delete = FALSE;
+	cfd->delete = delete;
 
-	em_select_folder (NULL, _("Select folder"), _("C_opy"),
-			  NULL, emfu_copy_folder_exclude,
-			  emfu_copy_folder_selected, cfd);}
-
-
-/* FIXME: this interface references the folderinfo without copying it  */
-/* FIXME: these functions must be documented */
-void
-em_folder_utils_move_folder (CamelFolderInfo *folderinfo)
-{
-	struct _copy_folder_data *cfd;
-
-	cfd = g_malloc (sizeof (*cfd));
-	cfd->fi = folderinfo;
-	cfd->delete = TRUE;
-
-	em_select_folder (NULL, _("Select folder"), _("_Move"),
+	em_select_folder (NULL, _("Select folder"), delete?_("_Move"):_("C_opy"),
 			  NULL, emfu_copy_folder_exclude,
 			  emfu_copy_folder_selected, cfd);
 }
