@@ -1,3 +1,9 @@
+2005-08-11  Vivek Jain <jvivek@novell.com>
+	
+	* em-folder-tree-model.c: (account_changed)
+	check if the account is enabled, before adding the store
+	** Fixes #313057
+	
 2005-08-11  Parthasarathi Susarla <sparthasarathi@novell.com>
 
 	* em-folder-view.c

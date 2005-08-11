@@ -381,7 +381,8 @@ account_changed (EAccountList *accounts, EAccount *account, gpointer user_data)
 	
 	em_folder_tree_model_remove_store (model, si->store);
 	
-	if (!(uri = account->source->url))
+	/* check if store needs to be added at all*/
+	if (!account->enabled ||!(uri = account->source->url))
 		return;
 	
 	camel_exception_init (&ex);
