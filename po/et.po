@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Evolution GNOME 2.10\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-04-19 11:58+0000\n"
-"PO-Revision-Date: 2005-08-04 17:26+0300\n"
+"PO-Revision-Date: 2005-08-09 17:10+0300\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -10568,7 +10568,7 @@ msgstr "Saajad"
 
 #: ../mail/em-filter-i18n.h:49
 msgid "Regex Match"
-msgstr ""
+msgstr "Regex sobivus"
 
 #: ../mail/em-filter-i18n.h:50
 msgid "Replied to"
@@ -13766,7 +13766,7 @@ msgstr "%a, %d. %Y"
 
 #: ../mail/message-list.c:2041
 msgid "Message List"
-msgstr ""
+msgstr "Sõnumiloend"
 
 #: ../mail/message-list.c:3386
 msgid "Generating message list"
@@ -15998,7 +15998,7 @@ msgstr "Kopeeri kontakt(id) teise kausta..."
 
 #: ../ui/evolution-addressbook.xml.h:4 ../ui/evolution-calendar.xml.h:2
 msgid "Copy the selection"
-msgstr "Kopeerib valiku"
+msgstr "Valiku kopeerimine"
 
 #: ../ui/evolution-addressbook.xml.h:5
 msgid "Copy to Folder..."
@@ -16006,7 +16006,7 @@ msgstr "Kopeeri kausta..."
 
 #: ../ui/evolution-addressbook.xml.h:7 ../ui/evolution-calendar.xml.h:3
 msgid "Cut the selection"
-msgstr "Lõikab valiku"
+msgstr "Valiku lõikamine"
 
 #: ../ui/evolution-addressbook.xml.h:9
 msgid "Delete selected contacts"
@@ -16022,7 +16022,7 @@ msgstr "Tõsta kausta..."
 
 #: ../ui/evolution-addressbook.xml.h:14 ../ui/evolution-calendar.xml.h:16
 msgid "Paste the clipboard"
-msgstr "Asetab lõikepuhvri"
+msgstr "Lõikepuhvri asetamine"
 
 #: ../ui/evolution-addressbook.xml.h:15
 msgid "Previews the contacts to be printed"
@@ -16454,11 +16454,13 @@ msgstr "Reegli loomine selle saatja poolt saadetud sõnumite filtreerimiseks"
 
 #: ../ui/evolution-mail-message.xml.h:14
 msgid "Create a rule to filter messages to these recipients"
-msgstr "Reegli loomine nendele adressaatidele saadetud sõnumite filtreerimiseks"
+msgstr ""
+"Reegli loomine nendele adressaatidele saadetud sõnumite filtreerimiseks"
 
 #: ../ui/evolution-mail-message.xml.h:15
 msgid "Create a rule to filter messages to this mailing list"
-msgstr "Reegli loomine sellese postiloendisse saadetud sõnumite filtreerimiseks"
+msgstr ""
+"Reegli loomine sellese postiloendisse saadetud sõnumite filtreerimiseks"
 
 #: ../ui/evolution-mail-message.xml.h:16
 msgid "Create a rule to filter messages with this subject"
