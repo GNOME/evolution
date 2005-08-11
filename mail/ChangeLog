@@ -1,3 +1,9 @@
+2005-08-11  Srinivasa Ragavan <sragavan@novell.com>
+
+	* em-format-html-display.c (efhd_attachment_bar_refresh) (efhd_bar_resize)
+	(efhd_add_bar): Fix to hide the attachment bar when no attachments and to 
+	resize when the window is resized.
+
 2005-08-10  Not Zed  <NotZed@Ximian.com>
 
 	** See #271985.

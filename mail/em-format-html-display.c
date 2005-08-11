@@ -112,7 +112,7 @@ struct _EMFormatHTMLDisplayPrivate {
 	GtkWidget *arrow;
 	GtkWidget *forward;
 	GtkWidget *down;
-	GtkWidget *save;
+	GtkWidget *attachment_area;
 	gboolean  show_bar;
 	GHashTable *files;
 };
@@ -1864,14 +1864,40 @@ efhd_attachment_bar_refresh (EMFormatHTMLDisplay *efhd)
 		char *txt;
 
 		/* Cant i put in the number of attachments here ?*/
-		txt = g_strdup_printf(ngettext("%d Attachment", "%d Attachments", nattachments), nattachments);
+		txt = g_strdup_printf(ngettext("%d attachment", "%d attachments", nattachments), nattachments);
 		gtk_label_set_text ((GtkLabel *)efhd->priv->label, txt);
 		g_free (txt);
-
-		/* Enable the expander button and the save all button.*/
-		gtk_widget_set_sensitive (efhd->priv->arrow, TRUE);
-		gtk_widget_set_sensitive (efhd->priv->save, TRUE);
+	
+		/* Show the bar even when the first attachment is added */
+		if (nattachments == 1) {
+			gtk_widget_show_all (efhd->priv->attachment_area);
+			
+			if (efhd->priv->show_bar) {
+				gtk_widget_show(efhd->priv->down);
+				gtk_widget_hide(efhd->priv->forward);
+			} else {
+				gtk_widget_show(efhd->priv->forward);
+				gtk_widget_hide(efhd->priv->down);
+				gtk_widget_hide(efhd->priv->attachment_box);
+			}
+		}
 	}
+}
+
+
+static void
+efhd_bar_resize(GtkWidget *w, GtkAllocation *event, EMFormatHTML *efh)
+{
+	int width;
+	GtkRequisition req;
+	EMFormatHTMLDisplay *efhd = (EMFormatHTMLDisplay *) efh;
+
+	gtk_widget_size_request (efhd->priv->attachment_bar, &req);
+	width = ((GtkWidget *) efh->html)->allocation.width - 36;
+	gtk_widget_set_size_request (efhd->priv->attachment_bar, width, req.height);
+
+	/* Update the bar to refresh the icons and adjust the height */
+	e_attachment_bar_refresh (E_ATTACHMENT_BAR(efhd->priv->attachment_bar));
 }
 
 static gboolean
@@ -1879,7 +1905,7 @@ efhd_add_bar(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject *pobjec
 {
 	EMFormatHTMLDisplay *efhd = (EMFormatHTMLDisplay *)efh;
 	struct _EMFormatHTMLDisplayPrivate *priv = efhd->priv;
-	GtkWidget *hbox1, *hbox2, *hbox3, *vbox, *txt, *image;
+	GtkWidget *hbox1, *hbox2, *hbox3, *vbox, *txt, *image, *save;
 	int width, height;
 
 	priv->attachment_bar = e_attachment_bar_new(NULL);
@@ -1893,22 +1919,19 @@ efhd_add_bar(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject *pobjec
 	priv->arrow = (GtkWidget *)gtk_tool_button_new(hbox3, NULL);
 
 	priv->label = gtk_label_new(_("No Attachment"));
-	priv->save = gtk_button_new();
+	save = gtk_button_new();
 	image = gtk_image_new_from_stock ("gtk-save", GTK_ICON_SIZE_BUTTON);
 	txt = gtk_label_new(_("Save All"));
 	hbox1 = gtk_hbox_new(FALSE, 0);
 	gtk_box_pack_start((GtkBox *)hbox1, image, FALSE, FALSE, 2);
 	gtk_box_pack_start((GtkBox *)hbox1, txt, FALSE, FALSE, 0);
 
-	gtk_container_add((GtkContainer *)priv->save, hbox1);
-
-	gtk_widget_set_sensitive(priv->arrow, FALSE);
-	gtk_widget_set_sensitive(priv->save, FALSE);
+	gtk_container_add((GtkContainer *)save, hbox1);
 
 	hbox2 = gtk_hbox_new (FALSE, 0);
 	gtk_box_pack_start ((GtkBox *)hbox2, priv->arrow, FALSE, FALSE, 0);
 	gtk_box_pack_start ((GtkBox *)hbox2, priv->label, FALSE, FALSE, 2);
-	gtk_box_pack_start ((GtkBox *)hbox2, priv->save, FALSE, FALSE, 2);
+	gtk_box_pack_start ((GtkBox *)hbox2, save, FALSE, FALSE, 2);
 
 	priv->attachment_box = gtk_hbox_new (FALSE, 0);
 	gtk_box_pack_start ((GtkBox *)priv->attachment_box, priv->attachment_bar, TRUE, TRUE, 0);
@@ -1926,21 +1949,17 @@ efhd_add_bar(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject *pobjec
 	gtk_box_pack_start ((GtkBox *)vbox, priv->attachment_box, TRUE, TRUE, 2);
 
 	gtk_container_add ((GtkContainer *)eb, vbox);
-	gtk_widget_show_all ((GtkWidget *)eb);
+	gtk_widget_show ((GtkWidget *)eb);
 
-	if (priv->show_bar) {
-		gtk_widget_show(priv->down);
-		gtk_widget_hide(priv->forward);
-	} else {
-		gtk_widget_show(priv->forward);
-		gtk_widget_hide(priv->down);
-		gtk_widget_hide(priv->attachment_box);
-	}
-
+	/* Lets hide it by default and show only when there are attachments */
+	priv->attachment_area = vbox;
+	gtk_widget_hide_all (priv->attachment_area);
+	
 	g_signal_connect (priv->arrow, "clicked", G_CALLBACK(attachment_bar_arrow_clicked), efh);
 	g_signal_connect (priv->attachment_bar, "button_press_event", G_CALLBACK(efhd_bar_button_press_event), efhd);
 	g_signal_connect (priv->attachment_bar, "popup-menu", G_CALLBACK(efhd_bar_popup_menu_event), efhd);
-	g_signal_connect (priv->save, "clicked", G_CALLBACK(attachments_save_all_clicked), efh);
+	g_signal_connect (save, "clicked", G_CALLBACK(attachments_save_all_clicked), efh);
+	g_signal_connect (eb, "size_allocate", G_CALLBACK (efhd_bar_resize), efh);
 
 	return TRUE;
 }
