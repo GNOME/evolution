@@ -1,3 +1,13 @@
+2005-08-11  Carsten Guenther <carsten.guenther@scalix.com>
+
+	* gui/dialogs/comp-editor.c: (get_attachment_list),
+	(attachment_bar_icon_clicked_cb): Use g_build_path
+	instead of g_strconcat to build the pathname to the
+	attachment file.
+	(set_attachment_list): Fixed how mime filename gets
+	extracted from attachments pathname.
+
+
 2005-08-10  Tor Lillqvist  <tml@novell.com>
 
 	* importers/Makefile.am: Use privsolib instead of privlib (they

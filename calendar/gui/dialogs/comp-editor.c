@@ -614,6 +614,7 @@ get_attachment_list (CompEditor *editor)
 		CamelStream *stream;
 		char *attach_file_url;
 		char *safe_fname;
+		char *filename;
 	
 		wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (p->data));
 			
@@ -621,10 +622,12 @@ get_attachment_list (CompEditor *editor)
 		 * as a mime part file into the directory denoting the
 		 * calendar source */
 		safe_fname = camel_file_util_safe_filename(camel_mime_part_get_filename ((CamelMimePart *)p->data));
-		attach_file_url = g_strconcat (local_store,
-					       comp_uid,  "-",
-			 		       safe_fname,
-		   			       NULL); 
+
+		filename = g_strdup_printf ("%s-%s", comp_uid, safe_fname);
+
+		attach_file_url = g_build_path (G_DIR_SEPARATOR_S, local_store, filename, NULL);
+
+		g_free (filename);
 		g_free (safe_fname);
 
 		stream = camel_stream_fs_new_with_name((const char *) attach_file_url+7, O_RDWR|O_CREAT|O_TRUNC, 0600);
@@ -1000,7 +1003,8 @@ attachment_bar_icon_clicked_cb (EAttachmentBar *bar, GdkEvent *event, CompEditor
 		if (p) {
 			EAttachment *attachment;
 			GSList *list;
-			const char *comp_uid= NULL;
+			const char *comp_uid = NULL;
+			char *filename = NULL;
 			const char *local_store = e_cal_get_local_attachment_store (editor->priv->client);
 
 			e_cal_component_get_uid (editor->priv->comp, &comp_uid);			
@@ -1008,19 +1012,21 @@ attachment_bar_icon_clicked_cb (EAttachmentBar *bar, GdkEvent *event, CompEditor
 			list = e_attachment_bar_get_attachment (bar, num);
 			attachment = list->data;
 			g_slist_free (list);
+
+			filename = g_strdup_printf ("%s-%s",
+						    comp_uid,
+						    camel_mime_part_get_filename(attachment->body));
+
+			attach_file_url = g_build_path (G_DIR_SEPARATOR_S, local_store, filename, NULL);
 			
-			attach_file_url = g_strconcat (local_store,
-							comp_uid,
-							"-",
-							camel_mime_part_get_filename(attachment->body),
-							NULL);
-						
 			/* launch the url now */
 			/* TODO should send GError and handle error conditions
 			 * here */
 			gnome_url_show (attach_file_url, &error);
 			if (error)
-				g_message ("DEBUG: Launch failed :(\n");
+				g_message ("DEBUG: gnome_url_show(%s) failed\n", attach_file_url);
+
+			g_free (filename);
 			g_free (attach_file_url); }
 		return TRUE;
 	} else 
@@ -1153,7 +1159,6 @@ button_press_event (GtkWidget *widget, GdkEventButton *event)
 	EAttachmentBar *bar = (EAttachmentBar *)widget;
 	GnomeIconList *icon_list = GNOME_ICON_LIST(widget);
 	int icon_number;
-	printf("dd\n");
 	if (event->button != 3)
 		return FALSE;
 	
@@ -2083,9 +2088,13 @@ set_attachment_list (CompEditor *editor, GSList *attach_list)
 	
 		camel_mime_part_set_disposition (part, "attachment");
 
-		camel_mime_part_set_filename (part,
-					      attach_filename + strlen (local_store)+ 
-						strlen (comp_uid) + 1); 
+		char *ptr = strstr (attach_filename, comp_uid);
+		if (ptr) {
+			ptr += strlen(comp_uid);
+			if (*ptr++ == '-')
+				camel_mime_part_set_filename (part, ptr); 
+		}
+
 		e_attachment_bar_attach_mime_part ((EAttachmentBar *) editor->priv->attachment_bar, part);
 
 		camel_object_unref (part);
