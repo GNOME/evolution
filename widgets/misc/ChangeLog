@@ -1,3 +1,8 @@
+2005-08-11  Srinivasa Ragavan <sragavan@novell.com>
+
+	* e-attachment-bar.[ch] (e_attachment_bar_refresh): Added a function
+	to force refresh/resize the icons.
+
 2005-08-02  David Malcolm  <dmalcolm@redhat.com>
 
 	* e-attachment-bar.c: (update_remote_file): escape the "%" character 

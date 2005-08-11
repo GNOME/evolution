@@ -488,6 +488,12 @@ e_attachment_bar_remove_selected (EAttachmentBar *bar)
 }
 
 void
+e_attachment_bar_refresh (EAttachmentBar *bar)
+{
+	update (bar);
+}
+
+void
 e_attachment_bar_edit_selected (EAttachmentBar *bar)
 {
 	GnomeIconList *icon_list;
