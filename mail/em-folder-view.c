@@ -1827,14 +1827,10 @@ emfv_enable_menus(EMFolderView *emfv)
 
 	{
 		if (emfv->menu) {
-			if (emfv->folder) {
-				EMMenuTargetSelect *t;
+			EMMenuTargetSelect *t;
 
-				t = em_menu_target_new_select(emfv->menu, emfv->folder, emfv->folder_uri, message_list_get_selected(emfv->list));
-				e_menu_update_target((EMenu *)emfv->menu, t);
-			} else {
-				e_menu_update_target((EMenu *)emfv->menu, NULL);
-			}
+			t = em_menu_target_new_select(emfv->menu, emfv->folder, emfv->folder_uri, message_list_get_selected(emfv->list));
+			e_menu_update_target((EMenu *)emfv->menu, t);
 		}
 	}
 

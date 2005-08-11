@@ -1,3 +1,10 @@
+2005-08-11  Parthasarathi Susarla <sparthasarathi@novell.com>
+
+	* em-folder-view.c
+	(emfv_enable_menus): return the target in any case.
+	It will be an empty target and not NULL.
+	Fixes bug ** 312420
+
 2005-08-11  Srinivasa Ragavan <sragavan@novell.com>
 
 	* em-format-html-display.c (efhd_attachment_bar_refresh) (efhd_bar_resize)

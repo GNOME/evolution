@@ -297,7 +297,8 @@ GtkWidget *em_folder_browser_new(void)
 	 * @Class: org.gnome.evolution.mail.bonobomenu:1.0
 	 * @Target: EMMenuTargetSelect
 	 *
-	 * The main menu of mail view of the main application window.
+	 * The main menu of mail view of the main application window. 
+	 * If the folder is NULL (not selected), the target will be empty, not NULL.
 	 */
 	((EMFolderView *)emfb)->menu = em_menu_new("org.gnome.evolution.mail.browser");
 
