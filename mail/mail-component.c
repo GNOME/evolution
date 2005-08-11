@@ -324,6 +324,7 @@ load_accounts (MailComponent *component, EAccountList *accounts)
 		   any that come through as account sources are really movemail sources! */
 		if (account->enabled
 		    && service->url != NULL
+		    && service->url[0]
 		    && strncmp(service->url, "mbox:", 5) != 0)
 			mail_component_load_store_by_uri (component, service->url, name);
 		

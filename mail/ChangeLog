@@ -1,3 +1,15 @@
+2005-08-10  Not Zed  <NotZed@Ximian.com>
+
+	** See #271985.
+
+	* mail-config.c (mail_config_write_on_exit) 
+	(mail_config_get_account_by_source_url) 
+	(mail_config_get_account_by_transport_url) 
+	(mail_config_get_default_transport): 
+
+	* mail-component.c (load_accounts): check url for content before
+	using it.
+
 2005-08-09  Not Zed  <NotZed@Ximian.com>
 
 	** See #312715.

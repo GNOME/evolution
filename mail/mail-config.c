@@ -425,14 +425,14 @@ mail_config_write_on_exit (void)
 		
 		account = (EAccount *) e_iterator_get (iter);
 		
-		if (account->source->save_passwd && account->source->url) {
+		if (account->source->save_passwd && account->source->url && account->source->url[0]) {
 			passwd = mail_session_get_password (account->source->url);
 			mail_session_forget_password (account->source->url);
 			mail_session_add_password (account->source->url, passwd);
 			g_free (passwd);
 		}
 		
-		if (account->transport->save_passwd && account->transport->url) {
+		if (account->transport->save_passwd && account->transport->url && account->transport->url[0]) {
 			passwd = mail_session_get_password (account->transport->url);
 			mail_session_forget_password (account->transport->url);
 			mail_session_add_password (account->transport->url, passwd);
@@ -452,10 +452,10 @@ mail_config_write_on_exit (void)
 	while (e_iterator_is_valid (iter)) {
 		account = (EAccount *) e_iterator_get (iter);
 		
-		if (account->source->save_passwd && account->source->url)
+		if (account->source->save_passwd && account->source->url && account->source->url[0])
 			mail_session_remember_password (account->source->url);
 		
-		if (account->transport->save_passwd && account->transport->url)
+		if (account->transport->save_passwd && account->transport->url && account->transport->url[0])
 			mail_session_remember_password (account->transport->url);
 		
 		e_iterator_next (iter);
@@ -602,7 +602,7 @@ mail_config_get_account_by_source_url (const char *source_url)
 	while (e_iterator_is_valid (iter)) {
 		account = (EAccount *) e_iterator_get (iter);
 		
-		if (account->source && account->source->url) {
+		if (account->source && account->source->url && account->source->url[0]) {
 			CamelURL *url;
 			
 			url = camel_url_new (account->source->url, NULL);
@@ -650,7 +650,7 @@ mail_config_get_account_by_transport_url (const char *transport_url)
 	while (e_iterator_is_valid (iter)) {
 		account = (EAccount *) e_iterator_get (iter);
 		
-		if (account->transport && account->transport->url) {
+		if (account->transport && account->transport->url && account->transport->url[0]) {
 			CamelURL *url;
 			
 			url = camel_url_new (account->transport->url, NULL);
@@ -741,7 +741,7 @@ mail_config_get_default_transport (void)
 	EIterator *iter;
 	
 	account = mail_config_get_default_account ();
-	if (account && account->transport && account->transport->url)
+	if (account && account->transport && account->transport->url && account->transport->url[0])
 		return account->transport;
 	
 	/* return the first account with a transport? */
@@ -749,7 +749,7 @@ mail_config_get_default_transport (void)
 	while (e_iterator_is_valid (iter)) {
 		account = (EAccount *) e_iterator_get (iter);
 		
-		if (account->transport && account->transport->url) {
+		if (account->transport && account->transport->url && account->transport->url[0]) {
 			g_object_unref (iter);
 			
 			return account->transport;
