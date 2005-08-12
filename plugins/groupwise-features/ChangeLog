@@ -1,3 +1,8 @@
+2005-08-11  Veerapuram Varadhan <vvaradhan@novell.com>
+
+	* proxy.c:
+	(proxy_commit) : Check "prd" for NULL, ALWAYS.
+	
 2005-08-10  Sankar P  <psankar@novell.com>
 
 	* proxy.c :  

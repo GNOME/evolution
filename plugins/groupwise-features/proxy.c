@@ -537,10 +537,13 @@ proxy_commit (GtkWidget *button, EConfigHookItemFactoryData *data)
 	target_account = (EMConfigTargetAccount *)data->config->target;
 	account = target_account->account;
 	prd = g_object_get_data ((GObject *)account, "prd");    
+
+	/* In case of non-GroupWise preferences edit, "prd" will be NULL. */
+	if (!prd || !prd->priv || !prd->priv->proxy_list)
+		return;
+
 	priv = prd->priv;
 	list_iter = priv->proxy_list;
-	if (prd == NULL || list_iter == NULL)
-		return;
 	for (;list_iter; list_iter = g_list_next (list_iter)) {
 		aclInstance = (proxyHandler *) list_iter->data;
 
