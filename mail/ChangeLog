@@ -1,3 +1,9 @@
+2005-08-12  Vivek Jain <jvivek@novell.com>
+
+	* em-account-editor.c : (emae_check_complete)
+	first prepare the page and then validate
+	**Fixes #273842
+
 2005-08-11  Not Zed  <NotZed@Ximian.com>
 
 	** See #232499.

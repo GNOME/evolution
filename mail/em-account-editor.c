@@ -2414,40 +2414,6 @@ emae_check_complete(EConfig *ec, const char *pageid, void *data)
 	const char *tmp;
 	EAccount *ea;
 
-	if (pageid == NULL || !strcmp(pageid, "00.identity")) {
-		/* TODO: check the account name is set, and unique in the account list */
-		ok = (tmp = e_account_get_string(emae->account, E_ACCOUNT_ID_NAME))
-			&& tmp[0]
-			&& (tmp = e_account_get_string(emae->account, E_ACCOUNT_ID_ADDRESS))
-			&& is_email(tmp)
-			&& ((tmp = e_account_get_string(emae->account, E_ACCOUNT_ID_REPLY_TO)) == NULL
-			    || tmp[0] == 0
-			    || is_email(tmp));
-		if (!ok)
-			d(printf("identity incomplete\n"));
-	}
-
-	if (ok && (pageid == NULL || !strcmp(pageid, "10.receive"))) {
-		ok = emae_service_complete(emae, &emae->priv->source);
-		if (!ok)
-			d(printf("receive page incomplete\n"));
-	}
-
-	if (ok && (pageid == NULL || !strcmp(pageid, "30.send"))) {
-		ok = emae_service_complete(emae, &emae->priv->transport);
-		if (!ok)
-			d(printf("send page incomplete\n"));
-	}
-
-	if (ok && (pageid == NULL || !strcmp(pageid, "40.management"))) {
-		ok = (tmp = e_account_get_string(emae->account, E_ACCOUNT_NAME))
-			&& tmp[0]
-			&& ((ea = mail_config_get_account_by_name(tmp)) == NULL
-			    || ea == emae->original);
-		if (!ok)
-			d(printf("management page incomplete\n"));
-	}
-
 	/* We use the page-check of various pages to 'prepare' or
 	   pre-load their values, only in the druid */
 	if (pageid
@@ -2498,6 +2464,40 @@ emae_check_complete(EConfig *ec, const char *pageid, void *data)
 				gtk_entry_set_text(emae->priv->identity_entries[0], template);
 			}
 		}
+	}
+
+	if (pageid == NULL || !strcmp(pageid, "00.identity")) {
+		/* TODO: check the account name is set, and unique in the account list */
+		ok = (tmp = e_account_get_string(emae->account, E_ACCOUNT_ID_NAME))
+			&& tmp[0]
+			&& (tmp = e_account_get_string(emae->account, E_ACCOUNT_ID_ADDRESS))
+			&& is_email(tmp)
+			&& ((tmp = e_account_get_string(emae->account, E_ACCOUNT_ID_REPLY_TO)) == NULL
+			    || tmp[0] == 0
+			    || is_email(tmp));
+		if (!ok)
+			d(printf("identity incomplete\n"));
+	}
+
+	if (ok && (pageid == NULL || !strcmp(pageid, "10.receive"))) {
+		ok = emae_service_complete(emae, &emae->priv->source);
+		if (!ok)
+			d(printf("receive page incomplete\n"));
+	}
+
+	if (ok && (pageid == NULL || !strcmp(pageid, "30.send"))) {
+		ok = emae_service_complete(emae, &emae->priv->transport);
+		if (!ok)
+			d(printf("send page incomplete\n"));
+	}
+
+	if (ok && (pageid == NULL || !strcmp(pageid, "40.management"))) {
+		ok = (tmp = e_account_get_string(emae->account, E_ACCOUNT_NAME))
+			&& tmp[0]
+			&& ((ea = mail_config_get_account_by_name(tmp)) == NULL
+			    || ea == emae->original);
+		if (!ok)
+			d(printf("management page incomplete\n"));
 	}
 
 	return ok;
