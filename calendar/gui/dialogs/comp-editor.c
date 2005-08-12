@@ -625,7 +625,7 @@ get_attachment_list (CompEditor *editor)
 
 		filename = g_strdup_printf ("%s-%s", comp_uid, safe_fname);
 
-		attach_file_url = g_build_path (G_DIR_SEPARATOR_S, local_store, filename, NULL);
+		attach_file_url = g_build_path ("/", local_store, filename, NULL);
 
 		g_free (filename);
 		g_free (safe_fname);
@@ -1017,7 +1017,7 @@ attachment_bar_icon_clicked_cb (EAttachmentBar *bar, GdkEvent *event, CompEditor
 						    comp_uid,
 						    camel_mime_part_get_filename(attachment->body));
 
-			attach_file_url = g_build_path (G_DIR_SEPARATOR_S, local_store, filename, NULL);
+			attach_file_url = g_build_path ("/", local_store, filename, NULL);
 			
 			/* launch the url now */
 			/* TODO should send GError and handle error conditions
