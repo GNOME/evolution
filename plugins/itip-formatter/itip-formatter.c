@@ -35,6 +35,8 @@
 #include <camel/camel-mime-message.h>
 #include <camel/camel-folder.h>
 #include <camel/camel-multipart.h>
+#include <camel/camel-service.h>
+#include <camel/camel-store.h>
 #include <libecal/e-cal.h>
 #include <libecal/e-cal-time-util.h>
 #include <libedataserverui/e-source-option-menu.h>
@@ -1755,8 +1757,47 @@ format_itip_object (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject 
 
 	if (pitip->calendar_uid)
 		pitip->current_ecal = start_calendar_server_by_uid (pitip, pitip->calendar_uid, pitip->type);
-	else
-		find_server (pitip, pitip->comp);
+	else {
+
+		/* Since the mailer uri matches with only groupwise calendar uri so for this case we need not 
+		   have to call find_server */
+                CamelFolder *folder;
+                CamelStore *parent_store;
+                CamelService parent_object;
+                CamelURL *url;
+                char *uri;
+                GSList *groups, *l;
+                ESource *source;
+                gboolean found = FALSE;
+
+                folder = (((pitip->pobject).format)->format).folder;
+                parent_store = folder->parent_store;
+                parent_object = parent_store->parent_object;
+                url = parent_object.url;
+                uri = camel_url_to_string (url, CAMEL_URL_HIDE_ALL);
+
+                groups = e_source_list_peek_groups (pitip->source_lists[pitip->type]);
+                for (l = groups; l && !found; l = l->next) {
+                        ESourceGroup *group;
+                        GSList *sources, *m;
+
+                        group = l->data;
+                        sources = e_source_group_peek_sources (group);
+                        for (m = sources; m && !found; m = m->next) {
+                                source = m->data;
+                                if (!strcmp (uri, e_source_get_uri (source))) {
+                                        found = TRUE;
+                                        break;
+                                }
+                        }
+                }
+
+                if (found) {
+                        pitip->current_ecal = start_calendar_server (pitip, source, pitip->type, cal_opened_cb, pitip);
+                        set_buttons_sensitive (pitip);
+                } else
+                        find_server (pitip, pitip->comp);
+	}
 	
 	return TRUE;
 }

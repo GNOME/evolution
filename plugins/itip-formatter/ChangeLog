@@ -1,3 +1,9 @@
+2005-08-11  Dinesh Layek  <LDinesh@novell.com>
+
+	Fixes #305627
+	* itip-formatter.c: (format_itip_object): set the source calendar
+	of an appointment from the url information of CamelFolder.
+
 2005-08-09  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #307841
