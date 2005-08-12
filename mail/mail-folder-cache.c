@@ -588,10 +588,32 @@ store_folder_deleted(CamelObject *o, void *event_data, void *data)
 		store_folder_unsubscribed(o, event_data, data);
 }
 
+static char *
+folder_to_url(CamelStore *store, const char *full_name)
+{
+	CamelURL *url;
+	char *out;
+
+	url = camel_url_copy(((CamelService *)store)->url);
+	if (((CamelService *)store)->provider->url_flags  & CAMEL_URL_FRAGMENT_IS_PATH) {
+		camel_url_set_fragment(url, full_name);
+	} else {
+		char *name = g_alloca(strlen(full_name)+2);
+
+		sprintf(name, "/%s", full_name);
+		camel_url_set_path(url, name);
+	}
+
+	out = camel_url_to_string(url, CAMEL_URL_HIDE_ALL);
+	camel_url_free(url);
+
+	return out;
+}
+
 static void
 rename_folders(struct _store_info *si, const char *oldbase, const char *newbase, CamelFolderInfo *fi)
 {
-	char *old;
+	char *old, *olduri, *oldfile, *newuri, *newfile;
 	struct _folder_info *mfi;
 	struct _folder_update *up;
 
@@ -630,8 +652,6 @@ rename_folders(struct _store_info *si, const char *oldbase, const char *newbase,
 		g_hash_table_insert(si->folders_uri, mfi->uri, mfi);
 	}
 
-	g_free(old);
-
 	up->full_name = g_strdup(mfi->full_name);
 	up->uri = g_strdup(mfi->uri);
 	up->unread = fi->unread==-1?0:fi->unread;
@@ -649,6 +669,26 @@ rename_folders(struct _store_info *si, const char *oldbase, const char *newbase,
 	if (fi->child)
 		rename_folders(si, oldbase, newbase, fi->child, folders);
 #endif
+
+	/* rename the meta-data we maintain ourselves */
+	olduri = folder_to_url(si->store, old);
+	e_filename_make_safe(olduri);
+	newuri = folder_to_url(si->store, fi->full_name);
+	e_filename_make_safe(newuri);
+	oldfile = g_strdup_printf("%s/mail/config/custom_view-%s.xml", mail_component_peek_base_directory(NULL), olduri);
+	newfile = g_strdup_printf("%s/mail/config/custom_view-%s.xml", mail_component_peek_base_directory(NULL), newuri);
+	rename(oldfile, newfile);
+	g_free(oldfile);
+	g_free(newfile);
+	oldfile = g_strdup_printf("%s/mail/config/current_view-%s.xml", mail_component_peek_base_directory(NULL), olduri);
+	newfile = g_strdup_printf("%s/mail/config/current_view-%s.xml", mail_component_peek_base_directory(NULL), newuri);
+	rename(oldfile, newfile);
+	g_free(oldfile);
+	g_free(newfile);
+	g_free(olduri);
+	g_free(newuri);
+
+	g_free(old);
 }
 
 static void
