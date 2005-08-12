@@ -27,6 +27,7 @@
 #include <gtk/gtkdialog.h>
 #include <gtk/gtkimage.h>
 #include <gtk/gtklabel.h>
+#include <gtk/gtkbutton.h>
 #include <gtk/gtkspinbutton.h>
 #include <gtk/gtksignal.h>
 #include <gtk/gtkscrolledwindow.h>
@@ -81,11 +82,6 @@ typedef struct {
 	
 } AlarmNotify;
 
-enum {
-	AN_RESPONSE_EDIT = 0,
-	AN_RESPONSE_SNOOZE = 1
-};
-
 
 
 static void
@@ -94,7 +90,11 @@ tree_selection_changed_cb (GtkTreeSelection *selection, gpointer data);
 static void
 fill_in_labels (AlarmNotify *an, const gchar *summary, const gchar *description, 
 			const gchar *location, time_t occur_start, time_t occur_end);
+static void 
+edit_pressed_cb (GtkButton *button, gpointer user_data);
 
+static void
+snooze_pressed_cb (GtkButton *button, gpointer user_data);
 
 
 AlarmNotify *an = NULL;
@@ -120,7 +120,6 @@ an_update_minutes_label (GtkSpinButton *sb, gpointer data)
 static void
 dialog_response_cb (GtkDialog *dialog, guint response_id, gpointer user_data)
 {
-	int snooze_timeout;
 	AlarmNotify *an = user_data;
 	GtkTreeIter iter;
 	GtkTreeModel *model = NULL;
@@ -133,20 +132,50 @@ dialog_response_cb (GtkDialog *dialog, guint response_id, gpointer user_data)
 	g_return_if_fail (funcinfo);
 
 	switch (response_id) {
-	case AN_RESPONSE_EDIT:
-		(* funcinfo->func) (ALARM_NOTIFY_EDIT, -1, funcinfo->func_data);
-		break;
-	case AN_RESPONSE_SNOOZE:
-		snooze_timeout = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (an->snooze_time));
-		(* funcinfo->func) (ALARM_NOTIFY_SNOOZE, snooze_timeout, funcinfo->func_data);
-		break;
 	case GTK_RESPONSE_CLOSE:
 	case GTK_RESPONSE_DELETE_EVENT:
 		(* funcinfo->func) (ALARM_NOTIFY_CLOSE, -1, funcinfo->func_data);
 		break;
 	}
-	
+
 	return;
+}
+
+static void 
+edit_pressed_cb (GtkButton *button, gpointer user_data)
+{
+	AlarmNotify *an = user_data;
+	AlarmFuncInfo *funcinfo = NULL;
+	GtkTreeIter iter;
+	GtkTreeModel *model = NULL;
+	GtkTreeSelection *selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (an->treeview));
+
+	if (gtk_tree_selection_get_selected (selection, &model, &iter))
+		gtk_tree_model_get (model, &iter, ALARM_FUNCINFO_COLUMN, &funcinfo, -1);	
+
+	g_return_if_fail (funcinfo);
+	
+	(* funcinfo->func) (ALARM_NOTIFY_EDIT, -1, funcinfo->func_data);
+}
+
+static void 
+snooze_pressed_cb (GtkButton *button, gpointer user_data)
+{
+	int snooze_timeout;
+	AlarmNotify *an = user_data;
+	GtkTreeIter iter;
+	GtkTreeModel *model = NULL;
+	AlarmFuncInfo *funcinfo = NULL;
+	GtkTreeSelection *selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (an->treeview));
+
+	if (gtk_tree_selection_get_selected (selection, &model, &iter))
+		gtk_tree_model_get (model, &iter, ALARM_FUNCINFO_COLUMN, &funcinfo, -1);	
+
+	g_return_if_fail (funcinfo);
+
+	snooze_timeout = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (an->snooze_time));
+	(* funcinfo->func) (ALARM_NOTIFY_SNOOZE, snooze_timeout, funcinfo->func_data);
+
 }
 
 static void
@@ -166,6 +195,8 @@ dialog_destroyed_cb (GtkWidget *dialog, gpointer user_data)
 AlarmNotificationsDialog *
 notified_alarms_dialog_new (void)
 {
+	GtkWidget *edit_btn;
+	GtkWidget *snooze_btn;
 	GtkWidget *image;
 	char *icon_path;
 	GList *icon_list;
@@ -201,9 +232,11 @@ notified_alarms_dialog_new (void)
 	an->location = glade_xml_get_widget (an->xml, "location-label");
 	an->treeview = glade_xml_get_widget (an->xml, "appointments-treeview");
 	an->scrolledwindow = glade_xml_get_widget (an->xml, "treeview-scrolledwindow");
+	snooze_btn = glade_xml_get_widget (an->xml, "snooze-button");
+	edit_btn = glade_xml_get_widget (an->xml, "edit-button");
 
 	if (!(an->dialog && an->scrolledwindow && an->treeview && an->snooze_time
-	      && an->description && an->location)) {
+	      && an->description && an->location && edit_btn && snooze_btn)) {
 		g_message ("alarm_notify_dialog(): Could not find all widgets in Glade file!");
 		g_object_unref (an->xml);
 		g_free (an);
@@ -232,7 +265,9 @@ notified_alarms_dialog_new (void)
 	icon_path = e_icon_factory_get_icon_filename ("stock_alarm", E_ICON_SIZE_DIALOG);
 	gtk_image_set_from_file (GTK_IMAGE (image), icon_path);
 	g_free (icon_path);
-	
+
+	g_signal_connect (edit_btn, "pressed", G_CALLBACK (edit_pressed_cb), an);
+	g_signal_connect (snooze_btn, "pressed", G_CALLBACK (snooze_pressed_cb), an);
 	g_signal_connect (G_OBJECT (an->dialog), "response", G_CALLBACK (dialog_response_cb), an);
 	g_signal_connect (G_OBJECT (an->dialog), "destroy", G_CALLBACK (dialog_destroyed_cb), an);
 	

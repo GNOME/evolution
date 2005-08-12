@@ -326,7 +326,7 @@
 		      <property name="spacing">5</property>
 
 		      <child>
-			<widget class="GtkButton" id="button4">
+			<widget class="GtkButton" id="snooze-button">
 			  <property name="visible">True</property>
 			  <property name="can_default">True</property>
 			  <property name="can_focus">True</property>
@@ -405,7 +405,7 @@
 		      </child>
 
 		      <child>
-			<widget class="GtkButton" id="button3">
+			<widget class="GtkButton" id="edit-button">
 			  <property name="visible">True</property>
 			  <property name="can_default">True</property>
 			  <property name="can_focus">True</property>

@@ -1,3 +1,17 @@
+2005-08-12  Viren.L  <lviren@novell.com>
+
+	Fixes #310338
+	* gui/alarm-notify-dialog.c:(notified_alarms_dialog_new),
+	(edit_pressed_cb),(snooze_pressed_cb),(dialog_response_cb):	
+	Get the widget and connected "pressed" signal.
+	Removed AN_ALARM_EDIT and AN_ALARM_SNOOZE enums.
+	Removed check of these enums in dialog_response_cb and
+	moved the code to it's associated call backs.
+	* gui/alarm-notify/alarm-notify.glade:
+	Changed the button name to button-edit and button-snooze.
+	* gui/comp-editor-factory.c: (edit_existing):
+	Added CompEditorFlags and used to invoke event_editor_new.		
+
 2005-08-11  Carsten Guenther <carsten.guenther@scalix.com>
 
 	* gui/dialogs/comp-editor.c: (get_attachment_list),
@@ -6,7 +20,6 @@
 	attachment file.
 	(set_attachment_list): Fixed how mime filename gets
 	extracted from attachments pathname.
-
 
 2005-08-10  Tor Lillqvist  <tml@novell.com>
 
