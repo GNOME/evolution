@@ -3301,23 +3301,16 @@ e_day_view_on_event_double_click (EDayView *day_view,
 
 	if (day == -1)
 		event = &g_array_index (day_view->long_events, EDayViewEvent,
-					event_num);
+				event_num);
 	else 
 		event = &g_array_index (day_view->events[day], EDayViewEvent,
-					event_num);
+				event_num);
 
-        if (day == day_view->editing_event_day
-	                    && event_num == day_view->editing_event_num
-        	            && icalcomponent_get_current_property (event->comp_data->icalcomp)) {
-        	attendee_prop = icalcomponent_get_first_property (event->comp_data->icalcomp, ICAL_ATTENDEE_PROPERTY)
-;
-        	e_calendar_view_edit_appointment (day_view,
-				     event->comp_data->client, 
-				     event->comp_data->icalcomp, attendee_prop ? TRUE:FALSE);
- 	} else    
-		e_calendar_view_edit_appointment (day_view,
-				event->comp_data->client,
-			        event->comp_data->icalcomp, FALSE);
+	attendee_prop = icalcomponent_get_first_property (event->comp_data->icalcomp, ICAL_ATTENDEE_PROPERTY);
+
+	e_calendar_view_edit_appointment (day_view,
+			event->comp_data->client, 
+			event->comp_data->icalcomp, attendee_prop ? TRUE:FALSE);
 }
 
 static void

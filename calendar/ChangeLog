@@ -1,5 +1,11 @@
 2005-08-12  Viren.L  <lviren@novell.com>
 
+	Fixes #312739
+	* gui/e-day-view.c: (e_day_view_on_event_double_click):
+	Removed the checks for event_num, editing_event_day and ical_component_get_current_property. 
+
+2005-08-12  Viren.L  <lviren@novell.com>
+
 	Fixes #310338
 	* gui/alarm-notify-dialog.c:(notified_alarms_dialog_new),
 	(edit_pressed_cb),(snooze_pressed_cb),(dialog_response_cb):	
