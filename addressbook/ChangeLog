@@ -1,3 +1,8 @@
+2005-03-13  Sushma Rai  <rsushma@novell.com>
+
+	* gui/component/addressbook-config.c (do_ldap_root_dse_query): Checking
+	for naming context value.
+
 2005-08-10  Tor Lillqvist  <tml@novell.com>
 
 	* importers/Makefile.am: Use privsolib instead of privlib (no

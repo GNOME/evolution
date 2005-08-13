@@ -347,7 +347,7 @@ do_ldap_root_dse_query (AddressbookSourceDialog *sdialog, GtkListStore *model, E
 		goto fail;
 
 	values = ldap_get_values (ldap, resp, "namingContexts");
-	if (!values || values[0] == NULL) {
+	if (!values || values[0] == NULL || strlen (values[0]) == 0) {
 		e_error_run (GTK_WINDOW (sdialog->window), "addressbook:ldap-search-base", NULL);
 		goto fail;
 	}
