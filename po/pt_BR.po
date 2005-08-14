@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-08-05 21:31+0000\n"
-"PO-Revision-Date: 2005-08-06 18:34-0300\n"
+"POT-Creation-Date: 2005-08-08 05:25+0000\n"
+"PO-Revision-Date: 2005-08-09 08:55-0300\n"
 "Last-Translator: Afonso Celso Medina <afmedina@uol.com.br>\n"
 "Language-Team: Brazilian Portuguese\n"
 "MIME-Version: 1.0\n"
@@ -394,8 +394,8 @@ msgstr "O catálogo de endereços do Evolution terminou de forma inesperada."
 msgid ""
 "The image you have selected is large. Do you want to resize and store it?"
 msgstr ""
-"A imagem que você selecionou é grande. Você deseja alterar o seu tamanho "
-"e armazená-la?"
+"A imagem que você selecionou é grande. Você deseja alterar o seu tamanho e "
+"armazená-la?"
 
 #: ../addressbook/addressbook.error.xml.h:17
 msgid ""
@@ -571,7 +571,7 @@ msgid "Manage your S/MIME certificates here"
 msgstr "Gerencie aqui os seus certificados S/MIME"
 
 #. create the local source group
-#. On This Computer is always first and vFolders is always last
+#. On This Computer is always first and Search Folders is always last
 #: ../addressbook/gui/component/addressbook-component.c:137
 #: ../addressbook/gui/component/addressbook-migrate.c:502
 #: ../calendar/gui/calendar-component.c:208 ../calendar/gui/migration.c:462
@@ -677,7 +677,7 @@ msgstr "Autenticação"
 
 #: ../addressbook/gui/component/addressbook-config.c:912
 #: ../addressbook/gui/component/ldap-config.glade.h:18
-#: ../mail/mail-dialogs.glade.h:8 ../smime/gui/smime-ui.glade.h:20
+#: ../mail/mail-dialogs.glade.h:7 ../smime/gui/smime-ui.glade.h:20
 msgid "Details"
 msgstr "Detalhes"
 
@@ -854,7 +854,7 @@ msgstr "Quando exibir o painel de visualização."
 #: ../calendar/gui/dialogs/new-task-list.glade.h:1
 #: ../calendar/gui/dialogs/url-editor-dialog.glade.h:1
 #: ../composer/e-msg-composer-attachment.glade.h:1
-#: ../mail/mail-dialogs.glade.h:2 ../mail/message-tags.glade.h:1
+#: ../mail/message-tags.glade.h:1
 #: ../plugins/exchange-operations/exchange-change-password.glade.h:1
 #: ../plugins/groupwise-features/properties.glade.h:1
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.glade.h:1
@@ -4226,7 +4226,7 @@ msgid "_Save"
 msgstr "_Salvar"
 
 #: ../calendar/calendar.error.xml.h:65
-#: ../composer/mail-composer.error.xml.h:31 ../mail/mail.error.xml.h:121
+#: ../composer/mail-composer.error.xml.h:31 ../mail/mail.error.xml.h:123
 msgid "_Send"
 msgstr "_Enviar"
 
@@ -6614,7 +6614,7 @@ msgstr "Data de Início"
 
 #: ../calendar/gui/e-cal-list-view.etspec.h:5
 #: ../calendar/gui/e-calendar-table.etspec.h:11
-#: ../mail/mail-dialogs.glade.h:17 ../plugins/save-calendar/csv-format.c:386
+#: ../mail/mail-dialogs.glade.h:16 ../plugins/save-calendar/csv-format.c:386
 msgid "Summary"
 msgstr "Resumo"
 
@@ -10175,7 +10175,7 @@ msgstr "Você deseja sobrescrevê-lo?"
 msgid "File exists &quot;{0}&quot;."
 msgstr "Arquivo existe &quot;{0}&quot;."
 
-#: ../e-util/e-system.error.xml.h:7 ../mail/mail.error.xml.h:120
+#: ../e-util/e-system.error.xml.h:7 ../mail/mail.error.xml.h:122
 msgid "_Overwrite"
 msgstr "S_obrescrever"
 
@@ -10709,7 +10709,7 @@ msgstr "Adicionar script de assinatura"
 msgid "Signature(s)"
 msgstr "Assinatura(s)"
 
-#: ../mail/em-composer-utils.c:853
+#: ../mail/em-composer-utils.c:853 ../mail/em-format-quote.c:389
 msgid "-------- Forwarded Message --------"
 msgstr "-------- Mensagem encaminhada --------"
 
@@ -10994,8 +10994,8 @@ msgid "<b>Then</b>"
 msgstr "<b>Então</b>"
 
 #: ../mail/em-folder-browser.c:134
-msgid "Create _vFolder From Search..."
-msgstr "Criar Pasta _Virtual a Partir da Pesquisa..."
+msgid "C_reate Search Folder From Search..."
+msgstr "C_riar Pasta de Pesquisa a Partir da Pesquisa..."
 
 #. TODO: can this be done in a loop?
 #: ../mail/em-folder-properties.c:144
@@ -11029,8 +11029,8 @@ msgstr "_Nome da pasta:"
 
 #: ../mail/em-folder-tree-model.c:201 ../mail/em-folder-tree-model.c:203
 #: ../mail/mail-vfolder.c:937 ../mail/mail-vfolder.c:1007
-msgid "vFolders"
-msgstr "Pastas Virtuais"
+msgid "Search Folders"
+msgstr "Pastas de Pesquisa"
 
 #. UNMATCHED is always last
 #: ../mail/em-folder-tree-model.c:207 ../mail/em-folder-tree-model.c:209
@@ -11244,20 +11244,20 @@ msgid "Crea_te Rule From Message"
 msgstr "Criar _Regra a Partir da Mensagem"
 
 #: ../mail/em-folder-view.c:1074
-msgid "vFolder on _Subject"
-msgstr "Pasta Virtual por A_ssunto"
+msgid "Search Folder from _Subject"
+msgstr "Pasta de Pesquisa por _Assunto"
 
 #: ../mail/em-folder-view.c:1075
-msgid "vFolder on Se_nder"
-msgstr "Pasta Virtual por Remete_nte"
+msgid "Search Folder from Se_nder"
+msgstr "Pasta de Pesquisa por Remete_nte"
 
 #: ../mail/em-folder-view.c:1076
-msgid "vFolder on _Recipients"
-msgstr "Pasta Virtual por Destinatá_rios"
+msgid "Search Folder from _Recipients"
+msgstr "Pasta de Pesquisa por Destinatá_rios"
 
 #: ../mail/em-folder-view.c:1077
-msgid "vFolder on Mailing _List"
-msgstr "Pasta Virtual por _Lista de Discussão"
+msgid "Search Folder from Mailing _List"
+msgstr "Pasta de Pesquisa por _Lista de Discussão"
 
 #: ../mail/em-folder-view.c:1081
 msgid "Filter on Sub_ject"
@@ -11295,8 +11295,8 @@ msgid "_Copy Link Location"
 msgstr "Copiar Local do _Link"
 
 #: ../mail/em-folder-view.c:2419
-msgid "Create _vFolder"
-msgstr "Criar Pasta _Virtual"
+msgid "Create _Search Folder"
+msgstr "Criar Pasta de _Pesquisa"
 
 #: ../mail/em-folder-view.c:2420
 msgid "_From this Address"
@@ -11787,12 +11787,12 @@ msgid "Messages from %s"
 msgstr "Mensagens de %s"
 
 #: ../mail/em-vfolder-editor.c:104
-msgid "v_Folders"
-msgstr "Pastas _Virtuais"
+msgid "Search _Folders"
+msgstr "Pastas de P_esquisa"
 
 #: ../mail/em-vfolder-rule.c:574
-msgid "vFolder source"
-msgstr "Fonte de pastas virtuais"
+msgid "Search Folder source"
+msgstr "Fonte da Pasta de Pesquisa"
 
 #: ../mail/evolution-mail.schemas.in.in.h:1
 msgid "Automatic link recognition"
@@ -13157,60 +13157,60 @@ msgstr "cor"
 msgid "description"
 msgstr "descrição"
 
-#: ../mail/mail-dialogs.glade.h:3
-msgid "<b>vFolder Sources</b>"
-msgstr "<b>Fontes de Pastas Virtuais</b>"
+#: ../mail/mail-dialogs.glade.h:2
+msgid "<b>Search Folder Sources</b>"
+msgstr "<b>Fontes de Pastas de Pesquisa</b>"
 
-#: ../mail/mail-dialogs.glade.h:4
+#: ../mail/mail-dialogs.glade.h:3
 msgid "<span weight=\"bold\">Digital Signature</span>"
 msgstr "<span weight=\"bold\">Assinatura Digital</span>"
 
-#: ../mail/mail-dialogs.glade.h:5
+#: ../mail/mail-dialogs.glade.h:4
 msgid "<span weight=\"bold\">Encryption</span>"
 msgstr "<span weight=\"bold\">Criptografia</span>"
 
-#: ../mail/mail-dialogs.glade.h:6
+#: ../mail/mail-dialogs.glade.h:5
 msgid "Case _Sensitive"
 msgstr "Diferenciar Maiú_sculas de Minúsculas"
 
-#: ../mail/mail-dialogs.glade.h:7 ../mail/message-tags.glade.h:2
+#: ../mail/mail-dialogs.glade.h:6 ../mail/message-tags.glade.h:2
 msgid "Co_mpleted"
 msgstr "Co_ncluída"
 
-#: ../mail/mail-dialogs.glade.h:9
+#: ../mail/mail-dialogs.glade.h:8
 msgid "F_ind:"
 msgstr "Local_izar:"
 
-#: ../mail/mail-dialogs.glade.h:10
+#: ../mail/mail-dialogs.glade.h:9
 msgid "Find in Message"
 msgstr "Localizar na Mensagem"
 
-#: ../mail/mail-dialogs.glade.h:11 ../mail/message-tag-followup.c:295
+#: ../mail/mail-dialogs.glade.h:10 ../mail/message-tag-followup.c:295
 #: ../mail/message-tags.glade.h:3
 msgid "Flag to Follow Up"
 msgstr "Marcar Como Lembrete"
 
-#: ../mail/mail-dialogs.glade.h:12
+#: ../mail/mail-dialogs.glade.h:11
 msgid "Folder Subscriptions"
 msgstr "Inscrições de Pastas"
 
-#: ../mail/mail-dialogs.glade.h:13
+#: ../mail/mail-dialogs.glade.h:12
 msgid "License Agreement"
 msgstr "Acordo de Licença"
 
-#: ../mail/mail-dialogs.glade.h:14
+#: ../mail/mail-dialogs.glade.h:13
 msgid "None Selected"
 msgstr "Nenhum Selecionado"
 
-#: ../mail/mail-dialogs.glade.h:15
+#: ../mail/mail-dialogs.glade.h:14
 msgid "S_erver:"
 msgstr "S_ervidor:"
 
-#: ../mail/mail-dialogs.glade.h:16
+#: ../mail/mail-dialogs.glade.h:15
 msgid "Security Information"
 msgstr "Informação de Segurança"
 
-#: ../mail/mail-dialogs.glade.h:18 ../mail/message-tags.glade.h:4
+#: ../mail/mail-dialogs.glade.h:17 ../mail/message-tags.glade.h:4
 msgid ""
 "The messages you have selected for follow up are listed below.\n"
 "Please select a follow up action from the \"Flag\" menu."
@@ -13218,44 +13218,44 @@ msgstr ""
 "As mensagens que você selecionou para lembrete estão relacionadas abaixo.\n"
 "Por favor, selecione uma ação de lembrete no menu \"Marca\"."
 
-#: ../mail/mail-dialogs.glade.h:20
+#: ../mail/mail-dialogs.glade.h:19
 msgid "_Accept License"
 msgstr "_Aceitar Licença"
 
-#: ../mail/mail-dialogs.glade.h:21 ../mail/message-tags.glade.h:6
+#: ../mail/mail-dialogs.glade.h:20 ../mail/message-tags.glade.h:6
 msgid "_Due By:"
 msgstr "_Prazo Até:"
 
-#: ../mail/mail-dialogs.glade.h:22 ../mail/message-tags.glade.h:7
+#: ../mail/mail-dialogs.glade.h:21 ../mail/message-tags.glade.h:7
 msgid "_Flag:"
 msgstr "_Marca:"
 
-#: ../mail/mail-dialogs.glade.h:23
+#: ../mail/mail-dialogs.glade.h:22
 msgid "_Subscribe"
 msgstr "_Inscrever"
 
-#: ../mail/mail-dialogs.glade.h:24
+#: ../mail/mail-dialogs.glade.h:23
 msgid "_Tick this to accept the license agreement"
 msgstr "Marque aqui para acei_tar o acordo de licença"
 
-#: ../mail/mail-dialogs.glade.h:25
+#: ../mail/mail-dialogs.glade.h:24
 #: ../plugins/folder-unsubscribe/org-gnome-mail-folder-unsubscribe.eplug.xml.h:3
 msgid "_Unsubscribe"
 msgstr "_Cancelar a Inscrição"
 
-#: ../mail/mail-dialogs.glade.h:26
+#: ../mail/mail-dialogs.glade.h:25
 msgid "specific folders only"
 msgstr "apenas pastas específicas"
 
-#: ../mail/mail-dialogs.glade.h:27
+#: ../mail/mail-dialogs.glade.h:26
 msgid "with all active remote folders"
 msgstr "com todas as pastas remotas ativas"
 
-#: ../mail/mail-dialogs.glade.h:28
+#: ../mail/mail-dialogs.glade.h:27
 msgid "with all local and active remote folders"
 msgstr "com todas as pastas locais e remotas ativas"
 
-#: ../mail/mail-dialogs.glade.h:29
+#: ../mail/mail-dialogs.glade.h:28
 msgid "with all local folders"
 msgstr "com todas as pastas locais"
 
@@ -13270,7 +13270,7 @@ msgstr "Filtrando pasta"
 
 #: ../mail/mail-ops.c:263
 msgid "Fetching Mail"
-msgstr "Pegando Correio"
+msgstr "Obtendo Correio"
 
 #. sending mail, filtering failed
 #: ../mail/mail-ops.c:563
@@ -13535,26 +13535,26 @@ msgstr "Pasta inválida: `%s'"
 
 #: ../mail/mail-vfolder.c:91
 #, c-format
-msgid "Setting up vFolder: %s"
-msgstr "Preparando pasta virtual: %s"
+msgid "Setting up Search Folder: %s"
+msgstr "Preparando Pasta de Pesquisa: %s"
 
 #: ../mail/mail-vfolder.c:240
 #, c-format
-msgid "Updating vFolders for '%s:%s'"
-msgstr "Atualizando pastas virtuais para '%s:%s'"
+msgid "Updating Search Folders for '%s:%s'"
+msgstr "Atualizando Pastas de Pesquisa para '%s:%s'"
 
 #: ../mail/mail-vfolder.c:247
 #, c-format
-msgid "Updating vFolders for '%s'"
-msgstr "Atualizando pastas virtuais para '%s'"
+msgid "Updating Search Folders for '%s'"
+msgstr "Atualizando Pastas de Pesquias para '%s'"
 
 #: ../mail/mail-vfolder.c:1046
-msgid "Edit vFolder"
-msgstr "Editar Pasta Virtual"
+msgid "Edit Search Folder"
+msgstr "Editar Pasta de Pesquisa"
 
 #: ../mail/mail-vfolder.c:1130
-msgid "New vFolder"
-msgstr "Nova Pasta Virtual"
+msgid "New Search Folder"
+msgstr "Nova Pasta de Pesquisa"
 
 #: ../mail/mail.error.xml.h:1
 msgid ""
@@ -13642,8 +13642,8 @@ msgid "Because &quot;{2}&quot;."
 msgstr "Pois &quot;{2}&quot;."
 
 #: ../mail/mail.error.xml.h:19
-msgid "Cannot add vFolder &quot;{0}&quot;."
-msgstr "Impossível adicionar a pasta virtual &quot;{0}&quot;."
+msgid "Cannot add Search Folder &quot;{0}&quot;."
+msgstr "Impossível adicionar a Pasta de Pesquisa &quot;{0}&quot;."
 
 #: ../mail/mail.error.xml.h:20
 msgid "Cannot copy folder &quot;{0}&quot; to &quot;{1}&quot;."
@@ -13670,8 +13670,8 @@ msgid "Cannot delete system folder &quot;{0}&quot;."
 msgstr "Impossível excluir a pasta do sistema &quot;{0}&quot;."
 
 #: ../mail/mail.error.xml.h:26
-msgid "Cannot edit vFolder &quot;{0}&quot; as it does not exist."
-msgstr "Impossível editar a pasta virtual&quot;{0}&quot; pois ela não existe."
+msgid "Cannot edit Search Folder &quot;{0}&quot; as it does not exist."
+msgstr "Impossível editar a Pasta de Pesquisa l&quot;{0}&quot; pois ela não existe."
 
 #: ../mail/mail.error.xml.h:27
 msgid "Cannot move folder &quot;{0}&quot; to &quot;{1}&quot;."
@@ -13913,10 +13913,14 @@ msgid "Really delete folder &quot;{0}&quot; and all of its subfolders?"
 msgstr "Realmente excluir a pasta &quot;{0}&quot;. e todas as suas sub-pastas?"
 
 #: ../mail/mail.error.xml.h:79
+msgid "Search Folders automatically updated."
+msgstr "Pastas de Pesquisa atualizadas automaticamente."
+
+#: ../mail/mail.error.xml.h:80
 msgid "Send Receipt"
 msgstr "Enviar Recibos de Leitura"
 
-#: ../mail/mail.error.xml.h:80
+#: ../mail/mail.error.xml.h:81
 msgid ""
 "System folders are required for Ximian Evolution to function correctly and "
 "cannot be renamed, moved, or deleted."
@@ -13924,7 +13928,7 @@ msgstr ""
 "Pastas do sistema são necessárias para que o Ximian Evolution funcione "
 "corretamente e não podem ser renomeadas, movidas ou excluídas."
 
-#: ../mail/mail.error.xml.h:81
+#: ../mail/mail.error.xml.h:82
 msgid ""
 "The contact list you are sending to is configured to hide list recipients.\n"
 "\n"
@@ -13941,7 +13945,21 @@ msgstr ""
 "adicionado, listará todos os destinatários de sua mensagem. Para evitar "
 "isto, você deve adicionar pelo menos um destinatário Para: ou Cc:. "
 
-#: ../mail/mail.error.xml.h:84
+#: ../mail/mail.error.xml.h:85
+msgid ""
+"The following Search Folder(s):\n"
+"{0}\n"
+"Used the now removed folder:\n"
+"    &quot;{1}&quot;\n"
+"And have been updated."
+msgstr ""
+"A(s) seguinte(s) Pasta(s) de Pesquisa:\n"
+"{0}\n"
+"Usava a pasta removida:\n"
+"    &quot;{1}&quot;\n"
+"E foram atualizadas."
+
+#: ../mail/mail.error.xml.h:90
 msgid ""
 "The following filter rule(s):\n"
 "{0}\n"
@@ -13955,21 +13973,7 @@ msgstr ""
 "    &quot;{1}&quot;\n"
 "E foram atualizadas."
 
-#: ../mail/mail.error.xml.h:89
-msgid ""
-"The following vFolder(s):\n"
-"{0}\n"
-"Used the now removed folder:\n"
-"    &quot;{1}&quot;\n"
-"And have been updated."
-msgstr ""
-"As seguintes pastas virtuais:\n"
-"{0}\n"
-"Usavam a pasta removida:\n"
-"    &quot;{1}&quot;\n"
-"E foram atualizadas."
-
-#: ../mail/mail.error.xml.h:94
+#: ../mail/mail.error.xml.h:95
 msgid ""
 "The message was sent via the &quot;sendmail&quot; external application.  "
 "Sendmail reports the following error: status 67: mail not sent.\n"
@@ -13981,26 +13985,26 @@ msgstr ""
 "A mensagem está armazenada na Caixa de saída. Verifique erros na mensagem e "
 "envie novamente."
 
-#: ../mail/mail.error.xml.h:96
+#: ../mail/mail.error.xml.h:97
 msgid "The script file must exist and be executable."
 msgstr "A arquivo de script deve existir e ser executável."
 
-#: ../mail/mail.error.xml.h:97
-msgid ""
-"This folder may have been added implicitly, go to the vFolder editor to add "
-"it explicitly, if required."
-msgstr ""
-"Esta pasta pode ter sido adicionada implicitamente. Se necessário, vá para o "
-"editor de pastas virtuais para adicioná-la explicitamente."
-
 #: ../mail/mail.error.xml.h:98
+msgid ""
+"This folder may have been added implicitly,\n"
+"go to the Search Folder editor to add it explicitly, if required."
+msgstr ""
+"Esta pasta pode ter sido adicionada implicitamente,\n"
+"vá para o editor de Pasta de Pesquisa para adicioná-la explicitamente, caso seja requerido."
+
+#: ../mail/mail.error.xml.h:100
 msgid ""
 "This message cannot be sent because you have not specified any Recipients"
 msgstr ""
 "Esta mensagem não pode ser enviada pois você não especificou nenhum "
 "destinatário"
 
-#: ../mail/mail.error.xml.h:99
+#: ../mail/mail.error.xml.h:101
 msgid ""
 "This server does not support this type of authentication and may not support "
 "authentication at all."
@@ -14008,15 +14012,15 @@ msgstr ""
 "Este servidor não suporta este tipo de autenticação e pode não suportar a "
 "autenticação de forma alguma."
 
-#: ../mail/mail.error.xml.h:100
+#: ../mail/mail.error.xml.h:102
 msgid "This signature has been changed, but has not been saved."
 msgstr "Esta assinatura foi alterada, mas não foi salva."
 
-#: ../mail/mail.error.xml.h:101
+#: ../mail/mail.error.xml.h:103
 msgid "Unable to connect to the GroupWise server."
 msgstr "Impossível conectar ao servidor GroupWise."
 
-#: ../mail/mail.error.xml.h:102
+#: ../mail/mail.error.xml.h:104
 msgid ""
 "Unable to open the drafts folder for this account.  Use the system drafts "
 "folder instead?"
@@ -14024,40 +14028,40 @@ msgstr ""
 "Impossível abrir a pasta de rascunhos para esta conta.  Usar a pasta de "
 "rascunhos do sistema?"
 
-#: ../mail/mail.error.xml.h:103
+#: ../mail/mail.error.xml.h:105
 msgid "Unable to read license file."
 msgstr "Impossível ler o arquivo de licença."
 
-#: ../mail/mail.error.xml.h:104
+#: ../mail/mail.error.xml.h:106
 msgid "Use _Default"
 msgstr "Usar _Padrão"
 
-#: ../mail/mail.error.xml.h:105
+#: ../mail/mail.error.xml.h:107
 msgid "Use default drafts folder?"
 msgstr "Usar pasta de rascunhos padrão?"
 
-#: ../mail/mail.error.xml.h:106
+#: ../mail/mail.error.xml.h:108
 msgid "You have not filled in all of the required information."
 msgstr "Você não preencheu todas as informações necessárias."
 
-#: ../mail/mail.error.xml.h:107
+#: ../mail/mail.error.xml.h:109
 msgid "You have unsent messages, do you wish to quit anyway?"
 msgstr ""
 "Você possui mensagens ainda não enviadas. Você deseja sair mesmo assim?"
 
-#: ../mail/mail.error.xml.h:108
+#: ../mail/mail.error.xml.h:110
 msgid "You may not create two accounts with the same name."
 msgstr "Você não pode criar duas contas com o mesmo nome."
 
-#: ../mail/mail.error.xml.h:109
-msgid "You must name this vFolder."
-msgstr "Você deve nomear esta pasta virtual."
+#: ../mail/mail.error.xml.h:111
+msgid "You must name this Search Folder."
+msgstr "Você deve nomear esta Pasta de Pesquisa."
 
-#: ../mail/mail.error.xml.h:110
+#: ../mail/mail.error.xml.h:112
 msgid "You must specify a folder."
 msgstr "Você deve especificar uma pasta."
 
-#: ../mail/mail.error.xml.h:111
+#: ../mail/mail.error.xml.h:113
 msgid ""
 "You must specify at least one folder as a source.\n"
 "Either by selecting the folders individually, and/or by selecting all local "
@@ -14067,38 +14071,34 @@ msgstr ""
 "Faça isso selecionando as pastas individualmente e/ou selecionando\n"
 "todas as pastas locais, todas as pastas remotas ou ambas."
 
-#: ../mail/mail.error.xml.h:113
+#: ../mail/mail.error.xml.h:115
 msgid "Your login to your server &quot;{0}&quot; as &quot;{0}&quot; failed."
 msgstr ""
 "O seu login no seu servidor &quot;{0}&quot; como &quot;{0}&quot; falhou."
 
-#: ../mail/mail.error.xml.h:114
+#: ../mail/mail.error.xml.h:116
 msgid "Your message with the subject &quot;{0}&quot; was not delivered."
 msgstr "Sua mensagem com o assunto &quot;{0}&quot; não foi entregue."
 
-#: ../mail/mail.error.xml.h:115
+#: ../mail/mail.error.xml.h:117
 msgid "_Append"
 msgstr "_Adicionar"
 
-#: ../mail/mail.error.xml.h:116
+#: ../mail/mail.error.xml.h:118
 msgid "_Discard changes"
 msgstr "_Descartar alterações"
 
-#: ../mail/mail.error.xml.h:117
+#: ../mail/mail.error.xml.h:119
 msgid "_Empty Trash"
 msgstr "Es_vaziar Lixeira"
 
-#: ../mail/mail.error.xml.h:118
+#: ../mail/mail.error.xml.h:120
 msgid "_Expunge"
 msgstr "_Excluir Permanentemente"
 
-#: ../mail/mail.error.xml.h:119
+#: ../mail/mail.error.xml.h:121
 msgid "_Open Messages"
 msgstr "A_brir Mensagens"
-
-#: ../mail/mail.error.xml.h:122
-msgid "vFolders automatically updated."
-msgstr "Pastas virtuais atualizadas automaticamente."
 
 #: ../mail/message-list.c:996
 msgid "Unseen"
@@ -15360,7 +15360,7 @@ msgstr "Login do Proxy"
 
 #: ../plugins/groupwise-features/proxy-login.c:221
 #: ../plugins/groupwise-features/proxy-login.c:263
-#: ../plugins/groupwise-features/proxy.c:470
+#: ../plugins/groupwise-features/proxy.c:474
 #: ../plugins/groupwise-features/send-options.c:83
 #, c-format
 msgid "%sEnter password for %s (user %s)"
@@ -15370,7 +15370,7 @@ msgstr "%sForneça a senha para %s (usuário %s)"
 msgid "_Proxy Login..."
 msgstr "Login do _Proxy..."
 
-#: ../plugins/groupwise-features/proxy.c:664
+#: ../plugins/groupwise-features/proxy.c:668
 msgid "The Proxy tab will be available only when the account is enabled."
 msgstr ""
 "A aba do Proxy estará disponível somente quando a conta estiver habilitada."
@@ -17862,12 +17862,12 @@ msgid "Create a new folder for storing mail"
 msgstr "Criar uma nova pasta para armazenar mensagens"
 
 #: ../ui/evolution-mail-global.xml.h:5
-msgid "Create or edit rules for filtering new mail"
-msgstr "Criar ou editar as regras para filtragem de correio"
+msgid "Create or edit Search Folder definitions"
+msgstr "Criar ou editar as definições da Pasta de Pequisa"
 
 #: ../ui/evolution-mail-global.xml.h:6
-msgid "Create or edit vFolder definitions"
-msgstr "Criar ou editar as definições de pastas virtuais"
+msgid "Create or edit rules for filtering new mail"
+msgstr "Criar ou editar as regras para filtragem de correio"
 
 #: ../ui/evolution-mail-global.xml.h:7
 msgid "Empty _Trash"
@@ -18085,36 +18085,36 @@ msgid "Create R_ule"
 msgstr "Criar Re_gra"
 
 #: ../ui/evolution-mail-message.xml.h:15
+msgid "Create a Search Folder for these recipients"
+msgstr "Criar uma Pasta de Pesquisa para estes destinatários"
+
+#: ../ui/evolution-mail-message.xml.h:16
+msgid "Create a Search Folder for this mailing list"
+msgstr "Criar uma Pasta de Pesquisa para esta lista de discussão"
+
+#: ../ui/evolution-mail-message.xml.h:17
+msgid "Create a Search Folder for this sender"
+msgstr "Criar uma Pasta de Pesquisa para este remetente"
+
+#: ../ui/evolution-mail-message.xml.h:18
+msgid "Create a Search Folder for this subject"
+msgstr "Criar uma Pasta de Pesquisal para este assunto"
+
+#: ../ui/evolution-mail-message.xml.h:19
 msgid "Create a rule to filter messages from this sender"
 msgstr "Criar uma regra para filtrar mensagens deste remetente"
 
-#: ../ui/evolution-mail-message.xml.h:16
+#: ../ui/evolution-mail-message.xml.h:20
 msgid "Create a rule to filter messages to these recipients"
 msgstr "Criar uma regra para filtrar mensagens para estes destinatários"
 
-#: ../ui/evolution-mail-message.xml.h:17
+#: ../ui/evolution-mail-message.xml.h:21
 msgid "Create a rule to filter messages to this mailing list"
 msgstr "Criar uma regra para filtrar mensagens para esta lista de discussão"
 
-#: ../ui/evolution-mail-message.xml.h:18
+#: ../ui/evolution-mail-message.xml.h:22
 msgid "Create a rule to filter messages with this subject"
 msgstr "Criar uma regra para filtrar mensagens com este assunto"
-
-#: ../ui/evolution-mail-message.xml.h:19
-msgid "Create a vFolder for these recipients"
-msgstr "Criar uma pasta virtual para estes destinatários"
-
-#: ../ui/evolution-mail-message.xml.h:20
-msgid "Create a vFolder for this mailing list"
-msgstr "Criar uma pasta virtual para esta lista de discussão"
-
-#: ../ui/evolution-mail-message.xml.h:21
-msgid "Create a vFolder for this sender"
-msgstr "Criar uma pasta virtual para este remetente"
-
-#: ../ui/evolution-mail-message.xml.h:22
-msgid "Create a vFolder for this subject"
-msgstr "Criar uma pasta virtual para este assunto"
 
 #: ../ui/evolution-mail-message.xml.h:24
 msgid "Decrease the text size"
@@ -18313,60 +18313,60 @@ msgid "Save the message as a text file"
 msgstr "Salvar a mensagem como um arquivo texto"
 
 #: ../ui/evolution-mail-message.xml.h:84
+msgid "Search Folder from Mailing _List..."
+msgstr "Pasta de Pesquisa por _Lista de Discussão..."
+
+#: ../ui/evolution-mail-message.xml.h:85
+msgid "Search Folder from Recipients..."
+msgstr "Pasta de Pesquisa por Destinatários..."
+
+#: ../ui/evolution-mail-message.xml.h:86
+msgid "Search Folder from S_ubject..."
+msgstr "Pasta de Pesquisa por Ass_unto..."
+
+#: ../ui/evolution-mail-message.xml.h:87
+msgid "Search Folder from Sen_der..."
+msgstr "Pasta _de Pesquisa por Remetente..."
+
+#: ../ui/evolution-mail-message.xml.h:88
 msgid "Search for text in the body of the displayed message"
 msgstr "Pesquisar texto no corpo da mensagem exibida"
 
-#: ../ui/evolution-mail-message.xml.h:85
+#: ../ui/evolution-mail-message.xml.h:89
 msgid "Select _All Text"
 msgstr "Selecion_ar Todo o Texto"
 
-#: ../ui/evolution-mail-message.xml.h:86
+#: ../ui/evolution-mail-message.xml.h:90
 msgid "Select all the text in a message"
 msgstr "Selecionar todo o texto em uma mensagem"
 
-#: ../ui/evolution-mail-message.xml.h:87
+#: ../ui/evolution-mail-message.xml.h:91
 msgid "Set up the page settings for your current printer"
 msgstr "Configurar a página para a sua impressora atual"
 
-#: ../ui/evolution-mail-message.xml.h:88
+#: ../ui/evolution-mail-message.xml.h:92
 msgid "Show a blinking cursor in the body of displayed messages"
 msgstr "Exibir um cursor intermitente no corpo das mensagens exibidas"
 
-#: ../ui/evolution-mail-message.xml.h:89
+#: ../ui/evolution-mail-message.xml.h:93
 msgid "Show message in the normal style"
 msgstr "Exibir a mensagem no estilo normal"
 
-#: ../ui/evolution-mail-message.xml.h:90
+#: ../ui/evolution-mail-message.xml.h:94
 msgid "Show message with all email headers"
 msgstr "Exibir a mensagem com todos os cabeçalhos de e-mail"
 
-#: ../ui/evolution-mail-message.xml.h:91
+#: ../ui/evolution-mail-message.xml.h:95
 msgid "Show the raw email source of the message"
 msgstr "Exibir o código-fonte bruto da mensagem"
 
-#: ../ui/evolution-mail-message.xml.h:92
+#: ../ui/evolution-mail-message.xml.h:96
 msgid "Un-delete the selected messages"
 msgstr "Desfazer a exclusão das mensagens selecionadas"
 
-#: ../ui/evolution-mail-message.xml.h:93
+#: ../ui/evolution-mail-message.xml.h:97
 msgid "Uni_mportant"
 msgstr "Não I_mportante"
-
-#: ../ui/evolution-mail-message.xml.h:94
-msgid "VFolder on Mailing _List..."
-msgstr "Pasta virtual na _Lista de Discussão..."
-
-#: ../ui/evolution-mail-message.xml.h:95
-msgid "VFolder on Recipients..."
-msgstr "Pasta Virtual nos Destinatários..."
-
-#: ../ui/evolution-mail-message.xml.h:96
-msgid "VFolder on S_ubject..."
-msgstr "Pasta Virtual por Ass_unto..."
-
-#: ../ui/evolution-mail-message.xml.h:97
-msgid "VFolder on Sen_der..."
-msgstr "Pasta _Virtual por Remetente..."
 
 #: ../ui/evolution-mail-message.xml.h:98
 msgid "Zoom _Out"
@@ -20152,6 +20152,21 @@ msgstr "Contexto do MI"
 #: ../widgets/text/e-text.c:3683 ../widgets/text/e-text.c:3684
 msgid "Handle Popup"
 msgstr "Alça do Popup"
+
+#~ msgid "vFolders"
+#~ msgstr "Pastas Virtuais"
+
+#~ msgid "v_Folders"
+#~ msgstr "Pastas _Virtuais"
+
+#~ msgid "vFolder source"
+#~ msgstr "Fonte de pastas virtuais"
+
+#~ msgid "Edit vFolder"
+#~ msgstr "Editar Pasta Virtual"
+
+#~ msgid "New vFolder"
+#~ msgstr "Nova Pasta Virtual"
 
 #~ msgid "SaveDraft"
 #~ msgstr "SalvarRascunho"
