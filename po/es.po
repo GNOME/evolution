@@ -1,4 +1,5 @@
-# translation of es.po to 
+#
+# translation of es.po to
 # Translation of Evolution to Spanish languaje
 # Copyright © 2000-2002 Free Software Foundation, Inc.
 # This file is distributed under the same license as the evolution package.
@@ -11,16 +12,17 @@
 # Francisco Javier F. Serrador <serrador@cvs.gnome.org>, 2003, 2004, 2005.
 msgid ""
 msgstr ""
-"Project-Id-Version: evolution\n"
+"Project-Id-Version: gnome-control-center\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-08-13 16:53+0200\n"
-"PO-Revision-Date: 2005-08-14 00:05+0200\n"
-"Last-Translator: \n"
-"Language-Team:  <traductores@es.gnome.org>\n"
+"POT-Creation-Date: 2005-08-14 21:12+0200\n"
+"PO-Revision-Date: 2005-08-14 22:48+0200\n"
+"Last-Translator: Francisco Javier F. Serrador <serrador@cvs.gnome.org>\n"
+"Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms:  nplurals=2; plural=(n != 1);\n"
+"X-Generator: KBabel 1.10.2\n"
 
 #: ../a11y/addressbook/ea-addressbook-view.c:94
 #: ../a11y/addressbook/ea-addressbook-view.c:103
@@ -367,7 +369,7 @@ msgstr "¿Quiere borrar la libreta de direcciones «{0}»?"
 
 #: ../addressbook/addressbook.error.xml.h:9
 msgid "Error loading addressbook."
-msgstr "Error cargando la libreta de direcciones."
+msgstr "Error al cargar la libreta de direcciones."
 
 #: ../addressbook/addressbook.error.xml.h:10
 msgid "Error saving {0} to {1}: {2}"
@@ -398,9 +400,7 @@ msgstr "La libreta de direcciones de Evolution ha terminado inesperadamente."
 
 #: ../addressbook/addressbook.error.xml.h:16
 msgid "The image you have selected is large. Do you want to resize and store it?"
-msgstr ""
-"La imagen que ha seleccionado es grande. ¿quiere redimensionarla y "
-"almacenarla?"
+msgstr "La imagen que ha seleccionado es grande. ¿quiere redimensionarla y almacenarla?"
 
 #: ../addressbook/addressbook.error.xml.h:17
 msgid ""
@@ -432,7 +432,7 @@ msgid ""
 "misspelled or your network connection could be down."
 msgstr ""
 "Este servidor de libretas de direcciones quizá no se pueda alcanzar o el "
-"nombre del servidor quizá esté mal escrito o su conexión de red quizá esté "
+"nombre del servidor podría estar mal escrito o su conexión de red quizá esté "
 "caída."
 
 #: ../addressbook/addressbook.error.xml.h:22
@@ -441,15 +441,15 @@ msgstr "Este servidor no soporta el esquema de información LDAPv3."
 
 #: ../addressbook/addressbook.error.xml.h:23
 msgid "Unable to open addressbook"
-msgstr "Imposible abrir la libreta de direcciones"
+msgstr "Es imposible abrir la libreta de direcciones"
 
 #: ../addressbook/addressbook.error.xml.h:24
 msgid "Unable to perform search."
-msgstr "No es posible efectuar la búsqueda."
+msgstr "Es imposible efectuar la búsqueda."
 
 #: ../addressbook/addressbook.error.xml.h:25
 msgid "Unable to save {0}."
-msgstr "No se pudo guardar {0}."
+msgstr "Es imposible guardar {0}."
 
 #: ../addressbook/addressbook.error.xml.h:26
 msgid "Would you like to save your changes?"
@@ -565,7 +565,7 @@ msgstr "Componente de libreta de direcciones de Evolution"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:11
 msgid "Evolution S/Mime Certificate Management Control"
-msgstr "Control de gestión de certificados S/Mime de Evolution"
+msgstr "Control de gestión de certificados S/MIME de Evolution"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:12
 msgid "Evolution folder settings configuration control"
@@ -764,7 +764,7 @@ msgstr ""
 #: ../calendar/gui/calendar-component.c:537
 #: ../calendar/gui/tasks-component.c:441 ../mail/em-filter-i18n.h:11
 #: ../ui/evolution-addressbook.xml.h:8 ../ui/evolution-calendar.xml.h:5
-#: ../ui/evolution-mail-message.xml.h:25 ../ui/evolution-tasks.xml.h:6
+#: ../ui/evolution-mail-message.xml.h:26 ../ui/evolution-tasks.xml.h:6
 msgid "Delete"
 msgstr "Borrar"
 
@@ -785,7 +785,7 @@ msgstr "Accediendo al servidor LDAP anónimamente"
 #: ../addressbook/gui/component/addressbook.c:193
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:485
 msgid "Failed to authenticate.\n"
-msgstr "Falló al autenticarme.\n"
+msgstr "Falló al autenticar.\n"
 
 #: ../addressbook/gui/component/addressbook.c:200
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:464
@@ -1023,7 +1023,7 @@ msgid ""
 msgstr ""
 "El ámbito de búsqueda define hasta qué profundidad desea que la búsqueda se "
 "extienda a lo largo de un árbol de directorios. Un ámbito de búsqueda de "
-"«sub» incluirá todas las entradas por debajo su base de búsqueda. Un ámbito "
+"«sub» incluirá todas las entradas por debajo de su base de búsqueda. Un ámbito "
 "de «uno» sólo incluirá las entradas un nivel bajo su base."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:35
@@ -1066,7 +1066,7 @@ msgid ""
 "list of standard ports has been provided. Ask your system administrator what "
 "port you should specify."
 msgstr ""
-"Este es el puerto del servidor LDAP al que Evolution intentará conectarse.Se "
+"Este es el puerto del servidor LDAP al que Evolution intentará conectarse. Se "
 "ha proporcionado una lista de puertos estándar. Pregunte a su administrador "
 "del sistema qué puerto debería especificar."
 
@@ -2485,7 +2485,7 @@ msgid ""
 "Are you sure you want\n"
 "to delete contact list (%s) ?"
 msgstr ""
-"¿Está seguro de que quiere\n"
+"¿Seguro que quiere\n"
 "borrar la lista de contactos (%s)?"
 
 #: ../addressbook/gui/contact-editor/eab-editor.c:326
@@ -2493,8 +2493,8 @@ msgid ""
 "Are you sure you want\n"
 "to delete these contact lists?"
 msgstr ""
-"¿Está seguro de que quiere\n"
-"borrar estos contactos?"
+"¿Seguro que quiere\n"
+"borrar estas listas de contactos?"
 
 #: ../addressbook/gui/contact-editor/eab-editor.c:331
 #, c-format
@@ -2502,7 +2502,7 @@ msgid ""
 "Are you sure you want\n"
 "to delete contact (%s) ?"
 msgstr ""
-"¿Está seguro de que quiere\n"
+"¿Seguro que quiere\n"
 "borrar el contacto (%s)?"
 
 #: ../addressbook/gui/contact-editor/eab-editor.c:334
@@ -2510,7 +2510,7 @@ msgid ""
 "Are you sure you want\n"
 "to delete these contacts?"
 msgstr ""
-"¿Está seguro de que quiere\n"
+"¿Seguro que quiere\n"
 "borrar estos contactos?"
 
 #: ../addressbook/gui/contact-editor/fulladdr.glade.h:2
@@ -2644,7 +2644,7 @@ msgstr "Quitar una dirección de correo-e de la lista"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:9
 msgid "_Hide addresses when sending mail to this list"
-msgstr "_Ocultar direcciones al enviar correo a esta lista"
+msgstr "_Ocultar direcciones al enviar correo-e a esta lista"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:10
 msgid "_List name:"
@@ -2713,7 +2713,7 @@ msgid ""
 "The name or email address of this contact already exists\n"
 "in this folder.  Would you like to add it anyway?"
 msgstr ""
-"El nombre o la dirección de correo de este contacto ya existe\n"
+"El nombre o la dirección de correo-e de este contacto ya existe\n"
 "en esta carpeta.  ¿Quiere añadirlo de todos modos?"
 
 #. FIXME: get the toplevel window...
@@ -2831,20 +2831,20 @@ msgstr "Reenviar contactos"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:938
 msgid "Send Message to Contact"
-msgstr "Envía un mensaje al contacto"
+msgstr "Enviar un mensaje al contacto"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:939
 msgid "Send Message to List"
-msgstr "Envíar un mensaje a la lista"
+msgstr "Enviar un mensaje a la lista"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:940
 msgid "Send Message to Contacts"
-msgstr "Envíar un mensaje a los contactos"
+msgstr "Enviar un mensaje a los contactos"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:941
 #: ../calendar/gui/calendar-commands.c:119 ../calendar/gui/print.c:2501
 #: ../ui/evolution-addressbook.xml.h:16 ../ui/evolution-calendar.xml.h:19
-#: ../ui/evolution-mail-message.xml.h:74 ../ui/evolution-tasks.xml.h:14
+#: ../ui/evolution-mail-message.xml.h:75 ../ui/evolution-tasks.xml.h:14
 msgid "Print"
 msgstr "Imprimir"
 
@@ -2864,7 +2864,7 @@ msgstr "Cortar"
 #: ../addressbook/gui/widgets/e-addressbook-view.c:949
 #: ../calendar/gui/calendar-component.c:536
 #: ../calendar/gui/tasks-component.c:440 ../ui/evolution-addressbook.xml.h:2
-#: ../ui/evolution-mail-message.xml.h:11 ../ui/evolution-tasks.xml.h:2
+#: ../ui/evolution-mail-message.xml.h:12 ../ui/evolution-tasks.xml.h:2
 msgid "Copy"
 msgstr "Copiar"
 
@@ -2905,7 +2905,7 @@ msgstr "Teléfono del trabajo 2"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:6
 msgid "Callback Phone"
-msgstr "Teléfono para devolución de llamadas"
+msgstr "Teléfono de devolución de llamadas"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:7
 msgid "Car Phone"
@@ -2920,7 +2920,7 @@ msgstr "Categorías"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:9
 msgid "Company Phone"
-msgstr "Teléfono de la compañía"
+msgstr "Teléfono de empresa"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:10
 #: ../addressbook/gui/widgets/eab-contact-display.c:562
@@ -3449,11 +3449,13 @@ msgstr "Error al eliminar el contacto"
 msgid ""
 "Opening %d contact will open %d new window as well.\n"
 "Do you really want to display this contact?"
+msgid_plural ""
 "Opening %d contacts will open %d new windows as well.\n"
 "Do you really want to display all of these contacts?"
-msgstr ""
+msgstr[0] ""
 "Abrir %d contacto abrirá %d ventana nueva también.\n"
 "¿Quiere realmente mostrar este contacto?"
+msgstr[1] ""
 "Abrir %d contactos abrirá %d ventanas nuevas también.\n"
 "¿Quiere realmente mostrar todos estos contactos?"
 
@@ -3839,7 +3841,7 @@ msgstr "Especifique el archivo de salida en lugar del la salida estándar"
 
 #: ../addressbook/tools/evolution-addressbook-export.c:57
 msgid "OUTPUTFILE"
-msgstr "OUTPUTFILE"
+msgstr "ARCHIVO-DE-SALIDA"
 
 #: ../addressbook/tools/evolution-addressbook-export.c:58
 msgid "List local addressbook folders"
@@ -3875,7 +3877,7 @@ msgstr ""
 
 #: ../addressbook/tools/evolution-addressbook-export.c:105
 msgid "Only support csv or vcard format."
-msgstr "Sólo soportar los formatos csv o vcard."
+msgstr "Sólo se soportan los los formatos csv o vcard."
 
 #: ../addressbook/tools/evolution-addressbook-export.c:114
 msgid "In async mode, output must be file."
@@ -3891,7 +3893,7 @@ msgstr "Error no tratado"
 
 #: ../addressbook/tools/evolution-addressbook-import.c:46
 msgid "Error loading default addressbook."
-msgstr "Error cargando la libreta de direcciones predeterminada."
+msgstr "Error al cargar la libreta de direcciones predeterminada."
 
 #: ../addressbook/tools/evolution-addressbook-import.c:67
 msgid "Input File"
@@ -3937,45 +3939,35 @@ msgstr ""
 msgid ""
 "All information in these journal entries will be deleted and can not be "
 "restored."
-msgstr ""
-"Toda la información acerca de estas entradas del diario será borrada y no "
-"podrá ser recuperada."
+msgstr "Toda la información en  estas entradas del diario se borrarán y no se podrán recuperar."
 
 #: ../calendar/calendar.error.xml.h:6
 msgid "All information in this journal will be deleted and can not be restored."
-msgstr "Toda la información en este diario será borrada y no podrá recuperarse."
+msgstr "Toda la información en este diario se borrará y no se podrá recuperar."
 
 #: ../calendar/calendar.error.xml.h:7
 msgid ""
 "All information on these appointments will be deleted and can not be "
 "restored."
-msgstr "Toda la información de estas citas será borrada y no puede ser recuperada."
+msgstr "Toda la información de estas citas se borrará y no puede se podrá recuperar."
 
 #: ../calendar/calendar.error.xml.h:8
 msgid "All information on these tasks will be deleted and can not be restored."
-msgstr ""
-"Toda la información acerca de estas tareas será borrada y no podrá ser "
-"recuperada."
+msgstr "Toda la información de de estas tareas se borrará y no se podrá recuperar."
 
 #: ../calendar/calendar.error.xml.h:9
 msgid "All information on this appointment will be deleted and can not be restored."
-msgstr ""
-"Toda la información acerca de esta cita será borrada y no puede ser "
-"recuperada."
+msgstr "Toda la información de esta cita se borrará y no se podrá recuperar."
 
 #: ../calendar/calendar.error.xml.h:10
 msgid ""
 "All information on this journal entry will be deleted and can not be "
 "restored."
-msgstr ""
-"Toda la información en su entrada del diario será borrada y no puede ser "
-"recuperada."
+msgstr "Toda la información en su entrada del diario se borrará y no se podrá recuperar."
 
 #: ../calendar/calendar.error.xml.h:11
 msgid "All information on this meeting will be deleted and can not be restored."
-msgstr ""
-"Toda la información acerca de esta reunión será borrada y no podrá ser "
-"recuperada."
+msgstr "Toda la información acerca de esta reunión se borrará y no se podrá recuperar."
 
 #: ../calendar/calendar.error.xml.h:12
 msgid "All information on this task will be deleted and can not be restored."
@@ -4210,7 +4202,6 @@ msgstr "Sus tareas no estarán disponibles hasta que Evolution sea iniciado de n
 
 #: ../calendar/calendar.error.xml.h:64
 #: ../ui/evolution-message-composer.xml.h:51
-#: ../ui/evolution-signature-editor.xml.h:15
 msgid "_Save"
 msgstr "_Guardar"
 
@@ -4359,9 +4350,9 @@ msgstr "_Posponer el aviso:"
 #: ../ui/evolution-composer-entries.xml.h:8
 #: ../ui/evolution-mail-messagedisplay.xml.h:5
 #: ../ui/evolution-message-composer.xml.h:44
-#: ../ui/evolution-signature-editor.xml.h:12
+#: ../ui/evolution-signature-editor.xml.h:23
 #: ../ui/evolution-subscribe.xml.h:10 ../ui/evolution-tasks.xml.h:23
-#: ../ui/evolution.xml.h:32
+#: ../ui/evolution.xml.h:35
 msgid "_Edit"
 msgstr "_Editar"
 
@@ -4678,8 +4669,8 @@ msgid ""
 "untranslated Olsen timezone database location like \"America/New York\"."
 msgstr ""
 "La zona horaria predeterminada que se usará en las fechas y horas en el "
-"calendario, como una localización sin traslación de la base de datos de franjas "
-"horarias Olsen, como en \"America/New York\"."
+"calendario, como una localización sin traslación de la base de datos de "
+"franjas horarias Olsen, como en \"America/New York\"."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:48
 #, no-c-format
@@ -5651,7 +5642,7 @@ msgstr "Mensaje adjunto - %s"
 #, c-format
 msgid "Attached message"
 msgid_plural "%d attached messages"
-msgstr[0] "%d mensaje adjunto"
+msgstr[0] "Mensaje adjunto"
 msgstr[1] "%d mensajes adjuntos"
 
 #: ../calendar/gui/dialogs/comp-editor.c:428
@@ -5660,7 +5651,7 @@ msgstr[1] "%d mensajes adjuntos"
 #: ../mail/em-folder-tree.c:974 ../mail/em-folder-view.c:1035
 #: ../mail/message-list.c:1708 ../ui/evolution-addressbook.xml.h:31
 #: ../ui/evolution-calendar.xml.h:39 ../ui/evolution-composer-entries.xml.h:7
-#: ../ui/evolution-mail-message.xml.h:100 ../ui/evolution-tasks.xml.h:21
+#: ../ui/evolution-mail-message.xml.h:101 ../ui/evolution-tasks.xml.h:21
 msgid "_Copy"
 msgstr "_Copiar"
 
@@ -6106,7 +6097,7 @@ msgstr "Estado"
 
 #: ../calendar/gui/dialogs/meeting-page.glade.h:1
 msgid "<b>Att_endees</b>"
-msgstr "<b>_Asistentes</b>"
+msgstr "<b>_Participantes</b>"
 
 #: ../calendar/gui/dialogs/meeting-page.glade.h:2
 msgid "C_hange Organizer"
@@ -6742,7 +6733,7 @@ msgstr "Guardar _como..."
 #: ../calendar/gui/e-calendar-view.c:1531 ../mail/em-folder-view.c:1046
 #: ../plugins/print-message/org-gnome-print-message.xml.h:3
 #: ../ui/evolution-addressbook.xml.h:40 ../ui/evolution-calendar.xml.h:44
-#: ../ui/evolution-mail-message.xml.h:117 ../ui/evolution-tasks.xml.h:27
+#: ../ui/evolution-mail-message.xml.h:118 ../ui/evolution-tasks.xml.h:27
 msgid "_Print..."
 msgstr "Im_primir..."
 
@@ -7298,7 +7289,9 @@ msgstr "Estado del participante actualizado\n"
 #: ../calendar/gui/e-itip-control.c:1979
 #: ../plugins/itip-formatter/itip-formatter.c:1013
 msgid "Attendee status can not be updated because the item no longer exists"
-msgstr "El estado del participante no se pudo actualizar porque ya no existe el elemento"
+msgstr ""
+"El estado del participante no se pudo actualizar porque ya no existe el "
+"elemento"
 
 #: ../calendar/gui/e-itip-control.c:2009
 msgid "Removal Complete"
@@ -9857,7 +9850,7 @@ msgstr "Debido a «{0}», quizá necesite seleccionar diferentes opciones de cor
 #: ../composer/mail-composer.error.xml.h:5 ../e-util/e-system.error.xml.h:1
 #: ../mail/mail.error.xml.h:17
 msgid "Because &quot;{1}&quot;."
-msgstr "Porque «{1}»"
+msgstr "Porque «{1}»."
 
 #: ../composer/mail-composer.error.xml.h:6
 msgid ""
@@ -10384,7 +10377,7 @@ msgstr "Incluir conversaciones"
 #: ../filter/filter-rule.c:978 ../filter/filter.glade.h:3
 #: ../mail/em-utils.c:291
 msgid "Incoming"
-msgstr "Entrando"
+msgstr "Entrante"
 
 #: ../filter/filter-rule.c:978 ../mail/em-utils.c:292
 msgid "Outgoing"
@@ -10428,7 +10421,7 @@ msgstr "Debe elegir una fecha."
 
 #: ../filter/filter.error.xml.h:10
 msgid "You must name this filter."
-msgstr "Debes dar un nombre a este filtro."
+msgstr "Debe dar un nombre a este filtro."
 
 #: ../filter/filter.error.xml.h:11
 msgid "You must specify a file name."
@@ -10451,7 +10444,7 @@ msgid ""
 "The message's date will be compared against\n"
 "12:00am of the date specified."
 msgstr ""
-"La fecha del mensaje se comparará contra las\n"
+"La fecha del mensaje se comparará con las\n"
 "12:00am de la fecha especificada aquí."
 
 #: ../filter/filter.glade.h:7
@@ -10460,7 +10453,7 @@ msgid ""
 "a time relative to when filtering occurs."
 msgstr ""
 "La fecha del mensaje se comparará con una\n"
-"fecha relativa al momento de ejecutar el filtro."
+"fecha relativa al momento del filtrado."
 
 #: ../filter/filter.glade.h:9
 msgid ""
@@ -10468,7 +10461,7 @@ msgid ""
 "the current time when filtering occurs."
 msgstr ""
 "La fecha del mensaje se comparará con la\n"
-"fecha actual cuando el filtrado se realice."
+"fecha actual del momento del filtrado."
 
 #: ../filter/filter.glade.h:12
 msgid "a time relative to the current time"
@@ -10827,7 +10820,7 @@ msgid "is not Flagged"
 msgstr "no está marcado"
 
 #: ../mail/em-filter-i18n.h:35 ../mail/mail-config.glade.h:93
-#: ../ui/evolution-mail-message.xml.h:47
+#: ../ui/evolution-mail-message.xml.h:48
 msgid "Junk"
 msgstr "Spam"
 
@@ -11055,11 +11048,11 @@ msgstr "Copiando los mensajes a la carpeta %s"
 msgid "Cannot drop message(s) into toplevel store"
 msgstr "No se pudo dejar el(los) mensaje(s) en el almacén de nivel superior"
 
-#: ../mail/em-folder-tree.c:972 ../ui/evolution-mail-message.xml.h:101
+#: ../mail/em-folder-tree.c:972 ../ui/evolution-mail-message.xml.h:102
 msgid "_Copy to Folder"
 msgstr "_Copiar a la carpeta"
 
-#: ../mail/em-folder-tree.c:973 ../ui/evolution-mail-message.xml.h:111
+#: ../mail/em-folder-tree.c:973 ../ui/evolution-mail-message.xml.h:112
 msgid "_Move to Folder"
 msgstr "_Mover a la carpeta"
 
@@ -11069,9 +11062,9 @@ msgid "Scanning folders in \"%s\""
 msgstr "Analizando carpetas en «%s»"
 
 #: ../mail/em-folder-tree.c:2031 ../ui/evolution-addressbook.xml.h:44
-#: ../ui/evolution-mail-global.xml.h:23
+#: ../ui/evolution-mail-global.xml.h:25
 #: ../ui/evolution-mail-messagedisplay.xml.h:8
-#: ../ui/evolution-message-composer.xml.h:54 ../ui/evolution.xml.h:45
+#: ../ui/evolution-message-composer.xml.h:54 ../ui/evolution.xml.h:48
 msgid "_View"
 msgstr "_Ver"
 
@@ -11146,16 +11139,16 @@ msgstr "Especifique donde crear la carpeta:"
 msgid "Reply to _All"
 msgstr "Responder a _todos"
 
-#: ../mail/em-folder-view.c:1040 ../ui/evolution-mail-message.xml.h:119
+#: ../mail/em-folder-view.c:1040 ../ui/evolution-mail-message.xml.h:120
 msgid "_Reply to Sender"
 msgstr "Responder al _remitente"
 
 #: ../mail/em-folder-view.c:1041 ../mail/em-popup.c:548 ../mail/em-popup.c:559
-#: ../ui/evolution-mail-message.xml.h:105
+#: ../ui/evolution-mail-message.xml.h:106
 msgid "_Forward"
 msgstr "Reen_viar"
 
-#: ../mail/em-folder-view.c:1044 ../ui/evolution-mail-message.xml.h:103
+#: ../mail/em-folder-view.c:1044 ../ui/evolution-mail-message.xml.h:104
 msgid "_Edit as New Message..."
 msgstr "_Editar como un mensaje nuevo..."
 
@@ -11318,8 +11311,8 @@ msgid ""
 "The signature of this message cannot be verified, it may have been altered "
 "in transit."
 msgstr ""
-"La firma de este mensaje no se puede verificar, pudo haber sido alterada "
-"en tránsito."
+"La firma de este mensaje no se puede verificar, pudo haber sido alterada en "
+"tránsito."
 
 #: ../mail/em-format-html-display.c:697
 msgid "Valid signature, cannot verify sender"
@@ -11342,8 +11335,8 @@ msgid ""
 "This message is not encrypted.  Its content may be viewed in transit across "
 "the Internet."
 msgstr ""
-"Este mensaje no está cifrado. Su contenido puede verse en tránsito a "
-"través de Internet."
+"Este mensaje no está cifrado. Su contenido puede verse en tránsito a través "
+"de Internet."
 
 #: ../mail/em-format-html-display.c:704 ../mail/em-format-html.c:606
 msgid "Encrypted, weak"
@@ -11685,7 +11678,7 @@ msgid "_Reply to sender"
 msgstr "_Responder al remitente"
 
 #: ../mail/em-popup.c:545 ../mail/em-popup.c:556
-#: ../ui/evolution-mail-message.xml.h:81
+#: ../ui/evolution-mail-message.xml.h:82
 msgid "Reply to _List"
 msgstr "Responder a la _lista"
 
@@ -12318,8 +12311,8 @@ msgstr ""
 "Algunos de sus filtros de correo de Netscape se basan\n"
 "en prioridades de correo, las cuáles no se se usan en \n"
 "Evolution. En su lugar Evolution proporciona puntuaciones\n"
-"en el rango de -3 a 3 que se pueden asignar a los mensajes"
-"para filtrarlos de acuerdo con ellas.\n"
+"en el rango de -3 a 3 que se pueden asignar a los mensajespara filtrarlos de "
+"acuerdo con ellas.\n"
 "\n"
 "Como una solución, se han añadido un conjunto de filtros\n"
 "llamados «Filtro de prioridad» para convertir las prioridades\n"
@@ -13748,8 +13741,8 @@ msgid ""
 "If you delete the folder, all of its contents and its subfolders contents "
 "will be deleted permanently."
 msgstr ""
-"Si borra la carpeta, todo su contenido y el de sus subcarpetas se borrará"
-"permanentemente."
+"Si borra la carpeta, todo su contenido y el de sus subcarpetas se "
+"borrarápermanentemente."
 
 #: ../mail/mail.error.xml.h:54
 msgid ""
@@ -13768,8 +13761,8 @@ msgid ""
 "If you quit, these messages will not be sent until Evolution is started "
 "again."
 msgstr ""
-"Si sale, estos mensajes no se enviarán hasta que Evolution sea iniciado "
-"de nuevo."
+"Si sale, estos mensajes no se enviarán hasta que Evolution sea iniciado de "
+"nuevo."
 
 #: ../mail/mail.error.xml.h:58
 msgid "Ignore"
@@ -14164,7 +14157,7 @@ msgstr "Seguir el mensaje"
 msgid "For Your Information"
 msgstr "Para su información"
 
-#: ../mail/message-tag-followup.c:78 ../ui/evolution-mail-message.xml.h:41
+#: ../mail/message-tag-followup.c:78 ../ui/evolution-mail-message.xml.h:42
 msgid "Forward"
 msgstr "Reenviar"
 
@@ -14172,11 +14165,11 @@ msgstr "Reenviar"
 msgid "No Response Necessary"
 msgstr "No es necesaria una respuesta"
 
-#: ../mail/message-tag-followup.c:81 ../ui/evolution-mail-message.xml.h:79
+#: ../mail/message-tag-followup.c:81 ../ui/evolution-mail-message.xml.h:80
 msgid "Reply"
 msgstr "Responder"
 
-#: ../mail/message-tag-followup.c:82 ../ui/evolution-mail-message.xml.h:80
+#: ../mail/message-tag-followup.c:82 ../ui/evolution-mail-message.xml.h:81
 msgid "Reply to All"
 msgstr "Responder a todos"
 
@@ -14258,7 +14251,8 @@ msgstr ""
 "Un complemento para respaldar y restaurar los datos de Evolution y la "
 "configuración."
 
-#: ../plugins/backup-restore/org-gnome-backup-restore.eplug.xml.h:2
+#. the path to the shared library
+#: ../plugins/backup-restore/org-gnome-backup-restore.eplug.xml.h:3
 msgid "Backup and restore plugin"
 msgstr "Complemento para respaldar y restaurar"
 
@@ -15277,7 +15271,7 @@ msgid "Subscribe to my _notifications"
 msgstr "Suscribirse a mis notificaciones"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:13
-#: ../ui/evolution-mail-message.xml.h:118
+#: ../ui/evolution-mail-message.xml.h:119
 msgid "_Read"
 msgstr "_Leído"
 
@@ -15384,7 +15378,9 @@ msgstr "No se pudo enviar una notificación de cancelación al delegado"
 
 #: ../plugins/itip-formatter/itip-formatter.c:979
 msgid "Attendee status could not be updated because the status is invalid"
-msgstr "El estado de asistencia no se pudo actualizar debido a que el estado es inválido"
+msgstr ""
+"El estado de asistencia no se pudo actualizar debido a que el estado es "
+"inválido"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1005
 #, c-format
@@ -15763,7 +15759,7 @@ msgstr "Comentario:"
 
 #: ../plugins/itip-formatter/itip-view.c:979
 msgid "Send u_pdates to attendees"
-msgstr "Mandar _actualizaciones a los asistentes"
+msgstr "Mandar _actualizaciones a los participantes"
 
 #: ../plugins/itip-formatter/itip-view.c:988
 msgid "A_pply to all instances"
@@ -16148,7 +16144,7 @@ msgstr "Da una opción para imprimir el correo desde el editor"
 
 #: ../plugins/print-message/org-gnome-print-message.xml.h:1
 #: ../ui/evolution-addressbook.xml.h:17 ../ui/evolution-calendar.xml.h:20
-#: ../ui/evolution-mail-message.xml.h:75 ../ui/evolution-tasks.xml.h:15
+#: ../ui/evolution-mail-message.xml.h:76 ../ui/evolution-tasks.xml.h:15
 msgid "Print Pre_view"
 msgstr "Pre_visualizar la impresión"
 
@@ -16174,7 +16170,8 @@ msgstr ""
 "Un complemento para guardar todos los adjuntos o partes de un mensaje a la "
 "vez."
 
-#: ../plugins/save-attachments/org-gnome-save-attachments.eplug.xml.h:2
+#. the path to the shared library
+#: ../plugins/save-attachments/org-gnome-save-attachments.eplug.xml.h:3
 msgid "Save attachments"
 msgstr "Guardar adjuntos"
 
@@ -16196,7 +16193,6 @@ msgstr "Tipo MIME"
 
 #: ../plugins/save-attachments/save-attachments.c:359
 #: ../ui/evolution-message-composer.xml.h:18
-#: ../ui/evolution-signature-editor.xml.h:6
 msgid "Save"
 msgstr "Guardar"
 
@@ -16443,7 +16439,9 @@ msgstr "Última versión de la configuración actualizada"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:8
 msgid "List of paths for the folders to be synchronized to disk for offline usage"
-msgstr "Lista de rutas a las carpetas que se sincronizarán al disco para usar desconectado"
+msgstr ""
+"Lista de rutas a las carpetas que se sincronizarán al disco para usar "
+"desconectado"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:9
 msgid "Printer settings"
@@ -16655,7 +16653,7 @@ msgstr "Suite de trabajo en grupo"
 msgid "_Work Online"
 msgstr "_Trabajar conectado"
 
-#: ../shell/e-shell-window-commands.c:762 ../ui/evolution.xml.h:47
+#: ../shell/e-shell-window-commands.c:762 ../ui/evolution.xml.h:50
 msgid "_Work Offline"
 msgstr "_Trabajar desconectado"
 
@@ -16906,8 +16904,8 @@ msgstr ""
 "diferente.\n"
 "\n"
 "Si elije eliminar estos datos, todo el contenido del directorio «evolution» "
-"se eliminará permanentemente. Si elije conservar estos datos, entonces "
-"puede eliminar manualmente el contenido de «evolution» a su conveniencia.\n"
+"se eliminará permanentemente. Si elije conservar estos datos, entonces puede "
+"eliminar manualmente el contenido de «evolution» a su conveniencia.\n"
 
 #: ../shell/shell.error.xml.h:19
 msgid "Upgrade from previous version failed: {0}"
@@ -17601,7 +17599,7 @@ msgid "View the current contact"
 msgstr "Ver el contacto actual"
 
 #: ../ui/evolution-addressbook.xml.h:30 ../ui/evolution-calendar.xml.h:38
-#: ../ui/evolution-mail-list.xml.h:25 ../ui/evolution-tasks.xml.h:19
+#: ../ui/evolution-tasks.xml.h:19
 msgid "_Actions"
 msgstr "A_cciones"
 
@@ -17669,7 +17667,7 @@ msgstr "Lista"
 msgid "Month"
 msgstr "Mes"
 
-#: ../ui/evolution-calendar.xml.h:15 ../ui/evolution-mail-message.xml.h:59
+#: ../ui/evolution-calendar.xml.h:15 ../ui/evolution-mail-message.xml.h:60
 msgid "Next"
 msgstr "Siguiente"
 
@@ -17677,7 +17675,7 @@ msgstr "Siguiente"
 msgid "Previews the calendar to be printed"
 msgstr "Previsualiza el calendario a imprimir"
 
-#: ../ui/evolution-calendar.xml.h:18 ../ui/evolution-mail-message.xml.h:73
+#: ../ui/evolution-calendar.xml.h:18 ../ui/evolution-mail-message.xml.h:74
 msgid "Previous"
 msgstr "Anterior"
 
@@ -17797,7 +17795,7 @@ msgstr "Crea o edita reglas para el filtrado de mensajes nuevos"
 msgid "Empty _Trash"
 msgstr "_Vaciar papelera"
 
-#: ../ui/evolution-mail-global.xml.h:8 ../ui/evolution-mail-list.xml.h:6
+#: ../ui/evolution-mail-global.xml.h:8 ../ui/evolution-mail-list.xml.h:7
 #: ../ui/evolution-subscribe.xml.h:2
 msgid "F_older"
 msgstr "Carpe_ta"
@@ -17807,17 +17805,14 @@ msgid "Message F_ilters"
 msgstr "_Filtros del mensaje"
 
 #: ../ui/evolution-mail-global.xml.h:10
-msgid "Message _List As"
-msgstr "_Lista de mensajes como"
-
-#: ../ui/evolution-mail-global.xml.h:11
 msgid "Message _Preview"
 msgstr "_Vista previa del mensaje"
 
-#: ../ui/evolution-mail-global.xml.h:12
+#: ../ui/evolution-mail-global.xml.h:11
 msgid "Move the selected folder into another folder"
 msgstr "Mueve la carpeta seleccionada a otra carpeta"
 
+#. Alphabetical by name, yo
 #: ../ui/evolution-mail-global.xml.h:13
 msgid "Permanently remove all deleted messages from all folders"
 msgstr "Elimina permanentemente todos los mensajes borrados de todas las carpetas"
@@ -17847,14 +17842,13 @@ msgid "_Move Folder To..."
 msgstr "_Mover carpeta a..."
 
 #: ../ui/evolution-mail-global.xml.h:20
-msgid "_New Search _Folder (FIXME)"
-msgstr "_Carpeta de búsqueda nueva"
-
-#: ../ui/evolution-mail-global.xml.h:21
 msgid "_New..."
 msgstr "_Nuevo..."
 
-#: ../ui/evolution-mail-global.xml.h:22
+#.
+#. <menuitem name="CreateVFolder" verb="CreateVFolder" _label="_New Search _Folder (FIXME)"/>
+#.
+#: ../ui/evolution-mail-global.xml.h:24
 msgid "_Subscriptions"
 msgstr "_Suscripciones"
 
@@ -17866,93 +17860,94 @@ msgstr "Cambiar el nombre de esta carpeta"
 msgid "Change the properties of this folder"
 msgstr "Cambia las propiedades de esta carpeta"
 
-#: ../ui/evolution-mail-list.xml.h:3 ../ui/evolution-mail-message.xml.h:12
+#: ../ui/evolution-mail-list.xml.h:3 ../ui/evolution-mail-message.xml.h:13
 msgid "Copy selected message(s) to the clipboard"
 msgstr "Copiar mensaje(s) seleccionado(s) al portapapeles"
 
-#: ../ui/evolution-mail-list.xml.h:4 ../ui/evolution-mail-message.xml.h:23
+#. Alphabetical by name, yo
+#: ../ui/evolution-mail-list.xml.h:5 ../ui/evolution-mail-message.xml.h:24
 msgid "Cut selected message(s) to the clipboard"
 msgstr "Corta el(los) mensaje(s) seleccionado(s) al portapapeles"
 
-#: ../ui/evolution-mail-list.xml.h:5
+#: ../ui/evolution-mail-list.xml.h:6
 msgid "E_xpunge"
 msgstr "C_ompactar"
 
-#: ../ui/evolution-mail-list.xml.h:7
+#: ../ui/evolution-mail-list.xml.h:8
 msgid "Group By _Threads"
 msgstr "Agrupar por conversaciones"
 
-#: ../ui/evolution-mail-list.xml.h:8
+#: ../ui/evolution-mail-list.xml.h:9
 msgid "Hide S_elected Messages"
 msgstr "Ocultar mensajes _seleccionados"
 
-#: ../ui/evolution-mail-list.xml.h:9
+#: ../ui/evolution-mail-list.xml.h:10
 msgid "Hide _Deleted Messages"
 msgstr "Ocultar mensajes _borrados"
 
-#: ../ui/evolution-mail-list.xml.h:10
+#: ../ui/evolution-mail-list.xml.h:11
 msgid "Hide _Read Messages"
 msgstr "Ocultar mensajes _leídos"
 
-#: ../ui/evolution-mail-list.xml.h:11
+#: ../ui/evolution-mail-list.xml.h:12
 msgid "Hide deleted messages rather than displaying them with a line through them"
 msgstr "Oculta los mensajes borrados en lugar de mostrarlos tachados por una línea"
 
-#: ../ui/evolution-mail-list.xml.h:12
+#: ../ui/evolution-mail-list.xml.h:13
 msgid "Mark Me_ssages as Read"
 msgstr "Marcar _mensajes como leídos"
 
-#: ../ui/evolution-mail-list.xml.h:13 ../ui/evolution-mail-message.xml.h:68
+#: ../ui/evolution-mail-list.xml.h:14 ../ui/evolution-mail-message.xml.h:69
 msgid "Paste message(s) from the clipboard"
 msgstr "Pegar mensaje(s) desde el portapapeles"
 
-#: ../ui/evolution-mail-list.xml.h:14
+#: ../ui/evolution-mail-list.xml.h:15
 msgid "Permanently remove all deleted messages from this folder"
 msgstr "Elimina permanentemente todos los mensajes borrados de esta carpeta"
 
-#: ../ui/evolution-mail-list.xml.h:15
+#: ../ui/evolution-mail-list.xml.h:16
 msgid "Permanently remove this folder"
 msgstr "Elimina permanentemente esta carpeta"
 
-#: ../ui/evolution-mail-list.xml.h:16
+#: ../ui/evolution-mail-list.xml.h:17
 msgid "Select _All Messages"
 msgstr "Seleccionar _todos los mensajes"
 
-#: ../ui/evolution-mail-list.xml.h:17
+#: ../ui/evolution-mail-list.xml.h:18
 msgid "Select all and only the messages that are not currently selected"
 msgstr "Selecciona todos los mensajes que no están seleccionados actualmente"
 
-#: ../ui/evolution-mail-list.xml.h:18
+#: ../ui/evolution-mail-list.xml.h:19
 msgid "Select all messages in the same thread as the selected message"
 msgstr ""
 "Selecciona todos los mensajes en la misma conversación que el mensaje "
 "seleccionado"
 
-#: ../ui/evolution-mail-list.xml.h:19
+#: ../ui/evolution-mail-list.xml.h:20
 msgid "Select all visible messages"
 msgstr "Selecciona todos los mensajes visibles"
 
-#: ../ui/evolution-mail-list.xml.h:20
+#: ../ui/evolution-mail-list.xml.h:21
 msgid "Sh_ow Hidden Messages"
 msgstr "_Mostrar mensajes ocultos"
 
-#: ../ui/evolution-mail-list.xml.h:21
+#: ../ui/evolution-mail-list.xml.h:22
 msgid "Show messages that have been temporarily hidden"
 msgstr "Muestra los mensajes que han estado ocultos temporalmente"
 
-#: ../ui/evolution-mail-list.xml.h:22
+#: ../ui/evolution-mail-list.xml.h:23
 msgid "Temporarily hide all messages that have already been read"
 msgstr "Oculta temporalmente todos los mensajes que han sido leídos"
 
-#: ../ui/evolution-mail-list.xml.h:23
+#: ../ui/evolution-mail-list.xml.h:24
 msgid "Temporarily hide the selected messages"
 msgstr "Oculta temporalmente los mensajes seleccionados"
 
-#: ../ui/evolution-mail-list.xml.h:24
+#: ../ui/evolution-mail-list.xml.h:25
 msgid "Threaded Message list"
 msgstr "Lista de mensajes por conversaciones"
 
-#: ../ui/evolution-mail-list.xml.h:27 ../ui/evolution-mail-message.xml.h:110
+#: ../ui/evolution-mail-list.xml.h:27 ../ui/evolution-mail-message.xml.h:111
 #: ../ui/evolution-mail-messagedisplay.xml.h:7
 msgid "_Message"
 msgstr "_Mensaje"
@@ -17965,401 +17960,407 @@ msgstr "_Añadir remitente a la libreta de direcciones"
 msgid "A_pply Filters"
 msgstr "A_plicar filtros"
 
-#: ../ui/evolution-mail-message.xml.h:3
+#. Alphabetical by name, yo
+#: ../ui/evolution-mail-message.xml.h:4
 msgid "Add Sender to Address Book"
 msgstr "Añadir remitente a la libreta de direcciones"
 
-#: ../ui/evolution-mail-message.xml.h:4
+#: ../ui/evolution-mail-message.xml.h:5
 msgid "All Message _Headers"
 msgstr "_Cabeceras de todos los mensajes"
 
-#: ../ui/evolution-mail-message.xml.h:5
+#: ../ui/evolution-mail-message.xml.h:6
 msgid "Apply filter rules to the selected messages"
 msgstr "Aplica filtros a los mensajes seleccionados"
 
-#: ../ui/evolution-mail-message.xml.h:6
+#: ../ui/evolution-mail-message.xml.h:7
 msgid "Check for _Junk"
 msgstr "Comprobar _spam"
 
-#: ../ui/evolution-mail-message.xml.h:7
+#: ../ui/evolution-mail-message.xml.h:8
 msgid "Compose _New Message"
 msgstr "Redactar un _mensaje nuevo"
 
-#: ../ui/evolution-mail-message.xml.h:8
+#: ../ui/evolution-mail-message.xml.h:9
 msgid "Compose a reply to all of the recipients of the selected message"
 msgstr "Responde a todos los destinatarios del mensaje seleccionado"
 
-#: ../ui/evolution-mail-message.xml.h:9
+#: ../ui/evolution-mail-message.xml.h:10
 msgid "Compose a reply to the mailing list of the selected message"
 msgstr "Responde a la lista de correo remitente del mensaje seleccionado"
 
-#: ../ui/evolution-mail-message.xml.h:10
+#: ../ui/evolution-mail-message.xml.h:11
 msgid "Compose a reply to the sender of the selected message"
 msgstr "Responde al remitente del mensaje seleccionado"
 
-#: ../ui/evolution-mail-message.xml.h:13
+#: ../ui/evolution-mail-message.xml.h:14
 msgid "Copy selected messages to another folder"
 msgstr "Copia mensajes seleccionados a otra carpeta"
 
-#: ../ui/evolution-mail-message.xml.h:14
+#: ../ui/evolution-mail-message.xml.h:15
 msgid "Create R_ule"
 msgstr "Crear _regla"
 
-#: ../ui/evolution-mail-message.xml.h:15
+#: ../ui/evolution-mail-message.xml.h:16
 msgid "Create a Search Folder for these recipients"
 msgstr "Crea una carpeta de búsqueda para estos destinatarios"
 
-#: ../ui/evolution-mail-message.xml.h:16
+#: ../ui/evolution-mail-message.xml.h:17
 msgid "Create a Search Folder for this mailing list"
 msgstr "Crea una carpeta de búsqueda para esta lista de correo"
 
-#: ../ui/evolution-mail-message.xml.h:17
+#: ../ui/evolution-mail-message.xml.h:18
 msgid "Create a Search Folder for this sender"
 msgstr "Crea una carpeta de buqueda para este remitente"
 
-#: ../ui/evolution-mail-message.xml.h:18
+#: ../ui/evolution-mail-message.xml.h:19
 msgid "Create a Search Folder for this subject"
 msgstr "Crea una carpeta de búsqueda para este asunto"
 
-#: ../ui/evolution-mail-message.xml.h:19
+#: ../ui/evolution-mail-message.xml.h:20
 msgid "Create a rule to filter messages from this sender"
 msgstr "Crea una regla para filtrar los mensajes de este remitente"
 
-#: ../ui/evolution-mail-message.xml.h:20
+#: ../ui/evolution-mail-message.xml.h:21
 msgid "Create a rule to filter messages to these recipients"
 msgstr "Crea una regla para filtrar los mensajes de estos destinatarios"
 
-#: ../ui/evolution-mail-message.xml.h:21
+#: ../ui/evolution-mail-message.xml.h:22
 msgid "Create a rule to filter messages to this mailing list"
 msgstr "Crea una regla para filtrar los mensajes de esta lista de correo"
 
-#: ../ui/evolution-mail-message.xml.h:22
+#: ../ui/evolution-mail-message.xml.h:23
 msgid "Create a rule to filter messages with this subject"
 msgstr "Crea una regla para filtrar los mensajes con este asunto"
 
-#: ../ui/evolution-mail-message.xml.h:24
+#: ../ui/evolution-mail-message.xml.h:25
 msgid "Decrease the text size"
 msgstr "Reduce el tamaño del texto"
 
-#: ../ui/evolution-mail-message.xml.h:26
+#: ../ui/evolution-mail-message.xml.h:27
 msgid "Display the next important message"
 msgstr "Muestra el mensaje siguiente importante"
 
-#: ../ui/evolution-mail-message.xml.h:27
+#: ../ui/evolution-mail-message.xml.h:28
 msgid "Display the next message"
 msgstr "Muestra el mensaje siguiente"
 
-#: ../ui/evolution-mail-message.xml.h:28
+#: ../ui/evolution-mail-message.xml.h:29
 msgid "Display the next unread message"
 msgstr "Muestra el siguiente mensaje no leído"
 
-#: ../ui/evolution-mail-message.xml.h:29
+#: ../ui/evolution-mail-message.xml.h:30
 msgid "Display the next unread thread"
 msgstr "Muestra la siguiente conversación no leída"
 
-#: ../ui/evolution-mail-message.xml.h:30
+#: ../ui/evolution-mail-message.xml.h:31
 msgid "Display the previous important message"
 msgstr "Muestra el anterior mensaje importante"
 
-#: ../ui/evolution-mail-message.xml.h:31
+#: ../ui/evolution-mail-message.xml.h:32
 msgid "Display the previous message"
 msgstr "Muestra el mensaje anterior"
 
-#: ../ui/evolution-mail-message.xml.h:32
+#: ../ui/evolution-mail-message.xml.h:33
 msgid "Display the previous unread message"
 msgstr "Muestra el anterior mensaje no leído"
 
-#: ../ui/evolution-mail-message.xml.h:33
+#: ../ui/evolution-mail-message.xml.h:34
 msgid "Filter on Mailing _List..."
 msgstr "Filtro según la _lista de correo..."
 
-#: ../ui/evolution-mail-message.xml.h:34
+#: ../ui/evolution-mail-message.xml.h:35
 msgid "Filter on Se_nder..."
 msgstr "Filtro según el _remitente..."
 
-#: ../ui/evolution-mail-message.xml.h:35
+#: ../ui/evolution-mail-message.xml.h:36
 msgid "Filter on _Recipients..."
 msgstr "Filtro según los _destinatarios..."
 
-#: ../ui/evolution-mail-message.xml.h:36
+#: ../ui/evolution-mail-message.xml.h:37
 msgid "Filter on _Subject..."
 msgstr "Filtro según el _asunto..."
 
-#: ../ui/evolution-mail-message.xml.h:37
+#: ../ui/evolution-mail-message.xml.h:38
 msgid "Filter the selected messages for junk status"
 msgstr "Filtrar los mensajes seleccionados para marcar como spam"
 
-#: ../ui/evolution-mail-message.xml.h:38
+#: ../ui/evolution-mail-message.xml.h:39
 msgid "Flag selected message(s) for follow-up"
 msgstr "Marcar los mensajes seleccionados para seguimiento"
 
-#: ../ui/evolution-mail-message.xml.h:39
+#: ../ui/evolution-mail-message.xml.h:40
 msgid "Follow _Up..."
 msgstr "Se_guimiento..."
 
-#: ../ui/evolution-mail-message.xml.h:40
+#: ../ui/evolution-mail-message.xml.h:41
 msgid "Force images in HTML mail to be loaded"
 msgstr "Forzar la carga de imágenes en el correo HTML"
 
-#: ../ui/evolution-mail-message.xml.h:42
+#: ../ui/evolution-mail-message.xml.h:43
 msgid "Forward the selected message in the body of a new message"
 msgstr "Reenvía el mensaje seleccionado en el cuerpo de un mensaje nuevo"
 
-#: ../ui/evolution-mail-message.xml.h:43
+#: ../ui/evolution-mail-message.xml.h:44
 msgid "Forward the selected message quoted like a reply"
 msgstr "Reenvía el mensaje seleccionado citado como una respuesta"
 
-#: ../ui/evolution-mail-message.xml.h:44
+#: ../ui/evolution-mail-message.xml.h:45
 msgid "Forward the selected message to someone"
 msgstr "Reenvía a alguien el mensaje seleccionado"
 
-#: ../ui/evolution-mail-message.xml.h:45
+#: ../ui/evolution-mail-message.xml.h:46
 msgid "Forward the selected message to someone as an attachment"
 msgstr "Reenvía a alguien el mensaje seleccionado como un adjunto"
 
-#: ../ui/evolution-mail-message.xml.h:46
+#: ../ui/evolution-mail-message.xml.h:47
 msgid "Increase the text size"
 msgstr "Incrementar el tamaño del texto"
 
-#: ../ui/evolution-mail-message.xml.h:48
+#: ../ui/evolution-mail-message.xml.h:49
 msgid "Mar_k as"
 msgstr "Mar_car como"
 
-#: ../ui/evolution-mail-message.xml.h:49
+#: ../ui/evolution-mail-message.xml.h:50
 msgid "Mark the selected message(s) as having been read"
 msgstr "Marca el(los) mensaje(s) seleccionado(s) como leídos"
 
-#: ../ui/evolution-mail-message.xml.h:50
+#: ../ui/evolution-mail-message.xml.h:51
 msgid "Mark the selected message(s) as important"
 msgstr "Marca el(los)r mensaje(s) seleccionado(s) como importantes"
 
-#: ../ui/evolution-mail-message.xml.h:51
+#: ../ui/evolution-mail-message.xml.h:52
 msgid "Mark the selected message(s) as junk"
 msgstr "Marcar mensaje(s) seleccionado(s) como spam"
 
-#: ../ui/evolution-mail-message.xml.h:52
+#: ../ui/evolution-mail-message.xml.h:53
 msgid "Mark the selected message(s) as not being junk"
 msgstr "Marca el(los) mensaje(s) seleccionado(s) como no spam"
 
-#: ../ui/evolution-mail-message.xml.h:53
+#: ../ui/evolution-mail-message.xml.h:54
 msgid "Mark the selected message(s) as not having been read"
 msgstr "Marca el(los) mensaje(s) seleccionado(s) como no leídos"
 
-#: ../ui/evolution-mail-message.xml.h:54
+#: ../ui/evolution-mail-message.xml.h:55
 msgid "Mark the selected message(s) as unimportant"
 msgstr "Marcar mensaje(s) seleccionado(s) como no importantes"
 
-#: ../ui/evolution-mail-message.xml.h:55
+#: ../ui/evolution-mail-message.xml.h:56
 msgid "Mark the selected messages for deletion"
 msgstr "Marcar los mensajes seleccionados para borrar"
 
-#: ../ui/evolution-mail-message.xml.h:56
+#: ../ui/evolution-mail-message.xml.h:57
 msgid "Message Source"
 msgstr "Origen del mensaje"
 
-#: ../ui/evolution-mail-message.xml.h:57
+#: ../ui/evolution-mail-message.xml.h:58
 msgid "Move"
 msgstr "Mover"
 
-#: ../ui/evolution-mail-message.xml.h:58
+#: ../ui/evolution-mail-message.xml.h:59
 msgid "Move selected message(s) to another folder"
 msgstr "Mover mensaje(s) seleccionado(s) a otra carpeta"
 
-#: ../ui/evolution-mail-message.xml.h:60
+#: ../ui/evolution-mail-message.xml.h:61
 msgid "Next _Important Message"
 msgstr "Mensaje _importante siguiente"
 
-#: ../ui/evolution-mail-message.xml.h:61
+#: ../ui/evolution-mail-message.xml.h:62
 msgid "Next _Thread"
 msgstr "Siguiente _conversación"
 
-#: ../ui/evolution-mail-message.xml.h:62
+#: ../ui/evolution-mail-message.xml.h:63
 msgid "Next _Unread Message"
 msgstr "Mensaje siguiente _no leído"
 
-#: ../ui/evolution-mail-message.xml.h:63
+#: ../ui/evolution-mail-message.xml.h:64
 msgid "Not Junk"
 msgstr "No spam"
 
-#: ../ui/evolution-mail-message.xml.h:64
+#: ../ui/evolution-mail-message.xml.h:65
 msgid "Open a window for composing a mail message"
 msgstr "Abre una ventana para escribir un mensaje de correo"
 
-#: ../ui/evolution-mail-message.xml.h:65
+#: ../ui/evolution-mail-message.xml.h:66
 msgid "Open the selected message in a new window"
 msgstr "Abre el mensaje seleccionado en una nueva ventana"
 
-#: ../ui/evolution-mail-message.xml.h:66
+#: ../ui/evolution-mail-message.xml.h:67
 msgid "Open the selected message in the composer for editing"
 msgstr "Abre el mensaje seleccionado en el editor para editarlo"
 
-#: ../ui/evolution-mail-message.xml.h:67
+#: ../ui/evolution-mail-message.xml.h:68
 msgid "P_revious Unread Message"
 msgstr "Mensaje ante_rior no leído"
 
-#: ../ui/evolution-mail-message.xml.h:69
+#: ../ui/evolution-mail-message.xml.h:70
 msgid "Post a Repl_y"
 msgstr "Publicar una _respuesta"
 
-#: ../ui/evolution-mail-message.xml.h:70
+#: ../ui/evolution-mail-message.xml.h:71
 msgid "Post a reply to a message in a Public folder"
 msgstr "Publica una respuesta a un mensaje en una carpeta pública"
 
-#: ../ui/evolution-mail-message.xml.h:71
+#: ../ui/evolution-mail-message.xml.h:72
 msgid "Pr_evious Important Message"
 msgstr "Mensaje importante an_terior"
 
-#: ../ui/evolution-mail-message.xml.h:72
+#: ../ui/evolution-mail-message.xml.h:73
 msgid "Preview the message to be printed"
 msgstr "Vista previa del mensaje que va a imprimirse"
 
-#: ../ui/evolution-mail-message.xml.h:76
+#: ../ui/evolution-mail-message.xml.h:77
 msgid "Print this message"
 msgstr "Imprimir este mensaje"
 
-#: ../ui/evolution-mail-message.xml.h:77
+#: ../ui/evolution-mail-message.xml.h:78
 msgid "Re_direct"
 msgstr "Re_dirigir"
 
-#: ../ui/evolution-mail-message.xml.h:78
+#: ../ui/evolution-mail-message.xml.h:79
 msgid "Redirect (bounce) the selected message to someone"
 msgstr "Redirige (rebotar) el mensaje seleccionado a alguien"
 
-#: ../ui/evolution-mail-message.xml.h:82
+#: ../ui/evolution-mail-message.xml.h:83
 msgid "Reset the text to its original size"
 msgstr "Restablecer el texto a su tamaño original"
 
-#: ../ui/evolution-mail-message.xml.h:83
+#: ../ui/evolution-mail-message.xml.h:84
 msgid "Save the message as a text file"
 msgstr "Guardar el mensaje en un archivo de texto"
 
-#: ../ui/evolution-mail-message.xml.h:84
+#: ../ui/evolution-mail-message.xml.h:85
 msgid "Search Folder from Mailing _List..."
 msgstr "Carpeta de búsqueda según la _lista de correo..."
 
-#: ../ui/evolution-mail-message.xml.h:85
+#: ../ui/evolution-mail-message.xml.h:86
 msgid "Search Folder from Recipients..."
 msgstr "Carpeta de búsqueda según los destinatarios..."
 
-#: ../ui/evolution-mail-message.xml.h:86
+#: ../ui/evolution-mail-message.xml.h:87
 msgid "Search Folder from S_ubject..."
 msgstr "Carpeta de búsqueda según el a_sunto..."
 
-#: ../ui/evolution-mail-message.xml.h:87
+#: ../ui/evolution-mail-message.xml.h:88
 msgid "Search Folder from Sen_der..."
 msgstr "Carpeta de búsqueda según el remite_nte..."
 
-#: ../ui/evolution-mail-message.xml.h:88
+#: ../ui/evolution-mail-message.xml.h:89
 msgid "Search for text in the body of the displayed message"
 msgstr "Buscar un texto en el cuerpo del mensaje mostrado"
 
-#: ../ui/evolution-mail-message.xml.h:89
+#: ../ui/evolution-mail-message.xml.h:90
 msgid "Select _All Text"
 msgstr "Seleccionar todo el texto"
 
-#: ../ui/evolution-mail-message.xml.h:90
+#: ../ui/evolution-mail-message.xml.h:91
 msgid "Select all the text in a message"
 msgstr "Selecciona todo el texto de un mensaje"
 
-#: ../ui/evolution-mail-message.xml.h:91
+#: ../ui/evolution-mail-message.xml.h:92
 msgid "Set up the page settings for your current printer"
 msgstr "Establecer la configuración de la página para la impresora actual"
 
-#: ../ui/evolution-mail-message.xml.h:92
+#: ../ui/evolution-mail-message.xml.h:93
 msgid "Show a blinking cursor in the body of displayed messages"
 msgstr "Buscar un cursor parpadeante en el cuerpo de los mensajes mostrados"
 
-#: ../ui/evolution-mail-message.xml.h:93
+#: ../ui/evolution-mail-message.xml.h:94
 msgid "Show message in the normal style"
 msgstr "Mostrar mensajes en el estilo normal"
 
-#: ../ui/evolution-mail-message.xml.h:94
+#: ../ui/evolution-mail-message.xml.h:95
 msgid "Show message with all email headers"
 msgstr "Mostrar mensajes con todas las cabeceras"
 
-#: ../ui/evolution-mail-message.xml.h:95
+#: ../ui/evolution-mail-message.xml.h:96
 msgid "Show the raw email source of the message"
 msgstr "Mostrar el fuente del mensaje en bruto"
 
-#: ../ui/evolution-mail-message.xml.h:96
+#: ../ui/evolution-mail-message.xml.h:97
 msgid "Un-delete the selected messages"
 msgstr "Recuperar los mensajes seleccionados"
 
-#: ../ui/evolution-mail-message.xml.h:97
+#: ../ui/evolution-mail-message.xml.h:98
 msgid "Uni_mportant"
 msgstr "No importante"
 
-#: ../ui/evolution-mail-message.xml.h:98
+#: ../ui/evolution-mail-message.xml.h:99
 msgid "Zoom _Out"
 msgstr "Reducir"
 
-#: ../ui/evolution-mail-message.xml.h:99
+#: ../ui/evolution-mail-message.xml.h:100
 msgid "_Caret Mode"
 msgstr "_Modo de cursor"
 
-#: ../ui/evolution-mail-message.xml.h:102
+#: ../ui/evolution-mail-message.xml.h:103
 msgid "_Delete Message"
 msgstr "_Borrar mensaje"
 
-#: ../ui/evolution-mail-message.xml.h:104
+#: ../ui/evolution-mail-message.xml.h:105
 msgid "_Find in Message..."
 msgstr "_Buscar en mensaje..."
 
-#: ../ui/evolution-mail-message.xml.h:106
+#: ../ui/evolution-mail-message.xml.h:107
 msgid "_Go To"
 msgstr "_Ir a"
 
-#: ../ui/evolution-mail-message.xml.h:107
+#: ../ui/evolution-mail-message.xml.h:108
 msgid "_Important"
 msgstr "_Importante"
 
-#: ../ui/evolution-mail-message.xml.h:108
+#: ../ui/evolution-mail-message.xml.h:109
 msgid "_Junk"
 msgstr "_Spam"
 
-#: ../ui/evolution-mail-message.xml.h:109
+#: ../ui/evolution-mail-message.xml.h:110
 msgid "_Load Images"
 msgstr "Cargar _imágenes"
 
-#: ../ui/evolution-mail-message.xml.h:112
+#: ../ui/evolution-mail-message.xml.h:113
 msgid "_Next Message"
 msgstr "Mensaje _siguiente"
 
-#: ../ui/evolution-mail-message.xml.h:113
+#: ../ui/evolution-mail-message.xml.h:114
 msgid "_Normal Size"
 msgstr "Tamaño _normal"
 
-#: ../ui/evolution-mail-message.xml.h:114
+#: ../ui/evolution-mail-message.xml.h:115
 msgid "_Not Junk"
 msgstr "_No spam"
 
-#: ../ui/evolution-mail-message.xml.h:115
+#: ../ui/evolution-mail-message.xml.h:116
 msgid "_Open in New Window"
 msgstr "_Abrir en una ventana nueva"
 
-#: ../ui/evolution-mail-message.xml.h:116
+#: ../ui/evolution-mail-message.xml.h:117
 msgid "_Previous Message"
 msgstr "Mensaje a_nterior"
 
-#: ../ui/evolution-mail-message.xml.h:120
+#: ../ui/evolution-mail-message.xml.h:121
 msgid "_Save Message..."
 msgstr "_Guardar mensaje..."
 
-#: ../ui/evolution-mail-message.xml.h:121
+#: ../ui/evolution-mail-message.xml.h:122
 msgid "_Undelete Message"
 msgstr "_Recuperar mensaje"
 
-#: ../ui/evolution-mail-message.xml.h:122
+#: ../ui/evolution-mail-message.xml.h:123
 msgid "_Unread"
 msgstr "_No leído"
 
-#: ../ui/evolution-mail-message.xml.h:123
+#: ../ui/evolution-mail-message.xml.h:124
 msgid "_Zoom In"
 msgstr "_Ampliar"
 
+#.
+#. <cmd name="FileSave" _label="Save"
+#. _tip="Save the current file" pixtype="stock" pixname="Save"
+#. accel="*Ctrl*s"/>
+#.
 #: ../ui/evolution-mail-messagedisplay.xml.h:1
 #: ../ui/evolution-message-composer.xml.h:4
-#: ../ui/evolution-signature-editor.xml.h:2
+#: ../ui/evolution-signature-editor.xml.h:7
 msgid "Close"
 msgstr "Cerrar"
 
@@ -18367,7 +18368,7 @@ msgstr "Cerrar"
 msgid "Close this window"
 msgstr "Cerrar esta ventana"
 
-#: ../ui/evolution-mail-messagedisplay.xml.h:3 ../ui/evolution.xml.h:17
+#: ../ui/evolution-mail-messagedisplay.xml.h:3 ../ui/evolution.xml.h:16
 msgid "Main toolbar"
 msgstr "Barra de herramientas principal"
 
@@ -18378,8 +18379,8 @@ msgstr "_Cerrar"
 
 #: ../ui/evolution-mail-messagedisplay.xml.h:6
 #: ../ui/evolution-message-composer.xml.h:45
-#: ../ui/evolution-signature-editor.xml.h:13
-#: ../ui/evolution-subscribe.xml.h:11 ../ui/evolution.xml.h:33
+#: ../ui/evolution-signature-editor.xml.h:24
+#: ../ui/evolution-subscribe.xml.h:11 ../ui/evolution.xml.h:36
 msgid "_File"
 msgstr "_Archivar"
 
@@ -18395,8 +18396,13 @@ msgstr "Adjuntar un archivo"
 msgid "Check to get delivery notification when your message is read"
 msgstr "Marcar para obtener una notificación de entrega cuando se lea su mensaje"
 
+#.
+#. <cmd name="FileSave" _label="Save"
+#. _tip="Save the current file" pixtype="stock" pixname="Save"
+#. accel="*Ctrl*s"/>
+#.
 #: ../ui/evolution-message-composer.xml.h:5
-#: ../ui/evolution-signature-editor.xml.h:3
+#: ../ui/evolution-signature-editor.xml.h:13
 msgid "Close the current file"
 msgstr "Cierra el archivo actual"
 
@@ -18413,7 +18419,7 @@ msgid "Encrypt this message with your S/MIME Encryption Certificate"
 msgstr "Encriptar este mensaje con su certificado de encriptación S/MIME"
 
 #: ../ui/evolution-message-composer.xml.h:9
-#: ../ui/evolution-signature-editor.xml.h:4
+#: ../ui/evolution-signature-editor.xml.h:14
 msgid "For_mat"
 msgstr "For_mato"
 
@@ -18470,7 +18476,6 @@ msgid "Save in folder..."
 msgstr "Guardar en carpeta..."
 
 #: ../ui/evolution-message-composer.xml.h:25
-#: ../ui/evolution-signature-editor.xml.h:9
 msgid "Save the current file"
 msgstr "Guardar archivo actual"
 
@@ -18483,7 +18488,7 @@ msgid "Save the message in a specified folder"
 msgstr "Guardar el mensaje en una carpeta específica"
 
 #: ../ui/evolution-message-composer.xml.h:29
-#: ../ui/evolution-signature-editor.xml.h:11
+#: ../ui/evolution-signature-editor.xml.h:22
 msgid "Send the mail in HTML format"
 msgstr "Enviar el correo en formato HTML"
 
@@ -18544,7 +18549,7 @@ msgid "_From Field"
 msgstr "Campo «_De»"
 
 #: ../ui/evolution-message-composer.xml.h:47
-#: ../ui/evolution-signature-editor.xml.h:14
+#: ../ui/evolution-signature-editor.xml.h:25
 msgid "_Insert"
 msgstr "_Insertar"
 
@@ -18572,19 +18577,22 @@ msgstr "Campo «_Para»"
 msgid "C_lose"
 msgstr "_Cerrar"
 
-#: ../ui/evolution-signature-editor.xml.h:5
+#: ../ui/evolution-signature-editor.xml.h:15
 msgid "H_TML"
 msgstr "H_TML"
 
-#: ../ui/evolution-signature-editor.xml.h:7
+#: ../ui/evolution-signature-editor.xml.h:16
 msgid "Save and Close"
 msgstr "Guardar y cerrar"
 
-#: ../ui/evolution-signature-editor.xml.h:8
+#.
+#. <menuitem name="FileSave" verb="" _label="_Save"/>
+#.
+#: ../ui/evolution-signature-editor.xml.h:20
 msgid "Save and _Close"
 msgstr "Guardar y _cerrar"
 
-#: ../ui/evolution-signature-editor.xml.h:10
+#: ../ui/evolution-signature-editor.xml.h:21
 msgid "Save the current file and close the window"
 msgstr "Guardar el archivo y cerrar la ventana de diálogo"
 
@@ -18674,7 +18682,7 @@ msgstr "Cambiar las visibilidad de la barra de herramientas"
 
 #: ../ui/evolution.xml.h:5
 msgid "Create a new window displaying this folder"
-msgstr "Crear una nueva ventana mostrando esta carpeta"
+msgstr "Crear una ventana nueva mostrando esta carpeta"
 
 #: ../ui/evolution.xml.h:6
 msgid "Display window buttons using the desktop toolbar setting"
@@ -18695,134 +18703,134 @@ msgid "Display window buttons with text only"
 msgstr "Mostrar los botones de la ventana sólo con texto"
 
 #: ../ui/evolution.xml.h:10
-msgid "Evolution _FAQ"
-msgstr "P+_F de Evolution"
-
-#: ../ui/evolution.xml.h:11
 msgid "Exit the program"
 msgstr "Sale del programa"
 
-#: ../ui/evolution.xml.h:12
+#: ../ui/evolution.xml.h:11
 msgid "Forget _Passwords"
 msgstr "O_lvidar contraseñas"
 
-#: ../ui/evolution.xml.h:13
+#: ../ui/evolution.xml.h:12
 msgid "Forget remembered passwords so you will be prompted for them again"
 msgstr "Olvida las contraseñas almacenadas así que se le preguntarán de nuevo"
 
-#: ../ui/evolution.xml.h:14
+#: ../ui/evolution.xml.h:13
 msgid "Hide window buttons"
 msgstr "Ocultar los botones de la ventana"
 
-#: ../ui/evolution.xml.h:15
+#: ../ui/evolution.xml.h:14
 msgid "Icons _and text"
 msgstr "Iconos _y texto"
 
-#: ../ui/evolution.xml.h:16
+#: ../ui/evolution.xml.h:15
 msgid "Import data from other programs"
 msgstr "Importar datos de otros programas"
 
-#: ../ui/evolution.xml.h:18
+#: ../ui/evolution.xml.h:17
 msgid "New _Window"
 msgstr "_Ventana nueva"
 
-#: ../ui/evolution.xml.h:19
+#: ../ui/evolution.xml.h:18
 msgid "Prefere_nces"
 msgstr "_Preferencias"
 
-#: ../ui/evolution.xml.h:20
+#: ../ui/evolution.xml.h:19
 msgid "Send / Receive"
 msgstr "Enviar / Recibir"
 
-#: ../ui/evolution.xml.h:21
+#: ../ui/evolution.xml.h:20
 msgid "Send queued items and retrieve new items"
 msgstr "Envía el correo en la cola y obtiene el nuevo"
 
-#: ../ui/evolution.xml.h:22
+#: ../ui/evolution.xml.h:21
 msgid "Set up Pilot configuration"
 msgstr "Configuración del Pilot"
 
-#: ../ui/evolution.xml.h:23
+#: ../ui/evolution.xml.h:22
 msgid "Show information about Evolution"
 msgstr "Muestra información acerca de Evolution"
 
-#: ../ui/evolution.xml.h:24
+#: ../ui/evolution.xml.h:23
 msgid "Submit Bug Report"
 msgstr "Envía un informe de fallos"
 
-#: ../ui/evolution.xml.h:25
+#. <menuitem name="HelpFAQ" verb=""
+#. _label="Evolution _FAQ"/>
+#.
+#. <separator/>
+#: ../ui/evolution.xml.h:28
 msgid "Submit _Bug Report"
 msgstr "Enviar informe de _fallos"
 
-#: ../ui/evolution.xml.h:26
+#: ../ui/evolution.xml.h:29
 msgid "Submit a bug report using Bug Buddy"
 msgstr "Enviar un informe de fallos usando Bug Buddy"
 
-#: ../ui/evolution.xml.h:27
+#: ../ui/evolution.xml.h:30
 msgid "Toggle whether we are working offline."
-msgstr "Conmutador que indica si se está trabajando desconectado o no."
+msgstr "Cambiar si se está trabajando desconectado."
 
-#: ../ui/evolution.xml.h:28
+#: ../ui/evolution.xml.h:31
 msgid "Tool_bar"
 msgstr "Barra de _herramientas"
 
-#: ../ui/evolution.xml.h:29
+#: ../ui/evolution.xml.h:32
 msgid "Tool_bar style"
 msgstr "_Estilo de la barra de herramientas"
 
-#: ../ui/evolution.xml.h:30
+#: ../ui/evolution.xml.h:33
 msgid "_About Evolution..."
 msgstr "A_cerca de Evolution..."
 
-#: ../ui/evolution.xml.h:31
+#: ../ui/evolution.xml.h:34
 msgid "_Close Window"
 msgstr "_Cerrar ventana"
 
-#: ../ui/evolution.xml.h:34
+#: ../ui/evolution.xml.h:37
 msgid "_Help"
 msgstr "A_yuda"
 
-#: ../ui/evolution.xml.h:35
+#: ../ui/evolution.xml.h:38
 msgid "_Hide buttons"
 msgstr "_Ocultar botones"
 
-#: ../ui/evolution.xml.h:36
+#: ../ui/evolution.xml.h:39
 msgid "_Icons only"
 msgstr "Sólo _iconos"
 
-#: ../ui/evolution.xml.h:37
+#: ../ui/evolution.xml.h:40
 msgid "_Import..."
 msgstr "_Importar..."
 
-#: ../ui/evolution.xml.h:38
+#: ../ui/evolution.xml.h:41
 msgid "_New"
 msgstr "_Nuevo"
 
-#: ../ui/evolution.xml.h:39
+#: ../ui/evolution.xml.h:42
 msgid "_Quick Reference"
 msgstr "_Referencia rápida"
 
-#: ../ui/evolution.xml.h:40
+#: ../ui/evolution.xml.h:43
 msgid "_Quit"
 msgstr "_Salir"
 
-#: ../ui/evolution.xml.h:41
+#: ../ui/evolution.xml.h:44
 msgid "_Send / Receive"
 msgstr "_Enviar / Recibir"
 
-#: ../ui/evolution.xml.h:42
+#: ../ui/evolution.xml.h:45
 msgid "_Switcher Appearance"
 msgstr "Apariencia del _intercambiador"
 
-#: ../ui/evolution.xml.h:43
+#: ../ui/evolution.xml.h:46
 msgid "_Synchronization Options..."
 msgstr "Opciones de _sincronización..."
 
-#: ../ui/evolution.xml.h:44
+#: ../ui/evolution.xml.h:47
 msgid "_Text only"
 msgstr "Sólo _texto"
 
-#: ../ui/evolution.xml.h:46
+#: ../ui/evolution.xml.h:49
 msgid "_Window"
 msgstr "_Ventana"
 
@@ -19032,7 +19040,7 @@ msgstr "Color de relleno"
 #: ../widgets/text/e-text.c:3548 ../widgets/text/e-text.c:3555
 #: ../widgets/text/e-text.c:3556
 msgid "GDK fill color"
-msgstr "Relleno con color GDK"
+msgstr "Color de relleno GDK"
 
 #: ../widgets/misc/e-canvas-background.c:477
 #: ../widgets/misc/e-canvas-background.c:478 ../widgets/text/e-entry.c:1305
@@ -19299,9 +19307,9 @@ msgid ""
 "Mouse-based interactive map widget for selecting timezone. Keyboard users "
 "should select the timezone from the below combo box instead."
 msgstr ""
-"Widget con mapa interactivo basado en ratón para seleccionar la zona horaria. Los "
-"usuarios que sólo dispongan de teclado pueden, en su lugar, seleccionar la zona horaria "
-"desde la caja combinada inferior."
+"Widget con mapa interactivo basado en ratón para seleccionar la zona "
+"horaria. Los usuarios que sólo dispongan de teclado pueden, en su lugar, "
+"seleccionar la zona horaria desde la caja combinada inferior."
 
 #: ../widgets/misc/e-pilot-settings.c:103
 msgid "Sync with:"
@@ -19535,7 +19543,7 @@ msgstr "Editar lista de categorías maestra..."
 
 #: ../widgets/misc/gal-categories.glade.h:3
 msgid "Item(s) belong to these _categories:"
-msgstr "Elamento(s) pertenecientes a estas _categorías:"
+msgstr "Elemento(s) pertenecientes a estas _categorías:"
 
 #: ../widgets/misc/gal-categories.glade.h:4
 msgid "_Available Categories:"
@@ -19587,7 +19595,7 @@ msgstr "Color de fondo de la columna"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:1
 msgid "<- _Remove"
-msgstr "<- _Quitar"
+msgstr "⇦ _Quitar"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:2
 #: ../widgets/table/e-table-config.glade.h:1
@@ -19656,7 +19664,7 @@ msgstr "Luego por"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:17
 msgid "_Add ->"
-msgstr "_Añadir ->"
+msgstr "_Añadir ⇨"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:18
 #: ../widgets/table/e-table-config.glade.h:16
@@ -19756,7 +19764,7 @@ msgstr "%s (%d elementos)"
 #: ../widgets/table/e-table-group-leaf.c:574
 #: ../widgets/table/e-table-item.c:2959 ../widgets/table/e-table-item.c:2960
 msgid "Alternating Row Colors"
-msgstr "Alternar color de las filas"
+msgstr "Alternar colores de las filas"
 
 #: ../widgets/table/e-table-group-container.c:908
 #: ../widgets/table/e-table-group-container.c:909
