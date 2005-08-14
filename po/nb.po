@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nb\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-08-12 13:21+0200\n"
+"POT-Creation-Date: 2005-08-14 05:18+0200\n"
 "PO-Revision-Date: 2005-08-12 13:19+0200\n"
 "Last-Translator: Terance Edward Sola <terance@lyse.net>\n"
 "Language-Team: Norwegian Bokmal <i18n-nb@lister.ping.uio.no>\n"
@@ -3283,7 +3283,7 @@ msgstr "Kunne ikke avbryte"
 
 #. E_BOOK_ERROR_AUTHENTICATION_FAILED
 #: ../addressbook/gui/widgets/eab-gui-util.c:63
-#: ../calendar/gui/comp-editor-factory.c:431
+#: ../calendar/gui/comp-editor-factory.c:438
 msgid "Authentication Failed"
 msgstr "Autentisering feilet"
 
@@ -4307,11 +4307,11 @@ msgid_plural "minutes"
 msgstr[0] "minutt"
 msgstr[1] "minutter"
 
-#: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:215
+#: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:248
 msgid "Start time"
 msgstr "Starttid:"
 
-#: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:312
+#: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:347
 #, c-format
 msgid ""
 "<big><b>%s</b></big>\n"
@@ -4927,19 +4927,19 @@ msgstr "Ukevisning"
 msgid "Month View"
 msgstr "Månedsvisning"
 
-#: ../calendar/gui/comp-editor-factory.c:413
+#: ../calendar/gui/comp-editor-factory.c:420
 msgid "Error while opening the calendar"
 msgstr "Feil under åpning av kalenderen"
 
-#: ../calendar/gui/comp-editor-factory.c:419
+#: ../calendar/gui/comp-editor-factory.c:426
 msgid "Method not supported when opening the calendar"
 msgstr "Metoden er ikke støttet under åpning av kalender"
 
-#: ../calendar/gui/comp-editor-factory.c:425
+#: ../calendar/gui/comp-editor-factory.c:432
 msgid "Permission denied to open the calendar"
 msgstr "Tilgang nektet ved åpning av kalender"
 
-#: ../calendar/gui/comp-editor-factory.c:437 ../shell/e-shell.c:1286
+#: ../calendar/gui/comp-editor-factory.c:444 ../shell/e-shell.c:1286
 msgid "Unknown error"
 msgstr "Ukjent feil"
 
@@ -6003,7 +6003,7 @@ msgstr "<b>Fra:</b> "
 #: ../plugins/calendar-weather/calendar-weather.c:370
 #: ../plugins/calendar-weather/calendar-weather.c:424
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:7
-#: ../plugins/itip-formatter/itip-formatter.c:1613
+#: ../plugins/itip-formatter/itip-formatter.c:1615
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.c:190
 #: ../widgets/misc/e-cell-date-edit.c:248 ../widgets/misc/e-dateedit.c:465
 #: ../widgets/misc/e-dateedit.c:1504 ../widgets/misc/e-dateedit.c:1673
@@ -6623,8 +6623,8 @@ msgstr "Nei"
 #: ../calendar/gui/e-meeting-list-view.c:182
 #: ../calendar/gui/e-meeting-store.c:124 ../calendar/gui/e-meeting-store.c:159
 #: ../calendar/gui/e-meeting-store.c:224 ../mail/em-utils.c:1244
-#: ../plugins/itip-formatter/itip-formatter.c:238
-#: ../plugins/itip-formatter/itip-formatter.c:1638
+#: ../plugins/itip-formatter/itip-formatter.c:240
+#: ../plugins/itip-formatter/itip-formatter.c:1640
 #: ../plugins/plugin-manager/plugin-manager.c:72
 #: ../widgets/misc/e-attachment-bar.c:649
 #: ../widgets/misc/e-charset-picker.c:62
@@ -7036,12 +7036,12 @@ msgstr ""
 #: ../calendar/gui/e-meeting-list-view.c:204
 #: ../calendar/gui/e-meeting-store.c:188 ../calendar/gui/e-meeting-store.c:211
 #: ../calendar/gui/itip-utils.c:548
-#: ../plugins/itip-formatter/itip-formatter.c:1626
+#: ../plugins/itip-formatter/itip-formatter.c:1628
 msgid "Accepted"
 msgstr "Godtatt"
 
 #: ../calendar/gui/e-itip-control.c:1141 ../calendar/gui/itip-utils.c:551
-#: ../plugins/itip-formatter/itip-formatter.c:1629
+#: ../plugins/itip-formatter/itip-formatter.c:1631
 msgid "Tentatively Accepted"
 msgstr "Akseptert tentativt"
 
@@ -7049,7 +7049,7 @@ msgstr "Akseptert tentativt"
 #: ../calendar/gui/e-meeting-list-view.c:205
 #: ../calendar/gui/e-meeting-store.c:190 ../calendar/gui/e-meeting-store.c:213
 #: ../calendar/gui/itip-utils.c:554 ../calendar/gui/itip-utils.c:583
-#: ../plugins/itip-formatter/itip-formatter.c:1632
+#: ../plugins/itip-formatter/itip-formatter.c:1634
 msgid "Declined"
 msgstr "Avslått"
 
@@ -7266,7 +7266,7 @@ msgid "Attendee status updated\n"
 msgstr "Deltakerstatus oppdatert\n"
 
 #: ../calendar/gui/e-itip-control.c:1979
-#: ../plugins/itip-formatter/itip-formatter.c:1011
+#: ../plugins/itip-formatter/itip-formatter.c:1013
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr ""
 "Deltakerstatus kan ikke oppdateres fordi oppføringen ikke eksisterer lenger"
@@ -7436,7 +7436,7 @@ msgstr "Tentativ"
 #: ../calendar/gui/e-meeting-list-view.c:207
 #: ../calendar/gui/e-meeting-store.c:194 ../calendar/gui/e-meeting-store.c:217
 #: ../calendar/gui/itip-utils.c:557
-#: ../plugins/itip-formatter/itip-formatter.c:1635
+#: ../plugins/itip-formatter/itip-formatter.c:1637
 msgid "Delegated"
 msgstr "Delegert"
 
@@ -10802,11 +10802,11 @@ msgstr "er ikke merket"
 #: ../mail/em-filter-i18n.h:35 ../mail/mail-config.glade.h:93
 #: ../ui/evolution-mail-message.xml.h:47
 msgid "Junk"
-msgstr "Søppel"
+msgstr "Uønsket e-post"
 
 #: ../mail/em-filter-i18n.h:36
 msgid "Junk Test"
-msgstr "Søppeltest"
+msgstr "Uønsket e-posttest"
 
 #: ../mail/em-filter-i18n.h:37 ../mail/em-folder-view.c:1063
 #: ../widgets/misc/e-expander.c:189
@@ -10831,11 +10831,11 @@ msgstr "Meldingshode"
 
 #: ../mail/em-filter-i18n.h:42
 msgid "Message is Junk"
-msgstr "Meldingen er søppel"
+msgstr "Uønsket e-post"
 
 #: ../mail/em-filter-i18n.h:43
 msgid "Message is not Junk"
-msgstr "Meldingen er ikke søppel"
+msgstr "Ikke uønsket e-post"
 
 #: ../mail/em-filter-i18n.h:44
 msgid "Move to Folder"
@@ -11162,7 +11162,7 @@ msgstr "_Merk som uviktig"
 
 #: ../mail/em-folder-view.c:1059
 msgid "Mark as _Junk"
-msgstr "Merk som _søppel"
+msgstr "Merk som _uønsket e-post"
 
 #: ../mail/em-folder-view.c:1060
 msgid "Mark as _Not Junk"
@@ -11747,7 +11747,7 @@ msgstr "Automatisk gjenkjenning av smilefjes"
 
 #: ../mail/evolution-mail.schemas.in.in.h:3
 msgid "Check incoming mail being junk"
-msgstr "Sjekk om innkommende meldinger er søppel"
+msgstr "Sjekk om innkommende meldinger er uønsket e-post"
 
 #: ../mail/evolution-mail.schemas.in.in.h:4
 msgid "Citation highlight color"
@@ -12029,7 +12029,7 @@ msgstr "Gjenkjenn smilefjes i tekst og erstatt dem med bilder."
 
 #: ../mail/evolution-mail.schemas.in.in.h:66
 msgid "Run junk test on incoming mail"
-msgstr "Kjør søppeltest på innkommende e-post"
+msgstr "Sjekk om innkommende e-post er uønsket"
 
 #: ../mail/evolution-mail.schemas.in.in.h:67
 msgid "Send HTML mail by default"
@@ -12531,7 +12531,7 @@ msgid "<span weight=\"bold\">Filter Options</span>"
 msgstr "<span weight=\"bold\">Alternativer for filtre</span>"
 
 #: ../mail/mail-config.glade.h:18
-#: ../plugins/itip-formatter/itip-formatter.c:1922
+#: ../plugins/itip-formatter/itip-formatter.c:1963
 msgid "<span weight=\"bold\">General</span>"
 msgstr "<span weight=\"bold\">Generelt</span>"
 
@@ -12666,7 +12666,7 @@ msgstr "Sj_ekk støttede typer "
 
 #: ../mail/mail-config.glade.h:52
 msgid "Check _incoming mail for junk"
-msgstr "Sjekk om innkommende meldinger er søppel"
+msgstr "Sjekk om innkommende e-poster er uønsket"
 
 #: ../mail/mail-config.glade.h:53
 msgid "Check spelling while I _type"
@@ -12674,7 +12674,7 @@ msgstr "Sjekk s_taving mens jeg skriver"
 
 #: ../mail/mail-config.glade.h:54
 msgid "Checks incoming mail messages to be Junk"
-msgstr "Sjekker om innkommende meldinger er søppel"
+msgstr "Sjekker om innkommende e-poster er uønsket"
 
 #: ../mail/mail-config.glade.h:55
 msgid "Cle_ar"
@@ -15116,19 +15116,19 @@ msgstr "Oppsett av konto for GroupWise"
 
 #: ../plugins/groupwise-features/junk-mail-settings.c:77
 msgid "Junk Settings"
-msgstr "Innstillinger for søppelpost"
+msgstr "Innstillinger for uønsket e-post"
 
 #: ../plugins/groupwise-features/junk-mail-settings.c:90
 msgid "<b>Junk Mail Settings</b>"
-msgstr "<b>Innstillinger for søppelpost</b>"
+msgstr "<b>Innstillinger for uønsket e-post</b>"
 
 #: ../plugins/groupwise-features/junk-mail-settings.c:112
 msgid "Junk Mail Settings..."
-msgstr "Innstillinger for søppelpost..."
+msgstr "Innstillinger for uønsket e-post..."
 
 #: ../plugins/groupwise-features/junk-settings.glade.h:1
 msgid "<b>Junk List :</b>"
-msgstr "<b>Søppelliste:</b>"
+msgstr "<b>Uønsket e-postliste:</b>"
 
 #: ../plugins/groupwise-features/junk-settings.glade.h:2
 msgid "Email:"
@@ -15136,7 +15136,7 @@ msgstr "E-post:"
 
 #: ../plugins/groupwise-features/junk-settings.glade.h:3
 msgid "Junk Mail Settings"
-msgstr "Innstillinger for søppelpost"
+msgstr "Innstillinger for uønsket e-post"
 
 #: ../plugins/groupwise-features/junk-settings.glade.h:5
 #: ../plugins/mail-account-disable/mail-account-disable.c:46
@@ -15149,7 +15149,7 @@ msgstr "Aktiv_er"
 
 #: ../plugins/groupwise-features/junk-settings.glade.h:7
 msgid "_Junk List"
-msgstr "_Søppelliste"
+msgstr "_Uønsket e-postliste"
 
 #: ../plugins/groupwise-features/org-gnome-compose-send-options.xml.h:1
 msgid "Add Send Options to groupwise messages"
@@ -15309,66 +15309,66 @@ msgstr "Deling"
 msgid "Track Message Status..."
 msgstr "Spor status på melding..."
 
-#: ../plugins/itip-formatter/itip-formatter.c:722
+#: ../plugins/itip-formatter/itip-formatter.c:724
 msgid "Unable to parse item"
 msgstr "Kunne ikke lese oppføring"
 
-#: ../plugins/itip-formatter/itip-formatter.c:778
+#: ../plugins/itip-formatter/itip-formatter.c:780
 #, c-format
 msgid "Unable to send item to calendar '%s'.  %s"
 msgstr "Kunne ikke sende oppføring til kalender «%s». %s"
 
-#: ../plugins/itip-formatter/itip-formatter.c:789
+#: ../plugins/itip-formatter/itip-formatter.c:791
 #, c-format
 msgid "Sent to calendar '%s' as accepted"
 msgstr "Sendt til kalender «%s» som godtatt"
 
-#: ../plugins/itip-formatter/itip-formatter.c:793
+#: ../plugins/itip-formatter/itip-formatter.c:795
 #, c-format
 msgid "Sent to calendar '%s' as tentative"
 msgstr "Sendt til kalender «%s» som tentativ"
 
-#: ../plugins/itip-formatter/itip-formatter.c:798
+#: ../plugins/itip-formatter/itip-formatter.c:800
 #, c-format
 msgid "Sent to calendar '%s' as declined"
 msgstr "Sendt til kalender «%s» som avslått"
 
-#: ../plugins/itip-formatter/itip-formatter.c:803
+#: ../plugins/itip-formatter/itip-formatter.c:805
 #, c-format
 msgid "Sent to calendar '%s' as cancelled"
 msgstr "Sendt til kalender «%s» som avlyst"
 
-#: ../plugins/itip-formatter/itip-formatter.c:896
+#: ../plugins/itip-formatter/itip-formatter.c:898
 #, c-format
 msgid "Organizer has removed the delegate %s "
 msgstr "Organisator har fjernet delegat %s"
 
-#: ../plugins/itip-formatter/itip-formatter.c:903
+#: ../plugins/itip-formatter/itip-formatter.c:905
 msgid "Sent a cancellation notice to the delegate"
 msgstr "Avlysningsvarsel sendt til delegat"
 
-#: ../plugins/itip-formatter/itip-formatter.c:905
+#: ../plugins/itip-formatter/itip-formatter.c:907
 msgid "Could not send the cancellation notice to the delegate"
 msgstr "Kunne ikke sende avlysningvarsel til delegaten"
 
-#: ../plugins/itip-formatter/itip-formatter.c:977
+#: ../plugins/itip-formatter/itip-formatter.c:979
 msgid "Attendee status could not be updated because the status is invalid"
 msgstr "Deltakerstatus kunne ikke oppdateres pga ugyldig status"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1003
+#: ../plugins/itip-formatter/itip-formatter.c:1005
 #, c-format
 msgid "Unable to update attendee. %s"
 msgstr "Kan ikke oppdatere deltaker. %s"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1007
+#: ../plugins/itip-formatter/itip-formatter.c:1009
 msgid "Attendee status updated"
 msgstr "Deltakerstatus oppdatert"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1134
+#: ../plugins/itip-formatter/itip-formatter.c:1136
 msgid "The calendar attached is not valid"
 msgstr "Vedlagt kalender er ugyldig"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1135
+#: ../plugins/itip-formatter/itip-formatter.c:1137
 msgid ""
 "The message claims to contain a calendar, but the calendar is not valid "
 "iCalendar."
@@ -15376,15 +15376,15 @@ msgstr ""
 "Meldingen påstår at den inneholder en kalender, men kalenderen er ikke en "
 "gyldig iCalendar."
 
-#: ../plugins/itip-formatter/itip-formatter.c:1169
-#: ../plugins/itip-formatter/itip-formatter.c:1184
-#: ../plugins/itip-formatter/itip-formatter.c:1260
+#: ../plugins/itip-formatter/itip-formatter.c:1171
+#: ../plugins/itip-formatter/itip-formatter.c:1186
+#: ../plugins/itip-formatter/itip-formatter.c:1262
 msgid "The item in the calendar is not valid"
 msgstr "Oppføringen i kalenderen er ikke gyldig"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1170
-#: ../plugins/itip-formatter/itip-formatter.c:1185
-#: ../plugins/itip-formatter/itip-formatter.c:1261
+#: ../plugins/itip-formatter/itip-formatter.c:1172
+#: ../plugins/itip-formatter/itip-formatter.c:1187
+#: ../plugins/itip-formatter/itip-formatter.c:1263
 msgid ""
 "The message does contain a calendar, but the calendar contains no events, "
 "tasks or free/busy information"
@@ -15392,11 +15392,11 @@ msgstr ""
 "Meldingen inneholder en kalender, men kalenderen inneholder ingen hendelser, "
 "oppgaver eller ledig/opptatt-informasjon"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1195
+#: ../plugins/itip-formatter/itip-formatter.c:1197
 msgid "The calendar attached contains multiple items"
 msgstr "Vedlagt kalender inneholder flere oppføringer"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1196
+#: ../plugins/itip-formatter/itip-formatter.c:1198
 msgid ""
 "To process all of these items, the file should be saved and the calendar "
 "imported"
@@ -15404,26 +15404,26 @@ msgstr ""
 "Du må lagre filen og importere kalenderen for å prosessere alle disse "
 "oppføringene"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1913
+#: ../plugins/itip-formatter/itip-formatter.c:1954
 msgid "Meetings and Tasks"
 msgstr "Møter og oppgaver"
 
 #. Delete message after acting
 #. FIXME Need a schema for this
-#: ../plugins/itip-formatter/itip-formatter.c:1936
+#: ../plugins/itip-formatter/itip-formatter.c:1977
 msgid "_Delete message after acting"
 msgstr "_Slett melding etter utført handling"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1946
+#: ../plugins/itip-formatter/itip-formatter.c:1987
 msgid "<span weight=\"bold\">Conflict Search</span>"
 msgstr "<span weight=\"bold\">Søk etter konflikter</span>"
 
 #. Source selector
-#: ../plugins/itip-formatter/itip-formatter.c:1959
+#: ../plugins/itip-formatter/itip-formatter.c:2000
 msgid "Select the calendars to search for meeting conflicts"
 msgstr "Velg kalendere som skal gjennomsøkes for å finne møtekonflikter"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1976
+#: ../plugins/itip-formatter/itip-formatter.c:2017
 msgid "Conflict Search Table"
 msgstr "Tabell for søk etter konflikter"
 
@@ -16131,11 +16131,11 @@ msgstr "Spamassassin (integrert)"
 
 #: ../plugins/sa-junk-plugin/org-gnome-sa-junk-plugin.eplug.xml.h:1
 msgid "Sa junk-plugin"
-msgstr "SA søppeltillegg"
+msgstr "SpamAssasin uønsket e-post programtillegg"
 
 #: ../plugins/sa-junk-plugin/org-gnome-sa-junk-plugin.eplug.xml.h:2
 msgid "learns junk messages using spamd."
-msgstr "selvlærende søppelfilter som bruker spamd."
+msgstr "selvlærende uønsket e-postfilter som bruker spamd."
 
 #: ../plugins/save-attachments/org-gnome-save-attachments.eplug.xml.h:1
 msgid "A plugin for saving all attachments or parts of a message at once."
@@ -17952,7 +17952,7 @@ msgstr "Aktiver filterregler på de valgte meldingene"
 
 #: ../ui/evolution-mail-message.xml.h:6
 msgid "Check for _Junk"
-msgstr "Sjekk _søppel"
+msgstr "Sjekk etter _uønsket e-post"
 
 #: ../ui/evolution-mail-message.xml.h:7
 msgid "Compose _New Message"
@@ -18060,7 +18060,7 @@ msgstr "Filtrer på e_mne..."
 
 #: ../ui/evolution-mail-message.xml.h:37
 msgid "Filter the selected messages for junk status"
-msgstr "Filtrer valgte meldinger etter søppelstatus"
+msgstr "Filtrer valgte meldinger etter uønsket e-poststatus"
 
 #: ../ui/evolution-mail-message.xml.h:38
 msgid "Flag selected message(s) for follow-up"
@@ -18108,11 +18108,11 @@ msgstr "Merk valgt(e) melding(er) som viktige"
 
 #: ../ui/evolution-mail-message.xml.h:51
 msgid "Mark the selected message(s) as junk"
-msgstr "Merk valgt(e) melding(er) som søppel"
+msgstr "Merk valgt(e) melding(er) som uønsket e-post"
 
 #: ../ui/evolution-mail-message.xml.h:52
 msgid "Mark the selected message(s) as not being junk"
-msgstr "Merk valgt(e) melding(er) som ikke søppel"
+msgstr "Merk valgt(e) melding(er) som ikke uønsket e-post"
 
 #: ../ui/evolution-mail-message.xml.h:53
 msgid "Mark the selected message(s) as not having been read"
@@ -18152,7 +18152,7 @@ msgstr "Neste _uleste melding"
 
 #: ../ui/evolution-mail-message.xml.h:63
 msgid "Not Junk"
-msgstr "Ikke søppel"
+msgstr "Ikke uønsket e-post"
 
 #: ../ui/evolution-mail-message.xml.h:64
 msgid "Open a window for composing a mail message"
@@ -18288,7 +18288,7 @@ msgstr "V_iktig"
 
 #: ../ui/evolution-mail-message.xml.h:108
 msgid "_Junk"
-msgstr "_Søppel"
+msgstr "_Uønsket e-post"
 
 #: ../ui/evolution-mail-message.xml.h:109
 msgid "_Load Images"
@@ -18304,7 +18304,7 @@ msgstr "_Normal størrelse"
 
 #: ../ui/evolution-mail-message.xml.h:114
 msgid "_Not Junk"
-msgstr "_Ikke søppel"
+msgstr "_Ikke uønsket e-post"
 
 #: ../ui/evolution-mail-message.xml.h:115
 msgid "_Open in New Window"
