@@ -1,3 +1,11 @@
+2005-08-10  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #313063.
+
+	* e-tree.c (e_tree_class_init): fix the set_scroll_adjustments
+	signal to take object, not pointer arguments.  Since glib's
+	anality doesn't accept an object pointer as a pointer.  go figure.
+
 2005-07-25  Srinivasa Ragavan <sragavan@novell.com>
 
 	* e-table-config.glade: Added code to use stock icons instead of

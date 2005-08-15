@@ -3256,7 +3256,7 @@ e_tree_class_init (ETreeClass *class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETreeClass, set_scroll_adjustments),
 			      NULL, NULL,
-			      e_util_marshal_NONE__POINTER_POINTER,
+			      e_util_marshal_NONE__OBJECT_OBJECT,
 			      G_TYPE_NONE, 2, GTK_TYPE_ADJUSTMENT,
 			      GTK_TYPE_ADJUSTMENT);
 
