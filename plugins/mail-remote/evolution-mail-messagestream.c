@@ -49,7 +49,7 @@ impl_finalize (GObject *object)
 {
 	EvolutionMailMessageStream *emms = (EvolutionMailMessageStream *)object;
 
-	printf("EvolutionMailMessageStream: finalise\n");
+	d(printf("EvolutionMailMessageStream: finalise\n"));
 
 	if (emms->source)
 		camel_object_unref(emms->source);

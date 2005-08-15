@@ -60,11 +60,19 @@ static int
 is_storage(EAccount *ea)
 {
 	const char *uri;
-	CamelProvider *prov;
+	int ok = FALSE;
 
-	return(uri = e_account_get_string(ea, E_ACCOUNT_SOURCE_URL))
-		&& (prov = camel_provider_get(uri, NULL))
-		&& (prov->flags & CAMEL_PROVIDER_IS_STORAGE);
+	uri = e_account_get_string(ea, E_ACCOUNT_SOURCE_URL);
+	if (uri && uri[0]) {
+		CamelProvider *prov;
+		CamelException ex = { 0 };
+
+		prov = camel_provider_get(uri, &ex);
+		camel_exception_clear(&ex);
+		ok = prov && (prov->flags & CAMEL_PROVIDER_IS_STORAGE);
+	}
+
+	return ok;
 }
 
 /* GObject methods */
@@ -163,10 +171,10 @@ impl_removeListener(PortableServer_Servant _servant,
 	EvolutionMailSession *ems = (EvolutionMailSession *)bonobo_object_from_servant(_servant);
 	struct _EvolutionMailSessionPrivate *p = _PRIVATE(ems);
 
-	printf("Removing listener from session\n");
+	d(printf("Removing listener from session\n"));
 
 	if (!e_mail_listener_remove(&p->listeners, listener)) {
-		printf("no more listeners, could shut down session?\n");
+		d(printf("no more listeners, could shut down session?\n"));
 	}
 }
 
@@ -231,7 +239,7 @@ ems_account_added(EAccountList *eal, EAccount *ea, EvolutionMailSession *ems)
 	if (ea->enabled && is_storage(ea)) {
 		EvolutionMailStore *store;
 
-		printf("Account added %s\n", ea->uid);
+		d(printf("Account added %s\n", ea->uid));
 		store = evolution_mail_store_new(ems, ea);
 		p->stores = g_list_append(p->stores, store);
 		ems_listener_session_event(ems, Evolution_Mail_ADDED, store);
@@ -255,16 +263,16 @@ ems_account_changed(EAccountList *eal, EAccount *ea, EvolutionMailSession *ems)
 	if (store) {
 		/* account has been disabled? */
 		if (!ea->enabled) {
-			printf("Account changed, now disabled %s\n", ea->uid);
+			d(printf("Account changed, now disabled %s\n", ea->uid));
 			p->stores = g_list_remove(p->stores, store);
 			ems_listener_session_event(ems, Evolution_Mail_REMOVED, store);
 			g_object_unref(store);
 		} else {
-			printf("Account changed, dont know how %s\n", ea->uid);
+			d(printf("Account changed, dont know how %s\n", ea->uid));
 			ems_listener_session_event(ems, Evolution_Mail_CHANGED, store);
 		}
 	} else if (ea->enabled && is_storage(ea)) {
-		printf("Account changed, now added %s\n", ea->uid);
+		d(printf("Account changed, now added %s\n", ea->uid));
 		store = evolution_mail_store_new(ems, ea);
 		p->stores = g_list_append(p->stores, store);
 		ems_listener_session_event(ems, Evolution_Mail_ADDED, store);
@@ -283,7 +291,7 @@ ems_account_removed(EAccountList *eal, EAccount *ea, EvolutionMailSession *ems)
 		EvolutionMailStore *store = l->data;
 
 		if (store->account == ea) {
-			printf("Account removed %s\n", ea->uid);
+			d(printf("Account removed %s\n", ea->uid));
 			p->stores = g_list_remove(p->stores, store);
 			ems_listener_session_event(ems, Evolution_Mail_REMOVED, store);
 			g_object_unref(store);
@@ -299,7 +307,7 @@ evolution_mail_session_init (EvolutionMailSession *ems, EvolutionMailSessionClas
 	struct _EvolutionMailSessionPrivate *p = _PRIVATE(ems);
 	EIterator *iter;
 
-	printf("EvolutionMailSession.init\n");
+	d(printf("EvolutionMailSession.init\n"));
 
 	e_dlist_init(&p->listeners);
 
@@ -339,7 +347,7 @@ evolution_mail_session_changed(EvolutionMailSession *ems, Evolution_Mail_Session
 
 	if (!e_mail_listener_emit(&p->listeners, (EMailListenerChanged)Evolution_Mail_SessionListener_changed,
 				  bonobo_object_corba_objref((BonoboObject *)ems), changes)) {
-		printf("No more listeners for store, could dispose session object now?\n");
+		w(printf("No more listeners for store, could dispose session object now?\n"));
 	}
 }
 

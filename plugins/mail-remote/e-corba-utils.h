@@ -4,6 +4,11 @@
 
 #include "Evolution-DataServer-Mail.h"
 
+/* Debug, warning debug, error debug, global for whole plugin to make it easier to enable/disable */
+#define d(x)
+#define w(x)
+#define e(x)
+
 struct _EvolutionMailStore;
 struct _EvolutionMailFolder;
 struct _CamelMessageInfo;

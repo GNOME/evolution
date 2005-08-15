@@ -30,6 +30,7 @@
 #include "evolution-mail-folderlistener.h"
 
 #include "evolution-mail-marshal.h"
+#include "e-corba-utils.h"
 
 #define PARENT_TYPE bonobo_object_get_type ()
 
@@ -63,7 +64,7 @@ impl_dispose (GObject *object)
 static void
 impl_finalize (GObject *object)
 {
-	printf("EvolutionMailFolderListener finalised!\n");
+	d(printf("EvolutionMailFolderListener finalised!\n"));
 
 	(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
@@ -95,11 +96,11 @@ impl_changed(PortableServer_Servant _servant,
 	EvolutionMailFolderListener *eml = (EvolutionMailFolderListener *)bonobo_object_from_servant(_servant);
 	int i, j;
 
-	printf("folder changed!\n");
+	d(printf("folder changed!\n"));
 	for (i=0;i<changes->_length;i++) {
-		printf(" %d %s", changes->_buffer[i].messages._length, change_type_name(changes->_buffer[i].type));
+		d(printf(" %d %s", changes->_buffer[i].messages._length, change_type_name(changes->_buffer[i].type)));
 		for (j=0;j<changes->_buffer[i].messages._length;j++) {
-			printf(" %s %s\n", changes->_buffer[i].messages._buffer[j].uid, changes->_buffer[i].messages._buffer[j].subject);
+			d(printf(" %s %s\n", changes->_buffer[i].messages._buffer[j].uid, changes->_buffer[i].messages._buffer[j].subject));
 		}
 	}
 

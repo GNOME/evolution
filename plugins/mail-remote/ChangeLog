@@ -1,3 +1,10 @@
+2005-08-10  Not Zed  <NotZed@Ximian.com>
+
+	** See #271985.
+
+	* evolution-mail-session.c (is_storage): check for uri "" and pass
+	exception to provider get.
+
 2005-08-02  Not Zed  <NotZed@Ximian.com>
 
 	* org-gnome-evolution-mail-remote.eplug.xml: How strange, this was

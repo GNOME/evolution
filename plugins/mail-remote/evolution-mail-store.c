@@ -134,7 +134,7 @@ impl_getProperties(PortableServer_Servant _servant,
 		const CORBA_char *name = names->_buffer[i];
 		Evolution_Mail_Property *prop = &props->_buffer[i];
 
-		printf("getting property '%s'\n", name);
+		d(printf("getting property '%s'\n", name));
 
 		if (!strcmp(name, "name")) {
 			e_mail_property_set_string(prop, name, evolution_mail_store_get_name(ems));
@@ -548,7 +548,7 @@ evolution_mail_store_new(struct _EvolutionMailSession *s, struct _EAccount *ea)
 	struct _EvolutionMailStorePrivate *p;
 	static PortableServer_POA poa = NULL;
 
-	printf("EvolutionMailStore.new(\"%s\")\n", ea?ea->name:"local");
+	d(printf("EvolutionMailStore.new(\"%s\")\n", ea?ea->name:"local"));
 
 	if (poa == NULL)
 		poa = bonobo_poa_get_threaded (ORBIT_THREAD_HINT_PER_REQUEST, NULL);
@@ -660,6 +660,6 @@ evolution_mail_store_changed(EvolutionMailStore *ems, Evolution_Mail_StoreChange
 	if (!e_mail_listener_emit(&p->listeners, (EMailListenerChanged)Evolution_Mail_StoreListener_changed,
 				  bonobo_object_corba_objref((BonoboObject *)ems), changes)) {
 		evolution_mail_store_close_store(ems);
-		printf("No more listeners for store, could dispose store object now?\n");
+		w(printf("No more listeners for store, could dispose store object now?\n"));
 	}
 }

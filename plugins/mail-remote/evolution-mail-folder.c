@@ -311,7 +311,7 @@ emf_set_change(Evolution_Mail_FolderChange *change, Evolution_Mail_ChangeType ho
 			camel_message_info_free(info);
 			total++;
 		} else {
-			printf("couldn't get info for changed uid '%s'?\n", (char *)uids->pdata[i]);
+			w(printf("couldn't get info for changed uid '%s'?\n", (char *)uids->pdata[i]));
 		}
 	}
 
@@ -411,7 +411,7 @@ evolution_mail_folder_changed(EvolutionMailFolder *emf, Evolution_Mail_FolderCha
 
 	if (!e_mail_listener_emit(&p->listeners, (EMailListenerChanged)Evolution_Mail_FolderListener_changed,
 				  bonobo_object_corba_objref((BonoboObject *)emf), changes)) {
-		printf("No more listeners for folder, could dispose store object now\n");
+		d(printf("No more listeners for folder, could dispose store object now\n"));
 		evolution_mail_folder_close_folder(emf);
 	}
 }

@@ -30,7 +30,7 @@
 #include <camel/camel-stream.h>
 #include "em-message-stream.h"
 
-#define d(x) 
+#include "e-corba-utils.h"
 
 #define EMSS_CLASS(x) ((EMMessageStreamClass *)(((CamelObject *)(x))->klass))
 
@@ -83,7 +83,7 @@ em_message_stream_finalize (CamelObject *object)
 {
 	EMMessageStream *emms = (EMMessageStream *)object;
 
-	printf("EMMessageStream.finalise()\n");
+	d(printf("EMMessageStream.finalise()\n"));
 
 	if (emms->source) {
 		CORBA_Environment ev = { 0 };

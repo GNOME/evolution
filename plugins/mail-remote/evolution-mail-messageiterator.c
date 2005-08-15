@@ -34,6 +34,8 @@
 
 #include "e-corba-utils.h"
 
+#define d(x)
+
 #define PARENT_TYPE bonobo_object_get_type ()
 
 static BonoboObjectClass *parent_class = NULL;
@@ -60,7 +62,7 @@ impl_finalize (GObject *object)
 {
 	struct _EvolutionMailMessageIteratorPrivate *p = _PRIVATE(object);
 
-	printf("EvolutionMailMessageIterator: finalise\n");
+	d(printf("EvolutionMailMessageIterator: finalise\n"));
 
 	if (*p->expr)
 		camel_folder_search_free(p->folder, p->search);

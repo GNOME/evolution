@@ -5,6 +5,8 @@
 #include "evolution-mail-session.h"
 #include <bonobo/bonobo-main.h>
 
+#include "e-corba-utils.h"
+
 struct _EPlugin;
 struct _ESEventTargetUpgrade;
 
@@ -47,7 +49,7 @@ int e_plugin_lib_enable(int enable)
 		  to retrieve it */
 
 		bonobo_object_add_interface((BonoboObject *)component, (BonoboObject *)sess);
-		printf(" ** Added mail interface to mail component\n");
+		w(printf(" ** Added mail interface to mail component\n"));
 	} else {
 		/* can't easily disable this until restart? */
 		/* can we just destroy it? */

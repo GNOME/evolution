@@ -246,7 +246,7 @@ gboolean e_mail_listener_emit(struct _EDList *list, EMailListenerChanged emit, C
 	while (n) {
 		emit(l->listener, source, changes, &ev);
 		if (ev._major != CORBA_NO_EXCEPTION) {
-			printf("emit changed failed '%s', removing listener\n", ev._id);
+			e(printf("emit changed failed '%s', removing listener\n", ev._id));
 			CORBA_exception_free(&ev);
 			eml_remove(l);
 		}
