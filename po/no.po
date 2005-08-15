@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nb\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-08-14 06:06+0200\n"
+"POT-Creation-Date: 2005-08-15 06:20+0200\n"
 "PO-Revision-Date: 2005-08-12 13:19+0200\n"
 "Last-Translator: Terance Edward Sola <terance@lyse.net>\n"
 "Language-Team: Norwegian Bokmal <i18n-nb@lister.ping.uio.no>\n"
@@ -11136,8 +11136,8 @@ msgstr "R_ediger som ny melding..."
 msgid "U_ndelete"
 msgstr "A_ngre slett"
 
-#: ../mail/em-folder-view.c:1051
-msgid "Mo_ve to Folder..."
+#: ../mail/em-folder-view.c:1051 ../ui/evolution-addressbook.xml.h:36
+msgid "_Move to Folder..."
 msgstr "Fl_ytt til mappe..."
 
 #: ../mail/em-folder-view.c:1052 ../ui/evolution-addressbook.xml.h:32
@@ -11149,7 +11149,7 @@ msgid "Mar_k as Read"
 msgstr "Mer_k som lest"
 
 #: ../mail/em-folder-view.c:1056
-msgid "Mark as U_nread"
+msgid "Mark as _Unread"
 msgstr "Merk som _ulest"
 
 #: ../mail/em-folder-view.c:1057
@@ -11859,7 +11859,7 @@ msgstr "Hvis det ikke finnes et innebygd program v"
 
 #: ../mail/evolution-mail.schemas.in.in.h:29
 msgid "Last time empty trash was run"
-msgstr "Sist gang søppelkurven ble tømt"
+msgstr "Sist gang papirkurven ble tømt"
 
 #: ../mail/evolution-mail.schemas.in.in.h:30
 msgid "List of Labels and their associated colors"
@@ -11963,11 +11963,12 @@ msgstr "Stil på e-postvisning (normal, fulle overskrifter, kilde)"
 
 #: ../mail/evolution-mail.schemas.in.in.h:51
 msgid "Minimum days between emptying the trash on exit"
-msgstr "Minimum antall dager mellom tømming av søppel ved avslutting"
+msgstr "Minimum antall dager mellom tømming av papirkurven ved avslutting"
 
 #: ../mail/evolution-mail.schemas.in.in.h:52
 msgid "Minimum time between emptying the trash on exit, in days."
-msgstr "Minste tidsperiode mellom tømming av søppelet ved avslutting, i dager."
+msgstr ""
+"Minste tidsperiode mellom tømming av papirkurven ved avslutting, i dager."
 
 #: ../mail/evolution-mail.schemas.in.in.h:53
 msgid "New Mail Notify sound file"
@@ -12089,7 +12090,7 @@ msgstr "Terminalskrift"
 
 #: ../mail/evolution-mail.schemas.in.in.h:81
 msgid "The last time empty trash was run, in days since the epoch."
-msgstr "Sist gang søppelkurven ble tømt i dager."
+msgstr "Sist gang papirkurven ble tømt i dager."
 
 #: ../mail/evolution-mail.schemas.in.in.h:82
 msgid "The terminal font for mail display"
@@ -12398,8 +12399,8 @@ msgstr[1] "%d slettet"
 #, c-format
 msgid "%d junk"
 msgid_plural "%d junk"
-msgstr[0] "%d søppel"
-msgstr[1] "%d søppel"
+msgstr[0] "%d uønsket e-post"
+msgstr[1] "%d uønsket e-poster"
 
 #: ../mail/mail-component.c:533
 #, c-format
@@ -12746,7 +12747,7 @@ msgstr "E-post_adresse:"
 
 #: ../mail/mail-config.glade.h:77
 msgid "Empty trash folders on e_xit"
-msgstr "_Tøm søppelkurven når programmet avsluttes"
+msgstr "_Tøm papirkurven når programmet avsluttes"
 
 #: ../mail/mail-config.glade.h:78
 msgid "Encry_ption certificate:"
@@ -14012,7 +14013,7 @@ msgstr "_Forkast endringene"
 
 #: ../mail/mail.error.xml.h:119
 msgid "_Empty Trash"
-msgstr "Tøm søpp_elkurven"
+msgstr "_Tøm papirkurven"
 
 #: ../mail/mail.error.xml.h:120
 msgid "_Expunge"
@@ -17583,10 +17584,6 @@ msgstr "H_andlinger"
 msgid "_Forward Contact..."
 msgstr "_Videresend kontakt..."
 
-#: ../ui/evolution-addressbook.xml.h:36
-msgid "_Move to Folder..."
-msgstr "Fl_ytt til mappe..."
-
 #: ../ui/evolution-addressbook.xml.h:39
 msgid "_Preview Pane"
 msgstr "_Forhåndsvisningsvindu"
@@ -17769,7 +17766,7 @@ msgstr "Opprett eller rediger regler for filtrering av ny e-post"
 
 #: ../ui/evolution-mail-global.xml.h:7
 msgid "Empty _Trash"
-msgstr "Tø_m søppelkurven"
+msgstr "Tøm _papirkurven"
 
 #: ../ui/evolution-mail-global.xml.h:8 ../ui/evolution-mail-list.xml.h:6
 #: ../ui/evolution-subscribe.xml.h:2
@@ -20040,3 +20037,6 @@ msgstr "IM-kontekst"
 #: ../widgets/text/e-text.c:3683 ../widgets/text/e-text.c:3684
 msgid "Handle Popup"
 msgstr "Håndter sprettopp"
+
+#~ msgid "Mo_ve to Folder..."
+#~ msgstr "Fl_ytt til mappe..."
