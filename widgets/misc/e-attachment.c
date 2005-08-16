@@ -359,7 +359,7 @@ download_to_local_path (GnomeVFSURI  *source_uri, GnomeVFSURI  *target_uri, Down
 				       GNOME_VFS_XFER_ERROR_MODE_ABORT,       /* error_mode      */ 
 				       GNOME_VFS_XFER_OVERWRITE_MODE_REPLACE, /* overwrite_mode  */ 
 				       GNOME_VFS_PRIORITY_DEFAULT,            /* priority        */
-				       async_progress_update_cb,              /* progress_update_callback */
+				       (GnomeVFSAsyncXferProgressCallback) async_progress_update_cb,              /* progress_update_callback */
 				       download_info,                         /* update_callback_data     */
 				       NULL,                                  /* progress_sync_callback   */
 				       NULL);                                 /* sync_callback_data       */
@@ -718,7 +718,7 @@ e_attachment_edit (EAttachment *attachment, GtkWidget *parent)
 	}
 	
 	connect_widget (editor_gui, "dialog", "response", (GCallback)response_cb, dialog_data);
-#warning "signal connect while alive"	
+
 	/* make sure that when the parent gets hidden/closed that our windows also close */
 	parent = gtk_widget_get_toplevel (parent);
 	gtk_signal_connect_while_alive (GTK_OBJECT (parent), "destroy", (GCallback)close_cb, dialog_data,

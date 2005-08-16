@@ -1,5 +1,10 @@
 2005-08-16  Srinivasa Ragavan <sragavan@novell.com>
 
+	* e-attachment.c (download_to_local_path) (e_attachment_edit): Fixed
+	few warnings
+
+2005-08-16  Srinivasa Ragavan <sragavan@novell.com>
+
 	* e-attachment.c (finalise) (e_attachment_new) (e_attachment_build_remote_file)
 	(e_attachment_new_from_mime_part) (ok_cb): Maintain the filename of the 
 	attachment in the structure and free it in finalize.
