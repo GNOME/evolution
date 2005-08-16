@@ -753,7 +753,8 @@ get_folders(CamelStore *store, GPtrArray *folders, CamelFolderInfo *info)
 		   TODO: add virtual camel_store_refresh_info() which does this ... */
 		if (camel_url_get_param(((CamelService *)store)->url, "check_all") != NULL
 		    || (strcmp(((CamelService *)store)->url->protocol, "imap") != 0
-			&& strcmp(((CamelService *)store)->url->protocol, "groupwise") != 0)
+			&& strcmp(((CamelService *)store)->url->protocol, "groupwise") != 0
+			&& strcmp(((CamelService *)store)->url->protocol, "scalix") != 0)
 		    || (info->flags & CAMEL_FOLDER_TYPE_MASK) == CAMEL_FOLDER_TYPE_INBOX)
 			g_ptr_array_add(folders, g_strdup(info->uri));
 		get_folders(store, folders, info->child);

@@ -1,3 +1,9 @@
+2005-08-15  Christian Kellner  <gicmo@gnome.org>
+
+	* mail-send-recv.c: (get_folders): Honour the check_all
+	flag for the scalix provider.
+	Fixes bug #313582.
+
 2005-08-14  Rodney Dawes  <dobey@novell.com>
 
 	* em-folder-view.c (emfv_popup_items): Fix two mnemonic conflicts in
