@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-control-center\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-08-16 03:22+0200\n"
+"POT-Creation-Date: 2005-08-16 22:53+0200\n"
 "PO-Revision-Date: 2005-08-16 00:01+0200\n"
 "Last-Translator: Francisco Javier F. Serrador <serrador@cvs.gnome.org>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
@@ -5144,7 +5144,7 @@ msgstr "%.0fGib"
 #: ../calendar/gui/dialogs/cal-attachment-bar.c:1106
 #: ../calendar/gui/dialogs/comp-editor.c:2447
 #: ../composer/e-msg-composer-attachment-bar.c:307 ../mail/em-utils.c:444
-#: ../mail/em-utils.c:481 ../widgets/misc/e-attachment-bar.c:336
+#: ../mail/em-utils.c:481 ../widgets/misc/e-attachment-bar.c:340
 msgid "attachment"
 msgstr "adjunto"
 
@@ -5176,7 +5176,7 @@ msgstr "_Añadir adjunto..."
 
 #: ../calendar/gui/dialogs/cal-attachment-bar.c:736
 #: ../composer/e-msg-composer-attachment-bar.c:740
-#: ../widgets/misc/e-attachment-bar.c:904
+#: ../widgets/misc/e-attachment-bar.c:908
 msgid "Attachment Bar"
 msgstr "Barra de adjuntos"
 
@@ -5203,8 +5203,8 @@ msgstr "Adjuntar archivo(s)"
 #: ../composer/e-msg-composer-attachment.c:203
 #: ../composer/e-msg-composer-attachment.c:297
 #: ../composer/e-msg-composer-attachment.c:313
-#: ../widgets/misc/e-attachment.c:220 ../widgets/misc/e-attachment.c:236
-#: ../widgets/misc/e-attachment.c:421 ../widgets/misc/e-attachment.c:437
+#: ../widgets/misc/e-attachment.c:219 ../widgets/misc/e-attachment.c:235
+#: ../widgets/misc/e-attachment.c:420 ../widgets/misc/e-attachment.c:436
 #, c-format
 msgid "Cannot attach file %s: %s"
 msgstr "No se pudo adjuntar el archivo %s: %s"
@@ -5213,7 +5213,7 @@ msgstr "No se pudo adjuntar el archivo %s: %s"
 #: ../calendar/gui/dialogs/cal-attachment.c:327
 #: ../composer/e-msg-composer-attachment.c:195
 #: ../composer/e-msg-composer-attachment.c:305
-#: ../widgets/misc/e-attachment.c:228 ../widgets/misc/e-attachment.c:429
+#: ../widgets/misc/e-attachment.c:227 ../widgets/misc/e-attachment.c:428
 #, c-format
 msgid "Cannot attach file %s: not a regular file"
 msgstr "No se pudo adjuntar el archivo %s: no es un archivo normal"
@@ -6688,7 +6688,7 @@ msgstr "No"
 #: ../plugins/itip-formatter/itip-formatter.c:240
 #: ../plugins/itip-formatter/itip-formatter.c:1640
 #: ../plugins/plugin-manager/plugin-manager.c:72
-#: ../widgets/misc/e-attachment-bar.c:649
+#: ../widgets/misc/e-attachment-bar.c:653
 #: ../widgets/misc/e-charset-picker.c:62
 msgid "Unknown"
 msgstr "Desconocido"
@@ -11470,35 +11470,35 @@ msgstr "_Ajustar al ancho"
 msgid "Show _Original Size"
 msgstr "Mostrar tamaño _original"
 
-#: ../mail/em-format-html-display.c:1547
+#: ../mail/em-format-html-display.c:1546
 msgid "Attachment Button"
 msgstr "Botón de adjunto"
 
-#: ../mail/em-format-html-display.c:1754
+#: ../mail/em-format-html-display.c:1753
 msgid "Select folder to save all attachments..."
 msgstr "Seleccione la carpeta donde guardar todos los adjuntos..."
 
-#: ../mail/em-format-html-display.c:1792
+#: ../mail/em-format-html-display.c:1791
 msgid "Select folder to save selected attachments..."
 msgstr "Seleccione la carpeta donde guardar los adjuntos seleccionados..."
 
-#: ../mail/em-format-html-display.c:1800
+#: ../mail/em-format-html-display.c:1799
 msgid "Save Selected..."
 msgstr "Guardar seleccionados..."
 
 #. Cant i put in the number of attachments here ?
-#: ../mail/em-format-html-display.c:1867
+#: ../mail/em-format-html-display.c:1866
 #, c-format
 msgid "%d attachment"
 msgid_plural "%d attachments"
 msgstr[0] "%d adjunto"
 msgstr[1] "%d adjuntos"
 
-#: ../mail/em-format-html-display.c:1921
+#: ../mail/em-format-html-display.c:1920
 msgid "No Attachment"
 msgstr "Sin adjunto"
 
-#: ../mail/em-format-html-display.c:1924
+#: ../mail/em-format-html-display.c:1923
 msgid "Save All"
 msgstr "Guardar todo"
 
