@@ -1,3 +1,10 @@
+2005-08-15  Not Zed  <NotZed@Ximian.com>
+
+	** See #313440.
+
+	* Makefile.am (mailinclude_HEADERS): Include the idl generated
+	headers.
+
 2005-08-16  Srinivasa Ragavan <sragavan@novell.com>
 
 	* em-format-html-display.c (efhd_attachment_button): Sets the filename

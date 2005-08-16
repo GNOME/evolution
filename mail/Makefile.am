@@ -70,6 +70,7 @@ idl_DATA = $(MAIL_IDL)
 
 # plugin mail api
 mailinclude_HEADERS =				\
+	$(MAIL_IDL_GENERATED_H)			\
 	em-composer-utils.h			\
 	em-config.h				\
 	em-event.h				\
