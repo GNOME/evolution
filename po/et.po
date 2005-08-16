@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-08-09 05:43+0000\n"
-"PO-Revision-Date: 2005-08-09 17:10+0300\n"
+"POT-Creation-Date: 2005-08-16 05:40+0000\n"
+"PO-Revision-Date: 2005-08-16 16:48+0300\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -1149,13 +1149,13 @@ msgid "<b>Work</b>"
 msgstr "<b>Töö</b>"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:11
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:183
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:184
 #: ../addressbook/gui/widgets/eab-contact-display.c:348
 msgid "AIM"
 msgstr "AIM"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:12
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:271
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:272
 #: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:169
 #: ../addressbook/gui/contact-list-editor/e-contact-list-editor.etspec.h:1
 #: ../addressbook/gui/widgets/e-minicard.c:181
@@ -1163,9 +1163,9 @@ msgid "Contact"
 msgstr "Kontakt"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:13
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:523
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:538
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2338
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:525
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:540
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2349
 msgid "Contact Editor"
 msgstr "Kontaktiredaktor"
 
@@ -1206,7 +1206,7 @@ msgstr "Telefon"
 #. red
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:23
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:235
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:200
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:201
 #: ../filter/filter-label.c:122 ../mail/em-migrate.c:1042
 #: ../mail/mail-config.c:77 ../mail/mail-config.glade.h:153
 msgid "Work"
@@ -1331,7 +1331,7 @@ msgstr "Aadress"
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:103
 #: ../addressbook/gui/contact-editor/e-contact-editor-fullname.c:95
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:141
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:299
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:300
 #: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:183
 #: ../addressbook/gui/widgets/e-addressbook-model.c:310
 #: ../addressbook/gui/widgets/e-addressbook-reflow-adapter.c:398
@@ -2328,7 +2328,7 @@ msgid "AOL Instant Messenger"
 msgstr "AOL kiirsuhtlusklient"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:64
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:184
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:185
 #: ../addressbook/gui/widgets/eab-contact-display.c:351
 msgid "Jabber"
 msgstr "Jabber"
@@ -2338,7 +2338,7 @@ msgid "Yahoo Messenger"
 msgstr "Yahoo Kiirsuhtlusklient"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:67
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:187
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:188
 #: ../addressbook/gui/widgets/eab-contact-display.c:350
 msgid "ICQ"
 msgstr "ICQ"
@@ -2359,69 +2359,69 @@ msgid "Username"
 msgstr "Kasutajanimi"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:231
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:201
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:202
 msgid "Home"
 msgstr "Kodu"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:239
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:202
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:203
 msgid "Other"
 msgstr "Muu"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:185
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:186
 #: ../addressbook/gui/widgets/eab-contact-display.c:353
 msgid "Yahoo"
 msgstr "Yahoo"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:186
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:187
 #: ../addressbook/gui/widgets/eab-contact-display.c:352
 msgid "MSN"
 msgstr "MSN"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:188
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:189
 #: ../addressbook/gui/widgets/eab-contact-display.c:349
 msgid "GroupWise"
 msgstr "Groupwise"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:257
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:258
 msgid "Source Book"
 msgstr "Lähteraamat"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:264
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:265
 msgid "Target Book"
 msgstr "Sihtraamat"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:278
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:279
 msgid "Is New Contact"
 msgstr "Tegemist on uue kontaktiga"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:285
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:286
 msgid "Writable Fields"
 msgstr "Muudetavad väljad"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:292
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:293
 msgid "Required Fields"
 msgstr "Vajalikud väljad"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:306
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:307
 msgid "Changed"
 msgstr "Muudetud"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:533
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2333
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:535
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2344
 #, c-format
 msgid "Contact Editor - %s"
 msgstr "Kontaktiredaktor - %s"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2639
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2650
 msgid "Please select an image for this contact"
 msgstr "Palun vali selle kontakti jaoks pilt"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2640
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2651
 msgid "No image"
 msgstr "Puuduv pilt"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2916
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2927
 msgid ""
 "The contact data is invalid:\n"
 "\n"
@@ -2429,7 +2429,7 @@ msgstr ""
 "Kontaktandmed on vigased:\n"
 "\n"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2968
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2979
 msgid "Invalid contact."
 msgstr "Vigane kontakt."
 
@@ -3269,7 +3269,7 @@ msgstr "Katkestamine pole võimalik"
 
 #. E_BOOK_ERROR_AUTHENTICATION_FAILED
 #: ../addressbook/gui/widgets/eab-gui-util.c:63
-#: ../calendar/gui/comp-editor-factory.c:431
+#: ../calendar/gui/comp-editor-factory.c:438
 msgid "Authentication Failed"
 msgstr "Tõrge autentimisel"
 
@@ -4253,8 +4253,8 @@ msgstr "Evolutioni ülesannetekomponent"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:10
 #: ../calendar/gui/e-tasks.c:1256 ../calendar/gui/print.c:1822
-#: ../calendar/gui/tasks-component.c:519 ../calendar/gui/tasks-component.c:994
-#: ../calendar/gui/tasks-control.c:457
+#: ../calendar/gui/tasks-component.c:519
+#: ../calendar/gui/tasks-component.c:1006 ../calendar/gui/tasks-control.c:457
 #: ../calendar/importers/icalendar-importer.c:79
 #: ../calendar/importers/icalendar-importer.c:707
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:384
@@ -4282,11 +4282,11 @@ msgid_plural "minutes"
 msgstr[0] "minut"
 msgstr[1] "minutit"
 
-#: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:215
+#: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:248
 msgid "Start time"
 msgstr "Algusaeg"
 
-#: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:312
+#: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:347
 #, c-format
 msgid ""
 "<big><b>%s</b></big>\n"
@@ -4880,19 +4880,19 @@ msgstr "Nädala vaade"
 msgid "Month View"
 msgstr "Kuu vaade"
 
-#: ../calendar/gui/comp-editor-factory.c:413
+#: ../calendar/gui/comp-editor-factory.c:420
 msgid "Error while opening the calendar"
 msgstr "Viga kalendri avamisel"
 
-#: ../calendar/gui/comp-editor-factory.c:419
+#: ../calendar/gui/comp-editor-factory.c:426
 msgid "Method not supported when opening the calendar"
 msgstr ""
 
-#: ../calendar/gui/comp-editor-factory.c:425
+#: ../calendar/gui/comp-editor-factory.c:432
 msgid "Permission denied to open the calendar"
 msgstr "Puuduvad õigused kalendri avamiseks"
 
-#: ../calendar/gui/comp-editor-factory.c:437 ../shell/e-shell.c:1286
+#: ../calendar/gui/comp-editor-factory.c:444 ../shell/e-shell.c:1286
 msgid "Unknown error"
 msgstr "Tundmatu viga"
 
@@ -5039,14 +5039,14 @@ msgstr "%.0fG"
 
 #: ../calendar/gui/dialogs/cal-attachment-bar.c:311
 #: ../calendar/gui/dialogs/cal-attachment-bar.c:1106
-#: ../calendar/gui/dialogs/comp-editor.c:2426
+#: ../calendar/gui/dialogs/comp-editor.c:2447
 #: ../composer/e-msg-composer-attachment-bar.c:307 ../mail/em-utils.c:444
-#: ../mail/em-utils.c:481 ../widgets/misc/e-attachment-bar.c:336
+#: ../mail/em-utils.c:481 ../widgets/misc/e-attachment-bar.c:340
 msgid "attachment"
 msgstr "manus"
 
 #: ../calendar/gui/dialogs/cal-attachment-bar.c:473
-#: ../calendar/gui/dialogs/comp-editor.c:1059
+#: ../calendar/gui/dialogs/comp-editor.c:1077
 #: ../calendar/gui/dialogs/meeting-page.c:889
 #: ../composer/e-msg-composer-attachment-bar.c:470
 #: ../composer/e-msg-composer.c:3398
@@ -5057,15 +5057,15 @@ msgid "_Remove"
 msgstr "_Eemalda"
 
 #: ../calendar/gui/dialogs/cal-attachment-bar.c:474
-#: ../calendar/gui/dialogs/comp-editor.c:1060
+#: ../calendar/gui/dialogs/comp-editor.c:1078
 #: ../composer/e-msg-composer-attachment-bar.c:471
-#: ../composer/e-msg-composer.c:3399 ../mail/em-folder-tree.c:2120
+#: ../composer/e-msg-composer.c:3399 ../mail/em-folder-tree.c:2047
 #: ../ui/evolution-mail-list.xml.h:28
 msgid "_Properties"
 msgstr "_Omadused"
 
 #: ../calendar/gui/dialogs/cal-attachment-bar.c:476
-#: ../calendar/gui/dialogs/comp-editor.c:1062
+#: ../calendar/gui/dialogs/comp-editor.c:1080
 #: ../composer/e-msg-composer-attachment-bar.c:473
 #: ../composer/e-msg-composer.c:3401
 msgid "_Add attachment..."
@@ -5073,7 +5073,7 @@ msgstr "_Lisa manus..."
 
 #: ../calendar/gui/dialogs/cal-attachment-bar.c:736
 #: ../composer/e-msg-composer-attachment-bar.c:740
-#: ../widgets/misc/e-attachment-bar.c:898
+#: ../widgets/misc/e-attachment-bar.c:908
 msgid "Attachment Bar"
 msgstr "Manuseriba"
 
@@ -5100,8 +5100,8 @@ msgstr "Faili(de) manustamine"
 #: ../composer/e-msg-composer-attachment.c:203
 #: ../composer/e-msg-composer-attachment.c:297
 #: ../composer/e-msg-composer-attachment.c:313
-#: ../widgets/misc/e-attachment.c:220 ../widgets/misc/e-attachment.c:236
-#: ../widgets/misc/e-attachment.c:421 ../widgets/misc/e-attachment.c:437
+#: ../widgets/misc/e-attachment.c:219 ../widgets/misc/e-attachment.c:235
+#: ../widgets/misc/e-attachment.c:420 ../widgets/misc/e-attachment.c:436
 #, c-format
 msgid "Cannot attach file %s: %s"
 msgstr "Faili pole võimalik manusesse lisada: %s: %s"
@@ -5110,7 +5110,7 @@ msgstr "Faili pole võimalik manusesse lisada: %s: %s"
 #: ../calendar/gui/dialogs/cal-attachment.c:327
 #: ../composer/e-msg-composer-attachment.c:195
 #: ../composer/e-msg-composer-attachment.c:305
-#: ../widgets/misc/e-attachment.c:228 ../widgets/misc/e-attachment.c:429
+#: ../widgets/misc/e-attachment.c:227 ../widgets/misc/e-attachment.c:428
 #, c-format
 msgid "Cannot attach file %s: not a regular file"
 msgstr "Faili %s pole võimalik manusesse lisada: see ei ole tavaline fail"
@@ -5569,14 +5569,14 @@ msgstr " (Tähtaeg "
 msgid "Due "
 msgstr "Tähtaeg "
 
-#: ../calendar/gui/dialogs/comp-editor.c:187 ../composer/e-msg-composer.c:2663
+#: ../calendar/gui/dialogs/comp-editor.c:190 ../composer/e-msg-composer.c:2663
 #, c-format
 msgid "Attached message - %s"
 msgstr "Manustatud sõnum - %s"
 
 #. translators, this count will always be >1
-#: ../calendar/gui/dialogs/comp-editor.c:192
-#: ../calendar/gui/dialogs/comp-editor.c:362 ../composer/e-msg-composer.c:2668
+#: ../calendar/gui/dialogs/comp-editor.c:195
+#: ../calendar/gui/dialogs/comp-editor.c:365 ../composer/e-msg-composer.c:2668
 #: ../composer/e-msg-composer.c:2845
 #, c-format
 msgid "Attached message"
@@ -5584,89 +5584,89 @@ msgid_plural "%d attached messages"
 msgstr[0] "Manustatud sõnum"
 msgstr[1] "%d manustatud sõnumit"
 
-#: ../calendar/gui/dialogs/comp-editor.c:425
+#: ../calendar/gui/dialogs/comp-editor.c:428
 #: ../calendar/gui/e-calendar-table.c:1162
 #: ../calendar/gui/e-calendar-view.c:1536 ../composer/e-msg-composer.c:2909
-#: ../mail/em-folder-tree.c:1047 ../mail/em-folder-view.c:1035
+#: ../mail/em-folder-tree.c:974 ../mail/em-folder-view.c:1035
 #: ../mail/message-list.c:1708 ../ui/evolution-addressbook.xml.h:31
 #: ../ui/evolution-calendar.xml.h:39 ../ui/evolution-composer-entries.xml.h:7
 #: ../ui/evolution-mail-message.xml.h:100 ../ui/evolution-tasks.xml.h:21
 msgid "_Copy"
 msgstr "_Kopeeri"
 
-#: ../calendar/gui/dialogs/comp-editor.c:426 ../composer/e-msg-composer.c:2910
-#: ../mail/em-folder-tree.c:1048 ../mail/em-folder-utils.c:380
+#: ../calendar/gui/dialogs/comp-editor.c:429 ../composer/e-msg-composer.c:2910
+#: ../mail/em-folder-tree.c:975 ../mail/em-folder-utils.c:368
 #: ../mail/em-folder-view.c:931 ../mail/message-list.c:1709
 msgid "_Move"
 msgstr "_Tõsta"
 
-#: ../calendar/gui/dialogs/comp-editor.c:428 ../composer/e-msg-composer.c:2912
-#: ../mail/em-folder-tree.c:1050 ../mail/message-list.c:1711
+#: ../calendar/gui/dialogs/comp-editor.c:431 ../composer/e-msg-composer.c:2912
+#: ../mail/em-folder-tree.c:977 ../mail/message-list.c:1711
 msgid "Cancel _Drag"
 msgstr ""
 
-#: ../calendar/gui/dialogs/comp-editor.c:765
+#: ../calendar/gui/dialogs/comp-editor.c:771
 msgid "Could not update object"
 msgstr "Objekti pole võimalik uuendada!"
 
-#: ../calendar/gui/dialogs/comp-editor.c:956 ../composer/e-msg-composer.c:2317
+#: ../calendar/gui/dialogs/comp-editor.c:971 ../composer/e-msg-composer.c:2317
 #, c-format
 msgid "<b>%d</b> Attachment"
 msgid_plural "<b>%d</b> Attachments"
 msgstr[0] "<b>%d</b> fail manusena"
 msgstr[1] "<b>%d</b> faili manusena"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1225
+#: ../calendar/gui/dialogs/comp-editor.c:1242
 msgid "_Attachment Bar (drop attachments here)"
 msgstr "_Manuseriba (tõsta manused siia)"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1839
-#: ../calendar/gui/dialogs/comp-editor.c:1882
+#: ../calendar/gui/dialogs/comp-editor.c:1856
+#: ../calendar/gui/dialogs/comp-editor.c:1899
 msgid "Edit Appointment"
 msgstr "Muuda sündmust"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1845
-#: ../calendar/gui/dialogs/comp-editor.c:1888
+#: ../calendar/gui/dialogs/comp-editor.c:1862
+#: ../calendar/gui/dialogs/comp-editor.c:1905
 #, c-format
 msgid "Meeting - %s"
 msgstr "Koosolek - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1847
-#: ../calendar/gui/dialogs/comp-editor.c:1890
+#: ../calendar/gui/dialogs/comp-editor.c:1864
+#: ../calendar/gui/dialogs/comp-editor.c:1907
 #, c-format
 msgid "Appointment - %s"
 msgstr "Sündmus - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1851
-#: ../calendar/gui/dialogs/comp-editor.c:1894
+#: ../calendar/gui/dialogs/comp-editor.c:1868
+#: ../calendar/gui/dialogs/comp-editor.c:1911
 #, c-format
 msgid "Assigned Task - %s"
 msgstr "Omistatud ülesanne - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1853
-#: ../calendar/gui/dialogs/comp-editor.c:1896
+#: ../calendar/gui/dialogs/comp-editor.c:1870
+#: ../calendar/gui/dialogs/comp-editor.c:1913
 #, c-format
 msgid "Task - %s"
 msgstr "Ülesanne - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1856
-#: ../calendar/gui/dialogs/comp-editor.c:1899
+#: ../calendar/gui/dialogs/comp-editor.c:1873
+#: ../calendar/gui/dialogs/comp-editor.c:1916
 #, c-format
 msgid "Journal entry - %s"
 msgstr "Päeviku sissekanne - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1867
-#: ../calendar/gui/dialogs/comp-editor.c:1909
+#: ../calendar/gui/dialogs/comp-editor.c:1884
+#: ../calendar/gui/dialogs/comp-editor.c:1926
 msgid "No summary"
 msgstr "Kokkuvõte puudub"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2515
-#: ../calendar/gui/dialogs/comp-editor.c:2548
-#: ../calendar/gui/dialogs/comp-editor.c:2572
+#: ../calendar/gui/dialogs/comp-editor.c:2536
+#: ../calendar/gui/dialogs/comp-editor.c:2569
+#: ../calendar/gui/dialogs/comp-editor.c:2593
 msgid "Changes made to this item may be discarded if an update arrives"
 msgstr ""
 
-#: ../calendar/gui/dialogs/comp-editor.c:2596
+#: ../calendar/gui/dialogs/comp-editor.c:2617
 msgid "Unable to use current version!"
 msgstr "Praegust versiooni pole võimalik kasutada!"
 
@@ -5759,7 +5759,7 @@ msgstr "Plaanimine"
 
 #: ../calendar/gui/dialogs/event-editor.c:174
 msgid "Delegatees"
-msgstr ""
+msgstr "Delegaadid"
 
 #: ../calendar/gui/dialogs/event-editor.c:178
 msgid "Attendees"
@@ -5937,7 +5937,7 @@ msgstr "_Algus:"
 
 #: ../calendar/gui/dialogs/meeting-page.c:303
 msgid "<b>Dele_gatees</b>"
-msgstr ""
+msgstr "<b>Dele_gaadid</b>"
 
 #: ../calendar/gui/dialogs/meeting-page.c:307
 msgid "<b>From:</b>"
@@ -5958,7 +5958,7 @@ msgstr "<b>Saatja:</b>"
 #: ../plugins/calendar-weather/calendar-weather.c:370
 #: ../plugins/calendar-weather/calendar-weather.c:424
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:7
-#: ../plugins/itip-formatter/itip-formatter.c:1613
+#: ../plugins/itip-formatter/itip-formatter.c:1615
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.c:190
 #: ../widgets/misc/e-cell-date-edit.c:248 ../widgets/misc/e-dateedit.c:465
 #: ../widgets/misc/e-dateedit.c:1504 ../widgets/misc/e-dateedit.c:1673
@@ -6479,7 +6479,7 @@ msgstr "%s @ %s"
 msgid "%s for an unknown trigger type"
 msgstr "%s tundmatule trigeri tüübile"
 
-#: ../calendar/gui/e-cal-component-preview.c:70 ../mail/em-folder-view.c:2707
+#: ../calendar/gui/e-cal-component-preview.c:70 ../mail/em-folder-view.c:2703
 #, c-format
 msgid "Click to open %s"
 msgstr "Kliki, et avada aadressi %s"
@@ -6577,10 +6577,10 @@ msgstr "Ei"
 #: ../calendar/gui/e-meeting-list-view.c:182
 #: ../calendar/gui/e-meeting-store.c:124 ../calendar/gui/e-meeting-store.c:159
 #: ../calendar/gui/e-meeting-store.c:224 ../mail/em-utils.c:1244
-#: ../plugins/itip-formatter/itip-formatter.c:238
-#: ../plugins/itip-formatter/itip-formatter.c:1638
+#: ../plugins/itip-formatter/itip-formatter.c:240
+#: ../plugins/itip-formatter/itip-formatter.c:1640
 #: ../plugins/plugin-manager/plugin-manager.c:72
-#: ../widgets/misc/e-attachment-bar.c:643
+#: ../widgets/misc/e-attachment-bar.c:653
 #: ../widgets/misc/e-charset-picker.c:62
 msgid "Unknown"
 msgstr "Tundmatu"
@@ -6707,7 +6707,7 @@ msgstr "_Märgi valitud ülesanne lõpetatuks"
 
 #. FIXME: need to disable for undeletable folders
 #: ../calendar/gui/e-calendar-table.c:1174
-#: ../calendar/gui/e-calendar-view.c:1549 ../mail/em-folder-tree.c:2116
+#: ../calendar/gui/e-calendar-view.c:1549 ../mail/em-folder-tree.c:2043
 #: ../mail/em-folder-view.c:1049 ../ui/evolution-addressbook.xml.h:33
 #: ../ui/evolution-calendar.xml.h:40 ../ui/evolution-mail-list.xml.h:26
 #: ../ui/evolution-tasks.xml.h:22
@@ -6990,12 +6990,12 @@ msgstr ""
 #: ../calendar/gui/e-meeting-list-view.c:204
 #: ../calendar/gui/e-meeting-store.c:188 ../calendar/gui/e-meeting-store.c:211
 #: ../calendar/gui/itip-utils.c:548
-#: ../plugins/itip-formatter/itip-formatter.c:1626
+#: ../plugins/itip-formatter/itip-formatter.c:1628
 msgid "Accepted"
 msgstr "Nõusolek antud"
 
 #: ../calendar/gui/e-itip-control.c:1141 ../calendar/gui/itip-utils.c:551
-#: ../plugins/itip-formatter/itip-formatter.c:1629
+#: ../plugins/itip-formatter/itip-formatter.c:1631
 msgid "Tentatively Accepted"
 msgstr "Proovinõusolek antud"
 
@@ -7003,7 +7003,7 @@ msgstr "Proovinõusolek antud"
 #: ../calendar/gui/e-meeting-list-view.c:205
 #: ../calendar/gui/e-meeting-store.c:190 ../calendar/gui/e-meeting-store.c:213
 #: ../calendar/gui/itip-utils.c:554 ../calendar/gui/itip-utils.c:583
-#: ../plugins/itip-formatter/itip-formatter.c:1632
+#: ../plugins/itip-formatter/itip-formatter.c:1634
 msgid "Declined"
 msgstr "Tagasi lükatud"
 
@@ -7220,7 +7220,7 @@ msgid "Attendee status updated\n"
 msgstr "Osavõtja olek värskendatud\n"
 
 #: ../calendar/gui/e-itip-control.c:1979
-#: ../plugins/itip-formatter/itip-formatter.c:1011
+#: ../plugins/itip-formatter/itip-formatter.c:1013
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr ""
 "Osavõtja olekut ei olnud võimailk uuendada, kuna objekti pole enam olemas"
@@ -7390,7 +7390,7 @@ msgstr "Katseline"
 #: ../calendar/gui/e-meeting-list-view.c:207
 #: ../calendar/gui/e-meeting-store.c:194 ../calendar/gui/e-meeting-store.c:217
 #: ../calendar/gui/itip-utils.c:557
-#: ../plugins/itip-formatter/itip-formatter.c:1635
+#: ../plugins/itip-formatter/itip-formatter.c:1637
 msgid "Delegated"
 msgstr "Delegeeritud"
 
@@ -7959,7 +7959,7 @@ msgid_plural "%d tasks"
 msgstr[0] "%d ülesanne"
 msgstr[1] "%d ülesannet"
 
-#: ../calendar/gui/tasks-component.c:517 ../mail/mail-component.c:546
+#: ../calendar/gui/tasks-component.c:517 ../mail/mail-component.c:547
 #, c-format
 msgid ", %d selected"
 msgid_plural ", %d selected"
@@ -7970,52 +7970,52 @@ msgstr[1] ", %d valitud"
 msgid "Failed upgrading tasks."
 msgstr "Tõrge ülesannete uuendamisel."
 
-#: ../calendar/gui/tasks-component.c:860
+#: ../calendar/gui/tasks-component.c:872
 #, c-format
 msgid "Unable to open the task list '%s' for creating events and meetings"
 msgstr ""
 
-#: ../calendar/gui/tasks-component.c:875
+#: ../calendar/gui/tasks-component.c:887
 msgid "There is no calendar available for creating tasks"
 msgstr ""
 
-#: ../calendar/gui/tasks-component.c:969
+#: ../calendar/gui/tasks-component.c:981
 msgid "Task Source Selector"
 msgstr ""
 
-#: ../calendar/gui/tasks-component.c:1152
+#: ../calendar/gui/tasks-component.c:1164
 msgid "New task"
 msgstr "Uus ülesanne"
 
-#: ../calendar/gui/tasks-component.c:1153
+#: ../calendar/gui/tasks-component.c:1165
 msgid "_Task"
 msgstr "_Ülesanne"
 
-#: ../calendar/gui/tasks-component.c:1154
+#: ../calendar/gui/tasks-component.c:1166
 msgid "Create a new task"
 msgstr "Uue ülesande loomine"
 
-#: ../calendar/gui/tasks-component.c:1160
+#: ../calendar/gui/tasks-component.c:1172
 msgid "New assigned task"
 msgstr "Uus omistatud ülesanne"
 
-#: ../calendar/gui/tasks-component.c:1161
+#: ../calendar/gui/tasks-component.c:1173
 msgid "Assigne_d Task"
 msgstr "_Omistatud ülesanne"
 
-#: ../calendar/gui/tasks-component.c:1162
+#: ../calendar/gui/tasks-component.c:1174
 msgid "Create a new assigned task"
 msgstr "Uue omistatud ülesande loomine"
 
-#: ../calendar/gui/tasks-component.c:1168
+#: ../calendar/gui/tasks-component.c:1180
 msgid "New task list"
 msgstr "Uus ülesandeloend"
 
-#: ../calendar/gui/tasks-component.c:1169
+#: ../calendar/gui/tasks-component.c:1181
 msgid "Task l_ist"
 msgstr "Ü_lesannete nimekiri"
 
-#: ../calendar/gui/tasks-component.c:1170
+#: ../calendar/gui/tasks-component.c:1182
 msgid "Create a new task list"
 msgstr "Uue ülesandeloendi loomine"
 
@@ -10156,69 +10156,69 @@ msgstr "%I %p"
 msgid "The orientation of the tray."
 msgstr "Sahtli suund."
 
-#: ../filter/filter-datespec.c:73
+#: ../filter/filter-datespec.c:78
 #, c-format
 msgid "1 second ago"
 msgid_plural "%d seconds ago"
 msgstr[0] "1 sekund tagasi"
 msgstr[1] "%d sekundit tagasi"
 
-#: ../filter/filter-datespec.c:74
+#: ../filter/filter-datespec.c:79
 #, c-format
 msgid "1 minute ago"
 msgid_plural "%d minutes ago"
 msgstr[0] "1 minut tagasi"
 msgstr[1] "%d minutit tagasi"
 
-#: ../filter/filter-datespec.c:75
+#: ../filter/filter-datespec.c:80
 #, c-format
 msgid "1 hour ago"
 msgid_plural "%d hours ago"
 msgstr[0] "1 tund tagasi"
 msgstr[1] "%d tundi tagasi"
 
-#: ../filter/filter-datespec.c:76
+#: ../filter/filter-datespec.c:81
 #, c-format
 msgid "1 day ago"
 msgid_plural "%d days ago"
 msgstr[0] "1 päev tagasi"
 msgstr[1] "%d päeva tagasi"
 
-#: ../filter/filter-datespec.c:77
+#: ../filter/filter-datespec.c:82
 #, c-format
 msgid "1 week ago"
 msgid_plural "%d weeks ago"
 msgstr[0] "1 nädal tagasi"
 msgstr[1] "%d päeva tagasi"
 
-#: ../filter/filter-datespec.c:78
+#: ../filter/filter-datespec.c:83
 #, c-format
 msgid "1 month ago"
 msgid_plural "%d months ago"
 msgstr[0] "1 kuu tagasi"
 msgstr[1] "%d kuud tagasi"
 
-#: ../filter/filter-datespec.c:79
+#: ../filter/filter-datespec.c:84
 #, c-format
 msgid "1 year ago"
 msgid_plural "%d years ago"
 msgstr[0] "1 aasta tagasi"
 msgstr[1] "%d aastat tagasi"
 
-#: ../filter/filter-datespec.c:280
+#: ../filter/filter-datespec.c:285
 msgid "<click here to select a date>"
 msgstr "<kuupäeva valimiseks kliki siia>"
 
-#: ../filter/filter-datespec.c:283 ../filter/filter-datespec.c:294
+#: ../filter/filter-datespec.c:288 ../filter/filter-datespec.c:299
 msgid "now"
 msgstr "praegu"
 
 #. strftime for date filter display, only needs to show a day date (i.e. no time)
-#: ../filter/filter-datespec.c:290
+#: ../filter/filter-datespec.c:295
 msgid "%d-%b-%Y"
 msgstr "%d-%b-%Y"
 
-#: ../filter/filter-datespec.c:406
+#: ../filter/filter-datespec.c:415
 msgid "Select a time to compare against"
 msgstr "Võrdlusaja valimine"
 
@@ -10401,15 +10401,15 @@ msgstr "sinu poolt määratud aeg"
 msgid "years"
 msgstr "aastat"
 
-#: ../filter/rule-editor.c:285
+#: ../filter/rule-editor.c:290
 msgid "Add Rule"
 msgstr "Reegli lisamine"
 
-#: ../filter/rule-editor.c:361
+#: ../filter/rule-editor.c:366
 msgid "Edit Rule"
 msgstr "Muuda reeglit"
 
-#: ../filter/rule-editor.c:693
+#: ../filter/rule-editor.c:698
 msgid "Rule name"
 msgstr "Reegli nimi"
 
@@ -10457,8 +10457,8 @@ msgstr ""
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:11 ../mail/em-folder-view.c:494
 #: ../mail/importers/elm-importer.c:342
 #: ../mail/importers/netscape-importer.c:1902
-#: ../mail/importers/pine-importer.c:388 ../mail/mail-component.c:559
-#: ../mail/mail-component.c:646
+#: ../mail/importers/pine-importer.c:388 ../mail/mail-component.c:560
+#: ../mail/mail-component.c:647
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:6
 msgid "Mail"
 msgstr "E-post"
@@ -10904,24 +10904,24 @@ msgstr "Otsikaustad"
 msgid "UNMATCHED"
 msgstr ""
 
-#: ../mail/em-folder-tree-model.c:468 ../mail/mail-component.c:143
+#: ../mail/em-folder-tree-model.c:469 ../mail/mail-component.c:143
 msgid "Drafts"
 msgstr "Mustandid"
 
 #. translators: standard local mailbox names
-#: ../mail/em-folder-tree-model.c:471 ../mail/mail-component.c:142
+#: ../mail/em-folder-tree-model.c:472 ../mail/mail-component.c:142
 msgid "Inbox"
 msgstr "Sisendkast"
 
-#: ../mail/em-folder-tree-model.c:474 ../mail/mail-component.c:144
+#: ../mail/em-folder-tree-model.c:475 ../mail/mail-component.c:144
 msgid "Outbox"
 msgstr "Väljundkast"
 
-#: ../mail/em-folder-tree-model.c:476 ../mail/mail-component.c:145
+#: ../mail/em-folder-tree-model.c:477 ../mail/mail-component.c:145
 msgid "Sent"
 msgstr "Saadetud"
 
-#: ../mail/em-folder-tree-model.c:497 ../mail/em-folder-tree-model.c:801
+#: ../mail/em-folder-tree-model.c:498 ../mail/em-folder-tree-model.c:802
 msgid "Loading..."
 msgstr "Laadimine..."
 
@@ -10929,68 +10929,68 @@ msgstr "Laadimine..."
 msgid "Mail Folder Tree"
 msgstr "Kirjakaustade puu"
 
-#: ../mail/em-folder-tree.c:922
+#: ../mail/em-folder-tree.c:849
 #, c-format
 msgid "Moving folder %s"
 msgstr "Kausta %s tõstmine"
 
-#: ../mail/em-folder-tree.c:924
+#: ../mail/em-folder-tree.c:851
 #, c-format
 msgid "Copying folder %s"
 msgstr "Kausta %s kopeerimine"
 
-#: ../mail/em-folder-tree.c:931 ../mail/message-list.c:1613
+#: ../mail/em-folder-tree.c:858 ../mail/message-list.c:1613
 #, c-format
 msgid "Moving messages into folder %s"
 msgstr "Sõnumite tõstmine %s kausta"
 
-#: ../mail/em-folder-tree.c:933 ../mail/message-list.c:1615
+#: ../mail/em-folder-tree.c:860 ../mail/message-list.c:1615
 #, c-format
 msgid "Copying messages into folder %s"
 msgstr "Sõnumite kopeerimine %s kausta"
 
-#: ../mail/em-folder-tree.c:949
+#: ../mail/em-folder-tree.c:876
 msgid "Cannot drop message(s) into toplevel store"
 msgstr ""
 
-#: ../mail/em-folder-tree.c:1045 ../ui/evolution-mail-message.xml.h:101
+#: ../mail/em-folder-tree.c:972 ../ui/evolution-mail-message.xml.h:101
 msgid "_Copy to Folder"
 msgstr "_Kopeeri kausta"
 
-#: ../mail/em-folder-tree.c:1046 ../ui/evolution-mail-message.xml.h:111
+#: ../mail/em-folder-tree.c:973 ../ui/evolution-mail-message.xml.h:111
 msgid "_Move to Folder"
 msgstr "_Tõsta kausta"
 
-#: ../mail/em-folder-tree.c:1751 ../mail/mail-ops.c:1057
+#: ../mail/em-folder-tree.c:1678 ../mail/mail-ops.c:1057
 #, c-format
 msgid "Scanning folders in \"%s\""
 msgstr "\"%s\" kaustade läbivaatamine"
 
-#: ../mail/em-folder-tree.c:2104 ../ui/evolution-addressbook.xml.h:44
+#: ../mail/em-folder-tree.c:2031 ../ui/evolution-addressbook.xml.h:44
 #: ../ui/evolution-mail-global.xml.h:23
 #: ../ui/evolution-mail-messagedisplay.xml.h:8
 #: ../ui/evolution-message-composer.xml.h:54 ../ui/evolution.xml.h:45
 msgid "_View"
 msgstr "_Vaade"
 
-#: ../mail/em-folder-tree.c:2105
+#: ../mail/em-folder-tree.c:2032
 msgid "Open in _New Window"
 msgstr "Uues _aknas avamine"
 
-#: ../mail/em-folder-tree.c:2109
+#: ../mail/em-folder-tree.c:2036
 msgid "_Copy..."
 msgstr "_Kopeeri..."
 
-#: ../mail/em-folder-tree.c:2110
+#: ../mail/em-folder-tree.c:2037
 msgid "_Move..."
 msgstr "_Tõsta..."
 
 #. FIXME: need to disable for nochildren folders
-#: ../mail/em-folder-tree.c:2114
+#: ../mail/em-folder-tree.c:2041
 msgid "_New Folder..."
 msgstr "_Uus kataloog..."
 
-#: ../mail/em-folder-tree.c:2117 ../ui/evolution-mail-list.xml.h:29
+#: ../mail/em-folder-tree.c:2044 ../ui/evolution-mail-list.xml.h:29
 msgid "_Rename..."
 msgstr "_Nimeta ümber..."
 
@@ -10999,43 +10999,42 @@ msgstr "_Nimeta ümber..."
 msgid "Copying `%s' to `%s'"
 msgstr "Kopeerimine `%s' -> `%s'"
 
-#: ../mail/em-folder-utils.c:364 ../mail/em-folder-utils.c:380
-#: ../mail/em-folder-view.c:931 ../mail/em-folder-view.c:946
-#: ../mail/importers/evolution-mbox-importer.c:85
+#: ../mail/em-folder-utils.c:368 ../mail/em-folder-view.c:931
+#: ../mail/em-folder-view.c:946 ../mail/importers/evolution-mbox-importer.c:85
 #: ../mail/importers/evolution-outlook-importer.c:134
 msgid "Select folder"
 msgstr "Kausta valimine"
 
-#: ../mail/em-folder-utils.c:364 ../mail/em-folder-view.c:946
+#: ../mail/em-folder-utils.c:368 ../mail/em-folder-view.c:946
 msgid "C_opy"
 msgstr "K_opeeri"
 
-#: ../mail/em-folder-utils.c:515
+#: ../mail/em-folder-utils.c:503
 #, c-format
 msgid "Rename the \"%s\" folder to:"
 msgstr "Nimeta kaust \"%s\" uue nimega:"
 
-#: ../mail/em-folder-utils.c:517
+#: ../mail/em-folder-utils.c:505
 msgid "Rename Folder"
 msgstr "Kataloogi ümbernimetamine"
 
-#: ../mail/em-folder-utils.c:523
+#: ../mail/em-folder-utils.c:511
 msgid "Folder names cannot contain '/'"
 msgstr "Kausta nimes ei tohi sisalduda '/' sümbol"
 
-#: ../mail/em-folder-utils.c:593
+#: ../mail/em-folder-utils.c:581
 #: ../plugins/groupwise-features/share-folder-common.c:140
 #, c-format
 msgid "Creating folder `%s'"
 msgstr "Kataloogi `%s' loomine"
 
-#: ../mail/em-folder-utils.c:742
+#: ../mail/em-folder-utils.c:730
 #: ../plugins/groupwise-features/install-shared.c:156
 #: ../plugins/groupwise-features/share-folder-common.c:382
 msgid "Create folder"
 msgstr "Kausta loomine"
 
-#: ../mail/em-folder-utils.c:742
+#: ../mail/em-folder-utils.c:730
 #: ../plugins/groupwise-features/install-shared.c:156
 #: ../plugins/groupwise-features/share-folder-common.c:382
 msgid "Specify where to create the folder:"
@@ -11062,8 +11061,8 @@ msgstr "_Redigeeri kui uut kirja..."
 msgid "U_ndelete"
 msgstr "T_aasta"
 
-#: ../mail/em-folder-view.c:1051
-msgid "Mo_ve to Folder..."
+#: ../mail/em-folder-view.c:1051 ../ui/evolution-addressbook.xml.h:36
+msgid "_Move to Folder..."
 msgstr "_Tõsta kausta..."
 
 #: ../mail/em-folder-view.c:1052 ../ui/evolution-addressbook.xml.h:32
@@ -11075,7 +11074,7 @@ msgid "Mar_k as Read"
 msgstr "_Märgi loetuks"
 
 #: ../mail/em-folder-view.c:1056
-msgid "Mark as U_nread"
+msgid "Mark as _Unread"
 msgstr "Märgi kui l_ugemata"
 
 #: ../mail/em-folder-view.c:1057
@@ -11143,37 +11142,37 @@ msgid "Filter on _Mailing List"
 msgstr "Filter  p_ostiloendi järgi"
 
 #. default charset used in mail view
-#: ../mail/em-folder-view.c:1925 ../mail/em-folder-view.c:1969
+#: ../mail/em-folder-view.c:1921 ../mail/em-folder-view.c:1965
 msgid "Default"
 msgstr "UTF-8"
 
-#: ../mail/em-folder-view.c:2068
+#: ../mail/em-folder-view.c:2064
 #: ../plugins/print-message/org-gnome-print-message.eplug.xml.h:2
 #: ../plugins/print-message/print-message.c:83
 msgid "Print Message"
 msgstr "Sõnumi trükkimine"
 
-#: ../mail/em-folder-view.c:2224
+#: ../mail/em-folder-view.c:2220
 msgid "Unable to retrieve message"
 msgstr "Sõnumit pole võimalik vastu võtta"
 
-#: ../mail/em-folder-view.c:2417
+#: ../mail/em-folder-view.c:2413
 msgid "_Copy Link Location"
 msgstr "Kopeeri _lingi asukoht"
 
-#: ../mail/em-folder-view.c:2419
+#: ../mail/em-folder-view.c:2415
 msgid "Create _Search Folder"
 msgstr "Loo uus _otsikaust"
 
-#: ../mail/em-folder-view.c:2420
+#: ../mail/em-folder-view.c:2416
 msgid "_From this Address"
 msgstr "_Sellelt aadressilt"
 
-#: ../mail/em-folder-view.c:2421
+#: ../mail/em-folder-view.c:2417
 msgid "_To this Address"
 msgstr "S_ellele aadressile"
 
-#: ../mail/em-folder-view.c:2702
+#: ../mail/em-folder-view.c:2698
 #, c-format
 msgid "Click to mail %s"
 msgstr "Kliki, et saata sõnumit aadressile %s"
@@ -11316,35 +11315,35 @@ msgstr "_Sobita laiusega"
 msgid "Show _Original Size"
 msgstr "Näita _algset suurust"
 
-#: ../mail/em-format-html-display.c:1547
+#: ../mail/em-format-html-display.c:1546
 msgid "Attachment Button"
 msgstr "Manuse nupp"
 
-#: ../mail/em-format-html-display.c:1754
+#: ../mail/em-format-html-display.c:1753
 msgid "Select folder to save all attachments..."
 msgstr "Kõikide manuste salvestamiseks kataloogi valimine..."
 
-#: ../mail/em-format-html-display.c:1792
+#: ../mail/em-format-html-display.c:1791
 msgid "Select folder to save selected attachments..."
 msgstr "Valitud manuste salvestamiseks kataloogi valimine..."
 
-#: ../mail/em-format-html-display.c:1800
+#: ../mail/em-format-html-display.c:1799
 msgid "Save Selected..."
 msgstr "Valitu salvestamine..."
 
 #. Cant i put in the number of attachments here ?
-#: ../mail/em-format-html-display.c:1867
+#: ../mail/em-format-html-display.c:1866
 #, c-format
-msgid "%d Attachment"
-msgid_plural "%d Attachments"
+msgid "%d attachment"
+msgid_plural "%d attachments"
 msgstr[0] "%d manus"
 msgstr[1] "%d manust"
 
-#: ../mail/em-format-html-display.c:1895
+#: ../mail/em-format-html-display.c:1920
 msgid "No Attachment"
 msgstr "Manus puudub"
 
-#: ../mail/em-format-html-display.c:1898
+#: ../mail/em-format-html-display.c:1923
 msgid "Save All"
 msgstr "Salvesta kõik"
 
@@ -12274,80 +12273,80 @@ msgstr "%s postiloend"
 msgid "Add Filter Rule"
 msgstr "Lisa filtreerimisreegel"
 
-#: ../mail/mail-component.c:507
+#: ../mail/mail-component.c:508
 #, c-format
 msgid "%d deleted"
 msgid_plural "%d deleted"
 msgstr[0] "%d kustutatut"
 msgstr[1] "%d kustutatut"
 
-#: ../mail/mail-component.c:509
+#: ../mail/mail-component.c:510
 #, c-format
 msgid "%d junk"
 msgid_plural "%d junk"
 msgstr[0] "%d rämpssõnum"
 msgstr[1] "%d rämpssõnumit"
 
-#: ../mail/mail-component.c:532
+#: ../mail/mail-component.c:533
 #, c-format
 msgid "%d draft"
 msgid_plural "%d drafts"
 msgstr[0] "%d mustand"
 msgstr[1] "%d mustandit"
 
-#: ../mail/mail-component.c:534
+#: ../mail/mail-component.c:535
 #, c-format
 msgid "%d sent"
 msgid_plural "%d sent"
 msgstr[0] "%d saadetud"
 msgstr[1] "%d saadetud"
 
-#: ../mail/mail-component.c:536
+#: ../mail/mail-component.c:537
 #, c-format
 msgid "%d unsent"
 msgid_plural "%d unsent"
 msgstr[0] "%d saatmata"
 msgstr[1] "%d saatmata"
 
-#: ../mail/mail-component.c:540
+#: ../mail/mail-component.c:541
 #, c-format
 msgid "%d total"
 msgid_plural "%d total"
 msgstr[0] "%d kokku"
 msgstr[1] "%d kokku"
 
-#: ../mail/mail-component.c:542
+#: ../mail/mail-component.c:543
 #, c-format
 msgid ", %d unread"
 msgid_plural ", %d unread"
 msgstr[0] ", %d lugemata"
 msgstr[1] ", %d lugemata"
 
-#: ../mail/mail-component.c:763
+#: ../mail/mail-component.c:764
 msgid "New Mail Message"
 msgstr "Uus e-posti sõnum"
 
-#: ../mail/mail-component.c:764
+#: ../mail/mail-component.c:765
 msgid "_Mail Message"
 msgstr "_E-posti sõnum"
 
-#: ../mail/mail-component.c:765
+#: ../mail/mail-component.c:766
 msgid "Compose a new mail message"
 msgstr "Uue e-posti sõnumi loomine"
 
-#: ../mail/mail-component.c:771
+#: ../mail/mail-component.c:772
 msgid "New Mail Folder"
 msgstr "Uus kirjakaust"
 
-#: ../mail/mail-component.c:772
+#: ../mail/mail-component.c:773
 msgid "Mail _Folder"
 msgstr "_Postikaust"
 
-#: ../mail/mail-component.c:773
+#: ../mail/mail-component.c:774
 msgid "Create a new mail folder"
 msgstr "Uue postikausta loomine"
 
-#: ../mail/mail-component.c:917
+#: ../mail/mail-component.c:918
 msgid "Failed upgrading Mail settings or folders."
 msgstr "Tõrge e-posti seadistuste või kaustade uuendamisel"
 
@@ -12418,7 +12417,7 @@ msgid "<span weight=\"bold\">Filter Options</span>"
 msgstr "<span weight=\"bold\">Filtri valikud</span>"
 
 #: ../mail/mail-config.glade.h:18
-#: ../plugins/itip-formatter/itip-formatter.c:1922
+#: ../plugins/itip-formatter/itip-formatter.c:1963
 msgid "<span weight=\"bold\">General</span>"
 msgstr "<span weight=\"bold\">Üldine</span>"
 
@@ -13072,7 +13071,7 @@ msgstr "koos kõigi kohalike ja aktiivsete võrgukaustadega"
 msgid "with all local folders"
 msgstr "koos kõigi kohalike kalatoogidega"
 
-#: ../mail/mail-folder-cache.c:813
+#: ../mail/mail-folder-cache.c:853
 #, c-format
 msgid "Pinging %s"
 msgstr "Kontrollin %s"
@@ -15032,7 +15031,7 @@ msgstr "Kon_taktid"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:7
 msgid "Modify _folders/options/rules/"
-msgstr ""
+msgstr "Redigeeri _kaustu/valikuid/reegleid"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:8
 msgid "Read items marked _private"
@@ -15040,7 +15039,7 @@ msgstr ""
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:9
 msgid "Reminder Notes"
-msgstr ""
+msgstr "Meeldetuletaja märkmed"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:10
 msgid "Subscribe to my _alarms"
@@ -15076,11 +15075,11 @@ msgstr "<b>Konto nimi</b>"
 
 #: ../plugins/groupwise-features/proxy-login-dialog.glade.h:2
 msgid "Proxy Login"
-msgstr ""
+msgstr "Proksi sisselogimine"
 
 #: ../plugins/groupwise-features/proxy-login.c:221
 #: ../plugins/groupwise-features/proxy-login.c:263
-#: ../plugins/groupwise-features/proxy.c:474
+#: ../plugins/groupwise-features/proxy.c:490
 #: ../plugins/groupwise-features/send-options.c:83
 #, c-format
 msgid "%sEnter password for %s (user %s)"
@@ -15090,7 +15089,7 @@ msgstr "%sPalun sisesta %s parool (kasutaja %s)"
 msgid "_Proxy Login..."
 msgstr "_Proksi sisselogimine..."
 
-#: ../plugins/groupwise-features/proxy.c:668
+#: ../plugins/groupwise-features/proxy.c:672
 msgid "The Proxy tab will be available only when the account is enabled."
 msgstr ""
 
@@ -15106,7 +15105,7 @@ msgstr ""
 msgid "New _Shared Folder..."
 msgstr "Uus _jagatud kataloog..."
 
-#: ../plugins/groupwise-features/share-folder-common.c:440
+#: ../plugins/groupwise-features/share-folder-common.c:444
 msgid "Sharing"
 msgstr "Jagamine"
 
@@ -15114,80 +15113,80 @@ msgstr "Jagamine"
 msgid "Track Message Status..."
 msgstr "Jälgi sõnumi olekut..."
 
-#: ../plugins/itip-formatter/itip-formatter.c:722
+#: ../plugins/itip-formatter/itip-formatter.c:724
 msgid "Unable to parse item"
 msgstr "Kirjet pole võimalik analüüsida"
 
-#: ../plugins/itip-formatter/itip-formatter.c:778
+#: ../plugins/itip-formatter/itip-formatter.c:780
 #, c-format
 msgid "Unable to send item to calendar '%s'.  %s"
 msgstr ""
 
-#: ../plugins/itip-formatter/itip-formatter.c:789
+#: ../plugins/itip-formatter/itip-formatter.c:791
 #, c-format
 msgid "Sent to calendar '%s' as accepted"
 msgstr "Saada kalender '%s' kui aktsepteeritud"
 
-#: ../plugins/itip-formatter/itip-formatter.c:793
+#: ../plugins/itip-formatter/itip-formatter.c:795
 #, c-format
 msgid "Sent to calendar '%s' as tentative"
 msgstr ""
 
-#: ../plugins/itip-formatter/itip-formatter.c:798
+#: ../plugins/itip-formatter/itip-formatter.c:800
 #, c-format
 msgid "Sent to calendar '%s' as declined"
 msgstr "Saada kalender '%s' kui keeldutud"
 
-#: ../plugins/itip-formatter/itip-formatter.c:803
+#: ../plugins/itip-formatter/itip-formatter.c:805
 #, c-format
 msgid "Sent to calendar '%s' as cancelled"
 msgstr "Saada kalender '%s' kui tühistatud"
 
-#: ../plugins/itip-formatter/itip-formatter.c:896
+#: ../plugins/itip-formatter/itip-formatter.c:898
 #, c-format
 msgid "Organizer has removed the delegate %s "
 msgstr ""
 
-#: ../plugins/itip-formatter/itip-formatter.c:903
+#: ../plugins/itip-formatter/itip-formatter.c:905
 msgid "Sent a cancellation notice to the delegate"
 msgstr ""
 
-#: ../plugins/itip-formatter/itip-formatter.c:905
+#: ../plugins/itip-formatter/itip-formatter.c:907
 msgid "Could not send the cancellation notice to the delegate"
 msgstr "Tühistusteadet pole võimalik delegaadile saata"
 
-#: ../plugins/itip-formatter/itip-formatter.c:977
+#: ../plugins/itip-formatter/itip-formatter.c:979
 msgid "Attendee status could not be updated because the status is invalid"
 msgstr "Osavõtja olekut ei ole võimailk uuendada, kuna selle olek on vigane"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1003
+#: ../plugins/itip-formatter/itip-formatter.c:1005
 #, c-format
 msgid "Unable to update attendee. %s"
 msgstr "Osalejat pole võimalik uuendada. %s"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1007
+#: ../plugins/itip-formatter/itip-formatter.c:1009
 msgid "Attendee status updated"
 msgstr "Osavõtja olek uuendatud"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1134
+#: ../plugins/itip-formatter/itip-formatter.c:1136
 msgid "The calendar attached is not valid"
 msgstr ""
 
-#: ../plugins/itip-formatter/itip-formatter.c:1135
+#: ../plugins/itip-formatter/itip-formatter.c:1137
 msgid ""
 "The message claims to contain a calendar, but the calendar is not valid "
 "iCalendar."
 msgstr ""
 
-#: ../plugins/itip-formatter/itip-formatter.c:1169
-#: ../plugins/itip-formatter/itip-formatter.c:1184
-#: ../plugins/itip-formatter/itip-formatter.c:1260
+#: ../plugins/itip-formatter/itip-formatter.c:1171
+#: ../plugins/itip-formatter/itip-formatter.c:1186
+#: ../plugins/itip-formatter/itip-formatter.c:1262
 msgid "The item in the calendar is not valid"
 msgstr ""
 
-#: ../plugins/itip-formatter/itip-formatter.c:1170
-#: ../plugins/itip-formatter/itip-formatter.c:1185
-#: ../plugins/itip-formatter/itip-formatter.c:1261
+#: ../plugins/itip-formatter/itip-formatter.c:1172
+#: ../plugins/itip-formatter/itip-formatter.c:1187
+#: ../plugins/itip-formatter/itip-formatter.c:1263
 msgid ""
 "The message does contain a calendar, but the calendar contains no events, "
 "tasks or free/busy information"
@@ -15195,36 +15194,36 @@ msgstr ""
 "Sõnum sisaldab kalendrit, kuid kalender ei sisalda sündmusi, ülesandeid ega "
 "vaba/hõivatud andmeid"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1195
+#: ../plugins/itip-formatter/itip-formatter.c:1197
 msgid "The calendar attached contains multiple items"
 msgstr "Manuseks olev kalender sisaldab mitut kirjet"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1196
+#: ../plugins/itip-formatter/itip-formatter.c:1198
 msgid ""
 "To process all of these items, the file should be saved and the calendar "
 "imported"
 msgstr ""
 
-#: ../plugins/itip-formatter/itip-formatter.c:1913
+#: ../plugins/itip-formatter/itip-formatter.c:1954
 msgid "Meetings and Tasks"
 msgstr "Koosolekud ja ülesanded"
 
 #. Delete message after acting
 #. FIXME Need a schema for this
-#: ../plugins/itip-formatter/itip-formatter.c:1936
+#: ../plugins/itip-formatter/itip-formatter.c:1977
 msgid "_Delete message after acting"
 msgstr ""
 
-#: ../plugins/itip-formatter/itip-formatter.c:1946
+#: ../plugins/itip-formatter/itip-formatter.c:1987
 msgid "<span weight=\"bold\">Conflict Search</span>"
 msgstr "<span weight=\"bold\">Konfliktide otsing</span>"
 
 #. Source selector
-#: ../plugins/itip-formatter/itip-formatter.c:1959
+#: ../plugins/itip-formatter/itip-formatter.c:2000
 msgid "Select the calendars to search for meeting conflicts"
 msgstr "Vali kalendrid, millest tuleb koosolekute konflikte otsida"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1976
+#: ../plugins/itip-formatter/itip-formatter.c:2017
 msgid "Conflict Search Table"
 msgstr "Konfliktide otsimise tabel"
 
@@ -15567,7 +15566,7 @@ msgstr "See vastus pole praeguselt osalejalt. Kas lisame ta osalejaks?"
 
 #: ../plugins/mail-account-disable/mail-account-disable.c:47
 msgid "Proxy _Logout"
-msgstr ""
+msgstr "Proksi välja_logimine"
 
 #: ../plugins/mail-account-disable/org-gnome-mail-account-disable.eplug.xml.h:1
 msgid "Allows disabling of accounts."
@@ -15696,7 +15695,7 @@ msgstr ""
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:5
 msgid "Malformed header"
-msgstr ""
+msgstr "Vigane päis"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:6
 msgid "No e-mail action"
@@ -16326,23 +16325,23 @@ msgstr "_Importimine"
 msgid "Evolution Settings"
 msgstr "Evolutioni sätted"
 
-#: ../shell/e-shell-utils.c:116
+#: ../shell/e-shell-utils.c:118
 msgid "No folder name specified."
 msgstr "Kausta nimi on kirjeldamata."
 
-#: ../shell/e-shell-utils.c:123
+#: ../shell/e-shell-utils.c:125
 msgid "Folder name cannot contain the Return character."
 msgstr "Kausta nimi ei tohi sisaldada Return sümbolit"
 
-#: ../shell/e-shell-utils.c:129
+#: ../shell/e-shell-utils.c:131
 msgid "Folder name cannot contain the character \"/\"."
 msgstr "Kausta nimi ei tohi sisaldada \"/\" sümbolit."
 
-#: ../shell/e-shell-utils.c:135
+#: ../shell/e-shell-utils.c:137
 msgid "Folder name cannot contain the character \"#\"."
 msgstr "Kausta nimi ei tohi sisaldada \"#\" sümbolit."
 
-#: ../shell/e-shell-utils.c:141
+#: ../shell/e-shell-utils.c:143
 msgid "'.' and '..' are reserved folder names."
 msgstr "'.' ja '..' on reserveeritud kaustanimed."
 
@@ -16390,23 +16389,23 @@ msgstr "Siirdu aut_onoomsesse olekusse"
 msgid "Work Offline"
 msgstr "Siirdu autonoomsesse olekusse"
 
-#: ../shell/e-shell-window.c:341
+#: ../shell/e-shell-window.c:343
 msgid "Evolution is currently online.  Click on this button to work offline."
 msgstr ""
 "Evolution on hetkel võrku ühendatud.  Autonoomsesse olekusse siirdumiseks "
 "vajuta seda nuppu."
 
-#: ../shell/e-shell-window.c:349
+#: ../shell/e-shell-window.c:351
 msgid "Evolution is in the process of going offline."
 msgstr "Evolution siirdub autonoomsesse olekusse."
 
-#: ../shell/e-shell-window.c:356
+#: ../shell/e-shell-window.c:358
 msgid "Evolution is currently offline.  Click on this button to work online."
 msgstr ""
 "Evolution on hetkel autonoomses olekus.  Võrku ühendumiseks vajuta seda "
 "nuppu."
 
-#: ../shell/e-shell-window.c:717
+#: ../shell/e-shell-window.c:724
 #, c-format
 msgid "Switch to %s"
 msgstr "Ümberlülitumine %s peale"
@@ -17299,10 +17298,6 @@ msgstr "_Tegevused"
 #: ../ui/evolution-addressbook.xml.h:35
 msgid "_Forward Contact..."
 msgstr "_Edasta kontakt..."
-
-#: ../ui/evolution-addressbook.xml.h:36
-msgid "_Move to Folder..."
-msgstr "_Tõsta kausta..."
 
 #: ../ui/evolution-addressbook.xml.h:39
 msgid "_Preview Pane"
@@ -19346,7 +19341,7 @@ msgstr "_Lisa ->"
 #: ../widgets/table/e-table-config-no-group.glade.h:18
 #: ../widgets/table/e-table-config.glade.h:16
 msgid "_Fields Shown..."
-msgstr ""
+msgstr "_Näidatavad väljad..."
 
 #: ../widgets/table/e-table-config-no-group.glade.h:19
 #: ../widgets/table/e-table-config.glade.h:20
@@ -19753,138 +19748,6 @@ msgstr ""
 msgid "Handle Popup"
 msgstr ""
 
-#~ msgid "vFolders"
-#~ msgstr "VKaustad"
-
-#~ msgid "Create _vFolder"
-#~ msgstr "_vKausta loomine"
-
-#~ msgid "v_Folders"
-#~ msgstr "v_Kaustad"
-
-#~ msgid "vFolder source"
-#~ msgstr "vKausta allikas"
-
-#~ msgid "Edit vFolder"
-#~ msgstr "vKausta redigeerimine"
-
-#~ msgid "New vFolder"
-#~ msgstr "Uus vKaust"
-
-#~ msgid "SaveDraft"
-#~ msgstr "SalvestaMustand"
-
-#~ msgid "_Host:"
-#~ msgstr "_Host:"
-
-#~ msgid "Could not update folder permissions. %s"
-#~ msgstr "Kausta pääsuõiguseid pole võimalik uuendada. %s"
-
-#~ msgid "Show _Messages"
-#~ msgstr "Näita _sõnumeid"
-
-#~ msgid "Un_read Messages"
-#~ msgstr "_Lugemata sõnumid"
-
-#~ msgid "_All"
-#~ msgstr "_Kõik"
-
-#~ msgid "_Selected Messages"
-#~ msgstr "_Valitud sõnumid"
-
-#~ msgid "_Tools"
-#~ msgstr "T_ööriistad"
-
-#~ msgid ""
-#~ "Evolution has found Gnome Calendar files.\n"
-#~ "Would you like to import them into Evolution?"
-#~ msgstr ""
-#~ "Evolution leidis Gnome Calendar kalendrifaile.\n"
-#~ "Kas sa soovid neid Evolutionisse importida?"
-
-#~ msgid "Evolution Netscape Mail importer"
-#~ msgstr "Evolutioni Netscape Mail'i importija"
-
-#~ msgid "Evolution Outlook Express 4 importer"
-#~ msgstr "Evolutioni Outlook Express 4 importija"
-
-#~ msgid "Evolution mbox importer"
-#~ msgstr "Evolutioni mbox'i importija"
-
-#~ msgid "MBox (mbox)"
-#~ msgstr "MBox (mbox)"
-
-#~ msgid "Outlook Express 4 (.mbx)"
-#~ msgstr "Outlook Expressi 4 (.mbx)"
-
-#~ msgid "Evolution is importing your old Elm mail"
-#~ msgstr "Evolution impordib sinu sõnumeid programmist Elm'i"
-
-#~ msgid ""
-#~ "Evolution has found Elm mail files\n"
-#~ "Would you like to import them into Evolution?"
-#~ msgstr ""
-#~ "Evolution leidis Elm'i faile\n"
-#~ "Kas sa soovid neid Evolutionisse importida?"
-
-#~ msgid "Elm"
-#~ msgstr "Elm"
-
-#~ msgid "Evolution is importing your old Pine data"
-#~ msgstr "Evolution impordib sinu Pine andmeid"
-
-#~ msgid ""
-#~ "Evolution has found Pine mail files.\n"
-#~ "Would you like to import them into Evolution?"
-#~ msgstr ""
-#~ "Evolution leidis Pine mail'i faile.\n"
-#~ "Kas sa soovid neid Evolutionisse importida?"
-
-#~ msgid "Pine"
-#~ msgstr "Pine"
-
-#~ msgid ""
-#~ "Importing %s\n"
-#~ "Importing item %d."
-#~ msgstr ""
-#~ "Impordin %s\n"
-#~ "Impordin kirjet %d."
-
-#~ msgid "Select importer"
-#~ msgstr "Importija valimine"
-
-#~ msgid "File %s does not exist"
-#~ msgstr "Faili %s pole olemas"
-
-#~ msgid "Importing"
-#~ msgstr "Importimine"
-
-#~ msgid "Importing %s.\n"
-#~ msgstr "%s importimine.\n"
-
-#~ msgid "Error loading %s"
-#~ msgstr "Viga '%s' laadimisel"
-
-#~ msgid ""
-#~ "Importing %s\n"
-#~ "Importing item 1."
-#~ msgstr ""
-#~ "Impordin %s\n"
-#~ "Impordin kirjet 1."
-
-#~ msgid "Automatic"
-#~ msgstr "Automaatne"
-
-#~ msgid ""
-#~ "Please wait...\n"
-#~ "Scanning for existing setups"
-#~ msgstr ""
-#~ "Palun oota...\n"
-#~ "Üritan tuvastada olemasolevate programmide seadistusi"
-
-#~ msgid "Starting Intelligent Importers"
-#~ msgstr "Intelligentsete importijate käivitamine"
-
 #~ msgid "No importer available for file %s"
 #~ msgstr "Faili %s jaoks ei ühtegi importijat saadaval"
 
@@ -19931,26 +19794,8 @@ msgstr ""
 #~ msgid "Show _Attachment Bar (drop attachments here)"
 #~ msgstr "_Manuseriba kuvamine (tõsta manused siia)"
 
-#~ msgid "N"
-#~ msgstr "Põ"
-
-#~ msgid "S"
-#~ msgstr "Lõ"
-
-#~ msgid "W"
-#~ msgstr "Lä"
-
-#~ msgid "<b>If</b>"
-#~ msgstr "<b>Kui</b>"
-
-#~ msgid "spamd port"
-#~ msgstr "spamd port"
-
 #~ msgid "_Load images if sender is in address book"
 #~ msgstr "_Piltide laadimine, kui saatja on aadressiraamatus"
-
-#~ msgid "{1}."
-#~ msgstr "{1}."
 
 #~ msgid "Mark  as default folder"
 #~ msgstr "Märkida vaikimisi kaustaks"
@@ -20001,9 +19846,6 @@ msgstr ""
 #~ msgid "_Filters..."
 #~ msgstr "_Filtrid..."
 
-#~ msgid "vFolder _Editor..."
-#~ msgstr "vKausta _redaktor..."
-
 #~ msgid "Mark All as _Read"
 #~ msgstr "Märgi kõik _loetuks"
 
@@ -20012,9 +19854,6 @@ msgstr ""
 
 #~ msgid "_Threaded Message List"
 #~ msgstr "_Esita sõnumeid jutulõngadena"
-
-#~ msgid "Create _vFolder From Message"
-#~ msgstr "Loo _vKaust selle sõnumi alusel"
 
 #~ msgid "F_orward As..."
 #~ msgstr "E_dasta kohandatud vormingus..."
@@ -21239,9 +21078,6 @@ msgstr ""
 #~ msgid "Unknown parent folder: %s"
 #~ msgstr "Tundmatu ülemkaust: %s"
 
-#~ msgid "IMAP+"
-#~ msgstr "IMAP+"
-
 #~ msgid ""
 #~ "Experimental IMAP 4(.1) client\n"
 #~ "This is untested and unsupported code, you want to use plain imap "
@@ -21263,12 +21099,6 @@ msgstr ""
 
 #~ msgid "Index message body data"
 #~ msgstr "Sõnumite sisu indekseerimine"
-
-#~ msgid "~%s (%s)"
-#~ msgstr "~%s (%s)"
-
-#~ msgid "mailbox:%s (%s)"
-#~ msgstr "postkast:%s (%s)"
 
 #~ msgid "Use the `.folders' folder summary file (exmh)"
 #~ msgstr "Kasuta `.folders' kaustakokkuvõttefaili (exmh)"
@@ -21872,17 +21702,3 @@ msgstr ""
 #~ msgid "Meetings"
 #~ msgstr "Koosolekud"
 
-#~ msgid "Ad_d"
-#~ msgstr "_Lisa"
-
-#~ msgid "Delet_e"
-#~ msgstr "_Kustuta"
-
-#~ msgid "Edi_t"
-#~ msgstr "_Redigeermine"
-
-#~ msgid "Button style"
-#~ msgstr "Nuppude stiil"
-
-#~ msgid "Create _Virtual Folder From Message"
-#~ msgstr "Loo sõnumi baasil _Virtuaalne Kaust"
