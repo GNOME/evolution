@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-08-13 14:16-0400\n"
-"PO-Revision-Date: 2005-08-13 19:18-0400\n"
+"POT-Creation-Date: 2005-08-16 03:05-0400\n"
+"PO-Revision-Date: 2005-08-16 19:18-0400\n"
 "Last-Translator: Adam Weinberger <adamw@gnome.org>\n"
 "Language-Team: Canadian English <adamw@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -5045,7 +5045,7 @@ msgstr "%.0fG"
 #: calendar/gui/dialogs/cal-attachment-bar.c:1106
 #: calendar/gui/dialogs/comp-editor.c:2447
 #: composer/e-msg-composer-attachment-bar.c:307 mail/em-utils.c:444
-#: mail/em-utils.c:481 widgets/misc/e-attachment-bar.c:336
+#: mail/em-utils.c:481 widgets/misc/e-attachment-bar.c:340
 msgid "attachment"
 msgstr "attachment"
 
@@ -5074,7 +5074,7 @@ msgstr "_Add attachment..."
 
 #: calendar/gui/dialogs/cal-attachment-bar.c:736
 #: composer/e-msg-composer-attachment-bar.c:740
-#: widgets/misc/e-attachment-bar.c:904
+#: widgets/misc/e-attachment-bar.c:908
 msgid "Attachment Bar"
 msgstr "Attachment Bar"
 
@@ -5100,9 +5100,9 @@ msgstr "Attach file(s)"
 #: composer/e-msg-composer-attachment.c:187
 #: composer/e-msg-composer-attachment.c:203
 #: composer/e-msg-composer-attachment.c:297
-#: composer/e-msg-composer-attachment.c:313 widgets/misc/e-attachment.c:220
-#: widgets/misc/e-attachment.c:236 widgets/misc/e-attachment.c:421
-#: widgets/misc/e-attachment.c:437
+#: composer/e-msg-composer-attachment.c:313 widgets/misc/e-attachment.c:219
+#: widgets/misc/e-attachment.c:235 widgets/misc/e-attachment.c:420
+#: widgets/misc/e-attachment.c:436
 #, c-format
 msgid "Cannot attach file %s: %s"
 msgstr "Cannot attach file %s: %s"
@@ -5110,8 +5110,8 @@ msgstr "Cannot attach file %s: %s"
 #: calendar/gui/dialogs/cal-attachment.c:218
 #: calendar/gui/dialogs/cal-attachment.c:327
 #: composer/e-msg-composer-attachment.c:195
-#: composer/e-msg-composer-attachment.c:305 widgets/misc/e-attachment.c:228
-#: widgets/misc/e-attachment.c:429
+#: composer/e-msg-composer-attachment.c:305 widgets/misc/e-attachment.c:227
+#: widgets/misc/e-attachment.c:428
 #, c-format
 msgid "Cannot attach file %s: not a regular file"
 msgstr "Cannot attach file %s: not a regular file"
@@ -6556,7 +6556,7 @@ msgstr "No"
 #: mail/em-utils.c:1244 plugins/itip-formatter/itip-formatter.c:240
 #: plugins/itip-formatter/itip-formatter.c:1640
 #: plugins/plugin-manager/plugin-manager.c:72
-#: widgets/misc/e-attachment-bar.c:649 widgets/misc/e-charset-picker.c:62
+#: widgets/misc/e-attachment-bar.c:653 widgets/misc/e-charset-picker.c:62
 msgid "Unknown"
 msgstr "Unknown"
 
@@ -11044,9 +11044,9 @@ msgstr "_Edit as New Message..."
 msgid "U_ndelete"
 msgstr "U_ndelete"
 
-#: mail/em-folder-view.c:1051
-msgid "Mo_ve to Folder..."
-msgstr "Mo_ve to Folder..."
+#: mail/em-folder-view.c:1051 ui/evolution-addressbook.xml.h:36
+msgid "_Move to Folder..."
+msgstr "_Move to Folder..."
 
 #: mail/em-folder-view.c:1052 ui/evolution-addressbook.xml.h:32
 msgid "_Copy to Folder..."
@@ -11057,8 +11057,8 @@ msgid "Mar_k as Read"
 msgstr "Mar_k as Read"
 
 #: mail/em-folder-view.c:1056
-msgid "Mark as U_nread"
-msgstr "Mark as U_nread"
+msgid "Mark as _Unread"
+msgstr "Mark as _Unread"
 
 #: mail/em-folder-view.c:1057
 msgid "Mark as _Important"
@@ -11302,35 +11302,35 @@ msgstr "_Fit to Width"
 msgid "Show _Original Size"
 msgstr "Show _Original Size"
 
-#: mail/em-format-html-display.c:1547
+#: mail/em-format-html-display.c:1546
 msgid "Attachment Button"
 msgstr "Attachment Button"
 
-#: mail/em-format-html-display.c:1754
+#: mail/em-format-html-display.c:1753
 msgid "Select folder to save all attachments..."
 msgstr "Select folder to save all attachments..."
 
-#: mail/em-format-html-display.c:1792
+#: mail/em-format-html-display.c:1791
 msgid "Select folder to save selected attachments..."
 msgstr "Select folder to save selected attachments..."
 
-#: mail/em-format-html-display.c:1800
+#: mail/em-format-html-display.c:1799
 msgid "Save Selected..."
 msgstr "Save Selected..."
 
 #. Cant i put in the number of attachments here ?
-#: mail/em-format-html-display.c:1867
+#: mail/em-format-html-display.c:1866
 #, c-format
 msgid "%d attachment"
 msgid_plural "%d attachments"
 msgstr[0] "%d attachment"
 msgstr[1] "%d attachments"
 
-#: mail/em-format-html-display.c:1921
+#: mail/em-format-html-display.c:1920
 msgid "No Attachment"
 msgstr "No Attachment"
 
-#: mail/em-format-html-display.c:1924
+#: mail/em-format-html-display.c:1923
 msgid "Save All"
 msgstr "Save All"
 
@@ -17462,10 +17462,6 @@ msgstr "_Actions"
 #: ui/evolution-addressbook.xml.h:35
 msgid "_Forward Contact..."
 msgstr "_Forward Contact..."
-
-#: ui/evolution-addressbook.xml.h:36
-msgid "_Move to Folder..."
-msgstr "_Move to Folder..."
 
 #: ui/evolution-addressbook.xml.h:39
 msgid "_Preview Pane"
