@@ -1,3 +1,9 @@
+2005-08-15  Christian Kellner  <gicmo@gnome.org>
+
+	* Makefile.am: Install missing e-plugin header es-event.h
+	and es-menu.h.
+	Fixes bug #313585.
+
 2005-08-10  Tor Lillqvist  <tml@novell.com>
 
 	* Makefile.am: Use privsolib instead of privlib. Link with

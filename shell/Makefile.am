@@ -84,7 +84,10 @@ eshellinclude_HEADERS = 			\
 	e-user-creatable-items-handler.h	\
 	evolution-config-control.h		\
 	evolution-component.h			\
-	evolution-shell-component-utils.h
+	evolution-shell-component-utils.h	\
+	es-event.h				\
+	es-menu.h
+
 
 libeshell_la_SOURCES = 				\
 	$(IDL_GENERATED)			\
@@ -133,9 +136,7 @@ evolution_SOURCES =				\
 	e-sidebar.c				\
 	e-sidebar.h				\
 	es-event.c				\
-	es-event.h				\
 	es-menu.c				\
-	es-menu.h				\
 	main.c
 
 evolution_LDADD =							\
