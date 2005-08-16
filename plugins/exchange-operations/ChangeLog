@@ -1,3 +1,26 @@
+2005-09-12  Praveen Kumar  <kpraveen@novell.com>
+
+	* exchange-config-listener.c
+	(remove_selected_non_offline_esources): Added new
+	(add_account_esources): Don't add the calendars and tasks in the 
+	selected list
+	(account_added): If starting in offline mode remove the non-offline
+	calendars and tasks from the selected list so that it doesn't
+	throws an error
+
+	Fixes the bug 273272.
+	
+2005-08-11  Praveen Kumar  <kpraveen@novell.com>
+
+	* exchange-config-listener.c
+	(exchange_camel_urls_is_equal): Added new
+	(exchange_config_listener_modify_esource_group_name): Added new
+	(account_changed): Handle most of the account parameter changes
+	without restart. This fixes bug 272784 and partially bug 220168
+	(account_removed): Removed the message dialog that says that the
+	changes will be reflected after restart. This partially fixes the
+	bug 220168
+	
 2005-08-08  Arunprakash <arunp@novell.com>
 
 	* exchange-folder-size-display.c: Included glib/gi18n.h file for

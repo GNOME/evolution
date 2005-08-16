@@ -57,6 +57,11 @@ void 			add_folder_esource (ExchangeAccount *account, FolderType folder_type, co
 void 			remove_folder_esource (ExchangeAccount *account, FolderType folder_type, const char *physical_uri);
 ExchangeConfigListenerStatus exchange_config_listener_get_offline_status (ExchangeConfigListener *excl, gint *mode);
 
+void exchange_config_listener_modify_esource_group_name (ExchangeConfigListener *excl,
+							 const char *old_name, 
+							 const char *new_name);
+
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
