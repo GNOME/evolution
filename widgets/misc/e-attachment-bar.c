@@ -329,8 +329,12 @@ update (EAttachmentBar *bar)
 		}
 		
 		desc = camel_mime_part_get_description (attachment->body);
-		if (!desc || *desc == '\0')
-			desc = camel_mime_part_get_filename (attachment->body);
+		if (!desc || *desc == '\0') {
+			if (attachment->file_name)
+				desc = attachment->file_name;
+			else 
+				desc = camel_mime_part_get_filename (attachment->body);
+		}
 		
 		if (!desc)
 			desc = _("attachment");

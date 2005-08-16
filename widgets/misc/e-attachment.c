@@ -74,11 +74,10 @@ finalise(GObject *object)
 	} else {
 		if (attachment->handle)
 			gnome_vfs_async_cancel(attachment->handle);
-		if (attachment->file_name)
-			g_free (attachment->file_name);
-		if (attachment->description)
-			g_free (attachment->description);
+		g_free (attachment->description);
 	}
+
+	g_free (attachment->file_name);
 
 	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
@@ -264,7 +263,6 @@ e_attachment_new (const char *file_name,
 	camel_mime_part_set_disposition (part, disposition);
 	filename = g_path_get_basename (file_name);
 	camel_mime_part_set_filename (part, filename);
-	g_free (filename);
 	
 #if 0
 	/* Note: Outlook 2002 is broken with respect to Content-Ids on
@@ -284,6 +282,7 @@ e_attachment_new (const char *file_name,
 	new->guessed_type = TRUE;
 	new->handle = NULL;
 	new->is_available_local = TRUE;
+	new->file_name = filename;
 	uri = g_strdup_printf("file://%s\r\n", file_name);
 	g_object_set_data_full((GObject *)new, "e-drag-uri", uri, g_free);
 	
@@ -485,10 +484,8 @@ e_attachment_build_remote_file (const char *file_name,
 	attachment->body = part;
 	attachment->size = statbuf.st_size;
 	attachment->guessed_type = TRUE;
-	if (attachment->file_name) {
-		g_free (attachment->file_name);
-		attachment->file_name = NULL;
-	}
+	g_free (attachment->file_name);
+	attachment->file_name = g_strdup (filename);
 	uri = g_strdup_printf("file://%s\r\n", file_name);
 	g_object_set_data_full((GObject *)attachment, "e-drag-uri", uri, g_free);
 	
@@ -515,6 +512,7 @@ e_attachment_new_from_mime_part (CamelMimePart *part)
 	new->guessed_type = FALSE;
 	new->is_available_local = TRUE;
 	new->size = 0;
+	new->file_name = g_strdup (camel_mime_part_get_filename(part));
 	
 	return new;
 }
@@ -594,20 +592,16 @@ ok_cb (GtkWidget *widget, gpointer data)
 	attachment = dialog_data->attachment;
 	
 	str = gtk_entry_get_text (dialog_data->file_name_entry);
-	if (attachment->is_available_local) {
+	if (attachment->is_available_local)
 		camel_mime_part_set_filename (attachment->body, str);
-	} else {
-		if (attachment->file_name) 
-			g_free (attachment->file_name);	
-		attachment->file_name = g_strdup (str);
-	}
+	g_free (attachment->file_name);
+	attachment->file_name = g_strdup (str);
 	
 	str = gtk_entry_get_text (dialog_data->description_entry);
 	if (attachment->is_available_local) {
 		camel_mime_part_set_description (attachment->body, str);
 	} else {
-		if (attachment->description)
-			g_free (attachment->description);
+		g_free (attachment->description);
 		attachment->description = g_strdup (str);
 	}
 	

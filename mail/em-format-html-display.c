@@ -1436,7 +1436,7 @@ efhd_attachment_button(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObje
 
 	if (!file) {
 		file = "attachment.dat";
-		camel_mime_part_set_filename(new->body, file);
+		new->file_name = g_strdup(file);
 	}
 
 	tmp = g_hash_table_lookup (efhd->priv->files, file);
@@ -1454,9 +1454,8 @@ efhd_attachment_button(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObje
 
 		g_free (tmp_file);
 		g_hash_table_insert (efhd->priv->files, g_strdup(file), GUINT_TO_POINTER(count));
-		camel_mime_part_set_filename(new->body, new_file);
-			
-		g_free(new_file);
+		g_free (new->file_name);
+		new->file_name = new_file;
 	} else {
 		g_hash_table_insert (efhd->priv->files, g_strdup(file), GUINT_TO_POINTER(1));
 	}
