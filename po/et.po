@@ -14515,7 +14515,7 @@ msgstr "_Redigeeri sõnumit"
 #. org.gnome.mailing-list-actions:malformed-header primary
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions-errors.xml.h:18
 msgid "Malformed header"
-msgstr ""
+msgstr "Vigane päis"
 
 #. org.gnome.mailing-list-actions:malformed-header secondary
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions-errors.xml.h:20
