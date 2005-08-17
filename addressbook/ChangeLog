@@ -1,5 +1,13 @@
 2005-08-17  Devashish Sharma <sdevashish@novell.com>
 
+	* gui/merging/eab-contact-compare.c (eab_contact_compare): Add an email
+	which is not there in any contact to a contact list, now if you want
+	to add a contact with that email id it gives you duplicate detected. So
+	while checking for duplicates when adding a new contact emails should
+	not be compared with existing contact lists email.
+
+2005-08-17  Devashish Sharma <sdevashish@novell.com>
+
 	*  gui/merging/eab-contact-merging.c (response): If the Duplicate
 	Contact Detected Dialog is closed by clicking the cross on the dialog
 	window the contact-list-editor or contact-editor dialog become unusable

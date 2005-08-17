@@ -561,7 +561,8 @@ eab_contact_compare (EContact *contact1, EContact *contact2)
 	result = EAB_CONTACT_MATCH_NONE;
 	result = combine_comparisons (result, eab_contact_compare_name      (contact1, contact2));
 	result = combine_comparisons (result, eab_contact_compare_nickname  (contact1, contact2));
-	result = combine_comparisons (result, eab_contact_compare_email     (contact1, contact2));
+	if(!e_contact_get (contact2, E_CONTACT_IS_LIST))
+		result = combine_comparisons (result, eab_contact_compare_email (contact1, contact2));
 	result = combine_comparisons (result, eab_contact_compare_address   (contact1, contact2));
 	result = combine_comparisons (result, eab_contact_compare_telephone (contact1, contact2));
 	result = combine_comparisons (result, eab_contact_compare_file_as   (contact1, contact2));
