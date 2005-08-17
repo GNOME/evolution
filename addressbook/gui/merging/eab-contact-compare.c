@@ -559,12 +559,14 @@ eab_contact_compare (EContact *contact1, EContact *contact2)
 	g_return_val_if_fail (contact2 && E_IS_CONTACT (contact2), EAB_CONTACT_MATCH_NOT_APPLICABLE);
 
 	result = EAB_CONTACT_MATCH_NONE;
-	result = combine_comparisons (result, eab_contact_compare_name      (contact1, contact2));
-	result = combine_comparisons (result, eab_contact_compare_nickname  (contact1, contact2));
-	if(!e_contact_get (contact2, E_CONTACT_IS_LIST))
-		result = combine_comparisons (result, eab_contact_compare_email (contact1, contact2));
-	result = combine_comparisons (result, eab_contact_compare_address   (contact1, contact2));
-	result = combine_comparisons (result, eab_contact_compare_telephone (contact1, contact2));
+	if(!e_contact_get (contact1, E_CONTACT_IS_LIST)){
+		result = combine_comparisons (result, eab_contact_compare_name      (contact1, contact2));
+		result = combine_comparisons (result, eab_contact_compare_nickname  (contact1, contact2));
+		if(!e_contact_get (contact2, E_CONTACT_IS_LIST))
+			result = combine_comparisons (result, eab_contact_compare_email (contact1, contact2));
+		result = combine_comparisons (result, eab_contact_compare_address   (contact1, contact2));
+		result = combine_comparisons (result, eab_contact_compare_telephone (contact1, contact2));
+	}
 	result = combine_comparisons (result, eab_contact_compare_file_as   (contact1, contact2));
 
 	return result;
@@ -681,41 +683,43 @@ use_common_book_cb (EBook *book, gpointer closure)
 		g_free (contact_file_as);
 	}
 
-	contact_name = e_contact_get (contact, E_CONTACT_NAME);
-	if (contact_name) {
-		if (contact_name->given && *contact_name->given)
-			query_parts[p++] = g_strdup_printf ("(contains \"full_name\" \"%s\")", contact_name->given);
+	if (!e_contact_get (contact, E_CONTACT_IS_LIST)) {
+		contact_name = e_contact_get (contact, E_CONTACT_NAME);
+		if (contact_name) {
+			if (contact_name->given && *contact_name->given)
+				query_parts[p++] = g_strdup_printf ("(contains \"full_name\" \"%s\")", contact_name->given);
 
-		if (contact_name->additional && *contact_name->additional)
-			query_parts[p++] = g_strdup_printf ("(contains \"full_name\" \"%s\")", contact_name->additional);
+			if (contact_name->additional && *contact_name->additional)
+				query_parts[p++] = g_strdup_printf ("(contains \"full_name\" \"%s\")", contact_name->additional);
+	
+			if (contact_name->family && *contact_name->family)
+				query_parts[p++] = g_strdup_printf ("(contains \"full_name\" \"%s\")", contact_name->family);
 
-		if (contact_name->family && *contact_name->family)
-			query_parts[p++] = g_strdup_printf ("(contains \"full_name\" \"%s\")", contact_name->family);
-
-		e_contact_name_free (contact_name);
-	}
-
-	contact_email = e_contact_get (contact, E_CONTACT_EMAIL);
-	if (contact_email) {
-		GList *iter;
-		for (iter = contact_email; iter && p < MAX_QUERY_PARTS; iter = iter->next) {
-			gchar *addr = g_strdup (iter->data);
-			if (addr && *addr) {
-				gchar *s = addr;
-				while (*s) {
-					if (*s == '@') {
-						*s = '\0';
-						break;
+			e_contact_name_free (contact_name);
+		}
+	
+		contact_email = e_contact_get (contact, E_CONTACT_EMAIL);
+		if (contact_email) {
+			GList *iter;
+			for (iter = contact_email; iter && p < MAX_QUERY_PARTS; iter = iter->next) {
+				gchar *addr = g_strdup (iter->data);
+				if (addr && *addr) {
+					gchar *s = addr;
+					while (*s) {
+						if (*s == '@') {
+							*s = '\0';
+							break;
+						}
+						++s;
 					}
-					++s;
+					query_parts[p++] = g_strdup_printf ("(beginswith \"email\" \"%s\")", addr);
+					g_free (addr);
 				}
-				query_parts[p++] = g_strdup_printf ("(beginswith \"email\" \"%s\")", addr);
-				g_free (addr);
 			}
 		}
+		g_list_foreach (contact_email, (GFunc)g_free, NULL);
+		g_list_free (contact_email);
 	}
-	g_list_foreach (contact_email, (GFunc)g_free, NULL);
-	g_list_free (contact_email);
 	
 	
 	/* Build up our full query from the parts. */

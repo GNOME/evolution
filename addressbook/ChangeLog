@@ -1,5 +1,16 @@
 2005-08-17  Devashish Sharma <sdevashish@novell.com>
 
+	*  gui/merging/eab-contact-compare.c (use_common_book_cb): When
+	adding/modifying a contact list there is no need to check if the emails
+	in the list are there in existing contact lists or contacts. Also there
+	is no need for comparing EContactName in case of contact list. Added a 
+	condition to check this.
+	(eab_contact_compare): Added a check to skip email comparison in case
+	of contact list.
+	Fixes #312554.
+
+2005-08-17  Devashish Sharma <sdevashish@novell.com>
+
 	* gui/merging/eab-contact-compare.c (eab_contact_compare): Add an email
 	which is not there in any contact to a contact list, now if you want
 	to add a contact with that email id it gives you duplicate detected. So
