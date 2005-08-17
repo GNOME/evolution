@@ -1,4 +1,11 @@
-2005-08-08  Devashish Sharma <sdevashish@novell.com>
+2005-08-17  Devashish Sharma <sdevashish@novell.com>
+
+	*  gui/merging/eab-contact-merging.c (response): If the Duplicate
+	Contact Detected Dialog is closed by clicking the cross on the dialog
+	window the contact-list-editor or contact-editor dialog become unusable
+	and cant be closed. Added a case for catching GTK_RESPONSE_DELETE_EVENT.
+
+2005-08-17  Devashish Sharma <sdevashish@novell.com>
 
 	* gui/merging/eab-contact-duplicate-detected.glade: In case of a 
 	duplicate contact list if the list is big the Cancel and Add buttons of

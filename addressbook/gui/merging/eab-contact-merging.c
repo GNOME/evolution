@@ -143,6 +143,9 @@ response (GtkWidget *dialog, int response, EContactMergingLookup *lookup)
 	case 1:
 		cancelit (lookup);
 		break;
+	case GTK_RESPONSE_DELETE_EVENT:
+		cancelit (lookup);
+		break;
 	}
 }
 
