@@ -510,6 +510,8 @@ url_requested (GtkHTML *html, const char *url, GtkHTMLStream *handle)
 		status = GTK_HTML_STREAM_ERROR;
 	
 	gtk_html_end (html, handle, status);
+	if (fd > 0)
+		close (fd);
 }
 
 
