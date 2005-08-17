@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution Gnome 2.12\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-08-12 13:41+0000\n"
-"PO-Revision-Date: 2005-08-12 23:57+0930\n"
+"POT-Creation-Date: 2005-08-17 05:41+0000\n"
+"PO-Revision-Date: 2005-08-17 17:49+0930\n"
 "Last-Translator: Clytie Siddall <clytie@riverland.net.au>\n"
 "Language-Team: Gnome-Vi <gnomevi-list@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -3281,7 +3281,7 @@ msgstr "Không thể hủy bỏ"
 
 #. E_BOOK_ERROR_AUTHENTICATION_FAILED
 #: ../addressbook/gui/widgets/eab-gui-util.c:63
-#: ../calendar/gui/comp-editor-factory.c:431
+#: ../calendar/gui/comp-editor-factory.c:438
 msgid "Authentication Failed"
 msgstr "Xác thực thất bại"
 
@@ -4299,11 +4299,11 @@ msgid "minute"
 msgid_plural "minutes"
 msgstr[0] "phút"
 
-#: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:215
+#: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:248
 msgid "Start time"
 msgstr "Thời điểm đầu:"
 
-#: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:312
+#: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:347
 #, c-format
 msgid ""
 "<big><b>%s</b></big>\n"
@@ -4921,19 +4921,19 @@ msgstr "Khung xem tuần"
 msgid "Month View"
 msgstr "Khung xem tháng"
 
-#: ../calendar/gui/comp-editor-factory.c:413
+#: ../calendar/gui/comp-editor-factory.c:420
 msgid "Error while opening the calendar"
 msgstr "Gặp lỗi khi mở lịch"
 
-#: ../calendar/gui/comp-editor-factory.c:419
+#: ../calendar/gui/comp-editor-factory.c:426
 msgid "Method not supported when opening the calendar"
 msgstr "Không hỗ trợ phương thức ấy khi mở lịch này."
 
-#: ../calendar/gui/comp-editor-factory.c:425
+#: ../calendar/gui/comp-editor-factory.c:432
 msgid "Permission denied to open the calendar"
 msgstr "Không đủ quyền truy cập để mở lịch"
 
-#: ../calendar/gui/comp-editor-factory.c:437 ../shell/e-shell.c:1286
+#: ../calendar/gui/comp-editor-factory.c:444 ../shell/e-shell.c:1286
 msgid "Unknown error"
 msgstr "Không biết lỗi ấy"
 
@@ -5083,7 +5083,7 @@ msgstr "%.0fG"
 #: ../calendar/gui/dialogs/cal-attachment-bar.c:1106
 #: ../calendar/gui/dialogs/comp-editor.c:2447
 #: ../composer/e-msg-composer-attachment-bar.c:307 ../mail/em-utils.c:444
-#: ../mail/em-utils.c:481 ../widgets/misc/e-attachment-bar.c:336
+#: ../mail/em-utils.c:481 ../widgets/misc/e-attachment-bar.c:340
 msgid "attachment"
 msgstr "đính kèm"
 
@@ -5115,7 +5115,7 @@ msgstr "_Thêm đính kèm..."
 
 #: ../calendar/gui/dialogs/cal-attachment-bar.c:736
 #: ../composer/e-msg-composer-attachment-bar.c:740
-#: ../widgets/misc/e-attachment-bar.c:904
+#: ../widgets/misc/e-attachment-bar.c:908
 msgid "Attachment Bar"
 msgstr "Thanh đính kèm"
 
@@ -5142,8 +5142,8 @@ msgstr "Đính kèm tập tin"
 #: ../composer/e-msg-composer-attachment.c:203
 #: ../composer/e-msg-composer-attachment.c:297
 #: ../composer/e-msg-composer-attachment.c:313
-#: ../widgets/misc/e-attachment.c:220 ../widgets/misc/e-attachment.c:236
-#: ../widgets/misc/e-attachment.c:421 ../widgets/misc/e-attachment.c:437
+#: ../widgets/misc/e-attachment.c:219 ../widgets/misc/e-attachment.c:235
+#: ../widgets/misc/e-attachment.c:420 ../widgets/misc/e-attachment.c:436
 #, c-format
 msgid "Cannot attach file %s: %s"
 msgstr "Không thể đính kèm tập tin « %s »: %s"
@@ -5152,7 +5152,7 @@ msgstr "Không thể đính kèm tập tin « %s »: %s"
 #: ../calendar/gui/dialogs/cal-attachment.c:327
 #: ../composer/e-msg-composer-attachment.c:195
 #: ../composer/e-msg-composer-attachment.c:305
-#: ../widgets/misc/e-attachment.c:228 ../widgets/misc/e-attachment.c:429
+#: ../widgets/misc/e-attachment.c:227 ../widgets/misc/e-attachment.c:428
 #, c-format
 msgid "Cannot attach file %s: not a regular file"
 msgstr "Không thể đính kèm tập tin « %s »: không phải tập tin bình thường."
@@ -5996,7 +5996,7 @@ msgstr "<b>Từ</b>"
 #: ../plugins/calendar-weather/calendar-weather.c:370
 #: ../plugins/calendar-weather/calendar-weather.c:424
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:7
-#: ../plugins/itip-formatter/itip-formatter.c:1613
+#: ../plugins/itip-formatter/itip-formatter.c:1615
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.c:190
 #: ../widgets/misc/e-cell-date-edit.c:248 ../widgets/misc/e-dateedit.c:465
 #: ../widgets/misc/e-dateedit.c:1504 ../widgets/misc/e-dateedit.c:1673
@@ -6263,7 +6263,7 @@ msgid "year(s)"
 msgstr "năm"
 
 #: ../calendar/gui/dialogs/task-details-page.c:410
-#: ../calendar/gui/dialogs/task-details-page.c:429
+#: ../calendar/gui/dialogs/task-details-page.c:430
 msgid "Completed date is wrong"
 msgstr "Ngày hoàn tất sai"
 
@@ -6610,10 +6610,10 @@ msgstr "Không"
 #: ../calendar/gui/e-meeting-list-view.c:182
 #: ../calendar/gui/e-meeting-store.c:124 ../calendar/gui/e-meeting-store.c:159
 #: ../calendar/gui/e-meeting-store.c:224 ../mail/em-utils.c:1244
-#: ../plugins/itip-formatter/itip-formatter.c:238
-#: ../plugins/itip-formatter/itip-formatter.c:1638
+#: ../plugins/itip-formatter/itip-formatter.c:240
+#: ../plugins/itip-formatter/itip-formatter.c:1640
 #: ../plugins/plugin-manager/plugin-manager.c:72
-#: ../widgets/misc/e-attachment-bar.c:649
+#: ../widgets/misc/e-attachment-bar.c:653
 #: ../widgets/misc/e-charset-picker.c:62
 msgid "Unknown"
 msgstr "Không biết"
@@ -7017,12 +7017,12 @@ msgstr ""
 #: ../calendar/gui/e-meeting-list-view.c:204
 #: ../calendar/gui/e-meeting-store.c:188 ../calendar/gui/e-meeting-store.c:211
 #: ../calendar/gui/itip-utils.c:548
-#: ../plugins/itip-formatter/itip-formatter.c:1626
+#: ../plugins/itip-formatter/itip-formatter.c:1628
 msgid "Accepted"
 msgstr "Đã chấp nhận"
 
 #: ../calendar/gui/e-itip-control.c:1141 ../calendar/gui/itip-utils.c:551
-#: ../plugins/itip-formatter/itip-formatter.c:1629
+#: ../plugins/itip-formatter/itip-formatter.c:1631
 msgid "Tentatively Accepted"
 msgstr "Tạm đã chấp nhận"
 
@@ -7030,7 +7030,7 @@ msgstr "Tạm đã chấp nhận"
 #: ../calendar/gui/e-meeting-list-view.c:205
 #: ../calendar/gui/e-meeting-store.c:190 ../calendar/gui/e-meeting-store.c:213
 #: ../calendar/gui/itip-utils.c:554 ../calendar/gui/itip-utils.c:583
-#: ../plugins/itip-formatter/itip-formatter.c:1632
+#: ../plugins/itip-formatter/itip-formatter.c:1634
 msgid "Declined"
 msgstr "Bị từ chối"
 
@@ -7252,7 +7252,7 @@ msgid "Attendee status updated\n"
 msgstr "Đã cập nhật trạng thái người tham dự rồi.\n"
 
 #: ../calendar/gui/e-itip-control.c:1979
-#: ../plugins/itip-formatter/itip-formatter.c:1011
+#: ../plugins/itip-formatter/itip-formatter.c:1013
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr ""
 "Không thể cập nhật trạng thái người tham dự vì không còn có lại mục ấy."
@@ -7423,7 +7423,7 @@ msgstr "Chưa chắc"
 #: ../calendar/gui/e-meeting-list-view.c:207
 #: ../calendar/gui/e-meeting-store.c:194 ../calendar/gui/e-meeting-store.c:217
 #: ../calendar/gui/itip-utils.c:557
-#: ../plugins/itip-formatter/itip-formatter.c:1635
+#: ../plugins/itip-formatter/itip-formatter.c:1637
 msgid "Delegated"
 msgstr "Ủy nhiệm"
 
@@ -11113,9 +11113,9 @@ msgstr "_Hiệu chỉnh như thư mới..."
 msgid "U_ndelete"
 msgstr "_Hủy xóa bỏ"
 
-#: ../mail/em-folder-view.c:1051
-msgid "Mo_ve to Folder..."
-msgstr "_Chuyển vào danh mục..."
+#: ../mail/em-folder-view.c:1051 ../ui/evolution-addressbook.xml.h:36
+msgid "_Move to Folder..."
+msgstr "_Chuyển sang danh mục..."
 
 #: ../mail/em-folder-view.c:1052 ../ui/evolution-addressbook.xml.h:32
 msgid "_Copy to Folder..."
@@ -11126,7 +11126,7 @@ msgid "Mar_k as Read"
 msgstr "Đánh dấu Đã đọ_c"
 
 #: ../mail/em-folder-view.c:1056
-msgid "Mark as U_nread"
+msgid "Mark as _Unread"
 msgstr "Đánh dấu C_hưa đọc"
 
 #: ../mail/em-folder-view.c:1057
@@ -11360,34 +11360,34 @@ msgstr "_Vừa khít độ rộng"
 msgid "Show _Original Size"
 msgstr "Hiển thị kích thước _gốc"
 
-#: ../mail/em-format-html-display.c:1547
+#: ../mail/em-format-html-display.c:1546
 msgid "Attachment Button"
 msgstr "Nút đính kèm"
 
-#: ../mail/em-format-html-display.c:1754
+#: ../mail/em-format-html-display.c:1753
 msgid "Select folder to save all attachments..."
 msgstr "Chọn danh mục nơi cần lưu mọi đính kèm..."
 
-#: ../mail/em-format-html-display.c:1792
+#: ../mail/em-format-html-display.c:1791
 msgid "Select folder to save selected attachments..."
 msgstr "Chọn danh mục nơi cần lưu những đính kèm đã chọn..."
 
-#: ../mail/em-format-html-display.c:1800
+#: ../mail/em-format-html-display.c:1799
 msgid "Save Selected..."
 msgstr "Lưu các điều chọn..."
 
 #. Cant i put in the number of attachments here ?
-#: ../mail/em-format-html-display.c:1867
+#: ../mail/em-format-html-display.c:1866
 #, c-format
 msgid "%d attachment"
 msgid_plural "%d attachments"
 msgstr[0] "%d đính kèm"
 
-#: ../mail/em-format-html-display.c:1921
+#: ../mail/em-format-html-display.c:1920
 msgid "No Attachment"
 msgstr "Không có đính kèm"
 
-#: ../mail/em-format-html-display.c:1924
+#: ../mail/em-format-html-display.c:1923
 msgid "Save All"
 msgstr "Lưu tất cả"
 
@@ -12486,7 +12486,7 @@ msgid "<span weight=\"bold\">Filter Options</span>"
 msgstr "<span weight=\"bold\">Tùy chọn bộ lọc</span>"
 
 #: ../mail/mail-config.glade.h:18
-#: ../plugins/itip-formatter/itip-formatter.c:1922
+#: ../plugins/itip-formatter/itip-formatter.c:1963
 msgid "<span weight=\"bold\">General</span>"
 msgstr "<span weight=\"bold\">Tổng quát</span>"
 
@@ -15272,67 +15272,67 @@ msgstr "Dùng chung"
 msgid "Track Message Status..."
 msgstr "Theo dõi trạng thái thư..."
 
-#: ../plugins/itip-formatter/itip-formatter.c:722
+#: ../plugins/itip-formatter/itip-formatter.c:724
 msgid "Unable to parse item"
 msgstr "Không thể phân tach mục"
 
-#: ../plugins/itip-formatter/itip-formatter.c:778
+#: ../plugins/itip-formatter/itip-formatter.c:780
 #, c-format
 msgid "Unable to send item to calendar '%s'.  %s"
 msgstr "Không gửi được mục cho lịch « %s ». %s"
 
-#: ../plugins/itip-formatter/itip-formatter.c:789
+#: ../plugins/itip-formatter/itip-formatter.c:791
 #, c-format
 msgid "Sent to calendar '%s' as accepted"
 msgstr "Đã gửi cho lịch « %s »: đã chấp nhận"
 
-#: ../plugins/itip-formatter/itip-formatter.c:793
+#: ../plugins/itip-formatter/itip-formatter.c:795
 #, c-format
 msgid "Sent to calendar '%s' as tentative"
 msgstr "Đã gửi cho lịch « %s »: dự định"
 
-#: ../plugins/itip-formatter/itip-formatter.c:798
+#: ../plugins/itip-formatter/itip-formatter.c:800
 #, c-format
 msgid "Sent to calendar '%s' as declined"
 msgstr "Đã gửi cho lịch « %s »: bị từ chối"
 
-#: ../plugins/itip-formatter/itip-formatter.c:803
+#: ../plugins/itip-formatter/itip-formatter.c:805
 #, c-format
 msgid "Sent to calendar '%s' as cancelled"
 msgstr "Đã gửi cho lịch « %s »: bị hủy bỏ"
 
-#: ../plugins/itip-formatter/itip-formatter.c:896
+#: ../plugins/itip-formatter/itip-formatter.c:898
 #, c-format
 msgid "Organizer has removed the delegate %s "
 msgstr "Bộ tổ chức đã loại bỏ người được ủy nhiệm « %s »."
 
-#: ../plugins/itip-formatter/itip-formatter.c:903
+#: ../plugins/itip-formatter/itip-formatter.c:905
 msgid "Sent a cancellation notice to the delegate"
 msgstr "Đã gởi một thông báo hủy bỏ cho người được ủy nhiệm."
 
-#: ../plugins/itip-formatter/itip-formatter.c:905
+#: ../plugins/itip-formatter/itip-formatter.c:907
 msgid "Could not send the cancellation notice to the delegate"
 msgstr "Không gửi được thông báo hủy bỏ cho người được ủy nhiệm.?"
 
-#: ../plugins/itip-formatter/itip-formatter.c:977
+#: ../plugins/itip-formatter/itip-formatter.c:979
 msgid "Attendee status could not be updated because the status is invalid"
 msgstr ""
 "Không thể cập nhật trạng thái người tham dự vì trạng thái không hợp lệ."
 
-#: ../plugins/itip-formatter/itip-formatter.c:1003
+#: ../plugins/itip-formatter/itip-formatter.c:1005
 #, c-format
 msgid "Unable to update attendee. %s"
 msgstr "Không cập nhật được người tham dự. %s"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1007
+#: ../plugins/itip-formatter/itip-formatter.c:1009
 msgid "Attendee status updated"
 msgstr "Đã cập nhật trạng thái người tham dự rồi."
 
-#: ../plugins/itip-formatter/itip-formatter.c:1134
+#: ../plugins/itip-formatter/itip-formatter.c:1136
 msgid "The calendar attached is not valid"
 msgstr "Lịch đã đính kèm không hợp lệ"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1135
+#: ../plugins/itip-formatter/itip-formatter.c:1137
 msgid ""
 "The message claims to contain a calendar, but the calendar is not valid "
 "iCalendar."
@@ -15340,15 +15340,15 @@ msgstr ""
 "Thư này tuyên bố chứa một lịch, nhưng mà lịch ấy không phải là một iCalendar "
 "hợp lệ."
 
-#: ../plugins/itip-formatter/itip-formatter.c:1169
-#: ../plugins/itip-formatter/itip-formatter.c:1184
-#: ../plugins/itip-formatter/itip-formatter.c:1260
+#: ../plugins/itip-formatter/itip-formatter.c:1171
+#: ../plugins/itip-formatter/itip-formatter.c:1186
+#: ../plugins/itip-formatter/itip-formatter.c:1262
 msgid "The item in the calendar is not valid"
 msgstr "Mục ấy trong lịch không hợp lệ."
 
-#: ../plugins/itip-formatter/itip-formatter.c:1170
-#: ../plugins/itip-formatter/itip-formatter.c:1185
-#: ../plugins/itip-formatter/itip-formatter.c:1261
+#: ../plugins/itip-formatter/itip-formatter.c:1172
+#: ../plugins/itip-formatter/itip-formatter.c:1187
+#: ../plugins/itip-formatter/itip-formatter.c:1263
 msgid ""
 "The message does contain a calendar, but the calendar contains no events, "
 "tasks or free/busy information"
@@ -15356,36 +15356,36 @@ msgstr ""
 "Thư ấy có phải chứa một lịch, nhưng mà lịch ấy không chứa sự kiện nào, công "
 "việc nào hay thông tin rảnh/bận nào."
 
-#: ../plugins/itip-formatter/itip-formatter.c:1195
+#: ../plugins/itip-formatter/itip-formatter.c:1197
 msgid "The calendar attached contains multiple items"
 msgstr "Lịch đã đính kèm chứa nhiều mục"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1196
+#: ../plugins/itip-formatter/itip-formatter.c:1198
 msgid ""
 "To process all of these items, the file should be saved and the calendar "
 "imported"
 msgstr "Để xử lý mọi mục này thì nên lưu tập tin này và nhập lịch ấy."
 
-#: ../plugins/itip-formatter/itip-formatter.c:1913
+#: ../plugins/itip-formatter/itip-formatter.c:1954
 msgid "Meetings and Tasks"
 msgstr "Cuộc họp và Công việc"
 
 #. Delete message after acting
 #. FIXME Need a schema for this
-#: ../plugins/itip-formatter/itip-formatter.c:1936
+#: ../plugins/itip-formatter/itip-formatter.c:1977
 msgid "_Delete message after acting"
 msgstr "_Xóa bỏ thư sau hành động"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1946
+#: ../plugins/itip-formatter/itip-formatter.c:1987
 msgid "<span weight=\"bold\">Conflict Search</span>"
 msgstr "<span weight=\"bold\">Tìm kiếm xung đột</span>"
 
 #. Source selector
-#: ../plugins/itip-formatter/itip-formatter.c:1959
+#: ../plugins/itip-formatter/itip-formatter.c:2000
 msgid "Select the calendars to search for meeting conflicts"
 msgstr "Chọn những lịch cần tìm kiệm cuộc họp có xung đột với nhau"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1976
+#: ../plugins/itip-formatter/itip-formatter.c:2017
 msgid "Conflict Search Table"
 msgstr "Bảng tìm kiếm xung đột"
 
@@ -17539,10 +17539,6 @@ msgstr "_Hành động"
 #: ../ui/evolution-addressbook.xml.h:35
 msgid "_Forward Contact..."
 msgstr "_Chuyển tiếp liên lạc..."
-
-#: ../ui/evolution-addressbook.xml.h:36
-msgid "_Move to Folder..."
-msgstr "_Chuyển sang danh mục..."
 
 #: ../ui/evolution-addressbook.xml.h:39
 msgid "_Preview Pane"
@@ -19996,18 +19992,3 @@ msgstr "Ngữ cảnh IM"
 #: ../widgets/text/e-text.c:3683 ../widgets/text/e-text.c:3684
 msgid "Handle Popup"
 msgstr "Bộ bật lên móc kéo"
-
-#~ msgid "vFolders"
-#~ msgstr "vFolder"
-
-#~ msgid "v_Folders"
-#~ msgstr "v_Folder"
-
-#~ msgid "vFolder source"
-#~ msgstr "Nguồn vFolder"
-
-#~ msgid "Edit vFolder"
-#~ msgstr "Sửa đổi vFolder"
-
-#~ msgid "New vFolder"
-#~ msgstr "vFolder mới"
