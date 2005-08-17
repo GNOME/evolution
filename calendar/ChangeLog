@@ -1,3 +1,10 @@
+2005-08-17  Carsten Guenther <carsten.guenther@scalix.com>
+
+	Fixes http://bugzilla.gnome.org/show_bug.cgi?id=313555
+	* gui/dialogs/comp-editor.c:
+	(get_attachment_list): Only save attachment to file
+	if file does not exist yet.
+
 2005-08-17  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #311904

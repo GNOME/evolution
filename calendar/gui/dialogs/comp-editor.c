@@ -630,23 +630,26 @@ get_attachment_list (CompEditor *editor)
 		g_free (filename);
 		g_free (safe_fname);
 
-		stream = camel_stream_fs_new_with_name((const char *) attach_file_url+7, O_RDWR|O_CREAT|O_TRUNC, 0600);
-		if (!stream) {
-			/* TODO handle error conditions */
-			g_message ("DEBUG: could not open the file to write\n");
-			g_free (attach_file_url);
-			continue;
-		}
+		/* do not overwrite existing files, this will result in truncation */
+		if (!g_file_test (attach_file_url+7, G_FILE_TEST_EXISTS)) {
+			stream = camel_stream_fs_new_with_name((const char *) attach_file_url+7, O_RDWR|O_CREAT|O_TRUNC, 0600);
+			if (!stream) {
+				/* TODO handle error conditions */
+				g_message ("DEBUG: could not open the file to write\n");
+				g_free (attach_file_url);
+				continue;
+			}
 		
-		if (camel_data_wrapper_decode_to_stream (wrapper, (CamelStream *) stream) == -1) {
-			g_free (attach_file_url);
+			if (camel_data_wrapper_decode_to_stream (wrapper, (CamelStream *) stream) == -1) {
+				g_free (attach_file_url);
+				camel_stream_close (stream);
+				camel_object_unref (stream);
+				g_message ("DEBUG: could not write to file\n");
+			}
+
 			camel_stream_close (stream);
 			camel_object_unref (stream);
-			g_message ("DEBUG: could not write to file\n");
 		}
-
-		camel_stream_close (stream);
-		camel_object_unref (stream);
 
 		list = g_slist_append (list, g_strdup (attach_file_url));
 		g_free (attach_file_url);
