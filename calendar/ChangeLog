@@ -1,3 +1,10 @@
+2005-08-17  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #311904
+	* gui/dialogs/task-details-page.c:
+	(task_details_page_fill_component): Check if the date is
+	set before comparing it with current day for validation.
+
 2005-08-12  Viren.L  <lviren@novell.com>
 
 	Fixes #312739

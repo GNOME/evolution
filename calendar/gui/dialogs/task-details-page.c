@@ -416,21 +416,21 @@ task_details_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 					 &icalcomplete.month,
 					 &icalcomplete.day);
 
-	e_date_edit_get_time_of_day (E_DATE_EDIT (priv->completed_date),
-				     &icalcomplete.hour,
-				     &icalcomplete.minute);
-
-	/* COMPLETED today or before */
-	icaltoday = icaltime_current_time_with_zone (zone);
-	icaltimezone_convert_time (&icaltoday, zone,
-				    icaltimezone_get_utc_timezone());
-
-	if (icaltime_compare_date_only (icalcomplete, icaltoday) > 0) { 
-		comp_editor_page_display_validation_error (page, _("Completed date is wrong"), priv->completed_date);
-		return FALSE;
-	}
-
 	if (date_set) {
+		e_date_edit_get_time_of_day (E_DATE_EDIT (priv->completed_date),
+				&icalcomplete.hour,
+				&icalcomplete.minute);
+
+		/* COMPLETED today or before */
+		icaltoday = icaltime_current_time_with_zone (zone);
+		icaltimezone_convert_time (&icaltoday, zone,
+				icaltimezone_get_utc_timezone());
+
+		if (icaltime_compare_date_only (icalcomplete, icaltoday) > 0) { 
+			comp_editor_page_display_validation_error (page, _("Completed date is wrong"), priv->completed_date);
+			return FALSE;
+		}
+
 		/* COMPLETED must be in UTC, so we assume that the date in the
 		   dialog is in the current timezone, and we now convert it
 		   to UTC. FIXME: We should really use one timezone for the
@@ -438,7 +438,7 @@ task_details_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 		   changes the timezone, the COMPLETED date may get changed
 		   as well. */
 		icaltimezone_convert_time (&icalcomplete, zone,
-					   icaltimezone_get_utc_timezone ());
+				icaltimezone_get_utc_timezone ());
 		e_cal_component_set_completed (comp, &icalcomplete);
 	} else {
 		e_cal_component_set_completed (comp, NULL);
