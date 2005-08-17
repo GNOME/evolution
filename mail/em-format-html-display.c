@@ -46,6 +46,7 @@
 #include <gtk/gtkmain.h>
 #include <gtk/gtkdnd.h>
 #include <gtk/gtktoolbutton.h>
+#include <gtk/gtkframe.h>
 
 #include <glade/glade.h>
 
@@ -1777,8 +1778,9 @@ efhd_bar_popup_position(GtkMenu *menu, int *x, int *y, gboolean *push_in, gpoint
 }
 
 static void
-efhd_bar_save_selected(EPopup *ep, EPopupItem *item, EMFormatHTMLDisplay *efhd)
+efhd_bar_save_selected(EPopup *ep, EPopupItem *item, void *data)
 {
+	EMFormatHTMLDisplay *efhd = (EMFormatHTMLDisplay *)data;
 	GSList *attachment_parts, *tmp;
 	GSList *parts = NULL;
 
@@ -1883,7 +1885,6 @@ efhd_attachment_bar_refresh (EMFormatHTMLDisplay *efhd)
 	}
 }
 
-
 static void
 efhd_bar_resize(GtkWidget *w, GtkAllocation *event, EMFormatHTML *efh)
 {
@@ -1892,11 +1893,24 @@ efhd_bar_resize(GtkWidget *w, GtkAllocation *event, EMFormatHTML *efh)
 	EMFormatHTMLDisplay *efhd = (EMFormatHTMLDisplay *) efh;
 
 	gtk_widget_size_request (efhd->priv->attachment_bar, &req);
-	width = ((GtkWidget *) efh->html)->allocation.width - 36;
+	width = ((GtkWidget *) efh->html)->allocation.width - 16;
 	gtk_widget_set_size_request (efhd->priv->attachment_bar, width, req.height);
 
 	/* Update the bar to refresh the icons and adjust the height */
 	e_attachment_bar_refresh (E_ATTACHMENT_BAR(efhd->priv->attachment_bar));
+}
+
+static gboolean
+efhd_bar_scroll_event(GtkWidget *w, GdkEventScroll *event, EMFormatHTMLDisplay *efhd)
+{
+	gboolean ret;
+
+	/* Emulate the scroll over the attachment bar, as if it is scrolled in the window.
+	*  It doesnt go automatically since the GnomeIconList is a layout by itself
+	*/
+	g_signal_emit_by_name (gtk_widget_get_parent((GtkWidget *)efhd->formathtml.html), "scroll_event", event, &ret);
+
+	return TRUE;
 }
 
 static gboolean
@@ -1932,15 +1946,15 @@ efhd_add_bar(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject *pobjec
 	gtk_box_pack_start ((GtkBox *)hbox2, priv->label, FALSE, FALSE, 2);
 	gtk_box_pack_start ((GtkBox *)hbox2, save, FALSE, FALSE, 2);
 
-	priv->attachment_box = gtk_hbox_new (FALSE, 0);
-	gtk_box_pack_start ((GtkBox *)priv->attachment_box, priv->attachment_bar, TRUE, TRUE, 0);
+	priv->attachment_box = gtk_frame_new (NULL);
+	gtk_container_add ((GtkContainer *)priv->attachment_box, priv->attachment_bar);
 
 	gtk_widget_get_size_request(priv->attachment_bar, &width, &height);
 
 	/* FIXME: What if the text is more?. Should we reduce the text with appending ...?
 	 * or resize the bar? How to figure out that, it needs more space? */
 	gtk_widget_set_size_request (priv->attachment_bar, 
-					((GtkWidget *)efh->html)->parent->allocation.width - /* FIXME */36,
+					((GtkWidget *)efh->html)->parent->allocation.width - /* FIXME */16,
 					84 /* FIXME: Default show only one row, Dont hardcode size*/);
 	
 	vbox = gtk_vbox_new (FALSE, 0);
@@ -1959,6 +1973,7 @@ efhd_add_bar(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject *pobjec
 	g_signal_connect (priv->attachment_bar, "popup-menu", G_CALLBACK(efhd_bar_popup_menu_event), efhd);
 	g_signal_connect (save, "clicked", G_CALLBACK(attachments_save_all_clicked), efh);
 	g_signal_connect (eb, "size_allocate", G_CALLBACK (efhd_bar_resize), efh);
+	g_signal_connect (priv->attachment_bar, "scroll_event", G_CALLBACK(efhd_bar_scroll_event), efhd);
 
 	return TRUE;
 }
