@@ -5,10 +5,6 @@
     <cmd name="EmptyTrash"
      _tip="Permanently remove all deleted messages from all folders"/>
 
-    <cmd name="MailPost"
-     _tip="Post a message to a Public folder"
-     accel="*Control**Alt*m"/>
-
     <cmd name="MailStop"
      _tip="Cancel the current mail operation"
      pixtype="stock" pixname="gtk-stop"/>

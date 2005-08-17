@@ -127,6 +127,10 @@
      accel="*Control*o"
      pixtype="pixbuf"/>
 
+    <cmd name="MailPost"
+     _tip="Post a message to a Public folder"
+     accel="*Control**Alt*m"/>
+
     <cmd name="MessagePostReply"
      _tip="Post a reply to a message in a Public folder"
      accel=""/>
@@ -308,6 +312,7 @@
       <submenu name="Message" _label="_Message">
         <placeholder name="MessageTopActions">
           <menuitem name="ActionCompose" verb="MailCompose" _label="Compose _New Message"/>
+          <menuitem name="MailPost" verb="" _label="Pos_t New Message to Folder"/>
           <menuitem name="MessageOpen" verb="" _label="_Open in New Window"/>
           <menuitem name="MessageEdit" verb="" _label="_Edit as New Message..."/>
           <menuitem name="AddSenderToAddressbook" verb="" _label="A_dd Sender to Address Book"/>
