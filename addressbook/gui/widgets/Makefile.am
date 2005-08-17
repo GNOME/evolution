@@ -34,7 +34,7 @@ CORBA_SOURCE = $(CORBA_SOURCE_H) $(CORBA_SOURCE_C)
 
 noinst_LTLIBRARIES =				\
 	libeabwidgets.la
-	
+
 eabincludedir = $(privincludedir)/addressbook/gui/widgets
 
 eabinclude_HEADERS = 			\
@@ -51,6 +51,7 @@ libeabwidgets_la_SOURCES =			\
 	eab-gui-util.c				\
 	eab-gui-util.h				\
 	eab-menu.c				\
+	eab-popup.c				\
 	eab-popup.h				\
 	eab-popup-control.c			\
 	eab-popup-control.h			\
