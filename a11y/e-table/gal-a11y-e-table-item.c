@@ -176,10 +176,8 @@ eti_a11y_reset_focus_object (GalA11yETableItem *a11y, ETableItem *item, gboolean
 	} else
 		g_object_set_data (G_OBJECT (a11y), "gail-focus-object", NULL);
 
-	if (notify)
-		g_signal_emit_by_name (a11y,
-				"active-descendant-changed",
-				cell);
+	if (notify && cell) 
+		atk_focus_tracker_notify (cell);
 }
 
 static void

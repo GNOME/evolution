@@ -1,3 +1,10 @@
+2005-08-15  Li Yuan  <li.yuan@sun.com>
+
+	* e-table/gal-a11y-e-table-item.c: (eti_a11y_reset_focus_object):
+	Fixes #313514.
+	For the code change in gnopernicus, we should use 
+	atk_focus_tracker_notify here.
+
 2005-07-18  Li Yuan  <li.yuan@sun.com>
 
 	Fixes #310136 #310138.
