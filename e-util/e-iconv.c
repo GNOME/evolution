@@ -300,6 +300,11 @@ e_iconv_init(int keep)
 		locale_charset = NULL;
 		locale_lang = NULL;
 	} else {
+#ifdef G_OS_WIN32
+		g_get_charset (&locale_charset);
+		locale_charset = g_strdup (locale_charset);
+		e_strdown (locale_charset);
+#else
 #ifdef HAVE_CODESET
 		locale_charset = g_strdup (nl_langinfo (CODESET));
 		e_strdown (locale_charset);
@@ -325,12 +330,16 @@ e_iconv_init(int keep)
 			locale_charset = NULL;
 		}
 #endif		
+#endif	/* !G_OS_WIN32 */
 		
 		/* parse the locale lang */
 		locale_parse_lang (locale);
 
 	}
 
+#ifdef G_OS_WIN32
+	g_free (locale);
+#endif
 	if (!keep)
 		UNLOCK();
 }

@@ -1,3 +1,8 @@
+2005-08-18  Tor Lillqvist  <tml@novell.com>
+
+	* e-iconv.c (e_iconv_init): Use g_get_charset() on Win32 to get
+	locale charset. Free return value from g_win32_getlocale().
+
 2005-08-10  Tor Lillqvist  <tml@novell.com>
 
 	* e-xml-utils.c (e_xml_get_child_by_name_by_lang): Use
