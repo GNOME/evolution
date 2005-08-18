@@ -270,11 +270,7 @@ cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
 
 	if (status != E_CALENDAR_STATUS_OK) {
 		d(printf ("Failed opening itip formatter calendar '%s' during non-search opening\n", e_source_peek_name (source)));
-		itip_view_add_lower_info_item_printf (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_WARNING,
-						      "Failed to load the calendar '%s'", e_source_peek_name (source));
-
 		g_hash_table_remove (pitip->ecals[source_type], e_source_peek_uid (source));
-
 		return;
 	}
 	
@@ -379,11 +375,7 @@ find_cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
 		 * to find the item, this won't be cleared but the
 		 * selector might be shown */
 		d(printf ("Failed opening itip formatter calendar '%s' during search opening... ", e_source_peek_name (source)));
-		itip_view_add_lower_info_item_printf (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_WARNING,
-						     "Failed to load the calendar '%s'", e_source_peek_name (source));
-
 		g_hash_table_remove (pitip->ecals[source_type], e_source_peek_uid (source));
-
 		goto cleanup;
 	}
 
@@ -942,33 +934,45 @@ update_attendee_status (FormatItipPObject *pitip)
 				if ((a->status == ICAL_PARTSTAT_DELEGATED) && (del_prop = find_attendee (org_icalcomp, itip_strip_mailto (a->delto))) && !(find_attendee (icalcomp, itip_strip_mailto (a->delto)))) {			
 					gint response;
 					delegate = icalproperty_get_attendee (del_prop);	 	
-					
-					 if ((response = e_error_run (NULL, "org.gnome.itip-formatter:add-delegate",itip_strip_mailto (a->value), itip_strip_mailto (delegate))) == GTK_RESPONSE_YES) {
-					icalcomponent_add_property (icalcomp, icalproperty_new_clone (del_prop));
-					e_cal_component_rescan (comp);
-					 } else if (response == GTK_RESPONSE_NO) {
-						 remove_delegate (pitip, delegate, itip_strip_mailto (a->value), comp); 
-						 goto cleanup;
-					 } else
-						 goto cleanup;
+					response = e_error_run (NULL, "org.gnome.itip-formatter:add-delegate",
+								itip_strip_mailto (a->value),
+								itip_strip_mailto (delegate), NULL);
+					if (response == GTK_RESPONSE_YES) {
+						icalcomponent_add_property (icalcomp, icalproperty_new_clone (del_prop));
+						e_cal_component_rescan (comp);
+					} else if (response == GTK_RESPONSE_NO) {
+				 		remove_delegate (pitip, delegate, itip_strip_mailto (a->value), comp); 
+						goto cleanup;
+					} else {
+						goto cleanup;
+					}
 				}
 
 				if (prop == NULL) {
 					gint response;
 					
 					if (a->delfrom && *a->delfrom) {
-						if ((response == e_error_run (NULL, "org.gnome.itip-formatter:add-delegate", itip_strip_mailto (a->delfrom)), itip_strip_mailto (a->value)) == GTK_RESPONSE_YES) {
-						icalproperty *prop = find_attendee (icalcomp, itip_strip_mailto (a->value));
-						icalcomponent_add_property (icalcomp,icalproperty_new_clone (prop));
-						e_cal_component_rescan (comp);
-						
-						} else if (response == GTK_RESPONSE_NO){
-							remove_delegate (pitip, itip_strip_mailto (a->value) , itip_strip_mailto (a->delfrom), comp);
+						response = e_error_run (NULL, "org.gnome.itip-formatter:add-delegate",
+									itip_strip_mailto (a->delfrom),
+									itip_strip_mailto (a->value), NULL);
+						if (response == GTK_RESPONSE_YES) {
+							icalproperty *prop = find_attendee (icalcomp, itip_strip_mailto (a->value));
+							icalcomponent_add_property (icalcomp,icalproperty_new_clone (prop));
+							e_cal_component_rescan (comp);
+						} else if (response == GTK_RESPONSE_NO) {
+							remove_delegate (pitip,
+									 itip_strip_mailto (a->value),
+									 itip_strip_mailto (a->delfrom),
+									 comp);
 							goto cleanup;
-						} else
+						} else {
 							goto cleanup;
+						}
 					}
-					if (e_error_run (NULL, "org.gnome.itip-formatter:add-unknown-attendee", NULL) == GTK_RESPONSE_YES) {
+
+					response = (e_error_run (NULL, "org.gnome.itip-formatter:add-unknown-attendee", NULL));
+
+					if (response == GTK_RESPONSE_YES) {
 						change_status (icalcomp, itip_strip_mailto (a->value), a->status);
 						e_cal_component_rescan (comp);
 					} else {

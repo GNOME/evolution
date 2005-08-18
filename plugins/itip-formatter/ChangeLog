@@ -1,3 +1,11 @@
+2005-08-18  Carsten Guenther <carsten.guenther@scalix.com>
+
+	* itip-formatter.c: (update_attendee_status): NULL-terminate
+	calls to e_error_run; fixed typos in if-statement; some code
+	cleanup.
+	(cal_opened_cb, final_cal_opened_cb): Removed unnecessary
+	message about not being able to open the calendar.
+
 2005-08-11  Dinesh Layek  <LDinesh@novell.com>
 
 	Fixes #305627
