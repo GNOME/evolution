@@ -1,3 +1,12 @@
+2005-08-16  Not Zed  <NotZed@Ximian.com>
+
+	** See #312668.
+
+	* mail-component.c (impl_setLineStatus): new offline interface.
+	(setline_check, setline_done): and implementation.
+
+	* mail-offline-handler.[ch]: destroyed, burnt, dissolved in acid.
+
 2005-08-17  Srinivasa Ragavan <sragavan@novell.com>
 
 	* em-format-html-display.c 

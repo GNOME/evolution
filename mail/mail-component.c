@@ -59,7 +59,6 @@
 #include "mail-tools.h"
 #include "mail-send-recv.h"
 #include "mail-session.h"
-#include "mail-offline-handler.h"
 #include "message-list.h"
 
 #include "e-activity-handler.h"
@@ -79,6 +78,8 @@
 
 #include <camel/camel-file-utils.h>
 #include <camel/camel-vtrash-folder.h>
+#include <camel/camel-disco-store.h>
+#include <camel/camel-offline-store.h>
 
 #include <bonobo/bonobo-control.h>
 #include <bonobo/bonobo-widget.h>
@@ -923,6 +924,73 @@ impl_upgradeFromVersion (PortableServer_Servant servant, const short major, cons
 	camel_exception_clear (&ex);
 }
 
+struct _setline_data {
+	GNOME_Evolution_Listener listener;
+	CORBA_boolean status;
+	int pending;
+};
+
+static void
+setline_done(CamelStore *store, void *data)
+{
+	struct _setline_data *sd = data;
+
+	g_assert(sd->pending > 0);
+
+	sd->pending--;
+	if (sd->pending == 0) {
+		CORBA_Environment ev = { 0 };
+
+		GNOME_Evolution_Listener_complete(sd->listener, &ev);
+		CORBA_exception_free(&ev);
+		CORBA_Object_release(sd->listener, &ev);
+		CORBA_exception_free(&ev);
+		g_free(sd);
+	}
+}
+
+static void
+setline_check(void *key, void *value, void *data)
+{
+	CamelService *service = key;
+	struct _setline_data *sd = data;
+
+	if (CAMEL_IS_DISCO_STORE(service)
+	    || CAMEL_IS_OFFLINE_STORE(service)) {
+		sd->pending++;
+		mail_store_set_offline((CamelStore *)service, !sd->status, setline_done, sd);
+	}
+}
+
+static void
+impl_setLineStatus(PortableServer_Servant servant, CORBA_boolean status, GNOME_Evolution_Listener listener, CORBA_Environment *ev)
+{
+	struct _setline_data *sd;
+
+	/* This will dis/enable further auto-mail-check action. */
+	/* FIXME: If send/receive active, wait for it to finish? */
+	camel_session_set_online(session, status);
+
+	sd = g_malloc0(sizeof(*sd));
+	sd->status = status;
+	sd->listener = CORBA_Object_duplicate(listener, ev);
+	if (ev->_major == CORBA_NO_EXCEPTION)
+		mail_component_stores_foreach(mail_component_peek(), setline_check, sd);
+	else
+		CORBA_exception_free(ev);
+
+	if (sd->pending == 0) {
+		if (sd->listener) {
+			CORBA_Object_release(sd->listener, ev);
+			CORBA_exception_free(ev);
+		}
+
+		g_free(sd);
+
+		GNOME_Evolution_Listener_complete(listener, ev);
+	}
+}
+
 static void
 impl_mail_test(PortableServer_Servant servant, CORBA_Environment *ev)
 {
@@ -951,6 +1019,7 @@ mail_component_class_init (MailComponentClass *class)
 	epv->handleURI               = impl_handleURI;
 	epv->sendAndReceive          = impl_sendAndReceive;
 	epv->upgradeFromVersion      = impl_upgradeFromVersion;
+	epv->setLineStatus	     = impl_setLineStatus;
 
 	mepv->test = impl_mail_test;
 }
@@ -959,7 +1028,6 @@ static void
 mail_component_init (MailComponent *component)
 {
 	MailComponentPrivate *priv;
-	MailOfflineHandler *offline;
 	
 	priv = g_new0 (MailComponentPrivate, 1);
 	component->priv = priv;
@@ -980,9 +1048,6 @@ mail_component_init (MailComponent *component)
 	priv->store_hash = g_hash_table_new (NULL, NULL);
 	
 	mail_autoreceive_init();
-	
-	offline = mail_offline_handler_new();
-	bonobo_object_add_interface((BonoboObject *)component, (BonoboObject *)offline);
 }
 
 /* Public API.  */

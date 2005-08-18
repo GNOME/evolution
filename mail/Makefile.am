@@ -189,8 +189,6 @@ libevolution_mail_la_SOURCES =			\
 	mail-folder-cache.c			\
 	mail-folder-cache.h			\
 	mail-mt.c				\
-	mail-offline-handler.c			\
-	mail-offline-handler.h			\
 	mail-ops.c				\
 	mail-send-recv.c			\
 	mail-send-recv.h			\
