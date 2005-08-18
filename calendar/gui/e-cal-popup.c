@@ -347,11 +347,26 @@ e_cal_popup_target_new_source(ECalPopup *eabp, ESourceSelector *selector)
  * Return value: 
  **/
 ECalPopupTargetAttachments *
-e_cal_popup_target_new_attachments(ECalPopup *ecp, GSList *attachments)
+e_cal_popup_target_new_attachments(ECalPopup *ecp, CompEditor *editor, GSList *attachments)
 {
 	ECalPopupTargetAttachments *t = e_popup_target_new(&ecp->popup, E_CAL_POPUP_TARGET_ATTACHMENTS, sizeof(*t));
 	guint32 mask = ~0;
 	int len = g_slist_length(attachments);
+	ECal *client = comp_editor_get_e_cal (editor);
+	CompEditorFlags flags = comp_editor_get_flags (editor);
+	gboolean read_only = FALSE;
+	GError *error = NULL;
+
+	if (!e_cal_is_read_only (client, &read_only, &error)) {
+		if (error->code != E_CALENDAR_STATUS_BUSY)
+			read_only = TRUE;
+		g_error_free (error);
+	}	
+
+	if (!read_only && (!(flags & COMP_EDITOR_MEETING) || 
+				(flags & COMP_EDITOR_NEW_ITEM) || 
+				(flags & COMP_EDITOR_USER_ORG)))
+		mask &= ~ E_CAL_POPUP_ATTACHMENTS_MODIFY;
 
 	t->attachments = attachments;
 	if (len > 0)
@@ -423,6 +438,7 @@ static const EPopupHookTargetMask ecalph_source_masks[] = {
 static const EPopupHookTargetMask ecalph_attachments_masks[] = {
 	{ "one", E_CAL_POPUP_ATTACHMENTS_ONE },
 	{ "many", E_CAL_POPUP_ATTACHMENTS_MANY },
+	{ "modify", E_CAL_POPUP_ATTACHMENTS_MODIFY },
 	{ 0 }
 };
 

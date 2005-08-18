@@ -1,3 +1,25 @@
+2005-08-02  Viren.l  <lviren@novell.com>
+
+	* gui/dialogs/meeting-page.c:(meeting_page_fill_widgets):
+	  Removed sensitizing of Add, Remove & Invite buttons.
+	  Assigned user_org using CompEditorPageFlags.
+	* gui/dialogs/recurrence-page.c: (sensitize_button):
+	  Added a check for COMP_EDITOR_PAGE_MEETING.    	
+	* gui/dialogs/event-page.c: (sensitize_widgets):
+	  Added sensitize boolean variable to store the && operation of
+	  user_org,!read_only.	  
+	* gui/dialogs/event-editor.c: (show_meeting):
+	  If user is not organizer dont allow the widget to receive 
+	  notification of drags.
+	* gui/e-cal-popup.[ch]: (e_cal_popup_target_new_attachments):
+	  Added a flag E_CAL_POPUP_ATTACHMENTS_MODIFY and set it in the
+	  e_cal_popup_target_new_attachments function.
+	* gui/dialogs/comp-editor.c: Added visibility mask 
+	  to Remove and Add attachments popup menus.
+	  Removed function comp_editor_sensitize_attachment_bar which
+	  is no longer required.
+	* gui/dialogs/task-editor.c: (task_editor_construct):
+	  Removed call made to comp_editor_sensitize_attachment_bar.		
 2005-08-16  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #312668.

@@ -1077,10 +1077,10 @@ cab_remove(EPopup *ep, EPopupItem *item, void *data)
 
 /* Popup menu handling.  */
 static EPopupItem cab_popups[] = {
-	{ E_POPUP_ITEM, "10.attach", N_("_Remove"), cab_remove, NULL, GTK_STOCK_REMOVE, E_CAL_POPUP_ATTACHMENTS_MANY },
+	{ E_POPUP_ITEM, "10.attach", N_("_Remove"), cab_remove, NULL, GTK_STOCK_REMOVE, E_CAL_POPUP_ATTACHMENTS_MANY | E_CAL_POPUP_ATTACHMENTS_MODIFY },
 	{ E_POPUP_ITEM, "20.attach", N_("_Properties"), cab_properties, NULL, GTK_STOCK_PROPERTIES, E_CAL_POPUP_ATTACHMENTS_ONE },
 	{ E_POPUP_BAR, "30.attach.00", NULL, NULL, NULL, NULL, E_CAL_POPUP_ATTACHMENTS_MANY|E_CAL_POPUP_ATTACHMENTS_ONE },
-	{ E_POPUP_ITEM, "30.attach.01", N_("_Add attachment..."), cab_add, NULL, GTK_STOCK_ADD, 0 },
+	{ E_POPUP_ITEM, "30.attach.01", N_("_Add attachment..."), cab_add, NULL, GTK_STOCK_ADD, E_CAL_POPUP_ATTACHMENTS_MODIFY },
 };
 
 static void
@@ -1121,6 +1121,7 @@ cab_popup(EAttachmentBar *bar, GdkEventButton *event, int id)
 	ECalPopup *ecp;
 	ECalPopupTargetAttachments *t;
 	GtkMenu *menu;
+       CompEditor *editor = COMP_EDITOR (gtk_widget_get_toplevel (GTK_WIDGET (bar)));
 
         attachments = e_attachment_bar_get_attachment(bar, id);
 
@@ -1136,7 +1137,7 @@ cab_popup(EAttachmentBar *bar, GdkEventButton *event, int id)
 	 */
 	ecp = e_cal_popup_new("org.gnome.evolution.calendar.attachmentbar.popup");
 	e_popup_add_items((EPopup *)ecp, menus, NULL, cab_popups_free, bar);
-	t = e_cal_popup_target_new_attachments(ecp, attachments);
+	t = e_cal_popup_target_new_attachments(ecp, editor, attachments);
 	t->target.widget = (GtkWidget *)bar;
 	menu = e_popup_create_menu_once((EPopup *)ecp, (EPopupTarget *)t, 0);
 
@@ -1274,19 +1275,6 @@ setup_widgets (CompEditor *editor)
 	
 }
 
-void
-comp_editor_sensitize_attachment_bar (CompEditor *editor, gboolean  set)
-{
-	CompEditorPrivate *priv;
-
-	g_return_if_fail (IS_COMP_EDITOR (editor));
-
-	priv = editor->priv;
-	
-	gtk_widget_set_sensitive (GTK_WIDGET (priv->attachment_bar),  set);
-	gtk_widget_set_sensitive (GTK_WIDGET (priv->attachment_scrolled_window),  set);
-}
-	
 /* Object initialization function for the calendar component editor */
 static void
 comp_editor_init (CompEditor *editor)
@@ -2520,7 +2508,6 @@ comp_editor_notify_client_changed (CompEditor *editor, ECal *client)
 
 	if (!e_cal_is_read_only (client, &read_only, NULL))
 		read_only = TRUE;
-	comp_editor_sensitize_attachment_bar (editor, !read_only);
 	gtk_dialog_set_response_sensitive (GTK_DIALOG (editor), GTK_RESPONSE_OK, !read_only);
 }
 

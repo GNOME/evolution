@@ -410,7 +410,9 @@ static void
 show_meeting (EventEditor *ee)
 {
 	EventEditorPrivate *priv;
-
+	CompEditor *editor = COMP_EDITOR (ee);
+	CompEditorFlags flags = comp_editor_get_flags (editor);
+	
 	priv = ee->priv;
 
 	event_page_set_meeting (priv->event_page, TRUE);
@@ -428,6 +430,9 @@ show_meeting (EventEditor *ee)
 	}
  	if (comp_editor_get_flags (COMP_EDITOR (ee)) & COMP_EDITOR_DELEGATE)
  		comp_editor_show_page (COMP_EDITOR (ee), COMP_EDITOR_PAGE (priv->meet_page));
+
+	if (!(flags & COMP_EDITOR_NEW_ITEM) && !(flags & COMP_EDITOR_USER_ORG))
+		gtk_drag_dest_unset (GTK_WIDGET (editor));
 }
 
 void

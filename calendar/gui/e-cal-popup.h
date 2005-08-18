@@ -25,6 +25,7 @@
 #include <glib-object.h>
 
 #include "e-util/e-popup.h"
+#include "dialogs/comp-editor.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -111,6 +112,7 @@ enum _e_cal_popup_target_source_t {
 enum _e_cal_popup_target_attachments_t {
 	E_CAL_POPUP_ATTACHMENTS_ONE = 1<<0, /* only 1 selected */
 	E_CAL_POPUP_ATTACHMENTS_MANY = 1<<1, /* one or more selected */
+	E_CAL_POPUP_ATTACHMENTS_MODIFY =1<<2, /* check for modify operation */
 };
 
 typedef struct _ECalPopupTargetSelect ECalPopupTargetSelect;
@@ -184,7 +186,8 @@ ECalPopup *e_cal_popup_new(const char *menuid);
 
 ECalPopupTargetSelect *e_cal_popup_target_new_select(ECalPopup *eabp, struct _ECalModel *model, GPtrArray *events);
 ECalPopupTargetSource *e_cal_popup_target_new_source(ECalPopup *eabp, struct _ESourceSelector *selector);
-ECalPopupTargetAttachments * e_cal_popup_target_new_attachments (ECalPopup *ecp, GSList *attachments);
+ECalPopupTargetAttachments * e_cal_popup_target_new_attachments (ECalPopup *ecp, 
+								CompEditor *editor, GSList *attachments);
 
 /* ********************************************************************** */
 

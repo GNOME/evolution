@@ -603,7 +603,7 @@ is_custom_alarm_store (EAlarmList *alarm_list_store, char *old_summary,  CalUnit
 static void
 sensitize_widgets (EventPage *epage)
 {
-	gboolean read_only, custom, alarm, sens = TRUE;
+	gboolean read_only, custom, alarm, sens = TRUE, sensitize;
 	EventPagePrivate *priv;
 	
 	priv = epage->priv;
@@ -612,22 +612,24 @@ sensitize_widgets (EventPage *epage)
 
 	if (!e_cal_is_read_only (COMP_EDITOR_PAGE (epage)->client, &read_only, NULL))
 		read_only = TRUE;
+	
+	sensitize = !read_only && sens;
 
 	custom = is_custom_alarm_store (priv->alarm_list_store, priv->old_summary, priv->alarm_units, priv->alarm_interval, NULL);
 	alarm = e_dialog_toggle_get (priv->alarm);
 	
-	gtk_widget_set_sensitive (priv->summary_label, !read_only && sens);
-	gtk_entry_set_editable (GTK_ENTRY (priv->summary), !read_only && sens);
-	gtk_widget_set_sensitive (priv->location_label, !read_only && sens);
-	gtk_entry_set_editable (GTK_ENTRY (priv->location), !read_only && sens);
-	gtk_widget_set_sensitive (priv->start_time, !read_only && sens);
-	gtk_widget_set_sensitive (priv->start_timezone, !read_only && sens);
-	gtk_widget_set_sensitive (priv->end_time, !read_only && sens);
-	gtk_widget_set_sensitive (priv->end_timezone, !read_only && sens);
-	gtk_widget_set_sensitive (priv->all_day_event, !read_only && sens);
-	gtk_widget_set_sensitive (priv->description, !read_only && sens);
-	gtk_widget_set_sensitive (priv->classification, !read_only && sens);
-	gtk_widget_set_sensitive (priv->show_time_as_busy, !read_only && sens);
+	gtk_widget_set_sensitive (priv->summary_label, sensitize);
+	gtk_entry_set_editable (GTK_ENTRY (priv->summary), sensitize);
+	gtk_widget_set_sensitive (priv->location_label, sensitize);
+	gtk_entry_set_editable (GTK_ENTRY (priv->location), sensitize);
+	gtk_widget_set_sensitive (priv->start_time, sensitize);
+	gtk_widget_set_sensitive (priv->start_timezone, sensitize);
+	gtk_widget_set_sensitive (priv->end_time, sensitize);
+	gtk_widget_set_sensitive (priv->end_timezone, sensitize);
+	gtk_widget_set_sensitive (priv->all_day_event, sensitize);
+	gtk_widget_set_sensitive (priv->description, sensitize);
+	gtk_widget_set_sensitive (priv->classification, sensitize);
+	gtk_widget_set_sensitive (priv->show_time_as_busy, sensitize);
 	gtk_widget_set_sensitive (priv->alarm, !read_only);
 	gtk_widget_set_sensitive (priv->alarm_time, !read_only && !custom && alarm);
 	gtk_widget_set_sensitive (priv->alarm_custom, alarm);
@@ -635,9 +637,9 @@ sensitize_widgets (EventPage *epage)
 		gtk_widget_show (priv->alarm_warning);
 	else
 		gtk_widget_hide (priv->alarm_warning);
-	gtk_widget_set_sensitive (priv->categories_btn, !read_only && sens);
-	gtk_widget_set_sensitive (priv->sendoptions_button, !read_only && sens);
-	gtk_entry_set_editable (GTK_ENTRY (priv->categories), !read_only && sens);
+	gtk_widget_set_sensitive (priv->categories_btn, sensitize);
+	gtk_widget_set_sensitive (priv->sendoptions_button, sensitize);
+	gtk_entry_set_editable (GTK_ENTRY (priv->categories), sensitize);
 
 	if (COMP_EDITOR_PAGE (epage)->flags & COMP_EDITOR_PAGE_DELEGATE) {
 		gtk_widget_set_sensitive (priv->sendoptions_button, TRUE);

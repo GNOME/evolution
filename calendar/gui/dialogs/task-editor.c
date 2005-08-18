@@ -148,7 +148,6 @@ task_editor_construct (TaskEditor *te, ECal *client, gboolean is_assigned)
 	
 	if (!e_cal_is_read_only (client, &read_only, NULL))
 			read_only = TRUE;
-	comp_editor_sensitize_attachment_bar (COMP_EDITOR (te), !read_only);
 
 	if (priv->is_assigned) {
 		if (e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_REQ_SEND_OPTIONS))

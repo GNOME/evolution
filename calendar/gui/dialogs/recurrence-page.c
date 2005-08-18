@@ -474,7 +474,9 @@ sensitize_recur_widgets (RecurrencePage *rpage)
 	GtkWidget *label;
 
 	priv = rpage->priv;
-	sens = COMP_EDITOR_PAGE (rpage)->flags & COMP_EDITOR_PAGE_USER_ORG;
+	
+	if (COMP_EDITOR_PAGE (rpage)->flags & COMP_EDITOR_PAGE_MEETING)
+		sens = COMP_EDITOR_PAGE (rpage)->flags & COMP_EDITOR_PAGE_USER_ORG;
 
 	recurs = e_dialog_toggle_get (priv->recurs);
 	
@@ -511,7 +513,7 @@ sensitize_recur_widgets (RecurrencePage *rpage)
 static void
 sensitize_buttons (RecurrencePage *rpage)
 {
-	gboolean read_only, sens = TRUE;
+	gboolean read_only, sensitize = TRUE;
 	gint selected_rows;
 	RecurrencePagePrivate *priv;
 	icalcomponent *icalcomp;
@@ -519,7 +521,7 @@ sensitize_buttons (RecurrencePage *rpage)
 
 	priv = rpage->priv;
 	if (COMP_EDITOR_PAGE (rpage)->flags & COMP_EDITOR_PAGE_MEETING)
-		sens = COMP_EDITOR_PAGE (rpage)->flags & COMP_EDITOR_PAGE_USER_ORG;
+		sensitize = COMP_EDITOR_PAGE (rpage)->flags & COMP_EDITOR_PAGE_USER_ORG;
 	
 	selected_rows = gtk_tree_selection_count_selected_rows (
 		gtk_tree_view_get_selection (GTK_TREE_VIEW (priv->exception_list)));
@@ -554,10 +556,10 @@ sensitize_buttons (RecurrencePage *rpage)
 	else
 		gtk_widget_set_sensitive (priv->params, FALSE);
 
-	gtk_widget_set_sensitive (priv->recurs, !read_only && sens);
-	gtk_widget_set_sensitive (priv->exception_add, !read_only && e_cal_component_has_recurrences (priv->comp) && sens);
-	gtk_widget_set_sensitive (priv->exception_modify, !read_only && selected_rows > 0 && sens);
-	gtk_widget_set_sensitive (priv->exception_delete, !read_only && selected_rows > 0 && sens);
+	gtk_widget_set_sensitive (priv->recurs, !read_only && sensitize);
+	gtk_widget_set_sensitive (priv->exception_add, !read_only && e_cal_component_has_recurrences (priv->comp) && sensitize);
+	gtk_widget_set_sensitive (priv->exception_modify, !read_only && selected_rows > 0 && sensitize);
+	gtk_widget_set_sensitive (priv->exception_delete, !read_only && selected_rows > 0 && sensitize);
 }
 
 #if 0

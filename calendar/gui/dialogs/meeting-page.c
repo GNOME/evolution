@@ -384,9 +384,6 @@ meeting_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 			gtk_widget_hide (priv->organizer_table);
 			gtk_widget_show (priv->existing_organizer_table);
 			if (itip_organizer_is_user (comp, page->client)) {
-				gtk_widget_set_sensitive (priv->invite, TRUE);
-				gtk_widget_set_sensitive (priv->add, TRUE);
-				gtk_widget_set_sensitive (priv->remove, TRUE);
 				if (e_cal_get_static_capability (
 					    page->client,
 					    CAL_STATIC_CAPABILITY_ORGANIZER_NOT_EMAIL_ADDRESS))
@@ -433,6 +430,7 @@ meeting_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 	}
 	
 	priv->updating = FALSE;
+	priv->user_org = page->flags & COMP_EDITOR_PAGE_USER_ORG;
 
 	sensitize_widgets (mpage);
 
