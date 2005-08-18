@@ -1,3 +1,10 @@
+2005-08-16  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #312668.
+
+	* gui/calendar-offline-handler.[ch]: removed.  Not even used
+	anyway, god knows how it works.
+
 2005-08-17  Carsten Guenther <carsten.guenther@scalix.com>
 
 	Fixes http://bugzilla.gnome.org/show_bug.cgi?id=313555
