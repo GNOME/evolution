@@ -27,7 +27,6 @@ noinst_PROGRAMS = evolution
 IDLS = \
 	Evolution-ConfigControl.idl		\
 	Evolution-Component.idl			\
-	Evolution-Offline.idl			\
 	Evolution-Shell.idl			\
 	Evolution.idl
 
@@ -84,15 +83,16 @@ eshellinclude_HEADERS = 			\
 	e-user-creatable-items-handler.h	\
 	evolution-config-control.h		\
 	evolution-component.h			\
+	evolution-listener.h			\
 	evolution-shell-component-utils.h	\
 	es-event.h				\
 	es-menu.h
-
 
 libeshell_la_SOURCES = 				\
 	$(IDL_GENERATED)			\
 	$(MARSHAL_GENERATED)			\
 	evolution-component.c			\
+	evolution-listener.c			\
 	e-shell-utils.c				\
 	e-user-creatable-items-handler.c	\
 	evolution-config-control.c		\
@@ -123,8 +123,6 @@ evolution_SOURCES =				\
 	e-shell-folder-title-bar.h		\
 	e-shell-importer.c			\
 	e-shell-importer.h			\
-	e-shell-offline-handler.c		\
-	e-shell-offline-handler.h		\
 	e-shell-settings-dialog.c		\
 	e-shell-settings-dialog.h		\
 	e-shell-window-commands.c		\

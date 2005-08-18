@@ -15,7 +15,6 @@
 
 #include <Evolution-Component.idl>
 #include <Evolution-ConfigControl.idl>
-#include <Evolution-Offline.idl>
 #include <Evolution-Shell.idl>
 
 #endif

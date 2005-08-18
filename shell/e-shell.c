@@ -35,7 +35,6 @@
 #include "e-util/e-error.h"
 
 #include "e-shell-constants.h"
-#include "e-shell-offline-handler.h"
 #include "e-shell-settings-dialog.h"
 
 #include "e-shell-marshal.h"
@@ -71,7 +70,9 @@
 #include <string.h>
 
 #include "Evolution.h"
+#include "evolution-listener.h"
 
+static void set_line_status_complete(EvolutionListener *el, void *data);
 
 #define PARENT_TYPE bonobo_object_get_type ()
 static BonoboObjectClass *parent_class = NULL;
@@ -89,12 +90,11 @@ struct _EShellPrivate {
 	/* FIXME TODO */
 	GList *crash_type_names; /* char * */
 
-	/* Line status.  */
+	/* Line status and controllers  */
 	EShellLineStatus line_status;
-
-	/* This object handles going off-line.  If the pointer is not NULL, it
-	   means we have a going-off-line process in progress.  */
-	EShellOfflineHandler *offline_handler;
+	int line_status_pending;
+	EShellLineStatus line_status_working;
+	EvolutionListener *line_status_listener;
 
 	/* Settings Dialog */
 	GtkWidget *settings_dialog;
@@ -267,7 +267,7 @@ impl_Shell_handleURI (PortableServer_Servant servant,
 	if (show) {
 		GtkWidget *shell_window;
 		
-		shell_window = e_shell_create_window (shell, component_info->id, NULL);
+		shell_window = (GtkWidget *)e_shell_create_window (shell, component_info->id, NULL);
 		if (shell_window == NULL) {
 			CORBA_exception_set (ev, CORBA_USER_EXCEPTION, ex_GNOME_Evolution_Shell_ComponentNotFound, NULL);
 			return;
@@ -305,7 +305,7 @@ impl_Shell_setLineStatus (PortableServer_Servant servant,
 
 static GNOME_Evolution_Component
 impl_Shell_findComponent(PortableServer_Servant servant,
-			 const CORBA_string id,
+			 const CORBA_char *id,
 			 CORBA_Environment *ev)
 {
 	EShell *shell;
@@ -410,11 +410,6 @@ impl_dispose (GObject *object)
 		priv->component_registry = NULL;
 	}
 
-	if (priv->offline_handler != NULL) {
-		g_object_unref (priv->offline_handler);
-		priv->offline_handler = NULL;
-	}
-
 	if (priv->quit_timeout) {
 		g_source_remove(priv->quit_timeout);
 		priv->quit_timeout = 0;
@@ -440,6 +435,12 @@ impl_dispose (GObject *object)
 	if (priv->settings_dialog != NULL) {
 		gtk_widget_destroy (priv->settings_dialog);
 		priv->settings_dialog = NULL;
+	}
+
+	if (priv->line_status_listener) {
+		priv->line_status_listener->complete = NULL;
+		bonobo_object_unref(BONOBO_OBJECT(priv->line_status_listener));
+		priv->line_status_listener = NULL;
 	}
 
 	(* G_OBJECT_CLASS (parent_class)->dispose) (object);
@@ -526,6 +527,8 @@ e_shell_init (EShell *shell)
 	priv->component_registry           = e_component_registry_new ();
 
 	shell->priv = priv;
+
+	priv->line_status_listener = evolution_listener_new(set_line_status_complete, shell);
 }
 
 static void
@@ -1072,40 +1075,14 @@ e_shell_get_line_status (EShell *shell)
 /* Offline/online handling.  */
 
 static void
-offline_procedure_started_cb (EShellOfflineHandler *offline_handler,
-			      void *data)
+set_line_status_finished(EShell *shell)
 {
-	EShell *shell;
-	EShellPrivate *priv;
-
-	shell = E_SHELL (data);
-	priv = shell->priv;
-
-	priv->line_status = E_SHELL_LINE_STATUS_GOING_OFFLINE;
-	g_signal_emit (shell, signals[LINE_STATUS_CHANGED], 0, priv->line_status);
-}
-
-static void
-offline_procedure_finished_cb (EShellOfflineHandler *offline_handler,
-			       gboolean now_offline,
-			       void *data)
-{
-	EShell *shell;
-	EShellPrivate *priv;
+	EShellPrivate *priv = shell->priv;
 	ESEvent *ese;
 
-	shell = E_SHELL (data);
-	priv = shell->priv;
+	priv->line_status = priv->line_status_working;
 
-	if (now_offline)
-		priv->line_status = E_SHELL_LINE_STATUS_OFFLINE;
-	else
-		priv->line_status = E_SHELL_LINE_STATUS_ONLINE;
-	e_passwords_set_online (!now_offline);
-
-	g_object_unref (priv->offline_handler);
-	priv->offline_handler = NULL;
-
+	e_passwords_set_online (priv->line_status == E_SHELL_LINE_STATUS_ONLINE);
 	g_signal_emit (shell, signals[LINE_STATUS_CHANGED], 0, priv->line_status);
 
 	/** @Event: Shell online state changed
@@ -1117,13 +1094,72 @@ offline_procedure_finished_cb (EShellOfflineHandler *offline_handler,
 	 * Only the online and offline states are emitted.
 	 */
 	ese = es_event_peek();
-	e_event_emit((EEvent *)ese, "state.changed", (EEventTarget *)es_event_target_new_state(ese, !now_offline));
+	e_event_emit((EEvent *)ese, "state.changed", (EEventTarget *)es_event_target_new_state(ese, priv->line_status == E_SHELL_LINE_STATUS_ONLINE));
+}
+
+static void
+set_line_status_complete(EvolutionListener *el, void *data)
+{
+	EShell *shell = data;
+	EShellPrivate *priv = shell->priv;
+
+	if (priv->line_status_pending > 0) {
+		priv->line_status_pending--;
+		if (priv->line_status_pending == 0)
+			set_line_status_finished(shell);
+	}
+}
+
+static void
+set_line_status(EShell *shell, gboolean status)
+{
+	EShellPrivate *priv;
+	GSList *component_infos;
+	GSList *p;
+	CORBA_Environment ev;
+	GConfClient *client;
+
+	priv = shell->priv;
+
+	if ((status && priv->line_status == E_SHELL_LINE_STATUS_ONLINE)
+	    || (!status && priv->line_status != E_SHELL_LINE_STATUS_ONLINE))
+		return;
+
+	/* we use 'going offline' to mean 'changing status' now */
+	priv->line_status = E_SHELL_LINE_STATUS_GOING_OFFLINE;
+	g_signal_emit (shell, signals[LINE_STATUS_CHANGED], 0, priv->line_status);
+
+	client = gconf_client_get_default ();
+	gconf_client_set_bool (client, "/apps/evolution/shell/start_offline", !status, NULL);
+	g_object_unref (client);
+
+	priv->line_status_working = status?E_SHELL_LINE_STATUS_ONLINE:E_SHELL_LINE_STATUS_OFFLINE;
+	/* we start at 2: setLineStatus could recursively call back, we therefore
+	   `need to not complete till we're really complete */
+	priv->line_status_pending += 2;
+
+	component_infos = e_component_registry_peek_list (priv->component_registry);
+	for (p = component_infos; p != NULL; p = p->next) {
+		EComponentInfo *info = p->data;
+
+		CORBA_exception_init (&ev);
+
+		GNOME_Evolution_Component_setLineStatus(info->iface, status, bonobo_object_corba_objref((BonoboObject *)priv->line_status_listener), &ev);
+		if (ev._major == CORBA_NO_EXCEPTION)
+			priv->line_status_pending++;
+		
+		CORBA_exception_free (&ev);
+	}
+
+	priv->line_status_pending -= 2;
+	if (priv->line_status_pending == 0)
+		set_line_status_finished(shell);
 }
 
 /**
  * e_shell_go_offline:
  * @shell: 
- * @action_window: 
+ * @action_window: Obsolete/unused.
  * 
  * Make the shell go into off-line mode.
  **/
@@ -1131,35 +1167,18 @@ void
 e_shell_go_offline (EShell *shell,
 		    EShellWindow *action_window)
 {
-	EShellPrivate *priv;
-	GConfClient *client;
-	
 	g_return_if_fail (shell != NULL);
 	g_return_if_fail (E_IS_SHELL (shell));
 	g_return_if_fail (action_window != NULL);
 	g_return_if_fail (action_window == NULL || E_IS_SHELL_WINDOW (action_window));
 
-	priv = shell->priv;
-
-	if (priv->line_status != E_SHELL_LINE_STATUS_ONLINE)
-		return;
-	client = gconf_client_get_default ();
-	gconf_client_set_bool (client, "/apps/evolution/shell/start_offline", TRUE, NULL);
-	g_object_unref (client);
-	priv->offline_handler = e_shell_offline_handler_new (shell);
-
-	g_signal_connect (priv->offline_handler, "offline_procedure_started",
-			  G_CALLBACK (offline_procedure_started_cb), shell);
-	g_signal_connect (priv->offline_handler, "offline_procedure_finished",
-			  G_CALLBACK (offline_procedure_finished_cb), shell);
-
-	e_shell_offline_handler_put_components_offline (priv->offline_handler, GTK_WINDOW (action_window));
+	set_line_status(shell, FALSE);
 }
 
 /**
  * e_shell_go_online:
  * @shell: 
- * @action_window: 
+ * @action_window: Obsolete/unused.
  * 
  * Make the shell go into on-line mode.
  **/
@@ -1167,50 +1186,12 @@ void
 e_shell_go_online (EShell *shell,
 		   EShellWindow *action_window)
 {
-	EShellPrivate *priv;
-	GSList *component_infos;
-	GSList *p;
-	ESEvent *ese;
-	GConfClient *client;
 	g_return_if_fail (shell != NULL);
 	g_return_if_fail (E_IS_SHELL (shell));
 	g_return_if_fail (action_window == NULL || E_IS_SHELL_WINDOW (action_window));
 
-	priv = shell->priv;
-
-	component_infos = e_component_registry_peek_list (priv->component_registry);
-	for (p = component_infos; p != NULL; p = p->next) {
-		EComponentInfo *info = p->data;
-		CORBA_Environment ev;
-		GNOME_Evolution_Offline offline_interface;
-
-		CORBA_exception_init (&ev);
-		
-		offline_interface = Bonobo_Unknown_queryInterface (info->iface, "IDL:GNOME/Evolution/Offline:1.0", &ev);
-		if (ev._major != CORBA_NO_EXCEPTION || offline_interface == CORBA_OBJECT_NIL) {
-				CORBA_exception_free (&ev);
-			continue;
-		}
-		
-		CORBA_exception_free (&ev);
-		
-		GNOME_Evolution_Offline_goOnline (offline_interface, &ev);
-		if (ev._major != CORBA_NO_EXCEPTION)
-			g_warning ("Error putting component `%s' online.", info->id);
-
-		CORBA_exception_free (&ev);
-	}
-
-	priv->line_status = E_SHELL_LINE_STATUS_ONLINE;
-	e_passwords_set_online (TRUE);
-	g_signal_emit (shell, signals[LINE_STATUS_CHANGED], 0, priv->line_status);
-	client = gconf_client_get_default ();
-	gconf_client_set_bool (client, "/apps/evolution/shell/start_offline", FALSE, NULL);
-	g_object_unref (client);
-	ese = es_event_peek();
-	e_event_emit((EEvent *)ese, "state.changed", (EEventTarget *)es_event_target_new_state(ese, TRUE));
+	set_line_status(shell, TRUE);
 }
-
 
 void
 e_shell_send_receive (EShell *shell)

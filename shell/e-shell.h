@@ -50,7 +50,7 @@ typedef struct _EShellClass   EShellClass;
 
 enum _EShellLineStatus {
 	E_SHELL_LINE_STATUS_ONLINE,
-	E_SHELL_LINE_STATUS_GOING_OFFLINE,
+	E_SHELL_LINE_STATUS_GOING_OFFLINE, /* NB: really means changing state in either direction */
 	E_SHELL_LINE_STATUS_OFFLINE
 };
 typedef enum _EShellLineStatus EShellLineStatus;

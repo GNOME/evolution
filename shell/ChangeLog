@@ -1,3 +1,26 @@
+2005-08-17  Not Zed  <NotZed@Ximian.com>
+
+	* e-shell.c (impl_Shell_handleURI): fix warning.
+	(impl_Shell_findComponent): fix signature for warning.
+
+2005-08-16  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #312668.
+
+	* e-shell.c (set_line_status, set_line_status_complete)
+	(set_line_status_finished): new code to set componetns on/offline.
+	(e_shell_go_online, e_shell_go_offline): use new interface.
+	(offline_procedure_started_cb, offline_procedure_finished_cb): removed.
+	(impl_dispose): cleanup line status listener.
+	(e_shell_init): setup line status listener.
+
+	* evolution-listener.[ch]: skeleton listener object for new
+	setlinestatus call.
+
+	* Evolution-Offline.idl, e-shell-offline-handler.[ch]: killed.  We
+	just add a single interface on EvolutionComponent now, much
+	simpler.
+
 2005-08-15  Christian Kellner  <gicmo@gnome.org>
 
 	* Makefile.am: Install missing e-plugin header es-event.h

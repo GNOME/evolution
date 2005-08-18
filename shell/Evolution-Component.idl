@@ -42,6 +42,11 @@ module Evolution {
 	};
 	typedef sequence <CreatableItemType> CreatableItemTypeList;
 
+	interface Listener : Bonobo::Unknown {
+		/* Indicate the change of state is complete */
+		void complete();
+	};
+
 	interface Component : Bonobo::Unknown {
 		exception Failed {};
 		exception UnknownType {};
@@ -106,6 +111,10 @@ module Evolution {
 		/*** Send/receive.  ***/
 
 		void sendAndReceive ();
+
+		/* Set the online status of the component asynchronously */
+
+		void setLineStatus(in boolean online, in Listener listener);
 	};
 
 };
