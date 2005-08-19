@@ -7,6 +7,7 @@
 # appointment - afspraak
 # attendee -? aanwezige/bezoeker/komt/aanwezig
 # authentication - aanmeldingscontrole
+# alarm -? alarm/wekker/alarmering
 # calendar - agenda
 # contact list - contactenlijst
 # contacts -? adresboek/contacten/kaarten
@@ -17,10 +18,13 @@
 # enveloped -? omhuld
 # event - notitie (altijd bij agenda's, agenda's bevatten notities)
 # expunge -? schrappen/leegmaken/definitief verwijderen/opruimen/opschonen/ruimen
+# inbox -? postvak in/inbox
 # journal - dagboek
 # journal entry - dagboekaantekening
 # junk -? spam/troep
 # meeting -? bijeenkomst (vergadering) (vergelijk appointment-afspraak)
+# notification - aandachtvestiging/melding
+# outbox -? postvak uit/outbox
 # permission was denied -? toestemming is geweigerd/hiertoe geen recht(en) heeft
 # permanently -? definief/blijvend/onherroepelijk/voorgoed
 # search folder - (was eerst vFolder) zoekmap/filtermap
@@ -46,8 +50,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.gnome-2-8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-08-08 21:43+0000\n"
-"PO-Revision-Date: 2005-08-10 22:17+0200\n"
+"POT-Creation-Date: 2005-08-12 21:42+0000\n"
+"PO-Revision-Date: 2005-08-18 08:15+0200\n"
 "Last-Translator: Tino Meinen <a.t.meinen@chello.nl>\n"
 "Language-Team: Dutch <vertaling@vrijschrift.org>\n"
 "MIME-Version: 1.0\n"
@@ -99,7 +103,7 @@ msgstr "evolution minikaart"
 # wekkers/alarms
 #: ../a11y/calendar/ea-cal-view-event.c:235
 msgid "It has alarms."
-msgstr "Het heeft wekkers."
+msgstr "Het heeft alarmeringen."
 
 #: ../a11y/calendar/ea-cal-view-event.c:238
 msgid "It has recurrences."
@@ -439,7 +443,9 @@ msgstr "Het Evolution adresboek is plotseling gesloten."
 #: ../addressbook/addressbook.error.xml.h:16
 msgid ""
 "The image you have selected is large. Do you want to resize and store it?"
-msgstr "De afbeelding die u heeft uitgekozen is groot. Wilt u het verkleinen en opslaan?"
+msgstr ""
+"De afbeelding die u heeft uitgekozen is groot. Wilt u het verkleinen en "
+"opslaan?"
 
 #: ../addressbook/addressbook.error.xml.h:17
 msgid ""
@@ -508,7 +514,11 @@ msgid ""
 "You are connecting to an unsupported GroupWise server and may encounter "
 "problems using Evolution. For best results the server should be upgraded to "
 "a supported version"
-msgstr "U bent bezig te verbinden met een niet ondersteunde versie van een GroupWise-server. Mogelijkerwijs zal Evolution in het gebruik problemen ondervinden. Voor het beste resultaat zou de server een upgrade moeten krijgen naar een ondersteunde versie."
+msgstr ""
+"U bent bezig te verbinden met een niet ondersteunde versie van een GroupWise-"
+"server. Mogelijkerwijs zal Evolution in het gebruik problemen ondervinden. "
+"Voor het beste resultaat zou de server een upgrade moeten krijgen naar een "
+"ondersteunde versie."
 
 #: ../addressbook/addressbook.error.xml.h:29
 msgid ""
@@ -1226,13 +1236,13 @@ msgid "<b>Work</b>"
 msgstr "<b>Werk</b>"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:11
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:183
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:184
 #: ../addressbook/gui/widgets/eab-contact-display.c:348
 msgid "AIM"
 msgstr "AIM"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:12
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:271
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:272
 #: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:169
 #: ../addressbook/gui/contact-list-editor/e-contact-list-editor.etspec.h:1
 #: ../addressbook/gui/widgets/e-minicard.c:181
@@ -1240,9 +1250,9 @@ msgid "Contact"
 msgstr "Contact"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:13
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:523
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:538
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2338
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:525
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:540
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2349
 msgid "Contact Editor"
 msgstr "Contacten bewerken"
 
@@ -1285,7 +1295,7 @@ msgstr "Telefoon"
 #. red
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:23
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:235
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:200
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:201
 #: ../filter/filter-label.c:122 ../mail/em-migrate.c:1042
 #: ../mail/mail-config.c:77 ../mail/mail-config.glade.h:153
 msgid "Work"
@@ -1412,7 +1422,7 @@ msgstr "Adres"
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:103
 #: ../addressbook/gui/contact-editor/e-contact-editor-fullname.c:95
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:141
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:299
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:300
 #: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:183
 #: ../addressbook/gui/widgets/e-addressbook-model.c:310
 #: ../addressbook/gui/widgets/e-addressbook-reflow-adapter.c:398
@@ -2409,7 +2419,7 @@ msgid "AOL Instant Messenger"
 msgstr "AOL Instant Messenger"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:64
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:184
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:185
 #: ../addressbook/gui/widgets/eab-contact-display.c:351
 msgid "Jabber"
 msgstr "Jabber"
@@ -2419,7 +2429,7 @@ msgid "Yahoo Messenger"
 msgstr "Yahoo Messenger"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:67
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:187
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:188
 #: ../addressbook/gui/widgets/eab-contact-display.c:350
 msgid "ICQ"
 msgstr "ICQ"
@@ -2440,71 +2450,71 @@ msgid "Username"
 msgstr "Gebruikersnaam"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:231
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:201
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:202
 msgid "Home"
 msgstr "Thuis"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:239
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:202
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:203
 msgid "Other"
 msgstr "Overige"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:185
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:186
 #: ../addressbook/gui/widgets/eab-contact-display.c:353
 msgid "Yahoo"
 msgstr "Yahoo"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:186
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:187
 #: ../addressbook/gui/widgets/eab-contact-display.c:352
 msgid "MSN"
 msgstr "MSN"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:188
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:189
 #: ../addressbook/gui/widgets/eab-contact-display.c:349
 msgid "GroupWise"
 msgstr "GroupWise"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:257
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:258
 msgid "Source Book"
 msgstr "Bron boek"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:264
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:265
 msgid "Target Book"
 msgstr "Doel boek"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:278
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:279
 msgid "Is New Contact"
 msgstr "Is nieuw contact"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:285
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:286
 msgid "Writable Fields"
 msgstr "Beschrijfbare velden"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:292
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:293
 msgid "Required Fields"
 msgstr "Vereiste velden"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:306
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:307
 msgid "Changed"
 msgstr "Gewijzigd"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:533
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2333
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:535
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2344
 #, c-format
 msgid "Contact Editor - %s"
 msgstr "Contacten-editor - %s"
 
 # foto is beter
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2639
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2650
 msgid "Please select an image for this contact"
 msgstr "Selecteer een afbeelding voor dit contact"
 
 # foto is beter
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2640
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2651
 msgid "No image"
 msgstr "Geen afbeelding"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2916
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2927
 msgid ""
 "The contact data is invalid:\n"
 "\n"
@@ -2512,7 +2522,7 @@ msgstr ""
 "De contact-data is ongeldig:\n"
 "\n"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2968
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2979
 msgid "Invalid contact."
 msgstr "Ongeldig contact."
 
@@ -3358,7 +3368,7 @@ msgstr "Kan niet afbreken"
 
 #. E_BOOK_ERROR_AUTHENTICATION_FAILED
 #: ../addressbook/gui/widgets/eab-gui-util.c:63
-#: ../calendar/gui/comp-editor-factory.c:431
+#: ../calendar/gui/comp-editor-factory.c:438
 msgid "Authentication Failed"
 msgstr "Aanmelding mislukt"
 
@@ -3965,17 +3975,21 @@ msgstr "Invoer Bestand"
 msgid "No filename provided."
 msgstr "Geen bestandsnaam opgegeven."
 
+#  waarschijnlijk: a few ipv few
+# BUG extra spatie aan begin en einde van zin
 #: ../calendar/calendar.error.xml.h:1
 msgid ""
 " There are few attachments getting downloaded. Saving the appointment will "
 "cause the appointment to be saved without those pending attachments "
-msgstr ""
+msgstr " Er worden nog enkele bijlagen gedownload. Wanneer u de afspraak nu opslaat, zal deze worden opgeslagen zonder die bijlagen. "
 
+#  waarschijnlijk: a few ipv few
+# BUG extra spatie aan begin en einde van zin
 #: ../calendar/calendar.error.xml.h:2
 msgid ""
 " There are few attachments getting downloaded. Saving the task will cause "
 "the task to be saved without those pending attachments "
-msgstr ""
+msgstr " Er worden nog enkele bijlagen gedownload. Wanneer u de taak nu opslaat, zal deze worden opgeslagen zonder die bijlagen. "
 
 #: ../calendar/calendar.error.xml.h:3
 msgid ""
@@ -4370,8 +4384,8 @@ msgstr "Evolution taken-component"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:10
 #: ../calendar/gui/e-tasks.c:1256 ../calendar/gui/print.c:1822
-#: ../calendar/gui/tasks-component.c:519 ../calendar/gui/tasks-component.c:994
-#: ../calendar/gui/tasks-control.c:457
+#: ../calendar/gui/tasks-component.c:519
+#: ../calendar/gui/tasks-component.c:1006 ../calendar/gui/tasks-control.c:457
 #: ../calendar/importers/icalendar-importer.c:79
 #: ../calendar/importers/icalendar-importer.c:707
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:384
@@ -4391,7 +4405,7 @@ msgstr "_Taken"
 
 #: ../calendar/gui/alarm-notify/GNOME_Evolution_Calendar_AlarmNotify.server.in.in.h:1
 msgid "Evolution Calendar alarm notification service"
-msgstr "Evolution agenda alarmweergave"
+msgstr "Evolution agenda alarmeringsdienst"
 
 #: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:115
 msgid "minute"
@@ -4399,11 +4413,11 @@ msgid_plural "minutes"
 msgstr[0] "minuut"
 msgstr[1] "minuten"
 
-#: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:215
+#: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:248
 msgid "Start time"
 msgstr "Begintijd"
 
-#: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:312
+#: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:347
 #, c-format
 msgid ""
 "<big><b>%s</b></big>\n"
@@ -4534,7 +4548,7 @@ msgstr "Kon bonobo niet initialiseren"
 
 #: ../calendar/gui/alarm-notify/notify-main.c:150
 msgid "Could not create the alarm notify service factory"
-msgstr "Creëeren van de alarmnotificatie-dienst is mislukt:"
+msgstr "Kon de alarmeringsdienstfabriek niet aanmaken"
 
 #: ../calendar/gui/alarm-notify/util.c:41
 msgid "invalid time"
@@ -4542,7 +4556,7 @@ msgstr "ongeldige tijd"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:1
 msgid "Alarm programs"
-msgstr "Wekkerprogramma's"
+msgstr "Alarmeringsprogramma's"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:2
 msgid "Ask for confirmation when deleting items"
@@ -5047,19 +5061,19 @@ msgstr "Week weergave"
 msgid "Month View"
 msgstr "Maand weergave"
 
-#: ../calendar/gui/comp-editor-factory.c:413
+#: ../calendar/gui/comp-editor-factory.c:420
 msgid "Error while opening the calendar"
 msgstr "Fout bij openen van de agenda"
 
-#: ../calendar/gui/comp-editor-factory.c:419
+#: ../calendar/gui/comp-editor-factory.c:426
 msgid "Method not supported when opening the calendar"
 msgstr "Methode niet ondersteund tijdens het openen van de agenda"
 
-#: ../calendar/gui/comp-editor-factory.c:425
+#: ../calendar/gui/comp-editor-factory.c:432
 msgid "Permission denied to open the calendar"
 msgstr "Toegang geweigerd bij openen van de agenda"
 
-#: ../calendar/gui/comp-editor-factory.c:437 ../shell/e-shell.c:1286
+#: ../calendar/gui/comp-editor-factory.c:444 ../shell/e-shell.c:1286
 msgid "Unknown error"
 msgstr "Onbekende fout"
 
@@ -5209,14 +5223,14 @@ msgstr "%.0fG"
 
 #: ../calendar/gui/dialogs/cal-attachment-bar.c:311
 #: ../calendar/gui/dialogs/cal-attachment-bar.c:1106
-#: ../calendar/gui/dialogs/comp-editor.c:2426
+#: ../calendar/gui/dialogs/comp-editor.c:2447
 #: ../composer/e-msg-composer-attachment-bar.c:307 ../mail/em-utils.c:444
 #: ../mail/em-utils.c:481 ../widgets/misc/e-attachment-bar.c:336
 msgid "attachment"
 msgstr "bijlage"
 
 #: ../calendar/gui/dialogs/cal-attachment-bar.c:473
-#: ../calendar/gui/dialogs/comp-editor.c:1059
+#: ../calendar/gui/dialogs/comp-editor.c:1077
 #: ../calendar/gui/dialogs/meeting-page.c:889
 #: ../composer/e-msg-composer-attachment-bar.c:470
 #: ../composer/e-msg-composer.c:3398
@@ -5227,16 +5241,16 @@ msgid "_Remove"
 msgstr "_Verwijderen"
 
 #: ../calendar/gui/dialogs/cal-attachment-bar.c:474
-#: ../calendar/gui/dialogs/comp-editor.c:1060
+#: ../calendar/gui/dialogs/comp-editor.c:1078
 #: ../composer/e-msg-composer-attachment-bar.c:471
-#: ../composer/e-msg-composer.c:3399 ../mail/em-folder-tree.c:2120
+#: ../composer/e-msg-composer.c:3399 ../mail/em-folder-tree.c:2047
 #: ../ui/evolution-mail-list.xml.h:28
 msgid "_Properties"
 msgstr "_Eigenschappen"
 
 # bijlage toevoegen/bestand bijvoegen
 #: ../calendar/gui/dialogs/cal-attachment-bar.c:476
-#: ../calendar/gui/dialogs/comp-editor.c:1062
+#: ../calendar/gui/dialogs/comp-editor.c:1080
 #: ../composer/e-msg-composer-attachment-bar.c:473
 #: ../composer/e-msg-composer.c:3401
 msgid "_Add attachment..."
@@ -5244,7 +5258,7 @@ msgstr "_Bijlage toevoegen..."
 
 #: ../calendar/gui/dialogs/cal-attachment-bar.c:736
 #: ../composer/e-msg-composer-attachment-bar.c:740
-#: ../widgets/misc/e-attachment-bar.c:898
+#: ../widgets/misc/e-attachment-bar.c:904
 msgid "Attachment Bar"
 msgstr "Bijlagebalk"
 
@@ -5334,6 +5348,7 @@ msgstr "Verwijderen"
 msgid "Don't Remove"
 msgstr "Niet verwijderen"
 
+# deactiveren/uitzetten
 #: ../calendar/gui/dialogs/cal-prefs-dialog.c:787
 #: ../calendar/gui/dialogs/cal-prefs-dialog.c:820
 #: ../calendar/gui/dialogs/cal-prefs-dialog.c:853
@@ -5710,7 +5725,8 @@ msgstr "Deze dagboekaantekening is gewijzigd."
 #: ../calendar/gui/dialogs/changed-comp.c:101
 #, c-format
 msgid "%s  You have made changes. Forget those changes and update the editor?"
-msgstr "%s  U heeft iets gewijzigd. Deze wijzigingen weggooien en de editor sluiten?"
+msgstr ""
+"%s  U heeft iets gewijzigd. Deze wijzigingen weggooien en de editor sluiten?"
 
 #: ../calendar/gui/dialogs/changed-comp.c:103
 #, c-format
@@ -5743,14 +5759,14 @@ msgstr " (Verloopt "
 msgid "Due "
 msgstr "Verloopdatum "
 
-#: ../calendar/gui/dialogs/comp-editor.c:187 ../composer/e-msg-composer.c:2663
+#: ../calendar/gui/dialogs/comp-editor.c:190 ../composer/e-msg-composer.c:2663
 #, c-format
 msgid "Attached message - %s"
 msgstr "Bijgevoegd bericht - %s"
 
 #. translators, this count will always be >1
-#: ../calendar/gui/dialogs/comp-editor.c:192
-#: ../calendar/gui/dialogs/comp-editor.c:362 ../composer/e-msg-composer.c:2668
+#: ../calendar/gui/dialogs/comp-editor.c:195
+#: ../calendar/gui/dialogs/comp-editor.c:365 ../composer/e-msg-composer.c:2668
 #: ../composer/e-msg-composer.c:2845
 #, c-format
 msgid "Attached message"
@@ -5758,32 +5774,32 @@ msgid_plural "%d attached messages"
 msgstr[0] "Bijgevoegd bericht"
 msgstr[1] "%d bijgevoegd berichten"
 
-#: ../calendar/gui/dialogs/comp-editor.c:425
+#: ../calendar/gui/dialogs/comp-editor.c:428
 #: ../calendar/gui/e-calendar-table.c:1162
 #: ../calendar/gui/e-calendar-view.c:1536 ../composer/e-msg-composer.c:2909
-#: ../mail/em-folder-tree.c:1047 ../mail/em-folder-view.c:1035
+#: ../mail/em-folder-tree.c:974 ../mail/em-folder-view.c:1035
 #: ../mail/message-list.c:1708 ../ui/evolution-addressbook.xml.h:31
 #: ../ui/evolution-calendar.xml.h:39 ../ui/evolution-composer-entries.xml.h:7
 #: ../ui/evolution-mail-message.xml.h:100 ../ui/evolution-tasks.xml.h:21
 msgid "_Copy"
 msgstr "_Kopiëren"
 
-#: ../calendar/gui/dialogs/comp-editor.c:426 ../composer/e-msg-composer.c:2910
-#: ../mail/em-folder-tree.c:1048 ../mail/em-folder-utils.c:380
+#: ../calendar/gui/dialogs/comp-editor.c:429 ../composer/e-msg-composer.c:2910
+#: ../mail/em-folder-tree.c:975 ../mail/em-folder-utils.c:368
 #: ../mail/em-folder-view.c:931 ../mail/message-list.c:1709
 msgid "_Move"
 msgstr "_Verplaatsen"
 
-#: ../calendar/gui/dialogs/comp-editor.c:428 ../composer/e-msg-composer.c:2912
-#: ../mail/em-folder-tree.c:1050 ../mail/message-list.c:1711
+#: ../calendar/gui/dialogs/comp-editor.c:431 ../composer/e-msg-composer.c:2912
+#: ../mail/em-folder-tree.c:977 ../mail/message-list.c:1711
 msgid "Cancel _Drag"
 msgstr "_Slepen annuleren"
 
-#: ../calendar/gui/dialogs/comp-editor.c:765
+#: ../calendar/gui/dialogs/comp-editor.c:771
 msgid "Could not update object"
 msgstr "Kon object niet vernieuwen"
 
-#: ../calendar/gui/dialogs/comp-editor.c:956 ../composer/e-msg-composer.c:2317
+#: ../calendar/gui/dialogs/comp-editor.c:971 ../composer/e-msg-composer.c:2317
 #, c-format
 msgid "<b>%d</b> Attachment"
 msgid_plural "<b>%d</b> Attachments"
@@ -5792,60 +5808,60 @@ msgstr[1] "<b>%d</b> bijlagen"
 
 # probleem met de _a is dat deze al voor de knop _Aan gebruikt wordt
 # de _b wordt gebruikt voor _Bestand
-#: ../calendar/gui/dialogs/comp-editor.c:1225
+#: ../calendar/gui/dialogs/comp-editor.c:1242
 msgid "_Attachment Bar (drop attachments here)"
 msgstr "Bijlagenbal_k verbergen (sleep uw bijlagen hier naar toe)"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1839
-#: ../calendar/gui/dialogs/comp-editor.c:1882
+#: ../calendar/gui/dialogs/comp-editor.c:1856
+#: ../calendar/gui/dialogs/comp-editor.c:1899
 msgid "Edit Appointment"
 msgstr "Afspraak Bewerken"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1845
-#: ../calendar/gui/dialogs/comp-editor.c:1888
+#: ../calendar/gui/dialogs/comp-editor.c:1862
+#: ../calendar/gui/dialogs/comp-editor.c:1905
 #, c-format
 msgid "Meeting - %s"
 msgstr "Bijeenkomst - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1847
-#: ../calendar/gui/dialogs/comp-editor.c:1890
+#: ../calendar/gui/dialogs/comp-editor.c:1864
+#: ../calendar/gui/dialogs/comp-editor.c:1907
 #, c-format
 msgid "Appointment - %s"
 msgstr "Afspraak - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1851
-#: ../calendar/gui/dialogs/comp-editor.c:1894
+#: ../calendar/gui/dialogs/comp-editor.c:1868
+#: ../calendar/gui/dialogs/comp-editor.c:1911
 #, c-format
 msgid "Assigned Task - %s"
 msgstr "Toegewezen taak - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1853
-#: ../calendar/gui/dialogs/comp-editor.c:1896
+#: ../calendar/gui/dialogs/comp-editor.c:1870
+#: ../calendar/gui/dialogs/comp-editor.c:1913
 #, c-format
 msgid "Task - %s"
 msgstr "Taak - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1856
-#: ../calendar/gui/dialogs/comp-editor.c:1899
+#: ../calendar/gui/dialogs/comp-editor.c:1873
+#: ../calendar/gui/dialogs/comp-editor.c:1916
 #, c-format
 msgid "Journal entry - %s"
 msgstr "Dagboekaantekening - %s"
 
 # samenvatting/onderwerp
-#: ../calendar/gui/dialogs/comp-editor.c:1867
-#: ../calendar/gui/dialogs/comp-editor.c:1909
+#: ../calendar/gui/dialogs/comp-editor.c:1884
+#: ../calendar/gui/dialogs/comp-editor.c:1926
 msgid "No summary"
 msgstr "Geen samenvatting"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2515
-#: ../calendar/gui/dialogs/comp-editor.c:2548
-#: ../calendar/gui/dialogs/comp-editor.c:2572
+#: ../calendar/gui/dialogs/comp-editor.c:2536
+#: ../calendar/gui/dialogs/comp-editor.c:2569
+#: ../calendar/gui/dialogs/comp-editor.c:2593
 msgid "Changes made to this item may be discarded if an update arrives"
 msgstr ""
 "De gemaakte veranderingen aan dit item worden verworpen indien een "
 "bijwerking via e-mail arriveerd"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2596
+#: ../calendar/gui/dialogs/comp-editor.c:2617
 msgid "Unable to use current version!"
 msgstr "Kan huidige niet gebruiken!"
 
@@ -5879,7 +5895,8 @@ msgstr "Dit item kon niet verwijderd worden door een CORBA-probleem"
 
 #: ../calendar/gui/dialogs/delete-error.c:70
 msgid "The event could not be deleted because permission was denied"
-msgstr "De agendanotitie kon niet verwijderd worden omdat u geen recht hiertoe heeft"
+msgstr ""
+"De agendanotitie kon niet verwijderd worden omdat u geen recht hiertoe heeft"
 
 # u geen recht hiertoe heeft
 #: ../calendar/gui/dialogs/delete-error.c:73
@@ -6143,7 +6160,7 @@ msgstr "<b>Van:</b>"
 #: ../plugins/calendar-weather/calendar-weather.c:370
 #: ../plugins/calendar-weather/calendar-weather.c:424
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:7
-#: ../plugins/itip-formatter/itip-formatter.c:1613
+#: ../plugins/itip-formatter/itip-formatter.c:1615
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.c:190
 #: ../widgets/misc/e-cell-date-edit.c:248 ../widgets/misc/e-dateedit.c:465
 #: ../widgets/misc/e-dateedit.c:1504 ../widgets/misc/e-dateedit.c:1673
@@ -6692,7 +6709,7 @@ msgstr "%s bij %s"
 msgid "%s for an unknown trigger type"
 msgstr "%s voor een onbekend triggertype"
 
-#: ../calendar/gui/e-cal-component-preview.c:70 ../mail/em-folder-view.c:2707
+#: ../calendar/gui/e-cal-component-preview.c:70 ../mail/em-folder-view.c:2703
 #, c-format
 msgid "Click to open %s"
 msgstr "Klik hier om %s te openen"
@@ -6791,10 +6808,10 @@ msgstr "Nee"
 #: ../calendar/gui/e-meeting-list-view.c:182
 #: ../calendar/gui/e-meeting-store.c:124 ../calendar/gui/e-meeting-store.c:159
 #: ../calendar/gui/e-meeting-store.c:224 ../mail/em-utils.c:1244
-#: ../plugins/itip-formatter/itip-formatter.c:238
-#: ../plugins/itip-formatter/itip-formatter.c:1638
+#: ../plugins/itip-formatter/itip-formatter.c:240
+#: ../plugins/itip-formatter/itip-formatter.c:1640
 #: ../plugins/plugin-manager/plugin-manager.c:72
-#: ../widgets/misc/e-attachment-bar.c:643
+#: ../widgets/misc/e-attachment-bar.c:649
 #: ../widgets/misc/e-charset-picker.c:62
 msgid "Unknown"
 msgstr "Onbekend"
@@ -6921,7 +6938,7 @@ msgstr "Geselecteerde taken als voltooid markeren"
 
 #. FIXME: need to disable for undeletable folders
 #: ../calendar/gui/e-calendar-table.c:1174
-#: ../calendar/gui/e-calendar-view.c:1549 ../mail/em-folder-tree.c:2116
+#: ../calendar/gui/e-calendar-view.c:1549 ../mail/em-folder-tree.c:2043
 #: ../mail/em-folder-view.c:1049 ../ui/evolution-addressbook.xml.h:33
 #: ../ui/evolution-calendar.xml.h:40 ../ui/evolution-mail-list.xml.h:26
 #: ../ui/evolution-tasks.xml.h:22
@@ -7204,12 +7221,12 @@ msgstr ""
 #: ../calendar/gui/e-meeting-list-view.c:204
 #: ../calendar/gui/e-meeting-store.c:188 ../calendar/gui/e-meeting-store.c:211
 #: ../calendar/gui/itip-utils.c:548
-#: ../plugins/itip-formatter/itip-formatter.c:1626
+#: ../plugins/itip-formatter/itip-formatter.c:1628
 msgid "Accepted"
 msgstr "Geaccepteerd"
 
 #: ../calendar/gui/e-itip-control.c:1141 ../calendar/gui/itip-utils.c:551
-#: ../plugins/itip-formatter/itip-formatter.c:1629
+#: ../plugins/itip-formatter/itip-formatter.c:1631
 msgid "Tentatively Accepted"
 msgstr "Voorlopig Geaccepteerd"
 
@@ -7218,7 +7235,7 @@ msgstr "Voorlopig Geaccepteerd"
 #: ../calendar/gui/e-meeting-list-view.c:205
 #: ../calendar/gui/e-meeting-store.c:190 ../calendar/gui/e-meeting-store.c:213
 #: ../calendar/gui/itip-utils.c:554 ../calendar/gui/itip-utils.c:583
-#: ../plugins/itip-formatter/itip-formatter.c:1632
+#: ../plugins/itip-formatter/itip-formatter.c:1634
 msgid "Declined"
 msgstr "Afgewezen"
 
@@ -7443,7 +7460,7 @@ msgid "Attendee status updated\n"
 msgstr "Bezoekerstatus ververst\n"
 
 #: ../calendar/gui/e-itip-control.c:1979
-#: ../plugins/itip-formatter/itip-formatter.c:1011
+#: ../plugins/itip-formatter/itip-formatter.c:1013
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr ""
 "Bezoekerstatus kan niet ververst worden omdat het object niet meer bestaat"
@@ -7614,7 +7631,7 @@ msgstr "Voorlopig"
 #: ../calendar/gui/e-meeting-list-view.c:207
 #: ../calendar/gui/e-meeting-store.c:194 ../calendar/gui/e-meeting-store.c:217
 #: ../calendar/gui/itip-utils.c:557
-#: ../plugins/itip-formatter/itip-formatter.c:1635
+#: ../plugins/itip-formatter/itip-formatter.c:1637
 msgid "Delegated"
 msgstr "Overgedragen"
 
@@ -8186,7 +8203,7 @@ msgid_plural "%d tasks"
 msgstr[0] "%d taak"
 msgstr[1] "%d taken"
 
-#: ../calendar/gui/tasks-component.c:517 ../mail/mail-component.c:546
+#: ../calendar/gui/tasks-component.c:517 ../mail/mail-component.c:547
 #, c-format
 msgid ", %d selected"
 msgid_plural ", %d selected"
@@ -8197,54 +8214,54 @@ msgstr[1] "%d geselecteerd"
 msgid "Failed upgrading tasks."
 msgstr "Bijwerken van taken mislukt"
 
-#: ../calendar/gui/tasks-component.c:860
+#: ../calendar/gui/tasks-component.c:872
 #, c-format
 msgid "Unable to open the task list '%s' for creating events and meetings"
 msgstr ""
 "Kan de takenlijst '%s' niet openen voor het creëren van gebeurtenissen en "
 "afspraken"
 
-#: ../calendar/gui/tasks-component.c:875
+#: ../calendar/gui/tasks-component.c:887
 msgid "There is no calendar available for creating tasks"
 msgstr "Er is geen agenda beschikbaar voor het aanmaken van taken"
 
-#: ../calendar/gui/tasks-component.c:969
+#: ../calendar/gui/tasks-component.c:981
 msgid "Task Source Selector"
 msgstr "Takenbron-selectie"
 
-#: ../calendar/gui/tasks-component.c:1152
+#: ../calendar/gui/tasks-component.c:1164
 msgid "New task"
 msgstr "Nieuwe taak"
 
-#: ../calendar/gui/tasks-component.c:1153
+#: ../calendar/gui/tasks-component.c:1165
 msgid "_Task"
 msgstr "_Taak"
 
-#: ../calendar/gui/tasks-component.c:1154
+#: ../calendar/gui/tasks-component.c:1166
 msgid "Create a new task"
 msgstr "Nieuwe taak aanmaken"
 
-#: ../calendar/gui/tasks-component.c:1160
+#: ../calendar/gui/tasks-component.c:1172
 msgid "New assigned task"
 msgstr "Nieuwe toegewezen taak"
 
-#: ../calendar/gui/tasks-component.c:1161
+#: ../calendar/gui/tasks-component.c:1173
 msgid "Assigne_d Task"
 msgstr "Toegewe_zen taak"
 
-#: ../calendar/gui/tasks-component.c:1162
+#: ../calendar/gui/tasks-component.c:1174
 msgid "Create a new assigned task"
 msgstr "Nieuwe toegewezen taak aanmaken"
 
-#: ../calendar/gui/tasks-component.c:1168
+#: ../calendar/gui/tasks-component.c:1180
 msgid "New task list"
 msgstr "Nieuwe takenlijst"
 
-#: ../calendar/gui/tasks-component.c:1169
+#: ../calendar/gui/tasks-component.c:1181
 msgid "Task l_ist"
 msgstr "Ta_kenlijst"
 
-#: ../calendar/gui/tasks-component.c:1170
+#: ../calendar/gui/tasks-component.c:1182
 msgid "Create a new task list"
 msgstr "Nieuwe takenlijst toevoegen"
 
@@ -9993,11 +10010,12 @@ msgstr ""
 "worden.)</b>"
 
 #  waarschijnlijk: a few ipv few
+# BUG extra spatie aan begin en einde van zin
 #: ../composer/mail-composer.error.xml.h:1
 msgid ""
 " There are few attachments getting downloaded. Sending the mail will cause "
 "the mail to be sent without those pending attachments "
-msgstr ""
+msgstr " Er worden nog enkele bijlagen gedownload. Wanneer u de e-mail nu verstuurt, zal deze worden verstuurd zonder die bijlagen. "
 
 #: ../composer/mail-composer.error.xml.h:2
 msgid "All accounts have been removed."
@@ -10228,6 +10246,7 @@ msgstr "<b>E-mail wordt ontvangen</b>"
 msgid "<b>Sending Email:</b>"
 msgstr "<b>E-mail wordt verstuurd:</b>"
 
+# leesbevestiging
 #: ../designs/read_receipts/read.glade.h:4
 msgid ""
 "<small>This page allows you to choose if you want to be notified via a read "
@@ -10235,10 +10254,8 @@ msgid ""
 "sent is read, and to specify what Evolution should do when someone requests "
 "a receipt from you.</small>"
 msgstr ""
-"<small>Op deze pagina kunt u kiesen of u een bericht wilt krijgen wanneer "
-"een door u gestuurd bericht\n"
-"gelezen wordt. Ook kunt u hier aangeven wat Evolution moet doen als zo'n "
-"aanvraag wordt gedaan bij een aan u gestuurd bericht.</small>"
+"<small>Op deze pagina kunt u kiezen of u een bericht wilt krijgen wanneer een door u gestuurd bericht\n"
+"gelezen wordt. Ook kunt u hier aangeven wat Evolution moet doen als zo'n aanvraag wordt gedaan bij een aan u gestuurd bericht.</small>"
 
 # het bericht/een bericht
 # altijd een leesbevestiging terugsturen
@@ -10443,69 +10460,69 @@ msgstr "%I %p"
 msgid "The orientation of the tray."
 msgstr "De oriëntatie van de lade"
 
-#: ../filter/filter-datespec.c:73
+#: ../filter/filter-datespec.c:78
 #, c-format
 msgid "1 second ago"
 msgid_plural "%d seconds ago"
 msgstr[0] "1 seconde geleden"
 msgstr[1] "%d seconden geleden"
 
-#: ../filter/filter-datespec.c:74
+#: ../filter/filter-datespec.c:79
 #, c-format
 msgid "1 minute ago"
 msgid_plural "%d minutes ago"
 msgstr[0] "1 minuut geleden"
 msgstr[1] "%d minuten geleden"
 
-#: ../filter/filter-datespec.c:75
+#: ../filter/filter-datespec.c:80
 #, c-format
 msgid "1 hour ago"
 msgid_plural "%d hours ago"
 msgstr[0] "1 uur geleden"
 msgstr[1] "%d uren geleden"
 
-#: ../filter/filter-datespec.c:76
+#: ../filter/filter-datespec.c:81
 #, c-format
 msgid "1 day ago"
 msgid_plural "%d days ago"
 msgstr[0] "1 dag geleden"
 msgstr[1] "%d dagen geleden"
 
-#: ../filter/filter-datespec.c:77
+#: ../filter/filter-datespec.c:82
 #, c-format
 msgid "1 week ago"
 msgid_plural "%d weeks ago"
 msgstr[0] "1 week geleden"
 msgstr[1] "%d weken geleden"
 
-#: ../filter/filter-datespec.c:78
+#: ../filter/filter-datespec.c:83
 #, c-format
 msgid "1 month ago"
 msgid_plural "%d months ago"
 msgstr[0] "1 maand geleden"
 msgstr[1] "%d maanden geleden"
 
-#: ../filter/filter-datespec.c:79
+#: ../filter/filter-datespec.c:84
 #, c-format
 msgid "1 year ago"
 msgid_plural "%d years ago"
 msgstr[0] "1 jaar geleden"
 msgstr[1] "%d jaren geleden"
 
-#: ../filter/filter-datespec.c:280
+#: ../filter/filter-datespec.c:285
 msgid "<click here to select a date>"
 msgstr "<klik hier om een datum te selecteren>"
 
-#: ../filter/filter-datespec.c:283 ../filter/filter-datespec.c:294
+#: ../filter/filter-datespec.c:288 ../filter/filter-datespec.c:299
 msgid "now"
 msgstr "nu"
 
 #. strftime for date filter display, only needs to show a day date (i.e. no time)
-#: ../filter/filter-datespec.c:290
+#: ../filter/filter-datespec.c:295
 msgid "%d-%b-%Y"
 msgstr "%d/%b/%Y"
 
-#: ../filter/filter-datespec.c:406
+#: ../filter/filter-datespec.c:415
 msgid "Select a time to compare against"
 msgstr "Selecteer een tijd om mee te vergelijken"
 
@@ -10690,15 +10707,15 @@ msgstr "de tijd die u specificeert"
 msgid "years"
 msgstr "jaren"
 
-#: ../filter/rule-editor.c:285
+#: ../filter/rule-editor.c:290
 msgid "Add Rule"
 msgstr "Regel Toevoegen"
 
-#: ../filter/rule-editor.c:361
+#: ../filter/rule-editor.c:366
 msgid "Edit Rule"
 msgstr "Regel bewerken"
 
-#: ../filter/rule-editor.c:693
+#: ../filter/rule-editor.c:698
 msgid "Rule name"
 msgstr "Regelnaam"
 
@@ -10749,8 +10766,8 @@ msgstr "Evolution e-mail voorkeuren"
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:11 ../mail/em-folder-view.c:494
 #: ../mail/importers/elm-importer.c:342
 #: ../mail/importers/netscape-importer.c:1902
-#: ../mail/importers/pine-importer.c:388 ../mail/mail-component.c:559
-#: ../mail/mail-component.c:646
+#: ../mail/importers/pine-importer.c:388 ../mail/mail-component.c:560
+#: ../mail/mail-component.c:647
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:6
 msgid "Mail"
 msgstr "Post"
@@ -11205,26 +11222,26 @@ msgstr "Zoekmappen"
 msgid "UNMATCHED"
 msgstr "UNMATCHED"
 
-#: ../mail/em-folder-tree-model.c:468 ../mail/mail-component.c:143
+#: ../mail/em-folder-tree-model.c:469 ../mail/mail-component.c:143
 msgid "Drafts"
 msgstr "Klad"
 
 #. translators: standard local mailbox names
-#: ../mail/em-folder-tree-model.c:471 ../mail/mail-component.c:142
+#: ../mail/em-folder-tree-model.c:472 ../mail/mail-component.c:142
 msgid "Inbox"
 msgstr "Inbox"
 
 # postvak uit
-#: ../mail/em-folder-tree-model.c:474 ../mail/mail-component.c:144
+#: ../mail/em-folder-tree-model.c:475 ../mail/mail-component.c:144
 msgid "Outbox"
 msgstr "Outbox"
 
-#: ../mail/em-folder-tree-model.c:476 ../mail/mail-component.c:145
+#: ../mail/em-folder-tree-model.c:477 ../mail/mail-component.c:145
 msgid "Sent"
 msgstr "Verzonden"
 
 # Laden...
-#: ../mail/em-folder-tree-model.c:497 ../mail/em-folder-tree-model.c:801
+#: ../mail/em-folder-tree-model.c:498 ../mail/em-folder-tree-model.c:802
 msgid "Loading..."
 msgstr "Bezig met laden..."
 
@@ -11232,70 +11249,70 @@ msgstr "Bezig met laden..."
 msgid "Mail Folder Tree"
 msgstr "Mailmappen-boom"
 
-#: ../mail/em-folder-tree.c:922
+#: ../mail/em-folder-tree.c:849
 #, c-format
 msgid "Moving folder %s"
 msgstr "verplaatsen map %s"
 
 # map wordt gekopieerd
-#: ../mail/em-folder-tree.c:924
+#: ../mail/em-folder-tree.c:851
 #, c-format
 msgid "Copying folder %s"
 msgstr "Bezig met kopiëren van map %s"
 
-#: ../mail/em-folder-tree.c:931 ../mail/message-list.c:1613
+#: ../mail/em-folder-tree.c:858 ../mail/message-list.c:1613
 #, c-format
 msgid "Moving messages into folder %s"
 msgstr "Berichten worden verplaatst naar map %s"
 
-#: ../mail/em-folder-tree.c:933 ../mail/message-list.c:1615
+#: ../mail/em-folder-tree.c:860 ../mail/message-list.c:1615
 #, c-format
 msgid "Copying messages into folder %s"
 msgstr "Berichten worden gekopieerd naar map %s"
 
-#: ../mail/em-folder-tree.c:949
+#: ../mail/em-folder-tree.c:876
 msgid "Cannot drop message(s) into toplevel store"
 msgstr "Kan bericht(en) niet neerzetten in hoogste niveau opslag"
 
-#: ../mail/em-folder-tree.c:1045 ../ui/evolution-mail-message.xml.h:101
+#: ../mail/em-folder-tree.c:972 ../ui/evolution-mail-message.xml.h:101
 msgid "_Copy to Folder"
 msgstr "_Kopiëren naar map"
 
-#: ../mail/em-folder-tree.c:1046 ../ui/evolution-mail-message.xml.h:111
+#: ../mail/em-folder-tree.c:973 ../ui/evolution-mail-message.xml.h:111
 msgid "_Move to Folder"
 msgstr "_Verplaatsen naar map"
 
 # mappen in %s worden gescannd/doorzocht/gelezen
-#: ../mail/em-folder-tree.c:1751 ../mail/mail-ops.c:1056
+#: ../mail/em-folder-tree.c:1678 ../mail/mail-ops.c:1057
 #, c-format
 msgid "Scanning folders in \"%s\""
 msgstr "Mappen in \"%s\" worden doorzocht"
 
-#: ../mail/em-folder-tree.c:2104 ../ui/evolution-addressbook.xml.h:44
+#: ../mail/em-folder-tree.c:2031 ../ui/evolution-addressbook.xml.h:44
 #: ../ui/evolution-mail-global.xml.h:23
 #: ../ui/evolution-mail-messagedisplay.xml.h:8
 #: ../ui/evolution-message-composer.xml.h:54 ../ui/evolution.xml.h:45
 msgid "_View"
 msgstr "Beel_d"
 
-#: ../mail/em-folder-tree.c:2105
+#: ../mail/em-folder-tree.c:2032
 msgid "Open in _New Window"
 msgstr "In _nieuw venster openen"
 
-#: ../mail/em-folder-tree.c:2109
+#: ../mail/em-folder-tree.c:2036
 msgid "_Copy..."
 msgstr "_Kopiëren..."
 
-#: ../mail/em-folder-tree.c:2110
+#: ../mail/em-folder-tree.c:2037
 msgid "_Move..."
 msgstr "_Verplaatsen..."
 
 #. FIXME: need to disable for nochildren folders
-#: ../mail/em-folder-tree.c:2114
+#: ../mail/em-folder-tree.c:2041
 msgid "_New Folder..."
 msgstr "_Nieuwe map..."
 
-#: ../mail/em-folder-tree.c:2117 ../ui/evolution-mail-list.xml.h:29
+#: ../mail/em-folder-tree.c:2044 ../ui/evolution-mail-list.xml.h:29
 msgid "_Rename..."
 msgstr "He_rnoemen..."
 
@@ -11304,43 +11321,42 @@ msgstr "He_rnoemen..."
 msgid "Copying `%s' to `%s'"
 msgstr "Kopiëren van `%s' naar `%s'"
 
-#: ../mail/em-folder-utils.c:364 ../mail/em-folder-utils.c:380
-#: ../mail/em-folder-view.c:931 ../mail/em-folder-view.c:946
-#: ../mail/importers/evolution-mbox-importer.c:85
+#: ../mail/em-folder-utils.c:368 ../mail/em-folder-view.c:931
+#: ../mail/em-folder-view.c:946 ../mail/importers/evolution-mbox-importer.c:85
 #: ../mail/importers/evolution-outlook-importer.c:134
 msgid "Select folder"
 msgstr "Map selecteren"
 
-#: ../mail/em-folder-utils.c:364 ../mail/em-folder-view.c:946
+#: ../mail/em-folder-utils.c:368 ../mail/em-folder-view.c:946
 msgid "C_opy"
 msgstr "_Kopiëren"
 
-#: ../mail/em-folder-utils.c:515
+#: ../mail/em-folder-utils.c:503
 #, c-format
 msgid "Rename the \"%s\" folder to:"
 msgstr "De \"%s\" map hernoemen naar:"
 
-#: ../mail/em-folder-utils.c:517
+#: ../mail/em-folder-utils.c:505
 msgid "Rename Folder"
 msgstr "Map hernoemen"
 
-#: ../mail/em-folder-utils.c:523
+#: ../mail/em-folder-utils.c:511
 msgid "Folder names cannot contain '/'"
 msgstr "Mapnaam mag geen '/' bevatten"
 
-#: ../mail/em-folder-utils.c:593
+#: ../mail/em-folder-utils.c:581
 #: ../plugins/groupwise-features/share-folder-common.c:140
 #, c-format
 msgid "Creating folder `%s'"
 msgstr "Bezig met aanmaken map `%s'"
 
-#: ../mail/em-folder-utils.c:742
+#: ../mail/em-folder-utils.c:730
 #: ../plugins/groupwise-features/install-shared.c:156
 #: ../plugins/groupwise-features/share-folder-common.c:382
 msgid "Create folder"
 msgstr "Map aanmaken"
 
-#: ../mail/em-folder-utils.c:742
+#: ../mail/em-folder-utils.c:730
 #: ../plugins/groupwise-features/install-shared.c:156
 #: ../plugins/groupwise-features/share-folder-common.c:382
 msgid "Specify where to create the folder:"
@@ -11448,37 +11464,37 @@ msgid "Filter on _Mailing List"
 msgstr "Filter op _mailinglijst"
 
 #. default charset used in mail view
-#: ../mail/em-folder-view.c:1925 ../mail/em-folder-view.c:1969
+#: ../mail/em-folder-view.c:1921 ../mail/em-folder-view.c:1965
 msgid "Default"
 msgstr "Standaard"
 
-#: ../mail/em-folder-view.c:2068
+#: ../mail/em-folder-view.c:2064
 #: ../plugins/print-message/org-gnome-print-message.eplug.xml.h:2
 #: ../plugins/print-message/print-message.c:83
 msgid "Print Message"
 msgstr "Bericht afdrukken"
 
-#: ../mail/em-folder-view.c:2224
+#: ../mail/em-folder-view.c:2220
 msgid "Unable to retrieve message"
 msgstr "Ophalen van bericht mislukt"
 
-#: ../mail/em-folder-view.c:2417
+#: ../mail/em-folder-view.c:2413
 msgid "_Copy Link Location"
 msgstr "Verwijzing _kopiëren"
 
-#: ../mail/em-folder-view.c:2419
+#: ../mail/em-folder-view.c:2415
 msgid "Create _Search Folder"
 msgstr "_Zoekmap aanmaken"
 
-#: ../mail/em-folder-view.c:2420
+#: ../mail/em-folder-view.c:2416
 msgid "_From this Address"
 msgstr "Van dit _adres"
 
-#: ../mail/em-folder-view.c:2421
+#: ../mail/em-folder-view.c:2417
 msgid "_To this Address"
 msgstr "_Naar dit adres"
 
-#: ../mail/em-folder-view.c:2702
+#: ../mail/em-folder-view.c:2698
 #, c-format
 msgid "Click to mail %s"
 msgstr "Klik hier om mail te versturen naar %s"
@@ -11631,13 +11647,14 @@ msgstr "_Oorspronkelijke grootte"
 msgid "Attachment Button"
 msgstr "Bijlageknop"
 
+# in moeten worden opgeslagen / worden opgeslagen
 #: ../mail/em-format-html-display.c:1754
 msgid "Select folder to save all attachments..."
 msgstr "Selecteer een map waarin de bijlagen moeten worden opgeslagen..."
 
 #: ../mail/em-format-html-display.c:1792
 msgid "Select folder to save selected attachments..."
-msgstr ""
+msgstr "Selecteer een map waarin de geselecteerde bijlagen in moeten worden opgeslagen..."
 
 #: ../mail/em-format-html-display.c:1800
 msgid "Save Selected..."
@@ -11646,16 +11663,16 @@ msgstr "Selectie opslaan..."
 #. Cant i put in the number of attachments here ?
 #: ../mail/em-format-html-display.c:1867
 #, c-format
-msgid "%d Attachment"
-msgid_plural "%d Attachments"
+msgid "%d attachment"
+msgid_plural "%d attachments"
 msgstr[0] "%d bijlage"
 msgstr[1] "%d bijlagen"
 
-#: ../mail/em-format-html-display.c:1895
+#: ../mail/em-format-html-display.c:1921
 msgid "No Attachment"
 msgstr "Geen bijlage"
 
-#: ../mail/em-format-html-display.c:1898
+#: ../mail/em-format-html-display.c:1924
 msgid "Save All"
 msgstr "Alles opslaan"
 
@@ -11919,7 +11936,9 @@ msgstr "Openen in %s..."
 
 #: ../mail/em-subscribe-editor.c:614
 msgid "This store does not support subscriptions, or they are not enabled."
-msgstr "Deze opslag ondersteunt geen abonnementen, of deze mogelijkheid is uitgeschakeld."
+msgstr ""
+"Deze opslag ondersteunt geen abonnementen, of deze mogelijkheid is "
+"uitgeschakeld."
 
 #: ../mail/em-subscribe-editor.c:643
 msgid "Subscribed"
@@ -12069,6 +12088,9 @@ msgid "Enable caret mode, so that you can see a cursor when reading mail."
 msgstr ""
 "Zet cursor mode aan zodat u een cursor kan zien bij het lezen van e-mail."
 
+# cursor modus aan/uit
+# activeren/deactiveren
+# (de)activeren
 #: ../mail/evolution-mail.schemas.in.in.h:24
 msgid "Enable/disable caret mode"
 msgstr "Aanzetten/uitzetten cursor mode"
@@ -12220,11 +12242,11 @@ msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.in.h:53
 msgid "New Mail Notify sound file"
-msgstr "Nieuwe Mail Notificatie geluids bestand"
+msgstr "Nieuwe mail melding geluidsbestand"
 
 #: ../mail/evolution-mail.schemas.in.in.h:54
 msgid "New Mail Notify type"
-msgstr "Nieuwe Mail Notificatie type"
+msgstr "Nieuwe mail meldingtype"
 
 #: ../mail/evolution-mail.schemas.in.in.h:55
 msgid "Prompt on empty subject"
@@ -12326,9 +12348,7 @@ msgstr "Geluidsbestand afspelen bij binnenkomst van nieuwe e-mail"
 
 #: ../mail/evolution-mail.schemas.in.in.h:76
 msgid "Specifies the type of New Mail Notification the user wishes to use."
-msgstr ""
-"Specificatie van het type notificatie bij nieuwe mail die de gebruiker wenst "
-"te gebruiken."
+msgstr "Geeft het type melding dat de gebruiker wenst te ontvangen bij nieuwe mail."
 
 #: ../mail/evolution-mail.schemas.in.in.h:77
 msgid "Spell check inline"
@@ -12501,7 +12521,7 @@ msgstr "Berkeley-postbus (mbox)"
 
 #: ../mail/importers/evolution-mbox-importer.c:217
 msgid "Importer Berkeley Mailbox format folders"
-msgstr ""
+msgstr "Importprogramma voor Berkeley Mailbox-formaat"
 
 #: ../mail/importers/evolution-outlook-importer.c:257
 #: ../mail/importers/mail-importer.c:230 ../shell/e-shell-importer.c:516
@@ -12647,81 +12667,81 @@ msgstr "%s mailinglijst"
 msgid "Add Filter Rule"
 msgstr "Filterregel Toevoegen"
 
-#: ../mail/mail-component.c:507
+#: ../mail/mail-component.c:508
 #, c-format
 msgid "%d deleted"
 msgid_plural "%d deleted"
 msgstr[0] "%d verwijderd"
 msgstr[1] "%d verwijderd"
 
-#: ../mail/mail-component.c:509
+#: ../mail/mail-component.c:510
 #, c-format
 msgid "%d junk"
 msgid_plural "%d junk"
 msgstr[0] "%d troep"
 msgstr[1] "%d troep"
 
-#: ../mail/mail-component.c:532
+#: ../mail/mail-component.c:533
 #, c-format
 msgid "%d draft"
 msgid_plural "%d drafts"
 msgstr[0] "%d klad"
 msgstr[1] "%d klad"
 
-#: ../mail/mail-component.c:534
+#: ../mail/mail-component.c:535
 #, c-format
 msgid "%d sent"
 msgid_plural "%d sent"
 msgstr[0] "%d verzonden"
 msgstr[1] "%d verzonden"
 
-#: ../mail/mail-component.c:536
+#: ../mail/mail-component.c:537
 #, c-format
 msgid "%d unsent"
 msgid_plural "%d unsent"
 msgstr[0] "%d niet verzonden"
 msgstr[1] "%d niet verzonden"
 
-#: ../mail/mail-component.c:540
+#: ../mail/mail-component.c:541
 #, c-format
 msgid "%d total"
 msgid_plural "%d total"
 msgstr[0] "%d totaal"
 msgstr[1] "%d totaal"
 
-#: ../mail/mail-component.c:542
+#: ../mail/mail-component.c:543
 #, c-format
 msgid ", %d unread"
 msgid_plural ", %d unread"
 msgstr[0] ", %d ongelezen"
 msgstr[1] ", %d ongelezen"
 
-#: ../mail/mail-component.c:763
+#: ../mail/mail-component.c:764
 msgid "New Mail Message"
 msgstr "Nieuw Bericht"
 
-#: ../mail/mail-component.c:764
+#: ../mail/mail-component.c:765
 msgid "_Mail Message"
 msgstr "_Bericht"
 
-#: ../mail/mail-component.c:765
+#: ../mail/mail-component.c:766
 msgid "Compose a new mail message"
 msgstr "Een nieuwe e-mail opstellen"
 
-#: ../mail/mail-component.c:771
+#: ../mail/mail-component.c:772
 msgid "New Mail Folder"
 msgstr "Nieuwe berichtenmap"
 
-#: ../mail/mail-component.c:772
+#: ../mail/mail-component.c:773
 msgid "Mail _Folder"
 msgstr "Mail _Map"
 
-#: ../mail/mail-component.c:773
+#: ../mail/mail-component.c:774
 msgid "Create a new mail folder"
 msgstr "Nieuwe berichtenmap aanmaken"
 
 # upgraden/vernieuwen/bijwerken
-#: ../mail/mail-component.c:917
+#: ../mail/mail-component.c:918
 msgid "Failed upgrading Mail settings or folders."
 msgstr "Upgraden van mail-instellingen of mappen is mislukt."
 
@@ -12793,7 +12813,7 @@ msgid "<span weight=\"bold\">Filter Options</span>"
 msgstr "<span weight=\"bold\">Filteropties</span>"
 
 #: ../mail/mail-config.glade.h:18
-#: ../plugins/itip-formatter/itip-formatter.c:1922
+#: ../plugins/itip-formatter/itip-formatter.c:1963
 msgid "<span weight=\"bold\">General</span>"
 msgstr "<span weight=\"bold\">Algemeen</span>"
 
@@ -13474,7 +13494,7 @@ msgstr "met alle lokale folders"
 
 # bezig met %s pingen
 # %s wordt nu gepingd
-#: ../mail/mail-folder-cache.c:813
+#: ../mail/mail-folder-cache.c:853
 #, c-format
 msgid "Pinging %s"
 msgstr "Pingen van %s"
@@ -13493,7 +13513,7 @@ msgstr "Berichten aan het ontvangen"
 msgid "Failed to apply outgoing filters: %s"
 msgstr "Fout bij het toepassen van uitgaande filters: %s"
 
-#: ../mail/mail-ops.c:574 ../mail/mail-ops.c:603
+#: ../mail/mail-ops.c:575 ../mail/mail-ops.c:604
 #, c-format
 msgid ""
 "Failed to append to %s: %s\n"
@@ -13502,115 +13522,115 @@ msgstr ""
 "Toevoegen aan %s mislukt: %s\n"
 "Inplaats daarvan toevoegen aan lokale `Verzonden'-map."
 
-#: ../mail/mail-ops.c:620
+#: ../mail/mail-ops.c:621
 #, c-format
 msgid "Failed to append to local `Sent' folder: %s"
 msgstr "Fout bij toevoegen aan lokale `Verzonden'-map: %s"
 
-#: ../mail/mail-ops.c:732
+#: ../mail/mail-ops.c:733
 #, c-format
 msgid "Sending message %d of %d"
 msgstr "Bericht %d van %d wordt verzonden"
 
-#: ../mail/mail-ops.c:757
+#: ../mail/mail-ops.c:758
 #, c-format
 msgid "Failed to send %d of %d messages"
 msgstr "Het versturen van %d van de %d berichten is mislukt"
 
-#: ../mail/mail-ops.c:759 ../mail/mail-send-recv.c:613
+#: ../mail/mail-ops.c:760 ../mail/mail-send-recv.c:613
 msgid "Cancelled."
 msgstr "Geannuleerd."
 
-#: ../mail/mail-ops.c:761
+#: ../mail/mail-ops.c:762
 msgid "Complete."
 msgstr "Voltooid."
 
-#: ../mail/mail-ops.c:858
+#: ../mail/mail-ops.c:859
 msgid "Saving message to folder"
 msgstr "Bericht wordt opgeslagen in map"
 
-#: ../mail/mail-ops.c:943
+#: ../mail/mail-ops.c:944
 #, c-format
 msgid "Moving messages to %s"
 msgstr "Berichten worden verplaatst naar %s"
 
-#: ../mail/mail-ops.c:943
+#: ../mail/mail-ops.c:944
 #, c-format
 msgid "Copying messages to %s"
 msgstr "Berichten worden gekopieerd naar %s"
 
-#: ../mail/mail-ops.c:1166
+#: ../mail/mail-ops.c:1167
 msgid "Forwarded messages"
 msgstr "Doorgestuurde berichten"
 
-#: ../mail/mail-ops.c:1209
+#: ../mail/mail-ops.c:1210
 #, c-format
 msgid "Opening folder %s"
 msgstr "Bezig met openen map %s"
 
-#: ../mail/mail-ops.c:1281
+#: ../mail/mail-ops.c:1282
 #, c-format
 msgid "Opening store %s"
 msgstr "Bezig met openen van opslag %s"
 
-#: ../mail/mail-ops.c:1359
+#: ../mail/mail-ops.c:1360
 #, c-format
 msgid "Removing folder %s"
 msgstr "verwijderen map %s"
 
-#: ../mail/mail-ops.c:1453
+#: ../mail/mail-ops.c:1454
 #, c-format
 msgid "Storing folder '%s'"
 msgstr "Bezig met opslaan map '%s'"
 
-#: ../mail/mail-ops.c:1518
+#: ../mail/mail-ops.c:1519
 #, c-format
 msgid "Expunging and storing account '%s'"
 msgstr "Opruimen en opslaan van account '%s'"
 
-#: ../mail/mail-ops.c:1519
+#: ../mail/mail-ops.c:1520
 #, c-format
 msgid "Storing account '%s'"
 msgstr "Bezig met opslaan account '%s'"
 
-#: ../mail/mail-ops.c:1574
+#: ../mail/mail-ops.c:1575
 msgid "Refreshing folder"
 msgstr "Map wordt ververst"
 
-#: ../mail/mail-ops.c:1610 ../mail/mail-ops.c:1661
+#: ../mail/mail-ops.c:1611 ../mail/mail-ops.c:1662
 msgid "Expunging folder"
 msgstr "Bezig met legen map"
 
-#: ../mail/mail-ops.c:1658
+#: ../mail/mail-ops.c:1659
 #, c-format
 msgid "Emptying trash in '%s'"
 msgstr "Prullenbak van '%s' wordt geleegd"
 
-#: ../mail/mail-ops.c:1659
+#: ../mail/mail-ops.c:1660
 msgid "Local Folders"
 msgstr "Lokale mappen"
 
-#: ../mail/mail-ops.c:1742
+#: ../mail/mail-ops.c:1743
 #, c-format
 msgid "Retrieving message %s"
 msgstr "Ophalen van bericht %s"
 
 # dit moet kort anders wordt het afgekort met ...
-#: ../mail/mail-ops.c:1852
+#: ../mail/mail-ops.c:1853
 #, c-format
 msgid "Retrieving %d message"
 msgid_plural "Retrieving %d messages"
 msgstr[0] "Ophalen van %d bericht"
 msgstr[1] "Ophalen van %d berichten"
 
-#: ../mail/mail-ops.c:1938
+#: ../mail/mail-ops.c:1939
 #, c-format
 msgid "Saving %d message"
 msgid_plural "Saving %d messsages"
 msgstr[0] "Bezig met het opslaan van %d bericht"
 msgstr[1] "Bezig met het opslaan van %d berichten"
 
-#: ../mail/mail-ops.c:1988
+#: ../mail/mail-ops.c:1989
 #, c-format
 msgid ""
 "Unable to create output file: %s\n"
@@ -13619,7 +13639,7 @@ msgstr ""
 "Kon uitvoerbestand niet maken: %s\n"
 " %s"
 
-#: ../mail/mail-ops.c:2016
+#: ../mail/mail-ops.c:2017
 #, c-format
 msgid ""
 "Error saving messages to: %s:\n"
@@ -13628,11 +13648,11 @@ msgstr ""
 "Fout bij opslaan berichten in: %s:\n"
 " %s"
 
-#: ../mail/mail-ops.c:2087
+#: ../mail/mail-ops.c:2088
 msgid "Saving attachment"
 msgstr "Bezig met opslaan bijlage"
 
-#: ../mail/mail-ops.c:2099
+#: ../mail/mail-ops.c:2100
 #, c-format
 msgid ""
 "Cannot create output file: %s:\n"
@@ -13641,22 +13661,22 @@ msgstr ""
 "Kan uitvoerbestand niet maken: %s:\n"
 " %s"
 
-#: ../mail/mail-ops.c:2109
+#: ../mail/mail-ops.c:2110
 #, c-format
 msgid "Could not write data: %s"
 msgstr "Kon gegevens niet wegschrijven: %s"
 
-#: ../mail/mail-ops.c:2259
+#: ../mail/mail-ops.c:2260
 #, c-format
 msgid "Disconnecting from %s"
 msgstr "Verbreken van %s"
 
-#: ../mail/mail-ops.c:2259
+#: ../mail/mail-ops.c:2260
 #, c-format
 msgid "Reconnecting to %s"
 msgstr "Bezig met opnieuw verbinden met %s"
 
-#: ../mail/mail-ops.c:2375
+#: ../mail/mail-ops.c:2376
 msgid "Checking Service"
 msgstr "Dienst wordt gecontroleerd"
 
@@ -13797,7 +13817,7 @@ msgstr ""
 msgid ""
 "A read receipt notification has been requested for &quot;{1}&quot;.  Send "
 "the reciept notification to {0}?"
-msgstr ""
+msgstr "Er wordt een leesbevestiging gevraagd voor &quot;{1}&quot;.  leesbevestiging versturen aan {0}?"
 
 #: ../mail/mail.error.xml.h:7
 msgid ""
@@ -14163,9 +14183,13 @@ msgid ""
 "your message. To avoid this, you should add at least one To: or CC: "
 "recipient. "
 msgstr ""
-"De contactenlijst waarnaar u verzendt is zo ingesteld dat de geadresseerden onzichtbaar zijn.\n"
+"De contactenlijst waarnaar u verzendt is zo ingesteld dat de geadresseerden "
+"onzichtbaar zijn.\n"
 "\n"
-"Veel emailsystemen voegen een 'Apparently-To' header toe aan berichten die alleen BCC-geadresseerden bevatten. Deze header zal, indien toegevoegd, de gehele adreslijst in uw bericht tonen. Om dit te vermijden moet u tenminste één geadresseerde geven in het veld \"Aan:\" of \"CC:\"."
+"Veel emailsystemen voegen een 'Apparently-To' header toe aan berichten die "
+"alleen BCC-geadresseerden bevatten. Deze header zal, indien toegevoegd, de "
+"gehele adreslijst in uw bericht tonen. Om dit te vermijden moet u tenminste "
+"één geadresseerde geven in het veld \"Aan:\" of \"CC:\"."
 
 #: ../mail/mail.error.xml.h:85
 msgid ""
@@ -14197,17 +14221,14 @@ msgstr ""
 
 # postvak uit/outbox
 #: ../mail/mail.error.xml.h:95
-#, fuzzy
 msgid ""
 "The message was sent via the &quot;sendmail&quot; external application.  "
 "Sendmail reports the following error: status 67: mail not sent.\n"
 "The message is stored in the Outbox folder.  Check the message for errors "
 "and resend."
 msgstr ""
-"Het bericht werd verzonden via het externe programma \"sendmail\".  Sendmail "
-"gaf de volgende foutmelding: status 67: mail niet verzonden.\n"
-"Het bericht op opgeslagen in de Outbox. Controleer het bericht op fouten en "
-"verzend opnieuw."
+"Het bericht werd verzonden via het externe programma  &quot;sendmail&quot;.  Sendmail gaf de volgende foutmelding: status 67: e-mail niet verzonden.\n"
+"Het bericht op opgeslagen in de Outbox. Controleer het bericht op fouten en verzend opnieuw."
 
 #: ../mail/mail.error.xml.h:97
 msgid "The script file must exist and be executable."
@@ -14217,7 +14238,9 @@ msgstr "Het script bestabd moet bestaan en uitvoerbaar zijn."
 msgid ""
 "This folder may have been added implicitly,\n"
 "go to the Search Folder editor to add it explicitly, if required."
-msgstr "Deze map is mogelijk impliciet toegevoegd. Ga, indien nodig, naar de zoekmap-editor om haar expliciet toe te voegen."
+msgstr ""
+"Deze map is mogelijk impliciet toegevoegd. Ga, indien nodig, naar de zoekmap-"
+"editor om haar expliciet toe te voegen."
 
 # vrij vertaald, was eerst: omdat u geen geadresseerden heeft opgegeven.
 # maar het is duidelijker als er staat dat het adresveld leeg is.
@@ -14490,7 +14513,9 @@ msgstr "Onderwerp of afzender bevat"
 msgid ""
 "A formatter plugin which displays audio attachments inline and allows you to "
 "play them directly from evolution."
-msgstr "Een opmaakplugin die geluidsbijlagen in het bericht weergeeft en u de mogelijkheid geeft deze direct vanuit evolution af te spelen."
+msgstr ""
+"Een opmaakplugin die geluidsbijlagen in het bericht weergeeft en u de "
+"mogelijkheid geeft deze direct vanuit evolution af te spelen."
 
 #: ../plugins/audio-inline/org-gnome-audio-inline.eplug.xml.h:2
 msgid "Audio inline plugin"
@@ -14530,7 +14555,9 @@ msgstr "Evolution herstarten"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.eplug.xml.h:1
 msgid "A plugin for backing up and restore Evolution data and settings."
-msgstr "Een plugin voor het maken van een backup, en het herstellen van, Evolution data en instellingen."
+msgstr ""
+"Een plugin voor het maken van een backup, en het herstellen van, Evolution "
+"data en instellingen."
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.eplug.xml.h:2
 msgid "Backup and restore plugin"
@@ -14589,7 +14616,7 @@ msgstr "Automatische contacten"
 msgid ""
 "Automatically fills your addressbook with names and email addresses as you "
 "reply to mails. Also fills in IM contact information from your buddy lists."
-msgstr ""
+msgstr "Vult uw adresboek automatisch met namen en e-mailadressen wanneer u een e-mail beantwoordt. Ook wordt IM-contactinformatie aangevuld met de personen uit uw buddylijst."
 
 #: ../plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:3
 msgid "BBDB"
@@ -14670,12 +14697,13 @@ msgstr "Weerkalenders"
 msgid ""
 "A test plugin which demonstrates a popup menu plugin which lets you copy "
 "things to the clipboard."
-msgstr ""
+msgstr "Een test-plugin dat een popup-munu plugin toont waarmee u dingen naar het klembord kunt kopiëren."
 
 #: ../plugins/copy-tool/org-gnome-copy-tool.eplug.xml.h:2
 msgid "Copy _Email Address"
 msgstr "E-mail_adres kopiëren"
 
+# kopieren-tool/kopie-tool
 #: ../plugins/copy-tool/org-gnome-copy-tool.eplug.xml.h:3
 msgid "Copy tool"
 msgstr "Kopie-tool"
@@ -14787,8 +14815,9 @@ msgstr "Wachtwoord wijzigen"
 #. Delegation Assistant
 #: ../plugins/exchange-operations/exchange-account-setup.c:333
 msgid "Manage the delegate settings for Exchange account"
-msgstr ""
+msgstr "Instellingen beheren voor delegeren bij een Exchange-account"
 
+# assistent delegeren/delegeren assistent
 #: ../plugins/exchange-operations/exchange-account-setup.c:335
 msgid "Delegation Assitant"
 msgstr "Delegeren assistent"
@@ -14834,7 +14863,7 @@ msgstr "_Testen op ondersteunde types "
 msgid ""
 "The current password does not match the existing password for your account. "
 "Please enter the correct password"
-msgstr ""
+msgstr "Het huidige wachtwoord komt niet overeen met het bestaande wachtwoord voor uw account. Geef het juiste wachtwoord"
 
 #: ../plugins/exchange-operations/exchange-change-password.c:122
 msgid "The two passwords do not match. Please re-enter the passwords."
@@ -15098,7 +15127,7 @@ msgstr "Kan mappen niet weergeven."
 msgid ""
 "Changes to Exchange account configuration will take place after you quit and "
 "restart Evolution."
-msgstr ""
+msgstr "Wijzigingen in de configuratie van het Exchange-account zullen pas effect hebben nadat u Evolution afsluit en opnieuw opstart."
 
 # kon niet aanmelden bij server.
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:4
@@ -15168,6 +15197,8 @@ msgstr "Exchange Account is off-line."
 msgid "Exchange Connector access error."
 msgstr "Exchange connector toegangsfout."
 
+# BUG: Ximian Connector? -> Novell?
+# BUG: extra spatie op einde?
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:21
 msgid ""
 "Exchange Connector requires access to certain\n"
@@ -15184,6 +15215,18 @@ msgid ""
 "html\n"
 "  "
 msgstr ""
+"Exchange Connector heeft toegang nodig tot bepaalde\n"
+"functies op de Exchange-server die momenteel geblokkeerd\n"
+"lijken of uitgezet zijn. (Dit gebeurt meestal zonder opzet.)\n"
+"De beheerder van de Exchange-server zal deze functies\n"
+"toegankelijk moeten maken voordat u de Ximian Connector kunt\n"
+"gebruiken.\n"
+"\n"
+"Voor de informatie die de beheerder van de Exchange-server\n"
+"nodig heeft, kunt u kijken op:\n"
+"\n"
+"http://support.novell.com/cgi-bin/search/searchtid.cgi?/ximian/ximian328.html\n"
+" "
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:33
 msgid "Failed to update delegates:"
@@ -15210,7 +15253,7 @@ msgstr "Generieke fout"
 msgid ""
 "If OWA is running on a different path, you must specify that in the account "
 "configuration dialog."
-msgstr ""
+msgstr "Indien OWA op een ander pad draait, moet u dat opgeven in het dialoogvenster voor de accountconfiguratie."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:39
 msgid "Mailbox for {0} is not on this server."
@@ -15286,6 +15329,11 @@ msgid ""
 "\n"
 "Or you might have just typed your password wrong."
 msgstr ""
+"Waarschijnlijk  betekent dit dat uw server wil\n"
+"dat u de Windows domeinnaam opgeeft bij uw gebruikersnaam.\n"
+"Bijvoorbeeld: &quot;DOMEIN\\gebruikersnaam&quot;.\n"
+"\n"
+"Of u heeft gewoon uw wachtwoord verkeerd ingetypt."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:61
 msgid "Try again with a different password."
@@ -15318,7 +15366,9 @@ msgstr "Actie niet mogelijk"
 # quotum verbruikt/bereikt
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:68
 msgid "You are nearing your quota available for storing mails on this server."
-msgstr "U heeft bijna uw quotum bereikt voor het opslaan van berichten op deze server."
+msgstr ""
+"U heeft bijna uw quotum bereikt voor het opslaan van berichten op deze "
+"server."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:69
 msgid "You cannot make yourself your own delegate"
@@ -15326,37 +15376,39 @@ msgstr "U kunt niet van uzelf uw eigen gedelegeerde maken"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:70
 msgid "You have exceeded your quota for storing mails on this server."
-msgstr "U heeft uw quotum overschreden voor het opslaan van berichten op deze server."
+msgstr ""
+"U heeft uw quotum overschreden voor het opslaan van berichten op deze server."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:71
 msgid "You may only configure a single Exchange account."
-msgstr ""
+msgstr "U mag slechts een enkel Exchange account configureren."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:72
 msgid ""
 "Your current usage is : {0}KB. Try to clear up some space by deleting some "
 "mails."
-msgstr ""
+msgstr "Uw gebruikt momenteel : {0} KB. Probeer ruimte vrij te maken  door enkele berichten weg te gooien."
 
+# verzenden/versturen
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:73
 msgid ""
 "Your current usage is : {0}KB. You will not be able to either send or "
 "recieve mails now."
-msgstr ""
+msgstr "Uw gebruikt momenteel : {0} KB. U zult nu geen berichten kunnen versturen of ontvangen."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:74
 msgid ""
 "Your current usage is : {0}KB. You will not be able to send mails till you "
 "clear up some space by deleting some mails."
-msgstr ""
+msgstr "U gebruikt momenteel : {0} KB. U zult geen berichten kunnen versturen totdat u wat ruimte vrijmaakt door enkele berichten weg te gooien."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:75
 msgid "Your password has expired."
-msgstr ""
+msgstr "Uw wachtwoord is verlopen."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:77
 msgid "{0} cannot be added to an access control list"
-msgstr ""
+msgstr "{0} kan niet aan de 'access control list' worden toegevoegd"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:78
 msgid "{0} is already a delegate"
@@ -15366,18 +15418,21 @@ msgstr "{0} is al een gedelegeerde"
 msgid "{0} is already in the list"
 msgstr "{0} bevindt zich al in de lijst"
 
+# op taken van anderen/andermans taken
 #: ../plugins/exchange-operations/org-gnome-exchange-tasks-subscription.xml.h:1
 msgid "Subscribe to Other User's Tasks"
-msgstr ""
+msgstr "Abonneren op andermans taken"
 
 #: ../plugins/exchange-operations/org-gnome-folder-permissions.xml.h:1
 msgid "Check folder permissions"
 msgstr "Maprechten controleren"
 
+# op map van anderen/andermans map
 #: ../plugins/exchange-operations/org-gnome-folder-subscription.xml.h:1
 msgid "Subscribe to Other User's Folder"
-msgstr ""
+msgstr "Abonneren op andermans map"
 
+# opzeggen van abbonnement op map s
 #: ../plugins/folder-unsubscribe/folder-unsubscribe.c:57
 #, c-format
 msgid "Unsubscribing from folder \"%s\""
@@ -15385,7 +15440,7 @@ msgstr "Abonnement op map \"%s\" wordt opgezegd"
 
 #: ../plugins/folder-unsubscribe/org-gnome-mail-folder-unsubscribe.eplug.xml.h:1
 msgid "Allows unsubscribing of mail folders in the folder tree context menu."
-msgstr ""
+msgstr "Hiermee kunt u een abonnement op een map opzeggen in de mappenboom-contextmenu."
 
 # Abonnement afmelden
 #: ../plugins/folder-unsubscribe/org-gnome-mail-folder-unsubscribe.eplug.xml.h:2
@@ -15449,7 +15504,7 @@ msgstr "Verzendopties"
 
 #: ../plugins/groupwise-features/org-gnome-groupwise-features.eplug.xml.h:1
 msgid "A plugin for the features in Groupwise accounts."
-msgstr ""
+msgstr "Een plugin voor de functies in Groupwise-accounts."
 
 #: ../plugins/groupwise-features/org-gnome-groupwise-features.eplug.xml.h:2
 msgid "Groupwise Features"
@@ -15470,11 +15525,11 @@ msgstr "Bericht"
 
 #: ../plugins/groupwise-features/properties.glade.h:6
 msgid "Shared Folder Notification"
-msgstr "Gedeelde map mededelingen"
+msgstr "Gedeelde map meldingen"
 
 #: ../plugins/groupwise-features/properties.glade.h:8
 msgid "The participants will receive the following notification.\n"
-msgstr "De deelnemers zullen de volgende mededeling ontvangen.\n"
+msgstr "De deelnemers zullen de volgende melding ontvangen.\n"
 
 #: ../plugins/groupwise-features/properties.glade.h:11
 msgid "_Contacts..."
@@ -15483,7 +15538,7 @@ msgstr "_Contacten..."
 # engels spelfout: Cutomize
 #: ../plugins/groupwise-features/properties.glade.h:12
 msgid "_Cutomize notification message"
-msgstr "_Mededelingsbericht aanpassen"
+msgstr "_Meldingsbericht aanpassen"
 
 #: ../plugins/groupwise-features/properties.glade.h:13
 msgid "_Not Shared"
@@ -15515,25 +15570,25 @@ msgstr "_Adresboek"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:7
 msgid "Modify _folders/options/rules/"
-msgstr ""
+msgstr "_Mappen/opties/regels aanpassen"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:8
 msgid "Read items marked _private"
-msgstr ""
+msgstr "Als _privé gemarkeerde items lezen"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:9
 msgid "Reminder Notes"
 msgstr "Herinneringen"
 
+# alarmering/wekker/alarmmelding
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:10
-#, fuzzy
 msgid "Subscribe to my _alarms"
-msgstr "A_bonneren"
+msgstr "Abonneren op mijn _alarmeringen"
 
+# herinnering/alarmering/aandachtvestiging
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:11
-#, fuzzy
 msgid "Subscribe to my _notifications"
-msgstr "A_bonneren"
+msgstr "Abonneren op mijn aa_ndachtvestigingen"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:13
 #: ../ui/evolution-mail-message.xml.h:118
@@ -15565,7 +15620,7 @@ msgstr "Proxy-login"
 
 #: ../plugins/groupwise-features/proxy-login.c:221
 #: ../plugins/groupwise-features/proxy-login.c:263
-#: ../plugins/groupwise-features/proxy.c:474
+#: ../plugins/groupwise-features/proxy.c:490
 #: ../plugins/groupwise-features/send-options.c:83
 #, c-format
 msgid "%sEnter password for %s (user %s)"
@@ -15576,7 +15631,7 @@ msgid "_Proxy Login..."
 msgstr "_Proxy aanmelding..."
 
 # ingesteld/actief gemaakt/geactiveerd/aangezet
-#: ../plugins/groupwise-features/proxy.c:668
+#: ../plugins/groupwise-features/proxy.c:672
 msgid "The Proxy tab will be available only when the account is enabled."
 msgstr "Het tabblad proxy is beschikbaar wanneer het account is geactiveerd."
 
@@ -15592,7 +15647,7 @@ msgstr "Geef de gebruikers en bepaal de rechten"
 msgid "New _Shared Folder..."
 msgstr "Nieuwe _gedeelde map..."
 
-#: ../plugins/groupwise-features/share-folder-common.c:440
+#: ../plugins/groupwise-features/share-folder-common.c:444
 msgid "Sharing"
 msgstr "Delen"
 
@@ -15600,70 +15655,67 @@ msgstr "Delen"
 msgid "Track Message Status..."
 msgstr "Berichtstatus volgen..."
 
-#: ../plugins/itip-formatter/itip-formatter.c:722
+#: ../plugins/itip-formatter/itip-formatter.c:724
 msgid "Unable to parse item"
 msgstr "Kan het item niet verwerken"
 
-#: ../plugins/itip-formatter/itip-formatter.c:778
+#: ../plugins/itip-formatter/itip-formatter.c:780
 #, c-format
 msgid "Unable to send item to calendar '%s'.  %s"
 msgstr "Kan item niet naar agenda '%s' versturen. %s"
 
-#: ../plugins/itip-formatter/itip-formatter.c:789
+#: ../plugins/itip-formatter/itip-formatter.c:791
 #, c-format
 msgid "Sent to calendar '%s' as accepted"
 msgstr "Verzonden aan agenda '%s' als geaccepteerd"
 
-#: ../plugins/itip-formatter/itip-formatter.c:793
+#: ../plugins/itip-formatter/itip-formatter.c:795
 #, c-format
 msgid "Sent to calendar '%s' as tentative"
 msgstr "Verzonden aan agenda '%s' als voorlopig"
 
-#: ../plugins/itip-formatter/itip-formatter.c:798
+#: ../plugins/itip-formatter/itip-formatter.c:800
 #, c-format
 msgid "Sent to calendar '%s' as declined"
 msgstr "Verzonden aan agenda '%s' als afgewezen"
 
-#: ../plugins/itip-formatter/itip-formatter.c:803
+#: ../plugins/itip-formatter/itip-formatter.c:805
 #, c-format
 msgid "Sent to calendar '%s' as cancelled"
 msgstr "Verzonden aan agenda '%s' als geannuleerd"
 
-#: ../plugins/itip-formatter/itip-formatter.c:896
+#: ../plugins/itip-formatter/itip-formatter.c:898
 #, c-format
 msgid "Organizer has removed the delegate %s "
-msgstr ""
-
-#: ../plugins/itip-formatter/itip-formatter.c:903
-msgid "Sent a cancellation notice to the delegate"
-msgstr ""
+msgstr "Organisator heeft de gedelegeerde %s verwijderd "
 
 #: ../plugins/itip-formatter/itip-formatter.c:905
-#, fuzzy
-msgid "Could not send the cancellation notice to the delegate"
-msgstr ""
-"Weet u zeker dat u een afgelastingsmelding voor deze dagboekaantekening wilt "
-"versturen?"
+msgid "Sent a cancellation notice to the delegate"
+msgstr "Een afmelding is aan de gedelegeerde verstuurd"
 
-#: ../plugins/itip-formatter/itip-formatter.c:977
+#: ../plugins/itip-formatter/itip-formatter.c:907
+msgid "Could not send the cancellation notice to the delegate"
+msgstr "Kon de afgelastingsmelding voor de gedelegeerde niet verzenden"
+
+#: ../plugins/itip-formatter/itip-formatter.c:979
 msgid "Attendee status could not be updated because the status is invalid"
 msgstr ""
 "Aanwezigheidsstatus kon niet ververst worden omdat de status ongeldig is"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1003
+#: ../plugins/itip-formatter/itip-formatter.c:1005
 #, c-format
 msgid "Unable to update attendee. %s"
 msgstr "Kon aanwezige niet updaten. %s"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1007
+#: ../plugins/itip-formatter/itip-formatter.c:1009
 msgid "Attendee status updated"
 msgstr "Aanwezigheidstatus ververst"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1134
+#: ../plugins/itip-formatter/itip-formatter.c:1136
 msgid "The calendar attached is not valid"
 msgstr "De bijgevoegde agenda is niet geldig"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1135
+#: ../plugins/itip-formatter/itip-formatter.c:1137
 msgid ""
 "The message claims to contain a calendar, but the calendar is not valid "
 "iCalendar."
@@ -15671,15 +15723,15 @@ msgstr ""
 "Het bericht claimt een agenda te bevatten, maar de agenda is geen geldige "
 "iCalendar."
 
-#: ../plugins/itip-formatter/itip-formatter.c:1169
-#: ../plugins/itip-formatter/itip-formatter.c:1184
-#: ../plugins/itip-formatter/itip-formatter.c:1260
+#: ../plugins/itip-formatter/itip-formatter.c:1171
+#: ../plugins/itip-formatter/itip-formatter.c:1186
+#: ../plugins/itip-formatter/itip-formatter.c:1262
 msgid "The item in the calendar is not valid"
 msgstr "Het item in de agenda is niet geldig"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1170
-#: ../plugins/itip-formatter/itip-formatter.c:1185
-#: ../plugins/itip-formatter/itip-formatter.c:1261
+#: ../plugins/itip-formatter/itip-formatter.c:1172
+#: ../plugins/itip-formatter/itip-formatter.c:1187
+#: ../plugins/itip-formatter/itip-formatter.c:1263
 msgid ""
 "The message does contain a calendar, but the calendar contains no events, "
 "tasks or free/busy information"
@@ -15687,11 +15739,11 @@ msgstr ""
 "Het bericht bevat een agenda, maar de agenda bevat geen aantekenigen, taken "
 "of vrij/bezet-informatie"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1195
+#: ../plugins/itip-formatter/itip-formatter.c:1197
 msgid "The calendar attached contains multiple items"
 msgstr "De bijgevoegde agenda bevat meerdere items"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1196
+#: ../plugins/itip-formatter/itip-formatter.c:1198
 msgid ""
 "To process all of these items, the file should be saved and the calendar "
 "imported"
@@ -15699,30 +15751,30 @@ msgstr ""
 "Om al deze items te verwerken, moet het bestand worden opgeslagen en de "
 "agenda worden geïmporteerd"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1913
+#: ../plugins/itip-formatter/itip-formatter.c:1954
 msgid "Meetings and Tasks"
 msgstr "Bijeenkomsten en taken"
 
 #. Delete message after acting
 #. FIXME Need a schema for this
-#: ../plugins/itip-formatter/itip-formatter.c:1936
+#: ../plugins/itip-formatter/itip-formatter.c:1977
 msgid "_Delete message after acting"
 msgstr "_Bericht verwijderen na actie"
 
 # vrij vertaald
-#: ../plugins/itip-formatter/itip-formatter.c:1946
+#: ../plugins/itip-formatter/itip-formatter.c:1987
 msgid "<span weight=\"bold\">Conflict Search</span>"
 msgstr "<span weight=\"bold\">Dubbele afspraken</span>"
 
 #. Source selector
-#: ../plugins/itip-formatter/itip-formatter.c:1959
+#: ../plugins/itip-formatter/itip-formatter.c:2000
 msgid "Select the calendars to search for meeting conflicts"
 msgstr ""
 "Selecteer de agenda's waarbinnen naar dubbele afspraken moet worden gezocht"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1976
+#: ../plugins/itip-formatter/itip-formatter.c:2017
 msgid "Conflict Search Table"
-msgstr ""
+msgstr "Conflicten zoektabel"
 
 #. strftime format of a weekday and a date.
 #: ../plugins/itip-formatter/itip-view.c:182 ../ui/evolution-calendar.xml.h:34
@@ -16040,57 +16092,50 @@ msgid "Comment:"
 msgstr "Commentaar:"
 
 #: ../plugins/itip-formatter/itip-view.c:979
-#, fuzzy
 msgid "Send u_pdates to attendees"
-msgstr "Kon aanwezige niet updaten. %s"
+msgstr "_Updates naar de aanwezigen verzenden"
 
+# op ieder geval/elk geval/alle keren   toepassen
 #: ../plugins/itip-formatter/itip-view.c:988
-#, fuzzy
 msgid "A_pply to all instances"
-msgstr "Alle keren"
+msgstr "_Op elk geval toepassen"
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.eplug.xml.h:1
-#, fuzzy
 msgid "Displays text/calendar parts in messages."
-msgstr "Toon het volgende belangrijke bericht"
+msgstr "Toont tekst/agenda-delen in berichten."
 
+# itip-formatteringsprogramma
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.eplug.xml.h:2
-#, fuzzy
 msgid "Itip Formatter"
-msgstr "Importeerders"
+msgstr "Itip-formattering"
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:1
 msgid ""
 "&quot;{0}&quot; has delegated the meeting. Do you want to add the delegate "
 "&quot;{1}&quot; ?"
-msgstr ""
+msgstr "&quot;{0}&quot; heeft de bijeenkomst gedelegeerd. Wilt u de gedelegeerde &quot;{1}&quot; toevoegen?"
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:3
 msgid "This meeting has been delegated"
 msgstr "Deze bijeenkomst is gedelegeerd"
 
-# toevoegen als komt/aanwezige/aanwezig
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:4
-#, fuzzy
 msgid ""
 "This response is not from a current attendee. Add the sender as an attendee?"
-msgstr ""
-"Dit antwoord is niet van een geregistreerd staand persoon. Toevoegen als "
-"aanwezige?"
+msgstr "Dit antwoord is niet van een van de huidige aanwezigen. De afzender toevoegen als aanwezige?"
 
 #: ../plugins/mail-account-disable/mail-account-disable.c:47
 msgid "Proxy _Logout"
 msgstr "Proxy _afmelding"
 
+# toestaan/mogelijk maken
 #: ../plugins/mail-account-disable/org-gnome-mail-account-disable.eplug.xml.h:1
-#, fuzzy
 msgid "Allows disabling of accounts."
-msgstr "Lijst met accounts"
+msgstr "Deactiveren van accounts mogelijk maken."
 
 #: ../plugins/mail-account-disable/org-gnome-mail-account-disable.eplug.xml.h:2
-#, fuzzy
 msgid "Disable Account"
-msgstr "E-mail accounts"
+msgstr "Accounts deactiveren"
 
 #: ../plugins/mail-remote/client.c:30
 #, c-format
@@ -16113,7 +16158,9 @@ msgstr "Geen opslag beschikbaar"
 #: ../plugins/mail-remote/org-gnome-evolution-mail-remote.eplug.xml.h:1
 msgid ""
 "A plugin which implements a CORBA interface for accessing mail data remotely."
-msgstr "Een plugin dat een CORBA-interface biedt voor het toegankelijk maken van e-mail op afstand."
+msgstr ""
+"Een plugin dat een CORBA-interface biedt voor het toegankelijk maken van e-"
+"mail op afstand."
 
 # e-mail op afstand
 # Externe e-mail
@@ -16125,35 +16172,35 @@ msgstr "E-mail op afstand"
 msgid ""
 "A plugin which allows the creation of meetings from the contents of a mail "
 "message."
-msgstr ""
+msgstr "Een plug-in waarmee uit de inhoud van een e-mailbericht, bijeenkomsten kunnen worden aangemaakt."
 
 #: ../plugins/mail-to-meeting/org-gnome-mail-to-meeting.eplug.xml.h:2
-#, fuzzy
 msgid "Con_vert to Meeting"
-msgstr "_Afspraak annuleren"
+msgstr "Om_zetten naar bijeenkomst"
 
+# e-mail -> bijeenkomst
+# e-mail wordt bijeenkomst
+#        maakt
 #: ../plugins/mail-to-meeting/org-gnome-mail-to-meeting.eplug.xml.h:3
-#, fuzzy
 msgid "Mail to meeting"
-msgstr "Het is een bijeenkomst."
+msgstr "Van e-mail naar bijeenkomst"
 
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml.h:1
 msgid ""
 "A plugin which allows the creation of tasks from the contents of a mail "
 "message."
-msgstr ""
+msgstr "Een plug-in waarmee uit de inhoud van een e-mailbericht, taken kunnen worden aangemaakt."
 
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml.h:2
 msgid "Con_vert to Task"
-msgstr ""
+msgstr "Om_zetten naar taak"
 
 # e-mail naar taak
-# mailen naar taak
-# berichten naar taak
+#        wordt
+#        ->
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml.h:3
-#, fuzzy
 msgid "Mail to task"
-msgstr "Post versturen naar %s"
+msgstr "Van e-mail naar taak"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:1
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:1
@@ -16183,7 +16230,7 @@ msgstr "M_ailinglijst"
 msgid ""
 "Provide actions for common mailing list commands (subscribe, "
 "unsubscribe, ...)."
-msgstr ""
+msgstr "Biedt veelgebruikte mailinglijst-functies (abonneren, opzeggen, ...)."
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:7
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:11
@@ -16284,15 +16331,15 @@ msgstr "Bericht v_ersturen"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:2
 msgid "Contact the owner of the mailing list this message belongs to"
-msgstr ""
+msgstr "Contact opnemen met de eigenaar van de mailinglijst waar dit bericht bijhoort"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:3
 msgid "Get an archive of the list this message belongs to"
-msgstr ""
+msgstr "Een archief ophalen van de lijst waar dit bericht bijhoort"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:4
 msgid "Get information about the usage of the list this message belongs to"
-msgstr ""
+msgstr "Informatie ophalen over het gebruik van de lijst waar dit bericht bijhoort"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:8
 msgid "Post a message to the mailing list this message belongs to"
@@ -16310,42 +16357,38 @@ msgstr "Afmelden bij de mailinglijst waartoe dit bericht behoort"
 msgid "Mark calendar offline"
 msgstr "Agenda op off-line zetten"
 
+# off-line weergave/gebruik
 #: ../plugins/mark-calendar-offline/org-gnome-mark-calendar-offline.eplug.xml.h:2
-#, fuzzy
 msgid "Marks the selected calendar for offline viewing."
-msgstr "Geselecteerde berichten om te verwijderen markeren"
+msgstr "Markeert de geselecteerde agenda voor off-line gebruik."
 
 #: ../plugins/mark-calendar-offline/org-gnome-mark-calendar-offline.eplug.xml.h:3
 msgid "_Do not make this available offline"
-msgstr ""
+msgstr "_Dit niet off-line beschikbaar maken"
 
 #: ../plugins/mark-calendar-offline/org-gnome-mark-calendar-offline.eplug.xml.h:4
-#, fuzzy
 msgid "_Mark Calendar for offline use"
-msgstr "De agenda is niet aangemerkt voor offline gebruik"
+msgstr "_Agenda aanmerken voor offline gebruik"
 
 #: ../plugins/mono/org-gnome-evolution-mono.eplug.xml.h:1
 msgid "A plugin which implements mono plugins."
-msgstr ""
+msgstr "Een plug-in voor mono-plugins."
 
 #: ../plugins/mono/org-gnome-evolution-mono.eplug.xml.h:2
 msgid "Mono Loader"
 msgstr "Mono-lader"
 
 #: ../plugins/new-mail-notify/org-gnome-new-mail-notify.eplug.xml.h:1
-#, fuzzy
 msgid "Generates a D-BUS message when new mail arrives."
-msgstr "Genereert een D-BUS melding bij binnenkomst van nieuwe e-mail"
+msgstr "Genereert een D-BUS melding bij binnenkomst van nieuwe e-mail."
 
 #: ../plugins/new-mail-notify/org-gnome-new-mail-notify.eplug.xml.h:2
-#, fuzzy
 msgid "New Mail Notification"
-msgstr "Nieuwe Mail Notificatie type"
+msgstr "Nieuwe mail melding"
 
 #: ../plugins/new-mail-notify/org-gnome-new-mail-notify.eplug.xml.h:3
-#, fuzzy
 msgid "New mail notify"
-msgstr "Nieuwe Mail Notificatie type"
+msgstr "Nieuwe mail melden"
 
 #: ../plugins/plugin-manager/org-gnome-plugin-manager.eplug.xml.h:1
 msgid "A plugin for managing which plugins are enabled or disabled."
@@ -16358,6 +16401,7 @@ msgid "Plugin manager"
 msgstr "Pluginbeheer"
 
 # of/en (of is beter)
+# activeren/deactiveren
 #: ../plugins/plugin-manager/org-gnome-plugin-manager.xml.h:1
 msgid "Enable and disable plugins"
 msgstr "Plugins aan of uitzetten"
@@ -16406,6 +16450,9 @@ msgid ""
 "\n"
 "This plugin is unsupported demonstration code only.\n"
 msgstr ""
+"Een test-plugin dat een opmaak-plugin demonstreert waarmee u kunt kiezen om HTML-mails te schakelen.\n"
+"\n"
+"Deze plugin is slechts demonstratiecode en wordt niet ondersteund.\n"
 
 # modus weglaten?
 #. but then we also need to create our own section frame
@@ -16439,7 +16486,7 @@ msgstr "HTML-modus"
 
 #: ../plugins/print-message/org-gnome-print-message.eplug.xml.h:1
 msgid "Gives an option to print mail from composer"
-msgstr ""
+msgstr "Biedt een optie om e-mail vanuit de opsteller af te drukken"
 
 #: ../plugins/print-message/org-gnome-print-message.xml.h:1
 #: ../ui/evolution-addressbook.xml.h:17 ../ui/evolution-calendar.xml.h:20
@@ -16458,15 +16505,15 @@ msgstr "Spamassassin (ingebouwd)"
 # sa=spamassasin
 #: ../plugins/sa-junk-plugin/org-gnome-sa-junk-plugin.eplug.xml.h:1
 msgid "Sa junk-plugin"
-msgstr ""
+msgstr "Spamassasin plugin"
 
 #: ../plugins/sa-junk-plugin/org-gnome-sa-junk-plugin.eplug.xml.h:2
 msgid "learns junk messages using spamd."
-msgstr ""
+msgstr "leert spamberichten via spamd."
 
 #: ../plugins/save-attachments/org-gnome-save-attachments.eplug.xml.h:1
 msgid "A plugin for saving all attachments or parts of a message at once."
-msgstr ""
+msgstr "een plugin voor het in één keer opslaan van alle bijlagen of delen van een bericht."
 
 #: ../plugins/save-attachments/org-gnome-save-attachments.eplug.xml.h:2
 msgid "Save attachments"
@@ -16497,13 +16544,15 @@ msgstr "MIME-type"
 msgid "Save"
 msgstr "Opslaan"
 
+# T is de huidige tijd (H M S)
+# F is format?
 #.
 #. * Translator: the %F %T is the thirth argument for a strftime function.
 #. * It lets you define the formatting of the date in the csv-file.
 #. *
 #: ../plugins/save-calendar/csv-format.c:171
 msgid "%F %T"
-msgstr ""
+msgstr "%F %T"
 
 #: ../plugins/save-calendar/csv-format.c:385
 msgid "Uid"
@@ -16603,11 +16652,11 @@ msgstr "De geselecteerde agenda of takenlijst opslaan op schijf."
 #. *
 #: ../plugins/save-calendar/rdf-format.c:158
 msgid "%FT%T"
-msgstr ""
+msgstr "%FT%T"
 
 #: ../plugins/save-calendar/rdf-format.c:396
 msgid "RDF format (.rdf)"
-msgstr "RDF formaat (.rdf)"
+msgstr "RDF-formaat (.rdf)"
 
 #: ../plugins/save-calendar/save-calendar.c:171
 #: ../plugins/save-calendar/save-calendar.c:181
@@ -16628,10 +16677,8 @@ msgid "Select one source"
 msgstr "Selecteer één bron"
 
 #: ../plugins/select-one-source/org-gnome-select-one-source.eplug.xml.h:2
-#, fuzzy
 msgid "Selects a single calendar or task source for viewing."
-msgstr ""
-"Selecteer de agenda's waarbinnen naar dubbele afspraken moet worden gezocht"
+msgstr "Selecteert een enkele agenda of takenbron voor weergave."
 
 #: ../plugins/select-one-source/org-gnome-select-one-source.eplug.xml.h:3
 msgid "_Show only this Calendar"
@@ -16685,23 +16732,23 @@ msgstr "Gegevens importeren."
 
 #: ../plugins/subject-thread/org-gnome-subject-thread.eplug.xml.h:1
 msgid "Indicates if threading of messages should fall back to subject."
-msgstr ""
+msgstr "Geeft aan of discussieweergave terugvalt op onderwerp."
 
-# discussie op onderwerp
+# discussieweergave/boom
 #: ../plugins/subject-thread/org-gnome-subject-thread.eplug.xml.h:2
-#, fuzzy
 msgid "Subject Threading"
-msgstr "_Discussie selecteren"
+msgstr "Discussieboom"
 
+# als/met
+# discussieweergave op onderwerp/per onderwerp
 #: ../plugins/subject-thread/org-gnome-subject-thread.eplug.xml.h:3
-#, fuzzy
 msgid "Thread messages by subject"
-msgstr "Toon de berichtenlijst in draad vorm gebaseerd op onderwerp"
+msgstr "Berichten groeperen op discussie per onderwerp"
 
 #. Create the checkbox we will display, complete with mnemonic that is unique in the dialog
 #: ../plugins/subject-thread/subject-thread.c:54
 msgid "Fall back to threading messages by sub_ject"
-msgstr "Terugvallen naar berichtensortering per _onderwerp"
+msgstr "Terugvallen naar discussieweergave per _onderwerp"
 
 #: ../shell/GNOME_Evolution_Shell.server.in.in.h:1
 msgid "Evolution Shell"
@@ -16795,15 +16842,11 @@ msgstr ""
 "configuratieniveau"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:17
-#, fuzzy
 msgid ""
 "The style of the window buttons. Can be \"text\", \"icons\", \"both\", "
 "\"toolbar\". If \"toolbar\" is set, the style of the buttons is determined "
 "by the GNOME toolbar setting."
-msgstr ""
-"De stijl van de vensterknoppen. Kan zijn \"text\", \"icons\", \"both\", "
-"\"toolbar\". Indien \"toolbar\" wordt gebruikt, wordt de stijl bepaald door "
-"de werkbalkinstelling van GNOME."
+msgstr "De stijl van de vensterknoppen. Kan zijn \"text\", \"icons\", \"both\", of \"toolbar\". Indien \"toolbar\" wordt gebruikt, wordt de stijl bepaald door de instelling van GNOME voor werkbalken."
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:18
 msgid "Toolbar is visible"
@@ -16875,19 +16918,18 @@ msgstr ""
 msgid "Choose the destination for this import"
 msgstr "Kies de doel map voor deze import"
 
+# vrij vertaald
 #: ../shell/e-shell-importer.c:148
-#, fuzzy
 msgid ""
 "Evolution checked for settings to import from the following\n"
 "applications: Pine, Netscape, Elm, iCalendar. No importable\n"
 "settings found. If you would like to\n"
 "try again, please click the \"Back\" button.\n"
 msgstr ""
-"Evolution heeft gezocht naar instellingen van de volgende\n"
-"applicaties: Pine, Netscape, Elm, iCalendar Er zijn geen\n"
-"instellingen gevonden die geïmporteerd konden worden.\n"
-"Als u het nog een keer wilt proberen kunt u op de \"Terug\"\n"
-"knop klikken.\n"
+"Evolution heeft geprobeerd de instellingen van de volgende\n"
+"mailtoepassingen over te nemen: Pine, Netscape, Elm, iCalendar.\n"
+"Er zijn echter niets gevonden dat geïmporteerd konden worden.\n"
+"Indien u het nogmaals wilt proberen klikt u op \"Terug\".\n"
 
 #: ../shell/e-shell-importer.c:283
 msgid "F_ilename:"
@@ -16917,23 +16959,23 @@ msgstr "_Importeren"
 msgid "Evolution Settings"
 msgstr "Evolution instellingen"
 
-#: ../shell/e-shell-utils.c:116
+#: ../shell/e-shell-utils.c:118
 msgid "No folder name specified."
 msgstr "Geen mapnaam opgegeven."
 
-#: ../shell/e-shell-utils.c:123
+#: ../shell/e-shell-utils.c:125
 msgid "Folder name cannot contain the Return character."
 msgstr "Mapnaam kan geen enter-teken bevatten."
 
-#: ../shell/e-shell-utils.c:129
+#: ../shell/e-shell-utils.c:131
 msgid "Folder name cannot contain the character \"/\"."
 msgstr "Mapnaam mag geen \"/\" bevatten."
 
-#: ../shell/e-shell-utils.c:135
+#: ../shell/e-shell-utils.c:137
 msgid "Folder name cannot contain the character \"#\"."
 msgstr "Mapnaam mag geen \"#\" bevatten."
 
-#: ../shell/e-shell-utils.c:141
+#: ../shell/e-shell-utils.c:143
 msgid "'.' and '..' are reserved folder names."
 msgstr "'.' en '..' zijn gereserveerde mapnamen."
 
@@ -16993,21 +17035,21 @@ msgstr "_Offline werken"
 msgid "Work Offline"
 msgstr "Werken zonder netwerk"
 
-#: ../shell/e-shell-window.c:341
+#: ../shell/e-shell-window.c:343
 msgid "Evolution is currently online.  Click on this button to work offline."
 msgstr ""
 "Evolution is nu verbonden met het netwerk.  Klik op deze knop om zonder "
 "netwerkverbinding te werken."
 
-#: ../shell/e-shell-window.c:349
+#: ../shell/e-shell-window.c:351
 msgid "Evolution is in the process of going offline."
 msgstr "Evolution is bezig offline te gaan."
 
-#: ../shell/e-shell-window.c:356
+#: ../shell/e-shell-window.c:358
 msgid "Evolution is currently offline.  Click on this button to work online."
 msgstr "Evolution is nu offline. Klik op deze knop om online te gaan werken."
 
-#: ../shell/e-shell-window.c:717
+#: ../shell/e-shell-window.c:724
 #, c-format
 msgid "Switch to %s"
 msgstr "Omschakelen naar %s"
@@ -17169,7 +17211,7 @@ msgstr "Verzend de debug-uitvoer van alle componenten naar een bestand."
 
 #: ../shell/main.c:482
 msgid "Disable loading of any plugins."
-msgstr "Het laden van plugins uitzetten."
+msgstr "Het laden van plugins deactiveren."
 
 #: ../shell/main.c:513
 #, c-format
@@ -17181,9 +17223,8 @@ msgstr ""
 "  Gebruik %s --help voor meer informatie.\n"
 
 #: ../shell/shell.error.xml.h:1
-#, fuzzy
 msgid "Are you sure you want to forget all remembered passwords?"
-msgstr "Weet u zeker dat u deze {0} taken wilt verwijderen?"
+msgstr "Weet u zeker dat u alle opgeslagen wachtwoorden wilt vergeten?"
 
 #: ../shell/shell.error.xml.h:2
 msgid "Continue"
@@ -17198,11 +17239,10 @@ msgid "Evolution can not start."
 msgstr "Evolution kan niet opstarten."
 
 #: ../shell/shell.error.xml.h:5
-#, fuzzy
 msgid ""
 "Forgetting your passwords will clear all remembered passwords. You will be "
 "reprompted next time they are needed. "
-msgstr "De onthouden wachtwoorden vergeten zodat ze opnieuw gevraagd worden"
+msgstr "Wachtwoorden vergeten betekent dat al uw opgeslagen wachtwoorden zullen worden gewist. Er zal om gevraagd worden wanneer ze eenvolgende keer nodig zijn."
 
 #: ../shell/shell.error.xml.h:7
 msgid "Insufficient disk space for upgrade."
@@ -17213,7 +17253,6 @@ msgid "Really delete old data?"
 msgstr "De oude gegevens echt verwijderen?"
 
 #: ../shell/shell.error.xml.h:9
-#, fuzzy
 msgid ""
 "The entire contents of the &quot;evolution&quot; directory is about to be be "
 "permanently removed.\n"
@@ -17225,19 +17264,14 @@ msgid ""
 "Once deleted, you cannot downgrade to the previous version of Evolution "
 "without manual intervention.\n"
 msgstr ""
-"De gehele inhoud van de map \"evolution\" staat op het punt definitief te "
-"worden verwijderd.\n"
+"De gehele inhoud van de map &quot;evolution&quot; staat op de nominatie definitief te worden verwijderd.\n"
 "\n"
-"U wordt aangeraden zelf te controleren dat al uw mail, contacten en "
-"agendagegevens aanwezig zijn en dat deze versie van Evolution correct "
-"functioneert, alvorens u deze oude gegevens verwijdert.\n"
+"Het wordt aangeraden om zelf te controleren dat al uw mail, contacten en agendagegevens aanwezig zijn en dat deze versie van Evolution correct functioneert, alvorens u deze oude gegevens verwijdert.\n"
 "\n"
-"Eenmaal verwijderd, kunt u niet eenvoudig naar een vorige versie van "
-"Evolution teruggaan zonder handmatige interventie.\n"
+"Eenmaal verwijderd, kunt slechts terugkeren naar een vorige versie van Evolution door handmatige interventie.\n"
 
 # kunnen we niet gewoon de hele map 'evolution' verwijderen ipv de inhoud?
 #: ../shell/shell.error.xml.h:15
-#, fuzzy
 msgid ""
 "The previous version of evolution stored its data in a different location.\n"
 "\n"
@@ -17246,12 +17280,9 @@ msgid ""
 "keep this data, then you may manually remove the contents of &quot;"
 "evolution&quot; at your convenience.\n"
 msgstr ""
-"De vorige versie van Evolution bewaarde de gegevens op een andere locatie.\n"
+"De vorige versie van Evolution bewaarde gegevens op een andere locatie.\n"
 "\n"
-"Indien u besluit deze data te verwijderen zal de gehele inhoud van de map "
-"\"evolution\" definitief worden verwijderd. Indien u nu besluit deze data te "
-"behouden kunt u op een later tijdstip, wanneer het u uitkomt, handmatig de "
-"inhoud van de map \"evolution\" verwijderen.\n"
+"Indien u besluit deze data te verwijderen zal de gehele inhoud van de map &quot;evolution&quot; definitief worden verwijderd. Indien u nu besluit deze data te behouden kunt u op een later tijdstip, wanneer het u uitkomt, handmatig de inhoud van de map &quot;evolution&quot; verwijderen.\n"
 
 #: ../shell/shell.error.xml.h:19
 msgid "Upgrade from previous version failed: {0}"
@@ -17867,9 +17898,8 @@ msgid "Shutting down %s (%s)\n"
 msgstr "%s wordt afgesloten (%s)\n"
 
 #: ../ui/evolution-addressbook.xml.h:3
-#, fuzzy
 msgid "Copy Selected Contacts to Another Folder..."
-msgstr "Contact(en) kopiëren naar een andere map..."
+msgstr "Geselecteerde contacten kopiëren naar een andere map..."
 
 #: ../ui/evolution-addressbook.xml.h:4 ../ui/evolution-calendar.xml.h:2
 msgid "Copy the selection"
@@ -17888,9 +17918,8 @@ msgid "Delete selected contacts"
 msgstr "Verwijder geselecteerde contacten"
 
 #: ../ui/evolution-addressbook.xml.h:11
-#, fuzzy
 msgid "Move Selected Contacts to Another Folder..."
-msgstr "Contact(en) verplaatsen naar een andere map..."
+msgstr "Geselecteerde contacten verplaatsen naar een andere map..."
 
 #: ../ui/evolution-addressbook.xml.h:12
 msgid "Move to Folder..."
@@ -18133,14 +18162,12 @@ msgid "Copy the selected folder into another folder"
 msgstr "Kopieer de geselecteerde map naar een andere map"
 
 #: ../ui/evolution-mail-global.xml.h:4
-#, fuzzy
 msgid "Create a new folder for storing mail"
-msgstr "Een vMap aanmaken voor deze mailinglijst"
+msgstr "Een nieuwe map aanmaken voor het opslaan van berichten"
 
 #: ../ui/evolution-mail-global.xml.h:5
-#, fuzzy
 msgid "Create or edit Search Folder definitions"
-msgstr "vMap-definities aanmaken of bewerken"
+msgstr "Zoekmapdefinities aanmaken of bewerken"
 
 #: ../ui/evolution-mail-global.xml.h:6
 msgid "Create or edit rules for filtering new mail"
@@ -18162,19 +18189,17 @@ msgstr "Berichten_filters"
 
 # gewoon 'berichten' beter? korter?
 #: ../ui/evolution-mail-global.xml.h:10
-#, fuzzy
 msgid "Message _List As"
-msgstr "Berichtenlijst"
+msgstr "Berichtenlijst _als"
 
+# berichtenweergave/berichten weergeven/bericht weergeven
 #: ../ui/evolution-mail-global.xml.h:11
-#, fuzzy
 msgid "Message _Preview"
-msgstr "Berichten weergeven"
+msgstr "Bericht_weergave"
 
 #: ../ui/evolution-mail-global.xml.h:12
-#, fuzzy
 msgid "Move the selected folder into another folder"
-msgstr "Geselecteerde berichten verplaatsen naar een andere map"
+msgstr "Verplaats de geselecteerde map naar een andere map"
 
 #: ../ui/evolution-mail-global.xml.h:13
 msgid "Permanently remove all deleted messages from all folders"
@@ -18198,14 +18223,12 @@ msgid "Subscribe or unsubscribe to folders on remote servers"
 msgstr "Abboneren of abbonnement opzeggen voor mappen op externe servers"
 
 #: ../ui/evolution-mail-global.xml.h:18
-#, fuzzy
 msgid "_Copy Folder To..."
-msgstr "Naar map _kopiëren..."
+msgstr "Map _kopiëren naar..."
 
 #: ../ui/evolution-mail-global.xml.h:19
-#, fuzzy
 msgid "_Move Folder To..."
-msgstr "Naar map _verplaatsen..."
+msgstr "Map _verplaatsen naar..."
 
 # dubbele sneltoets
 #: ../ui/evolution-mail-global.xml.h:20
@@ -18245,9 +18268,8 @@ msgid "Group By _Threads"
 msgstr "Groeperen op _discussielijnen"
 
 #: ../ui/evolution-mail-list.xml.h:8
-#, fuzzy
 msgid "Hide S_elected Messages"
-msgstr "_Verwijderde berichten verbergen"
+msgstr "_Geselecteerde berichten verbergen"
 
 #: ../ui/evolution-mail-list.xml.h:9
 msgid "Hide _Deleted Messages"
@@ -18265,27 +18287,25 @@ msgstr ""
 "streep erdoor"
 
 #: ../ui/evolution-mail-list.xml.h:12
-#, fuzzy
 msgid "Mark Me_ssages as Read"
-msgstr "Berichten als gelezen markeren na "
+msgstr "Berichten als _gelezen markeren"
 
 #: ../ui/evolution-mail-list.xml.h:13 ../ui/evolution-mail-message.xml.h:68
 msgid "Paste message(s) from the clipboard"
 msgstr "Bericht(en) vanaf het klembord plakken"
 
+# Bug: kan dit beter? twee keer 'verwijderen'
 #: ../ui/evolution-mail-list.xml.h:14
 msgid "Permanently remove all deleted messages from this folder"
-msgstr "Alle verwijderde berichen definitief uit deze map verwijderen"
+msgstr "Alle verwijderde berichten definitief uit deze map verwijderen"
 
 #: ../ui/evolution-mail-list.xml.h:15
-#, fuzzy
 msgid "Permanently remove this folder"
-msgstr "Alle verwijderde berichen definitief uit deze map verwijderen"
+msgstr "Deze map definitief verwijderen"
 
 #: ../ui/evolution-mail-list.xml.h:16
-#, fuzzy
 msgid "Select _All Messages"
-msgstr "Selecteer alle zichtbare berichten"
+msgstr "_Alle berichten selecteren"
 
 #: ../ui/evolution-mail-list.xml.h:17
 msgid "Select all and only the messages that are not currently selected"
@@ -18716,9 +18736,8 @@ msgid "_Save Message..."
 msgstr "Bericht op_slaan..."
 
 #: ../ui/evolution-mail-message.xml.h:121
-#, fuzzy
 msgid "_Undelete Message"
-msgstr "_Volgend bericht"
+msgstr "Bericht _terughalen"
 
 #: ../ui/evolution-mail-message.xml.h:122
 msgid "_Unread"
@@ -18756,7 +18775,7 @@ msgstr "_Bestand"
 
 #: ../ui/evolution-message-composer.xml.h:1
 msgid "Attach"
-msgstr "Bijlage toevoegen"
+msgstr "Bijvoegen"
 
 #: ../ui/evolution-message-composer.xml.h:2
 msgid "Attach a file"
@@ -18764,7 +18783,7 @@ msgstr "Een bestand toevoegen als bijlage"
 
 #: ../ui/evolution-message-composer.xml.h:3
 msgid "Check to get delivery notification when your message is read"
-msgstr ""
+msgstr "Aanvinken om een leesbevestiging te ontvangen wanneer uw bericht wordt gelezen"
 
 #: ../ui/evolution-message-composer.xml.h:5
 #: ../ui/evolution-signature-editor.xml.h:3
@@ -18780,7 +18799,6 @@ msgid "Encrypt this message with PGP"
 msgstr "Dit bericht versleutelen met PGP"
 
 #: ../ui/evolution-message-composer.xml.h:8
-#, fuzzy
 msgid "Encrypt this message with your S/MIME Encryption Certificate"
 msgstr "Dit bericht versleutelen met uw S/MIME versleutelingscertificaat"
 
@@ -18806,9 +18824,8 @@ msgid "PGP Sign"
 msgstr "Ondertekenen met PGP"
 
 #: ../ui/evolution-message-composer.xml.h:15
-#, fuzzy
 msgid "Request read receipt"
-msgstr "Leesbevestigingen"
+msgstr "Leesbevestiging vragen"
 
 #: ../ui/evolution-message-composer.xml.h:16
 msgid "S/MIME Encrypt"
@@ -19369,9 +19386,8 @@ msgid "Name of new view:"
 msgstr "Naam van de nieuwe weergave:"
 
 #: ../widgets/menus/gal-view-new-dialog.glade.h:3
-#, fuzzy
 msgid "Type of View"
-msgstr "Soort weergave:"
+msgstr "Soort weergave"
 
 #: ../widgets/menus/gal-view-new-dialog.glade.h:4
 msgid "Type of view:"
@@ -19861,17 +19877,19 @@ msgstr ""
 msgid "W_ithin"
 msgstr "_Binnen"
 
+# Indien ge_accepteerd:
+# bij acceptatie/accepteren/aannemen/aanname
 #: ../widgets/misc/e-send-options.glade.h:24
-#, fuzzy
 msgid "When acce_pted:"
-msgstr "Bij _accepteren:"
+msgstr "Bij _accepteren"
 
+# voltooiing/voltooien
 #: ../widgets/misc/e-send-options.glade.h:25
 msgid "When co_mpleted:"
 msgstr "Bij _voltooien:"
 
+# bij afwijzing
 #: ../widgets/misc/e-send-options.glade.h:26
-#, fuzzy
 msgid "When decli_ned:"
 msgstr "Bij a_fwijzing:"
 
@@ -19921,14 +19939,16 @@ msgstr "%s (%d%% voltooid)"
 msgid "click here to go to url"
 msgstr "hier klikken om naar url te gaan"
 
+# vertalen of niet?
 #: ../widgets/misc/gal-categories.glade.h:2
 msgid "Edit Master Category List..."
-msgstr ""
+msgstr "Hoofdcategorielijst bewerken"
 
+# meervoud gemaakt anders moet behoren/behoor ook
+# worden opgesplitst
 #: ../widgets/misc/gal-categories.glade.h:3
-#, fuzzy
 msgid "Item(s) belong to these _categories:"
-msgstr "Dit contact behoort tot de categoriëen:"
+msgstr "Items behoren tot deze _categoriëen:"
 
 #: ../widgets/misc/gal-categories.glade.h:4
 msgid "_Available Categories:"
@@ -20085,9 +20105,8 @@ msgid "No grouping"
 msgstr "Niet gegroepeerd"
 
 #: ../widgets/table/e-table-config.c:584
-#, fuzzy
 msgid "Available Fields"
-msgstr "_Beschikbare velden"
+msgstr "Beschikbare velden"
 
 #: ../widgets/table/e-table-config.glade.h:17
 msgid "_Group By..."
@@ -20335,10 +20354,10 @@ msgid "Copyright (C) 2000, Helix Code, Inc."
 msgstr "Copyright (C) 2000, Helix Code, Inc."
 
 #: ../widgets/text/e-entry-test.c:52
-#, fuzzy
 msgid "This should test the minicard canvas item"
-msgstr "Dit zou het terugvloei canvas item moeten testen"
+msgstr "Dit zou het minicard canvas-item moeten testen"
 
+# actieverwerking
 #: ../widgets/text/e-entry.c:1242 ../widgets/text/e-entry.c:1243
 #: ../widgets/text/e-text.c:3455 ../widgets/text/e-text.c:3456
 msgid "Event Processor"
@@ -20409,9 +20428,10 @@ msgstr "Knop tekenen"
 msgid "Cursor position"
 msgstr "Cursorpositie"
 
+# is dit de juiste betekenis?
 #: ../widgets/text/e-entry.c:1389 ../widgets/text/e-entry.c:1390
 msgid "Emulate label resize"
-msgstr ""
+msgstr "Labelgrootte aanpassen emuleren"
 
 #: ../widgets/text/e-text.c:2696
 msgid "Input Methods"
@@ -20488,19 +20508,11 @@ msgstr "Sleepbalkpopup"
 #~ msgid "New vFolder"
 #~ msgstr "Nieuwe vMap"
 
-#, fuzzy
-#~ msgid "SaveDraft"
-#~ msgstr "Kla_d Opslaan"
-
 # was eerst: Computernaam, maar kan hier beter: Servernaam/Server zijn.
 # Hier moet het adres van de mailserver worden gegeven
 # letterlijk: gastcomputer
 #~ msgid "_Host:"
 #~ msgstr "_Host:"
-
-#, fuzzy
-#~ msgid "Could not update folder permissions. %s"
-#~ msgstr "Kon map: %s niet openen: %s"
 
 #~ msgid "Show _Messages"
 #~ msgstr "Be_richten tonen"
