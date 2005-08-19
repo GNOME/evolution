@@ -49,6 +49,7 @@
 #include <camel/camel-stream-null.h>
 #include <camel/camel-mime-filter-charset.h>
 #include <camel/camel-mime-filter-windows.h>
+#include <camel/camel-mime-filter-pgp.h>
 
 #include "em-format.h"
 #include "em-utils.h"
@@ -1254,6 +1255,7 @@ emf_multipart_encrypted(EMFormat *emf, CamelStream *stream, CamelMimePart *part,
 	const char *protocol;
 	CamelMimePart *opart;
 	CamelCipherValidity *valid;
+	CamelMultipartEncrypted *mpe;
 	struct _EMFormatCache *emfc;
 
 	/* should this perhaps run off a key of ".secured" ? */
@@ -1263,8 +1265,15 @@ emf_multipart_encrypted(EMFormat *emf, CamelStream *stream, CamelMimePart *part,
 		return;
 	}
 
+	mpe = (CamelMultipartEncrypted*)camel_medium_get_content_object((CamelMedium *)part);
+	if (!CAMEL_IS_MULTIPART_ENCRYPTED(mpe)) {
+		em_format_format_error(emf, stream, _("Could not parse MIME message. Displaying as source."));
+		em_format_format_source(emf, stream, part);
+		return;
+	}
+
 	/* Currently we only handle RFC2015-style PGP encryption. */
-	protocol = camel_content_type_param (((CamelDataWrapper *) part)->mime_type, "protocol");
+	protocol = camel_content_type_param(((CamelDataWrapper *)mpe)->mime_type, "protocol");
 	if (!protocol || g_ascii_strcasecmp (protocol, "application/pgp-encrypted") != 0) {
 		em_format_format_error(emf, stream, _("Unsupported encryption type for multipart/encrypted"));
 		em_format_part_as(emf, stream, part, "multipart/mixed");
@@ -1488,6 +1497,101 @@ emf_message_deliverystatus(EMFormat *emf, CamelStream *stream, CamelMimePart *pa
 	em_format_format_text(emf, stream, camel_medium_get_content_object((CamelMedium *)part));
 }
 
+static void
+emf_inlinepgp_signed(EMFormat *emf, CamelStream *stream, CamelMimePart *ipart, EMFormatHandler *info)
+{
+	CamelCipherContext *cipher;
+	CamelCipherValidity *valid;
+	CamelException *ex;
+	CamelMimePart *opart=NULL;
+	CamelStreamFilter *filtered_stream;
+	CamelStream *ostream;
+	CamelDataWrapper *dw;
+	CamelMimeFilterPgp *pgp_filter;
+
+	ex = camel_exception_new();
+	cipher = camel_gpg_context_new(emf->session);
+	/* Verify the signature of the message */
+	valid = camel_cipher_verify(cipher, ipart, ex);
+	if (!valid) {
+		em_format_format_error(emf, stream, ex->desc?_("Error verifying signature"):_("Unknown error verifying signature"));
+		if (ex->desc)
+			em_format_format_error(emf, stream, ex->desc);
+		em_format_format_source(emf, stream, ipart);
+		/* I think this will loop: em_format_part_as(emf, stream, part, "text/plain"); */
+		camel_exception_free(ex);
+		camel_object_unref(cipher);
+		return;
+    	}
+        
+	/* Setup output stream */
+	ostream = camel_stream_mem_new();
+	filtered_stream = camel_stream_filter_new_with_stream(ostream);
+
+	/* Add PGP header / footer filter */
+	pgp_filter = (CamelMimeFilterPgp *)camel_mime_filter_pgp_new();
+	camel_stream_filter_add(filtered_stream, (CamelMimeFilter *)pgp_filter);
+	camel_object_unref(pgp_filter);
+	
+	/* Pass through the filters that have been setup */
+	dw = camel_medium_get_content_object((CamelMedium *)ipart);
+	camel_data_wrapper_decode_to_stream(dw, (CamelStream *)filtered_stream);
+	camel_stream_flush((CamelStream *)filtered_stream);
+	camel_object_unref(filtered_stream);
+	
+	/* Extract new part and display it as text/plain */ 
+	dw = camel_data_wrapper_new();
+	camel_data_wrapper_construct_from_stream(dw, ostream);
+	camel_data_wrapper_set_mime_type(dw, "text/plain");
+	opart = camel_mime_part_new();
+	camel_medium_set_content_object((CamelMedium *)opart, dw);
+	camel_mime_part_set_content_type(opart, "text/plain");
+	
+	/* Pass it off to the real formatter */	
+	em_format_format_secure(emf, stream, opart, valid);
+
+	/* Clean Up */
+	camel_object_unref(dw);
+	camel_object_unref(opart);
+	camel_object_unref(ostream);
+	camel_object_unref(cipher);
+	camel_exception_free(ex);	
+}
+
+static void
+emf_inlinepgp_encrypted(EMFormat *emf, CamelStream *stream, CamelMimePart *ipart, EMFormatHandler *info)
+{	
+	CamelCipherContext *cipher;
+	CamelCipherValidity *valid;
+	CamelException *ex;
+	CamelMimePart *opart;
+    
+	cipher = camel_gpg_context_new(emf->session);
+	ex = camel_exception_new();
+	opart = camel_mime_part_new();
+	/* Decrypt the message */
+	valid = camel_cipher_decrypt (cipher, ipart, opart, ex);	
+	if (!valid) {
+		em_format_format_error(emf, stream, ex->desc?("Could not parse S/MIME message"):_("Could not parse S/MIME message: Unknown error"));
+		if (ex->desc)
+			em_format_format_error(emf, stream, ex->desc);
+		em_format_format_source(emf, stream, ipart);
+		/* I think this will loop: em_format_part_as(emf, stream, part, "text/plain"); */
+		camel_exception_free(ex);
+		camel_object_unref(cipher);
+		camel_object_unref(opart);
+		return;
+	}
+
+	/* Pass it off to the real formatter */	
+	em_format_format_secure(emf, stream, opart, valid);
+
+	/* Clean Up */
+	camel_object_unref(opart);
+	camel_object_unref (cipher);
+	camel_exception_free (ex);
+}
+
 static EMFormatHandler type_builtin_table[] = {
 #ifdef ENABLE_SMIME
 	{ "application/x-pkcs7-mime", (EMFormatFunc)emf_application_xpkcs7mime, EM_FORMAT_HANDLER_INLINE_DISPOSITION },
@@ -1509,6 +1613,9 @@ static EMFormatHandler type_builtin_table[] = {
 	{ "application/pkcs7-mime", (EMFormatFunc)emf_application_xpkcs7mime, EM_FORMAT_HANDLER_INLINE_DISPOSITION },
 #endif
 
+	/* internal types */
+	{ "application/x-inlinepgp-signed", (EMFormatFunc)emf_inlinepgp_signed },
+	{ "application/x-inlinepgp-encrypted", (EMFormatFunc)emf_inlinepgp_encrypted },
 };
 
 static void

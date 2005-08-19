@@ -276,6 +276,8 @@ efhd_init(GObject *o)
 	efh->text_html_flags |= CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS | CAMEL_MIME_FILTER_TOHTML_CONVERT_ADDRESSES;
 #undef efh
 
+	efhd->nobar = getenv("EVOLUTION_NO_BAR") != NULL;
+
 	efhd->priv->show_bar = FALSE;
 	efhd->priv->files = NULL;
 }
@@ -1431,45 +1433,47 @@ efhd_attachment_button(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObje
 	g_assert(info != NULL);
 	g_assert(info->forward == NULL);
 
-	file = camel_mime_part_get_filename(info->puri.part);
+	if (efhd->priv->attachment_bar) {
+		file = camel_mime_part_get_filename(info->puri.part);
 
-	new = e_attachment_new_from_mime_part (info->puri.part);
+		new = e_attachment_new_from_mime_part (info->puri.part);
 
-	if (!file) {
-		file = "attachment.dat";
-		new->file_name = g_strdup(file);
-	}
-
-	tmp = g_hash_table_lookup (efhd->priv->files, file);
-	if (tmp) {
-		guint count = GPOINTER_TO_UINT(tmp);
-		char *ext;
-		char *tmp_file = g_strdup (file);
-		
-		if ((ext = strrchr(tmp_file, '.'))) {
-			ext[0] = 0;
-			new_file = g_strdup_printf("%s(%d).%s", tmp_file, count++, ext+1);
-		} else {
-			new_file = g_strdup_printf("%s(%d)", tmp_file, count++);
+		if (!file) {
+			file = "attachment.dat";
+			new->file_name = g_strdup(file);
 		}
 
-		g_free (tmp_file);
-		g_hash_table_insert (efhd->priv->files, g_strdup(file), GUINT_TO_POINTER(count));
-		g_free (new->file_name);
-		new->file_name = new_file;
-	} else {
-		g_hash_table_insert (efhd->priv->files, g_strdup(file), GUINT_TO_POINTER(1));
-	}
+		tmp = g_hash_table_lookup (efhd->priv->files, file);
+		if (tmp) {
+			guint count = GPOINTER_TO_UINT(tmp);
+			char *ext;
+			char *tmp_file = g_strdup (file);
+		
+			if ((ext = strrchr(tmp_file, '.'))) {
+				ext[0] = 0;
+				new_file = g_strdup_printf("%s(%d).%s", tmp_file, count++, ext+1);
+			} else {
+				new_file = g_strdup_printf("%s(%d)", tmp_file, count++);
+			}
 
-	/* Store the status of encryption / signature on the attachment for emblem display 
-	 * FIXME: May not work well always
-	 */
-	new->sign = info->sign;
-	new->encrypt = info->encrypt;
+			g_free (tmp_file);
+			g_hash_table_insert (efhd->priv->files, g_strdup(file), GUINT_TO_POINTER(count));
+			g_free (new->file_name);
+			new->file_name = new_file;
+		} else {
+			g_hash_table_insert (efhd->priv->files, g_strdup(file), GUINT_TO_POINTER(1));
+		}
+
+		/* Store the status of encryption / signature on the attachment for emblem display 
+		 * FIXME: May not work well always
+		 */
+		new->sign = info->sign;
+		new->encrypt = info->encrypt;
 	
-	/* Add the attachment to the bar.*/
-	e_attachment_bar_add_attachment (E_ATTACHMENT_BAR(efhd->priv->attachment_bar), new);
-	efhd_attachment_bar_refresh (efhd);
+		/* Add the attachment to the bar.*/
+		e_attachment_bar_add_attachment(E_ATTACHMENT_BAR(efhd->priv->attachment_bar), new);
+		efhd_attachment_bar_refresh(efhd);
+	}
 	
 	mainbox = gtk_hbox_new(FALSE, 0);
 
@@ -1984,7 +1988,7 @@ efhd_message_add_bar(EMFormat *emf, CamelStream *stream, CamelMimePart *part, co
 	EMFormatHTMLDisplay *efhd = (EMFormatHTMLDisplay *) emf;
 	const char *classid = "attachment-bar";
 
-	if (efhd->priv->files)
+	if (efhd->nobar || efhd->priv->files)
 		return;
 
 	efhd->priv->files = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);

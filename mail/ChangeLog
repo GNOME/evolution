@@ -1,3 +1,28 @@
+2005-08-19  Not Zed  <NotZed@Ximian.com>
+
+	* em-format.c (emf_multipart_encrypted): put the s/mime message
+	back, awaiting string approval for a change otherwise.
+
+2005-08-18  Not Zed  <NotZed@Ximian.com>
+
+	* em-format-html-display.c (efhd_message_add_bar): dont add
+	attachment bar if it is disabled.
+	(efhd_attachment_button): dont add attachments if there is no bar.
+
+	* em-format.c (emf_inlinepgp_signed, emf_inlinepgp_encrypted): fix
+	the error messages for consistency.  We dont need to check
+	content-type, since we only get called with the right one.
+	(emf_multipart_encrypted): fix up wrong s/mime error.
+
+	* em-format-html.c (efh_inlinepgp_signed)
+	(efh_inlinepgp_encrypted): moved to em-format.c; otherwise this
+	will break replying, etc.
+
+	** See #271894.
+
+	* em-format.c (emf_multipart_encrypted): use the content object's
+	content-type to check types.
+
 2005-08-16  Not Zed  <NotZed@Ximian.com>
 
 	** See #312668.

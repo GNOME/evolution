@@ -22,6 +22,7 @@ struct _EMFormatHTMLDisplay {
 
 	unsigned int animate:1;
 	unsigned int caret_mode:1;
+	unsigned int nobar:1;
 };
 
 #define EM_FORMAT_HTML_DISPLAY_SEARCH_PRIMARY (0)
