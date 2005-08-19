@@ -78,6 +78,7 @@ finalise(GObject *object)
 	}
 
 	g_free (attachment->file_name);
+	g_free (attachment->store_uri);
 
 	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
@@ -143,6 +144,7 @@ init (EAttachment *attachment)
 	attachment->disposition = FALSE;
 	attachment->sign = CAMEL_CIPHER_VALIDITY_SIGN_NONE;
 	attachment->encrypt = CAMEL_CIPHER_VALIDITY_ENCRYPT_NONE;
+	attachment->store_uri = NULL;
 }
 
 GType
@@ -210,7 +212,7 @@ e_attachment_new (const char *file_name,
 	struct stat statbuf;
 	char *mime_type;
 	char *filename;
-	char *uri;
+	CamelURL *curl;
 	
 	g_return_val_if_fail (file_name != NULL, NULL);
 	
@@ -283,8 +285,11 @@ e_attachment_new (const char *file_name,
 	new->handle = NULL;
 	new->is_available_local = TRUE;
 	new->file_name = filename;
-	uri = g_strdup_printf("file://%s\r\n", file_name);
-	g_object_set_data_full((GObject *)new, "e-drag-uri", uri, g_free);
+	
+	curl = camel_url_new ("file:", NULL);
+	camel_url_set_path (curl, file_name);
+	new->store_uri = camel_url_to_string (curl, 0);
+	camel_url_free (curl);
 	
 	return new;
 }
@@ -411,7 +416,7 @@ e_attachment_build_remote_file (const char *file_name,
 	struct stat statbuf;
 	char *mime_type;
 	char *filename;
-	char *uri;
+	CamelURL *curl;
 	
 	g_return_if_fail (file_name != NULL);
 	
@@ -486,9 +491,12 @@ e_attachment_build_remote_file (const char *file_name,
 	attachment->guessed_type = TRUE;
 	g_free (attachment->file_name);
 	attachment->file_name = g_strdup (filename);
-	uri = g_strdup_printf("file://%s\r\n", file_name);
-	g_object_set_data_full((GObject *)attachment, "e-drag-uri", uri, g_free);
 	
+	curl = camel_url_new ("file:", NULL);
+	camel_url_set_path (curl, file_name);
+	attachment->store_uri = camel_url_to_string (curl, 0);
+	camel_url_free (curl);
+
 }
 
 

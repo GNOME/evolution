@@ -1,3 +1,16 @@
+2005-08-17  Srinivasa Ragavan <sragavan@novell.com>
+
+	* e-attachment-bar.c 
+	eab_drag_data_get: Use camel_url to construct url
+	(eab_icon_clicked_cb) (e_attachment_bar_new): 
+	Fixed part of bug #312224. It handles double click on a attachment
+	icon and calls gnome_url_show.
+
+	* e-attachment.[ch] (finalise) (init): Add a new member to preserve
+	the stored location
+	(e_attachment_new)(e_attachment_build_remote_file): Camel_url to 
+	construct urls
+	
 2005-08-16  Srinivasa Ragavan <sragavan@novell.com>
 
 	* e-attachment.c (download_to_local_path) (e_attachment_edit): Fixed

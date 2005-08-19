@@ -34,6 +34,7 @@
 #include <gdk/gdkkeysyms.h>
 #include <libgnomevfs/gnome-vfs-mime-handlers.h>
 #include <libgnome/gnome-i18n.h>
+#include <libgnome/libgnome.h>
 
 #include "e-attachment.h"
 #include "e-attachment-bar.h"
@@ -704,14 +705,13 @@ eab_drag_data_get(EAttachmentBar *bar, GdkDragContext *drag, GtkSelectionData *d
 	for (; tmp; tmp = tmp->next) {
 		int num = GPOINTER_TO_INT(tmp->data);
 		EAttachment *attachment = g_list_nth_data(bar->priv->attachments, num);	
-		char *uri;
+		CamelURL *curl;
 
 		if (!attachment->is_available_local)
 			continue;
 
-		uri = g_object_get_data((GObject *)attachment, "e-drag-uri");
-		if (uri) {
-			uris[i] = uri;
+		if (attachment->store_uri) {
+			uris[i] = attachment->store_uri;
 			i++;
 			continue;
 		}
@@ -720,10 +720,13 @@ eab_drag_data_get(EAttachmentBar *bar, GdkDragContext *drag, GtkSelectionData *d
 		if (path == NULL) 
 			continue;
 		
-		uri = g_strdup_printf("file://%s\r\n", path);
+		curl = camel_url_new("file:", NULL);
+		camel_url_set_path (curl, path);
+		attachment->store_uri = camel_url_to_string (curl, 0);
+		camel_url_free(curl);		
 		g_free(path);
-		g_object_set_data_full((GObject *)attachment, "e-drag-uri", uri, g_free);
-		uris[i] = uri;
+		
+		uris[i] = attachment->store_uri;
 		i++;
 	}
 	uris[i]=0;
@@ -808,6 +811,53 @@ eab_button_press_event(EAttachmentBar *bar, GdkEventButton *event, gpointer dumm
 		}
 	} 
 	return FALSE;
+}
+
+static gboolean
+eab_icon_clicked_cb (EAttachmentBar *bar, GdkEvent *event, gpointer *dummy)
+{
+	GSList *p = NULL;
+	GError *error = NULL;
+	gboolean ret = FALSE;
+
+	if (E_IS_ATTACHMENT_BAR (bar) && event->type == GDK_2BUTTON_PRESS) {
+		p = e_attachment_bar_get_selected (bar);
+		if (p && g_slist_length(p) == 1) {
+			EAttachment *attachment;
+			char *path = NULL;
+
+			attachment = (EAttachment *)p->data;
+
+			/* Check if the file is stored already */
+			if (!attachment->store_uri) {
+				CamelURL *curl;
+				
+				path = temp_save_part (attachment->body);				
+				curl  = camel_url_new ("file:", NULL);
+				camel_url_set_path ( curl, path);
+				attachment->store_uri = camel_url_to_string (curl, 0);
+				camel_url_free (curl);
+			}
+
+			/* launch the url now */
+			gnome_url_show (attachment->store_uri, &error);
+			if (error) {
+				g_message ("DEBUG: Launch failed: %s\n", error->message);
+				g_error_free (error);
+				error = NULL;
+			}
+
+			g_free (path);
+			ret = TRUE;
+		}
+
+		if (p) {
+			g_slist_foreach (p, (GFunc)g_object_unref, NULL);
+			g_slist_free (p);
+		}
+	}
+
+	return ret;
 }
 
 /* Initialization.  */
@@ -910,6 +960,7 @@ e_attachment_bar_new (GtkAdjustment *adj)
 	g_signal_connect (new, "button_release_event", G_CALLBACK(eab_button_release_event), NULL);
 	g_signal_connect (new, "button_press_event", G_CALLBACK(eab_button_press_event), NULL);
 	g_signal_connect (new, "drag-data-get", G_CALLBACK(eab_drag_data_get), NULL);
+	g_signal_connect (icon_list, "event", G_CALLBACK (eab_icon_clicked_cb), NULL);
 	
 	return GTK_WIDGET (new);
 }

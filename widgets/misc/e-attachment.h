@@ -65,6 +65,7 @@ struct _EAttachment {
 	char *description;
 	gboolean disposition;
 	int index;
+	char *store_uri;
 
 	/* Status of signed/encrypted attachments */
 	camel_cipher_validity_sign_t sign;
