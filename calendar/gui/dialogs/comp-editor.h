@@ -25,7 +25,6 @@
 #include <libecal/e-cal.h>
 #include "../itip-utils.h"
 #include "comp-editor-page.h"
-#include "evolution-shell-component-utils.h"
 
 G_BEGIN_DECLS
 

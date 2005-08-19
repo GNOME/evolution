@@ -1,3 +1,8 @@
+2005-08-19  Harish Krishnaswamy  <kharish@novell.com>
+
+	* gui/dialogs/comp-editor.h: Remove unwanted include of
+	header that also borks the build.
+
 2005-08-02  Viren.l  <lviren@novell.com>
 
 	* gui/dialogs/meeting-page.c:(meeting_page_fill_widgets):
