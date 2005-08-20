@@ -41,7 +41,7 @@
 	* gui/widgets/Makefile.am: Install missing e-plugin header
 	eab-config.h, eab-menu.h and eab-popup.h. Fixes bug: #313585.
 
-2005-03-13  Sushma Rai  <rsushma@novell.com>
+2005-08-13  Sushma Rai  <rsushma@novell.com>
 
 	* gui/component/addressbook-config.c (do_ldap_root_dse_query): Checking
 	for naming context value.
@@ -52,13 +52,13 @@
 	difference on Unix, on Win32 privsolib means lib). Use
 	NO_UNDEFINED. Link with libeabutil.la.
 
-2005-03-05  Sushma Rai  <rsushma@novell.com>
+2005-08-05  Sushma Rai  <rsushma@novell.com>
 
 	* gui/widgets/eab-contact-display.c (render_contact): Using 
 	gtk_html_stream_printf() with format specifier. Vulnerability patch
 	submitted by "Sitic Vulnerability Advisory <sitic@pts.se>"
 
-2005-03-05  Sushma Rai  <rsushma@novell.com>
+2005-08-05  Sushma Rai  <rsushma@novell.com>
 
 	* importers/evolution-ldif-importer.c (ldif_import): Initialize gci->size to
 	the file size, which is used for indicationg the import progress. Fixes the
@@ -69,7 +69,7 @@
 	* gui/component/addressbook-view.c: Added forward references to functions that were
 	used before being defined.
 
-2005-03-03  Sushma Rai  <rsushma@novell.com>
+2005-08-03  Sushma Rai  <rsushma@novell.com>
 
 	* gui/widgets/eab-gui-util.c (eab_transfer_contacts): Initialize the
 	flag status to FALSE.
