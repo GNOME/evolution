@@ -89,7 +89,6 @@ calendar/gui/apps_evolution_calendar.schemas.in.in
 calendar/gui/cal-search-bar.c
 calendar/gui/calendar-commands.c
 calendar/gui/calendar-component.c
-calendar/gui/calendar-offline-handler.c
 calendar/gui/calendar-view-factory.c
 calendar/gui/comp-editor-factory.c
 calendar/gui/control-factory.c
@@ -371,7 +370,6 @@ shell/e-component-registry.c
 shell/e-config-upgrade.c
 shell/e-shell-folder-title-bar.c
 shell/e-shell-importer.c
-shell/e-shell-offline-handler.c
 shell/e-shell-settings-dialog.c
 shell/e-shell-utils.c
 shell/e-shell-window-commands.c

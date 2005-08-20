@@ -1,3 +1,8 @@
+2005-08-20  Frank Arnold  <farnold@cvs.gnome.org>
+
+	* POTFILES.in: Removed missing files. See bug #312668.
+	* de.po: Updated German translation.
+
 2005-08-20  Francisco Javier F. Serrador  <serrador@cvs.gnome.org>
 
 	* es.po: UPdated Spanish translation.
