@@ -9978,7 +9978,7 @@ msgid ""
 "directory individually, or create an archive of the directory and attach it."
 msgstr ""
 "Para adjuntar el contenido de este directorio, o adjunte individualmente "
-"cada archivo, o cree un archivo comprimido del directorio y adjúntelo."
+"cada archivo, o cree un archivador del directorio y adjúntelo."
 
 #: ../composer/mail-composer.error.xml.h:21
 msgid ""
@@ -14279,7 +14279,7 @@ msgstr "Complemento de sonido en línea"
 
 #: ../plugins/backup-restore/backup-restore.c:51
 msgid "Select name of Evolution archive"
-msgstr "Seleccione el nombre del archivo de Evolution"
+msgstr "Seleccione el nombre del archivador de Evolution"
 
 #: ../plugins/backup-restore/backup-restore.c:61
 msgid "_Restart Evolution after backup"
@@ -14287,7 +14287,7 @@ msgstr "_Reinicia Evolution después del respaldo"
 
 #: ../plugins/backup-restore/backup-restore.c:89
 msgid "Select Evolution archive to restore"
-msgstr "Seleccione el archivo de Evolution para restaurar"
+msgstr "Seleccione el archivador de Evolution para restaurar"
 
 #: ../plugins/backup-restore/backup-restore.c:97
 msgid "_Restart Evolution after restore"
@@ -14303,7 +14303,7 @@ msgstr "Restaurar el directorio de Evolution"
 
 #: ../plugins/backup-restore/backup.c:113
 msgid "Check Evolution archive"
-msgstr "Comprobar el archivo de Evolution"
+msgstr "Comprobar el archivador de Evolution"
 
 #: ../plugins/backup-restore/backup.c:115
 msgid "Restart Evolution"
@@ -15947,7 +15947,7 @@ msgstr "_Responsable de la lista de contactos"
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:2
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:5
 msgid "Get list _archive"
-msgstr "Obtener _archivo de la lista"
+msgstr "Obtener _archivador de la lista"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:3
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:6
@@ -16075,7 +16075,7 @@ msgstr ""
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:3
 msgid "Get an archive of the list this message belongs to"
-msgstr "Obtener un archivo de la lista a la que pertenece este mensaje"
+msgstr "Obtener un archivador de la lista a la que pertenece este mensaje"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:4
 msgid "Get information about the usage of the list this message belongs to"
