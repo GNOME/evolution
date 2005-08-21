@@ -270,6 +270,10 @@ cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
 
 	if (status != E_CALENDAR_STATUS_OK) {
 		d(printf ("Failed opening itip formatter calendar '%s' during non-search opening\n", e_source_peek_name (source)));
+		itip_view_add_lower_info_item_printf (ITIP_VIEW (pitip->view),
+						      ITIP_VIEW_INFO_ITEM_TYPE_WARNING,
+						      "Failed to load the calendar '%s'",
+						      e_source_peek_name (source));
 		g_hash_table_remove (pitip->ecals[source_type], e_source_peek_uid (source));
 		return;
 	}
@@ -375,6 +379,10 @@ find_cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
 		 * to find the item, this won't be cleared but the
 		 * selector might be shown */
 		d(printf ("Failed opening itip formatter calendar '%s' during search opening... ", e_source_peek_name (source)));
+		itip_view_add_lower_info_item_printf (ITIP_VIEW (pitip->view),
+						      ITIP_VIEW_INFO_ITEM_TYPE_WARNING,
+						      "Failed to load the calendar '%s'",
+						      e_source_peek_name (source));
 		g_hash_table_remove (pitip->ecals[source_type], e_source_peek_uid (source));
 		goto cleanup;
 	}
