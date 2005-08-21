@@ -1,3 +1,8 @@
+2005-08-21  Francisco Javier F. Serrador  <serrador@cvs.gnome.org>
+
+	* widgets/misc/e-canvas-background.c:
+	* widgets/text/e-entry.c: Resolve Bug #309074 
+
 2005-08-10  Tor Lillqvist  <tml@novell.com>
 
 	* tools/Makefile.am: Don't try to build killev on Win32.

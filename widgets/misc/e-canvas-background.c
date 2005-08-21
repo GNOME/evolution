@@ -475,7 +475,7 @@ ecb_class_init (GObjectClass *object_class)
 	g_object_class_install_property (object_class, PROP_FILL_STIPPLE,
 					 g_param_spec_object ("fill_stipple",
 							      _( "Fill stipple" ),
-							      _( "FIll stipple" ),
+							      _( "Fill stipple" ),
 							      GDK_TYPE_WINDOW,
 							      G_PARAM_READWRITE));
 
