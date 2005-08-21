@@ -1,5 +1,9 @@
 2005-08-22  Mohammad DAMT  <mdamt@gnome.org>
 
+	* POTFILES.in: reverted (accidentally updated by my previous check in)
+	
+2005-08-22  Mohammad DAMT  <mdamt@gnome.org>
+
 	* id.po: Updated Indonesian translation.
 
 2005-08-21  Francisco Javier F. Serrador  <serrador@cvs.gnome.org>
