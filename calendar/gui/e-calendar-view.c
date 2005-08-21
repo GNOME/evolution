@@ -1079,7 +1079,7 @@ on_save_as (EPopup *ep, EPopupItem *pitem, void *data)
 		return;
 	}
 	
-	fprintf (file, ical_string);
+	fprintf (file, "%s", ical_string);
 	g_free (ical_string);
 	fclose (file);
 
