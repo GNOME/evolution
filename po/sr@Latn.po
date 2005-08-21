@@ -24608,7 +24608,7 @@ msgstr "%s (%d predmeta)"
 #~ msgstr "Nije moguće sastavljanje podataka za potpis: %s"
 
 #~ msgid ""
-#~ "The following error occured while migrating your mail data:\n"
+#~ "The following error occurred while migrating your mail data:\n"
 #~ "%s"
 #~ msgstr ""
 #~ "Dogodila se naredna greška pri prenosu podataka vaše pošte:\n"

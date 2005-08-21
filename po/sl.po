@@ -29504,7 +29504,7 @@ msgstr "Velikost ročice"
 #~ msgstr "Nisem povezaqn z gnome-pilot daemonom"
 
 #~ msgid ""
-#~ "An error occured when trying to fetch\n"
+#~ "An error occurred when trying to fetch\n"
 #~ "pilot list from the gnome-pilot daemon"
 #~ msgstr ""
 #~ "Ob prenašanju seznama pilotov z gnome-pilot\n"

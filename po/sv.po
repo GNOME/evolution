@@ -11,7 +11,7 @@
 # meeting = sammanträde
 # event = evenemang
 #
-# $Id: sv.po,v 1.214 2005/08/10 14:22:52 menthos Exp $
+# $Id: sv.po,v 1.215 2005/08/21 19:35:00 jseidel Exp $
 #
 msgid ""
 msgstr ""
@@ -38555,7 +38555,7 @@ msgstr "Handtagspopupfönster"
 #~ msgstr "Inte ansluten till gnome-pilot-demonen"
 
 #~ msgid ""
-#~ "An error occured when trying to fetch\n"
+#~ "An error occurred when trying to fetch\n"
 #~ "pilot list from the gnome-pilot daemon"
 #~ msgstr ""
 #~ "Ett fel inträffade vid hämtning av\n"

@@ -460,7 +460,7 @@ e_plugin_add_load_path(const char *path)
  * Scan the search path, looking for plugin definitions, and load them
  * into memory.
  * 
- * Return value: Returns -1 if an error occured.
+ * Return value: Returns -1 if an error occurred.
  **/
 int
 e_plugin_load_plugins(void)

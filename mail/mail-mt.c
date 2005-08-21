@@ -258,7 +258,7 @@ void mail_msg_check_error(void *msg)
 	/* we key on the operation pointer, which is at least accurate enough
 	   for the operation type, although it could be on a different object. */
 	if (g_hash_table_lookup(active_errors, m->ops)) {
-		g_warning("Error occured while existing dialogue active:\n%s", camel_exception_get_description(&m->ex));
+		g_warning("Error occurred while existing dialogue active:\n%s", camel_exception_get_description(&m->ex));
 		return;
 	}
 

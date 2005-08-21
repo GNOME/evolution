@@ -1,3 +1,10 @@
+2005-08-21  Jens Seidel  <jseidel@cvs.gnome.org>
+
+	* e-util/e-plugin.c:
+	* mail/mail-mt.c:
+	* plugins/sa-junk-plugin/em-junk-filter.c: Fixed the typo
+	"occured" (also in all effected PO files to avoid fuzzyness)
+
 2005-08-21  Francisco Javier F. Serrador  <serrador@cvs.gnome.org>
 
 	* widgets/misc/e-canvas-background.c:

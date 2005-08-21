@@ -559,7 +559,7 @@ em_junk_sa_check_junk(EPlugin *ep, EMJunkHookTarget *target)
 	rv = pipe_to_sa_full (msg, NULL, argv, 0, 1, out) != 0;
 
 	if (!rv && out && !strcmp (out->data, "0/0\n")) {
-		/* an error occured */
+		/* an error occurred */
 		if (em_junk_sa_respawn_spamd ()) {
 			g_byte_array_set_size (out, 0);
 
