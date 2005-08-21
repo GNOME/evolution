@@ -1,3 +1,12 @@
+2005-08-21  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	* itip-formatter.c: 
+	(update_attendee_status): removed the unwanted brackets.
+	(format_itip_object): Applied the patch from
+	Christian Kellner <Christian.Kellner@scalix.com> which
+	fixes a memory leak and make deference of url
+	much simpler.
+
 2005-08-20  Carsten Guenther <carsten.guenther@scalix.com>
 
 	* itip-formatter.c: (cal_opened_cb, final_cal_opened_cb):

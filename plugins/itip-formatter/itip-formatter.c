@@ -978,7 +978,7 @@ update_attendee_status (FormatItipPObject *pitip)
 						}
 					}
 
-					response = (e_error_run (NULL, "org.gnome.itip-formatter:add-unknown-attendee", NULL));
+					response = e_error_run (NULL, "org.gnome.itip-formatter:add-unknown-attendee", NULL);
 
 					if (response == GTK_RESPONSE_YES) {
 						change_status (icalcomp, itip_strip_mailto (a->value), a->status);
@@ -1774,18 +1774,14 @@ format_itip_object (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject 
 		/* Since the mailer uri matches with only groupwise calendar uri so for this case we need not 
 		   have to call find_server */
                 CamelFolder *folder;
-                CamelStore *parent_store;
-                CamelService parent_object;
                 CamelURL *url;
                 char *uri;
                 GSList *groups, *l;
-                ESource *source;
+                ESource *source = NULL;
                 gboolean found = FALSE;
 
                 folder = (((pitip->pobject).format)->format).folder;
-                parent_store = folder->parent_store;
-                parent_object = parent_store->parent_object;
-                url = parent_object.url;
+                url = CAMEL_SERVICE (folder->parent_store)->url;
                 uri = camel_url_to_string (url, CAMEL_URL_HIDE_ALL);
 
                 groups = e_source_list_peek_groups (pitip->source_lists[pitip->type]);
@@ -1793,14 +1789,18 @@ format_itip_object (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject 
                         ESourceGroup *group;
                         GSList *sources, *m;
 
-                        group = l->data;
+                        group = E_SOURCE_GROUP (l->data);
                         sources = e_source_group_peek_sources (group);
                         for (m = sources; m && !found; m = m->next) {
-                                source = m->data;
-                                if (!strcmp (uri, e_source_get_uri (source))) {
-                                        found = TRUE;
-                                        break;
-                                }
+                               char *source_uri = NULL;
+
+                               source = E_SOURCE (m->data);
+                               source_uri = e_source_get_uri (source);
+                               
+			       if (source_uri)
+				       found = (strcmp (uri, source_uri) == 0);
+                               
+			       g_free (source_uri);                            
                         }
                 }
 
@@ -1809,6 +1809,8 @@ format_itip_object (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject 
                         set_buttons_sensitive (pitip);
                 } else
                         find_server (pitip, pitip->comp);
+	
+		g_free (uri);
 	}
 	
 	return TRUE;
