@@ -350,6 +350,10 @@ org_gnome_create_option(EPlugin *ep, EMPopupTargetFolder *t)
 	int i = 0;
 	static int first = 0;
 	
+	/*XXX: Remove this when server has a fix to show mails in shared-folder*/
+	if (!getenv("SHARED_FOLDER"))
+		return;
+
 	if (! g_strrstr (t->uri, "groupwise://"))
 		return ;
 	
@@ -402,6 +406,10 @@ org_gnome_shared_folder_factory (EPlugin *ep, EConfigHookItemFactoryData *hook_d
 	EMConfigTargetFolder *target=  (EMConfigTargetFolder *)hook_data->config->target;
 	CamelFolder *folder = target->folder;
 	
+	/*XXX: Remove this when server has a fix to show mails in shared-folder*/
+	if (!getenv("SHARED_FOLDER"))
+		return NULL;
+
 	folder_name = g_strdup (folder->full_name);
 	folderuri = g_strdup(target->uri);
 	if (folderuri && folder_name) 

@@ -183,7 +183,11 @@ org_gnome_popup_wizard (EPlugin *ep, EMEventTargetMessage *target)
 	char *notification;
 	char *start_message;
 	char *buffer = NULL;
-	
+
+	/* XXX:Remove this when server has a fix to show mails in shared-folder*/
+	if (!getenv("SHARED_FOLDER"))
+		return;
+
 	if (!msg)
 		return ;
 
