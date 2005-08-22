@@ -1,3 +1,8 @@
+2005-08-22  Shreyas Srinivasan  <sshreyas@novell.com>
+
+	* proxy.c (org_gnome_proxy): Dont try to connect when the account is
+	offline.
+	
 2005-08-11  Veerapuram Varadhan <vvaradhan@novell.com>
 
 	* proxy.c:

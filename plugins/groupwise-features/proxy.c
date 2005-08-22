@@ -54,11 +54,13 @@
 #include <mail/em-config.h>
 #include <mail/mail-component.h>
 #include <mail/mail-ops.h>
+#include <mail/mail-session.h>
 #include <e-util/e-account.h>
 #include <e-util/e-account-list.h>
 #include <e-util/e-icon-factory.h>
 
 #include <camel/camel-url.h>
+#include <camel/camel-offline-store.h>
 #include <libedataserverui/e-passwords.h>
 #include <libedataserverui/e-name-selector.h>
 #include <proxy.h>
@@ -633,17 +635,24 @@ org_gnome_proxy (EPlugin *epl, EConfigHookItemFactoryData *data)
 	GtkButton *addProxy, *removeProxy, *editProxy;
 	proxyDialog *prd;
 	proxyDialogPrivate *priv;
+	CamelOfflineStore *store;
+	CamelException ex;
 
 	target_account = (EMConfigTargetAccount *)data->config->target;
 	account = target_account->account;
-	if (g_strrstr (e_account_get_string(account, E_ACCOUNT_SOURCE_URL), "groupwise://"))
-	{
+
+	if (!(store = (CamelOfflineStore *) camel_session_get_service (session, e_account_get_string(account, E_ACCOUNT_SOURCE_URL), CAMEL_PROVIDER_STORE, &ex))) {	  
+		camel_exception_clear (&ex);
+		return NULL;
+	}
+
+	if (g_strrstr (e_account_get_string(account, E_ACCOUNT_SOURCE_URL), "groupwise://")) {
 		prd = proxy_dialog_new ();
 		g_object_set_data_full ((GObject *) account, "prd", prd, (GDestroyNotify) g_object_unref);
 		priv = prd->priv;
 		priv->xml_tab = glade_xml_new (EVOLUTION_GLADEDIR "/proxy-listing.glade", "proxy_vbox", NULL);
 
-		if (account->enabled) {	
+		if (account->enabled && (store->state == CAMEL_OFFLINE_STORE_NETWORK_AVAIL)) {	
 			priv->tab_dialog = GTK_WIDGET (glade_xml_get_widget (priv->xml_tab, "proxy_vbox"));
 			priv->tree = GTK_TREE_VIEW (glade_xml_get_widget (priv->xml_tab, "proxy_access_list"));
 			priv->store =  gtk_tree_store_new (2,
@@ -666,7 +675,13 @@ org_gnome_proxy (EPlugin *epl, EConfigHookItemFactoryData *data)
 			if (e_gw_connection_get_proxy_access_list(prd->cnc, &priv->proxy_list)!= E_GW_CONNECTION_STATUS_OK) 
 				return NULL;
 			proxy_update_tree_view (account);
-		} else {
+		} else if (account->enabled){
+			GtkWidget *label;
+			priv->tab_dialog = gtk_vbox_new (TRUE, 10);
+			label = gtk_label_new (_("The Proxy tab will be available only when the account is online."));
+			gtk_box_pack_start ((GtkBox *)priv->tab_dialog, label, TRUE, TRUE, 10);	
+		}
+		else {
 			GtkWidget *label;
 			priv->tab_dialog = gtk_vbox_new (TRUE, 10);
 			label = gtk_label_new (_("The Proxy tab will be available only when the account is enabled."));
@@ -687,6 +702,8 @@ org_gnome_proxy (EPlugin *epl, EConfigHookItemFactoryData *data)
 			}
 		}	
 	}
+
+	camel_object_unref (store);
 	return NULL;
 }
 
