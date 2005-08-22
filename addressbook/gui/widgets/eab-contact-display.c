@@ -412,7 +412,8 @@ eab_contact_display_render_normal (EABContactDisplay *display, EContact *contact
 	gtk_html_stream_write (html_stream, "<body>\n", 7);
 
 	if (contact) {
-		char *str, *html;
+		const char *str;
+		char *html;
 		EContactPhoto *photo;
 
 		gtk_html_stream_printf (html_stream, "<table cellspacing=\"20\" border=\"0\"><td valign=\"top\">");
@@ -437,7 +438,7 @@ eab_contact_display_render_normal (EABContactDisplay *display, EContact *contact
 		}
 
 
-		if (e_contact_get_const (contact, E_CONTACT_IS_LIST))
+		if (e_contact_get (contact, E_CONTACT_IS_LIST))
 			render_contact_list (html_stream, contact);
 		else
 			render_contact (html_stream, contact);
@@ -465,7 +466,8 @@ eab_contact_display_render_compact (EABContactDisplay *display, EContact *contac
 	gtk_html_stream_write (html_stream, "<body>\n", 7);
 
 	if (contact) {
-		char *str, *html;
+		const char *str;
+		char *html;
 		EContactPhoto *photo;
 
 		gtk_html_stream_printf (html_stream,

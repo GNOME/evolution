@@ -1,4 +1,13 @@
-2005-08-19  Devashish Sharma <sdevashish@novell.com>
+2005-08-22  Sushma Rai  <rsushma@novell.com>
+
+	* gui/widgets/eab-contact-display.c 
+	(eab_contact_display_render_normal): Using e_contact_get() instead of
+	e_contact_get_const() for E_CONTACT_IS_LIST. Patch to fix #314152, by
+	"ross@burtonini.com (Ross Burton)".
+	Also fixed some compile time warnings.
+	(eab_contact_display_render_compact): Fixed some compile time warnings.
+
+2005-08-22  Devashish Sharma <sdevashish@novell.com>
 	
 	* gui/contact-editor/e-contact-editor.c (categories_clicked): Makes Edit
 	categories dialog non-modal.
