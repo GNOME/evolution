@@ -459,9 +459,10 @@ match_email_hostname (const gchar *addr1, const gchar *addr2)
 		--addr1;
 		--addr2;
 	}
-
-	/* This will match bob@foo.ximian.com and bob@ximian.com */
-	return *addr1 == '.' || *addr2 == '.';
+	if((*addr1 == '@' && *addr2 != '@' ) || (*addr2 == '@' && *addr1 != '@'))
+	       return FALSE;	
+	
+	return TRUE;
 }
 
 static EABContactMatchType

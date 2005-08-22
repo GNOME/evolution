@@ -1,3 +1,9 @@
+2005-08-22  Devashish Sharma <sdevashish@novell.com>
+
+	* gui/widgets/eab-contact-compare.c (match_email_hostname): This
+	function was never returning true and the comparison was also not
+	proper. Fixed this.
+
 2005-08-17  Devashish Sharma <sdevashish@novell.com>
 
 	*  gui/merging/eab-contact-compare.c (use_common_book_cb): When
