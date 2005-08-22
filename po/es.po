@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-control-center\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-08-21 17:59+0200\n"
-"PO-Revision-Date: 2005-08-21 00:59+0200\n"
+"POT-Creation-Date: 2005-08-22 21:13+0200\n"
+"PO-Revision-Date: 2005-08-22 21:14+0200\n"
 "Last-Translator: Francisco Javier F. Serrador <serrador@cvs.gnome.org>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -2449,15 +2449,15 @@ msgstr "Modificados"
 msgid "Contact Editor - %s"
 msgstr "Editor de contactos - %s"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2650
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2659
 msgid "Please select an image for this contact"
 msgstr "Seleccione una imagen para este contacto"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2651
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2660
 msgid "No image"
 msgstr "Sin imagen"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2927
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2936
 msgid ""
 "The contact data is invalid:\n"
 "\n"
@@ -2465,7 +2465,7 @@ msgstr ""
 "Los datos del contacto son inválidos:\n"
 "\n"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2979
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2988
 msgid "Invalid contact."
 msgstr "Contacto inválido."
 
@@ -2632,7 +2632,7 @@ msgid "Add an email to the List"
 msgstr "Añadir un correo-e a la lista"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:5
-#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:817
+#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:834
 msgid "Contact List Editor"
 msgstr "Editor de listas de contactos"
 
@@ -2930,7 +2930,7 @@ msgid "Company Phone"
 msgstr "Teléfono de empresa"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:10
-#: ../addressbook/gui/widgets/eab-contact-display.c:562
+#: ../addressbook/gui/widgets/eab-contact-display.c:564
 #: ../smime/lib/e-cert.c:826
 msgid "Email"
 msgstr "Correo-e"
@@ -3189,7 +3189,7 @@ msgid "map"
 msgstr "mapa"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:276
-#: ../addressbook/gui/widgets/eab-contact-display.c:543
+#: ../addressbook/gui/widgets/eab-contact-display.c:545
 msgid "List Members"
 msgstr "Listar miembros"
 
@@ -3224,7 +3224,7 @@ msgid "WWW"
 msgstr "WWW"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:378
-#: ../addressbook/gui/widgets/eab-contact-display.c:597
+#: ../addressbook/gui/widgets/eab-contact-display.c:599
 msgid "Blog"
 msgstr "Diario web"
 
@@ -3232,11 +3232,11 @@ msgstr "Diario web"
 msgid "personal"
 msgstr "personal"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:558
+#: ../addressbook/gui/widgets/eab-contact-display.c:560
 msgid "Job Title"
 msgstr "Puesto"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:589
+#: ../addressbook/gui/widgets/eab-contact-display.c:591
 msgid "Home page"
 msgstr "Página personal"
 
@@ -3778,7 +3778,7 @@ msgstr "Escala de grises"
 
 #. FIXME: Take care of i18n
 #: ../addressbook/printing/e-contact-print.glade.h:36
-#: ../plugins/exchange-operations/exchange-account-setup.c:927
+#: ../plugins/exchange-operations/exchange-account-setup.c:918
 #: ../plugins/exchange-operations/exchange-calendar.c:205
 #: ../plugins/exchange-operations/exchange-contacts.c:176
 msgid "Size:"
@@ -3830,8 +3830,8 @@ msgstr "Prueba de impresión de contactos"
 msgid "This should test the contact print code"
 msgstr "Esto debería probar el código de impresión de los contactos"
 
-#: ../addressbook/tools/evolution-addressbook-export-list-cards.c:662
-#: ../addressbook/tools/evolution-addressbook-export-list-cards.c:698
+#: ../addressbook/tools/evolution-addressbook-export-list-cards.c:664
+#: ../addressbook/tools/evolution-addressbook-export-list-cards.c:700
 #: ../addressbook/tools/evolution-addressbook-export-list-folders.c:49
 msgid "Can not open file"
 msgstr "No se pudo abrir el archivo"
@@ -6616,7 +6616,7 @@ msgstr "Fecha de vencimiento:"
 #. Status
 #: ../calendar/gui/e-cal-component-preview.c:222
 #: ../calendar/gui/e-itip-control.c:1132
-#: ../plugins/exchange-operations/exchange-account-setup.c:269
+#: ../plugins/exchange-operations/exchange-account-setup.c:264
 #: ../plugins/itip-formatter/itip-view.c:907
 msgid "Status:"
 msgstr "Estado:"
@@ -10673,7 +10673,7 @@ msgstr "Predeterminados"
 
 #. Security settings
 #: ../mail/em-account-editor.c:2221 ../mail/mail-config.glade.h:122
-#: ../plugins/exchange-operations/exchange-account-setup.c:317
+#: ../plugins/exchange-operations/exchange-account-setup.c:312
 msgid "Security"
 msgstr "Seguridad"
 
@@ -11182,13 +11182,13 @@ msgstr "Creando carpeta «%s»"
 
 #: ../mail/em-folder-utils.c:730
 #: ../plugins/groupwise-features/install-shared.c:156
-#: ../plugins/groupwise-features/share-folder-common.c:382
+#: ../plugins/groupwise-features/share-folder-common.c:386
 msgid "Create folder"
 msgstr "Crear carpeta"
 
 #: ../mail/em-folder-utils.c:730
 #: ../plugins/groupwise-features/install-shared.c:156
-#: ../plugins/groupwise-features/share-folder-common.c:382
+#: ../plugins/groupwise-features/share-folder-common.c:386
 msgid "Specify where to create the folder:"
 msgstr "Especifique donde crear la carpeta:"
 
@@ -12603,7 +12603,7 @@ msgid "<span weight=\"bold\">Filter Options</span>"
 msgstr "<span weight=\"bold\">Opciones de filtros</span>"
 
 #: ../mail/mail-config.glade.h:18
-#: ../plugins/itip-formatter/itip-formatter.c:1975
+#: ../plugins/itip-formatter/itip-formatter.c:1977
 msgid "<span weight=\"bold\">General</span>"
 msgstr "<span weight=\"bold\">General</span>"
 
@@ -14531,11 +14531,11 @@ msgstr ""
 "Esta opción conectará con el servidor Exchange usando autenticación con  "
 "contraseña estándar de texto simple."
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:257
+#: ../plugins/exchange-operations/exchange-account-setup.c:252
 msgid "Out Of Office"
 msgstr "Fuera de la oficina"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:264
+#: ../plugins/exchange-operations/exchange-account-setup.c:259
 msgid ""
 "The message specified below will be automatically sent to \n"
 "each person who sends mail to you while you are out of the office."
@@ -14543,66 +14543,66 @@ msgstr ""
 "El mensaje especificado abajo se enviará automáticamente a cada\n"
 " persona que le envíe correo mientras está fuera de la oficina."
 
+#: ../plugins/exchange-operations/exchange-account-setup.c:271
 #: ../plugins/exchange-operations/exchange-account-setup.c:276
-#: ../plugins/exchange-operations/exchange-account-setup.c:281
 msgid "I am out of the office"
 msgstr "Ahora estoy fuera de la oficina"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:277
-#: ../plugins/exchange-operations/exchange-account-setup.c:280
+#: ../plugins/exchange-operations/exchange-account-setup.c:272
+#: ../plugins/exchange-operations/exchange-account-setup.c:275
 msgid "I am in the office"
 msgstr "Ahora estoy en la oficina"
 
 #. Change Password
-#: ../plugins/exchange-operations/exchange-account-setup.c:327
+#: ../plugins/exchange-operations/exchange-account-setup.c:322
 msgid "Change the password for Exchange account"
 msgstr "Cambia la contraseña para la cuenta de Exchange"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:329
+#: ../plugins/exchange-operations/exchange-account-setup.c:324
 #: ../plugins/exchange-operations/exchange-change-password.glade.h:2
 msgid "Change Password"
 msgstr "Cambiar contraseña"
 
 #. Delegation Assistant
-#: ../plugins/exchange-operations/exchange-account-setup.c:333
+#: ../plugins/exchange-operations/exchange-account-setup.c:328
 msgid "Manage the delegate settings for Exchange account"
 msgstr "Gestione los ajustes de delegaciones para la cuenta Exchange"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:335
+#: ../plugins/exchange-operations/exchange-account-setup.c:330
 msgid "Delegation Assitant"
 msgstr "Asistente de delegaciones"
 
 #. Miscelleneous settings
-#: ../plugins/exchange-operations/exchange-account-setup.c:345
+#: ../plugins/exchange-operations/exchange-account-setup.c:340
 msgid "Miscelleneous"
 msgstr "Misceláneo"
 
 #. Folder Size
-#: ../plugins/exchange-operations/exchange-account-setup.c:355
+#: ../plugins/exchange-operations/exchange-account-setup.c:350
 msgid "View the size of all Exchange folders"
 msgstr "Vea el tamaño de todas las carpetas Exchange"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:357
+#: ../plugins/exchange-operations/exchange-account-setup.c:352
 msgid "Folders Size"
 msgstr "Tamaño de las carpetas"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:364
+#: ../plugins/exchange-operations/exchange-account-setup.c:359
 msgid "Exchange Settings"
 msgstr "Configuración de Exchange"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:607
+#: ../plugins/exchange-operations/exchange-account-setup.c:602
 msgid "_OWA Url:"
 msgstr "Url _OWA:"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:632
+#: ../plugins/exchange-operations/exchange-account-setup.c:627
 msgid "A_uthenticate"
 msgstr "A_utenticación"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:824
+#: ../plugins/exchange-operations/exchange-account-setup.c:815
 msgid "Authentication Type"
 msgstr "Tipo de autenticación"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:838
+#: ../plugins/exchange-operations/exchange-account-setup.c:829
 msgid "Ch_eck for Supported Types"
 msgstr "_Comprobar tipos soportados "
 
@@ -15362,7 +15362,7 @@ msgstr "Sesión proxy"
 
 #: ../plugins/groupwise-features/proxy-login.c:221
 #: ../plugins/groupwise-features/proxy-login.c:263
-#: ../plugins/groupwise-features/proxy.c:490
+#: ../plugins/groupwise-features/proxy.c:492
 #: ../plugins/groupwise-features/send-options.c:83
 #, c-format
 msgid "%sEnter password for %s (user %s)"
@@ -15372,7 +15372,11 @@ msgstr "%s Introduzca la contraseña para %s (usuario %s)"
 msgid "_Proxy Login..."
 msgstr "Sesión _proxy..."
 
-#: ../plugins/groupwise-features/proxy.c:672
+#: ../plugins/groupwise-features/proxy.c:681
+msgid "The Proxy tab will be available only when the account is online."
+msgstr "La solapa del Proxy estará disponible sólo cuando la cuenta esté conectada."
+
+#: ../plugins/groupwise-features/proxy.c:687
 msgid "The Proxy tab will be available only when the account is enabled."
 msgstr ""
 "La solapa del Proxy estará disponible sólo cuando la cuenta esté activada."
@@ -15389,7 +15393,7 @@ msgstr "Introduzca los usuarios y establezca permisos"
 msgid "New _Shared Folder..."
 msgstr "Carpeta compartida _nueva..."
 
-#: ../plugins/groupwise-features/share-folder-common.c:444
+#: ../plugins/groupwise-features/share-folder-common.c:452
 msgid "Sharing"
 msgstr "Compartir"
 
@@ -15494,26 +15498,26 @@ msgstr ""
 "Para procesar todos estos elementos, el archivo debería guardarse y el "
 "calendario importarse"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1966
+#: ../plugins/itip-formatter/itip-formatter.c:1968
 msgid "Meetings and Tasks"
 msgstr "Reuniones y tareas"
 
 #. Delete message after acting
 #. FIXME Need a schema for this
-#: ../plugins/itip-formatter/itip-formatter.c:1989
+#: ../plugins/itip-formatter/itip-formatter.c:1991
 msgid "_Delete message after acting"
 msgstr "_Borrar el mensaje después de actuar"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1999
+#: ../plugins/itip-formatter/itip-formatter.c:2001
 msgid "<span weight=\"bold\">Conflict Search</span>"
 msgstr "<span weight=\"bold\">Buscar conflicto</span>"
 
 #. Source selector
-#: ../plugins/itip-formatter/itip-formatter.c:2012
+#: ../plugins/itip-formatter/itip-formatter.c:2014
 msgid "Select the calendars to search for meeting conflicts"
 msgstr "Seleccione los calendario en los que buscar conflictos entre reuniones"
 
-#: ../plugins/itip-formatter/itip-formatter.c:2029
+#: ../plugins/itip-formatter/itip-formatter.c:2031
 msgid "Conflict Search Table"
 msgstr "Tabla de búsquedas de conflictos"
 
