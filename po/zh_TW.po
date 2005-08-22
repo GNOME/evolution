@@ -10,14 +10,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 2.3.7\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-08-18 11:31+0800\n"
+"POT-Creation-Date: 2005-08-20 22:10+0000\n"
 "PO-Revision-Date: 2005-08-18 11:34+0800\n"
 "Last-Translator: Chao-Hsiung Liao <j_h_liau@yahoo.com.tw>\n"
 "Language-Team: Chinese (traditional) <community@linuxhall.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: Plural-Forms: nplurals=2; plural=(n != 1);"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 # addressbook/gui/component/GNOME_Evolution_Addressbook.oaf.in.h:5
 # Novell Translation
@@ -686,7 +686,7 @@ msgstr "在此管理您的 S/MIME 憑證"
 #: ../calendar/gui/calendar-component.c:208 ../calendar/gui/migration.c:462
 #: ../calendar/gui/migration.c:555 ../calendar/gui/tasks-component.c:188
 #: ../mail/em-folder-tree-model.c:197 ../mail/em-folder-tree-model.c:199
-#: ../mail/mail-component.c:291 ../mail/mail-vfolder.c:223
+#: ../mail/mail-component.c:292 ../mail/mail-vfolder.c:223
 msgid "On This Computer"
 msgstr "在此電腦"
 
@@ -3953,11 +3953,13 @@ msgstr "移除連絡人時發生錯誤"
 msgid ""
 "Opening %d contact will open %d new window as well.\n"
 "Do you really want to display this contact?"
+msgid_plural ""
 "Opening %d contacts will open %d new windows as well.\n"
 "Do you really want to display all of these contacts?"
-msgstr ""
+msgstr[0] ""
 "開啟 %d 個連絡人會一併開啟 %d 個新視窗。\n"
 "確定要顯示這個連絡人？"
+msgstr[1] ""
 "開啟 %d 個連絡人會一併開啟 %d 個新視窗。\n"
 "確定要顯示所有這些連絡人？"
 
@@ -5770,7 +5772,7 @@ msgstr "拒絕許可權來開啟行事曆"
 
 # camel/providers/imap/camel-imap-command.c:241
 # shell/e-storage.c:481
-#: ../calendar/gui/comp-editor-factory.c:444 ../shell/e-shell.c:1286
+#: ../calendar/gui/comp-editor-factory.c:444 ../shell/e-shell.c:1267
 msgid "Unknown error"
 msgstr "不明的錯誤"
 
@@ -5928,7 +5930,7 @@ msgstr "鬧鈴"
 # composer/e-msg-composer-attachment-bar.c:104
 #: ../calendar/gui/dialogs/cal-attachment-bar.c:110
 #: ../composer/e-msg-composer-attachment-bar.c:105
-#: ../widgets/misc/e-attachment-bar.c:105
+#: ../widgets/misc/e-attachment-bar.c:106
 #, c-format
 msgid "%.0fK"
 msgstr "%.0fK"
@@ -5936,7 +5938,7 @@ msgstr "%.0fK"
 # composer/e-msg-composer-attachment-bar.c:108
 #: ../calendar/gui/dialogs/cal-attachment-bar.c:113
 #: ../composer/e-msg-composer-attachment-bar.c:108
-#: ../widgets/misc/e-attachment-bar.c:108
+#: ../widgets/misc/e-attachment-bar.c:109
 #, c-format
 msgid "%.0fM"
 msgstr "%.0fM"
@@ -5944,22 +5946,22 @@ msgstr "%.0fM"
 # composer/e-msg-composer-attachment-bar.c:112
 #: ../calendar/gui/dialogs/cal-attachment-bar.c:116
 #: ../composer/e-msg-composer-attachment-bar.c:111
-#: ../widgets/misc/e-attachment-bar.c:111
+#: ../widgets/misc/e-attachment-bar.c:112
 #, c-format
 msgid "%.0fG"
 msgstr "%.0fG"
 
 #: ../calendar/gui/dialogs/cal-attachment-bar.c:311
 #: ../calendar/gui/dialogs/cal-attachment-bar.c:1106
-#: ../calendar/gui/dialogs/comp-editor.c:2450
+#: ../calendar/gui/dialogs/comp-editor.c:2438
 #: ../composer/e-msg-composer-attachment-bar.c:307 ../mail/em-utils.c:444
-#: ../mail/em-utils.c:481 ../widgets/misc/e-attachment-bar.c:340
+#: ../mail/em-utils.c:481 ../widgets/misc/e-attachment-bar.c:341
 msgid "attachment"
 msgstr "附件"
 
 #: ../calendar/gui/dialogs/cal-attachment-bar.c:473
 #: ../calendar/gui/dialogs/comp-editor.c:1080
-#: ../calendar/gui/dialogs/meeting-page.c:889
+#: ../calendar/gui/dialogs/meeting-page.c:887
 #: ../composer/e-msg-composer-attachment-bar.c:470
 #: ../composer/e-msg-composer.c:3398
 #: ../plugins/groupwise-features/junk-settings.glade.h:8
@@ -5989,7 +5991,7 @@ msgstr "新增附件..."
 # mail/message-list.c:1081
 #: ../calendar/gui/dialogs/cal-attachment-bar.c:736
 #: ../composer/e-msg-composer-attachment-bar.c:740
-#: ../widgets/misc/e-attachment-bar.c:908
+#: ../widgets/misc/e-attachment-bar.c:958
 msgid "Attachment Bar"
 msgstr "附加檔案列"
 
@@ -6020,8 +6022,8 @@ msgstr "附加檔案"
 #: ../composer/e-msg-composer-attachment.c:203
 #: ../composer/e-msg-composer-attachment.c:297
 #: ../composer/e-msg-composer-attachment.c:313
-#: ../widgets/misc/e-attachment.c:219 ../widgets/misc/e-attachment.c:235
-#: ../widgets/misc/e-attachment.c:420 ../widgets/misc/e-attachment.c:436
+#: ../widgets/misc/e-attachment.c:221 ../widgets/misc/e-attachment.c:237
+#: ../widgets/misc/e-attachment.c:425 ../widgets/misc/e-attachment.c:441
 #, c-format
 msgid "Cannot attach file %s: %s"
 msgstr "不能附加檔案 %s： %s"
@@ -6032,7 +6034,7 @@ msgstr "不能附加檔案 %s： %s"
 #: ../calendar/gui/dialogs/cal-attachment.c:327
 #: ../composer/e-msg-composer-attachment.c:195
 #: ../composer/e-msg-composer-attachment.c:305
-#: ../widgets/misc/e-attachment.c:227 ../widgets/misc/e-attachment.c:428
+#: ../widgets/misc/e-attachment.c:229 ../widgets/misc/e-attachment.c:433
 #, c-format
 msgid "Cannot attach file %s: not a regular file"
 msgstr "不能附加檔案 %s：不是一個合法的檔案"
@@ -6231,7 +6233,7 @@ msgid "Free/Busy"
 msgstr "空閒/忙碌"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:24
-#: ../calendar/gui/dialogs/recurrence-page.c:1046
+#: ../calendar/gui/dialogs/recurrence-page.c:1048
 #: ../calendar/gui/e-itip-control.c:732
 msgid "Friday"
 msgstr "星期五"
@@ -6246,7 +6248,7 @@ msgid "Minutes"
 msgstr "分"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:28
-#: ../calendar/gui/dialogs/recurrence-page.c:1042
+#: ../calendar/gui/dialogs/recurrence-page.c:1044
 #: ../calendar/gui/e-itip-control.c:728
 msgid "Monday"
 msgstr "星期一"
@@ -6261,7 +6263,7 @@ msgid "S_un"
 msgstr "週日(_U)"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:31
-#: ../calendar/gui/dialogs/recurrence-page.c:1047
+#: ../calendar/gui/dialogs/recurrence-page.c:1049
 #: ../calendar/gui/e-itip-control.c:733
 msgid "Saturday"
 msgstr "星期六"
@@ -6276,7 +6278,7 @@ msgid "Show week _numbers in date navigator"
 msgstr "在日期導覽顯示週數(_N)"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:34
-#: ../calendar/gui/dialogs/recurrence-page.c:1048
+#: ../calendar/gui/dialogs/recurrence-page.c:1050
 #: ../calendar/gui/e-itip-control.c:727
 msgid "Sunday"
 msgstr "星期日"
@@ -6296,7 +6298,7 @@ msgid "Template:"
 msgstr "樣板:"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:38
-#: ../calendar/gui/dialogs/recurrence-page.c:1045
+#: ../calendar/gui/dialogs/recurrence-page.c:1047
 #: ../calendar/gui/e-itip-control.c:731
 msgid "Thursday"
 msgstr "星期四"
@@ -6313,7 +6315,7 @@ msgstr "時刻格式:"
 # calendar/gui/dialogs/cal-prefs-dialog.glade.h:52
 # calendar/gui/event-editor.c:476
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:41
-#: ../calendar/gui/dialogs/recurrence-page.c:1043
+#: ../calendar/gui/dialogs/recurrence-page.c:1045
 #: ../calendar/gui/e-itip-control.c:729
 msgid "Tuesday"
 msgstr "星期二"
@@ -6323,7 +6325,7 @@ msgid "W_eek starts:"
 msgstr "一週開始於(_E):"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:43
-#: ../calendar/gui/dialogs/recurrence-page.c:1044
+#: ../calendar/gui/dialogs/recurrence-page.c:1046
 #: ../calendar/gui/e-itip-control.c:730
 msgid "Wednesday"
 msgstr "星期三"
@@ -6626,35 +6628,35 @@ msgstr[0] "<b>%d</b> 個附加檔案"
 msgstr[1] "<b>%d</b> 個附加檔案"
 
 # Novell Translation
-#: ../calendar/gui/dialogs/comp-editor.c:1245
+#: ../calendar/gui/dialogs/comp-editor.c:1246
 msgid "_Attachment Bar (drop attachments here)"
 msgstr "附件列 (將附件拖曳至此處)(_A)"
 
 # calendar/gui/dialogs/alarm-notify.glade.h:2
-#: ../calendar/gui/dialogs/comp-editor.c:1859
-#: ../calendar/gui/dialogs/comp-editor.c:1902
+#: ../calendar/gui/dialogs/comp-editor.c:1847
+#: ../calendar/gui/dialogs/comp-editor.c:1890
 msgid "Edit Appointment"
 msgstr "編輯約會"
 
 # importers/netscape-importer.c:790
 # importers/pine-importer.c:656
-#: ../calendar/gui/dialogs/comp-editor.c:1865
-#: ../calendar/gui/dialogs/comp-editor.c:1908
+#: ../calendar/gui/dialogs/comp-editor.c:1853
+#: ../calendar/gui/dialogs/comp-editor.c:1896
 #, c-format
 msgid "Meeting - %s"
 msgstr "會議 - %s"
 
 # calendar/gui/event-editor-dialog.glade.h:3
-#: ../calendar/gui/dialogs/comp-editor.c:1867
-#: ../calendar/gui/dialogs/comp-editor.c:1910
+#: ../calendar/gui/dialogs/comp-editor.c:1855
+#: ../calendar/gui/dialogs/comp-editor.c:1898
 #, c-format
 msgid "Appointment - %s"
 msgstr "約會 - %s"
 
 # calendar/gui/calendar-model.c:1578
 # Novell Translation
-#: ../calendar/gui/dialogs/comp-editor.c:1871
-#: ../calendar/gui/dialogs/comp-editor.c:1914
+#: ../calendar/gui/dialogs/comp-editor.c:1859
+#: ../calendar/gui/dialogs/comp-editor.c:1902
 #, c-format
 msgid "Assigned Task - %s"
 msgstr "指派的工作 - %s"
@@ -6662,33 +6664,33 @@ msgstr "指派的工作 - %s"
 # calendar/gui/calendar-summary.c:275
 # calendar/gui/print.c:948
 # views/tasks/galview.xml.h:1
-#: ../calendar/gui/dialogs/comp-editor.c:1873
-#: ../calendar/gui/dialogs/comp-editor.c:1916
+#: ../calendar/gui/dialogs/comp-editor.c:1861
+#: ../calendar/gui/dialogs/comp-editor.c:1904
 #, c-format
 msgid "Task - %s"
 msgstr "工作 - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1876
-#: ../calendar/gui/dialogs/comp-editor.c:1919
+#: ../calendar/gui/dialogs/comp-editor.c:1864
+#: ../calendar/gui/dialogs/comp-editor.c:1907
 #, c-format
 msgid "Journal entry - %s"
 msgstr "日誌項目 - %s"
 
 # calendar/gui/e-calendar-table.c:159
-#: ../calendar/gui/dialogs/comp-editor.c:1887
-#: ../calendar/gui/dialogs/comp-editor.c:1929
+#: ../calendar/gui/dialogs/comp-editor.c:1875
+#: ../calendar/gui/dialogs/comp-editor.c:1917
 msgid "No summary"
 msgstr "沒有摘要"
 
 # Novell Translation
-#: ../calendar/gui/dialogs/comp-editor.c:2539
-#: ../calendar/gui/dialogs/comp-editor.c:2572
-#: ../calendar/gui/dialogs/comp-editor.c:2596
+#: ../calendar/gui/dialogs/comp-editor.c:2526
+#: ../calendar/gui/dialogs/comp-editor.c:2559
+#: ../calendar/gui/dialogs/comp-editor.c:2583
 msgid "Changes made to this item may be discarded if an update arrives"
 msgstr "如果有新的更新，則會放棄對此項目所做的變更"
 
 # Novell Translation
-#: ../calendar/gui/dialogs/comp-editor.c:2620
+#: ../calendar/gui/dialogs/comp-editor.c:2607
 msgid "Unable to use current version!"
 msgstr "無法使用目前的版本！"
 
@@ -6799,7 +6801,7 @@ msgstr "週期性"
 # ui/evolution-event-editor.xml.h:46
 #: ../calendar/gui/dialogs/event-editor.c:164
 #: ../calendar/gui/dialogs/event-editor.c:248
-#: ../calendar/gui/dialogs/event-editor.c:420
+#: ../calendar/gui/dialogs/event-editor.c:422
 msgid "Scheduling"
 msgstr "會議排程"
 
@@ -6815,48 +6817,48 @@ msgstr "到會者"
 # widgets/misc/e-messagebox.c:152
 # Novell Translation
 #: ../calendar/gui/dialogs/event-editor.c:251
-#: ../calendar/gui/dialogs/event-editor.c:423
+#: ../calendar/gui/dialogs/event-editor.c:425
 msgid "Invitations"
 msgstr "邀請"
 
 # Novell Translation
-#: ../calendar/gui/dialogs/event-page.c:729
+#: ../calendar/gui/dialogs/event-page.c:731
 msgid "Event with no start date"
 msgstr "無開始日期的事件"
 
 # Novell Translation
-#: ../calendar/gui/dialogs/event-page.c:732
+#: ../calendar/gui/dialogs/event-page.c:734
 msgid "Event with no end date"
 msgstr "無結束日期的事件"
 
 # calendar/gui/e-calendar-table.c:154
-#: ../calendar/gui/dialogs/event-page.c:898
+#: ../calendar/gui/dialogs/event-page.c:900
 #: ../calendar/gui/dialogs/task-page.c:556
 msgid "Start date is wrong"
 msgstr "開始日期錯誤"
 
-#: ../calendar/gui/dialogs/event-page.c:908
+#: ../calendar/gui/dialogs/event-page.c:910
 msgid "End date is wrong"
 msgstr "結束日期錯誤"
 
 # calendar/gui/event-editor-dialog.glade.h:31
-#: ../calendar/gui/dialogs/event-page.c:931
+#: ../calendar/gui/dialogs/event-page.c:933
 msgid "Start time is wrong"
 msgstr "開始時間錯誤"
 
-#: ../calendar/gui/dialogs/event-page.c:938
+#: ../calendar/gui/dialogs/event-page.c:940
 msgid "End time is wrong"
 msgstr "結束時間錯誤"
 
 # shell/e-storage.c:475
 # Novell Translation
-#: ../calendar/gui/dialogs/event-page.c:1684
+#: ../calendar/gui/dialogs/event-page.c:1686
 #, c-format
 msgid "Unable to open the calendar '%s'."
 msgstr "無法開啟行事曆 '%s'。"
 
 # calendar/gui/event-editor.c:1612
-#: ../calendar/gui/dialogs/event-page.c:1890
+#: ../calendar/gui/dialogs/event-page.c:1892
 #, c-format
 msgid "%d day before appointment"
 msgid_plural "%d days before appointment"
@@ -6864,7 +6866,7 @@ msgstr[0] "在每個約會前 %d 天"
 msgstr[1] "在每個約會前 %d 天"
 
 # calendar/gui/event-editor-dialog.glade.h:36
-#: ../calendar/gui/dialogs/event-page.c:1898
+#: ../calendar/gui/dialogs/event-page.c:1900
 #, c-format
 msgid "%d hour before appointment"
 msgid_plural "%d hours before appointment"
@@ -6872,7 +6874,7 @@ msgstr[0] "約會前 %d 小時"
 msgstr[1] "約會前 %d 小時"
 
 # calendar/gui/event-editor.c:1612
-#: ../calendar/gui/dialogs/event-page.c:1906
+#: ../calendar/gui/dialogs/event-page.c:1908
 #, c-format
 msgid "%d minute before appointement"
 msgid_plural "%d minutes before appointment"
@@ -7045,7 +7047,7 @@ msgstr "<b>從:</b>"
 #: ../plugins/calendar-weather/calendar-weather.c:370
 #: ../plugins/calendar-weather/calendar-weather.c:424
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:7
-#: ../plugins/itip-formatter/itip-formatter.c:1615
+#: ../plugins/itip-formatter/itip-formatter.c:1619
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.c:190
 #: ../widgets/misc/e-cell-date-edit.c:248 ../widgets/misc/e-dateedit.c:465
 #: ../widgets/misc/e-dateedit.c:1504 ../widgets/misc/e-dateedit.c:1673
@@ -7053,19 +7055,19 @@ msgid "None"
 msgstr "無"
 
 # Novell Translation
-#: ../calendar/gui/dialogs/meeting-page.c:463
+#: ../calendar/gui/dialogs/meeting-page.c:461
 msgid "The organizer selected no longer has an account."
 msgstr "選取的召集人已經沒有帳號。"
 
-#: ../calendar/gui/dialogs/meeting-page.c:469
+#: ../calendar/gui/dialogs/meeting-page.c:467
 msgid "An organizer is required."
 msgstr "需要一個召集人。"
 
-#: ../calendar/gui/dialogs/meeting-page.c:484
+#: ../calendar/gui/dialogs/meeting-page.c:482
 msgid "At least one attendee is required."
 msgstr "最少需要一個到會者。"
 
-#: ../calendar/gui/dialogs/meeting-page.c:886
+#: ../calendar/gui/dialogs/meeting-page.c:884
 msgid "_Delegate To..."
 msgstr "委派給(_D)..."
 
@@ -7265,66 +7267,66 @@ msgid "All Instances"
 msgstr "所有例項"
 
 # calendar/gui/event-editor.c:871
-#: ../calendar/gui/dialogs/recurrence-page.c:494
+#: ../calendar/gui/dialogs/recurrence-page.c:496
 msgid "This appointment contains recurrences that Evolution cannot edit."
 msgstr "Evolution 無法編輯這個週期性約會。"
 
 # Novell Translation
-#: ../calendar/gui/dialogs/recurrence-page.c:815
+#: ../calendar/gui/dialogs/recurrence-page.c:817
 msgid "Recurrence date is invalid"
 msgstr "週期性日期無效"
 
 # calendar/gui/event-editor.c:449
-#: ../calendar/gui/dialogs/recurrence-page.c:926
+#: ../calendar/gui/dialogs/recurrence-page.c:928
 msgid "on"
 msgstr "於"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:986
+#: ../calendar/gui/dialogs/recurrence-page.c:988
 msgid "first"
 msgstr "一"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:987
+#: ../calendar/gui/dialogs/recurrence-page.c:989
 msgid "second"
 msgstr "二"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:988
+#: ../calendar/gui/dialogs/recurrence-page.c:990
 msgid "third"
 msgstr "三"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:989
+#: ../calendar/gui/dialogs/recurrence-page.c:991
 msgid "fourth"
 msgstr "四"
 
 # addressbook/contact-editor/fullname.glade.h:8
-#: ../calendar/gui/dialogs/recurrence-page.c:990
+#: ../calendar/gui/dialogs/recurrence-page.c:992
 msgid "last"
 msgstr "最後"
 
 # addressbook/contact-editor/e-contact-editor.c:1255
 # addressbook/gui/widgets/e-addressbook-view.c:719
-#: ../calendar/gui/dialogs/recurrence-page.c:1013
+#: ../calendar/gui/dialogs/recurrence-page.c:1015
 msgid "Other Date"
 msgstr "其它日期"
 
 # calendar/gui/event-editor.c:474
-#: ../calendar/gui/dialogs/recurrence-page.c:1041
+#: ../calendar/gui/dialogs/recurrence-page.c:1043
 msgid "day"
 msgstr "天"
 
 # calendar/gui/event-editor.c:601
-#: ../calendar/gui/dialogs/recurrence-page.c:1178
+#: ../calendar/gui/dialogs/recurrence-page.c:1180
 msgid "on the"
 msgstr "在第"
 
 # calendar/gui/event-editor.c:754
-#: ../calendar/gui/dialogs/recurrence-page.c:1367
+#: ../calendar/gui/dialogs/recurrence-page.c:1369
 msgid "occurrences"
 msgstr "出現"
 
 # calendar/gui/dialogs/task-editor-dialog.glade.h:7
 # calendar/gui/event-editor-dialog.glade.h:8
 # Novell Translation
-#: ../calendar/gui/dialogs/recurrence-page.c:2323
+#: ../calendar/gui/dialogs/recurrence-page.c:2325
 msgid "Date/Time"
 msgstr "日期/時間"
 
@@ -7518,9 +7520,9 @@ msgid "Task"
 msgstr "工作"
 
 # calendar/gui/calendar-model.c:1578
-#: ../calendar/gui/dialogs/task-editor.c:163
-#: ../calendar/gui/dialogs/task-editor.c:225
-#: ../calendar/gui/dialogs/task-editor.c:379
+#: ../calendar/gui/dialogs/task-editor.c:162
+#: ../calendar/gui/dialogs/task-editor.c:224
+#: ../calendar/gui/dialogs/task-editor.c:378
 msgid "Assignment"
 msgstr "指派工作"
 
@@ -7819,9 +7821,9 @@ msgstr "否"
 #: ../calendar/gui/e-meeting-store.c:124 ../calendar/gui/e-meeting-store.c:159
 #: ../calendar/gui/e-meeting-store.c:224 ../mail/em-utils.c:1244
 #: ../plugins/itip-formatter/itip-formatter.c:240
-#: ../plugins/itip-formatter/itip-formatter.c:1640
+#: ../plugins/itip-formatter/itip-formatter.c:1644
 #: ../plugins/plugin-manager/plugin-manager.c:72
-#: ../widgets/misc/e-attachment-bar.c:653
+#: ../widgets/misc/e-attachment-bar.c:654
 #: ../widgets/misc/e-charset-picker.c:62
 msgid "Unknown"
 msgstr "不明"
@@ -8306,13 +8308,13 @@ msgstr "<br> 請查閱下列資訊，然後在下面的選單中選擇一個動�
 #: ../calendar/gui/e-meeting-list-view.c:204
 #: ../calendar/gui/e-meeting-store.c:188 ../calendar/gui/e-meeting-store.c:211
 #: ../calendar/gui/itip-utils.c:548
-#: ../plugins/itip-formatter/itip-formatter.c:1628
+#: ../plugins/itip-formatter/itip-formatter.c:1632
 msgid "Accepted"
 msgstr "接受"
 
 # widgets/meeting-time-sel/e-meeting-time-sel.c:392
 #: ../calendar/gui/e-itip-control.c:1141 ../calendar/gui/itip-utils.c:551
-#: ../plugins/itip-formatter/itip-formatter.c:1631
+#: ../plugins/itip-formatter/itip-formatter.c:1635
 msgid "Tentatively Accepted"
 msgstr "暫時接受"
 
@@ -8320,7 +8322,7 @@ msgstr "暫時接受"
 #: ../calendar/gui/e-meeting-list-view.c:205
 #: ../calendar/gui/e-meeting-store.c:190 ../calendar/gui/e-meeting-store.c:213
 #: ../calendar/gui/itip-utils.c:554 ../calendar/gui/itip-utils.c:583
-#: ../plugins/itip-formatter/itip-formatter.c:1634
+#: ../plugins/itip-formatter/itip-formatter.c:1638
 msgid "Declined"
 msgstr "婉拒"
 
@@ -8558,7 +8560,7 @@ msgid "Attendee status updated\n"
 msgstr "到會者狀態已更新\n"
 
 #: ../calendar/gui/e-itip-control.c:1979
-#: ../plugins/itip-formatter/itip-formatter.c:1013
+#: ../plugins/itip-formatter/itip-formatter.c:1017
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr "到會者狀態不能更新，因為項目已經不存在"
 
@@ -8753,7 +8755,7 @@ msgstr "暫訂"
 #: ../calendar/gui/e-meeting-list-view.c:207
 #: ../calendar/gui/e-meeting-store.c:194 ../calendar/gui/e-meeting-store.c:217
 #: ../calendar/gui/itip-utils.c:557
-#: ../plugins/itip-formatter/itip-formatter.c:1637
+#: ../plugins/itip-formatter/itip-formatter.c:1641
 msgid "Delegated"
 msgstr "已委派"
 
@@ -9459,7 +9461,7 @@ msgid_plural "%d tasks"
 msgstr[0] "%d 個工作"
 msgstr[1] "%d 個工作"
 
-#: ../calendar/gui/tasks-component.c:517 ../mail/mail-component.c:547
+#: ../calendar/gui/tasks-component.c:517 ../mail/mail-component.c:548
 #, c-format
 msgid ", %d selected"
 msgid_plural ", %d selected"
@@ -12216,8 +12218,8 @@ msgstr "Evolution 郵件優先設定控制"
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:11 ../mail/em-folder-view.c:494
 #: ../mail/importers/elm-importer.c:342
 #: ../mail/importers/netscape-importer.c:1902
-#: ../mail/importers/pine-importer.c:388 ../mail/mail-component.c:560
-#: ../mail/mail-component.c:647
+#: ../mail/importers/pine-importer.c:388 ../mail/mail-component.c:561
+#: ../mail/mail-component.c:648
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:6
 msgid "Mail"
 msgstr "郵件"
@@ -12653,8 +12655,8 @@ msgstr "以此開始"
 msgid "Stop Processing"
 msgstr "停止處理"
 
-#: ../mail/em-filter-i18n.h:65 ../mail/em-format-html.c:1671
-#: ../mail/em-format-quote.c:313 ../mail/em-format.c:848
+#: ../mail/em-filter-i18n.h:65 ../mail/em-format-html.c:1557
+#: ../mail/em-format-quote.c:313 ../mail/em-format.c:849
 #: ../mail/em-mailer-prefs.c:88 ../mail/message-list.etspec.h:13
 #: ../mail/message-tag-followup.c:330
 #: ../plugins/groupwise-features/properties.glade.h:7
@@ -12728,22 +12730,22 @@ msgid "UNMATCHED"
 msgstr "不符合"
 
 # Novell Translation
-#: ../mail/em-folder-tree-model.c:469 ../mail/mail-component.c:143
+#: ../mail/em-folder-tree-model.c:469 ../mail/mail-component.c:144
 msgid "Drafts"
 msgstr "草稿"
 
 # mail/local-config.glade.h:8
 #. translators: standard local mailbox names
-#: ../mail/em-folder-tree-model.c:472 ../mail/mail-component.c:142
+#: ../mail/em-folder-tree-model.c:472 ../mail/mail-component.c:143
 msgid "Inbox"
 msgstr "收件匣"
 
 # Novell Translation
-#: ../mail/em-folder-tree-model.c:475 ../mail/mail-component.c:144
+#: ../mail/em-folder-tree-model.c:475 ../mail/mail-component.c:145
 msgid "Outbox"
 msgstr "寄件匣"
 
-#: ../mail/em-folder-tree-model.c:477 ../mail/mail-component.c:145
+#: ../mail/em-folder-tree-model.c:477 ../mail/mail-component.c:146
 msgid "Sent"
 msgstr "已傳送"
 
@@ -13044,20 +13046,20 @@ msgstr "按一下來傳送郵件 %s"
 # mail/mail-search.c:319
 # Novell Translation
 #. message-search popup match count string
-#: ../mail/em-format-html-display.c:443
+#: ../mail/em-format-html-display.c:445
 #, c-format
 msgid "Matches: %d"
 msgstr "符合：%d"
 
 # calendar/gui/calendar-model.c:1578
 # Novell Translation
-#: ../mail/em-format-html-display.c:695 ../mail/em-format-html.c:596
+#: ../mail/em-format-html-display.c:697 ../mail/em-format-html.c:595
 msgid "Unsigned"
 msgstr "未簽名"
 
 # mail/mail-format.c:1161
 # Novell Translation
-#: ../mail/em-format-html-display.c:695
+#: ../mail/em-format-html-display.c:697
 msgid ""
 "This message is not signed. There is no guarantee that this message is "
 "authentic."
@@ -13065,13 +13067,13 @@ msgstr "此郵件未簽名。不保證此郵件已驗證。"
 
 # mail/mail-config.glade.h:74
 # Novell Translation
-#: ../mail/em-format-html-display.c:696 ../mail/em-format-html.c:597
+#: ../mail/em-format-html-display.c:698 ../mail/em-format-html.c:596
 msgid "Valid signature"
 msgstr "有效的簽名"
 
 # mail/mail-format.c:1161
 # Novell Translation
-#: ../mail/em-format-html-display.c:696
+#: ../mail/em-format-html-display.c:698
 msgid ""
 "This message is signed and is valid meaning that it is very likely that this "
 "message is authentic."
@@ -13079,48 +13081,48 @@ msgstr "此郵件已簽名而且有效，表示它非常有可能是驗證的郵
 
 # mail/mail-config.glade.h:74
 # Novell Translation
-#: ../mail/em-format-html-display.c:697 ../mail/em-format-html.c:598
+#: ../mail/em-format-html-display.c:699 ../mail/em-format-html.c:597
 msgid "Invalid signature"
 msgstr "無效的簽名"
 
 # Novell Translation
-#: ../mail/em-format-html-display.c:697
+#: ../mail/em-format-html-display.c:699
 msgid ""
 "The signature of this message cannot be verified, it may have been altered "
 "in transit."
 msgstr "郵件的簽名無法檢驗，可能已在傳送時被更動了。"
 
 # Novell Translation
-#: ../mail/em-format-html-display.c:698
+#: ../mail/em-format-html-display.c:700
 msgid "Valid signature, cannot verify sender"
 msgstr "簽名有效，但無法檢驗寄件者"
 
 # Novell Translation
-#: ../mail/em-format-html-display.c:698
+#: ../mail/em-format-html-display.c:700
 msgid ""
 "This message is signed with a valid signature, but the sender of the message "
 "cannot be verified."
 msgstr "此郵件有一個有效的簽名，但是郵件的寄件者無法檢驗。"
 
 # Novell Translation
-#: ../mail/em-format-html-display.c:704 ../mail/em-format-html.c:605
+#: ../mail/em-format-html-display.c:706 ../mail/em-format-html.c:604
 msgid "Unencrypted"
 msgstr "未加密"
 
 # Novell Translation
-#: ../mail/em-format-html-display.c:704
+#: ../mail/em-format-html-display.c:706
 msgid ""
 "This message is not encrypted.  Its content may be viewed in transit across "
 "the Internet."
 msgstr "此郵件未加密。它的內容在透過網際網路傳送可能會被檢視。"
 
 # Novell Translation
-#: ../mail/em-format-html-display.c:705 ../mail/em-format-html.c:606
+#: ../mail/em-format-html-display.c:707 ../mail/em-format-html.c:605
 msgid "Encrypted, weak"
 msgstr "已加密，不嚴密"
 
 # Novell Translation
-#: ../mail/em-format-html-display.c:705
+#: ../mail/em-format-html-display.c:707
 msgid ""
 "This message is encrypted, but with a weak encryption algorithm.  It would "
 "be difficult, but not impossible for an outsider to view the content of this "
@@ -13131,24 +13133,24 @@ msgstr ""
 
 # ui/evolution-message-composer.xml.h:13
 # Novell Translation
-#: ../mail/em-format-html-display.c:706 ../mail/em-format-html.c:607
+#: ../mail/em-format-html-display.c:708 ../mail/em-format-html.c:606
 msgid "Encrypted"
 msgstr "已加密"
 
 # Novell Translation
-#: ../mail/em-format-html-display.c:706
+#: ../mail/em-format-html-display.c:708
 msgid ""
 "This message is encrypted.  It would be difficult for an outsider to view "
 "the content of this message."
 msgstr "此郵件已加密。外面的人難以檢視此郵件的內容。"
 
 # Novell Translation
-#: ../mail/em-format-html-display.c:707 ../mail/em-format-html.c:608
+#: ../mail/em-format-html-display.c:709 ../mail/em-format-html.c:607
 msgid "Encrypted, strong"
 msgstr "已加密，嚴密"
 
 # Novell Translation
-#: ../mail/em-format-html-display.c:707
+#: ../mail/em-format-html-display.c:709
 msgid ""
 "This message is encrypted, with a strong encryption algorithm.  It would be "
 "very difficult for an outsider to view the content of this message in a "
@@ -13157,67 +13159,67 @@ msgstr ""
 "此郵件已加密，使用嚴密的加密演算法。縱使經過一段時間， 外面的人很難檢視此郵件"
 "的內容。"
 
-#: ../mail/em-format-html-display.c:808 ../smime/gui/smime-ui.glade.h:48
+#: ../mail/em-format-html-display.c:810 ../smime/gui/smime-ui.glade.h:48
 msgid "_View Certificate"
 msgstr "檢視憑證(_V)"
 
 # Novell Translation
-#: ../mail/em-format-html-display.c:823
+#: ../mail/em-format-html-display.c:825
 msgid "This certificate is not viewable"
 msgstr "此憑證無法檢視"
 
 # mail/message-list.c:977
 # Novell Translation
-#: ../mail/em-format-html-display.c:1105
+#: ../mail/em-format-html-display.c:1107
 msgid "Completed on %B %d, %Y, %l:%M %p"
 msgstr "完成於 %B %d, %Y, %l:%M %p"
 
 # calendar/gui/dialogs/cal-prefs-dialog.glade.h:31
-#: ../mail/em-format-html-display.c:1113
+#: ../mail/em-format-html-display.c:1115
 msgid "Overdue:"
 msgstr "逾期:"
 
 # mail/message-list.c:977
 # Novell Translation
-#: ../mail/em-format-html-display.c:1116
+#: ../mail/em-format-html-display.c:1118
 msgid "by %B %d, %Y, %l:%M %p"
 msgstr "作者 %B %d, %Y, %l:%M %p"
 
-#: ../mail/em-format-html-display.c:1176
+#: ../mail/em-format-html-display.c:1178
 msgid "_View Inline"
 msgstr "檢視行內(_V)"
 
-#: ../mail/em-format-html-display.c:1177
+#: ../mail/em-format-html-display.c:1179
 msgid "_Hide"
 msgstr "隱藏(_H)"
 
-#: ../mail/em-format-html-display.c:1178
+#: ../mail/em-format-html-display.c:1180
 msgid "_Fit to Width"
 msgstr "符合寬度(_F)"
 
-#: ../mail/em-format-html-display.c:1179
+#: ../mail/em-format-html-display.c:1181
 msgid "Show _Original Size"
 msgstr "顯示原始大小(_O)"
 
 # composer/e-msg-composer-attachment.glade.h:1
 # mail/mail-config.glade.h:9
 # mail/message-list.c:1081
-#: ../mail/em-format-html-display.c:1547
+#: ../mail/em-format-html-display.c:1551
 msgid "Attachment Button"
 msgstr "附件按鈕"
 
 # mail/mail-display.c:196
-#: ../mail/em-format-html-display.c:1754
+#: ../mail/em-format-html-display.c:1758
 msgid "Select folder to save all attachments..."
 msgstr "選擇用來儲存所有的附加檔案的資料夾..."
 
 # mail/mail-display.c:196
-#: ../mail/em-format-html-display.c:1793
+#: ../mail/em-format-html-display.c:1797
 msgid "Select folder to save selected attachments..."
 msgstr "選擇用來儲存選定的附加檔案的資料夾..."
 
 # Novell Translation
-#: ../mail/em-format-html-display.c:1801
+#: ../mail/em-format-html-display.c:1805
 msgid "Save Selected..."
 msgstr "儲存選取的..."
 
@@ -13225,7 +13227,7 @@ msgstr "儲存選取的..."
 # mail/mail-config.glade.h:9
 # mail/message-list.c:1081
 #. Cant i put in the number of attachments here ?
-#: ../mail/em-format-html-display.c:1868
+#: ../mail/em-format-html-display.c:1872
 #, c-format
 msgid "%d attachment"
 msgid_plural "%d attachments"
@@ -13235,13 +13237,13 @@ msgstr[1] "%d 個附件"
 # composer/e-msg-composer-attachment.glade.h:1
 # mail/mail-config.glade.h:9
 # mail/message-list.c:1081
-#: ../mail/em-format-html-display.c:1934
+#: ../mail/em-format-html-display.c:1938
 msgid "No Attachment"
 msgstr "無附件"
 
 # ui/evolution-calendar.xml.h:27
 # ui/evolution-message-composer.xml.h:18
-#: ../mail/em-format-html-display.c:1937
+#: ../mail/em-format-html-display.c:1941
 msgid "Save All"
 msgstr "儲存全部"
 
@@ -13253,167 +13255,157 @@ msgstr "第 %d / %d 頁"
 
 # mail/mail-ops.c:1498
 # Novell Translation
-#: ../mail/em-format-html.c:474 ../mail/em-format-html.c:476
+#: ../mail/em-format-html.c:473 ../mail/em-format-html.c:475
 #, c-format
 msgid "Retrieving `%s'"
 msgstr "正在擷取 `%s'"
 
 # Novell Translation
-#: ../mail/em-format-html.c:599
+#: ../mail/em-format-html.c:598
 msgid "Valid signature but cannot verify sender"
 msgstr "簽名有效，但是無法檢驗寄件者"
 
-# Novell Translation
-#: ../mail/em-format-html.c:693
-msgid "Unknown error verifying signed messaage"
-msgstr "檢驗加簽的郵件時發生不明錯誤"
-
-# Novell Translation
-#: ../mail/em-format-html.c:758
-msgid "Unknown error decrypting messaage"
-msgstr "解密郵件時發生不明錯誤"
-
 # mail/mail-format.c:1842
-#: ../mail/em-format-html.c:967
+#: ../mail/em-format-html.c:855
 msgid "Malformed external-body part."
 msgstr "格式不良的外加本文部分。"
 
 # mail/mail-format.c:1787
-#: ../mail/em-format-html.c:997
+#: ../mail/em-format-html.c:885
 #, c-format
 msgid "Pointer to FTP site (%s)"
 msgstr "FTP 站指示 (%s)"
 
 # mail/mail-format.c:1799
-#: ../mail/em-format-html.c:1008
+#: ../mail/em-format-html.c:896
 #, c-format
 msgid "Pointer to local file (%s) valid at site \"%s\""
 msgstr "本地端檔案 (%s) 於 「%s」有效的指示"
 
 # mail/mail-format.c:1803
-#: ../mail/em-format-html.c:1010
+#: ../mail/em-format-html.c:898
 #, c-format
 msgid "Pointer to local file (%s)"
 msgstr "本地檔案指示 (%s)"
 
-#: ../mail/em-format-html.c:1031
+#: ../mail/em-format-html.c:919
 #, c-format
 msgid "Pointer to remote data (%s)"
 msgstr "遠端資料指示 (%s)"
 
 # mail/mail-format.c:1837
-#: ../mail/em-format-html.c:1042
+#: ../mail/em-format-html.c:930
 #, c-format
 msgid "Pointer to unknown external data (\"%s\" type)"
 msgstr "不明的外部檔案指示 (「%s」類型)"
 
 # mail/mail-ops.c:898
 # Novell Translation
-#: ../mail/em-format-html.c:1270
+#: ../mail/em-format-html.c:1156
 msgid "Formatting message"
 msgstr "格式化郵件"
 
 # mail/mail-format.c:756
 # mail/message-list.c:1082
-#: ../mail/em-format-html.c:1563 ../mail/em-format-quote.c:200
-#: ../mail/em-format.c:843 ../mail/em-mailer-prefs.c:83
+#: ../mail/em-format-html.c:1449 ../mail/em-format-quote.c:200
+#: ../mail/em-format.c:844 ../mail/em-mailer-prefs.c:83
 #: ../mail/message-list.etspec.h:7 ../mail/message-tag-followup.c:326
 msgid "From"
 msgstr "寄件者"
 
 # mail/mail-format.c:759
-#: ../mail/em-format-html.c:1563 ../mail/em-format-quote.c:200
-#: ../mail/em-format.c:844 ../mail/em-mailer-prefs.c:84
+#: ../mail/em-format-html.c:1449 ../mail/em-format-quote.c:200
+#: ../mail/em-format.c:845 ../mail/em-mailer-prefs.c:84
 msgid "Reply-To"
 msgstr "回覆"
 
 # mail/mail-format.c:762
 # mail/message-list.c:1083
-#: ../mail/em-format-html.c:1563 ../mail/em-format-quote.c:200
-#: ../mail/em-format.c:845 ../mail/em-mailer-prefs.c:85
+#: ../mail/em-format-html.c:1449 ../mail/em-format-quote.c:200
+#: ../mail/em-format.c:846 ../mail/em-mailer-prefs.c:85
 #: ../mail/message-list.etspec.h:14
 msgid "To"
 msgstr "收件者"
 
 # mail/mail-format.c:765
-#: ../mail/em-format-html.c:1563 ../mail/em-format-quote.c:200
-#: ../mail/em-format.c:846 ../mail/em-mailer-prefs.c:86
+#: ../mail/em-format-html.c:1449 ../mail/em-format-quote.c:200
+#: ../mail/em-format.c:847 ../mail/em-mailer-prefs.c:86
 msgid "Cc"
 msgstr "副本"
 
 # composer/e-msg-composer-hdrs.c:394
-#: ../mail/em-format-html.c:1563 ../mail/em-format-quote.c:200
-#: ../mail/em-format.c:847 ../mail/em-mailer-prefs.c:87
+#: ../mail/em-format-html.c:1449 ../mail/em-format-quote.c:200
+#: ../mail/em-format.c:848 ../mail/em-mailer-prefs.c:87
 msgid "Bcc"
 msgstr "密件副本"
 
 # addressbook/backend/ebook/e-card.c:3428
 #. pseudo-header
-#: ../mail/em-format-html.c:1675 ../mail/em-format-quote.c:322
+#: ../mail/em-format-html.c:1561 ../mail/em-format-quote.c:322
 #: ../mail/em-mailer-prefs.c:987
 msgid "Mailer"
 msgstr "寄件者"
 
 # Novell Translation
 #. translators: strftime format for local time equivalent in Date header display, with day
-#: ../mail/em-format-html.c:1702
+#: ../mail/em-format-html.c:1588
 msgid "<I> (%a, %R %Z)</I>"
 msgstr "<I> (%a, %R %Z)</I>"
 
 # Novell Translation
 #. translators: strftime format for local time equivalent in Date header display, without day
-#: ../mail/em-format-html.c:1705
+#: ../mail/em-format-html.c:1591
 msgid "<I> (%R %Z)</I>"
 msgstr "<I> (%R %Z)</I>"
 
 # mail/mail-format.c:640
 # mail/message-list.c:1082
-#: ../mail/em-format-html.c:1715 ../mail/em-format-quote.c:329
-#: ../mail/em-format.c:849 ../mail/em-mailer-prefs.c:89
+#: ../mail/em-format-html.c:1601 ../mail/em-format-quote.c:329
+#: ../mail/em-format.c:850 ../mail/em-mailer-prefs.c:89
 #: ../mail/message-list.etspec.h:2
 msgid "Date"
 msgstr "日期"
 
 # Novell Translation
-#: ../mail/em-format-html.c:1738 ../mail/em-format.c:850
+#: ../mail/em-format-html.c:1624 ../mail/em-format.c:851
 #: ../mail/em-mailer-prefs.c:90
 msgid "Newsgroups"
 msgstr "新聞群組"
 
 # mail/mail-format.c:527
-#: ../mail/em-format.c:1101
+#: ../mail/em-format.c:1102
 #, c-format
 msgid "%s attachment"
 msgstr "%s 附加檔案"
 
 # mail/mail-format.c:573
 # Novell Translation
-#: ../mail/em-format.c:1140 ../mail/em-format.c:1279
+#: ../mail/em-format.c:1141 ../mail/em-format.c:1288 ../mail/em-format.c:1575
 msgid "Could not parse S/MIME message: Unknown error"
 msgstr "無法剖析 S/MIME 郵件:未知的錯誤"
 
-# Novell Translation
-#: ../mail/em-format.c:1269
-msgid "Unsupported encryption type for multipart/encrypted"
-msgstr "多部份/已加密不支援的加密類型"
-
 # mail/mail-format.c:573
-#: ../mail/em-format.c:1417
+#: ../mail/em-format.c:1270 ../mail/em-format.c:1426
 msgid "Could not parse MIME message. Displaying as source."
 msgstr "無法解析 MIME 格式的郵件。只好顯示原始檔。"
 
 # Novell Translation
-#: ../mail/em-format.c:1436
+#: ../mail/em-format.c:1278
+msgid "Unsupported encryption type for multipart/encrypted"
+msgstr "多部份/已加密不支援的加密類型"
+
+# Novell Translation
+#: ../mail/em-format.c:1445
 msgid "Unsupported signature format"
 msgstr "不支援的簽名格式"
 
 # Novell Translation
-#: ../mail/em-format.c:1444
+#: ../mail/em-format.c:1453 ../mail/em-format.c:1517
 msgid "Error verifying signature"
 msgstr "檢驗簽名發生錯誤"
 
 # Novell Translation
-#: ../mail/em-format.c:1444
+#: ../mail/em-format.c:1453 ../mail/em-format.c:1517
 msgid "Unknown error verifying signature"
 msgstr "檢驗簽名發生不明錯誤"
 
@@ -14440,7 +14432,7 @@ msgstr "%s 郵件列表"
 msgid "Add Filter Rule"
 msgstr "新增過濾器規則"
 
-#: ../mail/mail-component.c:508
+#: ../mail/mail-component.c:509
 #, c-format
 msgid "%d deleted"
 msgid_plural "%d deleted"
@@ -14448,7 +14440,7 @@ msgstr[0] "%d 已選擇"
 msgstr[1] "%d 已選擇"
 
 # calendar/gui/event-editor.c:1558
-#: ../mail/mail-component.c:510
+#: ../mail/mail-component.c:511
 #, c-format
 msgid "%d junk"
 msgid_plural "%d junk"
@@ -14456,7 +14448,7 @@ msgstr[0] "%d 垃圾"
 msgstr[1] "%d 垃圾"
 
 # mail/mail-config.glade.h:26
-#: ../mail/mail-component.c:533
+#: ../mail/mail-component.c:534
 #, c-format
 msgid "%d draft"
 msgid_plural "%d drafts"
@@ -14464,7 +14456,7 @@ msgstr[0] "%d 個草稿"
 msgstr[1] "%d 個草稿"
 
 # calendar/gui/event-editor.c:1558
-#: ../mail/mail-component.c:535
+#: ../mail/mail-component.c:536
 #, c-format
 msgid "%d sent"
 msgid_plural "%d sent"
@@ -14472,14 +14464,14 @@ msgstr[0] "%d 已傳送"
 msgstr[1] "%d 已傳送"
 
 # calendar/gui/event-editor.c:1558
-#: ../mail/mail-component.c:537
+#: ../mail/mail-component.c:538
 #, c-format
 msgid "%d unsent"
 msgid_plural "%d unsent"
 msgstr[0] "%d 未傳送"
 msgstr[1] "%d 未傳送"
 
-#: ../mail/mail-component.c:541
+#: ../mail/mail-component.c:542
 #, c-format
 msgid "%d total"
 msgid_plural "%d total"
@@ -14487,7 +14479,7 @@ msgstr[0] "全部 %d"
 msgstr[1] "全部 %d"
 
 # calendar/gui/event-editor.c:1558
-#: ../mail/mail-component.c:543
+#: ../mail/mail-component.c:544
 #, c-format
 msgid ", %d unread"
 msgid_plural ", %d unread"
@@ -14495,38 +14487,38 @@ msgstr[0] "%d 未傳送"
 msgstr[1] "%d 未傳送"
 
 # ui/evolution-mail.xml.h:109
-#: ../mail/mail-component.c:764
+#: ../mail/mail-component.c:765
 msgid "New Mail Message"
 msgstr "新增郵件"
 
-#: ../mail/mail-component.c:765
+#: ../mail/mail-component.c:766
 msgid "_Mail Message"
 msgstr "郵件訊息(_M)"
 
 # composer/e-msg-composer.c:1526
 # composer/e-msg-composer.c:1871
-#: ../mail/mail-component.c:766
+#: ../mail/mail-component.c:767
 msgid "Compose a new mail message"
 msgstr "編輯新的郵件訊息"
 
 # mail/mail-vfolder.c:438
 # Novell Translation
-#: ../mail/mail-component.c:772
+#: ../mail/mail-component.c:773
 msgid "New Mail Folder"
 msgstr "新郵件資料夾"
 
-#: ../mail/mail-component.c:773
+#: ../mail/mail-component.c:774
 msgid "Mail _Folder"
 msgstr "郵件資料夾(_F)"
 
 # ui/evolution.xml.h:10
 # Novell Translation
-#: ../mail/mail-component.c:774
+#: ../mail/mail-component.c:775
 msgid "Create a new mail folder"
 msgstr "建立新郵件資料夾"
 
 # Novell Translation
-#: ../mail/mail-component.c:918
+#: ../mail/mail-component.c:919
 msgid "Failed upgrading Mail settings or folders."
 msgstr "升級郵件或資料夾失敗。"
 
@@ -14611,7 +14603,7 @@ msgstr "<span weight=\"bold\">過濾器選項</span>"
 
 # Novell Translation
 #: ../mail/mail-config.glade.h:18
-#: ../plugins/itip-formatter/itip-formatter.c:1963
+#: ../plugins/itip-formatter/itip-formatter.c:1967
 msgid "<span weight=\"bold\">General</span>"
 msgstr "<span weight=\"bold\">一般</span>"
 
@@ -17409,7 +17401,7 @@ msgid "Folder offline"
 msgstr "資料夾離線"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:37
-#: ../shell/e-shell.c:1284
+#: ../shell/e-shell.c:1265
 msgid "Generic error"
 msgstr "一般錯誤"
 
@@ -17844,128 +17836,128 @@ msgstr "追蹤郵件狀態..."
 
 # camel/providers/pop3/camel-pop3-folder.c:320
 # Novell Translation
-#: ../plugins/itip-formatter/itip-formatter.c:724
+#: ../plugins/itip-formatter/itip-formatter.c:716
 msgid "Unable to parse item"
 msgstr "無法分析項目"
 
 # shell/e-storage.c:475
 # Novell Translation
-#: ../plugins/itip-formatter/itip-formatter.c:780
+#: ../plugins/itip-formatter/itip-formatter.c:772
 #, c-format
 msgid "Unable to send item to calendar '%s'.  %s"
 msgstr "無法傳送項目至行事曆「%s」。%s"
 
-#: ../plugins/itip-formatter/itip-formatter.c:791
+#: ../plugins/itip-formatter/itip-formatter.c:783
 #, c-format
 msgid "Sent to calendar '%s' as accepted"
 msgstr "傳送至行事曆 '%s' 並設為已接受"
 
-#: ../plugins/itip-formatter/itip-formatter.c:795
+#: ../plugins/itip-formatter/itip-formatter.c:787
 #, c-format
 msgid "Sent to calendar '%s' as tentative"
 msgstr "傳送至行事曆 '%s' 並設為不確定的"
 
-#: ../plugins/itip-formatter/itip-formatter.c:800
+#: ../plugins/itip-formatter/itip-formatter.c:792
 #, c-format
 msgid "Sent to calendar '%s' as declined"
 msgstr "傳送至行事曆 '%s' 並設為已婉拒"
 
-#: ../plugins/itip-formatter/itip-formatter.c:805
+#: ../plugins/itip-formatter/itip-formatter.c:797
 #, c-format
 msgid "Sent to calendar '%s' as cancelled"
 msgstr "傳送至行事曆 '%s' 並設為已取消"
 
-#: ../plugins/itip-formatter/itip-formatter.c:898
+#: ../plugins/itip-formatter/itip-formatter.c:890
 #, c-format
 msgid "Organizer has removed the delegate %s "
 msgstr "會議召集人已移除代理人 %s"
 
 # calendar/gui/dialogs/delete-comp.c:102
 # Novell Translation
-#: ../plugins/itip-formatter/itip-formatter.c:905
+#: ../plugins/itip-formatter/itip-formatter.c:897
 msgid "Sent a cancellation notice to the delegate"
 msgstr "傳送取消通知給代理人"
 
 # calendar/gui/dialogs/delete-comp.c:102
 # Novell Translation
-#: ../plugins/itip-formatter/itip-formatter.c:907
+#: ../plugins/itip-formatter/itip-formatter.c:899
 msgid "Could not send the cancellation notice to the delegate"
 msgstr "無法傳送取消通知給代理人"
 
-#: ../plugins/itip-formatter/itip-formatter.c:979
+#: ../plugins/itip-formatter/itip-formatter.c:983
 msgid "Attendee status could not be updated because the status is invalid"
 msgstr "由於不合法的狀態使得到會者狀態無法更新！"
 
 # shell/e-storage.c:475
 # Novell Translation
-#: ../plugins/itip-formatter/itip-formatter.c:1005
+#: ../plugins/itip-formatter/itip-formatter.c:1009
 #, c-format
 msgid "Unable to update attendee. %s"
 msgstr "無法更新到會者。%s"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1009
+#: ../plugins/itip-formatter/itip-formatter.c:1013
 msgid "Attendee status updated"
 msgstr "到會者狀態已更新"
 
 # shell/e-storage.c:465
-#: ../plugins/itip-formatter/itip-formatter.c:1136
+#: ../plugins/itip-formatter/itip-formatter.c:1140
 msgid "The calendar attached is not valid"
 msgstr "附帶的行事曆是無效的"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1137
+#: ../plugins/itip-formatter/itip-formatter.c:1141
 msgid ""
 "The message claims to contain a calendar, but the calendar is not valid "
 "iCalendar."
 msgstr "此郵件宣告其含有行事曆內容，但其行事曆並非有效的 iCalendar。"
 
 # ui/evolution-calendar.xml.h:22
-#: ../plugins/itip-formatter/itip-formatter.c:1171
-#: ../plugins/itip-formatter/itip-formatter.c:1186
-#: ../plugins/itip-formatter/itip-formatter.c:1262
+#: ../plugins/itip-formatter/itip-formatter.c:1175
+#: ../plugins/itip-formatter/itip-formatter.c:1190
+#: ../plugins/itip-formatter/itip-formatter.c:1266
 msgid "The item in the calendar is not valid"
 msgstr "行事曆中的項目是無效的"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1172
-#: ../plugins/itip-formatter/itip-formatter.c:1187
-#: ../plugins/itip-formatter/itip-formatter.c:1263
+#: ../plugins/itip-formatter/itip-formatter.c:1176
+#: ../plugins/itip-formatter/itip-formatter.c:1191
+#: ../plugins/itip-formatter/itip-formatter.c:1267
 msgid ""
 "The message does contain a calendar, but the calendar contains no events, "
 "tasks or free/busy information"
 msgstr ""
 "此郵件確實含有行事曆內容，但該內容並未包含任何事件、工作或空閒/忙碌資訊"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1197
+#: ../plugins/itip-formatter/itip-formatter.c:1201
 msgid "The calendar attached contains multiple items"
 msgstr "附加的行事曆內容含有多個項目"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1198
+#: ../plugins/itip-formatter/itip-formatter.c:1202
 msgid ""
 "To process all of these items, the file should be saved and the calendar "
 "imported"
 msgstr "要處理這些全部的項目，應該將此檔案儲存後匯入其中的行事曆"
 
 # ui/evolution-mail.xml.h:110
-#: ../plugins/itip-formatter/itip-formatter.c:1954
+#: ../plugins/itip-formatter/itip-formatter.c:1958
 msgid "Meetings and Tasks"
 msgstr "會議與工作"
 
 #. Delete message after acting
 #. FIXME Need a schema for this
-#: ../plugins/itip-formatter/itip-formatter.c:1977
+#: ../plugins/itip-formatter/itip-formatter.c:1981
 msgid "_Delete message after acting"
 msgstr "完成後刪除郵件(_D)"
 
 # Novell Translation
-#: ../plugins/itip-formatter/itip-formatter.c:1987
+#: ../plugins/itip-formatter/itip-formatter.c:1991
 msgid "<span weight=\"bold\">Conflict Search</span>"
 msgstr "<span weight=\"bold\">搜尋衝突</span>"
 
 #. Source selector
-#: ../plugins/itip-formatter/itip-formatter.c:2000
+#: ../plugins/itip-formatter/itip-formatter.c:2004
 msgid "Select the calendars to search for meeting conflicts"
 msgstr "選擇要搜尋會議衝突的行事曆"
 
-#: ../plugins/itip-formatter/itip-formatter.c:2017
+#: ../plugins/itip-formatter/itip-formatter.c:2021
 msgid "Conflict Search Table"
 msgstr "衝突的搜尋表格"
 
@@ -19361,33 +19353,33 @@ msgstr "切換至 %s"
 # camel/providers/imap/camel-imap-command.c:241
 # shell/e-storage.c:481
 # Novell Translation
-#: ../shell/e-shell.c:620
+#: ../shell/e-shell.c:623
 msgid "Uknown system error."
 msgstr "不明的系統錯誤。"
 
 # calendar/gui/e-week-view-main-item.c:342
 # Novell Translation
-#: ../shell/e-shell.c:822 ../shell/e-shell.c:823
+#: ../shell/e-shell.c:825 ../shell/e-shell.c:826
 #, c-format
 msgid "%ld KB"
 msgstr "%ld KB"
 
 # widgets/misc/e-cell-date-edit.c:245
-#: ../shell/e-shell.c:1276 ../widgets/misc/e-cell-date-edit.c:256
+#: ../shell/e-shell.c:1257 ../widgets/misc/e-cell-date-edit.c:256
 msgid "OK"
 msgstr "確認"
 
 # camel/providers/local/camel-maildir-folder.c:218
 # camel/providers/local/camel-mh-folder.c:203
-#: ../shell/e-shell.c:1278
+#: ../shell/e-shell.c:1259
 msgid "Invalid arguments"
 msgstr "無效的參數"
 
-#: ../shell/e-shell.c:1280
+#: ../shell/e-shell.c:1261
 msgid "Cannot register on OAF"
 msgstr "不能於 OAF 註冊"
 
-#: ../shell/e-shell.c:1282
+#: ../shell/e-shell.c:1263
 msgid "Configuration Database not found"
 msgstr "找不到組態資料庫"
 
@@ -23413,6 +23405,14 @@ msgstr "IM 快顯選單"
 #: ../widgets/text/e-text.c:3683 ../widgets/text/e-text.c:3684
 msgid "Handle Popup"
 msgstr "處理彈出式項目"
+
+# Novell Translation
+#~ msgid "Unknown error verifying signed messaage"
+#~ msgstr "檢驗加簽的郵件時發生不明錯誤"
+
+# Novell Translation
+#~ msgid "Unknown error decrypting messaage"
+#~ msgstr "解密郵件時發生不明錯誤"
 
 #~ msgid "Mo_ve to Folder..."
 #~ msgstr "移至資料夾(_V)..."
