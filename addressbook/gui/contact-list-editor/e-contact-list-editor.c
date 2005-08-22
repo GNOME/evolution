@@ -789,16 +789,33 @@ add_email_cb (GtkWidget *w, EContactListEditor *editor)
 }
 
 static void
-remove_row (int model_row, EContactListEditor *editor)
+prepend_selected_rows (int model_row, GList **list)
 {
-	e_contact_list_model_remove_row (E_CONTACT_LIST_MODEL (editor->model), model_row);
+	int *idx = g_new (int, 1);
+	*idx = model_row;
+	*list = g_list_append (*list, idx);
 }
 
 static void
 remove_entry_cb (GtkWidget *w, EContactListEditor *editor)
 {
+	int *idx = NULL;
+	GList *list = NULL;
+	int num_rows_deleted = 0;
 	e_table_selected_row_foreach (e_table_scrolled_get_table(E_TABLE_SCROLLED(editor->table)),
-				      (EForeachFunc)remove_row, editor);
+				      (EForeachFunc)prepend_selected_rows, &list);
+
+	if (!list) return ;
+
+	for(; list; list=list->next, num_rows_deleted++) {
+		idx = (int *)(list->data);
+		e_contact_list_model_remove_row (E_CONTACT_LIST_MODEL (editor->model), (*idx - num_rows_deleted));
+		g_free (idx);
+		list->data = NULL;
+	}
+
+	list = g_list_first (list);
+	g_list_free (list);
 	editor->changed = TRUE;
 	command_state_changed (editor);
 }

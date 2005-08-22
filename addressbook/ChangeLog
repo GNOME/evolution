@@ -1,3 +1,11 @@
+2005-08-22  Sushma Rai <rsushma@novell.com>
+
+	*  gui/contact-list-editor/e-contact-list-editor.c (remove_entry_cb):
+	Changes contact-list-editor so that multiple items can be selected and
+	removed at once. Fixes #235038. 
+	Patch submitted by "sean.gao@sun.com (Sean Gao)" and patch was
+	corected by "Devashish Sharma <sdevashish@novell.com>"
+
 2005-08-22  Devashish Sharma <sdevashish@novell.com>
 
 	* gui/widgets/eab-contact-compare.c (match_email_hostname): This
