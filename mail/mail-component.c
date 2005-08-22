@@ -945,6 +945,8 @@ setline_done(CamelStore *store, void *data)
 		CORBA_exception_free(&ev);
 		CORBA_Object_release(sd->listener, &ev);
 		CORBA_exception_free(&ev);
+		if (!sd->status)
+			camel_session_set_online(session, sd->status);
 		g_free(sd);
 	}
 }
@@ -969,7 +971,8 @@ impl_setLineStatus(PortableServer_Servant servant, CORBA_boolean status, GNOME_E
 
 	/* This will dis/enable further auto-mail-check action. */
 	/* FIXME: If send/receive active, wait for it to finish? */
-	camel_session_set_online(session, status);
+	if (status)
+		camel_session_set_online(session, status);
 
 	sd = g_malloc0(sizeof(*sd));
 	sd->status = status;
@@ -987,6 +990,8 @@ impl_setLineStatus(PortableServer_Servant servant, CORBA_boolean status, GNOME_E
 
 		g_free(sd);
 
+		if (!status)
+			camel_session_set_online(session, status);
 		GNOME_Evolution_Listener_complete(listener, ev);
 	}
 }

@@ -1,5 +1,13 @@
 2005-08-19  Not Zed  <NotZed@Ximian.com>
 
+	** See #312668.
+
+	* mail-component.c (setline_done, impl_setLineStatus): change the
+	camel-session online status before (if we're going online) or
+	after (if we're going offline) actually doing offline processing.
+
+2005-08-19  Not Zed  <NotZed@Ximian.com>
+
 	* em-format.c (emf_multipart_encrypted): put the s/mime message
 	back, awaiting string approval for a change otherwise.
 
