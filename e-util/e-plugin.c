@@ -93,7 +93,8 @@ ep_check_enabled(const char *id)
 static void
 ep_set_enabled(const char *id, int state)
 {
-	if ((state == 0) == ep_check_enabled(id) == 0)
+	/* Bail out if no change to state, when expressed as a boolean: */
+	if ((state == 0) == (ep_check_enabled(id) == 0))
 		return;
 
 	if (state) {

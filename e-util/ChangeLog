@@ -1,3 +1,7 @@
+2005-08-18  David Malcolm  <dmalcolm@redhat.com>
+
+	* e-plugin.c (ep_set_enabled): Fix compiler warning on early bailout
+
 2005-08-18  Tor Lillqvist  <tml@novell.com>
 
 	* e-iconv.c (e_iconv_init): Use g_get_charset() on Win32 to get
