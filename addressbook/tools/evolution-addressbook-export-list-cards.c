@@ -64,7 +64,10 @@ enum _EContactFieldCSV
 {
 	E_CONTACT_CSV_FILE_AS,
 	E_CONTACT_CSV_FULL_NAME,
-	E_CONTACT_CSV_EMAIL,
+	E_CONTACT_CSV_EMAIL_1,
+	E_CONTACT_CSV_EMAIL_2,
+	E_CONTACT_CSV_EMAIL_3,
+	E_CONTACT_CSV_EMAIL_4,
 	E_CONTACT_CSV_PHONE_PRIMARY,
 	E_CONTACT_CSV_PHONE_ASSISTANT,
 	E_CONTACT_CSV_PHONE_BUSINESS,
@@ -106,8 +109,6 @@ enum _EContactFieldCSV
 	E_CONTACT_CSV_ADDRESS_OTHER_REGION,
 	E_CONTACT_CSV_ADDRESS_OTHER_POSTCODE,
 	E_CONTACT_CSV_ADDRESS_OTHER_COUNTRY,
-	E_CONTACT_CSV_EMAIL_2,
-	E_CONTACT_CSV_EMAIL_3,
 	E_CONTACT_CSV_HOMEPAGE_URL,
 	E_CONTACT_CSV_ORG_UNIT,
 	E_CONTACT_CSV_OFFICE,
@@ -149,7 +150,10 @@ struct _EContactCSVFieldData
 static EContactCSVFieldData csv_field_data[] = {
 	{E_CONTACT_CSV_FILE_AS, E_CONTACT_FILE_AS, ""},
 	{E_CONTACT_CSV_FULL_NAME, E_CONTACT_CSV_FULL_NAME, ""},
-	{E_CONTACT_CSV_EMAIL, E_CONTACT_EMAIL, ""},
+	{E_CONTACT_CSV_EMAIL_1, E_CONTACT_EMAIL_1, ""},
+	{E_CONTACT_CSV_EMAIL_2, E_CONTACT_EMAIL_2, ""},
+	{E_CONTACT_CSV_EMAIL_3, E_CONTACT_EMAIL_3, ""},
+	{E_CONTACT_CSV_EMAIL_4, E_CONTACT_EMAIL_4, ""},
 	{E_CONTACT_CSV_PHONE_PRIMARY, E_CONTACT_PHONE_PRIMARY,
 	 ""},
 	{E_CONTACT_CSV_PHONE_ASSISTANT,
@@ -216,8 +220,6 @@ static EContactCSVFieldData csv_field_data[] = {
 	 "Other Address PostCode"},
 	{E_CONTACT_CSV_ADDRESS_OTHER_COUNTRY, NOMAP,
 	 "Other Address Country"},
-	{E_CONTACT_CSV_EMAIL_2, E_CONTACT_EMAIL_2, ""},
-	{E_CONTACT_CSV_EMAIL_3, E_CONTACT_EMAIL_3, ""},
 	{E_CONTACT_CSV_HOMEPAGE_URL, E_CONTACT_HOMEPAGE_URL, ""},
 	{E_CONTACT_CSV_ORG_UNIT, E_CONTACT_ORG_UNIT, ""},
 	{E_CONTACT_CSV_OFFICE, E_CONTACT_OFFICE, ""},
@@ -730,8 +732,10 @@ set_pre_defined_field (GSList ** pre_defined_fields)
 	*pre_defined_fields = g_slist_append (*pre_defined_fields, GINT_TO_POINTER (E_CONTACT_CSV_FAMILY_NAME));
 	*pre_defined_fields = g_slist_append (*pre_defined_fields, GINT_TO_POINTER (E_CONTACT_CSV_FULL_NAME));
 	*pre_defined_fields = g_slist_append (*pre_defined_fields, GINT_TO_POINTER (E_CONTACT_CSV_NICKNAME));
-	*pre_defined_fields = g_slist_append (*pre_defined_fields, GINT_TO_POINTER (E_CONTACT_CSV_EMAIL));
+	*pre_defined_fields = g_slist_append (*pre_defined_fields, GINT_TO_POINTER (E_CONTACT_CSV_EMAIL_1));
 	*pre_defined_fields = g_slist_append (*pre_defined_fields, GINT_TO_POINTER (E_CONTACT_CSV_EMAIL_2));
+	*pre_defined_fields = g_slist_append (*pre_defined_fields, GINT_TO_POINTER (E_CONTACT_CSV_EMAIL_3));
+	*pre_defined_fields = g_slist_append (*pre_defined_fields, GINT_TO_POINTER (E_CONTACT_CSV_EMAIL_4));
 	*pre_defined_fields = g_slist_append (*pre_defined_fields, GINT_TO_POINTER (E_CONTACT_CSV_WANTS_HTML));
 	*pre_defined_fields = g_slist_append (*pre_defined_fields, GINT_TO_POINTER (E_CONTACT_CSV_PHONE_BUSINESS));
 	*pre_defined_fields = g_slist_append (*pre_defined_fields, GINT_TO_POINTER (E_CONTACT_CSV_PHONE_HOME));

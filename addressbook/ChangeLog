@@ -1,3 +1,12 @@
+2005-08-22  Sushma Rai  <rsushma@novell.com>
+
+	* tools/evolution-addressbook-export-list-cards.c
+	enum _EContactFieldCSV: Handling four e-mail ids.
+	enum _EContactCSVFieldData: Similar.
+	set_pre_defined_field: Similar.
+	Fixes the crash which was happening because list of email ids for a
+	contact was handled as a one email id value. Fixes #269870
+
 2005-08-22  Sushma Rai <rsushma@novell.com>
 
 	*  gui/contact-list-editor/e-contact-list-editor.c (remove_entry_cb):
