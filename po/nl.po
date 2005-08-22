@@ -51,7 +51,7 @@ msgstr ""
 "Project-Id-Version: evolution.gnome-2-8\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-08-12 21:42+0000\n"
-"PO-Revision-Date: 2005-08-18 08:15+0200\n"
+"PO-Revision-Date: 2005-08-22 01:59+0200\n"
 "Last-Translator: Tino Meinen <a.t.meinen@chello.nl>\n"
 "Language-Team: Dutch <vertaling@vrijschrift.org>\n"
 "MIME-Version: 1.0\n"
@@ -663,7 +663,7 @@ msgstr "Op LDAP servers"
 
 #: ../addressbook/gui/component/addressbook-component.c:226
 msgid "_Contact"
-msgstr "C_ontact"
+msgstr "_Contact"
 
 #: ../addressbook/gui/component/addressbook-component.c:227
 msgid "Create a new contact"
@@ -684,6 +684,7 @@ msgstr "Maak een nieuwe contactenlijst"
 msgid "New Address Book"
 msgstr "Nieuw adresboek"
 
+# Controletoets is Shift+Ctrl+B
 #: ../addressbook/gui/component/addressbook-component.c:242
 msgid "Address _Book"
 msgstr "Adres_boek"
@@ -2770,7 +2771,7 @@ msgstr "Nieuw contact:"
 
 #: ../addressbook/gui/merging/eab-contact-duplicate-detected.glade.h:3
 msgid "Original Contact:"
-msgstr "Origineel contact:"
+msgstr "Oorspronkelijke contact:"
 
 #: ../addressbook/gui/merging/eab-contact-duplicate-detected.glade.h:4
 msgid ""
@@ -2966,11 +2967,11 @@ msgstr "Bedrijfstelefoon"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:5
 msgid "Business Phone 2"
-msgstr "Bedrijf Telefoon-2"
+msgstr "Bedrijfstelefoon-2"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:6
 msgid "Callback Phone"
-msgstr "TerugbelTelefoon"
+msgstr "Terugbeltelefoon"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:7
 msgid "Car Phone"
@@ -3169,7 +3170,7 @@ msgstr "Veldnaam"
 
 #: ../addressbook/gui/widgets/e-minicard-label.c:150
 msgid "Text Model"
-msgstr "Tekst model"
+msgstr "Tekstmodel"
 
 #: ../addressbook/gui/widgets/e-minicard-label.c:157
 msgid "Max field name length"
@@ -5012,10 +5013,10 @@ msgstr "Maak een nieuwe afspraak"
 msgid "New meeting"
 msgstr "Nieuwe bijeenkomst"
 
-# bijeenkomst
+# Combinatietoets is Shift+Ctrl+E
 #: ../calendar/gui/calendar-component.c:1482
 msgid "M_eeting"
-msgstr "_Bijeenkomst"
+msgstr "Bij_eenkomst"
 
 #: ../calendar/gui/calendar-component.c:1483
 msgid "Create a new meeting request"
@@ -6994,7 +6995,7 @@ msgstr "Kopiëren van items"
 
 #: ../calendar/gui/e-calendar-view.c:1504
 msgid "New _Appointment..."
-msgstr "Nieuwe _Afspraak..."
+msgstr "Nieuwe _afspraak..."
 
 #: ../calendar/gui/e-calendar-view.c:1505
 msgid "New All Day _Event"
@@ -11208,9 +11209,11 @@ msgstr "<klik hier om een map te selecteren>"
 msgid "Create"
 msgstr "Aanmaken"
 
+# dit is is het dialoog: Map aanmaken.
+# dit mag een wat langere vertaling zijn.
 #: ../mail/em-folder-selector.c:265
 msgid "Folder _name:"
-msgstr "Map_naam:"
+msgstr "_Naam van de map:"
 
 #: ../mail/em-folder-tree-model.c:201 ../mail/em-folder-tree-model.c:203
 #: ../mail/mail-vfolder.c:937 ../mail/mail-vfolder.c:1007
@@ -11356,11 +11359,12 @@ msgstr "Bezig met aanmaken map `%s'"
 msgid "Create folder"
 msgstr "Map aanmaken"
 
+# vrij vertaald
 #: ../mail/em-folder-utils.c:730
 #: ../plugins/groupwise-features/install-shared.c:156
 #: ../plugins/groupwise-features/share-folder-common.c:382
 msgid "Specify where to create the folder:"
-msgstr "Specificeer waar de map gemaakt moet worden:"
+msgstr "Geef aan waar de map moet komen:"
 
 #: ../mail/em-folder-view.c:1039 ../mail/em-popup.c:546 ../mail/em-popup.c:557
 msgid "Reply to _All"
@@ -12240,13 +12244,14 @@ msgid "Minimum time between emptying the trash on exit, in days."
 msgstr ""
 "Minimum tijd tussen het legen van de prullenbak bij afsluiten, in dagen."
 
+# geluid voor/bij nieuw bericht
 #: ../mail/evolution-mail.schemas.in.in.h:53
 msgid "New Mail Notify sound file"
 msgstr "Nieuwe mail melding geluidsbestand"
 
 #: ../mail/evolution-mail.schemas.in.in.h:54
 msgid "New Mail Notify type"
-msgstr "Nieuwe mail meldingtype"
+msgstr "Nieuwe mail meldingstype"
 
 #: ../mail/evolution-mail.schemas.in.in.h:55
 msgid "Prompt on empty subject"
@@ -12718,11 +12723,14 @@ msgstr[1] ", %d ongelezen"
 
 #: ../mail/mail-component.c:764
 msgid "New Mail Message"
-msgstr "Nieuw Bericht"
+msgstr "Nieuw bericht"
 
+# In menu Nieuw
+# _b wordt gebruikt voor adres_boek
+# _e voor bij_eenkomst
 #: ../mail/mail-component.c:765
 msgid "_Mail Message"
-msgstr "_Bericht"
+msgstr "Be_richt"
 
 #: ../mail/mail-component.c:766
 msgid "Compose a new mail message"
@@ -12734,7 +12742,7 @@ msgstr "Nieuwe berichtenmap"
 
 #: ../mail/mail-component.c:773
 msgid "Mail _Folder"
-msgstr "Mail _Map"
+msgstr "Berichten_map"
 
 #: ../mail/mail-component.c:774
 msgid "Create a new mail folder"
@@ -12839,7 +12847,7 @@ msgstr "<span weight=\"bold\">Berichtontvangst</span>"
 
 #: ../mail/mail-config.glade.h:24
 msgid "<span weight=\"bold\">New Mail Notification</span>"
-msgstr "<span weight=\"bold\">Melding bij binnekomend bericht</span>"
+msgstr "<span weight=\"bold\">Melding bij binnenkomend bericht</span>"
 
 #: ../mail/mail-config.glade.h:25
 msgid "<span weight=\"bold\">Optional Information</span>"
@@ -12855,7 +12863,7 @@ msgstr "<span weight=\"bold\">Pretty Good Privacy (PGP/GPG)</span>"
 
 #: ../mail/mail-config.glade.h:28
 msgid "<span weight=\"bold\">Printed Fonts</span>"
-msgstr "<span weight=\"bold\">Afdruk lettertypen</span>"
+msgstr "<span weight=\"bold\">Afdruklettertypen</span>"
 
 #: ../mail/mail-config.glade.h:29
 msgid "<span weight=\"bold\">Required Information</span>"
@@ -12871,11 +12879,11 @@ msgstr "<span weight=\"bold\">Beveiliging</span>"
 
 #: ../mail/mail-config.glade.h:32
 msgid "<span weight=\"bold\">Sent and Draft Messages</span>"
-msgstr "<span weight=\"bold\">Verzonden en Klad Berichten</span>"
+msgstr "<span weight=\"bold\">Verzonden en kladberichten</span>"
 
 #: ../mail/mail-config.glade.h:33
 msgid "<span weight=\"bold\">Server Configuration</span>"
-msgstr "<span weight=\"bold\">Server configuratie</span>"
+msgstr "<span weight=\"bold\">Serverconfiguratie</span>"
 
 #: ../mail/mail-config.glade.h:35
 msgid "Account Management"
@@ -12901,11 +12909,11 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:40
 msgid "Alway_s carbon-copy (cc) to:"
-msgstr "Altij_d een carbon kopie (cc) naar:"
+msgstr "Altij_d een carbonkopie (cc) naar:"
 
 #: ../mail/mail-config.glade.h:41
 msgid "Always _blind carbon-copy (bcc) to:"
-msgstr "Altijd een _blinde carbon kopie (bcc) naar:"
+msgstr "Altijd een _blindecarbon kopie (bcc) naar:"
 
 #: ../mail/mail-config.glade.h:42
 msgid "Always _trust keys in my keyring when encrypting"
@@ -12919,7 +12927,7 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:44
 msgid "Attach original message"
-msgstr "Originele bericht bijvoegen"
+msgstr "Oorspronkelijke bericht bijvoegen"
 
 #: ../mail/mail-config.glade.h:45 ../mail/message-list.etspec.h:1
 msgid "Attachment"
@@ -13011,7 +13019,7 @@ msgstr "Uitgaande berichten per standaard digitaal _ondertekenen"
 
 #: ../mail/mail-config.glade.h:71
 msgid "Do not quote original message"
-msgstr "Originele bericht niet citeren"
+msgstr "Oorspronkelijke bericht niet citeren"
 
 #: ../mail/mail-config.glade.h:72
 msgid "Done"
@@ -13156,7 +13164,7 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:113
 msgid "Quote original message"
-msgstr "Originele bericht citeren"
+msgstr "Oorspronkelijke bericht citeren"
 
 #: ../mail/mail-config.glade.h:114
 msgid "Quoted"
@@ -18557,15 +18565,16 @@ msgstr "Geselecteerde berichten verplaatsen naar een andere map"
 
 #: ../ui/evolution-mail-message.xml.h:60
 msgid "Next _Important Message"
-msgstr "Volgende belangrijke bericht"
+msgstr "Volgende _belangrijke bericht"
 
 #: ../ui/evolution-mail-message.xml.h:61
 msgid "Next _Thread"
-msgstr "Volgende dis_cussie"
+msgstr "Volgende _discussie"
 
+# _o wordt gebruikt voor V_olgende
 #: ../ui/evolution-mail-message.xml.h:62
 msgid "Next _Unread Message"
-msgstr "Volgende _ongelezen bericht"
+msgstr "Volgende o_ngelezen bericht"
 
 #: ../ui/evolution-mail-message.xml.h:63
 msgid "Not Junk"
@@ -18585,7 +18594,7 @@ msgstr "Het geselecteerde bericht openen in een opstelvenster om te bewerken"
 
 #: ../ui/evolution-mail-message.xml.h:67
 msgid "P_revious Unread Message"
-msgstr "Vo_rige ongelezen bericht"
+msgstr "Vorige on_gelezen bericht"
 
 #: ../ui/evolution-mail-message.xml.h:69
 msgid "Post a Repl_y"
@@ -18597,7 +18606,7 @@ msgstr "Antwoord sturen op een bericht in een openbare map"
 
 #: ../ui/evolution-mail-message.xml.h:71
 msgid "Pr_evious Important Message"
-msgstr "Vori_ge belangrijke bericht"
+msgstr "Vorige b_elangrijke bericht"
 
 #: ../ui/evolution-mail-message.xml.h:72
 msgid "Preview the message to be printed"
@@ -18617,7 +18626,7 @@ msgstr "Stuur het geselecteerde bericht door naar iemand"
 
 #: ../ui/evolution-mail-message.xml.h:82
 msgid "Reset the text to its original size"
-msgstr "De tekst zijn originele grootte geven"
+msgstr "De tekst zijn oorspronkelijke grootte geven"
 
 #: ../ui/evolution-mail-message.xml.h:83
 msgid "Save the message as a text file"
@@ -18713,7 +18722,7 @@ msgstr "_Afbeeldingen laden"
 
 #: ../ui/evolution-mail-message.xml.h:112
 msgid "_Next Message"
-msgstr "_Volgend bericht"
+msgstr "V_olgende bericht"
 
 #: ../ui/evolution-mail-message.xml.h:113
 msgid "_Normal Size"
@@ -18729,7 +18738,7 @@ msgstr "In nieuw venster _openen"
 
 #: ../ui/evolution-mail-message.xml.h:116
 msgid "_Previous Message"
-msgstr "Vo_rig bericht"
+msgstr "Vo_rige bericht"
 
 #: ../ui/evolution-mail-message.xml.h:120
 msgid "_Save Message..."
