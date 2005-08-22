@@ -1,5 +1,9 @@
 2005-08-22  Danilo Šegan  <danilo@gnome.org>
 
+	* sr.po, sr@Latn.po: Updated by Igor Nestorović.
+
+2005-08-22  Danilo Šegan  <danilo@gnome.org>
+
 	* POTFILES.in: Removed 	shell/e-shell-offline-handler.c,
 	calendar/gui/calendar-offline-handler.c.
 
