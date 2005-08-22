@@ -1,3 +1,101 @@
+Evolution 2.3.8 2005-08-23
+---------------------------
+
+Bugzilla bugs fixed (see http://bugzilla.gnome.org/show_bug.cgi):
+
+	#312225 - Cannot post message to NNTP easily (Rodney)
+	#306878 - CTRL + H, does not select all mails of thread (Rodney)
+	#310136 - Unable to get number of mails in a folder using 
+	          accessibility interface (Li Yuan)
+	#312668 - Unable to go back to Online mode after 
+	          clicking offline button... (Michael Zucchi)
+	#271894 - PGP-encrypted attached messages not displayed 
+	          (Michael Zucchi)
+	#312224 - New attachment UI is weird (Srinivasa)
+	#312033 - new attachment widget no polished (Srinivasa)
+	#307375 - Serious fd usage error 16 (Kaushal)	
+	#313440 - installed header includes non-existant file 
+	          (Michael Zucchi)
+	#313582 - Add scalix to send and receive check_all 
+	          (Christian Kellner)
+	#273842 - click 'Back' & 'Forward' to proceed in last but 
+	          one page (Vivek)
+	#232499 - renamed IMAP folder loses custom view settings 
+	          (Michael Zucchi)
+	#313057 - Evolution sends a GetFolderListRequest instead of 
+	          a LogoutRequest when disabling an account (Vivek)
+	#271985 - More Command Line Spew (Michael Zucchi)
+	#312715 - Evolution crashes moving IMAP folder to local folder 
+	          (Michael Zucchi)
+	#304938 - Crash after posting to newsgroup (Michael Zucchi)
+	#313585 - Install missing e-plugin header (Christian Kellner)
+	#271984 - Command Line Spew From Plugins (Michael Zucchi)
+	#311904 - unable to create new task b/w 00:00-03:00 (Chenthill)
+	#312739 - Double click on the meeting in day view, 
+	          opens as appointment (Viren)
+	#310338 - Click on 'Edit' on 'Alarm notification nothing 
+	          happens (Viren)
+	#310438 - drag-n-drop a task from a task list to the 
+	          same task list makes the task disappear (Dinesh)
+	#314152 - Contact renderer incorrectly uses 
+	          e_contact_get_const() (Sushma)
+	#241219 - "Edit Categories" shouldn't be modal (Devashish)
+	#269870 - evolution-addressbook-export --format=csv 
+	          does not work (Sushma)
+	#312554 - Unable to rename contact list - Contact list 
+	          copy of existing contact list (Devashish)
+	#313063 - scrollbar doesn't work at all (Michael Zucchi)
+	#308117 - mono plugin fails to load (Michael Zucchi)
+	#312621 - un-subscribe to list from mail that no 
+	          longer exists crashed evo (Michael Zucchi)
+	#312313 - Cannot remove and then provide proxy access 
+	          immedietly to same id (Sankar)
+	#312352 - Evolution crashes always while providing proxy 
+	          access to more then one user (Sankar)
+	#312309 - gw: Evolution crashed when proxy access 
+	          modified (Sankar)
+	#311555 - sharing tab missing for user-created folders 
+	          with names like Mailbox, Trash... (Vivek)
+	#305627 - Inconsistent behaviour while accepting meeting 
+	          (Dinesh)
+	#307841 - When accepting appointment into a groupwise 
+	          calendar, they are being marked as "free" 
+		  not "busy" (Chenthill)
+	Win32 support fixes (Tor Lillqvist)
+	Misc. build fixes (Harish)
+	
+Updated Translations:
+
+	- bg (Alexander Shopov)
+	- bg (Rostislav Raykov)
+	- ca (Josep Puigdemont i Casamajó)
+	- ca (Xavi Conde Rueda)
+	- cy (Rhys Jones)
+	- de (Frank Arnold)
+	- el (Kostas Papadimas)
+	- en_CA (Adam Weinberger)
+	- es (Francisco Javier F Serrador)
+	- et (Ivar Smolin)
+	- fi (Ilkka Tuohela)
+	- hu (Gabor Kelemen)
+	- id (Mohammad DAMT)
+	- ja (Takeshi AIHANA)
+	- lt (Zygimantas Beručka)
+	- nb, no (Kjartan Maraas)
+	- nb, no (Terance Sola)
+	- nl (Tino Meinen)
+	- nn (Sigurd Gartmann)
+	- pt_BR (Raphael Higino)
+	- ru (Nickolay V. Shmyrev)
+	- sq (Laurent Dhima)
+	- sr, sr@Latn (Igor Nestorović)
+	- sv (Christian Rose)
+	- th (Theppitak Karoonboonyanan)
+	- th (Supranee Thirawatthanasuk)
+	- vi (Clytie Siddall)
+	- zh_CN (Funda Wang)
+	- zh_TW (Chao-Hsuing Liao)
+
 Evolution 2.3.7 2005-08-08
 ---------------------------
 
