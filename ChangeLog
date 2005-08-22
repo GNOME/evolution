@@ -1,6 +1,26 @@
-2005-08-23  Harish Krishnaswamy  <kharish@novell.com>
+2005-08-23  Harish Krishnaswamy <kharish@novell.com>
 
-	* configure.in: Release 2.3.8
+	* configure.in : Release 2.3.8
+
+2005-08-21  Jens Seidel  <jseidel@cvs.gnome.org>
+
+	* e-util/e-plugin.c:
+	* mail/mail-mt.c:
+	* plugins/sa-junk-plugin/em-junk-filter.c: Fixed the typo
+	"occured" (also in all effected PO files to avoid fuzzyness)
+
+2005-08-21  Francisco Javier F. Serrador  <serrador@cvs.gnome.org>
+
+	* widgets/misc/e-canvas-background.c:
+	* widgets/text/e-entry.c: Resolve Bug #309074 
+
+2005-08-10  Tor Lillqvist  <tml@novell.com>
+
+	* tools/Makefile.am: Don't try to build killev on Win32.
+
+2005-08-09  Theppitak Karoonboonyanan  <thep@linux.thai.net>
+
+	* configure.in: Added "th" (Thai) to ALL_LINGUAS.
 
 2005-08-08  Harish Krishnaswamy  <kharish@novell.com>
 
@@ -104,26 +124,6 @@
 	for the merged attachment bar.
 
 2005-07-10  Shreyas Srinivasan <sshreyas@novell.com>
-
-	* configure.in: Add mail-account-disable, proxy, proxy-login and
-	groupwise-account-setup to the plugin list.
-	
-2005-07-02  Harish Krishnaswamy  <kharish@novell.com>
-
-	* configure.in: bump version
-
-2005-06-27  Tor Lillqvist  <tml@novell.com>
-
-	* configure.in: Drop local mail file lock method tests and the
-	option --enable-file-locking, these are not used in evolution. (Is
-	used in e-d-s.) Ditto for sendmail operation tests and the
-	--with-broken-spool option.
-
-	* win32/libemiscwidgets.def: Add e_selection_model_selection_row_changed.
-
-2005-06-25  Not Zed  <NotZed@Ximian.com>
-
-	* configure.in: remove need to define NULL in getaddrinfo check.
 
 	* configure.in: Add mail-account-disable, proxy, proxy-login and
 	groupwise-account-setup to the plugin list.
@@ -1585,3 +1585,23 @@
 	(install-data-local): Depend on $(mime_file) and $(keys_file).
 	(EXTRA_DIST): Remove $(desktop_file), replace $(desktop_in_file)
 	with $(desktop_in_in_file).
+
+2003-06-19  Dan Winship  <danw@ximian.com>
+
+	* tools/killev.c (kill_component): clean this up a little and make
+	it deal with "evolution" vs "evolution-1.4"
+
+2003-06-19  Danilo Šegan  <dsegan@gmx.net>
+
+	* configure.in: Added "sr" and "sr@Latn" to ALL_LINGUAS.
+
+2003-06-17  Not Zed  <NotZed@Ximian.com>
+
+	* NEWS: Updated for current mail stuff.
+
+2003-06-13  Ettore Perazzoli  <ettore@ximian.com>
+
+	* tools/Makefile.am: Remove evolution-launch-composer since it's
+	no longer needed.
+
+
