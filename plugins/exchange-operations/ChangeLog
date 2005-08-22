@@ -1,3 +1,13 @@
+2005-08-22  Sarfraaz Ahmed <asarfraaz@novell.com>
+
+	* exchange-account-setup.c (btn_fsize_clicked)
+	(set_oof_info) : Use exchange_operations_get_exchange_account.
+	* exchange-config-listener.c (exchange_config_listener_authenticate) :
+	Fetch the password and connect. Added new
+	* exchange-config-listener.h : Similar.
+	* exchange-operations.c (exchange_operations_get_exchange_account) :
+	Try authenticating if account is not found.
+
 2005-09-12  Praveen Kumar  <kpraveen@novell.com>
 
 	* exchange-config-listener.c

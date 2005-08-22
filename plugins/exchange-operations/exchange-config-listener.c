@@ -42,6 +42,7 @@
 #include <libedataserver/e-source.h>
 #include <libedataserver/e-source-list.h>
 #include <libedataserver/e-source-group.h>
+#include <libedataserverui/e-passwords.h>
 
 #include <stdlib.h>
 #include <string.h>
@@ -92,7 +93,6 @@ static gboolean exchange_camel_urls_is_equal (const gchar *url1,
 					      const gchar *url2);
 static void remove_selected_non_offline_esources (ExchangeAccount *account, 
 						  const char *gconf_key);
-
 static void
 class_init (GObjectClass *object_class)
 {
@@ -290,6 +290,8 @@ add_account_esources (ExchangeAccount *account,
 				e_source_set_property (source, "offline_sync", "1");
 			if (username)
 				e_source_set_property (source, "username", username);
+			e_source_set_property (source, "auth", "1");
+			e_source_set_property (source, "auth-domain", "Exchange");
 			e_source_group_add_source (contacts_source_group, 
 						   source, -1);
 			g_object_unref (source);
@@ -302,6 +304,8 @@ add_account_esources (ExchangeAccount *account,
 				e_source_set_property (source, "offline_sync", "1");
 			if (username)
 				e_source_set_property (source, "username", username);
+			e_source_set_property (source, "auth", "1");
+			e_source_set_property (source, "auth-domain", "Exchange");
 			e_source_group_add_source (cal_source_group, 
 						   source, -1);
 #if 0
@@ -329,6 +333,8 @@ add_account_esources (ExchangeAccount *account,
 				e_source_set_property (source, "offline_sync", "1");
 			if (username)
 				e_source_set_property (source, "username", username);
+			e_source_set_property (source, "auth", "1");
+			e_source_set_property (source, "auth-domain", "Exchange");
 			e_source_group_add_source (tasks_source_group, 
 						   source, -1);
 #if 0
@@ -574,6 +580,30 @@ remove_account_esources (ExchangeAccount *account)
 	remove_account_esource (account, EXCHANGE_CONTACTS_FOLDER);
 }
 
+ExchangeAccountResult 
+exchange_config_listener_authenticate (ExchangeConfigListener *ex_conf_listener, ExchangeAccount *account) 
+{
+	ExchangeConfigListenerPrivate *priv;
+	ExchangeAccountResult result;
+	char *key, *password, *title;
+	gboolean remember = FALSE;
+	CamelURL *camel_url;
+	
+	g_return_val_if_fail (EXCHANGE_IS_CONFIG_LISTENER (ex_conf_listener), EXCHANGE_ACCOUNT_CONFIG_ERROR);
+	priv = ex_conf_listener->priv;
+	
+	camel_url = camel_url_new (priv->configured_uri, NULL);
+	key = camel_url_to_string (camel_url, CAMEL_URL_HIDE_PASSWORD | CAMEL_URL_HIDE_PARAMS);
+	password = e_passwords_get_password ("Exchange", key);
+	if (!password) {
+		title = g_strdup_printf (_("Enter Password for %s"), account->account_name);
+		password = e_passwords_ask_password (title, "Exchange", key, title, E_PASSWORDS_REMEMBER_SESSION|E_PASSWORDS_SECRET , &remember, NULL);
+	}			
+ 	exchange_account_connect (account, password, &result);
+
+	return result;
+}
+
 static void
 account_added (EAccountList *account_list, EAccount *account)
 {
@@ -625,7 +655,7 @@ account_added (EAccountList *account_list, EAccount *account)
 		remove_selected_non_offline_esources (exchange_account, CONF_KEY_TASKS);
 	}
 
- 	exchange_account_connect (exchange_account, NULL, &result);
+	result = exchange_config_listener_authenticate (config_listener, exchange_account);
 	if (result != EXCHANGE_ACCOUNT_CONNECT_SUCCESS)
 		exchange_operations_report_error (exchange_account, result);
 }

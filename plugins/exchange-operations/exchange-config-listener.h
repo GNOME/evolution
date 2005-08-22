@@ -5,6 +5,7 @@
 #define __EXCHANGE_CONFIG_LISTENER_H__
 
 #include <exchange-constants.h>
+#include <exchange-account.h>
 
 #include "exchange-types.h"
 #include "e-util/e-account-list.h"
@@ -61,6 +62,8 @@ void exchange_config_listener_modify_esource_group_name (ExchangeConfigListener 
 							 const char *old_name, 
 							 const char *new_name);
 
+ExchangeAccountResult exchange_config_listener_authenticate (ExchangeConfigListener *excl, 
+							ExchangeAccount *account);
 
 #ifdef __cplusplus
 }

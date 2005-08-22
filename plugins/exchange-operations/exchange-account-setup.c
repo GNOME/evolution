@@ -157,12 +157,7 @@ btn_fsize_clicked (GtkButton *button, gpointer data)
 	GtkListStore *model;
 	GSList *acclist;
 
-	acclist = exchange_config_listener_get_accounts (exchange_global_config_listener);
-
-	/* FIXME: For now, we have only one account in the list.
-	   Find a way to handle multiple accounts.
-	*/
-	account = acclist->data; 
+	account = exchange_operations_get_exchange_account ();
 
 	model = exchange_account_folder_size_get_model (account);
 	if (model)
@@ -684,13 +679,9 @@ org_gnome_exchange_check_options(EPlugin *epl, EConfigHookPageCheckData *data)
 static void 
 set_oof_info ()
 {
-	GSList *accounts, *acc;
-	ExchangeAccount *account = NULL;
+	ExchangeAccount *account;
 
-	accounts = exchange_config_listener_get_accounts (exchange_global_config_listener);
-        for (acc = accounts; acc;  acc = acc->next) {
-                account = acc->data;
-        }
+	account = exchange_operations_get_exchange_account ();
 
 	if (!exchange_oof_set (account, oof_data->state, oof_data->message)) {
 
