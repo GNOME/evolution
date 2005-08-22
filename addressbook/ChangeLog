@@ -1,3 +1,9 @@
+2005-08-19  Devashish Sharma <sdevashish@novell.com>
+	
+	* gui/contact-editor/e-contact-editor.c (categories_clicked): Makes Edit
+	categories dialog non-modal.
+	Fixes Bug #241219
+
 2005-08-22  Sushma Rai  <rsushma@novell.com>
 
 	* tools/evolution-addressbook-export-list-cards.c

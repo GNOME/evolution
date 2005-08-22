@@ -2544,11 +2544,26 @@ full_name_clicked (GtkWidget *button, EContactEditor *editor)
 }
 
 static void
+response (GtkDialog *dialog, int response, EContactEditor *editor)
+{
+	char *categories = NULL;
+	GtkWidget *entry = glade_xml_get_widget(editor->gui, "entry-categories");
+	
+	if (response == GTK_RESPONSE_OK) {
+		categories = e_categories_dialog_get_categories (E_CATEGORIES_DIALOG (dialog));
+		if (entry && GTK_IS_ENTRY(entry))
+			gtk_entry_set_text (GTK_ENTRY (entry), categories);
+		else
+			e_contact_set (editor->contact, E_CONTACT_CATEGORIES, categories);
+	}
+	gtk_widget_destroy(GTK_WIDGET(dialog));
+}
+
+static void
 categories_clicked (GtkWidget *button, EContactEditor *editor)
 {
 	char *categories = NULL;
 	GtkDialog *dialog;
-	int result;
 	GtkWidget *entry = glade_xml_get_widget(editor->gui, "entry-categories");
 
 	if (entry && GTK_IS_ENTRY(entry))
@@ -2561,18 +2576,12 @@ categories_clicked (GtkWidget *button, EContactEditor *editor)
 		g_free (categories);
 		return;
 	}
+
+	g_signal_connect(dialog, "response",
+			G_CALLBACK (response), editor);	
 	
 	gtk_widget_show(GTK_WIDGET(dialog));
-	result = gtk_dialog_run (dialog);
 	g_free (categories);
-	if (result == GTK_RESPONSE_OK) {
-		categories = e_categories_dialog_get_categories (E_CATEGORIES_DIALOG (dialog));
-		if (entry && GTK_IS_ENTRY(entry))
-			gtk_entry_set_text (GTK_ENTRY (entry), categories);
-		else
-			e_contact_set (editor->contact, E_CONTACT_CATEGORIES, categories);
-	}
-	gtk_widget_destroy(GTK_WIDGET(dialog));
 }
 
 static void
