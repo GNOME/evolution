@@ -1,3 +1,9 @@
+2005-08-19  Not Zed  <NotZed@Ximian.com>
+
+	** See #308117.
+
+	* Makefile.am: link to proper libraries.
+
 2005-06-15  Harish Krishnaswamy <kharish@novell.com>
 
 	* Makefile.am : mono-plugin.h should be included
