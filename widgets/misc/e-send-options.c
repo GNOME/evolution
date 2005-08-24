@@ -417,7 +417,7 @@ get_widgets (ESendOptionsDialog *sod)
 	priv->priority = GW ("combo-priority");
 	priv->status = GW ("status-tracking");
 	priv->classification = GW ("classification-combo");
-	priv->notebook = GW ("notebook");
+	priv->notebook = (GtkNotebook *)GW ("notebook");
 	priv->reply_request = GW ("reply-request-button");
 	priv->reply_convenient = GW ("reply-convinient");
 	priv->reply_within = GW ("reply-within");

@@ -1,3 +1,10 @@
+2005-08-23  Not Zed  <NotZed@Ximian.com>
+
+	* e-send-options.c (get_widgets): cast warning away.
+
+	* e-calendar-item.c (e_calendar_item_realize): remove some unused
+	vars.
+
 2005-08-17  Srinivasa Ragavan <sragavan@novell.com>
 
 	* e-attachment-bar.c 

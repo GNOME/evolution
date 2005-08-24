@@ -681,8 +681,6 @@ e_calendar_item_realize		(GnomeCanvasItem *item)
 {
 	ECalendarItem *calitem;
 	GdkColormap *colormap;
-	gboolean success[E_CALENDAR_ITEM_COLOR_LAST];
-	gint nfailed;
 
 	if (GNOME_CANVAS_ITEM_CLASS (e_calendar_item_parent_class)->realize)
 		(* GNOME_CANVAS_ITEM_CLASS (e_calendar_item_parent_class)->realize) (item);
