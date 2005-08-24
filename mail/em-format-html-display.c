@@ -1898,10 +1898,8 @@ efhd_bar_resize(GtkWidget *w, GtkAllocation *event, EMFormatHTML *efh)
 
 	gtk_widget_size_request (efhd->priv->attachment_bar, &req);
 	width = ((GtkWidget *) efh->html)->allocation.width - 16;
-	gtk_widget_set_size_request (efhd->priv->attachment_bar, width, req.height);
-
-	/* Update the bar to refresh the icons and adjust the height */
-	e_attachment_bar_refresh (E_ATTACHMENT_BAR(efhd->priv->attachment_bar));
+	/* Update the width of the bar */
+	e_attachment_bar_set_width(E_ATTACHMENT_BAR(efhd->priv->attachment_bar), width);
 }
 
 static gboolean
