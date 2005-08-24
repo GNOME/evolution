@@ -1,3 +1,11 @@
+2005-08-23  Not Zed  <NotZed@Ximian.com>
+
+	* Makefile.am: Remove the special case for win32, its a bug on all
+	platforms, silly.
+
+	* mail-account-disable.c (mail_account_disable): make signature
+	match usage.
+
 2005-07-13  Tor Lillqvist  <tml@novell.com>
 
 	* Makefile.am (INCLUDES): Remove duplicated line.
