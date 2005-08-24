@@ -25,11 +25,8 @@
 
 #include <string.h>
 #include <glib.h>
-#include <gtk/gtk.h>
-#include <libgnome/gnome-i18n.h>
 #include <gconf/gconf-client.h>
 #include <e-util/e-config.h>
-#include <mail/em-config.h>
 #include <mail/em-event.h>
 #include <dbus/dbus-glib.h>
 #include <dbus/dbus-glib-lowlevel.h>
@@ -38,7 +35,6 @@
 #define DBUS_PATH "/org/gnome/evolution/mail/newmail"
 #define DBUS_INTERFACE "org.gnome.evolution.mail.dbus.Signal"
 
-GtkWidget *org_gnome_new_mail_config (EPlugin *ep, EConfigHookItemFactoryData *hook_data);
 void org_gnome_new_mail_notify (EPlugin *ep, EMEventTargetFolder *t);
 void org_gnome_message_reading_notify (EPlugin *ep, EMEventTargetMessage *t);
 
@@ -48,9 +44,6 @@ static void
 send_dbus_message (const char *message_name, const char *data)
 {
 	DBusMessage *message;
-
-	if (bus == NULL)
-		return;
 
 	/* Create a new message on the DBUS_INTERFACE */
 	message = dbus_message_new_signal (DBUS_PATH,
@@ -90,6 +83,8 @@ org_gnome_new_mail_notify (EPlugin *ep, EMEventTargetFolder *t)
 	send_dbus_message ("Newmail", t->uri);
 }
 
+int e_plugin_lib_enable (EPluginLib *ep, int enable);
+
 int
 e_plugin_lib_enable (EPluginLib *ep, int enable)
 {
@@ -104,7 +99,7 @@ e_plugin_lib_enable (EPluginLib *ep, int enable)
 			/* Could not determine address of the D-BUS session bus */
 			/* Plugin will be disabled */
 			dbus_error_free (&error);
-			return 1;
+			return -1;
 		}
 
 		/* Set up this connection to work in a GLib event loop  */

@@ -1,3 +1,9 @@
+2005-08-23  Not Zed  <NotZed@Ximian.com>
+
+	* new-mail-notify.c: forward-define e_plugin_lib_enable, remove
+	some unecessary headers.
+	(send_dbus_message): remove spurious check for bus==NULL.
+
 2005-07-11  Vivek Jain  <jvivek@novell.com>
 	
 	* new-mail-notify.c :(send_dbus_message)
