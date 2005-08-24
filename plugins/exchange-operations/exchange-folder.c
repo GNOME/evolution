@@ -475,6 +475,8 @@ org_gnome_exchange_folder_subscription (EPlugin *ep, EMMenuTargetSelect *target)
 		case EXCHANGE_ACCOUNT_FOLDER_GENERIC_ERROR:		
 			e_error_run (NULL, ERROR_DOMAIN ":folder-generic-error", NULL);
 			return;		
+		default:
+			break;
 		}
 	}
 

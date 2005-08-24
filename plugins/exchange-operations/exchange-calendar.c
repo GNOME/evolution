@@ -47,7 +47,7 @@ enum {
 gboolean calendar_src_exists = FALSE;
 gchar *calendar_old_source_uri = NULL;
 
-GPtrArray *e_exchange_calendar_get_calendars (ECalSourceType *ftype);
+GPtrArray *e_exchange_calendar_get_calendars (ECalSourceType ftype);
 void e_exchange_calendar_pcalendar_on_change (GtkTreeView *treeview, ESource *source);
 GtkWidget *e_exchange_calendar_pcalendar (EPlugin *epl, EConfigHookItemFactoryData *data);
 gboolean e_exchange_calendar_check (EPlugin *epl, EConfigHookPageCheckData *data);
@@ -55,7 +55,7 @@ void e_exchange_calendar_commit (EPlugin *epl, EConfigTarget *target);
 
 /* FIXME: Reconsider the prototype of this function */
 GPtrArray *
-e_exchange_calendar_get_calendars (ECalSourceType *ftype) 
+e_exchange_calendar_get_calendars (ECalSourceType ftype) 
 {
 	ExchangeAccount *account;
 	GPtrArray *folder_array;
@@ -69,10 +69,10 @@ e_exchange_calendar_get_calendars (ECalSourceType *ftype)
 	gchar *tstring;
 
 	/* FIXME: Compiler warns here; review needed */
-	if (GPOINTER_TO_INT (ftype) == E_CAL_SOURCE_TYPE_EVENT) { /* Calendars */
+	if (ftype == E_CAL_SOURCE_TYPE_EVENT) { /* Calendars */
 		tstring = g_strdup ("calendar");
 	}
-	else if (GPOINTER_TO_INT (ftype) == E_CAL_SOURCE_TYPE_TODO) { /* Tasks */
+	else if (ftype == E_CAL_SOURCE_TYPE_TODO) { /* Tasks */
 		tstring = g_strdup ("tasks");
 	}
 	else { 
@@ -194,7 +194,7 @@ e_exchange_calendar_pcalendar (EPlugin *epl, EConfigHookItemFactoryData *data)
 	account_name = account->account_name;
 
 	if (calendar_src_exists) {
-		cal_name = e_source_peek_name (source);
+		cal_name = (gchar*) e_source_peek_name (source);
 		model = exchange_account_folder_size_get_model (account);
 		if (model)
 			folder_size = g_strdup_printf ("%s KB", exchange_folder_size_get_val (model, cal_name));
@@ -252,7 +252,7 @@ e_exchange_calendar_pcalendar (EPlugin *epl, EConfigHookItemFactoryData *data)
 		uri_prefix = g_strconcat (account->account_filename, "/", NULL);
 		prefix_len = strlen (uri_prefix);
 		
-		tmpruri = rel_uri;
+		tmpruri = (gchar*) rel_uri;
 
 		if (g_str_has_prefix (tmpruri, uri_prefix)) {
 			sruri = g_strdup (tmpruri+prefix_len);
@@ -315,10 +315,10 @@ e_exchange_calendar_commit (EPlugin *epl, EConfigTarget *target)
 	g_free (path_prefix);
 
 	/* FIXME: Compiler gives a warning here; review needed */
-	if (GPOINTER_TO_INT (t->source_type) == E_CAL_SOURCE_TYPE_EVENT) {
+	if (t->source_type == E_CAL_SOURCE_TYPE_EVENT) {
 		ftype = g_strdup ("calendar");
 	}
-	else if (GPOINTER_TO_INT (t->source_type) == E_CAL_SOURCE_TYPE_TODO) {
+	else if (t->source_type == E_CAL_SOURCE_TYPE_TODO) {
 		ftype = g_strdup ("tasks");
 	}
 	else {
@@ -341,7 +341,7 @@ e_exchange_calendar_commit (EPlugin *epl, EConfigTarget *target)
 	}
 	e_source_set_relative_uri (source, ruri);
 
-	path = g_strdup_printf ("/%s", ruri+prefix_len);
+	path = g_build_filename ("/", ruri+prefix_len, NULL);
 	
 	if (!calendar_src_exists) {
 		/* Create the new folder */
@@ -349,7 +349,7 @@ e_exchange_calendar_commit (EPlugin *epl, EConfigTarget *target)
 	}
 	else if (gruri && strcmp (gruri, calendar_old_source_uri)) {
 		/* Rename the folder */
-		oldpath = g_strdup_printf ("/%s", calendar_old_source_uri+prefix_len);
+		oldpath = g_build_filename ("/", calendar_old_source_uri+prefix_len, NULL);
 		result = exchange_account_xfer_folder (account, oldpath, path, TRUE);
 		exchange_operations_update_child_esources (source, 
 							   calendar_old_source_uri, 
@@ -381,6 +381,8 @@ e_exchange_calendar_commit (EPlugin *epl, EConfigTarget *target)
 		break;
 	case EXCHANGE_ACCOUNT_FOLDER_GENERIC_ERROR:		
 		e_error_run (NULL, ERROR_DOMAIN ":folder-generic-error", NULL);
+		break;
+	default:
 		break;
 	}
 	

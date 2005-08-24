@@ -165,7 +165,7 @@ e_exchange_contacts_pcontacts (EPlugin *epl, EConfigHookItemFactoryData *data)
 	account_name = account->account_name;
 	hbx_size = NULL;
 	if (contacts_src_exists) {
-		abook_name = e_source_peek_name (source);
+		abook_name = (char*)e_source_peek_name (source);
 		model = exchange_account_folder_size_get_model (account);
 		if (model)
 			folder_size = g_strdup_printf ("%s KB", exchange_folder_size_get_val (model, abook_name));
@@ -176,8 +176,8 @@ e_exchange_contacts_pcontacts (EPlugin *epl, EConfigHookItemFactoryData *data)
 		lbl_size = gtk_label_new_with_mnemonic (_("Size:"));
 		lbl_size_val = gtk_label_new_with_mnemonic (_(folder_size));
 		hbx_size = gtk_hbox_new (FALSE, 0);
-		gtk_box_pack_start (hbx_size, lbl_size, FALSE, TRUE, 0);
-		gtk_box_pack_start (hbx_size, lbl_size_val, FALSE, TRUE, 10);
+		gtk_box_pack_start (GTK_BOX (hbx_size), lbl_size, FALSE, TRUE, 0);
+		gtk_box_pack_start (GTK_BOX (hbx_size), lbl_size_val, FALSE, TRUE, 10);
 		gtk_widget_show (lbl_size);
 		gtk_widget_show (lbl_size_val);
 		gtk_misc_set_alignment (GTK_MISC (lbl_size), 0.0, 0.5);
@@ -228,7 +228,7 @@ e_exchange_contacts_pcontacts (EPlugin *epl, EConfigHookItemFactoryData *data)
 		int prefix_len;
 		GtkTreeSelection *selection;
 
-		tmpruri = rel_uri;
+		tmpruri = (gchar*) rel_uri;
 		uri_prefix = g_strconcat (account->account_filename, "/", NULL);
 		prefix_len = strlen (uri_prefix);
 		
@@ -353,6 +353,8 @@ e_exchange_contacts_commit (EPlugin *epl, EConfigTarget *target)
 		break;
 	case EXCHANGE_ACCOUNT_FOLDER_GENERIC_ERROR:		
 		e_error_run (NULL, ERROR_DOMAIN ":folder-generic-error", NULL);
+		break;
+	default:
 		break;
 	}
 	g_free (ruri);

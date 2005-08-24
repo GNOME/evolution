@@ -215,11 +215,11 @@ exchange_delegates_user_edit (ExchangeDelegatesUser *user,
 	g_object_weak_ref (G_OBJECT (parent_window),
 			   parent_window_destroyed, dialog);
 	g_object_add_weak_pointer (G_OBJECT (parent_window),
-				   (void **)&parent_window);
+				   (gpointer*)&parent_window);
 	button = gtk_dialog_run (GTK_DIALOG (dialog));
 	if (parent_window) {
 		g_object_remove_weak_pointer (G_OBJECT (parent_window),
-					      (void **)&parent_window);
+					      (gpointer *)&parent_window);
 		g_object_weak_unref (G_OBJECT (parent_window),
 				     parent_window_destroyed, dialog);
 	}
@@ -324,9 +324,9 @@ exchange_delegates_user_new_from_gc (E2kGlobalCatalog *gc,
 		p--;
 	g_byte_array_append (user->entryid, creator_entryid->data,
 			     p - creator_entryid->data + 1);
-	g_byte_array_append (user->entryid, entry->legacy_exchange_dn,
+	g_byte_array_append (user->entryid, (guint8*)entry->legacy_exchange_dn,
 			     strlen (entry->legacy_exchange_dn));
-	g_byte_array_append (user->entryid, "", 1);
+	g_byte_array_append (user->entryid, (guint8*)"", 1);
 
 	return user;
 }

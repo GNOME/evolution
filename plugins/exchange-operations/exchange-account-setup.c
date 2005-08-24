@@ -155,7 +155,6 @@ btn_fsize_clicked (GtkButton *button, gpointer data)
 {
 	ExchangeAccount *account;
 	GtkListStore *model;
-	GSList *acclist;
 
 	account = exchange_operations_get_exchange_account ();
 
@@ -902,7 +901,7 @@ org_gnome_exchange_show_folder_size_factory (EPlugin *epl, EConfigHookItemFactor
 	GtkHBox *hbx_size;
 	char *folder_name, *folder_size;
 	
-	folder_name = camel_folder_get_name (cml_folder);
+	folder_name = (char*) camel_folder_get_name (cml_folder);
 	if (!folder_name)
 		folder_name = g_strdup ("name");
 	account = exchange_operations_get_exchange_account ();
@@ -912,8 +911,8 @@ org_gnome_exchange_show_folder_size_factory (EPlugin *epl, EConfigHookItemFactor
 	else
 		folder_size = g_strdup ("0 KB");
 
-	hbx_size = gtk_hbox_new (FALSE, 0);
-	vbx = (GtkVBox *)gtk_notebook_get_nth_page (data->parent, 0);
+	hbx_size = (GtkHBox*) gtk_hbox_new (FALSE, 0);
+	vbx = (GtkVBox *)gtk_notebook_get_nth_page (GTK_NOTEBOOK (data->parent), 0);
 
 	lbl_size = gtk_label_new_with_mnemonic (_("Size:"));
 	lbl_size_val = gtk_label_new_with_mnemonic (_(folder_size));
@@ -921,12 +920,12 @@ org_gnome_exchange_show_folder_size_factory (EPlugin *epl, EConfigHookItemFactor
 	gtk_widget_show (lbl_size_val);
 	gtk_misc_set_alignment (GTK_MISC (lbl_size), 0.0, 0.5);
 	gtk_misc_set_alignment (GTK_MISC (lbl_size_val), 0.0, 0.5);
-	gtk_box_pack_start (hbx_size, lbl_size, FALSE, TRUE, 12);
-	gtk_box_pack_start (hbx_size, lbl_size_val, FALSE, TRUE, 10);
-	gtk_widget_show_all (hbx_size);
+	gtk_box_pack_start (GTK_BOX (hbx_size), lbl_size, FALSE, TRUE, 12);
+	gtk_box_pack_start (GTK_BOX (hbx_size), lbl_size_val, FALSE, TRUE, 10);
+	gtk_widget_show_all (GTK_WIDGET (hbx_size));
 
-	gtk_box_pack_start (GTK_BOX (vbx), hbx_size, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (vbx), GTK_WIDGET (hbx_size), FALSE, FALSE, 0);
 	g_free (folder_size);
 
-	return hbx_size;
+	return GTK_WIDGET (hbx_size);
 }

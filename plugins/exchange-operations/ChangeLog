@@ -1,3 +1,19 @@
+2005-08-24  Praveen Kumar  <kpraveen@novell.com>
+
+	* plugins/exchange-operations/exchange-account-setup.c:
+	* plugins/exchange-operations/exchange-calendar.c:
+	* plugins/exchange-operations/exchange-config-listener.c:
+	* plugins/exchange-operations/exchange-contacts.c:
+	* plugins/exchange-operations/exchange-delegates-user.c:
+	* plugins/exchange-operations/exchange-folder-size-display.c:
+	* plugins/exchange-operations/exchange-folder.c:
+	* plugins/exchange-operations/exchange-operations.c:
+	Removed the warning that are generated when compiled with GCC 4.
+
+	* plugins/exchange-operations/exchange-calendar.c:
+	Fixed a build break due to the modification of the 'source_type'
+	field in the ECalConfigTargetSource class.
+
 2005-08-22  Sarfraaz Ahmed <asarfraaz@novell.com>
 
 	* exchange-account-setup.c (btn_fsize_clicked)

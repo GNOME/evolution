@@ -252,7 +252,7 @@ void exchange_operations_update_child_esources (ESource *source, const gchar *ol
 	sources = e_source_group_peek_sources (group);
 	for (tsource = sources; tsource != NULL; tsource = tsource->next) {
 		gchar *ruri;
-		ruri = e_source_peek_relative_uri (tsource->data);
+		ruri = (gchar*) e_source_peek_relative_uri (tsource->data);
 		if (g_strrstr (ruri, old_path)) {
 			/* This ESource points to one of the child folders */
 			gchar **tmpv, *truri;

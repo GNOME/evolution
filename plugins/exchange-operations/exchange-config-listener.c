@@ -231,6 +231,7 @@ is_active_exchange_account (EAccount *account)
 	return (strncmp (account->source->url, EXCHANGE_URI_PREFIX, 11) == 0);
 }
 
+#if 0 /* Not using the following code anywhere for the moment */
 static void
 add_account_esources (ExchangeAccount *account,
 		      GSList *folders)
@@ -472,6 +473,7 @@ add_sources (ExchangeAccount *account)
 		g_slist_free (folders);
         }
 }
+#endif
 
 static void 
 remove_account_esource (ExchangeAccount *account, 

@@ -68,9 +68,9 @@ char *
 exchange_folder_size_get_val (GtkListStore *model, const char *folder_name)
 {
 	GHashTable *finfo = g_hash_table_new (g_str_hash, g_str_equal);
-	char *col_name, *folder_size, *fsize;
+	char *folder_size, *fsize;
 
-	gtk_tree_model_foreach (model, get_folder_size_func, finfo);
+	gtk_tree_model_foreach (GTK_TREE_MODEL (model), get_folder_size_func, finfo);
 
 	if ((fsize = g_hash_table_lookup (finfo, folder_name)) != NULL)
 		folder_size = g_strdup (fsize);
