@@ -2877,10 +2877,11 @@ drop_action(EMsgComposer *composer, GdkDragContext *context, guint32 action, Gtk
 		d(printf ("dropping an unknown\n"));
 		break;
 	}
-	gtk_widget_show (composer->attachment_expander);
-	gtk_widget_show (composer->attachment_scrolled_window);
 
-	printf("Drag finished, success %d delete %d\n", success, delete);
+	if (e_attachment_bar_get_num_attachments(E_ATTACHMENT_BAR(composer->attachment_bar))) {
+		gtk_widget_show (composer->attachment_expander);
+		gtk_widget_show (composer->attachment_scrolled_window);
+	}
 
 	gtk_drag_finish(context, success, delete, time);
 }

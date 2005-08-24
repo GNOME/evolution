@@ -1,3 +1,13 @@
+2005-08-22  Srinivasa Ragavan <sragavan@novell.com>
+
+	* e-msg-composer.c (drop_action): Show the bar depending on the 
+	number of attachments.
+	
+	* e-msg-composer-select-file.c (select_attach_response): Show the bar 
+	depending on the number of attachments.
+	
+	** Fixes the bug #313083
+	
 2005-08-23  Not Zed  <NotZed@Ximian.com>
 
 	* e-msg-composer.c (build_message): only define skip_content: if
