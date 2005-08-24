@@ -1,3 +1,7 @@
+2005-08-23  Not Zed  <NotZed@Ximian.com>
+
+	* em-junk-filter.c (em_junk_sa_report_non_junk): pre-define.
+
 2005-07-06  Vivek Jain <jvivek@novell.com>
 	
 	* Makefile.am: Use NO_UNDEFINED. Link with more libraries.

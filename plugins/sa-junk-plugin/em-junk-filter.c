@@ -36,6 +36,7 @@
 #include <signal.h>
 #include <time.h>
 
+#include <camel/camel-mime-message.h>
 #include <camel/camel-debug.h>
 #include <camel/camel-file-utils.h>
 #include <camel/camel-data-wrapper.h>
@@ -58,7 +59,7 @@ static pthread_mutex_t em_junk_sa_spamd_restart_lock = PTHREAD_MUTEX_INITIALIZER
 static const char *em_junk_sa_get_name (void);
 gboolean em_junk_sa_check_junk (EPlugin *ep, EMJunkHookTarget *target);
 void em_junk_sa_report_junk (EPlugin *ep, EMJunkHookTarget *target);
-void em_junk_sa_report_notjunk (EPlugin *ep, EMJunkHookTarget *target);
+void em_junk_sa_report_non_junk (EPlugin *ep, EMJunkHookTarget *target);
 void em_junk_sa_commit_reports (EPlugin *ep, EMJunkHookTarget *target);
 static void em_junk_sa_init (void);
 static void em_junk_sa_finalize (void);
