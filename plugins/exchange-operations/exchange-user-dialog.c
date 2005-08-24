@@ -224,6 +224,42 @@ e2k_user_dialog_new (GtkWidget *parent_window,
 }
 
 /**
+ * e2k_user_dialog_get_user_list:
+ * @dialog: the dialog
+ *
+ * Gets the email addresses of the selected user from the dialog.
+ *
+ * Return value: the email addresses.
+ **/
+GList *
+e2k_user_dialog_get_user_list (E2kUserDialog *dialog)
+{
+	E2kUserDialogPrivate *priv;
+	EDestinationStore *destination_store;
+	GList *destinations;
+	GList *l;
+	GList *email_list = NULL;
+	EDestination *destination;
+
+	g_return_val_if_fail (E2K_IS_USER_DIALOG (dialog), NULL);
+
+	priv = dialog->priv;
+
+	destination_store = e_name_selector_entry_peek_destination_store (E_NAME_SELECTOR_ENTRY (priv->entry));
+	destinations = e_destination_store_list_destinations (destination_store);
+	if (!destinations)
+		return NULL;
+
+	for (l = destinations; l; l = g_list_next (l)) {
+		destination = l->data;
+		email_list = g_list_prepend (email_list, g_strdup (e_destination_get_email (destination)));
+	}
+	g_list_free (destinations);
+
+	return email_list;
+}
+
+/**
  * e2k_user_dialog_get_user:
  * @dialog: the dialog
  *

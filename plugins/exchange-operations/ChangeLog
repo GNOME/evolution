@@ -1,3 +1,12 @@
+2005-08-24  Shakti Sen <shprasad@novell.com>
+
+	* exchange-permissions-dialog.c (add_clicked): Getting list of mail-ids
+	instead of a single mail-id.
+	* exchange-user-dialog.[c/h] (e2k_user_dialog_get_user_list): Added
+	support for adding multiple IDs.
+
+	Fixes bug #313919.
+
 2005-08-24  Praveen Kumar  <kpraveen@novell.com>
 
 	* plugins/exchange-operations/exchange-account-setup.c:

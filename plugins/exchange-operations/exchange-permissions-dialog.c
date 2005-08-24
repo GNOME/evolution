@@ -392,6 +392,8 @@ add_clicked (GtkButton *button, gpointer user_data)
 	GtkTreeIter iter;
 	GtkWidget *user_dialog;
 	const guint8 *bsid, *bsid2;
+	GList *email_list = NULL;
+	GList *l = NULL;
 	char *email = NULL;
 	gboolean valid;
 	gint result;
@@ -408,61 +410,62 @@ add_clicked (GtkButton *button, gpointer user_data)
 	result = gtk_dialog_run (GTK_DIALOG (user_dialog));
 
 	if (result == GTK_RESPONSE_OK)
-		email = e2k_user_dialog_get_user (E2K_USER_DIALOG (user_dialog));
-	else
-		email = NULL;
+		email_list = e2k_user_dialog_get_user_list (E2K_USER_DIALOG (user_dialog));
 	gtk_widget_destroy (user_dialog);
 
-	if (email == NULL)
+	if (email_list == NULL)
 		return;
 
-	status = e2k_global_catalog_lookup (
-		gc, NULL, /* FIXME: cancellable */
-		E2K_GLOBAL_CATALOG_LOOKUP_BY_EMAIL, email,
-		E2K_GLOBAL_CATALOG_LOOKUP_SID, &entry);
-	switch (status) {
-	case E2K_GLOBAL_CATALOG_OK:
-		break;
-	case E2K_GLOBAL_CATALOG_NO_SUCH_USER:
-		e_error_run (GTK_WINDOW (dialog), ERROR_DOMAIN ":no-user-error", email, NULL);
-		break;
-	case E2K_GLOBAL_CATALOG_NO_DATA:
-		e_error_run (GTK_WINDOW (dialog), ERROR_DOMAIN ":acl-add-error", email, NULL);
-		break;
-	default:
-		e_error_run (GTK_WINDOW (dialog), ERROR_DOMAIN ":perm-unknown-error", email, NULL);
-		break;
-	}
-	g_free (email);
-	if (status != E2K_GLOBAL_CATALOG_OK)
-		return;
-
-	/* Make sure the user isn't already there. */
-	bsid = e2k_sid_get_binary_sid (entry->sid);
-	valid = gtk_tree_model_get_iter_first (GTK_TREE_MODEL (dialog->priv->list_store), &iter);
-	while (valid) {
-		gtk_tree_model_get (GTK_TREE_MODEL (dialog->priv->list_store), &iter,
-				    EXCHANGE_PERMISSIONS_DIALOG_SID_COLUMN, &sid2,
-				    -1);
-		bsid2 = e2k_sid_get_binary_sid (sid2);
-		if (e2k_sid_binary_sid_equal (bsid, bsid2)) {
-			e_error_run (GTK_WINDOW (dialog), ERROR_DOMAIN ":perm-existing-error", 
-				     entry->display_name, NULL);
-			e2k_global_catalog_entry_free (gc, entry);
-			gtk_tree_selection_select_iter (dialog->priv->list_selection, &iter);
+	for (l = email_list; l; l = g_list_next (l)) {
+		email = l->data;
+		status = e2k_global_catalog_lookup (
+			gc, NULL, /* FIXME: cancellable */
+			E2K_GLOBAL_CATALOG_LOOKUP_BY_EMAIL, email,
+			E2K_GLOBAL_CATALOG_LOOKUP_SID, &entry);
+		switch (status) {
+			case E2K_GLOBAL_CATALOG_OK:
+				break;
+			case E2K_GLOBAL_CATALOG_NO_SUCH_USER:
+				e_error_run (GTK_WINDOW (dialog), ERROR_DOMAIN ":no-user-error", email, NULL);
+				break;
+			case E2K_GLOBAL_CATALOG_NO_DATA:
+				e_error_run (GTK_WINDOW (dialog), ERROR_DOMAIN ":acl-add-error", email, NULL);
+				break;
+			default:
+				e_error_run (GTK_WINDOW (dialog), ERROR_DOMAIN ":perm-unknown-error", email, NULL);
+				break;
+		}
+		if (status != E2K_GLOBAL_CATALOG_OK)
 			return;
+
+		/* Make sure the user isn't already there. */
+		bsid = e2k_sid_get_binary_sid (entry->sid);
+		valid = gtk_tree_model_get_iter_first (GTK_TREE_MODEL (dialog->priv->list_store), &iter);
+		while (valid) {
+			gtk_tree_model_get (GTK_TREE_MODEL (dialog->priv->list_store), &iter,
+					    EXCHANGE_PERMISSIONS_DIALOG_SID_COLUMN, &sid2,
+					    -1);
+			bsid2 = e2k_sid_get_binary_sid (sid2);
+			if (e2k_sid_binary_sid_equal (bsid, bsid2)) {
+				e_error_run (GTK_WINDOW (dialog), ERROR_DOMAIN ":perm-existing-error", 
+					     entry->display_name, NULL);
+				e2k_global_catalog_entry_free (gc, entry);
+				gtk_tree_selection_select_iter (dialog->priv->list_selection, &iter);
+				return;
+			}
+
+			valid = gtk_tree_model_iter_next (GTK_TREE_MODEL (dialog->priv->list_store), &iter);
 		}
 
-		valid = gtk_tree_model_iter_next (GTK_TREE_MODEL (dialog->priv->list_store), &iter);
+		add_user_to_list (dialog, entry->sid, TRUE);
+
+		/* Calling set_permissions will cause the sd to take a
+		 * ref on the sid, allowing us to unref it.
+		 */
+		set_permissions (dialog, 0);
+		e2k_global_catalog_entry_free (gc, entry);
 	}
-
-	add_user_to_list (dialog, entry->sid, TRUE);
-
-	/* Calling set_permissions will cause the sd to take a
-	 * ref on the sid, allowing us to unref it.
-	 */
-	set_permissions (dialog, 0);
-	e2k_global_catalog_entry_free (gc, entry);
+	g_list_free (email_list);
 }
 
 static void
