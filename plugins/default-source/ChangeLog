@@ -1,3 +1,7 @@
+2005-08-23  Not Zed  <NotZed@Ximian.com>
+
+	* default-source.c: forward declare exported func.
+
 2005-08-10  Tor Lillqvist  <tml@novell.com>
 
 	* org-gnome-default-source.eplug.in: Use SOEXT.

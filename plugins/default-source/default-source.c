@@ -94,6 +94,7 @@ org_gnome_default_book (EPlugin *epl, EConfigHookItemFactoryData *data)
 	return widget;
 }
 
+GtkWidget *org_gnome_default_cal (EPlugin *epl, EConfigHookItemFactoryData *data);
 
 GtkWidget *
 org_gnome_default_cal (EPlugin *epl, EConfigHookItemFactoryData *data)
