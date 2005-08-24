@@ -1317,11 +1317,13 @@ sensitize_phone (EContactEditor *editor)
 static void
 init_im_record_location (EContactEditor *editor, gint record)
 {
+#ifdef ENABLE_IM_LOCATION
 	GtkWidget *location_option_menu;
 	GtkWidget *location_menu;
+	gint       i;
+#endif
 	GtkWidget *name_entry;
 	gchar     *widget_name;
-	gint       i;
 
 	widget_name = g_strdup_printf ("entry-im-name-%d", record);
 	name_entry = glade_xml_get_widget (editor->gui, widget_name);
@@ -2146,7 +2148,8 @@ fill_in_simple_field (EContactEditor *editor, GtkWidget *widget, gint field_id)
 		e_contact_photo_free (photo);
 	}
 	else if (GTK_IS_TOGGLE_BUTTON (widget)) {
-		gboolean val = (gboolean) e_contact_get (contact, field_id);
+		gboolean val = e_contact_get (contact, field_id) != NULL;
+
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (widget), val);
 	}
 	else {
@@ -2249,7 +2252,8 @@ extract_simple_field (EContactEditor *editor, GtkWidget *widget, gint field_id)
 	}
 	else if (GTK_IS_TOGGLE_BUTTON (widget)) {
 		gboolean val = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget));
-		e_contact_set (contact, field_id, (gpointer) val);
+
+		e_contact_set (contact, field_id, val?(void *)1:NULL);
 	}
 	else {
 		g_warning (G_STRLOC ": Unhandled widget class in mappings!");
@@ -2546,7 +2550,7 @@ full_name_clicked (GtkWidget *button, EContactEditor *editor)
 static void
 response (GtkDialog *dialog, int response, EContactEditor *editor)
 {
-	char *categories = NULL;
+	const char *categories;
 	GtkWidget *entry = glade_xml_get_widget(editor->gui, "entry-categories");
 	
 	if (response == GTK_RESPONSE_OK) {
@@ -2554,7 +2558,7 @@ response (GtkDialog *dialog, int response, EContactEditor *editor)
 		if (entry && GTK_IS_ENTRY(entry))
 			gtk_entry_set_text (GTK_ENTRY (entry), categories);
 		else
-			e_contact_set (editor->contact, E_CONTACT_CATEGORIES, categories);
+			e_contact_set (editor->contact, E_CONTACT_CATEGORIES, (char *)categories);
 	}
 	gtk_widget_destroy(GTK_WIDGET(dialog));
 }
@@ -2654,8 +2658,6 @@ file_selector_deleted (GtkWidget *widget)
 static void
 image_clicked (GtkWidget *button, EContactEditor *editor)
 {
-	GtkWidget *clear_button;
-	GtkWidget *dialog;
 	const gchar *title = _("Please select an image for this contact");
 	const gchar *no_image = _("No image");
 
@@ -2675,6 +2677,9 @@ image_clicked (GtkWidget *button, EContactEditor *editor)
 		g_signal_connect (editor->file_selector, "response",
 				  G_CALLBACK (file_chooser_response), editor);
 #else
+		GtkWidget *clear_button;
+		GtkWidget *dialog;
+
 		/* Create the selector */
 
 		editor->file_selector = gtk_file_selection_new (title);
@@ -2967,8 +2972,8 @@ e_contact_editor_is_valid (EABEditor *editor)
 			}
 			
 		} else {
-			
-			char *text = e_contact_get_const (ce->contact, field_id);
+			const char *text = e_contact_get_const (ce->contact, field_id);
+
 			if (STRING_IS_EMPTY (text)) {
 				g_string_append_printf (errmsg, "%s'%s' is empty",
 							validation_error ? ",\n" : "",
@@ -3599,7 +3604,7 @@ e_contact_editor_create_web(gchar *name,
 			    gint int1, gint int2)
 {
 	GtkWidget *widget = e_url_entry_new ();
-	AtkObject *a11y = gtk_widget_get_accessible (e_url_entry_get_entry (widget));
+	AtkObject *a11y = gtk_widget_get_accessible (e_url_entry_get_entry ((EUrlEntry *)widget));
 
 	if (a11y != NULL) {
 		atk_object_set_name (a11y, string1);

@@ -926,8 +926,6 @@ contact_editor_cb (EBook *book, EBookStatus status, gpointer closure)
 static void
 eab_popup_control_display_contact (EABPopupControl *pop, EContact *contact)
 {
-	GtkWidget *b;
-
 	g_return_if_fail (pop && EAB_IS_POPUP_CONTROL (pop));
 	g_return_if_fail (contact && E_IS_CONTACT (contact));
 	g_return_if_fail (pop->contact == NULL);

@@ -45,6 +45,7 @@
 #include "addressbook/gui/search/e-addressbook-search-dialog.h"
 #include "addressbook/gui/widgets/eab-popup.h"
 #include "addressbook/gui/widgets/eab-menu.h"
+#include "a11y/addressbook/ea-addressbook.h"
 
 #include "e-util/e-print.h"
 #include "libedataserver/e-sexp.h"

@@ -33,6 +33,7 @@
 #include <misc/e-canvas.h>
 #include <libgnome/gnome-i18n.h>
 #include <string.h>
+#include "a11y/addressbook/ea-addressbook.h"
 
 static void e_minicard_view_drag_data_get(GtkWidget *widget,
 					  GdkDragContext *context,

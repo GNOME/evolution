@@ -1,3 +1,34 @@
+2005-08-23  Not Zed  <NotZed@Ximian.com>
+
+	* gui/component/addressbook.c (addressbook_authenticate):
+	de-constify uri, and fix its creation logic.
+	(load_source_cb): cast for warning.
+
+	* gui/widgets/e-addressbook-view.c: more missing a11y include.
+
+	* gui/widgets/e-minicard-view.c: another missing a11y include.
+
+	* gui/widgets/e-minicard.c: include missing a11y include.
+	(e_minicard_activate_editor): fix cast.
+
+	* gui/widgets/eab-popup-control.c (eab_popup_control_display_contact): remove unused.
+
+	* gui/widgets/eab-gui-util.c (eab_contact_save): fix conditional build.
+	(eab_send_to_contact_and_email_num_list): fix boolean conversion.
+
+	* gui/widgets/eab-contact-display.c (eab_contact_display_init): cast.
+
+	* gui/contact-list-editor/e-contact-list-editor.c (fill_in_info): constify file_as.
+
+	* gui/contact-editor/e-contact-editor.c (init_im_record_location):
+	fix warnings for conditional building.
+	(fill_in_simple_field): do proper boolean conversion.
+	(extract_simple_field): do proper boolean conversion.
+	(response): constify categories, and dont bother initialising it.
+	(image_clicked): remove warnings for conditional build.
+	(e_contact_editor_is_valid): constify text.
+	(e_contact_editor_create_web): cast.
+
 2005-08-22  Sushma Rai  <rsushma@novell.com>
 
 	* gui/widgets/eab-contact-display.c 

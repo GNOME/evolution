@@ -161,13 +161,11 @@ addressbook_authenticate (EBook *book, gboolean previous_failure, ESource *sourc
 	char *pass_dup = NULL;
 	const gchar *auth;
 	const gchar *user;
-	const gchar *uri = e_book_get_uri (book);
-        gchar *stripped_uri = remove_parameters_from_uri (uri);
+	gchar *uri = remove_parameters_from_uri(e_book_get_uri (book));
 	const gchar *auth_domain = e_source_get_property (source, "auth-domain");
 	const gchar *component_name;
 			
 	component_name = auth_domain ? auth_domain : "Addressbook";
-	uri = stripped_uri;
 
 	password = e_passwords_get_password (component_name, uri);
 
@@ -257,7 +255,7 @@ load_source_cb (EBook *book, EBookStatus status, gpointer closure)
 
 		auth = e_source_get_property (load_source_data->source, "auth");
 		if (auth && strcmp (auth, "none")) {
-			g_signal_connect (book, "auth_required", auth_required_cb, NULL);
+			g_signal_connect (book, "auth_required", G_CALLBACK(auth_required_cb), NULL);
 			
 			if (e_book_is_online (book)) {
 				addressbook_authenticate (book, FALSE, load_source_data->source,

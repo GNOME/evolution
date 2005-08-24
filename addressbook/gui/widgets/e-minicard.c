@@ -41,6 +41,7 @@
 #include "e-contact-editor.h"
 #include <e-util/e-icon-factory.h>
 #include <libebook/e-destination.h>
+#include "a11y/addressbook/ea-addressbook.h"
 
 static void e_minicard_init		(EMinicard		 *card);
 static void e_minicard_class_init	(EMinicardClass	 *klass);
@@ -534,8 +535,7 @@ editor_closed_cb (GtkObject *editor, gpointer data)
 gboolean
 e_minicard_activate_editor(EMinicard *minicard)
 {
-	GnomeCanvasItem *item = NULL;
-	item = minicard;
+	GnomeCanvasItem *item = (GnomeCanvasItem *)minicard;
       
 	if (minicard->editor) {
 		eab_editor_raise (minicard->editor);

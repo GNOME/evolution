@@ -1053,7 +1053,7 @@ fill_in_info(EContactListEditor *editor)
 {
 	if (editor->contact) {
 		EContactPhoto *photo;
-		char *file_as;
+		const char *file_as;
 		gboolean show_addresses = FALSE;
 		gboolean is_evolution_list = FALSE;
 		GList *email_list;
@@ -1067,8 +1067,8 @@ fill_in_info(EContactListEditor *editor)
 		gtk_editable_delete_text (GTK_EDITABLE (editor->list_name_entry), 0, -1);
 		if (file_as) {
 			int position = 0;
+
 			gtk_editable_insert_text (GTK_EDITABLE (editor->list_name_entry), file_as, strlen (file_as), &position);
-			g_free (file_as);
 		}
 
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(editor->visible_addrs_checkbutton), !show_addresses);
