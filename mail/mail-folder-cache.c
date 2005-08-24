@@ -43,6 +43,8 @@
 #include <camel/camel-offline-store.h>
 #include <camel/camel-disco-store.h>
 
+#include "e-util/e-util.h"
+
 #include "mail-mt.h"
 #include "mail-folder-cache.h"
 #include "mail-ops.h"

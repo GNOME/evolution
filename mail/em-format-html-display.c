@@ -738,13 +738,13 @@ efhd_xpkcs7mime_info_response(GtkWidget *w, guint button, struct _smime_pobject 
 	po->widget = NULL;
 }
 
+#ifdef HAVE_NSS
 static void
 efhd_xpkcs7mime_viewcert_foad(GtkWidget *w, guint button, struct _smime_pobject *po)
 {
 	gtk_widget_destroy(w);
 }
 
-#ifdef HAVE_NSS
 static void
 efhd_xpkcs7mime_viewcert_clicked(GtkWidget *button, struct _smime_pobject *po)
 {
@@ -1772,7 +1772,7 @@ efhd_bar_popup_position(GtkMenu *menu, int *x, int *y, gboolean *push_in, gpoint
 	if (selection == NULL)
 		return;
 	
-	image = gnome_icon_list_get_icon_pixbuf_item (icon_list, (gint)selection->data);
+	image = gnome_icon_list_get_icon_pixbuf_item (icon_list, GPOINTER_TO_INT(selection->data));
 	if (image == NULL)
 		return;
 	

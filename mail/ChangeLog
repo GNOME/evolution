@@ -1,3 +1,25 @@
+2005-08-23  Not Zed  <NotZed@Ximian.com>
+
+	* mail-tools.c (mail_tool_uri_to_folder): cast warning away.
+
+	* mail-folder-cache.c: include missing header for
+	e_filename_make_safe.
+
+	* em-junk-hook.h: Fix some header includes, fix the include guard
+	to use the right name.
+	(EMJunk): Ugh, this is an object, properly derive from it!  How
+	did this work?
+
+	* em-junk-hook.c (em_junk_check_junk): fix bool conversion.
+
+	* em-format-html-display.c (efhd_bar_popup_position): another
+	wraning, why this crap isn't in the attachment bar like i said it
+	should be, i'll never know.
+	(efhd_xpkcs7mime_viewcert_foad): only define if used.
+
+	* em-account-editor.c (emae_defaults_page): attempt to fix parentheses
+	(emae_security_page): fix conditional compilation warnings.
+
 2005-08-19  Not Zed  <NotZed@Ximian.com>
 
 	** See #312668.

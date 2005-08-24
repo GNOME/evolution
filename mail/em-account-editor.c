@@ -2151,9 +2151,9 @@ emae_defaults_page(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, st
 				 && ( emae->priv->source.provider && !(emae->priv->source.provider->flags & CAMEL_PROVIDER_DISABLE_SENT_FOLDER)));
 
 	gtk_widget_set_sensitive((GtkWidget *)gui->restore_folders_button,
-				 (e_account_writable(emae->account, E_ACCOUNT_SENT_FOLDER_URI) &&
-				  ( emae->priv->source.provider && ! ( emae->priv->source.provider->flags & CAMEL_PROVIDER_DISABLE_SENT_FOLDER)) || 
-				  e_account_writable(emae->account, E_ACCOUNT_DRAFTS_FOLDER_URI)));
+				 (e_account_writable(emae->account, E_ACCOUNT_SENT_FOLDER_URI)
+				  && ((emae->priv->source.provider  && !( emae->priv->source.provider->flags & CAMEL_PROVIDER_DISABLE_SENT_FOLDER))
+				      || e_account_writable(emae->account, E_ACCOUNT_DRAFTS_FOLDER_URI))));
 
 	/* Receipt policy */
 	emae_setup_receipt_policy (emae, xml);
@@ -2172,7 +2172,9 @@ static GtkWidget *
 emae_security_page(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, struct _GtkWidget *old, void *data)
 {
 	EMAccountEditor *emae = data;
+#if defined (HAVE_NSS)
 	EMAccountEditorPrivate *gui = emae->priv;
+#endif
 	GtkWidget *w;
 	GladeXML *xml;
 

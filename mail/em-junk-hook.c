@@ -89,7 +89,7 @@ em_junk_check_junk(CamelJunkPlugin *csp, CamelMimeMessage *m)
 			  m
 		};
 
-		return (gboolean)(e_plugin_invoke(item->hook->hook.plugin, item->check_junk, &target));
+		return e_plugin_invoke(item->hook->hook.plugin, item->check_junk, &target) != NULL;
 	}
 
 	return FALSE;
@@ -170,21 +170,19 @@ static struct _EMJunkHookItem *
 emjh_construct_item(EPluginHook *eph, EMJunkHookGroup *group, xmlNodePtr root)
 {
 	struct _EMJunkHookItem *item; 
-	EMJunk junk_plugin = {
-		{
-			em_junk_get_name,
-			1,
-			em_junk_check_junk,
-			em_junk_report_junk,
-			em_junk_report_non_junk,
-			em_junk_commit_reports,
-			em_junk_init,
-		}
+	CamelJunkPlugin junk_plugin = {
+		em_junk_get_name,
+		1,
+		em_junk_check_junk,
+		em_junk_report_junk,
+		em_junk_report_non_junk,
+		em_junk_commit_reports,
+		em_junk_init,
 	};
 
 	d(printf("  loading group item\n"));
 	item = g_malloc0(sizeof(*item));
-	item->csp =  junk_plugin.csp;
+	item->csp =  junk_plugin;
 	item->check_junk = e_plugin_xml_prop(root, "check_junk");
 	item->report_junk = e_plugin_xml_prop(root, "report_junk");
 	item->report_non_junk = e_plugin_xml_prop(root, "report_non_junk");

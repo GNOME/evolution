@@ -20,14 +20,13 @@
  *
  */
 
-#ifndef __EM_FORMAT_HOOK_H__
-#define __EM_FORMAT_HOOK_H__
+#ifndef __EM_JUNK_HOOK_H__
+#define __EM_JUNK_HOOK_H__
 
-#include <glib-object.h>
-#include "libedataserver/e-msgport.h"
 #include "e-util/e-plugin.h"
+
 #include <camel/camel-junk-plugin.h>
-#include <camel/camel-mime-message.h>
+
 #ifdef __cplusplus
 extern "C" {
 #pragma }
@@ -45,7 +44,7 @@ typedef struct _EMJunkHookTarget EMJunkHookTarget;
 typedef void (*EMJunkHookFunc)(struct _EPlugin *plugin, EMJunkHookTarget *data);
 
 struct _EMJunkHookTarget {
-	CamelMimeMessage *m;
+	struct _CamelMimeMessage *m;
 };
 
 struct _EMJunkHookItem {
@@ -79,6 +78,8 @@ GType em_junk_hook_get_type(void);
 void em_junk_hook_register_type(GType type);
 
 struct _EMJunk {
+	GObject object;
+
         CamelJunkPlugin csp;
 };
 
