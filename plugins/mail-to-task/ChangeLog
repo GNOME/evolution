@@ -1,3 +1,7 @@
+2005-08-23  Not Zed  <NotZed@Ximian.com>
+
+	* mail-to-task.c (add_attendee_cb): use the right type for attendees.
+
 2005-05-11  Not Zed  <NotZed@Ximian.com>
 
 	* Makefile.am: added built_sources/cleanfiles
