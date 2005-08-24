@@ -19,29 +19,20 @@
  *
  */
 
-#include <gtk/gtklabel.h>
-#include <gtk/gtkentry.h>
-#include <gtk/gtktable.h>
-#include <gtk/gtkspinbutton.h>
-#include <gtk/gtkoptionmenu.h>
-#include <gtk/gtkmenu.h>
-#include <gtk/gtkmenuitem.h>
-#include <gtk/gtkhbox.h>
 #include <e-util/e-config.h>
 #include <addressbook/gui/widgets/eab-config.h>
 #include <libedataserver/e-source.h>
-#include <libgnome/gnome-i18n.h>
 #include <string.h>
 
-GtkWidget *e_book_file_dummy (EPlugin *epl, EConfigHookItemFactoryData *data);
+struct _GtkWidget *e_book_file_dummy (EPlugin *epl, EConfigHookItemFactoryData *data);
 
-GtkWidget *
+struct _GtkWidget *
 e_book_file_dummy (EPlugin *epl, EConfigHookItemFactoryData *data)
 {
 	EABConfigTargetSource *t = (EABConfigTargetSource *) data->target;
 	ESource *source = t->source;
 	char *uri_text;
-	char *relative_uri;
+	const char *relative_uri;
 
         uri_text = e_source_get_uri (source);
 	if (strncmp (uri_text, "file", 4)) {

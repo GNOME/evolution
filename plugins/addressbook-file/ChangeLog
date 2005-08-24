@@ -1,3 +1,9 @@
+2005-08-23  Not Zed  <NotZed@Ximian.com>
+
+	* addressbook-file.c (e_book_file_dummy): fix relative_uri type,
+	don't include every header in the world we dont' need.  And it
+	sure has hell seems to do something for a 'dummy' function.
+
 2005-06-27  Tor Lillqvist  <tml@novell.com>
 
 	* Makefile.am: There is no EVOLUTION_CFLAGS. Use
