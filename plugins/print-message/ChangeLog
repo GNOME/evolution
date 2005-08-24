@@ -1,3 +1,9 @@
+2005-08-23  Not Zed  <NotZed@Ximian.com>
+
+	* print-message.c: Add missing headers
+	(org_gnome_print_message): define before defining, remove c99isms.
+	(org_gnome_print_preview): define before defining.
+
 2005-06-27  Tor Lillqvist  <tml@novell.com>
 
 	* Makefile.am: Use NO_UNDEFINED. Link with more libraries.

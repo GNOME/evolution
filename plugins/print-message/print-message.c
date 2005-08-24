@@ -34,6 +34,7 @@
 #include "mail/em-menu.h"
 #include "mail/em-utils.h"
 #include "e-util/e-print.h"
+#include "e-util/e-dialog-utils.h"
 #include "composer/e-msg-composer.h"
 
 void org_gnome_compose_print_message (EPlugin *ep, EMMenuTargetWidget *t);
@@ -68,25 +69,30 @@ print_response (GtkWidget *w, int resp, struct _print_data *data)
 
 }
 
+void  org_gnome_print_message (EPlugin *ep, EMMenuTargetWidget *t);
+
 void 
 org_gnome_print_message (EPlugin *ep, EMMenuTargetWidget *t)
 {
 
        	EMsgComposer *composer = (EMsgComposer *)t->target.widget;
 	struct _print_data *data;
+	GtkDialog *dialog;
 	
 	data = g_malloc0(sizeof(*data));
 	data->config = e_print_load_config ();
 	data->preview = 0;
 	
 	data->msg = e_msg_composer_get_message (composer, 1);
-	GtkDialog *dialog = (GtkDialog *)e_print_get_dialog_with_config (_("Print Message"), GNOME_PRINT_DIALOG_COPIES, data->config);
-	 gtk_dialog_set_default_response(dialog, GNOME_PRINT_DIALOG_RESPONSE_PRINT);
+	dialog = (GtkDialog *)e_print_get_dialog_with_config (_("Print Message"), GNOME_PRINT_DIALOG_COPIES, data->config);
+	gtk_dialog_set_default_response(dialog, GNOME_PRINT_DIALOG_RESPONSE_PRINT);
 	e_dialog_set_transient_for ((GtkWindow *) dialog, (GtkWidget *) composer);
 	g_signal_connect(dialog, "response", G_CALLBACK(print_response), data);
 	gtk_widget_show((GtkWidget *)dialog);
 	
 }
+
+void org_gnome_print_preview (EPlugin *ep, EMMenuTargetWidget *t);
 
 void
 org_gnome_print_preview (EPlugin *ep, EMMenuTargetWidget *t)
