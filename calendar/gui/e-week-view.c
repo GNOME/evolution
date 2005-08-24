@@ -678,8 +678,6 @@ e_week_view_realize (GtkWidget *widget)
 {
 	EWeekView *week_view;
 	GdkColormap *colormap;
-	gboolean success[E_WEEK_VIEW_COLOR_LAST];
-	gint nfailed;
 
 	if (GTK_WIDGET_CLASS (e_week_view_parent_class)->realize)
 		(*GTK_WIDGET_CLASS (e_week_view_parent_class)->realize)(widget);

@@ -32,6 +32,7 @@
 #include "itip-utils.h"
 #include "misc.h"
 #include "e-calendar-marshal.h"
+#include "calendar-config.h"
 
 typedef struct {
 	ECal *client;
@@ -1314,7 +1315,7 @@ add_instance_cb (ECalComponent *comp, time_t instance_start, time_t instance_end
 static void
 set_instance_times (ECalModelComponent *comp_data, icaltimezone *zone)
 {
-	struct icaltimetype recur_time, start_time, end_time, itt;
+	struct icaltimetype recur_time, start_time, end_time;
 
 	recur_time = icalcomponent_get_recurrenceid (comp_data->icalcomp);
 	start_time = icalcomponent_get_dtstart (comp_data->icalcomp);

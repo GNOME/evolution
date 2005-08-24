@@ -55,7 +55,7 @@ struct _CalendarSourceDialog {
 
 	/* Source group we're creating/editing a source in */
 	ESourceGroup *source_group;
-	ECalSourceType *source_type;
+	ECalSourceType source_type;
 };
 
 static gboolean
@@ -284,10 +284,10 @@ eccp_general_offline (EConfig *ec, EConfigItem *item, struct _GtkWidget *parent,
 		row = ((GtkTable*)parent)->nrows;
 
 		if (sdialog->source_type == E_CAL_SOURCE_TYPE_EVENT)	
-			offline_setting = gtk_check_button_new_with_label (N_("Copy calendar contents locally for offline operation"));
+			offline_setting = gtk_check_button_new_with_label (_("Copy calendar contents locally for offline operation"));
 		else if (sdialog->source_type == E_CAL_SOURCE_TYPE_TODO)	
 
-			offline_setting = gtk_check_button_new_with_label (N_("Copy task list contents locally for offline operation"));
+			offline_setting = gtk_check_button_new_with_label (_("Copy task list contents locally for offline operation"));
 
 		gtk_widget_show (offline_setting);
 		g_signal_connect (offline_setting, "toggled", G_CALLBACK (offline_status_changed_cb), sdialog);
@@ -315,8 +315,6 @@ eccp_get_source_color (EConfig *ec, EConfigItem *item, struct _GtkWidget *parent
 	static GtkWidget *label, *picker;
 	int row;
 	ECalConfigTargetSource *t = (ECalConfigTargetSource *) ec->target;
-	ESource *source = t->source;
-
 	static guint32 assigned_colors[] = {
 		0xBECEDD, /* 190 206 221     Blue */
 		0xE2F0EF, /* 226 240 239     Light Blue */

@@ -132,7 +132,6 @@ e_select_names_editable_get_emails (ESelectNamesEditable *esne)
 	GList *destinations;
 	EDestination *destination;
 	GList *result = NULL;
-	gboolean contact_list = FALSE;
 
 	g_return_val_if_fail (E_SELECT_NAMES_EDITABLE (esne), NULL);
 

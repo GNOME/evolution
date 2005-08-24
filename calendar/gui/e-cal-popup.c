@@ -169,7 +169,6 @@ needs_to_accept (icalcomponent *icalcomp, char *user_email)
 	icalproperty *prop;
 	icalparameter *param;
 	icalparameter_partstat status;
-	const char *delto = NULL;
 	
 	prop = get_attendee_prop (icalcomp, user_email);
 

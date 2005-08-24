@@ -897,9 +897,11 @@ response_cb (GtkWidget *widget, int response, gpointer data)
 	case GTK_RESPONSE_OK:
 		/* Check whether the downloads are completed */
 		if (e_attachment_bar_get_download_count (E_ATTACHMENT_BAR (editor->priv->attachment_bar)) ){
+			gboolean response = 1;
+#warning "FIXME: Cannot use mail functions from calendar!!!!"
+#if 0	
 			ECalComponentVType vtype = e_cal_component_get_vtype(editor->priv->comp);
-			gboolean response;
-	
+
 			if (vtype == E_CAL_COMPONENT_EVENT)
 				response = em_utils_prompt_user((GtkWindow *)widget, 
 								 NULL, 
@@ -910,6 +912,7 @@ response_cb (GtkWidget *widget, int response, gpointer data)
 								 NULL, 
 								 "calendar:ask-send-task-pending-download", 
 								  NULL);
+#endif
 		if (!response) 
 			return;
 		}	
@@ -1097,7 +1100,7 @@ cab_popup_position(GtkMenu *menu, int *x, int *y, gboolean *push_in, gpointer us
 	if (selection == NULL)
 		return;
 	
-	image = gnome_icon_list_get_icon_pixbuf_item (icon_list, (gint)selection->data);
+	image = gnome_icon_list_get_icon_pixbuf_item (icon_list, GPOINTER_TO_INT(selection->data));
 	if (image == NULL)
 		return;
 	
@@ -2009,7 +2012,6 @@ set_attachment_list (CompEditor *editor, GSList *attach_list)
 {
 	GSList *p = NULL;
 	const char *comp_uid= NULL;
-	const char *local_store = e_cal_get_local_attachment_store (editor->priv->client);
 
 	e_cal_component_get_uid (editor->priv->comp, &comp_uid);
 

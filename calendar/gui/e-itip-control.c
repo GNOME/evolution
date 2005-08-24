@@ -361,8 +361,10 @@ find_server (EItipControl *itip, ECalComponent *comp, gboolean show_selector)
 }
 
 static void
-cleanup_ecal (ECal *ecal) 
+cleanup_ecal (void *data)
 {
+	ECal *ecal = data;
+
 	/* Clean up any signals */
 	g_signal_handlers_disconnect_matched (ecal, G_SIGNAL_MATCH_FUNC, 0, 0, NULL, cal_opened_cb, NULL);
 	g_signal_handlers_disconnect_matched (ecal, G_SIGNAL_MATCH_FUNC, 0, 0, NULL, find_cal_opened_cb, NULL);

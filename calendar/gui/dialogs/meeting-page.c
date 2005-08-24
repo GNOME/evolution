@@ -300,7 +300,7 @@ clear_widgets (MeetingPage *mpage)
 	priv = mpage->priv;
 
 	if (COMP_EDITOR_PAGE (mpage)->flags & COMP_EDITOR_PAGE_DELEGATE) {
-		gtk_label_set_markup_with_mnemonic (priv->att_label, _("<b>Dele_gatees</b>"));
+		gtk_label_set_markup_with_mnemonic ((GtkLabel *)priv->att_label, _("<b>Dele_gatees</b>"));
 	}
 
 	if (e_cal_get_static_capability (COMP_EDITOR_PAGE (mpage)->client, CAL_STATIC_CAPABILITY_NO_ORGANIZER)) {
@@ -487,7 +487,7 @@ meeting_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 	if (COMP_EDITOR_PAGE (mpage)->flags & COMP_EDITOR_PAGE_DELEGATE ) {
 		GSList *attendee_list, *l;
 		int i;
-		GPtrArray *attendees = e_meeting_store_get_attendees (priv->model);
+		const GPtrArray *attendees = e_meeting_store_get_attendees (priv->model);
 
 		e_cal_component_get_attendee_list (priv->comp, &attendee_list);
 		

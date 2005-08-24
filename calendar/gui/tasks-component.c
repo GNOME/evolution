@@ -745,7 +745,7 @@ selector_tree_drag_data_received (GtkWidget *widget,
 	icalcomp = icalparser_parse_string (data->data);
 
 	if (icalcomp) {
-		char * uid;
+		const char * uid;
 		
 		/* FIXME deal with GDK_ACTION_ASK */
 		if (context->action == GDK_ACTION_COPY) {

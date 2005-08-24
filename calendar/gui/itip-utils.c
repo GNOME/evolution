@@ -744,7 +744,7 @@ static void
 comp_sentby (ECalComponent *comp, ECal *client)
 {
 	ECalComponentOrganizer organizer;
-	GList * attendees, *l;
+	GSList * attendees, *l;
 	char *user = NULL;
 	
 	e_cal_component_get_organizer (comp, &organizer);

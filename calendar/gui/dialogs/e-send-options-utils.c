@@ -21,8 +21,7 @@
 #include "e-send-options-utils.h"
 #include "../calendar-config.h"
 #include <glib.h>
-
-ESendOptionsDialog *sod = NULL;
+#include <string.h>
 
 void 
 e_sendoptions_utils_set_default_data (ESendOptionsDialog *sod, ESource *source, char * type) 

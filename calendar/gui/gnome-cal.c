@@ -1288,7 +1288,7 @@ config_categories_changed_cb (EConfigListener *config_listener, const char *key,
 		cat_list = g_list_remove (cat_list, cat_list->data);
 	}
 
-	cal_search_bar_set_categories (priv->search_bar, cat_array);
+	cal_search_bar_set_categories ((CalSearchBar *)priv->search_bar, cat_array);
 
 	g_ptr_array_free (cat_array, TRUE);
 }
@@ -1404,9 +1404,9 @@ setup_widgets (GnomeCalendar *gcal)
 	g_signal_connect (etable, "selection_change",
 			  G_CALLBACK (table_selection_change_cb), gcal);
 	
-	g_signal_connect (e_calendar_table_get_model (priv->todo), "cal_view_progress",
+	g_signal_connect (e_calendar_table_get_model ((ECalendarTable *)priv->todo), "cal_view_progress",
 				G_CALLBACK (view_progress_cb), gcal);
-	g_signal_connect (e_calendar_table_get_model (priv->todo), "cal_view_done",
+	g_signal_connect (e_calendar_table_get_model ((ECalendarTable *)priv->todo), "cal_view_done",
 				G_CALLBACK (view_done_cb), gcal);
 
 	/* Timeout check to hide completed items */
@@ -1445,7 +1445,7 @@ setup_widgets (GnomeCalendar *gcal)
 	g_signal_connect (adjustment, "value_changed",
 			  G_CALLBACK (week_view_adjustment_changed_cb),
 			  gcal);
-	w_model = e_calendar_view_get_model (priv->week_view);
+	w_model = e_calendar_view_get_model ((ECalendarView *)priv->week_view);
 	g_signal_connect (w_model, "cal_view_progress",
 				G_CALLBACK (view_progress_cb), gcal);
 	g_signal_connect (w_model, "cal_view_done",

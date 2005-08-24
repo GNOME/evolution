@@ -895,13 +895,11 @@ e_meeting_time_selector_style_set (GtkWidget *widget,
 	EMeetingTimeSelector *mts;
 	EMeetingTime saved_time;
 	int hour, max_hour_width;
-	int maxheight;      
+	/*int maxheight;      */
 	PangoFontDescription *font_desc;
 	PangoContext *pango_context;
 	PangoFontMetrics *font_metrics;
 	PangoLayout *layout;
-	GtkTreePath *path;
-	GdkRectangle cell_area;
 
 	if (GTK_WIDGET_CLASS (e_meeting_time_selector_parent_class)->style_set)
 		(*GTK_WIDGET_CLASS (e_meeting_time_selector_parent_class)->style_set)(widget, previous_style);

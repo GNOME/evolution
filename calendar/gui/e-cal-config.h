@@ -53,7 +53,7 @@ struct _ECalConfigTargetSource {
 	EConfigTarget target;
 
 	struct _ESource *source;
-        ECalSourceType *source_type;
+        ECalSourceType source_type;
 };
 
 typedef struct _EConfigItem ECalConfigItem;

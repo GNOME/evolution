@@ -989,8 +989,9 @@ typedef struct {
 
 /* Process the callbacks in the main thread. Avoids widget redrawing issues. */
 static gboolean
-process_callbacks_main_thread (EMeetingStore *store)
+process_callbacks_main_thread (void *data)
 {
+	EMeetingStore *store = data;
 	EMeetingStorePrivate *priv;
 	QueueCbData *aqueue_data;
 	gboolean threads_done = FALSE;
@@ -1230,9 +1231,9 @@ freebusy_async (gpointer data)
 	if (fbd->client) {
 		/* FIXME this a work around for getting all th free busy information for the users 
 		 we should be able to get free busy asynchronously */
-		g_mutex_lock (&mutex);		
+		g_static_mutex_lock (&mutex);		
 		e_cal_get_free_busy (fbd->client, fbd->users, fbd->startt, fbd->endt, &(fbd->fb_data), NULL);
-		g_mutex_unlock (&mutex);		
+		g_static_mutex_unlock (&mutex);		
 
 		g_list_foreach (fbd->users, (GFunc)g_free, NULL);
 		g_list_free (fbd->users);
@@ -1439,7 +1440,7 @@ refresh_queue_add (EMeetingStore *store, int row,
 		g_ptr_array_add (qdata->call_backs, call_back);
 		g_ptr_array_add (qdata->data, data);
 
-		g_hash_table_insert (priv->refresh_data, itip_strip_mailto (e_meeting_attendee_get_address (attendee)), qdata);
+		g_hash_table_insert (priv->refresh_data, (void *)itip_strip_mailto (e_meeting_attendee_get_address (attendee)), qdata);
 	} else {
 		if (e_meeting_time_compare_times (start, &qdata->start) == -1)
 			qdata->start = *start;

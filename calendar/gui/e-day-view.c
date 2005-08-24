@@ -505,8 +505,6 @@ time_range_changed_cb (ECalModel *model, time_t start_time, time_t end_time, gpo
 static void
 process_component (EDayView *day_view, ECalModelComponent *comp_data)
 {
-	EDayViewEvent *event;
-	gint day, event_num;
 	const char *uid, *rid;
 	ECalComponent *comp;
 	AddEventData add_event_data;
@@ -1078,8 +1076,6 @@ e_day_view_realize (GtkWidget *widget)
 {
 	EDayView *day_view;
 	GdkColormap *colormap;
-	gboolean success[E_DAY_VIEW_COLOR_LAST];
-	gint nfailed;
 
 	if (GTK_WIDGET_CLASS (e_day_view_parent_class)->realize)
 		(*GTK_WIDGET_CLASS (e_day_view_parent_class)->realize)(widget);
@@ -3308,7 +3304,7 @@ e_day_view_on_event_double_click (EDayView *day_view,
 
 	attendee_prop = icalcomponent_get_first_property (event->comp_data->icalcomp, ICAL_ATTENDEE_PROPERTY);
 
-	e_calendar_view_edit_appointment (day_view,
+	e_calendar_view_edit_appointment ((ECalendarView *)day_view,
 			event->comp_data->client, 
 			event->comp_data->icalcomp, attendee_prop ? TRUE:FALSE);
 }
@@ -3492,8 +3488,9 @@ void
 e_day_view_update_calendar_selection_time (EDayView *day_view)
 {
 	time_t start, end;
+#if 0
 	GnomeCalendar *calendar;
-
+#endif
 	e_day_view_get_selected_time_range ((ECalendarView *) day_view, &start, &end);
 
 #if 0

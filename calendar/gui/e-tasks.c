@@ -39,6 +39,7 @@
 #include "e-util/e-time-utils.h"
 #include "shell/e-user-creatable-items-handler.h"
 #include <libedataserver/e-url.h>
+#include <libedataserver/e-categories.h>
 #include <libecal/e-cal-time-util.h>
 #include "widgets/menus/gal-view-menus.h"
 #include "dialogs/delete-error.h"
@@ -640,7 +641,7 @@ config_categories_changed_cb (EConfigListener *config_listener, const char *key,
 		cat_list = g_list_remove (cat_list, cat_list->data);
 	}
 
-	cal_search_bar_set_categories (priv->search_bar, cat_array);
+	cal_search_bar_set_categories ((CalSearchBar *)priv->search_bar, cat_array);
 
 	g_ptr_array_free (cat_array, TRUE);
 }

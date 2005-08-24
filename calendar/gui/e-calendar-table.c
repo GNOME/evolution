@@ -509,7 +509,7 @@ e_calendar_table_init (ECalendarTable *cal_table)
 	g_signal_connect (e_table, "key_press", G_CALLBACK (e_calendar_table_on_key_press), cal_table);
 	g_signal_connect (e_table, "popup_menu", G_CALLBACK (e_calendar_table_on_popup_menu), cal_table);
 
-	a11y = gtk_widget_get_accessible (e_table);
+	a11y = gtk_widget_get_accessible ((GtkWidget *)e_table);
 	if (a11y)
 		atk_object_set_name (a11y, _("Task Table"));
 }

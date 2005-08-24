@@ -1049,7 +1049,7 @@ on_edit_appointment (EPopup *ep, EPopupItem *pitem, void *data)
 		if (event)
 			e_calendar_view_edit_appointment (cal_view, event->comp_data->client,
 						     event->comp_data->icalcomp, 
-						     icalcomponent_get_first_property(event->comp_data->icalcomp, ICAL_ATTENDEE_PROPERTY));
+						     icalcomponent_get_first_property(event->comp_data->icalcomp, ICAL_ATTENDEE_PROPERTY) != NULL);
 
 		g_list_free (selected);
 	}
@@ -1213,7 +1213,7 @@ transfer_selected_items (ECalendarView *cal_view, gboolean remove_item)
 		return;
 
 	/* prompt the user for destination source */
-	destination_source = select_source_dialog ((GtkWindow *) gtk_widget_get_toplevel (cal_view), E_CAL_SOURCE_TYPE_EVENT);
+	destination_source = select_source_dialog ((GtkWindow *) gtk_widget_get_toplevel ((GtkWidget *)cal_view), E_CAL_SOURCE_TYPE_EVENT);
 	if (!destination_source)
 		return;
 
@@ -1403,7 +1403,6 @@ on_unrecur_appointment (EPopup *ep, EPopupItem *pitem, void *data)
 	GList *selected;
 	ECal *client;
 	char *new_uid;
-	icalproperty *prop;
 
 	selected = e_calendar_view_get_selected_events (cal_view);
 	if (!selected)
@@ -1625,7 +1624,7 @@ e_calendar_view_open_event (ECalendarView *cal_view)
 		ECalendarViewEvent *event = (ECalendarViewEvent *) selected->data;
 		if (event)
 			e_calendar_view_edit_appointment (cal_view, event->comp_data->client,
-					event->comp_data->icalcomp, icalcomponent_get_first_property(event->comp_data->icalcomp, ICAL_ATTENDEE_PROPERTY));
+					event->comp_data->icalcomp, icalcomponent_get_first_property(event->comp_data->icalcomp, ICAL_ATTENDEE_PROPERTY) != NULL);
 
 		g_list_free (selected);
 	}

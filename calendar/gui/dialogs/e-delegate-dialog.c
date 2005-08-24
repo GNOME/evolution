@@ -123,7 +123,6 @@ e_delegate_dialog_construct (EDelegateDialog *edd, const char *name, const char 
 	EDestination *dest;
 	ENameSelectorModel *name_selector_model;
 	ENameSelectorDialog *name_selector_dialog;
-	char *str;
 
 	g_return_val_if_fail (edd != NULL, NULL);
 	g_return_val_if_fail (E_IS_DELEGATE_DIALOG (edd), NULL);

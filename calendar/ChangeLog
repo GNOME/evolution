@@ -1,3 +1,74 @@
+2005-08-23  Not Zed  <NotZed@Ximian.com>
+
+	* gui/e-cal-config.h: source-type is an enum not a pointer!
+
+	* gui/tasks-component.c (selector_tree_drag_data_received):
+	constify uid.
+
+	* gui/itip-utils.c (comp_sentby): use the right list type for
+	attendees.
+
+	* gui/gnome-cal.c (config_categories_changed_cb): fix cast.
+	(setup_widgets): fix casts.
+
+	* gui/e-tasks.c: add missing e-categories.h include.
+	(config_categories_changed_cb): fix cast.
+
+	* gui/e-week-view.c (e_week_view_realize): remove unused.
+
+	* gui/e-select-names-editable.c
+	(e_select_names_editable_get_emails): remve unused.
+
+	* gui/e-meeting-time-sel.c (e_meeting_time_selector_style_set):
+	remove/comment unused.
+
+	* gui/e-meeting-store.c (freebusy_async): g* strikes again, use
+	the right lock/unlock function for the g-spastic-mutex.
+	(process_callbacks_main_thread): fix signature to match usage.
+	(refresh_queue_add): cast off warning
+
+	* gui/e-itip-control.c (cleanup_ecal): fix signature to match use
+
+	* gui/e-day-view.c (process_component): remove unused vars.
+	(e_day_view_realize): more.
+	(e_day_view_on_event_double_click): cast
+	(e_day_view_update_calendar_selection_time): define out unused
+
+	* gui/e-calendar-table.c (e_calendar_table_init): more a11y
+	related casts.
+
+	* gui/e-calendar-view.c (on_edit_appointment): proper boolean
+	conversion of a pointer.
+	(transfer_selected_items): cast
+	(on_unrecur_appointment): remove unused prop
+	(e_calendar_view_open_event): proper boolean conversion of pointer.
+
+	* gui/e-cal-popup.c (needs_to_accept): remove unused.
+
+	* gui/e-cal-model.c (set_instance_times): remove unused.
+	:include missing calendar-config.
+
+	* gui/dialogs/meeting-page.c (clear_widgets): yawn, another
+	gtklabel wawrning.
+	(meeting_page_fill_component): constify attendees.
+
+	* gui/dialogs/e-send-options-utils.c: remove unused global sod,
+	add missing string.h
+
+	* gui/dialogs/e-delegate-dialog.c (e_delegate_dialog_construct):
+	remove unused.
+
+	* gui/dialogs/comp-editor.c (response_cb): wtf, this can't use
+	em_utils!!!  #if 0 it out and add a build warning.
+	(cab_popup_position): pointer cast.
+	(set_attachment_list): remove unused.
+
+	* gui/dialogs/calendar-setup.c (eccp_general_offline): change very
+	incorrect N_ macro to _.
+	(CalendarSourceDialog): Umm, source_type is an enum, not a
+	pointer.
+	(eccp_get_source_color): remove unused.
+
 2005-08-19  Harish Krishnaswamy  <kharish@novell.com>
 
 	* gui/dialogs/comp-editor.h: Remove unwanted include of
