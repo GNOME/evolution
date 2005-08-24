@@ -809,8 +809,9 @@ build_message (EMsgComposer *composer, gboolean save_html_object_data)
 		camel_mime_part_set_encoding (CAMEL_MIME_PART (new), plain_encoding);
 	camel_object_unref (current);
 
+#if defined (HAVE_NSS) && defined (SMIME_SUPPORTED)
 skip_content:
-
+#endif
 	if (recipients) {
 		for (i=0; i<recipients->len; i++)
 			g_free(recipients->pdata[i]);
@@ -1657,7 +1658,7 @@ menu_file_close_cb (BonoboUIComponent *uic,
 }
 
 static void
-add_to_bar (GtkWidget *composer, GSList *names, int is_inline)
+add_to_bar (EMsgComposer *composer, GSList *names, int is_inline)
 {
 	while (names) {
 		e_attachment_bar_attach((EAttachmentBar *)((EMsgComposer *)composer)->attachment_bar, names->data, is_inline ? "inline" : "attachment");
@@ -1671,7 +1672,7 @@ menu_file_add_attachment_cb (BonoboUIComponent *uic,
 			     const char *path)
 {
 	EMsgComposer *composer = E_MSG_COMPOSER (data);
-	GtkWindow *toplevel = E_MSG_COMPOSER (gtk_widget_get_toplevel (GTK_WIDGET (composer->attachment_bar)));
+	EMsgComposer *toplevel = E_MSG_COMPOSER (gtk_widget_get_toplevel (GTK_WIDGET (composer->attachment_bar)));
 	GtkWidget **attachment_selector = e_attachment_bar_get_selector(E_ATTACHMENT_BAR(composer->attachment_bar));
 
 	e_msg_composer_select_file_attachments (toplevel, attachment_selector, add_to_bar);
@@ -3371,7 +3372,7 @@ static void
 emcab_add(EPopup *ep, EPopupItem *item, void *data)
 {
 	EAttachmentBar *bar = data;
-	GtkWindow *toplevel = E_MSG_COMPOSER (gtk_widget_get_toplevel (GTK_WIDGET (bar)));
+	EMsgComposer *toplevel = E_MSG_COMPOSER (gtk_widget_get_toplevel (GTK_WIDGET (bar)));
 	GtkWidget **attachment_selector = e_attachment_bar_get_selector(E_ATTACHMENT_BAR(bar));
 
 	e_msg_composer_select_file_attachments (toplevel, attachment_selector, add_to_bar);
@@ -3415,7 +3416,7 @@ emcab_popup_position(GtkMenu *menu, int *x, int *y, gboolean *push_in, gpointer 
 	if (selection == NULL)
 		return;
 	
-	image = gnome_icon_list_get_icon_pixbuf_item (icon_list, (gint)selection->data);
+	image = gnome_icon_list_get_icon_pixbuf_item (icon_list, GPOINTER_TO_INT(selection->data));
 	if (image == NULL)
 		return;
 	

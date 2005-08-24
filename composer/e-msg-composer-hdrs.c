@@ -37,6 +37,7 @@
 #include <libgnomeui/gnome-uidefs.h>
 #include <libgnome/gnome-i18n.h>
 #include <libedataserverui/e-name-selector.h>
+#include <libedataserverui/e-name-selector-entry.h>
 
 #include "Composer.h"
 
@@ -129,8 +130,6 @@ static int signals[LAST_SIGNAL];
 static void
 addressbook_dialog_response (ENameSelectorDialog *name_selector_dialog, gint response, gpointer user_data)
 {
-	EMsgComposerHdrs *hdrs = E_MSG_COMPOSER_HDRS (user_data);
-
 	gtk_widget_hide (GTK_WIDGET (name_selector_dialog));
 }
 
@@ -227,6 +226,26 @@ from_changed (GtkWidget *item, gpointer data)
 	}
 	
 	g_signal_emit (hdrs, signals [FROM_CHANGED], 0);
+}
+
+static gboolean
+account_can_send (EAccount *account)
+{
+	static CamelStore *store;
+	CamelException ex;
+	gboolean result = FALSE;
+	
+	if (!account->parent_uid) 
+		return TRUE;
+		 
+       	if (!(store = (CamelStore *) camel_session_get_service (session, e_account_get_string(account, E_ACCOUNT_SOURCE_URL), CAMEL_PROVIDER_STORE, &ex))) {	  
+		camel_exception_clear (&ex);
+		return result;
+	} else if (store->mode & CAMEL_STORE_WRITE)
+		result = TRUE;
+
+	camel_object_unref (store);
+	return result;
 }
 
 static void
@@ -326,26 +345,6 @@ account_removed_cb (EAccountList *accounts, EAccount *account, EMsgComposerHdrs 
 			e_error_run((GtkWindow *)toplevel, "mail-composer:all-accounts-deleted", NULL);
 		}
 	}
-}
-
-gboolean
-account_can_send (EAccount *account)
-{
-	static CamelStore *store;
-	CamelException ex;
-	gboolean result = FALSE;
-	
-	if (!account->parent_uid) 
-		return TRUE;
-		 
-       	if (!(store = (CamelStore *) camel_session_get_service (session, e_account_get_string(account, E_ACCOUNT_SOURCE_URL), CAMEL_PROVIDER_STORE, &ex))) {	  
-		camel_exception_clear (&ex);
-		return result;
-	} else if (store->mode & CAMEL_STORE_WRITE)
-		result = TRUE;
-
-	camel_object_unref (store);
-	return result;
 }
 
 static GtkWidget *
@@ -623,23 +622,22 @@ create_headers (EMsgComposerHdrs *hdrs)
 	 */
 	priv->reply_to.label = gtk_label_new_with_mnemonic (_("_Reply-To:"));
 	priv->reply_to.entry = gtk_entry_new ();
-	gtk_label_set_mnemonic_widget (priv->reply_to.label, priv->reply_to.entry);
+	gtk_label_set_mnemonic_widget((GtkLabel *)priv->reply_to.label, priv->reply_to.entry);
 	
 	/*
 	 * From
 	 */
 	priv->from.label = gtk_label_new_with_mnemonic (_("Fr_om:"));
 	priv->from.entry = create_from_optionmenu (hdrs);
-	gtk_label_set_mnemonic_widget (priv->from.label, e_msg_composer_hdrs_get_from_omenu (hdrs));
+	gtk_label_set_mnemonic_widget((GtkLabel *)priv->from.label, e_msg_composer_hdrs_get_from_omenu (hdrs));
 	
 	/*
 	 * Subject
 	 */
 	priv->subject.label = gtk_label_new_with_mnemonic (_("S_ubject:"));
 	priv->subject.entry = gtk_entry_new ();
-	gtk_label_set_mnemonic_widget (priv->subject.label, priv->subject.entry);
-	g_signal_connect (priv->subject.entry, "changed",
-			  G_CALLBACK (entry_changed), hdrs);
+	gtk_label_set_mnemonic_widget((GtkLabel *)priv->subject.label, priv->subject.entry);
+	g_signal_connect(priv->subject.entry, "changed", G_CALLBACK(entry_changed), hdrs);
 
 	/*
 	 * To, CC, and Bcc
@@ -1207,8 +1205,6 @@ void
 e_msg_composer_hdrs_set_to (EMsgComposerHdrs *hdrs,
 			    EDestination **to_destv)
 {
-	char *str;
-
 	g_return_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs));
 
 	destinations_to_name_selector_entry (E_NAME_SELECTOR_ENTRY (hdrs->priv->to.entry), to_destv);
@@ -1218,8 +1214,6 @@ void
 e_msg_composer_hdrs_set_cc (EMsgComposerHdrs *hdrs,
 			    EDestination **cc_destv)
 {
-	char *str;
-
 	g_return_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs));
 
 	destinations_to_name_selector_entry (E_NAME_SELECTOR_ENTRY (hdrs->priv->cc.entry), cc_destv);
@@ -1232,8 +1226,6 @@ void
 e_msg_composer_hdrs_set_bcc (EMsgComposerHdrs *hdrs,
 			     EDestination **bcc_destv)
 {
-	char *str;
-
 	g_return_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs));
 
 	destinations_to_name_selector_entry (E_NAME_SELECTOR_ENTRY (hdrs->priv->bcc.entry), bcc_destv);
@@ -1459,7 +1451,6 @@ destination_list_to_destv (GList *destinations)
 EDestination **
 e_msg_composer_hdrs_get_to (EMsgComposerHdrs *hdrs)
 {
-	char *str = NULL;
 	EDestinationStore *destination_store;
 	GList *destinations;
 	EDestination **destv = NULL;
@@ -1479,7 +1470,6 @@ e_msg_composer_hdrs_get_to (EMsgComposerHdrs *hdrs)
 EDestination **
 e_msg_composer_hdrs_get_cc (EMsgComposerHdrs *hdrs)
 {
-	char *str = NULL;
 	EDestinationStore *destination_store;
 	GList *destinations;
 	EDestination **destv = NULL;
@@ -1499,7 +1489,6 @@ e_msg_composer_hdrs_get_cc (EMsgComposerHdrs *hdrs)
 EDestination **
 e_msg_composer_hdrs_get_bcc (EMsgComposerHdrs *hdrs)
 {
-	char *str = NULL;
 	EDestinationStore *destination_store;
 	GList *destinations;
 	EDestination **destv = NULL;

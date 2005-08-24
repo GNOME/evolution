@@ -1,3 +1,23 @@
+2005-08-23  Not Zed  <NotZed@Ximian.com>
+
+	* e-msg-composer.c (build_message): only define skip_content: if
+	it is used.
+	(menu_file_add_attachment_cb): fixed the warning.  Boy, what on
+	earth is this thing doing!
+	(add_to_bar): fix signature to match code.
+	(emcab_add): more warning fixes for bizarre functions.
+	(emcab_popup_position): more casting crap
+
+	* e-msg-composer-hdrs.c (addressbook_dialog_response): Remove
+	unused.
+	(account_can_send): make this static, and define before first use.
+	: include missing e-name-selector-entry header.
+	(create_headers): fix casts/style
+	(e_msg_composer_hdrs_set_to, e_msg_composer_hdrs_set_cc)
+	(e_msg_composer_hdrs_set_bcc, e_msg_composer_hdrs_get_to)
+	(e_msg_composer_hdrs_get_cc, e_msg_composer_hdrs_get_bcc): remove
+	unused str.  lazy addressbook hackers!
+
 2005-07-27  Mengjie Yu  <meng-jie.yu@sun.com>
 
 	* e-msg-composer-select-file.h:
