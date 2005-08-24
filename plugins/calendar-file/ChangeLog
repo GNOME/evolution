@@ -1,3 +1,7 @@
+2005-08-23  Not Zed  <NotZed@Ximian.com>
+
+	* calendar-file.c (e_calendar_file_dummy): fix relative_uri type.
+
 2005-06-27  Tor Lillqvist  <tml@novell.com>
 
 	* Makefile.am: There is no EVOLUTION_CFLAGS. Use
