@@ -409,8 +409,8 @@ update (EAttachmentBar *bar)
 	
 			calculate_height_width(bar, &width, &height);
 			per_col = bar_width / width;
-			rows = bar->priv->num_attachments / per_col;
-			gtk_widget_set_size_request ((GtkWidget *)bar, bar_width, (rows+1) * height);
+			rows = (bar->priv->num_attachments + per_col -1 )/ per_col;
+			gtk_widget_set_size_request ((GtkWidget *)bar, bar_width, rows * height);
 		}
 	}
 }
@@ -493,9 +493,14 @@ e_attachment_bar_remove_selected (EAttachmentBar *bar)
 }
 
 void
-e_attachment_bar_refresh (EAttachmentBar *bar)
+e_attachment_bar_set_width(EAttachmentBar *bar, int bar_width)
 {
-	update (bar);
+	int per_col, rows, height, width;
+
+	calculate_height_width(bar, &width, &height);
+	per_col = bar_width / width;
+	rows = (bar->priv->num_attachments + per_col - 1) / per_col;
+	gtk_widget_set_size_request ((GtkWidget *)bar, bar_width, rows * height);
 }
 
 void

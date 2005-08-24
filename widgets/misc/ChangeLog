@@ -1,3 +1,19 @@
+2005-08-22  Srinivasa Ragavan <sragavan@novell.com>
+
+	* e-attachment.c (e_attachment_build_remote_file): 
+	Fix for bug #314136. Shows filename in the remote download in
+	composer.
+
+2005-08-22  Srinivasa Ragavan <sragavan@novell.com>
+
+	* e-attachment-bar.c (update): Better space management.
+	Kills one extra row that happens some times.
+	(e_attachment_bar_set_width): Just adjusts the size instead of
+	rebuild of the bar, which is the cause for the freeze. Fixes the 
+	bug #313799. Remove the function e_attachment_bar_refresh
+
+	* e-attachment-bar.h: Remove the function e_attachment_bar_refresh
+
 2005-08-23  Not Zed  <NotZed@Ximian.com>
 
 	* e-send-options.c (get_widgets): cast warning away.

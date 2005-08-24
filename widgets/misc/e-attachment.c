@@ -477,7 +477,6 @@ e_attachment_build_remote_file (const char *file_name,
 		filename = g_path_get_basename (attachment->file_name);
 		
 	camel_mime_part_set_filename (part, filename);
-	g_free (filename);
 
 	if (attachment->description) {
 		camel_mime_part_set_description (part, attachment->description);
@@ -490,7 +489,7 @@ e_attachment_build_remote_file (const char *file_name,
 	attachment->size = statbuf.st_size;
 	attachment->guessed_type = TRUE;
 	g_free (attachment->file_name);
-	attachment->file_name = g_strdup (filename);
+	attachment->file_name = filename;
 	
 	curl = camel_url_new ("file:", NULL);
 	camel_url_set_path (curl, file_name);
