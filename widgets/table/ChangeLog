@@ -1,3 +1,7 @@
+2005-08-23  Not Zed  <NotZed@Ximian.com>
+
+	* e-table-config.c (setup_fields): fix some missing casts.
+
 2005-08-10  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #313063.
