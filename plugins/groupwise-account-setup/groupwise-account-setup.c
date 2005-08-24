@@ -52,11 +52,11 @@ e_plugin_lib_enable (EPluginLib *ep, int enable)
 }
 
 
+GtkWidget * org_gnome_groupwise_account_setup(struct _EPlugin *epl, struct _EConfigHookItemFactoryData *data);
+
 GtkWidget *
 org_gnome_groupwise_account_setup(struct _EPlugin *epl, struct _EConfigHookItemFactoryData *data)
 {
-	GtkWidget *w;
-
 	if (data->old)
 		return data->old;
         /* FIXME, with new soap camel provider we don't need extra settings in receiving options page, Remove them

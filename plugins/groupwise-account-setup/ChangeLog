@@ -1,3 +1,10 @@
+2005-08-23  Not Zed  <NotZed@Ximian.com>
+
+	* groupwise-account-setup.c (org_gnome_groupwise_account_setup):
+	def9ine before defining.
+
+	* camel-gw-listener.c (account_added): fix warning.
+
 2005-07-27  Sankar P  <psankar@novell.com>
 
 	* camel-gw-listener.c (get_addressbook_names_from_server) :

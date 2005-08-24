@@ -803,7 +803,7 @@ account_added (EAccountList *account_listener, EAccount *account)
 	info->name = g_strdup (account->name);
 	info->source_url = g_strdup (account->source->url);
 	if (account->parent_uid) {
-		parent = e_account_list_find (account_listener, E_ACCOUNT_FIND_UID, account->parent_uid);
+		parent = (EAccount *)e_account_list_find (account_listener, E_ACCOUNT_FIND_UID, account->parent_uid);
 
 		if (!parent) 
 			return;
