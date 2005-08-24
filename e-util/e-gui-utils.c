@@ -36,7 +36,6 @@ GtkWidget *e_create_image_widget(gchar *name,
 				 gint int1, gint int2)
 {
 	GtkWidget *alignment = NULL;
-	GdkPixbuf *pixbuf;
 	GtkWidget *w;
 	
 	if (string1) {

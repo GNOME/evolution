@@ -197,7 +197,7 @@ e_dialog_set_transient_for (GtkWindow *dialog,
 static void
 dialog_realized (GtkWindow *dialog, gpointer xid)
 {
-	e_dialog_set_transient_for_xid (dialog, (GdkNativeWindow)xid);
+	e_dialog_set_transient_for_xid (dialog, (GdkNativeWindow)GPOINTER_TO_INT(xid));
 }
 
 /**
@@ -222,7 +222,7 @@ e_dialog_set_transient_for_xid (GtkWindow *dialog,
 	if (!GTK_WIDGET_REALIZED (dialog)) {
 		g_signal_connect (dialog, "realize",
 				  G_CALLBACK (dialog_realized),
-				  (gpointer) xid);
+				  GINT_TO_POINTER(xid));
 		return;
 	}
 
@@ -294,7 +294,7 @@ char *
 e_file_dialog_save (const char *title)
 {
 	GtkWidget *selection;
-	char *path, *filename = NULL;
+	char *filename = NULL;
 
 #ifdef USE_GTKFILECHOOSER
 	selection = gtk_file_chooser_dialog_new (title,
@@ -308,6 +308,8 @@ e_file_dialog_save (const char *title)
 
 	g_signal_connect (G_OBJECT (selection), "response", G_CALLBACK (filechooser_response), &filename);
 #else
+	char *path;
+
 	selection = gtk_file_selection_new (title);
 	path = g_strdup_printf ("%s/", g_get_home_dir ());
 	gtk_file_selection_set_filename (GTK_FILE_SELECTION (selection), path);

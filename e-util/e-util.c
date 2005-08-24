@@ -272,7 +272,7 @@ e_mkdir_hier(const char *path, mode_t mode)
 		g_free (current_dir);
 	}
 
-	p = g_path_skip_root (p);
+	p = (char *)g_path_skip_root (p);
 	do {
 		char *p1 = strchr (p, '/');
 #ifdef G_OS_WIN32
@@ -774,7 +774,7 @@ size_t e_strftime(char *s, size_t max, const char *fmt, const struct tm *tm)
 		ff = c;
 	}
 
-	ff = fmt;
+	ff = ffmt;
 	while ((c = strstr(ff, "%k")) != NULL) {
 		c[1] = 'H';
 		ff = c;

@@ -1,3 +1,25 @@
+2005-08-23  Not Zed  <NotZed@Ximian.com>
+
+	* e-util.c (e_mkdir_hier): cast warning, good ol win32 patches.
+	(e_strftime): fix some clahey-code to use the right variable and
+	not try to modify const strings by stealth.
+
+	* eggtrayicon.h: add missing prototype.
+
+	* e-gui-utils.c (e_create_image_widget): remove unused pixbuf.
+
+	* e-dialog-utils.c (dialog_realized): fix cast.
+	(e_dialog_set_transient_for_xid): same.
+	(e_file_dialog_save): fix cases for build.
+
+	* e-categories-config.c
+	(e_categories_config_open_dialog_for_entry): cast & use right type
+	for text.
+	(icons_table[]): remove unused.
+
+	* e-account-list.c (e_account_list_remove_account_proxies): cast
+	to fix warning.
+
 2005-08-18  David Malcolm  <dmalcolm@redhat.com>
 
 	* e-plugin.c (ep_set_enabled): Fix compiler warning on early bailout

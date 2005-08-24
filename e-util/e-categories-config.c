@@ -16,8 +16,6 @@
 #include <libedataserverui/e-categories-dialog.h>
 #include "e-categories-config.h"
 
-static GHashTable *icons_table = NULL;
-
 /**
  * e_categories_config_get_icon_for:
  * @category: Category for which to get the icon.
@@ -78,7 +76,6 @@ e_categories_config_open_dialog_for_entry (GtkEntry *entry)
 {
 	GtkDialog *dialog;
 	const char *text;
-	char *categories;
 	int result;
 	
 	g_return_if_fail (entry != NULL);
@@ -87,14 +84,14 @@ e_categories_config_open_dialog_for_entry (GtkEntry *entry)
 	text = gtk_entry_get_text (GTK_ENTRY (entry));
 	dialog = GTK_DIALOG (e_categories_dialog_new (text));
 
-	gtk_window_set_transient_for (GTK_WINDOW (dialog), gtk_widget_get_toplevel (GTK_WIDGET (entry)));
+	gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW(gtk_widget_get_toplevel (GTK_WIDGET (entry))));
 		
 	/* run the dialog */
 	result = gtk_dialog_run (dialog);
 	
 	if (result == GTK_RESPONSE_OK) {
-		categories = e_categories_dialog_get_categories (E_CATEGORIES_DIALOG (dialog));
-		gtk_entry_set_text (GTK_ENTRY (entry), categories);
+		text = e_categories_dialog_get_categories (E_CATEGORIES_DIALOG (dialog));
+		gtk_entry_set_text (GTK_ENTRY (entry), text);
 	}
 	
 	gtk_object_destroy (GTK_OBJECT (dialog));

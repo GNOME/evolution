@@ -316,7 +316,7 @@ e_account_list_remove_account_proxies (EAccountList *accounts, EAccount *account
 {
 	EAccount *child_account;
 
-	while ( (child_account = e_account_list_find (accounts, E_ACCOUNT_FIND_PARENT_UID, account->uid))) {
+	while ( (child_account = (EAccount *)e_account_list_find (accounts, E_ACCOUNT_FIND_PARENT_UID, account->uid))) {
 		e_account_list_remove (accounts, child_account);
 		child_account = NULL;
 	}
