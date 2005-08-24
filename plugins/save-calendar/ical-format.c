@@ -40,6 +40,7 @@
 #include <libecal/e-cal.h>
 #include <libecal/e-cal-util.h>
 #include <calendar/gui/e-cal-popup.h>
+#include <calendar/common/authentication.h>
 #include <libgnomevfs/gnome-vfs.h>
 #include <string.h>
 

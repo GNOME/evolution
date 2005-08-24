@@ -1,3 +1,7 @@
+2005-08-23  Not Zed  <NotZed@Ximian.com>
+
+	* ical-format.c: include missing header.
+
 2005-05-16  Not Zed  <NotZed@Ximian.com>
 
 	* csv-format.c: moved e-error to e-util
