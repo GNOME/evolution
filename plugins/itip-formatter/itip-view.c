@@ -36,6 +36,7 @@
 #include <libedataserver/e-time-utils.h>
 #include <libedataserverui/e-source-option-menu.h>
 #include <libecal/e-cal.h>
+#include <libecal/e-cal-time-util.h>
 #include <gtkhtml/gtkhtml-embedded.h>
 #include <mail/em-format-hook.h>
 #include <mail/em-format-html.h>
@@ -43,6 +44,7 @@
 #include <e-util/e-icon-factory.h>
 #include <e-util/e-time-utils.h>
 #include <e-util/e-gtk-utils.h>
+#include <e-util/e-util.h>
 #include <calendar/gui/itip-utils.h>
 #include "itip-view.h"
 

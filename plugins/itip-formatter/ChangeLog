@@ -1,3 +1,7 @@
+2005-08-23  Not Zed  <NotZed@Ximian.com>
+
+	* itip-view.c: add missing headers.
+
 2005-08-21  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	* itip-formatter.c: 
