@@ -54,7 +54,7 @@ proxyLogin * proxy_login_new (void);
 static void proxy_login_cb (GtkDialog *dialog, gint state);
 static void proxy_login_add_new_store (char *uri, CamelStore *store, void *user_data);
 static void proxy_login_setup_tree_view (void);
-void org_gnome_proxy_account_login (EPopup *ep, EPopupItem *p, char *uri);
+void org_gnome_proxy_account_login (EPopup *ep, EPopupItem *p, void *data);
 proxyLogin* proxy_dialog_new (void);
 static void proxy_soap_login (char *email);
 char *parse_email_for_name (char *email);

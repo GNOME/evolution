@@ -91,13 +91,13 @@ junk_mail_settings (EPopup *ep, EPopupItem *item, void *data)
 	gtk_box_pack_start ((GtkBox *) box, w, FALSE, FALSE, 6);
 
 	junk_tab = junk_settings_new (cnc);
-	w = junk_tab->vbox;
+	w = (GtkWidget *)junk_tab->vbox;
 	gtk_box_pack_start ((GtkBox *) box, w, FALSE, FALSE, 6);
 	
 	/*We might have to add more options for settings i.e. more pages*/
 	while (page_count > 0 ){
 		notebook = gtk_notebook_new ();
-		gtk_notebook_append_page (notebook, box, NULL);
+		gtk_notebook_append_page ((GtkNotebook *)notebook, box, NULL);
 		gtk_box_pack_start ((GtkBox *) ((GtkDialog *) dialog)->vbox, notebook, TRUE, TRUE, 0);
 	}
 	

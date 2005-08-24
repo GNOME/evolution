@@ -61,14 +61,12 @@
 #include <e-gw-connection.h>
 #include <e-gw-message.h>
 #include <libedataserverui/e-name-selector.h>
-#include <proxy-login.h>
+#include "proxy-login.h"
 
 #define GW(name) glade_xml_get_widget (priv->xml, name)
 
 #define ACCOUNT_PICTURE 0
 #define ACCOUNT_NAME 1
-
-void org_gnome_proxy_account_login (EPopup *ep, EPopupItem *p, char *uri);
 
 proxyLogin *pld = NULL;
 static GObjectClass *parent_class = NULL;
@@ -198,11 +196,11 @@ proxy_get_password (EAccount *account, char **user_name, char **password)
 
 	url = camel_url_new (account->source->url, NULL);
 	if (url == NULL) 
-		return NULL;
+		return 0;
 	*user_name = g_strdup (url->user);
 	poa_address = url->host; 
 	if (!poa_address || strlen (poa_address) ==0)
-		return NULL;
+		return 0;
 	
         soap_port = camel_url_get_param (url, "soap_port");
         if (!soap_port || strlen (soap_port) == 0)
@@ -354,7 +352,7 @@ proxy_soap_login (char *email)
 		e_account_list_add(accounts, dstAccount);
 		e_account_list_change (accounts, srcAccount);
 		e_account_list_save(accounts);
-		g_object_set_data ((GObject *)dstAccount, "permissions", permissions);
+		g_object_set_data ((GObject *)dstAccount, "permissions", GINT_TO_POINTER(permissions));
 		mail_get_store(e_account_get_string(dstAccount, E_ACCOUNT_SOURCE_URL), NULL, proxy_login_add_new_store, dstAccount);
 
 		g_free (proxy_source_url);
@@ -376,7 +374,7 @@ proxy_login_add_new_store (char *uri, CamelStore *store, void *user_data)
 {
 	MailComponent *component = mail_component_peek ();
 	EAccount *account = user_data;
-	int permissions = g_object_get_data ((GObject *)account, "permissions");
+	int permissions = GPOINTER_TO_INT(g_object_get_data ((GObject *)account, "permissions"));
 
 	if (store == NULL)
 		return;
@@ -427,7 +425,7 @@ proxy_login_setup_tree_view (void)
 	gtk_tree_view_set_model (priv->tree, GTK_TREE_MODEL (priv->store));
 	selection = gtk_tree_view_get_selection (priv->tree);
 	gtk_tree_selection_set_mode (selection, GTK_SELECTION_BROWSE);
-	g_signal_connect (G_OBJECT (selection), "changed", proxy_login_tree_view_changed_cb, NULL);
+	g_signal_connect (G_OBJECT (selection), "changed", G_CALLBACK(proxy_login_tree_view_changed_cb), NULL);
 }
 
 static void 
@@ -461,8 +459,9 @@ proxy_login_update_tree (void)
 }
 
 void
-org_gnome_proxy_account_login (EPopup *ep, EPopupItem *p, char *uri)
+org_gnome_proxy_account_login (EPopup *ep, EPopupItem *p, void *data)
 {
+	char *uri = data;
 	proxyLoginPrivate *priv;
 	
 	pld = proxy_login_new();

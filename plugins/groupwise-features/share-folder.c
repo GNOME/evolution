@@ -521,10 +521,10 @@ notification_clicked(GtkButton *button, ShareFolder *sf)
 	gtk_window_set_title (GTK_WINDOW (sf->window), "Custom Notification");
 	gtk_window_set_position (GTK_WINDOW (sf->window) , GTK_WIN_POS_CENTER_ALWAYS);
 	gtk_window_set_default_size (GTK_WINDOW (sf->window), 100, 200);
-	gtk_widget_reparent (GTK_WINDOW (sf->window), GTK_DIALOG (sf->vbox));
-	gtk_window_set_transient_for (sf->window, GTK_DIALOG(sf->vbox));
-	gtk_window_set_modal (sf->window, TRUE);
-	gtk_window_present (sf->window); 
+	gtk_widget_reparent (GTK_WIDGET (sf->window), GTK_WIDGET (sf->vbox));
+	gtk_window_set_transient_for ((GtkWindow *)sf->window, GTK_WINDOW(sf->vbox));
+	gtk_window_set_modal ((GtkWindow *)sf->window, TRUE);
+	gtk_window_present ((GtkWindow *)sf->window); 
 	gtk_widget_show_all (sf->window);
 }
 
@@ -553,12 +553,11 @@ address_button_clicked_cb (GtkButton *button, gpointer data)
 	static void 
 user_selected(GtkTreeSelection *selection, ShareFolder *sf)
 {
+	GtkTreeModel *model;
 
 	gtk_tree_selection_set_mode(selection, GTK_SELECTION_SINGLE);
-	if (gtk_tree_selection_get_selected (selection, &(sf->model), &(sf->iter))){
+	if (gtk_tree_selection_get_selected (selection, &model, &sf->iter))
 		gtk_widget_set_sensitive (GTK_WIDGET (sf->remove), TRUE);
-
-	} 
 }
 	
 static void
@@ -677,7 +676,7 @@ share_folder_construct (ShareFolder *sf)
 		g_warning ("could not get xml");
 	}
 	sf->vbox = GTK_VBOX (glade_xml_get_widget(sf->xml, "vboxSharing"));
-	sf->table = GTK_WIDGET (glade_xml_get_widget (sf->xml, "vbox194"));
+	sf->table = GTK_VBOX (glade_xml_get_widget (sf->xml, "vbox194"));
 	gtk_widget_set_sensitive (GTK_WIDGET (sf->table), FALSE);
 
 	sf->shared = GTK_RADIO_BUTTON (glade_xml_get_widget (sf->xml, "radShared"));
@@ -724,7 +723,7 @@ share_folder_construct (ShareFolder *sf)
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sf->scrolled_window), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 
 	sf->model = gtk_list_store_new (4, G_TYPE_STRING, G_TYPE_BOOLEAN, G_TYPE_BOOLEAN, G_TYPE_BOOLEAN);
-	sf->user_list = gtk_tree_view_new ();
+	sf->user_list = (GtkTreeView *)gtk_tree_view_new ();
 	gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW (sf->scrolled_window), (GtkWidget *)sf->user_list);
 	gtk_tree_view_set_model (GTK_TREE_VIEW (sf->user_list), GTK_TREE_MODEL (sf->model));
 	gtk_widget_show (GTK_WIDGET (sf->user_list));

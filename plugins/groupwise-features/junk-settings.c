@@ -361,8 +361,10 @@ remove_clicked(GtkButton *button, JunkSettings *js)
 static void 
 user_selected(GtkTreeSelection *selection, JunkSettings *js)
 {
+	GtkTreeModel *model;
+	
 	gtk_tree_selection_set_mode(selection, GTK_SELECTION_SINGLE);
-	if (gtk_tree_selection_get_selected (selection, &(js->model), &(js->iter))){
+	if (gtk_tree_selection_get_selected (selection, &model, &(js->iter))){
 		gtk_widget_set_sensitive (GTK_WIDGET (js->remove), TRUE);
 
 	} 
@@ -381,7 +383,7 @@ junk_settings_construct (JunkSettings *js)
 		g_warning ("could not get xml");
 	}
 	js->vbox = GTK_VBOX (glade_xml_get_widget(js->xml, "vboxSettings"));
-	js->table = GTK_WIDGET (glade_xml_get_widget (js->xml, "vbox194"));
+	js->table = GTK_VBOX (glade_xml_get_widget (js->xml, "vbox194"));
 	gtk_widget_set_sensitive (GTK_WIDGET (js->table), FALSE);
 
 	js->enable = GTK_RADIO_BUTTON (glade_xml_get_widget (js->xml, "radEnable"));
@@ -407,7 +409,7 @@ junk_settings_construct (JunkSettings *js)
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (js->scrolled_window), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 
 	js->model = gtk_list_store_new (4, G_TYPE_STRING, G_TYPE_BOOLEAN, G_TYPE_BOOLEAN, G_TYPE_BOOLEAN);
-	js->entry_list = gtk_tree_view_new ();
+	js->entry_list = (GtkTreeView *)gtk_tree_view_new ();
 	/*gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW (js->scrolled_window), (GtkWidget *)js->entry_list);*/
 	gtk_container_add (GTK_CONTAINER (js->scrolled_window), (GtkWidget *)js->entry_list);
 	gtk_tree_view_set_model (GTK_TREE_VIEW (js->entry_list), GTK_TREE_MODEL (js->model));

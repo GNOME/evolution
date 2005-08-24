@@ -1,3 +1,30 @@
+2005-08-23  Not Zed  <NotZed@Ximian.com>
+
+	* proxy-login.c (proxy_get_password): return the right type.
+	(proxy_soap_login): fix pointer cast.
+	(proxy_login_add_new_store): fix pointer cast.
+	(proxy_login_setup_tree_view): fix callback cast.
+	(org_gnome_proxy_account_login): fix prototype to match use.
+
+	* junk-settings.c (user_selected): fix calling.
+	(junk_settings_construct): more stupid casts.
+
+	* junk-mail-settings.c (junk_mail_settings): casts.
+
+	* install-shared.c (install_folder_response): constify item_id.
+	(install_folder_response): remove unused.
+	(org_gnome_popup_wizard): fixed numerous problems with this,
+	over-copying data around, not referencing information properly,
+	freeing potentially unset variables, etc etc.
+	(accept_free): add a free function.
+
+	* share-folder.c (notification_clicked): fix a multitude of busted
+	casts.
+	(user_selected): fix broken calling conventions, busted style.
+	(share_folder_construct): fix more busted/missing casts.
+
+	* share-folder-common.c: add missing header.
+
 2005-08-22  vivek jain <jvivek@novell.com>
 	
 	** see previous commit 

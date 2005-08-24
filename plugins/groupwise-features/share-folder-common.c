@@ -35,6 +35,7 @@
 #include <mail/mail-mt.h>
 #include <mail/mail-component.h>
 #include <mail/mail-config.h>
+#include <mail/mail-vfolder.h>
 #include <mail/em-vfolder-rule.h>
 #include <filter/filter-rule.h>
 #include <camel/camel-store.h>
