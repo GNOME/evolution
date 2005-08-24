@@ -33,6 +33,7 @@
 
 #include "e-util/e-icon-factory.h"
 #include "e-util/e-dialog-utils.h"
+#include "e-util/e-error.h"
 
 #include <glib/gprintf.h>
 

@@ -1,3 +1,10 @@
+2005-08-23  Not Zed  <NotZed@Ximian.com>
+
+	* e-shell-window-commands.c: include missing e-error.h
+
+	* e-component-registry.c (query_components): cast away a seemingly
+	spurious warning.
+
 2005-08-17  Not Zed  <NotZed@Ximian.com>
 
 	* e-shell.c (impl_Shell_handleURI): fix warning.

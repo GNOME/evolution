@@ -189,7 +189,7 @@ query_components (EComponentRegistry *registry)
 		GNOME_Evolution_Component iface;
 
 		id = info_list->_buffer[i].iid;
-		iface = bonobo_activation_activate_from_id (id, 0, NULL, &ev);
+		iface = bonobo_activation_activate_from_id ((char *)id, 0, NULL, &ev);
 		if (BONOBO_EX (&ev) || iface == CORBA_OBJECT_NIL) {
 			char *ex_text = bonobo_exception_get_text (&ev);
 
