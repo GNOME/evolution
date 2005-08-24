@@ -790,7 +790,7 @@ get_widget (FilterRule *fr, struct _RuleContext *f)
 
 	label = gtk_label_new_with_mnemonic (_("_Rule name:"));
 	name = gtk_entry_new ();
-	gtk_label_set_mnemonic_widget (label, name);
+	gtk_label_set_mnemonic_widget ((GtkLabel *)label, name);
 
 	if (!fr->name) {
 		fr->name = g_strdup (_("Untitled"));

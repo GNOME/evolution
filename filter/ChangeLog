@@ -1,3 +1,7 @@
+2005-08-23  Not Zed  <NotZed@Ximian.com>
+
+	* filter-rule.c (get_widget): cast.
+
 2005-08-10  Tor Lillqvist  <tml@novell.com>
 
 	* Makefile.am: Use privsolib instead of privlib. On Unix they are
