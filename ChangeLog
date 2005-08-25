@@ -1,3 +1,7 @@
+2005-08-24  Sarfraaz Ahmed <asarfraaz@novell.com>
+
+	* configure.in : Enable building of exchange plugins by default.
+
 2005-08-23  Harish Krishnaswamy <kharish@novell.com>
 
 	* configure.in : Release 2.3.8

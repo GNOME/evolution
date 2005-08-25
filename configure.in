@@ -985,9 +985,10 @@ dnl **************************************************
 dnl Exchange support.
 dnl **************************************************
 AC_ARG_ENABLE(exchange, 
-[  --enable-exchange=[no/yes]      Build Exchange plugins],enable_exchange="$enableval",enable_exchange=no)
+[  --enable-exchange=[no/yes]      Build Exchange plugins],enable_exchange="$enableval",enable_exchange=yes)
 if test "x$enable_exchange" = "xyes"; then
 	msg_exchange=yes
+	EXCHANGE_PLUGIN="exchange-operations"
 else
 	msg_exchange=no
 fi
@@ -1192,14 +1193,6 @@ AC_SUBST(CAMEL_LIBS)
 EVO_SET_COMPILE_FLAGS(CAMEL_GROUPWISE, camel-provider-$EDS_PACKAGE libedataserver-$EDS_PACKAGE libegroupwise-$EDS_PACKAGE >= $EDS_REQUIRED)
 AC_SUBST(CAMEL_GROUPWISE_CFLAGS)
 AC_SUBST(CAMEL_GROUPWISE_LIBS)
-
-if test "x$msg_exchange" != "xno"; then
-EVO_SET_COMPILE_FLAGS(CAMEL_EXCHANGE, camel-provider-$EDS_PACKAGE libedataserver-$EDS_PACKAGE libexchange-storage-$EDS_PACKAGE >= $EDS_REQUIRED)
-AC_SUBST(CAMEL_EXCHANGE_CFLAGS)
-AC_SUBST(CAMEL_EXCHANGE_LIBS)
-EXCHANGE_PLUGIN="exchange-operations"
-EXCHANGE_PLUGIN_DIR='plugins/exchange-operations/Makefile'
-fi
 
 if test "x$mozilla_nss" != "x"; then
    EVO_SET_COMPILE_FLAGS(MOZILLA_NSS, $mozilla_nss)
@@ -1501,6 +1494,21 @@ if echo ${plugins_enabled} | grep -q "new-mail-notify" ; then
 		echo "warning: dbus-glib-1 was not found, new-mail-notify plugin will not be built."
 	fi
 fi
+
+if echo ${plugins_enabled} | grep -q "exchange-operations" ; then
+	if ${PKG_CONFIG} --exists libexchange-storage-$EDS_PACKAGE ; then
+		dnl **************************************************
+		dnl * Exchange Operations plugin
+		dnl **************************************************
+		EVO_SET_COMPILE_FLAGS(CAMEL_EXCHANGE, camel-provider-$EDS_PACKAGE libedataserver-$EDS_PACKAGE libexchange-storage-$EDS_PACKAGE >= $EDS_REQUIRED)
+		AC_SUBST(CAMEL_EXCHANGE_CFLAGS)
+		AC_SUBST(CAMEL_EXCHANGE_LIBS)
+	else
+		plugins_enabled=`echo $plugins_enabled | sed -e "s/exchange-operations//g"`
+		echo "warning: libevolution-exchange-$EDS_PACKAGE was not found, Exchange Operations plugin will not be built."
+	fi
+fi
+
 
 ##################################################
 # Check for gtk-doc.
