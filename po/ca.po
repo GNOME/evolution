@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-08-20 14:06+0200\n"
-"PO-Revision-Date: 2005-08-20 14:13+0200\n"
+"PO-Revision-Date: 2005-08-25 14:03+0200\n"
 "Last-Translator: Xavier Conde Rueda <xavi.conde@gmail.com>\n"
 "Language-Team: Catalan <tradgnome@softcatala.org>\n"
 "MIME-Version: 1.0\n"
@@ -12078,7 +12078,7 @@ msgstr "      "
 # fitxer: designs.ca.po
 #: ../designs/read_receipts/read.glade.h:2
 msgid "<b>Receiving Email</b>"
-msgstr "<b>Rebre correu electrònic:</b>"
+msgstr "<b>Rebre correu electrònic</b>"
 
 # fitxer: designs.ca.po
 #: ../designs/read_receipts/read.glade.h:3
@@ -23008,7 +23008,7 @@ msgstr "Missatge buit"
 
 #: ../widgets/misc/e-reflow.c:1459 ../widgets/misc/e-reflow.c:1460
 msgid "Reflow model"
-msgstr ""
+msgstr "Model de reflux"
 
 # fitxer: addressbook.gui.widgets.ca.po
 #: ../widgets/misc/e-reflow.c:1466 ../widgets/misc/e-reflow.c:1467
