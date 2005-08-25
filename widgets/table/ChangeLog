@@ -1,3 +1,10 @@
+2005-08-24  Li Yuan  <li.yuan@sun.com>
+
+	Fixes #314352.
+	* e-table-item.c: (eti_event):
+	 if accessibility is enabled, we enable horizontal cusor 
+	 movement for line selection.
+
 2005-08-23  Not Zed  <NotZed@Ximian.com>
 
 	* e-table-config.c (setup_fields): fix some missing casts.
