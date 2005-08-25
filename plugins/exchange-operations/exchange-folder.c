@@ -34,6 +34,10 @@
 #include <mail/em-menu.h>
 #include <libedataserverui/e-source-selector.h>
 #include <e-util/e-error.h>
+#include <camel/camel-store.h>
+#include <camel/camel-folder.h>
+#include <mail/mail-mt.h>
+#include <mail/mail-ops.h>
 
 #include "exchange-operations.h"
 #include "addressbook/gui/widgets/eab-popup.h"
@@ -49,6 +53,7 @@ void org_gnome_exchange_folder_inbox_unsubscribe (EPopup *ep, EPopupItem *p, voi
 void popup_free (EPopup *ep, GSList *items, void *data);
 void popup_inbox_free (EPopup *ep, GSList *items, void *data);
 void popup_ab_free (EPopup *ep, GSList *items, void *data);
+static void exchange_get_folder (char *uri, CamelFolder *folder, void *data);
 
 #define CONF_KEY_SELECTED_CAL_SOURCES "/apps/evolution/calendar/display/selected_calendars"
 
@@ -66,7 +71,124 @@ popup_inbox_free (EPopup *ep, GSList *items, void *data)
 void
 org_gnome_exchange_folder_inbox_unsubscribe (EPopup *ep, EPopupItem *p, void *data)
 {
-	// To be done:
+	ExchangeAccount *account = NULL;
+	EMPopupTargetFolder *target = data;
+	gchar *path = NULL;
+	gchar *stored_path = NULL;
+	const char *inbox_uri = NULL;
+	const char *inbox_physical_uri = NULL;
+	gchar *target_uri = NULL;
+	EFolder *inbox;
+	ExchangeAccountFolderResult result;
+
+	account = exchange_operations_get_exchange_account ();
+
+	if (!account)
+		return;
+
+	target_uri = g_strdup (target->uri);
+	path = target->uri + strlen ("exchange://") + strlen (account->account_filename);
+	/* User will be able to unsubscribe by doing a right click on
+	   any one of this two-<other user's>Inbox or the
+	   <other user's folder> tree. 
+	  */
+	stored_path = strrchr (path + 1, '/');
+
+	if (stored_path)
+		path[stored_path - path] = '\0';
+
+	result = exchange_account_remove_shared_folder (account, path);
+	switch (result) {
+		case EXCHANGE_ACCOUNT_FOLDER_OK:
+			break;
+		case EXCHANGE_ACCOUNT_FOLDER_ALREADY_EXISTS:
+			e_error_run (NULL, ERROR_DOMAIN ":folder-exists-error", NULL);
+			return;
+		case EXCHANGE_ACCOUNT_FOLDER_DOES_NOT_EXIST:
+			e_error_run (NULL, ERROR_DOMAIN ":folder-doesnt-exist-error", NULL);
+			return;
+		case EXCHANGE_ACCOUNT_FOLDER_UNKNOWN_TYPE:
+			e_error_run (NULL, ERROR_DOMAIN ":folder-unknown-type", NULL);
+			return;
+		case EXCHANGE_ACCOUNT_FOLDER_PERMISSION_DENIED:
+			e_error_run (NULL, ERROR_DOMAIN ":folder-perm-error", NULL);
+			return;
+		case EXCHANGE_ACCOUNT_FOLDER_OFFLINE:
+			e_error_run (NULL, ERROR_DOMAIN ":folder-offline-error", NULL);
+			return;
+		case EXCHANGE_ACCOUNT_FOLDER_UNSUPPORTED_OPERATION:
+			e_error_run (NULL, ERROR_DOMAIN ":folder-unsupported-error", NULL);
+			return;
+		case EXCHANGE_ACCOUNT_FOLDER_GENERIC_ERROR:		
+			e_error_run (NULL, ERROR_DOMAIN ":folder-generic-error", NULL);
+			return;		
+	}
+
+	/* We need to get the physical uri for the Inbox */
+	inbox_uri = exchange_account_get_standard_uri (account, "inbox");
+	inbox = exchange_account_get_folder (account, inbox_uri);
+	inbox_physical_uri = e_folder_get_physical_uri (inbox);
+
+	/* To get the CamelStore/Folder */
+        mail_get_folder (inbox_physical_uri, 0, exchange_get_folder, target_uri, mail_thread_new);
+
+
+}
+
+static CamelFolderInfo *
+ex_create_folder_info (CamelStore *store, char *name, char *uri,
+                  int unread_count, int flags)
+{
+        CamelFolderInfo *info;
+        const char *path;
+
+        path = strstr (uri, "://");
+        if (!path)
+                return NULL;
+        path = strchr (path + 3, '/');
+        if (!path)
+                return NULL;
+
+        info = g_new0 (CamelFolderInfo, 1);
+        info->name = name;
+        info->uri = uri;
+        info->full_name = g_strdup (path + 1);
+        info->unread = unread_count;
+
+        return info;
+}
+
+static void
+exchange_get_folder (char *uri, CamelFolder *folder, void *data)
+{
+	CamelStore *store;
+	CamelException ex;
+	CamelFolderInfo *info;
+	gchar *name = NULL;
+	gchar *stored_name = NULL;
+	gchar *target_uri = (gchar *)data;
+	ExchangeAccount *account = NULL;
+
+	account = exchange_operations_get_exchange_account ();
+
+	if (!account)
+		return;
+
+	/* Get the subscribed folder name. */
+	name = target_uri + strlen ("exchange://") + strlen (account->account_filename);
+	stored_name = strrchr (name + 1, '/');
+
+	if (stored_name)
+		name[stored_name - name] = '\0';
+
+	camel_exception_init (&ex);
+	store = camel_folder_get_parent_store (folder);
+
+	/* Construct the CamelFolderInfo */
+	info = ex_create_folder_info (store, name, target_uri, -1, 0);
+	camel_object_trigger_event (CAMEL_OBJECT (store),
+				    "folder_unsubscribed", info);
+	g_free (target_uri);
 }
 
 void
@@ -86,6 +208,8 @@ org_gnome_exchange_check_inbox_subscribed (EPlugin *ep, EMPopupTargetFolder *tar
 	path = g_strdup_printf (target->uri + strlen ("exchange://") + strlen (account->account_filename));
 	sub_folder = strchr (path, '@');
 
+	g_free (path);
+
 	if (!sub_folder)
 		return;
 
@@ -93,7 +217,6 @@ org_gnome_exchange_check_inbox_subscribed (EPlugin *ep, EMPopupTargetFolder *tar
                 menus = g_slist_prepend (menus, &popup_inbox_items[i]);
 
         e_popup_add_items (target->target.popup, menus, NULL, popup_inbox_free, target);
-	g_free (path);
 }
 
 static EPopupItem popup_items[] = {
@@ -454,6 +577,8 @@ org_gnome_exchange_folder_subscription (EPlugin *ep, EMMenuTargetSelect *target)
 		result = exchange_account_discover_shared_folder (account, user_email_address, folder_name, &folder);
 		
 		switch (result) {
+		case EXCHANGE_ACCOUNT_FOLDER_OK:
+			break;
 		case EXCHANGE_ACCOUNT_FOLDER_ALREADY_EXISTS:
 			e_error_run (NULL, ERROR_DOMAIN ":folder-exists-error", NULL);
 			return;

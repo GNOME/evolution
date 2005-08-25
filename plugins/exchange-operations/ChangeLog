@@ -1,3 +1,11 @@
+2005-08-25  Shakti Sen  <shprasad@novell.com>
+
+	* exchange-folder.c (exchange_refresh_folder_tree, exchange_get_folder,
+	org_gnome_exchange_folder_inbox_unsubscribe): Added support for
+	Unsubscribe to other user's Inbox.
+
+	Fixes bug #313310.
+
 2005-08-24  Shakti Sen <shprasad@novell.com>
 
 	* exchange-permissions-dialog.c (add_clicked): Getting list of mail-ids
