@@ -1,3 +1,12 @@
+2005-08-25  Arunprakash  <arunp@novell.com>
+
+	* exchange-config-listener.c (account_added) : Need to set the
+	account's linestatus to online as there is no way to get the
+	linestatus in plugin. Also moved the authentication code to
+	exchange_operations_get_exchange_account as it is not needed here.
+	* exchange-operations.c (exchange_operations_get_exchange_account) :
+	Updated to return the account in offline mode.
+
 2005-08-25  Shakti Sen  <shprasad@novell.com>
 
 	* exchange-folder.c (exchange_refresh_folder_tree, exchange_get_folder,

@@ -186,17 +186,28 @@ exchange_operations_get_exchange_account (void)
 	ExchangeAccount *account = NULL;
 	ExchangeAccountResult result;
 	GSList *acclist;
+	gint mode;
 
 	acclist = exchange_config_listener_get_accounts (exchange_global_config_listener);
 	/* FIXME: Need to be changed for handling multiple accounts */
 	if (acclist) {
 		account = acclist->data; 
 	
-		if (exchange_account_get_context (account))
+		exchange_config_listener_get_offline_status (exchange_global_config_listener,
+							     &mode);
+
+		if (mode == OFFLINE_MODE) {
 			return account;
-		else {
+		}
+		else if (exchange_account_get_context (account)) {
+			return account;
+		} else {
 			/* Try authenticating */
 			result = exchange_config_listener_authenticate(exchange_global_config_listener, account);
+			if (result != EXCHANGE_ACCOUNT_CONNECT_SUCCESS) {
+				exchange_operations_report_error (account, result);
+				return NULL;
+			}
 			if (exchange_account_get_context (account))
 				return account;
 		}

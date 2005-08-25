@@ -611,7 +611,6 @@ account_added (EAccountList *account_list, EAccount *account)
 {
 	ExchangeConfigListener *config_listener;
 	ExchangeAccount *exchange_account;
-	ExchangeAccountResult result;
 	gint is_offline;
 
 	if (!is_active_exchange_account (account))
@@ -652,14 +651,14 @@ account_added (EAccountList *account_list, EAccount *account)
 /*  	add_sources (exchange_account); */
 
 	exchange_config_listener_get_offline_status (config_listener, &is_offline);
+
 	if (is_offline == OFFLINE_MODE) {
 		remove_selected_non_offline_esources (exchange_account, CONF_KEY_CAL);
 		remove_selected_non_offline_esources (exchange_account, CONF_KEY_TASKS);
+		return;
 	}
 
-	result = exchange_config_listener_authenticate (config_listener, exchange_account);
-	if (result != EXCHANGE_ACCOUNT_CONNECT_SUCCESS)
-		exchange_operations_report_error (exchange_account, result);
+	exchange_account_set_online (exchange_account);
 }
 
 struct account_update_data {
