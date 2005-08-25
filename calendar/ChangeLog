@@ -1,3 +1,10 @@
+2005-08-24  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #313705
+	* gui/alarm-notify/Makefile.am: Added CAMEL_LIBS.
+	* gui/alarm-notify/notify-main.c: (main): Initialize
+	the camel object.
+
 2005-08-23  Not Zed  <NotZed@Ximian.com>
 
 	* gui/e-cal-config.h: source-type is an enum not a pointer!

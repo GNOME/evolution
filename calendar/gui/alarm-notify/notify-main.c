@@ -44,6 +44,7 @@
 #include "alarm-queue.h"
 #include "alarm-notify.h"
 #include "config-data.h"
+#include <camel/camel-object.h>
 
 
 
@@ -152,6 +153,11 @@ main (int argc, char **argv)
 	init_session ();
 
 	g_idle_add ((GSourceFunc) init_alarm_service, NULL);
+
+	/* FIXME Ideally we should not use camel libraries in calendar, though it is the case
+	   currently for attachments. Remove this once that is fixed. 
+	   Initialise global camel_object_type */
+	camel_object_get_type();
 
 	bonobo_main ();
 
