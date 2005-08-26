@@ -1,3 +1,10 @@
+2005-08-26  Shakti Sen <shprasad@novell.com>
+
+	* exchange-folder.c (org_gnome_exchange_folder_unsubscribe): Fixes the
+	'Label disappears' problem in Tasks, Calendar and Contacts.
+
+	Fixes bug #311959.
+
 2005-08-25  Arunprakash  <arunp@novell.com>
 
 	* exchange-config-listener.c (account_added) : Need to set the

@@ -486,7 +486,7 @@ org_gnome_exchange_folder_unsubscribe (EPopup *ep, EPopupItem *p, void *data)
 	ESource *source = NULL;
 	ExchangeAccount *account = NULL;
 	gchar *title = NULL;
-	gchar *displayed_folder_name = NULL;
+	const gchar *displayed_folder_name;
 	gint response;
 	gint mode;
 	ExchangeConfigListenerStatus status;
@@ -512,7 +512,7 @@ org_gnome_exchange_folder_unsubscribe (EPopup *ep, EPopupItem *p, void *data)
 	}	
 
 	source = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (target->selector));
-	displayed_folder_name = (gchar *) e_source_peek_name (source);
+	displayed_folder_name =  e_source_peek_name (source);
 	dialog = gtk_message_dialog_new (NULL,
 					 GTK_DIALOG_MODAL,
 					 GTK_MESSAGE_QUESTION,
@@ -533,7 +533,6 @@ org_gnome_exchange_folder_unsubscribe (EPopup *ep, EPopupItem *p, void *data)
 	gtk_window_set_title (GTK_WINDOW (dialog), title);
 	response = gtk_dialog_run (GTK_DIALOG (dialog));
 	g_free (title);
-	g_free (displayed_folder_name);
 
 	gtk_widget_show (dialog);
 	unsubscribe_dialog_response (GTK_DIALOG (dialog), response, data);
