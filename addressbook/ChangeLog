@@ -1,3 +1,10 @@
+2005-08-26  Devashish Sharma <sdevashish@novell.com>
+
+	* gui/widgets/e-addressbook-view.etspec: In ETableSpecification source
+	column and field name were not in proper order. Because of this all the
+	values in view by phone list and view by company were shown in wrong
+	columns. Fixes #313124.
+
 2005-08-23  Not Zed  <NotZed@Ximian.com>
 
 	* gui/component/addressbook.c (addressbook_authenticate):
