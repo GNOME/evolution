@@ -529,7 +529,8 @@ efh_url_requested(GtkHTML *html, const char *url, GtkHTMLStream *handle, EMForma
 
 	puri = em_format_find_visible_puri((EMFormat *)efh, url);
 	if (puri) {
-		CamelContentType *ct = ((CamelDataWrapper *)puri->part)->mime_type;
+		CamelDataWrapper *dw = camel_medium_get_content_object((CamelMedium *)puri->part);
+		CamelContentType *ct = dw?dw->mime_type:NULL;
 
 		/* GtkHTML only handles text and images.
 		   application/octet-stream parts are the only ones
@@ -546,6 +547,7 @@ efh_url_requested(GtkHTML *html, const char *url, GtkHTMLStream *handle, EMForma
 			d(printf(" adding puri job\n"));
 			job = em_format_html_job_new(efh, emfh_getpuri, puri);
 		} else {
+			d(printf(" part is unknown type '%s', not using\n", ct?camel_content_type_format(ct):"<unset>"));
 			gtk_html_stream_close(handle, GTK_HTML_STREAM_ERROR);
 		}
 	} else if (g_ascii_strncasecmp(url, "http:", 5) == 0 || g_ascii_strncasecmp(url, "https:", 6) == 0) {
@@ -793,6 +795,19 @@ efh_text_enriched(EMFormatHTML *efh, CamelStream *stream, CamelMimePart *part, E
 static void
 efh_write_text_html(EMFormat *emf, CamelStream *stream, EMFormatPURI *puri)
 {
+#if d(!)0
+	CamelStream *out;
+	int fd;
+	CamelDataWrapper *dw;
+
+	fd = dup(STDOUT_FILENO);
+	out = camel_stream_fs_new_with_fd(fd);
+	printf("writing text content to frame '%s'\n", puri->cid);
+	dw = camel_medium_get_content_object(puri->part);
+	if (dw)
+		camel_data_wrapper_write_to_stream(dw, out);
+	camel_object_unref(out);
+#endif
 	em_format_format_text(emf, stream, camel_medium_get_content_object((CamelMedium *)puri->part));
 }
 

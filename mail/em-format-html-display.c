@@ -613,26 +613,25 @@ efhd_iframe_created(GtkHTML *html, GtkHTML *iframe, EMFormatHTMLDisplay *efh)
 static int
 efhd_html_button_press_event (GtkWidget *widget, GdkEventButton *event, EMFormatHTMLDisplay *efhd)
 {
-	char *url;
+	char *uri;
 	gboolean res = FALSE;
 	EMFormatPURI *puri = NULL;
 
 	if (event->button != 3)
 		return FALSE;
 
-	url = gtk_html_get_url_at (GTK_HTML (widget), event->x, event->y);
+	uri = gtk_html_get_url_at (GTK_HTML (widget), event->x, event->y);
 
 	d(printf("popup button pressed\n"));
 
-	if (url) {
-		puri = em_format_find_puri((EMFormat *)efhd, url);
-
+	if (uri) {
+		puri = em_format_find_puri((EMFormat *)efhd, uri);
 		d(printf("poup event, uri = '%s' part = '%p'\n", uri, puri?puri->part:NULL));
 	}
 
-	g_signal_emit((GtkObject *)efhd, efhd_signals[EFHD_POPUP_EVENT], 0, event, url, puri?puri->part:NULL, &res);
+	g_signal_emit((GtkObject *)efhd, efhd_signals[EFHD_POPUP_EVENT], 0, event, uri, puri?puri->part:NULL, &res);
 
-	g_free(url);
+	g_free(uri);
 
 	return res;
 }

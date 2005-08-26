@@ -1,3 +1,15 @@
+2005-08-25  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #314440.
+
+	* em-format-html.c (efh_url_requested): check the content object's
+	mime type, not the container, when seeing if the data should be
+	written.
+	(efh_write_text_html): add some debug.
+
+	* em-format-html-display.c (efhd_html_button_press_event): fix
+	debug.
+
 2005-08-22  Srinivasa Ragavan <sragavan@novell.com>
 
 	* em-format-html-display.c (efhd_bar_resize): Dont call update.
