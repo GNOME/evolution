@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Evolution GNOME 2.10\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-04-19 11:58+0000\n"
-"PO-Revision-Date: 2005-08-09 17:10+0300\n"
+"PO-Revision-Date: 2005-08-16 16:48+0300\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -7787,14 +7787,16 @@ msgstr "Tõrge ülesannete uuendamisel."
 #, c-format
 msgid "Unable to open the task list '%s' for creating events and meetings"
 msgstr ""
+"Ülesannete loendit '%s' pole võimalik sündmuste ja koosolekute loomiseks "
+"avada"
 
 #: ../calendar/gui/tasks-component.c:873
 msgid "There is no calendar available for creating tasks"
-msgstr ""
+msgstr "Ülesannete loomiseks pole ühtegi kalendrit saadaval"
 
 #: ../calendar/gui/tasks-component.c:967
 msgid "Task Source Selector"
-msgstr ""
+msgstr "Ülesannete allika valija"
 
 #: ../calendar/gui/tasks-component.c:1150
 msgid "New task"
@@ -12006,7 +12008,7 @@ msgstr "Netscape'i andmete importimine"
 
 #: ../mail/importers/netscape-importer.c:1907
 msgid "Settings"
-msgstr "Seaded"
+msgstr "Sätted"
 
 #: ../mail/importers/netscape-importer.c:1912
 msgid "Mail Filters"
@@ -16660,7 +16662,7 @@ msgstr "Postita _vastus"
 
 #: ../ui/evolution-mail-message.xml.h:76
 msgid "Post a reply to a message in a Public folder"
-msgstr ""
+msgstr "Vastuse postitamine avalikku kausta"
 
 #: ../ui/evolution-mail-message.xml.h:77
 msgid "Pr_evious Important Message"
