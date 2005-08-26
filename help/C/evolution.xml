@@ -72,7 +72,7 @@
    </listitem>
   </itemizedlist>
   <bridgehead id="bt4ckdr">Documentation Updates</bridgehead>
-  <para>For the most recent version of the<citetitle> Evolution 2.4 User Guide</citetitle>, see the <ulink url="http://www.novell.com/documentation/ximian.html">Evolution Documentation Web site</ulink>.</para>
+  <para>For the most recent version of the<citetitle> Evolution 2.4 User Guide</citetitle>, see the <ulink url="http://gnome.org/projects/evolution/documentation.shtml">Evolution Documentation Web site</ulink>.</para>
   <bridgehead id="bt4ckds">Documentation Conventions</bridgehead>
   <para>In Novell documentation, a greater-than symbol (&gt;) is used to separate actions within a step and items in a cross-reference path.</para>
   <para>A trademark symbol (&reg;, &trade;, etc.) denotes a Novell trademark. An asterisk (*) denotes a third-party trademark.</para>
@@ -4555,8 +4555,8 @@ Accepting and Replying to a Meeting Request</title>
 
  <appendix id="bugs">
   <title>Known Bugs and Limitations</title>
-  <para>Evolution&trade; bug tracking is done at the <ulink url="http://bugzilla.ximian.com">Ximian&reg; bug tracking System</ulink>. You can use that, or the GNOME Bug Report Tool (known as bug-buddy at the command line) if you find bugs or want to request new features.</para>
-  <para>A complete list of feature requests and other issues with Evolution is available online in the Ximian bug tracking system. You can learn more about the Evolution development process at <ulink url="http://developer.ximian.com">developer.ximian.com</ulink>. </para>
+  <para>Evolution&trade; bug tracking is done at the <ulink url="http://bugzilla.gnome.org">GNOME&reg; bug tracking System</ulink>. You can use that, or the GNOME Bug Report Tool (known as bug-buddy at the command line) if you find bugs or want to request new features.</para>
+  <para>A complete list of feature requests and other issues with Evolution is available online in the GNOME bug tracking system. You can learn more about the Evolution development process at <ulink url="http://gnome.org/projects/evolution/developer.shtml">Evolution Developers Page</ulink> and <ulink url="http://go-evolution.org">Evolution Project Wiki</ulink>. </para>
   <para>If you need additional help with Evolution, visit the Novell support site at <ulink url="http://support.novell.com">Novell support</ulink>.. </para>
  </appendix>
 
@@ -4564,7 +4564,7 @@ Accepting and Replying to a Meeting Request</title>
   <title>Authors</title>
   <para>Evolution was written by the Evolution team and numerous other dedicated GNOME programmers. You can see their names by clicking Help &gt; About from any Evolution window.</para>
   <para>The Evolution code owes a great debt to the GNOME-pim and GNOME-Calendar applications, and to KHTMLW. The developers of Evolution acknowledge the efforts and contributions of all who worked on those projects.</para>
-  <para>For more information please visit the Evolution <ulink url="http://www.novell.com/products/desktop/features/evolution.html">Web page</ulink>. Please send all comments, suggestions, and bug reports to the <ulink url="http://bugzilla.ximian.com">bug tracking database</ulink>. Instructions for submitting bug reports can be found on-line at the same location. You can also use the GNOMe bug report tool, bug-buddy, to submit your defect reports.</para>
+  <para>For more information please visit the Evolution <ulink url="http://www.novell.com/products/desktop/features/evolution.html">Web page</ulink>. Please send all comments, suggestions, and bug reports to the <ulink url="http://bugzilla.gnome.org">bug tracking database</ulink>. Instructions for submitting bug reports can be found on-line at the same location. You can also use the GNOMe bug report tool, bug-buddy, to submit your defect reports.</para>
   <para>This manual was written by:</para>
   <itemizedlist>
    <listitem>
@@ -4589,7 +4589,7 @@ Accepting and Replying to a Meeting Request</title>
     <para> With the help of the application programmers and the GNOME Documentation Project.</para>
    </listitem>
   </itemizedlist>
-  <para>Please file comments and suggestions for this manual as bugs in the Ximian&reg; bug tracking system. If you contributed to this project but do not see your name here, please contact Mark Moulder (mmoulder@novell.com) and he&apos;ll list you.</para>
+  <para>Please file comments and suggestions for this manual as bugs in the GNOME&reg; bug tracking system. If you contributed to this project but do not see your name here, please contact Mark Moulder (mmoulder@novell.com) and he&apos;ll list you.</para>
   <para>Partial list of Documentation Translators (application translated to 36 additional languages): </para>
   <itemizedlist>
    <listitem>

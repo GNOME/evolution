@@ -1,5 +1,10 @@
 2006-08-26  Harish Krishnaswamy <kharish@novell.com>
 
+	* C/evolution.xml: Update references to bugzilla
+	and related hyperlinks.
+	
+2006-08-26  Harish Krishnaswamy <kharish@novell.com>
+
 	* C/evolution.xml: Update documentation
 
 2005-03-06  JP Rosevear  <jpr@novell.com>
