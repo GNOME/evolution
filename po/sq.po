@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD.sq\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-08-24 06:29+0000\n"
-"PO-Revision-Date: 2005-08-24 12:16+0200\n"
+"POT-Creation-Date: 2005-08-25 05:57+0000\n"
+"PO-Revision-Date: 2005-08-26 18:34+0200\n"
 "Last-Translator: Laurent Dhima <laurenti@alblinux.net>\n"
 "Language-Team: Albanian <gnome-albanian-perkthyesit@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -2333,7 +2333,7 @@ msgstr "Zimbabve"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-fullname.c:89
 #: ../plugins/exchange-operations/exchange-delegates.c:936
-#: ../plugins/exchange-operations/exchange-permissions-dialog.c:714
+#: ../plugins/exchange-operations/exchange-permissions-dialog.c:717
 #: ../plugins/plugin-manager/plugin-manager.c:44
 #: ../plugins/save-attachments/save-attachments.c:362
 #: ../widgets/menus/gal-view-new-dialog.c:73
@@ -3008,7 +3008,7 @@ msgstr "Radio"
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:9
 #: ../calendar/gui/e-meeting-list-view.c:378
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:9
-#: ../plugins/exchange-operations/exchange-permissions-dialog.c:718
+#: ../plugins/exchange-operations/exchange-permissions-dialog.c:721
 msgid "Role"
 msgstr "Roli"
 
@@ -3758,7 +3758,7 @@ msgstr "Hija"
 
 #. FIXME: Take care of i18n
 #: ../addressbook/printing/e-contact-print.glade.h:36
-#: ../plugins/exchange-operations/exchange-account-setup.c:918
+#: ../plugins/exchange-operations/exchange-account-setup.c:917
 #: ../plugins/exchange-operations/exchange-calendar.c:205
 #: ../plugins/exchange-operations/exchange-contacts.c:176
 msgid "Size:"
@@ -6564,7 +6564,7 @@ msgstr "Skadenca:"
 #. Status
 #: ../calendar/gui/e-cal-component-preview.c:222
 #: ../calendar/gui/e-itip-control.c:1134
-#: ../plugins/exchange-operations/exchange-account-setup.c:264
+#: ../plugins/exchange-operations/exchange-account-setup.c:263
 #: ../plugins/itip-formatter/itip-view.c:909
 msgid "Status:"
 msgstr "Gjëndja:"
@@ -10612,7 +10612,7 @@ msgstr "Vlerat e prezgjedhura"
 
 #. Security settings
 #: ../mail/em-account-editor.c:2223 ../mail/mail-config.glade.h:122
-#: ../plugins/exchange-operations/exchange-account-setup.c:312
+#: ../plugins/exchange-operations/exchange-account-setup.c:311
 msgid "Security"
 msgstr "Siguria"
 
@@ -14468,11 +14468,11 @@ msgstr ""
 "Me këtë opcion do të lidheni me serverin Exchange duke përdorur "
 "autentifikimin me një fjalëkalim standart në tekst të thjeshtë."
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:252
+#: ../plugins/exchange-operations/exchange-account-setup.c:251
 msgid "Out Of Office"
 msgstr "Jashtë Zyre"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:259
+#: ../plugins/exchange-operations/exchange-account-setup.c:258
 msgid ""
 "The message specified below will be automatically sent to \n"
 "each person who sends mail to you while you are out of the office."
@@ -14480,67 +14480,66 @@ msgstr ""
 "Mesazhi i specifikuar në vazhdim do t'i dërgohet automatikisht \n"
 "çdo personi që ju dërgon mail kur ju jeni jashtë zyre."
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:271
-#: ../plugins/exchange-operations/exchange-account-setup.c:276
+#: ../plugins/exchange-operations/exchange-account-setup.c:270
+#: ../plugins/exchange-operations/exchange-account-setup.c:275
 msgid "I am out of the office"
 msgstr "Nuk jam në zyrë"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:272
-#: ../plugins/exchange-operations/exchange-account-setup.c:275
+#: ../plugins/exchange-operations/exchange-account-setup.c:271
+#: ../plugins/exchange-operations/exchange-account-setup.c:274
 msgid "I am in the office"
 msgstr "Tani jam në zyrë"
 
 #. Change Password
-#: ../plugins/exchange-operations/exchange-account-setup.c:322
+#: ../plugins/exchange-operations/exchange-account-setup.c:321
 msgid "Change the password for Exchange account"
 msgstr "Ndrysho fjalëkalimin për llogarinë Exchange"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:324
+#: ../plugins/exchange-operations/exchange-account-setup.c:323
 #: ../plugins/exchange-operations/exchange-change-password.glade.h:2
 msgid "Change Password"
 msgstr "Ndrysho fjalëkalimin"
 
 #. Delegation Assistant
-#: ../plugins/exchange-operations/exchange-account-setup.c:328
-#, fuzzy
+#: ../plugins/exchange-operations/exchange-account-setup.c:327
 msgid "Manage the delegate settings for Exchange account"
-msgstr "për Exchange"
+msgstr "Sistemo rregullimet e delegatëve për llogarinë Exchange"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:330
+#: ../plugins/exchange-operations/exchange-account-setup.c:329
 msgid "Delegation Assitant"
 msgstr "Asistenti i delegacionit"
 
 #. Miscelleneous settings
-#: ../plugins/exchange-operations/exchange-account-setup.c:340
+#: ../plugins/exchange-operations/exchange-account-setup.c:339
 msgid "Miscelleneous"
 msgstr "Të ndryshme"
 
 #. Folder Size
-#: ../plugins/exchange-operations/exchange-account-setup.c:350
+#: ../plugins/exchange-operations/exchange-account-setup.c:349
 msgid "View the size of all Exchange folders"
 msgstr "Shfaq madhësinë e të gjitha kartelave Exchange"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:352
+#: ../plugins/exchange-operations/exchange-account-setup.c:351
 msgid "Folders Size"
 msgstr "Madhësia e Kartelave"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:359
+#: ../plugins/exchange-operations/exchange-account-setup.c:358
 msgid "Exchange Settings"
 msgstr "Rregullimet e Exchange"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:602
+#: ../plugins/exchange-operations/exchange-account-setup.c:601
 msgid "_OWA Url:"
 msgstr "Url _OWA:"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:627
+#: ../plugins/exchange-operations/exchange-account-setup.c:626
 msgid "A_uthenticate"
 msgstr "A_utentikimi"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:815
+#: ../plugins/exchange-operations/exchange-account-setup.c:814
 msgid "Authentication Type"
 msgstr "Lloji i autentikimit"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:829
+#: ../plugins/exchange-operations/exchange-account-setup.c:828
 msgid "Ch_eck for Supported Types"
 msgstr "Kontrollo për lloj_et suportuar"
 
@@ -14573,10 +14572,12 @@ msgstr "Fjalëkalimi i ri:"
 
 #: ../plugins/exchange-operations/exchange-change-password.glade.h:6
 msgid "Your current password has expired. Please change your password now."
-msgstr "Fjalëkalimi juaj aktual ka skaduar. Ju lutem ndryshoni tani fjalëkalimin tuaj."
+msgstr ""
+"Fjalëkalimi juaj aktual ka skaduar. Ju lutem ndryshoni tani fjalëkalimin "
+"tuaj."
 
 #: ../plugins/exchange-operations/exchange-delegates-user.c:144
-#: ../plugins/exchange-operations/exchange-permissions-dialog.c:573
+#: ../plugins/exchange-operations/exchange-permissions-dialog.c:576
 msgid "Custom"
 msgstr "E personalizuar"
 
@@ -14664,7 +14665,8 @@ msgid ""
 "and access your folders with the permissions you give them."
 msgstr ""
 "Këta përdorues do të jenë në gjendje të dërgojnë mesazhe në\n"
-"favorin tuaj dhe të kenë hyrje në kartelat tuaja me të drejtat që ju keni caktuar."
+"favorin tuaj dhe të kenë hyrje në kartelat tuaja me të drejtat që ju keni "
+"caktuar."
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:12
 msgid "_Delegate can see private items"
@@ -14717,11 +14719,11 @@ msgstr "Ç'regjistrohu nga \"%s\""
 msgid "(Permission denied.)"
 msgstr "(Ndalohet hyrja.)"
 
-#: ../plugins/exchange-operations/exchange-permissions-dialog.c:407
+#: ../plugins/exchange-operations/exchange-permissions-dialog.c:409
 msgid "Add User:"
 msgstr "Shto përdoruesin:"
 
-#: ../plugins/exchange-operations/exchange-permissions-dialog.c:407
+#: ../plugins/exchange-operations/exchange-permissions-dialog.c:409
 msgid "Add User"
 msgstr "Shto përdorues"
 
@@ -14810,8 +14812,8 @@ msgid ""
 "Changes to Exchange account configuration will take place after you quit and "
 "restart Evolution."
 msgstr ""
-"Ndryshimet në konfigurimin e llogarisë Exchange do të hyjnë në fuqi mbas daljes dhe "
-"rinisjes së Evolution."
+"Ndryshimet në konfigurimin e llogarisë Exchange do të hyjnë në fuqi mbas "
+"daljes dhe rinisjes së Evolution."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:4
 msgid "Could not authenticate to server."
@@ -14880,7 +14882,6 @@ msgid "Exchange Connector access error."
 msgstr "Gabim hyrje i Exchange Connector."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:21
-#, fuzzy
 msgid ""
 "Exchange Connector requires access to certain\n"
 "functionality on the Exchange Server that appears\n"
@@ -14896,9 +14897,19 @@ msgid ""
 "html\n"
 "  "
 msgstr ""
-"Exchange hyrje tek në Exchange Serveri jo aktiv or është Exchange do të tek "
-"në për tek tek Ximian j tek tek Exchange ndjek lidhje j\n"
-"http://support.novell.com/cgi-bin/search/searchtid.cgi j "
+"Exchange Connector ka nevojë të ketë hyrje tek një\n"
+"funksion në serverin Exchange që mesa duket nuk është\n"
+"aktiv apo është i bllokuar.  (Kjo zakonisht nuk \n"
+"është e qëllimshme.)  Administratori juaj i Exchange \n"
+"duhet të aktivojë këtë funksion në menyrë që ju të jeni\n"
+"në gjendje të përdorni Ximian Connector.\n"
+"\n"
+"Informacionet që duhet t'i jepni administratorit tuaj të Exchange \n"
+"mund t'i merrni duke ndjekur lidhjen në vazhdim:\n"
+"\n"
+"http://support.novell.com/cgi-bin/search/searchtid.cgi?/ximian/ximian328."
+"html\n"
+"  "
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:33
 msgid "Failed to update delegates:"
@@ -14926,8 +14937,8 @@ msgid ""
 "If OWA is running on a different path, you must specify that in the account "
 "configuration dialog."
 msgstr ""
-"Nëse OWA është në zbatim në një pozicion tjetër, ai pozicion duhet specifikuar tek "
-"dialogu i konfigurimit të llogarisë."
+"Nëse OWA është në zbatim në një pozicion tjetër, ai pozicion duhet "
+"specifikuar tek dialogu i konfigurimit të llogarisë."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:39
 msgid "Mailbox for {0} is not on this server."
@@ -14947,7 +14958,9 @@ msgstr "Sigurohu që përdoruesi dhe fjalëkalimi janë të saktë dhe riprovo p
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:43
 msgid "No Global Catalog server configured for this account."
-msgstr "Për këtë llogari nuk është konfiguruar asnjë server katallogu të përgjithsshëm."
+msgstr ""
+"Për këtë llogari nuk është konfiguruar asnjë server katallogu të "
+"përgjithsshëm."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:44
 msgid "No mailbox for user {0} on {1}."
@@ -14994,125 +15007,114 @@ msgstr ""
 "Connector suporton vetëm Microsoft Exchange 2000 dhe 2003."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:56
-#, fuzzy
 msgid ""
 "This probably means that your server requires \n"
 "you to specify the Windows domain name \n"
 "as part of your username (eg, &quot;DOMAIN\\user&quot;).\n"
 "\n"
 "Or you might have just typed your password wrong."
-msgstr "tek Dritaret emri nga përdoruesi&quot; DOMAIN përdorues&quot; j password."
+msgstr ""
+"Kjo do të thotë që ndoshta serveri juaj kërkon \n"
+"që të specifikoni emrin e domain Windows \n"
+"si pjesë e emrit të përdoruesit tuaj (p.sh. &quot;DOMAIN\\përdoruesi&quot;).\n"
+"\n"
+"Ose ndoshta vetëm ke shkruar keq fjalëkalimin."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:61
-#, fuzzy
 msgid "Try again with a different password."
-msgstr "me a password."
+msgstr "Provo përsëri me një fjalëkalim tjetër."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:62
-#, fuzzy
 msgid "Unable to add user to access control list:"
-msgstr "I pamundur aktivimi i kontrollit të zgjedhësit së adresës."
+msgstr "I pamundur shtimi i përdoruesit tek lista e kontrollit të hyrjeve:"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:63
-#, fuzzy
 msgid "Unable to edit delegates."
-msgstr "I pamundur leximi i file të liçencës."
+msgstr "I pamundur ndryshimi i delegatëve."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:64
-#, fuzzy
 msgid "Unknown error looking up {0}"
-msgstr "Gabim i panjohur"
+msgstr "Gabim i panjohur duke ngarkuar {0}"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:65
-#, fuzzy
 msgid "Unknown error."
-msgstr "Gabim i panjohur"
+msgstr "Gabim i panjohur."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:66
-#, fuzzy
 msgid "Unknown type"
-msgstr "Nuk njihet"
+msgstr "Lloj i panjohur"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:67
-#, fuzzy
 msgid "Unsupported operation"
-msgstr "Veprim i anulluar nga përdoruesi."
+msgstr "Veprim i pasuportuar"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:68
-#, fuzzy
 msgid "You are nearing your quota available for storing mails on this server."
-msgstr "Ti në dispozicion për në."
+msgstr "Je duke ju afruar kufirit të quotës në dispozicion për magazinimin e mesazheve në këtë server."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:69
-#, fuzzy
 msgid "You cannot make yourself your own delegate"
 msgstr "Nuk mund të delegoni vetveten"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:70
-#, fuzzy
 msgid "You have exceeded your quota for storing mails on this server."
-msgstr "Ti për në."
+msgstr "Ke tejkaluar kufirit të quotës për magazinimin e mesazheve në këtë server."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:71
-#, fuzzy
 msgid "You may only configure a single Exchange account."
-msgstr "Ti a Exchange."
+msgstr "Mund të konfigurosh një llogari të vetme Exchange."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:72
-#, fuzzy
 msgid ""
 "Your current usage is : {0}KB. Try to clear up some space by deleting some "
 "mails."
-msgstr "është tek pastro sipër hapësirë sipas."
+msgstr ""
+"Përdorimi aktual është : {0}KB. Liro pak hapsirë duke fshirë disa nga mesazhet "
+"e vjetër."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:73
-#, fuzzy
 msgid ""
 "Your current usage is : {0}KB. You will not be able to either send or "
 "recieve mails now."
-msgstr "është Ti do të nuk tek or tani."
+msgstr ""
+"Përdorimi aktual është : {0}KB. Nuk do të jesh më në gjendje të dërgosh apo "
+"marrësh mesazhe tani."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:74
-#, fuzzy
 msgid ""
 "Your current usage is : {0}KB. You will not be able to send mails till you "
 "clear up some space by deleting some mails."
-msgstr "është Ti do të nuk tek pastro sipër hapësirë sipas."
+msgstr ""
+"Përdorimi aktual është : {0}KB. Nuk do të jesh në gjendje të dërgosh mesazhe po nuk "
+"lirove pak hapsirë duke fshirë disa mesazhe të vjetër."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:75
-#, fuzzy
 msgid "Your password has expired."
-msgstr "password."
+msgstr "Fjalëkalimi juaj ka skaduar."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:77
-#, fuzzy
 msgid "{0} cannot be added to an access control list"
-msgstr "tek hyrje kontrolli lista"
+msgstr "{0} nuk mund të shtohet tek një listë kontrolli hyrjesh"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:78
-#, fuzzy
 msgid "{0} is already a delegate"
-msgstr "është a"
+msgstr "{0} ekziston si delegat"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:79
-#, fuzzy
 msgid "{0} is already in the list"
-msgstr "është në lista"
+msgstr "{0} ekziston në listë"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-tasks-subscription.xml.h:1
-#, fuzzy
 msgid "Subscribe to Other User's Tasks"
-msgstr "Regjistrimi tek Tjetër Përdoruesi s Aktivitete"
+msgstr "Regjistrim tek aktivitetet e përdoruesve të tjerë"
 
 #: ../plugins/exchange-operations/org-gnome-folder-permissions.xml.h:1
-#, fuzzy
 msgid "Check folder permissions"
-msgstr "Kontrolli kartelë të drejtat"
+msgstr "Kontroll i të drejtave të kartelës"
 
 #: ../plugins/exchange-operations/org-gnome-folder-subscription.xml.h:1
-#, fuzzy
 msgid "Subscribe to Other User's Folder"
-msgstr "Regjistrimi tek Tjetër Përdoruesi s Kartelë"
+msgstr "Regjistrim tek kartela e përdoruesit tjetër"
 
 #: ../plugins/folder-unsubscribe/folder-unsubscribe.c:57
 #, c-format
@@ -15120,69 +15122,57 @@ msgid "Unsubscribing from folder \"%s\""
 msgstr "Duke u ç'regjistruar nga kartela \"%s\""
 
 #: ../plugins/folder-unsubscribe/org-gnome-mail-folder-unsubscribe.eplug.xml.h:1
-#, fuzzy
 msgid "Allows unsubscribing of mail folders in the folder tree context menu."
-msgstr "nga mail në kartelë degëzimi menuja."
+msgstr "Lejo ç'regjistrimin e kartelave email tek paraqitja e strukturës së kartelave në menu."
 
 #: ../plugins/folder-unsubscribe/org-gnome-mail-folder-unsubscribe.eplug.xml.h:2
-#, fuzzy
 msgid "Unsubscribe Folders"
-msgstr "Regjistroh_u tek kartelat..."
+msgstr "Ç'regjistro kartelat"
 
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:414
 msgid "Checklist"
 msgstr "Lista zgjedhjes"
 
 #: ../plugins/groupwise-account-setup/org-gnome-gw-account-setup.eplug.xml.h:1
-#, fuzzy
 msgid "Groupwise Account Setup"
-msgstr "Suite Groupware"
+msgstr "Rregullimi i llogarisë Groupware"
 
 #: ../plugins/groupwise-features/junk-mail-settings.c:77
-#, fuzzy
 msgid "Junk Settings"
-msgstr "Rregullimet"
+msgstr "Përcaktimi i refuzimeve"
 
 #: ../plugins/groupwise-features/junk-mail-settings.c:90
-#, fuzzy
 msgid "<b>Junk Mail Settings</b>"
-msgstr "<b>Opcionet e listës së aktiviteteve</b>"
+msgstr "<b>Rregullimet e mesazheve për t'u refuzuar</b>"
 
 #: ../plugins/groupwise-features/junk-mail-settings.c:112
-#, fuzzy
 msgid "Junk Mail Settings..."
-msgstr "Rregullimet e Pi_lot-it..."
+msgstr "Rregullimet e mesazheve për t'u refuzuar..."
 
 #: ../plugins/groupwise-features/junk-settings.glade.h:1
-#, fuzzy
 msgid "<b>Junk List :</b>"
-msgstr "<b>Lista e aktiviteteve</b>"
+msgstr "<b>Lista e refuzimeve:</b>"
 
 #: ../plugins/groupwise-features/junk-settings.glade.h:2
-#, fuzzy
 msgid "Email:"
-msgstr "Email"
+msgstr "Email:"
 
 #: ../plugins/groupwise-features/junk-settings.glade.h:3
-#, fuzzy
 msgid "Junk Mail Settings"
-msgstr "Rregullimet"
+msgstr "Rregullimet e mesazheve për refuzim"
 
 #: ../plugins/groupwise-features/junk-settings.glade.h:5
 #: ../plugins/mail-account-disable/mail-account-disable.c:46
-#, fuzzy
 msgid "_Disable"
-msgstr "Ç'aktivo"
+msgstr "_Ç'aktivo"
 
 #: ../plugins/groupwise-features/junk-settings.glade.h:6
-#, fuzzy
 msgid "_Enable"
-msgstr "Aktivo"
+msgstr "_Aktivo"
 
 #: ../plugins/groupwise-features/junk-settings.glade.h:7
-#, fuzzy
 msgid "_Junk List"
-msgstr "Teksti për t'u refuzuar"
+msgstr "_Lista e refuzimit"
 
 #: ../plugins/groupwise-features/org-gnome-compose-send-options.xml.h:1
 msgid "Add Send Options to groupwise messages"
@@ -15194,19 +15184,16 @@ msgid "Send Options"
 msgstr "Opcione dërgimi"
 
 #: ../plugins/groupwise-features/org-gnome-groupwise-features.eplug.xml.h:1
-#, fuzzy
 msgid "A plugin for the features in Groupwise accounts."
-msgstr "A për në."
+msgstr "Një shtojcë për veçoritë e llogarive Groupwise."
 
 #: ../plugins/groupwise-features/org-gnome-groupwise-features.eplug.xml.h:2
-#, fuzzy
 msgid "Groupwise Features"
-msgstr "Suite Groupware"
+msgstr "Karakteristikat Groupware"
 
 #: ../plugins/groupwise-features/process-meeting.c:49
-#, fuzzy
 msgid "Accept Tentatively"
-msgstr "Përpjekje"
+msgstr "Prano duke e konsideruar si provë"
 
 #: ../plugins/groupwise-features/properties.glade.h:2
 msgid "<b>Users :</b>"
@@ -15246,64 +15233,53 @@ msgid "_Sharing"
 msgstr "_Bashkandarje"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:1
-#, fuzzy
 msgid "<b>Name</b>"
-msgstr "<b>Shtëpi</b>"
+msgstr "<b>Emri</b>"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:2
 msgid "Access Rights"
 msgstr "Të drejtat e hyrjes"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:3
-#, fuzzy
 msgid "Add/Edit"
-msgstr "Ndrysho"
+msgstr "Shto/Ndrysho"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:5
-#, fuzzy
 msgid "Con_tacts"
-msgstr "Kontakte"
+msgstr "Kon_takte"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:7
-#, fuzzy
 msgid "Modify _folders/options/rules/"
-msgstr "Ndrysho"
+msgstr "Ndrysho _kartela/opcione/rregulla/"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:8
-#, fuzzy
 msgid "Read items marked _private"
-msgstr "Lexo elementët"
+msgstr "Lexo elementët e shënuar si _privatë"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:9
-#, fuzzy
 msgid "Reminder Notes"
-msgstr "_Kujtomë më vonë"
+msgstr "Shënime kujtuesi"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:10
-#, fuzzy
 msgid "Subscribe to my _alarms"
-msgstr "_Abonohu"
+msgstr "Regjistrim tek _alarmet e mi"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:11
-#, fuzzy
 msgid "Subscribe to my _notifications"
-msgstr "_Abonohu"
+msgstr "Regjistrim tek _njoftimet e mi"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:13
 #: ../ui/evolution-mail-message.xml.h:120
-#, fuzzy
 msgid "_Read"
-msgstr "Lexo"
+msgstr "_Lexim"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:14
-#, fuzzy
 msgid "_Write"
-msgstr "_Printo"
+msgstr "_Shkrim"
 
 #: ../plugins/groupwise-features/proxy-listing.glade.h:1
-#, fuzzy
 msgid "Proxy"
-msgstr "Prioriteti"
+msgstr "Proxy"
 
 #: ../plugins/groupwise-features/proxy-listing.glade.h:2
 #: ../smime/gui/smime-ui.glade.h:49
@@ -15313,37 +15289,28 @@ msgid "dialog1"
 msgstr "dialogu1"
 
 #: ../plugins/groupwise-features/proxy-login-dialog.glade.h:1
-#, fuzzy
 msgid "<b>Account Name</b>"
-msgstr "Emri i llogarisë"
+msgstr "<b>Emri i llogarisë</b>"
 
 #: ../plugins/groupwise-features/proxy-login-dialog.glade.h:2
-#, fuzzy
 msgid "Proxy Login"
-msgstr "Proxy Futu"
+msgstr "Identifikimi në Proxy"
 
 #: ../plugins/groupwise-features/proxy-login.c:219
 #: ../plugins/groupwise-features/proxy-login.c:261
-#: ../plugins/groupwise-features/proxy.c:492
+#: ../plugins/groupwise-features/proxy.c:490
 #: ../plugins/groupwise-features/send-options.c:83
 #, c-format
 msgid "%sEnter password for %s (user %s)"
 msgstr "%sShkruaj fjalëkalimin për %s (përdoruesi %s)"
 
 #: ../plugins/groupwise-features/proxy-login.c:484
-#, fuzzy
 msgid "_Proxy Login..."
-msgstr "_Printim..."
+msgstr "Identifikimi në _Proxy..."
 
-#: ../plugins/groupwise-features/proxy.c:681
-#, fuzzy
-msgid "The Proxy tab will be available only when the account is online."
-msgstr "Proxy tab do të në dispozicion është veprues."
-
-#: ../plugins/groupwise-features/proxy.c:687
-#, fuzzy
+#: ../plugins/groupwise-features/proxy.c:672
 msgid "The Proxy tab will be available only when the account is enabled."
-msgstr "Proxy tab do të në dispozicion është veprues."
+msgstr "Skeda e Proxy do të jetë e dukshme vetëm kur të aktivohet llogaria."
 
 #: ../plugins/groupwise-features/share-folder-common.c:318
 msgid "Users"
@@ -15354,18 +15321,16 @@ msgid "Enter the users and set permissions"
 msgstr "Shto përdoruesit dhe cakto të drejtat"
 
 #: ../plugins/groupwise-features/share-folder-common.c:338
-#, fuzzy
 msgid "New _Shared Folder..."
-msgstr "Kartelë e _Re..."
+msgstr "Kartelë e re e _përbashkët..."
 
 #: ../plugins/groupwise-features/share-folder-common.c:453
 msgid "Sharing"
 msgstr "Bashkandarje"
 
 #: ../plugins/groupwise-features/status-track.c:235
-#, fuzzy
 msgid "Track Message Status..."
-msgstr "Ruaj mesazhin..."
+msgstr "Ndiq gjendjen e mesazheve..."
 
 #: ../plugins/itip-formatter/itip-formatter.c:724
 msgid "Unable to parse item"
@@ -15397,21 +15362,17 @@ msgid "Sent to calendar '%s' as cancelled"
 msgstr "Dërguar kalendarit «%s» si e anulluar"
 
 #: ../plugins/itip-formatter/itip-formatter.c:898
-#, fuzzy, c-format
+#, c-format
 msgid "Organizer has removed the delegate %s "
-msgstr "Organizuesi s "
+msgstr "Organizuesi ka fshirë delegatin %s "
 
 #: ../plugins/itip-formatter/itip-formatter.c:905
-#, fuzzy
 msgid "Sent a cancellation notice to the delegate"
-msgstr "Dërguar a tek"
+msgstr "Dërgoi delegatit një njoftim fshirje"
 
 #: ../plugins/itip-formatter/itip-formatter.c:907
-#, fuzzy
 msgid "Could not send the cancellation notice to the delegate"
-msgstr ""
-"Jeni i sigurt që dëshironi të dërgoni një njoftim fshirje mbi këtë zë të "
-"ditarit?"
+msgstr "I pamundur dërgimi i njoftimit të fshirjes delegatit"
 
 #: ../plugins/itip-formatter/itip-formatter.c:991
 msgid "Attendee status could not be updated because the status is invalid"
@@ -15488,9 +15449,8 @@ msgid "Select the calendars to search for meeting conflicts"
 msgstr "Zgjidh kalendarët ku duhet kërkuar për takime në konflikt"
 
 #: ../plugins/itip-formatter/itip-formatter.c:2031
-#, fuzzy
 msgid "Conflict Search Table"
-msgstr "Kërko Tabela"
+msgstr "Tabela e kërkimit të konflikteve"
 
 #. strftime format of a weekday and a date.
 #: ../plugins/itip-formatter/itip-view.c:184 ../ui/evolution-calendar.xml.h:34
@@ -15648,9 +15608,9 @@ msgid "<b>%s</b> has published the following meeting information:"
 msgstr "<b>%s</b> ka publikuar informacionet në vazhdim në lidhje me mbledhjen:"
 
 #: ../plugins/itip-formatter/itip-view.c:351
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> has delegated the following meeting to you:"
-msgstr "<b>%s</b> ka anulluar mbledhjen në vazhdim."
+msgstr "<b>%s</b> ju ka deleguarr mbledhjen në vazhdim:"
 
 #: ../plugins/itip-formatter/itip-view.c:354
 #, c-format
@@ -15800,174 +15760,153 @@ msgid "Comment:"
 msgstr "Komente:"
 
 #: ../plugins/itip-formatter/itip-view.c:981
-#, fuzzy
 msgid "Send u_pdates to attendees"
-msgstr "I pamundur rifreskimi i pjesmarrësit. %s"
+msgstr "Dërgoi _përditësimet pjesmarrësve"
 
 #: ../plugins/itip-formatter/itip-view.c:990
-#, fuzzy
 msgid "A_pply to all instances"
-msgstr "Të gjitha instancat"
+msgstr "A_pliko tek të gjitha instancat"
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.eplug.xml.h:1
-#, fuzzy
 msgid "Displays text/calendar parts in messages."
-msgstr "Shfaq mesazhin e rendësishëm në vazhdim"
+msgstr "Shfaq tek mesazhet pjesën tekst/kalendar."
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.eplug.xml.h:2
-#, fuzzy
 msgid "Itip Formatter"
-msgstr "Importues"
+msgstr "Formatuesi i Itip"
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:1
-#, fuzzy
 msgid ""
 "&quot;{0}&quot; has delegated the meeting. Do you want to add the delegate "
 "&quot;{1}&quot; ?"
-msgstr "&quot;&quot; tek shto&quot;&quot;?"
+msgstr ""
+"&quot;{0}&quot; ka deleguar mbledhjen. Dëshiron të shtosh delegatin "
+"&quot;{1}&quot; ?"
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:3
-#, fuzzy
 msgid "This meeting has been delegated"
-msgstr "Kjo ngjarje u eleminua."
+msgstr "Kjo mbledhje është deleguar"
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:4
-#, fuzzy
 msgid "This response is not from a current attendee. Add the sender as an attendee?"
-msgstr "Kjo përgjigje nuk vjen nga një pjesmarrës aktual.  T'a shtoj si pjesmarrës?"
+msgstr "Kjo përgjigje nuk vjen nga një pjesmarrës aktual. Shton dërguesin si pjesmarrës?"
 
 #: ../plugins/mail-account-disable/mail-account-disable.c:47
-#, fuzzy
 msgid "Proxy _Logout"
-msgstr "Proxy Shkëputu"
+msgstr "_Shkëputja nga Proxy"
 
 #: ../plugins/mail-account-disable/org-gnome-mail-account-disable.eplug.xml.h:1
-#, fuzzy
 msgid "Allows disabling of accounts."
-msgstr "Lista e llogarive"
+msgstr "Lejo ç'aktivimin e llogarive."
 
 #: ../plugins/mail-account-disable/org-gnome-mail-account-disable.eplug.xml.h:2
-#, fuzzy
 msgid "Disable Account"
-msgstr "Llogaritë e postës"
+msgstr "Ç'aktivo llogarinë"
 
 #: ../plugins/mail-remote/client.c:30
-#, fuzzy, c-format
+#, c-format
 msgid "System error: %s"
-msgstr "Gabim gjatë vleftësimit: %s"
+msgstr "Gabim sistemi: %s"
 
 #: ../plugins/mail-remote/client.c:32
-#, fuzzy, c-format
+#, c-format
 msgid "Camel error: %s"
-msgstr "Gabim gjatë vleftësimit: %s"
+msgstr "Gabim i camel: %s"
 
 #: ../plugins/mail-remote/evolution-mail-store.c:476
-#, fuzzy
 msgid "Account cannot send e-mail"
-msgstr "Llogaria e mail"
+msgstr "Llogaria nuk mund të dërgojë e-mail"
 
 #: ../plugins/mail-remote/evolution-mail-store.c:605
-#, fuzzy
 msgid "No store available"
-msgstr "Asnjë tregues në dispozicion."
+msgstr "Asnjë magazinë në dispozicion"
 
 #: ../plugins/mail-remote/org-gnome-evolution-mail-remote.eplug.xml.h:1
-#, fuzzy
 msgid "A plugin which implements a CORBA interface for accessing mail data remotely."
-msgstr "A a CORBA interfaqja për mail."
+msgstr "Një shtojcë që krijon një interfaqe CORBA për hyrjen tek të dhënat mail në menyrë remote."
 
 #: ../plugins/mail-remote/org-gnome-evolution-mail-remote.eplug.xml.h:2
-#, fuzzy
 msgid "Mail Remote"
-msgstr "Filtrat e mesazheve"
+msgstr "Mail Remote"
 
 #: ../plugins/mail-to-meeting/org-gnome-mail-to-meeting.eplug.xml.h:1
-#, fuzzy
 msgid ""
 "A plugin which allows the creation of meetings from the contents of a mail "
 "message."
-msgstr "A nga nga a mail mesazh."
+msgstr ""
+"Një shtojcë që mundëson krijimin e mbledhjeve nga përmbajtja e një mesazhi "
+"e-mail."
 
 #: ../plugins/mail-to-meeting/org-gnome-mail-to-meeting.eplug.xml.h:2
-#, fuzzy
 msgid "Con_vert to Meeting"
-msgstr "_Inverto zgjedhjen"
+msgstr "Kthe_je në mbledhje"
 
 #: ../plugins/mail-to-meeting/org-gnome-mail-to-meeting.eplug.xml.h:3
-#, fuzzy
 msgid "Mail to meeting"
-msgstr "Është një mbledhje."
+msgstr "Mail në mbledhje"
 
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml.h:1
-#, fuzzy
 msgid ""
 "A plugin which allows the creation of tasks from the contents of a mail "
 "message."
-msgstr "A nga nga a mail mesazh."
+msgstr ""
+"Një shtojcë që mundëson krijimin e aktiviteteve nga përmbajtja e një mesazhi "
+"e-mail."
 
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml.h:2
-#, fuzzy
 msgid "Con_vert to Task"
-msgstr "tek Akti_viteti"
+msgstr "Ktheje në akti_vitet"
 
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml.h:3
-#, fuzzy
 msgid "Mail to task"
-msgstr "Mesazh për %s"
+msgstr "Mail në aktivitet"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:1
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:1
-#, fuzzy
 msgid "Contact list _owner"
-msgstr "Editori i listës së kontakteve"
+msgstr "Pr_onari i listës së kontakteve"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:2
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:5
-#, fuzzy
 msgid "Get list _archive"
-msgstr "list_a arkiv"
+msgstr "Merr _arkivin e listës"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:3
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:6
-#, fuzzy
 msgid "Get list _usage information"
-msgstr "Informacione mbi mbledhjen"
+msgstr "Merr informacionet mbi _përdorimin e listës"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:4
-#, fuzzy
 msgid "Mailing List Actions"
-msgstr "Mailing list"
+msgstr "Veprime Mailing list"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:5
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:7
-#, fuzzy
 msgid "Mailing _List"
-msgstr "Mailing list"
+msgstr "Mailing _List"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:6
-#, fuzzy
 msgid ""
 "Provide actions for common mailing list commands (subscribe, "
 "unsubscribe, ...)."
-msgstr "për lista."
+msgstr ""
+"Afron veprimet për komandat e zakonshme të listave mail (regjistrim, "
+"ç'regjistrim, ...)."
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:7
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:11
-#, fuzzy
 msgid "_Post message to list"
-msgstr "Duke lëvizur mesazhet tek %s"
+msgstr "_Dërgo mesazh listës"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:8
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:12
-#, fuzzy
 msgid "_Subscribe to list"
-msgstr "_Abonohu"
+msgstr "_Abonohu tek lista"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:9
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:13
-#, fuzzy
 msgid "_Un-subscribe to list"
-msgstr "_Ç'regjistrohu"
+msgstr "_Ç'regjistrohu nga lista"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:1
 msgid "Action not available"
@@ -16048,87 +15987,70 @@ msgid "_Send message"
 msgstr "_Dërgo mesazhin"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:2
-#, fuzzy
 msgid "Contact the owner of the mailing list this message belongs to"
-msgstr "Kontakti pronari nga lista mesazh tek"
+msgstr "Kontakto mirëmbajtësin e mailing list tek e cila bën pjesë ky mesazh"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:3
-#, fuzzy
 msgid "Get an archive of the list this message belongs to"
-msgstr "arkiv nga lista mesazh tek"
+msgstr "Merr një arkiv nga lista tek e cila bën pjesë ky mesazh"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:4
-#, fuzzy
 msgid "Get information about the usage of the list this message belongs to"
-msgstr "informacione nga lista mesazh tek"
+msgstr "Merr informacione mbi përdorimin e listës tek e cila bën pjesë ky mesazh"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:8
-#, fuzzy
 msgid "Post a message to the mailing list this message belongs to"
-msgstr "Shkruaj një përgjigje për tek mailing list e mesazhit të zgjedhur"
+msgstr "Dërgo një mesazh tek mailing list tek e cila bën pjesë ky mesazh"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:9
-#, fuzzy
 msgid "Subscribe to the mailing list this message belongs to"
-msgstr "Shkruaj një përgjigje për tek mailing list e mesazhit të zgjedhur"
+msgstr "Abonohu tek mailing list tek e cila bën pjesë ky mesazh"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:10
-#, fuzzy
 msgid "Unsubscribe to the mailing list this message belongs to"
-msgstr "Shkruaj një përgjigje për tek mailing list e mesazhit të zgjedhur"
+msgstr "Ç'regjistrohu nga mailing list tek e cila bën pjesë ky mesazh"
 
 #: ../plugins/mark-calendar-offline/org-gnome-mark-calendar-offline.eplug.xml.h:1
-#, fuzzy
 msgid "Mark calendar offline"
-msgstr "kalendari"
+msgstr "_Shëno si kalendar jashtë linje"
 
 #: ../plugins/mark-calendar-offline/org-gnome-mark-calendar-offline.eplug.xml.h:2
-#, fuzzy
 msgid "Marks the selected calendar for offline viewing."
-msgstr "Shëno mesazhet e zgjedhur për t'i eleminuar"
+msgstr "Shënon kalendarin e zgjedhur për shikime jashtë linje"
 
 #: ../plugins/mark-calendar-offline/org-gnome-mark-calendar-offline.eplug.xml.h:3
-#, fuzzy
 msgid "_Do not make this available offline"
-msgstr "nuk në _dispozicion"
+msgstr "_Mos e vër në dispozicion jashtë linje"
 
 #: ../plugins/mark-calendar-offline/org-gnome-mark-calendar-offline.eplug.xml.h:4
-#, fuzzy
 msgid "_Mark Calendar for offline use"
-msgstr "Kalendari nuk është shënuar për përdorim jashtë linje"
+msgstr "_Shëno kalendarin për përdorim jashtë linje"
 
 #: ../plugins/mono/org-gnome-evolution-mono.eplug.xml.h:1
-#, fuzzy
 msgid "A plugin which implements mono plugins."
-msgstr "A mono."
+msgstr "Një shtojcë që plotëson mono plugins."
 
 #: ../plugins/mono/org-gnome-evolution-mono.eplug.xml.h:2
-#, fuzzy
 msgid "Mono Loader"
-msgstr "Lëvize tek kartela"
+msgstr "Mono Loader"
 
 #: ../plugins/new-mail-notify/org-gnome-new-mail-notify.eplug.xml.h:1
-#, fuzzy
 msgid "Generates a D-BUS message when new mail arrives."
-msgstr "_Gjenero një mesazh D-BUS kur arrin postë e re"
+msgstr "Gjeneron një mesazh D-BUS kur arrin postë e re."
 
 #: ../plugins/new-mail-notify/org-gnome-new-mail-notify.eplug.xml.h:2
-#, fuzzy
 msgid "New Mail Notification"
-msgstr "Lloji i njoftimit të mesazheve të rinj"
+msgstr "Njoftimi i mesazheve të rinj"
 
 #: ../plugins/new-mail-notify/org-gnome-new-mail-notify.eplug.xml.h:3
-#, fuzzy
 msgid "New mail notify"
-msgstr "Lloji i njoftimit të mesazheve të rinj"
+msgstr "Njoftimi i mesazheve të rinj"
 
 #: ../plugins/plugin-manager/org-gnome-plugin-manager.eplug.xml.h:1
-#, fuzzy
 msgid "A plugin for managing which plugins are enabled or disabled."
-msgstr "A për veprues or jo aktiv."
+msgstr "Një shtojcë për të trajtuar se kush plugin është aktiv apo jo aktiv."
 
 #: ../plugins/plugin-manager/org-gnome-plugin-manager.eplug.xml.h:2
-#, fuzzy
 msgid "Plugin manager"
 msgstr "Manazhuesi i plugin"
 
@@ -16137,9 +16059,8 @@ msgid "Enable and disable plugins"
 msgstr "Aktivo dhe ç'aktivo plugins"
 
 #: ../plugins/plugin-manager/org-gnome-plugin-manager.xml.h:2
-#, fuzzy
 msgid "Plugins"
-msgstr "Plugin"
+msgstr "Shtojca"
 
 #: ../plugins/plugin-manager/plugin-manager.c:45
 msgid "Author(s)"
@@ -16174,24 +16095,25 @@ msgid "Plugin"
 msgstr "Plugin"
 
 #: ../plugins/prefer-plain/org-gnome-prefer-plain.eplug.xml.h:1
-#, fuzzy
 msgid ""
 "A test plugin which demonstrates a formatter plugin which lets you choose to "
 "disable HTML mails.\n"
 "\n"
 "This plugin is unsupported demonstration code only.\n"
-msgstr "A a tek HTML j është kodi j"
+msgstr ""
+"Një shtojcë prove që demostron një plugin formatues që ju jep mundësinë e zgjedhjes "
+"së ç'aktivimit të mesazheve HTML.\n"
+"\n"
+"Kjo shtojcë është vetëm për të kryer prova.\n"
 
 #. but then we also need to create our own section frame
 #: ../plugins/prefer-plain/org-gnome-prefer-plain.eplug.xml.h:6
-#, fuzzy
 msgid "Plain Text Mode"
-msgstr "Modeli i tekstit"
+msgstr "Modeli i tekst i thjeshtë"
 
 #: ../plugins/prefer-plain/org-gnome-prefer-plain.eplug.xml.h:7
-#, fuzzy
 msgid "Prefer plain-text"
-msgstr "tekst"
+msgstr "Preferohet tekst i thjeshtë"
 
 #: ../plugins/prefer-plain/prefer-plain.c:105
 msgid "Show HTML if present"
@@ -16210,9 +16132,8 @@ msgid "HTML Mode"
 msgstr "Modalitet HTML"
 
 #: ../plugins/print-message/org-gnome-print-message.eplug.xml.h:1
-#, fuzzy
 msgid "Gives an option to print mail from composer"
-msgstr "tek printo mail"
+msgstr "Afron një mundësi për printimin e mesazhit nga kompozuesi"
 
 #: ../plugins/print-message/org-gnome-print-message.xml.h:1
 #: ../ui/evolution-addressbook.xml.h:17 ../ui/evolution-calendar.xml.h:20
@@ -16221,33 +16142,28 @@ msgid "Print Pre_view"
 msgstr "Pamja e _parë e printimit"
 
 #: ../plugins/print-message/org-gnome-print-message.xml.h:2
-#, fuzzy
 msgid "Prints the message"
-msgstr "Printo këtë mesazh"
+msgstr "Printon mesazhin"
 
 #: ../plugins/sa-junk-plugin/em-junk-filter.c:98
 msgid "Spamassassin (built-in)"
 msgstr "Spamassassin (built-in)"
 
 #: ../plugins/sa-junk-plugin/org-gnome-sa-junk-plugin.eplug.xml.h:1
-#, fuzzy
 msgid "Sa junk-plugin"
-msgstr "Sh"
+msgstr "Sa junk-plugin"
 
 #: ../plugins/sa-junk-plugin/org-gnome-sa-junk-plugin.eplug.xml.h:2
-#, fuzzy
 msgid "learns junk messages using spamd."
-msgstr "mesazhe."
+msgstr "njeh mesazhet për t'u refuzuar duke përdorur spamd."
 
 #: ../plugins/save-attachments/org-gnome-save-attachments.eplug.xml.h:1
-#, fuzzy
 msgid "A plugin for saving all attachments or parts of a message at once."
-msgstr "A për gjithçka or nga a mesazh."
+msgstr "Një shtojcë për të ruajtur të gjithë të bashkangjiturit ose pjesë të mesazhit njëkohësisht."
 
 #: ../plugins/save-attachments/org-gnome-save-attachments.eplug.xml.h:2
-#, fuzzy
 msgid "Save attachments"
-msgstr "Ruaj të gjithë të bashkangjiturit"
+msgstr "Ruaj të bashkangjiturit"
 
 #: ../plugins/save-attachments/org-gnome-save-attachments.xml.h:1
 msgid "Save Attachments ..."
@@ -16276,68 +16192,56 @@ msgstr "Ruaj"
 #. * It lets you define the formatting of the date in the csv-file.
 #. *
 #: ../plugins/save-calendar/csv-format.c:171
-#, fuzzy
 msgid "%F %T"
-msgstr "F T"
+msgstr "%F %T"
 
 #: ../plugins/save-calendar/csv-format.c:385
-#, fuzzy
 msgid "Uid"
 msgstr "Uid"
 
 #: ../plugins/save-calendar/csv-format.c:387
-#, fuzzy
 msgid "Description List"
-msgstr "Përshkrimi"
+msgstr "Lista e përshkrimit"
 
 #: ../plugins/save-calendar/csv-format.c:388
-#, fuzzy
 msgid "Categories List"
-msgstr "Kategoritë: %s"
+msgstr "Lista e kategorive"
 
 #: ../plugins/save-calendar/csv-format.c:389
-#, fuzzy
 msgid "Comment List"
-msgstr "_Lista e kontakteve"
+msgstr "Lista e komenteve"
 
 #: ../plugins/save-calendar/csv-format.c:391
-#, fuzzy
 msgid "Created"
-msgstr "Krijo"
+msgstr "Krijuar"
 
 #: ../plugins/save-calendar/csv-format.c:392
-#, fuzzy
 msgid "Contact List"
-msgstr "_Lista e kontakteve"
+msgstr "Lista e kontakteve"
 
 #: ../plugins/save-calendar/csv-format.c:393
-#, fuzzy
 msgid "Start"
-msgstr "Fillon"
+msgstr "Fillimi"
 
 #: ../plugins/save-calendar/csv-format.c:394
-#, fuzzy
 msgid "End"
-msgstr "Mbaron"
+msgstr "Mbarimi"
 
 #: ../plugins/save-calendar/csv-format.c:396
-#, fuzzy
 msgid "percent Done"
-msgstr "U plotësua"
+msgstr "përqindja e plotësuar"
 
 #: ../plugins/save-calendar/csv-format.c:398
 msgid "Url"
 msgstr "Url"
 
 #: ../plugins/save-calendar/csv-format.c:399
-#, fuzzy
 msgid "Attendees List"
-msgstr "Pjesmarrës"
+msgstr "Lista e pjesmarrësve"
 
 #: ../plugins/save-calendar/csv-format.c:401
-#, fuzzy
 msgid "Modified"
-msgstr "Modeli"
+msgstr "Ndryshuar"
 
 #: ../plugins/save-calendar/csv-format.c:552
 msgid "Advanced options for the CSV format"
@@ -16368,19 +16272,16 @@ msgid "iCalendar format (.ics)"
 msgstr "Format iCalendar (.ics)"
 
 #: ../plugins/save-calendar/org-gnome-save-calendar.eplug.xml.h:1
-#, fuzzy
 msgid "Save Selected"
-msgstr "Asnjë zgjedhje"
+msgstr "Ruaj të zgjedhurit"
 
 #: ../plugins/save-calendar/org-gnome-save-calendar.eplug.xml.h:2
-#, fuzzy
 msgid "Save to _Disk"
-msgstr "Ruaj Aktivitetin"
+msgstr "Ruaj në _Disk"
 
 #: ../plugins/save-calendar/org-gnome-save-calendar.eplug.xml.h:3
-#, fuzzy
 msgid "Saves selected calendar or tasks list to disk."
-msgstr "Ruaj kontaktet e zgjedhur si një VCard."
+msgstr "Ruan kalendarin e zgjedhur apo listën e veprimtarive në disk."
 
 #.
 #. * Translator: the %FT%T is the thirth argument for a strftime function.
@@ -16388,9 +16289,8 @@ msgstr "Ruaj kontaktet e zgjedhur si një VCard."
 #. * Also check out http://www.w3.org/2002/12/cal/tzd
 #. *
 #: ../plugins/save-calendar/rdf-format.c:158
-#, fuzzy
 msgid "%FT%T"
-msgstr "T"
+msgstr "%FT%T"
 
 #: ../plugins/save-calendar/rdf-format.c:396
 msgid "RDF format (.rdf)"
@@ -16411,24 +16311,20 @@ msgstr ""
 "zgjedhur. Dëshiron të vazhdosh?"
 
 #: ../plugins/select-one-source/org-gnome-select-one-source.eplug.xml.h:1
-#, fuzzy
 msgid "Select one source"
-msgstr "Mënyra e zgjedhjes"
+msgstr "Zgjidh një burim"
 
 #: ../plugins/select-one-source/org-gnome-select-one-source.eplug.xml.h:2
-#, fuzzy
 msgid "Selects a single calendar or task source for viewing."
-msgstr "Zgjidh kalendarët ku duhet kërkuar për takime në konflikt"
+msgstr "Zgjedh një kalendar të vetëm apo burim veprimtarie për të shfaqur."
 
 #: ../plugins/select-one-source/org-gnome-select-one-source.eplug.xml.h:3
-#, fuzzy
 msgid "_Show only this Calendar"
-msgstr "Kalendari mujor"
+msgstr "_Shfaq vetëm këtë Kalendar"
 
 #: ../plugins/select-one-source/org-gnome-select-one-source.eplug.xml.h:4
-#, fuzzy
 msgid "_Show only this Task List"
-msgstr "_Shfaq Aktiviteti Lista"
+msgstr "_Shfaq vetëm këtë listë aktivitetesh"
 
 #: ../plugins/startup-wizard/org-gnome-evolution-startup-wizard.eplug.xml.h:1
 msgid "Startup wizard"
@@ -16468,39 +16364,33 @@ msgstr "Nga %s:"
 
 #: ../plugins/startup-wizard/startup-wizard.c:234
 #: ../shell/e-shell-importer.c:509
-#, fuzzy
 msgid "Importing data."
-msgstr "Duke importuar të dhënat Elm"
+msgstr "Duke importuar të dhënat."
 
 #: ../plugins/subject-thread/org-gnome-subject-thread.eplug.xml.h:1
-#, fuzzy
 msgid "Indicates if threading of messages should fall back to subject."
-msgstr "nga mesazhe mbrapa tek."
+msgstr "Tregon nëse tematika e mesazheve duhet të ndjekë subjektin."
 
 #: ../plugins/subject-thread/org-gnome-subject-thread.eplug.xml.h:2
-#, fuzzy
 msgid "Subject Threading"
-msgstr "Zgjidh _diskutimin"
+msgstr "Tematika sipas subjektit"
 
 #: ../plugins/subject-thread/org-gnome-subject-thread.eplug.xml.h:3
-#, fuzzy
 msgid "Thread messages by subject"
-msgstr "Rregullo sipas temave, bazuar në subjekt, listën e mesazheve"
+msgstr "Tematika e mesazheve siaps subjektit"
 
 #. Create the checkbox we will display, complete with mnemonic that is unique in the dialog
 #: ../plugins/subject-thread/subject-thread.c:54
-#, fuzzy
 msgid "Fall back to threading messages by sub_ject"
-msgstr "mbrapa tek sipas"
+msgstr "Tematika e mesazheve duhet të ndjekë sub_jektin"
 
 #: ../shell/GNOME_Evolution_Shell.server.in.in.h:1
 msgid "Evolution Shell"
 msgstr "Shell i Evolution"
 
 #: ../shell/GNOME_Evolution_Shell.server.in.in.h:2
-#, fuzzy
 msgid "Evolution Shell Config factory"
-msgstr "Shell i Evolution"
+msgstr "Fabrika i shell të konfigurimit të Evolution"
 
 #: ../shell/GNOME_Evolution_Test.server.in.in.h:1
 msgid "Evolution Test"
@@ -16581,15 +16471,14 @@ msgstr ""
 "minor/konfigurim"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:17
-#, fuzzy
 msgid ""
 "The style of the window buttons. Can be \"text\", \"icons\", \"both\", "
 "\"toolbar\". If \"toolbar\" is set, the style of the buttons is determined "
 "by the GNOME toolbar setting."
 msgstr ""
-"Stili i pulsantëve të dritares. Vlerat e lejuara janë \"text\", \"icons\", "
-"\"both\", \"toolbar\". Nëse caktohet \"toolbar\", stili i shtyllës së "
-"instrumentëve përcaktohet nga rregullimet e GNOME."
+"Stili i pulsantëve të dritares. Vlerat e lejuara janë \"text\", \"icons\", \"both\", "
+"\"toolbar\". Nëse caktohet \"toolbar\", stili i pulsantëve përcaktohet nga rregullimet "
+"e shtyllës së intrumentëve GNOME."
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:18
 msgid "Toolbar is visible"
@@ -16663,7 +16552,6 @@ msgid "Choose the destination for this import"
 msgstr "Zgjidh destinimin për këtë importim"
 
 #: ../shell/e-shell-importer.c:148
-#, fuzzy
 msgid ""
 "Evolution checked for settings to import from the following\n"
 "applications: Pine, Netscape, Elm, iCalendar. No importable\n"
@@ -16944,9 +16832,8 @@ msgstr ""
 "  Përdor %s --help për informacione të detajuara.\n"
 
 #: ../shell/shell.error.xml.h:1
-#, fuzzy
 msgid "Are you sure you want to forget all remembered passwords?"
-msgstr "Jeni i sigurt që dëshironi të eleminoni këto {0} aktivitete?"
+msgstr "Jeni i sigurt që dëshironi të harroni të gjithë fjalëkalimet?"
 
 #: ../shell/shell.error.xml.h:2
 msgid "Continue"
@@ -16961,11 +16848,12 @@ msgid "Evolution can not start."
 msgstr "E pamundur nisja e Evolution."
 
 #: ../shell/shell.error.xml.h:5
-#, fuzzy
 msgid ""
 "Forgetting your passwords will clear all remembered passwords. You will be "
 "reprompted next time they are needed. "
-msgstr "Harro fjalëkalimet në kujtesë në menyrë që t'ju kërkohen përsëri të rejat"
+msgstr ""
+"Harrimi i fjalëkalimeve do të pastrojë të gjithë fjalëkalimet në kujtesë. Do t'ju "
+"kërkohen përsëri kur të ketë nevojë. "
 
 #: ../shell/shell.error.xml.h:7
 msgid "Insufficient disk space for upgrade."
@@ -16976,7 +16864,6 @@ msgid "Really delete old data?"
 msgstr "Me të vërtetë eleminon të dhënat e vjetra?"
 
 #: ../shell/shell.error.xml.h:9
-#, fuzzy
 msgid ""
 "The entire contents of the &quot;evolution&quot; directory is about to be be "
 "permanently removed.\n"
@@ -16988,7 +16875,8 @@ msgid ""
 "Once deleted, you cannot downgrade to the previous version of Evolution "
 "without manual intervention.\n"
 msgstr ""
-"Krejt përmbajtja e directory \"evolution\" do të eleminohet përfundimisht.\n"
+"Krejt përmbajtja e directory &quot;evolution&quot; do të eleminohet "
+"përfundimisht.\n"
 "\n"
 "Ju sugjerojmë të kontrolloni që të gjitha të dhënat tuaja me mesazhet, "
 "kontaktet dhe kalendarët të ekzistojnë, dhe që ky version i Evolution të "
@@ -16998,7 +16886,6 @@ msgstr ""
 "mëparshëm të Evolution pa ndërhyrë manualisht.\n"
 
 #: ../shell/shell.error.xml.h:15
-#, fuzzy
 msgid ""
 "The previous version of evolution stored its data in a different location.\n"
 "\n"
@@ -17007,20 +16894,17 @@ msgid ""
 "keep this data, then you may manually remove the contents of &quot;"
 "evolution&quot; at your convenience.\n"
 msgstr ""
-"Versioni paraardhës i evolution magazinon të dhënat e tij në një pozicion "
+"Versioni paraardhës i evolution magazinonte të dhënat e tij në një pozicion "
 "tjetër.\n"
 "\n"
-"Nëse vendosni t'i fshini këto të dhëna, krejt përmbajtja e directory të "
-"\"evolution\" do të eleminohet përgjithmonë.  Nëse vendosni t'i mbani të "
-"dhënat, atëhere do të mund të eleminoni manualisht përmbajtjen e \"evolution"
-"\" sipas dëshirës.\n"
+"Nëse vendosni t'i fshini këto të dhëna, krejt përmbajtja e directory të &quot;"
+"evolution&quot; do të eleminohet përgjithmonë.  Nëse vendosni t'i mbani të "
+"dhënat, atëhere do të mund të eleminoni manualisht përmbajtjen e &quot;"
+"evolution&quot; sipas dëshirës.\n"
 
 #: ../shell/shell.error.xml.h:19
-#, fuzzy
 msgid "Upgrade from previous version failed: {0}"
-msgstr ""
-"Përditësimi nga versioni i kaluar dështoi:\n"
-"{0}"
+msgstr "Përditësimi nga versioni i kaluar dështoi: {0}"
 
 #: ../shell/shell.error.xml.h:20
 msgid ""
@@ -17061,9 +16945,8 @@ msgstr ""
 "Kliko \"ndihmë\" për detajet."
 
 #: ../shell/shell.error.xml.h:31
-#, fuzzy
 msgid "_Forget"
-msgstr "_Porta:"
+msgstr "_Harro"
 
 #: ../shell/shell.error.xml.h:32
 msgid "_Keep Data"
@@ -17122,7 +17005,6 @@ msgstr ""
 #: ../smime/gui/certificate-manager.c:385
 #: ../smime/gui/certificate-manager.c:597
 #: ../smime/gui/certificate-manager.c:605
-#, fuzzy
 msgid "Select a certificate to import..."
 msgstr "Zgjidh një çertifikatë për t'a importuar..."
 
@@ -17261,9 +17143,8 @@ msgid "Certificate details"
 msgstr "Hollësitë e çertifikatës"
 
 #: ../smime/gui/smime-ui.glade.h:17
-#, fuzzy
 msgid "Certificates Table"
-msgstr "Emri i çertifikatës"
+msgstr "Tabela e çertifikatave"
 
 #: ../smime/gui/smime-ui.glade.h:18
 msgid "Common Name (CN)"
@@ -17631,9 +17512,8 @@ msgid "Shutting down %s (%s)\n"
 msgstr "Duke mbyllur %s (%s)\n"
 
 #: ../ui/evolution-addressbook.xml.h:3
-#, fuzzy
 msgid "Copy Selected Contacts to Another Folder..."
-msgstr "Kopjo kontaktin(et) tek një kartelë tjetër..."
+msgstr "Kopjo kontaktet e zgjedhuar tek një kartelë tjetër..."
 
 #: ../ui/evolution-addressbook.xml.h:4 ../ui/evolution-calendar.xml.h:2
 msgid "Copy the selection"
@@ -17652,9 +17532,8 @@ msgid "Delete selected contacts"
 msgstr "Fshi kontaktet e zgjedhur"
 
 #: ../ui/evolution-addressbook.xml.h:11
-#, fuzzy
 msgid "Move Selected Contacts to Another Folder..."
-msgstr "Lëviz kontaktin(et) tek një kartelë tjetër..."
+msgstr "Lëviz kontaktet e zgjedhura tek një kartelë tjetër..."
 
 #: ../ui/evolution-addressbook.xml.h:12
 msgid "Move to Folder..."
@@ -17886,19 +17765,16 @@ msgid "Cancel the current mail operation"
 msgstr "Anullo operacionin aktual të postës"
 
 #: ../ui/evolution-mail-global.xml.h:3
-#, fuzzy
 msgid "Copy the selected folder into another folder"
 msgstr "Kopjo mesazhet e zgjedhur në një kartelë tjetër"
 
 #: ../ui/evolution-mail-global.xml.h:4
-#, fuzzy
 msgid "Create a new folder for storing mail"
-msgstr "Krijo një kartelë vFolder për këtë mailing list"
+msgstr "Krijo një kartelë të re për të magazinuar mesazhet"
 
 #: ../ui/evolution-mail-global.xml.h:5
-#, fuzzy
 msgid "Create or edit Search Folder definitions"
-msgstr "Krijo apo ndrysho përcaktimet e kartelës vFolder"
+msgstr "Krijo apo ndrysho përcaktimet e kartelës së kërkimit"
 
 #: ../ui/evolution-mail-global.xml.h:6
 msgid "Create or edit rules for filtering new mail"
@@ -17914,33 +17790,28 @@ msgid "F_older"
 msgstr "K_artela"
 
 #: ../ui/evolution-mail-global.xml.h:9
-#, fuzzy
 msgid "Message F_ilters"
-msgstr "Filtrat e mesazheve"
+msgstr "F_iltrat e mesazheve"
 
 #: ../ui/evolution-mail-global.xml.h:10
-#, fuzzy
 msgid "Message _List As"
-msgstr "Lista e mesazheve"
+msgstr "_Lista e mesazheve si"
 
 #: ../ui/evolution-mail-global.xml.h:11
-#, fuzzy
 msgid "Message _Preview"
-msgstr "Kreu i mesazhit"
+msgstr "_Pamja e parë e mesazhit"
 
 #: ../ui/evolution-mail-global.xml.h:12
-#, fuzzy
 msgid "Move the selected folder into another folder"
-msgstr "Lëviz mesazhin(et) e zgjedhur në një kartelë tjetër"
+msgstr "Lëviz kartelën e zgjedhur nën një kartelë tjetër"
 
 #: ../ui/evolution-mail-global.xml.h:13
 msgid "Permanently remove all deleted messages from all folders"
 msgstr "Elemino përgjithmonë të gjithë mesazhet e fshirë nga të gjitha kartelat"
 
 #: ../ui/evolution-mail-global.xml.h:14
-#, fuzzy
 msgid "Search F_olders"
-msgstr "Zgjidh Kartelë"
+msgstr "Kërk_o kartelat"
 
 #: ../ui/evolution-mail-global.xml.h:15
 msgid "Show message preview window"
@@ -17951,34 +17822,28 @@ msgid "Subscribe or unsubscribe to folders on remote servers"
 msgstr "Regjistrohu apo ç'regjistrohu tek kartelat në server-ët remote"
 
 #: ../ui/evolution-mail-global.xml.h:17
-#, fuzzy
 msgid "_Copy Folder To..."
-msgstr "_Kopjo tek Kartela..."
+msgstr "_Kopjo kartelën tek..."
 
 #: ../ui/evolution-mail-global.xml.h:18
-#, fuzzy
 msgid "_Move Folder To..."
-msgstr "_Lëvize tek kartela..."
+msgstr "_Lëviz kartelën tek..."
 
 #: ../ui/evolution-mail-global.xml.h:19
-#, fuzzy
 msgid "_New Search _Folder (FIXME)"
-msgstr "E re Kërko Kartelë"
+msgstr "_Kartelë e re kërkimi"
 
 #: ../ui/evolution-mail-global.xml.h:20
-#, fuzzy
 msgid "_New..."
-msgstr "_E re"
+msgstr "_E re..."
 
 #: ../ui/evolution-mail-global.xml.h:21
-#, fuzzy
 msgid "_Subscriptions"
-msgstr "Regjistrimet në kartelë"
+msgstr "_Regjistrimet"
 
 #: ../ui/evolution-mail-list.xml.h:1
-#, fuzzy
 msgid "Change the name of this folder"
-msgstr "Ndrysho pronësitë e kësaj kartele"
+msgstr "Ndrysho emrin e kësaj kartele"
 
 #: ../ui/evolution-mail-list.xml.h:2
 msgid "Change the properties of this folder"
@@ -17997,14 +17862,12 @@ msgid "E_xpunge"
 msgstr "_Elemino përgjithmonë"
 
 #: ../ui/evolution-mail-list.xml.h:7
-#, fuzzy
 msgid "Group By _Threads"
-msgstr "Grupo sipas kësaj fushe"
+msgstr "Grumbullo sipas _Tematikës"
 
 #: ../ui/evolution-mail-list.xml.h:8
-#, fuzzy
 msgid "Hide S_elected Messages"
-msgstr "Fshih mesazhet e _fshirë"
+msgstr "Fshih mesazhet e zgj_edhur"
 
 #: ../ui/evolution-mail-list.xml.h:9
 msgid "Hide _Deleted Messages"
@@ -18019,9 +17882,8 @@ msgid "Hide deleted messages rather than displaying them with a line through the
 msgstr "Fshih mesazhet e fshirë në vend që t'i shfaqësh të vizuar"
 
 #: ../ui/evolution-mail-list.xml.h:12
-#, fuzzy
 msgid "Mark Me_ssages as Read"
-msgstr "_Shëno si të lexuar mesazhet mbas"
+msgstr "Shëno me_sazhet si të lexuar"
 
 #: ../ui/evolution-mail-list.xml.h:13 ../ui/evolution-mail-message.xml.h:68
 msgid "Paste message(s) from the clipboard"
@@ -18032,19 +17894,16 @@ msgid "Permanently remove all deleted messages from this folder"
 msgstr "Elemino përgjithmonë të gjithë mesazhet e fshirë nga kjo kartelë"
 
 #: ../ui/evolution-mail-list.xml.h:15
-#, fuzzy
 msgid "Permanently remove this folder"
-msgstr "Elemino përgjithmonë të gjithë mesazhet e fshirë nga kjo kartelë"
+msgstr "Elemino përgjithmonë këtë kartelë"
 
 #: ../ui/evolution-mail-list.xml.h:16
-#, fuzzy
 msgid "Select Message _Thread"
-msgstr "Kreu i mesazhit"
+msgstr "Zgjidh _Temën e mesazhit"
 
 #: ../ui/evolution-mail-list.xml.h:17
-#, fuzzy
 msgid "Select _All Messages"
-msgstr "Zgjidh të gjithë mesazhet e dukshëm"
+msgstr "Zgjidh të _gjithë mesazhet"
 
 #: ../ui/evolution-mail-list.xml.h:18
 msgid "Select all and only the messages that are not currently selected"
@@ -18082,9 +17941,8 @@ msgstr "Rreshtim sipas diskutimeve"
 
 #: ../ui/evolution-mail-list.xml.h:28 ../ui/evolution-mail-message.xml.h:112
 #: ../ui/evolution-mail-messagedisplay.xml.h:7
-#, fuzzy
 msgid "_Message"
-msgstr "_Mesazhet"
+msgstr "_Mesazhi"
 
 #: ../ui/evolution-mail-message.xml.h:1
 msgid "A_dd Sender to Address Book"
@@ -18099,18 +17957,16 @@ msgid "Add Sender to Address Book"
 msgstr "Shtoje dërguesin në rubrikë"
 
 #: ../ui/evolution-mail-message.xml.h:4
-#, fuzzy
 msgid "All Message _Headers"
-msgstr "Kreu i mesazhit"
+msgstr "_Headers e të gjithë mesazheve"
 
 #: ../ui/evolution-mail-message.xml.h:5
 msgid "Apply filter rules to the selected messages"
 msgstr "Aplikoi rregullat e filtrit mesazheve të zgjedhur"
 
 #: ../ui/evolution-mail-message.xml.h:6
-#, fuzzy
 msgid "Check for _Junk"
-msgstr "Kontrolli për Për në plehra"
+msgstr "Kontrollo për _Refuzime"
 
 #: ../ui/evolution-mail-message.xml.h:7
 msgid "Compose _New Message"
@@ -18133,29 +17989,24 @@ msgid "Copy selected messages to another folder"
 msgstr "Kopjo mesazhet e zgjedhur në një kartelë tjetër"
 
 #: ../ui/evolution-mail-message.xml.h:14
-#, fuzzy
 msgid "Create R_ule"
-msgstr "Krijo kartelë _vFolder"
+msgstr "Krijo rreg_ull"
 
 #: ../ui/evolution-mail-message.xml.h:15
-#, fuzzy
 msgid "Create a Search Folder for these recipients"
-msgstr "Krijo një kartelë vFolder për këta marrës"
+msgstr "Krijo një kartelë kërkimi për këta marrës"
 
 #: ../ui/evolution-mail-message.xml.h:16
-#, fuzzy
 msgid "Create a Search Folder for this mailing list"
-msgstr "Krijo një kartelë vFolder për këtë mailing list"
+msgstr "Krijo një kartelë kërkimi për këtë mailing list"
 
 #: ../ui/evolution-mail-message.xml.h:17
-#, fuzzy
 msgid "Create a Search Folder for this sender"
-msgstr "Krijo një kartelë vFolder për këtë dërgues"
+msgstr "Krijo një kartelë kërkimi për këtë dërgues"
 
 #: ../ui/evolution-mail-message.xml.h:18
-#, fuzzy
 msgid "Create a Search Folder for this subject"
-msgstr "Krijo një kartelë vFolder për këtë subjekt"
+msgstr "Krijo një kartelë kërkimi për këtë subjekt"
 
 #: ../ui/evolution-mail-message.xml.h:19
 msgid "Create a rule to filter messages from this sender"
@@ -18258,9 +18109,8 @@ msgid "Increase the text size"
 msgstr "Rrit madhësinë e tekstit"
 
 #: ../ui/evolution-mail-message.xml.h:48
-#, fuzzy
 msgid "Mar_k as"
-msgstr "Shë_no si të Lexuar"
+msgstr "Shë_no si"
 
 #: ../ui/evolution-mail-message.xml.h:49
 msgid "Mark the selected message(s) as having been read"
@@ -18291,9 +18141,8 @@ msgid "Mark the selected messages for deletion"
 msgstr "Shëno mesazhet e zgjedhur për t'i eleminuar"
 
 #: ../ui/evolution-mail-message.xml.h:56
-#, fuzzy
 msgid "Message Source"
-msgstr "Trupi i mesazhit"
+msgstr "Burimi i mesazhit"
 
 #: ../ui/evolution-mail-message.xml.h:57
 msgid "Move"
@@ -18336,9 +18185,8 @@ msgid "P_revious Unread Message"
 msgstr "Mesazhi pa_raardhës i palexuar"
 
 #: ../ui/evolution-mail-message.xml.h:69
-#, fuzzy
 msgid "Pos_t New Message to Folder"
-msgstr "Posto një mesazh tek një kartelë publike"
+msgstr "Pos_to një mesazh të ri tek kartela"
 
 #: ../ui/evolution-mail-message.xml.h:70
 msgid "Post a Repl_y"
@@ -18381,38 +18229,32 @@ msgid "Save the message as a text file"
 msgstr "Ruaj mesazhin si file teksti"
 
 #: ../ui/evolution-mail-message.xml.h:86
-#, fuzzy
 msgid "Search Folder from Mailing _List..."
-msgstr "Kartelë vFolder tek Mailing _List..."
+msgstr "Kartelë kërkimi nga Mailing _List..."
 
 #: ../ui/evolution-mail-message.xml.h:87
-#, fuzzy
 msgid "Search Folder from Recipients..."
-msgstr "Kartelë vFolder tek _Marrësit..."
+msgstr "Kartelë kërkimi nga marrësit..."
 
 #: ../ui/evolution-mail-message.xml.h:88
-#, fuzzy
 msgid "Search Folder from S_ubject..."
-msgstr "Kartelë vFolder tek _Subjekti..."
+msgstr "Kartelë kërkimi nga S_ubjekti..."
 
 #: ../ui/evolution-mail-message.xml.h:89
-#, fuzzy
 msgid "Search Folder from Sen_der..."
-msgstr "Kartelë vFolder tek _Dërguesi..."
+msgstr "Kartelë kërkimi nga dër_guesi..."
 
 #: ../ui/evolution-mail-message.xml.h:90
 msgid "Search for text in the body of the displayed message"
 msgstr "Kryej një kërkim në trupin e mesazhit të shfaqur"
 
 #: ../ui/evolution-mail-message.xml.h:91
-#, fuzzy
 msgid "Select _All Text"
-msgstr "Zgjith të gjithë tekstin"
+msgstr "Zgjith të _gjithë tekstin"
 
 #: ../ui/evolution-mail-message.xml.h:92
-#, fuzzy
 msgid "Select all the text in a message"
-msgstr "Zgjidh të gjithë mesazhet e dukshëm"
+msgstr "Zgjidh të gjithë tekstin e një mesazhi"
 
 #: ../ui/evolution-mail-message.xml.h:93
 msgid "Set up the page settings for your current printer"
@@ -18439,81 +18281,68 @@ msgid "Un-delete the selected messages"
 msgstr "Anullo fshirjen e mesazheve të zgjedhur"
 
 #: ../ui/evolution-mail-message.xml.h:99
-#, fuzzy
 msgid "Uni_mportant"
-msgstr "I rëndësishëm"
+msgstr "Par_endësi"
 
 #: ../ui/evolution-mail-message.xml.h:100
-#, fuzzy
 msgid "Zoom _Out"
-msgstr "Z_vogëlo"
+msgstr "Zv_ogëlo"
 
 #: ../ui/evolution-mail-message.xml.h:101
-#, fuzzy
 msgid "_Caret Mode"
-msgstr "_Modalitet paraqitje kursori"
+msgstr "Modalitet paraqitje _kursori"
 
 #: ../ui/evolution-mail-message.xml.h:104
-#, fuzzy
 msgid "_Delete Message"
-msgstr "Fshih mesazhet e _fshirë"
+msgstr "_Fshi mesazhin"
 
 #: ../ui/evolution-mail-message.xml.h:106
-#, fuzzy
 msgid "_Find in Message..."
-msgstr "Gjej në mesazh"
+msgstr "_Gjej në mesazh..."
 
 #: ../ui/evolution-mail-message.xml.h:108
 msgid "_Go To"
 msgstr "_Shko Tek"
 
 #: ../ui/evolution-mail-message.xml.h:109
-#, fuzzy
 msgid "_Important"
-msgstr "I rëndësishëm"
+msgstr "_Me rendësi"
 
 #: ../ui/evolution-mail-message.xml.h:110
-#, fuzzy
 msgid "_Junk"
-msgstr "Për në plehra"
+msgstr "_Refuzo"
 
 #: ../ui/evolution-mail-message.xml.h:111
-#, fuzzy
 msgid "_Load Images"
-msgstr "Ngarko _Figurat"
+msgstr "_Ngarko figurat"
 
 #: ../ui/evolution-mail-message.xml.h:114
 msgid "_Next Message"
 msgstr "Mesazhi në _Vazhdim"
 
 #: ../ui/evolution-mail-message.xml.h:115
-#, fuzzy
 msgid "_Normal Size"
-msgstr "Normal"
+msgstr "Madhësi _Normale"
 
 #: ../ui/evolution-mail-message.xml.h:116
-#, fuzzy
 msgid "_Not Junk"
-msgstr "Jo për t'u flakur"
+msgstr "_Mos refuzo"
 
 #: ../ui/evolution-mail-message.xml.h:117
-#, fuzzy
 msgid "_Open in New Window"
-msgstr "Hape në një dritare të _re"
+msgstr "_Hap në një dritare të re"
 
 #: ../ui/evolution-mail-message.xml.h:118
 msgid "_Previous Message"
 msgstr "Mesazhi _Paraardhës"
 
 #: ../ui/evolution-mail-message.xml.h:122
-#, fuzzy
 msgid "_Save Message..."
-msgstr "Ruaj mesazhin..."
+msgstr "_Ruaj mesazhin..."
 
 #: ../ui/evolution-mail-message.xml.h:123
-#, fuzzy
 msgid "_Undelete Message"
-msgstr "Mesazhi në _Vazhdim"
+msgstr "Ç'ele_mino mesazhin"
 
 #: ../ui/evolution-mail-message.xml.h:124
 msgid "_Unread"
@@ -18558,9 +18387,8 @@ msgid "Attach a file"
 msgstr "Bashkangjit një file"
 
 #: ../ui/evolution-message-composer.xml.h:3
-#, fuzzy
 msgid "Check to get delivery notification when your message is read"
-msgstr "Kontrolli tek merr mesazh është"
+msgstr "Zgjidhe për të marrë ricevutë kur mesazhi yt të jetë lexuar"
 
 #: ../ui/evolution-message-composer.xml.h:5
 #: ../ui/evolution-signature-editor.xml.h:3
@@ -18576,9 +18404,8 @@ msgid "Encrypt this message with PGP"
 msgstr "Kripto këtë mesazh me PGP"
 
 #: ../ui/evolution-message-composer.xml.h:8
-#, fuzzy
 msgid "Encrypt this message with your S/MIME Encryption Certificate"
-msgstr "Kripto këtë mesazh me çertifikatën e kriptimit tuaj S/MIME"
+msgstr "Kripto këtë mesazh me çertifikatën tuaj të kriptimit S/MIME"
 
 #: ../ui/evolution-message-composer.xml.h:9
 #: ../ui/evolution-signature-editor.xml.h:4
@@ -18602,9 +18429,8 @@ msgid "PGP Sign"
 msgstr "Firmos me PGP"
 
 #: ../ui/evolution-message-composer.xml.h:15
-#, fuzzy
 msgid "Request read receipt"
-msgstr "Lexo ricevutat"
+msgstr "Kërko ricevutë leximi"
 
 #: ../ui/evolution-message-composer.xml.h:16
 msgid "S/MIME Encrypt"
@@ -18619,9 +18445,8 @@ msgid "Save As"
 msgstr "Ruaj si"
 
 #: ../ui/evolution-message-composer.xml.h:20
-#, fuzzy
 msgid "Save Draft"
-msgstr "Ruaj _Kopjen"
+msgstr "Ruaj Kopje"
 
 #: ../ui/evolution-message-composer.xml.h:21
 msgid "Save _As..."
@@ -18632,9 +18457,8 @@ msgid "Save _Draft"
 msgstr "Ruaj _Kopjen"
 
 #: ../ui/evolution-message-composer.xml.h:23
-#, fuzzy
 msgid "Save as draft"
-msgstr "Ruaj _Kopjen"
+msgstr "Ruaje si kopje"
 
 #: ../ui/evolution-message-composer.xml.h:24
 msgid "Save in folder..."
@@ -18946,9 +18770,8 @@ msgid "_About Evolution..."
 msgstr "_Informacione mbi Evolution..."
 
 #: ../ui/evolution.xml.h:31
-#, fuzzy
 msgid "_Close Window"
-msgstr "Mbyll këtë dritare"
+msgstr "_Mbyll dritaren"
 
 #: ../ui/evolution.xml.h:34
 msgid "_Help"
@@ -18975,23 +18798,20 @@ msgid "_Quick Reference"
 msgstr "Preferimet e _shpejta"
 
 #: ../ui/evolution.xml.h:40
-#, fuzzy
 msgid "_Quit"
-msgstr "P_reje"
+msgstr "_Dalja"
 
 #: ../ui/evolution.xml.h:41
 msgid "_Send / Receive"
 msgstr "_Dërgo / Merr"
 
 #: ../ui/evolution.xml.h:42
-#, fuzzy
 msgid "_Switcher Appearance"
-msgstr "Paraqitja"
+msgstr "Paraqitja e _ndryshuesit"
 
 #: ../ui/evolution.xml.h:43
-#, fuzzy
 msgid "_Synchronization Options..."
-msgstr "Mundë_sitë."
+msgstr "Opcionet e _sinkronizimit..."
 
 #: ../ui/evolution.xml.h:44
 msgid "_Text only"
@@ -19098,31 +18918,28 @@ msgstr ""
 
 #: ../widgets/menus/gal-define-views-dialog.c:76
 #: ../widgets/menus/gal-define-views-model.c:188
-#, fuzzy
 msgid "Collection"
-msgstr "vendi"
+msgstr "Koleksioni"
 
 #: ../widgets/menus/gal-define-views-dialog.c:325
 #: ../widgets/menus/gal-define-views.glade.h:4
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Define Views for %s"
-msgstr "Përcakto paraqitjet..."
+msgstr "Përcakto paraqitjet për %s"
 
 #: ../widgets/menus/gal-define-views-dialog.c:333
 #: ../widgets/menus/gal-define-views-dialog.c:335
-#, fuzzy
 msgid "Define Views"
-msgstr "Përcakto paraqitjet..."
+msgstr "Përcakto paraqitjet"
 
 #: ../widgets/menus/gal-define-views.glade.h:2
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Define Views for \"%s\""
-msgstr "Përcakto paraqitjet..."
+msgstr "Përcakto paraqitjet për \"%s\""
 
 #: ../widgets/menus/gal-define-views.glade.h:5
-#, fuzzy
 msgid "_Edit..."
-msgstr "_Ndrysho"
+msgstr "_Ndrysho..."
 
 #: ../widgets/menus/gal-view-factory-etable.c:39
 #: ../widgets/table/e-table-header-item.c:1845
@@ -19132,22 +18949,18 @@ msgid "Table"
 msgstr "Tabela"
 
 #: ../widgets/menus/gal-view-instance-save-as-dialog.c:182
-#, fuzzy
 msgid "Instance"
-msgstr "Të gjitha instancat"
+msgstr "Instanca"
 
 #: ../widgets/menus/gal-view-instance-save-as-dialog.c:232
-#, fuzzy
 msgid "Save Current View"
-msgstr "Paraqitja aktuale"
+msgstr "Ruaj paraqitjen aktuale"
 
 #: ../widgets/menus/gal-view-instance-save-as-dialog.glade.h:3
-#, fuzzy
 msgid "_Create new view"
-msgstr "Krijo një element të ri prove"
+msgstr "_Krijo një paraqitje të re"
 
 #: ../widgets/menus/gal-view-instance-save-as-dialog.glade.h:5
-#, fuzzy
 msgid "_Replace existing view"
 msgstr "_Zëvendëso paraqitjen ekzistuese"
 
@@ -19168,17 +18981,14 @@ msgid "Define New View"
 msgstr "Përcakto paraqitjen e re"
 
 #: ../widgets/menus/gal-view-new-dialog.glade.h:2
-#, fuzzy
 msgid "Name of new view:"
-msgstr "Emri i pamjes së re:"
+msgstr "Emri i paraqitjes së re:"
 
 #: ../widgets/menus/gal-view-new-dialog.glade.h:3
-#, fuzzy
 msgid "Type of View"
-msgstr "Paraqitja ditore"
+msgstr "Lloji i paraqitjes"
 
 #: ../widgets/menus/gal-view-new-dialog.glade.h:4
-#, fuzzy
 msgid "Type of view:"
 msgstr "Lloji i paraqitjes:"
 
@@ -19228,9 +19038,8 @@ msgstr "Fill stipple"
 
 #: ../widgets/misc/e-canvas-background.c:484
 #: ../widgets/misc/e-canvas-background.c:485
-#, fuzzy
 msgid "X1"
-msgstr "1"
+msgstr "X1"
 
 #: ../widgets/misc/e-canvas-background.c:491
 #: ../widgets/misc/e-canvas-background.c:492
@@ -19239,9 +19048,8 @@ msgstr "X2"
 
 #: ../widgets/misc/e-canvas-background.c:498
 #: ../widgets/misc/e-canvas-background.c:499
-#, fuzzy
 msgid "Y1"
-msgstr "1"
+msgstr "Y1"
 
 #: ../widgets/misc/e-canvas-background.c:505
 #: ../widgets/misc/e-canvas-background.c:506
@@ -19472,9 +19280,8 @@ msgid "_Edit Saved Searches..."
 msgstr "_Ndrysho kërkimet e ruajtura..."
 
 #: ../widgets/misc/e-filter-bar.h:94 ../widgets/misc/e-filter-bar.h:101
-#, fuzzy
 msgid "_Advanced Search..."
-msgstr "Kërkim i hollësishëm"
+msgstr "_Kërkim i hollësishëm..."
 
 #: ../widgets/misc/e-image-chooser.c:172
 msgid "Choose Image"
@@ -19506,19 +19313,16 @@ msgid "Sync Categories:"
 msgstr "Sinkronizimi i kategorive:"
 
 #: ../widgets/misc/e-reflow.c:1452 ../widgets/misc/e-reflow.c:1453
-#, fuzzy
 msgid "Empty message"
-msgstr "_Ndrysho mesazhin"
+msgstr "Mesazh bosh"
 
 #: ../widgets/misc/e-reflow.c:1459 ../widgets/misc/e-reflow.c:1460
-#, fuzzy
 msgid "Reflow model"
-msgstr "Modeli i zgjedhjes"
+msgstr "Modeli i fluksittë kthimit"
 
 #: ../widgets/misc/e-reflow.c:1466 ../widgets/misc/e-reflow.c:1467
-#, fuzzy
 msgid "Column width"
-msgstr "Gjërësia e kollonës"
+msgstr "Gjerësia e kollonës"
 
 #. To translators: This is the accessibility name of
 #. the search bar's text entry widget
@@ -19645,9 +19449,8 @@ msgid "R_eply requested"
 msgstr "Kërk_esë përgjigje"
 
 #: ../widgets/misc/e-send-options.glade.h:18
-#, fuzzy
 msgid "Sta_tus Tracking"
-msgstr "Gjurm_imi i gjendjes"
+msgstr "Gjurmimi i gje_ndjes"
 
 #: ../widgets/misc/e-send-options.glade.h:19
 msgid ""
@@ -19666,18 +19469,16 @@ msgid "W_ithin"
 msgstr "B_renda"
 
 #: ../widgets/misc/e-send-options.glade.h:24
-#, fuzzy
 msgid "When acce_pted:"
-msgstr "Kur _pranohet: "
+msgstr "Kur _pranohet:"
 
 #: ../widgets/misc/e-send-options.glade.h:25
 msgid "When co_mpleted:"
 msgstr "Kur plotës_ohet:"
 
 #: ../widgets/misc/e-send-options.glade.h:26
-#, fuzzy
 msgid "When decli_ned:"
-msgstr "Kur refu_zohet:    "
+msgstr "Kur refu_zohet:"
 
 #: ../widgets/misc/e-send-options.glade.h:27
 msgid "_After:"
@@ -19696,7 +19497,6 @@ msgid "_Delivered"
 msgstr "_Dërguar"
 
 #: ../widgets/misc/e-send-options.glade.h:32
-#, fuzzy
 msgid "_Set expiration date"
 msgstr "_Cakto datën e skadimit"
 
@@ -19709,9 +19509,8 @@ msgid "_When convenient"
 msgstr "_Kur ja vlen"
 
 #: ../widgets/misc/e-send-options.glade.h:35
-#, fuzzy
 msgid "_When opened:"
-msgstr "_Kur hapet:      "
+msgstr "_Kur hapet:"
 
 #: ../widgets/misc/e-task-widget.c:208
 #, c-format
@@ -19728,24 +19527,20 @@ msgid "click here to go to url"
 msgstr "kliko këtu për të shkuar tek url"
 
 #: ../widgets/misc/gal-categories.glade.h:2
-#, fuzzy
 msgid "Edit Master Category List..."
-msgstr "Ndrysho listën qendrore të kategorive..."
+msgstr "Ndrysho listën qendrore të kategorisë..."
 
 #: ../widgets/misc/gal-categories.glade.h:3
-#, fuzzy
 msgid "Item(s) belong to these _categories:"
-msgstr "Element(e) që bëjnë pjesë në këto _kategori:"
+msgstr "Element(ë) që bëjnë pjesë në këto _kategori:"
 
 #: ../widgets/misc/gal-categories.glade.h:4
-#, fuzzy
 msgid "_Available Categories:"
-msgstr "_Kategoritë"
+msgstr "Kategoritë në _dispozicion:"
 
 #: ../widgets/misc/gal-categories.glade.h:5
-#, fuzzy
 msgid "categories"
-msgstr "Kategoritë"
+msgstr "kategoritë"
 
 #: ../widgets/table/e-cell-combo.c:177
 msgid "popup list"
@@ -19788,15 +19583,13 @@ msgid "BG Color Column"
 msgstr "Ngjyra e sfondit të kollonës"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:1
-#, fuzzy
 msgid "<- _Remove"
-msgstr "_Hiq"
+msgstr "<- _Hiq"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:2
 #: ../widgets/table/e-table-config.glade.h:1
-#, fuzzy
 msgid "A_vailable Fields:"
-msgstr "Fusha të ndryshueshme"
+msgstr "Fushat në di_spozicion:"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:3
 #: ../widgets/table/e-table-config.glade.h:2
@@ -19805,9 +19598,8 @@ msgstr "Në ngjitje"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:4
 #: ../widgets/table/e-table-config.glade.h:3
-#, fuzzy
 msgid "Clear All"
-msgstr "H_iq flamurin"
+msgstr "Pastro gjithçka"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:5
 #: ../widgets/table/e-table-config.glade.h:4
@@ -19816,51 +19608,43 @@ msgstr "Në zbritje"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:8
 #: ../widgets/table/e-table-config.glade.h:7
-#, fuzzy
 msgid "Group Items By"
-msgstr "_Grupo sipas..."
+msgstr "Grumbullo elementët sipas"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:9
 #: ../widgets/table/e-table-config.glade.h:8
-#, fuzzy
 msgid "Move _Down"
-msgstr "Lëvize _Poshtë"
+msgstr "Lëviz _Poshtë"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:10
 #: ../widgets/table/e-table-config.glade.h:9
-#, fuzzy
 msgid "Move _Up"
-msgstr "Lëvize"
+msgstr "Lëviz _Sipër"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:11
-#, fuzzy
 msgid "Sh_ow these fields in order:"
-msgstr "P_araqiti këto fusha duke i renditur:"
+msgstr "Shfaq kët_o fusha duke i renditur:"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:12
 #: ../widgets/table/e-table-config.c:563
 #: ../widgets/table/e-table-config.glade.h:10
-#, fuzzy
 msgid "Show Fields"
-msgstr "Fusha _Për"
+msgstr "Shfaq fushat"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:13
 #: ../widgets/table/e-table-config.glade.h:11
-#, fuzzy
 msgid "Show field in View"
-msgstr "Shfaqe fushën"
+msgstr "Shfaq fushën tek paraqitja"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:14
 #: ../widgets/table/e-table-config.glade.h:12
-#, fuzzy
 msgid "Sort"
-msgstr "Rendit"
+msgstr "Renditja"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:15
 #: ../widgets/table/e-table-config.glade.h:13
-#, fuzzy
 msgid "Sort Items By"
-msgstr "Renditja"
+msgstr "Rendit elementët sipas"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:16
 #: ../widgets/table/e-table-config.glade.h:14
@@ -19868,21 +19652,18 @@ msgid "Then By"
 msgstr "E pastaj sipas"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:17
-#, fuzzy
 msgid "_Add ->"
-msgstr "_Shto"
+msgstr "_Shto ->"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:18
 #: ../widgets/table/e-table-config.glade.h:16
-#, fuzzy
 msgid "_Fields Shown..."
 msgstr "_Fushat e shfaqura..."
 
 #: ../widgets/table/e-table-config-no-group.glade.h:19
 #: ../widgets/table/e-table-config.glade.h:20
-#, fuzzy
 msgid "_Sort..."
-msgstr "_Importim..."
+msgstr "_Renditja..."
 
 #: ../widgets/table/e-table-config.c:150
 msgid "State"
@@ -19905,19 +19686,16 @@ msgid "No grouping"
 msgstr "Të pa grupuara"
 
 #: ../widgets/table/e-table-config.c:584
-#, fuzzy
 msgid "Available Fields"
-msgstr "Fusha të ndryshueshme"
+msgstr "Fushat në dispozicion"
 
 #: ../widgets/table/e-table-config.glade.h:17
-#, fuzzy
 msgid "_Group By..."
-msgstr "_Grupo sipas..."
+msgstr "_Grumbullo sipas..."
 
 #: ../widgets/table/e-table-config.glade.h:19
-#, fuzzy
 msgid "_Show these fields in order:"
-msgstr "_Shfaqi këto fusha duke i renditur:"
+msgstr "_Shfaq këto fusha duke i renditur:"
 
 #: ../widgets/table/e-table-field-chooser-dialog.c:77
 #: ../widgets/table/e-table-field-chooser-item.c:646
@@ -19938,38 +19716,36 @@ msgid "Add a column..."
 msgstr "Shto një kollonë..."
 
 #: ../widgets/table/e-table-field-chooser.glade.h:1
-#, fuzzy
 msgid "Field Chooser"
-msgstr "Emri i fushës"
+msgstr "Zgjedhësi i fushës"
 
 #: ../widgets/table/e-table-field-chooser.glade.h:2
-#, fuzzy
 msgid ""
 "To add a column to your table, drag it into\n"
 "the location in which you want it to appear."
 msgstr ""
 "Për t'i shtuar një kollonë tabelës suaj, zvarrite tek\n"
-"pozicioni ku dëshironi të duket."
+"pozicioni ku dëshironi të shfaqet."
 
 #: ../widgets/table/e-table-group-container.c:350
-#, fuzzy, c-format
+#, c-format
 msgid "%s : %s (%d item)"
 msgstr "%s : %s (%d element)"
 
 #: ../widgets/table/e-table-group-container.c:351
-#, fuzzy, c-format
+#, c-format
 msgid "%s : %s (%d items)"
 msgstr "%s : %s (%d elementë)"
 
 #: ../widgets/table/e-table-group-container.c:356
-#, fuzzy, c-format
+#, c-format
 msgid "%s (%d item)"
-msgstr "%s (%d%% plotësuar)"
+msgstr "%s (%d element)"
 
 #: ../widgets/table/e-table-group-container.c:357
-#, fuzzy, c-format
+#, c-format
 msgid "%s (%d items)"
-msgstr "%s (%d%% plotësuar)"
+msgstr "%s (%d elementë)"
 
 #: ../widgets/table/e-table-group-container.c:901
 #: ../widgets/table/e-table-group-container.c:902
@@ -20114,17 +19890,14 @@ msgid "Tree"
 msgstr "Degëzimi"
 
 #: ../widgets/table/e-table-item.c:2938 ../widgets/table/e-table-item.c:2939
-#, fuzzy
 msgid "Table header"
-msgstr "Titull i keqformuar"
+msgstr "Titull i tabelës"
 
 #: ../widgets/table/e-table-item.c:2945 ../widgets/table/e-table-item.c:2946
-#, fuzzy
 msgid "Table model"
-msgstr "Qeli tabele"
+msgstr "Modeli i tabelës"
 
 #: ../widgets/table/e-table-item.c:3021 ../widgets/table/e-table-item.c:3022
-#, fuzzy
 msgid "Cursor row"
 msgstr "Rreshti kursorit"
 
@@ -20153,19 +19926,16 @@ msgid "Draw lines and +/- expanders."
 msgstr "Vizato rreshtat dhe zgjeruesit +/-."
 
 #: ../widgets/text/e-entry-test.c:49
-#, fuzzy
 msgid "Minicard Test"
-msgstr "Prova"
+msgstr "Prova e minicard"
 
 #: ../widgets/text/e-entry-test.c:50
-#, fuzzy
 msgid "Copyright (C) 2000, Helix Code, Inc."
-msgstr "Copyright (C) 2000, Ximian, Inc."
+msgstr "Copyright (C) 2000, Helix Code, Inc."
 
 #: ../widgets/text/e-entry-test.c:52
-#, fuzzy
 msgid "This should test the minicard canvas item"
-msgstr "Kjo duhet të kontrollojë kodin e printimit të kontakteve"
+msgstr "Kjo duhet të kontrollojë elementin e zonës së minicard"
 
 #: ../widgets/text/e-entry.c:1242 ../widgets/text/e-entry.c:1243
 #: ../widgets/text/e-text.c:3455 ../widgets/text/e-text.c:3456
@@ -20173,14 +19943,12 @@ msgid "Event Processor"
 msgstr "Procesori i dukurive"
 
 #: ../widgets/text/e-entry.c:1256 ../widgets/text/e-entry.c:1257
-#, fuzzy
 msgid "Font"
 msgstr "Gërmat"
 
 #: ../widgets/text/e-entry.c:1270 ../widgets/text/e-entry.c:1271
-#, fuzzy
 msgid "GDKFont"
-msgstr "Gërmat"
+msgstr "GDKFont"
 
 #: ../widgets/text/e-entry.c:1277 ../widgets/text/e-entry.c:1278
 #: ../widgets/text/e-text.c:3491 ../widgets/text/e-text.c:3492
@@ -20238,9 +20006,8 @@ msgid "Cursor position"
 msgstr "Pozicioni i kursorit"
 
 #: ../widgets/text/e-entry.c:1389 ../widgets/text/e-entry.c:1390
-#, fuzzy
 msgid "Emulate label resize"
-msgstr "etiketa"
+msgstr "Emulo ndryshimin e madhësisë së etiketës"
 
 #: ../widgets/text/e-text.c:2696
 msgid "Input Methods"
