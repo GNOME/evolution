@@ -1,14 +1,14 @@
-# Vietnamese Translation for evolution.
+# Vietnamese Translation for Evolution.
 # Copyright © 2005 Gnome i18n Project for Vietnamese.
 # Nguyễn Thái Ngọc Duy <pclouds@gmx.net>, 2002-2004.
 # Clytie Siddall <clytie@riverland.net.au>, 2005.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: evolution 1.4 Gnome 2.12\n"
+"Project-Id-Version: evolution 1.4 Gnome HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-08-25 05:57+0000\n"
-"PO-Revision-Date: 2005-08-25 17:01+0930\n"
+"PO-Revision-Date: 2005-08-27 17:35+0930\n"
 "Last-Translator: Clytie Siddall <clytie@riverland.net.au>\n"
 "Language-Team: Gnome-Vi <gnomevi-list@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -1329,7 +1329,7 @@ msgstr "_Nhật ký Mạng:"
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:48
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:13
 msgid "_Where:"
-msgstr "_Nơi:"
+msgstr "_Ở đâu :"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:49
 msgid "_Zip/Postal Code:"
@@ -10464,13 +10464,13 @@ msgstr "Tên quy tắc"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:1
 msgid "Composer Preferences"
-msgstr "Sở thích bộ soạn thảo"
+msgstr "Tùy thích bộ soạn thảo"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:2
 msgid ""
 "Configure mail preferences, including security and message display, here"
 msgstr ""
-"Cấu hình sở thích thư tín, bao gồm tính bảo mật và hiển thị thư, ở đây."
+"Cấu hình Tùy thích thư tín, bao gồm tính bảo mật và hiển thị thư, ở đây."
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:3
 msgid "Configure spell-checking, signatures, and the message composer here"
@@ -10520,7 +10520,7 @@ msgstr "Tài khoản thư"
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:13
 #: ../mail/mail-config.glade.h:98
 msgid "Mail Preferences"
-msgstr "Sở thích thư"
+msgstr "Tùy thích thư"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:14
 msgid "_Mail"
