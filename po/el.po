@@ -40,14 +40,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: el\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-08-21 12:17+0300\n"
-"PO-Revision-Date: 2005-08-21 12:18+0300\n"
+"POT-Creation-Date: 2005-08-27 11:36+0300\n"
+"PO-Revision-Date: 2005-08-27 11:36+0300\n"
 "Last-Translator: Kostas Papadimas <pkst@gnome.org>\n"
 "Language-Team: Greek <team@gnome.gr>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms:  nplurals=2; plural=(n != 1);"
+"Plural-Forms:  nplurals=2; plural=(n != 1);\n"
+"X-Generator: KBabel 1.10\n"
 
 #: ../a11y/addressbook/ea-addressbook-view.c:94
 #: ../a11y/addressbook/ea-addressbook-view.c:103
@@ -3487,13 +3488,15 @@ msgstr "Σφάλμα αφαίρεσης επαφής"
 msgid ""
 "Opening %d contact will open %d new window as well.\n"
 "Do you really want to display this contact?"
+msgid_plural ""
 "Opening %d contacts will open %d new windows as well.\n"
 "Do you really want to display all of these contacts?"
-msgstr ""
+msgstr[0] ""
 "Ανοίγοντας %d επαφή θα γίνει άνοιγμα %d  νέου παραθύρου.\n"
 "Θέλετε να εμφανίσετε αυτή την επαφή;"
-"Ανοίγοντας %d επαφή θα γίνει άνοιγμα %d  νέου παραθύρων.\n"
-"Θέλετε να εμφανίσετε αυτή την επαφή;"
+msgstr[1] ""
+"Ανοίγοντας %d επαφές θα γίνει άνοιγμα %d  νέων παραθύρων.\n"
+"Θέλετε να εμφανίσετε όλες αυτές τις επαφές;"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:319
 #, c-format
@@ -20261,12 +20264,3 @@ msgstr "Περιεχόμενο IM"
 #: ../widgets/text/e-text.c:3683 ../widgets/text/e-text.c:3684
 msgid "Handle Popup"
 msgstr "Χειρισμός αναδυομένου"
-
-#~ msgid "Mo_ve to Folder..."
-#~ msgstr "Με_τακίνηση στο Φάκελο..."
-
-#~ msgid "Unknown error verifying signed messaage"
-#~ msgstr "Άγνωστο σφάλμα επιβεβαίωσης υπογραφής"
-
-#~ msgid "Unknown error decrypting messaage"
-#~ msgstr "Άγνωστο σφάλμα αποκρυπτογράφησης μηνύματος"
