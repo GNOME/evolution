@@ -12823,7 +12823,7 @@ msgstr "Папка за филтрирање"
 
 #: ../mail/mail-ops.c:262
 msgid "Fetching Mail"
-msgstr "Земам пошта"
+msgstr "Собирам пошта"
 
 #. sending mail, filtering failed
 #: ../mail/mail-ops.c:562
@@ -12934,7 +12934,7 @@ msgstr "Локални папки"
 #: ../mail/mail-ops.c:1741
 #, c-format
 msgid "Retrieving message %s"
-msgstr "Земам порака %s"
+msgstr "Примам порака %s"
 
 #: ../mail/mail-ops.c:1851
 #, c-format
