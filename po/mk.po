@@ -4617,7 +4617,7 @@ msgstr "Ново закажување"
 
 #: ../calendar/gui/calendar-component.c:1474
 msgid "_Appointment"
-msgstr "_Закажувања"
+msgstr "_Закажување"
 
 #: ../calendar/gui/calendar-component.c:1475
 msgid "Create a new appointment"
@@ -6519,7 +6519,7 @@ msgstr "_Избриши ги одбраните задачи"
 #: ../calendar/gui/e-calendar-table.c:1326
 #: ../calendar/gui/e-calendar-table.etspec.h:4
 msgid "Click to add a task"
-msgstr "Претисни за да додадеш задача"
+msgstr "Притиснете за да додадете задача"
 
 #: ../calendar/gui/e-calendar-table.etspec.h:2
 #, no-c-format
@@ -12076,7 +12076,7 @@ msgstr "Нова Mail порака"
 
 #: ../mail/mail-component.c:764
 msgid "_Mail Message"
-msgstr "_Mail порака"
+msgstr "_Порака"
 
 #: ../mail/mail-component.c:765
 msgid "Compose a new mail message"
@@ -12096,7 +12096,7 @@ msgstr "Креирај нова папка за пошта"
 
 #: ../mail/mail-component.c:917
 msgid "Failed upgrading Mail settings or folders."
-msgstr "Не може да се надградат Mail поставките или папките."
+msgstr "Не може да се надградат поставувањата за поштата или папките."
 
 #: ../mail/mail-config.glade.h:1
 #: ../mail/mail-dialogs.glade.h:1
@@ -16320,7 +16320,7 @@ msgstr "Истекува"
 
 #: ../smime/gui/certificate-manager.c:483
 msgid "E-Mail Address"
-msgstr "E-mail адреса"
+msgstr "Адреса за е-пошта"
 
 #: ../smime/gui/certificate-viewer.c:334
 #, c-format
@@ -18158,7 +18158,7 @@ msgstr "Поглед на работна недела"
 
 #: ../views/mail/galview.xml.h:1
 msgid "As _Sent Folder"
-msgstr "Како _Испратени папка"
+msgstr "Како _папка со испратени"
 
 #: ../views/mail/galview.xml.h:2
 msgid "By S_tatus"
@@ -18585,7 +18585,7 @@ msgstr "Зачувај претрага"
 #: ../widgets/misc/e-filter-bar.h:92
 #: ../widgets/misc/e-filter-bar.h:99
 msgid "_Save Search..."
-msgstr "Зачувај претрага..."
+msgstr "Зачувај пребарување..."
 
 #: ../widgets/misc/e-filter-bar.h:93
 #: ../widgets/misc/e-filter-bar.h:100
