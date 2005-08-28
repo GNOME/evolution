@@ -1,3 +1,7 @@
+2005-08-28  Harish Krishnaswamy  <kharish@novell.com>
+
+	* e-shell-window-commands.c: Update credits.
+
 2005-08-23  Not Zed  <NotZed@Ximian.com>
 
 	* e-shell-window-commands.c: include missing e-error.h
