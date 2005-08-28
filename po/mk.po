@@ -18106,7 +18106,7 @@ msgstr "_Излези"
 
 #: ../ui/evolution.xml.h:41
 msgid "_Send / Receive"
-msgstr "Испрати / Превземи"
+msgstr "Испрати / Прими"
 
 #: ../ui/evolution.xml.h:42
 msgid "_Switcher Appearance"
