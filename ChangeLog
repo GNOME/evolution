@@ -1,3 +1,9 @@
+2005-08-28  Harish Krishnaswamy <kharish@novell.com>
+
+	* configure.in : Turn stable release bit on. Set
+	version to 2.4.0.
+	* MAINTAINERS : Update.
+
 2005-08-24  Sarfraaz Ahmed <asarfraaz@novell.com>
 
 	* configure.in : Enable building of exchange plugins by default.
