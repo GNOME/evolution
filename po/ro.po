@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: evolution.HEAD.ro\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-08-26 06:11+0000\n"
-"PO-Revision-Date: 2005-08-28 00:58+0300\n"
+"PO-Revision-Date: 2005-08-28 22:15+0300\n"
 "Last-Translator: Mugurel Tudor <mugurelu@go.ro>\n"
 "Language-Team: Română <gnomero-list@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -13582,128 +13582,104 @@ msgid ""
 "Adding a meaningful Subject line to your messages will give your recipients "
 "an idea of what your mail is about."
 msgstr ""
+"Adăugând un subiect la mesaj veţi oferi o şansă destinatarilor de a-şi face "
+"o idee despre ce e vorba în mailul dumneavoastră."
 
 #: ../mail/mail.error.xml.h:8
-#, fuzzy
 msgid "Are you sure you want to delete this account and all its proxies?"
-msgstr "Sunteţi sigur că doriţi să ştergeţi acest cont?"
+msgstr "Sunteţi sigur că doriţi să ştergeţi acest cont şi toate proxy-urile sale?"
 
 #: ../mail/mail.error.xml.h:9
 msgid "Are you sure you want to delete this account?"
 msgstr "Sunteţi sigur că doriţi să ştergeţi acest cont?"
 
 #: ../mail/mail.error.xml.h:10
-#, fuzzy
 msgid "Are you sure you want to open {0} messages at once?"
-msgstr "Sunteţi sigur că doriţi să retrimiteţi toate cele %d mesaje?"
+msgstr "Sunteţi sigur că doriţi să deschideţi {0} mesaje concomitent?"
 
 #: ../mail/mail.error.xml.h:11
-#, fuzzy
 msgid ""
 "Are you sure you want to permanently remove all the deleted messages in all "
 "folders?"
-msgstr "Şterg pentru totdeauna mesajele şterse din toate dosarele"
+msgstr ""
+"Sunteţi sigur că doriţi să ştergeţi permanent toate mesajele şterse anterior "
+"din toate dosarele?"
 
 #: ../mail/mail.error.xml.h:12
-#, fuzzy
 msgid ""
 "Are you sure you want to permanently remove all the deleted messages in "
 "folder &quot;{0}&quot;?"
 msgstr ""
-"Sunteţi sigur că doriţi să deschideţitoate cele %d mesaje în ferestre "
-"separate?"
+"Sunteţi sigur că doriţi să ştergeţi permanent toate mesajele şterse anterior "
+"din dosarul „{0}”?"
 
 #: ../mail/mail.error.xml.h:13
-#, fuzzy
 msgid "Are you sure you want to send a message in HTML format?"
-msgstr "Sunteţi sigur că doriţi să retrimiteţi toate cele %d mesaje?"
+msgstr "Sunteţi sigur că doriţi să trimiteţi un mesaj în format HTML?"
 
 #: ../mail/mail.error.xml.h:14
-#, fuzzy
 msgid "Are you sure you want to send a message with only BCC recipients?"
-msgstr "Sunteţi sigur că doriţi să retrimiteţi toate cele %d mesaje?"
+msgstr "Sunteţi sigur că doriţi să trimiteţi un mesaj cu destinatari doar în câmpul BCC?"
 
 #: ../mail/mail.error.xml.h:15
-#, fuzzy
 msgid "Are you sure you want to send a message without a subject?"
-msgstr "Sunteţi sigur că doriţi să retrimiteţi toate cele %d mesaje?"
+msgstr "Sunteţi sigur că doriţi să trimiteţi un mesaj fără subiect?"
 
 #: ../mail/mail.error.xml.h:16
 msgid "Because &quot;{0}&quot;."
-msgstr ""
+msgstr "Deoarece „{0}”."
 
 #: ../mail/mail.error.xml.h:18
 msgid "Because &quot;{2}&quot;."
-msgstr ""
+msgstr "Deoarece „{2}”."
 
 #: ../mail/mail.error.xml.h:19
-#, fuzzy
 msgid "Cannot add Search Folder &quot;{0}&quot;."
-msgstr ""
-"Nu pot şterge dosarul `%s':\n"
-"%s"
+msgstr "Nu pot adăuga dosarul de căutare „{0}”."
 
 #: ../mail/mail.error.xml.h:20
-#, fuzzy
 msgid "Cannot copy folder &quot;{0}&quot; to &quot;{1}&quot;."
-msgstr "Nu pot lua dosarul: %s: %s"
+msgstr "Nu pot copia dosarul „{0}” în „{1}”."
 
 #: ../mail/mail.error.xml.h:21
-#, fuzzy
 msgid "Cannot create folder &quot;{0}&quot;."
-msgstr "Nu pot lua dosarul: %s: %s"
+msgstr "Nu pot crea dosarul „{0}”."
 
 #: ../mail/mail.error.xml.h:22
-#, fuzzy
 msgid "Cannot create temporary save directory."
-msgstr "Nu pot crea directorul temporar: %s"
+msgstr "Nu pot crea directorul temporar pentru salvare."
 
 #: ../mail/mail.error.xml.h:23
-#, fuzzy
 msgid "Cannot create the save directory, because &quot;{1}&quot;"
-msgstr ""
-"Nu pot crea directorul\n"
-"%s\n"
-"Eroare: %s"
+msgstr "Nu pot crea directorul pentru salvare, deoarece „{1}”"
 
 #: ../mail/mail.error.xml.h:24
-#, fuzzy
 msgid "Cannot delete folder &quot;{0}&quot;."
-msgstr ""
-"Nu pot şterge dosarul `%s':\n"
-"%s"
+msgstr "Nu pot şterge dosarul „{0}”."
 
 #: ../mail/mail.error.xml.h:25
-#, fuzzy
 msgid "Cannot delete system folder &quot;{0}&quot;."
-msgstr "Nu pot lua dosarul: %s: %s"
+msgstr "Nu pot şterge dosarul de sistem „{0}”."
 
 #: ../mail/mail.error.xml.h:26
-#, fuzzy
 msgid "Cannot edit Search Folder &quot;{0}&quot; as it does not exist."
-msgstr "Dosarul `%s' nu există."
+msgstr "Nu pot edita dosarul de căutare „{0}” deoarece nu există."
 
 #: ../mail/mail.error.xml.h:27
-#, fuzzy
 msgid "Cannot move folder &quot;{0}&quot; to &quot;{1}&quot;."
-msgstr ""
-"Nu pot şterge dosarul `%s':\n"
-"%s"
+msgstr "Nu pot muta dosarul „{0}” în „{1}”."
 
 #: ../mail/mail.error.xml.h:28
-#, fuzzy
 msgid "Cannot open source &quot;{1}&quot;"
-msgstr "Nu pot redenumi dosarul: %s"
+msgstr "Nu pot deschide sursa „{1}”"
 
 #: ../mail/mail.error.xml.h:29
-#, fuzzy
 msgid "Cannot open source &quot;{2}&quot;."
-msgstr "Nu pot redenumi dosarul: %s"
+msgstr "Nu pot deschide sursa „{2}”."
 
 #: ../mail/mail.error.xml.h:30
-#, fuzzy
 msgid "Cannot open target &quot;{2}&quot;."
-msgstr "Nu pot deschide mesajul"
+msgstr "Nu pot deschide ţinta „{2}”."
 
 #: ../mail/mail.error.xml.h:31
 msgid ""
@@ -13711,158 +13687,137 @@ msgid ""
 "problem.  You will not be able to use this provider until you can accept its "
 "license."
 msgstr ""
+"Nu pot citi fişierul de licenţă „{0}” datorită unei probleme de instalare.  Nu "
+"veţi putea folosi acest furnizor până când nu acceptaţi licenţa sa."
 
 #: ../mail/mail.error.xml.h:32
-#, fuzzy
 msgid "Cannot rename &quot;{0}&quot; to &quot;{1}&quot;."
-msgstr ""
-"Nu pot şterge dosarul `%s':\n"
-"%s"
+msgstr "Nu pot redenumi „{0}” în „{1}”."
 
 #: ../mail/mail.error.xml.h:33
-#, fuzzy
 msgid "Cannot rename or move system folder &quot;{0}&quot;."
-msgstr "Nu pot lua dosarul: %s: %s"
+msgstr "Nu pot redenumi sau muta dosarul de sistem „{0}”."
 
 #: ../mail/mail.error.xml.h:34
-#, fuzzy
 msgid "Cannot save changes to account."
-msgstr "nu conţine"
+msgstr "Nu pot salva modificările contului."
 
 #: ../mail/mail.error.xml.h:35
-#, fuzzy
 msgid "Cannot save to directory &quot;{0}&quot;."
-msgstr "Nu pot crea directorul %s: %s"
+msgstr "Nu pot salva în directorul „{0}”."
 
 #: ../mail/mail.error.xml.h:36
-#, fuzzy
 msgid "Cannot save to file &quot;{0}&quot;."
-msgstr ""
-"Nu pot lua mesajul: %s\n"
-"  %s"
+msgstr "Nu pot salva în fişierul „{0}”."
 
 #: ../mail/mail.error.xml.h:37
-#, fuzzy
 msgid "Cannot set signature script &quot;{0}&quot;."
-msgstr "Şterge tot în afară de semnătură"
+msgstr "Nu pot seta scriptul pentru semnătură „{0}”."
 
 #: ../mail/mail.error.xml.h:38
 msgid ""
 "Check to make sure your password is spelled correctly.  Remember that many "
 "passwords are case sensitive; your caps lock might be on."
 msgstr ""
+"Verificaţi faptul că parola dumneavoastră este scrisă corect.  Nu uitaţi "
+"faptul că multe parole sunt cu majuscule semnificative, poate aveţi apăsată "
+"tasta caps lock."
 
 #: ../mail/mail.error.xml.h:39
-#, fuzzy
 msgid "Could not save signature file."
-msgstr ""
-"Nu pot deschde fişierul semnătură %s:\n"
-"%s"
+msgstr "Nu am putut salva fişierul cu semnătura."
 
 #: ../mail/mail.error.xml.h:40
-#, fuzzy
 msgid "Delete &quot;{0}&quot;?"
-msgstr "Şterg"
+msgstr "Şterg „{0}”?"
 
 #: ../mail/mail.error.xml.h:41
-#, fuzzy
 msgid "Delete account?"
-msgstr "Chiar ştergeţi acest cont?"
+msgstr "Şterg contul?"
 
 #: ../mail/mail.error.xml.h:42
-#, fuzzy
 msgid "Discard changed?"
-msgstr "Tipăreşte calendar"
+msgstr "Anulează modificările?"
 
 #: ../mail/mail.error.xml.h:43
 msgid "Do you want the operation to be performed in the subfolders?"
-msgstr ""
+msgstr "Doriţi ca operaţia să fie realizată în subdirectoare?"
 
 #: ../mail/mail.error.xml.h:44
-#, fuzzy
 msgid "Do you wish to save your changes?"
 msgstr "Doriţi să salvaţi modificările?"
 
 #: ../mail/mail.error.xml.h:45
-#, fuzzy
 msgid "Don't delete"
-msgstr "Rec_uperează"
+msgstr "Nu şterge"
 
 #: ../mail/mail.error.xml.h:46
-#, fuzzy
 msgid "Enter password."
-msgstr "Introduceţi parola pentru %s"
+msgstr "Introduceţi parola."
 
 #: ../mail/mail.error.xml.h:47
-#, fuzzy
 msgid "Error loading filter definitions."
-msgstr ""
-"Eroare la încarcarea informaţiei de filtrare:\n"
-"%s"
+msgstr "Eroare la încărcarea definiţiilor pentru filtre."
 
 #: ../mail/mail.error.xml.h:48
-#, fuzzy
 msgid "Error while performing operation."
-msgstr ""
-"Eroare în timpul operaţiei:\n"
-"%s"
+msgstr "Eroare în timpul realizării acţiunii."
 
 #: ../mail/mail.error.xml.h:49
-#, fuzzy
 msgid "Error while {0}."
-msgstr ""
-"Eroare în timpul '%s':\n"
-"%s"
+msgstr "Eroare în timpul {0}."
 
 #: ../mail/mail.error.xml.h:50
-#, fuzzy
 msgid "File exists but cannot overwrite it."
-msgstr "Fişierul există, suprascriu?"
+msgstr "Fişierul există dar nu poate fi suprascris."
 
 #: ../mail/mail.error.xml.h:51
-#, fuzzy
 msgid "File exists but is not a regular file."
-msgstr "Fişierul spool `%s' nu există sau nu e un fişier obişnuit."
+msgstr "Fişierul există dar nu este un fişier obişnuit."
 
 #: ../mail/mail.error.xml.h:52
 msgid "If you continue, you will not be able to recover these messages."
-msgstr ""
+msgstr "În cazul în care continuaţi, nu veţi mai putea recupera aceste mesaje."
 
 #: ../mail/mail.error.xml.h:53
 msgid ""
 "If you delete the folder, all of its contents and its subfolders contents "
 "will be deleted permanently."
 msgstr ""
+"Dacă ştergeţi dosarul, tot conţinutul său şi al subdirectoarelor sale vor fi "
+"şterse permanent."
 
 #: ../mail/mail.error.xml.h:54
 msgid ""
 "If you proceed, the account information and\n"
 "all proxy information will be deleted permanently."
 msgstr ""
+"În cazul în care continuaţi, informaţia despre cont şi\n"
+"toate informaţiile despre proxy vor fi şterse permanent."
 
 #: ../mail/mail.error.xml.h:56
 msgid "If you proceed, the account information will be deleted permanently."
-msgstr ""
+msgstr "În cazul în care continuaţi, informaţiile despre cont vor fi şterse permanent."
 
 #: ../mail/mail.error.xml.h:57
 msgid ""
 "If you quit, these messages will not be sent until Evolution is started "
 "again."
 msgstr ""
+"În cazul în care închideţi, aceste mesaje nu vor fi trimise decât după ce "
+"porniţi din nou Evolution."
 
 #: ../mail/mail.error.xml.h:58
 msgid "Ignore"
-msgstr ""
+msgstr "Ignoră"
 
 #: ../mail/mail.error.xml.h:59
-#, fuzzy
 msgid "Invalid authentication"
-msgstr "Autentificare"
+msgstr "Autentificare invalidă"
 
 #: ../mail/mail.error.xml.h:60
-#, fuzzy
 msgid "Mail filters automatically updated."
-msgstr "Actualizare automată"
+msgstr "Filtrele de mail au fost actualizate automat."
 
 #: ../mail/mail.error.xml.h:61
 msgid ""
@@ -13871,40 +13826,42 @@ msgid ""
 "your message anyway. To avoid this, you should add at least one To: or CC: "
 "recipient."
 msgstr ""
+"Multe sisteme adaugă un antent Aparent-Către pentru mesajele care au doar "
+"destinatari în BCC. În cazul în care acest antet este adăugat, el va lista toţi "
+"destinatarii din mesaj. Pentru a evita acest lucru, ar trebui să adăugaţi un destinantar în câmpul Către: sau CC:."
 
 #: ../mail/mail.error.xml.h:62
-#, fuzzy
 msgid "Mark all messages as read"
 msgstr "Marchează toate mesajele ca citite"
 
 #: ../mail/mail.error.xml.h:63
-#, fuzzy
 msgid "Mark all messages as read in the selected folder"
-msgstr "Marchează mesajele ca \"Citit\" după"
+msgstr "Marchează toate mesajele ca citite în dosarul selectat"
 
 #: ../mail/mail.error.xml.h:64
-#, fuzzy
 msgid "Missing folder."
-msgstr "Rezumare dosar"
+msgstr "Dosar lipsă."
 
 #: ../mail/mail.error.xml.h:66
-#, fuzzy
 msgid "No sources selected."
-msgstr "Acest eveniment a fost şters."
+msgstr "Nici o sursă selectată."
 
 #: ../mail/mail.error.xml.h:67
 msgid "Opening too many messages at once may take a long time."
-msgstr ""
+msgstr "Deschiderea a prea multor mesaje în acelaşi timp ar putea dura foarte mult."
 
 #: ../mail/mail.error.xml.h:68
 msgid "Please check your account settings and try again."
-msgstr ""
+msgstr "Vă rugăm verificaţi setările contului şi încercaţi din nou."
 
 #: ../mail/mail.error.xml.h:69
 msgid ""
 "Please enter a valid email address in the To: field. You can search for "
 "email addresses by clicking on the To: button next to the entry box."
 msgstr ""
+"Vă rugăm introduceţi o adresă de email validă în câmpul Către:. Puteţi căuta "
+"adresele de email printr-un clic pe butonul Către: aflat lângă căsuţa de "
+"intrare."
 
 #: ../mail/mail.error.xml.h:70
 msgid ""
@@ -13913,50 +13870,49 @@ msgid ""
 "{0}\n"
 "Send anyway?"
 msgstr ""
+"Vă rugăm verificaţi faptul că următorii destinatari doresc şi pot primi email-uri HTML:\n"
+"{0}\n"
+"Trimiteţi oricum?"
 
 #: ../mail/mail.error.xml.h:73
-#, fuzzy
 msgid "Please wait."
-msgstr "se termină cu"
+msgstr "Vă rugăm aşteptaţi."
 
 #: ../mail/mail.error.xml.h:74
 msgid "Problem migrating old mail folder &quot;{0}&quot;."
-msgstr ""
+msgstr "Probleme la migrarea vechiului dosar de mail „{0}”."
 
 #: ../mail/mail.error.xml.h:75
 msgid "Querying server"
-msgstr ""
+msgstr "Interoghez serverul"
 
 #: ../mail/mail.error.xml.h:76
-#, fuzzy
 msgid "Querying server for a list of supported authentication mechanisms."
-msgstr "Mecanismul de autentificare cerut necesită criptare"
+msgstr "Interoghez serverul pentru o listă de mecanisme de autentificare suportate."
 
 #: ../mail/mail.error.xml.h:77
-#, fuzzy
 msgid "Read receipt requested."
-msgstr "Destinatari"
+msgstr "Confirmare de citire solicitată."
 
 #: ../mail/mail.error.xml.h:78
-#, fuzzy
 msgid "Really delete folder &quot;{0}&quot; and all of its subfolders?"
-msgstr "Şterge dosarul '%s'"
+msgstr "Ştergeţi într-adevăr dosarul „{0}” şi toate subdirectoarele sale?"
 
 #: ../mail/mail.error.xml.h:79
-#, fuzzy
 msgid "Search Folders automatically updated."
-msgstr "Actualizare automată"
+msgstr "Dosarele de căutare actualizate automat."
 
 #: ../mail/mail.error.xml.h:80
-#, fuzzy
 msgid "Send Receipt"
-msgstr "Destinatari"
+msgstr "Trimite confirmare"
 
 #: ../mail/mail.error.xml.h:81
 msgid ""
 "System folders are required for Ximian Evolution to function correctly and "
 "cannot be renamed, moved, or deleted."
 msgstr ""
+"Dosarele de sistem sunt necesare pentru ca Ximian Evolution să poată "
+"funcţiona corect şi nu pot fi redenumite, mutate sau şterse."
 
 #: ../mail/mail.error.xml.h:82
 msgid ""
@@ -13967,6 +13923,11 @@ msgid ""
 "your message. To avoid this, you should add at least one To: or CC: "
 "recipient. "
 msgstr ""
+"Lista de contacte la care trimiteţi este configurată să ascundă lista destinatarilor.\n"
+"Multe sisteme de mail adaugă un antet Aparent-către pentru mesajele "
+"care au doar destinatari în BCC. În cazul în care acest antet este adăugat, "
+"el va lista toţi destinatarii acestui mesaj. Pentru a evita acest lucru, ar "
+"trebui să adaugaţi un destinatar în câmpul Către: sau CC:. "
 
 #: ../mail/mail.error.xml.h:85
 msgid ""
@@ -13976,6 +13937,11 @@ msgid ""
 "    &quot;{1}&quot;\n"
 "And have been updated."
 msgstr ""
+"Următoarele dosar(e) de căutare:\n"
+"{0}\n"
+"Foloseau dosarul şters:\n"
+"    „{1}”\n"
+"Şi au fost actualizate."
 
 #: ../mail/mail.error.xml.h:90
 msgid ""
@@ -13985,6 +13951,11 @@ msgid ""
 "    &quot;{1}&quot;\n"
 "And have been updated."
 msgstr ""
+"Următoarele reguli de filtrare:\n"
+"{0}\n"
+"Foloseau dosarul şters:\n"
+"    „{1}”\n"
+"Şi au fost actualizate."
 
 #: ../mail/mail.error.xml.h:95
 msgid ""
@@ -13993,63 +13964,60 @@ msgid ""
 "The message is stored in the Outbox folder.  Check the message for errors "
 "and resend."
 msgstr ""
+"Acest mesaj a fost trimis prin aplicaţia externă „sendmail”.  "
+"Sendmail a raportat următoarea eroare: status 67: mailul nu a fost trimis.\n"
+"Mesajul este stocat în dosarul Netrimise.  Verificaţi mesajul pentru erori "
+"şi încercaţi să-l retrimiteţi."
 
 #: ../mail/mail.error.xml.h:97
 msgid "The script file must exist and be executable."
-msgstr ""
+msgstr "Fişierul script trebuie să existe şi să fie executabil."
 
 #: ../mail/mail.error.xml.h:98
 msgid ""
 "This folder may have been added implicitly,\n"
 "go to the Search Folder editor to add it explicitly, if required."
 msgstr ""
+"Acest dosar ar fi putut fi adăugat implicit,\n"
+"mergeţi la editorul Căutare dosar şi adăugaţi-l explicit, dacă e nevoie."
 
 #: ../mail/mail.error.xml.h:100
 msgid "This message cannot be sent because you have not specified any Recipients"
-msgstr ""
+msgstr "Acest mesaj nu poate fi trimis deoarece nu aţi specificat nici un Destinatar"
 
 #: ../mail/mail.error.xml.h:101
-#, fuzzy
 msgid ""
 "This server does not support this type of authentication and may not support "
 "authentication at all."
-msgstr "Serverul SMTP %s nu suportă tipul cerut de autentificare %s"
+msgstr ""
+"Acest server nu suportă acest tip de autentificare şi s-ar putea să nu suporte "
+"nici un fel de autentificare."
 
 #: ../mail/mail.error.xml.h:102
-#, fuzzy
 msgid "This signature has been changed, but has not been saved."
-msgstr ""
-"Această semnătură a fost modificată, dar n-a fost salvată.\n"
-"Doriţi să salvaţi modificările?"
+msgstr "Această semnătură a fost modificată, dar n-a fost salvată."
 
 #: ../mail/mail.error.xml.h:103
-#, fuzzy
 msgid "Unable to connect to the GroupWise server."
-msgstr "Nu mă pot conecta la serverul LDAP."
+msgstr "Nu mă pot conecta la serverul GroupWise."
 
 #: ../mail/mail.error.xml.h:104
-#, fuzzy
 msgid ""
 "Unable to open the drafts folder for this account.  Use the system drafts "
 "folder instead?"
-msgstr ""
-"Nu pot deschide dosarul cu ciorne pentru acest cont.\n"
-"Doriţi să folosiţi dosarul cu ciorne implicit?"
+msgstr "Nu pot deschide dosarul cu ciorne pentru acest cont.  Doriţi să folosiţi dosarul sistem implicit pentru ciorne?"
 
 #: ../mail/mail.error.xml.h:105
-#, fuzzy
 msgid "Unable to read license file."
-msgstr "Nu pot lua dosarul: %s: %s"
+msgstr "Nu pot citi fişierul de licenţă."
 
 #: ../mail/mail.error.xml.h:106
-#, fuzzy
 msgid "Use _Default"
-msgstr "Implicit"
+msgstr "Foloseşte _implicit"
 
 #: ../mail/mail.error.xml.h:107
-#, fuzzy
 msgid "Use default drafts folder?"
-msgstr "Deschid dosarul %s"
+msgstr "Foloseşte dosarul implicit de ciorne?"
 
 #: ../mail/mail.error.xml.h:108
 msgid "You have not filled in all of the required information."
@@ -14057,22 +14025,19 @@ msgstr "Nu aţi completat toată informaţia cerută."
 
 #: ../mail/mail.error.xml.h:109
 msgid "You have unsent messages, do you wish to quit anyway?"
-msgstr ""
+msgstr "Aveţi mesaje netrimise, doriţi să ieşiţi oricum?"
 
 #: ../mail/mail.error.xml.h:110
-#, fuzzy
 msgid "You may not create two accounts with the same name."
-msgstr "Nu pot crea dosarul blocat la %s: %s"
+msgstr "Nu puteţi crea două conturi cu acelaşi nume."
 
 #: ../mail/mail.error.xml.h:111
-#, fuzzy
 msgid "You must name this Search Folder."
-msgstr "Schimbă numele acestui dosar"
+msgstr "Trebuie să atribuiţi un nume acestui dosar de căutare."
 
 #: ../mail/mail.error.xml.h:112
-#, fuzzy
 msgid "You must specify a folder."
-msgstr "Nume stil:"
+msgstr "Trebuie să specificaţi un dosar."
 
 #: ../mail/mail.error.xml.h:113
 msgid ""
@@ -14080,39 +14045,37 @@ msgid ""
 "Either by selecting the folders individually, and/or by selecting all local "
 "folders, all remote folders, or both."
 msgstr ""
+"Trebuie să specificaţi cel putin un dosar ca sursă.\n"
+"Fie prin selectarea individuală a dosarelor, sau/şi prin selectarea tuturor "
+"dosarelor locale, toate dosarele la distanţă, sau amândouă."
 
 #: ../mail/mail.error.xml.h:115
 msgid "Your login to your server &quot;{0}&quot; as &quot;{0}&quot; failed."
-msgstr ""
+msgstr "Logarea dumneavoastră la serverul „{0}” ca „{1}” a eşuat."
 
 #: ../mail/mail.error.xml.h:116
 msgid "Your message with the subject &quot;{0}&quot; was not delivered."
-msgstr ""
+msgstr "Mesajul dumneavoastră cu subiectul „{0}” nu a fost trimis."
 
 #: ../mail/mail.error.xml.h:117
-#, fuzzy
 msgid "_Append"
-msgstr "Deschide"
+msgstr "_Adaugă"
 
 #: ../mail/mail.error.xml.h:118
-#, fuzzy
 msgid "_Discard changes"
-msgstr "Tipăreşte calendar"
+msgstr "A_nulează modificările"
 
 #: ../mail/mail.error.xml.h:119
-#, fuzzy
 msgid "_Empty Trash"
-msgstr "Goleş_te gunoiul"
+msgstr "Gol_eşte gunoiul"
 
 #: ../mail/mail.error.xml.h:120
-#, fuzzy
 msgid "_Expunge"
-msgstr "Distrug_e"
+msgstr "Ş_terge fizic"
 
 #: ../mail/mail.error.xml.h:121
-#, fuzzy
 msgid "_Open Messages"
-msgstr "Deschide mesajul"
+msgstr "_Deschide mesajele"
 
 #: ../mail/message-list.c:996
 msgid "Unseen"
@@ -14178,23 +14141,20 @@ msgid "%b %d %Y"
 msgstr "%b %d %Y"
 
 #: ../mail/message-list.c:2042
-#, fuzzy
 msgid "Message List"
-msgstr "Mesaje"
+msgstr "Lista de mesaje"
 
 #: ../mail/message-list.c:3387
-#, fuzzy
 msgid "Generating message list"
-msgstr "Salvez mesajele"
+msgstr "Generez lista de mesaje"
 
 #: ../mail/message-list.etspec.h:3
 msgid "Due By"
-msgstr ""
+msgstr "Data scadentă"
 
 #: ../mail/message-list.etspec.h:4
-#, fuzzy
 msgid "Flag Status"
-msgstr "Stare"
+msgstr "Status fanion"
 
 #: ../mail/message-list.etspec.h:5
 msgid "Flagged"
@@ -14202,12 +14162,11 @@ msgstr "Marcat"
 
 #: ../mail/message-list.etspec.h:6
 msgid "Follow Up Flag"
-msgstr ""
+msgstr "Fanion urmează"
 
 #: ../mail/message-list.etspec.h:8
-#, fuzzy
 msgid "Original Location"
-msgstr "Contact original:"
+msgstr "Locaţia originală"
 
 #: ../mail/message-list.etspec.h:9
 msgid "Received"
@@ -14218,23 +14177,20 @@ msgid "Size"
 msgstr "Mărime"
 
 #: ../mail/message-tag-followup.c:74
-#, fuzzy
 msgid "Call"
-msgstr "Rechemare"
+msgstr "Sună"
 
 #: ../mail/message-tag-followup.c:75
-#, fuzzy
 msgid "Do Not Forward"
-msgstr "Mergi înainte în timp"
+msgstr "Nu înainta"
 
 #: ../mail/message-tag-followup.c:76
 msgid "Follow-Up"
-msgstr ""
+msgstr "Urmează"
 
 #: ../mail/message-tag-followup.c:77
-#, fuzzy
 msgid "For Your Information"
-msgstr "Informaţie sursă"
+msgstr "Pentru informare"
 
 #: ../mail/message-tag-followup.c:78 ../ui/evolution-mail-message.xml.h:41
 msgid "Forward"
@@ -14242,7 +14198,7 @@ msgstr "Înaintează"
 
 #: ../mail/message-tag-followup.c:79
 msgid "No Response Necessary"
-msgstr ""
+msgstr "Nici un răspuns necesar"
 
 #: ../mail/message-tag-followup.c:81 ../ui/evolution-mail-message.xml.h:81
 msgid "Reply"
@@ -14253,128 +14209,113 @@ msgid "Reply to All"
 msgstr "Răspunde la toţi"
 
 #: ../mail/message-tag-followup.c:83
-#, fuzzy
 msgid "Review"
-msgstr "Previzualizare"
+msgstr "Examinare"
 
 #: ../mail/searchtypes.xml.h:1
-#, fuzzy
 msgid "Body contains"
-msgstr "conţine"
+msgstr "Corpul conţine"
 
 #: ../mail/searchtypes.xml.h:2
-#, fuzzy
 msgid "Message contains"
-msgstr "Numele conţine"
+msgstr "Mesajul conţine"
 
 #: ../mail/searchtypes.xml.h:3
-#, fuzzy
 msgid "Recipients contain"
-msgstr "Descrierea conţine"
+msgstr "Destinatarii conţin"
 
 #: ../mail/searchtypes.xml.h:4
-#, fuzzy
 msgid "Sender contains"
-msgstr "Numele conţine"
+msgstr "Expeditorul conţine"
 
 #: ../mail/searchtypes.xml.h:5
-#, fuzzy
 msgid "Subject contains"
-msgstr "Numele conţine"
+msgstr "Subiectul conţine"
 
 #: ../mail/searchtypes.xml.h:6
-#, fuzzy
 msgid "Subject or Sender contains"
-msgstr "Numele conţine"
+msgstr "Subiectul sau destinatarul conţine"
 
 #: ../plugins/audio-inline/org-gnome-audio-inline.eplug.xml.h:1
 msgid ""
 "A formatter plugin which displays audio attachments inline and allows you to "
 "play them directly from evolution."
 msgstr ""
+"Un modul de formatare ce afişează ataşamentele audio incluse şi vă permite "
+"redarea sa direct din evolution."
 
 #: ../plugins/audio-inline/org-gnome-audio-inline.eplug.xml.h:2
 msgid "Audio inline plugin"
-msgstr ""
+msgstr "Modul audio inclus"
 
 #: ../plugins/backup-restore/backup-restore.c:51
 msgid "Select name of Evolution archive"
-msgstr ""
+msgstr "Selectaţi numele pentru arhiva Evolution"
 
 #: ../plugins/backup-restore/backup-restore.c:61
 msgid "_Restart Evolution after backup"
-msgstr ""
+msgstr "_Restartaţi Evolution după backup"
 
 #: ../plugins/backup-restore/backup-restore.c:89
 msgid "Select Evolution archive to restore"
-msgstr ""
+msgstr "Selectaţi arhiva Evolution pentru restaurare"
 
 #: ../plugins/backup-restore/backup-restore.c:97
 msgid "_Restart Evolution after restore"
-msgstr ""
+msgstr "_Restartaţi Evolution după restaurare"
 
 #: ../plugins/backup-restore/backup.c:109
-#, fuzzy
 msgid "Backup Evolution directory"
-msgstr "Evolution"
+msgstr "Backup pentru directorul Evolution"
 
 #: ../plugins/backup-restore/backup.c:111
-#, fuzzy
 msgid "Restore Evolution directory"
-msgstr "Evolution"
+msgstr "Restauraţi directorul Evolution"
 
 #: ../plugins/backup-restore/backup.c:113
-#, fuzzy
 msgid "Check Evolution archive"
-msgstr "Suita de programe Evolution"
+msgstr "Verificaţi arhiva Evolution"
 
 #: ../plugins/backup-restore/backup.c:115
-#, fuzzy
 msgid "Restart Evolution"
-msgstr "Tipăreşte Evolution"
+msgstr "Restartaţi Evolution"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.eplug.xml.h:1
 msgid "A plugin for backing up and restore Evolution data and settings."
-msgstr ""
+msgstr "Un modul pentru backup-ul şi restaurarea datelor şi setărilor Evolution."
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.eplug.xml.h:2
 msgid "Backup and restore plugin"
-msgstr ""
+msgstr "Modul pentru backup şi restaurare"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.xml.h:1
-#, fuzzy
 msgid "Backup Settings..."
-msgstr "Setări _mail..."
+msgstr "Setări backup..."
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.xml.h:2
-#, fuzzy
 msgid "Backup and restore Evolution data and settings"
-msgstr "Setări Evolution..."
+msgstr "Realizare de backup şi restaurare pentru datele şi setările Evolution"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.xml.h:3
-#, fuzzy
 msgid "Restore Settings..."
-msgstr "Setări pilot..."
+msgstr "Restaurare setări..."
 
 #: ../plugins/bbdb/bbdb.c:404
-#, fuzzy
 msgid "Automatic Contacts"
-msgstr "Contacte importante"
+msgstr "Contacte automate"
 
 #: ../plugins/bbdb/bbdb.c:413
-#, fuzzy
 msgid "<span weight=\"bold\">Automatic Contacts</span>"
-msgstr "<span weight=\"bold\">Autentificare</span>"
+msgstr "<span weight=\"bold\">Contacte automate</span>"
 
 #. Enable BBDB checkbox
 #: ../plugins/bbdb/bbdb.c:426
 msgid "_Automatically create entries in the addressbook when responding to mail"
-msgstr ""
+msgstr "Creează _automat intrări în agendă în momentul în care se răspunde la mail"
 
 #: ../plugins/bbdb/bbdb.c:444
-#, fuzzy
 msgid "<span weight=\"bold\">Instant Messaging Contacts</span>"
-msgstr "<span weight=\"bold\">Fonturi pentru mail</span>"
+msgstr "<span weight=\"bold\">Contacte mesagerie instantă</span>"
 
 #. Enable Gaim Checkbox
 #: ../plugins/bbdb/bbdb.c:457
@@ -14382,279 +14323,257 @@ msgid ""
 "Periodically synchronize contact information and images from my _instant "
 "messenger"
 msgstr ""
+"Sincronizează periodic informaţiile de contact şi imaginile din clientul "
+"de mesagerie _instantă"
 
 #. Synchronize now button.
 #: ../plugins/bbdb/bbdb.c:464
 msgid "Synchronize with _buddy list now"
-msgstr ""
+msgstr "Sincronizează cu lista de _contacte acum"
 
 #: ../plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:1
-#, fuzzy
 msgid "Automatic contacts"
-msgstr "Nici un contact"
+msgstr "Contacte automate"
 
 #: ../plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:2
 msgid ""
 "Automatically fills your addressbook with names and email addresses as you "
 "reply to mails. Also fills in IM contact information from your buddy lists."
 msgstr ""
+"Completează automat agenda cu nume şi adrese de mail pe măsură ce "
+"răspundeţi la mailuri. De asemenea completează informaţiile de contact IM "
+"din lista de contacte."
 
 #: ../plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:3
 msgid "BBDB"
-msgstr ""
+msgstr "BBDB"
 
 #: ../plugins/calendar-file/org-gnome-calendar-file.eplug.xml.h:1
-#, fuzzy
 msgid "Local Calendars"
-msgstr "Încarc calendar"
+msgstr "Calendare locale"
 
 #: ../plugins/calendar-file/org-gnome-calendar-file.eplug.xml.h:2
 msgid "Provides core functionality for local calendars."
-msgstr ""
+msgstr "Asigură funţionalitatea de bază pentru calendarele locale."
 
 #: ../plugins/calendar-http/org-gnome-calendar-http.eplug.xml.h:1
-#, fuzzy
 msgid "HTTP Calendars"
-msgstr "Calendare"
+msgstr "Calendare HTTP"
 
 #: ../plugins/calendar-http/org-gnome-calendar-http.eplug.xml.h:2
 msgid "Provides core functionality for webcal and http calendars."
-msgstr ""
+msgstr "Asigură funcţionalitatea de bază pentru calendare http şi webcal."
 
 #: ../plugins/calendar-weather/calendar-weather.c:54
 #: ../plugins/calendar-weather/calendar-weather.c:60
 msgid "Weather: Cloudy"
-msgstr ""
+msgstr "Vremea: noroasă"
 
 #: ../plugins/calendar-weather/calendar-weather.c:61
 msgid "Weather: Fog"
-msgstr ""
+msgstr "Vremea: ceaţă"
 
 #: ../plugins/calendar-weather/calendar-weather.c:62
 msgid "Weather: Partly Cloudy"
-msgstr ""
+msgstr "Vremea: parţial noroasă"
 
 #: ../plugins/calendar-weather/calendar-weather.c:63
 msgid "Weather: Rain"
-msgstr ""
+msgstr "Vremea: ploaie"
 
 #: ../plugins/calendar-weather/calendar-weather.c:64
 msgid "Weather: Snow"
-msgstr ""
+msgstr "Vremea: ninsoare"
 
 #: ../plugins/calendar-weather/calendar-weather.c:65
 msgid "Weather: Sunny"
-msgstr ""
+msgstr "Vremea: însorită"
 
 #: ../plugins/calendar-weather/calendar-weather.c:66
 msgid "Weather: Thunderstorms"
-msgstr ""
+msgstr "Vremea: furtuni"
 
 #: ../plugins/calendar-weather/calendar-weather.c:267
-#, fuzzy
 msgid "Select a location"
-msgstr "Selectez o acţiune"
+msgstr "Selectaţi o locaţie"
 
 #: ../plugins/calendar-weather/calendar-weather.c:654
-#, fuzzy
 msgid "_Units:"
-msgstr "Unitate"
+msgstr "_Unităţi:"
 
 #: ../plugins/calendar-weather/calendar-weather.c:661
 msgid "Metric (Celsius, cm, etc)"
-msgstr ""
+msgstr "Metric (Celsius, cm, etc)"
 
 #: ../plugins/calendar-weather/calendar-weather.c:662
 msgid "Imperial (Fahrenheit, inches, etc)"
-msgstr ""
+msgstr "Imperial (Fahrenheit, inches, etc)"
 
 #: ../plugins/calendar-weather/org-gnome-calendar-weather.eplug.xml.h:1
 msgid "Provides core functionality for weather calendars."
-msgstr ""
+msgstr "Asigură funcţionalitatea de bază pentru calendarele meteo"
 
 #: ../plugins/calendar-weather/org-gnome-calendar-weather.eplug.xml.h:2
-#, fuzzy
 msgid "Weather Calendars"
-msgstr "Calendare"
+msgstr "Calendare meteo"
 
 #: ../plugins/copy-tool/org-gnome-copy-tool.eplug.xml.h:1
 msgid ""
 "A test plugin which demonstrates a popup menu plugin which lets you copy "
 "things to the clipboard."
 msgstr ""
+"Un modul de test ce demonstrează un modul de meniu popup ce vă "
+"permite să copiaţi informaţii în clipboard."
 
 #: ../plugins/copy-tool/org-gnome-copy-tool.eplug.xml.h:2
-#, fuzzy
 msgid "Copy _Email Address"
-msgstr "Adresa email:"
+msgstr "Copiază adresa de _email"
 
 #: ../plugins/copy-tool/org-gnome-copy-tool.eplug.xml.h:3
-#, fuzzy
 msgid "Copy tool"
-msgstr "Copiază în dosar"
+msgstr "Unealtă de copiere"
 
 #: ../plugins/default-mailer/apps-evolution-mail-prompts-checkdefault.schemas.in.in.h:1
 msgid "Check whether Evolution is the default mailer"
-msgstr ""
+msgstr "Verifică faptul că Evolution este clientul implicit pentru mail"
 
 #: ../plugins/default-mailer/apps-evolution-mail-prompts-checkdefault.schemas.in.in.h:2
 msgid "Every time Evolution starts, check whether or not it is the default mailer."
-msgstr ""
+msgstr "La fiecare pornire a Evolution, verifică dacă este sau nu clientul implicit pentru mail."
 
 #: ../plugins/default-mailer/org-gnome-default-mailer.eplug.xml.h:1
 msgid "Checks whether Evolution is the default mail client on startup."
-msgstr ""
+msgstr "Verifică la pornire dacă Evolution este clientul implicit pentru mail."
 
 #: ../plugins/default-mailer/org-gnome-default-mailer.eplug.xml.h:2
-#, fuzzy
 msgid "Default Mail Client "
-msgstr "Stilul implicit pentru \"Înaintează\" este: "
+msgstr "Client implicit pentru mail"
 
 #: ../plugins/default-mailer/org-gnome-default-mailer.error.xml.h:1
 msgid "Do you want to make Evolution your default e-mail client?"
-msgstr ""
+msgstr "Doriţi să faceţi Evolution clientul implicit pentru email?"
 
 #: ../plugins/default-source/default-source.c:82
 #: ../plugins/default-source/default-source.c:109
-#, fuzzy
 msgid "Mark as default folder"
-msgstr "Deschid dosarul %s"
+msgstr "Marchează ca dosar implicit"
 
 #: ../plugins/exchange-operations/e-foreign-folder-dialog.glade.h:1
-#, fuzzy
 msgid "Open Other User's Folder"
-msgstr "Dosar mesaje trimise:"
+msgstr "Deschide dosarul altor utilizatori"
 
 #: ../plugins/exchange-operations/e-foreign-folder-dialog.glade.h:2
-#, fuzzy
 msgid "_Account:"
-msgstr "Nume _cont:"
+msgstr "_Cont:"
 
 #: ../plugins/exchange-operations/e-foreign-folder-dialog.glade.h:3
-#, fuzzy
 msgid "_Folder Name:"
-msgstr "Nume dosar:"
+msgstr "Nume _dosar:"
 
 #: ../plugins/exchange-operations/e-foreign-folder-dialog.glade.h:4
-#, fuzzy
 msgid "_User:"
-msgstr "Nume _utilizator:"
+msgstr "_Utilizator:"
 
 #. i18n: "Secure Password Authentication" is an Outlookism
 #: ../plugins/exchange-operations/exchange-account-setup.c:63
-#, fuzzy
 msgid "Secure Password"
-msgstr "Introduceţi parola pentru %s"
+msgstr "Parolă securizată"
 
 #. i18n: "NTLM" probably doesn't translate
 #: ../plugins/exchange-operations/exchange-account-setup.c:66
-#, fuzzy
 msgid ""
 "This option will connect to the Exchange server using secure password (NTLM) "
 "authentication."
-msgstr "Acestă opţiune vă va conecta la server folosind autentificare Kerberos 4"
+msgstr ""
+"Acestă opţiune vă va conecta la serverul Exchange folosind autentificarea "
+"cu parolă securizată (NTLM)."
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:74
-#, fuzzy
 msgid "Plaintext Password"
-msgstr "Introduceţi parola pentru %s"
+msgstr "Parolă în clar"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:76
-#, fuzzy
 msgid ""
 "This option will connect to the Exchange server using standard plaintext "
 "password authentication."
-msgstr "Această opţiune vă va conecta la serverul IMAP folosind o parolă în clar "
+msgstr ""
+"Această opţiune vă va conecta la serverul Exchange folosind autentificarea "
+"standard cu parola în clar."
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:251
-#, fuzzy
 msgid "Out Of Office"
-msgstr "Afară din oficiu"
+msgstr "Absenţă din birou"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:258
-#, fuzzy
 msgid ""
 "The message specified below will be automatically sent to \n"
 "each person who sends mail to you while you are out of the office."
 msgstr ""
-"<small>Mesajul specificat mai jos va fi trimis automat la fiecare persoană "
-"ce încearcă\n"
-"să vă trimită un mesaj în timp ce nu sunteţi la birou.</small>"
+"Mesajul specificat mai jos va fi trimis automat la fiecare persoană \n"
+"ce încearcă să vă trimită un mesaj în timp ce nu sunteţi la birou."
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:270
 #: ../plugins/exchange-operations/exchange-account-setup.c:275
-#, fuzzy
 msgid "I am out of the office"
 msgstr "În acest moment nu sunt la birou"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:271
 #: ../plugins/exchange-operations/exchange-account-setup.c:274
-#, fuzzy
 msgid "I am in the office"
 msgstr "În acest moment sunt la birou"
 
 #. Change Password
 #: ../plugins/exchange-operations/exchange-account-setup.c:321
-#, fuzzy
 msgid "Change the password for Exchange account"
-msgstr "Introduceţi parola pentru %s"
+msgstr "Schimbaţi parola pentru contul Exchange"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:323
 #: ../plugins/exchange-operations/exchange-change-password.glade.h:2
-#, fuzzy
 msgid "Change Password"
-msgstr "Introduceţi parola pentru %s"
+msgstr "Schimbă parola"
 
 #. Delegation Assistant
 #: ../plugins/exchange-operations/exchange-account-setup.c:327
 msgid "Manage the delegate settings for Exchange account"
-msgstr ""
+msgstr "Gestionează setările delegate pentru contul Exchange"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:329
-#, fuzzy
 msgid "Delegation Assitant"
-msgstr "Utilitate de import Evolution"
+msgstr "Asistent pentru delegare"
 
 #. Miscelleneous settings
 #: ../plugins/exchange-operations/exchange-account-setup.c:339
-#, fuzzy
 msgid "Miscelleneous"
-msgstr "<b>Diverse</b>"
+msgstr "Diverse"
 
 #. Folder Size
 #: ../plugins/exchange-operations/exchange-account-setup.c:349
-#, fuzzy
 msgid "View the size of all Exchange folders"
-msgstr "cu toate dosarele locale"
+msgstr "Afişează mărimea pentru toate dosarele Exchange"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:351
-#, fuzzy
 msgid "Folders Size"
-msgstr "Dosare"
+msgstr "Mărime dosare"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:358
-#, fuzzy
 msgid "Exchange Settings"
-msgstr "Setări"
+msgstr "Setări Exchange"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:601
 msgid "_OWA Url:"
-msgstr ""
+msgstr "Url _OWA:"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:626
-#, fuzzy
 msgid "A_uthenticate"
-msgstr "Autentificarea a eşuat"
+msgstr "A_utentificare"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:814
-#, fuzzy
 msgid "Authentication Type"
-msgstr "Autentificarea a eşuat"
+msgstr "Tip autentificare"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:828
-#, fuzzy
 msgid "Ch_eck for Supported Types"
-msgstr "Verific tipurile suportate"
+msgstr "V_erifică tipurile suportate"
 
 #. User entered a wrong existing
 #. * password. Prompt him again.
@@ -14664,313 +14583,276 @@ msgid ""
 "The current password does not match the existing password for your account. "
 "Please enter the correct password"
 msgstr ""
+"Parola curentă nu se potriveşte cu parola existentă pentru contul dumneavoastră. "
+"Vă rugăm introduceţi parola corectă"
 
 #: ../plugins/exchange-operations/exchange-change-password.c:122
 msgid "The two passwords do not match. Please re-enter the passwords."
-msgstr ""
+msgstr "Cele două parole nu se potrivesc. Vă rugăm reintroduceţi parolele."
 
 #: ../plugins/exchange-operations/exchange-change-password.glade.h:3
-#, fuzzy
 msgid "Confirm Password:"
-msgstr "Introduceţi parola pentru %s"
+msgstr "Confirmă parola:"
 
 #: ../plugins/exchange-operations/exchange-change-password.glade.h:4
-#, fuzzy
 msgid "Current Password:"
-msgstr "Introduceţi parola pentru %s"
+msgstr "Parola curentă:"
 
 #: ../plugins/exchange-operations/exchange-change-password.glade.h:5
-#, fuzzy
 msgid "New Password:"
-msgstr "_Parola:"
+msgstr "Noua parolă:"
 
 #: ../plugins/exchange-operations/exchange-change-password.glade.h:6
 msgid "Your current password has expired. Please change your password now."
 msgstr ""
+"Parola dumneavoastră curentă a expirat. Vă rugăm să vă schimbaţi parola "
+"acum."
 
 #: ../plugins/exchange-operations/exchange-delegates-user.c:144
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:576
-#, fuzzy
 msgid "Custom"
-msgstr "Personalizează"
+msgstr "Personalizat"
 
 #: ../plugins/exchange-operations/exchange-delegates-user.c:191
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:188
-#, fuzzy, c-format
+#, c-format
 msgid "Permissions for %s"
-msgstr "Acces interzis"
+msgstr "Permisiuni pentru %s"
 
 #: ../plugins/exchange-operations/exchange-delegates.c:421
-#, fuzzy
 msgid "Delegate To"
-msgstr "Delegat către:"
+msgstr "Delegat către"
 
 #: ../plugins/exchange-operations/exchange-delegates.c:562
 #, c-format
 msgid "Remove the delegate %s?"
-msgstr ""
+msgstr "Ştergeţi delegatul %s?"
 
 #: ../plugins/exchange-operations/exchange-delegates.c:679
-#, fuzzy
 msgid "Could not access Active Directory"
-msgstr ""
-"Nu pot crea directorul %s:\n"
-"%s"
+msgstr "Nu am putut accesa Active Directory"
 
 #: ../plugins/exchange-operations/exchange-delegates.c:694
-#, fuzzy
 msgid "Could not find self in Active Directory"
-msgstr "Nu pot deschide directorul cache: %s"
+msgstr "Nu m-am putut găsi în Active Directory"
 
 #: ../plugins/exchange-operations/exchange-delegates.c:707
-#, fuzzy, c-format
+#, c-format
 msgid "Could not find delegate %s in Active Directory"
-msgstr "Nu pot deschide directorul cache: %s"
+msgstr "Nu am putut găsi delegatul %s în Active Directory"
 
 #: ../plugins/exchange-operations/exchange-delegates.c:719
-#, fuzzy, c-format
+#, c-format
 msgid "Could not remove delegate %s"
-msgstr "Nu pot scrie data: %s"
+msgstr "Nu am putut şterge delegatul %s"
 
 #: ../plugins/exchange-operations/exchange-delegates.c:779
-#, fuzzy
 msgid "Could not update list of delegates."
-msgstr "Nu am putut actualiza obiectul"
+msgstr "Nu am putut actualiza lista delegaţilor."
 
 #: ../plugins/exchange-operations/exchange-delegates.c:797
-#, fuzzy, c-format
+#, c-format
 msgid "Could not add delegate %s"
-msgstr "Nu pot trimite mesajul: %s"
+msgstr "Nu am putut adăuga delegatul %s"
 
 #: ../plugins/exchange-operations/exchange-delegates.c:965
-#, fuzzy
 msgid "Error reading delegates list."
-msgstr "Eroare adăugare listă"
+msgstr "Eroare la citirea listei delegaţilor."
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:1
 msgid "Author (read, create)"
-msgstr ""
+msgstr "Autor (citire, creare)"
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:2
-#, fuzzy
 msgid "C_alendar:"
-msgstr "Calendar:"
+msgstr "C_alendar:"
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:3
-#, fuzzy
 msgid "Co_ntacts:"
-msgstr "Contacte"
+msgstr "Co_ntacte:"
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:4
-#, fuzzy
 msgid "Delegate Permissions"
-msgstr "Şterse"
+msgstr "Delegă permisiuni"
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:5
-#, fuzzy
 msgid "Delegates"
-msgstr "Şterse"
+msgstr "Delegă"
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:6
 msgid "Editor (read, create, edit)"
-msgstr ""
+msgstr "Editor (citire, creare, editare)"
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:8
-#, fuzzy
 msgid "Permissions for"
-msgstr "Acces interzis"
+msgstr "Permisiuni pentru"
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:9
-#, fuzzy
 msgid "Reviewer (read-only)"
-msgstr "Serviciu pregătit"
+msgstr "Examinator (doar pentru citire)"
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:10
 msgid ""
 "These users will be able to send mail on your behalf\n"
 "and access your folders with the permissions you give them."
 msgstr ""
+"Aceşti utilizatori vor putea trimite mail din partea dumneavoastră\n"
+"şi accesa dosarele dumneavoastră cu permisiunile pe care le veţi acordaţi."
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:12
-#, fuzzy
 msgid "_Delegate can see private items"
-msgstr "Crează o sarcină nouă"
+msgstr "_Delegatul poate vedea elementele personale"
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:14
-#, fuzzy
 msgid "_Inbox:"
-msgstr "Inbox"
+msgstr "_Inbox:"
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:15
-#, fuzzy
 msgid "_Tasks:"
-msgstr "_Sarcini"
+msgstr "_Sarcini:"
 
 #: ../plugins/exchange-operations/exchange-folder-permission.c:58
 #: ../plugins/exchange-operations/org-gnome-folder-permissions.xml.h:2
-#, fuzzy
 msgid "Permissions..."
-msgstr "Acces interzis"
+msgstr "Permisiuni..."
 
 #: ../plugins/exchange-operations/exchange-folder-size-display.c:136
-#, fuzzy
 msgid "Folder Name"
-msgstr "Nume dosar:"
+msgstr "Nume dosar"
 
 #: ../plugins/exchange-operations/exchange-folder-size-display.c:140
-#, fuzzy
 msgid "Folder Size"
-msgstr "Dosar"
+msgstr "Mărime dosar"
 
 #: ../plugins/exchange-operations/exchange-folder-tree.glade.h:1
-#, fuzzy
 msgid "Exchange Folder Tree"
-msgstr "Editează filtre"
+msgstr "Arbore de dosare Exchange"
 
 #: ../plugins/exchange-operations/exchange-folder.c:62
 #: ../plugins/exchange-operations/exchange-folder.c:223
 #: ../plugins/exchange-operations/exchange-folder.c:233
-#, fuzzy
 msgid "Unsubscribe Folder..."
-msgstr "Abonare la dosarul \"%s\""
+msgstr "Desubscrie dosar..."
 
 #: ../plugins/exchange-operations/exchange-folder.c:460
 #: ../plugins/exchange-operations/exchange-folder.c:520
-#, fuzzy, c-format
+#, c-format
 msgid "Really unsubscribe from folder \"%s\"?"
-msgstr "Nu pot lua dosarul: %s: %s"
+msgstr "Vă desubscrieţi într-adevăr de la dosarul „%s”?"
 
 #: ../plugins/exchange-operations/exchange-folder.c:472
 #: ../plugins/exchange-operations/exchange-folder.c:532
-#, fuzzy, c-format
+#, c-format
 msgid "Unsubscribe from \"%s\""
-msgstr "Nu pot lua dosarul: %s: %s"
+msgstr "Desubscrie de la „%s”"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:301
-#, fuzzy
 msgid "(Permission denied.)"
-msgstr "Acces interzis"
+msgstr "(Acces interzis.)"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:409
 msgid "Add User:"
-msgstr ""
+msgstr "Adaugă utilizator:"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:409
-#, fuzzy
 msgid "Add User"
-msgstr "_Adaugă URL"
+msgstr "Adaugă utilizator"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:2
-#, fuzzy
 msgid "<b>Permissions</b>"
-msgstr "<b>Opţiuni</b>"
+msgstr "<b>Permisiuni</b>"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:3
-#, fuzzy
 msgid "Cannot Delete"
-msgstr "Introdu delegatul"
+msgstr "Nu pot şterge"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:4
-#, fuzzy
 msgid "Cannot Edit"
-msgstr "Editor de contacte"
+msgstr "Nu pot edita"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:5
-#, fuzzy
 msgid "Create items"
-msgstr "Creez un dosar nou"
+msgstr "Creează elemente"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:6
-#, fuzzy
 msgid "Create subfolders"
-msgstr "Creez un dosar nou"
+msgstr "Creează subdirectoare"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:7
-#, fuzzy
 msgid "Delete Any Items"
-msgstr "Şterse"
+msgstr "Şterge orice element"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:8
-#, fuzzy
 msgid "Delete Own Items"
-msgstr "Şterse"
+msgstr "Şterge elementele proprii"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:9
-#, fuzzy
 msgid "Edit Any Items"
-msgstr "Editează întâlnire"
+msgstr "Editează orice element"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:10
 msgid "Edit Own Items"
-msgstr ""
+msgstr "Editează elementele proprii"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:11
-#, fuzzy
 msgid "Folder contact"
-msgstr "%d contact"
+msgstr "Contact dosar"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:12
-#, fuzzy
 msgid "Folder owner"
-msgstr "Dosar V pe expeditor"
+msgstr "Proprietar dosar"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:13
-#, fuzzy
 msgid "Folder visible"
-msgstr "Dosare"
+msgstr "Vizibil dosar"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:14
-#, fuzzy
 msgid "Read items"
-msgstr "Destinatari"
+msgstr "Elemente citire"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:15
-#, fuzzy
 msgid "Role: "
-msgstr "Rol"
+msgstr "Rol: "
 
 #: ../plugins/exchange-operations/exchange-user-dialog.c:144
-#, fuzzy
 msgid "Select User"
-msgstr "Alege dosar"
+msgstr "Selectează utilizator"
 
 #: ../plugins/exchange-operations/exchange-user-dialog.c:182
-#, fuzzy
 msgid "Addressbook..."
-msgstr "Agendă"
+msgstr "Agendă..."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-ab-subscription.xml.h:1
 msgid "Subscribe to Other User's Contacts"
-msgstr ""
+msgstr "Subscrie la contactele altui utilizator"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-cal-subscription.xml.h:1
 msgid "Subscribe to Other User's Calendar"
-msgstr ""
+msgstr "Subscrie la calendarul altui utilizator"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:1
 msgid "Cannot change password due to configuration problems."
-msgstr ""
+msgstr "Nu pot schimba parola din cauza unor probleme de configurare."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:2
-#, fuzzy
 msgid "Cannot display folders."
-msgstr "Nu pot lua dosarul: %s: %s"
+msgstr "Nu am putut afişa dosarele."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:3
 msgid ""
 "Changes to Exchange account configuration will take place after you quit and "
 "restart Evolution."
 msgstr ""
+"Modificările aduse configuraţiei contului Exchange vor fi aplicate după ce "
+"închideţi şi porniţi din nou Evolution."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:4
-#, fuzzy
 msgid "Could not authenticate to server."
-msgstr "Autentificare nereuşită la serverul KPOP: %s"
+msgstr "Autentificare nereuşită la server."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:5
-#, fuzzy
 msgid "Could not change password."
-msgstr "Nu aţi introdus o parolă."
+msgstr "Parola nu a putut fi schimbată."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:6
 msgid ""
@@ -14978,62 +14860,57 @@ msgid ""
 "an unknown error occurred. Check the URL, \n"
 "username, and password, and try again."
 msgstr ""
+"Nu am putut configura contul Exchange deoarece \n"
+"a intervenit o eroare necunoscută. Verificaţi URL-ul, \n"
+"numele de utilizator şi parola, şi încercaţi din nou."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:9
-#, fuzzy
 msgid "Could not connect to server {0}."
-msgstr "Nu mă pot conecta la serverul POP în %s."
+msgstr "Nu m-am putut conecta la serverul {0}."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:10
-#, fuzzy
 msgid "Could not determine folder permissions for delegates."
-msgstr "Nu am putut obţine schema de informaţie pentru serverul LDAP."
+msgstr "Nu s-au putut determina permisiunile dosarului pentru delegaţi."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:11
 msgid "Could not find Exchange Web Storage System."
-msgstr ""
+msgstr "Nu am putut găsi Sistemul de Stocare Web Exchange."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:12
-#, fuzzy
 msgid "Could not locate server {0}."
-msgstr "Nu pot crea conexiunea: %s"
+msgstr "Nu am putut localiza serverul {0}."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:13
 msgid "Could not make {0} a delegate"
-msgstr ""
+msgstr "Nu am putut face {0} un delegat"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:14
-#, fuzzy
 msgid "Could not read folder permissions"
-msgstr "Nu pot redenumi dosarul: %s"
+msgstr "Nu am putut citi permisiunile dosarului"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:15
-#, fuzzy
 msgid "Could not read folder permissions."
-msgstr "Nu pot redenumi dosarul: %s"
+msgstr "Nu am putut citi permisiunile dosarului."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:16
-#, fuzzy
 msgid "Could not read out-of-office state"
-msgstr "Nu pot crea conexiunea: %s"
+msgstr "Nu am putut citi starea absenţă-din-birou"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:17
-#, fuzzy
 msgid "Could not update folder permissions."
-msgstr "Nu pot redenumi dosarul: %s"
+msgstr "Nu am putut actualiza permisiunile dosarului."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:18
-#, fuzzy
 msgid "Could not update out-of-office state"
-msgstr "Nu am putut actualiza obiectul"
+msgstr "Nu am putut actualiza starea absenţă-din-birou"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:19
 msgid "Exchange Account is offline."
-msgstr ""
+msgstr "Contul Exchange este deconectat."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:20
 msgid "Exchange Connector access error."
-msgstr ""
+msgstr "Eroare de acces Conector Exchange."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:21
 msgid ""
@@ -15051,29 +14928,35 @@ msgid ""
 "html\n"
 "  "
 msgstr ""
+"Conectorul Exchange are nevoie de acces la\n"
+"unele funcţionalităţi ale serverului Exchange\n"
+"ce par a fi dezactivate sau blocate. (Acest lucru\n"
+"este în general fără intenţie.)  Administratorul\n"
+"Exchange trebuie să activeze aceste funcţii\n"
+"pentru a putea folosi Ximian Connector.\n"
+"\n"
+"Pentru informaţii ce pot fi furnizate administratorului\n"
+"Exchange, vă rugăm vizitaţi locaţia de mai jos:\n"
+"\n"
+"http://support.novell.com/cgi-bin/search/searchtid.cgi?/ximian/ximian328."
+"html\n"
+"  "
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:33
-#, fuzzy
 msgid "Failed to update delegates:"
-msgstr ""
-"Autentificare la serverul IMAP eşuată.\n"
-"%s\n"
-"\n"
+msgstr "Eroare la actualizarea delegaţilor:"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:34
-#, fuzzy
 msgid "Folder already exists"
-msgstr "ID-ul card-ului există deja"
+msgstr "Dosarul deja există"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:35
-#, fuzzy
 msgid "Folder does not exist"
-msgstr "Dosarul `%s' nu există."
+msgstr "Dosarul nu există"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:36
-#, fuzzy
 msgid "Folder offline"
-msgstr "Lucrează deconectat"
+msgstr "Dosar deconectat"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:37
 #: ../shell/e-shell.c:1265
@@ -15085,71 +14968,74 @@ msgid ""
 "If OWA is running on a different path, you must specify that in the account "
 "configuration dialog."
 msgstr ""
+"Dacă OWS rulează dintr-o cale diferită, trebuie să specificaţi acest lucru "
+"în dialogul de configurare al contului."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:39
 msgid "Mailbox for {0} is not on this server."
-msgstr ""
+msgstr "Căsuţa de mail pentru {0} nu este pe acest server."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:40
 msgid "Make sure the URL is correct and try again."
-msgstr ""
+msgstr "Asiguraţi-vă că URL-ul este corect şi încercaţi din nou."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:41
 msgid "Make sure the server name is spelled correctly and try again."
-msgstr ""
+msgstr "Asiguraţi-vă ca numele serverului este scris corect şi încercaţi din nou."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:42
 msgid "Make sure the username and password are correct and try again."
 msgstr ""
+"Asiguraţi-vă cu numele de utilizator şi parola sunt corecte şi încercaţi "
+"din nou."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:43
 msgid "No Global Catalog server configured for this account."
-msgstr ""
+msgstr "Nici un server pentru Catalog Global configurat pentru acest cont."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:44
 msgid "No mailbox for user {0} on {1}."
-msgstr ""
+msgstr "Nici o căsuţă de mail pentru utilizatorul {0} pe {1}."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:45
-#, fuzzy
 msgid "No such user {0}"
-msgstr "Nu există dosarul %s"
+msgstr "Nici un asemenea utilizator {0}"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:46
 msgid "Password successfully changed."
-msgstr ""
+msgstr "Parola a fost schimbată cu succes."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:48
-#, fuzzy
 msgid "Please restart Evolution"
-msgstr "Tipăreşte Evolution"
+msgstr "Vă rugăm restartaţi Evolution"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:49
-#, fuzzy
 msgid "Please select a user."
-msgstr "Vă rugăm selectaţi un server."
+msgstr "Vă rugăm selectaţi un utilizator."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:50
 msgid "Server rejected password because it is too weak."
-msgstr ""
+msgstr "Serverul e refuzat parola deoarece este prea slabă."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:51
 msgid "The Exchange account will be disabled when you quit Evolution"
-msgstr ""
+msgstr "Contul Exchange va fi dezactivat după ce inchideţi Evolution"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:52
 msgid "The Exchange account will be removed when you quit Evolution"
-msgstr ""
+msgstr "Acest cont Exchange va fi şters după ce închideţi Evolution"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:53
 msgid "The Exchange server is not compatible with Exchange Connector."
-msgstr ""
+msgstr "Serverul Exchange nu este compatibil cu acest Conector Exchange."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:54
 msgid ""
 "The server is runinng Exchange 5.5. Exchange Connector \n"
 "supports Microsoft Exchange 2000 and 2003 only."
 msgstr ""
+"Serverul rulează Exchange 5.5. Conectorul Exchange suportă\n"
+"doar Microsoft Exchange 2000 şi 2003."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:56
 msgid ""
@@ -15159,203 +15045,190 @@ msgid ""
 "\n"
 "Or you might have just typed your password wrong."
 msgstr ""
+"Acest lucru înseamnă probabil că serverul a cerut ca \n"
+"numele de domeniu Windows să fie specificat ca parte \n"
+"a numelui de utilizator (ex. „DOMENIU\\utilizator”).\n"
+"\n"
+"Sau poate doar aţi scris greşit parola."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:61
 msgid "Try again with a different password."
-msgstr ""
+msgstr "Încercaţi din nou cu o altă parolă."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:62
-#, fuzzy
 msgid "Unable to add user to access control list:"
-msgstr "Nu pot procesa dosarul spool"
+msgstr "Nu am putut adăuga utilizatorul la lista de control de acces."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:63
-#, fuzzy
 msgid "Unable to edit delegates."
-msgstr "Eşec la verificarea certificatului."
+msgstr "Nu am putut edita delegaţii."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:64
-#, fuzzy
 msgid "Unknown error looking up {0}"
-msgstr "Eroare necunoscută"
+msgstr "Eroare necunoscută la căutarea după {0}"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:65
-#, fuzzy
 msgid "Unknown error."
-msgstr "Eroare necunoscută"
+msgstr "Eroare necunoscută."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:66
-#, fuzzy
 msgid "Unknown type"
-msgstr "Necunoscut"
+msgstr "Tip necunoscut"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:67
-#, fuzzy
 msgid "Unsupported operation"
-msgstr "Operaţie anulată de utilizator."
+msgstr "Operaţiune nesuportată"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:68
-#, fuzzy
 msgid "You are nearing your quota available for storing mails on this server."
-msgstr "Pentru citirea şi stocarea mesajelor pe servere IMAP."
+msgstr "Vă apropiaţi de limita de stocare pentru mailuri pe acest server."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:69
 msgid "You cannot make yourself your own delegate"
-msgstr ""
+msgstr "Nu vă puteţi face pe dumneavoastră delegat tot pentru dumneavoastră"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:70
 msgid "You have exceeded your quota for storing mails on this server."
-msgstr ""
+msgstr "Aţi depăşit limita de stocare pentru mailuri pe acest server."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:71
 msgid "You may only configure a single Exchange account."
-msgstr ""
+msgstr "Puteţi configura doar un cont Exchange."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:72
 msgid ""
 "Your current usage is : {0}KB. Try to clear up some space by deleting some "
 "mails."
 msgstr ""
+"Utilizarea curentă este: {0}KB. Încercaţi să eliberaţi ceva spaţiu ştergând "
+"unele mailuri."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:73
 msgid ""
 "Your current usage is : {0}KB. You will not be able to either send or "
 "recieve mails now."
 msgstr ""
+"Utilizarea curentă este: {0}KB. Nu veţi mai putea primi sau trimite mailuri "
+"din acest moment."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:74
 msgid ""
 "Your current usage is : {0}KB. You will not be able to send mails till you "
 "clear up some space by deleting some mails."
 msgstr ""
+"Utilizarea curentă este: {0}KB. Nu veţi mai putea trimite mailuri până "
+"când nu eliberaţi ceva spaţiu ştergând din mailuri."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:75
 msgid "Your password has expired."
-msgstr ""
+msgstr "Parola dumneavoastră a expirat."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:77
 msgid "{0} cannot be added to an access control list"
-msgstr ""
+msgstr "{0} nu poate fi adăugat la o listă de control a accesului"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:78
 msgid "{0} is already a delegate"
-msgstr ""
+msgstr "{0} este deja un delegat"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:79
 msgid "{0} is already in the list"
-msgstr ""
+msgstr "{0} este deja în listă"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-tasks-subscription.xml.h:1
 msgid "Subscribe to Other User's Tasks"
-msgstr ""
+msgstr "Subscrie la sarcinile altui utilizator"
 
 #: ../plugins/exchange-operations/org-gnome-folder-permissions.xml.h:1
-#, fuzzy
 msgid "Check folder permissions"
-msgstr "Verific mailurile noi"
+msgstr "Verifică permisiunile dosarului"
 
 #: ../plugins/exchange-operations/org-gnome-folder-subscription.xml.h:1
 msgid "Subscribe to Other User's Folder"
-msgstr ""
+msgstr "Subscrie la dosarele altui utilizator"
 
 #: ../plugins/folder-unsubscribe/folder-unsubscribe.c:57
-#, fuzzy, c-format
+#, c-format
 msgid "Unsubscribing from folder \"%s\""
-msgstr "Nu pot lua dosarul: %s: %s"
+msgstr "Desubscriere de la dosarul „%s”"
 
 #: ../plugins/folder-unsubscribe/org-gnome-mail-folder-unsubscribe.eplug.xml.h:1
 msgid "Allows unsubscribing of mail folders in the folder tree context menu."
-msgstr ""
+msgstr "Permite desubscrierea de la dosarele de mail din meniul de context al arborelui de dosare."
 
 #: ../plugins/folder-unsubscribe/org-gnome-mail-folder-unsubscribe.eplug.xml.h:2
-#, fuzzy
 msgid "Unsubscribe Folders"
-msgstr "Abonare la dosarul \"%s\""
+msgstr "Desubscrie dosarele"
 
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:414
-#, fuzzy
 msgid "Checklist"
-msgstr "Ceaţă densă"
+msgstr "Listă de verificări"
 
 #: ../plugins/groupwise-account-setup/org-gnome-gw-account-setup.eplug.xml.h:1
-#, fuzzy
 msgid "Groupwise Account Setup"
-msgstr "Nume grup:"
+msgstr "Setări cont Groupwise"
 
 #: ../plugins/groupwise-features/junk-mail-settings.c:77
-#, fuzzy
 msgid "Junk Settings"
-msgstr "Setări"
+msgstr "Setări spam"
 
 #: ../plugins/groupwise-features/junk-mail-settings.c:90
-#, fuzzy
 msgid "<b>Junk Mail Settings</b>"
-msgstr "<b>Opţiuni listă de sarcini</b>"
+msgstr "<b>Setări spam</b>"
 
 #: ../plugins/groupwise-features/junk-mail-settings.c:112
-#, fuzzy
 msgid "Junk Mail Settings..."
-msgstr "Setări _pilot..."
+msgstr "Setări spam..."
 
 #: ../plugins/groupwise-features/junk-settings.glade.h:1
-#, fuzzy
 msgid "<b>Junk List :</b>"
-msgstr "<b>Listă de sarcini</b>"
+msgstr "<b>Listă spam :</b>"
 
 #: ../plugins/groupwise-features/junk-settings.glade.h:2
-#, fuzzy
 msgid "Email:"
-msgstr "Email"
+msgstr "Email:"
 
 #: ../plugins/groupwise-features/junk-settings.glade.h:3
-#, fuzzy
 msgid "Junk Mail Settings"
-msgstr "Setări"
+msgstr "Setări spam"
 
 #: ../plugins/groupwise-features/junk-settings.glade.h:5
 #: ../plugins/mail-account-disable/mail-account-disable.c:46
-#, fuzzy
 msgid "_Disable"
-msgstr "Invalidează"
+msgstr "_Dezactivează"
 
 #: ../plugins/groupwise-features/junk-settings.glade.h:6
-#, fuzzy
 msgid "_Enable"
-msgstr "Validează"
+msgstr "_Activează"
 
 #: ../plugins/groupwise-features/junk-settings.glade.h:7
-#, fuzzy
 msgid "_Junk List"
-msgstr "Iunie"
+msgstr "Listă _spam"
 
 #: ../plugins/groupwise-features/org-gnome-compose-send-options.xml.h:1
 msgid "Add Send Options to groupwise messages"
-msgstr ""
+msgstr "Adaugă Opţiuni Trimitere la mesajele groupwise"
 
 #: ../plugins/groupwise-features/org-gnome-compose-send-options.xml.h:2
 #: ../widgets/misc/e-send-options.glade.h:17
-#, fuzzy
 msgid "Send Options"
-msgstr "Opţiuni"
+msgstr "Opţiuni trimitere"
 
 #: ../plugins/groupwise-features/org-gnome-groupwise-features.eplug.xml.h:1
 msgid "A plugin for the features in Groupwise accounts."
-msgstr ""
+msgstr "Un modul pentru facilităţile din conturile Groupwise."
 
 #: ../plugins/groupwise-features/org-gnome-groupwise-features.eplug.xml.h:2
-#, fuzzy
 msgid "Groupwise Features"
-msgstr "Nume grup:"
+msgstr "Facilităţi Groupwise"
 
 #: ../plugins/groupwise-features/process-meeting.c:49
-#, fuzzy
 msgid "Accept Tentatively"
-msgstr "Tentativă"
+msgstr "Acceptă într-o doară"
 
 #: ../plugins/groupwise-features/properties.glade.h:2
-#, fuzzy
 msgid "<b>Users :</b>"
-msgstr "<b>Alerte</b>"
+msgstr "<b>Utilizatori :</b>"
 
 #: ../plugins/groupwise-features/properties.glade.h:4
 #: ../widgets/table/e-table-click-to-add.c:510
@@ -15364,93 +15237,80 @@ msgstr "Mesaj"
 
 #: ../plugins/groupwise-features/properties.glade.h:6
 msgid "Shared Folder Notification"
-msgstr ""
+msgstr "Notificare pentru dosar subscris"
 
 #: ../plugins/groupwise-features/properties.glade.h:8
 msgid "The participants will receive the following notification.\n"
-msgstr ""
+msgstr "Participanţii vor primi următoarea notificare.\n"
 
 #: ../plugins/groupwise-features/properties.glade.h:11
-#, fuzzy
 msgid "_Contacts..."
-msgstr "Contacte..."
+msgstr "_Contacte..."
 
 #: ../plugins/groupwise-features/properties.glade.h:12
-#, fuzzy
 msgid "_Cutomize notification message"
-msgstr "Nu pot crea conexiunea: %s"
+msgstr "_Personalizează mesajul de notificare"
 
 #: ../plugins/groupwise-features/properties.glade.h:13
-#, fuzzy
 msgid "_Not Shared"
-msgstr "Nepornit"
+msgstr "_Nu este partajat"
 
 #: ../plugins/groupwise-features/properties.glade.h:15
 msgid "_Shared With ..."
-msgstr ""
+msgstr "Pa_rtajat cu ..."
 
 #: ../plugins/groupwise-features/properties.glade.h:16
-#, fuzzy
 msgid "_Sharing"
-msgstr "Umbrire"
+msgstr "_Partajare"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:1
-#, fuzzy
 msgid "<b>Name</b>"
-msgstr "<b>Acasă</b>"
+msgstr "<b>Nume</b>"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:2
 msgid "Access Rights"
-msgstr ""
+msgstr "Drepturi de acces"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:3
-#, fuzzy
 msgid "Add/Edit"
-msgstr "_Editează"
+msgstr "Adaugă/Editează"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:5
-#, fuzzy
 msgid "Con_tacts"
-msgstr "Contacte"
+msgstr "Con_tacte"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:7
 msgid "Modify _folders/options/rules/"
-msgstr ""
+msgstr "Modifică _dosare/opţiuni/reguli/"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:8
 msgid "Read items marked _private"
-msgstr ""
+msgstr "Citeşte elementele marcate ca _personale"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:9
-#, fuzzy
 msgid "Reminder Notes"
-msgstr "Trimite mai târziu"
+msgstr "Notiţe de reamintire"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:10
-#, fuzzy
 msgid "Subscribe to my _alarms"
-msgstr "Abonează"
+msgstr "Subscrie la _alarmele mele"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:11
-#, fuzzy
 msgid "Subscribe to my _notifications"
-msgstr "Abonează"
+msgstr "Subscrie la _notificările mele"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:13
 #: ../ui/evolution-mail-message.xml.h:120
-#, fuzzy
 msgid "_Read"
-msgstr "Citeşte"
+msgstr "_Citeşte"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:14
-#, fuzzy
 msgid "_Write"
-msgstr "Ti_păreşte"
+msgstr "_Scrie"
 
 #: ../plugins/groupwise-features/proxy-listing.glade.h:1
-#, fuzzy
 msgid "Proxy"
-msgstr "Prioritate"
+msgstr "Proxy"
 
 #: ../plugins/groupwise-features/proxy-listing.glade.h:2
 #: ../smime/gui/smime-ui.glade.h:49
@@ -15460,14 +15320,12 @@ msgid "dialog1"
 msgstr "dialog1"
 
 #: ../plugins/groupwise-features/proxy-login-dialog.glade.h:1
-#, fuzzy
 msgid "<b>Account Name</b>"
-msgstr "Management cont"
+msgstr "<b>Nume cont</b>"
 
 #: ../plugins/groupwise-features/proxy-login-dialog.glade.h:2
-#, fuzzy
 msgid "Proxy Login"
-msgstr "Logare NT"
+msgstr "Logare proxy"
 
 #: ../plugins/groupwise-features/proxy-login.c:219
 #: ../plugins/groupwise-features/proxy-login.c:261
@@ -15478,119 +15336,105 @@ msgid "%sEnter password for %s (user %s)"
 msgstr "%sIntroduceţi parola pentru %s (utilizatorul %s)"
 
 #: ../plugins/groupwise-features/proxy-login.c:484
-#, fuzzy
 msgid "_Proxy Login..."
-msgstr "_Tipăreşte..."
+msgstr "Logare _proxy..."
 
 #: ../plugins/groupwise-features/proxy.c:672
 msgid "The Proxy tab will be available only when the account is enabled."
-msgstr ""
+msgstr "Tabul de proxy va fi disponibil doar după ce contul este activat."
 
 #: ../plugins/groupwise-features/share-folder-common.c:318
-#, fuzzy
 msgid "Users"
-msgstr "Nume utilizator"
+msgstr "Utilizatori"
 
 #: ../plugins/groupwise-features/share-folder-common.c:319
 msgid "Enter the users and set permissions"
-msgstr ""
+msgstr "Introduceţi utilizatorii şi setaţi permisiunile"
 
 #: ../plugins/groupwise-features/share-folder-common.c:338
-#, fuzzy
 msgid "New _Shared Folder..."
-msgstr "Dosar _nou"
+msgstr "Dosar _partajat nou..."
 
 #: ../plugins/groupwise-features/share-folder-common.c:453
-#, fuzzy
 msgid "Sharing"
-msgstr "Umbrire"
+msgstr "Partajare"
 
 #: ../plugins/groupwise-features/status-track.c:235
-#, fuzzy
 msgid "Track Message Status..."
-msgstr "Salvează mesajul ca..."
+msgstr "Urmăreşte statusul mesajului..."
 
 #: ../plugins/itip-formatter/itip-formatter.c:724
-#, fuzzy
 msgid "Unable to parse item"
-msgstr "Nu pot primi mesajul de la editor"
+msgstr "Nu am putut parsa elementul"
 
 #: ../plugins/itip-formatter/itip-formatter.c:780
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to send item to calendar '%s'.  %s"
-msgstr "Nu pot deschide calendarul „%s”."
+msgstr "Nu am putut trimite elementul către calendarul „%s”:  %s"
 
 #: ../plugins/itip-formatter/itip-formatter.c:791
 #, c-format
 msgid "Sent to calendar '%s' as accepted"
-msgstr ""
+msgstr "Trimis către calendarul „%s” ca acceptat"
 
 #: ../plugins/itip-formatter/itip-formatter.c:795
 #, c-format
 msgid "Sent to calendar '%s' as tentative"
-msgstr ""
+msgstr "Trimis către calendarul „%s” ca tentativă"
 
 #: ../plugins/itip-formatter/itip-formatter.c:800
 #, c-format
 msgid "Sent to calendar '%s' as declined"
-msgstr ""
+msgstr "Trimis către calendarul „%s” ca declinat"
 
 #: ../plugins/itip-formatter/itip-formatter.c:805
 #, c-format
 msgid "Sent to calendar '%s' as cancelled"
-msgstr ""
+msgstr "Trimis către calendarul „%s” ca anulat"
 
 #: ../plugins/itip-formatter/itip-formatter.c:898
 #, c-format
 msgid "Organizer has removed the delegate %s "
-msgstr ""
+msgstr "Organizatorul a şters delegatul %s "
 
 #: ../plugins/itip-formatter/itip-formatter.c:905
 msgid "Sent a cancellation notice to the delegate"
-msgstr ""
+msgstr "S-a trimis o notificare de anulare către delegat"
 
 #: ../plugins/itip-formatter/itip-formatter.c:907
-#, fuzzy
 msgid "Could not send the cancellation notice to the delegate"
-msgstr ""
-"Doriţi să trimiteţi o întiinţare de contramandare pentru această intrare în "
-"jurnal?"
+msgstr "Nu am putut trimite notificarea de anulare către delegat"
 
 #: ../plugins/itip-formatter/itip-formatter.c:991
-#, fuzzy
 msgid "Attendee status could not be updated because the status is invalid"
-msgstr ""
-"Statusul participantului nu a putut fi actualizat datorită unui status "
-"invalid!\n"
+msgstr "Statusul participantului nu a putut fi actualizat deoarece statusul este invalid"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1017
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to update attendee. %s"
-msgstr "Acces interzis"
+msgstr "Nu am putut actualiza participantul. %s"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1021
-#, fuzzy
 msgid "Attendee status updated"
-msgstr "Adrese participare"
+msgstr "Statusul participantului actualizat"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1148
-#, fuzzy
 msgid "The calendar attached is not valid"
-msgstr ""
-"Datele de contact sunt invalide:\n"
-"\n"
+msgstr "Calendarul ataşat nu este valid"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1149
 msgid ""
 "The message claims to contain a calendar, but the calendar is not valid "
 "iCalendar."
 msgstr ""
+"Mesajul susţine că are un calendar, dar acesta nu este un calendar valid "
+"iCalendar."
 
 #: ../plugins/itip-formatter/itip-formatter.c:1183
 #: ../plugins/itip-formatter/itip-formatter.c:1198
 #: ../plugins/itip-formatter/itip-formatter.c:1274
 msgid "The item in the calendar is not valid"
-msgstr ""
+msgstr "Elementul din calendar nu este valid"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1184
 #: ../plugins/itip-formatter/itip-formatter.c:1199
@@ -15599,41 +15443,43 @@ msgid ""
 "The message does contain a calendar, but the calendar contains no events, "
 "tasks or free/busy information"
 msgstr ""
+"Mesajul conţine un calendar, dar calendarul nu conţine evenimente, sarcini "
+"sau informaţie liber/ocupat"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1209
 msgid "The calendar attached contains multiple items"
-msgstr ""
+msgstr "Calendarul ataşat conţine elemente multiple"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1210
 msgid ""
 "To process all of these items, the file should be saved and the calendar "
 "imported"
 msgstr ""
+"Pentru a procesa toate aceste elemente, fişierul ar trebui salvat şi calendarul "
+"importat"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1968
-#, fuzzy
 msgid "Meetings and Tasks"
-msgstr "Calendar şi sarcini"
+msgstr "Şedinţe şi sarcini"
 
 #. Delete message after acting
 #. FIXME Need a schema for this
 #: ../plugins/itip-formatter/itip-formatter.c:1991
 msgid "_Delete message after acting"
-msgstr ""
+msgstr "Ş_terge mesajul după acţiune"
 
 #: ../plugins/itip-formatter/itip-formatter.c:2001
-#, fuzzy
 msgid "<span weight=\"bold\">Conflict Search</span>"
-msgstr "<span weight=\"bold\">Configurare</span>"
+msgstr "<span weight=\"bold\">Căutare conflict</span>"
 
 #. Source selector
 #: ../plugins/itip-formatter/itip-formatter.c:2014
 msgid "Select the calendars to search for meeting conflicts"
-msgstr ""
+msgstr "Selectaţi calendarul pentru a căuta conflicte ale şedinţelor"
 
 #: ../plugins/itip-formatter/itip-formatter.c:2031
 msgid "Conflict Search Table"
-msgstr ""
+msgstr "Tabel pentru căutări de conflicte"
 
 #. strftime format of a weekday and a date.
 #: ../plugins/itip-formatter/itip-view.c:184 ../ui/evolution-calendar.xml.h:34
@@ -15644,308 +15490,288 @@ msgstr "Astăzi"
 #. strftime format of a time,
 #. in 24-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:189
-#, fuzzy
 msgid "Today %H:%M"
-msgstr "Astăzi %l:%M %p"
+msgstr "Astăzi %H:%M"
 
 #. strftime format of a time,
 #. in 24-hour format.
 #: ../plugins/itip-formatter/itip-view.c:193
-#, fuzzy
 msgid "Today %H:%M:%S"
-msgstr "Astăzi %l:%M %p"
+msgstr "Astăzi %H:%M:%S"
 
 #. strftime format of a time,
 #. in 12-hour format.
 #: ../plugins/itip-formatter/itip-view.c:202
-#, fuzzy
 msgid "Today %l:%M:%S %p"
-msgstr "Astăzi %l:%M %p"
+msgstr "Astăzi %l:%M:%S %p"
 
 #. strftime format of a weekday and a date.
 #: ../plugins/itip-formatter/itip-view.c:212
-#, fuzzy
 msgid "Tomorrow"
-msgstr "Comoros"
+msgstr "Mâine"
 
 #. strftime format of a time,
 #. in 24-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:217
 msgid "Tomorrow %H:%M"
-msgstr ""
+msgstr "Mâine %H:%M"
 
 #. strftime format of a time,
 #. in 24-hour format.
 #: ../plugins/itip-formatter/itip-view.c:221
-#, fuzzy
 msgid "Tomorrow %H:%M:%S"
-msgstr "%H:%M:%S"
+msgstr "Mâine %H:%M:%S"
 
 #. strftime format of a time,
 #. in 12-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:226
-#, fuzzy
 msgid "Tomorrow %l:%M %p"
-msgstr "Astăzi %l:%M %p"
+msgstr "Mâine %l:%M %p"
 
 #. strftime format of a time,
 #. in 12-hour format.
 #: ../plugins/itip-formatter/itip-view.c:230
-#, fuzzy
 msgid "Tomorrow %l:%M:%S %p"
-msgstr "Astăzi %l:%M %p"
+msgstr "Mâine %l:%M:%S %p"
 
 #. strftime format of a weekday.
 #: ../plugins/itip-formatter/itip-view.c:249
 #, c-format
 msgid "%A"
-msgstr ""
+msgstr "%A"
 
 #. strftime format of a weekday and a
 #. time, in 24-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:254
-#, fuzzy
 msgid "%A %H:%M"
-msgstr "%H:%M"
+msgstr "%A %H:%M"
 
 #. strftime format of a weekday and a
 #. time, in 24-hour format.
 #: ../plugins/itip-formatter/itip-view.c:258
-#, fuzzy
 msgid "%A %H:%M:%S"
-msgstr "%H:%M:%S"
+msgstr "%A %H:%M:%S"
 
 #. strftime format of a weekday and a
 #. time, in 12-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:263
-#, fuzzy
 msgid "%A %l:%M %p"
-msgstr "%a %l:%M %p"
+msgstr "%A %l:%M %p"
 
 #. strftime format of a weekday and a
 #. time, in 12-hour format.
 #: ../plugins/itip-formatter/itip-view.c:267
-#, fuzzy
 msgid "%A %l:%M:%S %p"
-msgstr "%I:%M:%S %p"
+msgstr "%A %l:%M:%S %p"
 
 #. strftime format of a weekday and a date
 #. without a year.
 #: ../plugins/itip-formatter/itip-view.c:276
-#, fuzzy
 msgid "%A, %B %e"
-msgstr "%A, %B %d, %Y"
+msgstr "%A, %B %e"
 
 #. strftime format of a weekday, a date
 #. without a year and a time,
 #. in 24-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:282
-#, fuzzy
 msgid "%A, %B %e %H:%M"
-msgstr "%A, %B %d, %Y"
+msgstr "%A, %B %e %H:%M"
 
 #. strftime format of a weekday, a date without a year
 #. and a time, in 24-hour format.
 #: ../plugins/itip-formatter/itip-view.c:286
-#, fuzzy
 msgid "%A, %B %e %H:%M:%S"
-msgstr "%a %m/%d/%Y %H:%M:%S"
+msgstr "%A, %B %e %H:%M:%S"
 
 #. strftime format of a weekday, a date without a year
 #. and a time, in 12-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:291
-#, fuzzy
 msgid "%A, %B %e %l:%M %p"
-msgstr "%b %d %l:%M %p"
+msgstr "%A, %B %e %l:%M %p"
 
 #. strftime format of a weekday, a date without a year
 #. and a time, in 12-hour format.
 #: ../plugins/itip-formatter/itip-view.c:295
-#, fuzzy
 msgid "%A, %B %e %l:%M:%S %p"
-msgstr "%b %d %l:%M %p"
+msgstr "%A, %B %e %l:%M:%S %p"
 
 #. strftime format of a weekday and a date.
 #: ../plugins/itip-formatter/itip-view.c:301
-#, fuzzy
 msgid "%A, %B %e, %Y"
-msgstr "%A, %B %d, %Y"
+msgstr "%A, %B %e, %Y"
 
 #. strftime format of a weekday, a date and a
 #. time, in 24-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:306
-#, fuzzy
 msgid "%A, %B %e, %Y %H:%M"
-msgstr "%A, %B %d, %Y"
+msgstr "%A, %B %e, %Y %H:%M"
 
 #. strftime format of a weekday, a date and a
 #. time, in 24-hour format.
 #: ../plugins/itip-formatter/itip-view.c:310
-#, fuzzy
 msgid "%A, %B %e, %Y %H:%M:%S"
-msgstr "%a %m/%d/%Y %H:%M:%S"
+msgstr "%A, %B %e, %Y %H:%M:%S"
 
 #. strftime format of a weekday, a date and a
 #. time, in 12-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:315
-#, fuzzy
 msgid "%A, %B %e, %Y %l:%M %p"
-msgstr "%b %d %l:%M %p"
+msgstr "%A, %B %e, %Y %l:%M %p"
 
 #. strftime format of a weekday, a date and a
 #. time, in 12-hour format.
 #: ../plugins/itip-formatter/itip-view.c:319
-#, fuzzy
 msgid "%A, %B %e, %Y %l:%M:%S %p"
-msgstr "%b %d %l:%M %p"
+msgstr "%A, %B %e, %Y %l:%M:%S %p"
 
 #: ../plugins/itip-formatter/itip-view.c:344
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> through %s has published the following meeting information:"
-msgstr "Obţine ultimele informaţii despre întâlnire"
+msgstr "<b>%s</b> prin %s a publicat următoarele informaţii pentru şedinţă:"
 
 #: ../plugins/itip-formatter/itip-view.c:346
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> has published the following meeting information:"
-msgstr "Obţine ultimele informaţii despre întâlnire"
+msgstr "<b>%s</b> a publicat următoarele informaţii pentru şedinţă:"
 
 #: ../plugins/itip-formatter/itip-view.c:351
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> has delegated the following meeting to you:"
-msgstr "Acesta e un răspuns la o cerere de întâlnire."
+msgstr "<b>%s</n> a delegat următoarea şedinţă către dumneavoastră:"
 
 #: ../plugins/itip-formatter/itip-view.c:354
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> through %s requests your presence at the following meeting:"
-msgstr "Aceasta e o cerere pentru o informaţie liber-ocupat."
+msgstr "<b>%s</b> prin %s vă solicită prezenţa la următoarea şedinţă:"
 
 #: ../plugins/itip-formatter/itip-view.c:356
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> requests your presence at the following meeting:"
-msgstr "Aceasta e o cerere pentru o informaţie liber-ocupat."
+msgstr "<b>%s</b> vă solicită prezenţa la următoarea şedinţă:"
 
 #: ../plugins/itip-formatter/itip-view.c:362
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> through %s wishes to add to an existing meeting:"
-msgstr "Obţine ultimele informaţii despre întâlnire"
+msgstr "<b>%s</b> prin %s doreşte să adauge la o şedinţă existentă:"
 
 #: ../plugins/itip-formatter/itip-view.c:364
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> wishes to add to an existing meeting:"
-msgstr "Obţine ultimele informaţii despre întâlnire"
+msgstr "<b>%s</b> doreşte să adauge la o şedinţă existentă:"
 
 #: ../plugins/itip-formatter/itip-view.c:367
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> wishes to receive the latest information for the following meeting:"
-msgstr "Aceasta e o cerere pentru ultima informaţie despre sarcină."
+msgstr "<b>%s</b> doreşte să primească ultimele informaţii despre următoarea şedinţă:"
 
 #: ../plugins/itip-formatter/itip-view.c:370
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> has sent back the following meeting response:"
-msgstr "<b>%s</b> a transmis un mesaj neinteligibil."
+msgstr "<b>%s</b> a trimis înapoi următorul răspuns la şedinţă:"
 
 #: ../plugins/itip-formatter/itip-view.c:374
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> through %s has cancelled the following meeting:"
-msgstr "Acesta e un răspuns la o cerere de întâlnire."
+msgstr "<b>%s</b> prin %s a anulat următoarea şedinţă:"
 
 #: ../plugins/itip-formatter/itip-view.c:376
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> has cancelled the following meeting."
-msgstr "Acesta e un răspuns la o cerere de întâlnire."
+msgstr "<b>%s</b> a anulat următoarea şedinţă."
 
 #: ../plugins/itip-formatter/itip-view.c:379
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> has proposed the following meeting changes."
-msgstr "Acesta e un răspuns la o cerere de întâlnire."
+msgstr "<b>%s</b> a propus următoarele modificări la şedinţă."
 
 #: ../plugins/itip-formatter/itip-view.c:383
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> through %s has declined the following meeting changes:"
-msgstr "Acesta e un răspuns la o cerere de întâlnire."
+msgstr "<b>%s</b> prin %s a refuzat următoarele modificări la şedinţă:"
 
 #: ../plugins/itip-formatter/itip-view.c:385
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> has declined the following meeting changes."
-msgstr "Acesta e un răspuns la o cerere de întâlnire."
+msgstr "<b>%s</b> a refuzat următoarele modificări la şedinţă."
 
 #: ../plugins/itip-formatter/itip-view.c:412
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> through %s has published the following task:"
-msgstr "Obţine ultimele informaţii despre întâlnire"
+msgstr "<b>%s</b> prin %s a publicat următoarea sarcină:"
 
 #: ../plugins/itip-formatter/itip-view.c:414
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> has published the following task:"
-msgstr "Obţine ultimele informaţii despre întâlnire"
+msgstr "<b>%s</b> a publicat următoarea sarcină:"
 
 #: ../plugins/itip-formatter/itip-view.c:419
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> requests the assignment of %s to the following task:"
-msgstr "Aceasta e o cerere pentru o informaţie liber-ocupat."
+msgstr "<b>%s</b> cere desemnarea lui %s pentru următoarea sarcină:"
 
 #: ../plugins/itip-formatter/itip-view.c:422
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> through %s has assigned you a task:"
-msgstr "Acesta e un răspuns la o cerere de întâlnire."
+msgstr "<b>%s</b> prin %s v-a desemnat pentru o sarcină:"
 
 #: ../plugins/itip-formatter/itip-view.c:424
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> has assigned you a task:"
-msgstr "Acesta e un răspuns la o cerere de întâlnire."
+msgstr "<b>%s</b> v-a desemnat pentru o sarcină:"
 
 #: ../plugins/itip-formatter/itip-view.c:430
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> through %s wishes to add to an existing task:"
-msgstr "Aceasta e o cerere pentru ultima informaţie despre sarcină."
+msgstr "<b>%s</b> prin %s doreşte să vă adauge la o sarcină existentă:"
 
 #: ../plugins/itip-formatter/itip-view.c:432
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> wishes to add to an existing task:"
-msgstr "Aceasta e o cerere pentru ultima informaţie despre sarcină."
+msgstr "<b>%s</b> doreşte să vă adauge la o sarcină existentă:"
 
 #: ../plugins/itip-formatter/itip-view.c:435
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "<b>%s</b> wishes to receive the latest information for the following "
 "assigned task:"
-msgstr "Aceasta e o cerere pentru ultima informaţie despre sarcină."
+msgstr ""
+"<b>%s</b> doreşte să primească ultimele informaţii referitoare la "
+"următoarea sarcină desemnată:"
 
 #: ../plugins/itip-formatter/itip-view.c:438
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> has sent back the following assigned task response:"
-msgstr "<b>%s</b> a transmis un mesaj neinteligibil."
+msgstr "<b>%s</b> a trimis înapoi următorul răspuns la sarcina desemnată:"
 
 #: ../plugins/itip-formatter/itip-view.c:442
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> through %s has cancelled the following assigned task:"
-msgstr "Acesta e un răspuns la o cerere de întâlnire."
+msgstr "<b>%s</b> prin %s a anulat următoarea sarcină desemnată:"
 
 #: ../plugins/itip-formatter/itip-view.c:444
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> has cancelled the following assigned task:"
-msgstr "Acesta e un răspuns la o cerere de întâlnire."
+msgstr "<b>%s</b> a anulat următoarea sarcină desemnată:"
 
 #: ../plugins/itip-formatter/itip-view.c:447
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> has proposed the following task assignment changes:"
-msgstr "Acesta e un răspuns la o cerere de întâlnire."
+msgstr "<b>%s</b> a propus următoarele modificări la desemnarea sarcinii:"
 
 #: ../plugins/itip-formatter/itip-view.c:451
 #, c-format
 msgid "<b>%s</b> through %s has declined the following assigned task:"
-msgstr ""
+msgstr "<b>%s</b> prin %s a refuzat următoarea sarcină desemnată:"
 
 #: ../plugins/itip-formatter/itip-view.c:453
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> has declined the following assigned task:"
-msgstr "Acesta e un răspuns la o cerere de întâlnire."
+msgstr "<b>%s</b> a declinat următoarea sarcină desemnată:"
 
 #. Start time
 #: ../plugins/itip-formatter/itip-view.c:892
-#, fuzzy
 msgid "Start time:"
-msgstr "Ora de început"
+msgstr ""
 
 #. End time
 #: ../plugins/itip-formatter/itip-view.c:901
