@@ -3929,7 +3929,7 @@ msgid ""
 " There are few attachments getting downloaded. Saving the appointment will "
 "cause the appointment to be saved without those pending attachments "
 msgstr ""
-"Einige Anlagen werden zur Zeit noch heruntergeladen. Das Speichern dieses "
+"Einige Anlagen werden zurzeit noch heruntergeladen. Das Speichern dieses "
 "Termins wird zur Folge haben, dass der Termin ohne die noch ausstehenden "
 "Anlagen gespeichert wird."
 
@@ -3938,7 +3938,7 @@ msgid ""
 " There are few attachments getting downloaded. Saving the task will cause "
 "the task to be saved without those pending attachments "
 msgstr ""
-"Einige Anlagen werden zur Zeit noch heruntergeladen. Das Speichern dieser "
+"Einige Anlagen werden zurzeit noch heruntergeladen. Das Speichern dieser "
 "Aufgabe wird zur Folge haben, dass die Aufgabe ohne die noch ausstehenden "
 "Anlagen gespeichert wird."
 
@@ -9937,7 +9937,7 @@ msgid ""
 " There are few attachments getting downloaded. Sending the mail will cause "
 "the mail to be sent without those pending attachments "
 msgstr ""
-"Einige Anlagen werden zur Zeit noch heruntergeladen. Das Speichern dieser "
+"Einige Anlagen werden zurzeit noch heruntergeladen. Das Speichern dieser "
 "Nachricht wird zur Folge haben, dass die Nachricht ohne die noch "
 "ausstehenden Anlagen gespeichert wird."
 
@@ -10133,11 +10133,11 @@ msgstr ""
 
 #: ../designs/OOA/ooa.glade.h:8
 msgid "I am currently in the office"
-msgstr "Ich bin zur Zeit im Büro"
+msgstr "Ich bin zurzeit im Büro"
 
 #: ../designs/OOA/ooa.glade.h:9
 msgid "I am currently out of the office"
-msgstr "Ich bin zur Zeit nicht im Büro"
+msgstr "Ich bin zurzeit nicht im Büro"
 
 #: ../designs/OOA/ooa.glade.h:10
 msgid "No, Don't Change Status"
