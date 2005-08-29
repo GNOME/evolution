@@ -226,6 +226,7 @@ static const char *authors[] = {
 	"David Mosberger",
 	"David Trowbridge",
 	"David Woodhouse",
+	"Devashish Sharma",
 	"Diego Gonzalez",
 	"Diego Sevilla Ruiz",
 	"Dietmar Maurer",
