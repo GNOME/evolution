@@ -1,3 +1,10 @@
+2005-08-29  Praveen Kumar  <kpraveen@novell.com>
+
+	** Fixes bug 314762
+	
+	* exchange-config-listener.c (remove_selected_non_offline_esources) :
+	Fixing a nasty infinite loop by swapping an if and while block.
+	
 2005-08-26  Shakti Sen <shprasad@novell.com>
 
 	* exchange-folder.c (org_gnome_exchange_folder_unsubscribe): Fixes the

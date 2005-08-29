@@ -1162,12 +1162,12 @@ remove_selected_non_offline_esources (ExchangeAccount *account, const char *gcon
 				if (ids) {
 					offline_mode = (gchar*) e_source_get_property (source,
 										       "offline_sync");
-					while ((node_to_be_deleted = 
-						g_slist_find_custom (ids, 
-								     source_uid, 
-								     (GCompareFunc) strcmp))) {
-						if (!offline_mode || 
-						    (offline_mode && strcmp (offline_mode, "1"))) {
+					if (!offline_mode || 
+					    (offline_mode && strcmp (offline_mode, "1"))) {
+						while ((node_to_be_deleted = 
+							g_slist_find_custom (ids, 
+									     source_uid, 
+									     (GCompareFunc) strcmp))) {
 							g_free (node_to_be_deleted->data);
 							ids = g_slist_delete_link (ids, 
 										   node_to_be_deleted);
