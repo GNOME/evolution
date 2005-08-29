@@ -278,6 +278,14 @@ cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
 		return;
 	}
 	
+	if (e_cal_get_static_capability (ecal, CAL_STATIC_CAPABILITY_RECURRENCES_NO_MASTER)) {
+		icalcomponent *icalcomp = e_cal_component_get_icalcomponent (pitip->comp);
+
+		if (check_is_instance (icalcomp))
+			itip_view_set_show_recur_check (ITIP_VIEW (pitip->view), TRUE);
+		else
+			itip_view_set_show_recur_check (ITIP_VIEW (pitip->view), FALSE);
+	}
 
 	zone = calendar_config_get_icaltimezone ();
 	e_cal_set_default_timezone (ecal, zone, NULL);
@@ -425,14 +433,6 @@ find_cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
 						      "Found the appointment in the calendar '%s'", e_source_peek_name (source));
 
 		set_buttons_sensitive (pitip);
-		if (e_cal_get_static_capability (ecal, CAL_STATIC_CAPABILITY_RECURRENCES_NO_MASTER)) {
-			icalcomponent *icalcomp = e_cal_component_get_icalcomponent (pitip->comp);
-			
-			if (check_is_instance (icalcomp))
-				itip_view_set_show_recur_check (ITIP_VIEW (pitip->view), TRUE);
-			else
-				itip_view_set_show_recur_check (ITIP_VIEW (pitip->view), FALSE);
-		}
 	}
 
 	zone = calendar_config_get_icaltimezone ();

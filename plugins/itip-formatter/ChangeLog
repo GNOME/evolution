@@ -1,3 +1,9 @@
+2005-08-29  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #313534
+	* itip-formatter.c: (cal_opened_cb), (find_cal_opened_cb):
+	Moved the code to display recur check box to cal_opened_cb.
+
 2005-08-23  Not Zed  <NotZed@Ximian.com>
 
 	* itip-view.c: add missing headers.
