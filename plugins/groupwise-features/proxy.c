@@ -162,7 +162,7 @@ proxy_dialog_finalize (GObject *object)
 		free_proxy_list (priv->proxy_list);
 		g_free (priv->help_section);
 		g_object_unref (priv->xml_tab);
-		g_object_unref (prd->priv);
+		g_free (prd->priv);
 		prd->priv = NULL;
 	}
 	
