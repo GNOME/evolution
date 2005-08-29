@@ -214,7 +214,7 @@
        </formalpara>
        <formalpara id="bxmebc0">
         <title>IMAP4rev1: </title>
-        <para>Keeps the e-mail on your server so you can access your e-mail from multiple systems. For configuration instructions, see <link linkend="bstfw13">Remote Configuration Options</link>.</para>
+        <para>Keeps the e-mail on your server so you can access your e-mail from multiple systems. For configuration instructions, see <link linkend="bstfw13">Remote Configuration Options</link>. NOTE: IMAP4rev1 is experimental and unsupported.</para>
        </formalpara>
        <formalpara id="bsj74du">
         <title>POP:</title>
@@ -390,7 +390,7 @@
      </section>
 
      <section id="bstggh0">
-      <title>IMAP and IMAP4rev1 Receiving Options</title>
+      <title>IMAP and IMAP4rev1 Receiving Options (NOTE: IMAP4rev1 is experimental and unsupported):</title>
       <para>If you select IMAP or IMAP4rev1 as your receiving server type, you need to specify the following options:</para>
       <mediaobject id="bsu2dp4"><imageobject><imagedata format="PNG" fileref="figures/evo_imapreceive_a.png"/></imageobject></mediaobject>
       <orderedlist>
@@ -724,10 +724,6 @@
       <title>New Folder: </title>
       <para>Creates another folder in the same location. </para>
      </formalpara>
-     <formalpara id="bxmemtd">
-      <title>New Shared Folder: </title>
-      <para>Creates a new shared folder in the same location.</para>
-     </formalpara>
      <formalpara id="bs7fcl4">
       <title>Delete: </title>
       <para>Deletes the folder and all its contents. </para>
@@ -738,7 +734,7 @@
      </formalpara>
      <formalpara id="bs7fdb9">
       <title>Disable: </title>
-      <para>Disables the shared folder.</para>
+      <para>Disables the account.</para>
      </formalpara>
      <formalpara id="bs7fdja">
       <title>Properties: </title>
@@ -2149,7 +2145,7 @@
    <para>As messages that meet the search folder criteria arrive or are deleted, Evolution automatically adjusts the search folder contents. When you delete a message, it is erased from the folder in which it actually exists, as well as any search folders that display it.</para>
    <para>The Unmatched Search Folder is the opposite of other search folders: it displays all messages that do not appear in other search folders.</para>
    <para>If you use remote e-mail storage like IMAP or Microsoft Exchange, and have created search folders to search through them, the Unmatched Search Folder also searches the remote folders. If you do not create any search folders that search remote mail stores, the Unmatched Search Folder does not search in them either.</para>
-   <para>As an example of using folders, searches, and search folders, consider the following: To organize his mailbox, Jim sets up a virtual folder for e-mail from his friend and co-worker Anna. He has another search folder for messages that have novell.com in the address and Evolution in the subject line, so he can keep a record of what people from work send him about Evolution. If Anna sends him a message about anything other than Evolution, it only shows up in the &ldquo;Anna&rdquo; search folder. When Anna sends him mail about the user interface for Evolution, he can see the message both in the &ldquo;Anna&rdquo; search folder and in the &ldquo;Internal Evolution Discussion&rdquo; search folder. </para>
+   <para>As an example of using folders, searches, and search folders, consider the following: To organize his mailbox, Jim sets up a search folder for e-mail from his friend and co-worker Anna. He has another search folder for messages that have novell.com in the address and Evolution in the subject line, so he can keep a record of what people from work send him about Evolution. If Anna sends him a message about anything other than Evolution, it only shows up in the &ldquo;Anna&rdquo; search folder. When Anna sends him mail about the user interface for Evolution, he can see the message both in the &ldquo;Anna&rdquo; search folder and in the &ldquo;Internal Evolution Discussion&rdquo; search folder. </para>
 
    <section id="vfolder-create">
     <title>Creating A Search Folder</title>
@@ -3341,9 +3337,13 @@ Accepting and Replying to a Meeting Request</title>
        <para>View mail and folders stored on the GroupWise system.</para>
       </listitem>
       <listitem>
-       <para>Send mail from you GroupWise account.</para>
+       <para>Send mail from your GroupWise account.</para>
       </listitem>
-      <listitem>
+ <listitem>
+       <para>Junk mail handling - maintains a spam email list on server side. Marking a message as junk puts the sender in this spam list. </para>
+      </listitem>
+
+<listitem>
        <para>Convert mail to a task or meeting.</para>
       </listitem>
       <listitem>
@@ -3736,7 +3736,6 @@ Accepting and Replying to a Meeting Request</title>
      <para><link linkend="Aai4t8q">Managing Someone Else's Mailbox or Calendar</link></para>
     </listitem>
     <listitem>
-     <para><link linkend="Aaihztz">Marking an Item Private</link></para>
     </listitem>
    </itemizedlist>
 
@@ -3869,20 +3868,6 @@ Accepting and Replying to a Meeting Request</title>
      </listitem>
     </orderedlist>
    </section>
-
-   <section id="Aaihztz">
-    <title>Marking an Item Private</title>
-    <para>You can limit a proxy&apos;s access to individual items in your Mailbox or Calendar by marking items Private.</para>
-    <para>When you mark an item Private, you prevent unauthorized proxies from opening it. Proxies cannot access items marked Private unless you give them those rights in your Access List. </para>
-    <para>If you mark an item Private when you send it, neither your proxies nor the recipient&apos;s proxies can open the item without rights. If you mark an item Private when you receive it, it cannot be read by your unauthorized proxies, but it can be read by the sender&apos;s proxies. Appointments marked Private display in Busy Search according to the status you selected when you accepted the appointment.</para>
-    <orderedlist>
-     <listitem id="Aaii0go">
-      <para>In an open item, click Actions, then click Mark Private.</para>
-      <para>or</para>
-      <para>In your Calendar, click an item in the Appointments, Reminder Notes, or Tasks List, click Actions, then click Mark Private.</para>
-     </listitem>
-    </orderedlist>
-   </section>
   </section>
  </chapter>
 
@@ -3966,7 +3951,7 @@ Accepting and Replying to a Meeting Request</title>
    </formalpara>
    <formalpara id="bxmvpry">
     <title>Proxy: </title>
-    <para>This only displays if you have a GroupWise or Exchange account. Use this section to set proxy access for other users to access your mailbox or calendar.</para>
+    <para>This only displays if you have a GroupWise account. Use this section to set proxy access for other users to access your mailbox or calendar.</para>
    </formalpara>
   </section>
 
@@ -4525,8 +4510,8 @@ Accepting and Replying to a Meeting Request</title>
    <para>Select the message or messages you want to forward, then click Forward in the toolbar, or press Ctrl+F.</para>
    <bridgehead id="bt4ckgc">Opening a Message In a New Window</bridgehead>
    <para>Double-click the message you want to view, or select it and press Enter or Ctrl+O. </para>
-   <bridgehead id="bt4ckgd">Creating Filters and Virtual Folders</bridgehead>
-   <para>Right-click a message and select Create Rule From Message. You can also create filters and virtual folders in the Tools menu. </para>
+   <bridgehead id="bt4ckgd">Creating Filters and Search Folders</bridgehead>
+   <para>Right-click a message and select Create Rule From Message. You can also create filters and search folders in the Tools menu. </para>
    <bridgehead id="bt4ckge">Adding a Sender to the Address Book</bridgehead>
    <para>Right-click a message and select Add Sender to Address Book. You can also right-click on any e-mail address to add it to your address book. </para>
   </section>
@@ -4564,14 +4549,14 @@ Accepting and Replying to a Meeting Request</title>
   <title>Authors</title>
   <para>Evolution was written by the Evolution team and numerous other dedicated GNOME programmers. You can see their names by clicking Help &gt; About from any Evolution window.</para>
   <para>The Evolution code owes a great debt to the GNOME-pim and GNOME-Calendar applications, and to KHTMLW. The developers of Evolution acknowledge the efforts and contributions of all who worked on those projects.</para>
-  <para>For more information please visit the Evolution <ulink url="http://www.novell.com/products/desktop/features/evolution.html">Web page</ulink>. Please send all comments, suggestions, and bug reports to the <ulink url="http://bugzilla.gnome.org">bug tracking database</ulink>. Instructions for submitting bug reports can be found on-line at the same location. You can also use the GNOMe bug report tool, bug-buddy, to submit your defect reports.</para>
+  <para>For more information please visit the Evolution <ulink url="http://www.novell.com/products/desktop/features/evolution.html">Web page</ulink>. Please send all comments, suggestions, and bug reports to the <ulink url="http://bugzilla.gnome.org">bug tracking database</ulink>. Instructions for submitting bug reports can be found on-line at the same location. You can also use the GNOME bug report tool, bug-buddy, to submit your defect reports.</para>
   <para>This manual was written by:</para>
   <itemizedlist>
    <listitem>
     <para>Mark Moulder (mmoulder@novell.com)</para>
    </listitem>
    <listitem>
-    <para>Jessica Prabhakar (jprabhakar@novell.com)</para>
+    <para>Jessica Prabhakar (pjessica@novell.com)</para>
    </listitem>
    <listitem>
     <para>Aaron Weber (aaron@ximian.com)</para>
