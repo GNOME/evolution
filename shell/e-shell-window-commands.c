@@ -363,6 +363,7 @@ static const char *authors[] = {
 	"Mathieu Lacage",
 	"Matias Mutchinick",
 	"Matt Bissiri",
+	"Matt Brown",
 	"Matthew Loper",
 	"Matthew Wilson",
 	"Matt Martin",
