@@ -472,6 +472,7 @@ static const char *authors[] = {
 	"Theppitak Karoonboonyanan",
 	"Thomas Cataldo",
 	"Thomas Mirlacher",
+	"Thouis R. Jones",
 	"Timo Sirainen",
 	"Timothy Lee",
 	"Timur Bakeyev",
