@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: evolution.HEAD.ro\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-08-26 06:11+0000\n"
-"PO-Revision-Date: 2005-08-28 22:15+0300\n"
+"PO-Revision-Date: 2005-08-31 00:05+0300\n"
 "Last-Translator: Mugurel Tudor <mugurelu@go.ro>\n"
 "Language-Team: Română <gnomero-list@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -15771,185 +15771,167 @@ msgstr "<b>%s</b> a declinat următoarea sarcină desemnată:"
 #. Start time
 #: ../plugins/itip-formatter/itip-view.c:892
 msgid "Start time:"
-msgstr ""
+msgstr "Timp începere:"
 
 #. End time
 #: ../plugins/itip-formatter/itip-view.c:901
-#, fuzzy
 msgid "End time:"
-msgstr "Ora d_e sfârşit"
+msgstr "Timp terminare:"
 
 #. Comment
 #: ../plugins/itip-formatter/itip-view.c:917
 #: ../plugins/itip-formatter/itip-view.c:967
-#, fuzzy
 msgid "Comment:"
-msgstr "_Compania:"
+msgstr "Comentariu:"
 
 #: ../plugins/itip-formatter/itip-view.c:981
 msgid "Send u_pdates to attendees"
-msgstr ""
+msgstr "Trimite actualizări _participanţilor"
 
 #: ../plugins/itip-formatter/itip-view.c:990
-#, fuzzy
 msgid "A_pply to all instances"
-msgstr "Toate instanţele"
+msgstr "A_plică la toate instanţele"
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.eplug.xml.h:1
-#, fuzzy
 msgid "Displays text/calendar parts in messages."
-msgstr "Afişează următorul mesaj important"
+msgstr "Afişează părţile text/calendar în mesaje."
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.eplug.xml.h:2
-#, fuzzy
 msgid "Itip Formatter"
-msgstr "Importatori"
+msgstr "Formatare itip"
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:1
 msgid ""
 "&quot;{0}&quot; has delegated the meeting. Do you want to add the delegate "
 "&quot;{1}&quot; ?"
-msgstr ""
+msgstr "„{0}” a delegat şedinţa. Doriţi să adăugaţi delegatul „{1}”?"
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:3
-#, fuzzy
 msgid "This meeting has been delegated"
-msgstr "Acest eveniment a fost şters."
+msgstr "Şedinţa a fost delegată"
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:4
-#, fuzzy
 msgid "This response is not from a current attendee. Add the sender as an attendee?"
 msgstr "Acest răspuns nu a fost trimis de un participant. Îl adăugaţi ca participant?"
 
 #: ../plugins/mail-account-disable/mail-account-disable.c:47
 msgid "Proxy _Logout"
-msgstr ""
+msgstr "De_logare proxy"
 
 #: ../plugins/mail-account-disable/org-gnome-mail-account-disable.eplug.xml.h:1
-#, fuzzy
 msgid "Allows disabling of accounts."
-msgstr "Conturi"
+msgstr "Permite dezactivarea conturilor."
 
 #: ../plugins/mail-account-disable/org-gnome-mail-account-disable.eplug.xml.h:2
-#, fuzzy
 msgid "Disable Account"
-msgstr "Conturi"
+msgstr "Dezactivează contul"
 
 #: ../plugins/mail-remote/client.c:30
-#, fuzzy, c-format
+#, c-format
 msgid "System error: %s"
-msgstr "Eroare de validare: %s"
+msgstr "Eroare de sistem: %s"
 
 #: ../plugins/mail-remote/client.c:32
-#, fuzzy, c-format
+#, c-format
 msgid "Camel error: %s"
-msgstr "Eroare de validare: %s"
+msgstr "Eroare camel: %s"
 
 #: ../plugins/mail-remote/evolution-mail-store.c:476
 msgid "Account cannot send e-mail"
-msgstr ""
+msgstr "Contul nu poate trimite email"
 
 #: ../plugins/mail-remote/evolution-mail-store.c:605
-#, fuzzy
 msgid "No store available"
-msgstr "Nu e disponibilă o descriere."
+msgstr "Nici o stocare disponibilă"
 
 #: ../plugins/mail-remote/org-gnome-evolution-mail-remote.eplug.xml.h:1
 msgid "A plugin which implements a CORBA interface for accessing mail data remotely."
 msgstr ""
+"Un modul ce implementează o interfaţă CORBA pentru accesarea mailurilor "
+"de la distanţă."
 
 #: ../plugins/mail-remote/org-gnome-evolution-mail-remote.eplug.xml.h:2
-#, fuzzy
 msgid "Mail Remote"
-msgstr "Editează filtre"
+msgstr "Mail la distanţă"
 
 #: ../plugins/mail-to-meeting/org-gnome-mail-to-meeting.eplug.xml.h:1
 msgid ""
 "A plugin which allows the creation of meetings from the contents of a mail "
 "message."
-msgstr ""
+msgstr "Un modul ce permite crearea şedinţelor din conţinutul unui mesaj pe mail."
 
 #: ../plugins/mail-to-meeting/org-gnome-mail-to-meeting.eplug.xml.h:2
-#, fuzzy
 msgid "Con_vert to Meeting"
-msgstr "Anulează întâlnirea"
+msgstr "Con_verteşte la şedinţă"
 
 #: ../plugins/mail-to-meeting/org-gnome-mail-to-meeting.eplug.xml.h:3
-#, fuzzy
 msgid "Mail to meeting"
-msgstr "Mail la %s"
+msgstr "Mail către şedinţă"
 
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml.h:1
 msgid ""
 "A plugin which allows the creation of tasks from the contents of a mail "
 "message."
-msgstr ""
+msgstr "Un modul ce permite crearea de sarcini din conţinutul unui mesaj pe mail."
 
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml.h:2
 msgid "Con_vert to Task"
-msgstr ""
+msgstr "Con_verteşte la sarcină"
 
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml.h:3
-#, fuzzy
 msgid "Mail to task"
-msgstr "Mail la %s"
+msgstr "Mail la sarcină"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:1
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:1
-#, fuzzy
 msgid "Contact list _owner"
-msgstr "Editor lista de contacte"
+msgstr "Contactează pr_oprietarul listei"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:2
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:5
 msgid "Get list _archive"
-msgstr ""
+msgstr "Obţine _arhiva listei"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:3
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:6
-#, fuzzy
 msgid "Get list _usage information"
-msgstr "Informaţie opţională"
+msgstr "Obţine informaţii despre _utilizarea listei"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:4
-#, fuzzy
 msgid "Mailing List Actions"
-msgstr "Lista de mail"
+msgstr "Acţiuni listă email"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:5
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:7
-#, fuzzy
 msgid "Mailing _List"
-msgstr "Lista de mail"
+msgstr "_Listă de mail"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:6
 msgid ""
 "Provide actions for common mailing list commands (subscribe, "
 "unsubscribe, ...)."
 msgstr ""
+"Furnizează acţiuni pentru comenzi obişnuite de liste de mailuri (subscriere, "
+"desubscriere, ...)."
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:7
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:11
-#, fuzzy
 msgid "_Post message to list"
-msgstr "Trimite _mesaj către lista..."
+msgstr "Trimite _mesaj către listă"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:8
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:12
-#, fuzzy
 msgid "_Subscribe to list"
-msgstr "Abonează"
+msgstr "_Subscrie la listă"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:9
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:13
-#, fuzzy
 msgid "_Un-subscribe to list"
-msgstr "Dezabonează"
+msgstr "_Desubscrie de la listă"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:1
-#, fuzzy
 msgid "Action not available"
-msgstr "TLS nu este disponibil"
+msgstr "Acţiunea nu este disponibilă"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:2
 msgid ""
@@ -15959,32 +15941,35 @@ msgid ""
 "You should receive an answer from the mailing list shortly after the message "
 "has been sent."
 msgstr ""
+"Un email va fi trimis către URL-ul „{0}”. Puteţi fie să trimiteţi mesajul "
+"automat, fie să îl vedeţi si să îl modificaţi mai intâi.\n"
+"\n"
+"Ar trebui să primiţi un răspuns de la lista de mailuri la scurt timp după "
+"ce mesajul a fost trimis."
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:5
-#, fuzzy
 msgid "Malformed header"
-msgstr "Salvează semnătura"
+msgstr "Antet malformat"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:6
-#, fuzzy
 msgid "No e-mail action"
-msgstr "Execută acţiunile"
+msgstr "Nici o acţiune de tip email"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:7
-#, fuzzy
 msgid "Posting not allowed"
-msgstr "Operaţia anulată"
+msgstr "Trimisul nu este permis"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:8
 msgid ""
 "Posting to this mailing list is not allowed. Possibly, this is a read-only "
 "mailing list. Contact the list owner for details."
 msgstr ""
+"Trimisul către această listă nu este permis. Posibil, această listă este una "
+"de tip doar-citire. Contactaţi proprietarul listei pentru detalii."
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:9
-#, fuzzy
 msgid "Send e-mail message to mailing list?"
-msgstr "Trimite _mesaj către lista..."
+msgstr "Trimite mesajul către lista de mailuri?"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:10
 msgid ""
@@ -15993,6 +15978,10 @@ msgid ""
 "\n"
 "Header: {0}"
 msgstr ""
+"Acţiunea nu a putut fi realizată. Acest lucru înseamnă că antetul pentru "
+"această acţiune nu a conţinut nici o acţiune care să poată fi gestionată.\n"
+"\n"
+"Antet: {0}"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:13
 msgid ""
@@ -16000,122 +15989,111 @@ msgid ""
 "\n"
 "Header: {1}"
 msgstr ""
+"Antetul {0} al acestui mesaj este malformat şi nu a putut fi procesat.\n"
+"\n"
+"Antet: {1}"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:16
 msgid ""
 "This message does not contain the header information required for this "
 "action."
-msgstr ""
+msgstr "Acest mesaj nu conţine informaţia necesară în antet pentru această acţiune."
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:17
-#, fuzzy
 msgid "_Edit message"
-msgstr "Trimit mesaj"
+msgstr "_Editează Trimit mesaj"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:18
-#, fuzzy
 msgid "_Send message"
-msgstr "Trimit mesaj"
+msgstr "_Trimite mesaj"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:2
 msgid "Contact the owner of the mailing list this message belongs to"
-msgstr ""
+msgstr "Contactaţi proprietarul listei de mailuri de care acest mesaj aparţine"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:3
 msgid "Get an archive of the list this message belongs to"
-msgstr ""
+msgstr "Obţineţi o arhivă a listei de care acest mesaj aparţine"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:4
 msgid "Get information about the usage of the list this message belongs to"
-msgstr ""
+msgstr "Obţineţi informaţii despre utilizarea listei de care acest mesaj aparţine"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:8
-#, fuzzy
 msgid "Post a message to the mailing list this message belongs to"
-msgstr "Compune un mesaj pentru lista de mail a mesajului selectat"
+msgstr "Trimite un mesaj către lista de mailuri de care acest mesaj aparţine"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:9
-#, fuzzy
 msgid "Subscribe to the mailing list this message belongs to"
-msgstr "Compune un mesaj pentru lista de mail a mesajului selectat"
+msgstr "Subscrie la lista de mailuri de care acest mesaj aparţine"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:10
-#, fuzzy
 msgid "Unsubscribe to the mailing list this message belongs to"
-msgstr "Compune un mesaj pentru lista de mail a mesajului selectat"
+msgstr "Desubscrie de la lista de mailuri de care acest mesaj aparţine"
 
 #: ../plugins/mark-calendar-offline/org-gnome-mark-calendar-offline.eplug.xml.h:1
 msgid "Mark calendar offline"
-msgstr ""
+msgstr "Machează calendarul ca deconectat"
 
 #: ../plugins/mark-calendar-offline/org-gnome-mark-calendar-offline.eplug.xml.h:2
-#, fuzzy
 msgid "Marks the selected calendar for offline viewing."
-msgstr "MArchează mesajele selectate pentru ştergere"
+msgstr "Marchează calendarul selectat pentru vizualizare deconectată."
 
 #: ../plugins/mark-calendar-offline/org-gnome-mark-calendar-offline.eplug.xml.h:3
 msgid "_Do not make this available offline"
-msgstr ""
+msgstr "_Nu fă acest dosar disponibil deconectat"
 
 #: ../plugins/mark-calendar-offline/org-gnome-mark-calendar-offline.eplug.xml.h:4
 msgid "_Mark Calendar for offline use"
-msgstr ""
+msgstr "_Marchează calendarul pentru folosire deconectată"
 
 #: ../plugins/mono/org-gnome-evolution-mono.eplug.xml.h:1
 msgid "A plugin which implements mono plugins."
-msgstr ""
+msgstr "Un modul ce implementează module mono."
 
 #: ../plugins/mono/org-gnome-evolution-mono.eplug.xml.h:2
-#, fuzzy
 msgid "Mono Loader"
-msgstr "Mută in dosar"
+msgstr "Încărcător Mono"
 
 #: ../plugins/new-mail-notify/org-gnome-new-mail-notify.eplug.xml.h:1
-#, fuzzy
 msgid "Generates a D-BUS message when new mail arrives."
-msgstr "Bip la _primirea unui mail nou"
+msgstr "Generează un mesaj D-BUS la sosirea unui mail nou."
 
 #: ../plugins/new-mail-notify/org-gnome-new-mail-notify.eplug.xml.h:2
-#, fuzzy
 msgid "New Mail Notification"
-msgstr "Configurare mail"
+msgstr "Notificare de mail nou"
 
 #: ../plugins/new-mail-notify/org-gnome-new-mail-notify.eplug.xml.h:3
-#, fuzzy
 msgid "New mail notify"
-msgstr "Configurare mail"
+msgstr "Notificare de mail nou"
 
 #: ../plugins/plugin-manager/org-gnome-plugin-manager.eplug.xml.h:1
 msgid "A plugin for managing which plugins are enabled or disabled."
-msgstr ""
+msgstr "Un modul pentru a gestiona care module sunt activate şi care dezactivate."
 
 #: ../plugins/plugin-manager/org-gnome-plugin-manager.eplug.xml.h:2
 msgid "Plugin manager"
-msgstr ""
+msgstr "Manager module"
 
 #: ../plugins/plugin-manager/org-gnome-plugin-manager.xml.h:1
 msgid "Enable and disable plugins"
-msgstr ""
+msgstr "Activează sau dezactivează module"
 
 #: ../plugins/plugin-manager/org-gnome-plugin-manager.xml.h:2
-#, fuzzy
 msgid "Plugins"
-msgstr "Turc"
+msgstr "Module"
 
 #: ../plugins/plugin-manager/plugin-manager.c:45
-#, fuzzy
 msgid "Author(s)"
-msgstr "ora"
+msgstr "Autor(i)"
 
 #: ../plugins/plugin-manager/plugin-manager.c:46
-#, fuzzy
 msgid "Id"
-msgstr "I"
+msgstr "Id"
 
 #: ../plugins/plugin-manager/plugin-manager.c:47
-#, fuzzy
 msgid "Path"
-msgstr "Cale:"
+msgstr "Cale"
 
 #: ../plugins/plugin-manager/plugin-manager.c:48
 #: ../widgets/table/e-table-config-no-group.glade.h:6
@@ -16125,19 +16103,17 @@ msgstr "Descriere"
 
 #. Setup the ui
 #: ../plugins/plugin-manager/plugin-manager.c:188
-#, fuzzy
 msgid "Plugin Manager"
-msgstr "Manager"
+msgstr "Manager modul"
 
 #: ../plugins/plugin-manager/plugin-manager.c:201
 msgid "Note: Some changes will not take effect until restart"
-msgstr ""
+msgstr "Notă: unele modificări nu vor fi aplicate decât după o restartare"
 
 #: ../plugins/plugin-manager/plugin-manager.c:210
 #: ../plugins/plugin-manager/plugin-manager.c:271
-#, fuzzy
 msgid "Plugin"
-msgstr "Turc"
+msgstr "Modul"
 
 #: ../plugins/prefer-plain/org-gnome-prefer-plain.eplug.xml.h:1
 msgid ""
@@ -16146,37 +16122,39 @@ msgid ""
 "\n"
 "This plugin is unsupported demonstration code only.\n"
 msgstr ""
+"Un modul de test ce demonstrează un modul de formatare ce vă permite să "
+"alegeţi dezactivarea mailurilor HTML.\n"
+"\n"
+"Acest modul reprezintă doar un cod demonstrativ nesuportat.\n"
 
 #. but then we also need to create our own section frame
 #: ../plugins/prefer-plain/org-gnome-prefer-plain.eplug.xml.h:6
-#, fuzzy
 msgid "Plain Text Mode"
-msgstr "Model text"
+msgstr "Mod text simplu"
 
 #: ../plugins/prefer-plain/org-gnome-prefer-plain.eplug.xml.h:7
 msgid "Prefer plain-text"
-msgstr ""
+msgstr "Preferă text simplu"
 
 #: ../plugins/prefer-plain/prefer-plain.c:105
 msgid "Show HTML if present"
-msgstr ""
+msgstr "Afişează HTML dacă este prezent"
 
 #: ../plugins/prefer-plain/prefer-plain.c:106
 msgid "Prefer PLAIN"
-msgstr ""
+msgstr "Preferă SIMPLU"
 
 #: ../plugins/prefer-plain/prefer-plain.c:107
 msgid "Only ever show PLAIN"
-msgstr ""
+msgstr "Afişează întotdeauna SIMPLU"
 
 #: ../plugins/prefer-plain/prefer-plain.c:150
-#, fuzzy
 msgid "HTML Mode"
-msgstr "În mailuri HTML"
+msgstr "Mod HTML"
 
 #: ../plugins/print-message/org-gnome-print-message.eplug.xml.h:1
 msgid "Gives an option to print mail from composer"
-msgstr ""
+msgstr "Oferă o opţiune pentru a tipări mailul din compozitor"
 
 #: ../plugins/print-message/org-gnome-print-message.xml.h:1
 #: ../ui/evolution-addressbook.xml.h:17 ../ui/evolution-calendar.xml.h:20
@@ -16185,9 +16163,8 @@ msgid "Print Pre_view"
 msgstr "Pre_vizualizează tipărire"
 
 #: ../plugins/print-message/org-gnome-print-message.xml.h:2
-#, fuzzy
 msgid "Prints the message"
-msgstr "Tipăreşte mesaj"
+msgstr "Tipăreşte acest mesaj"
 
 #: ../plugins/sa-junk-plugin/em-junk-filter.c:98
 msgid "Spamassassin (built-in)"
@@ -16195,40 +16172,35 @@ msgstr "Spamassassin (nativ)"
 
 #: ../plugins/sa-junk-plugin/org-gnome-sa-junk-plugin.eplug.xml.h:1
 msgid "Sa junk-plugin"
-msgstr ""
+msgstr "Modul SA spam"
 
 #: ../plugins/sa-junk-plugin/org-gnome-sa-junk-plugin.eplug.xml.h:2
 msgid "learns junk messages using spamd."
-msgstr ""
+msgstr "învaţă mesajele spam folosind spamd."
 
 #: ../plugins/save-attachments/org-gnome-save-attachments.eplug.xml.h:1
 msgid "A plugin for saving all attachments or parts of a message at once."
-msgstr ""
+msgstr "Un modul pentru salvarea tuturor ataşamentelor sau a părţilor unui mesaj deodată."
 
 #: ../plugins/save-attachments/org-gnome-save-attachments.eplug.xml.h:2
-#, fuzzy
 msgid "Save attachments"
-msgstr "Salvez anexa"
+msgstr "Salvează ataşamentele"
 
 #: ../plugins/save-attachments/org-gnome-save-attachments.xml.h:1
-#, fuzzy
 msgid "Save Attachments ..."
-msgstr "_Anexa"
+msgstr "Salvează ataşamentele..."
 
 #: ../plugins/save-attachments/org-gnome-save-attachments.xml.h:2
-#, fuzzy
 msgid "Save all attachments"
-msgstr "Salvez anexa"
+msgstr "Salvează toate ataşamentele"
 
 #: ../plugins/save-attachments/save-attachments.c:331
-#, fuzzy
 msgid "Select save base name"
-msgstr "Selectez ora locală"
+msgstr "Selectează numele de bază pentru salvare"
 
 #: ../plugins/save-attachments/save-attachments.c:351
-#, fuzzy
 msgid "MIME Type"
-msgstr "Tip MIME:"
+msgstr "Tip MIME"
 
 #: ../plugins/save-attachments/save-attachments.c:359
 #: ../ui/evolution-message-composer.xml.h:18
@@ -16242,110 +16214,95 @@ msgstr "Salvează"
 #. *
 #: ../plugins/save-calendar/csv-format.c:171
 msgid "%F %T"
-msgstr ""
+msgstr "%F %T"
 
 #: ../plugins/save-calendar/csv-format.c:385
 msgid "Uid"
-msgstr ""
+msgstr "Uid"
 
 #: ../plugins/save-calendar/csv-format.c:387
-#, fuzzy
 msgid "Description List"
-msgstr "Descriere"
+msgstr "Listă de descriere"
 
 #: ../plugins/save-calendar/csv-format.c:388
-#, fuzzy
 msgid "Categories List"
-msgstr ""
-"\n"
-"Categorii:  "
+msgstr "Listă de categorii"
 
 #: ../plugins/save-calendar/csv-format.c:389
-#, fuzzy
 msgid "Comment List"
-msgstr "_Listă contacte"
+msgstr "Listă de comentarii"
 
 #: ../plugins/save-calendar/csv-format.c:391
-#, fuzzy
 msgid "Created"
-msgstr "Previzualizare"
+msgstr "Creat"
 
 #: ../plugins/save-calendar/csv-format.c:392
-#, fuzzy
 msgid "Contact List"
-msgstr "_Listă contacte"
+msgstr "Listă de contact"
 
 #: ../plugins/save-calendar/csv-format.c:393
-#, fuzzy
 msgid "Start"
-msgstr "Stare"
+msgstr "Început"
 
 #: ../plugins/save-calendar/csv-format.c:394
-#, fuzzy
 msgid "End"
-msgstr "2"
+msgstr "Şfârşit"
 
 #: ../plugins/save-calendar/csv-format.c:396
 msgid "percent Done"
-msgstr ""
+msgstr "procentaj realizat"
 
 #: ../plugins/save-calendar/csv-format.c:398
 msgid "Url"
-msgstr ""
+msgstr "Url"
 
 #: ../plugins/save-calendar/csv-format.c:399
-#, fuzzy
 msgid "Attendees List"
-msgstr "Participare"
+msgstr "Listă participanţi"
 
 #: ../plugins/save-calendar/csv-format.c:401
-#, fuzzy
 msgid "Modified"
-msgstr "Model"
+msgstr "Modificat"
 
 #: ../plugins/save-calendar/csv-format.c:552
 msgid "Advanced options for the CSV format"
-msgstr ""
+msgstr "Opţiuni avansate pentru formatul CSV"
 
 #: ../plugins/save-calendar/csv-format.c:559
 msgid "Prepend a header"
-msgstr ""
+msgstr "Adaugă un antet la început"
 
 #: ../plugins/save-calendar/csv-format.c:568
 msgid "Value delimiter:"
-msgstr ""
+msgstr "Delimitator valoare:"
 
 #: ../plugins/save-calendar/csv-format.c:574
 msgid "Record delimiter:"
-msgstr ""
+msgstr "Delimitator înregistrare:"
 
 #: ../plugins/save-calendar/csv-format.c:580
 msgid "Encapsulate values with:"
-msgstr ""
+msgstr "Încapsulează valorile cu:"
 
 #: ../plugins/save-calendar/csv-format.c:602
 msgid "Comma separated value format (.csv)"
-msgstr ""
+msgstr "Format de valori separate prin virgulă (.csv)"
 
 #: ../plugins/save-calendar/ical-format.c:137
-#, fuzzy
 msgid "iCalendar format (.ics)"
-msgstr "Mesaj calendar"
+msgstr "Format iCalendar (.ics)"
 
 #: ../plugins/save-calendar/org-gnome-save-calendar.eplug.xml.h:1
-#, fuzzy
 msgid "Save Selected"
-msgstr "Şterse"
+msgstr "Salvează selecţia"
 
 #: ../plugins/save-calendar/org-gnome-save-calendar.eplug.xml.h:2
-#, fuzzy
 msgid "Save to _Disk"
-msgstr "Salvează sarcina"
+msgstr "Salvează pe _disc"
 
 #: ../plugins/save-calendar/org-gnome-save-calendar.eplug.xml.h:3
-#, fuzzy
 msgid "Saves selected calendar or tasks list to disk."
-msgstr "Şterge contactele selectate"
+msgstr "Salvează calendarul selectat sau lista de sarcini pe disc."
 
 #.
 #. * Translator: the %FT%T is the thirth argument for a strftime function.
@@ -16354,17 +16311,16 @@ msgstr "Şterge contactele selectate"
 #. *
 #: ../plugins/save-calendar/rdf-format.c:158
 msgid "%FT%T"
-msgstr ""
+msgstr "%FT%T"
 
 #: ../plugins/save-calendar/rdf-format.c:396
 msgid "RDF format (.rdf)"
-msgstr ""
+msgstr "Format RDF (.rdf)"
 
 #: ../plugins/save-calendar/save-calendar.c:171
 #: ../plugins/save-calendar/save-calendar.c:181
-#, fuzzy
 msgid "Select destination file"
-msgstr "Selectaţi destinaţia"
+msgstr "Selectaţi fişierul destinaţie"
 
 #: ../plugins/save-calendar/save-calendar.c:216
 #, c-format
@@ -16372,37 +16328,36 @@ msgid ""
 "The suggested filename extension of this filetype (%s) is unused in the "
 "chosen filename. Do you want to continue?"
 msgstr ""
+"Extensia de fişier sugerată pentru acest tip de fişier (%s) este nefolosită "
+"în numele fişierului. Doriţi să continuaţi?"
 
 #: ../plugins/select-one-source/org-gnome-select-one-source.eplug.xml.h:1
-#, fuzzy
 msgid "Select one source"
-msgstr "Mod selecţie"
+msgstr "Selectaţi o sursă"
 
 #: ../plugins/select-one-source/org-gnome-select-one-source.eplug.xml.h:2
 msgid "Selects a single calendar or task source for viewing."
-msgstr ""
+msgstr "Selectaţi un singur calendar sau o sursă de sarcini pentru vizualizare."
 
 #: ../plugins/select-one-source/org-gnome-select-one-source.eplug.xml.h:3
-#, fuzzy
 msgid "_Show only this Calendar"
-msgstr "Arată în această ordine"
+msgstr "_Afişează doar acest calendar"
 
 #: ../plugins/select-one-source/org-gnome-select-one-source.eplug.xml.h:4
 msgid "_Show only this Task List"
-msgstr ""
+msgstr "_Afişează doar această listă de sarcini"
 
 #: ../plugins/startup-wizard/org-gnome-evolution-startup-wizard.eplug.xml.h:1
 msgid "Startup wizard"
-msgstr ""
+msgstr "Vrăjitor pornire"
 
 #: ../plugins/startup-wizard/startup-wizard.c:85
-#, fuzzy
 msgid "Evolution Setup Assistant"
-msgstr "Utilitate de import Evolution"
+msgstr "Asistent pentru setarea Evolution"
 
 #: ../plugins/startup-wizard/startup-wizard.c:88
 msgid "Welcome"
-msgstr ""
+msgstr "Bine aţi venit"
 
 #: ../plugins/startup-wizard/startup-wizard.c:89
 msgid ""
@@ -16411,138 +16366,126 @@ msgid ""
 "\n"
 "Please click the \"Forward\" button to continue. "
 msgstr ""
+"Bine aţi venit la Evolution. Următoarele ecrane vor permite aplicaţiei "
+"Evolution să se conecteze la conturile dumneavoastră de email, şi să "
+"importe fişiere din alte aplicaţii.\n"
+"\n"
+"Vă rugăm să executaţi clic pe „Continuare” pentru a continua. "
 
 #: ../plugins/startup-wizard/startup-wizard.c:140
 #: ../shell/e-shell-importer.c:145
 msgid "Please select the information that you would like to import:"
-msgstr ""
+msgstr "Vă rugăm selectaţi informaţia pe care doriţi să o importaţi:"
 
 #: ../plugins/startup-wizard/startup-wizard.c:154
 #: ../shell/e-shell-importer.c:398
-#, fuzzy, c-format
+#, c-format
 msgid "From %s:"
-msgstr "De la:"
+msgstr "De la %s:"
 
 #: ../plugins/startup-wizard/startup-wizard.c:234
 #: ../shell/e-shell-importer.c:509
-#, fuzzy
 msgid "Importing data."
-msgstr "Se importă"
+msgstr "Import datele."
 
 #: ../plugins/subject-thread/org-gnome-subject-thread.eplug.xml.h:1
 msgid "Indicates if threading of messages should fall back to subject."
-msgstr ""
+msgstr "Indică dacă sortarea mesajelor să se facă după subiect în caz de probleme."
 
 #: ../plugins/subject-thread/org-gnome-subject-thread.eplug.xml.h:2
-#, fuzzy
 msgid "Subject Threading"
-msgstr "Selec_tează înlănţuirea"
+msgstr "Sortare după subiect"
 
 #: ../plugins/subject-thread/org-gnome-subject-thread.eplug.xml.h:3
-#, fuzzy
 msgid "Thread messages by subject"
-msgstr "Mesaj înaintat (fără subiect)"
+msgstr "Sortează mesajele după subiect"
 
 #. Create the checkbox we will display, complete with mnemonic that is unique in the dialog
 #: ../plugins/subject-thread/subject-thread.c:54
 msgid "Fall back to threading messages by sub_ject"
-msgstr ""
+msgstr "Revenire la sortarea după _subiect în caz de probleme"
 
 #: ../shell/GNOME_Evolution_Shell.server.in.in.h:1
-#, fuzzy
 msgid "Evolution Shell"
-msgstr "Shell Evolution."
+msgstr "Shell Evolution"
 
 #: ../shell/GNOME_Evolution_Shell.server.in.in.h:2
-#, fuzzy
 msgid "Evolution Shell Config factory"
-msgstr "Shell Evolution."
+msgstr "Uzina de configurare shell Evolution"
 
 #: ../shell/GNOME_Evolution_Test.server.in.in.h:1
-#, fuzzy
 msgid "Evolution Test"
-msgstr "Evolution"
+msgstr "Test Evolution"
 
 #: ../shell/GNOME_Evolution_Test.server.in.in.h:2
-#, fuzzy
 msgid "Evolution Test component"
-msgstr "Compozitorul de mailuiri Evolution."
+msgstr "Componentă de test Evolution"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:1
 msgid "A GNOME Print description of the current printer settings"
-msgstr ""
+msgstr "O descriere Tipărire GNOME pentru setările curente de tipărire"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:2
-#, fuzzy
 msgid "Configuration version"
-msgstr "Interfaţa de configurare mail"
+msgstr "Versiune configurare"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:3
-#, fuzzy
 msgid "Default sidebar width"
-msgstr "_Prioritate:"
+msgstr "Lăţime implicită bară laterală"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:4
-#, fuzzy
 msgid "Default window height"
-msgstr "_Prioritate:"
+msgstr "Înălţime implicită fereastră"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:5
-#, fuzzy
 msgid "Default window width"
-msgstr "_Prioritate:"
+msgstr "Lăţime implicită fereastră"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:6
 msgid "ID or alias of the component to be shown by default at start-up."
-msgstr ""
+msgstr "ID sau alias al componentei ce va fi afişată implicit la pornire."
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:7
-#, fuzzy
 msgid "Last upgraded configuration version"
-msgstr "Interfaţa de configurare mail"
+msgstr "Versiunea ultimei configurării actualizate"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:8
 msgid "List of paths for the folders to be synchronized to disk for offline usage"
-msgstr ""
+msgstr "Listă de căi de dosare sincronizate cu discul pentru folosire deconectată"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:9
-#, fuzzy
 msgid "Printer settings"
-msgstr "Setări pilot..."
+msgstr "Setări imprimantă"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:10
 msgid "Skip development warning dialog"
-msgstr ""
+msgstr "Sări peste dialogul de avertizare al versiunii de dezvoltare"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:11 ../shell/main.c:468
-#, fuzzy
 msgid "Start in offline mode"
-msgstr "_Data început:"
+msgstr "Porneşte în mod deconectat"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:12
 msgid "The configuration version of Evolution, with major/minor/configuration level"
-msgstr ""
+msgstr "Versiunea de configurare pentru Evolution, cu nivel de configurare major/minor"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:13
-#, fuzzy
 msgid "The default height for the main window, in pixels."
-msgstr "Decupează mesajele selectate"
+msgstr "Înălţimea implicită a ferestrei principale, în pixeli."
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:14
-#, fuzzy
 msgid "The default width for the main window, in pixels."
-msgstr "Comută în timp ce se arată bara folder"
+msgstr "Lăţimea implicită a ferestrei principale, în pixeli."
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:15
-#, fuzzy
 msgid "The default width for the sidebar, in pixels."
-msgstr "Comută în timp ce se arată bara folder"
+msgstr "Lăţimea implicită a bării laterale, în pixeli."
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:16
 msgid ""
 "The last upgraded configuration version of Evolution, with major/minor/"
 "configuration level"
-msgstr ""
+msgstr "Ultima versiune actualizată de configurare a Evolution, cu nivel de configurare major/minor"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:17
 msgid ""
@@ -16550,42 +16493,45 @@ msgid ""
 "\"toolbar\". If \"toolbar\" is set, the style of the buttons is determined "
 "by the GNOME toolbar setting."
 msgstr ""
+"Stilul butoanelor ferestrei. Poate fi „text”, „icons”, „both”, „toolbar”. "
+"Dacă este setat  „toolbar”, stilul butoanelor este determinat din setările "
+"bării de unelte GNOME."
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:18
 msgid "Toolbar is visible"
-msgstr ""
+msgstr "Bara de unelte este vizibilă"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:19
 msgid "Whether Evolution will start up in offline mode instead of online mode."
-msgstr ""
+msgstr "Dacă Evolution va porni în mod deconectat, în loc de mod conectat."
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:20
 msgid "Whether the toolbar should be visible."
-msgstr ""
+msgstr "Dacă bara de unelte să fie vizibilă."
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:21
 msgid "Whether the warning dialog in development versions of Evolution is skipped."
 msgstr ""
+"Dacă dialogul de avertisment din versiunile de dezvoltare Evolution să "
+"fie dezactivate."
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:22
 msgid "Whether the window buttons should be visible."
-msgstr ""
+msgstr "Dacă butoanele ferestrei să fie vizibile."
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:23
 msgid "Window button style"
-msgstr ""
+msgstr "Stil de butoane pentru ferestre"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:24
 msgid "Window buttons are visible"
-msgstr ""
+msgstr "Butoanele ferestrei sunt vizibile"
 
 #: ../shell/e-active-connection-dialog.glade.h:1
-#, fuzzy
 msgid "<b>Active Connections</b>"
-msgstr "Conexiuni active"
+msgstr "<b>Conexiuni active</b>"
 
 #: ../shell/e-active-connection-dialog.glade.h:2
-#, fuzzy
 msgid "Active Connections"
 msgstr "Conexiuni active"
 
@@ -16600,7 +16546,7 @@ msgstr "(Fără titlu)"
 
 #: ../shell/e-shell-importer.c:133
 msgid "Choose the type of importer to run:"
-msgstr ""
+msgstr "Alegeţi tipul de importator pentru rulat:"
 
 #: ../shell/e-shell-importer.c:136
 msgid ""
@@ -16617,9 +16563,8 @@ msgstr ""
 "determine automat."
 
 #: ../shell/e-shell-importer.c:142
-#, fuzzy
 msgid "Choose the destination for this import"
-msgstr "Anulează întâlnirea pentru acest articol"
+msgstr "Alegeţi destinaţia pentru acest import"
 
 #: ../shell/e-shell-importer.c:148
 msgid ""
@@ -16628,76 +16573,70 @@ msgid ""
 "settings found. If you would like to\n"
 "try again, please click the \"Back\" button.\n"
 msgstr ""
+"Evolution a verificat pentru setări de importat următoarele aplicaţii:\n"
+"Pine, Netscape, Elm, iCalendar. Nici o setare importabilă nu a putut\n"
+"fi găsită. Dacă doriţi să încercaţi din nou, daţi un clic pe butonul „Înapoi”.\n"
 
 #: ../shell/e-shell-importer.c:283
-#, fuzzy
 msgid "F_ilename:"
-msgstr "Nume fişier:"
+msgstr "Nume f_işier:"
 
 #: ../shell/e-shell-importer.c:288
 msgid "Select a file"
 msgstr "Selectează un fişier"
 
 #: ../shell/e-shell-importer.c:300
-#, fuzzy
 msgid "File _type:"
-msgstr "Tip fişier:"
+msgstr "_Tip fişier:"
 
 #: ../shell/e-shell-importer.c:336
 msgid "Import data and settings from _older programs"
-msgstr ""
+msgstr "Importă date şi setări din programe mai _vechi"
 
 #: ../shell/e-shell-importer.c:339
-#, fuzzy
 msgid "Import a _single file"
-msgstr "Import fişiere"
+msgstr "Importă un _singur fişier"
 
 #: ../shell/e-shell-importer.c:698
-#, fuzzy
 msgid "_Import"
-msgstr "Import"
+msgstr "_Importă"
 
 #: ../shell/e-shell-settings-dialog.c:318
-#, fuzzy
 msgid "Evolution Settings"
-msgstr "Setări Evolution..."
+msgstr "Setări Evolution"
 
 #: ../shell/e-shell-utils.c:118
-#, fuzzy
 msgid "No folder name specified."
-msgstr "Nici un destinatar specificat"
+msgstr "Nici un nume de dosar specificat."
 
 #: ../shell/e-shell-utils.c:125
 msgid "Folder name cannot contain the Return character."
-msgstr ""
+msgstr "Numele dosarului nu poate conţine caracterul Return."
 
 #: ../shell/e-shell-utils.c:131
-#, fuzzy
 msgid "Folder name cannot contain the character \"/\"."
-msgstr "Nu pot deschide directorul cache: %s"
+msgstr "Numele dosarului nu poate conţine caracterul „/”."
 
 #: ../shell/e-shell-utils.c:137
-#, fuzzy
 msgid "Folder name cannot contain the character \"#\"."
-msgstr "Nu pot deschide directorul cache: %s"
+msgstr "Numele dosarului nu poate conţine caracterul „#”."
 
 #: ../shell/e-shell-utils.c:143
 msgid "'.' and '..' are reserved folder names."
-msgstr ""
+msgstr "„.” şi „..” sunt nume de dosare rezervate."
 
 #: ../shell/e-shell-window-commands.c:70
 msgid "The GNOME Pilot tools do not appear to be installed on this system."
-msgstr ""
+msgstr "Uneltele GNOME Pilot nu par a fi instalate pe acest sistem."
 
 #: ../shell/e-shell-window-commands.c:78
-#, fuzzy, c-format
+#, c-format
 msgid "Error executing %s."
-msgstr "Eroare execuţie filtru: %s: %s"
+msgstr "Eroare la execuţia %s."
 
 #: ../shell/e-shell-window-commands.c:127
-#, fuzzy
 msgid "Bug buddy is not installed."
-msgstr "Bug buddy nu poate fi rulat."
+msgstr "Bug buddy nu este instalat."
 
 #: ../shell/e-shell-window-commands.c:135
 msgid "Bug buddy could not be run."
@@ -16711,14 +16650,12 @@ msgid "translator-credits"
 msgstr "Mugurel Tudor <mugurelu@gnome.ro>"
 
 #: ../shell/e-shell-window-commands.c:522
-#, fuzzy
 msgid "Groupware Suite"
-msgstr "Nume grup:"
+msgstr "Suită Groupware"
 
 #: ../shell/e-shell-window-commands.c:750
-#, fuzzy
 msgid "_Work Online"
-msgstr "Lucrează offline"
+msgstr "Lucrează _conectat"
 
 #: ../shell/e-shell-window-commands.c:763 ../ui/evolution.xml.h:47
 msgid "_Work Offline"
@@ -16729,123 +16666,108 @@ msgid "Work Offline"
 msgstr "Lucrează deconectat"
 
 #: ../shell/e-shell-window.c:343
-#, fuzzy
 msgid "Evolution is currently online.  Click on this button to work offline."
 msgstr ""
-"Evolution este actualmente conectat. Daţi clic pe buton pentru a lucra "
-"deconectat."
+"Evolution este în acest moment conectat.  Daţi clic pe acest buton pentru a "
+"lucra deconectat."
 
 #: ../shell/e-shell-window.c:351
-#, fuzzy
 msgid "Evolution is in the process of going offline."
 msgstr "Evolution este în proces de deconectare."
 
 #: ../shell/e-shell-window.c:358
-#, fuzzy
 msgid "Evolution is currently offline.  Click on this button to work online."
 msgstr ""
-"Evolution este actualmente deconectat. Daţi clic pe buton pentru a lucra "
-"conectat."
+"Evolution este în acest moment deconectat.  Daţi clic pe acest buton pentru a "
+"lucra conectat."
 
 #: ../shell/e-shell-window.c:724
-#, fuzzy, c-format
+#, c-format
 msgid "Switch to %s"
-msgstr "Mail la %s"
+msgstr "Comută la %s"
 
 #: ../shell/e-shell.c:623
-#, fuzzy
 msgid "Uknown system error."
-msgstr "Eroare necunoscută"
+msgstr "Eroare de sistem necunoscută."
 
 #: ../shell/e-shell.c:825 ../shell/e-shell.c:826
-#, fuzzy, c-format
+#, c-format
 msgid "%ld KB"
-msgstr "%d %B"
+msgstr "%ld KB"
 
 #: ../shell/e-shell.c:1257 ../widgets/misc/e-cell-date-edit.c:256
 msgid "OK"
 msgstr "OK"
 
 #: ../shell/e-shell.c:1259
-#, fuzzy
 msgid "Invalid arguments"
-msgstr "Conţinut invalid al mesajului"
+msgstr "Argumente invalide"
 
 #: ../shell/e-shell.c:1261
 msgid "Cannot register on OAF"
-msgstr ""
+msgstr "Nu mă pot înregistra la OAF"
 
 #: ../shell/e-shell.c:1263
 msgid "Configuration Database not found"
-msgstr ""
+msgstr "Baza de date de configurare nu a fost găsită"
 
 #: ../shell/e-user-creatable-items-handler.c:685
 msgid "New"
 msgstr "Nou"
 
 #: ../shell/evolution-test-component.c:140
-#, fuzzy
 msgid "New Test"
-msgstr "Sarcină nouă"
+msgstr "Test nou"
 
 #: ../shell/evolution-test-component.c:141
-#, fuzzy
 msgid "_Test"
-msgstr "Test"
+msgstr "_Test"
 
 #: ../shell/evolution-test-component.c:142
-#, fuzzy
 msgid "Create a new test item"
-msgstr "Crează o sarcină nouă"
+msgstr "Creează un nou element test"
 
 #: ../shell/import.glade.h:1
 msgid "Click \"Import\" to begin importing the file into Evolution. "
 msgstr "Daţi clic pe \"Import\" pentru a începe importul fişierului în Evolution. "
 
 #: ../shell/import.glade.h:2
-#, fuzzy
 msgid "Evolution Import Assistant"
-msgstr "Utilitate de import Evolution"
+msgstr "Asistent Evolution pentru import"
 
 #: ../shell/import.glade.h:3
-#, fuzzy
 msgid "Import File"
-msgstr "Se importă"
+msgstr "Importă fişier"
 
 #: ../shell/import.glade.h:4
-#, fuzzy
 msgid "Import Location"
-msgstr "_Acţiune"
+msgstr "Importă locaţie"
 
 #: ../shell/import.glade.h:5
-#, fuzzy
 msgid "Importer Type"
-msgstr "Importatori"
+msgstr "Tip importatori"
 
 #: ../shell/import.glade.h:6
-#, fuzzy
 msgid "Select Importers"
-msgstr "Alege dosar"
+msgstr "Selectează importatori"
 
 #: ../shell/import.glade.h:7
-#, fuzzy
 msgid "Select a File"
 msgstr "Selectează un fişier"
 
 #: ../shell/import.glade.h:8
-#, fuzzy
 msgid ""
 "Welcome to the Evolution Import Assistant.\n"
 "With this assistant you will be guided through the process of\n"
 "importing external files into Evolution."
 msgstr ""
-"Bine aţi venit la utilitatea de import Evolution.\n"
+"Bine aţi venit la Asistentul Evolution pentru import.\n"
 "Cu acest asistent veţi fi ghidat prin procesul de\n"
-"import al fişierelor extene în Evolution."
+"import al fişierelor externe în Evolution."
 
 #. Preview/Alpha/Beta version warning message
 #: ../shell/main.c:230
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Hi.  Thanks for taking the time to download this preview release\n"
 "of the Evolution groupware suite.\n"
@@ -16863,11 +16785,14 @@ msgid ""
 "We hope that you enjoy the results of our hard work, and we\n"
 "eagerly await your contributions!\n"
 msgstr ""
-"Salut. Mulţumesc pentru timpul acordat pentru descărcarea acestui\n"
-"PREVIEW RELEASE al suitei Evolution.\n"
+"Salut.  Mulţumim pentru timpul acordat pentru descărcarea acestei\n"
+"versiuni de previzualizare al suitei de groupware Evolution.\n"
 "\n"
 "Evolution nu e încă complet. E pe aproape, dar există locuri unde\n"
 "facilităţile sau lipsesc sau sunt încă în lucru. \n"
+"\n"
+"Dacă doriţi o versiune stabilă de Evolution, vă rugăm să dezinstalaţi\n"
+"această versiune, şi să instalaţi versiunea %s în loc.\n"
 "\n"
 "Dacă găsiţi erori, vă rugăm raportaţi-le la bugzilla.ximian.com.\n"
 "Acest produs vine fără nici o garanţie şi nu e destinat\n"
@@ -16877,7 +16802,6 @@ msgstr ""
 "cu nerăbdare contribuţia dumneavostră!\n"
 
 #: ../shell/main.c:254
-#, fuzzy
 msgid ""
 "Thanks\n"
 "The Evolution Team\n"
@@ -16886,26 +16810,24 @@ msgstr ""
 "Echipa Evolution\n"
 
 #: ../shell/main.c:261
-#, fuzzy
 msgid "Don't tell me again"
-msgstr "Nu mă întreba din nou"
+msgstr "Nu îmi spune din nou"
 
 #: ../shell/main.c:466
 msgid "Start Evolution activating the specified component"
-msgstr ""
+msgstr "Porneşte Evolution activând componenta specificată"
 
 #: ../shell/main.c:470
-#, fuzzy
 msgid "Start in online mode"
-msgstr "_Data început:"
+msgstr "Porneşte în mod conectat"
 
 #: ../shell/main.c:473
 msgid "Forcibly shut down all Evolution components"
-msgstr ""
+msgstr "Închide forţat toate componentele Evolution"
 
 #: ../shell/main.c:477
 msgid "Forcibly re-migrate from Evolution 1.4"
-msgstr ""
+msgstr "Migrează forţat de la Evolution 1.4"
 
 #: ../shell/main.c:480
 msgid "Send the debugging output of all components to a file."
@@ -16913,7 +16835,7 @@ msgstr "Trimite ieşirile pentru depanare ale tuturor componentelor într-un fi�
 
 #: ../shell/main.c:482
 msgid "Disable loading of any plugins."
-msgstr ""
+msgstr "Dezactivează încărcarea oricăror module."
 
 #: ../shell/main.c:513
 #, c-format
@@ -16921,41 +16843,40 @@ msgid ""
 "%s: --online and --offline cannot be used together.\n"
 "  Use %s --help for more information.\n"
 msgstr ""
+"%s: --online şi --offline nu pot fi folosite împreună.\n"
+"  Folosiţi %s --help pentru mai multe informaţii.\n"
 
 #: ../shell/shell.error.xml.h:1
-#, fuzzy
 msgid "Are you sure you want to forget all remembered passwords?"
-msgstr "Sunteţi sigur că doriţi să ştergeţi aceste {0} sarcini?"
+msgstr "Sunteţi sigur că doriţi să uitaţi toate parolele memorate?"
 
 #: ../shell/shell.error.xml.h:2
-#, fuzzy
 msgid "Continue"
-msgstr "conţine"
+msgstr "Continuă"
 
 #: ../shell/shell.error.xml.h:3
 msgid "Delete old data from version {0}?"
-msgstr ""
+msgstr "Ştergeţi datele vechi din versiunea {0}?"
 
 #: ../shell/shell.error.xml.h:4
-#, fuzzy
 msgid "Evolution can not start."
-msgstr "Asistentul de conturi Evolution"
+msgstr "Evolution nu poate porni."
 
 #: ../shell/shell.error.xml.h:5
-#, fuzzy
 msgid ""
 "Forgetting your passwords will clear all remembered passwords. You will be "
 "reprompted next time they are needed. "
-msgstr "Uită parolele memorate astfel veţi fi întrebat despre ele din nou"
+msgstr ""
+"Uitarea parolelor dumneavoastră va duce la ştergerea tuturor parolelor "
+"memorate. Vi se vor cere din nou data viitoare când va fi nevoie de ele. "
 
 #: ../shell/shell.error.xml.h:7
 msgid "Insufficient disk space for upgrade."
-msgstr ""
+msgstr "Spaţiu pe disc insuficient pentru actualizare."
 
 #: ../shell/shell.error.xml.h:8
-#, fuzzy
 msgid "Really delete old data?"
-msgstr "Şterge dosarul '%s'"
+msgstr "Ştergeţi într-adevăr datele vechi?"
 
 #: ../shell/shell.error.xml.h:9
 msgid ""
@@ -16969,6 +16890,14 @@ msgid ""
 "Once deleted, you cannot downgrade to the previous version of Evolution "
 "without manual intervention.\n"
 msgstr ""
+"Întregul conţinut al directorului „evolution” va fi şters permanent.\n"
+"\n"
+"Vă sugerăm să verificaţi manual că toate mailurile, contactele şi datele "
+"de calendar sunt prezente, şi că această versiune de Evolution funcţionează "
+"corect înainte de a şterge aceste date vechi.\n"
+"\n"
+"Odată şterse, nu puteţi reveni la versiunea anterioară de Evolution fără o "
+"intervenţie manuală.\n"
 
 #: ../shell/shell.error.xml.h:15
 msgid ""
@@ -16979,10 +16908,16 @@ msgid ""
 "keep this data, then you may manually remove the contents of &quot;"
 "evolution&quot; at your convenience.\n"
 msgstr ""
+"Această versiune anterioară de evolution stochează datele într-o locaţie "
+"diferită.\n"
+"\n"
+"Dacă alegeţi să ştergeţi aceste date, întregul conţinut al directorului "
+"„evolution” va fi şters permanent.  Dacă alegeţi să păstraţi aceste date, "
+"atunci puteţi şterge manual conţinutul lui „evolution”, când doriţi.\n"
 
 #: ../shell/shell.error.xml.h:19
 msgid "Upgrade from previous version failed: {0}"
-msgstr ""
+msgstr "Actualizarea de la versiunea anterioară a eşuat: {0}"
 
 #: ../shell/shell.error.xml.h:20
 msgid ""
@@ -16992,6 +16927,11 @@ msgid ""
 "You will need to make more space available in your home directory before you "
 "can continue."
 msgstr ""
+"Actualizarea datelor şi setărilor va necesita până la {0} spaţiu pe disc, "
+"dar dumneavoastră aveţi doar {1}.\n"
+"\n"
+"Va trebui să eliberaţi mai mult spaţiu pe disc în directorul acasă înainte "
+"de a putea continua."
 
 #: ../shell/shell.error.xml.h:23
 msgid ""
@@ -16999,6 +16939,9 @@ msgid ""
 "\n"
 "Click help for details"
 msgstr ""
+"Configuraţia sistemului dumneavoastră nu se potriveşte cu cea a Evolution.\n"
+"\n"
+"Clic pe ajutor pentru detalii"
 
 #: ../shell/shell.error.xml.h:26
 msgid ""
@@ -17008,20 +16951,23 @@ msgid ""
 "\n"
 "Click help for details."
 msgstr ""
+"Configuraţia sistemului dumneavoastră nu se potriveşte cu cea a Evolution.\n"
+"\n"
+"{0}\n"
+"\n"
+"Clic pe ajutor pentru detalii."
 
 #: ../shell/shell.error.xml.h:31
-#, fuzzy
 msgid "_Forget"
-msgstr "_Port:"
+msgstr "_Uită"
 
 #: ../shell/shell.error.xml.h:32
 msgid "_Keep Data"
-msgstr ""
+msgstr "_Păstrează datele"
 
 #: ../shell/shell.error.xml.h:33
-#, fuzzy
 msgid "_Remind Me Later"
-msgstr "Trimite mai târziu"
+msgstr "_Reaminteşte-mi mai târziu"
 
 #: ../shell/shell.error.xml.h:34
 msgid ""
@@ -17030,6 +16976,10 @@ msgid ""
 "If you choose to continue, you may not have access to some of your old "
 "data.\n"
 msgstr ""
+"{1}\n"
+"\n"
+"Dacă alegeţi să continuaţi, s-ar putea să nu mai puteţi avea acces la unele "
+"dintre datele dumneavoastră mai vechi.\n"
 
 #: ../smime/gui/ca-trust-dialog.c:96
 #, c-format
@@ -17038,6 +16988,9 @@ msgid ""
 "\n"
 "Edit trust settings:"
 msgstr ""
+"Certificatul „%s” este un certificat CA.\n"
+"\n"
+"Editează setările de încredere:"
 
 #: ../smime/gui/cert-trust-dialog.c:145
 msgid ""
@@ -17045,6 +16998,9 @@ msgid ""
 "then you trust the authenticity of this certificate unless otherwise "
 "indicated here"
 msgstr ""
+"Deoarece aveţi încredere în autoritatea de certificare care a emis acest "
+"certificat, veţi avea încredere în autenticitatea acestui certificat, mai puţin "
+"în cazul în care indicaţi altceva aici"
 
 #: ../smime/gui/cert-trust-dialog.c:149
 msgid ""
@@ -17052,6 +17008,9 @@ msgid ""
 "certificate, then you do not trust the authenticity of this certificate "
 "unless otherwise indicated here"
 msgstr ""
+"Deoarece nu aveţi încredere în autoritatea de certificare care a emis acest "
+"certificat, nu veţi avea încredere în autenticitatea acestui certificat, mai puţin "
+"în cazul în care indicaţi altceva aici"
 
 #: ../smime/gui/certificate-manager.c:134
 #: ../smime/gui/certificate-manager.c:142
@@ -17059,204 +17018,182 @@ msgstr ""
 #: ../smime/gui/certificate-manager.c:385
 #: ../smime/gui/certificate-manager.c:597
 #: ../smime/gui/certificate-manager.c:605
-#, fuzzy
 msgid "Select a certificate to import..."
-msgstr "Alege dosar"
+msgstr "Selectaţi un certificat pentru import..."
 
 #: ../smime/gui/certificate-manager.c:265
 #: ../smime/gui/certificate-manager.c:474
 #: ../smime/gui/certificate-manager.c:692
-#, fuzzy
 msgid "Certificate Name"
-msgstr "ID certificat:"
+msgstr "Nume certificat"
 
 #: ../smime/gui/certificate-manager.c:274
 #: ../smime/gui/certificate-manager.c:492
-#, fuzzy
 msgid "Purposes"
-msgstr "În desfăşurare"
+msgstr "Scopuri"
 
 #: ../smime/gui/certificate-manager.c:283 ../smime/gui/smime-ui.glade.h:37
 #: ../smime/lib/e-cert.c:569
 msgid "Serial Number"
-msgstr ""
+msgstr "Număr serial"
 
 #: ../smime/gui/certificate-manager.c:291
-#, fuzzy
 msgid "Expires"
-msgstr "Expresie"
+msgstr "Expiră"
 
 #: ../smime/gui/certificate-manager.c:483
-#, fuzzy
 msgid "E-Mail Address"
-msgstr "Adresa email:"
+msgstr "Adresa email"
 
 #: ../smime/gui/certificate-viewer.c:334
-#, fuzzy, c-format
+#, c-format
 msgid "Certificate Viewer: %s"
-msgstr "ID certificat:"
+msgstr "Vizualizare certificat: %s"
 
 #: ../smime/gui/component.c:45
-#, fuzzy, c-format
+#, c-format
 msgid "Enter the password for `%s'"
-msgstr "Introduceţi parola pentru %s"
+msgstr "Introduceţi parola pentru „%s”"
 
 #. we're setting the password initially
 #: ../smime/gui/component.c:68
-#, fuzzy
 msgid "Enter new password for certificate database"
-msgstr "Introduceţi parola pentru %s"
+msgstr "Introduceţi noua parolă pentru baza de date cu certificate"
 
 #: ../smime/gui/component.c:70
-#, fuzzy
 msgid "Enter new password"
-msgstr "Introduceţi parola pentru %s"
+msgstr "Introduceţi noua parolă"
 
 #. FIXME: add serial no, validity date, uses
 #: ../smime/gui/e-cert-selector.c:119
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Issued to:\n"
 "  Subject: %s\n"
 msgstr ""
-"Publicist: %s\n"
-"Subiect: %s"
+"Emis către:\n"
+"  Subiect: %s\n"
 
 #: ../smime/gui/e-cert-selector.c:120
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Issued by:\n"
 "  Subject: %s\n"
 msgstr ""
-"Publicist: %s\n"
-"Subiect: %s"
+"Emis de către:\n"
+"  Subiect: %s\n"
 
 #: ../smime/gui/e-cert-selector.c:167
-#, fuzzy
 msgid "Select certificate"
-msgstr "Mergi la o anumită data"
+msgstr "Selectaţi certificatul"
 
 #: ../smime/gui/smime-ui.glade.h:1
 msgid "<Not Part of Certificate>"
-msgstr ""
+msgstr "<Nu este parte a certificatului>"
 
 #: ../smime/gui/smime-ui.glade.h:2
-#, fuzzy
 msgid "<b>Certificate Fields</b>"
-msgstr "ID certificat:"
+msgstr "<b>Câmpuri certificat</b>"
 
 #: ../smime/gui/smime-ui.glade.h:3
 msgid "<b>Certificate Hierarchy</b>"
-msgstr ""
+msgstr "<b>Ierarhie certificat</b>"
 
 #: ../smime/gui/smime-ui.glade.h:4
-#, fuzzy
 msgid "<b>Field Value</b>"
-msgstr "Trimit email"
+msgstr "<b>Valoare câmp</b>"
 
 #: ../smime/gui/smime-ui.glade.h:5
 msgid "<b>Fingerprints</b>"
-msgstr ""
+msgstr "<b>Amprente</b>"
 
 #: ../smime/gui/smime-ui.glade.h:6
-#, fuzzy
 msgid "<b>Issued By</b>"
-msgstr "Descriere:"
+msgstr "<b>Emis de către</b>"
 
 #: ../smime/gui/smime-ui.glade.h:7
-#, fuzzy
 msgid "<b>Issued To</b>"
-msgstr "Descriere:"
+msgstr "<b>Emis către</b>"
 
 #: ../smime/gui/smime-ui.glade.h:8
 msgid "<b>This certificate has been verified for the following uses:</b>"
-msgstr ""
+msgstr "<b>Acest certificat a fost verificat pentru următorii utilizatori:</b>"
 
 #: ../smime/gui/smime-ui.glade.h:9
-#, fuzzy
 msgid "<b>Validity</b>"
-msgstr "Descriere:"
+msgstr "<b>Validitate</b>"
 
 #: ../smime/gui/smime-ui.glade.h:10
-#, fuzzy
 msgid "Authorities"
-msgstr "Proprietăţi"
+msgstr "Autorităţi"
 
 #: ../smime/gui/smime-ui.glade.h:11
 msgid "Backup"
-msgstr ""
+msgstr "Backup"
 
 #: ../smime/gui/smime-ui.glade.h:12
 msgid "Backup All"
-msgstr ""
+msgstr "Backup la tot"
 
 #: ../smime/gui/smime-ui.glade.h:13
 msgid ""
 "Before trusting this CA for any purpose, you should examine its certificate "
 "and its policy and procedures (if available)."
 msgstr ""
+"Înainte de a avea încredere în acest CA în orice scop, ar trebui mai întâi "
+"să îi examinaţi certificatul şi politicile şi procedurile sale (dacă sunt disponibile)."
 
 #: ../smime/gui/smime-ui.glade.h:14 ../smime/lib/e-cert.c:1076
-#, fuzzy
 msgid "Certificate"
-msgstr "ID certificat:"
+msgstr "Certificat"
 
 #: ../smime/gui/smime-ui.glade.h:15
-#, fuzzy
 msgid "Certificate Authority Trust"
-msgstr "ID certificat:"
+msgstr "Încredere autoritate de certificare"
 
 #: ../smime/gui/smime-ui.glade.h:16
-#, fuzzy
 msgid "Certificate details"
-msgstr "ID certificat:"
+msgstr "Detalii certificat"
 
 #: ../smime/gui/smime-ui.glade.h:17
-#, fuzzy
 msgid "Certificates Table"
-msgstr "ID certificat:"
+msgstr "Tabel certificate"
 
 #: ../smime/gui/smime-ui.glade.h:18
-#, fuzzy
 msgid "Common Name (CN)"
-msgstr "Nume comun"
+msgstr "Nume comun (CN)"
 
 #: ../smime/gui/smime-ui.glade.h:19
-#, fuzzy
 msgid "Contact Certificates"
-msgstr "ID certificat:"
+msgstr "Certificate de contact"
 
 #: ../smime/gui/smime-ui.glade.h:21
 msgid "Do not trust the authenticity of this certificate"
-msgstr ""
+msgstr "Nu avea încredere în autenticitatea acestui certificat"
 
 #: ../smime/gui/smime-ui.glade.h:22
 msgid "Dummy window only"
-msgstr ""
+msgstr "Doar fereastră falsă"
 
 #: ../smime/gui/smime-ui.glade.h:23
-#, fuzzy
 msgid "Edit"
-msgstr "_Editează"
+msgstr "Editează"
 
 #: ../smime/gui/smime-ui.glade.h:24
-#, fuzzy
 msgid "Email Certificate Trust Settings"
-msgstr "Eşec la verificarea certificatului."
+msgstr "Setări încredere certificat pentru email"
 
 #: ../smime/gui/smime-ui.glade.h:25
 msgid "Email Recipient Certificate"
-msgstr ""
+msgstr "Certificat destinatar email"
 
 #: ../smime/gui/smime-ui.glade.h:26
-#, fuzzy
 msgid "Email Signer Certificate"
-msgstr "Eşec la verificarea certificatului."
+msgstr "Certificat semnare email"
 
 #: ../smime/gui/smime-ui.glade.h:27
-#, fuzzy
 msgid "Expires On"
-msgstr "Expresie"
+msgstr "Expiră la"
 
 #: ../smime/gui/smime-ui.glade.h:29
 msgid "Import"
@@ -17264,29 +17201,27 @@ msgstr "Import"
 
 #: ../smime/gui/smime-ui.glade.h:30
 msgid "Issued On"
-msgstr ""
+msgstr "Emis la"
 
 #: ../smime/gui/smime-ui.glade.h:31
 msgid "MD5 Fingerprint"
-msgstr ""
+msgstr "Amprentă MD5"
 
 #: ../smime/gui/smime-ui.glade.h:32
-#, fuzzy
 msgid "Organization (O)"
-msgstr "Organizaţie"
+msgstr "Organizaţie (0)"
 
 #: ../smime/gui/smime-ui.glade.h:33
-#, fuzzy
 msgid "Organizational Unit (OU)"
-msgstr "Organizaţie"
+msgstr "Unitate organizaţională (OU)"
 
 #: ../smime/gui/smime-ui.glade.h:34
 msgid "SHA1 Fingerprint"
-msgstr ""
+msgstr "Amprentă SHA1"
 
 #: ../smime/gui/smime-ui.glade.h:35 ../smime/lib/e-cert.c:818
 msgid "SSL Client Certificate"
-msgstr ""
+msgstr "Certificat SSL client"
 
 #: ../smime/gui/smime-ui.glade.h:36 ../smime/lib/e-cert.c:822
 msgid "SSL Server Certificate"
