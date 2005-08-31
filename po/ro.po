@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: evolution.HEAD.ro\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-08-26 06:11+0000\n"
-"PO-Revision-Date: 2005-08-31 00:05+0300\n"
+"PO-Revision-Date: 2005-08-31 23:51+0300\n"
 "Last-Translator: Mugurel Tudor <mugurelu@go.ro>\n"
 "Language-Team: Română <gnomero-list@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -17225,165 +17225,145 @@ msgstr "Certificat SSL client"
 
 #: ../smime/gui/smime-ui.glade.h:36 ../smime/lib/e-cert.c:822
 msgid "SSL Server Certificate"
-msgstr ""
+msgstr "Certificat server SSL"
 
 #: ../smime/gui/smime-ui.glade.h:38
 msgid "Trust the authenticity of this certificate"
-msgstr ""
+msgstr "Ai încredere în autenticitatea acestui certificat"
 
 #: ../smime/gui/smime-ui.glade.h:39
 msgid "Trust this CA to identify email users."
-msgstr ""
+msgstr "Ai încredere în acest CA pentru a identifica utilizatorii de email."
 
 #: ../smime/gui/smime-ui.glade.h:40
 msgid "Trust this CA to identify software developers."
-msgstr ""
+msgstr "Ai încredere în acest CA pentru a identifica developerii de software."
 
 #: ../smime/gui/smime-ui.glade.h:41
 msgid "Trust this CA to identify web sites."
-msgstr ""
+msgstr "Ai încredere în acest CA pentru a identifica siturile web."
 
 #: ../smime/gui/smime-ui.glade.h:42
-#, fuzzy
 msgid "View"
-msgstr "_Vizualizare"
+msgstr "Vizualizare"
 
 #: ../smime/gui/smime-ui.glade.h:43
 msgid "You have certificates from these organizations that identify you:"
-msgstr ""
+msgstr "Aveţi certificate de la aceste organizaţii care vă identifică:"
 
 #: ../smime/gui/smime-ui.glade.h:44
 msgid "You have certificates on file that identify these certificate authorities:"
-msgstr ""
+msgstr "Aveţi certificate în fişier care identifică aceste autorităţi de certificare:"
 
 #: ../smime/gui/smime-ui.glade.h:45
 msgid "You have certificates on file that identify these people:"
-msgstr ""
+msgstr "Aveţi certificate în fişier care identifică aceşti oameni:"
 
 #: ../smime/gui/smime-ui.glade.h:46
-#, fuzzy
 msgid "Your Certificates"
-msgstr "ID certificat:"
+msgstr "Certificatele dumneavoastră"
 
 #: ../smime/gui/smime-ui.glade.h:47
-#, fuzzy
 msgid "_Edit CA Trust"
-msgstr "Editare task"
+msgstr "_Editare încredere CA"
 
 #. XXX we shouldn't be popping up dialogs in this code.
 #: ../smime/lib/e-cert-db.c:651
-#, fuzzy
 msgid "Certificate already exists"
-msgstr "ID-ul card-ului există deja"
+msgstr "Certificatul deja există"
 
 #: ../smime/lib/e-cert.c:238 ../smime/lib/e-cert.c:248
-#, fuzzy
 msgid "%d/%m/%Y"
-msgstr "%m/%d/%Y"
+msgstr "%d/%m/%Y"
 
 #. x509 certificate usage types
 #: ../smime/lib/e-cert.c:424
-#, fuzzy
 msgid "Sign"
-msgstr "Setări"
+msgstr "Semnează"
 
 #: ../smime/lib/e-cert.c:425
-#, fuzzy
 msgid "Encrypt"
-msgstr "Criptare PGP"
+msgstr "Criptează"
 
 #: ../smime/lib/e-cert.c:530
-#, fuzzy
 msgid "Version"
-msgstr "lună"
+msgstr "Versiune"
 
 #: ../smime/lib/e-cert.c:545
-#, fuzzy
 msgid "Version 1"
-msgstr "lună"
+msgstr "Versiunea 1"
 
 #: ../smime/lib/e-cert.c:548
-#, fuzzy
 msgid "Version 2"
-msgstr "lună"
+msgstr "Versiunea 2"
 
 #: ../smime/lib/e-cert.c:551
-#, fuzzy
 msgid "Version 3"
-msgstr "lună"
+msgstr "Versiunea 3"
 
 #: ../smime/lib/e-cert.c:633
 msgid "PKCS #1 MD2 With RSA Encryption"
-msgstr ""
+msgstr "PKCS #1 MD2 cu criptare RSA"
 
 #: ../smime/lib/e-cert.c:636
 msgid "PKCS #1 MD5 With RSA Encryption"
-msgstr ""
+msgstr "PKCS #1 MD5 cu criptare RSA"
 
 #: ../smime/lib/e-cert.c:639
 msgid "PKCS #1 SHA-1 With RSA Encryption"
-msgstr ""
+msgstr "PKCS #1 SHA-1 cu criptare RSA"
 
 #: ../smime/lib/e-cert.c:642
-#, fuzzy
 msgid "C"
-msgstr ", "
+msgstr "C"
 
 #: ../smime/lib/e-cert.c:645
-#, fuzzy
 msgid "CN"
-msgstr "N"
+msgstr "CN"
 
 #: ../smime/lib/e-cert.c:648
 msgid "OU"
-msgstr ""
+msgstr "OU"
 
 #: ../smime/lib/e-cert.c:651
-#, fuzzy
 msgid "O"
-msgstr "OK"
+msgstr "O"
 
 #: ../smime/lib/e-cert.c:654
 msgid "L"
-msgstr ""
+msgstr "L"
 
 #: ../smime/lib/e-cert.c:657
-#, fuzzy
 msgid "DN"
-msgstr "N"
+msgstr "DN"
 
 #: ../smime/lib/e-cert.c:660
 msgid "DC"
-msgstr ""
+msgstr "DC"
 
 #: ../smime/lib/e-cert.c:663
-#, fuzzy
 msgid "ST"
-msgstr "SMTP"
+msgstr "ST"
 
 #: ../smime/lib/e-cert.c:666
 msgid "PKCS #1 RSA Encryption"
-msgstr ""
+msgstr "Criptare RSA PKCS #1"
 
 #: ../smime/lib/e-cert.c:669
-#, fuzzy
 msgid "Certificate Key Usage"
-msgstr "ID certificat:"
+msgstr "Folosire chei certificare"
 
 #: ../smime/lib/e-cert.c:672
-#, fuzzy
 msgid "Netscape Certificate Type"
-msgstr "ID certificat:"
+msgstr "Tip de certificat Netscape"
 
 #: ../smime/lib/e-cert.c:675
-#, fuzzy
 msgid "Certificate Authority Key Identifier"
-msgstr "ID certificat:"
+msgstr "Identificator cheie autoritate de certificare"
 
 #: ../smime/lib/e-cert.c:678
-#, fuzzy
 msgid "UID"
-msgstr "I"
+msgstr "UID"
 
 #: ../smime/lib/e-cert.c:681
 msgid "E"
@@ -17392,184 +17372,161 @@ msgstr "E"
 #: ../smime/lib/e-cert.c:687
 #, c-format
 msgid "Object Identifier (%s)"
-msgstr ""
+msgstr "Identificator obiect (%s)"
 
 #: ../smime/lib/e-cert.c:738
 msgid "Algorithm Identifier"
-msgstr ""
+msgstr "Identificator algoritm"
 
 #: ../smime/lib/e-cert.c:746
 msgid "Algorithm Parameters"
-msgstr ""
+msgstr "Parametri algoritm"
 
 #: ../smime/lib/e-cert.c:768
-#, fuzzy
 msgid "Subject Public Key Info"
-msgstr ""
-"\n"
-"Cheia publică:"
+msgstr "Informaţie cheie publică pentru subiect"
 
 #: ../smime/lib/e-cert.c:773
 msgid "Subject Public Key Algorithm"
-msgstr ""
+msgstr "Algoritm cheie publică pentru subiect"
 
 #: ../smime/lib/e-cert.c:788
-#, fuzzy
 msgid "Subject's Public Key"
-msgstr "Subiectul este %s"
+msgstr "Cheia publică a subiectului"
 
 #: ../smime/lib/e-cert.c:809 ../smime/lib/e-cert.c:858
-#, fuzzy
 msgid "Error: Unable to process extension"
-msgstr "Nu pot procesa dosarul spool"
+msgstr "Eroare: Nu am putut procesa extensia"
 
 #: ../smime/lib/e-cert.c:830 ../smime/lib/e-cert.c:842
 msgid "Object Signer"
-msgstr ""
+msgstr "Semnatar obiect"
 
 #: ../smime/lib/e-cert.c:834
-#, fuzzy
 msgid "SSL Certificate Authority"
-msgstr "ID certificat:"
+msgstr "Autoritate de certificare SSL"
 
 #: ../smime/lib/e-cert.c:838
-#, fuzzy
 msgid "Email Certificate Authority"
-msgstr "Eşec la verificarea certificatului."
+msgstr "Autoritate de certificare email"
 
 #: ../smime/lib/e-cert.c:866
-#, fuzzy
 msgid "Signing"
-msgstr "Setări"
+msgstr "Semnare"
 
 #: ../smime/lib/e-cert.c:870
-#, fuzzy
 msgid "Non-repudiation"
-msgstr "Nici o informaţie"
+msgstr "Non-repudiere"
 
 #: ../smime/lib/e-cert.c:874
 msgid "Key Encipherment"
-msgstr ""
+msgstr "Codificare cheie"
 
 #: ../smime/lib/e-cert.c:878
-#, fuzzy
 msgid "Data Encipherment"
-msgstr "anexă"
+msgstr "Codificare date"
 
 #: ../smime/lib/e-cert.c:882
 msgid "Key Agreement"
-msgstr ""
+msgstr "Acord cheie"
 
 #: ../smime/lib/e-cert.c:886
-#, fuzzy
 msgid "Certificate Signer"
-msgstr "ID certificat:"
+msgstr "Semnatar certificat"
 
 #: ../smime/lib/e-cert.c:890
 msgid "CRL Signer"
-msgstr ""
+msgstr "Semnatar CRL"
 
 #: ../smime/lib/e-cert.c:938
-#, fuzzy
 msgid "Critical"
-msgstr "Tradiţional"
+msgstr "Critic"
 
 #: ../smime/lib/e-cert.c:940 ../smime/lib/e-cert.c:943
 msgid "Not Critical"
-msgstr ""
+msgstr "Necritic"
 
 #: ../smime/lib/e-cert.c:964
-#, fuzzy
 msgid "Extensions"
-msgstr "Expresie"
+msgstr "Extensii"
 
 #: ../smime/lib/e-cert.c:1035
-#, fuzzy, c-format
+#, c-format
 msgid "%s = %s"
-msgstr "%s server %s"
+msgstr "%s = %s"
 
 #: ../smime/lib/e-cert.c:1091 ../smime/lib/e-cert.c:1211
-#, fuzzy
 msgid "Certificate Signature Algorithm"
-msgstr "Fişier semnătură:"
+msgstr "Algoritm semnare certificat"
 
 #: ../smime/lib/e-cert.c:1100
-#, fuzzy
 msgid "Issuer"
-msgstr "_Inserează"
+msgstr "Emitent"
 
 #: ../smime/lib/e-cert.c:1154
 msgid "Issuer Unique ID"
-msgstr ""
+msgstr "ID unic emitent"
 
 #: ../smime/lib/e-cert.c:1173
-#, fuzzy
 msgid "Subject Unique ID"
-msgstr "Subiectul este %s"
+msgstr "ID unic subiect"
 
 #: ../smime/lib/e-cert.c:1216
-#, fuzzy
 msgid "Certificate Signature Value"
-msgstr "Fişier semnătură:"
+msgstr "Valoare semnătură certificat"
 
 #: ../smime/lib/e-pkcs12.c:264
 msgid "PKCS12 File Password"
-msgstr ""
+msgstr "Parolă fişier PKCS12"
 
 #: ../smime/lib/e-pkcs12.c:264
-#, fuzzy
 msgid "Enter password for PKCS12 file:"
-msgstr "Introduceţi parola pentru %s"
+msgstr "Introduceţi parola pentru fişierul PKCS12:"
 
 #: ../smime/lib/e-pkcs12.c:363
-#, fuzzy
 msgid "Imported Certificate"
-msgstr "ID certificat:"
+msgstr "Certificat importat"
 
 #: ../tools/evolution-launch-composer.c:324
-#, fuzzy
 msgid "An attachment to add."
-msgstr "Adaugă anexă..."
+msgstr "Un ataşament pentru adăugare."
 
 #: ../tools/evolution-launch-composer.c:325
 msgid "Content type of the attachment."
-msgstr ""
+msgstr "Tipul conţinutului pentru ataşament."
 
 #: ../tools/evolution-launch-composer.c:326
 msgid "The filename to display in the mail."
-msgstr ""
+msgstr "Numele de fişier afişat în mail."
 
 #: ../tools/evolution-launch-composer.c:327
-#, fuzzy
 msgid "Description of the attachment."
-msgstr "Descrierea conţine"
+msgstr "Descrierea ataşamentului."
 
 #: ../tools/evolution-launch-composer.c:328
 msgid "Mark attachment to be shown inline by default."
-msgstr ""
+msgstr "Marchează ataşamentul pentru afişare inclusă în mod implicit."
 
 #: ../tools/evolution-launch-composer.c:329
-#, fuzzy
 msgid "Default subject for the message."
-msgstr "Decupează mesajele selectate"
+msgstr "Subiectul implicit pentru mesaj."
 
 #. This most likely means that KILL_PROCESS_CMD wasn't
 #. * found, so just bail completely.
 #.
 #: ../tools/killev.c:61
-#, fuzzy, c-format
+#, c-format
 msgid "Could not execute '%s': %s\n"
-msgstr "Nu pot redenumi dosarul: %s"
+msgstr "Nu am putut executa „%s”: %s\n"
 
 #: ../tools/killev.c:76
 #, c-format
 msgid "Shutting down %s (%s)\n"
-msgstr ""
+msgstr "Opresc %s (%s)\n"
 
 #: ../ui/evolution-addressbook.xml.h:3
-#, fuzzy
 msgid "Copy Selected Contacts to Another Folder..."
-msgstr "Copiez în folderul..."
+msgstr "Copiez contactele selectate în alt dosar..."
 
 #: ../ui/evolution-addressbook.xml.h:4 ../ui/evolution-calendar.xml.h:2
 msgid "Copy the selection"
@@ -17588,9 +17545,8 @@ msgid "Delete selected contacts"
 msgstr "Şterge contactele selectate"
 
 #: ../ui/evolution-addressbook.xml.h:11
-#, fuzzy
 msgid "Move Selected Contacts to Another Folder..."
-msgstr "Trimite co_ntact la altcineva..."
+msgstr "Mut contactele selectate în alt dosar..."
 
 #: ../ui/evolution-addressbook.xml.h:12
 msgid "Move to Folder..."
@@ -17609,9 +17565,8 @@ msgid "Print selected contacts"
 msgstr "Tipăreşte contactele selectate"
 
 #: ../ui/evolution-addressbook.xml.h:20
-#, fuzzy
 msgid "Save selected contacts as a VCard."
-msgstr "Şterge contactele selectate"
+msgstr "Salvează contactele selectate ca vCard."
 
 #: ../ui/evolution-addressbook.xml.h:21 ../widgets/text/e-text.c:2684
 msgid "Select All"
@@ -17622,23 +17577,20 @@ msgid "Select all contacts"
 msgstr "Selectează toate contactele"
 
 #: ../ui/evolution-addressbook.xml.h:23
-#, fuzzy
 msgid "Send a message to the selected contacts."
-msgstr "Şterge contactele selectate"
+msgstr "Trimite un mesaj contactelor selectate."
 
 #: ../ui/evolution-addressbook.xml.h:24
 msgid "Send message to contact"
 msgstr "Trimite mesaj la contact"
 
 #: ../ui/evolution-addressbook.xml.h:25
-#, fuzzy
 msgid "Send selected contacts to another person."
-msgstr "Trimite contact la altcineva"
+msgstr "Trimite contactele selectate altei persoane."
 
 #: ../ui/evolution-addressbook.xml.h:26
-#, fuzzy
 msgid "Show contact preview window"
-msgstr "Arată fereastra de previzualizare mesaje"
+msgstr "Arată fereastra de previzualizare contacte"
 
 #: ../ui/evolution-addressbook.xml.h:27
 msgid "Stop"
@@ -17649,9 +17601,8 @@ msgid "Stop Loading"
 msgstr "Opreşte încărcarea"
 
 #: ../ui/evolution-addressbook.xml.h:29
-#, fuzzy
 msgid "View the current contact"
-msgstr "ora curentă"
+msgstr "Afişează contactul curent"
 
 #: ../ui/evolution-addressbook.xml.h:30 ../ui/evolution-calendar.xml.h:38
 #: ../ui/evolution-mail-list.xml.h:26 ../ui/evolution-tasks.xml.h:19
@@ -17659,25 +17610,22 @@ msgid "_Actions"
 msgstr "_Acţiuni"
 
 #: ../ui/evolution-addressbook.xml.h:35
-#, fuzzy
 msgid "_Forward Contact..."
-msgstr "_Contacte..."
+msgstr "Î_naintează contactul..."
 
 #: ../ui/evolution-addressbook.xml.h:39
 msgid "_Preview Pane"
-msgstr ""
+msgstr "_Previzualizare panou"
 
 #: ../ui/evolution-addressbook.xml.h:41
-#, fuzzy
 msgid "_Save as VCard..."
-msgstr "Salvează ca şi card V"
+msgstr "_Salvează ca VCard..."
 
 #: ../ui/evolution-addressbook.xml.h:42
 msgid "_Select All"
 msgstr "_Selectează tot"
 
 #: ../ui/evolution-addressbook.xml.h:43
-#, fuzzy
 msgid "_Send Message to Contact..."
 msgstr "Trimite _mesaj către contact..."
 
@@ -17686,22 +17634,18 @@ msgid "Day"
 msgstr "Zi"
 
 #: ../ui/evolution-calendar.xml.h:6
-#, fuzzy
 msgid "Delete All Occurrences"
 msgstr "Şterge toate apariţiile"
 
 #: ../ui/evolution-calendar.xml.h:7
-#, fuzzy
 msgid "Delete the appointment"
 msgstr "Şterge această întâlnire"
 
 #: ../ui/evolution-calendar.xml.h:8
-#, fuzzy
 msgid "Delete this Occurrence"
 msgstr "Şterge această apariţie"
 
 #: ../ui/evolution-calendar.xml.h:9
-#, fuzzy
 msgid "Delete this occurrence"
 msgstr "Şterge această apariţie"
 
@@ -17710,19 +17654,16 @@ msgid "Go To"
 msgstr "Mergi la"
 
 #: ../ui/evolution-calendar.xml.h:11
-#, fuzzy
 msgid "Go back"
-msgstr "Mergi înapoi în timp"
+msgstr "Mergi înapoi"
 
 #: ../ui/evolution-calendar.xml.h:12
-#, fuzzy
 msgid "Go forward"
-msgstr "Mergi înainte în timp"
+msgstr "Mergi înainte"
 
 #: ../ui/evolution-calendar.xml.h:13
-#, fuzzy
 msgid "List"
-msgstr "Ceaţă"
+msgstr "Listă"
 
 #: ../ui/evolution-calendar.xml.h:14
 msgid "Month"
@@ -17741,66 +17682,56 @@ msgid "Previous"
 msgstr "Precedent"
 
 #: ../ui/evolution-calendar.xml.h:21
-#, fuzzy
 msgid "Print this calendar"
 msgstr "Tipăreşte acest calendar"
 
 #: ../ui/evolution-calendar.xml.h:22
 msgid "Publish Free/Busy information for this calendar"
-msgstr ""
+msgstr "Publică informaţia liber/ocupat pentru acest calendar"
 
 #: ../ui/evolution-calendar.xml.h:23 ../ui/evolution-tasks.xml.h:17
-#, fuzzy
 msgid "Purg_e"
-msgstr "Surse"
+msgstr "Şterge _fizic"
 
 #: ../ui/evolution-calendar.xml.h:24
 msgid "Purge old appointments and meetings"
-msgstr ""
+msgstr "Şterge fizic întâlnirile şi şedinţele vechi"
 
 #: ../ui/evolution-calendar.xml.h:25
-#, fuzzy
 msgid "Select _Date"
-msgstr "Selecţie nume"
+msgstr "Selectează _dată"
 
 #: ../ui/evolution-calendar.xml.h:27
-#, fuzzy
 msgid "Select a specific date"
-msgstr "Mergi la o anumită data"
+msgstr "Selectează o dată specifică"
 
 #: ../ui/evolution-calendar.xml.h:28
-#, fuzzy
 msgid "Select today"
-msgstr "Alege dosarul"
+msgstr "Selectează astăzi"
 
 #: ../ui/evolution-calendar.xml.h:29
-#, fuzzy
 msgid "Show as list"
-msgstr "Arată detalii"
+msgstr "Afişează ca listă"
 
 #: ../ui/evolution-calendar.xml.h:30
-#, fuzzy
 msgid "Show one day"
-msgstr "Arată 1 zi"
+msgstr "Afişează o zi"
 
 #: ../ui/evolution-calendar.xml.h:31
-#, fuzzy
 msgid "Show one month"
-msgstr "Arată 1 lună"
+msgstr "Afişează o lună"
 
 #: ../ui/evolution-calendar.xml.h:32
-#, fuzzy
 msgid "Show one week"
-msgstr "Arată 1 săptămână"
+msgstr "Afişează o săptămână"
 
 #: ../ui/evolution-calendar.xml.h:33
 msgid "Show the working week"
 msgstr "Arată săptămâna de lucru"
 
 #: ../ui/evolution-calendar.xml.h:35
-#, fuzzy
 msgid "View the current appointment"
-msgstr "ora curentă"
+msgstr "Afişează întâlnirea curentă"
 
 #: ../ui/evolution-calendar.xml.h:36
 msgid "Week"
@@ -17811,40 +17742,34 @@ msgid "Work Week"
 msgstr "Săptămâna de lucru"
 
 #: ../ui/evolution-calendar.xml.h:42
-#, fuzzy
 msgid "_Open Appointment"
-msgstr "Întâlnire"
+msgstr "_Deschide întâlnire"
 
 #: ../ui/evolution-composer-entries.xml.h:1
-#, fuzzy
 msgid "Copy selected text to the clipboard"
-msgstr "Copiază mesajul selectat în alt dosar"
+msgstr "Copiază textul selectat în clipboard"
 
 #: ../ui/evolution-composer-entries.xml.h:2
 msgid "Cu_t"
 msgstr "Decupează"
 
 #: ../ui/evolution-composer-entries.xml.h:3
-#, fuzzy
 msgid "Cut selected text to the clipboard"
-msgstr "Lipeşte mesajul la clipboard"
+msgstr "Taie textul selectat în clipboard"
 
 #: ../ui/evolution-composer-entries.xml.h:4
-#, fuzzy
 msgid "Paste text from the clipboard"
-msgstr "Lipeşte sarcina din clipboard"
+msgstr "Lipeşte textul din clipboard"
 
 #: ../ui/evolution-composer-entries.xml.h:5 ../ui/evolution-subscribe.xml.h:6
 msgid "Select _All"
 msgstr "Selectează tot"
 
 #: ../ui/evolution-composer-entries.xml.h:6
-#, fuzzy
 msgid "Select all text"
-msgstr "Selectează toate contactele"
+msgstr "Selectează tot textul"
 
 #: ../ui/evolution-executive-summary.xml.h:1
-#, fuzzy
 msgid "Customize My Evolution"
 msgstr "Personalizează Evolution"
 
@@ -17853,19 +17778,16 @@ msgid "Cancel the current mail operation"
 msgstr "Renunţă la operaţia de mail curentă"
 
 #: ../ui/evolution-mail-global.xml.h:3
-#, fuzzy
 msgid "Copy the selected folder into another folder"
-msgstr "Copiază mesajul selectat în alt dosar"
+msgstr "Copiază dosarul selectat în alt dosar"
 
 #: ../ui/evolution-mail-global.xml.h:4
-#, fuzzy
 msgid "Create a new folder for storing mail"
-msgstr "Crează un dosar virtual pentru această listă de mail"
+msgstr "Creează un nou dosar pentru stocare mailuri"
 
 #: ../ui/evolution-mail-global.xml.h:5
-#, fuzzy
 msgid "Create or edit Search Folder definitions"
-msgstr "Crează sau editează definiţiile dosarelor virtuale"
+msgstr "Creează sau editează definiţii pentru dosare de căutare"
 
 #: ../ui/evolution-mail-global.xml.h:6
 msgid "Create or edit rules for filtering new mail"
@@ -17881,33 +17803,28 @@ msgid "F_older"
 msgstr "Dosar"
 
 #: ../ui/evolution-mail-global.xml.h:9
-#, fuzzy
 msgid "Message F_ilters"
-msgstr "Editează filtre"
+msgstr "F_iltre mesaje"
 
 #: ../ui/evolution-mail-global.xml.h:10
-#, fuzzy
 msgid "Message _List As"
-msgstr "Mesajul a fost trimis"
+msgstr "Trimite mesaj către _listă ca"
 
 #: ../ui/evolution-mail-global.xml.h:11
-#, fuzzy
 msgid "Message _Preview"
-msgstr "Antet mesaj"
+msgstr "_Previzualizare mesaj"
 
 #: ../ui/evolution-mail-global.xml.h:12
-#, fuzzy
 msgid "Move the selected folder into another folder"
-msgstr "Mută mesajele selectate în alt dosar"
+msgstr "Mută dosarul selectat în alt dosar"
 
 #: ../ui/evolution-mail-global.xml.h:13
 msgid "Permanently remove all deleted messages from all folders"
 msgstr "Şterg pentru totdeauna mesajele şterse din toate dosarele"
 
 #: ../ui/evolution-mail-global.xml.h:14
-#, fuzzy
 msgid "Search F_olders"
-msgstr "Alege dosar"
+msgstr "Caută d_osare"
 
 #: ../ui/evolution-mail-global.xml.h:15
 msgid "Show message preview window"
@@ -17918,103 +17835,88 @@ msgid "Subscribe or unsubscribe to folders on remote servers"
 msgstr "Vă abonaţi sau dezabonaţi la dosarele de pe serverul distant"
 
 #: ../ui/evolution-mail-global.xml.h:17
-#, fuzzy
 msgid "_Copy Folder To..."
-msgstr "_Copiază în dosarul..."
+msgstr "_Copiază dosarul către..."
 
 #: ../ui/evolution-mail-global.xml.h:18
-#, fuzzy
 msgid "_Move Folder To..."
-msgstr "Mută în dosar..."
+msgstr "_Mută dosarul către..."
 
 #: ../ui/evolution-mail-global.xml.h:19
 msgid "_New Search _Folder (FIXME)"
-msgstr ""
+msgstr "Dosar _nou de căutare"
 
 #: ../ui/evolution-mail-global.xml.h:20
 msgid "_New..."
 msgstr "_Nou..."
 
 #: ../ui/evolution-mail-global.xml.h:21
-#, fuzzy
 msgid "_Subscriptions"
-msgstr "Administrare abonări"
+msgstr "_Subscrieri"
 
 #: ../ui/evolution-mail-list.xml.h:1
-#, fuzzy
 msgid "Change the name of this folder"
-msgstr "Schimbă proprietăţile acestui dosar"
+msgstr "Schimbă numele acestui dosar"
 
 #: ../ui/evolution-mail-list.xml.h:2
 msgid "Change the properties of this folder"
 msgstr "Schimbă proprietăţile acestui dosar"
 
 #: ../ui/evolution-mail-list.xml.h:3 ../ui/evolution-mail-message.xml.h:12
-#, fuzzy
 msgid "Copy selected message(s) to the clipboard"
-msgstr "Copiază mesajul selectat în alt dosar"
+msgstr "Copiază mesajele selectate în clipboard"
 
 #: ../ui/evolution-mail-list.xml.h:4 ../ui/evolution-mail-message.xml.h:23
-#, fuzzy
 msgid "Cut selected message(s) to the clipboard"
-msgstr "Lipeşte mesajul la clipboard"
+msgstr "Taie mesajele selectate în clipboard"
 
 #: ../ui/evolution-mail-list.xml.h:5
-#, fuzzy
 msgid "E_xpunge"
-msgstr "Distrug_e"
+msgstr "Şter_ge fizic"
 
 #: ../ui/evolution-mail-list.xml.h:7
-#, fuzzy
 msgid "Group By _Threads"
-msgstr "Grupează după acest câmp"
+msgstr "Grupează după _discuţii"
 
 #: ../ui/evolution-mail-list.xml.h:8
-#, fuzzy
 msgid "Hide S_elected Messages"
-msgstr "Ascunde mesajele şterse"
+msgstr "Ascunde mesajele s_electate"
 
 #: ../ui/evolution-mail-list.xml.h:9
 msgid "Hide _Deleted Messages"
 msgstr "Ascunde mesajele şterse"
 
 #: ../ui/evolution-mail-list.xml.h:10
-#, fuzzy
 msgid "Hide _Read Messages"
-msgstr "Ascunde mesajele citite"
+msgstr "Ascunde mesajele _citite"
 
 #: ../ui/evolution-mail-list.xml.h:11
 msgid "Hide deleted messages rather than displaying them with a line through them"
 msgstr "Ascunde mesajele selectate mai degrabă decât să le afişezi tăiate cu o linie"
 
 #: ../ui/evolution-mail-list.xml.h:12
-#, fuzzy
 msgid "Mark Me_ssages as Read"
-msgstr "Marchează mesajele ca \"Citit\" după"
+msgstr "Marchează me_sajele ca citite"
 
 #: ../ui/evolution-mail-list.xml.h:13 ../ui/evolution-mail-message.xml.h:68
-#, fuzzy
 msgid "Paste message(s) from the clipboard"
-msgstr "Lipeşte mesajul la clipboard"
+msgstr "Lipeşte mesajele din clipboard"
 
 #: ../ui/evolution-mail-list.xml.h:14
 msgid "Permanently remove all deleted messages from this folder"
 msgstr "Şterge pentru totdeauna toate mesajele din acest dosar"
 
 #: ../ui/evolution-mail-list.xml.h:15
-#, fuzzy
 msgid "Permanently remove this folder"
-msgstr "Şterge pentru totdeauna toate mesajele din acest dosar"
+msgstr "Şterge pentru totdeauna acest dosar"
 
 #: ../ui/evolution-mail-list.xml.h:16
-#, fuzzy
 msgid "Select Message _Thread"
-msgstr "Ascunde mesajele selectate"
+msgstr "Selectaţi _discuţia"
 
 #: ../ui/evolution-mail-list.xml.h:17
-#, fuzzy
 msgid "Select _All Messages"
-msgstr "Şterge toate mesajele vizibile"
+msgstr "Selectaţi _toate mesajele"
 
 #: ../ui/evolution-mail-list.xml.h:18
 msgid "Select all and only the messages that are not currently selected"
@@ -18029,9 +17931,8 @@ msgid "Select all visible messages"
 msgstr "Şterge toate mesajele vizibile"
 
 #: ../ui/evolution-mail-list.xml.h:21
-#, fuzzy
 msgid "Sh_ow Hidden Messages"
-msgstr "Ascunde mesajele citite"
+msgstr "Afişează mesajele _ascunse"
 
 #: ../ui/evolution-mail-list.xml.h:22
 msgid "Show messages that have been temporarily hidden"
@@ -18051,38 +17952,32 @@ msgstr "Listă de mesaje înlănţuite"
 
 #: ../ui/evolution-mail-list.xml.h:28 ../ui/evolution-mail-message.xml.h:112
 #: ../ui/evolution-mail-messagedisplay.xml.h:7
-#, fuzzy
 msgid "_Message"
-msgstr "Mesaje"
+msgstr "_Mesaj"
 
 #: ../ui/evolution-mail-message.xml.h:1
-#, fuzzy
 msgid "A_dd Sender to Address Book"
-msgstr "Adaugă expeditorul în agendă"
+msgstr "A_daugă expeditorul în agendă"
 
 #: ../ui/evolution-mail-message.xml.h:2
-#, fuzzy
 msgid "A_pply Filters"
-msgstr "Aplică filtre"
+msgstr "A_plică filtrele"
 
 #: ../ui/evolution-mail-message.xml.h:3
-#, fuzzy
 msgid "Add Sender to Address Book"
 msgstr "Adaugă expeditorul în agendă"
 
 #: ../ui/evolution-mail-message.xml.h:4
-#, fuzzy
 msgid "All Message _Headers"
-msgstr "Antet mesaj"
+msgstr "Toate a_ntetele mesajului"
 
 #: ../ui/evolution-mail-message.xml.h:5
 msgid "Apply filter rules to the selected messages"
 msgstr "Aplică regulile de filtrare pe mesajele selectate"
 
 #: ../ui/evolution-mail-message.xml.h:6
-#, fuzzy
 msgid "Check for _Junk"
-msgstr "Verific mailurile noi"
+msgstr "Verifică de _spam"
 
 #: ../ui/evolution-mail-message.xml.h:7
 msgid "Compose _New Message"
@@ -18105,29 +18000,24 @@ msgid "Copy selected messages to another folder"
 msgstr "Copiază mesajul selectat în alt dosar"
 
 #: ../ui/evolution-mail-message.xml.h:14
-#, fuzzy
 msgid "Create R_ule"
-msgstr "Creez un dosar nou"
+msgstr "Creează reg_ulă"
 
 #: ../ui/evolution-mail-message.xml.h:15
-#, fuzzy
 msgid "Create a Search Folder for these recipients"
-msgstr "Crează un dosar virtual pentru aceşti destinatari"
+msgstr "Creează un dosar de căutare pentru aceşti destinatari"
 
 #: ../ui/evolution-mail-message.xml.h:16
-#, fuzzy
 msgid "Create a Search Folder for this mailing list"
-msgstr "Crează un dosar virtual pentru această listă de mail"
+msgstr "Creează un dosar de căutare pentru această listă de mailuri"
 
 #: ../ui/evolution-mail-message.xml.h:17
-#, fuzzy
 msgid "Create a Search Folder for this sender"
-msgstr "Crează un dosar virtual pentru acest expeditor"
+msgstr "Creează un dosar de căutare pentru acest expeditor"
 
 #: ../ui/evolution-mail-message.xml.h:18
-#, fuzzy
 msgid "Create a Search Folder for this subject"
-msgstr "Crează un dosar virtual pentru acest subiect"
+msgstr "Creează un dosar de căutare pentru acest subiect"
 
 #: ../ui/evolution-mail-message.xml.h:19
 msgid "Create a rule to filter messages from this sender"
@@ -18147,7 +18037,7 @@ msgstr "Crează o regulă pentru a filtra mesajele cu acest subiect"
 
 #: ../ui/evolution-mail-message.xml.h:24
 msgid "Decrease the text size"
-msgstr ""
+msgstr "Micşorează mărimea textului"
 
 #: ../ui/evolution-mail-message.xml.h:26
 msgid "Display the next important message"
@@ -18194,18 +18084,16 @@ msgid "Filter on _Subject..."
 msgstr "Filtrează _subiectul..."
 
 #: ../ui/evolution-mail-message.xml.h:37
-#, fuzzy
 msgid "Filter the selected messages for junk status"
-msgstr "Marchează mesajele selectate ca importante"
+msgstr "Filtrează mesajele selectate după statusul de spam"
 
 #: ../ui/evolution-mail-message.xml.h:38
-#, fuzzy
 msgid "Flag selected message(s) for follow-up"
-msgstr "MArchează mesajele selectate pentru ştergere"
+msgstr "Marchează mesajele selectate pentru urmare"
 
 #: ../ui/evolution-mail-message.xml.h:39
 msgid "Follow _Up..."
-msgstr ""
+msgstr "_Urmărire..."
 
 #: ../ui/evolution-mail-message.xml.h:40
 msgid "Force images in HTML mail to be loaded"
@@ -18213,7 +18101,7 @@ msgstr "Forţează încărcarea imaginilor în HTML"
 
 #: ../ui/evolution-mail-message.xml.h:42
 msgid "Forward the selected message in the body of a new message"
-msgstr ""
+msgstr "Înaintează mesajul selectat în corpul unui nou mesaj"
 
 #: ../ui/evolution-mail-message.xml.h:43
 msgid "Forward the selected message quoted like a reply"
@@ -18228,82 +18116,68 @@ msgid "Forward the selected message to someone as an attachment"
 msgstr "Înaintează mesajul selectat către cineva ca o anexă"
 
 #: ../ui/evolution-mail-message.xml.h:46
-#, fuzzy
 msgid "Increase the text size"
-msgstr "Inserează fişier text..."
+msgstr "Măreşte mărimea textului"
 
 #: ../ui/evolution-mail-message.xml.h:48
-#, fuzzy
 msgid "Mar_k as"
-msgstr "Marchează ca _citit"
+msgstr "Mar_chează ca"
 
 #: ../ui/evolution-mail-message.xml.h:49
-#, fuzzy
 msgid "Mark the selected message(s) as having been read"
 msgstr "Marchează mesajele selectate ca citite"
 
 #: ../ui/evolution-mail-message.xml.h:50
-#, fuzzy
 msgid "Mark the selected message(s) as important"
 msgstr "Marchează mesajele selectate ca importante"
 
 #: ../ui/evolution-mail-message.xml.h:51
-#, fuzzy
 msgid "Mark the selected message(s) as junk"
-msgstr "Marchează mesajele selectate ca importante"
+msgstr "Marchează mesajele selectate ca spam"
 
 #: ../ui/evolution-mail-message.xml.h:52
-#, fuzzy
 msgid "Mark the selected message(s) as not being junk"
-msgstr "Marchează mesajele selectate ca necitite"
+msgstr "Marchează mesajele selectate ca nespam"
 
 #: ../ui/evolution-mail-message.xml.h:53
-#, fuzzy
 msgid "Mark the selected message(s) as not having been read"
 msgstr "Marchează mesajele selectate ca necitite"
 
 #: ../ui/evolution-mail-message.xml.h:54
-#, fuzzy
 msgid "Mark the selected message(s) as unimportant"
-msgstr "Marchează mesajele selectate ca importante"
+msgstr "Marchează mesajele selectate ca neimportante"
 
 #: ../ui/evolution-mail-message.xml.h:55
 msgid "Mark the selected messages for deletion"
 msgstr "MArchează mesajele selectate pentru ştergere"
 
 #: ../ui/evolution-mail-message.xml.h:56
-#, fuzzy
 msgid "Message Source"
-msgstr "Stocare mesaje"
+msgstr "Sursă mesaj"
 
 #: ../ui/evolution-mail-message.xml.h:57
 msgid "Move"
 msgstr "Mută"
 
 #: ../ui/evolution-mail-message.xml.h:58
-#, fuzzy
 msgid "Move selected message(s) to another folder"
 msgstr "Mută mesajele selectate în alt dosar"
 
 #: ../ui/evolution-mail-message.xml.h:60
-#, fuzzy
 msgid "Next _Important Message"
-msgstr "Afişează următorul mesaj important"
+msgstr "Următorul mesaj _important"
 
 #: ../ui/evolution-mail-message.xml.h:61
-#, fuzzy
 msgid "Next _Thread"
-msgstr "Selec_tează înlănţuirea"
+msgstr "Următoarea _discuţie"
 
 #: ../ui/evolution-mail-message.xml.h:62
-#, fuzzy
 msgid "Next _Unread Message"
-msgstr "Trimite şi mesajele ciornă"
+msgstr "_Următorul mesaj necitit"
 
 #: ../ui/evolution-mail-message.xml.h:63
-#, fuzzy
 msgid "Not Junk"
-msgstr "Nu găsesc fişierul"
+msgstr "Nespam"
 
 #: ../ui/evolution-mail-message.xml.h:64
 msgid "Open a window for composing a mail message"
@@ -18314,110 +18188,92 @@ msgid "Open the selected message in a new window"
 msgstr "Deschde mesajul selectat într-o fereastră nouă"
 
 #: ../ui/evolution-mail-message.xml.h:66
-#, fuzzy
 msgid "Open the selected message in the composer for editing"
-msgstr "Deschide mesajul selectat în compositor pentru a-l retrimite"
+msgstr "Deschide mesajul selectat în compositor pentru editare"
 
 #: ../ui/evolution-mail-message.xml.h:67
-#, fuzzy
 msgid "P_revious Unread Message"
-msgstr "Afişează mesajul necitit precedent"
+msgstr "P_recedentul mesaj necitit"
 
 #: ../ui/evolution-mail-message.xml.h:69
-#, fuzzy
 msgid "Pos_t New Message to Folder"
-msgstr "Compune mesaj _nou"
+msgstr "_Trimite mesaj nou către dosar"
 
 #: ../ui/evolution-mail-message.xml.h:70
-#, fuzzy
 msgid "Post a Repl_y"
-msgstr "Răspunde"
+msgstr "Trimite un _răspuns"
 
 #: ../ui/evolution-mail-message.xml.h:71
-#, fuzzy
 msgid "Post a message to a Public folder"
-msgstr "Salvez mesaj în dosar"
+msgstr "Trimite un mesaj către un dosar public"
 
 #: ../ui/evolution-mail-message.xml.h:72
-#, fuzzy
 msgid "Post a reply to a message in a Public folder"
-msgstr "Verific mesajele noi în toate dosarele"
+msgstr "Trimite un răspuns la un mesaj dintr-un dosar public"
 
 #: ../ui/evolution-mail-message.xml.h:73
-#, fuzzy
 msgid "Pr_evious Important Message"
-msgstr "Afişează mesajul precedent important"
+msgstr "Pr_ecedentul mesaj important"
 
 #: ../ui/evolution-mail-message.xml.h:74
-#, fuzzy
 msgid "Preview the message to be printed"
 msgstr "Previzualizează mesajul ce va fi tipărit"
 
 #: ../ui/evolution-mail-message.xml.h:78
-#, fuzzy
 msgid "Print this message"
-msgstr "Tipăreşte mesaj"
+msgstr "Tipăreşte acest mesaj"
 
 #: ../ui/evolution-mail-message.xml.h:79
 msgid "Re_direct"
-msgstr ""
+msgstr "Re_directează"
 
 #: ../ui/evolution-mail-message.xml.h:80
-#, fuzzy
 msgid "Redirect (bounce) the selected message to someone"
-msgstr "Înainteaza mesajul selectat către cineva"
+msgstr "Redirectează (bounce) mesajul selectat la altcineva"
 
 #: ../ui/evolution-mail-message.xml.h:84
 msgid "Reset the text to its original size"
-msgstr ""
+msgstr "Resetează textul la mărimea originală"
 
 #: ../ui/evolution-mail-message.xml.h:85
 msgid "Save the message as a text file"
 msgstr "Salvează mesajul ca un fişier text"
 
 #: ../ui/evolution-mail-message.xml.h:86
-#, fuzzy
 msgid "Search Folder from Mailing _List..."
-msgstr "Dosar V pentru _lista de mail..."
+msgstr "Dosar de căutare din _listă de mailuri..."
 
 #: ../ui/evolution-mail-message.xml.h:87
-#, fuzzy
 msgid "Search Folder from Recipients..."
-msgstr "Dosar V pentru destinata_ri..."
+msgstr "Dosar de căutare din destinatari..."
 
 #: ../ui/evolution-mail-message.xml.h:88
-#, fuzzy
 msgid "Search Folder from S_ubject..."
-msgstr "Dosar V pentru _subiect..."
+msgstr "Dosar de căutare din s_ubiect..."
 
 #: ../ui/evolution-mail-message.xml.h:89
-#, fuzzy
 msgid "Search Folder from Sen_der..."
-msgstr "Dosar V pentru expeditor..."
+msgstr "Dosar de căutare din expe_ditor..."
 
 #: ../ui/evolution-mail-message.xml.h:90
 msgid "Search for text in the body of the displayed message"
 msgstr "Caută textul în corpul mesajului afişat"
 
 #: ../ui/evolution-mail-message.xml.h:91
-#, fuzzy
 msgid "Select _All Text"
-msgstr "Selectează toate contactele"
+msgstr "Selectează t_ot textul"
 
 #: ../ui/evolution-mail-message.xml.h:92
-#, fuzzy
 msgid "Select all the text in a message"
-msgstr "Şterge toate mesajele vizibile"
+msgstr "Selectează tot textul dintr-un mesaj"
 
 #: ../ui/evolution-mail-message.xml.h:93
-#, fuzzy
 msgid "Set up the page settings for your current printer"
-msgstr "Setări de pagină pentru imprimanta curentă"
+msgstr "Setările de pagină pentru imprimanta curentă"
 
 #: ../ui/evolution-mail-message.xml.h:94
-#, fuzzy
 msgid "Show a blinking cursor in the body of displayed messages"
-msgstr "Caută textul în corpul mesajului afişat"
+msgstr "Afişează un cursor clipitor în corpul mesajelor afişate"
 
 #: ../ui/evolution-mail-message.xml.h:95
 msgid "Show message in the normal style"
@@ -18436,92 +18292,76 @@ msgid "Un-delete the selected messages"
 msgstr "Recuperează mesajele selectate"
 
 #: ../ui/evolution-mail-message.xml.h:99
-#, fuzzy
 msgid "Uni_mportant"
-msgstr "Important"
+msgstr "Nei_mportant"
 
 #: ../ui/evolution-mail-message.xml.h:100
 msgid "Zoom _Out"
-msgstr ""
+msgstr "Mi_cşorare"
 
 #: ../ui/evolution-mail-message.xml.h:101
-#, fuzzy
 msgid "_Caret Mode"
-msgstr "Telefon maşină"
+msgstr "Mod cu _cursor"
 
 #: ../ui/evolution-mail-message.xml.h:104
-#, fuzzy
 msgid "_Delete Message"
-msgstr "Ascunde mesajele şterse"
+msgstr "Ş_terge mesaj"
 
 #: ../ui/evolution-mail-message.xml.h:106
-#, fuzzy
 msgid "_Find in Message..."
-msgstr "Găseşte în mesaj"
+msgstr "_Caută în mesaj..."
 
 #: ../ui/evolution-mail-message.xml.h:108
-#, fuzzy
 msgid "_Go To"
-msgstr "Mergi la"
+msgstr "_Du-te la"
 
 #: ../ui/evolution-mail-message.xml.h:109
-#, fuzzy
 msgid "_Important"
-msgstr "Important"
+msgstr "_Important"
 
 #: ../ui/evolution-mail-message.xml.h:110
-#, fuzzy
 msgid "_Junk"
-msgstr "Iunie"
+msgstr "_Spam"
 
 #: ../ui/evolution-mail-message.xml.h:111
-#, fuzzy
 msgid "_Load Images"
 msgstr "Încarcă _imaginile"
 
 #: ../ui/evolution-mail-message.xml.h:114
-#, fuzzy
 msgid "_Next Message"
-msgstr "Mesaj"
+msgstr "Mesajul _următor"
 
 #: ../ui/evolution-mail-message.xml.h:115
-#, fuzzy
 msgid "_Normal Size"
-msgstr "Normal"
+msgstr "Mărime _normală"
 
 #: ../ui/evolution-mail-message.xml.h:116
-#, fuzzy
 msgid "_Not Junk"
-msgstr "Nu găsesc fişierul"
+msgstr "_Nespam"
 
 #: ../ui/evolution-mail-message.xml.h:117
-#, fuzzy
 msgid "_Open in New Window"
-msgstr "Deschide în fereastră nouă"
+msgstr "_Deschide în fereastră nouă"
 
 #: ../ui/evolution-mail-message.xml.h:118
-#, fuzzy
 msgid "_Previous Message"
-msgstr "Tipăreşte mesaj"
+msgstr "Mesajul _precedent"
 
 #: ../ui/evolution-mail-message.xml.h:122
-#, fuzzy
 msgid "_Save Message..."
-msgstr "Salvează mesajul ca..."
+msgstr "_Salvează mesajul..."
 
 #: ../ui/evolution-mail-message.xml.h:123
-#, fuzzy
 msgid "_Undelete Message"
-msgstr "Mesaj"
+msgstr "_Recuperează mesaj"
 
 #: ../ui/evolution-mail-message.xml.h:124
-#, fuzzy
 msgid "_Unread"
-msgstr "Marchez ca necitit"
+msgstr "N_ecitit"
 
 #: ../ui/evolution-mail-message.xml.h:125
 msgid "_Zoom In"
-msgstr ""
+msgstr "_Măreşte"
 
 #: ../ui/evolution-mail-messagedisplay.xml.h:1
 #: ../ui/evolution-message-composer.xml.h:4
@@ -18559,7 +18399,7 @@ msgstr "Anexează un fisier"
 
 #: ../ui/evolution-message-composer.xml.h:3
 msgid "Check to get delivery notification when your message is read"
-msgstr ""
+msgstr "Bifaţi pentru a obţine o notificare în momentul în care mesajul a fost citit"
 
 #: ../ui/evolution-message-composer.xml.h:5
 #: ../ui/evolution-signature-editor.xml.h:3
@@ -18575,20 +18415,17 @@ msgid "Encrypt this message with PGP"
 msgstr "Criptează acest mesaj cu PGP"
 
 #: ../ui/evolution-message-composer.xml.h:8
-#, fuzzy
 msgid "Encrypt this message with your S/MIME Encryption Certificate"
-msgstr "Criptează acest mesaj cu certificatul de criptare S/MIME"
+msgstr "Criptează acest mesaj cu certificatul dumneavoastră de criptare S/MIME"
 
 #: ../ui/evolution-message-composer.xml.h:9
 #: ../ui/evolution-signature-editor.xml.h:4
-#, fuzzy
 msgid "For_mat"
-msgstr "Format"
+msgstr "For_mat"
 
 #: ../ui/evolution-message-composer.xml.h:10
-#, fuzzy
 msgid "HT_ML"
-msgstr "HTML"
+msgstr "HT_ML"
 
 #: ../ui/evolution-message-composer.xml.h:12
 msgid "Open a file"
@@ -18603,9 +18440,8 @@ msgid "PGP Sign"
 msgstr "Semnătură PGP"
 
 #: ../ui/evolution-message-composer.xml.h:15
-#, fuzzy
 msgid "Request read receipt"
-msgstr "Destinatari"
+msgstr "Solicită confirmare de citire"
 
 #: ../ui/evolution-message-composer.xml.h:16
 msgid "S/MIME Encrypt"
@@ -18620,7 +18456,6 @@ msgid "Save As"
 msgstr "Salvează ca"
 
 #: ../ui/evolution-message-composer.xml.h:20
-#, fuzzy
 msgid "Save Draft"
 msgstr "Salvează ciorna"
 
@@ -18633,9 +18468,8 @@ msgid "Save _Draft"
 msgstr "Salvează ciorna"
 
 #: ../ui/evolution-message-composer.xml.h:23
-#, fuzzy
 msgid "Save as draft"
-msgstr "Salvează ciorna"
+msgstr "Salvează ca ciornă"
 
 #: ../ui/evolution-message-composer.xml.h:24
 msgid "Save in folder..."
@@ -18660,9 +18494,8 @@ msgid "Send the mail in HTML format"
 msgstr "Trimite mailul în format HTML"
 
 #: ../ui/evolution-message-composer.xml.h:30
-#, fuzzy
 msgid "Send this message"
-msgstr "Trimite acest mesaj acum"
+msgstr "Trimite acest mesaj"
 
 #: ../ui/evolution-message-composer.xml.h:31
 msgid "Sign this message with your PGP key"
@@ -18685,23 +18518,20 @@ msgid "Toggles whether the From chooser is displayed"
 msgstr "Selectează în timp ce căsuţa De la e afişată"
 
 #: ../ui/evolution-message-composer.xml.h:36
-#, fuzzy
 msgid "Toggles whether the Post-To field is displayed"
-msgstr "Selectează în timp ce câmpul Răspuns la e afişat"
+msgstr "Comută afişarea câmpului Trimite-către"
 
 #: ../ui/evolution-message-composer.xml.h:37
 msgid "Toggles whether the Reply-To field is displayed"
 msgstr "Selectează în timp ce câmpul Răspuns la e afişat"
 
 #: ../ui/evolution-message-composer.xml.h:38
-#, fuzzy
 msgid "Toggles whether the To field is displayed"
-msgstr "Selectează în timp ce câmpul CC e afişat"
+msgstr "Comută afişarea câmpului Către"
 
 #: ../ui/evolution-message-composer.xml.h:39
-#, fuzzy
 msgid "_Attachment..."
-msgstr "_Anexa"
+msgstr "_Ataşament..."
 
 #: ../ui/evolution-message-composer.xml.h:40
 msgid "_Bcc Field"
@@ -18729,9 +18559,8 @@ msgid "_Open..."
 msgstr "Deschide..."
 
 #: ../ui/evolution-message-composer.xml.h:49
-#, fuzzy
 msgid "_Post-To Field"
-msgstr "Câmpul _Răspuns la"
+msgstr "Câmpul _Trimite-către"
 
 #: ../ui/evolution-message-composer.xml.h:50
 msgid "_Reply-To Field"
@@ -18742,32 +18571,28 @@ msgid "_Security"
 msgstr "_Securitate"
 
 #: ../ui/evolution-message-composer.xml.h:53
-#, fuzzy
 msgid "_To Field"
-msgstr "Câmpul De la"
+msgstr "Câmpul Că_tre"
 
 #: ../ui/evolution-signature-editor.xml.h:1
 msgid "C_lose"
 msgstr "Închide"
 
 #: ../ui/evolution-signature-editor.xml.h:5
-#, fuzzy
 msgid "H_TML"
-msgstr "HTML"
+msgstr "H_TML"
 
 #: ../ui/evolution-signature-editor.xml.h:7
 msgid "Save and Close"
 msgstr "Salvează şi închide"
 
 #: ../ui/evolution-signature-editor.xml.h:8
-#, fuzzy
 msgid "Save and _Close"
-msgstr "Salvează şi închide"
+msgstr "Salvează şi în_chide"
 
 #: ../ui/evolution-signature-editor.xml.h:10
-#, fuzzy
 msgid "Save the current file and close the window"
-msgstr "Salvează lista şi închide căsuţa de dialog"
+msgstr "Salvează fişierul curent şi închide fereastra"
 
 #: ../ui/evolution-subscribe.xml.h:1
 msgid "Add folder to your list of subscribed folders"
@@ -18806,88 +18631,76 @@ msgid "Cut selected task"
 msgstr "Decupează sarcina selectată"
 
 #: ../ui/evolution-tasks.xml.h:7
-#, fuzzy
 msgid "Delete completed tasks"
-msgstr "Şterge sarcinile selectate"
+msgstr "Şterge sarcinile terminate"
 
 #: ../ui/evolution-tasks.xml.h:8
 msgid "Delete selected tasks"
 msgstr "Şterge sarcinile selectate"
 
 #: ../ui/evolution-tasks.xml.h:9
-#, fuzzy
 msgid "Mar_k as Complete"
-msgstr "Marchează ca terminat"
+msgstr "Mar_chează ca terminat"
 
 #: ../ui/evolution-tasks.xml.h:10
-#, fuzzy
 msgid "Mark selected tasks as complete"
-msgstr "Marchează sarcinile ca terminate"
+msgstr "Marchează sarcinile selectate ca terminate"
 
 #: ../ui/evolution-tasks.xml.h:12
 msgid "Paste task from the clipboard"
 msgstr "Lipeşte sarcina din clipboard"
 
 #: ../ui/evolution-tasks.xml.h:13
-#, fuzzy
 msgid "Previews the list of tasks to be printed"
-msgstr "Previzualizează contactele ce vor fi tipărite"
+msgstr "Previzualizează lista de sarcini ce vor fi tipărite"
 
 #: ../ui/evolution-tasks.xml.h:16
-#, fuzzy
 msgid "Print the list of tasks"
-msgstr "Editează această sarcină"
+msgstr "Tipăreşte lista de sarcini"
 
 #: ../ui/evolution-tasks.xml.h:18
-#, fuzzy
 msgid "View the selected task"
-msgstr "Şterge sarcinile selectate"
+msgstr "Afişează sarcina selectată"
 
 #: ../ui/evolution-tasks.xml.h:25
-#, fuzzy
 msgid "_Open Task"
-msgstr "Sarcină"
+msgstr "_Deschide sarcina"
 
 #: ../ui/evolution.xml.h:1
-#, fuzzy
 msgid "About Evolution..."
 msgstr "Despre Evolution..."
 
 #: ../ui/evolution.xml.h:2
-#, fuzzy
 msgid "Change Evolution's settings"
-msgstr "Setări Evolution..."
+msgstr "Modifică setările Evolution"
 
 #: ../ui/evolution.xml.h:3
-#, fuzzy
 msgid "Change the visibility of the toolbar"
-msgstr "Schimbă proprietăţile acestui dosar"
+msgstr "Modifică vizibilitatea bării de unelte"
 
 #: ../ui/evolution.xml.h:5
-#, fuzzy
 msgid "Create a new window displaying this folder"
-msgstr "Creez un dosar nou"
+msgstr "Creează o nouă ferestră pentru afişarea acestui dosar"
 
 #: ../ui/evolution.xml.h:6
 msgid "Display window buttons using the desktop toolbar setting"
-msgstr ""
+msgstr "Afişează butoanele ferestrei folosind setările pentru bara de unelte din deskop"
 
 #: ../ui/evolution.xml.h:7
 msgid "Display window buttons with icons and text"
-msgstr ""
+msgstr "Afişează butoanele ferestrei cu iconiţe şi text"
 
 #: ../ui/evolution.xml.h:8
 msgid "Display window buttons with icons only"
-msgstr ""
+msgstr "Afişează butoanele ferestrei doar cu iconiţe"
 
 #: ../ui/evolution.xml.h:9
 msgid "Display window buttons with text only"
-msgstr ""
+msgstr "Afişează butoanele ferestrei doar cu text"
 
 #: ../ui/evolution.xml.h:10
-#, fuzzy
 msgid "Evolution _FAQ"
-msgstr "Ximian Evolution _FAQ"
+msgstr "_FAQ Evolution"
 
 #: ../ui/evolution.xml.h:11
 msgid "Exit the program"
@@ -18903,44 +18716,39 @@ msgstr "Uită parolele memorate astfel veţi fi întrebat despre ele din nou"
 
 #: ../ui/evolution.xml.h:14
 msgid "Hide window buttons"
-msgstr ""
+msgstr "Ascunde butoanele ferestrei"
 
 #: ../ui/evolution.xml.h:15
 msgid "Icons _and text"
-msgstr ""
+msgstr "Iconiţe ş_i text"
 
 #: ../ui/evolution.xml.h:16
 msgid "Import data from other programs"
-msgstr ""
+msgstr "Importă date din alte programe"
 
 #: ../ui/evolution.xml.h:18
-#, fuzzy
 msgid "New _Window"
-msgstr "Legătura DN:"
+msgstr "_Fereastră nouă"
 
 #: ../ui/evolution.xml.h:19
-#, fuzzy
 msgid "Prefere_nces"
-msgstr "Preferinţe calendar"
+msgstr "Preferi_nţe"
 
 #: ../ui/evolution.xml.h:20
 msgid "Send / Receive"
 msgstr "Trimite / Primeşte"
 
 #: ../ui/evolution.xml.h:21
-#, fuzzy
 msgid "Send queued items and retrieve new items"
-msgstr "Trimite mailurile din coadă şi descarcă mailurile noi"
+msgstr "Trimite elementele din coadă şi descarcă elementele noi"
 
 #: ../ui/evolution.xml.h:22
-#, fuzzy
 msgid "Set up Pilot configuration"
-msgstr "Configurare mail"
+msgstr "Setează configuraţia Pilot"
 
 #: ../ui/evolution.xml.h:23
-#, fuzzy
 msgid "Show information about Evolution"
-msgstr "Arată informaţii despre Evolution"
+msgstr "Afişează informaţii despre Evolution"
 
 #: ../ui/evolution.xml.h:24
 msgid "Submit Bug Report"
@@ -18959,24 +18767,20 @@ msgid "Toggle whether we are working offline."
 msgstr "Selectează în timp lucrăm deconectaţi"
 
 #: ../ui/evolution.xml.h:28
-#, fuzzy
 msgid "Tool_bar"
-msgstr "Bara de unelte principală"
+msgstr "_Bara de unelte"
 
 #: ../ui/evolution.xml.h:29
-#, fuzzy
 msgid "Tool_bar style"
-msgstr "Bara de unelte principală"
+msgstr "Stilul pentru _bara de unelte"
 
 #: ../ui/evolution.xml.h:30
-#, fuzzy
 msgid "_About Evolution..."
-msgstr "Despre Evolution..."
+msgstr "_Despre Evolution..."
 
 #: ../ui/evolution.xml.h:31
-#, fuzzy
 msgid "_Close Window"
-msgstr "Închide această fereastră"
+msgstr "În_chide fereastra"
 
 #: ../ui/evolution.xml.h:34
 msgid "_Help"
@@ -18984,11 +18788,11 @@ msgstr "Ajutor"
 
 #: ../ui/evolution.xml.h:35
 msgid "_Hide buttons"
-msgstr ""
+msgstr "_Ascunde butoanele"
 
 #: ../ui/evolution.xml.h:36
 msgid "_Icons only"
-msgstr ""
+msgstr "Doar i_coniţe"
 
 #: ../ui/evolution.xml.h:37
 msgid "_Import..."
@@ -18999,14 +18803,12 @@ msgid "_New"
 msgstr "_Nou"
 
 #: ../ui/evolution.xml.h:39
-#, fuzzy
 msgid "_Quick Reference"
-msgstr "Preferinţe calendar"
+msgstr "Referinţă ra_pidă"
 
 #: ../ui/evolution.xml.h:40
-#, fuzzy
 msgid "_Quit"
-msgstr "Dec_upează"
+msgstr "_Ieşire"
 
 #: ../ui/evolution.xml.h:41
 msgid "_Send / Receive"
@@ -19014,127 +18816,106 @@ msgstr "Trimite / Primeşte"
 
 #: ../ui/evolution.xml.h:42
 msgid "_Switcher Appearance"
-msgstr ""
+msgstr "_Comutator aspect"
 
 #: ../ui/evolution.xml.h:43
 msgid "_Synchronization Options..."
-msgstr ""
+msgstr "Opţiuni _sincronizare..."
 
 #: ../ui/evolution.xml.h:44
-#, fuzzy
 msgid "_Text only"
-msgstr "Model text"
+msgstr "Doar _text"
 
 #: ../ui/evolution.xml.h:46
-#, fuzzy
 msgid "_Window"
-msgstr "Legătura DN:"
+msgstr "_Fereastră"
 
 #: ../views/addressbook/galview.xml.h:1
-#, fuzzy
 msgid "By _Company"
-msgstr "După companie"
+msgstr "De către _companie"
 
 #: ../views/addressbook/galview.xml.h:2
-#, fuzzy
 msgid "_Address Cards"
-msgstr "Cărţi de vizită"
+msgstr "Cărţi de _vizită"
 
 #: ../views/addressbook/galview.xml.h:3
-#, fuzzy
 msgid "_Phone List"
-msgstr "Lista de telefoane"
+msgstr "Lista de tele_foane"
 
 #: ../views/calendar/galview.xml.h:1
-#, fuzzy
 msgid "W_eek View"
-msgstr "Afişare săptamână"
+msgstr "Afişare _săptămână"
 
 #: ../views/calendar/galview.xml.h:2
-#, fuzzy
 msgid "_Day View"
-msgstr "Afişare zi"
+msgstr "Afişare _zi"
 
 #: ../views/calendar/galview.xml.h:3
-#, fuzzy
 msgid "_List View"
-msgstr "Personalizează"
+msgstr "Afişare _listă"
 
 #: ../views/calendar/galview.xml.h:4
-#, fuzzy
 msgid "_Month View"
-msgstr "Afişare lună"
+msgstr "Afişare _lună"
 
 #: ../views/calendar/galview.xml.h:5
-#, fuzzy
 msgid "_Work Week View"
-msgstr "Afişare săptămână de lucru"
+msgstr "Afişare _săptămână de lucru"
 
 #: ../views/mail/galview.xml.h:1
-#, fuzzy
 msgid "As _Sent Folder"
-msgstr "Alege dosar"
+msgstr "Ca director _Trimise"
 
 #: ../views/mail/galview.xml.h:2
-#, fuzzy
 msgid "By S_tatus"
-msgstr "După stare"
+msgstr "După _status"
 
 #: ../views/mail/galview.xml.h:3
-#, fuzzy
 msgid "By Se_nder"
-msgstr "După expeditor"
+msgstr "După _expeditor"
 
 #: ../views/mail/galview.xml.h:4
-#, fuzzy
 msgid "By Su_bject"
-msgstr "După subiect"
+msgstr "După su_biect"
 
 #: ../views/mail/galview.xml.h:5
 msgid "By _Follow Up Flag"
-msgstr ""
+msgstr "După _fanionul urmare"
 
 #: ../views/mail/galview.xml.h:6
-#, fuzzy
 msgid "_Messages"
-msgstr "Mesaje"
+msgstr "_Mesaje"
 
 #: ../views/tasks/galview.xml.h:1
-#, fuzzy
 msgid "With _Due Date"
-msgstr "_Data scadentă:"
+msgstr "Cu _data scadentă"
 
 #: ../views/tasks/galview.xml.h:2
-#, fuzzy
 msgid "With _Status"
-msgstr "Setează starea"
+msgstr "Cu _status"
 
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.c:195
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.c:637
 msgid "UTC"
-msgstr ""
+msgstr "UTC"
 
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.glade.h:2
-#, fuzzy
 msgid "<b>Time Zones</b>"
-msgstr "Ore locale"
+msgstr "<b>Fusuri orare</b>"
 
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.glade.h:3
-#, fuzzy
 msgid "<b>_Selection</b>"
-msgstr "_Acţiune"
+msgstr "<b>_Selecţie</b>"
 
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.glade.h:5
 msgid "Select a Time Zone"
 msgstr "Selectez ora locală"
 
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.glade.h:6
-#, fuzzy
 msgid "TimeZone Combobox"
-msgstr "Zona temporală:"
+msgstr "Combobox fus orar"
 
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.glade.h:7
-#, fuzzy
 msgid ""
 "Use the left mouse button to zoom in on an area of the map and select a time "
 "zone.\n"
@@ -19142,35 +18923,32 @@ msgid ""
 msgstr ""
 "Folosiţi butonul din stânga al mausului pentru a mări o zonă de pe hartă şi "
 "selectaţi ora locală.\n"
-" Folosiţi butonul din dreapta al mausului pentru a micşora."
+"Folosiţi butonul din dreapta al mausului pentru a micşora."
 
 #: ../widgets/menus/gal-define-views-dialog.c:76
 #: ../widgets/menus/gal-define-views-model.c:188
-#, fuzzy
 msgid "Collection"
-msgstr "Locaţie"
+msgstr "Colecţie"
 
 #: ../widgets/menus/gal-define-views-dialog.c:325
 #: ../widgets/menus/gal-define-views.glade.h:4
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Define Views for %s"
-msgstr "Defineşte vizualizări"
+msgstr "Defineşte vizualizări pentru %s"
 
 #: ../widgets/menus/gal-define-views-dialog.c:333
 #: ../widgets/menus/gal-define-views-dialog.c:335
-#, fuzzy
 msgid "Define Views"
 msgstr "Defineşte vizualizări"
 
 #: ../widgets/menus/gal-define-views.glade.h:2
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Define Views for \"%s\""
-msgstr "Defineşte vizualizări"
+msgstr "Defineşte vizualizări pentru „%s”"
 
 #: ../widgets/menus/gal-define-views.glade.h:5
-#, fuzzy
 msgid "_Edit..."
-msgstr "_Editează"
+msgstr "_Editează..."
 
 #: ../widgets/menus/gal-view-factory-etable.c:39
 #: ../widgets/table/e-table-header-item.c:1845
@@ -19180,32 +18958,28 @@ msgid "Table"
 msgstr "Tabel"
 
 #: ../widgets/menus/gal-view-instance-save-as-dialog.c:182
-#, fuzzy
 msgid "Instance"
-msgstr "Toate instanţele"
+msgstr "Instanţă"
 
 #: ../widgets/menus/gal-view-instance-save-as-dialog.c:232
-#, fuzzy
 msgid "Save Current View"
-msgstr "Vizualizarea curentă"
+msgstr "Salvează afişarea curentă"
 
 #: ../widgets/menus/gal-view-instance-save-as-dialog.glade.h:3
-#, fuzzy
 msgid "_Create new view"
-msgstr "Crează o sarcină nouă"
+msgstr "_Creează o afişare nouă"
 
 #: ../widgets/menus/gal-view-instance-save-as-dialog.glade.h:5
 msgid "_Replace existing view"
-msgstr ""
+msgstr "Î_nlocuieşte afişarea existentă"
 
 #: ../widgets/menus/gal-view-menus.c:291
 msgid "_Current View"
 msgstr "Vizualizarea _curentă"
 
 #: ../widgets/menus/gal-view-menus.c:359
-#, fuzzy
 msgid "Save Custom View..."
-msgstr "Personalizează"
+msgstr "Salvează afişarea personalizată..."
 
 #: ../widgets/menus/gal-view-new-dialog.c:80
 msgid "Factory"
@@ -19217,16 +18991,15 @@ msgstr "Defineşte vizualizare nouă"
 
 #: ../widgets/menus/gal-view-new-dialog.glade.h:2
 msgid "Name of new view:"
-msgstr ""
+msgstr "Numele noii afişări:"
 
 #: ../widgets/menus/gal-view-new-dialog.glade.h:3
-#, fuzzy
 msgid "Type of View"
-msgstr "Afişare zi"
+msgstr "Tipul afişării"
 
 #: ../widgets/menus/gal-view-new-dialog.glade.h:4
 msgid "Type of view:"
-msgstr ""
+msgstr "Tipul afişării:"
 
 #. Translators: These are the first characters of each day of the
 #. week, 'M' for 'Monday', 'T' for Tuesday etc.
@@ -19240,14 +19013,12 @@ msgid "%B %Y"
 msgstr "%B %Y"
 
 #: ../widgets/misc/e-calendar.c:177 ../widgets/misc/e-calendar.c:201
-#, fuzzy
 msgid "Previous Button"
-msgstr "Precedent"
+msgstr "Butonul precedent"
 
 #: ../widgets/misc/e-calendar.c:226
-#, fuzzy
 msgid "Month Calendar"
-msgstr "Încarc calendar"
+msgstr "Calendar lunar"
 
 #: ../widgets/misc/e-canvas-background.c:456
 #: ../widgets/misc/e-canvas-background.c:457 ../widgets/text/e-entry.c:1284
@@ -19276,25 +19047,23 @@ msgstr "Condiţie umplere"
 
 #: ../widgets/misc/e-canvas-background.c:484
 #: ../widgets/misc/e-canvas-background.c:485
-#, fuzzy
 msgid "X1"
-msgstr "1"
+msgstr "X1"
 
 #: ../widgets/misc/e-canvas-background.c:491
 #: ../widgets/misc/e-canvas-background.c:492
 msgid "X2"
-msgstr ""
+msgstr "X2"
 
 #: ../widgets/misc/e-canvas-background.c:498
 #: ../widgets/misc/e-canvas-background.c:499
-#, fuzzy
 msgid "Y1"
-msgstr "1"
+msgstr "Y1"
 
 #: ../widgets/misc/e-canvas-background.c:505
 #: ../widgets/misc/e-canvas-background.c:506
 msgid "Y2"
-msgstr ""
+msgstr "Y2"
 
 #: ../widgets/misc/e-canvas-vbox.c:102 ../widgets/misc/e-reflow.c:1430
 #: ../widgets/table/e-table-group-container.c:978
@@ -19312,9 +19081,8 @@ msgstr "Lungime minimă"
 
 #: ../widgets/misc/e-canvas-vbox.c:114 ../widgets/misc/e-canvas-vbox.c:115
 #: ../widgets/misc/e-expander.c:205
-#, fuzzy
 msgid "Spacing"
-msgstr "Ploaie"
+msgstr "Spaţiere"
 
 #: ../widgets/misc/e-cell-date-edit.c:232 ../widgets/misc/e-dateedit.c:451
 msgid "Now"
@@ -19351,7 +19119,7 @@ msgstr "Grec"
 
 #: ../widgets/misc/e-charset-picker.c:68
 msgid "Hebrew"
-msgstr ""
+msgstr "Ebraică"
 
 #: ../widgets/misc/e-charset-picker.c:69
 msgid "Japanese"
@@ -19374,9 +19142,8 @@ msgid "Western European"
 msgstr "Europa de vest"
 
 #: ../widgets/misc/e-charset-picker.c:74
-#, fuzzy
 msgid "Western European, New"
-msgstr "Europa de vest"
+msgstr "Europa de vest, nou"
 
 #: ../widgets/misc/e-charset-picker.c:91 ../widgets/misc/e-charset-picker.c:92
 #: ../widgets/misc/e-charset-picker.c:93
@@ -19393,9 +19160,8 @@ msgid "Ukrainian"
 msgstr "Ucrainean"
 
 #: ../widgets/misc/e-charset-picker.c:103
-#, fuzzy
 msgid "Visual"
-msgstr "Alarme vizuale"
+msgstr "Vizual"
 
 #: ../widgets/misc/e-charset-picker.c:171
 #, c-format
@@ -19420,71 +19186,68 @@ msgid "..."
 msgstr "..."
 
 #: ../widgets/misc/e-dateedit.c:316
-#, fuzzy
 msgid "Date and Time Entry"
-msgstr "<b>Data şi ora</b>"
+msgstr "Intrare dată şi timp"
 
 #: ../widgets/misc/e-dateedit.c:335
 msgid "Text entry to input date"
-msgstr ""
+msgstr "Intrare text pentru introducere dată"
 
 #: ../widgets/misc/e-dateedit.c:336
 msgid "Text Date Entry"
-msgstr ""
+msgstr "Intrare text pentru dată"
 
 #: ../widgets/misc/e-dateedit.c:353
 msgid "Click this button to show a calendar"
-msgstr ""
+msgstr "Clic pe acest buton pentru a afişa un calendar"
 
 #: ../widgets/misc/e-dateedit.c:354
-#, fuzzy
 msgid "Date Button"
-msgstr "Desenează buton"
+msgstr "Buton dată"
 
 #: ../widgets/misc/e-dateedit.c:374
 msgid "Combo box to select time"
-msgstr ""
+msgstr "Combo box pentru a selecta timpul"
 
 #: ../widgets/misc/e-dateedit.c:375
 msgid "Time Combo Box"
-msgstr ""
+msgstr "Combo box timp"
 
 #: ../widgets/misc/e-expander.c:181
-#, fuzzy
 msgid "Expanded"
-msgstr "Distrug_e"
+msgstr "Extins"
 
 #: ../widgets/misc/e-expander.c:182
-#, fuzzy
 msgid "Whether or not the expander is expanded"
-msgstr "Comută în timp ce se arată bara folder"
+msgstr "Dacă extensorul este extins sau nu"
 
 #: ../widgets/misc/e-expander.c:190
 msgid "Text of the expander's label"
-msgstr ""
+msgstr "Text pentru eticheta extensorului"
 
 #: ../widgets/misc/e-expander.c:197
-#, fuzzy
 msgid "Use underline"
-msgstr "Nedefinit"
+msgstr "Foloseşte sublinierea"
 
 #: ../widgets/misc/e-expander.c:198
 msgid ""
 "If set, an underline in the text indicates the next character should be used "
 "for the mnemonic accelerator key"
 msgstr ""
+"Dacă este setată, o subliniere în text indică faptul că următorul caracter "
+"ar trebui să fie folosit ca parte a combinaţiei de taste"
 
 #: ../widgets/misc/e-expander.c:206
 msgid "Space to put between the label and the child"
-msgstr ""
+msgstr "Spaţiul ce trebuie pus între etichetă şi copil"
 
 #: ../widgets/misc/e-expander.c:215
 msgid "Label widget"
-msgstr ""
+msgstr "Widget etichetă"
 
 #: ../widgets/misc/e-expander.c:216
 msgid "A widget to display in place of the usual expander label"
-msgstr ""
+msgstr "Un widget pentru afişare în locul etichetei obişnuite pentru extensor"
 
 #: ../widgets/misc/e-expander.c:222 ../widgets/table/e-tree.c:3318
 msgid "Expander Size"
@@ -19496,21 +19259,19 @@ msgstr "Dimensiune simbol de expandare"
 
 #: ../widgets/misc/e-expander.c:231
 msgid "Indicator Spacing"
-msgstr ""
+msgstr "Spaţiere indicator"
 
 #: ../widgets/misc/e-expander.c:232
 msgid "Spacing around expander arrow"
-msgstr ""
+msgstr "Spaţierea din jurul săgeţii de extindere"
 
 #: ../widgets/misc/e-filter-bar.c:195
-#, fuzzy
 msgid "_Searches"
-msgstr "_Caută"
+msgstr "_Căutări"
 
 #: ../widgets/misc/e-filter-bar.c:197
-#, fuzzy
 msgid "Search Editor"
-msgstr "Caută înainte"
+msgstr "Editor căutare"
 
 #. FIXME: get the toplevel window...
 #: ../widgets/misc/e-filter-bar.c:220
@@ -19518,110 +19279,97 @@ msgid "Save Search"
 msgstr "Salvează căutarea"
 
 #: ../widgets/misc/e-filter-bar.h:92 ../widgets/misc/e-filter-bar.h:99
-#, fuzzy
 msgid "_Save Search..."
-msgstr "Salvează căutarea"
+msgstr "_Salvează căutarea..."
 
 #: ../widgets/misc/e-filter-bar.h:93 ../widgets/misc/e-filter-bar.h:100
-#, fuzzy
 msgid "_Edit Saved Searches..."
-msgstr "Salvează căutarea"
+msgstr "_Editează căutările salvate..."
 
 #: ../widgets/misc/e-filter-bar.h:94 ../widgets/misc/e-filter-bar.h:101
-#, fuzzy
 msgid "_Advanced Search..."
-msgstr "Căutare avansată"
+msgstr "Căutare _avansată"
 
 #: ../widgets/misc/e-image-chooser.c:172
-#, fuzzy
 msgid "Choose Image"
-msgstr "Selectez o acţiune"
+msgstr "Alege imagine"
 
 #: ../widgets/misc/e-map.c:647
 msgid "World Map"
-msgstr ""
+msgstr "Harta lumii"
 
 #: ../widgets/misc/e-map.c:649
 msgid ""
 "Mouse-based interactive map widget for selecting timezone. Keyboard users "
 "should select the timezone from the below combo box instead."
 msgstr ""
+"Widget hartă interactiv şi bazat pe maus pentru selectarea fusului orar. "
+"Utilizatorii de tastatură ar trebui în schimb să selecteze fusul orar din combo "
+"box-ul de mai jos."
 
 #: ../widgets/misc/e-pilot-settings.c:103
-#, fuzzy
 msgid "Sync with:"
-msgstr "se termină cu"
+msgstr "Sincronizează cu:"
 
 #: ../widgets/misc/e-pilot-settings.c:111
 msgid "Sync Private Records:"
-msgstr ""
+msgstr "Sincronizează înregistrările personale:"
 
 #: ../widgets/misc/e-pilot-settings.c:120
-#, fuzzy
 msgid "Sync Categories:"
-msgstr "Categorii"
+msgstr "Sincronizează categoriile:"
 
 #: ../widgets/misc/e-reflow.c:1452 ../widgets/misc/e-reflow.c:1453
-#, fuzzy
 msgid "Empty message"
-msgstr "Mesaj de ajutor"
+msgstr "Mesaj gol"
 
 #: ../widgets/misc/e-reflow.c:1459 ../widgets/misc/e-reflow.c:1460
-#, fuzzy
 msgid "Reflow model"
-msgstr "Model selecţie"
+msgstr "Model reflow"
 
 #: ../widgets/misc/e-reflow.c:1466 ../widgets/misc/e-reflow.c:1467
-#, fuzzy
 msgid "Column width"
-msgstr "Lătimea coloanei"
+msgstr "Lăţime coloană"
 
 #. To translators: This is the accessibility name of
 #. the search bar's text entry widget
 #: ../widgets/misc/e-search-bar.c:345
-#, fuzzy
 msgid "Search Text Entry"
-msgstr "Caută înainte"
+msgstr "Intrare text căutare"
 
 #: ../widgets/misc/e-search-bar.c:549
 msgid "_Search"
 msgstr "_Caută"
 
 #: ../widgets/misc/e-search-bar.c:555
-#, fuzzy
 msgid "_Find Now"
-msgstr "Legătura DN:"
+msgstr "_Caută acum"
 
 #: ../widgets/misc/e-search-bar.c:556 ../widgets/misc/e-search-bar.c:943
-#, fuzzy
 msgid "_Clear"
-msgstr "Şterge"
+msgstr "Ş_terge"
 
 #: ../widgets/misc/e-search-bar.c:647
-#, fuzzy
 msgid "Search Type"
-msgstr "_Scopul căutării:"
+msgstr "Tip căutare"
 
 #: ../widgets/misc/e-search-bar.c:851
-#, fuzzy
 msgid "Item ID"
-msgstr "Art_icol (FIXME)"
+msgstr "ID element"
 
 #: ../widgets/misc/e-search-bar.c:858
 msgid "Subitem ID"
-msgstr ""
+msgstr "Sub-element ID"
 
 #: ../widgets/misc/e-search-bar.c:865 ../widgets/text/e-entry.c:1249
 #: ../widgets/text/e-entry.c:1250 ../widgets/text/e-text.c:3462
 #: ../widgets/text/e-text.c:3463
-#, fuzzy
 msgid "Text"
-msgstr "Test"
+msgstr "Text"
 
 #: ../widgets/misc/e-search-bar.c:945
-#, fuzzy
 msgid "Find _Now"
-msgstr "Legătura DN:"
+msgstr "Caută _acum"
 
 #: ../widgets/misc/e-selection-model-array.c:546
 #: ../widgets/table/e-tree-selection-model.c:811
@@ -19646,60 +19394,52 @@ msgid "Cursor Mode"
 msgstr "Mod cursor"
 
 #: ../widgets/misc/e-send-options.c:521
-#, fuzzy
 msgid "When de_leted:"
-msgstr "Şterse"
+msgstr "La şte_rgere:"
 
 #: ../widgets/misc/e-send-options.glade.h:1
-#, fuzzy
 msgid "<b>Delivery Options</b>"
-msgstr "<b>Opţiuni</b>"
+msgstr "<b>Opţiuni livrare</b>"
 
 #: ../widgets/misc/e-send-options.glade.h:2
-#, fuzzy
 msgid "<b>Replies</b>"
-msgstr "<b>Repetă</b>"
+msgstr "<b>Răspunsuri</b>"
 
 #: ../widgets/misc/e-send-options.glade.h:3
-#, fuzzy
 msgid "<b>Return Notification</b>"
-msgstr "<b>Autentificare</b>"
+msgstr "<b>Notificare de întoarcere</b>"
 
 #: ../widgets/misc/e-send-options.glade.h:4
-#, fuzzy
 msgid "<b>Status Tracking</b>"
-msgstr "<b>Caut</b>"
+msgstr "<b>Urmărire status</b>"
 
 #: ../widgets/misc/e-send-options.glade.h:5
-#, fuzzy
 msgid "A_uto-delete sent item"
-msgstr "Şterge acest articol"
+msgstr "Şterge a_utomat elementul trimis"
 
 #: ../widgets/misc/e-send-options.glade.h:6
-#, fuzzy
 msgid "C_lassification"
-msgstr "Clasi_ficare:"
+msgstr "Clasi_ficare"
 
 #: ../widgets/misc/e-send-options.glade.h:7
-#, fuzzy
 msgid "Creat_e a sent item to track information"
-msgstr "Obţine ultimele informaţii despre întâlnire"
+msgstr "Cre_ează un element trimis pentru a urmări informaţia"
 
 #: ../widgets/misc/e-send-options.glade.h:8
 msgid "Deli_vered and opened"
-msgstr ""
+msgstr "Li_vrat şi deschis"
 
 #: ../widgets/misc/e-send-options.glade.h:9
-#, fuzzy
 msgid "Gene_ral Options"
-msgstr "General"
+msgstr "Opţiuni gene_rale"
 
 #: ../widgets/misc/e-send-options.glade.h:10
-#, fuzzy
 msgid ""
 "None\n"
 "Mail Receipt"
-msgstr "Destinatari"
+msgstr ""
+"Nici unul\n"
+"Confirmare mail"
 
 #: ../widgets/misc/e-send-options.glade.h:12
 msgid ""
@@ -19707,15 +19447,17 @@ msgid ""
 "Private\n"
 "Confidential\n"
 msgstr ""
+"Public\n"
+"Personal\n"
+"Confidenţial\n"
 
 #: ../widgets/misc/e-send-options.glade.h:16
-#, fuzzy
 msgid "R_eply requested"
-msgstr "Răspunde la toţi"
+msgstr "Răs_puns solicitat"
 
 #: ../widgets/misc/e-send-options.glade.h:18
 msgid "Sta_tus Tracking"
-msgstr ""
+msgstr "Urmărire sta_tus"
 
 #: ../widgets/misc/e-send-options.glade.h:19
 msgid ""
@@ -19724,64 +19466,58 @@ msgid ""
 "Standard\n"
 "Low"
 msgstr ""
+"Nedefinit\n"
+"Mare\n"
+"Standard\n"
+"Mic"
 
 #: ../widgets/misc/e-send-options.glade.h:23
-#, fuzzy
 msgid "W_ithin"
-msgstr "În aşteptare"
+msgstr "Î_năuntru"
 
 #: ../widgets/misc/e-send-options.glade.h:24
-#, fuzzy
 msgid "When acce_pted:"
-msgstr " Acceptă "
+msgstr "La acce_ptare:"
 
 #: ../widgets/misc/e-send-options.glade.h:25
-#, fuzzy
 msgid "When co_mpleted:"
-msgstr "_Data terminării:"
+msgstr "La co_mpletare:"
 
 #: ../widgets/misc/e-send-options.glade.h:26
-#, fuzzy
 msgid "When decli_ned:"
-msgstr " Refuză "
+msgstr "La re_fuzare:"
 
 #: ../widgets/misc/e-send-options.glade.h:27
-#, fuzzy
 msgid "_After:"
-msgstr "după"
+msgstr "_După:"
 
 #: ../widgets/misc/e-send-options.glade.h:28
-#, fuzzy
 msgid "_All information"
-msgstr "Informaţie"
+msgstr "_Toate informaţiile"
 
 #: ../widgets/misc/e-send-options.glade.h:29
-#, fuzzy
 msgid "_Delay message delivery"
-msgstr "Lasă mesajele pe server"
+msgstr "Î_ntârzie livrarea mesajului"
 
 #: ../widgets/misc/e-send-options.glade.h:30
-#, fuzzy
 msgid "_Delivered"
-msgstr "_Şterge"
+msgstr "_Livrat"
 
 #: ../widgets/misc/e-send-options.glade.h:32
 msgid "_Set expiration date"
-msgstr ""
+msgstr "_Setează data expirării"
 
 #: ../widgets/misc/e-send-options.glade.h:33
-#, fuzzy
 msgid "_Until:"
-msgstr "pînă la"
+msgstr "_Până la:"
 
 #: ../widgets/misc/e-send-options.glade.h:34
 msgid "_When convenient"
-msgstr ""
+msgstr "_Când e convenabil"
 
 #: ../widgets/misc/e-send-options.glade.h:35
-#, fuzzy
 msgid "_When opened:"
-msgstr "_Data terminării:"
+msgstr "_La deschidere:"
 
 #: ../widgets/misc/e-task-widget.c:208
 #, c-format
@@ -19794,28 +19530,24 @@ msgid "%s (%d%% complete)"
 msgstr "%s (%d%% complet)"
 
 #: ../widgets/misc/e-url-entry.c:107
-#, fuzzy
 msgid "click here to go to url"
-msgstr "<clic aici să alegeţi un dosar>"
+msgstr "clic aici pentru a merge la url"
 
 #: ../widgets/misc/gal-categories.glade.h:2
 msgid "Edit Master Category List..."
-msgstr ""
+msgstr "Editează lista principală de categorii..."
 
 #: ../widgets/misc/gal-categories.glade.h:3
-#, fuzzy
 msgid "Item(s) belong to these _categories:"
-msgstr "Această persoană de contact aparţine categoriilor:"
+msgstr "Elemente aparţinând acestor _categorii:"
 
 #: ../widgets/misc/gal-categories.glade.h:4
-#, fuzzy
 msgid "_Available Categories:"
-msgstr "_Categorii"
+msgstr "Categorii _disponibile:"
 
 #: ../widgets/misc/gal-categories.glade.h:5
-#, fuzzy
 msgid "categories"
-msgstr "Categorii"
+msgstr "categorii"
 
 #: ../widgets/table/e-cell-combo.c:177
 msgid "popup list"
@@ -19858,15 +19590,13 @@ msgid "BG Color Column"
 msgstr "Culoare fundal a coloanei"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:1
-#, fuzzy
 msgid "<- _Remove"
-msgstr "Şte_rge"
+msgstr "<- Şte_rge"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:2
 #: ../widgets/table/e-table-config.glade.h:1
-#, fuzzy
 msgid "A_vailable Fields:"
-msgstr "Câmpuri editabile"
+msgstr "Câmpuri _disponibile:"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:3
 #: ../widgets/table/e-table-config.glade.h:2
@@ -19875,9 +19605,8 @@ msgstr "Crescător"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:4
 #: ../widgets/table/e-table-config.glade.h:3
-#, fuzzy
 msgid "Clear All"
-msgstr "Şterge"
+msgstr "Şterge tot"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:5
 #: ../widgets/table/e-table-config.glade.h:4
@@ -19886,48 +19615,43 @@ msgstr "Descrescător"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:8
 #: ../widgets/table/e-table-config.glade.h:7
-#, fuzzy
 msgid "Group Items By"
-msgstr "_Grupează după..."
+msgstr "Grupează elemente după"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:9
 #: ../widgets/table/e-table-config.glade.h:8
 msgid "Move _Down"
-msgstr ""
+msgstr "Mută în _jos"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:10
 #: ../widgets/table/e-table-config.glade.h:9
-#, fuzzy
 msgid "Move _Up"
-msgstr "Mută"
+msgstr "Mută în _sus"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:11
 msgid "Sh_ow these fields in order:"
-msgstr ""
+msgstr "Afişează aceste câmpuri în _ordine:"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:12
 #: ../widgets/table/e-table-config.c:563
 #: ../widgets/table/e-table-config.glade.h:10
-#, fuzzy
 msgid "Show Fields"
-msgstr "Câmpul De la"
+msgstr "Afişează câmpurile"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:13
 #: ../widgets/table/e-table-config.glade.h:11
 msgid "Show field in View"
-msgstr ""
+msgstr "Afişează câmp în vizualizare"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:14
 #: ../widgets/table/e-table-config.glade.h:12
-#, fuzzy
 msgid "Sort"
 msgstr "Sortare"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:15
 #: ../widgets/table/e-table-config.glade.h:13
-#, fuzzy
 msgid "Sort Items By"
-msgstr "Sortează"
+msgstr "Sortează elementele după"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:16
 #: ../widgets/table/e-table-config.glade.h:14
@@ -19935,20 +19659,18 @@ msgid "Then By"
 msgstr "Apoi după"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:17
-#, fuzzy
 msgid "_Add ->"
-msgstr "_Adaugă"
+msgstr "_Adaugă ->"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:18
 #: ../widgets/table/e-table-config.glade.h:16
 msgid "_Fields Shown..."
-msgstr ""
+msgstr "_Câmpuri afişate..."
 
 #: ../widgets/table/e-table-config-no-group.glade.h:19
 #: ../widgets/table/e-table-config.glade.h:20
-#, fuzzy
 msgid "_Sort..."
-msgstr "_Importă..."
+msgstr "_Sortează..."
 
 #: ../widgets/table/e-table-config.c:150
 msgid "State"
@@ -19971,18 +19693,16 @@ msgid "No grouping"
 msgstr "Fără grupare"
 
 #: ../widgets/table/e-table-config.c:584
-#, fuzzy
 msgid "Available Fields"
-msgstr "Câmpuri editabile"
+msgstr "Câmpuri disponibile"
 
 #: ../widgets/table/e-table-config.glade.h:17
-#, fuzzy
 msgid "_Group By..."
 msgstr "_Grupează după..."
 
 #: ../widgets/table/e-table-config.glade.h:19
 msgid "_Show these fields in order:"
-msgstr ""
+msgstr "_Afişează aceste câmpuri în ordine:"
 
 #: ../widgets/table/e-table-field-chooser-dialog.c:77
 #: ../widgets/table/e-table-field-chooser-item.c:646
@@ -20003,35 +19723,36 @@ msgid "Add a column..."
 msgstr "Adaugă o coloana..."
 
 #: ../widgets/table/e-table-field-chooser.glade.h:1
-#, fuzzy
 msgid "Field Chooser"
-msgstr "Nume câmp"
+msgstr "Selector câmpuri"
 
 #: ../widgets/table/e-table-field-chooser.glade.h:2
 msgid ""
 "To add a column to your table, drag it into\n"
 "the location in which you want it to appear."
 msgstr ""
+"Pentru a adăuga o coloană la tabelul dumneavoastră,\n"
+"trageţi-o în locaţia în care doriţi să apară."
 
 #: ../widgets/table/e-table-group-container.c:350
 #, c-format
 msgid "%s : %s (%d item)"
-msgstr ""
+msgstr "%s : %s (%d element)"
 
 #: ../widgets/table/e-table-group-container.c:351
 #, c-format
 msgid "%s : %s (%d items)"
-msgstr ""
+msgstr "%s : %s (%d elemente)"
 
 #: ../widgets/table/e-table-group-container.c:356
-#, fuzzy, c-format
+#, c-format
 msgid "%s (%d item)"
-msgstr "%s (%d%% complet)"
+msgstr "%s (%d element)"
 
 #: ../widgets/table/e-table-group-container.c:357
-#, fuzzy, c-format
+#, c-format
 msgid "%s (%d items)"
-msgstr "%s (...)"
+msgstr "%s (%d elemente)"
 
 #: ../widgets/table/e-table-group-container.c:901
 #: ../widgets/table/e-table-group-container.c:902
@@ -20176,19 +19897,16 @@ msgid "Tree"
 msgstr "Arbore"
 
 #: ../widgets/table/e-table-item.c:2942 ../widgets/table/e-table-item.c:2943
-#, fuzzy
 msgid "Table header"
-msgstr "Adaptor tabelă ETree"
+msgstr "Antet tabel"
 
 #: ../widgets/table/e-table-item.c:2949 ../widgets/table/e-table-item.c:2950
-#, fuzzy
 msgid "Table model"
-msgstr "Celulă tabelă"
+msgstr "Model tabel"
 
 #: ../widgets/table/e-table-item.c:3025 ../widgets/table/e-table-item.c:3026
-#, fuzzy
 msgid "Cursor row"
-msgstr "Rând cursor"
+msgstr "Linie cursor"
 
 #: ../widgets/table/e-table.c:3330
 msgid "Always Search"
@@ -20216,17 +19934,15 @@ msgstr "Desenează liniile şi simbolurile de expandare +/-."
 
 #: ../widgets/text/e-entry-test.c:49
 msgid "Minicard Test"
-msgstr ""
+msgstr "Test minicard"
 
 #: ../widgets/text/e-entry-test.c:50
-#, fuzzy
 msgid "Copyright (C) 2000, Helix Code, Inc."
-msgstr "Copyright (C) 2000, Ximian, Inc."
+msgstr "Copyright (C) 2000, Helix Code, Inc."
 
 #: ../widgets/text/e-entry-test.c:52
-#, fuzzy
 msgid "This should test the minicard canvas item"
-msgstr "Acesta ar trebui să testeze codul de tipărie al contactului"
+msgstr "Acesta ar trebui să testeze elementul canvas minicard"
 
 #: ../widgets/text/e-entry.c:1242 ../widgets/text/e-entry.c:1243
 #: ../widgets/text/e-text.c:3455 ../widgets/text/e-text.c:3456
@@ -20234,14 +19950,12 @@ msgid "Event Processor"
 msgstr "Procesor evenimente"
 
 #: ../widgets/text/e-entry.c:1256 ../widgets/text/e-entry.c:1257
-#, fuzzy
 msgid "Font"
-msgstr "Fonturi"
+msgstr "Font"
 
 #: ../widgets/text/e-entry.c:1270 ../widgets/text/e-entry.c:1271
-#, fuzzy
 msgid "GDKFont"
-msgstr "Fonturi"
+msgstr "GDKFont"
 
 #: ../widgets/text/e-entry.c:1277 ../widgets/text/e-entry.c:1278
 #: ../widgets/text/e-text.c:3491 ../widgets/text/e-text.c:3492
@@ -20300,7 +20014,7 @@ msgstr "Poziţie cursor"
 
 #: ../widgets/text/e-entry.c:1389 ../widgets/text/e-entry.c:1390
 msgid "Emulate label resize"
-msgstr ""
+msgstr "Emulează redimensionarea etichetei"
 
 #: ../widgets/text/e-text.c:2696
 msgid "Input Methods"
