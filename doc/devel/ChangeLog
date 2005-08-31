@@ -1,3 +1,7 @@
+2005-08-31  Not Zed  <NotZed@Ximian.com>
+
+	* evolution-plugin-manual.xml: added missing localedir thing.
+
 2005-07-12  Not Zed  <NotZed@Ximian.com>
 
 	* build-eplugin-manual.pl:

@@ -423,6 +423,7 @@
     id="unique id"
     type="loader type"
     domain="translation domain" ?
+    localedir="locale directory" ?
     name="plugin name"
     ...>
     <description>long description</description> ?
@@ -466,6 +467,19 @@
 		  If not supplied then the default application domain is used
 		  (i.e. &quot;evolution&quot;).  This is used to translate
 		  translatable strings for display.
+		</simpara>
+	      </listitem>
+	    </varlistentry>
+	    <varlistentry>
+	      <term><parameter>localedir</parameter></term>
+	      <listitem>
+		<simpara>
+		  If this and <parameter>domain</parameter> is defined, then
+		  this is the directory of the locale information for this
+		  domain.  It, and the <parameter>domain</parameter> will be
+		  passed to  <function>bindtextdomain</function> before any
+		  strings are translated.  See that function for more
+		  information.
 		</simpara>
 	      </listitem>
 	    </varlistentry>
