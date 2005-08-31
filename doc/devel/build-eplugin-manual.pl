@@ -25,7 +25,7 @@
 	     'module' => 'e-util' },
 
 	   'e-import.xml' =>
-	   { 'files' => [ 'e-import.c', 'e-import.c' ],
+	   { 'files' => [ 'e-import.h', 'e-import.c' ],
 	     'module' => 'e-util' },
 
 	   'em-popup.xml' =>
@@ -268,4 +268,5 @@ foreach $out (keys %hooks) {
     &buildxml($data{'type'}, $out, \%data);
 }
 
-
+# this works on my system; you need the docbook-xsl-stylesheets package and xsltproc
+system("xsltproc /usr/share/xml/docbook/stylesheet/nwalsh/current/html/tldp-sections.xsl evolution-plugin-manual.xml");

@@ -1760,6 +1760,7 @@
 		<constant>x-evolution/message/rfc822</constant> and invokes it
 		to begin message formatting.  The default handler displays the
 		message headers and then formats the message contents.
+	      </simpara>
 	    </listitem>
 	    <listitem>
 	      <simpara>Using the mime-type of the content object (whether
@@ -2483,7 +2484,7 @@
 		  it is finished.</entry>
 	      </row>
 	      <row>
-		<entry><constant>x-evolution/message/rfc822</entry>
+		<entry><constant>x-evolution/message/rfc822</constant></entry>
 		<entry>This handler is called to output messages, including
 		  attached messages.  The default handler will output the
 		  user-desired message headers and then render the message
