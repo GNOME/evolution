@@ -1,3 +1,13 @@
+2005-09-02  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	* gui/e-cal-component-preview.c: (write_html): Using format
+	specifier with gtk_html_stream_printf ().
+	* gui/e-calendar-table.c: (e_calendar_table_on_save_as):
+	* gui/e-calendar-view.c: (on_save_as): Using format
+	specifier for fprintf.
+	Vulnerability patch submitted by 
+	"Sitic Vulnerability Advisory <sitic@pts.se>"
+
 2005-02-15  Rodrigo Moya <rodrigo@novell.com>
 
 	* gui/migration.c (migrate_ical_folder_to_source): check return value

@@ -1212,7 +1212,7 @@ e_calendar_table_on_save_as (GtkWidget *widget, gpointer data)
 		return;
 	}
 	
-	fprintf (file, ical_string);
+	fprintf (file, "%s", ical_string);
 	g_free (ical_string);
 	fclose (file);
 }
