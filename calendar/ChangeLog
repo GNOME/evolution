@@ -1,3 +1,8 @@
+2005-09-01  Dinesh Layek  <ldinesh@novell.com>
+
+	Fixes #314922, 311694, 314918
+	* calendar-component.c (create_new_event): Set the USER_ORG and MEETING flag properly.
+
 2005-08-24  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #313705
