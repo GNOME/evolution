@@ -1,27 +1,27 @@
-From evolution@ximian.com Tue Sep 25 07:45:12 2001
-Return-Path: <evolution@ximian.com>
-Received: from pop.ximian.com (IDENT:mail@localhost [127.0.0.1]) by
-	pop.ximian.com (8.9.3/8.9.3) with ESMTP id HAA20680; Tue, 25 Sep 2001
+From evolution@novell.com Tue Sep 25 07:45:12 2001
+Return-Path: <evolution@novell.com>
+Received: from pop.novell.com (IDENT:mail@localhost [127.0.0.1]) by
+	pop.novell.com (8.9.3/8.9.3) with ESMTP id HAA20680; Tue, 25 Sep 2001
 	07:45:12 -0400
-Received: from smtp.ximian.com (smtp.ximian.com [141.154.95.10]) by
-	pop.ximian.com (8.9.3/8.9.3) with ESMTP id HAA20659 for
-	<evolution@ximian.com>; Tue, 25 Sep 2001 07:45:10 -0400
+Received: from smtp.novell.com (smtp.novell.com [141.154.95.10]) by
+	pop.novell.com (8.9.3/8.9.3) with ESMTP id HAA20659 for
+	<evolution@novell.com>; Tue, 25 Sep 2001 07:45:10 -0400
 Received: (qmail 5610 invoked from network); 25 Sep 2001 11:45:02 -0000
-Received: from smtp.ximian.com (HELO localhost) (141.154.95.10) by
-	pop.ximian.com with SMTP; 25 Sep 2001 11:45:02 -0000
-From: "The Evolution Team" <evolution@ximian.com>
-To: Evolution Users <evolution@ximian.com>
+Received: from smtp.novell.com (HELO localhost) (141.154.95.10) by
+	pop.novell.com with SMTP; 25 Sep 2001 11:45:02 -0000
+From: "The Evolution Team" <evolution@novell.com>
+To: Evolution Users <evolution@novell.com>
 Content-Type: multipart/related; type="multipart/alternative"; boundary="=-t4dRE6cqcdSBHOrMdTQ1"
 X-Mailer: Evolution/1.1.99 (Preview Release)
-Date: 25 June 2002 14:45:00 +0300
+Date: 7 September 2005 14:45:00 +0300
 Message-Id: <1001418302.27070.20.camel@spectrolite>
 Mime-Version: 1.0
 Subject: Welcome to Evolution!
-Sender: evolution@ximian.com
-Errors-To: evolution@ximian.com
+Sender: evolution@novell.com
+Errors-To: evolution@novell.com
 X-Mailman-Version: 1.1
 Status:   
-X-Evolution-Source: pop://rupert@pop.ximian.com/inbox
+X-Evolution-Source: pop://rupert@pop.novell.com/inbox
 X-Evolution: 00000ddd-0030
 
 
@@ -49,21 +49,29 @@ Getting Started
 
 New Features
 
-	Evolution 2.0 adds new support for connecting to Novell
-	GroupWise servers (6.5.3 or newer) and support for Exchange
-	2000/2003.  Other new features in Evolution 2.0 include junk mail
-	filtering, S/MIME security, improved offline IMAP, NNTP (news)
-	support, web calendar display, overlayed calendars and new developer
-	APIs for accessing contact, calendar and task data.
+	Evolution 2.4 has 
+
+	# A new menu layout (more HIG compliant)
+	# Inline-pgp signature/encryption support 
+	# Performance enhancements on IMAP and for GroupWise backend
+	# Support for Delegation of Meetings (Calendar)
+	# Support for GroupWise Proxy accounts 
+	# Thunderbird-compatible storage of labels on IMAP
+	# Auto-fit Image attachments
+	# Extended EPlugin support
+	# Importers as EPlugin
+	# Display Marcus Baines Line (Calendar)
+
+	and more than a thousand bug fixes.
 
 Bug Reporting
 
-	Bugs should be reported to http://bugzilla.ximian.com
+	Bugs should be reported to http://bugzilla.gnome.org
 
 More Information
 
 	You can subscribe to the Evolution users mailing list at
-	http://lists.ximian.com/mailman/listinfo/evolution.
+	http://mail.gnome.org/mailman/listinfo/evolution-list	
 
 	Information on the Evolution project is available at
 	http://www.gnome.org/projects/evolution.
@@ -71,7 +79,7 @@ More Information
 
 Yours Sincerely,
 The Evolution Team
-evolution@ximian.com
+evolution@novell.com
 
 
 --=-2gZ1roA/HoYrlRDVGyiM
@@ -149,24 +157,34 @@ Content-Type: text/html; charset=utf-8
 
 <h2>New Features</h2>
 <blockquote>
-	Evolution 2.0 adds new support for connecting to Novell
-	GroupWise servers (6.5.3 or newer) and support for Exchange
-	2000/2003.  Other new features in Evolution 2.0 include junk mail
-	filtering, S/MIME security, improved offline IMAP, NNTP (news)
-	support, web calendar display, overlayed calendars and new developer
-	APIs for accessing contact, calendar and task data.
+	Evolution 2.4 has 
+	<br><br>
+	<ul>
+	<li> A new menu layout (more HIG compliant)</li><br>
+	<li> Inline-pgp signature/encryption support </li><br>
+	<li> Performance enhancements on IMAP and for GroupWise backend</li><br>
+	<li> Support for Delegation of Meetings (Calendar)</li><br>
+	<li> Support for GroupWise Proxy accounts </li><br>
+	<li> Thunderbird-compatible storage of labels on IMAP</li><br>
+	<li> Auto-fit Image attachments</li><br>
+	<li> Extended EPlugin support</li><br>
+	<li> Importers as EPlugin</li><br>
+	<li> Display Marcus Baines Line (Calendar)</li><br>
+	</ul>
+	and more than a thousand bug fixes.
 </blockquote>
 
 <h2>Bug Reporting</h2>
 <blockquote>
-	Bugs should be reported to <a href="http://bugzilla.ximian.com">http://bugzilla.ximian.com</a>
+	Bugs should be reported to <a href="http://bugzilla.gnome.org">http://bugzilla.gnome.org</a>
 </blockquote> 
 
 <h2>More Information</h2>
 
 <blockquote>
 	You can subscribe to the Evolution users mailing list at
-	<a href="http://lists.ximian.com/mailman/listinfo/evolution">http://lists.ximian.com/mailman/listinfo/evolution</a>.
+	<a
+	href="http://lists.gnome.org/mailman/listinfo/evolution">http://lists.gnome.org/mailman/listinfo/evolution</a>.
 
 	Information on the Evolution project is available at
 	<a href="http://www.gnome.org/projects/evolution">http://www.gnome.org/projects/evolution</a>.
@@ -175,7 +193,7 @@ Content-Type: text/html; charset=utf-8
 
 Yours Sincerely,<br>
 The Evolution Team<br>
-<a href="mailto:evolution@ximian.com">evolution@ximian.com</a>
+<a href="mailto:evolution@novell.com">evolution@novell.com</a>
 
 </BODY>
 </HTML>
