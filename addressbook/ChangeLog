@@ -1,3 +1,9 @@
+2005-09-02  Sushma Rai  <rsushma@novell.com>
+
+	* gui/widgets/eab-contact-display.c (render_contact): Using
+	gtk_html_stream_printf() with format specifier. Vulnerability patch
+	submitted by "Sitic Vulnerability Advisory <sitic@pts.se>"
+
 2004-02-03  Hans Petter Jansson  <hpj@ximian.com>
 
        * gui/component/addressbook-component.c (ensure_sources): Implement

@@ -338,7 +338,7 @@ render_contact (GtkHTMLStream *html_stream, EContact *contact)
 	accum_attribute (accum, contact, _("Yahoo"), E_CONTACT_IM_YAHOO_HOME_1, YAHOO_ICON, 0);
 
 	if (accum->len > 0)
-		gtk_html_stream_printf (html_stream, accum->str);
+		gtk_html_stream_printf (html_stream, "%s", accum->str);
 
 	end_block (html_stream);
 
@@ -353,7 +353,7 @@ render_contact (GtkHTMLStream *html_stream, EContact *contact)
 
 	if (accum->len > 0) {
 		start_block (html_stream, _("work"));
-		gtk_html_stream_printf (html_stream, accum->str);
+		gtk_html_stream_printf (html_stream, "%s", accum->str);
 		end_block (html_stream);
 	}
 
@@ -368,7 +368,7 @@ render_contact (GtkHTMLStream *html_stream, EContact *contact)
 
 	if (accum->len > 0) {
 		start_block (html_stream, _("personal"));
-		gtk_html_stream_printf (html_stream, accum->str);
+		gtk_html_stream_printf (html_stream, "%s", accum->str);
 		end_block (html_stream);
 	}
 
