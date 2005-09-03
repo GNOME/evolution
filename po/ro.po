@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: evolution.HEAD.ro\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-09-01 07:26+0000\n"
-"PO-Revision-Date: 2005-09-02 22:48+0300\n"
+"PO-Revision-Date: 2005-09-04 00:30+0300\n"
 "Last-Translator: Mugurel Tudor <mugurelu@gnome.ro>\n"
 "Language-Team: Română <gnomero-list@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -769,7 +769,7 @@ msgstr ""
 #: ../ui/evolution-addressbook.xml.h:8 ../ui/evolution-calendar.xml.h:5
 #: ../ui/evolution-mail-message.xml.h:26 ../ui/evolution-tasks.xml.h:6
 msgid "Delete"
-msgstr "Şterg"
+msgstr "Şterge"
 
 #: ../addressbook/gui/component/addressbook-view.c:766
 #: ../calendar/gui/calendar-component.c:538
@@ -3216,7 +3216,7 @@ msgstr "Fax"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:370
 msgid "work"
-msgstr "lucrez"
+msgstr "serviciu"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:377
 msgid "WWW"
@@ -4395,7 +4395,7 @@ msgstr "Dura_ta de amânare:"
 #: ../ui/evolution-subscribe.xml.h:10 ../ui/evolution-tasks.xml.h:23
 #: ../ui/evolution.xml.h:35
 msgid "_Edit"
-msgstr "_Editează"
+msgstr "_Editare"
 
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:5
 msgid "_Snooze"
@@ -5361,7 +5361,7 @@ msgstr "Zile"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:21
 msgid "Display"
-msgstr "Afişează"
+msgstr "Afişare"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:22
 #: ../mail/mail-config.glade.h:74
@@ -6077,7 +6077,7 @@ msgstr "<b>De la:</b>"
 #: ../widgets/misc/e-cell-date-edit.c:248 ../widgets/misc/e-dateedit.c:465
 #: ../widgets/misc/e-dateedit.c:1504 ../widgets/misc/e-dateedit.c:1673
 msgid "None"
-msgstr "Inexistent"
+msgstr "Inexistentă"
 
 #: ../calendar/gui/dialogs/meeting-page.c:461
 msgid "The organizer selected no longer has an account."
@@ -7564,7 +7564,7 @@ msgstr "%m/%d/%Y"
 
 #: ../calendar/gui/e-meeting-time-sel.c:413 ../designs/OOA/ooa.glade.h:11
 msgid "Out of Office"
-msgstr "Afară din oficiu"
+msgstr "Absent din birou"
 
 #: ../calendar/gui/e-meeting-time-sel.c:414
 msgid "No Information"
@@ -7580,7 +7580,7 @@ msgstr "Arată numai _orele de lucru"
 
 #: ../calendar/gui/e-meeting-time-sel.c:472
 msgid "Show _zoomed out"
-msgstr "Arată _mărit"
+msgstr "Arată _micşorat"
 
 #: ../calendar/gui/e-meeting-time-sel.c:487
 msgid "_Update free/busy"
@@ -7647,7 +7647,7 @@ msgstr "Şterg obiectele selectate..."
 
 #: ../calendar/gui/e-tasks.c:1176
 msgid "Expunging"
-msgstr "Eliminare"
+msgstr "Ştergere fizică"
 
 #: ../calendar/gui/e-timezone-entry.c:133
 msgid "Timezone Button"
@@ -7672,7 +7672,7 @@ msgstr "Afişare personalizată"
 
 #: ../calendar/gui/gnome-cal.c:2210 ../widgets/menus/gal-view-instance.c:586
 msgid "Save Custom View"
-msgstr "Salvează vizualizarea personalizată"
+msgstr "Salvează afişarea personalizată"
 
 #: ../calendar/gui/gnome-cal.c:2215 ../widgets/menus/gal-view-instance.c:590
 #: ../widgets/menus/gal-view-menus.c:372
@@ -7815,7 +7815,7 @@ msgid ""
 "\n"
 "Please be patient while Evolution migrates your folders..."
 msgstr ""
-"Locaţia şi ierarhia dosarelor de sarcini Evolution s-a modificat de la "
+"Locaţia şi ierarhia dosarelor de sarcini Evolution s-au modificat de la "
 "Evolution 1.x\n"
 "\n"
 "Vă rugăm aşteptaţi în timp ce Evolution va converti dosarele dumneavoastră..."
@@ -7827,7 +7827,7 @@ msgid ""
 "\n"
 "Please be patient while Evolution migrates your folders..."
 msgstr ""
-"Locaţia şi ierarhia dosarelor calendar pentru Evolution s-a modificat de la "
+"Locaţia şi ierarhia dosarelor calendar pentru Evolution s-au modificat de la "
 "Evolution 1.x\n"
 "\n"
 "Vă rugăm aşteptaţi în timp ce Evolution va converti dosarele dumneavoastră..."
@@ -8111,7 +8111,7 @@ msgstr "Eroare la actualizarea sarcinilor."
 msgid "Unable to open the task list '%s' for creating events and meetings"
 msgstr ""
 "Nu am putut deschide lista de sarcini „%s” pentru a crea evenimente şi "
-"întâlniri"
+"şedinţe"
 
 #: ../calendar/gui/tasks-component.c:887
 msgid "There is no calendar available for creating tasks"
@@ -9788,7 +9788,7 @@ msgstr "S_ubiect:"
 
 #: ../composer/e-msg-composer-hdrs.c:646
 msgid "_To:"
-msgstr "_La:"
+msgstr "_Către:"
 
 #: ../composer/e-msg-composer-hdrs.c:647
 msgid "Enter the recipients of the message"
@@ -9877,7 +9877,7 @@ msgstr "Autogenerată"
 
 #: ../composer/e-msg-composer.c:2105
 msgid "Si_gnature:"
-msgstr "Se_mnătura:"
+msgstr "Se_mnătură:"
 
 #: ../composer/e-msg-composer.c:2347 ../composer/e-msg-composer.c:3527
 #: ../composer/e-msg-composer.c:3528
@@ -9893,7 +9893,7 @@ msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)"
 "<b>"
 msgstr ""
-"<b>Fereastra de compunere conţine un corp de mesaj non-text, ce nu poate fi "
+"<b>(Fereastra de compunere conţine un corp de mesaj non-text, ce nu poate fi "
 "editat.)<b>"
 
 #: ../composer/mail-composer.error.xml.h:1
@@ -9901,7 +9901,7 @@ msgid ""
 " There are few attachments getting downloaded. Sending the mail will cause "
 "the mail to be sent without those pending attachments "
 msgstr ""
-" Mai sunt câteva ataşamente ce se transferă. Trimiterea mailul va determina "
+" Mai sunt câteva ataşamente ce se transferă. Trimiterea mailului va determina "
 "ca acesta să fie trimis fără ataşamentele ce se transferă în acest moment"
 
 #: ../composer/mail-composer.error.xml.h:2
@@ -9990,7 +9990,7 @@ msgstr "Recuperează"
 #: ../composer/mail-composer.error.xml.h:19
 msgid "The file `{0}' is not a regular file and cannot be sent in a message."
 msgstr ""
-"Fisierul „{0}” nu este un fişier obişinuit şi nu poate fi trimis într-un "
+"Fisierul „{0}” nu este un fişier obişnuit şi nu poate fi trimis într-un "
 "mesaj."
 
 #: ../composer/mail-composer.error.xml.h:20
@@ -10066,7 +10066,7 @@ msgid ""
 "\n"
 "Would you like to change your status to \"In the Office\"? "
 msgstr ""
-"<b>În acest moment, statusul dumneavoastră este „Plecat de la birou”.</b>\n"
+"<b>În acest moment, statusul dumneavoastră este „Absent din birou”.</b>\n"
 "\n"
 "Doriţi să schimbaţi statusul în „La birou”? "
 
@@ -10171,7 +10171,7 @@ msgid ""
 "A file by that name already exists.\n"
 "Overwrite it?"
 msgstr ""
-"Fişier al cărui nume există deja.\n"
+"Un fişier cu acel nume există deja.\n"
 "Îl suprascrieţi?"
 
 #: ../e-util/e-dialog-utils.c:269 ../e-util/e-system.error.xml.h:6
@@ -10438,7 +10438,7 @@ msgstr "dacă toate criteriile sunt îndeplinite"
 
 #: ../filter/filter-rule.c:858
 msgid "if any criteria are met"
-msgstr "dacă oricare criteriu e îndeplinit"
+msgstr "dacă orice criteriu e îndeplinit"
 
 #: ../filter/filter-rule.c:860
 msgid "Execute actions"
@@ -10463,7 +10463,7 @@ msgstr "Include sortarea discuţiilor"
 #: ../filter/filter-rule.c:978 ../filter/filter.glade.h:3
 #: ../mail/em-utils.c:291
 msgid "Incoming"
-msgstr "Intră"
+msgstr "Primire"
 
 #: ../filter/filter-rule.c:978 ../mail/em-utils.c:292
 msgid "Outgoing"
@@ -10531,7 +10531,7 @@ msgid ""
 "12:00am of the date specified."
 msgstr ""
 "Data mesajului va fi comparată cu\n"
-"de ora 12:00am a datei specificate."
+"ora 12:00am a datei specificate."
 
 #: ../filter/filter.glade.h:7
 msgid ""
@@ -10579,11 +10579,11 @@ msgstr "ani"
 
 #: ../filter/rule-editor.c:290
 msgid "Add Rule"
-msgstr "Adaugă reguli"
+msgstr "Adaugă regulă"
 
 #: ../filter/rule-editor.c:366
 msgid "Edit Rule"
-msgstr "Editez reguli"
+msgstr "Editează regula"
 
 #: ../filter/rule-editor.c:698
 msgid "Rule name"
@@ -10793,11 +10793,11 @@ msgstr "Atribuie culoare"
 
 #: ../mail/em-filter-i18n.h:4
 msgid "Assign Score"
-msgstr "Atribuie punctaj"
+msgstr "Atribuie scor"
 
 #: ../mail/em-filter-i18n.h:5
 msgid "Attachments"
-msgstr "Anexe"
+msgstr "Ataşamente"
 
 #: ../mail/em-filter-i18n.h:6
 msgid "Beep"
@@ -10813,11 +10813,11 @@ msgstr "Copiază în dosar"
 
 #: ../mail/em-filter-i18n.h:9
 msgid "Date received"
-msgstr "Date recepţionate"
+msgstr "Dată primire"
 
 #: ../mail/em-filter-i18n.h:10
 msgid "Date sent"
-msgstr "Date trimise"
+msgstr "Dată trimitere"
 
 #: ../mail/em-filter-i18n.h:12
 msgid "Deleted"
@@ -10991,7 +10991,7 @@ msgstr "Rulează program"
 
 #: ../mail/em-filter-i18n.h:55 ../mail/message-list.etspec.h:10
 msgid "Score"
-msgstr "Punctaj"
+msgstr "Scor"
 
 #: ../mail/em-filter-i18n.h:56
 msgid "Sender"
@@ -11082,7 +11082,7 @@ msgstr "_Nume dosar:"
 #: ../mail/em-folder-tree-model.c:201 ../mail/em-folder-tree-model.c:203
 #: ../mail/mail-vfolder.c:937 ../mail/mail-vfolder.c:1007
 msgid "Search Folders"
-msgstr "Caută dosare"
+msgstr "Dosare de căutare"
 
 #. UNMATCHED is always last
 #: ../mail/em-folder-tree-model.c:207 ../mail/em-folder-tree-model.c:209
@@ -11140,7 +11140,7 @@ msgstr "Nu pot copia mesajele direct în rădăcină"
 
 #: ../mail/em-folder-tree.c:972 ../ui/evolution-mail-message.xml.h:104
 msgid "_Copy to Folder"
-msgstr "Copiază în folder"
+msgstr "_Copiază în dosar"
 
 #: ../mail/em-folder-tree.c:973 ../ui/evolution-mail-message.xml.h:114
 msgid "_Move to Folder"
@@ -11149,7 +11149,7 @@ msgstr "_Mută in dosar"
 #: ../mail/em-folder-tree.c:1678 ../mail/mail-ops.c:1057
 #, c-format
 msgid "Scanning folders in \"%s\""
-msgstr "Scanez dosarele în \"%s\""
+msgstr "Scanez dosarele în „%s”"
 
 #: ../mail/em-folder-tree.c:2031 ../ui/evolution-addressbook.xml.h:44
 #: ../ui/evolution-mail-global.xml.h:24
@@ -11205,7 +11205,7 @@ msgstr "Redenumeşte dosarul"
 
 #: ../mail/em-folder-utils.c:511
 msgid "Folder names cannot contain '/'"
-msgstr "Numele dosarelor nu poate conţine „/”"
+msgstr "Numele dosarelor nu pot conţine „/”"
 
 #: ../mail/em-folder-utils.c:581
 #: ../plugins/groupwise-features/share-folder-common.c:141
@@ -11248,11 +11248,11 @@ msgstr "Rec_uperează"
 
 #: ../mail/em-folder-view.c:1051 ../ui/evolution-addressbook.xml.h:36
 msgid "_Move to Folder..."
-msgstr "Mută în dosar..."
+msgstr "_Mută în dosar..."
 
 #: ../mail/em-folder-view.c:1052 ../ui/evolution-addressbook.xml.h:32
 msgid "_Copy to Folder..."
-msgstr "_Copiază în dosarul..."
+msgstr "_Copiază în dosar..."
 
 #: ../mail/em-folder-view.c:1055
 msgid "Mar_k as Read"
@@ -11264,7 +11264,7 @@ msgstr "Marchează ca _necitit"
 
 #: ../mail/em-folder-view.c:1057
 msgid "Mark as _Important"
-msgstr "Marchează ca important"
+msgstr "Marchează ca _important"
 
 #: ../mail/em-folder-view.c:1058
 msgid "_Mark as Unimportant"
@@ -11276,7 +11276,7 @@ msgstr "Marchez ca _spam"
 
 #: ../mail/em-folder-view.c:1060
 msgid "Mark as _Not Junk"
-msgstr "Marchează ca _ne-spam"
+msgstr "Marchează ca _non-spam"
 
 #: ../mail/em-folder-view.c:1061
 msgid "Mark for Follo_w Up..."
@@ -11288,7 +11288,7 @@ msgstr "_Fanion terminat"
 
 #: ../mail/em-folder-view.c:1070
 msgid "Cl_ear Flag"
-msgstr "Fanion ş_tergere"
+msgstr "Ş_terge fanion"
 
 #: ../mail/em-folder-view.c:1073
 msgid "Crea_te Rule From Message"
@@ -11312,19 +11312,19 @@ msgstr "Dosar de căutare din _listă de mailuri"
 
 #: ../mail/em-folder-view.c:1081
 msgid "Filter on Sub_ject"
-msgstr "Filtru pe subiect"
+msgstr "Filtru pe sub_iect"
 
 #: ../mail/em-folder-view.c:1082
 msgid "Filter on Sen_der"
-msgstr "Filtru pe expeditor"
+msgstr "Filtru pe expe_ditor"
 
 #: ../mail/em-folder-view.c:1083
 msgid "Filter on Re_cipients"
-msgstr "Filtru pe destinatari"
+msgstr "Filtru pe _destinatari"
 
 #: ../mail/em-folder-view.c:1084
 msgid "Filter on _Mailing List"
-msgstr "Filtru pe lista de mail"
+msgstr "Filtru pe lista de _mail"
 
 #. default charset used in mail view
 #: ../mail/em-folder-view.c:1921 ../mail/em-folder-view.c:1965
@@ -11360,7 +11360,7 @@ msgstr "_Către această adresă"
 #: ../mail/em-folder-view.c:2698
 #, c-format
 msgid "Click to mail %s"
-msgstr "Clic pentru trimitere mail către %s"
+msgstr "Clic pentru a trimite mail către %s"
 
 #. message-search popup match count string
 #: ../mail/em-format-html-display.c:445
@@ -11406,14 +11406,14 @@ msgstr ""
 
 #: ../mail/em-format-html-display.c:699
 msgid "Valid signature, cannot verify sender"
-msgstr "Semnătură validă, nu pot verifica autorul"
+msgstr "Semnătură validă, nu pot verifica expeditorul"
 
 #: ../mail/em-format-html-display.c:699
 msgid ""
 "This message is signed with a valid signature, but the sender of the message "
 "cannot be verified."
 msgstr ""
-"Acest mesaj este semnat cu o semnătură validă, dar autorul mesajul nu poate "
+"Acest mesaj este semnat cu o semnătură validă, dar expeditorul mesajului nu poate "
 "fi verificat."
 
 #: ../mail/em-format-html-display.c:705 ../mail/em-format-html.c:606
@@ -11549,11 +11549,11 @@ msgstr "Primesc „%s”"
 
 #: ../mail/em-format-html.c:600
 msgid "Valid signature but cannot verify sender"
-msgstr "Semnătură validă dar nu pot verifica autorul"
+msgstr "Semnătură validă dar nu pot verifica expeditorul"
 
 #: ../mail/em-format-html.c:870
 msgid "Malformed external-body part."
-msgstr "Corpul extern al mesajului parţial deformat."
+msgstr "Corpul extern al mesajului malformat."
 
 #: ../mail/em-format-html.c:900
 #, c-format
@@ -11563,7 +11563,7 @@ msgstr "Indicator către site-ul FTP (%s)"
 #: ../mail/em-format-html.c:911
 #, c-format
 msgid "Pointer to local file (%s) valid at site \"%s\""
-msgstr "Indicator către fişierul local (%s) valid pe site-ul \"%s\""
+msgstr "Indicator către fişierul local (%s) valid pe site-ul „%s”"
 
 #: ../mail/em-format-html.c:913
 #, c-format
@@ -11578,7 +11578,7 @@ msgstr "Indicator către datele la distanţă (%s)"
 #: ../mail/em-format-html.c:945
 #, c-format
 msgid "Pointer to unknown external data (\"%s\" type)"
-msgstr "Indicator către o dată externă necunoscută (tip \"%s\")"
+msgstr "Indicator către o dată externă necunoscută (tip „%s”)"
 
 #: ../mail/em-format-html.c:1171
 msgid "Formatting message"
@@ -11593,13 +11593,13 @@ msgstr "De la"
 #: ../mail/em-format-html.c:1464 ../mail/em-format-quote.c:200
 #: ../mail/em-format.c:845 ../mail/em-mailer-prefs.c:84
 msgid "Reply-To"
-msgstr "Răspuns-la:"
+msgstr "Răspuns-către:"
 
 #: ../mail/em-format-html.c:1464 ../mail/em-format-quote.c:200
 #: ../mail/em-format.c:846 ../mail/em-mailer-prefs.c:85
 #: ../mail/message-list.etspec.h:14
 msgid "To"
-msgstr "La"
+msgstr "Către"
 
 #: ../mail/em-format-html.c:1464 ../mail/em-format-quote.c:200
 #: ../mail/em-format.c:847 ../mail/em-mailer-prefs.c:86
@@ -11641,7 +11641,7 @@ msgstr "Grupuri de ştiri"
 #: ../mail/em-format.c:1102
 #, c-format
 msgid "%s attachment"
-msgstr "%s ataşament"
+msgstr "ataşament %s"
 
 #: ../mail/em-format.c:1141 ../mail/em-format.c:1288 ../mail/em-format.c:1575
 msgid "Could not parse S/MIME message: Unknown error"
@@ -11809,7 +11809,7 @@ msgstr "Nu arăta acest mesaj din nou"
 
 #: ../mail/em-utils.c:299
 msgid "Filters"
-msgstr "_Filtre..."
+msgstr "Filtre"
 
 #: ../mail/em-utils.c:442 ../mail/em-utils.c:479
 msgid "message"
@@ -11831,11 +11831,11 @@ msgstr "Mesaje de la %s"
 
 #: ../mail/em-vfolder-editor.c:104
 msgid "Search _Folders"
-msgstr "Caută _dosarele"
+msgstr "_Dosare de căutare"
 
 #: ../mail/em-vfolder-rule.c:574
 msgid "Search Folder source"
-msgstr "Sursă căutare dosare"
+msgstr "Sursă dosare de căutare"
 
 #: ../mail/evolution-mail.schemas.in.in.h:1
 msgid "Automatic link recognition"
@@ -11847,7 +11847,7 @@ msgstr "Recunoaştere automată pentru iconiţe simbolice"
 
 #: ../mail/evolution-mail.schemas.in.in.h:3
 msgid "Check incoming mail being junk"
-msgstr "Verificaţi mailurile nesolicitate în mesajele noi venite"
+msgstr "Verificaţi pentru spam în mesajele noi venite"
 
 #: ../mail/evolution-mail.schemas.in.in.h:4
 msgid "Citation highlight color"
@@ -11916,7 +11916,7 @@ msgstr "Lăţimea implicită pentru dialogul de subscriere"
 #: ../mail/evolution-mail.schemas.in.in.h:20
 msgid "Draw spelling error indicators on words as you type."
 msgstr ""
-"Afişează indicatori pentru greşelile de ortografie pe masură ce scrieţi."
+"Afişează indicatori pentru greşelile de ortografie pe măsură ce scrieţi."
 
 #: ../mail/evolution-mail.schemas.in.in.h:21
 msgid "Empty Trash folders on exit"
@@ -12112,7 +12112,7 @@ msgstr "Atenţionează când utilizatorul completează doar Bcc"
 #: ../mail/evolution-mail.schemas.in.in.h:60
 msgid "Prompt when user tries to open 10 or more messages at once"
 msgstr ""
-"Atenţionează când utilizatorul încearcă să deschidă 19 sau mai multe mesaje "
+"Atenţionează când utilizatorul încearcă să deschidă 10 sau mai multe mesaje "
 "în acelaşi timp"
 
 #: ../mail/evolution-mail.schemas.in.in.h:61
@@ -12143,7 +12143,7 @@ msgstr "Recunoaşte în text iconiţele simbolice şi înlocuieşte-le cu imagin
 
 #: ../mail/evolution-mail.schemas.in.in.h:66
 msgid "Run junk test on incoming mail"
-msgstr "Rulează testul de mailuri nelegitime pe traficul de mail recepţionat."
+msgstr "Rulează testul de mailuri spam pe mailurile recepţionate."
 
 #: ../mail/evolution-mail.schemas.in.in.h:67
 msgid "Send HTML mail by default"
@@ -12225,20 +12225,20 @@ msgid ""
 msgstr ""
 "Această cheie ar trebui să conţină o listă de structuri XML specificând "
 "antetele personalizate, şi dacă acestea sunt afişate sau nu. Formatul "
-"structurii XML este &lt;header enabled&gt; - setaţi-l ca enabled dacă "
+"structurii XML este „header enabled” - setaţi-l ca enabled dacă "
 "antetul va fi afişat în mail."
 
 #: ../mail/evolution-mail.schemas.in.in.h:85
 msgid "Thread the message list."
-msgstr "Listă de mesaje sortate."
+msgstr "Sortează discuţiile în lista de mesaje."
 
 #: ../mail/evolution-mail.schemas.in.in.h:86
 msgid "Thread the message-list"
-msgstr "Listă de mesaje sortate"
+msgstr "Sortează discuţiile în lista de mesaje"
 
 #: ../mail/evolution-mail.schemas.in.in.h:87
 msgid "Thread the message-list based on Subject"
-msgstr "Listă de mesaje sortate după subiect"
+msgstr "Sortează discuţiile în lista de mesaje după subiect"
 
 #: ../mail/evolution-mail.schemas.in.in.h:88
 msgid "Timeout for marking message as Seen"
@@ -12325,8 +12325,8 @@ msgid ""
 "Whether or not to fall back on threading by subjects when the messages do "
 "not contain In-Reply-To or References headers."
 msgstr ""
-"Dacă să se revină sau nu la afişarea firelor de discuţie după subiecte "
-"atunci mesajul nu conţine antetele In-Reply-To sau References."
+"Dacă să se revină sau nu la sortarea discuţiilor după subiecte "
+"atunci când mesajul nu conţine antetele In-Reply-To sau References."
 
 #: ../mail/importers/elm-importer.c:193
 msgid "Importing Elm data"
@@ -12412,7 +12412,7 @@ msgstr ""
 "fi apoi filtrate în consecinţă.\n"
 "\n"
 "Pentru rezolvarea acestei probleme, un set de filtre numit\n"
-"\"Filtru de prioritate\" au fost adăugate pentru a converti\n"
+"„Filtru de prioritate” au fost adăugate pentru a converti\n"
 "priorităţile mesajelor din Netscape în scoruri Evolution, iar\n"
 "filtrele afectate vor folosi scoruri în loc de priorităţi. Va\n"
 "trebui să verificaţi filtrele importate pentru a vă asigura\n"
@@ -12426,9 +12426,9 @@ msgid ""
 "These filters will be dropped."
 msgstr ""
 "Câteva dintre filtrele dumneavoastră\n"
-"de mail Netscape folosesc facilităţile \"Ignoră\n"
-"firul de discuţie\" sau \"Monitorizează firul de\n"
-"discuţie\", ce nu sunt suportate în Evolution.\n"
+"de mail Netscape folosesc facilităţile „Ignoră\n"
+"firul de discuţie” sau „Monitorizează firul de\n"
+"discuţie”, ce nu sunt suportate în Evolution.\n"
 "Aceste filtre nu vor fi importate."
 
 #: ../mail/importers/netscape-importer.c:703
@@ -12499,7 +12499,7 @@ msgstr "Subiectul este %s"
 #: ../mail/mail-autofilter.c:300
 #, c-format
 msgid "%s mailing list"
-msgstr "%s lista de mail"
+msgstr "Lista de mail %s"
 
 #: ../mail/mail-autofilter.c:369
 msgid "Add Filter Rule"
@@ -12764,7 +12764,7 @@ msgstr "Ataşează mesajul original"
 
 #: ../mail/mail-config.glade.h:45 ../mail/message-list.etspec.h:1
 msgid "Attachment"
-msgstr "Anexă"
+msgstr "Ataşament"
 
 #: ../mail/mail-config.glade.h:46
 msgid "Automatically _insert smiley images"
@@ -12800,7 +12800,7 @@ msgstr "Verificare ortografică în _timp ce scriu"
 
 #: ../mail/mail-config.glade.h:54
 msgid "Checks incoming mail messages to be Junk"
-msgstr "Verifică mesajele sosite pentru mailuri nesolicitate"
+msgstr "Verifică mesajele sosite pentru spam"
 
 #: ../mail/mail-config.glade.h:55
 msgid "Cle_ar"
@@ -12836,7 +12836,7 @@ msgstr ""
 "Acum sunteţi pregătit pentru a trimite şi primi emailuri \n"
 "folosind Evolution.\n"
 "\n"
-"Clic \"Terminare\" pentru a salva setările."
+"Clic „Aplică” pentru a salva setările."
 
 #: ../mail/mail-config.glade.h:66
 msgid "De_fault"
@@ -12916,7 +12916,7 @@ msgstr "I_nclude teste la distanţă"
 
 #: ../mail/mail-config.glade.h:92
 msgid "Inline"
-msgstr "În linie"
+msgstr "Inclus"
 
 #: ../mail/mail-config.glade.h:94
 msgid "Languages Table"
@@ -12991,7 +12991,7 @@ msgstr "Vă rugăm selectaţi dintre următoarele opţiuni"
 #: ../mail/mail-config.glade.h:112
 msgid "Pr_ompt when sending messages with only Bcc recipients defined"
 msgstr ""
-"Avertizează-mă la trimiterea mesajelor cu destinatari doar în câmpul Bcc"
+"A_vertizează-mă la trimiterea mesajelor cu destinatari doar în câmpul Bcc"
 
 #: ../mail/mail-config.glade.h:113
 msgid "Quote original message"
@@ -13151,7 +13151,7 @@ msgstr "_Nu mă notifica la sosirea de mailuri noi"
 
 #: ../mail/mail-config.glade.h:157
 msgid "_Don't sign meeting requests (for Outlook compatibility)"
-msgstr "Nu semna cererile de î_ntâlnire (pentru compatibilitate cu Outlook)"
+msgstr "Nu semna cererile de şe_dinţă (pentru compatibilitate cu Outlook)"
 
 #: ../mail/mail-config.glade.h:159
 msgid "_Forward style:"
@@ -13245,12 +13245,12 @@ msgstr "_Caută:"
 
 #: ../mail/mail-dialogs.glade.h:9
 msgid "Find in Message"
-msgstr "Găseşte în mesaj"
+msgstr "Caută în mesaj"
 
 #: ../mail/mail-dialogs.glade.h:10 ../mail/message-tag-followup.c:295
 #: ../mail/message-tags.glade.h:3
 msgid "Flag to Follow Up"
-msgstr "Fanion pentru urmare"
+msgstr "Marchează pentru urmare"
 
 #: ../mail/mail-dialogs.glade.h:11
 msgid "Folder Subscriptions"
@@ -13277,8 +13277,8 @@ msgid ""
 "The messages you have selected for follow up are listed below.\n"
 "Please select a follow up action from the \"Flag\" menu."
 msgstr ""
-"Mesajele selectate pentru urmărire sunt listate mai jos.\n"
-"Vă rugăm selectaţi o acţiune pentru urmărire din meniul „Fanion”."
+"Mesajele selectate pentru urmare sunt listate mai jos.\n"
+"Vă rugăm selectaţi o acţiune pentru urmare din meniul „Fanion”."
 
 #: ../mail/mail-dialogs.glade.h:19
 msgid "_Accept License"
@@ -13426,7 +13426,7 @@ msgstr "Actualizez dosarul"
 
 #: ../mail/mail-ops.c:1611 ../mail/mail-ops.c:1662
 msgid "Expunging folder"
-msgstr "Distrug dosarul"
+msgstr "Şterg fizic dosarul"
 
 #: ../mail/mail-ops.c:1659
 #, c-format
@@ -13478,7 +13478,7 @@ msgstr ""
 
 #: ../mail/mail-ops.c:2088
 msgid "Saving attachment"
-msgstr "Salvez anexa"
+msgstr "Salvez ataşamentul"
 
 #: ../mail/mail-ops.c:2100
 #, c-format
@@ -13545,7 +13545,7 @@ msgstr "Aştept..."
 
 #: ../mail/mail-send-recv.c:699
 msgid "Checking for new mail"
-msgstr "Verific pentru mailurile noi"
+msgstr "Verific pentru mailuri noi"
 
 #: ../mail/mail-session.c:207
 #, c-format
@@ -13600,17 +13600,17 @@ msgstr "Dosar invalid: „%s”"
 #: ../mail/mail-vfolder.c:91
 #, c-format
 msgid "Setting up Search Folder: %s"
-msgstr "Setez dosarul căutare: %s"
+msgstr "Setez dosarul de căutare: %s"
 
 #: ../mail/mail-vfolder.c:240
 #, c-format
 msgid "Updating Search Folders for '%s:%s'"
-msgstr "Actualizez dosarele căutare pentru „%s:%s”"
+msgstr "Actualizez dosarele de căutare pentru „%s:%s”"
 
 #: ../mail/mail-vfolder.c:247
 #, c-format
 msgid "Updating Search Folders for '%s'"
-msgstr "Actualizez dosarele căutare pentru „%s”"
+msgstr "Actualizez dosarele de căutare pentru „%s”"
 
 #: ../mail/mail-vfolder.c:1046
 msgid "Edit Search Folder"
@@ -13796,7 +13796,7 @@ msgstr ""
 
 #: ../mail/mail.error.xml.h:39
 msgid "Could not save signature file."
-msgstr "Nu am putut salva fişierul cu semnătura."
+msgstr "Nu am putut salva fişierul cu semnătură."
 
 #: ../mail/mail.error.xml.h:40
 msgid "Delete &quot;{0}&quot;?"
@@ -14244,7 +14244,7 @@ msgstr "Marcat"
 
 #: ../mail/message-list.etspec.h:6
 msgid "Follow Up Flag"
-msgstr "Fanion urmează"
+msgstr "Fanion urmare"
 
 #: ../mail/message-list.etspec.h:8
 msgid "Original Location"
@@ -14268,7 +14268,7 @@ msgstr "Nu înainta"
 
 #: ../mail/message-tag-followup.c:76
 msgid "Follow-Up"
-msgstr "Urmează"
+msgstr "Urmare"
 
 #: ../mail/message-tag-followup.c:77
 msgid "For Your Information"
@@ -14765,7 +14765,7 @@ msgstr "Delegă permisiuni"
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:5
 msgid "Delegates"
-msgstr "Delegă"
+msgstr "Delegaţi"
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:6
 msgid "Editor (read, create, edit)"
@@ -14892,7 +14892,7 @@ msgstr "Proprietar dosar"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:13
 msgid "Folder visible"
-msgstr "Vizibil dosar"
+msgstr "Vizibilitate dosar"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:14
 msgid "Read items"
@@ -15056,7 +15056,7 @@ msgid ""
 "If OWA is running on a different path, you must specify that in the account "
 "configuration dialog."
 msgstr ""
-"Dacă OWS rulează dintr-o cale diferită, trebuie să specificaţi acest lucru "
+"Dacă OWA rulează dintr-o cale diferită, trebuie să specificaţi acest lucru "
 "în dialogul de configurare al contului."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:39
@@ -15108,7 +15108,7 @@ msgstr "Serverul e refuzat parola deoarece este prea slabă."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:51
 msgid "The Exchange account will be disabled when you quit Evolution"
-msgstr "Contul Exchange va fi dezactivat după ce inchideţi Evolution"
+msgstr "Contul Exchange va fi dezactivat după ce închideţi Evolution"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:52
 msgid "The Exchange account will be removed when you quit Evolution"
@@ -15123,7 +15123,7 @@ msgid ""
 "The server is runinng Exchange 5.5. Exchange Connector \n"
 "supports Microsoft Exchange 2000 and 2003 only."
 msgstr ""
-"Serverul rulează Exchange 5.5. Conectorul Exchange suportă\n"
+"Serverul rulează Exchange 5.5. Conectorul Exchange suportă \n"
 "doar Microsoft Exchange 2000 şi 2003."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:56
@@ -15146,7 +15146,7 @@ msgstr "Încercaţi din nou cu o altă parolă."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:62
 msgid "Unable to add user to access control list:"
-msgstr "Nu am putut adăuga utilizatorul la lista de control de acces."
+msgstr "Nu am putut adăuga utilizatorul la lista de control de acces:"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:63
 msgid "Unable to edit delegates."
@@ -15461,7 +15461,7 @@ msgstr "Nu am putut parsa elementul"
 #: ../plugins/itip-formatter/itip-formatter.c:780
 #, c-format
 msgid "Unable to send item to calendar '%s'.  %s"
-msgstr "Nu am putut trimite elementul către calendarul „%s”:  %s"
+msgstr "Nu am putut trimite elementul către calendarul „%s”.  %s"
 
 #: ../plugins/itip-formatter/itip-formatter.c:791
 #, c-format
@@ -16102,7 +16102,7 @@ msgstr ""
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:17
 msgid "_Edit message"
-msgstr "_Editează Trimit mesaj"
+msgstr "_Editează mesaj"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:18
 msgid "_Send message"
@@ -17794,7 +17794,7 @@ msgstr "Luna"
 
 #: ../ui/evolution-calendar.xml.h:15 ../ui/evolution-mail-message.xml.h:60
 msgid "Next"
-msgstr "Următorul"
+msgstr "Următor"
 
 #: ../ui/evolution-calendar.xml.h:17
 msgid "Previews the calendar to be printed"
@@ -17923,7 +17923,7 @@ msgstr "Goleş_te gunoiul"
 #: ../ui/evolution-mail-global.xml.h:8 ../ui/evolution-mail-list.xml.h:7
 #: ../ui/evolution-subscribe.xml.h:2
 msgid "F_older"
-msgstr "Dosar"
+msgstr "_Dosar"
 
 #: ../ui/evolution-mail-global.xml.h:9
 msgid "Message F_ilters"
@@ -18273,7 +18273,7 @@ msgstr "Marchează mesajele selectate ca neimportante"
 
 #: ../ui/evolution-mail-message.xml.h:56
 msgid "Mark the selected messages for deletion"
-msgstr "MArchează mesajele selectate pentru ştergere"
+msgstr "Marchează mesajele selectate pentru ştergere"
 
 #: ../ui/evolution-mail-message.xml.h:57
 msgid "Message Source"
@@ -18301,7 +18301,7 @@ msgstr "_Următorul mesaj necitit"
 
 #: ../ui/evolution-mail-message.xml.h:64
 msgid "Not Junk"
-msgstr "Nespam"
+msgstr "Non-spam"
 
 #: ../ui/evolution-mail-message.xml.h:65
 msgid "Open a window for composing a mail message"
@@ -18421,7 +18421,7 @@ msgstr "Nei_mportant"
 
 #: ../ui/evolution-mail-message.xml.h:101
 msgid "Zoom _Out"
-msgstr "Mi_cşorare"
+msgstr "Mi_cşorează"
 
 #: ../ui/evolution-mail-message.xml.h:102
 msgid "_Caret Mode"
@@ -18453,7 +18453,7 @@ msgstr "Încarcă _imaginile"
 
 #: ../ui/evolution-mail-message.xml.h:115
 msgid "_Next Message"
-msgstr "Mesajul _următor"
+msgstr "Următorul me_saj"
 
 #: ../ui/evolution-mail-message.xml.h:116
 msgid "_Normal Size"
@@ -18907,7 +18907,7 @@ msgstr "Selectează în timp lucrăm deconectaţi"
 
 #: ../ui/evolution.xml.h:31
 msgid "Tool_bar"
-msgstr "_Bara de unelte"
+msgstr "_Bară de unelte"
 
 #: ../ui/evolution.xml.h:32
 msgid "Tool_bar style"
@@ -19478,7 +19478,7 @@ msgstr "Intrare text căutare"
 
 #: ../widgets/misc/e-search-bar.c:549
 msgid "_Search"
-msgstr "_Caută"
+msgstr "_Căutare"
 
 #: ../widgets/misc/e-search-bar.c:555
 msgid "_Find Now"
@@ -19666,7 +19666,7 @@ msgstr "%s (...)"
 #: ../widgets/misc/e-task-widget.c:213
 #, c-format
 msgid "%s (%d%% complete)"
-msgstr "%s (%d%% complet)"
+msgstr "%s (%d%% completat)"
 
 #: ../widgets/misc/e-url-entry.c:107
 msgid "click here to go to url"
