@@ -1,5 +1,4 @@
 # translation of evolution.HEAD.ro.po to Română
-# translation of evolution.gnome-2-8.ro.po to Română
 # translation of evolution.gnome-2-8.ro.po to Romanian
 # evolution ro translation
 # Copyright (C) 2001, 2004, 2005 Free Software Foundation, Inc.
@@ -13,7 +12,7 @@ msgstr ""
 "Project-Id-Version: evolution.HEAD.ro\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-09-01 07:26+0000\n"
-"PO-Revision-Date: 2005-09-04 00:30+0300\n"
+"PO-Revision-Date: 2005-09-04 18:23+0300\n"
 "Last-Translator: Mugurel Tudor <mugurelu@gnome.ro>\n"
 "Language-Team: Română <gnomero-list@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -108,11 +107,11 @@ msgstr "Şedinţă nouă"
 
 #: ../a11y/calendar/ea-cal-view.c:309
 msgid "Go to Today"
-msgstr "Mergi la ziua de azi"
+msgstr "Salt la ziua de azi"
 
 #: ../a11y/calendar/ea-cal-view.c:310
 msgid "Go to Date"
-msgstr "Mergi la data"
+msgstr "Salt la data"
 
 #: ../a11y/calendar/ea-day-view-main-item.c:299
 #: ../a11y/calendar/ea-week-view-main-item.c:301
@@ -818,7 +817,7 @@ msgstr ""
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:5
 msgid "Show preview pane"
-msgstr "Arată panoul de previzualizare"
+msgstr "Afişează panoul de previzualizare"
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:6
 msgid ""
@@ -1080,7 +1079,7 @@ msgstr "Folosesc nume distinse (DN)"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:41
 msgid "Using email address"
-msgstr "Folosesc adresa de email"
+msgstr "Folosesc adresa email"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:42
 #: ../mail/em-account-editor.c:301
@@ -3575,11 +3574,11 @@ msgstr[2] "Mai sunt %d de alte contacte."
 #: ../addressbook/gui/widgets/eab-vcard-control.c:223
 #: ../addressbook/gui/widgets/eab-vcard-control.c:272
 msgid "Show Full VCard"
-msgstr "Arată VCard-ul complet"
+msgstr "Afişează VCard-ul complet"
 
 #: ../addressbook/gui/widgets/eab-vcard-control.c:227
 msgid "Show Compact VCard"
-msgstr "Arată VCard-ul compact"
+msgstr "Afişează VCard-ul compact"
 
 #: ../addressbook/gui/widgets/eab-vcard-control.c:277
 msgid "Save in addressbook"
@@ -4064,7 +4063,7 @@ msgstr "Ştergeţi lista de sarcini „{0}”?"
 
 #: ../calendar/calendar.error.xml.h:27
 msgid "Discard Changes"
-msgstr "Anulează schimbările"
+msgstr "Anulează modificările"
 
 #: ../calendar/calendar.error.xml.h:28
 msgid "Don't Send"
@@ -4530,7 +4529,7 @@ msgstr "Comprimă weekend-urile la afişarea lunii"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:9
 msgid "Confirm expunge"
-msgstr "Confirmă ştergerea fizică"
+msgstr "Confirmă ştergerea definitivă"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:10
 msgid "Days on which the start and end of work hours should be indicated."
@@ -4685,7 +4684,7 @@ msgstr "Programe care pot fi rulate de către alarme."
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:41
 msgid "Show appointment end times in week and month views"
 msgstr ""
-"Arată termenul de final al programărilor la afişarea săptămânii şi lunii"
+"Afişează termenul de final al programărilor la afişarea săptămânii şi lunii"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:42
 msgid "Show display alarms in notification tray"
@@ -4765,7 +4764,7 @@ msgstr "Dacă să ceară confirmare la ştergerea unei programări sau a unei sa
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:60
 msgid "Whether to ask for confirmation when expunging appointments and tasks."
-msgstr "Dacă să ceară confirmare la ştergerea fizică a programărilor şi sarcinilor."
+msgstr "Dacă să ceară confirmare la ştergerea definitivă a programărilor şi sarcinilor."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:61
 msgid ""
@@ -5513,7 +5512,7 @@ msgstr "_Sâm"
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:57
 msgid "_Show appointment end times in week and month views"
 msgstr ""
-"_Arată termenul de final al programărilor la afişarea săptămânii şi lunii"
+"_Afişează termenul de final al programărilor la afişarea săptămânii şi lunii"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:58
 msgid "_Time divisions:"
@@ -5619,7 +5618,7 @@ msgstr "Această intrare în jurnal a fost ştersă."
 #, c-format
 msgid "%s  You have made changes. Forget those changes and close the editor?"
 msgstr ""
-"%s Aţi făcut modificări. Ignoraţi aceste schimbări şi închideţi editorul?"
+"%s Aţi făcut modificări. Doriţi să le ignoraţi şi să închideţi editorul?"
 
 #: ../calendar/gui/dialogs/changed-comp.c:79
 #, c-format
@@ -6077,7 +6076,7 @@ msgstr "<b>De la:</b>"
 #: ../widgets/misc/e-cell-date-edit.c:248 ../widgets/misc/e-dateedit.c:465
 #: ../widgets/misc/e-dateedit.c:1504 ../widgets/misc/e-dateedit.c:1673
 msgid "None"
-msgstr "Inexistentă"
+msgstr "Fără"
 
 #: ../calendar/gui/dialogs/meeting-page.c:461
 msgid "The organizer selected no longer has an account."
@@ -6951,7 +6950,7 @@ msgstr "Şterge _toate apariţiile"
 #: ../calendar/gui/e-cell-date-edit-text.c:115 ../e-util/e-time-utils.c:180
 #: ../e-util/e-time-utils.c:393
 msgid "%a %m/%d/%Y %H:%M:%S"
-msgstr "%a %m/%d/%Y %H:%M:%S"
+msgstr "%a %d/%m/%Y %H:%M:%S"
 
 #. strftime format of a weekday, a date and a time, 12-hour.
 #. strptime format of a weekday, a date and a time,
@@ -6961,7 +6960,7 @@ msgstr "%a %m/%d/%Y %H:%M:%S"
 #: ../calendar/gui/e-cell-date-edit-text.c:118 ../e-util/e-time-utils.c:175
 #: ../e-util/e-time-utils.c:402
 msgid "%a %m/%d/%Y %I:%M:%S %p"
-msgstr "%a %m/%d/%Y %I:%M:%S %p"
+msgstr "%a %d/%m/%Y %I:%M:%S %p"
 
 #: ../calendar/gui/e-cell-date-edit-text.c:123
 #, c-format
@@ -7537,7 +7536,7 @@ msgstr "În derulare"
 #: ../calendar/gui/e-meeting-time-sel-item.c:444
 #: ../calendar/gui/e-meeting-time-sel.c:2102
 msgid "%A, %B %d, %Y"
-msgstr "%A, %B %d, %Y"
+msgstr "%A, %d %B, %Y"
 
 #. This is a strftime() format string %a = abbreviated weekday
 #. name, %m = month number, %d = month day, %Y = full year.
@@ -7549,7 +7548,7 @@ msgstr "%A, %B %d, %Y"
 #: ../calendar/gui/e-meeting-time-sel.c:2135 ../e-util/e-time-utils.c:203
 #: ../e-util/e-time-utils.c:296 ../e-util/e-time-utils.c:384
 msgid "%a %m/%d/%Y"
-msgstr "%a %m/%d/%Y"
+msgstr "%a %d/%m/%Y"
 
 #. This is a strftime() format string %m = month number,
 #. %d = month day, %Y = full year.
@@ -7560,7 +7559,7 @@ msgstr "%a %m/%d/%Y"
 #: ../calendar/gui/e-meeting-time-sel-item.c:452 ../e-util/e-time-utils.c:238
 #: ../e-util/e-time-utils.c:299 ../widgets/misc/e-dateedit.c:1682
 msgid "%m/%d/%Y"
-msgstr "%m/%d/%Y"
+msgstr "%d/%m/%Y"
 
 #: ../calendar/gui/e-meeting-time-sel.c:413 ../designs/OOA/ooa.glade.h:11
 msgid "Out of Office"
@@ -7576,11 +7575,11 @@ msgstr "O_pţiuni"
 
 #: ../calendar/gui/e-meeting-time-sel.c:462
 msgid "Show _only working hours"
-msgstr "Arată numai _orele de lucru"
+msgstr "Afişează numai _orele de lucru"
 
 #: ../calendar/gui/e-meeting-time-sel.c:472
 msgid "Show _zoomed out"
-msgstr "Arată _micşorat"
+msgstr "Afişează _micşorat"
 
 #: ../calendar/gui/e-meeting-time-sel.c:487
 msgid "_Update free/busy"
@@ -7647,7 +7646,7 @@ msgstr "Şterg obiectele selectate..."
 
 #: ../calendar/gui/e-tasks.c:1176
 msgid "Expunging"
-msgstr "Ştergere fizică"
+msgstr "Ştergere definitivă"
 
 #: ../calendar/gui/e-timezone-entry.c:133
 msgid "Timezone Button"
@@ -10036,7 +10035,7 @@ msgstr "Trebuie să configuraţi un cont înainte de a putea compune mailuri."
 
 #: ../composer/mail-composer.error.xml.h:29
 msgid "_Discard Changes"
-msgstr "_Anulează schimbările"
+msgstr "În_chide fără a salva"
 
 #: ../composer/mail-composer.error.xml.h:30
 msgid "_Save Message"
@@ -10229,7 +10228,7 @@ msgstr "_Suprascrie"
 #. time, in 12-hour format, without seconds.
 #: ../e-util/e-time-utils.c:185 ../e-util/e-time-utils.c:398
 msgid "%a %m/%d/%Y %I:%M %p"
-msgstr "%a %m/%d/%Y %I:%M %p"
+msgstr "%a %d/%m/%Y %I:%M %p"
 
 #. strptime format of a weekday, a date and a time,
 #. in 24-hour format, without seconds.
@@ -10237,53 +10236,53 @@ msgstr "%a %m/%d/%Y %I:%M %p"
 #. time, in 24-hour format, without seconds.
 #: ../e-util/e-time-utils.c:190 ../e-util/e-time-utils.c:389
 msgid "%a %m/%d/%Y %H:%M"
-msgstr "%a %m/%d/%Y %H:%M"
+msgstr "%a %d/%m/%Y %H:%M"
 
 #. strptime format of a weekday, a date and a time,
 #. in 12-hour format, without minutes or seconds.
 #: ../e-util/e-time-utils.c:195
 msgid "%a %m/%d/%Y %I %p"
-msgstr "%a %m/%d/%Y %I %p"
+msgstr "%a %d/%m/%Y %I %p"
 
 #. strptime format of a weekday, a date and a time,
 #. in 24-hour format, without minutes or seconds.
 #: ../e-util/e-time-utils.c:200
 msgid "%a %m/%d/%Y %H"
-msgstr "%a %m/%d/%Y %H"
+msgstr "%a %d/%m/%Y %H"
 
 #. strptime format of a date and a time, in 12-hour format.
 #: ../e-util/e-time-utils.c:211
 msgid "%m/%d/%Y %I:%M:%S %p"
-msgstr "%m/%d/%Y %I:%M:%S %p"
+msgstr "%d/%m/%Y %I:%M:%S %p"
 
 #. strptime format of a date and a time, in 24-hour format.
 #: ../e-util/e-time-utils.c:215
 msgid "%m/%d/%Y %H:%M:%S"
-msgstr "%m/%d/%Y %H:%M:%S"
+msgstr "%d/%m/%Y %H:%M:%S"
 
 #. strptime format of a date and a time, in 12-hour format,
 #. without seconds.
 #: ../e-util/e-time-utils.c:220
 msgid "%m/%d/%Y %I:%M %p"
-msgstr "%m/%d/%Y %I:%M %p"
+msgstr "%d/%m/%Y %I:%M %p"
 
 #. strptime format of a date and a time, in 24-hour format,
 #. without seconds.
 #: ../e-util/e-time-utils.c:225
 msgid "%m/%d/%Y %H:%M"
-msgstr "%m/%d/%Y %H:%M"
+msgstr "%d/%m/%Y %H:%M"
 
 #. strptime format of a date and a time, in 12-hour format,
 #. without minutes or seconds.
 #: ../e-util/e-time-utils.c:230
 msgid "%m/%d/%Y %I %p"
-msgstr "%m/%d/%Y %I %p"
+msgstr "%d/%m/%Y %I %p"
 
 #. strptime format of a date and a time, in 24-hour format,
 #. without minutes or seconds.
 #: ../e-util/e-time-utils.c:235
 msgid "%m/%d/%Y %H"
-msgstr "%m/%d/%Y %H"
+msgstr "%d/%m/%Y %H"
 
 #. strptime format for a time of day, in 12-hour format.
 #. strftime format of a time in 12-hour format.
@@ -10458,7 +10457,7 @@ msgstr "Răspunsuri şi părinţi"
 
 #: ../filter/filter-rule.c:883
 msgid "Include threads"
-msgstr "Include sortarea discuţiilor"
+msgstr "Include gruparea discuţiilor"
 
 #: ../filter/filter-rule.c:978 ../filter/filter.glade.h:3
 #: ../mail/em-utils.c:291
@@ -10523,7 +10522,7 @@ msgstr "Compară faţă de"
 
 #: ../filter/filter.glade.h:4
 msgid "Show filters for mail:"
-msgstr "Arată filtrele pentru mail:"
+msgstr "Afişează filtrele pentru mail:"
 
 #: ../filter/filter.glade.h:5
 msgid ""
@@ -10688,7 +10687,7 @@ msgstr "Identitate"
 
 #: ../mail/em-account-editor.c:1760 ../mail/mail-config.glade.h:117
 msgid "Receiving Email"
-msgstr "Primesc email"
+msgstr "Primire mesaje"
 
 #: ../mail/em-account-editor.c:1943
 msgid "Automatically check for _new mail every"
@@ -10696,7 +10695,7 @@ msgstr "Verifică automat dacă sunt mailuri _noi la fiecare"
 
 #: ../mail/em-account-editor.c:2111 ../mail/mail-config.glade.h:128
 msgid "Sending Email"
-msgstr "Trimit email"
+msgstr "Trimitere mesaje"
 
 #: ../mail/em-account-editor.c:2162 ../mail/mail-config.glade.h:68
 msgid "Defaults"
@@ -11272,7 +11271,7 @@ msgstr "_Marchează ca neimportant"
 
 #: ../mail/em-folder-view.c:1059
 msgid "Mark as _Junk"
-msgstr "Marchez ca _spam"
+msgstr "Marchează ca _spam"
 
 #: ../mail/em-folder-view.c:1060
 msgid "Mark as _Not Junk"
@@ -11470,7 +11469,7 @@ msgstr ""
 
 #: ../mail/em-format-html-display.c:809 ../smime/gui/smime-ui.glade.h:48
 msgid "_View Certificate"
-msgstr "_Arată certificatul"
+msgstr "_Afişează certificatul"
 
 #: ../mail/em-format-html-display.c:824
 msgid "This certificate is not viewable"
@@ -11502,7 +11501,7 @@ msgstr "_Potriveşte la lăţime"
 
 #: ../mail/em-format-html-display.c:1180
 msgid "Show _Original Size"
-msgstr "Arată mărimea _originală"
+msgstr "Afişează mărimea _originală"
 
 #: ../mail/em-format-html-display.c:1550
 msgid "Attachment Button"
@@ -12092,7 +12091,7 @@ msgstr "Atenţionează la subiect gol"
 #: ../mail/evolution-mail.schemas.in.in.h:56
 msgid "Prompt the user when he or she tries to expunge a folder."
 msgstr ""
-"Atenţionează utilizatorul când acesta încearcă să şteargă fizic mesajele "
+"Atenţionează utilizatorul când acesta încearcă să şteargă definitiv mesajele "
 "dintr-un dosar."
 
 #: ../mail/evolution-mail.schemas.in.in.h:57
@@ -12167,11 +12166,11 @@ msgstr "Afişează mesajele şterse (cu o tăietură) în lista de mesaje."
 
 #: ../mail/evolution-mail.schemas.in.in.h:72
 msgid "Show deleted messages in the message-list"
-msgstr "Arată mesajele şterse în lista de mesaje"
+msgstr "Afişează mesajele şterse în lista de mesaje"
 
 #: ../mail/evolution-mail.schemas.in.in.h:73
 msgid "Show the \"Preview\" pane"
-msgstr "Arată panoul de „previzualizare”"
+msgstr "Afişează panoul de „previzualizare”"
 
 #: ../mail/evolution-mail.schemas.in.in.h:74
 msgid "Show the \"Preview\" pane."
@@ -12230,15 +12229,15 @@ msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.in.h:85
 msgid "Thread the message list."
-msgstr "Sortează discuţiile în lista de mesaje."
+msgstr "Grupează discuţiile în lista de mesaje."
 
 #: ../mail/evolution-mail.schemas.in.in.h:86
 msgid "Thread the message-list"
-msgstr "Sortează discuţiile în lista de mesaje"
+msgstr "Grupează discuţiile în lista de mesaje"
 
 #: ../mail/evolution-mail.schemas.in.in.h:87
 msgid "Thread the message-list based on Subject"
-msgstr "Sortează discuţiile în lista de mesaje după subiect"
+msgstr "Grupează discuţiile în lista de mesaje după subiect"
 
 #: ../mail/evolution-mail.schemas.in.in.h:88
 msgid "Timeout for marking message as Seen"
@@ -12325,7 +12324,7 @@ msgid ""
 "Whether or not to fall back on threading by subjects when the messages do "
 "not contain In-Reply-To or References headers."
 msgstr ""
-"Dacă să se revină sau nu la sortarea discuţiilor după subiecte "
+"Dacă să se revină sau nu la gruparea discuţiilor după subiecte "
 "atunci când mesajul nu conţine antetele In-Reply-To sau References."
 
 #: ../mail/importers/elm-importer.c:193
@@ -12567,7 +12566,7 @@ msgstr "Mail nou"
 
 #: ../mail/mail-component.c:766
 msgid "_Mail Message"
-msgstr "Mesaj _mail"
+msgstr "_Mesaj email"
 
 #: ../mail/mail-component.c:767
 msgid "Compose a new mail message"
@@ -12597,7 +12596,7 @@ msgstr "    "
 
 #: ../mail/mail-config.glade.h:2
 msgid " Ch_eck for Supported Types "
-msgstr " V_erific tipurile suportate "
+msgstr " V_erifică tipurile suportate "
 
 #: ../mail/mail-config.glade.h:4
 msgid "<b>SSL is not supported in this build of Evolution</b>"
@@ -12820,7 +12819,7 @@ msgstr "Culori"
 
 #: ../mail/mail-config.glade.h:59
 msgid "Confirm _when expunging a folder"
-msgstr "Confirmare la ş_tergerea fizică a mesajelor dintr-un dosar"
+msgstr "Confirmare la ş_tergerea definitivă a mesajelor dintr-un dosar"
 
 #: ../mail/mail-config.glade.h:60
 msgid ""
@@ -12831,9 +12830,9 @@ msgid ""
 "\n"
 "Click \"Apply\" to save your settings."
 msgstr ""
-"Felicitări, configurarea mailului dumneavoastră e completă.\n"
+"Felicitări, configurarea contului dumneavoastră e completă.\n"
 "\n"
-"Acum sunteţi pregătit pentru a trimite şi primi emailuri \n"
+"Din acest moment puteţi trimite şi primi emailuri \n"
 "folosind Evolution.\n"
 "\n"
 "Clic „Aplică” pentru a salva setările."
@@ -12924,7 +12923,7 @@ msgstr "Tabel limbaje"
 
 #: ../mail/mail-config.glade.h:96
 msgid "Mail Configuration"
-msgstr "Configurare mail"
+msgstr "Configurare cont mail"
 
 #: ../mail/mail-config.glade.h:97
 msgid "Mail Headers Table"
@@ -12962,8 +12961,8 @@ msgid ""
 "Please enter a descriptive name for this account in the space below.\n"
 "This name will be used for display purposes only."
 msgstr ""
-"Vă rugăm introduceţi un nume descriptiv pentru acest cont în spaţiul\n"
-"de mai jos. Acest nume va fi afişat doar pentru afişare."
+"Vă rugăm introduceţi un nume descriptiv pentru acest cont în spaţiul de mai jos.\n"
+"Acest nume va fi utilizat doar la afişare."
 
 #: ../mail/mail-config.glade.h:109
 msgid ""
@@ -12980,13 +12979,13 @@ msgid ""
 "below do not need to be filled in, unless you wish to include this "
 "information in email you send."
 msgstr ""
-"Vă rugăm introduceţi numele şi adresa de email mai jos. Câmpurile „opţional” "
+"Vă rugăm introduceţi mai jos numele şi adresa de email. Câmpurile „opţional” "
 "de mai jos nu necesită a fi completate decât dacă doriţi să includeţi "
 "această informaţie în emailul pe care-l trimiteţi."
 
 #: ../mail/mail-config.glade.h:111
 msgid "Please select among the following options"
-msgstr "Vă rugăm selectaţi dintre următoarele opţiuni"
+msgstr "Vă rugăm selectaţi una dintre opţiuni"
 
 #: ../mail/mail-config.glade.h:112
 msgid "Pr_ompt when sending messages with only Bcc recipients defined"
@@ -13133,9 +13132,9 @@ msgid ""
 "\n"
 "Click \"Forward\" to begin. "
 msgstr ""
-"Bine aţi venit la Asistentul Evolution pentru Configurare Mail.\n"
+"Bine aţi venit la asistentul de configurare Evolution.\n"
 "\n"
-"Clic „Următorul” pentru a începe. "
+"Clic „Înainte” pentru a începe. "
 
 #: ../mail/mail-config.glade.h:154
 msgid "_Add Signature"
@@ -13167,7 +13166,7 @@ msgstr "Încarcă ima_ginile în mailuri primite de la lista de contacte"
 
 #: ../mail/mail-config.glade.h:162
 msgid "_Make this my default account"
-msgstr "Fă contul acesta contul meu i_mplicit"
+msgstr "Machează acest cont ca fiind contul _meu principal"
 
 #: ../mail/mail-config.glade.h:163
 msgid "_Mark messages as read after"
@@ -13205,7 +13204,7 @@ msgstr "_Afişează imaginile animate"
 
 #: ../mail/mail-config.glade.h:173
 msgid "_Use Secure Connection:"
-msgstr "Foloseşte conectare _securizată:"
+msgstr "Foloseşte o conexiune _securizată:"
 
 #: ../mail/mail-config.glade.h:174
 msgid "_Use the same fonts as other applications"
@@ -13413,7 +13412,7 @@ msgstr "Stochez dosarul „%s”"
 #: ../mail/mail-ops.c:1519
 #, c-format
 msgid "Expunging and storing account '%s'"
-msgstr "Şterg fizic mailurile şi stochez contul „%s”"
+msgstr "Şterg definitiv mailurile şi stochez contul „%s”"
 
 #: ../mail/mail-ops.c:1520
 #, c-format
@@ -13426,7 +13425,7 @@ msgstr "Actualizez dosarul"
 
 #: ../mail/mail-ops.c:1611 ../mail/mail-ops.c:1662
 msgid "Expunging folder"
-msgstr "Şterg fizic dosarul"
+msgstr "Şterg definitiv dosarul"
 
 #: ../mail/mail-ops.c:1659
 #, c-format
@@ -14153,7 +14152,7 @@ msgstr "Gol_eşte gunoiul"
 
 #: ../mail/mail.error.xml.h:120
 msgid "_Expunge"
-msgstr "Ş_terge fizic"
+msgstr "Ş_terge definitiv"
 
 #: ../mail/mail.error.xml.h:121
 msgid "_Open Messages"
@@ -14296,7 +14295,7 @@ msgstr "Examinare"
 
 #: ../mail/searchtypes.xml.h:1
 msgid "Body contains"
-msgstr "Corpul conţine"
+msgstr "Corpul mesajului conţine"
 
 #: ../mail/searchtypes.xml.h:2
 msgid "Message contains"
@@ -15674,48 +15673,48 @@ msgstr "%A, %B %e %H:%M"
 #. and a time, in 24-hour format.
 #: ../plugins/itip-formatter/itip-view.c:286
 msgid "%A, %B %e %H:%M:%S"
-msgstr "%A, %B %e %H:%M:%S"
+msgstr "%A, %e %B %H:%M:%S"
 
 #. strftime format of a weekday, a date without a year
 #. and a time, in 12-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:291
 msgid "%A, %B %e %l:%M %p"
-msgstr "%A, %B %e %l:%M %p"
+msgstr "%A, %e %B %l:%M %p"
 
 #. strftime format of a weekday, a date without a year
 #. and a time, in 12-hour format.
 #: ../plugins/itip-formatter/itip-view.c:295
 msgid "%A, %B %e %l:%M:%S %p"
-msgstr "%A, %B %e %l:%M:%S %p"
+msgstr "%A, %e %B %l:%M:%S %p"
 
 #. strftime format of a weekday and a date.
 #: ../plugins/itip-formatter/itip-view.c:301
 msgid "%A, %B %e, %Y"
-msgstr "%A, %B %e, %Y"
+msgstr "%A, %e %B, %Y"
 
 #. strftime format of a weekday, a date and a
 #. time, in 24-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:306
 msgid "%A, %B %e, %Y %H:%M"
-msgstr "%A, %B %e, %Y %H:%M"
+msgstr "%A, %e %B, %Y %H:%M"
 
 #. strftime format of a weekday, a date and a
 #. time, in 24-hour format.
 #: ../plugins/itip-formatter/itip-view.c:310
 msgid "%A, %B %e, %Y %H:%M:%S"
-msgstr "%A, %B %e, %Y %H:%M:%S"
+msgstr "%A, %e %B, %Y %H:%M:%S"
 
 #. strftime format of a weekday, a date and a
 #. time, in 12-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:315
 msgid "%A, %B %e, %Y %l:%M %p"
-msgstr "%A, %B %e, %Y %l:%M %p"
+msgstr "%A, %e %B, %Y %l:%M %p"
 
 #. strftime format of a weekday, a date and a
 #. time, in 12-hour format.
 #: ../plugins/itip-formatter/itip-view.c:319
 msgid "%A, %B %e, %Y %l:%M:%S %p"
-msgstr "%A, %B %e, %Y %l:%M:%S %p"
+msgstr "%A, %e %B, %Y %l:%M:%S %p"
 
 #: ../plugins/itip-formatter/itip-view.c:344
 #, c-format
@@ -16476,7 +16475,7 @@ msgstr ""
 "Evolution să se conecteze la conturile dumneavoastră de email, şi să importe "
 "fişiere din alte aplicaţii.\n"
 "\n"
-"Vă rugăm să executaţi clic pe „Continuare” pentru a continua. "
+"Vă rugăm să executaţi clic pe „Înainte” pentru a continua. "
 
 #: ../plugins/startup-wizard/startup-wizard.c:140
 #: ../shell/e-shell-importer.c:145
@@ -16497,20 +16496,20 @@ msgstr "Import datele."
 #: ../plugins/subject-thread/org-gnome-subject-thread.eplug.xml.h:1
 msgid "Indicates if threading of messages should fall back to subject."
 msgstr ""
-"Indică dacă sortarea mesajelor să se facă după subiect în caz de probleme."
+"Indică dacă gruparea mesajelor să se facă după subiect în caz de probleme."
 
 #: ../plugins/subject-thread/org-gnome-subject-thread.eplug.xml.h:2
 msgid "Subject Threading"
-msgstr "Sortare după subiect"
+msgstr "Grupare după subiect"
 
 #: ../plugins/subject-thread/org-gnome-subject-thread.eplug.xml.h:3
 msgid "Thread messages by subject"
-msgstr "Sortează mesajele după subiect"
+msgstr "Grupează mesajele după subiect"
 
 #. Create the checkbox we will display, complete with mnemonic that is unique in the dialog
 #: ../plugins/subject-thread/subject-thread.c:54
 msgid "Fall back to threading messages by sub_ject"
-msgstr "Revenire la sortarea după _subiect în caz de probleme"
+msgstr "Revenire la gruparea discuţiilor după _subiect în caz de probleme"
 
 #: ../shell/GNOME_Evolution_Shell.server.in.in.h:1
 msgid "Evolution Shell"
@@ -16661,7 +16660,7 @@ msgstr "(Fără titlu)"
 
 #: ../shell/e-shell-importer.c:133
 msgid "Choose the type of importer to run:"
-msgstr "Alegeţi tipul de importator pentru rulat:"
+msgstr "Alegeţi tipul de importator pentru rulare:"
 
 #: ../shell/e-shell-importer.c:136
 msgid ""
@@ -16671,10 +16670,10 @@ msgid ""
 "You can select \"Automatic\" if you do not know, and Evolution will attempt "
 "to work it out."
 msgstr ""
-"Alegeţi fişierul ce doriţi să-l importaţi în Evolution şi selectaţi din "
-"listă ce tip de fişier este.\n"
+"Alegeţi fişierul pe care doriţi să-l importaţi în Evolution şi selectaţi din "
+"listă tipul  de fişier.\n"
 "\n"
-"Puteţi selecta \"Automat\" dacă nu ştiţi tipul şi Evolution va încerca să-l "
+"Puteţi selecta „Automat” dacă nu ştiţi tipul şi Evolution va încerca să-l "
 "determine automat."
 
 #: ../shell/e-shell-importer.c:142
@@ -16864,7 +16863,7 @@ msgstr "Importă locaţie"
 
 #: ../shell/import.glade.h:5
 msgid "Importer Type"
-msgstr "Tip importatori"
+msgstr "Tip importator"
 
 #: ../shell/import.glade.h:6
 msgid "Select Importers"
@@ -17657,7 +17656,7 @@ msgstr "Copiază selecţia"
 
 #: ../ui/evolution-addressbook.xml.h:5
 msgid "Copy to Folder..."
-msgstr "Copiez în folderul..."
+msgstr "Copiază în dosar..."
 
 #: ../ui/evolution-addressbook.xml.h:7 ../ui/evolution-calendar.xml.h:3
 msgid "Cut the selection"
@@ -17673,7 +17672,7 @@ msgstr "Mut contactele selectate în alt dosar..."
 
 #: ../ui/evolution-addressbook.xml.h:12
 msgid "Move to Folder..."
-msgstr "Mut în folderul..."
+msgstr "Mută în dosar..."
 
 #: ../ui/evolution-addressbook.xml.h:14 ../ui/evolution-calendar.xml.h:16
 msgid "Paste the clipboard"
@@ -17713,7 +17712,7 @@ msgstr "Trimite contactele selectate altei persoane."
 
 #: ../ui/evolution-addressbook.xml.h:26
 msgid "Show contact preview window"
-msgstr "Arată fereastra de previzualizare contacte"
+msgstr "Afişează fereastra de previzualizare contacte"
 
 #: ../ui/evolution-addressbook.xml.h:27
 msgid "Stop"
@@ -17774,7 +17773,7 @@ msgstr "Şterge această apariţie"
 
 #: ../ui/evolution-calendar.xml.h:10
 msgid "Go To"
-msgstr "Mergi la"
+msgstr "Salt la"
 
 #: ../ui/evolution-calendar.xml.h:11
 msgid "Go back"
@@ -17790,11 +17789,11 @@ msgstr "Listă"
 
 #: ../ui/evolution-calendar.xml.h:14
 msgid "Month"
-msgstr "Luna"
+msgstr "Lună"
 
 #: ../ui/evolution-calendar.xml.h:15 ../ui/evolution-mail-message.xml.h:60
 msgid "Next"
-msgstr "Următor"
+msgstr "Înainte"
 
 #: ../ui/evolution-calendar.xml.h:17
 msgid "Previews the calendar to be printed"
@@ -17802,7 +17801,7 @@ msgstr "Previzualizează calendar ce va fi tipărit"
 
 #: ../ui/evolution-calendar.xml.h:18 ../ui/evolution-mail-message.xml.h:76
 msgid "Previous"
-msgstr "Precedent"
+msgstr "Înapoi"
 
 #: ../ui/evolution-calendar.xml.h:21
 msgid "Print this calendar"
@@ -17814,11 +17813,11 @@ msgstr "Publică informaţia liber/ocupat pentru acest calendar"
 
 #: ../ui/evolution-calendar.xml.h:23 ../ui/evolution-tasks.xml.h:17
 msgid "Purg_e"
-msgstr "Şterge _fizic"
+msgstr "Şterge _definitiv"
 
 #: ../ui/evolution-calendar.xml.h:24
 msgid "Purge old appointments and meetings"
-msgstr "Şterge fizic întâlnirile şi şedinţele vechi"
+msgstr "Şterge definitiv întâlnirile şi şedinţele vechi"
 
 #: ../ui/evolution-calendar.xml.h:25
 msgid "Select _Date"
@@ -17850,7 +17849,7 @@ msgstr "Afişează o săptămână"
 
 #: ../ui/evolution-calendar.xml.h:33
 msgid "Show the working week"
-msgstr "Arată săptămâna de lucru"
+msgstr "Afişează săptămâna de lucru"
 
 #: ../ui/evolution-calendar.xml.h:35
 msgid "View the current appointment"
@@ -17862,7 +17861,7 @@ msgstr "Săptămână"
 
 #: ../ui/evolution-calendar.xml.h:37
 msgid "Work Week"
-msgstr "Săptămâna de lucru"
+msgstr "Săptămână de lucru"
 
 #: ../ui/evolution-calendar.xml.h:42
 msgid "_Open Appointment"
@@ -17948,19 +17947,19 @@ msgstr "Caută d_osare"
 
 #: ../ui/evolution-mail-global.xml.h:15
 msgid "Show message preview window"
-msgstr "Arată fereastra de previzualizare mesaje"
+msgstr "Afişează fereastra de previzualizare mesaje"
 
 #: ../ui/evolution-mail-global.xml.h:16
 msgid "Subscribe or unsubscribe to folders on remote servers"
-msgstr "Vă abonaţi sau dezabonaţi la dosarele de pe serverul distant"
+msgstr "Subscriere sau desubscriere de la dosarele de pe serverul distant"
 
 #: ../ui/evolution-mail-global.xml.h:17
 msgid "_Copy Folder To..."
-msgstr "_Copiază dosarul către..."
+msgstr "_Copiază dosarul în..."
 
 #: ../ui/evolution-mail-global.xml.h:18
 msgid "_Move Folder To..."
-msgstr "_Mută dosarul către..."
+msgstr "_Mută dosarul în..."
 
 #: ../ui/evolution-mail-global.xml.h:19
 msgid "_New..."
@@ -17992,7 +17991,7 @@ msgstr "Taie mesajele selectate în clipboard"
 
 #: ../ui/evolution-mail-list.xml.h:6
 msgid "E_xpunge"
-msgstr "Şter_ge fizic"
+msgstr "Şter_ge definitiv"
 
 #: ../ui/evolution-mail-list.xml.h:8
 msgid "Group By _Threads"
@@ -18004,7 +18003,7 @@ msgstr "Ascunde mesajele s_electate"
 
 #: ../ui/evolution-mail-list.xml.h:10
 msgid "Hide _Deleted Messages"
-msgstr "Ascunde mesajele şterse"
+msgstr "Ascunde mesajele ş_terse"
 
 #: ../ui/evolution-mail-list.xml.h:11
 msgid "Hide _Read Messages"
@@ -18014,7 +18013,7 @@ msgstr "Ascunde mesajele _citite"
 msgid ""
 "Hide deleted messages rather than displaying them with a line through them"
 msgstr ""
-"Ascunde mesajele selectate mai degrabă decât să le afişezi tăiate cu o linie"
+"Ascunde mesajele selectate mai degrabă decât să fie afişate tăiate cu o linie"
 
 #: ../ui/evolution-mail-list.xml.h:13
 msgid "Mark Me_ssages as Read"
@@ -18034,11 +18033,11 @@ msgstr "Şterge pentru totdeauna acest dosar"
 
 #: ../ui/evolution-mail-list.xml.h:17
 msgid "Select Message _Thread"
-msgstr "Selectaţi _discuţia"
+msgstr "Selectează _grupul de mesaje"
 
 #: ../ui/evolution-mail-list.xml.h:18
 msgid "Select _All Messages"
-msgstr "Selectaţi _toate mesajele"
+msgstr "Selectează _toate mesajele"
 
 #: ../ui/evolution-mail-list.xml.h:19
 msgid "Select all and only the messages that are not currently selected"
@@ -18047,7 +18046,7 @@ msgstr "Selectează tot şi numai mesajele care nu sunt actualmente selectate"
 #: ../ui/evolution-mail-list.xml.h:20
 msgid "Select all messages in the same thread as the selected message"
 msgstr ""
-"Selectează toate mesajele aflate în aceeaşi înlănţuire cu mesajul selectat"
+"Selectează toate mesajele ce fac parte din aceaşi discuţie cu mesajul selectat"
 
 #: ../ui/evolution-mail-list.xml.h:21
 msgid "Select all visible messages"
@@ -18059,7 +18058,7 @@ msgstr "Afişează mesajele _ascunse"
 
 #: ../ui/evolution-mail-list.xml.h:23
 msgid "Show messages that have been temporarily hidden"
-msgstr "Arată mesajele care au fost ascunse temporar"
+msgstr "Afişează mesajele care au fost ascunse temporar"
 
 #: ../ui/evolution-mail-list.xml.h:24
 msgid "Temporarily hide all messages that have already been read"
@@ -18071,7 +18070,7 @@ msgstr "Ascunde temporar mesajele selectate"
 
 #: ../ui/evolution-mail-list.xml.h:26
 msgid "Threaded Message list"
-msgstr "Listă de mesaje înlănţuite"
+msgstr "Listă de mesaje grupată după discuţii"
 
 #: ../ui/evolution-mail-list.xml.h:28 ../ui/evolution-mail-message.xml.h:113
 #: ../ui/evolution-mail-messagedisplay.xml.h:7
@@ -18177,7 +18176,7 @@ msgstr "Afişează următorul mesaj necitit"
 
 #: ../ui/evolution-mail-message.xml.h:30
 msgid "Display the next unread thread"
-msgstr "Afişează următoarea înlănţuire necitită"
+msgstr "Afişează următoarea discuţie necitită"
 
 #: ../ui/evolution-mail-message.xml.h:31
 msgid "Display the previous important message"
@@ -18197,11 +18196,11 @@ msgstr "Filtrează _lista de mail..."
 
 #: ../ui/evolution-mail-message.xml.h:35
 msgid "Filter on Se_nder..."
-msgstr "Filtrează expeditorul..."
+msgstr "Filtrează e_xpeditorul..."
 
 #: ../ui/evolution-mail-message.xml.h:36
 msgid "Filter on _Recipients..."
-msgstr "Filtrează destinatarul..."
+msgstr "Filtrează _destinatarul..."
 
 #: ../ui/evolution-mail-message.xml.h:37
 msgid "Filter on _Subject..."
@@ -18217,7 +18216,7 @@ msgstr "Marchează mesajele selectate pentru urmare"
 
 #: ../ui/evolution-mail-message.xml.h:40
 msgid "Follow _Up..."
-msgstr "_Urmărire..."
+msgstr "_Urmare..."
 
 #: ../ui/evolution-mail-message.xml.h:41
 msgid "Force images in HTML mail to be loaded"
@@ -18237,7 +18236,7 @@ msgstr "Înainteaza mesajul selectat către cineva"
 
 #: ../ui/evolution-mail-message.xml.h:46
 msgid "Forward the selected message to someone as an attachment"
-msgstr "Înaintează mesajul selectat către cineva ca o anexă"
+msgstr "Înaintează mesajul selectat către cineva ca un ataşament"
 
 #: ../ui/evolution-mail-message.xml.h:47
 msgid "Increase the text size"
@@ -18261,7 +18260,7 @@ msgstr "Marchează mesajele selectate ca spam"
 
 #: ../ui/evolution-mail-message.xml.h:53
 msgid "Mark the selected message(s) as not being junk"
-msgstr "Marchează mesajele selectate ca nespam"
+msgstr "Marchează mesajele selectate ca non-spam"
 
 #: ../ui/evolution-mail-message.xml.h:54
 msgid "Mark the selected message(s) as not having been read"
@@ -18401,15 +18400,15 @@ msgstr "Afişează un cursor clipitor în corpul mesajelor afişate"
 
 #: ../ui/evolution-mail-message.xml.h:96
 msgid "Show message in the normal style"
-msgstr "Arată mesajul într-un stil normal"
+msgstr "Afişează mesajul într-un stil normal"
 
 #: ../ui/evolution-mail-message.xml.h:97
 msgid "Show message with all email headers"
-msgstr "Arată mesajul cu toate antetele mesajului"
+msgstr "Afişează mesajul cu toate antetele mesajului"
 
 #: ../ui/evolution-mail-message.xml.h:98
 msgid "Show the raw email source of the message"
-msgstr "Ataşează sursa primară a mesajului a mesajului"
+msgstr "Ataşează sursa primară a mesajului"
 
 #: ../ui/evolution-mail-message.xml.h:99
 msgid "Un-delete the selected messages"
@@ -18461,7 +18460,7 @@ msgstr "Mărime _normală"
 
 #: ../ui/evolution-mail-message.xml.h:117
 msgid "_Not Junk"
-msgstr "_Nespam"
+msgstr "_Non-spam"
 
 #: ../ui/evolution-mail-message.xml.h:118
 msgid "_Open in New Window"
@@ -18524,7 +18523,7 @@ msgstr "Ataşează"
 
 #: ../ui/evolution-message-composer.xml.h:2
 msgid "Attach a file"
-msgstr "Anexează un fisier"
+msgstr "Ataşează un fisier"
 
 #: ../ui/evolution-message-composer.xml.h:3
 msgid "Check to get delivery notification when your message is read"
@@ -18539,7 +18538,7 @@ msgstr ""
 #: ../ui/evolution-message-composer.xml.h:5
 #: ../ui/evolution-signature-editor.xml.h:13
 msgid "Close the current file"
-msgstr "Închid fişierul curent"
+msgstr "Închide fişierul curent"
 
 #: ../ui/evolution-message-composer.xml.h:6
 msgid "Delete all but signature"
@@ -18572,7 +18571,7 @@ msgstr "Criptare PGP"
 
 #: ../ui/evolution-message-composer.xml.h:14
 msgid "PGP Sign"
-msgstr "Semnătură PGP"
+msgstr "Semnare PGP"
 
 #: ../ui/evolution-message-composer.xml.h:15
 msgid "Request read receipt"
@@ -18592,7 +18591,7 @@ msgstr "Salvează ca"
 
 #: ../ui/evolution-message-composer.xml.h:20
 msgid "Save Draft"
-msgstr "Salvează ciorna"
+msgstr "Salvează ciornă"
 
 #: ../ui/evolution-message-composer.xml.h:21
 msgid "Save _As..."
@@ -18620,7 +18619,7 @@ msgstr "Salvează fişierul curent cu un nume diferit"
 
 #: ../ui/evolution-message-composer.xml.h:27
 msgid "Save the message in a specified folder"
-msgstr "Salvez mesajul într-un dosar specificat"
+msgstr "Salvează mesajul într-un dosar specificat"
 
 #: ../ui/evolution-message-composer.xml.h:29
 #: ../ui/evolution-signature-editor.xml.h:22
@@ -18641,15 +18640,15 @@ msgstr "Semnaţi acest mesaj cu semnătura certificată S/MIME"
 
 #: ../ui/evolution-message-composer.xml.h:33
 msgid "Toggles whether the BCC field is displayed"
-msgstr "Selectează în timp ce câmpul BCC e afişat "
+msgstr "Comută afişarea câmpului BCC "
 
 #: ../ui/evolution-message-composer.xml.h:34
 msgid "Toggles whether the CC field is displayed"
-msgstr "Selectează în timp ce câmpul CC e afişat"
+msgstr "Comută afişarea câmpului CC"
 
 #: ../ui/evolution-message-composer.xml.h:35
 msgid "Toggles whether the From chooser is displayed"
-msgstr "Selectează în timp ce căsuţa De la e afişată"
+msgstr "Comută afişarea câmpului De la"
 
 #: ../ui/evolution-message-composer.xml.h:36
 msgid "Toggles whether the Post-To field is displayed"
@@ -18657,7 +18656,7 @@ msgstr "Comută afişarea câmpului Trimite-către"
 
 #: ../ui/evolution-message-composer.xml.h:37
 msgid "Toggles whether the Reply-To field is displayed"
-msgstr "Selectează în timp ce câmpul Răspuns la e afişat"
+msgstr "Comută afişarea câmpului Răspuns-către"
 
 #: ../ui/evolution-message-composer.xml.h:38
 msgid "Toggles whether the To field is displayed"
@@ -18677,11 +18676,11 @@ msgstr "Câmpul _Cc"
 
 #: ../ui/evolution-message-composer.xml.h:43
 msgid "_Delete all"
-msgstr "Şterge tot"
+msgstr "Ş_terge tot"
 
 #: ../ui/evolution-message-composer.xml.h:46
 msgid "_From Field"
-msgstr "Câmpul De la"
+msgstr "Câmpul _De la"
 
 #: ../ui/evolution-message-composer.xml.h:47
 #: ../ui/evolution-signature-editor.xml.h:25
@@ -18690,7 +18689,7 @@ msgstr "_Inserează"
 
 #: ../ui/evolution-message-composer.xml.h:48
 msgid "_Open..."
-msgstr "Deschide..."
+msgstr "_Deschide..."
 
 #: ../ui/evolution-message-composer.xml.h:49
 msgid "_Post-To Field"
@@ -18698,7 +18697,7 @@ msgstr "Câmpul _Trimite-către"
 
 #: ../ui/evolution-message-composer.xml.h:50
 msgid "_Reply-To Field"
-msgstr "Câmpul _Răspuns la"
+msgstr "Câmpul _Răspuns-către"
 
 #: ../ui/evolution-message-composer.xml.h:52
 msgid "_Security"
@@ -18710,7 +18709,7 @@ msgstr "Câmpul Că_tre"
 
 #: ../ui/evolution-signature-editor.xml.h:1
 msgid "C_lose"
-msgstr "Închide"
+msgstr "În_chide"
 
 #: ../ui/evolution-signature-editor.xml.h:15
 msgid "H_TML"
@@ -18749,11 +18748,11 @@ msgstr "Şterge dosarul din lista dosarelor înscrise"
 
 #: ../ui/evolution-subscribe.xml.h:7
 msgid "Subscribe"
-msgstr "Abonează"
+msgstr "Subscrie"
 
 #: ../ui/evolution-subscribe.xml.h:8
 msgid "Unsubscribe"
-msgstr "Dezabonează"
+msgstr "Desubscrie"
 
 #: ../ui/evolution-subscribe.xml.h:12
 msgid "_Invert Selection"
@@ -18847,7 +18846,7 @@ msgstr "Uită _parolele"
 
 #: ../ui/evolution.xml.h:12
 msgid "Forget remembered passwords so you will be prompted for them again"
-msgstr "Uită parolele memorate astfel veţi fi întrebat despre ele din nou"
+msgstr "Uită parolele memorate astfel încât veţi fi întrebat din nou despre ele"
 
 #: ../ui/evolution.xml.h:13
 msgid "Hide window buttons"
@@ -18895,7 +18894,7 @@ msgstr "Raportează o eroare"
 #. <separator/>
 #: ../ui/evolution.xml.h:28
 msgid "Submit _Bug Report"
-msgstr "Raportează o eroare"
+msgstr "Raportează o _eroare"
 
 #: ../ui/evolution.xml.h:29
 msgid "Submit a bug report using Bug Buddy"
@@ -18903,7 +18902,7 @@ msgstr "Raportează o problemă folosind Bug Buddy"
 
 #: ../ui/evolution.xml.h:30
 msgid "Toggle whether we are working offline."
-msgstr "Selectează în timp lucrăm deconectaţi"
+msgstr "Comută dacă să se lucreze deconectat"
 
 #: ../ui/evolution.xml.h:31
 msgid "Tool_bar"
@@ -18923,7 +18922,7 @@ msgstr "În_chide fereastra"
 
 #: ../ui/evolution.xml.h:37
 msgid "_Help"
-msgstr "Ajutor"
+msgstr "_Ajutor"
 
 #: ../ui/evolution.xml.h:38
 msgid "_Hide buttons"
@@ -18951,7 +18950,7 @@ msgstr "_Ieşire"
 
 #: ../ui/evolution.xml.h:44
 msgid "_Send / Receive"
-msgstr "Trimite / Primeşte"
+msgstr "Trimite / _Primeşte"
 
 #: ../ui/evolution.xml.h:45
 msgid "_Switcher Appearance"
@@ -19114,7 +19113,7 @@ msgstr "Î_nlocuieşte afişarea existentă"
 
 #: ../widgets/menus/gal-view-menus.c:291
 msgid "_Current View"
-msgstr "Vizualizarea _curentă"
+msgstr "Vizualizare _curentă"
 
 #: ../widgets/menus/gal-view-menus.c:359
 msgid "Save Custom View..."
@@ -19126,7 +19125,7 @@ msgstr "Factory"
 
 #: ../widgets/menus/gal-view-new-dialog.c:115
 msgid "Define New View"
-msgstr "Defineşte vizualizare nouă"
+msgstr "Defineşte afişare nouă"
 
 #: ../widgets/menus/gal-view-new-dialog.glade.h:2
 msgid "Name of new view:"
@@ -19230,7 +19229,7 @@ msgstr "Acum"
 #: ../widgets/misc/e-cell-date-edit.c:801
 #, c-format
 msgid "The time must be in the format: %s"
-msgstr "Ora trebuie să fie în formatul: %s"
+msgstr "Timpul trebuie să fie în formatul: %s"
 
 #: ../widgets/misc/e-cell-percent.c:76
 msgid "The percent value must be between 0 and 100, inclusive"
@@ -19442,7 +19441,7 @@ msgid ""
 "Mouse-based interactive map widget for selecting timezone. Keyboard users "
 "should select the timezone from the below combo box instead."
 msgstr ""
-"Widget hartă interactiv şi bazat pe maus pentru selectarea fusului orar. "
+"Widget interactiv de tip hartă bazat pe maus pentru selectarea fusului orar. "
 "Utilizatorii de tastatură ar trebui în schimb să selecteze fusul orar din "
 "combo box-ul de mai jos."
 
@@ -19666,7 +19665,7 @@ msgstr "%s (...)"
 #: ../widgets/misc/e-task-widget.c:213
 #, c-format
 msgid "%s (%d%% complete)"
-msgstr "%s (%d%% completat)"
+msgstr "%s (%d%% complet)"
 
 #: ../widgets/misc/e-url-entry.c:107
 msgid "click here to go to url"
@@ -19702,7 +19701,7 @@ msgstr "Coloană selectată"
 
 #: ../widgets/table/e-cell-pixbuf.c:404
 msgid "Focused Column"
-msgstr "Coloană focusată"
+msgstr "Coloană focalizată"
 
 #: ../widgets/table/e-cell-pixbuf.c:411
 msgid "Unselected Column"
@@ -19780,7 +19779,7 @@ msgstr "Afişează câmpurile"
 #: ../widgets/table/e-table-config-no-group.glade.h:13
 #: ../widgets/table/e-table-config.glade.h:11
 msgid "Show field in View"
-msgstr "Afişează câmp în vizualizare"
+msgstr "Afişează câmp în afişare"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:14
 #: ../widgets/table/e-table-config.glade.h:12
@@ -19859,7 +19858,7 @@ msgstr "Antet complet"
 
 #: ../widgets/table/e-table-field-chooser-dialog.c:126
 msgid "Add a column..."
-msgstr "Adaugă o coloana..."
+msgstr "Adaugă o coloană..."
 
 #: ../widgets/table/e-table-field-chooser.glade.h:1
 msgid "Field Chooser"
@@ -19973,7 +19972,7 @@ msgstr "Fixat"
 
 #: ../widgets/table/e-table-header-item.c:1472
 msgid "Customize Current View"
-msgstr "Personalizeaza vizualizarea curentă"
+msgstr "Personalizeaza afişarea curentă"
 
 #: ../widgets/table/e-table-header-item.c:1492
 msgid "Sort Ascending"
@@ -20053,7 +20052,7 @@ msgstr "Caută întotdeauna"
 
 #: ../widgets/table/e-table.c:3337
 msgid "Use click to add"
-msgstr "Utilizaţi click pentru a adăuga"
+msgstr "Utilizaţi clic pentru a adăuga"
 
 #: ../widgets/table/e-tree.c:3290 ../widgets/table/e-tree.c:3291
 msgid "ETree table adapter"
@@ -20211,11 +20210,3 @@ msgstr "Context IM"
 msgid "Handle Popup"
 msgstr "Gestionează popup"
 
-#~ msgid "Message _List As"
-#~ msgstr "Trimite mesaj către _listă ca"
-
-#~ msgid "_New Search _Folder (FIXME)"
-#~ msgstr "Dosar _nou de căutare"
-
-#~ msgid "Evolution _FAQ"
-#~ msgstr "_FAQ Evolution"
