@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: evolution-2.4\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-08-28 11:11+0700\n"
-"PO-Revision-Date: 2005-08-28 18:15+0700\n"
+"PO-Revision-Date: 2005-09-05 00:43+0700\n"
 "Last-Translator: Theppitak Karoonboonyanan <thep@linux.thai.net>\n"
 "Language-Team: Thai <L10N@opentle.org>\n"
 "MIME-Version: 1.0\n"
@@ -13473,7 +13473,7 @@ msgstr ""
 
 #: ../mail/mail.error.xml.h:49
 msgid "Error while {0}."
-msgstr "เกิดขข้อผิดพลาดขณะ{0}"
+msgstr "เกิดข้อผิดพลาดขณะ{0}"
 
 #: ../mail/mail.error.xml.h:50
 msgid "File exists but cannot overwrite it."
@@ -17374,7 +17374,7 @@ msgstr ""
 
 #: ../ui/evolution-mail-global.xml.h:2
 msgid "Cancel the current mail operation"
-msgstr ""
+msgstr "ยกเลิกปฏิบัติการเมลปัจจุบัน"
 
 #: ../ui/evolution-mail-global.xml.h:3
 msgid "Copy the selected folder into another folder"
@@ -18663,25 +18663,23 @@ msgstr ""
 
 #: ../widgets/misc/e-canvas-background.c:484
 #: ../widgets/misc/e-canvas-background.c:485
-#, fuzzy
 msgid "X1"
-msgstr "1"
+msgstr "X1"
 
 #: ../widgets/misc/e-canvas-background.c:491
 #: ../widgets/misc/e-canvas-background.c:492
 msgid "X2"
-msgstr ""
+msgstr "X2"
 
 #: ../widgets/misc/e-canvas-background.c:498
 #: ../widgets/misc/e-canvas-background.c:499
-#, fuzzy
 msgid "Y1"
-msgstr "1"
+msgstr "Y1"
 
 #: ../widgets/misc/e-canvas-background.c:505
 #: ../widgets/misc/e-canvas-background.c:506
 msgid "Y2"
-msgstr ""
+msgstr "Y2"
 
 #: ../widgets/misc/e-canvas-vbox.c:102 ../widgets/misc/e-reflow.c:1430
 #: ../widgets/table/e-table-group-container.c:978
