@@ -1,3 +1,6 @@
+2005-09-05  Runa Bhattacharjee <runa@bengalinux.org>
+	* configure.in: Added Bengali (bn) to ALL_LINGUAS.
+
 2005-09-02 Jessica Prabhakar <pjessica@novell.com>
 
 	* help/C/evolution.xml: minor spelling and grammar edits
