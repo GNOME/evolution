@@ -1,3 +1,17 @@
+Evolution 2.4.0 2005-09-05
+--------------------------
+What is new ?
+
+- A new menu layout (More HIG compliant)
+- Inline PGP Signature/Encryption support.
+- Performance enhancements on Camel/GroupWise Backends.
+- Auto-fit Image Attachments
+- Support for GroupWise proxy accounts
+- Extended EPlugin support, importers as an EPlugin.
+- Thunderbird-compatible storage of labels on IMAP.
+- Support for delegation of meetings (Calendar)
+- Marcus Baines Line (calendar) 
+
 Evolution 2.3.8 2005-08-23
 ---------------------------
 
