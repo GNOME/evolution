@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 2.4.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-09-07 22:27+0200\n"
+"POT-Creation-Date: 2005-09-07 22:35+0200\n"
 "PO-Revision-Date: 2005-09-07 21:01+0200\n"
 "Last-Translator: Christophe Merlet (RedFox) <redfox@redfoxcenter.org>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
@@ -12641,7 +12641,7 @@ msgstr "    "
 
 #: ../mail/mail-config.glade.h:2
 msgid " Ch_eck for Supported Types "
-msgstr "_Vérifier les types supportés "
+msgstr " _Vérifier les types supportés "
 
 #: ../mail/mail-config.glade.h:4
 msgid "<b>SSL is not supported in this build of Evolution</b>"
@@ -13247,7 +13247,7 @@ msgstr "_Script :"
 
 #: ../mail/mail-config.glade.h:172
 msgid "_Show animated images"
-msgstr "Afficher le_s images animées"
+msgstr "_Afficher les images animées"
 
 #: ../mail/mail-config.glade.h:173
 msgid "_Use Secure Connection:"
@@ -16539,11 +16539,11 @@ msgstr "Sélectionne un unique calendrier ou une tâche for consultation."
 
 #: ../plugins/select-one-source/org-gnome-select-one-source.eplug.xml.h:3
 msgid "_Show only this Calendar"
-msgstr "_Voir uniquement ce calendrier"
+msgstr "_Afficher uniquement ce calendrier"
 
 #: ../plugins/select-one-source/org-gnome-select-one-source.eplug.xml.h:4
 msgid "_Show only this Task List"
-msgstr "_Voir seulement cette liste de tâches"
+msgstr "_Afficher uniquement cette liste de tâches"
 
 #: ../plugins/startup-wizard/org-gnome-evolution-startup-wizard.eplug.xml.h:1
 msgid "Startup wizard"
@@ -16834,7 +16834,7 @@ msgstr "Un nom de dossier ne peut pas contenir le caractère « # »"
 
 #: ../shell/e-shell-utils.c:143
 msgid "'.' and '..' are reserved folder names."
-msgstr " « . » et « .. » sont réservés aux noms de dossiers."
+msgstr "« . » et « .. » sont réservés aux noms de dossiers."
 
 #: ../shell/e-shell-window-commands.c:70
 msgid "The GNOME Pilot tools do not appear to be installed on this system."
