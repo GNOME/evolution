@@ -1,3 +1,7 @@
+2005-09-05  Mengjie Yu  <meng-jie.yu@sun.com>
+
+	* configure.in:grep on Solaris doesn't support -q, use > /dev/null instead.
+
 2005-09-05  Runa Bhattacharjee <runa@bengalinux.org>
 	* configure.in: Added Bengali (bn) to ALL_LINGUAS.
 
