@@ -16575,7 +16575,7 @@ msgstr "_Tuo"
 
 #: ../shell/e-shell-settings-dialog.c:318
 msgid "Evolution Settings"
-msgstr "_Evolutionin asetukset"
+msgstr "Evolutionin asetukset"
 
 #: ../shell/e-shell-utils.c:118
 msgid "No folder name specified."
