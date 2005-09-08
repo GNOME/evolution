@@ -1458,7 +1458,7 @@ AC_SUBST(plugins_base)
 AC_SUBST(plugins_standard)
 AC_SUBST(plugins_experimental)
 
-if echo ${plugins_enabled} | grep -q "audio-inline"
+if echo ${plugins_enabled} | grep "audio-inline" > /dev/null
 then
 	if ${PKG_CONFIG} --exists gstreamer-0.8
 	then
@@ -1475,7 +1475,7 @@ then
 	fi
 fi
 
-if echo ${plugins_enabled} | grep -q "new-mail-notify" ; then
+if echo ${plugins_enabled} | grep "new-mail-notify" > /dev/null ; then
 	if ${PKG_CONFIG} --exists dbus-glib-1 ; then
 		dnl **************************************************
 		dnl * New Mail Notify plugin
@@ -1495,7 +1495,7 @@ if echo ${plugins_enabled} | grep -q "new-mail-notify" ; then
 	fi
 fi
 
-if echo ${plugins_enabled} | grep -q "exchange-operations" ; then
+if echo ${plugins_enabled} | grep "exchange-operations" > /dev/null ; then
 	if ${PKG_CONFIG} --exists libexchange-storage-$EDS_PACKAGE ; then
 		dnl **************************************************
 		dnl * Exchange Operations plugin

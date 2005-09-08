@@ -1,3 +1,7 @@
+2005-09-05  Mengjie Yu  <meng-jie.yu@sun.com>
+
+	* configure.in:grep on Solaris doesn't support -q, use > /dev/null instead.
+
 2005-08-28  Harish Krishnaswamy <kharish@novell.com>
 
 	* configure.in : Turn stable release bit on. Set
