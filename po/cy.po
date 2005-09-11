@@ -29,7 +29,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-09-01 17:44+0100\n"
+"POT-Creation-Date: 2005-09-11 17:30+0200\n"
 "PO-Revision-Date: 2005-09-01 17:45+0100\n"
 "Last-Translator: Rhys Jones <rhys@sucs.org>\n"
 "Language-Team: Cymraeg <gnome-cy@pengwyn.linux.org.uk>\n"
@@ -780,7 +780,7 @@ msgstr ""
 #: ../calendar/gui/calendar-component.c:537
 #: ../calendar/gui/tasks-component.c:441 ../mail/em-filter-i18n.h:11
 #: ../ui/evolution-addressbook.xml.h:8 ../ui/evolution-calendar.xml.h:5
-#: ../ui/evolution-mail-message.xml.h:25 ../ui/evolution-tasks.xml.h:6
+#: ../ui/evolution-mail-message.xml.h:26 ../ui/evolution-tasks.xml.h:6
 msgid "Delete"
 msgstr "Dileu"
 
@@ -2858,7 +2858,7 @@ msgstr "Anfon Neges at Gysylltiadau"
 #: ../addressbook/gui/widgets/e-addressbook-view.c:942
 #: ../calendar/gui/calendar-commands.c:119 ../calendar/gui/print.c:2501
 #: ../ui/evolution-addressbook.xml.h:16 ../ui/evolution-calendar.xml.h:19
-#: ../ui/evolution-mail-message.xml.h:76 ../ui/evolution-tasks.xml.h:14
+#: ../ui/evolution-mail-message.xml.h:77 ../ui/evolution-tasks.xml.h:14
 msgid "Print"
 msgstr "Argraffu"
 
@@ -2878,7 +2878,7 @@ msgstr "Torri"
 #: ../addressbook/gui/widgets/e-addressbook-view.c:950
 #: ../calendar/gui/calendar-component.c:536
 #: ../calendar/gui/tasks-component.c:440 ../ui/evolution-addressbook.xml.h:2
-#: ../ui/evolution-mail-message.xml.h:11 ../ui/evolution-tasks.xml.h:2
+#: ../ui/evolution-mail-message.xml.h:12 ../ui/evolution-tasks.xml.h:2
 msgid "Copy"
 msgstr "Copïo"
 
@@ -4242,7 +4242,6 @@ msgstr "Ni fydd eich tasgau ar gael tan mae Evolution wedi ei ailgychwyn."
 
 #: ../calendar/calendar.error.xml.h:64
 #: ../ui/evolution-message-composer.xml.h:51
-#: ../ui/evolution-signature-editor.xml.h:15
 msgid "_Save"
 msgstr "_Cadw"
 
@@ -4290,7 +4289,7 @@ msgid "Calendar and Tasks"
 msgstr "Calendr a Thasgau"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:2
-#: ../calendar/gui/calendar-component.c:1307
+#: ../calendar/gui/calendar-component.c:1309
 msgid "Calendars"
 msgstr "Calendrau"
 
@@ -4392,9 +4391,9 @@ msgstr "Amser _hepian:"
 #: ../ui/evolution-composer-entries.xml.h:8
 #: ../ui/evolution-mail-messagedisplay.xml.h:5
 #: ../ui/evolution-message-composer.xml.h:44
-#: ../ui/evolution-signature-editor.xml.h:12
+#: ../ui/evolution-signature-editor.xml.h:23
 #: ../ui/evolution-subscribe.xml.h:10 ../ui/evolution-tasks.xml.h:23
-#: ../ui/evolution.xml.h:32
+#: ../ui/evolution.xml.h:35
 msgid "_Edit"
 msgstr "_Golygu"
 
@@ -4913,55 +4912,55 @@ msgstr "Methu agor y calendr '%s' er mwyn creu digwyddiadau a chyfarfodydd"
 msgid "There is no calendar available for creating events and meetings"
 msgstr "Does dim calendr ar gael er mwyn creu digwyddiadau a chyfarfodydd"
 
-#: ../calendar/gui/calendar-component.c:1282
+#: ../calendar/gui/calendar-component.c:1284
 msgid "Calendar Source Selector"
 msgstr "Dewisydd Ffynhonnell Galendr"
 
-#: ../calendar/gui/calendar-component.c:1473
+#: ../calendar/gui/calendar-component.c:1475
 msgid "New appointment"
 msgstr "Apwyntiad newydd"
 
-#: ../calendar/gui/calendar-component.c:1474
+#: ../calendar/gui/calendar-component.c:1476
 msgid "_Appointment"
 msgstr "_Apwyntiad"
 
-#: ../calendar/gui/calendar-component.c:1475
+#: ../calendar/gui/calendar-component.c:1477
 msgid "Create a new appointment"
 msgstr "Creu apwyntiad newydd"
 
-#: ../calendar/gui/calendar-component.c:1481
+#: ../calendar/gui/calendar-component.c:1483
 msgid "New meeting"
 msgstr "Cyfarfod Newydd"
 
-#: ../calendar/gui/calendar-component.c:1482
+#: ../calendar/gui/calendar-component.c:1484
 msgid "M_eeting"
 msgstr "_Cyfarfod"
 
-#: ../calendar/gui/calendar-component.c:1483
+#: ../calendar/gui/calendar-component.c:1485
 msgid "Create a new meeting request"
 msgstr "Creu cais newydd am gyfarfod"
 
-#: ../calendar/gui/calendar-component.c:1489
+#: ../calendar/gui/calendar-component.c:1491
 msgid "New all day appointment"
 msgstr "Apwyntiad drwy'r diwrnod newydd"
 
-#: ../calendar/gui/calendar-component.c:1490
+#: ../calendar/gui/calendar-component.c:1492
 msgid "All Day A_ppointment"
 msgstr "Apwyntiad Drwy'r Diwrnod"
 
-#: ../calendar/gui/calendar-component.c:1491
+#: ../calendar/gui/calendar-component.c:1493
 msgid "Create a new all-day appointment"
 msgstr "Creu apwyntiad gydol-y-dydd newydd"
 
-#: ../calendar/gui/calendar-component.c:1497
+#: ../calendar/gui/calendar-component.c:1499
 msgid "New calendar"
 msgstr "Calendr newydd"
 
-#: ../calendar/gui/calendar-component.c:1498
+#: ../calendar/gui/calendar-component.c:1500
 msgid "Cale_ndar"
 msgstr "_Calendr"
 
-#: ../calendar/gui/calendar-component.c:1499
+#: ../calendar/gui/calendar-component.c:1501
 msgid "Create a new calendar"
 msgstr "Creu calendr newydd"
 
@@ -5694,7 +5693,7 @@ msgstr[2] "%d neges wedi'u hatodi"
 #: ../mail/em-folder-tree.c:974 ../mail/em-folder-view.c:1035
 #: ../mail/message-list.c:1708 ../ui/evolution-addressbook.xml.h:31
 #: ../ui/evolution-calendar.xml.h:39 ../ui/evolution-composer-entries.xml.h:7
-#: ../ui/evolution-mail-message.xml.h:102 ../ui/evolution-tasks.xml.h:21
+#: ../ui/evolution-mail-message.xml.h:103 ../ui/evolution-tasks.xml.h:21
 msgid "_Copy"
 msgstr "_Copïo"
 
@@ -6793,7 +6792,7 @@ msgstr "_Cadw Fel..."
 #: ../calendar/gui/e-calendar-view.c:1530 ../mail/em-folder-view.c:1046
 #: ../plugins/print-message/org-gnome-print-message.xml.h:3
 #: ../ui/evolution-addressbook.xml.h:40 ../ui/evolution-calendar.xml.h:44
-#: ../ui/evolution-mail-message.xml.h:119 ../ui/evolution-tasks.xml.h:27
+#: ../ui/evolution-mail-message.xml.h:120 ../ui/evolution-tasks.xml.h:27
 msgid "_Print..."
 msgstr "_Argraffu..."
 
@@ -10905,7 +10904,7 @@ msgid "is not Flagged"
 msgstr "ddim yn Fanerog"
 
 #: ../mail/em-filter-i18n.h:35 ../mail/mail-config.glade.h:93
-#: ../ui/evolution-mail-message.xml.h:47
+#: ../ui/evolution-mail-message.xml.h:48
 msgid "Junk"
 msgstr "Sothach"
 
@@ -11135,11 +11134,11 @@ msgstr "Copïo ffeiliau i mewn i'r blygell %s"
 msgid "Cannot drop message(s) into toplevel store"
 msgstr "Methu gollwng neges(euon) i'r storfa level uchaf"
 
-#: ../mail/em-folder-tree.c:972 ../ui/evolution-mail-message.xml.h:103
+#: ../mail/em-folder-tree.c:972 ../ui/evolution-mail-message.xml.h:104
 msgid "_Copy to Folder"
 msgstr "_Copïo i Blygell"
 
-#: ../mail/em-folder-tree.c:973 ../ui/evolution-mail-message.xml.h:113
+#: ../mail/em-folder-tree.c:973 ../ui/evolution-mail-message.xml.h:114
 msgid "_Move to Folder"
 msgstr "_Symud i Blygell"
 
@@ -11149,9 +11148,9 @@ msgid "Scanning folders in \"%s\""
 msgstr "Sganio plygellau o fewn \"%s\""
 
 #: ../mail/em-folder-tree.c:2031 ../ui/evolution-addressbook.xml.h:44
-#: ../ui/evolution-mail-global.xml.h:22
+#: ../ui/evolution-mail-global.xml.h:24
 #: ../ui/evolution-mail-messagedisplay.xml.h:8
-#: ../ui/evolution-message-composer.xml.h:54 ../ui/evolution.xml.h:45
+#: ../ui/evolution-message-composer.xml.h:54 ../ui/evolution.xml.h:48
 msgid "_View"
 msgstr "_Golwg"
 
@@ -11226,16 +11225,16 @@ msgstr "Penodwch ble i greu'r blygell:"
 msgid "Reply to _All"
 msgstr "Ateb i _Bawb"
 
-#: ../mail/em-folder-view.c:1040 ../ui/evolution-mail-message.xml.h:121
+#: ../mail/em-folder-view.c:1040 ../ui/evolution-mail-message.xml.h:122
 msgid "_Reply to Sender"
 msgstr "_Ateb i'r Danfonwr"
 
 #: ../mail/em-folder-view.c:1041 ../mail/em-popup.c:548 ../mail/em-popup.c:559
-#: ../ui/evolution-mail-message.xml.h:107
+#: ../ui/evolution-mail-message.xml.h:108
 msgid "_Forward"
 msgstr "_Ymlaen"
 
-#: ../mail/em-folder-view.c:1044 ../ui/evolution-mail-message.xml.h:105
+#: ../mail/em-folder-view.c:1044 ../ui/evolution-mail-message.xml.h:106
 msgid "_Edit as New Message..."
 msgstr "_Golygu fel Neges Newydd..."
 
@@ -11759,7 +11758,7 @@ msgid "_Reply to sender"
 msgstr "_Ateb i'r danfonwr"
 
 #: ../mail/em-popup.c:545 ../mail/em-popup.c:556
-#: ../ui/evolution-mail-message.xml.h:83
+#: ../ui/evolution-mail-message.xml.h:84
 msgid "Reply to _List"
 msgstr "Ateb i'r _Rhestr"
 
@@ -14265,7 +14264,7 @@ msgstr "Dilynol"
 msgid "For Your Information"
 msgstr "Er Gwybodaeth"
 
-#: ../mail/message-tag-followup.c:78 ../ui/evolution-mail-message.xml.h:41
+#: ../mail/message-tag-followup.c:78 ../ui/evolution-mail-message.xml.h:42
 msgid "Forward"
 msgstr "Ymlaen"
 
@@ -14273,11 +14272,11 @@ msgstr "Ymlaen"
 msgid "No Response Necessary"
 msgstr "Dim Ymateb Angenrheidiol"
 
-#: ../mail/message-tag-followup.c:81 ../ui/evolution-mail-message.xml.h:81
+#: ../mail/message-tag-followup.c:81 ../ui/evolution-mail-message.xml.h:82
 msgid "Reply"
 msgstr "Ateb"
 
-#: ../mail/message-tag-followup.c:82 ../ui/evolution-mail-message.xml.h:82
+#: ../mail/message-tag-followup.c:82 ../ui/evolution-mail-message.xml.h:83
 msgid "Reply to All"
 msgstr "Ateb i Bawb"
 
@@ -14358,7 +14357,8 @@ msgid "A plugin for backing up and restore Evolution data and settings."
 msgstr ""
 "Ategyn er mwyn creu copi wrth gefn, ac adfer data a gosodiadau Evolution."
 
-#: ../plugins/backup-restore/org-gnome-backup-restore.eplug.xml.h:2
+#. the path to the shared library
+#: ../plugins/backup-restore/org-gnome-backup-restore.eplug.xml.h:3
 msgid "Backup and restore plugin"
 msgstr "Ategyn er mwyn creu copi wrth gefn, ac adfer data"
 
@@ -15381,7 +15381,7 @@ msgid "Subscribe to my _notifications"
 msgstr "Tanysgrifio i'm _hysbysiadau"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:13
-#: ../ui/evolution-mail-message.xml.h:120
+#: ../ui/evolution-mail-message.xml.h:121
 msgid "_Read"
 msgstr "_Darllen"
 
@@ -16250,7 +16250,7 @@ msgstr "Rhoi'r opsiwn i argraffu e-bost o fewn y cyfansoddwr"
 
 #: ../plugins/print-message/org-gnome-print-message.xml.h:1
 #: ../ui/evolution-addressbook.xml.h:17 ../ui/evolution-calendar.xml.h:20
-#: ../ui/evolution-mail-message.xml.h:77 ../ui/evolution-tasks.xml.h:15
+#: ../ui/evolution-mail-message.xml.h:78 ../ui/evolution-tasks.xml.h:15
 msgid "Print Pre_view"
 msgstr "_Rhagolwg Argraffu"
 
@@ -16274,7 +16274,8 @@ msgstr "Dysgu am negeseuon sothach gan ddefnyddio spamd."
 msgid "A plugin for saving all attachments or parts of a message at once."
 msgstr "Ategyn i gadw pob atodiad neu ran o neges ar unwaith."
 
-#: ../plugins/save-attachments/org-gnome-save-attachments.eplug.xml.h:2
+#. the path to the shared library
+#: ../plugins/save-attachments/org-gnome-save-attachments.eplug.xml.h:3
 msgid "Save attachments"
 msgstr "Cadw atodiadau"
 
@@ -16296,7 +16297,6 @@ msgstr "Math MIME"
 
 #: ../plugins/save-attachments/save-attachments.c:359
 #: ../ui/evolution-message-composer.xml.h:18
-#: ../ui/evolution-signature-editor.xml.h:6
 msgid "Save"
 msgstr "Cadw"
 
@@ -16763,7 +16763,7 @@ msgstr "Cyfres Meddalwedd Grŵp"
 msgid "_Work Online"
 msgstr "_Gweithio Ar-lein"
 
-#: ../shell/e-shell-window-commands.c:787 ../ui/evolution.xml.h:47
+#: ../shell/e-shell-window-commands.c:787 ../ui/evolution.xml.h:50
 msgid "_Work Offline"
 msgstr "_Gweithio All-lein"
 
@@ -17709,7 +17709,7 @@ msgid "View the current contact"
 msgstr "Dangoswch y cyswllt cyfredol"
 
 #: ../ui/evolution-addressbook.xml.h:30 ../ui/evolution-calendar.xml.h:38
-#: ../ui/evolution-mail-list.xml.h:26 ../ui/evolution-tasks.xml.h:19
+#: ../ui/evolution-tasks.xml.h:19
 msgid "_Actions"
 msgstr "_Gweithredoedd"
 
@@ -17773,7 +17773,7 @@ msgstr "Rhestr"
 msgid "Month"
 msgstr "Mis"
 
-#: ../ui/evolution-calendar.xml.h:15 ../ui/evolution-mail-message.xml.h:59
+#: ../ui/evolution-calendar.xml.h:15 ../ui/evolution-mail-message.xml.h:60
 msgid "Next"
 msgstr "Nesaf"
 
@@ -17781,7 +17781,7 @@ msgstr "Nesaf"
 msgid "Previews the calendar to be printed"
 msgstr "Rhagolygu'r calendr i'w argraffu"
 
-#: ../ui/evolution-calendar.xml.h:18 ../ui/evolution-mail-message.xml.h:75
+#: ../ui/evolution-calendar.xml.h:18 ../ui/evolution-mail-message.xml.h:76
 msgid "Previous"
 msgstr "Blaenorol"
 
@@ -17901,7 +17901,7 @@ msgstr "Creu neu olygu rheolau ar gyfer hidlo e-bost newydd"
 msgid "Empty _Trash"
 msgstr "Gwagu'r Sbwriel"
 
-#: ../ui/evolution-mail-global.xml.h:8 ../ui/evolution-mail-list.xml.h:6
+#: ../ui/evolution-mail-global.xml.h:8 ../ui/evolution-mail-list.xml.h:7
 #: ../ui/evolution-subscribe.xml.h:2
 msgid "F_older"
 msgstr "_Plygell"
@@ -17911,17 +17911,14 @@ msgid "Message F_ilters"
 msgstr "_Hidlyddion Ebost"
 
 #: ../ui/evolution-mail-global.xml.h:10
-msgid "Message _List As"
-msgstr "Rhestri _Negeseuon Fel"
-
-#: ../ui/evolution-mail-global.xml.h:11
 msgid "Message _Preview"
 msgstr "_Rhagolwg Neges"
 
-#: ../ui/evolution-mail-global.xml.h:12
+#: ../ui/evolution-mail-global.xml.h:11
 msgid "Move the selected folder into another folder"
 msgstr "Symud y blygell a ddewiswyd i blygell arall"
 
+#. Alphabetical by name, yo
 #: ../ui/evolution-mail-global.xml.h:13
 msgid "Permanently remove all deleted messages from all folders"
 msgstr ""
@@ -17948,14 +17945,13 @@ msgid "_Move Folder To..."
 msgstr "_Symud Plygell i..."
 
 #: ../ui/evolution-mail-global.xml.h:19
-msgid "_New Search _Folder (FIXME)"
-msgstr "_Plygell Chwilio Newydd"
-
-#: ../ui/evolution-mail-global.xml.h:20
 msgid "_New..."
 msgstr "_Newydd..."
 
-#: ../ui/evolution-mail-global.xml.h:21
+#.
+#. <menuitem name="CreateVFolder" verb="CreateVFolder" _label="_New Search _Folder (FIXME)"/>
+#.
+#: ../ui/evolution-mail-global.xml.h:23
 msgid "_Subscriptions"
 msgstr "_Tanysgrifiadau"
 
@@ -17967,101 +17963,102 @@ msgstr "Newid enw'r blygell"
 msgid "Change the properties of this folder"
 msgstr "Newid priodweddau'r blygell"
 
-#: ../ui/evolution-mail-list.xml.h:3 ../ui/evolution-mail-message.xml.h:12
+#: ../ui/evolution-mail-list.xml.h:3 ../ui/evolution-mail-message.xml.h:13
 msgid "Copy selected message(s) to the clipboard"
 msgstr "Copïo'r neges/negeseuon a ddewiswyd i'r clipfwrdd"
 
-#: ../ui/evolution-mail-list.xml.h:4 ../ui/evolution-mail-message.xml.h:23
+#. Alphabetical by name, yo
+#: ../ui/evolution-mail-list.xml.h:5 ../ui/evolution-mail-message.xml.h:24
 msgid "Cut selected message(s) to the clipboard"
 msgstr "Torri'r neges/negeseuon a ddewiswyd i'r clipfwrdd"
 
-#: ../ui/evolution-mail-list.xml.h:5
+#: ../ui/evolution-mail-list.xml.h:6
 msgid "E_xpunge"
 msgstr "_Glanhau"
 
-#: ../ui/evolution-mail-list.xml.h:7
+#: ../ui/evolution-mail-list.xml.h:8
 msgid "Group By _Threads"
 msgstr "Grwpio mewn _Edafedd"
 
-#: ../ui/evolution-mail-list.xml.h:8
+#: ../ui/evolution-mail-list.xml.h:9
 msgid "Hide S_elected Messages"
 msgstr "Cuddio Negeseuon _Ddewiswyd"
 
-#: ../ui/evolution-mail-list.xml.h:9
+#: ../ui/evolution-mail-list.xml.h:10
 msgid "Hide _Deleted Messages"
 msgstr "Cuddio Negeseuon _Ddilëwyd"
 
-#: ../ui/evolution-mail-list.xml.h:10
+#: ../ui/evolution-mail-list.xml.h:11
 msgid "Hide _Read Messages"
 msgstr "Cuddio Negeseuon _Ddarllenwyd"
 
-#: ../ui/evolution-mail-list.xml.h:11
+#: ../ui/evolution-mail-list.xml.h:12
 msgid ""
 "Hide deleted messages rather than displaying them with a line through them"
 msgstr ""
 "Cuddio negeseuon wedi'u dileu yn hytrach na'u dangos gyda llinell drwyddynt"
 
-#: ../ui/evolution-mail-list.xml.h:12
+#: ../ui/evolution-mail-list.xml.h:13
 msgid "Mark Me_ssages as Read"
 msgstr "_Marcio negeseuon fel rhai wedi eu darllen"
 
-#: ../ui/evolution-mail-list.xml.h:13 ../ui/evolution-mail-message.xml.h:68
+#: ../ui/evolution-mail-list.xml.h:14 ../ui/evolution-mail-message.xml.h:69
 msgid "Paste message(s) from the clipboard"
 msgstr "Gludo neges/negeseuon o'r clipfwrdd"
 
-#: ../ui/evolution-mail-list.xml.h:14
+#: ../ui/evolution-mail-list.xml.h:15
 msgid "Permanently remove all deleted messages from this folder"
 msgstr ""
 "Tynnu'n barhaol o'r blygell hon bob neges sydd wedi marcio fel un wedi'i "
 "ddileu"
 
-#: ../ui/evolution-mail-list.xml.h:15
+#: ../ui/evolution-mail-list.xml.h:16
 msgid "Permanently remove this folder"
 msgstr "Dileu'r blygell hon yn barhaol"
 
-#: ../ui/evolution-mail-list.xml.h:16
+#: ../ui/evolution-mail-list.xml.h:17
 msgid "Select Message _Thread"
 msgstr "Pob _Trywydd Neges"
 
-#: ../ui/evolution-mail-list.xml.h:17
+#: ../ui/evolution-mail-list.xml.h:18
 msgid "Select _All Messages"
 msgstr "Dewis _Bob Neges"
 
-#: ../ui/evolution-mail-list.xml.h:18
+#: ../ui/evolution-mail-list.xml.h:19
 msgid "Select all and only the messages that are not currently selected"
 msgstr ""
 "Dewis pob un o'r negeseuon, a dim ond y negeseuon, nad ydynt wedi'u dewis ar "
 "hyn o bryd"
 
-#: ../ui/evolution-mail-list.xml.h:19
+#: ../ui/evolution-mail-list.xml.h:20
 msgid "Select all messages in the same thread as the selected message"
 msgstr "Dewis pob neges o fewn yr un trywydd â'r neges a ddewiswyd"
 
-#: ../ui/evolution-mail-list.xml.h:20
+#: ../ui/evolution-mail-list.xml.h:21
 msgid "Select all visible messages"
 msgstr "Dewis bob neges weladwy"
 
-#: ../ui/evolution-mail-list.xml.h:21
+#: ../ui/evolution-mail-list.xml.h:22
 msgid "Sh_ow Hidden Messages"
 msgstr "_Dangos Negeseuon Cudd"
 
-#: ../ui/evolution-mail-list.xml.h:22
+#: ../ui/evolution-mail-list.xml.h:23
 msgid "Show messages that have been temporarily hidden"
 msgstr "Dangos negeseuon sydd wedi eu cuddio dros dro"
 
-#: ../ui/evolution-mail-list.xml.h:23
+#: ../ui/evolution-mail-list.xml.h:24
 msgid "Temporarily hide all messages that have already been read"
 msgstr "Cuddio dros dro pob neges sydd eisoes wedi'i darllen"
 
-#: ../ui/evolution-mail-list.xml.h:24
+#: ../ui/evolution-mail-list.xml.h:25
 msgid "Temporarily hide the selected messages"
 msgstr "Cuddio dros dro'r negeseuon a ddewiswyd"
 
-#: ../ui/evolution-mail-list.xml.h:25
+#: ../ui/evolution-mail-list.xml.h:26
 msgid "Threaded Message list"
 msgstr "Rhestr Drywyddau Neges"
 
-#: ../ui/evolution-mail-list.xml.h:28 ../ui/evolution-mail-message.xml.h:112
+#: ../ui/evolution-mail-list.xml.h:28 ../ui/evolution-mail-message.xml.h:113
 #: ../ui/evolution-mail-messagedisplay.xml.h:7
 msgid "_Message"
 msgstr "_Neges"
@@ -18074,410 +18071,416 @@ msgstr "Ychwanegu'r Danfonwr at y Llyfr Cyfeiriadau"
 msgid "A_pply Filters"
 msgstr "_Defnyddio Hidlyddion"
 
-#: ../ui/evolution-mail-message.xml.h:3
+#. Alphabetical by name, yo
+#: ../ui/evolution-mail-message.xml.h:4
 msgid "Add Sender to Address Book"
 msgstr "Ychwanegu'r Danfonwr at y Llyfr Cyfeiriadau"
 
-#: ../ui/evolution-mail-message.xml.h:4
+#: ../ui/evolution-mail-message.xml.h:5
 msgid "All Message _Headers"
 msgstr "Pob _Pennawd Neges"
 
-#: ../ui/evolution-mail-message.xml.h:5
+#: ../ui/evolution-mail-message.xml.h:6
 msgid "Apply filter rules to the selected messages"
 msgstr "Defnyddio rheolau hidlydd ar y negeseuon a ddewiswyd"
 
-#: ../ui/evolution-mail-message.xml.h:6
+#: ../ui/evolution-mail-message.xml.h:7
 msgid "Check for _Junk"
 msgstr "Gwirio am _Sothach"
 
-#: ../ui/evolution-mail-message.xml.h:7
+#: ../ui/evolution-mail-message.xml.h:8
 msgid "Compose _New Message"
 msgstr "Cyfansoddi Neges _Newydd"
 
-#: ../ui/evolution-mail-message.xml.h:8
+#: ../ui/evolution-mail-message.xml.h:9
 msgid "Compose a reply to all of the recipients of the selected message"
 msgstr "Cyfansoddi ateb at bob un o dderbynwyr y neges a ddewiswyd"
 
-#: ../ui/evolution-mail-message.xml.h:9
+#: ../ui/evolution-mail-message.xml.h:10
 msgid "Compose a reply to the mailing list of the selected message"
 msgstr "Cyfansoddi ateb at restr e-bostio'r neges a ddewiswyd"
 
-#: ../ui/evolution-mail-message.xml.h:10
+#: ../ui/evolution-mail-message.xml.h:11
 msgid "Compose a reply to the sender of the selected message"
 msgstr "Cyfansoddi ateb at anfonwr y neges a ddewiswyd"
 
-#: ../ui/evolution-mail-message.xml.h:13
+#: ../ui/evolution-mail-message.xml.h:14
 msgid "Copy selected messages to another folder"
 msgstr "Copïo'r negeseuon a ddewiswyd i blygell arall"
 
-#: ../ui/evolution-mail-message.xml.h:14
+#: ../ui/evolution-mail-message.xml.h:15
 msgid "Create R_ule"
 msgstr "Creu _Rheol"
 
-#: ../ui/evolution-mail-message.xml.h:15
+#: ../ui/evolution-mail-message.xml.h:16
 msgid "Create a Search Folder for these recipients"
 msgstr "Creu Plygell Chwilio ar gyfer y derbynwyr yma"
 
-#: ../ui/evolution-mail-message.xml.h:16
+#: ../ui/evolution-mail-message.xml.h:17
 msgid "Create a Search Folder for this mailing list"
 msgstr "Creu Plygell Chwilio ar gyfer y rhestr e-bostio"
 
-#: ../ui/evolution-mail-message.xml.h:17
+#: ../ui/evolution-mail-message.xml.h:18
 msgid "Create a Search Folder for this sender"
 msgstr "Creu Plygell Chwilio ar gyfer yr danfonwr yma"
 
-#: ../ui/evolution-mail-message.xml.h:18
+#: ../ui/evolution-mail-message.xml.h:19
 msgid "Create a Search Folder for this subject"
 msgstr "Creu Plygell Chwilio ar gyfer y pwnc yma"
 
-#: ../ui/evolution-mail-message.xml.h:19
+#: ../ui/evolution-mail-message.xml.h:20
 msgid "Create a rule to filter messages from this sender"
 msgstr "Creu rheol er mwyn hidlo negeseuon oddi wrth yr anfonwr yma"
 
-#: ../ui/evolution-mail-message.xml.h:20
+#: ../ui/evolution-mail-message.xml.h:21
 msgid "Create a rule to filter messages to these recipients"
 msgstr "Creu rheol er mwyn hidlo negeseuon at y derbynwyr yma"
 
-#: ../ui/evolution-mail-message.xml.h:21
+#: ../ui/evolution-mail-message.xml.h:22
 msgid "Create a rule to filter messages to this mailing list"
 msgstr "Creu rheol er mwyn hidlo negeseuon at y rhestr e-bost hon"
 
-#: ../ui/evolution-mail-message.xml.h:22
+#: ../ui/evolution-mail-message.xml.h:23
 msgid "Create a rule to filter messages with this subject"
 msgstr "Creu rheol er mwyn hidlo negeseuon gyda'r pwnc hwn"
 
-#: ../ui/evolution-mail-message.xml.h:24
+#: ../ui/evolution-mail-message.xml.h:25
 msgid "Decrease the text size"
 msgstr "Lleihau maint testun"
 
-#: ../ui/evolution-mail-message.xml.h:26
+#: ../ui/evolution-mail-message.xml.h:27
 msgid "Display the next important message"
 msgstr "Dangos y neges bwysig nesaf"
 
-#: ../ui/evolution-mail-message.xml.h:27
+#: ../ui/evolution-mail-message.xml.h:28
 msgid "Display the next message"
 msgstr "Dangos y neges nesaf"
 
-#: ../ui/evolution-mail-message.xml.h:28
+#: ../ui/evolution-mail-message.xml.h:29
 msgid "Display the next unread message"
 msgstr "Dangos y neges nesaf sydd heb ei darllen"
 
-#: ../ui/evolution-mail-message.xml.h:29
+#: ../ui/evolution-mail-message.xml.h:30
 msgid "Display the next unread thread"
 msgstr "Dangos y trywydd nesaf sydd heb ei ddarllen"
 
-#: ../ui/evolution-mail-message.xml.h:30
+#: ../ui/evolution-mail-message.xml.h:31
 msgid "Display the previous important message"
 msgstr "Dangos y neges bwysig flaenorol"
 
-#: ../ui/evolution-mail-message.xml.h:31
+#: ../ui/evolution-mail-message.xml.h:32
 msgid "Display the previous message"
 msgstr "Dangos y neges flaenorol"
 
-#: ../ui/evolution-mail-message.xml.h:32
+#: ../ui/evolution-mail-message.xml.h:33
 msgid "Display the previous unread message"
 msgstr "Dangos y neges flaenorol sydd heb ei darllen"
 
-#: ../ui/evolution-mail-message.xml.h:33
+#: ../ui/evolution-mail-message.xml.h:34
 msgid "Filter on Mailing _List..."
 msgstr "Hidlo ar sail _Rhestr E-bostio..."
 
-#: ../ui/evolution-mail-message.xml.h:34
+#: ../ui/evolution-mail-message.xml.h:35
 msgid "Filter on Se_nder..."
 msgstr "Hidlo ar sail D_anfonwr..."
 
-#: ../ui/evolution-mail-message.xml.h:35
+#: ../ui/evolution-mail-message.xml.h:36
 msgid "Filter on _Recipients..."
 msgstr "Hidlo ar sail _Derbynwyr..."
 
-#: ../ui/evolution-mail-message.xml.h:36
+#: ../ui/evolution-mail-message.xml.h:37
 msgid "Filter on _Subject..."
 msgstr "Hidlo ar sail _Pwnc..."
 
-#: ../ui/evolution-mail-message.xml.h:37
+#: ../ui/evolution-mail-message.xml.h:38
 msgid "Filter the selected messages for junk status"
 msgstr "Hidlo'r negeseuon a ddewiswyd am statws sothach"
 
-#: ../ui/evolution-mail-message.xml.h:38
+#: ../ui/evolution-mail-message.xml.h:39
 msgid "Flag selected message(s) for follow-up"
 msgstr "Marcio neges(euon) ddewiswyd er mwyn eu dilyn i fyny"
 
-#: ../ui/evolution-mail-message.xml.h:39
+#: ../ui/evolution-mail-message.xml.h:40
 msgid "Follow _Up..."
 msgstr "Dilyn i _fyny..."
 
-#: ../ui/evolution-mail-message.xml.h:40
+#: ../ui/evolution-mail-message.xml.h:41
 msgid "Force images in HTML mail to be loaded"
 msgstr "Gorfodi i ddelweddau mewn e-bost HTML gael eu llwytho"
 
-#: ../ui/evolution-mail-message.xml.h:42
+#: ../ui/evolution-mail-message.xml.h:43
 msgid "Forward the selected message in the body of a new message"
 msgstr "Gyrru'r neges ddewisedig ymlaen yng nghorff neges newydd"
 
-#: ../ui/evolution-mail-message.xml.h:43
+#: ../ui/evolution-mail-message.xml.h:44
 msgid "Forward the selected message quoted like a reply"
 msgstr "Gyrru'r neges sydd wedi ei dewis ymlaen, wedi'i dyfynnu fel ymateb"
 
-#: ../ui/evolution-mail-message.xml.h:44
+#: ../ui/evolution-mail-message.xml.h:45
 msgid "Forward the selected message to someone"
 msgstr "Anfon y neges ddewisedig at rywun"
 
-#: ../ui/evolution-mail-message.xml.h:45
+#: ../ui/evolution-mail-message.xml.h:46
 msgid "Forward the selected message to someone as an attachment"
 msgstr "Gyrru'r neges sydd wedi ei dewis ymlaen at rywun fel atodiad"
 
-#: ../ui/evolution-mail-message.xml.h:46
+#: ../ui/evolution-mail-message.xml.h:47
 msgid "Increase the text size"
 msgstr "Cynyddu maint testun"
 
-#: ../ui/evolution-mail-message.xml.h:48
+#: ../ui/evolution-mail-message.xml.h:49
 msgid "Mar_k as"
 msgstr "_Marcio fel"
 
-#: ../ui/evolution-mail-message.xml.h:49
+#: ../ui/evolution-mail-message.xml.h:50
 msgid "Mark the selected message(s) as having been read"
 msgstr "Marcio'r neges(euon) ddewiswyd fel rhai wedi'u darllen"
 
-#: ../ui/evolution-mail-message.xml.h:50
+#: ../ui/evolution-mail-message.xml.h:51
 msgid "Mark the selected message(s) as important"
 msgstr "Marcio neges/negeseuon dewisedig yn rai pwysig"
 
-#: ../ui/evolution-mail-message.xml.h:51
+#: ../ui/evolution-mail-message.xml.h:52
 msgid "Mark the selected message(s) as junk"
 msgstr "Marcio neges/negeseuon dewisedig yn sothach"
 
-#: ../ui/evolution-mail-message.xml.h:52
+#: ../ui/evolution-mail-message.xml.h:53
 msgid "Mark the selected message(s) as not being junk"
 msgstr "Marcio'r neges(euon) ddewiswyd fel rhai sydd ddim yn sothach"
 
-#: ../ui/evolution-mail-message.xml.h:53
+#: ../ui/evolution-mail-message.xml.h:54
 msgid "Mark the selected message(s) as not having been read"
 msgstr "Marcio'r neges(euon) ddewiswyd fel rhai heb eu darllen"
 
-#: ../ui/evolution-mail-message.xml.h:54
+#: ../ui/evolution-mail-message.xml.h:55
 msgid "Mark the selected message(s) as unimportant"
 msgstr "Marcio neges/negeseuon dewisedig yn rai ddim yn bwysig"
 
-#: ../ui/evolution-mail-message.xml.h:55
+#: ../ui/evolution-mail-message.xml.h:56
 msgid "Mark the selected messages for deletion"
 msgstr "Marcio'r neges(euon) ddewiswyd ar gyfer eu dileu"
 
-#: ../ui/evolution-mail-message.xml.h:56
+#: ../ui/evolution-mail-message.xml.h:57
 msgid "Message Source"
 msgstr "Ffynhonnell Neges"
 
-#: ../ui/evolution-mail-message.xml.h:57
+#: ../ui/evolution-mail-message.xml.h:58
 msgid "Move"
 msgstr "Symud"
 
-#: ../ui/evolution-mail-message.xml.h:58
+#: ../ui/evolution-mail-message.xml.h:59
 msgid "Move selected message(s) to another folder"
 msgstr "Symud y neges(euon) ddewiswyd i blygell arall"
 
-#: ../ui/evolution-mail-message.xml.h:60
+#: ../ui/evolution-mail-message.xml.h:61
 msgid "Next _Important Message"
 msgstr "Neges _Pwysig Nesaf"
 
-#: ../ui/evolution-mail-message.xml.h:61
+#: ../ui/evolution-mail-message.xml.h:62
 msgid "Next _Thread"
 msgstr "_Trywydd Nesaf"
 
-#: ../ui/evolution-mail-message.xml.h:62
+#: ../ui/evolution-mail-message.xml.h:63
 msgid "Next _Unread Message"
 msgstr "Neges Nesaf _heb ei Darllen"
 
-#: ../ui/evolution-mail-message.xml.h:63
+#: ../ui/evolution-mail-message.xml.h:64
 msgid "Not Junk"
 msgstr "Ddim yn Sothach"
 
-#: ../ui/evolution-mail-message.xml.h:64
+#: ../ui/evolution-mail-message.xml.h:65
 msgid "Open a window for composing a mail message"
 msgstr "Agor ffenestr er mwyn cyfansoddi neges e-bost"
 
-#: ../ui/evolution-mail-message.xml.h:65
+#: ../ui/evolution-mail-message.xml.h:66
 msgid "Open the selected message in a new window"
 msgstr "Agor y neges ddewisedig mewn ffenestr newydd"
 
-#: ../ui/evolution-mail-message.xml.h:66
+#: ../ui/evolution-mail-message.xml.h:67
 msgid "Open the selected message in the composer for editing"
 msgstr "Agor y neges a ddewiswyd yn y cyfansoddwr er mwyn golygu"
 
-#: ../ui/evolution-mail-message.xml.h:67
+#: ../ui/evolution-mail-message.xml.h:68
 msgid "P_revious Unread Message"
 msgstr "Neges Flaenorol Heb ei _Darllen"
 
-#: ../ui/evolution-mail-message.xml.h:69
+#: ../ui/evolution-mail-message.xml.h:70
 msgid "Pos_t New Message to Folder"
 msgstr "Postio Neges _Newydd i'r Blygell"
 
-#: ../ui/evolution-mail-message.xml.h:70
+#: ../ui/evolution-mail-message.xml.h:71
 msgid "Post a Repl_y"
 msgstr "Postio _Ymateb"
 
-#: ../ui/evolution-mail-message.xml.h:71
+#: ../ui/evolution-mail-message.xml.h:72
 msgid "Post a message to a Public folder"
 msgstr "Postio neges i blygell Gyhoeddus"
 
-#: ../ui/evolution-mail-message.xml.h:72
+#: ../ui/evolution-mail-message.xml.h:73
 msgid "Post a reply to a message in a Public folder"
 msgstr "Postio ymateb i neges mewn plygell Cyhoeddus"
 
-#: ../ui/evolution-mail-message.xml.h:73
+#: ../ui/evolution-mail-message.xml.h:74
 msgid "Pr_evious Important Message"
 msgstr "Neges Bwysig _Flaenorol"
 
-#: ../ui/evolution-mail-message.xml.h:74
+#: ../ui/evolution-mail-message.xml.h:75
 msgid "Preview the message to be printed"
 msgstr "Dangos rhagolwg y neges i'w phrintio"
 
-#: ../ui/evolution-mail-message.xml.h:78
+#: ../ui/evolution-mail-message.xml.h:79
 msgid "Print this message"
 msgstr "Argraffu'r neges hon"
 
-#: ../ui/evolution-mail-message.xml.h:79
+#: ../ui/evolution-mail-message.xml.h:80
 msgid "Re_direct"
 msgstr "_Ailgyfeirio"
 
-#: ../ui/evolution-mail-message.xml.h:80
+#: ../ui/evolution-mail-message.xml.h:81
 msgid "Redirect (bounce) the selected message to someone"
 msgstr "Dargyfeirio (bownsio) y neges a ddewiswyd at rywun"
 
-#: ../ui/evolution-mail-message.xml.h:84
+#: ../ui/evolution-mail-message.xml.h:85
 msgid "Reset the text to its original size"
 msgstr "Adfer y testun i'w faint gwreiddiol"
 
-#: ../ui/evolution-mail-message.xml.h:85
+#: ../ui/evolution-mail-message.xml.h:86
 msgid "Save the message as a text file"
 msgstr "Cadw'r neges fel ffeil destun"
 
-#: ../ui/evolution-mail-message.xml.h:86
+#: ../ui/evolution-mail-message.xml.h:87
 msgid "Search Folder from Mailing _List..."
 msgstr "Plygell Chwilio ar sail _Rhestr E-bostio..."
 
-#: ../ui/evolution-mail-message.xml.h:87
+#: ../ui/evolution-mail-message.xml.h:88
 msgid "Search Folder from Recipients..."
 msgstr "Plygell Chwilio ar sail _Derbynwyr..."
 
-#: ../ui/evolution-mail-message.xml.h:88
+#: ../ui/evolution-mail-message.xml.h:89
 msgid "Search Folder from S_ubject..."
 msgstr "Plygell Chwilio ar sail _Pwnc..."
 
-#: ../ui/evolution-mail-message.xml.h:89
+#: ../ui/evolution-mail-message.xml.h:90
 msgid "Search Folder from Sen_der..."
 msgstr "Plygell Chwilio ar sail _Danfonwr..."
 
-#: ../ui/evolution-mail-message.xml.h:90
+#: ../ui/evolution-mail-message.xml.h:91
 msgid "Search for text in the body of the displayed message"
 msgstr "Chwilio am destun yng nghorff y neges a ddangosir"
 
-#: ../ui/evolution-mail-message.xml.h:91
+#: ../ui/evolution-mail-message.xml.h:92
 msgid "Select _All Text"
 msgstr "Dewis yr _holl destun"
 
-#: ../ui/evolution-mail-message.xml.h:92
+#: ../ui/evolution-mail-message.xml.h:93
 msgid "Select all the text in a message"
 msgstr "Dewis yr holl destun o fewn y neges"
 
-#: ../ui/evolution-mail-message.xml.h:93
+#: ../ui/evolution-mail-message.xml.h:94
 msgid "Set up the page settings for your current printer"
 msgstr "Gosod y dewisiadau tudalen i fyny ar gyfer eich argraffydd presennol"
 
-#: ../ui/evolution-mail-message.xml.h:94
+#: ../ui/evolution-mail-message.xml.h:95
 msgid "Show a blinking cursor in the body of displayed messages"
 msgstr ""
 "Dangos cyrchwr sy'n chwincian yng nghorff y negeseuon sy'n cael eu dangos"
 
-#: ../ui/evolution-mail-message.xml.h:95
+#: ../ui/evolution-mail-message.xml.h:96
 msgid "Show message in the normal style"
 msgstr "Dangos neges yn yr arddull normal"
 
-#: ../ui/evolution-mail-message.xml.h:96
+#: ../ui/evolution-mail-message.xml.h:97
 msgid "Show message with all email headers"
 msgstr "Dangos neges gyda phob pennawd e-bost"
 
-#: ../ui/evolution-mail-message.xml.h:97
+#: ../ui/evolution-mail-message.xml.h:98
 msgid "Show the raw email source of the message"
 msgstr "Dangos ffynhonnell graidd o e-bost y neges"
 
-#: ../ui/evolution-mail-message.xml.h:98
+#: ../ui/evolution-mail-message.xml.h:99
 msgid "Un-delete the selected messages"
 msgstr "Dad-ddileu'r negeseuon a ddewiswyd"
 
-#: ../ui/evolution-mail-message.xml.h:99
+#: ../ui/evolution-mail-message.xml.h:100
 msgid "Uni_mportant"
 msgstr "_Ddim yn Bwysig"
 
-#: ../ui/evolution-mail-message.xml.h:100
+#: ../ui/evolution-mail-message.xml.h:101
 msgid "Zoom _Out"
 msgstr "_Crebachu"
 
-#: ../ui/evolution-mail-message.xml.h:101
+#: ../ui/evolution-mail-message.xml.h:102
 msgid "_Caret Mode"
 msgstr "Modd _Caret"
 
-#: ../ui/evolution-mail-message.xml.h:104
+#: ../ui/evolution-mail-message.xml.h:105
 msgid "_Delete Message"
 msgstr "_Dileu Neges"
 
-#: ../ui/evolution-mail-message.xml.h:106
+#: ../ui/evolution-mail-message.xml.h:107
 msgid "_Find in Message..."
 msgstr "_Canfod o fewn y Neges..."
 
-#: ../ui/evolution-mail-message.xml.h:108
+#: ../ui/evolution-mail-message.xml.h:109
 msgid "_Go To"
 msgstr "_Mynd I"
 
-#: ../ui/evolution-mail-message.xml.h:109
+#: ../ui/evolution-mail-message.xml.h:110
 msgid "_Important"
 msgstr "_Pwysig"
 
-#: ../ui/evolution-mail-message.xml.h:110
+#: ../ui/evolution-mail-message.xml.h:111
 msgid "_Junk"
 msgstr "_Sothach"
 
-#: ../ui/evolution-mail-message.xml.h:111
+#: ../ui/evolution-mail-message.xml.h:112
 msgid "_Load Images"
 msgstr "Llwytho _Delweddau"
 
-#: ../ui/evolution-mail-message.xml.h:114
+#: ../ui/evolution-mail-message.xml.h:115
 msgid "_Next Message"
 msgstr "Neges _Nesaf"
 
-#: ../ui/evolution-mail-message.xml.h:115
+#: ../ui/evolution-mail-message.xml.h:116
 msgid "_Normal Size"
 msgstr "Maint _Arferol"
 
-#: ../ui/evolution-mail-message.xml.h:116
+#: ../ui/evolution-mail-message.xml.h:117
 msgid "_Not Junk"
 msgstr "_Ddim yn Sothach"
 
-#: ../ui/evolution-mail-message.xml.h:117
+#: ../ui/evolution-mail-message.xml.h:118
 msgid "_Open in New Window"
 msgstr "Agor mewn Ffenestr _Newydd"
 
-#: ../ui/evolution-mail-message.xml.h:118
+#: ../ui/evolution-mail-message.xml.h:119
 msgid "_Previous Message"
 msgstr "_Neges Cynt"
 
-#: ../ui/evolution-mail-message.xml.h:122
+#: ../ui/evolution-mail-message.xml.h:123
 msgid "_Save Message..."
 msgstr "_Cadw Neges..."
 
-#: ../ui/evolution-mail-message.xml.h:123
+#: ../ui/evolution-mail-message.xml.h:124
 msgid "_Undelete Message"
 msgstr "_Dad-ddileu Neges"
 
-#: ../ui/evolution-mail-message.xml.h:124
+#: ../ui/evolution-mail-message.xml.h:125
 msgid "_Unread"
 msgstr "_Heb Ddarllen"
 
-#: ../ui/evolution-mail-message.xml.h:125
+#: ../ui/evolution-mail-message.xml.h:126
 msgid "_Zoom In"
 msgstr "_Chwyddo"
 
+#.
+#. <cmd name="FileSave" _label="Save"
+#. _tip="Save the current file" pixtype="stock" pixname="Save"
+#. accel="*Ctrl*s"/>
+#.
 #: ../ui/evolution-mail-messagedisplay.xml.h:1
 #: ../ui/evolution-message-composer.xml.h:4
-#: ../ui/evolution-signature-editor.xml.h:2
+#: ../ui/evolution-signature-editor.xml.h:7
 msgid "Close"
 msgstr "Cau"
 
@@ -18485,7 +18488,7 @@ msgstr "Cau"
 msgid "Close this window"
 msgstr "_Cau'r ffenestr hon"
 
-#: ../ui/evolution-mail-messagedisplay.xml.h:3 ../ui/evolution.xml.h:17
+#: ../ui/evolution-mail-messagedisplay.xml.h:3 ../ui/evolution.xml.h:16
 msgid "Main toolbar"
 msgstr "Bar offer"
 
@@ -18496,8 +18499,8 @@ msgstr "_Cau"
 
 #: ../ui/evolution-mail-messagedisplay.xml.h:6
 #: ../ui/evolution-message-composer.xml.h:45
-#: ../ui/evolution-signature-editor.xml.h:13
-#: ../ui/evolution-subscribe.xml.h:11 ../ui/evolution.xml.h:33
+#: ../ui/evolution-signature-editor.xml.h:24
+#: ../ui/evolution-subscribe.xml.h:11 ../ui/evolution.xml.h:36
 msgid "_File"
 msgstr "_Ffeil"
 
@@ -18513,8 +18516,13 @@ msgstr "Atodi Ffeil"
 msgid "Check to get delivery notification when your message is read"
 msgstr "Ticiwch i gael hysbysiad pan fo'ch neges yn cael ei darllen"
 
+#.
+#. <cmd name="FileSave" _label="Save"
+#. _tip="Save the current file" pixtype="stock" pixname="Save"
+#. accel="*Ctrl*s"/>
+#.
 #: ../ui/evolution-message-composer.xml.h:5
-#: ../ui/evolution-signature-editor.xml.h:3
+#: ../ui/evolution-signature-editor.xml.h:13
 msgid "Close the current file"
 msgstr "Cau'r ffeil cyfredol"
 
@@ -18531,7 +18539,7 @@ msgid "Encrypt this message with your S/MIME Encryption Certificate"
 msgstr "Amgryptio'r neges gyda'ch Tystysgrif Amgryptiad S/MIME"
 
 #: ../ui/evolution-message-composer.xml.h:9
-#: ../ui/evolution-signature-editor.xml.h:4
+#: ../ui/evolution-signature-editor.xml.h:14
 msgid "For_mat"
 msgstr "_Fformat"
 
@@ -18588,7 +18596,6 @@ msgid "Save in folder..."
 msgstr "Cadw mewn plygell..."
 
 #: ../ui/evolution-message-composer.xml.h:25
-#: ../ui/evolution-signature-editor.xml.h:9
 msgid "Save the current file"
 msgstr "Cadw'r ffeil cyfredol"
 
@@ -18601,7 +18608,7 @@ msgid "Save the message in a specified folder"
 msgstr "Cadw'r neges mewn plygell benodol"
 
 #: ../ui/evolution-message-composer.xml.h:29
-#: ../ui/evolution-signature-editor.xml.h:11
+#: ../ui/evolution-signature-editor.xml.h:22
 msgid "Send the mail in HTML format"
 msgstr "Anfon yr e-bost ar ffurf HTML"
 
@@ -18662,7 +18669,7 @@ msgid "_From Field"
 msgstr "Maes _Oddi wrth"
 
 #: ../ui/evolution-message-composer.xml.h:47
-#: ../ui/evolution-signature-editor.xml.h:14
+#: ../ui/evolution-signature-editor.xml.h:25
 msgid "_Insert"
 msgstr "_Mewnosod"
 
@@ -18690,19 +18697,22 @@ msgstr "Maes _I"
 msgid "C_lose"
 msgstr "_Cau"
 
-#: ../ui/evolution-signature-editor.xml.h:5
+#: ../ui/evolution-signature-editor.xml.h:15
 msgid "H_TML"
 msgstr "_HTML"
 
-#: ../ui/evolution-signature-editor.xml.h:7
+#: ../ui/evolution-signature-editor.xml.h:16
 msgid "Save and Close"
 msgstr "Cadw a Chau"
 
-#: ../ui/evolution-signature-editor.xml.h:8
+#.
+#. <menuitem name="FileSave" verb="" _label="_Save"/>
+#.
+#: ../ui/evolution-signature-editor.xml.h:20
 msgid "Save and _Close"
 msgstr "Cadw a _Chau"
 
-#: ../ui/evolution-signature-editor.xml.h:10
+#: ../ui/evolution-signature-editor.xml.h:21
 msgid "Save the current file and close the window"
 msgstr "Cadw'r ffeil cyfredol a chau'r ffenestr"
 
@@ -18813,136 +18823,136 @@ msgid "Display window buttons with text only"
 msgstr "Dangos botymau ffenestr gyda thestun yn unig"
 
 #: ../ui/evolution.xml.h:10
-msgid "Evolution _FAQ"
-msgstr "_Cwestiynau Ofynnir Amlaf am Evolution"
-
-#: ../ui/evolution.xml.h:11
 msgid "Exit the program"
 msgstr "Gadael y rhaglen"
 
-#: ../ui/evolution.xml.h:12
+#: ../ui/evolution.xml.h:11
 msgid "Forget _Passwords"
 msgstr "Anghofio _Cyfrineiriau"
 
-#: ../ui/evolution.xml.h:13
+#: ../ui/evolution.xml.h:12
 msgid "Forget remembered passwords so you will be prompted for them again"
 msgstr ""
 "Anghofio'r cyfrineiriau a gofiwyd, fel eich bod yn cael eich promptio "
 "amdanynt unwaith eto"
 
-#: ../ui/evolution.xml.h:14
+#: ../ui/evolution.xml.h:13
 msgid "Hide window buttons"
 msgstr "Cuddio botymau ffenestr"
 
-#: ../ui/evolution.xml.h:15
+#: ../ui/evolution.xml.h:14
 msgid "Icons _and text"
 msgstr "Eiconau _a thestun"
 
-#: ../ui/evolution.xml.h:16
+#: ../ui/evolution.xml.h:15
 msgid "Import data from other programs"
 msgstr "Mewnforio data o raglenni eraill"
 
-#: ../ui/evolution.xml.h:18
+#: ../ui/evolution.xml.h:17
 msgid "New _Window"
 msgstr "_Ffenestr Newydd"
 
-#: ../ui/evolution.xml.h:19
+#: ../ui/evolution.xml.h:18
 msgid "Prefere_nces"
 msgstr "H_offterau"
 
-#: ../ui/evolution.xml.h:20
+#: ../ui/evolution.xml.h:19
 msgid "Send / Receive"
 msgstr "Anfon / Derbyn"
 
-#: ../ui/evolution.xml.h:21
+#: ../ui/evolution.xml.h:20
 msgid "Send queued items and retrieve new items"
 msgstr "Anfon yr eitemau sydd yn y ciw, a galw am eitemau newydd"
 
-#: ../ui/evolution.xml.h:22
+#: ../ui/evolution.xml.h:21
 msgid "Set up Pilot configuration"
 msgstr "Gosod cyfluniad _Peilot"
 
-#: ../ui/evolution.xml.h:23
+#: ../ui/evolution.xml.h:22
 msgid "Show information about Evolution"
 msgstr "Dangos gwybodaeth ynghylch Evolution"
 
-#: ../ui/evolution.xml.h:24
+#: ../ui/evolution.xml.h:23
 msgid "Submit Bug Report"
 msgstr "Anfon Adroddiad Nam"
 
-#: ../ui/evolution.xml.h:25
+#. <menuitem name="HelpFAQ" verb=""
+#. _label="Evolution _FAQ"/>
+#.
+#. <separator/>
+#: ../ui/evolution.xml.h:28
 msgid "Submit _Bug Report"
 msgstr "Anfon Adroddiad _Nam"
 
-#: ../ui/evolution.xml.h:26
+#: ../ui/evolution.xml.h:29
 msgid "Submit a bug report using Bug Buddy"
 msgstr "Cyflwyno adroddiad nam defnyddio Bug Buddy"
 
-#: ../ui/evolution.xml.h:27
+#: ../ui/evolution.xml.h:30
 msgid "Toggle whether we are working offline."
 msgstr "Toglu a ydyn ni'n gweithio all-lein."
 
-#: ../ui/evolution.xml.h:28
+#: ../ui/evolution.xml.h:31
 msgid "Tool_bar"
 msgstr "_Bar offer"
 
-#: ../ui/evolution.xml.h:29
+#: ../ui/evolution.xml.h:32
 msgid "Tool_bar style"
 msgstr "_Arddull bar offer"
 
-#: ../ui/evolution.xml.h:30
+#: ../ui/evolution.xml.h:33
 msgid "_About Evolution..."
 msgstr "_Ynghylch Evolution..."
 
-#: ../ui/evolution.xml.h:31
+#: ../ui/evolution.xml.h:34
 msgid "_Close Window"
 msgstr "_Cau Ffenestr"
 
-#: ../ui/evolution.xml.h:34
+#: ../ui/evolution.xml.h:37
 msgid "_Help"
 msgstr "_Cymorth"
 
-#: ../ui/evolution.xml.h:35
+#: ../ui/evolution.xml.h:38
 msgid "_Hide buttons"
 msgstr "_Cuddio botymau"
 
-#: ../ui/evolution.xml.h:36
+#: ../ui/evolution.xml.h:39
 msgid "_Icons only"
 msgstr "_Eiconau'n unig"
 
-#: ../ui/evolution.xml.h:37
+#: ../ui/evolution.xml.h:40
 msgid "_Import..."
 msgstr "_Mewnforio..."
 
-#: ../ui/evolution.xml.h:38
+#: ../ui/evolution.xml.h:41
 msgid "_New"
 msgstr "_Newydd"
 
-#: ../ui/evolution.xml.h:39
+#: ../ui/evolution.xml.h:42
 msgid "_Quick Reference"
 msgstr "Cyfeiriad _Cyflym"
 
-#: ../ui/evolution.xml.h:40
+#: ../ui/evolution.xml.h:43
 msgid "_Quit"
 msgstr "_Gadael"
 
-#: ../ui/evolution.xml.h:41
+#: ../ui/evolution.xml.h:44
 msgid "_Send / Receive"
 msgstr "_Anfon / Derbyn"
 
-#: ../ui/evolution.xml.h:42
+#: ../ui/evolution.xml.h:45
 msgid "_Switcher Appearance"
 msgstr "_Ymddangosiad y Newidydd"
 
-#: ../ui/evolution.xml.h:43
+#: ../ui/evolution.xml.h:46
 msgid "_Synchronization Options..."
 msgstr "_Opsiynau Cysoni..."
 
-#: ../ui/evolution.xml.h:44
+#: ../ui/evolution.xml.h:47
 msgid "_Text only"
 msgstr "_Testun yn unig"
 
-#: ../ui/evolution.xml.h:46
+#: ../ui/evolution.xml.h:49
 msgid "_Window"
 msgstr "_Ffenestr"
 
@@ -20187,750 +20197,3 @@ msgstr "Cyd-destun IM"
 #: ../widgets/text/e-text.c:3683 ../widgets/text/e-text.c:3684
 msgid "Handle Popup"
 msgstr "Deliwr Naidlen"
-
-#~ msgid "Mo_ve to Folder..."
-#~ msgstr "_Symud i Blygell..."
-
-#~ msgid "Unknown error verifying signed messaage"
-#~ msgstr "Gwall anhysbys wrth wirio neges wedi'i llofnodi"
-
-#~ msgid "Unknown error decrypting messaage"
-#~ msgstr "Gwall anhysbys wrth ddadgryptio neges"
-
-#~ msgid "FIll stipple"
-#~ msgstr "Llenwi dotwaith"
-
-#~ msgid "vFolders"
-#~ msgstr "Rhith-blygellau"
-
-#~ msgid "Create _vFolder"
-#~ msgstr "Creu _Rhith-blygell"
-
-#~ msgid "v_Folders"
-#~ msgstr "_Rhith-blygellau"
-
-#~ msgid "vFolder source"
-#~ msgstr "Ffynhonnell Rhith-blygell"
-
-#~ msgid "Edit vFolder"
-#~ msgstr "Golygu Rhith-blygell"
-
-#~ msgid "New vFolder"
-#~ msgstr "Rhith-blygell Newydd"
-
-#~ msgid "Your server needs to be updated"
-#~ msgstr "Rhaid diweddaru'ch gweinydd"
-
-#~ msgid ""
-#~ "Are you sure you want\n"
-#~ "to delete this contact?"
-#~ msgstr ""
-#~ "Ydych chi'n siŵr eich bod\n"
-#~ "am ddileu'r cyswllt hwn?"
-
-#~ msgid "Save Appointment"
-#~ msgstr "Arbed yr Apwyntiad"
-
-#~ msgid ""
-#~ " Some features may not work correctly with your current server version "
-#~ msgstr ""
-#~ "Efallai na fydd rhai nodweddion yn gweithio'n gywir gyda'r fersiwn "
-#~ "gweinydd presennol"
-
-#~ msgid "Appointment Title"
-#~ msgstr "Enw'r Apwyntiad"
-
-#~ msgid "end-time"
-#~ msgstr "amser gorffen"
-
-#~ msgid "start-time"
-#~ msgstr "amser cychwyn"
-
-#~ msgid "Show _Attachment Bar (drop attachments here)"
-#~ msgstr "Dangos y _Bar Atodiadau (gollyngwch atodiadau fan hyn)"
-
-#~ msgid "Attachment Button: Press space key to toggle attachment bar"
-#~ msgstr "Botwm Atodiadau: Gwasgwch y bylchwr i doglu'r bar atodiadau"
-
-#~ msgid "Ad_vanced  send options"
-#~ msgstr "Opsiynau anfon _estynedig"
-
-#~ msgid "N"
-#~ msgstr "Gog"
-
-#~ msgid "S"
-#~ msgstr "De"
-
-#~ msgid "W"
-#~ msgstr "Gor"
-
-#~ msgid ""
-#~ "Evolution has found Gnome Calendar files.\n"
-#~ "Would you like to import them into Evolution?"
-#~ msgstr ""
-#~ "Mae Evolution wedi canfod ffeiliau Calendr Gnome.\n"
-#~ "Hoffech chi eu mewnforio i Evolution?"
-
-#~ msgid "<b>If</b>"
-#~ msgstr "<b>Os</b>"
-
-#~ msgid "port for starting user runned spamd"
-#~ msgstr "porth er mwyn rhedeg spamd wedi'i gychwyn gan y defnyddiwr"
-
-#~ msgid "spamd port"
-#~ msgstr "porth spamd"
-
-#~ msgid "Evolution Netscape Mail importer"
-#~ msgstr "Mewnforiwr Ebost Netscape i Evolution"
-
-#~ msgid "Evolution Outlook Express 4 importer"
-#~ msgstr "Mewnforiwr Outlook Express 4 i Evolution"
-
-#~ msgid "Evolution mbox importer"
-#~ msgstr "Mewnforiwr mbox Evolution"
-
-#~ msgid "MBox (mbox)"
-#~ msgstr "MBox (mbox)"
-
-#~ msgid "Outlook Express 4 (.mbx)"
-#~ msgstr "Outlook Express 4 (.mbx)"
-
-#~ msgid "Evolution is importing your old Elm mail"
-#~ msgstr "Mae Evolution yn mewnforio'ch hen ebost Elm"
-
-#~ msgid ""
-#~ "Evolution has found Elm mail files\n"
-#~ "Would you like to import them into Evolution?"
-#~ msgstr ""
-#~ "Mae Evolution wedi canfod ffeiliau e-bost Elm\n"
-#~ "Hoffech chi eu mewnforio i Evolution?"
-
-#~ msgid "Elm"
-#~ msgstr "Elm"
-
-#~ msgid "Evolution is importing your old Pine data"
-#~ msgstr "Mae Evolution yn mewnforio'ch hen ddata Pine"
-
-#~ msgid ""
-#~ "Evolution has found Pine mail files.\n"
-#~ "Would you like to import them into Evolution?"
-#~ msgstr ""
-#~ "Mae Evolution wedi canfod hen ffeiliau ebost Pine.\n"
-#~ "Hoffech chi eu mewnforio i Evolution?"
-
-#~ msgid "Pine"
-#~ msgstr "Pine"
-
-#~ msgid "_Host:"
-#~ msgstr "_Gwesteiwr:"
-
-#~ msgid "_Load images if sender is in address book"
-#~ msgstr "_Llwytho delweddau os yw'r anfonwr yn y llyfr cyfeiriadau"
-
-#~ msgid "{1}."
-#~ msgstr "{1}."
-
-#~ msgid "Mark  as default folder"
-#~ msgstr "Marcio  yn blygell ragosodedig"
-
-#~ msgid "Out of office Message:"
-#~ msgstr "Neges Allan o'r Swyddfa"
-
-#~ msgid "<b>%s</b> requests the presence of %s at the following meeting:"
-#~ msgstr "Mae <b>%s</b> am i %s fod yn bresennol yn y cyfarfod canlynol:"
-
-#~ msgid "Manage Plugins..."
-#~ msgstr "Rheoli Ategion..."
-
-#~ msgid "%s%d/%s%d/%s%d %s%d:%s%d:%s%d"
-#~ msgstr "%s%d/%s%d/%s%d %s%d:%s%d:%s%d"
-
-#~ msgid ""
-#~ "Uid%sSummary%sDescription List%sCategories List%sComment List%sCompleted%"
-#~ "sCreated%sContact List%sStart%sEnd%sDue%sPercent Done%sPriority%sUrl%"
-#~ "sAttendees List%sLocation%sModified%s"
-#~ msgstr ""
-#~ "Uid%sCrynodeb%sRhestr Ddisgrifiadau%sRhestr Gategoriau%sRhestr Sylwadau%"
-#~ "sCwblhawyd%sCrëwyd%sRhestr Cysylltiadau%sCychwyn%sDiwedd%sAngen Erbyn%"
-#~ "sCanran Wedi'i Gwblhau%sBlaenoriaeth%sLau%sRhestr Mynychwyr%sLleoliad%"
-#~ "sNewidiwyd%s"
-
-#~ msgid "Invalid user"
-#~ msgstr "Defnyddiwr annilys"
-
-#~ msgid ""
-#~ "\n"
-#~ "You cannot share folder with specified user \"{0}\" \n"
-#~ msgstr ""
-#~ "\n"
-#~ "Fedrwch chi ddim rhannu plygell gyda'r defnyddiwr a ddewiswyd \"{0}\" \n"
-
-#~ msgid "Specify User"
-#~ msgstr "Penodwch Ddefnyddiwr"
-
-#~ msgid ""
-#~ "\n"
-#~ "\tYou have to specify a user name whom you want to add to the list \n"
-#~ msgstr ""
-#~ "\n"
-#~ "\tRhaid i chi benodi enw defnyddiwr yr ydych am ychwanegu at y rhestr \n"
-
-#~ msgid ""
-#~ "Importing %s\n"
-#~ "Importing item %d."
-#~ msgstr ""
-#~ "Mewnforio %s\n"
-#~ "Mewnforio eitem %d."
-
-#~ msgid "Select importer"
-#~ msgstr "Dewiswch fewnforiwr"
-
-#~ msgid "Importing"
-#~ msgstr "Mewnforio"
-
-#~ msgid "Importing %s.\n"
-#~ msgstr "Mewnforio %s.\n"
-
-#~ msgid "Error loading %s"
-#~ msgstr "Gwall wrth lwytho %s"
-
-#~ msgid ""
-#~ "Importing %s\n"
-#~ "Importing item 1."
-#~ msgstr ""
-#~ "Mewnforio %s\n"
-#~ "Mewnforio eitem 1."
-
-#~ msgid "Automatic"
-#~ msgstr "Awtomatig"
-
-#~ msgid ""
-#~ "Please wait...\n"
-#~ "Scanning for existing setups"
-#~ msgstr ""
-#~ "Arhoswch...\n"
-#~ "Yn chwilio am osodiadau sydd eisoes yn bodoli"
-
-#~ msgid "Starting Intelligent Importers"
-#~ msgstr "Dechrau Mewnforwyr Deallus"
-
-#~ msgid "No importer available for file %s"
-#~ msgstr "Dim mewnforiwr ar gael ar gyfer ffeil %s"
-
-#~ msgid "Unable to execute importer"
-#~ msgstr "Methu gweithredu mewnforiwr"
-
-#~ msgid "Closing connections..."
-#~ msgstr "Cau cysylltiadau..."
-
-#~ msgid "Don't import"
-#~ msgstr "Peidiwch â mewnforio"
-
-#~ msgid "Don't ask me again"
-#~ msgstr "Peidiwch â gofyn eto."
-
-#~ msgid "Evolution can import data from the following files:"
-#~ msgstr "Gall Evolution fewnforio data o'r ffeiliau canlynol:"
-
-#~ msgid "Disable the mono plugin environment."
-#~ msgstr "Analluogi amgylchedd ategyn mono."
-
-#~ msgid "Cannot start Evolution"
-#~ msgstr "Ni ellir cychwyn Evolution"
-
-#~ msgid "_Filters..."
-#~ msgstr "_Hidlyddion..."
-
-#~ msgid "vFolder _Editor..."
-#~ msgstr "_Golygydd Rhith-blygellau..."
-
-#~ msgid "Mark All as _Read"
-#~ msgstr "Marcio'r Cyfan wedi eu _Darllen"
-
-#~ msgid "_Folder"
-#~ msgstr "_Plygell"
-
-#~ msgid "_Threaded Message List"
-#~ msgstr "_Rhestr Negeseuon wedi Edafu"
-
-#~ msgid "Create _vFolder From Message"
-#~ msgstr "Creu _Rhith-blygell o'r Neges"
-
-#~ msgid "F_orward As..."
-#~ msgstr "_Ymlaen Fel..."
-
-#~ msgid "Filter _Junk"
-#~ msgstr "Hidlo _Sothach"
-
-#~ msgid "Mark as I_mportant"
-#~ msgstr "_Nodi yn Bwysig"
-
-#~ msgid "Mark as Unimp_ortant"
-#~ msgstr "Nodi _Ddim yn Bwysig"
-
-#~ msgid "S_earch in Message..."
-#~ msgstr "_Chwilio yn y Neges..."
-
-#~ msgid "S_maller"
-#~ msgstr "_Llai"
-
-#~ msgid "Show Email _Source"
-#~ msgstr "Dangos _Ffynhonnell Ebost"
-
-#~ msgid "Text Si_ze"
-#~ msgstr "Maint _Testun"
-
-#~ msgid "_Attached"
-#~ msgstr "Wedi _atodi"
-
-#~ msgid "_Create Filter From Message"
-#~ msgstr "_Creu Hidlydd o'r Neges"
-
-#~ msgid "_Inline"
-#~ msgstr "Yn _fewnol"
-
-#~ msgid "_Larger"
-#~ msgstr "_Mwy"
-
-#~ msgid "_Message Display"
-#~ msgstr "Dangosydd _Neges"
-
-#~ msgid "_Open Message"
-#~ msgstr "_Agor Neges"
-
-#~ msgid "_Tools"
-#~ msgstr "_Offer"
-
-#~ msgid "_Undelete"
-#~ msgstr "_Dad-ddileu"
-
-#~ msgid "Show / hide attachments"
-#~ msgstr "Dangos / cuddio atodiadau"
-
-#~ msgid "Show _attachments"
-#~ msgstr "Dangos _atodiadau"
-
-#~ msgid "Show attachments"
-#~ msgstr "Dangos atodiadau"
-
-#~ msgid "E_xit"
-#~ msgstr "_Gorffen"
-
-#~ msgid "Window B_uttons"
-#~ msgstr "_Botymau Ffenest"
-
-#~ msgid "_Advanced..."
-#~ msgstr "_Uwch..."
-
-#~ msgid ""
-#~ "None\n"
-#~ "Mail Receipt\n"
-#~ msgstr ""
-#~ "Dim\n"
-#~ "Derbyniad yr e-bost\n"
-
-#~ msgid "Starting import"
-#~ msgstr "Dechrau mewnforio"
-
-#~ msgid "Importing Files"
-#~ msgstr "Mewnforio Ffeiliau"
-
-#~ msgid "Timezone "
-#~ msgstr "Cylchfa amser"
-
-#~ msgid "have "
-#~ msgstr "cael "
-
-#~ msgid "has "
-#~ msgstr "gan "
-
-#~ msgid " cards"
-#~ msgstr " cardiau"
-
-#~ msgid " card"
-#~ msgstr " cerdyn"
-
-#~ msgid "contact's header: "
-#~ msgstr "penawdau’r cyswllt: "
-
-#~ msgid "Remove All"
-#~ msgstr "Tynnu Popeth"
-
-#~ msgid "View Contact List"
-#~ msgstr "Dangos Restr Cyswllt"
-
-#~ msgid "View Contact Info"
-#~ msgstr "Dangos Gwybodaeth Cyswllt"
-
-#~ msgid "Send HTML Mail?"
-#~ msgstr "Anfon E-Bost HTML?"
-
-#~ msgid "Unnamed Contact"
-#~ msgstr "Cyswllt Heb Enw"
-
-#~ msgid "Select Contacts from Address Book"
-#~ msgstr "Dewis Cysylltion o'r Llyfr Cysylltion"
-
-#~ msgid "<b>Contacts</b>"
-#~ msgstr "<b>Cysylltion</b>"
-
-#~ msgid "<b>Show Contacts</b>"
-#~ msgstr "<b>Dangos Cysylltion</b>"
-
-#~ msgid "Address _Book:"
-#~ msgstr "_Llyfr Cysylltion"
-
-#~ msgid "C_ategory:"
-#~ msgstr "_Categori:"
-
-#~ msgid "_Find"
-#~ msgstr "_Chwilio"
-
-#~ msgid "_Search:"
-#~ msgstr "_Chwilio:"
-
-#~ msgid "Address:"
-#~ msgstr "Cyfeiriad:"
-
-#~ msgid "PO Box:"
-#~ msgstr "Blwch Post:"
-
-#~ msgid "State/Province:"
-#~ msgstr "Talaith/Rhanbarth:"
-
-#~ msgid "Title:"
-#~ msgstr "Teitl:"
-
-#~ msgid "Go to Folder..."
-#~ msgstr "Mynd at Blygell..."
-
-#~ msgid "Import..."
-#~ msgstr "Mewnforio..."
-
-#~ msgid "Address Book Sources..."
-#~ msgstr "Ffynhonellau Llyfr Cysylltion.."
-
-#~ msgid "Print Envelope"
-#~ msgstr "Argraffu Amlen"
-
-#~ msgid "Edit Contact Info"
-#~ msgstr "Golygu Gwybodaeth Gyswllt"
-
-#~ msgid "Evolution VCard importer"
-#~ msgstr "Mewnforwr VCard Evolution"
-
-#~ msgid "Impossible internal error."
-#~ msgstr "Gwall mewnol amhosib."
-
-#~ msgid "Unnamed List"
-#~ msgstr "Rhestr Ddienw"
-
-#~ msgid "Starting:"
-#~ msgstr "Yn dechrau:"
-
-#~ msgid "Ending:"
-#~ msgstr "Yn gorffen"
-
-#~ msgid "%A %d %B %Y"
-#~ msgstr "%A %d %B %Y"
-
-#~ msgid "backend_go_offline(): %s"
-#~ msgstr "backend_go_offline(): %s"
-
-#~ msgid "backend_go_online(): %s"
-#~ msgstr "backend_go_online(): %s"
-
-#~ msgid "open_client(): %s"
-#~ msgstr "open_client(): %s"
-
-#~ msgid "_Destination"
-#~ msgstr "_Cyrchfan"
-
-#~ msgid "Free/Busy Editor"
-#~ msgstr "Golygydd Rhydd/Prysur"
-
-#~ msgid "Print Setup"
-#~ msgstr "Ffurfweddiad Argraffu"
-
-#~ msgid "Cannot open message"
-#~ msgstr "Methu agor y neges"
-
-#~ msgid "Getting message %d of %d"
-#~ msgstr "nôl neges %d o %d"
-
-#~ msgid "Moving messages"
-#~ msgstr "Symud negeseuon"
-
-#~ msgid "Copying messages"
-#~ msgstr "Copïo negeseuon"
-
-#~ msgid ""
-#~ "Failed to GPG %s: %s\n"
-#~ "\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Methwyd GPG: %s: %s\n"
-#~ "\n"
-#~ "%s"
-
-#~ msgid "Failed to GPG %s: %s\n"
-#~ msgstr "Methwyd GPG %s: %s\n"
-
-#~ msgid "Failed to execute gpg: %s"
-#~ msgstr "Methu gweithredu gpg: %s"
-
-#~ msgid "Failed to execute gpg."
-#~ msgstr "Methu gweithredu gpg."
-
-#~ msgid "Could not open mail file %s: %s"
-#~ msgstr "Methu agor y ffeil ebost %s: %s"
-
-#~ msgid "(Unknown error)"
-#~ msgstr "(Gwall anhysbys)"
-
-#~ msgid "CRAM-MD5"
-#~ msgstr "CRAM-MD5"
-
-#~ msgid "DIGEST-MD5"
-#~ msgstr "DIGEST-MD5"
-
-#~ msgid "Kerberos 4"
-#~ msgstr "Kerberos 4"
-
-#~ msgid "NTLM / SPA"
-#~ msgstr "NTLM / SPA"
-
-#~ msgid "PLAIN"
-#~ msgstr "PLAIN"
-
-#~ msgid "Good signature"
-#~ msgstr "Llofnod da"
-
-#~ msgid "Bad signature"
-#~ msgstr "Llofnod gwael"
-
-#~ msgid "Processing error"
-#~ msgstr "Gwall prosesu"
-
-#~ msgid "Trash"
-#~ msgstr "Sbwriel"
-
-#~ msgid "Out of memory"
-#~ msgstr "Dim cof"
-
-#~ msgid "Check for new messages in all folders"
-#~ msgstr "Gwirio am negeseuon newydd ym mhob plygell"
-
-#~ msgid "Password"
-#~ msgstr "Cyfrinair"
-
-#~ msgid "This message is not currently available"
-#~ msgstr "Nid yw'r neges hon ar gael ar hyn o bryd"
-
-#~ msgid "Connection to Server"
-#~ msgstr "Cysylltiad at Weinydd"
-
-#~ msgid "Show only subscribed folders"
-#~ msgstr "Dangoswch blygellau tanysgrifiwyd iddynt yn unig"
-
-#~ msgid "Namespace"
-#~ msgstr "Gofod enwau"
-
-#~ msgid "IMAP"
-#~ msgstr "IMAP"
-
-#~ msgid "IMAP server %s"
-#~ msgstr "Gweinydd IMAP %s"
-
-#~ msgid "IMAP service for %s on %s"
-#~ msgstr "Gwasanaeth IMAP ar gyfer %s ar %s"
-
-#~ msgid "Connection cancelled"
-#~ msgstr "Diddymwyd y cysylltiad "
-
-#~ msgid ""
-#~ "Unable to authenticate to IMAP server.\n"
-#~ "%s\n"
-#~ "\n"
-#~ msgstr ""
-#~ "Methwyd dilysu at weinydd IMAP.\n"
-#~ "%s\n"
-#~ "\n"
-
-#~ msgid "IMAPv4rev1"
-#~ msgstr "IMAPv4rev1"
-
-#~ msgid "%sPlease enter the IMAP password for %s on host %s"
-#~ msgstr "%sRhowch y cyfrinair IMAP ar gyfer %s ar y gwesteiwr %s"
-
-#~ msgid "Cannot authenticate to IMAP server %s using %s"
-#~ msgstr "Ni ellir dilysu at weinydd IMAP %s gan ddefnyddio %s"
-
-#~ msgid "IMAP+"
-#~ msgstr "IMAP+"
-
-#~ msgid "~%s (%s)"
-#~ msgstr "~%s (%s)"
-
-#~ msgid "mailbox:%s (%s)"
-#~ msgstr "Blwch ebost:%s (%s)"
-
-#~ msgid "Could not open file: %s: %s"
-#~ msgstr "Methwyd agor y ffeil: %s: %s"
-
-#~ msgid "Unknown error: %s"
-#~ msgstr "Gwall anhysbys: %s"
-
-#~ msgid ""
-#~ "Could not open folder `%s':\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Methu agor plygell `%s':\n"
-#~ "%s"
-
-#~ msgid "User cancelled"
-#~ msgstr "Defnyddiwr diddymwyd"
-
-#~ msgid "USENET news"
-#~ msgstr "Newyddion USENET"
-
-#~ msgid "USENET News via %s"
-#~ msgstr "Newyddion USENET drwy %s"
-
-#~ msgid "No such folder: %s"
-#~ msgstr "Dim plygell o'r fath: %s"
-
-#~ msgid "Use cancel"
-#~ msgstr "Defnyddiwch ddiddymu"
-
-#~ msgid "Delete after %s day(s)"
-#~ msgstr "Dileu ar ôl %s dydd"
-
-#~ msgid "POP"
-#~ msgstr "POP"
-
-#~ msgid "No such folder `%s'."
-#~ msgstr "Dim plygell o'r fath '%s'."
-
-#~ msgid "Sendmail"
-#~ msgstr "Sendmail"
-
-#~ msgid "sendmail"
-#~ msgstr "sendmail"
-
-#~ msgid "SMTP"
-#~ msgstr "SMTP"
-
-#~ msgid "Command not implemented"
-#~ msgstr "Gorchymyn heb weithredu"
-
-#~ msgid "Command parameter not implemented"
-#~ msgstr "Paramedr gorchymyn heb weithredu"
-
-#~ msgid "Help message"
-#~ msgstr "Neges cymorth"
-
-#~ msgid "SMTP server %s"
-#~ msgstr "Gweinydd SMTP %s"
-
-#~ msgid "SMTP Greeting"
-#~ msgstr "Cyfarchiad SMTP"
-
-#~ msgid "Attach a file to the message"
-#~ msgstr "Atodi ffeil i'r neges"
-
-#~ msgid "_Remember this password"
-#~ msgstr "_Cofio'r cyfrinair yma"
-
-#~ msgid "incoming"
-#~ msgstr "dod i mewn"
-
-#~ msgid "Virtual _Folders"
-#~ msgstr "_Plygellau Rhithwir"
-
-#~ msgid "Receiving Mail"
-#~ msgstr "Yn Derbyn Post"
-
-#~ msgid "<span weight=\"bold\">Checking for New Mail</span>"
-#~ msgstr "<span weight=\"bold\">Edrych am Ebost Newydd</span>"
-
-#~ msgid "IMAPv4 "
-#~ msgstr "IMAPv4 "
-
-#~ msgid "Kerberos "
-#~ msgstr "Kerberos"
-
-#~ msgid "Qmail maildir "
-#~ msgstr "Maildir Qmail "
-
-#~ msgid "C_ompleted"
-#~ msgstr "_Gwblheuwyd"
-
-#~ msgid "Body or subject contains"
-#~ msgstr "Corff neu bwnc yn cynnwys"
-
-#~ msgid "Subject does not contain"
-#~ msgstr "Pwnc ddim yn cynnwys"
-
-#~ msgid "Close this item"
-#~ msgstr "Cau'r eitem hon"
-
-#~ msgid "Preview the printed item"
-#~ msgstr "Rhagolwg yr eitem argraffwyd"
-
-#~ msgid "Print this item"
-#~ msgstr "Argraffu eitem hon"
-
-#~ msgid "Save the item and close the dialog box"
-#~ msgstr "Cadw'r eitem a chau'r blwch ymgom"
-
-#~ msgid "Save this item to disk"
-#~ msgstr "Cadw'r eitem i ddisg"
-
-#~ msgid "Print En_velope..."
-#~ msgstr "_Argraffu Amlen..."
-
-#~ msgid "Save the contact and close the dialog box"
-#~ msgstr "Cadw'r cyswllt a chau'r blwch ymgom"
-
-#~ msgid "Send _Message to Contact..."
-#~ msgstr "Anfon _Neges i Gyswllt..."
-
-#~ msgid "Save the list and close the dialog box"
-#~ msgstr "Cadw'r rhestr a chau'r blwch ymgom"
-
-#~ msgid "Se_nd list to other..."
-#~ msgstr "Anfon rhestr i eraill..."
-
-#~ msgid "_Delete..."
-#~ msgstr "_Dileu..."
-
-#~ msgid "Cancel the meeting for this item"
-#~ msgstr "Diddymu'r cyfarfod am yr eitem hon"
-
-#~ msgid "Forward as i_Calendar"
-#~ msgstr "Blaenyrru fel i_Calendar"
-
-#~ msgid "Forward this item via email"
-#~ msgstr "Blaenyrru'r eitem drwy ebost"
-
-#~ msgid "Re_fresh Meeting"
-#~ msgstr "_Ailfywio Cyfarfod"
-
-#~ msgid "Schedule _Meeting"
-#~ msgstr "Trefnlen _Cyfarfod"
-
-#~ msgid "Schedule a meeting for this item"
-#~ msgstr "Trefnlen cyfarfod am yr eitem hon"
-
-#~ msgid "Assign this task to others"
-#~ msgstr "Neilltuo'r dasg i eraill"
-
-#~ msgid "Cancel Task"
-#~ msgstr "Diddymu Tasg"
-
-#~ msgid "Cancel this task"
-#~ msgstr "Diddymu'r Dasg"
-
-#~ msgid "Re_fresh Task"
-#~ msgstr "_Ailfywio Tasg"

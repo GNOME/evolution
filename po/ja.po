@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-08-31 09:57+0900\n"
+"POT-Creation-Date: 2005-09-11 17:30+0200\n"
 "PO-Revision-Date: 2005-08-31 09:50+0900\n"
 "Last-Translator: Takeshi AIHANA <aihana@gnome.gr.jp>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
@@ -4230,7 +4230,7 @@ msgid "Calendar and Tasks"
 msgstr "カレンダとタスク"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:2
-#: ../calendar/gui/calendar-component.c:1307
+#: ../calendar/gui/calendar-component.c:1309
 msgid "Calendars"
 msgstr "カレンダ"
 
@@ -4843,55 +4843,55 @@ msgstr "イベントと会議の作成に必要なカレンダ '%s' を開けま
 msgid "There is no calendar available for creating events and meetings"
 msgstr "イベントと会議の作成で利用可能なカレンダがありません"
 
-#: ../calendar/gui/calendar-component.c:1282
+#: ../calendar/gui/calendar-component.c:1284
 msgid "Calendar Source Selector"
 msgstr "カレンダの格納場所の選択"
 
-#: ../calendar/gui/calendar-component.c:1473
+#: ../calendar/gui/calendar-component.c:1475
 msgid "New appointment"
 msgstr "新しい予定"
 
-#: ../calendar/gui/calendar-component.c:1474
+#: ../calendar/gui/calendar-component.c:1476
 msgid "_Appointment"
 msgstr "予定(_A)"
 
-#: ../calendar/gui/calendar-component.c:1475
+#: ../calendar/gui/calendar-component.c:1477
 msgid "Create a new appointment"
 msgstr "新しい予定を作成します"
 
-#: ../calendar/gui/calendar-component.c:1481
+#: ../calendar/gui/calendar-component.c:1483
 msgid "New meeting"
 msgstr "新規の会議"
 
-#: ../calendar/gui/calendar-component.c:1482
+#: ../calendar/gui/calendar-component.c:1484
 msgid "M_eeting"
 msgstr "会議(_E)"
 
-#: ../calendar/gui/calendar-component.c:1483
+#: ../calendar/gui/calendar-component.c:1485
 msgid "Create a new meeting request"
 msgstr "新しい会議を召集します"
 
-#: ../calendar/gui/calendar-component.c:1489
+#: ../calendar/gui/calendar-component.c:1491
 msgid "New all day appointment"
 msgstr "新しい終日の予定"
 
-#: ../calendar/gui/calendar-component.c:1490
+#: ../calendar/gui/calendar-component.c:1492
 msgid "All Day A_ppointment"
 msgstr "終日の予定(_P)"
 
-#: ../calendar/gui/calendar-component.c:1491
+#: ../calendar/gui/calendar-component.c:1493
 msgid "Create a new all-day appointment"
 msgstr "新しい終日の予定を作成します"
 
-#: ../calendar/gui/calendar-component.c:1497
+#: ../calendar/gui/calendar-component.c:1499
 msgid "New calendar"
 msgstr "新しいカレンダ"
 
-#: ../calendar/gui/calendar-component.c:1498
+#: ../calendar/gui/calendar-component.c:1500
 msgid "Cale_ndar"
 msgstr "カレンダ(_N)"
 
-#: ../calendar/gui/calendar-component.c:1499
+#: ../calendar/gui/calendar-component.c:1501
 msgid "Create a new calendar"
 msgstr "新しいカレンダを作成します"
 

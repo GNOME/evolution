@@ -50,7 +50,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.gnome-2-8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-08-25 14:02+0000\n"
+"POT-Creation-Date: 2005-09-11 17:30+0200\n"
 "PO-Revision-Date: 2005-08-26 01:58+0200\n"
 "Last-Translator: Tino Meinen <a.t.meinen@chello.nl>\n"
 "Language-Team: Dutch <vertaling@vrijschrift.org>\n"
@@ -823,7 +823,7 @@ msgstr ""
 #: ../calendar/gui/calendar-component.c:537
 #: ../calendar/gui/tasks-component.c:441 ../mail/em-filter-i18n.h:11
 #: ../ui/evolution-addressbook.xml.h:8 ../ui/evolution-calendar.xml.h:5
-#: ../ui/evolution-mail-message.xml.h:25 ../ui/evolution-tasks.xml.h:6
+#: ../ui/evolution-mail-message.xml.h:26 ../ui/evolution-tasks.xml.h:6
 msgid "Delete"
 msgstr "Verwijderen"
 
@@ -868,7 +868,9 @@ msgstr "EFolderList XML voor de lijst met auto-aanvullen URI's."
 msgid ""
 "Position of the vertical pane, between the card and list views and the "
 "preview pane, in pixels."
-msgstr "Positie van het verticale paneel, tussen de kaart- en lijstweergave en het voorbeeldpaneel, in pixels."
+msgstr ""
+"Positie van het verticale paneel, tussen de kaart- en lijstweergave en het "
+"voorbeeldpaneel, in pixels."
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:5
 msgid "Show preview pane"
@@ -2909,7 +2911,7 @@ msgstr "Stuur bericht aan contacten"
 #: ../addressbook/gui/widgets/e-addressbook-view.c:942
 #: ../calendar/gui/calendar-commands.c:119 ../calendar/gui/print.c:2501
 #: ../ui/evolution-addressbook.xml.h:16 ../ui/evolution-calendar.xml.h:19
-#: ../ui/evolution-mail-message.xml.h:76 ../ui/evolution-tasks.xml.h:14
+#: ../ui/evolution-mail-message.xml.h:77 ../ui/evolution-tasks.xml.h:14
 msgid "Print"
 msgstr "Afdrukken"
 
@@ -2929,7 +2931,7 @@ msgstr "Knippen"
 #: ../addressbook/gui/widgets/e-addressbook-view.c:950
 #: ../calendar/gui/calendar-component.c:536
 #: ../calendar/gui/tasks-component.c:440 ../ui/evolution-addressbook.xml.h:2
-#: ../ui/evolution-mail-message.xml.h:11 ../ui/evolution-tasks.xml.h:2
+#: ../ui/evolution-mail-message.xml.h:12 ../ui/evolution-tasks.xml.h:2
 msgid "Copy"
 msgstr "Kopiëren"
 
@@ -4305,7 +4307,6 @@ msgstr ""
 
 #: ../calendar/calendar.error.xml.h:64
 #: ../ui/evolution-message-composer.xml.h:51
-#: ../ui/evolution-signature-editor.xml.h:15
 msgid "_Save"
 msgstr "Op_slaan"
 
@@ -4354,7 +4355,7 @@ msgid "Calendar and Tasks"
 msgstr "Agenda en Taken"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:2
-#: ../calendar/gui/calendar-component.c:1307
+#: ../calendar/gui/calendar-component.c:1309
 msgid "Calendars"
 msgstr "Agenda's"
 
@@ -4456,9 +4457,9 @@ msgstr "Sluimer_tijd:"
 #: ../ui/evolution-composer-entries.xml.h:8
 #: ../ui/evolution-mail-messagedisplay.xml.h:5
 #: ../ui/evolution-message-composer.xml.h:44
-#: ../ui/evolution-signature-editor.xml.h:12
+#: ../ui/evolution-signature-editor.xml.h:23
 #: ../ui/evolution-subscribe.xml.h:10 ../ui/evolution-tasks.xml.h:23
-#: ../ui/evolution.xml.h:32
+#: ../ui/evolution.xml.h:35
 msgid "_Edit"
 msgstr "Be_werken"
 
@@ -4997,56 +4998,56 @@ msgid "There is no calendar available for creating events and meetings"
 msgstr ""
 "Er is geen agenda beschikbaar voor het maken van notities en bijeenkomsten"
 
-#: ../calendar/gui/calendar-component.c:1282
+#: ../calendar/gui/calendar-component.c:1284
 msgid "Calendar Source Selector"
 msgstr "Agendabron-selectie"
 
-#: ../calendar/gui/calendar-component.c:1473
+#: ../calendar/gui/calendar-component.c:1475
 msgid "New appointment"
 msgstr "Nieuwe afspraak"
 
-#: ../calendar/gui/calendar-component.c:1474
+#: ../calendar/gui/calendar-component.c:1476
 msgid "_Appointment"
 msgstr "_Afspraak"
 
-#: ../calendar/gui/calendar-component.c:1475
+#: ../calendar/gui/calendar-component.c:1477
 msgid "Create a new appointment"
 msgstr "Maak een nieuwe afspraak"
 
-#: ../calendar/gui/calendar-component.c:1481
+#: ../calendar/gui/calendar-component.c:1483
 msgid "New meeting"
 msgstr "Nieuwe bijeenkomst"
 
 # Combinatietoets is Shift+Ctrl+E
-#: ../calendar/gui/calendar-component.c:1482
+#: ../calendar/gui/calendar-component.c:1484
 msgid "M_eeting"
 msgstr "Bij_eenkomst"
 
-#: ../calendar/gui/calendar-component.c:1483
+#: ../calendar/gui/calendar-component.c:1485
 msgid "Create a new meeting request"
 msgstr "Maak een nieuw bijeenkomstverzoek"
 
-#: ../calendar/gui/calendar-component.c:1489
+#: ../calendar/gui/calendar-component.c:1491
 msgid "New all day appointment"
 msgstr "Nieuwe dag-omvattende afspraak"
 
-#: ../calendar/gui/calendar-component.c:1490
+#: ../calendar/gui/calendar-component.c:1492
 msgid "All Day A_ppointment"
 msgstr "_Dag-omvattende afspraak"
 
-#: ../calendar/gui/calendar-component.c:1491
+#: ../calendar/gui/calendar-component.c:1493
 msgid "Create a new all-day appointment"
 msgstr "Maak een nieuwe dagomvattende afspraak"
 
-#: ../calendar/gui/calendar-component.c:1497
+#: ../calendar/gui/calendar-component.c:1499
 msgid "New calendar"
 msgstr "Nieuwe agenda"
 
-#: ../calendar/gui/calendar-component.c:1498
+#: ../calendar/gui/calendar-component.c:1500
 msgid "Cale_ndar"
 msgstr "A_genda"
 
-#: ../calendar/gui/calendar-component.c:1499
+#: ../calendar/gui/calendar-component.c:1501
 msgid "Create a new calendar"
 msgstr "Maak een nieuwe agenda aan"
 
@@ -5785,7 +5786,7 @@ msgstr[1] "%d bijgevoegd berichten"
 #: ../mail/em-folder-tree.c:974 ../mail/em-folder-view.c:1035
 #: ../mail/message-list.c:1708 ../ui/evolution-addressbook.xml.h:31
 #: ../ui/evolution-calendar.xml.h:39 ../ui/evolution-composer-entries.xml.h:7
-#: ../ui/evolution-mail-message.xml.h:102 ../ui/evolution-tasks.xml.h:21
+#: ../ui/evolution-mail-message.xml.h:103 ../ui/evolution-tasks.xml.h:21
 msgid "_Copy"
 msgstr "_Kopiëren"
 
@@ -6907,7 +6908,7 @@ msgstr "_Opslaan als..."
 #: ../calendar/gui/e-calendar-view.c:1530 ../mail/em-folder-view.c:1046
 #: ../plugins/print-message/org-gnome-print-message.xml.h:3
 #: ../ui/evolution-addressbook.xml.h:40 ../ui/evolution-calendar.xml.h:44
-#: ../ui/evolution-mail-message.xml.h:119 ../ui/evolution-tasks.xml.h:27
+#: ../ui/evolution-mail-message.xml.h:120 ../ui/evolution-tasks.xml.h:27
 msgid "_Print..."
 msgstr "Af_drukken..."
 
@@ -11054,7 +11055,7 @@ msgid "is not Flagged"
 msgstr "Is niet gemarkeerd"
 
 #: ../mail/em-filter-i18n.h:35 ../mail/mail-config.glade.h:93
-#: ../ui/evolution-mail-message.xml.h:47
+#: ../ui/evolution-mail-message.xml.h:48
 msgid "Junk"
 msgstr "Troep"
 
@@ -11172,7 +11173,7 @@ msgstr "begint met"
 msgid "Stop Processing"
 msgstr "Stop met Verwerken"
 
-#: ../mail/em-filter-i18n.h:65 ../mail/em-format-html.c:1557
+#: ../mail/em-filter-i18n.h:65 ../mail/em-format-html.c:1572
 #: ../mail/em-format-quote.c:313 ../mail/em-format.c:849
 #: ../mail/em-mailer-prefs.c:88 ../mail/message-list.etspec.h:13
 #: ../mail/message-tag-followup.c:330
@@ -11288,11 +11289,11 @@ msgstr "Berichten worden gekopieerd naar map %s"
 msgid "Cannot drop message(s) into toplevel store"
 msgstr "Kan bericht(en) niet neerzetten in hoogste niveau-opslag"
 
-#: ../mail/em-folder-tree.c:972 ../ui/evolution-mail-message.xml.h:103
+#: ../mail/em-folder-tree.c:972 ../ui/evolution-mail-message.xml.h:104
 msgid "_Copy to Folder"
 msgstr "_Kopiëren naar map"
 
-#: ../mail/em-folder-tree.c:973 ../ui/evolution-mail-message.xml.h:113
+#: ../mail/em-folder-tree.c:973 ../ui/evolution-mail-message.xml.h:114
 msgid "_Move to Folder"
 msgstr "_Verplaatsen naar map"
 
@@ -11303,9 +11304,9 @@ msgid "Scanning folders in \"%s\""
 msgstr "Mappen in \"%s\" worden doorzocht"
 
 #: ../mail/em-folder-tree.c:2031 ../ui/evolution-addressbook.xml.h:44
-#: ../ui/evolution-mail-global.xml.h:22
+#: ../ui/evolution-mail-global.xml.h:24
 #: ../ui/evolution-mail-messagedisplay.xml.h:8
-#: ../ui/evolution-message-composer.xml.h:54 ../ui/evolution.xml.h:45
+#: ../ui/evolution-message-composer.xml.h:54 ../ui/evolution.xml.h:48
 msgid "_View"
 msgstr "Beel_d"
 
@@ -11381,16 +11382,16 @@ msgstr "Geef aan waar de map moet komen:"
 msgid "Reply to _All"
 msgstr "_Allen beantwoorden"
 
-#: ../mail/em-folder-view.c:1040 ../ui/evolution-mail-message.xml.h:121
+#: ../mail/em-folder-view.c:1040 ../ui/evolution-mail-message.xml.h:122
 msgid "_Reply to Sender"
 msgstr "_Afzender beantwoorden"
 
 #: ../mail/em-folder-view.c:1041 ../mail/em-popup.c:548 ../mail/em-popup.c:559
-#: ../ui/evolution-mail-message.xml.h:107
+#: ../ui/evolution-mail-message.xml.h:108
 msgid "_Forward"
 msgstr "_Doorsturen"
 
-#: ../mail/em-folder-view.c:1044 ../ui/evolution-mail-message.xml.h:105
+#: ../mail/em-folder-view.c:1044 ../ui/evolution-mail-message.xml.h:106
 msgid "_Edit as New Message..."
 msgstr "Be_werken als nieuw bericht..."
 
@@ -11521,11 +11522,11 @@ msgid "Matches: %d"
 msgstr "Zoekresultaten: %d"
 
 # Niet ondertekend of positief getal?
-#: ../mail/em-format-html-display.c:697 ../mail/em-format-html.c:595
+#: ../mail/em-format-html-display.c:696 ../mail/em-format-html.c:597
 msgid "Unsigned"
 msgstr "Niet getekend"
 
-#: ../mail/em-format-html-display.c:697
+#: ../mail/em-format-html-display.c:696
 msgid ""
 "This message is not signed. There is no guarantee that this message is "
 "authentic."
@@ -11533,11 +11534,11 @@ msgstr ""
 "Dit bericht is niet ondertekend, Er kan niet worden aangetoond dat het "
 "authentiek is."
 
-#: ../mail/em-format-html-display.c:698 ../mail/em-format-html.c:596
+#: ../mail/em-format-html-display.c:697 ../mail/em-format-html.c:598
 msgid "Valid signature"
 msgstr "Geldige handtekening"
 
-#: ../mail/em-format-html-display.c:698
+#: ../mail/em-format-html-display.c:697
 msgid ""
 "This message is signed and is valid meaning that it is very likely that this "
 "message is authentic."
@@ -11545,11 +11546,11 @@ msgstr ""
 "Dit bericht is geldig en is ondertekend, de afzender van dit bericht is zeer "
 "waarschijnlijk degene die hij claimt te zijn."
 
-#: ../mail/em-format-html-display.c:699 ../mail/em-format-html.c:597
+#: ../mail/em-format-html-display.c:698 ../mail/em-format-html.c:599
 msgid "Invalid signature"
 msgstr "Ongeldige handtekening"
 
-#: ../mail/em-format-html-display.c:699
+#: ../mail/em-format-html-display.c:698
 msgid ""
 "The signature of this message cannot be verified, it may have been altered "
 "in transit."
@@ -11557,11 +11558,11 @@ msgstr ""
 "De handtekening van dit bericht kan niet worden geverifieerd, het is "
 "onderweg mogelijk gewijzigd."
 
-#: ../mail/em-format-html-display.c:700
+#: ../mail/em-format-html-display.c:699
 msgid "Valid signature, cannot verify sender"
 msgstr "Geldige handtekening, kan afzender niet verifiëren"
 
-#: ../mail/em-format-html-display.c:700
+#: ../mail/em-format-html-display.c:699
 msgid ""
 "This message is signed with a valid signature, but the sender of the message "
 "cannot be verified."
@@ -11569,11 +11570,11 @@ msgstr ""
 "Dit bericht is ondertekend met een geldige handtekening maar de afzender van "
 "het bericht kan niet worden geverifieerd."
 
-#: ../mail/em-format-html-display.c:706 ../mail/em-format-html.c:604
+#: ../mail/em-format-html-display.c:705 ../mail/em-format-html.c:606
 msgid "Unencrypted"
 msgstr "Niet versleuteld"
 
-#: ../mail/em-format-html-display.c:706
+#: ../mail/em-format-html-display.c:705
 msgid ""
 "This message is not encrypted.  Its content may be viewed in transit across "
 "the Internet."
@@ -11581,11 +11582,11 @@ msgstr ""
 "Dit bericht is niet versleuteld.  De inhoud kan mogelijk door anderen "
 "bekeken worden tijdens de weg die het over het internet aflegt."
 
-#: ../mail/em-format-html-display.c:707 ../mail/em-format-html.c:605
+#: ../mail/em-format-html-display.c:706 ../mail/em-format-html.c:607
 msgid "Encrypted, weak"
 msgstr "Versleuteld, zwak"
 
-#: ../mail/em-format-html-display.c:707
+#: ../mail/em-format-html-display.c:706
 msgid ""
 "This message is encrypted, but with a weak encryption algorithm.  It would "
 "be difficult, but not impossible for an outsider to view the content of this "
@@ -11595,11 +11596,11 @@ msgstr ""
 "moeilijk maar niet onmogelijk voor een buitenstaander om de inhoud van dit "
 "bericht te bekijken in een redelijke tijd."
 
-#: ../mail/em-format-html-display.c:708 ../mail/em-format-html.c:606
+#: ../mail/em-format-html-display.c:707 ../mail/em-format-html.c:608
 msgid "Encrypted"
 msgstr "Versleuteld"
 
-#: ../mail/em-format-html-display.c:708
+#: ../mail/em-format-html-display.c:707
 msgid ""
 "This message is encrypted.  It would be difficult for an outsider to view "
 "the content of this message."
@@ -11607,11 +11608,11 @@ msgstr ""
 "Dit bericht is versleuteld.  Het is moeilijk voor een buitenstaander om de "
 "inhoud van het bericht te bekijken."
 
-#: ../mail/em-format-html-display.c:709 ../mail/em-format-html.c:607
+#: ../mail/em-format-html-display.c:708 ../mail/em-format-html.c:609
 msgid "Encrypted, strong"
 msgstr "Versleuteld, sterk"
 
-#: ../mail/em-format-html-display.c:709
+#: ../mail/em-format-html-display.c:708
 msgid ""
 "This message is encrypted, with a strong encryption algorithm.  It would be "
 "very difficult for an outsider to view the content of this message in a "
@@ -11621,75 +11622,75 @@ msgstr ""
 "moelijklijk voor een buitenstaander ome de inhoud van het bericht te "
 "bekijken in een redelijke tijd."
 
-#: ../mail/em-format-html-display.c:810 ../smime/gui/smime-ui.glade.h:48
+#: ../mail/em-format-html-display.c:809 ../smime/gui/smime-ui.glade.h:48
 msgid "_View Certificate"
 msgstr "Certificaat _weergeven"
 
-#: ../mail/em-format-html-display.c:825
+#: ../mail/em-format-html-display.c:824
 msgid "This certificate is not viewable"
 msgstr "Dit certificaat is niet weer te geven"
 
-#: ../mail/em-format-html-display.c:1107
+#: ../mail/em-format-html-display.c:1106
 msgid "Completed on %B %d, %Y, %l:%M %p"
 msgstr "Afgerond op %B %d, %Y, %l:%M %p"
 
 # overtijd
-#: ../mail/em-format-html-display.c:1115
+#: ../mail/em-format-html-display.c:1114
 msgid "Overdue:"
 msgstr "Te laat:"
 
-#: ../mail/em-format-html-display.c:1118
+#: ../mail/em-format-html-display.c:1117
 msgid "by %B %d, %Y, %l:%M %p"
 msgstr "op %B %d, %Y, %l:%M %p"
 
-#: ../mail/em-format-html-display.c:1178
+#: ../mail/em-format-html-display.c:1177
 msgid "_View Inline"
 msgstr "In bericht weerge_ven"
 
-#: ../mail/em-format-html-display.c:1179
+#: ../mail/em-format-html-display.c:1178
 msgid "_Hide"
 msgstr "_Verbergen"
 
-#: ../mail/em-format-html-display.c:1180
+#: ../mail/em-format-html-display.c:1179
 msgid "_Fit to Width"
 msgstr "Op _breedte passend"
 
-#: ../mail/em-format-html-display.c:1181
+#: ../mail/em-format-html-display.c:1180
 msgid "Show _Original Size"
 msgstr "_Oorspronkelijke grootte"
 
-#: ../mail/em-format-html-display.c:1551
+#: ../mail/em-format-html-display.c:1550
 msgid "Attachment Button"
 msgstr "Bijlageknop"
 
 # in moeten worden opgeslagen / worden opgeslagen
-#: ../mail/em-format-html-display.c:1758
+#: ../mail/em-format-html-display.c:1757
 msgid "Select folder to save all attachments..."
 msgstr "Selecteer een map waarin de bijlagen moeten worden opgeslagen..."
 
-#: ../mail/em-format-html-display.c:1797
+#: ../mail/em-format-html-display.c:1796
 msgid "Select folder to save selected attachments..."
 msgstr ""
 "Selecteer een map waarin de geselecteerde bijlagen in moeten worden "
 "opgeslagen..."
 
-#: ../mail/em-format-html-display.c:1805
+#: ../mail/em-format-html-display.c:1804
 msgid "Save Selected..."
 msgstr "Selectie opslaan..."
 
 #. Cant i put in the number of attachments here ?
-#: ../mail/em-format-html-display.c:1872
+#: ../mail/em-format-html-display.c:1871
 #, c-format
 msgid "%d attachment"
 msgid_plural "%d attachments"
 msgstr[0] "%d bijlage"
 msgstr[1] "%d bijlagen"
 
-#: ../mail/em-format-html-display.c:1936
+#: ../mail/em-format-html-display.c:1935
 msgid "No Attachment"
 msgstr "Geen bijlage"
 
-#: ../mail/em-format-html-display.c:1939
+#: ../mail/em-format-html-display.c:1938
 msgid "Save All"
 msgstr "Alles opslaan"
 
@@ -11703,94 +11704,94 @@ msgstr "Pagina %d van %d"
 msgid "Retrieving `%s'"
 msgstr "Bezig met ophalen `%s'"
 
-#: ../mail/em-format-html.c:598
+#: ../mail/em-format-html.c:600
 msgid "Valid signature but cannot verify sender"
 msgstr "Geldige handtekening, kan afzender niet verifiëren"
 
-#: ../mail/em-format-html.c:855
+#: ../mail/em-format-html.c:870
 msgid "Malformed external-body part."
 msgstr "Misvormd extern-berichtgedeelte."
 
-#: ../mail/em-format-html.c:885
+#: ../mail/em-format-html.c:900
 #, c-format
 msgid "Pointer to FTP site (%s)"
 msgstr "Verwijzing naar FTP site (%s)"
 
-#: ../mail/em-format-html.c:896
+#: ../mail/em-format-html.c:911
 #, c-format
 msgid "Pointer to local file (%s) valid at site \"%s\""
 msgstr "Verwijzing naar lokaal bestand (%s) geldig bij site \"%s\""
 
-#: ../mail/em-format-html.c:898
+#: ../mail/em-format-html.c:913
 #, c-format
 msgid "Pointer to local file (%s)"
 msgstr "Verwijzing naar lokaal bestand (%s)"
 
-#: ../mail/em-format-html.c:919
+#: ../mail/em-format-html.c:934
 #, c-format
 msgid "Pointer to remote data (%s)"
 msgstr "Verwijzing naar externe gegevens (%s)"
 
-#: ../mail/em-format-html.c:930
+#: ../mail/em-format-html.c:945
 #, c-format
 msgid "Pointer to unknown external data (\"%s\" type)"
 msgstr "Verwijzing naar onbekende externe gegevens (\"%s\" type)"
 
-#: ../mail/em-format-html.c:1156
+#: ../mail/em-format-html.c:1171
 msgid "Formatting message"
 msgstr "Bezig met opmaken van bericht"
 
-#: ../mail/em-format-html.c:1449 ../mail/em-format-quote.c:200
+#: ../mail/em-format-html.c:1464 ../mail/em-format-quote.c:200
 #: ../mail/em-format.c:844 ../mail/em-mailer-prefs.c:83
 #: ../mail/message-list.etspec.h:7 ../mail/message-tag-followup.c:326
 msgid "From"
 msgstr "Van"
 
-#: ../mail/em-format-html.c:1449 ../mail/em-format-quote.c:200
+#: ../mail/em-format-html.c:1464 ../mail/em-format-quote.c:200
 #: ../mail/em-format.c:845 ../mail/em-mailer-prefs.c:84
 msgid "Reply-To"
 msgstr "Antwoordadres"
 
-#: ../mail/em-format-html.c:1449 ../mail/em-format-quote.c:200
+#: ../mail/em-format-html.c:1464 ../mail/em-format-quote.c:200
 #: ../mail/em-format.c:846 ../mail/em-mailer-prefs.c:85
 #: ../mail/message-list.etspec.h:14
 msgid "To"
 msgstr "Aan"
 
-#: ../mail/em-format-html.c:1449 ../mail/em-format-quote.c:200
+#: ../mail/em-format-html.c:1464 ../mail/em-format-quote.c:200
 #: ../mail/em-format.c:847 ../mail/em-mailer-prefs.c:86
 msgid "Cc"
 msgstr "Cc"
 
-#: ../mail/em-format-html.c:1449 ../mail/em-format-quote.c:200
+#: ../mail/em-format-html.c:1464 ../mail/em-format-quote.c:200
 #: ../mail/em-format.c:848 ../mail/em-mailer-prefs.c:87
 msgid "Bcc"
 msgstr "Bcc"
 
 #. pseudo-header
-#: ../mail/em-format-html.c:1561 ../mail/em-format-quote.c:322
+#: ../mail/em-format-html.c:1576 ../mail/em-format-quote.c:322
 #: ../mail/em-mailer-prefs.c:987
 msgid "Mailer"
 msgstr "E-mailprogramma"
 
 # a = afgekorte weeknaam, R = 24h tijd, Z is tijdzone
 #. translators: strftime format for local time equivalent in Date header display, with day
-#: ../mail/em-format-html.c:1588
+#: ../mail/em-format-html.c:1603
 msgid "<I> (%a, %R %Z)</I>"
 msgstr "<I> (%a, %R %Z)</I>"
 
 #. translators: strftime format for local time equivalent in Date header display, without day
-#: ../mail/em-format-html.c:1591
+#: ../mail/em-format-html.c:1606
 msgid "<I> (%R %Z)</I>"
 msgstr "<I> (%R %Z)</I>"
 
-#: ../mail/em-format-html.c:1601 ../mail/em-format-quote.c:329
+#: ../mail/em-format-html.c:1616 ../mail/em-format-quote.c:329
 #: ../mail/em-format.c:850 ../mail/em-mailer-prefs.c:89
 #: ../mail/message-list.etspec.h:2
 msgid "Date"
 msgstr "Datum"
 
-#: ../mail/em-format-html.c:1624 ../mail/em-format.c:851
+#: ../mail/em-format-html.c:1639 ../mail/em-format.c:851
 #: ../mail/em-mailer-prefs.c:90
 msgid "Newsgroups"
 msgstr "Nieuwsgroepen"
@@ -11919,7 +11920,7 @@ msgid "_Reply to sender"
 msgstr "_Afzender beantwoorden"
 
 #: ../mail/em-popup.c:545 ../mail/em-popup.c:556
-#: ../ui/evolution-mail-message.xml.h:83
+#: ../ui/evolution-mail-message.xml.h:84
 msgid "Reply to _List"
 msgstr "_Lijst beantwoorden"
 
@@ -14480,7 +14481,7 @@ msgstr "Vervolg"
 msgid "For Your Information"
 msgstr "Ter informatie"
 
-#: ../mail/message-tag-followup.c:78 ../ui/evolution-mail-message.xml.h:41
+#: ../mail/message-tag-followup.c:78 ../ui/evolution-mail-message.xml.h:42
 msgid "Forward"
 msgstr "Doorsturen"
 
@@ -14488,12 +14489,12 @@ msgstr "Doorsturen"
 msgid "No Response Necessary"
 msgstr "Geen antwoord nodig"
 
-#: ../mail/message-tag-followup.c:81 ../ui/evolution-mail-message.xml.h:81
+#: ../mail/message-tag-followup.c:81 ../ui/evolution-mail-message.xml.h:82
 msgid "Reply"
 msgstr "Beantwoorden"
 
 # allen is korter dan iedereen
-#: ../mail/message-tag-followup.c:82 ../ui/evolution-mail-message.xml.h:82
+#: ../mail/message-tag-followup.c:82 ../ui/evolution-mail-message.xml.h:83
 msgid "Reply to All"
 msgstr "Allen beantwoorden"
 
@@ -14575,7 +14576,8 @@ msgstr ""
 "Een plugin voor het maken van een backup, en het herstellen van, Evolution "
 "data en instellingen."
 
-#: ../plugins/backup-restore/org-gnome-backup-restore.eplug.xml.h:2
+#. the path to the shared library
+#: ../plugins/backup-restore/org-gnome-backup-restore.eplug.xml.h:3
 msgid "Backup and restore plugin"
 msgstr "Backup en herstellen plugin"
 
@@ -15033,20 +15035,20 @@ msgid "Exchange Folder Tree"
 msgstr "Exchange mappen-boom"
 
 # mapabonnement opzeggen
-#: ../plugins/exchange-operations/exchange-folder.c:57
-#: ../plugins/exchange-operations/exchange-folder.c:100
-#: ../plugins/exchange-operations/exchange-folder.c:110
+#: ../plugins/exchange-operations/exchange-folder.c:62
+#: ../plugins/exchange-operations/exchange-folder.c:223
+#: ../plugins/exchange-operations/exchange-folder.c:233
 msgid "Unsubscribe Folder..."
 msgstr "Abonnement op map opzeggen..."
 
-#: ../plugins/exchange-operations/exchange-folder.c:337
-#: ../plugins/exchange-operations/exchange-folder.c:397
+#: ../plugins/exchange-operations/exchange-folder.c:460
+#: ../plugins/exchange-operations/exchange-folder.c:520
 #, c-format
 msgid "Really unsubscribe from folder \"%s\"?"
 msgstr "Abonnement op map \"%s\" echt opzeggen?"
 
-#: ../plugins/exchange-operations/exchange-folder.c:349
-#: ../plugins/exchange-operations/exchange-folder.c:409
+#: ../plugins/exchange-operations/exchange-folder.c:472
+#: ../plugins/exchange-operations/exchange-folder.c:532
 #, c-format
 msgid "Unsubscribe from \"%s\""
 msgstr "Abonnement op map \"%s\" opzeggen"
@@ -15627,7 +15629,7 @@ msgid "Subscribe to my _notifications"
 msgstr "Abonneren op mijn aa_ndachtvestigingen"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:13
-#: ../ui/evolution-mail-message.xml.h:120
+#: ../ui/evolution-mail-message.xml.h:121
 msgid "_Read"
 msgstr "_Lezen"
 
@@ -16537,7 +16539,7 @@ msgstr "Biedt een optie om e-mail vanuit de opsteller af te drukken"
 
 #: ../plugins/print-message/org-gnome-print-message.xml.h:1
 #: ../ui/evolution-addressbook.xml.h:17 ../ui/evolution-calendar.xml.h:20
-#: ../ui/evolution-mail-message.xml.h:77 ../ui/evolution-tasks.xml.h:15
+#: ../ui/evolution-mail-message.xml.h:78 ../ui/evolution-tasks.xml.h:15
 msgid "Print Pre_view"
 msgstr "Afdruk_voorbeeld"
 
@@ -16564,7 +16566,8 @@ msgstr ""
 "een plugin voor het in één keer opslaan van alle bijlagen of delen van een "
 "bericht."
 
-#: ../plugins/save-attachments/org-gnome-save-attachments.eplug.xml.h:2
+#. the path to the shared library
+#: ../plugins/save-attachments/org-gnome-save-attachments.eplug.xml.h:3
 msgid "Save attachments"
 msgstr "Bijlagen opslaan"
 
@@ -16589,7 +16592,6 @@ msgstr "MIME-type"
 
 #: ../plugins/save-attachments/save-attachments.c:359
 #: ../ui/evolution-message-composer.xml.h:18
-#: ../ui/evolution-signature-editor.xml.h:6
 msgid "Save"
 msgstr "Opslaan"
 
@@ -17051,7 +17053,7 @@ msgstr "Bug-buddy kon niet worden gestart."
 #. The translator-credits string is for translators to list
 #. * per language credits for translation, displayed in the
 #. * about box
-#: ../shell/e-shell-window-commands.c:508
+#: ../shell/e-shell-window-commands.c:532
 msgid "translator-credits"
 msgstr ""
 "Arjan Scherpenisse\n"
@@ -17071,19 +17073,19 @@ msgstr ""
 "in de vertaling:\n"
 "http://nl.gnome.org"
 
-#: ../shell/e-shell-window-commands.c:522
+#: ../shell/e-shell-window-commands.c:546
 msgid "Groupware Suite"
 msgstr "Groupware suite"
 
-#: ../shell/e-shell-window-commands.c:750
+#: ../shell/e-shell-window-commands.c:774
 msgid "_Work Online"
 msgstr "Online _werken"
 
-#: ../shell/e-shell-window-commands.c:763 ../ui/evolution.xml.h:47
+#: ../shell/e-shell-window-commands.c:787 ../ui/evolution.xml.h:50
 msgid "_Work Offline"
 msgstr "_Offline werken"
 
-#: ../shell/e-shell-window-commands.c:776
+#: ../shell/e-shell-window-commands.c:800
 msgid "Work Offline"
 msgstr "Werken zonder netwerk"
 
@@ -18043,7 +18045,7 @@ msgid "View the current contact"
 msgstr "Huidige contact tonen"
 
 #: ../ui/evolution-addressbook.xml.h:30 ../ui/evolution-calendar.xml.h:38
-#: ../ui/evolution-mail-list.xml.h:26 ../ui/evolution-tasks.xml.h:19
+#: ../ui/evolution-tasks.xml.h:19
 msgid "_Actions"
 msgstr "_Acties"
 
@@ -18107,7 +18109,7 @@ msgstr "Lijst"
 msgid "Month"
 msgstr "Maand"
 
-#: ../ui/evolution-calendar.xml.h:15 ../ui/evolution-mail-message.xml.h:59
+#: ../ui/evolution-calendar.xml.h:15 ../ui/evolution-mail-message.xml.h:60
 msgid "Next"
 msgstr "Volgende"
 
@@ -18115,7 +18117,7 @@ msgstr "Volgende"
 msgid "Previews the calendar to be printed"
 msgstr "Geeft een afdrukvoorbeeld van de agenda"
 
-#: ../ui/evolution-calendar.xml.h:18 ../ui/evolution-mail-message.xml.h:75
+#: ../ui/evolution-calendar.xml.h:18 ../ui/evolution-mail-message.xml.h:76
 msgid "Previous"
 msgstr "Vorige"
 
@@ -18236,7 +18238,7 @@ msgid "Empty _Trash"
 msgstr "_Prullenbak legen"
 
 # meervoud is beter hier
-#: ../ui/evolution-mail-global.xml.h:8 ../ui/evolution-mail-list.xml.h:6
+#: ../ui/evolution-mail-global.xml.h:8 ../ui/evolution-mail-list.xml.h:7
 #: ../ui/evolution-subscribe.xml.h:2
 msgid "F_older"
 msgstr "_Mappen"
@@ -18245,20 +18247,16 @@ msgstr "_Mappen"
 msgid "Message F_ilters"
 msgstr "Berichten_filters"
 
-# gewoon 'berichten' beter? korter?
-#: ../ui/evolution-mail-global.xml.h:10
-msgid "Message _List As"
-msgstr "Berichtenlijst _als"
-
 # berichtenweergave/berichten weergeven/bericht weergeven
-#: ../ui/evolution-mail-global.xml.h:11
+#: ../ui/evolution-mail-global.xml.h:10
 msgid "Message _Preview"
 msgstr "Bericht_weergave"
 
-#: ../ui/evolution-mail-global.xml.h:12
+#: ../ui/evolution-mail-global.xml.h:11
 msgid "Move the selected folder into another folder"
 msgstr "Verplaats de geselecteerde map naar een andere map"
 
+#. Alphabetical by name, yo
 #: ../ui/evolution-mail-global.xml.h:13
 msgid "Permanently remove all deleted messages from all folders"
 msgstr "Alle verwijderde berichten definitief uit alle mappen verwijderen"
@@ -18284,16 +18282,14 @@ msgstr "Map _kopiëren naar..."
 msgid "_Move Folder To..."
 msgstr "Map _verplaatsen naar..."
 
-# dubbele sneltoets
 #: ../ui/evolution-mail-global.xml.h:19
-msgid "_New Search _Folder (FIXME)"
-msgstr "_Nieuwe zoekmap"
-
-#: ../ui/evolution-mail-global.xml.h:20
 msgid "_New..."
 msgstr "_Nieuw..."
 
-#: ../ui/evolution-mail-global.xml.h:21
+#.
+#. <menuitem name="CreateVFolder" verb="CreateVFolder" _label="_New Search _Folder (FIXME)"/>
+#.
+#: ../ui/evolution-mail-global.xml.h:23
 msgid "_Subscriptions"
 msgstr "_Abonnementen"
 
@@ -18305,101 +18301,102 @@ msgstr "De naam van deze map wijzigen"
 msgid "Change the properties of this folder"
 msgstr "De eigenschappen van deze map wijzigen"
 
-#: ../ui/evolution-mail-list.xml.h:3 ../ui/evolution-mail-message.xml.h:12
+#: ../ui/evolution-mail-list.xml.h:3 ../ui/evolution-mail-message.xml.h:13
 msgid "Copy selected message(s) to the clipboard"
 msgstr "Geselecteerde bericht(en) naar klembord kopiëren"
 
-#: ../ui/evolution-mail-list.xml.h:4 ../ui/evolution-mail-message.xml.h:23
+#. Alphabetical by name, yo
+#: ../ui/evolution-mail-list.xml.h:5 ../ui/evolution-mail-message.xml.h:24
 msgid "Cut selected message(s) to the clipboard"
 msgstr "Geselecteerde bericht(en) naar klembord knippen"
 
-#: ../ui/evolution-mail-list.xml.h:5
+#: ../ui/evolution-mail-list.xml.h:6
 msgid "E_xpunge"
 msgstr "Op_ruimen"
 
-#: ../ui/evolution-mail-list.xml.h:7
+#: ../ui/evolution-mail-list.xml.h:8
 msgid "Group By _Threads"
 msgstr "Groeperen op _discussielijnen"
 
-#: ../ui/evolution-mail-list.xml.h:8
+#: ../ui/evolution-mail-list.xml.h:9
 msgid "Hide S_elected Messages"
 msgstr "_Geselecteerde berichten verbergen"
 
-#: ../ui/evolution-mail-list.xml.h:9
+#: ../ui/evolution-mail-list.xml.h:10
 msgid "Hide _Deleted Messages"
 msgstr "_Verwijderde berichten verbergen"
 
-#: ../ui/evolution-mail-list.xml.h:10
+#: ../ui/evolution-mail-list.xml.h:11
 msgid "Hide _Read Messages"
 msgstr "Ge_lezen berichten verbergen"
 
-#: ../ui/evolution-mail-list.xml.h:11
+#: ../ui/evolution-mail-list.xml.h:12
 msgid ""
 "Hide deleted messages rather than displaying them with a line through them"
 msgstr ""
 "Weggegooide berichten verbergen in plaats van ze te laten zien met een "
 "streep erdoor"
 
-#: ../ui/evolution-mail-list.xml.h:12
+#: ../ui/evolution-mail-list.xml.h:13
 msgid "Mark Me_ssages as Read"
 msgstr "Berichten als _gelezen markeren"
 
-#: ../ui/evolution-mail-list.xml.h:13 ../ui/evolution-mail-message.xml.h:68
+#: ../ui/evolution-mail-list.xml.h:14 ../ui/evolution-mail-message.xml.h:69
 msgid "Paste message(s) from the clipboard"
 msgstr "Bericht(en) vanaf het klembord plakken"
 
 # Bug: kan dit beter? twee keer 'verwijderen'
-#: ../ui/evolution-mail-list.xml.h:14
+#: ../ui/evolution-mail-list.xml.h:15
 msgid "Permanently remove all deleted messages from this folder"
 msgstr "Alle verwijderde berichten definitief uit deze map verwijderen"
 
-#: ../ui/evolution-mail-list.xml.h:15
+#: ../ui/evolution-mail-list.xml.h:16
 msgid "Permanently remove this folder"
 msgstr "Deze map definitief verwijderen"
 
-#: ../ui/evolution-mail-list.xml.h:16
+#: ../ui/evolution-mail-list.xml.h:17
 msgid "Select Message _Thread"
 msgstr "_Discussie selecteren"
 
-#: ../ui/evolution-mail-list.xml.h:17
+#: ../ui/evolution-mail-list.xml.h:18
 msgid "Select _All Messages"
 msgstr "_Alle berichten selecteren"
 
-#: ../ui/evolution-mail-list.xml.h:18
+#: ../ui/evolution-mail-list.xml.h:19
 msgid "Select all and only the messages that are not currently selected"
 msgstr "Selecteer alle en alleen de berichten die nu niet zijn geselecteerd"
 
-#: ../ui/evolution-mail-list.xml.h:19
+#: ../ui/evolution-mail-list.xml.h:20
 msgid "Select all messages in the same thread as the selected message"
 msgstr ""
 "Selecteer alle berichten in dezelfde discussie als het geselecteerde bericht"
 
-#: ../ui/evolution-mail-list.xml.h:20
+#: ../ui/evolution-mail-list.xml.h:21
 msgid "Select all visible messages"
 msgstr "Selecteer alle zichtbare berichten"
 
-#: ../ui/evolution-mail-list.xml.h:21
+#: ../ui/evolution-mail-list.xml.h:22
 msgid "Sh_ow Hidden Messages"
 msgstr "Verborgen berichten weergeven"
 
-#: ../ui/evolution-mail-list.xml.h:22
+#: ../ui/evolution-mail-list.xml.h:23
 msgid "Show messages that have been temporarily hidden"
 msgstr "Laat berichten zien de tijdelijk zijn verborgen"
 
-#: ../ui/evolution-mail-list.xml.h:23
+#: ../ui/evolution-mail-list.xml.h:24
 msgid "Temporarily hide all messages that have already been read"
 msgstr "Verberg tijdelijk alle berichten die al zijn gelezen"
 
-#: ../ui/evolution-mail-list.xml.h:24
+#: ../ui/evolution-mail-list.xml.h:25
 msgid "Temporarily hide the selected messages"
 msgstr "Verberg tijdelijk de geselecteerde berichten"
 
-#: ../ui/evolution-mail-list.xml.h:25
+#: ../ui/evolution-mail-list.xml.h:26
 msgid "Threaded Message list"
 msgstr "Discussies tonen"
 
 # meervoud is beter hier
-#: ../ui/evolution-mail-list.xml.h:28 ../ui/evolution-mail-message.xml.h:112
+#: ../ui/evolution-mail-list.xml.h:28 ../ui/evolution-mail-message.xml.h:113
 #: ../ui/evolution-mail-messagedisplay.xml.h:7
 msgid "_Message"
 msgstr "B_erichten"
@@ -18412,412 +18409,418 @@ msgstr "Afzender aan a_dresboek toevoegen"
 msgid "A_pply Filters"
 msgstr "Filters _toepassen"
 
-#: ../ui/evolution-mail-message.xml.h:3
+#. Alphabetical by name, yo
+#: ../ui/evolution-mail-message.xml.h:4
 msgid "Add Sender to Address Book"
 msgstr "Afzender aan adresboek toevoegen"
 
-#: ../ui/evolution-mail-message.xml.h:4
+#: ../ui/evolution-mail-message.xml.h:5
 msgid "All Message _Headers"
 msgstr "Alle bericht_koppen"
 
-#: ../ui/evolution-mail-message.xml.h:5
+#: ../ui/evolution-mail-message.xml.h:6
 msgid "Apply filter rules to the selected messages"
 msgstr "Filterregels toepassen op geselecteerde berichten"
 
-#: ../ui/evolution-mail-message.xml.h:6
+#: ../ui/evolution-mail-message.xml.h:7
 msgid "Check for _Junk"
 msgstr "Controleren op _troep"
 
-#: ../ui/evolution-mail-message.xml.h:7
+#: ../ui/evolution-mail-message.xml.h:8
 msgid "Compose _New Message"
 msgstr "_Nieuw bericht opstellen"
 
-#: ../ui/evolution-mail-message.xml.h:8
+#: ../ui/evolution-mail-message.xml.h:9
 msgid "Compose a reply to all of the recipients of the selected message"
 msgstr "Stuur antwoord naar alle geadresseerden van dit bericht"
 
-#: ../ui/evolution-mail-message.xml.h:9
+#: ../ui/evolution-mail-message.xml.h:10
 msgid "Compose a reply to the mailing list of the selected message"
 msgstr "Geef een antwoord voor de mailinglijst van het geselecteerde bericht"
 
-#: ../ui/evolution-mail-message.xml.h:10
+#: ../ui/evolution-mail-message.xml.h:11
 msgid "Compose a reply to the sender of the selected message"
 msgstr "Beantwoord dit bericht"
 
-#: ../ui/evolution-mail-message.xml.h:13
+#: ../ui/evolution-mail-message.xml.h:14
 msgid "Copy selected messages to another folder"
 msgstr "Kopieer het bericht naar een andere map"
 
-#: ../ui/evolution-mail-message.xml.h:14
+#: ../ui/evolution-mail-message.xml.h:15
 msgid "Create R_ule"
 msgstr "_Regel aanmaken"
 
-#: ../ui/evolution-mail-message.xml.h:15
+#: ../ui/evolution-mail-message.xml.h:16
 msgid "Create a Search Folder for these recipients"
 msgstr "Een zoekmap aanmaken voor deze geadresseerden"
 
-#: ../ui/evolution-mail-message.xml.h:16
+#: ../ui/evolution-mail-message.xml.h:17
 msgid "Create a Search Folder for this mailing list"
 msgstr "Een zoekmap aanmaken voor deze mailinglijst"
 
-#: ../ui/evolution-mail-message.xml.h:17
+#: ../ui/evolution-mail-message.xml.h:18
 msgid "Create a Search Folder for this sender"
 msgstr "Een zoekmap aanmaken voor deze afzender"
 
-#: ../ui/evolution-mail-message.xml.h:18
+#: ../ui/evolution-mail-message.xml.h:19
 msgid "Create a Search Folder for this subject"
 msgstr "Een zoekmap aanmaken voor dit onderwerp"
 
-#: ../ui/evolution-mail-message.xml.h:19
+#: ../ui/evolution-mail-message.xml.h:20
 msgid "Create a rule to filter messages from this sender"
 msgstr "Maak een regel om de berichten van deze afzender te filteren"
 
-#: ../ui/evolution-mail-message.xml.h:20
+#: ../ui/evolution-mail-message.xml.h:21
 msgid "Create a rule to filter messages to these recipients"
 msgstr "Maak een regel om de berichten van deze afzenders te filteren"
 
-#: ../ui/evolution-mail-message.xml.h:21
+#: ../ui/evolution-mail-message.xml.h:22
 msgid "Create a rule to filter messages to this mailing list"
 msgstr "Maak een regel om de berichten naar deze e-maillijst te filteren"
 
-#: ../ui/evolution-mail-message.xml.h:22
+#: ../ui/evolution-mail-message.xml.h:23
 msgid "Create a rule to filter messages with this subject"
 msgstr "Maak een regel om de berichten met dit onderwerp te filteren"
 
-#: ../ui/evolution-mail-message.xml.h:24
+#: ../ui/evolution-mail-message.xml.h:25
 msgid "Decrease the text size"
 msgstr "Tekst verkleinen"
 
-#: ../ui/evolution-mail-message.xml.h:26
+#: ../ui/evolution-mail-message.xml.h:27
 msgid "Display the next important message"
 msgstr "Toon het volgende belangrijke bericht"
 
-#: ../ui/evolution-mail-message.xml.h:27
+#: ../ui/evolution-mail-message.xml.h:28
 msgid "Display the next message"
 msgstr "Toon het volgende bericht"
 
-#: ../ui/evolution-mail-message.xml.h:28
+#: ../ui/evolution-mail-message.xml.h:29
 msgid "Display the next unread message"
 msgstr "Toon het volgende ongelezen bericht"
 
-#: ../ui/evolution-mail-message.xml.h:29
+#: ../ui/evolution-mail-message.xml.h:30
 msgid "Display the next unread thread"
 msgstr "Toon de volgende ongelezen discussieboom zien"
 
-#: ../ui/evolution-mail-message.xml.h:30
+#: ../ui/evolution-mail-message.xml.h:31
 msgid "Display the previous important message"
 msgstr "Toon het vorige belangrijke bericht"
 
-#: ../ui/evolution-mail-message.xml.h:31
+#: ../ui/evolution-mail-message.xml.h:32
 msgid "Display the previous message"
 msgstr "Toon het vorige bericht"
 
-#: ../ui/evolution-mail-message.xml.h:32
+#: ../ui/evolution-mail-message.xml.h:33
 msgid "Display the previous unread message"
 msgstr "Toon het vorige ongelezen bericht"
 
-#: ../ui/evolution-mail-message.xml.h:33
+#: ../ui/evolution-mail-message.xml.h:34
 msgid "Filter on Mailing _List..."
 msgstr "Filter op mailing_lijst..."
 
-#: ../ui/evolution-mail-message.xml.h:34
+#: ../ui/evolution-mail-message.xml.h:35
 msgid "Filter on Se_nder..."
 msgstr "Filter op _afzender..."
 
-#: ../ui/evolution-mail-message.xml.h:35
+#: ../ui/evolution-mail-message.xml.h:36
 msgid "Filter on _Recipients..."
 msgstr "Filter op _geadresseerden..."
 
-#: ../ui/evolution-mail-message.xml.h:36
+#: ../ui/evolution-mail-message.xml.h:37
 msgid "Filter on _Subject..."
 msgstr "Filter op _onderwerp..."
 
-#: ../ui/evolution-mail-message.xml.h:37
+#: ../ui/evolution-mail-message.xml.h:38
 msgid "Filter the selected messages for junk status"
 msgstr "Filter de geselecteerde berichten op troepstatus"
 
-#: ../ui/evolution-mail-message.xml.h:38
+#: ../ui/evolution-mail-message.xml.h:39
 msgid "Flag selected message(s) for follow-up"
 msgstr "Geselecteerde berichten markeren om te beantwoorden"
 
-#: ../ui/evolution-mail-message.xml.h:39
+#: ../ui/evolution-mail-message.xml.h:40
 msgid "Follow _Up..."
 msgstr "_Antwoord..."
 
-#: ../ui/evolution-mail-message.xml.h:40
+#: ../ui/evolution-mail-message.xml.h:41
 msgid "Force images in HTML mail to be loaded"
 msgstr "Afbeeldingen in HTML-berichten altijd laden"
 
-#: ../ui/evolution-mail-message.xml.h:42
+#: ../ui/evolution-mail-message.xml.h:43
 msgid "Forward the selected message in the body of a new message"
 msgstr ""
 "Het geselecteerde bericht doorsturen in de inhoud van een nieuw bericht"
 
-#: ../ui/evolution-mail-message.xml.h:43
+#: ../ui/evolution-mail-message.xml.h:44
 msgid "Forward the selected message quoted like a reply"
 msgstr "Het bericht geciteerd doorsturen alsof het een antwoord is"
 
-#: ../ui/evolution-mail-message.xml.h:44
+#: ../ui/evolution-mail-message.xml.h:45
 msgid "Forward the selected message to someone"
 msgstr "Het bericht doorsturen naar iemand"
 
-#: ../ui/evolution-mail-message.xml.h:45
+#: ../ui/evolution-mail-message.xml.h:46
 msgid "Forward the selected message to someone as an attachment"
 msgstr "Het bericht doorsturen naar iemand als bijlage"
 
-#: ../ui/evolution-mail-message.xml.h:46
+#: ../ui/evolution-mail-message.xml.h:47
 msgid "Increase the text size"
 msgstr "Tekst vergroten"
 
-#: ../ui/evolution-mail-message.xml.h:48
+#: ../ui/evolution-mail-message.xml.h:49
 msgid "Mar_k as"
 msgstr "Mar_keren als"
 
-#: ../ui/evolution-mail-message.xml.h:49
+#: ../ui/evolution-mail-message.xml.h:50
 msgid "Mark the selected message(s) as having been read"
 msgstr "Geselecteerde berichten als gelezen markeren"
 
-#: ../ui/evolution-mail-message.xml.h:50
+#: ../ui/evolution-mail-message.xml.h:51
 msgid "Mark the selected message(s) as important"
 msgstr "Geselecteerde berichten als belangrijk markeren"
 
-#: ../ui/evolution-mail-message.xml.h:51
+#: ../ui/evolution-mail-message.xml.h:52
 msgid "Mark the selected message(s) as junk"
 msgstr "Geselecteerde berichten als troep markeren"
 
-#: ../ui/evolution-mail-message.xml.h:52
+#: ../ui/evolution-mail-message.xml.h:53
 msgid "Mark the selected message(s) as not being junk"
 msgstr "Geselecteerde berichten als geen-troep markeren"
 
-#: ../ui/evolution-mail-message.xml.h:53
+#: ../ui/evolution-mail-message.xml.h:54
 msgid "Mark the selected message(s) as not having been read"
 msgstr "Geselecteerde berichten als ongelezen markeren"
 
-#: ../ui/evolution-mail-message.xml.h:54
+#: ../ui/evolution-mail-message.xml.h:55
 msgid "Mark the selected message(s) as unimportant"
 msgstr "Geselecteerde berichten als onbelangrijk markeren"
 
-#: ../ui/evolution-mail-message.xml.h:55
+#: ../ui/evolution-mail-message.xml.h:56
 msgid "Mark the selected messages for deletion"
 msgstr "Geselecteerde berichten om te verwijderen markeren"
 
-#: ../ui/evolution-mail-message.xml.h:56
+#: ../ui/evolution-mail-message.xml.h:57
 msgid "Message Source"
 msgstr "Berichtenbron"
 
-#: ../ui/evolution-mail-message.xml.h:57
+#: ../ui/evolution-mail-message.xml.h:58
 msgid "Move"
 msgstr "Verplaatsen"
 
-#: ../ui/evolution-mail-message.xml.h:58
+#: ../ui/evolution-mail-message.xml.h:59
 msgid "Move selected message(s) to another folder"
 msgstr "Geselecteerde berichten verplaatsen naar een andere map"
 
-#: ../ui/evolution-mail-message.xml.h:60
+#: ../ui/evolution-mail-message.xml.h:61
 msgid "Next _Important Message"
 msgstr "Volgende _belangrijke bericht"
 
-#: ../ui/evolution-mail-message.xml.h:61
+#: ../ui/evolution-mail-message.xml.h:62
 msgid "Next _Thread"
 msgstr "Volgende _discussie"
 
 # _o wordt gebruikt voor V_olgende
-#: ../ui/evolution-mail-message.xml.h:62
+#: ../ui/evolution-mail-message.xml.h:63
 msgid "Next _Unread Message"
 msgstr "Volgende o_ngelezen bericht"
 
-#: ../ui/evolution-mail-message.xml.h:63
+#: ../ui/evolution-mail-message.xml.h:64
 msgid "Not Junk"
 msgstr "Geen troep"
 
-#: ../ui/evolution-mail-message.xml.h:64
+#: ../ui/evolution-mail-message.xml.h:65
 msgid "Open a window for composing a mail message"
 msgstr "Venster openen om een e-mail op te stellen"
 
-#: ../ui/evolution-mail-message.xml.h:65
+#: ../ui/evolution-mail-message.xml.h:66
 msgid "Open the selected message in a new window"
 msgstr "Geselecteerde bericht openen in een nieuw venster"
 
-#: ../ui/evolution-mail-message.xml.h:66
+#: ../ui/evolution-mail-message.xml.h:67
 msgid "Open the selected message in the composer for editing"
 msgstr "Het geselecteerde bericht openen in een opstelvenster om te bewerken"
 
-#: ../ui/evolution-mail-message.xml.h:67
+#: ../ui/evolution-mail-message.xml.h:68
 msgid "P_revious Unread Message"
 msgstr "Vorige on_gelezen bericht"
 
 # in map plaatsen/naar map versturen/naar map posten
-#: ../ui/evolution-mail-message.xml.h:69
+#: ../ui/evolution-mail-message.xml.h:70
 msgid "Pos_t New Message to Folder"
 msgstr "Nieuw bericht naar _map versturen"
 
-#: ../ui/evolution-mail-message.xml.h:70
+#: ../ui/evolution-mail-message.xml.h:71
 msgid "Post a Repl_y"
 msgstr "Antw_oord sturen"
 
-#: ../ui/evolution-mail-message.xml.h:71
+#: ../ui/evolution-mail-message.xml.h:72
 msgid "Post a message to a Public folder"
 msgstr "Bericht sturen naar openbare map"
 
-#: ../ui/evolution-mail-message.xml.h:72
+#: ../ui/evolution-mail-message.xml.h:73
 msgid "Post a reply to a message in a Public folder"
 msgstr "Antwoord sturen op een bericht in een openbare map"
 
-#: ../ui/evolution-mail-message.xml.h:73
+#: ../ui/evolution-mail-message.xml.h:74
 msgid "Pr_evious Important Message"
 msgstr "Vorige b_elangrijke bericht"
 
-#: ../ui/evolution-mail-message.xml.h:74
+#: ../ui/evolution-mail-message.xml.h:75
 msgid "Preview the message to be printed"
 msgstr "Geeft een afdrukvoorbeeld van het bericht"
 
-#: ../ui/evolution-mail-message.xml.h:78
+#: ../ui/evolution-mail-message.xml.h:79
 msgid "Print this message"
 msgstr "Druk dit bericht af"
 
-#: ../ui/evolution-mail-message.xml.h:79
+#: ../ui/evolution-mail-message.xml.h:80
 msgid "Re_direct"
 msgstr "Doorsturen"
 
-#: ../ui/evolution-mail-message.xml.h:80
+#: ../ui/evolution-mail-message.xml.h:81
 msgid "Redirect (bounce) the selected message to someone"
 msgstr "Stuur het geselecteerde bericht door naar iemand"
 
-#: ../ui/evolution-mail-message.xml.h:84
+#: ../ui/evolution-mail-message.xml.h:85
 msgid "Reset the text to its original size"
 msgstr "De tekst zijn oorspronkelijke grootte geven"
 
-#: ../ui/evolution-mail-message.xml.h:85
+#: ../ui/evolution-mail-message.xml.h:86
 msgid "Save the message as a text file"
 msgstr "Sla bericht op als tekstbestand"
 
-#: ../ui/evolution-mail-message.xml.h:86
+#: ../ui/evolution-mail-message.xml.h:87
 msgid "Search Folder from Mailing _List..."
 msgstr "Zoekmap op mailing_lijst..."
 
-#: ../ui/evolution-mail-message.xml.h:87
+#: ../ui/evolution-mail-message.xml.h:88
 msgid "Search Folder from Recipients..."
 msgstr "Zoekmap op _geadresseerden..."
 
-#: ../ui/evolution-mail-message.xml.h:88
+#: ../ui/evolution-mail-message.xml.h:89
 msgid "Search Folder from S_ubject..."
 msgstr "Zoekmap op _onderwerp..."
 
-#: ../ui/evolution-mail-message.xml.h:89
+#: ../ui/evolution-mail-message.xml.h:90
 msgid "Search Folder from Sen_der..."
 msgstr "Zoekmap op _afzender..."
 
-#: ../ui/evolution-mail-message.xml.h:90
+#: ../ui/evolution-mail-message.xml.h:91
 msgid "Search for text in the body of the displayed message"
 msgstr "Zoek voor tekst in de body van het weergegeven bericht"
 
-#: ../ui/evolution-mail-message.xml.h:91
+#: ../ui/evolution-mail-message.xml.h:92
 msgid "Select _All Text"
 msgstr "_Alle tekst selecteren"
 
-#: ../ui/evolution-mail-message.xml.h:92
+#: ../ui/evolution-mail-message.xml.h:93
 msgid "Select all the text in a message"
 msgstr "De gehele tekst van het bericht selecteren"
 
-#: ../ui/evolution-mail-message.xml.h:93
+#: ../ui/evolution-mail-message.xml.h:94
 msgid "Set up the page settings for your current printer"
 msgstr "Pagina-instellingen configureren voor de huidige printer"
 
-#: ../ui/evolution-mail-message.xml.h:94
+#: ../ui/evolution-mail-message.xml.h:95
 msgid "Show a blinking cursor in the body of displayed messages"
 msgstr "Een knipperende cursor tonen in de inhoud van weergegeven berichten"
 
-#: ../ui/evolution-mail-message.xml.h:95
+#: ../ui/evolution-mail-message.xml.h:96
 msgid "Show message in the normal style"
 msgstr "Bericht in normale stijl weergeven"
 
-#: ../ui/evolution-mail-message.xml.h:96
+#: ../ui/evolution-mail-message.xml.h:97
 msgid "Show message with all email headers"
 msgstr "Bericht weergeven met de complete e-mailheader"
 
-#: ../ui/evolution-mail-message.xml.h:97
+#: ../ui/evolution-mail-message.xml.h:98
 msgid "Show the raw email source of the message"
 msgstr "Brontekst van het bericht weergeven"
 
-#: ../ui/evolution-mail-message.xml.h:98
+#: ../ui/evolution-mail-message.xml.h:99
 msgid "Un-delete the selected messages"
 msgstr "Verwijderen van de geselecteerde berichten ongedaan maken"
 
-#: ../ui/evolution-mail-message.xml.h:99
+#: ../ui/evolution-mail-message.xml.h:100
 msgid "Uni_mportant"
 msgstr "_Niet belangrijk"
 
-#: ../ui/evolution-mail-message.xml.h:100
+#: ../ui/evolution-mail-message.xml.h:101
 msgid "Zoom _Out"
 msgstr "_Uitzoomen"
 
-#: ../ui/evolution-mail-message.xml.h:101
+#: ../ui/evolution-mail-message.xml.h:102
 msgid "_Caret Mode"
 msgstr "_Cursor-modus"
 
-#: ../ui/evolution-mail-message.xml.h:104
+#: ../ui/evolution-mail-message.xml.h:105
 msgid "_Delete Message"
 msgstr "Berichten _verwijderen"
 
-#: ../ui/evolution-mail-message.xml.h:106
+#: ../ui/evolution-mail-message.xml.h:107
 msgid "_Find in Message..."
 msgstr "_Zoeken in bericht..."
 
-#: ../ui/evolution-mail-message.xml.h:108
+#: ../ui/evolution-mail-message.xml.h:109
 msgid "_Go To"
 msgstr "_Ga naar"
 
-#: ../ui/evolution-mail-message.xml.h:109
+#: ../ui/evolution-mail-message.xml.h:110
 msgid "_Important"
 msgstr "_Belangrijk"
 
-#: ../ui/evolution-mail-message.xml.h:110
+#: ../ui/evolution-mail-message.xml.h:111
 msgid "_Junk"
 msgstr "_Troep"
 
-#: ../ui/evolution-mail-message.xml.h:111
+#: ../ui/evolution-mail-message.xml.h:112
 msgid "_Load Images"
 msgstr "_Afbeeldingen laden"
 
-#: ../ui/evolution-mail-message.xml.h:114
+#: ../ui/evolution-mail-message.xml.h:115
 msgid "_Next Message"
 msgstr "V_olgende bericht"
 
-#: ../ui/evolution-mail-message.xml.h:115
+#: ../ui/evolution-mail-message.xml.h:116
 msgid "_Normal Size"
 msgstr "_Normale afmeting"
 
-#: ../ui/evolution-mail-message.xml.h:116
+#: ../ui/evolution-mail-message.xml.h:117
 msgid "_Not Junk"
 msgstr "_Geen troep"
 
-#: ../ui/evolution-mail-message.xml.h:117
+#: ../ui/evolution-mail-message.xml.h:118
 msgid "_Open in New Window"
 msgstr "In nieuw venster _openen"
 
-#: ../ui/evolution-mail-message.xml.h:118
+#: ../ui/evolution-mail-message.xml.h:119
 msgid "_Previous Message"
 msgstr "Vo_rige bericht"
 
-#: ../ui/evolution-mail-message.xml.h:122
+#: ../ui/evolution-mail-message.xml.h:123
 msgid "_Save Message..."
 msgstr "Bericht op_slaan..."
 
-#: ../ui/evolution-mail-message.xml.h:123
+#: ../ui/evolution-mail-message.xml.h:124
 msgid "_Undelete Message"
 msgstr "Bericht _terughalen"
 
-#: ../ui/evolution-mail-message.xml.h:124
+#: ../ui/evolution-mail-message.xml.h:125
 msgid "_Unread"
 msgstr "O_ngelezen"
 
-#: ../ui/evolution-mail-message.xml.h:125
+#: ../ui/evolution-mail-message.xml.h:126
 msgid "_Zoom In"
 msgstr "In_zoomen"
 
+#.
+#. <cmd name="FileSave" _label="Save"
+#. _tip="Save the current file" pixtype="stock" pixname="Save"
+#. accel="*Ctrl*s"/>
+#.
 #: ../ui/evolution-mail-messagedisplay.xml.h:1
 #: ../ui/evolution-message-composer.xml.h:4
-#: ../ui/evolution-signature-editor.xml.h:2
+#: ../ui/evolution-signature-editor.xml.h:7
 msgid "Close"
 msgstr "Sluiten"
 
@@ -18825,7 +18828,7 @@ msgstr "Sluiten"
 msgid "Close this window"
 msgstr "Dit venster sluiten"
 
-#: ../ui/evolution-mail-messagedisplay.xml.h:3 ../ui/evolution.xml.h:17
+#: ../ui/evolution-mail-messagedisplay.xml.h:3 ../ui/evolution.xml.h:16
 msgid "Main toolbar"
 msgstr "Hoofdgereedschapsbalk"
 
@@ -18836,8 +18839,8 @@ msgstr "Sl_uiten"
 
 #: ../ui/evolution-mail-messagedisplay.xml.h:6
 #: ../ui/evolution-message-composer.xml.h:45
-#: ../ui/evolution-signature-editor.xml.h:13
-#: ../ui/evolution-subscribe.xml.h:11 ../ui/evolution.xml.h:33
+#: ../ui/evolution-signature-editor.xml.h:24
+#: ../ui/evolution-subscribe.xml.h:11 ../ui/evolution.xml.h:36
 msgid "_File"
 msgstr "_Bestand"
 
@@ -18855,8 +18858,13 @@ msgstr ""
 "Aanvinken om een leesbevestiging te ontvangen wanneer uw bericht wordt "
 "gelezen"
 
+#.
+#. <cmd name="FileSave" _label="Save"
+#. _tip="Save the current file" pixtype="stock" pixname="Save"
+#. accel="*Ctrl*s"/>
+#.
 #: ../ui/evolution-message-composer.xml.h:5
-#: ../ui/evolution-signature-editor.xml.h:3
+#: ../ui/evolution-signature-editor.xml.h:13
 msgid "Close the current file"
 msgstr "Het huidige bestand sluiten"
 
@@ -18873,7 +18881,7 @@ msgid "Encrypt this message with your S/MIME Encryption Certificate"
 msgstr "Dit bericht versleutelen met uw S/MIME versleutelingscertificaat"
 
 #: ../ui/evolution-message-composer.xml.h:9
-#: ../ui/evolution-signature-editor.xml.h:4
+#: ../ui/evolution-signature-editor.xml.h:14
 msgid "For_mat"
 msgstr "Op_maak"
 
@@ -18930,7 +18938,6 @@ msgid "Save in folder..."
 msgstr "Opslaan in _map..."
 
 #: ../ui/evolution-message-composer.xml.h:25
-#: ../ui/evolution-signature-editor.xml.h:9
 msgid "Save the current file"
 msgstr "Huidige bestand opslaan"
 
@@ -18943,7 +18950,7 @@ msgid "Save the message in a specified folder"
 msgstr "Sla het bericht op in een bepaalde folder"
 
 #: ../ui/evolution-message-composer.xml.h:29
-#: ../ui/evolution-signature-editor.xml.h:11
+#: ../ui/evolution-signature-editor.xml.h:22
 msgid "Send the mail in HTML format"
 msgstr "Stuur het bericht in HTML-formaat"
 
@@ -19004,7 +19011,7 @@ msgid "_From Field"
 msgstr "_Van-veld"
 
 #: ../ui/evolution-message-composer.xml.h:47
-#: ../ui/evolution-signature-editor.xml.h:14
+#: ../ui/evolution-signature-editor.xml.h:25
 msgid "_Insert"
 msgstr "_Invoegen"
 
@@ -19032,19 +19039,22 @@ msgstr "_Van-veld"
 msgid "C_lose"
 msgstr "Sl_uiten"
 
-#: ../ui/evolution-signature-editor.xml.h:5
+#: ../ui/evolution-signature-editor.xml.h:15
 msgid "H_TML"
 msgstr "H_TML"
 
-#: ../ui/evolution-signature-editor.xml.h:7
+#: ../ui/evolution-signature-editor.xml.h:16
 msgid "Save and Close"
 msgstr "Opslaan en sluiten"
 
-#: ../ui/evolution-signature-editor.xml.h:8
+#.
+#. <menuitem name="FileSave" verb="" _label="_Save"/>
+#.
+#: ../ui/evolution-signature-editor.xml.h:20
 msgid "Save and _Close"
 msgstr "Opslaan en sl_uiten"
 
-#: ../ui/evolution-signature-editor.xml.h:10
+#: ../ui/evolution-signature-editor.xml.h:21
 msgid "Save the current file and close the window"
 msgstr "Het huidige bestand opslaan en het venster sluiten"
 
@@ -19153,10 +19163,6 @@ msgid "Display window buttons with text only"
 msgstr "Vensterknoppen weergeven met alleen tekst"
 
 #: ../ui/evolution.xml.h:10
-msgid "Evolution _FAQ"
-msgstr "Evolution _FAQ"
-
-#: ../ui/evolution.xml.h:11
 msgid "Exit the program"
 msgstr "Programma verlaten"
 
@@ -19164,130 +19170,134 @@ msgstr "Programma verlaten"
 # Nieu_w venster
 # V_ersturen
 # Afdruk_voorbeeld
-#: ../ui/evolution.xml.h:12
+#: ../ui/evolution.xml.h:11
 msgid "Forget _Passwords"
 msgstr "Wachtwoorden ver_geten"
 
-#: ../ui/evolution.xml.h:13
+#: ../ui/evolution.xml.h:12
 msgid "Forget remembered passwords so you will be prompted for them again"
 msgstr "De onthouden wachtwoorden vergeten zodat ze opnieuw gevraagd worden"
 
-#: ../ui/evolution.xml.h:14
+#: ../ui/evolution.xml.h:13
 msgid "Hide window buttons"
 msgstr "Vensterknoppen verbergen"
 
-#: ../ui/evolution.xml.h:15
+#: ../ui/evolution.xml.h:14
 msgid "Icons _and text"
 msgstr "Pictogrammen _en tekst"
 
-#: ../ui/evolution.xml.h:16
+#: ../ui/evolution.xml.h:15
 msgid "Import data from other programs"
 msgstr "Importeer gegevens van andere programma's"
 
-#: ../ui/evolution.xml.h:18
+#: ../ui/evolution.xml.h:17
 msgid "New _Window"
 msgstr "Nieu_w venster"
 
-#: ../ui/evolution.xml.h:19
+#: ../ui/evolution.xml.h:18
 msgid "Prefere_nces"
 msgstr "_Voorkeuren"
 
 # post uit / in
 # postbezorging
 # post bezorgen
-#: ../ui/evolution.xml.h:20
+#: ../ui/evolution.xml.h:19
 msgid "Send / Receive"
 msgstr "Versturen & ontvangen"
 
-#: ../ui/evolution.xml.h:21
+#: ../ui/evolution.xml.h:20
 msgid "Send queued items and retrieve new items"
 msgstr "Items in de wachtrij versturen en nieuwe items ophalen"
 
-#: ../ui/evolution.xml.h:22
+#: ../ui/evolution.xml.h:21
 msgid "Set up Pilot configuration"
 msgstr "Pilotconfiguratie instellen"
 
-#: ../ui/evolution.xml.h:23
+#: ../ui/evolution.xml.h:22
 msgid "Show information about Evolution"
 msgstr "Informatie tonen over Evolution"
 
-#: ../ui/evolution.xml.h:24
+#: ../ui/evolution.xml.h:23
 msgid "Submit Bug Report"
 msgstr "Bug-Report Insturen"
 
-#: ../ui/evolution.xml.h:25
+#. <menuitem name="HelpFAQ" verb=""
+#. _label="Evolution _FAQ"/>
+#.
+#. <separator/>
+#: ../ui/evolution.xml.h:28
 msgid "Submit _Bug Report"
 msgstr "_Bug Report Insturen"
 
-#: ../ui/evolution.xml.h:26
+#: ../ui/evolution.xml.h:29
 msgid "Submit a bug report using Bug Buddy"
 msgstr "Bug Report insturen met Bug Buddy."
 
-#: ../ui/evolution.xml.h:27
+#: ../ui/evolution.xml.h:30
 msgid "Toggle whether we are working offline."
 msgstr "Offline werken aan- of uitschakelen."
 
-#: ../ui/evolution.xml.h:28
+#: ../ui/evolution.xml.h:31
 msgid "Tool_bar"
 msgstr "Werk_balk"
 
-#: ../ui/evolution.xml.h:29
+#: ../ui/evolution.xml.h:32
 msgid "Tool_bar style"
 msgstr "Werk_balkstijl"
 
-#: ../ui/evolution.xml.h:30
+#: ../ui/evolution.xml.h:33
 msgid "_About Evolution..."
 msgstr "_Over Evolution..."
 
-#: ../ui/evolution.xml.h:31
+#: ../ui/evolution.xml.h:34
 msgid "_Close Window"
 msgstr "Venster sl_uiten"
 
-#: ../ui/evolution.xml.h:34
+#: ../ui/evolution.xml.h:37
 msgid "_Help"
 msgstr "_Hulp"
 
-#: ../ui/evolution.xml.h:35
+#: ../ui/evolution.xml.h:38
 msgid "_Hide buttons"
 msgstr "_Knoppen verbergen"
 
-#: ../ui/evolution.xml.h:36
+#: ../ui/evolution.xml.h:39
 msgid "_Icons only"
 msgstr "Alleen _pictogrammen"
 
-#: ../ui/evolution.xml.h:37
+#: ../ui/evolution.xml.h:40
 msgid "_Import..."
 msgstr "I_mporteren..."
 
-#: ../ui/evolution.xml.h:38
+#: ../ui/evolution.xml.h:41
 msgid "_New"
 msgstr "_Nieuw"
 
-#: ../ui/evolution.xml.h:39
+#: ../ui/evolution.xml.h:42
 msgid "_Quick Reference"
 msgstr "_Verkorte handleiding"
 
-#: ../ui/evolution.xml.h:40
+#: ../ui/evolution.xml.h:43
 msgid "_Quit"
 msgstr "A_fsluiten"
 
-#: ../ui/evolution.xml.h:41
+#: ../ui/evolution.xml.h:44
 msgid "_Send / Receive"
 msgstr "V_ersturen & ontvangen"
 
-#: ../ui/evolution.xml.h:42
+#: ../ui/evolution.xml.h:45
 msgid "_Switcher Appearance"
 msgstr "_Wisselaar uiterlijk"
 
-#: ../ui/evolution.xml.h:43
+#: ../ui/evolution.xml.h:46
 msgid "_Synchronization Options..."
 msgstr "_Synchronisatieopties..."
 
-#: ../ui/evolution.xml.h:44
+#: ../ui/evolution.xml.h:47
 msgid "_Text only"
 msgstr "Alleen _tekst"
 
-#: ../ui/evolution.xml.h:46
+#: ../ui/evolution.xml.h:49
 msgid "_Window"
 msgstr "_Venster"
 
@@ -19712,7 +19722,8 @@ msgstr "Labelwidget"
 
 #: ../widgets/misc/e-expander.c:216
 msgid "A widget to display in place of the usual expander label"
-msgstr "Een widget dat wordt weergegeven in plaats van het gebruikelijke uitvouwlabel"
+msgstr ""
+"Een widget dat wordt weergegeven in plaats van het gebruikelijke uitvouwlabel"
 
 #: ../widgets/misc/e-expander.c:222 ../widgets/table/e-tree.c:3318
 msgid "Expander Size"
@@ -20556,2748 +20567,3 @@ msgstr "IM Omgeving"
 #: ../widgets/text/e-text.c:3683 ../widgets/text/e-text.c:3684
 msgid "Handle Popup"
 msgstr "Sleepbalkpopup"
-
-#~ msgid "Mo_ve to Folder..."
-#~ msgstr "Naar map _verplaatsen..."
-
-# engels spelling: messaage
-#~ msgid "Unknown error verifying signed messaage"
-#~ msgstr "Onbekende fout bij het verifiëren van ondertekend bericht"
-
-# engels spelling: messaage
-#~ msgid "Unknown error decrypting messaage"
-#~ msgstr "Onbekende fout bij het ontcijferen bericht"
-
-#~ msgid "FIll stipple"
-#~ msgstr "Vullen met stippels"
-
-#~ msgid "vFolders"
-#~ msgstr "vMappen"
-
-#~ msgid "Create _vFolder"
-#~ msgstr "_vMap aanmaken"
-
-#~ msgid "v_Folders"
-#~ msgstr "v_Mappen"
-
-#~ msgid "vFolder source"
-#~ msgstr "vMap-bron"
-
-#~ msgid "Edit vFolder"
-#~ msgstr "vMap bewerken"
-
-#~ msgid "New vFolder"
-#~ msgstr "Nieuwe vMap"
-
-# was eerst: Computernaam, maar kan hier beter: Servernaam/Server zijn.
-# Hier moet het adres van de mailserver worden gegeven
-# letterlijk: gastcomputer
-#~ msgid "_Host:"
-#~ msgstr "_Host:"
-
-#~ msgid "Show _Messages"
-#~ msgstr "Be_richten tonen"
-
-#~ msgid "Un_read Messages"
-#~ msgstr "_Ongelezen berichten:"
-
-#~ msgid "_All"
-#~ msgstr "_Alles"
-
-#~ msgid "_Tools"
-#~ msgstr "E_xtra"
-
-#~ msgid ""
-#~ "Evolution has found Gnome Calendar files.\n"
-#~ "Would you like to import them into Evolution?"
-#~ msgstr ""
-#~ "Evolution heeft Gnome agendabestanden gevonden.\n"
-#~ "Wilt u deze importeren in Evolution?"
-
-#~ msgid "Evolution Netscape Mail importer"
-#~ msgstr "Evolution Netscape mail-import"
-
-#~ msgid "Evolution Outlook Express 4 importer"
-#~ msgstr "Evolution Outlook Express 4 importeerassistent"
-
-#~ msgid "Evolution mbox importer"
-#~ msgstr "Evolution mbox-import"
-
-#~ msgid "MBox (mbox)"
-#~ msgstr "MBox (mbox)"
-
-#~ msgid "Outlook Express 4 (.mbx)"
-#~ msgstr "Outlook Express 4 (.mbx)"
-
-#~ msgid "Evolution is importing your old Elm mail"
-#~ msgstr "Evolution is uw oude Elm mail aan het importeren"
-
-#~ msgid ""
-#~ "Evolution has found Elm mail files\n"
-#~ "Would you like to import them into Evolution?"
-#~ msgstr ""
-#~ "Evolution heeft Elm mailbestand gevonden\n"
-#~ "Wilt u deze importeren naar Evolution?"
-
-#~ msgid "Elm"
-#~ msgstr "Elm"
-
-#~ msgid "Evolution is importing your old Pine data"
-#~ msgstr "Evolution importeert uw oude Pine informatie"
-
-#~ msgid ""
-#~ "Evolution has found Pine mail files.\n"
-#~ "Would you like to import them into Evolution?"
-#~ msgstr ""
-#~ "Evolution heeft Pine mailbestanden gevonden.\n"
-#~ "Wilt u deze importeren naar Evolution?"
-
-#~ msgid "Pine"
-#~ msgstr "Pine"
-
-#~ msgid "Out of office Message:"
-#~ msgstr "Afwezigheidsbericht:"
-
-#~ msgid ""
-#~ "Importing %s\n"
-#~ "Importing item %d."
-#~ msgstr ""
-#~ "Importeren %s\n"
-#~ "Bezig met importeren item %d."
-
-#~ msgid "Select importer"
-#~ msgstr "Importeerder selecteren"
-
-#~ msgid "File %s does not exist"
-#~ msgstr "Map %s bestaat niet"
-
-#~ msgid "Importing"
-#~ msgstr "Bezig met importeren"
-
-#~ msgid "Importing %s.\n"
-#~ msgstr "Importeren %s.\n"
-
-#~ msgid "Error loading %s"
-#~ msgstr "Fout bij laden %s"
-
-#~ msgid ""
-#~ "Importing %s\n"
-#~ "Importing item 1."
-#~ msgstr ""
-#~ "Importeren %s\n"
-#~ "Bezig met importeren item 1."
-
-#~ msgid "Automatic"
-#~ msgstr "Automatisch"
-
-#~ msgid ""
-#~ "Please wait...\n"
-#~ "Scanning for existing setups"
-#~ msgstr ""
-#~ "Even geduld...\n"
-#~ "Bestaande instellingen worden nagezocht"
-
-#~ msgid "Starting Intelligent Importers"
-#~ msgstr "Intelligent Importeren wordt gestart"
-
-#~ msgid "No importer available for file %s"
-#~ msgstr "Geen importeerder beschikbaar voor bestand %s"
-
-#~ msgid "Unable to execute importer"
-#~ msgstr "Kon importeerder niet uitvoeren"
-
-#~ msgid "Importers"
-#~ msgstr "Importeerders"
-
-#~ msgid "Don't import"
-#~ msgstr "Niet importeren"
-
-#~ msgid "Don't ask me again"
-#~ msgstr "Dit bericht niet meer weergeven."
-
-#~ msgid "Evolution can import data from the following files:"
-#~ msgstr "Evolution kan gegevens importeren van de volgende bestanden:"
-
-#~ msgid "Your server needs to be updated"
-#~ msgstr "Uw server heeft een update nodig"
-
-#~ msgid ""
-#~ "Are you sure you want\n"
-#~ "to delete this contact?"
-#~ msgstr ""
-#~ "Weet u zeker dat u dit\n"
-#~ "contact wilt verwijderen?"
-
-#~ msgid "Save Appointment"
-#~ msgstr "Afspraak opslaan"
-
-#~ msgid ""
-#~ " Some features may not work correctly with your current server version "
-#~ msgstr ""
-#~ " Bepaalde mogelijkheden werken mogelijk niet correct met uw huidige "
-#~ "server-versie "
-
-#~ msgid "Appointment Title"
-#~ msgstr "Afspraak titel"
-
-#~ msgid "end-time"
-#~ msgstr "eindtijd"
-
-#~ msgid "start-time"
-#~ msgstr "begintijd"
-
-# probleem met de _a is dat deze al voor de knop _Aan gebruikt wordt
-# de _b wordt gebruikt voor _Bestand
-#~ msgid "Show _Attachment Bar (drop attachments here)"
-#~ msgstr "Bijl_agenbalk tonen (sleep uw bijlagen hier naar toe)"
-
-#~ msgid "Attachment Button: Press space key to toggle attachment bar"
-#~ msgstr ""
-#~ "Bijlageknop: Druk op de spatiebalk om de bijlagebalk om te schakelen"
-
-#~ msgid "N"
-#~ msgstr "N"
-
-#~ msgid "S"
-#~ msgstr "S"
-
-#~ msgid "W"
-#~ msgstr "W"
-
-# indien/als
-#~ msgid "<b>If</b>"
-#~ msgstr "<b>Als</b>"
-
-#~ msgid "port for starting user runned spamd"
-#~ msgstr "port voor het starten van gebruikersmode spamd"
-
-#~ msgid "spamd port"
-#~ msgstr "spamd poort"
-
-#~ msgid "_Load images if sender is in address book"
-#~ msgstr "Afbee_ldingen tonen als de afzender in het adresboek voorkomt"
-
-#~ msgid "{1}."
-#~ msgstr "{1}."
-
-# Engels: spatie te veel: "Mark  as default folder"
-#~ msgid "Mark  as default folder"
-#~ msgstr "Aanmerken als standaardmap"
-
-#~ msgid "<b>%s</b> requests the presence of %s at the following meeting:"
-#~ msgstr ""
-#~ "<b>%s</b> verzoekt %s om bij de volgende bijeenkomst aanwezig te zijn:"
-
-#~ msgid "Manage Plugins..."
-#~ msgstr "Plugins beheren..."
-
-#~ msgid "%s%d/%s%d/%s%d %s%d:%s%d:%s%d"
-#~ msgstr "%s%d/%s%d/%s%d %s%d:%s%d:%s%d"
-
-#~ msgid ""
-#~ "Uid%sSummary%sDescription List%sCategories List%sComment List%sCompleted%"
-#~ "sCreated%sContact List%sStart%sEnd%sDue%sPercent Done%sPriority%sUrl%"
-#~ "sAttendees List%sLocation%sModified%s"
-#~ msgstr ""
-#~ "Uid%sOnderwerp%sOmschrijving%scategorieën%sOpmerkingen%sVoltooid%"
-#~ "sAangemaakt%sContacten%sBegin%sEinde%sVerloopt%sPercentage gedaan%"
-#~ "sPrioriteit%sUrl%sWie%sLocatie%sGewijzigd%s"
-
-#~ msgid "Invalid user"
-#~ msgstr "Ongeldige gebruiker"
-
-#~ msgid ""
-#~ "\n"
-#~ "You cannot share folder with specified user \"{0}\" \n"
-#~ msgstr ""
-#~ "\n"
-#~ "U kunt geen map delen met de opgegeven gebruiker \"{0}\" \n"
-
-#~ msgid "Specify User"
-#~ msgstr "Geef de gebruiker"
-
-#~ msgid ""
-#~ "\n"
-#~ "\tYou have to specify a user name whom you want to add to the list \n"
-#~ msgstr ""
-#~ "\n"
-#~ "\tU moet een gebruikersnaam geven van degene die u aan de lijst wilt "
-#~ "toevoegen\n"
-
-#~ msgid "Closing connections..."
-#~ msgstr "Verbindingen ophangen...."
-
-#~ msgid "Starting import"
-#~ msgstr "Importeren wordt gestart"
-
-#~ msgid ""
-#~ "If you quit the Evolution Setup Assistant now, all of the information "
-#~ "that you have entered will be forgotten. You will need to run this "
-#~ "assistant again before using Evolution.\n"
-#~ "\n"
-#~ "Do you want to quit using the Assistant now?"
-#~ msgstr ""
-#~ "Als u nu de Evolution setup assistent verlaat wordt alle door u "
-#~ "ingevoerde informatie vergeten. Deze assistent zal nog een keer gebruikt "
-#~ "moeten worden voordat u Evolution kunt gebruiken.\n"
-#~ "\n"
-#~ "Wilt u de assistent nu afsluiten?"
-
-#~ msgid "Importing Files"
-#~ msgstr "Bezig met Importeren Bestanden"
-
-#~ msgid "Timezone "
-#~ msgstr "Tijdzone "
-
-#~ msgid ""
-#~ "You have successfully entered all of the information needed to set up "
-#~ "Evolution. \n"
-#~ "\n"
-#~ "Click the \"Apply\" button to save your settings. "
-#~ msgstr ""
-#~ "U heeft alle benodigde informatie ingevoerd om Evolution te kunnen "
-#~ "instellen.\n"
-#~ "\n"
-#~ "Klik op \"Toepassen\" om uw instellingen op te slaan."
-
-#~ msgid "Disable the mono plugin environment."
-#~ msgstr "De mono plugin uitzetten."
-
-#~ msgid "Cannot start Evolution"
-#~ msgstr "Kan Evolution niet starten"
-
-#~ msgid "_Filters..."
-#~ msgstr "_Filters..."
-
-#~ msgid "vFolder _Editor..."
-#~ msgstr "vMap _editor..."
-
-#~ msgid "Mark All as _Read"
-#~ msgstr "Alles als gelezen marke_ren"
-
-#~ msgid "_Folder"
-#~ msgstr "_Map"
-
-#~ msgid "_Threaded Message List"
-#~ msgstr "_Berichtenlijst met discussies"
-
-#~ msgid "Create _vFolder From Message"
-#~ msgstr "_vMap aanmaken van bericht"
-
-#~ msgid "F_orward As..."
-#~ msgstr "D_oorsturen als..."
-
-#~ msgid "Filter _Junk"
-#~ msgstr "Filter _Troep"
-
-#~ msgid "Mark as I_mportant"
-#~ msgstr "Als _belangrijk markeren"
-
-#~ msgid "Mark as Unimp_ortant"
-#~ msgstr "Als _onbelangrijk markeren"
-
-#~ msgid "S_earch in Message..."
-#~ msgstr "Zo_eken in berichten..."
-
-#~ msgid "S_maller"
-#~ msgstr "_Kleiner"
-
-#~ msgid "Show Email _Source"
-#~ msgstr "_Broncode"
-
-#~ msgid "Show Full _Headers"
-#~ msgstr "Volledige bericht_kop"
-
-#~ msgid "Text Si_ze"
-#~ msgstr "Tekstgroo_tte"
-
-#~ msgid "_Attached"
-#~ msgstr "_Bijgevoegd"
-
-#~ msgid "_Create Filter From Message"
-#~ msgstr "_Filter maken van bericht"
-
-#~ msgid "_Inline"
-#~ msgstr "_Ingebonden"
-
-#~ msgid "_Larger"
-#~ msgstr "_Groter"
-
-#~ msgid "_Message Display"
-#~ msgstr "_Berichtweergave"
-
-#~ msgid "_Normal Display"
-#~ msgstr "_Normaal"
-
-#~ msgid "_Open Message"
-#~ msgstr "Bericht _openen"
-
-#~ msgid "_Quoted"
-#~ msgstr "Ge_citeerd"
-
-#~ msgid "_Undelete"
-#~ msgstr "_Herstellen"
-
-#~ msgid "Show / hide attachments"
-#~ msgstr "Toon/Verberg Bijlages"
-
-#~ msgid "Show _attachments"
-#~ msgstr "Toon _Bijlages"
-
-#~ msgid "Show attachments"
-#~ msgstr "Toon Bijlages"
-
-#~ msgid "E_xit"
-#~ msgstr "A_fsluiten"
-
-#~ msgid "Window B_uttons"
-#~ msgstr "_Vensterknoppen"
-
-#~ msgid "_Advanced..."
-#~ msgstr "_Geavanceerd..."
-
-#~ msgid ""
-#~ "None\n"
-#~ "Mail Receipt\n"
-#~ msgstr ""
-#~ "Geen\n"
-#~ "Leesbevestiging\n"
-
-#~ msgid ""
-#~ "\n"
-#~ " Please read carefully the license agreement displayed\n"
-#~ " below and tick the check box for accepting it\n"
-#~ msgstr ""
-#~ "\n"
-#~ "Lees onderstaande licentieovereenkomst zorgvuldig door\n"
-#~ "en vink de optie aan om deze te accepteren\n"
-
-#~ msgid "_Remember this password"
-#~ msgstr "_Onthoud dit wachtwoord"
-
-#~ msgid "_Remember this password for the remainder of this session"
-#~ msgstr "Dit wachtwoord onthouden tot het einde van deze sessie"
-
-#~ msgid "have "
-#~ msgstr "heeft "
-
-#~ msgid "has "
-#~ msgstr "heeft "
-
-#~ msgid " cards"
-#~ msgstr " kaarten"
-
-#~ msgid " card"
-#~ msgstr " kaart"
-
-#~ msgid "contact's header: "
-#~ msgstr "contacten kop: "
-
-#~ msgid ""
-#~ "Address book '%s' will be removed. Are you sure you want to continue?"
-#~ msgstr ""
-#~ "Adresboek '%s' zal worden verwijderd. Weet u zeker dat u wilt doorgaan?"
-
-#~ msgid "Evolution Addressbook name selection interface"
-#~ msgstr "Evolution adresboek naamselectie-interface"
-
-#~ msgid "Remove All"
-#~ msgstr "Alle verwijderen"
-
-#~ msgid "View Contact List"
-#~ msgstr "Contactenlijst weergeven"
-
-#~ msgid "View Contact Info"
-#~ msgstr "Contactinformatie weergeven"
-
-#~ msgid "Send HTML Mail?"
-#~ msgstr "HTML e-mail versturen?"
-
-#~ msgid "Unnamed Contact"
-#~ msgstr "Ander contact"
-
-#~ msgid "Select Contacts from Address Book"
-#~ msgstr "Selecteer contacten uit het adresboek"
-
-#~ msgid "<b>Contacts</b>"
-#~ msgstr "<b>Adresboek</b>"
-
-#~ msgid "<b>Show Contacts</b>"
-#~ msgstr "Adresboek weergeven"
-
-#~ msgid "Address _Book:"
-#~ msgstr "Adres_boek:"
-
-#~ msgid "C_ategory:"
-#~ msgstr "_Categorie:"
-
-#~ msgid "_Find"
-#~ msgstr "_Zoeken"
-
-#~ msgid "_Search:"
-#~ msgstr "_Zoeken:"
-
-#~ msgid "Address:"
-#~ msgstr "Adres:"
-
-#~ msgid "PO Box:"
-#~ msgstr "Postbus:"
-
-#~ msgid "State/Province:"
-#~ msgstr "Staat/Provincie:"
-
-#~ msgid "Title:"
-#~ msgstr "Titel:"
-
-#~ msgid "Go to Folder..."
-#~ msgstr "Ga naar map..."
-
-#~ msgid "Import..."
-#~ msgstr "Importeren..."
-
-#~ msgid "Address Book Sources..."
-#~ msgstr "Adresboekbronnen..."
-
-#~ msgid "Print Envelope"
-#~ msgstr "Envelop afdrukken"
-
-#~ msgid "Edit Contact Info"
-#~ msgstr "Contactinformatie bewerken"
-
-#~ msgid "Evolution VCard importer"
-#~ msgstr "Evolution VCard import assistent"
-
-#~ msgid "Impossible internal error."
-#~ msgstr "Onmogelijke interne fout."
-
-#~ msgid "Unnamed List"
-#~ msgstr "Lijst van onbenoemden"
-
-#~ msgid "Starting:"
-#~ msgstr "Bezig met starten:"
-
-#~ msgid "Ending:"
-#~ msgstr "Einde:"
-
-#~ msgid "Evolution Alarm"
-#~ msgstr "Evolution alarm"
-
-#~ msgid "Alarm on %s"
-#~ msgstr "Alarm op %s"
-
-#~ msgid "_Edit appointment"
-#~ msgstr "_Afspraak bewerken"
-
-#~ msgid "Allocate less space to weekend appointments"
-#~ msgstr "Vergeef minder ruimte aan afspraken in het weekend"
-
-#~ msgid "Days that are work days"
-#~ msgstr "Dagen dat werkdagen zijn"
-
-#~ msgid "Default timezone for meetings"
-#~ msgstr "Standaard tijdzone voor bijeenkomsten"
-
-#~ msgid "Position of the horizontal pane in the month view"
-#~ msgstr "Postitie van het horizontale paneel in de maand weergave"
-
-#~ msgid "Show where events end in week and month views"
-#~ msgstr "Eindtijden van afspraken tonen in week- en maandweergave"
-
-#~ msgid "Whether to ask for confirmation when folder is expunged"
-#~ msgstr "Vr_aag om bevestiging bij het legen van mappen"
-
-#~ msgid "%A %d %B %Y"
-#~ msgstr "%A %d %B %Y"
-
-#~ msgid "Calendar '%s' will be removed. Are you sure you want to continue?"
-#~ msgstr "Agenda '%s' wordt verwijderd. Weet u zeker dat u door wilt gaan?"
-
-#~ msgid "backend_go_offline(): %s"
-#~ msgstr "backend_go_offline(): %s"
-
-#~ msgid "backend_go_online(): %s"
-#~ msgstr "backend_go_online(): %s"
-
-#~ msgid "open_client(): %s"
-#~ msgstr "open_client(): %s"
-
-#~ msgid "Source with name '%s' already exists in the selected group"
-#~ msgstr "Er bestaat al een bron met de naam '%s' in de geselecteerde groep"
-
-#~ msgid "_Destination"
-#~ msgstr "_Doel"
-
-#~ msgid "<span weight=\"bold\">Basics</span>"
-#~ msgstr "<span weight=\"bold\">Algemeen</span>"
-
-#~ msgid "<span weight=\"bold\">Date and Time</span>"
-#~ msgstr "<span weight=\"bold\">Datum & tijd</span>"
-
-#~ msgid "Free/Busy Editor"
-#~ msgstr "Vrij/Bezet bewerken"
-
-#~ msgid "Print Setup"
-#~ msgstr "Printerinstellingen"
-
-#~ msgid "Task List '%s' will be removed. Are you sure you want to continue?"
-#~ msgstr ""
-#~ "Takenlijst '%s' zal worden verwijderd. Weet u zeker dat u door wilt gaan?"
-
-#~ msgid "Signing is not supported by this cipher"
-#~ msgstr "Ondertekening wordt niet ondersteund door deze sleutel"
-
-#~ msgid "Signing message"
-#~ msgstr "Bericht wordt ondertekend"
-
-#~ msgid "Verifying is not supported by this cipher"
-#~ msgstr "Het gespecificeerde type word niet ondersteund door deze sleutel"
-
-#~ msgid "Verifying message"
-#~ msgstr "Bericht wordt geverifieerd"
-
-#~ msgid "Encryption is not supported by this cipher"
-#~ msgstr "Het gespecificeerde type word niet ondersteund door deze sleutel"
-
-#~ msgid "Encrypting message"
-#~ msgstr "Bericht wordt versleuteld"
-
-#~ msgid "Decryption is not supported by this cipher"
-#~ msgstr "Het gespecificeerde type word niet ondersteund door deze sleutel"
-
-#~ msgid "Decrypting message"
-#~ msgstr "Bericht wordt ontcijferd"
-
-#~ msgid "You may not import keys with this cipher"
-#~ msgstr "U mag geen sleutels importeren met deze sleutel"
-
-#~ msgid "You may not export keys with this cipher"
-#~ msgstr "U mag geen sleutels exporteren met deze sleutel"
-
-#~ msgid "Unable to create cache path"
-#~ msgstr "Kon bufferpad niet aanmaken"
-
-#~ msgid "Could not remove cache entry: %s: %s"
-#~ msgstr "Kon bufferitem: %s niet verwijderen: %s"
-
-#~ msgid ""
-#~ "Could not write log entry: %s\n"
-#~ "Further operations on this server will not be replayed when you\n"
-#~ "reconnect to the network."
-#~ msgstr ""
-#~ "Kon niet in logboek schrijven: %s\\n\n"
-#~ "\"Verdere operaties op deze server zullen niet doorgevoerd worden als u\n"
-#~ "\"herverbindt met het netwerk."
-
-#~ msgid ""
-#~ "Could not open `%s':\n"
-#~ "%s\n"
-#~ "Changes made to this folder will not be resynchronized."
-#~ msgstr ""
-#~ "Kon '%s' niet openen:\n"
-#~ "%s\\n\n"
-#~ "Veranderingen in deze map zullen niet worden gesynchroniseerd."
-
-#~ msgid "Resynchronizing with server"
-#~ msgstr "Aan het synchroniseren met de server"
-
-#~ msgid "Downloading new messages for offline mode"
-#~ msgstr "Bezig met binnenhalen van berichten voor offline gebruik"
-
-#~ msgid "Preparing folder '%s' for offline"
-#~ msgstr "Map '%s' wordt voorbereid voor offline gebruik"
-
-#~ msgid "You must be working online to complete this operation"
-#~ msgstr "U moet online werken om deze bewerking te voltooien"
-
-#~ msgid "Failed to create pipe to '%s': %s"
-#~ msgstr "Aanmaken van pijp naar '%s' mislukt: %s"
-
-#~ msgid "Failed to create child process '%s': %s"
-#~ msgstr "Starten van kindproces '%s' mislukt: %s"
-
-#~ msgid "Invalid message stream received from %s: %s"
-#~ msgstr "Ongeldige berichtenstroom ontvangen van %s: %s"
-
-#~ msgid "Syncing folders"
-#~ msgstr "Map wordt gesynchroniseerd"
-
-#~ msgid "Error parsing filter: %s: %s"
-#~ msgstr "Fout bij interpreten bestand: %s: %s"
-
-#~ msgid "Error executing filter: %s: %s"
-#~ msgstr "Fout bij uitvoeren filter: %s: %s"
-
-#~ msgid "Unable to open spool folder"
-#~ msgstr "Kan de spoolmap niet openen"
-
-#~ msgid "Getting message %d (%d%%)"
-#~ msgstr "Ophalen bericht %d(%d%%)"
-
-#~ msgid "Cannot open message"
-#~ msgstr "Kan bericht niet opnemen"
-
-#~ msgid "Failed on message %d"
-#~ msgstr "Faalde bij bericht %d"
-
-#~ msgid "Syncing folder"
-#~ msgstr "Map wordt gesynchroniseerd"
-
-# dit moet kort, anders zie je de aantallen niet meer
-#~ msgid "Getting message %d of %d"
-#~ msgstr "Ophalen bericht %d van %d"
-
-#~ msgid "Failed at message %d of %d"
-#~ msgstr "Faalde bij bericht %d van %d"
-
-#~ msgid "Failed to retrieve message"
-#~ msgstr "Ophalen bericht mislukt"
-
-#~ msgid "Invalid arguments to (system-flag)"
-#~ msgstr "Ongeldige argumenten voor (systeemvlag)"
-
-#~ msgid "Invalid arguments to (user-tag)"
-#~ msgstr "Ongeldige argumenten voor (gebruiker)"
-
-#~ msgid "Failed to create create child process '%s': %s"
-#~ msgstr "Starten van dochterproces '%s' mislukt: %s"
-
-#~ msgid "Error executing filter search: %s: %s"
-#~ msgstr "Fout bij uitvoeren filterzoekactie: %s: %s"
-
-# zoekvraag/zoekuitdrukking/zoekopdracht
-#~ msgid ""
-#~ "Cannot parse search expression: %s:\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Kan zoekexpressie niet interpreteren: %s:\n"
-#~ "%s"
-
-#~ msgid ""
-#~ "Error executing search expression: %s:\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Fout bij uitvoeren zoekexpressie: %s:\n"
-#~ "%s"
-
-#~ msgid "(match-all) requires a single bool result"
-#~ msgstr "(match-all) vereist enkelvoudig booleaans resultaat"
-
-#~ msgid "(match-threads) not allowed inside match-all"
-#~ msgstr "(match-threads) niet toegestaan binnen match-all"
-
-#~ msgid "(match-threads) requires a match type string"
-#~ msgstr "(match-threads) vereist een tekenreeks type"
-
-#~ msgid "(match-threads) expects an array result"
-#~ msgstr "(match-threads) vereist een array als resultaat"
-
-#~ msgid "(match-threads) requires the folder set"
-#~ msgstr "(match-threads) vereist ingestelde map"
-
-#~ msgid "Performing query on unknown header: %s"
-#~ msgstr "Bezig met zoeken naar onbekende koptekst: %s"
-
-#~ msgid "Unsupported operation: append message: for %s"
-#~ msgstr ""
-#~ "Opdracht wordt niet ondersteund: bericht achteraan toevoegen: voor %s"
-
-#~ msgid "Unsupported operation: search by expression: for %s"
-#~ msgstr "Opdracht wordt niet ondersteund: zoeken op expressie: voor %s"
-
-#~ msgid "Unsupported operation: search by uids: for %s"
-#~ msgstr "Opdracht wordt niet ondersteund: zoeken op uids: voor %s"
-
-#~ msgid "Moving messages"
-#~ msgstr "Verplaatsen van berichten"
-
-#~ msgid "Copying messages"
-#~ msgstr "Berichten worden gekopieerd"
-
-#~ msgid "Learning junk"
-#~ msgstr "Leren wat troep is"
-
-#~ msgid "Learning non-junk"
-#~ msgstr "Leren wat geen troep is"
-
-#~ msgid "Filtering new message(s)"
-#~ msgstr "Nieuwe berichten worden door de filter gehaald"
-
-#~ msgid ""
-#~ "Unexpected GnuPG status message encountered:\n"
-#~ "\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Onverwacht GnuPG status bericht ontvangen:\n"
-#~ "\n"
-#~ "%s "
-
-#~ msgid "Failed to parse gpg userid hint."
-#~ msgstr "Interpretatie van de gpg userid hint is mislukt."
-
-#~ msgid "Failed to parse gpg passphrase request."
-#~ msgstr "Fout tijdens het verwerken van de gpg wachtwoord aanvraag."
-
-#~ msgid ""
-#~ "You need a passphrase to unlock the key for\n"
-#~ "user: \"%s\""
-#~ msgstr ""
-#~ "U heeft een wachtwoord nodig om de sleutel voor\n"
-#~ "gebruiker \"%s\" te mogen gebruiken"
-
-#~ msgid "Failed to unlock secret key: 3 bad passphrases given."
-#~ msgstr ""
-#~ "Ontgrendelen van de geheime sleutel is mislukt: 3 onjuiste wachtzinnen "
-#~ "gegeven."
-
-#~ msgid "Unexpected response from GnuPG: %s"
-#~ msgstr "Onverwacht antwoord van GnuPG: %s"
-
-#~ msgid "Failed to encrypt: No valid recipients specified."
-#~ msgstr ""
-#~ "Kan dit bericht niet versleutelen: er zijn geen geldige ontvangers "
-#~ "opgegeven."
-
-#~ msgid ""
-#~ "Failed to GPG %s: %s\n"
-#~ "\n"
-#~ "%s"
-#~ msgstr ""
-#~ "GPG %s mislukt: %s\n"
-#~ "\n"
-#~ "%s"
-
-#~ msgid "Failed to GPG %s: %s\n"
-#~ msgstr "GPG %s mislukt: %s\n"
-
-#~ msgid "Could not generate signing data: %s"
-#~ msgstr "Kan ondertekeningsdata niet genereren: %s"
-
-#~ msgid "Failed to execute gpg: %s"
-#~ msgstr "Kon gpg niet starten: %s"
-
-#~ msgid "Failed to execute gpg."
-#~ msgstr "Kon gpg niet starten."
-
-#~ msgid "This is a digitally signed message part"
-#~ msgstr "Dit berichtdeel is digitaal ondertekend"
-
-#~ msgid "Cannot verify message signature: Incorrect message format"
-#~ msgstr "Kan ondertekening niet verifiëren: Onjuist bericht formaat"
-
-#~ msgid "Cannot verify message signature: could not create temp file: %s"
-#~ msgstr ""
-#~ "Kan ondertekening niet verifiëren: kan geen tijdelijk bestand maken: %s"
-
-#~ msgid "Could not generate encrypting data: %s"
-#~ msgstr "Kan versleutelingsdata niet genereren: %s"
-
-#~ msgid "This is a digitally encrypted message part"
-#~ msgstr "Dit berichtdeel is digitaal ondertekend"
-
-#~ msgid "Encrypted content"
-#~ msgstr "Versleutelde inhoud"
-
-#~ msgid "Cannot build locking helper pipe: %s"
-#~ msgstr "Kon de 'locking helper pipe' niet maken: %s"
-
-#~ msgid "Cannot fork locking helper: %s"
-#~ msgstr "Kon locking helper niet forken: %s"
-
-#~ msgid "Could not lock '%s': protocol error with lock-helper"
-#~ msgstr "Kon '%s' niet vergrendelen: protocolfout met vergrendelaar"
-
-#~ msgid "Could not lock '%s'"
-#~ msgstr "Kon niet vergrendelen: '%s'"
-
-#~ msgid "Could not create lock file for %s: %s"
-#~ msgstr "Kon vergrendelingsbestand voor %s niet maken: %s"
-
-#~ msgid "Timed out trying to get lock file on %s. Try again later."
-#~ msgstr ""
-#~ "Maximale wachttijd overschreden tijdens het wachten op exclusieve toegang "
-#~ "tot bestand %s. Probeer het later opnieuw."
-
-#~ msgid "Failed to get lock using fcntl(2): %s"
-#~ msgstr "Verkrijgen van vergrendeling met fcntl(2) mislukt: %s"
-
-#~ msgid "Failed to get lock using flock(2): %s"
-#~ msgstr "Verkrijgen van vergrendeling met flock(2) mislukt: %s"
-
-#~ msgid "Could not check mail file %s: %s"
-#~ msgstr "Kon postbusbestand %s niet controleren: %s"
-
-#~ msgid "Could not open mail file %s: %s"
-#~ msgstr "Kon postbusbestand %s niet openen: %s"
-
-#~ msgid "Could not open temporary mail file %s: %s"
-#~ msgstr "Kon tijdelijk postbusbestand %s niet openen: %s"
-
-#~ msgid "Failed to store mail in temp file %s: %s"
-#~ msgstr "Fout bij opslaan post in tijdelijk bestand %s: %s"
-
-#~ msgid "Could not create pipe: %s"
-#~ msgstr "Kon de pijp niet maken: %s"
-
-#~ msgid "Could not fork: %s"
-#~ msgstr "Kon niet starten: %s"
-
-#~ msgid "Movemail program failed: %s"
-#~ msgstr "Movemail programma mislukt: %s"
-
-#~ msgid "(Unknown error)"
-#~ msgstr "(Onbekende fout)"
-
-#~ msgid "Error reading mail file: %s"
-#~ msgstr "Fout bij het lezen van postbusbestand: %s"
-
-#~ msgid "Error writing mail temp file: %s"
-#~ msgstr "Fout bij opslaan van tijdelijk postbusbestand: %s"
-
-#~ msgid "Error copying mail temp file: %s"
-#~ msgstr "Fout bij opslaan van tijdelijk postbusbestand: %s"
-
-#~ msgid "Failed to decrypt MIME part: protocol error"
-#~ msgstr "Ontcijferen van het MIME gedeelte is mislukt: protocol fout"
-
-#~ msgid "Failed to decrypt MIME part: invalid structure"
-#~ msgstr "Kan MIME-berichtdeel niet decoderen: ongeldige structuur"
-
-#~ msgid "parse error"
-#~ msgstr "analysefout"
-
-#~ msgid "Virtual folder email provider"
-#~ msgstr "Virtuele map e-mail aanbieder"
-
-#~ msgid "For reading mail as a query of another set of folders"
-#~ msgstr ""
-#~ "Voor het lezen van post als een zoekopdracht op een verzameling mappen"
-
-#~ msgid "Could not load %s: Module loading not supported on this system."
-#~ msgstr "Kon %s niet laden. Module laden niet ondersteund door dit systeem"
-
-#~ msgid "Could not load %s: %s"
-#~ msgstr "Kon %s niet laden: %s"
-
-#~ msgid "Could not load %s: No initialization code in module."
-#~ msgstr "Kon %s niet laden: Geen initialisatie code in de module."
-
-#~ msgid "No provider available for protocol `%s'"
-#~ msgstr "Geen aanbieder beschikbaar voor protocol `%s'"
-
-#~ msgid "Anonymous"
-#~ msgstr "Anoniem"
-
-#~ msgid "This option will connect to the server using an anonymous login."
-#~ msgstr "Deze optie logt anoniem in op de imapserver"
-
-#~ msgid "Authentication failed."
-#~ msgstr "Aanmelding mislukt"
-
-#~ msgid ""
-#~ "Invalid email address trace information:\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Ongeldige trace-informatie voor e-mailadres:\n"
-#~ "%s"
-
-#~ msgid ""
-#~ "Invalid opaque trace information:\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Ongeldige opaque trace-informatie:\n"
-#~ "%s"
-
-#~ msgid ""
-#~ "Invalid trace information:\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Ongeldige trace-informatie:\n"
-#~ "%s"
-
-#~ msgid "CRAM-MD5"
-#~ msgstr "CRAM-MD5"
-
-#~ msgid ""
-#~ "This option will connect to the server using a secure CRAM-MD5 password, "
-#~ "if the server supports it."
-#~ msgstr ""
-#~ "Deze optie zal verbinding maken met de server met een veilig CRAM-MD5 "
-#~ "wachtwoord, indien de server dat ondersteund."
-
-#~ msgid "DIGEST-MD5"
-#~ msgstr "DIGEST-MD5"
-
-#~ msgid ""
-#~ "This option will connect to the server using a secure DIGEST-MD5 "
-#~ "password, if the server supports it."
-#~ msgstr ""
-#~ "Deze optie zal verbinding maken met de server met een veilig DIGEST-MD5 "
-#~ "wachtwoord, indien de server dat ondersteund."
-
-#~ msgid "Server challenge too long (>2048 octets)\n"
-#~ msgstr "Server 'challenge' te lang (>2048 octets)\n"
-
-#~ msgid "Server challenge invalid\n"
-#~ msgstr "Server 'challenge' ongeldig\n"
-
-#~ msgid "Server challenge contained invalid \"Quality of Protection\" token\n"
-#~ msgstr "Server 'challenge' bevat ongeldig 'Quality of Protection'-teken\n"
-
-#~ msgid "Server response did not contain authorization data\n"
-#~ msgstr "Het serverantwoord bevatte geen authorisatiegegevens\n"
-
-#~ msgid "Server response contained incomplete authorization data\n"
-#~ msgstr "Het serverantwoord bevatte onvolledige authorisatiegegevens\n"
-
-#~ msgid "Server response does not match\n"
-#~ msgstr "Het serverantwoord is onbegrijpelijk\n"
-
-#~ msgid "GSSAPI"
-#~ msgstr "GSSAPI"
-
-#~ msgid ""
-#~ "This option will connect to the server using Kerberos 5 authentication."
-#~ msgstr ""
-#~ "Deze optie zal bij het verbinden met de server gebruik maken van Kerberos-"
-#~ "5-aanmelding."
-
-#~ msgid ""
-#~ "The specified mechanism is not supported by the provided credential, or "
-#~ "is unrecognized by the implementation."
-#~ msgstr ""
-#~ "Het gespecificeerde mechanisme wordt niet ondersteund door de gegeven "
-#~ "informatie, of wordt niet herkend door de implementatie."
-
-#~ msgid "The provided target_name parameter was ill-formed."
-#~ msgstr "De gegeven doelnaam parameter is niet goed geformatteerd."
-
-#~ msgid ""
-#~ "The provided target_name parameter contained an invalid or unsupported "
-#~ "type of name."
-#~ msgstr ""
-#~ "De gegeven doelnaam parameter bevat een ongeldige of niet ondersteund "
-#~ "naamtype."
-
-#~ msgid ""
-#~ "The input_token contains different channel bindings to those specified "
-#~ "via the input_chan_bindings parameter."
-#~ msgstr ""
-#~ "Het input_token bevat verschillende kanaalbindingen naar diegene "
-#~ "gespecificeerd via de input_chan_bindings parameter."
-
-#~ msgid ""
-#~ "The input_token contains an invalid signature, or a signature that could "
-#~ "not be verified."
-#~ msgstr ""
-#~ "Het input_token bevat een ongeldige handtekening, of een handtekening die "
-#~ "niet gecontroleerd kon worden."
-
-#~ msgid ""
-#~ "The supplied credentials were not valid for context initiation, or the "
-#~ "credential handle did not reference any credentials."
-#~ msgstr ""
-#~ "De gegeven informatie is niet geldig voor omgevingsinitialisatie, of er "
-#~ "is geen informatie gegeven."
-
-#~ msgid "The supplied context handle did not refer to a valid context."
-#~ msgstr "Geen geldige omgeving gegeven."
-
-#~ msgid "The consistency checks performed on the input_token failed."
-#~ msgstr "Geldigheidscontrole van het input_token mislukt."
-
-#~ msgid "The consistency checks performed on the credential failed."
-#~ msgstr "Geldigheidscontrole van de informatie mislukt."
-
-#~ msgid "The referenced credentials have expired."
-#~ msgstr "De referentie-informatie is verlopen."
-
-#~ msgid "Bad authentication response from server."
-#~ msgstr "Fout aanmeldingsantwoord van server."
-
-#~ msgid "Unsupported security layer."
-#~ msgstr "Niet ondersteunde beveiligingslaag."
-
-#~ msgid "Kerberos 4"
-#~ msgstr "Kerberos 4"
-
-#~ msgid ""
-#~ "Could not get Kerberos ticket:\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Kon Kerberos ticket niet verkrijgen:\n"
-#~ "%s"
-
-#~ msgid "This option will connect to the server using a simple password."
-#~ msgstr ""
-#~ "Deze optie zal bij het verbinden met de server het wachtwoord versturen "
-#~ "als platte tekst."
-
-#~ msgid "Unknown authentication state."
-#~ msgstr "Onbekende aanmeldingsstatus"
-
-#~ msgid "NTLM / SPA"
-#~ msgstr "NTLM / SPA"
-
-#~ msgid ""
-#~ "This option will connect to a Windows-based server using NTLM / Secure "
-#~ "Password Authentication."
-#~ msgstr ""
-#~ "Deze optie zal bij het verbinden met een windows-server gebruik maken van "
-#~ "NTLM / Beveiligde wachtwoordidentificatie."
-
-#~ msgid "PLAIN"
-#~ msgstr "PLAT"
-
-#~ msgid "POP before SMTP"
-#~ msgstr "POP voor SMTP"
-
-#~ msgid "This option will authorise a POP connection before attempting SMTP"
-#~ msgstr ""
-#~ "Deze optie geeft aan dat eerst POP-verbinding wordt gestart, voordat SMTP "
-#~ "geprobeerd wordt"
-
-#~ msgid "POP Source URI"
-#~ msgstr "POP Bron URI"
-
-#~ msgid "POP Before SMTP auth using an unknown transport"
-#~ msgstr "POP voor SMTP gebruikmakend van een onbekend transportmedium"
-
-#~ msgid "POP Before SMTP auth using a non-pop source"
-#~ msgstr "POP voor SMTP gebruikmakend van een niet-POP bron"
-
-#~ msgid "Regular expression compilation failed: %s: %s"
-#~ msgstr "Compileren van reguliere expressie mislukt: %s: %s"
-
-#~ msgid "URL '%s' needs a username component"
-#~ msgstr "URL '%s' heeft een gebruikersnaamcomponent nodig"
-
-#~ msgid "URL '%s' needs a host component"
-#~ msgstr "URL '%s' heeft een machinenaamcomponent nodig"
-
-#~ msgid "URL '%s' needs a path component"
-#~ msgstr "URL '%s' heeft een padcomponent nodig"
-
-#~ msgid "cannot create thread"
-#~ msgstr "kan geen 'thread' maken"
-
-#~ msgid "Resolving: %s"
-#~ msgstr "Resolving \"%s\""
-
-#~ msgid "Host lookup failed"
-#~ msgstr "Opzoeken host mislukt"
-
-#~ msgid "Resolving address"
-#~ msgstr "Adres wordt opgezocht"
-
-#~ msgid "Name lookup failed"
-#~ msgstr "Opzoeken naam mislukt"
-
-#~ msgid "Enter security pass-phrase for `%s'"
-#~ msgstr "Voer uw Wachtwoord in voor `%s'"
-
-#~ msgid "Cannot find certificate for '%s'"
-#~ msgstr "Kan certificaat voor '%s' niet vinden"
-
-#~ msgid "Cannot create CMS message"
-#~ msgstr "Kan geen CMS-bericht aanmaken"
-
-#~ msgid "Cannot create CMS signedData"
-#~ msgstr "Kan geen CMS-ondertekende-data aanmaken"
-
-#~ msgid "Cannot attach CMS signedData"
-#~ msgstr "Kan geen CMS-ondertekende-data bijvoegen"
-
-#~ msgid "Cannot attach CMS data"
-#~ msgstr "Kan geen CMS-data bijvoegen"
-
-#~ msgid "Cannot create CMS SignerInfo"
-#~ msgstr "Kan geen CMS-ontertekenaarsinfo aanmaken"
-
-#~ msgid "Cannot find cert chain"
-#~ msgstr "Kan certificaatketting niet vinden"
-
-#~ msgid "Cannot add CMS SigningTime"
-#~ msgstr "Kan CMS ontertekeninstijd niet toevoegen"
-
-#~ msgid "Encryption cert for '%s' does not exist"
-#~ msgstr "Het versleutelingscertificaat voor '%s' bestaat niet"
-
-#~ msgid "Cannot add SMIMEEncKeyPrefs attribute"
-#~ msgstr "Kan SMIMEEncKeyPrefs attribuut niet toevoegen"
-
-#~ msgid "Cannot add MS SMIMEEncKeyPrefs attribute"
-#~ msgstr "Kan MS SMIMEEncKeyPrefs attribuut niet toevoegen"
-
-#~ msgid "Cannot add encryption certificate"
-#~ msgstr "Kan encryptiecertificaat niet toevoegen"
-
-#~ msgid "Cannot add CMS SignerInfo"
-#~ msgstr "Kan CMS ontertekenaars info niet toevoegen"
-
-#~ msgid "Cannot create encoder context"
-#~ msgstr "Kan geen versleutelingscontext maken"
-
-#~ msgid "Failed to add data to CMS encoder"
-#~ msgstr "Fout bij toevoegen data aan CMS encoder"
-
-#~ msgid "Failed to encode data"
-#~ msgstr "Versleutelen van data mislukt"
-
-#~ msgid "Unverified"
-#~ msgstr "Ongeverifieerd"
-
-#~ msgid "Good signature"
-#~ msgstr "Correcte handtekening"
-
-#~ msgid "Bad signature"
-#~ msgstr "Slechte handtekening"
-
-#~ msgid "Content tampered with or altered in transit"
-#~ msgstr ""
-#~ "Er is met de inhoud geknoeit of de inhoud is gewijzigd tijdens verzending"
-
-#~ msgid "Signing certificate not found"
-#~ msgstr "Ondertekeningscertificaat niet gevonden"
-
-#~ msgid "Signing certificate not trusted"
-#~ msgstr "Ondertekeningscertificaat niet vertrouwd"
-
-#~ msgid "Signature algorithm unknown"
-#~ msgstr "Ondertekeningsalgoritme onbekend"
-
-#~ msgid "Signature algorithm unsupported"
-#~ msgstr "Ondertekeningsalgoritme niet ondersteund"
-
-# verwerkingsfout
-#~ msgid "Processing error"
-#~ msgstr "Analysefout"
-
-#~ msgid "No signedData in signature"
-#~ msgstr "Geen signedData in handtekening"
-
-#~ msgid "Digests missing from enveloped data"
-#~ msgstr "Samenvattingen ontbreken in omhulde gegevens"
-
-#~ msgid "Cannot calculate digests"
-#~ msgstr "Kan samenvattingen niet berekenen"
-
-#~ msgid "Cannot set message digests"
-#~ msgstr "Kan berichtsamenvattingen niet instellen"
-
-#~ msgid "Certificate import failed"
-#~ msgstr "Certificaatimport mislukt"
-
-#~ msgid "Certificate only message, cannot verify certificates"
-#~ msgstr "Bericht met enkel een certificaat, kan certificaten niet verifiëren"
-
-#~ msgid "Certificate only message, certificates imported and verified"
-#~ msgstr ""
-#~ "Bericht met enkel certificaat, certificaten geimporteerd en geverifieerd"
-
-#~ msgid "Cannot find signature digests"
-#~ msgstr "Kan ondertekeningsamenvattingen niet vinden"
-
-#~ msgid "Signer: %s <%s>: %s\n"
-#~ msgstr "Ondertekenaar: %s <%s>: %s\n"
-
-#~ msgid "Decoder failed"
-#~ msgstr "Decoderen mislukt"
-
-#~ msgid "Cannot find certificate for `%s'"
-#~ msgstr "Kan geen certificaat voor '%s' vinden"
-
-#~ msgid "Cannot find common bulk encryption algorithm"
-#~ msgstr "Kan geen algemeen bulkcoderingsalgoritme vinden"
-
-#~ msgid "Cannot allocate slot for encryption bulk key"
-#~ msgstr "Kan geen slot toewijzen voor bulkcoderingssleutel"
-
-#~ msgid "Cannot create CMS Message"
-#~ msgstr "Kan geen CMS-bericht aanmaken"
-
-#~ msgid "Cannot create CMS EnvelopedData"
-#~ msgstr "Kan geen CMS EnvelopedData maken"
-
-#~ msgid "Cannot attach CMS EnvelopedData"
-#~ msgstr "Kan CMS EnvelopedData niet bijvoegen"
-
-#~ msgid "Cannot attach CMS data object"
-#~ msgstr "Kan CMS-gegevensobject niet bijvoegen"
-
-#~ msgid "Cannot create CMS RecipientInfo"
-#~ msgstr "Kan geen CMS RecipientInfo maken"
-
-#~ msgid "Cannot add CMS RecipientInfo"
-#~ msgstr "Kan geen CMS ontvangersinfo toevoegen"
-
-#~ msgid "Failed to add data to encoder"
-#~ msgstr "Kon gegevens niet toevoegen aan codeerder"
-
-#~ msgid "Decoder failed, error %d"
-#~ msgstr "Decoderen mislukt, error %d"
-
-#~ msgid "S/MIME Decrypt: No encrypted content found"
-#~ msgstr "S/MIME Decrypten: Geen versleutelde inhoud gevonden"
-
-#~ msgid "import keys: unimplemented"
-#~ msgstr "sleutels importeren: niet geïmplementeerd"
-
-#~ msgid "export keys: unimplemented"
-#~ msgstr "sleutels exporteren: niet geimplementeerd"
-
-#~ msgid "Cannot get folder: Invalid operation on this store"
-#~ msgstr "Kan map niet verkrijgen: Ongeldige bewerking op deze opslag"
-
-#~ msgid "Cannot create folder `%s': folder exists"
-#~ msgstr "Kan map `%s' niet aanmaken: map bestaat reeds"
-
-#~ msgid "Cannot create folder: Invalid operation on this store"
-#~ msgstr "Kan map niet maken: Ongeldige bewerking op deze opslag"
-
-#~ msgid "Cannot create folder: %s: folder exists"
-#~ msgstr "Kan map niet aanmaken: %s: map bestaat reeds"
-
-#~ msgid "Cannot delete folder: %s: Invalid operation"
-#~ msgstr "Kon map: %s niet verwijderen: Ongeldige bewerking"
-
-#~ msgid "Cannot rename folder: %s: Invalid operation"
-#~ msgstr "Kon de naam van de map: %s niet wijzigen: ongeldige bewerking"
-
-#~ msgid "Trash"
-#~ msgstr "Prullenbak"
-
-#~ msgid "Unable to get issuer's certificate"
-#~ msgstr "Kan certificaat van eigenaar niet ophalen"
-
-#~ msgid "Unable to get Certificate Revocation List"
-#~ msgstr "Kan certificaat-herroepingslijst niet ophalen"
-
-#~ msgid "Unable to decrypt certificate signature"
-#~ msgstr "Kan ondertekening van certificaat niet decoderen"
-
-#~ msgid "Unable to decrypt Certificate Revocation List signature"
-#~ msgstr "Kan handtekening van de certificaat-herroepingslijst niet decoderen"
-
-#~ msgid "Unable to decode issuer's public key"
-#~ msgstr "Kan de publieke sleutel niet decoderen"
-
-#~ msgid "Certificate signature failure"
-#~ msgstr "Certificaatondertekening-fout"
-
-#~ msgid "Certificate Revocation List signature failure"
-#~ msgstr "Fout in certificaat-herroepingslijst"
-
-#~ msgid "Certificate not yet valid"
-#~ msgstr "Certificaat nog niet geldig"
-
-#~ msgid "Certificate has expired"
-#~ msgstr "Certificaat is verlopen"
-
-#~ msgid "CRL not yet valid"
-#~ msgstr "CRL nog niet geldig"
-
-#~ msgid "CRL has expired"
-#~ msgstr "CRL is verlopen"
-
-#~ msgid "Error in CRL"
-#~ msgstr "Fout in CRL"
-
-#~ msgid "Out of memory"
-#~ msgstr "Geen geheugen meer"
-
-#~ msgid "Zero-depth self-signed certificate"
-#~ msgstr "Direct zelfondertekend certificaat"
-
-#~ msgid "Self-signed certificate in chain"
-#~ msgstr "Zelf-ondertekend certificaat in sleutelbos"
-
-#~ msgid "Unable to get issuer's certificate locally"
-#~ msgstr "Kan het certificaat niet lokaal vinden"
-
-#~ msgid "Unable to verify leaf signature"
-#~ msgstr "Kan ondertekening niet verifiëren"
-
-#~ msgid "Certificate chain too long"
-#~ msgstr "Certificaat sleutelbos te groot"
-
-#~ msgid "Certificate Revoked"
-#~ msgstr "Certificaat herroepen"
-
-#~ msgid "Invalid Certificate Authority (CA)"
-#~ msgstr "Ongeldige Certificaat Authoriteit (CA)"
-
-#~ msgid "Path length exceeded"
-#~ msgstr "Pad lengte overschreden"
-
-#~ msgid "Certificate untrusted"
-#~ msgstr "Certificaat is niet te vertrouwen"
-
-#~ msgid "Certificate rejected"
-#~ msgstr "Certificaat geweigerd"
-
-#~ msgid "Subject/Issuer mismatch"
-#~ msgstr "Onderwerp/eigenaar komt niet overeen"
-
-#~ msgid "AKID/SKID mismatch"
-#~ msgstr "AKID/SKID komt niet overeen"
-
-#~ msgid "AKID/Issuer serial mismatch"
-#~ msgstr "AKID/Uitgever serienummer komt niet overeen"
-
-#~ msgid "Key usage does not support certificate signing"
-#~ msgstr "Sleutelgebruik ondersteunt geen ondertekenen van certificaten"
-
-#~ msgid "Error in application verification"
-#~ msgstr "Fout bij toepassingsverificatie"
-
-#~ msgid ""
-#~ "Issuer:            %s\n"
-#~ "Subject:           %s\n"
-#~ "Fingerprint:       %s\n"
-#~ "Signature:         %s"
-#~ msgstr ""
-#~ "Uitgever:        %s\n"
-#~ "Onderwerp:        %s\n"
-#~ "Vingerafdruk:        %s\n"
-#~ "Handtekening:        %s"
-
-#~ msgid "GOOD"
-#~ msgstr "GOED"
-
-#~ msgid "BAD"
-#~ msgstr "SLECHT"
-
-#~ msgid ""
-#~ "Bad certificate from %s:\n"
-#~ "\n"
-#~ "%s\n"
-#~ "\n"
-#~ "%s\n"
-#~ "\n"
-#~ "Do you wish to accept anyway?"
-#~ msgstr ""
-#~ "Slecht certificaat van %s:\n"
-#~ "\n"
-#~ "%s\n"
-#~ "\n"
-#~ "%s\n"
-#~ "\n"
-#~ "Wilt u het alsnog accepteren?"
-
-#~ msgid ""
-#~ "SSL Certificate check for %s:\n"
-#~ "\n"
-#~ "%s\n"
-#~ "\n"
-#~ "Do you wish to accept?"
-#~ msgstr ""
-#~ "SSL Certificaatcontrole voor %s:\n"
-#~ "\n"
-#~ "%s\n"
-#~ "\n"
-#~ "Wilt u dit accepteren?"
-
-#~ msgid ""
-#~ "Certificate problem: %s\n"
-#~ "Issuer: %s"
-#~ msgstr ""
-#~ "Certificaatprobleem: %s\n"
-#~ "Eigenaar: %s"
-
-#~ msgid ""
-#~ "Bad certificate domain: %s\n"
-#~ "Issuer: %s"
-#~ msgstr ""
-#~ "Slechte certificaatomgeving: %s\n"
-#~ "Eigenaar: %s"
-
-#~ msgid ""
-#~ "Certificate expired: %s\n"
-#~ "Issuer: %s"
-#~ msgstr ""
-#~ "Certificaat verlopen op: %s\n"
-#~ "Eigenaar: %s"
-
-#~ msgid ""
-#~ "Certificate revocation list expired: %s\n"
-#~ "Issuer: %s"
-#~ msgstr ""
-#~ "Certificaat herroepingslijst is verlopen op: %s\n"
-#~ "Eigenaar: %s"
-
-#~ msgid "Could not parse URL `%s'"
-#~ msgstr "kon URL %s niet verwerken"
-
-#~ msgid "Error storing `%s': %s"
-#~ msgstr "Fout bij opslaan van `%s': %s"
-
-#~ msgid "No such message %s in %s"
-#~ msgstr "Dergelijk bericht %s bestaat niet in %s"
-
-#~ msgid "Cannot copy or move messages into a Virtual Folder"
-#~ msgstr "Kan berichten niet naar een VMap verplaatsen of kopiëren"
-
-#~ msgid "Cannot delete folder: %s: No such folder"
-#~ msgstr "Kon map: %s niet verwijderen: map bestaat niet"
-
-#~ msgid "Cannot rename folder: %s: No such folder"
-#~ msgstr "Kon de naam van map: %s niet wijzigen naar: map bestaat niet"
-
-#~ msgid "Cannot copy messages to the Trash folder"
-#~ msgstr "Kan het bericht niet naar de Trash map kopieëren"
-
-#~ msgid "Cannot copy messages to the Junk folder"
-#~ msgstr "Kan berichten niet kopieëren naar troep-map"
-
-#~ msgid "Check for new messages in all folders"
-#~ msgstr "Controleer op nieuwe berichten in alle mappen"
-
-#~ msgid "Apply filters to new messages in Inbox on this server"
-#~ msgstr "Pas filters toe op alle nieuwe berichten in de inbox op deze server"
-
-#~ msgid "Check new messages for Junk contents"
-#~ msgstr "Controleer nieuwe berichten op troep"
-
-#~ msgid "Only check for Junk messages in the INBOX folder"
-#~ msgstr "Controleer enkel op troep in nieuwe berichten in de inbox map"
-
-#~ msgid "Automatically synchronize remote mail locally"
-#~ msgstr "Automatisch lokaal synchroniseren met post op afstand"
-
-#
-#~ msgid "Address Book and Calendar"
-#~ msgstr "Adresboek en agenda"
-
-#~ msgid "Post Office Agent:"
-#~ msgstr "Postkantoor-agent:"
-
-#~ msgid "Post Office Agent SOAP Port:"
-#~ msgstr "Postkantoor-agent SOAP poort:"
-
-#~ msgid "Use Secure Connection (SSL)"
-#~ msgstr "Beveiligde verbinding (SSL) gebruiken"
-
-#~ msgid "Novell GroupWise"
-#~ msgstr "Novell GroupWise"
-
-#~ msgid "For accessing Novell Groupwise servers"
-#~ msgstr "Voor benadering van Novell Groupwise servers"
-
-#~ msgid "Password"
-#~ msgstr "Wachtwoord"
-
-#~ msgid "Operation cancelled"
-#~ msgstr "Operatie geannuleerd"
-
-#~ msgid "Server unexpectedly disconnected: %s"
-#~ msgstr "Server verbrak onverwacht de verbinding: %s"
-
-#~ msgid ""
-#~ "Alert from IMAP server %s@%s:\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Alarm van IMAP-server %s@%s:\n"
-#~ "%s"
-
-#~ msgid "Unexpected response from IMAP server: %s"
-#~ msgstr "Onverwacht antwoord van IMAP-server: %s"
-
-#~ msgid "IMAP command failed: %s"
-#~ msgstr "IMAP-opdracht mislukt: %s"
-
-#~ msgid "Server response ended too soon."
-#~ msgstr "Het antwoord van de server eindigde te snel."
-
-#~ msgid "IMAP server response did not contain %s information"
-#~ msgstr "Het antwoord van de IMAP-server bevatte geen %s informatie"
-
-#~ msgid "Unexpected OK response from IMAP server: %s"
-#~ msgstr "De IMAP-server gaf onverwacht een 'OK' antwoord: %s"
-
-#~ msgid "Could not create directory %s: %s"
-#~ msgstr "Kon directory %s niet maken: %s"
-
-#~ msgid "Could not load summary for %s"
-#~ msgstr "Kon samenvatting voor %s niet laden"
-
-#~ msgid "Folder was destroyed and recreated on server."
-#~ msgstr "Map is vernietigd en opnieuw gemaakt op de server."
-
-#~ msgid "Scanning for changed messages"
-#~ msgstr "Bezig met zoeken naar veranderde berichten"
-
-#~ msgid ""
-#~ "Cannot get message: %s\n"
-#~ "  %s"
-#~ msgstr ""
-#~ "Kan bericht niet verkrijgen: %s\n"
-#~ "  %s"
-
-#~ msgid "This message is not currently available"
-#~ msgstr "Dit bericht is nu niet beschikbaar"
-
-#~ msgid "Fetching summary information for new messages"
-#~ msgstr "Ophalen van samenvattingsinformatie van nieuwe berichten"
-
-#~ msgid "Incomplete server response: no information provided for message %d"
-#~ msgstr ""
-#~ "Het antwoord van de server is niet compleet: geen informatie ontvangen "
-#~ "voor bericht %d"
-
-#~ msgid "Incomplete server response: no UID provided for message %d"
-#~ msgstr ""
-#~ "Het antwoord van de server is niet compleet: geen UID voor bericht %d"
-
-#~ msgid ""
-#~ "Unexpected server response: Identical UIDs provided for messages %d and %d"
-#~ msgstr "Onverwacht server antwoord: Identieke UIDs voor bericht %d en %d "
-
-#~ msgid "Could not find message body in FETCH response."
-#~ msgstr "Kon bericht inhoud niet vinden in FETCH-antwoord."
-
-#~ msgid "Failed to cache %s: %s"
-#~ msgstr "Bufferen van bericht %s mislukt: %s"
-
-#~ msgid "Connection to Server"
-#~ msgstr "Verbinden met server"
-
-#~ msgid "Use custom command to connect to server"
-#~ msgstr "Gebruik een aangepaste opdracht om met de server te verbinden"
-
-#~ msgid "Show only subscribed folders"
-#~ msgstr "Laat alleen de aangemelde mappen zien"
-
-#~ msgid "Override server-supplied folder namespace"
-#~ msgstr "Overschrijf servergegeven mappen naamruimte"
-
-#~ msgid "Namespace"
-#~ msgstr "Naamruimte:"
-
-#~ msgid "Apply filters to new messages in INBOX on this server"
-#~ msgstr "Pas filters toe op alle nieuwe berichten in de INBOX op deze server"
-
-#~ msgid "IMAP"
-#~ msgstr "IMAP"
-
-#~ msgid "IMAP server %s"
-#~ msgstr "IMAP-server %s"
-
-#~ msgid "IMAP service for %s on %s"
-#~ msgstr "IMAP-dienst voor %s op %s"
-
-#~ msgid "Could not connect to %s (port %s): %s"
-#~ msgstr "Kon niet verbinden met %s (poort %s): %s"
-
-#~ msgid "SSL unavailable"
-#~ msgstr "SSL is niet beschikbaar"
-
-#~ msgid "Connection cancelled"
-#~ msgstr "Verbinding geannuleerd"
-
-#~ msgid "Failed to connect to IMAP server %s in secure mode: %s"
-#~ msgstr "Fout bij opzetten van beveiligde verbinding met IMAP-server %s: %s"
-
-#~ msgid "SSL/TLS extension not supported."
-#~ msgstr "SSL/TLS extensie niet ondersteund"
-
-#~ msgid "SSL negotiations failed"
-#~ msgstr "SSL-onderhandelingen mislukt"
-
-#~ msgid "Could not connect with command \"%s\": %s"
-#~ msgstr "Kon niet verbinden met opdracht \"%s\": %s"
-
-#~ msgid "IMAP server %s does not support requested authentication type %s"
-#~ msgstr "IMAP-server %s ondersteunt het gevraagde aanmeldingstype %s niet"
-
-#~ msgid "No support for authentication type %s"
-#~ msgstr "Geen ondersteuning voor aanmeldingstype %s"
-
-#~ msgid "%sPlease enter the IMAP password for %s@%s"
-#~ msgstr "%sVoer het IMAP-wachtwoord voor %s@%s in"
-
-#~ msgid ""
-#~ "Unable to authenticate to IMAP server.\n"
-#~ "%s\n"
-#~ "\n"
-#~ msgstr ""
-#~ "Fout bij het aanmelden bij de IMAP-server.\n"
-#~ "%s\n"
-#~ "\n"
-
-#~ msgid ""
-#~ "The folder name \"%s\" is invalid because it contains the character \"%c\""
-#~ msgstr "De mapnaam \"%s\" is ongeldig omdat deze het teken \"%c\" bevat"
-
-#~ msgid "The parent folder is not allowed to contain subfolders"
-#~ msgstr "De map kan geen submappen bevatten"
-
-#~ msgid "Cannot create folder `%s': folder exists."
-#~ msgstr "Kan map `%s' niet aanmaken: map bestaat reeds."
-
-#~ msgid "Unknown parent folder: %s"
-#~ msgstr "Onbekende oudermap: %s"
-
-#~ msgid "Failed sending command to IMAP server %s: %s"
-#~ msgstr "Versturen van opdracht naar IMAP-server %s mislukt: %s"
-
-#~ msgid "Unexpected response from IMAP4 server %s: %s"
-#~ msgstr "Onverwacht antwoord van IMAP-server %s: %s"
-
-#~ msgid "Unexpected greeting from IMAP server %s."
-#~ msgstr "Onverwachte begroeting van IMAP-server %s."
-
-#~ msgid "Cannot select folder `%s': Invalid mailbox name"
-#~ msgstr "Kan de map `%s' niet selecteren: Ongeldige mailbox naam"
-
-#~ msgid "Cannot select folder `%s': Bad command"
-#~ msgstr "Kan de map `%s' niet selecteren: Opdracht onjuist"
-
-#~ msgid "IMAP4 server %s unexpectedly disconnected: %s"
-#~ msgstr "De verbinding is onverwacht verbroken door IMAP4-server %s: %s"
-
-#~ msgid "Cannot sync flags to folder `%s': Unknown"
-#~ msgstr "Kan mapeigenschappen niet synchroniseren met map `%s': Onbekend"
-
-#~ msgid "Cannot sync flags to folder `%s': Bad command"
-#~ msgstr ""
-#~ "Kan mapeigenschappen niet synchroniseren met map `%s': Ongeldige opdracht"
-
-#~ msgid "Cannot expunge folder `%s': Unknown"
-#~ msgstr "Kan map `%s' niet leegmaken: Onbekend"
-
-#~ msgid "Cannot expunge folder `%s': Bad command"
-#~ msgstr "Kan map `%s' niet leegmaken: Opdracht onjuist"
-
-#~ msgid "Cannot get message %s from folder `%s': No such message"
-#~ msgstr ""
-#~ "Kan bericht %s niet uit map `%s' verkrijgen: Zo'n bericht bestaat niet"
-
-#~ msgid "Cannot get message %s from folder `%s': Bad command"
-#~ msgstr "Kan bericht %s niet uit map `%s' verkrijgen: Opdracht onjuist"
-
-#~ msgid "Cannot append message to folder `%s': Unknown error"
-#~ msgstr "Kan het bericht niet toevoegen aan map `%s': Onbekende fout"
-
-#~ msgid "Cannot append message to folder `%s': Bad command"
-#~ msgstr "Kan het bericht niet toevoegen aan map `%s': Opdracht onjuist"
-
-#~ msgid "Cannot move messages from folder `%s' to folder `%s': Unknown"
-#~ msgstr ""
-#~ "Kan de berichten van map `%s' niet verplaatsen naar map `%s': Onbekend"
-
-#~ msgid "Cannot copy messages from folder `%s' to folder `%s': Unknown"
-#~ msgstr "Kan de berichten van map `%s' niet kopiëren naar map `%s': Onbekend"
-
-#~ msgid "Cannot move messages from folder `%s' to folder `%s': Bad command"
-#~ msgstr ""
-#~ "Kan de berichten van map `%s' niet verplaatsen naar map `%s': Opdracht "
-#~ "onjuist"
-
-#~ msgid "Cannot copy messages from folder `%s' to folder `%s': Bad command"
-#~ msgstr ""
-#~ "Kan de berichten van map `%s' niet kopiëren naar map `%s': Opdracht "
-#~ "onjuist"
-
-#~ msgid "IMAPv4rev1"
-#~ msgstr "IMAPv4rev1"
-
-#~ msgid "For reading and storing mail on IMAPv4rev1 servers. EXPERIMENTAL !!"
-#~ msgstr ""
-#~ "Voor het lezen en opslaan van post op IMAPv4rev1 servers. EXPERIMENTEEL !!"
-
-#~ msgid ""
-#~ "This option will connect to the IMAPv4rev1 server using a plaintext "
-#~ "password."
-#~ msgstr ""
-#~ "Deze optie zal bij het verbinden met de IMAPv4rev1-server het wachtwoord "
-#~ "versturen als platte tekst."
-
-#~ msgid "Could not connect to %s: %s"
-#~ msgstr "Kon niet verbinden met %s: %s"
-
-#~ msgid ""
-#~ "Cannot authenticate to IMAP server %s using the %s authentication "
-#~ "mechanism"
-#~ msgstr ""
-#~ "Authenticatie met de IMAP-server %s met het authenticatie mechanisme %s "
-#~ "is mislukt"
-
-#~ msgid "%sPlease enter the IMAP password for %s on host %s"
-#~ msgstr "%sVoer het IMAP wachtwoord in voor %s op host %s"
-
-#~ msgid "Cannot authenticate to IMAP server %s using %s"
-#~ msgstr "Authenticatie op IMAP-server %s middels %s mislukt"
-
-#~ msgid "Cannot get folder `%s' on IMAP server %s: Unknown"
-#~ msgstr "Kan map `%s' niet verkrijgen van IMAP-server `%s': Onbekend"
-
-#~ msgid "Cannot create folder `%s': Invalid mailbox name"
-#~ msgstr "Kan de map `%s' niet aanmaken: Ongeldige mailbox naam"
-
-#~ msgid "Cannot create folder `%s': Bad command"
-#~ msgstr "Kan de map `%s' niet aanmaken: Ongeldige opdracht"
-
-#~ msgid "Cannot delete folder `%s': Special folder"
-#~ msgstr "Kan de map %s niet verwijderen: Speciale map"
-
-#~ msgid "Cannot delete folder `%s': Invalid mailbox name"
-#~ msgstr "Kan de map `%s' niet verwijderen: Naam mailbox ongeldig"
-
-#~ msgid "Cannot delete folder `%s': Bad command"
-#~ msgstr "Kan map `%s' niet verwijderen: Opdracht onjuist"
-
-#~ msgid "Cannot rename folder `%s' to `%s': Special folder"
-#~ msgstr "Kan map `%s' niet hernoemen naar `%s': Speciale map"
-
-#~ msgid "Cannot rename folder `%s' to `%s': Invalid mailbox name"
-#~ msgstr "Kan map `%s' niet hernoemen naar `%s': Naam mailbox ongeldig"
-
-#~ msgid "Cannot rename folder `%s' to `%s': Bad command"
-#~ msgstr "Kan map `%s' niet hernoemen naar `%s': Opdracht onjuist"
-
-#~ msgid "Cannot get %s information for pattern `%s' on IMAP server %s: %s"
-#~ msgstr ""
-#~ "Kan geen %s informatie verkrijgen voor patroon `%s' van IMAP-server %s: %s"
-
-#~ msgid "Bad command"
-#~ msgstr "Ongeldige opdracht"
-
-#~ msgid "Cannot subscribe to folder `%s': Invalid mailbox name"
-#~ msgstr "Kan niet inschrijven voor map `%s': Ongeldige postbusnaam"
-
-#~ msgid "Cannot subscribe to folder `%s': Bad command"
-#~ msgstr "Kan niet inschrijven voor map `%s': Slechte opdracht"
-
-#~ msgid "Cannot unsubscribe from folder `%s': Invalid mailbox name"
-#~ msgstr "Kan niet uitschrijven bij map `%s': Ongeldige postbusnaam"
-
-#~ msgid "Unexpected token in response from IMAP server %s: "
-#~ msgstr "Onverwacht antwoord van IMAP-server %s: "
-
-#~ msgid "No data"
-#~ msgstr "Geen data"
-
-#~ msgid "IMAP server %s unexpectedly disconnected: %s"
-#~ msgstr "De verbinding is onverwacht verbroken door de IMAP-server %s: %s"
-
-#~ msgid "IMAP+"
-#~ msgstr "IMAP+"
-
-#~ msgid ""
-#~ "Experimental IMAP 4(.1) client\n"
-#~ "This is untested and unsupported code, you want to use plain imap "
-#~ "instead.\n"
-#~ "\n"
-#~ " !!! DO NOT USE THIS FOR PRODUCTION EMAIL  !!!\n"
-#~ msgstr ""
-#~ "Experimentele IMAP-4(.1) client\n"
-#~ "Dit is ongeteste en niet ondersteunde code, u kunt beter standaard imap "
-#~ "gebruiken.\n"
-#~ "\n"
-#~ " !!! GEBRUIK VOOR PRODUCTIE EMAIL WORDT ZEER STERK AFGERADEN  !!!\n"
-
-#~ msgid "Could not connect to POP server on %s"
-#~ msgstr "Kon niet verbinden met POP-server op %s"
-
-#~ msgid "Index message body data"
-#~ msgstr "Indexeer bericht body data"
-
-#~ msgid "~%s (%s)"
-#~ msgstr "~%s (%s)"
-
-#~ msgid "mailbox:%s (%s)"
-#~ msgstr "postbus: %s: (%s)"
-
-#~ msgid "Use the `.folders' folder summary file (exmh)"
-#~ msgstr "Het '.folders' samenvattingsbestand gebruiken (exmh)"
-
-#~ msgid "MH-format mail directories"
-#~ msgstr "MH-formaat postbussen"
-
-#~ msgid "For storing local mail in MH-like mail directories."
-#~ msgstr "Voor het opslaan van lokale post in MH-achtige postbussen."
-
-#~ msgid ""
-#~ "For retrieving (moving) local mail from standard mbox formated spools "
-#~ "into folders managed by Evolution."
-#~ msgstr ""
-#~ "Voor het ophalen (verplaatsen) van lokale post uit standaard mbox-buffers "
-#~ "naar door Evolution beheerde mappen."
-
-#~ msgid "Apply filters to new messages in INBOX"
-#~ msgstr "Pas filters toe op nieuwe berichten in de INBOX"
-
-#~ msgid "Maildir-format mail directories"
-#~ msgstr "Maildir-formaat mail direcories"
-
-#~ msgid "For storing local mail in maildir directories."
-#~ msgstr "Voor het opslaan van lokale post in maildir directories."
-
-#~ msgid "Store status headers in Elm/Pine/Mutt format"
-#~ msgstr "Status-kopteksten in Elm/Pine/Mutt formaat opslaan"
-
-#~ msgid "Standard Unix mbox spool or directory"
-#~ msgstr "Standaard Unix mbox spool of map"
-
-#~ msgid ""
-#~ "For reading and storing local mail in external standard mbox spool "
-#~ "files.\n"
-#~ "May also be used to read a tree of Elm, Pine, or Mutt style folders."
-#~ msgstr ""
-#~ "Voor het lezen en opslaan van lokale post in externe standaard mbox-"
-#~ "bufferbestanden.\n"
-#~ "Kan ook gebruikt worden om een Elm, Pine of Mutt map in te lezen."
-
-#~ msgid "Store root %s is not an absolute path"
-#~ msgstr "Opslaglocatie %s is geen absoluut pad"
-
-#~ msgid "Store root %s is not a regular directory"
-#~ msgstr "Opslag `%s' is geen normale directory"
-
-#~ msgid "Cannot get folder: %s: %s"
-#~ msgstr "Kan map niet verkrijgen: %s: %s"
-
-#~ msgid "Local stores do not have an inbox"
-#~ msgstr "Lokale opslaglocaties hebben geen postbus-in"
-
-#~ msgid "Local mail file %s"
-#~ msgstr "Lokaal postbusbestand %s"
-
-#~ msgid "Could not rename folder %s to %s: %s"
-#~ msgstr "Kon de naam van map %s niet wijzigen naar %s: %s"
-
-#~ msgid "Could not rename '%s': %s"
-#~ msgstr "Kon '%s' niet hernoemen: %s"
-
-#~ msgid "Could not delete folder summary file `%s': %s"
-#~ msgstr "Kon samenvattingsbestand van map `%s' niet verwijderen: %s"
-
-#~ msgid "Could not delete folder index file `%s': %s"
-#~ msgstr "Kon indexbestand van map `%s' niet verwijderen: %s"
-
-#~ msgid "Could not delete folder meta file `%s': %s"
-#~ msgstr "Kon samenvattingsbestand van map `%s' niet verwijderen: %s"
-
-#~ msgid "Could not save summary: %s: %s"
-#~ msgstr "Kon samenvatting %s niet opslaan: %s"
-
-#~ msgid "Unable to add message to summary: unknown reason"
-#~ msgstr "Kan geen bericht toevoegen aan de korte inhoud: onbekende reden"
-
-#~ msgid "Maildir append message cancelled"
-#~ msgstr "Maildir bericht toevoegen geannuleerd"
-
-#~ msgid "Cannot append message to maildir folder: %s: %s"
-#~ msgstr "Kan bericht niet toevoegen aan maildir-map: %s: %s"
-
-#~ msgid ""
-#~ "Cannot get message: %s from folder %s\n"
-#~ "  %s"
-#~ msgstr ""
-#~ "Kan bericht %s uit folder %s niet verkrijgen\n"
-#~ "  %s"
-
-#~ msgid "Invalid message contents"
-#~ msgstr "Ongeldige berichtinhoud"
-
-#~ msgid "Cannot get folder `%s': %s"
-#~ msgstr "Kan map niet verkrijgen `%s': %s"
-
-#~ msgid "Cannot get folder `%s': folder does not exist."
-#~ msgstr "Kan `%s' map niet verkrijgen: map bestaat niet."
-
-#~ msgid "Cannot create folder `%s': %s"
-#~ msgstr "Kan map niet aanmaken: `%s': %s"
-
-#~ msgid "Cannot get folder `%s': not a maildir directory."
-#~ msgstr "Kan map `%s' niet verkrijgen: is geen maildir map."
-
-#~ msgid "Could not delete folder `%s': %s"
-#~ msgstr "Kon map `%s' niet verwijderen: %s"
-
-#~ msgid "not a maildir directory"
-#~ msgstr "geen maildir-directory"
-
-#~ msgid "Could not scan folder `%s': %s"
-#~ msgstr "Kon map `%s' niet scannen: %s"
-
-#~ msgid "Cannot open maildir directory path: %s: %s"
-#~ msgstr "Kon maildir directory path niet openen: %s: %s"
-
-#~ msgid "Checking for new messages"
-#~ msgstr "Bezig met controleren op nieuwe berichten"
-
-#~ msgid "Storing folder"
-#~ msgstr "Map wordt opgeslagen"
-
-#~ msgid "Cannot create folder lock on %s: %s"
-#~ msgstr "Kan map niet verkrijgen: %s: %s"
-
-#~ msgid "Cannot open mailbox: %s: %s\n"
-#~ msgstr "Kon postbus niet openen: %s: %s\n"
-
-#~ msgid "Mail append cancelled"
-#~ msgstr "Mail toevoegen geannuleerd"
-
-#~ msgid "Cannot append message to mbox file: %s: %s"
-#~ msgstr "Kan bericht niet aan mbox-bestand toevoegen: %s: %s"
-
-#~ msgid "The folder appears to be irrecoverably corrupted."
-#~ msgstr "De map lijkt onherstelbaar beschadigd te zijn."
-
-#~ msgid "Message construction failed."
-#~ msgstr "Opbouwen bericht mislukt."
-
-#~ msgid "Cannot create a folder by this name."
-#~ msgstr "Kan geen map met die naam maken"
-
-#~ msgid "Cannot get folder `%s': not a regular file."
-#~ msgstr "Kan map %s niet aanmaken: geen normaal bestand"
-
-#~ msgid ""
-#~ "Could not delete folder `%s':\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Kon map `%s' niet verwijderen:\n"
-#~ "%s"
-
-#~ msgid "`%s' is not a regular file."
-#~ msgstr "`%s' is geen normaal bestand."
-
-#~ msgid "Folder `%s' is not empty. Not deleted."
-#~ msgstr "Map `%s' is niet leeg. Niet verwijderd."
-
-#~ msgid "Cannot create directory `%s': %s."
-#~ msgstr "Kan directory `%s' niet maken: %s."
-
-#~ msgid "The new folder name is illegal."
-#~ msgstr "De opgegeven mapnaam is niet geldig."
-
-#~ msgid "Could not rename `%s': `%s': %s"
-#~ msgstr "Kon `%s' niet hernoemen: `%s': %s"
-
-#~ msgid "Could not rename '%s' to %s: %s"
-#~ msgstr "Kan de map niet hernoemen van '%s' naar %s: %s"
-
-#~ msgid "Fatal mail parser error near position %ld in folder %s"
-#~ msgstr "Fatale e-mail analysefout op positie %ld in de map %s"
-
-#~ msgid "Cannot check folder: %s: %s"
-#~ msgstr "Kan map %s niet controleren: %s"
-
-#~ msgid "Could not open file: %s: %s"
-#~ msgstr "Kon bestand: %s niet openen: %s"
-
-#~ msgid "Cannot open temporary mailbox: %s"
-#~ msgstr "Kon tijdelijke postbus niet openen: %s"
-
-#~ msgid "Could not close source folder %s: %s"
-#~ msgstr "Kon de bronmap %s niet sluiten: %s"
-
-#~ msgid "Could not close temp folder: %s"
-#~ msgstr "Kon de tijdelijke map niet sluiten: %s"
-
-#~ msgid "Summary and folder mismatch, even after a sync"
-#~ msgstr "Samenvatting en map niet gelijk, zelfs na synchronisatie"
-
-#~ msgid "Error writing to temp mailbox: %s"
-#~ msgstr "Fout bij het schrijven naar tijdelijke postbus: %s"
-
-#~ msgid "Writing to tmp mailbox failed: %s: %s"
-#~ msgstr "Fout bij het schrijven naar tijdelijk postbus %s: %s"
-
-#~ msgid "MH append message cancelled"
-#~ msgstr "MH bericht toevoegen geannuleerd"
-
-#~ msgid "Cannot append message to mh folder: %s: %s"
-#~ msgstr "Kan bericht niet toevoegen aan mh map %s: %s"
-
-#~ msgid "Could not create folder `%s': %s"
-#~ msgstr "Kan map `%s' niet maken: %s"
-
-#~ msgid "Cannot get folder `%s': not a directory."
-#~ msgstr "Kan map `%s' niet verkrijgen: is geen map."
-
-#~ msgid "Cannot open MH directory path: %s: %s"
-#~ msgstr "Kon MH-postbus map niet openen: %s: %s"
-
-#~ msgid "Spool `%s' cannot be opened: %s"
-#~ msgstr "Buffer `%s' kan niet geopend worden: %s"
-
-#~ msgid "Spool `%s' is not a regular file or directory"
-#~ msgstr "Buffer `%s' is geen normaal bestand of map"
-
-#~ msgid "Folder `%s/%s' does not exist."
-#~ msgstr "Map `%s/%s' bestaat niet."
-
-#~ msgid ""
-#~ "Could not open folder `%s':\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Kon map `%s' niet openen:\n"
-#~ "%s"
-
-#~ msgid ""
-#~ "Could not create folder `%s':\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Kon map `%s' niet maken:\n"
-#~ "%s"
-
-#~ msgid "`%s' is not a mailbox file."
-#~ msgstr "`%s' is geen mailbox bestand."
-
-#~ msgid "Store does not support an INBOX"
-#~ msgstr "Opslag ondersteunt geen Postvak In"
-
-#~ msgid "Spool mail file %s"
-#~ msgstr "Spool mail bestand %s"
-
-#~ msgid "Spool folder tree %s"
-#~ msgstr "Buffermap boom %s"
-
-#~ msgid "Spool folders cannot be renamed"
-#~ msgstr "Spoolmappen kunnen niet hernoemd worden"
-
-#~ msgid "Spool folders cannot be deleted"
-#~ msgstr "Spoolmappen kunnen niet gewist worden"
-
-#~ msgid "Could not sync temporary folder %s: %s"
-#~ msgstr "Kon tijdelijke map %s niet synchroniseren: %s"
-
-#~ msgid "Could not sync spool folder %s: %s"
-#~ msgstr "Kon spoolmap: %s niet synchroniseren: %s"
-
-#~ msgid ""
-#~ "Could not sync spool folder %s: %s\n"
-#~ "Folder may be corrupt, copy saved in `%s'"
-#~ msgstr ""
-#~ "Synchroniseren spoolmap '%s' is mislukt: %s\n"
-#~ "Map is wellicht beschadigd, kopie opgeslagen in '%s'"
-
-#~ msgid "Please enter the NNTP password for %s@%s"
-#~ msgstr "Voer het NNTP wachtwoord in voor %s@%s"
-
-#~ msgid "Server rejected username"
-#~ msgstr "De server heeft de gebruikersnaam geweigerd"
-
-#~ msgid "Failed to send username to server"
-#~ msgstr "Kon de gebruikersnaam niet naar de server versturen"
-
-#~ msgid "Server rejected username/password"
-#~ msgstr "De server heeft de gebruikersnaam of het wachtwoord geweigerd"
-
-#~ msgid "Cannot get message %s: %s"
-#~ msgstr "Kan bericht: %s niet verkrijgen: %s"
-
-#~ msgid "User cancelled"
-#~ msgstr "Gebruiker geannuleerd"
-
-#~ msgid "Internal error: uid in invalid format: %s"
-#~ msgstr "Interne foute: uid in ongeldig formaat: %s"
-
-#~ msgid "You cannot post NNTP messages while working offline!"
-#~ msgstr "U kunt geen NNTP berichten posten als u offline werkt!"
-
-#~ msgid "You cannot copy messages from a NNTP folder!"
-#~ msgstr "Het kopieëren van berichten vanuit een NNTP folder is onmogelijk!"
-
-#~ msgid "Could not get group list from server."
-#~ msgstr "Kan de groepenlijst niet van de server ophalen."
-
-#~ msgid "Unable to load grouplist file for %s: %s"
-#~ msgstr "Kan groeplijst bestand voor %s niet laden: %s"
-
-#~ msgid "Unable to save grouplist file for %s: %s"
-#~ msgstr "Kon groepslijstbestand voor %s niet opslaan: %s"
-
-#~ msgid ""
-#~ "Show folders in short notation (e.g. c.o.linux rather than comp.os.linux)"
-#~ msgstr ""
-#~ "Toon mappen in verkorte notatie (b.v. c.o.linux in plaats van comp.os."
-#~ "linux)"
-
-#~ msgid "In the subscription dialog, show relative folder names"
-#~ msgstr "Toon relatieve mapname in het inschrijvingsdialoog."
-
-#~ msgid "USENET news"
-#~ msgstr "USENET-nieuws"
-
-#~ msgid "This is a provider for reading from and posting toUSENET newsgroups."
-#~ msgstr ""
-#~ "Dit is een provider voor het lezen van en versturen naar USENET "
-#~ "nieuwsgroepen."
-
-#~ msgid ""
-#~ "This option will authenticate with the NNTP server using a plaintext "
-#~ "password."
-#~ msgstr ""
-#~ "Deze optie zal aanmelden bij de NNTP-server met een wachtwoord platte "
-#~ "tekst."
-
-#~ msgid "NNTP Command failed: %s"
-#~ msgstr "NNTP-Opdracht mislukt: %s"
-
-#~ msgid "Could not read greeting from %s: %s"
-#~ msgstr "Kon groet van %s niet lezen: %s"
-
-#~ msgid "NNTP server %s returned error code %d: %s"
-#~ msgstr "NNTP server %s retourneerde foutcode %d: %s"
-
-#~ msgid "USENET News via %s"
-#~ msgstr "USENET-Nieuws via %s"
-
-#~ msgid ""
-#~ "Error retrieving newsgroups:\n"
-#~ "\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Fout bij ophalen van nieuwsgroepen:\n"
-#~ "\n"
-#~ "%s"
-
-#~ msgid ""
-#~ "You cannot subscribe to this newsgroup:\n"
-#~ "\n"
-#~ "No such newsgroup. The selected item is a probably a parent folder."
-#~ msgstr ""
-#~ "U kunt niet inschrijven op deze nieuwsgroep:\n"
-#~ "\n"
-#~ "Groep bestaat niet. Het geselecteerde item is waarschijnlijk een "
-#~ "bovenliggende map."
-
-#~ msgid ""
-#~ "You cannot unsubscribe to this newsgroup:\n"
-#~ "\n"
-#~ "newsgroup does not exist!"
-#~ msgstr ""
-#~ "U kunt niet abboneren op deze nieuwsgroep:\n"
-#~ "\n"
-#~ "nieuwsgroep bestaat niet!"
-
-#~ msgid "You cannot create a folder in a News store: subscribe instead."
-#~ msgstr ""
-#~ "U kan geen map aanmaken in een nieuws opslag, in plaats hiervan kunt u "
-#~ "inschrijven."
-
-#~ msgid "You cannot rename a folder in a News store."
-#~ msgstr "U kan geen mappen hernoemen in een nieuws opslag."
-
-#~ msgid "You cannot remove a folder in a News store: unsubscribe instead."
-#~ msgstr ""
-#~ "Het is niet mogelijk om een map in een nieuws opslag te verwijderen, in "
-#~ "plaats hiervan kunt u uitschrijven."
-
-#~ msgid "Authentication requested but no username provided"
-#~ msgstr "Aanmeldingscontrole vereist maar geen gebruikersnaam gegeven"
-
-#~ msgid "Not connected."
-#~ msgstr "Niet verbonden."
-
-#~ msgid "No such folder: %s"
-#~ msgstr "Map: %s bestaat niet"
-
-#~ msgid "%s: Scanning new messages"
-#~ msgstr "%s: nieuwe berichten doorzoeken"
-
-#~ msgid "Unexpected server response from xover: %s"
-#~ msgstr "Onverwacht serverantwoord van xover: %s"
-
-#~ msgid "Unexpected server response from head: %s"
-#~ msgstr "Onverwacht serverantwoord van head: %s"
-
-#~ msgid "Use cancel"
-#~ msgstr "Gebruik annuleren"
-
-#~ msgid "Operation failed: %s"
-#~ msgstr "Bewerking mislukt: %s"
-
-#~ msgid "Retrieving POP summary"
-#~ msgstr "POP-samenvatting aan het ophalen"
-
-#~ msgid "Cannot get POP summary: %s"
-#~ msgstr "Kan POP-samenvatting niet verkrijgen: %s"
-
-#~ msgid "Expunging deleted messages"
-#~ msgstr "Bezit met schrappen van verwijderde berichten"
-
-#~ msgid "No message with uid %s"
-#~ msgstr "Geen bericht met uid %s"
-
-#~ msgid "Retrieving POP message %d"
-#~ msgstr "POP-bericht %d wordt opgehaald"
-
-#~ msgid "Delete after %s day(s)"
-#~ msgstr "Verwijder na %s dag(en)"
-
-#~ msgid "Disable support for all POP3 extensions"
-#~ msgstr "Ondersteuning voor POP3-extensies uitschakelen"
-
-#~ msgid "POP"
-#~ msgstr "POP"
-
-#~ msgid "For connecting to and downloading mail from POP servers."
-#~ msgstr ""
-#~ "Voor het contact leggen met, en het downloaden van berichten van POP "
-#~ "servers."
-
-#~ msgid ""
-#~ "This option will connect to the POP server using a plaintext password. "
-#~ "This is the only option supported by many POP servers."
-#~ msgstr ""
-#~ "Bij het verbinden met de POP-server het wachtwoord versturen in platte-"
-#~ "tekst-vorm. Deze optie is de enige die wordt ondersteund door de meeste "
-#~ "POP servers."
-
-#~ msgid ""
-#~ "This option will connect to the POP server using an encrypted password "
-#~ "via the APOP protocol. This may not work for all users even on servers "
-#~ "that claim to support it."
-#~ msgstr ""
-#~ "Bij het verbinden met de POP-server word gebruik gemaakt van een "
-#~ "versleuteld wachtwoord via het APOP-protocol. Deze optie zal niet werken "
-#~ "voor alle gebruikers, zelfs niet op servers die beweren het te "
-#~ "ondersteunen."
-
-#~ msgid "Could not connect to POP server %s (port %s): %s"
-#~ msgstr "Kon niet verbinden met POP-server %s (poort %s): %s"
-
-#~ msgid "Failed to read a valid greeting from POP server %s (port %s)"
-#~ msgstr "Lezen mislukt van geldige begroeting van POP-server %s (poort %s)"
-
-#~ msgid "Failed to connect to POP server %s in secure mode: %s"
-#~ msgstr "Fout bij opzetten van beveiligde verbinding met POP-server %s: %s"
-
-#~ msgid ""
-#~ "Unable to connect to POP server %s: No support for requested "
-#~ "authentication mechanism."
-#~ msgstr ""
-#~ "Kon niet verbinden met POP-server %s: Geen ondersteuning voor de "
-#~ "ingestelde aanmeldingsmethode."
-
-#~ msgid "SASL `%s' Login failed for POP server %s: %s"
-#~ msgstr "SASL `%s' aanmelding mislukt bij POP-server %s: %s"
-
-#~ msgid "Cannot login to POP server %s: SASL Protocol error"
-#~ msgstr "Kan niet inloggen bij POP server %s: SASL protocol fout"
-
-#~ msgid "Failed to authenticate on POP server %s: %s"
-#~ msgstr "Identificatie op POP-server %s mislukt: %s"
-
-#~ msgid "%sPlease enter the POP password for %s on host %s"
-#~ msgstr "%sVoer het POP3-wachtwoord voor %s op host %s in"
-
-#~ msgid ""
-#~ "Unable to connect to POP server %s.\n"
-#~ "Error sending password: %s"
-#~ msgstr ""
-#~ "Fout bij verbinden met de POP-server %s.\n"
-#~ "Fout bij het versturen van het wachtwoord: %s"
-
-#~ msgid ""
-#~ "Unable to connect to POP server %s.\n"
-#~ "Error sending username: %s"
-#~ msgstr ""
-#~ "Kon geen verbinding maken met de POP-server %s.\n"
-#~ "Fout bij het versturen van de gebruikersnaam: %s"
-
-#~ msgid "No such folder `%s'."
-#~ msgstr "Map `%s' bestaat niet."
-
-#~ msgid "Sendmail"
-#~ msgstr "Sendmail"
-
-#~ msgid ""
-#~ "For delivering mail by passing it to the \"sendmail\" program on the "
-#~ "local system."
-#~ msgstr ""
-#~ "Het afleveren van post zal afgehandeld worden door het \"sendmail\" "
-#~ "programma op het lokale systeem."
-
-#~ msgid "Could not parse recipient list"
-#~ msgstr "kon ontvangerslijst niet verwerken"
-
-#~ msgid "Could not create pipe to sendmail: %s: mail not sent"
-#~ msgstr "Kon verbinding met sendmail niet maken: %s: bericht niet verstuurd"
-
-#~ msgid "Could not fork sendmail: %s: mail not sent"
-#~ msgstr "Kon sendmail niet starten: %s: bericht niet verstuurd"
-
-#~ msgid "sendmail exited with signal %s: mail not sent."
-#~ msgstr "sendmail stopte met signaal %s: bericht niet verstuurd."
-
-#~ msgid "Could not execute %s: mail not sent."
-#~ msgstr "Kon %s niet uitvoeren: bericht niet verstuurd."
-
-#~ msgid "sendmail exited with status %d: mail not sent."
-#~ msgstr "sendmail stopte met staat %d: bericht niet verstuurd."
-
-#~ msgid "sendmail"
-#~ msgstr "sendmail"
-
-#~ msgid "Mail delivery via the sendmail program"
-#~ msgstr "Postaflevering via het sendmail programma"
-
-#~ msgid "SMTP"
-#~ msgstr "SMTP"
-
-#~ msgid "For delivering mail by connecting to a remote mailhub using SMTP."
-#~ msgstr "Voor het versturen van e-mail naar een externe mailhub met SMTP."
-
-#~ msgid "Syntax error, command unrecognized"
-#~ msgstr "Syntactische fout, opdracht niet herkend"
-
-#~ msgid "Syntax error in parameters or arguments"
-#~ msgstr "Syntactische fout in parameters of argumenten"
-
-#~ msgid "Command not implemented"
-#~ msgstr "Opdracht niet geïmplementeerd"
-
-#~ msgid "Command parameter not implemented"
-#~ msgstr "Opdrachtparameter niet geïmplementeerd"
-
-#~ msgid "System status, or system help reply"
-#~ msgstr "Systeem-status, of systeem-hulp-antwoord"
-
-#~ msgid "Help message"
-#~ msgstr "Hulpbericht"
-
-#~ msgid "Service closing transmission channel"
-#~ msgstr "Dienst heeft transmissiekanaal gesloten"
-
-#~ msgid "Service not available, closing transmission channel"
-#~ msgstr "Dienst niet beschikbaar, transmissiekanaal gesloten"
-
-#~ msgid "Requested mail action okay, completed"
-#~ msgstr "Postopdracht geslaagd, voltooid"
-
-#~ msgid "User not local; will forward to <forward-path>"
-#~ msgstr "Gebruiker niet lokaal; zal doorsturen naar <doorstuur-pad>"
-
-#~ msgid "Requested mail action not taken: mailbox unavailable"
-#~ msgstr "Postopdracht niet uitgevoerd: postbus niet beschikbaar"
-
-#~ msgid "Requested action not taken: mailbox unavailable"
-#~ msgstr "Opdracht niet uitgevoerd: postbus niet beschikbaar"
-
-#~ msgid "Requested action aborted: error in processing"
-#~ msgstr "Verzochte actie afgebroken: fout tijdens verwerken"
-
-#~ msgid "User not local; please try <forward-path>"
-#~ msgstr "Gebruiker niet lokaal; probeer <doorstuur-pad>"
-
-#~ msgid "Requested action not taken: insufficient system storage"
-#~ msgstr "Opdracht niet uitgevoerd: onvoldoende ruimte op systeem"
-
-#~ msgid "Requested mail action aborted: exceeded storage allocation"
-#~ msgstr "Postopdracht afgebroken: gebruikt teveel ruimte"
-
-#~ msgid "Requested action not taken: mailbox name not allowed"
-#~ msgstr "Opdracht niet uitgevoerd: postbusnaam niet toegestaan"
-
-#~ msgid "Start mail input; end with <CRLF>.<CRLF>"
-#~ msgstr "Start postinvoer; eindig met <CRLF>.<CRLF>"
-
-#~ msgid "Transaction failed"
-#~ msgstr "Transactie mislukt"
-
-#~ msgid "A password transition is needed"
-#~ msgstr "Veranderen van wachtwoord is vereist"
-
-#~ msgid "Authentication mechanism is too weak"
-#~ msgstr "Aanmeldingsmechanisme te zwak"
-
-#~ msgid "Temporary authentication failure"
-#~ msgstr "Tijdelijke aanmeldingsfout"
-
-#~ msgid "Authentication required"
-#~ msgstr "Aanmelding is vereist"
-
-#~ msgid "Welcome response error"
-#~ msgstr "Fout in welkomstbericht"
-
-#~ msgid "Failed to connect to SMTP server %s in secure mode: %s"
-#~ msgstr "Fout bij opzetten van beveiligde verbinding met SMTP-server %s: %s"
-
-#~ msgid "server does not appear to support SSL"
-#~ msgstr "server lijkt geen SSL te ondersteunen"
-
-#~ msgid "STARTTLS command failed: %s"
-#~ msgstr "STARTTLS-opdracht mislukt: %s"
-
-#~ msgid "STARTTLS command failed"
-#~ msgstr "STARTTLS-opdracht mislukt: %s"
-
-#~ msgid "SMTP server %s does not support requested authentication type %s."
-#~ msgstr "SMTP-server %s ondersteunt het gevraagde aanmeldingstype %s niet."
-
-#~ msgid "%sPlease enter the SMTP password for %s on host %s"
-#~ msgstr "%sVoer het SMTP wachtwoord in voor %s op host %s"
-
-#~ msgid ""
-#~ "Unable to authenticate to SMTP server.\n"
-#~ "%s\n"
-#~ "\n"
-#~ msgstr ""
-#~ "Fout bij het aanmelden bij de SMTP-server.\n"
-#~ "%s\n"
-#~ "\n"
-
-#~ msgid "SMTP server %s"
-#~ msgstr "SMTP-server %s"
-
-#~ msgid "SMTP mail delivery via %s"
-#~ msgstr "Postaflevering via %s"
-
-#~ msgid "Cannot send message: service not connected."
-#~ msgstr "Kan bericht niet versturen: service niet verbonden."
-
-#~ msgid "Cannot send message: sender address not valid."
-#~ msgstr "Kan berichten niet versturen: afzender niet geldig."
-
-#~ msgid "Cannot send message: no recipients defined."
-#~ msgstr "Kan bericht niet versturen: Geen ontvangers gespecificeerd."
-
-#~ msgid "Cannot send message: one or more invalid recipients"
-#~ msgstr "Kan bericht niet versturen: een of meerdere ongeldige ontvangers"
-
-#~ msgid "SMTP Greeting"
-#~ msgstr "SMTP Begroeting"
-
-#~ msgid "HELO command failed: %s"
-#~ msgstr "HELO-opdracht mislukt: %s"
-
-#~ msgid "HELO command failed"
-#~ msgstr "HELO command mislukt"
-
-#~ msgid "Error creating SASL authentication object."
-#~ msgstr "Fout bij aanmaken van SASL aanmeldingsobject"
-
-#~ msgid "AUTH command failed: %s"
-#~ msgstr "AUTH-opdracht mislukt: %s"
-
-#~ msgid "AUTH command failed"
-#~ msgstr "AUTH-opdracht mislukt: %s"
-
-#~ msgid "Bad authentication response from server.\n"
-#~ msgstr "Fout aanmeldingsantwoord van server.\n"
-
-#~ msgid "MAIL FROM command failed: %s: mail not sent"
-#~ msgstr "MAIL FROM opdracht mislukt: %s: bericht niet verzonden"
-
-#~ msgid "MAIL FROM command failed"
-#~ msgstr "MAIL FROM-opdracht mislukt"
-
-#~ msgid "RCPT TO command failed: %s: mail not sent"
-#~ msgstr "RCPT TO opdracht mislukt: %s: bericht niet verzonden"
-
-#~ msgid "RCPT TO <%s> failed"
-#~ msgstr "RCPT TO <%s> mislukt"
-
-#~ msgid "DATA command failed: %s: mail not sent"
-#~ msgstr "DATA-opdracht mislukt: %s : bericht niet verstuurd"
-
-#~ msgid "DATA command failed"
-#~ msgstr "DATA-opdracht mislukt"
-
-#~ msgid "RSET command failed: %s"
-#~ msgstr "RSET-opdracht mislukt: %s"
-
-#~ msgid "RSET command failed"
-#~ msgstr "RSET-opdracht mislukt"
-
-#~ msgid "QUIT command failed: %s"
-#~ msgstr "QUIT-opdracht mislukt: %s"
-
-#~ msgid "QUIT command failed"
-#~ msgstr "QUIT-opdracht mislukt: %s"
-
-#~ msgid "Remove selected items from the attachment list"
-#~ msgstr "Verwijder het geselecteerde bestand uit de lijst van bijlages"
-
-# Een bestand aan het bericht toevoegen
-# Een bestand bij het bericht voegen
-#~ msgid "Attach a file to the message"
-#~ msgstr "Een bestand aan het bericht toevoegen"
-
-#~ msgid "incoming"
-#~ msgstr "inkomend"
-
-#~ msgid "VFolders"
-#~ msgstr "VMappen"
-
-#~ msgid "Add Sender to Address_book"
-#~ msgstr "Afzender aan adresboe_k toevoegen"
-
-#~ msgid "Appl_y Filters"
-#~ msgstr "Filters _toepassen"
-
-#~ msgid "F_ilter Junk"
-#~ msgstr "Troep f_ilteren"
-
-#~ msgid "Virtual _Folders"
-#~ msgstr "Virtuele mappen"
-
-#~ msgid "Evolution Account Editor"
-#~ msgstr "Evolution Accountbeheer"
-
-#~ msgid "Select individual file"
-#~ msgstr "Selecteer individueel bestand"
-
-#~ msgid "Receiving Mail"
-#~ msgstr "E-mail ontvangen"
-
-#~ msgid ""
-#~ "Please enter information about your incoming mail server below. If you "
-#~ "are not sure, ask your system administrator or Internet Service Provider."
-#~ msgstr ""
-#~ "Geef hier de informatie over uw server om e-mail van te ontvangen. Als u "
-#~ "niet weet wat voor servertype u gebruikt, neem dan contact op met uw "
-#~ "systeembeheerder of met uw internet-provider."
-
-#~ msgid ""
-#~ "You are almost done with the mail configuration process. The identity, "
-#~ "incoming mail server and outgoing mail transport method which you "
-#~ "provided will be grouped together to make an Evolution mail account. "
-#~ "Please enter a name for this account in the space below. This name will "
-#~ "be used for display purposes only."
-#~ msgstr ""
-#~ "U bent bijna klaar met het instellen van uw e-mailconfiguratie. De "
-#~ "identiteit, inkomende e-mailserver en uitgaande e-mail verzendmethode die "
-#~ "u heeft ingevuld zullen worden toegevoegd aan een aan te maken Evolution "
-#~ "e-mailaccount. Geef een naam aan dit account in de ruimte hieronder. Deze "
-#~ "naam is alleen nodig voor de lijstweergave."
-
-#~ msgid "Connecting to server..."
-#~ msgstr "Verbinden met server..."
-
-#~ msgid "<span weight=\"bold\">Checking for New Mail</span>"
-#~ msgstr "<span weight=\"bold\">Controleren voor Nieuwe Berichten</span>"
-
-#~ msgid "IMAPv4 "
-#~ msgstr "IMAPv4"
-
-#~ msgid "Kerberos "
-#~ msgstr "Kerberos"
-
-#~ msgid "Qmail maildir "
-#~ msgstr "Qmail maildir"
-
-#~ msgid "Standard Unix mbox"
-#~ msgstr "Standaard Unix mailboxbestand"
-
-#~ msgid "_Use Secure Connection (SSL):"
-#~ msgstr "_Beveiligde verbinding (SSL) gebruiken:"
-
-#~ msgid "C_ompleted"
-#~ msgstr "V_oltooid"
-
-#~ msgid "Body does not contain"
-#~ msgstr "Inhoud bevat niet"
-
-#~ msgid "Body or subject contains"
-#~ msgstr "Inhoud of onderwerp bevat"
-
-#~ msgid "Subject does not contain"
-#~ msgstr "Onderwerp bevat niet"
-
-#~ msgid "Whether Evolution should start up in offline mode"
-#~ msgstr "Evolution opstarten in offline mode"
-
-#~ msgid "Close this item"
-#~ msgstr "Dit item sluiten"
-
-#~ msgid "Preview the printed item"
-#~ msgstr "Een afdrukvoorbeeld maken van het item"
-
-#~ msgid "Print this item"
-#~ msgstr "Item afdrukken"
-
-#~ msgid "Save the item and close the dialog box"
-#~ msgstr "Dit item opslaan en het dialoogvenster sluiten"
-
-#~ msgid "Save this item to disk"
-#~ msgstr "Dit item opslaan op de harde schijf"
-
-#~ msgid "Print En_velope..."
-#~ msgstr "En_velop afdrukken..."
-
-#~ msgid "Save the contact and close the dialog box"
-#~ msgstr "Dit contact opslaan en het dialoogvenster sluiten"
-
-#~ msgid "Send _Message to Contact..."
-#~ msgstr "_Bericht sturen aan contact..."
-
-#~ msgid "Save the list and close the dialog box"
-#~ msgstr "Deze lijst opslaan en het dialoogvenster sluiten"
-
-#~ msgid "Se_nd list to other..."
-#~ msgstr "_Lijst naar ander sturen..."
-
-#~ msgid "_Delete..."
-#~ msgstr "Verwij_deren..."
-
-#~ msgid "Cancel the meeting for this item"
-#~ msgstr "Annuleer de bijeenkomst voor dit item"
-
-#~ msgid "Forward as i_Calendar"
-#~ msgstr "Doorsturen als i_Calendar"
-
-#~ msgid "Forward this item via email"
-#~ msgstr "Dit item via e-mail doorsturen"
-
-#~ msgid "Obtain the latest meeting information"
-#~ msgstr "Ophalen laatste bijeenkomstinformatie"
-
-#~ msgid "Re_fresh Meeting"
-#~ msgstr "_Bijeenkomst verversen"
-
-#~ msgid "Schedule _Meeting"
-#~ msgstr "_Bijeenkomst plannen"
-
-#~ msgid "Schedule a meeting for this item"
-#~ msgstr "Plan een bijeenkomst voor dit item"
-
-#~ msgid "Create _Virtual Folder From Message"
-#~ msgstr "_VMap van bericht maken"
-
-#~ msgid "Assign Task"
-#~ msgstr "Taak Toewijzen"
-
-#~ msgid "Assign this task to others"
-#~ msgstr "Wijs deze taak toe aan anderen"
-
-#~ msgid "Cancel Task"
-#~ msgstr "Annuleer Taak"
-
-#~ msgid "Cancel this task"
-#~ msgstr "Annuleer deze taak"
-
-#~ msgid "Re_fresh Task"
-#~ msgstr "Ververs Taak"
-
-#~ msgid "Failed to resolve host `%s': %s"
-#~ msgstr "Kon computer '%s' niet vinden: %s"
-
-#~ msgid "Failure in name lookup: %s"
-#~ msgstr "Fout bij opzoeken naam: %s"
-
-#~ msgid "Host lookup failed: cannot create thread: %s"
-#~ msgstr "Opzoeken host mislukt: kan draad niet creëren: %s"
-
-#~ msgid "Host lookup failed: %s: host not found"
-#~ msgstr "Machine niet gevonden: %s machine niet gevonden"
-
-#~ msgid "Host lookup failed: %s: unknown reason"
-#~ msgstr "Machine opzoeken faalde: %s onbekende reden"
-
-#~ msgid "Host lookup failed: host not found"
-#~ msgstr "Opzoeken mislukt: computer niet gevonden"
-
-#~ msgid ""
-#~ "Failed to connect to IMAP server %s in secure mode: Server does not "
-#~ "support STARTTLS"
-#~ msgstr ""
-#~ "Fout bij opzetten van beveiligde verbinding met IMAP-server %s: De "
-#~ "server \n"
-#~ "ondersteund geen STARTTLS"

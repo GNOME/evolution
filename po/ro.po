@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD.ro\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-09-01 07:26+0000\n"
+"POT-Creation-Date: 2005-09-11 17:30+0200\n"
 "PO-Revision-Date: 2005-09-04 18:23+0300\n"
 "Last-Translator: Mugurel Tudor <mugurelu@gnome.ro>\n"
 "Language-Team: Română <gnomero-list@lists.sourceforge.net>\n"
@@ -756,8 +756,8 @@ msgid ""
 "\n"
 "Please be patient while Evolution migrates your Pilot Sync data..."
 msgstr ""
-"Înregistrările modificărilor pentru Evolution Palm Sync şi fişierele hartă s-au "
-"schimbat.\n"
+"Înregistrările modificărilor pentru Evolution Palm Sync şi fişierele hartă s-"
+"au schimbat.\n"
 "\n"
 "Vă rugăm aşteptaţi în timp ce Evolution migrează datele Pilot Sync..."
 
@@ -3356,8 +3356,8 @@ msgid ""
 "We were unable to open this addressbook.  Please check that the path %s "
 "exists and that you have permission to access it."
 msgstr ""
-"Nu am putut deschide această agendă.  Vă rugăm verificaţi dacă există calea %s "
-"şi daca aveţi permisiunile necesare pentru accesarea ei."
+"Nu am putut deschide această agendă.  Vă rugăm verificaţi dacă există calea %"
+"s şi daca aveţi permisiunile necesare pentru accesarea ei."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:110
 msgid ""
@@ -3921,8 +3921,8 @@ msgid ""
 " There are few attachments getting downloaded. Saving the appointment will "
 "cause the appointment to be saved without those pending attachments "
 msgstr ""
-" Sunt câteva ataşamente ce se transferă. Salvarea programării va determina ca "
-"aceasta să fie salvată fără ataşamentele ce se transferă acum "
+" Sunt câteva ataşamente ce se transferă. Salvarea programării va determina "
+"ca aceasta să fie salvată fără ataşamentele ce se transferă acum "
 
 #: ../calendar/calendar.error.xml.h:2
 msgid ""
@@ -3968,8 +3968,8 @@ msgid ""
 "All information on these appointments will be deleted and can not be "
 "restored."
 msgstr ""
-"Toate informaţiile despre aceste programări vor fi şterse şi nu vor mai putea "
-"fi restaurate."
+"Toate informaţiile despre aceste programări vor fi şterse şi nu vor mai "
+"putea fi restaurate."
 
 #: ../calendar/calendar.error.xml.h:8
 msgid "All information on these tasks will be deleted and can not be restored."
@@ -4109,24 +4109,24 @@ msgid ""
 "If you don't send a cancellation notice, the other participants may not know "
 "the journal has been deleted."
 msgstr ""
-"Dacă nu trimiteţi o notificare de anulare, ceilalţi participanţi nu "
-"vor şti că intrarea din jurnal a fost ştearsă."
+"Dacă nu trimiteţi o notificare de anulare, ceilalţi participanţi nu vor şti "
+"că intrarea din jurnal a fost ştearsă."
 
 #: ../calendar/calendar.error.xml.h:37
 msgid ""
 "If you don't send a cancellation notice, the other participants may not know "
 "the meeting is canceled."
 msgstr ""
-"Dacă nu trimiteţi o notificare de anulare, ceilalţi participanţi nu "
-"vor şti că şedinţa s-a anulat."
+"Dacă nu trimiteţi o notificare de anulare, ceilalţi participanţi nu vor şti "
+"că şedinţa s-a anulat."
 
 #: ../calendar/calendar.error.xml.h:38
 msgid ""
 "If you don't send a cancellation notice, the other participants may not know "
 "the task has been deleted."
 msgstr ""
-"Dacă nu trimiteţi o notificare de anulare, ceilalţi participanţi nu "
-"vor şti că sarcina a fost ştearsă."
+"Dacă nu trimiteţi o notificare de anulare, ceilalţi participanţi nu vor şti "
+"că sarcina a fost ştearsă."
 
 #: ../calendar/calendar.error.xml.h:39
 msgid "Save Changes"
@@ -4146,8 +4146,8 @@ msgid ""
 "Sending updated information allows other participants to keep their "
 "calendars up to date."
 msgstr ""
-"Trimiterea informaţiilor actualizate va permite celorlalţi participanţi "
-"să aibă calendarele actualizate."
+"Trimiterea informaţiilor actualizate va permite celorlalţi participanţi să "
+"aibă calendarele actualizate."
 
 #: ../calendar/calendar.error.xml.h:43
 msgid ""
@@ -4192,8 +4192,7 @@ msgstr "Doriţi să salvaţi modificările aduse la această sarcină?"
 #: ../calendar/calendar.error.xml.h:53
 msgid "Would you like to send a cancellation notice for this journal entry?"
 msgstr ""
-"Doriţi să trimiteţi o notificare de anulare pentru această intrare în "
-"jurnal?"
+"Doriţi să trimiteţi o notificare de anulare pentru această intrare în jurnal?"
 
 #: ../calendar/calendar.error.xml.h:54
 msgid "Would you like to send all the participants a cancellation notice?"
@@ -4287,7 +4286,7 @@ msgid "Calendar and Tasks"
 msgstr "Calendar şi sarcini"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:2
-#: ../calendar/gui/calendar-component.c:1307
+#: ../calendar/gui/calendar-component.c:1309
 msgid "Calendars"
 msgstr "Calendare"
 
@@ -4666,8 +4665,8 @@ msgid ""
 "Position of the vertical pane, between the view and the date navigator "
 "calendar and task list in the month view, in pixels."
 msgstr ""
-"Poziţia panoului vertical, între calendar şi lista de sarcini în "
-"afişarea lunii, în pixeli."
+"Poziţia panoului vertical, între calendar şi lista de sarcini în afişarea "
+"lunii, în pixeli."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:39
 msgid ""
@@ -4760,19 +4759,22 @@ msgstr "Dacă să folosească sau nu zona de notificare pentru a afişa alarmele
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:59
 msgid "Whether to ask for confirmation when deleting an appointment or task."
-msgstr "Dacă să ceară confirmare la ştergerea unei programări sau a unei sarcini."
+msgstr ""
+"Dacă să ceară confirmare la ştergerea unei programări sau a unei sarcini."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:60
 msgid "Whether to ask for confirmation when expunging appointments and tasks."
-msgstr "Dacă să ceară confirmare la ştergerea definitivă a programărilor şi sarcinilor."
+msgstr ""
+"Dacă să ceară confirmare la ştergerea definitivă a programărilor şi "
+"sarcinilor."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:61
 msgid ""
 "Whether to compress weekends in the month view, which puts Saturday and "
 "Sunday in the space of one weekday."
 msgstr ""
-"Dacă să comprime weekend-urile în afişarea lunii, punând duminca şi "
-"sâmbăta în spaţiul unei singure zile."
+"Dacă să comprime weekend-urile în afişarea lunii, punând duminca şi sâmbăta "
+"în spaţiul unei singure zile."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:62
 msgid "Whether to display the end time of events in the week and month views."
@@ -4917,55 +4919,55 @@ msgstr ""
 "Nici un calendar nu este disponibil pentru crearea evenimentelor şi "
 "şedinţelor"
 
-#: ../calendar/gui/calendar-component.c:1282
+#: ../calendar/gui/calendar-component.c:1284
 msgid "Calendar Source Selector"
 msgstr "Selectorul de sursă calendar"
 
-#: ../calendar/gui/calendar-component.c:1473
+#: ../calendar/gui/calendar-component.c:1475
 msgid "New appointment"
 msgstr "Programare nouă"
 
-#: ../calendar/gui/calendar-component.c:1474
+#: ../calendar/gui/calendar-component.c:1476
 msgid "_Appointment"
 msgstr "Progr_amare"
 
-#: ../calendar/gui/calendar-component.c:1475
+#: ../calendar/gui/calendar-component.c:1477
 msgid "Create a new appointment"
 msgstr "Creează o programare nouă"
 
-#: ../calendar/gui/calendar-component.c:1481
+#: ../calendar/gui/calendar-component.c:1483
 msgid "New meeting"
 msgstr "Întâlnire nouă"
 
-#: ../calendar/gui/calendar-component.c:1482
+#: ../calendar/gui/calendar-component.c:1484
 msgid "M_eeting"
 msgstr "Ş_edinţă"
 
-#: ../calendar/gui/calendar-component.c:1483
+#: ../calendar/gui/calendar-component.c:1485
 msgid "Create a new meeting request"
 msgstr "Creează o nouă cerere de şedinţă"
 
-#: ../calendar/gui/calendar-component.c:1489
+#: ../calendar/gui/calendar-component.c:1491
 msgid "New all day appointment"
 msgstr "O programare nouă pentru toată ziua"
 
-#: ../calendar/gui/calendar-component.c:1490
+#: ../calendar/gui/calendar-component.c:1492
 msgid "All Day A_ppointment"
 msgstr "O _programare nouă pentru toată ziua"
 
-#: ../calendar/gui/calendar-component.c:1491
+#: ../calendar/gui/calendar-component.c:1493
 msgid "Create a new all-day appointment"
 msgstr "Creează o programare nouă pentru toată ziua"
 
-#: ../calendar/gui/calendar-component.c:1497
+#: ../calendar/gui/calendar-component.c:1499
 msgid "New calendar"
 msgstr "Calendar nou"
 
-#: ../calendar/gui/calendar-component.c:1498
+#: ../calendar/gui/calendar-component.c:1500
 msgid "Cale_ndar"
 msgstr "Cale_ndar"
 
-#: ../calendar/gui/calendar-component.c:1499
+#: ../calendar/gui/calendar-component.c:1501
 msgid "Create a new calendar"
 msgstr "Creează un calendar nou"
 
@@ -9900,8 +9902,9 @@ msgid ""
 " There are few attachments getting downloaded. Sending the mail will cause "
 "the mail to be sent without those pending attachments "
 msgstr ""
-" Mai sunt câteva ataşamente ce se transferă. Trimiterea mailului va determina "
-"ca acesta să fie trimis fără ataşamentele ce se transferă în acest moment"
+" Mai sunt câteva ataşamente ce se transferă. Trimiterea mailului va "
+"determina ca acesta să fie trimis fără ataşamentele ce se transferă în acest "
+"moment"
 
 #: ../composer/mail-composer.error.xml.h:2
 msgid "All accounts have been removed."
@@ -11412,8 +11415,8 @@ msgid ""
 "This message is signed with a valid signature, but the sender of the message "
 "cannot be verified."
 msgstr ""
-"Acest mesaj este semnat cu o semnătură validă, dar expeditorul mesajului nu poate "
-"fi verificat."
+"Acest mesaj este semnat cu o semnătură validă, dar expeditorul mesajului nu "
+"poate fi verificat."
 
 #: ../mail/em-format-html-display.c:705 ../mail/em-format-html.c:606
 msgid "Unencrypted"
@@ -12224,8 +12227,8 @@ msgid ""
 msgstr ""
 "Această cheie ar trebui să conţină o listă de structuri XML specificând "
 "antetele personalizate, şi dacă acestea sunt afişate sau nu. Formatul "
-"structurii XML este „header enabled” - setaţi-l ca enabled dacă "
-"antetul va fi afişat în mail."
+"structurii XML este „header enabled” - setaţi-l ca enabled dacă antetul va "
+"fi afişat în mail."
 
 #: ../mail/evolution-mail.schemas.in.in.h:85
 msgid "Thread the message list."
@@ -12324,8 +12327,8 @@ msgid ""
 "Whether or not to fall back on threading by subjects when the messages do "
 "not contain In-Reply-To or References headers."
 msgstr ""
-"Dacă să se revină sau nu la gruparea discuţiilor după subiecte "
-"atunci când mesajul nu conţine antetele In-Reply-To sau References."
+"Dacă să se revină sau nu la gruparea discuţiilor după subiecte atunci când "
+"mesajul nu conţine antetele In-Reply-To sau References."
 
 #: ../mail/importers/elm-importer.c:193
 msgid "Importing Elm data"
@@ -12961,7 +12964,8 @@ msgid ""
 "Please enter a descriptive name for this account in the space below.\n"
 "This name will be used for display purposes only."
 msgstr ""
-"Vă rugăm introduceţi un nume descriptiv pentru acest cont în spaţiul de mai jos.\n"
+"Vă rugăm introduceţi un nume descriptiv pentru acest cont în spaţiul de mai "
+"jos.\n"
 "Acest nume va fi utilizat doar la afişare."
 
 #: ../mail/mail-config.glade.h:109
@@ -18046,7 +18050,8 @@ msgstr "Selectează tot şi numai mesajele care nu sunt actualmente selectate"
 #: ../ui/evolution-mail-list.xml.h:20
 msgid "Select all messages in the same thread as the selected message"
 msgstr ""
-"Selectează toate mesajele ce fac parte din aceaşi discuţie cu mesajul selectat"
+"Selectează toate mesajele ce fac parte din aceaşi discuţie cu mesajul "
+"selectat"
 
 #: ../ui/evolution-mail-list.xml.h:21
 msgid "Select all visible messages"
@@ -18846,7 +18851,8 @@ msgstr "Uită _parolele"
 
 #: ../ui/evolution.xml.h:12
 msgid "Forget remembered passwords so you will be prompted for them again"
-msgstr "Uită parolele memorate astfel încât veţi fi întrebat din nou despre ele"
+msgstr ""
+"Uită parolele memorate astfel încât veţi fi întrebat din nou despre ele"
 
 #: ../ui/evolution.xml.h:13
 msgid "Hide window buttons"
@@ -20209,4 +20215,3 @@ msgstr "Context IM"
 #: ../widgets/text/e-text.c:3683 ../widgets/text/e-text.c:3684
 msgid "Handle Popup"
 msgstr "Gestionează popup"
-

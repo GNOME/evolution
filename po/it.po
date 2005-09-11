@@ -30,7 +30,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-08-29 22:24+0200\n"
+"POT-Creation-Date: 2005-09-11 17:30+0200\n"
 "PO-Revision-Date: 2005-08-29 22:26+0200\n"
 "Last-Translator: Luca Ferretti <elle.uca@infinito.it>\n"
 "Language-Team: Italian <tp@lists.linux.it>\n"
@@ -4324,7 +4324,7 @@ msgid "Calendar and Tasks"
 msgstr "Calendario e compiti"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:2
-#: ../calendar/gui/calendar-component.c:1307
+#: ../calendar/gui/calendar-component.c:1309
 msgid "Calendars"
 msgstr "Calendari"
 
@@ -4967,55 +4967,55 @@ msgstr "Impossibile aprire il calendario «%s» per creare eventi e appuntamenti
 msgid "There is no calendar available for creating events and meetings"
 msgstr "Non c'è alcun calendario disponibile per creare eventi e appuntamenti"
 
-#: ../calendar/gui/calendar-component.c:1282
+#: ../calendar/gui/calendar-component.c:1284
 msgid "Calendar Source Selector"
 msgstr "Selettore origine calendario"
 
-#: ../calendar/gui/calendar-component.c:1473
+#: ../calendar/gui/calendar-component.c:1475
 msgid "New appointment"
 msgstr "Nuovo appuntamento"
 
-#: ../calendar/gui/calendar-component.c:1474
+#: ../calendar/gui/calendar-component.c:1476
 msgid "_Appointment"
 msgstr "_Appuntamento"
 
-#: ../calendar/gui/calendar-component.c:1475
+#: ../calendar/gui/calendar-component.c:1477
 msgid "Create a new appointment"
 msgstr "Crea un nuovo appuntamento"
 
-#: ../calendar/gui/calendar-component.c:1481
+#: ../calendar/gui/calendar-component.c:1483
 msgid "New meeting"
 msgstr "Nuova riunione"
 
-#: ../calendar/gui/calendar-component.c:1482
+#: ../calendar/gui/calendar-component.c:1484
 msgid "M_eeting"
 msgstr "Riunion_e"
 
-#: ../calendar/gui/calendar-component.c:1483
+#: ../calendar/gui/calendar-component.c:1485
 msgid "Create a new meeting request"
 msgstr "Crea una nuova richiesta di riunione"
 
-#: ../calendar/gui/calendar-component.c:1489
+#: ../calendar/gui/calendar-component.c:1491
 msgid "New all day appointment"
 msgstr "Nuovo appuntamento giornaliero"
 
-#: ../calendar/gui/calendar-component.c:1490
+#: ../calendar/gui/calendar-component.c:1492
 msgid "All Day A_ppointment"
 msgstr "A_ppuntamento intera giornata"
 
-#: ../calendar/gui/calendar-component.c:1491
+#: ../calendar/gui/calendar-component.c:1493
 msgid "Create a new all-day appointment"
 msgstr "Crea un nuovo appuntamento per l'intera giornata"
 
-#: ../calendar/gui/calendar-component.c:1497
+#: ../calendar/gui/calendar-component.c:1499
 msgid "New calendar"
 msgstr "Nuovo calendario"
 
-#: ../calendar/gui/calendar-component.c:1498
+#: ../calendar/gui/calendar-component.c:1500
 msgid "Cale_ndar"
 msgstr "Calen_dario"
 
-#: ../calendar/gui/calendar-component.c:1499
+#: ../calendar/gui/calendar-component.c:1501
 msgid "Create a new calendar"
 msgstr "Crea un nuovo calendario"
 
@@ -16896,7 +16896,7 @@ msgstr "Impossibile eseguire Bug buddy."
 #. The translator-credits string is for translators to list
 #. * per language credits for translation, displayed in the
 #. * about box
-#: ../shell/e-shell-window-commands.c:530
+#: ../shell/e-shell-window-commands.c:532
 msgid "translator-credits"
 msgstr ""
 "Responsabile traduzione:\n"
@@ -16912,19 +16912,19 @@ msgstr ""
 "  * Ettore Perazzoli, perso, ma mai dimenticato"
 
 # Novell Translation
-#: ../shell/e-shell-window-commands.c:544
+#: ../shell/e-shell-window-commands.c:546
 msgid "Groupware Suite"
 msgstr "Suite groupware"
 
-#: ../shell/e-shell-window-commands.c:772
+#: ../shell/e-shell-window-commands.c:774
 msgid "_Work Online"
 msgstr "Lavora _in linea"
 
-#: ../shell/e-shell-window-commands.c:785 ../ui/evolution.xml.h:50
+#: ../shell/e-shell-window-commands.c:787 ../ui/evolution.xml.h:50
 msgid "_Work Offline"
 msgstr "Lavora non _in linea"
 
-#: ../shell/e-shell-window-commands.c:798
+#: ../shell/e-shell-window-commands.c:800
 msgid "Work Offline"
 msgstr "Lavora non in linea"
 

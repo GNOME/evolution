@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 2.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-08-30 17:40+0300\n"
+"POT-Creation-Date: 2005-09-11 17:30+0200\n"
 "PO-Revision-Date: 2005-08-30 17:49+0300\n"
 "Last-Translator: Rostislav \"zbrox\" Raykov <zbrox@i-space.org>\n"
 "Language-Team: Bulgarian <dict@fsa-bg.org>\n"
@@ -4263,7 +4263,7 @@ msgid "Calendar and Tasks"
 msgstr "Календар и задачи"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:2
-#: ../calendar/gui/calendar-component.c:1307
+#: ../calendar/gui/calendar-component.c:1309
 msgid "Calendars"
 msgstr "Календари"
 
@@ -4884,55 +4884,55 @@ msgstr ""
 msgid "There is no calendar available for creating events and meetings"
 msgstr "Няма наличен календар за създаване на събития и събрания"
 
-#: ../calendar/gui/calendar-component.c:1282
+#: ../calendar/gui/calendar-component.c:1284
 msgid "Calendar Source Selector"
 msgstr "Местонахождение на календара"
 
-#: ../calendar/gui/calendar-component.c:1473
+#: ../calendar/gui/calendar-component.c:1475
 msgid "New appointment"
 msgstr "Нова среща"
 
-#: ../calendar/gui/calendar-component.c:1474
+#: ../calendar/gui/calendar-component.c:1476
 msgid "_Appointment"
 msgstr "Срещ_а"
 
-#: ../calendar/gui/calendar-component.c:1475
+#: ../calendar/gui/calendar-component.c:1477
 msgid "Create a new appointment"
 msgstr "Създаване на нова среща"
 
-#: ../calendar/gui/calendar-component.c:1481
+#: ../calendar/gui/calendar-component.c:1483
 msgid "New meeting"
 msgstr "Ново събрание"
 
-#: ../calendar/gui/calendar-component.c:1482
+#: ../calendar/gui/calendar-component.c:1484
 msgid "M_eeting"
 msgstr "Събрани_е"
 
-#: ../calendar/gui/calendar-component.c:1483
+#: ../calendar/gui/calendar-component.c:1485
 msgid "Create a new meeting request"
 msgstr "Създаване на ново искане за събрание"
 
-#: ../calendar/gui/calendar-component.c:1489
+#: ../calendar/gui/calendar-component.c:1491
 msgid "New all day appointment"
 msgstr "Нова среща за цял ден"
 
-#: ../calendar/gui/calendar-component.c:1490
+#: ../calendar/gui/calendar-component.c:1492
 msgid "All Day A_ppointment"
 msgstr "Среща за _цял ден"
 
-#: ../calendar/gui/calendar-component.c:1491
+#: ../calendar/gui/calendar-component.c:1493
 msgid "Create a new all-day appointment"
 msgstr "Създаване на нова среща за цял ден"
 
-#: ../calendar/gui/calendar-component.c:1497
+#: ../calendar/gui/calendar-component.c:1499
 msgid "New calendar"
 msgstr "Нов календар"
 
-#: ../calendar/gui/calendar-component.c:1498
+#: ../calendar/gui/calendar-component.c:1500
 msgid "Cale_ndar"
 msgstr "Кале_ндар"
 
-#: ../calendar/gui/calendar-component.c:1499
+#: ../calendar/gui/calendar-component.c:1501
 msgid "Create a new calendar"
 msgstr "Създаване на нов календар"
 
@@ -17842,10 +17842,6 @@ msgid "Message F_ilters"
 msgstr "Пощенски _филтри"
 
 #: ../ui/evolution-mail-global.xml.h:10
-msgid "Message _List As"
-msgstr "_Списък на писмата като"
-
-#: ../ui/evolution-mail-global.xml.h:11
 msgid "Message _Preview"
 msgstr "Пре_глед на писмата"
 
@@ -17879,10 +17875,6 @@ msgid "_Move Folder To..."
 msgstr "Пре_местване на папка в..."
 
 #: ../ui/evolution-mail-global.xml.h:19
-msgid "_New Search _Folder (FIXME)"
-msgstr "_Нова папка за търсене"
-
-#: ../ui/evolution-mail-global.xml.h:20
 msgid "_New..."
 msgstr "_Нов..."
 
@@ -18761,10 +18753,6 @@ msgid "Display window buttons with text only"
 msgstr "Изобразяване на бутоните само с текст"
 
 #: ../ui/evolution.xml.h:10
-msgid "Evolution _FAQ"
-msgstr "ЧЗВ за Evolution"
-
-#: ../ui/evolution.xml.h:11
 msgid "Exit the program"
 msgstr "Спиране на програмата"
 
@@ -20138,15 +20126,3 @@ msgstr "Контекст за IM"
 #: ../widgets/text/e-text.c:3683 ../widgets/text/e-text.c:3684
 msgid "Handle Popup"
 msgstr "Управление на изскачащи прозорци"
-
-#~ msgid "Mo_ve to Folder..."
-#~ msgstr "Пре_местване в папка..."
-
-#~ msgid "Unknown error verifying signed messaage"
-#~ msgstr "Неизвестна грешка при проверката на подписа"
-
-#~ msgid "Unknown error decrypting messaage"
-#~ msgstr "Неизвестна грешка при декриптиране на писмото"
-
-#~ msgid "FIll stipple"
-#~ msgstr "Запълващ пунктир"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-08-26 23:51+0300\n"
+"POT-Creation-Date: 2005-09-11 17:30+0200\n"
 "PO-Revision-Date: 2005-08-26 23:48+0300\n"
 "Last-Translator: Mohammad DAMT <mdamt@bisnisweb.com>\n"
 "Language-Team: Indonesian\n"
@@ -763,7 +763,7 @@ msgstr ""
 #: ../calendar/gui/calendar-component.c:537
 #: ../calendar/gui/tasks-component.c:441 ../mail/em-filter-i18n.h:11
 #: ../ui/evolution-addressbook.xml.h:8 ../ui/evolution-calendar.xml.h:5
-#: ../ui/evolution-mail-message.xml.h:25 ../ui/evolution-tasks.xml.h:6
+#: ../ui/evolution-mail-message.xml.h:26 ../ui/evolution-tasks.xml.h:6
 msgid "Delete"
 msgstr "Hapus"
 
@@ -2852,7 +2852,7 @@ msgstr "Kirim Pesan pada Kontak Ini"
 #: ../addressbook/gui/widgets/e-addressbook-view.c:942
 #: ../calendar/gui/calendar-commands.c:119 ../calendar/gui/print.c:2501
 #: ../ui/evolution-addressbook.xml.h:16 ../ui/evolution-calendar.xml.h:19
-#: ../ui/evolution-mail-message.xml.h:76 ../ui/evolution-tasks.xml.h:14
+#: ../ui/evolution-mail-message.xml.h:77 ../ui/evolution-tasks.xml.h:14
 msgid "Print"
 msgstr "Cetak"
 
@@ -2872,7 +2872,7 @@ msgstr "Potong"
 #: ../addressbook/gui/widgets/e-addressbook-view.c:950
 #: ../calendar/gui/calendar-component.c:536
 #: ../calendar/gui/tasks-component.c:440 ../ui/evolution-addressbook.xml.h:2
-#: ../ui/evolution-mail-message.xml.h:11 ../ui/evolution-tasks.xml.h:2
+#: ../ui/evolution-mail-message.xml.h:12 ../ui/evolution-tasks.xml.h:2
 msgid "Copy"
 msgstr "Salin"
 
@@ -4242,7 +4242,6 @@ msgstr "Tugas yang telah dibuat belum aktif hingga Evolution dijalankan ulang."
 
 #: ../calendar/calendar.error.xml.h:64
 #: ../ui/evolution-message-composer.xml.h:51
-#: ../ui/evolution-signature-editor.xml.h:15
 msgid "_Save"
 msgstr "_Simpan"
 
@@ -4290,7 +4289,7 @@ msgid "Calendar and Tasks"
 msgstr "Kalender dan Tugas"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:2
-#: ../calendar/gui/calendar-component.c:1307
+#: ../calendar/gui/calendar-component.c:1309
 msgid "Calendars"
 msgstr "Kalender"
 
@@ -4391,9 +4390,9 @@ msgstr "Waktu _toleransi (dalam menit):"
 #: ../ui/evolution-composer-entries.xml.h:8
 #: ../ui/evolution-mail-messagedisplay.xml.h:5
 #: ../ui/evolution-message-composer.xml.h:44
-#: ../ui/evolution-signature-editor.xml.h:12
+#: ../ui/evolution-signature-editor.xml.h:23
 #: ../ui/evolution-subscribe.xml.h:10 ../ui/evolution-tasks.xml.h:23
-#: ../ui/evolution.xml.h:32
+#: ../ui/evolution.xml.h:35
 msgid "_Edit"
 msgstr "_Ubah"
 
@@ -4936,55 +4935,55 @@ msgstr "Tidak dapat membuka kalender '%s' untuk mengatur acara dan pertemuan"
 msgid "There is no calendar available for creating events and meetings"
 msgstr "Tidak ada kalender tersedia untuk mengatur acara dan pertemuan"
 
-#: ../calendar/gui/calendar-component.c:1282
+#: ../calendar/gui/calendar-component.c:1284
 msgid "Calendar Source Selector"
 msgstr "Pilihan Sumber Kalender"
 
-#: ../calendar/gui/calendar-component.c:1473
+#: ../calendar/gui/calendar-component.c:1475
 msgid "New appointment"
 msgstr "Jadwal pertemuan baru"
 
-#: ../calendar/gui/calendar-component.c:1474
+#: ../calendar/gui/calendar-component.c:1476
 msgid "_Appointment"
 msgstr "J_anji"
 
-#: ../calendar/gui/calendar-component.c:1475
+#: ../calendar/gui/calendar-component.c:1477
 msgid "Create a new appointment"
 msgstr "Buat jadwal pertemuan yang baru"
 
-#: ../calendar/gui/calendar-component.c:1481
+#: ../calendar/gui/calendar-component.c:1483
 msgid "New meeting"
 msgstr "Pertemuan baru"
 
-#: ../calendar/gui/calendar-component.c:1482
+#: ../calendar/gui/calendar-component.c:1484
 msgid "M_eeting"
 msgstr "P_ertemuan"
 
-#: ../calendar/gui/calendar-component.c:1483
+#: ../calendar/gui/calendar-component.c:1485
 msgid "Create a new meeting request"
 msgstr "Buat usulan pertemuan"
 
-#: ../calendar/gui/calendar-component.c:1489
+#: ../calendar/gui/calendar-component.c:1491
 msgid "New all day appointment"
 msgstr "Buat jadwal pertemuan seharian penuh"
 
-#: ../calendar/gui/calendar-component.c:1490
+#: ../calendar/gui/calendar-component.c:1492
 msgid "All Day A_ppointment"
 msgstr "Jadwal Pertemuan Sehari _Penuh"
 
-#: ../calendar/gui/calendar-component.c:1491
+#: ../calendar/gui/calendar-component.c:1493
 msgid "Create a new all-day appointment"
 msgstr "Buat jadwal pertemuan seharian penuh"
 
-#: ../calendar/gui/calendar-component.c:1497
+#: ../calendar/gui/calendar-component.c:1499
 msgid "New calendar"
 msgstr "Kalender baru"
 
-#: ../calendar/gui/calendar-component.c:1498
+#: ../calendar/gui/calendar-component.c:1500
 msgid "Cale_ndar"
 msgstr "Kale_nder"
 
-#: ../calendar/gui/calendar-component.c:1499
+#: ../calendar/gui/calendar-component.c:1501
 msgid "Create a new calendar"
 msgstr "Buat kalender baru"
 
@@ -5716,7 +5715,7 @@ msgstr[0] "%d pesan terlampir"
 #: ../mail/em-folder-tree.c:974 ../mail/em-folder-view.c:1035
 #: ../mail/message-list.c:1708 ../ui/evolution-addressbook.xml.h:31
 #: ../ui/evolution-calendar.xml.h:39 ../ui/evolution-composer-entries.xml.h:7
-#: ../ui/evolution-mail-message.xml.h:102 ../ui/evolution-tasks.xml.h:21
+#: ../ui/evolution-mail-message.xml.h:103 ../ui/evolution-tasks.xml.h:21
 msgid "_Copy"
 msgstr "_Salin"
 
@@ -6797,7 +6796,7 @@ msgstr "Simpan _Jadi..."
 #: ../calendar/gui/e-calendar-view.c:1530 ../mail/em-folder-view.c:1046
 #: ../plugins/print-message/org-gnome-print-message.xml.h:3
 #: ../ui/evolution-addressbook.xml.h:40 ../ui/evolution-calendar.xml.h:44
-#: ../ui/evolution-mail-message.xml.h:119 ../ui/evolution-tasks.xml.h:27
+#: ../ui/evolution-mail-message.xml.h:120 ../ui/evolution-tasks.xml.h:27
 msgid "_Print..."
 msgstr "_Cetak..."
 
@@ -10892,7 +10891,7 @@ msgid "is not Flagged"
 msgstr ""
 
 #: ../mail/em-filter-i18n.h:35 ../mail/mail-config.glade.h:93
-#: ../ui/evolution-mail-message.xml.h:47
+#: ../ui/evolution-mail-message.xml.h:48
 msgid "Junk"
 msgstr "Spam"
 
@@ -11118,11 +11117,11 @@ msgstr "Menyalin semua pesan ke dalam folder %s"
 msgid "Cannot drop message(s) into toplevel store"
 msgstr "Tidak dapat menyimpan email dalam penyimpanan tingkat atas"
 
-#: ../mail/em-folder-tree.c:972 ../ui/evolution-mail-message.xml.h:103
+#: ../mail/em-folder-tree.c:972 ../ui/evolution-mail-message.xml.h:104
 msgid "_Copy to Folder"
 msgstr "_Salin ke Folder"
 
-#: ../mail/em-folder-tree.c:973 ../ui/evolution-mail-message.xml.h:113
+#: ../mail/em-folder-tree.c:973 ../ui/evolution-mail-message.xml.h:114
 msgid "_Move to Folder"
 msgstr "_Pindahkan ke folder"
 
@@ -11132,9 +11131,9 @@ msgid "Scanning folders in \"%s\""
 msgstr "Memeriksa folder dalam \"%s\""
 
 #: ../mail/em-folder-tree.c:2031 ../ui/evolution-addressbook.xml.h:44
-#: ../ui/evolution-mail-global.xml.h:22
+#: ../ui/evolution-mail-global.xml.h:24
 #: ../ui/evolution-mail-messagedisplay.xml.h:8
-#: ../ui/evolution-message-composer.xml.h:54 ../ui/evolution.xml.h:45
+#: ../ui/evolution-message-composer.xml.h:54 ../ui/evolution.xml.h:48
 msgid "_View"
 msgstr "_Lihat"
 
@@ -11209,16 +11208,16 @@ msgstr "Tentukan lokasi folder baru:"
 msgid "Reply to _All"
 msgstr "Balas ke Semu_a"
 
-#: ../mail/em-folder-view.c:1040 ../ui/evolution-mail-message.xml.h:121
+#: ../mail/em-folder-view.c:1040 ../ui/evolution-mail-message.xml.h:122
 msgid "_Reply to Sender"
 msgstr "Balas ke Pengi_rim"
 
 #: ../mail/em-folder-view.c:1041 ../mail/em-popup.c:548 ../mail/em-popup.c:559
-#: ../ui/evolution-mail-message.xml.h:107
+#: ../ui/evolution-mail-message.xml.h:108
 msgid "_Forward"
 msgstr "_Teruskan ke Orang Lain"
 
-#: ../mail/em-folder-view.c:1044 ../ui/evolution-mail-message.xml.h:105
+#: ../mail/em-folder-view.c:1044 ../ui/evolution-mail-message.xml.h:106
 msgid "_Edit as New Message..."
 msgstr "Jadikan s_ebagai Pesan Baru..."
 
@@ -11737,7 +11736,7 @@ msgid "_Reply to sender"
 msgstr "Balas ke pengi_rim"
 
 #: ../mail/em-popup.c:545 ../mail/em-popup.c:556
-#: ../ui/evolution-mail-message.xml.h:83
+#: ../ui/evolution-mail-message.xml.h:84
 msgid "Reply to _List"
 msgstr "Balas ke Mi_lis"
 
@@ -14207,7 +14206,7 @@ msgstr "Follow-Up"
 msgid "For Your Information"
 msgstr "Sekedar Informasi"
 
-#: ../mail/message-tag-followup.c:78 ../ui/evolution-mail-message.xml.h:41
+#: ../mail/message-tag-followup.c:78 ../ui/evolution-mail-message.xml.h:42
 msgid "Forward"
 msgstr "Teruskan"
 
@@ -14215,11 +14214,11 @@ msgstr "Teruskan"
 msgid "No Response Necessary"
 msgstr "Tidak Perlu Direspon"
 
-#: ../mail/message-tag-followup.c:81 ../ui/evolution-mail-message.xml.h:81
+#: ../mail/message-tag-followup.c:81 ../ui/evolution-mail-message.xml.h:82
 msgid "Reply"
 msgstr "Balas"
 
-#: ../mail/message-tag-followup.c:82 ../ui/evolution-mail-message.xml.h:82
+#: ../mail/message-tag-followup.c:82 ../ui/evolution-mail-message.xml.h:83
 msgid "Reply to All"
 msgstr "Balas ke Semua"
 
@@ -14301,7 +14300,8 @@ msgstr "Jalankan ulang Evolution"
 msgid "A plugin for backing up and restore Evolution data and settings."
 msgstr "Atur seting Evolution"
 
-#: ../plugins/backup-restore/org-gnome-backup-restore.eplug.xml.h:2
+#. the path to the shared library
+#: ../plugins/backup-restore/org-gnome-backup-restore.eplug.xml.h:3
 msgid "Backup and restore plugin"
 msgstr "Simpan dan kembalikan plugin"
 
@@ -15320,7 +15320,7 @@ msgid "Subscribe to my _notifications"
 msgstr "Langganan _notifikasi"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:13
-#: ../ui/evolution-mail-message.xml.h:120
+#: ../ui/evolution-mail-message.xml.h:121
 msgid "_Read"
 msgstr "Sudah _Dibaca"
 
@@ -16185,7 +16185,7 @@ msgstr "Aktifkan pilihan untuk mencetak email dari program penulis email"
 
 #: ../plugins/print-message/org-gnome-print-message.xml.h:1
 #: ../ui/evolution-addressbook.xml.h:17 ../ui/evolution-calendar.xml.h:20
-#: ../ui/evolution-mail-message.xml.h:77 ../ui/evolution-tasks.xml.h:15
+#: ../ui/evolution-mail-message.xml.h:78 ../ui/evolution-tasks.xml.h:15
 msgid "Print Pre_view"
 msgstr "Tampilan _Cetak"
 
@@ -16209,7 +16209,8 @@ msgstr "Pelajari pesan spam menggunakan spamd."
 msgid "A plugin for saving all attachments or parts of a message at once."
 msgstr "Plugin untuk menyimpan semua atau bagian lampiran sekaligus."
 
-#: ../plugins/save-attachments/org-gnome-save-attachments.eplug.xml.h:2
+#. the path to the shared library
+#: ../plugins/save-attachments/org-gnome-save-attachments.eplug.xml.h:3
 msgid "Save attachments"
 msgstr "Simpan lampiran"
 
@@ -16232,7 +16233,6 @@ msgstr "Tipe MIME"
 
 #: ../plugins/save-attachments/save-attachments.c:359
 #: ../ui/evolution-message-composer.xml.h:18
-#: ../ui/evolution-signature-editor.xml.h:6
 msgid "Save"
 msgstr "Simpan"
 
@@ -16680,25 +16680,25 @@ msgstr "Bug buddy tidak dapat dijalankan."
 #. The translator-credits string is for translators to list
 #. * per language credits for translation, displayed in the
 #. * about box
-#: ../shell/e-shell-window-commands.c:508
+#: ../shell/e-shell-window-commands.c:532
 msgid "translator-credits"
 msgstr ""
 "Mohammad DAMT <mdamt@gnome.org>\n"
 "http://id.gnome.org/"
 
-#: ../shell/e-shell-window-commands.c:522
+#: ../shell/e-shell-window-commands.c:546
 msgid "Groupware Suite"
 msgstr "Groupware Suite"
 
-#: ../shell/e-shell-window-commands.c:750
+#: ../shell/e-shell-window-commands.c:774
 msgid "_Work Online"
 msgstr "_Kerja Online"
 
-#: ../shell/e-shell-window-commands.c:763 ../ui/evolution.xml.h:47
+#: ../shell/e-shell-window-commands.c:787 ../ui/evolution.xml.h:50
 msgid "_Work Offline"
 msgstr "_Matikan Sambungan"
 
-#: ../shell/e-shell-window-commands.c:776
+#: ../shell/e-shell-window-commands.c:800
 msgid "Work Offline"
 msgstr "Kerja Offline"
 
@@ -17631,7 +17631,7 @@ msgid "View the current contact"
 msgstr "Lihat kontak saat ini"
 
 #: ../ui/evolution-addressbook.xml.h:30 ../ui/evolution-calendar.xml.h:38
-#: ../ui/evolution-mail-list.xml.h:26 ../ui/evolution-tasks.xml.h:19
+#: ../ui/evolution-tasks.xml.h:19
 msgid "_Actions"
 msgstr "Tind_akan"
 
@@ -17695,7 +17695,7 @@ msgstr "Daftar"
 msgid "Month"
 msgstr "Bulan"
 
-#: ../ui/evolution-calendar.xml.h:15 ../ui/evolution-mail-message.xml.h:59
+#: ../ui/evolution-calendar.xml.h:15 ../ui/evolution-mail-message.xml.h:60
 msgid "Next"
 msgstr "Selanjutnya"
 
@@ -17703,7 +17703,7 @@ msgstr "Selanjutnya"
 msgid "Previews the calendar to be printed"
 msgstr "Lihat contoh hasil kalendar yang hendak dicetak"
 
-#: ../ui/evolution-calendar.xml.h:18 ../ui/evolution-mail-message.xml.h:75
+#: ../ui/evolution-calendar.xml.h:18 ../ui/evolution-mail-message.xml.h:76
 msgid "Previous"
 msgstr "Sebelum"
 
@@ -17826,7 +17826,7 @@ msgstr "Buat atau ganti seting penyaring email baru"
 msgid "Empty _Trash"
 msgstr "Kosongkan _Tong Sampah"
 
-#: ../ui/evolution-mail-global.xml.h:8 ../ui/evolution-mail-list.xml.h:6
+#: ../ui/evolution-mail-global.xml.h:8 ../ui/evolution-mail-list.xml.h:7
 #: ../ui/evolution-subscribe.xml.h:2
 msgid "F_older"
 msgstr "F_older"
@@ -17836,19 +17836,15 @@ msgid "Message F_ilters"
 msgstr "Penyar_ingan Email"
 
 #: ../ui/evolution-mail-global.xml.h:10
-#, fuzzy
-msgid "Message _List As"
-msgstr "_Pesan"
-
-#: ../ui/evolution-mail-global.xml.h:11
 msgid "Message _Preview"
 msgstr "_Pratinjau Email"
 
-#: ../ui/evolution-mail-global.xml.h:12
+#: ../ui/evolution-mail-global.xml.h:11
 #, fuzzy
 msgid "Move the selected folder into another folder"
 msgstr "Pindahkan email-email yang sudah dipilih ini ke folder lain"
 
+#. Alphabetical by name, yo
 #: ../ui/evolution-mail-global.xml.h:13
 msgid "Permanently remove all deleted messages from all folders"
 msgstr "Hapus secara permanen semua pesan yang sudah dihapus dari semua folder"
@@ -17874,14 +17870,13 @@ msgid "_Move Folder To..."
 msgstr "_Pindahkan Folder..."
 
 #: ../ui/evolution-mail-global.xml.h:19
-msgid "_New Search _Folder (FIXME)"
-msgstr ""
-
-#: ../ui/evolution-mail-global.xml.h:20
 msgid "_New..."
 msgstr "Buat Bar_u..."
 
-#: ../ui/evolution-mail-global.xml.h:21
+#.
+#. <menuitem name="CreateVFolder" verb="CreateVFolder" _label="_New Search _Folder (FIXME)"/>
+#.
+#: ../ui/evolution-mail-global.xml.h:23
 msgid "_Subscriptions"
 msgstr "_Langganan"
 
@@ -17893,103 +17888,104 @@ msgstr "Ubah nama folder ini"
 msgid "Change the properties of this folder"
 msgstr "Atur folder ini"
 
-#: ../ui/evolution-mail-list.xml.h:3 ../ui/evolution-mail-message.xml.h:12
+#: ../ui/evolution-mail-list.xml.h:3 ../ui/evolution-mail-message.xml.h:13
 msgid "Copy selected message(s) to the clipboard"
 msgstr "Salin email-email yang sudah terpilih ke dalam klipbod"
 
-#: ../ui/evolution-mail-list.xml.h:4 ../ui/evolution-mail-message.xml.h:23
+#. Alphabetical by name, yo
+#: ../ui/evolution-mail-list.xml.h:5 ../ui/evolution-mail-message.xml.h:24
 msgid "Cut selected message(s) to the clipboard"
 msgstr "Ambil email-email yang sudah terpilih ke dalam klipbod"
 
-#: ../ui/evolution-mail-list.xml.h:5
+#: ../ui/evolution-mail-list.xml.h:6
 msgid "E_xpunge"
 msgstr "_Hapus"
 
-#: ../ui/evolution-mail-list.xml.h:7
+#: ../ui/evolution-mail-list.xml.h:8
 msgid "Group By _Threads"
 msgstr "Kelompokkan Dalam _Ulir Diskusi"
 
-#: ../ui/evolution-mail-list.xml.h:8
+#: ../ui/evolution-mail-list.xml.h:9
 msgid "Hide S_elected Messages"
 msgstr "Sembunyikan _Email Terpilih"
 
-#: ../ui/evolution-mail-list.xml.h:9
+#: ../ui/evolution-mail-list.xml.h:10
 msgid "Hide _Deleted Messages"
 msgstr "Sembunyikan Email _Terhapus"
 
-#: ../ui/evolution-mail-list.xml.h:10
+#: ../ui/evolution-mail-list.xml.h:11
 msgid "Hide _Read Messages"
 msgstr "Sembunyikan Ema_il Terbaca"
 
-#: ../ui/evolution-mail-list.xml.h:11
+#: ../ui/evolution-mail-list.xml.h:12
 msgid ""
 "Hide deleted messages rather than displaying them with a line through them"
 msgstr ""
 "Sembunyikan email-email yang sudah dihapus bila tidak ingin menampilkannya "
 "dalam keadaan tercoret"
 
-#: ../ui/evolution-mail-list.xml.h:12
+#: ../ui/evolution-mail-list.xml.h:13
 msgid "Mark Me_ssages as Read"
 msgstr "Anggap Email _Sudah Dibaca"
 
-#: ../ui/evolution-mail-list.xml.h:13 ../ui/evolution-mail-message.xml.h:68
+#: ../ui/evolution-mail-list.xml.h:14 ../ui/evolution-mail-message.xml.h:69
 msgid "Paste message(s) from the clipboard"
 msgstr "Tempel pesan email dari klipbod"
 
-#: ../ui/evolution-mail-list.xml.h:14
-msgid "Permanently remove all deleted messages from this folder"
-msgstr ""
-"Hapus semua pesan yang telah ditandai untuk dihapus dari dalam folder ini"
-
 #: ../ui/evolution-mail-list.xml.h:15
-#, fuzzy
-msgid "Permanently remove this folder"
+msgid "Permanently remove all deleted messages from this folder"
 msgstr ""
 "Hapus semua pesan yang telah ditandai untuk dihapus dari dalam folder ini"
 
 #: ../ui/evolution-mail-list.xml.h:16
 #, fuzzy
+msgid "Permanently remove this folder"
+msgstr ""
+"Hapus semua pesan yang telah ditandai untuk dihapus dari dalam folder ini"
+
+#: ../ui/evolution-mail-list.xml.h:17
+#, fuzzy
 msgid "Select Message _Thread"
 msgstr "Sembunyikan Email T_erpilih"
 
-#: ../ui/evolution-mail-list.xml.h:17
+#: ../ui/evolution-mail-list.xml.h:18
 msgid "Select _All Messages"
 msgstr "Pilih Semua Email"
 
-#: ../ui/evolution-mail-list.xml.h:18
+#: ../ui/evolution-mail-list.xml.h:19
 msgid "Select all and only the messages that are not currently selected"
 msgstr "Pilih semua dan pesan-pesan yang belum dipilih"
 
-#: ../ui/evolution-mail-list.xml.h:19
+#: ../ui/evolution-mail-list.xml.h:20
 msgid "Select all messages in the same thread as the selected message"
 msgstr ""
 "Pilih semua pesan dalam thread yang sama dengan pesan yang sedang dipilih"
 
-#: ../ui/evolution-mail-list.xml.h:20
+#: ../ui/evolution-mail-list.xml.h:21
 msgid "Select all visible messages"
 msgstr "Pilih semua pesan yang dapat Anda lihat sekarang"
 
-#: ../ui/evolution-mail-list.xml.h:21
+#: ../ui/evolution-mail-list.xml.h:22
 msgid "Sh_ow Hidden Messages"
 msgstr "_Tampilkan Pesan Tersembunyi"
 
-#: ../ui/evolution-mail-list.xml.h:22
+#: ../ui/evolution-mail-list.xml.h:23
 msgid "Show messages that have been temporarily hidden"
 msgstr "Tampilkan semua pesan yang sedang disembunyikan sementara"
 
-#: ../ui/evolution-mail-list.xml.h:23
+#: ../ui/evolution-mail-list.xml.h:24
 msgid "Temporarily hide all messages that have already been read"
 msgstr "Sembunyikan sementara semua pesan-pesan yang telah dibaca"
 
-#: ../ui/evolution-mail-list.xml.h:24
+#: ../ui/evolution-mail-list.xml.h:25
 msgid "Temporarily hide the selected messages"
 msgstr "Sembunyikan sementara semua pesan yang dipilih"
 
-#: ../ui/evolution-mail-list.xml.h:25
+#: ../ui/evolution-mail-list.xml.h:26
 msgid "Threaded Message list"
 msgstr "daftar Pesan dalam Thread"
 
-#: ../ui/evolution-mail-list.xml.h:28 ../ui/evolution-mail-message.xml.h:112
+#: ../ui/evolution-mail-list.xml.h:28 ../ui/evolution-mail-message.xml.h:113
 #: ../ui/evolution-mail-messagedisplay.xml.h:7
 msgid "_Message"
 msgstr "E_mail"
@@ -18002,418 +17998,424 @@ msgstr "Masukkan Pengirim ke _Dalam Buku Alamat"
 msgid "A_pply Filters"
 msgstr "Lakukan _Penyaringan"
 
-#: ../ui/evolution-mail-message.xml.h:3
+#. Alphabetical by name, yo
+#: ../ui/evolution-mail-message.xml.h:4
 msgid "Add Sender to Address Book"
 msgstr "Masukkan Pengirim ke Buku Alamat"
 
-#: ../ui/evolution-mail-message.xml.h:4
+#: ../ui/evolution-mail-message.xml.h:5
 msgid "All Message _Headers"
 msgstr "Semua Bagian _Kepala Email"
 
-#: ../ui/evolution-mail-message.xml.h:5
+#: ../ui/evolution-mail-message.xml.h:6
 msgid "Apply filter rules to the selected messages"
 msgstr "Lakukan penyaringan dengan filter pesan-pesan yang sedang dipilih"
 
-#: ../ui/evolution-mail-message.xml.h:6
+#: ../ui/evolution-mail-message.xml.h:7
 msgid "Check for _Junk"
 msgstr "Saring _Spam"
 
-#: ../ui/evolution-mail-message.xml.h:7
+#: ../ui/evolution-mail-message.xml.h:8
 msgid "Compose _New Message"
 msgstr "_Buat Email Baru"
 
-#: ../ui/evolution-mail-message.xml.h:8
+#: ../ui/evolution-mail-message.xml.h:9
 msgid "Compose a reply to all of the recipients of the selected message"
 msgstr "Tulis balasan ke semua penerima email ini"
 
-#: ../ui/evolution-mail-message.xml.h:9
+#: ../ui/evolution-mail-message.xml.h:10
 msgid "Compose a reply to the mailing list of the selected message"
 msgstr "Tulis balasan ke milis pada pesan email ini"
 
-#: ../ui/evolution-mail-message.xml.h:10
+#: ../ui/evolution-mail-message.xml.h:11
 msgid "Compose a reply to the sender of the selected message"
 msgstr "Tulis balasan pada pengirim email ini"
 
-#: ../ui/evolution-mail-message.xml.h:13
+#: ../ui/evolution-mail-message.xml.h:14
 msgid "Copy selected messages to another folder"
 msgstr "Salin email yang dipilih ke folder lain"
 
-#: ../ui/evolution-mail-message.xml.h:14
+#: ../ui/evolution-mail-message.xml.h:15
 msgid "Create R_ule"
 msgstr "At_uran Penyaringan"
 
-#: ../ui/evolution-mail-message.xml.h:15
+#: ../ui/evolution-mail-message.xml.h:16
 #, fuzzy
 msgid "Create a Search Folder for these recipients"
 msgstr "Buat folder virtual untuk penerima email ini"
 
-#: ../ui/evolution-mail-message.xml.h:16
+#: ../ui/evolution-mail-message.xml.h:17
 #, fuzzy
 msgid "Create a Search Folder for this mailing list"
 msgstr "Buat folder virtual untuk milis"
 
-#: ../ui/evolution-mail-message.xml.h:17
+#: ../ui/evolution-mail-message.xml.h:18
 #, fuzzy
 msgid "Create a Search Folder for this sender"
 msgstr "Buat folder virtual untuk pengirim email ini"
 
-#: ../ui/evolution-mail-message.xml.h:18
+#: ../ui/evolution-mail-message.xml.h:19
 #, fuzzy
 msgid "Create a Search Folder for this subject"
 msgstr "Buat folder virtual untuk judul email ini"
 
-#: ../ui/evolution-mail-message.xml.h:19
+#: ../ui/evolution-mail-message.xml.h:20
 msgid "Create a rule to filter messages from this sender"
 msgstr "Buat aturan filter berdasarkan pengirim email ini"
 
-#: ../ui/evolution-mail-message.xml.h:20
+#: ../ui/evolution-mail-message.xml.h:21
 msgid "Create a rule to filter messages to these recipients"
 msgstr "Buat aturan filter berdasarkan penerima email ini"
 
-#: ../ui/evolution-mail-message.xml.h:21
+#: ../ui/evolution-mail-message.xml.h:22
 msgid "Create a rule to filter messages to this mailing list"
 msgstr "Buat aturan filter berdasarkan milis pada email ini"
 
-#: ../ui/evolution-mail-message.xml.h:22
+#: ../ui/evolution-mail-message.xml.h:23
 msgid "Create a rule to filter messages with this subject"
 msgstr "Buat aturan filter berdasarkan judul email ini"
 
-#: ../ui/evolution-mail-message.xml.h:24
+#: ../ui/evolution-mail-message.xml.h:25
 msgid "Decrease the text size"
 msgstr "Kecilkan ukuran teks"
 
-#: ../ui/evolution-mail-message.xml.h:26
+#: ../ui/evolution-mail-message.xml.h:27
 msgid "Display the next important message"
 msgstr "Buka pesan email penting berikutnya"
 
-#: ../ui/evolution-mail-message.xml.h:27
+#: ../ui/evolution-mail-message.xml.h:28
 msgid "Display the next message"
 msgstr "Buka pesan email berikutnya"
 
-#: ../ui/evolution-mail-message.xml.h:28
+#: ../ui/evolution-mail-message.xml.h:29
 msgid "Display the next unread message"
 msgstr "Buka pesan email berikutnya yang belum dibaca"
 
-#: ../ui/evolution-mail-message.xml.h:29
+#: ../ui/evolution-mail-message.xml.h:30
 msgid "Display the next unread thread"
 msgstr "Buka ulir diskusi berikutnya yang belum dibaca"
 
-#: ../ui/evolution-mail-message.xml.h:30
+#: ../ui/evolution-mail-message.xml.h:31
 msgid "Display the previous important message"
 msgstr "Buka pesan email penting sebelumnya"
 
-#: ../ui/evolution-mail-message.xml.h:31
+#: ../ui/evolution-mail-message.xml.h:32
 msgid "Display the previous message"
 msgstr "Buka pesan email sebelumnya"
 
-#: ../ui/evolution-mail-message.xml.h:32
+#: ../ui/evolution-mail-message.xml.h:33
 msgid "Display the previous unread message"
 msgstr "Buka pesan email sebelumnya yang belum dibaca"
 
-#: ../ui/evolution-mail-message.xml.h:33
+#: ../ui/evolution-mail-message.xml.h:34
 msgid "Filter on Mailing _List..."
 msgstr "Saring Berdasarkan Mi_lis..."
 
-#: ../ui/evolution-mail-message.xml.h:34
+#: ../ui/evolution-mail-message.xml.h:35
 msgid "Filter on Se_nder..."
 msgstr "Saring Berdasarka_n  Pengirim..."
 
-#: ../ui/evolution-mail-message.xml.h:35
+#: ../ui/evolution-mail-message.xml.h:36
 msgid "Filter on _Recipients..."
 msgstr "Saring Berdasarkan Pene_rima..."
 
-#: ../ui/evolution-mail-message.xml.h:36
+#: ../ui/evolution-mail-message.xml.h:37
 msgid "Filter on _Subject..."
 msgstr "Saring Berda_sarkan Judul..."
 
-#: ../ui/evolution-mail-message.xml.h:37
+#: ../ui/evolution-mail-message.xml.h:38
 msgid "Filter the selected messages for junk status"
 msgstr "Saring pesan-pesan email yang telah dipilih dari spam"
 
-#: ../ui/evolution-mail-message.xml.h:38
+#: ../ui/evolution-mail-message.xml.h:39
 msgid "Flag selected message(s) for follow-up"
 msgstr "Tandai pesan-pesan email yang sedang dipilih untuk ditindak lanjuti"
 
-#: ../ui/evolution-mail-message.xml.h:39
+#: ../ui/evolution-mail-message.xml.h:40
 msgid "Follow _Up..."
 msgstr "Tindak-lanj_uti..."
 
-#: ../ui/evolution-mail-message.xml.h:40
+#: ../ui/evolution-mail-message.xml.h:41
 msgid "Force images in HTML mail to be loaded"
 msgstr "Tampilkan gambar pada email HTML"
 
-#: ../ui/evolution-mail-message.xml.h:42
+#: ../ui/evolution-mail-message.xml.h:43
 msgid "Forward the selected message in the body of a new message"
 msgstr ""
 "Kirimkan pesan email yang sedang dibaca ini dalam bentuk sisipan pada badan "
 "email baru"
 
-#: ../ui/evolution-mail-message.xml.h:43
+#: ../ui/evolution-mail-message.xml.h:44
 msgid "Forward the selected message quoted like a reply"
 msgstr ""
 "Kirimkan pesan email yang sedang dibaca ini dalam bentuk kutipan seperti "
 "balasan surat"
 
-#: ../ui/evolution-mail-message.xml.h:44
+#: ../ui/evolution-mail-message.xml.h:45
 msgid "Forward the selected message to someone"
 msgstr "Teruskan email ini ke orang lain"
 
-#: ../ui/evolution-mail-message.xml.h:45
+#: ../ui/evolution-mail-message.xml.h:46
 msgid "Forward the selected message to someone as an attachment"
 msgstr "Teruskan email ini ke orang lain dalam bentuk lampiran"
 
-#: ../ui/evolution-mail-message.xml.h:46
+#: ../ui/evolution-mail-message.xml.h:47
 msgid "Increase the text size"
 msgstr "Perbesar ukuran teks"
 
-#: ../ui/evolution-mail-message.xml.h:48
+#: ../ui/evolution-mail-message.xml.h:49
 msgid "Mar_k as"
 msgstr "Angga_p Email Ini"
 
-#: ../ui/evolution-mail-message.xml.h:49
+#: ../ui/evolution-mail-message.xml.h:50
 msgid "Mark the selected message(s) as having been read"
 msgstr "Tandai pesan email ini sebagai email yang sudah dibaca"
 
-#: ../ui/evolution-mail-message.xml.h:50
+#: ../ui/evolution-mail-message.xml.h:51
 msgid "Mark the selected message(s) as important"
 msgstr "Tandai pesan email ini sebagai email yang penting"
 
-#: ../ui/evolution-mail-message.xml.h:51
+#: ../ui/evolution-mail-message.xml.h:52
 msgid "Mark the selected message(s) as junk"
 msgstr "Tandai pesan email ini sebagai email spam"
 
-#: ../ui/evolution-mail-message.xml.h:52
+#: ../ui/evolution-mail-message.xml.h:53
 msgid "Mark the selected message(s) as not being junk"
 msgstr "Tandai pesan email ini sebagai bukan email spam"
 
-#: ../ui/evolution-mail-message.xml.h:53
+#: ../ui/evolution-mail-message.xml.h:54
 msgid "Mark the selected message(s) as not having been read"
 msgstr "Tandai pesan email ini sebagai email yang belum dibaca"
 
-#: ../ui/evolution-mail-message.xml.h:54
+#: ../ui/evolution-mail-message.xml.h:55
 msgid "Mark the selected message(s) as unimportant"
 msgstr "Tandai pesan email ini sebagai email yang tidak penting"
 
-#: ../ui/evolution-mail-message.xml.h:55
+#: ../ui/evolution-mail-message.xml.h:56
 msgid "Mark the selected messages for deletion"
 msgstr "Tandai email-email yang sudah dipilih ini untuk dihapus"
 
-#: ../ui/evolution-mail-message.xml.h:56
+#: ../ui/evolution-mail-message.xml.h:57
 msgid "Message Source"
 msgstr "Kode Asli Email"
 
-#: ../ui/evolution-mail-message.xml.h:57
+#: ../ui/evolution-mail-message.xml.h:58
 msgid "Move"
 msgstr "Pindahkan"
 
-#: ../ui/evolution-mail-message.xml.h:58
+#: ../ui/evolution-mail-message.xml.h:59
 msgid "Move selected message(s) to another folder"
 msgstr "Pindahkan email-email yang sudah dipilih ini ke folder lain"
 
-#: ../ui/evolution-mail-message.xml.h:60
+#: ../ui/evolution-mail-message.xml.h:61
 msgid "Next _Important Message"
 msgstr "Pesan Tak Pent_ing Berikutnya"
 
-#: ../ui/evolution-mail-message.xml.h:61
+#: ../ui/evolution-mail-message.xml.h:62
 msgid "Next _Thread"
 msgstr "Ulir Diskusi Beriku_tnya"
 
-#: ../ui/evolution-mail-message.xml.h:62
+#: ../ui/evolution-mail-message.xml.h:63
 msgid "Next _Unread Message"
 msgstr "Pesan Bel_um Dibaca Berikutnya"
 
-#: ../ui/evolution-mail-message.xml.h:63
+#: ../ui/evolution-mail-message.xml.h:64
 msgid "Not Junk"
 msgstr "Bukan Spam"
 
-#: ../ui/evolution-mail-message.xml.h:64
+#: ../ui/evolution-mail-message.xml.h:65
 msgid "Open a window for composing a mail message"
 msgstr "Buka jendela untuk menulis email baru"
 
-#: ../ui/evolution-mail-message.xml.h:65
+#: ../ui/evolution-mail-message.xml.h:66
 msgid "Open the selected message in a new window"
 msgstr "Bukan email yang sudah dipilih ini dalam jendela baru"
 
-#: ../ui/evolution-mail-message.xml.h:66
+#: ../ui/evolution-mail-message.xml.h:67
 msgid "Open the selected message in the composer for editing"
 msgstr "Buka pesan yang dipilih ini untuk diubah isinya"
 
-#: ../ui/evolution-mail-message.xml.h:67
+#: ../ui/evolution-mail-message.xml.h:68
 msgid "P_revious Unread Message"
 msgstr "_Pesan Belum Dibaca Sebelumnya"
 
-#: ../ui/evolution-mail-message.xml.h:69
+#: ../ui/evolution-mail-message.xml.h:70
 msgid "Pos_t New Message to Folder"
 msgstr "_Kirim Email pada Folder"
 
-#: ../ui/evolution-mail-message.xml.h:70
+#: ../ui/evolution-mail-message.xml.h:71
 msgid "Post a Repl_y"
 msgstr "Kirimkan Ba_lasan"
 
-#: ../ui/evolution-mail-message.xml.h:71
+#: ../ui/evolution-mail-message.xml.h:72
 msgid "Post a message to a Public folder"
 msgstr "Kirim email ke folder Publik"
 
-#: ../ui/evolution-mail-message.xml.h:72
+#: ../ui/evolution-mail-message.xml.h:73
 msgid "Post a reply to a message in a Public folder"
 msgstr "Kirimkan balasan dalam folder Publik"
 
-#: ../ui/evolution-mail-message.xml.h:73
+#: ../ui/evolution-mail-message.xml.h:74
 msgid "Pr_evious Important Message"
 msgstr "Pesan P_enting Berikutnya"
 
-#: ../ui/evolution-mail-message.xml.h:74
+#: ../ui/evolution-mail-message.xml.h:75
 msgid "Preview the message to be printed"
 msgstr "Lihat contoh jadi hasil cetakan pesan email ini"
 
-#: ../ui/evolution-mail-message.xml.h:78
+#: ../ui/evolution-mail-message.xml.h:79
 msgid "Print this message"
 msgstr "Cetak pesan email ini"
 
-#: ../ui/evolution-mail-message.xml.h:79
+#: ../ui/evolution-mail-message.xml.h:80
 msgid "Re_direct"
 msgstr "_Mental"
 
-#: ../ui/evolution-mail-message.xml.h:80
+#: ../ui/evolution-mail-message.xml.h:81
 msgid "Redirect (bounce) the selected message to someone"
 msgstr "Pentalkan (bounce) pesan yang dipilih ini kepada orang lain"
 
-#: ../ui/evolution-mail-message.xml.h:84
+#: ../ui/evolution-mail-message.xml.h:85
 msgid "Reset the text to its original size"
 msgstr "Kembalikan ukuran teks kembali semula"
 
-#: ../ui/evolution-mail-message.xml.h:85
+#: ../ui/evolution-mail-message.xml.h:86
 msgid "Save the message as a text file"
 msgstr "Simpan pesan email ini dalam bentuk teks"
 
-#: ../ui/evolution-mail-message.xml.h:86
+#: ../ui/evolution-mail-message.xml.h:87
 msgid "Search Folder from Mailing _List..."
 msgstr "Saring Folder berdasarkan Mi_lis..."
 
-#: ../ui/evolution-mail-message.xml.h:87
+#: ../ui/evolution-mail-message.xml.h:88
 msgid "Search Folder from Recipients..."
 msgstr "Saring Folder berdasarkan Pene_rima..."
 
-#: ../ui/evolution-mail-message.xml.h:88
+#: ../ui/evolution-mail-message.xml.h:89
 msgid "Search Folder from S_ubject..."
 msgstr "Saring Folder berdasarkan _Judul..."
 
-#: ../ui/evolution-mail-message.xml.h:89
+#: ../ui/evolution-mail-message.xml.h:90
 msgid "Search Folder from Sen_der..."
 msgstr "Saring Folder berdasarkan Pe_ngirim..."
 
-#: ../ui/evolution-mail-message.xml.h:90
+#: ../ui/evolution-mail-message.xml.h:91
 msgid "Search for text in the body of the displayed message"
 msgstr "Cari pada badan teks email yang sedang dibuka"
 
-#: ../ui/evolution-mail-message.xml.h:91
+#: ../ui/evolution-mail-message.xml.h:92
 msgid "Select _All Text"
 msgstr "Pilih Semu_a Teks"
 
-#: ../ui/evolution-mail-message.xml.h:92
+#: ../ui/evolution-mail-message.xml.h:93
 #, fuzzy
 msgid "Select all the text in a message"
 msgstr "Pilih semua pesan yang dapat Anda lihat sekarang"
 
-#: ../ui/evolution-mail-message.xml.h:93
+#: ../ui/evolution-mail-message.xml.h:94
 msgid "Set up the page settings for your current printer"
 msgstr "Sesuaikan pengaturan halaman dengan printer Anda"
 
-#: ../ui/evolution-mail-message.xml.h:94
+#: ../ui/evolution-mail-message.xml.h:95
 msgid "Show a blinking cursor in the body of displayed messages"
 msgstr "Tampilkan kursor berkedip dalam badan pesan yang sedang dibuka ini"
 
-#: ../ui/evolution-mail-message.xml.h:95
+#: ../ui/evolution-mail-message.xml.h:96
 msgid "Show message in the normal style"
 msgstr "Tampilkan pesan email dalam gaya normal"
 
-#: ../ui/evolution-mail-message.xml.h:96
+#: ../ui/evolution-mail-message.xml.h:97
 msgid "Show message with all email headers"
 msgstr "Tampilkan pesan email lengkap dengan semua kolom dalam kepada emailnya"
 
-#: ../ui/evolution-mail-message.xml.h:97
+#: ../ui/evolution-mail-message.xml.h:98
 msgid "Show the raw email source of the message"
 msgstr "Tampilkan isi email dalam bentuk aslinya"
 
-#: ../ui/evolution-mail-message.xml.h:98
+#: ../ui/evolution-mail-message.xml.h:99
 msgid "Un-delete the selected messages"
 msgstr "Tidak jadi menghapus pesan-pesan yang tadi sudah dipilih"
 
-#: ../ui/evolution-mail-message.xml.h:99
+#: ../ui/evolution-mail-message.xml.h:100
 msgid "Uni_mportant"
 msgstr "Tidak Pe_nting"
 
-#: ../ui/evolution-mail-message.xml.h:100
+#: ../ui/evolution-mail-message.xml.h:101
 msgid "Zoom _Out"
 msgstr "P_erkecil"
 
-#: ../ui/evolution-mail-message.xml.h:101
+#: ../ui/evolution-mail-message.xml.h:102
 msgid "_Caret Mode"
 msgstr "_Modus Caret"
 
-#: ../ui/evolution-mail-message.xml.h:104
+#: ../ui/evolution-mail-message.xml.h:105
 msgid "_Delete Message"
 msgstr "_Hapus Pesan"
 
-#: ../ui/evolution-mail-message.xml.h:106
+#: ../ui/evolution-mail-message.xml.h:107
 msgid "_Find in Message..."
 msgstr "Cari _dalam Email..."
 
-#: ../ui/evolution-mail-message.xml.h:108
+#: ../ui/evolution-mail-message.xml.h:109
 msgid "_Go To"
 msgstr "_Buka"
 
-#: ../ui/evolution-mail-message.xml.h:109
+#: ../ui/evolution-mail-message.xml.h:110
 msgid "_Important"
 msgstr "_Penting"
 
-#: ../ui/evolution-mail-message.xml.h:110
+#: ../ui/evolution-mail-message.xml.h:111
 msgid "_Junk"
 msgstr "_Spam"
 
-#: ../ui/evolution-mail-message.xml.h:111
+#: ../ui/evolution-mail-message.xml.h:112
 msgid "_Load Images"
 msgstr "Tampi_lkan Gambar"
 
-#: ../ui/evolution-mail-message.xml.h:114
+#: ../ui/evolution-mail-message.xml.h:115
 msgid "_Next Message"
 msgstr "Pesa_n Berikutnya"
 
-#: ../ui/evolution-mail-message.xml.h:115
+#: ../ui/evolution-mail-message.xml.h:116
 msgid "_Normal Size"
 msgstr "Ukuran _Normal"
 
-#: ../ui/evolution-mail-message.xml.h:116
+#: ../ui/evolution-mail-message.xml.h:117
 msgid "_Not Junk"
 msgstr "Buka_n Spam"
 
-#: ../ui/evolution-mail-message.xml.h:117
+#: ../ui/evolution-mail-message.xml.h:118
 msgid "_Open in New Window"
 msgstr "Buka dalam Je_ndela Baru"
 
-#: ../ui/evolution-mail-message.xml.h:118
+#: ../ui/evolution-mail-message.xml.h:119
 msgid "_Previous Message"
 msgstr "_Pesan Sebelumnya"
 
-#: ../ui/evolution-mail-message.xml.h:122
+#: ../ui/evolution-mail-message.xml.h:123
 msgid "_Save Message..."
 msgstr "_Simpan Pesan..."
 
-#: ../ui/evolution-mail-message.xml.h:123
+#: ../ui/evolution-mail-message.xml.h:124
 msgid "_Undelete Message"
 msgstr " Penghap_usan"
 
-#: ../ui/evolution-mail-message.xml.h:124
+#: ../ui/evolution-mail-message.xml.h:125
 msgid "_Unread"
 msgstr "Bel_um Dibaca"
 
-#: ../ui/evolution-mail-message.xml.h:125
+#: ../ui/evolution-mail-message.xml.h:126
 msgid "_Zoom In"
 msgstr "_Perbesar"
 
+#.
+#. <cmd name="FileSave" _label="Save"
+#. _tip="Save the current file" pixtype="stock" pixname="Save"
+#. accel="*Ctrl*s"/>
+#.
 #: ../ui/evolution-mail-messagedisplay.xml.h:1
 #: ../ui/evolution-message-composer.xml.h:4
-#: ../ui/evolution-signature-editor.xml.h:2
+#: ../ui/evolution-signature-editor.xml.h:7
 msgid "Close"
 msgstr "Tutup"
 
@@ -18421,7 +18423,7 @@ msgstr "Tutup"
 msgid "Close this window"
 msgstr "Tutup jendela ini"
 
-#: ../ui/evolution-mail-messagedisplay.xml.h:3 ../ui/evolution.xml.h:17
+#: ../ui/evolution-mail-messagedisplay.xml.h:3 ../ui/evolution.xml.h:16
 msgid "Main toolbar"
 msgstr "Kotak perkakas utama"
 
@@ -18432,8 +18434,8 @@ msgstr "_Tutup"
 
 #: ../ui/evolution-mail-messagedisplay.xml.h:6
 #: ../ui/evolution-message-composer.xml.h:45
-#: ../ui/evolution-signature-editor.xml.h:13
-#: ../ui/evolution-subscribe.xml.h:11 ../ui/evolution.xml.h:33
+#: ../ui/evolution-signature-editor.xml.h:24
+#: ../ui/evolution-subscribe.xml.h:11 ../ui/evolution.xml.h:36
 msgid "_File"
 msgstr "_Berkas"
 
@@ -18449,8 +18451,13 @@ msgstr "Lampirkan berkas"
 msgid "Check to get delivery notification when your message is read"
 msgstr "Aktifkan nota penerimaan email saat email Anda dibaca si penerima"
 
+#.
+#. <cmd name="FileSave" _label="Save"
+#. _tip="Save the current file" pixtype="stock" pixname="Save"
+#. accel="*Ctrl*s"/>
+#.
 #: ../ui/evolution-message-composer.xml.h:5
-#: ../ui/evolution-signature-editor.xml.h:3
+#: ../ui/evolution-signature-editor.xml.h:13
 msgid "Close the current file"
 msgstr "Tutup berkas yang aktif sekarang"
 
@@ -18467,7 +18474,7 @@ msgid "Encrypt this message with your S/MIME Encryption Certificate"
 msgstr "Acak email ini dengan Sertifikat Enkripsi S/MIME"
 
 #: ../ui/evolution-message-composer.xml.h:9
-#: ../ui/evolution-signature-editor.xml.h:4
+#: ../ui/evolution-signature-editor.xml.h:14
 msgid "For_mat"
 msgstr "For_mat"
 
@@ -18524,7 +18531,6 @@ msgid "Save in folder..."
 msgstr "Simpan dalam folder..."
 
 #: ../ui/evolution-message-composer.xml.h:25
-#: ../ui/evolution-signature-editor.xml.h:9
 msgid "Save the current file"
 msgstr "Simpan file aktif sekarang"
 
@@ -18537,7 +18543,7 @@ msgid "Save the message in a specified folder"
 msgstr "Simpan pesan email dalam folder tertentu"
 
 #: ../ui/evolution-message-composer.xml.h:29
-#: ../ui/evolution-signature-editor.xml.h:11
+#: ../ui/evolution-signature-editor.xml.h:22
 msgid "Send the mail in HTML format"
 msgstr "Kirimkan email dalam bentuk HTML"
 
@@ -18598,7 +18604,7 @@ msgid "_From Field"
 msgstr "Kolom _Dari"
 
 #: ../ui/evolution-message-composer.xml.h:47
-#: ../ui/evolution-signature-editor.xml.h:14
+#: ../ui/evolution-signature-editor.xml.h:25
 msgid "_Insert"
 msgstr "_Masukkan"
 
@@ -18626,19 +18632,22 @@ msgstr "Kolom Un_tuk"
 msgid "C_lose"
 msgstr "_Tutup"
 
-#: ../ui/evolution-signature-editor.xml.h:5
+#: ../ui/evolution-signature-editor.xml.h:15
 msgid "H_TML"
 msgstr "H_TML"
 
-#: ../ui/evolution-signature-editor.xml.h:7
+#: ../ui/evolution-signature-editor.xml.h:16
 msgid "Save and Close"
 msgstr "Simpan dan Tutup"
 
-#: ../ui/evolution-signature-editor.xml.h:8
+#.
+#. <menuitem name="FileSave" verb="" _label="_Save"/>
+#.
+#: ../ui/evolution-signature-editor.xml.h:20
 msgid "Save and _Close"
 msgstr "Simpan dan _Tutup"
 
-#: ../ui/evolution-signature-editor.xml.h:10
+#: ../ui/evolution-signature-editor.xml.h:21
 msgid "Save the current file and close the window"
 msgstr "Simpan file ini dan tutup jendela"
 
@@ -18748,134 +18757,134 @@ msgid "Display window buttons with text only"
 msgstr "Tampilkan tombol-tombol pada jendela menggunakan teks saja"
 
 #: ../ui/evolution.xml.h:10
-msgid "Evolution _FAQ"
-msgstr "_FAQ Evolution"
-
-#: ../ui/evolution.xml.h:11
 msgid "Exit the program"
 msgstr "Keluar dari Evolution"
 
-#: ../ui/evolution.xml.h:12
+#: ../ui/evolution.xml.h:11
 msgid "Forget _Passwords"
 msgstr "Hapus Semua _Sandi"
 
-#: ../ui/evolution.xml.h:13
+#: ../ui/evolution.xml.h:12
 msgid "Forget remembered passwords so you will be prompted for them again"
 msgstr "Hapus semua sandi yang tersimpan di komputer"
 
-#: ../ui/evolution.xml.h:14
+#: ../ui/evolution.xml.h:13
 msgid "Hide window buttons"
 msgstr "Sembunyikan tombol jendela"
 
-#: ../ui/evolution.xml.h:15
+#: ../ui/evolution.xml.h:14
 msgid "Icons _and text"
 msgstr "Ikon d_an teks"
 
-#: ../ui/evolution.xml.h:16
+#: ../ui/evolution.xml.h:15
 msgid "Import data from other programs"
 msgstr "Impor data dari program lain"
 
-#: ../ui/evolution.xml.h:18
+#: ../ui/evolution.xml.h:17
 msgid "New _Window"
 msgstr "_Jendela Baru"
 
-#: ../ui/evolution.xml.h:19
+#: ../ui/evolution.xml.h:18
 msgid "Prefere_nces"
 msgstr "Pe_ngaturan"
 
-#: ../ui/evolution.xml.h:20
+#: ../ui/evolution.xml.h:19
 msgid "Send / Receive"
 msgstr "Kirim / Terima"
 
-#: ../ui/evolution.xml.h:21
+#: ../ui/evolution.xml.h:20
 msgid "Send queued items and retrieve new items"
 msgstr "Kirim antrian email dan ambil email baru"
 
-#: ../ui/evolution.xml.h:22
+#: ../ui/evolution.xml.h:21
 msgid "Set up Pilot configuration"
 msgstr "Atur konfigurasi Pilot"
 
-#: ../ui/evolution.xml.h:23
+#: ../ui/evolution.xml.h:22
 msgid "Show information about Evolution"
 msgstr "Tampilkan informasi tentang Evolution"
 
-#: ../ui/evolution.xml.h:24
+#: ../ui/evolution.xml.h:23
 msgid "Submit Bug Report"
 msgstr "Kirimkan Laporan Bug"
 
-#: ../ui/evolution.xml.h:25
+#. <menuitem name="HelpFAQ" verb=""
+#. _label="Evolution _FAQ"/>
+#.
+#. <separator/>
+#: ../ui/evolution.xml.h:28
 msgid "Submit _Bug Report"
 msgstr "Kirim Laporan _Bug"
 
-#: ../ui/evolution.xml.h:26
+#: ../ui/evolution.xml.h:29
 msgid "Submit a bug report using Bug Buddy"
 msgstr "Kirim laporan bug dengan menggunakan program Bug Buddy"
 
-#: ../ui/evolution.xml.h:27
+#: ../ui/evolution.xml.h:30
 msgid "Toggle whether we are working offline."
 msgstr "Atur apakah ingin offline atau online"
 
-#: ../ui/evolution.xml.h:28
+#: ../ui/evolution.xml.h:31
 msgid "Tool_bar"
 msgstr "Kotak _peralatan"
 
-#: ../ui/evolution.xml.h:29
+#: ../ui/evolution.xml.h:32
 msgid "Tool_bar style"
 msgstr "Seperti kotak peralatan"
 
-#: ../ui/evolution.xml.h:30
+#: ../ui/evolution.xml.h:33
 msgid "_About Evolution..."
 msgstr "Tent_ang Evolution..."
 
-#: ../ui/evolution.xml.h:31
+#: ../ui/evolution.xml.h:34
 msgid "_Close Window"
 msgstr "Tutup _Jendela"
 
-#: ../ui/evolution.xml.h:34
+#: ../ui/evolution.xml.h:37
 msgid "_Help"
 msgstr "Ba_ntuan"
 
-#: ../ui/evolution.xml.h:35
+#: ../ui/evolution.xml.h:38
 msgid "_Hide buttons"
 msgstr "_Sembunyikan tombol"
 
-#: ../ui/evolution.xml.h:36
+#: ../ui/evolution.xml.h:39
 msgid "_Icons only"
 msgstr "_Ikon saja"
 
-#: ../ui/evolution.xml.h:37
+#: ../ui/evolution.xml.h:40
 msgid "_Import..."
 msgstr "_Impor..."
 
-#: ../ui/evolution.xml.h:38
+#: ../ui/evolution.xml.h:41
 msgid "_New"
 msgstr "Buat Bar_u"
 
-#: ../ui/evolution.xml.h:39
+#: ../ui/evolution.xml.h:42
 msgid "_Quick Reference"
 msgstr "_Jalur Cepat"
 
-#: ../ui/evolution.xml.h:40
+#: ../ui/evolution.xml.h:43
 msgid "_Quit"
 msgstr "_Keluar"
 
-#: ../ui/evolution.xml.h:41
+#: ../ui/evolution.xml.h:44
 msgid "_Send / Receive"
 msgstr "_Kirim / Terima"
 
-#: ../ui/evolution.xml.h:42
+#: ../ui/evolution.xml.h:45
 msgid "_Switcher Appearance"
 msgstr "_Tampilan Modul"
 
-#: ../ui/evolution.xml.h:43
+#: ../ui/evolution.xml.h:46
 msgid "_Synchronization Options..."
 msgstr "Pilihan _Sinkronisasi..."
 
-#: ../ui/evolution.xml.h:44
+#: ../ui/evolution.xml.h:47
 msgid "_Text only"
 msgstr "_Teks saja"
 
-#: ../ui/evolution.xml.h:46
+#: ../ui/evolution.xml.h:49
 msgid "_Window"
 msgstr "_Jendela"
 
@@ -20126,2312 +20135,3 @@ msgstr "Konteks IM"
 #: ../widgets/text/e-text.c:3683 ../widgets/text/e-text.c:3684
 msgid "Handle Popup"
 msgstr "Tangani Popup"
-
-#, fuzzy
-#~ msgid "The Proxy tab will be available only when the account is online."
-#~ msgstr "Tab Proksi hanya tersedia apabila akun ini dimatikan."
-
-#, fuzzy
-#~ msgid "Unknown error verifying signed messaage"
-#~ msgstr "Ada error tidak dikenal saat melakukan verifikasi tanda tangan"
-
-#, fuzzy
-#~ msgid "Unknown error decrypting messaage"
-#~ msgstr "Ada error tidak dikenal saat melakukan verifikasi tanda tangan"
-
-#, fuzzy
-#~ msgid "FIll stipple"
-#~ msgstr "ungu pudar"
-
-#~ msgid ""
-#~ "Evolution has found Gnome Calendar files.\n"
-#~ "Would you like to import them into Evolution?"
-#~ msgstr ""
-#~ "Evolution menemukan file-file Gnome Calendar.\n"
-#~ "Impor ke dalam Evolution?"
-
-#~ msgid "vFolders"
-#~ msgstr "vFolders"
-
-#~ msgid "Mo_ve to Folder..."
-#~ msgstr "_Pindahkan ke Folder..."
-
-#, fuzzy
-#~ msgid "Create _vFolder"
-#~ msgstr "Buat folder"
-
-#, fuzzy
-#~ msgid "v_Folders"
-#~ msgstr "vFolders"
-
-#, fuzzy
-#~ msgid "vFolder source"
-#~ msgstr "Asal VFolder"
-
-#~ msgid "Evolution Netscape Mail importer"
-#~ msgstr "Program pengimpor data Netscape Mail Evolution"
-
-#~ msgid "Evolution Outlook Express 4 importer"
-#~ msgstr "Program pengimpor Outlook Express 4 Evolution"
-
-#~ msgid "Evolution mbox importer"
-#~ msgstr "Program Impor mbox Evolution"
-
-#~ msgid "MBox (mbox)"
-#~ msgstr "MBox (mbox)"
-
-#~ msgid "Outlook Express 4 (.mbx)"
-#~ msgstr "Outlook Express 4 (.mbx)"
-
-#~ msgid "Evolution is importing your old Elm mail"
-#~ msgstr "Evolution sedang mengimpor data email lama dari Elm"
-
-#~ msgid ""
-#~ "Evolution has found Elm mail files\n"
-#~ "Would you like to import them into Evolution?"
-#~ msgstr ""
-#~ "Evolution menemukan file email Elm\n"
-#~ "Anda ingin mengimpornya ke dalam Evolution?"
-
-#~ msgid "Elm"
-#~ msgstr "Elm"
-
-#~ msgid "Evolution is importing your old Pine data"
-#~ msgstr "Evolution sedang mengimpor data Pine Anda"
-
-#~ msgid ""
-#~ "Evolution has found Pine mail files.\n"
-#~ "Would you like to import them into Evolution?"
-#~ msgstr ""
-#~ "Evolution menemukan file-file email Pine.\n"
-#~ "Anda ingin mengimpornya ke dalam Evolution?"
-
-#~ msgid "Pine"
-#~ msgstr "Pine"
-
-#~ msgid "_Host:"
-#~ msgstr "_Host:"
-
-#, fuzzy
-#~ msgid "Edit vFolder"
-#~ msgstr "Ubah VFolder"
-
-#, fuzzy
-#~ msgid "New vFolder"
-#~ msgstr "VFolder Baru"
-
-#, fuzzy
-#~ msgid "Out of office Message:"
-#~ msgstr "<b>Sedang Keluar Kantor, Pesan:</b>"
-
-#~ msgid ""
-#~ "Importing %s\n"
-#~ "Importing item %d."
-#~ msgstr ""
-#~ "Mengimpor %s\n"
-#~ "Mengimpor data %d."
-
-#~ msgid "Select importer"
-#~ msgstr "Pilih program impor"
-
-#~ msgid "File %s does not exist"
-#~ msgstr "File %s tidak ada"
-
-#~ msgid "Importing"
-#~ msgstr "Mengimpor"
-
-#~ msgid "Importing %s.\n"
-#~ msgstr "Mengimpor %s.\n"
-
-#~ msgid "Error loading %s"
-#~ msgstr "Error saat membuka %s"
-
-#~ msgid ""
-#~ "Importing %s\n"
-#~ "Importing item 1."
-#~ msgstr ""
-#~ "Mengimpor %s\n"
-#~ "Mengimpor data 1."
-
-#~ msgid "Automatic"
-#~ msgstr "Otomatis"
-
-#~ msgid ""
-#~ "Please wait...\n"
-#~ "Scanning for existing setups"
-#~ msgstr ""
-#~ "Tunggu sebentar...\n"
-#~ "Memeriksa program yang ada"
-
-#~ msgid "Starting Intelligent Importers"
-#~ msgstr "Menjalankan Program Impor yang Pintar"
-
-#~ msgid "No importer available for file %s"
-#~ msgstr "Tidak ada program impor yang tersedia untuk file %s"
-
-#~ msgid "Unable to execute importer"
-#~ msgstr "Tidak dapat menjalankan program impor"
-
-#~ msgid "Importers"
-#~ msgstr "Program Impor"
-
-#~ msgid "Don't import"
-#~ msgstr "Jangan impor"
-
-#~ msgid "Don't ask me again"
-#~ msgstr "Jangan tanya lagi"
-
-#~ msgid "Evolution can import data from the following files:"
-#~ msgstr "Evolution dapat mengimpor data dari file-file berikut:"
-
-#, fuzzy
-#~ msgid "Show _Messages"
-#~ msgstr "_Pesan"
-
-#, fuzzy
-#~ msgid "Un_read Messages"
-#~ msgstr "Pesan belum terbaca:"
-
-#~ msgid "_Tools"
-#~ msgstr "Perala_tan"
-
-#~ msgid ""
-#~ "Are you sure you want\n"
-#~ "to delete this contact?"
-#~ msgstr ""
-#~ "Apakah Anda benar-benar ingin\n"
-#~ "menghapus kontak ini?"
-
-#~ msgid "Save Appointment"
-#~ msgstr "Simpan Janji"
-
-#, fuzzy
-#~ msgid "Appointment Title"
-#~ msgstr "Janji"
-
-#, fuzzy
-#~ msgid "end-time"
-#~ msgstr "Waktu b_erakhir:"
-
-#, fuzzy
-#~ msgid "start-time"
-#~ msgstr "Waktu _mulai:"
-
-#~ msgid "Show _Attachment Bar (drop attachments here)"
-#~ msgstr "Tampilk_an Kotak Lampiran (silakan letakkan lampiran ke sini)"
-
-#~ msgid "N"
-#~ msgstr "N"
-
-#~ msgid "S"
-#~ msgstr "S"
-
-#~ msgid "W"
-#~ msgstr "W"
-
-#~ msgid "<b>If</b>"
-#~ msgstr "<b>Jika</b>"
-
-#~ msgid "port for starting user runned spamd"
-#~ msgstr "port untuk menjalankan spamd yang dibuka user"
-
-#~ msgid "spamd port"
-#~ msgstr "port spamd"
-
-#~ msgid "_Load images if sender is in address book"
-#~ msgstr "Ambi_l gambar bila pengirim ada dalam buku alamat"
-
-#~ msgid "{1}."
-#~ msgstr "{1}."
-
-#, fuzzy
-#~ msgid "Mark  as default folder"
-#~ msgstr "Gunakan folder draf default?"
-
-#, fuzzy
-#~ msgid "<b>%s</b> requests the presence of %s at the following meeting:"
-#~ msgstr "<b>%s</b> mengharapkan kehadiran %s pada pertemuan."
-
-#, fuzzy
-#~ msgid "Manage Plugins..."
-#~ msgstr "Membatalkan..."
-
-#, fuzzy
-#~ msgid "Invalid user"
-#~ msgstr "Tanda tangan tidak sah"
-
-#, fuzzy
-#~ msgid "Specify User"
-#~ msgstr "Kepala surat tertentu"
-
-#~ msgid "Closing connections..."
-#~ msgstr "Menutup koneksi..."
-
-#~ msgid "Starting import"
-#~ msgstr "Mulai impor"
-
-#~ msgid ""
-#~ "If you quit the Evolution Setup Assistant now, all of the information "
-#~ "that you have entered will be forgotten. You will need to run this "
-#~ "assistant again before using Evolution.\n"
-#~ "\n"
-#~ "Do you want to quit using the Assistant now?"
-#~ msgstr ""
-#~ "Bila Anda keluar dari Program Bantu Pengaturan Evolution sekarang, maka "
-#~ "semua informasi yang sudah Anda isikan tadi akan hilang dan Anda harus "
-#~ "menjalankan program ini lagi sebelum dapat mulai menggunakan Evolution.\n"
-#~ "\n"
-#~ "Benar ingin keluar?"
-
-#~ msgid "Importing Files"
-#~ msgstr "Mengimpor File"
-
-#~ msgid "Timezone "
-#~ msgstr "Zona waktu"
-
-#, fuzzy
-#~ msgid ""
-#~ "You have successfully entered all of the information needed to set up "
-#~ "Evolution. \n"
-#~ "\n"
-#~ "Click the \"Apply\" button to save your settings. "
-#~ msgstr ""
-#~ "Anda telah berhasil mengisi semua informasi\n"
-#~ "yang dibutuhkan oleh Evolution.\n"
-#~ "\n"
-#~ "Klik tombol \"Terapkan\" untuk menyimpan semua ini."
-
-#~ msgid "Cannot start Evolution"
-#~ msgstr "Evolution tidak dapat dijalankan"
-
-#~ msgid "_Filters..."
-#~ msgstr "_Filter..."
-
-#, fuzzy
-#~ msgid "vFolder _Editor..."
-#~ msgstr "P_enyunting Folder Virtual..."
-
-#~ msgid "Mark All as _Read"
-#~ msgstr "Tandai Semuanya dengan Status Te_rbaca"
-
-#~ msgid "_Folder"
-#~ msgstr "_Folder"
-
-#~ msgid "_Threaded Message List"
-#~ msgstr "Daftar Pesan dalam _Thread"
-
-#, fuzzy
-#~ msgid "Create _vFolder From Message"
-#~ msgstr "Buat _Filter Dari Pesan Email"
-
-#~ msgid "F_orward As..."
-#~ msgstr "Te_ruskan Dalam Bentuk..."
-
-#~ msgid "Filter _Junk"
-#~ msgstr "Bersihkan Email _Sampah"
-
-#~ msgid "Mark as I_mportant"
-#~ msgstr "Tandai: E_mail tidak penting"
-
-#~ msgid "Mark as Unimp_ortant"
-#~ msgstr "Tandai: _Tidak penting"
-
-#~ msgid "S_earch in Message..."
-#~ msgstr "Cari dalam P_esan Email..."
-
-#~ msgid "S_maller"
-#~ msgstr "_Lebih Kecil"
-
-#~ msgid "Show Email _Source"
-#~ msgstr "Tampilkan Bentuk A_sli Email Ini"
-
-#~ msgid "Show Full _Headers"
-#~ msgstr "Tampilkan Semua _Kepala Email"
-
-#~ msgid "Text Si_ze"
-#~ msgstr "U_kuran Teks"
-
-#~ msgid "_Attached"
-#~ msgstr "Terl_ampir"
-
-#~ msgid "_Create Filter From Message"
-#~ msgstr "Buat _Filter Dari Pesan Email"
-
-#~ msgid "_Inline"
-#~ msgstr "_Inline"
-
-#~ msgid "_Larger"
-#~ msgstr "_Lebih Besar"
-
-#~ msgid "_Message Display"
-#~ msgstr "Ta_mpilan Pesan"
-
-#~ msgid "_Normal Display"
-#~ msgstr "Tampilan _Normal"
-
-#~ msgid "_Open Message"
-#~ msgstr "B_uka Pesan Email"
-
-#~ msgid "_Quoted"
-#~ msgstr "_Kutipan"
-
-#~ msgid "_Undelete"
-#~ msgstr "Batal Hap_us"
-
-#~ msgid "Show / hide attachments"
-#~ msgstr "Tampilkan / sembunyikan lampiran"
-
-#~ msgid "Show _attachments"
-#~ msgstr "Tampilkan l_ampiran"
-
-#~ msgid "Show attachments"
-#~ msgstr "Tampilkan lampiran"
-
-#~ msgid "E_xit"
-#~ msgstr "Ke_luar"
-
-#~ msgid "_Advanced..."
-#~ msgstr "D_etil..."
-
-#, fuzzy
-#~ msgid ""
-#~ "None\n"
-#~ "Mail Receipt\n"
-#~ msgstr "Nota Pembacaan"
-
-#~ msgid "have "
-#~ msgstr "memiliki "
-
-#~ msgid "has "
-#~ msgstr "memiliki "
-
-#~ msgid " cards"
-#~ msgstr " buah kartu"
-
-#~ msgid " card"
-#~ msgstr " kartu"
-
-#~ msgid "contact's header: "
-#~ msgstr "kepala data kontak: "
-
-#~ msgid ""
-#~ "Address book '%s' will be removed. Are you sure you want to continue?"
-#~ msgstr "Buku alamat '%s' akan dihapus. Benar ingin melanjutkan?"
-
-#~ msgid "Evolution Addressbook name selection interface"
-#~ msgstr "Pemilih nama Buku Alamat Evolution"
-
-#~ msgid "Remove All"
-#~ msgstr "Hapus Semua"
-
-#~ msgid "View Contact List"
-#~ msgstr "Lihat Daftar Kontak"
-
-#~ msgid "View Contact Info"
-#~ msgstr "Lihat Informasi Kontak"
-
-#~ msgid "Send HTML Mail?"
-#~ msgstr "Kirim Email HTML?"
-
-#~ msgid "Unnamed Contact"
-#~ msgstr "Kontak Belum Diberi Nama"
-
-#~ msgid "Select Contacts from Address Book"
-#~ msgstr "Pilih Kontak dari Dalam Buku Alamat"
-
-#~ msgid "<b>Contacts</b>"
-#~ msgstr "<b>Kontak</b>"
-
-#~ msgid "<b>Show Contacts</b>"
-#~ msgstr "<b>Tampilkan Kontak</b>"
-
-#~ msgid "Address _Book:"
-#~ msgstr "_Buku Alamat:"
-
-#~ msgid "C_ategory:"
-#~ msgstr "K_ategori:"
-
-#~ msgid "_Find"
-#~ msgstr "_Cari"
-
-#~ msgid "_Search:"
-#~ msgstr "_Cari:"
-
-#~ msgid "Address:"
-#~ msgstr "Alamat:"
-
-#~ msgid "PO Box:"
-#~ msgstr "PO Box:"
-
-#~ msgid "State/Province:"
-#~ msgstr "Negara bagian/Provinsi:"
-
-#~ msgid "Title:"
-#~ msgstr "Gelar:"
-
-#~ msgid "Go to Folder..."
-#~ msgstr "Buka Folder..."
-
-#~ msgid "Import..."
-#~ msgstr "Impor..."
-
-#~ msgid "Address Book Sources..."
-#~ msgstr "Asal Buku Alamat..."
-
-#~ msgid "Print Envelope"
-#~ msgstr "Cetak Amplop"
-
-#~ msgid "Edit Contact Info"
-#~ msgstr "Rubah Informasi Kontak"
-
-#~ msgid "Evolution VCard importer"
-#~ msgstr "Program Impor VCard Evolution"
-
-#~ msgid "Impossible internal error."
-#~ msgstr "Ada error aneh terjadi."
-
-#~ msgid "Unnamed List"
-#~ msgstr "Daftar Belum Berjudul"
-
-#~ msgid "Starting:"
-#~ msgstr "Awal:"
-
-#~ msgid "Ending:"
-#~ msgstr "Akhir:"
-
-#~ msgid "Evolution Alarm"
-#~ msgstr "Alarm Evolution"
-
-#~ msgid "Alarm on %s"
-#~ msgstr "Nyalakan alarm pada %s"
-
-#~ msgid "_Edit appointment"
-#~ msgstr "_Ubah janji"
-
-#~ msgid "Allocate less space to weekend appointments"
-#~ msgstr "Atur ruangan yang lebih sedikit untuk janji pada akhir pekan"
-
-#~ msgid "Days that are work days"
-#~ msgstr "Hari kerja"
-
-#~ msgid "Default timezone for meetings"
-#~ msgstr "Zona waktu default untuk pertemuan"
-
-#~ msgid "Position of the horizontal pane in the month view"
-#~ msgstr "Posisi panel horisontal dalam tampilan bulan"
-
-#~ msgid "Position of the vertical pane"
-#~ msgstr "Posisi panel vertikal"
-
-#~ msgid "Show where events end in week and month views"
-#~ msgstr "Tampilkan waktu akhir acara dalam tampilan minggu dan bulan"
-
-#~ msgid "Whether to ask for confirmation when folder is expunged"
-#~ msgstr ""
-#~ "Atur untuk menentukan apakah ingin melakukan konfirmasi pada saat folder "
-#~ "dihapus atau tidak"
-
-#~ msgid "%A %d %B %Y"
-#~ msgstr "%A %d %B %Y"
-
-#~ msgid "Calendar '%s' will be removed. Are you sure you want to continue?"
-#~ msgstr "Kalender '%s' akan dihapus. Apakah benar ingin melakukan hal ini?"
-
-#~ msgid "backend_go_offline(): %s"
-#~ msgstr "backend_go_offline(): %s"
-
-#~ msgid "backend_go_online(): %s"
-#~ msgstr "backend_go_online(): %s"
-
-#~ msgid "open_client(): %s"
-#~ msgstr "open_client(): %s"
-
-#~ msgid "You must specify a location to get the calendar from."
-#~ msgstr "Anda harus menentukan lokasi kalender."
-
-#~ msgid "The source location '%s' is not well-formed."
-#~ msgstr "Lokasi asal '%s' tidak ditulis dengan benar."
-
-#~ msgid "The source location '%s' is not a webcal source."
-#~ msgstr "Lokasi asal '%s' bukan bertipe webcal."
-
-#~ msgid "Source with name '%s' already exists in the selected group"
-#~ msgstr "Sumber kalender dengan nama '%s' sudah ada pada grup terpilih"
-
-#~ msgid ""
-#~ "The group '%s' is remote. You must specify a location to get the calendar "
-#~ "from"
-#~ msgstr ""
-#~ "Grup '%s' ada pada server lain. Silakan pilih lokasi untuk mengambil "
-#~ "kalender."
-
-#~ msgid "_Destination"
-#~ msgstr "_Tujuan"
-
-#~ msgid "<span weight=\"bold\">Basics</span>"
-#~ msgstr "<span weight=\"bold\">Umum</span>"
-
-#~ msgid "<span weight=\"bold\">Date and Time</span>"
-#~ msgstr "<span weight=\"bold\">Tanggal dan Waktu</span>"
-
-#~ msgid "Free/Busy Editor"
-#~ msgstr "Pengatur Waktu Luang/Sibuk"
-
-#~ msgid "Print Setup"
-#~ msgstr "Pengaturan Cetak"
-
-#~ msgid "Task List '%s' will be removed. Are you sure you want to continue?"
-#~ msgstr "Daftar Tugas '%s' akan dihapus. Apakah benar ingin melakukan ini?"
-
-#~ msgid "Signing is not supported by this cipher"
-#~ msgstr ""
-#~ "Pembuatan tanda tangan tidak dapat dilakukan dengan metode cipher ini"
-
-#~ msgid "Signing message"
-#~ msgstr "Menandatangani pesan email"
-
-#~ msgid "Verifying is not supported by this cipher"
-#~ msgstr ""
-#~ "Proses verifikasi tidak dapat dilakukan dengan menggunakan cipher ini"
-
-#~ msgid "Verifying message"
-#~ msgstr "Melakukan verifikasi pesan email"
-
-#~ msgid "Encryption is not supported by this cipher"
-#~ msgstr "Proses enkripsi tidak dapat dilakukan dengan cipher ini"
-
-#~ msgid "Encrypting message"
-#~ msgstr "Melakukan enkripsi pesan email"
-
-#~ msgid "Decryption is not supported by this cipher"
-#~ msgstr "Proses dekripsi tidak dapat dilakukan dengan cipher ini"
-
-#~ msgid "Decrypting message"
-#~ msgstr "Proses dekripsi pesan email"
-
-#~ msgid "You may not import keys with this cipher"
-#~ msgstr "Anda tidak dapat melakukan impor kunci dengan cipher ini"
-
-#~ msgid "You may not export keys with this cipher"
-#~ msgstr "Anda tidak dapat melakukan ekspor kunci dengan cipher ini"
-
-#~ msgid "Unable to create cache path"
-#~ msgstr "Tidak dapat membuat path cache"
-
-#~ msgid "Could not remove cache entry: %s: %s"
-#~ msgstr "Tidak dapat menghapus data cache: %s %s"
-
-#~ msgid ""
-#~ "Could not write log entry: %s\n"
-#~ "Further operations on this server will not be replayed when you\n"
-#~ "reconnect to the network."
-#~ msgstr ""
-#~ "Tidak dapat menulis data log: %s\n"
-#~ "Operasi selanjutnya pada server ini tidak dapat dibalas\n"
-#~ "pada saat Anda tersambung ke jaringan."
-
-#~ msgid ""
-#~ "Could not open `%s':\n"
-#~ "%s\n"
-#~ "Changes made to this folder will not be resynchronized."
-#~ msgstr ""
-#~ "Tidak dapat membuka '%s':\n"
-#~ "%s\n"
-#~ "Semua perubahan yang dilakukan pada folder ini tidak akan sinkron."
-
-#~ msgid "Resynchronizing with server"
-#~ msgstr "Melakukan sinkronisasi dengan server"
-
-#~ msgid "Downloading new messages for offline mode"
-#~ msgstr "Mendownload pesan-pesan email baru untuk keperluan moda offline"
-
-#~ msgid "Preparing folder '%s' for offline"
-#~ msgstr "Menyiapkan folder '%s' untuk terputus dari jaringan/offline"
-
-#~ msgid "You must be working online to complete this operation"
-#~ msgstr ""
-#~ "Anda harus terhubung ke jaringan/Internet terlebih dahulu untuk dapat "
-#~ "menuntaskan operasi ini."
-
-#~ msgid "Failed to create pipe to '%s': %s"
-#~ msgstr "Tidak dapat membuat pipa untuk '%s': %s"
-
-#~ msgid "Failed to create child process '%s': %s"
-#~ msgstr "Tidak dapat menghasilkan proses program baru '%s': %s"
-
-#~ msgid "Invalid message stream received from %s: %s"
-#~ msgstr "Pesan email memiliki data stream yang rusak, diterima dari %s: %s"
-
-#~ msgid "Syncing folders"
-#~ msgstr "Sinkronisasi folder"
-
-#~ msgid "Error parsing filter: %s: %s"
-#~ msgstr "Error saat menelusuri filter: %s: %s"
-
-#~ msgid "Error executing filter: %s: %s"
-#~ msgstr "Error saat menjalankan filter: %s: %s"
-
-#~ msgid "Unable to open spool folder"
-#~ msgstr "Tidak dapat membuka folder spool"
-
-#~ msgid "Getting message %d (%d%%)"
-#~ msgstr "Mengambil pesan email ke-%d (%d%%)"
-
-#~ msgid "Cannot open message"
-#~ msgstr "Tidak dapat membuka pesan email"
-
-#~ msgid "Failed on message %d"
-#~ msgstr "Gagal pada pesan ke-%d"
-
-#~ msgid "Syncing folder"
-#~ msgstr "Sinkronisasi folder"
-
-#~ msgid "Getting message %d of %d"
-#~ msgstr "Email ke-%d dari %d"
-
-#~ msgid "Failed at message %d of %d"
-#~ msgstr "Gagal ambil email ke-%d dari %d"
-
-#~ msgid "Invalid arguments to (system-flag)"
-#~ msgstr "Argumen tidak benar untuk (system-flag)"
-
-#~ msgid "Invalid arguments to (user-tag)"
-#~ msgstr "Argumen tidak benar untuk (user-flag)"
-
-#~ msgid "Failed to create create child process '%s': %s"
-#~ msgstr "Gagal membuat anak proses program '%s': %s"
-
-#~ msgid "Error executing filter search: %s: %s"
-#~ msgstr "Error saat melakukan pencarian dengan filter: %s: %s"
-
-#~ msgid ""
-#~ "Cannot parse search expression: %s:\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Tidak dapat membaca ekspresi pencarian: %s\n"
-#~ "%s"
-
-#~ msgid ""
-#~ "Error executing search expression: %s:\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Error saat menjalankan ekspresi pencarian dengan filter: %s:\n"
-#~ "%s"
-
-#~ msgid "Moving messages"
-#~ msgstr "Memindahkan pesan email"
-
-#~ msgid "Copying messages"
-#~ msgstr "Menyalin pesan-pesan email"
-
-#~ msgid "Learning junk"
-#~ msgstr "Mempelajari data email sampah"
-
-#~ msgid "Learning non-junk"
-#~ msgstr "Mempelajari data email bukan sampah"
-
-#~ msgid "Filtering new message(s)"
-#~ msgstr "Melakukan filter pada pesan email baru"
-
-#~ msgid ""
-#~ "Unexpected GnuPG status message encountered:\n"
-#~ "\n"
-#~ "%s"
-#~ msgstr ""
-#~ "GnuPG mengeluarkan status yang tidak diharapkan:\n"
-#~ "\n"
-#~ "%s"
-
-#~ msgid "Failed to parse gpg userid hint."
-#~ msgstr "Gagal membaca hint userid gpg."
-
-#~ msgid "Failed to parse gpg passphrase request."
-#~ msgstr "Gagal membaca permintaan kata sandi gpg."
-
-#~ msgid ""
-#~ "You need a passphrase to unlock the key for\n"
-#~ "user: \"%s\""
-#~ msgstr ""
-#~ "Anda harus memasukkan kata sandi untuk membuka kunci\n"
-#~ "milik user: \"%s\""
-
-#~ msgid "Failed to unlock secret key: 3 bad passphrases given."
-#~ msgstr ""
-#~ "Gagal saat membuka kunci rahasia: password diketikkan salah sebanyak 3 "
-#~ "kali."
-
-#~ msgid "Unexpected response from GnuPG: %s"
-#~ msgstr "Respon GnuPG tidak terduga: %s"
-
-#~ msgid "Failed to encrypt: No valid recipients specified."
-#~ msgstr "Tidak dapat melakukan enkripsi: Tidak ada penerima yang benar."
-
-#~ msgid ""
-#~ "Failed to GPG %s: %s\n"
-#~ "\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Gagal saat melakukan GPG %s: %s\n"
-#~ "\n"
-#~ "%s"
-
-#~ msgid "Failed to GPG %s: %s\n"
-#~ msgstr "Gagal saat melakukan GPG %s: %s\n"
-
-#~ msgid "Could not generate signing data: %s"
-#~ msgstr "Tidak dapat membangkitkan data tanda-tangan: %s"
-
-#~ msgid "Failed to execute gpg: %s"
-#~ msgstr "Gagal melakukan eksekusi gpg: %s"
-
-#~ msgid "Failed to execute gpg."
-#~ msgstr "Gagal melakukan eksekusi gpg."
-
-#~ msgid "This is a digitally signed message part"
-#~ msgstr "Bagian pesan email ini ditandatangani secara digital"
-
-#~ msgid "Cannot verify message signature: Incorrect message format"
-#~ msgstr ""
-#~ "Tidak dapat memeriksa tanda tangan digital pada pesan email ini: "
-#~ "Bentuknya tidak benar"
-
-#~ msgid "Cannot verify message signature: could not create temp file: %s"
-#~ msgstr ""
-#~ "Tidak dapat memeriksa tanda tangan digital pada pesan email ini: Tidak "
-#~ "dapat membuat file sementara: %s"
-
-#~ msgid "Could not generate encrypting data: %s"
-#~ msgstr "Tidak dapat membangkitkan data enkripsi: %s"
-
-#~ msgid "This is a digitally encrypted message part"
-#~ msgstr "Bagian pesan email ini diacak/enkripsi secara digital"
-
-#~ msgid "Encrypted content"
-#~ msgstr "Isi teracak/terenkripsi"
-
-#~ msgid "Cannot build locking helper pipe: %s"
-#~ msgstr "Tidak dapat membuat pipa bantuan untuk locking: %s"
-
-#~ msgid "Cannot fork locking helper: %s"
-#~ msgstr "Tidak dapat meluncurkan pipa bantuan untuk locking: %s"
-
-#~ msgid "Could not lock '%s': protocol error with lock-helper"
-#~ msgstr "Tidak dapat mengunci '%s': error protokol pada pembantu lock"
-
-#~ msgid "Could not lock '%s'"
-#~ msgstr "Tidak dapat mengunci '%s'"
-
-#~ msgid "Could not create lock file for %s: %s"
-#~ msgstr "Tidak dapat membuat file lock untuk %s: %s"
-
-#~ msgid "Timed out trying to get lock file on %s. Try again later."
-#~ msgstr ""
-#~ "Waktu habis saat mencoba mengambil kunci file pada %s. Silakan coba lagi "
-#~ "nanti."
-
-#~ msgid "Failed to get lock using fcntl(2): %s"
-#~ msgstr "Gagal mengambil alih kunci menggunakan fcnt(2): %s"
-
-#~ msgid "Failed to get lock using flock(2): %s"
-#~ msgstr "Gagal mengambil alih kunci menggunakan flock(2): %s"
-
-#~ msgid "Could not check mail file %s: %s"
-#~ msgstr "Tidak dapat mengecek email %s: %s"
-
-#~ msgid "Could not open mail file %s: %s"
-#~ msgstr "Tidak dapat membuka file pesan email %s: %s"
-
-#~ msgid "Could not open temporary mail file %s: %s"
-#~ msgstr "Tidak dapat membuka file email sementara %s: %s"
-
-#~ msgid "Failed to store mail in temp file %s: %s"
-#~ msgstr "Tidak dapat menyimpan file email pada file sementara %s: %s"
-
-#~ msgid "Could not create pipe: %s"
-#~ msgstr "Tidak dapat membuat pipa: %s"
-
-#~ msgid "Could not fork: %s"
-#~ msgstr "Tidak dapat meluncurkan program: %s"
-
-#~ msgid "Movemail program failed: %s"
-#~ msgstr "Program movemail gagal: %s"
-
-#~ msgid "(Unknown error)"
-#~ msgstr "(Error tidak dikenal)"
-
-#~ msgid "Error reading mail file: %s"
-#~ msgstr "Error saat membaca file email: %s"
-
-#~ msgid "Error writing mail temp file: %s"
-#~ msgstr "Error saat menulis file sementara: %s"
-
-#~ msgid "Error copying mail temp file: %s"
-#~ msgstr "Error menyalin pesan email ke file sementara: %s"
-
-#~ msgid "Failed to decrypt MIME part: protocol error"
-#~ msgstr "Gagal saat membuka bagian MIME: error protokol"
-
-#~ msgid "Failed to decrypt MIME part: invalid structure"
-#~ msgstr "Gagal saat membuka bagian MIME: struktur tidak benar"
-
-#~ msgid "parse error"
-#~ msgstr "error pembacaan"
-
-#~ msgid "Virtual folder email provider"
-#~ msgstr "Penyedia email virtual folder"
-
-#~ msgid "For reading mail as a query of another set of folders"
-#~ msgstr "Untuk membaca email sebagai query dari kumpulan folder lain"
-
-#~ msgid "Could not load %s: Module loading not supported on this system."
-#~ msgstr ""
-#~ "Tidak dapat membuka %s: Pembukaan modul tidak dapat dilakukan pada sistem "
-#~ "ini"
-
-#~ msgid "Could not load %s: %s"
-#~ msgstr "Tidak dapat membuka %s: %s"
-
-#~ msgid "Could not load %s: No initialization code in module."
-#~ msgstr "Tidak dapat membuka %s: Tidak ada kode inisialisasi pada modul"
-
-#~ msgid "No provider available for protocol `%s'"
-#~ msgstr "Tidak ada penyedia protokol '%s'"
-
-#~ msgid "Anonymous"
-#~ msgstr "Anonim"
-
-#~ msgid "This option will connect to the server using an anonymous login."
-#~ msgstr ""
-#~ "Pilihan ini akan membuat Anda tersambung ke server dengan login anonim."
-
-#~ msgid "Authentication failed."
-#~ msgstr "Otentikasi gagal."
-
-#~ msgid ""
-#~ "Invalid email address trace information:\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Informasi penelusuran alamat email tidak benar:\n"
-#~ "%s"
-
-#~ msgid ""
-#~ "Invalid opaque trace information:\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Informasi penelusuran opaque tidak benar:\n"
-#~ "%s"
-
-#~ msgid ""
-#~ "Invalid trace information:\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Informasi penelusuran tidak benar:\n"
-#~ "%s"
-
-#~ msgid "CRAM-MD5"
-#~ msgstr "CRAM-MD5"
-
-#~ msgid ""
-#~ "This option will connect to the server using a secure CRAM-MD5 password, "
-#~ "if the server supports it."
-#~ msgstr ""
-#~ "Pilihan ini akan membuat Anda tersambung ke server dengan menggunakan "
-#~ "password CRAM-MD5, itu pun apabila servernya memiliki fasilitas ini."
-
-#~ msgid "DIGEST-MD5"
-#~ msgstr "DIGEST-MD5"
-
-#~ msgid ""
-#~ "This option will connect to the server using a secure DIGEST-MD5 "
-#~ "password, if the server supports it."
-#~ msgstr ""
-#~ "Pilihan ini akan membuat Anda tersambung ke server dengan menggunakan "
-#~ "password DIGEST-MD5, itu pun apabila servernya memiliki fasilitas ini."
-
-#~ msgid "Server challenge too long (>2048 octets)\n"
-#~ msgstr "Challenge server terlalu panjang (> 2048 oktet)\n"
-
-#~ msgid "Server challenge invalid\n"
-#~ msgstr "Challenge server tidak benar\n"
-
-#~ msgid "Server challenge contained invalid \"Quality of Protection\" token\n"
-#~ msgstr ""
-#~ "Challenge server berisi token \"Kualitas Perlindungan\" yang tidak benar\n"
-
-#~ msgid "Server response did not contain authorization data\n"
-#~ msgstr "Server tidak merespon dengan data otorisasi\n"
-
-#~ msgid "Server response contained incomplete authorization data\n"
-#~ msgstr "Server tidak merespon dengan data otorisasi yang lengkap\n"
-
-#~ msgid "Server response does not match\n"
-#~ msgstr "Respon server tidak cocok\n"
-
-#~ msgid "GSSAPI"
-#~ msgstr "GSSAPI"
-
-#~ msgid "Kerberos 4"
-#~ msgstr "Kerberos 4"
-
-#~ msgid "This option will connect to the server using a simple password."
-#~ msgstr ""
-#~ "Pilihan ini akan membuat Anda tersambung ke server menggunakan kata sandi "
-#~ "biasa."
-
-#~ msgid "Unknown authentication state."
-#~ msgstr "Status otentikasi tidak diketahui."
-
-#~ msgid "NTLM / SPA"
-#~ msgstr "NTLM / SPA"
-
-#~ msgid ""
-#~ "This option will connect to a Windows-based server using NTLM / Secure "
-#~ "Password Authentication."
-#~ msgstr ""
-#~ "Pilihan ini akan membuat Anda tersambung ke server menggunakan NTLM / "
-#~ "Secure Password Authentication."
-
-#~ msgid "PLAIN"
-#~ msgstr "PLAIN"
-
-#~ msgid "POP before SMTP"
-#~ msgstr "POP sesaat sebelum SMTP"
-
-#~ msgid "This option will authorise a POP connection before attempting SMTP"
-#~ msgstr ""
-#~ "Pilihan ini akan melakukan otorisasi koneksi POP sebelum menjalankan SMTP"
-
-#~ msgid "POP Source URI"
-#~ msgstr "URI Server POP"
-
-#~ msgid "POP Before SMTP auth using an unknown transport"
-#~ msgstr "POP Sebelum SMTP menggunakan transport yang tidak dikenal"
-
-#~ msgid "POP Before SMTP auth using a non-pop source"
-#~ msgstr "Otentikasi POP Sebelum SMTP menggunakan layanan bukan pop"
-
-#~ msgid "Regular expression compilation failed: %s: %s"
-#~ msgstr "Kompilasi regular expression gagal: %s: %s"
-
-#~ msgid "URL '%s' needs a username component"
-#~ msgstr "Komponen username harus disisipkan pada URL '%s'"
-
-#~ msgid "URL '%s' needs a host component"
-#~ msgstr "Komponen host harus disisipkan pada URL '%s'"
-
-#~ msgid "URL '%s' needs a path component"
-#~ msgstr "Komponen path harus disisipkan pada URL '%s'"
-
-#~ msgid "cannot create thread"
-#~ msgstr "Tidak dapat membuat thread"
-
-#~ msgid "Resolving: %s"
-#~ msgstr "Mencari: %s"
-
-#~ msgid "Host lookup failed"
-#~ msgstr "Gagal saat mencari alamat untuk ranah/domain"
-
-#~ msgid "Host lookup failed: %s: %s"
-#~ msgstr "Gagal saat mencari alamat untuk ranah/domain: %s: %s"
-
-#~ msgid "Resolving address"
-#~ msgstr "Pencarian alamat"
-
-#~ msgid "Name lookup failed: %s"
-#~ msgstr "Pencarian nama gagal: %s"
-
-#~ msgid "Enter security pass-phrase for `%s'"
-#~ msgstr "Masukkan kata sandi untuk: '%s'"
-
-#~ msgid "Cannot find certificate for '%s'"
-#~ msgstr "Tidak dapat menemukan sertifikan '%s'"
-
-#~ msgid "Cannot create CMS message"
-#~ msgstr "Tidak dapat membuat pesan email CMS"
-
-#~ msgid "Cannot create CMS signedData"
-#~ msgstr "Tidak dapat membuat signedDat CMS"
-
-#~ msgid "Cannot attach CMS signedData"
-#~ msgstr "Tidak dapat melampirkan signedData CMS"
-
-#~ msgid "Cannot attach CMS data"
-#~ msgstr "Tidak dapat melampirkan data CMS"
-
-#~ msgid "Cannot create CMS SignerInfo"
-#~ msgstr "Tidak dapat membuat SignerInfo CMS"
-
-#~ msgid "Cannot find cert chain"
-#~ msgstr "Tidak dapat menemukan rantai sertifikat"
-
-#~ msgid "Cannot add CMS SigningTime"
-#~ msgstr "Tidak dapat menambahkan SigningTime CMS"
-
-#~ msgid "Encryption cert for '%s' does not exist"
-#~ msgstr "Enkripsi sertifikat '%s' tidak ada"
-
-#~ msgid "Cannot add SMIMEEncKeyPrefs attribute"
-#~ msgstr "Tidak dapat menambahkan atribut SMIMEEncKeyPrefs"
-
-#~ msgid "Cannot add MS SMIMEEncKeyPrefs attribute"
-#~ msgstr "Tidak dapat menambahkan atribut MS-SMIMEEncKeyPrefs"
-
-#~ msgid "Cannot add encryption certificate"
-#~ msgstr "Tidak dapat menambahkan sertifikat enkripsi"
-
-#~ msgid "Cannot add CMS SignerInfo"
-#~ msgstr "Tidak dapat menambahkan SignerInfo CMS"
-
-#~ msgid "Cannot create encoder context"
-#~ msgstr "Tidak dapat membuat konteks encoder"
-
-#~ msgid "Failed to add data to CMS encoder"
-#~ msgstr "Gagal saat menambah data pada encoder CMS"
-
-#~ msgid "Unverified"
-#~ msgstr "Belum diverifikasi"
-
-#~ msgid "Good signature"
-#~ msgstr "Tanda-tangan benar"
-
-#~ msgid "Bad signature"
-#~ msgstr "Tanda-tangan salah"
-
-#~ msgid "Content tampered with or altered in transit"
-#~ msgstr "Isi telah diubah atau berubah saat transit"
-
-#~ msgid "Signing certificate not found"
-#~ msgstr "Sertifikat untuk menandatangani pesan tidak ditemukan"
-
-#~ msgid "Signing certificate not trusted"
-#~ msgstr "Sertifikat untuk menandatangani pesan tidak dapat dipercaya"
-
-#~ msgid "Signature algorithm unknown"
-#~ msgstr "Algoritma tanda-tangan tidak dikenal"
-
-#~ msgid "Signature algorithm unsupported"
-#~ msgstr "Algoritma tanda-tangan tidak dapat dibaca"
-
-#~ msgid "Processing error"
-#~ msgstr "Error dalam pemrosesan"
-
-#~ msgid "No signedData in signature"
-#~ msgstr "Tidak ada signedData pada tanda tangan"
-
-#~ msgid "Digests missing from enveloped data"
-#~ msgstr "Digest hilang dari data dalam amplop"
-
-#~ msgid "Cannot calculate digests"
-#~ msgstr "Tidak dapat menghitung digest"
-
-#~ msgid "Cannot set message digests"
-#~ msgstr "Tidak dapat membuat pesan digest"
-
-#~ msgid "Certificate import failed"
-#~ msgstr "Impor sertifikat gagal"
-
-#~ msgid "Certificate only message, cannot verify certificates"
-#~ msgstr ""
-#~ "Pesan email hanya berisi sertifikat, sementara sertifikatnya tidak dapat "
-#~ "diverifikasi"
-
-#~ msgid "Certificate only message, certificates imported and verified"
-#~ msgstr ""
-#~ "Pesan email hanya berisi sertifikat, sertifikatnya telah diimpor dan "
-#~ "diverifikasi"
-
-#~ msgid "Cannot find signature digests"
-#~ msgstr "Tidak dapat menemukan digest tanda tangan"
-
-#~ msgid "Signer: %s <%s>: %s\n"
-#~ msgstr "Penandatangan: %s <%s>: %s\n"
-
-#~ msgid "Decoder failed"
-#~ msgstr "Decoder gagal"
-
-#~ msgid "Cannot find certificate for `%s'"
-#~ msgstr "Tidak dapat menemukan sertifikat '%s'"
-
-#~ msgid "Trash"
-#~ msgstr "Email Buangan"
-
-#~ msgid "Out of memory"
-#~ msgstr "Memori habis"
-
-#~ msgid ""
-#~ "Issuer:            %s\n"
-#~ "Subject:           %s\n"
-#~ "Fingerprint:       %s\n"
-#~ "Signature:         %s"
-#~ msgstr ""
-#~ "Issuer:            %s\n"
-#~ "Subject:           %s\n"
-#~ "Fingerprint:       %s\n"
-#~ "Signature:         %s"
-
-#~ msgid "GOOD"
-#~ msgstr "SAH"
-
-#~ msgid "BAD"
-#~ msgstr "TIDAK SAH"
-
-#~ msgid ""
-#~ "Bad certificate from %s:\n"
-#~ "\n"
-#~ "%s\n"
-#~ "\n"
-#~ "%s\n"
-#~ "\n"
-#~ "Do you wish to accept anyway?"
-#~ msgstr ""
-#~ "Sertifikat dari %s tidak sah:\n"
-#~ "\n"
-#~ "%s\n"
-#~ "\n"
-#~ "%s\n"
-#~ "\n"
-#~ "Terima saja?"
-
-#~ msgid ""
-#~ "SSL Certificate check for %s:\n"
-#~ "\n"
-#~ "%s\n"
-#~ "\n"
-#~ "Do you wish to accept?"
-#~ msgstr ""
-#~ "Pemeriksaan Sertifikat SSL %s:\n"
-#~ "\n"
-#~ "%s\n"
-#~ "\n"
-#~ "Apakah Anda ingin menerima sertifikat ini?"
-
-#~ msgid ""
-#~ "Certificate problem: %s\n"
-#~ "Issuer: %s"
-#~ msgstr ""
-#~ "Masalah Sertifikat: %s\n"
-#~ "Issuer: %s"
-
-#~ msgid "Use Secure Connection (SSL)"
-#~ msgstr "Gunakan Koneksi Aman (SSL)"
-
-#~ msgid "Novell GroupWise"
-#~ msgstr "Novell GroupWise"
-
-#~ msgid "For accessing Novell Groupwise servers"
-#~ msgstr "Dalam mengakses server Novell Groupwise"
-
-#~ msgid "Password"
-#~ msgstr "Password"
-
-#~ msgid "Operation cancelled"
-#~ msgstr "Operasi dibatalkan"
-
-#~ msgid "Connection to Server"
-#~ msgstr "Koneksi ke Server"
-
-#~ msgid "Namespace"
-#~ msgstr "Namespace"
-
-#~ msgid "IMAP"
-#~ msgstr "IMAP"
-
-#~ msgid "IMAP server %s"
-#~ msgstr "Server IMAP %s"
-
-#~ msgid "IMAP service for %s on %s"
-#~ msgstr "Layanan IMAP untuk %s pada %s"
-
-#~ msgid "Could not connect to %s (port %s): %s"
-#~ msgstr "Tidak dapat terhubung ke %s (port %s): %s"
-
-#~ msgid "SSL unavailable"
-#~ msgstr "SSL tidak tersedia"
-
-#~ msgid "Connection cancelled"
-#~ msgstr "Koneksi terputus"
-
-#~ msgid "SSL/TLS extension not supported."
-#~ msgstr "Tambahan SSL/TSL tidak dapat digunakan."
-
-#~ msgid "SSL negotiations failed"
-#~ msgstr "Negosiasi SSL gagal"
-
-#~ msgid ""
-#~ "The folder name \"%s\" is invalid because it contains the character \"%c\""
-#~ msgstr ""
-#~ "Nama folder \"%s\" tidak dapat digunakan karena mengandung karakter \"%c\""
-
-#~ msgid "The parent folder is not allowed to contain subfolders"
-#~ msgstr "Folder induk tidak diperbolehkan memiliki folder anak"
-
-#~ msgid "Cannot create folder `%s': folder exists."
-#~ msgstr "TIdak dapat membuat folder '%s' karena folder tersebut sudah ada."
-
-#~ msgid "Unknown parent folder: %s"
-#~ msgstr "Folder induk tidak diketahui: %s"
-
-#~ msgid "Failed sending command to IMAP server %s: %s"
-#~ msgstr "Gagal mengirimkan perntah ke server IMAP %s: %s"
-
-#~ msgid "Unexpected response from IMAP4 server %s: %s"
-#~ msgstr "Respon server IMAP4 tidak terduga %s: %s"
-
-#~ msgid "Unexpected greeting from IMAP server %s."
-#~ msgstr "Balasan awal server IMAP4 tidak diduga %s."
-
-#~ msgid "Cannot select folder `%s': Invalid mailbox name"
-#~ msgstr "Tidak dapat memilih folder '%s': Nama kotak surat tidak benar"
-
-#~ msgid "Cannot select folder `%s': Bad command"
-#~ msgstr "TIdak dapat memilih folder '%s': Perintah tidak benar"
-
-#~ msgid "IMAP4 server %s unexpectedly disconnected: %s"
-#~ msgstr "Koneksi ke server IMAP4 %s secara tiba-tiba terputus: %s"
-
-#~ msgid "Cannot sync flags to folder `%s': Unknown"
-#~ msgstr ""
-#~ "Tidak dapat melakukan sinkron flag ke folder '%s': Tidak diketahui "
-#~ "alasannya"
-
-#~ msgid "Cannot sync flags to folder `%s': Bad command"
-#~ msgstr ""
-#~ "Tidak dapat melakukan sinkron flag ke folder '%s': Perintah tidak benar"
-
-#~ msgid "Cannot expunge folder `%s': Unknown"
-#~ msgstr "Tidak dapat menghapus folder '%s': Tidak diketahui alasannya"
-
-#~ msgid "Cannot expunge folder `%s': Bad command"
-#~ msgstr "Tidak dapat menghapus folder '%s': Perintah tidak benar"
-
-#~ msgid "Cannot get message %s from folder `%s': No such message"
-#~ msgstr ""
-#~ "Tidak dapat mengambil pesan %s dari folder '%s': Pesan tersebut sudah "
-#~ "tidak ada"
-
-#~ msgid "Cannot get message %s from folder `%s': Bad command"
-#~ msgstr ""
-#~ "Tidak dapat mengambil pesan %s dari folder '%s': Perintah tidak benar"
-
-#~ msgid "Cannot append message to folder `%s': Unknown error"
-#~ msgstr ""
-#~ "Tidak dapat menyambung pesan ke folder '%s': Error persisnya tidak "
-#~ "diketahui"
-
-#~ msgid "Cannot append message to folder `%s': Bad command"
-#~ msgstr "Tidak dapat menyambung pesan ke folder '%s': Perintah tidak benar"
-
-#~ msgid "Cannot move messages from folder `%s' to folder `%s': Unknown"
-#~ msgstr ""
-#~ "Tidak dapat memindahkan pesan dari folder '%s' ke folder '%s': Error "
-#~ "tidak jelas"
-
-#~ msgid "Cannot copy messages from folder `%s' to folder `%s': Unknown"
-#~ msgstr ""
-#~ "Tidak dapat menyalin pesan dari folder '%s' ke folder '%s': Error tidak "
-#~ "jelas"
-
-#~ msgid "Cannot move messages from folder `%s' to folder `%s': Bad command"
-#~ msgstr ""
-#~ "Tidak dapat memindahkan pesan dari folder '%s' ke folder '%s': Perintah "
-#~ "salah"
-
-#~ msgid "Cannot copy messages from folder `%s' to folder `%s': Bad command"
-#~ msgstr ""
-#~ "Tidak dapat menyalin pesan dari folder '%s' ke folder '%s': Perintah "
-#~ "tidak benar"
-
-#~ msgid "IMAPv4rev1"
-#~ msgstr "IMAPv4rev1"
-
-#~ msgid "For reading and storing mail on IMAPv4rev1 servers. EXPERIMENTAL !!"
-#~ msgstr ""
-#~ "Untuk membaca dan menyimpan email pada server IMAPv4rev1. EKSPERIMENTAL!"
-
-#~ msgid "Could not connect to %s: %s"
-#~ msgstr "Tidak dapat terhubung ke %s: %s"
-
-#~ msgid ""
-#~ "Cannot authenticate to IMAP server %s using the %s authentication "
-#~ "mechanism"
-#~ msgstr ""
-#~ "Tidak dapat otentikasi server IMAP %s menggunakan mekanisme otentikasi %s"
-
-#~ msgid "%sPlease enter the IMAP password for %s on host %s"
-#~ msgstr "%sSilakan masukkan kata sandi IMAP %s pada host %s"
-
-#~ msgid "Cannot authenticate to IMAP server %s using %s"
-#~ msgstr "Tidak dapat otentikasi ke server IMAP %s dengan %s"
-
-#~ msgid "Cannot get folder `%s' on IMAP server %s: Unknown"
-#~ msgstr ""
-#~ "Folder '%s' tidak dapat dibuka pada server IMAP %s: Error tidak jelas"
-
-#~ msgid "Cannot create folder `%s': Invalid mailbox name"
-#~ msgstr "Tidak dapat membuat folder '%s': Nama kotak surat tidak benar"
-
-#~ msgid "Cannot create folder `%s': Bad command"
-#~ msgstr "Tidak dapat membuat folder '%s': Perintah tidak benar"
-
-#~ msgid "Cannot delete folder `%s': Special folder"
-#~ msgstr "Tidak dapat menghapus folder '%s': Folder adalah folder khusus"
-
-#~ msgid "Cannot delete folder `%s': Invalid mailbox name"
-#~ msgstr "Tidak dapat menghapus folder '%s': Nama kotak surat tidak benar"
-
-#~ msgid "Cannot delete folder `%s': Bad command"
-#~ msgstr "Tidak dapat menghapus folder '%s': Perintah tidak benar"
-
-#~ msgid "Cannot rename folder `%s' to `%s': Special folder"
-#~ msgstr ""
-#~ "Tidak dapat mengubah nama folder dari '%s' menjadi '%s': Folder adalah "
-#~ "folder khusus"
-
-#~ msgid "Cannot rename folder `%s' to `%s': Invalid mailbox name"
-#~ msgstr ""
-#~ "Tidak dapat mengubah nama folder dari '%s' menjadi '%s': Nama kotak surat "
-#~ "tidak benar"
-
-#~ msgid "Cannot rename folder `%s' to `%s': Bad command"
-#~ msgstr ""
-#~ "Tidak dapat mengubah nama folder dari '%s' menjadi '%s': Perintah tidak "
-#~ "benar"
-
-#~ msgid "Cannot get %s information for pattern `%s' on IMAP server %s: %s"
-#~ msgstr ""
-#~ "Tidak dapat mengambil informasi %s untuk pola '%s' pada server IMAP %s: %s"
-
-#~ msgid "Bad command"
-#~ msgstr "Perintah tidak benar"
-
-#~ msgid "Cannot subscribe to folder `%s': Invalid mailbox name"
-#~ msgstr "Tidak dapat berlangganan ke folder '%s': kotak surat tidak benar"
-
-#~ msgid "Cannot subscribe to folder `%s': Bad command"
-#~ msgstr "Tidak dapat berlangganan ke folder '%s': Perintah tidak benar"
-
-#~ msgid "Cannot unsubscribe from folder `%s': Invalid mailbox name"
-#~ msgstr ""
-#~ "Tidak dapat berhenti langganan dari folder '%s': Nama kotak surat salah"
-
-#~ msgid "Unexpected token in response from IMAP server %s: "
-#~ msgstr "Ada token yang tidak benar dalam respon dari server IMAP %s: "
-
-#~ msgid "No data"
-#~ msgstr "Tidak ada data"
-
-#~ msgid "IMAP server %s unexpectedly disconnected: %s"
-#~ msgstr "Koneksi ke server IMAP %s secara tiba-tiba terputus: %s"
-
-#~ msgid "IMAP+"
-#~ msgstr "IMAP+"
-
-#~ msgid ""
-#~ "Experimental IMAP 4(.1) client\n"
-#~ "This is untested and unsupported code, you want to use plain imap "
-#~ "instead.\n"
-#~ "\n"
-#~ " !!! DO NOT USE THIS FOR PRODUCTION EMAIL  !!!\n"
-#~ msgstr ""
-#~ "Klien eksperimental IMAP 4(.1)\n"
-#~ "Program ini belum dites penuh dan tidak didukung, silakan gunakan imap "
-#~ "biasa saja.\n"
-#~ "\n"
-#~ "!!! JANGAN GUNAKAN DALAM KEGIATAS PRODUKSI !!!\n"
-
-#~ msgid "Could not connect to POP server on %s"
-#~ msgstr "Tidak dapat tersambung ke server POP pada %s"
-
-#~ msgid "Index message body data"
-#~ msgstr "Indeks data badan pesan"
-
-#~ msgid "~%s (%s)"
-#~ msgstr "~%s (%s)"
-
-#~ msgid "mailbox:%s (%s)"
-#~ msgstr "mailbox:%s (%s)"
-
-#~ msgid "Use the `.folders' folder summary file (exmh)"
-#~ msgstr "Gunakan file ringkasan folder '.folders' (exmh)"
-
-#~ msgid "MH-format mail directories"
-#~ msgstr "Direktori email format MH"
-
-#~ msgid "For storing local mail in MH-like mail directories."
-#~ msgstr "Untuk menyimpan pesan email lokal dalam bentuk direktori MH."
-
-#~ msgid ""
-#~ "For retrieving (moving) local mail from standard mbox formated spools "
-#~ "into folders managed by Evolution."
-#~ msgstr ""
-#~ "Untuk mengambil (memindahkan) email lokal dari bentuk spool mbox standar "
-#~ "ke bentuk folder yang dikelola oleh Evolution."
-
-#~ msgid "Apply filters to new messages in INBOX"
-#~ msgstr "Menerapkan filter pada pesan-pesan email baru dalam INBOX"
-
-#~ msgid "Maildir-format mail directories"
-#~ msgstr "Direktori email format Maildir"
-
-#~ msgid "For storing local mail in maildir directories."
-#~ msgstr "Untuk menyimpan email lokal dalam bentuk direktori maildir."
-
-#~ msgid "Store status headers in Elm/Pine/Mutt format"
-#~ msgstr "Simpan status kepala email dalam bentuk Elm/Pine/Mutt"
-
-#~ msgid "Standard Unix mbox spool or directory"
-#~ msgstr "Standar spool/direktori mbox Unix"
-
-#~ msgid ""
-#~ "For reading and storing local mail in external standard mbox spool "
-#~ "files.\n"
-#~ "May also be used to read a tree of Elm, Pine, or Mutt style folders."
-#~ msgstr ""
-#~ "Untuk membaca dan menyimpan email lokal padafile spool mbox standar "
-#~ "eksternal.\n"
-#~ "Juga dapat digunakan untuk membaca folder dari Elm, Pine, atau Mutt."
-
-#~ msgid "Store root %s is not an absolute path"
-#~ msgstr "Akar penyimpanan %s bukan berada pada path absolut"
-
-#~ msgid "Store root %s is not a regular directory"
-#~ msgstr "Akar penyimpanan %s bukan direktori biasa"
-
-#~ msgid "Cannot get folder: %s: %s"
-#~ msgstr "Tidak dapat mengambil fodler: %s: %s"
-
-#~ msgid "Local stores do not have an inbox"
-#~ msgstr "Penyimpanan lokal tidak memiliki inbox"
-
-#~ msgid "Local mail file %s"
-#~ msgstr "File email lokal %s"
-
-#~ msgid "Could not rename folder %s to %s: %s"
-#~ msgstr "Tidak dapat mengubah nama folder %s menjadi %s: %s"
-
-#~ msgid "Could not rename '%s': %s"
-#~ msgstr "Tidak dapat mengubah nama '%s': %s"
-
-#~ msgid "Could not delete folder summary file `%s': %s"
-#~ msgstr "Tidak dapat menghapus file ringkasan folder '%s': %s"
-
-#~ msgid "Could not delete folder index file `%s': %s"
-#~ msgstr "Tidak dapat menghapus file indeks folder '%s': %s"
-
-#~ msgid "Could not delete folder meta file `%s': %s"
-#~ msgstr "Tidak dapat menghapus file folder meta '%s': %s"
-
-#~ msgid "Could not save summary: %s: %s"
-#~ msgstr "Tidak dapat menyimpan ringkasan: %s: %s"
-
-#~ msgid "Unable to add message to summary: unknown reason"
-#~ msgstr "Tidak dapat menambahkan pesan ke dalam ringkasan: error tidak jelas"
-
-#~ msgid "Maildir append message cancelled"
-#~ msgstr "Penambahan email ke Maildir dibatalkan"
-
-#~ msgid "Cannot append message to maildir folder: %s: %s"
-#~ msgstr "Tidak dapat menambahkan email ke folder maildir: %s: %s"
-
-#~ msgid ""
-#~ "Cannot get message: %s from folder %s\n"
-#~ "  %s"
-#~ msgstr ""
-#~ "Tidak dapat mengambil email: %s dari folder %s\n"
-#~ "  %s"
-
-#~ msgid "Invalid message contents"
-#~ msgstr "Isi pesan email tidak dapat dibaca"
-
-#~ msgid "Cannot get folder `%s': %s"
-#~ msgstr "Tidak dapat membuka folder '%s': %s"
-
-#~ msgid "Cannot get folder `%s': folder does not exist."
-#~ msgstr "Tidak dapat membuka folder '%s':folder tidak ada"
-
-#~ msgid "Cannot create folder `%s': %s"
-#~ msgstr "Tidak dapat membuka folder '%s': %s"
-
-#~ msgid "Cannot get folder `%s': not a maildir directory."
-#~ msgstr "Tidak dapat membuka folder '%s': bukan direktori maildir"
-
-#~ msgid "Could not delete folder `%s': %s"
-#~ msgstr "Tidak dapat menghapus folder '%s': %s"
-
-#~ msgid "not a maildir directory"
-#~ msgstr "bukan direktori maildir"
-
-#~ msgid "Could not scan folder `%s': %s"
-#~ msgstr "Tidak dapat menelusuri folder '%s': %s"
-
-#~ msgid "Cannot open maildir directory path: %s: %s"
-#~ msgstr "Tidak dapat membuka path direktori maildir: %s: %s"
-
-#~ msgid "Checking for new messages"
-#~ msgstr "Mengambil email-email baru"
-
-#~ msgid "Storing folder"
-#~ msgstr "Menyimpan folder"
-
-#~ msgid "Cannot create folder lock on %s: %s"
-#~ msgstr "Tidak dapat membuat kunci folder pada %s: %s"
-
-#~ msgid "Cannot open mailbox: %s: %s\n"
-#~ msgstr "Tidak dapat membuka kotak surat: %s: %s\n"
-
-#~ msgid "Mail append cancelled"
-#~ msgstr "Penambahan email dibatalkan"
-
-#~ msgid "Cannot append message to mbox file: %s: %s"
-#~ msgstr "Tidak dapat menambahkan pesan email pada file mbox: %s: %s"
-
-#~ msgid "The folder appears to be irrecoverably corrupted."
-#~ msgstr "Folder ini sepertinya rusak berat."
-
-#~ msgid "Message construction failed."
-#~ msgstr "Pembentukan email gagal."
-
-#~ msgid "Cannot create a folder by this name."
-#~ msgstr "Tidak dapat membuat folder dengan nama ini."
-
-#~ msgid "Cannot get folder `%s': not a regular file."
-#~ msgstr "Tidak dapat membuka folder '%s': bukan file biasa"
-
-#~ msgid ""
-#~ "Could not delete folder `%s':\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Tidak dapat menghapus folder: '%s':\n"
-#~ "%s"
-
-#~ msgid "`%s' is not a regular file."
-#~ msgstr "'%s' bukan file biasa."
-
-#~ msgid "Folder `%s' is not empty. Not deleted."
-#~ msgstr "Folder '%s' masih ada isinya. Tidak dihapus."
-
-#~ msgid "Cannot create directory `%s': %s."
-#~ msgstr "Tidak dapat membuat direktori '%s': %s"
-
-#~ msgid "The new folder name is illegal."
-#~ msgstr "Nama folder baru tidak benar."
-
-#~ msgid "Could not rename `%s': `%s': %s"
-#~ msgstr "Tidak dapat merubah nama '%s': '%s': %s"
-
-#~ msgid "Could not rename '%s' to %s: %s"
-#~ msgstr "Tidak dapat merubah nama '%s' menjadi '%s': %s"
-
-#~ msgid "Could not open folder: %s: %s"
-#~ msgstr "Tidak dapat membuka folder: %s: %s"
-
-#~ msgid "Fatal mail parser error near position %ld in folder %s"
-#~ msgstr "Error pembacaan email pada posisi %ld pada folder %s"
-
-#~ msgid "Cannot check folder: %s: %s"
-#~ msgstr "Tidak dapat memeriksa folder: %s: %s"
-
-#~ msgid "Could not open file: %s: %s"
-#~ msgstr "Tidak dapat membuka file: %s: %s"
-
-#~ msgid "Cannot open temporary mailbox: %s"
-#~ msgstr "Tidak dapat membuka kotak surat sementara: %s"
-
-#~ msgid "Could not close source folder %s: %s"
-#~ msgstr "Tidak dapat menutup folder asal  %s: %s"
-
-#~ msgid "Could not close temp folder: %s"
-#~ msgstr "Tidak dapat menutup folder sementara: %s"
-
-#~ msgid "Summary and folder mismatch, even after a sync"
-#~ msgstr ""
-#~ "Ringkasan dan folder tidak sinkron baik sebelum dan sesudah sinkronisasi"
-
-#~ msgid "Unknown error: %s"
-#~ msgstr "Error tidak dikenal: %s"
-
-#~ msgid "Error writing to temp mailbox: %s"
-#~ msgstr "Tidak dapat menulis ke kotak surat sementara: %s"
-
-#~ msgid "Writing to tmp mailbox failed: %s: %s"
-#~ msgstr "Gagal menulis ke kotak surat sementara: %s: %s"
-
-#~ msgid "MH append message cancelled"
-#~ msgstr "Penambahan pesan email ke MH dibatalkan"
-
-#~ msgid "Cannot append message to mh folder: %s: %s"
-#~ msgstr "TIdak dapat menambahkan pesan email pada folder mh: %s: %s"
-
-#~ msgid "Could not create folder `%s': %s"
-#~ msgstr "Tidak dapat membuat folder '%s': %s"
-
-#~ msgid "Cannot get folder `%s': not a directory."
-#~ msgstr "Tidak dapat membuka folder '%s': bukan direktori."
-
-#~ msgid "Cannot open MH directory path: %s: %s"
-#~ msgstr "Tidak dapat membuka path direktori MH: %s: %s"
-
-#~ msgid "Spool `%s' cannot be opened: %s"
-#~ msgstr "Spool '%s' tidak dapat dibuka: %s"
-
-#~ msgid "Spool `%s' is not a regular file or directory"
-#~ msgstr "Spool '%s' bukan file biasa atau bukan direktori"
-
-#~ msgid "Folder `%s/%s' does not exist."
-#~ msgstr "Folder '%s/%s' tidak ada."
-
-#~ msgid ""
-#~ "Could not open folder `%s':\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Tidak dapat membuka folder '%s':\n"
-#~ "%s"
-
-#~ msgid ""
-#~ "Could not create folder `%s':\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Tidak dapat membuat folder '%s':\n"
-#~ "%s"
-
-#~ msgid "`%s' is not a mailbox file."
-#~ msgstr "'%s' bukan file kotak surat."
-
-#~ msgid "Store does not support an INBOX"
-#~ msgstr "Penyimpanan tidak dapat berupa INBOX"
-
-#~ msgid "Spool mail file %s"
-#~ msgstr "Spool file email %s"
-
-#~ msgid "Spool folder tree %s"
-#~ msgstr "Spool pohon folder %s"
-
-#~ msgid "Spool folders cannot be renamed"
-#~ msgstr "Folder spool tidak dapat diganti namanya"
-
-#~ msgid "Spool folders cannot be deleted"
-#~ msgstr "Folder spool tidak dapat dihapus"
-
-#~ msgid "Could not sync temporary folder %s: %s"
-#~ msgstr "Tidak dapat melakukan sinkronisasi folder sementara %s: %s"
-
-#~ msgid "Could not sync spool folder %s: %s"
-#~ msgstr "Tidak dapat melakukan sinkronisasi folder spool %s: %s"
-
-#~ msgid ""
-#~ "Could not sync spool folder %s: %s\n"
-#~ "Folder may be corrupt, copy saved in `%s'"
-#~ msgstr ""
-#~ "Tidak dapat melakukan sinkronisasi folder spool %s: %s\n"
-#~ "Mungkin foldernya rusak, salinannya disimpan dalam '%s'"
-
-#~ msgid "Please enter the NNTP password for %s@%s"
-#~ msgstr "Silakan masukkan kata sandi NNTP untuk %s%s"
-
-#~ msgid "Server rejected username"
-#~ msgstr "Nama user ditolak oleh server"
-
-#~ msgid "Failed to send username to server"
-#~ msgstr "Username tidak dapat dikirimkan ke server"
-
-#~ msgid "Server rejected username/password"
-#~ msgstr "Nama user/kata sandi ditolak oleh server"
-
-#~ msgid "Cannot get message %s: %s"
-#~ msgstr "Tidak dapat membuka pesan email %s: %s"
-
-#~ msgid "User cancelled"
-#~ msgstr "User membatalkan"
-
-#~ msgid "Internal error: uid in invalid format: %s"
-#~ msgstr "Error internal: uid memiliki bentuk yang salah: %s"
-
-#~ msgid "You cannot post NNTP messages while working offline!"
-#~ msgstr ""
-#~ "Anda tidak dapat mengirim posting pesan email NNTP dalam keadaan offline!"
-
-#~ msgid "You cannot copy messages from a NNTP folder!"
-#~ msgstr "Anda tidak dapat menyalin pesan dari folder NNTP!"
-
-#~ msgid "Could not get group list from server."
-#~ msgstr "Daftar grup tidak berhasil diperoleh dari server."
-
-#~ msgid "Unable to load grouplist file for %s: %s"
-#~ msgstr "Tidak dapat membuka file daftar grup untuk %s: %s"
-
-#~ msgid "Unable to save grouplist file for %s: %s"
-#~ msgstr "Tidak dapat menyimpan file daftar grup untuk %s: %s"
-
-#~ msgid ""
-#~ "Show folders in short notation (e.g. c.o.linux rather than comp.os.linux)"
-#~ msgstr ""
-#~ "Menampilkan folder dalam notasi singkatnya (misal c.o.linux untuk comp.os."
-#~ "linux)"
-
-#~ msgid "In the subscription dialog, show relative folder names"
-#~ msgstr "Pada dialog langganan, tampilkan nama folder secara relatif"
-
-#~ msgid "USENET news"
-#~ msgstr "USENET news"
-
-#~ msgid "This is a provider for reading from and posting toUSENET newsgroups."
-#~ msgstr ""
-#~ "Ini adalah penyedia jasa untuk membaca/mengirim pesan newsgroup USENET."
-
-#~ msgid ""
-#~ "This option will authenticate with the NNTP server using a plaintext "
-#~ "password."
-#~ msgstr ""
-#~ "Pilihan ini akan membuat Anda terhubung ke server NNTP menggunakan kata "
-#~ "sandi tak teracak."
-
-#~ msgid "NNTP Command failed: %s"
-#~ msgstr "Perintah NNTP gagal: %s"
-
-#~ msgid "Could not read greeting from %s: %s"
-#~ msgstr "Tidak dapat membaca pesan balasan dari %s: %s"
-
-#~ msgid "NNTP server %s returned error code %d: %s"
-#~ msgstr "Server NNTP %s memberi kode error %d: %s"
-
-#~ msgid "USENET News via %s"
-#~ msgstr "USENET News via %s"
-
-#~ msgid ""
-#~ "Error retrieving newsgroups:\n"
-#~ "\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Error saat mengambil newsgroup:\n"
-#~ "\n"
-#~ "%s"
-
-#~ msgid ""
-#~ "You cannot subscribe to this newsgroup:\n"
-#~ "\n"
-#~ "No such newsgroup. The selected item is a probably a parent folder."
-#~ msgstr ""
-#~ "Anda tidak dapat berlangganan ke newsgroup ini:\n"
-#~ "\n"
-#~ "Tidak ada newsgroup dengan nama ini. Data yang Anda pilih kemungkinan "
-#~ "adalah folder induk."
-
-#~ msgid ""
-#~ "You cannot unsubscribe to this newsgroup:\n"
-#~ "\n"
-#~ "newsgroup does not exist!"
-#~ msgstr ""
-#~ "Anda tidak dapat berlangganan ke newsgroup ini:\n"
-#~ "\n"
-#~ "Tidak ada newsgroup dengan nama ini!"
-
-#~ msgid "You cannot create a folder in a News store: subscribe instead."
-#~ msgstr "Anda tidak dapat membuat folder pada bagian News: langganan dulu."
-
-#~ msgid "You cannot rename a folder in a News store."
-#~ msgstr "Anda tidak dapat merubah nama folder pada bagian News."
-
-#~ msgid "You cannot remove a folder in a News store: unsubscribe instead."
-#~ msgstr ""
-#~ "Anda tidak dapat menghapus folder pada bagian News: berhenti langganan "
-#~ "saja dulu."
-
-#~ msgid "Authentication requested but no username provided"
-#~ msgstr "Otentikasi diminta sementara username belum diisi"
-
-#~ msgid "Not connected."
-#~ msgstr "Tidak tersambung"
-
-#~ msgid "No such folder: %s"
-#~ msgstr "Tidak ada folder dengan nama ini: %s"
-
-#~ msgid "%s: Scanning new messages"
-#~ msgstr "%s: Membaca pesan-pesan email baru"
-
-#~ msgid "Unexpected server response from xover: %s"
-#~ msgstr "Respon server tak terduga melalui xover: %s"
-
-#~ msgid "Unexpected server response from head: %s"
-#~ msgstr "Respon server tak terduga melalui head: %s"
-
-#~ msgid "Use cancel"
-#~ msgstr "Gunakan pembatalan"
-
-#~ msgid "Operation failed: %s"
-#~ msgstr "Proses mengalami kegagalan: %s"
-
-#~ msgid "Retrieving POP summary"
-#~ msgstr "Ambil ringkasan POP"
-
-#~ msgid "Cannot get POP summary: %s"
-#~ msgstr "Tidak dapat mengambil ringkasan POP: %s"
-
-#~ msgid "Expunging deleted messages"
-#~ msgstr "Hapus semua pesan"
-
-#~ msgid "No message with uid %s"
-#~ msgstr "Tidak ada pesan dengan uid %s"
-
-#~ msgid "Retrieving POP message %d"
-#~ msgstr "Ambil pesan POP %d"
-
-#~ msgid "Delete after %s day(s)"
-#~ msgstr "Hapus setelah %s hari"
-
-#~ msgid "Disable support for all POP3 extensions"
-#~ msgstr "Matikan semua tambahan POP3"
-
-#~ msgid "POP"
-#~ msgstr "POP"
-
-#~ msgid "For connecting to and downloading mail from POP servers."
-#~ msgstr "Saat terhubung dan mendownload email dari server POP."
-
-#~ msgid ""
-#~ "This option will connect to the POP server using a plaintext password. "
-#~ "This is the only option supported by many POP servers."
-#~ msgstr ""
-#~ "Pilihan ini akan menyambungkan Anda ke server POP menggunakan kata sandi "
-#~ "yang tidak diacak. Ini adalah satu-satunya pilihan yang dapat digunakan "
-#~ "oleh semua server POP."
-
-#~ msgid ""
-#~ "This option will connect to the POP server using an encrypted password "
-#~ "via the APOP protocol. This may not work for all users even on servers "
-#~ "that claim to support it."
-#~ msgstr ""
-#~ "Pilihan ini akan menyambungkan Anda ke server POP menggunakan kata sandi "
-#~ "yang diacak dengan protokol APOP. Ini hanya dapat digunakan pada beberapa "
-#~ "jenis server yang memiliki fasilitas APOP."
-
-#~ msgid "Could not connect to POP server %s (port %s): %s"
-#~ msgstr "Tidak dapat tersambung ke server POP %s (port %s): %s"
-
-#~ msgid "Failed to read a valid greeting from POP server %s (port %s)"
-#~ msgstr "Tidak dapat membaca balasan dari server POP %s (port %s)"
-
-#~ msgid "Failed to connect to POP server %s in secure mode: %s"
-#~ msgstr "Tidak dapat tersambung ke server POP %s dalam moda aman: %s"
-
-#~ msgid ""
-#~ "Unable to connect to POP server %s: No support for requested "
-#~ "authentication mechanism."
-#~ msgstr ""
-#~ "Tidak dapat tersambung ke server POP %s: Server tidak memiliki fasilitas "
-#~ "otentikasi yang diminta."
-
-#~ msgid "SASL `%s' Login failed for POP server %s: %s"
-#~ msgstr "Login '%s' SASL tidak dapat dilakukan pada server POP %s: %s"
-
-#~ msgid "Cannot login to POP server %s: SASL Protocol error"
-#~ msgstr "Tidak dapat masuk ke server POP %s: Error protokol SASL"
-
-#~ msgid "Failed to authenticate on POP server %s: %s"
-#~ msgstr "Otentikasi gagal pada server POP %s: %s"
-
-#~ msgid "%sPlease enter the POP password for %s on host %s"
-#~ msgstr "%sSilakan masukkan kata sandi %s pada host %s"
-
-#~ msgid ""
-#~ "Unable to connect to POP server %s.\n"
-#~ "Error sending password: %s"
-#~ msgstr ""
-#~ "Tidak dapat tersambung ke server POP %s\n"
-#~ "Error saat mengirim kata sandi: %s"
-
-#~ msgid ""
-#~ "Unable to connect to POP server %s.\n"
-#~ "Error sending username: %s"
-#~ msgstr ""
-#~ "Tidak dapat tersambung ke server POP %s\n"
-#~ "Error saat mengirim nama user: %s"
-
-#~ msgid "No such folder `%s'."
-#~ msgstr "Folder dengan nama ini tidak ada: '%s'"
-
-#~ msgid "Sendmail"
-#~ msgstr "Sendmail"
-
-#~ msgid ""
-#~ "For delivering mail by passing it to the \"sendmail\" program on the "
-#~ "local system."
-#~ msgstr ""
-#~ "Mengirimkan email dengan menggunakan jasa program \"sendmail\" yang "
-#~ "tersedia pada sistem komputer lokal Anda."
-
-#~ msgid "Could not parse recipient list"
-#~ msgstr "TIdak dapat membaca daftar penerima"
-
-#~ msgid "Could not create pipe to sendmail: %s: mail not sent"
-#~ msgstr "Tidak dapat membuat pipa ke sendmail: %s: surat tidak terkirim"
-
-#~ msgid "Could not fork sendmail: %s: mail not sent"
-#~ msgstr "Tidak dapat menjalankan sendmail: %s: email tidak terkirim"
-
-#~ msgid "sendmail exited with signal %s: mail not sent."
-#~ msgstr "sendmail keluar dengan sinyal %s: surat tidak terkirim."
-
-#~ msgid "Could not execute %s: mail not sent."
-#~ msgstr "Tidak dapat menjalankan %s: surat tidak terkirim."
-
-#~ msgid "sendmail exited with status %d: mail not sent."
-#~ msgstr "sendmail keluar dengan status %d: email tidak terkirim."
-
-#~ msgid "sendmail"
-#~ msgstr "sendmail"
-
-#~ msgid "Mail delivery via the sendmail program"
-#~ msgstr "Pengiriman email melalui program sendmail"
-
-#~ msgid "SMTP"
-#~ msgstr "SMTP"
-
-#~ msgid "For delivering mail by connecting to a remote mailhub using SMTP."
-#~ msgstr "Mengirimkan email dengan mengirimkannya melalui server SMTP."
-
-#~ msgid "Syntax error, command unrecognized"
-#~ msgstr "Error pada sintaks, perintah tidak dikenali"
-
-#~ msgid "Syntax error in parameters or arguments"
-#~ msgstr "Error sintaks pada parameter atau argumen"
-
-#~ msgid "Command not implemented"
-#~ msgstr "Perintah ini tidak dapat dijalankan"
-
-#~ msgid "Command parameter not implemented"
-#~ msgstr "Parameter perintah ini tidak dapat digunakan"
-
-#~ msgid "System status, or system help reply"
-#~ msgstr "Status sistem atau balasan bantuan sistem"
-
-#~ msgid "Help message"
-#~ msgstr "Pesan bantuan"
-
-#~ msgid "Service closing transmission channel"
-#~ msgstr "Layanan menutup kanal transmisi"
-
-#~ msgid "Service not available, closing transmission channel"
-#~ msgstr "Layanan tidak tersedia, kanal transmisi ditutup"
-
-#~ msgid "Requested mail action okay, completed"
-#~ msgstr "Tindakan email yang diminta sudah selesai"
-
-#~ msgid "User not local; will forward to <forward-path>"
-#~ msgstr ""
-#~ "User tidak berada pada sistem lokal, akan diteruskan ke <forward-path>"
-
-#~ msgid "Requested mail action not taken: mailbox unavailable"
-#~ msgstr ""
-#~ "Tindakan email yang diminta tidak dilakukan: kotak surat tidak tersedia"
-
-#~ msgid "Requested action not taken: mailbox unavailable"
-#~ msgstr "Tindakan yang diminta tidak dilakukan: kotak surat tidak tersedia"
-
-#~ msgid "Requested action aborted: error in processing"
-#~ msgstr "Tindakan email yang diminta dibatalkan: error saat melakukan proses"
-
-#~ msgid "User not local; please try <forward-path>"
-#~ msgstr "User bukan berada di sistem lokal: silakan gunakan <forward-path>"
-
-#~ msgid "Requested action not taken: insufficient system storage"
-#~ msgstr ""
-#~ "Tindakan yang diminta tidak dilakukan: kapasitas sistem tidak mencukupi"
-
-#~ msgid "Requested mail action aborted: exceeded storage allocation"
-#~ msgstr ""
-#~ "Tindakan email yang diminta dibatalkan: melebihi kapasitas yang telah "
-#~ "diberikan"
-
-#~ msgid "Requested action not taken: mailbox name not allowed"
-#~ msgstr "Tindakan email yang diminta tidak dilakukan: nama kotak surat salah"
-
-#~ msgid "Start mail input; end with <CRLF>.<CRLF>"
-#~ msgstr "Awal input email; akhiri dengan <CRLF>.<CRLF>"
-
-#~ msgid "Transaction failed"
-#~ msgstr "Transaksi gagal"
-
-#~ msgid "A password transition is needed"
-#~ msgstr "Transisi kata kunci perlu diberikan"
-
-#~ msgid "Authentication mechanism is too weak"
-#~ msgstr "Mekanisme otentikasinya terlalu lemah"
-
-#~ msgid "Temporary authentication failure"
-#~ msgstr "Gagal otentikasi sementara"
-
-#~ msgid "Authentication required"
-#~ msgstr "Otentikasi diperlukan"
-
-#~ msgid "Welcome response error"
-#~ msgstr "Error respon awal"
-
-#~ msgid "Failed to connect to SMTP server %s in secure mode: %s"
-#~ msgstr "Gagal tersambung ke server SMTP %s dalam moda aman: %s"
-
-#~ msgid "server does not appear to support SSL"
-#~ msgstr "server tidak dapat menggunakan fasilitas SSL"
-
-#~ msgid "STARTTLS command failed: %s"
-#~ msgstr "perintah START TLS gagal: %s"
-
-#~ msgid "STARTTLS command failed"
-#~ msgstr "perintah START TLS gagal"
-
-#~ msgid "SMTP server %s does not support requested authentication type %s."
-#~ msgstr "Server SMTP %s tidak memiliki fasilitas tipe otentikasi %s."
-
-#~ msgid "%sPlease enter the SMTP password for %s on host %s"
-#~ msgstr "%sSilakan masukkan kata sandi SMTP untuk %s pada host %s"
-
-#~ msgid ""
-#~ "Unable to authenticate to SMTP server.\n"
-#~ "%s\n"
-#~ "\n"
-#~ msgstr ""
-#~ "Tidak dapat melakukan otentikasi ke server SMTP.\n"
-#~ "%s\n"
-#~ "\n"
-
-#~ msgid "SMTP server %s"
-#~ msgstr "Server SMTP %s"
-
-#~ msgid "SMTP mail delivery via %s"
-#~ msgstr "Pengiriman email SMTP melalui %s"
-
-#~ msgid "Cannot send message: service not connected."
-#~ msgstr "Tidak dapat mengirim pesan email: layanan belum tersambung"
-
-#~ msgid "Cannot send message: sender address not valid."
-#~ msgstr "Tidak dapat mengirim pesan email: alamat pengirim salah"
-
-#~ msgid "Cannot send message: no recipients defined."
-#~ msgstr "Tidak dapat mengirimkan pesan email: alamat penerima belum ditulis"
-
-#~ msgid "Cannot send message: one or more invalid recipients"
-#~ msgstr "Tidak dapat mengirimkan pesan email: alamat penerima ada yang salah"
-
-#~ msgid "SMTP Greeting"
-#~ msgstr "Balasan Awal SMTP"
-
-#~ msgid "HELO command failed: %s"
-#~ msgstr "Perintah HELO gagal: %s"
-
-#~ msgid "HELO command failed"
-#~ msgstr "Perintah HELO gagal"
-
-#~ msgid "Error creating SASL authentication object."
-#~ msgstr "Error saat membuat obyek otentikasi SASL."
-
-#~ msgid "AUTH command failed: %s"
-#~ msgstr "Perintah AUTH gagal: %s"
-
-#~ msgid "AUTH command failed"
-#~ msgstr "Perintah AUTH gagal"
-
-#~ msgid "Bad authentication response from server.\n"
-#~ msgstr "Respon otentikasi dari server tidak benar.\n"
-
-#~ msgid "MAIL FROM command failed: %s: mail not sent"
-#~ msgstr "Perintah MAIL FROM gagal: %s: email tidak terkirim"
-
-#~ msgid "MAIL FROM command failed"
-#~ msgstr "Perintah MAIL FROM gagal"
-
-#~ msgid "RCPT TO command failed: %s: mail not sent"
-#~ msgstr "Perintah RCPT TO gagal: %s: email tidak terkirim"
-
-#~ msgid "RCPT TO <%s> failed"
-#~ msgstr "Perintah RCPT TO <%s> gagal"
-
-#~ msgid "DATA command failed: %s: mail not sent"
-#~ msgstr "Perintah DATA gagal: %s: email tidak terkirim"
-
-#~ msgid "DATA command failed"
-#~ msgstr "Perintah DATA gagal"
-
-#~ msgid "RSET command failed: %s"
-#~ msgstr "Perintah RSET gagal: %s"
-
-#~ msgid "RSET command failed"
-#~ msgstr "Perintah RSET gagal"
-
-#~ msgid "QUIT command failed: %s"
-#~ msgstr "Perintah QUIT gagal: %s"
-
-#~ msgid "QUIT command failed"
-#~ msgstr "Perintah QUIT gagal"
-
-#~ msgid "Remove selected items from the attachment list"
-#~ msgstr "Hapus data terpilih dari daftar lampiran"
-
-#~ msgid "Attach a file to the message"
-#~ msgstr "Lampirkan file dalam pesan email"
-
-#~ msgid "_Remember this password"
-#~ msgstr "Ingat passwo_rd"
-
-#~ msgid "_Remember this password for the remainder of this session"
-#~ msgstr "Ingat passwo_rd pada sesi ini saja"
-
-#~ msgid "incoming"
-#~ msgstr "masuk"
-
-#~ msgid "VFolders"
-#~ msgstr "VFolders"
-
-#~ msgid "Add Sender to Address_book"
-#~ msgstr "Masukkan Pengirim ke _Buku Alamat"
-
-#~ msgid "Appl_y Filters"
-#~ msgstr "_Terapkan Filter"
-
-#~ msgid "F_ilter Junk"
-#~ msgstr "Sar_ing Email Sampah"
-
-#~ msgid "Virtual _Folders"
-#~ msgstr "Virtual _Folder"
-
-#~ msgid "Evolution Account Editor"
-#~ msgstr "Pengatur Account Evolution"
-
-#~ msgid "Connecting to server..."
-#~ msgstr "Menghubungkan diri ke server..."
-
-#~ msgid "Receiving Mail"
-#~ msgstr "Pengambilan Email"
-
-#~ msgid ""
-#~ "Please enter information about your incoming mail server below. If you "
-#~ "are not sure, ask your system administrator or Internet Service Provider."
-#~ msgstr ""
-#~ "Silakan masukkan informasi tentang server email masuk berikut ini. Bila "
-#~ "Anda tidak tahu, silakan hubungi bagian IT/administrator atau tempat Anda "
-#~ "berlangganan Internet."
-
-#~ msgid ""
-#~ "You are almost done with the mail configuration process. The identity, "
-#~ "incoming mail server and outgoing mail transport method which you "
-#~ "provided will be grouped together to make an Evolution mail account. "
-#~ "Please enter a name for this account in the space below. This name will "
-#~ "be used for display purposes only."
-#~ msgstr ""
-#~ "Anda hampir selesai melakukan konfigurasi. Data pribadi, server email "
-#~ "masuk, dan keluar dan metode transport yang telah diisi akan "
-#~ "dikelompokkan dan dibentuk sebagai account Evolution. Silakan beri nama "
-#~ "pada account ini. Nama account ini akan digunakan untuk keperluan "
-#~ "tampilan saja."
-
-#~ msgid "<span weight=\"bold\">Checking for New Mail</span>"
-#~ msgstr "<span weight=\"bold\">Pengecekan Email Baru</span>"
-
-#~ msgid "IMAPv4 "
-#~ msgstr "IMAPv4 "
-
-#~ msgid "Kerberos "
-#~ msgstr "Kerberos "
-
-#~ msgid "Qmail maildir "
-#~ msgstr "Qmail maildir "
-
-#~ msgid "Standard Unix mbox"
-#~ msgstr "mbox Unix Standar"
-
-#~ msgid "_Use Secure Connection (SSL):"
-#~ msgstr "G_unakan Koneksi Aman (SSL):"
-
-#~ msgid ""
-#~ "\n"
-#~ " Please read carefully the license agreement displayed\n"
-#~ " below and tick the check box for accepting it\n"
-#~ msgstr ""
-#~ "\n"
-#~ "Mohon baca perjanjian lisensi di bawah ini dengan seksama\n"
-#~ "dan beri tanda centang sebagai tanda penerimaan\n"
-
-#~ msgid "C_ompleted"
-#~ msgstr "Sel_esai"
-
-#~ msgid "Body does not contain"
-#~ msgstr "Badan pesan tidak berisi"
-
-#~ msgid "Body or subject contains"
-#~ msgstr "Badan pesan atau judul berisi"
-
-#~ msgid "Subject does not contain"
-#~ msgstr "Judul tidak berisi"
-
-#~ msgid "Whether Evolution should start up in offline mode"
-#~ msgstr "Tentukan apakah Evolution dijalankan dalam moda offline"
-
-#~ msgid "Close this item"
-#~ msgstr "Tutup informasi ini"
-
-#~ msgid "Preview the printed item"
-#~ msgstr "Lihat contoh jadi hasil cetakan"
-
-#~ msgid "Print this item"
-#~ msgstr "Cetak ini"
-
-#~ msgid "Save the item and close the dialog box"
-#~ msgstr "Simpan dan tutup kotak dialog"
-
-#~ msgid "Save this item to disk"
-#~ msgstr "Simpan ke dalam disk"
-
-#~ msgid "Print En_velope..."
-#~ msgstr "Cetak _Amplop..."
-
-#~ msgid "Save the contact and close the dialog box"
-#~ msgstr "Pilih nama kontak dan tutup kontak dialog"
-
-#~ msgid "Send _Message to Contact..."
-#~ msgstr "Kiri_m Pesan ke Orang Ini..."
-
-#~ msgid "Save the list and close the dialog box"
-#~ msgstr "Simpan daftar dan tutup kotak dialog"
-
-#~ msgid "Se_nd list to other..."
-#~ msgstr "Kir_im daftar ini melalui email..."
-
-#~ msgid "_Delete..."
-#~ msgstr "_Hapus..."
-
-#~ msgid "Cancel the meeting for this item"
-#~ msgstr "Batalkan pertemuan ini"
-
-#~ msgid "Forward as i_Calendar"
-#~ msgstr "Kirimkan dalam bentuk i_Calendar"
-
-#~ msgid "Forward this item via email"
-#~ msgstr "Kirimkan acara ini melalui email"
-
-#~ msgid "Obtain the latest meeting information"
-#~ msgstr "Ambil informasi pertemuan terakhir"
-
-#~ msgid "Re_fresh Meeting"
-#~ msgstr "_Perbarui Informasi Pertemuan"
-
-#~ msgid "Schedule _Meeting"
-#~ msgstr "Agendakan Perte_muan"
-
-#~ msgid "Schedule a meeting for this item"
-#~ msgstr "Agendakan pertemuan untuk acara ini"
-
-#~ msgid "Create _Virtual Folder From Message"
-#~ msgstr "Buat Folder _Virtual Berdasarkan Pesan Email"
-
-#~ msgid "Assign Task"
-#~ msgstr "Amanatkan Tugas"
-
-#~ msgid "Assign this task to others"
-#~ msgstr "Amanatkan tugas ini kepada seseorang"
-
-#~ msgid "Cancel Task"
-#~ msgstr "Batalkan Tugas"
-
-#~ msgid "Cancel this task"
-#~ msgstr "Batalkan tugas ini"
-
-#~ msgid "Re_fresh Task"
-#~ msgstr "Per_barui Tugas"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD.sq\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-08-25 05:57+0000\n"
+"POT-Creation-Date: 2005-09-11 17:30+0200\n"
 "PO-Revision-Date: 2005-08-26 18:34+0200\n"
 "Last-Translator: Laurent Dhima <laurenti@alblinux.net>\n"
 "Language-Team: Albanian <gnome-albanian-perkthyesit@lists.sourceforge.net>\n"
@@ -382,14 +382,16 @@ msgstr "Versioni i serverit"
 #: ../addressbook/addressbook.error.xml.h:14
 #: ../calendar/calendar.error.xml.h:44
 msgid "Some features may not work properly with your current server"
-msgstr "Disa nga veçoritë mund të mos funksionojnë si duhet me serverin tuaj aktual"
+msgstr ""
+"Disa nga veçoritë mund të mos funksionojnë si duhet me serverin tuaj aktual"
 
 #: ../addressbook/addressbook.error.xml.h:15
 msgid "The Evolution addressbook has quit unexpectedly."
 msgstr "Rubrika e Evolution përfundoi në menyrë të papritur."
 
 #: ../addressbook/addressbook.error.xml.h:16
-msgid "The image you have selected is large. Do you want to resize and store it?"
+msgid ""
+"The image you have selected is large. Do you want to resize and store it?"
 msgstr ""
 "Figura që keni zgjedhur është tepër e madhe. Dëshironi t'a zvogëloni dhe t'a "
 "ruani?"
@@ -467,10 +469,12 @@ msgstr ""
 msgid ""
 "You have made modifications to this contact. Do you want to save these "
 "changes?"
-msgstr "Keni kryer ndryshime tek ky kontakt. Dëshironi t'i ruani këto ndryshime?"
+msgstr ""
+"Keni kryer ndryshime tek ky kontakt. Dëshironi t'i ruani këto ndryshime?"
 
 #: ../addressbook/addressbook.error.xml.h:30
-msgid "Your contacts for {0} will not be available until Evolution is restarted."
+msgid ""
+"Your contacts for {0} will not be available until Evolution is restarted."
 msgstr ""
 "Kontaktet tuaja për {0} do të jenë në dispozicion vetëm mbas rinisjes së "
 "Evolution."
@@ -753,7 +757,7 @@ msgstr ""
 #: ../calendar/gui/calendar-component.c:537
 #: ../calendar/gui/tasks-component.c:441 ../mail/em-filter-i18n.h:11
 #: ../ui/evolution-addressbook.xml.h:8 ../ui/evolution-calendar.xml.h:5
-#: ../ui/evolution-mail-message.xml.h:25 ../ui/evolution-tasks.xml.h:6
+#: ../ui/evolution-mail-message.xml.h:26 ../ui/evolution-tasks.xml.h:6
 msgid "Delete"
 msgstr "Elemino"
 
@@ -816,7 +820,8 @@ msgstr ""
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:7
 msgid "URI for the folder last used in the select names dialog"
-msgstr "URI për kartelën e përdorur së fundmi në dritaren e zgjedhjes së emrave"
+msgstr ""
+"URI për kartelën e përdorur së fundmi në dritaren e zgjedhjes së emrave"
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:8
 msgid "URI for the folder last used in the select names dialog."
@@ -929,8 +934,10 @@ msgid "Email address"
 msgstr "Adresa Email"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:21
-msgid "Evolution will use this email address to authenticate you with the server."
-msgstr "Evolution do të përdorë këtë adresë email për t'ju autentifikuar me serverin."
+msgid ""
+"Evolution will use this email address to authenticate you with the server."
+msgstr ""
+"Evolution do të përdorë këtë adresë email për t'ju autentifikuar me serverin."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:22
 msgid "Find Possible Search Bases"
@@ -2643,7 +2650,8 @@ msgstr "_Zgjidh"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:12
 msgid "_Type an email address or drag a contact into the list below:"
-msgstr "_Shkruaj një adresë email ose zvarrit një kontakt nga lista e mëposhtme:"
+msgstr ""
+"_Shkruaj një adresë email ose zvarrit një kontakt nga lista e mëposhtme:"
 
 #: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:162
 #: ../addressbook/gui/widgets/e-addressbook-model.c:296
@@ -2831,7 +2839,7 @@ msgstr "Dërgoja mesazhin kontakteve"
 #: ../addressbook/gui/widgets/e-addressbook-view.c:942
 #: ../calendar/gui/calendar-commands.c:119 ../calendar/gui/print.c:2501
 #: ../ui/evolution-addressbook.xml.h:16 ../ui/evolution-calendar.xml.h:19
-#: ../ui/evolution-mail-message.xml.h:76 ../ui/evolution-tasks.xml.h:14
+#: ../ui/evolution-mail-message.xml.h:77 ../ui/evolution-tasks.xml.h:14
 msgid "Print"
 msgstr "Printo"
 
@@ -2851,7 +2859,7 @@ msgstr "Preje"
 #: ../addressbook/gui/widgets/e-addressbook-view.c:950
 #: ../calendar/gui/calendar-component.c:536
 #: ../calendar/gui/tasks-component.c:440 ../ui/evolution-addressbook.xml.h:2
-#: ../ui/evolution-mail-message.xml.h:11 ../ui/evolution-tasks.xml.h:2
+#: ../ui/evolution-mail-message.xml.h:12 ../ui/evolution-tasks.xml.h:2
 msgid "Copy"
 msgstr "Kopjo"
 
@@ -3053,7 +3061,7 @@ msgstr "Siti web"
 #: ../widgets/table/e-table-group-container.c:972
 #: ../widgets/table/e-table-group-leaf.c:629
 #: ../widgets/table/e-table-group-leaf.c:630
-#: ../widgets/table/e-table-item.c:3008 ../widgets/table/e-table-item.c:3009
+#: ../widgets/table/e-table-item.c:3012 ../widgets/table/e-table-item.c:3013
 #: ../widgets/text/e-text.c:3626 ../widgets/text/e-text.c:3627
 msgid "Width"
 msgstr "Gjerësia"
@@ -3068,7 +3076,7 @@ msgstr "Gjerësia"
 #: ../widgets/table/e-table-group-container.c:965
 #: ../widgets/table/e-table-group-leaf.c:622
 #: ../widgets/table/e-table-group-leaf.c:623
-#: ../widgets/table/e-table-item.c:3014 ../widgets/table/e-table-item.c:3015
+#: ../widgets/table/e-table-item.c:3018 ../widgets/table/e-table-item.c:3019
 #: ../widgets/text/e-text.c:3634 ../widgets/text/e-text.c:3635
 msgid "Height"
 msgstr "Lartësia"
@@ -3851,7 +3859,8 @@ msgid "Export in asynchronous mode"
 msgstr "Eksporto në modalitet asinkron"
 
 #: ../addressbook/tools/evolution-addressbook-export.c:63
-msgid "The number of cards in one output file in asychronous mode, default size 100."
+msgid ""
+"The number of cards in one output file in asychronous mode, default size 100."
 msgstr ""
 "Numri i teserave në një file daljeje në modalitet asinkron, vlera e "
 "paracaktuar është 100."
@@ -3861,7 +3870,8 @@ msgid "NUMBER"
 msgstr "NUMRI"
 
 #: ../addressbook/tools/evolution-addressbook-export.c:91
-msgid "Command line arguments error, please use --help option to see the usage."
+msgid ""
+"Command line arguments error, please use --help option to see the usage."
 msgstr ""
 "Gabim në argumentet e rreshtit të komandës, përdor opcionin --help për të "
 "shikuar përdorimin."
@@ -3935,7 +3945,8 @@ msgstr ""
 "nuk do të jenë më të rekuperueshme."
 
 #: ../calendar/calendar.error.xml.h:6
-msgid "All information in this journal will be deleted and can not be restored."
+msgid ""
+"All information in this journal will be deleted and can not be restored."
 msgstr ""
 "Të gjitha informacionet e përmbajtura në këtë ditar do të fshihen dhe nuk do "
 "të jenë më të rekuperueshme."
@@ -3955,7 +3966,8 @@ msgstr ""
 "nuk do të jenë më të rekuperueshme."
 
 #: ../calendar/calendar.error.xml.h:9
-msgid "All information on this appointment will be deleted and can not be restored."
+msgid ""
+"All information on this appointment will be deleted and can not be restored."
 msgstr ""
 "Të gjitha informacionet e përmbajtura në këtë takim do të fshihen dhe nuk do "
 "të jenë më të rekuperueshme."
@@ -3969,7 +3981,8 @@ msgstr ""
 "nuk do të jenë më të rekuperueshme."
 
 #: ../calendar/calendar.error.xml.h:11
-msgid "All information on this meeting will be deleted and can not be restored."
+msgid ""
+"All information on this meeting will be deleted and can not be restored."
 msgstr ""
 "Të gjitha informacionet mbi këtë mbledhje do të fshihen dhe nuk do të jenë "
 "më të rekuperueshme."
@@ -4057,7 +4070,8 @@ msgid "Editor could not be loaded."
 msgstr "I pamundur ngarkimi i edituesit."
 
 #: ../calendar/calendar.error.xml.h:32
-msgid "Email invitations will be sent to all participants and allow them to RSVP."
+msgid ""
+"Email invitations will be sent to all participants and allow them to RSVP."
 msgstr ""
 "Mesazhi ftues do t'u dërgohet të gjithë pjesmarrësve dhe do t'i lejojë ata "
 "në RSVP."
@@ -4183,11 +4197,13 @@ msgstr "Dëshiron t'ua dërgosh këtë aktivitet pjesmarrësve?"
 
 #: ../calendar/calendar.error.xml.h:57
 msgid "Would you like to send updated meeting information to participants?"
-msgstr "Dëshiron t'u dërgosh informacionit e rifreskuar të mbledhjes pjesmarrësve?"
+msgstr ""
+"Dëshiron t'u dërgosh informacionit e rifreskuar të mbledhjes pjesmarrësve?"
 
 #: ../calendar/calendar.error.xml.h:58
 msgid "Would you like to send updated task information to participants?"
-msgstr "Dëshiron t'u dërgosh pjesmarrësve informacionet e rifreskuara të aktivitetit?"
+msgstr ""
+"Dëshiron t'u dërgosh pjesmarrësve informacionet e rifreskuara të aktivitetit?"
 
 #: ../calendar/calendar.error.xml.h:60
 msgid "You have made changes to this appointment, but not yet saved them."
@@ -4195,19 +4211,21 @@ msgstr "Keni kryer ndryshime tek ky takim, por nuk i keni ruajtur akoma ato."
 
 #: ../calendar/calendar.error.xml.h:61
 msgid "You have made changes to this task, but not yet saved them."
-msgstr "Keni kryer ndryshime tek ky aktivitet, por nuk i keni ruajtur akoma ato."
+msgstr ""
+"Keni kryer ndryshime tek ky aktivitet, por nuk i keni ruajtur akoma ato."
 
 #: ../calendar/calendar.error.xml.h:62
 msgid "Your calendars will not be available until Evolution is restarted."
-msgstr "Kalendarët tuaj do të jenë në dispozicion vetëm mbas rinisjes së Evolution."
+msgstr ""
+"Kalendarët tuaj do të jenë në dispozicion vetëm mbas rinisjes së Evolution."
 
 #: ../calendar/calendar.error.xml.h:63
 msgid "Your tasks will not be available until Evolution is restarted."
-msgstr "Aktivitetet tuaja do të jenë në dispozicion vetëm mbas rinisjes së Evolution."
+msgstr ""
+"Aktivitetet tuaja do të jenë në dispozicion vetëm mbas rinisjes së Evolution."
 
 #: ../calendar/calendar.error.xml.h:64
 #: ../ui/evolution-message-composer.xml.h:51
-#: ../ui/evolution-signature-editor.xml.h:15
 msgid "_Save"
 msgstr "_Ruaj"
 
@@ -4255,13 +4273,14 @@ msgid "Calendar and Tasks"
 msgstr "Kalendari dhe aktivitetet"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:2
-#: ../calendar/gui/calendar-component.c:1307
+#: ../calendar/gui/calendar-component.c:1309
 msgid "Calendars"
 msgstr "Kalendarët"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:3
 msgid "Configure your timezone, Calendar and Task List here "
-msgstr "Konfiguro këtu zonën tënde të orës, kalendarin dhe listën e aktiviteteve"
+msgstr ""
+"Konfiguro këtu zonën tënde të orës, kalendarin dhe listën e aktiviteteve"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:4
 msgid "Evolution Calendar and Tasks"
@@ -4356,9 +4375,9 @@ msgstr "Ora e _ziles:"
 #: ../ui/evolution-composer-entries.xml.h:8
 #: ../ui/evolution-mail-messagedisplay.xml.h:5
 #: ../ui/evolution-message-composer.xml.h:44
-#: ../ui/evolution-signature-editor.xml.h:12
+#: ../ui/evolution-signature-editor.xml.h:23
 #: ../ui/evolution-subscribe.xml.h:10 ../ui/evolution-tasks.xml.h:23
-#: ../ui/evolution.xml.h:32
+#: ../ui/evolution.xml.h:35
 msgid "_Edit"
 msgstr "_Ndrysho"
 
@@ -4446,11 +4465,11 @@ msgstr ""
 msgid "Do not ask me about this program again."
 msgstr "Mos më pyet më për këtë program."
 
-#: ../calendar/gui/alarm-notify/notify-main.c:139
+#: ../calendar/gui/alarm-notify/notify-main.c:140
 msgid "Could not initialize Bonobo"
 msgstr "E pamundur nisja e Bonobo"
 
-#: ../calendar/gui/alarm-notify/notify-main.c:150
+#: ../calendar/gui/alarm-notify/notify-main.c:151
 msgid "Could not create the alarm notify service factory"
 msgstr ""
 "I pamundur krijimi i fabrikës për shërbimin e njoftimit të paralajmërimit "
@@ -4481,14 +4500,16 @@ msgid "Calendars to run alarms for"
 msgstr "Kalendarët për të cilët përdoret alarmi"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:6
-msgid "Color to draw the Marcus Bains Line in the Time bar (empty for default)."
+msgid ""
+"Color to draw the Marcus Bains Line in the Time bar (empty for default)."
 msgstr ""
 "Ngjyra me të cilën duhet vizatuar Marcus Bains Line tek shtylla e kohës (e "
 "prezgjedhura, bosh)."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:7
 msgid "Color to draw the Marcus Bains line in the Day View."
-msgstr "Ngjyra me të cilën duhet vizatuar Marcus Bains Line tek Paraqitja Ditore."
+msgstr ""
+"Ngjyra me të cilën duhet vizatuar Marcus Bains Line tek Paraqitja Ditore."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:8
 msgid "Compress weekends in month view"
@@ -4500,7 +4521,8 @@ msgstr "Konfermo pastrimin"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:10
 msgid "Days on which the start and end of work hours should be indicated."
-msgstr "Ditët për të cilat duhet treguar ora e fillimit dhe përfundimit të punës."
+msgstr ""
+"Ditët për të cilat duhet treguar ora e fillimit dhe përfundimit të punës."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:11
 msgid "Default appointment reminder"
@@ -4540,7 +4562,8 @@ msgstr "Pozicioni i panelit horizontal"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:20
 msgid "Hour the workday ends on, in twenty four hour format, 0 to 23."
-msgstr "Ora e përfundimit të ditës së punës, në formatin me 24 orë, nga 0 në 23."
+msgstr ""
+"Ora e përfundimit të ditës së punës, në formatin me 24 orë, nga 0 në 23."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:21
 msgid "Hour the workday starts on, in twenty four hour format, 0 to 23."
@@ -4556,7 +4579,8 @@ msgstr "Ekzekutimi i fundit i alarmit"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:24
 msgid "List of server urls for free/busy publishing."
-msgstr "Lista e url të serverit për publikimin e informacioneve mbi disponibilitetin."
+msgstr ""
+"Lista e url të serverit për publikimin e informacioneve mbi disponibilitetin."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:25
 msgid "Marcus Bains Line"
@@ -4699,10 +4723,12 @@ msgstr "Formati orar 24 orë"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:53
 msgid "Units for a default reminder, \"minutes\", \"hours\" or \"days\"."
-msgstr "Njësitë për përkujtuesin e prezgjedhur, \"minutes\", \"hours\" ose \"days\"."
+msgstr ""
+"Njësitë për përkujtuesin e prezgjedhur, \"minutes\", \"hours\" ose \"days\"."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:54
-msgid "Units for determining when to hide tasks, \"minutes\", \"hours\" or \"days\"."
+msgid ""
+"Units for determining when to hide tasks, \"minutes\", \"hours\" or \"days\"."
 msgstr ""
 "Njësitë për të përcaktuar kur duhen fshehur aktivitetet, \"minutes\", \"hours"
 "\" ose \"days\"."
@@ -4717,7 +4743,8 @@ msgstr "Dita e javës e fillimit të javës, nga e Djelë (0) tek e Shtunë (6).
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:58
 msgid "Whether or not to use the notification tray for display alarms."
-msgstr "Nëse duhet përdorur apo jo sirtari i njoftimeve për të shfaqur alarmet."
+msgstr ""
+"Nëse duhet përdorur apo jo sirtari i njoftimeve për të shfaqur alarmet."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:59
 msgid "Whether to ask for confirmation when deleting an appointment or task."
@@ -4742,19 +4769,23 @@ msgstr ""
 "mujore."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:63
-msgid "Whether to draw the Marcus Bains Line (line at current time) in the calendar."
-msgstr "Nëse duhet vizatuar Linja e Marcus Bains (viza me kohën aktuale) në kalendar."
+msgid ""
+"Whether to draw the Marcus Bains Line (line at current time) in the calendar."
+msgstr ""
+"Nëse duhet vizatuar Linja e Marcus Bains (viza me kohën aktuale) në kalendar."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:64
 msgid "Whether to hide completed tasks in the tasks view."
-msgstr "Tregon nëse duhen fshehur aktivitetet e plotësuara tek paraqitja e detyrave."
+msgstr ""
+"Tregon nëse duhen fshehur aktivitetet e plotësuara tek paraqitja e detyrave."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:65
 msgid "Whether to set a default reminder for appointments."
 msgstr "Tregon nëse duhet vendosur një përkujtues të prezgjedhur për takimet."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:66
-msgid "Whether to show times in twenty four hour format instead of using am/pm."
+msgid ""
+"Whether to show times in twenty four hour format instead of using am/pm."
 msgstr ""
 "Tregon nëse duhet shfaqur koha në formatin orar me 24 orë apo duke përdorur "
 "pd/md."
@@ -4872,55 +4903,55 @@ msgstr "E pamundur hapja e kalendarit '%s' për të krijuar ngjarje dhe takime"
 msgid "There is no calendar available for creating events and meetings"
 msgstr "Asnjë kalendar në dispozicion për të krijuar ngjarje dhe takime"
 
-#: ../calendar/gui/calendar-component.c:1282
+#: ../calendar/gui/calendar-component.c:1284
 msgid "Calendar Source Selector"
 msgstr "Zgjedhësi i origjinës së kalendarit"
 
-#: ../calendar/gui/calendar-component.c:1473
+#: ../calendar/gui/calendar-component.c:1475
 msgid "New appointment"
 msgstr "Takim i ri"
 
-#: ../calendar/gui/calendar-component.c:1474
+#: ../calendar/gui/calendar-component.c:1476
 msgid "_Appointment"
 msgstr "_Takim"
 
-#: ../calendar/gui/calendar-component.c:1475
+#: ../calendar/gui/calendar-component.c:1477
 msgid "Create a new appointment"
 msgstr "Krijo një takim të ri"
 
-#: ../calendar/gui/calendar-component.c:1481
+#: ../calendar/gui/calendar-component.c:1483
 msgid "New meeting"
 msgstr "Mbledhje e re"
 
-#: ../calendar/gui/calendar-component.c:1482
+#: ../calendar/gui/calendar-component.c:1484
 msgid "M_eeting"
 msgstr "Mbl_edhje"
 
-#: ../calendar/gui/calendar-component.c:1483
+#: ../calendar/gui/calendar-component.c:1485
 msgid "Create a new meeting request"
 msgstr "Krijo një kërkesë të re për mbledhje"
 
-#: ../calendar/gui/calendar-component.c:1489
+#: ../calendar/gui/calendar-component.c:1491
 msgid "New all day appointment"
 msgstr "Takim i ri i përditshëm"
 
-#: ../calendar/gui/calendar-component.c:1490
+#: ../calendar/gui/calendar-component.c:1492
 msgid "All Day A_ppointment"
 msgstr "Takim i _Përditshëm"
 
-#: ../calendar/gui/calendar-component.c:1491
+#: ../calendar/gui/calendar-component.c:1493
 msgid "Create a new all-day appointment"
 msgstr "Krijo një takim të ri të përditshëm"
 
-#: ../calendar/gui/calendar-component.c:1497
+#: ../calendar/gui/calendar-component.c:1499
 msgid "New calendar"
 msgstr "Kalendar i ri"
 
-#: ../calendar/gui/calendar-component.c:1498
+#: ../calendar/gui/calendar-component.c:1500
 msgid "Cale_ndar"
 msgstr "Kale_ndari"
 
-#: ../calendar/gui/calendar-component.c:1499
+#: ../calendar/gui/calendar-component.c:1501
 msgid "Create a new calendar"
 msgstr "Krijo një kalendar të ri"
 
@@ -5173,7 +5204,8 @@ msgstr "Bashkangjitja e file %s është e pamundur: %s"
 #: ../widgets/misc/e-attachment.c:229 ../widgets/misc/e-attachment.c:433
 #, c-format
 msgid "Cannot attach file %s: not a regular file"
-msgstr "Bashkangjitja e file %s është e pamundur: nuk është një file i rregullt"
+msgstr ""
+"Bashkangjitja e file %s është e pamundur: nuk është një file i rregullt"
 
 #: ../calendar/gui/dialogs/cal-attachment.glade.h:2
 #: ../composer/e-msg-composer-attachment.glade.h:2
@@ -5287,7 +5319,8 @@ msgstr "<b>Java punuese</b>"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:15
 #, no-c-format
-msgid "<i>%u and %d will be replaced by user and domain from the email address.</i>"
+msgid ""
+"<i>%u and %d will be replaced by user and domain from the email address.</i>"
 msgstr ""
 "<i>%u dhe %d do të zëvendësohen me përdoruesin dhe domain nga adresa email.</"
 "i>"
@@ -5497,7 +5530,8 @@ msgstr "Kopjo në lokale përmbajtjen e kartelës për veprime jashtë linje"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:290
 msgid "Copy task list contents locally for offline operation"
-msgstr "Kopjo në lokale përmbajtjen e listës me aktivitete për veprime jashtë linje"
+msgstr ""
+"Kopjo në lokale përmbajtjen e listës me aktivitete për veprime jashtë linje"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:341
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:4
@@ -5569,7 +5603,8 @@ msgstr "Ky zë u eleminua."
 #: ../calendar/gui/dialogs/changed-comp.c:77
 #, c-format
 msgid "%s  You have made changes. Forget those changes and close the editor?"
-msgstr "%s  Keni kryer ndryshime. T'i harrojmë ndryshimet dhe të mbyll editorin?"
+msgstr ""
+"%s  Keni kryer ndryshime. T'i harrojmë ndryshimet dhe të mbyll editorin?"
 
 #: ../calendar/gui/dialogs/changed-comp.c:79
 #, c-format
@@ -5646,7 +5681,7 @@ msgstr[1] "%d mesazhe të bashkangjitur"
 #: ../mail/em-folder-tree.c:974 ../mail/em-folder-view.c:1035
 #: ../mail/message-list.c:1708 ../ui/evolution-addressbook.xml.h:31
 #: ../ui/evolution-calendar.xml.h:39 ../ui/evolution-composer-entries.xml.h:7
-#: ../ui/evolution-mail-message.xml.h:102 ../ui/evolution-tasks.xml.h:21
+#: ../ui/evolution-mail-message.xml.h:103 ../ui/evolution-tasks.xml.h:21
 msgid "_Copy"
 msgstr "_Kopjo"
 
@@ -6154,19 +6189,24 @@ msgstr "Emri i listës së aktiviteteve"
 
 #: ../calendar/gui/dialogs/recur-comp.c:52
 msgid "You are modifying a recurring event, what would you like to modify?"
-msgstr "Jeni duke ndryshuar një ngjarje përkujtimore, çfarë dëshironi të ndryshoni?"
+msgstr ""
+"Jeni duke ndryshuar një ngjarje përkujtimore, çfarë dëshironi të ndryshoni?"
 
 #: ../calendar/gui/dialogs/recur-comp.c:54
 msgid "You are delegating a recurring event, what would like to delegate?"
-msgstr "Jeni duke deleguar një ngjarje përkujtimore, çfarë dëshironi të delegoni?"
+msgstr ""
+"Jeni duke deleguar një ngjarje përkujtimore, çfarë dëshironi të delegoni?"
 
 #: ../calendar/gui/dialogs/recur-comp.c:58
 msgid "You are modifying a recurring task, what would you like to modify?"
-msgstr "Jeni duke ndryshuar një aktivitet përkujtimor, çfarë dëshironi të ndryshoni?"
+msgstr ""
+"Jeni duke ndryshuar një aktivitet përkujtimor, çfarë dëshironi të ndryshoni?"
 
 #: ../calendar/gui/dialogs/recur-comp.c:62
-msgid "You are modifying a recurring journal entry, what would you like to modify?"
-msgstr "Jeni duke ndryshuar një zë ditari përkujtimor, çfarë dëshironi të ndryshoni?"
+msgid ""
+"You are modifying a recurring journal entry, what would you like to modify?"
+msgstr ""
+"Jeni duke ndryshuar një zë ditari përkujtimor, çfarë dëshironi të ndryshoni?"
 
 #: ../calendar/gui/dialogs/recur-comp.c:90
 msgid "This Instance Only"
@@ -6728,7 +6768,7 @@ msgstr "_Ruaje si..."
 #: ../calendar/gui/e-calendar-view.c:1530 ../mail/em-folder-view.c:1046
 #: ../plugins/print-message/org-gnome-print-message.xml.h:3
 #: ../ui/evolution-addressbook.xml.h:40 ../ui/evolution-calendar.xml.h:44
-#: ../ui/evolution-mail-message.xml.h:119 ../ui/evolution-tasks.xml.h:27
+#: ../ui/evolution-mail-message.xml.h:120 ../ui/evolution-tasks.xml.h:27
 msgid "_Print..."
 msgstr "_Printim..."
 
@@ -7071,7 +7111,8 @@ msgid ""
 msgstr "Mbledhja është anulluar, sidoqoftë nuk gjendet në kalendarët tuaj"
 
 #: ../calendar/gui/e-itip-control.c:1233
-msgid "The task has been cancelled, however it could not be found in your task lists"
+msgid ""
+"The task has been cancelled, however it could not be found in your task lists"
 msgstr ""
 "Aktiviteti është anulluar, sidoqoftë nuk gjendet në listën tuaj të "
 "aktiviteteve"
@@ -7112,7 +7153,8 @@ msgstr "Rifreskimi i mbledhjes"
 #: ../calendar/gui/e-itip-control.c:1333
 #, c-format
 msgid "<b>%s</b> wishes to receive the latest meeting information."
-msgstr "<b>%s</b> kërkon të marrë informacionet aktuale në lidhje me mbledhjen."
+msgstr ""
+"<b>%s</b> kërkon të marrë informacionet aktuale në lidhje me mbledhjen."
 
 #: ../calendar/gui/e-itip-control.c:1334
 msgid "Meeting Update Request"
@@ -7267,7 +7309,8 @@ msgstr "Objekti është i pavlefshëm dhe nuk mund të rifreskohet\n"
 
 #: ../calendar/gui/e-itip-control.c:1949
 msgid "This response is not from a current attendee.  Add as an attendee?"
-msgstr "Kjo përgjigje nuk vjen nga një pjesmarrës aktual.  T'a shtoj si pjesmarrës?"
+msgstr ""
+"Kjo përgjigje nuk vjen nga një pjesmarrës aktual.  T'a shtoj si pjesmarrës?"
 
 #: ../calendar/gui/e-itip-control.c:1961
 msgid "Attendee status could not be updated because of an invalid status!\n"
@@ -7282,7 +7325,8 @@ msgstr "Gjendja e pjesmarrësit u rifreskua\n"
 #: ../calendar/gui/e-itip-control.c:1981
 #: ../plugins/itip-formatter/itip-formatter.c:1025
 msgid "Attendee status can not be updated because the item no longer exists"
-msgstr "Gjendja e pjesmarrësit nuk mund të rifreskohet pasi elementi nuk ekziston më"
+msgstr ""
+"Gjendja e pjesmarrësit nuk mund të rifreskohet pasi elementi nuk ekziston më"
 
 #: ../calendar/gui/e-itip-control.c:2011
 msgid "Removal Complete"
@@ -9758,7 +9802,8 @@ msgid "A_ttach"
 msgstr "Bashkangji_t"
 
 #: ../composer/e-msg-composer.c:738
-msgid "Cannot sign outgoing message: No signing certificate set for this account"
+msgid ""
+"Cannot sign outgoing message: No signing certificate set for this account"
 msgstr ""
 "E pamundur firmosja e mesazhit në dalje: Nuk është përcaktuar asnjë "
 "çertifikatë firme për këtë llogari"
@@ -9956,7 +10001,8 @@ msgstr "Nuk mund t'i bashkangjitni file `{o}' këtij mesazhi."
 
 #: ../composer/mail-composer.error.xml.h:28
 msgid "You need to configure an account before you can compose mail."
-msgstr "Para se të mund të kompozoni një mesazh duhet të konfiguroni një llogari."
+msgstr ""
+"Para se të mund të kompozoni një mesazh duhet të konfiguroni një llogari."
 
 #: ../composer/mail-composer.error.xml.h:29
 msgid "_Discard Changes"
@@ -10078,13 +10124,15 @@ msgstr "Kërko një ricevutë leximi për të gjithë mesazhet që dërgoj"
 
 #: ../designs/read_receipts/read.glade.h:11
 msgid "Unless the message is sent to a mailing list, and not to me personally"
-msgstr "Përveç kur mesazhi i është dërguar një mailing list, dhe jo mua personalisht"
+msgstr ""
+"Përveç kur mesazhi i është dërguar një mailing list, dhe jo mua personalisht"
 
 #: ../designs/read_receipts/read.glade.h:12
 msgid ""
 "When you receive an email with a read receipt request, what should Evolution "
 "do?"
-msgstr "Kur ju arrin një mesazh me kërkesë ricevute, si duhet të veprojë Evolution?"
+msgstr ""
+"Kur ju arrin një mesazh me kërkesë ricevute, si duhet të veprojë Evolution?"
 
 #: ../e-util/e-dialog-utils.c:267
 msgid ""
@@ -10117,7 +10165,8 @@ msgstr "Kërkimi në Evolution"
 #. setup a dummy error
 #: ../e-util/e-error.c:438
 #, c-format
-msgid "<span weight=\"bold\">Internal error, unknown error '%s' requested</span>"
+msgid ""
+"<span weight=\"bold\">Internal error, unknown error '%s' requested</span>"
 msgstr "<span weight=\"bold\">Gabim i brendshëm, gabim i panjohur '%s'</span>"
 
 #: ../e-util/e-system.error.xml.h:2
@@ -10504,14 +10553,16 @@ msgid "Composer Preferences"
 msgstr "Preferimet e hartuesit"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:2
-msgid "Configure mail preferences, including security and message display, here"
+msgid ""
+"Configure mail preferences, including security and message display, here"
 msgstr ""
 "Konfiguro preferimet e postës, përfshirë sigurinë dhe shfaqjen e mesazheve, "
 "këtu"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:3
 msgid "Configure spell-checking, signatures, and the message composer here"
-msgstr "Konfiguro këtu kontrollin e drejtshkrimit, firmat dhe hartuesin e mesazheve"
+msgstr ""
+"Konfiguro këtu kontrollin e drejtshkrimit, firmat dhe hartuesin e mesazheve"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:4
 msgid "Configure your email accounts here"
@@ -10816,7 +10867,7 @@ msgid "is not Flagged"
 msgstr "nuk është shënuar me flamurë"
 
 #: ../mail/em-filter-i18n.h:35 ../mail/mail-config.glade.h:93
-#: ../ui/evolution-mail-message.xml.h:47
+#: ../ui/evolution-mail-message.xml.h:48
 msgid "Junk"
 msgstr "Për në plehra"
 
@@ -10933,7 +10984,7 @@ msgstr "fillon me"
 msgid "Stop Processing"
 msgstr "Ndalo proçesimin"
 
-#: ../mail/em-filter-i18n.h:65 ../mail/em-format-html.c:1557
+#: ../mail/em-filter-i18n.h:65 ../mail/em-format-html.c:1572
 #: ../mail/em-format-quote.c:313 ../mail/em-format.c:849
 #: ../mail/em-mailer-prefs.c:88 ../mail/message-list.etspec.h:13
 #: ../mail/message-tag-followup.c:330
@@ -11044,11 +11095,11 @@ msgstr "Duke kopjuar mesazhet në kartelën %s"
 msgid "Cannot drop message(s) into toplevel store"
 msgstr "E pamundur hedhja e mesazhit(eve) nën magazinën qendrore"
 
-#: ../mail/em-folder-tree.c:972 ../ui/evolution-mail-message.xml.h:103
+#: ../mail/em-folder-tree.c:972 ../ui/evolution-mail-message.xml.h:104
 msgid "_Copy to Folder"
 msgstr "_Kopjo tek Kartela"
 
-#: ../mail/em-folder-tree.c:973 ../ui/evolution-mail-message.xml.h:113
+#: ../mail/em-folder-tree.c:973 ../ui/evolution-mail-message.xml.h:114
 msgid "_Move to Folder"
 msgstr "_Lëviz tek Kartela"
 
@@ -11058,9 +11109,9 @@ msgid "Scanning folders in \"%s\""
 msgstr "Duke kontrolluar kartelat në \"%s\""
 
 #: ../mail/em-folder-tree.c:2031 ../ui/evolution-addressbook.xml.h:44
-#: ../ui/evolution-mail-global.xml.h:22
+#: ../ui/evolution-mail-global.xml.h:24
 #: ../ui/evolution-mail-messagedisplay.xml.h:8
-#: ../ui/evolution-message-composer.xml.h:54 ../ui/evolution.xml.h:45
+#: ../ui/evolution-message-composer.xml.h:54 ../ui/evolution.xml.h:48
 msgid "_View"
 msgstr "_Shfaq"
 
@@ -11135,16 +11186,16 @@ msgstr "Përcakto ku duhet krijuar kartela:"
 msgid "Reply to _All"
 msgstr "Përgjigju të _Gjithëve"
 
-#: ../mail/em-folder-view.c:1040 ../ui/evolution-mail-message.xml.h:121
+#: ../mail/em-folder-view.c:1040 ../ui/evolution-mail-message.xml.h:122
 msgid "_Reply to Sender"
 msgstr "_Përgjigju Dërguesit"
 
 #: ../mail/em-folder-view.c:1041 ../mail/em-popup.c:548 ../mail/em-popup.c:559
-#: ../ui/evolution-mail-message.xml.h:107
+#: ../ui/evolution-mail-message.xml.h:108
 msgid "_Forward"
 msgstr "_Vazhdo"
 
-#: ../mail/em-folder-view.c:1044 ../ui/evolution-mail-message.xml.h:105
+#: ../mail/em-folder-view.c:1044 ../ui/evolution-mail-message.xml.h:106
 msgid "_Edit as New Message..."
 msgstr "_Ndrysho si Mesazh i Ri..."
 
@@ -11274,21 +11325,22 @@ msgstr "Kliko tek mesazhi %s"
 msgid "Matches: %d"
 msgstr "Korrispondues: %d"
 
-#: ../mail/em-format-html-display.c:697 ../mail/em-format-html.c:595
+#: ../mail/em-format-html-display.c:696 ../mail/em-format-html.c:597
 msgid "Unsigned"
 msgstr "Pa firmë"
 
-#: ../mail/em-format-html-display.c:697
+#: ../mail/em-format-html-display.c:696
 msgid ""
 "This message is not signed. There is no guarantee that this message is "
 "authentic."
-msgstr "Ky mesazh nuk është i firmosur. Nuk ka garanci që mesazhi të jetë autentik."
+msgstr ""
+"Ky mesazh nuk është i firmosur. Nuk ka garanci që mesazhi të jetë autentik."
 
-#: ../mail/em-format-html-display.c:698 ../mail/em-format-html.c:596
+#: ../mail/em-format-html-display.c:697 ../mail/em-format-html.c:598
 msgid "Valid signature"
 msgstr "Firmë e vlefshme"
 
-#: ../mail/em-format-html-display.c:698
+#: ../mail/em-format-html-display.c:697
 msgid ""
 "This message is signed and is valid meaning that it is very likely that this "
 "message is authentic."
@@ -11296,11 +11348,11 @@ msgstr ""
 "Ky mesazh është i firmosur dhe është i vlefshëm, do të thotë që ky mesazh "
 "mund të konsiderohet si autentik."
 
-#: ../mail/em-format-html-display.c:699 ../mail/em-format-html.c:597
+#: ../mail/em-format-html-display.c:698 ../mail/em-format-html.c:599
 msgid "Invalid signature"
 msgstr "Firmë e pavlefshme"
 
-#: ../mail/em-format-html-display.c:699
+#: ../mail/em-format-html-display.c:698
 msgid ""
 "The signature of this message cannot be verified, it may have been altered "
 "in transit."
@@ -11308,11 +11360,11 @@ msgstr ""
 "Firma e mesazhit nuk mund të verifikohet, ka mundësi të jetë ndryshuar gjatë "
 "përcjelljes."
 
-#: ../mail/em-format-html-display.c:700
+#: ../mail/em-format-html-display.c:699
 msgid "Valid signature, cannot verify sender"
 msgstr "Firmë e vlefshme, nuk mund të verifikoj dërguesin"
 
-#: ../mail/em-format-html-display.c:700
+#: ../mail/em-format-html-display.c:699
 msgid ""
 "This message is signed with a valid signature, but the sender of the message "
 "cannot be verified."
@@ -11320,11 +11372,11 @@ msgstr ""
 "Ky mesazh është firmosur me një firmë të vlefshme, por dërguesi i mesazhit "
 "nuk mund të verifikohet."
 
-#: ../mail/em-format-html-display.c:706 ../mail/em-format-html.c:604
+#: ../mail/em-format-html-display.c:705 ../mail/em-format-html.c:606
 msgid "Unencrypted"
 msgstr "Jo i dekriptuar"
 
-#: ../mail/em-format-html-display.c:706
+#: ../mail/em-format-html-display.c:705
 msgid ""
 "This message is not encrypted.  Its content may be viewed in transit across "
 "the Internet."
@@ -11332,11 +11384,11 @@ msgstr ""
 "Ky mesazh nuk është i kriptuar.  Përmbajtja e tij mund të shikohet gjatë "
 "kalimit në Internet."
 
-#: ../mail/em-format-html-display.c:707 ../mail/em-format-html.c:605
+#: ../mail/em-format-html-display.c:706 ../mail/em-format-html.c:607
 msgid "Encrypted, weak"
 msgstr "I shifruar, i dobët"
 
-#: ../mail/em-format-html-display.c:707
+#: ../mail/em-format-html-display.c:706
 msgid ""
 "This message is encrypted, but with a weak encryption algorithm.  It would "
 "be difficult, but not impossible for an outsider to view the content of this "
@@ -11346,11 +11398,11 @@ msgstr ""
 "vështirë, por jo e pamundur që një i jashtëm të shikojë përmbajtjen e këtij "
 "mesazhi brenda pak kohe."
 
-#: ../mail/em-format-html-display.c:708 ../mail/em-format-html.c:606
+#: ../mail/em-format-html-display.c:707 ../mail/em-format-html.c:608
 msgid "Encrypted"
 msgstr "Shifruar"
 
-#: ../mail/em-format-html-display.c:708
+#: ../mail/em-format-html-display.c:707
 msgid ""
 "This message is encrypted.  It would be difficult for an outsider to view "
 "the content of this message."
@@ -11358,11 +11410,11 @@ msgstr ""
 "Ky mesazh është i kriptuar.  Një i jashtëm do të ketë vështirësi të shikojë "
 "përmbajtjen e këtij mesazhi."
 
-#: ../mail/em-format-html-display.c:709 ../mail/em-format-html.c:607
+#: ../mail/em-format-html-display.c:708 ../mail/em-format-html.c:609
 msgid "Encrypted, strong"
 msgstr "I shifruar, fort"
 
-#: ../mail/em-format-html-display.c:709
+#: ../mail/em-format-html-display.c:708
 msgid ""
 "This message is encrypted, with a strong encryption algorithm.  It would be "
 "very difficult for an outsider to view the content of this message in a "
@@ -11372,71 +11424,71 @@ msgstr ""
 "jetë tepër e vështirë për një të jashtëm të shikojë përmbajtjen e këtij "
 "mesazhi brenda pak kohe."
 
-#: ../mail/em-format-html-display.c:810 ../smime/gui/smime-ui.glade.h:48
+#: ../mail/em-format-html-display.c:809 ../smime/gui/smime-ui.glade.h:48
 msgid "_View Certificate"
 msgstr "_Shiko çertifikatën"
 
-#: ../mail/em-format-html-display.c:825
+#: ../mail/em-format-html-display.c:824
 msgid "This certificate is not viewable"
 msgstr "Kjo çertifikatë nuk është e shikueshme"
 
-#: ../mail/em-format-html-display.c:1107
+#: ../mail/em-format-html-display.c:1106
 msgid "Completed on %B %d, %Y, %l:%M %p"
 msgstr "U plotësua në %B %d, %Y, %l:%M %p"
 
-#: ../mail/em-format-html-display.c:1115
+#: ../mail/em-format-html-display.c:1114
 msgid "Overdue:"
 msgstr "Të skaduara:"
 
-#: ../mail/em-format-html-display.c:1118
+#: ../mail/em-format-html-display.c:1117
 msgid "by %B %d, %Y, %l:%M %p"
 msgstr "nga %B %d, %Y, %l:%M %p"
 
-#: ../mail/em-format-html-display.c:1178
+#: ../mail/em-format-html-display.c:1177
 msgid "_View Inline"
 msgstr "_Shfaq Inline"
 
-#: ../mail/em-format-html-display.c:1179
+#: ../mail/em-format-html-display.c:1178
 msgid "_Hide"
 msgstr "_Fshih"
 
-#: ../mail/em-format-html-display.c:1180
+#: ../mail/em-format-html-display.c:1179
 msgid "_Fit to Width"
 msgstr "_Përshtat sipas gjerësisë"
 
-#: ../mail/em-format-html-display.c:1181
+#: ../mail/em-format-html-display.c:1180
 msgid "Show _Original Size"
 msgstr "Shfaq madhësinë _Orgjinale"
 
-#: ../mail/em-format-html-display.c:1551
+#: ../mail/em-format-html-display.c:1550
 msgid "Attachment Button"
 msgstr "Pulsanti i bashkangjitjes"
 
-#: ../mail/em-format-html-display.c:1758
+#: ../mail/em-format-html-display.c:1757
 msgid "Select folder to save all attachments..."
 msgstr "Zgjidh kartelën ku duhen ruajtur të gjithë të bashkangjiturit..."
 
-#: ../mail/em-format-html-display.c:1797
+#: ../mail/em-format-html-display.c:1796
 msgid "Select folder to save selected attachments..."
 msgstr "Zgjidh kartelën ku duhen ruajtur të bashkangjiturit e zgjedhur..."
 
-#: ../mail/em-format-html-display.c:1805
+#: ../mail/em-format-html-display.c:1804
 msgid "Save Selected..."
 msgstr "Ruaj zgjedhjen..."
 
 #. Cant i put in the number of attachments here ?
-#: ../mail/em-format-html-display.c:1872
+#: ../mail/em-format-html-display.c:1871
 #, c-format
 msgid "%d attachment"
 msgid_plural "%d attachments"
 msgstr[0] "%d i bashkangjitur"
 msgstr[1] "%d të bashkangjitur"
 
-#: ../mail/em-format-html-display.c:1936
+#: ../mail/em-format-html-display.c:1935
 msgid "No Attachment"
 msgstr "Asnjë i bashkangjitur"
 
-#: ../mail/em-format-html-display.c:1939
+#: ../mail/em-format-html-display.c:1938
 msgid "Save All"
 msgstr "Ruaj gjithçka"
 
@@ -11450,93 +11502,93 @@ msgstr "Faqja %d në %d"
 msgid "Retrieving `%s'"
 msgstr "Duke tërhequr `%s'"
 
-#: ../mail/em-format-html.c:598
+#: ../mail/em-format-html.c:600
 msgid "Valid signature but cannot verify sender"
 msgstr "Firmë e vlefshme por dërguesi nuk mund të verifikohet"
 
-#: ../mail/em-format-html.c:855
+#: ../mail/em-format-html.c:870
 msgid "Malformed external-body part."
 msgstr "Pjesë e keqformuar jashtë-trupi."
 
-#: ../mail/em-format-html.c:885
+#: ../mail/em-format-html.c:900
 #, c-format
 msgid "Pointer to FTP site (%s)"
 msgstr "Tregues tek siti FTP (%s)"
 
-#: ../mail/em-format-html.c:896
+#: ../mail/em-format-html.c:911
 #, c-format
 msgid "Pointer to local file (%s) valid at site \"%s\""
 msgstr "Treguesi tek file lokal (%s) i vlefshëm tek siti \"%s\""
 
-#: ../mail/em-format-html.c:898
+#: ../mail/em-format-html.c:913
 #, c-format
 msgid "Pointer to local file (%s)"
 msgstr "Treguesi tek file lokal (%s)"
 
-#: ../mail/em-format-html.c:919
+#: ../mail/em-format-html.c:934
 #, c-format
 msgid "Pointer to remote data (%s)"
 msgstr "Treguesi tek e dhëna remote (%s)"
 
-#: ../mail/em-format-html.c:930
+#: ../mail/em-format-html.c:945
 #, c-format
 msgid "Pointer to unknown external data (\"%s\" type)"
 msgstr "Treguesi tek një e dhënë e panjohur e jashtme (e llojit \"%s\")"
 
-#: ../mail/em-format-html.c:1156
+#: ../mail/em-format-html.c:1171
 msgid "Formatting message"
 msgstr "Duke formatuar mesazhin"
 
-#: ../mail/em-format-html.c:1449 ../mail/em-format-quote.c:200
+#: ../mail/em-format-html.c:1464 ../mail/em-format-quote.c:200
 #: ../mail/em-format.c:844 ../mail/em-mailer-prefs.c:83
 #: ../mail/message-list.etspec.h:7 ../mail/message-tag-followup.c:326
 msgid "From"
 msgstr "Nga"
 
-#: ../mail/em-format-html.c:1449 ../mail/em-format-quote.c:200
+#: ../mail/em-format-html.c:1464 ../mail/em-format-quote.c:200
 #: ../mail/em-format.c:845 ../mail/em-mailer-prefs.c:84
 msgid "Reply-To"
 msgstr "Përgjigju-Tek"
 
-#: ../mail/em-format-html.c:1449 ../mail/em-format-quote.c:200
+#: ../mail/em-format-html.c:1464 ../mail/em-format-quote.c:200
 #: ../mail/em-format.c:846 ../mail/em-mailer-prefs.c:85
 #: ../mail/message-list.etspec.h:14
 msgid "To"
 msgstr "Për"
 
-#: ../mail/em-format-html.c:1449 ../mail/em-format-quote.c:200
+#: ../mail/em-format-html.c:1464 ../mail/em-format-quote.c:200
 #: ../mail/em-format.c:847 ../mail/em-mailer-prefs.c:86
 msgid "Cc"
 msgstr "Cc"
 
-#: ../mail/em-format-html.c:1449 ../mail/em-format-quote.c:200
+#: ../mail/em-format-html.c:1464 ../mail/em-format-quote.c:200
 #: ../mail/em-format.c:848 ../mail/em-mailer-prefs.c:87
 msgid "Bcc"
 msgstr "Bcc"
 
 #. pseudo-header
-#: ../mail/em-format-html.c:1561 ../mail/em-format-quote.c:322
+#: ../mail/em-format-html.c:1576 ../mail/em-format-quote.c:322
 #: ../mail/em-mailer-prefs.c:987
 msgid "Mailer"
 msgstr "Trajtuesi i postës"
 
 #. translators: strftime format for local time equivalent in Date header display, with day
-#: ../mail/em-format-html.c:1588
+#: ../mail/em-format-html.c:1603
 msgid "<I> (%a, %R %Z)</I>"
 msgstr "<I> (%a, %R %Z)</I>"
 
 #. translators: strftime format for local time equivalent in Date header display, without day
-#: ../mail/em-format-html.c:1591
+#: ../mail/em-format-html.c:1606
 msgid "<I> (%R %Z)</I>"
 msgstr "<I> (%R %Z)</I>"
 
-#: ../mail/em-format-html.c:1601 ../mail/em-format-quote.c:329
+#: ../mail/em-format-html.c:1616 ../mail/em-format-quote.c:329
 #: ../mail/em-format.c:850 ../mail/em-mailer-prefs.c:89
 #: ../mail/message-list.etspec.h:2
 msgid "Date"
 msgstr "Data"
 
-#: ../mail/em-format-html.c:1624 ../mail/em-format.c:851
+#: ../mail/em-format-html.c:1639 ../mail/em-format.c:851
 #: ../mail/em-mailer-prefs.c:90
 msgid "Newsgroups"
 msgstr "GrupeLajmesh"
@@ -11666,7 +11718,7 @@ msgid "_Reply to sender"
 msgstr "_Përgjigju dërguesit"
 
 #: ../mail/em-popup.c:545 ../mail/em-popup.c:556
-#: ../ui/evolution-mail-message.xml.h:83
+#: ../ui/evolution-mail-message.xml.h:84
 msgid "Reply to _List"
 msgstr "Përgjigju _Listës"
 
@@ -11993,10 +12045,12 @@ msgstr "Tërhiq vëmendjen kur subjekti është bosh"
 
 #: ../mail/evolution-mail.schemas.in.in.h:56
 msgid "Prompt the user when he or she tries to expunge a folder."
-msgstr "Paralajmëro përdoruesin nëse ai apo ajo përpiqen të fshijnë një kartelë."
+msgstr ""
+"Paralajmëro përdoruesin nëse ai apo ajo përpiqen të fshijnë një kartelë."
 
 #: ../mail/evolution-mail.schemas.in.in.h:57
-msgid "Prompt the user when he or she tries to send a message without a Subject."
+msgid ""
+"Prompt the user when he or she tries to send a message without a Subject."
 msgstr ""
 "Paralajmëro përdoruesin nëse ai apo ajo përpiqen të dërgojnë një mesazh pa "
 "subjekt."
@@ -12043,7 +12097,8 @@ msgstr "Kontrollo smiles në tekst dhe zëvendësoi me figurat."
 
 #: ../mail/evolution-mail.schemas.in.in.h:66
 msgid "Run junk test on incoming mail"
-msgstr "Vër në funksion provën për material për t'u refuzuar tek mesazhet në ardhje"
+msgstr ""
+"Vër në funksion provën për material për t'u refuzuar tek mesazhet në ardhje"
 
 #: ../mail/evolution-mail.schemas.in.in.h:67
 msgid "Send HTML mail by default"
@@ -12503,7 +12558,8 @@ msgstr "<b>_Gjuhët</b>"
 
 #: ../mail/mail-config.glade.h:7
 msgid "<small>This will make the the filter more reliable, but slower</small>"
-msgstr "<small>Kjo do t'a bëjë filtrin më të sigurt, por më të ngadaltë</small>"
+msgstr ""
+"<small>Kjo do t'a bëjë filtrin më të sigurt, por më të ngadaltë</small>"
 
 #: ../mail/mail-config.glade.h:8
 msgid "<span weight=\"bold\">Account Information</span>"
@@ -12830,7 +12886,8 @@ msgstr "Kompozuesi i mesazheve"
 msgid ""
 "Note: you will not be prompted for a password until you connect for the "
 "first time"
-msgstr "Shënim: nuk do t'ju kërkohet fjalëkalimi derisa të kryeni lidhjen e parë"
+msgstr ""
+"Shënim: nuk do t'ju kërkohet fjalëkalimi derisa të kryeni lidhjen e parë"
 
 #: ../mail/mail-config.glade.h:102
 msgid "Or_ganization:"
@@ -13068,7 +13125,8 @@ msgstr "_Vendodhja:"
 
 #: ../mail/mail-config.glade.h:167
 msgid "_Prompt when sending HTML messages to contacts that don't want them"
-msgstr "_Paralajmërim kur u dërgohen mesazhe HTML marrësve që nuk i dëshirojnë ato"
+msgstr ""
+"_Paralajmërim kur u dërgohen mesazhe HTML marrësve që nuk i dëshirojnë ato"
 
 #: ../mail/mail-config.glade.h:168
 msgid "_Prompt when sending messages with an empty subject line"
@@ -13502,7 +13560,8 @@ msgid "New Search Folder"
 msgstr "Kartelë e re kërkimi"
 
 #: ../mail/mail.error.xml.h:1
-msgid "A folder named &quot;{1}&quot; already exists. Please use a different name."
+msgid ""
+"A folder named &quot;{1}&quot; already exists. Please use a different name."
 msgstr ""
 "Një kartelë me emër &quot;{1}&quot; ekziston. Ju lutem zgjidhni një emër "
 "tjetër."
@@ -13571,7 +13630,8 @@ msgstr "Jeni i sigurt që dëshironi të dërgoni një mesazh në formatin HTML?
 
 #: ../mail/mail.error.xml.h:14
 msgid "Are you sure you want to send a message with only BCC recipients?"
-msgstr "Jeni i sigurt që dëshironi të dërgoni një mesazh vetëm me marrësit BCC?"
+msgstr ""
+"Jeni i sigurt që dëshironi të dërgoni një mesazh vetëm me marrësit BCC?"
 
 #: ../mail/mail.error.xml.h:15
 msgid "Are you sure you want to send a message without a subject?"
@@ -13651,7 +13711,8 @@ msgstr "I pamundur riemërtimi i &quot;{0}&quot; në &quot;{1}&quot;."
 
 #: ../mail/mail.error.xml.h:33
 msgid "Cannot rename or move system folder &quot;{0}&quot;."
-msgstr "I pamundur riemërtimi apo lëvizja e kartelës së sistemit &quot;{0}&quot;."
+msgstr ""
+"I pamundur riemërtimi apo lëvizja e kartelës së sistemit &quot;{0}&quot;."
 
 #: ../mail/mail.error.xml.h:34
 msgid "Cannot save changes to account."
@@ -13804,7 +13865,8 @@ msgstr "Nuk është zgjedhur burimi."
 
 #: ../mail/mail.error.xml.h:67
 msgid "Opening too many messages at once may take a long time."
-msgstr "Hapja e shumë mesazheve njëkohësisht mund të marrë një kohë tepër të gjatë."
+msgstr ""
+"Hapja e shumë mesazheve njëkohësisht mund të marrë një kohë tepër të gjatë."
 
 #: ../mail/mail.error.xml.h:68
 msgid "Please check your account settings and try again."
@@ -13837,7 +13899,8 @@ msgstr "Ju lutem prisni."
 
 #: ../mail/mail.error.xml.h:74
 msgid "Problem migrating old mail folder &quot;{0}&quot;."
-msgstr "Problem gjatë migrimit të kartelës së vjetër së postës &quot;{0}&quot;."
+msgstr ""
+"Problem gjatë migrimit të kartelës së vjetër së postës &quot;{0}&quot;."
 
 #: ../mail/mail.error.xml.h:75
 msgid "Querying server"
@@ -13845,7 +13908,8 @@ msgstr "Duke pyetur serverin"
 
 #: ../mail/mail.error.xml.h:76
 msgid "Querying server for a list of supported authentication mechanisms."
-msgstr "Duke pyetur serverin për listën me mekanizmat e suportuar të autentifikimit."
+msgstr ""
+"Duke pyetur serverin për listën me mekanizmat e suportuar të autentifikimit."
 
 #: ../mail/mail.error.xml.h:77
 msgid "Read receipt requested."
@@ -13944,7 +14008,8 @@ msgstr ""
 "nevojë."
 
 #: ../mail/mail.error.xml.h:100
-msgid "This message cannot be sent because you have not specified any Recipients"
+msgid ""
+"This message cannot be sent because you have not specified any Recipients"
 msgstr "Ky mesazh nuk mund të dërgohet pasi nuk keni specifikuar asnjë marrës"
 
 #: ../mail/mail.error.xml.h:101
@@ -14156,7 +14221,7 @@ msgstr "Vazhdon"
 msgid "For Your Information"
 msgstr "Për informacion"
 
-#: ../mail/message-tag-followup.c:78 ../ui/evolution-mail-message.xml.h:41
+#: ../mail/message-tag-followup.c:78 ../ui/evolution-mail-message.xml.h:42
 msgid "Forward"
 msgstr "Vazhdo"
 
@@ -14164,11 +14229,11 @@ msgstr "Vazhdo"
 msgid "No Response Necessary"
 msgstr "Nuk ka nevojë të përgjigjesh"
 
-#: ../mail/message-tag-followup.c:81 ../ui/evolution-mail-message.xml.h:81
+#: ../mail/message-tag-followup.c:81 ../ui/evolution-mail-message.xml.h:82
 msgid "Reply"
 msgstr "Përgjigju"
 
-#: ../mail/message-tag-followup.c:82 ../ui/evolution-mail-message.xml.h:82
+#: ../mail/message-tag-followup.c:82 ../ui/evolution-mail-message.xml.h:83
 msgid "Reply to All"
 msgstr "Përgjigju të gjithëve"
 
@@ -14250,7 +14315,8 @@ msgstr ""
 "Një plugin për të kryer kopje backup dhe për të rikthyer të dhënat dhe "
 "rregullimet e Evolution."
 
-#: ../plugins/backup-restore/org-gnome-backup-restore.eplug.xml.h:2
+#. the path to the shared library
+#: ../plugins/backup-restore/org-gnome-backup-restore.eplug.xml.h:3
 msgid "Backup and restore plugin"
 msgstr "Plugin i backup dhe rikthimit"
 
@@ -14276,8 +14342,10 @@ msgstr "<span weight=\"bold\">Kontakte automatike</span>"
 
 #. Enable BBDB checkbox
 #: ../plugins/bbdb/bbdb.c:426
-msgid "_Automatically create entries in the addressbook when responding to mail"
-msgstr "_Automatikisht të krijohen zërat në rubrikë kur i jipet përgjigje një email-i"
+msgid ""
+"_Automatically create entries in the addressbook when responding to mail"
+msgstr ""
+"_Automatikisht të krijohen zërat në rubrikë kur i jipet përgjigje një email-i"
 
 #: ../plugins/bbdb/bbdb.c:444
 msgid "<span weight=\"bold\">Instant Messaging Contacts</span>"
@@ -14404,7 +14472,8 @@ msgid "Check whether Evolution is the default mailer"
 msgstr "Kontrollo nëse Evolution është dërguesi i prezgjedhur i mesazheve"
 
 #: ../plugins/default-mailer/apps-evolution-mail-prompts-checkdefault.schemas.in.in.h:2
-msgid "Every time Evolution starts, check whether or not it is the default mailer."
+msgid ""
+"Every time Evolution starts, check whether or not it is the default mailer."
 msgstr ""
 "Sa herë që niset Evolution, kontrollon nëse është apo jo dërguesi i "
 "prezgjedhur i mesazheve."
@@ -14697,20 +14766,20 @@ msgstr "Madhësia e kartelës"
 msgid "Exchange Folder Tree"
 msgstr "Degëzimi i kartelës Exchange"
 
-#: ../plugins/exchange-operations/exchange-folder.c:57
-#: ../plugins/exchange-operations/exchange-folder.c:100
-#: ../plugins/exchange-operations/exchange-folder.c:110
+#: ../plugins/exchange-operations/exchange-folder.c:62
+#: ../plugins/exchange-operations/exchange-folder.c:223
+#: ../plugins/exchange-operations/exchange-folder.c:233
 msgid "Unsubscribe Folder..."
 msgstr "Ç'regjistro kartelën..."
 
-#: ../plugins/exchange-operations/exchange-folder.c:337
-#: ../plugins/exchange-operations/exchange-folder.c:397
+#: ../plugins/exchange-operations/exchange-folder.c:460
+#: ../plugins/exchange-operations/exchange-folder.c:520
 #, c-format
 msgid "Really unsubscribe from folder \"%s\"?"
 msgstr "Me të vërtetë ç'regjistrohesh nga kartela \"%s\"?"
 
-#: ../plugins/exchange-operations/exchange-folder.c:349
-#: ../plugins/exchange-operations/exchange-folder.c:409
+#: ../plugins/exchange-operations/exchange-folder.c:472
+#: ../plugins/exchange-operations/exchange-folder.c:532
 #, c-format
 msgid "Unsubscribe from \"%s\""
 msgstr "Ç'regjistrohu nga \"%s\""
@@ -14801,7 +14870,8 @@ msgstr "Regjistro tek kalendari i përdoruesve të tjerë"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:1
 msgid "Cannot change password due to configuration problems."
-msgstr "I pamundur ndryshimi i fjalëkalimit për arsye problemesh në konfigurim."
+msgstr ""
+"I pamundur ndryshimi i fjalëkalimit për arsye problemesh në konfigurim."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:2
 msgid "Cannot display folders."
@@ -14950,11 +15020,13 @@ msgstr "Sigurohu që URL është korrekte dhe riprovo përsëri."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:41
 msgid "Make sure the server name is spelled correctly and try again."
-msgstr "Sigurohu që emri i serverit është shkruar si duhet dhe riprovo përsëri."
+msgstr ""
+"Sigurohu që emri i serverit është shkruar si duhet dhe riprovo përsëri."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:42
 msgid "Make sure the username and password are correct and try again."
-msgstr "Sigurohu që përdoruesi dhe fjalëkalimi janë të saktë dhe riprovo përsëri."
+msgstr ""
+"Sigurohu që përdoruesi dhe fjalëkalimi janë të saktë dhe riprovo përsëri."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:43
 msgid "No Global Catalog server configured for this account."
@@ -15016,7 +15088,8 @@ msgid ""
 msgstr ""
 "Kjo do të thotë që ndoshta serveri juaj kërkon \n"
 "që të specifikoni emrin e domain Windows \n"
-"si pjesë e emrit të përdoruesit tuaj (p.sh. &quot;DOMAIN\\përdoruesi&quot;).\n"
+"si pjesë e emrit të përdoruesit tuaj (p.sh. &quot;DOMAIN"
+"\\përdoruesi&quot;).\n"
 "\n"
 "Ose ndoshta vetëm ke shkruar keq fjalëkalimin."
 
@@ -15050,7 +15123,9 @@ msgstr "Veprim i pasuportuar"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:68
 msgid "You are nearing your quota available for storing mails on this server."
-msgstr "Je duke ju afruar kufirit të quotës në dispozicion për magazinimin e mesazheve në këtë server."
+msgstr ""
+"Je duke ju afruar kufirit të quotës në dispozicion për magazinimin e "
+"mesazheve në këtë server."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:69
 msgid "You cannot make yourself your own delegate"
@@ -15058,7 +15133,8 @@ msgstr "Nuk mund të delegoni vetveten"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:70
 msgid "You have exceeded your quota for storing mails on this server."
-msgstr "Ke tejkaluar kufirit të quotës për magazinimin e mesazheve në këtë server."
+msgstr ""
+"Ke tejkaluar kufirit të quotës për magazinimin e mesazheve në këtë server."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:71
 msgid "You may only configure a single Exchange account."
@@ -15069,8 +15145,8 @@ msgid ""
 "Your current usage is : {0}KB. Try to clear up some space by deleting some "
 "mails."
 msgstr ""
-"Përdorimi aktual është : {0}KB. Liro pak hapsirë duke fshirë disa nga mesazhet "
-"e vjetër."
+"Përdorimi aktual është : {0}KB. Liro pak hapsirë duke fshirë disa nga "
+"mesazhet e vjetër."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:73
 msgid ""
@@ -15085,8 +15161,8 @@ msgid ""
 "Your current usage is : {0}KB. You will not be able to send mails till you "
 "clear up some space by deleting some mails."
 msgstr ""
-"Përdorimi aktual është : {0}KB. Nuk do të jesh në gjendje të dërgosh mesazhe po nuk "
-"lirove pak hapsirë duke fshirë disa mesazhe të vjetër."
+"Përdorimi aktual është : {0}KB. Nuk do të jesh në gjendje të dërgosh mesazhe "
+"po nuk lirove pak hapsirë duke fshirë disa mesazhe të vjetër."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:75
 msgid "Your password has expired."
@@ -15123,7 +15199,9 @@ msgstr "Duke u ç'regjistruar nga kartela \"%s\""
 
 #: ../plugins/folder-unsubscribe/org-gnome-mail-folder-unsubscribe.eplug.xml.h:1
 msgid "Allows unsubscribing of mail folders in the folder tree context menu."
-msgstr "Lejo ç'regjistrimin e kartelave email tek paraqitja e strukturës së kartelave në menu."
+msgstr ""
+"Lejo ç'regjistrimin e kartelave email tek paraqitja e strukturës së "
+"kartelave në menu."
 
 #: ../plugins/folder-unsubscribe/org-gnome-mail-folder-unsubscribe.eplug.xml.h:2
 msgid "Unsubscribe Folders"
@@ -15269,7 +15347,7 @@ msgid "Subscribe to my _notifications"
 msgstr "Regjistrim tek _njoftimet e mi"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:13
-#: ../ui/evolution-mail-message.xml.h:120
+#: ../ui/evolution-mail-message.xml.h:121
 msgid "_Read"
 msgstr "_Lexim"
 
@@ -15605,7 +15683,8 @@ msgstr ""
 #: ../plugins/itip-formatter/itip-view.c:346
 #, c-format
 msgid "<b>%s</b> has published the following meeting information:"
-msgstr "<b>%s</b> ka publikuar informacionet në vazhdim në lidhje me mbledhjen:"
+msgstr ""
+"<b>%s</b> ka publikuar informacionet në vazhdim në lidhje me mbledhjen:"
 
 #: ../plugins/itip-formatter/itip-view.c:351
 #, c-format
@@ -15634,7 +15713,8 @@ msgstr "<b>%s</b> dëshiron t'i shtohet një mbledhjeje ekzistuese:"
 
 #: ../plugins/itip-formatter/itip-view.c:367
 #, c-format
-msgid "<b>%s</b> wishes to receive the latest information for the following meeting:"
+msgid ""
+"<b>%s</b> wishes to receive the latest information for the following meeting:"
 msgstr ""
 "<b>%s</b> dëshiron të marrë informacionet e fundit në lidhje me mbledhjen në "
 "vazhdim:"
@@ -15662,7 +15742,8 @@ msgstr "<b>%s</b> ka propozuar ndryshimet në vazhdim për mbledhjen."
 #: ../plugins/itip-formatter/itip-view.c:383
 #, c-format
 msgid "<b>%s</b> through %s has declined the following meeting changes:"
-msgstr "<b>%s</b> nëpërmjet %s ka shmangur ndryshimet në vazhdim për mbledhjen:"
+msgstr ""
+"<b>%s</b> nëpërmjet %s ka shmangur ndryshimet në vazhdim për mbledhjen:"
 
 #: ../plugins/itip-formatter/itip-view.c:385
 #, c-format
@@ -15731,7 +15812,8 @@ msgstr "<b>%s</b> ka anulluar detyrën e shënuar në vazhdim:"
 #: ../plugins/itip-formatter/itip-view.c:447
 #, c-format
 msgid "<b>%s</b> has proposed the following task assignment changes:"
-msgstr "<b>%s</b> ka propozuar ndryshimet në vazhdim në lidhje me shënimin e detyrës:"
+msgstr ""
+"<b>%s</b> ka propozuar ndryshimet në vazhdim në lidhje me shënimin e detyrës:"
 
 #: ../plugins/itip-formatter/itip-view.c:451
 #, c-format
@@ -15780,16 +15862,19 @@ msgid ""
 "&quot;{0}&quot; has delegated the meeting. Do you want to add the delegate "
 "&quot;{1}&quot; ?"
 msgstr ""
-"&quot;{0}&quot; ka deleguar mbledhjen. Dëshiron të shtosh delegatin "
-"&quot;{1}&quot; ?"
+"&quot;{0}&quot; ka deleguar mbledhjen. Dëshiron të shtosh delegatin &quot;{1}"
+"&quot; ?"
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:3
 msgid "This meeting has been delegated"
 msgstr "Kjo mbledhje është deleguar"
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:4
-msgid "This response is not from a current attendee. Add the sender as an attendee?"
-msgstr "Kjo përgjigje nuk vjen nga një pjesmarrës aktual. Shton dërguesin si pjesmarrës?"
+msgid ""
+"This response is not from a current attendee. Add the sender as an attendee?"
+msgstr ""
+"Kjo përgjigje nuk vjen nga një pjesmarrës aktual. Shton dërguesin si "
+"pjesmarrës?"
 
 #: ../plugins/mail-account-disable/mail-account-disable.c:47
 msgid "Proxy _Logout"
@@ -15822,8 +15907,11 @@ msgid "No store available"
 msgstr "Asnjë magazinë në dispozicion"
 
 #: ../plugins/mail-remote/org-gnome-evolution-mail-remote.eplug.xml.h:1
-msgid "A plugin which implements a CORBA interface for accessing mail data remotely."
-msgstr "Një shtojcë që krijon një interfaqe CORBA për hyrjen tek të dhënat mail në menyrë remote."
+msgid ""
+"A plugin which implements a CORBA interface for accessing mail data remotely."
+msgstr ""
+"Një shtojcë që krijon një interfaqe CORBA për hyrjen tek të dhënat mail në "
+"menyrë remote."
 
 #: ../plugins/mail-remote/org-gnome-evolution-mail-remote.eplug.xml.h:2
 msgid "Mail Remote"
@@ -15834,8 +15922,8 @@ msgid ""
 "A plugin which allows the creation of meetings from the contents of a mail "
 "message."
 msgstr ""
-"Një shtojcë që mundëson krijimin e mbledhjeve nga përmbajtja e një mesazhi "
-"e-mail."
+"Një shtojcë që mundëson krijimin e mbledhjeve nga përmbajtja e një mesazhi e-"
+"mail."
 
 #: ../plugins/mail-to-meeting/org-gnome-mail-to-meeting.eplug.xml.h:2
 msgid "Con_vert to Meeting"
@@ -15976,7 +16064,8 @@ msgstr ""
 msgid ""
 "This message does not contain the header information required for this "
 "action."
-msgstr "Ky mesazh nuk përmban informacione e titullit të nevojshëm për këtë veprim."
+msgstr ""
+"Ky mesazh nuk përmban informacione e titullit të nevojshëm për këtë veprim."
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:17
 msgid "_Edit message"
@@ -15996,7 +16085,8 @@ msgstr "Merr një arkiv nga lista tek e cila bën pjesë ky mesazh"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:4
 msgid "Get information about the usage of the list this message belongs to"
-msgstr "Merr informacione mbi përdorimin e listës tek e cila bën pjesë ky mesazh"
+msgstr ""
+"Merr informacione mbi përdorimin e listës tek e cila bën pjesë ky mesazh"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:8
 msgid "Post a message to the mailing list this message belongs to"
@@ -16087,7 +16177,8 @@ msgstr "Manazhuesi i plugin"
 
 #: ../plugins/plugin-manager/plugin-manager.c:201
 msgid "Note: Some changes will not take effect until restart"
-msgstr "Shënim: disa nga ndryshimet do të kenë efekt mbas rinisjes së programit"
+msgstr ""
+"Shënim: disa nga ndryshimet do të kenë efekt mbas rinisjes së programit"
 
 #: ../plugins/plugin-manager/plugin-manager.c:210
 #: ../plugins/plugin-manager/plugin-manager.c:271
@@ -16101,8 +16192,8 @@ msgid ""
 "\n"
 "This plugin is unsupported demonstration code only.\n"
 msgstr ""
-"Një shtojcë prove që demostron një plugin formatues që ju jep mundësinë e zgjedhjes "
-"së ç'aktivimit të mesazheve HTML.\n"
+"Një shtojcë prove që demostron një plugin formatues që ju jep mundësinë e "
+"zgjedhjes së ç'aktivimit të mesazheve HTML.\n"
 "\n"
 "Kjo shtojcë është vetëm për të kryer prova.\n"
 
@@ -16137,7 +16228,7 @@ msgstr "Afron një mundësi për printimin e mesazhit nga kompozuesi"
 
 #: ../plugins/print-message/org-gnome-print-message.xml.h:1
 #: ../ui/evolution-addressbook.xml.h:17 ../ui/evolution-calendar.xml.h:20
-#: ../ui/evolution-mail-message.xml.h:77 ../ui/evolution-tasks.xml.h:15
+#: ../ui/evolution-mail-message.xml.h:78 ../ui/evolution-tasks.xml.h:15
 msgid "Print Pre_view"
 msgstr "Pamja e _parë e printimit"
 
@@ -16159,9 +16250,12 @@ msgstr "njeh mesazhet për t'u refuzuar duke përdorur spamd."
 
 #: ../plugins/save-attachments/org-gnome-save-attachments.eplug.xml.h:1
 msgid "A plugin for saving all attachments or parts of a message at once."
-msgstr "Një shtojcë për të ruajtur të gjithë të bashkangjiturit ose pjesë të mesazhit njëkohësisht."
+msgstr ""
+"Një shtojcë për të ruajtur të gjithë të bashkangjiturit ose pjesë të "
+"mesazhit njëkohësisht."
 
-#: ../plugins/save-attachments/org-gnome-save-attachments.eplug.xml.h:2
+#. the path to the shared library
+#: ../plugins/save-attachments/org-gnome-save-attachments.eplug.xml.h:3
 msgid "Save attachments"
 msgstr "Ruaj të bashkangjiturit"
 
@@ -16183,7 +16277,6 @@ msgstr "Lloji MIME"
 
 #: ../plugins/save-attachments/save-attachments.c:359
 #: ../ui/evolution-message-composer.xml.h:18
-#: ../ui/evolution-signature-editor.xml.h:6
 msgid "Save"
 msgstr "Ruaj"
 
@@ -16402,7 +16495,8 @@ msgstr "Komponues i provave të Evolution"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:1
 msgid "A GNOME Print description of the current printer settings"
-msgstr "Një përshkrim i llojit «GNOME Print» i rregullimeve aktuale të printerit"
+msgstr ""
+"Një përshkrim i llojit «GNOME Print» i rregullimeve aktuale të printerit"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:2
 msgid "Configuration version"
@@ -16429,7 +16523,8 @@ msgid "Last upgraded configuration version"
 msgstr "Versioni i fundit i përditsuar i konfigurimit"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:8
-msgid "List of paths for the folders to be synchronized to disk for offline usage"
+msgid ""
+"List of paths for the folders to be synchronized to disk for offline usage"
 msgstr ""
 "Lista e pozicioneve të kartelave për t'u sinkronizuar në disk për përdorim "
 "jashtë linje"
@@ -16447,8 +16542,10 @@ msgid "Start in offline mode"
 msgstr "Fillo në modalitetin jashtë linje"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:12
-msgid "The configuration version of Evolution, with major/minor/configuration level"
-msgstr "Versioni i konfigurimit të Evolution, me nivelet major/minor/konfigurim"
+msgid ""
+"The configuration version of Evolution, with major/minor/configuration level"
+msgstr ""
+"Versioni i konfigurimit të Evolution, me nivelet major/minor/konfigurim"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:13
 msgid "The default height for the main window, in pixels."
@@ -16476,9 +16573,9 @@ msgid ""
 "\"toolbar\". If \"toolbar\" is set, the style of the buttons is determined "
 "by the GNOME toolbar setting."
 msgstr ""
-"Stili i pulsantëve të dritares. Vlerat e lejuara janë \"text\", \"icons\", \"both\", "
-"\"toolbar\". Nëse caktohet \"toolbar\", stili i pulsantëve përcaktohet nga rregullimet "
-"e shtyllës së intrumentëve GNOME."
+"Stili i pulsantëve të dritares. Vlerat e lejuara janë \"text\", \"icons\", "
+"\"both\", \"toolbar\". Nëse caktohet \"toolbar\", stili i pulsantëve "
+"përcaktohet nga rregullimet e shtyllës së intrumentëve GNOME."
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:18
 msgid "Toolbar is visible"
@@ -16495,7 +16592,8 @@ msgid "Whether the toolbar should be visible."
 msgstr "Nëse paneli i instrumentëve duhet të jetë i dukshëm."
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:21
-msgid "Whether the warning dialog in development versions of Evolution is skipped."
+msgid ""
+"Whether the warning dialog in development versions of Evolution is skipped."
 msgstr ""
 "Nëse dritarja e dialogut të paralajmërimit tek versioni në zhvillim i "
 "Evolution duhet kapërcyer."
@@ -16631,29 +16729,30 @@ msgstr "Bug buddy nuk mund të vihet në funksionim."
 #. The translator-credits string is for translators to list
 #. * per language credits for translation, displayed in the
 #. * about box
-#: ../shell/e-shell-window-commands.c:508
+#: ../shell/e-shell-window-commands.c:532
 msgid "translator-credits"
 msgstr "Laurent Dhima <laurenti@alblinux.net>"
 
-#: ../shell/e-shell-window-commands.c:522
+#: ../shell/e-shell-window-commands.c:546
 msgid "Groupware Suite"
 msgstr "Suite Groupware"
 
-#: ../shell/e-shell-window-commands.c:750
+#: ../shell/e-shell-window-commands.c:774
 msgid "_Work Online"
 msgstr "_Puno online"
 
-#: ../shell/e-shell-window-commands.c:763 ../ui/evolution.xml.h:47
+#: ../shell/e-shell-window-commands.c:787 ../ui/evolution.xml.h:50
 msgid "_Work Offline"
 msgstr "_Puno Jashtë Linje"
 
-#: ../shell/e-shell-window-commands.c:776
+#: ../shell/e-shell-window-commands.c:800
 msgid "Work Offline"
 msgstr "Puno online"
 
 #: ../shell/e-shell-window.c:343
 msgid "Evolution is currently online.  Click on this button to work offline."
-msgstr "Evolution aktualisht është online.  Kliko tek ky buton për të punuar offline."
+msgstr ""
+"Evolution aktualisht është online.  Kliko tek ky buton për të punuar offline."
 
 #: ../shell/e-shell-window.c:351
 msgid "Evolution is in the process of going offline."
@@ -16661,7 +16760,8 @@ msgstr "Evolution është në procesin e daljes offline."
 
 #: ../shell/e-shell-window.c:358
 msgid "Evolution is currently offline.  Click on this button to work online."
-msgstr "Evolution aktualisht është offline.  Kliko tek ky buton për të punuar online."
+msgstr ""
+"Evolution aktualisht është offline.  Kliko tek ky buton për të punuar online."
 
 #: ../shell/e-shell-window.c:724
 #, c-format
@@ -16852,8 +16952,8 @@ msgid ""
 "Forgetting your passwords will clear all remembered passwords. You will be "
 "reprompted next time they are needed. "
 msgstr ""
-"Harrimi i fjalëkalimeve do të pastrojë të gjithë fjalëkalimet në kujtesë. Do t'ju "
-"kërkohen përsëri kur të ketë nevojë. "
+"Harrimi i fjalëkalimeve do të pastrojë të gjithë fjalëkalimet në kujtesë. Do "
+"t'ju kërkohen përsëri kur të ketë nevojë. "
 
 #: ../shell/shell.error.xml.h:7
 msgid "Insufficient disk space for upgrade."
@@ -16897,10 +16997,10 @@ msgstr ""
 "Versioni paraardhës i evolution magazinonte të dhënat e tij në një pozicion "
 "tjetër.\n"
 "\n"
-"Nëse vendosni t'i fshini këto të dhëna, krejt përmbajtja e directory të &quot;"
-"evolution&quot; do të eleminohet përgjithmonë.  Nëse vendosni t'i mbani të "
-"dhënat, atëhere do të mund të eleminoni manualisht përmbajtjen e &quot;"
-"evolution&quot; sipas dëshirës.\n"
+"Nëse vendosni t'i fshini këto të dhëna, krejt përmbajtja e directory të "
+"&quot;evolution&quot; do të eleminohet përgjithmonë.  Nëse vendosni t'i "
+"mbani të dhënat, atëhere do të mund të eleminoni manualisht përmbajtjen e "
+"&quot;evolution&quot; sipas dëshirës.\n"
 
 #: ../shell/shell.error.xml.h:19
 msgid "Upgrade from previous version failed: {0}"
@@ -17239,7 +17339,8 @@ msgid "You have certificates from these organizations that identify you:"
 msgstr "Keni çertifikata nga këto organizata që ju identifikojnë:"
 
 #: ../smime/gui/smime-ui.glade.h:44
-msgid "You have certificates on file that identify these certificate authorities:"
+msgid ""
+"You have certificates on file that identify these certificate authorities:"
 msgstr "Keni çertifikata në file që identifikojnë këto autoritete:"
 
 #: ../smime/gui/smime-ui.glade.h:45
@@ -17492,7 +17593,8 @@ msgstr "Përshkrimi i të bashkangjiturit."
 
 #: ../tools/evolution-launch-composer.c:328
 msgid "Mark attachment to be shown inline by default."
-msgstr "Shëno si rregullim të prezgjedhur shfaqjen  në linjë të të bashkangjiturit."
+msgstr ""
+"Shëno si rregullim të prezgjedhur shfaqjen  në linjë të të bashkangjiturit."
 
 #: ../tools/evolution-launch-composer.c:329
 msgid "Default subject for the message."
@@ -17592,7 +17694,7 @@ msgid "View the current contact"
 msgstr "Shiko kontaktin aktual"
 
 #: ../ui/evolution-addressbook.xml.h:30 ../ui/evolution-calendar.xml.h:38
-#: ../ui/evolution-mail-list.xml.h:26 ../ui/evolution-tasks.xml.h:19
+#: ../ui/evolution-tasks.xml.h:19
 msgid "_Actions"
 msgstr "_Veprimet"
 
@@ -17656,7 +17758,7 @@ msgstr "Lista"
 msgid "Month"
 msgstr "Muaji"
 
-#: ../ui/evolution-calendar.xml.h:15 ../ui/evolution-mail-message.xml.h:59
+#: ../ui/evolution-calendar.xml.h:15 ../ui/evolution-mail-message.xml.h:60
 msgid "Next"
 msgstr "Vazhdo"
 
@@ -17664,7 +17766,7 @@ msgstr "Vazhdo"
 msgid "Previews the calendar to be printed"
 msgstr "Pamja e parë e kalendarit që do të printohet"
 
-#: ../ui/evolution-calendar.xml.h:18 ../ui/evolution-mail-message.xml.h:75
+#: ../ui/evolution-calendar.xml.h:18 ../ui/evolution-mail-message.xml.h:76
 msgid "Previous"
 msgstr "Paraardhëse"
 
@@ -17784,7 +17886,7 @@ msgstr "Krijo apo ndrysho rregullat për filtrimin e mesazheve të rinj"
 msgid "Empty _Trash"
 msgstr "Zbraz _Koshin"
 
-#: ../ui/evolution-mail-global.xml.h:8 ../ui/evolution-mail-list.xml.h:6
+#: ../ui/evolution-mail-global.xml.h:8 ../ui/evolution-mail-list.xml.h:7
 #: ../ui/evolution-subscribe.xml.h:2
 msgid "F_older"
 msgstr "K_artela"
@@ -17794,20 +17896,18 @@ msgid "Message F_ilters"
 msgstr "F_iltrat e mesazheve"
 
 #: ../ui/evolution-mail-global.xml.h:10
-msgid "Message _List As"
-msgstr "_Lista e mesazheve si"
-
-#: ../ui/evolution-mail-global.xml.h:11
 msgid "Message _Preview"
 msgstr "_Pamja e parë e mesazhit"
 
-#: ../ui/evolution-mail-global.xml.h:12
+#: ../ui/evolution-mail-global.xml.h:11
 msgid "Move the selected folder into another folder"
 msgstr "Lëviz kartelën e zgjedhur nën një kartelë tjetër"
 
+#. Alphabetical by name, yo
 #: ../ui/evolution-mail-global.xml.h:13
 msgid "Permanently remove all deleted messages from all folders"
-msgstr "Elemino përgjithmonë të gjithë mesazhet e fshirë nga të gjitha kartelat"
+msgstr ""
+"Elemino përgjithmonë të gjithë mesazhet e fshirë nga të gjitha kartelat"
 
 #: ../ui/evolution-mail-global.xml.h:14
 msgid "Search F_olders"
@@ -17830,14 +17930,13 @@ msgid "_Move Folder To..."
 msgstr "_Lëviz kartelën tek..."
 
 #: ../ui/evolution-mail-global.xml.h:19
-msgid "_New Search _Folder (FIXME)"
-msgstr "_Kartelë e re kërkimi"
-
-#: ../ui/evolution-mail-global.xml.h:20
 msgid "_New..."
 msgstr "_E re..."
 
-#: ../ui/evolution-mail-global.xml.h:21
+#.
+#. <menuitem name="CreateVFolder" verb="CreateVFolder" _label="_New Search _Folder (FIXME)"/>
+#.
+#: ../ui/evolution-mail-global.xml.h:23
 msgid "_Subscriptions"
 msgstr "_Regjistrimet"
 
@@ -17849,97 +17948,99 @@ msgstr "Ndrysho emrin e kësaj kartele"
 msgid "Change the properties of this folder"
 msgstr "Ndrysho pronësitë e kësaj kartele"
 
-#: ../ui/evolution-mail-list.xml.h:3 ../ui/evolution-mail-message.xml.h:12
+#: ../ui/evolution-mail-list.xml.h:3 ../ui/evolution-mail-message.xml.h:13
 msgid "Copy selected message(s) to the clipboard"
 msgstr "Kopjo mesazhin(et) e zgjedhur tek Shënimet"
 
-#: ../ui/evolution-mail-list.xml.h:4 ../ui/evolution-mail-message.xml.h:23
+#. Alphabetical by name, yo
+#: ../ui/evolution-mail-list.xml.h:5 ../ui/evolution-mail-message.xml.h:24
 msgid "Cut selected message(s) to the clipboard"
 msgstr "Preje mesazhin(et) e zgjedhur tek Shënimet"
 
-#: ../ui/evolution-mail-list.xml.h:5
+#: ../ui/evolution-mail-list.xml.h:6
 msgid "E_xpunge"
 msgstr "_Elemino përgjithmonë"
 
-#: ../ui/evolution-mail-list.xml.h:7
+#: ../ui/evolution-mail-list.xml.h:8
 msgid "Group By _Threads"
 msgstr "Grumbullo sipas _Tematikës"
 
-#: ../ui/evolution-mail-list.xml.h:8
+#: ../ui/evolution-mail-list.xml.h:9
 msgid "Hide S_elected Messages"
 msgstr "Fshih mesazhet e zgj_edhur"
 
-#: ../ui/evolution-mail-list.xml.h:9
+#: ../ui/evolution-mail-list.xml.h:10
 msgid "Hide _Deleted Messages"
 msgstr "Fshih mesazhet e _fshirë"
 
-#: ../ui/evolution-mail-list.xml.h:10
+#: ../ui/evolution-mail-list.xml.h:11
 msgid "Hide _Read Messages"
 msgstr "Fshih mesazhet e _lexuar"
 
-#: ../ui/evolution-mail-list.xml.h:11
-msgid "Hide deleted messages rather than displaying them with a line through them"
+#: ../ui/evolution-mail-list.xml.h:12
+msgid ""
+"Hide deleted messages rather than displaying them with a line through them"
 msgstr "Fshih mesazhet e fshirë në vend që t'i shfaqësh të vizuar"
 
-#: ../ui/evolution-mail-list.xml.h:12
+#: ../ui/evolution-mail-list.xml.h:13
 msgid "Mark Me_ssages as Read"
 msgstr "Shëno me_sazhet si të lexuar"
 
-#: ../ui/evolution-mail-list.xml.h:13 ../ui/evolution-mail-message.xml.h:68
+#: ../ui/evolution-mail-list.xml.h:14 ../ui/evolution-mail-message.xml.h:69
 msgid "Paste message(s) from the clipboard"
 msgstr "Ngjit mesazhin(et) nga shënimet"
 
-#: ../ui/evolution-mail-list.xml.h:14
+#: ../ui/evolution-mail-list.xml.h:15
 msgid "Permanently remove all deleted messages from this folder"
 msgstr "Elemino përgjithmonë të gjithë mesazhet e fshirë nga kjo kartelë"
 
-#: ../ui/evolution-mail-list.xml.h:15
+#: ../ui/evolution-mail-list.xml.h:16
 msgid "Permanently remove this folder"
 msgstr "Elemino përgjithmonë këtë kartelë"
 
-#: ../ui/evolution-mail-list.xml.h:16
+#: ../ui/evolution-mail-list.xml.h:17
 msgid "Select Message _Thread"
 msgstr "Zgjidh _Temën e mesazhit"
 
-#: ../ui/evolution-mail-list.xml.h:17
+#: ../ui/evolution-mail-list.xml.h:18
 msgid "Select _All Messages"
 msgstr "Zgjidh të _gjithë mesazhet"
 
-#: ../ui/evolution-mail-list.xml.h:18
+#: ../ui/evolution-mail-list.xml.h:19
 msgid "Select all and only the messages that are not currently selected"
 msgstr "Zgjidh gjithçka dhe vetëm mesazhet që nuk janë aktualisht të zgjedhur"
 
-#: ../ui/evolution-mail-list.xml.h:19
+#: ../ui/evolution-mail-list.xml.h:20
 msgid "Select all messages in the same thread as the selected message"
 msgstr ""
 "Zgjidh të gjithë mesazhet që bëjnë pjesë në të njëjtin diskutim me mesazhin "
 "e zgjedhur"
 
-#: ../ui/evolution-mail-list.xml.h:20
+#: ../ui/evolution-mail-list.xml.h:21
 msgid "Select all visible messages"
 msgstr "Zgjidh të gjithë mesazhet e dukshëm"
 
-#: ../ui/evolution-mail-list.xml.h:21
+#: ../ui/evolution-mail-list.xml.h:22
 msgid "Sh_ow Hidden Messages"
 msgstr "Sh_faq mesazhet e fshehur"
 
-#: ../ui/evolution-mail-list.xml.h:22
+#: ../ui/evolution-mail-list.xml.h:23
 msgid "Show messages that have been temporarily hidden"
 msgstr "Shfaq mesazhet që ishin fshehur përkohësisht"
 
-#: ../ui/evolution-mail-list.xml.h:23
+#: ../ui/evolution-mail-list.xml.h:24
 msgid "Temporarily hide all messages that have already been read"
 msgstr "Fshih të gjithë mesazhet e lexuar përkohësisht"
 
-#: ../ui/evolution-mail-list.xml.h:24
+#: ../ui/evolution-mail-list.xml.h:25
 msgid "Temporarily hide the selected messages"
 msgstr "Fshih mesazhet e zgjedhur përkohësisht"
 
-#: ../ui/evolution-mail-list.xml.h:25
+#: ../ui/evolution-mail-list.xml.h:26
 msgid "Threaded Message list"
 msgstr "Rreshtim sipas diskutimeve"
 
-#: ../ui/evolution-mail-list.xml.h:28 ../ui/evolution-mail-message.xml.h:112
+#: ../ui/evolution-mail-list.xml.h:28 ../ui/evolution-mail-message.xml.h:113
 #: ../ui/evolution-mail-messagedisplay.xml.h:7
 msgid "_Message"
 msgstr "_Mesazhi"
@@ -17952,409 +18053,415 @@ msgstr "Sh_to dërguesin në rubrikë"
 msgid "A_pply Filters"
 msgstr "A_pliko filtrat"
 
-#: ../ui/evolution-mail-message.xml.h:3
+#. Alphabetical by name, yo
+#: ../ui/evolution-mail-message.xml.h:4
 msgid "Add Sender to Address Book"
 msgstr "Shtoje dërguesin në rubrikë"
 
-#: ../ui/evolution-mail-message.xml.h:4
+#: ../ui/evolution-mail-message.xml.h:5
 msgid "All Message _Headers"
 msgstr "_Headers e të gjithë mesazheve"
 
-#: ../ui/evolution-mail-message.xml.h:5
+#: ../ui/evolution-mail-message.xml.h:6
 msgid "Apply filter rules to the selected messages"
 msgstr "Aplikoi rregullat e filtrit mesazheve të zgjedhur"
 
-#: ../ui/evolution-mail-message.xml.h:6
+#: ../ui/evolution-mail-message.xml.h:7
 msgid "Check for _Junk"
 msgstr "Kontrollo për _Refuzime"
 
-#: ../ui/evolution-mail-message.xml.h:7
+#: ../ui/evolution-mail-message.xml.h:8
 msgid "Compose _New Message"
 msgstr "Harto një mesazh të _ri"
 
-#: ../ui/evolution-mail-message.xml.h:8
+#: ../ui/evolution-mail-message.xml.h:9
 msgid "Compose a reply to all of the recipients of the selected message"
 msgstr "Shkruaj një përgjigje për të gjithë marrësit e mesazhit të zgjedhur"
 
-#: ../ui/evolution-mail-message.xml.h:9
+#: ../ui/evolution-mail-message.xml.h:10
 msgid "Compose a reply to the mailing list of the selected message"
 msgstr "Shkruaj një përgjigje për tek mailing list e mesazhit të zgjedhur"
 
-#: ../ui/evolution-mail-message.xml.h:10
+#: ../ui/evolution-mail-message.xml.h:11
 msgid "Compose a reply to the sender of the selected message"
 msgstr "Shkruaj një përgjigje dërguesit të mesazhit të zgjedhur"
 
-#: ../ui/evolution-mail-message.xml.h:13
+#: ../ui/evolution-mail-message.xml.h:14
 msgid "Copy selected messages to another folder"
 msgstr "Kopjo mesazhet e zgjedhur në një kartelë tjetër"
 
-#: ../ui/evolution-mail-message.xml.h:14
+#: ../ui/evolution-mail-message.xml.h:15
 msgid "Create R_ule"
 msgstr "Krijo rreg_ull"
 
-#: ../ui/evolution-mail-message.xml.h:15
+#: ../ui/evolution-mail-message.xml.h:16
 msgid "Create a Search Folder for these recipients"
 msgstr "Krijo një kartelë kërkimi për këta marrës"
 
-#: ../ui/evolution-mail-message.xml.h:16
+#: ../ui/evolution-mail-message.xml.h:17
 msgid "Create a Search Folder for this mailing list"
 msgstr "Krijo një kartelë kërkimi për këtë mailing list"
 
-#: ../ui/evolution-mail-message.xml.h:17
+#: ../ui/evolution-mail-message.xml.h:18
 msgid "Create a Search Folder for this sender"
 msgstr "Krijo një kartelë kërkimi për këtë dërgues"
 
-#: ../ui/evolution-mail-message.xml.h:18
+#: ../ui/evolution-mail-message.xml.h:19
 msgid "Create a Search Folder for this subject"
 msgstr "Krijo një kartelë kërkimi për këtë subjekt"
 
-#: ../ui/evolution-mail-message.xml.h:19
+#: ../ui/evolution-mail-message.xml.h:20
 msgid "Create a rule to filter messages from this sender"
 msgstr "Krijo një rregull për të filtruar mesazhet nga ky dërgues"
 
-#: ../ui/evolution-mail-message.xml.h:20
+#: ../ui/evolution-mail-message.xml.h:21
 msgid "Create a rule to filter messages to these recipients"
 msgstr "Krijo një rregull për të filtruar mesazhet për tek këta marrës"
 
-#: ../ui/evolution-mail-message.xml.h:21
+#: ../ui/evolution-mail-message.xml.h:22
 msgid "Create a rule to filter messages to this mailing list"
 msgstr "Krijo një rregull për të filtruar mesazhet për tek kjo mailing list"
 
-#: ../ui/evolution-mail-message.xml.h:22
+#: ../ui/evolution-mail-message.xml.h:23
 msgid "Create a rule to filter messages with this subject"
 msgstr "Krijo një rregull për të filtruar mesazhet me këtë subjekt"
 
-#: ../ui/evolution-mail-message.xml.h:24
+#: ../ui/evolution-mail-message.xml.h:25
 msgid "Decrease the text size"
 msgstr "Zvogëlo madhësinë e tekstit"
 
-#: ../ui/evolution-mail-message.xml.h:26
+#: ../ui/evolution-mail-message.xml.h:27
 msgid "Display the next important message"
 msgstr "Shfaq mesazhin e rendësishëm në vazhdim"
 
-#: ../ui/evolution-mail-message.xml.h:27
+#: ../ui/evolution-mail-message.xml.h:28
 msgid "Display the next message"
 msgstr "Shfaq mesazhin në vazhdim"
 
-#: ../ui/evolution-mail-message.xml.h:28
+#: ../ui/evolution-mail-message.xml.h:29
 msgid "Display the next unread message"
 msgstr "Shfaq mesazhin e palexuar në vazhdim"
 
-#: ../ui/evolution-mail-message.xml.h:29
+#: ../ui/evolution-mail-message.xml.h:30
 msgid "Display the next unread thread"
 msgstr "Shfaq diskutimin e palexuar në vazhdim"
 
-#: ../ui/evolution-mail-message.xml.h:30
+#: ../ui/evolution-mail-message.xml.h:31
 msgid "Display the previous important message"
 msgstr "Shfaq mesazhin paraardhës të rendësishëm"
 
-#: ../ui/evolution-mail-message.xml.h:31
+#: ../ui/evolution-mail-message.xml.h:32
 msgid "Display the previous message"
 msgstr "Shfaq mesazhin paraardhës"
 
-#: ../ui/evolution-mail-message.xml.h:32
+#: ../ui/evolution-mail-message.xml.h:33
 msgid "Display the previous unread message"
 msgstr "Shfaq mesazhin paraardhës të palexuar"
 
-#: ../ui/evolution-mail-message.xml.h:33
+#: ../ui/evolution-mail-message.xml.h:34
 msgid "Filter on Mailing _List..."
 msgstr "Filtro në Mailing _List..."
 
-#: ../ui/evolution-mail-message.xml.h:34
+#: ../ui/evolution-mail-message.xml.h:35
 msgid "Filter on Se_nder..."
 msgstr "Filtro në Dë_rguesi..."
 
-#: ../ui/evolution-mail-message.xml.h:35
+#: ../ui/evolution-mail-message.xml.h:36
 msgid "Filter on _Recipients..."
 msgstr "Filtro në _Marrësit..."
 
-#: ../ui/evolution-mail-message.xml.h:36
+#: ../ui/evolution-mail-message.xml.h:37
 msgid "Filter on _Subject..."
 msgstr "Filtro në _Subjekt..."
 
-#: ../ui/evolution-mail-message.xml.h:37
+#: ../ui/evolution-mail-message.xml.h:38
 msgid "Filter the selected messages for junk status"
 msgstr "Kontrollo nëse duhen flakur mesazhet e zgjedhur"
 
-#: ../ui/evolution-mail-message.xml.h:38
+#: ../ui/evolution-mail-message.xml.h:39
 msgid "Flag selected message(s) for follow-up"
 msgstr "Shëno mesazhin(et) e zgjedhur si vazhdim"
 
-#: ../ui/evolution-mail-message.xml.h:39
+#: ../ui/evolution-mail-message.xml.h:40
 msgid "Follow _Up..."
 msgstr "_Vazhdon..."
 
-#: ../ui/evolution-mail-message.xml.h:40
+#: ../ui/evolution-mail-message.xml.h:41
 msgid "Force images in HTML mail to be loaded"
 msgstr "Detyro ngarkimin e figurave në mesazhet HTML"
 
-#: ../ui/evolution-mail-message.xml.h:42
+#: ../ui/evolution-mail-message.xml.h:43
 msgid "Forward the selected message in the body of a new message"
 msgstr "Përcille mesazhin e zgjedhur si trup i një mesazhi të ri"
 
-#: ../ui/evolution-mail-message.xml.h:43
+#: ../ui/evolution-mail-message.xml.h:44
 msgid "Forward the selected message quoted like a reply"
 msgstr "Përcille mesazhin e zgjedhur duke e cituar si përgjigje"
 
-#: ../ui/evolution-mail-message.xml.h:44
+#: ../ui/evolution-mail-message.xml.h:45
 msgid "Forward the selected message to someone"
 msgstr "Përcillja dikujt mesazhin e zgjedhur"
 
-#: ../ui/evolution-mail-message.xml.h:45
+#: ../ui/evolution-mail-message.xml.h:46
 msgid "Forward the selected message to someone as an attachment"
 msgstr "Përcillja dikujt mesazhin e zgjedhur si i bashkangjitur"
 
-#: ../ui/evolution-mail-message.xml.h:46
+#: ../ui/evolution-mail-message.xml.h:47
 msgid "Increase the text size"
 msgstr "Rrit madhësinë e tekstit"
 
-#: ../ui/evolution-mail-message.xml.h:48
+#: ../ui/evolution-mail-message.xml.h:49
 msgid "Mar_k as"
 msgstr "Shë_no si"
 
-#: ../ui/evolution-mail-message.xml.h:49
+#: ../ui/evolution-mail-message.xml.h:50
 msgid "Mark the selected message(s) as having been read"
 msgstr "Shëno mesazhin(et) e zgjedhur si të lexuar"
 
-#: ../ui/evolution-mail-message.xml.h:50
+#: ../ui/evolution-mail-message.xml.h:51
 msgid "Mark the selected message(s) as important"
 msgstr "Shëno mesazhin(et) e zgjedhur si të rendësishëm"
 
-#: ../ui/evolution-mail-message.xml.h:51
+#: ../ui/evolution-mail-message.xml.h:52
 msgid "Mark the selected message(s) as junk"
 msgstr "Shëno mesazhin(et) e zgjedhur si për tu hedhur në kosh"
 
-#: ../ui/evolution-mail-message.xml.h:52
+#: ../ui/evolution-mail-message.xml.h:53
 msgid "Mark the selected message(s) as not being junk"
 msgstr "Shëno mesazhin(et) e zgjedhur si jo për tu hedhur në kosh"
 
-#: ../ui/evolution-mail-message.xml.h:53
+#: ../ui/evolution-mail-message.xml.h:54
 msgid "Mark the selected message(s) as not having been read"
 msgstr "Shëno mesazhin(et) e zgjedhur si të palexuar"
 
-#: ../ui/evolution-mail-message.xml.h:54
+#: ../ui/evolution-mail-message.xml.h:55
 msgid "Mark the selected message(s) as unimportant"
 msgstr "Shëno mesazhin(et) e zgjedhur si të parendësishëm"
 
-#: ../ui/evolution-mail-message.xml.h:55
+#: ../ui/evolution-mail-message.xml.h:56
 msgid "Mark the selected messages for deletion"
 msgstr "Shëno mesazhet e zgjedhur për t'i eleminuar"
 
-#: ../ui/evolution-mail-message.xml.h:56
+#: ../ui/evolution-mail-message.xml.h:57
 msgid "Message Source"
 msgstr "Burimi i mesazhit"
 
-#: ../ui/evolution-mail-message.xml.h:57
+#: ../ui/evolution-mail-message.xml.h:58
 msgid "Move"
 msgstr "Lëvize"
 
-#: ../ui/evolution-mail-message.xml.h:58
+#: ../ui/evolution-mail-message.xml.h:59
 msgid "Move selected message(s) to another folder"
 msgstr "Lëviz mesazhin(et) e zgjedhur në një kartelë tjetër"
 
-#: ../ui/evolution-mail-message.xml.h:60
+#: ../ui/evolution-mail-message.xml.h:61
 msgid "Next _Important Message"
 msgstr "Mesazhi i _rendësishëm në vazhdim"
 
-#: ../ui/evolution-mail-message.xml.h:61
+#: ../ui/evolution-mail-message.xml.h:62
 msgid "Next _Thread"
 msgstr "_Diskutimi në vazhdim"
 
-#: ../ui/evolution-mail-message.xml.h:62
+#: ../ui/evolution-mail-message.xml.h:63
 msgid "Next _Unread Message"
 msgstr "Mesazhi në vazhdim i _Palexuar"
 
-#: ../ui/evolution-mail-message.xml.h:63
+#: ../ui/evolution-mail-message.xml.h:64
 msgid "Not Junk"
 msgstr "Jo për t'u flakur"
 
-#: ../ui/evolution-mail-message.xml.h:64
+#: ../ui/evolution-mail-message.xml.h:65
 msgid "Open a window for composing a mail message"
 msgstr "Hap një dritare për të hartuar një mesazh"
 
-#: ../ui/evolution-mail-message.xml.h:65
+#: ../ui/evolution-mail-message.xml.h:66
 msgid "Open the selected message in a new window"
 msgstr "Hape mesazhin e zgjedhur në një dritare të re"
 
-#: ../ui/evolution-mail-message.xml.h:66
+#: ../ui/evolution-mail-message.xml.h:67
 msgid "Open the selected message in the composer for editing"
 msgstr "Hape mesazhin e zgjedhur në një dritare për t'a ndryshuar"
 
-#: ../ui/evolution-mail-message.xml.h:67
+#: ../ui/evolution-mail-message.xml.h:68
 msgid "P_revious Unread Message"
 msgstr "Mesazhi pa_raardhës i palexuar"
 
-#: ../ui/evolution-mail-message.xml.h:69
+#: ../ui/evolution-mail-message.xml.h:70
 msgid "Pos_t New Message to Folder"
 msgstr "Pos_to një mesazh të ri tek kartela"
 
-#: ../ui/evolution-mail-message.xml.h:70
+#: ../ui/evolution-mail-message.xml.h:71
 msgid "Post a Repl_y"
 msgstr "Dërgo një Përgji_gje"
 
-#: ../ui/evolution-mail-message.xml.h:71
+#: ../ui/evolution-mail-message.xml.h:72
 msgid "Post a message to a Public folder"
 msgstr "Posto një mesazh tek një kartelë publike"
 
-#: ../ui/evolution-mail-message.xml.h:72
+#: ../ui/evolution-mail-message.xml.h:73
 msgid "Post a reply to a message in a Public folder"
 msgstr "Përgjigju mesazhit në një kartelë publike"
 
-#: ../ui/evolution-mail-message.xml.h:73
+#: ../ui/evolution-mail-message.xml.h:74
 msgid "Pr_evious Important Message"
 msgstr "Mesazhi par_aardhës i rendësishëm"
 
-#: ../ui/evolution-mail-message.xml.h:74
+#: ../ui/evolution-mail-message.xml.h:75
 msgid "Preview the message to be printed"
 msgstr "Shiko se si do të printohet mesazhi"
 
-#: ../ui/evolution-mail-message.xml.h:78
+#: ../ui/evolution-mail-message.xml.h:79
 msgid "Print this message"
 msgstr "Printo këtë mesazh"
 
-#: ../ui/evolution-mail-message.xml.h:79
+#: ../ui/evolution-mail-message.xml.h:80
 msgid "Re_direct"
 msgstr "Ri_drejto"
 
-#: ../ui/evolution-mail-message.xml.h:80
+#: ../ui/evolution-mail-message.xml.h:81
 msgid "Redirect (bounce) the selected message to someone"
 msgstr "Ridrejtoja (bounce) mesazhin e zgjedhur dikujt"
 
-#: ../ui/evolution-mail-message.xml.h:84
+#: ../ui/evolution-mail-message.xml.h:85
 msgid "Reset the text to its original size"
 msgstr "Rikthe tekstin në madhësine e tij orgjinale"
 
-#: ../ui/evolution-mail-message.xml.h:85
+#: ../ui/evolution-mail-message.xml.h:86
 msgid "Save the message as a text file"
 msgstr "Ruaj mesazhin si file teksti"
 
-#: ../ui/evolution-mail-message.xml.h:86
+#: ../ui/evolution-mail-message.xml.h:87
 msgid "Search Folder from Mailing _List..."
 msgstr "Kartelë kërkimi nga Mailing _List..."
 
-#: ../ui/evolution-mail-message.xml.h:87
+#: ../ui/evolution-mail-message.xml.h:88
 msgid "Search Folder from Recipients..."
 msgstr "Kartelë kërkimi nga marrësit..."
 
-#: ../ui/evolution-mail-message.xml.h:88
+#: ../ui/evolution-mail-message.xml.h:89
 msgid "Search Folder from S_ubject..."
 msgstr "Kartelë kërkimi nga S_ubjekti..."
 
-#: ../ui/evolution-mail-message.xml.h:89
+#: ../ui/evolution-mail-message.xml.h:90
 msgid "Search Folder from Sen_der..."
 msgstr "Kartelë kërkimi nga dër_guesi..."
 
-#: ../ui/evolution-mail-message.xml.h:90
+#: ../ui/evolution-mail-message.xml.h:91
 msgid "Search for text in the body of the displayed message"
 msgstr "Kryej një kërkim në trupin e mesazhit të shfaqur"
 
-#: ../ui/evolution-mail-message.xml.h:91
+#: ../ui/evolution-mail-message.xml.h:92
 msgid "Select _All Text"
 msgstr "Zgjith të _gjithë tekstin"
 
-#: ../ui/evolution-mail-message.xml.h:92
+#: ../ui/evolution-mail-message.xml.h:93
 msgid "Select all the text in a message"
 msgstr "Zgjidh të gjithë tekstin e një mesazhi"
 
-#: ../ui/evolution-mail-message.xml.h:93
+#: ../ui/evolution-mail-message.xml.h:94
 msgid "Set up the page settings for your current printer"
 msgstr "Përcakto rregullimet e faqes për printerin tuaj aktual"
 
-#: ../ui/evolution-mail-message.xml.h:94
+#: ../ui/evolution-mail-message.xml.h:95
 msgid "Show a blinking cursor in the body of displayed messages"
 msgstr "Shfaq një kursor pulsues në trupin e mesazheve"
 
-#: ../ui/evolution-mail-message.xml.h:95
+#: ../ui/evolution-mail-message.xml.h:96
 msgid "Show message in the normal style"
 msgstr "Paraqit mesazhin në stil normal"
 
-#: ../ui/evolution-mail-message.xml.h:96
+#: ../ui/evolution-mail-message.xml.h:97
 msgid "Show message with all email headers"
 msgstr "Shfaq mesazhin me të gjithë emrat e email-it"
 
-#: ../ui/evolution-mail-message.xml.h:97
+#: ../ui/evolution-mail-message.xml.h:98
 msgid "Show the raw email source of the message"
 msgstr "Shfaq buruesin e papërpunuar të mesazhit"
 
-#: ../ui/evolution-mail-message.xml.h:98
+#: ../ui/evolution-mail-message.xml.h:99
 msgid "Un-delete the selected messages"
 msgstr "Anullo fshirjen e mesazheve të zgjedhur"
 
-#: ../ui/evolution-mail-message.xml.h:99
+#: ../ui/evolution-mail-message.xml.h:100
 msgid "Uni_mportant"
 msgstr "Par_endësi"
 
-#: ../ui/evolution-mail-message.xml.h:100
+#: ../ui/evolution-mail-message.xml.h:101
 msgid "Zoom _Out"
 msgstr "Zv_ogëlo"
 
-#: ../ui/evolution-mail-message.xml.h:101
+#: ../ui/evolution-mail-message.xml.h:102
 msgid "_Caret Mode"
 msgstr "Modalitet paraqitje _kursori"
 
-#: ../ui/evolution-mail-message.xml.h:104
+#: ../ui/evolution-mail-message.xml.h:105
 msgid "_Delete Message"
 msgstr "_Fshi mesazhin"
 
-#: ../ui/evolution-mail-message.xml.h:106
+#: ../ui/evolution-mail-message.xml.h:107
 msgid "_Find in Message..."
 msgstr "_Gjej në mesazh..."
 
-#: ../ui/evolution-mail-message.xml.h:108
+#: ../ui/evolution-mail-message.xml.h:109
 msgid "_Go To"
 msgstr "_Shko Tek"
 
-#: ../ui/evolution-mail-message.xml.h:109
+#: ../ui/evolution-mail-message.xml.h:110
 msgid "_Important"
 msgstr "_Me rendësi"
 
-#: ../ui/evolution-mail-message.xml.h:110
+#: ../ui/evolution-mail-message.xml.h:111
 msgid "_Junk"
 msgstr "_Refuzo"
 
-#: ../ui/evolution-mail-message.xml.h:111
+#: ../ui/evolution-mail-message.xml.h:112
 msgid "_Load Images"
 msgstr "_Ngarko figurat"
 
-#: ../ui/evolution-mail-message.xml.h:114
+#: ../ui/evolution-mail-message.xml.h:115
 msgid "_Next Message"
 msgstr "Mesazhi në _Vazhdim"
 
-#: ../ui/evolution-mail-message.xml.h:115
+#: ../ui/evolution-mail-message.xml.h:116
 msgid "_Normal Size"
 msgstr "Madhësi _Normale"
 
-#: ../ui/evolution-mail-message.xml.h:116
+#: ../ui/evolution-mail-message.xml.h:117
 msgid "_Not Junk"
 msgstr "_Mos refuzo"
 
-#: ../ui/evolution-mail-message.xml.h:117
+#: ../ui/evolution-mail-message.xml.h:118
 msgid "_Open in New Window"
 msgstr "_Hap në një dritare të re"
 
-#: ../ui/evolution-mail-message.xml.h:118
+#: ../ui/evolution-mail-message.xml.h:119
 msgid "_Previous Message"
 msgstr "Mesazhi _Paraardhës"
 
-#: ../ui/evolution-mail-message.xml.h:122
+#: ../ui/evolution-mail-message.xml.h:123
 msgid "_Save Message..."
 msgstr "_Ruaj mesazhin..."
 
-#: ../ui/evolution-mail-message.xml.h:123
+#: ../ui/evolution-mail-message.xml.h:124
 msgid "_Undelete Message"
 msgstr "Ç'ele_mino mesazhin"
 
-#: ../ui/evolution-mail-message.xml.h:124
+#: ../ui/evolution-mail-message.xml.h:125
 msgid "_Unread"
 msgstr "_Palexuar"
 
-#: ../ui/evolution-mail-message.xml.h:125
+#: ../ui/evolution-mail-message.xml.h:126
 msgid "_Zoom In"
 msgstr "_Zmadho"
 
+#.
+#. <cmd name="FileSave" _label="Save"
+#. _tip="Save the current file" pixtype="stock" pixname="Save"
+#. accel="*Ctrl*s"/>
+#.
 #: ../ui/evolution-mail-messagedisplay.xml.h:1
 #: ../ui/evolution-message-composer.xml.h:4
-#: ../ui/evolution-signature-editor.xml.h:2
+#: ../ui/evolution-signature-editor.xml.h:7
 msgid "Close"
 msgstr "Mbyll"
 
@@ -18362,7 +18469,7 @@ msgstr "Mbyll"
 msgid "Close this window"
 msgstr "Mbyll këtë dritare"
 
-#: ../ui/evolution-mail-messagedisplay.xml.h:3 ../ui/evolution.xml.h:17
+#: ../ui/evolution-mail-messagedisplay.xml.h:3 ../ui/evolution.xml.h:16
 msgid "Main toolbar"
 msgstr "Paneli qendror i instrumentëve"
 
@@ -18373,8 +18480,8 @@ msgstr "_Mbyll"
 
 #: ../ui/evolution-mail-messagedisplay.xml.h:6
 #: ../ui/evolution-message-composer.xml.h:45
-#: ../ui/evolution-signature-editor.xml.h:13
-#: ../ui/evolution-subscribe.xml.h:11 ../ui/evolution.xml.h:33
+#: ../ui/evolution-signature-editor.xml.h:24
+#: ../ui/evolution-subscribe.xml.h:11 ../ui/evolution.xml.h:36
 msgid "_File"
 msgstr "_File"
 
@@ -18390,8 +18497,13 @@ msgstr "Bashkangjit një file"
 msgid "Check to get delivery notification when your message is read"
 msgstr "Zgjidhe për të marrë ricevutë kur mesazhi yt të jetë lexuar"
 
+#.
+#. <cmd name="FileSave" _label="Save"
+#. _tip="Save the current file" pixtype="stock" pixname="Save"
+#. accel="*Ctrl*s"/>
+#.
 #: ../ui/evolution-message-composer.xml.h:5
-#: ../ui/evolution-signature-editor.xml.h:3
+#: ../ui/evolution-signature-editor.xml.h:13
 msgid "Close the current file"
 msgstr "Mbylle file aktual"
 
@@ -18408,7 +18520,7 @@ msgid "Encrypt this message with your S/MIME Encryption Certificate"
 msgstr "Kripto këtë mesazh me çertifikatën tuaj të kriptimit S/MIME"
 
 #: ../ui/evolution-message-composer.xml.h:9
-#: ../ui/evolution-signature-editor.xml.h:4
+#: ../ui/evolution-signature-editor.xml.h:14
 msgid "For_mat"
 msgstr "For_mati"
 
@@ -18465,7 +18577,6 @@ msgid "Save in folder..."
 msgstr "Ruaje tek kartela..."
 
 #: ../ui/evolution-message-composer.xml.h:25
-#: ../ui/evolution-signature-editor.xml.h:9
 msgid "Save the current file"
 msgstr "Ruaj file aktual"
 
@@ -18478,7 +18589,7 @@ msgid "Save the message in a specified folder"
 msgstr "Ruaje mesazhin në një kartelë të caktuar"
 
 #: ../ui/evolution-message-composer.xml.h:29
-#: ../ui/evolution-signature-editor.xml.h:11
+#: ../ui/evolution-signature-editor.xml.h:22
 msgid "Send the mail in HTML format"
 msgstr "Dërgoje postën në formatin HTML"
 
@@ -18539,7 +18650,7 @@ msgid "_From Field"
 msgstr "Fusha _Nga"
 
 #: ../ui/evolution-message-composer.xml.h:47
-#: ../ui/evolution-signature-editor.xml.h:14
+#: ../ui/evolution-signature-editor.xml.h:25
 msgid "_Insert"
 msgstr "_Ndërfut"
 
@@ -18567,19 +18678,22 @@ msgstr "Fusha _Për"
 msgid "C_lose"
 msgstr "M_byll"
 
-#: ../ui/evolution-signature-editor.xml.h:5
+#: ../ui/evolution-signature-editor.xml.h:15
 msgid "H_TML"
 msgstr "H_TML"
 
-#: ../ui/evolution-signature-editor.xml.h:7
+#: ../ui/evolution-signature-editor.xml.h:16
 msgid "Save and Close"
 msgstr "Ruaje dhe Mbylle"
 
-#: ../ui/evolution-signature-editor.xml.h:8
+#.
+#. <menuitem name="FileSave" verb="" _label="_Save"/>
+#.
+#: ../ui/evolution-signature-editor.xml.h:20
 msgid "Save and _Close"
 msgstr "Ruaje dhe _Mbylle"
 
-#: ../ui/evolution-signature-editor.xml.h:10
+#: ../ui/evolution-signature-editor.xml.h:21
 msgid "Save the current file and close the window"
 msgstr "Ruaj file aktual dhe mbyll dritaren"
 
@@ -18690,134 +18804,135 @@ msgid "Display window buttons with text only"
 msgstr "Shfaq pulsantët e dritares vetëm me tekst"
 
 #: ../ui/evolution.xml.h:10
-msgid "Evolution _FAQ"
-msgstr "_FAQ të Evolution"
-
-#: ../ui/evolution.xml.h:11
 msgid "Exit the program"
 msgstr "Mbyll programin"
 
-#: ../ui/evolution.xml.h:12
+#: ../ui/evolution.xml.h:11
 msgid "Forget _Passwords"
 msgstr "Harro _Fjalëkalimet"
 
-#: ../ui/evolution.xml.h:13
+#: ../ui/evolution.xml.h:12
 msgid "Forget remembered passwords so you will be prompted for them again"
-msgstr "Harro fjalëkalimet në kujtesë në menyrë që t'ju kërkohen përsëri të rejat"
+msgstr ""
+"Harro fjalëkalimet në kujtesë në menyrë që t'ju kërkohen përsëri të rejat"
 
-#: ../ui/evolution.xml.h:14
+#: ../ui/evolution.xml.h:13
 msgid "Hide window buttons"
 msgstr "Fshih pulsantët e dritares"
 
-#: ../ui/evolution.xml.h:15
+#: ../ui/evolution.xml.h:14
 msgid "Icons _and text"
 msgstr "Ikona _dhe tekst"
 
-#: ../ui/evolution.xml.h:16
+#: ../ui/evolution.xml.h:15
 msgid "Import data from other programs"
 msgstr "Importo të dhëna nga programe të tjerë"
 
-#: ../ui/evolution.xml.h:18
+#: ../ui/evolution.xml.h:17
 msgid "New _Window"
 msgstr "_Dritare e Re"
 
-#: ../ui/evolution.xml.h:19
+#: ../ui/evolution.xml.h:18
 msgid "Prefere_nces"
 msgstr "Preferi_met"
 
-#: ../ui/evolution.xml.h:20
+#: ../ui/evolution.xml.h:19
 msgid "Send / Receive"
 msgstr "Dërgo / Merr"
 
-#: ../ui/evolution.xml.h:21
+#: ../ui/evolution.xml.h:20
 msgid "Send queued items and retrieve new items"
 msgstr "Dërgo elementët në pritje dhe tërhiq elementët e rinj"
 
-#: ../ui/evolution.xml.h:22
+#: ../ui/evolution.xml.h:21
 msgid "Set up Pilot configuration"
 msgstr "Vendos konfigurimin e Pilot-it"
 
-#: ../ui/evolution.xml.h:23
+#: ../ui/evolution.xml.h:22
 msgid "Show information about Evolution"
 msgstr "Shfaq informacionet në lidhje me Evolution"
 
-#: ../ui/evolution.xml.h:24
+#: ../ui/evolution.xml.h:23
 msgid "Submit Bug Report"
 msgstr "Dërgo një Raport Difekti"
 
-#: ../ui/evolution.xml.h:25
+#. <menuitem name="HelpFAQ" verb=""
+#. _label="Evolution _FAQ"/>
+#.
+#. <separator/>
+#: ../ui/evolution.xml.h:28
 msgid "Submit _Bug Report"
 msgstr "Dërgo një Raport _Difekti"
 
-#: ../ui/evolution.xml.h:26
+#: ../ui/evolution.xml.h:29
 msgid "Submit a bug report using Bug Buddy"
 msgstr "Njofto një mosfunksionim duke përdorur Bug Buddy"
 
-#: ../ui/evolution.xml.h:27
+#: ../ui/evolution.xml.h:30
 msgid "Toggle whether we are working offline."
 msgstr "Ndrysho menyrën e funksionimit (lidhur apo shkëputur)."
 
-#: ../ui/evolution.xml.h:28
+#: ../ui/evolution.xml.h:31
 msgid "Tool_bar"
 msgstr "Paneli i _instrumentëve"
 
-#: ../ui/evolution.xml.h:29
+#: ../ui/evolution.xml.h:32
 msgid "Tool_bar style"
 msgstr "Stili i panelit të _instrumentëve"
 
-#: ../ui/evolution.xml.h:30
+#: ../ui/evolution.xml.h:33
 msgid "_About Evolution..."
 msgstr "_Informacione mbi Evolution..."
 
-#: ../ui/evolution.xml.h:31
+#: ../ui/evolution.xml.h:34
 msgid "_Close Window"
 msgstr "_Mbyll dritaren"
 
-#: ../ui/evolution.xml.h:34
+#: ../ui/evolution.xml.h:37
 msgid "_Help"
 msgstr "_Ndihmë"
 
-#: ../ui/evolution.xml.h:35
+#: ../ui/evolution.xml.h:38
 msgid "_Hide buttons"
 msgstr "_Fshih pulsantët"
 
-#: ../ui/evolution.xml.h:36
+#: ../ui/evolution.xml.h:39
 msgid "_Icons only"
 msgstr "Vetëm _Ikona"
 
-#: ../ui/evolution.xml.h:37
+#: ../ui/evolution.xml.h:40
 msgid "_Import..."
 msgstr "_Importim..."
 
-#: ../ui/evolution.xml.h:38
+#: ../ui/evolution.xml.h:41
 msgid "_New"
 msgstr "_E re"
 
-#: ../ui/evolution.xml.h:39
+#: ../ui/evolution.xml.h:42
 msgid "_Quick Reference"
 msgstr "Preferimet e _shpejta"
 
-#: ../ui/evolution.xml.h:40
+#: ../ui/evolution.xml.h:43
 msgid "_Quit"
 msgstr "_Dalja"
 
-#: ../ui/evolution.xml.h:41
+#: ../ui/evolution.xml.h:44
 msgid "_Send / Receive"
 msgstr "_Dërgo / Merr"
 
-#: ../ui/evolution.xml.h:42
+#: ../ui/evolution.xml.h:45
 msgid "_Switcher Appearance"
 msgstr "Paraqitja e _ndryshuesit"
 
-#: ../ui/evolution.xml.h:43
+#: ../ui/evolution.xml.h:46
 msgid "_Synchronization Options..."
 msgstr "Opcionet e _sinkronizimit..."
 
-#: ../ui/evolution.xml.h:44
+#: ../ui/evolution.xml.h:47
 msgid "_Text only"
 msgstr "Vetëm _Tekst"
 
-#: ../ui/evolution.xml.h:46
+#: ../ui/evolution.xml.h:49
 msgid "_Window"
 msgstr "_Dritare"
 
@@ -19059,14 +19174,14 @@ msgstr "Y2"
 #: ../widgets/misc/e-canvas-vbox.c:102 ../widgets/misc/e-reflow.c:1430
 #: ../widgets/table/e-table-group-container.c:978
 #: ../widgets/table/e-table-group-leaf.c:636
-#: ../widgets/table/e-table-item.c:3001
+#: ../widgets/table/e-table-item.c:3005
 msgid "Minimum width"
 msgstr "Gjerësia minimum"
 
 #: ../widgets/misc/e-canvas-vbox.c:103 ../widgets/misc/e-reflow.c:1431
 #: ../widgets/table/e-table-group-container.c:979
 #: ../widgets/table/e-table-group-leaf.c:637
-#: ../widgets/table/e-table-item.c:3002
+#: ../widgets/table/e-table-item.c:3006
 msgid "Minimum Width"
 msgstr "Gjerësia më e Vogël"
 
@@ -19751,7 +19866,7 @@ msgstr "%s (%d elementë)"
 #: ../widgets/table/e-table-group-container.c:902
 #: ../widgets/table/e-table-group-leaf.c:573
 #: ../widgets/table/e-table-group-leaf.c:574
-#: ../widgets/table/e-table-item.c:2959 ../widgets/table/e-table-item.c:2960
+#: ../widgets/table/e-table-item.c:2963 ../widgets/table/e-table-item.c:2964
 msgid "Alternating Row Colors"
 msgstr "Ndryshimi i ngjyrave të rreshtave"
 
@@ -19759,7 +19874,7 @@ msgstr "Ndryshimi i ngjyrave të rreshtave"
 #: ../widgets/table/e-table-group-container.c:909
 #: ../widgets/table/e-table-group-leaf.c:580
 #: ../widgets/table/e-table-group-leaf.c:581
-#: ../widgets/table/e-table-item.c:2966 ../widgets/table/e-table-item.c:2967
+#: ../widgets/table/e-table-item.c:2970 ../widgets/table/e-table-item.c:2971
 #: ../widgets/table/e-tree.c:3271 ../widgets/table/e-tree.c:3272
 msgid "Horizontal Draw Grid"
 msgstr "Rrjetë e vizatuar horizontalisht"
@@ -19768,7 +19883,7 @@ msgstr "Rrjetë e vizatuar horizontalisht"
 #: ../widgets/table/e-table-group-container.c:916
 #: ../widgets/table/e-table-group-leaf.c:587
 #: ../widgets/table/e-table-group-leaf.c:588
-#: ../widgets/table/e-table-item.c:2973 ../widgets/table/e-table-item.c:2974
+#: ../widgets/table/e-table-item.c:2977 ../widgets/table/e-table-item.c:2978
 #: ../widgets/table/e-tree.c:3277 ../widgets/table/e-tree.c:3278
 msgid "Vertical Draw Grid"
 msgstr "Rrjetë e vizatuar vertikalisht"
@@ -19777,7 +19892,7 @@ msgstr "Rrjetë e vizatuar vertikalisht"
 #: ../widgets/table/e-table-group-container.c:923
 #: ../widgets/table/e-table-group-leaf.c:594
 #: ../widgets/table/e-table-group-leaf.c:595
-#: ../widgets/table/e-table-item.c:2980 ../widgets/table/e-table-item.c:2981
+#: ../widgets/table/e-table-item.c:2984 ../widgets/table/e-table-item.c:2985
 #: ../widgets/table/e-tree.c:3283 ../widgets/table/e-tree.c:3284
 msgid "Draw focus"
 msgstr "Fokusi i rrjetës"
@@ -19786,7 +19901,7 @@ msgstr "Fokusi i rrjetës"
 #: ../widgets/table/e-table-group-container.c:930
 #: ../widgets/table/e-table-group-leaf.c:601
 #: ../widgets/table/e-table-group-leaf.c:602
-#: ../widgets/table/e-table-item.c:2987 ../widgets/table/e-table-item.c:2988
+#: ../widgets/table/e-table-item.c:2991 ../widgets/table/e-table-item.c:2992
 msgid "Cursor mode"
 msgstr "Modaliteti kursor"
 
@@ -19794,7 +19909,7 @@ msgstr "Modaliteti kursor"
 #: ../widgets/table/e-table-group-container.c:937
 #: ../widgets/table/e-table-group-leaf.c:615
 #: ../widgets/table/e-table-group-leaf.c:616
-#: ../widgets/table/e-table-item.c:2952 ../widgets/table/e-table-item.c:2953
+#: ../widgets/table/e-table-item.c:2956 ../widgets/table/e-table-item.c:2957
 msgid "Selection model"
 msgstr "Modeli i zgjedhjes"
 
@@ -19802,7 +19917,7 @@ msgstr "Modeli i zgjedhjes"
 #: ../widgets/table/e-table-group-container.c:944
 #: ../widgets/table/e-table-group-leaf.c:608
 #: ../widgets/table/e-table-group-leaf.c:609
-#: ../widgets/table/e-table-item.c:2994 ../widgets/table/e-table-item.c:2995
+#: ../widgets/table/e-table-item.c:2998 ../widgets/table/e-table-item.c:2999
 #: ../widgets/table/e-table.c:3316 ../widgets/table/e-tree.c:3265
 #: ../widgets/table/e-tree.c:3266
 msgid "Length Threshold"
@@ -19812,7 +19927,7 @@ msgstr "Gjatësia kufirit"
 #: ../widgets/table/e-table-group-container.c:951
 #: ../widgets/table/e-table-group-leaf.c:650
 #: ../widgets/table/e-table-group-leaf.c:651
-#: ../widgets/table/e-table-item.c:3028 ../widgets/table/e-table-item.c:3029
+#: ../widgets/table/e-table-item.c:3032 ../widgets/table/e-table-item.c:3033
 #: ../widgets/table/e-table.c:3323 ../widgets/table/e-tree.c:3297
 #: ../widgets/table/e-tree.c:3298
 msgid "Uniform row height"
@@ -19889,15 +20004,15 @@ msgstr "Rendit informacionin"
 msgid "Tree"
 msgstr "Degëzimi"
 
-#: ../widgets/table/e-table-item.c:2938 ../widgets/table/e-table-item.c:2939
+#: ../widgets/table/e-table-item.c:2942 ../widgets/table/e-table-item.c:2943
 msgid "Table header"
 msgstr "Titull i tabelës"
 
-#: ../widgets/table/e-table-item.c:2945 ../widgets/table/e-table-item.c:2946
+#: ../widgets/table/e-table-item.c:2949 ../widgets/table/e-table-item.c:2950
 msgid "Table model"
 msgstr "Modeli i tabelës"
 
-#: ../widgets/table/e-table-item.c:3021 ../widgets/table/e-table-item.c:3022
+#: ../widgets/table/e-table-item.c:3025 ../widgets/table/e-table-item.c:3026
 msgid "Cursor row"
 msgstr "Rreshti kursorit"
 
@@ -20064,4 +20179,3 @@ msgstr "Konteksti IM"
 #: ../widgets/text/e-text.c:3683 ../widgets/text/e-text.c:3684
 msgid "Handle Popup"
 msgstr "Trajto popup"
-

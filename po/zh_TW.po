@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 2.3.7\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-08-26 19:35+0800\n"
+"POT-Creation-Date: 2005-09-11 17:30+0200\n"
 "PO-Revision-Date: 2005-08-24 19:17+0800\n"
 "Last-Translator: Chao-Hsiung Liao <j_h_liau@yahoo.com.tw>\n"
 "Language-Team: Chinese (traditional) <community@linuxhall.org>\n"
@@ -911,7 +911,7 @@ msgstr ""
 #: ../calendar/gui/calendar-component.c:537
 #: ../calendar/gui/tasks-component.c:441 ../mail/em-filter-i18n.h:11
 #: ../ui/evolution-addressbook.xml.h:8 ../ui/evolution-calendar.xml.h:5
-#: ../ui/evolution-mail-message.xml.h:25 ../ui/evolution-tasks.xml.h:6
+#: ../ui/evolution-mail-message.xml.h:26 ../ui/evolution-tasks.xml.h:6
 msgid "Delete"
 msgstr "刪除"
 
@@ -3216,7 +3216,7 @@ msgstr "傳送郵件給連絡人"
 #: ../addressbook/gui/widgets/e-addressbook-view.c:942
 #: ../calendar/gui/calendar-commands.c:119 ../calendar/gui/print.c:2501
 #: ../ui/evolution-addressbook.xml.h:16 ../ui/evolution-calendar.xml.h:19
-#: ../ui/evolution-mail-message.xml.h:76 ../ui/evolution-tasks.xml.h:14
+#: ../ui/evolution-mail-message.xml.h:77 ../ui/evolution-tasks.xml.h:14
 msgid "Print"
 msgstr "列印"
 
@@ -3245,7 +3245,7 @@ msgstr "剪下"
 #: ../addressbook/gui/widgets/e-addressbook-view.c:950
 #: ../calendar/gui/calendar-component.c:536
 #: ../calendar/gui/tasks-component.c:440 ../ui/evolution-addressbook.xml.h:2
-#: ../ui/evolution-mail-message.xml.h:11 ../ui/evolution-tasks.xml.h:2
+#: ../ui/evolution-mail-message.xml.h:12 ../ui/evolution-tasks.xml.h:2
 msgid "Copy"
 msgstr "複製"
 
@@ -4885,7 +4885,6 @@ msgstr "重新啟動 Evolution 之前，無法使用您的工作。"
 
 #: ../calendar/calendar.error.xml.h:64
 #: ../ui/evolution-message-composer.xml.h:51
-#: ../ui/evolution-signature-editor.xml.h:15
 msgid "_Save"
 msgstr "儲存(_S)"
 
@@ -4949,7 +4948,7 @@ msgstr "行事曆與工作"
 # ui/evolution-calendar.xml.h:3
 # Novell Translation
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:2
-#: ../calendar/gui/calendar-component.c:1307
+#: ../calendar/gui/calendar-component.c:1309
 msgid "Calendars"
 msgstr "行事曆"
 
@@ -5070,9 +5069,9 @@ msgstr "忽略時間(_T):"
 #: ../ui/evolution-composer-entries.xml.h:8
 #: ../ui/evolution-mail-messagedisplay.xml.h:5
 #: ../ui/evolution-message-composer.xml.h:44
-#: ../ui/evolution-signature-editor.xml.h:12
+#: ../ui/evolution-signature-editor.xml.h:23
 #: ../ui/evolution-subscribe.xml.h:10 ../ui/evolution-tasks.xml.h:23
-#: ../ui/evolution.xml.h:32
+#: ../ui/evolution.xml.h:35
 msgid "_Edit"
 msgstr "編輯 (_E)"
 
@@ -5661,71 +5660,71 @@ msgstr "沒有行事曆可用來建立事件和會議"
 
 # data/evolution.keys.in.h:2
 # Novell Translation
-#: ../calendar/gui/calendar-component.c:1282
+#: ../calendar/gui/calendar-component.c:1284
 msgid "Calendar Source Selector"
 msgstr "行事曆來源選擇器"
 
 # calendar/gui/e-day-view.c:3146
 # ui/evolution-calendar.xml.h:16
-#: ../calendar/gui/calendar-component.c:1473
+#: ../calendar/gui/calendar-component.c:1475
 msgid "New appointment"
 msgstr "新增約會"
 
-#: ../calendar/gui/calendar-component.c:1474
+#: ../calendar/gui/calendar-component.c:1476
 msgid "_Appointment"
 msgstr "約會(_A)"
 
 # ui/evolution-calendar.xml.h:5
-#: ../calendar/gui/calendar-component.c:1475
+#: ../calendar/gui/calendar-component.c:1477
 msgid "Create a new appointment"
 msgstr "建立一個新的約會"
 
 # importers/netscape-importer.c:790
 # importers/pine-importer.c:656
-#: ../calendar/gui/calendar-component.c:1481
+#: ../calendar/gui/calendar-component.c:1483
 msgid "New meeting"
 msgstr "新增會議"
 
-#: ../calendar/gui/calendar-component.c:1482
+#: ../calendar/gui/calendar-component.c:1484
 msgid "M_eeting"
 msgstr "會議(_M)"
 
 # ui/evolution-tasks.xml.h:2
 # Novell Translation
-#: ../calendar/gui/calendar-component.c:1483
+#: ../calendar/gui/calendar-component.c:1485
 msgid "Create a new meeting request"
 msgstr "建立新會議要求"
 
 # calendar/gui/e-day-view.c:3146
 # ui/evolution-calendar.xml.h:16
 # Novell Translation
-#: ../calendar/gui/calendar-component.c:1489
+#: ../calendar/gui/calendar-component.c:1491
 msgid "New all day appointment"
 msgstr "新的全日約會"
 
-#: ../calendar/gui/calendar-component.c:1490
+#: ../calendar/gui/calendar-component.c:1492
 msgid "All Day A_ppointment"
 msgstr "全日約會(_P)"
 
 # ui/evolution-calendar.xml.h:5
 # Novell Translation
-#: ../calendar/gui/calendar-component.c:1491
+#: ../calendar/gui/calendar-component.c:1493
 msgid "Create a new all-day appointment"
 msgstr "建立新的全日約會"
 
 # ui/evolution-addressbook.xml.h:7
 # Novell Translation
-#: ../calendar/gui/calendar-component.c:1497
+#: ../calendar/gui/calendar-component.c:1499
 msgid "New calendar"
 msgstr "新行事曆"
 
-#: ../calendar/gui/calendar-component.c:1498
+#: ../calendar/gui/calendar-component.c:1500
 msgid "Cale_ndar"
 msgstr "行事曆(_N)"
 
 # ui/evolution.xml.h:10
 # Novell Translation
-#: ../calendar/gui/calendar-component.c:1499
+#: ../calendar/gui/calendar-component.c:1501
 msgid "Create a new calendar"
 msgstr "建立新行事曆"
 
@@ -6597,7 +6596,7 @@ msgstr[1] "附加 %d 個訊息"
 #: ../mail/em-folder-tree.c:974 ../mail/em-folder-view.c:1035
 #: ../mail/message-list.c:1708 ../ui/evolution-addressbook.xml.h:31
 #: ../ui/evolution-calendar.xml.h:39 ../ui/evolution-composer-entries.xml.h:7
-#: ../ui/evolution-mail-message.xml.h:102 ../ui/evolution-tasks.xml.h:21
+#: ../ui/evolution-mail-message.xml.h:103 ../ui/evolution-tasks.xml.h:21
 msgid "_Copy"
 msgstr "複製(_C)"
 
@@ -7926,7 +7925,7 @@ msgstr "另存新檔(_S)..."
 #: ../calendar/gui/e-calendar-view.c:1530 ../mail/em-folder-view.c:1046
 #: ../plugins/print-message/org-gnome-print-message.xml.h:3
 #: ../ui/evolution-addressbook.xml.h:40 ../ui/evolution-calendar.xml.h:44
-#: ../ui/evolution-mail-message.xml.h:119 ../ui/evolution-tasks.xml.h:27
+#: ../ui/evolution-mail-message.xml.h:120 ../ui/evolution-tasks.xml.h:27
 msgid "_Print..."
 msgstr "列印(_P)..."
 
@@ -12519,7 +12518,7 @@ msgstr "沒有標幟的"
 # calendar/gui/goto-dialog.glade.h:9
 # Novell Translation
 #: ../mail/em-filter-i18n.h:35 ../mail/mail-config.glade.h:93
-#: ../ui/evolution-mail-message.xml.h:47
+#: ../ui/evolution-mail-message.xml.h:48
 msgid "Junk"
 msgstr "垃圾郵件"
 
@@ -12793,11 +12792,11 @@ msgstr "正在複製郵件至資料夾 %s"
 msgid "Cannot drop message(s) into toplevel store"
 msgstr "無法將郵件拖放到最上層的儲存區"
 
-#: ../mail/em-folder-tree.c:972 ../ui/evolution-mail-message.xml.h:103
+#: ../mail/em-folder-tree.c:972 ../ui/evolution-mail-message.xml.h:104
 msgid "_Copy to Folder"
 msgstr "複製至資料夾(_C)"
 
-#: ../mail/em-folder-tree.c:973 ../ui/evolution-mail-message.xml.h:113
+#: ../mail/em-folder-tree.c:973 ../ui/evolution-mail-message.xml.h:114
 msgid "_Move to Folder"
 msgstr "移至資料夾(_M)"
 
@@ -12808,9 +12807,9 @@ msgid "Scanning folders in \"%s\""
 msgstr "掃描「%s」內的資料夾"
 
 #: ../mail/em-folder-tree.c:2031 ../ui/evolution-addressbook.xml.h:44
-#: ../ui/evolution-mail-global.xml.h:22
+#: ../ui/evolution-mail-global.xml.h:24
 #: ../ui/evolution-mail-messagedisplay.xml.h:8
-#: ../ui/evolution-message-composer.xml.h:54 ../ui/evolution.xml.h:45
+#: ../ui/evolution-message-composer.xml.h:54 ../ui/evolution.xml.h:48
 msgid "_View"
 msgstr "檢視(_V)"
 
@@ -12895,16 +12894,16 @@ msgstr "指定要建立資料夾的位置："
 msgid "Reply to _All"
 msgstr "回覆所有人(_A)"
 
-#: ../mail/em-folder-view.c:1040 ../ui/evolution-mail-message.xml.h:121
+#: ../mail/em-folder-view.c:1040 ../ui/evolution-mail-message.xml.h:122
 msgid "_Reply to Sender"
 msgstr "回覆寄件者(_R)"
 
 #: ../mail/em-folder-view.c:1041 ../mail/em-popup.c:548 ../mail/em-popup.c:559
-#: ../ui/evolution-mail-message.xml.h:107
+#: ../ui/evolution-mail-message.xml.h:108
 msgid "_Forward"
 msgstr "轉寄(_F)"
 
-#: ../mail/em-folder-view.c:1044 ../ui/evolution-mail-message.xml.h:105
+#: ../mail/em-folder-view.c:1044 ../ui/evolution-mail-message.xml.h:106
 msgid "_Edit as New Message..."
 msgstr "編輯為新郵件(_E)..."
 
@@ -13529,7 +13528,7 @@ msgid "_Reply to sender"
 msgstr "回覆寄件者(_R)"
 
 #: ../mail/em-popup.c:545 ../mail/em-popup.c:556
-#: ../ui/evolution-mail-message.xml.h:83
+#: ../ui/evolution-mail-message.xml.h:84
 msgid "Reply to _List"
 msgstr "回覆至清單(_L)"
 
@@ -16538,7 +16537,7 @@ msgstr "給您的資訊"
 
 # mail/message-browser.c:194
 # ui/evolution-mail.xml.h:33
-#: ../mail/message-tag-followup.c:78 ../ui/evolution-mail-message.xml.h:41
+#: ../mail/message-tag-followup.c:78 ../ui/evolution-mail-message.xml.h:42
 msgid "Forward"
 msgstr "轉寄"
 
@@ -16548,13 +16547,13 @@ msgstr "不需要回應"
 
 # mail/message-browser.c:188
 # ui/evolution-mail.xml.h:70
-#: ../mail/message-tag-followup.c:81 ../ui/evolution-mail-message.xml.h:81
+#: ../mail/message-tag-followup.c:81 ../ui/evolution-mail-message.xml.h:82
 msgid "Reply"
 msgstr "回覆"
 
 # mail/message-browser.c:191
 # ui/evolution-mail.xml.h:71
-#: ../mail/message-tag-followup.c:82 ../ui/evolution-mail-message.xml.h:82
+#: ../mail/message-tag-followup.c:82 ../ui/evolution-mail-message.xml.h:83
 msgid "Reply to All"
 msgstr "全部回覆"
 
@@ -16655,7 +16654,8 @@ msgid "A plugin for backing up and restore Evolution data and settings."
 msgstr "備份與回存 Evolution 的資料與設定值的外掛程式。"
 
 # shell/GNOME_Evolution_Shell.oaf.in.h:1
-#: ../plugins/backup-restore/org-gnome-backup-restore.eplug.xml.h:2
+#. the path to the shared library
+#: ../plugins/backup-restore/org-gnome-backup-restore.eplug.xml.h:3
 msgid "Backup and restore plugin"
 msgstr "備份與回存外掛程式。"
 
@@ -17762,7 +17762,7 @@ msgid "Subscribe to my _notifications"
 msgstr "訂閱至我的通知(_N)"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:13
-#: ../ui/evolution-mail-message.xml.h:120
+#: ../ui/evolution-mail-message.xml.h:121
 msgid "_Read"
 msgstr "閱讀(_R)"
 
@@ -18715,7 +18715,7 @@ msgstr "提供自郵件編輯器列印郵件的選項"
 
 #: ../plugins/print-message/org-gnome-print-message.xml.h:1
 #: ../ui/evolution-addressbook.xml.h:17 ../ui/evolution-calendar.xml.h:20
-#: ../ui/evolution-mail-message.xml.h:77 ../ui/evolution-tasks.xml.h:15
+#: ../ui/evolution-mail-message.xml.h:78 ../ui/evolution-tasks.xml.h:15
 msgid "Print Pre_view"
 msgstr "預覽列印(_V)"
 
@@ -18742,7 +18742,8 @@ msgid "A plugin for saving all attachments or parts of a message at once."
 msgstr "提供一次儲存所有附伴或郵件的各部分的外掛程式。"
 
 # mail/mail-display.c:196
-#: ../plugins/save-attachments/org-gnome-save-attachments.eplug.xml.h:2
+#. the path to the shared library
+#: ../plugins/save-attachments/org-gnome-save-attachments.eplug.xml.h:3
 msgid "Save attachments"
 msgstr "儲存附加檔案"
 
@@ -18769,7 +18770,6 @@ msgstr "MIME 類型"
 
 #: ../plugins/save-attachments/save-attachments.c:359
 #: ../ui/evolution-message-composer.xml.h:18
-#: ../ui/evolution-signature-editor.xml.h:6
 msgid "Save"
 msgstr "儲存"
 
@@ -19294,7 +19294,7 @@ msgstr "無法執行 Bug buddy。"
 #. The translator-credits string is for translators to list
 #. * per language credits for translation, displayed in the
 #. * about box
-#: ../shell/e-shell-window-commands.c:508
+#: ../shell/e-shell-window-commands.c:532
 msgid "translator-credits"
 msgstr ""
 "如對翻譯有任何意見，請送一封電子郵件給\n"
@@ -19307,21 +19307,21 @@ msgstr ""
 
 # shell/e-shortcuts-view.c:137
 # Novell Translation
-#: ../shell/e-shell-window-commands.c:522
+#: ../shell/e-shell-window-commands.c:546
 msgid "Groupware Suite"
 msgstr "Groupware 套裝軟體"
 
-#: ../shell/e-shell-window-commands.c:750
+#: ../shell/e-shell-window-commands.c:774
 msgid "_Work Online"
 msgstr "線上工作(_W)"
 
 # ui/evolution.xml.h:66
-#: ../shell/e-shell-window-commands.c:763 ../ui/evolution.xml.h:47
+#: ../shell/e-shell-window-commands.c:787 ../ui/evolution.xml.h:50
 msgid "_Work Offline"
 msgstr "離線工作(_W)"
 
 # ui/evolution.xml.h:39
-#: ../shell/e-shell-window-commands.c:776
+#: ../shell/e-shell-window-commands.c:800
 msgid "Work Offline"
 msgstr "離線工作"
 
@@ -20516,7 +20516,7 @@ msgid "View the current contact"
 msgstr "檢視目前的連絡人"
 
 #: ../ui/evolution-addressbook.xml.h:30 ../ui/evolution-calendar.xml.h:38
-#: ../ui/evolution-mail-list.xml.h:26 ../ui/evolution-tasks.xml.h:19
+#: ../ui/evolution-tasks.xml.h:19
 msgid "_Actions"
 msgstr "執行(_A)"
 
@@ -20602,7 +20602,7 @@ msgstr "月"
 # ui/evolution-event-editor.xml.h:29
 # ui/evolution-mail.xml.h:57
 # ui/evolution-task-editor-dialog.xml.h:32
-#: ../ui/evolution-calendar.xml.h:15 ../ui/evolution-mail-message.xml.h:59
+#: ../ui/evolution-calendar.xml.h:15 ../ui/evolution-mail-message.xml.h:60
 msgid "Next"
 msgstr "下一個"
 
@@ -20615,7 +20615,7 @@ msgstr "預覽將要列印的行事曆內容"
 # ui/evolution-event-editor.xml.h:33
 # ui/evolution-mail.xml.h:64
 # ui/evolution-task-editor-dialog.xml.h:36
-#: ../ui/evolution-calendar.xml.h:18 ../ui/evolution-mail-message.xml.h:75
+#: ../ui/evolution-calendar.xml.h:18 ../ui/evolution-mail-message.xml.h:76
 msgid "Previous"
 msgstr "上一個"
 
@@ -20767,7 +20767,7 @@ msgstr "為新郵件建立或編輯過濾規則"
 msgid "Empty _Trash"
 msgstr "清空垃圾桶(_T)"
 
-#: ../ui/evolution-mail-global.xml.h:8 ../ui/evolution-mail-list.xml.h:6
+#: ../ui/evolution-mail-global.xml.h:8 ../ui/evolution-mail-list.xml.h:7
 #: ../ui/evolution-subscribe.xml.h:2
 msgid "F_older"
 msgstr "資料夾(_O)"
@@ -20776,22 +20776,17 @@ msgstr "資料夾(_O)"
 msgid "Message F_ilters"
 msgstr "郵件規則(_I)"
 
-# views/mail/galview.xml.h:4
-# Novell Translation
 #: ../ui/evolution-mail-global.xml.h:10
-msgid "Message _List As"
-msgstr "郵件清單為(_L)"
-
-#: ../ui/evolution-mail-global.xml.h:11
 msgid "Message _Preview"
 msgstr "郵件預覽(_P)"
 
 # ui/evolution-mail.xml.h:56
-#: ../ui/evolution-mail-global.xml.h:12
+#: ../ui/evolution-mail-global.xml.h:11
 msgid "Move the selected folder into another folder"
 msgstr "將選定的資料夾移至另一個資料夾"
 
 # ui/evolution-mail.xml.h:61
+#. Alphabetical by name, yo
 #: ../ui/evolution-mail-global.xml.h:13
 msgid "Permanently remove all deleted messages from all folders"
 msgstr "永久移除在所有資料夾內的全部已刪除的郵件"
@@ -20820,14 +20815,13 @@ msgid "_Move Folder To..."
 msgstr "移動資料夾到(_M)..."
 
 #: ../ui/evolution-mail-global.xml.h:19
-msgid "_New Search _Folder (FIXME)"
-msgstr "新增搜尋資料夾(_N)"
-
-#: ../ui/evolution-mail-global.xml.h:20
 msgid "_New..."
 msgstr "新增(_N)..."
 
-#: ../ui/evolution-mail-global.xml.h:21
+#.
+#. <menuitem name="CreateVFolder" verb="CreateVFolder" _label="_New Search _Folder (FIXME)"/>
+#.
+#: ../ui/evolution-mail-global.xml.h:23
 msgid "_Subscriptions"
 msgstr "訂閱(_S)"
 
@@ -20842,111 +20836,112 @@ msgid "Change the properties of this folder"
 msgstr "變更這個資料夾的屬性"
 
 # ui/evolution-mail.xml.h:9
-#: ../ui/evolution-mail-list.xml.h:3 ../ui/evolution-mail-message.xml.h:12
+#: ../ui/evolution-mail-list.xml.h:3 ../ui/evolution-mail-message.xml.h:13
 msgid "Copy selected message(s) to the clipboard"
 msgstr "複製已選定的郵件到剪貼簿"
 
 # ui/evolution-event-editor.xml.h:31
 # ui/evolution-task-editor-dialog.xml.h:34
-#: ../ui/evolution-mail-list.xml.h:4 ../ui/evolution-mail-message.xml.h:23
+#. Alphabetical by name, yo
+#: ../ui/evolution-mail-list.xml.h:5 ../ui/evolution-mail-message.xml.h:24
 msgid "Cut selected message(s) to the clipboard"
 msgstr "將郵件剪下並貼到剪貼簿"
 
-#: ../ui/evolution-mail-list.xml.h:5
+#: ../ui/evolution-mail-list.xml.h:6
 msgid "E_xpunge"
 msgstr "刪除(_X)"
 
-#: ../ui/evolution-mail-list.xml.h:7
+#: ../ui/evolution-mail-list.xml.h:8
 msgid "Group By _Threads"
 msgstr "依相關郵件為群組(_T)"
 
-#: ../ui/evolution-mail-list.xml.h:8
+#: ../ui/evolution-mail-list.xml.h:9
 msgid "Hide S_elected Messages"
 msgstr "隱藏選擇的郵件(_E)"
 
-#: ../ui/evolution-mail-list.xml.h:9
+#: ../ui/evolution-mail-list.xml.h:10
 msgid "Hide _Deleted Messages"
 msgstr "隱藏已刪除郵件(_D)"
 
-#: ../ui/evolution-mail-list.xml.h:10
+#: ../ui/evolution-mail-list.xml.h:11
 msgid "Hide _Read Messages"
 msgstr "隱藏已閱讀的郵件(_R)"
 
 # ui/evolution-mail.xml.h:45
-#: ../ui/evolution-mail-list.xml.h:11
+#: ../ui/evolution-mail-list.xml.h:12
 msgid ""
 "Hide deleted messages rather than displaying them with a line through them"
 msgstr "隱藏已刪除的郵件而非將它們以刪除線的形式顯示"
 
-#: ../ui/evolution-mail-list.xml.h:12
+#: ../ui/evolution-mail-list.xml.h:13
 msgid "Mark Me_ssages as Read"
 msgstr "標示郵件為已閱讀(_S)"
 
 # ui/evolution-event-editor.xml.h:31
 # ui/evolution-task-editor-dialog.xml.h:34
-#: ../ui/evolution-mail-list.xml.h:13 ../ui/evolution-mail-message.xml.h:68
+#: ../ui/evolution-mail-list.xml.h:14 ../ui/evolution-mail-message.xml.h:69
 msgid "Paste message(s) from the clipboard"
 msgstr "自剪貼簿貼上郵件"
 
 # ui/evolution-mail.xml.h:62
-#: ../ui/evolution-mail-list.xml.h:14
+#: ../ui/evolution-mail-list.xml.h:15
 msgid "Permanently remove all deleted messages from this folder"
 msgstr "永久移除在這個資料夾內已刪除的郵件"
 
 # ui/evolution-mail.xml.h:62
-#: ../ui/evolution-mail-list.xml.h:15
+#: ../ui/evolution-mail-list.xml.h:16
 msgid "Permanently remove this folder"
 msgstr "永久移除這個資料夾"
 
-#: ../ui/evolution-mail-list.xml.h:16
+#: ../ui/evolution-mail-list.xml.h:17
 msgid "Select Message _Thread"
 msgstr "選擇郵件檔頭(_T)"
 
 # ui/evolution-mail.xml.h:80
-#: ../ui/evolution-mail-list.xml.h:17
+#: ../ui/evolution-mail-list.xml.h:18
 msgid "Select _All Messages"
 msgstr "選擇全部的郵件(_A)"
 
 # ui/evolution-mail.xml.h:78
-#: ../ui/evolution-mail-list.xml.h:18
+#: ../ui/evolution-mail-list.xml.h:19
 msgid "Select all and only the messages that are not currently selected"
 msgstr "選擇全部目前未選定的郵件"
 
 # ui/evolution-mail.xml.h:79
-#: ../ui/evolution-mail-list.xml.h:19
+#: ../ui/evolution-mail-list.xml.h:20
 msgid "Select all messages in the same thread as the selected message"
 msgstr "選擇所有相關的郵件為選定的郵件"
 
 # ui/evolution-mail.xml.h:80
-#: ../ui/evolution-mail-list.xml.h:20
+#: ../ui/evolution-mail-list.xml.h:21
 msgid "Select all visible messages"
 msgstr "選擇全部可見的郵件"
 
-#: ../ui/evolution-mail-list.xml.h:21
+#: ../ui/evolution-mail-list.xml.h:22
 msgid "Sh_ow Hidden Messages"
 msgstr "顯示隱藏的郵件(_O)"
 
 # ui/evolution-mail.xml.h:88
-#: ../ui/evolution-mail-list.xml.h:22
+#: ../ui/evolution-mail-list.xml.h:23
 msgid "Show messages that have been temporarily hidden"
 msgstr "顯示暫時隱藏的郵件"
 
 # ui/evolution-mail.xml.h:91
-#: ../ui/evolution-mail-list.xml.h:23
+#: ../ui/evolution-mail-list.xml.h:24
 msgid "Temporarily hide all messages that have already been read"
 msgstr "將已閱讀的郵件暫時隱藏"
 
 # ui/evolution-mail.xml.h:92
-#: ../ui/evolution-mail-list.xml.h:24
+#: ../ui/evolution-mail-list.xml.h:25
 msgid "Temporarily hide the selected messages"
 msgstr "將選定的郵件暫時隱藏"
 
 # ui/evolution-mail.xml.h:93
-#: ../ui/evolution-mail-list.xml.h:25
+#: ../ui/evolution-mail-list.xml.h:26
 msgid "Threaded Message list"
 msgstr "相關郵件清單"
 
-#: ../ui/evolution-mail-list.xml.h:28 ../ui/evolution-mail-message.xml.h:112
+#: ../ui/evolution-mail-list.xml.h:28 ../ui/evolution-mail-message.xml.h:113
 #: ../ui/evolution-mail-messagedisplay.xml.h:7
 msgid "_Message"
 msgstr "郵件(_M)"
@@ -20961,482 +20956,483 @@ msgstr "套用過濾器(_P)"
 
 # addressbook/gui/component/addressbook-config.c:662
 # Novell Translation
-#: ../ui/evolution-mail-message.xml.h:3
+#. Alphabetical by name, yo
+#: ../ui/evolution-mail-message.xml.h:4
 msgid "Add Sender to Address Book"
 msgstr "新增寄件者至通訊錄"
 
-#: ../ui/evolution-mail-message.xml.h:4
+#: ../ui/evolution-mail-message.xml.h:5
 msgid "All Message _Headers"
 msgstr "所有郵件檔頭(_H)"
 
 # ui/evolution-mail.xml.h:1
-#: ../ui/evolution-mail-message.xml.h:5
+#: ../ui/evolution-mail-message.xml.h:6
 msgid "Apply filter rules to the selected messages"
 msgstr "套用過濾器規則於所選定的郵件"
 
-#: ../ui/evolution-mail-message.xml.h:6
+#: ../ui/evolution-mail-message.xml.h:7
 msgid "Check for _Junk"
 msgstr "檢查垃圾郵件(_J)"
 
-#: ../ui/evolution-mail-message.xml.h:7
+#: ../ui/evolution-mail-message.xml.h:8
 msgid "Compose _New Message"
 msgstr "撰寫新郵件(_N)"
 
 # ui/evolution-mail.xml.h:6
-#: ../ui/evolution-mail-message.xml.h:8
+#: ../ui/evolution-mail-message.xml.h:9
 msgid "Compose a reply to all of the recipients of the selected message"
 msgstr "撰寫回郵給所選定的郵件的全部收件者"
 
 # ui/evolution-mail.xml.h:7
-#: ../ui/evolution-mail-message.xml.h:9
+#: ../ui/evolution-mail-message.xml.h:10
 msgid "Compose a reply to the mailing list of the selected message"
 msgstr "撰寫回郵給所選定郵件的通信論壇"
 
 # ui/evolution-mail.xml.h:7
-#: ../ui/evolution-mail-message.xml.h:10
+#: ../ui/evolution-mail-message.xml.h:11
 msgid "Compose a reply to the sender of the selected message"
 msgstr "撰寫回郵給所選定的郵件的寄件者"
 
 # ui/evolution-mail.xml.h:9
-#: ../ui/evolution-mail-message.xml.h:13
+#: ../ui/evolution-mail-message.xml.h:14
 msgid "Copy selected messages to another folder"
 msgstr "複製已選定的郵件到另一個資料夾"
 
 # ui/evolution.xml.h:10
 # Novell Translation
-#: ../ui/evolution-mail-message.xml.h:14
+#: ../ui/evolution-mail-message.xml.h:15
 msgid "Create R_ule"
 msgstr "建立規則(_U)"
 
 # ui/evolution-mail.xml.h:15
-#: ../ui/evolution-mail-message.xml.h:15
+#: ../ui/evolution-mail-message.xml.h:16
 msgid "Create a Search Folder for these recipients"
 msgstr "為這些收件者建立一個搜尋資料夾"
 
 # ui/evolution-mail.xml.h:16
-#: ../ui/evolution-mail-message.xml.h:16
+#: ../ui/evolution-mail-message.xml.h:17
 msgid "Create a Search Folder for this mailing list"
 msgstr "為這個通信論壇建立一個搜尋資料夾"
 
 # ui/evolution-mail.xml.h:17
-#: ../ui/evolution-mail-message.xml.h:17
+#: ../ui/evolution-mail-message.xml.h:18
 msgid "Create a Search Folder for this sender"
 msgstr "為這個寄件者建立一個搜尋資料夾"
 
 # ui/evolution-mail.xml.h:18
-#: ../ui/evolution-mail-message.xml.h:18
+#: ../ui/evolution-mail-message.xml.h:19
 msgid "Create a Search Folder for this subject"
 msgstr "為這個主旨建立一個搜尋資料夾"
 
 # ui/evolution-mail.xml.h:11
-#: ../ui/evolution-mail-message.xml.h:19
+#: ../ui/evolution-mail-message.xml.h:20
 msgid "Create a rule to filter messages from this sender"
 msgstr "為這個寄件者建立過濾器規則"
 
 # ui/evolution-mail.xml.h:12
-#: ../ui/evolution-mail-message.xml.h:20
+#: ../ui/evolution-mail-message.xml.h:21
 msgid "Create a rule to filter messages to these recipients"
 msgstr "為這些收件者建立過濾器規則"
 
 # ui/evolution-mail.xml.h:13
-#: ../ui/evolution-mail-message.xml.h:21
+#: ../ui/evolution-mail-message.xml.h:22
 msgid "Create a rule to filter messages to this mailing list"
 msgstr "為這個通信論壇建立過濾器規則"
 
 # ui/evolution-mail.xml.h:14
-#: ../ui/evolution-mail-message.xml.h:22
+#: ../ui/evolution-mail-message.xml.h:23
 msgid "Create a rule to filter messages with this subject"
 msgstr "為這個主旨建立過濾器規則"
 
-#: ../ui/evolution-mail-message.xml.h:24
+#: ../ui/evolution-mail-message.xml.h:25
 msgid "Decrease the text size"
 msgstr "減少文字大小"
 
 # ui/evolution-mail.xml.h:23
-#: ../ui/evolution-mail-message.xml.h:26
+#: ../ui/evolution-mail-message.xml.h:27
 msgid "Display the next important message"
 msgstr "顯示下一封重要的郵件"
 
 # ui/evolution-mail.xml.h:23
-#: ../ui/evolution-mail-message.xml.h:27
+#: ../ui/evolution-mail-message.xml.h:28
 msgid "Display the next message"
 msgstr "顯示下一封郵件"
 
 # ui/evolution-mail.xml.h:23
-#: ../ui/evolution-mail-message.xml.h:28
+#: ../ui/evolution-mail-message.xml.h:29
 msgid "Display the next unread message"
 msgstr "顯示下一封未閱讀的郵件"
 
 # ui/evolution-mail.xml.h:23
-#: ../ui/evolution-mail-message.xml.h:29
+#: ../ui/evolution-mail-message.xml.h:30
 msgid "Display the next unread thread"
 msgstr "顯示下一封未閱讀的相關郵件"
 
 # ui/evolution-mail.xml.h:24
-#: ../ui/evolution-mail-message.xml.h:30
+#: ../ui/evolution-mail-message.xml.h:31
 msgid "Display the previous important message"
 msgstr "顯示上一封重要的郵件"
 
 # ui/evolution-mail.xml.h:24
-#: ../ui/evolution-mail-message.xml.h:31
+#: ../ui/evolution-mail-message.xml.h:32
 msgid "Display the previous message"
 msgstr "顯示上一封郵件"
 
 # ui/evolution-mail.xml.h:24
-#: ../ui/evolution-mail-message.xml.h:32
+#: ../ui/evolution-mail-message.xml.h:33
 msgid "Display the previous unread message"
 msgstr "顯示上一封未閱讀的郵件"
 
-#: ../ui/evolution-mail-message.xml.h:33
+#: ../ui/evolution-mail-message.xml.h:34
 msgid "Filter on Mailing _List..."
 msgstr "通信論壇過濾器(_L)..."
 
-#: ../ui/evolution-mail-message.xml.h:34
+#: ../ui/evolution-mail-message.xml.h:35
 msgid "Filter on Se_nder..."
 msgstr "寄件者過濾器(_N)..."
 
-#: ../ui/evolution-mail-message.xml.h:35
+#: ../ui/evolution-mail-message.xml.h:36
 msgid "Filter on _Recipients..."
 msgstr "收件者過濾器(_R)..."
 
-#: ../ui/evolution-mail-message.xml.h:36
+#: ../ui/evolution-mail-message.xml.h:37
 msgid "Filter on _Subject..."
 msgstr "主旨過濾器(_S)..."
 
 # ui/evolution-mail.xml.h:54
 # Novell Translation
-#: ../ui/evolution-mail-message.xml.h:37
+#: ../ui/evolution-mail-message.xml.h:38
 msgid "Filter the selected messages for junk status"
 msgstr "篩選所選信件的垃圾郵件狀態"
 
 # ui/evolution-mail.xml.h:54
-#: ../ui/evolution-mail-message.xml.h:38
+#: ../ui/evolution-mail-message.xml.h:39
 msgid "Flag selected message(s) for follow-up"
 msgstr "將選定的郵件加上跟隨標幟"
 
-#: ../ui/evolution-mail-message.xml.h:39
+#: ../ui/evolution-mail-message.xml.h:40
 msgid "Follow _Up..."
 msgstr "跟隨(_U)..."
 
 # ui/evolution-mail.xml.h:30
-#: ../ui/evolution-mail-message.xml.h:40
+#: ../ui/evolution-mail-message.xml.h:41
 msgid "Force images in HTML mail to be loaded"
 msgstr "閱讀 HTML 格式的郵件時強迫載入影像"
 
 # ui/evolution-mail.xml.h:38
-#: ../ui/evolution-mail-message.xml.h:42
+#: ../ui/evolution-mail-message.xml.h:43
 msgid "Forward the selected message in the body of a new message"
 msgstr "將需要轉寄的郵件夾附於新郵件的內文中"
 
 # ui/evolution-mail.xml.h:39
-#: ../ui/evolution-mail-message.xml.h:43
+#: ../ui/evolution-mail-message.xml.h:44
 msgid "Forward the selected message quoted like a reply"
 msgstr "將需要轉寄的郵件以回覆郵件方式寄出"
 
 # ui/evolution-mail.xml.h:40
-#: ../ui/evolution-mail-message.xml.h:44
+#: ../ui/evolution-mail-message.xml.h:45
 msgid "Forward the selected message to someone"
 msgstr "將選定的郵件轉寄給某人"
 
 # ui/evolution-mail.xml.h:41
-#: ../ui/evolution-mail-message.xml.h:45
+#: ../ui/evolution-mail-message.xml.h:46
 msgid "Forward the selected message to someone as an attachment"
 msgstr "將選定的郵件以附加檔案形式轉寄給某人"
 
 # ui/evolution-message-composer.xml.h:10
-#: ../ui/evolution-mail-message.xml.h:46
+#: ../ui/evolution-mail-message.xml.h:47
 msgid "Increase the text size"
 msgstr "增加文字大小"
 
-#: ../ui/evolution-mail-message.xml.h:48
+#: ../ui/evolution-mail-message.xml.h:49
 msgid "Mar_k as"
 msgstr "標示成(_K)"
 
 # ui/evolution-mail.xml.h:52
-#: ../ui/evolution-mail-message.xml.h:49
+#: ../ui/evolution-mail-message.xml.h:50
 msgid "Mark the selected message(s) as having been read"
 msgstr "將選定的郵件標示成已經閱讀"
 
 # ui/evolution-mail.xml.h:54
-#: ../ui/evolution-mail-message.xml.h:50
+#: ../ui/evolution-mail-message.xml.h:51
 msgid "Mark the selected message(s) as important"
 msgstr "將選定的郵件標示成重要"
 
 # ui/evolution-mail.xml.h:54
 # Novell Translation
-#: ../ui/evolution-mail-message.xml.h:51
+#: ../ui/evolution-mail-message.xml.h:52
 msgid "Mark the selected message(s) as junk"
 msgstr "將選取的郵件標示成垃圾郵件"
 
 # ui/evolution-mail.xml.h:53
 # Novell Translation
-#: ../ui/evolution-mail-message.xml.h:52
+#: ../ui/evolution-mail-message.xml.h:53
 msgid "Mark the selected message(s) as not being junk"
 msgstr "將選取的郵件標示成不是垃圾郵件"
 
 # ui/evolution-mail.xml.h:53
-#: ../ui/evolution-mail-message.xml.h:53
+#: ../ui/evolution-mail-message.xml.h:54
 msgid "Mark the selected message(s) as not having been read"
 msgstr "將選定的郵件標示成未閱讀"
 
 # ui/evolution-mail.xml.h:54
-#: ../ui/evolution-mail-message.xml.h:54
+#: ../ui/evolution-mail-message.xml.h:55
 msgid "Mark the selected message(s) as unimportant"
 msgstr "將選定的郵件標示成不重要"
 
 # ui/evolution-mail.xml.h:54
-#: ../ui/evolution-mail-message.xml.h:55
+#: ../ui/evolution-mail-message.xml.h:56
 msgid "Mark the selected messages for deletion"
 msgstr "將選定的郵件標示成要刪除"
 
-#: ../ui/evolution-mail-message.xml.h:56
+#: ../ui/evolution-mail-message.xml.h:57
 msgid "Message Source"
 msgstr "郵件來源"
 
 # ui/evolution-mail.xml.h:55
-#: ../ui/evolution-mail-message.xml.h:57
+#: ../ui/evolution-mail-message.xml.h:58
 msgid "Move"
 msgstr "移動"
 
 # ui/evolution-mail.xml.h:56
-#: ../ui/evolution-mail-message.xml.h:58
+#: ../ui/evolution-mail-message.xml.h:59
 msgid "Move selected message(s) to another folder"
 msgstr "將選定的郵件移至另一個資料夾"
 
-#: ../ui/evolution-mail-message.xml.h:60
+#: ../ui/evolution-mail-message.xml.h:61
 msgid "Next _Important Message"
 msgstr "下一封重要郵件(_I)"
 
-#: ../ui/evolution-mail-message.xml.h:61
+#: ../ui/evolution-mail-message.xml.h:62
 msgid "Next _Thread"
 msgstr "下一封相關郵件(_T)"
 
-#: ../ui/evolution-mail-message.xml.h:62
+#: ../ui/evolution-mail-message.xml.h:63
 msgid "Next _Unread Message"
 msgstr "下一封未閱讀的郵件(_U)"
 
 # calendar/gui/calendar-commands.c:266
 # Novell Translation
-#: ../ui/evolution-mail-message.xml.h:63
+#: ../ui/evolution-mail-message.xml.h:64
 msgid "Not Junk"
 msgstr "不是垃圾郵件"
 
 # ui/evolution-mail.xml.h:58
-#: ../ui/evolution-mail-message.xml.h:64
+#: ../ui/evolution-mail-message.xml.h:65
 msgid "Open a window for composing a mail message"
 msgstr "開啟視窗以便撰寫郵件"
 
 # ui/evolution-mail.xml.h:59
-#: ../ui/evolution-mail-message.xml.h:65
+#: ../ui/evolution-mail-message.xml.h:66
 msgid "Open the selected message in a new window"
 msgstr "使用新視窗開啟選定的郵件"
 
 # ui/evolution-mail.xml.h:60
 # Novell Translation
-#: ../ui/evolution-mail-message.xml.h:66
+#: ../ui/evolution-mail-message.xml.h:67
 msgid "Open the selected message in the composer for editing"
 msgstr "在撰寫視窗開啟選取的郵件來編輯"
 
-#: ../ui/evolution-mail-message.xml.h:67
+#: ../ui/evolution-mail-message.xml.h:68
 msgid "P_revious Unread Message"
 msgstr "上一封未閱讀的郵件(_R)"
 
 # mail/mail-ops.c:825
-#: ../ui/evolution-mail-message.xml.h:69
+#: ../ui/evolution-mail-message.xml.h:70
 msgid "Pos_t New Message to Folder"
 msgstr "張貼新郵件到資料夾(_T)"
 
-#: ../ui/evolution-mail-message.xml.h:70
+#: ../ui/evolution-mail-message.xml.h:71
 msgid "Post a Repl_y"
 msgstr "張貼回覆(_Y)"
 
 # mail/mail-ops.c:825
-#: ../ui/evolution-mail-message.xml.h:71
+#: ../ui/evolution-mail-message.xml.h:72
 msgid "Post a message to a Public folder"
 msgstr "張貼新郵件到公開資料夾"
 
 # ui/evolution-message-composer.xml.h:25
-#: ../ui/evolution-mail-message.xml.h:72
+#: ../ui/evolution-mail-message.xml.h:73
 msgid "Post a reply to a message in a Public folder"
 msgstr "張貼郵件的回覆至公開資料夾"
 
-#: ../ui/evolution-mail-message.xml.h:73
+#: ../ui/evolution-mail-message.xml.h:74
 msgid "Pr_evious Important Message"
 msgstr "上一封重要郵件(_E)"
 
 # ui/evolution-addressbook.xml.h:8
 # ui/evolution-mail.xml.h:63
-#: ../ui/evolution-mail-message.xml.h:74
+#: ../ui/evolution-mail-message.xml.h:75
 msgid "Preview the message to be printed"
 msgstr "預覽需要列印的郵件"
 
 # mail/mail-callbacks.c:1407
-#: ../ui/evolution-mail-message.xml.h:78
+#: ../ui/evolution-mail-message.xml.h:79
 msgid "Print this message"
 msgstr "列印郵件"
 
-#: ../ui/evolution-mail-message.xml.h:79
+#: ../ui/evolution-mail-message.xml.h:80
 msgid "Re_direct"
 msgstr "重新導向(_D)"
 
 # ui/evolution-mail.xml.h:40
-#: ../ui/evolution-mail-message.xml.h:80
+#: ../ui/evolution-mail-message.xml.h:81
 msgid "Redirect (bounce) the selected message to someone"
 msgstr "將選定的郵件重新導向給某人"
 
-#: ../ui/evolution-mail-message.xml.h:84
+#: ../ui/evolution-mail-message.xml.h:85
 msgid "Reset the text to its original size"
 msgstr "重設文字為原始大小"
 
 # ui/evolution-mail.xml.h:74
-#: ../ui/evolution-mail-message.xml.h:85
+#: ../ui/evolution-mail-message.xml.h:86
 msgid "Save the message as a text file"
 msgstr "另存郵件成文字檔案"
 
 # ui/evolution-mail.xml.h:95
-#: ../ui/evolution-mail-message.xml.h:86
+#: ../ui/evolution-mail-message.xml.h:87
 msgid "Search Folder from Mailing _List..."
 msgstr "通信論壇搜尋資料夾(_L)..."
 
 # ui/evolution-mail.xml.h:97
-#: ../ui/evolution-mail-message.xml.h:87
+#: ../ui/evolution-mail-message.xml.h:88
 msgid "Search Folder from Recipients..."
 msgstr "收件者搜尋資料夾..."
 
 # ui/evolution-mail.xml.h:98
-#: ../ui/evolution-mail-message.xml.h:88
+#: ../ui/evolution-mail-message.xml.h:89
 msgid "Search Folder from S_ubject..."
 msgstr "主旨搜尋資料夾(_U)..."
 
 # ui/evolution-mail.xml.h:96
-#: ../ui/evolution-mail-message.xml.h:89
+#: ../ui/evolution-mail-message.xml.h:90
 msgid "Search Folder from Sen_der..."
 msgstr "寄件者搜尋資料夾(_D)..."
 
 # ui/evolution-mail.xml.h:75
-#: ../ui/evolution-mail-message.xml.h:90
+#: ../ui/evolution-mail-message.xml.h:91
 msgid "Search for text in the body of the displayed message"
 msgstr "搜尋顯示的郵件本文中的文字"
 
 # ui/evolution-addressbook.xml.h:15
 # Novell Translation
-#: ../ui/evolution-mail-message.xml.h:91
+#: ../ui/evolution-mail-message.xml.h:92
 msgid "Select _All Text"
 msgstr "選取所有文字(_A)"
 
 # ui/evolution-mail.xml.h:80
-#: ../ui/evolution-mail-message.xml.h:92
+#: ../ui/evolution-mail-message.xml.h:93
 msgid "Select all the text in a message"
 msgstr "選擇郵件中的所有文字"
 
 # ui/evolution-event-editor.xml.h:50
 # ui/evolution-task-editor-dialog.xml.h:59
-#: ../ui/evolution-mail-message.xml.h:93
+#: ../ui/evolution-mail-message.xml.h:94
 msgid "Set up the page settings for your current printer"
 msgstr "設定您目前印表機的版面設定"
 
 # ui/evolution-mail.xml.h:75
 # Novell Translation
-#: ../ui/evolution-mail-message.xml.h:94
+#: ../ui/evolution-mail-message.xml.h:95
 msgid "Show a blinking cursor in the body of displayed messages"
 msgstr "在顯示的郵件內文中顯示閃爍游標"
 
 # ui/evolution-mail.xml.h:86
-#: ../ui/evolution-mail-message.xml.h:95
+#: ../ui/evolution-mail-message.xml.h:96
 msgid "Show message in the normal style"
 msgstr "使用正常模式顯示郵件"
 
 # ui/evolution-mail.xml.h:87
-#: ../ui/evolution-mail-message.xml.h:96
+#: ../ui/evolution-mail-message.xml.h:97
 msgid "Show message with all email headers"
 msgstr "顯示郵件及詳細檔頭"
 
 # ui/evolution-mail.xml.h:89
-#: ../ui/evolution-mail-message.xml.h:97
+#: ../ui/evolution-mail-message.xml.h:98
 msgid "Show the raw email source of the message"
 msgstr "顯示郵件原始檔"
 
 # ui/evolution-mail.xml.h:94
-#: ../ui/evolution-mail-message.xml.h:98
+#: ../ui/evolution-mail-message.xml.h:99
 msgid "Un-delete the selected messages"
 msgstr "復原選定的郵件"
 
-#: ../ui/evolution-mail-message.xml.h:99
+#: ../ui/evolution-mail-message.xml.h:100
 msgid "Uni_mportant"
 msgstr "不重要(_M)"
 
-#: ../ui/evolution-mail-message.xml.h:100
+#: ../ui/evolution-mail-message.xml.h:101
 msgid "Zoom _Out"
 msgstr "縮小(_O)"
 
-#: ../ui/evolution-mail-message.xml.h:101
+#: ../ui/evolution-mail-message.xml.h:102
 msgid "_Caret Mode"
 msgstr "漏字模式(_C)"
 
-#: ../ui/evolution-mail-message.xml.h:104
+#: ../ui/evolution-mail-message.xml.h:105
 msgid "_Delete Message"
 msgstr "刪除郵件(_D)"
 
 # mail/mail-search.c:268
-#: ../ui/evolution-mail-message.xml.h:106
+#: ../ui/evolution-mail-message.xml.h:107
 msgid "_Find in Message..."
 msgstr "在郵件內尋找(_F)..."
 
-#: ../ui/evolution-mail-message.xml.h:108
+#: ../ui/evolution-mail-message.xml.h:109
 msgid "_Go To"
 msgstr "移至(_G)"
 
-#: ../ui/evolution-mail-message.xml.h:109
+#: ../ui/evolution-mail-message.xml.h:110
 msgid "_Important"
 msgstr "重要(_I)"
 
 # calendar/gui/goto-dialog.glade.h:9
 # Novell Translation
-#: ../ui/evolution-mail-message.xml.h:110
+#: ../ui/evolution-mail-message.xml.h:111
 msgid "_Junk"
 msgstr "垃圾郵件(_J)"
 
-#: ../ui/evolution-mail-message.xml.h:111
+#: ../ui/evolution-mail-message.xml.h:112
 msgid "_Load Images"
 msgstr "載入圖片(_L)"
 
-#: ../ui/evolution-mail-message.xml.h:114
+#: ../ui/evolution-mail-message.xml.h:115
 msgid "_Next Message"
 msgstr "下一封郵件(_N)"
 
-#: ../ui/evolution-mail-message.xml.h:115
+#: ../ui/evolution-mail-message.xml.h:116
 msgid "_Normal Size"
 msgstr "一般大小(_N)"
 
 # calendar/gui/calendar-commands.c:266
 # Novell Translation
-#: ../ui/evolution-mail-message.xml.h:116
+#: ../ui/evolution-mail-message.xml.h:117
 msgid "_Not Junk"
 msgstr "不是垃圾郵件(_N)"
 
-#: ../ui/evolution-mail-message.xml.h:117
+#: ../ui/evolution-mail-message.xml.h:118
 msgid "_Open in New Window"
 msgstr "在新視窗開啟(_O)"
 
-#: ../ui/evolution-mail-message.xml.h:118
+#: ../ui/evolution-mail-message.xml.h:119
 msgid "_Previous Message"
 msgstr "上一封郵件(_P)"
 
 # mail/mail-callbacks.c:1188
 # Novell Translation
-#: ../ui/evolution-mail-message.xml.h:122
+#: ../ui/evolution-mail-message.xml.h:123
 msgid "_Save Message..."
 msgstr "儲存郵件(_S)..."
 
-#: ../ui/evolution-mail-message.xml.h:123
+#: ../ui/evolution-mail-message.xml.h:124
 msgid "_Undelete Message"
 msgstr "復原刪除郵件(_U)"
 
-#: ../ui/evolution-mail-message.xml.h:124
+#: ../ui/evolution-mail-message.xml.h:125
 msgid "_Unread"
 msgstr "未閱讀(_U)"
 
-#: ../ui/evolution-mail-message.xml.h:125
+#: ../ui/evolution-mail-message.xml.h:126
 msgid "_Zoom In"
 msgstr "放大(_Z)"
 
@@ -21447,9 +21443,14 @@ msgstr "放大(_Z)"
 # ui/evolution-subscribe.xml.h:2
 # ui/evolution-task-editor-dialog.xml.h:11
 # ui/evolution.xml.h:5
+#.
+#. <cmd name="FileSave" _label="Save"
+#. _tip="Save the current file" pixtype="stock" pixname="Save"
+#. accel="*Ctrl*s"/>
+#.
 #: ../ui/evolution-mail-messagedisplay.xml.h:1
 #: ../ui/evolution-message-composer.xml.h:4
-#: ../ui/evolution-signature-editor.xml.h:2
+#: ../ui/evolution-signature-editor.xml.h:7
 msgid "Close"
 msgstr "關閉"
 
@@ -21459,7 +21460,7 @@ msgid "Close this window"
 msgstr "關閉這個視窗"
 
 # ui/evolution.xml.h:22
-#: ../ui/evolution-mail-messagedisplay.xml.h:3 ../ui/evolution.xml.h:17
+#: ../ui/evolution-mail-messagedisplay.xml.h:3 ../ui/evolution.xml.h:16
 msgid "Main toolbar"
 msgstr "主工具列"
 
@@ -21470,8 +21471,8 @@ msgstr "關閉(_C)"
 
 #: ../ui/evolution-mail-messagedisplay.xml.h:6
 #: ../ui/evolution-message-composer.xml.h:45
-#: ../ui/evolution-signature-editor.xml.h:13
-#: ../ui/evolution-subscribe.xml.h:11 ../ui/evolution.xml.h:33
+#: ../ui/evolution-signature-editor.xml.h:24
+#: ../ui/evolution-subscribe.xml.h:11 ../ui/evolution.xml.h:36
 msgid "_File"
 msgstr "檔案(_F)"
 
@@ -21492,8 +21493,13 @@ msgstr "核取以在您的郵件被閱讀時取得送信通知"
 
 # ui/evolution-message-composer.xml.h:4
 # ui/evolution-task-editor-dialog.xml.h:12
+#.
+#. <cmd name="FileSave" _label="Save"
+#. _tip="Save the current file" pixtype="stock" pixname="Save"
+#. accel="*Ctrl*s"/>
+#.
 #: ../ui/evolution-message-composer.xml.h:5
-#: ../ui/evolution-signature-editor.xml.h:3
+#: ../ui/evolution-signature-editor.xml.h:13
 msgid "Close the current file"
 msgstr "關閉目前檔案"
 
@@ -21513,7 +21519,7 @@ msgid "Encrypt this message with your S/MIME Encryption Certificate"
 msgstr "使用您的 S/MIME 加密憑證將這封郵件加密"
 
 #: ../ui/evolution-message-composer.xml.h:9
-#: ../ui/evolution-signature-editor.xml.h:4
+#: ../ui/evolution-signature-editor.xml.h:14
 msgid "For_mat"
 msgstr "格式(_M)"
 
@@ -21582,7 +21588,6 @@ msgstr "儲存至資料夾..."
 # ui/evolution-message-composer.xml.h:23
 # ui/evolution-task-editor-dialog.xml.h:53
 #: ../ui/evolution-message-composer.xml.h:25
-#: ../ui/evolution-signature-editor.xml.h:9
 msgid "Save the current file"
 msgstr "儲存目前檔案"
 
@@ -21598,7 +21603,7 @@ msgstr "將郵件儲存至指定的資料夾"
 
 # ui/evolution-message-composer.xml.h:29
 #: ../ui/evolution-message-composer.xml.h:29
-#: ../ui/evolution-signature-editor.xml.h:11
+#: ../ui/evolution-signature-editor.xml.h:22
 msgid "Send the mail in HTML format"
 msgstr "使用 HTML 格式傳送郵件"
 
@@ -21670,7 +21675,7 @@ msgid "_From Field"
 msgstr "寄件者欄位(_F)"
 
 #: ../ui/evolution-message-composer.xml.h:47
-#: ../ui/evolution-signature-editor.xml.h:14
+#: ../ui/evolution-signature-editor.xml.h:25
 msgid "_Insert"
 msgstr "插入(_I)"
 
@@ -21698,23 +21703,26 @@ msgstr "數件者欄位(_T)"
 msgid "C_lose"
 msgstr "關閉(_L)"
 
-#: ../ui/evolution-signature-editor.xml.h:5
+#: ../ui/evolution-signature-editor.xml.h:15
 msgid "H_TML"
 msgstr "H_TML"
 
 # ui/evolution-contact-editor.xml.h:9
 # ui/evolution-event-editor.xml.h:42
 # ui/evolution-task-editor-dialog.xml.h:52
-#: ../ui/evolution-signature-editor.xml.h:7
+#: ../ui/evolution-signature-editor.xml.h:16
 msgid "Save and Close"
 msgstr "儲存後關閉"
 
-#: ../ui/evolution-signature-editor.xml.h:8
+#.
+#. <menuitem name="FileSave" verb="" _label="_Save"/>
+#.
+#: ../ui/evolution-signature-editor.xml.h:20
 msgid "Save and _Close"
 msgstr "儲存後關閉(_C)"
 
 # ui/evolution-contact-editor.xml.h:10
-#: ../ui/evolution-signature-editor.xml.h:10
+#: ../ui/evolution-signature-editor.xml.h:21
 msgid "Save the current file and close the window"
 msgstr "儲存這個檔案並關閉視窗"
 
@@ -21846,154 +21854,152 @@ msgstr "只顯示視窗按鈕的圖示"
 msgid "Display window buttons with text only"
 msgstr "只顯示視窗按鈕的文字"
 
-# ui/evolution.xml.h:16
-# Novell Translation
-#: ../ui/evolution.xml.h:10
-msgid "Evolution _FAQ"
-msgstr "Evolution 常見問題(_F)"
-
 # ui/evolution.xml.h:19
-#: ../ui/evolution.xml.h:11
+#: ../ui/evolution.xml.h:10
 msgid "Exit the program"
 msgstr "離開這個程式"
 
-#: ../ui/evolution.xml.h:12
+#: ../ui/evolution.xml.h:11
 msgid "Forget _Passwords"
 msgstr "遺忘密碼(_P)"
 
 # ui/evolution-mail.xml.h:32
-#: ../ui/evolution.xml.h:13
+#: ../ui/evolution.xml.h:12
 msgid "Forget remembered passwords so you will be prompted for them again"
 msgstr "刪除已記錄的密碼以便可再重新輸入"
 
-#: ../ui/evolution.xml.h:14
+#: ../ui/evolution.xml.h:13
 msgid "Hide window buttons"
 msgstr "隱藏視窗按鈕"
 
-#: ../ui/evolution.xml.h:15
+#: ../ui/evolution.xml.h:14
 msgid "Icons _and text"
 msgstr "圖示及文字(_A)"
 
-#: ../ui/evolution.xml.h:16
+#: ../ui/evolution.xml.h:15
 msgid "Import data from other programs"
 msgstr "匯入其他程式的資料"
 
-#: ../ui/evolution.xml.h:18
+#: ../ui/evolution.xml.h:17
 msgid "New _Window"
 msgstr "開新視窗(_W)"
 
 # calendar/gui/event-editor-dialog.glade.h:13
-#: ../ui/evolution.xml.h:19
+#: ../ui/evolution.xml.h:18
 msgid "Prefere_nces"
 msgstr "偏好設定(_N)"
 
 # ui/evolution-mail.xml.h:81
-#: ../ui/evolution.xml.h:20
+#: ../ui/evolution.xml.h:19
 msgid "Send / Receive"
 msgstr "傳送/接收"
 
 # ui/evolution-mail.xml.h:82
-#: ../ui/evolution.xml.h:21
+#: ../ui/evolution.xml.h:20
 msgid "Send queued items and retrieve new items"
 msgstr "傳送待送的項目並接收新的項目"
 
 # mail/mail-config.glade.h:40
-#: ../ui/evolution.xml.h:22
+#: ../ui/evolution.xml.h:21
 msgid "Set up Pilot configuration"
 msgstr "設定 Pilot 組態"
 
 # ui/evolution.xml.h:27
 # Novell Translation
-#: ../ui/evolution.xml.h:23
+#: ../ui/evolution.xml.h:22
 msgid "Show information about Evolution"
 msgstr "顯示 Evolution 相關資訊"
 
 # ui/evolution.xml.h:28
-#: ../ui/evolution.xml.h:24
+#: ../ui/evolution.xml.h:23
 msgid "Submit Bug Report"
 msgstr "傳送錯誤報告"
 
-#: ../ui/evolution.xml.h:25
+#. <menuitem name="HelpFAQ" verb=""
+#. _label="Evolution _FAQ"/>
+#.
+#. <separator/>
+#: ../ui/evolution.xml.h:28
 msgid "Submit _Bug Report"
 msgstr "傳送錯誤報告(_B)"
 
 # ui/evolution.xml.h:30
-#: ../ui/evolution.xml.h:26
+#: ../ui/evolution.xml.h:29
 msgid "Submit a bug report using Bug Buddy"
 msgstr "使用 Bug Buddy 送出錯誤報告。"
 
 # ui/evolution.xml.h:34
-#: ../ui/evolution.xml.h:27
+#: ../ui/evolution.xml.h:30
 msgid "Toggle whether we are working offline."
 msgstr "切換離線/在線工作的狀態。"
 
 # ui/evolution.xml.h:22
 # Novell Translation
-#: ../ui/evolution.xml.h:28
+#: ../ui/evolution.xml.h:31
 msgid "Tool_bar"
 msgstr "工具列(_B)"
 
 # Novell Translation
-#: ../ui/evolution.xml.h:29
+#: ../ui/evolution.xml.h:32
 msgid "Tool_bar style"
 msgstr "工具列風格(_B)"
 
 # ui/evolution.xml.h:1
 # Novell Translation
-#: ../ui/evolution.xml.h:30
+#: ../ui/evolution.xml.h:33
 msgid "_About Evolution..."
 msgstr "關於 Evolution(_A)..."
 
 # ui/evolution.xml.h:6
-#: ../ui/evolution.xml.h:31
+#: ../ui/evolution.xml.h:34
 msgid "_Close Window"
 msgstr "關閉視窗(_C)"
 
-#: ../ui/evolution.xml.h:34
+#: ../ui/evolution.xml.h:37
 msgid "_Help"
 msgstr "說明(_H)"
 
-#: ../ui/evolution.xml.h:35
+#: ../ui/evolution.xml.h:38
 msgid "_Hide buttons"
 msgstr "隱藏按鈕(_H)"
 
-#: ../ui/evolution.xml.h:36
+#: ../ui/evolution.xml.h:39
 msgid "_Icons only"
 msgstr "只有圖示(_I)"
 
-#: ../ui/evolution.xml.h:37
+#: ../ui/evolution.xml.h:40
 msgid "_Import..."
 msgstr "匯入(_I)..."
 
-#: ../ui/evolution.xml.h:38
+#: ../ui/evolution.xml.h:41
 msgid "_New"
 msgstr "新增(_N)"
 
-#: ../ui/evolution.xml.h:39
+#: ../ui/evolution.xml.h:42
 msgid "_Quick Reference"
 msgstr "快速偏好設定(_Q)"
 
-#: ../ui/evolution.xml.h:40
+#: ../ui/evolution.xml.h:43
 msgid "_Quit"
 msgstr "離開(_Q)"
 
-#: ../ui/evolution.xml.h:41
+#: ../ui/evolution.xml.h:44
 msgid "_Send / Receive"
 msgstr "傳送/接收(_S)"
 
-#: ../ui/evolution.xml.h:42
+#: ../ui/evolution.xml.h:45
 msgid "_Switcher Appearance"
 msgstr "切換外觀(_S)"
 
-#: ../ui/evolution.xml.h:43
+#: ../ui/evolution.xml.h:46
 msgid "_Synchronization Options..."
 msgstr "同步化選項(_S)..."
 
-#: ../ui/evolution.xml.h:44
+#: ../ui/evolution.xml.h:47
 msgid "_Text only"
 msgstr "只有文字(_T)"
 
-#: ../ui/evolution.xml.h:46
+#: ../ui/evolution.xml.h:49
 msgid "_Window"
 msgstr "視窗(_O)"
 
@@ -23400,43 +23406,3 @@ msgstr "IM 快顯選單"
 #: ../widgets/text/e-text.c:3683 ../widgets/text/e-text.c:3684
 msgid "Handle Popup"
 msgstr "處理彈出式項目"
-
-#~ msgid "The Proxy tab will be available only when the account is online."
-#~ msgstr "代理伺服器頁籤只有在此帳號上線時才會出現。"
-
-#~ msgid "FIll stipple"
-#~ msgstr "填入網點"
-
-# Novell Translation
-#~ msgid "Unknown error verifying signed messaage"
-#~ msgstr "檢驗加簽的郵件時發生不明錯誤"
-
-# Novell Translation
-#~ msgid "Unknown error decrypting messaage"
-#~ msgstr "解密郵件時發生不明錯誤"
-
-#~ msgid "Mo_ve to Folder..."
-#~ msgstr "移至資料夾(_V)..."
-
-# camel/providers/imap/camel-imap-provider.c:48
-# shell/e-shell-view.c:552
-#~ msgid "vFolders"
-#~ msgstr "虛擬資料夾"
-
-# camel/providers/imap/camel-imap-provider.c:48
-# shell/e-shell-view.c:552
-#~ msgid "v_Folders"
-#~ msgstr "虛擬資料夾(_F)"
-
-#~ msgid "vFolder source"
-#~ msgstr "虛擬資料夾來源"
-
-#~ msgid "Edit vFolder"
-#~ msgstr "編輯虛擬資料夾"
-
-# ui/evolution.xml.h:59
-#~ msgid "New vFolder"
-#~ msgstr "新增虛擬資料夾"
-
-#~ msgid "SaveDraft"
-#~ msgstr "儲存草稿"

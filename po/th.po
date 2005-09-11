@@ -8,14 +8,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution-2.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-08-28 11:11+0700\n"
+"POT-Creation-Date: 2005-09-11 17:30+0200\n"
 "PO-Revision-Date: 2005-09-05 00:43+0700\n"
 "Last-Translator: Theppitak Karoonboonyanan <thep@linux.thai.net>\n"
 "Language-Team: Thai <L10N@opentle.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=0;"
+"Plural-Forms: nplurals=2; plural=0;\n"
 
 #: ../a11y/addressbook/ea-addressbook-view.c:94
 #: ../a11y/addressbook/ea-addressbook-view.c:103
@@ -3997,8 +3997,7 @@ msgstr ""
 #: ../calendar/calendar.error.xml.h:32
 msgid ""
 "Email invitations will be sent to all participants and allow them to RSVP."
-msgstr ""
-"จะส่งอีเมลเชิญไปยังผู้ร่วมประชุมทั้งหมด และให้พวกเขาตอบกลับมาได้"
+msgstr "จะส่งอีเมลเชิญไปยังผู้ร่วมประชุมทั้งหมด และให้พวกเขาตอบกลับมาได้"
 
 #: ../calendar/calendar.error.xml.h:33
 msgid ""
@@ -4179,7 +4178,7 @@ msgid "Calendar and Tasks"
 msgstr "ปฏิทินและงาน"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:2
-#: ../calendar/gui/calendar-component.c:1307
+#: ../calendar/gui/calendar-component.c:1309
 msgid "Calendars"
 msgstr "ปฏิทิน"
 
@@ -4770,55 +4769,55 @@ msgstr "ไม่สามารถเปิดปฏิทิน '%s' เพื
 msgid "There is no calendar available for creating events and meetings"
 msgstr "ไม่มีปฏิทินที่จะใช้ได้สำหรับการสร้างเหตุการณ์และการประชุม"
 
-#: ../calendar/gui/calendar-component.c:1282
+#: ../calendar/gui/calendar-component.c:1284
 msgid "Calendar Source Selector"
 msgstr ""
 
-#: ../calendar/gui/calendar-component.c:1473
+#: ../calendar/gui/calendar-component.c:1475
 msgid "New appointment"
 msgstr "การนัดหมายใหม่"
 
-#: ../calendar/gui/calendar-component.c:1474
+#: ../calendar/gui/calendar-component.c:1476
 msgid "_Appointment"
 msgstr "การ_นัดหมาย"
 
-#: ../calendar/gui/calendar-component.c:1475
+#: ../calendar/gui/calendar-component.c:1477
 msgid "Create a new appointment"
 msgstr "สร้างการนัดหมายใหม่"
 
-#: ../calendar/gui/calendar-component.c:1481
+#: ../calendar/gui/calendar-component.c:1483
 msgid "New meeting"
 msgstr "การประชุมใหม่"
 
-#: ../calendar/gui/calendar-component.c:1482
+#: ../calendar/gui/calendar-component.c:1484
 msgid "M_eeting"
 msgstr "การ_ประชุม"
 
-#: ../calendar/gui/calendar-component.c:1483
+#: ../calendar/gui/calendar-component.c:1485
 msgid "Create a new meeting request"
 msgstr "สร้างการขอการประชุมใหม่"
 
-#: ../calendar/gui/calendar-component.c:1489
+#: ../calendar/gui/calendar-component.c:1491
 msgid "New all day appointment"
 msgstr "การประชุมตลอดทั้งวันใหม่"
 
-#: ../calendar/gui/calendar-component.c:1490
+#: ../calendar/gui/calendar-component.c:1492
 msgid "All Day A_ppointment"
 msgstr "การประชุม_ตลอดทั้งวัน"
 
-#: ../calendar/gui/calendar-component.c:1491
+#: ../calendar/gui/calendar-component.c:1493
 msgid "Create a new all-day appointment"
 msgstr "สร้างการประชุมตลอดทั้งวันใหม่"
 
-#: ../calendar/gui/calendar-component.c:1497
+#: ../calendar/gui/calendar-component.c:1499
 msgid "New calendar"
 msgstr "ปฏิทินใหม่"
 
-#: ../calendar/gui/calendar-component.c:1498
+#: ../calendar/gui/calendar-component.c:1500
 msgid "Cale_ndar"
 msgstr "_ปฏิทิน"
 
-#: ../calendar/gui/calendar-component.c:1499
+#: ../calendar/gui/calendar-component.c:1501
 msgid "Create a new calendar"
 msgstr "สร้างปฏิทินใหม่"
 
@@ -13530,10 +13529,9 @@ msgid ""
 "your message anyway. To avoid this, you should add at least one To: or CC: "
 "recipient."
 msgstr ""
-"ระบบอีเมลหลายระบบจะเพิ่มข้อมูลส่วนหัว Apparently-To "
-"ในข้อความที่มีแต่ผู้รับสำเนาลับล้วนๆ ซึ่งข้อมูลนี้จะแสดงผู้รับทั้งหมดของข้อความอยู่ดี "
-"คุณสามารถเลี่ยงการแสดงข้อมูลดังกล่าวได้ โดยเพิ่มผู้รับในช่อง ถึง: หรือ สำเนา: "
-"อย่างน้อยหนึ่งคน"
+"ระบบอีเมลหลายระบบจะเพิ่มข้อมูลส่วนหัว Apparently-To ในข้อความที่มีแต่ผู้รับสำเนาลับล้วนๆ "
+"ซึ่งข้อมูลนี้จะแสดงผู้รับทั้งหมดของข้อความอยู่ดี คุณสามารถเลี่ยงการแสดงข้อมูลดังกล่าวได้ "
+"โดยเพิ่มผู้รับในช่อง ถึง: หรือ สำเนา: อย่างน้อยหนึ่งคน"
 
 #: ../mail/mail.error.xml.h:62
 msgid "Mark all messages as read"
@@ -13629,10 +13627,9 @@ msgid ""
 msgstr ""
 "รายการที่อยู่ติดต่อที่คุณกำลังส่งถูกตั้งค่าไว้ให้ซ่อนชื่อผู้รับรายการ\n"
 "\n"
-"ระบบอีเมลหลายระบบจะเพิ่มข้อมูลส่วนหัว Apparently-To "
-"ในข้อความที่มีแต่ผู้รับสำเนาลับล้วนๆ ซึ่งข้อมูลนี้จะแสดงผู้รับทั้งหมดของข้อความอยู่ดี "
-"คุณสามารถเลี่ยงการแสดงข้อมูลดังกล่าวได้ โดยเพิ่มผู้รับในช่อง ถึง: หรือ สำเนา: "
-"อย่างน้อยหนึ่งคน"
+"ระบบอีเมลหลายระบบจะเพิ่มข้อมูลส่วนหัว Apparently-To ในข้อความที่มีแต่ผู้รับสำเนาลับล้วนๆ "
+"ซึ่งข้อมูลนี้จะแสดงผู้รับทั้งหมดของข้อความอยู่ดี คุณสามารถเลี่ยงการแสดงข้อมูลดังกล่าวได้ "
+"โดยเพิ่มผู้รับในช่อง ถึง: หรือ สำเนา: อย่างน้อยหนึ่งคน"
 
 #: ../mail/mail.error.xml.h:85
 msgid ""
@@ -13694,8 +13691,7 @@ msgid ""
 "Unable to open the drafts folder for this account.  Use the system drafts "
 "folder instead?"
 msgstr ""
-"ไม่สามารถเปิดโฟลเดอร์จดหมายร่างสำหรับบัญชีนี้ได้ "
-"จะใช้โฟลเดอร์จดหมายร่างของระบบแทนหรือไม่?"
+"ไม่สามารถเปิดโฟลเดอร์จดหมายร่างสำหรับบัญชีนี้ได้ จะใช้โฟลเดอร์จดหมายร่างของระบบแทนหรือไม่?"
 
 #: ../mail/mail.error.xml.h:105
 msgid "Unable to read license file."
@@ -13928,8 +13924,8 @@ msgid ""
 "A formatter plugin which displays audio attachments inline and allows you to "
 "play them directly from evolution."
 msgstr ""
-"ปลั๊กอินสำหรับการจัดเรียงข้อความ ซึ่งแสดงเอกสารแนบที่เป็นเสียงลงในบรรทัด "
-"และให้คุณเล่นเสียงจาก Evolution โดยตรงได้"
+"ปลั๊กอินสำหรับการจัดเรียงข้อความ ซึ่งแสดงเอกสารแนบที่เป็นเสียงลงในบรรทัด และให้คุณเล่นเสียงจาก "
+"Evolution โดยตรงได้"
 
 #: ../plugins/audio-inline/org-gnome-audio-inline.eplug.xml.h:2
 msgid "Audio inline plugin"
@@ -14107,8 +14103,7 @@ msgstr "ปฏิทินสภาพอากาศ"
 msgid ""
 "A test plugin which demonstrates a popup menu plugin which lets you copy "
 "things to the clipboard."
-msgstr ""
-"ปลั๊กอินทดสอบ ซึ่งสาธิตปลั๊กอินแบบผุดเมนู ให้คุณคัดลอกสิ่งต่างๆ ลงคลิปบอร์ด"
+msgstr "ปลั๊กอินทดสอบ ซึ่งสาธิตปลั๊กอินแบบผุดเมนู ให้คุณคัดลอกสิ่งต่างๆ ลงคลิปบอร์ด"
 
 #: ../plugins/copy-tool/org-gnome-copy-tool.eplug.xml.h:2
 msgid "Copy _Email Address"
@@ -15581,8 +15576,7 @@ msgstr "เ_มลลิงลิสต์"
 msgid ""
 "Provide actions for common mailing list commands (subscribe, "
 "unsubscribe, ...)."
-msgstr ""
-"ปฏิบัติการสำหรับคำสั่งปกติของเมลลิงลิสต์ (สมัครสมาชิก, ยกเลิกการสมัคร, ...)"
+msgstr "ปฏิบัติการสำหรับคำสั่งปกติของเมลลิงลิสต์ (สมัครสมาชิก, ยกเลิกการสมัคร, ...)"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:7
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:11
@@ -15779,8 +15773,7 @@ msgid ""
 "\n"
 "This plugin is unsupported demonstration code only.\n"
 msgstr ""
-"ปลั๊กอินทดสอบ ซึ่งสาธิตปลั๊กอินจัดเรียงข้อความ ให้คุณเลือกที่จะปิดการใช้เมลแบบ "
-"HTML ได้\n"
+"ปลั๊กอินทดสอบ ซึ่งสาธิตปลั๊กอินจัดเรียงข้อความ ให้คุณเลือกที่จะปิดการใช้เมลแบบ HTML ได้\n"
 "\n"
 "ปลั๊กอินนี้เป็นเพียงโค้ดสาธิตที่ไม่มีการดูแลเท่านั้น\n"
 
@@ -16293,7 +16286,7 @@ msgstr ""
 #. The translator-credits string is for translators to list
 #. * per language credits for translation, displayed in the
 #. * about box
-#: ../shell/e-shell-window-commands.c:508
+#: ../shell/e-shell-window-commands.c:532
 msgid "translator-credits"
 msgstr ""
 "สุปราณี ธีระวัฒนสุข <supranee@opentle.org>\n"
@@ -16302,19 +16295,19 @@ msgstr ""
 "ถ้ามีเวลาโปรดมาช่วยกันแปล :-)\n"
 "http://gnome-th.sf.net"
 
-#: ../shell/e-shell-window-commands.c:522
+#: ../shell/e-shell-window-commands.c:546
 msgid "Groupware Suite"
 msgstr "ชุดกรุ๊ปแวร์"
 
-#: ../shell/e-shell-window-commands.c:750
+#: ../shell/e-shell-window-commands.c:774
 msgid "_Work Online"
 msgstr "ทำงานออ_นไลน์"
 
-#: ../shell/e-shell-window-commands.c:763 ../ui/evolution.xml.h:50
+#: ../shell/e-shell-window-commands.c:787 ../ui/evolution.xml.h:50
 msgid "_Work Offline"
 msgstr "ทำงานออ_ฟไลน์"
 
-#: ../shell/e-shell-window-commands.c:776
+#: ../shell/e-shell-window-commands.c:800
 msgid "Work Offline"
 msgstr "ทำงานออฟไลน์"
 
@@ -19718,54 +19711,3 @@ msgstr "มอนต์เซร์แร็ต"
 #: ../widgets/text/e-text.c:3683 ../widgets/text/e-text.c:3684
 msgid "Handle Popup"
 msgstr ""
-
-#~ msgid "Mo_ve to Folder..."
-#~ msgstr "_ย้ายไปยังโฟลเดอร์..."
-
-#~ msgid "From:"
-#~ msgstr "จาก :"
-
-#~ msgid ""
-#~ "Evolution has found Gnome Calendar files.\n"
-#~ "Would you like to import them into Evolution?"
-#~ msgstr ""
-#~ "Evolution พบแฟ้มปฏิทิน Gnome\n"
-#~ "คุณต้องการที่จะนำเข้าแฟ้มนี้มายัง Evolution หรือไม่ ?"
-
-#~ msgid ""
-#~ "Evolution has found Elm mail files\n"
-#~ "Would you like to import them into Evolution?"
-#~ msgstr ""
-#~ "Evolution พบแฟ้ม Elm\n"
-#~ "คุณต้องการนำเข้าแฟ้มเหล่านี้มายัง Evolution หรือไม่ ?"
-
-#~ msgid "Elm"
-#~ msgstr "Elm"
-
-#~ msgid ""
-#~ "Evolution has found Pine mail files.\n"
-#~ "Would you like to import them into Evolution?"
-#~ msgstr ""
-#~ "Evolution พบแฟ้ม Pine\n"
-#~ "คุณต้องการที่จะนำเข้าแฟ้มเหล่านี้มายัง Evolution หรือไม่ ?"
-
-#~ msgid "Pine"
-#~ msgstr "Pine"
-
-#~ msgid "_Host:"
-#~ msgstr "โ_ฮสต์ :"
-
-#~ msgid "Out of office Message:"
-#~ msgstr "ข้อความขณะไม่อยู่สำนักงาน :"
-
-#~ msgid "Un_read Messages"
-#~ msgstr "ข้อความที่_ยังไม่ได้อ่าน"
-
-#~ msgid "_All"
-#~ msgstr "ทั้งห_มด"
-
-#~ msgid "Evolution _FAQ"
-#~ msgstr "Evolution _FAQ"
-
-#~ msgid "_Tools"
-#~ msgstr "เ_ครื่องมือ"
