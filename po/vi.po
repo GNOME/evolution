@@ -1265,7 +1265,7 @@ msgstr "_Quốc gia:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:33
 msgid "_Department:"
-msgstr "C_ơ quan:"
+msgstr "_Cơ quan:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:34
 msgid "_File under:"
@@ -1316,7 +1316,7 @@ msgstr "_Tựa đề"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:45
 msgid "_Video Chat:"
-msgstr "Trò chuyện ảnh _động:"
+msgstr "Trò chuyện ả_nh động:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:46
 msgid "_Wants to receive HTML mail"
@@ -1329,7 +1329,7 @@ msgstr "_Nhật ký Mạng:"
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:48
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:13
 msgid "_Where:"
-msgstr "_Ở đâu :"
+msgstr "Ở đâ_u :"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:49
 msgid "_Zip/Postal Code:"
@@ -2460,7 +2460,7 @@ msgstr "_Họ tên:"
 
 #: ../addressbook/gui/contact-editor/e-contact-quick-add.c:316
 msgid "E-_mail:"
-msgstr "Thư _điện tử:"
+msgstr "Thư đ_iện tử:"
 
 #: ../addressbook/gui/contact-editor/eab-editor.c:323
 #, c-format
@@ -4991,7 +4991,7 @@ msgstr "Gửi thư"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:13
 msgid "_Arguments:"
-msgstr "_Đối số:"
+msgstr "Đối _số:"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:14
 msgid "_Program:"
@@ -9678,7 +9678,7 @@ msgstr "_Từ:"
 #.
 #: ../composer/e-msg-composer-hdrs.c:637
 msgid "S_ubject:"
-msgstr "Chủ _đề:"
+msgstr "C_hủ đề:"
 
 #: ../composer/e-msg-composer-hdrs.c:646
 msgid "_To:"
@@ -10967,7 +10967,7 @@ msgstr "Hộp Đến"
 
 #: ../mail/em-folder-tree-model.c:475 ../mail/mail-component.c:145
 msgid "Outbox"
-msgstr "Hộp Đi"
+msgstr "Hộp gửi"
 
 #: ../mail/em-folder-tree-model.c:477 ../mail/mail-component.c:146
 msgid "Sent"
@@ -12691,7 +12691,7 @@ msgstr "Đị_a chỉ thư:"
 
 #: ../mail/mail-config.glade.h:77
 msgid "Empty trash folders on e_xit"
-msgstr "_Đổ các danh mục Sọt Rác khi thoát"
+msgstr "_Xoá rỗng Sọt Rác khi thoát"
 
 #: ../mail/mail-config.glade.h:78
 msgid "Encry_ption certificate:"
@@ -12707,7 +12707,7 @@ msgstr "Thực hiện lệnh..."
 
 #: ../mail/mail-config.glade.h:82
 msgid "Fi_xed-width:"
-msgstr "Độ rộng cố _định:"
+msgstr "Độ rộng _cố định:"
 
 #: ../mail/mail-config.glade.h:83
 msgid "Font Properties"
@@ -13047,7 +13047,7 @@ msgstr "<span weight=\"bold\">Mật mã</span>"
 
 #: ../mail/mail-dialogs.glade.h:5
 msgid "Case _Sensitive"
-msgstr "Ph_ân biệt hoa/thường"
+msgstr "_Phân biệt hoa/thường"
 
 #: ../mail/mail-dialogs.glade.h:6 ../mail/message-tags.glade.h:2
 msgid "Co_mpleted"
@@ -13112,7 +13112,7 @@ msgstr "Đăng _ký"
 
 #: ../mail/mail-dialogs.glade.h:23
 msgid "_Tick this to accept the license agreement"
-msgstr "Hãy _đánh dấu trong hộp chọn này để chấp nhận các điều kiện quyền này."
+msgstr "Hãy đánh _dấu trong hộp chọn này để chấp nhận các điều kiện quyền này."
 
 #: ../mail/mail-dialogs.glade.h:24
 #: ../plugins/folder-unsubscribe/org-gnome-mail-folder-unsubscribe.eplug.xml.h:3
@@ -13960,7 +13960,7 @@ msgstr "_Hủy các thay đổi"
 
 #: ../mail/mail.error.xml.h:119
 msgid "_Empty Trash"
-msgstr "_Đổ Rác"
+msgstr "Đổ _Rác"
 
 #: ../mail/mail.error.xml.h:120
 msgid "_Expunge"
@@ -14296,7 +14296,7 @@ msgstr "Chọn địa điểm"
 
 #: ../plugins/calendar-weather/calendar-weather.c:654
 msgid "_Units:"
-msgstr "_Đơn vị"
+msgstr "Đơn _vị"
 
 #: ../plugins/calendar-weather/calendar-weather.c:661
 msgid "Metric (Celsius, cm, etc)"
@@ -14568,7 +14568,7 @@ msgstr "_Lịch:"
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:3
 msgid "Co_ntacts:"
-msgstr "Li_ên lạc: "
+msgstr "_Liên lạc: "
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:4
 msgid "Delegate Permissions"
@@ -14605,7 +14605,7 @@ msgstr "Người ủ_y nhiêm có thể thấy những mục tư nhân"
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:14
 msgid "_Inbox:"
-msgstr "Hộp _Đến"
+msgstr "Hộp _nhận"
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:15
 msgid "_Tasks:"
@@ -15203,7 +15203,7 @@ msgstr "Đăng ký với _thông báo tôi"
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:13
 #: ../ui/evolution-mail-message.xml.h:120
 msgid "_Read"
-msgstr "_Đọc"
+msgstr "Đọ_c"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:14
 msgid "_Write"
@@ -15238,7 +15238,7 @@ msgstr "%sNhập mật khẩu cho « %s » (người dùng « %s »)"
 
 #: ../plugins/groupwise-features/proxy-login.c:484
 msgid "_Proxy Login..."
-msgstr "Đăng nhập ủy_ nhiệm..."
+msgstr "Đăng nhập ủ_y nhiệm..."
 
 #: ../plugins/groupwise-features/proxy.c:672
 msgid "The Proxy tab will be available only when the account is enabled."
@@ -16204,7 +16204,7 @@ msgstr "Lưu các điều chọn"
 
 #: ../plugins/save-calendar/org-gnome-save-calendar.eplug.xml.h:2
 msgid "Save to _Disk"
-msgstr "Lưu vào _đĩa"
+msgstr "Lưu vào đĩ_a"
 
 #: ../plugins/save-calendar/org-gnome-save-calendar.eplug.xml.h:3
 msgid "Saves selected calendar or tasks list to disk."
@@ -17807,7 +17807,7 @@ msgstr "Ẩn các thư đã _xoá bỏ"
 
 #: ../ui/evolution-mail-list.xml.h:10
 msgid "Hide _Read Messages"
-msgstr "Ẩn các thư đã _đọc"
+msgstr "Ẩn các thư đã đọ_c"
 
 #: ../ui/evolution-mail-list.xml.h:11
 msgid ""
@@ -17816,7 +17816,7 @@ msgstr "Ẩn các thư đã xoá bỏ thay vì hiển thị chúng dạng gạch
 
 #: ../ui/evolution-mail-list.xml.h:12
 msgid "Mark Me_ssages as Read"
-msgstr "Nhãn thư _Đã đọc"
+msgstr "Đánh dấu thư Đã đọ_c"
 
 #: ../ui/evolution-mail-list.xml.h:13 ../ui/evolution-mail-message.xml.h:68
 msgid "Paste message(s) from the clipboard"
@@ -18181,7 +18181,7 @@ msgstr "Tìm đoạn trong thân thư đã hiển thị"
 
 #: ../ui/evolution-mail-message.xml.h:91
 msgid "Select _All Text"
-msgstr "Chọn toàn bộ v_ăn bản"
+msgstr "Chọn toàn bộ _văn bản"
 
 #: ../ui/evolution-mail-message.xml.h:92
 msgid "Select all the text in a message"
@@ -18540,7 +18540,7 @@ msgstr "Bỏ đăng ký"
 
 #: ../ui/evolution-subscribe.xml.h:12
 msgid "_Invert Selection"
-msgstr "_Đảo vùng chọn"
+msgstr "Đả_o vùng chọn"
 
 #: ../ui/evolution-tasks.xml.h:3
 msgid "Copy selected task"
@@ -18702,7 +18702,7 @@ msgstr "_Giới thiệu Evolution..."
 
 #: ../ui/evolution.xml.h:31
 msgid "_Close Window"
-msgstr "_Đóng cửa sổ"
+msgstr "Đón_g cửa sổ"
 
 #: ../ui/evolution.xml.h:34
 msgid "_Help"
@@ -18742,7 +18742,7 @@ msgstr "Hình thức bộ _chuyển đổi"
 
 #: ../ui/evolution.xml.h:43
 msgid "_Synchronization Options..."
-msgstr "Tùy chọn _đồng bộ..."
+msgstr "Tùy chọn đồng _bộ..."
 
 #: ../ui/evolution.xml.h:44
 msgid "_Text only"
@@ -19207,7 +19207,7 @@ msgstr "_Sửa đổi việc tìm kiếm đã lưu..."
 
 #: ../widgets/misc/e-filter-bar.h:94 ../widgets/misc/e-filter-bar.h:101
 msgid "_Advanced Search..."
-msgstr "Tìm kiếm n_âng cao"
+msgstr "Tìm kiếm _nâng cao"
 
 #: ../widgets/misc/e-image-chooser.c:172
 msgid "Choose Image"
@@ -19419,7 +19419,7 @@ msgstr "_Làm trễ gởi thư"
 
 #: ../widgets/misc/e-send-options.glade.h:30
 msgid "_Delivered"
-msgstr "_Đã gửi"
+msgstr "Đã _gửi"
 
 #: ../widgets/misc/e-send-options.glade.h:32
 msgid "_Set expiration date"
@@ -19427,7 +19427,7 @@ msgstr "_Lập ngày hết hạn"
 
 #: ../widgets/misc/e-send-options.glade.h:33
 msgid "_Until:"
-msgstr "_Đến khi:"
+msgstr "Đến _khi:"
 
 #: ../widgets/misc/e-send-options.glade.h:34
 msgid "_When convenient"
