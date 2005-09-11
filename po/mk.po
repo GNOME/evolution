@@ -13,13 +13,13 @@ msgstr ""
 "Project-Id-Version: mk\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-08-30 05:59+0000\n"
-"PO-Revision-Date: 2005-08-30 16:59+0200\n"
+"PO-Revision-Date: 2005-09-10 19:00+0200\n"
 "Last-Translator: Арангел Ангов <ufo@linux.net.mk>\n"
 "Language-Team: Macedonian <ossm-members@hedona.on.net.mk>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.10\n"
+"X-Generator: KBabel 1.10.2\n"
 "Plural-Forms: nplurals=3; plural= n==1 || n%10==1 ? 0 : 1\n"
 "X-Poedit-Language: Macedonian\n"
 "X-Poedit-Country: MACEDONIA, THE REPUBLIC OF\n"
@@ -28,7 +28,7 @@ msgstr ""
 #: ../a11y/addressbook/ea-addressbook-view.c:103
 #: ../a11y/addressbook/ea-minicard-view.c:169
 msgid "evolution addressbook"
-msgstr "Еволушн адресар"
+msgstr "адресар за еволушн"
 
 #: ../a11y/addressbook/ea-minicard-view.c:34
 #: ../addressbook/gui/component/addressbook-component.c:225
@@ -395,7 +395,7 @@ msgstr "Некои опции може да не работат правилно
 
 #: ../addressbook/addressbook.error.xml.h:15
 msgid "The Evolution addressbook has quit unexpectedly."
-msgstr "Evolution адресарот неочекувано откажа."
+msgstr "Еволушн адресарот неочекувано откажа."
 
 #: ../addressbook/addressbook.error.xml.h:16
 msgid "The image you have selected is large. Do you want to resize and store it?"
@@ -476,7 +476,7 @@ msgstr "Направи измени на овој контакт. Дали са�
 #: ../addressbook/addressbook.error.xml.h:30
 msgid "Your contacts for {0} will not be available until Evolution is restarted."
 msgstr ""
-"Вашите контакти за {0} нема да бидат достапни додека Evolution не се "
+"Вашите контакти за {0} нема да бидат достапни додека Еволушн не се "
 "рестартира."
 
 #: ../addressbook/addressbook.error.xml.h:31 ../mail/em-vfolder-rule.c:494
@@ -538,31 +538,31 @@ msgstr "Контакти"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:6
 msgid "Evolution Addressbook"
-msgstr "Evolution адресар"
+msgstr "Еволушн адресар"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:7
 msgid "Evolution Addressbook address pop-up"
-msgstr "Evolution адресар pop-up адреса"
+msgstr "Еволушн адресар pop-up адреса"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:8
 msgid "Evolution Addressbook address viewer"
-msgstr "Evolution адресар прегледувач на адреса"
+msgstr "Еволушн адресар прегледувач на адреса"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:9
 msgid "Evolution Addressbook card viewer"
-msgstr "Evolution адресар прегледувач на карти"
+msgstr "Еволушн адресар прегледувач на карти"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:10
 msgid "Evolution Addressbook component"
-msgstr "Evolution адресар компонента"
+msgstr "Еволушн адресар компонента"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:11
 msgid "Evolution S/Mime Certificate Management Control"
-msgstr "Evolution S/Mime контрола за менаџмент на сертификати"
+msgstr "Еволушн S/Mime контрола за менаџмент на сертификати"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:12
 msgid "Evolution folder settings configuration control"
-msgstr "Поставки за контрола на конфигурирање на Evolution папка"
+msgstr "Поставки за контрола на конфигурирање на Еволушн папка"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:13
 msgid "Manage your S/MIME certificates here"
@@ -716,9 +716,9 @@ msgid ""
 "\n"
 "Please be patient while Evolution migrates your folders..."
 msgstr ""
-"Локацијата и хиерархијата на Evolution папките со контакти е променета од "
-"Evolution 1.x.\n"
-"Ве молиме почекајте додека Evolution ги мигрира вашите папки..."
+"Локацијата и хиерархијата на Еволушн папките со контакти е променета од "
+"Еволушн 1.x.\n"
+"Ве молиме почекајте додека Еволушн ги мигрира вашите папки..."
 
 #: ../addressbook/gui/component/addressbook-migrate.c:1148
 msgid ""
@@ -728,7 +728,7 @@ msgid ""
 msgstr ""
 "Форматот на контактите од поштенската листа е променет.\n"
 "\n"
-"Ве молиме почекајте додека Evolution ги мигрира вашите папки..."
+"Ве молиме почекајте додека Еволушн ги мигрира вашите папки..."
 
 #: ../addressbook/gui/component/addressbook-migrate.c:1157
 msgid ""
@@ -736,9 +736,9 @@ msgid ""
 "\n"
 "Please be patient while Evolution migrates your folders..."
 msgstr ""
-"Начинот на кој Evolution сместува некои тел. броеви е променет.\n"
+"Начинот на кој Еволушн сместува некои тел. броеви е променет.\n"
 "\n"
-"Ве молиме почекајте додека Evolution ги мигрира вашите папки..."
+"Ве молиме почекајте додека Еволушн ги мигрира вашите папки..."
 
 #: ../addressbook/gui/component/addressbook-migrate.c:1167
 msgid ""
@@ -748,7 +748,7 @@ msgid ""
 msgstr ""
 "Palm Sync логот со измени и map датотеките се променети.\n"
 "\n"
-"Ве молиме почекајте додека Evolution ги мигрира вашите Pilot Sync податоци..."
+"Ве молиме почекајте додека Еволушн ги мигрира вашите Pilot Sync податоци..."
 
 #: ../addressbook/gui/component/addressbook-view.c:764
 #: ../addressbook/gui/widgets/e-addressbook-view.c:952
@@ -813,7 +813,7 @@ msgid ""
 "The number of characters that must be typed before Evolution will attempt to "
 "autocomplete."
 msgstr ""
-"Број на карактери кои мора да бидат внесени пред Evolution да се обиде со "
+"Број на карактери кои мора да бидат внесени пред Еволушн да се обиде со "
 "автокомплетирање."
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:7
@@ -930,7 +930,7 @@ msgstr "Email адреса"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:21
 msgid "Evolution will use this email address to authenticate you with the server."
-msgstr "Evolution ќе ја користи оваа email адреса за автентикација кај серверот."
+msgstr "Еволушн ќе ја користи оваа адреса е-пошта за автентикација кај серверот."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:22
 msgid "Find Possible Search Bases"
@@ -958,7 +958,7 @@ msgid ""
 "Selecting this option means that Evolution will only connect to your LDAP "
 "server if your LDAP server supports SSL or TLS."
 msgstr ""
-"Одбирајќи ја оваа опција значи дека Evolution ќе се поврзува на LDAP "
+"Одбирајќи ја оваа опција значи дека Еволушн ќе се поврзува на LDAP "
 "серверот\n"
 "само доколку серверот подржува SSL и TLS."
 
@@ -969,9 +969,9 @@ msgid ""
 "are behind a firewall at work, then Evolution doesn't need to use SSL/TLS "
 "because your connection is already secure."
 msgstr ""
-"Одбирајќи ја оваа опција значи дека Evolution ќе проба да користи SSL/TLS "
+"Одбирајќи ја оваа опција значи дека Еволушн ќе проба да користи SSL/TLS "
 "ако работите во несигурна околина. На пример, ако вие и вашиот LDAP сервер "
-"се наоѓате позади firewall, тогаш Evolution не мора да користи SSL/TLS "
+"се наоѓате позади firewall, тогаш Еволушн не мора да користи SSL/TLS "
 "бидејќи врската веќе е сигурна."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:30
@@ -1036,7 +1036,7 @@ msgid ""
 "setting this to \"Email Address\" requires anonymous access to your ldap "
 "server."
 msgstr ""
-"Ова е методот кој Evolution ќе го користи за да ве автентицира.  Доколку го "
+"Ова е методот кој Еволушн ќе го користи за да ве автентицира.  Доколку го "
 "подесите како \"Email адреса\" ќе треба да имате анонимен пристап до вашиот "
 "LDAP сервер."
 
@@ -1045,7 +1045,7 @@ msgid ""
 "This is the name for this server that will appear in your Evolution folder "
 "list. It is for display purposes only. "
 msgstr ""
-"Ова е името на серверот што ќе се појавува во вашата листа на Evolution "
+"Ова е името на серверот што ќе се појавува во вашата листа на Еволушн "
 "папки. Единствено се користи за приказ."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:39
@@ -1054,7 +1054,7 @@ msgid ""
 "list of standard ports has been provided. Ask your system administrator what "
 "port you should specify."
 msgstr ""
-"Ова е портот на LDAP серверот на кој Evolution ќе проба да се поврзе. Дадена "
+"Ова е портот на LDAP серверот на кој Еволушн ќе проба да се поврзе. Дадена "
 "е и листа на стандардни порти. Прашајте го вашиот системски администратор "
 "кој порт да го зададете."
 
@@ -1064,7 +1064,7 @@ msgstr "Користам име на распознавање (DN)"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:41
 msgid "Using email address"
-msgstr "Користам email адреса"
+msgstr "Користам адреса за е-пошта"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:42
 #: ../mail/em-account-editor.c:301
@@ -2611,7 +2611,7 @@ msgstr "\n"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:4
 msgid "Add an email to the List"
-msgstr "Додади email на листата"
+msgstr "Додади е-пошта на листата"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:5
 #: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:834
@@ -2620,7 +2620,7 @@ msgstr "Уредувач на листа со контакти"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:6
 msgid "Insert email addresses from Address Book"
-msgstr "Внеси email адреса од адресарот"
+msgstr "Внеси адреса на е-пошта од адресарот"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:7
 msgid "Members"
@@ -2628,7 +2628,7 @@ msgstr "Членови"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:8
 msgid "Remove an email address from the List"
-msgstr "Отстрани email адреса од листата"
+msgstr "Отстрани адреса на е-пошта од листата"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:9
 msgid "_Hide addresses when sending mail to this list"
@@ -2701,7 +2701,7 @@ msgid ""
 "The name or email address of this contact already exists\n"
 "in this folder.  Would you like to add it anyway?"
 msgstr ""
-"Името или email адресата на овој контакт веќе постои\n"
+"Името или адресата на е-пошта на овој контакт веќе постои\n"
 "во оваа папка. Дали сепак сакаш да ја додадеш?"
 
 #. FIXME: get the toplevel window...
@@ -3357,8 +3357,8 @@ msgid ""
 "you want to use LDAP in Evolution, you must install an LDAP-enabled "
 "Evolution package."
 msgstr ""
-"Оваа верзија на Evolution нема вклучено поддршка за LDAP. Ако сакате да "
-"користите LDAP во Evolution, мора да инсталирате Evolution пакет со LDAP "
+"Оваа верзија на Еволушн нема вклучено поддршка за LDAP. Ако сакате да "
+"користите LDAP во Еволушн, мора да инсталирате Еволушн пакет со LDAP "
 "поддршка."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:122
@@ -3377,7 +3377,7 @@ msgid ""
 "the directory server preferences for this addressbook."
 msgstr ""
 "Повеќе картички беа одбрани отколку што може да се прикажат,\n"
-"бидејќи или серверот или Evolution е така конфигуриран.\n"
+"бидејќи или серверот или Еволушн е така конфигуриран.\n"
 "Пробајте да дадете поспецифични критериуми за пребарување\n"
 "или зголемете ги лимитите за серверот за овој адресар."
 
@@ -3522,7 +3522,7 @@ msgstr "(нема)"
 
 #: ../addressbook/gui/widgets/eab-popup-control.c:431
 msgid "Primary Email"
-msgstr "Примарен email"
+msgstr "Примарна е-пошта"
 
 #: ../addressbook/gui/widgets/eab-popup-control.c:567
 msgid "Select an Action"
@@ -3544,7 +3544,7 @@ msgstr "Го чекам адресарот..."
 
 #: ../addressbook/gui/widgets/eab-popup-control.c:968
 msgid "Merge E-Mail Address"
-msgstr "Спои ја email адресата"
+msgstr "Спои ја адресата за е-пошта"
 
 #: ../addressbook/gui/widgets/eab-vcard-control.c:139
 #, c-format
@@ -3588,7 +3588,7 @@ msgstr "LDAP Data Interchange Format (.ldif)"
 
 #: ../addressbook/importers/evolution-ldif-importer.c:653
 msgid "Evolution LDIF importer"
-msgstr "Evolution LDIF импортер"
+msgstr "Еволушн LDIF импортер"
 
 #: ../addressbook/importers/evolution-vcard-importer.c:529
 msgid "VCard (.vcf, .gcrd)"
@@ -3596,7 +3596,7 @@ msgstr "VCard (.vcf, .gcrd)"
 
 #: ../addressbook/importers/evolution-vcard-importer.c:530
 msgid "Evolution VCard Importer"
-msgstr "Evolution VCard увезувач"
+msgstr "Еволушн VCard увезувач"
 
 #: ../addressbook/printing/e-contact-print-envelope.c:213
 #: ../addressbook/printing/e-contact-print-envelope.c:234
@@ -4124,11 +4124,11 @@ msgstr ""
 
 #: ../calendar/calendar.error.xml.h:45
 msgid "The Evolution calendar has quit unexpectedly."
-msgstr "Evolution календарот неочекувано откажа."
+msgstr "Еволушн календарот неочекувано откажа."
 
 #: ../calendar/calendar.error.xml.h:46
 msgid "The Evolution tasks have quit unexpectedly."
-msgstr "Задачите на Evolution неочекувано откажаа."
+msgstr "Задачите на Еволушн неочекувано откажаа."
 
 #: ../calendar/calendar.error.xml.h:47
 msgid "The calendar is not marked for offline usage"
@@ -4188,11 +4188,11 @@ msgstr "Вие направивте промени на оваа задача, �
 
 #: ../calendar/calendar.error.xml.h:62
 msgid "Your calendars will not be available until Evolution is restarted."
-msgstr "Твоите календари нема да бидат достапни додека Evolution не се рестартира."
+msgstr "Твоите календари нема да бидат достапни додека Еволушн не се рестартира."
 
 #: ../calendar/calendar.error.xml.h:63
 msgid "Your tasks will not be available until Evolution is restarted."
-msgstr "Твоите задачи нема да бидат достапни додека Evolution не се рестартира."
+msgstr "Твоите задачи нема да бидат достапни додека Еволушн не се рестартира."
 
 #: ../calendar/calendar.error.xml.h:64
 #: ../ui/evolution-message-composer.xml.h:51
@@ -4270,11 +4270,11 @@ msgstr "Развоен календар/Уредувач на задачи"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:8
 msgid "Evolution's Calendar component"
-msgstr "Компонента на Evolution календарот"
+msgstr "Компонента на Еволушн календарот"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:9
 msgid "Evolution's Tasks component"
-msgstr "Компонента на Evolution задачите"
+msgstr "Компонента на Еволушн задачите"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:10
 #: ../calendar/gui/e-tasks.c:1257 ../calendar/gui/print.c:1822
@@ -5271,7 +5271,7 @@ msgstr "<b>Работна недела</b>"
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:15
 #, no-c-format
 msgid "<i>%u and %d will be replaced by user and domain from the email address.</i>"
-msgstr "<i>%u и %d ќе бидат заменети од корисникот и доменот од email адресата.</i>"
+msgstr "<i>%u и %d ќе бидат заменети од корисникот и доменот од адресата на е-пошта.</i>"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:16
 msgid "Calendar and Tasks Settings"
@@ -6172,7 +6172,7 @@ msgstr "Сите случаи"
 
 #: ../calendar/gui/dialogs/recurrence-page.c:496
 msgid "This appointment contains recurrences that Evolution cannot edit."
-msgstr "Овој состанок содржи повторувања што Evolution не може да ги уреди"
+msgstr "Овој состанок содржи повторувања што Еволушн не може да ги уреди"
 
 #: ../calendar/gui/dialogs/recurrence-page.c:817
 msgid "Recurrence date is invalid"
@@ -7735,10 +7735,10 @@ msgid ""
 "\n"
 "Please be patient while Evolution migrates your folders..."
 msgstr ""
-"Локацијата и хиерархијата на Evolution папките со задачи е променета од "
-"Evolution 1.x.\n"
+"Локацијата и хиерархијата на Еволушн папките со задачи е променета од "
+"Еволушн 1.x.\n"
 "\n"
-"Ве молиме почекајте додека Evolution ги мигрира вашите папки..."
+"Ве молиме почекајте додека Еволушн ги мигрира вашите папки..."
 
 #: ../calendar/gui/migration.c:155
 msgid ""
@@ -7747,10 +7747,10 @@ msgid ""
 "\n"
 "Please be patient while Evolution migrates your folders..."
 msgstr ""
-"Локацијата и хиерархијата на Evolution папките со календари е променета од "
-"Evolution 1.x.\n"
+"Локацијата и хиерархијата на Еволушн папките со календари е променета од "
+"Еволушн 1.x.\n"
 "\n"
-"Ве молиме почекајте додека Evolution ги мигрира вашите папки..."
+"Ве молиме почекајте додека Еволушн ги мигрира вашите папки..."
 
 #. FIXME: set proper domain/code
 #: ../calendar/gui/migration.c:748 ../calendar/gui/migration.c:915
@@ -8115,7 +8115,7 @@ msgstr "iCalendar датотеки (.ics)"
 
 #: ../calendar/importers/icalendar-importer.c:430
 msgid "Evolution iCalendar importer"
-msgstr "Увезувач на Evolution iCalendar"
+msgstr "Увезувач на Еволушн iCalendar"
 
 #: ../calendar/importers/icalendar-importer.c:494
 msgid "Reminder!!"
@@ -8127,7 +8127,7 @@ msgstr "vCalendar датотеки (.vcf)"
 
 #: ../calendar/importers/icalendar-importer.c:540
 msgid "Evolution vCalendar importer"
-msgstr "Увезувал на Evolution vCalendar"
+msgstr "Увезувал на Еволушн vCalendar"
 
 #: ../calendar/importers/icalendar-importer.c:702
 msgid "Calendar Events"
@@ -8135,7 +8135,7 @@ msgstr "Настани од календар"
 
 #: ../calendar/importers/icalendar-importer.c:739
 msgid "Evolution Calendar intelligent importer"
-msgstr "Интелегентен увезувач на Evolution Calendar"
+msgstr "Интелегентен увезувач на Еволушн Calendar"
 
 #.
 #. * These are the timezone names from the Olson timezone data.
@@ -9895,7 +9895,7 @@ msgid ""
 "Evolution quit unexpectedly while you were composing a new message. "
 "Recovering the message will allow you to continue where you left off."
 msgstr ""
-"Evolution излезе неочекувано додека пишуваше нова порака. Враќањето на "
+"Еволушн излезе неочекувано додека пишуваше нова порака. Враќањето на "
 "пораката ќе ти дозволи да продолжиш каде што си застанал."
 
 #: ../composer/mail-composer.error.xml.h:18
@@ -9957,11 +9957,11 @@ msgstr "_Зачувај порака"
 #: ../plugins/default-mailer/org-gnome-default-mailer.error.xml.h:2
 #: ../shell/main.c:509
 msgid "Evolution"
-msgstr "Evolution"
+msgstr "Еволушн"
 
 #: ../data/evolution.desktop.in.in.h:2
 msgid "The Evolution Groupware Suite"
-msgstr "Evolution Groupware Suite"
+msgstr "Еволушн Groupware Suite"
 
 #: ../data/evolution.keys.in.in.h:1
 msgid "address card"
@@ -10040,7 +10040,7 @@ msgid ""
 msgstr ""
 "<small>Оваа страница ти дозволува ако сакаш да бидеш известен преку потврда "
 "за читање кога порака што ти\n"
-"ја праќаш е прочитана, и да назначиш што Evolution треба да прави кога некој "
+"ја праќаш е прочитана, и да назначиш што Еволушн треба да прави кога некој "
 "бара потврда од тебе.</small>"
 
 #: ../designs/read_receipts/read.glade.h:6
@@ -10072,7 +10072,7 @@ msgid ""
 "When you receive an email with a read receipt request, what should Evolution "
 "do?"
 msgstr ""
-"Кога ќе добиеш порака со барање за потврда за читање, што треба Evolution да "
+"Кога ќе добиеш порака со барање за потврда за читање, што треба Еволушн да "
 "направи?"
 
 #: ../e-util/e-dialog-utils.c:267
@@ -10089,19 +10089,19 @@ msgstr "Пребриши датотека?"
 
 #: ../e-util/e-error.c:84 ../e-util/e-error.c:85 ../e-util/e-error.c:127
 msgid "Evolution Error"
-msgstr "Evolution грешка"
+msgstr "Еволушн грешка"
 
 #: ../e-util/e-error.c:86 ../e-util/e-error.c:87 ../e-util/e-error.c:125
 msgid "Evolution Warning"
-msgstr "Evolution предупредување"
+msgstr "Еволушн предупредување"
 
 #: ../e-util/e-error.c:124
 msgid "Evolution Information"
-msgstr "Evolution информации"
+msgstr "Еволушн информации"
 
 #: ../e-util/e-error.c:126
 msgid "Evolution Query"
-msgstr "Evolution прашалник"
+msgstr "Еволушн прашалник"
 
 #. setup a dummy error
 #: ../e-util/e-error.c:438
@@ -10511,31 +10511,31 @@ msgstr "Овде конфигурирај проверка на правопис
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:4
 msgid "Configure your email accounts here"
-msgstr "Конфигурирај ги твоите email сметки овде"
+msgstr "Конфигурирајте ги Вашите сметки за е-пошта тука"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:5
 msgid "Evolution Mail"
-msgstr "Evolution пошта"
+msgstr "Еволушн пошта"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:6
 msgid "Evolution Mail accounts configuration control"
-msgstr "Контрола на конфигурација за Evolution пошта сметки"
+msgstr "Контрола на конфигурација за Еволушн пошта сметки"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:7
 msgid "Evolution Mail component"
-msgstr "Evolution пошта компонента"
+msgstr "Еволушн пошта компонента"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:8
 msgid "Evolution Mail composer"
-msgstr "Evolution пошта пишувач"
+msgstr "Еволушн пошта пишувач"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:9
 msgid "Evolution Mail composer configuration control"
-msgstr "Контрола на конфигурација за Evolution пошта пишувачотl"
+msgstr "Контрола на конфигурација за Еволушн пошта пишувачотl"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:10
 msgid "Evolution Mail preferences control"
-msgstr "Контрола на параметри за Evolution пошта"
+msgstr "Контрола на параметри за Еволушн пошта"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:11 ../mail/em-folder-view.c:494
 #: ../mail/importers/elm-importer.c:342
@@ -10627,7 +10627,7 @@ msgstr "Уредувач на сметки"
 
 #: ../mail/em-account-editor.c:2659 ../mail/mail-config.glade.h:80
 msgid "Evolution Account Assistant"
-msgstr "Асистент за Evolution сметки"
+msgstr "Асистент за Еволушн сметки"
 
 #. translators: default account indicator
 #: ../mail/em-account-prefs.c:455
@@ -11589,10 +11589,10 @@ msgid ""
 "\n"
 "Please be patient while Evolution migrates your folders..."
 msgstr ""
-"Локацијата и хиерархијата на Evolution папките со сандачиња е променета од "
-"Evolution 1.x.\n"
+"Локацијата и хиерархијата на Еволушн папките со сандачиња е променета од "
+"Еволушн 1.x.\n"
 "\n"
-"Ве молиме почекајте додека Evolution ги мигрира вашите папки..."
+"Ве молиме почекајте додека Еволушн ги мигрира вашите папки..."
 
 #: ../mail/em-migrate.c:1632
 #, c-format
@@ -11641,7 +11641,7 @@ msgid ""
 "Unable to read settings from previous Evolution install, `evolution/config."
 "xmldb' does not exist or is corrupt."
 msgstr ""
-"Не може да се прочитаат поставките од претходната Evolution инсталација, "
+"Не може да се прочитаат поставките од претходната Еволушн инсталација, "
 "`evolution/config.xmldb' не постои или е оштетена."
 
 #: ../mail/em-popup.c:399
@@ -11824,7 +11824,7 @@ msgstr "Испразни ја папката за ѓубре при излез"
 
 #: ../mail/evolution-mail.schemas.in.in.h:22
 msgid "Empty all Trash folders when exiting Evolution."
-msgstr "Испразни ги сите папки за ѓубре при излез на Evolution."
+msgstr "Испразни ги сите папки за ѓубре при излез на Еволушн."
 
 #: ../mail/evolution-mail.schemas.in.in.h:23
 msgid "Enable caret mode, so that you can see a cursor when reading mail."
@@ -11856,7 +11856,7 @@ msgid ""
 "any mime-types appearing in this list which map to a bonobo-component viewer "
 "in GNOME's mime-type database may be used for displaying content."
 msgstr ""
-"Ако нема вграден прегледник за одредени mime типови во Evolution, било кои "
+"Ако нема вграден прегледник за одредени mime типови во Еволушн, било кои "
 "mime типови кои се појавуваат во оваа листа кои мапираат во bonobo "
 "прегледник на компоненти во базата на mime типови на GNOМЕ може да се "
 "користат за приказ на содржина."
@@ -11882,7 +11882,7 @@ msgid ""
 "List of accounts known to the mail component of Evolution. The list contains "
 "strings naming subdirectories relative to /apps/evolution/mail/accounts."
 msgstr ""
-"Листа на сметки познати на mail компонентата на Evolution. Листата содржи "
+"Листа на сметки познати на mail компонентата на Еволушн. Листата содржи "
 "стрингови кои именуваат подпапки слични на /apps/evolution/mail/accounts."
 
 #: ../mail/evolution-mail.schemas.in.in.h:34
@@ -11894,7 +11894,7 @@ msgid ""
 "List of labels known to the mail component of Evolution. The list contains "
 "strings containing name:color where color uses the HTML hex encoding."
 msgstr ""
-"Листа на ознаки познати на mail компонентата на Evolution. Листата содржи "
+"Листа на ознаки познати на mail компонентата на Еволушн. Листата содржи "
 "стрингови кои содржат name:color каде бојата го користи hex енкодингот на "
 "HTML."
 
@@ -12219,7 +12219,7 @@ msgstr "Увезување на Elm податоци"
 
 #: ../mail/importers/elm-importer.c:382
 msgid "Evolution Elm importer"
-msgstr "Evolution Elm увезувач"
+msgstr "Еволушн Elm увезувач"
 
 #: ../mail/importers/elm-importer.c:383
 msgid "Import mail from Elm."
@@ -12290,15 +12290,15 @@ msgid ""
 "of priorities. Check the imported filters to make sure\n"
 "everything still works as intended."
 msgstr ""
-"Некои од твоите Нетскејп email филтри се базирани на\n"
-"email приоритети, кои не се користат во Evolution.\n"
-"Наместо, Evolution обезбедува резултати во опсег од\n"
+"Некои од твоите Нетскејп филтри за е-пошта се базирани на\n"
+"приоритети за е-пошта, кои не се користат во Еволушн.\n"
+"Наместо, Еволушн обезбедува резултати во опсег од\n"
 "-3 до 3 кои може да се доделат на пошта и филтрирани\n"
 "респективно.\n"
 "\n"
 "Како работна средина, сет на филтри наречен \"Приоритетен филтер\"\n"
-"е додаден кој ги конвертира email приоритетите на Нетскејп во\n"
-"Evolution резултати, и засегнатите филтри користат резултати\n"
+"е додаден кој ги конвертира приоритетите за е-поштата на Нетскејп во\n"
+"Еволушн резултати, и засегнатите филтри користат резултати\n"
 "наместо приоритети. Провери ги филтрите за увоз за да видиш\n"
 "дали се работи како што треба."
 
@@ -12311,7 +12311,7 @@ msgid ""
 msgstr ""
 "Некои од твоите Нетскејп филтри ја користат\n"
 "\"Игнорирај нишка\" или \"Гледај нишка\"\n"
-"можноста, која не е поддржана во Evolution.\n"
+"можноста, која не е поддржана во Еволушн.\n"
 "Овие филтри ќе се занемарат."
 
 #: ../mail/importers/netscape-importer.c:703
@@ -12322,15 +12322,15 @@ msgid ""
 "were modified to test whether that string is or is not\n"
 "contained in the message body."
 msgstr ""
-"Некои од твоите Нетскејп email филтри го тестираат\n"
+"Некои од Вашите Нетскејп филтри за е-пошта го тестираат\n"
 "телото на пораките за (не)еднаквост на даден стринг,\n"
-"кој не е поддржан во Evolution. Тие филтри\n"
+"кој не е поддржан во Еволушн. Тие филтри\n"
 "се изменети за да се тестира дали стрингот\n"
 "се содржи во телото на пораката."
 
 #: ../mail/importers/netscape-importer.c:1250
 msgid "Evolution is importing your old Netscape data"
-msgstr "Evolution ги увезува твоите стари Нетскејп податоци"
+msgstr "Еволушн ги увезува твоите стари Нетскејп податоци"
 
 #: ../mail/importers/netscape-importer.c:1707
 msgid "Importing Netscape data"
@@ -12349,8 +12349,8 @@ msgid ""
 "Evolution has found Netscape mail files.\n"
 "Would you like them to be imported into Evolution?"
 msgstr ""
-"Evolution пронајде Нетскејп датотеки со пошта./nДали сакаш да се увезат во "
-"Evolution?"
+"Еволушн пронајде Нетскејп датотеки со пошта./nДали сакаш да се увезат во "
+"Еволушн?"
 
 #: ../mail/importers/pine-importer.c:230
 msgid "Importing Pine data"
@@ -12358,7 +12358,7 @@ msgstr "Увезување на Pine податоци"
 
 #: ../mail/importers/pine-importer.c:434
 msgid "Evolution Pine importer"
-msgstr "Evolution Pine увезувач"
+msgstr "Еволушн Pine увезувач"
 
 #: ../mail/importers/pine-importer.c:435
 msgid "Import mail from Pine."
@@ -12484,7 +12484,7 @@ msgstr "Провери за поддржани типови"
 
 #: ../mail/mail-config.glade.h:4
 msgid "<b>SSL is not supported in this build of Evolution</b>"
-msgstr "<b>SSL не е поддржан во оваа верзија на Evolution</b>"
+msgstr "<b>SSL не е поддржан во оваа верзија на Еволушн</b>"
 
 #: ../mail/mail-config.glade.h:5
 msgid "<b>S_ignatures</b>"
@@ -12713,7 +12713,7 @@ msgid ""
 "Click \"Apply\" to save your settings."
 msgstr ""
 "Честитки, конфигурацијата на поштата е завршена./n/nСега можете да примате и "
-"испраќате пошта/nпреку Evolution./nКликнете \"Apply\" за зачувување на "
+"испраќате пошта/nпреку Еволушн./nКликнете \"Apply\" за зачувување на "
 "поставките."
 
 #: ../mail/mail-config.glade.h:66
@@ -13008,7 +13008,7 @@ msgid ""
 "\n"
 "Click \"Forward\" to begin. "
 msgstr ""
-"Добродојдовте во асистентот за конфигурација на Evolution Mail.\n"
+"Добродојдовте во асистентот за конфигурација на Еволушн Mail.\n"
 "\n"
 "Кликнете \"Напред\" за старт."
 
@@ -13744,7 +13744,7 @@ msgid ""
 "If you quit, these messages will not be sent until Evolution is started "
 "again."
 msgstr ""
-"Ако излезеш, овие пораки нема да бидат испратени додека Evolution не се "
+"Ако излезеш, овие пораки нема да бидат испратени додека Еволушн не се "
 "подигне повторно."
 
 #: ../mail/mail.error.xml.h:58
@@ -13766,7 +13766,7 @@ msgid ""
 "your message anyway. To avoid this, you should add at least one To: or CC: "
 "recipient."
 msgstr ""
-"Многу email системи додаваат Apparently-To заглавје на пораки кои имаат само "
+"Многу системи за е-пошта додаваат Apparently-To заглавје на пораки кои имаат само "
 "BCC примачи. Ова заглавје, ако се додаде, ќе ги листа сите примачи во вашата "
 "порака. За да се одбегне ова, треба да додадете барем еден До: или CC: "
 "примач."
@@ -13800,8 +13800,8 @@ msgid ""
 "Please enter a valid email address in the To: field. You can search for "
 "email addresses by clicking on the To: button next to the entry box."
 msgstr ""
-"Ве молиме внесете валидна адреса во До: полето. Може да барате email адреси "
-"со кликање на До: копчето после полето за внес."
+"Ве молиме внесете валидна адреса во До: полето. Може да барате адреси за е-пошта"
+"со кликнување на До: копчето после полето за внес."
 
 #: ../mail/mail.error.xml.h:70
 msgid ""
@@ -13810,7 +13810,7 @@ msgid ""
 "{0}\n"
 "Send anyway?"
 msgstr ""
-"Осигурајте се дека следните примачи сакаат и можат да примаат HTML email:\n"
+"Осигурајте се дека следните примачи сакаат и можат да примаат HTML пораки:\n"
 "{0}\n"
 "Сепак испрати?"
 
@@ -13851,7 +13851,7 @@ msgid ""
 "System folders are required for Ximian Evolution to function correctly and "
 "cannot be renamed, moved, or deleted."
 msgstr ""
-"Системски папки се потребни за Ximian Evolution да функционира точно и не "
+"Системски папки се потребни за Ximian Еволушн да функционира точно и не "
 "може да се преименуваат, преместуваат или бришат."
 
 #: ../mail/mail.error.xml.h:82
@@ -13866,7 +13866,7 @@ msgstr ""
 "Листата со контакти што ја праќаш е конфигурирана за криење на примачите на "
 "листата\n"
 "\n"
-"Многу email системи додаваат Apparently-To заглавје на пораки кои имаат само "
+"Многу системи за е-пошта додаваат Apparently-To заглавје на пораки кои имаат само "
 "BCC примачи. За да се одбегне ова, треба да додадете барем еден До: или CC: "
 "примач."
 
@@ -14193,39 +14193,39 @@ msgstr "Аудио внатрешен додаток"
 
 #: ../plugins/backup-restore/backup-restore.c:51
 msgid "Select name of Evolution archive"
-msgstr "Одбери име на Evolution архивата"
+msgstr "Одбери име на Еволушн архивата"
 
 #: ../plugins/backup-restore/backup-restore.c:61
 msgid "_Restart Evolution after backup"
-msgstr "_Рестартирај го Evolution после бекапот"
+msgstr "_Рестартирај го Еволушн после бекапот"
 
 #: ../plugins/backup-restore/backup-restore.c:89
 msgid "Select Evolution archive to restore"
-msgstr "Одбери Evolution архива за враќање"
+msgstr "Одбери Еволушн архива за враќање"
 
 #: ../plugins/backup-restore/backup-restore.c:97
 msgid "_Restart Evolution after restore"
-msgstr "_Рестартирај го Evolution после враќањето"
+msgstr "_Рестартирај го Еволушн после враќањето"
 
 #: ../plugins/backup-restore/backup.c:109
 msgid "Backup Evolution directory"
-msgstr "Evolution папка за бекап"
+msgstr "Еволушн папка за бекап"
 
 #: ../plugins/backup-restore/backup.c:111
 msgid "Restore Evolution directory"
-msgstr "Evolution папка за враќање"
+msgstr "Еволушн папка за враќање"
 
 #: ../plugins/backup-restore/backup.c:113
 msgid "Check Evolution archive"
-msgstr "Провери Evolution архива"
+msgstr "Провери Еволушн архива"
 
 #: ../plugins/backup-restore/backup.c:115
 msgid "Restart Evolution"
-msgstr "Рестартирај го Evolution"
+msgstr "Рестартирај го Еволушн"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.eplug.xml.h:1
 msgid "A plugin for backing up and restore Evolution data and settings."
-msgstr "Додаток за правење бекап и враќање на Evolution податоци и поставки."
+msgstr "Додаток за правење бекап и враќање на Еволушн податоци и поставки."
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.eplug.xml.h:2
 msgid "Backup and restore plugin"
@@ -14237,7 +14237,7 @@ msgstr "Бекап поставки..."
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.xml.h:2
 msgid "Backup and restore Evolution data and settings"
-msgstr "Направи бекап и врати ги Evolution податоците и подесувањата"
+msgstr "Направи бекап и врати ги Еволушн податоците и подесувањата"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.xml.h:3
 msgid "Restore Settings..."
@@ -14281,8 +14281,8 @@ msgid ""
 "Automatically fills your addressbook with names and email addresses as you "
 "reply to mails. Also fills in IM contact information from your buddy lists."
 msgstr ""
-"Автоматски го полни адресарот со имиња и email адреси штом одговориш на "
-"пораки. Исто така ги полни и IM контакт информациите од твојата листа со "
+"Автоматски го полни адресарот со имиња и адреси на е-пошта штом одговорите на "
+"порака. Исто така ги полни и IM контакт информациите од Вашата листа со "
 "контакти."
 
 #: ../plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:3
@@ -14376,15 +14376,15 @@ msgstr "Алатка за копирање"
 
 #: ../plugins/default-mailer/apps-evolution-mail-prompts-checkdefault.schemas.in.in.h:1
 msgid "Check whether Evolution is the default mailer"
-msgstr "Провери дали Evolution е стандарден mail клиент"
+msgstr "Провери дали Еволушн е стандарден mail клиент"
 
 #: ../plugins/default-mailer/apps-evolution-mail-prompts-checkdefault.schemas.in.in.h:2
 msgid "Every time Evolution starts, check whether or not it is the default mailer."
-msgstr "Секојпат кога Evolution стартува, провери дали е стандарден mail клиент."
+msgstr "Секојпат кога Еволушн стартува, провери дали е стандарден mail клиент."
 
 #: ../plugins/default-mailer/org-gnome-default-mailer.eplug.xml.h:1
 msgid "Checks whether Evolution is the default mail client on startup."
-msgstr "Проверува дали Evolution е стандарден mail клиент на почеток."
+msgstr "Проверува дали Еволушн е стандарден mail клиент на почеток."
 
 #: ../plugins/default-mailer/org-gnome-default-mailer.eplug.xml.h:2
 msgid "Default Mail Client "
@@ -14392,7 +14392,7 @@ msgstr "Стандарден клиент за пошта"
 
 #: ../plugins/default-mailer/org-gnome-default-mailer.error.xml.h:1
 msgid "Do you want to make Evolution your default e-mail client?"
-msgstr "Дали сакаш да го направиш Evolution стандарден e-mail клиент?"
+msgstr "Дали сакаш да го направиш Еволушн стандарден e-mail клиент?"
 
 #: ../plugins/default-source/default-source.c:82
 #: ../plugins/default-source/default-source.c:109
@@ -14783,7 +14783,7 @@ msgid ""
 "restart Evolution."
 msgstr ""
 "Промените на  конфигурацијата на Exchange сметката ќе се случат откако ќе "
-"излезеш и го рестартираш Evolution."
+"излезеш и го рестартираш Еволушн."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:4
 msgid "Could not authenticate to server."
@@ -14944,7 +14944,7 @@ msgstr "Лозинката успешно е променета."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:48
 msgid "Please restart Evolution"
-msgstr "Ве молиме рестартирајте го Evolution"
+msgstr "Ве молиме рестартирајте го Еволушн"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:49
 msgid "Please select a user."
@@ -14956,11 +14956,11 @@ msgstr "Серверот ја отфрли лозинката бидејќи е 
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:51
 msgid "The Exchange account will be disabled when you quit Evolution"
-msgstr "Exchange сметката ќе биде исклучена кога ќе излезеш од Evolution"
+msgstr "Exchange сметката ќе биде исклучена кога ќе излезеш од Еволушн"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:52
 msgid "The Exchange account will be removed when you quit Evolution"
-msgstr "Exchange сметката ќе биде отстранета кога ќе излезеш од Evolution"
+msgstr "Exchange сметката ќе биде отстранета кога ќе излезеш од Еволушн"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:53
 msgid "The Exchange server is not compatible with Exchange Connector."
@@ -15127,16 +15127,16 @@ msgstr "Email:"
 
 #: ../plugins/groupwise-features/junk-settings.glade.h:3
 msgid "Junk Mail Settings"
-msgstr "Поставки за отпад пошта"
+msgstr "Поставувања за отпадна пошта"
 
 #: ../plugins/groupwise-features/junk-settings.glade.h:5
 #: ../plugins/mail-account-disable/mail-account-disable.c:46
 msgid "_Disable"
-msgstr "_Оневозможи"
+msgstr "_Исклучи"
 
 #: ../plugins/groupwise-features/junk-settings.glade.h:6
 msgid "_Enable"
-msgstr "_Овозможи"
+msgstr "_Вклучи"
 
 #: ../plugins/groupwise-features/junk-settings.glade.h:7
 msgid "_Junk List"
@@ -16286,7 +16286,7 @@ msgstr "Волшебник за стартување"
 
 #: ../plugins/startup-wizard/startup-wizard.c:85
 msgid "Evolution Setup Assistant"
-msgstr "Evolution асистент за поставки"
+msgstr "Еволушн асистент за поставки"
 
 #: ../plugins/startup-wizard/startup-wizard.c:88
 msgid "Welcome"
@@ -16299,11 +16299,11 @@ msgid ""
 "\n"
 "Please click the \"Forward\" button to continue. "
 msgstr ""
-"Добродојдовте во Evolution. Наредните неколку екрани ќе дозволат Evolution "
-"да се поврзе на твоите email сметки, и да увезе датотеки од други "
+"Добродојдовте во Еволушн. Наредните неколку екрани ќе овозможат Еволушн "
+"да се поврзе на Вашите сметки за е-пошта, и да увезе датотеки од други "
 "апликации \n"
 "\n"
-"Кликни на \"Напред\" копчето за продолжување."
+"Кликнете на копчето \"Напред\" за продолжување."
 
 #: ../plugins/startup-wizard/startup-wizard.c:140
 #: ../shell/e-shell-importer.c:145
@@ -16340,19 +16340,19 @@ msgstr "Fall vack на нишки со пораки според те_ма"
 
 #: ../shell/GNOME_Evolution_Shell.server.in.in.h:1
 msgid "Evolution Shell"
-msgstr "Evolution Shell"
+msgstr "Еволушн Shell"
 
 #: ../shell/GNOME_Evolution_Shell.server.in.in.h:2
 msgid "Evolution Shell Config factory"
-msgstr "Evolution Shell Config фабрика"
+msgstr "Еволушн Shell Config фабрика"
 
 #: ../shell/GNOME_Evolution_Test.server.in.in.h:1
 msgid "Evolution Test"
-msgstr "Evolution тест"
+msgstr "Еволушн тест"
 
 #: ../shell/GNOME_Evolution_Test.server.in.in.h:2
 msgid "Evolution Test component"
-msgstr "Evolution тест компонента"
+msgstr "Еволушн тест компонента"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:1
 msgid "A GNOME Print description of the current printer settings"
@@ -16390,7 +16390,7 @@ msgstr ""
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:9
 msgid "Printer settings"
-msgstr "Поставки за печатач"
+msgstr "Поставувања за печатач"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:10
 msgid "Skip development warning dialog"
@@ -16403,7 +16403,7 @@ msgstr "Стартувај во офлајн режим"
 #: ../shell/apps_evolution_shell.schemas.in.in.h:12
 msgid "The configuration version of Evolution, with major/minor/configuration level"
 msgstr ""
-"Конфигурациската верзија на Evolution, со големо/помало/ниво на "
+"Конфигурациската верзија на Еволушн, со големо/помало/ниво на "
 "конфигурација."
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:13
@@ -16423,7 +16423,7 @@ msgid ""
 "The last upgraded configuration version of Evolution, with major/minor/"
 "configuration level"
 msgstr ""
-"Последната надградена конфигурациска верзија на Evolution, со големо/помало/"
+"Последната надградена конфигурациска верзија на Еволушн, со големо/помало/"
 "ниво на конфигурација"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:17
@@ -16442,7 +16442,7 @@ msgstr "Лентата со алатки е видлива"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:19
 msgid "Whether Evolution will start up in offline mode instead of online mode."
-msgstr "Дали Evolution ќе стартува во офлајн режим наместо онлајн."
+msgstr "Дали Еволушн ќе стартува во офлајн режим наместо онлајн."
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:20
 msgid "Whether the toolbar should be visible."
@@ -16451,7 +16451,7 @@ msgstr "Дали лентата со алатки треба да биде ви�
 #: ../shell/apps_evolution_shell.schemas.in.in.h:21
 msgid "Whether the warning dialog in development versions of Evolution is skipped."
 msgstr ""
-"Дали дијалогот за предупредување во развојните верзии на Evolution е "
+"Дали дијалогот за предупредување во развојните верзии на Еволушн е "
 "изоставен."
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:22
@@ -16495,10 +16495,10 @@ msgid ""
 "You can select \"Automatic\" if you do not know, and Evolution will attempt "
 "to work it out."
 msgstr ""
-"Одбери ја датотеката која сакаш да се увезе во Evolution, и одбери кој тип "
+"Одбери ја датотеката која сакаш да се увезе во Еволушн, и одбери кој тип "
 "на датотека е од листата.\n"
 "\n"
-"Можеш да одбереш \"Автоматски\" ако не знаеш, и Evolution ќе се обиде да го "
+"Можеш да одбереш \"Автоматски\" ако не знаеш, и Еволушн ќе се обиде да го "
 "направи."
 
 #: ../shell/e-shell-importer.c:142
@@ -16512,7 +16512,7 @@ msgid ""
 "settings found. If you would like to\n"
 "try again, please click the \"Back\" button.\n"
 msgstr ""
-"Evolution проверува поставки за увезување од следниве\n"
+"Еволушн проверува поставки за увезување од следниве\n"
 "апликации: Pine, Netscape, Elm, iCalendar. Нема поставки\n"
 "за увезување. Ако сакаш да се\n"
 "обидеш повторно, кликни на \"Назад\" копчето.\n"
@@ -16543,7 +16543,7 @@ msgstr "_Увези"
 
 #: ../shell/e-shell-settings-dialog.c:318
 msgid "Evolution Settings"
-msgstr "Evolution поставки"
+msgstr "Еволушн поставки"
 
 #: ../shell/e-shell-utils.c:118
 msgid "No folder name specified."
@@ -16609,15 +16609,15 @@ msgstr "Работи офлајн"
 
 #: ../shell/e-shell-window.c:343
 msgid "Evolution is currently online.  Click on this button to work offline."
-msgstr "Evolution моментно е онлајн. Кликни на ова копче за работење офлајн."
+msgstr "Еволушн моментно е онлајн. Кликни на ова копче за работење офлајн."
 
 #: ../shell/e-shell-window.c:351
 msgid "Evolution is in the process of going offline."
-msgstr "Evolution е во тек да стане офлајн."
+msgstr "Еволушн е во тек да стане офлајн."
 
 #: ../shell/e-shell-window.c:358
 msgid "Evolution is currently offline.  Click on this button to work online."
-msgstr "Evolution моментно е офлајн. Кликни на ова копче за работење онлајн."
+msgstr "Еволушн моментно е офлајн. Кликни на ова копче за работење онлајн."
 
 #: ../shell/e-shell-window.c:724
 #, c-format
@@ -16667,11 +16667,11 @@ msgstr "Креирај нов тест предмет"
 
 #: ../shell/import.glade.h:1
 msgid "Click \"Import\" to begin importing the file into Evolution. "
-msgstr "Кликнете \"Увези\" за почнување со увоз на датотеката во Evolution."
+msgstr "Кликнете \"Увези\" за почнување со увоз на датотеката во Еволушн."
 
 #: ../shell/import.glade.h:2
 msgid "Evolution Import Assistant"
-msgstr "Evolution асистент за увезување"
+msgstr "Еволушн асистент за увезување"
 
 #: ../shell/import.glade.h:3
 msgid "Import File"
@@ -16699,9 +16699,9 @@ msgid ""
 "With this assistant you will be guided through the process of\n"
 "importing external files into Evolution."
 msgstr ""
-"Добродојдовте во Evolution асистентот за увезување.\n"
+"Добродојдовте во Еволушн асистентот за увезување.\n"
 "Со овој асистент ќе бидете водени низ процесот на\n"
-"увезување надворешни датотеки во Evolution."
+"увезување надворешни датотеки во Еволушн."
 
 #. Preview/Alpha/Beta version warning message
 #: ../shell/main.c:230
@@ -16724,12 +16724,12 @@ msgid ""
 "eagerly await your contributions!\n"
 msgstr ""
 "Здраво. Благодариме за преземањето на овој преглед\n"
-"на Evolution groupware suite.\n"
+"на Еволушн groupware suite.\n"
 "\n"
-"Оваа верзија на Evolution сеуште не е завршена. При крај е,\n"
+"Оваа верзија на Еволушн сеуште не е завршена. При крај е,\n"
 "но некои можности се или незавршени или не работат правилно.\n"
 "\n"
-"Ако сакаш стабилна верзија на Evolution, ве молиме да ја\n"
+"Ако сакаш стабилна верзија на Еволушн, ве молиме да ја\n"
 "деинсталирате оваа, и да ја инсталирате %s верзијата.\n"
 "\n"
 "Ако најдете грешки, пријавете ги на bugzilla.ximian.com.жнОвој производ "
@@ -16745,7 +16745,7 @@ msgid ""
 "The Evolution Team\n"
 msgstr ""
 "Благодариме\n"
-"Evolution тимот\n"
+"Еволушн тимот\n"
 
 #: ../shell/main.c:261
 msgid "Don't tell me again"
@@ -16753,7 +16753,7 @@ msgstr "Не ми кажувај повторно"
 
 #: ../shell/main.c:466
 msgid "Start Evolution activating the specified component"
-msgstr "Стартувај го Evolution со активирање на одредената компонента"
+msgstr "Стартувај го Еволушн со активирање на одредената компонента"
 
 #: ../shell/main.c:470
 msgid "Start in online mode"
@@ -16761,11 +16761,11 @@ msgstr "Стартувај во онлајн режим"
 
 #: ../shell/main.c:473
 msgid "Forcibly shut down all Evolution components"
-msgstr "Насила исклучи ги сите Evolution компоненти"
+msgstr "Насила исклучи ги сите Еволушн компоненти"
 
 #: ../shell/main.c:477
 msgid "Forcibly re-migrate from Evolution 1.4"
-msgstr "Насила ре-мигрирај од Evolution 1.4"
+msgstr "Насила ре-мигрирај од Еволушн 1.4"
 
 #: ../shell/main.c:480
 msgid "Send the debugging output of all components to a file."
@@ -16798,7 +16798,7 @@ msgstr "Избриши стари податоци од верзија {0}?"
 
 #: ../shell/shell.error.xml.h:4
 msgid "Evolution can not start."
-msgstr "Evolution не може да стартува."
+msgstr "Еволушн не може да стартува."
 
 #: ../shell/shell.error.xml.h:5
 msgid ""
@@ -16831,10 +16831,10 @@ msgstr ""
 "Целата содржина на &quot;evolution&quot; папката ќе биде трајно отстранета.\n"
 "\n"
 "Се препорачува рачно да верификуваш дали твојата пошта, контакти и податоци "
-"во календарот се присутни, и дека оваа верзија на Evolution работи во ред "
+"во календарот се присутни, и дека оваа верзија на Еволушн работи во ред "
 "пред бришење на старите податоци.\n"
 "\n"
-"Штом се избрише, не може да се врати претходната верзија на Evolution без "
+"Штом се избрише, не може да се врати претходната верзија на Еволушн без "
 "рачна интервенција.\n"
 
 #: ../shell/shell.error.xml.h:15
@@ -16876,7 +16876,7 @@ msgid ""
 "\n"
 "Click help for details"
 msgstr ""
-"Конфигурацијата на системот не одговара со твојата Evolution конфигурација\n"
+"Конфигурацијата на системот не одговара со твојата Еволушн конфигурација\n"
 "\n"
 "Кликни помош за детали"
 
@@ -16888,7 +16888,7 @@ msgid ""
 "\n"
 "Click help for details."
 msgstr ""
-"Конфигурацијата на системот не одговара со твојата Evolution конфигурација:/"
+"Конфигурацијата на системот не одговара со твојата Еволушн конфигурација:/"
 "n/n{0}/n/nКликни помош за детали."
 
 #: ../shell/shell.error.xml.h:31
@@ -17111,15 +17111,15 @@ msgstr "Уреди"
 
 #: ../smime/gui/smime-ui.glade.h:24
 msgid "Email Certificate Trust Settings"
-msgstr "Поставки за доверба на email сертификати"
+msgstr "Поставувања за доверба на сертификати за е-пошта"
 
 #: ../smime/gui/smime-ui.glade.h:25
 msgid "Email Recipient Certificate"
-msgstr "Сертификат на email примач"
+msgstr "Сертификат на примачот на пораката"
 
 #: ../smime/gui/smime-ui.glade.h:26
 msgid "Email Signer Certificate"
-msgstr "Сертификат на email потписник"
+msgstr "Сертификат на потписник на пораката"
 
 #: ../smime/gui/smime-ui.glade.h:27
 msgid "Expires On"
@@ -17163,7 +17163,7 @@ msgstr "Верувај на автентичноста на овој серти�
 
 #: ../smime/gui/smime-ui.glade.h:39
 msgid "Trust this CA to identify email users."
-msgstr "Верувај на овој CA за идентификување email корисници."
+msgstr "Верувај на овој CA за идентификување корисници на е-пошта."
 
 #: ../smime/gui/smime-ui.glade.h:40
 msgid "Trust this CA to identify software developers."
@@ -17703,7 +17703,7 @@ msgstr "Одбери го целиот текст"
 
 #: ../ui/evolution-executive-summary.xml.h:1
 msgid "Customize My Evolution"
-msgstr "Прилагоди го My Evolution"
+msgstr "Прилагоди го My Еволушн"
 
 #: ../ui/evolution-mail-global.xml.h:2
 msgid "Cancel the current mail operation"
@@ -18600,11 +18600,11 @@ msgstr "_Отвори задача"
 
 #: ../ui/evolution.xml.h:1
 msgid "About Evolution..."
-msgstr "За Evolution..."
+msgstr "За Еволушн..."
 
 #: ../ui/evolution.xml.h:2
 msgid "Change Evolution's settings"
-msgstr "Измени ги подесувањата на Evolution"
+msgstr "Измени ги подесувањата на Еволушн"
 
 #: ../ui/evolution.xml.h:3
 msgid "Change the visibility of the toolbar"
@@ -18632,7 +18632,7 @@ msgstr "Прикажи копчиња на прозорци само со тек
 
 #: ../ui/evolution.xml.h:10
 msgid "Evolution _FAQ"
-msgstr "ЧПП за Evolution"
+msgstr "ЧПП за Еволушн"
 
 #: ../ui/evolution.xml.h:11
 msgid "Exit the program"
@@ -18680,7 +18680,7 @@ msgstr "Подеси PDA конфигурација"
 
 #: ../ui/evolution.xml.h:23
 msgid "Show information about Evolution"
-msgstr "Прикажи информации за Evolution"
+msgstr "Прикажи информации за Еволушн"
 
 #: ../ui/evolution.xml.h:24
 msgid "Submit Bug Report"
@@ -18708,7 +18708,7 @@ msgstr "Стил на лента со а_латки"
 
 #: ../ui/evolution.xml.h:30
 msgid "_About Evolution..."
-msgstr "_За Evolution..."
+msgstr "_За Еволушн..."
 
 #: ../ui/evolution.xml.h:31
 msgid "_Close Window"
