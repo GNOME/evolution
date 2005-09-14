@@ -1,3 +1,8 @@
+2005-09-14  Sushma Rai  <rsushma@novell.com>
+
+	* gui/contact-list-editor/e-contact-list-editor.etspec: Set selection
+	mode to multiple. Related to the patch submitted already to fix #235038.
+
 2005-08-26  Devashish Sharma <sdevashish@novell.com>
 
 	* gui/widgets/e-addressbook-view.etspec: In ETableSpecification source
