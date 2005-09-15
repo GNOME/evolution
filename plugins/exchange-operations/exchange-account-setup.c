@@ -114,6 +114,7 @@ toggled_state (GtkToggleButton *button, gpointer data)
 	gtk_widget_set_sensitive (oof_data->text_view, current_oof_state);
 }
 
+#ifdef HAVE_KRB5
 static void
 btn_chpass_clicked (GtkButton *button, gpointer data)
 {
@@ -141,6 +142,7 @@ btn_chpass_clicked (GtkButton *button, gpointer data)
 	g_free (old_password);
 	g_free (new_password);	
 }
+#endif
 
 static void
 btn_dass_clicked (GtkButton *button, gpointer data)
@@ -317,11 +319,13 @@ org_gnome_exchange_settings(EPlugin *epl, EConfigHookItemFactoryData *data)
 
 	tbl_auth = (GtkTable*) gtk_object_new (GTK_TYPE_TABLE, "n-rows", 2, "n-columns", 2, "homogeneous", FALSE, "row-spacing", 6, "column-spacing", 6, NULL);
 
+#ifdef HAVE_KRB5
 	/* Change Password */
 	lbl_chpass = (GtkLabel*) gtk_object_new (GTK_TYPE_LABEL, "label", _("Change the password for Exchange account"), NULL);
 	gtk_misc_set_alignment (GTK_MISC (lbl_chpass), 0, 0.5);
 	btn_chpass = (GtkButton*) gtk_object_new (GTK_TYPE_BUTTON, "label", _("Change Password"), NULL);
 	gtk_signal_connect (GTK_OBJECT (btn_chpass), "clicked", G_CALLBACK (btn_chpass_clicked), NULL);
+#endif
 
 	/* Delegation Assistant */
 	lbl_dass = (GtkLabel*) gtk_object_new (GTK_TYPE_LABEL, "label", _("Manage the delegate settings for Exchange account"), NULL);
@@ -329,8 +333,10 @@ org_gnome_exchange_settings(EPlugin *epl, EConfigHookItemFactoryData *data)
 	btn_dass = (GtkButton*) gtk_object_new (GTK_TYPE_BUTTON, "label", _("Delegation Assitant"));
 	gtk_signal_connect (GTK_OBJECT (btn_dass), "clicked", G_CALLBACK (btn_dass_clicked), NULL);
 	/* Add items to the table */
+#ifdef HAVE_KRB5
 	gtk_table_attach_defaults (tbl_auth, GTK_WIDGET (lbl_chpass), 0, 1, 0, 1);
 	gtk_table_attach (tbl_auth, GTK_WIDGET (btn_chpass), 1, 2, 0, 1, GTK_FILL, GTK_FILL, 0, 0);
+#endif
 	gtk_table_attach_defaults (tbl_auth, GTK_WIDGET (lbl_dass), 0, 1, 1, 2);
 	gtk_table_attach (tbl_auth, GTK_WIDGET (btn_dass), 1, 2, 1, 2, GTK_FILL, GTK_FILL, 0, 0);
 	gtk_box_pack_start (GTK_BOX (vbox_auth), GTK_WIDGET (tbl_auth), FALSE, FALSE, 0);
