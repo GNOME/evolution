@@ -900,12 +900,25 @@ org_gnome_exchange_show_folder_size_factory (EPlugin *epl, EConfigHookItemFactor
 {
 	EMConfigTargetFolder *target=  (EMConfigTargetFolder *)data->config->target;
 	CamelFolder *cml_folder = target->folder;
+	CamelService *service;
+	CamelProvider *provider;
 	ExchangeAccount *account;
 	GtkWidget *lbl_size, *lbl_size_val;
 	GtkListStore *model;
 	GtkVBox *vbx;
 	GtkHBox *hbx_size;
 	char *folder_name, *folder_size;
+
+	service = CAMEL_SERVICE (camel_folder_get_parent_store (cml_folder));
+	if (!service)
+		return NULL;
+
+	provider = camel_service_get_provider (service);
+	if (!provider)
+		return NULL;
+
+	if (g_ascii_strcasecmp (provider->protocol, "exchange"))
+		return NULL;
 	
 	folder_name = (char*) camel_folder_get_name (cml_folder);
 	if (!folder_name)
