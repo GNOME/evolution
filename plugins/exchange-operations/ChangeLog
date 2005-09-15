@@ -1,3 +1,10 @@
+2005-09-15  Arunprakash  <arunp@novell.com>
+
+	* exchange-account-setup.c
+	(org_gnome_exchange_show_folder_size_factory) : Now checks for the
+	camel provider type, and does nothing for non exchange providers.
+	** Fixes #312886.
+
 2005-09-14  Irene Huang <Irene.Huang@sun.com>
 
 	Fix for #316274
