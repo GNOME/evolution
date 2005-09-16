@@ -428,13 +428,13 @@ get_addressbook_names_from_server (char *source_url)
 	const char *soap_port;
 	CamelURL *url;
 	gboolean remember;
-	char *failed_auth; 
+	char *failed_auth = NULL; 
 	char *prompt;
 	char *password_prompt;
 	char *uri;
 	const char *use_ssl;
 	const char *poa_address;
-	guint32 flags = E_PASSWORDS_REMEMBER_FOREVER;
+	guint32 flags = E_PASSWORDS_REMEMBER_FOREVER|E_PASSWORDS_SECRET;
 
 	url = camel_url_new (source_url, NULL);
         if (url == NULL) {
@@ -456,17 +456,22 @@ get_addressbook_names_from_server (char *source_url)
 	else 
 		uri = g_strdup_printf ("http://%s:%s/soap", poa_address, soap_port);
 	
-	failed_auth = "";
 	cnc = NULL;
 	do {
+		/*we have to uncache the password before prompting again*/
+		if (failed_auth) {
+			e_passwords_forget_password ("Groupwise", key);
+			password = NULL;
+		}
+
 		password = e_passwords_get_password ("Groupwise", key);
 		if (!password) {
 			password_prompt = g_strdup_printf (_("Enter password for %s (user %s)"),
 					poa_address, url->user);
-			prompt = g_strconcat (failed_auth, password_prompt, NULL);
+			prompt = g_strconcat (failed_auth ? failed_auth : "", password_prompt, NULL);
 			g_free (password_prompt);
 			password = e_passwords_ask_password (prompt, "Groupwise", key, prompt,
-					E_PASSWORDS_REMEMBER_FOREVER|E_PASSWORDS_SECRET, &remember,
+					flags, &remember,
 					NULL);
 			g_free (prompt);
 
@@ -494,6 +499,8 @@ get_addressbook_names_from_server (char *source_url)
 	    
 		       
 	}
+	/*FIXME: This error message should be relocated to addressbook and should reflect 
+	 * that it actually failed to get the addressbooks*/
 	e_error_run (NULL, "mail:gw-accountsetup-error", poa_address, NULL);
 	return NULL;
 }

@@ -1,3 +1,11 @@
+2005-09-16 Vivek Jain <jvivek@novell.com>
+ 	
+ 	* camel-gw-listener.c:(get_addressbook_names_from_server)
+ 	uncache the password if it could not authenticate, else since we
+ 	remember it always it kept getting wrong one 
+ 	use 'flags' variable which served no purpose till now
+ 	**Fixes #313078
+ 	
 2005-08-23  Not Zed  <NotZed@Ximian.com>
 
 	* groupwise-account-setup.c (org_gnome_groupwise_account_setup):
