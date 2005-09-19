@@ -1,3 +1,9 @@
+2005-09-12  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #315345
+	* itip-view.c: (format_date_and_time_x): Send the 
+	month as it as without subtracting one.
+
 2005-08-29  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #313534
