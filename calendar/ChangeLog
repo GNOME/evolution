@@ -1,3 +1,10 @@
+2005-09-08  P. S. Chakravarthi <pchakravarthi@novell.com>
+
+	Fix #261625
+	* gui/alarm-notify/alarm.c
+	(queue_alarm): add the alarm in the queue only when the 
+	the alarm trigger time is after the current time.
+
 2005-09-01  Dinesh Layek  <ldinesh@novell.com>
 
 	Fixes #314922, 311694, 314918
