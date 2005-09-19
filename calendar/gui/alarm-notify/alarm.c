@@ -141,6 +141,7 @@ setup_timeout (void)
 	g_message (" %s", ctime (&ar->trigger));
 	g_message (" %s", ctime (&now));
 	timeout_id = g_timeout_add (diff * 1000, alarm_ready_cb, NULL);
+	
 }
 
 /* Used from g_list_insert_sorted(); compares the trigger times of two AlarmRecord structures. */
@@ -164,15 +165,18 @@ queue_alarm (AlarmRecord *ar)
 	/* Track the current head of the list in case there are changes */
 	old_head = alarms;
 
-	/* Insert the new alarm in order */
-	alarms = g_list_insert_sorted (alarms, ar, compare_alarm_by_time);
+	/* Insert the new alarm in order if the alarm's trigger time is 
+	   after the current time */
+	if (ar->trigger > time (NULL)) { 
+		alarms = g_list_insert_sorted (alarms, ar, compare_alarm_by_time);
 
-	/* If there first item on the list didn't change, the time out is fine */
-	if (old_head == alarms)
-		return;
+		/* If there first item on the list didn't change, the time out is fine */
+		if (old_head == alarms)
+			return;
 
-	/* Set the timer for removal upon activation */
-	setup_timeout ();
+		/* Set the timer for removal upon activation */
+		setup_timeout ();
+	}
 }
 
 
