@@ -148,7 +148,7 @@ format_date_and_time_x		(struct tm	*date_tm,
 	
 	/* Calculate a normalized "tomorrow" */
 	tomorrow_tm = *current_tm;
-	if (tomorrow_tm.tm_mday == time_days_in_month (date_tm->tm_year + 1900, date_tm->tm_mon - 1)) {
+	if (tomorrow_tm.tm_mday == time_days_in_month (date_tm->tm_year + 1900, date_tm->tm_mon)) {
 		tomorrow_tm.tm_mday = 1;
 		if (tomorrow_tm.tm_mon == 11) {
 			tomorrow_tm.tm_mon = 1;
@@ -162,8 +162,8 @@ format_date_and_time_x		(struct tm	*date_tm,
 
 	/* Calculate a normalized "next seven days" */
 	week_tm = *current_tm;
-	if (week_tm.tm_mday + 6 > time_days_in_month (date_tm->tm_year + 1900, date_tm->tm_mon - 1)) {
-		week_tm.tm_mday = (week_tm.tm_mday + 6) % time_days_in_month (date_tm->tm_year + 1900, date_tm->tm_mon - 1);
+	if (week_tm.tm_mday + 6 > time_days_in_month (date_tm->tm_year + 1900, date_tm->tm_mon)) {
+		week_tm.tm_mday = (week_tm.tm_mday + 6) % time_days_in_month (date_tm->tm_year + 1900, date_tm->tm_mon);
 		if (week_tm.tm_mon == 11) {
 			week_tm.tm_mon = 1;
 			week_tm.tm_year++;
