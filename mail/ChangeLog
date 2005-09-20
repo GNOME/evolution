@@ -1,3 +1,9 @@
+2005-09-15  Sankar P  <psankar@novell.com>
+
+	* em-folder-tree-model.c (em_folder_tree_model_set_folder_info):
+	* em-folder-tree.c (render_pixbuf): Added enum and the code to 
+	change the icon for sent items folder. Fixes #257321
+	
 2005-09-02  Harish Krishnaswamy  <kharish@novell.com>
 
 	* default/C/Inbox: Update the Welcome mail.

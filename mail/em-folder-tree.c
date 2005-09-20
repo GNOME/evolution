@@ -268,6 +268,7 @@ enum {
 	FOLDER_ICON_JUNK,
 	FOLDER_ICON_SHARED_TO_ME,
 	FOLDER_ICON_SHARED_BY_ME,
+	FOLDER_ICON_SENT,
 	FOLDER_ICON_LAST
 };
 
@@ -290,6 +291,7 @@ render_pixbuf (GtkTreeViewColumn *column, GtkCellRenderer *renderer,
 		folder_icons[FOLDER_ICON_JUNK] = e_icon_factory_get_icon ("stock_spam", E_ICON_SIZE_MENU);
 		folder_icons[FOLDER_ICON_SHARED_TO_ME] = e_icon_factory_get_icon ("stock_shared-to-me", E_ICON_SIZE_MENU);
 		folder_icons[FOLDER_ICON_SHARED_BY_ME] = e_icon_factory_get_icon ("stock_shared-by-me", E_ICON_SIZE_MENU);
+		folder_icons[FOLDER_ICON_SENT] = e_icon_factory_get_icon ("stock_sent-mail", E_ICON_SIZE_MENU);
 		
 		initialised = TRUE;
 	}
@@ -309,6 +311,9 @@ render_pixbuf (GtkTreeViewColumn *column, GtkCellRenderer *renderer,
 			break;
 		case CAMEL_FOLDER_TYPE_JUNK:
 			pixbuf = folder_icons[FOLDER_ICON_JUNK];
+			break;
+		case CAMEL_FOLDER_TYPE_SENT:
+			pixbuf = folder_icons[FOLDER_ICON_SENT];
 			break;
 		default:
 			if (flags & CAMEL_FOLDER_SHARED_TO_ME) 

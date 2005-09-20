@@ -475,6 +475,7 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model, GtkTreeIter *ite
 			name = _("Outbox");
 		} else if (!strcmp(fi->full_name, "Sent")) {
 			name = _("Sent");
+			flags = (flags & ~CAMEL_FOLDER_TYPE_MASK) | CAMEL_FOLDER_TYPE_SENT;
 		}
 	}
 
