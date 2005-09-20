@@ -1,3 +1,9 @@
+2005-09-20  Devashish Sharma <sdevashish@novell.com>
+
+	* addressbook/By_Company.galview: In ETableState grouping column was
+	wrong, instead of grouping by company it was grouping by  Telex.
+	Fixed that.
+
 2004-08-06  Chris Toshok  <toshok@ximian.com>
 
 	[ fixes bug #52459 ]
