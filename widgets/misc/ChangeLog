@@ -1,3 +1,10 @@
+2005-09-20  Devashish Sharma  <sdevashish@novell.com>
+
+	* e-search-bar.c (subitem_activated_cb): Emits the signal "search
+	activated" when after selecting option "Category is" in search bar
+	category is selected. So dont have to explicitly click "Find Now".
+	Fixes #263269.
+	
 2005-08-22  Srinivasa Ragavan <sragavan@novell.com>
 
 	* e-attachment.c (e_attachment_build_remote_file): 
