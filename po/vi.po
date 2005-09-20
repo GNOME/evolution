@@ -320,8 +320,8 @@ msgid ""
 "A contact already exists with this address. Would you like to add a new card "
 "with the same address anyway?"
 msgstr ""
-"Một liên lạc với địa chỉ này đã có. Bạn có muốn thêm một thẻ mới với cùng "
-"địa chỉ bằng mọi giá không?"
+"Một liên lạc với địa chỉ này đã có. Bạn vẫn muốn thêm một thẻ mới với cùng "
+"địa chỉ chứ?"
 
 #: ../addressbook/addressbook.error.xml.h:2
 msgid "Address '{0}' already exists."
@@ -2681,7 +2681,7 @@ msgid ""
 "exists in this folder.  Would you like to add it anyway?"
 msgstr ""
 "Tên hoặc địa chỉ thư điện tử đã thay đổi của liên lạc này\n"
-"đã có trong thư mục này. Bạn có muốn thêm nữa không?"
+"đã có trong thư mục này. Bạn vẫn muốn thêm nữa chứ?"
 
 #: ../addressbook/gui/merging/eab-contact-duplicate-detected.glade.h:2
 msgid "New Contact:"
@@ -2697,7 +2697,7 @@ msgid ""
 "in this folder.  Would you like to add it anyway?"
 msgstr ""
 "Tên hoặc địa chỉ thư điện từ của liên lạc này đã có\n"
-"trong thư mục này. Bạn có muốn thêm nữa nữa?"
+"trong thư mục này. Bạn vẫn muốn thêm nữa chứ?"
 
 #. FIXME: get the toplevel window...
 #: ../addressbook/gui/search/e-addressbook-search-dialog.c:160
@@ -13755,7 +13755,7 @@ msgstr ""
 "Hãy đảm bảo rằng những người nhận sau có thể và cũng muốn nhận thư dạng "
 "HTML:\n"
 "{0}\n"
-"Gửi bất chấp không?"
+"Vẫn gửi chứ?"
 
 #: ../mail/mail.error.xml.h:73
 msgid "Please wait."
@@ -13917,7 +13917,7 @@ msgstr "Bạn chưa điền đủ các thông tin yêu cầu."
 
 #: ../mail/mail.error.xml.h:109
 msgid "You have unsent messages, do you wish to quit anyway?"
-msgstr "Bạn có vài thư chưa gửi, bạn vẫn muốn thoát sao?"
+msgstr "Bạn có vài thư chưa gửi, bạn vẫn muốn thoát chứ?"
 
 #: ../mail/mail.error.xml.h:110
 msgid "You may not create two accounts with the same name."
