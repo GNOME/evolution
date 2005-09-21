@@ -2147,8 +2147,11 @@ emae_defaults_page(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, st
 
 	gtk_widget_set_sensitive((GtkWidget *)gui->drafts_folder_button, e_account_writable(emae->account, E_ACCOUNT_DRAFTS_FOLDER_URI));
 
-	gtk_widget_set_sensitive((GtkWidget *)gui->sent_folder_button, e_account_writable(emae->account, E_ACCOUNT_SENT_FOLDER_URI)  
-				 && ( emae->priv->source.provider && !(emae->priv->source.provider->flags & CAMEL_PROVIDER_DISABLE_SENT_FOLDER)));
+	gtk_widget_set_sensitive( (GtkWidget *)gui->sent_folder_button,
+				  e_account_writable(emae->account, E_ACCOUNT_SENT_FOLDER_URI)
+				  && 
+				  (emae->priv->source.provider ? !(emae->priv->source.provider->flags & CAMEL_PROVIDER_DISABLE_SENT_FOLDER): TRUE) 
+				);
 
 	gtk_widget_set_sensitive((GtkWidget *)gui->restore_folders_button,
 				 (e_account_writable(emae->account, E_ACCOUNT_SENT_FOLDER_URI)
@@ -2419,8 +2422,10 @@ emae_check_complete(EConfig *ec, const char *pageid, void *data)
 	/* We use the page-check of various pages to 'prepare' or
 	   pre-load their values, only in the druid */
 	if (pageid
-	    && ((EConfig *)emae->priv->config)->type == E_CONFIG_DRUID) {
+			&& ((EConfig *)emae->priv->config)->type == E_CONFIG_DRUID) {
 		if (!strcmp(pageid, "00.identity")) {
+			static gboolean flag;
+			const char* email;
 			if (!emae->priv->identity_set) {
 				char *uname;
 
@@ -2429,7 +2434,18 @@ emae_check_complete(EConfig *ec, const char *pageid, void *data)
 				if (uname) {
 					gtk_entry_set_text(emae->priv->identity_entries[1], uname);
 					g_free(uname);
+					gtk_widget_grab_focus ( GTK_WIDGET(emae->priv->identity_entries[2]));
+				} else
+					gtk_widget_grab_focus ( GTK_WIDGET(emae->priv->identity_entries[1]));
+				flag = FALSE;
+			} else {
+				email = gtk_entry_get_text(emae->priv->identity_entries[2]);
+				flag = !flag;
+				if (email && flag && !gtk_widget_is_focus( GTK_WIDGET(emae->priv->identity_entries[3]))) {
+					gtk_entry_set_text(emae->priv->identity_entries[3], email);
+					flag = FALSE;
 				}
+
 			}
 		} else if (!strcmp(pageid, "10.receive")) {
 			if (!emae->priv->receive_set) {
@@ -2446,7 +2462,7 @@ emae_check_complete(EConfig *ec, const char *pageid, void *data)
 			}
 		} else if (!strcmp(pageid, "20.receive_options")) {
 			if (emae->priv->source.provider
-			    && emae->priv->extra_provider != emae->priv->source.provider) {
+					&& emae->priv->extra_provider != emae->priv->source.provider) {
 				emae->priv->extra_provider = emae->priv->source.provider;
 				emae_auto_detect(emae);
 			}
@@ -2475,8 +2491,8 @@ emae_check_complete(EConfig *ec, const char *pageid, void *data)
 			&& (tmp = e_account_get_string(emae->account, E_ACCOUNT_ID_ADDRESS))
 			&& is_email(tmp)
 			&& ((tmp = e_account_get_string(emae->account, E_ACCOUNT_ID_REPLY_TO)) == NULL
-			    || tmp[0] == 0
-			    || is_email(tmp));
+					|| tmp[0] == 0
+					|| is_email(tmp));
 		if (!ok)
 			d(printf("identity incomplete\n"));
 	}
@@ -2497,7 +2513,7 @@ emae_check_complete(EConfig *ec, const char *pageid, void *data)
 		ok = (tmp = e_account_get_string(emae->account, E_ACCOUNT_NAME))
 			&& tmp[0]
 			&& ((ea = mail_config_get_account_by_name(tmp)) == NULL
-			    || ea == emae->original);
+					|| ea == emae->original);
 		if (!ok)
 			d(printf("management page incomplete\n"));
 	}
