@@ -1,3 +1,10 @@
+2005-09-21  Sankar P  <psankar@novell.com>
+
+	* em-account-editor.c (emae_defaults_page):
+	Added code to enable the sent folder button for accounts with
+	"None" set as the Receiving Server type. 
+	Fixes #315506
+
 2005-09-15  Sankar P  <psankar@novell.com>
 
 	* em-folder-tree-model.c (em_folder_tree_model_set_folder_info):

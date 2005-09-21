@@ -2147,8 +2147,11 @@ emae_defaults_page(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, st
 
 	gtk_widget_set_sensitive((GtkWidget *)gui->drafts_folder_button, e_account_writable(emae->account, E_ACCOUNT_DRAFTS_FOLDER_URI));
 
-	gtk_widget_set_sensitive((GtkWidget *)gui->sent_folder_button, e_account_writable(emae->account, E_ACCOUNT_SENT_FOLDER_URI)  
-				 && ( emae->priv->source.provider && !(emae->priv->source.provider->flags & CAMEL_PROVIDER_DISABLE_SENT_FOLDER)));
+	gtk_widget_set_sensitive( (GtkWidget *)gui->sent_folder_button,
+				  e_account_writable(emae->account, E_ACCOUNT_SENT_FOLDER_URI)
+				  && 
+				  (emae->priv->source.provider ? !(emae->priv->source.provider->flags & CAMEL_PROVIDER_DISABLE_SENT_FOLDER): TRUE) 
+				);
 
 	gtk_widget_set_sensitive((GtkWidget *)gui->restore_folders_button,
 				 (e_account_writable(emae->account, E_ACCOUNT_SENT_FOLDER_URI)
