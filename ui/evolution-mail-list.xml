@@ -101,7 +101,7 @@
         <placeholder name="MessagesInFolder">
           <menuitem name="EditSelectAll" verb="" _label="Select _All Messages"/>
           <menuitem name="EditSelectThread" verb="" _label="Select Message _Thread"/>
-          <menuitem name="MessageMarkAllAsRead" verb="" _label="Mark Me_ssages as Read"/>
+          <menuitem name="MessageMarkAllAsRead" verb="" _label="Mar_k Messages as Read"/>
           <menuitem name="FolderExpunge" verb="" _label="E_xpunge"/>
         </placeholder>
 
