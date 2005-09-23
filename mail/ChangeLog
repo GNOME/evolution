@@ -1,3 +1,12 @@
+2005-09-22  Carsten Guenther <carsten.guenther@scalix.com>
+
+	Fixes #316983
+
+	* em-composer-utils.c (em_utils_send_receipt):
+	Exchanged the FROM and TO fields so that a read
+	receipt actually goes to the sender of the original
+	message.
+
 2005-09-21  Sankar P  <psankar@novell.com>
 
 	* em-account-editor.c (emae_defaults_page):
