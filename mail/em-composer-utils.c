@@ -1238,12 +1238,12 @@ em_utils_send_receipt (CamelFolder *folder, CamelMimeMessage *message)
 	
 	addr = camel_internet_address_new ();
 	camel_address_decode (CAMEL_ADDRESS (addr), self_address);
-	camel_mime_message_set_recipients (receipt, CAMEL_RECIPIENT_TYPE_TO, addr);
+	camel_mime_message_set_from (receipt, addr);
 	camel_object_unref (addr);
 	
 	addr = camel_internet_address_new ();
 	camel_address_decode (CAMEL_ADDRESS (addr), receipt_address);
-	camel_mime_message_set_from (receipt, addr);
+	camel_mime_message_set_recipients (receipt, CAMEL_RECIPIENT_TYPE_TO, addr);
 	camel_object_unref (addr);
 
 	camel_medium_set_header (CAMEL_MEDIUM (receipt), "Return-Path", "<>");
