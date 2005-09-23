@@ -136,6 +136,10 @@ e_exchange_contacts_pcontacts (EPlugin *epl, EConfigHookItemFactoryData *data)
 
 	EABConfigTargetSource *t = (EABConfigTargetSource *) data->target;
 	ESource *source = t->source;
+	GtkWidget *lbl_offline_msg, *vb_offline_msg;
+	char *offline_msg;
+	gint offline_status;
+	
 
 	if (data->old) {
 		gtk_widget_destroy (vb_pcontacts);
@@ -148,6 +152,23 @@ e_exchange_contacts_pcontacts (EPlugin *epl, EConfigHookItemFactoryData *data)
 	}
 
 	g_free (uri_text);
+
+	exchange_config_listener_get_offline_status (exchange_global_config_listener, 
+								    &offline_status);
+	if (offline_status == OFFLINE_MODE) {
+		/* Evolution is in offline mode; we will not be able to create
+		   new folders or modify existing folders. */
+		offline_msg = g_markup_printf_escaped ("<b>%s</b>", 
+						       _("Evolution is in offline mode. You cannot create or modify folders now.\nPlease switch to online mode for such operations."));
+		vb_offline_msg = gtk_vbox_new (FALSE, 6);		
+		gtk_container_add (GTK_CONTAINER (data->parent), vb_offline_msg);
+		lbl_offline_msg = gtk_label_new ("");
+		gtk_label_set_markup (GTK_LABEL (lbl_offline_msg), offline_msg);
+		g_free (offline_msg);
+		gtk_box_pack_start (GTK_BOX (vb_offline_msg), lbl_offline_msg, FALSE, FALSE, 0);
+		gtk_widget_show_all (vb_offline_msg);
+		return vb_offline_msg;		
+	}
 
 	rel_uri = e_source_peek_relative_uri (source);
 	uid = e_source_peek_uid (source);
@@ -263,14 +284,19 @@ e_exchange_contacts_check (EPlugin *epl, EConfigHookPageCheckData *data)
 	ESourceGroup *group;
 	const char *base_uri;
 	const char *rel_uri;
+	gint offline_status;
 
 	rel_uri = e_source_peek_relative_uri (t->source);
 	group = e_source_peek_group (t->source);
 	base_uri = e_source_group_peek_base_uri (group);
+	exchange_config_listener_get_offline_status (exchange_global_config_listener, 
+								    &offline_status);
 	if (base_uri && !strncmp (base_uri, "exchange", 8)) {
+		if (offline_status == OFFLINE_MODE)
+			return FALSE;
 		if (rel_uri && !strlen (rel_uri)) {
 			return FALSE;
-		}
+		}		
 	}
 
 	return TRUE;
@@ -285,6 +311,7 @@ e_exchange_contacts_commit (EPlugin *epl, EConfigTarget *target)
 	int prefix_len;
 	ExchangeAccount *account;
 	ExchangeAccountFolderResult result;
+	gint offline_status;
 		
 	uri_text = e_source_get_uri (source);
 	if (uri_text && strncmp (uri_text, "exchange", 8)) {
@@ -292,6 +319,11 @@ e_exchange_contacts_commit (EPlugin *epl, EConfigTarget *target)
 		return ;
 	}	
 	g_free (uri_text);
+
+	exchange_config_listener_get_offline_status (exchange_global_config_listener, 
+								    &offline_status);
+	if (offline_status == OFFLINE_MODE)
+		return;
 
 	account = exchange_operations_get_exchange_account ();
 	path_prefix = g_strconcat (account->account_filename, "/", NULL);

@@ -1,3 +1,23 @@
+2005-09-22  Praveen Kumar  <kpraveen@novell.com>
+
+	** Fixes bug 312849
+
+	* exchange-calendar.c
+	(e_exchange_calendar_pcalendar): Populate the folder hierarchy only 
+	if Evolution is online.
+	(e_exchange_calendar_check): Disable the "OK" button if Evolution 
+	is offline.
+	(e_exchange_calendar_commit): Don't do anything if Evolution is 
+	offline.
+
+	* exchange-contacts.c
+	(e_exchange_contacts_pcontacts): Populate the folder hierarchy only 
+	if Evolution is online.
+	(e_exchange_contacts_check): Disable the "OK" button if Evolution 
+	is offline.
+	(e_exchange_contacts_commit): Don't do anything if Evolution is 
+	offline.
+
 2005-09-15  Arunprakash  <arunp@novell.com>
 
 	* exchange-account-setup.c

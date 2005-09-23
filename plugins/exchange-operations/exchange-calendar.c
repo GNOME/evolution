@@ -152,6 +152,9 @@ e_exchange_calendar_pcalendar (EPlugin *epl, EConfigHookItemFactoryData *data)
 	char *folder_size;
 	const char *rel_uri;
 	int row, i;
+	gint offline_status;
+	char *offline_msg;
+	GtkWidget *lbl_offline_msg;
 
 
 	if (!hidden)
@@ -176,6 +179,24 @@ e_exchange_calendar_pcalendar (EPlugin *epl, EConfigHookItemFactoryData *data)
 	e_uri_free (uri);
 	g_free (uri_text);
 
+	parent = data->parent;
+	row = ((GtkTable*)parent)->nrows;
+
+	exchange_config_listener_get_offline_status (exchange_global_config_listener, 
+								    &offline_status);
+	if (offline_status == OFFLINE_MODE) {
+		/* Evolution is in offline mode; we will not be able to create
+		   new folders or modify existing folders. */
+		offline_msg = g_markup_printf_escaped ("<b>%s</b>", 
+						       _("Evolution is in offline mode. You cannot create or modify folders now.\nPlease switch to online mode for such operations."));
+		lbl_offline_msg = gtk_label_new ("");
+		gtk_label_set_markup (GTK_LABEL (lbl_offline_msg), offline_msg);
+		g_free (offline_msg);
+		gtk_widget_show (lbl_offline_msg);
+		gtk_table_attach (GTK_TABLE (parent), lbl_offline_msg, 0, 2, row, row+1, GTK_FILL|GTK_EXPAND, 0, 0, 0);
+		return lbl_offline_msg;		
+	}
+
 	rel_uri = e_source_peek_relative_uri (t->source);
 	if (rel_uri && strlen (rel_uri)) {
 		calendar_src_exists = TRUE;
@@ -186,9 +207,6 @@ e_exchange_calendar_pcalendar (EPlugin *epl, EConfigHookItemFactoryData *data)
 		calendar_src_exists = FALSE;
 	}
 	
-	parent = data->parent;
-	row = ((GtkTable*)parent)->nrows;
-
 	/* REVIEW: Should this handle be freed? - Attn: surf */
 	account = exchange_operations_get_exchange_account ();
 	account_name = account->account_name;
@@ -280,11 +298,16 @@ e_exchange_calendar_check (EPlugin *epl, EConfigHookPageCheckData *data)
 	ESourceGroup *group;
 	const char *base_uri;
 	const char *rel_uri;
+	gint offline_status;
 
 	rel_uri = e_source_peek_relative_uri (t->source);
 	group = e_source_peek_group (t->source);
 	base_uri = e_source_group_peek_base_uri (group);
+	exchange_config_listener_get_offline_status (exchange_global_config_listener, 
+						     &offline_status);
 	if (base_uri && !strncmp (base_uri, "exchange", 8)) {
+		if (offline_status == OFFLINE_MODE)
+			return FALSE;
 		if (rel_uri && !strlen (rel_uri)) {
 			return FALSE;
 		}
@@ -302,13 +325,20 @@ e_exchange_calendar_commit (EPlugin *epl, EConfigTarget *target)
 	int prefix_len;
 	ExchangeAccount *account;
 	ExchangeAccountFolderResult result;
-		
+	gint offline_status;
+
 	uri_text = e_source_get_uri (source);
 	if (uri_text && strncmp (uri_text, "exchange", 8)) {
 		g_free (uri_text);
 		return ;
 	}	
-	
+
+	exchange_config_listener_get_offline_status (exchange_global_config_listener, 
+						     &offline_status);
+		
+	if (offline_status == OFFLINE_MODE)
+		return;
+
 	account = exchange_operations_get_exchange_account ();
 	path_prefix = g_strconcat (account->account_filename, "/", NULL);
 	prefix_len = strlen (path_prefix);
