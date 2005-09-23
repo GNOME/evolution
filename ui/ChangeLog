@@ -1,3 +1,8 @@
+2005-09-23  S.Antony Vincent Pandian <santony@gmail.com>
+
+	* evolution.xml: Have added the "View Status Bar" under the "View" menu
+	This is a toggle button to hide/show the status bar
+
 2005-08-26  Andre Klapper  <a9016009@gmx.de>
 	* evolution-mail-list.xml: Fixing mnemonic conflict (#314351)
 

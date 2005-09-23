@@ -564,7 +564,8 @@ setup_status_bar (EShellWindow *window)
 	priv = window->priv;
 
 	priv->status_bar = gtk_hbox_new (FALSE, 2);
-	gtk_widget_show (priv->status_bar);
+	if(gconf_client_get_bool (gconf_client_get_default(),"/apps/evolution/shell/view_defaults/statusbar_visible",NULL))
+		gtk_widget_show (priv->status_bar);
 
 	setup_offline_toggle (window);
 	setup_menu_hint_label (window);
@@ -678,6 +679,16 @@ setup_widgets (EShellWindow *window)
 		e_sidebar_set_mode (E_SIDEBAR (priv->sidebar), mode);
 	}
 	g_free (style);
+
+	/* Status Bar*/
+	visible = gconf_client_get_bool (gconf_client,
+				         "/apps/evolution/shell/view_defaults/statusbar_visible",
+					 NULL);
+	bonobo_ui_component_set_prop (e_shell_window_peek_bonobo_ui_component (window),
+				      "/commands/ViewStatusBar",
+				      "state",
+				      visible ? "1" : "0",
+				      NULL);
 
 	/* The tool bar */
 	visible = gconf_client_get_bool (gconf_client,
@@ -975,6 +986,12 @@ e_shell_window_peek_sidebar (EShellWindow *window)
 	g_return_val_if_fail (E_IS_SHELL_WINDOW (window), NULL);
 
 	return E_SIDEBAR (window->priv->sidebar);
+}
+
+GtkWidget *
+e_shell_window_peek_statusbar (EShellWindow *window)
+{
+	return window->priv->status_bar;
 }
 
 void
