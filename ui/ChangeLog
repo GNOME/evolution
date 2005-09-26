@@ -1,3 +1,7 @@
+2005-09-24  Andre Klapper  <a9016009@gmx.de>
+	* evolution-message-composer.xml: changing the order of the
+	main menu items due to HIG (#308614)
+
 2005-09-23  S.Antony Vincent Pandian <santony@gmail.com>
 
 	* evolution.xml: Have added the "View Status Bar" under the "View" menu

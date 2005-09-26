@@ -116,13 +116,6 @@
 			 <placeholder name="EditMisc"/>
 		</submenu>
 		
-		<submenu name="Format" _label="For_mat">
-			<menuitem name="FormatHtml" verb=""/>
-		
-			<separator/>
-			<placeholder name="FormatParagraph"/>
-		</submenu>
-		
 		<submenu name="View" _label="_View">
 	                <menuitem name="ViewFrom" verb=""/>
 			<menuitem name="ViewTo" verb=""/>
@@ -139,6 +132,13 @@
 			<separator f="" name="emailcomposer"/>
 			<menuitem name="RequestReceipt" verb=""/>
                 </submenu>
+		
+		<submenu name="Format" _label="For_mat">
+			<menuitem name="FormatHtml" verb=""/>
+		
+			<separator/>
+			<placeholder name="FormatParagraph"/>
+		</submenu>
 		
                 <submenu name="Security" _label="_Security">
                         <menuitem name="SecurityPGPSign" verb="" _label="PGP Sign"/>
