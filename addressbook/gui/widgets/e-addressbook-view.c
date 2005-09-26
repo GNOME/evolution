@@ -1509,6 +1509,9 @@ search_activated (ESearchBar *esb, EABView *v)
 	}
 
 	g_free (search_word);
+	v->displayed_contact = -1;
+	eab_contact_display_render (EAB_CONTACT_DISPLAY (v->contact_display), NULL,
+						    EAB_CONTACT_DISPLAY_RENDER_NORMAL);
 }
 
 static void
