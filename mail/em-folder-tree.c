@@ -2013,6 +2013,12 @@ emft_popup_rename_folder (EPopup *ep, EPopupItem *pitem, void *data)
 }
 
 static void
+emft_popup_empty_trash (EPopup *ep, EPopupItem *pitem, void *data)
+{
+	em_utils_empty_trash (data);
+}
+
+static void
 emft_popup_properties (EPopup *ep, EPopupItem *pitem, void *data)
 {
 	EMFolderTree *emft = data;
@@ -2051,6 +2057,7 @@ static EPopupItem emft_popup_items[] = {
 	{ E_POPUP_BAR, "80.emc" },
 	{ E_POPUP_ITEM, "80.emc.00", N_("_Properties"), emft_popup_properties, NULL, "stock_folder-properties", 0, EM_POPUP_FOLDER_FOLDER|EM_POPUP_FOLDER_SELECT }
 };
+static EPopupItem trash_popup_item = {E_POPUP_ITEM, "20.emc.03", N_("_Empty Trash"), emft_popup_empty_trash,NULL,NULL, 1, EM_POPUP_FOLDER_FOLDER|EM_POPUP_FOLDER_SELECT};
 
 static void
 emft_popup_free(EPopup *ep, GSList *items, void *data)
@@ -2070,6 +2077,7 @@ emft_popup (EMFolderTree *emft, GdkEvent *event)
 	GSList *menus = NULL;
 	guint32 info_flags = 0;
 	guint32 flags = 0;
+	guint32 folder_type_flags = 0;
 	gboolean isstore;
 	char *uri, *full_name;
 	GtkMenu *menu;
@@ -2088,7 +2096,7 @@ emft_popup (EMFolderTree *emft, GdkEvent *event)
 	
 	gtk_tree_model_get (model, &iter, COL_POINTER_CAMEL_STORE, &store,
 			    COL_STRING_URI, &uri, COL_STRING_FULL_NAME, &full_name,
-			    COL_BOOL_IS_STORE, &isstore, -1);
+			    COL_BOOL_IS_STORE, &isstore, COL_UINT_FLAGS, &folder_type_flags, -1);
 
 	/* Stores have full_name == NULL, otherwise its just a placeholder */
 	/* NB: This is kind of messy */
@@ -2129,6 +2137,9 @@ emft_popup (EMFolderTree *emft, GdkEvent *event)
 	for (i = 0; i < sizeof (emft_popup_items) / sizeof (emft_popup_items[0]); i++)
 		menus = g_slist_prepend (menus, &emft_popup_items[i]);
 	
+	if ((folder_type_flags & CAMEL_FOLDER_TYPE_MASK) == CAMEL_FOLDER_TYPE_TRASH)
+		menus = g_slist_prepend (menus, &trash_popup_item);
+
 	e_popup_add_items ((EPopup *)emp, menus, NULL, emft_popup_free, emft);
 
 	menu = e_popup_create_menu_once ((EPopup *)emp, (EPopupTarget *)target, 0);

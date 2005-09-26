@@ -1,3 +1,11 @@
+2005-09-26  S.Antony Vincent Pandian <santony@gmail.com>
+
+	Fixes #208647
+
+	* em-folder-tree.c : Have added a menu item Empty 
+	Trash in the folder tree's context menu and also
+	added its callback.
+
 2005-09-22  Carsten Guenther <carsten.guenther@scalix.com>
 
 	Fixes #316983
