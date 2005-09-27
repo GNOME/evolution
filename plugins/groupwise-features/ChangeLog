@@ -1,3 +1,11 @@
+2005-09-27  Vivek Jain <jvivek@novell.com>
+	
+	* install-shared.c: (accept_clicked): 
+	 we have to connect "response" to (install_folder_response)
+	 to make it work
+	 don't destroy druid right now, wait till folder selector
+	 dialog dies, make folder selector dialog modal
+
 2005-08-25  Sankar P  <psankar@novell.com>
 
 	*  proxy.c: (proxy_dialog_finalize):

@@ -169,9 +169,10 @@ accept_clicked(GnomeDruidPage *page, GtkWidget *druid, CamelMimeMessage *msg)
 	camel_object_ref(msg);
 	accept_data->model = model;
 	g_object_set_data_full((GObject *)dialog, "accept-data", accept_data, accept_free);
-! 	g_signal_connect (dialog, "response", G_CALLBACK (install_folder_response), accept_data);
+ 	g_signal_connect (dialog, "response", G_CALLBACK (install_folder_response), accept_data);
+	g_object_set_data_full((GObject *)dialog, "druid", druid, (GDestroyNotify)gtk_widget_destroy);
 	gtk_window_set_title (GTK_WINDOW (dialog), "Install Shared Folder");
-	gtk_widget_destroy (druid);
+	gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
 	gtk_widget_show (dialog);
 
 }
