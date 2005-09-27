@@ -2421,11 +2421,8 @@ emae_check_complete(EConfig *ec, const char *pageid, void *data)
 
 	/* We use the page-check of various pages to 'prepare' or
 	   pre-load their values, only in the druid */
-	if (pageid
-			&& ((EConfig *)emae->priv->config)->type == E_CONFIG_DRUID) {
+	if (pageid && ((EConfig *)emae->priv->config)->type == E_CONFIG_DRUID) {
 		if (!strcmp(pageid, "00.identity")) {
-			static gboolean flag;
-			const char* email;
 			if (!emae->priv->identity_set) {
 				char *uname;
 
@@ -2434,18 +2431,7 @@ emae_check_complete(EConfig *ec, const char *pageid, void *data)
 				if (uname) {
 					gtk_entry_set_text(emae->priv->identity_entries[1], uname);
 					g_free(uname);
-					gtk_widget_grab_focus ( GTK_WIDGET(emae->priv->identity_entries[2]));
-				} else
-					gtk_widget_grab_focus ( GTK_WIDGET(emae->priv->identity_entries[1]));
-				flag = FALSE;
-			} else {
-				email = gtk_entry_get_text(emae->priv->identity_entries[2]);
-				flag = !flag;
-				if (email && flag && !gtk_widget_is_focus( GTK_WIDGET(emae->priv->identity_entries[3]))) {
-					gtk_entry_set_text(emae->priv->identity_entries[3], email);
-					flag = FALSE;
 				}
-
 			}
 		} else if (!strcmp(pageid, "10.receive")) {
 			if (!emae->priv->receive_set) {
