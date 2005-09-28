@@ -1,9 +1,15 @@
 2005-09-28  Tor Lillqvist  <tml@novell.com>
 
-	* e-timezone-dialog/Makefile.am: On Win32, use bootstrp import
+	* e-timezone-dialog/Makefile.am
+	* menus/Makefile.am: Install in privsolib instead of privlib (no
+	difference on Unix). Use NO_UNDEFINED.
+
+	* e-timezone-dialog/Makefile.am: On Win32, use bootstrap import
 	library for libemiscwidgets, which hasn't been built yet when we
-	come here. Install in privsolib instead of privlib (no difference
-	on Unix). Use NO_UNDEFINED. Link with EVOLUTION_CALENDAR_LIBS.
+	come here. Link with EVOLUTION_CALENDAR_LIBS.
+
+	* menus/Makefile.am: Drop several overlapping CFLAGS, use
+	E_UTIL_CFLAGS instead. Link with necessary libraries.
 
 2005-08-03  Li Yuan  <li.yuan@sun.com>
 

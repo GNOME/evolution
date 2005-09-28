@@ -1,15 +1,11 @@
-privlib_LTLIBRARIES = libmenus.la
+privsolib_LTLIBRARIES = libmenus.la
 
 INCLUDES =					\
 	-I$(top_srcdir)				\
 	-I$(top_srcdir)/widgets			\
-	-I$(top_srcdir)/widgets/menus		\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"  \
 	-DG_LOG_DOMAIN=\"menus\"		\
-	$(EXTRA_GNOME_CFLAGS)			\
-	$(GNOME_INCLUDEDIR)			\
-	$(ICONV_CFLAGS)				\
-	$(GNOME_FULL_CFLAGS)
+	$(E_UTIL_CFLAGS)
 
 libmenus_la_SOURCES = 				\
 	gal-view-menus.c			\
@@ -43,6 +39,14 @@ libmenusinclude_HEADERS =			\
 	gal-view-instance.h			\
 	gal-view-new-dialog.h			\
 	gal-view.h
+
+libmenus_la_LDFLAGS = $(NO_UNDEFINED)
+
+libmenus_la_LIBADD =					\
+	$(top_builddir)/e-util/libeutil.la		\
+	$(top_builddir)/widgets/table/libetable.la	\
+	$(top_builddir)/widgets/misc/libemiscwidgets.la	\
+	$(E_UTIL_LIBS)
 
 icons =
 EXTRA_DIST =			\
