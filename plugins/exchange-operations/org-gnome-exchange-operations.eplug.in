@@ -3,7 +3,7 @@
   <e-plugin
     type="shlib"
     id="org.gnome.evolution.plugin.exchange-operations"
-    location="@PLUGINDIR@/liborg-gnome-exchange-operations.so"
+    location="@PLUGINDIR@/liborg-gnome-exchange-operations@SOEXT@"
     load-on-startup="true"
     name="Exchange Operations">
     <author name="Sushma Rai" email="rsushma@novell.com"/>

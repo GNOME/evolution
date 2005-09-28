@@ -5,6 +5,8 @@
 	ChangeLog).
 	(LDFLAGS): Use NO_UNDEFINED.
 
+	* org-gnome-exchange-operations.eplug.in: Use SOEXT.
+
 2005-09-22  Praveen Kumar  <kpraveen@novell.com>
 
 	** Fixes bug 312849
