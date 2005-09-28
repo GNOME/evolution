@@ -1085,6 +1085,53 @@ addressbook_view_class_init (AddressbookViewClass *klass)
 }
 
 static void
+source_selector_key_press_event_callback (GtkWidget *widget, GdkEventKey *event, AddressbookView *view)
+{
+	if (event->keyval == GDK_Delete) {
+		AddressbookViewPrivate *priv = view->priv;
+		ESource *selected_source;
+		EBook  *book;
+		GError *error = NULL;
+		GtkWindow *toplevel;
+
+		selected_source = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (priv->selector));
+		if (!selected_source) 
+			return;
+
+		toplevel = (GtkWindow *) gtk_widget_get_toplevel (priv->notebook);
+
+		if (e_error_run (toplevel, "addressbook:ask-delete-addressbook", 
+				e_source_peek_name(selected_source)) != GTK_RESPONSE_YES)
+			return;
+
+		/* Remove local data */
+		book = e_book_new (selected_source, &error);
+		if (book) {
+			if (e_book_remove (book, NULL)) {
+				if (e_source_selector_source_is_selected (E_SOURCE_SELECTOR (priv->selector),
+									  selected_source))
+					e_source_selector_unselect_source (E_SOURCE_SELECTOR (priv->selector),
+									   selected_source);
+		
+				e_source_group_remove_source (e_source_peek_group (selected_source), selected_source);
+			
+				e_source_list_sync (priv->source_list, NULL);
+			}
+			else {
+				e_error_run (toplevel, "addressbook:remove-addressbook", NULL);
+			}
+
+			g_object_unref (book);
+		}
+		else {
+			g_warning ("error removing addressbook : %s", error->message);
+			g_error_free (error);
+		}
+	}
+	return;
+}
+
+static void
 addressbook_view_init (AddressbookView *view)
 {
 	AddressbookViewPrivate *priv;
@@ -1161,6 +1208,9 @@ addressbook_view_init (AddressbookView *view)
 	g_signal_connect_object (priv->selector, "primary_selection_changed",
 				 G_CALLBACK (primary_source_selection_changed_callback),
 				 G_OBJECT (view), 0);
+	g_signal_connect_after (priv->selector, "key_press_event",
+		       		G_CALLBACK (source_selector_key_press_event_callback), 
+				G_OBJECT (view));
 	g_signal_connect_object (priv->selector, "popup_event",
 				 G_CALLBACK (popup_event_callback),
 				 G_OBJECT (view), 0);

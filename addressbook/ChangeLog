@@ -1,3 +1,10 @@
+2005-09-28  Devashish Sharma  <sdevashish@novell.com>
+
+	gui/component/addressbook-view.c (addressbook_view_init): Added a
+	callback, source_selector_key_press_event_callback() so that the
+	contact folder can be removed with Del/Delete Key.
+	Fixes #233424.
+
 2005-09-28  Tor Lillqvist  <tml@novell.com>
 
 	* gui/component/addressbook.c (get_remember_password): Use
