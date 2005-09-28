@@ -82,6 +82,16 @@
 #include <unistd.h>
 #endif
 
+#ifdef G_OS_WIN32
+/* Undefine the similar macro from <pthread.h>,it doesn't check if
+ * localtime() returns NULL.
+ */
+#undef localtime_r
+
+/* The localtime() in Microsoft's C library is MT-safe */
+#define localtime_r(tp,tmp) (localtime(tp)?(*(tmp)=*localtime(tp),(tmp)):0)
+#endif
+
 #define d(x)
 #define t(x)
 
