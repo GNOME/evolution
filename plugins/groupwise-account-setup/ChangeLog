@@ -1,3 +1,9 @@
+2005-09-28  Sushma Rai  <rsushma@novell.com>
+
+	* camel-gw-listener.c (add_addressbook_sources): Removed name
+	comparison and using writable property, to find the system
+	address book, while marking for offline usage.
+
 2005-09-16 Vivek Jain <jvivek@novell.com>
  	
  	* camel-gw-listener.c:(get_addressbook_names_from_server)
