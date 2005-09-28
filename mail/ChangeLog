@@ -7,6 +7,9 @@
 	to literal ASCII strings, so just casefolding ASCII is
 	enough. Also better for portability.
 
+	* em-format-html-display.c: Define localtime_r() for Win32 using
+	localtime() (which is thread-safe in Microsoft's C library).
+
 2005-09-28  Parthasarathi Susarla <sparthasarathi@novell.com>
 	
 	See bug ** 317329
