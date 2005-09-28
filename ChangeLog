@@ -1,9 +1,8 @@
 2005-09-28  Tor Lillqvist  <tml@novell.com>
 
 	* configure.in: Drop unused SOCKET_LIBS leftover. Don't check for
-	OpenLDAP on Win32. Set corresponding variables unconditionally on
-	Win32, as LDAP support is always present (in <winldap.h> and
-	-lwldap32).
+	OpenLDAP on Win32. Instead, set related variables unconditionally,
+	as LDAP support is always present (in <winldap.h> and -lwldap32).
 	(CAMEL_EXCHANGE): Add more stuff to CAMEL_EXCHANGE_CFLAGS and
 	_LIBS. These are used only in
 	plugins/exchange-operations/Makefile.am, and now it's enough to
