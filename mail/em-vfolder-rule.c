@@ -142,6 +142,7 @@ void
 em_vfolder_rule_add_source(EMVFolderRule *vr, const char *uri)
 {
 	g_assert(EM_IS_VFOLDER_RULE(vr));
+	g_return_if_fail (uri);
 	
 	vr->sources = g_list_append(vr->sources, g_strdup(uri));
 	

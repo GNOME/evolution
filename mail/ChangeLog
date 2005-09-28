@@ -1,3 +1,9 @@
+2005-09-28  Parthasarathi Susarla <sparthasarathi@novell.com>
+	
+	See bug ** 317329
+	* em-vfolder-rule.c: (em_vfolder_rule_add_source):
+	Do not add a NULL uri.
+
 2005-09-27  Sankar P  <psankar@novell.com>
 
 	* em-account-editor.c (emae_check_complete) :
