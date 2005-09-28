@@ -545,10 +545,13 @@ eab_contact_display_render_compact (EABContactDisplay *display, EContact *contac
 			gtk_html_stream_printf (html_stream, "<b>%s:</b>&nbsp;<td>", _("List Members"));
 
 			email_list = e_contact_get (contact, E_CONTACT_EMAIL);
+
 			for (l = email_list; l; l = l->next) {
-				char *html = e_text_to_html (l->data, 0);
-				gtk_html_stream_printf (html_stream, "%s, ", html);
-				g_free (html);
+				if (l->data) {
+					char *html = e_text_to_html (l->data, 0);
+					gtk_html_stream_printf (html_stream, "%s, ", html);
+					g_free (html);
+				}
 			}
 			gtk_html_stream_printf (html_stream, "</td></tr></table>");
 		}
