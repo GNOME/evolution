@@ -633,7 +633,12 @@ add_addressbook_sources (EAccount *account)
 		e_source_set_property (source, "auth-domain", "Groupwise");
 		e_source_set_property (source, "port", soap_port);
 		e_source_set_property(source, "user", url->user);
-		if (!strcmp (book_name, "Novell GroupWise Address Book"))
+		/* mark system address book for offline usage */
+		/* FIXME: add isPersonal flag to container and use that isFrequentContact
+		 * properties, instead of using writable to distinguish between the
+		 * system address book and other address books
+		 */
+		if (!e_gw_container_get_is_writable (E_GW_CONTAINER(temp_list->data)))
 			e_source_set_property (source, "offline_sync", "1");
 		else
 			e_source_set_property (source, "offline_sync", 
