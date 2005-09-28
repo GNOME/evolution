@@ -83,7 +83,7 @@ e_exchange_calendar_get_calendars (ECalSourceType ftype)
 	account = exchange_operations_get_exchange_account ();
 
 	/* FIXME: Reconsider this hardcoding */
-	uri_prefix = g_strconcat ("exchange://", account->account_filename, "/", NULL);
+	uri_prefix = g_strconcat ("exchange://", account->account_filename, "/;", NULL);
 	prefix_len = strlen (uri_prefix);
 
 	calendar_list = g_ptr_array_new ();
@@ -99,6 +99,7 @@ e_exchange_calendar_get_calendars (ECalSourceType ftype)
 			tmp = (gchar *)e_folder_get_physical_uri (folder);
 			if (g_str_has_prefix (tmp, uri_prefix)) {
 				ruri = g_strdup (tmp+prefix_len); /* ATTN: Shouldn't free this explictly */
+				printf ("adding ruri : %s\n", ruri);
 				g_ptr_array_add (calendar_list, (gpointer)ruri);
 			}
 		}
@@ -124,7 +125,7 @@ e_exchange_calendar_pcalendar_on_change (GtkTreeView *treeview, ESource *source)
 	gtk_tree_selection_get_selected(selection, &model, &iter);
 
 	gtk_tree_model_get (model, &iter, CALENDARRURI_COL, &ruri, -1);
-	es_ruri = g_strconcat (account->account_filename, "/", ruri, NULL);
+	es_ruri = g_strconcat (account->account_filename, "/;", ruri, NULL);
 	e_source_set_relative_uri (source, es_ruri);
 	g_free (ruri);
 	g_free (es_ruri);
@@ -267,7 +268,7 @@ e_exchange_calendar_pcalendar (EPlugin *epl, EConfigHookItemFactoryData *data)
 		int prefix_len;
 		GtkTreeSelection *selection;
 
-		uri_prefix = g_strconcat (account->account_filename, "/", NULL);
+		uri_prefix = g_strconcat (account->account_filename, "/;", NULL);
 		prefix_len = strlen (uri_prefix);
 		
 		tmpruri = (gchar*) rel_uri;
@@ -325,6 +326,7 @@ e_exchange_calendar_commit (EPlugin *epl, EConfigTarget *target)
 	int prefix_len;
 	ExchangeAccount *account;
 	ExchangeAccountFolderResult result;
+	ExchangeConfigListenerStatus status;
 	gint offline_status;
 
 	uri_text = e_source_get_uri (source);
@@ -333,14 +335,12 @@ e_exchange_calendar_commit (EPlugin *epl, EConfigTarget *target)
 		return ;
 	}	
 
-	exchange_config_listener_get_offline_status (exchange_global_config_listener, 
-						     &offline_status);
-		
-	if (offline_status == OFFLINE_MODE)
+	status = exchange_is_offline (&offline_status); 	
+	if (offline_status == OFFLINE_MODE || status != CONFIG_LISTENER_STATUS_OK)
 		return;
 
 	account = exchange_operations_get_exchange_account ();
-	path_prefix = g_strconcat (account->account_filename, "/", NULL);
+	path_prefix = g_strconcat (account->account_filename, "/;", NULL);
 	prefix_len = strlen (path_prefix);
 	g_free (path_prefix);
 

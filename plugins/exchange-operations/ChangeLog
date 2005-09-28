@@ -1,3 +1,11 @@
+2005-09-28  Sarfraaz Ahmed <asarfraaz@novell.com>
+
+	* exchange-account-setup.c (owa_authenticate_user) : Propogate the
+	authentication mechanism to the backend.
+	* exchange-calendar.c
+	* exchange-contacts.c
+	* exchange-folder.c : Parse the new account uri.
+
 2005-09-28  Tor Lillqvist  <tml@novell.com>
 
 	* Makefile.am (INCLUDES, LIBADD): Use just CAMEL_EXCHANGE_CFLAGS
