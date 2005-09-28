@@ -140,7 +140,7 @@ get_remember_password (ESource *source)
 	const gchar *value;
 
 	value = e_source_get_property (source, "remember_password");
-	if (value && !strcasecmp (value, "true"))
+	if (value && !g_ascii_strcasecmp (value, "true"))
 		return TRUE;
 
 	return FALSE;

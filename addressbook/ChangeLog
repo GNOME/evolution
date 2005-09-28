@@ -1,3 +1,10 @@
+2005-09-28  Tor Lillqvist  <tml@novell.com>
+
+	* gui/component/addressbook.c (get_remember_password): Use
+	g_ascii_strcasecmp() instead of strcasecmp(). We are comparing to
+	the literal "true", just casefolding ASCII is enough. Also better
+	for portability.
+
 2005-09-14  Sushma Rai  <rsushma@novell.com>
 
 	* gui/contact-list-editor/e-contact-list-editor.etspec: Set selection 
