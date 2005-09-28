@@ -5,6 +5,9 @@
 	strings, just casefolding ASCII is enough. Also better for
 	portability.
 
+	* e-profile-event.c (e_profile_event_target_new): Use
+	g_get_current_time() instead of gettimeofday() for portability.
+
 2005-08-23  Not Zed  <NotZed@Ximian.com>
 
 	* e-util.c (e_mkdir_hier): cast warning, good ol win32 patches.

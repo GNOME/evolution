@@ -112,11 +112,14 @@ EProfileEventTarget *
 e_profile_event_target_new(EProfileEvent *eme, const char *id, const char *uid, guint32 flags)
 {
 	EProfileEventTarget *t = e_event_target_new(&eme->popup, E_PROFILE_EVENT_TARGET, sizeof(*t));
+	GTimeVal tv;
 
 	t->id = g_strdup(id);
 	t->uid = g_strdup(uid);
 	t->target.mask = ~flags;
-	gettimeofday(&t->tv, NULL);
+	g_get_current_time (&tv);
+	t->tv.tv_sec = tv.tv_sec;
+	t->tv.tv_usec = tv.tv_usec;
 
 	return t;
 }
