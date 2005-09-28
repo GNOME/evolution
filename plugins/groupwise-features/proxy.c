@@ -347,7 +347,10 @@ proxy_dialog_store_widgets_data (EAccount *account, gint32 dialog)
 					email = NULL;
 					email = (char *)e_destination_get_email (tmp->data);
 
-					if (g_strrstr (email, "@") == NULL ) {
+					if (g_str_equal(email, ""))
+						continue;
+					
+					if (g_strrstr (email, "@") == NULL) {
 						e_error_run (NULL, "org.gnome.evolution.proxy:invalid-user", email, NULL);
 						return -1;
 					} 	
@@ -382,6 +385,10 @@ proxy_dialog_store_widgets_data (EAccount *account, gint32 dialog)
 				for (; tmp != NULL; tmp = g_list_next (tmp)) {
 					name = NULL; email = NULL;
 					email = (char *) e_destination_get_email (tmp->data);
+
+					if (g_str_equal(email, ""))
+						continue;
+
 					name = (char *) e_destination_get_name (tmp->data);
 					new_proxy = (proxyHandler *) g_malloc (sizeof (proxyHandler));
 
