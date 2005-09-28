@@ -7,6 +7,6 @@
   <column source="36"/>
   <grouping>
     <group column="35" ascending="true"/>
-    <leaf column="0" ascending="true"/>
+    <leaf column="2" ascending="true"/>
   </grouping>
 </ETableState>
