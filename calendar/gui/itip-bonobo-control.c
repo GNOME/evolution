@@ -121,8 +121,8 @@ pstream_load (BonoboPersistStream *ps, const Bonobo_Stream stream,
 	EItipControl *itip = data;
 	idle_data *id;
 	
-	if (type && g_strcasecmp (type, "text/calendar") != 0 &&	    
-	    g_strcasecmp (type, "text/x-calendar") != 0) {
+	if (type && g_ascii_strcasecmp (type, "text/calendar") != 0 &&	    
+	    g_ascii_strcasecmp (type, "text/x-calendar") != 0) {
 		bonobo_exception_set (ev, ex_Bonobo_Persist_WrongDataType);
 		return;
 	}
@@ -150,8 +150,8 @@ pstream_save (BonoboPersistStream *ps, const Bonobo_Stream stream,
 	gchar *text;
 	gint len;
 
-	if (type && g_strcasecmp (type, "text/calendar") != 0 &&	    
-	    g_strcasecmp (type, "text/x-calendar") != 0) {	    
+	if (type && g_ascii_strcasecmp (type, "text/calendar") != 0 &&	    
+	    g_ascii_strcasecmp (type, "text/x-calendar") != 0) {	    
 		bonobo_exception_set (ev, ex_Bonobo_Persist_WrongDataType);
 		return;
 	}
