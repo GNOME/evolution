@@ -1,3 +1,10 @@
+2005-09-28  Tor Lillqvist  <tml@novell.com>
+
+	* e-html-utils.c (e_text_to_html_full): Use g_ascii_strncasecmp()
+	instead of strncasecmp(). We are comparing to literal ASCII
+	strings, just casefolding ASCII is enough. Also better for
+	portability.
+
 2005-08-23  Not Zed  <NotZed@Ximian.com>
 
 	* e-util.c (e_mkdir_hier): cast warning, good ol win32 patches.
