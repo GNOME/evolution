@@ -2376,13 +2376,13 @@ emfv_list_selection_change(ETree *tree, EMFolderView *emfv)
 static void
 emfv_format_link_clicked(EMFormatHTMLDisplay *efhd, const char *uri, EMFolderView *emfv)
 {
-	if (!strncasecmp (uri, "mailto:", 7)) {
+	if (!g_ascii_strncasecmp (uri, "mailto:", 7)) {
 		em_utils_compose_new_message_with_mailto (uri, emfv->folder_uri);
 	} else if (*uri == '#') {
 		gtk_html_jump_to_anchor (((EMFormatHTML *) efhd)->html, uri + 1);
-	} else if (!strncasecmp (uri, "thismessage:", 12)) {
+	} else if (!g_ascii_strncasecmp (uri, "thismessage:", 12)) {
 		/* ignore */
-	} else if (!strncasecmp (uri, "cid:", 4)) {
+	} else if (!g_ascii_strncasecmp (uri, "cid:", 4)) {
 		/* ignore */
 	} else {
 		GError *err = NULL;

@@ -1,3 +1,12 @@
+2005-09-28  Tor Lillqvist  <tml@novell.com>
+
+	* em-composer-utils.c (reply_get_composer, get_reply_list,
+	post_reply_to_message)
+	* em-folder-view.c (emfv_format_link_clicked): Use
+	g_ascii_strncasecmp() instead of strncasecmp(). We are comparing
+	to literal ASCII strings, so just casefolding ASCII is
+	enough. Also better for portability.
+
 2005-09-28  Parthasarathi Susarla <sparthasarathi@novell.com>
 	
 	See bug ** 317329

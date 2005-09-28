@@ -1368,7 +1368,7 @@ reply_get_composer (CamelMimeMessage *message, EAccount *account,
 
 	/* Set the subject of the new message. */
 	if ((subject = (char *) camel_mime_message_get_subject (message))) {
-		if (strncasecmp (subject, "Re: ", 4) != 0)
+		if (g_ascii_strncasecmp (subject, "Re: ", 4) != 0)
 			subject = g_strdup_printf ("Re: %s", subject);
 		else
 			subject = g_strdup (subject);
@@ -1522,7 +1522,7 @@ get_reply_list (CamelMimeMessage *message, CamelInternetAddress *to)
 		header++;
 	
 	/* check for NO */
-	if (!strncasecmp (header, "NO", 2))
+	if (!g_ascii_strncasecmp (header, "NO", 2))
 		return FALSE;
 	
 	/* Search for the first mailto angle-bracket enclosed URL.
@@ -1998,7 +1998,7 @@ post_reply_to_message (CamelFolder *folder, const char *uid, CamelMimeMessage *m
 	
 	/* Set the subject of the new message. */
 	if ((subject = (char *) camel_mime_message_get_subject (message))) {
-		if (strncasecmp (subject, "Re: ", 4) != 0)
+		if (g_ascii_strncasecmp (subject, "Re: ", 4) != 0)
 			subject = g_strdup_printf ("Re: %s", subject);
 		else
 			subject = g_strdup (subject);
