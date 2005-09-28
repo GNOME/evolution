@@ -1,3 +1,9 @@
+2005-09-13  Sushma Rai  <rsushma@novell.com>
+
+	* bbdb.c (bbdb_do_it): If the contact has only e-mail id and not name,
+	extract the name from e-mail id and add it to the address book.
+	Fixes #303286.
+
 2005-07-28  Vivek Jain  <jvivek@novell.com>
 	
 	* bbdb.c:(bbdb_handle_reply):check for NULL

@@ -156,24 +156,26 @@ bbdb_handle_reply (EPlugin *ep, EMEventTargetMessage *target)
 static void
 bbdb_do_it (EBook *book, const char *name, const char *email)
 {
-	char *query_string;
+	char *query_string, *delim, *temp_name = NULL;
 	EBookQuery *query;
 	GList *contacts, *l;
 	EContact *contact;
-
 	gboolean status;
 	GError *error = NULL;
 
 	g_return_if_fail (book != NULL);
 
-	if (name == NULL || email == NULL)
+	if (email == NULL || !strcmp (email, ""))
 		return;
 
-	if (! strcmp (name, "") || ! strcmp (email, ""))
+	if ((delim = strchr (email, '@')) == NULL)
 		return;
 
-	if (strchr (email, '@') == NULL)
-		return;
+	/* don't miss the entry if the mail has only e-mail id and no name */
+	if (name == NULL || ! strcmp (name, "")) {
+		temp_name = g_strndup (email, delim - email);
+		name = temp_name;
+	}
 
 	/* If any contacts exists with this email address, don't do anything */
 	query_string = g_strdup_printf ("(contains \"email\" \"%s\")", email);
@@ -187,7 +189,8 @@ bbdb_do_it (EBook *book, const char *name, const char *email)
 		for (l = contacts; l != NULL; l = l->next)
 			g_object_unref ((GObject *)l->data);
 		g_list_free (contacts);
-
+		g_free (temp_name);
+		
 		return;
 	}
 
@@ -208,6 +211,7 @@ bbdb_do_it (EBook *book, const char *name, const char *email)
 			for (l = contacts; l != NULL; l = l->next)
 				g_object_unref ((GObject *)l->data);
 			g_list_free (contacts);
+			g_free (temp_name);
 			return;
 		}
 		
@@ -222,6 +226,7 @@ bbdb_do_it (EBook *book, const char *name, const char *email)
 			g_object_unref ((GObject *)l->data);
 		g_list_free (contacts);
 
+		g_free (temp_name);
 		return;
 	} 
 
@@ -229,6 +234,7 @@ bbdb_do_it (EBook *book, const char *name, const char *email)
 	contact = e_contact_new ();
 	e_contact_set (contact, E_CONTACT_FULL_NAME, (gpointer) name);
 	add_email_to_contact (contact, email);
+	g_free (temp_name);
 
 	if (! e_book_add_contact (book, contact, &error)) {
 		g_warning ("bbdb: Failed to add new contact: %s\n", error->message);
