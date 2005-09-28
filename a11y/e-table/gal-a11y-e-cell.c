@@ -423,6 +423,7 @@ idle_do_action (gpointer data)
 
 	cell->action_idle_handler = 0;
 	cell->action_func (cell);
+	g_object_unref (cell);
                                                                                 
 	return FALSE;
 }
@@ -443,6 +444,7 @@ gal_a11y_e_cell_action_do_action (AtkAction *action,
 	if (cell->action_idle_handler)
 		return FALSE;
 	cell->action_func = info->do_action_func;
+	g_object_ref (cell);
 	cell->action_idle_handler = g_idle_add (idle_do_action, cell);
 
 	return TRUE;
