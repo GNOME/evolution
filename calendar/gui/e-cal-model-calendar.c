@@ -308,9 +308,9 @@ set_transparency (ECalModelComponent *comp_data, const void *value)
 	} else {
 		icalproperty_transp transp;
 
-		if (!strcasecmp (value, "FREE"))
+		if (!g_ascii_strcasecmp (value, "FREE"))
 			transp = ICAL_TRANSP_TRANSPARENT;
-		else if (!strcasecmp (value, "OPAQUE"))
+		else if (!g_ascii_strcasecmp (value, "OPAQUE"))
 			transp = ICAL_TRANSP_OPAQUE;
 		else {
 			if (prop) {
