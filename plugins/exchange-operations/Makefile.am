@@ -2,11 +2,7 @@ INCLUDES = -I .						\
 	-I$(top_srcdir)	                                \
 	-I$(top_srcdir)/widgets				\
 	-I$(top_srcdir)/calendar			\
-	$(EVOLUTION_MAIL_CFLAGS) 			\
 	$(CAMEL_EXCHANGE_CFLAGS)                        \
-	$(CAMEL_CFLAGS)					\
-	$(LDAP_CFLAGS)					\
-	$(EVOLUTION_CALENDAR_CFLAGS)			\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"          \
 	-DCONNECTOR_GLADEDIR=\""$(gladedir)"\"
 
@@ -47,16 +43,15 @@ liborg_gnome_exchange_operations_la_SOURCES = 		\
 	exchange-folder-subscription.h			\
 	exchange-folder.c
 
-liborg_gnome_exchange_operations_la_LIBADD = 		\
-	$(EVOLUTION_MAIL_LIBS)				\
-	$(CAMEL_EXCHANGE_LIBS)				\
+liborg_gnome_exchange_operations_la_LIBADD = 			\
 	$(top_builddir)/e-util/libeutil.la 			\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la		\
 	$(top_builddir)/calendar/gui/libevolution-calendar.la 	\
 	$(top_builddir)/mail/libevolution-mail.la 		\
-	$(top_builddir)/addressbook/gui/component/libevolution-addressbook.la
+	$(top_builddir)/addressbook/gui/component/libevolution-addressbook.la \
+	$(CAMEL_EXCHANGE_LIBS)
 
-liborg_gnome_exchange_operations_la_LDFLAGS = -module -avoid-version
+liborg_gnome_exchange_operations_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)
 
 glade_DATA =							\
 	exchange-change-password.glade				\

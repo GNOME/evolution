@@ -1,3 +1,10 @@
+2005-09-28  Tor Lillqvist  <tml@novell.com>
+
+	* Makefile.am (INCLUDES, LIBADD): Use just CAMEL_EXCHANGE_CFLAGS
+	and _LIBS, they now includes all necessary (see top-level
+	ChangeLog).
+	(LDFLAGS): Use NO_UNDEFINED.
+
 2005-09-22  Praveen Kumar  <kpraveen@novell.com>
 
 	** Fixes bug 312849

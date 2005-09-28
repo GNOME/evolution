@@ -1,3 +1,14 @@
+2005-09-28  Tor Lillqvist  <tml@novell.com>
+
+	* configure.in: Drop unused SOCKET_LIBS leftover. Don't check for
+	OpenLDAP on Win32. Set corresponding variables unconditionally on
+	Win32, as LDAP support is always present (in <winldap.h> and
+	-lwldap32).
+	(CAMEL_EXCHANGE): Add more stuff to CAMEL_EXCHANGE_CFLAGS and
+	_LIBS. These are used only in
+	plugins/exchange-operations/Makefile.am, and now it's enough to
+	use only that CAMEL_EXCHANGE_CFLAGS and _LIBS there.
+
 2005-09-05  Mengjie Yu  <meng-jie.yu@sun.com>
 
 	* configure.in:grep on Solaris doesn't support -q, use > /dev/null instead.
