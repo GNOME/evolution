@@ -9,6 +9,8 @@
 	plugins/exchange-operations/Makefile.am, and now it's enough to
 	use only that CAMEL_EXCHANGE_CFLAGS and _LIBS there.
 
+	* win32/dummy.la: libdir is prefix/lib, not bin.
+
 2005-09-05  Mengjie Yu  <meng-jie.yu@sun.com>
 
 	* configure.in:grep on Solaris doesn't support -q, use > /dev/null instead.
