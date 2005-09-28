@@ -1,3 +1,10 @@
+2005-09-28  Tor Lillqvist  <tml@novell.com>
+
+	* e-table-specification.c (e_table_specification_load_from_node):
+	Use g_ascii_strcasecmp() instead of strcasecmp(). We are comparing
+	to literal ASCII strings, just casefolding ASCII is enough. Also
+	better for portability.
+
 2005-08-24  Li Yuan  <li.yuan@sun.com>
 
 	Fixes #314352.
