@@ -1,3 +1,10 @@
+2005-09-28  Sankar P  <psankar@novell.com>
+
+	*  proxy.c (proxy_dialog_store_widgets_data):
+	Added code to handle the extra blank email that will be returned 
+	from the ENameSelector, while auto-completion.
+	Fixes #317400
+	
 2005-09-27  Vivek Jain <jvivek@novell.com>
 	
 	* install-shared.c: (accept_clicked): 
