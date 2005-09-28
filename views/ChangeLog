@@ -1,3 +1,11 @@
+2005-09-28  Devashish Sharma <sdevashish@novell.com>
+
+	* addressbook/Phone_List.galview: Match new column values, change
+	default columns shown.
+
+	* addressbook/By_Company.galview: Corrected the value for default
+	sort column.
+
 2005-09-20  Devashish Sharma <sdevashish@novell.com>
 
 	* addressbook/By_Company.galview: In ETableState grouping column was
