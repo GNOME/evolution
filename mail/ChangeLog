@@ -10,6 +10,8 @@
 	* em-format-html-display.c: Define localtime_r() for Win32 using
 	localtime() (which is thread-safe in Microsoft's C library).
 
+	* mail-tools.c (mail_tool_do_movemail): Not implemented on Win32.
+
 2005-09-28  Parthasarathi Susarla <sparthasarathi@novell.com>
 	
 	See bug ** 317329

@@ -29,7 +29,6 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
-#include <pthread.h>
 #include <ctype.h>
 #include <errno.h>
 #include <string.h>
@@ -129,6 +128,7 @@ mail_tool_get_local_movemail_path (const unsigned char *uri, CamelException *ex)
 char *
 mail_tool_do_movemail (const char *source_url, CamelException *ex)
 {
+#ifndef G_OS_WIN32
 	char *dest_path;
 	struct stat sb;
 	CamelURL *uri;
@@ -167,6 +167,13 @@ mail_tool_do_movemail (const char *source_url, CamelException *ex)
 	}
 	
 	return dest_path;
+#else
+	/* Unclear yet whether camel-movemail etc makes any sense on
+	 * Win32, at least it is not ported yet.
+	 */
+	g_warning("%s: Not implemented", __FUNCTION__);
+	return NULL;
+#endif
 }
 
 char *
