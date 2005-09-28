@@ -1,3 +1,11 @@
+2005-09-27  Harry Lu <harry.lu@sun.com>
+
+	Fix for #316351
+
+	* e-table/gal-a11y-e-cell.c: (idle_do_action),
+	(gal_a11y_e_cell_action_do_action): add a ref/unref pair to make
+	sure the pointer is valid.
+
 2005-08-15  Li Yuan  <li.yuan@sun.com>
 
 	* e-table/gal-a11y-e-table-item.c: (eti_a11y_reset_focus_object):
