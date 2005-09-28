@@ -1,9 +1,10 @@
 2005-09-28  Tor Lillqvist  <tml@novell.com>
 
-	* gui/e-cal-model-calendar.c (set_transparency): Use
-	g_ascii_strcasecmp() instead of strcasecmp(). We are comparing to
-	literal ASCII strings, just casefolding ASCII is enough. Also
-	better for portability.
+	* gui/e-cal-model-calendar.c (set_transparency)
+	* gui/e-cal-model.c (set_classification): Use g_ascii_strcasecmp()
+	instead of strcasecmp(). We are comparing to literal ASCII
+	strings, just casefolding ASCII is enough. Also better for
+	portability.
 
 2005-09-08  P. S. Chakravarthi <pchakravarthi@novell.com>
 
