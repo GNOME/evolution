@@ -1,6 +1,19 @@
 2005-09-28  Devashish Sharma  <sdevashish@novell.com>
 
-	gui/component/addressbook-view.c (addressbook_view_init): Added a
+	* gui/contact-list-editor/e-contact-list-editor.c
+	(table_drag_data_received_cb): Added a check that the contact received
+	through drag contains an email-id. There is no point in adding a
+	contact to the contact-list if the contact has no email-id. This was 
+	causing a crash also.
+
+	* gui/widgets/eab-contact-display.c
+	(eab_contact_display_render_compact): Added a check for catching null
+	email-ids, in case of contact-lists, so that null ids are not passed
+	for rendering, which was causing a crash.
+	
+2005-09-28  Devashish Sharma  <sdevashish@novell.com>
+
+	* gui/component/addressbook-view.c (addressbook_view_init): Added a
 	callback, source_selector_key_press_event_callback() so that the
 	contact folder can be removed with Del/Delete Key.
 	Fixes #233424.

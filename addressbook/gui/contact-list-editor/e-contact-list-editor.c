@@ -960,12 +960,16 @@ table_drag_data_received_cb (ETable *table, int row, int col,
 		for (c = contact_list; c; c = c->next) {
 			EContact *contact = c->data;
 
-			if (!e_contact_get (contact, E_CONTACT_IS_LIST)) {
-				e_contact_list_model_add_contact (E_CONTACT_LIST_MODEL (editor->model),
-								  contact,
-								  0  /* Hard-wired for default e-mail */);
-
-				changed = TRUE;
+			if (!e_contact_get (contact, E_CONTACT_IS_LIST)) { 
+				if (e_contact_get (contact, E_CONTACT_EMAIL)) {
+					e_contact_list_model_add_contact (E_CONTACT_LIST_MODEL (editor->model),
+									  contact,
+									  0  /* Hard-wired for default e-mail */);
+		
+					changed = TRUE;
+				}
+				else
+					g_warning ("Contact with no email-ids listed can't be added to a Contact-List");
 			}
 		}
 		g_list_foreach (contact_list, (GFunc)g_object_unref, NULL);
