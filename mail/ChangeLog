@@ -2,10 +2,11 @@
 
 	* em-composer-utils.c (reply_get_composer, get_reply_list,
 	post_reply_to_message)
-	* em-folder-view.c (emfv_format_link_clicked): Use
-	g_ascii_strncasecmp() instead of strncasecmp(). We are comparing
-	to literal ASCII strings, so just casefolding ASCII is
-	enough. Also better for portability.
+	* em-folder-view.c (emfv_format_link_clicked)
+	* importers/netscape-importer.c (netscape_get_boolean): Use
+	g_ascii_str(n)casecmp() instead of str(n)casecmp(). We are
+	comparing to literal ASCII strings in these cases, so just
+	casefolding ASCII is enough. Also better for portability.
 
 	* em-format-html-display.c
 	* message-list.c: Define localtime_r() for Win32 using localtime()

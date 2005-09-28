@@ -1310,9 +1310,9 @@ netscape_get_boolean (const char *strname)
 	if (boolstr == NULL) {
 		return FALSE;
 	} else {
-		if (strcasecmp (boolstr, "false") == 0) {
+		if (g_ascii_strcasecmp (boolstr, "false") == 0) {
 			return FALSE;
-		} else if (strcasecmp (boolstr, "true") == 0) {
+		} else if (g_ascii_strcasecmp (boolstr, "true") == 0) {
 			return TRUE;
 		}
 	}
