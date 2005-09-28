@@ -300,13 +300,13 @@ e_charset_picker_new (const char *default_charset)
 	const char *locale_charset;
 	
 	g_get_charset (&locale_charset);
-	if (!strcasecmp (locale_charset, "US-ASCII"))
+	if (!g_ascii_strcasecmp (locale_charset, "US-ASCII"))
 		locale_charset = "iso-8859-1";
 	
 	if (!default_charset)
 		default_charset = locale_charset;
 	for (def = 0; def < num_charsets; def++) {
-		if (!strcasecmp (charsets[def].name, default_charset))
+		if (!g_ascii_strcasecmp (charsets[def].name, default_charset))
 			break;
 	}
 	
@@ -466,13 +466,13 @@ e_charset_picker_bonobo_ui_populate (BonoboUIComponent *uic, const char *path,
 	int def, i;
 	
 	g_get_charset (&locale_charset);
-	if (!strcasecmp (locale_charset, "US-ASCII"))
+	if (!g_ascii_strcasecmp (locale_charset, "US-ASCII"))
 		locale_charset = "iso-8859-1";
 	
 	if (!default_charset)
 		default_charset = locale_charset;
 	for (def = 0; def < num_charsets; def++) {
-		if (!strcasecmp (charsets[def].name, default_charset))
+		if (!g_ascii_strcasecmp (charsets[def].name, default_charset))
 			break;
 	}
 	

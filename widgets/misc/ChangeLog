@@ -1,3 +1,11 @@
+2005-09-28  Tor Lillqvist  <tml@novell.com>
+
+	* e-charset-picker.c (e_charset_picker_new,
+	e_charset_picker_bonobo_ui_populate): Use g_ascii_strcasecmp()
+	instead of strcasecmp(). We are comparing to strings known to be
+	plain ASCII, so just casefolding ASCII is enough. Also better for
+	portability.
+
 2005-09-20  Devashish Sharma  <sdevashish@novell.com>
 
 	* e-search-bar.c (subitem_activated_cb): Emits the signal "search
