@@ -87,7 +87,7 @@ org_gnome_exchange_folder_inbox_unsubscribe (EPopup *ep, EPopupItem *p, void *da
 		return;
 
 	target_uri = g_strdup (target->uri);
-	path = target->uri + strlen ("exchange://") + strlen (account->account_filename);
+	path = target->uri + strlen ("exchange://") + strlen (account->account_filename) + strlen ("/;");
 	/* User will be able to unsubscribe by doing a right click on
 	   any one of this two-<other user's>Inbox or the
 	   <other user's folder> tree. 
@@ -175,7 +175,7 @@ exchange_get_folder (char *uri, CamelFolder *folder, void *data)
 		return;
 
 	/* Get the subscribed folder name. */
-	name = target_uri + strlen ("exchange://") + strlen (account->account_filename);
+	name = target_uri + strlen ("exchange://") + strlen (account->account_filename) + strlen ("/;");
 	stored_name = strrchr (name + 1, '/');
 
 	if (stored_name)
@@ -205,7 +205,7 @@ org_gnome_exchange_check_inbox_subscribed (EPlugin *ep, EMPopupTargetFolder *tar
 	if (!account)
 		return;
 
-	path = g_strdup_printf (target->uri + strlen ("exchange://") + strlen (account->account_filename));
+	path = g_strdup (target->uri + strlen ("exchange://") + strlen (account->account_filename) + strlen ("/;"));
 	sub_folder = strchr (path, '@');
 
 	g_free (path);
@@ -264,7 +264,7 @@ org_gnome_exchange_check_address_book_subscribed (EPlugin *ep, EABPopupTargetSou
 		return;
 
 	uri = e_source_get_uri (source);
-	path = g_strdup_printf (uri + strlen ("exchange://") + strlen (account->account_filename));
+	path = g_strdup (uri + strlen ("exchange://") + strlen (account->account_filename) + strlen ("/;"));
 	sub_folder = strchr (path, '@');
 
 	if (!sub_folder) {
@@ -305,7 +305,7 @@ org_gnome_exchange_check_subscribed (EPlugin *ep, ECalPopupTargetSource *target)
 		return;
 
 	ruri = (gchar *) e_source_peek_relative_uri (source);
-	path = g_strdup_printf (ruri + strlen (account->account_filename));
+	path = g_strdup (ruri + strlen (account->account_filename) + strlen ("/;"));
 	sub_folder = strchr (path, '@');
 
 	if (!sub_folder) {
@@ -343,7 +343,7 @@ unsubscribe_dialog_ab_response (GtkDialog *dialog, int response, gpointer data)
 
 		source = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (target->selector));
 		uri = e_source_get_uri (source);
-		path = g_strdup_printf (uri + strlen ("exchange://") + strlen (account->account_filename));
+		path = g_strdup (uri + strlen ("exchange://") + strlen (account->account_filename) + strlen ("/;"));
 		source_uid = e_source_peek_uid (source);
 
 		exchange_account_remove_shared_folder (account, path);
@@ -385,7 +385,7 @@ unsubscribe_dialog_response (GtkDialog *dialog, int response, gpointer data)
 		ruri = (gchar *) e_source_peek_relative_uri (source);
 		source_uid = e_source_peek_uid (source);
 
-		path = g_strdup_printf (ruri + strlen (account->account_filename));
+		path = g_strdup (ruri + strlen (account->account_filename) + strlen ("/;"));
 		exchange_account_remove_shared_folder (account, path);
 		ids = gconf_client_get_list (client, 
 					     CONF_KEY_SELECTED_CAL_SOURCES, 

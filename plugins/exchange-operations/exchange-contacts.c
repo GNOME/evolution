@@ -70,7 +70,7 @@ e_exchange_contacts_get_contacts (void)
 
 	account = exchange_operations_get_exchange_account ();
 
-	uri_prefix = g_strconcat ("exchange://", account->account_filename, "/", NULL);
+	uri_prefix = g_strconcat ("exchange://", account->account_filename, "/;", NULL);
 	prefix_len = strlen (uri_prefix);
 
 	contacts_list = g_ptr_array_new ();
@@ -110,7 +110,7 @@ e_exchange_contacts_pcontacts_on_change (GtkTreeView *treeview, ESource *source)
 	gchar *ruri;
 	
 	gtk_tree_model_get (model, &iter, CONTACTSRURI_COL, &ruri, -1);
-	es_ruri = g_strconcat (account->account_filename, "/", ruri, NULL);
+	es_ruri = g_strconcat (account->account_filename, "/;", ruri, NULL);
 	e_source_set_relative_uri (source, es_ruri);
 
 	g_free (ruri);
@@ -239,7 +239,7 @@ e_exchange_contacts_pcontacts (EPlugin *epl, EConfigHookItemFactoryData *data)
 		GtkTreeSelection *selection;
 
 		tmpruri = (gchar*) rel_uri;
-		uri_prefix = g_strconcat (account->account_filename, "/", NULL);
+		uri_prefix = g_strconcat (account->account_filename, "/;", NULL);
 		prefix_len = strlen (uri_prefix);
 		
 		if (g_str_has_prefix (tmpruri, uri_prefix)) {
@@ -315,7 +315,7 @@ e_exchange_contacts_commit (EPlugin *epl, EConfigTarget *target)
 		return;
 
 	account = exchange_operations_get_exchange_account ();
-	path_prefix = g_strconcat (account->account_filename, "/", NULL);
+	path_prefix = g_strconcat (account->account_filename, "/;", NULL);
 	prefix_len = strlen (path_prefix);
 	g_free (path_prefix);
 

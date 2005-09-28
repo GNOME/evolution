@@ -464,6 +464,10 @@ owa_authenticate_user(GtkWidget *button, EConfig *config)
 	   which should then be shown using e-error */
 
 	owa_url = camel_url_get_param (url, "owa_url");
+	if (camel_url_get_param (url, "authmech"))
+		exchange_params->is_ntlm = TRUE;
+	else
+		exchange_params->is_ntlm = FALSE;
 	valid =  e2k_validate_user (owa_url, url->user, exchange_params, 
 						&remember_password, &result);
 
