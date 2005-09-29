@@ -249,7 +249,7 @@ load_current_view (GalViewInstance *instance)
 	
 	if (g_file_test (instance->current_view_filename, G_FILE_TEST_IS_REGULAR)) {
 #ifdef G_OS_WIN32
-		gchar *locale_filename = gnome_win32_locale_filename_from_utf8 (instance->current_view_filename);
+		gchar *locale_filename = g_win32_locale_filename_from_utf8 (instance->current_view_filename);
 		if (locale_filename != NULL)
 			doc = xmlParseFile(locale_filename);
 		g_free (locale_filename);

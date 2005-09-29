@@ -1,3 +1,11 @@
+2005-09-29  Tor Lillqvist  <tml@novell.com>
+
+	* menus/gal-view-collection.c (load_single_dir)
+	* menus/gal-view-instance.c (load_current_view): Use
+	g_win32_locale_filename_from_utf8() from GLib 2.8 instead of
+	gnome_win32_locale_filename_from_utf8() which was temporarily in
+	libgnome.
+
 2005-09-29  Li Yuan  <li.yuan@sun.com>
 
 	* menus/gal-define-views-dialog.c:
