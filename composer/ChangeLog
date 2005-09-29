@@ -1,3 +1,11 @@
+2005-09-29  Parthasarathi Susarla <sparthasarathi@novell.com>
+
+	** See bug 317337
+
+	* e-msg-composer.c: (e_msg_composer_new_with_message):
+	Set the proper account name in account_name, so that
+	the from header is set properly.
+	
 2005-08-22  Srinivasa Ragavan <sragavan@novell.com>
 
 	* e-msg-composer.c (drop_action): Show the bar depending on the 
