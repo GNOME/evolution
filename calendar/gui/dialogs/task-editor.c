@@ -122,14 +122,13 @@ task_editor_init (TaskEditor *te)
 }
 
 TaskEditor *
-task_editor_construct (TaskEditor *te, ECal *client, gboolean is_assigned)
+task_editor_construct (TaskEditor *te, ECal *client)
 {
 	TaskEditorPrivate *priv;
 	gboolean read_only = FALSE;
 	
 	priv = te->priv;
 
-	priv->is_assigned = is_assigned;
 	priv->task_page = task_page_new ();
 	g_object_ref (priv->task_page);
 	gtk_object_sink (GTK_OBJECT (priv->task_page));
@@ -356,12 +355,15 @@ task_editor_finalize (GObject *object)
  * editor could not be created.
  **/
 TaskEditor *
-task_editor_new (ECal *client, gboolean is_assigned)
+task_editor_new (ECal *client, CompEditorFlags flags)
 {
 	TaskEditor *te;
 
 	te = g_object_new (TYPE_TASK_EDITOR, NULL);
-	return task_editor_construct (te, client, is_assigned);
+	te->priv->is_assigned = flags & COMP_EDITOR_IS_ASSIGNED;
+	comp_editor_set_flags (COMP_EDITOR (te), flags);
+
+	return task_editor_construct (te, client);
 }
 
 static void

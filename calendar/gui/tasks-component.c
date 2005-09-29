@@ -909,6 +909,7 @@ create_new_todo (TasksComponent *task_component, gboolean is_assigned, TasksComp
 	TasksComponentPrivate *priv;
 	ECalComponent *comp;
 	TaskEditor *editor;
+	guint32 flags = 0;	
 	
 	priv = task_component->priv;
 	
@@ -916,7 +917,12 @@ create_new_todo (TasksComponent *task_component, gboolean is_assigned, TasksComp
 	if (!ecal)
 		return FALSE;
 
-	editor = task_editor_new (ecal, is_assigned);
+	if (is_assigned)
+		flags |= COMP_EDITOR_IS_ASSIGNED;
+	
+	flags |= COMP_EDITOR_NEW_ITEM | COMP_EDITOR_USER_ORG;
+
+	editor = task_editor_new (ecal, flags);
 	comp = cal_comp_task_new_with_defaults (ecal);
 
 	comp_editor_edit_comp (COMP_EDITOR (editor), comp);

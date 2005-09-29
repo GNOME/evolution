@@ -2924,18 +2924,19 @@ gnome_calendar_new_task		(GnomeCalendar *gcal)
 	ECalComponent *comp;
 	icalcomponent *icalcomp;
 	const char *category;
+	guint32 flags = 0;
 	
 	g_return_if_fail (gcal != NULL);
 	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
 
 	priv = gcal->priv;
-
 	model = e_calendar_table_get_model (E_CALENDAR_TABLE (priv->todo));
 	ecal = e_cal_model_get_default_client (model);
 	if (!ecal)
 		return;
 	
-	tedit = task_editor_new (ecal, FALSE);
+	flags |= COMP_EDITOR_NEW_ITEM;
+	tedit = task_editor_new (ecal, flags);
 
 	icalcomp = e_cal_model_create_component_with_defaults (model);
 	comp = e_cal_component_new ();

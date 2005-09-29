@@ -952,6 +952,7 @@ e_tasks_new_task			(ETasks		*tasks)
 	ECalComponent *comp;
 	const char *category;
 	ECal *ecal;
+	guint32 flags = 0;
 	
 	g_return_if_fail (E_IS_TASKS (tasks));
 
@@ -962,12 +963,14 @@ e_tasks_new_task			(ETasks		*tasks)
 	if (!ecal)
 		return;
 	
+	flags |= COMP_EDITOR_NEW_ITEM | COMP_EDITOR_USER_ORG;
+	
 	comp = cal_comp_task_new_with_defaults (ecal);
 
 	category = cal_search_bar_get_category (CAL_SEARCH_BAR (priv->search_bar));
 	e_cal_component_set_categories (comp, category);
 
-	tedit = task_editor_new (ecal, FALSE);
+	tedit = task_editor_new (ecal, flags);
 	comp_editor_edit_comp (COMP_EDITOR (tedit), comp);
 	g_object_unref (comp);
 

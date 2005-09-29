@@ -938,6 +938,7 @@ e_calendar_table_open_task (ECalendarTable *cal_table, ECalModelComponent *comp_
 {
 	CompEditor *tedit;
 	const char *uid;
+	guint32 flags = 0;
 	
 	uid = icalcomponent_get_uid (comp_data->icalcomp);
 
@@ -945,17 +946,25 @@ e_calendar_table_open_task (ECalendarTable *cal_table, ECalModelComponent *comp_
 	if (tedit == NULL) {
 		ECalComponent *comp;
 
-		tedit = COMP_EDITOR (task_editor_new (comp_data->client, assign));
-
 		comp = e_cal_component_new ();
 		e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (comp_data->icalcomp));
+
+		if (assign) {
+			flags |= COMP_EDITOR_IS_ASSIGNED;
+
+			if (itip_organizer_is_user (comp, comp_data->client) || 
+					!e_cal_component_has_attendees (comp))
+				flags |= COMP_EDITOR_USER_ORG;
+		}
+
+		tedit = COMP_EDITOR (task_editor_new (comp_data->client, flags));
 		comp_editor_edit_comp (tedit, comp);
-		if (assign)
+	
+		if (flags & COMP_EDITOR_IS_ASSIGNED)
 			task_editor_show_assignment (TASK_EDITOR (tedit));
 		
 		e_comp_editor_registry_add (comp_editor_registry, tedit, FALSE);
 	}
-	
 	comp_editor_focus (tedit);
 }
 

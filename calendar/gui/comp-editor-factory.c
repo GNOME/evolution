@@ -267,20 +267,20 @@ edit_existing (OpenClient *oc, const char *uid)
 	/* Create the appropriate type of editor */
 	
 	vtype = e_cal_component_get_vtype (comp);
+	if (itip_organizer_is_user (comp, oc->client))
+		flags |= COMP_EDITOR_USER_ORG;
+
 
 	switch (vtype) {
 	case E_CAL_COMPONENT_EVENT:
 		if (e_cal_component_has_attendees (comp))
 			flags |= COMP_EDITOR_MEETING;
 	
-		if (itip_organizer_is_user (comp, oc->client))
-			flags |= COMP_EDITOR_USER_ORG;
-
 		editor = COMP_EDITOR (event_editor_new (oc->client, flags));
 		break;
 
 	case E_CAL_COMPONENT_TODO:
-		editor = COMP_EDITOR (task_editor_new (oc->client, e_cal_component_has_attendees (comp)));
+		editor = COMP_EDITOR (task_editor_new (oc->client, flags));
 		break;
 
 	default:
