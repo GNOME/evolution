@@ -1943,7 +1943,7 @@ e_table_load_specification (ETable *e_table, gchar *filename)
 	/* doesn't work yet, yay */
 #ifdef G_OS_WIN32
 	{
-		gchar *locale_filename = gnome_win32_locale_filename_from_utf8 (filename);
+		gchar *locale_filename = g_win32_locale_filename_from_utf8 (filename);
 		xmlSpec = xmlParseFile (locale_filename);
 		g_free (locale_filename);
 	}
