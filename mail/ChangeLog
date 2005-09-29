@@ -1,3 +1,10 @@
+2005-09-29  Parthasarathi Susarla <sparthasarathi@novell.com>
+	
+	** See bug 317284
+	
+	* em-mailer-prefs.c: (emmp_header_add_header):
+	Check if its a valid header and only then add it
+	
 2005-09-28  Tor Lillqvist  <tml@novell.com>
 
 	* em-composer-utils.c (reply_get_composer, get_reply_list,

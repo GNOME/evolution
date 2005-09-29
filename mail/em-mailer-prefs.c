@@ -384,19 +384,22 @@ emmp_header_add_header (GtkWidget *widget, EMMailerPrefs *prefs)
 {
 	GtkTreeModel *model = GTK_TREE_MODEL (prefs->header_list_store);
 	GtkTreeIter iter;
-	
-	gtk_list_store_append (GTK_LIST_STORE (model), &iter);
-	gtk_list_store_set (GTK_LIST_STORE (model), &iter, 
-			    HEADER_LIST_NAME_COLUMN, gtk_entry_get_text (prefs->entry_header), 
-			    HEADER_LIST_ENABLED_COLUMN, TRUE, 
-			    HEADER_LIST_HEADER_COLUMN, gtk_entry_get_text (prefs->entry_header), 
-			    HEADER_LIST_IS_DEFAULT_COLUMN, FALSE, 
-			    -1);
-	gtk_entry_set_text (prefs->entry_header, "");
-	emmp_header_remove_sensitivity (prefs);
-	emmp_header_add_sensitivity (prefs);
-	
-	emmp_save_headers (prefs);
+	const gchar *text = gtk_entry_get_text (prefs->entry_header);
+
+	if (text && (strlen (text)>0)) {
+		gtk_list_store_append (GTK_LIST_STORE (model), &iter);
+		gtk_list_store_set (GTK_LIST_STORE (model), &iter, 
+				HEADER_LIST_NAME_COLUMN, text, 
+				HEADER_LIST_ENABLED_COLUMN, TRUE, 
+				HEADER_LIST_HEADER_COLUMN, text, 
+				HEADER_LIST_IS_DEFAULT_COLUMN, FALSE, 
+				-1);
+		gtk_entry_set_text (prefs->entry_header, "");
+		emmp_header_remove_sensitivity (prefs);
+		emmp_header_add_sensitivity (prefs);
+
+		emmp_save_headers (prefs);
+	}
 }
 
 static void
