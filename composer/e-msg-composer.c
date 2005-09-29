@@ -4213,6 +4213,8 @@ e_msg_composer_new_with_message (CamelMimeMessage *message)
 		if ((account = mail_config_get_account_by_uid(account_name)) == NULL)
 			/* 'old' setting */
 			account = mail_config_get_account_by_name(account_name);
+		g_free (account_name);
+		account_name = g_strdup (account->name);
 	}
 	
 	if (postto == NULL) {
