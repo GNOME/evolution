@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: ru\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-08-25 18:20+0300\n"
-"PO-Revision-Date: 2005-08-25 18:38+0300\n"
+"PO-Revision-Date: 2005-09-30 01:43+0400\n"
 "Last-Translator: Leonid Kanter <leon@asplinux.ru>\n"
 "Language-Team:  <gnome-cyr@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -17779,7 +17779,7 @@ msgstr "Создать или исправить правила фильтрац
 
 #: ../ui/evolution-mail-global.xml.h:7
 msgid "Empty _Trash"
-msgstr "О_чистить папку \"Удаленные\""
+msgstr "О_чистить корзину"
 
 #: ../ui/evolution-mail-global.xml.h:8 ../ui/evolution-mail-list.xml.h:6
 #: ../ui/evolution-subscribe.xml.h:2
@@ -17937,7 +17937,7 @@ msgstr "Показывать подшитые по теме сообщения �
 #: ../ui/evolution-mail-list.xml.h:28 ../ui/evolution-mail-message.xml.h:112
 #: ../ui/evolution-mail-messagedisplay.xml.h:7
 msgid "_Message"
-msgstr "_Сообщение"
+msgstr "С_ообщение"
 
 #: ../ui/evolution-mail-message.xml.h:1
 msgid "A_dd Sender to Address Book"
@@ -18870,7 +18870,7 @@ msgstr "По флагу \"_К исполнению\""
 
 #: ../views/mail/galview.xml.h:6
 msgid "_Messages"
-msgstr "_Сообщения"
+msgstr "С_ообщения"
 
 #: ../views/tasks/galview.xml.h:1
 msgid "With _Due Date"
