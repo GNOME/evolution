@@ -1,3 +1,10 @@
+2005-09-10  P. S. Chakravarthi <pchakravarthi@novell.com>
+
+	Fix #274188
+	* gui/e-cal-model.c
+	(get_dtstart): make use of internal zone information so that
+	previous date is not shown in list view for an all-day event.
+
 2005-09-30  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #273847
