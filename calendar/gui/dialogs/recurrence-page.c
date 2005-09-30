@@ -207,6 +207,7 @@ static gboolean recurrence_page_fill_component (CompEditorPage *page, ECalCompon
 static void recurrence_page_set_dates (CompEditorPage *page, CompEditorPageDates *dates);
 
 static void field_changed (RecurrencePage *apage);
+static void make_ending_count_special (RecurrencePage *rpage);
 
 G_DEFINE_TYPE (RecurrencePage, recurrence_page, TYPE_COMP_EDITOR_PAGE);
 
@@ -376,10 +377,10 @@ clear_widgets (RecurrencePage *rpage)
 	menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (priv->ending_menu));
 	g_signal_handlers_block_matched (menu, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
 	e_dialog_option_menu_set (priv->ending_menu, 
-				  ENDING_FOREVER,
+				  ENDING_FOR,
 				  ending_types_map);
 	g_signal_handlers_unblock_matched (menu, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
-
+	make_ending_count_special (rpage);
 	/* Exceptions list */
 	e_date_time_list_clear (priv->exception_list_store);
 }
@@ -2053,7 +2054,6 @@ ending_selection_done_cb (GtkMenuShell *menu_shell, gpointer data)
 	RecurrencePage *rpage;
 
 	rpage = RECURRENCE_PAGE (data);
-
 	field_changed (rpage);
 	make_ending_special (rpage);
 	preview_recur (rpage);

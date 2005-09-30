@@ -1,3 +1,10 @@
+2005-09-30  Viren.L  <lviren@novell.com>
+
+	Fixes #314599.
+	* gui/dialogs/recurrence-page.c (clear_widgets):
+	Changed parameter ENDING_FOREVER to ENDING_FOR while invoking 
+	e_dialog_option_menu_set, invoked make_ending_count_special ().
+	  
 2005-09-30  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #273781
