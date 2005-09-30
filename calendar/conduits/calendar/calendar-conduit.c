@@ -616,9 +616,10 @@ process_multi_day (ECalConduitContext *ctxt, ECalChange *ccc, GList **multi_comp
  	old_end_value = dt_end.value;
 	while (!last) {
 		ECalComponent *clone = e_cal_component_clone (ccc->comp);
+		icalcomponent *ical_comp = NULL;
 		char *new_uid = e_cal_component_gen_uid ();
 		struct icaltimetype start_value, end_value;
-		ECalChange *c = g_new0 (ECalChange, 1);
+		ECalChange *c = NULL;
 		
 		if (day_end >= event_end) {
 			day_end = event_end;
@@ -635,9 +636,20 @@ process_multi_day (ECalConduitContext *ctxt, ECalChange *ccc, GList **multi_comp
 		dt_end.value = &end_value;
 		e_cal_component_set_dtend (clone, &dt_end);
 
+		e_cal_component_commit_sequence (clone);
+		
 		/* FIXME Error handling */
-		e_cal_create_object (ctxt->client, e_cal_component_get_icalcomponent (clone), NULL, NULL);
+		ical_comp = e_cal_component_get_icalcomponent (clone);
+		if (!ical_comp) {
+			ret = FALSE;
+			g_free (new_uid);
+			g_object_unref (clone);
+			goto cleanup;
+		}
 
+		e_cal_create_object (ctxt->client, ical_comp, NULL, NULL);
+
+		c = g_new0 (ECalChange, 1);
 		c->comp = clone;
 		c->type = E_CAL_CHANGE_ADDED;
 		
