@@ -1,3 +1,10 @@
+2005-09-30  Vivek Jain <jvivek@novell.com>
+	
+	* shared-folder-common.c: (org_gnome_create_option)
+	 			: (org_gnome_shared_folder_factory)
+	* install-shared.c 	: (org_gnome_popup_wizard)
+	enable shared-folder functionalilty, remove env check 
+
 2005-09-28  Sankar P  <psankar@novell.com>
 
 	*  proxy.c (proxy_dialog_store_widgets_data):
