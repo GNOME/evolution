@@ -596,6 +596,9 @@ init_widgets (DialogData *dialog_data)
 	g_signal_connect (dialog_data->url_list, "row-activated",
 			 G_CALLBACK (cal_prefs_dialog_url_list_double_click),
 			 dialog_data);
+	g_signal_connect (selection, "changed",
+			 G_CALLBACK (cal_prefs_dialog_url_list_change),
+			 dialog_data);
 }
 
 /* Sets the color in a color picker from an X color spec */
@@ -833,7 +836,7 @@ cal_prefs_dialog_url_list_double_click (GtkTreeView *treeview,
 {
 	cal_prefs_dialog_url_edit_clicked  (NULL, dialog_data);
 }				
-
+				
 static void
 cal_prefs_dialog_url_list_change (GtkTreeSelection *selection, 
 				  DialogData *dialog_data)
