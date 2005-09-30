@@ -1,3 +1,9 @@
+2005-09-30  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #246480
+	* gui/e-calendar-view.c: (e_calendar_view_add_event): Remember
+       the time if the event is copy pasted in week or month views.	
+
 2005-08-30  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #270036
