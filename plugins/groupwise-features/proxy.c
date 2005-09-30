@@ -73,6 +73,8 @@
 
 static GObjectClass *parent_class = NULL;
 
+static int proxy_page_changed_cb (GtkNotebook *notebook, GtkNotebookPage *page, int num, EAccount *account);
+
 struct _proxyDialogPrivate {
 	/* Glade XML data for the Add/Edit Proxy dialog*/
 	GladeXML *xml;
@@ -525,12 +527,13 @@ proxy_abort (GtkWidget *button, EConfigHookItemFactoryData *data)
 	account = target_account->account;
 	prd = g_object_get_data ((GObject *)account, "prd");    
 	
-	if (prd == NULL)
+	if (!prd || !prd->priv || !prd->priv->proxy_list)
 		return;
 
 	g_object_unref (prd);
 	prd = NULL;
 }
+
 void 
 proxy_commit (GtkWidget *button, EConfigHookItemFactoryData *data)
 {
@@ -640,6 +643,7 @@ org_gnome_proxy (EPlugin *epl, EConfigHookItemFactoryData *data)
 	GtkButton *addProxy, *removeProxy, *editProxy;
 	proxyDialog *prd;
 	proxyDialogPrivate *priv;
+	int pag_num;
 
 	target_account = (EMConfigTargetAccount *)data->config->target;
 	account = target_account->account;
@@ -670,9 +674,6 @@ org_gnome_proxy (EPlugin *epl, EConfigHookItemFactoryData *data)
 			prd->cnc = proxy_get_cnc(account);
 			
 			priv->proxy_list = NULL;
-			if (e_gw_connection_get_proxy_access_list(prd->cnc, &priv->proxy_list)!= E_GW_CONNECTION_STATUS_OK) 
-				return NULL;
-			proxy_update_tree_view (account);
 		} else {
 			GtkWidget *label;
 			priv->tab_dialog = gtk_vbox_new (TRUE, 10);
@@ -681,13 +682,16 @@ org_gnome_proxy (EPlugin *epl, EConfigHookItemFactoryData *data)
 		}	
 			
 		gtk_notebook_append_page ((GtkNotebook *)(data->parent), (GtkWidget *)priv->tab_dialog, gtk_label_new("Proxy"));
+		g_signal_connect ((GtkNotebook *)(data->parent), "switch-page", G_CALLBACK (proxy_page_changed_cb), account);
+		pag_num = gtk_notebook_page_num ((GtkNotebook *)(data->parent), (GtkWidget *)priv->tab_dialog);
+		g_object_set_data ((GObject *) account, "proxy_tab_num", pag_num);
 		gtk_widget_show_all (priv->tab_dialog);
 	}  else if (!g_strrstr (e_account_get_string(account, E_ACCOUNT_SOURCE_URL), "groupwise://")) {
 		prd = g_object_get_data ((GObject *) account, "prd");
 
 		if (prd) {
 			priv = prd->priv;
-			int pag_num;
+
 			if (priv) {
 			pag_num = gtk_notebook_page_num ( (GtkNotebook *)(data->parent), (GtkWidget *) priv->tab_dialog);
 			gtk_notebook_remove_page ( (GtkNotebook *)(data->parent), pag_num); 
@@ -695,6 +699,26 @@ org_gnome_proxy (EPlugin *epl, EConfigHookItemFactoryData *data)
 		}	
 	}
 	return NULL;
+}
+
+static int
+proxy_page_changed_cb (GtkNotebook *notebook, GtkNotebookPage *page, int num, EAccount *account)
+{
+	proxyDialog *prd;
+	proxyDialogPrivate *priv;
+
+	if (!prd || !prd->priv || !prd->priv->proxy_list)
+		return;
+	
+	prd = g_object_get_data ((GObject *) account, "prd");
+	priv = prd->priv;
+
+	if (num == g_object_get_data ((GObject *) account, "proxy_tab_num") && account->enabled) {
+		if (e_gw_connection_get_proxy_access_list(prd->cnc, &priv->proxy_list)!= E_GW_CONNECTION_STATUS_OK) 
+				return NULL;
+		proxy_update_tree_view (account);	
+	}
+	return TRUE;
 }
 
 static void
