@@ -169,8 +169,8 @@ static struct _tasks_sensitize_item tasks_sensitize_table[] = {
 	{ "TasksCopy", E_CAL_MENU_SELECT_ANY },
 	{ "TasksPaste", E_CAL_MENU_SELECT_EDITABLE },
 	{ "TasksDelete", E_CAL_MENU_SELECT_ANY | E_CAL_MENU_SELECT_EDITABLE },
-	{ "TasksMarkComplete", E_CAL_MENU_SELECT_ANY | E_CAL_MENU_SELECT_EDITABLE },
-	{ "TasksPurge", E_CAL_MENU_SELECT_EDITABLE },
+	{ "TasksMarkComplete", E_CAL_MENU_SELECT_ANY | E_CAL_MENU_SELECT_EDITABLE | E_CAL_MENU_SELECT_NOTCOMPLETE},
+	{ "TasksPurge",  E_CAL_MENU_SELECT_EDITABLE },
 	{ "TasksAssign", E_CAL_MENU_SELECT_ONE | E_CAL_MENU_SELECT_EDITABLE | E_CAL_MENU_SELECT_ASSIGNABLE },
 	{ "TasksForward", E_CAL_MENU_SELECT_ONE },
 	{ 0 }
@@ -439,7 +439,6 @@ tasks_control_purge_cmd	(BonoboUIComponent	*uic,
 	ETasks *tasks;
 
 	tasks = E_TASKS (data);
-	
 	if (confirm_purge (tasks))
 	    e_tasks_delete_completed (tasks);
 }

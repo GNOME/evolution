@@ -268,7 +268,10 @@ e_cal_popup_target_new_select(ECalPopup *eabp, struct _ECalModel *model, GPtrArr
 		if (e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_HAS_UNACCEPTED_MEETING) &&
 				needs_to_accept (comp_data->icalcomp, user_email))
 			mask &= ~E_CAL_POPUP_SELECT_ACCEPTABLE;
-		
+
+		if (!icalcomponent_get_first_property (comp_data->icalcomp, ICAL_COMPLETED_PROPERTY))
+			mask &= ~E_CAL_POPUP_SELECT_NOTCOMPLETE;
+
 		g_object_unref (comp);
 		g_free (user_email);
 	}
@@ -422,6 +425,7 @@ static const EPopupHookTargetMask ecalph_select_masks[] = {
 	{ "hasurl", E_CAL_POPUP_SELECT_HASURL },
 	{ "delegate", E_CAL_POPUP_SELECT_DELEGATABLE }, 
 	{ "accept", E_CAL_POPUP_SELECT_ACCEPTABLE },
+	{ "not-complete", E_CAL_POPUP_SELECT_NOTCOMPLETE },
 	{ 0 }
 };
 

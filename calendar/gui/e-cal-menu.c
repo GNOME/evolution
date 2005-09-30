@@ -146,8 +146,11 @@ e_cal_menu_target_new_select(ECalMenu *eabp, struct _ECalModel *model, GPtrArray
 
 		if (!e_cal_get_static_capability (comp_data->client, CAL_STATIC_CAPABILITY_NO_TASK_ASSIGNMENT)
 		    && !e_cal_get_static_capability (comp_data->client, CAL_STATIC_CAPABILITY_NO_CONV_TO_ASSIGN_TASK)
-		    && !icalcomponent_get_first_property (comp_data->icalcomp, ICAL_ATTENDEE_PROPERTY))
+		    && !icalcomponent_get_first_property (comp_data->icalcomp, ICAL_ATTENDEE_PROPERTY)) 
 			mask &= ~E_CAL_MENU_SELECT_ASSIGNABLE;
+		
+		if (!icalcomponent_get_first_property (comp_data->icalcomp, ICAL_COMPLETED_PROPERTY))
+			mask &= ~ E_CAL_MENU_SELECT_NOTCOMPLETE;
 
 		if (e_cal_util_component_has_recurrences (comp_data->icalcomp))
 			mask &= ~E_CAL_MENU_SELECT_RECURRING;
@@ -239,6 +242,7 @@ static const EMenuHookTargetMask ecalph_select_masks[] = {
 	{ "not-meeting", E_CAL_MENU_SELECT_NOTMEETING },
 	{ "assignable", E_CAL_MENU_SELECT_ASSIGNABLE },
 	{ "hasurl", E_CAL_MENU_SELECT_HASURL },
+	{ "not-complete", E_CAL_MENU_SELECT_NOTCOMPLETE },
 	{ 0 }
 };
 
