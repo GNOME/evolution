@@ -1,5 +1,14 @@
 2005-09-30  Chenthill Palanisamy  <pchenthill@novell.com>
 
+	Fixes #273847
+	* gui/dialogs/comp-editor.c: (comp_editor_get_mime_attach_list): set
+	the disposition from the attachment.
+	* gui/itip-utils.c: (append_cal_attachments): Send the right disposition
+	value.
+	* gui/itip-utils.h: Adding variable dipostion to CalMimeAttach structure.
+
+2005-09-30  Chenthill Palanisamy  <pchenthill@novell.com>
+
 	Fixes #246480
 	* gui/e-calendar-view.c: (e_calendar_view_add_event): Remember
        the time if the event is copy pasted in week or month views.	
