@@ -56,38 +56,62 @@ typedef struct {
 
 static void ldif_import_done(LDIFImporter *gci);
 
+
 static struct {
 	char *ldif_attribute;
 	EContactField contact_field;
-#define FLAG_ADDRESS 0x01
-#define FLAG_LIST 0x02
+#define FLAG_HOME_ADDRESS	0x01
+#define FLAG_WORK_ADDRESS 	0x02
+#define FLAG_LIST 		0x04
+#define FLAG_BOOLEAN 		0x08
 	int flags;
 }
 ldif_fields[] = {
 	{ "cn", E_CONTACT_FULL_NAME },
 	{ "mail", E_CONTACT_EMAIL, FLAG_LIST },
+	{ "mozillaSecondEmail", E_CONTACT_EMAIL_2},
 #if 0
 	{ "givenname", E_CONTACT_GIVEN_NAME },
 #endif
 	{ "sn", E_CONTACT_FAMILY_NAME },
 	{ "xmozillanickname", E_CONTACT_NICKNAME },
+
 	{ "o", E_CONTACT_ORG },
-	{ "locality", 0, FLAG_ADDRESS},
-	{ "st", 0, FLAG_ADDRESS },
-	{ "streetaddress", 0, FLAG_ADDRESS },
+	{ "ou", E_CONTACT_ORG_UNIT },
 	{ "title", E_CONTACT_TITLE },
-	{ "postalcode", 0, FLAG_ADDRESS },
-	{ "countryname", 0, FLAG_ADDRESS },
+
+	{ "locality", 0, FLAG_WORK_ADDRESS },
+	{ "l", 0, FLAG_WORK_ADDRESS },
+	{ "mozillahomelocalityname", 0, FLAG_HOME_ADDRESS },
+	{ "st", 0, FLAG_WORK_ADDRESS },
+	{ "mozillaHomeState", 0, FLAG_HOME_ADDRESS },
+	{ "streetaddress", 0, FLAG_WORK_ADDRESS },
+	{ "postalcode", 0, FLAG_WORK_ADDRESS },
+	{ "mozillaHomePostalCode", 0, FLAG_HOME_ADDRESS },
+	{ "countryname", 0, FLAG_WORK_ADDRESS },
+	{ "c", 0, FLAG_WORK_ADDRESS },
+	{ "mozillaHomeCountryName", 0, FLAG_HOME_ADDRESS },
+	{ "postalAddress", 0, FLAG_WORK_ADDRESS },
+	{ "homePostalAddress", 0, FLAG_HOME_ADDRESS },
+	{ "mozillaPostalAddress2", 0, FLAG_WORK_ADDRESS },
+	{ "mozillaHomePostalAddress2", 0, FLAG_HOME_ADDRESS },
+
 	{ "telephonenumber", E_CONTACT_PHONE_BUSINESS},
 	{ "homephone", E_CONTACT_PHONE_HOME },
 	{ "facsimiletelephonenumber", E_CONTACT_PHONE_BUSINESS_FAX },
-	{ "ou", E_CONTACT_ORG_UNIT },
 	{ "pagerphone", E_CONTACT_PHONE_PAGER },
 	{ "cellphone", E_CONTACT_PHONE_MOBILE },
 	{ "mobile", E_CONTACT_PHONE_MOBILE },
+
 	{ "homeurl", E_CONTACT_HOMEPAGE_URL },
+	{ "mozillaHomeUrl", E_CONTACT_HOMEPAGE_URL },
+
 	{ "description", E_CONTACT_NOTE },
-	{ "xmozillausehtmlmail", E_CONTACT_WANTS_HTML }
+
+	{ "xmozillausehtmlmail", E_CONTACT_WANTS_HTML, FLAG_BOOLEAN },
+
+	{ "nsAIMid", E_CONTACT_IM_AIM, FLAG_LIST },
+	{ "mozilla_AimScreenName", E_CONTACT_IM_AIM, FLAG_LIST }
 };
 static int num_ldif_fields = sizeof(ldif_fields) / sizeof (ldif_fields[0]);
 
@@ -211,8 +235,66 @@ getValue( char **src )
 	return dest;
 }
 
+static void
+populate_contact_address (EContactAddress *address, char *attr, char *value)
+{
+	if (!g_ascii_strcasecmp (attr, "locality") || 
+	    !g_ascii_strcasecmp (attr, "l") ||
+	    !g_ascii_strcasecmp (attr, "mozillaHomeLocalityName"))
+		address->locality = g_strdup (value);
+	else if (!g_ascii_strcasecmp (attr, "countryname") ||
+		 !g_ascii_strcasecmp (attr, "c") ||
+		 !g_ascii_strcasecmp (attr, "mozillaHomeCountryName"))
+		address->country = g_strdup (value);
+	else if (!g_ascii_strcasecmp (attr, "postalcode") ||
+		 !g_ascii_strcasecmp (attr, "mozillaHomePostalCode"))
+		address->code = g_strdup (value);
+	else if (!g_ascii_strcasecmp (attr, "st") ||
+		 !g_ascii_strcasecmp (attr, "mozillaHomeState"))
+		address->region = g_strdup (value);
+	else if (!g_ascii_strcasecmp (attr, "streetaddress"))
+		address->street = g_strdup (value);
+	else if (!g_ascii_strcasecmp (attr, "mozillaPostalAddress2") ||
+		 !g_ascii_strcasecmp (attr, "mozillaHomePostalAddress2")) {
+		if (address->ext && *address->ext) {
+			char *temp = g_strdup (address->ext);
+			g_free (address->ext);
+			address->ext = g_strconcat (temp, ",\n", value, NULL);
+			g_free (temp);
+		}
+		else { 
+			address->ext = g_strdup (value);
+		}
+	}
+	else if (!g_ascii_strcasecmp (attr, "postalAddress") ||
+		 !g_ascii_strcasecmp (attr, "homepostalAddress")) {
+		char *c, *i, *addr_field;
+
+		addr_field =  g_strdup (value);
+		i = addr_field;
+		for (c = addr_field; *c != '\0'; c++) {
+			i++;
+			if (*c == ',' &&  *i != '\0' && *i == ' ') {
+				*i = '\n';
+			}
+		}
+		if (address->ext && *address->ext) {
+			char *temp = g_strdup (address->ext);
+			g_free (address->ext);
+			address->ext = g_strconcat (addr_field, ",\n", temp, NULL);
+			g_free (temp);
+			g_free (addr_field);
+		}
+		else {
+			address->ext = addr_field;
+		}
+	}
+}
+
 static gboolean
-parseLine (LDIFImporter *gci, EContact *contact, EContactAddress *address, char **buf)
+parseLine (LDIFImporter *gci, EContact *contact, 
+	   EContactAddress *work_address, EContactAddress *home_address, 
+	   char **buf)
 {
 	char *ptr;
 	char *colon, *value;
@@ -257,17 +339,11 @@ parseLine (LDIFImporter *gci, EContact *contact, EContactAddress *address, char 
 		field_handled = FALSE;
 		for (i = 0; i < num_ldif_fields; i ++) {
 			if (!g_ascii_strcasecmp (ptr, ldif_fields[i].ldif_attribute)) {
-				if (ldif_fields[i].flags & FLAG_ADDRESS) {
-					if (!g_ascii_strcasecmp (ptr, "locality"))
-						address->locality = g_strdup (ldif_value->str);
-					else if (!g_ascii_strcasecmp (ptr, "countryname"))
-						address->country = g_strdup (ldif_value->str);
-					else if (!g_ascii_strcasecmp (ptr, "postalcode"))
-						address->code = g_strdup (ldif_value->str);
-					else if (!g_ascii_strcasecmp (ptr, "st"))
-						address->region = g_strdup (ldif_value->str);
-					else if (!g_ascii_strcasecmp (ptr, "streetaddress"))
-						address->street = g_strdup (ldif_value->str);
+				if (ldif_fields[i].flags & FLAG_WORK_ADDRESS) {
+					populate_contact_address (work_address, ptr, ldif_value->str);
+				}
+				else if (ldif_fields[i].flags & FLAG_HOME_ADDRESS) {
+					populate_contact_address (home_address, ptr, ldif_value->str);
 				}
 				else if (ldif_fields[i].flags & FLAG_LIST) {
 					GList *list;
@@ -278,6 +354,15 @@ parseLine (LDIFImporter *gci, EContact *contact, EContactAddress *address, char 
 
 					g_list_foreach (list, (GFunc) g_free, NULL);
 					g_list_free (list);
+				}
+				else if (ldif_fields[i].flags & FLAG_BOOLEAN) {
+					if (!g_ascii_strcasecmp (ldif_value->str, "true")) {
+						e_contact_set (contact, ldif_fields[i].contact_field, GINT_TO_POINTER (TRUE));
+					}
+					else {
+						e_contact_set (contact, ldif_fields[i].contact_field, GINT_TO_POINTER (FALSE));
+					}
+					g_message ("set %s to %s", ptr, ldif_value->str);
 				}
 				else {
 					/* FIXME is everything a string? */
@@ -327,7 +412,7 @@ static EContact *
 getNextLDIFEntry(LDIFImporter *gci, FILE *f )
 {
 	EContact *contact;
-	EContactAddress *address;
+	EContactAddress *work_address, *home_address;
 	GString *str;
 	char line[1024];
 	char *buf;
@@ -349,21 +434,32 @@ getNextLDIFEntry(LDIFImporter *gci, FILE *f )
 
 	/* now parse that entry */
 	contact = e_contact_new ();
-	address = g_new0 (EContactAddress, 1);
+	work_address = g_new0 (EContactAddress, 1);
+	home_address = g_new0 (EContactAddress, 1);
 
 	buf = str->str;
 	while (buf) {
-		if (!parseLine (gci, contact, address, &buf)) {
+		if (!parseLine (gci, contact, work_address, home_address, &buf)) {
 			/* parsing error */
+			g_string_free (str, TRUE);
+			e_contact_address_free (work_address);
+			e_contact_address_free (home_address);
 			g_object_unref (contact);
 			return NULL;
 		}
 	}
 
 	/* fill in the address */
-	if (address->locality || address->country ||
-	    address->code || address->region || address->street)
-		e_contact_set (contact, E_CONTACT_ADDRESS_HOME, address);
+	if (work_address->locality || work_address->country || work_address->ext ||
+	    work_address->code || work_address->region || work_address->street) {
+		e_contact_set (contact, E_CONTACT_ADDRESS_WORK, work_address);
+	}
+	if (home_address->locality || home_address->country || home_address->ext || 
+	    home_address->code || home_address->region || home_address->street) {
+		e_contact_set (contact, E_CONTACT_ADDRESS_HOME, home_address);
+	}
+	e_contact_address_free (work_address);
+	e_contact_address_free (home_address);
 
 	g_string_free (str, TRUE);
 
