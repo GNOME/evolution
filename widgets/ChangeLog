@@ -1,3 +1,10 @@
+2005-09-30  Li Yuan  <li.yuan@sun.com>
+
+	* menus/gal-define-views-dialog.c:
+	(etable_selection_change_forall_cb):
+	Fix #240762. If the galview implement the edit function,
+	enable the edit button. If not, disable it.
+
 2005-08-03  Li Yuan  <li.yuan@sun.com>
 
 	* menus/gal-view-new-dialog.glade:
