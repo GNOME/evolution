@@ -1,5 +1,16 @@
 2005-09-30  Viren.L  <lviren@novell.com>
 
+	Fixes #258786
+	* gui/e-cal-popup.[ch] (e_cal_popup_target_new_select) : Added 
+	E_CAL_POPUP_SELECT_NOTCOMPLETE flag.
+	* gui/e-cal-menu.[ch] (e_cal_menu_target_new_select) : Added 
+	E_CAL_MENU_SELECT_NOTCOMPLETE flag.
+	* gui/tasks-control.c (tasks_sensitize_table):
+	* gui/e-calendar-table.c (tasks_popup_items): Added the NOT_COMPLETE
+	flag.
+
+2005-09-30  Viren.L  <lviren@novell.com>
+
 	Fixes #314599.
 	* gui/dialogs/recurrence-page.c (clear_widgets):
 	Changed parameter ENDING_FOREVER to ENDING_FOR while invoking 
