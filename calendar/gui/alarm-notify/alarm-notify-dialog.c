@@ -245,6 +245,8 @@ notified_alarms_dialog_new (void)
 
 	gtk_tree_view_set_model (GTK_TREE_VIEW(an->treeview), model);
 
+	gtk_window_set_keep_above (GTK_WINDOW (an->dialog), TRUE);
+
 	column = gtk_tree_view_column_new_with_attributes (_("Start time"),
 					renderer, "text", ALARM_DISPLAY_COLUMN, NULL);
 
