@@ -27,6 +27,7 @@
 #include <gtk/gtkmessagedialog.h>
 #include <libgnome/gnome-i18n.h>
 #include <libebook/e-book.h>
+#include <libedataserver/e-url.h>
 #include <libedataserverui/e-passwords.h>
 
 #include "e-util/e-error.h"
@@ -59,14 +60,13 @@ in uri*/
 static gchar*
 remove_parameters_from_uri (const gchar *uri)
 {
-  gchar **components;
-  gchar *new_uri = NULL;
-                                                                                                                             
-  components = g_strsplit (uri, ";", 2);
-  if (components[0])
-        new_uri = g_strdup (components[0]);
-   g_strfreev (components);
-   return new_uri;
+	char *euri_str;
+	EUri *euri;
+
+	euri = e_uri_new (uri);
+	euri_str = e_uri_to_string (euri, FALSE);
+	e_uri_free (euri);
+	return euri_str;
 }
 
 static void
