@@ -142,7 +142,7 @@
 			verb="FolderSubscription"
 			path="/commands/FolderSubscription"
 			enable="all"
-			activate="org_gnome_exchange_folder_subscription"/>
+			activate="org_gnome_exchange_inbox_subscription"/>
 		</menu>
 	</hook>
 	<hook class="org.gnome.evolution.calendar.bonobomenu:1.0">
@@ -153,7 +153,7 @@
 			verb="FolderSubscription"
 			path="/commands/FolderSubscription"
 			enable="all"
-			activate="org_gnome_exchange_folder_subscription"/>
+			activate="org_gnome_exchange_calendar_subscription"/>
 		</menu>
 	</hook>
 	<hook class="org.gnome.evolution.calendar.bonobomenu:1.0">
@@ -164,7 +164,7 @@
 			verb="FolderSubscription"
 			path="/commands/FolderSubscription"
 			enable="all"
-			activate="org_gnome_exchange_folder_subscription"/>
+			activate="org_gnome_exchange_tasks_subscription"/>
 		</menu>
 	</hook>
 	<hook class="org.gnome.evolution.addressbook.bonobomenu:1.0">
@@ -175,7 +175,7 @@
 			verb="FolderSubscription"
 			path="/commands/FolderSubscription"
 			enable="all"
-			activate="org_gnome_exchange_folder_subscription"/>
+			activate="org_gnome_exchange_addressbook_subscription"/>
 		</menu>
 	</hook>
 	<hook class="org.gnome.evolution.calendar.popup:1.0">

@@ -43,7 +43,11 @@
 #include "addressbook/gui/widgets/eab-popup.h"
 #include "exchange-folder-subscription.h"
 
-void org_gnome_exchange_folder_subscription (EPlugin *ep, EMMenuTargetSelect *target);
+void org_gnome_exchange_folder_subscription (EPlugin *ep, EMMenuTargetSelect *target, gchar *fname);
+void org_gnome_exchange_inbox_subscription (EPlugin *ep, EMMenuTargetSelect *target);
+void org_gnome_exchange_addressbook_subscription (EPlugin *ep, EMMenuTargetSelect *target);
+void org_gnome_exchange_calendar_subscription (EPlugin *ep, EMMenuTargetSelect *target);
+void org_gnome_exchange_tasks_subscription (EPlugin *ep, EMMenuTargetSelect *target);
 void org_gnome_exchange_check_subscribed (EPlugin *ep, ECalPopupTargetSource *target);
 void org_gnome_exchange_folder_unsubscribe (EPopup *ep, EPopupItem *p, void *data);
 void org_gnome_exchange_check_address_book_subscribed (EPlugin *ep, EABPopupTargetSource *target);
@@ -540,7 +544,7 @@ org_gnome_exchange_folder_unsubscribe (EPopup *ep, EPopupItem *p, void *data)
 
 
 void
-org_gnome_exchange_folder_subscription (EPlugin *ep, EMMenuTargetSelect *target)
+org_gnome_exchange_folder_subscription (EPlugin *ep, EMMenuTargetSelect *target, gchar *fname)
 {
 	ExchangeAccount *account = NULL;
 	EFolder *folder = NULL;
@@ -570,7 +574,7 @@ org_gnome_exchange_folder_subscription (EPlugin *ep, EMMenuTargetSelect *target)
 		return;
 	}	
 
-	create_folder_subscription_dialog (account->account_name, &user_email_address, &folder_name);
+	create_folder_subscription_dialog (account->account_name, fname, &user_email_address, &folder_name);
 
 	if (user_email_address && folder_name) {
 		result = exchange_account_discover_shared_folder (account, user_email_address, folder_name, &folder);
@@ -611,3 +615,27 @@ org_gnome_exchange_folder_subscription (EPlugin *ep, EMMenuTargetSelect *target)
 	exchange_account_open_folder (account, g_strdup_printf ("/%s", user_email_address));
 }
 
+void
+org_gnome_exchange_calendar_subscription (EPlugin *ep, EMMenuTargetSelect *target)
+{
+	gchar *folder_name = "Calendar";
+	org_gnome_exchange_folder_subscription (ep, target, folder_name);
+}
+void
+org_gnome_exchange_addressbook_subscription (EPlugin *ep, EMMenuTargetSelect *target)
+{
+	gchar *folder_name = "Contacts";
+	org_gnome_exchange_folder_subscription (ep, target, folder_name);
+}
+void
+org_gnome_exchange_tasks_subscription (EPlugin *ep, EMMenuTargetSelect *target)
+{
+	gchar *folder_name = "Tasks";
+	org_gnome_exchange_folder_subscription (ep, target, folder_name);
+}
+void
+org_gnome_exchange_inbox_subscription (EPlugin *ep, EMMenuTargetSelect *target)
+{
+	gchar *folder_name = "Inbox";
+	org_gnome_exchange_folder_subscription (ep, target, folder_name);
+}

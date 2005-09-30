@@ -92,7 +92,7 @@ setup_name_selector (GladeXML *glade_xml, ENameSelector **name_selector_ret)
 }
 
 static void
-setup_folder_name_combo (GladeXML *glade_xml)
+setup_folder_name_combo (GladeXML *glade_xml, gchar *fname)
 {
 	GtkWidget *combo;
 	GList *string_list;
@@ -115,7 +115,7 @@ setup_folder_name_combo (GladeXML *glade_xml)
 	gtk_combo_set_popdown_strings (GTK_COMBO (combo), string_list);
 	g_list_free (string_list);
 
-	gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (combo)->entry), "Calendar");
+	gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (combo)->entry), fname);
 }
 
 static void
@@ -157,7 +157,7 @@ setup_server_option_menu (GladeXML *glade_xml, gchar *mail_account)
 
 
 gboolean
-create_folder_subscription_dialog (gchar *mail_account, gchar **user_email_address_ret, gchar **folder_name_ret)
+create_folder_subscription_dialog (gchar *mail_account, gchar *fname, gchar **user_email_address_ret, gchar **folder_name_ret)
 {
 	ENameSelector *name_selector;
 	GladeXML *glade_xml;
@@ -177,10 +177,12 @@ create_folder_subscription_dialog (gchar *mail_account, gchar **user_email_addre
 
 	dialog = glade_xml_get_widget (glade_xml, "dialog");
 	g_return_val_if_fail (dialog != NULL, FALSE);
+	gtk_window_set_title (GTK_WINDOW (dialog), g_strdup_printf ("%s %s", _("Subscribe to Other User's"), fname));
 
 	name_selector_widget = setup_name_selector (glade_xml, &name_selector);
+	gtk_widget_grab_focus (name_selector_widget);
 	setup_server_option_menu (glade_xml, mail_account);
-	setup_folder_name_combo (glade_xml);
+	setup_folder_name_combo (glade_xml, fname);
 	folder_name_entry = glade_xml_get_widget (glade_xml, "folder-name-entry");
 
 	/* Connect the callback to set the OK button insensitive when there is
