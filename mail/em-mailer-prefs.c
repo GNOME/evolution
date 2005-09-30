@@ -386,6 +386,8 @@ emmp_header_add_header (GtkWidget *widget, EMMailerPrefs *prefs)
 	GtkTreeIter iter;
 	const gchar *text = gtk_entry_get_text (prefs->entry_header);
 
+	g_strstrip (text);
+
 	if (text && (strlen (text)>0)) {
 		gtk_list_store_append (GTK_LIST_STORE (model), &iter);
 		gtk_list_store_set (GTK_LIST_STORE (model), &iter, 
