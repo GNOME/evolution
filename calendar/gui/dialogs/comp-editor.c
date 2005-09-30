@@ -2442,7 +2442,7 @@ comp_editor_get_mime_attach_list (CompEditor *editor)
 		cal_mime_attach->content_type = g_strdup (camel_data_wrapper_get_mime_type (wrapper));
 		
 		disp = camel_mime_part_get_disposition ((CamelMimePart *)l->data);
-		if (disp && *disp && !g_ascii_strcasecmp(disp, "inline"))	
+		if (disp && !g_ascii_strcasecmp(disp, "inline"))	
 			cal_mime_attach->disposition = TRUE;
 			
 		attach_list = g_slist_append (attach_list, cal_mime_attach);
