@@ -1,3 +1,8 @@
+2005-08-30  Sarfraaz Ahmed <asarfraaz@novell.com>
+
+	* gui/component/addressbook.c (remove_parameters_from_uri) : This now
+	takes care to escape any auth mechanism in the uri.
+
 2005-09-30  Sushma Rai  <rsushma@novell.com>
 
 	* importers/evolution-ldif-importer.c: Added some missing attrbutes an
