@@ -312,6 +312,11 @@ e_calendar_view_add_event (ECalendarView *cal_view, ECal *client, time_t dtstart
 			time_divisions = calendar_config_get_time_divisions ();
 			ic_dur = icaldurationtype_from_int (time_divisions * 60);
 		}
+
+		if (in_top_canvas)
+			new_dtstart = dtstart + start_offset * 60;
+		else
+			new_dtstart = dtstart;
 		break;
 	case GNOME_CAL_WEEK_VIEW:
 	case GNOME_CAL_MONTH_VIEW:
@@ -319,16 +324,21 @@ e_calendar_view_add_event (ECalendarView *cal_view, ECal *client, time_t dtstart
 		if (old_dtstart.is_date && old_dtend.is_date
 			&& memcmp (&ic_dur, &ic_oneday, sizeof(ic_dur)) == 0)
 			all_day_event = TRUE;
+		else {
+			icaltimetype new_time = icaltime_from_timet_with_zone (dtstart, FALSE, default_zone);
+
+			new_time.hour = old_dtstart.hour;
+			new_time.minute = old_dtstart.minute;
+			new_time.second = old_dtstart.second;
+
+			new_dtstart = icaltime_as_timet_with_zone (new_time, default_zone);
+		}
 		break;
 	default:
 		g_assert_not_reached ();
 		return;
 	}
 	
-	if (in_top_canvas)
-		new_dtstart = dtstart + start_offset * 60;
-	else
-		new_dtstart = dtstart;
 
 	itime = icaltime_from_timet_with_zone (new_dtstart, FALSE, default_zone);
 	if (all_day_event)
