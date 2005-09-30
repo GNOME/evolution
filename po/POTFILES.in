@@ -281,12 +281,14 @@ plugins/exchange-operations/exchange-account-setup.c
 plugins/exchange-operations/exchange-calendar.c
 plugins/exchange-operations/exchange-change-password.c
 plugins/exchange-operations/exchange-change-password.glade
+plugins/exchange-operations/exchange-config-listener.c
 plugins/exchange-operations/exchange-contacts.c
 plugins/exchange-operations/exchange-delegates-user.c
 plugins/exchange-operations/exchange-delegates.c
 plugins/exchange-operations/exchange-delegates.glade
 plugins/exchange-operations/exchange-folder-permission.c
 plugins/exchange-operations/exchange-folder-size-display.c
+plugins/exchange-operations/exchange-folder-subscription.c
 plugins/exchange-operations/exchange-folder-tree.glade
 plugins/exchange-operations/exchange-folder.c
 plugins/exchange-operations/exchange-permissions-dialog.c
