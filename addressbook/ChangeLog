@@ -1,3 +1,13 @@
+2005-09-30  Sushma Rai  <rsushma@novell.com>
+
+	* importers/evolution-ldif-importer.c: Added some missing attrbutes and
+	mozilla specific attributes.
+	(populate_contact_address): Forms the address and also formats it.
+	(parseLine): Handling the work address, home address, wants to receieve
+	html mail option, aim screen name.
+	(getNextLDIFEntry): Handling work and home addresses.
+	Fixes #316373.
+
 2005-09-28  Devashish Sharma  <sdevashish@novell.com>
 
 	* gui/contact-list-editor/e-contact-list-editor.c
