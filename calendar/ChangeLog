@@ -1,3 +1,11 @@
+2005-08-30  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #270036
+	(init_widgets): added the missing signal handler when
+	the list selection changes.
+
+	Reworked the patch from Dinesh Layek <ldinesh@novell.com>
+
 2005-08-29  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	* gui/e-calendar-table.c (e_calendar_table_open_task): Set the 
