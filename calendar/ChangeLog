@@ -1,11 +1,11 @@
-2005-09-14  Chenthill Palanisamy  <pchenthill@novell.com>
+2005-09-30  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #273781
 	* gui/alarm-notify/alarm-notify-dialog.c:
 	(notified_alarms_dialog_new): Set the alarm window to
 	appear on the top.
 
-2005-09-10  P. S. Chakravarthi <pchakravarthi@novell.com>
+2005-09-30  P. S. Chakravarthi <pchakravarthi@novell.com>
 
 	Fix #274188
 	* gui/e-cal-model.c
@@ -21,7 +21,7 @@
 	value.
 	* gui/itip-utils.h: Adding variable dipostion to CalMimeAttach structure.
 
-2005-09-29  Chenthill Palanisamy  <pchenthill@novell.com>
+2005-09-30  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #246480
 	* gui/e-calendar-view.c: (e_calendar_view_add_event): Remember
