@@ -115,7 +115,7 @@ name_fragment_match_with_synonyms (const gchar *a, const gchar *b, gboolean stri
 	if (!(a && b && *a && *b))
 		return FALSE;
 
-	if (name_fragment_match (a, b, strict))
+	if(! e_utf8_casefold_collate(a, b))	
 		return TRUE;
 
 	/* Check for nicknames.  Yes, the linear search blows. */

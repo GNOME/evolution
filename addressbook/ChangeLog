@@ -1,3 +1,10 @@
+2005-09-30   Devashish Sharma <sdevashish@novell.com>
+
+        * gui/merging/eab-contact-compare.c
+	(name_fragment_match_with_synonyms): Changed name compare logic where
+	it matches names with starting part same. (it matches rob and robert).
+	Fixes #315034.
+
 2005-08-30  Sarfraaz Ahmed <asarfraaz@novell.com>
 
 	* gui/component/addressbook.c (remove_parameters_from_uri) : This now
