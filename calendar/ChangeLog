@@ -1,3 +1,12 @@
+2005-09-30  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #273847
+	* gui/dialogs/comp-editor.c: (comp_editor_get_mime_attach_list): set
+	the disposition from the attachment.
+	* gui/itip-utils.c: (append_cal_attachments): Send the right disposition
+	value.
+	* gui/itip-utils.h: Adding variable dipostion to CalMimeAttach structure.
+
 2005-09-29  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #246480

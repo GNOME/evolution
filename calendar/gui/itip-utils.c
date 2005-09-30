@@ -994,7 +994,7 @@ append_cal_attachments (GNOME_Evolution_Composer composer_server, ECalComponent
 
 		GNOME_Evolution_Composer_attachData (composer_server,
 						     content_type, filename, description,
-						     TRUE, attach_data,
+						     mime_attach->disposition, attach_data,
 						     &ev);
 		if (BONOBO_EX (&ev)) {
 			g_warning ("Unable to add attachments in composer");

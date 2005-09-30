@@ -25,6 +25,7 @@ struct CalMimeAttach {
 	char *content_type;
 	char *description;
 	char *encoded_data;
+	gboolean disposition;
 	guint length;
 };
 
