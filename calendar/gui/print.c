@@ -1377,6 +1377,15 @@ print_week_day_event (GnomePrintContext *pc, GnomeFont *font,
 	print_rectangle (pc, x1, x2, y1, y2, red, green, blue);
 	print_text_size (pc, buffer, ALIGN_LEFT, x1, x2, y1, y2);
 	x1 += gnome_font_get_width_utf8 (font, buffer) + 4;
+
+	date_tm.tm_hour = event->end_minute / 60;
+	date_tm.tm_min = event->end_minute % 60;
+
+	e_time_format_time (&date_tm, psi->use_24_hour_format, FALSE,
+			    buffer, sizeof (buffer));
+
+	print_text_size (pc, buffer, ALIGN_LEFT, x1, x2, y1, y2);
+	x1 += gnome_font_get_width_utf8 (font, buffer) + 4;
 	print_text_size (pc, text, ALIGN_LEFT, x1, x2, y1, y2);
 }
 

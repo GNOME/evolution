@@ -1,5 +1,11 @@
 2005-10-01  Chenthill Palanisamy  <pchenthill@novell.com>
 
+	Fixes #244981
+	* gui/print.c: (print_week_day_event): Add the end date
+	while printing in the week view.
+
+2005-10-01  Chenthill Palanisamy  <pchenthill@novell.com>
+
 	Fixes #316954
 	* gui/e-calendar-view.c: (e_calendar_view_edit_appointment): Set
 	the USER_ORG flag if the appointment is converted to a meeting.
