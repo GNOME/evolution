@@ -3169,10 +3169,15 @@ e_week_view_scroll_a_step (EWeekView *week_view, ECalViewMoveDirection direction
 	case E_CAL_VIEW_MOVE_DOWN:
 		new_value = adj->value + adj->step_increment;
 		break;
+	case E_CAL_VIEW_MOVE_PAGE_UP:
+		new_value = adj->value - adj->page_size;
+		break;
+	case E_CAL_VIEW_MOVE_PAGE_DOWN:
+		new_value = adj->value + adj->page_size;
+		break;
 	default:
 		return;
 	}
-	
 	new_value = CLAMP (new_value, adj->lower, adj->upper - adj->page_size);
 	gtk_adjustment_set_value (adj, new_value);
 }
@@ -3735,6 +3740,18 @@ e_week_view_do_key_press (GtkWidget *widget, GdkEventKey *event)
 		&& !(event->state & GDK_MOD1_MASK)) {
 		stop_emission = TRUE;
 		switch (keyval) {
+		case GDK_Page_Up:
+			if (!week_view->multi_week_view)
+				e_week_view_scroll_a_step (week_view, E_CAL_VIEW_MOVE_UP);
+			else 
+				e_week_view_scroll_a_step (week_view, E_CAL_VIEW_MOVE_PAGE_UP);
+			break;
+		case GDK_Page_Down:
+			if (!week_view->multi_week_view)
+				e_week_view_scroll_a_step (week_view, E_CAL_VIEW_MOVE_DOWN);
+			else 
+				e_week_view_scroll_a_step (week_view, E_CAL_VIEW_MOVE_PAGE_DOWN);
+			break;	
 		case GDK_Up:
 			e_week_view_cursor_key_up (week_view, view_type);
 			break;
