@@ -1,3 +1,12 @@
+2005-10-01  Viren.L  <lviren@novell.com>
+	
+	Fixes #257649
+	* gui/e-calendar-view.h:
+	  Added E_CAL_VIEW_MOVE_PAGE_UP & E_CAL_VIEW_MOVE_PAGE_DOWN to ECalViewMoveDirection.
+	* gui/e-week-view.c (e_week_view_do_key_press), (e_week_view_scroll_a_step):
+	Handled PageUp & PageDown cases and compute new value for
+	adjustment using the current page size value.
+
 2005-10-01  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #244981
