@@ -812,10 +812,17 @@ clipboard_get_text_cb (GtkClipboard *clipboard, const gchar *text, ECalendarView
 		subcomp = icalcomponent_get_first_component (icalcomp, ICAL_ANY_COMPONENT);
 		while (subcomp) {
 			child_kind = icalcomponent_isa (subcomp);
-			if (child_kind == ICAL_VEVENT_COMPONENT)
+			if (child_kind == ICAL_VEVENT_COMPONENT) {
+
+				if (e_cal_util_component_has_recurrences (subcomp)) {
+					icalproperty *icalprop = icalcomponent_get_first_property (subcomp, ICAL_RRULE_PROPERTY);
+					if (icalprop) 
+						icalproperty_remove_parameter_by_name (icalprop, "X-EVOLUTION-ENDDATE");
+				}
+	
 				e_calendar_view_add_event (cal_view, client, selected_time_start, 
 							   default_zone, subcomp, in_top_canvas);
-			else if (child_kind == ICAL_VTIMEZONE_COMPONENT) {
+			} else if (child_kind == ICAL_VTIMEZONE_COMPONENT) {
 				icaltimezone *zone;
 
 				zone = icaltimezone_new ();

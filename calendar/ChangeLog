@@ -1,3 +1,10 @@
+2005-10-01  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #301391
+	* gui/e-calendar-view.c: (clipboard_get_text_cb):
+	Remove the X-EVOLUTION-ENDDATE property, so that
+	the copy/paste of recurrence event expands properly in 
+	the view.
 2005-10-01  P. S. Chakravarthi <pchakravarthi@novell.com>
 
 	Fixes #269685
