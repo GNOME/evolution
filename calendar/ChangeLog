@@ -1,4 +1,4 @@
-2005-09-30  P. S. Chakravarthi <pchakravarthi@novell.com>
+2005-10-01  P. S. Chakravarthi <pchakravarthi@novell.com>
 
 	Fixes #269685
 	* gui/alarm-notify/alarm-queue.c:
