@@ -55,7 +55,6 @@
 #include "e-util/e-error.h"
 
 
-
 /* The dialog with alarm nofications */
 static AlarmNotificationsDialog *alarm_notifications_dialog = NULL;
 
@@ -119,6 +118,9 @@ typedef struct {
 	/* Instance from our parent CompQueuedAlarms->alarms->alarms list */
 	ECalComponentAlarmInstance *instance;
 
+	/* original trigger of the instance from component */
+	time_t orig_trigger;
+
 	/* Whether this is a snoozed queued alarm or a normal one */
 	guint snooze : 1;
 } QueuedAlarm;
@@ -139,8 +141,8 @@ static void query_objects_changed_cb (ECal *client, GList *objects, gpointer dat
 static void query_objects_removed_cb (ECal *client, GList *objects, gpointer data);
 
 static void remove_client_alarms (ClientAlarms *ca);
-
-
+static void update_cqa (CompQueuedAlarms *cqa, ECalComponent *comp);
+static void update_qa (ECalComponentAlarms *alarms, QueuedAlarm *qa); 
 
 /* Alarm queue engine */
 
@@ -376,6 +378,7 @@ add_component_alarms (ClientAlarms *ca, ECalComponentAlarms *alarms)
 		qa = g_new (QueuedAlarm, 1);
 		qa->alarm_id = alarm_id;
 		qa->instance = instance;
+		qa->orig_trigger = instance->trigger;
 		qa->snooze = FALSE;
 
 		cqa->queued_alarms = g_slist_prepend (cqa->queued_alarms, qa);
@@ -580,8 +583,17 @@ query_objects_changed_cb (ECal *client, GList *objects, gpointer data)
 		}
 
 		g_message ("Already existing alarms");
-		/* if the alarms or the alarms list is empty, just remove it */
+
+		/* if the alarms or the alarms list is empty remove it after updating the cqa structure */
 		if (alarms == NULL || alarms->alarms == NULL) {
+		
+			/* update the cqa and its queued alarms for changes in summary and alarm_uid  */
+			ECalComponent *newcomp = e_cal_component_new ();
+			if (!e_cal_component_set_icalcomponent (newcomp, icalcomponent_new_clone (l->data)))
+				g_warning ("couldn't update calendar component with modified data from backend\n");
+
+			update_cqa (cqa, newcomp);
+
 			if (alarms)
 				e_cal_component_alarms_free (alarms);
 			continue;
@@ -611,7 +623,7 @@ query_objects_changed_cb (ECal *client, GList *objects, gpointer data)
 			qa->alarm_id = alarm_id;
 			qa->instance = instance;
 			qa->snooze = FALSE;
-			
+			qa->orig_trigger = instance->trigger;	
 			cqa->queued_alarms = g_slist_prepend (cqa->queued_alarms, qa);
 		}
 		
@@ -1525,3 +1537,70 @@ alarm_queue_remove_client (ECal *client)
 
 	g_hash_table_remove (client_alarms_hash, client);
 }
+
+/* Update non-time related variables for various structures on modification of an existing component 
+   to be called only from query_objects_changed_cb */
+static void 
+update_cqa (CompQueuedAlarms *cqa, ECalComponent *newcomp)
+{
+	ECalComponent *oldcomp;
+	ECalComponentAlarms *alarms = NULL;
+	GSList *qa_list;	/* List of current QueuedAlarms corresponding to cqa */
+	time_t from, to;
+	icaltimezone *zone;
+	char *uid;
+	ECalComponentAlarmAction omit[] = {-1};
+
+	oldcomp = cqa->alarms->comp;
+	e_cal_component_get_uid (newcomp, (const char **)&uid); 
+
+	zone = config_data_get_timezone ();
+	from = time_day_begin_with_zone (time (NULL), zone);
+	to = time_day_end_with_zone (time (NULL), zone);
+
+
+	alarms = e_cal_util_generate_alarms_for_comp (newcomp, from, to, omit, 
+					e_cal_resolve_tzid_cb, cqa->parent_client->client, zone);
+
+	/* Update auids in Queued Alarms*/
+	for (qa_list = cqa->queued_alarms; qa_list; qa_list = qa_list->next) {
+		QueuedAlarm *qa = qa_list->data;
+		char *check_auid = (char *) qa->instance->auid;
+
+		if (e_cal_component_get_alarm (newcomp, check_auid))
+			continue;
+		else {
+			if (e_cal_component_get_alarm (oldcomp, check_auid)) { /* Need to update QueuedAlarms */
+				if (alarms == NULL) {
+					g_warning ("No alarms found on the modified component\n");
+					break;
+				}
+				update_qa (alarms, qa);
+			}
+			else
+				g_warning ("Failed in auid lookup for old component also\n");
+		}		
+	}
+
+	/* Update the actual component stored in CompQueuedAlarms structure */
+	g_object_unref (cqa->alarms->comp);
+	cqa->alarms->comp = newcomp;
+	if (alarms != NULL )
+		e_cal_component_alarms_free (alarms);
+}
+
+static void
+update_qa (ECalComponentAlarms *alarms, QueuedAlarm *qa)
+{
+	ECalComponentAlarmInstance *al_inst;
+	GSList *instance_list;
+	
+	for (instance_list = alarms->alarms; instance_list; instance_list = instance_list->next) {
+		al_inst = instance_list->data;
+		if (al_inst->trigger == qa->orig_trigger) {  /* FIXME if two or more alarm instances (audio, note) 									  for same component have same trigger */
+			g_free ((char *) qa->instance->auid);
+			qa->instance->auid = g_strdup (al_inst->auid);
+			break;
+		}
+	}
+}	

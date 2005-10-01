@@ -1,3 +1,14 @@
+2005-10-01  P. S. Chakravarthi <pchakravarthi@novell.com>
+
+	Fixes #269685
+	* gui/alarm-notify/alarm-queue.c:
+	(update_cqa): added.
+	(update_qa): added. Invoked by update_cqa ()
+	(query_objects_changed_cb): Modified to invoke update_cqa ()
+	inorder to update the local alarm structures whenver any
+	non time related modifications are made to an existing calendar
+	component.
+
 2005-09-30  Veerapuram Varadhan <vvaradhan@novell.com>
 
 	Fixes #303702
