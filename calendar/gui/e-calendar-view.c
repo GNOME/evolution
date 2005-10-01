@@ -1824,7 +1824,7 @@ e_calendar_view_edit_appointment (ECalendarView *cal_view,
 		ECalComponent *comp = e_cal_component_new ();
 		e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (icalcomp));
 		flags |= COMP_EDITOR_MEETING;
-		if (itip_organizer_is_user (comp, client))
+		if (itip_organizer_is_user (comp, client) || !e_cal_component_has_attendees (comp))
 			flags |= COMP_EDITOR_USER_ORG;
 		g_object_unref (comp);
 	}
