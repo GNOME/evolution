@@ -55,6 +55,7 @@
 #include "print.h"
 #include <e-util/e-icon-factory.h>
 #include "e-cal-popup.h"
+#include "misc.h"
 
 extern ECompEditorRegistry *comp_editor_registry;
 
@@ -88,6 +89,9 @@ static gint e_calendar_table_on_key_press	(ETable		*table,
 static struct tm e_calendar_table_get_current_time (ECellDateEdit *ecde,
 						    gpointer data);
 static void mark_row_complete_cb (int model_row, gpointer data);
+
+static void hide_completed_rows (ECalModel *model, GList *clients_list, char *hide_sexp, GPtrArray *comp_objects);
+static void show_completed_rows (ECalModel *model, GList *clients_list, char *show_sexp, GPtrArray *comp_objects);
 
 /* Signal IDs */
 enum {
@@ -1274,6 +1278,74 @@ e_calendar_table_on_key_press (ETable *table,
 	return FALSE;
 }
 
+static void
+hide_completed_rows (ECalModel *model, GList *clients_list, char *hide_sexp, GPtrArray *comp_objects)
+{
+	GList *l, *m, *objects;
+	ECal *client;
+	int pos;
+
+	for (l = clients_list; l != NULL; l = l->next) {
+		client = l->data;
+
+		if (!e_cal_get_object_list (client, hide_sexp, &objects, NULL)) {
+			g_warning (G_STRLOC ": Could not get the objects");
+
+			continue;
+		}
+
+		for (m = objects; m; m = m->next) {
+			ECalModelComponent *comp_data;
+
+			if ((comp_data =  e_cal_model_get_component_for_uid (model, icalcomponent_get_uid (m->data)))) {
+				e_table_model_pre_change (E_TABLE_MODEL (model));
+				pos = get_position_in_array (comp_objects, comp_data);
+				e_table_model_row_deleted (E_TABLE_MODEL (model), pos);
+
+				g_ptr_array_remove (comp_objects, comp_data);
+			}
+		}
+
+		g_list_foreach (objects, (GFunc) icalcomponent_free, NULL);
+		g_list_free (objects);
+	}
+}
+
+static void
+show_completed_rows (ECalModel *model, GList *clients_list, char *show_sexp, GPtrArray *comp_objects)
+{
+	GList *l, *m, *objects;
+	ECal *client;
+
+	for (l = clients_list; l != NULL; l = l->next) {
+		client = l->data;
+
+		if (!e_cal_get_object_list (client, show_sexp, &objects, NULL)) {
+			g_warning (G_STRLOC ": Could not get the objects");
+
+			continue;
+		}
+
+		for (m = objects; m; m = m->next) {
+			ECalModelComponent *comp_data;
+
+			if (!(e_cal_model_get_component_for_uid (model, icalcomponent_get_uid (m->data)))) {
+				e_table_model_pre_change (E_TABLE_MODEL (model));
+				comp_data = g_new0 (ECalModelComponent, 1);
+				comp_data->client = client;
+				comp_data->icalcomp = icalcomponent_new_clone (m->data);
+				e_cal_model_set_instance_times (comp_data,
+						e_cal_model_get_timezone (model));
+				comp_data->dtstart = comp_data->dtend = comp_data->due = comp_data->completed = NULL;
+				comp_data->color = NULL;
+
+				g_ptr_array_add (comp_objects, comp_data);
+				e_table_model_row_inserted (E_TABLE_MODEL (model), comp_objects->len - 1);
+			} 
+		}
+	}
+}
+
 /* Loads the state of the table (headers shown etc.) from the given file. */
 void
 e_calendar_table_load_state	(ECalendarTable *cal_table,
@@ -1384,4 +1456,49 @@ e_calendar_table_set_status_message (ECalendarTable *cal_table, const gchar *mes
 
                 e_activity_handler_operation_progressing (cal_table->activity_handler, cal_table->activity_id, message, progress);
 	}
+}
+
+/**
+ * e_calendar_table_hide_completed_tasks:
+ * @table: A calendar table model.
+ * @client_list: Clients List
+ *
+ * Hide completed tasks.
+ */
+void
+e_calendar_table_process_completed_tasks (ECalendarTable *table, GList *clients_list, gboolean config_changed)
+{
+	ECalModel *model;
+	static GMutex *mutex = NULL;
+	char *hide_sexp, *show_sexp;
+	GPtrArray *comp_objects = NULL;
+
+	if (!mutex)
+		mutex = g_mutex_new ();
+
+	g_mutex_lock (mutex);
+
+	model = e_calendar_table_get_model (table); 
+	comp_objects = e_cal_model_get_object_array (model);
+
+	hide_sexp = calendar_config_get_hide_completed_tasks_sexp (TRUE);
+	show_sexp = calendar_config_get_hide_completed_tasks_sexp (FALSE);
+
+	/* If hide option is unchecked */
+	if (!(hide_sexp && show_sexp))
+		show_sexp = g_strdup ("(is-completed?)");
+
+	/* Delete rows from model*/
+	if (hide_sexp) {
+		hide_completed_rows (model, clients_list, hide_sexp, comp_objects);
+	}
+
+	/* Insert rows into model */
+	if (config_changed) {
+		show_completed_rows (model, clients_list, show_sexp, comp_objects);
+	}
+
+	g_free (hide_sexp);
+	g_free (show_sexp);
+	g_mutex_unlock (mutex);
 }

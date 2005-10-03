@@ -26,5 +26,6 @@
 
 gboolean string_is_empty (const char *value);
 char    *get_uri_without_password (const char *uri);
+gint get_position_in_array (GPtrArray *objects, gpointer item);
 
 #endif

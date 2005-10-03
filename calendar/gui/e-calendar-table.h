@@ -108,6 +108,7 @@ void 	   e_calendar_table_open_task (ECalendarTable *cal_table,
 				       ECalModelComponent *comp_data, 
 				       gboolean assign);
 ECalModelComponent * e_calendar_table_get_selected_comp (ECalendarTable *cal_table);
+void e_calendar_table_hide_completed_tasks (ECalendarTable *table, GList *clients_list, gboolean config_changed);
 
 G_END_DECLS
 

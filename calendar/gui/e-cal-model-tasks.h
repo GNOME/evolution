@@ -62,6 +62,7 @@ GType           e_cal_model_tasks_get_type (void);
 ECalModelTasks *e_cal_model_tasks_new (void);
 
 void            e_cal_model_tasks_mark_task_complete (ECalModelTasks *model, gint model_row);
+void e_cal_model_tasks_update_due_tasks (ECalModelTasks *model);
 
 G_END_DECLS
 

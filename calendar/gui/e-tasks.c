@@ -56,6 +56,7 @@
 #include "e-tasks.h"
 #include "common/authentication.h"
 #include "e-cal-menu.h"
+#include "e-cal-model-tasks.h"
 
 
 /* Private part of the GnomeCalendar structure */
@@ -291,7 +292,7 @@ update_view (ETasks *tasks)
 
 	model = e_calendar_table_get_model (E_CALENDAR_TABLE (priv->tasks_view));
 		
-	if ((new_sexp = calendar_config_get_hide_completed_tasks_sexp()) != NULL) {
+	if ((new_sexp = calendar_config_get_hide_completed_tasks_sexp (FALSE)) != NULL) {
 		real_sexp = g_strdup_printf ("(and %s %s)", new_sexp, priv->sexp);
 		e_cal_model_set_search_query (model, real_sexp);
 		g_free (new_sexp);
@@ -302,10 +303,31 @@ update_view (ETasks *tasks)
 	e_cal_component_preview_clear (E_CAL_COMPONENT_PREVIEW (priv->preview));
 }
 
+static void
+process_completed_tasks (ETasks *tasks, gboolean config_changed)
+{
+	ETasksPrivate *priv;
+	ECalModel *model;
+
+	g_return_if_fail (tasks != NULL);
+	g_return_if_fail (E_IS_TASKS (tasks));
+
+	priv = tasks->priv;
+
+	model = e_calendar_table_get_model (E_CALENDAR_TABLE (priv->tasks_view));
+
+	e_calendar_table_process_completed_tasks (e_tasks_get_calendar_table (tasks), priv->clients_list, config_changed);
+}
+
 static gboolean
 update_view_cb (ETasks *tasks)
 {	
-	update_view (tasks);
+	ECalModel *model;
+
+	model = e_calendar_table_get_model (E_CALENDAR_TABLE (tasks->priv->tasks_view));
+
+	process_completed_tasks (tasks, FALSE);
+	e_cal_model_tasks_update_due_tasks (E_CAL_MODEL_TASKS (model));
 
 	return TRUE;
 }
@@ -313,7 +335,7 @@ update_view_cb (ETasks *tasks)
 static void
 config_hide_completed_tasks_changed_cb (GConfClient *client, guint id, GConfEntry *entry, gpointer data)
 {
-	update_view (data);
+	process_completed_tasks (data, TRUE);
 }
 
 static void

@@ -78,3 +78,16 @@ get_uri_without_password (const char *full_uri)
 
 	return uristr;
  }
+
+gint
+get_position_in_array (GPtrArray *objects, gpointer item)
+{
+	gint i;
+
+	for (i = 0; i < objects->len; i++) {
+		if (g_ptr_array_index (objects, i) == item)
+			return i;
+	}
+
+	return -1;
+}
