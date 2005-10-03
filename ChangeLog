@@ -1,3 +1,9 @@
+2005-10-3  Harish Krishnaswamy <kharish@novell.com>
+
+	* marshal.mk : do not add the srcdir prefix as
+	$< already returns the full path.
+	Fixes #271308.
+
 2005-09-28  Tor Lillqvist  <tml@novell.com>
 
 	* configure.in: Drop unused SOCKET_LIBS leftover. Don't check for
