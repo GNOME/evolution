@@ -25,6 +25,12 @@
 #include <camel/camel-stream-mem.h>
 #include "mail/em-popup.h"
 
+typedef struct {
+	ECal *client;
+	struct _CamelFolder *folder;
+	GPtrArray *uids;
+}AsyncData;
+
 static void
 add_attendee_cb (gpointer key, gpointer value, gpointer user_data)
 {
@@ -107,25 +113,27 @@ set_organizer (ECalComponent *comp, CamelMimeMessage *message)
 	e_cal_component_set_organizer (comp, &organizer);
 }
 
-static void
-do_mail_to_task (EMPopupTargetSelect *t, ESource *tasks_source)
+static gboolean 
+do_mail_to_task (AsyncData *data)
 {
-	ECal *client;
+	ECal *client = data->client;
+	struct _CamelFolder *folder = data->folder;
+	GPtrArray *uids = data->uids;
 
 	/* open the task client */
-	client = e_cal_new (tasks_source, E_CAL_SOURCE_TYPE_TODO);
 	if (e_cal_open (client, FALSE, NULL)) {
 		int i;
-
-		for (i = 0; i < (t->uids ? t->uids->len : 0); i++) {
+			
+		for (i = 0; i < (uids ? uids->len : 0); i++) {
 			CamelMimeMessage *message;
 			ECalComponent *comp;
 			ECalComponentText text;
 
 			/* retrieve the message from the CamelFolder */
-			message = camel_folder_get_message (t->folder, g_ptr_array_index (t->uids, i), NULL);
-			if (!message)
+			message = camel_folder_get_message (folder, g_ptr_array_index (uids, i), NULL);
+			if (!message) {
 				continue;
+			}
 
 			comp = e_cal_component_new ();
 			e_cal_component_set_new_vtype (comp, E_CAL_COMPONENT_TODO);
@@ -147,12 +155,23 @@ do_mail_to_task (EMPopupTargetSelect *t, ESource *tasks_source)
 			g_object_unref (comp);
 		}
 	}
-
+	
 	/* free memory */
-	g_object_unref (client);
+	g_object_unref (data->client);
+	g_ptr_array_free (data->uids, TRUE);
+	g_free (data);
+	data = NULL;
+
+	return TRUE;
 }
 
 void org_gnome_mail_to_task (void *ep, EMPopupTargetSelect *t);
+
+static void
+copy_uids (char *uid, GPtrArray *uid_array) 
+{
+	g_ptr_array_add (uid_array, g_strdup (uid));
+}
 
 void
 org_gnome_mail_to_task (void *ep, EMPopupTargetSelect *t)
@@ -160,7 +179,18 @@ org_gnome_mail_to_task (void *ep, EMPopupTargetSelect *t)
 	GtkWidget *dialog;
 	GConfClient *conf_client;
 	ESourceList *source_list;
+	GPtrArray *uid_array = NULL;
 
+	if (t->uids->len > 0) {
+		/* FIXME Some how in the thread function the values inside t->uids gets freed 
+		   and are corrupted which needs to be fixed, this is sought of work around fix for
+		   the gui inresponsiveness */
+		uid_array = g_ptr_array_new ();
+		g_ptr_array_foreach (t->uids, (GFunc)copy_uids, (gpointer) uid_array);
+	} else {
+		return;
+	}
+			
 	/* ask the user which tasks list to save to */
 	conf_client = gconf_client_get_default ();
 	source_list = e_source_list_new_for_gconf (conf_client, "/apps/evolution/tasks/sources");
@@ -172,8 +202,38 @@ org_gnome_mail_to_task (void *ep, EMPopupTargetSelect *t)
 
 		/* if a source has been selected, perform the mail2task operation */
 		source = e_source_selector_dialog_peek_primary_selection (E_SOURCE_SELECTOR_DIALOG (dialog));
-		if (source)
-			do_mail_to_task (t, source);
+		if (source) {
+			ECal *client = NULL;
+			AsyncData *data = NULL;
+			GThread *thread = NULL;
+			GError *error = NULL;
+			
+			client = e_cal_new (source, E_CAL_SOURCE_TYPE_TODO);
+			if (!client) {
+				char *uri = e_source_get_uri (source);
+				
+				g_warning ("Could not create the client: %s \n", uri);
+
+				g_free (uri);
+				g_object_unref (conf_client);
+				g_object_unref (source_list);
+				gtk_widget_destroy (dialog);
+				return;
+			}
+			
+			/* Fill the elements in AsynData */
+			data = g_new0 (AsyncData, 1);
+			data->client = client;
+			data->folder = t->folder; 
+			data->uids = uid_array;
+
+			thread = g_thread_create ((GThreadFunc) do_mail_to_task, data, FALSE, &error);
+			if (!thread) {
+				g_warning (G_STRLOC ": %s", error->message);
+				g_error_free (error);
+			}
+
+		}
 	}
 
 	g_object_unref (conf_client);
