@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Evolution GNOME 2.10\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-04-19 11:58+0000\n"
-"PO-Revision-Date: 2005-08-16 16:48+0300\n"
+"PO-Revision-Date: 2005-09-03 20:54+0300\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -761,7 +761,7 @@ msgstr "Sisesta %s parool (kasutaja %s)"
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:1
 msgid "Autocomplete length"
-msgstr "Automaatse lõpetamise pikkus"
+msgstr "Automaatlõpetuse pikkus"
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:2
 msgid "EFolderList XML for the list of completion URIs"
@@ -6637,7 +6637,7 @@ msgstr "_Tõsta kalendrisse..."
 
 #: ../calendar/gui/e-calendar-view.c:1412
 msgid "_Schedule Meeting..."
-msgstr "_Ajasta koosolek..."
+msgstr "A_jasta koosolek..."
 
 #: ../calendar/gui/e-calendar-view.c:1413
 msgid "_Forward as iCalendar..."
@@ -6649,11 +6649,11 @@ msgstr "Muuda seekordne sündmus _liigutatavaks"
 
 #: ../calendar/gui/e-calendar-view.c:1419
 msgid "Delete this _Occurrence"
-msgstr "Ku_stuta seekordne sündmus"
+msgstr "K_ustuta seekordne sündmus"
 
 #: ../calendar/gui/e-calendar-view.c:1420
 msgid "Delete _All Occurrences"
-msgstr "Kustuta k_õik sündmused kordused"
+msgstr "Ku_stuta kõik sündmuse kordused"
 
 #. strftime format of a weekday, a date and a time, 24-hour.
 #. strptime format of a weekday, a date and a time,
@@ -11275,7 +11275,7 @@ msgstr "Kausta `%s' pole võimalik kopeerida `%s': %s"
 #: ../mail/em-migrate.c:1843
 #, c-format
 msgid "Unable to scan for existing mailboxes at `%s': %s"
-msgstr "Olemasolevaid kaustu asukohas '%s' pole võimalik läbi vaadata: %s"
+msgstr "Olemasolevaid postkaste asukohas '%s' pole võimalik läbi vaadata: %s"
 
 #: ../mail/em-migrate.c:2047
 #, c-format
@@ -12470,7 +12470,7 @@ msgstr "E-posti seadistused"
 
 #: ../mail/mail-config.glade.h:96
 msgid "Mailbox location"
-msgstr "Kirjakasti asukoht"
+msgstr "Postkasti asukoht"
 
 #: ../mail/mail-config.glade.h:97
 msgid "Message Composer"
@@ -14120,7 +14120,7 @@ msgstr "Osavõtja olek uuendatud"
 
 #: ../plugins/itip-formatter/itip-formatter.c:973
 msgid "The calendar attached is not valid"
-msgstr ""
+msgstr "Manuses olev kalender on vigane"
 
 #: ../plugins/itip-formatter/itip-formatter.c:974
 msgid ""
@@ -14652,7 +14652,7 @@ msgstr "Kirjete eraldaja:"
 
 #: ../plugins/save-calendar/csv-format.c:547
 msgid "Encapsulate values with:"
-msgstr ""
+msgstr "Väärtuste kapseldamine:"
 
 #: ../plugins/save-calendar/csv-format.c:569
 msgid "Comma separated value format (.csv)"
