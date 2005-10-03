@@ -13,7 +13,6 @@ General/GAL/Plugins :
 
 Addressbook:
 
-	#270036 - Free/Busy settings tab (Dinesh)
 	#248624 - Contact list prints poorly with Evolution 1.4.+ (Devashish) 
 	#274285 - All contacts are printed even if 'selection' is chosen (Devashish)
 	#209354 - printing of a contact gives ugly result (Devashish)
@@ -48,6 +47,7 @@ Calendar:
 	#314918 - GW - Evolution crashed on adding attendees to Meeting request (Dinesh)
 	#315752 - "Convert to Task" causes crash (Chenthill)
 	#315345 - Evolution crashes on  displaying messages from "Calendar" folder of an IMAP account (Chenthill)
+	#270036 - Free/Busy settings tab (Dinesh)
 
 Mailer:
 	
