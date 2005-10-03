@@ -1,3 +1,10 @@
+2005-10-03  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #271480
+	* gui/alarm-notify/notify-main.c: (alarm_notify_factory_fn),
+	(init_alarm_service): Added a global static mutex to ensure 
+	the alarm_notify object is created only once.
+
 2005-10-03  Mubeen Jukaku  <jmubeen@novell.com>
 
 	Fixes #264449
