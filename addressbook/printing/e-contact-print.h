@@ -28,9 +28,9 @@
 #include <libebook/e-contact.h>
 #include "e-contact-print-types.h"
 
-GtkWidget *e_contact_print_dialog_new(EBook *book, char *query);
-void e_contact_print_preview(EBook *book, char *query);
-GtkWidget *e_contact_print_contact_dialog_new(EContact *card);
+GtkWidget *e_contact_print_dialog_new (EBook *book, char *query, GList *list);
+void e_contact_print_preview (EBook *book, char *query, GList *list);
+GtkWidget *e_contact_print_contact_dialog_new (EContact *card);
 GtkWidget *e_contact_print_contact_list_dialog_new(GList *list);
 
 #endif /* E_CONTACT_PRINT_H */

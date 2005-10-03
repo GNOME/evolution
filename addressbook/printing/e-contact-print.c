@@ -861,8 +861,19 @@ e_contact_print_response(GtkWidget *dialog, gint response_id, gpointer data)
 	GnomePrintJob *master;
 	GnomePrintConfig *config;
 	GnomePrintContext *pc;
-	gboolean uses_book = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(dialog), "uses_book"));
-	gboolean uses_list = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(dialog), "uses_list"));
+	gboolean uses_book = FALSE, uses_list = FALSE, uses_range = FALSE;
+
+	uses_range = GPOINTER_TO_INT (g_object_get_data(G_OBJECT (dialog), "uses_range"));
+	if (uses_range) {
+		if (gnome_print_dialog_get_range (GNOME_PRINT_DIALOG (dialog)) & GNOME_PRINT_RANGE_ALL)
+			uses_book = TRUE;
+		if (gnome_print_dialog_get_range (GNOME_PRINT_DIALOG (dialog)) & GNOME_PRINT_RANGE_SELECTION)
+			uses_list = TRUE;
+	}
+	else {
+		uses_book = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (dialog), "uses_book"));
+		uses_list = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (dialog), "uses_list"));
+	}
 	EBook *book = NULL;
 	EBookQuery *query = NULL;
 	EContact *contact = NULL;
@@ -993,20 +1004,27 @@ e_contact_print_response(GtkWidget *dialog, gint response_id, gpointer data)
 }
 
 GtkWidget *
-e_contact_print_dialog_new(EBook *book, char *query)
+e_contact_print_dialog_new(EBook *book, char *query, GList *list)
 {
 	GtkWidget *dialog;
+	GList *copied_list = NULL;
+	GList *l;
 	
 	
 	dialog = e_print_get_dialog(_("Print contacts"), GNOME_PRINT_DIALOG_RANGE | GNOME_PRINT_DIALOG_COPIES);
 	gnome_print_dialog_construct_range_any(GNOME_PRINT_DIALOG(dialog), GNOME_PRINT_RANGE_ALL | GNOME_PRINT_RANGE_SELECTION,
 					       NULL, NULL, NULL);
 
+	if (list != NULL) {
+		copied_list = g_list_copy (list);
+		for (l = copied_list; l; l = l->next)
+			l->data = e_contact_duplicate (E_CONTACT (l->data));
+	}
 	g_object_ref(book);
-	g_object_set_data(G_OBJECT(dialog), "uses_book", GINT_TO_POINTER (TRUE));
-	g_object_set_data(G_OBJECT(dialog), "uses_list", GINT_TO_POINTER (FALSE));
+	g_object_set_data(G_OBJECT(dialog), "contact_list", copied_list);
 	g_object_set_data(G_OBJECT(dialog), "book", book);
 	g_object_set_data(G_OBJECT(dialog), "query", e_book_query_from_string  (query));
+	g_object_set_data(G_OBJECT(dialog), "uses_range", GINT_TO_POINTER (TRUE));
 	g_signal_connect(dialog,
 			 "response", G_CALLBACK(e_contact_print_response), NULL);
 	g_signal_connect(dialog,
@@ -1015,7 +1033,7 @@ e_contact_print_dialog_new(EBook *book, char *query)
 }
 
 void
-e_contact_print_preview(EBook *book, char *query)
+e_contact_print_preview(EBook *book, char *query, GList *list)
 {
 	EContactPrintContext *ctxt = g_new(EContactPrintContext, 1);
 	EContactPrintStyle *style = g_new(EContactPrintStyle, 1);
@@ -1023,11 +1041,24 @@ e_contact_print_preview(EBook *book, char *query)
 	GnomePrintContext *pc;
 	GnomePrintConfig *config;
 	gdouble font_size;
+	GList *copied_list = NULL;
+	GList *l;
+	gboolean uses_book = FALSE, uses_list = FALSE;
 
 	config = e_print_load_config ();
 	master = gnome_print_job_new (config);
 	pc = gnome_print_job_get_context (master);
 	e_contact_build_style (style);
+
+	if (list == NULL) {
+		uses_book = TRUE;
+	}
+	else {
+		uses_list = TRUE;
+		copied_list = g_list_copy (list);
+		for (l = copied_list; l; l = l->next)
+			l->data = e_contact_duplicate (E_CONTACT (l->data));
+	}
 
 	ctxt->x = 0;
 	ctxt->y = 0;
@@ -1053,9 +1084,17 @@ e_contact_print_preview(EBook *book, char *query)
 #endif
 	ctxt->book = book;
 	ctxt->query = e_book_query_from_string (query);
-	ctxt->contacts = NULL;
-	g_object_ref(book);
-	e_contact_do_print(book, ctxt->query, ctxt);
+
+	if (uses_book) {
+		ctxt->contacts = NULL;
+		g_object_ref (book);
+		e_contact_do_print (book, ctxt->query, ctxt);
+	}
+	else if(uses_list) {
+		ctxt->contacts = g_list_copy (copied_list);
+		g_list_foreach (ctxt->contacts, (GFunc)g_object_ref, NULL);
+		complete_sequence (NULL, E_BOOK_VIEW_STATUS_OK, ctxt);
+	}
 }
 
 GtkWidget *
@@ -1069,6 +1108,7 @@ e_contact_print_contact_dialog_new(EContact *contact)
 	g_object_set_data(G_OBJECT(dialog), "contact", contact);
 	g_object_set_data(G_OBJECT(dialog), "uses_list", GINT_TO_POINTER (FALSE));
 	g_object_set_data(G_OBJECT(dialog), "uses_book", GINT_TO_POINTER (FALSE));
+	g_object_set_data(G_OBJECT(dialog), "uses_range", GINT_TO_POINTER (FALSE));
 	g_signal_connect(dialog,
 			 "response", G_CALLBACK(e_contact_print_response), NULL);
 	g_signal_connect(dialog,
@@ -1095,6 +1135,7 @@ e_contact_print_contact_list_dialog_new(GList *list)
 	g_object_set_data(G_OBJECT(dialog), "contact_list", copied_list);
 	g_object_set_data(G_OBJECT(dialog), "uses_list", GINT_TO_POINTER (TRUE));
 	g_object_set_data(G_OBJECT(dialog), "uses_book", GINT_TO_POINTER (FALSE));
+	g_object_set_data(G_OBJECT(dialog), "uses_range", GINT_TO_POINTER (FALSE));
 	g_signal_connect(dialog,
 			 "response", G_CALLBACK(e_contact_print_response), NULL);
 	g_signal_connect(dialog,
