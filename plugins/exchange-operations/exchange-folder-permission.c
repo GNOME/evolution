@@ -149,13 +149,18 @@ org_gnome_exchange_folder_permissions (EPlugin *ep, EMPopupTargetFolder *target)
 	GSList *menus = NULL;
 	int i = 0;
 	static int first =0;
+	gchar *path = NULL;
 	ExchangeAccount *account = exchange_operations_get_exchange_account ();
 
-	if (!account || ! g_strrstr (target->uri, "exchange://") ||
-		!exchange_account_get_folder (account, target->uri))
+	if (!account)
+		return;
+
+	path = target->uri + strlen ("exchange://") + strlen (account->account_filename);
+	if (! g_strrstr (target->uri, "exchange://") ||
+		!exchange_account_get_folder (account, path))
 		return ;
 
-	selected_exchange_folder_uri = target->uri;
+	selected_exchange_folder_uri = path;
 	/* for translation*/
 	if (!first) {
 		popup_items[0].label =  _(popup_items[0].label);
@@ -191,13 +196,15 @@ org_gnome_exchange_menu_folder_permissions (EPlugin *ep, EMMenuTargetSelect *tar
 {
 	ExchangeAccount *account = NULL;
 	EFolder *folder = NULL;
+	gchar *path = NULL;
 
 	account = exchange_operations_get_exchange_account ();
 
 	if (!account)
 		return;
 
-	folder = exchange_account_get_folder (account, target->uri);
+	path = target->uri + strlen ("exchange://") + strlen (account->account_filename);
+	folder = exchange_account_get_folder (account, path);
 	if (folder)
 		exchange_permissions_dialog_new (account, folder, NULL);
 }
