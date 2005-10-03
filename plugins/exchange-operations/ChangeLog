@@ -1,3 +1,16 @@
+2005-10-03  Shakti Sen <shprasad@novell.com>
+
+	* exchange-folder-permission.c (org_gnome_exchange_folder_permissions),
+	(org_gnome_exchange_menu_folder_permission): Constructing the path
+	properly to get the efolder.
+	* exchange-folder.c (org_gnome_exchange_folder_inbox_unsubscribe),
+	(exchange_get_folder), (org_gnome_exchange_check_inbox_subscribed),
+	(unsubscribe_dialog_ab_response), (unsubscribe_dialog_response):
+	Creating proper path.
+
+	The above modifications will now allow the user to do the operations
+	like unsubscribed to Inbox and giving permission to a folder.
+
 2005-09-28  Sarfraaz Ahmed <asarfraaz@novell.com>
 
 	* exchange-account-setup.c (owa_authenticate_user) : Propogate the
