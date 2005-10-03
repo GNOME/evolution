@@ -544,11 +544,11 @@ set_classification (ECalModelComponent *comp_data, const char *value)
 	} else {
 	  icalproperty_class ical_class;
 
-	  if (!g_ascii_strcasecmp (value, "PUBLIC"))
+	  if (!strcasecmp (value, "PUBLIC"))
 	    ical_class = ICAL_CLASS_PUBLIC;
-	  else if (!g_ascii_strcasecmp (value, "PRIVATE"))
+	  else if (!strcasecmp (value, "PRIVATE"))
 	    ical_class = ICAL_CLASS_PRIVATE;
-	  else if (!g_ascii_strcasecmp (value, "CONFIDENTIAL"))
+	  else if (!strcasecmp (value, "CONFIDENTIAL"))
 	    ical_class = ICAL_CLASS_CONFIDENTIAL;
 	  else
 	    ical_class = ICAL_CLASS_NONE;

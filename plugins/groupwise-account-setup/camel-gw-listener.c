@@ -636,7 +636,7 @@ add_addressbook_sources (EAccount *account)
 		/* mark system address book for offline usage */
 		/* FIXME: add isPersonal flag to container and use that isFrequentContact
 		 * properties, instead of using writable to distinguish between the
-		 * system address book and other address books.
+		 * system address book and other address books
 		 */
 		if (!e_gw_container_get_is_writable (E_GW_CONTAINER(temp_list->data)))
 			e_source_set_property (source, "offline_sync", "1");

@@ -1753,9 +1753,9 @@ eab_view_print(EABView *view)
 			      NULL);
 		GList *list = get_selected_contacts (view); 
 		print = e_contact_print_dialog_new (book, query, list);
-		g_free(query);
-		e_free_object_list(list);
-		gtk_widget_show(print);
+		g_free (query);
+		e_free_object_list (list);
+		gtk_widget_show (print);
 	}
 	else if (view->view_type == EAB_VIEW_TABLE) {
 		GtkWidget *dialog;
@@ -1763,7 +1763,6 @@ eab_view_print(EABView *view)
 		ETable *etable;
 		EContactPrintDialogWeakData *weak_data;
 
-		/* FIXME: Allow range selection in table views, as in minicard view */
 		dialog = e_print_get_dialog (_("Print cards"), GNOME_PRINT_DIALOG_COPIES);
 
 		g_object_get(view->widget, "table", &etable, NULL);
@@ -1881,7 +1880,6 @@ eab_view_delete_selection(EABView *view, gboolean is_delete)
 	    !eab_editor_confirm_delete(GTK_WINDOW(gtk_widget_get_toplevel(view->widget)),
 				       plural, is_list, name)) {
 		g_free (name);
-		e_free_object_list(list);
 		return;
 	}
 

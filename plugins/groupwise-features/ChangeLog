@@ -5,6 +5,11 @@
 	* install-shared.c 	: (org_gnome_popup_wizard)
 	enable shared-folder functionalilty, remove env check 
 
+2005-09-30  Shreyas Srinivasan  <sshreyas@novell.com>
+
+	* proxy.c (proxy_page_changed_cb): Load proxy list only when
+	the tab is clicked. Fixes #314337
+	
 2005-09-28  Sankar P  <psankar@novell.com>
 
 	*  proxy.c (proxy_dialog_store_widgets_data):

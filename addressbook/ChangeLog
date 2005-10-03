@@ -1,42 +1,42 @@
 2005-10-03   Devashish Sharma <sdevashish@novell.com>
 
-	*  gui/widgets/e-addressbook-view.c (eab_view_print): Get selected 
-	contacts list and forward it. Earlier list was not being sent so no 
+	* gui/widgets/e-addressbook-view.c (eab_view_print): Get selected
+	contacts list and forward it. Earlier list was not being sent so no
 	chance of printing the selected contacts.
 	(eab_view_print_preview): Same as for print above.
 
 	* printing/e-contact-print.c (e_contact_print_dialog_new): uses_book was
 	being set in every case. removed that and set contact list which is now
 	being passed to it from eab_view_print.
-	(e_contact_print_preview): It was generating preview for the whole 
+	(e_contact_print_preview): It was generating preview for the whole
 	book in all cases. Now if there is a list of selected contacts it
 	generates preview for only those contacts and if the list is NULL (no
 	selected contacts), it generates preview for the whole book.
 	(e_contact_print_response): Checks the current range selected (All or
-	selection) and prints the contacts based on that. If All is selected 
+	selection) and prints the contacts based on that. If All is selected
 	all contacts are printed and if Selection is selected only the selected
 	contacts are printed.
 
-	* printing/e-contact-print.h: Changed the function prototype for 
-	e_contact_print_dialog_new and e_contact_print_preview, both of them 
-	now accept a list of selected contacts. 
+	* printing/e-contact-print.h: Changed the function prototype for
+	e_contact_print_dialog_new and e_contact_print_preview, both of them
+	now accept a list of selected contacts.
 	Fixes #248624, #274285, #209354, #202201
-	
+
 2005-09-30   Devashish Sharma <sdevashish@novell.com>
 
-	* gui/merging/eab-contact-compare.c
+        * gui/merging/eab-contact-compare.c
 	(name_fragment_match_with_synonyms): Changed name compare logic where
 	it matches names with starting part same. (it matches rob and robert).
 	Fixes #315034.
 
-2005-09-30  Sarfraaz Ahmed <asarfraaz@novell.com>
+2005-08-30  Sarfraaz Ahmed <asarfraaz@novell.com>
 
 	* gui/component/addressbook.c (remove_parameters_from_uri) : This now
 	takes care to escape any auth mechanism in the uri.
 
 2005-09-30  Sushma Rai  <rsushma@novell.com>
 
-	* importers/evolution-ldif-importer.c: Added some missing attrbutes and
+	* importers/evolution-ldif-importer.c: Added some missing attrbutes an
 	mozilla specific attributes.
 	(populate_contact_address): Forms the address and also formats it.
 	(parseLine): Handling the work address, home address, wants to receieve
@@ -44,36 +44,28 @@
 	(getNextLDIFEntry): Handling work and home addresses.
 	Fixes #316373.
 
-2005-09-28  Devashish Sharma  <sdevashish@novell.com>
+2005-09-28  Devashish Sharma <sdevashish@novell.com>
 
 	* gui/contact-list-editor/e-contact-list-editor.c
 	(table_drag_data_received_cb): Added a check that the contact received
 	through drag contains an email-id. There is no point in adding a
-	contact to the contact-list if the contact has no email-id. This was 
-	causing a crash also.
+	contact to the contact-list if the contact has no email-id. This
+	was causing a crash also.
 
 	* gui/widgets/eab-contact-display.c
 	(eab_contact_display_render_compact): Added a check for catching null
-	email-ids, in case of contact-lists, so that null ids are not passed
+	email-ids, in case of contact-lists, so that null ids are not passed for
 	for rendering, which was causing a crash.
-	
-2005-09-28  Devashish Sharma  <sdevashish@novell.com>
 
-	* gui/component/addressbook-view.c (addressbook_view_init): Added a
-	callback, source_selector_key_press_event_callback() so that the
-	contact folder can be removed with Del/Delete Key.
-	Fixes #233424.
+2005-09-26  Devashish Sharma <sdevashish@novell.com>
 
-2005-09-28  Tor Lillqvist  <tml@novell.com>
-
-	* gui/component/addressbook.c (get_remember_password): Use
-	g_ascii_strcasecmp() instead of strcasecmp(). We are comparing to
-	the literal "true", just casefolding ASCII is enough. Also better
-	for portability.
+	* gui/widgets/e-addressbook-view.c (search_activated): Clears the
+	preview pane for contacts after search.
+	Fixes #269655.
 
 2005-09-14  Sushma Rai  <rsushma@novell.com>
 
-	* gui/contact-list-editor/e-contact-list-editor.etspec: Set selection 
+	* gui/contact-list-editor/e-contact-list-editor.etspec: Set selection
 	mode to multiple. Related to the patch submitted already to fix #235038.
 
 2005-08-26  Devashish Sharma <sdevashish@novell.com>

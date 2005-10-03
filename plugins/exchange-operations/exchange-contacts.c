@@ -136,8 +136,6 @@ e_exchange_contacts_pcontacts (EPlugin *epl, EConfigHookItemFactoryData *data)
 
 	EABConfigTargetSource *t = (EABConfigTargetSource *) data->target;
 	ESource *source = t->source;
-	GtkWidget *lbl_offline_msg, *vb_offline_msg;
-	char *offline_msg;
 	gint offline_status;
 	
 
@@ -158,16 +156,7 @@ e_exchange_contacts_pcontacts (EPlugin *epl, EConfigHookItemFactoryData *data)
 	if (offline_status == OFFLINE_MODE) {
 		/* Evolution is in offline mode; we will not be able to create
 		   new folders or modify existing folders. */
-		offline_msg = g_markup_printf_escaped ("<b>%s</b>", 
-						       _("Evolution is in offline mode. You cannot create or modify folders now.\nPlease switch to online mode for such operations."));
-		vb_offline_msg = gtk_vbox_new (FALSE, 6);		
-		gtk_container_add (GTK_CONTAINER (data->parent), vb_offline_msg);
-		lbl_offline_msg = gtk_label_new ("");
-		gtk_label_set_markup (GTK_LABEL (lbl_offline_msg), offline_msg);
-		g_free (offline_msg);
-		gtk_box_pack_start (GTK_BOX (vb_offline_msg), lbl_offline_msg, FALSE, FALSE, 0);
-		gtk_widget_show_all (vb_offline_msg);
-		return vb_offline_msg;		
+		return NULL;		
 	}
 
 	rel_uri = e_source_peek_relative_uri (source);

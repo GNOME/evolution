@@ -1,53 +1,79 @@
-2005-09-30  Adam Weinberger  <adamw@gnome.org>
+2005-10-01  Žygimantas Beručka  <zygis@gnome.org>
 
-	* POTFILES.in: Added missing file.
-	* en_CA.po: Updated Canadian English translation.
+	* lt.po: Updated Lithuanian translation.
 
-2005-09-29  Nickolay V. Shmyrev  <nshmyrev@yandex.ru>
-
+2005-09-30  Nickolay V. Shmyrev  <nshmyrev@yandex.ru>
+    
 	* ru.po: Updated Russian translation.
 
 2005-09-29  Christian Rose  <menthos@menthos.com>
 
-	* sv.po: Reverted unauthorized changes made by
-	user 'kloczek'. Also updated the translation.
+	* sv.po: Updated Swedish translation.
 
-2005-09-13  Roozbeh Pournader  <roozbeh@farsiweb.info>
+2005-09-26  Gabor Kelemen  <kelemeng@gnome.hu>
 
-	* fa.po: Updated Persian translation by Elnaz Sarbar
-	  <elnaz@farsiweb.info> and Meelad Zakaria <meelad@farsiweb.info>.
+	* hu.po: Hungarian translation updated.
+
+2005-09-20  Clytie Siddall <clytie@riverland.net.au>
+
+        * vi.po: Updated Vietnamese translation.
+
+2005-09-18  Alessio Frusciante  <algol@firenze.linux.it>
+
+	* it.po: Updated Italian translation by
+	Luca Ferretti <elle.uca@infinito.it>.
+
+2005-09-18  Theppitak Karoonboonyanan  <thep@linux.thai.net>
+
+	* th.po: Updated Thai translation (merge from HEAD).
 
 2005-09-12  Mugurel Tudor  <mugurelu@gnome.ro>
 
 	* ro.po: Updated Romanian translation.
 
-2005-09-08  Ilkka Tuohela  <hile@iki.fi>
+2005-09-07  Ilkka Tuohela  <hile@iki.fi>
 
-	* fi.po: Fixed a typo in Finnish translation
+	* fi.po: Fixed a typo in Finnish translation.
 
 2005-09-07  Christophe Merlet  <redfox@redfoxcenter.org>
 
 	* fr.po: Updated French translation.
 
-2005-09-04  Theppitak Karoonboonyanan  <thep@linux.thai.net>
+2005-09-07  Priit Laes  <plaes@cvs.gnome.org>
 
-	* th.po: Minor fixes & updates in Thai translation.
+	* et.po: Translation updated by Ivar Smolin.
 
-2005-09-04  Mugurel Tudor  <mugurelu@gnome.ro>
+2005-09-06  Inaki Larranaga  <dooteo@euskalgnu.org>
 
-	* ro.po: Updated Romanian translation, again.
+	* eu.po: Updated Basque translation.
+
+2005-09-05  Baris Cicek <baris@teamforce.name.tr>
+
+	* tr.po: Updated Turkish Translation
+
+2005-09-05  Žygimantas Beručka  <zygis@gnome.org>
+
+	* lt.po: Updated Lithuanian translation.
+
+2005-09-05  Runa Bhattacharjee <runa@bengalinux.org>
+	* bn.po:  Added Bengali (bn) Translation
+
+2005-09-04  Priit Laes  <plaes@cvs.gnome.org>
+
+	* et.po: Translation updated by Ivar Smolin.
 
 2005-09-04  Mugurel Tudor  <mugurelu@gnome.ro>
 
 	* ro.po: Updated Romanian translation.
 
-2005-09-03  Christophe Merlet  <redfox@redfoxcenter.org>
+2005-09-04  Roozbeh Pournader  <roozbeh@farsiweb.info>
 
-	* fr.po: Updated French translation.
+	* fa.po: Updated Persian translation by Elnaz Sarbar
+	  <elnaz@farsiweb.info> and Meelad Zakaria <meelad@farsiweb.info>.
 
-2005-09-03  Baris Cicek <baris@teamforce.name.tr>
+2005-09-04  Mugurel Tudor  <mugurelu@gnome.ro>
 
-	* tr.po: Updated Turkish Translation
+	* ro.po: Updated Romanian translation.
 
 2005-09-03  Christophe Merlet  <redfox@redfoxcenter.org>
 
@@ -55,17 +81,13 @@
 	Vincent Untz <vuntz@gnome.org> and
 	Stéphane Raimbault <stephane.raimbault@free.fr>.
 
-2005-09-02  Mugurel Tudor  <mugurelu@gnome.ro>
+2005-09-03  Mugurel Tudor  <mugurelu@gnome.ro>
 
 	* ro.po: Updated Romanian translation.
 
-2005-09-01  Rhys Jones  <rhys@sucs.org>
+2005-09-03  Rhys Jones  <rhys@sucs.org>
 
 	* cy.po: Updated Welsh translation.
-
-2005-08-31  Mugurel Tudor  <mugurelu@gnome.ro>
-
-	* ro.po: Updated Romanian translation.
 
 2005-08-31  Duarte Loreto <happyguy_pt@hotmail.com>
 

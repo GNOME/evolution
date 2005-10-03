@@ -1,24 +1,24 @@
-2005-10-3  Harish Krishnaswamy <kharish@novell.com>
+2005-10-03  Harish Krishnaswamy <kharish@novell.com>
+
+	* configure.in, NEWS: Release updates.
+	*** Release 2.4.1 ***
+	
+2005-10-03  Harish Krishnaswamy <kharish@novell.com>
 
 	* marshal.mk : do not add the srcdir prefix as
 	$< already returns the full path.
 	Fixes #271308.
 
-2005-09-28  Tor Lillqvist  <tml@novell.com>
-
-	* configure.in: Drop unused SOCKET_LIBS leftover. Don't check for
-	OpenLDAP on Win32. Instead, set related variables unconditionally,
-	as LDAP support is always present (in <winldap.h> and -lwldap32).
-	(CAMEL_EXCHANGE): Add more stuff to CAMEL_EXCHANGE_CFLAGS and
-	_LIBS. These are used only in
-	plugins/exchange-operations/Makefile.am, and now it's enough to
-	use only that CAMEL_EXCHANGE_CFLAGS and _LIBS there.
-
-	* win32/dummy.la: libdir is prefix/lib, not bin.
-
 2005-09-05  Mengjie Yu  <meng-jie.yu@sun.com>
 
 	* configure.in:grep on Solaris doesn't support -q, use > /dev/null instead.
+
+2005-09-05  Runa Bhattacharjee <runa@bengalinux.org>
+	* configure.in: Added Bengali (bn) to ALL_LINGUAS.
+
+2005-09-02 Jessica Prabhakar <pjessica@novell.com>
+
+	* help/C/evolution.xml: minor spelling and grammar edits
 
 2005-08-28  Harish Krishnaswamy <kharish@novell.com>
 

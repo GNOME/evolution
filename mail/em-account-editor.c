@@ -2421,8 +2421,7 @@ emae_check_complete(EConfig *ec, const char *pageid, void *data)
 
 	/* We use the page-check of various pages to 'prepare' or
 	   pre-load their values, only in the druid */
-	if (pageid
-	    && ((EConfig *)emae->priv->config)->type == E_CONFIG_DRUID) {
+	if (pageid && ((EConfig *)emae->priv->config)->type == E_CONFIG_DRUID) {
 		if (!strcmp(pageid, "00.identity")) {
 			if (!emae->priv->identity_set) {
 				char *uname;
@@ -2449,7 +2448,7 @@ emae_check_complete(EConfig *ec, const char *pageid, void *data)
 			}
 		} else if (!strcmp(pageid, "20.receive_options")) {
 			if (emae->priv->source.provider
-			    && emae->priv->extra_provider != emae->priv->source.provider) {
+					&& emae->priv->extra_provider != emae->priv->source.provider) {
 				emae->priv->extra_provider = emae->priv->source.provider;
 				emae_auto_detect(emae);
 			}
@@ -2478,8 +2477,8 @@ emae_check_complete(EConfig *ec, const char *pageid, void *data)
 			&& (tmp = e_account_get_string(emae->account, E_ACCOUNT_ID_ADDRESS))
 			&& is_email(tmp)
 			&& ((tmp = e_account_get_string(emae->account, E_ACCOUNT_ID_REPLY_TO)) == NULL
-			    || tmp[0] == 0
-			    || is_email(tmp));
+					|| tmp[0] == 0
+					|| is_email(tmp));
 		if (!ok)
 			d(printf("identity incomplete\n"));
 	}
@@ -2500,7 +2499,7 @@ emae_check_complete(EConfig *ec, const char *pageid, void *data)
 		ok = (tmp = e_account_get_string(emae->account, E_ACCOUNT_NAME))
 			&& tmp[0]
 			&& ((ea = mail_config_get_account_by_name(tmp)) == NULL
-			    || ea == emae->original);
+					|| ea == emae->original);
 		if (!ok)
 			d(printf("management page incomplete\n"));
 	}

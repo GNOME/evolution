@@ -1,13 +1,3 @@
-2005-10-02  Srinivasa Ragavan <sragavan@novell.com>
-	
-	Provides across calendars keyboard accelerators for popup menus
-
-	* gui/calendar-component.c (ecc_source_popups):
-	* gui/e-calendar-view.c (ecv_main_items) (ecv_main_items):
-	* gui/gnome-cal.c (gc_popups):
-	* gui/tasks-component.c (etc_source_popups):
-	Added Keybinding for popup menu.
-	
 2005-09-30  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #315095
@@ -114,7 +104,7 @@
 	* gui/dialogs/recurrence-page.c (clear_widgets):
 	Changed parameter ENDING_FOREVER to ENDING_FOR while invoking 
 	e_dialog_option_menu_set, invoked make_ending_count_special ().
-
+	  
 2005-09-30  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #273781
@@ -151,15 +141,15 @@
 	the list selection changes.
 
 	Reworked the patch from Dinesh Layek <ldinesh@novell.com>
-
+	 
 2005-08-29  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	* gui/e-calendar-table.c (e_calendar_table_open_task): Set the 
 	USER_ORG flag while converting a personal task to assigned one.
 
-2005-09-28  Viren.L  <lviren@novell.com>
-
+2005-09-29  Viren.L  <lviren@novell.com>
 	Fixes #317014
+	
 	* gui/e-calendar-table.c (e_calendar_table_open_task):
 	Set the flags in e_calendar_table_open_task.
 	* gui/gnome-cal.c (gnome_calendar_new_task):set the NEW_ITEM flag.
@@ -171,15 +161,6 @@
 	* gui/dialogs/comp-editor-page.h: Added COMP_EDITOR_PAGE_IS_ASSIGNED to page flags.
 	* gui/dialogs/task-editor.[ch]: Changed parameters for task_editor_new and
 	  task_editor_construct.
-
-2005-09-28  Tor Lillqvist  <tml@novell.com>
-
-	* gui/e-cal-model-calendar.c (set_transparency)
-	* gui/e-cal-model.c (set_classification)
-	* gui/itip-bonobo-control.c (pstream_load, pstream_save): Use
-	g_ascii_strcasecmp() instead of strcasecmp(). We are comparing to
-	literal ASCII strings, just casefolding ASCII is enough. Also
-	better for portability.
 
 2005-09-08  P. S. Chakravarthi <pchakravarthi@novell.com>
 

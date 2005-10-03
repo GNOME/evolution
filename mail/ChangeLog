@@ -1,25 +1,8 @@
 2005-09-29  Parthasarathi Susarla <sparthasarathi@novell.com>
 	
 	** See bug 317284
-	
-	* em-mailer-prefs.c: (emmp_header_add_header):
-	Check if its a valid header and only then add it
-	
-2005-09-28  Tor Lillqvist  <tml@novell.com>
-
-	* em-composer-utils.c (reply_get_composer, get_reply_list,
-	post_reply_to_message)
-	* em-folder-view.c (emfv_format_link_clicked)
-	* importers/netscape-importer.c (netscape_get_boolean): Use
-	g_ascii_str(n)casecmp() instead of str(n)casecmp(). We are
-	comparing to literal ASCII strings in these cases, so just
-	casefolding ASCII is enough. Also better for portability.
-
-	* em-format-html-display.c
-	* message-list.c: Define localtime_r() for Win32 using localtime()
-	(which is thread-safe in Microsoft's C library).
-
-	* mail-tools.c (mail_tool_do_movemail): Not implemented on Win32.
+	* em-mailer-prefs.c:(emmp_header_add_header):
+	Make sure that the header text is not empty
 
 2005-09-28  Parthasarathi Susarla <sparthasarathi@novell.com>
 	
@@ -27,14 +10,12 @@
 	* em-vfolder-rule.c: (em_vfolder_rule_add_source):
 	Do not add a NULL uri.
 
-2005-09-26  S.Antony Vincent Pandian <santony@gmail.com>
+2005-09-27  Sankar P  <psankar@novell.com>
 
-	Fixes #208647
-
-	* em-folder-tree.c : Have added a menu item Empty 
-	Trash in the folder tree's context menu and also
-	added its callback.
-
+	* em-account-editor.c (emae_check_complete) :
+	Removed a few wrong commits that accidentally went in 
+	while committing the patch for 315506.
+	
 2005-09-22  Carsten Guenther <carsten.guenther@scalix.com>
 
 	Fixes #316983
