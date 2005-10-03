@@ -1,4 +1,9 @@
-2005-10-3  Harish Krishnaswamy <kharish@novell.com>
+2005-10-03  Harish Krishnaswamy <kharish@novell.com>
+
+	* configure.in, NEWS: Release updates.
+	*** Release 2.4.1 ***
+	
+2005-10-03  Harish Krishnaswamy <kharish@novell.com>
 
 	* marshal.mk : do not add the srcdir prefix as
 	$< already returns the full path.
