@@ -1,3 +1,27 @@
+2005-10-03   Devashish Sharma <sdevashish@novell.com>
+
+	* gui/widgets/e-addressbook-view.c (eab_view_print): Get selected
+	contacts list and forward it. Earlier list was not being sent so no
+	chance of printing the selected contacts.
+	(eab_view_print_preview): Same as for print above.
+
+	* printing/e-contact-print.c (e_contact_print_dialog_new): uses_book was
+	being set in every case. removed that and set contact list which is now
+	being passed to it from eab_view_print.
+	(e_contact_print_preview): It was generating preview for the whole
+	book in all cases. Now if there is a list of selected contacts it
+	generates preview for only those contacts and if the list is NULL (no
+	selected contacts), it generates preview for the whole book.
+	(e_contact_print_response): Checks the current range selected (All or
+	selection) and prints the contacts based on that. If All is selected
+	all contacts are printed and if Selection is selected only the selected
+	contacts are printed.
+
+	* printing/e-contact-print.h: Changed the function prototype for
+	e_contact_print_dialog_new and e_contact_print_preview, both of them
+	now accept a list of selected contacts.
+	Fixes #248624, #274285, #209354, #202201
+
 2005-09-30   Devashish Sharma <sdevashish@novell.com>
 
         * gui/merging/eab-contact-compare.c

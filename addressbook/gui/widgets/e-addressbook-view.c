@@ -1751,9 +1751,11 @@ eab_view_print(EABView *view)
 			      "query", &query,
 			      "book", &book,
 			      NULL);
-		print = e_contact_print_dialog_new(book, query);
-		g_free(query);
-		gtk_widget_show(print);
+		GList *list = get_selected_contacts (view); 
+		print = e_contact_print_dialog_new (book, query, list);
+		g_free (query);
+		e_free_object_list (list);
+		gtk_widget_show (print);
 	}
 	else if (view->view_type == EAB_VIEW_TABLE) {
 		GtkWidget *dialog;
@@ -1761,9 +1763,7 @@ eab_view_print(EABView *view)
 		ETable *etable;
 		EContactPrintDialogWeakData *weak_data;
 
-		dialog = e_print_get_dialog (_("Print cards"), GNOME_PRINT_DIALOG_RANGE | GNOME_PRINT_DIALOG_COPIES);
-		gnome_print_dialog_construct_range_any(GNOME_PRINT_DIALOG(dialog), GNOME_PRINT_RANGE_ALL | GNOME_PRINT_RANGE_SELECTION,
-						       NULL, NULL, NULL);
+		dialog = e_print_get_dialog (_("Print cards"), GNOME_PRINT_DIALOG_COPIES);
 
 		g_object_get(view->widget, "table", &etable, NULL);
 		printable = e_table_get_printable(etable);
@@ -1805,8 +1805,10 @@ eab_view_print_preview(EABView *view)
 			      "query", &query,
 			      "book", &book,
 			      NULL);
-		e_contact_print_preview(book, query);
-		g_free(query);
+		GList *list = get_selected_contacts (view);
+		e_contact_print_preview (book, query, list);
+		e_free_object_list (list);
+		g_free (query);
 	} else if (view->view_type == EAB_VIEW_TABLE) {
 		EPrintable *printable;
 		ETable *etable;
