@@ -1,3 +1,13 @@
+2005-09-30  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #315095
+	* gui/e-pub-utils.c: Added a global variable to check
+	if the publish time is modified in gconf and removed
+	just_published function.
+	(is_publish_time): cleaned up the code. 
+	(e_pub_publish): send the list of users in the get_freebusy
+	information.
+
 2005-10-03  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #271480

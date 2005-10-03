@@ -34,6 +34,8 @@
 #include "itip-utils.h"
 #include "e-pub-utils.h"
 
+static gboolean updated_last_pub_time = FALSE;
+
 void
 e_pub_uri_from_xml (EPublishUri *uri, const gchar *xml)
 {
@@ -136,21 +138,15 @@ is_publish_time (EPublishUri *uri) {
 	icaltimezone *utc;
 	struct icaltimetype current_itt, adjust_itt;
 
-	if (!uri->last_pub_time) {
-		utc = icaltimezone_get_utc_timezone ();
-		current_itt = icaltime_current_time_with_zone (utc);		
+	utc = icaltimezone_get_utc_timezone ();
+	current_itt = icaltime_current_time_with_zone (utc);		
+
+	if (!uri->last_pub_time ||(strlen (uri->last_pub_time)== 0)) {
 		uri->last_pub_time = g_strdup (icaltime_as_ical_string (current_itt));
 		return TRUE;
 		
 	} else {
-		if (strlen (uri->last_pub_time) == 0) {
-			uri->last_pub_time = g_strdup (icaltime_as_ical_string (current_itt));
-			return TRUE;
-		}
-		
-		utc = icaltimezone_get_utc_timezone ();
-		current_itt = icaltime_current_time_with_zone (utc);
-		adjust_itt = icaltime_from_string (uri->last_pub_time);
+		struct icaltimetype adjust_itt = icaltime_from_string (uri->last_pub_time);
 		
 		switch (uri->publish_freq) {
 			case URI_PUBLISH_DAILY:
@@ -173,26 +169,9 @@ is_publish_time (EPublishUri *uri) {
 	return FALSE;
 }
 
-static gboolean
-just_published (gchar *last_pub_time) {
-	icaltimezone *utc;
-	struct icaltimetype current_itt, adjust_itt;
-	
-	if (strlen (last_pub_time) != 0) {
-		utc = icaltimezone_get_utc_timezone ();
-		adjust_itt = icaltime_from_string (last_pub_time);
-		current_itt = icaltime_current_time_with_zone (utc);
-		icaltime_adjust (&adjust_itt, 0, 0, 0, 3);
-		if (icaltime_compare (adjust_itt, current_itt) < 0)
-			return TRUE;
-		else
-			return FALSE;
-	}
-
-	
-	return TRUE;
-}
-
+/* FIXME we need to add a timeout function to check if the next publishing time is reached. 
+   If the freqency is daily and evolution runs continuously for more than one day, the freebusy
+   will only be published for the first day */
 void
 e_pub_publish (gboolean publish) {
 	icaltimezone *utc;
@@ -225,10 +204,13 @@ e_pub_publish (gboolean publish) {
 		
 		uri = g_new0 (EPublishUri, 1);		
 		e_pub_uri_from_xml (uri, xml);
-		
-		/* kludge to safeguard against loop from gconf update */
-		if (!just_published (uri->last_pub_time))
+	
+		/*FIXME this is just a hack to avoid publishing again and again 
+		  ,we need to make the last publish time a seperate key */
+		if (updated_last_pub_time) {
+			updated_last_pub_time = FALSE;
 			return;
+		}	
 		
 		/* TODO: make sure we're online */
 		/* skip this url if it isn't enabled or if it is manual */
@@ -259,6 +241,9 @@ e_pub_publish (gboolean publish) {
 				GList *comp_list = NULL;
 				gchar *source_uid;
 				ESource * source;
+				char *email = NULL;
+				GError *error = NULL;
+				GList *users = NULL;
 	
 				source_uid = g_strdup (p->data);
 				source =  e_source_list_peek_source_by_uid (source_list, source_uid);
@@ -267,15 +252,33 @@ e_pub_publish (gboolean publish) {
 
 				if (!client) {
 					g_warning (G_STRLOC ": Could not publish Free/Busy: Calendar backend no longer exists");
+					g_free (source_uid);
 
 					continue;
 				}
 			
-				e_cal_open (client, TRUE, NULL);
+				if (!e_cal_open (client, TRUE, &error)) {
+					g_warning ("Could not open the calendar %s \n", error->message);
+					g_error_free (error);
+					error = NULL;
+
+					g_object_unref (client);
+					g_free (source_uid);
+					continue;
+				}
 				
-				if (e_cal_get_free_busy ((ECal *) client, NULL,
+				if (e_cal_get_cal_address (client, &email, &error)) {
+					if (email && *email)	
+						users = g_list_append (users, email);
+				} else {
+					g_warning ("Could not get the email: %s \n", error->message);
+					g_error_free (error);
+					error = NULL;
+				}
+
+				if (e_cal_get_free_busy ((ECal *) client, users,
 							 start, end, 
-							 &comp_list, NULL)) {
+							 &comp_list, &error)) {
 					GList *l;
 	
 					for (l = comp_list; l; l = l->next) {
@@ -285,41 +288,49 @@ e_pub_publish (gboolean publish) {
 						g_object_unref (comp);
 					}
 					g_list_free (comp_list);
+				} else {
+					g_warning ("Could not get the free busy information %s \n", error->message);
+					g_error_free (error);
+					error = NULL;
 				}
 				
+				if (users) 
+					g_list_free (users);
+
+				g_free (email);
 				g_object_unref (client);
-			
 				g_free (source_uid);
-			}
-
-			/* add password to the uri */
-			password = e_passwords_get_password ("Calendar", 
-							     (gchar *)uri->location);
-			
-			if (!password) {
-				prompt = g_strdup_printf (_("Enter the password for %s"), (gchar *)uri->location);
-				password = e_passwords_ask_password (_("Enter password"), 
-								     "Calendar", (gchar *)uri->location, 
-								     prompt,
-								     E_PASSWORDS_REMEMBER_FOREVER|E_PASSWORDS_SECRET|E_PASSWORDS_ONLINE,
-								     &remember, NULL);
-
-				g_free (prompt);
-					
-				if (!password) {
-					g_slist_free (p);
-					continue;
-				}
-			}
-		
-			if (cloned && clone)
-				published = itip_publish_comp ((ECal *) client,
-						       uri->location,
-						       uri->username, 
-						       password, &clone);
-			
-			g_slist_free (p);
+			} 
 		}
+
+		/* add password to the uri */
+		password = e_passwords_get_password ("Calendar", 
+				(gchar *)uri->location);
+
+		if (!password) {
+			prompt = g_strdup_printf (_("Enter the password for %s"), (gchar *)uri->location);
+			password = e_passwords_ask_password (_("Enter password"), 
+					"Calendar", (gchar *)uri->location, 
+					prompt,
+					E_PASSWORDS_REMEMBER_FOREVER|E_PASSWORDS_SECRET|E_PASSWORDS_ONLINE,
+					&remember, NULL);
+
+			g_free (prompt);
+
+			if (!password) {
+				g_slist_free (p);
+				continue;
+			}
+		}
+
+		g_slist_free (p);
+
+		if (cloned && clone)
+			published = itip_publish_comp ((ECal *) client,
+					uri->location,
+					uri->username, 
+					password, &clone);
+
 		xml = e_pub_uri_to_xml (uri);
 		if (xml != NULL) {
 			uri_list = g_slist_append (uri_list, xml);
@@ -330,6 +341,7 @@ e_pub_publish (gboolean publish) {
 	if (published) {
 		/* Update gconf so we have the last_pub_time */
 		calendar_config_set_free_busy (uri_list);
+		updated_last_pub_time = TRUE;
 	}
 		
 	g_slist_free (uri_config_list);
