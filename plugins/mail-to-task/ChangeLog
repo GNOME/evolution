@@ -1,3 +1,14 @@
+2005-10-03  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #315752
+	* mail-to-task.c:  Created a new structure AsyncData to
+	store information passed to thread.
+	(do_mail_to_task): get the required contents from AsyncData and
+       free it at the end.	
+	(copy_uids): Duplicate the uids from t->uids.
+	(org_gnome_mail_to_task): duplicated the t->uid and run
+	do_mail_to_task as a thread.
+
 2005-08-23  Not Zed  <NotZed@Ximian.com>
 
 	* mail-to-task.c (add_attendee_cb): use the right type for attendees.
