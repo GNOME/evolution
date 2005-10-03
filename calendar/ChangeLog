@@ -1,3 +1,26 @@
+2005-10-03  Mubeen Jukaku  <jmubeen@novell.com>
+
+	Fixes #264449
+	* gui/e-tasks.c: (update_view_cb),
+	(config_process_completed_tasks_changed_cb): Use process_completed_tasks
+	instead of update_view
+	* gui/gnome-cal.c (update_todo_view_cb),
+	(config_process_completed_tasks_changed_cb): ditto
+	* gui/e-calendar-table.[ch]:
+	(e_cal_model_process_completed_tasks): New function to hide
+	completed tasks
+	* gui/calendar-config.[ch]: 
+	(calendar_config_get_process_completed_tasks_sexp): Added a parameter
+	get_completed to get completed or not completed tasks
+	* gui/misc.[ch]: 
+	(get_position_in_array): Moved from gui/e-cal-model.c
+	* gui/e-cal-model.[ch]:
+	(e_cal_model_set_instance_times): Renamed from static function
+	set_instance_times
+	(search_by_uid_and_client): fix for client is NULL
+	* gui/e-cal-model-tasks.[ch]:
+	(e_cal_model_tasks_update_due_tasks): Update due tasks
+
 2005-10-01  Viren.L  <lviren@novell.com>
 	
 	Fixes #257649

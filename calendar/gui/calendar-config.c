@@ -1077,11 +1077,13 @@ calendar_config_set_default_reminder_units (CalUnits units)
 /**
  * calendar_config_get_hide_completed_tasks_sexp:
  *
+ * @get_completed: Whether to form subexpression that 
+ * gets completed or not completed tasks.
  * Returns the subexpression to use to filter out completed tasks according
  * to the config settings. The returned sexp should be freed.
  **/
 char*
-calendar_config_get_hide_completed_tasks_sexp (void)
+calendar_config_get_hide_completed_tasks_sexp (gboolean get_completed)
 {
 	char *sexp = NULL;
 
@@ -1094,8 +1096,11 @@ calendar_config_get_hide_completed_tasks_sexp (void)
 
 		if (value == 0) {
 			/* If the value is 0, we want to hide completed tasks
-			   immediately, so we filter out all completed tasks.*/
-			sexp = g_strdup ("(not is-completed?)");
+			   immediately, so we filter out all complete/incomplete tasks.*/
+			if (!get_completed)
+				sexp = g_strdup ("(not is-completed?)");
+			else
+				sexp = g_strdup ("(is-completed?)");
 		} else {
 			char *isodate;
 			icaltimezone *zone;
@@ -1126,7 +1131,10 @@ calendar_config_get_hide_completed_tasks_sexp (void)
 			/* Convert the time to an ISO date string, and build
 			   the query sub-expression. */
 			isodate = isodate_from_time_t (t);
-			sexp = g_strdup_printf ("(not (completed-before? (make-time \"%s\")))", isodate);
+			if (!get_completed)
+				sexp = g_strdup_printf ("(not (completed-before? (make-time \"%s\")))", isodate);
+			else
+				sexp = g_strdup_printf ("(completed-before? (make-time \"%s\"))", isodate);
 		}
 	}
 

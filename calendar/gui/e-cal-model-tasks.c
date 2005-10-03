@@ -1112,3 +1112,31 @@ e_cal_model_tasks_mark_task_complete (ECalModelTasks *model, gint model_row)
 		e_table_model_row_changed (E_TABLE_MODEL (model), model_row);
 	}
 }
+
+/**
+ * e_cal_model_tasks_update_due_tasks
+ */
+void
+e_cal_model_tasks_update_due_tasks (ECalModelTasks *model)
+{
+	gint row, row_count;
+	ECalModelTasksPrivate *priv;
+	ECalModelComponent *comp_data;
+	ECalModelTasksDueStatus status;
+
+	g_return_if_fail (E_IS_CAL_MODEL_TASKS (model));
+
+	row_count = e_table_model_row_count (E_TABLE_MODEL (model));
+	priv = model->priv;
+
+	for (row = 0; row < row_count; row++)
+	{
+		comp_data = e_cal_model_get_component_at (E_CAL_MODEL (model), row);
+		status = get_due_status (E_CAL_MODEL_TASKS (model), comp_data);
+		if((status == E_CAL_MODEL_TASKS_DUE_TODAY) || (status == E_CAL_MODEL_TASKS_DUE_OVERDUE)) 
+		{
+			e_table_model_pre_change (E_TABLE_MODEL (model));
+			e_table_model_row_changed (E_TABLE_MODEL (model), row);
+		}
+	}
+}

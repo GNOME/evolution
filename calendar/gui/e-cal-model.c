@@ -1259,26 +1259,13 @@ search_by_uid_and_client (ECalModelPrivate *priv, ECal *client, const char *uid)
 
 			tmp_uid = icalcomponent_get_uid (comp_data->icalcomp);
 			if (tmp_uid && *tmp_uid) {
-				if (comp_data->client == client && !strcmp (uid, tmp_uid))
+				if ((!client || comp_data->client == client) && !strcmp (uid, tmp_uid)) 
 					return comp_data;
 			}
 		}
 	}
 
 	return NULL;
-}
-
-static gint
-get_position_in_array (GPtrArray *objects, gpointer item)
-{
-	gint i;
-
-	for (i = 0; i < objects->len; i++) {
-		if (g_ptr_array_index (objects, i) == item)
-			return i;
-	}
-
-	return -1;
 }
 
 typedef struct {
@@ -1311,21 +1298,6 @@ add_instance_cb (ECalComponent *comp, time_t instance_start, time_t instance_end
 	e_table_model_row_inserted (E_TABLE_MODEL (rdata->model), priv->objects->len - 1);
 
 	return TRUE;
-}
-
-static void
-set_instance_times (ECalModelComponent *comp_data, icaltimezone *zone)
-{
-	struct icaltimetype recur_time, start_time, end_time;
-
-	recur_time = icalcomponent_get_recurrenceid (comp_data->icalcomp);
-	start_time = icalcomponent_get_dtstart (comp_data->icalcomp);
-	end_time = icalcomponent_get_dtend (comp_data->icalcomp);
-
-	comp_data->instance_start = icaltime_as_timet (start_time);
-
-	comp_data->instance_end = comp_data->instance_start +
-		(icaltime_as_timet (end_time) - icaltime_as_timet (start_time));
 }
 
 /* We do this check since the calendar items are downloaded from the server in the open_method,
@@ -1395,7 +1367,7 @@ e_cal_view_objects_added_cb (ECalView *query, GList *objects, gpointer user_data
 			comp_data = g_new0 (ECalModelComponent, 1);
 			comp_data->client = g_object_ref (e_cal_view_get_client (query));
 			comp_data->icalcomp = icalcomponent_new_clone (l->data);
-			set_instance_times (comp_data, priv->zone);
+			e_cal_model_set_instance_times (comp_data, priv->zone);
 			comp_data->dtstart = comp_data->dtend = comp_data->due = comp_data->completed = NULL;
 			comp_data->color = NULL;
 
@@ -2094,4 +2066,30 @@ e_cal_model_generate_instances (ECalModel *model, time_t start, time_t end,
 		mdata.cb_data = cb_data;
 		e_cal_generate_instances_for_object (comp_data->client, comp_data->icalcomp, start, end, cb, &mdata);
 	}
+}
+
+/**
+ * e_cal_model_get_object_array
+ */
+GPtrArray *
+e_cal_model_get_object_array (ECalModel *model)
+{
+	g_return_val_if_fail (E_IS_CAL_MODEL (model), NULL);
+
+	return model->priv->objects;
+}
+
+void
+e_cal_model_set_instance_times (ECalModelComponent *comp_data, icaltimezone *zone)
+{
+	struct icaltimetype recur_time, start_time, end_time;
+
+	recur_time = icalcomponent_get_recurrenceid (comp_data->icalcomp);
+	start_time = icalcomponent_get_dtstart (comp_data->icalcomp);
+	end_time = icalcomponent_get_dtend (comp_data->icalcomp);
+
+	comp_data->instance_start = icaltime_as_timet (start_time);
+
+	comp_data->instance_end = comp_data->instance_start +
+		(icaltime_as_timet (end_time) - icaltime_as_timet (start_time));
 }

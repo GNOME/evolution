@@ -183,7 +183,7 @@ gint	  calendar_config_get_hide_completed_tasks_value(void);
 void	  calendar_config_set_hide_completed_tasks_value(gint		value);
 guint	  calendar_config_add_notification_hide_completed_tasks_value (GConfClientNotifyFunc func, gpointer data);
 
-char*	  calendar_config_get_hide_completed_tasks_sexp (void);
+char *	  calendar_config_get_hide_completed_tasks_sexp (gboolean get_completed);
 
 /* Confirmation options */
 gboolean  calendar_config_get_confirm_delete (void);

@@ -152,6 +152,8 @@ void                e_cal_model_generate_instances             (ECalModel       
 								time_t               end,
 								ECalRecurInstanceFn  cb,
 								gpointer             cb_data);
+GPtrArray * e_cal_model_get_object_array (ECalModel *model);
+void e_cal_model_set_instance_times (ECalModelComponent *comp_data, icaltimezone *zone);
 
 
 

@@ -81,6 +81,7 @@
 #include "common/authentication.h"
 #include "e-cal-popup.h"
 #include "e-cal-menu.h"
+#include "e-cal-model-tasks.h"
 
 /* FIXME glib 2.4 and above has this */
 #ifndef G_MAXINT32
@@ -1135,7 +1136,7 @@ update_todo_view (GnomeCalendar *gcal)
 	
 	model = e_calendar_table_get_model (E_CALENDAR_TABLE (priv->todo));
 		
-	if ((sexp = calendar_config_get_hide_completed_tasks_sexp()) != NULL) {
+	if ((sexp = calendar_config_get_hide_completed_tasks_sexp (FALSE)) != NULL) {
 		priv->todo_sexp = g_strdup_printf ("(and %s %s)", sexp, priv->sexp);
 		e_cal_model_set_search_query (model, priv->todo_sexp);
 		g_free (sexp);
@@ -1146,10 +1147,28 @@ update_todo_view (GnomeCalendar *gcal)
 	
 }
 
+static void
+process_completed_tasks (GnomeCalendar *gcal, gboolean config_changed)
+{
+	GnomeCalendarPrivate *priv;
+
+	g_return_if_fail (gcal != NULL);
+	g_return_if_fail (GNOME_IS_CALENDAR(gcal));
+
+	priv = gcal->priv;
+
+	e_calendar_table_process_completed_tasks (E_CALENDAR_TABLE (priv->todo), priv->clients_list[E_CAL_SOURCE_TYPE_TODO], config_changed);
+}
+
 static gboolean
 update_todo_view_cb (GnomeCalendar *gcal)
 {	
-	update_todo_view(gcal);
+	ECalModel *model;
+
+	model = e_calendar_table_get_model (E_CALENDAR_TABLE (gcal->priv->todo));
+
+	process_completed_tasks (gcal, FALSE);
+	e_cal_model_tasks_update_due_tasks (E_CAL_MODEL_TASKS (model));
 
 	return TRUE;
 }
@@ -1172,7 +1191,7 @@ update_marcus_bains_line_cb (GnomeCalendar *gcal)
 static void
 config_hide_completed_tasks_changed_cb (GConfClient *client, guint id, GConfEntry *entry, gpointer data)
 {
-	update_todo_view (data);
+	process_completed_tasks (data, TRUE);
 }
 
 static void
