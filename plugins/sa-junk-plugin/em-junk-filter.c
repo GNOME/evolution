@@ -56,6 +56,7 @@ static pthread_mutex_t em_junk_sa_report_lock = PTHREAD_MUTEX_INITIALIZER;
 static pthread_mutex_t em_junk_sa_preferred_socket_path_lock = PTHREAD_MUTEX_INITIALIZER;
 static pthread_mutex_t em_junk_sa_spamd_restart_lock = PTHREAD_MUTEX_INITIALIZER;
 
+int e_plugin_lib_enable (EPluginLib *ep, int enable);
 static const char *em_junk_sa_get_name (void);
 gboolean em_junk_sa_check_junk (EPlugin *ep, EMJunkHookTarget *target);
 void em_junk_sa_report_junk (EPlugin *ep, EMJunkHookTarget *target);
@@ -687,6 +688,14 @@ em_junk_sa_setting_notify(GConfClient *gconf, guint cnxn_id, GConfEntry *entry, 
 	}
 }
 
+int
+e_plugin_lib_enable (EPluginLib *ep, int enable)
+{
+	em_junk_sa_init();
+
+	return 0;
+}
+
 static void
 em_junk_sa_init (void)
 {
@@ -756,5 +765,6 @@ em_junk_sa_finalize (void)
 {
 	d(fprintf (stderr, "em_junk_sa_finalize\n"));
 
+	g_object_unref(em_junk_sa_gconf);
 	em_junk_sa_kill_spamd ();
 }
