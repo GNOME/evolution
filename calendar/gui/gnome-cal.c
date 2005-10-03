@@ -2225,13 +2225,13 @@ gc_define_views(EPopup *ep, EPopupItem *pitem, void *data)
 static EPopupItem gc_popups[] = {
 	/* Code generates the path to fit */
 	{ E_POPUP_BAR, NULL },
-	{ E_POPUP_RADIO|E_POPUP_ACTIVE, NULL, N_("Custom View"), },
-	{ E_POPUP_ITEM, NULL, N_("Save Custom View"), gc_save_custom_view },
+	{ E_POPUP_RADIO|E_POPUP_ACTIVE, NULL, N_("_Custom View"), },
+	{ E_POPUP_ITEM, NULL, N_("_Save Custom View"), gc_save_custom_view },
 
 	/* index == 3, when we have non-custom view */
 
 	{ E_POPUP_BAR, NULL },
-	{ E_POPUP_ITEM, NULL, N_("Define Views..."), gc_define_views },
+	{ E_POPUP_ITEM, NULL, N_("_Define Views..."), gc_define_views },
 };
 
 static void

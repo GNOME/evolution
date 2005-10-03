@@ -1519,8 +1519,8 @@ on_paste (EPopup *ep, EPopupItem *pitem, void *data)
 static EPopupItem ecv_main_items [] = {
 	{ E_POPUP_ITEM, "00.new", N_("New _Appointment..."), on_new_appointment, NULL, "stock_new-appointment", 0, 0 },
 	{ E_POPUP_ITEM, "10.newallday", N_("New All Day _Event"), on_new_event, NULL, "stock_new-24h-appointment", 0, 0},
-	{ E_POPUP_ITEM, "20.meeting", N_("New Meeting"), on_new_meeting, NULL, "stock_new-meeting", 0, 0},
-	{ E_POPUP_ITEM, "30.task", N_("New Task"), on_new_task, NULL, "stock_task", 0, 0},
+	{ E_POPUP_ITEM, "20.meeting", N_("New _Meeting"), on_new_meeting, NULL, "stock_new-meeting", 0, 0},
+	{ E_POPUP_ITEM, "30.task", N_("New _Task"), on_new_task, NULL, "stock_task", 0, 0},
 
 	{ E_POPUP_BAR, "40."},
 	{ E_POPUP_ITEM, "40.print", N_("_Print..."), on_print, NULL, GTK_STOCK_PRINT, 0, 0 },
@@ -1530,9 +1530,9 @@ static EPopupItem ecv_main_items [] = {
 
 	{ E_POPUP_BAR, "60." },
 	/* FIXME: hook in this somehow */
-	{ E_POPUP_SUBMENU, "60.view", N_("Current View") },
+	{ E_POPUP_SUBMENU, "60.view", N_("_Current View") },
 	
-	{ E_POPUP_ITEM, "61.today", N_("Select _Today"), on_goto_today, NULL, GTK_STOCK_HOME },
+	{ E_POPUP_ITEM, "61.today", N_("Select T_oday"), on_goto_today, NULL, GTK_STOCK_HOME },
 	{ E_POPUP_ITEM, "62.todate", N_("_Select Date..."), on_goto_date, NULL, GTK_STOCK_JUMP_TO },
 
 	{ E_POPUP_BAR, "70." },

@@ -1,3 +1,13 @@
+2005-10-02  Srinivasa Ragavan <sragavan@novell.com>
+	
+	Provides across calendars keyboard accelerators for popup menus
+
+	* gui/calendar-component.c (ecc_source_popups):
+	* gui/e-calendar-view.c (ecv_main_items) (ecv_main_items):
+	* gui/gnome-cal.c (gc_popups):
+	* gui/tasks-component.c (etc_source_popups):
+	Added Keybinding for popup menu.
+	
 2005-09-30  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #315095
