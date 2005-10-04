@@ -1,5 +1,11 @@
 2005-10-04   Devashish Sharma <sdevashish@novell.com>
 
+	* gui/widgets/e-addresbook-view.etspec: Changed the compare type for
+	"File As" to "collate", so that proper lexicographical sorting (based
+	on users locale)is employed. Fixes #271594, #273870. 
+
+2005-10-04   Devashish Sharma <sdevashish@novell.com>
+
 	* gui/contact-list-editor/e-contact-list-editor.etspec: Set the
 	sorting column so that the contacts are alphabetically sorted in 
 	contact list editor.  Fixes #265353.
