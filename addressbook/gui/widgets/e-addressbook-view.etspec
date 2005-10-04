@@ -36,7 +36,7 @@
     different and established translation for this in your language. -->	
   <ETableColumn model_col="34" _title="TTYTDD"            expansion="1.0" minimum_width="75" resizable="true" cell="string" compare="string"/>
 
-  <ETableColumn model_col="35" _title="Organization"      expansion="1.0" minimum_width="75" resizable="true" cell="string" compare="string"/>
+  <ETableColumn model_col="35" _title="Organization"      expansion="1.0" minimum_width="75" resizable="true" cell="string" compare="stringcase"/>
   <ETableColumn model_col="36" _title="Unit"              expansion="1.0" minimum_width="75" resizable="true" cell="string" compare="string"/>
   <ETableColumn model_col="37" _title="Office"            expansion="1.0" minimum_width="75" resizable="true" cell="string" compare="string"/>
   <ETableColumn model_col="38" _title="Title"             expansion="1.0" minimum_width="75" resizable="true" cell="string" compare="string"/>

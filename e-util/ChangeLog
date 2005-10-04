@@ -1,3 +1,8 @@
+2005-10-04  Devashish Sharma  <sdevashish@novell.com>
+
+	* e-util.c (g_str_case_compare): added a function for case insensitive
+	and locale sensitive UTF8 string compare. See #207110.
+
 2005-09-28  Tor Lillqvist  <tml@novell.com>
 
 	* e-html-utils.c (e_text_to_html_full): Use g_ascii_strncasecmp()

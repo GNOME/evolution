@@ -1,3 +1,10 @@
+2005-10-04   Devashish Sharma  <sdevashish@novell.com>
+
+	*  e-table-extras.c (ete_init): Added compare type "stringcase" to 
+	ETableExtras to comapre hash table for case insensitive strings. The
+	corresponding function g_str_case_compare has been added to e-util.c.
+	See #207110.
+
 2005-09-29  Tor Lillqvist  <tml@novell.com>
 
 	* e-table.c (e_table_load_specification)

@@ -139,6 +139,8 @@ typedef enum {
 } EFocus;
 int       g_str_compare                                                    (const void        *x,
 									    const void        *y);
+int       g_str_case_compare                                               (const void        *x,
+									    const void        *y);
 int       g_collate_compare                                                (const void        *x,
 									    const void        *y);
 int       g_int_compare                                                    (const void        *x,

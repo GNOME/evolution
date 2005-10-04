@@ -1,5 +1,12 @@
 2005-10-04   Devashish Sharma <sdevashish@novell.com>
 
+	* gui/widgets/e-addressbook-view.etspec: Changed the compare type for
+	"Organization" to stringcase. This new type has been defined for
+	performing case insensitive locale sensitive UTF8 string compares.
+	Fixes #207110. 
+
+2005-10-04   Devashish Sharma <sdevashish@novell.com>
+
 	* gui/widgets/e-addresbook-view.etspec: Changed the compare type for
 	"File As" to "collate", so that proper lexicographical sorting (based
 	on users locale)is employed. Fixes #271594, #273870. 
