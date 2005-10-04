@@ -1,7 +1,9 @@
 <ETableSpecification no-headers="true" cursor-mode="line" selection-mode="multiple">
-<ETableColumn model_col= "0" _title="Contact" expansion="1.0" minimum_width="20" resizable="true" cell="string" compare="string" />
+<ETableColumn model_col= "0" _title="Contact" expansion="1.0" minimum_width="20" resizable="true" cell="string" compare="collate" />
 	<ETableState>
 		<column source="0"/>
-	        <grouping> </grouping>
+	        <grouping> 
+		  <leaf column="0" ascending="true"/>
+		</grouping>
 	</ETableState>
 </ETableSpecification>
