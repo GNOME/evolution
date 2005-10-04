@@ -1,3 +1,8 @@
+2005-09-28  Veerapuram Varadhan <vvaradhan@novell.com>
+
+	* e-attachment-bar.c (update): gtk_pixbuf_add_alpha returns a
+	newly allocated pixbuf, so, free the original one.
+	
 2005-09-28  Tor Lillqvist  <tml@novell.com>
 
 	* e-charset-picker.c (e_charset_picker_new,

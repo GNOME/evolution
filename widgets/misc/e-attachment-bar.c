@@ -361,7 +361,13 @@ update (EAttachmentBar *bar)
 		}
 
 		if (pixbuf) {
-			pixbuf = gdk_pixbuf_add_alpha (pixbuf, TRUE, 255, 255, 255);
+			GdkPixbuf* pixbuf_orig = pixbuf;
+			pixbuf = gdk_pixbuf_add_alpha (pixbuf_orig, TRUE, 255, 255, 255);
+
+			/* gdk_pixbuf_add_alpha returns a newly allocated pixbuf,
+			   free the original one. 
+			*/
+			g_object_unref (pixbuf_orig);
 
 			/* In case of a attachment bar, in a signed/encrypted part, display the status as a emblem*/
 			if (attachment->sign) {
