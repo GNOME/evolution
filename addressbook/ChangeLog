@@ -1,3 +1,9 @@
+2005-10-04   Devashish Sharma <sdevashish@novell.com>
+
+	* gui/contact-list-editor/e-contact-list-editor.etspec: Set the
+	sorting column so that the contacts are alphabetically sorted in 
+	contact list editor.  Fixes #265353.
+
 2005-10-03   Devashish Sharma <sdevashish@novell.com>
 
 	*  gui/widgets/e-addressbook-view.c (eab_view_print): Get selected 
