@@ -1,5 +1,9 @@
 2005-10-05  Parthasarathi Susarla <sparthasarathi@novell.com>
 	
+	Reverting the last commit
+
+2005-10-05  Parthasarathi Susarla <sparthasarathi@novell.com>
+	
 	** See bug #315987
 
 	* e-msg-composer-hdrs.c: (create_from_optionmenu):
