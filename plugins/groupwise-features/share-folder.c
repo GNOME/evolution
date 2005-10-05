@@ -198,9 +198,6 @@ free_all (ShareFolder *sf)
 static void	
 display_container (EGwContainer *container , ShareFolder *sf)
 {
-	gchar **tail;
-	gchar *id_shared;
-	gchar *id_unshared;
 	gboolean byme = FALSE;
 	gboolean tome = FALSE;
 	gchar *email = NULL;
@@ -208,75 +205,68 @@ display_container (EGwContainer *container , ShareFolder *sf)
 	GList *user_list = NULL;
 	EShUsers *user = NULL;
 
-	id_shared = g_strdup(e_gw_container_get_id(container));
-	/* this has to be done since id changes after the folder is shared*/
-	if( g_str_has_suffix (id_shared, "35")){
-		tail = g_strsplit(id_shared, "@", 2);
-		id_unshared = g_strconcat(tail[0], "@", "13", NULL);
-		g_strfreev(tail);
-	}
-
-	if((!g_ascii_strcasecmp(id_unshared, sf->container_id)) || (!g_ascii_strcasecmp(id_shared, sf->container_id)) ){
-		sf->gcontainer = container;
-		byme = e_gw_container_get_is_shared_by_me(container);
+	sf->gcontainer = container;
+	if(!(byme = e_gw_container_get_is_shared_by_me(container)))
 		tome = e_gw_container_get_is_shared_to_me(container);
-		if(byme || tome) {
-			e_gw_container_get_user_list (sf->gcontainer, &user_list);	
-			sf->users = g_list_length (user_list);
-			if(sf->users != 0) {
-				sf->is_shared = TRUE;
-				gtk_toggle_button_set_active((GtkToggleButton *) sf->shared, TRUE);
-				shared_clicked(sf->shared , sf);
-				if (tome) {
-					gtk_widget_set_sensitive (GTK_WIDGET (sf->not_shared), FALSE);
-					gtk_widget_set_sensitive (GTK_WIDGET (sf->add_button), FALSE);
-					gtk_widget_set_sensitive (GTK_WIDGET (sf->remove), FALSE);
-					gtk_widget_set_sensitive (GTK_WIDGET (sf->add_book), FALSE);
-					gtk_widget_set_sensitive (GTK_WIDGET (sf->notification), FALSE);
-					gtk_widget_set_sensitive (GTK_WIDGET (sf->user_list), FALSE);
-					email = g_strdup (e_gw_container_get_owner (sf->gcontainer));
-					msg = g_strconcat (email, "  (Owner)", NULL);
-					gtk_list_store_append (GTK_LIST_STORE (sf->model), &(sf->iter));
-					gtk_list_store_set (GTK_LIST_STORE (sf->model), &(sf->iter), 0, msg, -1);			 
-					g_free (msg);
-					g_free (email);
+	if(byme || tome) {
+		e_gw_container_get_user_list (sf->gcontainer, &user_list);	
+		sf->users = g_list_length (user_list);
+		if(sf->users != 0) {
+			sf->is_shared = TRUE;
+			gtk_toggle_button_set_active((GtkToggleButton *) sf->shared, TRUE);
+			shared_clicked(sf->shared , sf);
+			if (tome) {
+				g_print ("Entered: inside too\n");
 
-				} else
-					gtk_widget_set_sensitive (GTK_WIDGET (sf->table), TRUE);
-/* I populate the list and set flags to 0 for the existing users*/ 
-				while (user_list) {
-					SharedUser *shared_user = g_new0 (SharedUser , 1);
-					gboolean add, edit, delete;
-				        add = edit = delete = FALSE;
-					user = user_list->data;
-					shared_user->user_node = user;
-					shared_user->flag = 0;	
-					email = g_strdup (user->email);
-					if (user->rights & 0x1)
-						add = TRUE;
-					if (user->rights & 0x2)
-						edit = TRUE;
-					if (user->rights & 0x4)
-						delete = TRUE;
+				gtk_widget_set_sensitive (GTK_WIDGET (sf->not_shared), FALSE);
+				gtk_widget_set_sensitive (GTK_WIDGET (sf->add_button), FALSE);
+				gtk_widget_set_sensitive (GTK_WIDGET (sf->remove), FALSE);
+				gtk_widget_set_sensitive (GTK_WIDGET (sf->add_book), FALSE);
+				gtk_widget_set_sensitive (GTK_WIDGET (sf->notification), FALSE);
+				gtk_widget_set_sensitive (GTK_WIDGET (sf->user_list), FALSE);
+				email = g_strdup (e_gw_container_get_owner (sf->gcontainer));
+				msg = g_strconcat (email, "  (Owner)", NULL);
+				gtk_list_store_append (GTK_LIST_STORE (sf->model), &(sf->iter));
+				gtk_list_store_set (GTK_LIST_STORE (sf->model), &(sf->iter), 0, msg, -1);			 
+				g_free (msg);
+				g_free (email);
 
-					msg = g_strdup_printf ("%s", email);
-					gtk_list_store_append (GTK_LIST_STORE (sf->model), &(sf->iter));
-					gtk_list_store_set (GTK_LIST_STORE (sf->model), &(sf->iter), 0, msg, 1, add, 2, edit, 3, delete, -1);			 
-					sf->users_list = g_list_append (sf->users_list, shared_user);
-					g_free (msg);
-					g_free (email);
-					msg = NULL;
-					email = NULL;
-					user_list = user_list->next;
-				}
-				/* i also need to display status*/
-			} else {
+			} else
+				gtk_widget_set_sensitive (GTK_WIDGET (sf->table), TRUE);
+			/* I populate the list and set flags to 0 for the existing users*/ 
+			while (user_list) {
+				SharedUser *shared_user = g_new0 (SharedUser , 1);
+				gboolean add, edit, delete;
+				add = edit = delete = FALSE;
+				user = user_list->data;
+				shared_user->user_node = user;
+				shared_user->flag = 0;	
+				email = g_strdup (user->email);
+				if (user->rights & 0x1)
+					add = TRUE;
+				if (user->rights & 0x2)
+					edit = TRUE;
+				if (user->rights & 0x4)
+					delete = TRUE;
 
-				gtk_toggle_button_set_active ((GtkToggleButton *) sf->not_shared,  TRUE);
-				not_shared_clicked (sf->not_shared , sf);
+				msg = g_strdup_printf ("%s", email);
+				gtk_list_store_append (GTK_LIST_STORE (sf->model), &(sf->iter));
+				gtk_list_store_set (GTK_LIST_STORE (sf->model), &(sf->iter), 0, msg, 1, add, 2, edit, 3, delete, -1);			 
+				sf->users_list = g_list_append (sf->users_list, shared_user);
+				g_free (msg);
+				g_free (email);
+				msg = NULL;
+				email = NULL;
+				user_list = user_list->next;
 			}
+			/* i also need to display status*/
+		} else {
+
+			gtk_toggle_button_set_active ((GtkToggleButton *) sf->not_shared,  TRUE);
+			not_shared_clicked (sf->not_shared , sf);
 		}
 	}
+
 }
 
 static void
@@ -288,11 +278,33 @@ get_container_list (ShareFolder *sf)
 		if (e_gw_connection_get_container_list (sf->cnc, "folders", &(sf->container_list)) == E_GW_CONNECTION_STATUS_OK) {
 			GList *container = NULL;
 
-			for (container = sf->container_list; container != NULL; container = container->next)
-				display_container (E_GW_CONTAINER (container->data), sf);
+			for (container = sf->container_list; container != NULL; container = container->next) {
+				gchar **tail;
+				gchar *id_shared = NULL;
+				gchar *id_unshared = NULL;
 
-		}
-		else
+				id_shared = g_strdup(e_gw_container_get_id (container->data));
+
+				/* this has to be done since id changes after the folder is shared*/
+				if( g_str_has_suffix (id_shared, "35")){
+					tail = g_strsplit(id_shared, "@", 2);
+					id_unshared = g_strconcat(tail[0], "@", "13", NULL);
+					g_strfreev(tail);
+				}
+
+				if((id_shared && !g_ascii_strcasecmp(id_shared, sf->container_id)) ||(id_unshared && !g_ascii_strcasecmp(id_unshared, sf->container_id))) {
+
+					display_container (E_GW_CONTAINER (container->data), sf);
+					g_free (id_shared);
+					g_free (id_unshared);
+					break;
+				}
+			
+				g_free (id_shared);
+				g_free (id_unshared);
+			}
+
+		} else
 			g_warning("Could not get the Container List");
 	}
 }

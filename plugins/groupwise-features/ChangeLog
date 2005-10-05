@@ -1,3 +1,10 @@
+2005-10-05  Vivek Jain <jvivek@novell.com>
+	
+	* share-folder.c : (display_container) moved code for comparing id's
+	to the getcontainer list part, we break if we find the matched.
+	also check for null before comparing, free the values
+	**Fixes #317906
+
 2005-09-30  Vivek Jain <jvivek@novell.com>
 	
 	* shared-folder-common.c: (org_gnome_create_option)
