@@ -1,3 +1,7 @@
+2005-10-05  Harish Krishnaswamy  <kharish@novell.com>
+
+	* C/evolution.xml: Set id to index. Fixes #316297.
+
 2005-06-15  Andre Klapper  <a9016009@gmx.de>
  	* quickref/C/quickref.tex: Updating and fixing several
  	typos, wrong keyboard shortcuts and inconsistencies
