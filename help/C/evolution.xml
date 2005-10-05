@@ -10,7 +10,7 @@
 ] >
 
 <?yelp:chunk-depth 3?>
-<book lang="en">
+<book id="index" lang="en">
 <title>Evolution User Guide</title>
 
  <bookinfo id="Front">
