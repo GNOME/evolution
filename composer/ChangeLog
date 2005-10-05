@@ -1,3 +1,11 @@
+2005-10-05  Parthasarathi Susarla <sparthasarathi@novell.com>
+	
+	** See bug #315987
+
+	* e-msg-composer-hdrs.c: (create_from_optionmenu):
+	Load the account info in the From header only if the
+	account is enabled
+
 2005-10-04  Srinivasa Ragavan <sragavan@novell.com>
 
 	** fixes bug #316937
