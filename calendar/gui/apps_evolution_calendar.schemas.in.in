@@ -148,6 +148,20 @@
     </schema>
 
     <schema>
+      <key>/schemas/apps/evolution/calendar/display/show_task_preview</key>
+      <applyto>/apps/evolution/calendar/display/show_task_preview</applyto>
+      <owner>evolution-calendar</owner>
+      <type>bool</type>
+      <default>true</default>
+      <locale name="C">
+         <short>Show the "Preview" pane</short>
+         <long>
+          Show the "Preview" pane.
+         </long>
+      </locale>
+    </schema>
+
+    <schema>
       <key>/schemas/apps/evolution/calendar/display/task_vpane_position</key>
       <applyto>/apps/evolution/calendar/display/task_vpane_position</applyto>
       <owner>evolution-calendar</owner>

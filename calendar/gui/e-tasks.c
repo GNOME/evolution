@@ -518,6 +518,7 @@ setup_widgets (ETasks *tasks)
 	ETasksPrivate *priv;
 	ETable *etable;
 	ECalModel *model;
+	gboolean state;
 
 	priv = tasks->priv;
 
@@ -586,7 +587,10 @@ setup_widgets (ETasks *tasks)
 	priv->preview = e_cal_component_preview_new ();
 	e_cal_component_preview_set_default_timezone (E_CAL_COMPONENT_PREVIEW (priv->preview), calendar_config_get_icaltimezone ());	
 	gtk_paned_add2 (GTK_PANED (priv->paned), priv->preview);
-	gtk_widget_show (priv->preview);
+	state = calendar_config_get_preview_state ();
+
+	if (state)
+		gtk_widget_show (priv->preview);
 
 	model = e_calendar_table_get_model (E_CALENDAR_TABLE (priv->tasks_view));
 	g_signal_connect (G_OBJECT (model), "model_row_changed",
@@ -997,6 +1001,52 @@ e_tasks_new_task			(ETasks		*tasks)
 	g_object_unref (comp);
 
 	comp_editor_focus (COMP_EDITOR (tedit));
+}
+
+void
+e_tasks_show_preview (ETasks *tasks, gboolean state)
+{
+	ETasksPrivate *priv;
+
+	g_return_val_if_fail (tasks != NULL, FALSE);
+	g_return_val_if_fail (E_IS_TASKS (tasks), FALSE);
+	priv = tasks->priv;
+
+	if (state) {
+		ECalModel *model;
+		ECalModelComponent *comp_data;
+		ECalComponent *comp;
+		ETable *etable;
+		const char *uid;
+		int n_selected;
+		
+		etable = e_table_scrolled_get_table (E_TABLE_SCROLLED (E_CALENDAR_TABLE (priv->tasks_view)->etable));
+		n_selected = e_table_selected_count (etable);
+		
+		if (n_selected != 1) {
+			e_cal_component_preview_clear (E_CAL_COMPONENT_PREVIEW (priv->preview));
+		} else {
+			model = e_calendar_table_get_model (E_CALENDAR_TABLE (priv->tasks_view));
+			
+			comp_data = e_cal_model_get_component_at (model, e_table_get_cursor_row (etable));
+			comp = e_cal_component_new ();
+			e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (comp_data->icalcomp));
+		
+			e_cal_component_preview_display (E_CAL_COMPONENT_PREVIEW (priv->preview), comp_data->client, comp);
+			
+			e_cal_component_get_uid (comp, &uid);
+			if (priv->current_uid)
+				g_free (priv->current_uid);
+			priv->current_uid = g_strdup (uid);
+			
+			g_object_unref (comp);
+		}
+		gtk_widget_show (priv->preview);
+
+	} else	{
+		e_cal_component_preview_clear (E_CAL_COMPONENT_PREVIEW (priv->preview));		
+		gtk_widget_hide (priv->preview);
+	}
 }
 
 gboolean

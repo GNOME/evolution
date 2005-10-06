@@ -15,6 +15,9 @@
     <cmd name="TasksPurge" _label="Purg_e" _tip="Delete completed tasks" accel="*Control*e"/>
     <cmd name="TasksAssign" _label="_Assign Task" accel="*Control*a"/>
     <cmd name="TasksForward" _label="_Forward as iCalendar" accel="*Control*f"/>
+
+    <cmd name="ViewPreview" _tip="Show task preview window" accel="*Control**Alt*v" type="toggle"/>
+
   </commands>
   
   <menu>
@@ -43,6 +46,12 @@
 	<separator/>
 
 	<menuitem name="TasksMarkComplete" verb="" _label="Mar_k as Complete"/>
+      </placeholder>
+    </submenu>
+
+    <submenu name="View" _label="_View">
+      <placeholder name="ViewPreview">
+        <menuitem name="ViewPreview" verb="" _label="Task _Preview"/>
       </placeholder>
     </submenu>
 

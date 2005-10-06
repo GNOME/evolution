@@ -1,3 +1,52 @@
+2005-10-06  Srinivasa Ragavan <sragavan@novell.com>
+
+	* calendar.error.xml: Added accels to the Disard new event/
+	task dialog.
+
+	* gui/apps_evolution_calendar.schemas.in.in: Added new key
+	for storing the presence of preview.
+
+	* gui/calendar-config-keys.h: Added key for preview status
+
+	* gui/calendar-config.[ch] (calendar_config_set_vpane_pos): Added
+	functions to get preview status.
+
+	* gui/e-meeting-list-view.c (build_table): makes the invites
+	tab list view tabs resizable and reorderable.
+
+	* gui/e-meeting-time-sel.c (e_meeting_time_selector_construct): Made
+	the recursive not show status and type.
+
+	* gui/e-tasks.[ch] (setup_widgets) (e_tasks_new_task): made a provsion
+	to show/hide the preview.
+
+	* gui/tasks-control.c (tasks_control_activate)
+	(tasks_control_forward_cmd): Added bonobo interface to show/hide
+	preview pane.
+
+	* gui/dialogs/comp-editor.c (attachment_bar_changed_cb) (setup_widgets) 
+	(comp_editor_append_page) (set_attachment_list): Added expander
+	for attachment bar.
+
+	* gui/dialogs/event-editor.c (event_editor_construct) (event_editor_edit_comp)
+	(show_meeting): Added accelerators for the comp editor dialogs for
+	tasks, event, meeting etc.
+
+	* gui/dialogs/event-page.glade: key accelerator for 'busy'
+
+	* gui/dialogs/meeting-page.c (remove_clicked_cb) (client_changed_cb) 
+	(popup_delete_cb) (button_press_event) (meeting_page_construct) 
+	
+	* gui/dialogs/meeting-page.glade: key accelerators for dialog.
+	
+	* gui/dialogs/task-details-page.glade: key accelerators for dialog.
+
+	* gui/dialogs/task-editor.c (task_editor_construct) (task_editor_edit_comp)
+	(show_assignment): Key accelerators for task tab 
+
+	* gui/dialogs/task-page.glade: key accelerators for task dialog
+
+
 2005-10-02  Srinivasa Ragavan <sragavan@novell.com>
 	
 	Provides across calendars keyboard accelerators for popup menus

@@ -102,6 +102,11 @@ static void tasks_control_forward_cmd          (BonoboUIComponent      *uic,
                                                 gpointer               data,
                                                 const char             *path);
 
+static void tasks_control_view_preview	       (BonoboUIComponent *uic, 
+						const char *path, 
+						Bonobo_UIComponent_EventType type, 
+						const char *state, 
+						void *data);
 	  
 BonoboControl *
 tasks_control_new (void)
@@ -245,7 +250,7 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_VERB ("TasksPrintPreview", tasks_control_print_preview_cmd),
 	BONOBO_UI_VERB ("TasksAssign", tasks_control_assign_cmd),
         BONOBO_UI_VERB ("TasksForward", tasks_control_forward_cmd),
-     
+     	BONOBO_UI_VERB ("ViewPreview", tasks_control_view_preview),
 	BONOBO_UI_VERB_END
 };
 
@@ -257,6 +262,7 @@ tasks_control_activate (BonoboControl *control, ETasks *tasks)
 	int n_selected;
 	ECalendarTable *cal_table;
 	ETable *etable;
+	gboolean state;
 
 	uic = bonobo_control_get_ui_component (control);
 	g_assert (uic != NULL);
@@ -289,8 +295,12 @@ tasks_control_activate (BonoboControl *control, ETasks *tasks)
 
 	tasks_control_sensitize_commands (control, tasks, n_selected);
 
-	bonobo_ui_component_thaw (uic, NULL);
+	state = calendar_config_get_preview_state();
 
+	bonobo_ui_component_thaw (uic, NULL);
+	
+	bonobo_ui_component_add_listener(uic, "ViewPreview", tasks_control_view_preview, tasks);
+	bonobo_ui_component_set_prop(uic, "/commands/ViewPreview", "state", state?"1":"0", NULL);
 	/* Show the dialog for setting the timezone if the user hasn't chosen
 	   a default timezone already. This is done in the startup wizard now,
 	   so we don't do it here. */
@@ -516,4 +526,18 @@ tasks_control_forward_cmd (BonoboUIComponent *uic,
                        itip_send_comp (E_CAL_COMPONENT_METHOD_PUBLISH, comp, comp_data->client, NULL, NULL);
                        g_object_unref (comp);
 	       }
-}	       
+}
+
+static void
+tasks_control_view_preview (BonoboUIComponent *uic, const char *path, Bonobo_UIComponent_EventType type, const char *state, void *data)
+{
+        ETasks *tasks;
+
+	if (type != Bonobo_UIComponent_STATE_CHANGED)
+		return;
+	
+	tasks = E_TASKS (data);
+
+	calendar_config_set_preview_state (state[0] != '0');
+	e_tasks_show_preview (tasks, state[0] != '0');
+}

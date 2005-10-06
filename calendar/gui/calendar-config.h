@@ -143,6 +143,9 @@ void	  calendar_config_set_hpane_pos		(gint	      hpane_pos);
 gint      calendar_config_get_vpane_pos		(void);
 void	  calendar_config_set_vpane_pos		(gint	      vpane_pos);
 
+gboolean  calendar_config_get_preview_state	(void);
+void	  calendar_config_set_preview_state	(gboolean     state);
+
 gint      calendar_config_get_month_hpane_pos	(void);
 void	  calendar_config_set_month_hpane_pos	(gint	      hpane_pos);
 

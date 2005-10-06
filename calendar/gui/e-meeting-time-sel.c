@@ -333,6 +333,9 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingStore *em
 	mts->list_view = e_meeting_list_view_new (mts->model);
 	e_meeting_list_view_column_set_visible (mts->list_view, "Role", FALSE);
 	e_meeting_list_view_column_set_visible (mts->list_view, "RSVP", FALSE);
+	e_meeting_list_view_column_set_visible (mts->list_view, "Status", FALSE);
+	e_meeting_list_view_column_set_visible (mts->list_view, "Type", FALSE);
+	
 	gtk_widget_show (GTK_WIDGET (mts->list_view));
 
 	

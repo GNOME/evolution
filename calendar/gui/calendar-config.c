@@ -539,6 +539,22 @@ calendar_config_set_vpane_pos		(gint	      vpane_pos)
 	gconf_client_set_int (config, CALENDAR_CONFIG_VPANE_POS, vpane_pos, NULL);
 }
 
+gboolean
+calendar_config_get_preview_state		(void)
+{
+	calendar_config_init ();
+
+	return gconf_client_get_bool (config, CALENDAR_CONFIG_TASK_PREVIEW, NULL);
+}
+
+
+void
+calendar_config_set_preview_state		(gboolean state)
+{
+	calendar_config_init ();
+
+	gconf_client_set_bool (config, CALENDAR_CONFIG_TASK_PREVIEW, state, NULL);
+}
 
 gint
 calendar_config_get_month_hpane_pos	(void)

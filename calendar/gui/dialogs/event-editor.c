@@ -138,7 +138,7 @@ event_editor_construct (EventEditor *ee, ECal *client)
 	gtk_object_sink (GTK_OBJECT (priv->event_page));
 	comp_editor_append_page (COMP_EDITOR (ee), 
 				 COMP_EDITOR_PAGE (priv->event_page),
-				 _("Appointment"));
+				 _("Appoint_ment"));
 	g_signal_connect (G_OBJECT (priv->event_page), "client_changed",
 			  G_CALLBACK (client_changed_cb), ee);
 
@@ -147,7 +147,7 @@ event_editor_construct (EventEditor *ee, ECal *client)
 	gtk_object_sink (GTK_OBJECT (priv->recur_page));
 	comp_editor_append_page (COMP_EDITOR (ee),
 				 COMP_EDITOR_PAGE (priv->recur_page),
-				 _("Recurrence"));
+				 _("_Recurrence"));
 
 	if (priv->is_meeting) {
 
@@ -161,7 +161,7 @@ event_editor_construct (EventEditor *ee, ECal *client)
 			gtk_object_sink (GTK_OBJECT (priv->sched_page));
 			comp_editor_append_page (COMP_EDITOR (ee),
 					COMP_EDITOR_PAGE (priv->sched_page),
-					_("Scheduling"));
+					_("Schedulin_g"));
 		}
 		
 		priv->meet_page = meeting_page_new (priv->model, client);
@@ -171,11 +171,11 @@ event_editor_construct (EventEditor *ee, ECal *client)
 		if (comp_editor_get_flags (COMP_EDITOR (ee)) & COMP_EDITOR_DELEGATE) {
 			comp_editor_append_page (COMP_EDITOR (ee),
 					 COMP_EDITOR_PAGE (priv->meet_page),
-					 _("Delegatees"));
+					 _("_Delegatees"));
 		} else
 			comp_editor_append_page (COMP_EDITOR (ee),
 					 COMP_EDITOR_PAGE (priv->meet_page),
-					 _("Attendees"));
+					 _("_Attendees"));
 		priv->meeting_shown=TRUE;
 	}
 	comp_editor_set_e_cal (COMP_EDITOR (ee), client);
@@ -245,10 +245,10 @@ event_editor_edit_comp (CompEditor *editor, ECalComponent *comp)
 		if (!priv->meeting_shown) {
 			comp_editor_append_page (COMP_EDITOR (ee),
 						 COMP_EDITOR_PAGE (priv->sched_page),
-						 _("Scheduling"));
+						 _("Schedulin_g"));
 			comp_editor_append_page (COMP_EDITOR (ee),
 						 COMP_EDITOR_PAGE (priv->meet_page),
-						 _("Invitations"));
+						 _("In_vitations"));
 		}
 		
 		if (!(delegate && e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_DELEGATE_TO_MANY))) {
@@ -419,10 +419,10 @@ show_meeting (EventEditor *ee)
 	if (!priv->meeting_shown) {
 		comp_editor_append_page (COMP_EDITOR (ee),
 					 COMP_EDITOR_PAGE (priv->sched_page),
-					 _("Scheduling"));
+					 _("Schedulin_g"));
 		comp_editor_append_page (COMP_EDITOR (ee),
 					 COMP_EDITOR_PAGE (priv->meet_page),
-					 _("Invitations"));
+					 _("In_vitations"));
 		priv->meeting_shown = TRUE;
 
  		comp_editor_set_changed (COMP_EDITOR (ee), FALSE);

@@ -1,3 +1,12 @@
+2005-10-06  Srinivasa Ragavan <sragavan@novell.com>
+
+	* evolution-addressbook.xml: Change preview pane to Contact Preview.
+	* evolution-mail-global.xml: 
+	* evolution-tasks.xml: Add task show/hide preview toggle button.
+
+	Make C+S+V as the short cut for show/hide preview uniformly, across 
+	evolution.
+	
 2005-09-24  Andre Klapper  <a9016009@gmx.de>
 	* evolution-message-composer.xml: changing the order of the
 	main menu items due to HIG (#308614)

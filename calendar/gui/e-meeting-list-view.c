@@ -347,6 +347,8 @@ build_table (EMeetingListView *lview)
 	GtkTreeView *view = GTK_TREE_VIEW (lview);
 	EMeetingListViewPrivate *priv;
 	GHashTable *edit_table;
+	GtkTreeViewColumn *col;
+	int pos;
 	
 	priv = lview->priv;
 	edit_table = priv->renderers;
@@ -355,45 +357,62 @@ build_table (EMeetingListView *lview)
 
 	renderer = e_select_names_renderer_new ();
 	g_object_set (G_OBJECT (renderer), "editable", TRUE, NULL);
-	gtk_tree_view_insert_column_with_attributes (view, -1, _("Attendee"), renderer,
+	/* The extra space is just a hack to occupy more space for Attendee */
+	pos = gtk_tree_view_insert_column_with_attributes (view, -1, _("Attendee                          "), renderer,
 						     "text", E_MEETING_STORE_ATTENDEE_COL,
 						     "name", E_MEETING_STORE_CN_COL,
 						     "email", E_MEETING_STORE_ADDRESS_COL,
 						     "underline", E_MEETING_STORE_ATTENDEE_UNDERLINE_COL,
 						     NULL);
+	col = gtk_tree_view_get_column (view, pos -1);
+	gtk_tree_view_column_set_resizable (col, TRUE);
+	gtk_tree_view_column_set_reorderable(col, TRUE);
+	g_object_set (col, "width", 50, NULL);
 	g_signal_connect (renderer, "cell_edited", G_CALLBACK (attendee_edited_cb), view);
 	g_signal_connect (renderer, "editing-canceled", G_CALLBACK (attendee_editing_canceled_cb), view);
 	g_hash_table_insert (edit_table, GINT_TO_POINTER (E_MEETING_STORE_ATTENDEE_COL), renderer);	
 	
 	renderer = e_cell_renderer_combo_new ();
 	g_object_set (G_OBJECT (renderer), "list", get_type_strings (), "editable", TRUE, NULL);
-	gtk_tree_view_insert_column_with_attributes (view, -1, _("Type"), renderer,
+	pos = gtk_tree_view_insert_column_with_attributes (view, -1, _("Type"), renderer,
 						     "text", E_MEETING_STORE_TYPE_COL,
 						     NULL);
+	col = gtk_tree_view_get_column (view, pos -1);
+	gtk_tree_view_column_set_resizable (col, TRUE);
+	gtk_tree_view_column_set_reorderable(col, TRUE);
 	g_signal_connect (renderer, "edited", G_CALLBACK (type_edited_cb), view);
 	g_hash_table_insert (edit_table, GINT_TO_POINTER (E_MEETING_STORE_TYPE_COL), renderer); 
 	
 	renderer = e_cell_renderer_combo_new ();
 	g_object_set (G_OBJECT (renderer), "list", get_role_strings (), "editable", TRUE, NULL);
-	gtk_tree_view_insert_column_with_attributes (view, -1, _("Role"), renderer,
+	pos = gtk_tree_view_insert_column_with_attributes (view, -1, _("Role"), renderer,
 						     "text", E_MEETING_STORE_ROLE_COL,
 						     NULL);
+	col = gtk_tree_view_get_column (view, pos -1);
+	gtk_tree_view_column_set_resizable (col, TRUE);
+	gtk_tree_view_column_set_reorderable(col, TRUE);
 	g_signal_connect (renderer, "edited", G_CALLBACK (role_edited_cb), view);
 	g_hash_table_insert (edit_table, GINT_TO_POINTER (E_MEETING_STORE_ROLE_COL), renderer);
 
 	renderer = e_cell_renderer_combo_new ();
 	g_object_set (G_OBJECT (renderer), "list", get_rsvp_strings (), "editable", TRUE, NULL);
-	gtk_tree_view_insert_column_with_attributes (view, -1, _("RSVP"), renderer,
+	pos = gtk_tree_view_insert_column_with_attributes (view, -1, _("RSVP"), renderer,
 						     "text", E_MEETING_STORE_RSVP_COL,
 						     NULL);
+	col = gtk_tree_view_get_column (view, pos -1);
+	gtk_tree_view_column_set_resizable (col, TRUE);
+	gtk_tree_view_column_set_reorderable(col, TRUE);
 	g_signal_connect (renderer, "edited", G_CALLBACK (rsvp_edited_cb), view);
 	g_hash_table_insert (edit_table, GINT_TO_POINTER (E_MEETING_STORE_RSVP_COL), renderer);
 
 	renderer = e_cell_renderer_combo_new ();
 	g_object_set (G_OBJECT (renderer), "list", get_status_strings (), "editable", TRUE, NULL);
-	gtk_tree_view_insert_column_with_attributes (view, -1, _("Status"), renderer,
+	pos = gtk_tree_view_insert_column_with_attributes (view, -1, _("Status"), renderer,
 						     "text", E_MEETING_STORE_STATUS_COL,
 						     NULL);
+	col = gtk_tree_view_get_column (view, pos -1);
+	gtk_tree_view_column_set_resizable (col, TRUE);
+	gtk_tree_view_column_set_reorderable(col, TRUE);
 	g_signal_connect (renderer, "edited", G_CALLBACK (status_edited_cb), view);
 	g_hash_table_insert (edit_table, GINT_TO_POINTER (E_MEETING_STORE_STATUS_COL), renderer);
 	

@@ -106,22 +106,22 @@
   <button stock="gtk-delete" response="GTK_RESPONSE_YES"/>
  </error>
 
- <error id="prompt-save-appointment" type="question" default="GTK_RESPONSE_YES">
+ <error id="prompt-save-appointment" type="warning" default="GTK_RESPONSE_YES">
   <title>Save Appointment</title>
   <_primary>Would you like to save your changes to this appointment?</_primary>
-  <_secondary>You have made changes to this appointment, but not yet saved them.</_secondary>
-  <button _label="Discard Changes" response="GTK_RESPONSE_NO"/>
+  <_secondary>You have changed this appointment, but not yet saved them.</_secondary>
+  <button _label="_Discard Changes" response="GTK_RESPONSE_NO"/>
   <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
-  <button _label="Save Changes" response="GTK_RESPONSE_YES"/>
+  <button _label="_Save Changes" response="GTK_RESPONSE_YES"/>
  </error>
 
- <error id="prompt-save-task" type="question" default="GTK_RESPONSE_YES">
+ <error id="prompt-save-task" type="warning" default="GTK_RESPONSE_YES">
  <title>Save Task</title>
  <_primary>Would you like to save your changes to this task?</_primary>
  <_secondary>You have made changes to this task, but not yet saved them.</_secondary>
- <button _label="Discard Changes" response="GTK_RESPONSE_NO"/>
+ <button _label="_Discard Changes" response="GTK_RESPONSE_NO"/>
  <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
- <button _label="Save Changes" response="GTK_RESPONSE_YES"/>
+ <button _label="_Save Changes" response="GTK_RESPONSE_YES"/>
  </error>
 	      
  <error id="prompt-meeting-invite" type="question" default="GTK_RESPONSE_YES">

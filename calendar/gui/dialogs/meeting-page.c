@@ -32,6 +32,8 @@
 #include <gtk/gtktogglebutton.h>
 #include <gtk/gtkvbox.h>
 #include <gtk/gtkwindow.h>
+#include <gtk/gtktreeselection.h>
+#include <gdk/gdkkeysyms.h>
 #include <libgnome/gnome-i18n.h>
 #include <glade/glade.h>
 #include <libgnomeui/gnome-stock-icons.h>
@@ -747,41 +749,54 @@ remove_clicked_cb (GtkButton *btn, MeetingPage *mpage)
 	MeetingPagePrivate *priv;
 	EMeetingAttendee *ia;
 	GtkTreeSelection *selection;
+	GList *paths = NULL, *tmp;
 	GtkTreeIter iter;
-	GtkTreePath *path;
+	GtkTreePath *path = NULL;
 	gboolean valid_iter;
 	char *address;
 	
 	priv = mpage->priv;
 
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (priv->list_view));
-	if (!gtk_tree_selection_get_selected (selection, NULL, &iter)) {
+	if (!(paths = gtk_tree_selection_get_selected_rows (selection, &(priv->model)))) {
 		g_warning ("Could not get a selection to delete.");
 		return;
 	}
-	path = gtk_tree_model_get_path (GTK_TREE_MODEL (priv->model), &iter);	
+	paths = g_list_reverse (paths);
 	
-	gtk_tree_model_get (GTK_TREE_MODEL (priv->model), &iter, E_MEETING_STORE_ADDRESS_COL, &address, -1);
-	ia = e_meeting_store_find_attendee (priv->model, address, NULL);
-	g_free (address);
-	if (!ia)
-		return;
-	else if (e_meeting_attendee_get_edit_level (ia) != E_MEETING_ATTENDEE_EDIT_FULL)
-		return;
-	
-	remove_attendee (mpage, ia);
+	for (tmp = paths; tmp; tmp=tmp->next) {
+		path = tmp->data;
+		
+		gtk_tree_model_get_iter (GTK_TREE_MODEL(priv->model), &iter, path);
 
+		gtk_tree_model_get (GTK_TREE_MODEL (priv->model), &iter, E_MEETING_STORE_ADDRESS_COL, &address, -1);
+		ia = e_meeting_store_find_attendee (priv->model, address, NULL);
+		g_free (address);
+		if (!ia) {
+			g_warning ("Cannot delete attendee\n");
+			continue;
+		} else if (e_meeting_attendee_get_edit_level (ia) != E_MEETING_ATTENDEE_EDIT_FULL) {
+			g_warning("Not enough rights to delete attendee: %s\n", e_meeting_attendee_get_address(ia));	
+			continue;
+		}
+		
+		remove_attendee (mpage, ia);
+	}
+	
 	/* Select closest item after removal */
 	valid_iter = gtk_tree_model_get_iter (GTK_TREE_MODEL (priv->model), &iter, path);
 	if (!valid_iter) {
 		gtk_tree_path_prev (path);
 		valid_iter = gtk_tree_model_get_iter (GTK_TREE_MODEL (priv->model), &iter, path);
 	}
-
-	if (valid_iter)
+	
+	if (valid_iter) {
+		gtk_tree_selection_unselect_all (selection);
 		gtk_tree_selection_select_iter (selection, &iter);
-
-	gtk_tree_path_free (path);
+	}
+	
+	g_list_foreach (paths, gtk_tree_path_free, NULL);
+	g_list_free (paths);
 }
 
 /* Function called to invite more people */
@@ -864,6 +879,14 @@ client_changed_cb (CompEditorPage *page, ECal *client, gpointer user_data)
 }
 
 static void
+popup_add_cb (EPopup *ep, EPopupItem *pitem, void *data)
+{
+	MeetingPage *mpage = data;
+
+	add_clicked_cb (NULL, mpage);
+}
+
+static void
 popup_delete_cb (EPopup *ep, EPopupItem *pitem, void *data)
 {
 	MeetingPage *mpage = data;
@@ -871,20 +894,19 @@ popup_delete_cb (EPopup *ep, EPopupItem *pitem, void *data)
 	
 	priv = mpage->priv;
 
-	remove_attendee_at_row (mpage, priv->row);
+	remove_clicked_cb (NULL, mpage);
 }
 
 enum {
-	CAN_DELEGATE = 2,
-	CAN_DELETE = 4
+	ATTENDEE_CAN_DELEGATE = 1<<1,
+	ATTENDEE_CAN_DELETE = 1<<2,
+	ATTENDEE_CAN_ADD = 1<<3,
+	ATTENDEE_LAST = 1<<4,
 };
 
 static EPopupItem context_menu_items[] = {
-#if 0
-	{ E_POPUP_ITEM, "00.delegate", N_("_Delegate To..."), popup_delegate_cb, NULL, NULL, CAN_DELEGATE },
-	{ E_POPUP_BAR, "05.bar" },
-#endif
-	{ E_POPUP_ITEM, "10.delete", N_("_Remove"), popup_delete_cb, NULL, GTK_STOCK_REMOVE, CAN_DELETE },
+	{ E_POPUP_ITEM, "10.delete", N_("_Remove"), popup_delete_cb, NULL, GTK_STOCK_REMOVE, ATTENDEE_CAN_DELETE },
+	{ E_POPUP_ITEM, "15.add", N_("_Add "), popup_add_cb, NULL, GTK_STOCK_ADD },	
 };
 
 static void
@@ -902,7 +924,7 @@ button_press_event (GtkWidget *widget, GdkEventButton *event, MeetingPage *mpage
 	GtkTreePath *path;
 	GtkTreeIter iter;
 	char *address;
-	int disable_mask = 0;
+	guint32 disable_mask = ~0;
 	GSList *menus = NULL;
 	ECalPopup *ep;
 	int i;
@@ -914,29 +936,82 @@ button_press_event (GtkWidget *widget, GdkEventButton *event, MeetingPage *mpage
 		return FALSE;
 
 	/* only if we right-click on an attendee */
-	if (!gtk_tree_view_get_path_at_pos (GTK_TREE_VIEW (priv->list_view), event->x, event->y, &path, NULL, NULL, NULL))
-		return FALSE;
-	if (!gtk_tree_model_get_iter (GTK_TREE_MODEL (priv->model), &iter, path))
-		return FALSE;
-	
-	gtk_tree_model_get (GTK_TREE_MODEL (priv->model), &iter, E_MEETING_STORE_ADDRESS_COL, &address, -1);
-	ia = e_meeting_store_find_attendee (priv->model, address, &priv->row);
-	g_free (address);
-	if (!ia)
-		return FALSE;
-	
- 	if (e_meeting_attendee_get_edit_level (ia) != E_MEETING_ATTENDEE_EDIT_FULL)
- 		disable_mask = CAN_DELETE;
+	if (gtk_tree_view_get_path_at_pos (GTK_TREE_VIEW (priv->list_view), event->x, event->y, &path, NULL, NULL, NULL)) {
+		GtkTreeSelection *selection;
+
+		if (gtk_tree_model_get_iter (GTK_TREE_MODEL (priv->model), &iter, path)) {
+		
+			gtk_tree_model_get (GTK_TREE_MODEL (priv->model), &iter, E_MEETING_STORE_ADDRESS_COL, &address, -1);
+			ia = e_meeting_store_find_attendee (priv->model, address, &priv->row);
+			g_free (address);
+
+			if (ia) {
+				selection = gtk_tree_view_get_selection (priv->list_view);
+				gtk_tree_selection_unselect_all (selection);
+				gtk_tree_selection_select_path (selection, path);
+		
+ 				if (e_meeting_attendee_get_edit_level (ia) == E_MEETING_ATTENDEE_EDIT_FULL)
+ 					disable_mask &= ~ATTENDEE_CAN_DELETE;
+			}
+		}
+	}
+
+	if (GTK_WIDGET_IS_SENSITIVE(priv->add))
+		disable_mask &= ~ATTENDEE_CAN_ADD;
+	else if (priv->user_org)
+		disable_mask &= ~ATTENDEE_CAN_ADD;
 
 	ep = e_cal_popup_new("org.gnome.evolution.calendar.meeting.popup");
+
 	for (i=0;i<sizeof(context_menu_items)/sizeof(context_menu_items[0]);i++)
 		menus = g_slist_prepend(menus, &context_menu_items[i]);
-
+	
 	e_popup_add_items((EPopup *)ep, menus, NULL, context_popup_free, mpage);
 	menu = e_popup_create_menu_once((EPopup *)ep, NULL, disable_mask);
 	gtk_menu_popup (menu, NULL, NULL, NULL, NULL, event->button, event->time);
 
 	return TRUE;
+}
+
+static gboolean
+list_view_event (EMeetingListView *list_view, GdkEvent *event, MeetingPage *mpage) {
+	
+	MeetingPagePrivate *priv= mpage->priv;
+	
+	if (event->type == GDK_2BUTTON_PRESS && mpage->priv->user_org) {
+		EMeetingAttendee *attendee;
+	
+		attendee = e_meeting_store_add_attendee_with_defaults (priv->model);
+
+		if (COMP_EDITOR_PAGE (mpage)->flags & COMP_EDITOR_PAGE_DELEGATE) {
+			e_meeting_attendee_set_delfrom (attendee, g_strdup_printf ("MAILTO:%s", mpage->priv->user_add));
+		}
+
+		e_meeting_list_view_edit (mpage->priv->list_view, attendee);
+		return TRUE;
+	}
+
+	return FALSE;	
+}
+
+
+static gboolean
+list_key_press (EMeetingListView *list_view, GdkEventKey *event, MeetingPage *mpage)
+{
+	if (event->keyval == GDK_Delete) {
+		MeetingPagePrivate *priv;
+	
+		priv = mpage->priv;
+		remove_clicked_cb (NULL, mpage);
+
+		return TRUE;
+	} else if (event->keyval == GDK_Insert) {
+		add_clicked_cb (NULL, mpage);
+
+		return TRUE;
+	}
+
+	return FALSE;
 }
 
 /**
@@ -959,6 +1034,7 @@ meeting_page_construct (MeetingPage *mpage, EMeetingStore *ems,
 	GList *address_strings = NULL, *l;
 	GtkWidget *sw;
 	EAccount *a;
+	GtkTreeSelection *selection;
 	
 	priv = mpage->priv;
 
@@ -1022,11 +1098,15 @@ meeting_page_construct (MeetingPage *mpage, EMeetingStore *ems,
 	priv->model = ems;
 
 	priv->list_view = e_meeting_list_view_new (priv->model); 
+	selection = gtk_tree_view_get_selection (priv->list_view);
+	gtk_tree_selection_set_mode (selection, GTK_SELECTION_MULTIPLE);
+	
 	g_signal_connect (G_OBJECT (priv->list_view), "button_press_event", G_CALLBACK (button_press_event), mpage);
+	g_signal_connect (G_OBJECT (priv->list_view), "event", G_CALLBACK (list_view_event), mpage);	
 
 	gtk_widget_show (GTK_WIDGET (priv->list_view));
 	sw = gtk_scrolled_window_new (NULL, NULL);
-	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw), GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (sw), GTK_SHADOW_IN);
 	gtk_widget_show (sw);
 	gtk_container_add (GTK_CONTAINER (sw), GTK_WIDGET (priv->list_view));
@@ -1040,6 +1120,7 @@ meeting_page_construct (MeetingPage *mpage, EMeetingStore *ems,
 
 	g_signal_connect_after (G_OBJECT (mpage), "client_changed",
 				G_CALLBACK (client_changed_cb), NULL);
+	g_signal_connect (priv->list_view, "key_press_event", list_key_press, mpage);
 
 	return mpage;
 }

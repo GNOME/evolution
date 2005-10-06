@@ -78,7 +78,7 @@ void       e_tasks_complete_selected (ETasks            *tasks);
 void       e_tasks_delete_selected   (ETasks            *tasks);
 void       e_tasks_delete_completed  (ETasks            *tasks);
 
-
+void e_tasks_show_preview (ETasks *tasks, gboolean state);
 void e_tasks_setup_view_menus (ETasks *tasks, BonoboUIComponent *uic);
 void e_tasks_discard_view_menus (ETasks *tasks);
 

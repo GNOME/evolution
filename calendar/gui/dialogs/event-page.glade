@@ -624,7 +624,7 @@
 		<widget class="GtkCheckButton" id="show-time-as-busy">
 		  <property name="visible">True</property>
 		  <property name="can_focus">True</property>
-		  <property name="label" translatable="yes">Show time as _busy</property>
+		  <property name="label" translatable="yes">Show time as bus_y</property>
 		  <property name="use_underline">True</property>
 		  <property name="relief">GTK_RELIEF_NORMAL</property>
 		  <property name="focus_on_click">True</property>
@@ -646,7 +646,7 @@
 		<widget class="GtkCheckButton" id="alarm">
 		  <property name="visible">True</property>
 		  <property name="can_focus">True</property>
-		  <property name="label" translatable="yes">_Alarm</property>
+		  <property name="label" translatable="yes">Ala_rm</property>
 		  <property name="use_underline">True</property>
 		  <property name="relief">GTK_RELIEF_NORMAL</property>
 		  <property name="focus_on_click">True</property>

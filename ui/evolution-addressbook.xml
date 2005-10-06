@@ -59,9 +59,9 @@
 	 _tip="Move Selected Contacts to Another Folder..."
 	 accel="*Control**Shift*v"/>
 
-    <cmd name="ContactsViewPreview" _label="_Preview Pane"
+    <cmd name="ContactsViewPreview" _label="Contact _Preview"
 	 _tip="Show contact preview window"
-	 accel="*Control*grave"
+	 accel="*Control**Alt*v"
 	 type="toggle"/>
   </commands>
 
@@ -84,7 +84,7 @@
     </submenu>
 
     <submenu name="View" _label="_View">
-      <menuitem name="ContactsViewPreview" verb="" _label="_Preview Pane"/>
+      <menuitem name="ContactsViewPreview" verb="" _label="Contact _Preview"/>
     </submenu>
 
     <submenu name="Edit" _label="_Edit">
