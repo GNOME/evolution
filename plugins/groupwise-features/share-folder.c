@@ -406,7 +406,8 @@ remove_clicked(GtkButton *button, ShareFolder *sf)
 		usr->flag |= 0x4;
 	}
 	g_free (email);
-	gtk_list_store_remove (GTK_LIST_STORE (sf->model), &(sf->iter));
+	if (!gtk_list_store_remove (GTK_LIST_STORE (sf->model), &(sf->iter)))
+		gtk_widget_set_sensitive (GTK_WIDGET (sf->remove), FALSE);
 	sf->flag_for_ok = 1;
 }
 
