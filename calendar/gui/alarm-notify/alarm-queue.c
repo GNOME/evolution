@@ -98,7 +98,7 @@ typedef struct {
 	ClientAlarms *parent_client;
 
 	/* The component's UID */
-	char *uid;
+	ECalComponentId *id;
 
 	/* The actual component and its alarm instances */
 	ECalComponentAlarms *alarms;
@@ -268,9 +268,9 @@ remove_queued_alarm (CompQueuedAlarms *cqa, gpointer alarm_id,
 		return;
 
 	if (free_object) {
-		g_hash_table_remove (cqa->parent_client->uid_alarms_hash, cqa->uid);
-		g_free (cqa->uid);
-		cqa->uid = NULL;
+		g_hash_table_remove (cqa->parent_client->uid_alarms_hash, cqa->id);
+		e_cal_component_free_id (cqa->id);
+		cqa->id = NULL;
 		cqa->parent_client = NULL;
 		e_cal_component_alarms_free (cqa->alarms);
 		g_free (cqa);
@@ -341,7 +341,7 @@ alarm_trigger_cb (gpointer alarm_id, time_t trigger, gpointer data)
 static void
 add_component_alarms (ClientAlarms *ca, ECalComponentAlarms *alarms)
 {
-	const char *uid;
+	ECalComponentId *id;
 	CompQueuedAlarms *cqa;
 	GSList *l;
 
@@ -384,13 +384,10 @@ add_component_alarms (ClientAlarms *ca, ECalComponentAlarms *alarms)
 		cqa->queued_alarms = g_slist_prepend (cqa->queued_alarms, qa);
 	}
 
-	e_cal_component_get_uid (alarms->comp, &uid);
+	id = e_cal_component_get_id (alarms->comp);
 
 	/* If we failed to add all the alarms, then we should get rid of the cqa */
 	if (cqa->queued_alarms == NULL) {
-		g_message ("add_component_alarms(): Could not add any of the alarms "
-			   "for the component `%s'; discarding it...", uid);
-
 		e_cal_component_alarms_free (cqa->alarms);
 		cqa->alarms = NULL;
 
@@ -399,8 +396,8 @@ add_component_alarms (ClientAlarms *ca, ECalComponentAlarms *alarms)
 	}
 
 	cqa->queued_alarms = g_slist_reverse (cqa->queued_alarms);
-	cqa->uid = g_strdup (uid);
-	g_hash_table_insert (ca->uid_alarms_hash, cqa->uid, cqa);
+	cqa->id = id;
+	g_hash_table_insert (ca->uid_alarms_hash, cqa->id, cqa);
 }
 
 /* Loads the alarms of a client for a given range of time */
@@ -486,9 +483,9 @@ cal_opened_cb (ECal *client, ECalendarStatus status, gpointer data)
 
 /* Looks up a component's queued alarm structure in a client alarms structure */
 static CompQueuedAlarms *
-lookup_comp_queued_alarms (ClientAlarms *ca, const char *uid)
+lookup_comp_queued_alarms (ClientAlarms *ca, const ECalComponentId *id)
 {
-	return g_hash_table_lookup (ca->uid_alarms_hash, uid);
+	return g_hash_table_lookup (ca->uid_alarms_hash, id);
 }
 
 static void
@@ -515,11 +512,11 @@ remove_alarms (CompQueuedAlarms *cqa, gboolean free_object)
 
 /* Removes a component an its alarms */
 static void
-remove_comp (ClientAlarms *ca, const char *uid)
+remove_comp (ClientAlarms *ca, const ECalComponentId *id)
 {
 	CompQueuedAlarms *cqa;
 
-	cqa = lookup_comp_queued_alarms (ca, uid);
+	cqa = lookup_comp_queued_alarms (ca, id);
 	if (!cqa)
 		return;
 
@@ -533,7 +530,7 @@ remove_comp (ClientAlarms *ca, const char *uid)
 	/* The list should be empty now, and thus the queued component alarms
 	 * structure should have been freed and removed from the hash table.
 	 */
-	g_assert (lookup_comp_queued_alarms (ca, uid) == NULL);
+	g_assert (lookup_comp_queued_alarms (ca, id) == NULL);
 }
 
 /* Called when a calendar component changes; we must reload its corresponding
@@ -563,22 +560,30 @@ query_objects_changed_cb (ECal *client, GList *objects, gpointer data)
 	day_end = time_day_end_with_zone (time (NULL), zone);
 	g_message ("Query response for alarms");
 	for (l = objects; l != NULL; l = l->next) {
-		const char *uid;
+		ECalComponentId *id;
 		GSList *sl;
+		ECalComponent *comp = e_cal_component_new ();
 
-		uid = icalcomponent_get_uid (l->data);
-		found = e_cal_get_alarms_for_object (ca->client, uid, from, day_end, &alarms);
+		e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (l->data));
+
+		id = e_cal_component_get_id (comp);
+		found = e_cal_get_alarms_for_object (ca->client, id, from, day_end, &alarms);
 
 		if (!found) {
 			g_message ("No alarms found on object");
-			remove_comp (ca, uid);
+			remove_comp (ca, id);
+			e_cal_component_free_id (id);
+			g_object_unref (comp);
+			comp = NULL;
 			continue;
 		}
 
-		cqa = lookup_comp_queued_alarms (ca, uid);
+		cqa = lookup_comp_queued_alarms (ca, id);
 		if (!cqa) {
 			g_message ("No currently queue alarms");
 			add_component_alarms (ca, alarms);
+			g_object_unref (comp);
+			comp = NULL;
 			continue;
 		}
 
@@ -588,11 +593,7 @@ query_objects_changed_cb (ECal *client, GList *objects, gpointer data)
 		if (alarms == NULL || alarms->alarms == NULL) {
 		
 			/* update the cqa and its queued alarms for changes in summary and alarm_uid  */
-			ECalComponent *newcomp = e_cal_component_new ();
-			if (!e_cal_component_set_icalcomponent (newcomp, icalcomponent_new_clone (l->data)))
-				g_warning ("couldn't update calendar component with modified data from backend\n");
-
-			update_cqa (cqa, newcomp);
+			update_cqa (cqa, comp);
 
 			if (alarms)
 				e_cal_component_alarms_free (alarms);
@@ -628,6 +629,8 @@ query_objects_changed_cb (ECal *client, GList *objects, gpointer data)
 		}
 		
 		cqa->queued_alarms = g_slist_reverse (cqa->queued_alarms);
+		g_object_unref (comp);
+		comp = NULL;
 	}
 }
 
@@ -1407,6 +1410,23 @@ alarm_queue_done (void)
 	alarm_queue_inited = FALSE;
 }
 
+static gboolean 
+compare_ids (gpointer a, gpointer b)
+{
+	ECalComponentId *id, *id1;
+
+	id = a;
+	id1 = b;
+	
+	if (g_str_equal (id->uid, id1->uid)) {
+		if (id->rid && id1->rid)
+			return g_str_equal (id->rid, id1->rid);
+		else if (!(id->rid && id1->rid))
+			return TRUE;
+	} 
+	return FALSE;
+}
+
 /**
  * alarm_queue_add_client:
  * @client: A calendar client.
@@ -1443,7 +1463,7 @@ alarm_queue_add_client (ECal *client)
 
 	g_hash_table_insert (client_alarms_hash, client, ca);
 
-	ca->uid_alarms_hash = g_hash_table_new (g_str_hash, g_str_equal);
+	ca->uid_alarms_hash = g_hash_table_new (g_str_hash, (GEqualFunc) compare_ids);
 
 	if (e_cal_get_load_state (client) == E_CAL_LOAD_LOADED) {
 		load_alarms_for_today (ca);
@@ -1456,38 +1476,37 @@ alarm_queue_add_client (ECal *client)
 
 /* Called from g_hash_table_foreach(); adds a component UID to a list */
 static void
-add_uid_cb (gpointer key, gpointer value, gpointer data)
+add_id_cb (gpointer key, gpointer value, gpointer data)
 {
-	GSList **uids;
-	const char *uid;
+	GSList **ids;
+	const ECalComponentId *id;
 
-	uids = data;
-	uid = key;
+	ids = data;
+	id = key;
 
-	*uids = g_slist_prepend (*uids, (char *) uid);
+	*ids = g_slist_prepend (*ids, (ECalComponentId *) id);
 }
 
 /* Removes all the alarms queued for a particular calendar client */
 static void
 remove_client_alarms (ClientAlarms *ca)
 {
-	GSList *uids;
+	GSList *ids = NULL;
 	GSList *l;
 
 	/* First we build a list of UIDs so that we can remove them one by one */
 
-	uids = NULL;
-	g_hash_table_foreach (ca->uid_alarms_hash, add_uid_cb, &uids);
+	g_hash_table_foreach (ca->uid_alarms_hash, add_id_cb, &ids);
 
-	for (l = uids; l; l = l->next) {
-		const char *uid;
+	for (l = ids; l; l = l->next) {
+		const ECalComponentId *id;
 
-		uid = l->data;
+		id = l->data;
 
-		remove_comp (ca, uid);
+		remove_comp (ca, id);
 	}
 
-	g_slist_free (uids);
+	g_slist_free (ids);
 
 	/* The hash table should be empty now */
 
@@ -1548,11 +1567,9 @@ update_cqa (CompQueuedAlarms *cqa, ECalComponent *newcomp)
 	GSList *qa_list;	/* List of current QueuedAlarms corresponding to cqa */
 	time_t from, to;
 	icaltimezone *zone;
-	char *uid;
 	ECalComponentAlarmAction omit[] = {-1};
 
 	oldcomp = cqa->alarms->comp;
-	e_cal_component_get_uid (newcomp, (const char **)&uid); 
 
 	zone = config_data_get_timezone ();
 	from = time_day_begin_with_zone (time (NULL), zone);

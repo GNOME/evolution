@@ -1296,14 +1296,21 @@ hide_completed_rows (ECalModel *model, GList *clients_list, char *hide_sexp, GPt
 
 		for (m = objects; m; m = m->next) {
 			ECalModelComponent *comp_data;
+			ECalComponentId *id;
+			ECalComponent *comp = e_cal_component_new ();
 
-			if ((comp_data =  e_cal_model_get_component_for_uid (model, icalcomponent_get_uid (m->data)))) {
+			e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (m->data));
+			id = e_cal_component_get_id (comp);
+
+			if ((comp_data =  e_cal_model_get_component_for_uid (model, id))) {
 				e_table_model_pre_change (E_TABLE_MODEL (model));
 				pos = get_position_in_array (comp_objects, comp_data);
 				e_table_model_row_deleted (E_TABLE_MODEL (model), pos);
 
 				g_ptr_array_remove (comp_objects, comp_data);
 			}
+			e_cal_component_free_id (id);
+			g_object_unref (comp);
 		}
 
 		g_list_foreach (objects, (GFunc) icalcomponent_free, NULL);
@@ -1328,8 +1335,13 @@ show_completed_rows (ECalModel *model, GList *clients_list, char *show_sexp, GPt
 
 		for (m = objects; m; m = m->next) {
 			ECalModelComponent *comp_data;
+			ECalComponentId *id;
+			ECalComponent *comp = e_cal_component_new ();
 
-			if (!(e_cal_model_get_component_for_uid (model, icalcomponent_get_uid (m->data)))) {
+			e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (m->data));
+			id = e_cal_component_get_id (comp);
+
+			if (!(e_cal_model_get_component_for_uid (model, id))) {
 				e_table_model_pre_change (E_TABLE_MODEL (model));
 				comp_data = g_new0 (ECalModelComponent, 1);
 				comp_data->client = client;
@@ -1342,6 +1354,8 @@ show_completed_rows (ECalModel *model, GList *clients_list, char *show_sexp, GPt
 				g_ptr_array_add (comp_objects, comp_data);
 				e_table_model_row_inserted (E_TABLE_MODEL (model), comp_objects->len - 1);
 			} 
+			e_cal_component_free_id (id);
+			g_object_unref (comp);
 		}
 	}
 }

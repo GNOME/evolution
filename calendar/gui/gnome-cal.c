@@ -516,7 +516,7 @@ dn_e_cal_view_objects_modified_cb (ECalView *query, GList *objects, gpointer dat
 
 /* Callback used when the calendar query reports of a removed object */
 static void
-dn_e_cal_view_objects_removed_cb (ECalView *query, GList *uids, gpointer data)
+dn_e_cal_view_objects_removed_cb (ECalView *query, GList *ids, gpointer data)
 {
 	GnomeCalendar *gcal;
 

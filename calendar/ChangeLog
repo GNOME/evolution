@@ -1,3 +1,24 @@
+2005-10-10  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #266144, 317575.
+	* gui/alarm-notify/alarm-queue.c: (remove_queued_alarm),
+	(add_component_alarms), (lookup_comp_queued_alarms), (remove_comp),
+	(query_objects_changed_cb), (compare_ids),
+	(alarm_queue_add_client), (add_id_cb), (remove_client_alarms),
+	(update_cqa): 
+	* gui/e-cal-model.c (search_by_id_and_client):Use ECalComponentId.
+	(e_cal_view_objects_added_cb), (e_cal_view_objects_modified_cb),
+	(e_cal_view_objects_removed_cb),
+	(e_cal_model_get_component_for_uid),
+	(e_cal_model_set_instance_times): set the proper timezone.
+	* gui/e-cal-model.h:
+	* gui/e-calendar-view.c: (delete_event): Do not remove the 
+	recurrence id.
+	* gui/e-calendar-table.c (hide_completed_rows),
+	(show_completed_rows): Use ECalComponentId to get a component
+	for model.
+	* gui/gnome-cal.c: (dn_e_cal_view_objects_removed_cb):
+
 2005-10-06  Srinivasa Ragavan <sragavan@novell.com>
 
 	* calendar.error.xml: Added accels to the Disard new event/

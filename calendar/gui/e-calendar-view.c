@@ -863,7 +863,10 @@ delete_event (ECalendarView *cal_view, ECalendarViewEvent *event)
 	comp = e_cal_component_new ();
 	e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
 	vtype = e_cal_component_get_vtype (comp);
-	e_cal_component_set_recurid (comp, NULL);
+	
+	/*FIXME remove it once the we dont set the recurrence id for all the generated instances */	
+	if (!e_cal_get_static_capability (event->comp_data->client, CAL_STATIC_CAPABILITY_RECURRENCES_NO_MASTER))
+		e_cal_component_set_recurid (comp, NULL);
 
 	if (delete_component_dialog (comp, FALSE, 1, vtype, GTK_WIDGET (cal_view))) {
 		const char *uid;
@@ -882,8 +885,9 @@ delete_event (ECalendarView *cal_view, ECalendarViewEvent *event)
 			return;
 		}
 
-		if (e_cal_util_component_is_instance (event->comp_data->icalcomp) || e_cal_util_component_is_instance (event->comp_data->icalcomp))
-			e_cal_remove_object_with_mod (event->comp_data->client, uid, NULL, CALOBJ_MOD_ALL, &error);
+		if (e_cal_util_component_is_instance (event->comp_data->icalcomp) || e_cal_util_component_has_recurrences (event->comp_data->icalcomp))
+			e_cal_remove_object_with_mod (event->comp_data->client, uid, 
+				e_cal_component_get_recurid_as_string (comp), CALOBJ_MOD_ALL, &error);
 		else
 			e_cal_remove_object (event->comp_data->client, uid, &error);
 		
