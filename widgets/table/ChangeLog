@@ -1,3 +1,12 @@
+2005-10-14  Kaushal Kumar  <kakumar@novell.com>
+
+	* table/e-table-group-container.c
+	(e_table_group_container_print_page): Use gnome_font_find_closest
+	instead of gnome_font_find since Helvetica is not always present. 
+
+	Fixes bug #246803.
+	Patch by: Mubeen Jukaku.
+
 2005-10-04   Devashish Sharma  <sdevashish@novell.com>
 
 	*  e-table-extras.c (ete_init): Added compare type "stringcase" to 

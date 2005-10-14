@@ -1159,7 +1159,7 @@ e_table_group_container_print_page  (EPrintable *ep,
 	GList *child;
 	EPrintable *child_printable;
 	gchar *string;
-	GnomeFont *font = gnome_font_find ("Helvetica", TEXT_HEIGHT);
+	GnomeFont *font = gnome_font_find_closest ("Helvetica", TEXT_HEIGHT);
 
 	child_printable = groupcontext->child_printable;
 	child = groupcontext->child;
