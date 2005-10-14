@@ -1,3 +1,9 @@
+2005-10-14  Vivek Jain <jvivek@novell.com>
+	
+	* proxy.c :(proxy_get_cnc)
+	"use_ssl" should be Null checked before comparing it with any value. 
+	its NULL when evo is not compiled with ssl support and caused crash.
+
 2005-10-07  Vivek Jain <jvivek@novell.com>
 
 	* share-folder.c : (remove_clicked)

@@ -486,7 +486,7 @@ proxy_get_cnc (EAccount *account)
 
 	key =  g_strdup_printf ("groupwise://%s@%s/", url->user, poa_address); 
 	
-	if (!g_str_equal (use_ssl, "never"))
+	if (use_ssl && !g_str_equal (use_ssl, "never"))
 		uri = g_strdup_printf ("https://%s:%s/soap", poa_address, soap_port);
 	else 
 		uri = g_strdup_printf ("http://%s:%s/soap", poa_address, soap_port);
