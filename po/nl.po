@@ -50,7 +50,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.gnome-2-8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-09-11 17:30+0200\n"
+"POT-Creation-Date: 2005-10-15 11:55+0200\n"
 "PO-Revision-Date: 2005-08-26 01:58+0200\n"
 "Last-Translator: Tino Meinen <a.t.meinen@chello.nl>\n"
 "Language-Team: Dutch <vertaling@vrijschrift.org>\n"
@@ -83,7 +83,7 @@ msgstr[0] "huidige adresboekmap heeft %d kaart"
 msgstr[1] "huidige adresboekmap heeft %d kaarten"
 
 #: ../a11y/addressbook/ea-minicard.c:31
-#: ../calendar/gui/alarm-notify/alarm-queue.c:953
+#: ../calendar/gui/alarm-notify/alarm-queue.c:965
 #: ../ui/evolution-message-composer.xml.h:11
 msgid "Open"
 msgstr "Openen"
@@ -140,7 +140,7 @@ msgstr "Nieuwe afspraak"
 msgid "New All Day Event"
 msgstr "Nieuwe agendanotitie voor de hele dag"
 
-#: ../a11y/calendar/ea-cal-view.c:308 ../calendar/gui/e-calendar-view.c:1505
+#: ../a11y/calendar/ea-cal-view.c:308 ../calendar/gui/e-calendar-view.c:1522
 msgid "New Meeting"
 msgstr "Nieuwe bijeenkomst"
 
@@ -536,7 +536,7 @@ msgstr ""
 "Uw contacten voor {0} zullen niet beschikbaar zijn totdat Evolution herstart "
 "is."
 
-#: ../addressbook/addressbook.error.xml.h:31 ../mail/em-vfolder-rule.c:494
+#: ../addressbook/addressbook.error.xml.h:31 ../mail/em-vfolder-rule.c:495
 #: ../plugins/groupwise-features/junk-settings.glade.h:4
 #: ../plugins/groupwise-features/properties.glade.h:10
 #: ../widgets/table/e-table-config.glade.h:15
@@ -842,12 +842,12 @@ msgid "Accessing LDAP Server anonymously"
 msgstr "Anonieme verbinding met LDAP server wordt opgezet"
 
 #: ../addressbook/gui/component/addressbook.c:191
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:485
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:490
 msgid "Failed to authenticate.\n"
 msgstr "Fout bij het aanmelden.\n"
 
 #: ../addressbook/gui/component/addressbook.c:198
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:464
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:469
 #, c-format
 msgid "Enter password for %s (user %s)"
 msgstr "Voer het wachtwoord in voor %s (gebruiker %s)"
@@ -2677,8 +2677,8 @@ msgstr "_IM-dienst:"
 
 #: ../addressbook/gui/contact-editor/im.glade.h:5
 #: ../plugins/calendar-weather/calendar-weather.c:409
-#: ../plugins/exchange-operations/exchange-calendar.c:215
-#: ../plugins/exchange-operations/exchange-contacts.c:193
+#: ../plugins/exchange-operations/exchange-calendar.c:224
+#: ../plugins/exchange-operations/exchange-contacts.c:203
 msgid "_Location:"
 msgstr "_Locatie:"
 
@@ -2867,14 +2867,14 @@ msgstr "Adresboek"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:807
 #: ../addressbook/gui/widgets/e-addressbook-view.c:936
-#: ../addressbook/gui/widgets/e-addressbook-view.c:2011
+#: ../addressbook/gui/widgets/e-addressbook-view.c:2016
 #: ../ui/evolution-addressbook.xml.h:19
 msgid "Save as VCard..."
 msgstr "Opslaan als VCard.."
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:930
-#: ../calendar/gui/e-calendar-table.c:1154
-#: ../calendar/gui/e-calendar-view.c:1528 ../ui/evolution-addressbook.xml.h:37
+#: ../calendar/gui/e-calendar-table.c:1167
+#: ../calendar/gui/e-calendar-view.c:1545 ../ui/evolution-addressbook.xml.h:37
 msgid "_Open"
 msgstr "_Openen"
 
@@ -2909,7 +2909,7 @@ msgid "Send Message to Contacts"
 msgstr "Stuur bericht aan contacten"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:942
-#: ../calendar/gui/calendar-commands.c:119 ../calendar/gui/print.c:2501
+#: ../calendar/gui/calendar-commands.c:119 ../calendar/gui/print.c:2510
 #: ../ui/evolution-addressbook.xml.h:16 ../ui/evolution-calendar.xml.h:19
 #: ../ui/evolution-mail-message.xml.h:77 ../ui/evolution-tasks.xml.h:14
 msgid "Print"
@@ -2941,12 +2941,12 @@ msgid "Paste"
 msgstr "Plakken"
 
 #. All, unmatched, separator
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1562
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1565
 #: ../calendar/gui/cal-search-bar.c:346
 msgid "Any Category"
 msgstr "Elke categorie"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1761
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1766
 msgid "Print cards"
 msgstr "Kaarten afdrukken"
 
@@ -2990,7 +2990,7 @@ msgid "Company Phone"
 msgstr "Bedrijfstelefoon"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:10
-#: ../addressbook/gui/widgets/eab-contact-display.c:564
+#: ../addressbook/gui/widgets/eab-contact-display.c:567
 #: ../smime/lib/e-cert.c:826
 msgid "Email"
 msgstr "E-mail"
@@ -3287,7 +3287,7 @@ msgid "WWW"
 msgstr "WWW"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:378
-#: ../addressbook/gui/widgets/eab-contact-display.c:599
+#: ../addressbook/gui/widgets/eab-contact-display.c:602
 msgid "Blog"
 msgstr "Blog"
 
@@ -3295,11 +3295,11 @@ msgstr "Blog"
 msgid "personal"
 msgstr "persoonlijk"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:560
+#: ../addressbook/gui/widgets/eab-contact-display.c:563
 msgid "Job Title"
 msgstr "Functie"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:591
+#: ../addressbook/gui/widgets/eab-contact-display.c:594
 msgid "Home page"
 msgstr "Homepage"
 
@@ -3360,7 +3360,7 @@ msgstr "Protocol niet ondersteund"
 #: ../calendar/gui/e-cal-component-preview.c:232
 #: ../calendar/gui/e-cal-model-tasks.c:348
 #: ../calendar/gui/e-cal-model-tasks.c:661
-#: ../calendar/gui/e-calendar-table.c:456 ../calendar/gui/print.c:2364
+#: ../calendar/gui/e-calendar-table.c:460 ../calendar/gui/print.c:2373
 msgid "Cancelled"
 msgstr "Geannuleerd"
 
@@ -3654,18 +3654,18 @@ msgstr "Kaartweergave"
 msgid "GTK Tree View"
 msgstr "GTK boomweergave"
 
-#: ../addressbook/importers/evolution-ldif-importer.c:486
+#: ../addressbook/importers/evolution-ldif-importer.c:582
 #: ../addressbook/importers/evolution-vcard-importer.c:249
 #: ../calendar/importers/icalendar-importer.c:311
 #: ../calendar/importers/icalendar-importer.c:643 ../shell/shell.error.xml.h:6
 msgid "Importing ..."
 msgstr "Importeren..."
 
-#: ../addressbook/importers/evolution-ldif-importer.c:652
+#: ../addressbook/importers/evolution-ldif-importer.c:748
 msgid "LDAP Data Interchange Format (.ldif)"
 msgstr "LDAP Data Interchange Format (.ldif)"
 
-#: ../addressbook/importers/evolution-ldif-importer.c:653
+#: ../addressbook/importers/evolution-ldif-importer.c:749
 msgid "Evolution LDIF importer"
 msgstr "Evolution LDIF import assistent"
 
@@ -3682,12 +3682,12 @@ msgstr "Evolution VCard import assistent"
 msgid "Print envelope"
 msgstr "Envelop afdrukken"
 
-#: ../addressbook/printing/e-contact-print.c:1001
+#: ../addressbook/printing/e-contact-print.c:1014
 msgid "Print contacts"
 msgstr "Druk contacten af"
 
-#: ../addressbook/printing/e-contact-print.c:1066
-#: ../addressbook/printing/e-contact-print.c:1093
+#: ../addressbook/printing/e-contact-print.c:1104
+#: ../addressbook/printing/e-contact-print.c:1132
 msgid "Print contact"
 msgstr "Druk kaart af"
 
@@ -3840,9 +3840,9 @@ msgstr "Schaduw"
 
 #. FIXME: Take care of i18n
 #: ../addressbook/printing/e-contact-print.glade.h:36
-#: ../plugins/exchange-operations/exchange-account-setup.c:917
-#: ../plugins/exchange-operations/exchange-calendar.c:205
-#: ../plugins/exchange-operations/exchange-contacts.c:176
+#: ../plugins/exchange-operations/exchange-account-setup.c:940
+#: ../plugins/exchange-operations/exchange-calendar.c:214
+#: ../plugins/exchange-operations/exchange-contacts.c:186
 msgid "Size:"
 msgstr "Grootte:"
 
@@ -4320,7 +4320,7 @@ msgstr "V_erzenden"
 msgid "{0}."
 msgstr "{0}."
 
-#: ../calendar/common/authentication.c:49 ../calendar/gui/e-pub-utils.c:301
+#: ../calendar/common/authentication.c:49 ../calendar/gui/e-pub-utils.c:312
 #: ../smime/gui/component.c:48
 msgid "Enter password"
 msgstr "Wachtwoord invoeren"
@@ -4329,15 +4329,15 @@ msgstr "Wachtwoord invoeren"
 msgid "Split Multi-Day Events:"
 msgstr "Meerdaagse agendanotities splitsen:"
 
-#: ../calendar/conduits/calendar/calendar-conduit.c:1365
-#: ../calendar/conduits/calendar/calendar-conduit.c:1366
+#: ../calendar/conduits/calendar/calendar-conduit.c:1377
+#: ../calendar/conduits/calendar/calendar-conduit.c:1378
 #: ../calendar/conduits/todo/todo-conduit.c:879
 #: ../calendar/conduits/todo/todo-conduit.c:880
 msgid "Could not start evolution-data-server"
 msgstr "Kan evolution-data-server niet starten"
 
-#: ../calendar/conduits/calendar/calendar-conduit.c:1474
-#: ../calendar/conduits/calendar/calendar-conduit.c:1477
+#: ../calendar/conduits/calendar/calendar-conduit.c:1486
+#: ../calendar/conduits/calendar/calendar-conduit.c:1489
 msgid "Could not read pilot's Calendar application block"
 msgstr "Kon agendagegevens niet uit de pilot lezen"
 
@@ -4389,13 +4389,13 @@ msgid "Evolution's Tasks component"
 msgstr "Evolution taken-component"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:10
-#: ../calendar/gui/e-tasks.c:1257 ../calendar/gui/print.c:1822
+#: ../calendar/gui/e-tasks.c:1282 ../calendar/gui/print.c:1831
 #: ../calendar/gui/tasks-component.c:519
-#: ../calendar/gui/tasks-component.c:1006 ../calendar/gui/tasks-control.c:457
+#: ../calendar/gui/tasks-component.c:1012 ../calendar/gui/tasks-control.c:456
 #: ../calendar/importers/icalendar-importer.c:79
 #: ../calendar/importers/icalendar-importer.c:707
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:384
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:582
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:589
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:12
 msgid "Tasks"
 msgstr "Taken"
@@ -4419,11 +4419,11 @@ msgid_plural "minutes"
 msgstr[0] "minuut"
 msgstr[1] "minuten"
 
-#: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:248
+#: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:250
 msgid "Start time"
 msgstr "Begintijd"
 
-#: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:347
+#: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:349
 #, c-format
 msgid ""
 "<big><b>%s</b></big>\n"
@@ -4475,29 +4475,29 @@ msgstr "omschrijving van afspraak"
 msgid "location of appointment"
 msgstr "locatie van de afspraak"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:954
+#: ../calendar/gui/alarm-notify/alarm-queue.c:966
 msgid "Dismiss"
 msgstr "Negeren"
 
 # alles ververgen
-#: ../calendar/gui/alarm-notify/alarm-queue.c:955
+#: ../calendar/gui/alarm-notify/alarm-queue.c:967
 msgid "Dismiss All"
 msgstr "Allemaal verbergen"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1037
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1049
 msgid "No summary available."
 msgstr "Geen omschrijving beschikbaar."
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1046
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1048
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1058
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1060
 msgid "No description available."
 msgstr "Geen beschrijving beschikbaar."
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1056
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1068
 msgid "No location information available."
 msgstr "Geen locatieinformatie beschikbaar."
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1072
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1084
 #, c-format
 msgid ""
 "Alarm on %s\n"
@@ -4510,12 +4510,12 @@ msgstr ""
 "Begint om %s\n"
 "Eindigt op %s"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1175
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1199
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1187
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1211
 msgid "Warning"
 msgstr "Waarschuwing"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1179
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1191
 msgid ""
 "Evolution does not support calendar reminders with\n"
 "email notifications yet, but this reminder was\n"
@@ -4527,7 +4527,7 @@ msgstr ""
 "u dit ingesteld. Evolution zal in plaats daarvan een\n"
 "normaal dialoogvenster weergeven als herinnering."
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1205
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1217
 #, c-format
 msgid ""
 "An Evolution Calendar reminder is about to trigger. This reminder is "
@@ -4544,15 +4544,15 @@ msgstr ""
 "\n"
 "Weet u zeker dat dit programma gestart moet worden?"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1219
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1231
 msgid "Do not ask me about this program again."
 msgstr "Dit bericht niet meer weergeven voor dit programma."
 
-#: ../calendar/gui/alarm-notify/notify-main.c:140
+#: ../calendar/gui/alarm-notify/notify-main.c:147
 msgid "Could not initialize Bonobo"
 msgstr "Kon bonobo niet initialiseren"
 
-#: ../calendar/gui/alarm-notify/notify-main.c:151
+#: ../calendar/gui/alarm-notify/notify-main.c:158
 msgid "Could not create the alarm notify service factory"
 msgstr "Kon de alarmeringsdienstfabriek niet aanmaken"
 
@@ -4930,10 +4930,10 @@ msgstr "Niet passend"
 #: ../calendar/gui/calendar-commands.c:119
 #: ../calendar/gui/calendar-component.c:708
 #: ../calendar/gui/dialogs/calendar-setup.c:367
-#: ../calendar/gui/gnome-cal.c:2094
+#: ../calendar/gui/gnome-cal.c:2113
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:383
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:413
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:581
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:588
 msgid "Calendar"
 msgstr "Agenda"
 
@@ -5249,7 +5249,7 @@ msgstr "_Verwijderen"
 #: ../calendar/gui/dialogs/cal-attachment-bar.c:474
 #: ../calendar/gui/dialogs/comp-editor.c:1084
 #: ../composer/e-msg-composer-attachment-bar.c:471
-#: ../composer/e-msg-composer.c:3401 ../mail/em-folder-tree.c:2047
+#: ../composer/e-msg-composer.c:3401 ../mail/em-folder-tree.c:2052
 #: ../ui/evolution-mail-list.xml.h:29
 msgid "_Properties"
 msgstr "_Eigenschappen"
@@ -5342,30 +5342,30 @@ msgstr "MIME type:"
 msgid "Enabled"
 msgstr "Ingeschakeld"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.c:730
+#: ../calendar/gui/dialogs/cal-prefs-dialog.c:733
 msgid "Are you sure you want to remove this URL?"
 msgstr "Weet u zeker dat u deze URL wilt verwijderen?"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.c:733
+#: ../calendar/gui/dialogs/cal-prefs-dialog.c:736
 msgid "Remove"
 msgstr "Verwijderen"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.c:738
+#: ../calendar/gui/dialogs/cal-prefs-dialog.c:741
 msgid "Don't Remove"
 msgstr "Niet verwijderen"
 
 # deactiveren/uitzetten
-#: ../calendar/gui/dialogs/cal-prefs-dialog.c:787
-#: ../calendar/gui/dialogs/cal-prefs-dialog.c:820
-#: ../calendar/gui/dialogs/cal-prefs-dialog.c:853
+#: ../calendar/gui/dialogs/cal-prefs-dialog.c:790
+#: ../calendar/gui/dialogs/cal-prefs-dialog.c:823
+#: ../calendar/gui/dialogs/cal-prefs-dialog.c:856
 #: ../mail/em-account-prefs.c:330 ../mail/em-account-prefs.c:375
 #: ../mail/em-account-prefs.c:406
 msgid "Disable"
 msgstr "Uitzetten"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.c:787
-#: ../calendar/gui/dialogs/cal-prefs-dialog.c:820
-#: ../calendar/gui/dialogs/cal-prefs-dialog.c:855
+#: ../calendar/gui/dialogs/cal-prefs-dialog.c:790
+#: ../calendar/gui/dialogs/cal-prefs-dialog.c:823
+#: ../calendar/gui/dialogs/cal-prefs-dialog.c:858
 #: ../mail/em-account-prefs.c:330 ../mail/em-account-prefs.c:375
 #: ../mail/em-account-prefs.c:408
 msgid "Enable"
@@ -5461,7 +5461,7 @@ msgid "Free/Busy"
 msgstr "Vrij/Bezet"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:24
-#: ../calendar/gui/dialogs/recurrence-page.c:1048
+#: ../calendar/gui/dialogs/recurrence-page.c:1049
 #: ../calendar/gui/e-itip-control.c:734
 msgid "Friday"
 msgstr "Vrijdag"
@@ -5475,7 +5475,7 @@ msgid "Minutes"
 msgstr "Minuten"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:28
-#: ../calendar/gui/dialogs/recurrence-page.c:1044
+#: ../calendar/gui/dialogs/recurrence-page.c:1045
 #: ../calendar/gui/e-itip-control.c:730
 msgid "Monday"
 msgstr "Maandag"
@@ -5489,7 +5489,7 @@ msgid "S_un"
 msgstr "_Zon"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:31
-#: ../calendar/gui/dialogs/recurrence-page.c:1049
+#: ../calendar/gui/dialogs/recurrence-page.c:1050
 #: ../calendar/gui/e-itip-control.c:735
 msgid "Saturday"
 msgstr "Zaterdag"
@@ -5505,7 +5505,7 @@ msgid "Show week _numbers in date navigator"
 msgstr "Week_nummers tonen in datum navigator"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:34
-#: ../calendar/gui/dialogs/recurrence-page.c:1050
+#: ../calendar/gui/dialogs/recurrence-page.c:1051
 #: ../calendar/gui/e-itip-control.c:729
 msgid "Sunday"
 msgstr "Zondag"
@@ -5523,7 +5523,7 @@ msgid "Template:"
 msgstr "Sjabloon:"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:38
-#: ../calendar/gui/dialogs/recurrence-page.c:1047
+#: ../calendar/gui/dialogs/recurrence-page.c:1048
 #: ../calendar/gui/e-itip-control.c:733
 msgid "Thursday"
 msgstr "Donderdag"
@@ -5537,7 +5537,7 @@ msgid "Time format:"
 msgstr "Tijdsformaat:"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:41
-#: ../calendar/gui/dialogs/recurrence-page.c:1045
+#: ../calendar/gui/dialogs/recurrence-page.c:1046
 #: ../calendar/gui/e-itip-control.c:731
 msgid "Tuesday"
 msgstr "Dinsdag"
@@ -5547,7 +5547,7 @@ msgid "W_eek starts:"
 msgstr "W_eek begint:"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:43
-#: ../calendar/gui/dialogs/recurrence-page.c:1046
+#: ../calendar/gui/dialogs/recurrence-page.c:1047
 #: ../calendar/gui/e-itip-control.c:732
 msgid "Wednesday"
 msgstr "Woensdag"
@@ -5744,24 +5744,24 @@ msgstr "%s U heeft niet veranderd, de editor verversen?"
 msgid "Validation error: %s"
 msgstr "Verificatiefout: %s"
 
-#: ../calendar/gui/dialogs/comp-editor-util.c:187 ../calendar/gui/print.c:2261
+#: ../calendar/gui/dialogs/comp-editor-util.c:187 ../calendar/gui/print.c:2270
 msgid " to "
 msgstr " tot "
 
-#: ../calendar/gui/dialogs/comp-editor-util.c:191 ../calendar/gui/print.c:2265
+#: ../calendar/gui/dialogs/comp-editor-util.c:191 ../calendar/gui/print.c:2274
 msgid " (Completed "
 msgstr " (Voltooid"
 
-#: ../calendar/gui/dialogs/comp-editor-util.c:193 ../calendar/gui/print.c:2267
+#: ../calendar/gui/dialogs/comp-editor-util.c:193 ../calendar/gui/print.c:2276
 msgid "Completed "
 msgstr "Voltooid"
 
 # verloopdatum?
-#: ../calendar/gui/dialogs/comp-editor-util.c:198 ../calendar/gui/print.c:2272
+#: ../calendar/gui/dialogs/comp-editor-util.c:198 ../calendar/gui/print.c:2281
 msgid " (Due "
 msgstr " (Verloopt "
 
-#: ../calendar/gui/dialogs/comp-editor-util.c:200 ../calendar/gui/print.c:2274
+#: ../calendar/gui/dialogs/comp-editor-util.c:200 ../calendar/gui/print.c:2283
 msgid "Due "
 msgstr "Verloopdatum "
 
@@ -5781,9 +5781,9 @@ msgstr[0] "Bijgevoegd bericht"
 msgstr[1] "%d bijgevoegd berichten"
 
 #: ../calendar/gui/dialogs/comp-editor.c:428
-#: ../calendar/gui/e-calendar-table.c:1162
-#: ../calendar/gui/e-calendar-view.c:1535 ../composer/e-msg-composer.c:2911
-#: ../mail/em-folder-tree.c:974 ../mail/em-folder-view.c:1035
+#: ../calendar/gui/e-calendar-table.c:1175
+#: ../calendar/gui/e-calendar-view.c:1552 ../composer/e-msg-composer.c:2911
+#: ../mail/em-folder-tree.c:979 ../mail/em-folder-view.c:1035
 #: ../mail/message-list.c:1708 ../ui/evolution-addressbook.xml.h:31
 #: ../ui/evolution-calendar.xml.h:39 ../ui/evolution-composer-entries.xml.h:7
 #: ../ui/evolution-mail-message.xml.h:103 ../ui/evolution-tasks.xml.h:21
@@ -5791,13 +5791,13 @@ msgid "_Copy"
 msgstr "_Kopiëren"
 
 #: ../calendar/gui/dialogs/comp-editor.c:429 ../composer/e-msg-composer.c:2912
-#: ../mail/em-folder-tree.c:975 ../mail/em-folder-utils.c:368
+#: ../mail/em-folder-tree.c:980 ../mail/em-folder-utils.c:368
 #: ../mail/em-folder-view.c:931 ../mail/message-list.c:1709
 msgid "_Move"
 msgstr "_Verplaatsen"
 
 #: ../calendar/gui/dialogs/comp-editor.c:431 ../composer/e-msg-composer.c:2914
-#: ../mail/em-folder-tree.c:977 ../mail/message-list.c:1711
+#: ../mail/em-folder-tree.c:982 ../mail/message-list.c:1711
 msgid "Cancel _Drag"
 msgstr "_Slepen annuleren"
 
@@ -5859,15 +5859,15 @@ msgstr "Dagboekaantekening - %s"
 msgid "No summary"
 msgstr "Geen samenvatting"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2528
-#: ../calendar/gui/dialogs/comp-editor.c:2561
-#: ../calendar/gui/dialogs/comp-editor.c:2585
+#: ../calendar/gui/dialogs/comp-editor.c:2532
+#: ../calendar/gui/dialogs/comp-editor.c:2565
+#: ../calendar/gui/dialogs/comp-editor.c:2589
 msgid "Changes made to this item may be discarded if an update arrives"
 msgstr ""
 "De gemaakte veranderingen aan dit item worden verworpen indien een "
 "bijwerking via e-mail arriveerd"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2609
+#: ../calendar/gui/dialogs/comp-editor.c:2613
 msgid "Unable to use current version!"
 msgstr "Kan huidige niet gebruiken!"
 
@@ -5948,7 +5948,7 @@ msgstr "Overdragen aan:"
 msgid "Enter Delegate"
 msgstr "Gemachtigde invoeren"
 
-#: ../calendar/gui/dialogs/event-editor.c:141 ../calendar/gui/print.c:2298
+#: ../calendar/gui/dialogs/event-editor.c:141 ../calendar/gui/print.c:2307
 msgid "Appointment"
 msgstr "Afspraak"
 
@@ -6083,7 +6083,7 @@ msgstr "Classi_ficatie:"
 #: ../calendar/gui/dialogs/event-page.glade.h:14
 #: ../calendar/gui/dialogs/task-page.glade.h:8
 #: ../calendar/gui/e-cal-list-view.c:254 ../calendar/gui/e-cal-model.c:325
-#: ../calendar/gui/e-calendar-table.c:360
+#: ../calendar/gui/e-calendar-table.c:364
 msgid "Confidential"
 msgstr "Vertrouwelijk"
 
@@ -6098,14 +6098,14 @@ msgstr "_Locatie: "
 #: ../calendar/gui/dialogs/event-page.glade.h:17
 #: ../calendar/gui/dialogs/task-page.glade.h:10
 #: ../calendar/gui/e-cal-list-view.c:253 ../calendar/gui/e-cal-model.c:323
-#: ../calendar/gui/e-calendar-table.c:359
+#: ../calendar/gui/e-calendar-table.c:363
 msgid "Private"
 msgstr "Privé"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:18
 #: ../calendar/gui/dialogs/task-page.glade.h:11
 #: ../calendar/gui/e-cal-list-view.c:252 ../calendar/gui/e-cal-model.c:314
-#: ../calendar/gui/e-cal-model.c:321 ../calendar/gui/e-calendar-table.c:358
+#: ../calendar/gui/e-cal-model.c:321 ../calendar/gui/e-calendar-table.c:362
 msgid "Public"
 msgstr "Openbaar"
 
@@ -6233,7 +6233,7 @@ msgid "RSVP"
 msgstr "RSVP"
 
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:10
-#: ../calendar/gui/dialogs/task-editor.c:147
+#: ../calendar/gui/dialogs/task-editor.c:146
 #: ../calendar/gui/e-calendar-table.etspec.h:10
 #: ../calendar/gui/e-meeting-list-view.c:394
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:10 ../mail/em-filter-i18n.h:63
@@ -6355,52 +6355,52 @@ msgstr "Deze, en die in de toekomst"
 msgid "All Instances"
 msgstr "Alle keren"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:496
+#: ../calendar/gui/dialogs/recurrence-page.c:497
 msgid "This appointment contains recurrences that Evolution cannot edit."
 msgstr "Deze afspraak bevat herhalingen die Evolution niet kan bewerken."
 
-#: ../calendar/gui/dialogs/recurrence-page.c:817
+#: ../calendar/gui/dialogs/recurrence-page.c:818
 msgid "Recurrence date is invalid"
 msgstr "Herhalingsdatum is ongeldig"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:928
+#: ../calendar/gui/dialogs/recurrence-page.c:929
 msgid "on"
 msgstr "op"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:988
+#: ../calendar/gui/dialogs/recurrence-page.c:989
 msgid "first"
 msgstr "eerste"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:989
+#: ../calendar/gui/dialogs/recurrence-page.c:990
 msgid "second"
 msgstr "tweede"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:990
+#: ../calendar/gui/dialogs/recurrence-page.c:991
 msgid "third"
 msgstr "derde"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:991
+#: ../calendar/gui/dialogs/recurrence-page.c:992
 msgid "fourth"
 msgstr "vierde"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:992
+#: ../calendar/gui/dialogs/recurrence-page.c:993
 msgid "last"
 msgstr "laatste"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1015
+#: ../calendar/gui/dialogs/recurrence-page.c:1016
 msgid "Other Date"
 msgstr "Andere datum"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1043
+#: ../calendar/gui/dialogs/recurrence-page.c:1044
 msgid "day"
 msgstr "dag"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1180
+#: ../calendar/gui/dialogs/recurrence-page.c:1181
 msgid "on the"
 msgstr "op de"
 
 # agendanotities/gebeurtenissen
-#: ../calendar/gui/dialogs/recurrence-page.c:1369
+#: ../calendar/gui/dialogs/recurrence-page.c:1370
 msgid "occurrences"
 msgstr "gebeurtenissen"
 
@@ -6480,15 +6480,15 @@ msgstr "<span weight=\"bold\">Status</span>"
 #: ../calendar/gui/e-cal-component-preview.c:229
 #: ../calendar/gui/e-cal-model-tasks.c:346
 #: ../calendar/gui/e-cal-model-tasks.c:659
-#: ../calendar/gui/e-calendar-table.c:455 ../calendar/gui/e-itip-control.c:898
+#: ../calendar/gui/e-calendar-table.c:459 ../calendar/gui/e-itip-control.c:898
 #: ../calendar/gui/e-meeting-store.c:196 ../calendar/gui/e-meeting-store.c:219
-#: ../calendar/gui/print.c:2361 ../plugins/save-calendar/csv-format.c:390
+#: ../calendar/gui/print.c:2370 ../plugins/save-calendar/csv-format.c:390
 msgid "Completed"
 msgstr "Voltooid"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:5
 #: ../calendar/gui/e-cal-component-preview.c:248
-#: ../calendar/gui/e-calendar-table.c:380 ../mail/message-list.c:1008
+#: ../calendar/gui/e-calendar-table.c:384 ../mail/message-list.c:1008
 msgid "High"
 msgstr "Hoog"
 
@@ -6497,19 +6497,19 @@ msgstr "Hoog"
 #: ../calendar/gui/e-cal-model-tasks.c:344
 #: ../calendar/gui/e-cal-model-tasks.c:657
 #: ../calendar/gui/e-cal-model-tasks.c:732
-#: ../calendar/gui/e-calendar-table.c:454 ../calendar/gui/print.c:2358
+#: ../calendar/gui/e-calendar-table.c:458 ../calendar/gui/print.c:2367
 msgid "In Progress"
 msgstr "In behandeling"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:7
 #: ../calendar/gui/e-cal-component-preview.c:252
-#: ../calendar/gui/e-calendar-table.c:382 ../mail/message-list.c:1006
+#: ../calendar/gui/e-calendar-table.c:386 ../mail/message-list.c:1006
 msgid "Low"
 msgstr "Laag"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:8
 #: ../calendar/gui/e-cal-component-preview.c:250
-#: ../calendar/gui/e-cal-model.c:919 ../calendar/gui/e-calendar-table.c:381
+#: ../calendar/gui/e-cal-model.c:920 ../calendar/gui/e-calendar-table.c:385
 #: ../mail/message-list.c:1007
 msgid "Normal"
 msgstr "Normaal"
@@ -6518,7 +6518,7 @@ msgstr "Normaal"
 #: ../calendar/gui/e-cal-component-preview.c:236
 #: ../calendar/gui/e-cal-model-tasks.c:342
 #: ../calendar/gui/e-cal-model-tasks.c:655
-#: ../calendar/gui/e-calendar-table.c:453 ../calendar/gui/print.c:2355
+#: ../calendar/gui/e-calendar-table.c:457 ../calendar/gui/print.c:2364
 msgid "Not Started"
 msgstr "Niet gestart"
 
@@ -6527,7 +6527,7 @@ msgid "P_ercent complete:"
 msgstr "Proc_ent voltooid:"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:11
-#: ../calendar/gui/e-calendar-table.c:383
+#: ../calendar/gui/e-calendar-table.c:387
 msgid "Undefined"
 msgstr "Ongedefinieerd"
 
@@ -6548,13 +6548,13 @@ msgstr "_Status:"
 msgid "_Web Page:"
 msgstr "_Webstek:"
 
-#: ../calendar/gui/dialogs/task-editor.c:138 ../calendar/gui/print.c:2300
+#: ../calendar/gui/dialogs/task-editor.c:137 ../calendar/gui/print.c:2309
 msgid "Task"
 msgstr "Taak"
 
-#: ../calendar/gui/dialogs/task-editor.c:162
-#: ../calendar/gui/dialogs/task-editor.c:224
-#: ../calendar/gui/dialogs/task-editor.c:378
+#: ../calendar/gui/dialogs/task-editor.c:161
+#: ../calendar/gui/dialogs/task-editor.c:223
+#: ../calendar/gui/dialogs/task-editor.c:380
 msgid "Assignment"
 msgstr "Opdracht"
 
@@ -6744,7 +6744,7 @@ msgstr "Verloopdatum:"
 #. Status
 #: ../calendar/gui/e-cal-component-preview.c:222
 #: ../calendar/gui/e-itip-control.c:1134
-#: ../plugins/exchange-operations/exchange-account-setup.c:263
+#: ../plugins/exchange-operations/exchange-account-setup.c:265
 #: ../plugins/itip-formatter/itip-view.c:909
 msgid "Status:"
 msgstr "Status:"
@@ -6772,12 +6772,12 @@ msgid "Summary"
 msgstr "Samenvatting"
 
 #: ../calendar/gui/e-cal-model-calendar.c:180
-#: ../calendar/gui/e-calendar-table.c:432
+#: ../calendar/gui/e-calendar-table.c:436
 msgid "Free"
 msgstr "Vrij"
 
 #: ../calendar/gui/e-cal-model-calendar.c:183
-#: ../calendar/gui/e-calendar-table.c:433
+#: ../calendar/gui/e-calendar-table.c:437
 #: ../calendar/gui/e-meeting-time-sel.c:412
 msgid "Busy"
 msgstr "Bezig"
@@ -6792,7 +6792,7 @@ msgstr ""
 "\n"
 "45.436845,125.862501"
 
-#: ../calendar/gui/e-cal-model-tasks.c:1018 ../calendar/gui/e-cal-model.c:925
+#: ../calendar/gui/e-cal-model-tasks.c:1018 ../calendar/gui/e-cal-model.c:926
 #: ../calendar/gui/e-meeting-list-view.c:192
 #: ../calendar/gui/e-meeting-store.c:168 ../calendar/gui/e-meeting-store.c:178
 #: ../calendar/gui/e-meeting-store.c:808
@@ -6800,7 +6800,7 @@ msgstr ""
 msgid "Yes"
 msgstr "Ja"
 
-#: ../calendar/gui/e-cal-model-tasks.c:1018 ../calendar/gui/e-cal-model.c:925
+#: ../calendar/gui/e-cal-model-tasks.c:1018 ../calendar/gui/e-cal-model.c:926
 #: ../calendar/gui/e-meeting-list-view.c:193
 #: ../calendar/gui/e-meeting-store.c:180
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:2
@@ -6822,140 +6822,140 @@ msgstr "Nee"
 msgid "Unknown"
 msgstr "Onbekend"
 
-#: ../calendar/gui/e-cal-model.c:921
+#: ../calendar/gui/e-cal-model.c:922
 msgid "Recurring"
 msgstr "Herhalend"
 
-#: ../calendar/gui/e-cal-model.c:923
+#: ../calendar/gui/e-cal-model.c:924
 msgid "Assigned"
 msgstr "Toegewezen"
 
-#: ../calendar/gui/e-calendar-table.c:402
+#: ../calendar/gui/e-calendar-table.c:406
 msgid "0%"
 msgstr "0%"
 
-#: ../calendar/gui/e-calendar-table.c:403
+#: ../calendar/gui/e-calendar-table.c:407
 msgid "10%"
 msgstr "10%"
 
-#: ../calendar/gui/e-calendar-table.c:404
+#: ../calendar/gui/e-calendar-table.c:408
 msgid "20%"
 msgstr "20%"
 
-#: ../calendar/gui/e-calendar-table.c:405
+#: ../calendar/gui/e-calendar-table.c:409
 msgid "30%"
 msgstr "30%"
 
-#: ../calendar/gui/e-calendar-table.c:406
+#: ../calendar/gui/e-calendar-table.c:410
 msgid "40%"
 msgstr "40%"
 
-#: ../calendar/gui/e-calendar-table.c:407
+#: ../calendar/gui/e-calendar-table.c:411
 msgid "50%"
 msgstr "50%"
 
-#: ../calendar/gui/e-calendar-table.c:408
+#: ../calendar/gui/e-calendar-table.c:412
 msgid "60%"
 msgstr "60%"
 
-#: ../calendar/gui/e-calendar-table.c:409
+#: ../calendar/gui/e-calendar-table.c:413
 msgid "70%"
 msgstr "70%"
 
-#: ../calendar/gui/e-calendar-table.c:410
+#: ../calendar/gui/e-calendar-table.c:414
 msgid "80%"
 msgstr "80%"
 
-#: ../calendar/gui/e-calendar-table.c:411
+#: ../calendar/gui/e-calendar-table.c:415
 msgid "90%"
 msgstr "90%"
 
-#: ../calendar/gui/e-calendar-table.c:412
+#: ../calendar/gui/e-calendar-table.c:416
 msgid "100%"
 msgstr "100%"
 
-#: ../calendar/gui/e-calendar-table.c:514
+#: ../calendar/gui/e-calendar-table.c:518
 msgid "Task Table"
 msgstr "Taaktabel"
 
-#: ../calendar/gui/e-calendar-table.c:692
-#: ../calendar/gui/e-calendar-view.c:661
+#: ../calendar/gui/e-calendar-table.c:696
+#: ../calendar/gui/e-calendar-view.c:671
 msgid "Deleting selected objects"
 msgstr "Geselecteerde objecten verwijderen"
 
-#: ../calendar/gui/e-calendar-table.c:871
-#: ../calendar/gui/e-calendar-view.c:789
+#: ../calendar/gui/e-calendar-table.c:875
+#: ../calendar/gui/e-calendar-view.c:799
 msgid "Updating objects"
 msgstr "Objecten worden ververst"
 
-#: ../calendar/gui/e-calendar-table.c:1012
-#: ../calendar/gui/e-calendar-view.c:1105 ../composer/e-msg-composer.c:1243
+#: ../calendar/gui/e-calendar-table.c:1025
+#: ../calendar/gui/e-calendar-view.c:1122 ../composer/e-msg-composer.c:1243
 msgid "Save as..."
 msgstr "Opslaan als..."
 
-#: ../calendar/gui/e-calendar-table.c:1155
+#: ../calendar/gui/e-calendar-table.c:1168
 msgid "Open _Web Page"
 msgstr "Open _website"
 
-#: ../calendar/gui/e-calendar-table.c:1156
-#: ../calendar/gui/e-calendar-view.c:1529 ../mail/em-folder-view.c:1045
+#: ../calendar/gui/e-calendar-table.c:1169
+#: ../calendar/gui/e-calendar-view.c:1546 ../mail/em-folder-view.c:1045
 #: ../mail/em-popup.c:541 ../mail/em-popup.c:552
 msgid "_Save As..."
 msgstr "_Opslaan als..."
 
-#: ../calendar/gui/e-calendar-table.c:1157
-#: ../calendar/gui/e-calendar-view.c:1509
-#: ../calendar/gui/e-calendar-view.c:1530 ../mail/em-folder-view.c:1046
+#: ../calendar/gui/e-calendar-table.c:1170
+#: ../calendar/gui/e-calendar-view.c:1526
+#: ../calendar/gui/e-calendar-view.c:1547 ../mail/em-folder-view.c:1046
 #: ../plugins/print-message/org-gnome-print-message.xml.h:3
 #: ../ui/evolution-addressbook.xml.h:40 ../ui/evolution-calendar.xml.h:44
 #: ../ui/evolution-mail-message.xml.h:120 ../ui/evolution-tasks.xml.h:27
 msgid "_Print..."
 msgstr "Af_drukken..."
 
-#: ../calendar/gui/e-calendar-table.c:1161
-#: ../calendar/gui/e-calendar-view.c:1534 ../ui/evolution-addressbook.xml.h:1
+#: ../calendar/gui/e-calendar-table.c:1174
+#: ../calendar/gui/e-calendar-view.c:1551 ../ui/evolution-addressbook.xml.h:1
 #: ../ui/evolution-calendar.xml.h:1 ../ui/evolution-tasks.xml.h:1
 msgid "C_ut"
 msgstr "K_nippen"
 
-#: ../calendar/gui/e-calendar-table.c:1163
-#: ../calendar/gui/e-calendar-view.c:1512
-#: ../calendar/gui/e-calendar-view.c:1536 ../ui/evolution-addressbook.xml.h:38
+#: ../calendar/gui/e-calendar-table.c:1176
+#: ../calendar/gui/e-calendar-view.c:1529
+#: ../calendar/gui/e-calendar-view.c:1553 ../ui/evolution-addressbook.xml.h:38
 #: ../ui/evolution-calendar.xml.h:43 ../ui/evolution-composer-entries.xml.h:9
 #: ../ui/evolution-tasks.xml.h:26
 msgid "_Paste"
 msgstr "_Plakken"
 
-#: ../calendar/gui/e-calendar-table.c:1167 ../ui/evolution-tasks.xml.h:20
+#: ../calendar/gui/e-calendar-table.c:1180 ../ui/evolution-tasks.xml.h:20
 msgid "_Assign Task"
 msgstr "Taak _toewijzen"
 
-#: ../calendar/gui/e-calendar-table.c:1168 ../ui/evolution-tasks.xml.h:24
+#: ../calendar/gui/e-calendar-table.c:1181 ../ui/evolution-tasks.xml.h:24
 msgid "_Forward as iCalendar"
 msgstr "Doorsturen als i_Kalendar"
 
-#: ../calendar/gui/e-calendar-table.c:1169
+#: ../calendar/gui/e-calendar-table.c:1182
 msgid "_Mark as Complete"
 msgstr "Markeren als Voltooid"
 
-#: ../calendar/gui/e-calendar-table.c:1170
+#: ../calendar/gui/e-calendar-table.c:1183
 msgid "_Mark Selected Tasks as Complete"
 msgstr "Geselecteerde taken als voltooid markeren"
 
 #. FIXME: need to disable for undeletable folders
-#: ../calendar/gui/e-calendar-table.c:1174
-#: ../calendar/gui/e-calendar-view.c:1548 ../mail/em-folder-tree.c:2043
+#: ../calendar/gui/e-calendar-table.c:1187
+#: ../calendar/gui/e-calendar-view.c:1565 ../mail/em-folder-tree.c:2048
 #: ../mail/em-folder-view.c:1049 ../ui/evolution-addressbook.xml.h:33
 #: ../ui/evolution-calendar.xml.h:40 ../ui/evolution-mail-list.xml.h:27
 #: ../ui/evolution-tasks.xml.h:22
 msgid "_Delete"
 msgstr "_Verwijderen"
 
-#: ../calendar/gui/e-calendar-table.c:1175
+#: ../calendar/gui/e-calendar-table.c:1188
 msgid "_Delete Selected Tasks"
 msgstr "_Verwijder de Geselecteerde Taken"
 
-#: ../calendar/gui/e-calendar-table.c:1326
+#: ../calendar/gui/e-calendar-table.c:1407
 #: ../calendar/gui/e-calendar-table.etspec.h:4
 msgid "Click to add a task"
 msgstr "Klik hier om een taak toe te voegen"
@@ -6990,73 +6990,73 @@ msgstr "Begindatum"
 msgid "Task sort"
 msgstr "Taken sorteren"
 
-#: ../calendar/gui/e-calendar-view.c:1231
+#: ../calendar/gui/e-calendar-view.c:1248
 msgid "Moving items"
 msgstr "Verplaatsen van items"
 
-#: ../calendar/gui/e-calendar-view.c:1233
+#: ../calendar/gui/e-calendar-view.c:1250
 msgid "Copying items"
 msgstr "Kopiëren van items"
 
-#: ../calendar/gui/e-calendar-view.c:1503
+#: ../calendar/gui/e-calendar-view.c:1520
 msgid "New _Appointment..."
 msgstr "Nieuwe _afspraak..."
 
-#: ../calendar/gui/e-calendar-view.c:1504
+#: ../calendar/gui/e-calendar-view.c:1521
 msgid "New All Day _Event"
 msgstr "Nieuwe a_gendanotitie voor de hele dag"
 
-#: ../calendar/gui/e-calendar-view.c:1506
+#: ../calendar/gui/e-calendar-view.c:1523
 msgid "New Task"
 msgstr "Nieuwe taak"
 
 #. FIXME: hook in this somehow
-#: ../calendar/gui/e-calendar-view.c:1516
+#: ../calendar/gui/e-calendar-view.c:1533
 msgid "Current View"
 msgstr "Huidige weergave"
 
-#: ../calendar/gui/e-calendar-view.c:1518 ../ui/evolution-calendar.xml.h:26
+#: ../calendar/gui/e-calendar-view.c:1535 ../ui/evolution-calendar.xml.h:26
 msgid "Select _Today"
 msgstr "Selec_teer vandaag"
 
-#: ../calendar/gui/e-calendar-view.c:1519
+#: ../calendar/gui/e-calendar-view.c:1536
 msgid "_Select Date..."
 msgstr "_Selecteer dag..."
 
 #. TODO: Why is this in a context menu when it applies globally?
-#: ../calendar/gui/e-calendar-view.c:1524 ../ui/evolution-calendar.xml.h:45
+#: ../calendar/gui/e-calendar-view.c:1541 ../ui/evolution-calendar.xml.h:45
 msgid "_Publish Free/Busy Information"
 msgstr "Beschikbaarheidsinformatie _publiceren"
 
-#: ../calendar/gui/e-calendar-view.c:1540
+#: ../calendar/gui/e-calendar-view.c:1557
 msgid "Cop_y to Calendar..."
 msgstr "Naar agenda _kopiëren..."
 
-#: ../calendar/gui/e-calendar-view.c:1541
+#: ../calendar/gui/e-calendar-view.c:1558
 msgid "Mo_ve to Calendar..."
 msgstr "Naar agenda _verplaatsen..."
 
-#: ../calendar/gui/e-calendar-view.c:1542
+#: ../calendar/gui/e-calendar-view.c:1559
 msgid "_Delegate Meeting..."
 msgstr "_Bijeenkomst delegeren..."
 
-#: ../calendar/gui/e-calendar-view.c:1543
+#: ../calendar/gui/e-calendar-view.c:1560
 msgid "_Schedule Meeting..."
 msgstr "_Bijeenkomst plannen..."
 
-#: ../calendar/gui/e-calendar-view.c:1544
+#: ../calendar/gui/e-calendar-view.c:1561
 msgid "_Forward as iCalendar..."
 msgstr "_Doorsturen als iCalendar..."
 
-#: ../calendar/gui/e-calendar-view.c:1549
+#: ../calendar/gui/e-calendar-view.c:1566
 msgid "Make this Occurrence _Movable"
 msgstr "_Maak deze gebeurtenis verplaatsbaar"
 
-#: ../calendar/gui/e-calendar-view.c:1550
+#: ../calendar/gui/e-calendar-view.c:1567
 msgid "Delete this _Occurrence"
 msgstr "_Verwijder deze gebeurtenis"
 
-#: ../calendar/gui/e-calendar-view.c:1551
+#: ../calendar/gui/e-calendar-view.c:1568
 msgid "Delete _All Occurrences"
 msgstr "Verwijder alle gebeurtenissen"
 
@@ -7103,7 +7103,7 @@ msgstr "%02i minuten delingen"
 #. order but don't change the specifiers or add
 #. anything.
 #: ../calendar/gui/e-day-view-top-item.c:715 ../calendar/gui/e-day-view.c:1493
-#: ../calendar/gui/e-week-view-main-item.c:312 ../calendar/gui/print.c:1517
+#: ../calendar/gui/e-week-view-main-item.c:312 ../calendar/gui/print.c:1526
 msgid "%A %d %B"
 msgstr "%A %d %B"
 
@@ -7728,12 +7728,12 @@ msgstr "_Vereiste mensen"
 msgid "Required people and _one resource"
 msgstr "Vereiste mensen en één hulpbr_on"
 
-#: ../calendar/gui/e-pub-utils.c:300
+#: ../calendar/gui/e-pub-utils.c:311
 #, c-format
 msgid "Enter the password for %s"
 msgstr "Voer uw wachtwoord in voor %s"
 
-#: ../calendar/gui/e-tasks.c:798 ../calendar/gui/gnome-cal.c:2532
+#: ../calendar/gui/e-tasks.c:820 ../calendar/gui/gnome-cal.c:2551
 #, c-format
 msgid ""
 "Error on %s:\n"
@@ -7742,24 +7742,24 @@ msgstr ""
 "Fout bij %s:\n"
 " %s"
 
-#: ../calendar/gui/e-tasks.c:846
+#: ../calendar/gui/e-tasks.c:868
 msgid "Loading tasks"
 msgstr "Taken laden"
 
-#: ../calendar/gui/e-tasks.c:930
+#: ../calendar/gui/e-tasks.c:952
 #, c-format
 msgid "Opening tasks at %s"
 msgstr "Bezig met openen taken op %s"
 
-#: ../calendar/gui/e-tasks.c:1126
+#: ../calendar/gui/e-tasks.c:1151
 msgid "Completing tasks..."
 msgstr "Bezig met afronden van taken..."
 
-#: ../calendar/gui/e-tasks.c:1149
+#: ../calendar/gui/e-tasks.c:1174
 msgid "Deleting selected objects..."
 msgstr "Geselecteerde objecten worden verwijderd..."
 
-#: ../calendar/gui/e-tasks.c:1176
+#: ../calendar/gui/e-tasks.c:1201
 msgid "Expunging"
 msgstr "Bezig met schrappen"
 
@@ -7770,46 +7770,46 @@ msgstr "Tijdzoneknop"
 #. strftime format %d = day of month, %B = full
 #. month name. You can change the order but don't
 #. change the specifiers or add anything.
-#: ../calendar/gui/e-week-view-main-item.c:329 ../calendar/gui/print.c:1501
+#: ../calendar/gui/e-week-view-main-item.c:329 ../calendar/gui/print.c:1510
 msgid "%d %B"
 msgstr "%d %B"
 
-#: ../calendar/gui/gnome-cal.c:789
+#: ../calendar/gui/gnome-cal.c:790
 msgid "Updating query"
 msgstr "Aanvraag actualiseren"
 
 #. bonobo displays this string so it must be in locale
-#: ../calendar/gui/gnome-cal.c:2209 ../widgets/menus/gal-view-instance.c:585
+#: ../calendar/gui/gnome-cal.c:2228 ../widgets/menus/gal-view-instance.c:585
 #: ../widgets/menus/gal-view-menus.c:350
 msgid "Custom View"
 msgstr "_Aangepaste weergave"
 
-#: ../calendar/gui/gnome-cal.c:2210 ../widgets/menus/gal-view-instance.c:586
+#: ../calendar/gui/gnome-cal.c:2229 ../widgets/menus/gal-view-instance.c:586
 msgid "Save Custom View"
 msgstr "Aangepaste weergave opslaan"
 
 # enkelvoud is mooier (voor het label)
-#: ../calendar/gui/gnome-cal.c:2215 ../widgets/menus/gal-view-instance.c:590
+#: ../calendar/gui/gnome-cal.c:2234 ../widgets/menus/gal-view-instance.c:590
 #: ../widgets/menus/gal-view-menus.c:372
 msgid "Define Views..."
 msgstr "Weergave definiëren..."
 
-#: ../calendar/gui/gnome-cal.c:2378
+#: ../calendar/gui/gnome-cal.c:2397
 #, c-format
 msgid "Loading appointments at %s"
 msgstr "Bezig met het laden van afspraken uit %s"
 
-#: ../calendar/gui/gnome-cal.c:2397
+#: ../calendar/gui/gnome-cal.c:2416
 #, c-format
 msgid "Loading tasks at %s"
 msgstr "Bezig met het laden van taken uit %s"
 
-#: ../calendar/gui/gnome-cal.c:2498
+#: ../calendar/gui/gnome-cal.c:2517
 #, c-format
 msgid "Opening %s"
 msgstr "Bezig met openen van %s"
 
-#: ../calendar/gui/gnome-cal.c:3388
+#: ../calendar/gui/gnome-cal.c:3408
 msgid "Purging"
 msgstr "Legen"
 
@@ -8119,85 +8119,85 @@ msgstr "Za"
 
 # a=afgekorte weekdag, b=afgekorte maandnaam d=dag vd maand als getal
 #. Day
-#: ../calendar/gui/print.c:1917
+#: ../calendar/gui/print.c:1926
 msgid "Selected day (%a %b %d %Y)"
 msgstr "Geselecteerde dag (%a %d %b %Y)"
 
-#: ../calendar/gui/print.c:1942 ../calendar/gui/print.c:1946
+#: ../calendar/gui/print.c:1951 ../calendar/gui/print.c:1955
 msgid "%a %b %d"
 msgstr "%a %d %b"
 
-#: ../calendar/gui/print.c:1943
+#: ../calendar/gui/print.c:1952
 msgid "%a %d %Y"
 msgstr "%a %d %Y"
 
-#: ../calendar/gui/print.c:1947 ../calendar/gui/print.c:1949
-#: ../calendar/gui/print.c:1950
+#: ../calendar/gui/print.c:1956 ../calendar/gui/print.c:1958
+#: ../calendar/gui/print.c:1959
 msgid "%a %b %d %Y"
 msgstr "%a %b %d %Y"
 
-#: ../calendar/gui/print.c:1954
+#: ../calendar/gui/print.c:1963
 #, c-format
 msgid "Selected week (%s - %s)"
 msgstr "Geselecteerde week (%s - %s)"
 
 #. Month
-#: ../calendar/gui/print.c:1962
+#: ../calendar/gui/print.c:1971
 msgid "Selected month (%b %Y)"
 msgstr "Geselecteerde maand (%b %Y)"
 
 #. Year
-#: ../calendar/gui/print.c:1969
+#: ../calendar/gui/print.c:1978
 msgid "Selected year (%Y)"
 msgstr "Geselecteerde jaar (%Y)"
 
 # samenvatting/onderwerp
-#: ../calendar/gui/print.c:2320
+#: ../calendar/gui/print.c:2329
 #, c-format
 msgid "Summary: %s"
 msgstr "Samenvatting: %s"
 
-#: ../calendar/gui/print.c:2328
+#: ../calendar/gui/print.c:2337
 #, c-format
 msgid "Location: %s"
 msgstr "Locatie: %s"
 
-#: ../calendar/gui/print.c:2371
+#: ../calendar/gui/print.c:2380
 #, c-format
 msgid "Status: %s"
 msgstr "Status: %s"
 
 # urgentie/prioriteit
-#: ../calendar/gui/print.c:2388
+#: ../calendar/gui/print.c:2397
 #, c-format
 msgid "Priority: %s"
 msgstr "Prioriteit: %s"
 
-#: ../calendar/gui/print.c:2400
+#: ../calendar/gui/print.c:2409
 #, c-format
 msgid "Percent Complete: %i"
 msgstr "Procent voltooid: %i"
 
-#: ../calendar/gui/print.c:2412
+#: ../calendar/gui/print.c:2421
 #, c-format
 msgid "URL: %s"
 msgstr "URL: %s"
 
-#: ../calendar/gui/print.c:2426
+#: ../calendar/gui/print.c:2435
 #, c-format
 msgid "Categories: %s"
 msgstr "Categorieën: %s"
 
-#: ../calendar/gui/print.c:2437
+#: ../calendar/gui/print.c:2446
 msgid "Contacts: "
 msgstr "Contacten: "
 
-#: ../calendar/gui/print.c:2577 ../calendar/gui/print.c:2665
-#: ../calendar/gui/print.c:2791 ../mail/em-format-html-print.c:178
+#: ../calendar/gui/print.c:2586 ../calendar/gui/print.c:2674
+#: ../calendar/gui/print.c:2800 ../mail/em-format-html-print.c:178
 msgid "Print Preview"
 msgstr "Afdrukvoorbeeld"
 
-#: ../calendar/gui/print.c:2612
+#: ../calendar/gui/print.c:2621
 msgid "Print Item"
 msgstr "Item afdrukken"
 
@@ -8234,43 +8234,43 @@ msgstr ""
 msgid "There is no calendar available for creating tasks"
 msgstr "Er is geen agenda beschikbaar voor het aanmaken van taken"
 
-#: ../calendar/gui/tasks-component.c:981
+#: ../calendar/gui/tasks-component.c:987
 msgid "Task Source Selector"
 msgstr "Takenbron-selectie"
 
-#: ../calendar/gui/tasks-component.c:1164
+#: ../calendar/gui/tasks-component.c:1170
 msgid "New task"
 msgstr "Nieuwe taak"
 
-#: ../calendar/gui/tasks-component.c:1165
+#: ../calendar/gui/tasks-component.c:1171
 msgid "_Task"
 msgstr "_Taak"
 
-#: ../calendar/gui/tasks-component.c:1166
+#: ../calendar/gui/tasks-component.c:1172
 msgid "Create a new task"
 msgstr "Nieuwe taak aanmaken"
 
-#: ../calendar/gui/tasks-component.c:1172
+#: ../calendar/gui/tasks-component.c:1178
 msgid "New assigned task"
 msgstr "Nieuwe toegewezen taak"
 
-#: ../calendar/gui/tasks-component.c:1173
+#: ../calendar/gui/tasks-component.c:1179
 msgid "Assigne_d Task"
 msgstr "Toegewe_zen taak"
 
-#: ../calendar/gui/tasks-component.c:1174
+#: ../calendar/gui/tasks-component.c:1180
 msgid "Create a new assigned task"
 msgstr "Nieuwe toegewezen taak aanmaken"
 
-#: ../calendar/gui/tasks-component.c:1180
+#: ../calendar/gui/tasks-component.c:1186
 msgid "New task list"
 msgstr "Nieuwe takenlijst"
 
-#: ../calendar/gui/tasks-component.c:1181
+#: ../calendar/gui/tasks-component.c:1187
 msgid "Task l_ist"
 msgstr "Ta_kenlijst"
 
-#: ../calendar/gui/tasks-component.c:1182
+#: ../calendar/gui/tasks-component.c:1188
 msgid "Create a new task list"
 msgstr "Nieuwe takenlijst toevoegen"
 
@@ -8290,7 +8290,7 @@ msgstr ""
 msgid "Do not ask me again."
 msgstr "Dit bericht niet meer weergeven."
 
-#: ../calendar/gui/tasks-control.c:457
+#: ../calendar/gui/tasks-control.c:456
 msgid "Print Tasks"
 msgstr "Taken afdrukken"
 
@@ -10010,7 +10010,7 @@ msgid "_Attachment Bar"
 msgstr "Bijlagebal_k"
 
 # # Het origineel heeft <b> in plaats van </b>
-#: ../composer/e-msg-composer.c:4718
+#: ../composer/e-msg-composer.c:4720
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)"
 "<b>"
@@ -10819,7 +10819,7 @@ msgstr ""
 "aan om deze te accepteren\n"
 
 #: ../mail/em-account-editor.c:464 ../mail/em-filter-folder-element.c:237
-#: ../mail/em-vfolder-rule.c:494
+#: ../mail/em-vfolder-rule.c:495
 msgid "Select Folder"
 msgstr "Map selecteren"
 
@@ -10843,30 +10843,30 @@ msgstr "Automatisch controleren op _nieuwe post, iedere"
 msgid "Sending Email"
 msgstr "E-mail versturen"
 
-#: ../mail/em-account-editor.c:2162 ../mail/mail-config.glade.h:68
+#: ../mail/em-account-editor.c:2165 ../mail/mail-config.glade.h:68
 msgid "Defaults"
 msgstr "Standaardinstellingen"
 
 #. Security settings
-#: ../mail/em-account-editor.c:2223 ../mail/mail-config.glade.h:122
-#: ../plugins/exchange-operations/exchange-account-setup.c:311
+#: ../mail/em-account-editor.c:2226 ../mail/mail-config.glade.h:122
+#: ../plugins/exchange-operations/exchange-account-setup.c:313
 msgid "Security"
 msgstr "Beveiliging"
 
 #. Most sections for this is auto-generated fromt the camel config
-#: ../mail/em-account-editor.c:2260 ../mail/em-account-editor.c:2334
+#: ../mail/em-account-editor.c:2263 ../mail/em-account-editor.c:2337
 msgid "Receiving Options"
 msgstr "Ontvangstinstellingen"
 
-#: ../mail/em-account-editor.c:2261 ../mail/em-account-editor.c:2335
+#: ../mail/em-account-editor.c:2264 ../mail/em-account-editor.c:2338
 msgid "Checking for New Mail"
 msgstr "Controleren op nieuwe e-mail"
 
-#: ../mail/em-account-editor.c:2659 ../mail/mail-config.glade.h:34
+#: ../mail/em-account-editor.c:2661 ../mail/mail-config.glade.h:34
 msgid "Account Editor"
 msgstr "Accountbeheer"
 
-#: ../mail/em-account-editor.c:2659 ../mail/mail-config.glade.h:80
+#: ../mail/em-account-editor.c:2661 ../mail/mail-config.glade.h:80
 msgid "Evolution Account Assistant"
 msgstr "Evolution Account Assistent"
 
@@ -11256,78 +11256,78 @@ msgid "Sent"
 msgstr "Verzonden"
 
 # Laden...
-#: ../mail/em-folder-tree-model.c:498 ../mail/em-folder-tree-model.c:802
+#: ../mail/em-folder-tree-model.c:499 ../mail/em-folder-tree-model.c:803
 msgid "Loading..."
 msgstr "Bezig met laden..."
 
-#: ../mail/em-folder-tree.c:689
+#: ../mail/em-folder-tree.c:694
 msgid "Mail Folder Tree"
 msgstr "Mailmappen-boom"
 
-#: ../mail/em-folder-tree.c:849
+#: ../mail/em-folder-tree.c:854
 #, c-format
 msgid "Moving folder %s"
 msgstr "verplaatsen map %s"
 
 # map wordt gekopieerd
-#: ../mail/em-folder-tree.c:851
+#: ../mail/em-folder-tree.c:856
 #, c-format
 msgid "Copying folder %s"
 msgstr "Bezig met kopiëren van map %s"
 
-#: ../mail/em-folder-tree.c:858 ../mail/message-list.c:1613
+#: ../mail/em-folder-tree.c:863 ../mail/message-list.c:1613
 #, c-format
 msgid "Moving messages into folder %s"
 msgstr "Berichten worden verplaatst naar map %s"
 
-#: ../mail/em-folder-tree.c:860 ../mail/message-list.c:1615
+#: ../mail/em-folder-tree.c:865 ../mail/message-list.c:1615
 #, c-format
 msgid "Copying messages into folder %s"
 msgstr "Berichten worden gekopieerd naar map %s"
 
-#: ../mail/em-folder-tree.c:876
+#: ../mail/em-folder-tree.c:881
 msgid "Cannot drop message(s) into toplevel store"
 msgstr "Kan bericht(en) niet neerzetten in hoogste niveau-opslag"
 
-#: ../mail/em-folder-tree.c:972 ../ui/evolution-mail-message.xml.h:104
+#: ../mail/em-folder-tree.c:977 ../ui/evolution-mail-message.xml.h:104
 msgid "_Copy to Folder"
 msgstr "_Kopiëren naar map"
 
-#: ../mail/em-folder-tree.c:973 ../ui/evolution-mail-message.xml.h:114
+#: ../mail/em-folder-tree.c:978 ../ui/evolution-mail-message.xml.h:114
 msgid "_Move to Folder"
 msgstr "_Verplaatsen naar map"
 
 # mappen in %s worden gescannd/doorzocht/gelezen
-#: ../mail/em-folder-tree.c:1678 ../mail/mail-ops.c:1057
+#: ../mail/em-folder-tree.c:1683 ../mail/mail-ops.c:1057
 #, c-format
 msgid "Scanning folders in \"%s\""
 msgstr "Mappen in \"%s\" worden doorzocht"
 
-#: ../mail/em-folder-tree.c:2031 ../ui/evolution-addressbook.xml.h:44
+#: ../mail/em-folder-tree.c:2036 ../ui/evolution-addressbook.xml.h:44
 #: ../ui/evolution-mail-global.xml.h:24
 #: ../ui/evolution-mail-messagedisplay.xml.h:8
 #: ../ui/evolution-message-composer.xml.h:54 ../ui/evolution.xml.h:48
 msgid "_View"
 msgstr "Beel_d"
 
-#: ../mail/em-folder-tree.c:2032
+#: ../mail/em-folder-tree.c:2037
 msgid "Open in _New Window"
 msgstr "In _nieuw venster openen"
 
-#: ../mail/em-folder-tree.c:2036
+#: ../mail/em-folder-tree.c:2041
 msgid "_Copy..."
 msgstr "_Kopiëren..."
 
-#: ../mail/em-folder-tree.c:2037
+#: ../mail/em-folder-tree.c:2042
 msgid "_Move..."
 msgstr "_Verplaatsen..."
 
 #. FIXME: need to disable for nochildren folders
-#: ../mail/em-folder-tree.c:2041
+#: ../mail/em-folder-tree.c:2046
 msgid "_New Folder..."
 msgstr "_Nieuwe map..."
 
-#: ../mail/em-folder-tree.c:2044 ../ui/evolution-mail-list.xml.h:30
+#: ../mail/em-folder-tree.c:2049 ../ui/evolution-mail-list.xml.h:30
 msgid "_Rename..."
 msgstr "He_rnoemen..."
 
@@ -11367,14 +11367,14 @@ msgstr "Bezig met aanmaken map `%s'"
 
 #: ../mail/em-folder-utils.c:730
 #: ../plugins/groupwise-features/install-shared.c:164
-#: ../plugins/groupwise-features/share-folder-common.c:387
+#: ../plugins/groupwise-features/share-folder-common.c:384
 msgid "Create folder"
 msgstr "Map aanmaken"
 
 # vrij vertaald
 #: ../mail/em-folder-utils.c:730
 #: ../plugins/groupwise-features/install-shared.c:164
-#: ../plugins/groupwise-features/share-folder-common.c:387
+#: ../plugins/groupwise-features/share-folder-common.c:384
 msgid "Specify where to create the folder:"
 msgstr "Geef aan waar de map moet komen:"
 
@@ -11770,7 +11770,7 @@ msgstr "Bcc"
 
 #. pseudo-header
 #: ../mail/em-format-html.c:1576 ../mail/em-format-quote.c:322
-#: ../mail/em-mailer-prefs.c:987
+#: ../mail/em-mailer-prefs.c:992
 msgid "Mailer"
 msgstr "E-mailprogramma"
 
@@ -11995,7 +11995,7 @@ msgstr "Berichten van %s"
 msgid "Search _Folders"
 msgstr "Zoek_mappen"
 
-#: ../mail/em-vfolder-rule.c:574
+#: ../mail/em-vfolder-rule.c:575
 msgid "Search Folder source"
 msgstr "Zoekmapbron"
 
@@ -14803,11 +14803,11 @@ msgstr ""
 "Met deze optie zal bij het aanmelden bij de Exchange-server het wachtwoord "
 "versturen als platte tekst."
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:251
+#: ../plugins/exchange-operations/exchange-account-setup.c:253
 msgid "Out Of Office"
 msgstr "Afwezig"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:258
+#: ../plugins/exchange-operations/exchange-account-setup.c:260
 msgid ""
 "The message specified below will be automatically sent to \n"
 "each person who sends mail to you while you are out of the office."
@@ -14815,67 +14815,67 @@ msgstr ""
 "Het bericht hieronder zal automatisch worden vertuurd naar een ieder\n"
 "die naar u een bericht stuurt wanneer u afwezig bent."
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:270
-#: ../plugins/exchange-operations/exchange-account-setup.c:275
+#: ../plugins/exchange-operations/exchange-account-setup.c:272
+#: ../plugins/exchange-operations/exchange-account-setup.c:277
 msgid "I am out of the office"
 msgstr "Ik ben op dit moment afwezig"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:271
-#: ../plugins/exchange-operations/exchange-account-setup.c:274
+#: ../plugins/exchange-operations/exchange-account-setup.c:273
+#: ../plugins/exchange-operations/exchange-account-setup.c:276
 msgid "I am in the office"
 msgstr "Ik ben op dit moment aanwezig"
 
 #. Change Password
-#: ../plugins/exchange-operations/exchange-account-setup.c:321
+#: ../plugins/exchange-operations/exchange-account-setup.c:324
 msgid "Change the password for Exchange account"
 msgstr "Wachtwoord voor Exchange-account wijzigen"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:323
+#: ../plugins/exchange-operations/exchange-account-setup.c:326
 #: ../plugins/exchange-operations/exchange-change-password.glade.h:2
 msgid "Change Password"
 msgstr "Wachtwoord wijzigen"
 
 #. Delegation Assistant
-#: ../plugins/exchange-operations/exchange-account-setup.c:327
+#: ../plugins/exchange-operations/exchange-account-setup.c:331
 msgid "Manage the delegate settings for Exchange account"
 msgstr "Instellingen beheren voor delegeren bij een Exchange-account"
 
 # assistent delegeren/delegeren assistent
-#: ../plugins/exchange-operations/exchange-account-setup.c:329
+#: ../plugins/exchange-operations/exchange-account-setup.c:333
 msgid "Delegation Assitant"
 msgstr "Delegeren assistent"
 
 #. Miscelleneous settings
-#: ../plugins/exchange-operations/exchange-account-setup.c:339
+#: ../plugins/exchange-operations/exchange-account-setup.c:345
 msgid "Miscelleneous"
 msgstr "Overig"
 
 #. Folder Size
-#: ../plugins/exchange-operations/exchange-account-setup.c:349
+#: ../plugins/exchange-operations/exchange-account-setup.c:355
 msgid "View the size of all Exchange folders"
 msgstr "De grootte van alle Exchangemappen tonen"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:351
+#: ../plugins/exchange-operations/exchange-account-setup.c:357
 msgid "Folders Size"
 msgstr "Mapgrootte"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:358
+#: ../plugins/exchange-operations/exchange-account-setup.c:364
 msgid "Exchange Settings"
 msgstr "Exchange-instellingen"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:601
+#: ../plugins/exchange-operations/exchange-account-setup.c:611
 msgid "_OWA Url:"
 msgstr "_OWA Url:"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:626
+#: ../plugins/exchange-operations/exchange-account-setup.c:636
 msgid "A_uthenticate"
 msgstr "Aan_meldingscontrole"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:814
+#: ../plugins/exchange-operations/exchange-account-setup.c:824
 msgid "Authentication Type"
 msgstr "Soort aanmeldingscontrole"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:828
+#: ../plugins/exchange-operations/exchange-account-setup.c:838
 msgid "Ch_eck for Supported Types"
 msgstr "_Testen op ondersteunde types "
 
@@ -15658,7 +15658,7 @@ msgstr "Proxy-login"
 
 #: ../plugins/groupwise-features/proxy-login.c:219
 #: ../plugins/groupwise-features/proxy-login.c:261
-#: ../plugins/groupwise-features/proxy.c:490
+#: ../plugins/groupwise-features/proxy.c:499
 #: ../plugins/groupwise-features/send-options.c:83
 #, c-format
 msgid "%sEnter password for %s (user %s)"
@@ -15669,7 +15669,7 @@ msgid "_Proxy Login..."
 msgstr "_Proxy aanmelding..."
 
 # ingesteld/actief gemaakt/geactiveerd/aangezet
-#: ../plugins/groupwise-features/proxy.c:672
+#: ../plugins/groupwise-features/proxy.c:680
 msgid "The Proxy tab will be available only when the account is enabled."
 msgstr "Het tabblad proxy is beschikbaar wanneer het account is geactiveerd."
 
@@ -15685,7 +15685,7 @@ msgstr "Geef de gebruikers en bepaal de rechten"
 msgid "New _Shared Folder..."
 msgstr "Nieuwe _gedeelde map..."
 
-#: ../plugins/groupwise-features/share-folder-common.c:453
+#: ../plugins/groupwise-features/share-folder-common.c:446
 msgid "Sharing"
 msgstr "Delen"
 
@@ -16547,7 +16547,7 @@ msgstr "Afdruk_voorbeeld"
 msgid "Prints the message"
 msgstr "Druk het bericht af"
 
-#: ../plugins/sa-junk-plugin/em-junk-filter.c:98
+#: ../plugins/sa-junk-plugin/em-junk-filter.c:99
 msgid "Spamassassin (built-in)"
 msgstr "Spamassassin (ingebouwd)"
 
@@ -20567,3 +20567,2759 @@ msgstr "IM Omgeving"
 #: ../widgets/text/e-text.c:3683 ../widgets/text/e-text.c:3684
 msgid "Handle Popup"
 msgstr "Sleepbalkpopup"
+
+# gewoon 'berichten' beter? korter?
+#~ msgid "Message _List As"
+#~ msgstr "Berichtenlijst _als"
+
+# dubbele sneltoets
+#~ msgid "_New Search _Folder (FIXME)"
+#~ msgstr "_Nieuwe zoekmap"
+
+#~ msgid "Evolution _FAQ"
+#~ msgstr "Evolution _FAQ"
+
+#~ msgid "Mo_ve to Folder..."
+#~ msgstr "Naar map _verplaatsen..."
+
+# engels spelling: messaage
+#~ msgid "Unknown error verifying signed messaage"
+#~ msgstr "Onbekende fout bij het verifiëren van ondertekend bericht"
+
+# engels spelling: messaage
+#~ msgid "Unknown error decrypting messaage"
+#~ msgstr "Onbekende fout bij het ontcijferen bericht"
+
+#~ msgid "FIll stipple"
+#~ msgstr "Vullen met stippels"
+
+#~ msgid "vFolders"
+#~ msgstr "vMappen"
+
+#~ msgid "Create _vFolder"
+#~ msgstr "_vMap aanmaken"
+
+#~ msgid "v_Folders"
+#~ msgstr "v_Mappen"
+
+#~ msgid "vFolder source"
+#~ msgstr "vMap-bron"
+
+#~ msgid "Edit vFolder"
+#~ msgstr "vMap bewerken"
+
+#~ msgid "New vFolder"
+#~ msgstr "Nieuwe vMap"
+
+# was eerst: Computernaam, maar kan hier beter: Servernaam/Server zijn.
+# Hier moet het adres van de mailserver worden gegeven
+# letterlijk: gastcomputer
+#~ msgid "_Host:"
+#~ msgstr "_Host:"
+
+#~ msgid "Show _Messages"
+#~ msgstr "Be_richten tonen"
+
+#~ msgid "Un_read Messages"
+#~ msgstr "_Ongelezen berichten:"
+
+#~ msgid "_All"
+#~ msgstr "_Alles"
+
+#~ msgid "_Tools"
+#~ msgstr "E_xtra"
+
+#~ msgid ""
+#~ "Evolution has found Gnome Calendar files.\n"
+#~ "Would you like to import them into Evolution?"
+#~ msgstr ""
+#~ "Evolution heeft Gnome agendabestanden gevonden.\n"
+#~ "Wilt u deze importeren in Evolution?"
+
+#~ msgid "Evolution Netscape Mail importer"
+#~ msgstr "Evolution Netscape mail-import"
+
+#~ msgid "Evolution Outlook Express 4 importer"
+#~ msgstr "Evolution Outlook Express 4 importeerassistent"
+
+#~ msgid "Evolution mbox importer"
+#~ msgstr "Evolution mbox-import"
+
+#~ msgid "MBox (mbox)"
+#~ msgstr "MBox (mbox)"
+
+#~ msgid "Outlook Express 4 (.mbx)"
+#~ msgstr "Outlook Express 4 (.mbx)"
+
+#~ msgid "Evolution is importing your old Elm mail"
+#~ msgstr "Evolution is uw oude Elm mail aan het importeren"
+
+#~ msgid ""
+#~ "Evolution has found Elm mail files\n"
+#~ "Would you like to import them into Evolution?"
+#~ msgstr ""
+#~ "Evolution heeft Elm mailbestand gevonden\n"
+#~ "Wilt u deze importeren naar Evolution?"
+
+#~ msgid "Elm"
+#~ msgstr "Elm"
+
+#~ msgid "Evolution is importing your old Pine data"
+#~ msgstr "Evolution importeert uw oude Pine informatie"
+
+#~ msgid ""
+#~ "Evolution has found Pine mail files.\n"
+#~ "Would you like to import them into Evolution?"
+#~ msgstr ""
+#~ "Evolution heeft Pine mailbestanden gevonden.\n"
+#~ "Wilt u deze importeren naar Evolution?"
+
+#~ msgid "Pine"
+#~ msgstr "Pine"
+
+#~ msgid "Out of office Message:"
+#~ msgstr "Afwezigheidsbericht:"
+
+#~ msgid ""
+#~ "Importing %s\n"
+#~ "Importing item %d."
+#~ msgstr ""
+#~ "Importeren %s\n"
+#~ "Bezig met importeren item %d."
+
+#~ msgid "Select importer"
+#~ msgstr "Importeerder selecteren"
+
+#~ msgid "File %s does not exist"
+#~ msgstr "Map %s bestaat niet"
+
+#~ msgid "Importing"
+#~ msgstr "Bezig met importeren"
+
+#~ msgid "Importing %s.\n"
+#~ msgstr "Importeren %s.\n"
+
+#~ msgid "Error loading %s"
+#~ msgstr "Fout bij laden %s"
+
+#~ msgid ""
+#~ "Importing %s\n"
+#~ "Importing item 1."
+#~ msgstr ""
+#~ "Importeren %s\n"
+#~ "Bezig met importeren item 1."
+
+#~ msgid "Automatic"
+#~ msgstr "Automatisch"
+
+#~ msgid ""
+#~ "Please wait...\n"
+#~ "Scanning for existing setups"
+#~ msgstr ""
+#~ "Even geduld...\n"
+#~ "Bestaande instellingen worden nagezocht"
+
+#~ msgid "Starting Intelligent Importers"
+#~ msgstr "Intelligent Importeren wordt gestart"
+
+#~ msgid "No importer available for file %s"
+#~ msgstr "Geen importeerder beschikbaar voor bestand %s"
+
+#~ msgid "Unable to execute importer"
+#~ msgstr "Kon importeerder niet uitvoeren"
+
+#~ msgid "Importers"
+#~ msgstr "Importeerders"
+
+#~ msgid "Don't import"
+#~ msgstr "Niet importeren"
+
+#~ msgid "Don't ask me again"
+#~ msgstr "Dit bericht niet meer weergeven."
+
+#~ msgid "Evolution can import data from the following files:"
+#~ msgstr "Evolution kan gegevens importeren van de volgende bestanden:"
+
+#~ msgid "Your server needs to be updated"
+#~ msgstr "Uw server heeft een update nodig"
+
+#~ msgid ""
+#~ "Are you sure you want\n"
+#~ "to delete this contact?"
+#~ msgstr ""
+#~ "Weet u zeker dat u dit\n"
+#~ "contact wilt verwijderen?"
+
+#~ msgid "Save Appointment"
+#~ msgstr "Afspraak opslaan"
+
+#~ msgid ""
+#~ " Some features may not work correctly with your current server version "
+#~ msgstr ""
+#~ " Bepaalde mogelijkheden werken mogelijk niet correct met uw huidige "
+#~ "server-versie "
+
+#~ msgid "Appointment Title"
+#~ msgstr "Afspraak titel"
+
+#~ msgid "end-time"
+#~ msgstr "eindtijd"
+
+#~ msgid "start-time"
+#~ msgstr "begintijd"
+
+# probleem met de _a is dat deze al voor de knop _Aan gebruikt wordt
+# de _b wordt gebruikt voor _Bestand
+#~ msgid "Show _Attachment Bar (drop attachments here)"
+#~ msgstr "Bijl_agenbalk tonen (sleep uw bijlagen hier naar toe)"
+
+#~ msgid "Attachment Button: Press space key to toggle attachment bar"
+#~ msgstr ""
+#~ "Bijlageknop: Druk op de spatiebalk om de bijlagebalk om te schakelen"
+
+#~ msgid "N"
+#~ msgstr "N"
+
+#~ msgid "S"
+#~ msgstr "S"
+
+#~ msgid "W"
+#~ msgstr "W"
+
+# indien/als
+#~ msgid "<b>If</b>"
+#~ msgstr "<b>Als</b>"
+
+#~ msgid "port for starting user runned spamd"
+#~ msgstr "port voor het starten van gebruikersmode spamd"
+
+#~ msgid "spamd port"
+#~ msgstr "spamd poort"
+
+#~ msgid "_Load images if sender is in address book"
+#~ msgstr "Afbee_ldingen tonen als de afzender in het adresboek voorkomt"
+
+#~ msgid "{1}."
+#~ msgstr "{1}."
+
+# Engels: spatie te veel: "Mark  as default folder"
+#~ msgid "Mark  as default folder"
+#~ msgstr "Aanmerken als standaardmap"
+
+#~ msgid "<b>%s</b> requests the presence of %s at the following meeting:"
+#~ msgstr ""
+#~ "<b>%s</b> verzoekt %s om bij de volgende bijeenkomst aanwezig te zijn:"
+
+#~ msgid "Manage Plugins..."
+#~ msgstr "Plugins beheren..."
+
+#~ msgid "%s%d/%s%d/%s%d %s%d:%s%d:%s%d"
+#~ msgstr "%s%d/%s%d/%s%d %s%d:%s%d:%s%d"
+
+#~ msgid ""
+#~ "Uid%sSummary%sDescription List%sCategories List%sComment List%sCompleted%"
+#~ "sCreated%sContact List%sStart%sEnd%sDue%sPercent Done%sPriority%sUrl%"
+#~ "sAttendees List%sLocation%sModified%s"
+#~ msgstr ""
+#~ "Uid%sOnderwerp%sOmschrijving%scategorieën%sOpmerkingen%sVoltooid%"
+#~ "sAangemaakt%sContacten%sBegin%sEinde%sVerloopt%sPercentage gedaan%"
+#~ "sPrioriteit%sUrl%sWie%sLocatie%sGewijzigd%s"
+
+#~ msgid "Invalid user"
+#~ msgstr "Ongeldige gebruiker"
+
+#~ msgid ""
+#~ "\n"
+#~ "You cannot share folder with specified user \"{0}\" \n"
+#~ msgstr ""
+#~ "\n"
+#~ "U kunt geen map delen met de opgegeven gebruiker \"{0}\" \n"
+
+#~ msgid "Specify User"
+#~ msgstr "Geef de gebruiker"
+
+#~ msgid ""
+#~ "\n"
+#~ "\tYou have to specify a user name whom you want to add to the list \n"
+#~ msgstr ""
+#~ "\n"
+#~ "\tU moet een gebruikersnaam geven van degene die u aan de lijst wilt "
+#~ "toevoegen\n"
+
+#~ msgid "Closing connections..."
+#~ msgstr "Verbindingen ophangen...."
+
+#~ msgid "Starting import"
+#~ msgstr "Importeren wordt gestart"
+
+#~ msgid ""
+#~ "If you quit the Evolution Setup Assistant now, all of the information "
+#~ "that you have entered will be forgotten. You will need to run this "
+#~ "assistant again before using Evolution.\n"
+#~ "\n"
+#~ "Do you want to quit using the Assistant now?"
+#~ msgstr ""
+#~ "Als u nu de Evolution setup assistent verlaat wordt alle door u "
+#~ "ingevoerde informatie vergeten. Deze assistent zal nog een keer gebruikt "
+#~ "moeten worden voordat u Evolution kunt gebruiken.\n"
+#~ "\n"
+#~ "Wilt u de assistent nu afsluiten?"
+
+#~ msgid "Importing Files"
+#~ msgstr "Bezig met Importeren Bestanden"
+
+#~ msgid "Timezone "
+#~ msgstr "Tijdzone "
+
+#~ msgid ""
+#~ "You have successfully entered all of the information needed to set up "
+#~ "Evolution. \n"
+#~ "\n"
+#~ "Click the \"Apply\" button to save your settings. "
+#~ msgstr ""
+#~ "U heeft alle benodigde informatie ingevoerd om Evolution te kunnen "
+#~ "instellen.\n"
+#~ "\n"
+#~ "Klik op \"Toepassen\" om uw instellingen op te slaan."
+
+#~ msgid "Disable the mono plugin environment."
+#~ msgstr "De mono plugin uitzetten."
+
+#~ msgid "Cannot start Evolution"
+#~ msgstr "Kan Evolution niet starten"
+
+#~ msgid "_Filters..."
+#~ msgstr "_Filters..."
+
+#~ msgid "vFolder _Editor..."
+#~ msgstr "vMap _editor..."
+
+#~ msgid "Mark All as _Read"
+#~ msgstr "Alles als gelezen marke_ren"
+
+#~ msgid "_Folder"
+#~ msgstr "_Map"
+
+#~ msgid "_Threaded Message List"
+#~ msgstr "_Berichtenlijst met discussies"
+
+#~ msgid "Create _vFolder From Message"
+#~ msgstr "_vMap aanmaken van bericht"
+
+#~ msgid "F_orward As..."
+#~ msgstr "D_oorsturen als..."
+
+#~ msgid "Filter _Junk"
+#~ msgstr "Filter _Troep"
+
+#~ msgid "Mark as I_mportant"
+#~ msgstr "Als _belangrijk markeren"
+
+#~ msgid "Mark as Unimp_ortant"
+#~ msgstr "Als _onbelangrijk markeren"
+
+#~ msgid "S_earch in Message..."
+#~ msgstr "Zo_eken in berichten..."
+
+#~ msgid "S_maller"
+#~ msgstr "_Kleiner"
+
+#~ msgid "Show Email _Source"
+#~ msgstr "_Broncode"
+
+#~ msgid "Show Full _Headers"
+#~ msgstr "Volledige bericht_kop"
+
+#~ msgid "Text Si_ze"
+#~ msgstr "Tekstgroo_tte"
+
+#~ msgid "_Attached"
+#~ msgstr "_Bijgevoegd"
+
+#~ msgid "_Create Filter From Message"
+#~ msgstr "_Filter maken van bericht"
+
+#~ msgid "_Inline"
+#~ msgstr "_Ingebonden"
+
+#~ msgid "_Larger"
+#~ msgstr "_Groter"
+
+#~ msgid "_Message Display"
+#~ msgstr "_Berichtweergave"
+
+#~ msgid "_Normal Display"
+#~ msgstr "_Normaal"
+
+#~ msgid "_Open Message"
+#~ msgstr "Bericht _openen"
+
+#~ msgid "_Quoted"
+#~ msgstr "Ge_citeerd"
+
+#~ msgid "_Undelete"
+#~ msgstr "_Herstellen"
+
+#~ msgid "Show / hide attachments"
+#~ msgstr "Toon/Verberg Bijlages"
+
+#~ msgid "Show _attachments"
+#~ msgstr "Toon _Bijlages"
+
+#~ msgid "Show attachments"
+#~ msgstr "Toon Bijlages"
+
+#~ msgid "E_xit"
+#~ msgstr "A_fsluiten"
+
+#~ msgid "Window B_uttons"
+#~ msgstr "_Vensterknoppen"
+
+#~ msgid "_Advanced..."
+#~ msgstr "_Geavanceerd..."
+
+#~ msgid ""
+#~ "None\n"
+#~ "Mail Receipt\n"
+#~ msgstr ""
+#~ "Geen\n"
+#~ "Leesbevestiging\n"
+
+#~ msgid ""
+#~ "\n"
+#~ " Please read carefully the license agreement displayed\n"
+#~ " below and tick the check box for accepting it\n"
+#~ msgstr ""
+#~ "\n"
+#~ "Lees onderstaande licentieovereenkomst zorgvuldig door\n"
+#~ "en vink de optie aan om deze te accepteren\n"
+
+#~ msgid "_Remember this password"
+#~ msgstr "_Onthoud dit wachtwoord"
+
+#~ msgid "_Remember this password for the remainder of this session"
+#~ msgstr "Dit wachtwoord onthouden tot het einde van deze sessie"
+
+#~ msgid "have "
+#~ msgstr "heeft "
+
+#~ msgid "has "
+#~ msgstr "heeft "
+
+#~ msgid " cards"
+#~ msgstr " kaarten"
+
+#~ msgid " card"
+#~ msgstr " kaart"
+
+#~ msgid "contact's header: "
+#~ msgstr "contacten kop: "
+
+#~ msgid ""
+#~ "Address book '%s' will be removed. Are you sure you want to continue?"
+#~ msgstr ""
+#~ "Adresboek '%s' zal worden verwijderd. Weet u zeker dat u wilt doorgaan?"
+
+#~ msgid "Evolution Addressbook name selection interface"
+#~ msgstr "Evolution adresboek naamselectie-interface"
+
+#~ msgid "Remove All"
+#~ msgstr "Alle verwijderen"
+
+#~ msgid "View Contact List"
+#~ msgstr "Contactenlijst weergeven"
+
+#~ msgid "View Contact Info"
+#~ msgstr "Contactinformatie weergeven"
+
+#~ msgid "Send HTML Mail?"
+#~ msgstr "HTML e-mail versturen?"
+
+#~ msgid "Unnamed Contact"
+#~ msgstr "Ander contact"
+
+#~ msgid "Select Contacts from Address Book"
+#~ msgstr "Selecteer contacten uit het adresboek"
+
+#~ msgid "<b>Contacts</b>"
+#~ msgstr "<b>Adresboek</b>"
+
+#~ msgid "<b>Show Contacts</b>"
+#~ msgstr "Adresboek weergeven"
+
+#~ msgid "Address _Book:"
+#~ msgstr "Adres_boek:"
+
+#~ msgid "C_ategory:"
+#~ msgstr "_Categorie:"
+
+#~ msgid "_Find"
+#~ msgstr "_Zoeken"
+
+#~ msgid "_Search:"
+#~ msgstr "_Zoeken:"
+
+#~ msgid "Address:"
+#~ msgstr "Adres:"
+
+#~ msgid "PO Box:"
+#~ msgstr "Postbus:"
+
+#~ msgid "State/Province:"
+#~ msgstr "Staat/Provincie:"
+
+#~ msgid "Title:"
+#~ msgstr "Titel:"
+
+#~ msgid "Go to Folder..."
+#~ msgstr "Ga naar map..."
+
+#~ msgid "Import..."
+#~ msgstr "Importeren..."
+
+#~ msgid "Address Book Sources..."
+#~ msgstr "Adresboekbronnen..."
+
+#~ msgid "Print Envelope"
+#~ msgstr "Envelop afdrukken"
+
+#~ msgid "Edit Contact Info"
+#~ msgstr "Contactinformatie bewerken"
+
+#~ msgid "Evolution VCard importer"
+#~ msgstr "Evolution VCard import assistent"
+
+#~ msgid "Impossible internal error."
+#~ msgstr "Onmogelijke interne fout."
+
+#~ msgid "Unnamed List"
+#~ msgstr "Lijst van onbenoemden"
+
+#~ msgid "Starting:"
+#~ msgstr "Bezig met starten:"
+
+#~ msgid "Ending:"
+#~ msgstr "Einde:"
+
+#~ msgid "Evolution Alarm"
+#~ msgstr "Evolution alarm"
+
+#~ msgid "Alarm on %s"
+#~ msgstr "Alarm op %s"
+
+#~ msgid "_Edit appointment"
+#~ msgstr "_Afspraak bewerken"
+
+#~ msgid "Allocate less space to weekend appointments"
+#~ msgstr "Vergeef minder ruimte aan afspraken in het weekend"
+
+#~ msgid "Days that are work days"
+#~ msgstr "Dagen dat werkdagen zijn"
+
+#~ msgid "Default timezone for meetings"
+#~ msgstr "Standaard tijdzone voor bijeenkomsten"
+
+#~ msgid "Position of the horizontal pane in the month view"
+#~ msgstr "Postitie van het horizontale paneel in de maand weergave"
+
+#~ msgid "Show where events end in week and month views"
+#~ msgstr "Eindtijden van afspraken tonen in week- en maandweergave"
+
+#~ msgid "Whether to ask for confirmation when folder is expunged"
+#~ msgstr "Vr_aag om bevestiging bij het legen van mappen"
+
+#~ msgid "%A %d %B %Y"
+#~ msgstr "%A %d %B %Y"
+
+#~ msgid "Calendar '%s' will be removed. Are you sure you want to continue?"
+#~ msgstr "Agenda '%s' wordt verwijderd. Weet u zeker dat u door wilt gaan?"
+
+#~ msgid "backend_go_offline(): %s"
+#~ msgstr "backend_go_offline(): %s"
+
+#~ msgid "backend_go_online(): %s"
+#~ msgstr "backend_go_online(): %s"
+
+#~ msgid "open_client(): %s"
+#~ msgstr "open_client(): %s"
+
+#~ msgid "Source with name '%s' already exists in the selected group"
+#~ msgstr "Er bestaat al een bron met de naam '%s' in de geselecteerde groep"
+
+#~ msgid "_Destination"
+#~ msgstr "_Doel"
+
+#~ msgid "<span weight=\"bold\">Basics</span>"
+#~ msgstr "<span weight=\"bold\">Algemeen</span>"
+
+#~ msgid "<span weight=\"bold\">Date and Time</span>"
+#~ msgstr "<span weight=\"bold\">Datum & tijd</span>"
+
+#~ msgid "Free/Busy Editor"
+#~ msgstr "Vrij/Bezet bewerken"
+
+#~ msgid "Print Setup"
+#~ msgstr "Printerinstellingen"
+
+#~ msgid "Task List '%s' will be removed. Are you sure you want to continue?"
+#~ msgstr ""
+#~ "Takenlijst '%s' zal worden verwijderd. Weet u zeker dat u door wilt gaan?"
+
+#~ msgid "Signing is not supported by this cipher"
+#~ msgstr "Ondertekening wordt niet ondersteund door deze sleutel"
+
+#~ msgid "Signing message"
+#~ msgstr "Bericht wordt ondertekend"
+
+#~ msgid "Verifying is not supported by this cipher"
+#~ msgstr "Het gespecificeerde type word niet ondersteund door deze sleutel"
+
+#~ msgid "Verifying message"
+#~ msgstr "Bericht wordt geverifieerd"
+
+#~ msgid "Encryption is not supported by this cipher"
+#~ msgstr "Het gespecificeerde type word niet ondersteund door deze sleutel"
+
+#~ msgid "Encrypting message"
+#~ msgstr "Bericht wordt versleuteld"
+
+#~ msgid "Decryption is not supported by this cipher"
+#~ msgstr "Het gespecificeerde type word niet ondersteund door deze sleutel"
+
+#~ msgid "Decrypting message"
+#~ msgstr "Bericht wordt ontcijferd"
+
+#~ msgid "You may not import keys with this cipher"
+#~ msgstr "U mag geen sleutels importeren met deze sleutel"
+
+#~ msgid "You may not export keys with this cipher"
+#~ msgstr "U mag geen sleutels exporteren met deze sleutel"
+
+#~ msgid "Unable to create cache path"
+#~ msgstr "Kon bufferpad niet aanmaken"
+
+#~ msgid "Could not remove cache entry: %s: %s"
+#~ msgstr "Kon bufferitem: %s niet verwijderen: %s"
+
+#~ msgid ""
+#~ "Could not write log entry: %s\n"
+#~ "Further operations on this server will not be replayed when you\n"
+#~ "reconnect to the network."
+#~ msgstr ""
+#~ "Kon niet in logboek schrijven: %s\\n\n"
+#~ "\"Verdere operaties op deze server zullen niet doorgevoerd worden als u\n"
+#~ "\"herverbindt met het netwerk."
+
+#~ msgid ""
+#~ "Could not open `%s':\n"
+#~ "%s\n"
+#~ "Changes made to this folder will not be resynchronized."
+#~ msgstr ""
+#~ "Kon '%s' niet openen:\n"
+#~ "%s\\n\n"
+#~ "Veranderingen in deze map zullen niet worden gesynchroniseerd."
+
+#~ msgid "Resynchronizing with server"
+#~ msgstr "Aan het synchroniseren met de server"
+
+#~ msgid "Downloading new messages for offline mode"
+#~ msgstr "Bezig met binnenhalen van berichten voor offline gebruik"
+
+#~ msgid "Preparing folder '%s' for offline"
+#~ msgstr "Map '%s' wordt voorbereid voor offline gebruik"
+
+#~ msgid "You must be working online to complete this operation"
+#~ msgstr "U moet online werken om deze bewerking te voltooien"
+
+#~ msgid "Failed to create pipe to '%s': %s"
+#~ msgstr "Aanmaken van pijp naar '%s' mislukt: %s"
+
+#~ msgid "Failed to create child process '%s': %s"
+#~ msgstr "Starten van kindproces '%s' mislukt: %s"
+
+#~ msgid "Invalid message stream received from %s: %s"
+#~ msgstr "Ongeldige berichtenstroom ontvangen van %s: %s"
+
+#~ msgid "Syncing folders"
+#~ msgstr "Map wordt gesynchroniseerd"
+
+#~ msgid "Error parsing filter: %s: %s"
+#~ msgstr "Fout bij interpreten bestand: %s: %s"
+
+#~ msgid "Error executing filter: %s: %s"
+#~ msgstr "Fout bij uitvoeren filter: %s: %s"
+
+#~ msgid "Unable to open spool folder"
+#~ msgstr "Kan de spoolmap niet openen"
+
+#~ msgid "Getting message %d (%d%%)"
+#~ msgstr "Ophalen bericht %d(%d%%)"
+
+#~ msgid "Cannot open message"
+#~ msgstr "Kan bericht niet opnemen"
+
+#~ msgid "Failed on message %d"
+#~ msgstr "Faalde bij bericht %d"
+
+#~ msgid "Syncing folder"
+#~ msgstr "Map wordt gesynchroniseerd"
+
+# dit moet kort, anders zie je de aantallen niet meer
+#~ msgid "Getting message %d of %d"
+#~ msgstr "Ophalen bericht %d van %d"
+
+#~ msgid "Failed at message %d of %d"
+#~ msgstr "Faalde bij bericht %d van %d"
+
+#~ msgid "Failed to retrieve message"
+#~ msgstr "Ophalen bericht mislukt"
+
+#~ msgid "Invalid arguments to (system-flag)"
+#~ msgstr "Ongeldige argumenten voor (systeemvlag)"
+
+#~ msgid "Invalid arguments to (user-tag)"
+#~ msgstr "Ongeldige argumenten voor (gebruiker)"
+
+#~ msgid "Failed to create create child process '%s': %s"
+#~ msgstr "Starten van dochterproces '%s' mislukt: %s"
+
+#~ msgid "Error executing filter search: %s: %s"
+#~ msgstr "Fout bij uitvoeren filterzoekactie: %s: %s"
+
+# zoekvraag/zoekuitdrukking/zoekopdracht
+#~ msgid ""
+#~ "Cannot parse search expression: %s:\n"
+#~ "%s"
+#~ msgstr ""
+#~ "Kan zoekexpressie niet interpreteren: %s:\n"
+#~ "%s"
+
+#~ msgid ""
+#~ "Error executing search expression: %s:\n"
+#~ "%s"
+#~ msgstr ""
+#~ "Fout bij uitvoeren zoekexpressie: %s:\n"
+#~ "%s"
+
+#~ msgid "(match-all) requires a single bool result"
+#~ msgstr "(match-all) vereist enkelvoudig booleaans resultaat"
+
+#~ msgid "(match-threads) not allowed inside match-all"
+#~ msgstr "(match-threads) niet toegestaan binnen match-all"
+
+#~ msgid "(match-threads) requires a match type string"
+#~ msgstr "(match-threads) vereist een tekenreeks type"
+
+#~ msgid "(match-threads) expects an array result"
+#~ msgstr "(match-threads) vereist een array als resultaat"
+
+#~ msgid "(match-threads) requires the folder set"
+#~ msgstr "(match-threads) vereist ingestelde map"
+
+#~ msgid "Performing query on unknown header: %s"
+#~ msgstr "Bezig met zoeken naar onbekende koptekst: %s"
+
+#~ msgid "Unsupported operation: append message: for %s"
+#~ msgstr ""
+#~ "Opdracht wordt niet ondersteund: bericht achteraan toevoegen: voor %s"
+
+#~ msgid "Unsupported operation: search by expression: for %s"
+#~ msgstr "Opdracht wordt niet ondersteund: zoeken op expressie: voor %s"
+
+#~ msgid "Unsupported operation: search by uids: for %s"
+#~ msgstr "Opdracht wordt niet ondersteund: zoeken op uids: voor %s"
+
+#~ msgid "Moving messages"
+#~ msgstr "Verplaatsen van berichten"
+
+#~ msgid "Copying messages"
+#~ msgstr "Berichten worden gekopieerd"
+
+#~ msgid "Learning junk"
+#~ msgstr "Leren wat troep is"
+
+#~ msgid "Learning non-junk"
+#~ msgstr "Leren wat geen troep is"
+
+#~ msgid "Filtering new message(s)"
+#~ msgstr "Nieuwe berichten worden door de filter gehaald"
+
+#~ msgid ""
+#~ "Unexpected GnuPG status message encountered:\n"
+#~ "\n"
+#~ "%s"
+#~ msgstr ""
+#~ "Onverwacht GnuPG status bericht ontvangen:\n"
+#~ "\n"
+#~ "%s "
+
+#~ msgid "Failed to parse gpg userid hint."
+#~ msgstr "Interpretatie van de gpg userid hint is mislukt."
+
+#~ msgid "Failed to parse gpg passphrase request."
+#~ msgstr "Fout tijdens het verwerken van de gpg wachtwoord aanvraag."
+
+#~ msgid ""
+#~ "You need a passphrase to unlock the key for\n"
+#~ "user: \"%s\""
+#~ msgstr ""
+#~ "U heeft een wachtwoord nodig om de sleutel voor\n"
+#~ "gebruiker \"%s\" te mogen gebruiken"
+
+#~ msgid "Failed to unlock secret key: 3 bad passphrases given."
+#~ msgstr ""
+#~ "Ontgrendelen van de geheime sleutel is mislukt: 3 onjuiste wachtzinnen "
+#~ "gegeven."
+
+#~ msgid "Unexpected response from GnuPG: %s"
+#~ msgstr "Onverwacht antwoord van GnuPG: %s"
+
+#~ msgid "Failed to encrypt: No valid recipients specified."
+#~ msgstr ""
+#~ "Kan dit bericht niet versleutelen: er zijn geen geldige ontvangers "
+#~ "opgegeven."
+
+#~ msgid ""
+#~ "Failed to GPG %s: %s\n"
+#~ "\n"
+#~ "%s"
+#~ msgstr ""
+#~ "GPG %s mislukt: %s\n"
+#~ "\n"
+#~ "%s"
+
+#~ msgid "Failed to GPG %s: %s\n"
+#~ msgstr "GPG %s mislukt: %s\n"
+
+#~ msgid "Could not generate signing data: %s"
+#~ msgstr "Kan ondertekeningsdata niet genereren: %s"
+
+#~ msgid "Failed to execute gpg: %s"
+#~ msgstr "Kon gpg niet starten: %s"
+
+#~ msgid "Failed to execute gpg."
+#~ msgstr "Kon gpg niet starten."
+
+#~ msgid "This is a digitally signed message part"
+#~ msgstr "Dit berichtdeel is digitaal ondertekend"
+
+#~ msgid "Cannot verify message signature: Incorrect message format"
+#~ msgstr "Kan ondertekening niet verifiëren: Onjuist bericht formaat"
+
+#~ msgid "Cannot verify message signature: could not create temp file: %s"
+#~ msgstr ""
+#~ "Kan ondertekening niet verifiëren: kan geen tijdelijk bestand maken: %s"
+
+#~ msgid "Could not generate encrypting data: %s"
+#~ msgstr "Kan versleutelingsdata niet genereren: %s"
+
+#~ msgid "This is a digitally encrypted message part"
+#~ msgstr "Dit berichtdeel is digitaal ondertekend"
+
+#~ msgid "Encrypted content"
+#~ msgstr "Versleutelde inhoud"
+
+#~ msgid "Cannot build locking helper pipe: %s"
+#~ msgstr "Kon de 'locking helper pipe' niet maken: %s"
+
+#~ msgid "Cannot fork locking helper: %s"
+#~ msgstr "Kon locking helper niet forken: %s"
+
+#~ msgid "Could not lock '%s': protocol error with lock-helper"
+#~ msgstr "Kon '%s' niet vergrendelen: protocolfout met vergrendelaar"
+
+#~ msgid "Could not lock '%s'"
+#~ msgstr "Kon niet vergrendelen: '%s'"
+
+#~ msgid "Could not create lock file for %s: %s"
+#~ msgstr "Kon vergrendelingsbestand voor %s niet maken: %s"
+
+#~ msgid "Timed out trying to get lock file on %s. Try again later."
+#~ msgstr ""
+#~ "Maximale wachttijd overschreden tijdens het wachten op exclusieve toegang "
+#~ "tot bestand %s. Probeer het later opnieuw."
+
+#~ msgid "Failed to get lock using fcntl(2): %s"
+#~ msgstr "Verkrijgen van vergrendeling met fcntl(2) mislukt: %s"
+
+#~ msgid "Failed to get lock using flock(2): %s"
+#~ msgstr "Verkrijgen van vergrendeling met flock(2) mislukt: %s"
+
+#~ msgid "Could not check mail file %s: %s"
+#~ msgstr "Kon postbusbestand %s niet controleren: %s"
+
+#~ msgid "Could not open mail file %s: %s"
+#~ msgstr "Kon postbusbestand %s niet openen: %s"
+
+#~ msgid "Could not open temporary mail file %s: %s"
+#~ msgstr "Kon tijdelijk postbusbestand %s niet openen: %s"
+
+#~ msgid "Failed to store mail in temp file %s: %s"
+#~ msgstr "Fout bij opslaan post in tijdelijk bestand %s: %s"
+
+#~ msgid "Could not create pipe: %s"
+#~ msgstr "Kon de pijp niet maken: %s"
+
+#~ msgid "Could not fork: %s"
+#~ msgstr "Kon niet starten: %s"
+
+#~ msgid "Movemail program failed: %s"
+#~ msgstr "Movemail programma mislukt: %s"
+
+#~ msgid "(Unknown error)"
+#~ msgstr "(Onbekende fout)"
+
+#~ msgid "Error reading mail file: %s"
+#~ msgstr "Fout bij het lezen van postbusbestand: %s"
+
+#~ msgid "Error writing mail temp file: %s"
+#~ msgstr "Fout bij opslaan van tijdelijk postbusbestand: %s"
+
+#~ msgid "Error copying mail temp file: %s"
+#~ msgstr "Fout bij opslaan van tijdelijk postbusbestand: %s"
+
+#~ msgid "Failed to decrypt MIME part: protocol error"
+#~ msgstr "Ontcijferen van het MIME gedeelte is mislukt: protocol fout"
+
+#~ msgid "Failed to decrypt MIME part: invalid structure"
+#~ msgstr "Kan MIME-berichtdeel niet decoderen: ongeldige structuur"
+
+#~ msgid "parse error"
+#~ msgstr "analysefout"
+
+#~ msgid "Virtual folder email provider"
+#~ msgstr "Virtuele map e-mail aanbieder"
+
+#~ msgid "For reading mail as a query of another set of folders"
+#~ msgstr ""
+#~ "Voor het lezen van post als een zoekopdracht op een verzameling mappen"
+
+#~ msgid "Could not load %s: Module loading not supported on this system."
+#~ msgstr "Kon %s niet laden. Module laden niet ondersteund door dit systeem"
+
+#~ msgid "Could not load %s: %s"
+#~ msgstr "Kon %s niet laden: %s"
+
+#~ msgid "Could not load %s: No initialization code in module."
+#~ msgstr "Kon %s niet laden: Geen initialisatie code in de module."
+
+#~ msgid "No provider available for protocol `%s'"
+#~ msgstr "Geen aanbieder beschikbaar voor protocol `%s'"
+
+#~ msgid "Anonymous"
+#~ msgstr "Anoniem"
+
+#~ msgid "This option will connect to the server using an anonymous login."
+#~ msgstr "Deze optie logt anoniem in op de imapserver"
+
+#~ msgid "Authentication failed."
+#~ msgstr "Aanmelding mislukt"
+
+#~ msgid ""
+#~ "Invalid email address trace information:\n"
+#~ "%s"
+#~ msgstr ""
+#~ "Ongeldige trace-informatie voor e-mailadres:\n"
+#~ "%s"
+
+#~ msgid ""
+#~ "Invalid opaque trace information:\n"
+#~ "%s"
+#~ msgstr ""
+#~ "Ongeldige opaque trace-informatie:\n"
+#~ "%s"
+
+#~ msgid ""
+#~ "Invalid trace information:\n"
+#~ "%s"
+#~ msgstr ""
+#~ "Ongeldige trace-informatie:\n"
+#~ "%s"
+
+#~ msgid "CRAM-MD5"
+#~ msgstr "CRAM-MD5"
+
+#~ msgid ""
+#~ "This option will connect to the server using a secure CRAM-MD5 password, "
+#~ "if the server supports it."
+#~ msgstr ""
+#~ "Deze optie zal verbinding maken met de server met een veilig CRAM-MD5 "
+#~ "wachtwoord, indien de server dat ondersteund."
+
+#~ msgid "DIGEST-MD5"
+#~ msgstr "DIGEST-MD5"
+
+#~ msgid ""
+#~ "This option will connect to the server using a secure DIGEST-MD5 "
+#~ "password, if the server supports it."
+#~ msgstr ""
+#~ "Deze optie zal verbinding maken met de server met een veilig DIGEST-MD5 "
+#~ "wachtwoord, indien de server dat ondersteund."
+
+#~ msgid "Server challenge too long (>2048 octets)\n"
+#~ msgstr "Server 'challenge' te lang (>2048 octets)\n"
+
+#~ msgid "Server challenge invalid\n"
+#~ msgstr "Server 'challenge' ongeldig\n"
+
+#~ msgid "Server challenge contained invalid \"Quality of Protection\" token\n"
+#~ msgstr "Server 'challenge' bevat ongeldig 'Quality of Protection'-teken\n"
+
+#~ msgid "Server response did not contain authorization data\n"
+#~ msgstr "Het serverantwoord bevatte geen authorisatiegegevens\n"
+
+#~ msgid "Server response contained incomplete authorization data\n"
+#~ msgstr "Het serverantwoord bevatte onvolledige authorisatiegegevens\n"
+
+#~ msgid "Server response does not match\n"
+#~ msgstr "Het serverantwoord is onbegrijpelijk\n"
+
+#~ msgid "GSSAPI"
+#~ msgstr "GSSAPI"
+
+#~ msgid ""
+#~ "This option will connect to the server using Kerberos 5 authentication."
+#~ msgstr ""
+#~ "Deze optie zal bij het verbinden met de server gebruik maken van Kerberos-"
+#~ "5-aanmelding."
+
+#~ msgid ""
+#~ "The specified mechanism is not supported by the provided credential, or "
+#~ "is unrecognized by the implementation."
+#~ msgstr ""
+#~ "Het gespecificeerde mechanisme wordt niet ondersteund door de gegeven "
+#~ "informatie, of wordt niet herkend door de implementatie."
+
+#~ msgid "The provided target_name parameter was ill-formed."
+#~ msgstr "De gegeven doelnaam parameter is niet goed geformatteerd."
+
+#~ msgid ""
+#~ "The provided target_name parameter contained an invalid or unsupported "
+#~ "type of name."
+#~ msgstr ""
+#~ "De gegeven doelnaam parameter bevat een ongeldige of niet ondersteund "
+#~ "naamtype."
+
+#~ msgid ""
+#~ "The input_token contains different channel bindings to those specified "
+#~ "via the input_chan_bindings parameter."
+#~ msgstr ""
+#~ "Het input_token bevat verschillende kanaalbindingen naar diegene "
+#~ "gespecificeerd via de input_chan_bindings parameter."
+
+#~ msgid ""
+#~ "The input_token contains an invalid signature, or a signature that could "
+#~ "not be verified."
+#~ msgstr ""
+#~ "Het input_token bevat een ongeldige handtekening, of een handtekening die "
+#~ "niet gecontroleerd kon worden."
+
+#~ msgid ""
+#~ "The supplied credentials were not valid for context initiation, or the "
+#~ "credential handle did not reference any credentials."
+#~ msgstr ""
+#~ "De gegeven informatie is niet geldig voor omgevingsinitialisatie, of er "
+#~ "is geen informatie gegeven."
+
+#~ msgid "The supplied context handle did not refer to a valid context."
+#~ msgstr "Geen geldige omgeving gegeven."
+
+#~ msgid "The consistency checks performed on the input_token failed."
+#~ msgstr "Geldigheidscontrole van het input_token mislukt."
+
+#~ msgid "The consistency checks performed on the credential failed."
+#~ msgstr "Geldigheidscontrole van de informatie mislukt."
+
+#~ msgid "The referenced credentials have expired."
+#~ msgstr "De referentie-informatie is verlopen."
+
+#~ msgid "Bad authentication response from server."
+#~ msgstr "Fout aanmeldingsantwoord van server."
+
+#~ msgid "Unsupported security layer."
+#~ msgstr "Niet ondersteunde beveiligingslaag."
+
+#~ msgid "Kerberos 4"
+#~ msgstr "Kerberos 4"
+
+#~ msgid ""
+#~ "Could not get Kerberos ticket:\n"
+#~ "%s"
+#~ msgstr ""
+#~ "Kon Kerberos ticket niet verkrijgen:\n"
+#~ "%s"
+
+#~ msgid "This option will connect to the server using a simple password."
+#~ msgstr ""
+#~ "Deze optie zal bij het verbinden met de server het wachtwoord versturen "
+#~ "als platte tekst."
+
+#~ msgid "Unknown authentication state."
+#~ msgstr "Onbekende aanmeldingsstatus"
+
+#~ msgid "NTLM / SPA"
+#~ msgstr "NTLM / SPA"
+
+#~ msgid ""
+#~ "This option will connect to a Windows-based server using NTLM / Secure "
+#~ "Password Authentication."
+#~ msgstr ""
+#~ "Deze optie zal bij het verbinden met een windows-server gebruik maken van "
+#~ "NTLM / Beveiligde wachtwoordidentificatie."
+
+#~ msgid "PLAIN"
+#~ msgstr "PLAT"
+
+#~ msgid "POP before SMTP"
+#~ msgstr "POP voor SMTP"
+
+#~ msgid "This option will authorise a POP connection before attempting SMTP"
+#~ msgstr ""
+#~ "Deze optie geeft aan dat eerst POP-verbinding wordt gestart, voordat SMTP "
+#~ "geprobeerd wordt"
+
+#~ msgid "POP Source URI"
+#~ msgstr "POP Bron URI"
+
+#~ msgid "POP Before SMTP auth using an unknown transport"
+#~ msgstr "POP voor SMTP gebruikmakend van een onbekend transportmedium"
+
+#~ msgid "POP Before SMTP auth using a non-pop source"
+#~ msgstr "POP voor SMTP gebruikmakend van een niet-POP bron"
+
+#~ msgid "Regular expression compilation failed: %s: %s"
+#~ msgstr "Compileren van reguliere expressie mislukt: %s: %s"
+
+#~ msgid "URL '%s' needs a username component"
+#~ msgstr "URL '%s' heeft een gebruikersnaamcomponent nodig"
+
+#~ msgid "URL '%s' needs a host component"
+#~ msgstr "URL '%s' heeft een machinenaamcomponent nodig"
+
+#~ msgid "URL '%s' needs a path component"
+#~ msgstr "URL '%s' heeft een padcomponent nodig"
+
+#~ msgid "cannot create thread"
+#~ msgstr "kan geen 'thread' maken"
+
+#~ msgid "Resolving: %s"
+#~ msgstr "Resolving \"%s\""
+
+#~ msgid "Host lookup failed"
+#~ msgstr "Opzoeken host mislukt"
+
+#~ msgid "Resolving address"
+#~ msgstr "Adres wordt opgezocht"
+
+#~ msgid "Name lookup failed"
+#~ msgstr "Opzoeken naam mislukt"
+
+#~ msgid "Enter security pass-phrase for `%s'"
+#~ msgstr "Voer uw Wachtwoord in voor `%s'"
+
+#~ msgid "Cannot find certificate for '%s'"
+#~ msgstr "Kan certificaat voor '%s' niet vinden"
+
+#~ msgid "Cannot create CMS message"
+#~ msgstr "Kan geen CMS-bericht aanmaken"
+
+#~ msgid "Cannot create CMS signedData"
+#~ msgstr "Kan geen CMS-ondertekende-data aanmaken"
+
+#~ msgid "Cannot attach CMS signedData"
+#~ msgstr "Kan geen CMS-ondertekende-data bijvoegen"
+
+#~ msgid "Cannot attach CMS data"
+#~ msgstr "Kan geen CMS-data bijvoegen"
+
+#~ msgid "Cannot create CMS SignerInfo"
+#~ msgstr "Kan geen CMS-ontertekenaarsinfo aanmaken"
+
+#~ msgid "Cannot find cert chain"
+#~ msgstr "Kan certificaatketting niet vinden"
+
+#~ msgid "Cannot add CMS SigningTime"
+#~ msgstr "Kan CMS ontertekeninstijd niet toevoegen"
+
+#~ msgid "Encryption cert for '%s' does not exist"
+#~ msgstr "Het versleutelingscertificaat voor '%s' bestaat niet"
+
+#~ msgid "Cannot add SMIMEEncKeyPrefs attribute"
+#~ msgstr "Kan SMIMEEncKeyPrefs attribuut niet toevoegen"
+
+#~ msgid "Cannot add MS SMIMEEncKeyPrefs attribute"
+#~ msgstr "Kan MS SMIMEEncKeyPrefs attribuut niet toevoegen"
+
+#~ msgid "Cannot add encryption certificate"
+#~ msgstr "Kan encryptiecertificaat niet toevoegen"
+
+#~ msgid "Cannot add CMS SignerInfo"
+#~ msgstr "Kan CMS ontertekenaars info niet toevoegen"
+
+#~ msgid "Cannot create encoder context"
+#~ msgstr "Kan geen versleutelingscontext maken"
+
+#~ msgid "Failed to add data to CMS encoder"
+#~ msgstr "Fout bij toevoegen data aan CMS encoder"
+
+#~ msgid "Failed to encode data"
+#~ msgstr "Versleutelen van data mislukt"
+
+#~ msgid "Unverified"
+#~ msgstr "Ongeverifieerd"
+
+#~ msgid "Good signature"
+#~ msgstr "Correcte handtekening"
+
+#~ msgid "Bad signature"
+#~ msgstr "Slechte handtekening"
+
+#~ msgid "Content tampered with or altered in transit"
+#~ msgstr ""
+#~ "Er is met de inhoud geknoeit of de inhoud is gewijzigd tijdens verzending"
+
+#~ msgid "Signing certificate not found"
+#~ msgstr "Ondertekeningscertificaat niet gevonden"
+
+#~ msgid "Signing certificate not trusted"
+#~ msgstr "Ondertekeningscertificaat niet vertrouwd"
+
+#~ msgid "Signature algorithm unknown"
+#~ msgstr "Ondertekeningsalgoritme onbekend"
+
+#~ msgid "Signature algorithm unsupported"
+#~ msgstr "Ondertekeningsalgoritme niet ondersteund"
+
+# verwerkingsfout
+#~ msgid "Processing error"
+#~ msgstr "Analysefout"
+
+#~ msgid "No signedData in signature"
+#~ msgstr "Geen signedData in handtekening"
+
+#~ msgid "Digests missing from enveloped data"
+#~ msgstr "Samenvattingen ontbreken in omhulde gegevens"
+
+#~ msgid "Cannot calculate digests"
+#~ msgstr "Kan samenvattingen niet berekenen"
+
+#~ msgid "Cannot set message digests"
+#~ msgstr "Kan berichtsamenvattingen niet instellen"
+
+#~ msgid "Certificate import failed"
+#~ msgstr "Certificaatimport mislukt"
+
+#~ msgid "Certificate only message, cannot verify certificates"
+#~ msgstr "Bericht met enkel een certificaat, kan certificaten niet verifiëren"
+
+#~ msgid "Certificate only message, certificates imported and verified"
+#~ msgstr ""
+#~ "Bericht met enkel certificaat, certificaten geimporteerd en geverifieerd"
+
+#~ msgid "Cannot find signature digests"
+#~ msgstr "Kan ondertekeningsamenvattingen niet vinden"
+
+#~ msgid "Signer: %s <%s>: %s\n"
+#~ msgstr "Ondertekenaar: %s <%s>: %s\n"
+
+#~ msgid "Decoder failed"
+#~ msgstr "Decoderen mislukt"
+
+#~ msgid "Cannot find certificate for `%s'"
+#~ msgstr "Kan geen certificaat voor '%s' vinden"
+
+#~ msgid "Cannot find common bulk encryption algorithm"
+#~ msgstr "Kan geen algemeen bulkcoderingsalgoritme vinden"
+
+#~ msgid "Cannot allocate slot for encryption bulk key"
+#~ msgstr "Kan geen slot toewijzen voor bulkcoderingssleutel"
+
+#~ msgid "Cannot create CMS Message"
+#~ msgstr "Kan geen CMS-bericht aanmaken"
+
+#~ msgid "Cannot create CMS EnvelopedData"
+#~ msgstr "Kan geen CMS EnvelopedData maken"
+
+#~ msgid "Cannot attach CMS EnvelopedData"
+#~ msgstr "Kan CMS EnvelopedData niet bijvoegen"
+
+#~ msgid "Cannot attach CMS data object"
+#~ msgstr "Kan CMS-gegevensobject niet bijvoegen"
+
+#~ msgid "Cannot create CMS RecipientInfo"
+#~ msgstr "Kan geen CMS RecipientInfo maken"
+
+#~ msgid "Cannot add CMS RecipientInfo"
+#~ msgstr "Kan geen CMS ontvangersinfo toevoegen"
+
+#~ msgid "Failed to add data to encoder"
+#~ msgstr "Kon gegevens niet toevoegen aan codeerder"
+
+#~ msgid "Decoder failed, error %d"
+#~ msgstr "Decoderen mislukt, error %d"
+
+#~ msgid "S/MIME Decrypt: No encrypted content found"
+#~ msgstr "S/MIME Decrypten: Geen versleutelde inhoud gevonden"
+
+#~ msgid "import keys: unimplemented"
+#~ msgstr "sleutels importeren: niet geïmplementeerd"
+
+#~ msgid "export keys: unimplemented"
+#~ msgstr "sleutels exporteren: niet geimplementeerd"
+
+#~ msgid "Cannot get folder: Invalid operation on this store"
+#~ msgstr "Kan map niet verkrijgen: Ongeldige bewerking op deze opslag"
+
+#~ msgid "Cannot create folder `%s': folder exists"
+#~ msgstr "Kan map `%s' niet aanmaken: map bestaat reeds"
+
+#~ msgid "Cannot create folder: Invalid operation on this store"
+#~ msgstr "Kan map niet maken: Ongeldige bewerking op deze opslag"
+
+#~ msgid "Cannot create folder: %s: folder exists"
+#~ msgstr "Kan map niet aanmaken: %s: map bestaat reeds"
+
+#~ msgid "Cannot delete folder: %s: Invalid operation"
+#~ msgstr "Kon map: %s niet verwijderen: Ongeldige bewerking"
+
+#~ msgid "Cannot rename folder: %s: Invalid operation"
+#~ msgstr "Kon de naam van de map: %s niet wijzigen: ongeldige bewerking"
+
+#~ msgid "Trash"
+#~ msgstr "Prullenbak"
+
+#~ msgid "Unable to get issuer's certificate"
+#~ msgstr "Kan certificaat van eigenaar niet ophalen"
+
+#~ msgid "Unable to get Certificate Revocation List"
+#~ msgstr "Kan certificaat-herroepingslijst niet ophalen"
+
+#~ msgid "Unable to decrypt certificate signature"
+#~ msgstr "Kan ondertekening van certificaat niet decoderen"
+
+#~ msgid "Unable to decrypt Certificate Revocation List signature"
+#~ msgstr "Kan handtekening van de certificaat-herroepingslijst niet decoderen"
+
+#~ msgid "Unable to decode issuer's public key"
+#~ msgstr "Kan de publieke sleutel niet decoderen"
+
+#~ msgid "Certificate signature failure"
+#~ msgstr "Certificaatondertekening-fout"
+
+#~ msgid "Certificate Revocation List signature failure"
+#~ msgstr "Fout in certificaat-herroepingslijst"
+
+#~ msgid "Certificate not yet valid"
+#~ msgstr "Certificaat nog niet geldig"
+
+#~ msgid "Certificate has expired"
+#~ msgstr "Certificaat is verlopen"
+
+#~ msgid "CRL not yet valid"
+#~ msgstr "CRL nog niet geldig"
+
+#~ msgid "CRL has expired"
+#~ msgstr "CRL is verlopen"
+
+#~ msgid "Error in CRL"
+#~ msgstr "Fout in CRL"
+
+#~ msgid "Out of memory"
+#~ msgstr "Geen geheugen meer"
+
+#~ msgid "Zero-depth self-signed certificate"
+#~ msgstr "Direct zelfondertekend certificaat"
+
+#~ msgid "Self-signed certificate in chain"
+#~ msgstr "Zelf-ondertekend certificaat in sleutelbos"
+
+#~ msgid "Unable to get issuer's certificate locally"
+#~ msgstr "Kan het certificaat niet lokaal vinden"
+
+#~ msgid "Unable to verify leaf signature"
+#~ msgstr "Kan ondertekening niet verifiëren"
+
+#~ msgid "Certificate chain too long"
+#~ msgstr "Certificaat sleutelbos te groot"
+
+#~ msgid "Certificate Revoked"
+#~ msgstr "Certificaat herroepen"
+
+#~ msgid "Invalid Certificate Authority (CA)"
+#~ msgstr "Ongeldige Certificaat Authoriteit (CA)"
+
+#~ msgid "Path length exceeded"
+#~ msgstr "Pad lengte overschreden"
+
+#~ msgid "Certificate untrusted"
+#~ msgstr "Certificaat is niet te vertrouwen"
+
+#~ msgid "Certificate rejected"
+#~ msgstr "Certificaat geweigerd"
+
+#~ msgid "Subject/Issuer mismatch"
+#~ msgstr "Onderwerp/eigenaar komt niet overeen"
+
+#~ msgid "AKID/SKID mismatch"
+#~ msgstr "AKID/SKID komt niet overeen"
+
+#~ msgid "AKID/Issuer serial mismatch"
+#~ msgstr "AKID/Uitgever serienummer komt niet overeen"
+
+#~ msgid "Key usage does not support certificate signing"
+#~ msgstr "Sleutelgebruik ondersteunt geen ondertekenen van certificaten"
+
+#~ msgid "Error in application verification"
+#~ msgstr "Fout bij toepassingsverificatie"
+
+#~ msgid ""
+#~ "Issuer:            %s\n"
+#~ "Subject:           %s\n"
+#~ "Fingerprint:       %s\n"
+#~ "Signature:         %s"
+#~ msgstr ""
+#~ "Uitgever:        %s\n"
+#~ "Onderwerp:        %s\n"
+#~ "Vingerafdruk:        %s\n"
+#~ "Handtekening:        %s"
+
+#~ msgid "GOOD"
+#~ msgstr "GOED"
+
+#~ msgid "BAD"
+#~ msgstr "SLECHT"
+
+#~ msgid ""
+#~ "Bad certificate from %s:\n"
+#~ "\n"
+#~ "%s\n"
+#~ "\n"
+#~ "%s\n"
+#~ "\n"
+#~ "Do you wish to accept anyway?"
+#~ msgstr ""
+#~ "Slecht certificaat van %s:\n"
+#~ "\n"
+#~ "%s\n"
+#~ "\n"
+#~ "%s\n"
+#~ "\n"
+#~ "Wilt u het alsnog accepteren?"
+
+#~ msgid ""
+#~ "SSL Certificate check for %s:\n"
+#~ "\n"
+#~ "%s\n"
+#~ "\n"
+#~ "Do you wish to accept?"
+#~ msgstr ""
+#~ "SSL Certificaatcontrole voor %s:\n"
+#~ "\n"
+#~ "%s\n"
+#~ "\n"
+#~ "Wilt u dit accepteren?"
+
+#~ msgid ""
+#~ "Certificate problem: %s\n"
+#~ "Issuer: %s"
+#~ msgstr ""
+#~ "Certificaatprobleem: %s\n"
+#~ "Eigenaar: %s"
+
+#~ msgid ""
+#~ "Bad certificate domain: %s\n"
+#~ "Issuer: %s"
+#~ msgstr ""
+#~ "Slechte certificaatomgeving: %s\n"
+#~ "Eigenaar: %s"
+
+#~ msgid ""
+#~ "Certificate expired: %s\n"
+#~ "Issuer: %s"
+#~ msgstr ""
+#~ "Certificaat verlopen op: %s\n"
+#~ "Eigenaar: %s"
+
+#~ msgid ""
+#~ "Certificate revocation list expired: %s\n"
+#~ "Issuer: %s"
+#~ msgstr ""
+#~ "Certificaat herroepingslijst is verlopen op: %s\n"
+#~ "Eigenaar: %s"
+
+#~ msgid "Could not parse URL `%s'"
+#~ msgstr "kon URL %s niet verwerken"
+
+#~ msgid "Error storing `%s': %s"
+#~ msgstr "Fout bij opslaan van `%s': %s"
+
+#~ msgid "No such message %s in %s"
+#~ msgstr "Dergelijk bericht %s bestaat niet in %s"
+
+#~ msgid "Cannot copy or move messages into a Virtual Folder"
+#~ msgstr "Kan berichten niet naar een VMap verplaatsen of kopiëren"
+
+#~ msgid "Cannot delete folder: %s: No such folder"
+#~ msgstr "Kon map: %s niet verwijderen: map bestaat niet"
+
+#~ msgid "Cannot rename folder: %s: No such folder"
+#~ msgstr "Kon de naam van map: %s niet wijzigen naar: map bestaat niet"
+
+#~ msgid "Cannot copy messages to the Trash folder"
+#~ msgstr "Kan het bericht niet naar de Trash map kopieëren"
+
+#~ msgid "Cannot copy messages to the Junk folder"
+#~ msgstr "Kan berichten niet kopieëren naar troep-map"
+
+#~ msgid "Check for new messages in all folders"
+#~ msgstr "Controleer op nieuwe berichten in alle mappen"
+
+#~ msgid "Apply filters to new messages in Inbox on this server"
+#~ msgstr "Pas filters toe op alle nieuwe berichten in de inbox op deze server"
+
+#~ msgid "Check new messages for Junk contents"
+#~ msgstr "Controleer nieuwe berichten op troep"
+
+#~ msgid "Only check for Junk messages in the INBOX folder"
+#~ msgstr "Controleer enkel op troep in nieuwe berichten in de inbox map"
+
+#~ msgid "Automatically synchronize remote mail locally"
+#~ msgstr "Automatisch lokaal synchroniseren met post op afstand"
+
+#
+#~ msgid "Address Book and Calendar"
+#~ msgstr "Adresboek en agenda"
+
+#~ msgid "Post Office Agent:"
+#~ msgstr "Postkantoor-agent:"
+
+#~ msgid "Post Office Agent SOAP Port:"
+#~ msgstr "Postkantoor-agent SOAP poort:"
+
+#~ msgid "Use Secure Connection (SSL)"
+#~ msgstr "Beveiligde verbinding (SSL) gebruiken"
+
+#~ msgid "Novell GroupWise"
+#~ msgstr "Novell GroupWise"
+
+#~ msgid "For accessing Novell Groupwise servers"
+#~ msgstr "Voor benadering van Novell Groupwise servers"
+
+#~ msgid "Password"
+#~ msgstr "Wachtwoord"
+
+#~ msgid "Operation cancelled"
+#~ msgstr "Operatie geannuleerd"
+
+#~ msgid "Server unexpectedly disconnected: %s"
+#~ msgstr "Server verbrak onverwacht de verbinding: %s"
+
+#~ msgid ""
+#~ "Alert from IMAP server %s@%s:\n"
+#~ "%s"
+#~ msgstr ""
+#~ "Alarm van IMAP-server %s@%s:\n"
+#~ "%s"
+
+#~ msgid "Unexpected response from IMAP server: %s"
+#~ msgstr "Onverwacht antwoord van IMAP-server: %s"
+
+#~ msgid "IMAP command failed: %s"
+#~ msgstr "IMAP-opdracht mislukt: %s"
+
+#~ msgid "Server response ended too soon."
+#~ msgstr "Het antwoord van de server eindigde te snel."
+
+#~ msgid "IMAP server response did not contain %s information"
+#~ msgstr "Het antwoord van de IMAP-server bevatte geen %s informatie"
+
+#~ msgid "Unexpected OK response from IMAP server: %s"
+#~ msgstr "De IMAP-server gaf onverwacht een 'OK' antwoord: %s"
+
+#~ msgid "Could not create directory %s: %s"
+#~ msgstr "Kon directory %s niet maken: %s"
+
+#~ msgid "Could not load summary for %s"
+#~ msgstr "Kon samenvatting voor %s niet laden"
+
+#~ msgid "Folder was destroyed and recreated on server."
+#~ msgstr "Map is vernietigd en opnieuw gemaakt op de server."
+
+#~ msgid "Scanning for changed messages"
+#~ msgstr "Bezig met zoeken naar veranderde berichten"
+
+#~ msgid ""
+#~ "Cannot get message: %s\n"
+#~ "  %s"
+#~ msgstr ""
+#~ "Kan bericht niet verkrijgen: %s\n"
+#~ "  %s"
+
+#~ msgid "This message is not currently available"
+#~ msgstr "Dit bericht is nu niet beschikbaar"
+
+#~ msgid "Fetching summary information for new messages"
+#~ msgstr "Ophalen van samenvattingsinformatie van nieuwe berichten"
+
+#~ msgid "Incomplete server response: no information provided for message %d"
+#~ msgstr ""
+#~ "Het antwoord van de server is niet compleet: geen informatie ontvangen "
+#~ "voor bericht %d"
+
+#~ msgid "Incomplete server response: no UID provided for message %d"
+#~ msgstr ""
+#~ "Het antwoord van de server is niet compleet: geen UID voor bericht %d"
+
+#~ msgid ""
+#~ "Unexpected server response: Identical UIDs provided for messages %d and %d"
+#~ msgstr "Onverwacht server antwoord: Identieke UIDs voor bericht %d en %d "
+
+#~ msgid "Could not find message body in FETCH response."
+#~ msgstr "Kon bericht inhoud niet vinden in FETCH-antwoord."
+
+#~ msgid "Failed to cache %s: %s"
+#~ msgstr "Bufferen van bericht %s mislukt: %s"
+
+#~ msgid "Connection to Server"
+#~ msgstr "Verbinden met server"
+
+#~ msgid "Use custom command to connect to server"
+#~ msgstr "Gebruik een aangepaste opdracht om met de server te verbinden"
+
+#~ msgid "Show only subscribed folders"
+#~ msgstr "Laat alleen de aangemelde mappen zien"
+
+#~ msgid "Override server-supplied folder namespace"
+#~ msgstr "Overschrijf servergegeven mappen naamruimte"
+
+#~ msgid "Namespace"
+#~ msgstr "Naamruimte:"
+
+#~ msgid "Apply filters to new messages in INBOX on this server"
+#~ msgstr "Pas filters toe op alle nieuwe berichten in de INBOX op deze server"
+
+#~ msgid "IMAP"
+#~ msgstr "IMAP"
+
+#~ msgid "IMAP server %s"
+#~ msgstr "IMAP-server %s"
+
+#~ msgid "IMAP service for %s on %s"
+#~ msgstr "IMAP-dienst voor %s op %s"
+
+#~ msgid "Could not connect to %s (port %s): %s"
+#~ msgstr "Kon niet verbinden met %s (poort %s): %s"
+
+#~ msgid "SSL unavailable"
+#~ msgstr "SSL is niet beschikbaar"
+
+#~ msgid "Connection cancelled"
+#~ msgstr "Verbinding geannuleerd"
+
+#~ msgid "Failed to connect to IMAP server %s in secure mode: %s"
+#~ msgstr "Fout bij opzetten van beveiligde verbinding met IMAP-server %s: %s"
+
+#~ msgid "SSL/TLS extension not supported."
+#~ msgstr "SSL/TLS extensie niet ondersteund"
+
+#~ msgid "SSL negotiations failed"
+#~ msgstr "SSL-onderhandelingen mislukt"
+
+#~ msgid "Could not connect with command \"%s\": %s"
+#~ msgstr "Kon niet verbinden met opdracht \"%s\": %s"
+
+#~ msgid "IMAP server %s does not support requested authentication type %s"
+#~ msgstr "IMAP-server %s ondersteunt het gevraagde aanmeldingstype %s niet"
+
+#~ msgid "No support for authentication type %s"
+#~ msgstr "Geen ondersteuning voor aanmeldingstype %s"
+
+#~ msgid "%sPlease enter the IMAP password for %s@%s"
+#~ msgstr "%sVoer het IMAP-wachtwoord voor %s@%s in"
+
+#~ msgid ""
+#~ "Unable to authenticate to IMAP server.\n"
+#~ "%s\n"
+#~ "\n"
+#~ msgstr ""
+#~ "Fout bij het aanmelden bij de IMAP-server.\n"
+#~ "%s\n"
+#~ "\n"
+
+#~ msgid ""
+#~ "The folder name \"%s\" is invalid because it contains the character \"%c\""
+#~ msgstr "De mapnaam \"%s\" is ongeldig omdat deze het teken \"%c\" bevat"
+
+#~ msgid "The parent folder is not allowed to contain subfolders"
+#~ msgstr "De map kan geen submappen bevatten"
+
+#~ msgid "Cannot create folder `%s': folder exists."
+#~ msgstr "Kan map `%s' niet aanmaken: map bestaat reeds."
+
+#~ msgid "Unknown parent folder: %s"
+#~ msgstr "Onbekende oudermap: %s"
+
+#~ msgid "Failed sending command to IMAP server %s: %s"
+#~ msgstr "Versturen van opdracht naar IMAP-server %s mislukt: %s"
+
+#~ msgid "Unexpected response from IMAP4 server %s: %s"
+#~ msgstr "Onverwacht antwoord van IMAP-server %s: %s"
+
+#~ msgid "Unexpected greeting from IMAP server %s."
+#~ msgstr "Onverwachte begroeting van IMAP-server %s."
+
+#~ msgid "Cannot select folder `%s': Invalid mailbox name"
+#~ msgstr "Kan de map `%s' niet selecteren: Ongeldige mailbox naam"
+
+#~ msgid "Cannot select folder `%s': Bad command"
+#~ msgstr "Kan de map `%s' niet selecteren: Opdracht onjuist"
+
+#~ msgid "IMAP4 server %s unexpectedly disconnected: %s"
+#~ msgstr "De verbinding is onverwacht verbroken door IMAP4-server %s: %s"
+
+#~ msgid "Cannot sync flags to folder `%s': Unknown"
+#~ msgstr "Kan mapeigenschappen niet synchroniseren met map `%s': Onbekend"
+
+#~ msgid "Cannot sync flags to folder `%s': Bad command"
+#~ msgstr ""
+#~ "Kan mapeigenschappen niet synchroniseren met map `%s': Ongeldige opdracht"
+
+#~ msgid "Cannot expunge folder `%s': Unknown"
+#~ msgstr "Kan map `%s' niet leegmaken: Onbekend"
+
+#~ msgid "Cannot expunge folder `%s': Bad command"
+#~ msgstr "Kan map `%s' niet leegmaken: Opdracht onjuist"
+
+#~ msgid "Cannot get message %s from folder `%s': No such message"
+#~ msgstr ""
+#~ "Kan bericht %s niet uit map `%s' verkrijgen: Zo'n bericht bestaat niet"
+
+#~ msgid "Cannot get message %s from folder `%s': Bad command"
+#~ msgstr "Kan bericht %s niet uit map `%s' verkrijgen: Opdracht onjuist"
+
+#~ msgid "Cannot append message to folder `%s': Unknown error"
+#~ msgstr "Kan het bericht niet toevoegen aan map `%s': Onbekende fout"
+
+#~ msgid "Cannot append message to folder `%s': Bad command"
+#~ msgstr "Kan het bericht niet toevoegen aan map `%s': Opdracht onjuist"
+
+#~ msgid "Cannot move messages from folder `%s' to folder `%s': Unknown"
+#~ msgstr ""
+#~ "Kan de berichten van map `%s' niet verplaatsen naar map `%s': Onbekend"
+
+#~ msgid "Cannot copy messages from folder `%s' to folder `%s': Unknown"
+#~ msgstr "Kan de berichten van map `%s' niet kopiëren naar map `%s': Onbekend"
+
+#~ msgid "Cannot move messages from folder `%s' to folder `%s': Bad command"
+#~ msgstr ""
+#~ "Kan de berichten van map `%s' niet verplaatsen naar map `%s': Opdracht "
+#~ "onjuist"
+
+#~ msgid "Cannot copy messages from folder `%s' to folder `%s': Bad command"
+#~ msgstr ""
+#~ "Kan de berichten van map `%s' niet kopiëren naar map `%s': Opdracht "
+#~ "onjuist"
+
+#~ msgid "IMAPv4rev1"
+#~ msgstr "IMAPv4rev1"
+
+#~ msgid "For reading and storing mail on IMAPv4rev1 servers. EXPERIMENTAL !!"
+#~ msgstr ""
+#~ "Voor het lezen en opslaan van post op IMAPv4rev1 servers. EXPERIMENTEEL !!"
+
+#~ msgid ""
+#~ "This option will connect to the IMAPv4rev1 server using a plaintext "
+#~ "password."
+#~ msgstr ""
+#~ "Deze optie zal bij het verbinden met de IMAPv4rev1-server het wachtwoord "
+#~ "versturen als platte tekst."
+
+#~ msgid "Could not connect to %s: %s"
+#~ msgstr "Kon niet verbinden met %s: %s"
+
+#~ msgid ""
+#~ "Cannot authenticate to IMAP server %s using the %s authentication "
+#~ "mechanism"
+#~ msgstr ""
+#~ "Authenticatie met de IMAP-server %s met het authenticatie mechanisme %s "
+#~ "is mislukt"
+
+#~ msgid "%sPlease enter the IMAP password for %s on host %s"
+#~ msgstr "%sVoer het IMAP wachtwoord in voor %s op host %s"
+
+#~ msgid "Cannot authenticate to IMAP server %s using %s"
+#~ msgstr "Authenticatie op IMAP-server %s middels %s mislukt"
+
+#~ msgid "Cannot get folder `%s' on IMAP server %s: Unknown"
+#~ msgstr "Kan map `%s' niet verkrijgen van IMAP-server `%s': Onbekend"
+
+#~ msgid "Cannot create folder `%s': Invalid mailbox name"
+#~ msgstr "Kan de map `%s' niet aanmaken: Ongeldige mailbox naam"
+
+#~ msgid "Cannot create folder `%s': Bad command"
+#~ msgstr "Kan de map `%s' niet aanmaken: Ongeldige opdracht"
+
+#~ msgid "Cannot delete folder `%s': Special folder"
+#~ msgstr "Kan de map %s niet verwijderen: Speciale map"
+
+#~ msgid "Cannot delete folder `%s': Invalid mailbox name"
+#~ msgstr "Kan de map `%s' niet verwijderen: Naam mailbox ongeldig"
+
+#~ msgid "Cannot delete folder `%s': Bad command"
+#~ msgstr "Kan map `%s' niet verwijderen: Opdracht onjuist"
+
+#~ msgid "Cannot rename folder `%s' to `%s': Special folder"
+#~ msgstr "Kan map `%s' niet hernoemen naar `%s': Speciale map"
+
+#~ msgid "Cannot rename folder `%s' to `%s': Invalid mailbox name"
+#~ msgstr "Kan map `%s' niet hernoemen naar `%s': Naam mailbox ongeldig"
+
+#~ msgid "Cannot rename folder `%s' to `%s': Bad command"
+#~ msgstr "Kan map `%s' niet hernoemen naar `%s': Opdracht onjuist"
+
+#~ msgid "Cannot get %s information for pattern `%s' on IMAP server %s: %s"
+#~ msgstr ""
+#~ "Kan geen %s informatie verkrijgen voor patroon `%s' van IMAP-server %s: %s"
+
+#~ msgid "Bad command"
+#~ msgstr "Ongeldige opdracht"
+
+#~ msgid "Cannot subscribe to folder `%s': Invalid mailbox name"
+#~ msgstr "Kan niet inschrijven voor map `%s': Ongeldige postbusnaam"
+
+#~ msgid "Cannot subscribe to folder `%s': Bad command"
+#~ msgstr "Kan niet inschrijven voor map `%s': Slechte opdracht"
+
+#~ msgid "Cannot unsubscribe from folder `%s': Invalid mailbox name"
+#~ msgstr "Kan niet uitschrijven bij map `%s': Ongeldige postbusnaam"
+
+#~ msgid "Unexpected token in response from IMAP server %s: "
+#~ msgstr "Onverwacht antwoord van IMAP-server %s: "
+
+#~ msgid "No data"
+#~ msgstr "Geen data"
+
+#~ msgid "IMAP server %s unexpectedly disconnected: %s"
+#~ msgstr "De verbinding is onverwacht verbroken door de IMAP-server %s: %s"
+
+#~ msgid "IMAP+"
+#~ msgstr "IMAP+"
+
+#~ msgid ""
+#~ "Experimental IMAP 4(.1) client\n"
+#~ "This is untested and unsupported code, you want to use plain imap "
+#~ "instead.\n"
+#~ "\n"
+#~ " !!! DO NOT USE THIS FOR PRODUCTION EMAIL  !!!\n"
+#~ msgstr ""
+#~ "Experimentele IMAP-4(.1) client\n"
+#~ "Dit is ongeteste en niet ondersteunde code, u kunt beter standaard imap "
+#~ "gebruiken.\n"
+#~ "\n"
+#~ " !!! GEBRUIK VOOR PRODUCTIE EMAIL WORDT ZEER STERK AFGERADEN  !!!\n"
+
+#~ msgid "Could not connect to POP server on %s"
+#~ msgstr "Kon niet verbinden met POP-server op %s"
+
+#~ msgid "Index message body data"
+#~ msgstr "Indexeer bericht body data"
+
+#~ msgid "~%s (%s)"
+#~ msgstr "~%s (%s)"
+
+#~ msgid "mailbox:%s (%s)"
+#~ msgstr "postbus: %s: (%s)"
+
+#~ msgid "Use the `.folders' folder summary file (exmh)"
+#~ msgstr "Het '.folders' samenvattingsbestand gebruiken (exmh)"
+
+#~ msgid "MH-format mail directories"
+#~ msgstr "MH-formaat postbussen"
+
+#~ msgid "For storing local mail in MH-like mail directories."
+#~ msgstr "Voor het opslaan van lokale post in MH-achtige postbussen."
+
+#~ msgid ""
+#~ "For retrieving (moving) local mail from standard mbox formated spools "
+#~ "into folders managed by Evolution."
+#~ msgstr ""
+#~ "Voor het ophalen (verplaatsen) van lokale post uit standaard mbox-buffers "
+#~ "naar door Evolution beheerde mappen."
+
+#~ msgid "Apply filters to new messages in INBOX"
+#~ msgstr "Pas filters toe op nieuwe berichten in de INBOX"
+
+#~ msgid "Maildir-format mail directories"
+#~ msgstr "Maildir-formaat mail direcories"
+
+#~ msgid "For storing local mail in maildir directories."
+#~ msgstr "Voor het opslaan van lokale post in maildir directories."
+
+#~ msgid "Store status headers in Elm/Pine/Mutt format"
+#~ msgstr "Status-kopteksten in Elm/Pine/Mutt formaat opslaan"
+
+#~ msgid "Standard Unix mbox spool or directory"
+#~ msgstr "Standaard Unix mbox spool of map"
+
+#~ msgid ""
+#~ "For reading and storing local mail in external standard mbox spool "
+#~ "files.\n"
+#~ "May also be used to read a tree of Elm, Pine, or Mutt style folders."
+#~ msgstr ""
+#~ "Voor het lezen en opslaan van lokale post in externe standaard mbox-"
+#~ "bufferbestanden.\n"
+#~ "Kan ook gebruikt worden om een Elm, Pine of Mutt map in te lezen."
+
+#~ msgid "Store root %s is not an absolute path"
+#~ msgstr "Opslaglocatie %s is geen absoluut pad"
+
+#~ msgid "Store root %s is not a regular directory"
+#~ msgstr "Opslag `%s' is geen normale directory"
+
+#~ msgid "Cannot get folder: %s: %s"
+#~ msgstr "Kan map niet verkrijgen: %s: %s"
+
+#~ msgid "Local stores do not have an inbox"
+#~ msgstr "Lokale opslaglocaties hebben geen postbus-in"
+
+#~ msgid "Local mail file %s"
+#~ msgstr "Lokaal postbusbestand %s"
+
+#~ msgid "Could not rename folder %s to %s: %s"
+#~ msgstr "Kon de naam van map %s niet wijzigen naar %s: %s"
+
+#~ msgid "Could not rename '%s': %s"
+#~ msgstr "Kon '%s' niet hernoemen: %s"
+
+#~ msgid "Could not delete folder summary file `%s': %s"
+#~ msgstr "Kon samenvattingsbestand van map `%s' niet verwijderen: %s"
+
+#~ msgid "Could not delete folder index file `%s': %s"
+#~ msgstr "Kon indexbestand van map `%s' niet verwijderen: %s"
+
+#~ msgid "Could not delete folder meta file `%s': %s"
+#~ msgstr "Kon samenvattingsbestand van map `%s' niet verwijderen: %s"
+
+#~ msgid "Could not save summary: %s: %s"
+#~ msgstr "Kon samenvatting %s niet opslaan: %s"
+
+#~ msgid "Unable to add message to summary: unknown reason"
+#~ msgstr "Kan geen bericht toevoegen aan de korte inhoud: onbekende reden"
+
+#~ msgid "Maildir append message cancelled"
+#~ msgstr "Maildir bericht toevoegen geannuleerd"
+
+#~ msgid "Cannot append message to maildir folder: %s: %s"
+#~ msgstr "Kan bericht niet toevoegen aan maildir-map: %s: %s"
+
+#~ msgid ""
+#~ "Cannot get message: %s from folder %s\n"
+#~ "  %s"
+#~ msgstr ""
+#~ "Kan bericht %s uit folder %s niet verkrijgen\n"
+#~ "  %s"
+
+#~ msgid "Invalid message contents"
+#~ msgstr "Ongeldige berichtinhoud"
+
+#~ msgid "Cannot get folder `%s': %s"
+#~ msgstr "Kan map niet verkrijgen `%s': %s"
+
+#~ msgid "Cannot get folder `%s': folder does not exist."
+#~ msgstr "Kan `%s' map niet verkrijgen: map bestaat niet."
+
+#~ msgid "Cannot create folder `%s': %s"
+#~ msgstr "Kan map niet aanmaken: `%s': %s"
+
+#~ msgid "Cannot get folder `%s': not a maildir directory."
+#~ msgstr "Kan map `%s' niet verkrijgen: is geen maildir map."
+
+#~ msgid "Could not delete folder `%s': %s"
+#~ msgstr "Kon map `%s' niet verwijderen: %s"
+
+#~ msgid "not a maildir directory"
+#~ msgstr "geen maildir-directory"
+
+#~ msgid "Could not scan folder `%s': %s"
+#~ msgstr "Kon map `%s' niet scannen: %s"
+
+#~ msgid "Cannot open maildir directory path: %s: %s"
+#~ msgstr "Kon maildir directory path niet openen: %s: %s"
+
+#~ msgid "Checking for new messages"
+#~ msgstr "Bezig met controleren op nieuwe berichten"
+
+#~ msgid "Storing folder"
+#~ msgstr "Map wordt opgeslagen"
+
+#~ msgid "Cannot create folder lock on %s: %s"
+#~ msgstr "Kan map niet verkrijgen: %s: %s"
+
+#~ msgid "Cannot open mailbox: %s: %s\n"
+#~ msgstr "Kon postbus niet openen: %s: %s\n"
+
+#~ msgid "Mail append cancelled"
+#~ msgstr "Mail toevoegen geannuleerd"
+
+#~ msgid "Cannot append message to mbox file: %s: %s"
+#~ msgstr "Kan bericht niet aan mbox-bestand toevoegen: %s: %s"
+
+#~ msgid "The folder appears to be irrecoverably corrupted."
+#~ msgstr "De map lijkt onherstelbaar beschadigd te zijn."
+
+#~ msgid "Message construction failed."
+#~ msgstr "Opbouwen bericht mislukt."
+
+#~ msgid "Cannot create a folder by this name."
+#~ msgstr "Kan geen map met die naam maken"
+
+#~ msgid "Cannot get folder `%s': not a regular file."
+#~ msgstr "Kan map %s niet aanmaken: geen normaal bestand"
+
+#~ msgid ""
+#~ "Could not delete folder `%s':\n"
+#~ "%s"
+#~ msgstr ""
+#~ "Kon map `%s' niet verwijderen:\n"
+#~ "%s"
+
+#~ msgid "`%s' is not a regular file."
+#~ msgstr "`%s' is geen normaal bestand."
+
+#~ msgid "Folder `%s' is not empty. Not deleted."
+#~ msgstr "Map `%s' is niet leeg. Niet verwijderd."
+
+#~ msgid "Cannot create directory `%s': %s."
+#~ msgstr "Kan directory `%s' niet maken: %s."
+
+#~ msgid "The new folder name is illegal."
+#~ msgstr "De opgegeven mapnaam is niet geldig."
+
+#~ msgid "Could not rename `%s': `%s': %s"
+#~ msgstr "Kon `%s' niet hernoemen: `%s': %s"
+
+#~ msgid "Could not rename '%s' to %s: %s"
+#~ msgstr "Kan de map niet hernoemen van '%s' naar %s: %s"
+
+#~ msgid "Fatal mail parser error near position %ld in folder %s"
+#~ msgstr "Fatale e-mail analysefout op positie %ld in de map %s"
+
+#~ msgid "Cannot check folder: %s: %s"
+#~ msgstr "Kan map %s niet controleren: %s"
+
+#~ msgid "Could not open file: %s: %s"
+#~ msgstr "Kon bestand: %s niet openen: %s"
+
+#~ msgid "Cannot open temporary mailbox: %s"
+#~ msgstr "Kon tijdelijke postbus niet openen: %s"
+
+#~ msgid "Could not close source folder %s: %s"
+#~ msgstr "Kon de bronmap %s niet sluiten: %s"
+
+#~ msgid "Could not close temp folder: %s"
+#~ msgstr "Kon de tijdelijke map niet sluiten: %s"
+
+#~ msgid "Summary and folder mismatch, even after a sync"
+#~ msgstr "Samenvatting en map niet gelijk, zelfs na synchronisatie"
+
+#~ msgid "Error writing to temp mailbox: %s"
+#~ msgstr "Fout bij het schrijven naar tijdelijke postbus: %s"
+
+#~ msgid "Writing to tmp mailbox failed: %s: %s"
+#~ msgstr "Fout bij het schrijven naar tijdelijk postbus %s: %s"
+
+#~ msgid "MH append message cancelled"
+#~ msgstr "MH bericht toevoegen geannuleerd"
+
+#~ msgid "Cannot append message to mh folder: %s: %s"
+#~ msgstr "Kan bericht niet toevoegen aan mh map %s: %s"
+
+#~ msgid "Could not create folder `%s': %s"
+#~ msgstr "Kan map `%s' niet maken: %s"
+
+#~ msgid "Cannot get folder `%s': not a directory."
+#~ msgstr "Kan map `%s' niet verkrijgen: is geen map."
+
+#~ msgid "Cannot open MH directory path: %s: %s"
+#~ msgstr "Kon MH-postbus map niet openen: %s: %s"
+
+#~ msgid "Spool `%s' cannot be opened: %s"
+#~ msgstr "Buffer `%s' kan niet geopend worden: %s"
+
+#~ msgid "Spool `%s' is not a regular file or directory"
+#~ msgstr "Buffer `%s' is geen normaal bestand of map"
+
+#~ msgid "Folder `%s/%s' does not exist."
+#~ msgstr "Map `%s/%s' bestaat niet."
+
+#~ msgid ""
+#~ "Could not open folder `%s':\n"
+#~ "%s"
+#~ msgstr ""
+#~ "Kon map `%s' niet openen:\n"
+#~ "%s"
+
+#~ msgid ""
+#~ "Could not create folder `%s':\n"
+#~ "%s"
+#~ msgstr ""
+#~ "Kon map `%s' niet maken:\n"
+#~ "%s"
+
+#~ msgid "`%s' is not a mailbox file."
+#~ msgstr "`%s' is geen mailbox bestand."
+
+#~ msgid "Store does not support an INBOX"
+#~ msgstr "Opslag ondersteunt geen Postvak In"
+
+#~ msgid "Spool mail file %s"
+#~ msgstr "Spool mail bestand %s"
+
+#~ msgid "Spool folder tree %s"
+#~ msgstr "Buffermap boom %s"
+
+#~ msgid "Spool folders cannot be renamed"
+#~ msgstr "Spoolmappen kunnen niet hernoemd worden"
+
+#~ msgid "Spool folders cannot be deleted"
+#~ msgstr "Spoolmappen kunnen niet gewist worden"
+
+#~ msgid "Could not sync temporary folder %s: %s"
+#~ msgstr "Kon tijdelijke map %s niet synchroniseren: %s"
+
+#~ msgid "Could not sync spool folder %s: %s"
+#~ msgstr "Kon spoolmap: %s niet synchroniseren: %s"
+
+#~ msgid ""
+#~ "Could not sync spool folder %s: %s\n"
+#~ "Folder may be corrupt, copy saved in `%s'"
+#~ msgstr ""
+#~ "Synchroniseren spoolmap '%s' is mislukt: %s\n"
+#~ "Map is wellicht beschadigd, kopie opgeslagen in '%s'"
+
+#~ msgid "Please enter the NNTP password for %s@%s"
+#~ msgstr "Voer het NNTP wachtwoord in voor %s@%s"
+
+#~ msgid "Server rejected username"
+#~ msgstr "De server heeft de gebruikersnaam geweigerd"
+
+#~ msgid "Failed to send username to server"
+#~ msgstr "Kon de gebruikersnaam niet naar de server versturen"
+
+#~ msgid "Server rejected username/password"
+#~ msgstr "De server heeft de gebruikersnaam of het wachtwoord geweigerd"
+
+#~ msgid "Cannot get message %s: %s"
+#~ msgstr "Kan bericht: %s niet verkrijgen: %s"
+
+#~ msgid "User cancelled"
+#~ msgstr "Gebruiker geannuleerd"
+
+#~ msgid "Internal error: uid in invalid format: %s"
+#~ msgstr "Interne foute: uid in ongeldig formaat: %s"
+
+#~ msgid "You cannot post NNTP messages while working offline!"
+#~ msgstr "U kunt geen NNTP berichten posten als u offline werkt!"
+
+#~ msgid "You cannot copy messages from a NNTP folder!"
+#~ msgstr "Het kopieëren van berichten vanuit een NNTP folder is onmogelijk!"
+
+#~ msgid "Could not get group list from server."
+#~ msgstr "Kan de groepenlijst niet van de server ophalen."
+
+#~ msgid "Unable to load grouplist file for %s: %s"
+#~ msgstr "Kan groeplijst bestand voor %s niet laden: %s"
+
+#~ msgid "Unable to save grouplist file for %s: %s"
+#~ msgstr "Kon groepslijstbestand voor %s niet opslaan: %s"
+
+#~ msgid ""
+#~ "Show folders in short notation (e.g. c.o.linux rather than comp.os.linux)"
+#~ msgstr ""
+#~ "Toon mappen in verkorte notatie (b.v. c.o.linux in plaats van comp.os."
+#~ "linux)"
+
+#~ msgid "In the subscription dialog, show relative folder names"
+#~ msgstr "Toon relatieve mapname in het inschrijvingsdialoog."
+
+#~ msgid "USENET news"
+#~ msgstr "USENET-nieuws"
+
+#~ msgid "This is a provider for reading from and posting toUSENET newsgroups."
+#~ msgstr ""
+#~ "Dit is een provider voor het lezen van en versturen naar USENET "
+#~ "nieuwsgroepen."
+
+#~ msgid ""
+#~ "This option will authenticate with the NNTP server using a plaintext "
+#~ "password."
+#~ msgstr ""
+#~ "Deze optie zal aanmelden bij de NNTP-server met een wachtwoord platte "
+#~ "tekst."
+
+#~ msgid "NNTP Command failed: %s"
+#~ msgstr "NNTP-Opdracht mislukt: %s"
+
+#~ msgid "Could not read greeting from %s: %s"
+#~ msgstr "Kon groet van %s niet lezen: %s"
+
+#~ msgid "NNTP server %s returned error code %d: %s"
+#~ msgstr "NNTP server %s retourneerde foutcode %d: %s"
+
+#~ msgid "USENET News via %s"
+#~ msgstr "USENET-Nieuws via %s"
+
+#~ msgid ""
+#~ "Error retrieving newsgroups:\n"
+#~ "\n"
+#~ "%s"
+#~ msgstr ""
+#~ "Fout bij ophalen van nieuwsgroepen:\n"
+#~ "\n"
+#~ "%s"
+
+#~ msgid ""
+#~ "You cannot subscribe to this newsgroup:\n"
+#~ "\n"
+#~ "No such newsgroup. The selected item is a probably a parent folder."
+#~ msgstr ""
+#~ "U kunt niet inschrijven op deze nieuwsgroep:\n"
+#~ "\n"
+#~ "Groep bestaat niet. Het geselecteerde item is waarschijnlijk een "
+#~ "bovenliggende map."
+
+#~ msgid ""
+#~ "You cannot unsubscribe to this newsgroup:\n"
+#~ "\n"
+#~ "newsgroup does not exist!"
+#~ msgstr ""
+#~ "U kunt niet abboneren op deze nieuwsgroep:\n"
+#~ "\n"
+#~ "nieuwsgroep bestaat niet!"
+
+#~ msgid "You cannot create a folder in a News store: subscribe instead."
+#~ msgstr ""
+#~ "U kan geen map aanmaken in een nieuws opslag, in plaats hiervan kunt u "
+#~ "inschrijven."
+
+#~ msgid "You cannot rename a folder in a News store."
+#~ msgstr "U kan geen mappen hernoemen in een nieuws opslag."
+
+#~ msgid "You cannot remove a folder in a News store: unsubscribe instead."
+#~ msgstr ""
+#~ "Het is niet mogelijk om een map in een nieuws opslag te verwijderen, in "
+#~ "plaats hiervan kunt u uitschrijven."
+
+#~ msgid "Authentication requested but no username provided"
+#~ msgstr "Aanmeldingscontrole vereist maar geen gebruikersnaam gegeven"
+
+#~ msgid "Not connected."
+#~ msgstr "Niet verbonden."
+
+#~ msgid "No such folder: %s"
+#~ msgstr "Map: %s bestaat niet"
+
+#~ msgid "%s: Scanning new messages"
+#~ msgstr "%s: nieuwe berichten doorzoeken"
+
+#~ msgid "Unexpected server response from xover: %s"
+#~ msgstr "Onverwacht serverantwoord van xover: %s"
+
+#~ msgid "Unexpected server response from head: %s"
+#~ msgstr "Onverwacht serverantwoord van head: %s"
+
+#~ msgid "Use cancel"
+#~ msgstr "Gebruik annuleren"
+
+#~ msgid "Operation failed: %s"
+#~ msgstr "Bewerking mislukt: %s"
+
+#~ msgid "Retrieving POP summary"
+#~ msgstr "POP-samenvatting aan het ophalen"
+
+#~ msgid "Cannot get POP summary: %s"
+#~ msgstr "Kan POP-samenvatting niet verkrijgen: %s"
+
+#~ msgid "Expunging deleted messages"
+#~ msgstr "Bezit met schrappen van verwijderde berichten"
+
+#~ msgid "No message with uid %s"
+#~ msgstr "Geen bericht met uid %s"
+
+#~ msgid "Retrieving POP message %d"
+#~ msgstr "POP-bericht %d wordt opgehaald"
+
+#~ msgid "Delete after %s day(s)"
+#~ msgstr "Verwijder na %s dag(en)"
+
+#~ msgid "Disable support for all POP3 extensions"
+#~ msgstr "Ondersteuning voor POP3-extensies uitschakelen"
+
+#~ msgid "POP"
+#~ msgstr "POP"
+
+#~ msgid "For connecting to and downloading mail from POP servers."
+#~ msgstr ""
+#~ "Voor het contact leggen met, en het downloaden van berichten van POP "
+#~ "servers."
+
+#~ msgid ""
+#~ "This option will connect to the POP server using a plaintext password. "
+#~ "This is the only option supported by many POP servers."
+#~ msgstr ""
+#~ "Bij het verbinden met de POP-server het wachtwoord versturen in platte-"
+#~ "tekst-vorm. Deze optie is de enige die wordt ondersteund door de meeste "
+#~ "POP servers."
+
+#~ msgid ""
+#~ "This option will connect to the POP server using an encrypted password "
+#~ "via the APOP protocol. This may not work for all users even on servers "
+#~ "that claim to support it."
+#~ msgstr ""
+#~ "Bij het verbinden met de POP-server word gebruik gemaakt van een "
+#~ "versleuteld wachtwoord via het APOP-protocol. Deze optie zal niet werken "
+#~ "voor alle gebruikers, zelfs niet op servers die beweren het te "
+#~ "ondersteunen."
+
+#~ msgid "Could not connect to POP server %s (port %s): %s"
+#~ msgstr "Kon niet verbinden met POP-server %s (poort %s): %s"
+
+#~ msgid "Failed to read a valid greeting from POP server %s (port %s)"
+#~ msgstr "Lezen mislukt van geldige begroeting van POP-server %s (poort %s)"
+
+#~ msgid "Failed to connect to POP server %s in secure mode: %s"
+#~ msgstr "Fout bij opzetten van beveiligde verbinding met POP-server %s: %s"
+
+#~ msgid ""
+#~ "Unable to connect to POP server %s: No support for requested "
+#~ "authentication mechanism."
+#~ msgstr ""
+#~ "Kon niet verbinden met POP-server %s: Geen ondersteuning voor de "
+#~ "ingestelde aanmeldingsmethode."
+
+#~ msgid "SASL `%s' Login failed for POP server %s: %s"
+#~ msgstr "SASL `%s' aanmelding mislukt bij POP-server %s: %s"
+
+#~ msgid "Cannot login to POP server %s: SASL Protocol error"
+#~ msgstr "Kan niet inloggen bij POP server %s: SASL protocol fout"
+
+#~ msgid "Failed to authenticate on POP server %s: %s"
+#~ msgstr "Identificatie op POP-server %s mislukt: %s"
+
+#~ msgid "%sPlease enter the POP password for %s on host %s"
+#~ msgstr "%sVoer het POP3-wachtwoord voor %s op host %s in"
+
+#~ msgid ""
+#~ "Unable to connect to POP server %s.\n"
+#~ "Error sending password: %s"
+#~ msgstr ""
+#~ "Fout bij verbinden met de POP-server %s.\n"
+#~ "Fout bij het versturen van het wachtwoord: %s"
+
+#~ msgid ""
+#~ "Unable to connect to POP server %s.\n"
+#~ "Error sending username: %s"
+#~ msgstr ""
+#~ "Kon geen verbinding maken met de POP-server %s.\n"
+#~ "Fout bij het versturen van de gebruikersnaam: %s"
+
+#~ msgid "No such folder `%s'."
+#~ msgstr "Map `%s' bestaat niet."
+
+#~ msgid "Sendmail"
+#~ msgstr "Sendmail"
+
+#~ msgid ""
+#~ "For delivering mail by passing it to the \"sendmail\" program on the "
+#~ "local system."
+#~ msgstr ""
+#~ "Het afleveren van post zal afgehandeld worden door het \"sendmail\" "
+#~ "programma op het lokale systeem."
+
+#~ msgid "Could not parse recipient list"
+#~ msgstr "kon ontvangerslijst niet verwerken"
+
+#~ msgid "Could not create pipe to sendmail: %s: mail not sent"
+#~ msgstr "Kon verbinding met sendmail niet maken: %s: bericht niet verstuurd"
+
+#~ msgid "Could not fork sendmail: %s: mail not sent"
+#~ msgstr "Kon sendmail niet starten: %s: bericht niet verstuurd"
+
+#~ msgid "sendmail exited with signal %s: mail not sent."
+#~ msgstr "sendmail stopte met signaal %s: bericht niet verstuurd."
+
+#~ msgid "Could not execute %s: mail not sent."
+#~ msgstr "Kon %s niet uitvoeren: bericht niet verstuurd."
+
+#~ msgid "sendmail exited with status %d: mail not sent."
+#~ msgstr "sendmail stopte met staat %d: bericht niet verstuurd."
+
+#~ msgid "sendmail"
+#~ msgstr "sendmail"
+
+#~ msgid "Mail delivery via the sendmail program"
+#~ msgstr "Postaflevering via het sendmail programma"
+
+#~ msgid "SMTP"
+#~ msgstr "SMTP"
+
+#~ msgid "For delivering mail by connecting to a remote mailhub using SMTP."
+#~ msgstr "Voor het versturen van e-mail naar een externe mailhub met SMTP."
+
+#~ msgid "Syntax error, command unrecognized"
+#~ msgstr "Syntactische fout, opdracht niet herkend"
+
+#~ msgid "Syntax error in parameters or arguments"
+#~ msgstr "Syntactische fout in parameters of argumenten"
+
+#~ msgid "Command not implemented"
+#~ msgstr "Opdracht niet geïmplementeerd"
+
+#~ msgid "Command parameter not implemented"
+#~ msgstr "Opdrachtparameter niet geïmplementeerd"
+
+#~ msgid "System status, or system help reply"
+#~ msgstr "Systeem-status, of systeem-hulp-antwoord"
+
+#~ msgid "Help message"
+#~ msgstr "Hulpbericht"
+
+#~ msgid "Service closing transmission channel"
+#~ msgstr "Dienst heeft transmissiekanaal gesloten"
+
+#~ msgid "Service not available, closing transmission channel"
+#~ msgstr "Dienst niet beschikbaar, transmissiekanaal gesloten"
+
+#~ msgid "Requested mail action okay, completed"
+#~ msgstr "Postopdracht geslaagd, voltooid"
+
+#~ msgid "User not local; will forward to <forward-path>"
+#~ msgstr "Gebruiker niet lokaal; zal doorsturen naar <doorstuur-pad>"
+
+#~ msgid "Requested mail action not taken: mailbox unavailable"
+#~ msgstr "Postopdracht niet uitgevoerd: postbus niet beschikbaar"
+
+#~ msgid "Requested action not taken: mailbox unavailable"
+#~ msgstr "Opdracht niet uitgevoerd: postbus niet beschikbaar"
+
+#~ msgid "Requested action aborted: error in processing"
+#~ msgstr "Verzochte actie afgebroken: fout tijdens verwerken"
+
+#~ msgid "User not local; please try <forward-path>"
+#~ msgstr "Gebruiker niet lokaal; probeer <doorstuur-pad>"
+
+#~ msgid "Requested action not taken: insufficient system storage"
+#~ msgstr "Opdracht niet uitgevoerd: onvoldoende ruimte op systeem"
+
+#~ msgid "Requested mail action aborted: exceeded storage allocation"
+#~ msgstr "Postopdracht afgebroken: gebruikt teveel ruimte"
+
+#~ msgid "Requested action not taken: mailbox name not allowed"
+#~ msgstr "Opdracht niet uitgevoerd: postbusnaam niet toegestaan"
+
+#~ msgid "Start mail input; end with <CRLF>.<CRLF>"
+#~ msgstr "Start postinvoer; eindig met <CRLF>.<CRLF>"
+
+#~ msgid "Transaction failed"
+#~ msgstr "Transactie mislukt"
+
+#~ msgid "A password transition is needed"
+#~ msgstr "Veranderen van wachtwoord is vereist"
+
+#~ msgid "Authentication mechanism is too weak"
+#~ msgstr "Aanmeldingsmechanisme te zwak"
+
+#~ msgid "Temporary authentication failure"
+#~ msgstr "Tijdelijke aanmeldingsfout"
+
+#~ msgid "Authentication required"
+#~ msgstr "Aanmelding is vereist"
+
+#~ msgid "Welcome response error"
+#~ msgstr "Fout in welkomstbericht"
+
+#~ msgid "Failed to connect to SMTP server %s in secure mode: %s"
+#~ msgstr "Fout bij opzetten van beveiligde verbinding met SMTP-server %s: %s"
+
+#~ msgid "server does not appear to support SSL"
+#~ msgstr "server lijkt geen SSL te ondersteunen"
+
+#~ msgid "STARTTLS command failed: %s"
+#~ msgstr "STARTTLS-opdracht mislukt: %s"
+
+#~ msgid "STARTTLS command failed"
+#~ msgstr "STARTTLS-opdracht mislukt: %s"
+
+#~ msgid "SMTP server %s does not support requested authentication type %s."
+#~ msgstr "SMTP-server %s ondersteunt het gevraagde aanmeldingstype %s niet."
+
+#~ msgid "%sPlease enter the SMTP password for %s on host %s"
+#~ msgstr "%sVoer het SMTP wachtwoord in voor %s op host %s"
+
+#~ msgid ""
+#~ "Unable to authenticate to SMTP server.\n"
+#~ "%s\n"
+#~ "\n"
+#~ msgstr ""
+#~ "Fout bij het aanmelden bij de SMTP-server.\n"
+#~ "%s\n"
+#~ "\n"
+
+#~ msgid "SMTP server %s"
+#~ msgstr "SMTP-server %s"
+
+#~ msgid "SMTP mail delivery via %s"
+#~ msgstr "Postaflevering via %s"
+
+#~ msgid "Cannot send message: service not connected."
+#~ msgstr "Kan bericht niet versturen: service niet verbonden."
+
+#~ msgid "Cannot send message: sender address not valid."
+#~ msgstr "Kan berichten niet versturen: afzender niet geldig."
+
+#~ msgid "Cannot send message: no recipients defined."
+#~ msgstr "Kan bericht niet versturen: Geen ontvangers gespecificeerd."
+
+#~ msgid "Cannot send message: one or more invalid recipients"
+#~ msgstr "Kan bericht niet versturen: een of meerdere ongeldige ontvangers"
+
+#~ msgid "SMTP Greeting"
+#~ msgstr "SMTP Begroeting"
+
+#~ msgid "HELO command failed: %s"
+#~ msgstr "HELO-opdracht mislukt: %s"
+
+#~ msgid "HELO command failed"
+#~ msgstr "HELO command mislukt"
+
+#~ msgid "Error creating SASL authentication object."
+#~ msgstr "Fout bij aanmaken van SASL aanmeldingsobject"
+
+#~ msgid "AUTH command failed: %s"
+#~ msgstr "AUTH-opdracht mislukt: %s"
+
+#~ msgid "AUTH command failed"
+#~ msgstr "AUTH-opdracht mislukt: %s"
+
+#~ msgid "Bad authentication response from server.\n"
+#~ msgstr "Fout aanmeldingsantwoord van server.\n"
+
+#~ msgid "MAIL FROM command failed: %s: mail not sent"
+#~ msgstr "MAIL FROM opdracht mislukt: %s: bericht niet verzonden"
+
+#~ msgid "MAIL FROM command failed"
+#~ msgstr "MAIL FROM-opdracht mislukt"
+
+#~ msgid "RCPT TO command failed: %s: mail not sent"
+#~ msgstr "RCPT TO opdracht mislukt: %s: bericht niet verzonden"
+
+#~ msgid "RCPT TO <%s> failed"
+#~ msgstr "RCPT TO <%s> mislukt"
+
+#~ msgid "DATA command failed: %s: mail not sent"
+#~ msgstr "DATA-opdracht mislukt: %s : bericht niet verstuurd"
+
+#~ msgid "DATA command failed"
+#~ msgstr "DATA-opdracht mislukt"
+
+#~ msgid "RSET command failed: %s"
+#~ msgstr "RSET-opdracht mislukt: %s"
+
+#~ msgid "RSET command failed"
+#~ msgstr "RSET-opdracht mislukt"
+
+#~ msgid "QUIT command failed: %s"
+#~ msgstr "QUIT-opdracht mislukt: %s"
+
+#~ msgid "QUIT command failed"
+#~ msgstr "QUIT-opdracht mislukt: %s"
+
+#~ msgid "Remove selected items from the attachment list"
+#~ msgstr "Verwijder het geselecteerde bestand uit de lijst van bijlages"
+
+# Een bestand aan het bericht toevoegen
+# Een bestand bij het bericht voegen
+#~ msgid "Attach a file to the message"
+#~ msgstr "Een bestand aan het bericht toevoegen"
+
+#~ msgid "incoming"
+#~ msgstr "inkomend"
+
+#~ msgid "VFolders"
+#~ msgstr "VMappen"
+
+#~ msgid "Add Sender to Address_book"
+#~ msgstr "Afzender aan adresboe_k toevoegen"
+
+#~ msgid "Appl_y Filters"
+#~ msgstr "Filters _toepassen"
+
+#~ msgid "F_ilter Junk"
+#~ msgstr "Troep f_ilteren"
+
+#~ msgid "Virtual _Folders"
+#~ msgstr "Virtuele mappen"
+
+#~ msgid "Evolution Account Editor"
+#~ msgstr "Evolution Accountbeheer"
+
+#~ msgid "Select individual file"
+#~ msgstr "Selecteer individueel bestand"
+
+#~ msgid "Receiving Mail"
+#~ msgstr "E-mail ontvangen"
+
+#~ msgid ""
+#~ "Please enter information about your incoming mail server below. If you "
+#~ "are not sure, ask your system administrator or Internet Service Provider."
+#~ msgstr ""
+#~ "Geef hier de informatie over uw server om e-mail van te ontvangen. Als u "
+#~ "niet weet wat voor servertype u gebruikt, neem dan contact op met uw "
+#~ "systeembeheerder of met uw internet-provider."
+
+#~ msgid ""
+#~ "You are almost done with the mail configuration process. The identity, "
+#~ "incoming mail server and outgoing mail transport method which you "
+#~ "provided will be grouped together to make an Evolution mail account. "
+#~ "Please enter a name for this account in the space below. This name will "
+#~ "be used for display purposes only."
+#~ msgstr ""
+#~ "U bent bijna klaar met het instellen van uw e-mailconfiguratie. De "
+#~ "identiteit, inkomende e-mailserver en uitgaande e-mail verzendmethode die "
+#~ "u heeft ingevuld zullen worden toegevoegd aan een aan te maken Evolution "
+#~ "e-mailaccount. Geef een naam aan dit account in de ruimte hieronder. Deze "
+#~ "naam is alleen nodig voor de lijstweergave."
+
+#~ msgid "Connecting to server..."
+#~ msgstr "Verbinden met server..."
+
+#~ msgid "<span weight=\"bold\">Checking for New Mail</span>"
+#~ msgstr "<span weight=\"bold\">Controleren voor Nieuwe Berichten</span>"
+
+#~ msgid "IMAPv4 "
+#~ msgstr "IMAPv4"
+
+#~ msgid "Kerberos "
+#~ msgstr "Kerberos"
+
+#~ msgid "Qmail maildir "
+#~ msgstr "Qmail maildir"
+
+#~ msgid "Standard Unix mbox"
+#~ msgstr "Standaard Unix mailboxbestand"
+
+#~ msgid "_Use Secure Connection (SSL):"
+#~ msgstr "_Beveiligde verbinding (SSL) gebruiken:"
+
+#~ msgid "C_ompleted"
+#~ msgstr "V_oltooid"
+
+#~ msgid "Body does not contain"
+#~ msgstr "Inhoud bevat niet"
+
+#~ msgid "Body or subject contains"
+#~ msgstr "Inhoud of onderwerp bevat"
+
+#~ msgid "Subject does not contain"
+#~ msgstr "Onderwerp bevat niet"
+
+#~ msgid "Whether Evolution should start up in offline mode"
+#~ msgstr "Evolution opstarten in offline mode"
+
+#~ msgid "Close this item"
+#~ msgstr "Dit item sluiten"
+
+#~ msgid "Preview the printed item"
+#~ msgstr "Een afdrukvoorbeeld maken van het item"
+
+#~ msgid "Print this item"
+#~ msgstr "Item afdrukken"
+
+#~ msgid "Save the item and close the dialog box"
+#~ msgstr "Dit item opslaan en het dialoogvenster sluiten"
+
+#~ msgid "Save this item to disk"
+#~ msgstr "Dit item opslaan op de harde schijf"
+
+#~ msgid "Print En_velope..."
+#~ msgstr "En_velop afdrukken..."
+
+#~ msgid "Save the contact and close the dialog box"
+#~ msgstr "Dit contact opslaan en het dialoogvenster sluiten"
+
+#~ msgid "Send _Message to Contact..."
+#~ msgstr "_Bericht sturen aan contact..."
+
+#~ msgid "Save the list and close the dialog box"
+#~ msgstr "Deze lijst opslaan en het dialoogvenster sluiten"
+
+#~ msgid "Se_nd list to other..."
+#~ msgstr "_Lijst naar ander sturen..."
+
+#~ msgid "_Delete..."
+#~ msgstr "Verwij_deren..."
+
+#~ msgid "Cancel the meeting for this item"
+#~ msgstr "Annuleer de bijeenkomst voor dit item"
+
+#~ msgid "Forward as i_Calendar"
+#~ msgstr "Doorsturen als i_Calendar"
+
+#~ msgid "Forward this item via email"
+#~ msgstr "Dit item via e-mail doorsturen"
+
+#~ msgid "Obtain the latest meeting information"
+#~ msgstr "Ophalen laatste bijeenkomstinformatie"
+
+#~ msgid "Re_fresh Meeting"
+#~ msgstr "_Bijeenkomst verversen"
+
+#~ msgid "Schedule _Meeting"
+#~ msgstr "_Bijeenkomst plannen"
+
+#~ msgid "Schedule a meeting for this item"
+#~ msgstr "Plan een bijeenkomst voor dit item"
+
+#~ msgid "Create _Virtual Folder From Message"
+#~ msgstr "_VMap van bericht maken"
+
+#~ msgid "Assign Task"
+#~ msgstr "Taak Toewijzen"
+
+#~ msgid "Assign this task to others"
+#~ msgstr "Wijs deze taak toe aan anderen"
+
+#~ msgid "Cancel Task"
+#~ msgstr "Annuleer Taak"
+
+#~ msgid "Cancel this task"
+#~ msgstr "Annuleer deze taak"
+
+#~ msgid "Re_fresh Task"
+#~ msgstr "Ververs Taak"
+
+#~ msgid "Failed to resolve host `%s': %s"
+#~ msgstr "Kon computer '%s' niet vinden: %s"
+
+#~ msgid "Failure in name lookup: %s"
+#~ msgstr "Fout bij opzoeken naam: %s"
+
+#~ msgid "Host lookup failed: cannot create thread: %s"
+#~ msgstr "Opzoeken host mislukt: kan draad niet creëren: %s"
+
+#~ msgid "Host lookup failed: %s: host not found"
+#~ msgstr "Machine niet gevonden: %s machine niet gevonden"
+
+#~ msgid "Host lookup failed: %s: unknown reason"
+#~ msgstr "Machine opzoeken faalde: %s onbekende reden"
+
+#~ msgid "Host lookup failed: host not found"
+#~ msgstr "Opzoeken mislukt: computer niet gevonden"
+
+#~ msgid ""
+#~ "Failed to connect to IMAP server %s in secure mode: Server does not "
+#~ "support STARTTLS"
+#~ msgstr ""
+#~ "Fout bij opzetten van beveiligde verbinding met IMAP-server %s: De "
+#~ "server \n"
+#~ "ondersteund geen STARTTLS"
