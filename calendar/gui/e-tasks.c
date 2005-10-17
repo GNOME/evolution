@@ -1008,8 +1008,8 @@ e_tasks_show_preview (ETasks *tasks, gboolean state)
 {
 	ETasksPrivate *priv;
 
-	g_return_val_if_fail (tasks != NULL, FALSE);
-	g_return_val_if_fail (E_IS_TASKS (tasks), FALSE);
+	g_return_if_fail (tasks != NULL);
+	g_return_if_fail (E_IS_TASKS (tasks));
 	priv = tasks->priv;
 
 	if (state) {

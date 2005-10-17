@@ -1,3 +1,8 @@
+2005-10-17 Irene Huang <Irene.Huang@sun.com> 
+
+	* gui/e-tasks.c: (e_tasks_show_preview): Should not return a value, so, 
+	change all the g_return_val_if_fail to g_return_if_fail.
+
 2005-10-10  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #266144, 317575.
