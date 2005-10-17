@@ -331,7 +331,9 @@ msgstr "Hüpikmenüü"
 
 #: ../addressbook/addressbook.error.xml.h:1
 msgid "A contact already exists with this address. Would you like to add a new card with the same address anyway?"
-msgstr "Sellise aadressiga kontakt on juba olemas. Kas sa soovid lisada uut kaarti koos sama aadressiga?"
+msgstr ""
+"Sellise aadressiga kontakt on juba olemas. Kas sa soovid lisada uut kaarti "
+"koos sama aadressiga?"
 
 #: ../addressbook/addressbook.error.xml.h:2
 msgid "Address '{0}' already exists."
@@ -347,7 +349,10 @@ msgstr "Kategooriaredaktor ei ole saadaval."
 
 #: ../addressbook/addressbook.error.xml.h:5
 msgid "Check to make sure your password is spelled correctly and that you are using a supported login method. Remember that many passwords are case sensitive; your caps lock might be on."
-msgstr "Kontrolli, kas parool on õigesti kirjutatud ja kas sa kasutad toetatud logimismeetodit. Kuna paroolid on üldiselt tõstutundlikud, siis veendu, et caps lock ei oleks peal."
+msgstr ""
+"Kontrolli, kas parool on õigesti kirjutatud ja kas sa kasutad toetatud "
+"logimismeetodit. Kuna paroolid on üldiselt tõstutundlikud, siis veendu, et "
+"caps lock ei oleks peal."
 
 #: ../addressbook/addressbook.error.xml.h:6
 msgid "Could not get schema information for LDAP server."
@@ -384,7 +389,8 @@ msgstr "Serveri versioon"
 #: ../addressbook/addressbook.error.xml.h:14
 #: ../calendar/calendar.error.xml.h:44
 msgid "Some features may not work properly with your current server"
-msgstr "Mõningad võimalused võivad sinu käesoleva serveriga ebakorrektselt töötada"
+msgstr ""
+"Mõningad võimalused võivad sinu käesoleva serveriga ebakorrektselt töötada"
 
 #: ../addressbook/addressbook.error.xml.h:15
 msgid "The Evolution addressbook has quit unexpectedly."
@@ -396,7 +402,10 @@ msgstr ""
 
 #: ../addressbook/addressbook.error.xml.h:17
 msgid "This LDAP server may use an older version of LDAP, which does not support this functionality or it may be misconfigured. Ask your administrator for supported search bases."
-msgstr "See LDAP server võib kasutada vanemat LDAP versiooni, mis ei toeta seda funktsionaalsust. Samas võib see LDAP server olla halvasti seadistatud. Küsi oma süsteemihaldurilt, milliseid otsingubaase sa peaksid kasutama."
+msgstr ""
+"See LDAP server võib kasutada vanemat LDAP versiooni, mis ei toeta seda "
+"funktsionaalsust. Samas võib see LDAP server olla halvasti seadistatud. Küsi "
+"oma süsteemihaldurilt, milliseid otsingubaase sa peaksid kasutama."
 
 #: ../addressbook/addressbook.error.xml.h:18
 msgid "This address book will be removed permanently."
@@ -436,7 +445,10 @@ msgstr "Kas soovid tehtud muudatusi salvestada?"
 
 #: ../addressbook/addressbook.error.xml.h:27
 msgid "You are attempting to move a contact from one addressbook to another but it cannot be removed from the source. Do you want to save a copy instead?"
-msgstr "Sa proovid tõsta kontakti ühest aadressiraamatust teise kuid lähteraamatust pole seda võimalik kustutada. Kas sa soovid ümbertõstmise asemel salvestada koopiat?"
+msgstr ""
+"Sa proovid tõsta kontakti ühest aadressiraamatust teise kuid lähteraamatust "
+"pole seda võimalik kustutada. Kas sa soovid ümbertõstmise asemel salvestada "
+"koopiat?"
 
 #: ../addressbook/addressbook.error.xml.h:28
 #: ../calendar/calendar.error.xml.h:59
@@ -449,7 +461,8 @@ msgstr ""
 
 #: ../addressbook/addressbook.error.xml.h:30
 msgid "Your contacts for {0} will not be available until Evolution is restarted."
-msgstr "Sinu {0} kontakte pole enne Evolutioni taaskäivitamist võimalik kasutada."
+msgstr ""
+"Sinu {0} kontakte pole enne Evolutioni taaskäivitamist võimalik kasutada."
 
 #: ../addressbook/addressbook.error.xml.h:31
 #: ../mail/em-vfolder-rule.c:494
@@ -701,7 +714,8 @@ msgid ""
 "\n"
 "Please be patient while Evolution migrates your folders..."
 msgstr ""
-"Evolutioni kontaktikaustade asukoht ja hierarhia on alates Evolution 1.x. versioonist muutunud.\n"
+"Evolutioni kontaktikaustade asukoht ja hierarhia on alates Evolution 1.x. "
+"versioonist muutunud.\n"
 "\n"
 "Palun oota kuni Evolution siirdab sinu kaustasid..."
 
@@ -791,7 +805,9 @@ msgstr "Eelvaatluspaani kuvamine"
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:6
 msgid "The number of characters that must be typed before Evolution will attempt to autocomplete."
-msgstr "Tähtede arv, mis tuleb sisestada enne kui Evolution üritab automaatlõpetamist."
+msgstr ""
+"Tähtede arv, mis tuleb sisestada enne kui Evolution üritab "
+"automaatlõpetamist."
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:7
 msgid "URI for the folder last used in the select names dialog"
@@ -908,7 +924,8 @@ msgstr "E-posti aadress:"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:21
 msgid "Evolution will use this email address to authenticate you with the server."
-msgstr "Evolution kasutab seda e-posti aadressi serverile sinu identuse tõendamiseks."
+msgstr ""
+"Evolution kasutab seda e-posti aadressi serverile sinu identuse tõendamiseks."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:22
 msgid "Find Possible Search Bases"
@@ -934,15 +951,23 @@ msgstr "_Otsingubaas:"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:28
 msgid "Selecting this option means that Evolution will only connect to your LDAP server if your LDAP server supports SSL or TLS."
-msgstr "See valik tähendab seda, et Evolution ühendub sinu LDAP serverisse ainult juhul, kui LDAP server toetab SSL või TLS protokolli."
+msgstr ""
+"See valik tähendab seda, et Evolution ühendub sinu LDAP serverisse ainult "
+"juhul, kui LDAP server toetab SSL või TLS protokolli."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:29
 msgid "Selecting this option means that Evolution will only try to use SSL/TLS if you are in a insecure environment. For example, if you and your LDAP server are behind a firewall at work, then Evolution doesn't need to use SSL/TLS because your connection is already secure."
-msgstr "See valik tähendab seda, et Evolution üritab kasutada SSL/TLS protokolli ainult siis kui sa oled ebaturvalises keskkonnas. Näiteks kui sina ja sinu LDAP server asuvad mõlemad tulemüüriga kaitstud võrgus, siis Evolution ei pea kasutama SSL/TLS protokolli, kuna sinu ühendus on juba turvaline."
+msgstr ""
+"See valik tähendab seda, et Evolution üritab kasutada SSL/TLS protokolli "
+"ainult siis kui sa oled ebaturvalises keskkonnas. Näiteks kui sina ja sinu "
+"LDAP server asuvad mõlemad tulemüüriga kaitstud võrgus, siis Evolution ei "
+"pea kasutama SSL/TLS protokolli, kuna sinu ühendus on juba turvaline."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:30
 msgid "Selecting this option means that your server does not support either SSL or TLS.  This means that your connection will be insecure, and that you will be vulnerable to security exploits. "
-msgstr "See valik tähendab seda, et sinu server ei toeta SSL ega TLS protokolle. Seega ei ole sinu ühendus turvaline ja võib-olla ohustatud turvaaukudest."
+msgstr ""
+"See valik tähendab seda, et sinu server ei toeta SSL ega TLS protokolle. "
+"Seega ei ole sinu ühendus turvaline ja võib-olla ohustatud turvaaukudest."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:31
 msgid "Sub"
@@ -970,7 +995,10 @@ msgstr ""
 
 #: ../addressbook/gui/component/ldap-config.glade.h:37
 msgid "This is the method Evolution will use to authenticate you.  Note that setting this to \"Email Address\" requires anonymous access to your ldap server."
-msgstr "Siin määrataks, mil viisil Evolution tõendab serverile kasutajat.  Märkus: seades selle väärtuseks \"E-posti aadress\", peab valitud LDAP serveri toetama anonüümset ligipääsu."
+msgstr ""
+"Siin määrataks, mil viisil Evolution tõendab serverile kasutajat.  Märkus: "
+"seades selle väärtuseks \"E-posti aadress\", peab valitud LDAP serveri "
+"toetama anonüümset ligipääsu."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:38
 msgid "This is the name for this server that will appear in your Evolution folder list. It is for display purposes only. "
@@ -978,7 +1006,10 @@ msgstr ""
 
 #: ../addressbook/gui/component/ldap-config.glade.h:39
 msgid "This is the port on the LDAP server that Evolution will try to connect to. A list of standard ports has been provided. Ask your system administrator what port you should specify."
-msgstr "See on LDAP serveri port, kuhu Evolution üritab ühendust luua. Nimekiri standardportidest on välja toodud. Küsi oma süsteemiülemalt millise pordi sa peaksid määrama."
+msgstr ""
+"See on LDAP serveri port, kuhu Evolution üritab ühendust luua. Nimekiri "
+"standardportidest on välja toodud. Küsi oma süsteemiülemalt millise pordi sa "
+"peaksid määrama."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:40
 msgid "Using distinguished name (DN)"
@@ -3270,24 +3301,37 @@ msgstr "Vigane serveri versioon"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:93
 msgid "We were unable to open this addressbook. This either means this book is not marked for offline usage or not yet downloaded for offline usage. Please load the addressbook once in online mode to download its contents"
-msgstr "Seda aadressiraamatut pole võimalik avada. See võib tähendada, et see raamat pole märgitud kasutamiseks autonoomses olekus või pole selle raamatu sisu veel autonoomses olekus kasutamiseks alla laaditud. Palun laadi korraks aadressiraamat võrgurežiimis, et selle sisu oleks võimalik alla laadida."
+msgstr ""
+"Seda aadressiraamatut pole võimalik avada. See võib tähendada, et see raamat "
+"pole märgitud kasutamiseks autonoomses olekus või pole selle raamatu sisu "
+"veel autonoomses olekus kasutamiseks alla laaditud. Palun laadi korraks "
+"aadressiraamat võrgurežiimis, et selle sisu oleks võimalik alla laadida."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:102
 #, c-format
 msgid "We were unable to open this addressbook.  Please check that the path %s exists and that you have permission to access it."
-msgstr "Aadressiraamatut pole võimalik avada.  Palun kontrolli, kas rada %s on olemas ja kas sul on sellele vajalikud pääsuõigused."
+msgstr ""
+"Aadressiraamatut pole võimalik avada.  Palun kontrolli, kas rada %s on "
+"olemas ja kas sul on sellele vajalikud pääsuõigused."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:110
 msgid "We were unable to open this addressbook.  This either means you have entered an incorrect URI, or the LDAP server is unreachable."
-msgstr "Aadressiraamatu avamine nurjus. Põhjuseks võib olla see, et sisestasid vigase URI või kasutatav LDAP server ei ole kättesaadav."
+msgstr ""
+"Aadressiraamatu avamine nurjus. Põhjuseks võib olla see, et sisestasid "
+"vigase URI või kasutatav LDAP server ei ole kättesaadav."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:115
 msgid "This version of Evolution does not have LDAP support compiled in to it.  If you want to use LDAP in Evolution, you must install an LDAP-enabled Evolution package."
-msgstr "Käesolev Evolutioni versioon ei ole kompileeritud LDAP'i toega. Kui sa soovid kasutada Evolutioni koos LDAP'i toega, pead paigaldama omale vastava Evolutioni paki."
+msgstr ""
+"Käesolev Evolutioni versioon ei ole kompileeritud LDAP'i toega. Kui sa "
+"soovid kasutada Evolutioni koos LDAP'i toega, pead paigaldama omale vastava "
+"Evolutioni paki."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:122
 msgid "We were unable to open this addressbook.  This either means you have entered an incorrect URI, or the server is unreachable."
-msgstr "Aadressiraamatu avamine nurjus.  Põhjuseks võib olla see, et sisestasid vigase URI või kasutatav server ei ole kättesaadav."
+msgstr ""
+"Aadressiraamatu avamine nurjus.  Põhjuseks võib olla see, et sisestasid "
+"vigase URI või kasutatav server ei ole kättesaadav."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:145
 msgid ""
@@ -3817,35 +3861,51 @@ msgstr ""
 
 #: ../calendar/calendar.error.xml.h:5
 msgid "All information in these journal entries will be deleted and can not be restored."
-msgstr "Kõik nende päevikukirjete kohta käivad andmed kustutatakse ja neid pole võimalik enam taastada."
+msgstr ""
+"Kõik nende päevikukirjete kohta käivad andmed kustutatakse ja neid pole "
+"võimalik enam taastada."
 
 #: ../calendar/calendar.error.xml.h:6
 msgid "All information in this journal will be deleted and can not be restored."
-msgstr "Kõik selle päeviku kohta käivad andmed kustutatakse ja neid pole võimalik enam taastada."
+msgstr ""
+"Kõik selle päeviku kohta käivad andmed kustutatakse ja neid pole võimalik "
+"enam taastada."
 
 #: ../calendar/calendar.error.xml.h:7
 msgid "All information on these appointments will be deleted and can not be restored."
-msgstr "Kõik nende sündmuste kohta käivad andmed kustutatakse ja neid pole võimalik enam taastada."
+msgstr ""
+"Kõik nende sündmuste kohta käivad andmed kustutatakse ja neid pole võimalik "
+"enam taastada."
 
 #: ../calendar/calendar.error.xml.h:8
 msgid "All information on these tasks will be deleted and can not be restored."
-msgstr "Kõik nende ülesannete kohta käivad andmed kustutatakse ja neid pole võimalik enam taastada."
+msgstr ""
+"Kõik nende ülesannete kohta käivad andmed kustutatakse ja neid pole võimalik "
+"enam taastada."
 
 #: ../calendar/calendar.error.xml.h:9
 msgid "All information on this appointment will be deleted and can not be restored."
-msgstr "Kõik selle sündmuse kohta käivad andmed kustutatakse ja neid pole võimalik enam taastada."
+msgstr ""
+"Kõik selle sündmuse kohta käivad andmed kustutatakse ja neid pole võimalik "
+"enam taastada."
 
 #: ../calendar/calendar.error.xml.h:10
 msgid "All information on this journal entry will be deleted and can not be restored."
-msgstr "Kõik selle päevikukirje kohta käivad andmed kustutatakse ja neid pole võimalik enam taastada."
+msgstr ""
+"Kõik selle päevikukirje kohta käivad andmed kustutatakse ja neid pole "
+"võimalik enam taastada."
 
 #: ../calendar/calendar.error.xml.h:11
 msgid "All information on this meeting will be deleted and can not be restored."
-msgstr "Kõik selle koosoleku kohta käivad andmed kustutatakse ja neid pole võimalik enam taastada."
+msgstr ""
+"Kõik selle koosoleku kohta käivad andmed kustutatakse ja neid pole võimalik "
+"enam taastada."
 
 #: ../calendar/calendar.error.xml.h:12
 msgid "All information on this task will be deleted and can not be restored."
-msgstr "Kõik selle ülesande kohta käivad andmed kustutatakse ja neid pole võimalik enam taastada."
+msgstr ""
+"Kõik selle ülesande kohta käivad andmed kustutatakse ja neid pole võimalik "
+"enam taastada."
 
 #: ../calendar/calendar.error.xml.h:13
 msgid "Are you sure you want to delete the '{0}' task?"
@@ -3925,11 +3985,15 @@ msgstr "Redaktorit pole võimalik laadida."
 
 #: ../calendar/calendar.error.xml.h:32
 msgid "Email invitations will be sent to all participants and allow them to RSVP."
-msgstr "E-posti teel edastatud kutsed saadetakse kõikidele osalejatele, see lubab neil oma osalemisest teada anda (RSVP)."
+msgstr ""
+"E-posti teel edastatud kutsed saadetakse kõikidele osalejatele, see lubab "
+"neil oma osalemisest teada anda (RSVP)."
 
 #: ../calendar/calendar.error.xml.h:33
 msgid "Email invitations will be sent to all participants and allow them to accept this task."
-msgstr "E-posti teel edastatud kutsed saadetakse kõikidele osalejatele, see lubab neil ülesandele nõusolekut anda."
+msgstr ""
+"E-posti teel edastatud kutsed saadetakse kõikidele osalejatele, see lubab "
+"neil ülesandele nõusolekut anda."
 
 #: ../calendar/calendar.error.xml.h:34
 msgid "Error loading calendar"
@@ -3941,15 +4005,21 @@ msgstr "Viga ülesandeloendi laadimisel"
 
 #: ../calendar/calendar.error.xml.h:36
 msgid "If you don't send a cancellation notice, the other participants may not know the journal has been deleted."
-msgstr "Kui sa ei saada katkestamisteadet, siis ülejäänud osalised võivad selle päeviku kustutamisest mitte teada saada."
+msgstr ""
+"Kui sa ei saada katkestamisteadet, siis ülejäänud osalised võivad selle "
+"päeviku kustutamisest mitte teada saada."
 
 #: ../calendar/calendar.error.xml.h:37
 msgid "If you don't send a cancellation notice, the other participants may not know the meeting is canceled."
-msgstr "Kui sa ei saada katkestamisteadet, siis ülejäänud osalised võivad katkestamisest mitte teada saada."
+msgstr ""
+"Kui sa ei saada katkestamisteadet, siis ülejäänud osalised võivad "
+"katkestamisest mitte teada saada."
 
 #: ../calendar/calendar.error.xml.h:38
 msgid "If you don't send a cancellation notice, the other participants may not know the task has been deleted."
-msgstr "Kui sa ei saada kustutamisteadet, siis ülejäänud osalised võivad selle ülesande kustutamisest mitte teada saada."
+msgstr ""
+"Kui sa ei saada kustutamisteadet, siis ülejäänud osalised võivad selle "
+"ülesande kustutamisest mitte teada saada."
 
 #: ../calendar/calendar.error.xml.h:39
 msgid "Save Changes"
@@ -3966,11 +4036,15 @@ msgstr "Teavita"
 
 #: ../calendar/calendar.error.xml.h:42
 msgid "Sending updated information allows other participants to keep their calendars up to date."
-msgstr "Värskendatud andmete saatmine aitab teistel osalejatel nende kalendreid ajakohasena hoida"
+msgstr ""
+"Värskendatud andmete saatmine aitab teistel osalejatel nende kalendreid "
+"ajakohasena hoida"
 
 #: ../calendar/calendar.error.xml.h:43
 msgid "Sending updated information allows other participants to keep their task lists up to date."
-msgstr "Värskendatud andmete saatmine aitab teistel osalejatel nende ülesannete nimekirja ajakohasena hoida"
+msgstr ""
+"Värskendatud andmete saatmine aitab teistel osalejatel nende ülesannete "
+"nimekirja ajakohasena hoida"
 
 #: ../calendar/calendar.error.xml.h:45
 msgid "The Evolution calendar has quit unexpectedly."
@@ -4006,7 +4080,8 @@ msgstr "Kas soovid selle ülesande muudatusi salvestada?"
 
 #: ../calendar/calendar.error.xml.h:53
 msgid "Would you like to send a cancellation notice for this journal entry?"
-msgstr "Kas soovid teisi osalejaid selle päevikukirje katkestamisest teavitada?"
+msgstr ""
+"Kas soovid teisi osalejaid selle päevikukirje katkestamisest teavitada?"
 
 #: ../calendar/calendar.error.xml.h:54
 msgid "Would you like to send all the participants a cancellation notice?"
@@ -4038,11 +4113,13 @@ msgstr "Sa oled seda ülesannet muutnud aga muudatused on salvestamata."
 
 #: ../calendar/calendar.error.xml.h:62
 msgid "Your calendars will not be available until Evolution is restarted."
-msgstr "Sinu kalendreid pole enne Evolutioni taaskäivitamist võimalik kasutada."
+msgstr ""
+"Sinu kalendreid pole enne Evolutioni taaskäivitamist võimalik kasutada."
 
 #: ../calendar/calendar.error.xml.h:63
 msgid "Your tasks will not be available until Evolution is restarted."
-msgstr "Sinu ülesandeid pole enne Evolutioni taaskäivitamist võimalik kasutada."
+msgstr ""
+"Sinu ülesandeid pole enne Evolutioni taaskäivitamist võimalik kasutada."
 
 #: ../calendar/calendar.error.xml.h:64
 #: ../ui/evolution-message-composer.xml.h:51
@@ -4448,7 +4525,8 @@ msgstr ""
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:37
 msgid "Position of the vertical pane, between the task list and the task preview pane, in pixels."
-msgstr "Vertikaalpaani asukoht pikslites ülesande- ja ülesande eelvaatepaanide vahel."
+msgstr ""
+"Vertikaalpaani asukoht pikslites ülesande- ja ülesande eelvaatepaanide vahel."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:38
 msgid "Position of the vertical pane, between the view and the date navigator calendar and task list in the month view, in pixels."
@@ -4545,7 +4623,8 @@ msgstr "Kas sündmuste lõpuaegu kuvatakse nädala ja kuu vaadetel."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:63
 msgid "Whether to draw the Marcus Bains Line (line at current time) in the calendar."
-msgstr "Kas kalendris kuvatakse Marcus Bains'i joont (joon praeguse aja kohal)."
+msgstr ""
+"Kas kalendris kuvatakse Marcus Bains'i joont (joon praeguse aja kohal)."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:64
 msgid "Whether to hide completed tasks in the tasks view."
@@ -4615,7 +4694,9 @@ msgstr "Kalender"
 
 #: ../calendar/gui/calendar-commands.c:354
 msgid "This operation will permanently erase all events older than the selected amount of time. If you continue, you will not be able to recover these events."
-msgstr "See tegevus eemaldab lõplikult kõik sündmused, mis on vanemad kui valitud päevade arv. Eemaldatud sõnumeid ei ole hiljem enam võimalik taastada."
+msgstr ""
+"See tegevus eemaldab lõplikult kõik sündmused, mis on vanemad kui valitud "
+"päevade arv. Eemaldatud sõnumeid ei ole hiljem enam võimalik taastada."
 
 #: ../calendar/gui/calendar-commands.c:360
 msgid "Purge events older than"
@@ -5098,7 +5179,9 @@ msgstr "<b>Töönädal</b>"
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:15
 #, no-c-format
 msgid "<i>%u and %d will be replaced by user and domain from the email address.</i>"
-msgstr "<i>%u ja %d asendatakse kasutajanime ja domeeniga, mis võetakse e-post aadressist.</i>"
+msgstr ""
+"<i>%u ja %d asendatakse kasutajanime ja domeeniga, mis võetakse e-post "
+"aadressist.</i>"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:16
 msgid "Calendar and Tasks Settings"
@@ -5301,11 +5384,13 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/calendar-setup.c:287
 msgid "Copy calendar contents locally for offline operation"
-msgstr "Kalendri sisu kopeerimine kohapeale tarvitamiseks võrguvabas keskkonnas"
+msgstr ""
+"Kalendri sisu kopeerimine kohapeale tarvitamiseks võrguvabas keskkonnas"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:290
 msgid "Copy task list contents locally for offline operation"
-msgstr "Ülesandeloendi sisu kopeerimine kohapeale tarvitamiseks võrguvabas keskkonnas"
+msgstr ""
+"Ülesandeloendi sisu kopeerimine kohapeale tarvitamiseks võrguvabas keskkonnas"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:341
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:4
@@ -5378,7 +5463,8 @@ msgstr "See päeviku sissekanne on kustutatud."
 #: ../calendar/gui/dialogs/changed-comp.c:77
 #, c-format
 msgid "%s  You have made changes. Forget those changes and close the editor?"
-msgstr "%s  Sa oled teinud muutusi. Kas unustada need muudatused ja sulgeda aken?"
+msgstr ""
+"%s  Sa oled teinud muutusi. Kas unustada need muudatused ja sulgeda aken?"
 
 #: ../calendar/gui/dialogs/changed-comp.c:79
 #, c-format
@@ -5400,7 +5486,9 @@ msgstr "Seda päeviku sissekannet on muudetud."
 #: ../calendar/gui/dialogs/changed-comp.c:101
 #, c-format
 msgid "%s  You have made changes. Forget those changes and update the editor?"
-msgstr "%s  On tehtud muudatusi.  Kas tühistada need muudatused ja uuendada redaktorit?"
+msgstr ""
+"%s  On tehtud muudatusi.  Kas tühistada need muudatused ja uuendada "
+"redaktorit?"
 
 #: ../calendar/gui/dialogs/changed-comp.c:103
 #, c-format
@@ -6918,7 +7006,9 @@ msgstr "Tundmatu isik"
 #. Describe what the user can do
 #: ../calendar/gui/e-itip-control.c:1091
 msgid "<br> Please review the following information, and then select an action from the menu below."
-msgstr "<br> Palun vaata järgnev info üle ja vali allpool olevast menüüst  sobilik tegevus."
+msgstr ""
+"<br> Palun vaata järgnev info üle ja vali allpool olevast menüüst  sobilik "
+"tegevus."
 
 #: ../calendar/gui/e-itip-control.c:1139
 #: ../calendar/gui/e-meeting-list-view.c:204
@@ -7158,7 +7248,8 @@ msgstr "Osavõtja olek värskendatud\n"
 #: ../calendar/gui/e-itip-control.c:1981
 #: ../plugins/itip-formatter/itip-formatter.c:1025
 msgid "Attendee status can not be updated because the item no longer exists"
-msgstr "Osavõtja olekut ei olnud võimailk uuendada, kuna objekti pole enam olemas"
+msgstr ""
+"Osavõtja olekut ei olnud võimailk uuendada, kuna objekti pole enam olemas"
 
 #: ../calendar/gui/e-itip-control.c:2011
 msgid "Removal Complete"
@@ -7646,7 +7737,8 @@ msgid ""
 "\n"
 "Please be patient while Evolution migrates your folders..."
 msgstr ""
-"Evolutioni kontaktikaustade asukoht ja hierarhia on peale Evolution 1.x. versiooni muutunud.\n"
+"Evolutioni kontaktikaustade asukoht ja hierarhia on peale Evolution 1.x. "
+"versiooni muutunud.\n"
 "\n"
 "Palun oota kuni Evolution siirdab sinu kaustasid..."
 
@@ -7656,7 +7748,8 @@ msgid ""
 "\n"
 "Please be patient while Evolution migrates your folders..."
 msgstr ""
-"Evolutioni kontaktikaustade asukoht ja hierarhia on alates Evolution 1.x. versioonist muutunud.\n"
+"Evolutioni kontaktikaustade asukoht ja hierarhia on alates Evolution 1.x. "
+"versioonist muutunud.\n"
 "\n"
 "Palun oota kuni Evolution siirdab sinu kaustasid..."
 
@@ -7941,7 +8034,9 @@ msgstr "Tõrge ülesannete uuendamisel."
 #: ../calendar/gui/tasks-component.c:872
 #, c-format
 msgid "Unable to open the task list '%s' for creating events and meetings"
-msgstr "Ülesannete loendit '%s' pole võimalik sündmuste ja koosolekute loomiseks avada"
+msgstr ""
+"Ülesannete loendit '%s' pole võimalik sündmuste ja koosolekute loomiseks "
+"avada"
 
 #: ../calendar/gui/tasks-component.c:887
 msgid "There is no calendar available for creating tasks"
@@ -7993,7 +8088,8 @@ msgid ""
 "\n"
 "Really erase these tasks?"
 msgstr ""
-"See operatsioon kustutab jäädavalt kõik ülesanded, mis on märgitud kui lõpetatud. Kui sa jätkad, siis neid ülesandeid ei ole võimalik taastada.\n"
+"See operatsioon kustutab jäädavalt kõik ülesanded, mis on märgitud kui "
+"lõpetatud. Kui sa jätkad, siis neid ülesandeid ei ole võimalik taastada.\n"
 "Kas tõesti kustutada need ülesanded? "
 
 #: ../calendar/gui/tasks-control.c:422
@@ -9658,11 +9754,15 @@ msgstr "_Manusta"
 
 #: ../composer/e-msg-composer.c:738
 msgid "Cannot sign outgoing message: No signing certificate set for this account"
-msgstr "Väljuvat sõnumit pole võimalik signeerida: selle konto jaoks ei ole signeerimissertifikaati määratud."
+msgstr ""
+"Väljuvat sõnumit pole võimalik signeerida: selle konto jaoks ei ole "
+"signeerimissertifikaati määratud."
 
 #: ../composer/e-msg-composer.c:745
 msgid "Cannot encrypt outgoing message: No encryption certificate set for this account"
-msgstr "Väljuvat sõnumit pole võimalik krüptida: selle konto jaoks ei ole krüptimissertifikaati määratud."
+msgstr ""
+"Väljuvat sõnumit pole võimalik krüptida: selle konto jaoks ei ole "
+"krüptimissertifikaati määratud."
 
 #: ../composer/e-msg-composer.c:1224
 #: ../composer/e-msg-composer.c:1257
@@ -9710,7 +9810,9 @@ msgstr "_Manuseriba"
 
 #: ../composer/e-msg-composer.c:4718
 msgid "<b>(The composer contains a non-text message body, which cannot be edited.)<b>"
-msgstr "<b>(Redaktor sisaldab mittetekstilist sõnumit ja seda ei ole võimalik redigeerida.)<b>"
+msgstr ""
+"<b>(Redaktor sisaldab mittetekstilist sõnumit ja seda ei ole võimalik "
+"redigeerida.)<b>"
 
 #: ../composer/mail-composer.error.xml.h:1
 msgid " There are few attachments getting downloaded. Sending the mail will cause the mail to be sent without those pending attachments "
@@ -9722,7 +9824,8 @@ msgstr "Kõik kontod on kustutatud."
 
 #: ../composer/mail-composer.error.xml.h:3
 msgid "Are you sure you want to discard the message, titled '{0}', you are composing?"
-msgstr "Kas sa tõesti soovid tühistada sõnumit '{0}', mille koostamine on pooleli?"
+msgstr ""
+"Kas sa tõesti soovid tühistada sõnumit '{0}', mille koostamine on pooleli?"
 
 #: ../composer/mail-composer.error.xml.h:4
 msgid "Because &quot;{0}&quot;, you may need to select different mail options."
@@ -9736,7 +9839,9 @@ msgstr "Kuna &quot;{1}&quot;."
 
 #: ../composer/mail-composer.error.xml.h:6
 msgid "Closing this composer window will discard the message permanently, unless you choose to save the message in your Drafts folder. This will allow you to continue the message at a later date."
-msgstr "Selle redaktoriakna sulgemine tühistab sõnumi lõplikult. Kui sa tahad sõnumi koostamist hiljem jätkata, siis salvesta see sõnum Mustandite kausta."
+msgstr ""
+"Selle redaktoriakna sulgemine tühistab sõnumi lõplikult. Kui sa tahad sõnumi "
+"koostamist hiljem jätkata, siis salvesta see sõnum Mustandite kausta."
 
 #: ../composer/mail-composer.error.xml.h:7
 msgid "Could not create composer window."
@@ -9973,7 +10078,8 @@ msgstr "Evolutioni küsimus"
 #: ../e-util/e-error.c:438
 #, c-format
 msgid "<span weight=\"bold\">Internal error, unknown error '%s' requested</span>"
-msgstr "<span weight=\"bold\">Sisemine viga, tundmatu viga '%s'  küsitud</span>"
+msgstr ""
+"<span weight=\"bold\">Sisemine viga, tundmatu viga '%s'  küsitud</span>"
 
 #: ../e-util/e-system.error.xml.h:2
 msgid "Cannot open file &quot;{0}&quot;."
@@ -10564,7 +10670,9 @@ msgstr "tundmatu saatja"
 #. * variables, see em-composer-utils.c:1514
 #: ../mail/em-composer-utils.c:1695
 msgid "On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} ${TimeZone}, ${Sender} wrote:"
-msgstr "Ühel kenal päeval, ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} kell ${24Hour}:${Minute}, kirjutas ${Sender}:"
+msgstr ""
+"Ühel kenal päeval, ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} kell "
+"${24Hour}:${Minute}, kirjutas ${Sender}:"
 
 #: ../mail/em-filter-editor.c:147
 msgid "_Filter Rules"
@@ -11196,7 +11304,9 @@ msgstr "Allkirjastamata"
 
 #: ../mail/em-format-html-display.c:696
 msgid "This message is not signed. There is no guarantee that this message is authentic."
-msgstr "See sõnum ei ole allkirjastatud. Selle sõnumi tõesust pole võimalik garanteerida."
+msgstr ""
+"See sõnum ei ole allkirjastatud. Selle sõnumi tõesust pole võimalik "
+"garanteerida."
 
 #: ../mail/em-format-html-display.c:697
 #: ../mail/em-format-html.c:598
@@ -11205,7 +11315,9 @@ msgstr "Kehtiv allkiri"
 
 #: ../mail/em-format-html-display.c:697
 msgid "This message is signed and is valid meaning that it is very likely that this message is authentic."
-msgstr "See sõnum on allkirjastatud ja kehtiv, seega on väga tõenäoline, et tegemist on tõese sõnumiga."
+msgstr ""
+"See sõnum on allkirjastatud ja kehtiv, seega on väga tõenäoline, et tegemist "
+"on tõese sõnumiga."
 
 #: ../mail/em-format-html-display.c:698
 #: ../mail/em-format-html.c:599
@@ -11214,7 +11326,9 @@ msgstr "Vigane allkiri"
 
 #: ../mail/em-format-html-display.c:698
 msgid "The signature of this message cannot be verified, it may have been altered in transit."
-msgstr "Selle sõnumi signatuuri pole võimalik verifitseerida. See võib olla sõnumi kohaletoimetamise käigus asendatud."
+msgstr ""
+"Selle sõnumi signatuuri pole võimalik verifitseerida. See võib olla sõnumi "
+"kohaletoimetamise käigus asendatud."
 
 #: ../mail/em-format-html-display.c:699
 msgid "Valid signature, cannot verify sender"
@@ -11231,7 +11345,9 @@ msgstr "Krüptimata"
 
 #: ../mail/em-format-html-display.c:705
 msgid "This message is not encrypted.  Its content may be viewed in transit across the Internet."
-msgstr "See sõnum ei ole krüptitud. Sõnumi sisu edastati internetis kaudu lahtiselt ja see võis näha olla ka kolmandale osapoolele."
+msgstr ""
+"See sõnum ei ole krüptitud. Sõnumi sisu edastati internetis kaudu lahtiselt "
+"ja see võis näha olla ka kolmandale osapoolele."
 
 #: ../mail/em-format-html-display.c:706
 #: ../mail/em-format-html.c:607
@@ -11240,7 +11356,10 @@ msgstr "Krüptitud, nõrgalt"
 
 #: ../mail/em-format-html-display.c:706
 msgid "This message is encrypted, but with a weak encryption algorithm.  It would be difficult, but not impossible for an outsider to view the content of this message in a practical amount of time."
-msgstr "See sõnum on krüptitud nõrga krüptoalgoritmiga.  Võimalikul ründajal peaks olema väga raske aga sugugi mitte võimatu mõistliku aja jooksul sõnumi krüpteering lahti murda."
+msgstr ""
+"See sõnum on krüptitud nõrga krüptoalgoritmiga.  Võimalikul ründajal peaks "
+"olema väga raske aga sugugi mitte võimatu mõistliku aja jooksul sõnumi "
+"krüpteering lahti murda."
 
 #: ../mail/em-format-html-display.c:707
 #: ../mail/em-format-html.c:608
@@ -11249,7 +11368,8 @@ msgstr "Krüptitud"
 
 #: ../mail/em-format-html-display.c:707
 msgid "This message is encrypted.  It would be difficult for an outsider to view the content of this message."
-msgstr "See sõnum on krüptitud.  Sõnumi sisu ei tohiks olla teistele iskutele loetav."
+msgstr ""
+"See sõnum on krüptitud.  Sõnumi sisu ei tohiks olla teistele iskutele loetav."
 
 #: ../mail/em-format-html-display.c:708
 #: ../mail/em-format-html.c:609
@@ -11258,7 +11378,9 @@ msgstr "Krüptitud, tugevalt"
 
 #: ../mail/em-format-html-display.c:708
 msgid "This message is encrypted, with a strong encryption algorithm.  It would be very difficult for an outsider to view the content of this message in a practical amount of time."
-msgstr "See sõnum on krüptitud tugeva krüptoalgoritmiga.  Võimalikul ründajal peaks olema väga raske mõistliku aja jooksul sõnumi krüpteering lahti murda."
+msgstr ""
+"See sõnum on krüptitud tugeva krüptoalgoritmiga.  Võimalikul ründajal peaks "
+"olema väga raske mõistliku aja jooksul sõnumi krüpteering lahti murda."
 
 #: ../mail/em-format-html-display.c:809
 #: ../smime/gui/smime-ui.glade.h:48
@@ -11502,7 +11624,8 @@ msgid ""
 "\n"
 "Please be patient while Evolution migrates your folders..."
 msgstr ""
-"Evolutioni kontaktikaustade asukoht ja hierarhia on alates Evolution 1.x. versioonist muutunud.\n"
+"Evolutioni kontaktikaustade asukoht ja hierarhia on alates Evolution 1.x. "
+"versioonist muutunud.\n"
 "\n"
 "Palun oota kuni Evolution siirdab sinu kaustasid..."
 
@@ -11739,7 +11862,8 @@ msgstr "_Väljumisel tühjendatakse kõik prügikaustad."
 
 #: ../mail/evolution-mail.schemas.in.in.h:23
 msgid "Enable caret mode, so that you can see a cursor when reading mail."
-msgstr "Kursorirežiimi lubamine - siis on kirja lugemisel kursori asukoht näha."
+msgstr ""
+"Kursorirežiimi lubamine - siis on kirja lugemisel kursori asukoht näha."
 
 #: ../mail/evolution-mail.schemas.in.in.h:24
 msgid "Enable/disable caret mode"
@@ -11755,7 +11879,9 @@ msgstr "Sõnumiloendi paani kõrgus."
 
 #: ../mail/evolution-mail.schemas.in.in.h:27
 msgid "If a user tries to open 10 or more messages at one time, ask the user if they really want to do it."
-msgstr "Kui kasutaja üritab avada rohkem kui 10 sõnumit ühel ajal, küsi temalt kas ta tõesti soovib seda teha."
+msgstr ""
+"Kui kasutaja üritab avada rohkem kui 10 sõnumit ühel ajal, küsi temalt kas "
+"ta tõesti soovib seda teha."
 
 #: ../mail/evolution-mail.schemas.in.in.h:28
 msgid "If there isn't a builtin viewer for a particular mime-type inside Evolution, any mime-types appearing in this list which map to a bonobo-component viewer in GNOME's mime-type database may be used for displaying content."
@@ -11803,7 +11929,11 @@ msgstr "Laadi HTML sõnumite pildid üle http"
 
 #: ../mail/evolution-mail.schemas.in.in.h:39
 msgid "Load images for HTML messages over http(s). Possible values are: 0 - Never load images off the net 1 - Load images in mail from contacts 2 - Always load images off the net"
-msgstr "HTML sõnumite piltide laadimine üle http(s) protokolli. Võimalikud väärtused on: 0 - Pilte ei laadita mitte kunagi võrgust maha 1 - Pildid laaditakse ainult kontaktide hulgast tulnud sõnumite puhul 2 - Pildid laaditakse alati võrgust maha"
+msgstr ""
+"HTML sõnumite piltide laadimine üle http(s) protokolli. Võimalikud väärtused "
+"on: 0 - Pilte ei laadita mitte kunagi võrgust maha 1 - Pildid laaditakse "
+"ainult kontaktide hulgast tulnud sõnumite puhul 2 - Pildid laaditakse alati "
+"võrgust maha"
 
 #: ../mail/evolution-mail.schemas.in.in.h:40
 msgid "Log filter actions"
@@ -11887,15 +12017,20 @@ msgstr "Kinnituse küsimine, kui kasutaja määrab ainult pimekoopia"
 
 #: ../mail/evolution-mail.schemas.in.in.h:60
 msgid "Prompt when user tries to open 10 or more messages at once"
-msgstr "Kinnituse küsimine, kui korraga püütakse saata kümmet või enamat sõnumit"
+msgstr ""
+"Kinnituse küsimine, kui korraga püütakse saata kümmet või enamat sõnumit"
 
 #: ../mail/evolution-mail.schemas.in.in.h:61
 msgid "Prompt when user tries to send HTML mail to recipients that may not want to receive HTML mail."
-msgstr "Täpsustus, kui püütakse saata HTML sõnumit isikule, kes ei soovi HTML sisuga sõnumeid vastu võtta."
+msgstr ""
+"Täpsustus, kui püütakse saata HTML sõnumit isikule, kes ei soovi HTML sisuga "
+"sõnumeid vastu võtta."
 
 #: ../mail/evolution-mail.schemas.in.in.h:62
 msgid "Prompt when user tries to send a message with no To or Cc recipients."
-msgstr "Kinnituse küsimine, kui püütakse saata sõnumit, millel pole tavalist saajat ega pimekoopa saajat määratud."
+msgstr ""
+"Kinnituse küsimine, kui püütakse saata sõnumit, millel pole tavalist saajat "
+"ega pimekoopa saajat määratud."
 
 #: ../mail/evolution-mail.schemas.in.in.h:63
 msgid "Prompt when user tries to send unwanted HTML"
@@ -12688,11 +12823,17 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:109
 msgid "Please enter information about the way you will send mail. If you are not sure, ask your system administrator or Internet Service Provider."
-msgstr "Palun sisesta andmed oma e-posti väljasaatmise kohta. Kui sa ei tea, mida siia sisestada, küsi oma lisateavet oma süsteemiülemalt või interneti teenusepakkujalt."
+msgstr ""
+"Palun sisesta andmed oma e-posti väljasaatmise kohta. Kui sa ei tea, mida "
+"siia sisestada, küsi oma lisateavet oma süsteemiülemalt või interneti "
+"teenusepakkujalt."
 
 #: ../mail/mail-config.glade.h:110
 msgid "Please enter your name and email address below. The \"optional\" fields below do not need to be filled in, unless you wish to include this information in email you send."
-msgstr "Palun sisesta allpool olevasse vormi oma nimi ja e-posti aadress. Mittekohustuslikud väljad võib täita siis, kui sa soovid nendes väljades olevaid andmeid lisada enda saadetud sõnumitesse."
+msgstr ""
+"Palun sisesta allpool olevasse vormi oma nimi ja e-posti aadress. "
+"Mittekohustuslikud väljad võib täita siis, kui sa soovid nendes väljades "
+"olevaid andmeid lisada enda saadetud sõnumitesse."
 
 #: ../mail/mail-config.glade.h:111
 msgid "Please select among the following options"
@@ -12700,7 +12841,9 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:112
 msgid "Pr_ompt when sending messages with only Bcc recipients defined"
-msgstr "_Täpsustus, kui püütakse saata sõnumit, millel on kirjeldatud ainult pimekoopia adressaadid"
+msgstr ""
+"_Täpsustus, kui püütakse saata sõnumit, millel on kirjeldatud ainult "
+"pimekoopia adressaadid"
 
 #: ../mail/mail-config.glade.h:113
 msgid "Quote original message"
@@ -13329,7 +13472,8 @@ msgstr "Uus otsikaust"
 
 #: ../mail/mail.error.xml.h:1
 msgid "A folder named &quot;{1}&quot; already exists. Please use a different name."
-msgstr "Kaust nimega &quot;{1}&quot; on juba olemas. Palun kasuta teistsugust nime."
+msgstr ""
+"Kaust nimega &quot;{1}&quot; on juba olemas. Palun kasuta teistsugust nime."
 
 #: ../mail/mail.error.xml.h:2
 msgid ""
@@ -13344,7 +13488,9 @@ msgstr ""
 
 #: ../mail/mail.error.xml.h:7
 msgid "Adding a meaningful Subject line to your messages will give your recipients an idea of what your mail is about."
-msgstr "Sõnumile mõtestatud teemarea lisamine annab sõnumi vastuvõtjatele aimu sõnumi sisu kohta."
+msgstr ""
+"Sõnumile mõtestatud teemarea lisamine annab sõnumi vastuvõtjatele aimu "
+"sõnumi sisu kohta."
 
 #: ../mail/mail.error.xml.h:8
 msgid "Are you sure you want to delete this account and all its proxies?"
@@ -13360,11 +13506,15 @@ msgstr "Oled sa kindel, et soovid korraga avada {0} sõnumit?"
 
 #: ../mail/mail.error.xml.h:11
 msgid "Are you sure you want to permanently remove all the deleted messages in all folders?"
-msgstr "Kas sa tõesti soovid jäädavalt eemaldada kõik kustutatud sõnumid kõikidest kaustadest?"
+msgstr ""
+"Kas sa tõesti soovid jäädavalt eemaldada kõik kustutatud sõnumid kõikidest "
+"kaustadest?"
 
 #: ../mail/mail.error.xml.h:12
 msgid "Are you sure you want to permanently remove all the deleted messages in folder &quot;{0}&quot;?"
-msgstr "Kas sa tõesti soovid jäädavalt eemaldada kõik kustutatud sõnumid kaustast &quot;{0}&quot;?"
+msgstr ""
+"Kas sa tõesti soovid jäädavalt eemaldada kõik kustutatud sõnumid kaustast "
+"&quot;{0}&quot;?"
 
 #: ../mail/mail.error.xml.h:13
 msgid "Are you sure you want to send a message in HTML format?"
@@ -13372,7 +13522,8 @@ msgstr "Oled sa kindel, et soovid seda sõnumit saata HTML vormingus?"
 
 #: ../mail/mail.error.xml.h:14
 msgid "Are you sure you want to send a message with only BCC recipients?"
-msgstr "Oled sa kindel, et soovid saata seda sõnumit pimekoopia adressaatidele?"
+msgstr ""
+"Oled sa kindel, et soovid saata seda sõnumit pimekoopia adressaatidele?"
 
 #: ../mail/mail.error.xml.h:15
 msgid "Are you sure you want to send a message without a subject?"
@@ -13416,7 +13567,8 @@ msgstr "Süsteemikausta &quot;{0}&quot; pole võimalik kustutada."
 
 #: ../mail/mail.error.xml.h:26
 msgid "Cannot edit Search Folder &quot;{0}&quot; as it does not exist."
-msgstr "Otsikausta &quot;{0}&quot; pole võimalik redigeerida, kuna seda pole olemas."
+msgstr ""
+"Otsikausta &quot;{0}&quot; pole võimalik redigeerida, kuna seda pole olemas."
 
 #: ../mail/mail.error.xml.h:27
 msgid "Cannot move folder &quot;{0}&quot; to &quot;{1}&quot;."
@@ -13464,7 +13616,10 @@ msgstr "Signatuuriskripti &quot;{0}&quot; pole võimalik määrata."
 
 #: ../mail/mail.error.xml.h:38
 msgid "Check to make sure your password is spelled correctly.  Remember that many passwords are case sensitive; your caps lock might be on."
-msgstr "Kontrolli, kas parool on õigesti sisestatud.  Kuna paroolid on üldiselt tõstutundlikud, siis veendu, et klaviatuuri caps lock klahv ei oleks sisse lülitatud."
+msgstr ""
+"Kontrolli, kas parool on õigesti sisestatud.  Kuna paroolid on üldiselt "
+"tõstutundlikud, siis veendu, et klaviatuuri caps lock klahv ei oleks sisse "
+"lülitatud."
 
 #: ../mail/mail.error.xml.h:39
 msgid "Could not save signature file."
@@ -13524,7 +13679,9 @@ msgstr "Kui sa jätkad, siis neid sõnumeid ei ole võimalik enam taastada."
 
 #: ../mail/mail.error.xml.h:53
 msgid "If you delete the folder, all of its contents and its subfolders contents will be deleted permanently."
-msgstr "Kui sa selle kausta kustutad, siis kustuvad jäädavalt ka kõik selles olevad sõnumid ja alamkaustad."
+msgstr ""
+"Kui sa selle kausta kustutad, siis kustuvad jäädavalt ka kõik selles olevad "
+"sõnumid ja alamkaustad."
 
 #: ../mail/mail.error.xml.h:54
 msgid ""
@@ -13540,7 +13697,9 @@ msgstr "Kui sa seda teed, siis konto andmed kustutatakse jäädavalt."
 
 #: ../mail/mail.error.xml.h:57
 msgid "If you quit, these messages will not be sent until Evolution is started again."
-msgstr "Kui sa praegu lõpetad, siis ei saadeta saatmata sõnumeid enne, kui sa Evolutioni uuesti käivitad."
+msgstr ""
+"Kui sa praegu lõpetad, siis ei saadeta saatmata sõnumeid enne, kui sa "
+"Evolutioni uuesti käivitad."
 
 #: ../mail/mail.error.xml.h:58
 msgid "Ignore"
@@ -13584,7 +13743,9 @@ msgstr "Palun kontrolli oma kontosätteid ja proovi uuesti."
 
 #: ../mail/mail.error.xml.h:69
 msgid "Please enter a valid email address in the To: field. You can search for email addresses by clicking on the To: button next to the entry box."
-msgstr "Palun määra sõnumi saaja. Saajat saab kontaktide valida, kui sa vajutad nupule \"Kellele:\"."
+msgstr ""
+"Palun määra sõnumi saaja. Saajat saab kontaktide valida, kui sa vajutad "
+"nupule \"Kellele:\"."
 
 #: ../mail/mail.error.xml.h:70
 msgid ""
@@ -13627,7 +13788,9 @@ msgstr ""
 
 #: ../mail/mail.error.xml.h:81
 msgid "System folders are required for Ximian Evolution to function correctly and cannot be renamed, moved, or deleted."
-msgstr "Süsteemsed kaustad on tarvilikud Evolutioni korrektseks toimimiseks ja neid pole võimalik ümber nimetada, ümber tõsta või kustutada."
+msgstr ""
+"Süsteemsed kaustad on tarvilikud Evolutioni korrektseks toimimiseks ja neid "
+"pole võimalik ümber nimetada, ümber tõsta või kustutada."
 
 #: ../mail/mail.error.xml.h:82
 msgid ""
@@ -13672,11 +13835,14 @@ msgstr ""
 
 #: ../mail/mail.error.xml.h:100
 msgid "This message cannot be sent because you have not specified any Recipients"
-msgstr "Seda sõnumit pole võimalik saata kuna sa pole määranud ühtegi sõnumi saajat"
+msgstr ""
+"Seda sõnumit pole võimalik saata kuna sa pole määranud ühtegi sõnumi saajat"
 
 #: ../mail/mail.error.xml.h:101
 msgid "This server does not support this type of authentication and may not support authentication at all."
-msgstr "See server ei toeta seda tüüpi autentimist ja arvatavasti ei toeta see autentimist üleüldse."
+msgstr ""
+"See server ei toeta seda tüüpi autentimist ja arvatavasti ei toeta see "
+"autentimist üleüldse."
 
 #: ../mail/mail.error.xml.h:102
 msgid "This signature has been changed, but has not been saved."
@@ -13730,7 +13896,8 @@ msgstr ""
 
 #: ../mail/mail.error.xml.h:115
 msgid "Your login to your server &quot;{0}&quot; as &quot;{0}&quot; failed."
-msgstr "Tõrge serverisse &quot;{0}&quot; sisselogimisel kasutajana &quot;{0}&quot;."
+msgstr ""
+"Tõrge serverisse &quot;{0}&quot; sisselogimisel kasutajana &quot;{0}&quot;."
 
 #: ../mail/mail.error.xml.h:116
 msgid "Your message with the subject &quot;{0}&quot; was not delivered."
@@ -13966,7 +14133,8 @@ msgstr "Evolutioni taaskäivitamine"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.eplug.xml.h:1
 msgid "A plugin for backing up and restore Evolution data and settings."
-msgstr "Plugin Evolutioni andmete ja seadistuste varundamiseks ja taastamiseks."
+msgstr ""
+"Plugin Evolutioni andmete ja seadistuste varundamiseks ja taastamiseks."
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.eplug.xml.h:2
 msgid "Backup and restore plugin"
@@ -14017,7 +14185,10 @@ msgstr "Automaatsed kontaktid"
 
 #: ../plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:2
 msgid "Automatically fills your addressbook with names and email addresses as you reply to mails. Also fills in IM contact information from your buddy lists."
-msgstr "Plugin, mis automaatselt täidab sinu aadressiraamatut sinu poolt vastatavate sõnumite adressaatide nimede ja e-posti aadressisega. Samuti täidetakse aadressiraamatut välksõnumite sõbranimekirja kontaktide andmetega."
+msgstr ""
+"Plugin, mis automaatselt täidab sinu aadressiraamatut sinu poolt vastatavate "
+"sõnumite adressaatide nimede ja e-posti aadressisega. Samuti täidetakse "
+"aadressiraamatut välksõnumite sõbranimekirja kontaktide andmetega."
 
 #: ../plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:3
 msgid "BBDB"
@@ -14094,7 +14265,9 @@ msgstr "Ilmakalendrid"
 
 #: ../plugins/copy-tool/org-gnome-copy-tool.eplug.xml.h:1
 msgid "A test plugin which demonstrates a popup menu plugin which lets you copy things to the clipboard."
-msgstr "Testplugin asjade lõikelauale kopeerimise hüpikmenüü plugina demonstreeriseks."
+msgstr ""
+"Testplugin asjade lõikelauale kopeerimise hüpikmenüü plugina "
+"demonstreeriseks."
 
 #: ../plugins/copy-tool/org-gnome-copy-tool.eplug.xml.h:2
 msgid "Copy _Email Address"
@@ -14110,7 +14283,9 @@ msgstr "Kontroll, kas Evolution on vaikimisi postiprogramm"
 
 #: ../plugins/default-mailer/apps-evolution-mail-prompts-checkdefault.schemas.in.in.h:2
 msgid "Every time Evolution starts, check whether or not it is the default mailer."
-msgstr "Evolutioni iga käivitamise ajal kontrollitakse, kas Evolution on vaikimisi postiprogramm või mitte."
+msgstr ""
+"Evolutioni iga käivitamise ajal kontrollitakse, kas Evolution on vaikimisi "
+"postiprogramm või mitte."
 
 #: ../plugins/default-mailer/org-gnome-default-mailer.eplug.xml.h:1
 msgid "Checks whether Evolution is the default mail client on startup."
@@ -14161,7 +14336,9 @@ msgstr "Avatekstiline parool"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:76
 msgid "This option will connect to the Exchange server using standard plaintext password authentication."
-msgstr "See valik loob ühenduse Exchange serveriga kasutades avatekstilise parooliga autentimist."
+msgstr ""
+"See valik loob ühenduse Exchange serveriga kasutades avatekstilise parooliga "
+"autentimist."
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:251
 msgid "Out Of Office"
@@ -14599,7 +14776,9 @@ msgstr "Üldine viga"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:38
 msgid "If OWA is running on a different path, you must specify that in the account configuration dialog."
-msgstr "Kui OWA töötab teise raja peal, siis pead sa selle määrama kontosätete dialoogis."
+msgstr ""
+"Kui OWA töötab teise raja peal, siis pead sa selle määrama kontosätete "
+"dialoogis."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:39
 msgid "Mailbox for {0} is not on this server."
@@ -14720,15 +14899,22 @@ msgstr ""
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:72
 msgid "Your current usage is : {0}KB. Try to clear up some space by deleting some mails."
-msgstr "Sinu praegune kasutatav maht on {0}KB. Proovi mõnede sõnumite kustutamise abil vaba ruumi juurde teha."
+msgstr ""
+"Sinu praegune kasutatav maht on {0}KB. Proovi mõnede sõnumite kustutamise "
+"abil vaba ruumi juurde teha."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:73
 msgid "Your current usage is : {0}KB. You will not be able to either send or recieve mails now."
-msgstr "Sinu praegune kasutatav maht on {0}KB. Hetkel ei ole sul võimalik sõnumeid saata ega vastu võtta."
+msgstr ""
+"Sinu praegune kasutatav maht on {0}KB. Hetkel ei ole sul võimalik sõnumeid "
+"saata ega vastu võtta."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:74
 msgid "Your current usage is : {0}KB. You will not be able to send mails till you clear up some space by deleting some mails."
-msgstr "Sinu praegune kasutatav maht on {0}KB. Sul pole võimalik sõnumeid saata ega vastu võtta enne kui sa pole mõne sõnumi kustutamise abil omale vaba ruumi juurde loonud."
+msgstr ""
+"Sinu praegune kasutatav maht on {0}KB. Sul pole võimalik sõnumeid saata ega "
+"vastu võtta enne kui sa pole mõne sõnumi kustutamise abil omale vaba ruumi "
+"juurde loonud."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:75
 msgid "Your password has expired."
@@ -15047,7 +15233,9 @@ msgstr ""
 #: ../plugins/itip-formatter/itip-formatter.c:1199
 #: ../plugins/itip-formatter/itip-formatter.c:1275
 msgid "The message does contain a calendar, but the calendar contains no events, tasks or free/busy information"
-msgstr "Sõnum sisaldab kalendrit, kuid kalender ei sisalda sündmusi, ülesandeid ega vaba/hõivatud andmeid"
+msgstr ""
+"Sõnum sisaldab kalendrit, kuid kalender ei sisalda sündmusi, ülesandeid ega "
+"vaba/hõivatud andmeid"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1209
 msgid "The calendar attached contains multiple items"
@@ -15263,7 +15451,9 @@ msgstr "<b>%s</b> soovib lisada olemasolevale koosolekule:"
 #: ../plugins/itip-formatter/itip-view.c:367
 #, c-format
 msgid "<b>%s</b> wishes to receive the latest information for the following meeting:"
-msgstr "<b>%s</b> soovib saada värskeimat infot ülesande kohta järgneva koosoleku kohta:"
+msgstr ""
+"<b>%s</b> soovib saada värskeimat infot ülesande kohta järgneva koosoleku "
+"kohta:"
 
 #: ../plugins/itip-formatter/itip-view.c:370
 #, c-format
@@ -15399,7 +15589,9 @@ msgstr "Itip vormindaja"
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:1
 msgid "&quot;{0}&quot; has delegated the meeting. Do you want to add the delegate &quot;{1}&quot; ?"
-msgstr "&quot;{0}&quot; delegeeris koosoleku. Kas sa soovid lisada delegaati &quot;{1}&quot; ?"
+msgstr ""
+"&quot;{0}&quot; delegeeris koosoleku. Kas sa soovid lisada delegaati &quot;"
+"{1}&quot; ?"
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:3
 msgid "This meeting has been delegated"
@@ -15449,7 +15641,9 @@ msgstr ""
 
 #: ../plugins/mail-to-meeting/org-gnome-mail-to-meeting.eplug.xml.h:1
 msgid "A plugin which allows the creation of meetings from the contents of a mail message."
-msgstr "Plugin, mille abil on võimalik e-posti sõnumite sisu põhjal luua uusi koosolekuid."
+msgstr ""
+"Plugin, mille abil on võimalik e-posti sõnumite sisu põhjal luua uusi "
+"koosolekuid."
 
 #: ../plugins/mail-to-meeting/org-gnome-mail-to-meeting.eplug.xml.h:2
 msgid "Con_vert to Meeting"
@@ -15461,7 +15655,9 @@ msgstr "Sõnumi teisendamine koosolekuks"
 
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml.h:1
 msgid "A plugin which allows the creation of tasks from the contents of a mail message."
-msgstr "Plugin, mille abil on võimalik e-posti sõnumite sisu põhjal luua uusi ülesandeid."
+msgstr ""
+"Plugin, mille abil on võimalik e-posti sõnumite sisu põhjal luua uusi "
+"ülesandeid."
 
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml.h:2
 msgid "Con_vert to Task"
@@ -15886,7 +16082,9 @@ msgstr "Sihtfaili valimine"
 #: ../plugins/save-calendar/save-calendar.c:216
 #, c-format
 msgid "The suggested filename extension of this filetype (%s) is unused in the chosen filename. Do you want to continue?"
-msgstr "Selle failitüübi (%s) jaoks soovitatud failinime laiendit pole kasutatud. Kas sa soovid jätkata?"
+msgstr ""
+"Selle failitüübi (%s) jaoks soovitatud failinime laiendit pole kasutatud. "
+"Kas sa soovid jätkata?"
 
 #: ../plugins/select-one-source/org-gnome-select-one-source.eplug.xml.h:1
 msgid "Select one source"
@@ -16206,7 +16404,9 @@ msgstr "Siirdu autonoomsesse olekusse"
 
 #: ../shell/e-shell-window.c:343
 msgid "Evolution is currently online.  Click on this button to work offline."
-msgstr "Evolution on hetkel võrku ühendatud.  Autonoomsesse olekusse siirdumiseks vajuta seda nuppu."
+msgstr ""
+"Evolution on hetkel võrku ühendatud.  Autonoomsesse olekusse siirdumiseks "
+"vajuta seda nuppu."
 
 #: ../shell/e-shell-window.c:351
 msgid "Evolution is in the process of going offline."
@@ -16214,7 +16414,9 @@ msgstr "Evolution siirdub autonoomsesse olekusse."
 
 #: ../shell/e-shell-window.c:358
 msgid "Evolution is currently offline.  Click on this button to work online."
-msgstr "Evolution on hetkel autonoomses olekus.  Võrku ühendumiseks vajuta seda nuppu."
+msgstr ""
+"Evolution on hetkel autonoomses olekus.  Võrku ühendumiseks vajuta seda "
+"nuppu."
 
 #: ../shell/e-shell-window.c:724
 #, c-format
@@ -16383,7 +16585,9 @@ msgstr "Evolution ei ole võimeline käivituma."
 
 #: ../shell/shell.error.xml.h:5
 msgid "Forgetting your passwords will clear all remembered passwords. You will be reprompted next time they are needed. "
-msgstr "Meeldejäetud paroolide unustamine nullib ära kõik meeldejäetud paroolid. Paroolid küsitakse uuesti järgmisel korral, mil neid vaja läheb."
+msgstr ""
+"Meeldejäetud paroolide unustamine nullib ära kõik meeldejäetud paroolid. "
+"Paroolid küsitakse uuesti järgmisel korral, mil neid vaja läheb."
 
 #: ../shell/shell.error.xml.h:7
 msgid "Insufficient disk space for upgrade."
@@ -16410,7 +16614,10 @@ msgid ""
 msgstr ""
 "Evolutioni eelmine versioon hoidis andmeid teises kohas.\n"
 "\n"
-"Kui sa valid andmete eemaldamise, siis eemaldatakse kogu &quot;evolution&quot; kataloogi jäädavalt. Kui sa valid andmete säilitamise, siis võid sa hiljem omal vabal valikul käsitsi eemaldada kataloogi &quot;evolution&quot;.\n"
+"Kui sa valid andmete eemaldamise, siis eemaldatakse kogu &quot;"
+"evolution&quot; kataloogi jäädavalt. Kui sa valid andmete säilitamise, siis "
+"võid sa hiljem omal vabal valikul käsitsi eemaldada kataloogi &quot;"
+"evolution&quot;.\n"
 
 #: ../shell/shell.error.xml.h:19
 msgid "Upgrade from previous version failed: {0}"
@@ -16422,7 +16629,8 @@ msgid ""
 "\n"
 "You will need to make more space available in your home directory before you can continue."
 msgstr ""
-"Sinu andmete ja sätete uuendamine vajab kuni {0} kettaruumi, kuid sul on saadaval ainult {1}.\n"
+"Sinu andmete ja sätete uuendamine vajab kuni {0} kettaruumi, kuid sul on "
+"saadaval ainult {1}.\n"
 "\n"
 "Enne jätkamise pead Sa oma kodukataloogi looma rohkem vaba ruumi."
 
@@ -16462,7 +16670,8 @@ msgid ""
 msgstr ""
 "{1}\n"
 "\n"
-"Kui sa valid jätkamise, siis võid sa kaotada ligipääsu mõnedele vanadele andmetele.\n"
+"Kui sa valid jätkamise, siis võid sa kaotada ligipääsu mõnedele vanadele "
+"andmetele.\n"
 
 #: ../smime/gui/ca-trust-dialog.c:96
 #, c-format
@@ -16589,7 +16798,8 @@ msgstr "<b>Omanik</b>"
 
 #: ../smime/gui/smime-ui.glade.h:8
 msgid "<b>This certificate has been verified for the following uses:</b>"
-msgstr "<b>See sertifikaat on verifitseeritud järgnevate toimingute tarbeks:</b>"
+msgstr ""
+"<b>See sertifikaat on verifitseeritud järgnevate toimingute tarbeks:</b>"
 
 #: ../smime/gui/smime-ui.glade.h:9
 msgid "<b>Validity</b>"
@@ -16609,7 +16819,10 @@ msgstr "Varunda kõik"
 
 #: ../smime/gui/smime-ui.glade.h:13
 msgid "Before trusting this CA for any purpose, you should examine its certificate and its policy and procedures (if available)."
-msgstr "Enne selle sertifitseerimiskeskuse (SK) usaldamist ükskõik mis eesmärgil, peaksid sa selle SK kasutamisreeglitega ja protseduuridega (kui need on saadaval)."
+msgstr ""
+"Enne selle sertifitseerimiskeskuse (SK) usaldamist ükskõik mis eesmärgil, "
+"peaksid sa selle SK kasutamisreeglitega ja protseduuridega (kui need on "
+"saadaval)."
 
 #: ../smime/gui/smime-ui.glade.h:14
 #: ../smime/lib/e-cert.c:1076
@@ -17516,11 +17729,13 @@ msgstr "Reegli loomine selle saatja poolt saadetud sõnumite filtreerimiseks"
 
 #: ../ui/evolution-mail-message.xml.h:20
 msgid "Create a rule to filter messages to these recipients"
-msgstr "Reegli loomine nendele adressaatidele saadetud sõnumite filtreerimiseks"
+msgstr ""
+"Reegli loomine nendele adressaatidele saadetud sõnumite filtreerimiseks"
 
 #: ../ui/evolution-mail-message.xml.h:21
 msgid "Create a rule to filter messages to this mailing list"
-msgstr "Reegli loomine sellese postiloendisse saadetud sõnumite filtreerimiseks"
+msgstr ""
+"Reegli loomine sellese postiloendisse saadetud sõnumite filtreerimiseks"
 
 #: ../ui/evolution-mail-message.xml.h:22
 msgid "Create a rule to filter messages with this subject"
@@ -18207,7 +18422,8 @@ msgstr "Unusta _paroolid"
 
 #: ../ui/evolution.xml.h:13
 msgid "Forget remembered passwords so you will be prompted for them again"
-msgstr "Meeldejäetud paroolide unustamine, vajadusel küsitakse paroolid uuesti."
+msgstr ""
+"Meeldejäetud paroolide unustamine, vajadusel küsitakse paroolid uuesti."
 
 #: ../ui/evolution.xml.h:14
 msgid "Hide window buttons"
@@ -19641,4 +19857,3 @@ msgstr ""
 #: ../widgets/text/e-text.c:3684
 msgid "Handle Popup"
 msgstr ""
-
