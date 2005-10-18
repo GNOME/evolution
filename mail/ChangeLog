@@ -1,3 +1,23 @@
+2005-10-18  Srinivasa Ragavan <sragavan@novell.com>
+
+	* em-folder-browser.c (emfb_focus_search) (emfb_tools_vfolders): Make '/' to 
+	focus on search bar entry. Fixes bug #268027
+
+	* em-folder-view.c (emfv_enable_menus): Set the target widget.
+
+	* em-format-html-display.[ch] (em_format_html_display_get_bar): Added a
+	function to get the attachment bar.
+
+	* em-utils.c (em_utils_temp_save_attachments): Added function to save
+	parts of the attachments.
+
+2005-10-03  Srinivasa Ragavan <sragavan@novell.com>
+
+	* em-folder-view.c (emfv_ena) (emfv_popup_items): Mark visible with
+	  junk flags as well.
+	* em-popup.[ch] (em_popup_target_new_select): Set the flags
+	  for junk respectively.
+	
 2005-10-18  Sankar P  <psankar@novell.com>
 	
 	- Enhances Signature-Preferences. 

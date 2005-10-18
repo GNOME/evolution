@@ -103,7 +103,9 @@ enum _em_popup_target_select_t {
 	EM_POPUP_SELECT_FLAG_CLEAR         = 1<<13,
 	EM_POPUP_SELECT_ADD_SENDER         = 1<<14,
 	EM_POPUP_SELECT_FOLDER             = 1<<15,     /* do we have any folder at all? */
-	EM_POPUP_SELECT_LAST               = 1<<17,     /* reserve 2 slots */
+	EM_POPUP_SELECT_JUNK               = 1<<16,
+	EM_POPUP_SELECT_NOT_JUNK           = 1<<17,
+	EM_POPUP_SELECT_LAST               = 1<<18,	
 };
 
 /**

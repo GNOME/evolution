@@ -175,6 +175,7 @@ EMPopupTargetSelect *
 em_popup_target_new_select(EMPopup *emp, struct _CamelFolder *folder, const char *folder_uri, GPtrArray *uids)
 {
 	EMPopupTargetSelect *t = e_popup_target_new(&emp->popup, EM_POPUP_TARGET_SELECT, sizeof(*t));
+	CamelStore *store = CAMEL_STORE (folder->parent_store);
 	guint32 mask = ~0;
 	int i;
 	const char *tmp;
@@ -218,7 +219,18 @@ em_popup_target_new_select(EMPopup *emp, struct _CamelFolder *folder, const char
 			mask &= ~EM_POPUP_SELECT_MARK_UNREAD;
 		else
 			mask &= ~EM_POPUP_SELECT_MARK_READ;
-		
+
+		if (store->flags & CAMEL_STORE_VJUNK) {
+			if ((flags & CAMEL_MESSAGE_JUNK))
+				mask &= ~EM_POPUP_SELECT_NOT_JUNK;
+			else
+				mask &= ~EM_POPUP_SELECT_JUNK;
+		} else {
+			/* Show both options */
+			mask &= ~EM_POPUP_SELECT_NOT_JUNK;
+			mask &= ~EM_POPUP_SELECT_JUNK;			
+		}
+
 		if (flags & CAMEL_MESSAGE_DELETED)
 			mask &= ~EM_POPUP_SELECT_UNDELETE;
 		else
@@ -830,6 +842,8 @@ static const EPopupHookTargetMask emph_select_masks[] = {
 	{ "flag_clear", EM_POPUP_SELECT_FLAG_CLEAR },
 	{ "add_sender", EM_POPUP_SELECT_ADD_SENDER },
 	{ "folder", EM_POPUP_SELECT_FOLDER },
+	{ "junk", EM_POPUP_SELECT_JUNK },
+	{ "not_junk", EM_POPUP_SELECT_NOT_JUNK },	
 	{ 0 }
 };
 

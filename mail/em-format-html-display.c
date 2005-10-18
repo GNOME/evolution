@@ -419,6 +419,12 @@ void em_format_html_display_set_caret_mode(EMFormatHTMLDisplay *efhd, gboolean s
 	gtk_html_set_caret_mode(((EMFormatHTML *)efhd)->html, state);
 }
 
+EAttachmentBar *
+em_format_html_display_get_bar (EMFormatHTMLDisplay *efhd)
+{
+	return efhd->priv->attachment_bar;
+}
+
 void
 em_format_html_display_set_search(EMFormatHTMLDisplay *efhd, int type, GSList *strings)
 {

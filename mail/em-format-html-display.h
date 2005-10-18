@@ -7,6 +7,7 @@
 #define _EM_FORMAT_HTML_DISPLAY_H
 
 #include "mail/em-format-html.h"
+#include "e-attachment-bar.h"
 
 typedef struct _EMFormatHTMLDisplay EMFormatHTMLDisplay;
 typedef struct _EMFormatHTMLDisplayClass EMFormatHTMLDisplayClass;
@@ -58,6 +59,7 @@ void em_format_html_display_paste (EMFormatHTMLDisplay *efhd);
 void em_format_html_display_zoom_in (EMFormatHTMLDisplay *efhd);
 void em_format_html_display_zoom_out (EMFormatHTMLDisplay *efhd);
 void em_format_html_display_zoom_reset (EMFormatHTMLDisplay *efhd);
+EAttachmentBar * em_format_html_display_get_bar (EMFormatHTMLDisplay *efhd);
 
 gboolean em_format_html_display_popup_menu (EMFormatHTMLDisplay *efhd);
 

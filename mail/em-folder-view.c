@@ -1056,8 +1056,8 @@ static EPopupItem emfv_popup_items[] = {
 	{ E_POPUP_ITEM, "50.emfv.01", N_("Mark as _Unread"), emfv_popup_mark_unread, NULL, "stock_mail-unread", EM_POPUP_SELECT_MARK_UNREAD|EM_FOLDER_VIEW_SELECT_LISTONLY },
 	{ E_POPUP_ITEM, "50.emfv.02", N_("Mark as _Important"), emfv_popup_mark_important, NULL, "stock_mail-priority-high", EM_POPUP_SELECT_MARK_IMPORTANT|EM_FOLDER_VIEW_SELECT_LISTONLY },
 	{ E_POPUP_ITEM, "50.emfv.03", N_("_Mark as Unimportant"), emfv_popup_mark_unimportant, NULL, NULL, EM_POPUP_SELECT_MARK_UNIMPORTANT|EM_FOLDER_VIEW_SELECT_LISTONLY },
-	{ E_POPUP_ITEM, "50.emfv.04", N_("Mark as _Junk"), emfv_popup_mark_junk, NULL, "stock_spam", EM_POPUP_SELECT_MANY|EM_FOLDER_VIEW_SELECT_LISTONLY },
-	{ E_POPUP_ITEM, "50.emfv.05", N_("Mark as _Not Junk"), emfv_popup_mark_nojunk, NULL, "stock_not-spam", EM_POPUP_SELECT_MANY|EM_FOLDER_VIEW_SELECT_LISTONLY },
+	{ E_POPUP_ITEM, "50.emfv.04", N_("Mark as _Junk"), emfv_popup_mark_junk, NULL, "stock_spam", EM_POPUP_SELECT_MANY|EM_FOLDER_VIEW_SELECT_LISTONLY|EM_POPUP_SELECT_JUNK },
+	{ E_POPUP_ITEM, "50.emfv.05", N_("Mark as _Not Junk"), emfv_popup_mark_nojunk, NULL, "stock_not-spam", EM_POPUP_SELECT_MANY|EM_FOLDER_VIEW_SELECT_LISTONLY|EM_POPUP_SELECT_NOT_JUNK },
 	{ E_POPUP_ITEM, "50.emfv.06", N_("Mark for Follo_w Up..."), emfv_popup_flag_followup, NULL, "stock_mail-flag-for-followup",  EM_POPUP_SELECT_FLAG_FOLLOWUP|EM_FOLDER_VIEW_SELECT_LISTONLY },
 
 	{ E_POPUP_SUBMENU, "60.label.00", N_("Label"), NULL, NULL, NULL, EM_POPUP_SELECT_MANY|EM_FOLDER_VIEW_SELECT_LISTONLY },
@@ -1770,8 +1770,8 @@ static const EMFolderViewEnable emfv_enable_map[] = {
 	{ "MessageMarkAsUnRead",      EM_POPUP_SELECT_MANY|EM_POPUP_SELECT_MARK_UNREAD },
 	{ "MessageMarkAsImportant",   EM_POPUP_SELECT_MANY|EM_POPUP_SELECT_MARK_IMPORTANT },
 	{ "MessageMarkAsUnimportant", EM_POPUP_SELECT_MANY|EM_POPUP_SELECT_MARK_UNIMPORTANT },
-	{ "MessageMarkAsJunk",        EM_POPUP_SELECT_MANY },
-	{ "MessageMarkAsNotJunk",     EM_POPUP_SELECT_MANY },
+	{ "MessageMarkAsJunk",        EM_POPUP_SELECT_MANY|EM_POPUP_SELECT_JUNK },
+	{ "MessageMarkAsNotJunk",     EM_POPUP_SELECT_MANY|EM_POPUP_SELECT_NOT_JUNK },
 	{ "MessageFollowUpFlag",      EM_POPUP_SELECT_MANY },
 	{ "MessageMove",              EM_POPUP_SELECT_MANY },
 	{ "MessageOpen",              EM_POPUP_SELECT_MANY },
@@ -1790,11 +1790,11 @@ static const EMFolderViewEnable emfv_enable_map[] = {
 	{ "TextZoomOut",	      EM_POPUP_SELECT_ONE },
 	{ "TextZoomReset",	      EM_POPUP_SELECT_ONE },
 
-	{ "ToolsFilterMailingList",   EM_POPUP_SELECT_ONE },
+	{ "ToolsFilterMailingList",   EM_POPUP_SELECT_ONE|EM_POPUP_SELECT_MAILING_LIST},
 	{ "ToolsFilterRecipient",     EM_POPUP_SELECT_ONE },
 	{ "ToolsFilterSender",        EM_POPUP_SELECT_ONE },
 	{ "ToolsFilterSubject",       EM_POPUP_SELECT_ONE },
-	{ "ToolsVFolderMailingList",  EM_POPUP_SELECT_ONE },
+	{ "ToolsVFolderMailingList",  EM_POPUP_SELECT_ONE|EM_POPUP_SELECT_MAILING_LIST},
 	{ "ToolsVFolderRecipient",    EM_POPUP_SELECT_ONE },
 	{ "ToolsVFolderSender",       EM_POPUP_SELECT_ONE },
 	{ "ToolsVFolderSubject",      EM_POPUP_SELECT_ONE },
@@ -1830,6 +1830,7 @@ emfv_enable_menus(EMFolderView *emfv)
 			EMMenuTargetSelect *t;
 
 			t = em_menu_target_new_select(emfv->menu, emfv->folder, emfv->folder_uri, message_list_get_selected(emfv->list));
+			t->target.widget = emfv;
 			e_menu_update_target((EMenu *)emfv->menu, t);
 		}
 	}

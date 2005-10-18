@@ -765,6 +765,14 @@ emfb_tools_subscriptions(BonoboUIComponent *uid, void *data, const char *path)
 }
 
 static void
+emfb_focus_search(BonoboUIComponent *uid, void *data, const char *path)
+{
+	EMFolderBrowser *emfb = data;
+
+	gtk_widget_grab_focus (((ESearchBar *)emfb->search)->entry);
+}
+
+static void
 emfb_tools_vfolders(BonoboUIComponent *uid, void *data, const char *path)
 {
 	/* FIXME: rename/refactor this */
@@ -799,6 +807,8 @@ static BonoboUIVerb emfb_verbs[] = {
 	BONOBO_UI_UNSAFE_VERB ("ToolsFilters", emfb_tools_filters),
 	BONOBO_UI_UNSAFE_VERB ("ToolsSubscriptions", emfb_tools_subscriptions),
 	BONOBO_UI_UNSAFE_VERB ("ToolsVFolders", emfb_tools_vfolders),
+	BONOBO_UI_UNSAFE_VERB ("FocusSearch", emfb_focus_search),
+	
 	/* ViewPreview is a toggle */
 
 	BONOBO_UI_VERB_END
