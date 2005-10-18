@@ -1,3 +1,8 @@
+2005-10-18  Srinivasa Ragavan <sragavan@novell.com>
+
+	* org-gnome-mailing-list-actions.eplug.xml: Changed visible to
+	enabled. Fixes the bug #314899
+
 2005-08-08  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #312621.
