@@ -1,3 +1,19 @@
+2005-10-18  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #308802
+	* gui/calendar-component.c: (setup_create_ecal):
+	* gui/dialogs/event-page.c: (source_changed_cb):
+	* gui/dialogs/task-page.c: (source_changed_cb):
+	* gui/e-itip-control.c: (cal_opened_cb), (start_calendar_server),
+	(find_cal_opened_cb):
+	* gui/e-tasks.c: (set_timezone), (client_cal_opened_cb),
+	(default_client_cal_opened_cb), (open_ecal):
+	* gui/gnome-cal.c: (client_cal_opened_cb),
+	(default_client_cal_opened_cb), (open_ecal),
+	(gnome_calendar_set_default_source):
+	* gui/tasks-component.c: (setup_create_ecal): Set the default
+	timezone in the ecal once its created and before opening ecal.
+
 2005-10-18  Srinivasa Ragavan <sragavan@novell.com>
 
 	* gui/dialogs/comp-editor.c: (open_attachment)
@@ -23,7 +39,7 @@
 
 2005-10-10  Chenthill Palanisamy  <pchenthill@novell.com>
 
-	Fixes #266144, 317575.
+	Fixes #266144, 317575, 313725.
 	* gui/alarm-notify/alarm-queue.c: (remove_queued_alarm),
 	(add_component_alarms), (lookup_comp_queued_alarms), (remove_comp),
 	(query_objects_changed_cb), (compare_ids),
