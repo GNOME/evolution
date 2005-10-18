@@ -1276,7 +1276,7 @@ EVO_SET_COMPILE_FLAGS(LIBSOUP, $LIBSOUP >= $LIBSOUP_REQUIRED)
 AC_SUBST(LIBSOUP_CFLAGS)
 AC_SUBST(LIBSOUP_LIBS)
 
-EVO_SET_COMPILE_FLAGS(EVOLUTION_CALENDAR, libgnome-2.0 libgnomeui-2.0 libbonoboui-2.0 libglade-2.0 gnome-vfs-2.0 libgnomeprint-2.2 libgnomeprintui-2.2 gnome-vfs-module-2.0 libgtkhtml-$GTKHTML_PACKAGE >= $GTKHTML_REQUIRED libebook-$EDS_PACKAGE >= $EDS_REQUIRED libecal-$EDS_PACKAGE >= $EDS_REQUIRED libedataserverui-$EDS_PACKAGE >= $EDS_REQUIRED)
+EVO_SET_COMPILE_FLAGS(EVOLUTION_CALENDAR, libgnome-2.0 libgnomeui-2.0 libbonoboui-2.0 libglade-2.0 gnome-vfs-2.0 libgnomeprint-2.2 libgnomeprintui-2.2 gnome-vfs-module-2.0 libgtkhtml-$GTKHTML_PACKAGE >= $GTKHTML_REQUIRED libebook-$EDS_PACKAGE >= $EDS_REQUIRED libecal-$EDS_PACKAGE >= $EDS_REQUIRED libedataserverui-$EDS_PACKAGE >= $EDS_REQUIRED hal)
 AC_SUBST(EVOLUTION_CALENDAR_CFLAGS)
 AC_SUBST(EVOLUTION_CALENDAR_LIBS)
 
@@ -1423,7 +1423,7 @@ plugins_base="calendar-file calendar-http calendar-weather itip-formatter plugin
 
 plugins_standard="bbdb subject-thread save-calendar select-one-source copy-tool mail-to-task mark-calendar-offline audio-inline mailing-list-actions new-mail-notify default-mailer" 
 
-plugins_experimental="backup-restore folder-unsubscribe mail-to-meeting mail-remote prefer-plain save-attachments"
+plugins_experimental="backup-restore folder-unsubscribe mail-to-meeting mail-remote prefer-plain save-attachments ipod-sync"
 
 case x"$enable_plugins" in
 xno)
@@ -1718,6 +1718,7 @@ plugins/groupwise-account-setup/Makefile
 plugins/groupwise-features/Makefile
 plugins/mail-account-disable/Makefile
 plugins/sa-junk-plugin/Makefile
+plugins/ipod-sync/Makefile
 smime/Makefile
 smime/lib/Makefile
 smime/gui/Makefile

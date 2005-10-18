@@ -1,3 +1,7 @@
+2005-10-18  Srinivasa Ragavan <sragavan@novell.com>
+
+	* configure.in: Added iPod sync e-plugin to experimental plugins.
+
 2005-10-17  Runa Bhattacharjee <runa@bengalinux.org>
 
 	* configure.in : Added Bengali (bn) to ALL_LINGUAS.
