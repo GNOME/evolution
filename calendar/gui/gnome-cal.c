@@ -2390,7 +2390,6 @@ client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar *gcal)
 
 	g_signal_handlers_disconnect_matched (ecal, G_SIGNAL_MATCH_FUNC, 0, 0, NULL, client_cal_opened_cb, NULL);
 
-	e_cal_set_default_timezone (ecal, priv->zone, NULL);
 
 	switch (source_type) {
 	case E_CAL_SOURCE_TYPE_EVENT :
@@ -2484,7 +2483,6 @@ default_client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar 
 
 	g_signal_handlers_disconnect_matched (ecal, G_SIGNAL_MATCH_FUNC, 0, 0, NULL, default_client_cal_opened_cb, NULL);
 
-	e_cal_set_default_timezone (ecal, priv->zone, NULL);
 	
 	switch (source_type) {
 	case E_CAL_SOURCE_TYPE_EVENT:
@@ -2511,9 +2509,13 @@ open_ecal (GnomeCalendar *gcal, ECal *cal, gboolean only_if_exists, open_func of
 {
 	GnomeCalendarPrivate *priv;
 	char *msg;
+	icaltimezone *zone;
 
 	priv = gcal->priv;
 
+	zone = calendar_config_get_icaltimezone ();
+	e_cal_set_default_timezone (cal, zone, NULL);
+	
 	msg = g_strdup_printf (_("Opening %s"), e_cal_get_uri (cal));
 	switch (e_cal_get_source_type (cal)) {
 	case E_CAL_SOURCE_TYPE_EVENT :
@@ -2882,6 +2884,7 @@ gnome_calendar_set_default_source (GnomeCalendar *gcal, ECalSourceType source_ty
 		if (!priv->default_client[source_type])
 			return FALSE;
 	}
+	
 
 	open_ecal (gcal, priv->default_client[source_type], FALSE, default_client_cal_opened_cb);
 

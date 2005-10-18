@@ -859,6 +859,13 @@ source_changed_cb (GtkWidget *widget, ESource *source, gpointer data)
 		ECal *client;
 
 		client = auth_new_cal_from_source (source, E_CAL_SOURCE_TYPE_TODO);
+		if (client) {
+			icaltimezone *zone;
+			
+			zone = calendar_config_get_icaltimezone ();
+			e_cal_set_default_timezone (client, zone, NULL);
+		}
+		
 		if (!client || !e_cal_open (client, FALSE, NULL)) {
 			GtkWidget *dialog;
 

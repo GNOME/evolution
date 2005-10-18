@@ -258,13 +258,11 @@ set_timezone (ETasks *tasks)
 	zone = calendar_config_get_icaltimezone ();
 	for (l = priv->clients_list; l != NULL; l = l->next) {
 		ECal *client = l->data;
-
-		if (e_cal_get_load_state (client) == E_CAL_LOAD_LOADED)
-			/* FIXME Error checking */
-			e_cal_set_default_timezone (client, zone, NULL);
+		/* FIXME Error checking */
+		e_cal_set_default_timezone (client, zone, NULL);
 	}
 
-	if (priv->default_client && e_cal_get_load_state (priv->default_client) == E_CAL_LOAD_LOADED)
+	if (priv->default_client) 
 		/* FIXME Error checking */
 		e_cal_set_default_timezone (priv->default_client, zone, NULL);
 
@@ -873,7 +871,6 @@ client_cal_opened_cb (ECal *ecal, ECalendarStatus status, ETasks *tasks)
 		model = e_calendar_table_get_model (E_CALENDAR_TABLE (priv->tasks_view));
 		e_cal_model_add_client (model, ecal);
 
-		set_timezone (tasks);
 		set_status_message (tasks, NULL);
 		break;
 	case E_CALENDAR_STATUS_BUSY :
@@ -916,7 +913,6 @@ default_client_cal_opened_cb (ECal *ecal, ECalendarStatus status, ETasks *tasks)
 		g_signal_handlers_disconnect_matched (ecal, G_SIGNAL_MATCH_FUNC, 0, 0, NULL, default_client_cal_opened_cb, NULL);
 		model = e_calendar_table_get_model (E_CALENDAR_TABLE (priv->tasks_view));
 		
-		set_timezone (tasks);
 		e_cal_model_set_default_client (model, ecal);
 		set_status_message (tasks, NULL);
 		break;
@@ -950,8 +946,13 @@ static gboolean
 open_ecal (ETasks *tasks, ECal *cal, gboolean only_if_exists, open_func of)
 {
 	ETasksPrivate *priv;
+	icaltimezone *zone;
 
 	priv = tasks->priv;
+	
+	zone = calendar_config_get_icaltimezone ();
+	e_cal_set_default_timezone (priv->default_client, zone, NULL);
+
 	
 	set_status_message (tasks, _("Opening tasks at %s"), e_cal_get_uri (cal));
 
