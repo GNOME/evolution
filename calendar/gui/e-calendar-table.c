@@ -1022,7 +1022,7 @@ e_calendar_table_on_save_as (EPopup *ep, EPopupItem *pitem, void *data)
 	if (comp_data == NULL)
 		return;
 	
-	filename = e_file_dialog_save (_("Save as..."));
+	filename = e_file_dialog_save (_("Save as..."), NULL);
 	if (filename == NULL)
 		return;
 	

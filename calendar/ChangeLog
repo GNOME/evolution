@@ -1,3 +1,21 @@
+2005-10-18  Srinivasa Ragavan <sragavan@novell.com>
+
+	* gui/dialogs/comp-editor.c: (open_attachment)
+	(attachment_bar_icon_clicked_cb), (cab_open), (cab_popup),
+	(button_press_event): Handles the popup menu on the attachment
+	bar.
+	* gui/e-cal-popup.c: (temp_save_part), (ecalp_part_popup_saveas),
+	(ecalp_part_popup_save_selected),
+	(ecalp_part_popup_set_background), (ecalp_apps_open_in),
+	(ecalp_apps_popup_free), (ecalp_standard_items_free),
+	(ecalp_standard_menu_factory), (ecalp_class_init),
+	(e_cal_popup_target_new_attachments): Provides the background
+	image setting, open with application for each attachment.
+	* gui/e-cal-popup.h:
+	* gui/e-calendar-table.c: (e_calendar_table_on_save_as)
+	* gui/e-calendar-view.c: (on_save_as): Change the parameters to
+	e_file_dialog_save.
+
 2005-10-17 Irene Huang <Irene.Huang@sun.com> 
 
 	* gui/e-tasks.c: (e_tasks_show_preview): Should not return a value, so, 

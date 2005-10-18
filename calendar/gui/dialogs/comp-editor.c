@@ -141,6 +141,7 @@ static void page_dates_changed_cb (GtkObject *obj, CompEditorPageDates *dates, g
 
 static void obj_modified_cb (ECal *client, GList *objs, gpointer data);
 static void obj_removed_cb (ECal *client, GList *uids, gpointer data);
+static gboolean open_attachment (EAttachmentBar *bar, CompEditor *editor);
 
 G_DEFINE_TYPE (CompEditor, comp_editor, GTK_TYPE_DIALOG);
 
@@ -1010,8 +1011,8 @@ attachment_expander_activate_cb (EExpander *expander,
 						  _("Show Attachment _Bar")); 	 
 }
 
-static	gboolean 
-attachment_bar_icon_clicked_cb (EAttachmentBar *bar, GdkEvent *event, CompEditor *editor)
+static gboolean 
+open_attachment (EAttachmentBar *bar, CompEditor *editor)
 {
 	GnomeIconList *icon_list;
 	GList *p;
@@ -1019,7 +1020,7 @@ attachment_bar_icon_clicked_cb (EAttachmentBar *bar, GdkEvent *event, CompEditor
 	char *attach_file_url;
 	GError *error = NULL;
 	
-	if (E_IS_ATTACHMENT_BAR (bar) && event->type == GDK_2BUTTON_PRESS) {
+	if (E_IS_ATTACHMENT_BAR (bar)) {
 		icon_list = GNOME_ICON_LIST (bar);
 		p = gnome_icon_list_get_selection (icon_list);
 		if (p) {
@@ -1055,7 +1056,26 @@ attachment_bar_icon_clicked_cb (EAttachmentBar *bar, GdkEvent *event, CompEditor
 		return FALSE;
 }
 
+static	gboolean 
+attachment_bar_icon_clicked_cb (EAttachmentBar *bar, GdkEvent *event, CompEditor *editor)
+{
+	if (E_IS_ATTACHMENT_BAR (bar) && event->type == GDK_2BUTTON_PRESS) 
+		if (open_attachment (bar, editor))
+				return TRUE;
+	return FALSE;
+}
+
 /* Callbacks.  */
+
+static void
+cab_open(EPopup *ep, EPopupItem *item, void *data)
+{
+	EAttachmentBar *bar = data;
+	CompEditor *editor = COMP_EDITOR (gtk_widget_get_toplevel (GTK_WIDGET (bar)));
+	
+	if (!open_attachment (bar, editor))
+		g_message ("\n Open failed");
+}
 
 static void
 cab_add(EPopup *ep, EPopupItem *item, void *data)
@@ -1096,10 +1116,11 @@ cab_remove(EPopup *ep, EPopupItem *item, void *data)
 
 /* Popup menu handling.  */
 static EPopupItem cab_popups[] = {
-	{ E_POPUP_ITEM, "10.attach", N_("_Remove"), cab_remove, NULL, GTK_STOCK_REMOVE, E_CAL_POPUP_ATTACHMENTS_MANY | E_CAL_POPUP_ATTACHMENTS_MODIFY },
-	{ E_POPUP_ITEM, "20.attach", N_("_Properties"), cab_properties, NULL, GTK_STOCK_PROPERTIES, E_CAL_POPUP_ATTACHMENTS_ONE },
-	{ E_POPUP_BAR, "30.attach.00", NULL, NULL, NULL, NULL, E_CAL_POPUP_ATTACHMENTS_MANY|E_CAL_POPUP_ATTACHMENTS_ONE },
-	{ E_POPUP_ITEM, "30.attach.01", N_("_Add attachment..."), cab_add, NULL, GTK_STOCK_ADD, E_CAL_POPUP_ATTACHMENTS_MODIFY },
+	{ E_POPUP_ITEM, "10.attach", N_("_Open"), cab_open, NULL, GTK_STOCK_OPEN, E_CAL_POPUP_ATTACHMENTS_ONE},
+	{ E_POPUP_ITEM, "20.attach", N_("_Remove"), cab_remove, NULL, GTK_STOCK_REMOVE, E_CAL_POPUP_ATTACHMENTS_MANY | E_CAL_POPUP_ATTACHMENTS_MODIFY },
+	{ E_POPUP_ITEM, "30.attach", N_("_Properties"), cab_properties, NULL, GTK_STOCK_PROPERTIES, E_CAL_POPUP_ATTACHMENTS_ONE },
+	{ E_POPUP_BAR, "40.attach.00", NULL, NULL, NULL, NULL, E_CAL_POPUP_ATTACHMENTS_MANY|E_CAL_POPUP_ATTACHMENTS_ONE },
+	{ E_POPUP_ITEM, "40.attach.01", N_("_Add attachment..."), cab_add, NULL, GTK_STOCK_ADD, E_CAL_POPUP_ATTACHMENTS_MODIFY},
 };
 
 static void
@@ -1140,7 +1161,7 @@ cab_popup(EAttachmentBar *bar, GdkEventButton *event, int id)
 	ECalPopup *ecp;
 	ECalPopupTargetAttachments *t;
 	GtkMenu *menu;
-       CompEditor *editor = COMP_EDITOR (gtk_widget_get_toplevel (GTK_WIDGET (bar)));
+	CompEditor *editor = COMP_EDITOR (gtk_widget_get_toplevel (GTK_WIDGET (bar)));
 
         attachments = e_attachment_bar_get_attachment(bar, id);
 
@@ -1181,14 +1202,17 @@ button_press_event (GtkWidget *widget, GdkEventButton *event)
 {
 	EAttachmentBar *bar = (EAttachmentBar *)widget;
 	GnomeIconList *icon_list = GNOME_ICON_LIST(widget);
-	int icon_number;
+	int icon_number = -1;
+	
 	if (event->button != 3)
 		return FALSE;
 	
-	icon_number = gnome_icon_list_get_icon_at (icon_list, event->x, event->y);
-	if (icon_number >= 0) {
-		gnome_icon_list_unselect_all(icon_list);
-		gnome_icon_list_select_icon (icon_list, icon_number);
+	if (!gnome_icon_list_get_selection (icon_list)) {
+		icon_number = gnome_icon_list_get_icon_at (icon_list, event->x, event->y);
+		if (icon_number >= 0) {
+			gnome_icon_list_unselect_all(icon_list);
+			gnome_icon_list_select_icon (icon_list, icon_number);
+		}
 	}
 
 	cab_popup(bar, event, icon_number);

@@ -113,7 +113,9 @@ enum _e_cal_popup_target_source_t {
 enum _e_cal_popup_target_attachments_t {
 	E_CAL_POPUP_ATTACHMENTS_ONE = 1<<0, /* only 1 selected */
 	E_CAL_POPUP_ATTACHMENTS_MANY = 1<<1, /* one or more selected */
-	E_CAL_POPUP_ATTACHMENTS_MODIFY =1<<2, /* check for modify operation */
+	E_CAL_POPUP_ATTACHMENTS_MODIFY = 1<<2, /* check for modify operation */
+	E_CAL_POPUP_ATTACHMENTS_MULTIPLE = 1<<3,
+	E_CAL_POPUP_ATTACHMENTS_IMAGE = 1<<4,
 };
 
 typedef struct _ECalPopupTargetSelect ECalPopupTargetSelect;
