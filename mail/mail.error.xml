@@ -367,5 +367,17 @@ You can choose to ignore this folder, overwrite or append its contents, or quit.
     <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>   
     <button stock="gtk-yes" response="GTK_RESPONSE_YES"/>
   </error>
+
+
+  <error id="signature-already-exists" type="error" modal="true">
+  	<_primary>Signature Already Exists</_primary>
+	<_secondary>A signature already exists with the name &quot;{0}&quot;. Please specify a different name. </_secondary>
+  </error>
+  
+  <error id="blank-signature" type="error" modal="true">
+  	<_primary>Blank Signature</_primary>
+	<_secondary>Please provide an unique name to identify this signature.</_secondary>
+  </error>
+
 </error-list>
 

@@ -1,3 +1,25 @@
+2005-10-18  Sankar P  <psankar@novell.com>
+	
+	- Enhances Signature-Preferences. 
+	- Added shortcuts for common operations.
+		-- Delete on Del key
+		-- Edit on Dbl.Click
+	- Prevents adding duplicate and NULL signatures
+	
+	* mail-signature-editor.c (menu_file_save_cb) (mail_signature_editor)
+	(sig_name_changed) (menu_file_save_close_cb) (delete_event_cb) (do_exit):
+		Modified the functions for handling the above scenarios.
+	* mail.error.xml:
+		Added error strings for duplicate and NULL signatures.
+	* em-composer-prefs.c (em_composer_prefs_construct) (sig_delete_cb) (sig_add_cb):
+		Modified the functions so as to handle the keyboard accelarators
+	and to grab focus to the list on deletion/insertion of signatures.	
+	* em-composer-prefs.c (signature_key_press)(sig_tree_event_cb):
+		Added new functions to handle the 
+	keypress events on the signatures list tree.
+
+	Fixes #269749
+	
 2005-09-29  Parthasarathi Susarla <sparthasarathi@novell.com>
 	
 	** See bug 317284

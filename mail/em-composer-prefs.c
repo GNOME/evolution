@@ -41,6 +41,8 @@
 #include <libedataserver/e-iconv.h>
 #include <misc/e-gui-utils.h>
 
+#include <gdk/gdkkeysyms.h>
+
 #include <gtk/gtkentry.h>
 #include <gtk/gtktreemodel.h>
 #include <gtk/gtkliststore.h>
@@ -336,19 +338,21 @@ em_composer_prefs_new_signature (GtkWindow *parent, gboolean html)
 	mail_signature_editor (sig, parent, TRUE);
 }
 
-static void
+static void 
 sig_delete_cb (GtkWidget *widget, EMComposerPrefs *prefs)
 {
 	GtkTreeSelection *selection;
 	GtkTreeModel *model;
 	GtkTreeIter iter;
 	ESignature *sig;
-	
+
 	selection = gtk_tree_view_get_selection (prefs->sig_list);
+
 	if (gtk_tree_selection_get_selected (selection, &model, &iter)) {
 		gtk_tree_model_get (model, &iter, 1, &sig, -1);
 		mail_config_remove_signature (sig);
 	}
+	gtk_widget_grab_focus ((GtkWidget *)prefs->sig_list);
 }
 
 static void
@@ -365,6 +369,7 @@ sig_add_cb (GtkWidget *widget, EMComposerPrefs *prefs)
 	parent = GTK_WIDGET_TOPLEVEL (parent) ? parent : NULL;
 	
 	em_composer_prefs_new_signature ((GtkWindow *) parent, send_html);
+	gtk_widget_grab_focus ((GtkWidget *)prefs->sig_list);
 }
 
 static void
@@ -815,6 +820,29 @@ emcp_free(EConfig *ec, GSList *items, void *data)
 	g_slist_free(items);
 }
 
+static void 
+signature_key_press (GtkTreeView *tree_view, GdkEventKey *event, EMComposerPrefs *prefs) 
+{
+	/* No need to care about anything other than DEL key */
+	if (event->keyval == GDK_Delete) 
+		sig_delete_cb ((GtkWidget *)tree_view, prefs);
+
+	return ;
+}
+
+static gboolean 
+sig_tree_event_cb (GtkTreeView *tree_view, GdkEvent *event, EMComposerPrefs *prefs)
+{
+	gboolean ret = FALSE;
+	
+	if (event->type == GDK_2BUTTON_PRESS) {
+		sig_edit_cb ((GtkWidget *)tree_view, prefs);
+		ret = TRUE;
+	} 
+	
+	return ret;
+}
+
 static void
 em_composer_prefs_construct (EMComposerPrefs *prefs)
 {
@@ -949,10 +977,10 @@ em_composer_prefs_construct (EMComposerPrefs *prefs)
 	g_signal_connect (prefs->sig_add_script, "clicked", G_CALLBACK (sig_add_script_cb), prefs);
 	
 	prefs->sig_edit = GTK_BUTTON (glade_xml_get_widget (gui, "cmdSignatureEdit"));
-	g_signal_connect (prefs->sig_edit, "clicked", G_CALLBACK (sig_edit_cb), prefs);
+	g_signal_connect (prefs->sig_edit, "pressed", G_CALLBACK (sig_edit_cb), prefs);
 	
 	prefs->sig_delete = GTK_BUTTON (glade_xml_get_widget (gui, "cmdSignatureDelete"));
-	g_signal_connect (prefs->sig_delete, "clicked", G_CALLBACK (sig_delete_cb), prefs);
+	g_signal_connect (prefs->sig_delete, "pressed", G_CALLBACK (sig_delete_cb), prefs);
 	
 	prefs->sig_list = GTK_TREE_VIEW (glade_xml_get_widget (gui, "listSignatures"));
 	model = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_POINTER);
@@ -964,6 +992,7 @@ em_composer_prefs_construct (EMComposerPrefs *prefs)
 	selection = gtk_tree_view_get_selection (prefs->sig_list);
 	gtk_tree_selection_set_mode (selection, GTK_SELECTION_SINGLE);
 	g_signal_connect (selection, "changed", G_CALLBACK (sig_selection_changed), prefs);
+	g_signal_connect (prefs->sig_list, "event", G_CALLBACK (sig_tree_event_cb), prefs);
 	
 	sig_fill_list (prefs);
 	
@@ -979,6 +1008,8 @@ em_composer_prefs_construct (EMComposerPrefs *prefs)
 	e_config_set_target((EConfig *)ec, (EConfigTarget *)target);
 	toplevel = e_config_create_widget((EConfig *)ec);
 	gtk_container_add (GTK_CONTAINER (prefs), toplevel);
+	
+	g_signal_connect (prefs->sig_list, "key-press-event", G_CALLBACK(signature_key_press), prefs);
 }
 
 GtkWidget *
