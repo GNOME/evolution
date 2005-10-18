@@ -38,6 +38,10 @@
 
   </commands>
 
+  <keybindings>
+	  <accel name="slash" id="FocusSearch"/>
+  </keybindings>
+
   <menu>
 
     <submenu name="File">

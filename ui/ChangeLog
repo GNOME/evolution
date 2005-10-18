@@ -1,3 +1,8 @@
+2005-10-18  Srinivasa Ragavan <sragavan@novell.com>
+
+	* evolution-mail-global.xml: Added a keybinding to focus search bar
+	entry
+
 2005-10-06  Srinivasa Ragavan <sragavan@novell.com>
 
 	* evolution-addressbook.xml: Change preview pane to Contact Preview.
