@@ -1,3 +1,12 @@
+2005-10-18  Srinivasa Ragavan <sragavan@novell.com>
+
+	* e-dialog-utils.c: (save_ok), (e_file_dialog_save),
+	(save_folder_ok), (folderchooser_response),
+	(e_file_dialog_save_folder): Shows the default file name in the
+	save file dialog. Added code to choose folder to save multiple
+	attachments
+	* e-dialog-utils.h: Added an additional parameter to e_file_dialog_save.
+
 2005-10-04  Devashish Sharma  <sdevashish@novell.com>
 
 	* e-util.c (g_str_case_compare): added a function for case insensitive

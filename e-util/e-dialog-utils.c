@@ -42,6 +42,7 @@
 #include <gtk/gtkfilesel.h>
 #endif
 
+#include <gconf/gconf-client.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-util.h>
 
@@ -250,6 +251,8 @@ save_ok (GtkWidget *widget, gpointer data)
 	char **filename = data;
 	const char *path;
 	int btn = GTK_RESPONSE_YES;
+	GConfClient *gconf = gconf_client_get_default();
+	char *dir;
 	
 	fs = gtk_widget_get_toplevel (widget);
 #ifdef USE_GTKFILECHOOSER
@@ -272,9 +275,14 @@ save_ok (GtkWidget *widget, gpointer data)
 		btn = gtk_dialog_run (GTK_DIALOG (dlg));
 		gtk_widget_destroy (dlg);
 	}
-	
-	if (btn == GTK_RESPONSE_YES)
+
+	if (btn == GTK_RESPONSE_YES) {
+		dir = g_path_get_dirname (path);
+		gconf_client_set_string(gconf, "/apps/evolution/mail/save_dir", dir, NULL);
+		g_free (dir);
 		*filename = g_strdup (path);
+	}
+	g_object_unref(gconf);
 	
 	gtk_main_quit ();
 }
@@ -291,11 +299,20 @@ filechooser_response (GtkWidget *fc, gint response_id, gpointer data)
 #endif
 
 char *
-e_file_dialog_save (const char *title)
+e_file_dialog_save (const char *title, const char *fname)
 {
 	GtkWidget *selection;
 	char *filename = NULL;
+        char *dir, *gdir = NULL;
+        GConfClient *gconf;
+ 
+        gconf = gconf_client_get_default();
+        dir = gdir = gconf_client_get_string(gconf, "/apps/evolution/mail/save_dir", NULL);
+        g_object_unref(gconf);
 
+       if (dir == NULL)
+	       dir = (char *)g_get_home_dir();
+		    
 #ifdef USE_GTKFILECHOOSER
 	selection = gtk_file_chooser_dialog_new (title,
 						 NULL,
@@ -304,14 +321,17 @@ e_file_dialog_save (const char *title)
 						 GTK_STOCK_SAVE, GTK_RESPONSE_ACCEPT,
 						 NULL);
 	gtk_dialog_set_default_response (GTK_DIALOG (selection), GTK_RESPONSE_ACCEPT);
-	gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (selection), g_get_home_dir ());
-
+        gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (selection), dir);
+ 
+        if (fname)
+	        gtk_file_chooser_set_current_name(GTK_FILE_CHOOSER (selection), fname);
+     
 	g_signal_connect (G_OBJECT (selection), "response", G_CALLBACK (filechooser_response), &filename);
 #else
 	char *path;
 
 	selection = gtk_file_selection_new (title);
-	path = g_strdup_printf ("%s/", g_get_home_dir ());
+	path = g_strdup_printf ("%s/", dir);	
 	gtk_file_selection_set_filename (GTK_FILE_SELECTION (selection), path);
 	g_free (path);
 
@@ -324,6 +344,86 @@ e_file_dialog_save (const char *title)
 	gtk_main ();
 	
 	gtk_widget_destroy (GTK_WIDGET (selection));
+	g_free (gdir);
+	
+	return filename;
+}
+
+static void
+save_folder_ok (GtkWidget *widget, gpointer data)
+{
+	GtkWidget *fs;
+	char **filename = data;
+	const char *path;
+	GConfClient *gconf = gconf_client_get_default();
+	
+	fs = gtk_widget_get_toplevel (widget);
+#ifdef USE_GTKFILECHOOSER
+	path = gtk_file_chooser_get_current_folder (GTK_FILE_CHOOSER (fs));
+#else
+	path = gtk_file_selection_get_filename (GTK_FILE_SELECTION (fs));
+#endif
+	
+	gconf_client_set_string(gconf, "/apps/evolution/mail/save_dir", path, NULL);
+	g_object_unref(gconf);
+	*filename = g_strdup (path);
+	
+	gtk_main_quit ();
+}
+
+#ifdef USE_GTKFILECHOOSER
+static void
+folderchooser_response (GtkWidget *fc, gint response_id, gpointer data)
+{
+	if (response_id == GTK_RESPONSE_ACCEPT)
+		save_folder_ok (fc, data);
+	else
+		gtk_widget_destroy (fc);
+}
+#endif
+
+char *
+e_file_dialog_save_folder (const char *title)
+{
+	GtkWidget *selection;
+	char *path, *filename = NULL;
+	char *dir, *gdir = NULL;
+	GConfClient *gconf;
+
+	gconf = gconf_client_get_default();
+	dir = gdir = gconf_client_get_string(gconf, "/apps/evolution/mail/save_dir", NULL);
+	g_object_unref(gconf);
+
+	if (dir == NULL)
+		dir = (char *)g_get_home_dir();
+
+#ifdef USE_GTKFILECHOOSER
+	selection = gtk_file_chooser_dialog_new (title,
+						 NULL,
+						 GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER,
+						 GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+						 GTK_STOCK_SAVE, GTK_RESPONSE_ACCEPT,
+						 NULL);
+	gtk_dialog_set_default_response (GTK_DIALOG (selection), GTK_RESPONSE_ACCEPT);
+	gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (selection), dir);
+
+	g_signal_connect (G_OBJECT (selection), "response", G_CALLBACK (folderchooser_response), &filename);
+#else
+	selection = gtk_file_selection_new (title);
+	path = g_strdup_printf ("%s/", dir);
+	gtk_file_selection_set_filename (GTK_FILE_SELECTION (selection), path);
+	g_free (path);
+
+	g_signal_connect (G_OBJECT (GTK_FILE_SELECTION (selection)->ok_button), "clicked", G_CALLBACK (save_folder_ok), &filename);
+	g_signal_connect (G_OBJECT (GTK_FILE_SELECTION (selection)->cancel_button), "clicked", G_CALLBACK (gtk_main_quit), NULL);
+#endif
+	
+	gtk_widget_show (GTK_WIDGET (selection));
+	gtk_grab_add (GTK_WIDGET (selection));
+	gtk_main ();
+	
+	gtk_widget_destroy (GTK_WIDGET (selection));
+	g_free (gdir);
 	
 	return filename;
 }

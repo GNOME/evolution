@@ -39,7 +39,9 @@ void  e_dialog_set_transient_for     (GtkWindow       *dialog,
 void  e_dialog_set_transient_for_xid (GtkWindow       *dialog,
 				      GdkNativeWindow  xid);
 
-char *e_file_dialog_save             (const char      *title);
+char *e_file_dialog_save             (const char      *title, const char *fname);
+
+char *e_file_dialog_save_folder	     (const char      *title);
 
 
 #endif
