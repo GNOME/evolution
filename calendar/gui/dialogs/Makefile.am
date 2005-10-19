@@ -51,6 +51,10 @@ libcal_dialogs_la_SOURCES =	\
 	event-editor.h		\
 	event-page.c		\
 	event-page.h		\
+	memo-editor.c		\
+	memo-editor.h		\
+	memo-page.c		\
+	memo-page.h		\
 	meeting-page.c		\
 	meeting-page.h		\
 	recurrence-page.c	\
@@ -72,7 +76,7 @@ libcal_dialogs_la_SOURCES =	\
 	task-page.c		\
 	task-page.h		\
 	url-editor-dialog.c	\
-	url-editor-dialog.h	
+	url-editor-dialog.h
 
 glade_DATA =				\
 	alarm-dialog.glade		\
@@ -81,6 +85,7 @@ glade_DATA =				\
 	e-delegate-dialog.glade		\
 	event-page.glade		\
 	meeting-page.glade		\
+	memo-page.glade			\
 	recurrence-page.glade		\
 	schedule-page.glade		\
 	task-details-page.glade		\

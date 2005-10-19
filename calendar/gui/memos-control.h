@@ -1,7 +1,7 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
-/* calendar-component.c
+/* memos-control.h
  *
- * Copyright (C) 2003  Ximian, Inc
+ * Copyright (C) 2000, 2001, 2002, 2003  Ximian, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -17,20 +17,19 @@
  * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
  * Boston, MA 02111-1307, USA.
  *
- * Author: Rodrigo Moya <rodrigo@ximian.com>
+ * Authors: Federico Mena Quintero <federico@ximian.com>
+ *	    Damon Chaplin <damon@ximian.com>
+ *          Nathan Owens <pianocomp81@yahoo.com>
  */
 
-#ifndef MIGRATION_H
-#define MIGRATION_H
+#ifndef _MEMOS_CONTROL_H_
+#define _MEMOS_CONTROL_H_
 
-#include <libedataserver/e-source-group.h>
-#include "calendar-component.h"
-#include "tasks-component.h"
-#include "memos-component.h"
+#include "e-memos.h"
 
-struct _GError;
+BonoboControl *memos_control_new                (void);
+void           memos_control_activate           (BonoboControl *control, EMemos *memos);
+void           memos_control_deactivate         (BonoboControl *control, EMemos *memos);
+void           memos_control_sensitize_commands (BonoboControl *control, EMemos *memos, int n_selected);
 
-gboolean migrate_calendars (CalendarComponent *component, int major, int minor, int revision, struct _GError **err);
-gboolean migrate_tasks (TasksComponent *component, int major, int minor, int revision, struct _GError **err);
-gboolean migrate_memos (MemosComponent *component, int major, int minor, int revision, struct _GError **err);
-#endif
+#endif /* _MEMOS_CONTROL_H_ */

@@ -75,7 +75,8 @@ glade_DATA = 					\
 etspec_DATA =				\
 	e-calendar-table.etspec		\
 	e-meeting-time-sel.etspec	\
-	e-cal-list-view.etspec
+	e-cal-list-view.etspec		\
+	e-memo-table.etspec
 
 libevolution_calendar_la_SOURCES =		\
 	$(IDL_GENERATED)			\
@@ -103,6 +104,8 @@ libevolution_calendar_la_SOURCES =		\
 	e-alarm-list.h				\
 	e-cal-component-preview.c		\
 	e-cal-component-preview.h		\
+	e-cal-component-memo-preview.c		\
+	e-cal-component-memo-preview.h		\
 	e-cal-config.c				\
 	e-cal-config.h				\
 	e-cal-event.c				\
@@ -124,6 +127,8 @@ libevolution_calendar_la_SOURCES =		\
 	e-cal-list-view.h			\
 	e-cal-list-view-config.c		\
 	e-cal-list-view-config.h		\
+	e-cal-model-memos.c			\
+	e-cal-model-memos.h			\
 	e-calendar-table.c			\
 	e-calendar-table.h			\
 	e-calendar-table-config.c		\
@@ -165,6 +170,12 @@ libevolution_calendar_la_SOURCES =		\
 	e-meeting-types.h			\
 	e-meeting-utils.c			\
 	e-meeting-utils.h			\
+	e-memo-table.c				\
+	e-memo-table.h				\
+	e-memo-table-config.c			\
+	e-memo-table-config.h			\
+	e-memos.c				\
+	e-memos.h				\
 	e-mini-calendar-config.c		\
 	e-mini-calendar-config.h		\
 	e-pub-utils.c				\
@@ -198,6 +209,10 @@ libevolution_calendar_la_SOURCES =		\
 	itip-utils.c				\
 	itip-utils.h				\
 	main.c					\
+	memos-component.c			\
+	memos-component.h			\
+	memos-control.c				\
+	memos-control.h				\
 	migration.c				\
 	migration.h				\
 	misc.c					\

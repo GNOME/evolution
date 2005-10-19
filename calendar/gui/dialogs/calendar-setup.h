@@ -36,6 +36,9 @@ void calendar_setup_new_calendar   (struct _GtkWindow *parent);
 void calendar_setup_edit_task_list (struct _GtkWindow *parent, struct _ESource *source);
 void calendar_setup_new_task_list  (struct _GtkWindow *parent);
 
+void calendar_setup_edit_memo_list (struct _GtkWindow *parent, ESource *source);
+void calendar_setup_new_memo_list (struct _GtkWindow *parent);
+
 #ifdef __cplusplus
 }
 #endif

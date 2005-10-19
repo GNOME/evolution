@@ -1,1 +1,1 @@
-SUBDIRS = calendar todo
+SUBDIRS = calendar memo todo

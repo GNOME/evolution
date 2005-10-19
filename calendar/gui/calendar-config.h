@@ -166,6 +166,17 @@ guint	  calendar_config_add_notification_primary_tasks (GConfClientNotifyFunc fu
 gint      calendar_config_get_task_vpane_pos    (void);
 void      calendar_config_set_task_vpane_pos    (gint         vpane_pos);
 
+
+/* The current list of memo lists selected */
+GSList   *calendar_config_get_memos_selected (void);
+void	  calendar_config_set_memos_selected (GSList *selected);
+guint	  calendar_config_add_notification_memos_selected (GConfClientNotifyFunc func, gpointer data);
+
+/* The primary calendar */
+char     *calendar_config_get_primary_memos (void);
+void	  calendar_config_set_primary_memos (const char *primary_uid);
+guint	  calendar_config_add_notification_primary_memos (GConfClientNotifyFunc func, gpointer data);
+
 /* Colors for the task list */
 const char *calendar_config_get_tasks_due_today_color	(void);
 void	    calendar_config_set_tasks_due_today_color	(const char *color);

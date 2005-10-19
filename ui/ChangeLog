@@ -1,3 +1,10 @@
+2005-10-19 Harish Krishnaswamy <kharish@novell.com>
+
+	Committing for Nathan Owens <pianocomp81@yahoo.com>
+
+	* evolution-memos.xml: added menus for memos component
+	* Makefile.am: added evolution-memos.xml to build files
+
 2005-10-18  Srinivasa Ragavan <sragavan@novell.com>
 
 	* evolution-mail-global.xml: Added a keybinding to focus search bar

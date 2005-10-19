@@ -1657,6 +1657,7 @@ views/addressbook/Makefile
 views/calendar/Makefile
 views/mail/Makefile
 views/tasks/Makefile
+views/memos/Makefile
 widgets/Makefile
 widgets/e-timezone-dialog/Makefile
 widgets/menus/Makefile
@@ -1670,6 +1671,7 @@ calendar/idl/Makefile
 calendar/conduits/Makefile
 calendar/conduits/todo/Makefile
 calendar/conduits/calendar/Makefile
+calendar/conduits/memo/Makefile
 calendar/gui/Makefile
 calendar/gui/alarm-notify/Makefile
 calendar/gui/dialogs/Makefile

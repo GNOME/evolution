@@ -369,3 +369,22 @@ cal_comp_task_new_with_defaults (ECal *client)
 
 	return comp;
 }
+
+ECalComponent *
+cal_comp_memo_new_with_defaults (ECal *client)
+{
+	ECalComponent *comp;
+	icalcomponent *icalcomp;
+
+	if (!e_cal_get_default_object (client, &icalcomp, NULL))
+		icalcomp = icalcomponent_new (ICAL_VJOURNAL_COMPONENT);
+	
+	comp = e_cal_component_new ();
+	if (!e_cal_component_set_icalcomponent (comp, icalcomp)) {
+		icalcomponent_free (icalcomp);
+
+		e_cal_component_set_new_vtype (comp, E_CAL_COMPONENT_JOURNAL);
+	}
+
+	return comp;
+}

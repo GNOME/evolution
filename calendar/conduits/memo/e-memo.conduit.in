@@ -1,0 +1,8 @@
+<gnome-pilot-conduit version="1.0">
+	<conduit id="e_memo_conduit" type="shlib" location="@privconduitdir@/libememo_conduit.so"/>
+	<name value="EMemos"/>
+	<conduit-attribute name="description" value="Synchronizes Memo List with Evolution @BASE_VERSION@"/>
+	<conduit-attribute name="default-synctype" value="synchronize"/>
+	<conduit-attribute name="valid-synctypes" value="synchronize copy_from_pilot copy_to_pilot"/>
+     	<conduit-attribute name="settings" value="TRUE"/>
+</gnome-pilot-conduit>

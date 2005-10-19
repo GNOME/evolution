@@ -44,6 +44,7 @@
 #include "itip-bonobo-control.h"
 #include "tasks-control.h"
 #include "tasks-component.h"
+#include "memos-component.h"
 
 #include <e-util/e-plugin.h>
 #include <e-util/e-import.h>
@@ -57,6 +58,7 @@
 
 #define CALENDAR_COMPONENT_ID  "OAFIID:GNOME_Evolution_Calendar_Component:" BASE_VERSION
 #define TASKS_COMPONENT_ID     "OAFIID:GNOME_Evolution_Tasks_Component:" BASE_VERSION
+#define MEMOS_COMPONENT_ID     "OAFIID:GNOME_Evolution_Memos_Component:" BASE_VERSION
 #define ITIP_CONTROL_ID        "OAFIID:GNOME_Evolution_Calendar_iTip_Control:" BASE_VERSION
 #define CONFIG_CONTROL_ID      "OAFIID:GNOME_Evolution_Calendar_ConfigControl:" BASE_VERSION
 #define COMP_EDITOR_FACTORY_ID "OAFIID:GNOME_Evolution_Calendar_CompEditorFactory:" BASE_VERSION
@@ -177,6 +179,10 @@ factory (BonoboGenericFactory *factory,
 		return object;
 	} else if (strcmp (component_id, TASKS_COMPONENT_ID) == 0) {
 		BonoboObject *object = BONOBO_OBJECT (tasks_component_peek ());
+		bonobo_object_ref (object);
+		return object;
+	} else if (strcmp (component_id, MEMOS_COMPONENT_ID) == 0){
+		BonoboObject *object = BONOBO_OBJECT (memos_component_peek ());
 		bonobo_object_ref (object);
 		return object;
 	} else if (strcmp (component_id, ITIP_CONTROL_ID) == 0)

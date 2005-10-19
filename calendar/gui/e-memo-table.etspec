@@ -1,0 +1,13 @@
+<ETableSpecification click-to-add="false" _click-to-add-message="Click to add a memo" draw-grid="true">
+  <ETableColumn model_col= "8" _title="Summary" expansion="3.0" minimum_width="10" resizable="true" cell="calstring" compare="string" priority="10"/>
+  <ETableColumn model_col="19" _title="Memo sort" cell="task-sort" compare="memo-sort" priority="-4"/>
+  <ETableColumn model_col="7" pixbuf="icon" _title="Type" expansion="1.0" minimum_width="16" resizable="false" cell="icon" compare="integer" priority="-4"/>
+  <ETableColumn model_col="0" _title="Categories" cell="calstring" compare="string" expansion="1.0" minimum_width="10" resizable="true" priority="-2"/>
+
+  <ETableState>
+    <column source="1"/>
+    <column source="0"/>
+    <column source="2"/>
+    <grouping></grouping>
+  </ETableState>
+</ETableSpecification>

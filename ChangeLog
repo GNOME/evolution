@@ -1,3 +1,10 @@
+2005-10-19  Harish Krishnaswamy <kharish@novell.com>
+
+	Committing for Nathan Owens <pianocomp81@yahoo.com>
+
+	* configure.in: Add views/memos/Makefile,
+	calendar/conduits/memo/Makefile to Makefile list
+
 2005-10-18  Srinivasa Ragavan <sragavan@novell.com>
 
 	* configure.in: Added iPod sync e-plugin to experimental plugins.

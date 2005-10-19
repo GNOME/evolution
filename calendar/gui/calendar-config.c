@@ -649,6 +649,55 @@ calendar_config_set_task_vpane_pos	(gint	      vpane_pos)
 	gconf_client_set_int (config, CALENDAR_CONFIG_TASK_VPANE_POS, vpane_pos, NULL);
 }
 
+/***************************************/
+
+/* The current list of memo lists selected */
+GSList   *
+calendar_config_get_memos_selected (void)
+{
+	return gconf_client_get_list (config, CALENDAR_CONFIG_MEMOS_SELECTED_MEMOS, GCONF_VALUE_STRING, NULL);
+}
+
+void
+calendar_config_set_memos_selected (GSList *selected)
+{
+	gconf_client_set_list (config, CALENDAR_CONFIG_MEMOS_SELECTED_MEMOS, GCONF_VALUE_STRING, selected, NULL);
+}
+
+guint
+calendar_config_add_notification_memos_selected (GConfClientNotifyFunc func, gpointer data)
+{
+	guint id;
+	
+	id = gconf_client_notify_add (config, CALENDAR_CONFIG_MEMOS_SELECTED_MEMOS, func, data, NULL, NULL);
+	
+	return id;
+}
+
+/* The primary memo list */
+char *
+calendar_config_get_primary_memos (void)
+{
+	return gconf_client_get_string (config, CALENDAR_CONFIG_PRIMARY_MEMOS, NULL);
+}
+
+void
+calendar_config_set_primary_memos (const char *primary_uid)
+{
+	gconf_client_set_string (config, CALENDAR_CONFIG_PRIMARY_MEMOS, primary_uid, NULL);
+}
+
+
+guint
+calendar_config_add_notification_primary_memos (GConfClientNotifyFunc func, gpointer data)
+{
+	guint id;
+	
+	id = gconf_client_notify_add (config, CALENDAR_CONFIG_PRIMARY_MEMOS, func, data, NULL, NULL);
+	
+	return id;
+}
+/***************************************/
 
 /* Whether we compress the weekend in the week/month views. */
 gboolean

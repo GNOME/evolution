@@ -8,6 +8,7 @@ XML_FILES =					\
 	evolution-mail-list.xml			\
 	evolution-mail-global.xml		\
 	evolution-mail-messagedisplay.xml	\
+	evolution-memos.xml			\
 	evolution-message-composer.xml		\
 	evolution-signature-editor.xml		\
 	evolution-subscribe.xml			\

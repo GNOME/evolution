@@ -288,6 +288,8 @@ eccp_general_offline (EConfig *ec, EConfigItem *item, struct _GtkWidget *parent,
 		else if (sdialog->source_type == E_CAL_SOURCE_TYPE_TODO)	
 
 			offline_setting = gtk_check_button_new_with_label (_("Copy task list contents locally for offline operation"));
+		else if(sdialog->source_type == E_CAL_SOURCE_TYPE_JOURNAL)
+			offline_setting = gtk_check_button_new_with_label(_("Copy memo list contents locally for offline operation"));
 
 		gtk_widget_show (offline_setting);
 		g_signal_connect (offline_setting, "toggled", G_CALLBACK (offline_status_changed_cb), sdialog);
@@ -376,6 +378,17 @@ static ECalConfigItem ectp_items[] = {
 	{ E_CONFIG_BOOK, "", NULL },
 	{ E_CONFIG_PAGE,          "00.general", N_("General") },
 	{ E_CONFIG_SECTION_TABLE, "00.general/00.source", N_("Tasks List") },
+	{ E_CONFIG_ITEM_TABLE,    "00.general/00.source/00.type", NULL, eccp_get_source_type },
+	{ E_CONFIG_ITEM_TABLE,    "00.general/00.source/10.name", NULL, eccp_get_source_name },
+	{ E_CONFIG_ITEM_TABLE,    "00.general/00.source/20.color", NULL, eccp_get_source_color },
+	{ E_CONFIG_ITEM_TABLE,	  "00.general/00.source/30.offline", NULL, eccp_general_offline },
+	{ 0 },
+};
+
+static ECalConfigItem ecmp_items[] = {
+	{ E_CONFIG_BOOK, "", NULL },
+	{ E_CONFIG_PAGE,          "00.general", N_("General") },
+	{ E_CONFIG_SECTION_TABLE, "00.general/00.source", N_("Memos List") },
 	{ E_CONFIG_ITEM_TABLE,    "00.general/00.source/00.type", NULL, eccp_get_source_type },
 	{ E_CONFIG_ITEM_TABLE,    "00.general/00.source/10.name", NULL, eccp_get_source_name },
 	{ E_CONFIG_ITEM_TABLE,    "00.general/00.source/20.color", NULL, eccp_get_source_color },
@@ -525,4 +538,70 @@ void
 calendar_setup_new_task_list (struct _GtkWindow *parent)
 {
 	calendar_setup_edit_task_list (parent, NULL);
+}
+
+void
+calendar_setup_edit_memo_list (struct _GtkWindow *parent, ESource *source)
+{
+	CalendarSourceDialog *sdialog = g_new0 (CalendarSourceDialog, 1);
+	char *xml;
+	ECalConfig *ec;
+	int i;
+	GSList *items = NULL;
+	ECalConfigTargetSource *target;
+
+	if (source) {
+		guint32 color;
+
+		sdialog->original_source = source;
+		g_object_ref (source);
+		sdialog->source_group = e_source_peek_group (source);
+		xml = e_source_to_standalone_xml (source);
+		sdialog->source = e_source_new_from_standalone_xml (xml);
+		g_free (xml);
+
+		e_source_get_color (source, &color);
+		e_source_set_color (sdialog->source, color);
+	} else {
+		GConfClient *gconf;
+		GSList *l;
+
+		sdialog->source = e_source_new ("", "");
+		gconf = gconf_client_get_default ();
+		sdialog->source_list = e_source_list_new_for_gconf (gconf, "/apps/evolution/memos/sources");
+		l = e_source_list_peek_groups (sdialog->source_list);
+		sdialog->menu_source_groups = g_slist_copy(l);
+
+		sdialog->source_group = (ESourceGroup *)sdialog->menu_source_groups->data;
+		g_object_unref (gconf);
+	}
+
+	/* HACK: doesn't work if you don't do this */
+	e_source_set_absolute_uri (sdialog->source, NULL);
+	e_source_set_group (sdialog->source, sdialog->source_group);
+
+	sdialog->source_type = E_CAL_SOURCE_TYPE_JOURNAL;
+	sdialog->config = ec = e_cal_config_new (E_CONFIG_BOOK, "org.gnome.evolution.calendar.calendarProperties");
+	for (i = 0; ecmp_items[i].path; i++)
+		items = g_slist_prepend (items, &ecmp_items[i]);
+	e_config_add_items ((EConfig *) ec, items, eccp_commit, NULL, eccp_free, sdialog);
+	e_config_add_page_check ((EConfig *) ec, NULL, eccp_check_complete, sdialog);
+
+	target = e_cal_config_target_new_source (ec, sdialog->source);
+	target->source_type = E_CAL_SOURCE_TYPE_JOURNAL;
+	e_config_set_target ((EConfig *) ec, (EConfigTarget *) target);
+
+	sdialog->window = e_config_create_window ((EConfig *)ec, NULL, _("New Memo List"));
+
+	/* forces initial validation */
+	if (!sdialog->original_source)
+		e_config_target_changed ((EConfig *)ec, E_CONFIG_TARGET_CHANGED_STATE);
+
+	return;
+}
+
+void
+calendar_setup_new_memo_list (struct _GtkWindow *parent)
+{
+	calendar_setup_edit_memo_list (parent, NULL);
 }

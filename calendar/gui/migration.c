@@ -997,3 +997,123 @@ fail:
 	
         return retval;
 }
+
+/********************************************************************************************************
+ *
+ * 		MEMOS
+ * 
+ ********************************************************************************************************/
+
+static void
+create_memo_sources (MemosComponent *component,
+		     ESourceList   *source_list,
+		     ESourceGroup **on_this_computer,
+		     ESourceGroup **on_the_web,
+		     ESource **personal_source)
+{
+	GSList *groups;
+	ESourceGroup *group;
+	char *base_uri, *base_uri_proto;
+
+	*on_this_computer = NULL;
+	*on_the_web = NULL;
+	*personal_source = NULL;
+	
+	base_uri = g_build_filename (memos_component_peek_base_directory (component),
+				     "memos", "local", NULL);
+
+	base_uri_proto = g_strconcat ("file://", base_uri, NULL);
+
+	groups = e_source_list_peek_groups (source_list);
+	if (groups) {
+		/* groups are already there, we need to search for things... */
+		GSList *g;
+
+		for (g = groups; g; g = g->next) {
+
+			group = E_SOURCE_GROUP (g->data);
+
+			if (!*on_this_computer && !strcmp (base_uri_proto, e_source_group_peek_base_uri (group)))
+				*on_this_computer = g_object_ref (group);
+			else if (!*on_the_web && !strcmp (WEBCAL_BASE_URI, e_source_group_peek_base_uri (group)))
+				*on_the_web = g_object_ref (group);
+		}
+	}
+
+	if (*on_this_computer) {
+		/* make sure "Personal" shows up as a source under
+		   this group */
+		GSList *sources = e_source_group_peek_sources (*on_this_computer);
+		GSList *s;
+		for (s = sources; s; s = s->next) {
+			ESource *source = E_SOURCE (s->data);
+			if (!strcmp (PERSONAL_RELATIVE_URI, e_source_peek_relative_uri (source))) {
+				*personal_source = g_object_ref (source);
+				break;
+			}
+		}
+	} else {
+		/* create the local source group */
+		group = e_source_group_new (_("On This Computer"), base_uri_proto);
+		e_source_list_add_group (source_list, group, -1);
+
+		*on_this_computer = group;
+	}
+
+	if (!*personal_source) {
+		/* Create the default Person task list */
+		ESource *source = e_source_new (_("Personal"), PERSONAL_RELATIVE_URI);
+		e_source_group_add_source (*on_this_computer, source, -1);
+
+		if (!calendar_config_get_primary_memos () && !calendar_config_get_memos_selected ()) {
+			GSList selected;
+
+			calendar_config_set_primary_memos (e_source_peek_uid (source));
+
+			selected.data = (gpointer)e_source_peek_uid (source);
+			selected.next = NULL;
+			calendar_config_set_memos_selected (&selected);
+		}
+
+		e_source_set_color (source, 0xBECEDD);
+		*personal_source = source;
+	}
+
+	if (!*on_the_web) {
+		/* Create the Webcal source group */
+		group = e_source_group_new (_("On The Web"), WEBCAL_BASE_URI);
+		e_source_list_add_group (source_list, group, -1);
+
+		*on_the_web = group;
+	}
+
+	g_free (base_uri_proto);
+	g_free (base_uri);
+}
+
+
+gboolean
+migrate_memos (MemosComponent *component, int major, int minor, int revision, struct _GError **err)
+{
+	ESourceGroup *on_this_computer = NULL;
+	ESourceGroup *on_the_web = NULL;
+	ESource *personal_source = NULL;
+	gboolean retval = FALSE;
+
+	/* we call this unconditionally now - create_groups either
+	   creates the groups/sources or it finds the necessary
+	   groups/sources. */
+	create_memo_sources (component, memos_component_peek_source_list (component), &on_this_computer, &on_the_web, &personal_source);
+
+	e_source_list_sync (memos_component_peek_source_list (component), NULL);
+	retval = TRUE;
+fail:
+	if (on_this_computer)
+		g_object_unref (on_this_computer);
+	if (on_the_web)
+		g_object_unref (on_the_web);
+	if (personal_source)
+		g_object_unref (personal_source);
+	
+        return retval;
+}

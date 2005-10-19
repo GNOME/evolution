@@ -1,3 +1,38 @@
+2005-10-19  Harish Krishnaswamy <kharish@novell.com>
+
+	Committing for Nathan Owens <pianocomp81@yahoo.com>
+	
+	* calendar.error.xml: Added strings for memos
+	* calendar/conduits/Makefile.am: added 'memo' to SUBDIRS
+	* calendar/conduits/memo/*: initial memo conduit
+	* calendar/gui/calendar-config.[ch]: (calendar_config_get_memos_selected)
+	(calendar_config_set_memos_selected) (calendar_config_add_notification_memos_selected): 
+	gconf get/set for memos lists
+	* calendar/gui/calendar-config-keys.h: added gconf keys for Memos component
+	* calendar/gui/comp-util.[ch] (cal_comp_memo_new_with_defaults): added function
+	to create memo component with defaults
+	* calendar/gui/e-cal-component-memo-preview.[ch]: initial file for preview of a memo
+	* calendar/gui/e-cal-model-memos.[ch]: initial model for the memos component.
+	* calendar/gui/e-memos.[ch]: initial memos base
+	* calendar/gui/e-memo-table.[ch]: initial view for memos component
+	* calendar/gui/e-memo-table.etspec: etspec for memos e-table
+	* calendar/gui/e-memo-table-config.[ch]: initial configuration for memos e-table view
+	* calendar/gui/GNOME_Evolution_Calendar.server.in.in: added Memos component
+	* calendar/gui/main.c: added initialization code for Memos component
+	* calendar/gui/Makefile.am: added entries for new files for Memos component
+	* calendar/gui/memos-component.[ch]: Memos component base code
+	* calendar/gui/memos-control.[ch]: initial user control code. Used for printing,
+	copying, etc.
+	* calendar/gui/migration.c: added migration for memos component - also takes care
+	of initialization for the first time the Memos component is run.
+	* calendar/gui/dialogs/calendar-setup.[ch]: added code to create a new Memo List
+	* calendar/gui/dialogs/Makefile.am: added files for build
+	* calendar/gui/dialogs/memo-editor.[ch]: initial memo editor
+	* calendar/gui/dialogs/memo-page.[ch]: page in editor for editing a memo
+	* calendar/gui/dialogs/memo-page.glade: glade file for memo-editor-page
+	* calendar/gui/dialogs/send-comp.c: added E_CAL_COMPONENT_JOURNAL support for Memo
+	component
+	
 2005-10-18  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #308802

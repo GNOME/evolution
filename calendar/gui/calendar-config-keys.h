@@ -65,6 +65,11 @@ G_BEGIN_DECLS
 #define CALENDAR_CONFIG_TASKS_DUE_TODAY_COLOR CALENDAR_CONFIG_PREFIX "/tasks/colors/due_today"
 #define CALENDAR_CONFIG_TASKS_OVERDUE_COLOR CALENDAR_CONFIG_PREFIX "/tasks/colors/overdue"
 
+/* Memo display settings */
+#define CALENDAR_CONFIG_MEMOS_SELECTED_MEMOS CALENDAR_CONFIG_PREFIX "/memos/selected_memos"
+#define CALENDAR_CONFIG_PRIMARY_MEMOS CALENDAR_CONFIG_PREFIX "/memos/primary_memos"
+
+
 /* Prompt settings */
 #define CALENDAR_CONFIG_PROMPT_DELETE CALENDAR_CONFIG_PREFIX "/prompts/confirm_delete"
 #define CALENDAR_CONFIG_PROMPT_PURGE CALENDAR_CONFIG_PREFIX "/prompts/confirm_purge"

@@ -42,5 +42,6 @@ gboolean cal_comp_is_on_server (ECalComponent *comp,
 ECalComponent *cal_comp_event_new_with_defaults (ECal *client);
 ECalComponent *cal_comp_event_new_with_current_time (ECal *client, gboolean all_day);
 ECalComponent *cal_comp_task_new_with_defaults (ECal *client);
+ECalComponent *cal_comp_memo_new_with_defaults (ECal *client);
 
 #endif
