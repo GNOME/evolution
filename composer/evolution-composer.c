@@ -141,8 +141,7 @@ impl_Composer_set_multipart_type (PortableServer_Servant servant,
 	composer = EVOLUTION_COMPOSER (bonobo_object);
 
 	if (type == GNOME_Evolution_Composer_ALTERNATIVE) {
-		composer->composer->is_alternative = TRUE;
-		composer->composer->send_html = FALSE;
+		e_msg_composer_set_alternative (composer->composer, TRUE);
 	}
 }
 

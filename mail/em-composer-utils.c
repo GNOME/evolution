@@ -297,7 +297,7 @@ composer_get_message (EMsgComposer *composer, gboolean save_html_object_data)
 	
 	camel_object_unref (cia);
 
-	postlist = e_msg_composer_hdrs_get_post_to((EMsgComposerHdrs *) composer->hdrs);
+	postlist = e_msg_composer_hdrs_get_post_to(e_msg_composer_get_hdrs (composer));
 	num_post = g_list_length(postlist);
 	g_list_foreach(postlist, (GFunc)g_free, NULL);
 	g_list_free(postlist);
@@ -421,16 +421,11 @@ save_draft_done (CamelFolder *folder, CamelMimeMessage *msg, CamelMessageInfo *i
 {
 	struct _save_draft_info *sdi = user_data;
 	struct emcs_t *emcs;
-	CORBA_Environment ev;
 	
 	if (!ok)
 		goto done;
 
-	if (sdi->composer->editor_engine) {
-		CORBA_exception_init (&ev);
-		GNOME_GtkHTML_Editor_Engine_runCommand (sdi->composer->editor_engine, "saved", &ev);
-		CORBA_exception_free (&ev);
-	}
+	e_msg_composer_set_saved (sdi->composer);
 	
 	if ((emcs = sdi->emcs) == NULL) {
 		emcs = emcs_new ();
@@ -644,7 +639,7 @@ em_utils_compose_new_message_with_mailto (const char *url, const char *fromuri)
 
 	if (fromuri
 	    && (account = mail_config_get_account_by_source_url(fromuri)))
-		e_msg_composer_hdrs_set_from_account((EMsgComposerHdrs *)composer->hdrs, account->name);
+		e_msg_composer_hdrs_set_from_account(e_msg_composer_get_hdrs(composer), account->name);
 
 	e_msg_composer_unset_changed (composer);
 	e_msg_composer_drop_editor_undo (composer);
@@ -671,7 +666,7 @@ em_utils_post_to_folder (CamelFolder *folder)
 	if (folder != NULL) {
 		char *url = mail_tools_folder_to_url (folder);
 		
-		e_msg_composer_hdrs_set_post_to ((EMsgComposerHdrs *) ((EMsgComposer *) composer)->hdrs, url);
+		e_msg_composer_hdrs_set_post_to (e_msg_composer_get_hdrs (composer), url);
 		g_free (url);
 		
 		url = camel_url_to_string (CAMEL_SERVICE (folder->parent_store)->url, CAMEL_URL_HIDE_ALL);
@@ -679,7 +674,7 @@ em_utils_post_to_folder (CamelFolder *folder)
 		g_free (url);
 		
 		if (account)
-			e_msg_composer_hdrs_set_from_account ((EMsgComposerHdrs *) ((EMsgComposer *) composer)->hdrs, account->name);
+			e_msg_composer_hdrs_set_from_account (e_msg_composer_get_hdrs(composer), account->name);
 	}
 	
 	em_composer_utils_setup_default_callbacks (composer);
@@ -706,7 +701,7 @@ em_utils_post_to_url (const char *url)
 	composer = e_msg_composer_new_with_type (E_MSG_COMPOSER_POST);
 	
 	if (url != NULL)
-		e_msg_composer_hdrs_set_post_to ((EMsgComposerHdrs *) ((EMsgComposer *) composer)->hdrs, url);
+		e_msg_composer_hdrs_set_post_to (e_msg_composer_get_hdrs (composer), url);
 	
 	em_composer_utils_setup_default_callbacks (composer);
 	
@@ -1392,7 +1387,7 @@ reply_get_composer (CamelMimeMessage *message, EAccount *account,
 		}
 
 		post = camel_address_encode((CamelAddress *)postto);
-		e_msg_composer_hdrs_set_post_to_base (E_MSG_COMPOSER_HDRS (composer->hdrs), store_url ? store_url : "", post);
+		e_msg_composer_hdrs_set_post_to_base (e_msg_composer_get_hdrs(composer), store_url ? store_url : "", post);
 		g_free(post);
 		g_free (store_url);
 	}
@@ -2011,7 +2006,7 @@ post_reply_to_message (CamelFolder *folder, const char *uid, CamelMimeMessage *m
 	g_free (subject);
 	
 	url = mail_tools_folder_to_url (real_folder);
-	e_msg_composer_hdrs_set_post_to ((EMsgComposerHdrs *) composer->hdrs, url);
+	e_msg_composer_hdrs_set_post_to (e_msg_composer_get_hdrs(composer), url);
 	g_free (url);
 	
 	/* Add In-Reply-To and References. */

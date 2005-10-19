@@ -219,10 +219,8 @@ select_attach_response(GtkWidget *selector, guint response, struct _EMsgComposer
 
 		func(composer, names, gtk_toggle_button_get_active(showinline));
 		
-		if (e_attachment_bar_get_num_attachments(E_ATTACHMENT_BAR(composer->attachment_bar))) {
-			gtk_widget_show (composer->attachment_expander);
-			gtk_widget_show (composer->attachment_scrolled_window);
-		}
+		e_msg_composer_show_attachments_ui (composer);
+
 
 		g_slist_foreach(names, (GFunc)g_free, NULL);
 		g_slist_free(names);

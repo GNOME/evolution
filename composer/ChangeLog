@@ -1,3 +1,11 @@
+2005-10-19  Philip Van Hoof <pvanhoof@gnome.org>
+	composer/e-msg-composer-select-file.c,
+	composer/e-msg-composer.c, composer/e-msg-composer.h,
+	composer/evolution-composer.c, composer/listener.c,
+	mail/em-composer-utils.c,
+	plugins/mailing-list-actions/mailing-list-actions.c:
+	data hiding
+	
 2005-10-05  Parthasarathi Susarla <sparthasarathi@novell.com>
 	
 	Reverting the last commit

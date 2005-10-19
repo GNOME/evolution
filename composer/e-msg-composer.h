@@ -48,83 +48,6 @@ extern "C" {
 
 
 
-struct _EMsgComposer {
-	BonoboWindow parent;
-	
-	/* Main UIComponent */
-	BonoboUIComponent *uic;
-
-	/* UIComponent for the non-control GtkEntries */
-	BonoboUIComponent *entry_uic;
-	
-	GtkWidget *hdrs;
-	GPtrArray *extra_hdr_names, *extra_hdr_values;
-	
-	GtkWidget *focused_entry;
-	
-	GtkWidget *editor;
-	
-	GtkWidget *attachment_bar;
-	GtkWidget *attachment_scrolled_window;
-	GtkWidget *attachment_expander;
-	GtkWidget *attachment_expander_label;
-	GtkWidget *attachment_expander_icon;
-	GtkWidget *attachment_expander_num;
-	
-	GtkWidget *address_dialog;
-	
-	Bonobo_PersistFile       persist_file_interface;
-	Bonobo_PersistStream     persist_stream_interface;
-	GNOME_GtkHTML_Editor_Engine  editor_engine;
-	BonoboObject            *editor_listener;
-	GHashTable              *inline_images, *inline_images_by_url;
-	GList                   *current_images;
-	
-	char *mime_type, *mime_body, *charset;
-	
-	char *autosave_file;
-        int   autosave_fd;
-	guint32 enable_autosave        : 1;
-	
-	guint32 attachment_bar_visible : 1;
-	guint32 send_html              : 1;
-	guint32 is_alternative         : 1;
-	guint32 pgp_sign               : 1;
-	guint32 pgp_encrypt            : 1;
-	guint32 smime_sign             : 1;
-	guint32 smime_encrypt          : 1;
-	guint32 view_from              : 1;
-	guint32 view_replyto           : 1;
-	guint32 view_to                : 1;
-	guint32 view_postto            : 1;
-	guint32 view_bcc               : 1;
-	guint32 view_cc                : 1;
-	guint32 view_subject           : 1;
-	guint32 request_receipt        : 1;
-	guint32 has_changed            : 1;
-	guint32 autosaved              : 1;
-	
-	guint32 mode_post              : 1;
-	
-	guint32 in_signature_insert    : 1;
-	
-	struct _ESignature *signature;
-	struct _GtkOptionMenu *sig_menu;
-	guint sig_added_id;
-	guint sig_removed_id;
-	guint sig_changed_id;
-	
-	CamelMimeMessage *redirect;
-	
-	guint notify_id;
-};
-
-struct _EMsgComposerClass {
-	BonoboWindowClass parent_class;
-	
-	void (* send) (EMsgComposer *composer);
-	void (* save_draft) (EMsgComposer *composer, int quit);
-};
 
 
 GtkType                  e_msg_composer_get_type                         (void);
@@ -141,9 +64,15 @@ EMsgComposer            *e_msg_composer_new_with_message                 (CamelM
 EMsgComposer            *e_msg_composer_new_from_url                     (const char        *url);
 EMsgComposer            *e_msg_composer_new_redirect                     (CamelMimeMessage  *message,
 									  const char        *resent_from);
+void			e_msg_composer_show_attachments_ui		 (EMsgComposer *composer);
 
+/*
 void                     e_msg_composer_show_attachments                 (EMsgComposer      *composer,
-									  gboolean           show);
+									  gboolean           show);*/
+
+void                     e_msg_composer_set_alternative                  (EMsgComposer      *composer,
+									  gboolean           alt);
+									  
 void                     e_msg_composer_set_headers                      (EMsgComposer      *composer,
 									  const char        *from,
 									  EDestination     **to,
@@ -242,6 +171,16 @@ gboolean                 e_msg_composer_request_close_all                (void);
 void			 e_msg_composer_check_autosave			 (GtkWindow *parent);
 int			 e_msg_composer_get_remote_download_count   	 (EMsgComposer *composer);
 
+
+void			 e_msg_composer_reply_indent			 (EMsgComposer *composer);
+void			 e_msg_composer_insert_paragraph_before 	 (EMsgComposer *composer);
+void			 e_msg_composer_insert_paragraph_after		 (EMsgComposer *composer);
+void			 e_msg_composer_delete				 (EMsgComposer *composer);
+gchar*			 e_msg_composer_resolve_image_url 		 (EMsgComposer *composer, gchar *url);
+CamelMimePart*		 e_msg_composer_url_requested 			 (EMsgComposer *composer, gchar *url);
+
+EMsgComposerHdrs*	 e_msg_composer_get_hdrs			 (EMsgComposer *composer);
+void			 e_msg_composer_set_saved			 (EMsgComposer *composer);
 
 #ifdef __cplusplus
 }
