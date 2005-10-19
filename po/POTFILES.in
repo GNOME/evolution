@@ -77,6 +77,7 @@ addressbook/tools/evolution-addressbook-import.c
 calendar/calendar.error.xml
 calendar/common/authentication.c
 calendar/conduits/calendar/calendar-conduit.c
+calendar/conduits/memo/memo-conduit.c
 calendar/conduits/todo/todo-conduit.c
 calendar/gui/GNOME_Evolution_Calendar.server.in.in
 calendar/gui/alarm-notify/GNOME_Evolution_Calendar_AlarmNotify.server.in.in
@@ -118,6 +119,9 @@ calendar/gui/dialogs/event-page.glade
 calendar/gui/dialogs/meeting-page.c
 calendar/gui/dialogs/meeting-page.etspec
 calendar/gui/dialogs/meeting-page.glade
+calendar/gui/dialogs/memo-editor.c
+calendar/gui/dialogs/memo-page.c
+calendar/gui/dialogs/memo-page.glade
 calendar/gui/dialogs/new-calendar.glade
 calendar/gui/dialogs/new-task-list.glade
 calendar/gui/dialogs/recur-comp.c
@@ -135,12 +139,14 @@ calendar/gui/dialogs/task-page.c
 calendar/gui/dialogs/task-page.glade
 calendar/gui/dialogs/url-editor-dialog.glade
 calendar/gui/e-alarm-list.c
+calendar/gui/e-cal-component-memo-preview.c
 calendar/gui/e-cal-component-preview.c
 calendar/gui/e-cal-list-view.c
 calendar/gui/e-cal-list-view.etspec
 calendar/gui/e-cal-model-calendar.c
 calendar/gui/e-cal-model-tasks.c
 calendar/gui/e-cal-model.c
+calendar/gui/e-cal-popup.c
 calendar/gui/e-calendar-table.c
 calendar/gui/e-calendar-table.etspec
 calendar/gui/e-calendar-view.c
@@ -155,6 +161,9 @@ calendar/gui/e-meeting-store.c
 calendar/gui/e-meeting-time-sel-item.c
 calendar/gui/e-meeting-time-sel.c
 calendar/gui/e-meeting-time-sel.etspec
+calendar/gui/e-memo-table.c
+calendar/gui/e-memo-table.etspec
+calendar/gui/e-memos.c
 calendar/gui/e-pub-utils.c
 calendar/gui/e-tasks.c
 calendar/gui/e-timezone-entry.c
@@ -164,6 +173,8 @@ calendar/gui/gnome-cal.c
 calendar/gui/goto-dialog.glade
 calendar/gui/goto.c
 calendar/gui/itip-utils.c
+calendar/gui/memos-component.c
+calendar/gui/memos-control.c
 calendar/gui/migration.c
 calendar/gui/print.c
 calendar/gui/tasks-component.c
@@ -322,6 +333,9 @@ plugins/groupwise-features/proxy.c
 plugins/groupwise-features/send-options.c
 plugins/groupwise-features/share-folder-common.c
 plugins/groupwise-features/status-track.c
+plugins/ipod-sync/ical-format.c
+plugins/ipod-sync/org-gnome-ipod-sync-evolution.eplug.xml
+plugins/ipod-sync/sync.c
 plugins/itip-formatter/itip-formatter.c
 plugins/itip-formatter/itip-view.c
 plugins/itip-formatter/org-gnome-itip-formatter.eplug.xml
@@ -403,6 +417,7 @@ ui/evolution-mail-global.xml
 ui/evolution-mail-list.xml
 ui/evolution-mail-message.xml
 ui/evolution-mail-messagedisplay.xml
+ui/evolution-memos.xml
 ui/evolution-message-composer.xml
 ui/evolution-signature-editor.xml
 ui/evolution-subscribe.xml
@@ -411,6 +426,7 @@ ui/evolution.xml
 views/addressbook/galview.xml
 views/calendar/galview.xml
 views/mail/galview.xml
+views/memos/galview.xml
 views/tasks/galview.xml
 widgets/e-timezone-dialog/e-timezone-dialog.c
 widgets/e-timezone-dialog/e-timezone-dialog.glade
