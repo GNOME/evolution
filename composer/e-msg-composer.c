@@ -66,15 +66,6 @@
 #include <gtk/gtkhbox.h>
 #include <gtk/gtkimage.h>
 
-#include <gtkmozembed.h>
-#include <gtkmozedit/gtk-moz-edit.h>
-#include <gtkmozedit/gme-web-browser.h>
-#include <gtkmozedit/dom/gme-dom-document.h>
-#include <gtkmozedit/dom/gme-dom-element.h>
-#include <gtkmozedit/dom/gme-dom-window.h>
-#include <gtkmozedit/dom/gme-dom-html-body-element.h>
-#include <gtkmozedit/dom/gme-dom-node-list.h>
-
 #include <gconf/gconf.h>
 #include <gconf/gconf-client.h>
 
@@ -1295,9 +1286,6 @@ set_editor_text(EMsgComposer *composer, const char *text, ssize_t len, int set_s
 	CORBA_exception_free (&ev);
 	
 	bonobo_object_unref (BONOBO_OBJECT (stream));
-
-	
-	gtk_moz_edit_command (p->editor, "cmd_insertHTML", text);
 	
 	if (set_signature)
 		e_msg_composer_show_sig_file (composer);
@@ -3239,8 +3227,6 @@ init (EMsgComposer *composer)
 	p->enable_autosave          = TRUE;
 	p->autosave_file            = NULL;
 	p->autosave_fd              = -1;
-
-	p->editor = gtk_moz_edit_new ();
 	
 	/** @HookPoint-EMMenu: Main Mail Menu
 	 * @Id: org.gnome.evolution.mail.composer
@@ -5206,9 +5192,7 @@ e_msg_composer_show_sig_file (EMsgComposer *composer)
 		GNOME_GtkHTML_Editor_Engine_insertHTML (p->eeditor_engine, html, &ev);
 		g_free (html);
 	}
-	
-	gtk_moz_edit_command (p->editor, "cmd_insertHTML", html);
-	
+		
 	GNOME_GtkHTML_Editor_Engine_undoEnd (p->eeditor_engine, &ev);
 	GNOME_GtkHTML_Editor_Engine_runCommand (p->eeditor_engine, "cursor-position-restore", &ev);
 	GNOME_GtkHTML_Editor_Engine_thaw (p->eeditor_engine, &ev);
