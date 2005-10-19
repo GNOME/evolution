@@ -167,8 +167,6 @@ struct _EMsgComposerPrivate {
 	
 	GtkWidget *eeditor;
 	
-	GtkMozEdit *editor;
-	
 	GtkWidget *attachment_bar;
 	GtkWidget *attachment_scrolled_window;
 	GtkWidget *attachment_expander;
@@ -2692,11 +2690,6 @@ destroy (GtkObject *object)
 		p->menu = NULL;
 	}
 
-	if (p->editor)
-	{
-		gtk_widget_destroy (p->editor);
-		p->editor = NULL;
-	}
 	
 	if (p->load) {
 		gtk_widget_destroy(p->load);
@@ -3772,9 +3765,6 @@ create_composer (int visible_mask)
 	CORBA_exception_free (&ev);
 	
 	gtk_box_pack_start (GTK_BOX (vbox), p->eeditor, TRUE, TRUE, 0);
-
-	gtk_box_pack_start (GTK_BOX (vbox), p->editor, TRUE, TRUE, 0);
-	gtk_widget_show (p->editor);
 	
 	/* Attachment editor, wrapped into an EScrollFrame.  It's
            hidden in an EExpander. */
