@@ -1,3 +1,9 @@
+2005-10-19  Shreyas Srinivasan  <sshreyas@novell.com>
+
+	* proxy.c (org_gnome_proxy): Dont try to connect when the account is
+	offline. Also connect to the server only when the proxy tab is clicked.
+	* Fixes #314297, #314345
+
 2005-10-14  Vivek Jain <jvivek@novell.com>
 	
 	* proxy.c :(proxy_get_cnc)
