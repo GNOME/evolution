@@ -1,3 +1,9 @@
+2005-10-19  Harish Krishnaswamy <kharish@novell.com>
+
+	* em-format-html-display.h : Include e-attachment-bar.h
+	relative to the top dir, so it stops borking the print-message
+	plugin.
+
 2005-10-18  Srinivasa Ragavan <sragavan@novell.com>
 
 	* em-folder-browser.c (emfb_focus_search) (emfb_tools_vfolders): Make '/' to 

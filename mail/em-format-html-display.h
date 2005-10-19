@@ -7,7 +7,7 @@
 #define _EM_FORMAT_HTML_DISPLAY_H
 
 #include "mail/em-format-html.h"
-#include "e-attachment-bar.h"
+#include "widgets/misc/e-attachment-bar.h"
 
 typedef struct _EMFormatHTMLDisplay EMFormatHTMLDisplay;
 typedef struct _EMFormatHTMLDisplayClass EMFormatHTMLDisplayClass;
