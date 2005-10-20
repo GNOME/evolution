@@ -1,3 +1,13 @@
+2005-10-20  Sankar P  <psankar@novell.com>
+
+	* proxy-login.c (org_gnome_proxy_account_login) (proxy_login_get_cnc): 
+	When the user forgets-password explicitly, the subsequent proxy-login requests 
+	are made with a NULL password leading to unexpected behavior.
+	Fixes #312467
+
+	* proxy-login.c (proxy_login_update_tree) (proxy_login_get_cnc):
+	Added the missing unrefs for the connection object.
+
 2005-10-19  Shreyas Srinivasan  <sshreyas@novell.com>
 
 	* proxy.c (org_gnome_proxy): Dont try to connect when the account is

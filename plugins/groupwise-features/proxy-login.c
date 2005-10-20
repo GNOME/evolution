@@ -237,7 +237,8 @@ proxy_login_get_cnc (EAccount *account)
 	url = camel_url_new (account->source->url, NULL);
 	char *uri = NULL, *failed_auth = NULL, *key = NULL, *prompt = NULL, *password = NULL;
 	const char *use_ssl, *soap_port;
-
+	gboolean remember;
+	
 	url = camel_url_new (account->source->url, NULL);
 	if (url == NULL) 
 		return NULL;
@@ -262,7 +263,12 @@ proxy_login_get_cnc (EAccount *account)
 			failed_auth, url->host, url->user);
 
 	password = e_passwords_get_password ("Groupwise", key);
-		
+
+	if (!password)
+		password = e_passwords_ask_password (prompt, "Groupwise", key, prompt,
+				E_PASSWORDS_REMEMBER_FOREVER|E_PASSWORDS_SECRET, &remember, NULL);
+	
+	g_free (prompt);
 	cnc = e_gw_connection_new (uri, url->user, password);
 	if (!E_IS_GW_CONNECTION(cnc) && use_ssl && g_str_equal (use_ssl, "when-possible")) {
 		char *http_uri = g_strconcat ("http://", uri + 8, NULL);
@@ -270,7 +276,6 @@ proxy_login_get_cnc (EAccount *account)
 		g_free (http_uri);
 	}
 	
-	g_free (prompt);
 	g_free (key);
 	g_free (password);
 	g_free (uri); 
@@ -333,6 +338,7 @@ proxy_soap_login (char *email)
 	srcAccount = pld->account;
 	cnc = proxy_login_get_cnc(srcAccount);
 	proxy_get_password (srcAccount, &user_name, &password);
+	
 	proxy_cnc = e_gw_connection_get_proxy_connection (cnc, user_name, password, email, &permissions);
 	
 	if (proxy_cnc) {
@@ -363,6 +369,7 @@ proxy_soap_login (char *email)
 		return;  
 	}	
 
+	g_object_unref (cnc);
 	g_free (name);
 	g_free (user_name);
 	g_free (password);
@@ -455,7 +462,8 @@ proxy_login_update_tree (void)
 			gtk_tree_store_set (priv->store, &iter, 0, broken_image, 1, g_strconcat(proxy_name, "\n", proxy_email, NULL), -1);
 		}
 		gtk_tree_view_set_model (GTK_TREE_VIEW(priv->tree),GTK_TREE_MODEL (priv->store));
-	}	
+	}
+	g_object_unref (cnc);
 }
 
 void
@@ -463,7 +471,12 @@ org_gnome_proxy_account_login (EPopup *ep, EPopupItem *p, void *data)
 {
 	char *uri = data;
 	proxyLoginPrivate *priv;
-	
+	EGwConnection *cnc;
+
+	/* This pops-up the password dialog in case the User has forgot-passwords explicitly */
+	cnc = proxy_login_get_cnc (mail_config_get_account_by_source_url (uri));
+	g_object_unref (cnc);
+
 	pld = proxy_login_new();
 	priv = pld->priv;
 	priv->xml = glade_xml_new (EVOLUTION_GLADEDIR "/proxy-login-dialog.glade", NULL, NULL);
@@ -487,7 +500,7 @@ static EPopupItem popup_items[] = {
 static void 
 popup_free (EPopup *ep, GSList *items, void *data)
 {
-g_slist_free (items);
+	g_slist_free (items);
 }
 
 void
