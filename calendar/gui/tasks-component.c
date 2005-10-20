@@ -863,9 +863,6 @@ setup_create_ecal (TasksComponent *component, TasksComponentView *component_view
 		
 	if (priv->create_ecal) {
 		icaltimezone *zone;
-		
-		zone = calendar_config_get_icaltimezone ();
-		e_cal_set_default_timezone (priv->create_ecal, zone, NULL);
 
 		if (!e_cal_open (priv->create_ecal, FALSE, NULL)) {
 			GtkWidget *dialog;
@@ -880,6 +877,8 @@ setup_create_ecal (TasksComponent *component, TasksComponentView *component_view
 			return NULL;
 		}
 
+		zone = calendar_config_get_icaltimezone ();
+		e_cal_set_default_timezone (priv->create_ecal, zone, NULL);
 	} else {
 		GtkWidget *dialog;
 			

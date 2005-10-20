@@ -1672,13 +1672,6 @@ source_changed_cb (GtkWidget *widget, ESource *source, gpointer data)
 		ECal *client;
 
 		client = auth_new_cal_from_source (source, E_CAL_SOURCE_TYPE_EVENT);
-		if (client) {
-			icaltimezone *zone;
-			
-			zone = calendar_config_get_icaltimezone ();
-			e_cal_set_default_timezone (client, zone, NULL);
-		}
-
 		if (!client || !e_cal_open (client, FALSE, NULL)) {
 			GtkWidget *dialog;
 
@@ -1695,6 +1688,11 @@ source_changed_cb (GtkWidget *widget, ESource *source, gpointer data)
 			gtk_dialog_run (GTK_DIALOG (dialog));
 			gtk_widget_destroy (dialog);
 		} else {
+			icaltimezone *zone;
+			
+			zone = calendar_config_get_icaltimezone ();
+			e_cal_set_default_timezone (client, zone, NULL);
+
 			comp_editor_notify_client_changed (
 				COMP_EDITOR (gtk_widget_get_toplevel (priv->main)),
 				client);

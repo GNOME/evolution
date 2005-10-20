@@ -149,6 +149,7 @@ cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
 	EItipControlPrivate *priv;
 	ESource *source;
 	ECalSourceType source_type;
+	icaltimezone *zone;
 
 	priv = itip->priv;
 
@@ -163,6 +164,9 @@ cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
 		return;
 	}
 
+	zone = calendar_config_get_icaltimezone ();
+	e_cal_set_default_timezone (ecal, zone, NULL);
+
 	priv->current_ecal = ecal;
 	set_ok_sens (itip);
 }
@@ -174,7 +178,6 @@ start_calendar_server (EItipControl *itip, ESource *source, ECalSourceType type,
 {
 	EItipControlPrivate *priv;
 	ECal *ecal;
-	icaltimezone *zone;
 
 	priv = itip->priv;
 	
@@ -186,10 +189,6 @@ start_calendar_server (EItipControl *itip, ESource *source, ECalSourceType type,
 	}
 	
 	ecal = auth_new_cal_from_source (source, type);
-	
-	zone = calendar_config_get_icaltimezone ();
-	e_cal_set_default_timezone (ecal, zone, NULL);
-	
 	g_signal_connect (G_OBJECT (ecal), "cal_opened", G_CALLBACK (func), data);
 
 	g_hash_table_insert (priv->ecals[type], g_strdup (e_source_peek_uid (source)), ecal);
@@ -247,6 +246,7 @@ find_cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
 	ESource *source;
 	ECalSourceType source_type;
 	icalcomponent *icalcomp;
+	icaltimezone *zone;
 
 	source_type = e_cal_get_source_type (ecal);
 	source = e_cal_get_source (ecal);
@@ -269,6 +269,9 @@ find_cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
 		priv->current_ecal = ecal;
 		set_ok_sens (fd->itip);
 	}
+
+	zone = calendar_config_get_icaltimezone ();
+	e_cal_set_default_timezone (ecal, zone, NULL);
 
  cleanup:
 	if (fd->count == 0) {

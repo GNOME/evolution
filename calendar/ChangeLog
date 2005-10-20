@@ -1,18 +1,3 @@
-2005-10-18  Chenthill Palanisamy  <pchenthill@novell.com>
-
-	* gui/calendar-component.c: (setup_create_ecal):
-	* gui/dialogs/event-page.c: (source_changed_cb):
-	* gui/dialogs/task-page.c: (source_changed_cb):
-	* gui/e-itip-control.c: (cal_opened_cb), (start_calendar_server),
-	(find_cal_opened_cb):
-	* gui/e-tasks.c: (set_timezone), (client_cal_opened_cb),
-	(default_client_cal_opened_cb), (open_ecal):
-	* gui/gnome-cal.c: (client_cal_opened_cb),
-	(default_client_cal_opened_cb), (open_ecal),
-	(gnome_calendar_set_default_source):
-	* gui/tasks-component.c: (setup_create_ecal): Set the default
-	timezone in the ecal once its created and before opening ecal.
-
 2005-09-30  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #315095
