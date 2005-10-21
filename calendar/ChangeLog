@@ -1,3 +1,13 @@
+2005-10-21  Viren.L  <lviren@novell.com>
+
+	Sankar committing for Viren
+
+	Fixes #272920
+
+	* gui/gnome-cal.c (setup_widgets):
+	Connect signal to catch the scroll-event on the widget of date navigator 
+	and handle the GDK_SCROLL_UP,GDK_SCROLL_DOWN in the callback.
+
 2005-09-30  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #315095

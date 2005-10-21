@@ -219,6 +219,7 @@ static void gnome_calendar_update_date_navigator (GnomeCalendar *gcal);
 static void gnome_calendar_hpane_realized (GtkWidget *w, GnomeCalendar *gcal);
 static void gnome_calendar_vpane_realized (GtkWidget *w, GnomeCalendar *gcal);
 static gboolean gnome_calendar_vpane_resized (GtkWidget *w, GdkEventButton *e, GnomeCalendar *gcal);
+static void gnome_calendar_date_navigator_scrolled (GtkWidget *widget, GdkEventScroll *event, gpointer user_data);
 static gboolean gnome_calendar_hpane_resized (GtkWidget *w, GdkEventButton *e, GnomeCalendar *gcal);
 
 static void gnome_calendar_on_date_navigator_date_range_changed (ECalendarItem *calitem,
@@ -1400,6 +1401,8 @@ setup_widgets (GnomeCalendar *gcal)
 			  G_CALLBACK (gnome_calendar_on_date_navigator_selection_changed), gcal);
 	g_signal_connect (priv->date_navigator->calitem, "date_range_changed",
 			  G_CALLBACK (gnome_calendar_on_date_navigator_date_range_changed), gcal);
+	g_signal_connect (w, "scroll-event",
+			  G_CALLBACK (gnome_calendar_date_navigator_scrolled), gcal);
 
 	/* The ToDo list. */
 	priv->todo = e_calendar_table_new ();
@@ -3172,6 +3175,32 @@ gnome_calendar_vpane_resized (GtkWidget *w, GdkEventButton *e, GnomeCalendar *gc
 	}
 
 	return FALSE;
+}
+
+static void 
+gnome_calendar_date_navigator_scrolled (GtkWidget *widget, GdkEventScroll *event, gpointer user_data)
+{
+	GnomeCalendar *gcal = user_data;
+	ECalendarItem *calitem = gcal->priv->date_navigator->calitem;	
+	GDate start_date, end_date;
+	
+	if (e_calendar_item_get_selection (calitem, &start_date, &end_date)) {
+		switch (event->direction) {
+		case GDK_SCROLL_UP:
+			g_date_subtract_months (&start_date, 1);
+			g_date_subtract_months (&end_date, 1);
+			break;
+		case GDK_SCROLL_DOWN:
+			g_date_add_months (&start_date, 1);
+			g_date_add_months (&end_date, 1);
+			break;
+		default:
+			break;	
+		
+		}
+		e_calendar_item_set_selection (calitem, &start_date, &end_date);
+		gnome_calendar_on_date_navigator_selection_changed (calitem, gcal);
+	}
 }
 
 static gboolean
