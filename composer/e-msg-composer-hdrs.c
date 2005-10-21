@@ -1281,8 +1281,10 @@ get_account_store_url (EMsgComposerHdrs *hdrs)
 	CamelURL *url;
 	char *ret = NULL;
 	
-	if (hdrs->account->source && hdrs->account->source->url) {
-		url = camel_url_new (hdrs->account->source->url, NULL);
+	if (hdrs->account->source
+	    && hdrs->account->source->url
+	    && hdrs->account->source->url[0]
+	    && (url = camel_url_new (hdrs->account->source->url, NULL))) {
 		ret = camel_url_to_string (url, CAMEL_URL_HIDE_ALL);
 		camel_url_free (url);
 	}

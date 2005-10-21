@@ -1,9 +1,18 @@
+2005-10-21 Vivek Jain <jvivek@novell.com>
+	
+	Comitted NotZed's patch given on #314701
+	
+	** See bug #314701.
+	* e-msg-composer-hdrs.c (get_account_store_url): don't dereference
+	a null url or create an empty one.
+
 2005-10-19  Philip Van Hoof <pvanhoof@gnome.org>
-	composer/e-msg-composer-select-file.c,
-	composer/e-msg-composer.c, composer/e-msg-composer.h,
-	composer/evolution-composer.c, composer/listener.c,
-	mail/em-composer-utils.c,
-	plugins/mailing-list-actions/mailing-list-actions.c:
+
+	* composer/e-msg-composer-select-file.c,
+	* composer/e-msg-composer.c, composer/e-msg-composer.h,
+	* composer/evolution-composer.c, composer/listener.c,
+	* mail/em-composer-utils.c,
+	* plugins/mailing-list-actions/mailing-list-actions.c:
 	data hiding
 	
 2005-10-05  Parthasarathi Susarla <sparthasarathi@novell.com>
