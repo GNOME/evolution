@@ -1,3 +1,11 @@
+2005-10-21  Mubeen Jukaku  <jmubeen@novell.com>
+
+	Sankar Committting for Mubeen
+	
+	Fixes #310495
+	* gui/e-calendar-table.etspec: Do string case comparison for Summary
+	and Categories field
+
 2005-10-21  Viren.L  <lviren@novell.com>
 
 	Sankar committing for Viren
