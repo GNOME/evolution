@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 2.4.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-10-16 07:06+0800\n"
-"PO-Revision-Date: 2005-10-16 07:43+0800\n"
+"POT-Creation-Date: 2005-10-21 18:48+0800\n"
+"PO-Revision-Date: 2005-10-20 14:37+0800\n"
 "Last-Translator: Chao-Hsiung Liao <j_h_liau@yahoo.com.tw>\n"
 "Language-Team: Chinese (traditional) <community@linuxhall.org>\n"
 "MIME-Version: 1.0\n"
@@ -452,7 +452,7 @@ msgid "Server Version"
 msgstr "伺服器版本"
 
 #: ../addressbook/addressbook.error.xml.h:14
-#: ../calendar/calendar.error.xml.h:42
+#: ../calendar/calendar.error.xml.h:44
 msgid "Some features may not work properly with your current server"
 msgstr "某些功能可能無法在您目前的伺服器版本上正常運作"
 
@@ -540,7 +540,7 @@ msgstr ""
 "想要儲存一個副本來代替嗎？"
 
 #: ../addressbook/addressbook.error.xml.h:28
-#: ../calendar/calendar.error.xml.h:57
+#: ../calendar/calendar.error.xml.h:61
 msgid ""
 "You are connecting to an unsupported GroupWise server and may encounter "
 "problems using Evolution. For best results the server should be upgraded to "
@@ -594,7 +594,7 @@ msgstr "預設的同步地址:"
 #: ../addressbook/conduit/address-conduit.c:1183
 #: ../addressbook/conduit/address-conduit.c:1184
 msgid "Could not load addressbook"
-msgstr "無法入載入通訊錄"
+msgstr "無法載入通訊錄"
 
 # addressbook/conduit/address-conduit.c:687
 # addressbook/conduit/address-conduit.c:690
@@ -683,10 +683,12 @@ msgstr "在此管理您的 S/MIME 憑證"
 #. On This Computer is always first and Search Folders is always last
 #: ../addressbook/gui/component/addressbook-component.c:137
 #: ../addressbook/gui/component/addressbook-migrate.c:502
-#: ../calendar/gui/calendar-component.c:208 ../calendar/gui/migration.c:462
-#: ../calendar/gui/migration.c:555 ../calendar/gui/tasks-component.c:188
-#: ../mail/em-folder-tree-model.c:197 ../mail/em-folder-tree-model.c:199
-#: ../mail/mail-component.c:292 ../mail/mail-vfolder.c:223
+#: ../calendar/gui/calendar-component.c:208
+#: ../calendar/gui/memos-component.c:192 ../calendar/gui/migration.c:462
+#: ../calendar/gui/migration.c:555 ../calendar/gui/migration.c:1057
+#: ../calendar/gui/tasks-component.c:188 ../mail/em-folder-tree-model.c:197
+#: ../mail/em-folder-tree-model.c:199 ../mail/mail-component.c:292
+#: ../mail/mail-vfolder.c:223
 msgid "On This Computer"
 msgstr "在此電腦"
 
@@ -698,10 +700,12 @@ msgstr "在此電腦"
 #: ../addressbook/gui/component/addressbook-component.c:145
 #: ../addressbook/gui/component/addressbook-migrate.c:510
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:20
-#: ../calendar/gui/calendar-component.c:216 ../calendar/gui/migration.c:470
-#: ../calendar/gui/migration.c:563 ../calendar/gui/tasks-component.c:196
-#: ../filter/filter-label.c:123 ../mail/em-migrate.c:1043
-#: ../mail/mail-config.c:78 ../mail/mail-config.glade.h:104
+#: ../calendar/gui/calendar-component.c:216
+#: ../calendar/gui/memos-component.c:200 ../calendar/gui/migration.c:470
+#: ../calendar/gui/migration.c:563 ../calendar/gui/migration.c:1065
+#: ../calendar/gui/tasks-component.c:196 ../filter/filter-label.c:123
+#: ../mail/em-migrate.c:1043 ../mail/mail-config.c:78
+#: ../mail/mail-config.glade.h:104
 msgid "Personal"
 msgstr "個人"
 
@@ -773,8 +777,9 @@ msgstr "複製通訊錄內容至本地用於離線作業"
 #: ../addressbook/gui/component/addressbook-config.c:902
 #: ../addressbook/gui/component/ldap-config.glade.h:23
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:25
-#: ../calendar/gui/dialogs/calendar-setup.c:366
-#: ../calendar/gui/dialogs/calendar-setup.c:377
+#: ../calendar/gui/dialogs/calendar-setup.c:368
+#: ../calendar/gui/dialogs/calendar-setup.c:379
+#: ../calendar/gui/dialogs/calendar-setup.c:390
 #: ../mail/em-folder-properties.c:215 ../mail/mail-config.glade.h:85
 #: ../smime/gui/smime-ui.glade.h:28
 msgid "General"
@@ -908,8 +913,9 @@ msgstr ""
 # ui/evolution-task-editor-dialog.xml.h:18
 #: ../addressbook/gui/component/addressbook-view.c:764
 #: ../addressbook/gui/widgets/e-addressbook-view.c:952
-#: ../mail/em-filter-i18n.h:11 ../ui/evolution-addressbook.xml.h:9
-#: ../ui/evolution-calendar.xml.h:5 ../ui/evolution-mail-message.xml.h:25
+#: ../calendar/gui/memos-component.c:450 ../mail/em-filter-i18n.h:11
+#: ../ui/evolution-addressbook.xml.h:9 ../ui/evolution-calendar.xml.h:5
+#: ../ui/evolution-mail-message.xml.h:25 ../ui/evolution-memos.xml.h:6
 #: ../ui/evolution-tasks.xml.h:6
 msgid "Delete"
 msgstr "刪除"
@@ -919,6 +925,7 @@ msgstr "刪除"
 # ui/evolution-task-editor-dialog.xml.h:83
 # ui/evolution.xml.h:60
 #: ../addressbook/gui/component/addressbook-view.c:766
+#: ../calendar/gui/memos-component.c:451
 msgid "Properties..."
 msgstr "屬性..."
 
@@ -1011,6 +1018,7 @@ msgstr "是否顯示預覽窗格。"
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:1
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:1
 #: ../calendar/gui/dialogs/event-page.glade.h:1
+#: ../calendar/gui/dialogs/memo-page.glade.h:1
 #: ../calendar/gui/dialogs/new-calendar.glade.h:1
 #: ../calendar/gui/dialogs/new-task-list.glade.h:1
 #: ../calendar/gui/dialogs/url-editor-dialog.glade.h:1
@@ -3139,6 +3147,7 @@ msgstr "來源"
 #: ../calendar/gui/e-calendar-table.etspec.h:13
 #: ../calendar/gui/e-meeting-list-view.c:377
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:11
+#: ../calendar/gui/e-memo-table.etspec.h:5
 msgid "Type"
 msgstr "類型"
 
@@ -3159,8 +3168,10 @@ msgid "Save as VCard..."
 msgstr "儲存為 VCard..."
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:930
+#: ../calendar/gui/dialogs/comp-editor.c:1119
 #: ../calendar/gui/e-calendar-table.c:1167
-#: ../calendar/gui/e-calendar-view.c:1549 ../ui/evolution-addressbook.xml.h:38
+#: ../calendar/gui/e-calendar-view.c:1549 ../calendar/gui/e-memo-table.c:845
+#: ../ui/evolution-addressbook.xml.h:38
 msgid "_Open"
 msgstr "開啟(_O)"
 
@@ -3211,9 +3222,10 @@ msgstr "傳送郵件給連絡人"
 # ui/evolution-mail.xml.h:65
 # ui/evolution-tasks.xml.h:4
 #: ../addressbook/gui/widgets/e-addressbook-view.c:942
-#: ../calendar/gui/calendar-commands.c:119 ../calendar/gui/print.c:2510
+#: ../calendar/gui/calendar-commands.c:119 ../calendar/gui/print.c:2512
 #: ../ui/evolution-addressbook.xml.h:17 ../ui/evolution-calendar.xml.h:19
-#: ../ui/evolution-mail-message.xml.h:76 ../ui/evolution-tasks.xml.h:14
+#: ../ui/evolution-mail-message.xml.h:76 ../ui/evolution-memos.xml.h:11
+#: ../ui/evolution-tasks.xml.h:14
 msgid "Print"
 msgstr "列印"
 
@@ -3232,7 +3244,8 @@ msgstr "移動至通訊錄..."
 # ui/evolution-event-editor.xml.h:15
 # ui/evolution-task-editor-dialog.xml.h:16
 #: ../addressbook/gui/widgets/e-addressbook-view.c:949
-#: ../ui/evolution-addressbook.xml.h:7 ../ui/evolution-tasks.xml.h:4
+#: ../ui/evolution-addressbook.xml.h:7 ../ui/evolution-memos.xml.h:4
+#: ../ui/evolution-tasks.xml.h:4
 msgid "Cut"
 msgstr "剪下"
 
@@ -3240,7 +3253,8 @@ msgstr "剪下"
 # ui/evolution-mail.xml.h:8
 # ui/evolution-task-editor-dialog.xml.h:14
 #: ../addressbook/gui/widgets/e-addressbook-view.c:950
-#: ../ui/evolution-addressbook.xml.h:3 ../ui/evolution-mail-message.xml.h:11
+#: ../calendar/gui/memos-component.c:449 ../ui/evolution-addressbook.xml.h:3
+#: ../ui/evolution-mail-message.xml.h:11 ../ui/evolution-memos.xml.h:2
 #: ../ui/evolution-tasks.xml.h:2
 msgid "Copy"
 msgstr "複製"
@@ -3248,7 +3262,8 @@ msgstr "複製"
 # ui/evolution-event-editor.xml.h:30
 # ui/evolution-task-editor-dialog.xml.h:33
 #: ../addressbook/gui/widgets/e-addressbook-view.c:951
-#: ../ui/evolution-addressbook.xml.h:14 ../ui/evolution-tasks.xml.h:11
+#: ../ui/evolution-addressbook.xml.h:14 ../ui/evolution-memos.xml.h:8
+#: ../ui/evolution-tasks.xml.h:11
 msgid "Paste"
 msgstr "貼上"
 
@@ -3307,6 +3322,7 @@ msgstr "汽車電話"
 #: ../calendar/gui/dialogs/task-page.glade.h:6
 #: ../calendar/gui/e-cal-list-view.etspec.h:1
 #: ../calendar/gui/e-calendar-table.etspec.h:3
+#: ../calendar/gui/e-memo-table.etspec.h:1
 msgid "Categories"
 msgstr "分類"
 
@@ -3773,7 +3789,7 @@ msgstr "通訊協定不支援"
 #: ../calendar/gui/e-cal-component-preview.c:232
 #: ../calendar/gui/e-cal-model-tasks.c:348
 #: ../calendar/gui/e-cal-model-tasks.c:661
-#: ../calendar/gui/e-calendar-table.c:460 ../calendar/gui/print.c:2373
+#: ../calendar/gui/e-calendar-table.c:460 ../calendar/gui/print.c:2375
 msgid "Cancelled"
 msgstr "已取消"
 
@@ -4685,37 +4701,42 @@ msgstr "刪除行事曆「{0}」？"
 
 # ui/evolution-contact-editor.xml.h:2
 #: ../calendar/calendar.error.xml.h:26
+msgid "Delete memo list '{0}'?"
+msgstr "刪除備忘錄清單「{0}」？"
+
+# ui/evolution-contact-editor.xml.h:2
+#: ../calendar/calendar.error.xml.h:27
 msgid "Delete task list '{0}'?"
 msgstr "刪除工作清單「{0}」？"
 
 # shell/e-shortcuts-view.c:265
 # Novell Translation
-#: ../calendar/calendar.error.xml.h:27
+#: ../calendar/calendar.error.xml.h:28
 msgid "Don't Send"
 msgstr "不要傳送"
 
 # calendar/gui/dialogs/delete-comp.c:120
 # Novell Translation
-#: ../calendar/calendar.error.xml.h:28
+#: ../calendar/calendar.error.xml.h:29
 msgid "Download in progress. Do you want to save the appointment?"
 msgstr "下載尚在進行中。您是否要儲存此約會？"
 
-#: ../calendar/calendar.error.xml.h:29
+#: ../calendar/calendar.error.xml.h:30
 msgid "Download in progress. Do you want to save the task?"
 msgstr "下載尚在進行中。您是否要儲存此工作？"
 
-#: ../calendar/calendar.error.xml.h:30
+#: ../calendar/calendar.error.xml.h:31
 msgid "Editor could not be loaded."
 msgstr "無法載入編輯器。"
 
 # Novell Translation
-#: ../calendar/calendar.error.xml.h:31
+#: ../calendar/calendar.error.xml.h:32
 msgid ""
 "Email invitations will be sent to all participants and allow them to RSVP."
 msgstr "電子郵件邀請會傳送給所有參與者並讓他們儘快回覆。"
 
 # Novell Translation
-#: ../calendar/calendar.error.xml.h:32
+#: ../calendar/calendar.error.xml.h:33
 msgid ""
 "Email invitations will be sent to all participants and allow them to accept "
 "this task."
@@ -4724,57 +4745,62 @@ msgstr "電子郵件邀請會傳送給所有參與者並讓他們接受此工作
 # calendar/conduits/calendar/calendar-conduit.c:687
 # calendar/conduits/todo/todo-conduit.c:501
 # Novell Translation
-#: ../calendar/calendar.error.xml.h:33
+#: ../calendar/calendar.error.xml.h:34
 msgid "Error loading calendar"
 msgstr "載入行事曆時發生錯誤"
 
 # shell/e-shell-importer.c:404
-#: ../calendar/calendar.error.xml.h:34
+#: ../calendar/calendar.error.xml.h:35
+msgid "Error loading memo list"
+msgstr "載入備忘錄清單時發生錯誤"
+
+# shell/e-shell-importer.c:404
+#: ../calendar/calendar.error.xml.h:36
 msgid "Error loading task list"
 msgstr "載入工作清單時發生錯誤"
 
 # Novell Translation
-#: ../calendar/calendar.error.xml.h:35
+#: ../calendar/calendar.error.xml.h:37
 msgid ""
 "If you don't send a cancellation notice, the other participants may not know "
 "the journal has been deleted."
 msgstr "如果未傳送取消通知，其他參與者可能不知道日誌已經刪除。"
 
 # Novell Translation
-#: ../calendar/calendar.error.xml.h:36
+#: ../calendar/calendar.error.xml.h:38
 msgid ""
 "If you don't send a cancellation notice, the other participants may not know "
 "the meeting is canceled."
 msgstr "如果您未傳送取消通知，其他參與者可能不知道會議已經取消。"
 
 # Novell Translation
-#: ../calendar/calendar.error.xml.h:37
+#: ../calendar/calendar.error.xml.h:39
 msgid ""
 "If you don't send a cancellation notice, the other participants may not know "
 "the task has been deleted."
 msgstr "如果未傳送取消通知，其他參與者可能不知道工作已經刪除。"
 
 # ui/evolution-message-composer.xml.h:26
-#: ../calendar/calendar.error.xml.h:38
+#: ../calendar/calendar.error.xml.h:40
 #: ../ui/evolution-message-composer.xml.h:28
 msgid "Send"
 msgstr "傳送"
 
 # ui/evolution-message-composer.xml.h:26
 # Novell Translation
-#: ../calendar/calendar.error.xml.h:39
+#: ../calendar/calendar.error.xml.h:41
 msgid "Send Notice"
 msgstr "傳送通知"
 
 # Novell Translation
-#: ../calendar/calendar.error.xml.h:40
+#: ../calendar/calendar.error.xml.h:42
 msgid ""
 "Sending updated information allows other participants to keep their "
 "calendars up to date."
 msgstr "傳送更新的資訊允許其他參與者保有最新的行事曆。"
 
 # Novell Translation
-#: ../calendar/calendar.error.xml.h:41
+#: ../calendar/calendar.error.xml.h:43
 msgid ""
 "Sending updated information allows other participants to keep their task "
 "lists up to date."
@@ -4782,119 +4808,127 @@ msgstr "傳送更新的資訊讓其他參與者保有最新的工作清單。"
 
 # calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:3
 # Novell Translation
-#: ../calendar/calendar.error.xml.h:43
+#: ../calendar/calendar.error.xml.h:45
 msgid "The Evolution calendar has quit unexpectedly."
 msgstr "Evolution 行事曆已經意外結束。"
 
 # Novell Translation
-#: ../calendar/calendar.error.xml.h:44
+#: ../calendar/calendar.error.xml.h:46
 msgid "The Evolution tasks have quit unexpectedly."
 msgstr "Evolution 工作已經意外結束。"
 
-#: ../calendar/calendar.error.xml.h:45
+#: ../calendar/calendar.error.xml.h:47
 msgid "The calendar is not marked for offline usage"
 msgstr "此行事曆尚未標記為離線使用"
 
-#: ../calendar/calendar.error.xml.h:46
+#: ../calendar/calendar.error.xml.h:48
+msgid "The memo list is not marked for offline usage"
+msgstr "此備忘錄清單尚未標記為離線使用"
+
+#: ../calendar/calendar.error.xml.h:49
 msgid "The task list is not marked for offline usage"
 msgstr "此工作清單尚未標記為離線使用"
 
-#: ../calendar/calendar.error.xml.h:47
+#: ../calendar/calendar.error.xml.h:50
 msgid "This calendar will be removed permanently."
 msgstr "這個行事曆將會被永遠移除。"
 
-#: ../calendar/calendar.error.xml.h:48
+#: ../calendar/calendar.error.xml.h:51
+msgid "This memo list will be removed permanently."
+msgstr "這個備忘錄清單將會被永遠移除。"
+
+#: ../calendar/calendar.error.xml.h:52
 msgid "This task list will be removed permanently."
 msgstr "這個工作清單將會被永遠移除。"
 
 # calendar/gui/dialogs/save-comp.c:51
 # Novell Translation
-#: ../calendar/calendar.error.xml.h:49
+#: ../calendar/calendar.error.xml.h:53
 msgid "Would you like to save your changes to this appointment?"
 msgstr "要儲存對此約會所做的變更？"
 
 # calendar/gui/dialogs/save-comp.c:51
 # Novell Translation
-#: ../calendar/calendar.error.xml.h:50
+#: ../calendar/calendar.error.xml.h:54
 msgid "Would you like to save your changes to this task?"
 msgstr "要儲存對此工作所做的變更？"
 
 # calendar/gui/dialogs/delete-comp.c:102
 # Novell Translation
-#: ../calendar/calendar.error.xml.h:51
+#: ../calendar/calendar.error.xml.h:55
 msgid "Would you like to send a cancellation notice for this journal entry?"
 msgstr "要傳送此日誌項目的取消通知？"
 
 # Novell Translation
-#: ../calendar/calendar.error.xml.h:52
+#: ../calendar/calendar.error.xml.h:56
 msgid "Would you like to send all the participants a cancellation notice?"
 msgstr "要傳送取消通知給所有的參與者？"
 
 # Novell Translation
-#: ../calendar/calendar.error.xml.h:53
+#: ../calendar/calendar.error.xml.h:57
 msgid "Would you like to send meeting invitations to participants?"
 msgstr "要傳送會議邀請給參與者？"
 
 # Novell Translation
-#: ../calendar/calendar.error.xml.h:54
+#: ../calendar/calendar.error.xml.h:58
 msgid "Would you like to send this task to participants?"
 msgstr "要傳送此工作給參與者？"
 
 # Novell Translation
-#: ../calendar/calendar.error.xml.h:55
+#: ../calendar/calendar.error.xml.h:59
 msgid "Would you like to send updated meeting information to participants?"
 msgstr "要傳送會議更新資訊給參與者？"
 
 # Novell Translation
-#: ../calendar/calendar.error.xml.h:56
+#: ../calendar/calendar.error.xml.h:60
 msgid "Would you like to send updated task information to participants?"
 msgstr "要傳送更新的工作資訊給參與者？"
 
 # Novell Translation
-#: ../calendar/calendar.error.xml.h:58
+#: ../calendar/calendar.error.xml.h:62
 msgid "You have changed this appointment, but not yet saved them."
 msgstr "您已經變更此約會，但尚未儲存它們。"
 
 # Novell Translation
-#: ../calendar/calendar.error.xml.h:59
+#: ../calendar/calendar.error.xml.h:63
 msgid "You have made changes to this task, but not yet saved them."
 msgstr "您已經變更此工作，但尚未儲存它們。"
 
 # Novell Translation
-#: ../calendar/calendar.error.xml.h:60
+#: ../calendar/calendar.error.xml.h:64
 msgid "Your calendars will not be available until Evolution is restarted."
 msgstr "重新啟動 Evolution 之前，無法使用您的行事曆。"
 
 # Novell Translation
-#: ../calendar/calendar.error.xml.h:61
+#: ../calendar/calendar.error.xml.h:65
 msgid "Your tasks will not be available until Evolution is restarted."
 msgstr "重新啟動 Evolution 之前，無法使用您的工作。"
 
-#: ../calendar/calendar.error.xml.h:62
+#: ../calendar/calendar.error.xml.h:66
 #: ../composer/mail-composer.error.xml.h:29
 msgid "_Discard Changes"
 msgstr "放棄變更(_D)"
 
-#: ../calendar/calendar.error.xml.h:63
+#: ../calendar/calendar.error.xml.h:67
 #: ../ui/evolution-message-composer.xml.h:51
 #: ../ui/evolution-signature-editor.xml.h:15
 msgid "_Save"
 msgstr "儲存(_S)"
 
 # Novell Translation
-#: ../calendar/calendar.error.xml.h:64
+#: ../calendar/calendar.error.xml.h:68
 msgid "_Save Changes"
 msgstr "儲存變更(_S)"
 
 # ui/evolution-message-composer.xml.h:26
 # Novell Translation
-#: ../calendar/calendar.error.xml.h:65
-#: ../composer/mail-composer.error.xml.h:31 ../mail/mail.error.xml.h:123
+#: ../calendar/calendar.error.xml.h:69
+#: ../composer/mail-composer.error.xml.h:31 ../mail/mail.error.xml.h:127
 msgid "_Send"
 msgstr "傳送(_S)"
 
 # Novell Translation
-#: ../calendar/calendar.error.xml.h:66
+#: ../calendar/calendar.error.xml.h:70
 msgid "{0}."
 msgstr "{0}."
 
@@ -4913,6 +4947,8 @@ msgstr "分割多日事件:"
 # Novell Translation
 #: ../calendar/conduits/calendar/calendar-conduit.c:1377
 #: ../calendar/conduits/calendar/calendar-conduit.c:1378
+#: ../calendar/conduits/memo/memo-conduit.c:854
+#: ../calendar/conduits/memo/memo-conduit.c:855
 #: ../calendar/conduits/todo/todo-conduit.c:879
 #: ../calendar/conduits/todo/todo-conduit.c:880
 msgid "Could not start evolution-data-server"
@@ -4924,6 +4960,20 @@ msgstr "無法啟動 Evolution 資料伺服器"
 #: ../calendar/conduits/calendar/calendar-conduit.c:1489
 msgid "Could not read pilot's Calendar application block"
 msgstr "無法讀取 pilot 行事曆程式區塊"
+
+# calendar/conduits/todo/todo-conduit.c:600
+# calendar/conduits/todo/todo-conduit.c:603
+#: ../calendar/conduits/memo/memo-conduit.c:937
+#: ../calendar/conduits/memo/memo-conduit.c:940
+msgid "Could not read pilot's Memo application block"
+msgstr "無法讀取 pilot 備忘錄程式區塊"
+
+# calendar/conduits/todo/todo-conduit.c:600
+# calendar/conduits/todo/todo-conduit.c:603
+#: ../calendar/conduits/memo/memo-conduit.c:976
+#: ../calendar/conduits/memo/memo-conduit.c:979
+msgid "Could not write pilot's Memo application block"
+msgstr "無法寫入 pilot 備忘錄程式區塊"
 
 # calendar/gui/dialogs/task-editor-dialog.glade.h:26
 #: ../calendar/conduits/todo/todo-conduit.c:234
@@ -4987,14 +5037,32 @@ msgstr "Evolution 的行事曆配件"
 # mail/GNOME_Evolution_Mail.oaf.in.h:2
 # Novell Translation
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:9
+msgid "Evolution's Memos component"
+msgstr "Evolution 的備忘錄元件"
+
+# mail/GNOME_Evolution_Mail.oaf.in.h:2
+# Novell Translation
+#: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:10
 msgid "Evolution's Tasks component"
 msgstr "Evolution 的工作配件"
 
+# calendar/gui/goto-dialog.glade.h:12
+#: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:11
+msgid "Memo_s"
+msgstr "備忘錄(_S)"
+
+# calendar/gui/goto-dialog.glade.h:12
+#: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:12
+#: ../calendar/gui/e-memos.c:1091 ../calendar/gui/memos-component.c:528
+#: ../calendar/gui/memos-component.c:998 ../calendar/gui/memos-control.c:334
+msgid "Memos"
+msgstr "備忘錄"
+
 # Novell Translation
-#: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:10
-#: ../calendar/gui/e-tasks.c:1332 ../calendar/gui/print.c:1831
+#: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:13
+#: ../calendar/gui/e-tasks.c:1333 ../calendar/gui/print.c:1831
 #: ../calendar/gui/tasks-component.c:519
-#: ../calendar/gui/tasks-component.c:1012 ../calendar/gui/tasks-control.c:466
+#: ../calendar/gui/tasks-component.c:1013 ../calendar/gui/tasks-control.c:466
 #: ../calendar/importers/icalendar-importer.c:79
 #: ../calendar/importers/icalendar-importer.c:707
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:384
@@ -5003,11 +5071,11 @@ msgstr "Evolution 的工作配件"
 msgid "Tasks"
 msgstr "工作"
 
-#: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:11
+#: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:14
 msgid "_Calendars"
 msgstr "行事曆(_C)"
 
-#: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:12
+#: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:15
 #: ../views/tasks/galview.xml.h:3
 msgid "_Tasks"
 msgstr "工作(_T)"
@@ -5047,7 +5115,7 @@ msgstr "約會"
 # addressbook/backend/ebook/e-card.c:3442
 #. Location
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:2
-#: ../calendar/gui/e-itip-control.c:1120
+#: ../calendar/gui/e-itip-control.c:1117
 #: ../plugins/itip-formatter/itip-view.c:884
 msgid "Location:"
 msgstr "位置:"
@@ -5065,7 +5133,7 @@ msgstr "忽略時間(_T):"
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:13
 #: ../ui/evolution-addressbook.xml.h:35 ../ui/evolution-calendar.xml.h:41
 #: ../ui/evolution-composer-entries.xml.h:8
-#: ../ui/evolution-mail-messagedisplay.xml.h:5
+#: ../ui/evolution-mail-messagedisplay.xml.h:5 ../ui/evolution-memos.xml.h:17
 #: ../ui/evolution-message-composer.xml.h:44
 #: ../ui/evolution-signature-editor.xml.h:12
 #: ../ui/evolution-subscribe.xml.h:10 ../ui/evolution-tasks.xml.h:25
@@ -5594,8 +5662,8 @@ msgstr "沒有相符資料"
 # ui/evolution-calendar.xml.h:3
 #: ../calendar/gui/calendar-commands.c:119
 #: ../calendar/gui/calendar-component.c:708
-#: ../calendar/gui/dialogs/calendar-setup.c:367
-#: ../calendar/gui/gnome-cal.c:2113
+#: ../calendar/gui/dialogs/calendar-setup.c:369
+#: ../calendar/gui/gnome-cal.c:2116
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:383
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:413
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:588
@@ -5627,10 +5695,13 @@ msgstr "天"
 
 # Novell Translation
 #. Create the On the web source group
+#. Create the LDAP source group
 #. Create the Webcal source group
 #. Create the LDAP source group
-#: ../calendar/gui/calendar-component.c:234 ../calendar/gui/migration.c:489
-#: ../calendar/gui/migration.c:582 ../calendar/gui/tasks-component.c:215
+#: ../calendar/gui/calendar-component.c:234
+#: ../calendar/gui/memos-component.c:219 ../calendar/gui/migration.c:489
+#: ../calendar/gui/migration.c:582 ../calendar/gui/migration.c:1084
+#: ../calendar/gui/tasks-component.c:215
 msgid "On The Web"
 msgstr "在網站上"
 
@@ -5652,25 +5723,26 @@ msgid "_New Calendar"
 msgstr "新增行事曆(_N)"
 
 #: ../calendar/gui/calendar-component.c:536
-#: ../calendar/gui/dialogs/comp-editor.c:428
+#: ../calendar/gui/dialogs/comp-editor.c:429
 #: ../calendar/gui/e-calendar-table.c:1175
-#: ../calendar/gui/e-calendar-view.c:1556
-#: ../calendar/gui/tasks-component.c:440 ../composer/e-msg-composer.c:2911
+#: ../calendar/gui/e-calendar-view.c:1556 ../calendar/gui/e-memo-table.c:853
+#: ../calendar/gui/tasks-component.c:440 ../composer/e-msg-composer.c:3050
 #: ../mail/em-folder-tree.c:979 ../mail/em-folder-view.c:1035
 #: ../mail/message-list.c:1718 ../ui/evolution-addressbook.xml.h:32
 #: ../ui/evolution-calendar.xml.h:39 ../ui/evolution-composer-entries.xml.h:7
-#: ../ui/evolution-mail-message.xml.h:102 ../ui/evolution-tasks.xml.h:23
+#: ../ui/evolution-mail-message.xml.h:102 ../ui/evolution-memos.xml.h:15
+#: ../ui/evolution-tasks.xml.h:23
 msgid "_Copy"
 msgstr "複製(_C)"
 
 #. FIXME: need to disable for undeletable folders
 #: ../calendar/gui/calendar-component.c:537
 #: ../calendar/gui/e-calendar-table.c:1187
-#: ../calendar/gui/e-calendar-view.c:1569
+#: ../calendar/gui/e-calendar-view.c:1569 ../calendar/gui/e-memo-table.c:862
 #: ../calendar/gui/tasks-component.c:441 ../mail/em-folder-tree.c:2054
 #: ../mail/em-folder-view.c:1049 ../ui/evolution-addressbook.xml.h:34
 #: ../ui/evolution-calendar.xml.h:40 ../ui/evolution-mail-list.xml.h:27
-#: ../ui/evolution-tasks.xml.h:24
+#: ../ui/evolution-memos.xml.h:16 ../ui/evolution-tasks.xml.h:24
 msgid "_Delete"
 msgstr "刪除(_D)"
 
@@ -5690,7 +5762,7 @@ msgid "Failed upgrading calendars."
 msgstr "升級行事曆失敗。"
 
 # Novell Translation
-#: ../calendar/gui/calendar-component.c:1154
+#: ../calendar/gui/calendar-component.c:1157
 #, c-format
 msgid "Unable to open the calendar '%s' for creating events and meetings"
 msgstr "無法開啟行事曆 '%s' 來建立事件和會議"
@@ -5991,17 +6063,18 @@ msgstr "%.0fG"
 
 #: ../calendar/gui/dialogs/cal-attachment-bar.c:311
 #: ../calendar/gui/dialogs/cal-attachment-bar.c:1106
-#: ../calendar/gui/dialogs/comp-editor.c:2459
-#: ../composer/e-msg-composer-attachment-bar.c:307 ../mail/em-utils.c:444
-#: ../mail/em-utils.c:481 ../widgets/misc/e-attachment-bar.c:341
+#: ../calendar/gui/dialogs/comp-editor.c:2483
+#: ../composer/e-msg-composer-attachment-bar.c:307 ../mail/em-utils.c:138
+#: ../mail/em-utils.c:483 ../mail/em-utils.c:520
+#: ../widgets/misc/e-attachment-bar.c:341
 msgid "attachment"
 msgstr "附件"
 
 #: ../calendar/gui/dialogs/cal-attachment-bar.c:473
-#: ../calendar/gui/dialogs/comp-editor.c:1099
+#: ../calendar/gui/dialogs/comp-editor.c:1120
 #: ../calendar/gui/dialogs/meeting-page.c:908
 #: ../composer/e-msg-composer-attachment-bar.c:470
-#: ../composer/e-msg-composer.c:3400
+#: ../composer/e-msg-composer.c:3546
 #: ../plugins/groupwise-features/junk-settings.glade.h:8
 #: ../plugins/groupwise-features/properties.glade.h:14
 #: ../widgets/table/e-table-config.glade.h:18
@@ -6009,18 +6082,18 @@ msgid "_Remove"
 msgstr "移除(_R)"
 
 #: ../calendar/gui/dialogs/cal-attachment-bar.c:474
-#: ../calendar/gui/dialogs/comp-editor.c:1100
+#: ../calendar/gui/dialogs/comp-editor.c:1121
 #: ../composer/e-msg-composer-attachment-bar.c:471
-#: ../composer/e-msg-composer.c:3401 ../mail/em-folder-tree.c:2058
+#: ../composer/e-msg-composer.c:3547 ../mail/em-folder-tree.c:2058
 #: ../ui/evolution-mail-list.xml.h:29
 msgid "_Properties"
 msgstr "屬性(_P)"
 
 # composer/e-msg-composer-attachment-bar.c:500
 #: ../calendar/gui/dialogs/cal-attachment-bar.c:476
-#: ../calendar/gui/dialogs/comp-editor.c:1102
+#: ../calendar/gui/dialogs/comp-editor.c:1123
 #: ../composer/e-msg-composer-attachment-bar.c:473
-#: ../composer/e-msg-composer.c:3403
+#: ../composer/e-msg-composer.c:3549
 msgid "_Add attachment..."
 msgstr "新增附件..."
 
@@ -6046,7 +6119,7 @@ msgstr "建議自動顯示附件"
 # composer/e-msg-composer-attachment-bar.c:421
 # ui/evolution-message-composer.xml.h:2
 #: ../calendar/gui/dialogs/cal-attachment-select-file.c:190
-#: ../composer/e-msg-composer-select-file.c:241
+#: ../composer/e-msg-composer-select-file.c:239
 msgid "Attach file(s)"
 msgstr "附加檔案"
 
@@ -6090,7 +6163,7 @@ msgstr "附件內容"
 # composer/e-msg-composer-attachment.glade.h:3
 #: ../calendar/gui/dialogs/cal-attachment.glade.h:3
 #: ../calendar/gui/e-cal-component-preview.c:267
-#: ../calendar/gui/e-itip-control.c:1166
+#: ../calendar/gui/e-itip-control.c:1163
 #: ../calendar/gui/e-itip-control.glade.h:6
 #: ../composer/e-msg-composer-attachment.glade.h:3
 #: ../mail/mail-config.glade.h:69 ../widgets/misc/e-attachment.glade.h:3
@@ -6115,7 +6188,7 @@ msgstr "MIME 類型:"
 # mail/mail-config.glade.h:30
 #. g_object_set((GObject *)renderer, "activatable", TRUE, NULL);
 #: ../calendar/gui/dialogs/cal-prefs-dialog.c:576
-#: ../mail/em-account-prefs.c:504 ../mail/em-composer-prefs.c:891
+#: ../mail/em-account-prefs.c:504 ../mail/em-composer-prefs.c:919
 #: ../plugins/plugin-manager/plugin-manager.c:213
 msgid "Enabled"
 msgstr "已啟用"
@@ -6272,7 +6345,7 @@ msgstr "空閒/忙碌"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:24
 #: ../calendar/gui/dialogs/recurrence-page.c:1049
-#: ../calendar/gui/e-itip-control.c:734
+#: ../calendar/gui/e-itip-control.c:731
 msgid "Friday"
 msgstr "星期五"
 
@@ -6287,7 +6360,7 @@ msgstr "分"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:28
 #: ../calendar/gui/dialogs/recurrence-page.c:1045
-#: ../calendar/gui/e-itip-control.c:730
+#: ../calendar/gui/e-itip-control.c:727
 msgid "Monday"
 msgstr "星期一"
 
@@ -6302,7 +6375,7 @@ msgstr "週日(_U)"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:31
 #: ../calendar/gui/dialogs/recurrence-page.c:1050
-#: ../calendar/gui/e-itip-control.c:735
+#: ../calendar/gui/e-itip-control.c:732
 msgid "Saturday"
 msgstr "星期六"
 
@@ -6317,7 +6390,7 @@ msgstr "在日期導覽顯示週數(_N)"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:34
 #: ../calendar/gui/dialogs/recurrence-page.c:1051
-#: ../calendar/gui/e-itip-control.c:729
+#: ../calendar/gui/e-itip-control.c:726
 msgid "Sunday"
 msgstr "星期日"
 
@@ -6337,7 +6410,7 @@ msgstr "樣板:"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:38
 #: ../calendar/gui/dialogs/recurrence-page.c:1048
-#: ../calendar/gui/e-itip-control.c:733
+#: ../calendar/gui/e-itip-control.c:730
 msgid "Thursday"
 msgstr "星期四"
 
@@ -6354,7 +6427,7 @@ msgstr "時刻格式:"
 # calendar/gui/event-editor.c:476
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:41
 #: ../calendar/gui/dialogs/recurrence-page.c:1046
-#: ../calendar/gui/e-itip-control.c:731
+#: ../calendar/gui/e-itip-control.c:728
 msgid "Tuesday"
 msgstr "星期二"
 
@@ -6364,7 +6437,7 @@ msgstr "一週開始於(_E):"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:43
 #: ../calendar/gui/dialogs/recurrence-page.c:1047
-#: ../calendar/gui/e-itip-control.c:732
+#: ../calendar/gui/e-itip-control.c:729
 msgid "Wednesday"
 msgstr "星期三"
 
@@ -6457,7 +6530,11 @@ msgstr "複製行事曆內容至本地用於離線作業"
 msgid "Copy task list contents locally for offline operation"
 msgstr "複製工作清單內容至本地用於離線作業"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:341
+#: ../calendar/gui/dialogs/calendar-setup.c:292
+msgid "Copy memo list contents locally for offline operation"
+msgstr "複製備忘錄清單內容至本地用於離線作業"
+
+#: ../calendar/gui/dialogs/calendar-setup.c:343
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:4
 msgid "C_olor:"
 msgstr "色彩(_O):"
@@ -6466,28 +6543,40 @@ msgstr "色彩(_O):"
 # calendar/gui/print.c:948
 # views/tasks/galview.xml.h:1
 # Novell Translation
-#: ../calendar/gui/dialogs/calendar-setup.c:378
+#: ../calendar/gui/dialogs/calendar-setup.c:380
 msgid "Tasks List"
 msgstr "工作清單"
 
+# views/mail/galview.xml.h:4
+# Novell Translation
+#: ../calendar/gui/dialogs/calendar-setup.c:391
+msgid "Memos List"
+msgstr "備忘錄清單"
+
 # calendar/gui/dialogs/cal-prefs-dialog.glade.h:11
 # ui/evolution-calendar.xml.h:3
-#: ../calendar/gui/dialogs/calendar-setup.c:447
+#: ../calendar/gui/dialogs/calendar-setup.c:460
 msgid "Calendar Properties"
 msgstr "iCalendar 錯誤"
 
 # ui/evolution-addressbook.xml.h:7
 # Novell Translation
-#: ../calendar/gui/dialogs/calendar-setup.c:449
+#: ../calendar/gui/dialogs/calendar-setup.c:462
 msgid "New Calendar"
 msgstr "新行事曆"
 
 # calendar/gui/calendar-summary.c:275
 # calendar/gui/print.c:948
 # views/tasks/galview.xml.h:1
-#: ../calendar/gui/dialogs/calendar-setup.c:515
+#: ../calendar/gui/dialogs/calendar-setup.c:528
 msgid "Task List Properties"
 msgstr "工作清單"
+
+# ui/evolution-addressbook.xml.h:17
+#: ../calendar/gui/dialogs/calendar-setup.c:594
+#: ../calendar/gui/memos-component.c:448
+msgid "New Memo List"
+msgstr "新增備忘錄清單"
 
 # ui/evolution-addressbook.xml.h:7
 # Novell Translation
@@ -6622,39 +6711,39 @@ msgstr "期限 "
 
 # mail/mail-tools.c:219
 # Novell Translation
-#: ../calendar/gui/dialogs/comp-editor.c:190 ../composer/e-msg-composer.c:2664
+#: ../calendar/gui/dialogs/comp-editor.c:191 ../composer/e-msg-composer.c:2801
 #, c-format
 msgid "Attached message - %s"
 msgstr "附加訊息 - %s"
 
 # composer/e-msg-composer-attachment-bar.c:501
 #. translators, this count will always be >1
-#: ../calendar/gui/dialogs/comp-editor.c:195
-#: ../calendar/gui/dialogs/comp-editor.c:365 ../composer/e-msg-composer.c:2669
-#: ../composer/e-msg-composer.c:2846
+#: ../calendar/gui/dialogs/comp-editor.c:196
+#: ../calendar/gui/dialogs/comp-editor.c:366 ../composer/e-msg-composer.c:2806
+#: ../composer/e-msg-composer.c:2985
 #, c-format
 msgid "Attached message"
 msgid_plural "%d attached messages"
 msgstr[0] "附加 1 個訊息"
 msgstr[1] "附加 %d 個訊息"
 
-#: ../calendar/gui/dialogs/comp-editor.c:429 ../composer/e-msg-composer.c:2912
+#: ../calendar/gui/dialogs/comp-editor.c:430 ../composer/e-msg-composer.c:3051
 #: ../mail/em-folder-tree.c:980 ../mail/em-folder-utils.c:368
 #: ../mail/em-folder-view.c:931 ../mail/message-list.c:1719
 msgid "_Move"
 msgstr "移動(_M)"
 
-#: ../calendar/gui/dialogs/comp-editor.c:431 ../composer/e-msg-composer.c:2914
+#: ../calendar/gui/dialogs/comp-editor.c:432 ../composer/e-msg-composer.c:3053
 #: ../mail/em-folder-tree.c:982 ../mail/message-list.c:1721
 msgid "Cancel _Drag"
 msgstr "取消拖拉(_D)"
 
 # shell/e-setup.c:163
-#: ../calendar/gui/dialogs/comp-editor.c:774
+#: ../calendar/gui/dialogs/comp-editor.c:775
 msgid "Could not update object"
 msgstr "無法更新物件"
 
-#: ../calendar/gui/dialogs/comp-editor.c:977 ../composer/e-msg-composer.c:2318
+#: ../calendar/gui/dialogs/comp-editor.c:978 ../composer/e-msg-composer.c:2444
 #, c-format
 msgid "<b>%d</b> Attachment"
 msgid_plural "<b>%d</b> Attachments"
@@ -6664,47 +6753,47 @@ msgstr[1] "<b>%d</b> 個附加檔案"
 # composer/e-msg-composer-attachment.glade.h:1
 # mail/mail-config.glade.h:9
 # mail/message-list.c:1081
-#: ../calendar/gui/dialogs/comp-editor.c:1007
+#: ../calendar/gui/dialogs/comp-editor.c:1008
 msgid "Hide Attachment _Bar"
 msgstr "隱藏附加檔案列(_B)"
 
 # composer/e-msg-composer-attachment.glade.h:1
 # mail/mail-config.glade.h:9
 # mail/message-list.c:1081
-#: ../calendar/gui/dialogs/comp-editor.c:1010
-#: ../calendar/gui/dialogs/comp-editor.c:1265
+#: ../calendar/gui/dialogs/comp-editor.c:1011
+#: ../calendar/gui/dialogs/comp-editor.c:1289
 msgid "Show Attachment _Bar"
 msgstr "顯示附加檔案列(_B)"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1289
+#: ../calendar/gui/dialogs/comp-editor.c:1313
 msgid "Attachment Button: Press space key to toggle attachment bar"
 msgstr "附件按鈕：按下空白鍵切換附加檔案列"
 
 # calendar/gui/dialogs/alarm-notify.glade.h:2
-#: ../calendar/gui/dialogs/comp-editor.c:1868
-#: ../calendar/gui/dialogs/comp-editor.c:1911
+#: ../calendar/gui/dialogs/comp-editor.c:1892
+#: ../calendar/gui/dialogs/comp-editor.c:1935
 msgid "Edit Appointment"
 msgstr "編輯約會"
 
 # importers/netscape-importer.c:790
 # importers/pine-importer.c:656
-#: ../calendar/gui/dialogs/comp-editor.c:1874
-#: ../calendar/gui/dialogs/comp-editor.c:1917
+#: ../calendar/gui/dialogs/comp-editor.c:1898
+#: ../calendar/gui/dialogs/comp-editor.c:1941
 #, c-format
 msgid "Meeting - %s"
 msgstr "會議 - %s"
 
 # calendar/gui/event-editor-dialog.glade.h:3
-#: ../calendar/gui/dialogs/comp-editor.c:1876
-#: ../calendar/gui/dialogs/comp-editor.c:1919
+#: ../calendar/gui/dialogs/comp-editor.c:1900
+#: ../calendar/gui/dialogs/comp-editor.c:1943
 #, c-format
 msgid "Appointment - %s"
 msgstr "約會 - %s"
 
 # calendar/gui/calendar-model.c:1578
 # Novell Translation
-#: ../calendar/gui/dialogs/comp-editor.c:1880
-#: ../calendar/gui/dialogs/comp-editor.c:1923
+#: ../calendar/gui/dialogs/comp-editor.c:1904
+#: ../calendar/gui/dialogs/comp-editor.c:1947
 #, c-format
 msgid "Assigned Task - %s"
 msgstr "指派的工作 - %s"
@@ -6712,33 +6801,33 @@ msgstr "指派的工作 - %s"
 # calendar/gui/calendar-summary.c:275
 # calendar/gui/print.c:948
 # views/tasks/galview.xml.h:1
-#: ../calendar/gui/dialogs/comp-editor.c:1882
-#: ../calendar/gui/dialogs/comp-editor.c:1925
+#: ../calendar/gui/dialogs/comp-editor.c:1906
+#: ../calendar/gui/dialogs/comp-editor.c:1949
 #, c-format
 msgid "Task - %s"
 msgstr "工作 - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1885
-#: ../calendar/gui/dialogs/comp-editor.c:1928
+#: ../calendar/gui/dialogs/comp-editor.c:1909
+#: ../calendar/gui/dialogs/comp-editor.c:1952
 #, c-format
 msgid "Journal entry - %s"
 msgstr "日誌項目 - %s"
 
 # calendar/gui/e-calendar-table.c:159
-#: ../calendar/gui/dialogs/comp-editor.c:1896
-#: ../calendar/gui/dialogs/comp-editor.c:1938
+#: ../calendar/gui/dialogs/comp-editor.c:1920
+#: ../calendar/gui/dialogs/comp-editor.c:1962
 msgid "No summary"
 msgstr "沒有摘要"
 
 # Novell Translation
-#: ../calendar/gui/dialogs/comp-editor.c:2551
-#: ../calendar/gui/dialogs/comp-editor.c:2584
+#: ../calendar/gui/dialogs/comp-editor.c:2575
 #: ../calendar/gui/dialogs/comp-editor.c:2608
+#: ../calendar/gui/dialogs/comp-editor.c:2632
 msgid "Changes made to this item may be discarded if an update arrives"
 msgstr "如果有新的更新，則會放棄對此項目所做的變更"
 
 # Novell Translation
-#: ../calendar/gui/dialogs/comp-editor.c:2632
+#: ../calendar/gui/dialogs/comp-editor.c:2656
 msgid "Unable to use current version!"
 msgstr "無法使用目前的版本！"
 
@@ -6900,13 +6989,13 @@ msgstr "結束時間錯誤"
 
 # shell/e-storage.c:475
 # Novell Translation
-#: ../calendar/gui/dialogs/event-page.c:1686
+#: ../calendar/gui/dialogs/event-page.c:1693
 #, c-format
 msgid "Unable to open the calendar '%s'."
 msgstr "無法開啟行事曆 '%s'。"
 
 # calendar/gui/event-editor.c:1612
-#: ../calendar/gui/dialogs/event-page.c:1892
+#: ../calendar/gui/dialogs/event-page.c:1894
 #, c-format
 msgid "%d day before appointment"
 msgid_plural "%d days before appointment"
@@ -6914,7 +7003,7 @@ msgstr[0] "在每個約會前 %d 天"
 msgstr[1] "在每個約會前 %d 天"
 
 # calendar/gui/event-editor-dialog.glade.h:36
-#: ../calendar/gui/dialogs/event-page.c:1900
+#: ../calendar/gui/dialogs/event-page.c:1902
 #, c-format
 msgid "%d hour before appointment"
 msgid_plural "%d hours before appointment"
@@ -6922,7 +7011,7 @@ msgstr[0] "約會前 %d 小時"
 msgstr[1] "約會前 %d 小時"
 
 # calendar/gui/event-editor.c:1612
-#: ../calendar/gui/dialogs/event-page.c:1908
+#: ../calendar/gui/dialogs/event-page.c:1910
 #, c-format
 msgid "%d minute before appointement"
 msgid_plural "%d minutes before appointment"
@@ -6990,6 +7079,7 @@ msgid "C_ustomize..."
 msgstr "自訂(_U)..."
 
 #: ../calendar/gui/dialogs/event-page.glade.h:12
+#: ../calendar/gui/dialogs/memo-page.glade.h:3
 msgid "Ca_tegories..."
 msgstr "分類(_T)..."
 
@@ -6998,6 +7088,7 @@ msgid "Cale_ndar:"
 msgstr "行事曆(_N):"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:14
+#: ../calendar/gui/dialogs/memo-page.glade.h:4
 #: ../calendar/gui/dialogs/task-page.glade.h:7
 msgid "Classi_fication:"
 msgstr "分類(_F):"
@@ -7006,6 +7097,7 @@ msgstr "分類(_F):"
 # calendar/gui/calendar-model.c:902
 # calendar/gui/e-calendar-table.c:325
 #: ../calendar/gui/dialogs/event-page.glade.h:15
+#: ../calendar/gui/dialogs/memo-page.glade.h:5
 #: ../calendar/gui/dialogs/task-page.glade.h:8
 #: ../calendar/gui/e-cal-list-view.c:254 ../calendar/gui/e-cal-model.c:325
 #: ../calendar/gui/e-calendar-table.c:364
@@ -7027,6 +7119,7 @@ msgstr "地點(_I):"
 # calendar/gui/calendar-model.c:900
 # calendar/gui/e-calendar-table.c:324
 #: ../calendar/gui/dialogs/event-page.glade.h:18
+#: ../calendar/gui/dialogs/memo-page.glade.h:6
 #: ../calendar/gui/dialogs/task-page.glade.h:10
 #: ../calendar/gui/e-cal-list-view.c:253 ../calendar/gui/e-cal-model.c:323
 #: ../calendar/gui/e-calendar-table.c:363
@@ -7037,6 +7130,7 @@ msgstr "私人"
 # calendar/gui/calendar-model.c:898
 # calendar/gui/e-calendar-table.c:323
 #: ../calendar/gui/dialogs/event-page.glade.h:19
+#: ../calendar/gui/dialogs/memo-page.glade.h:7
 #: ../calendar/gui/dialogs/task-page.glade.h:11
 #: ../calendar/gui/e-cal-list-view.c:252 ../calendar/gui/e-cal-model.c:314
 #: ../calendar/gui/e-cal-model.c:321 ../calendar/gui/e-calendar-table.c:362
@@ -7088,7 +7182,7 @@ msgstr "<b>從:</b>"
 #: ../calendar/gui/dialogs/meeting-page.c:315
 #: ../calendar/gui/dialogs/meeting-page.glade.h:4
 #: ../calendar/gui/e-cal-model-tasks.c:653
-#: ../calendar/gui/e-itip-control.c:1106 ../composer/e-msg-composer.c:2122
+#: ../calendar/gui/e-itip-control.c:1103 ../composer/e-msg-composer.c:2247
 #: ../filter/filter-rule.c:881 ../mail/em-account-editor.c:683
 #: ../mail/em-account-editor.c:1348 ../mail/em-account-prefs.c:464
 #: ../mail/em-folder-view.c:1064 ../mail/em-junk-hook.c:78
@@ -7208,6 +7302,33 @@ msgstr "會議召集人"
 #: ../calendar/gui/e-itip-control.glade.h:9
 msgid "Organizer:"
 msgstr "會議召集人:"
+
+# calendar/gui/print.c:362
+#: ../calendar/gui/dialogs/memo-editor.c:130 ../calendar/gui/print.c:2311
+msgid "Memo"
+msgstr "備忘錄"
+
+# addressbook/gui/component/addressbook.c:438
+# Novell Translation
+#: ../calendar/gui/dialogs/memo-page.c:489
+#, c-format
+msgid "Unable to open memos in '%s'."
+msgstr "無法在「%s」開啟備忘錄。"
+
+# views/mail/galview.xml.h:4
+# Novell Translation
+#: ../calendar/gui/dialogs/memo-page.glade.h:2
+msgid "<span weight=\"bold\">Basics</span>"
+msgstr "<span weight=\"bold\">基本</span>"
+
+#: ../calendar/gui/dialogs/memo-page.glade.h:8
+#: ../calendar/gui/dialogs/task-page.glade.h:16
+msgid "_Group:"
+msgstr "群組(_G):"
+
+#: ../calendar/gui/dialogs/memo-page.glade.h:9
+msgid "_Memo Content:"
+msgstr "備忘錄內容(_M):"
 
 # data/evolution.keys.in.h:2
 # Novell Translation
@@ -7471,9 +7592,9 @@ msgstr "<span weight=\"bold\">狀態</span>"
 #: ../calendar/gui/e-cal-component-preview.c:229
 #: ../calendar/gui/e-cal-model-tasks.c:346
 #: ../calendar/gui/e-cal-model-tasks.c:659
-#: ../calendar/gui/e-calendar-table.c:459 ../calendar/gui/e-itip-control.c:898
+#: ../calendar/gui/e-calendar-table.c:459 ../calendar/gui/e-itip-control.c:895
 #: ../calendar/gui/e-meeting-store.c:196 ../calendar/gui/e-meeting-store.c:219
-#: ../calendar/gui/print.c:2370 ../plugins/save-calendar/csv-format.c:390
+#: ../calendar/gui/print.c:2372 ../plugins/save-calendar/csv-format.c:390
 msgid "Completed"
 msgstr "已完成"
 
@@ -7497,7 +7618,7 @@ msgstr "高"
 #: ../calendar/gui/e-cal-model-tasks.c:344
 #: ../calendar/gui/e-cal-model-tasks.c:657
 #: ../calendar/gui/e-cal-model-tasks.c:732
-#: ../calendar/gui/e-calendar-table.c:458 ../calendar/gui/print.c:2367
+#: ../calendar/gui/e-calendar-table.c:458 ../calendar/gui/print.c:2369
 msgid "In Progress"
 msgstr "進行中"
 
@@ -7527,7 +7648,7 @@ msgstr "正常"
 #: ../calendar/gui/e-cal-component-preview.c:236
 #: ../calendar/gui/e-cal-model-tasks.c:342
 #: ../calendar/gui/e-cal-model-tasks.c:655
-#: ../calendar/gui/e-calendar-table.c:457 ../calendar/gui/print.c:2364
+#: ../calendar/gui/e-calendar-table.c:457 ../calendar/gui/print.c:2366
 msgid "Not Started"
 msgstr "未開始"
 
@@ -7562,7 +7683,7 @@ msgid "_Web Page:"
 msgstr "網頁(_W):"
 
 #: ../calendar/gui/dialogs/task-editor.c:137
-#: ../calendar/gui/tasks-component.c:1171
+#: ../calendar/gui/tasks-component.c:1172
 msgid "_Task"
 msgstr "工作(_T)"
 
@@ -7583,7 +7704,7 @@ msgstr "到期日錯誤"
 
 # addressbook/gui/component/addressbook.c:438
 # Novell Translation
-#: ../calendar/gui/dialogs/task-page.c:873
+#: ../calendar/gui/dialogs/task-page.c:880
 #, c-format
 msgid "Unable to open tasks in '%s'."
 msgstr "無法在 '%s' 開啟工作。"
@@ -7610,10 +7731,6 @@ msgstr "工作描述"
 #: ../calendar/gui/dialogs/task-page.glade.h:15
 msgid "_Due date:"
 msgstr "到期日(_D):"
-
-#: ../calendar/gui/dialogs/task-page.glade.h:16
-msgid "_Group:"
-msgstr "群組(_G):"
 
 #: ../calendar/gui/dialogs/url-editor-dialog.glade.h:3
 msgid "<b>Free/Busy C_alendars</b>"
@@ -7759,10 +7876,22 @@ msgstr "%s 為未知的觸發類型"
 
 # calendar/gui/e-calendar-table.c:163
 # Novell Translation
-#: ../calendar/gui/e-cal-component-preview.c:70 ../mail/em-folder-view.c:2703
+#: ../calendar/gui/e-cal-component-memo-preview.c:72
+#: ../calendar/gui/e-cal-component-preview.c:70 ../mail/em-folder-view.c:2704
 #, c-format
 msgid "Click to open %s"
 msgstr "按一下來開啟 %s"
+
+#: ../calendar/gui/e-cal-component-memo-preview.c:199
+msgid "Memo:"
+msgstr "備忘錄:"
+
+# addressbook/contact-editor/contact-editor.glade.h:16
+# Novell Translation
+#: ../calendar/gui/e-cal-component-memo-preview.c:232
+#: ../calendar/gui/e-cal-component-preview.c:299
+msgid "Web Page:"
+msgstr "網頁："
 
 #: ../calendar/gui/e-cal-component-preview.c:155 ../filter/filter-rule.c:796
 msgid "Untitled"
@@ -7770,7 +7899,7 @@ msgstr "未命名"
 
 # calendar/gui/e-itip-control.glade.h:11
 #: ../calendar/gui/e-cal-component-preview.c:186
-#: ../calendar/gui/e-itip-control.c:1110
+#: ../calendar/gui/e-itip-control.c:1107
 #: ../calendar/gui/e-itip-control.glade.h:11
 msgid "Summary:"
 msgstr "摘要:"
@@ -7792,7 +7921,7 @@ msgstr "截止日期："
 #. write status
 #. Status
 #: ../calendar/gui/e-cal-component-preview.c:222
-#: ../calendar/gui/e-itip-control.c:1134
+#: ../calendar/gui/e-itip-control.c:1131
 #: ../plugins/exchange-operations/exchange-account-setup.c:265
 #: ../plugins/itip-formatter/itip-view.c:909
 msgid "Status:"
@@ -7803,12 +7932,6 @@ msgstr "狀態:"
 #: ../calendar/gui/e-cal-component-preview.c:246
 msgid "Priority:"
 msgstr "優先程度："
-
-# addressbook/contact-editor/contact-editor.glade.h:16
-# Novell Translation
-#: ../calendar/gui/e-cal-component-preview.c:299
-msgid "Web Page:"
-msgstr "網頁："
 
 # calendar/gui/e-calendar-table.c:153
 #: ../calendar/gui/e-cal-list-view.etspec.h:2
@@ -7823,7 +7946,8 @@ msgstr "開始日期"
 # calendar/gui/e-calendar-table.c:159
 #: ../calendar/gui/e-cal-list-view.etspec.h:5
 #: ../calendar/gui/e-calendar-table.etspec.h:11
-#: ../mail/mail-dialogs.glade.h:16 ../plugins/save-calendar/csv-format.c:386
+#: ../calendar/gui/e-memo-table.etspec.h:4 ../mail/mail-dialogs.glade.h:16
+#: ../plugins/save-calendar/csv-format.c:386
 msgid "Summary"
 msgstr "摘要"
 
@@ -7870,11 +7994,13 @@ msgstr "否"
 
 #. This is the default filename used for temporary file creation
 #: ../calendar/gui/e-cal-model.c:327 ../calendar/gui/e-cal-model.c:330
-#: ../calendar/gui/e-itip-control.c:1151 ../calendar/gui/e-itip-control.c:1292
+#: ../calendar/gui/e-cal-popup.c:106 ../calendar/gui/e-cal-popup.c:121
+#: ../calendar/gui/e-cal-popup.c:165 ../calendar/gui/e-itip-control.c:1148
+#: ../calendar/gui/e-itip-control.c:1289
 #: ../calendar/gui/e-meeting-list-view.c:168
 #: ../calendar/gui/e-meeting-list-view.c:182
 #: ../calendar/gui/e-meeting-store.c:124 ../calendar/gui/e-meeting-store.c:159
-#: ../calendar/gui/e-meeting-store.c:224 ../mail/em-utils.c:1244
+#: ../calendar/gui/e-meeting-store.c:224 ../mail/em-utils.c:1283
 #: ../plugins/itip-formatter/itip-formatter.c:240
 #: ../plugins/itip-formatter/itip-formatter.c:1652
 #: ../plugins/plugin-manager/plugin-manager.c:72
@@ -7892,6 +8018,46 @@ msgstr "循環模式"
 #: ../calendar/gui/e-cal-model.c:924
 msgid "Assigned"
 msgstr "已指定"
+
+# widgets/misc/e-filter-bar.h:94
+# widgets/misc/e-filter-bar.h:101
+#: ../calendar/gui/e-cal-popup.c:171 ../mail/em-popup.c:411
+msgid "Save As..."
+msgstr "另存新檔..."
+
+# mail/mail-display.c:196
+#: ../calendar/gui/e-cal-popup.c:187 ../mail/em-format-html-display.c:1812
+msgid "Select folder to save selected attachments..."
+msgstr "選擇用來儲存選定的附加檔案的資料夾..."
+
+# mail/mail-search.c:138
+# Novell Translation
+#: ../calendar/gui/e-cal-popup.c:216 ../mail/em-popup.c:436
+#, c-format
+msgid "untitled_image.%s"
+msgstr "untitled_image.%s"
+
+#: ../calendar/gui/e-cal-popup.c:270 ../calendar/gui/e-calendar-table.c:1169
+#: ../calendar/gui/e-calendar-view.c:1550 ../calendar/gui/e-memo-table.c:847
+#: ../mail/em-folder-view.c:1045 ../mail/em-popup.c:553 ../mail/em-popup.c:564
+msgid "_Save As..."
+msgstr "另存新檔(_S)..."
+
+#: ../calendar/gui/e-cal-popup.c:271 ../mail/em-popup.c:554
+#: ../mail/em-popup.c:565
+msgid "Set as _Background"
+msgstr "設為背景(_B)"
+
+# Novell Translation
+#: ../calendar/gui/e-cal-popup.c:272
+msgid "_Save Selected"
+msgstr "儲存選取的(_S)"
+
+# mail/mail-display.c:299
+#: ../calendar/gui/e-cal-popup.c:394 ../mail/em-popup.c:774
+#, c-format
+msgid "Open in %s..."
+msgstr "在 %s 內開啟..."
 
 # calendar/gui/e-calendar-table.c:367
 #: ../calendar/gui/e-calendar-table.c:406
@@ -7954,50 +8120,49 @@ msgstr "工作表格"
 
 # calendar/gui/e-calendar-table.c:714
 #: ../calendar/gui/e-calendar-table.c:696
-#: ../calendar/gui/e-calendar-view.c:671
+#: ../calendar/gui/e-calendar-view.c:671 ../calendar/gui/e-memo-table.c:426
 msgid "Deleting selected objects"
 msgstr "刪除選定的物件"
 
 #: ../calendar/gui/e-calendar-table.c:875
-#: ../calendar/gui/e-calendar-view.c:799
+#: ../calendar/gui/e-calendar-view.c:799 ../calendar/gui/e-memo-table.c:603
 msgid "Updating objects"
 msgstr "更新物件"
 
 # composer/e-msg-composer.c:774
 #: ../calendar/gui/e-calendar-table.c:1025
-#: ../calendar/gui/e-calendar-view.c:1126 ../composer/e-msg-composer.c:1243
+#: ../calendar/gui/e-calendar-view.c:1126 ../calendar/gui/e-memo-table.c:735
+#: ../composer/e-msg-composer.c:1342
 msgid "Save as..."
 msgstr "另存新檔..."
 
-#: ../calendar/gui/e-calendar-table.c:1168
+#: ../calendar/gui/e-calendar-table.c:1168 ../calendar/gui/e-memo-table.c:846
 msgid "Open _Web Page"
 msgstr "開啟網頁(_W)"
 
-#: ../calendar/gui/e-calendar-table.c:1169
-#: ../calendar/gui/e-calendar-view.c:1550 ../mail/em-folder-view.c:1045
-#: ../mail/em-popup.c:541 ../mail/em-popup.c:552
-msgid "_Save As..."
-msgstr "另存新檔(_S)..."
-
 #: ../calendar/gui/e-calendar-table.c:1170
 #: ../calendar/gui/e-calendar-view.c:1530
-#: ../calendar/gui/e-calendar-view.c:1551 ../mail/em-folder-view.c:1046
+#: ../calendar/gui/e-calendar-view.c:1551 ../calendar/gui/e-memo-table.c:848
+#: ../mail/em-folder-view.c:1046
 #: ../plugins/print-message/org-gnome-print-message.xml.h:3
 #: ../ui/evolution-addressbook.xml.h:40 ../ui/evolution-calendar.xml.h:44
-#: ../ui/evolution-mail-message.xml.h:119 ../ui/evolution-tasks.xml.h:29
+#: ../ui/evolution-mail-message.xml.h:119 ../ui/evolution-memos.xml.h:20
+#: ../ui/evolution-tasks.xml.h:29
 msgid "_Print..."
 msgstr "列印(_P)..."
 
 #: ../calendar/gui/e-calendar-table.c:1174
-#: ../calendar/gui/e-calendar-view.c:1555 ../ui/evolution-addressbook.xml.h:1
-#: ../ui/evolution-calendar.xml.h:1 ../ui/evolution-tasks.xml.h:1
+#: ../calendar/gui/e-calendar-view.c:1555 ../calendar/gui/e-memo-table.c:852
+#: ../ui/evolution-addressbook.xml.h:1 ../ui/evolution-calendar.xml.h:1
+#: ../ui/evolution-memos.xml.h:1 ../ui/evolution-tasks.xml.h:1
 msgid "C_ut"
 msgstr "剪下(_U)"
 
 #: ../calendar/gui/e-calendar-table.c:1176
 #: ../calendar/gui/e-calendar-view.c:1533
-#: ../calendar/gui/e-calendar-view.c:1557 ../ui/evolution-addressbook.xml.h:39
-#: ../ui/evolution-calendar.xml.h:43 ../ui/evolution-composer-entries.xml.h:9
+#: ../calendar/gui/e-calendar-view.c:1557 ../calendar/gui/e-memo-table.c:854
+#: ../ui/evolution-addressbook.xml.h:39 ../ui/evolution-calendar.xml.h:43
+#: ../ui/evolution-composer-entries.xml.h:9 ../ui/evolution-memos.xml.h:19
 #: ../ui/evolution-tasks.xml.h:28
 msgid "_Paste"
 msgstr "貼上(_P)"
@@ -8006,7 +8171,8 @@ msgstr "貼上(_P)"
 msgid "_Assign Task"
 msgstr "指派工作(_A)"
 
-#: ../calendar/gui/e-calendar-table.c:1181 ../ui/evolution-tasks.xml.h:26
+#: ../calendar/gui/e-calendar-table.c:1181 ../calendar/gui/e-memo-table.c:858
+#: ../ui/evolution-tasks.xml.h:26
 msgid "_Forward as iCalendar"
 msgstr "以 iCalendar 轉寄(_F)"
 
@@ -8234,12 +8400,12 @@ msgstr "下午"
 
 # calendar/gui/event-editor-dialog.glade.h:26
 # Novell Translation
-#: ../calendar/gui/e-itip-control.c:763
+#: ../calendar/gui/e-itip-control.c:760
 msgid "Yes. (Complex Recurrence)"
 msgstr "是。(複雜循環)"
 
 # calendar/gui/event-editor-dialog.glade.h:10
-#: ../calendar/gui/e-itip-control.c:774
+#: ../calendar/gui/e-itip-control.c:771
 #, c-format
 msgid "Every day"
 msgid_plural "Every %d days"
@@ -8247,14 +8413,14 @@ msgstr[0] "每天"
 msgstr[1] "每 %d 天"
 
 # calendar/gui/event-editor-dialog.glade.h:10
-#: ../calendar/gui/e-itip-control.c:779
+#: ../calendar/gui/e-itip-control.c:776
 #, c-format
 msgid "Every week"
 msgid_plural "Every %d weeks"
 msgstr[0] "每週"
 msgstr[1] "每 %d 週"
 
-#: ../calendar/gui/e-itip-control.c:781
+#: ../calendar/gui/e-itip-control.c:778
 #, c-format
 msgid "Every week on "
 msgid_plural "Every %d weeks on "
@@ -8263,23 +8429,23 @@ msgstr[1] "每 %d 週於"
 
 # ui/evolution-message-composer.xml.h:26
 # Novell Translation
-#: ../calendar/gui/e-itip-control.c:789
+#: ../calendar/gui/e-itip-control.c:786
 msgid " and "
 msgstr " 和 "
 
 # Novell Translation
-#: ../calendar/gui/e-itip-control.c:796
+#: ../calendar/gui/e-itip-control.c:793
 #, c-format
 msgid "The %s day of "
 msgstr "%s 日於 "
 
 # Novell Translation
-#: ../calendar/gui/e-itip-control.c:809
+#: ../calendar/gui/e-itip-control.c:806
 #, c-format
 msgid "The %s %s of "
 msgstr "%s %s 日於 "
 
-#: ../calendar/gui/e-itip-control.c:816
+#: ../calendar/gui/e-itip-control.c:813
 #, c-format
 msgid "every month"
 msgid_plural "every %d months"
@@ -8287,14 +8453,14 @@ msgstr[0] "每月"
 msgstr[1] "每 %d 月"
 
 # calendar/gui/event-editor-dialog.glade.h:10
-#: ../calendar/gui/e-itip-control.c:820
+#: ../calendar/gui/e-itip-control.c:817
 #, c-format
 msgid "Every year"
 msgid_plural "Every %d years"
 msgstr[0] "每年"
 msgstr[1] "每 %d 年"
 
-#: ../calendar/gui/e-itip-control.c:831
+#: ../calendar/gui/e-itip-control.c:828
 #, c-format
 msgid "a total of %d time"
 msgid_plural " a total of %d times"
@@ -8302,46 +8468,46 @@ msgstr[0] "總共 %d 次"
 msgstr[1] "總共 %d 次"
 
 # Novell Translation
-#: ../calendar/gui/e-itip-control.c:840
+#: ../calendar/gui/e-itip-control.c:837
 msgid ", ending on "
 msgstr "，結束於 "
 
 # calendar/gui/e-meeting-dialog.glade.h:23
 # mail/message-list.c:1081
 # Novell Translation
-#: ../calendar/gui/e-itip-control.c:864
+#: ../calendar/gui/e-itip-control.c:861
 msgid "Starts"
 msgstr "開始"
 
 # Novell Translation
-#: ../calendar/gui/e-itip-control.c:877
+#: ../calendar/gui/e-itip-control.c:874
 msgid "Ends"
 msgstr "結束"
 
 # calendar/gui/dialogs/cal-prefs-dialog.glade.h:18
 # calendar/gui/e-calendar-table.c:155
 # Novell Translation
-#: ../calendar/gui/e-itip-control.c:911
+#: ../calendar/gui/e-itip-control.c:908
 #: ../plugins/save-calendar/csv-format.c:395
 msgid "Due"
 msgstr "截止"
 
 # data/evolution.keys.in.h:2
-#: ../calendar/gui/e-itip-control.c:951 ../calendar/gui/e-itip-control.c:1008
+#: ../calendar/gui/e-itip-control.c:948 ../calendar/gui/e-itip-control.c:1005
 msgid "iCalendar Information"
 msgstr "iCalendar 資訊"
 
 # calendar/gui/dialogs/cal-prefs-dialog.glade.h:11
 # ui/evolution-calendar.xml.h:3
 #. Title
-#: ../calendar/gui/e-itip-control.c:968
+#: ../calendar/gui/e-itip-control.c:965
 msgid "iCalendar Error"
 msgstr "iCalendar 錯誤"
 
 # camel/providers/imap/camel-imap-command.c:241
 # shell/e-storage.c:481
-#: ../calendar/gui/e-itip-control.c:1040 ../calendar/gui/e-itip-control.c:1056
-#: ../calendar/gui/e-itip-control.c:1067 ../calendar/gui/e-itip-control.c:1084
+#: ../calendar/gui/e-itip-control.c:1037 ../calendar/gui/e-itip-control.c:1053
+#: ../calendar/gui/e-itip-control.c:1064 ../calendar/gui/e-itip-control.c:1081
 #: ../plugins/itip-formatter/itip-view.c:338
 #: ../plugins/itip-formatter/itip-view.c:339
 #: ../plugins/itip-formatter/itip-view.c:406
@@ -8350,326 +8516,326 @@ msgid "An unknown person"
 msgstr "不明人士"
 
 #. Describe what the user can do
-#: ../calendar/gui/e-itip-control.c:1091
+#: ../calendar/gui/e-itip-control.c:1088
 msgid ""
 "<br> Please review the following information, and then select an action from "
 "the menu below."
 msgstr "<br> 請查閱下列資訊，然後在下面的選單中選擇一個動作。"
 
-#: ../calendar/gui/e-itip-control.c:1139
+#: ../calendar/gui/e-itip-control.c:1136
 #: ../calendar/gui/e-meeting-list-view.c:204
 #: ../calendar/gui/e-meeting-store.c:188 ../calendar/gui/e-meeting-store.c:211
-#: ../calendar/gui/itip-utils.c:548
+#: ../calendar/gui/itip-utils.c:546
 #: ../plugins/itip-formatter/itip-formatter.c:1640
 msgid "Accepted"
 msgstr "接受"
 
 # widgets/meeting-time-sel/e-meeting-time-sel.c:392
-#: ../calendar/gui/e-itip-control.c:1143 ../calendar/gui/itip-utils.c:551
+#: ../calendar/gui/e-itip-control.c:1140 ../calendar/gui/itip-utils.c:549
 #: ../plugins/itip-formatter/itip-formatter.c:1643
 msgid "Tentatively Accepted"
 msgstr "暫時接受"
 
-#: ../calendar/gui/e-itip-control.c:1147
+#: ../calendar/gui/e-itip-control.c:1144
 #: ../calendar/gui/e-meeting-list-view.c:205
 #: ../calendar/gui/e-meeting-store.c:190 ../calendar/gui/e-meeting-store.c:213
-#: ../calendar/gui/itip-utils.c:554 ../calendar/gui/itip-utils.c:583
+#: ../calendar/gui/itip-utils.c:552 ../calendar/gui/itip-utils.c:581
 #: ../plugins/itip-formatter/itip-formatter.c:1646
 msgid "Declined"
 msgstr "婉拒"
 
 # Novell Translation
-#: ../calendar/gui/e-itip-control.c:1231
+#: ../calendar/gui/e-itip-control.c:1228
 msgid ""
 "The meeting has been cancelled, however it could not be found in your "
 "calendars"
 msgstr "會議已經取消，但是在您的行事曆中找不到"
 
 # Novell Translation
-#: ../calendar/gui/e-itip-control.c:1233
+#: ../calendar/gui/e-itip-control.c:1230
 msgid ""
 "The task has been cancelled, however it could not be found in your task lists"
 msgstr "工作已經取消，但是在您的工作清單中找不到"
 
-#: ../calendar/gui/e-itip-control.c:1312
+#: ../calendar/gui/e-itip-control.c:1309
 #, c-format
 msgid "<b>%s</b> has published meeting information."
 msgstr "<b>%s</b> 已經發佈會議資訊。"
 
 # data/evolution.keys.in.h:2
-#: ../calendar/gui/e-itip-control.c:1313
+#: ../calendar/gui/e-itip-control.c:1310
 msgid "Meeting Information"
 msgstr "會議資訊"
 
-#: ../calendar/gui/e-itip-control.c:1319
+#: ../calendar/gui/e-itip-control.c:1316
 #, c-format
 msgid "<b>%s</b> requests the presence of %s at a meeting."
 msgstr "<b>%s</b> 邀請 %s 出席此次會議。"
 
-#: ../calendar/gui/e-itip-control.c:1321
+#: ../calendar/gui/e-itip-control.c:1318
 #, c-format
 msgid "<b>%s</b> requests your presence at a meeting."
 msgstr "<b>%s</b> 邀請您出席此次會議。"
 
 # importers/netscape-importer.c:790
 # importers/pine-importer.c:656
-#: ../calendar/gui/e-itip-control.c:1322
+#: ../calendar/gui/e-itip-control.c:1319
 msgid "Meeting Proposal"
 msgstr "會議提案"
 
 #. FIXME Whats going on here?
-#: ../calendar/gui/e-itip-control.c:1328
+#: ../calendar/gui/e-itip-control.c:1325
 #, c-format
 msgid "<b>%s</b> wishes to add to an existing meeting."
 msgstr "<b>%s</b> 希望加入一個既存的會議。"
 
 # widgets/meeting-time-sel/e-meeting-time-sel.c:631
-#: ../calendar/gui/e-itip-control.c:1329
+#: ../calendar/gui/e-itip-control.c:1326
 msgid "Meeting Update"
 msgstr "會議更新"
 
-#: ../calendar/gui/e-itip-control.c:1333
+#: ../calendar/gui/e-itip-control.c:1330
 #, c-format
 msgid "<b>%s</b> wishes to receive the latest meeting information."
 msgstr "<b>%s</b> 希望收到最新的會議資訊。"
 
-#: ../calendar/gui/e-itip-control.c:1334
+#: ../calendar/gui/e-itip-control.c:1331
 msgid "Meeting Update Request"
 msgstr "會議更新請求"
 
-#: ../calendar/gui/e-itip-control.c:1341
+#: ../calendar/gui/e-itip-control.c:1338
 #, c-format
 msgid "<b>%s</b> has replied to a meeting request."
 msgstr "<b>%s</b> 已經答覆了會議請求。"
 
 # importers/netscape-importer.c:790
 # importers/pine-importer.c:656
-#: ../calendar/gui/e-itip-control.c:1342
+#: ../calendar/gui/e-itip-control.c:1339
 msgid "Meeting Reply"
 msgstr "會議答覆"
 
-#: ../calendar/gui/e-itip-control.c:1349
+#: ../calendar/gui/e-itip-control.c:1346
 #, c-format
 msgid "<b>%s</b> has cancelled a meeting."
 msgstr "<b>%s</b> 已經消取會議。"
 
 # shell/e-shell-importer.c:545
 # shell/importer/import.glade.h:5
-#: ../calendar/gui/e-itip-control.c:1350
+#: ../calendar/gui/e-itip-control.c:1347
 msgid "Meeting Cancellation"
 msgstr "會議取消"
 
-#: ../calendar/gui/e-itip-control.c:1360 ../calendar/gui/e-itip-control.c:1437
-#: ../calendar/gui/e-itip-control.c:1477
+#: ../calendar/gui/e-itip-control.c:1357 ../calendar/gui/e-itip-control.c:1434
+#: ../calendar/gui/e-itip-control.c:1474
 #, c-format
 msgid "<b>%s</b> has sent an unintelligible message."
 msgstr "<b>%s</b> 傳送了一個難以理解的訊息。"
 
 # mail/mail-search.c:268
-#: ../calendar/gui/e-itip-control.c:1361
+#: ../calendar/gui/e-itip-control.c:1358
 msgid "Bad Meeting Message"
 msgstr "不正確的會議訊息"
 
-#: ../calendar/gui/e-itip-control.c:1388
+#: ../calendar/gui/e-itip-control.c:1385
 #, c-format
 msgid "<b>%s</b> has published task information."
 msgstr "<b>%s</b> 已經發佈了工作資訊。"
 
 # widgets/misc/e-messagebox.c:152
-#: ../calendar/gui/e-itip-control.c:1389
+#: ../calendar/gui/e-itip-control.c:1386
 msgid "Task Information"
 msgstr "工作資訊"
 
-#: ../calendar/gui/e-itip-control.c:1396
+#: ../calendar/gui/e-itip-control.c:1393
 #, c-format
 msgid "<b>%s</b> requests %s to perform a task."
 msgstr "<b>%s</b> 要求 %s 進行工作。"
 
-#: ../calendar/gui/e-itip-control.c:1398
+#: ../calendar/gui/e-itip-control.c:1395
 #, c-format
 msgid "<b>%s</b> requests you perform a task."
 msgstr "<b>%s</b> 要求您進行工作。"
 
-#: ../calendar/gui/e-itip-control.c:1399
+#: ../calendar/gui/e-itip-control.c:1396
 msgid "Task Proposal"
 msgstr "工作計畫"
 
 #. FIXME Whats going on here?
-#: ../calendar/gui/e-itip-control.c:1405
+#: ../calendar/gui/e-itip-control.c:1402
 #, c-format
 msgid "<b>%s</b> wishes to add to an existing task."
 msgstr "<b>%s</b> 希望加入一項既存的工作。"
 
-#: ../calendar/gui/e-itip-control.c:1406
+#: ../calendar/gui/e-itip-control.c:1403
 msgid "Task Update"
 msgstr "工作更新"
 
-#: ../calendar/gui/e-itip-control.c:1410
+#: ../calendar/gui/e-itip-control.c:1407
 #, c-format
 msgid "<b>%s</b> wishes to receive the latest task information."
 msgstr "<b>%s</b> 希望收到最新的工作資訊。"
 
-#: ../calendar/gui/e-itip-control.c:1411
+#: ../calendar/gui/e-itip-control.c:1408
 msgid "Task Update Request"
 msgstr "工作更新請求"
 
-#: ../calendar/gui/e-itip-control.c:1418
+#: ../calendar/gui/e-itip-control.c:1415
 #, c-format
 msgid "<b>%s</b> has replied to a task assignment."
 msgstr "<b>%s</b> 已經回覆指派的工作。"
 
 # mail/message-browser.c:188
 # ui/evolution-mail.xml.h:70
-#: ../calendar/gui/e-itip-control.c:1419
+#: ../calendar/gui/e-itip-control.c:1416
 msgid "Task Reply"
 msgstr "工作回覆"
 
-#: ../calendar/gui/e-itip-control.c:1426
+#: ../calendar/gui/e-itip-control.c:1423
 #, c-format
 msgid "<b>%s</b> has cancelled a task."
 msgstr "<b>%s</b> 已經取消工作。"
 
-#: ../calendar/gui/e-itip-control.c:1427
+#: ../calendar/gui/e-itip-control.c:1424
 msgid "Task Cancellation"
 msgstr "工作取消"
 
 # calendar/gui/e-itip-control.glade.h:4
-#: ../calendar/gui/e-itip-control.c:1438
+#: ../calendar/gui/e-itip-control.c:1435
 msgid "Bad Task Message"
 msgstr "不正確的工作訊息"
 
-#: ../calendar/gui/e-itip-control.c:1462
+#: ../calendar/gui/e-itip-control.c:1459
 #, c-format
 msgid "<b>%s</b> has published free/busy information."
 msgstr "<b>%s</b> 已經發佈空閒/忙碌資訊。"
 
 # mail/mail-config.glade.h:61
-#: ../calendar/gui/e-itip-control.c:1463
+#: ../calendar/gui/e-itip-control.c:1460
 msgid "Free/Busy Information"
 msgstr "空閒/忙碌資訊"
 
-#: ../calendar/gui/e-itip-control.c:1467
+#: ../calendar/gui/e-itip-control.c:1464
 #, c-format
 msgid "<b>%s</b> requests your free/busy information."
 msgstr "<b>%s</b> 請求您的空閒/忙碌資訊。"
 
 # addressbook/gui/widgets/e-addressbook-view.c:737
-#: ../calendar/gui/e-itip-control.c:1468
+#: ../calendar/gui/e-itip-control.c:1465
 msgid "Free/Busy Request"
 msgstr "空閒/忙碌請求"
 
-#: ../calendar/gui/e-itip-control.c:1472
+#: ../calendar/gui/e-itip-control.c:1469
 #, c-format
 msgid "<b>%s</b> has replied to a free/busy request."
 msgstr "<b>%s</b> 已經答覆空閒/忙碌請求。"
 
 # addressbook/gui/widgets/e-addressbook-view.c:737
-#: ../calendar/gui/e-itip-control.c:1473
+#: ../calendar/gui/e-itip-control.c:1470
 msgid "Free/Busy Reply"
 msgstr "空閒/忙碌回覆"
 
 # mail/mail-callbacks.c:1407
-#: ../calendar/gui/e-itip-control.c:1478
+#: ../calendar/gui/e-itip-control.c:1475
 msgid "Bad Free/Busy Message"
 msgstr "不正確的空閒/忙碌訊息"
 
 # camel/providers/local/camel-mbox-folder.c:368
-#: ../calendar/gui/e-itip-control.c:1553
+#: ../calendar/gui/e-itip-control.c:1550
 msgid "The message does not appear to be properly formed"
 msgstr "郵件似乎沒有被適當地組成"
 
-#: ../calendar/gui/e-itip-control.c:1612
+#: ../calendar/gui/e-itip-control.c:1609
 msgid "The message contains only unsupported requests."
 msgstr "這個郵件只包含不支援的請求。"
 
-#: ../calendar/gui/e-itip-control.c:1645
+#: ../calendar/gui/e-itip-control.c:1642
 msgid "The attachment does not contain a valid calendar message"
 msgstr "附件並未包含合法的行事曆訊息"
 
-#: ../calendar/gui/e-itip-control.c:1677
+#: ../calendar/gui/e-itip-control.c:1674
 msgid "The attachment has no viewable calendar items"
 msgstr "附件沒有可檢視的行事曆項目"
 
 # calendar/gui/dialogs/task-editor-dialog.glade.h:8
-#: ../calendar/gui/e-itip-control.c:1911
+#: ../calendar/gui/e-itip-control.c:1908
 msgid "Update complete\n"
 msgstr "更新完成\n"
 
-#: ../calendar/gui/e-itip-control.c:1939
+#: ../calendar/gui/e-itip-control.c:1936
 msgid "Object is invalid and cannot be updated\n"
 msgstr "物件是無效的而且不能更新\n"
 
-#: ../calendar/gui/e-itip-control.c:1949
+#: ../calendar/gui/e-itip-control.c:1946
 msgid "This response is not from a current attendee.  Add as an attendee?"
 msgstr "這個回覆並非來自目前的到會者。將他加入為到會者？"
 
-#: ../calendar/gui/e-itip-control.c:1961
+#: ../calendar/gui/e-itip-control.c:1958
 msgid "Attendee status could not be updated because of an invalid status!\n"
 msgstr "由於不合法的狀態使得到會者狀態無法更新！\n"
 
-#: ../calendar/gui/e-itip-control.c:1978
+#: ../calendar/gui/e-itip-control.c:1975
 msgid "Attendee status updated\n"
 msgstr "到會者狀態已更新\n"
 
-#: ../calendar/gui/e-itip-control.c:1981
+#: ../calendar/gui/e-itip-control.c:1978
 #: ../plugins/itip-formatter/itip-formatter.c:1025
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr "到會者狀態不能更新，因為項目已經不存在"
 
 # calendar/gui/dialogs/task-editor-dialog.glade.h:2
-#: ../calendar/gui/e-itip-control.c:2011
+#: ../calendar/gui/e-itip-control.c:2008
 msgid "Removal Complete"
 msgstr "移除完成"
 
-#: ../calendar/gui/e-itip-control.c:2034 ../calendar/gui/e-itip-control.c:2082
+#: ../calendar/gui/e-itip-control.c:2031 ../calendar/gui/e-itip-control.c:2079
 msgid "Item sent!\n"
 msgstr "項目傳送！\n"
 
-#: ../calendar/gui/e-itip-control.c:2036 ../calendar/gui/e-itip-control.c:2086
+#: ../calendar/gui/e-itip-control.c:2033 ../calendar/gui/e-itip-control.c:2083
 msgid "The item could not be sent!\n"
 msgstr "無法傳送這個項目！\n"
 
 # shell/e-shell-importer.c:545
 # shell/importer/import.glade.h:5
-#: ../calendar/gui/e-itip-control.c:2166
+#: ../calendar/gui/e-itip-control.c:2163
 msgid "Choose an action:"
 msgstr "選擇一個動作:"
 
-#: ../calendar/gui/e-itip-control.c:2237
+#: ../calendar/gui/e-itip-control.c:2234
 msgid "Update"
 msgstr "更新"
 
-#: ../calendar/gui/e-itip-control.c:2265
+#: ../calendar/gui/e-itip-control.c:2262
 #: ../plugins/groupwise-features/process-meeting.c:48
 msgid "Accept"
 msgstr "接受"
 
 # widgets/meeting-time-sel/e-meeting-time-sel.c:392
-#: ../calendar/gui/e-itip-control.c:2266
+#: ../calendar/gui/e-itip-control.c:2263
 msgid "Tentatively accept"
 msgstr "暫時接受"
 
-#: ../calendar/gui/e-itip-control.c:2267
+#: ../calendar/gui/e-itip-control.c:2264
 #: ../plugins/groupwise-features/process-meeting.c:50
 msgid "Decline"
 msgstr "婉拒"
 
 # mail/mail-config.glade.h:61
-#: ../calendar/gui/e-itip-control.c:2296
+#: ../calendar/gui/e-itip-control.c:2293
 msgid "Send Free/Busy Information"
 msgstr "送出空閒/忙碌資訊"
 
-#: ../calendar/gui/e-itip-control.c:2324
+#: ../calendar/gui/e-itip-control.c:2321
 msgid "Update respondent status"
 msgstr "更新回應狀態"
 
 # widgets/misc/e-messagebox.c:152
-#: ../calendar/gui/e-itip-control.c:2352
+#: ../calendar/gui/e-itip-control.c:2349
 msgid "Send Latest Information"
 msgstr "送出最新資訊"
 
 # ui/evolution-mail.xml.h:2
-#: ../calendar/gui/e-itip-control.c:2380 ../calendar/gui/itip-utils.c:571
+#: ../calendar/gui/e-itip-control.c:2377 ../calendar/gui/itip-utils.c:569
 #: ../mail/mail-send-recv.c:414 ../mail/mail-send-recv.c:466
 #: ../ui/evolution-mail-global.xml.h:1
 msgid "Cancel"
@@ -8806,7 +8972,7 @@ msgstr "暫訂"
 
 #: ../calendar/gui/e-meeting-list-view.c:207
 #: ../calendar/gui/e-meeting-store.c:194 ../calendar/gui/e-meeting-store.c:217
-#: ../calendar/gui/itip-utils.c:557
+#: ../calendar/gui/itip-utils.c:555
 #: ../plugins/itip-formatter/itip-formatter.c:1649
 msgid "Delegated"
 msgstr "已委派"
@@ -8930,15 +9096,30 @@ msgstr "必要的人員(_R)"
 msgid "Required people and _one resource"
 msgstr "必要人員和一個資源(_O)"
 
-# camel/camel-smime-context.c:194
-# Novell Translation
-#: ../calendar/gui/e-pub-utils.c:311
-#, c-format
-msgid "Enter the password for %s"
-msgstr "輸入 %s 的密碼"
+#: ../calendar/gui/e-memo-table.c:267
+msgid "Memo Table"
+msgstr "備忘錄表格"
+
+#: ../calendar/gui/e-memo-table.c:863
+msgid "_Delete Selected Memos"
+msgstr "刪除選定的備忘錄(_D)"
+
+# calendar/gui/e-calendar-table.c:163
+#: ../calendar/gui/e-memo-table.c:986 ../calendar/gui/e-memo-table.etspec.h:2
+msgid "Click to add a memo"
+msgstr "請按這裡增加新的備忘錄"
+
+# calendar/gui/calendar-model.c:638
+# calendar/gui/calendar-model.c:1176
+# calendar/gui/dialogs/task-editor-dialog.glade.h:14
+# calendar/gui/e-calendar-table.c:419
+#: ../calendar/gui/e-memo-table.etspec.h:3
+msgid "Memo sort"
+msgstr "備忘錄排序"
 
 # mail/mail-mt.c:190
-#: ../calendar/gui/e-tasks.c:824 ../calendar/gui/gnome-cal.c:2551
+#: ../calendar/gui/e-memos.c:727 ../calendar/gui/e-tasks.c:822
+#: ../calendar/gui/gnome-cal.c:2556
 #, c-format
 msgid ""
 "Error on %s:\n"
@@ -8949,28 +9130,47 @@ msgstr ""
 
 # ui/evolution-mail.xml.h:46
 # Novell Translation
-#: ../calendar/gui/e-tasks.c:872
+#: ../calendar/gui/e-memos.c:775
+msgid "Loading memos"
+msgstr "正在載入備忘錄"
+
+# mail/mail-ops.c:1262
+#: ../calendar/gui/e-memos.c:860
+#, c-format
+msgid "Opening memos at %s"
+msgstr "開啟在 %s 的備忘錄"
+
+# calendar/gui/e-calendar-table.c:714
+#: ../calendar/gui/e-memos.c:1033 ../calendar/gui/e-tasks.c:1225
+msgid "Deleting selected objects..."
+msgstr "正在刪除選定的物件..."
+
+# camel/camel-smime-context.c:194
+# Novell Translation
+#: ../calendar/gui/e-pub-utils.c:311
+#, c-format
+msgid "Enter the password for %s"
+msgstr "輸入 %s 的密碼"
+
+# ui/evolution-mail.xml.h:46
+# Novell Translation
+#: ../calendar/gui/e-tasks.c:870
 msgid "Loading tasks"
 msgstr "正在載入工作"
 
 # mail/mail-ops.c:1262
-#: ../calendar/gui/e-tasks.c:956
+#: ../calendar/gui/e-tasks.c:957
 #, c-format
 msgid "Opening tasks at %s"
 msgstr "開啟在 %s 的工作"
 
 # calendar/gui/e-calendar-table.c:152
-#: ../calendar/gui/e-tasks.c:1201
+#: ../calendar/gui/e-tasks.c:1202
 msgid "Completing tasks..."
 msgstr "正在完成工作..."
 
-# calendar/gui/e-calendar-table.c:714
-#: ../calendar/gui/e-tasks.c:1224
-msgid "Deleting selected objects..."
-msgstr "正在刪除選定的物件..."
-
 # mail/mail-ops.c:1449
-#: ../calendar/gui/e-tasks.c:1251
+#: ../calendar/gui/e-tasks.c:1252
 msgid "Expunging"
 msgstr "除去中"
 
@@ -8988,44 +9188,44 @@ msgid "%d %B"
 msgstr "%d %B"
 
 # Novell Translation
-#: ../calendar/gui/gnome-cal.c:790
+#: ../calendar/gui/gnome-cal.c:791
 msgid "Updating query"
 msgstr "正在更新查詢"
 
 # widgets/menus/gal-view-menus.c:176
-#: ../calendar/gui/gnome-cal.c:2228
+#: ../calendar/gui/gnome-cal.c:2231
 msgid "_Custom View"
 msgstr "自訂檢視(_C)"
 
 # Novell Translation
-#: ../calendar/gui/gnome-cal.c:2229
+#: ../calendar/gui/gnome-cal.c:2232
 msgid "_Save Custom View"
 msgstr "儲存自訂檢視(_S)"
 
 # widgets/menus/gal-view-menus.c:202
 # Novell Translation
-#: ../calendar/gui/gnome-cal.c:2234
+#: ../calendar/gui/gnome-cal.c:2237
 msgid "_Define Views..."
 msgstr "定義檢視(_D)..."
 
 # calendar/gui/e-day-view.c:3146
 # ui/evolution-calendar.xml.h:16
 # Novell Translation
-#: ../calendar/gui/gnome-cal.c:2397
+#: ../calendar/gui/gnome-cal.c:2399
 #, c-format
 msgid "Loading appointments at %s"
 msgstr "載入 %s 的約會"
 
 # ui/evolution-mail.xml.h:46
 # Novell Translation
-#: ../calendar/gui/gnome-cal.c:2416
+#: ../calendar/gui/gnome-cal.c:2418
 #, c-format
 msgid "Loading tasks at %s"
 msgstr "載入 %s 的工作"
 
 # mail/mail-display.c:299
 # Novell Translation
-#: ../calendar/gui/gnome-cal.c:2517
+#: ../calendar/gui/gnome-cal.c:2522
 #, c-format
 msgid "Opening %s"
 msgstr "開啟 %s"
@@ -9036,7 +9236,7 @@ msgstr "開啟 %s"
 # mail/mail-ops.c:1032
 # mail/mail-ops.c:1033
 # Novell Translation
-#: ../calendar/gui/gnome-cal.c:3408
+#: ../calendar/gui/gnome-cal.c:3440
 msgid "Purging"
 msgstr "清除"
 
@@ -9098,67 +9298,145 @@ msgstr "九月"
 msgid "_Select Today"
 msgstr "選擇今天(_S)"
 
-#: ../calendar/gui/itip-utils.c:353 ../calendar/gui/itip-utils.c:402
-#: ../calendar/gui/itip-utils.c:442
+#: ../calendar/gui/itip-utils.c:351 ../calendar/gui/itip-utils.c:400
+#: ../calendar/gui/itip-utils.c:440
 msgid "An organizer must be set."
 msgstr "必須指定一個召集人。"
 
-#: ../calendar/gui/itip-utils.c:389
+#: ../calendar/gui/itip-utils.c:387
 msgid "At least one attendee is necessary"
 msgstr "至少需要一個到會者"
 
 # data/evolution.keys.in.h:2
-#: ../calendar/gui/itip-utils.c:510 ../calendar/gui/itip-utils.c:632
+#: ../calendar/gui/itip-utils.c:508 ../calendar/gui/itip-utils.c:630
 msgid "Event information"
 msgstr "事件資訊"
 
 # widgets/misc/e-messagebox.c:152
-#: ../calendar/gui/itip-utils.c:512 ../calendar/gui/itip-utils.c:634
+#: ../calendar/gui/itip-utils.c:510 ../calendar/gui/itip-utils.c:632
 msgid "Task information"
 msgstr "工作資訊"
 
 # mail/mail-config.glade.h:47
-#: ../calendar/gui/itip-utils.c:514 ../calendar/gui/itip-utils.c:636
+#: ../calendar/gui/itip-utils.c:512 ../calendar/gui/itip-utils.c:634
 msgid "Journal information"
 msgstr "日誌資訊"
 
 # mail/mail-config.glade.h:61
-#: ../calendar/gui/itip-utils.c:516 ../calendar/gui/itip-utils.c:654
+#: ../calendar/gui/itip-utils.c:514 ../calendar/gui/itip-utils.c:652
 msgid "Free/Busy information"
 msgstr "空閒/忙碌資訊"
 
 # data/evolution.keys.in.h:2
-#: ../calendar/gui/itip-utils.c:518
+#: ../calendar/gui/itip-utils.c:516
 msgid "Calendar information"
 msgstr "行事曆資訊"
 
-#: ../calendar/gui/itip-utils.c:567
+#: ../calendar/gui/itip-utils.c:565
 msgid "Updated"
 msgstr "已更新"
 
 # ui/evolution-subscribe.xml.h:4
-#: ../calendar/gui/itip-utils.c:575
+#: ../calendar/gui/itip-utils.c:573
 msgid "Refresh"
 msgstr "重整清單"
 
-#: ../calendar/gui/itip-utils.c:579
+#: ../calendar/gui/itip-utils.c:577
 msgid "Counter-proposal"
 msgstr "計算計劃"
 
 # mail/mail-config.glade.h:61
-#: ../calendar/gui/itip-utils.c:650
+#: ../calendar/gui/itip-utils.c:648
 #, c-format
 msgid "Free/Busy information (%s to %s)"
 msgstr "空閒/忙碌資訊 (%s 到 %s)"
 
 # data/evolution.keys.in.h:2
-#: ../calendar/gui/itip-utils.c:660
+#: ../calendar/gui/itip-utils.c:658
 msgid "iCalendar information"
 msgstr "iCalendar 資訊"
 
-#: ../calendar/gui/itip-utils.c:815
+#: ../calendar/gui/itip-utils.c:813
 msgid "You must be an attendee of the event."
 msgstr "您必須是此事件的到會者。"
+
+# calendar/gui/event-editor.c:1558
+#: ../calendar/gui/memos-component.c:524
+#, c-format
+msgid "%d memo"
+msgid_plural "%d memos"
+msgstr[0] "%d 備忘錄"
+
+#: ../calendar/gui/memos-component.c:526 ../calendar/gui/tasks-component.c:517
+#: ../mail/mail-component.c:548
+#, c-format
+msgid ", %d selected"
+msgid_plural ", %d selected"
+msgstr[0] "，%d 已選擇"
+msgstr[1] "，%d 已選擇"
+
+# ui/evolution-mail.xml.h:46
+# Novell Translation
+#: ../calendar/gui/memos-component.c:573
+msgid "Failed upgrading memos."
+msgstr "升級備忘錄失敗。"
+
+# Novell Translation
+#: ../calendar/gui/memos-component.c:869
+#, c-format
+msgid "Unable to open the memo list '%s' for creating events and meetings"
+msgstr "無法開啟備忘錄清單「%s」來建立事件和會議"
+
+# Novell Translation
+#: ../calendar/gui/memos-component.c:882
+msgid "There is no calendar available for creating memos"
+msgstr "沒有可用的行事曆來建立備忘錄"
+
+# Novell Translation
+#: ../calendar/gui/memos-component.c:973
+msgid "Memo Source Selector"
+msgstr "備忘錄來源選擇器"
+
+# importers/netscape-importer.c:790
+# importers/pine-importer.c:656
+#: ../calendar/gui/memos-component.c:1156
+msgid "New memo"
+msgstr "新增備忘錄"
+
+#: ../calendar/gui/memos-component.c:1157
+msgid "_Memo"
+msgstr "備忘錄(_M)"
+
+# ui/evolution-tasks.xml.h:2
+# Novell Translation
+#: ../calendar/gui/memos-component.c:1158
+msgid "Create a new memo"
+msgstr "建立新的備忘錄"
+
+# calendar/gui/calendar-summary.c:275
+# calendar/gui/print.c:948
+# views/tasks/galview.xml.h:1
+# Novell Translation
+#: ../calendar/gui/memos-component.c:1164
+msgid "New memo list"
+msgstr "新備忘錄清單"
+
+#: ../calendar/gui/memos-component.c:1165
+msgid "Memo l_ist"
+msgstr "備忘錄清單(_I)"
+
+# ui/evolution-tasks.xml.h:2
+# Novell Translation
+#: ../calendar/gui/memos-component.c:1166
+msgid "Create a new memo list"
+msgstr "建立新備忘錄清單"
+
+# ui/evolution-contact-editor.xml.h:6
+# ui/evolution-event-editor.xml.h:37
+# ui/evolution-task-editor-dialog.xml.h:40
+#: ../calendar/gui/memos-control.c:334
+msgid "Print Memos"
+msgstr "列印備忘錄"
 
 # Novell Translation
 #: ../calendar/gui/migration.c:151
@@ -9453,49 +9731,49 @@ msgid "Task"
 msgstr "工作"
 
 # calendar/gui/e-itip-control.glade.h:11
-#: ../calendar/gui/print.c:2329
+#: ../calendar/gui/print.c:2331
 #, c-format
 msgid "Summary: %s"
 msgstr "摘要：%s"
 
 # addressbook/backend/ebook/e-card.c:3442
-#: ../calendar/gui/print.c:2337
+#: ../calendar/gui/print.c:2339
 #, c-format
 msgid "Location: %s"
 msgstr "位置：%s"
 
 # calendar/gui/dialogs/task-editor-dialog.glade.h:27
-#: ../calendar/gui/print.c:2380
+#: ../calendar/gui/print.c:2382
 #, c-format
 msgid "Status: %s"
 msgstr "狀態(_S): %s"
 
 # calendar/gui/dialogs/task-editor-dialog.glade.h:26
-#: ../calendar/gui/print.c:2397
+#: ../calendar/gui/print.c:2399
 #, c-format
 msgid "Priority: %s"
 msgstr "優先順序(_P): %s"
 
 # calendar/gui/dialogs/task-editor-dialog.glade.h:8
-#: ../calendar/gui/print.c:2409
+#: ../calendar/gui/print.c:2411
 #, c-format
 msgid "Percent Complete: %i"
 msgstr "完成百分比: %i"
 
 # calendar/gui/dialogs/task-editor-dialog.glade.h:21
-#: ../calendar/gui/print.c:2421
+#: ../calendar/gui/print.c:2423
 #, c-format
 msgid "URL: %s"
 msgstr "網址: %s"
 
 # addressbook/backend/ebook/e-card.c:3467
-#: ../calendar/gui/print.c:2435
+#: ../calendar/gui/print.c:2437
 #, c-format
 msgid "Categories: %s"
 msgstr "分類: %s"
 
 # ui/evolution-addressbook.xml.h:17
-#: ../calendar/gui/print.c:2446
+#: ../calendar/gui/print.c:2448
 msgid "Contacts: "
 msgstr "連絡人: "
 
@@ -9503,15 +9781,15 @@ msgstr "連絡人: "
 # mail/mail-callbacks.c:1447
 # ui/evolution-addressbook.xml.h:10
 # ui/evolution-calendar.xml.h:24
-#: ../calendar/gui/print.c:2586 ../calendar/gui/print.c:2674
-#: ../calendar/gui/print.c:2800 ../mail/em-format-html-print.c:178
+#: ../calendar/gui/print.c:2588 ../calendar/gui/print.c:2676
+#: ../calendar/gui/print.c:2802 ../mail/em-format-html-print.c:178
 msgid "Print Preview"
 msgstr "預覽列印"
 
 # ui/evolution-contact-editor.xml.h:6
 # ui/evolution-event-editor.xml.h:37
 # ui/evolution-task-editor-dialog.xml.h:40
-#: ../calendar/gui/print.c:2621
+#: ../calendar/gui/print.c:2623
 msgid "Print Item"
 msgstr "列印項目"
 
@@ -9531,13 +9809,6 @@ msgid_plural "%d tasks"
 msgstr[0] "%d 個工作"
 msgstr[1] "%d 個工作"
 
-#: ../calendar/gui/tasks-component.c:517 ../mail/mail-component.c:548
-#, c-format
-msgid ", %d selected"
-msgid_plural ", %d selected"
-msgstr[0] "，%d 已選擇"
-msgstr[1] "，%d 已選擇"
-
 # ui/evolution-mail.xml.h:46
 # Novell Translation
 #: ../calendar/gui/tasks-component.c:564
@@ -9545,44 +9816,44 @@ msgid "Failed upgrading tasks."
 msgstr "升級工作失敗。"
 
 # Novell Translation
-#: ../calendar/gui/tasks-component.c:872
+#: ../calendar/gui/tasks-component.c:875
 #, c-format
 msgid "Unable to open the task list '%s' for creating events and meetings"
 msgstr "無法開啟工作清單 '%s' 來建立事件和會議"
 
 # Novell Translation
-#: ../calendar/gui/tasks-component.c:887
+#: ../calendar/gui/tasks-component.c:888
 msgid "There is no calendar available for creating tasks"
 msgstr "沒有可用的行事曆來建立工作"
 
 # Novell Translation
-#: ../calendar/gui/tasks-component.c:987
+#: ../calendar/gui/tasks-component.c:988
 msgid "Task Source Selector"
 msgstr "工作來源選擇器"
 
 # ui/evolution-tasks.xml.h:3
-#: ../calendar/gui/tasks-component.c:1170
+#: ../calendar/gui/tasks-component.c:1171
 msgid "New task"
 msgstr "新增工作"
 
 # ui/evolution-tasks.xml.h:2
-#: ../calendar/gui/tasks-component.c:1172
+#: ../calendar/gui/tasks-component.c:1173
 msgid "Create a new task"
 msgstr "建立一個新的工作"
 
 # calendar/gui/calendar-model.c:1578
 # Novell Translation
-#: ../calendar/gui/tasks-component.c:1178
+#: ../calendar/gui/tasks-component.c:1179
 msgid "New assigned task"
 msgstr "新指定的工作"
 
-#: ../calendar/gui/tasks-component.c:1179
+#: ../calendar/gui/tasks-component.c:1180
 msgid "Assigne_d Task"
 msgstr "指派的工作(_D)"
 
 # ui/evolution-tasks.xml.h:2
 # Novell Translation
-#: ../calendar/gui/tasks-component.c:1180
+#: ../calendar/gui/tasks-component.c:1181
 msgid "Create a new assigned task"
 msgstr "建立新指定的工作"
 
@@ -9590,17 +9861,17 @@ msgstr "建立新指定的工作"
 # calendar/gui/print.c:948
 # views/tasks/galview.xml.h:1
 # Novell Translation
-#: ../calendar/gui/tasks-component.c:1186
+#: ../calendar/gui/tasks-component.c:1187
 msgid "New task list"
 msgstr "新工作清單"
 
-#: ../calendar/gui/tasks-component.c:1187
+#: ../calendar/gui/tasks-component.c:1188
 msgid "Task l_ist"
 msgstr "工作清單(_I)"
 
 # ui/evolution-tasks.xml.h:2
 # Novell Translation
-#: ../calendar/gui/tasks-component.c:1188
+#: ../calendar/gui/tasks-component.c:1189
 msgid "Create a new task list"
 msgstr "建立新工作清單"
 
@@ -11316,72 +11587,72 @@ msgid "A_ttach"
 msgstr "附加(_T)"
 
 # Novell Translation
-#: ../composer/e-msg-composer.c:738
+#: ../composer/e-msg-composer.c:832
 msgid ""
 "Cannot sign outgoing message: No signing certificate set for this account"
 msgstr "無法簽名送出的郵件：此帳號沒有設定簽名憑證"
 
 # Novell Translation
-#: ../composer/e-msg-composer.c:745
+#: ../composer/e-msg-composer.c:839
 msgid ""
 "Cannot encrypt outgoing message: No encryption certificate set for this "
 "account"
 msgstr "無法加密送出的郵件：沒有設定加密憑證(此帳號)"
 
 # camel/camel-sasl-login.c:127
-#: ../composer/e-msg-composer.c:1224 ../composer/e-msg-composer.c:1257
+#: ../composer/e-msg-composer.c:1323 ../composer/e-msg-composer.c:1357
 #: ../plugins/mail-remote/e-corba-utils.c:135
 msgid "Unknown reason"
 msgstr "不明的原因"
 
 # camel/camel-filter-driver.c:671
 # Novell Translation
-#: ../composer/e-msg-composer.c:1294
+#: ../composer/e-msg-composer.c:1395
 msgid "Could not open file"
 msgstr "無法開啟檔案"
 
 # camel/providers/pop3/camel-pop3-folder.c:320
-#: ../composer/e-msg-composer.c:1302
+#: ../composer/e-msg-composer.c:1403
 msgid "Unable to retrieve message from editor"
 msgstr "無法從編輯器取得郵件"
 
 # mail/mail-search.c:138
 # Novell Translation
-#: ../composer/e-msg-composer.c:1572
+#: ../composer/e-msg-composer.c:1678
 msgid "Untitled Message"
 msgstr "未命名的郵件"
 
 # composer/e-msg-composer.c:966
 #. NB: This function is never used anymore
-#: ../composer/e-msg-composer.c:1606
+#: ../composer/e-msg-composer.c:1713
 msgid "Open File"
 msgstr "開啟檔案"
 
-#: ../composer/e-msg-composer.c:2006 ../mail/em-account-editor.c:588
+#: ../composer/e-msg-composer.c:2127 ../mail/em-account-editor.c:588
 #: ../mail/em-account-editor.c:633 ../mail/em-account-editor.c:700
 msgid "Autogenerated"
 msgstr "自動產生的"
 
 # mail/mail-config.glade.h:74
-#: ../composer/e-msg-composer.c:2105
+#: ../composer/e-msg-composer.c:2230
 msgid "Si_gnature:"
 msgstr "簽名檔(_G):"
 
 # composer/e-msg-composer.c:1526
 # composer/e-msg-composer.c:1871
-#: ../composer/e-msg-composer.c:2347 ../composer/e-msg-composer.c:3527
-#: ../composer/e-msg-composer.c:3528
+#: ../composer/e-msg-composer.c:2473 ../composer/e-msg-composer.c:3674
+#: ../composer/e-msg-composer.c:3677
 msgid "Compose a message"
 msgstr "編輯郵件"
 
 # composer/e-msg-composer-attachment.glade.h:1
 # mail/mail-config.glade.h:9
 # mail/message-list.c:1081
-#: ../composer/e-msg-composer.c:3643
+#: ../composer/e-msg-composer.c:3792
 msgid "_Attachment Bar"
 msgstr "附加檔案列(_A)"
 
-#: ../composer/e-msg-composer.c:4722
+#: ../composer/e-msg-composer.c:4882
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)"
 "<b>"
@@ -11413,7 +11684,7 @@ msgstr "因為「{0}」，所以您可能需要選取不同的郵件選項。"
 
 # Novell Translation
 #: ../composer/mail-composer.error.xml.h:5 ../e-util/e-system.error.xml.h:1
-#: ../mail/mail.error.xml.h:17
+#: ../mail/mail.error.xml.h:18
 msgid "Because &quot;{1}&quot;."
 msgstr "因為「{1}」。"
 
@@ -11710,7 +11981,7 @@ msgstr "當您收到讀信回條要求的電子郵件時，Evolution 要做什�
 
 # mail/mail-callbacks.c:1144
 # mail/mail-display.c:96
-#: ../e-util/e-dialog-utils.c:267
+#: ../e-util/e-dialog-utils.c:270
 msgid ""
 "A file by that name already exists.\n"
 "Overwrite it?"
@@ -11720,7 +11991,7 @@ msgstr ""
 
 # mail/mail-callbacks.c:1140
 # mail/mail-display.c:92
-#: ../e-util/e-dialog-utils.c:269 ../e-util/e-system.error.xml.h:6
+#: ../e-util/e-dialog-utils.c:272 ../e-util/e-system.error.xml.h:6
 msgid "Overwrite file?"
 msgstr "覆蓋檔案？"
 
@@ -11794,7 +12065,7 @@ msgstr "要覆寫它?"
 msgid "File exists &quot;{0}&quot;."
 msgstr "檔案存在「{0}」。"
 
-#: ../e-util/e-system.error.xml.h:7 ../mail/mail.error.xml.h:122
+#: ../e-util/e-system.error.xml.h:7 ../mail/mail.error.xml.h:126
 msgid "_Overwrite"
 msgstr "覆寫(_O)"
 
@@ -12078,11 +12349,11 @@ msgid "Include threads"
 msgstr "包括線串"
 
 #: ../filter/filter-rule.c:978 ../filter/filter.glade.h:3
-#: ../mail/em-utils.c:291
+#: ../mail/em-utils.c:330
 msgid "Incoming"
 msgstr "內送"
 
-#: ../filter/filter-rule.c:978 ../mail/em-utils.c:292
+#: ../filter/filter-rule.c:978 ../mail/em-utils.c:331
 msgid "Outgoing"
 msgstr "外寄"
 
@@ -12116,7 +12387,7 @@ msgstr "缺少檔案名稱。"
 
 # calendar/gui/calendar-model.c:1578
 # Novell Translation
-#: ../filter/filter.error.xml.h:6 ../mail/mail.error.xml.h:65
+#: ../filter/filter.error.xml.h:6 ../mail/mail.error.xml.h:67
 msgid "Missing name."
 msgstr "缺少名稱。"
 
@@ -12406,36 +12677,36 @@ msgid "Mail Accounts Table"
 msgstr "郵件帳號表"
 
 # addressbook/gui/component/addressbook-storage.c:99
-#: ../mail/em-composer-prefs.c:307 ../mail/em-composer-prefs.c:430
+#: ../mail/em-composer-prefs.c:309 ../mail/em-composer-prefs.c:435
 #: ../mail/mail-config.c:958
 msgid "Unnamed"
 msgstr "未命名的"
 
 # addressbook/gui/widgets/e-addressbook-view.c:732
-#: ../mail/em-composer-prefs.c:897
+#: ../mail/em-composer-prefs.c:925
 msgid "Language(s)"
 msgstr "語言"
 
 # mail/mail-config.glade.h:74
 # Novell Translation
-#: ../mail/em-composer-prefs.c:940
+#: ../mail/em-composer-prefs.c:968
 msgid "Add signature script"
 msgstr "新增簽名程序檔"
 
 # mail/mail-config.glade.h:74
-#: ../mail/em-composer-prefs.c:960
+#: ../mail/em-composer-prefs.c:988
 msgid "Signature(s)"
 msgstr "簽名檔"
 
 # mail/mail-ops.c:1154
 # Novell Translation
-#: ../mail/em-composer-utils.c:853 ../mail/em-format-quote.c:389
+#: ../mail/em-composer-utils.c:848 ../mail/em-format-quote.c:389
 msgid "-------- Forwarded Message --------"
 msgstr "-------- 轉遞的郵件 --------"
 
 # camel/providers/imap/camel-imap-command.c:241
 # shell/e-storage.c:481
-#: ../mail/em-composer-utils.c:1648
+#: ../mail/em-composer-utils.c:1643
 msgid "an unknown sender"
 msgstr "不明的寄件者"
 
@@ -12443,7 +12714,7 @@ msgstr "不明的寄件者"
 #. Note to translators: this is the attribution string used when quoting messages.
 #. * each ${Variable} gets replaced with a value. To see a full list of available
 #. * variables, see em-composer-utils.c:1514
-#: ../mail/em-composer-utils.c:1695
+#: ../mail/em-composer-utils.c:1690
 msgid ""
 "On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} "
 "${TimeZone}, ${Sender} wrote:"
@@ -12901,7 +13172,7 @@ msgstr "新增資料夾(_N)..."
 msgid "_Rename..."
 msgstr "重新命名(_R)..."
 
-#: ../mail/em-folder-tree.c:2060 ../mail/mail.error.xml.h:119
+#: ../mail/em-folder-tree.c:2060 ../mail/mail.error.xml.h:123
 msgid "_Empty Trash"
 msgstr "清空垃圾桶(_E)"
 
@@ -12961,7 +13232,7 @@ msgstr "建立資料夾"
 msgid "Specify where to create the folder:"
 msgstr "指定要建立資料夾的位置："
 
-#: ../mail/em-folder-view.c:1039 ../mail/em-popup.c:546 ../mail/em-popup.c:557
+#: ../mail/em-folder-view.c:1039 ../mail/em-popup.c:558 ../mail/em-popup.c:569
 msgid "Reply to _All"
 msgstr "回覆所有人(_A)"
 
@@ -12969,7 +13240,7 @@ msgstr "回覆所有人(_A)"
 msgid "_Reply to Sender"
 msgstr "回覆寄件者(_R)"
 
-#: ../mail/em-folder-view.c:1041 ../mail/em-popup.c:548 ../mail/em-popup.c:559
+#: ../mail/em-folder-view.c:1041 ../mail/em-popup.c:560 ../mail/em-popup.c:571
 #: ../ui/evolution-mail-message.xml.h:107
 msgid "_Forward"
 msgstr "轉寄(_F)"
@@ -13068,44 +13339,44 @@ msgstr "從通信論壇建立過濾器(_M)"
 
 # mail/mail-config.glade.h:21
 #. default charset used in mail view
-#: ../mail/em-folder-view.c:1921 ../mail/em-folder-view.c:1965
+#: ../mail/em-folder-view.c:1922 ../mail/em-folder-view.c:1966
 msgid "Default"
 msgstr "預設值"
 
 # mail/mail-callbacks.c:1407
-#: ../mail/em-folder-view.c:2064
+#: ../mail/em-folder-view.c:2065
 #: ../plugins/print-message/org-gnome-print-message.eplug.xml.h:2
 #: ../plugins/print-message/print-message.c:87
 msgid "Print Message"
 msgstr "列印郵件"
 
-#: ../mail/em-folder-view.c:2220
+#: ../mail/em-folder-view.c:2221
 msgid "Unable to retrieve message"
 msgstr "無法接收郵件"
 
-#: ../mail/em-folder-view.c:2413
+#: ../mail/em-folder-view.c:2414
 msgid "_Copy Link Location"
 msgstr "複製連結位址(_C)"
 
 # ui/evolution.xml.h:10
 # Novell Translation
-#: ../mail/em-folder-view.c:2415
+#: ../mail/em-folder-view.c:2416
 msgid "Create _Search Folder"
 msgstr "建立搜尋資料夾(_S)"
 
 # addressbook/gui/widgets/e-addressbook-view.c:710
-#: ../mail/em-folder-view.c:2416
+#: ../mail/em-folder-view.c:2417
 msgid "_From this Address"
 msgstr "從這個位址(_F)"
 
 # addressbook/gui/widgets/e-addressbook-view.c:724
-#: ../mail/em-folder-view.c:2417
+#: ../mail/em-folder-view.c:2418
 msgid "_To this Address"
 msgstr "到這個位址(_T)"
 
 # calendar/gui/e-calendar-table.c:163
 # Novell Translation
-#: ../mail/em-folder-view.c:2698
+#: ../mail/em-folder-view.c:2699
 #, c-format
 msgid "Click to mail %s"
 msgstr "按一下來傳送郵件 %s"
@@ -13113,20 +13384,20 @@ msgstr "按一下來傳送郵件 %s"
 # mail/mail-search.c:319
 # Novell Translation
 #. message-search popup match count string
-#: ../mail/em-format-html-display.c:455
+#: ../mail/em-format-html-display.c:461
 #, c-format
 msgid "Matches: %d"
 msgstr "符合：%d"
 
 # calendar/gui/calendar-model.c:1578
 # Novell Translation
-#: ../mail/em-format-html-display.c:706 ../mail/em-format-html.c:597
+#: ../mail/em-format-html-display.c:712 ../mail/em-format-html.c:597
 msgid "Unsigned"
 msgstr "未簽名"
 
 # mail/mail-format.c:1161
 # Novell Translation
-#: ../mail/em-format-html-display.c:706
+#: ../mail/em-format-html-display.c:712
 msgid ""
 "This message is not signed. There is no guarantee that this message is "
 "authentic."
@@ -13134,13 +13405,13 @@ msgstr "此郵件未簽名。不保證此郵件已驗證。"
 
 # mail/mail-config.glade.h:74
 # Novell Translation
-#: ../mail/em-format-html-display.c:707 ../mail/em-format-html.c:598
+#: ../mail/em-format-html-display.c:713 ../mail/em-format-html.c:598
 msgid "Valid signature"
 msgstr "有效的簽名"
 
 # mail/mail-format.c:1161
 # Novell Translation
-#: ../mail/em-format-html-display.c:707
+#: ../mail/em-format-html-display.c:713
 msgid ""
 "This message is signed and is valid meaning that it is very likely that this "
 "message is authentic."
@@ -13148,48 +13419,48 @@ msgstr "此郵件已簽名而且有效，表示它非常有可能是驗證的郵
 
 # mail/mail-config.glade.h:74
 # Novell Translation
-#: ../mail/em-format-html-display.c:708 ../mail/em-format-html.c:599
+#: ../mail/em-format-html-display.c:714 ../mail/em-format-html.c:599
 msgid "Invalid signature"
 msgstr "無效的簽名"
 
 # Novell Translation
-#: ../mail/em-format-html-display.c:708
+#: ../mail/em-format-html-display.c:714
 msgid ""
 "The signature of this message cannot be verified, it may have been altered "
 "in transit."
 msgstr "郵件的簽名無法檢驗，可能已在傳送時被更動了。"
 
 # Novell Translation
-#: ../mail/em-format-html-display.c:709
+#: ../mail/em-format-html-display.c:715
 msgid "Valid signature, cannot verify sender"
 msgstr "簽名有效，但無法檢驗寄件者"
 
 # Novell Translation
-#: ../mail/em-format-html-display.c:709
+#: ../mail/em-format-html-display.c:715
 msgid ""
 "This message is signed with a valid signature, but the sender of the message "
 "cannot be verified."
 msgstr "此郵件有一個有效的簽名，但是郵件的寄件者無法檢驗。"
 
 # Novell Translation
-#: ../mail/em-format-html-display.c:715 ../mail/em-format-html.c:606
+#: ../mail/em-format-html-display.c:721 ../mail/em-format-html.c:606
 msgid "Unencrypted"
 msgstr "未加密"
 
 # Novell Translation
-#: ../mail/em-format-html-display.c:715
+#: ../mail/em-format-html-display.c:721
 msgid ""
 "This message is not encrypted.  Its content may be viewed in transit across "
 "the Internet."
 msgstr "此郵件未加密。它的內容在透過網際網路傳送可能會被檢視。"
 
 # Novell Translation
-#: ../mail/em-format-html-display.c:716 ../mail/em-format-html.c:607
+#: ../mail/em-format-html-display.c:722 ../mail/em-format-html.c:607
 msgid "Encrypted, weak"
 msgstr "已加密，不嚴密"
 
 # Novell Translation
-#: ../mail/em-format-html-display.c:716
+#: ../mail/em-format-html-display.c:722
 msgid ""
 "This message is encrypted, but with a weak encryption algorithm.  It would "
 "be difficult, but not impossible for an outsider to view the content of this "
@@ -13200,24 +13471,24 @@ msgstr ""
 
 # ui/evolution-message-composer.xml.h:13
 # Novell Translation
-#: ../mail/em-format-html-display.c:717 ../mail/em-format-html.c:608
+#: ../mail/em-format-html-display.c:723 ../mail/em-format-html.c:608
 msgid "Encrypted"
 msgstr "已加密"
 
 # Novell Translation
-#: ../mail/em-format-html-display.c:717
+#: ../mail/em-format-html-display.c:723
 msgid ""
 "This message is encrypted.  It would be difficult for an outsider to view "
 "the content of this message."
 msgstr "此郵件已加密。外面的人難以檢視此郵件的內容。"
 
 # Novell Translation
-#: ../mail/em-format-html-display.c:718 ../mail/em-format-html.c:609
+#: ../mail/em-format-html-display.c:724 ../mail/em-format-html.c:609
 msgid "Encrypted, strong"
 msgstr "已加密，嚴密"
 
 # Novell Translation
-#: ../mail/em-format-html-display.c:718
+#: ../mail/em-format-html-display.c:724
 msgid ""
 "This message is encrypted, with a strong encryption algorithm.  It would be "
 "very difficult for an outsider to view the content of this message in a "
@@ -13226,67 +13497,62 @@ msgstr ""
 "此郵件已加密，使用嚴密的加密演算法。縱使經過一段時間， 外面的人很難檢視此郵件"
 "的內容。"
 
-#: ../mail/em-format-html-display.c:819 ../smime/gui/smime-ui.glade.h:48
+#: ../mail/em-format-html-display.c:825 ../smime/gui/smime-ui.glade.h:48
 msgid "_View Certificate"
 msgstr "檢視憑證(_V)"
 
 # Novell Translation
-#: ../mail/em-format-html-display.c:834
+#: ../mail/em-format-html-display.c:840
 msgid "This certificate is not viewable"
 msgstr "此憑證無法檢視"
 
 # mail/message-list.c:977
 # Novell Translation
-#: ../mail/em-format-html-display.c:1116
+#: ../mail/em-format-html-display.c:1122
 msgid "Completed on %B %d, %Y, %l:%M %p"
 msgstr "完成於 %B %d, %Y, %l:%M %p"
 
 # calendar/gui/dialogs/cal-prefs-dialog.glade.h:31
-#: ../mail/em-format-html-display.c:1124
+#: ../mail/em-format-html-display.c:1130
 msgid "Overdue:"
 msgstr "逾期:"
 
 # mail/message-list.c:977
 # Novell Translation
-#: ../mail/em-format-html-display.c:1127
+#: ../mail/em-format-html-display.c:1133
 msgid "by %B %d, %Y, %l:%M %p"
 msgstr "作者 %B %d, %Y, %l:%M %p"
 
-#: ../mail/em-format-html-display.c:1187
+#: ../mail/em-format-html-display.c:1193
 msgid "_View Inline"
 msgstr "檢視行內(_V)"
 
-#: ../mail/em-format-html-display.c:1188
+#: ../mail/em-format-html-display.c:1194
 msgid "_Hide"
 msgstr "隱藏(_H)"
 
-#: ../mail/em-format-html-display.c:1189
+#: ../mail/em-format-html-display.c:1195
 msgid "_Fit to Width"
 msgstr "符合寬度(_F)"
 
-#: ../mail/em-format-html-display.c:1190
+#: ../mail/em-format-html-display.c:1196
 msgid "Show _Original Size"
 msgstr "顯示原始大小(_O)"
 
 # composer/e-msg-composer-attachment.glade.h:1
 # mail/mail-config.glade.h:9
 # mail/message-list.c:1081
-#: ../mail/em-format-html-display.c:1560
+#: ../mail/em-format-html-display.c:1566
 msgid "Attachment Button"
 msgstr "附件按鈕"
 
 # mail/mail-display.c:196
-#: ../mail/em-format-html-display.c:1767
+#: ../mail/em-format-html-display.c:1773
 msgid "Select folder to save all attachments..."
 msgstr "選擇用來儲存所有的附加檔案的資料夾..."
 
-# mail/mail-display.c:196
-#: ../mail/em-format-html-display.c:1806
-msgid "Select folder to save selected attachments..."
-msgstr "選擇用來儲存選定的附加檔案的資料夾..."
-
 # Novell Translation
-#: ../mail/em-format-html-display.c:1814
+#: ../mail/em-format-html-display.c:1820
 msgid "Save Selected..."
 msgstr "儲存選取的..."
 
@@ -13294,7 +13560,7 @@ msgstr "儲存選取的..."
 # mail/mail-config.glade.h:9
 # mail/message-list.c:1081
 #. Cant i put in the number of attachments here ?
-#: ../mail/em-format-html-display.c:1881
+#: ../mail/em-format-html-display.c:1887
 #, c-format
 msgid "%d attachment"
 msgid_plural "%d attachments"
@@ -13304,13 +13570,13 @@ msgstr[1] "%d 個附件"
 # composer/e-msg-composer-attachment.glade.h:1
 # mail/mail-config.glade.h:9
 # mail/message-list.c:1081
-#: ../mail/em-format-html-display.c:1945
+#: ../mail/em-format-html-display.c:1951
 msgid "No Attachment"
 msgstr "無附件"
 
 # ui/evolution-calendar.xml.h:27
 # ui/evolution-message-composer.xml.h:18
-#: ../mail/em-format-html-display.c:1948
+#: ../mail/em-format-html-display.c:1954
 msgid "Save All"
 msgstr "儲存全部"
 
@@ -13577,51 +13843,28 @@ msgid ""
 msgstr ""
 "無法從以前的 Evolution 讀取設定值，`evolution/config.xmldb' 不存在或損毀。"
 
-# widgets/misc/e-filter-bar.h:94
-# widgets/misc/e-filter-bar.h:101
-#: ../mail/em-popup.c:399
-msgid "Save As..."
-msgstr "另存新檔..."
-
-# mail/mail-search.c:138
-# Novell Translation
-#: ../mail/em-popup.c:424
-#, c-format
-msgid "untitled_image.%s"
-msgstr "untitled_image.%s"
-
-#: ../mail/em-popup.c:542 ../mail/em-popup.c:553
-msgid "Set as _Background"
-msgstr "設為背景(_B)"
-
-#: ../mail/em-popup.c:544 ../mail/em-popup.c:555
+#: ../mail/em-popup.c:556 ../mail/em-popup.c:567
 msgid "_Reply to sender"
 msgstr "回覆寄件者(_R)"
 
-#: ../mail/em-popup.c:545 ../mail/em-popup.c:556
+#: ../mail/em-popup.c:557 ../mail/em-popup.c:568
 #: ../ui/evolution-mail-message.xml.h:83
 msgid "Reply to _List"
 msgstr "回覆至清單(_L)"
 
-#: ../mail/em-popup.c:607
+#: ../mail/em-popup.c:619
 msgid "_Open Link in Browser"
 msgstr "在瀏覽器內開啟連結(_O)"
 
 # ui/evolution-contact-editor.xml.h:13
 # Novell Translation
-#: ../mail/em-popup.c:608
+#: ../mail/em-popup.c:620
 msgid "_Send New Message To..."
 msgstr "傳送新郵件至(_S)…"
 
-#: ../mail/em-popup.c:609
+#: ../mail/em-popup.c:621
 msgid "_Add to Addressbook"
 msgstr "加入到目錄服務(_A)"
-
-# mail/mail-display.c:299
-#: ../mail/em-popup.c:762
-#, c-format
-msgid "Open in %s..."
-msgstr "在 %s 內開啟..."
 
 # Novell Translation
 #: ../mail/em-subscribe-editor.c:614
@@ -13649,36 +13892,36 @@ msgid "No server has been selected"
 msgstr "尚未選擇伺服器"
 
 # widgets/misc/e-messagebox.c:224
-#: ../mail/em-utils.c:105
+#: ../mail/em-utils.c:106
 msgid "Don't show this message again."
 msgstr "不要再顯示這個訊息。"
 
 # importers/netscape-importer.c:795
 # mail/mail-callbacks.c:1359
-#: ../mail/em-utils.c:299
+#: ../mail/em-utils.c:338
 msgid "Filters"
 msgstr "過濾器"
 
-#: ../mail/em-utils.c:442 ../mail/em-utils.c:479
+#: ../mail/em-utils.c:481 ../mail/em-utils.c:518
 msgid "message"
 msgstr "郵件"
 
 # mail/mail-callbacks.c:1188
 # Novell Translation
-#: ../mail/em-utils.c:614
+#: ../mail/em-utils.c:653
 msgid "Save Message..."
 msgstr "儲存郵件…"
 
 # addressbook/backend/ebook/e-card.c:3346
 # Novell Translation
-#: ../mail/em-utils.c:663
+#: ../mail/em-utils.c:702
 msgid "Add address"
 msgstr "新增地址"
 
 # mail/mail-autofilter.c:229
 # Novell Translation
 #. Drop filename for messages from a mailbox
-#: ../mail/em-utils.c:1142
+#: ../mail/em-utils.c:1181
 #, c-format
 msgid "Messages from %s"
 msgstr "來自 %s 的郵件"
@@ -15707,17 +15950,17 @@ msgid "User canceled operation."
 msgstr "使用者取消動作。"
 
 # mail/mail-config.glade.h:74
-#: ../mail/mail-signature-editor.c:372
+#: ../mail/mail-signature-editor.c:381
 msgid "Edit signature"
 msgstr "儲存簽名檔"
 
-#: ../mail/mail-signature-editor.c:412
+#: ../mail/mail-signature-editor.c:423
 msgid "Enter a name for this signature."
 msgstr "輸入這個簽名檔的名稱。"
 
 # addressbook/gui/component/addressbook-config.c:686
 # mail/mail-config.glade.h:43
-#: ../mail/mail-signature-editor.c:415
+#: ../mail/mail-signature-editor.c:426
 #: ../plugins/groupwise-features/properties.glade.h:5
 msgid "Name:"
 msgstr "名稱:"
@@ -15812,28 +16055,35 @@ msgstr "「{1}」已要求傳送讀信回條。是否傳送讀信回條給 {0} �
 # Novell Translation
 #: ../mail/mail.error.xml.h:7
 msgid ""
+"A signature already exists with the name &quot;{0}&quot;. Please specify a "
+"different name."
+msgstr "已經有名稱為「{0}」的簽名檔存在。請使用不同的名稱。"
+
+# Novell Translation
+#: ../mail/mail.error.xml.h:8
+msgid ""
 "Adding a meaningful Subject line to your messages will give your recipients "
 "an idea of what your mail is about."
 msgstr "新增有意義的主旨行到您的郵件，可以讓收件者知道您的郵件和什麼事有關。"
 
-#: ../mail/mail.error.xml.h:8
+#: ../mail/mail.error.xml.h:9
 msgid "Are you sure you want to delete this account and all its proxies?"
 msgstr "您確定要刪除這個帳號以及它所有的代理伺服器？"
 
 # mail/mail-accounts.c:280
 # mail/mail-accounts.c:284
-#: ../mail/mail.error.xml.h:9
+#: ../mail/mail.error.xml.h:10
 msgid "Are you sure you want to delete this account?"
 msgstr "您確定要刪除這個帳號？"
 
 # mail/mail-callbacks.c:1017
-#: ../mail/mail.error.xml.h:10
+#: ../mail/mail.error.xml.h:11
 msgid "Are you sure you want to open {0} messages at once?"
 msgstr "您確定要一次開啟 {0} 封郵件？"
 
 # ui/evolution-mail.xml.h:61
 # Novell Translation
-#: ../mail/mail.error.xml.h:11
+#: ../mail/mail.error.xml.h:12
 msgid ""
 "Are you sure you want to permanently remove all the deleted messages in all "
 "folders?"
@@ -15841,7 +16091,7 @@ msgstr "要永久移除所有資料夾中所有刪除的郵件？"
 
 # mail/mail-callbacks.c:1549
 # Novell Translation
-#: ../mail/mail.error.xml.h:12
+#: ../mail/mail.error.xml.h:13
 msgid ""
 "Are you sure you want to permanently remove all the deleted messages in "
 "folder &quot;{0}&quot;?"
@@ -15849,76 +16099,82 @@ msgstr "要永久移除資料夾「{0}」中所有刪除的郵件？"
 
 # mail/mail-callbacks.c:1085
 # Novell Translation
-#: ../mail/mail.error.xml.h:13
+#: ../mail/mail.error.xml.h:14
 msgid "Are you sure you want to send a message in HTML format?"
 msgstr "要傳送 HTML 格式的郵件?"
 
 # mail/mail-callbacks.c:1085
 # Novell Translation
-#: ../mail/mail.error.xml.h:14
+#: ../mail/mail.error.xml.h:15
 msgid "Are you sure you want to send a message with only BCC recipients?"
 msgstr "要傳送只有密件副本收件者的郵件?"
 
 # mail/mail-callbacks.c:1085
 # Novell Translation
-#: ../mail/mail.error.xml.h:15
+#: ../mail/mail.error.xml.h:16
 msgid "Are you sure you want to send a message without a subject?"
 msgstr "要傳送沒有主旨的郵件？"
 
 # Novell Translation
-#: ../mail/mail.error.xml.h:16
+#: ../mail/mail.error.xml.h:17
 msgid "Because &quot;{0}&quot;."
 msgstr "因為「{0}」。"
 
 # Novell Translation
-#: ../mail/mail.error.xml.h:18
+#: ../mail/mail.error.xml.h:19
 msgid "Because &quot;{2}&quot;."
 msgstr "因為「{2}」。"
+
+# mail/mail-config.glade.h:74
+# Novell Translation
+#: ../mail/mail.error.xml.h:20
+msgid "Blank Signature"
+msgstr "空白簽名檔"
 
 # camel/providers/local/camel-mbox-store.c:138
 # camel/providers/local/camel-mbox-store.c:161
 # Novell Translation
-#: ../mail/mail.error.xml.h:19
+#: ../mail/mail.error.xml.h:21
 msgid "Cannot add Search Folder &quot;{0}&quot;."
 msgstr "無法新增搜尋資料夾「{0}」。"
 
 # camel/providers/local/camel-local-store.c:142
 # camel/providers/local/camel-local-store.c:158
 # Novell Translation
-#: ../mail/mail.error.xml.h:20
+#: ../mail/mail.error.xml.h:22
 msgid "Cannot copy folder &quot;{0}&quot; to &quot;{1}&quot;."
 msgstr "無法將「{0}」資料夾複製至「{1}」。"
 
 # camel/providers/local/camel-local-store.c:142
 # camel/providers/local/camel-local-store.c:158
 # Novell Translation
-#: ../mail/mail.error.xml.h:21
+#: ../mail/mail.error.xml.h:23
 msgid "Cannot create folder &quot;{0}&quot;."
 msgstr "無法建立資料夾「{0}」。"
 
 # mail/mail-display.c:236
 # Novell Translation
-#: ../mail/mail.error.xml.h:22
+#: ../mail/mail.error.xml.h:24
 msgid "Cannot create temporary save directory."
 msgstr "無法建立暫時儲存目錄。"
 
 # shell/e-setup.c:215
 # Novell Translation
-#: ../mail/mail.error.xml.h:23
+#: ../mail/mail.error.xml.h:25
 msgid "Cannot create the save directory, because &quot;{1}&quot;"
 msgstr "無法建立儲存目錄，因為「{1}」"
 
 # camel/providers/local/camel-mbox-store.c:138
 # camel/providers/local/camel-mbox-store.c:161
 # Novell Translation
-#: ../mail/mail.error.xml.h:24
+#: ../mail/mail.error.xml.h:26
 msgid "Cannot delete folder &quot;{0}&quot;."
 msgstr "無法刪除資料夾「{0}」。"
 
 # camel/providers/local/camel-mbox-store.c:138
 # camel/providers/local/camel-mbox-store.c:161
 # Novell Translation
-#: ../mail/mail.error.xml.h:25
+#: ../mail/mail.error.xml.h:27
 msgid "Cannot delete system folder &quot;{0}&quot;."
 msgstr "無法刪除系統資料夾「{0}」。"
 
@@ -15926,36 +16182,36 @@ msgstr "無法刪除系統資料夾「{0}」。"
 # camel/providers/local/camel-mbox-store.c:101
 # camel/providers/local/camel-mh-store.c:97
 # Novell Translation
-#: ../mail/mail.error.xml.h:26
+#: ../mail/mail.error.xml.h:28
 msgid "Cannot edit Search Folder &quot;{0}&quot; as it does not exist."
 msgstr "無法編輯搜尋資料夾「{0}」，因為它不存在。"
 
 # camel/providers/local/camel-mbox-store.c:138
 # camel/providers/local/camel-mbox-store.c:161
 # Novell Translation
-#: ../mail/mail.error.xml.h:27
+#: ../mail/mail.error.xml.h:29
 msgid "Cannot move folder &quot;{0}&quot; to &quot;{1}&quot;."
 msgstr "無法將「{0}」資料夾移至「{1}」。"
 
 # camel/providers/local/camel-mbox-summary.c:655
 # Novell Translation
-#: ../mail/mail.error.xml.h:28
+#: ../mail/mail.error.xml.h:30
 msgid "Cannot open source &quot;{1}&quot;"
 msgstr "無法開啟來源「{1}」"
 
 # camel/providers/local/camel-mbox-summary.c:655
 # Novell Translation
-#: ../mail/mail.error.xml.h:29
+#: ../mail/mail.error.xml.h:31
 msgid "Cannot open source &quot;{2}&quot;."
 msgstr "無法開啟來源「{2}」。"
 
 # camel/camel-filter-driver.c:671
 # Novell Translation
-#: ../mail/mail.error.xml.h:30
+#: ../mail/mail.error.xml.h:32
 msgid "Cannot open target &quot;{2}&quot;."
 msgstr "無法開啟目標「{2}」。"
 
-#: ../mail/mail.error.xml.h:31
+#: ../mail/mail.error.xml.h:33
 msgid ""
 "Cannot read the license file &quot;{0}&quot;, due to an installation "
 "problem.  You will not be able to use this provider until you can accept its "
@@ -15967,24 +16223,24 @@ msgstr ""
 # camel/providers/local/camel-mbox-store.c:138
 # camel/providers/local/camel-mbox-store.c:161
 # Novell Translation
-#: ../mail/mail.error.xml.h:32
+#: ../mail/mail.error.xml.h:34
 msgid "Cannot rename &quot;{0}&quot; to &quot;{1}&quot;."
 msgstr "無法將「{0}」重新命名成「{1}」。"
 
 # camel/providers/local/camel-local-store.c:237
 # Novell Translation
-#: ../mail/mail.error.xml.h:33
+#: ../mail/mail.error.xml.h:35
 msgid "Cannot rename or move system folder &quot;{0}&quot;."
 msgstr "無法重新命名或移動系統資料夾「{0}」。"
 
 # Novell Translation
-#: ../mail/mail.error.xml.h:34
+#: ../mail/mail.error.xml.h:36
 msgid "Cannot save changes to account."
 msgstr "無法儲存帳號變更。"
 
 # camel/providers/imap/camel-imap-folder.c:172
 # Novell Translation
-#: ../mail/mail.error.xml.h:35
+#: ../mail/mail.error.xml.h:37
 msgid "Cannot save to directory &quot;{0}&quot;."
 msgstr "無法儲存至目錄「{0}」。"
 
@@ -15996,18 +16252,18 @@ msgstr "無法儲存至目錄「{0}」。"
 # camel/providers/local/camel-mh-folder.c:194
 # camel/providers/local/camel-mh-folder.c:202
 # Novell Translation
-#: ../mail/mail.error.xml.h:36
+#: ../mail/mail.error.xml.h:38
 msgid "Cannot save to file &quot;{0}&quot;."
 msgstr "無法儲存至檔案「{0}」。"
 
 # mail/mail-config.glade.h:74
 # Novell Translation
-#: ../mail/mail.error.xml.h:37
+#: ../mail/mail.error.xml.h:39
 msgid "Cannot set signature script &quot;{0}&quot;."
 msgstr "無法設定簽名程序檔「{0}」。"
 
 # Novell Translation
-#: ../mail/mail.error.xml.h:38
+#: ../mail/mail.error.xml.h:40
 msgid ""
 "Check to make sure your password is spelled correctly.  Remember that many "
 "passwords are case sensitive; your caps lock might be on."
@@ -16016,7 +16272,7 @@ msgstr ""
 
 # mail/mail-crypto.c:59
 # Novell Translation
-#: ../mail/mail.error.xml.h:39
+#: ../mail/mail.error.xml.h:41
 msgid "Could not save signature file."
 msgstr "無法儲存簽名檔案。"
 
@@ -16032,35 +16288,35 @@ msgstr "無法儲存簽名檔案。"
 # ui/evolution-mail.xml.h:22
 # ui/evolution-task-editor-dialog.xml.h:18
 # Novell Translation
-#: ../mail/mail.error.xml.h:40
+#: ../mail/mail.error.xml.h:42
 msgid "Delete &quot;{0}&quot;?"
 msgstr "刪除「{0}」？"
 
 # calendar/gui/e-calendar-table.c:714
 # Novell Translation
-#: ../mail/mail.error.xml.h:41
+#: ../mail/mail.error.xml.h:43
 msgid "Delete account?"
 msgstr "刪除帳號？"
 
 # Novell Translation
-#: ../mail/mail.error.xml.h:42
+#: ../mail/mail.error.xml.h:44
 msgid "Discard changed?"
 msgstr "捨棄變更？"
 
-#: ../mail/mail.error.xml.h:43
+#: ../mail/mail.error.xml.h:45
 msgid "Do you want the operation to be performed in the subfolders?"
 msgstr "您是否想讓此項操作一併於子資料夾中進行？"
 
 # calendar/gui/dialogs/save-comp.c:51
 # Novell Translation
-#: ../mail/mail.error.xml.h:44
+#: ../mail/mail.error.xml.h:46
 msgid "Do you wish to save your changes?"
 msgstr "要儲存所做的變更？"
 
 # mail/folder-browser.c:717
 # ui/evolution-mail.xml.h:121
 # Novell Translation
-#: ../mail/mail.error.xml.h:45
+#: ../mail/mail.error.xml.h:47
 msgid "Don't delete"
 msgstr "不要刪除"
 
@@ -16071,53 +16327,53 @@ msgstr "不要刪除"
 # camel/providers/pop3/camel-pop3-provider.c:67
 # mail/mail-config.glade.h:52
 # Novell Translation
-#: ../mail/mail.error.xml.h:46
+#: ../mail/mail.error.xml.h:48
 msgid "Enter password."
 msgstr "輸入密碼。"
 
 # mail/mail-callbacks.c:1349
 # Novell Translation
-#: ../mail/mail.error.xml.h:47
+#: ../mail/mail.error.xml.h:49
 msgid "Error loading filter definitions."
 msgstr "載入過濾器定義時發生錯誤。"
 
 # mail/mail-mt.c:193
 # Novell Translation
-#: ../mail/mail.error.xml.h:48
+#: ../mail/mail.error.xml.h:50
 msgid "Error while performing operation."
 msgstr "執行作業時，發生錯誤。"
 
 # mail/mail-mt.c:190
 # Novell Translation
-#: ../mail/mail.error.xml.h:49
+#: ../mail/mail.error.xml.h:51
 msgid "Error while {0}."
 msgstr "當 {0} 時發生錯誤。"
 
 # Novell Translation
-#: ../mail/mail.error.xml.h:50
+#: ../mail/mail.error.xml.h:52
 msgid "File exists but cannot overwrite it."
 msgstr "檔案存在但無法覆寫。"
 
 # camel/providers/local/camel-mbox-store.c:119
 # camel/providers/local/camel-mbox-store.c:146
 # Novell Translation
-#: ../mail/mail.error.xml.h:51
+#: ../mail/mail.error.xml.h:53
 msgid "File exists but is not a regular file."
 msgstr "檔案存在但不是一般檔案。"
 
 # Novell Translation
-#: ../mail/mail.error.xml.h:52
+#: ../mail/mail.error.xml.h:54
 msgid "If you continue, you will not be able to recover these messages."
 msgstr "如果您繼續，將無法復原這些郵件。"
 
 # Novell Translation
-#: ../mail/mail.error.xml.h:53
+#: ../mail/mail.error.xml.h:55
 msgid ""
 "If you delete the folder, all of its contents and its subfolders contents "
 "will be deleted permanently."
 msgstr "如果您刪除資料夾，所有它的內容和子資料夾內容會永久刪除。"
 
-#: ../mail/mail.error.xml.h:54
+#: ../mail/mail.error.xml.h:56
 msgid ""
 "If you proceed, the account information and\n"
 "all proxy information will be deleted permanently."
@@ -16126,35 +16382,35 @@ msgstr ""
 "它所有的代理伺服器會永遠刪除。"
 
 # Novell Translation
-#: ../mail/mail.error.xml.h:56
+#: ../mail/mail.error.xml.h:58
 msgid "If you proceed, the account information will be deleted permanently."
 msgstr "如果繼續，帳號資訊會永久刪除。"
 
 # Novell Translation
-#: ../mail/mail.error.xml.h:57
+#: ../mail/mail.error.xml.h:59
 msgid ""
 "If you quit, these messages will not be sent until Evolution is started "
 "again."
 msgstr "如果您結束，再次啟動 Evolution 之前，不會傳送這些郵件。"
 
 # Novell Translation
-#: ../mail/mail.error.xml.h:58
+#: ../mail/mail.error.xml.h:60
 msgid "Ignore"
 msgstr "忽略"
 
 # mail/mail-config.glade.h:10
 # Novell Translation
-#: ../mail/mail.error.xml.h:59
+#: ../mail/mail.error.xml.h:61
 msgid "Invalid authentication"
 msgstr "無效的驗證"
 
 # Novell Translation
-#: ../mail/mail.error.xml.h:60
+#: ../mail/mail.error.xml.h:62
 msgid "Mail filters automatically updated."
 msgstr "郵件過濾器自動更新。"
 
 # Novell Translation
-#: ../mail/mail.error.xml.h:61
+#: ../mail/mail.error.xml.h:63
 msgid ""
 "Many email systems add an Apparently-To header to messages that only have "
 "BCC recipients. This header, if added, will list all of your recipients to "
@@ -16166,36 +16422,36 @@ msgstr ""
 "件者：」或「副本：」收件者。"
 
 # ui/evolution-mail.xml.h:51
-#: ../mail/mail.error.xml.h:62
+#: ../mail/mail.error.xml.h:64
 msgid "Mark all messages as read"
 msgstr "將全部的郵件標示成已閱讀"
 
-#: ../mail/mail.error.xml.h:63
+#: ../mail/mail.error.xml.h:65
 msgid "Mark all messages as read in the selected folder"
 msgstr "標示選定的資料夾中所有郵件為已閱讀"
 
 # mail/mail-ops.c:1195
 # mail/mail-ops.c:1333
 # Novell Translation
-#: ../mail/mail.error.xml.h:64
+#: ../mail/mail.error.xml.h:66
 msgid "Missing folder."
 msgstr "遺漏資料夾。"
 
 # Novell Translation
-#: ../mail/mail.error.xml.h:66
+#: ../mail/mail.error.xml.h:68
 msgid "No sources selected."
 msgstr "未選取來源。"
 
-#: ../mail/mail.error.xml.h:67
+#: ../mail/mail.error.xml.h:69
 msgid "Opening too many messages at once may take a long time."
 msgstr "一次開啟過多郵件可能會花費許多時間。"
 
-#: ../mail/mail.error.xml.h:68
+#: ../mail/mail.error.xml.h:70
 msgid "Please check your account settings and try again."
 msgstr "請檢查您的帳號設定並再試一次。"
 
 # Novell Translation
-#: ../mail/mail.error.xml.h:69
+#: ../mail/mail.error.xml.h:71
 msgid ""
 "Please enter a valid email address in the To: field. You can search for "
 "email addresses by clicking on the To: button next to the entry box."
@@ -16204,7 +16460,7 @@ msgstr ""
 "「收件者：」按鈕，搜尋電子郵件地址。"
 
 # Novell Translation
-#: ../mail/mail.error.xml.h:70
+#: ../mail/mail.error.xml.h:72
 msgid ""
 "Please make sure the following recipients are willing and able to receive "
 "HTML email:\n"
@@ -16215,49 +16471,58 @@ msgstr ""
 "{0}\n"
 "立即傳送？"
 
-#: ../mail/mail.error.xml.h:73
+#: ../mail/mail.error.xml.h:75
+msgid "Please provide an unique name to identify this signature."
+msgstr "請輸入可供辨識這個簽名檔的獨特名稱。"
+
+#: ../mail/mail.error.xml.h:76
 msgid "Please wait."
 msgstr "請稍候。"
 
 # Novell Translation
-#: ../mail/mail.error.xml.h:74
+#: ../mail/mail.error.xml.h:77
 msgid "Problem migrating old mail folder &quot;{0}&quot;."
 msgstr "移轉舊郵件資料夾「{0}」發生問題。"
 
-#: ../mail/mail.error.xml.h:75
+#: ../mail/mail.error.xml.h:78
 msgid "Querying server"
 msgstr "查詢伺服器"
 
 # camel/providers/smtp/camel-smtp-transport.c:214
-#: ../mail/mail.error.xml.h:76
+#: ../mail/mail.error.xml.h:79
 msgid "Querying server for a list of supported authentication mechanisms."
 msgstr "向伺服器查詢支援的驗證演算法清單。"
 
 # mail/message-browser.c:191
 # ui/evolution-mail.xml.h:71
-#: ../mail/mail.error.xml.h:77
+#: ../mail/mail.error.xml.h:80
 msgid "Read receipt requested."
 msgstr "要求讀信回條。"
 
 # camel/providers/local/camel-mbox-store.c:138
 # camel/providers/local/camel-mbox-store.c:161
 # Novell Translation
-#: ../mail/mail.error.xml.h:78
+#: ../mail/mail.error.xml.h:81
 msgid "Really delete folder &quot;{0}&quot; and all of its subfolders?"
 msgstr "確定要刪除資料夾「{0}」以及它所有的子資料夾?"
 
 # Novell Translation
-#: ../mail/mail.error.xml.h:79
+#: ../mail/mail.error.xml.h:82
 msgid "Search Folders automatically updated."
 msgstr "搜尋資料夾自動更新。"
 
 # Novell Translation
-#: ../mail/mail.error.xml.h:80
+#: ../mail/mail.error.xml.h:83
 msgid "Send Receipt"
 msgstr "傳送回條"
 
 # Novell Translation
-#: ../mail/mail.error.xml.h:81
+#: ../mail/mail.error.xml.h:84
+msgid "Signature Already Exists"
+msgstr "簽名檔已經存在"
+
+# Novell Translation
+#: ../mail/mail.error.xml.h:85
 msgid ""
 "System folders are required for Ximian Evolution to function correctly and "
 "cannot be renamed, moved, or deleted."
@@ -16266,7 +16531,7 @@ msgstr ""
 "或刪除。"
 
 # Novell Translation
-#: ../mail/mail.error.xml.h:82
+#: ../mail/mail.error.xml.h:86
 msgid ""
 "The contact list you are sending to is configured to hide list recipients.\n"
 "\n"
@@ -16282,7 +16547,7 @@ msgstr ""
 "者：」或「副本：」收件者。 "
 
 # Novell Translation
-#: ../mail/mail.error.xml.h:85
+#: ../mail/mail.error.xml.h:89
 msgid ""
 "The following Search Folder(s):\n"
 "{0}\n"
@@ -16297,7 +16562,7 @@ msgstr ""
 "而且已更新。"
 
 # Novell Translation
-#: ../mail/mail.error.xml.h:90
+#: ../mail/mail.error.xml.h:94
 msgid ""
 "The following filter rule(s):\n"
 "{0}\n"
@@ -16312,7 +16577,7 @@ msgstr ""
 "而且已更新。"
 
 # Novell Translation
-#: ../mail/mail.error.xml.h:95
+#: ../mail/mail.error.xml.h:99
 msgid ""
 "The message was sent via the &quot;sendmail&quot; external application.  "
 "Sendmail reports the following error: status 67: mail not sent.\n"
@@ -16324,12 +16589,12 @@ msgstr ""
 "訊息儲存在「寄件信箱」資料夾。請檢查訊息的錯誤，然後重新傳送。"
 
 # Novell Translation
-#: ../mail/mail.error.xml.h:97
+#: ../mail/mail.error.xml.h:101
 msgid "The script file must exist and be executable."
 msgstr "程序檔必須存在而且可以執行。"
 
 # Novell Translation
-#: ../mail/mail.error.xml.h:98
+#: ../mail/mail.error.xml.h:102
 msgid ""
 "This folder may have been added implicitly,\n"
 "go to the Search Folder editor to add it explicitly, if required."
@@ -16338,14 +16603,14 @@ msgstr ""
 "需要時，請移至搜尋資料夾編輯器，以手動方式新增它。"
 
 # Novell Translation
-#: ../mail/mail.error.xml.h:100
+#: ../mail/mail.error.xml.h:104
 msgid ""
 "This message cannot be sent because you have not specified any Recipients"
 msgstr "因為您沒有指定任何收件者，所以無法傳送此郵件。"
 
 # camel/providers/smtp/camel-smtp-transport.c:356
 # Novell Translation
-#: ../mail/mail.error.xml.h:101
+#: ../mail/mail.error.xml.h:105
 msgid ""
 "This server does not support this type of authentication and may not support "
 "authentication at all."
@@ -16353,65 +16618,65 @@ msgstr "此伺服器不支援此驗證類型而且根本不支援驗證。"
 
 # composer/e-msg-composer.c:941
 # Novell Translation
-#: ../mail/mail.error.xml.h:102
+#: ../mail/mail.error.xml.h:106
 msgid "This signature has been changed, but has not been saved."
 msgstr "此簽名已經變更，但尚未儲存。"
 
 # camel/providers/imap/camel-imap-store.c:531
-#: ../mail/mail.error.xml.h:103
+#: ../mail/mail.error.xml.h:107
 msgid "Unable to connect to the GroupWise server."
 msgstr "無法連線至 GroupWise 伺服器。"
 
 # composer/e-msg-composer.c:877
 # Novell Translation
-#: ../mail/mail.error.xml.h:104
+#: ../mail/mail.error.xml.h:108
 msgid ""
 "Unable to open the drafts folder for this account.  Use the system drafts "
 "folder instead?"
 msgstr "無法開啟此帳號的草稿資料夾。使用系統草稿資料夾？"
 
 # mail/mail-ops.c:1728
-#: ../mail/mail.error.xml.h:105
+#: ../mail/mail.error.xml.h:109
 msgid "Unable to read license file."
 msgstr "無法讀取授權檔案。"
 
-#: ../mail/mail.error.xml.h:106
+#: ../mail/mail.error.xml.h:110
 msgid "Use _Default"
 msgstr "使用預設值(_D)"
 
 # mail/mail-ops.c:1195
 # mail/mail-ops.c:1333
 # Novell Translation
-#: ../mail/mail.error.xml.h:107
+#: ../mail/mail.error.xml.h:111
 msgid "Use default drafts folder?"
 msgstr "使用預設的草稿資料夾？"
 
 # mail/mail-account-editor.c:105
-#: ../mail/mail.error.xml.h:108
+#: ../mail/mail.error.xml.h:112
 msgid "You have not filled in all of the required information."
 msgstr "您沒有填入所有必須的資訊。"
 
-#: ../mail/mail.error.xml.h:109
+#: ../mail/mail.error.xml.h:113
 msgid "You have unsent messages, do you wish to quit anyway?"
 msgstr "您有未寄出的郵件，您無論如何都要離開嗎？"
 
-#: ../mail/mail.error.xml.h:110
+#: ../mail/mail.error.xml.h:114
 msgid "You may not create two accounts with the same name."
 msgstr "您不能用相同的名稱建立兩個帳號。"
 
 # ui/evolution.xml.h:3
 # Novell Translation
-#: ../mail/mail.error.xml.h:111
+#: ../mail/mail.error.xml.h:115
 msgid "You must name this Search Folder."
 msgstr "您必須命名此搜尋資料夾。"
 
 # ui/evolution.xml.h:3
-#: ../mail/mail.error.xml.h:112
+#: ../mail/mail.error.xml.h:116
 msgid "You must specify a folder."
 msgstr "您必須指定一個資料夾。"
 
 # Novell Translation
-#: ../mail/mail.error.xml.h:113
+#: ../mail/mail.error.xml.h:117
 msgid ""
 "You must specify at least one folder as a source.\n"
 "Either by selecting the folders individually, and/or by selecting all local "
@@ -16421,29 +16686,29 @@ msgstr ""
 "個別選取資料夾，然後/或選取所有本地資料夾、所有遠端資料夾或二者皆選。"
 
 # Novell Translation
-#: ../mail/mail.error.xml.h:115
+#: ../mail/mail.error.xml.h:119
 msgid "Your login to your server &quot;{0}&quot; as &quot;{0}&quot; failed."
 msgstr "您登入伺服器「{0}」以「{0}」身分，但失敗。"
 
 # Novell Translation
-#: ../mail/mail.error.xml.h:116
+#: ../mail/mail.error.xml.h:120
 msgid "Your message with the subject &quot;{0}&quot; was not delivered."
 msgstr "未傳遞主旨為「{0}」的郵件。"
 
-#: ../mail/mail.error.xml.h:117
+#: ../mail/mail.error.xml.h:121
 msgid "_Append"
 msgstr "添加(_A)"
 
-#: ../mail/mail.error.xml.h:118
+#: ../mail/mail.error.xml.h:122
 msgid "_Discard changes"
 msgstr "放棄變更(_D)"
 
-#: ../mail/mail.error.xml.h:120
+#: ../mail/mail.error.xml.h:124
 msgid "_Expunge"
 msgstr "清除(_E)"
 
 # ui/evolution-mail.xml.h:114
-#: ../mail/mail.error.xml.h:121
+#: ../mail/mail.error.xml.h:125
 msgid "_Open Messages"
 msgstr "開啟郵件(_O)"
 
@@ -17861,18 +18126,22 @@ msgstr "登入代理伺服器"
 
 # camel/camel-smime-context.c:194
 #: ../plugins/groupwise-features/proxy-login.c:219
-#: ../plugins/groupwise-features/proxy-login.c:261
-#: ../plugins/groupwise-features/proxy.c:497
+#: ../plugins/groupwise-features/proxy-login.c:262
+#: ../plugins/groupwise-features/proxy.c:501
 #: ../plugins/groupwise-features/send-options.c:83
 #, c-format
 msgid "%sEnter password for %s (user %s)"
 msgstr "%s請輸入 %s 所需的密碼(使用者 %s)"
 
-#: ../plugins/groupwise-features/proxy-login.c:484
+#: ../plugins/groupwise-features/proxy-login.c:497
 msgid "_Proxy Login..."
 msgstr "代理伺服器登入(_P)..."
 
-#: ../plugins/groupwise-features/proxy.c:679
+#: ../plugins/groupwise-features/proxy.c:690
+msgid "The Proxy tab will be available only when the account is online."
+msgstr "代理伺服器頁籤只有在帳號上線時才會出現。"
+
+#: ../plugins/groupwise-features/proxy.c:695
 msgid "The Proxy tab will be available only when the account is enabled."
 msgstr "代理伺服器頁籤只有在啟用此帳號時才會出現。"
 
@@ -17899,6 +18168,67 @@ msgstr "分享"
 #: ../plugins/groupwise-features/status-track.c:235
 msgid "Track Message Status..."
 msgstr "追蹤郵件狀態..."
+
+# calendar/gui/e-itip-control.glade.h:4
+# Novell Translation
+#: ../plugins/ipod-sync/ical-format.c:137
+#: ../plugins/save-calendar/ical-format.c:137
+msgid "iCalendar format (.ics)"
+msgstr "iCalendar 格式 (.ics)"
+
+#: ../plugins/ipod-sync/org-gnome-ipod-sync-evolution.eplug.xml.h:1
+msgid "Synchronize the selected task/calendar/addressbook with Apple iPod"
+msgstr "與 Apple iPod 同步選擇的工作/行事曆/通訊錄"
+
+#: ../plugins/ipod-sync/org-gnome-ipod-sync-evolution.eplug.xml.h:2
+msgid "Synchronize to iPod"
+msgstr "同步化 iPod"
+
+#: ../plugins/ipod-sync/org-gnome-ipod-sync-evolution.eplug.xml.h:3
+msgid "iPod Synchronization"
+msgstr "iPod 同步化"
+
+# mail/GNOME_Evolution_Mail.oaf.in.h:2
+#: ../plugins/ipod-sync/sync.c:158
+msgid "No output directory!"
+msgstr "沒有輸出目錄！"
+
+#: ../plugins/ipod-sync/sync.c:159
+msgid ""
+"The output directory was not found on iPod! Please ensure that iPod has been "
+"correctly set up and try again."
+msgstr "在 iPod 上找不到輸出的目錄！請確定 iPod 已正確設定後再試一次。"
+
+# mail/mail-ops.c:1872
+#: ../plugins/ipod-sync/sync.c:174 ../plugins/ipod-sync/sync.c:202
+msgid "Could not export data!"
+msgstr "無法匯出資料！"
+
+#: ../plugins/ipod-sync/sync.c:203
+msgid "Exporting data failed."
+msgstr "匯出資料失敗。"
+
+# camel/camel-provider.c:140
+# Novell Translation
+#: ../plugins/ipod-sync/sync.c:231
+msgid "Could not open addressbook!"
+msgstr "無法開啟通訊錄！"
+
+# addressbook/gui/component/GNOME_Evolution_Addressbook.oaf.in.h:5
+# Novell Translation
+#: ../plugins/ipod-sync/sync.c:232
+msgid "Could not open the Evolution addressbook to export data."
+msgstr "無法開啟 Evolution 通訊錄以匯出資料。"
+
+# calendar/gui/e-itip-control.c:883
+# Novell Translation
+#: ../plugins/ipod-sync/sync.c:291
+msgid "Could not open calendar/todo!"
+msgstr "無法開啟行事曆/工作！"
+
+#: ../plugins/ipod-sync/sync.c:292
+msgid "Could not open the Evolution calendar/todo list to export data."
+msgstr "無法開啟 Evolution 行事曆/工作清單以匯出資料。"
 
 # camel/providers/pop3/camel-pop3-folder.c:320
 # Novell Translation
@@ -18784,7 +19114,8 @@ msgstr "提供自郵件編輯器列印郵件的選項"
 
 #: ../plugins/print-message/org-gnome-print-message.xml.h:1
 #: ../ui/evolution-addressbook.xml.h:18 ../ui/evolution-calendar.xml.h:20
-#: ../ui/evolution-mail-message.xml.h:77 ../ui/evolution-tasks.xml.h:15
+#: ../ui/evolution-mail-message.xml.h:77 ../ui/evolution-memos.xml.h:12
+#: ../ui/evolution-tasks.xml.h:15
 msgid "Print Pre_view"
 msgstr "預覽列印(_V)"
 
@@ -18932,12 +19263,6 @@ msgstr "以此封裝數值:"
 #: ../plugins/save-calendar/csv-format.c:602
 msgid "Comma separated value format (.csv)"
 msgstr "逗號隔開的數值格式 (.csv)"
-
-# calendar/gui/e-itip-control.glade.h:4
-# Novell Translation
-#: ../plugins/save-calendar/ical-format.c:137
-msgid "iCalendar format (.ics)"
-msgstr "iCalendar 格式 (.ics)"
 
 # Novell Translation
 #: ../plugins/save-calendar/org-gnome-save-calendar.eplug.xml.h:1
@@ -21551,6 +21876,49 @@ msgstr "關閉(_C)"
 msgid "_File"
 msgstr "檔案(_F)"
 
+# calendar/gui/e-calendar-table.c:714
+#: ../ui/evolution-memos.xml.h:3
+msgid "Copy selected memo"
+msgstr "複製選定的備忘錄"
+
+# calendar/gui/e-calendar-table.c:714
+#: ../ui/evolution-memos.xml.h:5
+msgid "Cut selected memo"
+msgstr "剪下選定的備忘錄"
+
+# calendar/gui/e-calendar-table.c:714
+#: ../ui/evolution-memos.xml.h:7
+msgid "Delete selected memos"
+msgstr "刪除選定的備忘錄"
+
+# ui/evolution-event-editor.xml.h:31
+# ui/evolution-task-editor-dialog.xml.h:34
+# Novell Translation
+#: ../ui/evolution-memos.xml.h:9
+msgid "Paste memo from the clipboard"
+msgstr "從剪貼簿貼上備忘錄"
+
+# ui/evolution-calendar.xml.h:22
+#: ../ui/evolution-memos.xml.h:10
+msgid "Previews the list of memos to be printed"
+msgstr "預覽將要列印的備忘錄清單"
+
+# mail/mail-callbacks.c:1407
+#: ../ui/evolution-memos.xml.h:13
+msgid "Print the list of memos"
+msgstr "列印備忘錄清單"
+
+# calendar/gui/e-calendar-table.c:714
+# Novell Translation
+#: ../ui/evolution-memos.xml.h:14
+msgid "View the selected memo"
+msgstr "檢視選取的備忘錄"
+
+# ui/evolution-mail.xml.h:114
+#: ../ui/evolution-memos.xml.h:18
+msgid "_Open Memo"
+msgstr "開啟備忘錄(_O)"
+
 # ui/evolution-message-composer.xml.h:1
 #: ../ui/evolution-message-composer.xml.h:1
 msgid "Attach"
@@ -22147,6 +22515,11 @@ msgstr "依跟隨標幟(_F)"
 #: ../views/mail/galview.xml.h:6
 msgid "_Messages"
 msgstr "郵件(_M)"
+
+# calendar/gui/goto-dialog.glade.h:12
+#: ../views/memos/galview.xml.h:1
+msgid "_Memos"
+msgstr "備忘錄(_M)"
 
 #: ../views/tasks/galview.xml.h:1
 msgid "With _Due Date"
