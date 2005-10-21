@@ -91,7 +91,7 @@ struct _EMFolderView {
 	
 	int mark_seen_timeout;	/* local copy of gconf stuff */
 	int mark_seen:1;
-	guint preview_active:1;	/* is preview being used */
+	int preview_active:1;	/* is preview being used */
 	int statusbar_active:1; /* should we manage the statusbar messages ourselves? */
 	int hide_deleted:1;
 	int list_active:1;	/* we actually showing the list? */

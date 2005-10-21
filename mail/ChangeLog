@@ -1,5 +1,10 @@
 2005-10-21  Jeff Cai <jeff.cai@sun.com>
 
+	Reverse previous patch because of bug 319376.	
+	* em-folder-view.h:
+
+2005-10-21  Jeff Cai <jeff.cai@sun.com>
+
 	* mail/em-folder-view.h : Change the declaration of flag 
 	'preview_active' from one bit of int to one bit of guint 
 	because it will be -1 on linux if being declared one bit of int.
