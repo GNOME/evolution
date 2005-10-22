@@ -1725,7 +1725,7 @@ emft_get_folder_info__got (struct _mail_msg *mm)
 	gtk_tree_model_get_iter ((GtkTreeModel *) model, &root, path);
 
 	/* if we had an error, then we need to re-set the load subdirs state and collapse the node */
-	if (camel_exception_is_set(&mm->ex)) {
+	if (!m->fi && camel_exception_is_set(&mm->ex)) {
 		gtk_tree_store_set(model, &root, COL_BOOL_LOAD_SUBDIRS, TRUE, -1);
 		gtk_tree_view_collapse_row (priv->treeview, path);
 		gtk_tree_path_free (path);

@@ -741,7 +741,7 @@ mail_config_get_default_transport (void)
 	EIterator *iter;
 	
 	account = mail_config_get_default_account ();
-	if (account && account->transport && account->transport->url && account->transport->url[0])
+	if (account && account->enabled && account->transport && account->transport->url && account->transport->url[0])
 		return account->transport;
 	
 	/* return the first account with a transport? */
@@ -749,7 +749,7 @@ mail_config_get_default_transport (void)
 	while (e_iterator_is_valid (iter)) {
 		account = (EAccount *) e_iterator_get (iter);
 		
-		if (account->transport && account->transport->url && account->transport->url[0]) {
+		if (account->enabled && account->transport && account->transport->url && account->transport->url[0]) {
 			g_object_unref (iter);
 			
 			return account->transport;

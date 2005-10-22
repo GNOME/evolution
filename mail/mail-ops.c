@@ -1073,7 +1073,7 @@ get_folderinfo_got (struct _mail_msg *mm)
 {
 	struct _get_folderinfo_msg *m = (struct _get_folderinfo_msg *)mm;
 	
-	if (camel_exception_is_set (&mm->ex)) {
+	if (!m->info && camel_exception_is_set (&mm->ex)) {
 		char *url;
 		
 		url = camel_service_get_url (CAMEL_SERVICE (m->store));

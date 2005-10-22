@@ -1,3 +1,14 @@
+2005-10-22  Parthasarathi Susarla <sparthasarathi@novell.com>
+	
+	* mail-config.c: (mail_config_get_default_account):
+	Return valid transport, only if the account is enabled.
+
+2005-10-22  Parthasarathi Susarla <sparthasarathi@novell.com>
+	
+	* em-composer-utils.c: (create_new_composer):
+	If the account corresponding to the fromuri is not enabled.
+	Then load the preferred account from the composer.
+
 2005-10-21  Jeff Cai <jeff.cai@sun.com>
 
 	Reverse previous patch because of bug 319376.	
@@ -10,11 +21,10 @@
 	because it will be -1 on linux if being declared one bit of int.
 
 2005-10-19  Philip Van Hoof <pvanhoof@gnome.org>
-	composer/e-msg-composer-select-file.c,
-	composer/e-msg-composer.c, composer/e-msg-composer.h,
-	composer/evolution-composer.c, composer/listener.c,
+	
+	** See bug 318611
+
 	mail/em-composer-utils.c,
-	plugins/mailing-list-actions/mailing-list-actions.c:
 	data hiding
 
 2005-10-19  Harish Krishnaswamy <kharish@novell.com>

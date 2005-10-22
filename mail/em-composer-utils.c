@@ -588,6 +588,13 @@ create_new_composer (const char *subject, const char *fromuri)
 	if (fromuri)
 		account = mail_config_get_account_by_source_url(fromuri);
 
+	/* If the account corresponding to the fromuri is not enabled.
+	 * We get the preffered account from the composer and use that
+	 * as the account to send the mail.
+	 */
+	if (!account)
+		account = e_msg_composer_get_preferred_account (composer);
+
 	e_msg_composer_set_headers (composer, account?account->name:NULL, NULL, NULL, NULL, subject);
 
 	em_composer_utils_setup_default_callbacks (composer);
