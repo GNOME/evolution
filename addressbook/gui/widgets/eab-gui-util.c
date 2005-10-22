@@ -1028,7 +1028,7 @@ eab_send_contact_list_as_attachment (GList *contacts)
 	bcc_list->_maximum = bcc_list->_length = 0;
 
 	if (!contacts || contacts->next) {
-		subject = CORBA_string_dup ("Contact information");
+		subject = CORBA_string_dup (_("Contact information"));
 	} else {
 		EContact *contact = contacts->data;
 		const gchar *tempstr2;
@@ -1046,9 +1046,9 @@ eab_send_contact_list_as_attachment (GList *contacts)
 			tempstr2 = e_contact_get_const (contact, E_CONTACT_EMAIL_3);
 
 		if (!tempstr2 || !*tempstr2)
-			tempstr = g_strdup_printf ("Contact information");
+			tempstr = g_strdup_printf (_("Contact information"));
 		else
-			tempstr = g_strdup_printf ("Contact information for %s", tempstr2);
+			tempstr = g_strdup_printf (_("Contact information for %s"), tempstr2);
 		subject = CORBA_string_dup (tempstr);
 		g_free (tempstr);
 	}

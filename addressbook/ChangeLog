@@ -1,4 +1,9 @@
-2005-10-20  Sushma Rai  <rsushma@novell.com>
+2005-10-22  Sushma Rai  <rsushma@novell.com>
+
+	* gui/widgets/eab-gui-util.c (eab_send_contact_list_as_attachment): 
+	Marked subject line for translation. Fixes #317753
+
+2005-10-22  Sushma Rai  <rsushma@novell.com>
 
 	* gui/component/addressbook-config.c: Storing the search filter entered
 	at configuration dialog.
