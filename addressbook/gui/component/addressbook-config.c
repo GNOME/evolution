@@ -107,6 +107,7 @@ struct _AddressbookSourceDialog {
 	GtkWidget *rootdn;
 	AddressbookLDAPScopeType scope;
 	GtkWidget *scope_optionmenu;
+	GtkWidget *search_filter;
 	GtkWidget *timeout_scale;
 	GtkWidget *limit_spinbutton;
 
@@ -195,7 +196,7 @@ ldap_parse_ssl (const char *ssl)
 }
 
 static gboolean
-source_to_uri_parts (ESource *source, gchar **host, gchar **rootdn, AddressbookLDAPScopeType *scope, gint *port)
+source_to_uri_parts (ESource *source, gchar **host, gchar **rootdn, AddressbookLDAPScopeType *scope, gchar **search_filter, gint *port)
 {
 	gchar       *uri;
 	LDAPURLDesc *lud;
@@ -221,6 +222,8 @@ source_to_uri_parts (ESource *source, gchar **host, gchar **rootdn, AddressbookL
 			 lud->lud_scope == LDAP_SCOPE_ONELEVEL ? ADDRESSBOOK_LDAP_SCOPE_ONELEVEL :
 			 lud->lud_scope == LDAP_SCOPE_SUBTREE  ? ADDRESSBOOK_LDAP_SCOPE_SUBTREE :
 			 ADDRESSBOOK_LDAP_SCOPE_ONELEVEL;
+	if (search_filter && lud->lud_filter)
+		*search_filter = g_strdup (lud->lud_filter);
 
 	ldap_free_urldesc (lud);
 	return TRUE;
@@ -242,7 +245,7 @@ addressbook_ldap_init (GtkWidget *window, ESource *source)
 	int ldap_error;
 	int protocol_version = LDAP_VERSION3;
 
-	if (!source_to_uri_parts (source, &host, NULL, NULL, &port))
+	if (!source_to_uri_parts (source, &host, NULL, NULL, NULL, &port))
 		return NULL;
 
 	if (!(ldap = ldap_init (host, port))) {
@@ -618,17 +621,35 @@ eabc_general_offline(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, 
 }
 
 #ifdef HAVE_LDAP
+static gchar *
+form_ldap_search_filter (GtkWidget *w) 
+{
+	gchar *filter;
+	const gchar *search_filter = gtk_entry_get_text ((GtkEntry *) w);
+
+	/* this function can be used to format the search filter entered */	
+	if ((strlen (search_filter) !=0) && *search_filter != '(' && *(search_filter + (strlen (search_filter-1))) != ')')
+		filter = g_strdup_printf ("(%s)", search_filter);
+	else
+		filter = g_strdup_printf ("%s", search_filter);
+
+	return filter;
+}
+ 
 static void
 url_changed(AddressbookSourceDialog *sdialog)
 {
-	char *str;
+	gchar *str, *search_filter;
 
-	str = g_strdup_printf ("%s:%s/%s?" /* trigraph prevention */ "?%s",
+	search_filter = form_ldap_search_filter (sdialog->search_filter);
+	str = g_strdup_printf ("%s:%s/%s?" /* trigraph prevention */ "?%s?%s",
 			       gtk_entry_get_text (GTK_ENTRY (sdialog->host)),
 			       gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (sdialog->port_combo)->entry)),
 			       gtk_entry_get_text (GTK_ENTRY (sdialog->rootdn)),
-			       ldap_unparse_scope (sdialog->scope));
+			       ldap_unparse_scope (sdialog->scope),
+			       search_filter);
 	e_source_set_relative_uri (sdialog->source, str);
+	g_free (search_filter);
 	g_free (str);
 }
 
@@ -789,6 +810,12 @@ rootdn_changed_cb(GtkWidget *w, AddressbookSourceDialog *sdialog)
 }
 
 static void
+search_filter_changed_cb (GtkWidget *w, AddressbookSourceDialog *sdialog)
+{
+	url_changed (sdialog);
+}
+
+static void
 scope_optionmenu_changed_cb(GtkWidget *w, AddressbookSourceDialog *sdialog)
 {
 	sdialog->scope = gtk_option_menu_get_history((GtkOptionMenu *)w);
@@ -835,6 +862,10 @@ eabc_details_search(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, s
 	}
 	gtk_option_menu_set_history (GTK_OPTION_MENU(sdialog->scope_optionmenu), sdialog->scope);
 	g_signal_connect(sdialog->scope_optionmenu, "changed", G_CALLBACK(scope_optionmenu_changed_cb), sdialog);
+
+	sdialog->search_filter =  glade_xml_get_widget (gui, "search-filter-entry");
+	gtk_entry_set_text((GtkEntry *)sdialog->search_filter, lud && lud->lud_filter ? lud->lud_filter : "");
+	g_signal_connect (sdialog->search_filter, "changed",  G_CALLBACK (search_filter_changed_cb), sdialog);
 
 	g_signal_connect (glade_xml_get_widget(gui, "rootdn-button"), "clicked",
 			  G_CALLBACK(query_for_supported_bases), sdialog);

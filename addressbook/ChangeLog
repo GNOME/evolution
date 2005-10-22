@@ -1,3 +1,19 @@
+2005-10-20  Sushma Rai  <rsushma@novell.com>
+
+	* gui/component/addressbook-config.c: Storing the search filter entered
+	at configuration dialog.
+	(addressbook_ldap_init)(source_to_uri_parts): Handling search filter.
+	(eabc_details_search): Storing the serch filter value and added 
+	callback to handle search filter changes.
+	(search_filter_changed_cb)(url_changed): Store search filter in LDAP 
+	url.
+	(from_ldap_search_filter): If search filter entered is missing 
+	parenthesis, adds them. 
+	
+	* gui/component/ldap-config.glade: Added an entry for entering the 
+	search filter.
+	Fixes #311884   	
+
 2005-10-04   Devashish Sharma <sdevashish@novell.com>
 
 	* gui/widgets/e-addressbook-view.etspec: Changed the compare type for
