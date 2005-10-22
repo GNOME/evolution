@@ -1,4 +1,5 @@
 # translation of es.po to 
+# translation of es.po to
 #
 # translation of es.po to
 # Translation of Evolution to Spanish languaje
@@ -15,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-10-22 02:47+0200\n"
-"PO-Revision-Date: 2005-10-22 03:11+0200\n"
+"POT-Creation-Date: 2005-10-22 15:11+0200\n"
+"PO-Revision-Date: 2005-10-22 15:14+0200\n"
 "Last-Translator: \n"
 "Language-Team:  <en@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -631,7 +632,7 @@ msgid "Create a new contact list"
 msgstr "Crea una lista de contactos nueva"
 
 #: ../addressbook/gui/component/addressbook-component.c:241
-#: ../addressbook/gui/component/addressbook-config.c:1118
+#: ../addressbook/gui/component/addressbook-config.c:1149
 #: ../addressbook/gui/component/addressbook-view.c:763
 msgid "New Address Book"
 msgstr "Libreta de direcciones nueva"
@@ -648,22 +649,22 @@ msgstr "Crea una libreta de direcciones nueva"
 msgid "Failed upgrading Addressbook settings or folders."
 msgstr "Falló al actualizar la configuración de la libreta o las carpetas."
 
-#: ../addressbook/gui/component/addressbook-config.c:313
+#: ../addressbook/gui/component/addressbook-config.c:316
 msgid "Base"
 msgstr "Base"
 
-#: ../addressbook/gui/component/addressbook-config.c:508
+#: ../addressbook/gui/component/addressbook-config.c:511
 #: ../calendar/gui/dialogs/calendar-setup.c:192
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:10
 msgid "_Type:"
 msgstr "_Tipo:"
 
-#: ../addressbook/gui/component/addressbook-config.c:607
+#: ../addressbook/gui/component/addressbook-config.c:610
 msgid "Copy book content locally for offline operation"
 msgstr "Copiar el contenido del libro localmente para operación desconectada"
 
-#: ../addressbook/gui/component/addressbook-config.c:902
-#: ../addressbook/gui/component/ldap-config.glade.h:23
+#: ../addressbook/gui/component/addressbook-config.c:933
+#: ../addressbook/gui/component/ldap-config.glade.h:22
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:25
 #: ../calendar/gui/dialogs/calendar-setup.c:368
 #: ../calendar/gui/dialogs/calendar-setup.c:379
@@ -673,35 +674,35 @@ msgstr "Copiar el contenido del libro localmente para operación desconectada"
 msgid "General"
 msgstr "General"
 
-#: ../addressbook/gui/component/addressbook-config.c:903
+#: ../addressbook/gui/component/addressbook-config.c:934
 #: ../mail/importers/pine-importer.c:393
 msgid "Addressbook"
 msgstr "Libreta de direcciones"
 
-#: ../addressbook/gui/component/addressbook-config.c:907
+#: ../addressbook/gui/component/addressbook-config.c:938
 msgid "Server Information"
 msgstr "Información del servidor"
 
-#: ../addressbook/gui/component/addressbook-config.c:909
+#: ../addressbook/gui/component/addressbook-config.c:940
 msgid "Authentication"
 msgstr "Autenticación"
 
-#: ../addressbook/gui/component/addressbook-config.c:912
-#: ../addressbook/gui/component/ldap-config.glade.h:18
+#: ../addressbook/gui/component/addressbook-config.c:943
+#: ../addressbook/gui/component/ldap-config.glade.h:17
 #: ../mail/mail-dialogs.glade.h:7 ../smime/gui/smime-ui.glade.h:20
 msgid "Details"
 msgstr "Detalles"
 
-#: ../addressbook/gui/component/addressbook-config.c:913
+#: ../addressbook/gui/component/addressbook-config.c:944
 msgid "Searching"
 msgstr "Búsqueda"
 
-#: ../addressbook/gui/component/addressbook-config.c:915
+#: ../addressbook/gui/component/addressbook-config.c:946
 msgid "Downloading"
 msgstr "Descargando"
 
-#: ../addressbook/gui/component/addressbook-config.c:1116
-#: ../addressbook/gui/component/ldap-config.glade.h:14
+#: ../addressbook/gui/component/addressbook-config.c:1147
+#: ../addressbook/gui/component/ldap-config.glade.h:13
 msgid "Address Book Properties"
 msgstr "Propiedades de la libreta de direcciones"
 
@@ -854,6 +855,298 @@ msgid "Whether to show the preview pane."
 msgstr "Indica si se muestra el panel de vista previa."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:1
+msgid "1"
+msgstr "1"
+
+#: ../addressbook/gui/component/ldap-config.glade.h:2
+msgid "3268"
+msgstr "3268"
+
+#: ../addressbook/gui/component/ldap-config.glade.h:3
+msgid "389"
+msgstr "389"
+
+#: ../addressbook/gui/component/ldap-config.glade.h:4
+msgid "5"
+msgstr "5"
+
+#: ../addressbook/gui/component/ldap-config.glade.h:5
+msgid "636"
+msgstr "636"
+
+#: ../addressbook/gui/component/ldap-config.glade.h:6
+#: ../calendar/gui/dialogs/url-editor-dialog.glade.h:2
+msgid "<b>Authentication</b>"
+msgstr "<b>Autenticación</b>"
+
+#: ../addressbook/gui/component/ldap-config.glade.h:7
+msgid "<b>Display</b>"
+msgstr "<b>Pantalla</b>"
+
+#: ../addressbook/gui/component/ldap-config.glade.h:8
+msgid "<b>Downloading</b>"
+msgstr "<b>Descarga</b>"
+
+#: ../addressbook/gui/component/ldap-config.glade.h:9
+msgid "<b>Searching</b>"
+msgstr "<b>Búsqueda</b>"
+
+#: ../addressbook/gui/component/ldap-config.glade.h:10
+msgid "<b>Server Information</b>"
+msgstr "<b>Información del servidor</b>"
+
+#: ../addressbook/gui/component/ldap-config.glade.h:11
+msgid "<b>Type:</b>"
+msgstr "<b>Tipo:</b>"
+
+#: ../addressbook/gui/component/ldap-config.glade.h:12
+msgid "Add Address Book"
+msgstr "Añade una libreta de direcciones"
+
+#: ../addressbook/gui/component/ldap-config.glade.h:14
+#: ../mail/em-account-editor.c:302 ../mail/em-account-editor.c:759
+msgid "Always"
+msgstr "Siempre"
+
+#: ../addressbook/gui/component/ldap-config.glade.h:15
+msgid "Anonymously"
+msgstr "Anónimamente"
+
+#: ../addressbook/gui/component/ldap-config.glade.h:16
+msgid "Basic"
+msgstr "Básico"
+
+#: ../addressbook/gui/component/ldap-config.glade.h:18
+msgid "Distinguished name"
+msgstr "Nombre distintivo"
+
+#: ../addressbook/gui/component/ldap-config.glade.h:19
+msgid "Email address"
+msgstr "Dirección de correo-e"
+
+#: ../addressbook/gui/component/ldap-config.glade.h:20
+msgid "Evolution will use this email address to authenticate you with the server."
+msgstr "Evolution usará esta dirección de correo-e para autenticarle con el servidor."
+
+#: ../addressbook/gui/component/ldap-config.glade.h:21
+msgid "Find Possible Search Bases"
+msgstr "Buscar bases de búsqueda posibles"
+
+#: ../addressbook/gui/component/ldap-config.glade.h:23
+msgid "Lo_gin:"
+msgstr "_Inicio de sesión:"
+
+#: ../addressbook/gui/component/ldap-config.glade.h:24
+#: ../mail/em-account-editor.c:300 ../mail/em-account-editor.c:758
+msgid "Never"
+msgstr "Nunca"
+
+#: ../addressbook/gui/component/ldap-config.glade.h:25
+msgid "One"
+msgstr "Uno"
+
+#: ../addressbook/gui/component/ldap-config.glade.h:26
+msgid "Search Filter"
+msgstr "Filtro de búsqueda"
+
+#: ../addressbook/gui/component/ldap-config.glade.h:27
+msgid "Search _base:"
+msgstr "_Base de búsqueda:"
+
+#: ../addressbook/gui/component/ldap-config.glade.h:28
+msgid "Search _filter:"
+msgstr "_Filtro de búsqueda:"
+
+#: ../addressbook/gui/component/ldap-config.glade.h:29
+msgid "Search filter"
+msgstr "Filtro búsqueda"
+
+#: ../addressbook/gui/component/ldap-config.glade.h:30
+msgid ""
+"Search filter is the type of the objects searched for, while performing the "
+"search. If this is not modified, by  default search will be performed on "
+"objectclass of the type \"person\"."
+msgstr ""
+"Filtro de búsqueda es el tipo de los objetos buscados, mientras se realiza la búsqueda. "
+"Si esto no se modifica, la búsqueda por omisión se realizará sobre la clase de objetos "
+"de tipo «person»."
+
+#: ../addressbook/gui/component/ldap-config.glade.h:31
+msgid ""
+"Selecting this option means that Evolution will only connect to your LDAP "
+"server if your LDAP server supports SSL or TLS."
+msgstr ""
+"Seleccionar esta opción significa que Evolution sólo conectará con su "
+"servidor LDAP si su servidor LDAP soporta SSL o TLS."
+
+#: ../addressbook/gui/component/ldap-config.glade.h:32
+msgid ""
+"Selecting this option means that Evolution will only try to use SSL/TLS if "
+"you are in a insecure environment. For example, if you and your LDAP server "
+"are behind a firewall at work, then Evolution doesn't need to use SSL/TLS "
+"because your connection is already secure."
+msgstr ""
+"Seleccionar esta opción significa que Evolution sólo intentará usar SSL/TLS "
+"si está en un entorno inseguro. Por ejemplo, si usted y su servidor LDAP "
+"están tras un cortafuegos en el trabajo, entonces Evolution no necesita usar "
+"SSL/TLS porque su conexión ya es segura."
+
+#: ../addressbook/gui/component/ldap-config.glade.h:33
+msgid ""
+"Selecting this option means that your server does not support either SSL or "
+"TLS.  This means that your connection will be insecure, and that you will be "
+"vulnerable to security exploits. "
+msgstr ""
+"El seleccionar esta opción significa que su servidor no soporta ni SSL ni "
+"TLS. Esto significa que su conexión será insegura y que usted será "
+"vulnerable a fallos de seguridad. "
+
+#: ../addressbook/gui/component/ldap-config.glade.h:34
+msgid "Sub"
+msgstr "Sub"
+
+#: ../addressbook/gui/component/ldap-config.glade.h:35
+msgid "Supported Search Bases"
+msgstr "Bases de búsqueda soportadas"
+
+#: ../addressbook/gui/component/ldap-config.glade.h:36
+msgid ""
+"The search base is the distinguished name (DN)  of the entry where your "
+"searches will begin. If you leave this blank, the search will begin at the "
+"root of the directory tree."
+msgstr ""
+"La base de Búsqueda es el nombre distintivo (ND) de la entrada donde las "
+"búsquedas empezarán. Si deja esto en blanco, la búsqueda empezará en la raíz "
+"del árbol de directorios."
+
+#: ../addressbook/gui/component/ldap-config.glade.h:37
+msgid ""
+"The search scope defines how deep you would like the search to extend down "
+"the directory tree. A search scope of \"sub\" will include all entries below "
+"your search base. A search scope of \"one\" will only include the entries "
+"one level beneath your base."
+msgstr ""
+"El ámbito de búsqueda define hasta qué profundidad desea que la búsqueda se "
+"extienda a lo largo de un árbol de directorios. Un ámbito de búsqueda de "
+"«sub» incluirá todas las entradas por debajo de su base de búsqueda. Un "
+"ámbito de «uno» sólo incluirá las entradas un nivel bajo su base."
+
+#: ../addressbook/gui/component/ldap-config.glade.h:38
+msgid ""
+"This is the full name of your ldap server. For example, \"ldap.mycompany.com"
+"\"."
+msgstr ""
+"Este es el nombre completo del servidor LDAP. Por ejemplo, «ldap.micompañia."
+"com»."
+
+#: ../addressbook/gui/component/ldap-config.glade.h:39
+msgid ""
+"This is the maximum number of entries to download. Setting this number to be "
+"too large will slow down your address book."
+msgstr ""
+"Este es el máximo número de entradas para descargar.  Si pone este número "
+"demasiado alto ralentizará su libreta de direcciones."
+
+#: ../addressbook/gui/component/ldap-config.glade.h:40
+msgid ""
+"This is the method Evolution will use to authenticate you.  Note that "
+"setting this to \"Email Address\" requires anonymous access to your ldap "
+"server."
+msgstr ""
+"Este es el método que usará Evolution para autenticarle a usted.  Note que "
+"establecer esto a «Dirección de correo-e» requiere acceso anónimo a su "
+"servidor ldap."
+
+#: ../addressbook/gui/component/ldap-config.glade.h:41
+msgid ""
+"This is the name for this server that will appear in your Evolution folder "
+"list. It is for display purposes only. "
+msgstr ""
+"Este nombre que identificará este servidor en la lista de carpetas de "
+"Evolution. Es sólo para poder mostrarlo en pantalla. "
+
+#: ../addressbook/gui/component/ldap-config.glade.h:42
+msgid ""
+"This is the port on the LDAP server that Evolution will try to connect to. A "
+"list of standard ports has been provided. Ask your system administrator what "
+"port you should specify."
+msgstr ""
+"Este es el puerto del servidor LDAP al que Evolution intentará conectarse. "
+"Se ha proporcionado una lista de puertos estándar. Pregunte a su "
+"administrador del sistema qué puerto debería especificar."
+
+#: ../addressbook/gui/component/ldap-config.glade.h:43
+msgid "Using distinguished name (DN)"
+msgstr "Usando «Nombre Distintivo» (ND)"
+
+#: ../addressbook/gui/component/ldap-config.glade.h:44
+msgid "Using email address"
+msgstr "Usando dirección de correo-e"
+
+#: ../addressbook/gui/component/ldap-config.glade.h:45
+#: ../mail/em-account-editor.c:301
+msgid "Whenever Possible"
+msgstr "Cuando sea posible"
+
+#: ../addressbook/gui/component/ldap-config.glade.h:46
+msgid "_Add Address Book"
+msgstr "_Añadir libreta de direcciones"
+
+#: ../addressbook/gui/component/ldap-config.glade.h:47
+msgid "_Download limit:"
+msgstr "Límite de _descarga:"
+
+#: ../addressbook/gui/component/ldap-config.glade.h:48
+msgid "_Find Possible Search Bases"
+msgstr "_Buscar bases de búsqueda posibles"
+
+#: ../addressbook/gui/component/ldap-config.glade.h:49
+msgid "_Login method:"
+msgstr "Método de _inicio de sesión:"
+
+#: ../addressbook/gui/component/ldap-config.glade.h:50
+#: ../calendar/gui/dialogs/calendar-setup.c:244
+#: ../calendar/gui/dialogs/calendar-setup.glade.h:8
+#: ../mail/mail-config.glade.h:164
+#: ../widgets/menus/gal-view-instance-save-as-dialog.glade.h:4
+msgid "_Name:"
+msgstr "_Nombre:"
+
+#: ../addressbook/gui/component/ldap-config.glade.h:51
+msgid "_Port:"
+msgstr "_Puerto:"
+
+#: ../addressbook/gui/component/ldap-config.glade.h:52
+msgid "_Search scope:"
+msgstr "_Ámbito de búsqueda:"
+
+#: ../addressbook/gui/component/ldap-config.glade.h:53
+#: ../mail/mail-config.glade.h:171
+msgid "_Server:"
+msgstr "_Servidor:"
+
+#: ../addressbook/gui/component/ldap-config.glade.h:54
+msgid "_Timeout:"
+msgstr "_Tiempo de expiración:"
+
+#: ../addressbook/gui/component/ldap-config.glade.h:55
+msgid "_Use secure connection:"
+msgstr "_Usar conexión segura:"
+
+#: ../addressbook/gui/component/ldap-config.glade.h:56
+msgid "cards"
+msgstr "tarjetas"
+
+#: ../addressbook/gui/component/ldap-config.glade.h:57
+#: ../calendar/gui/alarm-notify/alarm-notify.glade.h:8
+#: ../calendar/gui/dialogs/alarm-dialog.glade.h:26
+#: ../calendar/gui/dialogs/calendar-setup.glade.h:14
+#: ../filter/filter.glade.h:16 ../mail/em-account-editor.c:1951
+#: ../plugins/calendar-http/calendar-http.c:263
+#: ../plugins/calendar-weather/calendar-weather.c:563
+msgid "minutes"
+msgstr "minutos"
+
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:1
 #: ../addressbook/gui/contact-editor/fulladdr.glade.h:1
 #: ../addressbook/gui/contact-editor/fullname.glade.h:1
@@ -878,277 +1171,6 @@ msgstr "Indica si se muestra el panel de vista previa."
 #: ../widgets/misc/gal-categories.glade.h:1
 msgid "*"
 msgstr "*"
-
-#: ../addressbook/gui/component/ldap-config.glade.h:2
-msgid "1"
-msgstr "1"
-
-#: ../addressbook/gui/component/ldap-config.glade.h:3
-msgid "3268"
-msgstr "3268"
-
-#: ../addressbook/gui/component/ldap-config.glade.h:4
-msgid "389"
-msgstr "389"
-
-#: ../addressbook/gui/component/ldap-config.glade.h:5
-msgid "5"
-msgstr "5"
-
-#: ../addressbook/gui/component/ldap-config.glade.h:6
-msgid "636"
-msgstr "636"
-
-#: ../addressbook/gui/component/ldap-config.glade.h:7
-#: ../calendar/gui/dialogs/url-editor-dialog.glade.h:2
-msgid "<b>Authentication</b>"
-msgstr "<b>Autenticación</b>"
-
-#: ../addressbook/gui/component/ldap-config.glade.h:8
-msgid "<b>Display</b>"
-msgstr "<b>Pantalla</b>"
-
-#: ../addressbook/gui/component/ldap-config.glade.h:9
-msgid "<b>Downloading</b>"
-msgstr "<b>Descarga</b>"
-
-#: ../addressbook/gui/component/ldap-config.glade.h:10
-msgid "<b>Searching</b>"
-msgstr "<b>Búsqueda</b>"
-
-#: ../addressbook/gui/component/ldap-config.glade.h:11
-msgid "<b>Server Information</b>"
-msgstr "<b>Información del servidor</b>"
-
-#: ../addressbook/gui/component/ldap-config.glade.h:12
-msgid "<b>Type:</b>"
-msgstr "<b>Tipo:</b>"
-
-#: ../addressbook/gui/component/ldap-config.glade.h:13
-msgid "Add Address Book"
-msgstr "Añade una libreta de direcciones"
-
-#: ../addressbook/gui/component/ldap-config.glade.h:15
-#: ../mail/em-account-editor.c:302 ../mail/em-account-editor.c:759
-msgid "Always"
-msgstr "Siempre"
-
-#: ../addressbook/gui/component/ldap-config.glade.h:16
-msgid "Anonymously"
-msgstr "Anónimamente"
-
-#: ../addressbook/gui/component/ldap-config.glade.h:17
-msgid "Basic"
-msgstr "Básico"
-
-#: ../addressbook/gui/component/ldap-config.glade.h:19
-msgid "Distinguished name"
-msgstr "Nombre distintivo"
-
-#: ../addressbook/gui/component/ldap-config.glade.h:20
-msgid "Email address"
-msgstr "Dirección de correo-e"
-
-#: ../addressbook/gui/component/ldap-config.glade.h:21
-msgid "Evolution will use this email address to authenticate you with the server."
-msgstr "Evolution usará esta dirección de correo-e para autenticarle con el servidor."
-
-#: ../addressbook/gui/component/ldap-config.glade.h:22
-msgid "Find Possible Search Bases"
-msgstr "Buscar bases de búsqueda posibles"
-
-#: ../addressbook/gui/component/ldap-config.glade.h:24
-msgid "Lo_gin:"
-msgstr "_Inicio de sesión:"
-
-#: ../addressbook/gui/component/ldap-config.glade.h:25
-#: ../mail/em-account-editor.c:300 ../mail/em-account-editor.c:758
-msgid "Never"
-msgstr "Nunca"
-
-#: ../addressbook/gui/component/ldap-config.glade.h:26
-msgid "One"
-msgstr "Uno"
-
-#: ../addressbook/gui/component/ldap-config.glade.h:27
-msgid "Search _base:"
-msgstr "_Base de búsqueda:"
-
-#: ../addressbook/gui/component/ldap-config.glade.h:28
-msgid ""
-"Selecting this option means that Evolution will only connect to your LDAP "
-"server if your LDAP server supports SSL or TLS."
-msgstr ""
-"Seleccionar esta opción significa que Evolution sólo conectará con su "
-"servidor LDAP si su servidor LDAP soporta SSL o TLS."
-
-#: ../addressbook/gui/component/ldap-config.glade.h:29
-msgid ""
-"Selecting this option means that Evolution will only try to use SSL/TLS if "
-"you are in a insecure environment. For example, if you and your LDAP server "
-"are behind a firewall at work, then Evolution doesn't need to use SSL/TLS "
-"because your connection is already secure."
-msgstr ""
-"Seleccionar esta opción significa que Evolution sólo intentará usar SSL/TLS "
-"si está en un entorno inseguro. Por ejemplo, si usted y su servidor LDAP "
-"están tras un cortafuegos en el trabajo, entonces Evolution no necesita usar "
-"SSL/TLS porque su conexión ya es segura."
-
-#: ../addressbook/gui/component/ldap-config.glade.h:30
-msgid ""
-"Selecting this option means that your server does not support either SSL or "
-"TLS.  This means that your connection will be insecure, and that you will be "
-"vulnerable to security exploits. "
-msgstr ""
-"El seleccionar esta opción significa que su servidor no soporta ni SSL ni "
-"TLS. Esto significa que su conexión será insegura y que usted será "
-"vulnerable a fallos de seguridad. "
-
-#: ../addressbook/gui/component/ldap-config.glade.h:31
-msgid "Sub"
-msgstr "Sub"
-
-#: ../addressbook/gui/component/ldap-config.glade.h:32
-msgid "Supported Search Bases"
-msgstr "Bases de búsqueda soportadas"
-
-#: ../addressbook/gui/component/ldap-config.glade.h:33
-msgid ""
-"The search base is the distinguished name (DN)  of the entry where your "
-"searches will begin. If you leave this blank, the search will begin at the "
-"root of the directory tree."
-msgstr ""
-"La base de Búsqueda es el nombre distintivo (ND) de la entrada donde las "
-"búsquedas empezarán. Si deja esto en blanco, la búsqueda empezará en la raíz "
-"del árbol de directorios."
-
-#: ../addressbook/gui/component/ldap-config.glade.h:34
-msgid ""
-"The search scope defines how deep you would like the search to extend down "
-"the directory tree. A search scope of \"sub\" will include all entries below "
-"your search base. A search scope of \"one\" will only include the entries "
-"one level beneath your base."
-msgstr ""
-"El ámbito de búsqueda define hasta qué profundidad desea que la búsqueda se "
-"extienda a lo largo de un árbol de directorios. Un ámbito de búsqueda de "
-"«sub» incluirá todas las entradas por debajo de su base de búsqueda. Un "
-"ámbito de «uno» sólo incluirá las entradas un nivel bajo su base."
-
-#: ../addressbook/gui/component/ldap-config.glade.h:35
-msgid ""
-"This is the full name of your ldap server. For example, \"ldap.mycompany.com"
-"\"."
-msgstr ""
-"Este es el nombre completo del servidor LDAP. Por ejemplo, «ldap.micompañia."
-"com»."
-
-#: ../addressbook/gui/component/ldap-config.glade.h:36
-msgid ""
-"This is the maximum number of entries to download. Setting this number to be "
-"too large will slow down your address book."
-msgstr ""
-"Este es el máximo número de entradas para descargar.  Si pone este número "
-"demasiado alto ralentizará su libreta de direcciones."
-
-#: ../addressbook/gui/component/ldap-config.glade.h:37
-msgid ""
-"This is the method Evolution will use to authenticate you.  Note that "
-"setting this to \"Email Address\" requires anonymous access to your ldap "
-"server."
-msgstr ""
-"Este es el método que usará Evolution para autenticarle a usted.  Note que "
-"establecer esto a «Dirección de correo-e» requiere acceso anónimo a su "
-"servidor ldap."
-
-#: ../addressbook/gui/component/ldap-config.glade.h:38
-msgid ""
-"This is the name for this server that will appear in your Evolution folder "
-"list. It is for display purposes only. "
-msgstr ""
-"Este nombre que identificará este servidor en la lista de carpetas de "
-"Evolution. Es sólo para poder mostrarlo en pantalla. "
-
-#: ../addressbook/gui/component/ldap-config.glade.h:39
-msgid ""
-"This is the port on the LDAP server that Evolution will try to connect to. A "
-"list of standard ports has been provided. Ask your system administrator what "
-"port you should specify."
-msgstr ""
-"Este es el puerto del servidor LDAP al que Evolution intentará conectarse. "
-"Se ha proporcionado una lista de puertos estándar. Pregunte a su "
-"administrador del sistema qué puerto debería especificar."
-
-#: ../addressbook/gui/component/ldap-config.glade.h:40
-msgid "Using distinguished name (DN)"
-msgstr "Usando «Nombre Distintivo» (ND)"
-
-#: ../addressbook/gui/component/ldap-config.glade.h:41
-msgid "Using email address"
-msgstr "Usando dirección de correo-e"
-
-#: ../addressbook/gui/component/ldap-config.glade.h:42
-#: ../mail/em-account-editor.c:301
-msgid "Whenever Possible"
-msgstr "Cuando sea posible"
-
-#: ../addressbook/gui/component/ldap-config.glade.h:43
-msgid "_Add Address Book"
-msgstr "_Añadir libreta de direcciones"
-
-#: ../addressbook/gui/component/ldap-config.glade.h:44
-msgid "_Download limit:"
-msgstr "Límite de _descarga:"
-
-#: ../addressbook/gui/component/ldap-config.glade.h:45
-msgid "_Find Possible Search Bases"
-msgstr "_Buscar bases de búsqueda posibles"
-
-#: ../addressbook/gui/component/ldap-config.glade.h:46
-msgid "_Login method:"
-msgstr "Método de _inicio de sesión:"
-
-#: ../addressbook/gui/component/ldap-config.glade.h:47
-#: ../calendar/gui/dialogs/calendar-setup.c:244
-#: ../calendar/gui/dialogs/calendar-setup.glade.h:8
-#: ../mail/mail-config.glade.h:164
-#: ../widgets/menus/gal-view-instance-save-as-dialog.glade.h:4
-msgid "_Name:"
-msgstr "_Nombre:"
-
-#: ../addressbook/gui/component/ldap-config.glade.h:48
-msgid "_Port:"
-msgstr "_Puerto:"
-
-#: ../addressbook/gui/component/ldap-config.glade.h:49
-msgid "_Search scope:"
-msgstr "_Ámbito de búsqueda:"
-
-#: ../addressbook/gui/component/ldap-config.glade.h:50
-#: ../mail/mail-config.glade.h:171
-msgid "_Server:"
-msgstr "_Servidor:"
-
-#: ../addressbook/gui/component/ldap-config.glade.h:51
-msgid "_Timeout:"
-msgstr "_Tiempo de expiración:"
-
-#: ../addressbook/gui/component/ldap-config.glade.h:52
-msgid "_Use secure connection:"
-msgstr "_Usar conexión segura:"
-
-#: ../addressbook/gui/component/ldap-config.glade.h:53
-msgid "cards"
-msgstr "tarjetas"
-
-#: ../addressbook/gui/component/ldap-config.glade.h:54
-#: ../calendar/gui/alarm-notify/alarm-notify.glade.h:8
-#: ../calendar/gui/dialogs/alarm-dialog.glade.h:26
-#: ../calendar/gui/dialogs/calendar-setup.glade.h:14
-#: ../filter/filter.glade.h:16 ../mail/em-account-editor.c:1951
-#: ../plugins/calendar-http/calendar-http.c:263
-#: ../plugins/calendar-weather/calendar-weather.c:563
-msgid "minutes"
-msgstr "minutos"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:2
 msgid "<b>Email</b>"
@@ -3536,6 +3558,16 @@ msgstr "VCards múltiples"
 msgid "VCard for %s"
 msgstr "VCard para %s"
 
+#: ../addressbook/gui/widgets/eab-gui-util.c:1031
+#: ../addressbook/gui/widgets/eab-gui-util.c:1049
+msgid "Contact information"
+msgstr "Información de contacto"
+
+#: ../addressbook/gui/widgets/eab-gui-util.c:1051
+#, c-format
+msgid "Contact information for %s"
+msgstr "Información de contacto de %s"
+
 #.
 #. * This is the code for the UI thingie that lets you manipulate the e-mail
 #. * addresses (and *only* the e-mail addresses) associated with an existing
@@ -4946,7 +4978,7 @@ msgstr "Calendario _nuevo"
 #: ../calendar/gui/dialogs/comp-editor.c:429
 #: ../calendar/gui/e-calendar-table.c:1175
 #: ../calendar/gui/e-calendar-view.c:1556 ../calendar/gui/e-memo-table.c:853
-#: ../calendar/gui/tasks-component.c:440 ../composer/e-msg-composer.c:3050
+#: ../calendar/gui/tasks-component.c:440 ../composer/e-msg-composer.c:3049
 #: ../mail/em-folder-tree.c:979 ../mail/em-folder-view.c:1035
 #: ../mail/message-list.c:1718 ../ui/evolution-addressbook.xml.h:32
 #: ../ui/evolution-calendar.xml.h:39 ../ui/evolution-composer-entries.xml.h:7
@@ -5222,7 +5254,7 @@ msgstr "adjunto"
 #: ../calendar/gui/dialogs/comp-editor.c:1120
 #: ../calendar/gui/dialogs/meeting-page.c:908
 #: ../composer/e-msg-composer-attachment-bar.c:470
-#: ../composer/e-msg-composer.c:3546
+#: ../composer/e-msg-composer.c:3545
 #: ../plugins/groupwise-features/junk-settings.glade.h:8
 #: ../plugins/groupwise-features/properties.glade.h:14
 #: ../widgets/table/e-table-config.glade.h:18
@@ -5232,7 +5264,7 @@ msgstr "_Quitar"
 #: ../calendar/gui/dialogs/cal-attachment-bar.c:474
 #: ../calendar/gui/dialogs/comp-editor.c:1121
 #: ../composer/e-msg-composer-attachment-bar.c:471
-#: ../composer/e-msg-composer.c:3547 ../mail/em-folder-tree.c:2058
+#: ../composer/e-msg-composer.c:3546 ../mail/em-folder-tree.c:2058
 #: ../ui/evolution-mail-list.xml.h:29
 msgid "_Properties"
 msgstr "_Propiedades"
@@ -5240,7 +5272,7 @@ msgstr "_Propiedades"
 #: ../calendar/gui/dialogs/cal-attachment-bar.c:476
 #: ../calendar/gui/dialogs/comp-editor.c:1123
 #: ../composer/e-msg-composer-attachment-bar.c:473
-#: ../composer/e-msg-composer.c:3549
+#: ../composer/e-msg-composer.c:3548
 msgid "_Add attachment..."
 msgstr "_Añadir adjunto..."
 
@@ -5616,9 +5648,7 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/calendar-setup.c:292
 msgid "Copy memo list contents locally for offline operation"
-msgstr ""
-"Copiar el contenido de la nota localmente para operación "
-"desconectada"
+msgstr "Copiar el contenido de la nota localmente para operación desconectada"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:343
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:4
@@ -5757,28 +5787,28 @@ msgstr " (Vence "
 msgid "Due "
 msgstr "Vence "
 
-#: ../calendar/gui/dialogs/comp-editor.c:191 ../composer/e-msg-composer.c:2801
+#: ../calendar/gui/dialogs/comp-editor.c:191 ../composer/e-msg-composer.c:2800
 #, c-format
 msgid "Attached message - %s"
 msgstr "Mensaje adjunto - %s"
 
 #. translators, this count will always be >1
 #: ../calendar/gui/dialogs/comp-editor.c:196
-#: ../calendar/gui/dialogs/comp-editor.c:366 ../composer/e-msg-composer.c:2806
-#: ../composer/e-msg-composer.c:2985
+#: ../calendar/gui/dialogs/comp-editor.c:366 ../composer/e-msg-composer.c:2805
+#: ../composer/e-msg-composer.c:2984
 #, c-format
 msgid "Attached message"
 msgid_plural "%d attached messages"
 msgstr[0] "Mensaje adjunto"
 msgstr[1] "%d mensajes adjuntos"
 
-#: ../calendar/gui/dialogs/comp-editor.c:430 ../composer/e-msg-composer.c:3051
+#: ../calendar/gui/dialogs/comp-editor.c:430 ../composer/e-msg-composer.c:3050
 #: ../mail/em-folder-tree.c:980 ../mail/em-folder-utils.c:368
 #: ../mail/em-folder-view.c:931 ../mail/message-list.c:1719
 msgid "_Move"
 msgstr "_Mover"
 
-#: ../calendar/gui/dialogs/comp-editor.c:432 ../composer/e-msg-composer.c:3053
+#: ../calendar/gui/dialogs/comp-editor.c:432 ../composer/e-msg-composer.c:3052
 #: ../mail/em-folder-tree.c:982 ../mail/message-list.c:1721
 msgid "Cancel _Drag"
 msgstr "Cancelar _arrastre"
@@ -5787,7 +5817,7 @@ msgstr "Cancelar _arrastre"
 msgid "Could not update object"
 msgstr "No se pudo actualizar el objeto"
 
-#: ../calendar/gui/dialogs/comp-editor.c:978 ../composer/e-msg-composer.c:2444
+#: ../calendar/gui/dialogs/comp-editor.c:978 ../composer/e-msg-composer.c:2443
 #, c-format
 msgid "<b>%d</b> Attachment"
 msgid_plural "<b>%d</b> Attachments"
@@ -5805,7 +5835,9 @@ msgstr "Mostrar _barra de adjuntos"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1313
 msgid "Attachment Button: Press space key to toggle attachment bar"
-msgstr "Botón de adjuntos: Pulse la tecla de espacio para cambiar la barra de adjuntos"
+msgstr ""
+"Botón de adjuntos: Pulse la tecla de espacio para cambiar la barra de "
+"adjuntos"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1892
 #: ../calendar/gui/dialogs/comp-editor.c:1935
@@ -6144,7 +6176,7 @@ msgstr "<b>De:</b>"
 #: ../calendar/gui/dialogs/meeting-page.c:315
 #: ../calendar/gui/dialogs/meeting-page.glade.h:4
 #: ../calendar/gui/e-cal-model-tasks.c:653
-#: ../calendar/gui/e-itip-control.c:1103 ../composer/e-msg-composer.c:2247
+#: ../calendar/gui/e-itip-control.c:1103 ../composer/e-msg-composer.c:2246
 #: ../filter/filter-rule.c:881 ../mail/em-account-editor.c:683
 #: ../mail/em-account-editor.c:1348 ../mail/em-account-prefs.c:464
 #: ../mail/em-folder-view.c:1064 ../mail/em-junk-hook.c:78
@@ -6911,7 +6943,7 @@ msgstr "Actualizando objetos"
 
 #: ../calendar/gui/e-calendar-table.c:1025
 #: ../calendar/gui/e-calendar-view.c:1126 ../calendar/gui/e-memo-table.c:735
-#: ../composer/e-msg-composer.c:1342
+#: ../composer/e-msg-composer.c:1341
 msgid "Save as..."
 msgstr "Guardar como..."
 
@@ -10062,47 +10094,47 @@ msgstr ""
 "No se puede cifrar el mensaje saliente: no hay establecido un certificado de "
 "cifrado para esta cuenta"
 
-#: ../composer/e-msg-composer.c:1323 ../composer/e-msg-composer.c:1357
+#: ../composer/e-msg-composer.c:1322 ../composer/e-msg-composer.c:1356
 #: ../plugins/mail-remote/e-corba-utils.c:135
 msgid "Unknown reason"
 msgstr "Razón desconocida"
 
-#: ../composer/e-msg-composer.c:1395
+#: ../composer/e-msg-composer.c:1394
 msgid "Could not open file"
 msgstr "No se pudo abrir el archivo"
 
-#: ../composer/e-msg-composer.c:1403
+#: ../composer/e-msg-composer.c:1402
 msgid "Unable to retrieve message from editor"
 msgstr "No se pudo obtener el mensaje del editor"
 
-#: ../composer/e-msg-composer.c:1678
+#: ../composer/e-msg-composer.c:1677
 msgid "Untitled Message"
 msgstr "Mensaje sin título"
 
 #. NB: This function is never used anymore
-#: ../composer/e-msg-composer.c:1713
+#: ../composer/e-msg-composer.c:1712
 msgid "Open File"
 msgstr "Abrir archivo"
 
-#: ../composer/e-msg-composer.c:2127 ../mail/em-account-editor.c:588
+#: ../composer/e-msg-composer.c:2126 ../mail/em-account-editor.c:588
 #: ../mail/em-account-editor.c:633 ../mail/em-account-editor.c:700
 msgid "Autogenerated"
 msgstr "Auto-generado"
 
-#: ../composer/e-msg-composer.c:2230
+#: ../composer/e-msg-composer.c:2229
 msgid "Si_gnature:"
 msgstr "_Firma:"
 
-#: ../composer/e-msg-composer.c:2473 ../composer/e-msg-composer.c:3674
-#: ../composer/e-msg-composer.c:3677
+#: ../composer/e-msg-composer.c:2472 ../composer/e-msg-composer.c:3673
+#: ../composer/e-msg-composer.c:3676
 msgid "Compose a message"
 msgstr "Redactar un mensaje"
 
-#: ../composer/e-msg-composer.c:3792
+#: ../composer/e-msg-composer.c:3791
 msgid "_Attachment Bar"
 msgstr "Barra de _adjuntos"
 
-#: ../composer/e-msg-composer.c:4882
+#: ../composer/e-msg-composer.c:4881
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)"
 "<b>"
@@ -10950,18 +10982,18 @@ msgstr "Añadir firma"
 msgid "Signature(s)"
 msgstr "Firma(s)"
 
-#: ../mail/em-composer-utils.c:848 ../mail/em-format-quote.c:389
+#: ../mail/em-composer-utils.c:855 ../mail/em-format-quote.c:389
 msgid "-------- Forwarded Message --------"
 msgstr "--------- Mensaje reenviado --------"
 
-#: ../mail/em-composer-utils.c:1643
+#: ../mail/em-composer-utils.c:1650
 msgid "an unknown sender"
 msgstr "un remitente desconocido"
 
 #. Note to translators: this is the attribution string used when quoting messages.
 #. * each ${Variable} gets replaced with a value. To see a full list of available
 #. * variables, see em-composer-utils.c:1514
-#: ../mail/em-composer-utils.c:1690
+#: ../mail/em-composer-utils.c:1697
 msgid ""
 "On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} "
 "${TimeZone}, ${Sender} wrote:"
@@ -14813,7 +14845,8 @@ msgid ""
 "Evolution is in offline mode. You cannot create or modify folders now.\n"
 "Please switch to online mode for such operations."
 msgstr ""
-"Evolution está en modo desconectado. No puede crear o modificar carpetas ahora.\n"
+"Evolution está en modo desconectado. No puede crear o modificar carpetas "
+"ahora.\n"
 "Cambie a modo conectado para dichas operaciones."
 
 #. User entered a wrong existing
@@ -15636,7 +15669,9 @@ msgstr "Sin directorio de salida"
 msgid ""
 "The output directory was not found on iPod! Please ensure that iPod has been "
 "correctly set up and try again."
-msgstr "El directorio de salida no se encontró en el iPod. Asegúrese de que el iPod se ha configurado correctamente e inténtelo de nuevo."
+msgstr ""
+"El directorio de salida no se encontró en el iPod. Asegúrese de que el iPod "
+"se ha configurado correctamente e inténtelo de nuevo."
 
 #: ../plugins/ipod-sync/sync.c:174 ../plugins/ipod-sync/sync.c:202
 msgid "Could not export data!"
@@ -15660,7 +15695,9 @@ msgstr "No se pudo abrir el calendario/tareas"
 
 #: ../plugins/ipod-sync/sync.c:292
 msgid "Could not open the Evolution calendar/todo list to export data."
-msgstr "No s epudo abrir la lista de calendario /tareas de Evolution para exportar datos."
+msgstr ""
+"No s epudo abrir la lista de calendario /tareas de Evolution para exportar "
+"datos."
 
 #: ../plugins/itip-formatter/itip-formatter.c:724
 msgid "Unable to parse item"
