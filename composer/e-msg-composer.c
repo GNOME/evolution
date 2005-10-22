@@ -953,7 +953,6 @@ get_file_content (EMsgComposer *composer, const char *file_name, gboolean want_h
 	char *charset;
 	char *content;
 	int fd;
-	EMsgComposerPrivate *p = composer->priv;
 	
 	fd = open (file_name, O_RDONLY);
 	if (fd == -1) {
@@ -996,7 +995,7 @@ get_file_content (EMsgComposer *composer, const char *file_name, gboolean want_h
 		filtered_stream = camel_stream_filter_new_with_stream (stream);
 		camel_object_unref (stream);
 		
-		charset = composer && p->charset ? p->charset : NULL;
+		charset = composer && composer->priv->charset ? composer->priv->charset : NULL;
 		charset = charset ? g_strdup (charset) : composer_get_default_charset_setting ();
 		if ((charenc = (CamelMimeFilter *) camel_mime_filter_charset_new_convert (charset, "UTF-8"))) {
 			camel_stream_filter_add (filtered_stream, charenc);
@@ -2310,7 +2309,7 @@ setup_ui (EMsgComposer *composer)
 	bonobo_ui_component_add_listener (
 		p->uic, "FormatHtml",
 		menu_format_html_cb, composer);
-	
+
 	/* View/From */
 	bonobo_ui_component_set_prop (
 		p->uic, "/commands/ViewFrom",

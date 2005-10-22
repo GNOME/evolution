@@ -1663,3 +1663,4 @@ e_msg_composer_hdrs_get_from_omenu (EMsgComposerHdrs *hdrs)
 	
 	return GTK_WIDGET (g_object_get_data ((GObject *) hdrs->priv->from.entry, "from_menu"));
 }
+

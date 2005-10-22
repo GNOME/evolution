@@ -1,3 +1,9 @@
+2005-10-22  Parthasarathi Susarla <sparthasarathi@novell.com>
+	
+	* e-msg-composer.c: (get_file_content):
+	use composer->priv->charset instead of p->charset. This fixes 
+	a crash
+
 2005-10-21 Vivek Jain <jvivek@novell.com>
 	
 	Comitted NotZed's patch given on #314701
