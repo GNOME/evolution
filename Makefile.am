@@ -53,7 +53,7 @@ SUBDIRS = 			\
 	help			\
 	po
 
-DISTCLEANFILES = intltool-extract intltool-merge intltool-update iconv-detect.c $(pkgconfig_DATA)
+DISTCLEANFILES = intltool-extract intltool-merge intltool-update iconv-detect.h $(pkgconfig_DATA)
 
 # CDE Stuff
 

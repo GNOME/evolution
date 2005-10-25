@@ -1,5 +1,10 @@
 2005-10-25  Harish Krishnaswamy  <kharish@novell.com>
 
+	* Makefile.am: Distclean should remove the header,
+	not iconv-detect.c
+
+2005-10-25  Harish Krishnaswamy  <kharish@novell.com>
+
 	* configure.in: Turn development warning on.
 	Bump version to 2.5.1.
 
