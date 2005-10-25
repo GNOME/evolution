@@ -1,3 +1,8 @@
+2005-10-25  Harish Krishnaswamy  <kharish@novell.com>
+
+	* configure.in: Turn development warning on.
+	Bump version to 2.5.1.
+
 2005-10-19  Harish Krishnaswamy <kharish@novell.com>
 
 	Committing for Nathan Owens <pianocomp81@yahoo.com>
