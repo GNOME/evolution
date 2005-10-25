@@ -1,3 +1,8 @@
+2005-10-25  Harish Krishnaswamy  <kharish@novell.com>
+
+	* main.c: (show_development_warning): Update
+	version and bugzilla information.
+
 2005-09-23  S.Antony Vincent Pandian <santony@gmail.com>
 
 	solves bug # 307780

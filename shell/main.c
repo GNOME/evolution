@@ -236,13 +236,13 @@ show_development_warning(void)
 		  "If you want a stable version of Evolution, we urge you to uninstall\n"
 		  "this version, and install version %s instead.\n"
 		  "\n"
-		  "If you find bugs, please report them to us at bugzilla.ximian.com.\n"
+		  "If you find bugs, please report them to us at bugzilla.gnome.org.\n"
                   "This product comes with no warranty and is not intended for\n"
 		  "individuals prone to violent fits of anger.\n"
                   "\n"
 		  "We hope that you enjoy the results of our hard work, and we\n"
 		  "eagerly await your contributions!\n"),
-		"2.0");
+		"2.4.1");
 	label = gtk_label_new (text);
 	g_free(text);
 
