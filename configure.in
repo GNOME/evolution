@@ -23,7 +23,7 @@ dnl This is for api/versioning tracking for things like bonobo .server files
 dnl
 dnl This should always be the major/minor of the stable version or stable version to be
 dnl *************************************************************************************************
-BASE_VERSION=2.4
+BASE_VERSION=2.6
 AC_SUBST(BASE_VERSION)
 AC_DEFINE_UNQUOTED(BASE_VERSION, "$BASE_VERSION", [Base version (Major.Minor)])
 
@@ -1517,7 +1517,6 @@ if echo ${plugins_enabled} | grep "exchange-operations" > /dev/null ; then
 		echo "warning: libevolution-exchange-$EDS_PACKAGE was not found, Exchange Operations plugin will not be built."
 	fi
 fi
-
 
 ##################################################
 # Check for gtk-doc.
