@@ -1,3 +1,10 @@
+2005-10-26  Vivek Jain <jvivek@novell.com>
+	
+	**See #313096
+	
+	* em-junk-hook.c: (emjh_construct)
+	load the plugin only if it is enabled.
+
 2005-10-22  Parthasarathi Susarla <sparthasarathi@novell.com>
 	
 	* mail-config.c: (mail_config_get_default_account):

@@ -249,8 +249,8 @@ emjh_construct(EPluginHook *eph, EPlugin *ep, xmlNodePtr root)
 	if (((EPluginHookClass *)emjh_parent_class)->construct(eph, ep, root) == -1)
 		return -1;
 
-	if (loaded) {
-		g_warning ("Can't load multiple plugins to this hook:ignored");
+	if (!ep->enabled || loaded) {
+		g_warning ("ignored this junk plugin: not enabled or we have already loaded one");
 		return -1;
 	}
 
