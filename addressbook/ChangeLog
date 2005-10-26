@@ -1,3 +1,9 @@
+2005-10-26   Devashish Sharma <sdevashish@novell.com>
+
+	* gui/contact-editor/e-contact-editor.c: Sets the focus to the 
+	corresponding ntry field after changing dropdown menus for phone, im
+	and e-mail fields in contact editor. Fixes #229972.
+
 2005-10-22  Sushma Rai  <rsushma@novell.com>
 
 	* gui/widgets/eab-gui-util.c (eab_send_contact_list_as_attachment): 

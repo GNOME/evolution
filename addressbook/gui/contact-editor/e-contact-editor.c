@@ -642,6 +642,12 @@ set_option_menu_history (EContactEditor *editor, GtkOptionMenu *option_menu, gin
 }
 
 static void
+email_menu_changed(GtkWidget *widget, GtkWidget *next)
+{
+	gtk_widget_grab_focus(next);
+}
+
+static void
 init_email_record_location (EContactEditor *editor, gint record)
 {
 	GtkWidget *location_option_menu;
@@ -671,6 +677,7 @@ init_email_record_location (EContactEditor *editor, gint record)
 	gtk_option_menu_set_menu (GTK_OPTION_MENU (location_option_menu), location_menu);
 
 	g_signal_connect (location_option_menu, "changed", G_CALLBACK (object_changed), editor);
+	g_signal_connect (location_option_menu, "changed", G_CALLBACK (email_menu_changed), email_entry);
 	g_signal_connect (email_entry, "changed", G_CALLBACK (object_changed), editor);
 	g_signal_connect_swapped (email_entry, "activate", G_CALLBACK (entry_activated), editor);
 }
@@ -1209,6 +1216,12 @@ extract_phone (EContactEditor *editor)
 }
 
 static void
+phone_menu_changed(GtkWidget *widget, GtkWidget *next)
+{
+	gtk_widget_grab_focus(next);
+}
+
+static void
 init_phone_record_type (EContactEditor *editor, gint record)
 {
 	GtkWidget *phone_type_option_menu;
@@ -1238,6 +1251,7 @@ init_phone_record_type (EContactEditor *editor, gint record)
 	gtk_option_menu_set_menu (GTK_OPTION_MENU (phone_type_option_menu), phone_type_menu);
 
 	g_signal_connect (phone_type_option_menu, "changed", G_CALLBACK (object_changed), editor);
+	g_signal_connect (phone_type_option_menu, "changed", G_CALLBACK (phone_menu_changed), phone_entry);
 	g_signal_connect (phone_entry, "changed", G_CALLBACK (object_changed), editor);
 	g_signal_connect_swapped (phone_entry, "activate", G_CALLBACK (entry_activated), editor);
 }
@@ -1317,19 +1331,13 @@ sensitize_phone (EContactEditor *editor)
 static void
 init_im_record_location (EContactEditor *editor, gint record)
 {
+	
 #ifdef ENABLE_IM_LOCATION
 	GtkWidget *location_option_menu;
 	GtkWidget *location_menu;
 	gint       i;
-#endif
-	GtkWidget *name_entry;
-	gchar     *widget_name;
-
-	widget_name = g_strdup_printf ("entry-im-name-%d", record);
-	name_entry = glade_xml_get_widget (editor->gui, widget_name);
-	g_free (widget_name);
-
-#ifdef ENABLE_IM_LOCATION
+	gchar *widget_name;
+	
 	widget_name = g_strdup_printf ("optionmenu-im-location-%d", record);
 	location_option_menu = glade_xml_get_widget (editor->gui, widget_name);
 	g_free (widget_name);
@@ -1348,9 +1356,12 @@ init_im_record_location (EContactEditor *editor, gint record)
 
 	g_signal_connect (location_option_menu, "changed", G_CALLBACK (object_changed), editor);
 #endif
+}
 
-	g_signal_connect (name_entry, "changed", G_CALLBACK (object_changed), editor);
-	g_signal_connect_swapped (name_entry, "activate", G_CALLBACK (entry_activated), editor);
+static void
+im_menu_changed(GtkWidget *widget, GtkWidget *next)
+{
+	gtk_widget_grab_focus(next);
 }
 
 static void
@@ -1358,8 +1369,13 @@ init_im_record_service (EContactEditor *editor, gint record)
 {
 	GtkWidget *service_option_menu;
 	GtkWidget *service_menu;
+	GtkWidget *name_entry;
 	gchar     *widget_name;
 	gint       i;
+
+	widget_name = g_strdup_printf ("entry-im-name-%d", record);
+	name_entry = glade_xml_get_widget (editor->gui, widget_name);
+	g_free (widget_name);
 
 	widget_name = g_strdup_printf ("optionmenu-im-service-%d", record);
 	service_option_menu = glade_xml_get_widget (editor->gui, widget_name);
@@ -1378,6 +1394,9 @@ init_im_record_service (EContactEditor *editor, gint record)
 	gtk_option_menu_set_menu (GTK_OPTION_MENU (service_option_menu), service_menu);
 
 	g_signal_connect (service_option_menu, "changed", G_CALLBACK (object_changed), editor);
+	g_signal_connect (service_option_menu, "changed", G_CALLBACK (im_menu_changed), name_entry);
+	g_signal_connect (name_entry, "changed", G_CALLBACK (object_changed), editor);
+	g_signal_connect_swapped (name_entry, "activate", G_CALLBACK (entry_activated), editor);
 }
 
 static void
