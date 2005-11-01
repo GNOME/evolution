@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-10-23 02:16-0400\n"
+"POT-Creation-Date: 2005-11-01 12:44-0500\n"
 "PO-Revision-Date: 2005-08-21 19:18-0400\n"
 "Last-Translator: Adam Weinberger <adamw@gnome.org>\n"
 "Language-Team: Canadian English <adamw@gnome.org>\n"
@@ -1187,7 +1187,7 @@ msgstr "Contact"
 #: addressbook/gui/contact-editor/contact-editor.glade.h:13
 #: addressbook/gui/contact-editor/e-contact-editor.c:525
 #: addressbook/gui/contact-editor/e-contact-editor.c:540
-#: addressbook/gui/contact-editor/e-contact-editor.c:2353
+#: addressbook/gui/contact-editor/e-contact-editor.c:2372
 msgid "Contact Editor"
 msgstr "Contact Editor"
 
@@ -2429,20 +2429,20 @@ msgid "Changed"
 msgstr "Changed"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:535
-#: addressbook/gui/contact-editor/e-contact-editor.c:2348
+#: addressbook/gui/contact-editor/e-contact-editor.c:2367
 #, c-format
 msgid "Contact Editor - %s"
 msgstr "Contact Editor - %s"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:2661
+#: addressbook/gui/contact-editor/e-contact-editor.c:2680
 msgid "Please select an image for this contact"
 msgstr "Please select an image for this contact"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:2662
+#: addressbook/gui/contact-editor/e-contact-editor.c:2681
 msgid "No image"
 msgstr "No image"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:2941
+#: addressbook/gui/contact-editor/e-contact-editor.c:2960
 msgid ""
 "The contact data is invalid:\n"
 "\n"
@@ -2450,7 +2450,7 @@ msgstr ""
 "The contact data is invalid:\n"
 "\n"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:2993
+#: addressbook/gui/contact-editor/e-contact-editor.c:3012
 msgid "Invalid contact."
 msgstr "Invalid contact."
 
@@ -16968,7 +16968,7 @@ msgid ""
 "If you want a stable version of Evolution, we urge you to uninstall\n"
 "this version, and install version %s instead.\n"
 "\n"
-"If you find bugs, please report them to us at bugzilla.ximian.com.\n"
+"If you find bugs, please report them to us at bugzilla.gnome.org.\n"
 "This product comes with no warranty and is not intended for\n"
 "individuals prone to violent fits of anger.\n"
 "\n"
@@ -16984,7 +16984,7 @@ msgstr ""
 "If you want a stable version of Evolution, we urge you to uninstall\n"
 "this version, and install version %s instead.\n"
 "\n"
-"If you find bugs, please report them to us at bugzilla.ximian.com.\n"
+"If you find bugs, please report them to us at bugzilla.gnome.org.\n"
 "This product comes with no warranty and is not intended for\n"
 "individuals prone to violent fits of anger.\n"
 "\n"
