@@ -1,3 +1,9 @@
+2005-11-07  Dinesh Layek  <ldinesh@novell.com>
+
+	Fixes #308752
+	* itip-formatter.c: (itip_formatter_page_factory): changed the label 
+	"Meetings and Tasks" as "Calendar and Tasks"
+
 2005-09-12  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #315345
