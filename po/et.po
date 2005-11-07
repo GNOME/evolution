@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-10-15 12:49+0200\n"
-"PO-Revision-Date: 2005-10-15 16:08+0300\n"
+"PO-Revision-Date: 2005-11-04 00:13+0200\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -4993,7 +4993,7 @@ msgstr "_Programm:"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:15
 msgid "_Repeat the alarm"
-msgstr "_Alarmi täiendav kordamine"
+msgstr "_Alarmi korratakse täiendavalt"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:16
 msgid "_Sound:"
@@ -5509,7 +5509,7 @@ msgstr "Lisa uus ülesandeloend"
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:5
 #: ../mail/mail-config.glade.h:105
 msgid "Pick a color"
-msgstr "Vali värvus"
+msgstr "Värvuse valimine"
 
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:6
 msgid "_Add Calendar"
@@ -12579,7 +12579,7 @@ msgstr "Balti (ISO-8859-4)"
 
 #: ../mail/mail-config.glade.h:49
 msgid "Beep w_hen new mail arrives"
-msgstr "_Piiksu uue sõnumi saabumisel"
+msgstr "Uue sõnumi saabumisel piiksutakse"
 
 #: ../mail/mail-config.glade.h:50
 msgid "C_haracter set:"
@@ -12591,15 +12591,15 @@ msgstr "_Toetatavate tüüpide tuvastus"
 
 #: ../mail/mail-config.glade.h:52
 msgid "Check _incoming mail for junk"
-msgstr "Sissetulevas posti _rämpsukontroll"
+msgstr "Sissetuleva posti _rämpsukontroll"
 
 #: ../mail/mail-config.glade.h:53
 msgid "Check spelling while I _type"
-msgstr "Kon_trolli õigekirja sisestamise ajal"
+msgstr "Õigekirja kon_trollimine sisestamise ajal"
 
 #: ../mail/mail-config.glade.h:54
 msgid "Checks incoming mail messages to be Junk"
-msgstr "Kontrolli sissetulevate kirjade seest rämpsu"
+msgstr "Sissetulevate kirjade seest rämpsu kontrollimine"
 
 #: ../mail/mail-config.glade.h:55
 msgid "Cle_ar"
@@ -12619,7 +12619,7 @@ msgstr "Värvid"
 
 #: ../mail/mail-config.glade.h:59
 msgid "Confirm _when expunging a folder"
-msgstr "_Kinnituse küsimine enne kataloogi puhastamist"
+msgstr "_Enne kataloogi puhastamist küsitakse kinnitust"
 
 #: ../mail/mail-config.glade.h:60
 msgid ""
@@ -12630,9 +12630,9 @@ msgid ""
 "\n"
 "Click \"Apply\" to save your settings."
 msgstr ""
-"Õnnitlen, sinu e-posti seadistamine on valmis.\n"
+"Õnnitlen, Sinu e-posti seadistused on valmis.\n"
 "\n"
-"Nüüd on Evolution valmis sinu e-posti saatma\n"
+"Nüüd on Evolution valmis Sinu e-posti saatma\n"
 "ja vastu võtma.\n"
 "\n"
 "Seadistuste salvestamiseks vajuta \"Rakenda\"."
@@ -12707,7 +12707,7 @@ msgstr "Päised"
 
 #: ../mail/mail-config.glade.h:88
 msgid "Highlight _quotations with"
-msgstr "Rõhuta _tsiteeringuid"
+msgstr "_Tsiteeringuid rõhutatakse"
 
 #: ../mail/mail-config.glade.h:89
 msgid "I_nclude remote tests"
@@ -12753,7 +12753,7 @@ msgstr "PGP/GPG _võtme ID:"
 
 #: ../mail/mail-config.glade.h:106
 msgid "Play sound file when new mail arri_ves"
-msgstr "Mängi uue _sõnumi saabumisel heli"
+msgstr "_Uue sõnumi saabumisel mängitakse helifaili"
 
 #: ../mail/mail-config.glade.h:107
 msgid ""
@@ -12808,7 +12808,7 @@ msgstr "_Vasta-kellele:"
 
 #: ../mail/mail-config.glade.h:118
 msgid "Remember _password"
-msgstr "Parooli _meeldejätmine"
+msgstr "Parool jäetakse _meelde"
 
 #: ../mail/mail-config.glade.h:119
 msgid "S_elect..."
@@ -12937,7 +12937,7 @@ msgstr "Allkirja _lisamine"
 
 #: ../mail/mail-config.glade.h:155
 msgid "_Always load images from the Internet"
-msgstr "_Alati lae pildid Internetist"
+msgstr "_Internetis olevad pildid laaditakse alati"
 
 #: ../mail/mail-config.glade.h:156
 msgid "_Do not notify me when new mail arrives"
@@ -12957,19 +12957,19 @@ msgstr "Täis_nimi:"
 
 #: ../mail/mail-config.glade.h:161
 msgid "_Load images in mail from contacts"
-msgstr ""
+msgstr "Pildid _laaditakse kontaktide poolt saadetud sõnumites"
 
 #: ../mail/mail-config.glade.h:162
 msgid "_Make this my default account"
-msgstr "_Määra see konto minu vaikimisi kontoks"
+msgstr "See konto on _määratud minu vaikimisi kontoks"
 
 #: ../mail/mail-config.glade.h:163
 msgid "_Mark messages as read after"
-msgstr "_Märgi sõnum loetuks peale"
+msgstr "Sõnum _märgitakse loetuks peale"
 
 #: ../mail/mail-config.glade.h:165
 msgid "_Never load images from the Internet"
-msgstr "_Kunagi ära lae ühtegi pilti Internetist"
+msgstr "Internetist ei laadita _kunagi ühtegi pilti"
 
 #: ../mail/mail-config.glade.h:166
 msgid "_Path:"
@@ -12993,7 +12993,7 @@ msgstr "_Skript:"
 
 #: ../mail/mail-config.glade.h:172
 msgid "_Show animated images"
-msgstr "_Animeeritud piltide kuvamine"
+msgstr "A_nimeeritud piltide kuvamine"
 
 #: ../mail/mail-config.glade.h:173
 msgid "_Use Secure Connection:"
@@ -13001,7 +13001,7 @@ msgstr "_Turvalise ühenduse kasutamine:"
 
 #: ../mail/mail-config.glade.h:174
 msgid "_Use the same fonts as other applications"
-msgstr "_Kasuta sama kirjatüüpi, mis teisedki rakendused"
+msgstr "Teiste rakendustega sama kirjatüübi _kasutamine"
 
 #: ../mail/mail-config.glade.h:175
 msgid "color"
@@ -16151,6 +16151,10 @@ msgid ""
 "\n"
 "Please click the \"Forward\" button to continue. "
 msgstr ""
+"Tere tulemast Evolutioni. Mõnede järgnevate vormide abil saab Evolutioni "
+"ühendada Sinu e-posti kontodega ja importida faile teistest rakendustest. \n"
+"\n"
+"Jätkamiseks klõpsa palun \"Edasi\" nuppu. "
 
 #: ../plugins/startup-wizard/startup-wizard.c:140
 #: ../shell/e-shell-importer.c:145
@@ -17219,7 +17223,7 @@ msgstr "PKCS12 faili parool"
 
 #: ../smime/lib/e-pkcs12.c:264
 msgid "Enter password for PKCS12 file:"
-msgstr "Sisestage PKCS12 faili jaoks parool:"
+msgstr "Sisesta PKCS12 faili jaoks parool:"
 
 #: ../smime/lib/e-pkcs12.c:363
 msgid "Imported Certificate"
@@ -18705,7 +18709,7 @@ msgstr "Kollektsioon"
 #: ../widgets/menus/gal-define-views.glade.h:4
 #, no-c-format
 msgid "Define Views for %s"
-msgstr "Kirjelda %s vaateid..."
+msgstr "Vaadete kirjeldamine %s jaoks"
 
 #: ../widgets/menus/gal-define-views-dialog.c:333
 #: ../widgets/menus/gal-define-views-dialog.c:335
