@@ -326,13 +326,18 @@ alarm_notify_add_calendar (AlarmNotify *an, ECalSourceType source_type,  ESource
 {
 	AlarmNotifyPrivate *priv;
 	ECal *client;
+	EUri *e_uri;
 	char *str_uri;
+	char *pass_key;
 	g_return_if_fail (an != NULL);
 	g_return_if_fail (IS_ALARM_NOTIFY (an));
-	
 
+	/* Make sure the key used in for getting password is properly generated for all types of backends */
 	priv = an->priv;
 	str_uri = e_source_get_uri (source);
+	e_uri = e_uri_new (str_uri);
+	pass_key = e_uri_to_string (e_uri, FALSE);
+	e_uri_free (e_uri);
 	
 	g_mutex_lock (an->priv->mutex);
 	/* See if we already know about this uri */
@@ -345,9 +350,10 @@ alarm_notify_add_calendar (AlarmNotify *an, ECalSourceType source_type,  ESource
 	   session skip this source loading. we do not really want to prompt for auth from alarm dameon*/
 
 	if ((e_source_get_property (source, "auth") && 
-	     (!e_passwords_get_password (e_source_get_property(source, "auth-domain"), str_uri)))) {
+	     (!e_passwords_get_password (e_source_get_property(source, "auth-domain"), pass_key)))) {
 		g_mutex_unlock (an->priv->mutex);
 		g_free (str_uri);
+		g_free (pass_key);
 		return;
 	}
 	client = auth_new_cal_from_source (source, source_type);
@@ -357,6 +363,7 @@ alarm_notify_add_calendar (AlarmNotify *an, ECalSourceType source_type,  ESource
 		g_signal_connect (G_OBJECT (client), "cal_opened", G_CALLBACK (cal_opened_cb), an);
 		e_cal_open_async (client, FALSE);
 	}
+	g_free (pass_key);
 	g_free (str_uri);
 	g_mutex_unlock (an->priv->mutex);
 }
