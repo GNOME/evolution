@@ -1,3 +1,14 @@
+2005-11-08  P. S. Chakravarthi <pchakravarthi@novell.com>
+
+	Fixes 319217
+	* gui/alarm-notify/alarm-queue.c (load_alarms_for_today):
+	changed the code to load alarms from current day beginning if
+	last notification time is beyond current day's begin time and
+	* gui/alarm-notify/alarm.c (setup_timeout):
+	removed the check which sees if the alarm's trigger time has
+	got past current time so that alarms missed in current day are
+	always shown.
+
 2005-10-21  Mubeen Jukaku  <jmubeen@novell.com>
 
 	Sankar Committting for Mubeen

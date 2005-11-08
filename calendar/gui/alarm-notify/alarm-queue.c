@@ -449,18 +449,19 @@ load_alarms (ClientAlarms *ca, time_t start, time_t end)
 static void
 load_alarms_for_today (ClientAlarms *ca)
 {
-	time_t now, from, day_end;
+	time_t now, from, day_end, day_start;
 	icaltimezone *zone;
 
 	now = time (NULL);
+	zone = config_data_get_timezone ();
+	day_start = time_day_begin_with_zone (now, zone);
 
 	/* Make sure we don't miss some events from the last notification.
 	 * We add 1 to the saved_notification_time to make the time ranges
 	 * half-open; we do not want to display the "last" displayed alarm
 	 * twice, once when it occurs and once when the alarm daemon restarts.
 	 */
-	from = MIN (config_data_get_last_notification_time () + 1, now);
-	zone = config_data_get_timezone ();
+	from = MAX (config_data_get_last_notification_time () + 1, day_start);
 
 	g_message ("Loading alarms for today");
 	day_end = time_day_end_with_zone (now, zone);
