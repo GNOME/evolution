@@ -1,5 +1,12 @@
 2005-11-08  P. S. Chakravarthi <pchakravarthi@novell.com>
 
+	* gui/alarm-notify/alarm-notify.c 
+	(alarm_notify_add_calendars): modified the code to
+	generate the correct key for obtaining the password
+	for an authenticated calendar.
+
+2005-11-08  P. S. Chakravarthi <pchakravarthi@novell.com>
+
 	Fixes 319217
 	* gui/alarm-notify/alarm-queue.c (load_alarms_for_today):
 	changed the code to load alarms from current day beginning if
