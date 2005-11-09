@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-11-01 12:44-0500\n"
+"POT-Creation-Date: 2005-11-09 12:37-0500\n"
 "PO-Revision-Date: 2005-08-21 19:18-0400\n"
 "Last-Translator: Adam Weinberger <adamw@gnome.org>\n"
 "Language-Team: Canadian English <adamw@gnome.org>\n"
@@ -41,7 +41,7 @@ msgstr[0] "current addressbook folder has %d card"
 msgstr[1] "current addressbook folder has %d cards"
 
 #: a11y/addressbook/ea-minicard.c:31
-#: calendar/gui/alarm-notify/alarm-queue.c:968
+#: calendar/gui/alarm-notify/alarm-queue.c:969
 #: ui/evolution-message-composer.xml.h:11
 msgid "Open"
 msgstr "Open"
@@ -759,12 +759,12 @@ msgid "Accessing LDAP Server anonymously"
 msgstr "Accessing LDAP Server anonymously"
 
 #: addressbook/gui/component/addressbook.c:191
-#: plugins/groupwise-account-setup/camel-gw-listener.c:490
+#: plugins/groupwise-account-setup/camel-gw-listener.c:492
 msgid "Failed to authenticate.\n"
 msgstr "Failed to authenticate.\n"
 
 #: addressbook/gui/component/addressbook.c:198
-#: plugins/groupwise-account-setup/camel-gw-listener.c:469
+#: plugins/groupwise-account-setup/camel-gw-listener.c:471
 #, c-format
 msgid "Enter password for %s (user %s)"
 msgstr "Enter password for %s (user %s)"
@@ -4234,7 +4234,7 @@ msgstr "_Send"
 msgid "{0}."
 msgstr "{0}."
 
-#: calendar/common/authentication.c:49 calendar/gui/e-pub-utils.c:312
+#: calendar/common/authentication.c:49 calendar/gui/e-pub-utils.c:323
 #: smime/gui/component.c:48
 msgid "Enter password"
 msgstr "Enter password"
@@ -4247,8 +4247,8 @@ msgstr "Split Multi-Day Events:"
 #: calendar/conduits/calendar/calendar-conduit.c:1378
 #: calendar/conduits/memo/memo-conduit.c:854
 #: calendar/conduits/memo/memo-conduit.c:855
-#: calendar/conduits/todo/todo-conduit.c:879
-#: calendar/conduits/todo/todo-conduit.c:880
+#: calendar/conduits/todo/todo-conduit.c:988
+#: calendar/conduits/todo/todo-conduit.c:989
 msgid "Could not start evolution-data-server"
 msgstr "Could not start evolution-data-server"
 
@@ -4267,16 +4267,22 @@ msgstr "Could not read pilot's Memo application block"
 msgid "Could not write pilot's Memo application block"
 msgstr "Could not write pilot's Memo application block"
 
-#: calendar/conduits/todo/todo-conduit.c:234
+#: calendar/conduits/todo/todo-conduit.c:237
 msgid "Default Priority:"
 msgstr "Default Priority:"
 
-#: calendar/conduits/todo/todo-conduit.c:959
-#: calendar/conduits/todo/todo-conduit.c:962
+#: calendar/conduits/todo/todo-conduit.c:1071
+#: calendar/conduits/todo/todo-conduit.c:1074
 msgid "Could not read pilot's ToDo application block"
 msgstr "Could not read pilot's ToDo application block"
 
+#: calendar/conduits/todo/todo-conduit.c:1110
+#: calendar/conduits/todo/todo-conduit.c:1113
+msgid "Could not write pilot's ToDo application block"
+msgstr "Could not write pilot's ToDo application block"
+
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:1
+#: plugins/itip-formatter/itip-formatter.c:1968
 msgid "Calendar and Tasks"
 msgstr "Calendar and Tasks"
 
@@ -4333,7 +4339,7 @@ msgstr "Memos"
 #: calendar/gui/tasks-control.c:466 calendar/importers/icalendar-importer.c:79
 #: calendar/importers/icalendar-importer.c:707
 #: plugins/groupwise-account-setup/camel-gw-listener.c:384
-#: plugins/groupwise-account-setup/camel-gw-listener.c:589
+#: plugins/groupwise-account-setup/camel-gw-listener.c:591
 #: plugins/groupwise-features/proxy-add-dialog.glade.h:12
 msgid "Tasks"
 msgstr "Tasks"
@@ -4411,28 +4417,28 @@ msgstr "description of appointment"
 msgid "location of appointment"
 msgstr "location of appointment"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:969
+#: calendar/gui/alarm-notify/alarm-queue.c:970
 msgid "Dismiss"
 msgstr "Dismiss"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:970
+#: calendar/gui/alarm-notify/alarm-queue.c:971
 msgid "Dismiss All"
 msgstr "Dismiss All"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:1052
+#: calendar/gui/alarm-notify/alarm-queue.c:1053
 msgid "No summary available."
 msgstr "No summary available."
 
-#: calendar/gui/alarm-notify/alarm-queue.c:1061
-#: calendar/gui/alarm-notify/alarm-queue.c:1063
+#: calendar/gui/alarm-notify/alarm-queue.c:1062
+#: calendar/gui/alarm-notify/alarm-queue.c:1064
 msgid "No description available."
 msgstr "No description available."
 
-#: calendar/gui/alarm-notify/alarm-queue.c:1071
+#: calendar/gui/alarm-notify/alarm-queue.c:1072
 msgid "No location information available."
 msgstr "No location information available."
 
-#: calendar/gui/alarm-notify/alarm-queue.c:1087
+#: calendar/gui/alarm-notify/alarm-queue.c:1088
 #, c-format
 msgid ""
 "Alarm on %s\n"
@@ -4445,12 +4451,12 @@ msgstr ""
 "Starting at %s\n"
 "Ending at %s"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:1190
-#: calendar/gui/alarm-notify/alarm-queue.c:1214
+#: calendar/gui/alarm-notify/alarm-queue.c:1191
+#: calendar/gui/alarm-notify/alarm-queue.c:1215
 msgid "Warning"
 msgstr "Warning"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:1194
+#: calendar/gui/alarm-notify/alarm-queue.c:1195
 msgid ""
 "Evolution does not support calendar reminders with\n"
 "email notifications yet, but this reminder was\n"
@@ -4462,7 +4468,7 @@ msgstr ""
 "configured to send an email.  Evolution will display\n"
 "a normal reminder dialogue box instead."
 
-#: calendar/gui/alarm-notify/alarm-queue.c:1220
+#: calendar/gui/alarm-notify/alarm-queue.c:1221
 #, c-format
 msgid ""
 "An Evolution Calendar reminder is about to trigger. This reminder is "
@@ -4479,7 +4485,7 @@ msgstr ""
 "\n"
 "Are you sure you want to run this program?"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:1234
+#: calendar/gui/alarm-notify/alarm-queue.c:1235
 msgid "Do not ask me about this program again."
 msgstr "Do not ask me about this program again."
 
@@ -4849,7 +4855,7 @@ msgstr "Unmatched"
 #: calendar/gui/dialogs/calendar-setup.c:369 calendar/gui/gnome-cal.c:2116
 #: plugins/groupwise-account-setup/camel-gw-listener.c:383
 #: plugins/groupwise-account-setup/camel-gw-listener.c:413
-#: plugins/groupwise-account-setup/camel-gw-listener.c:588
+#: plugins/groupwise-account-setup/camel-gw-listener.c:590
 msgid "Calendar"
 msgstr "Calendar"
 
@@ -7694,7 +7700,7 @@ msgstr "Opening memos at %s"
 msgid "Deleting selected objects..."
 msgstr "Deleting selected objects..."
 
-#: calendar/gui/e-pub-utils.c:311
+#: calendar/gui/e-pub-utils.c:322
 #, c-format
 msgid "Enter the password for %s"
 msgstr "Enter the password for %s"
@@ -15639,10 +15645,6 @@ msgid ""
 msgstr ""
 "To process all of these items, the file should be saved and the calendar "
 "imported"
-
-#: plugins/itip-formatter/itip-formatter.c:1968
-msgid "Meetings and Tasks"
-msgstr "Meetings and Tasks"
 
 #. Delete message after acting
 #. FIXME Need a schema for this
