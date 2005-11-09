@@ -56,6 +56,7 @@ e_categories_config_get_icon_for (const char *category, GdkPixmap **pixmap, GdkB
 	if (mask != NULL)
 		*mask = tmp_mask;
 
+	g_object_unref (pixbuf);
 	return TRUE;
 }
 
