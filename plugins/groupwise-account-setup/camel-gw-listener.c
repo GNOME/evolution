@@ -448,6 +448,8 @@ get_addressbook_names_from_server (char *source_url)
         if (!soap_port || strlen (soap_port) == 0)
                 soap_port = "7191";
 	use_ssl = camel_url_get_param (url, "use_ssl");
+	if (!use_ssl)
+		use_ssl = "";
 
 	key =  g_strdup_printf ("groupwise://%s@%s/", url->user, poa_address); 
 	

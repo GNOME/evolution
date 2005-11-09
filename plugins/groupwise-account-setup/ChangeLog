@@ -1,3 +1,9 @@
+2005-11-09  Parthasarathi Susarla <sparthasarathi@novell.com>
+	
+	* camel-gw-listener.c (get_addressbook_names_from_server):
+	check if string (eg. use_ssl) are NULL before strcmp(). 
+	prevents a violation.
+
 2005-09-28  Sushma Rai  <rsushma@novell.com>
 
 	* camel-gw-listener.c (add_addressbook_sources): Removed name
