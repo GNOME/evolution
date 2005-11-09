@@ -31,6 +31,7 @@
 #include <libecal/e-cal-types.h>
 #include <libecal/e-cal.h>
 #include <libecal/e-cal-time-util.h>
+#include <libedataserver/e-categories.h>
 #include <pi-source.h>
 #include <pi-socket.h>
 #include <pi-dlp.h>
@@ -81,6 +82,8 @@ struct _EToDoLocalRecord {
         /* pilot-link todo structure */
 	struct ToDo *todo;
 };
+
+int lastDesktopUniqueID;
 
 static void
 todoconduit_destroy_record (EToDoLocalRecord *local) 
@@ -377,7 +380,7 @@ print_local (EToDoLocalRecord *local)
 	}
 
 	if (local->todo && local->todo->description) {
-		g_snprintf (buff, 4096, "[%d %ld %d %d '%s' '%s']",
+		g_snprintf (buff, 4096, "[%d %ld %d %d '%s' '%s' %d]",
 			    local->todo->indefinite,
 			    mktime (& local->todo->due),
 			    local->todo->priority,
@@ -385,7 +388,8 @@ print_local (EToDoLocalRecord *local)
 			    local->todo->description ?
 			    local->todo->description : "",
 			    local->todo->note ?
-			    local->todo->note : "");
+			    local->todo->note : "",
+			    local->local.category);
 		return buff;
 	}
 
@@ -405,7 +409,7 @@ static char *print_remote (GnomePilotRecord *remote)
 	memset (&todo, 0, sizeof (struct ToDo));
 	unpack_ToDo (&todo, remote->record, remote->length);
 
-	g_snprintf (buff, 4096, "[%d %ld %d %d '%s' '%s']",
+	g_snprintf (buff, 4096, "[%d %ld %d %d '%s' '%s' %d]",
 		    todo.indefinite,
 		    mktime (&todo.due),
 		    todo.priority,
@@ -413,7 +417,8 @@ static char *print_remote (GnomePilotRecord *remote)
 		    todo.description ?
 		    todo.description : "",
 		    todo.note ?
-		    todo.note : "");
+		    todo.note : "",
+		    remote->category);
 
 	free_ToDo (&todo);
 	
@@ -566,6 +571,55 @@ local_record_to_pilot_record (EToDoLocalRecord *local,
 }
 
 /*
+ * Adds a category to the category app info structure (name and ID),
+ * sets category->renamed[i] to true if possible to rename.
+ * 
+ * This will be packed and written to the app info block during post_sync.
+ */
+ 
+static int
+add_category_if_possible(char *cat_to_add, struct CategoryAppInfo *category)
+{
+	int i, j;
+	int retval = 0; // 0 is the Unfiled category
+	
+	for(i=0; i<16; i++){
+		// if strlen is 0, then the category is empty
+		// the PalmOS doesn't let 0-length strings for
+		// categories
+		if(strlen(category->name[i]) == 0){
+			int cat_to_add_len = strlen(cat_to_add);
+			retval = i;
+			
+			/* only 15 characters for category, 16th is
+			 * '\0' can't do direct mem transfer due to
+			 * declaration type
+			 */
+			for(j=0; j<cat_to_add_len; j++)
+				category->name[i][j] = cat_to_add[j];
+
+			for(j=cat_to_add_len; j<16; j++)
+				category->name[i][j] = '\0';
+			
+			category->ID[i] = lastDesktopUniqueID;
+			lastDesktopUniqueID++;
+			
+			category->renamed[i] = TRUE;
+			
+			LOG(g_message("*** adding category '%s', ID %d ***",
+				category->name[i], category->ID[i]));
+			break;
+		}
+	}
+	
+	if(retval == 0){
+		LOG(g_message("*** not adding category - category list already full ***"));
+	}
+	
+	return retval;
+}
+
+/*
  * converts a ECalComponent object to a EToDoLocalRecord
  */
 static void
@@ -605,7 +659,44 @@ local_record_from_comp (EToDoLocalRecord *local, ECalComponent *comp, EToDoCondu
 					ctxt->dbi->db_handle,
 					local->local.ID, &record, 
 					NULL, NULL, NULL, &cat) > 0) {
-			local->local.category = cat;			
+			local->local.category = cat;
+		}
+	}
+	
+	/*
+	 * Grab category from existing category list in ctxt->ai.category
+	 */
+	if(local->local.category == 0){
+		GSList *categ_list_head, *categ_list_cur;
+		int cat = -1;
+		int i;
+		
+		e_cal_component_get_categories_list(comp, &categ_list_head);
+		
+		categ_list_cur = categ_list_head;
+		while (categ_list_cur && cat == -1)
+		{	
+			for(i=0; i<16; i++){
+				if(strcmp((char *)categ_list_cur->data,
+					  ctxt->ai.category.name[i]) == 0){
+					cat = i;
+					break;
+				}
+			}
+			
+			categ_list_cur = g_slist_next(categ_list_cur);
+		}
+		
+		if(cat != -1){
+			local->local.category = cat;
+		}
+		else{
+			if(categ_list_head != NULL){
+				local->local.category =
+					add_category_if_possible(
+						(char *)(categ_list_head->data),
+						&(ctxt->ai.category));
+			}
 		}
 	}
 
@@ -682,6 +773,8 @@ local_record_from_uid (EToDoLocalRecord *local,
 	GError *error = NULL;
 
 	g_assert(local!=NULL);
+	
+	LOG(g_message("local_record_from_uid\n"));
 
 	if (e_cal_get_object (ctxt->client, uid, NULL, &icalcomp, &error)) {
 		comp = e_cal_component_new ();
@@ -711,7 +804,8 @@ static ECalComponent *
 comp_from_remote_record (GnomePilotConduitSyncAbs *conduit,
 			 GnomePilotRecord *remote,
 			 ECalComponent *in_comp,
-			 icaltimezone *timezone)
+			 icaltimezone *timezone,
+			 struct ToDoAppInfo *ai)
 {
 	ECalComponent *comp;
 	struct ToDo todo;
@@ -721,6 +815,7 @@ comp_from_remote_record (GnomePilotConduitSyncAbs *conduit,
 	icaltimezone *utc_zone;
 	int priority;
 	char *txt;
+	char *category;
 	
 	g_return_val_if_fail (remote != NULL, NULL);
 
@@ -797,7 +892,7 @@ comp_from_remote_record (GnomePilotConduitSyncAbs *conduit,
 		priority = 3;
 		break;
 	case 2:
-		priority = 4;
+		priority = 5;
 		break;
 	case 3:
 		priority = 5;
@@ -816,6 +911,20 @@ comp_from_remote_record (GnomePilotConduitSyncAbs *conduit,
 		e_cal_component_set_classification (comp, E_CAL_COMPONENT_CLASS_PRIVATE);
 	else
 		e_cal_component_set_classification (comp, E_CAL_COMPONENT_CLASS_PUBLIC);
+	
+	
+	// set the category properly
+	category = ai->category.name[remote->category];
+	
+	
+	// TODO The Tasks editor page and search bar are not updated until
+	// a restart of the evolution client
+	if(e_categories_exist(category) == FALSE){
+		// add if it doesn't exist
+		e_categories_add(category, NULL, NULL, TRUE);
+	}
+	
+	e_cal_component_set_categories(comp, category);
 
 	e_cal_component_commit_sequence (comp);
 	
@@ -950,6 +1059,9 @@ pre_sync (GnomePilotConduit *conduit,
 	gnome_pilot_conduit_sync_abs_set_num_new_local_records (abs_conduit, add_records);
 	gnome_pilot_conduit_sync_abs_set_num_updated_local_records (abs_conduit, mod_records);
 	gnome_pilot_conduit_sync_abs_set_num_deleted_local_records(abs_conduit, del_records);
+	
+	g_message("num_records: %d\nadd_records: %d\nmod_records: %d\ndel_records: %d\n",
+			num_records, add_records, mod_records, del_records);
 
 	buf = (unsigned char*)g_malloc (0xffff);
 	len = dlp_ReadAppBlock (dbi->pilot_socket, dbi->db_handle, 0,
@@ -964,6 +1076,8 @@ pre_sync (GnomePilotConduit *conduit,
 	}
 	unpack_ToDoAppInfo (&(ctxt->ai), buf, len);
 	g_free (buf);
+	
+	lastDesktopUniqueID = 128;
 
 	check_for_slow_setting (conduit, ctxt);
 	if (ctxt->cfg->sync_type == GnomePilotConduitSyncTypeCopyToPilot
@@ -980,6 +1094,26 @@ post_sync (GnomePilotConduit *conduit,
 {
 	GList *changed;
 	gchar *filename, *change_id;
+	unsigned char *buf;
+	int dlpRetVal, len;
+
+	buf = (unsigned char*)g_malloc (0xffff);
+	
+	len = pack_ToDoAppInfo (&(ctxt->ai), buf, 0xffff);
+	
+	dlpRetVal = dlp_WriteAppBlock (dbi->pilot_socket, dbi->db_handle, 
+			      (unsigned char *)buf, len);
+	
+	g_free (buf);
+			      
+	if (dlpRetVal < 0) {
+		WARN (_("Could not write pilot's ToDo application block"));
+		WARN ("dlp_WriteAppBlock(...) = %d", dlpRetVal);
+		gnome_pilot_conduit_error (conduit,
+					   _("Could not write pilot's ToDo application block"));
+		return -1;
+	}
+	
 
 	LOG (g_message ( "post_sync: ToDo Conduit v.%s", CONDUIT_VERSION ));
 
@@ -1179,7 +1313,7 @@ add_record (GnomePilotConduitSyncAbs *conduit,
 
 	LOG (g_message ( "add_record: adding %s to desktop\n", print_remote (remote) ));
 
-	comp = comp_from_remote_record (conduit, remote, ctxt->default_comp, ctxt->timezone);
+	comp = comp_from_remote_record (conduit, remote, ctxt->default_comp, ctxt->timezone, &(ctxt->ai));
 
 	/* Give it a new UID otherwise it will be the uid of the default comp */
 	uid = e_cal_component_gen_uid ();
@@ -1210,7 +1344,7 @@ replace_record (GnomePilotConduitSyncAbs *conduit,
 	LOG (g_message ("replace_record: replace %s with %s\n",
 			print_local (local), print_remote (remote)));
 
-	new_comp = comp_from_remote_record (conduit, remote, local->comp, ctxt->timezone);
+	new_comp = comp_from_remote_record (conduit, remote, local->comp, ctxt->timezone, &(ctxt->ai));
 	g_object_unref (local->comp);
 	local->comp = new_comp;
 

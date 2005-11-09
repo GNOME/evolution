@@ -1,3 +1,11 @@
+2005-11-09  Veerapuram Varadhan <vvaradhan@novell.com>
+
+	Committing for Nathan Owens <pianocomp81@yahoo.com>	
+	
+	* calendar/conduit/todo/todo-conduit.c (local_record_from_comp)
+	(comp_from_remote_record) (post_sync) (add_category_if_possible):
+	Category syncing in todo-conduits.
+	
 2005-11-09  Dinesh Layek <LDinesh@novell.com>
 
 	Fixes #273322
