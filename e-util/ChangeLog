@@ -1,3 +1,10 @@
+2005-11-09  P. S. Chakravarthi <pchakravarthi@novell.com>
+
+	Fixes #314638
+	* e-categories-config.c (e_categories_config_get_icon_for):
+	added a g_object_unref to unref the GdkPixBuff object created
+	in this function.
+
 2005-08-23  Not Zed  <NotZed@Ximian.com>
 
 	* e-util.c (e_mkdir_hier): cast warning, good ol win32 patches.

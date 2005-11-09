@@ -53,6 +53,7 @@ e_categories_config_get_icon_for (const char *category, GdkPixmap **pixmap, GdkB
 
 	/* render the pixbuf to the pixmap and mask passed */
 	gdk_pixbuf_render_pixmap_and_mask (pixbuf, pixmap, &tmp_mask, 1);
+	g_object_unref (pixbuf);
 	if (mask != NULL)
 		*mask = tmp_mask;
 
