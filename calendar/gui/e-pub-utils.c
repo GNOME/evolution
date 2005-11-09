@@ -191,7 +191,7 @@ e_pub_publish (gboolean publish) {
 	uri_config_list = calendar_config_get_free_busy ();
 
 	for (l = uri_config_list; l != NULL; l = l->next) {
-		GSList *p =NULL;
+		GSList *p =NULL, *q;
 		EPublishUri *uri;
 		ECalComponent *clone = NULL;
 		gboolean cloned = FALSE;
@@ -236,8 +236,9 @@ e_pub_publish (gboolean publish) {
 			/* We still need to set the last_pub_time */
 			uri->last_pub_time = 0;
 			is_publish_time (uri);
-			
+			q = NULL;
 			for (p = uri->calendars; p != NULL; p = p->next) {
+				
 				GList *comp_list = NULL;
 				gchar *source_uid;
 				ESource * source;
@@ -253,6 +254,8 @@ e_pub_publish (gboolean publish) {
 				if (!client) {
 					g_warning (G_STRLOC ": Could not publish Free/Busy: Calendar backend no longer exists");
 					g_free (source_uid);
+					g_free (p->data);
+					q = g_slist_append (q, p);
 
 					continue;
 				}
@@ -263,6 +266,7 @@ e_pub_publish (gboolean publish) {
 					error = NULL;
 
 					g_object_unref (client);
+					client = NULL;
 					g_free (source_uid);
 					continue;
 				}
@@ -299,10 +303,16 @@ e_pub_publish (gboolean publish) {
 
 				g_free (email);
 				g_object_unref (client);
+				client = NULL;
 				g_free (source_uid);
 			} 
 		}
 
+		for(p = q; p!=NULL; p = p->next) {
+			uri->calendars = g_slist_delete_link (uri->calendars, p->data);
+		}
+		g_slist_free (q);
+		
 		/* add password to the uri */
 		password = e_passwords_get_password ("Calendar", 
 				(gchar *)uri->location);
