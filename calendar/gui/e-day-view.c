@@ -4005,7 +4005,7 @@ e_day_view_finish_resize (EDayView *day_view)
 	EDayViewEvent *event;
 	gint day, event_num;
 	ECalComponent *comp;
-	ECalComponentDateTime date;
+	ECalComponentDateTime prev_date, date;
 	struct icaltimetype itt;
 	time_t dt;
 	ECal *client;
@@ -4040,11 +4040,19 @@ e_day_view_finish_resize (EDayView *day_view)
 		dt = e_day_view_convert_grid_position_to_time (day_view, day, day_view->resize_start_row);
 		*date.value = icaltime_from_timet_with_zone (dt, FALSE,
 							     e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
+		e_cal_component_get_dtstart (comp, &prev_date);
+		date.value->year = prev_date.value->year;
+		date.value->month = prev_date.value->month;
+		date.value->day = prev_date.value->day;
 		e_cal_component_set_dtstart (comp, &date);
 	} else {
 		dt = e_day_view_convert_grid_position_to_time (day_view, day, day_view->resize_end_row + 1);
 		*date.value = icaltime_from_timet_with_zone (dt, FALSE,
 							     e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
+		e_cal_component_get_dtstart (comp, &prev_date);
+		date.value->year = prev_date.value->year;
+		date.value->month = prev_date.value->month;
+		date.value->day = prev_date.value->day;
 		e_cal_component_set_dtend (comp, &date);
 	}
 

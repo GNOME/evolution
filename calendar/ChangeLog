@@ -1,5 +1,10 @@
 2005-11-09  Dinesh Layek  <LDinesh@novell.com>
 
+	Fixes #312533
+	*gui/e-day-view.c (e_day_view_finish_resize): set the start and end date properly
+
+2005-11-09  Dinesh Layek  <LDinesh@novell.com>
+
 	Fixes #273322
 	*gui/e-pub-utils.c (e_pub_publish): removed the source from uri->calendars
 	when the calendar backend no longer exists.
