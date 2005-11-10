@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-11-03 06:53+0200\n"
-"PO-Revision-Date: 2005-11-03 07:08+0200\n"
+"POT-Creation-Date: 2005-11-10 07:22+0200\n"
+"PO-Revision-Date: 2005-11-10:07:30+0200\n"
 "Last-Translator: Ilkka Tuohela <hile@iki.fi>\n"
 "Language-Team: Finnish <gnome-fi-laatu@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -41,7 +41,7 @@ msgstr[0] "Valitussa osoitekirjassa on %d kortti"
 msgstr[1] "Valitussa osoitekirjassa on %d korttia"
 
 #: ../a11y/addressbook/ea-minicard.c:31
-#: ../calendar/gui/alarm-notify/alarm-queue.c:968
+#: ../calendar/gui/alarm-notify/alarm-queue.c:969
 #: ../ui/evolution-message-composer.xml.h:11
 msgid "Open"
 msgstr "Avaa"
@@ -779,12 +779,12 @@ msgid "Accessing LDAP Server anonymously"
 msgstr "Otetaan yhteyttä LDAP-palvelimeen anonyymisti"
 
 #: ../addressbook/gui/component/addressbook.c:191
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:490
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:492
 msgid "Failed to authenticate.\n"
 msgstr "Kirjautuminen epäonnistui.\n"
 
 #: ../addressbook/gui/component/addressbook.c:198
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:469
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:471
 #, c-format
 msgid "Enter password for %s (user %s)"
 msgstr "Syötä salasana palvelulle %s (käyttäjä %s)"
@@ -4174,7 +4174,8 @@ msgstr "Kalenteri ei ole merkitty käytettäväksi yhteydettömässä tilassa"
 
 #: ../calendar/calendar.error.xml.h:48
 msgid "The memo list is not marked for offline usage"
-msgstr "Muistilappulistaa ei ole merkitty käytettäväksi yhteydettömässä tilassa"
+msgstr ""
+"Muistilappulistaa ei ole merkitty käytettäväksi yhteydettömässä tilassa"
 
 #: ../calendar/calendar.error.xml.h:49
 msgid "The task list is not marked for offline usage"
@@ -4268,7 +4269,7 @@ msgstr "_Lähetä"
 msgid "{0}."
 msgstr "{0}."
 
-#: ../calendar/common/authentication.c:49 ../calendar/gui/e-pub-utils.c:312
+#: ../calendar/common/authentication.c:49 ../calendar/gui/e-pub-utils.c:323
 #: ../smime/gui/component.c:48
 msgid "Enter password"
 msgstr "Syötä salasana"
@@ -4281,8 +4282,8 @@ msgstr "Jaa usean päivän tapahtumat:"
 #: ../calendar/conduits/calendar/calendar-conduit.c:1378
 #: ../calendar/conduits/memo/memo-conduit.c:854
 #: ../calendar/conduits/memo/memo-conduit.c:855
-#: ../calendar/conduits/todo/todo-conduit.c:879
-#: ../calendar/conduits/todo/todo-conduit.c:880
+#: ../calendar/conduits/todo/todo-conduit.c:988
+#: ../calendar/conduits/todo/todo-conduit.c:989
 msgid "Could not start evolution-data-server"
 msgstr "Evolutionin tietopalvelimen käynnistys epäonnistui"
 
@@ -4301,16 +4302,22 @@ msgstr "Pilotin muistilappujen ohjelmalohkoa ei voitu lukea"
 msgid "Could not write pilot's Memo application block"
 msgstr "Pilotin muistilappujen ohjelmalohkoa ei voitu lukea"
 
-#: ../calendar/conduits/todo/todo-conduit.c:234
+#: ../calendar/conduits/todo/todo-conduit.c:237
 msgid "Default Priority:"
 msgstr "Prioriteetin oletusarvo:"
 
-#: ../calendar/conduits/todo/todo-conduit.c:959
-#: ../calendar/conduits/todo/todo-conduit.c:962
+#: ../calendar/conduits/todo/todo-conduit.c:1071
+#: ../calendar/conduits/todo/todo-conduit.c:1074
 msgid "Could not read pilot's ToDo application block"
-msgstr "Pilotin tehtävien ohjelmalohkoa ei voitu lukea"
+msgstr "Pilotin tehtävälistan ohjelmalohkoa ei voitu lukea"
+
+#: ../calendar/conduits/todo/todo-conduit.c:1110
+#: ../calendar/conduits/todo/todo-conduit.c:1113
+msgid "Could not write pilot's ToDo application block"
+msgstr "Pilotin tehtävälistan ohjelmalohkoa ei voitu kirjoittaa"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:1
+#: ../plugins/itip-formatter/itip-formatter.c:1968
 msgid "Calendar and Tasks"
 msgstr "Kalenteri ja tehtävät"
 
@@ -4368,7 +4375,7 @@ msgstr "Muistilaput"
 #: ../calendar/importers/icalendar-importer.c:79
 #: ../calendar/importers/icalendar-importer.c:707
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:384
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:589
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:591
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:12
 msgid "Tasks"
 msgstr "Tehtävät"
@@ -4448,28 +4455,28 @@ msgstr "tapaamisen kuvaus"
 msgid "location of appointment"
 msgstr "tapaamisen sijainti"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:969
+#: ../calendar/gui/alarm-notify/alarm-queue.c:970
 msgid "Dismiss"
 msgstr "Hylkää"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:970
+#: ../calendar/gui/alarm-notify/alarm-queue.c:971
 msgid "Dismiss All"
 msgstr "Hylkää kaikki"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1052
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1053
 msgid "No summary available."
 msgstr "Ei yhteenvetoa saatavilla"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1061
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1063
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1062
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1064
 msgid "No description available."
 msgstr "Ei kuvausta saatavilla"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1071
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1072
 msgid "No location information available."
 msgstr "Ei sijaintitietoja saatavilla"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1087
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1088
 #, c-format
 msgid ""
 "Alarm on %s\n"
@@ -4482,12 +4489,12 @@ msgstr ""
 "Alkaa %s\n"
 "Päättyy %s"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1190
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1214
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1191
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1215
 msgid "Warning"
 msgstr "Varoitus"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1194
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1195
 msgid ""
 "Evolution does not support calendar reminders with\n"
 "email notifications yet, but this reminder was\n"
@@ -4499,7 +4506,7 @@ msgstr ""
 "lähettämään sähköpostia. Evolution näyttää sen sijaan\n"
 "tavallisen huomautusikkunan."
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1220
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1221
 #, c-format
 msgid ""
 "An Evolution Calendar reminder is about to trigger. This reminder is "
@@ -4516,7 +4523,7 @@ msgstr ""
 "\n"
 "Haluatko varmasti suorittaa tämän ohjelman?"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1234
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1235
 msgid "Do not ask me about this program again."
 msgstr "Älä kysy tästä ohjelmasta enää uudelleen"
 
@@ -4889,7 +4896,7 @@ msgstr "Täsmäämättömät"
 #: ../calendar/gui/gnome-cal.c:2116
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:383
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:413
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:588
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:590
 msgid "Calendar"
 msgstr "Kalenteri"
 
@@ -7778,7 +7785,7 @@ msgstr "Avataan muistilappuja sijainnista %s"
 msgid "Deleting selected objects..."
 msgstr "Valtuutetaan seuraavat tehtävät...."
 
-#: ../calendar/gui/e-pub-utils.c:311
+#: ../calendar/gui/e-pub-utils.c:322
 #, c-format
 msgid "Enter the password for %s"
 msgstr "Syötä salasana %s:lle"
@@ -7957,6 +7964,7 @@ msgid "You must be an attendee of the event."
 msgstr "Sinun täytyy osallistua tapahtumaan."
 
 #: ../calendar/gui/memos-component.c:524
+#, c-format
 msgid "%d memo"
 msgid_plural "%d memos"
 msgstr[0] "%d muistilappu"
@@ -7979,7 +7987,7 @@ msgstr "Muistilappujen päivitys epäonnistui."
 msgid "Unable to open the memo list '%s' for creating events and meetings"
 msgstr ""
 "Muistilappulistaa '%s' ei voitu avata uusien tapahtumien ja kokousten "
-"lisäämistä varten" 
+"lisäämistä varten"
 
 #: ../calendar/gui/memos-component.c:882
 msgid "There is no calendar available for creating memos"
@@ -13134,7 +13142,7 @@ msgstr "Valitse joku seuraavista vaihtoehdoista"
 #: ../mail/mail-config.glade.h:112
 msgid "Pr_ompt when sending messages with only Bcc recipients defined"
 msgstr ""
-"Vahvista viestin lähetys, jos ainoastaan Bcc vastaanottajia on määritelty"
+"Vahvista viestin lähetys, jos ainoastaan Bcc-vastaanottajia on määritelty"
 
 #: ../mail/mail-config.glade.h:113
 msgid "Quote original message"
@@ -13332,7 +13340,7 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:168
 msgid "_Prompt when sending messages with an empty subject line"
-msgstr "_Kysy vahvistus, kun lähetetään viestejä tyhjälle Aihe-otsakkella"
+msgstr "_Kysy vahvistus, kun lähetetään viestejä tyhjällä Aihe-otsakkella"
 
 #: ../mail/mail-config.glade.h:169
 msgid "_Reply style:"
@@ -13790,8 +13798,7 @@ msgstr ""
 msgid ""
 "A signature already exists with the name &quot;{0}&quot;. Please specify a "
 "different name."
-msgstr ""
-"Nimellä &quot;{0}&quot; on jo allekirjoitus. Anna toinen nimi."
+msgstr "Nimellä &quot;{0}&quot; on jo allekirjoitus. Anna toinen nimi."
 
 #: ../mail/mail.error.xml.h:8
 msgid ""
@@ -15588,8 +15595,9 @@ msgstr "Välimuistin kirjautuminen..."
 
 #: ../plugins/groupwise-features/proxy.c:690
 msgid "The Proxy tab will be available only when the account is online."
-msgstr "Välimuistin välilehti on käytettävissä vain jos tili on "
-"yhteydellisessä tilassa."
+msgstr ""
+"Välimuistin välilehti on käytettävissä vain jos tili on yhteydellisessä "
+"tilassa."
 
 #: ../plugins/groupwise-features/proxy.c:695
 msgid "The Proxy tab will be available only when the account is enabled."
@@ -15666,8 +15674,9 @@ msgstr "Kalenteria tai tehtävälistää ei voitu avata!"
 
 #: ../plugins/ipod-sync/sync.c:292
 msgid "Could not open the Evolution calendar/todo list to export data."
-msgstr "Evolutionin kalenteria tai tehtävälistaa ei voitu avata tietojen "
-"vientiä varten."
+msgstr ""
+"Evolutionin kalenteria tai tehtävälistaa ei voitu avata tietojen vientiä "
+"varten."
 
 #: ../plugins/itip-formatter/itip-formatter.c:724
 msgid "Unable to parse item"
@@ -15763,10 +15772,6 @@ msgid ""
 msgstr ""
 "Jos haluat käsitellä kaikki nämä kohdat, tiedosto täytyy tallentaa ja avata "
 "tuomalla tiedosto kalenteriin"
-
-#: ../plugins/itip-formatter/itip-formatter.c:1968
-msgid "Meetings and Tasks"
-msgstr "Kokoukset ja tehtävät"
 
 #. Delete message after acting
 #. FIXME Need a schema for this
@@ -17010,7 +17015,7 @@ msgstr ""
 #: ../shell/e-shell-window.c:735
 #, c-format
 msgid "Switch to %s"
-msgstr "Vaihda %s:aan"
+msgstr "Avaa %s"
 
 #: ../shell/e-shell.c:623
 msgid "Uknown system error."
@@ -20468,6 +20473,9 @@ msgstr "IM-konteksti"
 #: ../widgets/text/e-text.c:3683 ../widgets/text/e-text.c:3684
 msgid "Handle Popup"
 msgstr "Kahvan ponnahdusikkuna"
+
+#~ msgid "Meetings and Tasks"
+#~ msgstr "Kokoukset ja tehtävät"
 
 #~ msgid "Discard Changes"
 #~ msgstr "Hylkää muutokset"
