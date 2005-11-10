@@ -145,7 +145,7 @@ org_gnome_compose_send_options (EPlugin *ep, EMMenuTargetWidget *t)
 	temp = strstr (url, "groupwise") ;
 	if (!temp) {
 		g_print ("Sorry send options only available for a groupwise account\n") ;
-		return NULL;
+		return;
 	} 
 	g_free (temp) ;
 	/*disply the send options dialog*/

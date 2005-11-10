@@ -1,3 +1,9 @@
+2005-11-10  Harish Krishnaswamy  <kharish@novell.com>
+
+	* mail-send-options.c: (org_gnome_compose_send_options):
+	Function signature specifies a void return. So, do not 
+	return NULL.
+	
 2005-10-20  Sankar P  <psankar@novell.com>
 
 	* proxy-login.c (org_gnome_proxy_account_login) (proxy_login_get_cnc): 
