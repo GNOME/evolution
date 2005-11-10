@@ -1,3 +1,13 @@
+2005-11-10  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #321088
+	* gui/e-meeting-time-sel.c (e_meeting_time_selector_construct):
+	(e_meeting_time_selector_style_set),
+	(e_meeting_time_selector_ensure_meeting_time_shown): Set the 
+	scroll_increment to days width. Show only 35 days in the canvas
+	since we query freebusy only for those. Set the canvas view to 
+	meetings day start instead of time.
+
 2005-11-09  Veerapuram Varadhan <vvaradhan@novell.com>
 
 	Committing for Nathan Owens <pianocomp81@yahoo.com>	

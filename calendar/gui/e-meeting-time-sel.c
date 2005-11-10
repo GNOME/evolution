@@ -82,10 +82,10 @@ const gchar *EMeetingTimeSelectorHours12[24] = {
 };
 
 /* The number of days shown in the entire canvas. */
-#define E_MEETING_TIME_SELECTOR_DAYS_SHOWN		365
-#define E_MEETING_TIME_SELECTOR_DAYS_START_BEFORE	 60
-#define E_MEETING_TIME_SELECTOR_FB_DAYS_BEFORE            7
-#define E_MEETING_TIME_SELECTOR_FB_DAYS_AFTER            28
+#define E_MEETING_TIME_SELECTOR_DAYS_SHOWN	   	35	
+#define E_MEETING_TIME_SELECTOR_DAYS_START_BEFORE	7 
+#define E_MEETING_TIME_SELECTOR_FB_DAYS_BEFORE          7
+#define E_MEETING_TIME_SELECTOR_FB_DAYS_AFTER           28
 
 /* This is the number of pixels between the mouse has to move before the
    scroll speed is incremented. */
@@ -382,7 +382,7 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingStore *em
 	gtk_scrolled_window_set_vadjustment (GTK_SCROLLED_WINDOW (sw), GTK_LAYOUT (mts->display_main)->vadjustment);
 
 	mts->hscrollbar = gtk_hscrollbar_new (GTK_LAYOUT (mts->display_main)->hadjustment);
-	GTK_LAYOUT (mts->display_main)->hadjustment->step_increment = mts->col_width;
+	GTK_LAYOUT (mts->display_main)->hadjustment->step_increment = mts->day_width;
 	gtk_table_attach (GTK_TABLE (mts), mts->hscrollbar,
 			  1, 4, 2, 3, GTK_EXPAND | GTK_FILL, 0, 0, 0);
 	gtk_widget_show (mts->hscrollbar);
@@ -951,7 +951,7 @@ e_meeting_time_selector_style_set (GtkWidget *widget,
 
 	gtk_widget_set_usize (mts->attendees_vbox_spacer, 1, mts->row_height * 2 - 6);
 
-	GTK_LAYOUT (mts->display_main)->hadjustment->step_increment = mts->col_width;
+	GTK_LAYOUT (mts->display_main)->hadjustment->step_increment = mts->day_width;
 	GTK_LAYOUT (mts->display_main)->vadjustment->step_increment = mts->row_height;
 
 	g_object_unref (layout);
@@ -2675,7 +2675,7 @@ e_meeting_time_selector_ensure_meeting_time_shown (EMeetingTimeSelector *mts)
 {
 	gint start_x, end_x, scroll_x, scroll_y, canvas_width;
 	gint new_scroll_x;
-	gboolean fits_in_canvas;
+	EMeetingTime time;
 
 	/* Check if we need to change the range of dates shown. */
 	if (g_date_compare (&mts->meeting_start_time.date,
@@ -2688,23 +2688,21 @@ e_meeting_time_selector_ensure_meeting_time_shown (EMeetingTimeSelector *mts)
 	}
 
 	/* If all of the meeting time is visible, just return. */
-	e_meeting_time_selector_get_meeting_time_positions (mts, &start_x,
-							    &end_x);
+	if (e_meeting_time_selector_get_meeting_time_positions (mts, &start_x,
+							    &end_x)) {
+		time.date = mts->meeting_start_time.date;
+		time.hour = 0;
+		time.minute = 0;
+		start_x = e_meeting_time_selector_calculate_time_position (mts, &time);
+	}
+	
 	gnome_canvas_get_scroll_offsets (GNOME_CANVAS (mts->display_main),
 					 &scroll_x, &scroll_y);
 	canvas_width = mts->display_main->allocation.width;
 	if (start_x > scroll_x && end_x <= scroll_x + canvas_width)
 		return;
 
-	fits_in_canvas = end_x - start_x < canvas_width ? TRUE : FALSE;
-
-	/* If the meeting is not entirely visible, either center it if it is
-	   smaller than the canvas, or show the start of it if it is big. */
-	if (fits_in_canvas) {
-		new_scroll_x = (start_x + end_x - canvas_width) / 2;
-	} else {
-		new_scroll_x = start_x;
-	}
+	new_scroll_x = start_x;
 	gnome_canvas_scroll_to (GNOME_CANVAS (mts->display_main),
 				new_scroll_x, scroll_y);
 }
