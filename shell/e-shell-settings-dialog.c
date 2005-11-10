@@ -63,9 +63,9 @@ set_dialog_size (EShellSettingsDialog *dialog)
 
 	pango_layout_get_pixel_size (layout, &width, NULL);
 
-	width *= 60;
+	width *= 80;
 	height = PANGO_PIXELS (pango_font_metrics_get_ascent (metrics)
-			       + pango_font_metrics_get_descent (metrics)) * 30;
+			       + pango_font_metrics_get_descent (metrics)) * 40;
 
 	gtk_window_set_default_size((GtkWindow *)dialog, width, height);
 	g_object_unref (layout);
@@ -311,7 +311,7 @@ e_shell_settings_dialog_init (EShellSettingsDialog *dialog)
 	priv->types = g_hash_table_new (g_str_hash, g_str_equal);
 
 	dialog->priv = priv;
-
+	gtk_widget_hide (dialog);
 	load_pages (dialog);
 	set_dialog_size (dialog);
 	

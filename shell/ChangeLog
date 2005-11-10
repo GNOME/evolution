@@ -1,3 +1,10 @@
+2005-11-10  Srinivasa Ragavan <sragavan@novell.com>
+
+	* e-shell-settings-dialog.c (set_dialog_size) 
+	(e_shell_settings_dialog_init): Set the size of the preference
+	window so that it doesnt flicker. Hide it till all the pages are
+	loaded.
+
 2005-10-25  Harish Krishnaswamy  <kharish@novell.com>
 
 	* main.c: (show_development_warning): Update
