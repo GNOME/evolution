@@ -1,3 +1,11 @@
+2005-11-09  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #313538
+	* gui/dialogs/event-editor.c: 
+	(event_editor_edit_comp): Do not remove the attendees. Removed
+	the obsolete code as scheduling and meeting pages will be created
+	only for meetings now.
+
 2005-11-10  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #321088

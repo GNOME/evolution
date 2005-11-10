@@ -226,17 +226,8 @@ event_editor_edit_comp (CompEditor *editor, ECalComponent *comp)
 	e_cal_component_get_organizer (comp, &organizer);
 	e_cal_component_get_attendee_list (comp, &attendees);
 
-	/* Clear things up */
-	e_meeting_store_remove_all_attendees (priv->model);
-
 	/* Set up the attendees */
-	if (attendees == NULL && !delegate) {
-		if (priv->meet_page)
-			comp_editor_remove_page (editor, COMP_EDITOR_PAGE (priv->meet_page));
-		if (priv->sched_page)
-			comp_editor_remove_page (editor, COMP_EDITOR_PAGE (priv->sched_page));
-		priv->meeting_shown = FALSE;
-	} else {
+	if (attendees != NULL) {
 		GSList *l;
 		int row;
 		char *user_email;
