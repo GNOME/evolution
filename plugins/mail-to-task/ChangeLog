@@ -1,3 +1,10 @@
+2005-10-11  Mubeen Jukaku  <jmubeen@novell.com>
+
+	* mail-to-task.c (set_attendees): Re-implemented this funciton.
+	(add_attendee_cb): Removed this callback because of above change.
+
+	Fixes bug #301081
+
 2005-10-03  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #315752
