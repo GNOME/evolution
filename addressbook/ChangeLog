@@ -1,3 +1,13 @@
+2005-11-11 Evan Yan <evan.yan@sun.com>
+
+	* pinting/e-contact-print.c (e_contact_build_style):
+	Add a config argument to get the actual page size and set it to style.
+	(e_contact_print_response): modify the call to e_contact_build_style
+	accordingly.
+	e_contact_print_preview): modify the call to e_contact_build_style
+	accordingly.
+	Fixes # 316280
+
 2005-10-26   Devashish Sharma <sdevashish@novell.com>
 
 	* gui/contact-editor/e-contact-editor.c: Sets the focus to the 

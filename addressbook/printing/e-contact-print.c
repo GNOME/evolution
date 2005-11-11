@@ -34,6 +34,8 @@
 #include <libgnome/gnome-i18n.h>
 #include <libgnomeui/gnome-dialog.h>
 #include <libgnomeprint/gnome-print.h>
+#include <libgnomeprint/gnome-print-unit.h>
+#include <libgnomeprint/gnome-print-config.h>
 #include <libgnomeprint/gnome-font.h>
 #include <libgnomeprint/gnome-print-job.h>
 #include <libgnomeprintui/gnome-print-dialog.h>
@@ -714,10 +716,11 @@ static void get_font( char *data, GnomeFont **variable )
 
 
 static void
-e_contact_build_style(EContactPrintStyle *style)
+e_contact_build_style(EContactPrintStyle *style, GnomePrintConfig *config)
 {
 	xmlDocPtr styledoc;
 	gchar *filename;
+	gdouble page_height, page_width;
 
 	style->title = g_strdup("");
 	style->type = E_CONTACT_PRINT_TYPE_CARDS;
@@ -845,6 +848,15 @@ e_contact_build_style(EContactPrintStyle *style)
 		}
 		xmlFreeDoc(styledoc);
 	}
+
+	/*
+	 * get paper size and set it to the print style
+	 */
+	gnome_print_config_get_page_size(config, &page_width, &page_height);
+	gnome_print_convert_distance(&page_width, gnome_print_unit_get_default(), gnome_print_unit_get_by_name("Inches"));
+	gnome_print_convert_distance(&page_height, gnome_print_unit_get_default(), gnome_print_unit_get_by_name("Inches"));
+	style->page_height = page_height;
+	style->page_width = page_width;
 }
 
 static gint
@@ -896,7 +908,7 @@ e_contact_print_response(GtkWidget *dialog, gint response_id, gpointer data)
 		config = gnome_print_dialog_get_config (GNOME_PRINT_DIALOG(dialog));
 		master = gnome_print_job_new( config );
 		pc = gnome_print_job_get_context( master );
-		e_contact_build_style(style);
+		e_contact_build_style(style, config);
 		
 		ctxt->x = 0;
 		ctxt->y = 0;
@@ -942,7 +954,7 @@ e_contact_print_response(GtkWidget *dialog, gint response_id, gpointer data)
 		config = gnome_print_dialog_get_config (GNOME_PRINT_DIALOG(dialog));
 		master = gnome_print_job_new( config );
 		pc = gnome_print_job_get_context( master );
-		e_contact_build_style(style);
+		e_contact_build_style(style, config);
 		
 		ctxt->x = 0;
 		ctxt->y = 0;
@@ -1048,7 +1060,7 @@ e_contact_print_preview(EBook *book, char *query, GList *list)
 	config = e_print_load_config ();
 	master = gnome_print_job_new (config);
 	pc = gnome_print_job_get_context (master);
-	e_contact_build_style (style);
+	e_contact_build_style (style, config);
 
 	if (list == NULL) {
 		uses_book = TRUE;
