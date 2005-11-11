@@ -116,7 +116,6 @@ ask_destination_and_save (EPlugin *ep, ECalPopupTargetSource *target, ECalSource
 	GtkTreeIter iter;
 	GtkWidget *dialog = NULL;
 	char *dest_uri = NULL;
-	gboolean proceed = FALSE;
 
 	GList *format_handlers = NULL;
 
@@ -202,48 +201,25 @@ ask_destination_and_save (EPlugin *ep, ECalPopupTargetSource *target, ECalSource
 
 		tmp = strstr (dest_uri, handler->filename_ext);
 
-		if (tmp && *(tmp + strlen (handler->filename_ext)) == '\0') {
+		if (!(tmp && *(tmp + strlen (handler->filename_ext)) == '\0')) {
 
-			proceed = TRUE;
-
-		} else {
-
-			GtkWidget *warning = 
-				gtk_message_dialog_new (NULL,
-				GTK_DIALOG_DESTROY_WITH_PARENT,
-				GTK_MESSAGE_QUESTION,
-				GTK_BUTTONS_YES_NO,
-				_("The suggested filename extension of this filetype (%s)"
-				  " is unused in the chosen filename. Do you want to "
-				  "continue?"), handler->filename_ext);
-
-			if (gtk_dialog_run (GTK_DIALOG (warning)) == GTK_RESPONSE_YES)
-				proceed = TRUE;
-
-			gtk_widget_destroy (warning);
-
-		}
-
-		if (proceed) {
-			handler->save (handler, ep, target, type, dest_uri);
-			/* Free the handlers */
-			g_list_foreach (format_handlers, format_handlers_foreach_free, NULL);
-			g_list_free (format_handlers);
-
-			/* Now we can destroy it */
-			gtk_widget_destroy (dialog);	
+			char *temp;
+			temp = g_strconcat (dest_uri, handler->filename_ext, NULL);
 			g_free (dest_uri);
+			dest_uri = temp;
 		}
 
-	} else {
-		/* Free the handlers */
-		g_list_foreach (format_handlers, format_handlers_foreach_free, NULL);
-		g_list_free (format_handlers);
-
-		/* Now we can destroy it */
-		gtk_widget_destroy (dialog);	
-		g_free (dest_uri);
+		handler->save (handler, ep, target, type, dest_uri);
 	}
+
+	/* Free the handlers */
+	g_list_foreach (format_handlers, format_handlers_foreach_free, NULL);
+	g_list_free (format_handlers);
+
+	/* Now we can destroy it */
+	gtk_widget_destroy (dialog);	
+	g_free (dest_uri);
+
 }
 
 void

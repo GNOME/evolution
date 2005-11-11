@@ -1,3 +1,8 @@
+2005-11-11  Dinesh Layek  <LDinesh@novell.com>
+
+	* save-calendar.c (ask_destination_and_save): append the file_extension 
+	if the user does not provide it.
+
 2005-08-23  Not Zed  <NotZed@Ximian.com>
 
 	* ical-format.c: include missing header.
