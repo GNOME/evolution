@@ -32,33 +32,41 @@ typedef struct {
 }AsyncData;
 
 static void
-add_attendee_cb (gpointer key, gpointer value, gpointer user_data)
-{
-	ECalComponentAttendee *ca;
-	const char *str, *name;
-	GSList **attendees = user_data;
-
-	if (!camel_internet_address_get (value, 0, &name, &str))
-		return;
-
-	ca = g_new0 (ECalComponentAttendee, 1);
-	ca->value = str;
-	ca->cn = name;
-	/* FIXME: missing many fields */
-
-	*attendees = g_slist_append (*attendees, ca);
-}
-
-static void
 set_attendees (ECalComponent *comp, CamelMimeMessage *message)
 {
 	GSList *attendees = NULL, *l;
+	ECalComponentAttendee *ca;
+	const CamelInternetAddress *to, *cc, *bcc, *arr[3];
+	int len, i, j;
 
-	g_hash_table_foreach (message->recipients, (GHFunc) add_attendee_cb, &attendees);
+	to = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_TO);
+	cc = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_CC);
+	bcc = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_BCC);
+
+	arr[0] = to, arr[1] = cc, arr[2] = bcc;
+
+	for(j = 0; j < 3; j++)
+	{
+		len = CAMEL_ADDRESS (arr[j])->addresses->len;
+		for (i = 0; i < len; i++) {
+			const char *name, *addr;
+
+			if (camel_internet_address_get (arr[j], i, &name, &addr)) {
+				ca = g_new0 (ECalComponentAttendee, 1);
+				ca->value = addr;
+				ca->cn = name;
+				/* FIXME: missing many fields */
+
+				attendees = g_slist_append (attendees, ca);
+			}
+		}
+	}
+
 	e_cal_component_set_attendee_list (comp, attendees);
 
 	for (l = attendees; l != NULL; l = l->next)
 		g_free (l->data);
+
 	g_slist_free (attendees);
 }
 
