@@ -22,7 +22,8 @@
      accel="*Control*v" pixtype="stock" pixname="gtk-paste"/>
 
     <cmd name="MailNext"
-     _tip="Display the next message"/>
+     _tip="Display the next message"
+     accel="*Control*Page_Down"/>
 
     <cmd name="MailNextFlagged"
      _tip="Display the next important message"/>
@@ -35,7 +36,8 @@
      _tip="Display the next unread thread"/>
 
     <cmd name="MailPrevious"
-     _tip="Display the previous message"/>
+     _tip="Display the previous message"
+     accel="*Control*Page_Up"/>
 
     <cmd name="MailPreviousFlagged"
      _tip="Display the previous important message"/>
