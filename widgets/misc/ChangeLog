@@ -1,3 +1,8 @@
+2005-11-14  Srinivasa Ragavan <sragavan@novell.com>
+
+	* e-dateedit.c (create_children): Set a size for the date
+	edit widgets, so that it doesnt expand too much.
+
 2005-09-28  Veerapuram Varadhan <vvaradhan@novell.com>
 
 	* e-attachment-bar.c (update): gtk_pixbuf_add_alpha returns a
