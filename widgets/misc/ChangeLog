@@ -1,3 +1,8 @@
+2005-11-14  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	* e-dateedit.c: (create_children): Adjusted the size
+	for the dateedit widgets.
+
 2005-11-14  Srinivasa Ragavan <sragavan@novell.com>
 
 	* e-dateedit.c (create_children): Set a size for the date

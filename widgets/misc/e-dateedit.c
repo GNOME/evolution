@@ -335,7 +335,7 @@ create_children			(EDateEdit	*dedit)
 	atk_object_set_description (a11y, _("Text entry to input date"));
 	atk_object_set_name (a11y, _("Text Date Entry"));
 	gtk_box_pack_start (GTK_BOX (dedit), priv->date_entry, FALSE, TRUE, 0);
-	gtk_widget_set_size_request (priv->date_entry, 80, -1);
+	gtk_widget_set_size_request (priv->date_entry, 100, -1);
 	
 	g_signal_connect (priv->date_entry, "key_press_event",
 			  G_CALLBACK (on_date_entry_key_press),
@@ -370,7 +370,7 @@ create_children			(EDateEdit	*dedit)
 
 	priv->time_combo = gtk_combo_new ();
 	gtk_box_pack_start (GTK_BOX (dedit), priv->time_combo, FALSE, TRUE, 0);
-	gtk_widget_set_size_request (priv->time_combo, 90, -1);	
+	gtk_widget_set_size_request (priv->time_combo, 110, -1);	
 	rebuild_time_popup (dedit);
 	a11y = gtk_widget_get_accessible (priv->time_combo);
 	atk_object_set_description (a11y, _("Combo box to select time"));
