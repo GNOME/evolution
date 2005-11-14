@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-11-10 07:22+0200\n"
+"POT-Creation-Date: 2005-11-13 13:17+0200\n"
 "PO-Revision-Date: 2005-11-10:07:30+0200\n"
 "Last-Translator: Ilkka Tuohela <hile@iki.fi>\n"
 "Language-Team: Finnish <gnome-fi-laatu@lists.sourceforge.net>\n"
@@ -3637,12 +3637,12 @@ msgstr "Evolutionin VCard-tuoja"
 msgid "Print envelope"
 msgstr "Tulosta kirjekuori"
 
-#: ../addressbook/printing/e-contact-print.c:1014
+#: ../addressbook/printing/e-contact-print.c:1026
 msgid "Print contacts"
 msgstr "Tulosta yhteystiedot"
 
-#: ../addressbook/printing/e-contact-print.c:1105
-#: ../addressbook/printing/e-contact-print.c:1133
+#: ../addressbook/printing/e-contact-print.c:1117
+#: ../addressbook/printing/e-contact-print.c:1145
 msgid "Print contact"
 msgstr "Tulosta yhteystieto"
 
@@ -5943,8 +5943,8 @@ msgid "_Recurrence"
 msgstr "_Toistuvuus"
 
 #: ../calendar/gui/dialogs/event-editor.c:164
-#: ../calendar/gui/dialogs/event-editor.c:248
-#: ../calendar/gui/dialogs/event-editor.c:422
+#: ../calendar/gui/dialogs/event-editor.c:239
+#: ../calendar/gui/dialogs/event-editor.c:413
 msgid "Schedulin_g"
 msgstr "_Ajanvaraus"
 
@@ -5956,8 +5956,8 @@ msgstr "_Valtuutetut"
 msgid "_Attendees"
 msgstr "_Osanottajat"
 
-#: ../calendar/gui/dialogs/event-editor.c:251
-#: ../calendar/gui/dialogs/event-editor.c:425
+#: ../calendar/gui/dialogs/event-editor.c:242
+#: ../calendar/gui/dialogs/event-editor.c:416
 msgid "In_vitations"
 msgstr "_Kutsut"
 
@@ -12705,7 +12705,7 @@ msgstr[1] "%d lähettämätöntä"
 msgid "%d total"
 msgid_plural "%d total"
 msgstr[0] "%d viesti"
-msgstr[1] "%d viestä"
+msgstr[1] "%d viestiä"
 
 #: ../mail/mail-component.c:544
 #, c-format
@@ -16636,19 +16636,10 @@ msgstr "%FT%T"
 msgid "RDF format (.rdf)"
 msgstr "RDF-muoto (.rdf)"
 
-#: ../plugins/save-calendar/save-calendar.c:171
-#: ../plugins/save-calendar/save-calendar.c:181
+#: ../plugins/save-calendar/save-calendar.c:170
+#: ../plugins/save-calendar/save-calendar.c:180
 msgid "Select destination file"
 msgstr "Valitse kohdetiedosto"
-
-#: ../plugins/save-calendar/save-calendar.c:216
-#, c-format
-msgid ""
-"The suggested filename extension of this filetype (%s) is unused in the "
-"chosen filename. Do you want to continue?"
-msgstr ""
-"Suositeltu tiedoston pääte tälle tiedostotyypille (%s) ei ole käytössä "
-"valitussa tiedostonimessä. Haluatko jatkaa?"
 
 #: ../plugins/select-one-source/org-gnome-select-one-source.eplug.xml.h:1
 msgid "Select one source"
@@ -20473,6 +20464,13 @@ msgstr "IM-konteksti"
 #: ../widgets/text/e-text.c:3683 ../widgets/text/e-text.c:3684
 msgid "Handle Popup"
 msgstr "Kahvan ponnahdusikkuna"
+
+#~ msgid ""
+#~ "The suggested filename extension of this filetype (%s) is unused in the "
+#~ "chosen filename. Do you want to continue?"
+#~ msgstr ""
+#~ "Suositeltu tiedoston pääte tälle tiedostotyypille (%s) ei ole käytössä "
+#~ "valitussa tiedostonimessä. Haluatko jatkaa?"
 
 #~ msgid "Meetings and Tasks"
 #~ msgstr "Kokoukset ja tehtävät"
