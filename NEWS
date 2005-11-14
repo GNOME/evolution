@@ -1,3 +1,56 @@
+Evolution 2.5.2 2005-10-25
+--------------------------
+
+New Features:
+	- New Event / Meeting Editor dialog (Srinivasa Ragavan &
+	  Chenthill)
+	-  Hula Account setup plugin (Harish)
+
+Bugzilla bugs fixed (see http://bugzilla.gnome.org/show_bug.cgi):
+
+	#302974 - Added accelerators for Next and Previous message
+		  (Sankar)
+	#314638 - Fixes a memory build-up, while creating a new meeting
+		  with new category (Chakravarthi)
+	#313538 - Fix to show Free/Busy information for organiser
+		  (Chenthil)	  
+	#321088 - Fix to reduce the size of time window in free/busy to
+		  avoid the scroll of widget in the wrong direction.
+		  It Shows only 35 days in the canvas. (Chenthill)
+	#273322 - Fixed a crash in evolution, when calendar is removed,
+		  remove it from publishing. (Dinesh)
+	#316710 - Fixed a alarm issue to popup for exchange, by
+		  obtaining correct key for a authenticated calendar (Chakravarthi)
+	#319217 - Show only alarms starting from today for missed alarms
+		  (Chakravarthi)
+	#316280 - Fix to addressbook print to use specified page size
+		  (Evan Yan)
+	#229972 - In contact editor, move focus automatically to next
+		  field, after setting phone from the menus (Devashish)
+	#301081 - Fix to rememberpublishing recipents in converting mail
+		  to task plugin (Mubeen)
+	#308752 - Renamed 'Meetings and Tasks' to 'Calendar and Tasks'
+		  in Preferences (Dinesh)
+	
+Other Fixes:
+
+	- Category syncing in todo-conduits (Nathen Owens)
+	- Adjust the Date/Time widgets to take actual size in
+	  meeting/event page (Chenthill)
+	- Automatic file extention filling in saving a calendar (Dinesh)
+	- Code Cleanup (Harish) 
+	
+Update Translations:
+
+	- bg (Alexander Shopov)
+	- ca (Adam Weinberger)
+	- es (Francisco Javier F. Serrador)
+	- et (Priit Laes)
+	- fi (Ilkka Tuohela)
+	- gl (Ignacio Casal Quinteiro)
+	- ku (Erdal Ronahi)
+	- lt (Žygimantas Beručka)
+
 Evolution 2.5.1 2005-10-25
 --------------------------
 New !!  Evolution Memos component (Nathan Owens)
