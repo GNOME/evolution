@@ -176,7 +176,7 @@ add_esource (const char *conf_key, const char *group_name,  const char *source_n
 	/* TODO use_ssl = camel_url_get_param (url, "use_ssl"); */
 
 	client = gconf_client_get_default();	
-	if (client) {
+	if (!client) {
 		g_message ("could not get a valid gconf client\n");
 		return;
 	}
