@@ -8,6 +8,8 @@ INCLUDES = 								\
 	-I$(top_srcdir)/shell						\
 	-I$(top_srcdir)/widgets/misc					\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"				\
+	-DEVOLUTION_UIDIR=\""$(evolutionuidir)"\"			\
+	-DPREFIX=\""$(prefix)"\"					\
 	$(EVOLUTION_CALENDAR_CFLAGS)
 
 noinst_LTLIBRARIES = libcal-dialogs.la

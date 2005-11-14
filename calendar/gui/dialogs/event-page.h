@@ -24,7 +24,13 @@
 #ifndef EVENT_PAGE_H
 #define EVENT_PAGE_H
 
+#include <bonobo/bonobo-window.h>
+#include <bonobo/bonobo-ui-util.h>
+#include <bonobo/bonobo-widget.h>
 #include "comp-editor-page.h"
+#include "../e-meeting-attendee.h"
+#include "../e-meeting-store.h"
+#include "../e-meeting-list-view.h"
 
 G_BEGIN_DECLS
 
@@ -51,11 +57,29 @@ typedef struct {
 
 
 GtkType    event_page_get_type  (void);
-EventPage *event_page_construct (EventPage *epage);
-EventPage *event_page_new       (void);
+EventPage *event_page_construct (EventPage *epage, EMeetingStore *model, ECal *client);
+EventPage *event_page_new       (EMeetingStore *model, ECal *client, BonoboUIComponent *uic);
+ECalComponent *event_page_get_cancel_comp (EventPage *page);
 void event_page_show_options (EventPage *page);
 void event_page_hide_options (EventPage *page);
+void event_page_sendoptions_clicked_cb (EventPage *epage);
 void event_page_set_meeting (EventPage *page, gboolean set);
+void event_page_set_show_timezone (EventPage *epage, gboolean state);
+void event_page_set_view_rsvp (EventPage *epage, gboolean state);
+void event_page_set_classification (EventPage *epage, ECalComponentClassification class);
+void event_page_set_delegate (EventPage *page, gboolean set);
+void event_page_set_all_day_event (EventPage *epage, gboolean all_day);
+void event_page_set_show_categories (EventPage *epage, gboolean state);
+void event_page_set_show_time_busy (EventPage *epage, gboolean state);
+void event_page_show_alarm (EventPage *epage);
+
+void event_page_set_view_attendee (EventPage *epage, gboolean state);
+void event_page_set_view_role (EventPage *epage, gboolean state);
+void event_page_set_view_status (EventPage *epage, gboolean state);
+void event_page_set_view_type (EventPage *epage, gboolean state);
+void event_page_set_view_rvsp (EventPage *epage, gboolean state);
+
+
 
 G_END_DECLS
 

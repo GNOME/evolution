@@ -22,6 +22,9 @@
 #define COMP_EDITOR_H
 
 #include <gtk/gtk.h>
+#include <bonobo/bonobo-window.h>
+#include <bonobo/bonobo-ui-util.h>
+#include <bonobo/bonobo-widget.h>
 #include <libecal/e-cal.h>
 #include "../itip-utils.h"
 #include "comp-editor-page.h"
@@ -39,14 +42,15 @@ G_BEGIN_DECLS
 typedef struct _CompEditorPrivate CompEditorPrivate;
 
 typedef struct {
-	GtkDialog object;
+	BonoboWindow object;
 
 	/* Private data */
 	CompEditorPrivate *priv;
+	BonoboUIComponent *uic;
 } CompEditor;
 
 typedef struct {
-	GtkDialogClass parent_class;
+	BonoboWindowClass parent_class;
 
 	/* Virtual functions */
 	void (* set_e_cal) (CompEditor *page, ECal *client);
@@ -80,7 +84,8 @@ void          comp_editor_set_group_item     (CompEditor             *editor,
 gboolean      comp_editor_get_group_item     (CompEditor             *editor);
 void          comp_editor_append_page      (CompEditor             *editor,
 					    CompEditorPage         *page,
-					    const char             *label);
+					    const char             *label,
+					    gboolean add);
 void          comp_editor_remove_page      (CompEditor             *editor,
 					    CompEditorPage         *page);
 void          comp_editor_show_page        (CompEditor             *editor,

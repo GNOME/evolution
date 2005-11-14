@@ -431,6 +431,7 @@ schedule_page_construct (SchedulePage *spage, EMeetingStore *ems)
 	
 	/* Selector */
 	priv->sel = E_MEETING_TIME_SELECTOR (e_meeting_time_selector_new (ems));
+	gtk_widget_set_size_request ((GtkWidget *) priv->sel, -1, 400);
 	e_meeting_time_selector_set_working_hours (priv->sel,
 						   calendar_config_get_day_start_hour (),
 						   calendar_config_get_day_start_minute (),

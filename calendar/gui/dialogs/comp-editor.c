@@ -30,6 +30,8 @@
 #include <glib.h>
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtkstock.h>
+#include <bonobo/bonobo-ui-util.h>
+#include <bonobo/bonobo-widget.h>
 #include <libgnome/libgnome.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnomevfs/gnome-vfs-mime.h>
@@ -143,7 +145,7 @@ static void obj_modified_cb (ECal *client, GList *objs, gpointer data);
 static void obj_removed_cb (ECal *client, GList *uids, gpointer data);
 static gboolean open_attachment (EAttachmentBar *bar, CompEditor *editor);
 
-G_DEFINE_TYPE (CompEditor, comp_editor, GTK_TYPE_DIALOG);
+G_DEFINE_TYPE (CompEditor, comp_editor, BONOBO_TYPE_WINDOW);
 
 enum {
 	DND_TYPE_MESSAGE_RFC822,
@@ -882,73 +884,6 @@ prompt_to_save_changes (CompEditor *editor, gboolean send)
 	}
 }
 
-static void
-response_cb (GtkWidget *widget, int response, gpointer data)
-{
-	CompEditor *editor = COMP_EDITOR (data);
-	CompEditorPrivate *priv;
-	ECalComponentText text;
-	gboolean delegated;
-	ECalComponent *comp;
-
-	priv = editor->priv;
-	delegated = (priv->flags & COMP_EDITOR_DELEGATE);
-
-	switch (response) {
-	case GTK_RESPONSE_OK:
-		/* Check whether the downloads are completed */
-		if (e_attachment_bar_get_download_count (E_ATTACHMENT_BAR (editor->priv->attachment_bar)) ){
-			gboolean response = 1;
-#warning "FIXME: Cannot use mail functions from calendar!!!!"
-#if 0	
-			ECalComponentVType vtype = e_cal_component_get_vtype(editor->priv->comp);
-
-			if (vtype == E_CAL_COMPONENT_EVENT)
-				response = em_utils_prompt_user((GtkWindow *)widget, 
-								 NULL, 
-								 "calendar:ask-send-event-pending-download", 
-								  NULL);
-			else
-				response = em_utils_prompt_user((GtkWindow *)widget, 
-								 NULL, 
-								 "calendar:ask-send-task-pending-download", 
-								  NULL);
-#endif
-		if (!response) 
-			return;
-		}	
-		commit_all_fields (editor);
-		if (e_cal_component_is_instance (priv->comp))
-			if (!recur_component_dialog (priv->client, priv->comp, &priv->mod, GTK_WINDOW (editor), delegated))
-				return;
-
-		comp = comp_editor_get_current_comp (editor);
-		e_cal_component_get_summary (comp, &text);
-		g_object_unref (comp);
-
-		if (!text.value) 
-			if (!send_component_prompt_subject ((GtkWindow *) editor, priv->client, priv->comp))
-				return;
-		if (save_comp_with_send (editor)) 
-			close_dialog (editor);
-		break;
-
-	case GTK_RESPONSE_HELP:
-		comp_editor_show_help (editor);
-
-		break;
-	case GTK_RESPONSE_CANCEL:
-		commit_all_fields (editor);
-		
-		if (prompt_to_save_changes (editor, TRUE))
-			close_dialog (editor);
-		break;
-	default:
-		/* We handle delete event below */
-		break;
-	}
-}
-
 static int
 delete_event_cb (GtkWidget *widget, GdkEvent *event, gpointer data)
 {
@@ -1233,6 +1168,152 @@ key_press_event(GtkWidget *widget, GdkEventKey *event)
         return FALSE;
 }
 
+/* Menu callbacks */
+static void
+menu_file_save_cb (BonoboUIComponent *uic,
+		   void *data,
+		   const char *path)
+{
+	CompEditor *editor = (CompEditor *) data;
+	CompEditorPrivate *priv = editor->priv;
+	ECalComponentText text;
+	gboolean delegated;
+	ECalComponent *comp;
+
+	if (e_attachment_bar_get_download_count (E_ATTACHMENT_BAR (editor->priv->attachment_bar)) ){
+		gboolean response = 1;
+	/*FIXME: Cannot use mail functions from calendar!!!! */
+#if 0	
+		ECalComponentVType vtype = e_cal_component_get_vtype(editor->priv->comp);
+
+		if (vtype == E_CAL_COMPONENT_EVENT)
+			response = em_utils_prompt_user((GtkWindow *)widget, 
+							 NULL, 
+							 "calendar:ask-send-event-pending-download", 
+							  NULL);
+		else
+			response = em_utils_prompt_user((GtkWindow *)widget, 
+							 NULL, 
+							 "calendar:ask-send-task-pending-download", 
+							  NULL);
+#endif
+	if (!response) 
+		return;
+	}	
+	commit_all_fields (editor);
+	if (e_cal_component_is_instance (priv->comp))
+		if (!recur_component_dialog (priv->client, priv->comp, &priv->mod, GTK_WINDOW (editor), delegated))
+			return;
+
+	comp = comp_editor_get_current_comp (editor);
+	e_cal_component_get_summary (comp, &text);
+	g_object_unref (comp);
+
+	if (!text.value) 
+		if (!send_component_prompt_subject ((GtkWindow *) editor, priv->client, priv->comp))
+			return;
+	if (save_comp_with_send (editor)) 
+		close_dialog (editor);
+
+}
+
+static void
+menu_file_close_cb (BonoboUIComponent *uic,
+		   void *data,
+		   const char *path)
+{
+	CompEditor *editor = (CompEditor *) data;
+	commit_all_fields (editor);
+		
+	if (prompt_to_save_changes (editor, TRUE))
+		close_dialog (editor);
+}
+
+static void
+menu_edit_copy_cb (BonoboUIComponent *uic,
+		   void *data,
+		   const char *path)
+{
+	/*TODO Implement the function 
+	CompEditor *editor = (CompEditor *) data; */
+
+}
+
+static void
+menu_edit_paste_cb (BonoboUIComponent *uic,
+		    void *data,
+		    const char *path)
+{
+	/*TODO Implement the function 
+	CompEditor *editor = (CompEditor *) data; */
+
+}
+
+static void
+menu_edit_cut_cb (BonoboUIComponent *uic,
+		  void *data,
+		  const char *path)
+{
+	/*TODO Implement the function 
+	CompEditor *editor = (CompEditor *) data; */
+
+}
+
+static void
+menu_insert_attachment_cb (BonoboUIComponent *uic,
+		   	   void *data,
+		   	   const char *path)
+{
+	CompEditor *editor = (CompEditor *) data;
+	EAttachmentBar *bar = (EAttachmentBar *)editor->priv->attachment_bar;
+	GPtrArray *file_list;
+	gboolean is_inline = FALSE;
+	int i;
+
+	file_list = comp_editor_select_file_attachments (editor, &is_inline);
+	/*TODO add a good implementation here */
+	if (!file_list)
+		return;
+	for (i = 0; i < file_list->len; i++) {
+		e_attachment_bar_attach (bar, file_list->pdata[i], is_inline ? "inline" : "attachment");
+		g_free (file_list->pdata[i]);
+	}
+	
+	g_ptr_array_free (file_list, TRUE);		
+}
+
+static void
+menu_help_cb (BonoboUIComponent *uic,
+	      void *data,
+	      const char *path)
+{
+	CompEditor *editor = (CompEditor *) data;
+	
+	comp_editor_show_help (editor);
+}
+
+static BonoboUIVerb verbs [] = {
+
+	BONOBO_UI_VERB ("FileSave", menu_file_save_cb),
+	BONOBO_UI_VERB ("FileClose", menu_file_close_cb),
+
+	BONOBO_UI_VERB ("EditCopy", menu_edit_copy_cb),
+	BONOBO_UI_VERB ("EditPaste", menu_edit_paste_cb),
+	BONOBO_UI_VERB ("EditCut", menu_edit_cut_cb),
+	
+	BONOBO_UI_VERB ("InsertAttachments", menu_insert_attachment_cb),
+	
+	BONOBO_UI_VERB ("Help", menu_help_cb),
+	
+	BONOBO_UI_VERB_END
+};
+
+static EPixmap pixmaps[] = {
+	E_PIXMAP ("/Toolbar/InsertAttachments", "stock_attach", E_ICON_SIZE_LARGE_TOOLBAR),
+
+	E_PIXMAP_END
+};
+
 /* Creates the basic in the editor */
 static void
 setup_widgets (CompEditor *editor)
@@ -1244,9 +1325,8 @@ setup_widgets (CompEditor *editor)
 	priv = editor->priv;
 
 	/* Useful vbox */
-	vbox = gtk_vbox_new (FALSE, 12);
-	gtk_container_set_border_width (GTK_CONTAINER (vbox), 12);
-	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (editor)->vbox), vbox, TRUE, TRUE, 0);
+	vbox = gtk_vbox_new (FALSE, 0);
+	bonobo_window_set_contents (BONOBO_WINDOW (editor), vbox);
 	gtk_widget_show (vbox);
 
 	/* Notebook */
@@ -1254,14 +1334,8 @@ setup_widgets (CompEditor *editor)
 	gtk_widget_show (GTK_WIDGET (priv->notebook));
 	gtk_box_pack_start (GTK_BOX (vbox), GTK_WIDGET (priv->notebook),
 			    TRUE, TRUE, 0);
+	gtk_notebook_set_show_tabs (priv->notebook, FALSE);
 
-	/* Buttons */
-	gtk_dialog_add_button  (GTK_DIALOG (editor), GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);
-	gtk_dialog_add_button  (GTK_DIALOG (editor), GTK_STOCK_OK, GTK_RESPONSE_OK);
-	gtk_dialog_add_button  (GTK_DIALOG (editor), GTK_STOCK_HELP, GTK_RESPONSE_HELP);
-	gtk_dialog_set_response_sensitive (GTK_DIALOG (editor), GTK_RESPONSE_OK, FALSE);
-	
-	g_signal_connect (editor, "response", G_CALLBACK (response_cb), editor);
 	g_signal_connect (editor, "delete_event", G_CALLBACK (delete_event_cb), editor);
 
 	/*Attachments */
@@ -1325,6 +1399,7 @@ static void
 comp_editor_init (CompEditor *editor)
 {
 	CompEditorPrivate *priv;
+	BonoboUIContainer *container;
 
 	priv = g_new0 (CompEditorPrivate, 1);
 	editor->priv = priv;
@@ -1341,17 +1416,29 @@ comp_editor_init (CompEditor *editor)
 	priv->is_group_item = FALSE;
 	priv->help_section = g_strdup ("usage-calendar");
 
+	container = bonobo_window_get_ui_container (BONOBO_WINDOW (editor));
+	editor->uic = bonobo_ui_component_new_default ();
+	/* FIXME: handle bonobo exceptions */
+	bonobo_ui_component_set_container (editor->uic, bonobo_object_corba_objref (BONOBO_OBJECT (container)), NULL);
+	
+	bonobo_ui_component_add_verb_list_with_data (editor->uic, verbs, editor);
+
+	bonobo_ui_component_freeze (editor->uic, NULL);
+
+	bonobo_ui_util_set_ui (editor->uic, PREFIX,
+			       EVOLUTION_UIDIR "/evolution-editor.xml",
+			       "evolution-editor", NULL);
+	e_pixmaps_update (editor->uic, pixmaps);
+	bonobo_ui_component_thaw (editor->uic, NULL);
+
+	bonobo_ui_component_set_prop (editor->uic, "/commands/FileSave", "sensitive", "0", NULL);
+
 	/* DND support */
 	gtk_drag_dest_set (GTK_WIDGET (editor), GTK_DEST_DEFAULT_ALL,  drop_types, num_drop_types, GDK_ACTION_COPY|GDK_ACTION_ASK|GDK_ACTION_MOVE);
 	g_signal_connect(editor, "drag_data_received", G_CALLBACK (drag_data_received), NULL);
 	g_signal_connect(editor, "drag-motion", G_CALLBACK(drag_motion), editor);
 
 	gtk_window_set_type_hint (GTK_WINDOW (editor), GDK_WINDOW_TYPE_HINT_NORMAL);
-	gtk_dialog_set_has_separator (GTK_DIALOG (editor), FALSE);
-
-	gtk_widget_ensure_style (GTK_WIDGET (editor));
-	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (editor)->vbox), 0);
-	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (editor)->action_area), 12);
 }
 
 
@@ -1572,8 +1659,8 @@ comp_editor_set_changed (CompEditor *editor, gboolean changed)
 
 	priv->changed = changed;
 
-	gtk_dialog_set_response_sensitive (GTK_DIALOG (editor), GTK_RESPONSE_OK, changed);
-	gtk_dialog_set_default_response (GTK_DIALOG (editor), GTK_RESPONSE_OK);
+	bonobo_ui_component_set_prop (editor->uic, "/commands/FileSave", "sensitive", changed ? "1" : "0"
+			, NULL);
 }
 
 /**
@@ -1694,14 +1781,17 @@ static void page_unmapped_cb (GtkWidget *page_widget,
  * comp_editor_append_page:
  * @editor: A component editor
  * @page: A component editor page
- * @label: Label of the page
+ * @label: Label of the page. Should be NULL if add is FALSE. 
+ * @add: Add's the page into the notebook if TRUE
  *
- * Appends a page to the editor notebook with the given label
+ * Appends a page to the notebook if add is TRUE else
+ * just adds it to the list of pages. 
  **/
 void
 comp_editor_append_page (CompEditor *editor,
 			 CompEditorPage *page,
-			 const char *label)
+			 const char *label,
+			 gboolean add)
 {
 	CompEditorPrivate *priv;
 	GtkWidget *page_widget;
@@ -1712,7 +1802,6 @@ comp_editor_append_page (CompEditor *editor,
 	g_return_if_fail (IS_COMP_EDITOR (editor));
 	g_return_if_fail (page != NULL);
 	g_return_if_fail (IS_COMP_EDITOR_PAGE (page));
-	g_return_if_fail (label != NULL);
 
 	priv = editor->priv;
 
@@ -1733,12 +1822,15 @@ comp_editor_append_page (CompEditor *editor,
 	page_widget = comp_editor_page_get_widget (page);
 	g_assert (page_widget != NULL);
 
-	label_widget = gtk_label_new_with_mnemonic (label);
+	if (label)
+		label_widget = gtk_label_new_with_mnemonic (label);
 
 	is_first_page = (priv->pages == NULL);
 
 	priv->pages = g_list_append (priv->pages, page);
-	gtk_notebook_append_page (priv->notebook, page_widget, label_widget);
+	
+	if (add)
+		gtk_notebook_append_page (priv->notebook, page_widget, label_widget);
 
 	/* Listen for things happening on the page */
 	g_signal_connect(page, "changed",
@@ -2557,7 +2649,8 @@ comp_editor_notify_client_changed (CompEditor *editor, ECal *client)
 
 	if (!e_cal_is_read_only (client, &read_only, NULL))
 		read_only = TRUE;
-	gtk_dialog_set_response_sensitive (GTK_DIALOG (editor), GTK_RESPONSE_OK, !read_only);
+
+	/* FIXME: SRINI: Disable widgets */
 }
 
 static void

@@ -1,3 +1,79 @@
+2005-11-14  Srinivasa Ragavan <sragavan@novell.com>
+ 
+	reviewed by: Chenthill Palanisamy  <pchenthill@novell.com>
+
+	* gui/apps_evolution_calendar.schemas.in.in:
+	* gui/calendar-config-keys.h:
+	* gui/calendar-config.h:
+	* gui/calendar-config.c: (calendar_config_get_show_attendee),
+	(calendar_config_set_show_attendee),
+	(calendar_config_get_show_rsvp), (calendar_config_set_show_rsvp),
+	(calendar_config_get_show_role), (calendar_config_set_show_role),
+	(calendar_config_get_show_type), (calendar_config_set_show_type),
+	(calendar_config_get_show_status),
+	(calendar_config_set_show_status),
+	(calendar_config_get_show_timezone),
+	(calendar_config_set_show_timezone),
+	(calendar_config_get_show_categories),
+	(calendar_config_set_show_categories): Gconf keys to store the last
+	modified state.
+	* gui/dialogs/Makefile.am: Added the evolution UI directory.
+	* gui/dialogs/comp-editor.h:
+	* gui/dialogs/comp-editor.c: (menu_file_save_cb),
+	(menu_file_close_cb), (menu_edit_copy_cb), (menu_edit_paste_cb),
+	(menu_edit_cut_cb), (menu_insert_attachment_cb), (menu_help_cb),
+	(setup_widgets), (comp_editor_init), (comp_editor_set_changed),
+	(comp_editor_append_page), (comp_editor_notify_client_changed):
+	Add only the event page into the notebook.
+	* gui/dialogs/event-editor.c: (menu_view_attendee_cb),
+	(menu_view_role_cb), (menu_view_status_cb), (menu_view_type_cb),
+	(menu_view_rsvp_cb), (menu_action_alarm_cb),
+	(menu_show_time_busy_cb), (menu_all_day_event_cb),
+	(menu_show_time_zone_cb), (menu_show_categories_cb),
+	(menu_class_public_cb), (menu_class_private_cb),
+	(menu_class_confidential_cb), (menu_action_recurrance_cb),
+	(menu_action_freebusy_cb), (menu_action_alarm_cmd),
+	(menu_all_day_event_cmd), (menu_show_time_zone_cmd),
+	(menu_action_recurrance_cmd), (menu_action_freebusy_cmd),
+	(menu_insert_send_options_cmd), (event_editor_init),
+	(event_editor_construct), (event_editor_edit_comp),
+	(event_editor_send_comp), (event_editor_finalize), (show_meeting),
+	(event_editor_show_meeting): Added the menu and tool bar. Schedule
+       	page and recurrence page are shown as dialogs.	
+	* gui/dialogs/event-page.h:
+	* gui/dialogs/event-page.c: (event_page_init), (cleanup_attendees),
+	(event_page_finalize), (set_classification_menu),
+	(set_busy_time_menu), (enable_busy_time_menu),
+	(set_all_day_event_menu), (set_all_day), (update_time),
+	(clear_widgets), (event_page_set_view_attendee),
+	(event_page_set_view_role), (event_page_set_view_status),
+	(event_page_set_view_type), (event_page_set_view_rsvp),
+	(event_page_set_classification), (sensitize_widgets),
+	(event_page_hide_options), (event_page_show_options),
+	(event_page_set_meeting), (event_page_set_delegate),
+	(get_current_account), (event_page_fill_widgets),
+	(event_page_fill_component), (time_sel_changed), (add_clicked_cb),
+	(existing_attendee), (remove_attendee), (remove_clicked_cb),
+	(invite_cb), (attendee_added_cb), (popup_add_cb),
+	(popup_delete_cb), (context_popup_free), (button_press_event),
+	(list_view_event), (list_key_press),
+	(event_page_set_all_day_event), (event_page_set_show_time_busy),
+	(event_page_show_alarm), (event_page_set_show_timezone),
+	(event_page_set_show_categories), (get_widgets),
+	(summary_changed_cb), (notify_dates_changed), (times_updated),
+	(start_timezone_changed_cb), (event_page_sendoptions_clicked_cb),
+	(init_widgets), (event_page_construct), (event_page_new),
+	(event_page_create_source_option_menu), (set_attendees),
+	(event_page_get_cancel_comp):
+	* gui/dialogs/event-page.glade: UI Changes to have the event 
+	page alone.
+	* gui/dialogs/task-editor.c: (task_editor_construct),
+	(task_editor_edit_comp), (show_assignment):
+	* gui/dialogs/memo-editor.c: (memo_editor_construct): Make changes
+	for append page function.
+	* gui/dialogs/schedule-page.c: (schedule_page_construct): Set the 
+	size of the meeting time selector.
+
 2005-11-09  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #313538

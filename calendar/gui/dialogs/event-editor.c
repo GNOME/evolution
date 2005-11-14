@@ -32,19 +32,21 @@
 #include <libgnome/gnome-i18n.h>
 #include <misc/e-dateedit.h>
 #include <e-util/e-icon-factory.h>
-
+#include <evolution-shell-component-utils.h>
 #include "event-page.h"
 #include "recurrence-page.h"
 #include "meeting-page.h"
 #include "schedule-page.h"
 #include "cancel-comp.h"
 #include "event-editor.h"
+#include "../calendar-config.h"
 
 struct _EventEditorPrivate {
 	EventPage *event_page;
 	RecurrencePage *recur_page;
-	MeetingPage *meet_page;
+	GtkWidget *recur_window;
 	SchedulePage *sched_page;
+	GtkWidget *sched_window;
 
 	EMeetingStore *model;
 	gboolean is_meeting;
@@ -58,11 +60,6 @@ static void event_editor_set_e_cal (CompEditor *editor, ECal *client);
 static void event_editor_edit_comp (CompEditor *editor, ECalComponent *comp);
 static gboolean event_editor_send_comp (CompEditor *editor, ECalComponentItipMethod method);
 static void event_editor_finalize (GObject *object);
-
-static void schedule_meeting_cmd (GtkWidget *widget, gpointer data);
-static void refresh_meeting_cmd (GtkWidget *widget, gpointer data);
-static void cancel_meeting_cmd (GtkWidget *widget, gpointer data);
-static void forward_cmd (GtkWidget *widget, gpointer data);
 
 static void model_row_change_insert_cb (GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, gpointer data);
 static void model_row_delete_cb (GtkTreeModel *model, GtkTreePath *path, gpointer data);
@@ -108,12 +105,311 @@ client_changed_cb (CompEditorPage *page, ECal *client, gpointer user_data)
 	//set_menu_sens (EVENT_EDITOR (user_data));
 }
 
+static void
+menu_view_attendee_cb (BonoboUIComponent           *component,
+		      const char                  *path,
+		      Bonobo_UIComponent_EventType type,
+		      const char                  *state,
+		      gpointer                     user_data)
+{
+	EventEditor *ee = (EventEditor *) user_data;
+	if (type != Bonobo_UIComponent_STATE_CHANGED)
+		return;
+	event_page_set_view_attendee (ee->priv->event_page, atoi(state));
+	calendar_config_set_show_attendee (atoi(state));
+}
+
+static void
+menu_view_role_cb (BonoboUIComponent           *component,
+		      const char                  *path,
+		      Bonobo_UIComponent_EventType type,
+		      const char                  *state,
+		      gpointer                     user_data)
+{
+	EventEditor *ee = (EventEditor *) user_data;
+	
+	if (type != Bonobo_UIComponent_STATE_CHANGED)
+		return;
+	event_page_set_view_role (ee->priv->event_page, atoi(state));	
+	calendar_config_set_show_role (atoi(state));	
+}
+
+static void
+menu_view_status_cb (BonoboUIComponent           *component,
+		      const char                  *path,
+		      Bonobo_UIComponent_EventType type,
+		      const char                  *state,
+		      gpointer                     user_data)
+{
+	EventEditor *ee = (EventEditor *) user_data;
+	
+	if (type != Bonobo_UIComponent_STATE_CHANGED)
+		return;
+	
+	event_page_set_view_status (ee->priv->event_page, atoi(state));
+	calendar_config_set_show_status (atoi(state));	
+}
+
+static void
+menu_view_type_cb (BonoboUIComponent           *component,
+		      const char                  *path,
+		      Bonobo_UIComponent_EventType type,
+		      const char                  *state,
+		      gpointer                     user_data)
+{
+	EventEditor *ee = (EventEditor *) user_data;
+	
+	if (type != Bonobo_UIComponent_STATE_CHANGED)
+		return;
+	event_page_set_view_type (ee->priv->event_page, atoi(state));	
+	calendar_config_set_show_type (atoi(state));	
+}
+
+static void
+menu_view_rsvp_cb (BonoboUIComponent           *component,
+		      const char                  *path,
+		      Bonobo_UIComponent_EventType type,
+		      const char                  *state,
+		      gpointer                     user_data)
+{
+	EventEditor *ee = (EventEditor *) user_data;
+	
+	if (type != Bonobo_UIComponent_STATE_CHANGED)
+		return;
+	event_page_set_view_rsvp (ee->priv->event_page, atoi(state));	
+	calendar_config_set_show_rsvp (atoi(state));	
+}
+
+static void
+menu_action_alarm_cb (BonoboUIComponent           *component,
+		      const char                  *path,
+		      Bonobo_UIComponent_EventType type,
+		      const char                  *state,
+		      gpointer                     user_data)
+{
+	EventEditor *ee = (EventEditor *) user_data;
+
+	event_page_show_alarm (ee->priv->event_page);
+}
+
+static void
+menu_show_time_busy_cb (BonoboUIComponent           *component,
+		        const char                  *path,
+		        Bonobo_UIComponent_EventType type,
+		        const char                  *state,
+		        gpointer                     user_data)
+{
+	EventEditor *ee = (EventEditor *) user_data;
+	
+	if (type != Bonobo_UIComponent_STATE_CHANGED)
+		return;
+
+	event_page_set_show_time_busy (ee->priv->event_page, atoi(state));	
+}
+
+static void
+menu_all_day_event_cb (BonoboUIComponent           *component,
+		      const char                  *path,
+		      Bonobo_UIComponent_EventType type,
+		      const char                  *state,
+		      gpointer                     user_data)
+{
+	EventEditor *ee = (EventEditor *) user_data;
+	
+	if (type != Bonobo_UIComponent_STATE_CHANGED)
+		return;
+	event_page_set_all_day_event (ee->priv->event_page, atoi(state));	
+}
+
+static void
+menu_show_time_zone_cb (BonoboUIComponent           *component,
+		       const char                  *path,
+		       Bonobo_UIComponent_EventType type,
+		       const char                  *state,
+		       gpointer                     user_data)
+{
+	EventEditor *ee = (EventEditor *) user_data;
+	
+	if (type != Bonobo_UIComponent_STATE_CHANGED)
+		return;
+	event_page_set_show_timezone (ee->priv->event_page, atoi(state));	
+	calendar_config_set_show_timezone (atoi(state));
+}
+
+static void
+menu_show_categories_cb (BonoboUIComponent           *component,
+		       const char                  *path,
+		       Bonobo_UIComponent_EventType type,
+		       const char                  *state,
+		       gpointer                     user_data)
+{
+	EventEditor *ee = (EventEditor *) user_data;
+	
+	if (type != Bonobo_UIComponent_STATE_CHANGED)
+		return;
+
+	event_page_set_show_categories (ee->priv->event_page, atoi(state));	
+	calendar_config_set_show_categories (atoi(state));
+}
+
+static void
+menu_class_public_cb (BonoboUIComponent           *ui_component,
+		     const char                  *path,
+		     Bonobo_UIComponent_EventType type,
+		     const char                  *state,
+		     gpointer			  user_data)
+{
+	EventEditor *ee = (EventEditor *) user_data;
+
+	if (state[0] == '0')
+		return;
+	event_page_set_classification (ee->priv->event_page, E_CAL_COMPONENT_CLASS_PUBLIC);
+}
+
+static void
+menu_class_private_cb (BonoboUIComponent           *ui_component,
+		      const char                  *path,
+		      Bonobo_UIComponent_EventType type,
+		      const char                  *state,
+		      gpointer			  user_data)
+{
+	EventEditor *ee = (EventEditor *) user_data;
+	if (state[0] == '0')
+		return;
+	
+	event_page_set_classification (ee->priv->event_page, E_CAL_COMPONENT_CLASS_PRIVATE);
+}
+
+static void
+menu_class_confidential_cb (BonoboUIComponent           *ui_component,
+		     	   const char                  *path,
+		     	   Bonobo_UIComponent_EventType type,
+		     	   const char                  *state,
+		     	   gpointer			user_data)
+{
+	EventEditor *ee = (EventEditor *) user_data;
+	if (state[0] == '0')
+		return;
+	
+	event_page_set_classification (ee->priv->event_page, E_CAL_COMPONENT_CLASS_CONFIDENTIAL);
+}
+
+static void
+menu_action_recurrance_cb (BonoboUIComponent           *ui_component,
+		     	   const char                  *path,
+		     	   Bonobo_UIComponent_EventType type,
+		     	   const char                  *state,
+		     	   gpointer			user_data)
+{
+	EventEditor *ee = (EventEditor *) user_data;
+	
+	gtk_widget_show (ee->priv->recur_window);
+}
+
+static void
+menu_action_freebusy_cb	(BonoboUIComponent           *ui_component,
+		     	 const char                  *path,
+		     	 Bonobo_UIComponent_EventType type,
+		     	 const char                  *state,
+		     	 gpointer			user_data) 
+{
+	EventEditor *ee = (EventEditor *) user_data;
+	
+	gtk_widget_show (ee->priv->sched_window);
+}
+
+static void
+menu_action_alarm_cmd (BonoboUIComponent *uic,
+		    void *data,
+		    const char *path)
+{
+	EventEditor *ee = (EventEditor *) data;
+
+	event_page_show_alarm (ee->priv->event_page);
+}
+
+static void
+menu_all_day_event_cmd (BonoboUIComponent *uic,
+	                void *data,
+		        const char *path)
+{
+	/* TODO 
+	EventEditor *ee = (EventEditor *) data;
+
+	event_page_set_all_day_event (ee->priv->event_page, atoi(state));*/
+}
+
+static void
+menu_show_time_zone_cmd (BonoboUIComponent *uic,
+	                 void *data,
+		         const char *path)
+{
+	/* TODO 
+	EventEditor *ee = (EventEditor *) data;
+	
+	event_page_set_show_timezone (ee->priv->event_page, atoi(state));	
+	calendar_config_set_show_timezone (atoi(state)); */
+}
+
+static void
+menu_action_recurrance_cmd (BonoboUIComponent *uic,
+		   	   void *data,
+		   	   const char *path)
+{
+	EventEditor *ee = (EventEditor *) data;
+	
+	gtk_widget_show (ee->priv->recur_window);
+}
+
+static void
+menu_action_freebusy_cmd (BonoboUIComponent *uic,
+		   	 void *data,
+		   	 const char *path)
+{
+	EventEditor *ee = (EventEditor *) data;
+	
+	gtk_widget_show (ee->priv->sched_window);
+}
+
+static void
+menu_insert_send_options_cmd (BonoboUIComponent *uic,
+		   	 void *data,
+		   	 const char *path)
+{
+	EventEditor *ee = (EventEditor *) data;
+	
+	event_page_sendoptions_clicked_cb (ee->priv->event_page);
+}
+
+static BonoboUIVerb verbs [] = {
+	BONOBO_UI_VERB ("ActionAlarm", menu_action_alarm_cmd),
+	BONOBO_UI_VERB ("ActionAllDayEvent", menu_all_day_event_cmd),
+	BONOBO_UI_VERB ("ViewTimeZone", menu_show_time_zone_cmd),	
+	BONOBO_UI_VERB ("ActionRecurrance", menu_action_recurrance_cmd),
+	BONOBO_UI_VERB ("ActionFreeBusy", menu_action_freebusy_cmd),
+	BONOBO_UI_VERB ("InsertSendOptions", menu_insert_send_options_cmd),
+	
+	BONOBO_UI_VERB_END
+};
+
+static EPixmap pixmaps[] = {
+	E_PIXMAP ("/Toolbar/ActionAlarm", "stock_alarm", E_ICON_SIZE_LARGE_TOOLBAR),
+	E_PIXMAP ("/Toolbar/ActionAllDayEvent", "stock_new-24h-appointment", E_ICON_SIZE_LARGE_TOOLBAR),
+	E_PIXMAP ("/Toolbar/ViewTimeZone", "stock_timezone", E_ICON_SIZE_LARGE_TOOLBAR),	
+	E_PIXMAP ("/Toolbar/ActionRecurrance", "stock_task-recurring", E_ICON_SIZE_LARGE_TOOLBAR),	
+	E_PIXMAP ("/commands/ActionRecurrance", "stock_task-recurring", E_ICON_SIZE_LARGE_TOOLBAR),		
+	E_PIXMAP ("/Toolbar/ActionFreeBusy", "stock_task-recurring", E_ICON_SIZE_LARGE_TOOLBAR),			
+	E_PIXMAP_END
+};
+
 /* Object initialization function for the event editor */
 static void
 event_editor_init (EventEditor *ee)
 {
 	EventEditorPrivate *priv;
-	
+	CompEditor *editor = COMP_EDITOR(ee);
+	gboolean status;
+
 	priv = g_new0 (EventEditorPrivate, 1);
 	ee->priv = priv;
 
@@ -122,6 +418,116 @@ event_editor_init (EventEditor *ee)
 	priv->updating = FALSE;	
 	priv->is_meeting = FALSE;
 
+	bonobo_ui_component_freeze (editor->uic, NULL);
+
+	bonobo_ui_component_add_verb_list_with_data (editor->uic, verbs, ee);
+
+	bonobo_ui_util_set_ui (editor->uic, PREFIX,
+			       EVOLUTION_UIDIR "/evolution-event-editor.xml",
+			       "evolution-event-editor", NULL);
+
+	/* Show hide the attendee fields */
+	status = calendar_config_get_show_attendee ();
+	bonobo_ui_component_set_prop (
+		editor->uic, "/commands/ViewAttendee",
+		"state", status ? "1" : "0", NULL);
+	bonobo_ui_component_add_listener (
+		editor->uic, "ViewAttendee",
+		menu_view_attendee_cb, editor);
+
+	/* Hide send options */
+	bonobo_ui_component_set_prop (
+		editor->uic, "/commands/InsertSendOptions",
+		"hidden", "1", NULL);
+
+	/* Show hide the status fields */
+	status = calendar_config_get_show_status ();
+	bonobo_ui_component_set_prop (
+		editor->uic, "/commands/ViewStatus",
+		"state", status ? "1" : "0", NULL);
+	bonobo_ui_component_add_listener (
+		editor->uic, "ViewStatus",
+		menu_view_status_cb, editor);
+	
+	/* Show hide the type fields */
+	status = calendar_config_get_show_type ();
+	bonobo_ui_component_set_prop (
+		editor->uic, "/commands/ViewType",
+		"state", status ? "1" : "0", NULL);
+	bonobo_ui_component_add_listener (
+		editor->uic, "ViewType",
+		menu_view_type_cb, editor);
+
+	/* Show hide the role fields */
+	status = calendar_config_get_show_role ();
+	bonobo_ui_component_set_prop (
+		editor->uic, "/commands/ViewRole",
+		"state", status ? "1" : "0", NULL);
+	bonobo_ui_component_add_listener (
+		editor->uic, "ViewRole",
+		menu_view_role_cb, editor);
+
+	/* Show hide the rsvp fields */
+	status = calendar_config_get_show_rsvp ();
+	bonobo_ui_component_set_prop (
+		editor->uic, "/commands/ViewRSVP",
+		"state", status ? "1" : "0", NULL);
+	bonobo_ui_component_add_listener (
+		editor->uic, "ViewRSVP",
+		menu_view_rsvp_cb, editor);
+
+	bonobo_ui_component_add_listener (
+		editor->uic, "ActionAlarm",
+		menu_action_alarm_cb, editor);
+	
+	bonobo_ui_component_add_listener (
+		editor->uic, "ActionAllDayEvent", 
+		menu_all_day_event_cb, editor);
+	
+	bonobo_ui_component_add_listener (
+		editor->uic, "ActionShowTimeBusy", 
+		menu_show_time_busy_cb, editor);
+	
+	status = calendar_config_get_show_timezone ();
+	bonobo_ui_component_set_prop (
+		editor->uic, "/commands/ViewTimeZone",
+		"state", status ? "1" : "0", NULL);
+	bonobo_ui_component_add_listener (
+		editor->uic, "ViewTimeZone",
+		menu_show_time_zone_cb, editor);
+
+	status = calendar_config_get_show_categories ();
+	bonobo_ui_component_set_prop (
+		editor->uic, "/commands/ViewCategories",
+		"state", status ? "1" : "0", NULL);
+	bonobo_ui_component_add_listener (
+		editor->uic, "ViewCategories",
+		menu_show_categories_cb, editor);
+
+	bonobo_ui_component_set_prop (
+		editor->uic, "/commands/ActionClassPublic",
+		"state", "1", NULL);
+	bonobo_ui_component_add_listener (
+		editor->uic, "ActionClassPublic",
+		menu_class_public_cb, editor);
+	bonobo_ui_component_add_listener (
+		editor->uic, "ActionClassPrivate",
+		menu_class_private_cb, editor);
+	bonobo_ui_component_add_listener (
+		editor->uic, "ActionClassConfidential",
+		menu_class_confidential_cb, editor);
+
+	bonobo_ui_component_add_listener (
+		editor->uic, "ActionRecurrance", 
+		menu_action_recurrance_cb, editor);
+	bonobo_ui_component_add_listener (
+		editor->uic, "ActionFreeBusy", 
+		menu_action_freebusy_cb, editor);
+
+	e_pixmaps_update (editor->uic, pixmaps);
+
+	bonobo_ui_component_thaw (editor->uic, NULL);	
+
 	comp_editor_set_help_section (COMP_EDITOR (ee), "usage-calendar-apts");
 }
 
@@ -129,26 +535,33 @@ EventEditor *
 event_editor_construct (EventEditor *ee, ECal *client)
 {
 	EventEditorPrivate *priv;
-	guint32 flags = comp_editor_get_flags (COMP_EDITOR (ee));
+	CompEditor *editor = COMP_EDITOR (ee);
+	guint32 flags = comp_editor_get_flags (editor);
 
 	priv = ee->priv;
 
-	priv->event_page = event_page_new ();
+	priv->event_page = event_page_new (priv->model, client, COMP_EDITOR(ee)->uic);
 	g_object_ref (priv->event_page);
 	gtk_object_sink (GTK_OBJECT (priv->event_page));
 	comp_editor_append_page (COMP_EDITOR (ee), 
 				 COMP_EDITOR_PAGE (priv->event_page),
-				 _("Appoint_ment"));
+				 _("Appoint_ment"), TRUE);
 	g_signal_connect (G_OBJECT (priv->event_page), "client_changed",
 			  G_CALLBACK (client_changed_cb), ee);
 
+	priv->recur_window = gtk_dialog_new_with_buttons (_("Recurrance"),
+							  (GtkWindow *) ee, GTK_DIALOG_MODAL,
+							  "gtk-close", GTK_RESPONSE_CLOSE,
+							  NULL);
+	g_signal_connect (priv->recur_window, "response", G_CALLBACK (gtk_widget_hide), NULL);
 	priv->recur_page = recurrence_page_new ();
 	g_object_ref (priv->recur_page);
 	gtk_object_sink (GTK_OBJECT (priv->recur_page));
-	comp_editor_append_page (COMP_EDITOR (ee),
-				 COMP_EDITOR_PAGE (priv->recur_page),
-				 _("_Recurrence"));
-
+	gtk_container_add ((GtkContainer *) (GTK_DIALOG (priv->recur_window)->vbox), 
+			comp_editor_page_get_widget (COMP_EDITOR_PAGE (priv->recur_page)));
+	gtk_widget_show_all (priv->recur_window);
+	gtk_widget_hide (priv->recur_window);
+	comp_editor_append_page (COMP_EDITOR (ee), COMP_EDITOR_PAGE (priv->recur_page), NULL, FALSE);
 	if (priv->is_meeting) {
 
 		if (e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_REQ_SEND_OPTIONS))
@@ -156,28 +569,33 @@ event_editor_construct (EventEditor *ee, ECal *client)
 
 		comp_editor_set_group_item (COMP_EDITOR (ee), TRUE);
 		if ((flags & COMP_EDITOR_USER_ORG) || (flags & COMP_EDITOR_DELEGATE)|| (flags & COMP_EDITOR_NEW_ITEM)) {
+			priv->sched_window = gtk_dialog_new_with_buttons (_("Free/Busy"),
+									  (GtkWindow *) ee, GTK_DIALOG_MODAL,
+									  "gtk-close", GTK_RESPONSE_CLOSE,
+							  		  NULL);
 			priv->sched_page = schedule_page_new (priv->model);
 			g_object_ref (priv->sched_page);
 			gtk_object_sink (GTK_OBJECT (priv->sched_page));
-			comp_editor_append_page (COMP_EDITOR (ee),
-					COMP_EDITOR_PAGE (priv->sched_page),
-					_("Schedulin_g"));
-		}
+			gtk_container_add (GTK_CONTAINER (GTK_DIALOG(priv->sched_window)->vbox), comp_editor_page_get_widget (COMP_EDITOR_PAGE (priv->sched_page)));
+			gtk_widget_show_all (priv->sched_window);
+			gtk_widget_hide (priv->sched_window);
+
+			g_signal_connect (priv->sched_window, "response", G_CALLBACK(gtk_widget_hide), NULL);
+			comp_editor_append_page (COMP_EDITOR (ee), COMP_EDITOR_PAGE (priv->sched_page), NULL, FALSE);
+	} else
+			bonobo_ui_component_set_prop (editor->uic, "/commands/ActionFreeBusy", "hidden", "1", NULL);
 		
-		priv->meet_page = meeting_page_new (priv->model, client);
-		g_object_ref (priv->meet_page);
-		gtk_object_sink (GTK_OBJECT (priv->meet_page));
-		
-		if (comp_editor_get_flags (COMP_EDITOR (ee)) & COMP_EDITOR_DELEGATE) {
-			comp_editor_append_page (COMP_EDITOR (ee),
-					 COMP_EDITOR_PAGE (priv->meet_page),
-					 _("_Delegatees"));
-		} else
-			comp_editor_append_page (COMP_EDITOR (ee),
-					 COMP_EDITOR_PAGE (priv->meet_page),
-					 _("_Attendees"));
+		event_page_set_meeting (priv->event_page, TRUE);
 		priv->meeting_shown=TRUE;
+	} else {
+		bonobo_ui_component_set_prop (editor->uic, "/commands/ActionFreeBusy", "hidden", "1", NULL);
+		bonobo_ui_component_set_prop (editor->uic, "/commands/ViewAttendee", "hidden", "1", NULL);
+		bonobo_ui_component_set_prop (editor->uic, "/commands/ViewRole", "hidden", "1", NULL);
+		bonobo_ui_component_set_prop (editor->uic, "/commands/ViewRSVP", "hidden", "1", NULL);
+		bonobo_ui_component_set_prop (editor->uic, "/commands/ViewType", "hidden", "1", NULL);
+		bonobo_ui_component_set_prop (editor->uic, "/commands/ViewStatus", "hidden", "1", NULL);
 	}
+
 	comp_editor_set_e_cal (COMP_EDITOR (ee), client);
 
 	init_widgets (ee);
@@ -231,15 +649,10 @@ event_editor_edit_comp (CompEditor *editor, ECalComponent *comp)
 		GSList *l;
 		int row;
 		char *user_email;
-		
 		user_email = itip_get_comp_attendee (comp, client);	
+		
 		if (!priv->meeting_shown) {
-			comp_editor_append_page (COMP_EDITOR (ee),
-						 COMP_EDITOR_PAGE (priv->sched_page),
-						 _("Schedulin_g"));
-			comp_editor_append_page (COMP_EDITOR (ee),
-						 COMP_EDITOR_PAGE (priv->meet_page),
-						 _("In_vitations"));
+			bonobo_ui_component_set_prop (editor->uic, "/commands/ActionFreeBusy", "hidden", "0", NULL);
 		}
 		
 		if (!(delegate && e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_DELEGATE_TO_MANY))) {
@@ -287,6 +700,8 @@ event_editor_edit_comp (CompEditor *editor, ECalComponent *comp)
 					e_meeting_attendee_set_edit_level (ia, E_MEETING_ATTENDEE_EDIT_NONE);
 			}
 		}
+	
+		event_page_set_meeting (priv->event_page, TRUE);	
 		priv->meeting_shown = TRUE;
 	}	
 	e_cal_component_free_attendee_list (attendees);
@@ -310,7 +725,7 @@ event_editor_send_comp (CompEditor *editor, ECalComponentItipMethod method)
 	    method == E_CAL_COMPONENT_METHOD_CANCEL)
 		goto parent;
 	
-	comp = meeting_page_get_cancel_comp (priv->meet_page);
+	comp = event_page_get_cancel_comp (priv->event_page);
 	if (comp != NULL) {
 		ECal *client;
 		gboolean result;
@@ -354,11 +769,6 @@ event_editor_finalize (GObject *object)
 	if (priv->recur_page) {
 		g_object_unref (priv->recur_page);
 		priv->recur_page = NULL;
-	}
-
-	if (priv->meet_page) {
-		g_object_unref (priv->meet_page);
-		priv->meet_page = NULL;
 	}
 
 	if (priv->sched_page) {
@@ -408,19 +818,13 @@ show_meeting (EventEditor *ee)
 
 	event_page_set_meeting (priv->event_page, TRUE);
 	if (!priv->meeting_shown) {
-		comp_editor_append_page (COMP_EDITOR (ee),
-					 COMP_EDITOR_PAGE (priv->sched_page),
-					 _("Schedulin_g"));
-		comp_editor_append_page (COMP_EDITOR (ee),
-					 COMP_EDITOR_PAGE (priv->meet_page),
-					 _("In_vitations"));
+		bonobo_ui_component_set_prop (editor->uic, "/commands/ActionFreeBusy", "hidden", "0", NULL);
+	
 		priv->meeting_shown = TRUE;
 
  		comp_editor_set_changed (COMP_EDITOR (ee), FALSE);
 		comp_editor_set_needs_send (COMP_EDITOR (ee), priv->meeting_shown);
 	}
- 	if (comp_editor_get_flags (COMP_EDITOR (ee)) & COMP_EDITOR_DELEGATE)
- 		comp_editor_show_page (COMP_EDITOR (ee), COMP_EDITOR_PAGE (priv->meet_page));
 
 	if (!(flags & COMP_EDITOR_NEW_ITEM) && !(flags & COMP_EDITOR_USER_ORG))
 		gtk_drag_dest_unset (GTK_WIDGET (editor));
@@ -433,45 +837,6 @@ event_editor_show_meeting (EventEditor *ee)
 	g_return_if_fail (IS_EVENT_EDITOR (ee));
 
 	show_meeting (ee);
-}
-
-static void
-schedule_meeting_cmd (GtkWidget *widget, gpointer data)
-{
-	EventEditor *ee = EVENT_EDITOR (data);
-
-	show_meeting (ee);
-}
-
-static void
-refresh_meeting_cmd (GtkWidget *widget, gpointer data)
-{
-	EventEditor *ee = EVENT_EDITOR (data);
-	
-	comp_editor_send_comp (COMP_EDITOR (ee), E_CAL_COMPONENT_METHOD_REFRESH);
-}
-
-static void
-cancel_meeting_cmd (GtkWidget *widget, gpointer data)
-{
-	EventEditor *ee = EVENT_EDITOR (data);
-	ECalComponent *comp;
-	
-	comp = comp_editor_get_current_comp (COMP_EDITOR (ee));
-	if (cancel_component_dialog ((GtkWindow *) ee,
-				     comp_editor_get_e_cal (COMP_EDITOR (ee)), comp, FALSE)) {
-		comp_editor_send_comp (COMP_EDITOR (ee), E_CAL_COMPONENT_METHOD_CANCEL);
-		comp_editor_delete_comp (COMP_EDITOR (ee));
-	}
-}
-
-static void
-forward_cmd (GtkWidget *widget, gpointer data)
-{
-	EventEditor *ee = EVENT_EDITOR (data);
-
-	if (comp_editor_save_comp (COMP_EDITOR (ee), TRUE))
-		comp_editor_send_comp (COMP_EDITOR (ee), E_CAL_COMPONENT_METHOD_PUBLISH);
 }
 
 static void

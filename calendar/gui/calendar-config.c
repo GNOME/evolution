@@ -268,6 +268,124 @@ calendar_config_add_notification_24_hour_format (GConfClientNotifyFunc func, gpo
 	return id;
 }
 
+/* Show Attendee */
+gboolean
+calendar_config_get_show_attendee	(void)
+{
+	calendar_config_init ();
+
+	return gconf_client_get_bool (config, CALENDAR_CONFIG_SHOW_ATTENDEE, NULL);
+}
+
+void
+calendar_config_set_show_attendee	(gboolean state)
+{
+	calendar_config_init ();
+
+	gconf_client_set_bool (config, CALENDAR_CONFIG_SHOW_ATTENDEE, state, NULL);
+}
+
+/* Show RSVP*/
+gboolean
+calendar_config_get_show_rsvp	(void)
+{
+	calendar_config_init ();
+
+	return gconf_client_get_bool (config, CALENDAR_CONFIG_SHOW_RSVP, NULL);
+}
+
+void
+calendar_config_set_show_rsvp	(gboolean state)
+{
+	calendar_config_init ();
+
+	gconf_client_set_bool (config, CALENDAR_CONFIG_SHOW_RSVP, state, NULL);
+}
+
+/* Show Role*/
+gboolean
+calendar_config_get_show_role	(void)
+{
+	calendar_config_init ();
+
+	return gconf_client_get_bool (config, CALENDAR_CONFIG_SHOW_ROLE, NULL);
+}
+
+void
+calendar_config_set_show_role	(gboolean state)
+{
+	calendar_config_init ();
+
+	gconf_client_set_bool (config, CALENDAR_CONFIG_SHOW_ROLE, state, NULL);
+}
+
+/* Show Type*/
+gboolean
+calendar_config_get_show_type	(void)
+{
+	calendar_config_init ();
+
+	return gconf_client_get_bool (config, CALENDAR_CONFIG_SHOW_TYPE, NULL);
+}
+
+void
+calendar_config_set_show_type	(gboolean state)
+{
+	calendar_config_init ();
+
+	gconf_client_set_bool (config, CALENDAR_CONFIG_SHOW_TYPE, state, NULL);
+}
+
+/* Show status */
+gboolean
+calendar_config_get_show_status	(void)
+{
+	calendar_config_init ();
+
+	return gconf_client_get_bool (config, CALENDAR_CONFIG_SHOW_STATUS, NULL);
+}
+
+void
+calendar_config_set_show_status	(gboolean state)
+{
+	calendar_config_init ();
+
+	gconf_client_set_bool (config, CALENDAR_CONFIG_SHOW_STATUS, state, NULL);
+}
+
+/* Show timezone */
+gboolean  
+calendar_config_get_show_timezone (void)
+{
+	calendar_config_init ();
+
+	return gconf_client_get_bool (config, CALENDAR_CONFIG_SHOW_TIMEZONE, NULL);
+}
+
+void	  
+calendar_config_set_show_timezone (gboolean	status)
+{
+	calendar_config_init ();
+
+	gconf_client_set_bool (config, CALENDAR_CONFIG_SHOW_TIMEZONE, status, NULL);	
+}
+
+gboolean  
+calendar_config_get_show_categories (void)
+{
+	calendar_config_init ();
+
+	return gconf_client_get_bool (config, CALENDAR_CONFIG_SHOW_CATEGORIES, NULL);
+}
+void	  
+calendar_config_set_show_categories (gboolean	status)
+{
+	calendar_config_init ();
+
+	gconf_client_set_bool (config, CALENDAR_CONFIG_SHOW_CATEGORIES, status, NULL);
+}
+
+
 /* The start day of the week (0 = Sun to 6 = Mon). */
 gint
 calendar_config_get_week_start_day	(void)

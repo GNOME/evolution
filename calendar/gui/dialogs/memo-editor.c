@@ -127,7 +127,7 @@ memo_editor_construct (MemoEditor *me, ECal *client)
 	gtk_object_sink (GTK_OBJECT (priv->memo_page));
 	comp_editor_append_page (COMP_EDITOR (me), 
 				 COMP_EDITOR_PAGE (priv->memo_page),
-				 _("Memo"));
+				 _("Memo"), TRUE);
 	g_signal_connect (G_OBJECT (priv->memo_page), "client_changed",
 			  G_CALLBACK (client_changed_cb), me);
 

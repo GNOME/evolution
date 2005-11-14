@@ -26,6 +26,90 @@
         <long>Whether to show times in twenty four hour format instead of using am/pm.</long>
       </locale>
     </schema>
+ 
+     <schema>
+      <key>/schemas/apps/evolution/calendar/display/show_attendee</key>
+      <applyto>/apps/evolution/calendar/display/show_attendee</applyto>
+      <owner>evolution-calendar</owner>
+      <type>bool</type>
+      <default>true</default>
+      <locale name="C">
+        <short>Show Attendee field in the event/task/meeting editor</short>
+        <long>Whether to show attendee field in the event/task/meeting editor</long>
+      </locale>
+    </schema>
+
+     <schema>
+      <key>/schemas/apps/evolution/calendar/display/show_role</key>
+      <applyto>/apps/evolution/calendar/display/show_role</applyto>
+      <owner>evolution-calendar</owner>
+      <type>bool</type>
+      <default>true</default>
+      <locale name="C">
+        <short>Show Role field in the event/task/meeting editor</short>
+        <long>Whether to show role field in the event/task/meeting editor</long>
+      </locale>
+    </schema>
+
+     <schema>
+      <key>/schemas/apps/evolution/calendar/display/show_status</key>
+      <applyto>/apps/evolution/calendar/display/show_status</applyto>
+      <owner>evolution-calendar</owner>
+      <type>bool</type>
+      <default>false</default>
+      <locale name="C">
+        <short>Show status field in the event/task/meeting editor</short>
+        <long>Whether to show status field in the event/task/meeting editor</long>
+      </locale>
+    </schema>
+
+     <schema>
+      <key>/schemas/apps/evolution/calendar/display/show_type</key>
+      <applyto>/apps/evolution/calendar/display/show_type</applyto>
+      <owner>evolution-calendar</owner>
+      <type>bool</type>
+      <default>false</default>
+      <locale name="C">
+        <short>Show type field in the event/task/meeting editor</short>
+        <long>Whether to show type field in the event/task/meeting editor</long>
+      </locale>
+    </schema>
+
+     <schema>
+      <key>/schemas/apps/evolution/calendar/display/show_rsvp</key>
+      <applyto>/apps/evolution/calendar/display/show_rsvp</applyto>
+      <owner>evolution-calendar</owner>
+      <type>bool</type>
+      <default>false</default>
+      <locale name="C">
+        <short>Show RSVP field in the event/task/meeting editor</short>
+        <long>Whether to show RSVP field in the event/task/meeting editor</long>
+      </locale>
+    </schema>
+
+     <schema>
+      <key>/schemas/apps/evolution/calendar/display/show_timezone</key>
+      <applyto>/apps/evolution/calendar/display/show_timezone</applyto>
+      <owner>evolution-calendar</owner>
+      <type>bool</type>
+      <default>false</default>
+      <locale name="C">
+        <short>Show timezone field in the event/meeting editor</short>
+        <long>Whether to show timezone field in the event/meeting editor</long>
+      </locale>
+    </schema>
+
+     <schema>
+      <key>/schemas/apps/evolution/calendar/display/show_categories</key>
+      <applyto>/apps/evolution/calendar/display/show_categories</applyto>
+      <owner>evolution-calendar</owner>
+      <type>bool</type>
+      <default>false</default>
+      <locale name="C">
+        <short>Show categories field in the event/meeting/task editor</short>
+        <long>Whether to show categories field in the event/meeting editor</long>
+      </locale>
+    </schema>
 
     <schema>
       <key>/schemas/apps/evolution/calendar/display/week_start_day</key>
