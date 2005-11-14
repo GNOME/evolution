@@ -1,0 +1,66 @@
+<Root>
+  <commands>
+	  <cmd name="FileSave" _tip="Click here to save the current window" accel="*Control*s" pixtype="stock" pixname="gtk-save"/>
+	  <cmd name="FileClose" _tip="Click here to close the current window" accel="*Control*w" pixtype="stock" pixname="gtk-close"/>
+	  
+    	  <cmd name="EditCut" _tip="Cut selected text to the clipboard" accel="*Control*x" pixtype="stock" pixname="gtk-cut"/>
+	  <cmd name="EditCopy" _tip="Copy selected text to the clipboard" accel="*Control*c" pixtype="stock" pixname="gtk-copy"/>
+	  <cmd name="EditPaste" _tip="Paste text from the clipboard" accel="*Control*v" pixtype="stock" pixname="gtk-paste"/>
+	  <cmd name="EditSelectAll" _tip="Select all text" accel="*Control*a"/>
+
+	  <cmd name="InsertAttachment" _tip="Click here to attach a file" accel="*Control**Alt*a" pixtype="pixbuf"/>
+	  <cmd name="Help" _tip="Click here to view help availabe" accel="*Control*h" pixtype="stock" pixname="gtk-help"/>
+	  
+	  
+  </commands>
+
+  <menu>
+    <submenu name="File" _label="_File">
+      <placeholder name="FileOps">
+        <menuitem name="FileSave" verb="" _label="_Save"/>
+      </placeholder>
+      <placeholder name="FileWindow">
+	<menuitem name="FileClose" verb="" _label="_Close"/>
+      </placeholder>
+    </submenu>
+
+    <submenu name="Edit" _label="_Edit">
+	<placeholder name="EditCutCopyPaste">
+          <menuitem name="EditCut" verb="" _label="Cu_t"/>
+          <menuitem name="EditCopy" verb="" _label="_Copy"/>
+          <menuitem name="EditPaste" verb="" _label="_Paste"/>
+          <separator/>
+	  <menuitem name="EditSelectAll" verb="" _label="Select _All"/>
+        </placeholder>
+    </submenu>
+
+    <submenu name="View" _label="_View">
+    </submenu>
+
+    <submenu name="Insert" _label="_Insert">
+      <placeholder name="Attachments">
+	      <menuitem name="InsertAttachments" verb="" _label="_Attachments" pixtype="pixbuf"/>
+	<separator f="" name="attach"/>
+      </placeholder>
+     </submenu>
+
+    <submenu name="Options" _label="_Options">
+    </submenu>
+
+    <submenu name="Help" _label="_Help">
+	<menuitem name="Help" verb="" _label="_Help"/>
+    </submenu>
+  </menu>
+
+  <dockitem name="Toolbar">
+  
+    <toolitem name="FileSave" verb="" _label="Save"/>
+    <toolitem name="FileClose" verb="" _label="Close"/>
+    <separator f="" name="editor1"/>
+
+    <toolitem name="InsertAttachments" verb="" _label="Attachments" pixtype="pixbuf"/>
+    <separator f="" name="ecal3"/>
+
+  </dockitem>
+
+</Root>

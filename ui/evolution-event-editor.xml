@@ -1,0 +1,95 @@
+<Root>
+	<commands>
+                <cmd name="ViewAttendee" _label="_Attendee"
+		_tip="Toggles whether the Attendee field is displayed"
+		type="toggle" state="0"/>
+
+                <cmd name="ViewRole" _label="R_ole Field"
+		_tip="Toggles whether the Role field is displayed"
+		type="toggle" state="0"/>
+		
+		<cmd name="ViewRSVP" _label="_RSVP"
+		_tip="Toggles whether the RSVP field is displayed"
+		type="toggle" state="0"/>
+			    
+		<cmd name="ViewType" _label="_Type Field"
+		_tip="Toggles whether the Attendee Type field is displayed"
+		type="toggle" state="0"/>		
+
+		<cmd name="ViewStatus" _label="_Status Field"
+		_tip="Toggles whether the Status field is displayed"
+		type="toggle" state="0"/>
+
+		<cmd name="ViewTimeZone" _label="Show Time _Zone"
+		_tip="Toggles whether the time zone is displayed"
+		type="toggle" state="0" pixtype="pixbuf"/>	
+	
+		<cmd name="ActionShowTimeBusy" _label="Show time as b_usy"
+		_tip="Toggles whether to show time as busy"
+		type="toggle" state="0"/>	
+	
+		<cmd name="ActionAllDayEvent" _label="_All day Event"
+		_tip="Toggles whether to have All day Event"
+		type="toggle" state="0" pixtype="pixbuf"/>	
+
+		<cmd name="ViewCategories" _label="_Categories"
+		_tip="Toggles whether to display categories"
+		type="toggle" state="0"/>
+
+    		<cmd name="ActionClassPublic" _label="Pu_blic" 
+      		type="radio" group="class" _tip="Classify as public"/>
+
+ 	 	<cmd name="ActionClassPrivate" _label="_Private" 
+      		type="radio" group="class" _tip="Classify as Private"/>
+
+    		<cmd name="ActionClassConfidential" _label="_Confidential" 
+		type="radio" group="class" _tip="Classify as Confidential"/>
+
+		<cmd name="ActionRecurrance" _label="Recurrance"
+		_tip="Make this a recurring event" pixtype="pixbuf"/>
+		<cmd name="ActionFreeBusy" _label="Free/Busy"
+		_tip="Query free / busy information for the attendees" pixtype="pixbuf"/>
+		<cmd name="InsertSendOptions" _label="Send Options"
+		_tip="Insert advanced send options"/>
+	</commands>
+	
+
+  <menu>
+    <submenu name="View">
+      <placeholder name="AttendeeOptions">
+      	<menuitem name="ViewAttendee" verb=""/>
+      	<menuitem name="ViewType" verb="" />
+	<menuitem name="ViewStatus" verb="" />
+      	<menuitem name="ViewRole" verb="" />
+	<menuitem name="ViewRSVP" verb="" />
+        <separator f="" name="timezonesep"/>	
+	<menuitem name="ViewTimeZone" verb=""/>
+	<menuitem name="ViewCategories" verb=""/>	
+      </placeholder>
+    </submenu>
+    <submenu  name="Insert">
+	    <menuitem name="InsertSendOptions" verb="" _label="Send Options"/>	    
+    </submenu>
+    <submenu name="Options">
+	    <menuitem name="ActionAlarm" verb="" _label="_Alarms" pixtype="pixbuf"/>
+	    <menuitem name="ActionShowTimeBusy" verb="" _label="Show time as b_usy"/>
+	    <menuitem name="ActionAllDayEvent" verb="" _label="_All day Event"/>
+	    <submenu name="Classification" _label="_Classification">
+		    <menuitem name="ActionClassPublic" id="ActionClassPublic" verb=""/>
+		    <menuitem name="ActionClassPrivate" id="ActionClassPrivate" verb=""/>
+		    <menuitem name="ActionClassConfidential" id="ActionClassConfidential" verb=""/>
+	    </submenu>
+	    <menuitem name="ActionRecurrance" verb="" _label="Recurrance" pixtype="pixbuf"/>
+	    <menuitem name="ActionFreeBusy" verb="" _label="Free/Busy"/>	    
+    </submenu>
+  </menu>
+
+  <dockitem name="Toolbar">
+	  <toolitem name="ActionAlarm" verb="" _label="Alarms" pixtype="pixbuf" />
+	  <toolitem name="ActionAllDayEvent" verb="" _label="All day Event" pixtype="pixbuf"/>
+	  <toolitem name="ViewTimeZone" verb="" _label="Time Zone" pixtype="pixbuf"/>	  
+	  <toolitem name="ActionRecurrance" verb="" _label="Recurrance" pixtype="pixbuf"/>	
+	  <toolitem name="ActionFreeBusy" verb="" _label="Free/Busy" pixtype="pixbuf"/>	  	  	  
+  </dockitem>
+
+</Root>
