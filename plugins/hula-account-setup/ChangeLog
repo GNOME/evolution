@@ -1,0 +1,6 @@
+2005-11-14  Harish Krishnaswamy  <kharish@novell.com>
+
+	* Makefile.am, camel-hula-listener.[ch], hula-account-setup.c,
+	org-gnome-evolution-hula-account-setup.eplug.xml: Hula Account
+	setup - initial commits.
+
