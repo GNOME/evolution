@@ -1,3 +1,10 @@
+2005-11-14  Harish Krishnaswamy  <kharish@novell.com>
+
+	* e-shell-settings-dialog.c: (set_dialog_size),
+	(e_shell_settings_dialog_init): Revert the previous
+	patch as it distorts the size of the dialog on some
+	displays.
+
 2005-11-10  Srinivasa Ragavan <sragavan@novell.com>
 
 	* e-shell-settings-dialog.c (set_dialog_size) 
