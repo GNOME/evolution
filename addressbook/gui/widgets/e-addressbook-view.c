@@ -929,27 +929,27 @@ new_list (EPopup *ep, EPopupItem *pitem, void *data)
 static EPopupItem eabv_popup_items[] = {
 	{ E_POPUP_ITEM, "05.open", N_("_Open"), open_contact, NULL, NULL, EAB_POPUP_SELECT_ANY|EAB_POPUP_SELECT_EDITABLE },
 	{ E_POPUP_BAR, "10.bar" },
-	{ E_POPUP_ITEM, "10.new",  N_("New Contact..."), new_card, NULL, "stock_contact", 0, EAB_POPUP_SELECT_EDITABLE},
-	{ E_POPUP_ITEM, "15.newlist", N_("New Contact List..."), new_list, NULL, "stock_contact-list", 0, EAB_POPUP_SELECT_EDITABLE },
+	{ E_POPUP_ITEM, "10.new",  N_("_New Contact..."), new_card, NULL, "stock_contact", 0, EAB_POPUP_SELECT_EDITABLE},
+	{ E_POPUP_ITEM, "15.newlist", N_("New Contact _List..."), new_list, NULL, "stock_contact-list", 0, EAB_POPUP_SELECT_EDITABLE },
 
 	{ E_POPUP_BAR, "20.bar" },
-	{ E_POPUP_ITEM, "30.saveas", N_("Save as VCard..."), save_as, NULL, "stock_save-as", 0, EAB_POPUP_SELECT_ANY },
-	{ E_POPUP_ITEM, "40.forward", N_("Forward Contact"), send_as, NULL, "stock_mail-forward", EAB_POPUP_SELECT_ONE },
-	{ E_POPUP_ITEM, "40.forward", N_("Forward Contacts"), send_as, NULL, "stock_mail-forward", EAB_POPUP_SELECT_MANY },
-	{ E_POPUP_ITEM, "50.mailto", N_("Send Message to Contact"), send_to, NULL, "stock_mail-send", EAB_POPUP_SELECT_ONE|EAB_POPUP_SELECT_EMAIL|EAB_POPUP_CONTACT },
-	{ E_POPUP_ITEM, "50.mailto", N_("Send Message to List"), send_to, NULL, "stock_mail-send", EAB_POPUP_SELECT_ONE|EAB_POPUP_SELECT_EMAIL|EAB_POPUP_LIST },
-	{ E_POPUP_ITEM, "50.mailto", N_("Send Message to Contacts"), send_to, NULL, "stock_mail-send", EAB_POPUP_SELECT_MANY|EAB_POPUP_SELECT_EMAIL },
-	{ E_POPUP_ITEM, "60.print", N_("Print"), print, NULL, "stock_print", 0, EAB_POPUP_SELECT_ANY },
+	{ E_POPUP_ITEM, "30.saveas", N_("_Save as VCard..."), save_as, NULL, "stock_save-as", 0, EAB_POPUP_SELECT_ANY },
+	{ E_POPUP_ITEM, "40.forward", N_("_Forward Contact"), send_as, NULL, "stock_mail-forward", EAB_POPUP_SELECT_ONE },
+	{ E_POPUP_ITEM, "40.forward", N_("_Forward Contacts"), send_as, NULL, "stock_mail-forward", EAB_POPUP_SELECT_MANY },
+	{ E_POPUP_ITEM, "50.mailto", N_("Send _Message to Contact"), send_to, NULL, "stock_mail-send", EAB_POPUP_SELECT_ONE|EAB_POPUP_SELECT_EMAIL|EAB_POPUP_CONTACT },
+	{ E_POPUP_ITEM, "50.mailto", N_("Send _Message to List"), send_to, NULL, "stock_mail-send", EAB_POPUP_SELECT_ONE|EAB_POPUP_SELECT_EMAIL|EAB_POPUP_LIST },
+	{ E_POPUP_ITEM, "50.mailto", N_("Send _Message to Contacts"), send_to, NULL, "stock_mail-send", EAB_POPUP_SELECT_MANY|EAB_POPUP_SELECT_EMAIL },
+	{ E_POPUP_ITEM, "60.print", N_("_Print"), print, NULL, "stock_print", 0, EAB_POPUP_SELECT_ANY },
 
 	{ E_POPUP_BAR, "70.bar" },
-	{ E_POPUP_ITEM, "80.copyto", N_("Copy to Address Book..."), copy_to_folder, NULL, NULL, 0, EAB_POPUP_SELECT_ANY },
-	{ E_POPUP_ITEM, "90.moveto", N_("Move to Address Book..."), move_to_folder, NULL, NULL, 0, EAB_POPUP_SELECT_ANY|EAB_POPUP_SELECT_EDITABLE },
+	{ E_POPUP_ITEM, "80.copyto", N_("Cop_y to Address Book..."), copy_to_folder, NULL, NULL, 0, EAB_POPUP_SELECT_ANY },
+	{ E_POPUP_ITEM, "90.moveto", N_("Mo_ve to Address Book..."), move_to_folder, NULL, NULL, 0, EAB_POPUP_SELECT_ANY|EAB_POPUP_SELECT_EDITABLE },
 
 	{ E_POPUP_BAR, "a0.bar" },
-	{ E_POPUP_ITEM, "b0.cut", N_("Cut"), cut, NULL, "stock_cut", 0, EAB_POPUP_SELECT_ANY|EAB_POPUP_SELECT_EDITABLE },
-	{ E_POPUP_ITEM, "c0.copy", N_("Copy"), copy, NULL, "stock_copy", 0, EAB_POPUP_SELECT_ANY },
-	{ E_POPUP_ITEM, "d0.paste", N_("Paste"), paste, NULL, "stock_paste", 0, EAB_POPUP_SELECT_EDITABLE },
-	{ E_POPUP_ITEM, "e0.delete", N_("Delete"), delete, NULL, "stock_delete", 0, EAB_POPUP_SELECT_EDITABLE|EAB_POPUP_SELECT_ANY },
+	{ E_POPUP_ITEM, "b0.cut", N_("Cu_t"), cut, NULL, "stock_cut", 0, EAB_POPUP_SELECT_ANY|EAB_POPUP_SELECT_EDITABLE },
+	{ E_POPUP_ITEM, "c0.copy", N_("_Copy"), copy, NULL, "stock_copy", 0, EAB_POPUP_SELECT_ANY },
+	{ E_POPUP_ITEM, "d0.paste", N_("P_aste"), paste, NULL, "stock_paste", 0, EAB_POPUP_SELECT_EDITABLE },
+	{ E_POPUP_ITEM, "e0.delete", N_("_Delete"), delete, NULL, "stock_delete", 0, EAB_POPUP_SELECT_EDITABLE|EAB_POPUP_SELECT_ANY },
 };
 
 static void
