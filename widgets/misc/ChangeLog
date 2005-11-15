@@ -1,3 +1,9 @@
+2005-11-15  Srinivasa Ragavan <sragavan@novell.com>
+
+	* e-attachment-bar.[ch] (e_attachment_bar_get_all_attachments): Added
+	a function to get all attachments of the attachment bar for plugin
+	purposes.
+
 2005-11-14  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	* e-dateedit.c: (create_children): Adjusted the size

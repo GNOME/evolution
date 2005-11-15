@@ -600,6 +600,29 @@ e_attachment_bar_get_attachment (EAttachmentBar *bar, int id)
 	return attachments;
 }
 
+GSList *
+e_attachment_bar_get_all_attachments (EAttachmentBar *bar)
+{
+	GSList *attachments = NULL;
+	GList *p;
+	EAttachment *attachment;
+
+	g_return_val_if_fail (bar != NULL, 0);
+	g_return_val_if_fail (E_IS_ATTACHMENT_BAR (bar), 0);
+
+        for ( p = bar->priv->attachments; p!= NULL; p = p->next) {
+                attachment = p->data;
+                if (attachment && attachment->is_available_local) {
+			g_object_ref (attachment);
+                        attachments= g_slist_prepend(attachments, attachment);
+		}
+        }
+
+	attachments = g_slist_reverse(attachments);
+	
+	return attachments;
+}
+
 /* Just the GSList has to be freed by the caller */
 GSList *
 e_attachment_bar_get_parts (EAttachmentBar *bar)

@@ -82,6 +82,8 @@ GtkWidget ** e_attachment_bar_get_selector(EAttachmentBar *bar);
 GSList *e_attachment_bar_get_parts (EAttachmentBar *bar);
 GSList *e_attachment_bar_get_selected (EAttachmentBar *bar);
 void e_attachment_bar_set_width(EAttachmentBar *bar, int bar_width);
+GSList * e_attachment_bar_get_all_attachments (EAttachmentBar *bar);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
