@@ -90,7 +90,7 @@ static void show_fb_config (DialogData *dialog_data);
 
 GtkWidget *cal_prefs_dialog_create_time_edit (void);
 
-#define PREFS_WINDOW(dialog_data) GTK_WINDOW (gtk_widget_get_ancestor (GTK_WIDGET (dialog_data), GTK_TYPE_WINDOW))
+#define PREFS_WINDOW(dialog_data) GTK_WINDOW (gtk_widget_get_ancestor (GTK_WIDGET (dialog_data->page), GTK_TYPE_WINDOW))
 
 /**
  * cal_prefs_dialog_new:
@@ -634,7 +634,7 @@ cal_prefs_dialog_url_add_clicked (GtkWidget *button, DialogData *dialog_data)
 		dialog_data->url_editor = url_editor_dialog_new (dialog_data, 
 								 url);
 		
-		if (url->location != "") {
+		if (strcmp (url->location, "")) {
 			gtk_list_store_append(GTK_LIST_STORE (model), &iter);
 			gtk_list_store_set (GTK_LIST_STORE(model), &iter, 
 					   URL_LIST_ENABLED_COLUMN, 

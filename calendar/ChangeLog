@@ -1,3 +1,12 @@
+2005-11-16  Irene Huang <Irene.Huang@sun.com>
+
+	* gui/dialogs/cal-prefs-dialog.c:
+	(cal_prefs_dialog_url_add_clicked): Use strcmp instead of !=.
+	(cal_prefs_dialog_url_remove_clicked):
+	When new a dialog of confirm, set parent to
+	PREFS_WINDOW (dialog_data->page)
+	instead of using PREFS_WINDOW (dialog_data).
+
 2005-11-14  Srinivasa Ragavan <sragavan@novell.com>
  
 	reviewed by: Chenthill Palanisamy  <pchenthill@novell.com>
