@@ -62,10 +62,6 @@ dependencies should be compiled in the order they are listed here):
 
 	     ftp://ftp.gnome.org/pub/gnome/sources/gtkhtml
 
-	* gal 2.4.0 or later
-
-	     ftp://ftp.gnome.org/pub/gnome/sources/gal
-
 	* [Optional] Mozilla NSPR/NSS libraries
 
 	  These are needed if you want to compile Evolution with SSL and S/MIME
