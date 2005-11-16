@@ -33,6 +33,7 @@
 #define d(x) (x)
 
 struct _ECalModelMemosPrivate {
+	int dummy;
 };
 
 static void e_cal_model_memos_finalize (GObject *object);

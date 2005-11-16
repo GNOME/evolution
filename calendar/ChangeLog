@@ -1,3 +1,8 @@
+2005-11-16 Irene Huang <Irene.Huang@sun.com>
+
+	* gui/e-cal-model-memos.c: struct _ECalModelMemosPrivate
+	should not be zero sized.
+
 2005-11-16  Irene Huang <Irene.Huang@sun.com>
 
 	* gui/dialogs/cal-prefs-dialog.c:
