@@ -13,6 +13,7 @@ XML_FILES =					\
 	evolution-signature-editor.xml		\
 	evolution-subscribe.xml			\
 	evolution-event-editor.xml		\
+	evolution-task-editor.xml		\
 	evolution-editor.xml			\
 	evolution-tasks.xml
 
