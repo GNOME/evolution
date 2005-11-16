@@ -18,15 +18,7 @@
 
 		<cmd name="ViewTimeZone" _label="Show Time _Zone"
 		_tip="Toggles whether the time zone is displayed"
-		type="toggle" state="0" pixtype="pixbuf"/>	
-	
-		<cmd name="ActionShowTimeBusy" _label="Show time as b_usy"
-		_tip="Toggles whether to show time as busy"
-		type="toggle" state="0"/>	
-	
-		<cmd name="ActionAllDayEvent" _label="_All day Event"
-		_tip="Toggles whether to have All day Event"
-		type="toggle" state="0" pixtype="pixbuf"/>	
+		type="toggle" state="0" pixtype="pixbuf"/>
 
 		<cmd name="ViewCategories" _label="_Categories"
 		_tip="Toggles whether to display categories"
@@ -40,15 +32,13 @@
 
     		<cmd name="ActionClassConfidential" _label="_Confidential" 
 		type="radio" group="class" _tip="Classify as Confidential"/>
-
-		<cmd name="ActionRecurrence" _label="Recurrence"
-		_tip="Make this a recurring event" pixtype="pixbuf"/>
-		<cmd name="ActionFreeBusy" _label="Free/Busy"
-		_tip="Query free / busy information for the attendees" pixtype="pixbuf"/>
+		
+		<cmd name="OptionStatus" 
+			_tip="Click change / view the status details of the task" accel="*Control**Alt*t" pixtype="pixbuf"/>
 		<cmd name="InsertSendOptions" _label="Send Options"
 		_tip="Insert advanced send options"/>
-	</commands>
 	
+	</commands>
 
   <menu>
     <submenu name="View">
@@ -66,25 +56,18 @@
 	    <menuitem name="InsertSendOptions" verb="" _label="Send Options"/>	    
     </submenu>
     <submenu name="Options">
-	    <menuitem name="ActionAlarm" verb="" _label="_Alarms" pixtype="pixbuf"/>
-	    <menuitem name="ActionShowTimeBusy" verb="" _label="Show time as b_usy"/>
-	    <menuitem name="ActionAllDayEvent" verb="" _label="_All day Event"/>
 	    <submenu name="Classification" _label="_Classification">
 		    <menuitem name="ActionClassPublic" id="ActionClassPublic" verb=""/>
 		    <menuitem name="ActionClassPrivate" id="ActionClassPrivate" verb=""/>
 		    <menuitem name="ActionClassConfidential" id="ActionClassConfidential" verb=""/>
 	    </submenu>
-	    <menuitem name="ActionRecurrence" verb="" _label="Recurrence" pixtype="pixbuf"/>
-	    <menuitem name="ActionFreeBusy" verb="" _label="Free/Busy"/>	    
+	      <menuitem name="OptionStatus" verb="" _label="_Status Details" pixtype="pixbuf"/>	    
     </submenu>
   </menu>
 
   <dockitem name="Toolbar">
-	  <toolitem name="ActionAlarm" verb="" _label="Alarms" pixtype="pixbuf" />
-	  <toolitem name="ActionAllDayEvent" verb="" _label="All day Event" pixtype="pixbuf"/>
 	  <toolitem name="ViewTimeZone" verb="" _label="Time Zone" pixtype="pixbuf"/>	  
-	  <toolitem name="ActionRecurrence" verb="" _label="Recurrence" pixtype="pixbuf"/>	
-	  <toolitem name="ActionFreeBusy" verb="" _label="Free/Busy" pixtype="pixbuf"/>	  	  	  
+ 	  <toolitem name="OptionStatus" verb="" _label="Status Details" pixtype="pixbuf"/>
   </dockitem>
 
 </Root>
