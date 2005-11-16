@@ -279,11 +279,9 @@ menu_option_status_cmd (BonoboUIComponent *uic,
 		     void *data,
 		     const char *path)
 {
-	/* TODO implement it
 	TaskEditor *te = (TaskEditor *) data;
 	
-	task_page_set_view_status (te->priv->task_page, atoi(state));
-	calendar_config_set_show_status (atoi(state));	*/
+	gtk_widget_show (te->priv->task_details_window);
 }
 
 static BonoboUIVerb verbs [] = {

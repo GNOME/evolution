@@ -106,20 +106,6 @@ client_changed_cb (CompEditorPage *page, ECal *client, gpointer user_data)
 }
 
 static void
-menu_view_attendee_cb (BonoboUIComponent           *component,
-		      const char                  *path,
-		      Bonobo_UIComponent_EventType type,
-		      const char                  *state,
-		      gpointer                     user_data)
-{
-	EventEditor *ee = (EventEditor *) user_data;
-	if (type != Bonobo_UIComponent_STATE_CHANGED)
-		return;
-	event_page_set_view_attendee (ee->priv->event_page, atoi(state));
-	calendar_config_set_show_attendee (atoi(state));
-}
-
-static void
 menu_view_role_cb (BonoboUIComponent           *component,
 		      const char                  *path,
 		      Bonobo_UIComponent_EventType type,
@@ -295,7 +281,7 @@ menu_class_confidential_cb (BonoboUIComponent           *ui_component,
 }
 
 static void
-menu_action_recurrance_cb (BonoboUIComponent           *ui_component,
+menu_action_recurrence_cb (BonoboUIComponent           *ui_component,
 		     	   const char                  *path,
 		     	   Bonobo_UIComponent_EventType type,
 		     	   const char                  *state,
@@ -352,7 +338,7 @@ menu_show_time_zone_cmd (BonoboUIComponent *uic,
 }
 
 static void
-menu_action_recurrance_cmd (BonoboUIComponent *uic,
+menu_action_recurrence_cmd (BonoboUIComponent *uic,
 		   	   void *data,
 		   	   const char *path)
 {
@@ -385,7 +371,7 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_VERB ("ActionAlarm", menu_action_alarm_cmd),
 	BONOBO_UI_VERB ("ActionAllDayEvent", menu_all_day_event_cmd),
 	BONOBO_UI_VERB ("ViewTimeZone", menu_show_time_zone_cmd),	
-	BONOBO_UI_VERB ("ActionRecurrance", menu_action_recurrance_cmd),
+	BONOBO_UI_VERB ("ActionRecurrence", menu_action_recurrence_cmd),
 	BONOBO_UI_VERB ("ActionFreeBusy", menu_action_freebusy_cmd),
 	BONOBO_UI_VERB ("InsertSendOptions", menu_insert_send_options_cmd),
 	
@@ -396,8 +382,8 @@ static EPixmap pixmaps[] = {
 	E_PIXMAP ("/Toolbar/ActionAlarm", "stock_alarm", E_ICON_SIZE_LARGE_TOOLBAR),
 	E_PIXMAP ("/Toolbar/ActionAllDayEvent", "stock_new-24h-appointment", E_ICON_SIZE_LARGE_TOOLBAR),
 	E_PIXMAP ("/Toolbar/ViewTimeZone", "stock_timezone", E_ICON_SIZE_LARGE_TOOLBAR),	
-	E_PIXMAP ("/Toolbar/ActionRecurrance", "stock_task-recurring", E_ICON_SIZE_LARGE_TOOLBAR),	
-	E_PIXMAP ("/commands/ActionRecurrance", "stock_task-recurring", E_ICON_SIZE_LARGE_TOOLBAR),		
+	E_PIXMAP ("/Toolbar/ActionRecurrence", "stock_task-recurring", E_ICON_SIZE_LARGE_TOOLBAR),	
+	E_PIXMAP ("/commands/ActionRecurrence", "stock_task-recurring", E_ICON_SIZE_LARGE_TOOLBAR),		
 	E_PIXMAP ("/Toolbar/ActionFreeBusy", "stock_task-recurring", E_ICON_SIZE_LARGE_TOOLBAR),			
 	E_PIXMAP_END
 };
@@ -425,15 +411,6 @@ event_editor_init (EventEditor *ee)
 	bonobo_ui_util_set_ui (editor->uic, PREFIX,
 			       EVOLUTION_UIDIR "/evolution-event-editor.xml",
 			       "evolution-event-editor", NULL);
-
-	/* Show hide the attendee fields */
-	status = calendar_config_get_show_attendee ();
-	bonobo_ui_component_set_prop (
-		editor->uic, "/commands/ViewAttendee",
-		"state", status ? "1" : "0", NULL);
-	bonobo_ui_component_add_listener (
-		editor->uic, "ViewAttendee",
-		menu_view_attendee_cb, editor);
 
 	/* Hide send options */
 	bonobo_ui_component_set_prop (
@@ -518,8 +495,8 @@ event_editor_init (EventEditor *ee)
 		menu_class_confidential_cb, editor);
 
 	bonobo_ui_component_add_listener (
-		editor->uic, "ActionRecurrance", 
-		menu_action_recurrance_cb, editor);
+		editor->uic, "ActionRecurrence", 
+		menu_action_recurrence_cb, editor);
 	bonobo_ui_component_add_listener (
 		editor->uic, "ActionFreeBusy", 
 		menu_action_freebusy_cb, editor);
@@ -549,7 +526,7 @@ event_editor_construct (EventEditor *ee, ECal *client)
 	g_signal_connect (G_OBJECT (priv->event_page), "client_changed",
 			  G_CALLBACK (client_changed_cb), ee);
 
-	priv->recur_window = gtk_dialog_new_with_buttons (_("Recurrance"),
+	priv->recur_window = gtk_dialog_new_with_buttons (_("Recurrence"),
 							  (GtkWindow *) ee, GTK_DIALOG_MODAL,
 							  "gtk-close", GTK_RESPONSE_CLOSE,
 							  NULL);

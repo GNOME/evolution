@@ -1,5 +1,10 @@
 2005-11-16  Chenthill Palanisamy  <pchenthill@novell.com>
 
+	* gui/dialogs/task-editor.c: (menu_option_status_cmd):
+	Modified the body of the function to show the details page.
+
+2005-11-16  Chenthill Palanisamy  <pchenthill@novell.com>
+
 	Reviewed/Edited the patch from Srinivasa Ragavan <sragavan@novell.com>
 	
 	* gui/apps_evolution_calendar.schemas.in.in:
