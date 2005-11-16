@@ -268,23 +268,6 @@ calendar_config_add_notification_24_hour_format (GConfClientNotifyFunc func, gpo
 	return id;
 }
 
-/* Show Attendee */
-gboolean
-calendar_config_get_show_attendee	(void)
-{
-	calendar_config_init ();
-
-	return gconf_client_get_bool (config, CALENDAR_CONFIG_SHOW_ATTENDEE, NULL);
-}
-
-void
-calendar_config_set_show_attendee	(gboolean state)
-{
-	calendar_config_init ();
-
-	gconf_client_set_bool (config, CALENDAR_CONFIG_SHOW_ATTENDEE, state, NULL);
-}
-
 /* Show RSVP*/
 gboolean
 calendar_config_get_show_rsvp	(void)

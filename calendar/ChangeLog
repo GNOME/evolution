@@ -1,3 +1,52 @@
+2005-11-16  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Reviewed/Edited the patch from Srinivasa Ragavan <sragavan@novell.com>
+	
+	* gui/apps_evolution_calendar.schemas.in.in:
+	* gui/calendar-config.c:
+	* gui/calendar-config.h: Removed the view_attendee function and its
+	gconf keys.
+	* gui/dialogs/event-editor.c: (menu_action_recurrence_cb),
+	(menu_action_recurrence_cmd), (event_editor_init),
+	(event_editor_construct): 
+	* gui/dialogs/event-page.c: (sensitize_widgets): Do not sensitize
+	labels.
+	(set_classification_menu), (event_page_set_classification), 
+	(event_page_fill_widgets), (event_page_fill_component),
+	(init_widgets):
+	* gui/dialogs/event-page.h:Corrected the spelling of recurrence and
+	removed the printf's.
+	* gui/dialogs/task-editor.c: (menu_view_role_cb),
+	(menu_view_status_cb), (menu_view_type_cb), (menu_view_rsvp_cb),
+	(menu_show_time_zone_cb), (menu_show_categories_cb),
+	(menu_class_public_cb), (menu_class_private_cb),
+	(menu_class_confidential_cb), (menu_option_status_cb),
+	(menu_insert_send_options_cmd), (menu_show_time_zone_cmd),
+	(menu_option_status_cmd), (task_editor_init),
+	(task_editor_construct), (task_editor_edit_comp),
+	(task_editor_send_comp), (task_editor_finalize), (show_assignment),
+	(task_editor_show_assignment):
+	* gui/dialogs/task-page.c: (task_page_init), (cleanup_attendees),
+	(task_page_finalize), (set_classification_menu), (clear_widgets),
+	(task_page_set_view_role), (task_page_set_view_status),
+	(task_page_set_view_type), (task_page_set_view_rsvp),
+	(task_page_set_classification), (sensitize_widgets),
+	(task_page_hide_options), (task_page_show_options),
+	(task_page_set_assignment), (get_current_account),
+	(task_page_fill_widgets), (set_attendees),
+	(task_page_fill_component), (add_clicked_cb), (existing_attendee),
+	(remove_attendee), (remove_clicked_cb), (invite_cb),
+	(attendee_added_cb), (popup_add_cb), (popup_delete_cb),
+	(context_popup_free), (button_press_event), (list_view_event),
+	(list_key_press), (task_page_set_show_timezone),
+	(task_page_set_show_categories), (task_page_fill_timezones),
+	(get_widgets), (date_changed_cb), (timezone_changed_cb),
+	(task_page_sendoptions_clicked_cb), (init_widgets),
+	(task_page_construct), (task_page_new),
+	(task_page_get_cancel_comp):
+	* gui/dialogs/task-page.glade:
+	* gui/dialogs/task-page.h: UI changes for task editor.
+
 2005-11-16 Irene Huang <Irene.Huang@sun.com>
 
 	* gui/e-cal-model-memos.c: struct _ECalModelMemosPrivate

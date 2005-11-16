@@ -27,19 +27,7 @@
       </locale>
     </schema>
  
-     <schema>
-      <key>/schemas/apps/evolution/calendar/display/show_attendee</key>
-      <applyto>/apps/evolution/calendar/display/show_attendee</applyto>
-      <owner>evolution-calendar</owner>
-      <type>bool</type>
-      <default>true</default>
-      <locale name="C">
-        <short>Show Attendee field in the event/task/meeting editor</short>
-        <long>Whether to show attendee field in the event/task/meeting editor</long>
-      </locale>
-    </schema>
-
-     <schema>
+    <schema>
       <key>/schemas/apps/evolution/calendar/display/show_role</key>
       <applyto>/apps/evolution/calendar/display/show_role</applyto>
       <owner>evolution-calendar</owner>

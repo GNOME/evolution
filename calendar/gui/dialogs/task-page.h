@@ -24,7 +24,13 @@
 #ifndef TASK_PAGE_H
 #define TASK_PAGE_H
 
-#include "comp-editor-page.h"
+#include <bonobo/bonobo-window.h>
+#include <bonobo/bonobo-ui-util.h>
+#include <bonobo/bonobo-widget.h>
+ #include "comp-editor-page.h"
+#include "../e-meeting-attendee.h"
+#include "../e-meeting-store.h"
+#include "../e-meeting-list-view.h"
 
 G_BEGIN_DECLS
 
@@ -50,11 +56,20 @@ typedef struct {
 } TaskPageClass;
 
 GtkType   task_page_get_type  (void);
-TaskPage *task_page_construct (TaskPage *epage);
-TaskPage *task_page_new       (void);
+TaskPage *task_page_construct (TaskPage *epage, EMeetingStore *model, ECal *client);
+TaskPage *task_page_new       (EMeetingStore *model, ECal *client, BonoboUIComponent *uic);
+ECalComponent * task_page_get_cancel_comp (TaskPage *page);
 void task_page_show_options (TaskPage *page);
 void task_page_hide_options (TaskPage *page);
 void task_page_set_assignment (TaskPage *page, gboolean set);
+void task_page_sendoptions_clicked_cb (TaskPage *tpage);
+void task_page_set_view_role (TaskPage *page, gboolean state);
+void task_page_set_view_status (TaskPage *page, gboolean state);
+void task_page_set_view_type (TaskPage *page, gboolean state);
+void task_page_set_view_rsvp (TaskPage *page, gboolean state);
+void task_page_set_classification (TaskPage *page, ECalComponentClassification class);
+void task_page_set_show_timezone (TaskPage *page, gboolean state);
+void task_page_set_show_categories (TaskPage *page, gboolean state);
 
 
 

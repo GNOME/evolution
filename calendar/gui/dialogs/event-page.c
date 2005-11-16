@@ -331,19 +331,16 @@ set_classification_menu (EventPage *epage, gint class)
 	bonobo_ui_component_freeze (epage->priv->uic, NULL);
 	switch (class) {
 		case E_CAL_COMPONENT_CLASS_PUBLIC:
-			printf("to pub\n");
 			bonobo_ui_component_set_prop (
 				epage->priv->uic, "/commands/ActionClassPublic",
 				"state", "1", NULL);
 			break;
 		case E_CAL_COMPONENT_CLASS_CONFIDENTIAL:
-			printf("to conf\n");
 			bonobo_ui_component_set_prop (
 				epage->priv->uic, "/commands/ActionClassConfidential",
 				"state", "1", NULL);
 			break;
 		case E_CAL_COMPONENT_CLASS_PRIVATE:
-			printf("to priv\n");
 			bonobo_ui_component_set_prop (
 				epage->priv->uic, "/commands/ActionClassPrivate",
 				"state", "1", NULL);
@@ -717,14 +714,6 @@ is_custom_alarm_store (EAlarmList *alarm_list_store, char *old_summary,  CalUnit
 }
 
 void
-event_page_set_view_attendee (EventPage *epage, gboolean state)
-{
-	EventPagePrivate *priv = epage->priv;
-
-	e_meeting_list_view_column_set_visible (priv->list_view, "Attendee                          ", state);
-}
-
-void
 event_page_set_view_role (EventPage *epage, gboolean state)
 {
 	EventPagePrivate *priv = epage->priv;
@@ -759,7 +748,6 @@ event_page_set_view_rsvp (EventPage *epage, gboolean state)
 void 
 event_page_set_classification (EventPage *epage, ECalComponentClassification class)
 {
-	printf("Setting to %d\n", class);
 	epage->priv->classification = class;
 }
 
@@ -784,9 +772,7 @@ sensitize_widgets (EventPage *epage)
 	custom = is_custom_alarm_store (priv->alarm_list_store, priv->old_summary, priv->alarm_units, priv->alarm_interval, NULL);
 	alarm = e_dialog_toggle_get (priv->alarm);
 	
-	gtk_widget_set_sensitive (priv->summary_label, sensitize);
 	gtk_entry_set_editable (GTK_ENTRY (priv->summary), sensitize);
-	gtk_widget_set_sensitive (priv->location_label, sensitize);
 	gtk_entry_set_editable (GTK_ENTRY (priv->location), sensitize);
 	gtk_widget_set_sensitive (priv->start_time, sensitize);
 	gtk_widget_set_sensitive (priv->start_timezone, sensitize);
@@ -817,11 +803,11 @@ sensitize_widgets (EventPage *epage)
 			, NULL);
 	bonobo_ui_component_set_prop (priv->uic, "/commands/ActionAllDayEvent", "sensitive", sensitize ? "1" : "0"
 			, NULL);
-	bonobo_ui_component_set_prop (priv->uic, "/commands/ActionRecurrance", "sensitive", sensitize ? "1" : "0"
+	bonobo_ui_component_set_prop (priv->uic, "/commands/ActionRecurrence", "sensitive", sensitize ? "1" : "0"
 			, NULL);
-	bonobo_ui_component_set_prop (priv->uic, "/commands/ActionShowTimeBusy", "sensitive", sensitize ? "1" : "0"
+	bonobo_ui_component_set_prop (priv->uic, "/commands/ActionShowTimeBusy", "sensitive", !read_only ? "1" : "0"
 			, NULL);
-	bonobo_ui_component_set_prop (priv->uic, "/commands/ActionAlarm", "sensitive", sensitize ? "1" : "0"
+	bonobo_ui_component_set_prop (priv->uic, "/commands/ActionAlarm", "sensitive", !read_only ? "1" : "0"
 			, NULL);
 	bonobo_ui_component_set_prop (priv->uic, "/commands/ActionClassPublic", "sensitive", sensitize ? "1" : "0"
 			, NULL);
@@ -830,6 +816,8 @@ sensitize_widgets (EventPage *epage)
 	bonobo_ui_component_set_prop (priv->uic, "/commands/ActionClassConfidential", "sensitive",
 		       	sensitize ? "1" : "0", NULL);
 	bonobo_ui_component_set_prop (priv->uic, "/commands/ViewCategories", "sensitive", sensitize ? "1" : "0"
+			, NULL);
+	bonobo_ui_component_set_prop (priv->uic, "/commands/InsertSendOptions", "sensitive", sensitize ? "1" : "0"
 			, NULL);
 
 	if (!priv->is_meeting) {
@@ -1003,8 +991,7 @@ event_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 					if (e_cal_get_static_capability (
 								page->client,
 								CAL_STATIC_CAPABILITY_ORGANIZER_NOT_EMAIL_ADDRESS))
-						//					gtk_widget_hide (priv->existing_organizer_btn);
-						gtk_widget_set_sensitive (priv->invite, FALSE);
+					gtk_widget_set_sensitive (priv->invite, FALSE);
 					gtk_widget_set_sensitive (priv->add, FALSE);
 					gtk_widget_set_sensitive (priv->remove, FALSE);
 					priv->user_org = FALSE;
@@ -1017,7 +1004,6 @@ event_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 				else
 					string = g_strdup (strip);
 
-				//			gtk_label_set_text (GTK_LABEL (priv->existing_organizer), string);
 				g_free (string);
 				priv->existing = TRUE;
 			}
@@ -1281,7 +1267,6 @@ event_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 
 	/* Classification */
 	e_cal_component_set_classification (comp, priv->classification);
-	printf("Storing %d\n", priv->classification);
 
 	/* Show Time As (Transparency) */
 	busy = priv->show_time_as_busy;
@@ -2619,7 +2604,8 @@ init_widgets (EventPage *epage)
 	g_signal_connect((priv->start_timezone), "changed",
 			    G_CALLBACK (start_timezone_changed_cb), epage);
 
-	e_meeting_list_view_column_set_visible (priv->list_view, "Attendee                          ", calendar_config_get_show_attendee());
+	e_meeting_list_view_column_set_visible (priv->list_view, "Attendee                          ", 
+			TRUE);
 	e_meeting_list_view_column_set_visible (priv->list_view, "Role", calendar_config_get_show_role());
 	e_meeting_list_view_column_set_visible (priv->list_view, "RSVP", calendar_config_get_show_rsvp());
 	e_meeting_list_view_column_set_visible (priv->list_view, "Status", calendar_config_get_show_status());

@@ -73,7 +73,6 @@ void event_page_set_show_categories (EventPage *epage, gboolean state);
 void event_page_set_show_time_busy (EventPage *epage, gboolean state);
 void event_page_show_alarm (EventPage *epage);
 
-void event_page_set_view_attendee (EventPage *epage, gboolean state);
 void event_page_set_view_role (EventPage *epage, gboolean state);
 void event_page_set_view_status (EventPage *epage, gboolean state);
 void event_page_set_view_type (EventPage *epage, gboolean state);
