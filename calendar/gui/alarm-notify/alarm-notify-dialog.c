@@ -32,6 +32,7 @@
 #include <gtk/gtksignal.h>
 #include <gtk/gtkscrolledwindow.h>
 #include <gtk/gtkwindow.h>
+#include <gtk/gtk.h>
 #include <libgnome/gnome-i18n.h>
 #if 0 
 #  include <libgnomeui/gnome-winhints.h>
@@ -295,7 +296,6 @@ notified_alarms_dialog_new (void)
 	return na;
 }
  
- 
 /**
  * add_alarm_to_notified_alarms_dialog:
  * @na: Pointer to the dialog-info
@@ -393,6 +393,11 @@ static void
 fill_in_labels (AlarmNotify *an, const gchar *summary, const gchar *description, 
 		const gchar *location, time_t occur_start, time_t occur_end)
 {
-	gtk_label_set_text (GTK_LABEL (an->description), description);
-	gtk_label_set_text (GTK_LABEL (an->location), location);		  
+	GtkTextTagTable *table = gtk_text_tag_table_new ();
+	GtkTextBuffer *buffer =  gtk_text_buffer_new (table);
+	gtk_text_buffer_set_text (buffer, description, -1);
+	gtk_text_view_set_buffer (GTK_TEXT_VIEW (an->description), buffer);
+	gtk_label_set_text (GTK_LABEL (an->location), location);
+	g_object_unref (table);
+	g_object_unref (buffer);
 }
