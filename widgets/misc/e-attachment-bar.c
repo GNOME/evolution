@@ -415,7 +415,7 @@ update (EAttachmentBar *bar)
 	
 			calculate_height_width(bar, &width, &height);
 			per_col = bar_width / width;
-			per_col = per_col ? per_col : 1;
+			per_col = (per_col ? per_col : 1);
 			rows = (bar->priv->num_attachments + per_col -1 )/ per_col;
 			gtk_widget_set_size_request ((GtkWidget *)bar, bar_width, rows * height);
 		}
@@ -506,7 +506,7 @@ e_attachment_bar_set_width(EAttachmentBar *bar, int bar_width)
 
 	calculate_height_width(bar, &width, &height);
 	per_col = bar_width / width;
-	per_col = per_col ? per_col : 1;
+	per_col = (per_col ? per_col : 1);
 	rows = (bar->priv->num_attachments + per_col - 1) / per_col;
 	gtk_widget_set_size_request ((GtkWidget *)bar, bar_width, rows * height);
 }
