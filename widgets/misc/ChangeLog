@@ -1,3 +1,8 @@
+2005-11-17  Harish Krishnaswamy  <kharish@novell.com>
+
+	* e-attachment-bar.c: (update), (e_attachment_bar_set_width):
+	Fix a division-by-zero error crasher.
+
 2005-11-15  Srinivasa Ragavan <sragavan@novell.com>
 
 	* e-attachment-bar.[ch] (e_attachment_bar_get_all_attachments): Added
