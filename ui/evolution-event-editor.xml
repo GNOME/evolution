@@ -82,7 +82,6 @@
   <dockitem name="Toolbar">
 	  <toolitem name="ActionAlarm" verb="" _label="Alarms" pixtype="pixbuf" />
 	  <toolitem name="ActionAllDayEvent" verb="" _label="All day Event" pixtype="pixbuf"/>
-	  <toolitem name="ViewTimeZone" verb="" _label="Time Zone" pixtype="pixbuf"/>	  
 	  <toolitem name="ActionRecurrence" verb="" _label="Recurrence" pixtype="pixbuf"/>	
 	  <toolitem name="ActionFreeBusy" verb="" _label="Free/Busy" pixtype="pixbuf"/>	  	  	  
   </dockitem>

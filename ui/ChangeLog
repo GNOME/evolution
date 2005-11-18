@@ -1,3 +1,8 @@
+2005-11-18  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	* evolution-event-editor.xml: Removed the timezone
+	entry from the toolbar.
+
 2005-11-16  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	* evolution-event-editor.xml: Removed the view attendee
