@@ -333,6 +333,8 @@ plugins/groupwise-features/proxy.c
 plugins/groupwise-features/send-options.c
 plugins/groupwise-features/share-folder-common.c
 plugins/groupwise-features/status-track.c
+plugins/hula-account-setup/camel-hula-listener.c
+plugins/hula-account-setup/org-gnome-evolution-hula-account-setup.eplug.xml
 plugins/ipod-sync/ical-format.c
 plugins/ipod-sync/org-gnome-ipod-sync-evolution.eplug.xml
 plugins/ipod-sync/sync.c
@@ -412,6 +414,8 @@ tools/killev.c
 ui/evolution-addressbook.xml
 ui/evolution-calendar.xml
 ui/evolution-composer-entries.xml
+ui/evolution-editor.xml
+ui/evolution-event-editor.xml
 ui/evolution-executive-summary.xml
 ui/evolution-mail-global.xml
 ui/evolution-mail-list.xml
@@ -421,6 +425,7 @@ ui/evolution-memos.xml
 ui/evolution-message-composer.xml
 ui/evolution-signature-editor.xml
 ui/evolution-subscribe.xml
+ui/evolution-task-editor.xml
 ui/evolution-tasks.xml
 ui/evolution.xml
 views/addressbook/galview.xml
