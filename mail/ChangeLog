@@ -1,3 +1,11 @@
+2005-11-11  Boby Wang <boby.wang@sun.com>
+
+	** See bug 321214.
+	* mail-config.glade:
+	Focus on the Tools-> Settings-> Composer Preferences -> Forward
+	Style and Reply Style comboboxes.Comboboxes are named after
+	their current settings. Now the names were corrected.
+
 2005-10-26  Vivek Jain <jvivek@novell.com>
 	
 	**See #313096
