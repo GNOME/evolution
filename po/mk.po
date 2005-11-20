@@ -484,7 +484,7 @@ msgstr ""
 #: ../plugins/groupwise-features/properties.glade.h:10
 #: ../widgets/table/e-table-config.glade.h:15
 msgid "_Add"
-msgstr "_Додади"
+msgstr "_Додај"
 
 #: ../addressbook/addressbook.error.xml.h:32
 msgid "_Discard"
@@ -562,7 +562,7 @@ msgstr "Еволушн S/Mime контрола за менаџмент на се
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:12
 msgid "Evolution folder settings configuration control"
-msgstr "Поставки за контрола на конфигурирање на Еволушн папка"
+msgstr "Поставувања за контрола на конфигурирање на Еволушн папка"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:13
 msgid "Manage your S/MIME certificates here"
@@ -707,7 +707,7 @@ msgstr "LDAP серверi"
 
 #: ../addressbook/gui/component/addressbook-migrate.c:763
 msgid "Autocompletion Settings"
-msgstr "Поставки за автокомплетирање"
+msgstr "Поставувања за автокомплетирање"
 
 #: ../addressbook/gui/component/addressbook-migrate.c:1134
 msgid ""
@@ -905,7 +905,7 @@ msgstr "<b>Тип:</b> "
 
 #: ../addressbook/gui/component/ldap-config.glade.h:13
 msgid "Add Address Book"
-msgstr "Додади адресар"
+msgstr "Додај адресар"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:15
 #: ../mail/em-account-editor.c:302 ../mail/em-account-editor.c:759
@@ -926,7 +926,7 @@ msgstr "Име на распознавање"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:20
 msgid "Email address"
-msgstr "Email адреса"
+msgstr "Адреса за е-пошта"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:21
 msgid "Evolution will use this email address to authenticate you with the server."
@@ -1037,7 +1037,7 @@ msgid ""
 "server."
 msgstr ""
 "Ова е методот кој Еволушн ќе го користи за да ве автентицира.  Доколку го "
-"подесите како \"Email адреса\" ќе треба да имате анонимен пристап до вашиот "
+"поставите како \"Адреса за е-пошта\" ќе треба да имате анонимен пристап до вашиот "
 "LDAP сервер."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:38
@@ -1073,7 +1073,7 @@ msgstr "Било кога е можно"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:43
 msgid "_Add Address Book"
-msgstr "_Додади адресар"
+msgstr "_Додај адресар"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:44
 msgid "_Download limit:"
@@ -1132,7 +1132,7 @@ msgstr "минути"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:2
 msgid "<b>Email</b>"
-msgstr "<b>Email</b> "
+msgstr "<b>Е-пошта</b> "
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:3
 msgid "<b>Home</b>"
@@ -2588,7 +2588,7 @@ msgstr "_Суфикс:"
 
 #: ../addressbook/gui/contact-editor/im.glade.h:2
 msgid "Add IM Account"
-msgstr "Додади IM сметка"
+msgstr "Додај IM сметка"
 
 #: ../addressbook/gui/contact-editor/im.glade.h:3
 msgid "_Account name:"
@@ -2611,7 +2611,7 @@ msgstr "\n"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:4
 msgid "Add an email to the List"
-msgstr "Додади е-пошта на листата"
+msgstr "Додај е-пошта на листата"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:5
 #: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:834
@@ -2754,7 +2754,7 @@ msgstr "Името почнува со"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:170
 msgid "Email begins with"
-msgstr "Email-от почнува со"
+msgstr "Адресата почнува со"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:171
 #: ../calendar/gui/cal-search-bar.c:53
@@ -2915,17 +2915,17 @@ msgstr "Телефон од компанијата"
 #: ../addressbook/gui/widgets/eab-contact-display.c:564
 #: ../smime/lib/e-cert.c:826
 msgid "Email"
-msgstr "Email"
+msgstr "Е-пошта"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:11
 #: ../addressbook/gui/widgets/eab-popup-control.c:441
 msgid "Email 2"
-msgstr "Еmail 2"
+msgstr "Е-пошта 2"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:12
 #: ../addressbook/gui/widgets/eab-popup-control.c:451
 msgid "Email 3"
-msgstr "Email 3"
+msgstr "Е-пошта 3"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:13
 msgid "Family Name"
@@ -3536,7 +3536,7 @@ msgstr "Креирај нов контакт \"%s\""
 #: ../addressbook/gui/widgets/eab-popup-control.c:591
 #, c-format
 msgid "Add address to existing contact \"%s\""
-msgstr "Додади адреса на постоечки контакт \"%s\""
+msgstr "Додај адреса на постоечки контакт \"%s\""
 
 #: ../addressbook/gui/widgets/eab-popup-control.c:869
 msgid "Querying Address Book..."
@@ -3975,35 +3975,35 @@ msgstr "Сите информации за оваа задача ќе бидат
 
 #: ../calendar/calendar.error.xml.h:13
 msgid "Are you sure you want to delete the '{0}' task?"
-msgstr "Дали си сигурен дека сакаш да ја избришеш задачата '{0}' ?"
+msgstr "Дали сте сигурни дека сакате да ја избришете задачата '{0}' ?"
 
 #: ../calendar/calendar.error.xml.h:14
 msgid "Are you sure you want to delete the appointment titled '{0}'?"
-msgstr "Дали си сигурен дека сакаш да го избришеш состанокот насловен '{0}' '?"
+msgstr "Дали сте сигурни дека сакате да го избришете состанокот насловен '{0}' '?"
 
 #: ../calendar/calendar.error.xml.h:15
 msgid "Are you sure you want to delete the journal entry '{0}'?"
-msgstr "Дали си сигурен дека сакаш да го избришеш записот во дневникот '{0}' ?"
+msgstr "Дали сте сигурни дека сакате да го избришете записот во дневникот '{0}' ?"
 
 #: ../calendar/calendar.error.xml.h:16
 msgid "Are you sure you want to delete these {0} appointments?"
-msgstr "Дали си сигурен дека сакаш да ги избришеш овие {0} состаноци?"
+msgstr "Дали сте сигурни дека сакате да ги избришете овие {0} состаноци?"
 
 #: ../calendar/calendar.error.xml.h:17
 msgid "Are you sure you want to delete these {0} journal entries?"
-msgstr "Дали си сигурен дека сакаш да ги избришеш овие {0} записи во дневникот?"
+msgstr "Дали сте сигурни дека сакате да ги избришете овие {0} записи во дневникот?"
 
 #: ../calendar/calendar.error.xml.h:18
 msgid "Are you sure you want to delete these {0} tasks?"
-msgstr "Дали си сигурен дека сакаш да ги избришеш овие {0} задачи?"
+msgstr "Дали сте сигурни дека сакате да ги избришете овие {0} задачи?"
 
 #: ../calendar/calendar.error.xml.h:19
 msgid "Are you sure you want to delete this appointment?"
-msgstr "Дали си сигурен дека сакаш да го избришеш овој состанок?"
+msgstr "Дали сте сигурни дека сакате да го избришете овој состанок?"
 
 #: ../calendar/calendar.error.xml.h:20
 msgid "Are you sure you want to delete this journal entry?"
-msgstr "Дали си сигурен дека сакаш да го избришеш овој запис во дневникот?"
+msgstr "Дали сте сигурни дека сакате да го избришете овој запис во дневникот?"
 
 #: ../calendar/calendar.error.xml.h:21
 msgid "Are you sure you want to delete this meeting?"
@@ -4011,15 +4011,15 @@ msgstr "Дали сте сигурни дека сакате да го избр�
 
 #: ../calendar/calendar.error.xml.h:22
 msgid "Are you sure you want to delete this task?"
-msgstr "Дали си сигурен дека сакаш да ја избришеш оваа задача?"
+msgstr "Дали си сигурни дека сакате да ја избришете оваа задача?"
 
 #: ../calendar/calendar.error.xml.h:23
 msgid "Are you sure you want to send the appointment without a summary?"
-msgstr "Дали си сигурен дека сакаш да го испратиш состанокот без краток преглед?"
+msgstr "Дали сте сигурни дека сакате да го испратите состанокот без краток преглед?"
 
 #: ../calendar/calendar.error.xml.h:24
 msgid "Are you sure you want to send the task without a summary?"
-msgstr "Дали си сигурен дека сакаш да ја испратиш задачата без краток преглед?"
+msgstr "Дали сте сигурни дека сакате да ја испратите задачата без краток преглед?"
 
 #: ../calendar/calendar.error.xml.h:25
 msgid "Delete calendar '{0}'?"
@@ -4031,7 +4031,7 @@ msgstr "Избриши ја листата со задачи '{0}'?"
 
 #: ../calendar/calendar.error.xml.h:27
 msgid "Discard Changes"
-msgstr "Отфрли ги промените"
+msgstr "Отфрли промени"
 
 #: ../calendar/calendar.error.xml.h:28
 msgid "Don't Send"
@@ -4039,11 +4039,11 @@ msgstr "Не испраќај"
 
 #: ../calendar/calendar.error.xml.h:29
 msgid "Download in progress. Do you want to save the appointment?"
-msgstr "Преземање во тек. Дали сакаш да го зачуваш состанокот?"
+msgstr "Преземање во тек. Дали сакате да го зачувате состанокот?"
 
 #: ../calendar/calendar.error.xml.h:30
 msgid "Download in progress. Do you want to save the task?"
-msgstr "Преземање во тек. Дали сакаш да ја зачуваш задачата?"
+msgstr "Преземање во тек. Дали сакате да ја зачувате задачата?"
 
 #: ../calendar/calendar.error.xml.h:31
 msgid "Editor could not be loaded."
@@ -4051,14 +4051,14 @@ msgstr "Уредувачот не може да се вчита."
 
 #: ../calendar/calendar.error.xml.h:32
 msgid "Email invitations will be sent to all participants and allow them to RSVP."
-msgstr "Email поканите ќе бидат испратени на сите учесници и ќе им дозволи RSVP."
+msgstr "Поканите за е-пошта ќе бидат испратени на сите учесници и ќе им дозволат RSVP."
 
 #: ../calendar/calendar.error.xml.h:33
 msgid ""
 "Email invitations will be sent to all participants and allow them to accept "
 "this task."
 msgstr ""
-"Email поканите ќе бидат испратени на сите учесници и ќе им дозволи да ја "
+"Поканите за е-пошта ќе бидат испратени на сите учесници и ќе им дозволат да ја "
 "прифатат оваа задача."
 
 #: ../calendar/calendar.error.xml.h:34
@@ -4893,7 +4893,7 @@ msgstr "Цело_дневен состанок"
 
 #: ../calendar/gui/calendar-component.c:1491
 msgid "Create a new all-day appointment"
-msgstr "Создади нови цело дневни закажувања"
+msgstr "Креирај нови цело дневни закажувања"
 
 #: ../calendar/gui/calendar-component.c:1497
 msgid "New calendar"
@@ -4953,7 +4953,7 @@ msgstr "<b>Повтори</b> "
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:4
 msgid "Add Alarm"
-msgstr "Додади аларм"
+msgstr "Додај аларм"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:5
 msgid "Custom _message"
@@ -5112,7 +5112,7 @@ msgstr "_Својства"
 #: ../composer/e-msg-composer-attachment-bar.c:473
 #: ../composer/e-msg-composer.c:3403
 msgid "_Add attachment..."
-msgstr "_Додади приврзок..."
+msgstr "_Додај приврзок..."
 
 #: ../calendar/gui/dialogs/cal-attachment-bar.c:736
 #: ../composer/e-msg-composer-attachment-bar.c:740
@@ -5410,7 +5410,7 @@ msgstr "_24 часа"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:47
 msgid "_Add URL"
-msgstr "Додади URL"
+msgstr "Додај URL"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:48
 msgid "_Ask for confirmation when deleting items"
@@ -5499,11 +5499,11 @@ msgstr "Својства на листа со задачи"
 
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:2
 msgid "Add Calendar"
-msgstr "Додади календар"
+msgstr "Додај календар"
 
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:3
 msgid "Add Task List"
-msgstr "Додади листа со задачи"
+msgstr "Додај листа со задачи"
 
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:5
 #: ../mail/mail-config.glade.h:105
@@ -5512,11 +5512,11 @@ msgstr "Избери боја"
 
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:6
 msgid "_Add Calendar"
-msgstr "_Додади календар"
+msgstr "_Додај календар"
 
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:7
 msgid "_Add Task List"
-msgstr "_Додади листа со задачи"
+msgstr "_Додај листа со задачи"
 
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:9
 #: ../plugins/calendar-http/calendar-http.c:248
@@ -6108,7 +6108,7 @@ msgstr "<b>Календар опции</b>"
 
 #: ../calendar/gui/dialogs/new-calendar.glade.h:3
 msgid "Add New Calendar"
-msgstr "Додади нов календар"
+msgstr "Додај нов календар"
 
 #: ../calendar/gui/dialogs/new-calendar.glade.h:4
 msgid "Calendar Group"
@@ -6128,7 +6128,7 @@ msgstr "<b>Опции за листа со задачи</b>"
 
 #: ../calendar/gui/dialogs/new-task-list.glade.h:3
 msgid "Add New Task List"
-msgstr "Додади нова листа со задачи"
+msgstr "Додај нова листа со задачи"
 
 #: ../calendar/gui/dialogs/new-task-list.glade.h:4
 msgid "Task List Group"
@@ -7262,7 +7262,7 @@ msgstr "Објектот е неважечки и неможе да биде а�
 
 #: ../calendar/gui/e-itip-control.c:1949
 msgid "This response is not from a current attendee.  Add as an attendee?"
-msgstr "Овој одговор не е од тековен посетител. Додади како посетител?"
+msgstr "Овој одговор не е од тековен посетител. Додај како посетител?"
 
 #: ../calendar/gui/e-itip-control.c:1961
 msgid "Attendee status could not be updated because of an invalid status!\n"
@@ -10025,11 +10025,11 @@ msgstr "      "
 
 #: ../designs/read_receipts/read.glade.h:2
 msgid "<b>Receiving Email</b>"
-msgstr "<b>Примање Email</b>"
+msgstr "<b>Примање е-пошта</b>"
 
 #: ../designs/read_receipts/read.glade.h:3
 msgid "<b>Sending Email:</b>"
-msgstr "<b>Испраќање Email:</b>"
+msgstr "<b>Испраќање е-пошта:</b>"
 
 #: ../designs/read_receipts/read.glade.h:4
 msgid ""
@@ -10485,7 +10485,7 @@ msgstr "години"
 
 #: ../filter/rule-editor.c:290
 msgid "Add Rule"
-msgstr "Додади правило"
+msgstr "Додај правило"
 
 #: ../filter/rule-editor.c:366
 msgid "Edit Rule"
@@ -10592,7 +10592,7 @@ msgstr "Идентитет"
 
 #: ../mail/em-account-editor.c:1760 ../mail/mail-config.glade.h:117
 msgid "Receiving Email"
-msgstr "Примам Email"
+msgstr "Примам пораки"
 
 #: ../mail/em-account-editor.c:1943
 msgid "Automatically check for _new mail every"
@@ -10600,7 +10600,7 @@ msgstr "Автоматски провери за _нова пошта секои
 
 #: ../mail/em-account-editor.c:2111 ../mail/mail-config.glade.h:128
 msgid "Sending Email"
-msgstr "Испраќам Email"
+msgstr "Испраќам пораки"
 
 #: ../mail/em-account-editor.c:2162 ../mail/mail-config.glade.h:68
 msgid "Defaults"
@@ -10657,7 +10657,7 @@ msgstr "Јазик"
 
 #: ../mail/em-composer-prefs.c:940
 msgid "Add signature script"
-msgstr "Додади скрипта за потпис"
+msgstr "Додај скрипта за потпис"
 
 #: ../mail/em-composer-prefs.c:960
 msgid "Signature(s)"
@@ -11004,7 +11004,7 @@ msgstr "Сандаче"
 
 #: ../mail/em-folder-tree-model.c:475 ../mail/mail-component.c:145
 msgid "Outbox"
-msgstr "Испратени"
+msgstr "За испраќање"
 
 #: ../mail/em-folder-tree-model.c:477 ../mail/mail-component.c:146
 msgid "Sent"
@@ -11514,7 +11514,7 @@ msgstr "Bcc"
 #: ../mail/em-format-html.c:1576 ../mail/em-format-quote.c:322
 #: ../mail/em-mailer-prefs.c:987
 msgid "Mailer"
-msgstr "Mailer"
+msgstr "Поштар"
 
 #. translators: strftime format for local time equivalent in Date header display, with day
 #: ../mail/em-format-html.c:1603
@@ -11535,7 +11535,7 @@ msgstr "Датум"
 #: ../mail/em-format-html.c:1639 ../mail/em-format.c:851
 #: ../mail/em-mailer-prefs.c:90
 msgid "Newsgroups"
-msgstr "Њуз групи"
+msgstr "Дискусиони групи"
 
 #: ../mail/em-format.c:1102
 #, c-format
@@ -11676,7 +11676,7 @@ msgstr "_Испрати нова порака до..."
 
 #: ../mail/em-popup.c:609
 msgid "_Add to Addressbook"
-msgstr "_Додади во адресар"
+msgstr "_Додај во адресар"
 
 #: ../mail/em-popup.c:762
 #, c-format
@@ -11722,7 +11722,7 @@ msgstr "Зачувај порака..."
 
 #: ../mail/em-utils.c:663
 msgid "Add address"
-msgstr "Додади адреса"
+msgstr "Додај адреса"
 
 #. Drop filename for messages from a mailbox
 #: ../mail/em-utils.c:1142
@@ -12034,11 +12034,11 @@ msgstr "Стартувај тест за отпад на доаѓачката п
 
 #: ../mail/evolution-mail.schemas.in.in.h:67
 msgid "Send HTML mail by default"
-msgstr "Испраќај HTML mail?"
+msgstr "Стандардно испраќај HTML пораки"
 
 #: ../mail/evolution-mail.schemas.in.in.h:68
 msgid "Send HTML mail by default."
-msgstr "Испраќај HTML mail."
+msgstr "Стандардно испраќај HTML пораки."
 
 #: ../mail/evolution-mail.schemas.in.in.h:69
 msgid "Show Animations"
@@ -12066,7 +12066,7 @@ msgstr "Покажи го \"Preview\" панелот."
 
 #: ../mail/evolution-mail.schemas.in.in.h:75
 msgid "Sound file to play when new mail arrives."
-msgstr "Звучна датотека за свирење кога пристига нова пошта."
+msgstr "Звучна датотека за свирење кога пристигнува нова пошта."
 
 #: ../mail/evolution-mail.schemas.in.in.h:76
 msgid "Specifies the type of New Mail Notification the user wishes to use."
@@ -12386,7 +12386,7 @@ msgstr "%s поштенска листа"
 
 #: ../mail/mail-autofilter.c:369
 msgid "Add Filter Rule"
-msgstr "Додади филтер правило"
+msgstr "Додај филтер правило"
 
 #: ../mail/mail-component.c:509
 #, c-format
@@ -12446,7 +12446,7 @@ msgstr[2] ", %d непрочитана"
 
 #: ../mail/mail-component.c:765
 msgid "New Mail Message"
-msgstr "Нова Mail порака"
+msgstr "Нова порака"
 
 #: ../mail/mail-component.c:766
 msgid "_Mail Message"
@@ -12609,11 +12609,11 @@ msgstr "Работа со сметката"
 
 #: ../mail/mail-config.glade.h:36
 msgid "Add Ne_w Signature..."
-msgstr "Додади _нов потпис..."
+msgstr "Додај _нов потпис..."
 
 #: ../mail/mail-config.glade.h:37
 msgid "Add _Script"
-msgstr "Додади _скрипта"
+msgstr "Додај _скрипта"
 
 #: ../mail/mail-config.glade.h:38
 msgid "Al_ways sign outgoing messages when using this account"
@@ -12661,7 +12661,7 @@ msgstr "Балтички (ISO-8859-4)"
 
 #: ../mail/mail-config.glade.h:49
 msgid "Beep w_hen new mail arrives"
-msgstr "_Свирни ко_га пристига нова пошта"
+msgstr "_Свирни ко_га пристигнува нова пошта"
 
 #: ../mail/mail-config.glade.h:50
 msgid "C_haracter set:"
@@ -12742,11 +12742,11 @@ msgstr "Па_пка за скици:"
 
 #: ../mail/mail-config.glade.h:75
 msgid "Email Accounts"
-msgstr "Email сметки"
+msgstr "Сметки за е-пошта"
 
 #: ../mail/mail-config.glade.h:76
 msgid "Email _Address:"
-msgstr "Email адреса:"
+msgstr "Адреса за _е-пошта:"
 
 #: ../mail/mail-config.glade.h:77
 msgid "Empty trash folders on e_xit"
@@ -12898,7 +12898,7 @@ msgstr "С_тандарден фонт:"
 
 #: ../mail/mail-config.glade.h:121
 msgid "Se_lect..."
-msgstr "Одбер_и..."
+msgstr "Избер_и..."
 
 #: ../mail/mail-config.glade.h:123
 msgid "Select HTML fixed width font"
@@ -13014,7 +13014,7 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:154
 msgid "_Add Signature"
-msgstr "_Додади потпис"
+msgstr "_Додај потпис"
 
 #: ../mail/mail-config.glade.h:155
 msgid "_Always load images from the Internet"
@@ -13022,7 +13022,7 @@ msgstr "_Секогаш вчитувај слики од интернет"
 
 #: ../mail/mail-config.glade.h:156
 msgid "_Do not notify me when new mail arrives"
-msgstr "_Не ме известувај кога пристига нова пошта"
+msgstr "_Не ме известувај кога пристигнува нова пошта"
 
 #: ../mail/mail-config.glade.h:157
 msgid "_Don't sign meeting requests (for Outlook compatibility)"
@@ -13220,7 +13220,7 @@ msgid ""
 "Appending to local `Sent' folder instead."
 msgstr ""
 "Не може да се додаде до %s: %s\n"
-"Наместо, додавам на локалната 'Испратени' папк.а"
+"Наместо, додавам на локалната 'Испратени' папка"
 
 #: ../mail/mail-ops.c:621
 #, c-format
@@ -14002,7 +14002,7 @@ msgstr "Пораката со темата &quot;{0}&quot; не беше дос�
 
 #: ../mail/mail.error.xml.h:117
 msgid "_Append"
-msgstr "_Додади"
+msgstr "_Додај"
 
 #: ../mail/mail.error.xml.h:118
 msgid "_Discard changes"
@@ -14368,7 +14368,7 @@ msgstr ""
 
 #: ../plugins/copy-tool/org-gnome-copy-tool.eplug.xml.h:2
 msgid "Copy _Email Address"
-msgstr "Копирај _Email адреса"
+msgstr "Копирај _адреса за е-пошта"
 
 #: ../plugins/copy-tool/org-gnome-copy-tool.eplug.xml.h:3
 msgid "Copy tool"
@@ -14691,11 +14691,11 @@ msgstr "(Недозволен пристап.)"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:409
 msgid "Add User:"
-msgstr "Додади корисник:"
+msgstr "Додај корисник:"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:409
 msgid "Add User"
-msgstr "Додади корисник"
+msgstr "Додај корисник"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:2
 msgid "<b>Permissions</b>"
@@ -15103,19 +15103,19 @@ msgstr "Листа за проверка"
 
 #: ../plugins/groupwise-account-setup/org-gnome-gw-account-setup.eplug.xml.h:1
 msgid "Groupwise Account Setup"
-msgstr "Поставки за Groupwise сметка"
+msgstr "Поставувања за Groupwise сметка"
 
 #: ../plugins/groupwise-features/junk-mail-settings.c:77
 msgid "Junk Settings"
-msgstr "Поставки за отпад"
+msgstr "Поставувања за отпад"
 
 #: ../plugins/groupwise-features/junk-mail-settings.c:90
 msgid "<b>Junk Mail Settings</b>"
-msgstr "<b>Поставки за отпад пошта</b>"
+msgstr "<b>Поставувања за отпад пошта</b>"
 
 #: ../plugins/groupwise-features/junk-mail-settings.c:112
 msgid "Junk Mail Settings..."
-msgstr "Поставки за отпад пошта..."
+msgstr "Поставувања за отпад пошта..."
 
 #: ../plugins/groupwise-features/junk-settings.glade.h:1
 msgid "<b>Junk List :</b>"
@@ -15123,7 +15123,7 @@ msgstr "<b>Листа на отпад:</b>"
 
 #: ../plugins/groupwise-features/junk-settings.glade.h:2
 msgid "Email:"
-msgstr "Email:"
+msgstr "Е-пошта:"
 
 #: ../plugins/groupwise-features/junk-settings.glade.h:3
 msgid "Junk Mail Settings"
@@ -15144,7 +15144,7 @@ msgstr "_Листа на отпад"
 
 #: ../plugins/groupwise-features/org-gnome-compose-send-options.xml.h:1
 msgid "Add Send Options to groupwise messages"
-msgstr "Додади опции за испраќање на groupwise пораки"
+msgstr "Додај опции за испраќање на groupwise пораки"
 
 #: ../plugins/groupwise-features/org-gnome-compose-send-options.xml.h:2
 #: ../widgets/misc/e-send-options.glade.h:17
@@ -15210,7 +15210,7 @@ msgstr "Права на пристап"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:3
 msgid "Add/Edit"
-msgstr "Додади/уреди"
+msgstr "Додај/уреди"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:5
 msgid "Con_tacts"
@@ -15747,7 +15747,7 @@ msgstr "Овој состанок е делегиран"
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:4
 msgid "This response is not from a current attendee. Add the sender as an attendee?"
-msgstr "Овој одговор не е од тековен посетител. Додади го испраќачот како посетител?"
+msgstr "Овој одговор не е од тековен посетител. Додај го испраќачот како посетител?"
 
 #: ../plugins/mail-account-disable/mail-account-disable.c:47
 msgid "Proxy _Logout"
@@ -15990,7 +15990,7 @@ msgstr "Mono вчитувач"
 
 #: ../plugins/new-mail-notify/org-gnome-new-mail-notify.eplug.xml.h:1
 msgid "Generates a D-BUS message when new mail arrives."
-msgstr "Генерира D-BUS порака кога пристига нова пошта."
+msgstr "Генерира D-BUS порака кога пристигнува нова пошта."
 
 #: ../plugins/new-mail-notify/org-gnome-new-mail-notify.eplug.xml.h:2
 msgid "New Mail Notification"
@@ -16303,7 +16303,7 @@ msgstr ""
 "да се поврзе на Вашите сметки за е-пошта, и да увезе датотеки од други "
 "апликации \n"
 "\n"
-"Кликнете на копчето \"Напред\" за продолжување."
+"Кликнете на копчето \"Напред\" за да продолжите."
 
 #: ../plugins/startup-wizard/startup-wizard.c:140
 #: ../shell/e-shell-importer.c:145
@@ -17179,21 +17179,21 @@ msgstr "Поглед"
 
 #: ../smime/gui/smime-ui.glade.h:43
 msgid "You have certificates from these organizations that identify you:"
-msgstr "Имаш сертификати од овие организации кои те идентификуваат:"
+msgstr "Имате сертификати од овие организации кои те идентификуваат:"
 
 #: ../smime/gui/smime-ui.glade.h:44
 msgid "You have certificates on file that identify these certificate authorities:"
 msgstr ""
-"Имаш сертификат во датотека кои ги идентификуваат овие сертификати за "
+"Имате сертификат во датотека кои ги идентификуваат овие сертификати за "
 "авторитет:"
 
 #: ../smime/gui/smime-ui.glade.h:45
 msgid "You have certificates on file that identify these people:"
-msgstr "Имаш сертификати во датотека кои ги идентификуваат овие луѓе:"
+msgstr "Имате сертификати во датотека кои ги идентификуваат овие луѓе:"
 
 #: ../smime/gui/smime-ui.glade.h:46
 msgid "Your Certificates"
-msgstr "Твои сертификати"
+msgstr "Ваши сертификати"
 
 #: ../smime/gui/smime-ui.glade.h:47
 msgid "_Edit CA Trust"
@@ -17340,7 +17340,7 @@ msgstr "Авторитет на SSL сертификат"
 
 #: ../smime/lib/e-cert.c:838
 msgid "Email Certificate Authority"
-msgstr "Авторитет на Email сертификат"
+msgstr "Авторитет на сертификат за е-пошта"
 
 #: ../smime/lib/e-cert.c:866
 msgid "Signing"
@@ -17897,7 +17897,7 @@ msgstr "При_мени филтри"
 
 #: ../ui/evolution-mail-message.xml.h:3
 msgid "Add Sender to Address Book"
-msgstr "Додади испраќач во адресар"
+msgstr "Додај испраќач во адресар"
 
 #: ../ui/evolution-mail-message.xml.h:4
 msgid "All Message _Headers"
@@ -18193,11 +18193,11 @@ msgstr "Барај текст во телото на прикажаната по
 
 #: ../ui/evolution-mail-message.xml.h:91
 msgid "Select _All Text"
-msgstr "Одбери го це_лиот текст"
+msgstr "Избери го це_лиот текст"
 
 #: ../ui/evolution-mail-message.xml.h:92
 msgid "Select all the text in a message"
-msgstr "Одбери го целиот текст во пораката"
+msgstr "Избери го целиот текст во пораката"
 
 #: ../ui/evolution-mail-message.xml.h:93
 msgid "Set up the page settings for your current printer"
@@ -18221,7 +18221,7 @@ msgstr "Прикажи ја изворната содржина на порак�
 
 #: ../ui/evolution-mail-message.xml.h:98
 msgid "Un-delete the selected messages"
-msgstr "Одизбриши ги одбраните пораки"
+msgstr "Врати ги избраните пораки"
 
 #: ../ui/evolution-mail-message.xml.h:99
 msgid "Uni_mportant"
@@ -18285,7 +18285,7 @@ msgstr "_Зачувај порака..."
 
 #: ../ui/evolution-mail-message.xml.h:123
 msgid "_Undelete Message"
-msgstr "_Одизбриши порака"
+msgstr "_Врати порака"
 
 #: ../ui/evolution-mail-message.xml.h:124
 msgid "_Unread"
@@ -18357,7 +18357,7 @@ msgstr "Формат"
 
 #: ../ui/evolution-message-composer.xml.h:10
 msgid "HT_ML"
-msgstr "HTML"
+msgstr "HT_ML"
 
 #: ../ui/evolution-message-composer.xml.h:12
 msgid "Open a file"
@@ -18528,7 +18528,7 @@ msgstr "Зачувај ја тековната датотека и затвор�
 
 #: ../ui/evolution-subscribe.xml.h:1
 msgid "Add folder to your list of subscribed folders"
-msgstr "Додади папка на листата на претплатени папки"
+msgstr "Додај папка на листата на претплатени папки"
 
 #: ../ui/evolution-subscribe.xml.h:3
 msgid "Refresh List"
@@ -18664,11 +18664,11 @@ msgstr "Нов _прозорец"
 
 #: ../ui/evolution.xml.h:19
 msgid "Prefere_nces"
-msgstr "Пара_метри"
+msgstr "Префер_енци"
 
 #: ../ui/evolution.xml.h:20
 msgid "Send / Receive"
-msgstr "Испрати / Превземи"
+msgstr "Испрати / Прими"
 
 #: ../ui/evolution.xml.h:21
 msgid "Send queued items and retrieve new items"
@@ -18732,7 +18732,7 @@ msgstr "Увези..."
 
 #: ../ui/evolution.xml.h:38
 msgid "_New"
-msgstr "Ново"
+msgstr "_Ново"
 
 #: ../ui/evolution.xml.h:39
 msgid "_Quick Reference"
@@ -18744,7 +18744,7 @@ msgstr "_Излези"
 
 #: ../ui/evolution.xml.h:41
 msgid "_Send / Receive"
-msgstr "Испрати / Прими"
+msgstr "_Испрати / Прими"
 
 #: ../ui/evolution.xml.h:42
 msgid "_Switcher Appearance"
@@ -19592,7 +19592,7 @@ msgstr "Потоа според"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:17
 msgid "_Add ->"
-msgstr "Додади ->"
+msgstr "Додај ->"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:18
 #: ../widgets/table/e-table-config.glade.h:16
@@ -19652,7 +19652,7 @@ msgstr "Полно заглавjе"
 
 #: ../widgets/table/e-table-field-chooser-dialog.c:126
 msgid "Add a column..."
-msgstr "Додади колона"
+msgstr "Додај колона"
 
 #: ../widgets/table/e-table-field-chooser.glade.h:1
 msgid "Field Chooser"
@@ -19794,7 +19794,7 @@ msgstr "Отстрани ја оваа колона"
 
 #: ../widgets/table/e-table-header-item.c:1500
 msgid "Add a Column..."
-msgstr "Додади колона..."
+msgstr "Додај колона..."
 
 #: ../widgets/table/e-table-header-item.c:1502
 msgid "Alignment"
