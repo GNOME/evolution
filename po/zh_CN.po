@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Evolution 2.6\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-11-16 21:50+0100\n"
-"PO-Revision-Date: 2005-11-17 18:25+0800\n"
+"POT-Creation-Date: 2005-11-21 05:49+0100\n"
+"PO-Revision-Date: 2005-11-21 18:02+0800\n"
 "Last-Translator: Funda Wang <fundawang@linux.net.cn>\n"
 "Language-Team: zh_CN <i18n-translation@lists.linux.net.cn>\n"
 "MIME-Version: 1.0\n"
@@ -941,6 +941,8 @@ msgid ""
 "search. If this is not modified, by  default search will be performed on "
 "objectclass of the type \"person\"."
 msgstr ""
+"搜索过滤器是指执行搜索时要搜索的对象类型。如果没有修改过的话，默认情况下搜索将会在"
+"“个人”类型的对象类型。"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:31
 msgid ""
@@ -1097,7 +1099,7 @@ msgid "cards"
 msgstr "名片"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:57
-#: ../calendar/gui/alarm-notify/alarm-notify.glade.h:8
+#: ../calendar/gui/alarm-notify/alarm-notify.glade.h:7
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:26
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:14
 #: ../filter/filter.glade.h:16 ../mail/em-account-editor.c:1951
@@ -1253,6 +1255,7 @@ msgid "_Calendar:"
 msgstr "日历(_C)："
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:29
+#: ../ui/evolution-event-editor.xml.h:26 ../ui/evolution-task-editor.xml.h:18
 msgid "_Categories"
 msgstr "类别(_C)"
 
@@ -2839,7 +2842,7 @@ msgid "Mo_ve to Address Book..."
 msgstr "移动到地址簿(_V)..."
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:949
-#: ../ui/evolution-composer-entries.xml.h:2
+#: ../ui/evolution-composer-entries.xml.h:2 ../ui/evolution-editor.xml.h:8
 msgid "Cu_t"
 msgstr "剪切(_T)"
 
@@ -2852,8 +2855,8 @@ msgstr "剪切(_T)"
 #: ../mail/em-folder-tree.c:979 ../mail/em-folder-view.c:1035
 #: ../mail/message-list.c:1718 ../ui/evolution-addressbook.xml.h:32
 #: ../ui/evolution-calendar.xml.h:39 ../ui/evolution-composer-entries.xml.h:7
-#: ../ui/evolution-mail-message.xml.h:103 ../ui/evolution-memos.xml.h:15
-#: ../ui/evolution-tasks.xml.h:23
+#: ../ui/evolution-editor.xml.h:16 ../ui/evolution-mail-message.xml.h:103
+#: ../ui/evolution-memos.xml.h:15 ../ui/evolution-tasks.xml.h:23
 msgid "_Copy"
 msgstr "复制(_C)"
 
@@ -4175,7 +4178,7 @@ msgstr "除非您重新启动 Evolution，否则您的任务将无法使用。"
 msgid "_Discard Changes"
 msgstr "丢弃更改(_D)"
 
-#: ../calendar/calendar.error.xml.h:67
+#: ../calendar/calendar.error.xml.h:67 ../ui/evolution-editor.xml.h:23
 #: ../ui/evolution-message-composer.xml.h:51
 msgid "_Save"
 msgstr "保存(_S)"
@@ -4317,12 +4320,12 @@ msgstr "任务(_T)"
 msgid "Evolution Calendar alarm notification service"
 msgstr "Evolution 日历提醒通知服务"
 
-#: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:115
+#: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:116
 msgid "minute"
 msgid_plural "minutes"
 msgstr[0] "分钟"
 
-#: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:250
+#: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:251
 msgid "Start time"
 msgstr "开始时间"
 
@@ -4357,7 +4360,7 @@ msgstr "午睡时间(_T)："
 #: ../filter/filter.glade.h:11 ../mail/mail-config.glade.h:158
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:13
 #: ../ui/evolution-addressbook.xml.h:35 ../ui/evolution-calendar.xml.h:41
-#: ../ui/evolution-composer-entries.xml.h:8
+#: ../ui/evolution-composer-entries.xml.h:8 ../ui/evolution-editor.xml.h:17
 #: ../ui/evolution-mail-messagedisplay.xml.h:5 ../ui/evolution-memos.xml.h:17
 #: ../ui/evolution-message-composer.xml.h:44
 #: ../ui/evolution-signature-editor.xml.h:23
@@ -4371,10 +4374,6 @@ msgid "_Snooze"
 msgstr "午睡(_S)"
 
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:6
-msgid "description of appointment"
-msgstr "约会描述"
-
-#: ../calendar/gui/alarm-notify/alarm-notify.glade.h:7
 msgid "location of appointment"
 msgstr "约会位置"
 
@@ -4634,11 +4633,11 @@ msgstr "允许提醒运行的程序。"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:41
 msgid "Show RSVP field in the event/task/meeting editor"
-msgstr ""
+msgstr "在事件/任务/会议编辑器中显示请回复域"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:42
 msgid "Show Role field in the event/task/meeting editor"
-msgstr ""
+msgstr "在事件/任务/会议编辑器中显示角色域"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:43
 msgid "Show appointment end times in week and month views"
@@ -4646,7 +4645,7 @@ msgstr "在周视图和月视图中显示约会结束时间"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:44
 msgid "Show categories field in the event/meeting/task editor"
-msgstr ""
+msgstr "在事件/会议/任务编辑器中显示分类域"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:45
 msgid "Show display alarms in notification tray"
@@ -4654,7 +4653,7 @@ msgstr "在通知托盘中显示提醒"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:46
 msgid "Show status field in the event/task/meeting editor"
-msgstr ""
+msgstr "在事件/任务/会议编辑器中显示状态域"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:47
 #: ../mail/evolution-mail.schemas.in.in.h:73
@@ -4668,15 +4667,15 @@ msgstr "显示“预览”面板。"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:49
 msgid "Show timezone field in the event/meeting editor"
-msgstr ""
+msgstr "在事件/会议编辑器中显示时区域"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:50
 msgid "Show type field in the event/task/meeting editor"
-msgstr ""
+msgstr "在事件/任务/会议编辑器中显示类型域"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:51
 msgid "Show week numbers in date navigator"
-msgstr "在日期浏览器中显示周数"
+msgstr "在日期导航器中显示周数"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:52
 msgid "Tasks due today color"
@@ -4772,24 +4771,20 @@ msgid "Whether to set a default reminder for appointments."
 msgstr "是否为约会设置默认提醒。"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:74
-#, fuzzy
 msgid "Whether to show RSVP field in the event/task/meeting editor"
-msgstr "是否在日期浏览器中显示周数。"
+msgstr "是否在事件/任务/会议编辑器中显示请回复域"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:75
-#, fuzzy
 msgid "Whether to show categories field in the event/meeting editor"
-msgstr "是否在日期浏览器中显示周数。"
+msgstr "是否在事件/会议编辑器中显示分类域"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:76
-#, fuzzy
 msgid "Whether to show role field in the event/task/meeting editor"
-msgstr "是否在日期浏览器中显示周数。"
+msgstr "是否在事件/任务/会议中显示角色域"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:77
-#, fuzzy
 msgid "Whether to show status field in the event/task/meeting editor"
-msgstr "是否在日期浏览器中显示周数。"
+msgstr "是否在事件/任务/会议编辑器中显示状态域"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:78
 msgid ""
@@ -4797,18 +4792,16 @@ msgid ""
 msgstr "是以 24 小时格式还是以 12 小时格式显示时间。"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:79
-#, fuzzy
 msgid "Whether to show timezone field in the event/meeting editor"
-msgstr "是否在日期浏览器中显示周数。"
+msgstr "是否在事件/会议编辑器中显示时区域"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:80
-#, fuzzy
 msgid "Whether to show type field in the event/task/meeting editor"
-msgstr "是否在日期浏览器中显示周数。"
+msgstr "是否在事件/任务/会议编辑器中显示类型域"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:81
 msgid "Whether to show week numbers in the date navigator."
-msgstr "是否在日期浏览器中显示周数。"
+msgstr "是否在日期导航器中显示周数。"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:82
 msgid "Work days"
@@ -4864,6 +4857,8 @@ msgstr "打印"
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:383
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:413
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:590
+#: ../plugins/hula-account-setup/camel-hula-listener.c:374
+#: ../plugins/hula-account-setup/camel-hula-listener.c:403
 msgid "Calendar"
 msgstr "日历"
 
@@ -5130,6 +5125,7 @@ msgstr "添加(_D)"
 
 #: ../calendar/gui/dialogs/alarm-list-dialog.glade.h:2
 #: ../calendar/gui/dialogs/event-page.glade.h:4
+#: ../ui/evolution-event-editor.xml.h:1
 msgid "Alarms"
 msgstr "提醒"
 
@@ -5193,7 +5189,7 @@ msgstr "添加附件(_A)..."
 
 #: ../calendar/gui/dialogs/cal-attachment-bar.c:736
 #: ../composer/e-msg-composer-attachment-bar.c:740
-#: ../widgets/misc/e-attachment-bar.c:992
+#: ../widgets/misc/e-attachment-bar.c:994
 msgid "Attachment Bar"
 msgstr "附件栏"
 
@@ -5382,6 +5378,7 @@ msgstr "启用(_N)"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:23
 #: ../calendar/gui/dialogs/event-editor.c:549
+#: ../ui/evolution-event-editor.xml.h:6
 msgid "Free/Busy"
 msgstr "忙/闲"
 
@@ -5877,6 +5874,7 @@ msgid "Appoint_ment"
 msgstr "约会(_M)"
 
 #: ../calendar/gui/dialogs/event-editor.c:529
+#: ../ui/evolution-event-editor.xml.h:12
 msgid "Recurrence"
 msgstr "再现("
 
@@ -6104,7 +6102,7 @@ msgstr "成员"
 #: ../calendar/gui/e-meeting-list-view.c:399
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:8
 msgid "RSVP"
-msgstr "RSVP"
+msgstr "请回复"
 
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:10
 #: ../calendar/gui/e-calendar-table.etspec.h:10
@@ -6704,7 +6702,7 @@ msgstr "否"
 #: ../plugins/itip-formatter/itip-formatter.c:240
 #: ../plugins/itip-formatter/itip-formatter.c:1652
 #: ../plugins/plugin-manager/plugin-manager.c:72
-#: ../widgets/misc/e-attachment-bar.c:688
+#: ../widgets/misc/e-attachment-bar.c:690
 #: ../widgets/misc/e-charset-picker.c:62
 msgid "Unknown"
 msgstr "未知"
@@ -6840,8 +6838,8 @@ msgstr "剪切(_U)"
 #: ../calendar/gui/e-calendar-view.c:1533
 #: ../calendar/gui/e-calendar-view.c:1557 ../calendar/gui/e-memo-table.c:854
 #: ../ui/evolution-addressbook.xml.h:39 ../ui/evolution-calendar.xml.h:43
-#: ../ui/evolution-composer-entries.xml.h:9 ../ui/evolution-memos.xml.h:19
-#: ../ui/evolution-tasks.xml.h:28
+#: ../ui/evolution-composer-entries.xml.h:9 ../ui/evolution-editor.xml.h:22
+#: ../ui/evolution-memos.xml.h:19 ../ui/evolution-tasks.xml.h:28
 msgid "_Paste"
 msgstr "粘贴(_P)"
 
@@ -10852,7 +10850,7 @@ msgstr "指派颜色"
 msgid "Assign Score"
 msgstr "指派计分"
 
-#: ../mail/em-filter-i18n.h:5
+#: ../mail/em-filter-i18n.h:5 ../ui/evolution-editor.xml.h:1
 msgid "Attachments"
 msgstr "附件"
 
@@ -11205,7 +11203,7 @@ msgid "Scanning folders in \"%s\""
 msgstr "在“%s”中扫描文件夹"
 
 #: ../mail/em-folder-tree.c:2042 ../ui/evolution-addressbook.xml.h:44
-#: ../ui/evolution-mail-global.xml.h:24
+#: ../ui/evolution-editor.xml.h:24 ../ui/evolution-mail-global.xml.h:24
 #: ../ui/evolution-mail-messagedisplay.xml.h:8
 #: ../ui/evolution-message-composer.xml.h:54 ../ui/evolution-tasks.xml.h:30
 #: ../ui/evolution.xml.h:49
@@ -15198,6 +15196,7 @@ msgid "Add Send Options to groupwise messages"
 msgstr "将发送选项添加到 GroupWise 信件"
 
 #: ../plugins/groupwise-features/org-gnome-compose-send-options.xml.h:2
+#: ../ui/evolution-event-editor.xml.h:13 ../ui/evolution-task-editor.xml.h:8
 #: ../widgets/misc/e-send-options.glade.h:17
 msgid "Send Options"
 msgstr "发送选项"
@@ -15354,6 +15353,10 @@ msgstr "共享"
 #: ../plugins/groupwise-features/status-track.c:235
 msgid "Track Message Status..."
 msgstr "跟踪信件状态..."
+
+#: ../plugins/hula-account-setup/org-gnome-evolution-hula-account-setup.eplug.xml.h:1
+msgid "Hula Account Setup"
+msgstr "Hula 账户设置"
 
 #: ../plugins/ipod-sync/ical-format.c:137
 #: ../plugins/save-calendar/ical-format.c:137
@@ -15818,7 +15821,7 @@ msgstr "注释："
 
 #: ../plugins/itip-formatter/itip-view.c:981
 msgid "Send u_pdates to attendees"
-msgstr "给与会者发送更新(_P)"
+msgstr "给出席者发送更新(_P)"
 
 #: ../plugins/itip-formatter/itip-view.c:990
 msgid "A_pply to all instances"
@@ -16230,7 +16233,7 @@ msgid "MIME Type"
 msgstr "MIME 类型"
 
 #: ../plugins/save-attachments/save-attachments.c:359
-#: ../ui/evolution-message-composer.xml.h:18
+#: ../ui/evolution-editor.xml.h:11 ../ui/evolution-message-composer.xml.h:18
 msgid "Save"
 msgstr "保存"
 
@@ -17747,29 +17750,195 @@ msgstr "一周工作日"
 msgid "_Open Appointment"
 msgstr "打开约会(_O)"
 
-#: ../ui/evolution-composer-entries.xml.h:1
+#: ../ui/evolution-composer-entries.xml.h:1 ../ui/evolution-editor.xml.h:7
 msgid "Copy selected text to the clipboard"
 msgstr "将选中文字复制到剪贴板"
 
-#: ../ui/evolution-composer-entries.xml.h:3
+#: ../ui/evolution-composer-entries.xml.h:3 ../ui/evolution-editor.xml.h:9
 msgid "Cut selected text to the clipboard"
 msgstr "将选中文字剪切到剪贴板"
 
-#: ../ui/evolution-composer-entries.xml.h:4
+#: ../ui/evolution-composer-entries.xml.h:4 ../ui/evolution-editor.xml.h:10
 msgid "Paste text from the clipboard"
 msgstr "从剪贴板中粘贴文字"
 
-#: ../ui/evolution-composer-entries.xml.h:5 ../ui/evolution-subscribe.xml.h:6
+#: ../ui/evolution-composer-entries.xml.h:5 ../ui/evolution-editor.xml.h:12
+#: ../ui/evolution-subscribe.xml.h:6
 msgid "Select _All"
 msgstr "全选(_A)"
 
-#: ../ui/evolution-composer-entries.xml.h:6
+#: ../ui/evolution-composer-entries.xml.h:6 ../ui/evolution-editor.xml.h:13
 msgid "Select all text"
 msgstr "选中所有文字"
 
+#: ../ui/evolution-editor.xml.h:2
+msgid "Click here to attach a file"
+msgstr "单击此处可便附加文件"
+
+#: ../ui/evolution-editor.xml.h:3
+msgid "Click here to close the current window"
+msgstr "单击此处可关闭当前窗口"
+
+#: ../ui/evolution-editor.xml.h:4
+msgid "Click here to save the current window"
+msgstr "单击此处可保存当前窗口"
+
+#: ../ui/evolution-editor.xml.h:5
+msgid "Click here to view help availabe"
+msgstr "单击此处可查看可用的帮助"
+
+#.
+#. <cmd name="FileSave" _label="Save"
+#. _tip="Save the current file" pixtype="stock" pixname="Save"
+#. accel="*Ctrl*s"/>
+#.
+#: ../ui/evolution-editor.xml.h:6 ../ui/evolution-mail-messagedisplay.xml.h:1
+#: ../ui/evolution-message-composer.xml.h:4
+#: ../ui/evolution-signature-editor.xml.h:7
+msgid "Close"
+msgstr "关闭"
+
+#: ../ui/evolution-editor.xml.h:14
+msgid "_Attachments"
+msgstr "附件(_A)"
+
+#: ../ui/evolution-editor.xml.h:15 ../ui/evolution-mail-messagedisplay.xml.h:4
+#: ../ui/evolution-message-composer.xml.h:42 ../ui/evolution-subscribe.xml.h:9
+msgid "_Close"
+msgstr "关闭(_C)"
+
+#: ../ui/evolution-editor.xml.h:18 ../ui/evolution-mail-messagedisplay.xml.h:6
+#: ../ui/evolution-message-composer.xml.h:45
+#: ../ui/evolution-signature-editor.xml.h:24
+#: ../ui/evolution-subscribe.xml.h:11 ../ui/evolution.xml.h:37
+msgid "_File"
+msgstr "文件(_F)"
+
+#: ../ui/evolution-editor.xml.h:19 ../ui/evolution.xml.h:38
+msgid "_Help"
+msgstr "帮助(_H)"
+
+#: ../ui/evolution-editor.xml.h:20 ../ui/evolution-message-composer.xml.h:47
+#: ../ui/evolution-signature-editor.xml.h:25
+msgid "_Insert"
+msgstr "插入(_I)"
+
+#: ../ui/evolution-editor.xml.h:21
+msgid "_Options"
+msgstr "选项(_O)"
+
+#: ../ui/evolution-event-editor.xml.h:2
+msgid "All day Event"
+msgstr "全天事件"
+
+#: ../ui/evolution-event-editor.xml.h:3 ../ui/evolution-task-editor.xml.h:1
+msgid "Classify as Confidential"
+msgstr "分类为机密"
+
+#: ../ui/evolution-event-editor.xml.h:4 ../ui/evolution-task-editor.xml.h:2
+msgid "Classify as Private"
+msgstr "分类为私人"
+
+#: ../ui/evolution-event-editor.xml.h:5 ../ui/evolution-task-editor.xml.h:3
+msgid "Classify as public"
+msgstr "分类为公开"
+
+#: ../ui/evolution-event-editor.xml.h:7 ../ui/evolution-task-editor.xml.h:5
+msgid "Insert advanced send options"
+msgstr "插入高级发送选项"
+
+#: ../ui/evolution-event-editor.xml.h:8
+#, fuzzy
+msgid "Make this a recurring event"
+msgstr "将此次发生变为可移动(_M)"
+
+#: ../ui/evolution-event-editor.xml.h:9 ../ui/evolution-task-editor.xml.h:6
+msgid "Pu_blic"
+msgstr "公开(_B)"
+
+#: ../ui/evolution-event-editor.xml.h:10
+msgid "Query free / busy information for the attendees"
+msgstr "查询出席者的忙闲信息"
+
+#: ../ui/evolution-event-editor.xml.h:11 ../ui/evolution-task-editor.xml.h:7
+msgid "R_ole Field"
+msgstr "角色域(_O)"
+
+#: ../ui/evolution-event-editor.xml.h:14 ../ui/evolution-task-editor.xml.h:9
+msgid "Show Time _Zone"
+msgstr "显示时区(_Z)"
+
+#: ../ui/evolution-event-editor.xml.h:15
+msgid "Show time as b_usy"
+msgstr "将时间设定为忙(_U)"
+
+#: ../ui/evolution-event-editor.xml.h:16 ../ui/evolution-task-editor.xml.h:12
+msgid "Toggles whether the Attendee Type field is displayed"
+msgstr "切换是否显示出席者类型域"
+
+#: ../ui/evolution-event-editor.xml.h:17 ../ui/evolution-task-editor.xml.h:13
+msgid "Toggles whether the RSVP field is displayed"
+msgstr "切换是否显示请回复域"
+
+#: ../ui/evolution-event-editor.xml.h:18 ../ui/evolution-task-editor.xml.h:14
+msgid "Toggles whether the Role field is displayed"
+msgstr "切换是否显示角色域"
+
+#: ../ui/evolution-event-editor.xml.h:19 ../ui/evolution-task-editor.xml.h:15
+msgid "Toggles whether the Status field is displayed"
+msgstr "切换是否显示状态域"
+
+#: ../ui/evolution-event-editor.xml.h:20 ../ui/evolution-task-editor.xml.h:16
+msgid "Toggles whether the time zone is displayed"
+msgstr "切换是否显示时区"
+
+#: ../ui/evolution-event-editor.xml.h:21 ../ui/evolution-task-editor.xml.h:17
+msgid "Toggles whether to display categories"
+msgstr "切换是否显示类别"
+
+#: ../ui/evolution-event-editor.xml.h:22
+msgid "Toggles whether to have All day Event"
+msgstr "切换是否有全天事件"
+
+#: ../ui/evolution-event-editor.xml.h:23
+msgid "Toggles whether to show time as busy"
+msgstr "切换是否将时间显示为忙"
+
+#: ../ui/evolution-event-editor.xml.h:24
+msgid "_Alarms"
+msgstr "提醒(_A)"
+
+#: ../ui/evolution-event-editor.xml.h:25
+msgid "_All day Event"
+msgstr "全天事件(_A)"
+
+#: ../ui/evolution-event-editor.xml.h:27 ../ui/evolution-task-editor.xml.h:19
+msgid "_Classification"
+msgstr "分类(_C)"
+
+#: ../ui/evolution-event-editor.xml.h:28 ../ui/evolution-task-editor.xml.h:20
+msgid "_Confidential"
+msgstr "机密(_C)"
+
+#: ../ui/evolution-event-editor.xml.h:29 ../ui/evolution-task-editor.xml.h:21
+msgid "_Private"
+msgstr "私人(_P)"
+
+#: ../ui/evolution-event-editor.xml.h:30 ../ui/evolution-task-editor.xml.h:22
+msgid "_RSVP"
+msgstr "请回复(_R)"
+
+#: ../ui/evolution-event-editor.xml.h:31 ../ui/evolution-task-editor.xml.h:24
+msgid "_Status Field"
+msgstr "状态域(_S)"
+
+#: ../ui/evolution-event-editor.xml.h:32 ../ui/evolution-task-editor.xml.h:25
+msgid "_Type Field"
+msgstr "类型域(_T)"
+
 #: ../ui/evolution-executive-summary.xml.h:1
 msgid "Customize My Evolution"
-msgstr "定制我的 Evolution"
+msgstr "自定义我的 Evolution"
 
 #: ../ui/evolution-mail-global.xml.h:2
 msgid "Cancel the current mail operation"
@@ -18360,17 +18529,6 @@ msgstr "未读(_U)"
 msgid "_Zoom In"
 msgstr "放大(_Z)"
 
-#.
-#. <cmd name="FileSave" _label="Save"
-#. _tip="Save the current file" pixtype="stock" pixname="Save"
-#. accel="*Ctrl*s"/>
-#.
-#: ../ui/evolution-mail-messagedisplay.xml.h:1
-#: ../ui/evolution-message-composer.xml.h:4
-#: ../ui/evolution-signature-editor.xml.h:7
-msgid "Close"
-msgstr "关闭"
-
 #: ../ui/evolution-mail-messagedisplay.xml.h:2 ../ui/evolution.xml.h:4
 msgid "Close this window"
 msgstr "关闭此窗口"
@@ -18378,18 +18536,6 @@ msgstr "关闭此窗口"
 #: ../ui/evolution-mail-messagedisplay.xml.h:3 ../ui/evolution.xml.h:16
 msgid "Main toolbar"
 msgstr "主工具栏"
-
-#: ../ui/evolution-mail-messagedisplay.xml.h:4
-#: ../ui/evolution-message-composer.xml.h:42 ../ui/evolution-subscribe.xml.h:9
-msgid "_Close"
-msgstr "关闭(_C)"
-
-#: ../ui/evolution-mail-messagedisplay.xml.h:6
-#: ../ui/evolution-message-composer.xml.h:45
-#: ../ui/evolution-signature-editor.xml.h:24
-#: ../ui/evolution-subscribe.xml.h:11 ../ui/evolution.xml.h:37
-msgid "_File"
-msgstr "文件(_F)"
 
 #: ../ui/evolution-memos.xml.h:3
 msgid "Copy selected memo"
@@ -18587,11 +18733,6 @@ msgstr "全部删除(_D)"
 msgid "_From Field"
 msgstr "发件人域(_F)"
 
-#: ../ui/evolution-message-composer.xml.h:47
-#: ../ui/evolution-signature-editor.xml.h:25
-msgid "_Insert"
-msgstr "插入(_I)"
-
 #: ../ui/evolution-message-composer.xml.h:48
 msgid "_Open..."
 msgstr "打开(_O)..."
@@ -18662,6 +18803,22 @@ msgstr "退订"
 #: ../ui/evolution-subscribe.xml.h:12
 msgid "_Invert Selection"
 msgstr "反转选择(_I)"
+
+#: ../ui/evolution-task-editor.xml.h:4
+msgid "Click change / view the status details of the task"
+msgstr "单击可更改/查看任务的状态细节"
+
+#: ../ui/evolution-task-editor.xml.h:10
+msgid "Status Details"
+msgstr "状态细节"
+
+#: ../ui/evolution-task-editor.xml.h:11
+msgid "Time Zone"
+msgstr "时区"
+
+#: ../ui/evolution-task-editor.xml.h:23
+msgid "_Status Details"
+msgstr "状态细节(_S)"
 
 #: ../ui/evolution-tasks.xml.h:3
 msgid "Copy selected task"
@@ -18834,10 +18991,6 @@ msgstr "关于 Evolution(_A)..."
 #: ../ui/evolution.xml.h:35
 msgid "_Close Window"
 msgstr "关闭窗口(_C)"
-
-#: ../ui/evolution.xml.h:38
-msgid "_Help"
-msgstr "帮助(_H)"
 
 #: ../ui/evolution.xml.h:39
 msgid "_Hide buttons"
