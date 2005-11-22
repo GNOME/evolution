@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Evolution 2.4\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-08-30 13:59+0000\n"
-"PO-Revision-Date: 2005-11-04 00:13+0200\n"
+"PO-Revision-Date: 2005-11-22 22:23+0200\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -19038,7 +19038,7 @@ msgstr ""
 
 #: ../widgets/misc/e-pilot-settings.c:111
 msgid "Sync Private Records:"
-msgstr "Privaatkirjete sünkroniseerimine"
+msgstr "Isiklike kirjete sünkroniseerimine"
 
 #: ../widgets/misc/e-pilot-settings.c:120
 msgid "Sync Categories:"
@@ -19177,7 +19177,7 @@ msgid ""
 "Confidential\n"
 msgstr ""
 "Avalik\n"
-"Privaatne\n"
+"Isiklik\n"
 "Salajane\n"
 
 #: ../widgets/misc/e-send-options.glade.h:16
