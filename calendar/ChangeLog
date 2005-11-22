@@ -1,3 +1,8 @@
+2005-11-22  Boby Wang <boby.wang@sun.com>
+	Fixes #321237
+	* gui/dialogs/event-page.glade: Add the categories' name
+	The name of categories in new appointment dialog was missed.
+
 2005-11-17  P. S. Chakravarthi <pchakravarthi@novell.com>
 
 	Fixes #314550
