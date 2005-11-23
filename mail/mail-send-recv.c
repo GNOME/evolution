@@ -1064,7 +1064,7 @@ mail_send (void)
 	send_info_t type;
 	
 	transport = mail_config_get_default_transport ();
-	if (!transport || !transport->url)
+	if (!transport || !transport->url) 
 		return;
 	
 	data = setup_send_data ();

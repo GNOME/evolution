@@ -381,6 +381,13 @@ em_utils_composer_send_cb (EMsgComposer *composer, gpointer user_data)
 	CamelMessageInfo *info;
 	struct _send_data *send;
 	CamelFolder *mail_folder;
+	EAccount *account;
+
+	account = e_msg_composer_get_preferred_account (composer);
+	if (!account->enabled) {
+		e_error_run(NULL, "mail:send-no-account-enabled", NULL);
+		return;
+	}
 
 	if (!(message = composer_get_message (composer, FALSE)))
 		return;
@@ -519,7 +526,7 @@ em_utils_composer_save_draft_cb (EMsgComposer *composer, int quit, gpointer user
 		id = mail_get_folder (account->drafts_folder_uri, 0, save_draft_folder, &folder, mail_thread_new);
 		mail_msg_wait (id);
 		
-		if (!folder) {
+		if (!folder || !account->enabled) {
 			if (e_error_run((GtkWindow *)composer, "mail:ask-default-drafts", NULL) != GTK_RESPONSE_YES) {
 				g_object_unref(composer);
 				camel_object_unref(msg);
@@ -1270,11 +1277,7 @@ generate_account_hash (void)
 	accounts = mail_config_get_accounts ();
 	account_hash = g_hash_table_new (camel_strcase_hash, camel_strcase_equal);
 	
-	/* add the default account to the hash first */
-	if ((def = mail_config_get_default_account ())) {
-		if (def->id->address)
-			g_hash_table_insert (account_hash, (char *) def->id->address, (void *) def);
-	}
+	def = mail_config_get_default_account ();
 	
 	iter = e_list_get_iterator ((EList *) accounts);
 	while (e_iterator_is_valid (iter)) {
@@ -1303,6 +1306,10 @@ generate_account_hash (void)
 	}
 	
 	g_object_unref (iter);
+
+	/* The default account has to be there if none of the enabled accounts are present */
+	if (g_hash_table_size (account_hash) == 0 && def && def->id->address)
+		g_hash_table_insert (account_hash, (char *) def->id->address, (void *) def);
 	
 	return account_hash;
 }
@@ -1460,7 +1467,7 @@ guess_account (CamelMimeMessage *message, CamelFolder *folder)
 		if (to) {
 			for (i = 0; camel_internet_address_get(to, i, NULL, &tmp); i++) {
 				account = g_hash_table_lookup(account_hash, tmp);
-				if (account)
+				if (account && account->enabled)
 					break;
 			}
 		}

@@ -1,3 +1,16 @@
+2005-11-23  Parthasarathi Susarla <sparthasarathi@novell.com>
+	
+	** See bug #315987
+	* em-composer-utils.c:
+	(em_utils_composer_send_cb): Send only if account is enabled
+	(em_utils_composer_save_draft_cb): Save message to server
+	folder only if the account is enabled, else save it locally
+	(generate_account_hash): Add default account into the account hash
+	only if the account none of the account is enabled.
+	(guess_account): use only enabled account
+
+	* mail.error.xml: Add error message for send-no-account-enabled
+
 2005-11-11  Boby Wang <boby.wang@sun.com>
 
 	** See bug 321214.

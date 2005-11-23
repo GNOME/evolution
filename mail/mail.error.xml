@@ -378,6 +378,11 @@ You can choose to ignore this folder, overwrite or append its contents, or quit.
   	<_primary>Blank Signature</_primary>
 	<_secondary>Please provide an unique name to identify this signature.</_secondary>
   </error>
+  
+  <error id="send-no-account-enabled" type="warning">
+  <_primary>This message cannot be sent because the account you chose to send with is not enabled</_primary>
+  <_secondary xml:space="preserve">Please enable the account or send using another account.</_secondary>
+ </error>
 
 </error-list>
 
