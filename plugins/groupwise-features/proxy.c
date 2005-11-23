@@ -708,8 +708,8 @@ org_gnome_proxy (EPlugin *epl, EConfigHookItemFactoryData *data)
 			priv = prd->priv;
 
 			if (priv) {
-			pag_num = gtk_notebook_page_num ( (GtkNotebook *)(data->parent), (GtkWidget *) priv->tab_dialog);
-			gtk_notebook_remove_page ( (GtkNotebook *)(data->parent), pag_num); 
+				pag_num = gtk_notebook_page_num ( (GtkNotebook *)(data->parent), (GtkWidget *) priv->tab_dialog);
+				gtk_notebook_remove_page ( (GtkNotebook *)(data->parent), pag_num); 
 			}
 		}	
 	}
