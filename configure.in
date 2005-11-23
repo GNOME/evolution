@@ -1194,6 +1194,16 @@ CPPFLAGS="$CPPFLAGS_save"
 PKG_CHECK_MODULES(EXTRA_GNOME, libgnomeprint-2.2 >= 2.2.0 libgnomeprintui-2.2 >= 2.2.1 $FULL_GNOME_DEPS)
 AC_SUBST(EXTRA_GNOME_LIBS)
 AC_SUBST(EXTRA_GNOME_CFLAGS)
+
+PKG_CHECK_MODULES(HAL, hal >= 0.5.4, HAVE_HAL="yes", HAVE_HAL="no")
+if test "x$HAVE_HAL" = "xyes"; then
+   AC_DEFINE(HAVE_HAL, 1, [hal available])
+   HAL_REQUIREMENT="hal"
+   IPOD_SYNC="ipod-sync"
+else
+   HAL_REQUIREMENT=""
+   IPOD_SYNC=""
+fi
  
 dnl --- Flags for the various libraries we build
 
@@ -1425,7 +1435,7 @@ plugins_base="calendar-file calendar-http calendar-weather itip-formatter plugin
 
 plugins_standard="bbdb subject-thread save-calendar select-one-source copy-tool mail-to-task mark-calendar-offline audio-inline mailing-list-actions new-mail-notify default-mailer" 
 
-plugins_experimental="backup-restore folder-unsubscribe mail-to-meeting mail-remote prefer-plain save-attachments ipod-sync"
+plugins_experimental="backup-restore folder-unsubscribe mail-to-meeting mail-remote prefer-plain save-attachments $IPOD_SYNC"
 
 case x"$enable_plugins" in
 xno)
@@ -1741,7 +1751,8 @@ fi
 
 echo "
 	Mail Directory:   $system_mail_dir, $system_mail_perm
-	LDAP support:     $msg_ldap"
+	LDAP support:     $msg_ldap
+	HAL:		  $HAVE_HAL"
 if test "$msg_nntp" = "yes"; then
 echo "\
 	NNTP support:     $msg_nntp"

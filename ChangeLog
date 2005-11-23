@@ -1,3 +1,7 @@
+2005-11-23  Srinivasa Ragavan <sragavan@novell.com>
+
+	* configure.in: Made hal dependency optional.
+
 2005-11-16  Parthasarathi Susarla <sparthasarathi@novell.com>
 	
 	* README, removed gal requirement.
