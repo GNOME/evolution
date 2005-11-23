@@ -340,7 +340,13 @@
           <menuitem name="MessageReplySender" verb="" _label="_Reply to Sender"/>
           <menuitem name="MessageReplyList" verb="" _label="Reply to _List"/>
           <menuitem name="MessageForward" verb="" _label="_Forward"/>
+          <submenu name="ForwardAs" _label="F_orward As...">
+            <menuitem verb="MessageForwardAttached" _label="_Attached"/>
+            <menuitem verb="MessageForwardInline" _label="_Inline"/>
+            <menuitem verb="MessageForwardQuoted" _label="_Quoted"/>
+            <separator f="" name="forwardlist1"/>
             <menuitem verb="MessageRedirect" _label="Re_direct"/>
+          </submenu>
 
 	  <separator f="" name="emaillist3"/>
 

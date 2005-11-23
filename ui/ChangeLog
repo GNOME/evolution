@@ -1,3 +1,11 @@
+2005-11-22  Karsten Bräckelmann  <guenther@rudersport.de>
+
+	* evolution-mail-message.xml: Re-added the ForwardAs submenu,
+	fixes regression bug #321640.
+	
+	Committed on behalf of Karsten, since he does not have commit
+	rights.
+
 2005-11-18  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	* evolution-event-editor.xml: Removed the timezone
