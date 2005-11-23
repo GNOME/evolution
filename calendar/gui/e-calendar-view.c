@@ -31,9 +31,14 @@
 #include <gtk/gtkstock.h>
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtkbindings.h>
+#include <gtk/gtklabel.h>
+#include <gtk/gtkbox.h>
+#include <gtk/gtkcontainer.h>
+#include <gtk/gtkwindow.h>
 #include <libgnome/gnome-i18n.h>
 #include <e-util/e-dialog-utils.h>
 #include <e-util/e-icon-factory.h>
+#include <e-util/e-time-utils.h>
 #include "e-calendar-marshal.h"
 #include <libecal/e-cal-time-util.h>
 #include <libecal/e-cal-component.h>
@@ -59,6 +64,7 @@
 #include "goto.h"
 #include "ea-calendar.h"
 #include "e-cal-popup.h"
+#include "misc.h"
 
 /* Used for the status bar messages */
 #define EVOLUTION_CALENDAR_PROGRESS_IMAGE "stock_calendar"
@@ -1851,3 +1857,165 @@ e_calendar_view_modify_and_send (ECalComponent *comp,
 		g_message (G_STRLOC ": Could not update the object!");
 	}
 }
+
+static gboolean
+tooltip_grab (GtkWidget *tooltip, GdkEventKey *event, ECalendarViewEvent *pevent)
+{
+	gdk_keyboard_ungrab(GDK_CURRENT_TIME);
+
+	gtk_widget_destroy (pevent->tooltip);
+	pevent->tooltip = NULL;
+	pevent->timeout = -1;
+
+	return FALSE;
+}
+
+static char *
+get_label (struct icaltimetype *tt)
+{
+        char buffer[1000];
+        struct tm tmp_tm;
+
+	tmp_tm = icaltimetype_to_tm (tt);
+        e_time_format_date_and_time (&tmp_tm,
+                                     calendar_config_get_24_hour_format (),
+                                     FALSE, FALSE,
+                                     buffer, 1000);
+
+        return g_strdup (buffer);
+}
+
+
+gboolean
+e_calendar_view_get_tooltips (ECalendarViewEvent *pevent)
+{
+	GtkWidget *label, *box, *hbox, *ebox, *frame;
+	const char *str;
+	char *tmp, *tmp1, *tmp2;
+	ECalComponentOrganizer organiser;	
+	ECalComponentDateTime dtstart, dtend;
+	icalcomponent *clone_comp;
+	time_t t_start, t_end;
+	
+	ECalComponent *newcomp = e_cal_component_new ();
+	icaltimezone *zone;
+	GdkColor color, outer_color;
+
+     	gdk_color_parse ("PeachPuff2", &color);		
+	gdk_color_parse ("antique white", &outer_color);
+
+	clone_comp = icalcomponent_new_clone (pevent->comp_data->icalcomp);
+	if (!e_cal_component_set_icalcomponent (newcomp, clone_comp))
+		g_warning ("couldn't update calendar component with modified data from backend\n");
+
+	box = gtk_vbox_new (FALSE, 0);
+
+	str = icalcomponent_get_summary (pevent->comp_data->icalcomp);
+	tmp = g_strdup_printf ("<b>%s</b>", str);
+	label = gtk_label_new (NULL);
+	gtk_label_set_line_wrap ((GtkLabel *)label, TRUE);
+	gtk_label_set_markup ((GtkLabel *)label, tmp);
+	
+	hbox = gtk_hbox_new (FALSE, 0);
+	gtk_box_pack_start ((GtkBox *)hbox, label, FALSE, FALSE, 0);
+	ebox = gtk_event_box_new ();
+	gtk_container_add ((GtkContainer *)ebox, hbox);
+	gtk_widget_modify_bg (ebox, GTK_STATE_NORMAL, &color);
+	gtk_widget_modify_bg (ebox, GTK_STATE_ACTIVE, &color);
+	gtk_widget_modify_bg (ebox, GTK_STATE_SELECTED, &color);
+	gtk_widget_modify_bg (ebox, GTK_STATE_PRELIGHT, &color);
+	
+	gtk_box_pack_start ((GtkBox *)box, ebox, FALSE, FALSE, 0);
+	g_free (tmp);
+	
+	e_cal_component_get_organizer (newcomp, &organiser);
+	if (organiser.cn) {
+		char *ptr ; 
+		GtkWidget *hbox = gtk_hbox_new (FALSE, 0);
+		ptr = strchr(organiser.value, ':');
+		ptr++;
+		tmp = g_strdup_printf ("Organiser: %s <%s>", organiser.cn, ptr);
+		label = gtk_label_new (tmp);
+		gtk_box_pack_start ((GtkBox *)hbox, label, FALSE, FALSE, 0);
+		ebox = gtk_event_box_new ();
+		gtk_container_add ((GtkContainer *)ebox, hbox);
+		gtk_widget_modify_bg (ebox, GTK_STATE_NORMAL, &outer_color);
+		gtk_widget_modify_bg (ebox, GTK_STATE_ACTIVE, &outer_color);
+		gtk_widget_modify_bg (ebox, GTK_STATE_SELECTED, &outer_color);
+		gtk_widget_modify_bg (ebox, GTK_STATE_PRELIGHT, &outer_color);		
+		gtk_box_pack_start ((GtkBox *)box, ebox, FALSE, FALSE, 0);
+
+		g_free (tmp);
+	}
+	
+	e_cal_component_get_location (newcomp, &str);
+
+	if (str) {
+		tmp = g_strdup_printf ("Location: %s", str);
+		label = gtk_label_new (NULL);
+		gtk_label_set_markup ((GtkLabel *)label, tmp);
+		hbox = gtk_hbox_new (FALSE, 0);
+		gtk_box_pack_start ((GtkBox *)hbox, label, FALSE, FALSE, 0);
+		ebox = gtk_event_box_new ();
+		gtk_container_add ((GtkContainer *)ebox, hbox);
+		gtk_widget_modify_bg (ebox, GTK_STATE_NORMAL, &outer_color);
+		gtk_widget_modify_bg (ebox, GTK_STATE_ACTIVE, &outer_color);
+		gtk_widget_modify_bg (ebox, GTK_STATE_SELECTED, &outer_color);
+		gtk_widget_modify_bg (ebox, GTK_STATE_PRELIGHT, &outer_color);		
+		gtk_box_pack_start ((GtkBox *)box, ebox, FALSE, FALSE, 0);
+		g_free (tmp);
+	}
+	e_cal_component_get_dtstart (newcomp, &dtstart);
+	e_cal_component_get_dtend (newcomp, &dtend);
+			
+	if (dtstart.tzid) {
+		zone = icalcomponent_get_timezone (e_cal_component_get_icalcomponent (newcomp), dtstart.tzid);
+	} else {
+		zone = NULL;
+	}
+	t_start = icaltime_as_timet_with_zone (*dtstart.value, zone);
+		
+	if (dtend.tzid) {
+		zone = icalcomponent_get_timezone (e_cal_component_get_icalcomponent (newcomp), dtend.tzid);
+	} else {
+		zone = NULL;
+	}
+	t_end = icaltime_as_timet_with_zone (*dtend.value, zone);
+		
+	tmp1 = get_label(dtstart.value);
+	tmp = calculate_time (t_start, t_end);
+
+	tmp2 = g_strdup_printf("Time: %s %s", tmp1, tmp);
+	hbox = gtk_hbox_new (FALSE, 0);
+	gtk_box_pack_start ((GtkBox *)hbox, gtk_label_new_with_mnemonic (tmp2), FALSE, FALSE, 0);
+	ebox = gtk_event_box_new ();
+	gtk_container_add ((GtkContainer *)ebox, hbox);
+	gtk_widget_modify_bg (ebox, GTK_STATE_NORMAL, &outer_color);
+	gtk_widget_modify_bg (ebox, GTK_STATE_ACTIVE, &outer_color);
+	gtk_widget_modify_bg (ebox, GTK_STATE_SELECTED, &outer_color);
+	gtk_widget_modify_bg (ebox, GTK_STATE_PRELIGHT, &outer_color);		
+	gtk_box_pack_start ((GtkBox *)box, ebox, FALSE, FALSE, 0);
+	
+	g_free (tmp);
+	g_free (tmp2);
+	g_free (tmp1);
+
+	pevent->tooltip = gtk_window_new (GTK_WINDOW_POPUP);
+	frame = gtk_frame_new (NULL);
+	gtk_frame_set_shadow_type ((GtkFrame *)frame, GTK_SHADOW_IN);
+	
+	gtk_window_move ((GtkWindow *)pevent->tooltip, pevent->x +16, pevent->y+16);
+	gtk_container_add ((GtkContainer *)frame, box);
+	gtk_container_add ((GtkContainer *)pevent->tooltip, frame);
+			
+	gtk_widget_show_all (pevent->tooltip);	
+	gdk_keyboard_grab (pevent->tooltip->window, FALSE, GDK_CURRENT_TIME);
+	g_signal_connect (pevent->tooltip, "key-press-event", G_CALLBACK (tooltip_grab), pevent);
+	pevent->timeout = -1;
+
+	g_object_unref (newcomp);
+	
+	return FALSE;
+}
+	
+

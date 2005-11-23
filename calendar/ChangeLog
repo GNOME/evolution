@@ -1,3 +1,21 @@
+2005-11-23  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* gui/e-calendar-view.c (tooltip_grab), (get_label),
+	(e_calendar_view_get_tooltips): Added a function to get tooltip
+	tooltip widget
+	* gui/e-calendar-view.h:
+	* gui/e-day-view.c (e_day_view_add_event),
+	(e_day_view_reshape_long_event), (e_day_view_reshape_day_event),
+	(e_day_view_on_text_item_event): Added tooltip for day/work week
+	view.
+	* gui/e-week-view.c (e_week_view_add_event), (tooltip_event_cb),
+	(e_week_view_reshape_event_span), (e_week_view_on_text_item_event):
+	Added tooltip for week/month view.
+	* gui/e-week-view.h:
+	* gui/misc.c (get_position_in_array), (calculate_time): Added a 
+	function for converting time to string.
+	* gui/misc.h:
+
 2005-11-22  Boby Wang <boby.wang@sun.com>
 	Fixes #321237
 	* gui/dialogs/event-page.glade: Add the categories' name

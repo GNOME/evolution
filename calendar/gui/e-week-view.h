@@ -143,6 +143,7 @@ struct _EWeekViewEventSpan {
 typedef struct _EWeekViewEvent EWeekViewEvent;
 struct _EWeekViewEvent {
 	E_CALENDAR_VIEW_EVENT_FIELDS
+
 	gint spans_index;
 	guint8 num_spans;
 };
