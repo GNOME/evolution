@@ -1,3 +1,9 @@
+2005-11-24  Tor Lillqvist  <tml@novell.com>
+
+	* e-dateedit.c
+	* e-cell-date-edit.c: Include e-time-utils.h from libedataserver
+	instead of using evolution's copy which is going away.
+
 2005-11-23  Johnny Jacob  <johnnyjacob@gmail.com>
 
 	* e-dateedit.c: (on_date_entry_focus_out) (on_time_entry_focus_out) :

@@ -46,7 +46,8 @@
 #include <libgnomeui/gnome-messagebox.h>
 #include <libgnome/gnome-i18n.h>
 
-#include "e-util/e-time-utils.h"
+#include <libedataserver/e-time-utils.h>
+
 /* This depends on ECalendar which is why I didn't put it in gal. */
 #include "e-calendar.h"
 
