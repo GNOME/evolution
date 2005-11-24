@@ -36,9 +36,9 @@
 #include <gtk/gtkcontainer.h>
 #include <gtk/gtkwindow.h>
 #include <libgnome/gnome-i18n.h>
+#include <libedataserver/e-time-utils.h>
 #include <e-util/e-dialog-utils.h>
 #include <e-util/e-icon-factory.h>
-#include <e-util/e-time-utils.h>
 #include "e-calendar-marshal.h"
 #include <libecal/e-cal-time-util.h>
 #include <libecal/e-cal-component.h>

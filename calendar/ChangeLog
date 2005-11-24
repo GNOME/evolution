@@ -13,6 +13,7 @@
 	* gui/print.c
 	* gui/alarm-notify/alarm-notify-dialog.c
 	* gui/alarm-notify/util.c
+	* gui/e-calendar-view.c
 	* gui/dialogs/alarm-dialog.c
 	* gui/dialogs/alarm-list-dialog.c
 	* gui/dialogs/comp-editor-util.c
