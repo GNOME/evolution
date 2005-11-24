@@ -42,7 +42,6 @@
 #include <mail/em-format-html.h>
 #include <e-util/e-account-list.h>
 #include <e-util/e-icon-factory.h>
-#include <e-util/e-time-utils.h>
 #include <e-util/e-gtk-utils.h>
 #include <e-util/e-util.h>
 #include <calendar/gui/itip-utils.h>
