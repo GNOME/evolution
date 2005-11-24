@@ -1,3 +1,10 @@
+2005-11-24  Sushma Rai  <rsushma@novell.com>
+	
+	* exchange-account-setup.c (org_gnome_exchange_settings): Initialize
+	OOF state and check for the OOF state and message only of the account
+	is valid. Fixes the problem of printing OOF error message in case
+	of authentication failure.
+
 2005-10-03  Shakti Sen <shprasad@novell.com>
 
 	* exchange-folder-permission.c (org_gnome_exchange_folder_permissions),

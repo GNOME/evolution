@@ -174,7 +174,7 @@ org_gnome_exchange_settings(EPlugin *epl, EConfigHookItemFactoryData *data)
 	CamelURL *url;
 	const char *source_url;
 	char *message = NULL, *txt = NULL, *oof_message;
-	gboolean oof_state;
+	gboolean oof_state = FALSE;
 
 	GtkVBox *vbox_settings;
 
@@ -232,7 +232,7 @@ org_gnome_exchange_settings(EPlugin *epl, EConfigHookItemFactoryData *data)
 
 	/* See if oof info found already */
 	
-	if (!exchange_oof_get (account, &oof_state, &message)) {
+	if (account && !exchange_oof_get (account, &oof_state, &message)) {
 
 		e_error_run (NULL, ERROR_DOMAIN ":state-read-error", NULL);
 
