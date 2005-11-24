@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Evolution 2.4\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-08-30 13:59+0000\n"
-"PO-Revision-Date: 2005-11-22 22:23+0200\n"
+"PO-Revision-Date: 2005-11-24 01:32+0200\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -458,6 +458,7 @@ msgstr ""
 #: ../addressbook/addressbook.error.xml.h:29
 msgid "You have made modifications to this contact. Do you want to save these changes?"
 msgstr ""
+"Sa oled seda kontakti muutnud. Kas sa soovid neid muutuseid salvestada?"
 
 #: ../addressbook/addressbook.error.xml.h:30
 msgid "Your contacts for {0} will not be available until Evolution is restarted."
@@ -4505,11 +4506,11 @@ msgstr "Kuuvaate püstpaani asukoht"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:32
 msgid "Number of units for determining for a default reminder."
-msgstr ""
+msgstr "Vaikimisi meeldetuletaja ühikute arv."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:33
 msgid "Number of units for determining when to hide tasks."
-msgstr ""
+msgstr "Ülesannete peitmiseks vaikimisi ühikute arv."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:34
 msgid "Overdue tasks color"
