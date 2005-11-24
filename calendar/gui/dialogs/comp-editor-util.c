@@ -31,7 +31,7 @@
 #include <bonobo-activation/bonobo-activation.h>
 #include <bonobo/bonobo-control.h>
 #include <bonobo/bonobo-widget.h>
-#include <e-util/e-time-utils.h>
+#include <libedataserver/e-time-utils.h>
 #include <libecal/e-cal-time-util.h>
 #include "../calendar-config.h"
 #include "../e-date-edit-config.h"

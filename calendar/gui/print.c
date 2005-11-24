@@ -44,9 +44,9 @@
 #include <libgnomeprintui/gnome-print-paper-selector.h>
 #include <libgnomeprintui/gnome-print-preview.h>
 #include <libgnomeprintui/gnome-print-dialog.h>
+#include <libedataserver/e-time-utils.h>
 #include <e-util/e-util.h>
 #include <e-util/e-dialog-widgets.h>
-#include <e-util/e-time-utils.h>
 #include <e-util/e-print.h>
 #include <libecal/e-cal-time-util.h>
 #include "calendar-commands.h"

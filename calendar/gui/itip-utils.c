@@ -28,12 +28,12 @@
 #include <bonobo/bonobo-object.h>
 #include <bonobo/bonobo-moniker-util.h>
 #include <libgnome/gnome-i18n.h>
+#include <libedataserver/e-time-utils.h>
 #include <gtk/gtkmessagedialog.h>
 #include <gtk/gtkwidget.h>
 #include <libical/ical.h>
 #include <Evolution-Composer.h>
 #include <e-util/e-dialog-utils.h>
-#include <e-util/e-time-utils.h>
 #include <libecal/e-cal-time-util.h>
 #include <libecal/e-cal-util.h>
 #include <libsoup/soup-session-async.h>

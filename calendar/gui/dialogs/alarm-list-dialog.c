@@ -38,8 +38,8 @@
 #include <gtk/gtkoptionmenu.h>
 #include <libgnome/gnome-i18n.h>
 #include <glade/glade.h>
+#include <libedataserver/e-time-utils.h>
 #include "e-util/e-dialog-widgets.h"
-#include "e-util/e-time-utils.h"
 #include <libecal/e-cal-util.h>
 #include <libecal/e-cal-time-util.h>
 #include "e-util/e-dialog-widgets.h"

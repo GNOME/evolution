@@ -28,7 +28,7 @@
 #include <libgnome/gnome-i18n.h>
 #include <glib.h>
 #include <libecal/e-cal-time-util.h>
-#include <e-util/e-time-utils.h>
+#include <libedataserver/e-time-utils.h>
 #include "calendar-config.h"
 #include "e-alarm-list.h"
 

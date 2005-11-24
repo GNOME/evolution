@@ -34,7 +34,7 @@
 #include <libedataserver/e-categories.h>
 #include <gtkhtml/gtkhtml.h>
 #include <gtkhtml/gtkhtml-stream.h>
-#include <e-util/e-time-utils.h>
+#include <libedataserver/e-time-utils.h>
 #include <e-util/e-categories-config.h>
 #include "calendar-config.h"
 #include "e-cal-component-memo-preview.h"

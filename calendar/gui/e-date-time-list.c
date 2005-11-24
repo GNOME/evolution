@@ -25,7 +25,7 @@
 #include <gtk/gtksignal.h>
 #include <gtk/gtktreednd.h>
 #include <glib.h>
-#include <e-util/e-time-utils.h>
+#include <libedataserver/e-time-utils.h>
 #include "e-date-time-list.h"
 #include <libecal/e-cal-time-util.h>
 #include "calendar-config.h"

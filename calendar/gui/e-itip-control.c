@@ -48,7 +48,7 @@
 #include <libecal/e-cal-component.h>
 #include <libecal/e-cal-time-util.h>
 #include <libecal/e-cal.h>
-#include <e-util/e-time-utils.h>
+#include <libedataserver/e-time-utils.h>
 #include <e-util/e-dialog-widgets.h>
 #include <e-util/e-html-utils.h>
 #include "dialogs/delete-error.h"

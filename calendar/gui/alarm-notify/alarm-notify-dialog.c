@@ -38,7 +38,7 @@
 #  include <libgnomeui/gnome-winhints.h>
 #endif
 #include <glade/glade.h>
-#include <e-util/e-time-utils.h>
+#include <libedataserver/e-time-utils.h>
 #include <libecal/e-cal-time-util.h>
 #include "alarm-notify-dialog.h"
 #include "config-data.h"

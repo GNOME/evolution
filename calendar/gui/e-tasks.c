@@ -28,6 +28,7 @@
 
 #include <gnome.h>
 #include <libgnomevfs/gnome-vfs-ops.h>
+#include <libedataserver/e-time-utils.h>
 #include <table/e-table-scrolled.h>
 #include <widgets/menus/gal-view-instance.h>
 #include <widgets/menus/gal-view-factory-etable.h>
@@ -36,7 +37,6 @@
 #include "e-util/e-error.h"
 #include "e-util/e-categories-config.h"
 #include "e-util/e-config-listener.h"
-#include "e-util/e-time-utils.h"
 #include "shell/e-user-creatable-items-handler.h"
 #include <libedataserver/e-url.h>
 #include <libedataserver/e-categories.h>

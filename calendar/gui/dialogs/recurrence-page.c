@@ -41,8 +41,8 @@
 #include <gtk/gtkstock.h>
 #include <libgnome/gnome-i18n.h>
 #include <glade/glade.h>
+#include <libedataserver/e-time-utils.h>
 #include <e-util/e-dialog-widgets.h>
-#include <e-util/e-time-utils.h>
 #include <misc/e-dateedit.h>
 #include <libecal/e-cal-recur.h>
 #include <libecal/e-cal-time-util.h>

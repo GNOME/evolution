@@ -25,7 +25,7 @@
 #include <string.h>
 #include <glib/garray.h>
 #include <libgnome/gnome-i18n.h>
-#include <e-util/e-time-utils.h>
+#include <libedataserver/e-time-utils.h>
 #include <libecal/e-cal-time-util.h>
 #include "comp-util.h"
 #include "e-cal-model.h"

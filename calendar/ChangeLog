@@ -1,3 +1,25 @@
+2005-11-24  Tor Lillqvist  <tml@novell.com>
+
+	* gui/e-alarm-list.c
+	* gui/e-cal-component-memo-preview.c
+	* gui/e-cal-component-preview.c
+	* gui/e-cal-model.c
+	* gui/e-cell-date-edit-text.c
+	* gui/e-date-time-list.c
+	* gui/e-itip-control.c
+	* gui/e-memos.c
+	* gui/e-tasks.c
+	* gui/itip-utils.c
+	* gui/print.c
+	* gui/alarm-notify/alarm-notify-dialog.c
+	* gui/alarm-notify/util.c
+	* gui/dialogs/alarm-dialog.c
+	* gui/dialogs/alarm-list-dialog.c
+	* gui/dialogs/comp-editor-util.c
+	* gui/dialogs/recurrence-page.c: Include e-time-utils.h from
+	libedataserver instead of using evolution's copy which is going
+	away.
+
 2005-11-23  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* gui/e-calendar-view.c (tooltip_grab), (get_label),
