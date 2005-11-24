@@ -55,6 +55,7 @@
 #include <gtk/gtkwindow.h>
 #include <gtk/gtkmain.h>
 #include <gtk/gtkvbox.h>
+#include <gtk/gtkmessagedialog.h>
 #include <atk/atkrelation.h>
 #include <atk/atkrelationset.h>
 #include <libgnome/gnome-i18n.h>
@@ -145,6 +146,9 @@ static gboolean e_date_edit_mnemonic_activate	(GtkWidget	*widget,
 static void e_date_edit_grab_focus		(GtkWidget	*widget);
 
 static gint on_date_entry_key_press		(GtkWidget	*widget,
+						 GdkEventKey	*event,
+						 EDateEdit	*dedit);
+static gint on_date_entry_key_release		(GtkWidget	*widget,
 						 GdkEventKey	*event,
 						 EDateEdit	*dedit);
 static void on_date_button_clicked		(GtkWidget	*widget,
@@ -339,6 +343,9 @@ create_children			(EDateEdit	*dedit)
 	
 	g_signal_connect (priv->date_entry, "key_press_event",
 			  G_CALLBACK (on_date_entry_key_press),
+			  dedit);
+	g_signal_connect (priv->date_entry, "key_release_event",
+			  G_CALLBACK (on_date_entry_key_release),
 			  dedit);
 	g_signal_connect_after (priv->date_entry,
 				"focus_out_event",
@@ -1587,6 +1594,15 @@ on_time_entry_key_press			(GtkWidget	*widget,
 }
 
 static gint
+on_date_entry_key_release		(GtkWidget	*widget,
+					 GdkEventKey	*event,
+					 EDateEdit	*dedit)
+{
+	e_date_edit_check_date_changed (dedit);
+	return TRUE;
+}
+
+static gint
 on_time_entry_key_release		(GtkWidget	*widget,
 					 GdkEventKey	*event,
 					 EDateEdit	*dedit)
@@ -1597,7 +1613,7 @@ on_time_entry_key_release		(GtkWidget	*widget,
 		e_date_edit_check_time_changed (dedit);
 		return TRUE;
 	}
-
+	e_date_edit_check_time_changed (dedit);
 	return FALSE;
 }
 
@@ -1607,7 +1623,28 @@ on_date_entry_focus_out			(GtkEntry	*entry,
 					 GdkEventFocus  *event,
 					 EDateEdit	*dedit)
 {
+	struct tm tmp_tm;
+	GtkMessageDialog *msg_dialog;
+
+	tmp_tm.tm_year = 0;
+        tmp_tm.tm_mon = 0;
+        tmp_tm.tm_mday = 0;
+	
 	e_date_edit_check_date_changed (dedit);
+
+	if (!e_date_edit_date_is_valid (dedit)) {
+		msg_dialog = gtk_message_dialog_new(NULL,
+						    GTK_DIALOG_MODAL,
+						    GTK_MESSAGE_WARNING,
+						    GTK_BUTTONS_OK,
+						    "Invalid Date Value");
+		gtk_dialog_run (GTK_DIALOG(msg_dialog));
+		gtk_widget_destroy (msg_dialog);
+		e_date_edit_get_date (dedit,&tmp_tm.tm_year,&tmp_tm.tm_mon,&tmp_tm.tm_mday);
+		e_date_edit_set_date (dedit,tmp_tm.tm_year,tmp_tm.tm_mon,tmp_tm.tm_mday);
+		gtk_widget_grab_focus (entry);		
+		return FALSE;
+	}
 	return FALSE;
 }
 
@@ -1617,7 +1654,22 @@ on_time_entry_focus_out			(GtkEntry	*entry,
 					 GdkEventFocus  *event,
 					 EDateEdit	*dedit)
 {
+	GtkMessageDialog *msg_dialog;
+	
 	e_date_edit_check_time_changed (dedit);
+
+	if (!e_date_edit_time_is_valid (dedit)) {
+		msg_dialog=gtk_message_dialog_new(NULL,
+						  GTK_DIALOG_MODAL,
+						  GTK_MESSAGE_WARNING,
+						  GTK_BUTTONS_OK,
+						  "Invalid Time Value");
+		gtk_dialog_run (GTK_DIALOG(msg_dialog));
+		gtk_widget_destroy (msg_dialog);
+		e_date_edit_set_time (dedit,e_date_edit_get_time(dedit));
+		gtk_widget_grab_focus (entry);
+		return FALSE;
+	}
 	return FALSE;
 }
 

@@ -1,3 +1,14 @@
+2005-11-23  Johnny Jacob  <johnnyjacob@gmail.com>
+
+	* e-dateedit.c: (on_date_entry_focus_out) (on_time_entry_focus_out) :
+	Validation for date and time during focus out event.
+
+2005-11-22  Johnny Jacob  <johnnyjacob@gmail.com>
+
+	** See Bug #303856
+	* e-dateedit.c: (create_children) : Added a signal handler
+	for date_entry's "key_release_event".
+
 2005-11-17  Harish Krishnaswamy  <kharish@novell.com>
 
 	* e-attachment-bar.c: (update), (e_attachment_bar_set_width):
