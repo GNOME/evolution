@@ -26,7 +26,6 @@
 #include "evolution-calendar.h"
 
 
-
 #define TYPE_ALARM_NOTIFY            (alarm_notify_get_type ())
 #define ALARM_NOTIFY(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), TYPE_ALARM_NOTIFY, AlarmNotify))
 #define ALARM_NOTIFY_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), TYPE_ALARM_NOTIFY,		\
@@ -58,6 +57,7 @@ AlarmNotify *alarm_notify_new (void);
 void alarm_notify_add_calendar (AlarmNotify *an, ECalSourceType source_type, ESource *source, gboolean load_afterwards);
 void alarm_notify_remove_calendar (AlarmNotify *an, ECalSourceType source_type, const char *str_uri);
 
+ESourceList *alarm_notify_get_selected_calendars (AlarmNotify *);
 
 
 

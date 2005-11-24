@@ -24,6 +24,7 @@
 #include <glib.h>
 #include <libical/ical.h>
 #include <gconf/gconf-client.h>
+#include <libedataserver/e-source-list.h>
 
 GConfClient  *config_data_get_conf_client (void);
 
@@ -34,5 +35,7 @@ void          config_data_set_last_notification_time (time_t t);
 time_t        config_data_get_last_notification_time (void);
 void          config_data_save_blessed_program (const char *program);
 gboolean      config_data_is_blessed_program (const char *program);
+ESourceList  *config_data_get_calendars (const char *);
+void	      config_data_replace_string_list (const char *, const char *, const char *);
 
 #endif

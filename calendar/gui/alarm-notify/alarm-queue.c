@@ -27,14 +27,19 @@
 #include <bonobo-activation/bonobo-activation.h>
 #include <bonobo/bonobo-object.h>
 #include <bonobo/bonobo-exception.h>
+#include <bonobo/bonobo-main.h>
 #include <gtk/gtksignal.h>
 #include <gtk/gtkbox.h>
+#include <gtk/gtkvbox.h>
+#include <gtk/gtkhbox.h>
 #include <gtk/gtkdialog.h>
 #include <gtk/gtkeventbox.h>
 #include <gtk/gtkimage.h>
+#include <gtk/gtkframe.h>
 #include <gtk/gtkimagemenuitem.h>
 #include <gtk/gtklabel.h>
 #include <gtk/gtkcheckbutton.h>
+#include <gtk/gtkcheckmenuitem.h>
 #include <gtk/gtkstock.h>
 #include <gtk/gtktooltips.h>
 #include <libgnome/gnome-i18n.h>
@@ -45,10 +50,18 @@
 #include <e-util/eggtrayicon.h>
 #include <e-util/e-icon-factory.h>
 #include <libecal/e-cal-time-util.h>
+#include <libecal/e-cal-component.h>
+
+
+#ifdef HAVE_LIBNOTIFY
+#include <libnotify/notify.h>
+#endif
+
 #include "evolution-calendar.h"
 #include "alarm.h"
 #include "alarm-notify-dialog.h"
 #include "alarm-queue.h"
+#include "alarm-notify.h"
 #include "config-data.h"
 #include "util.h"
 #include "e-util/e-popup.h"
@@ -72,6 +85,13 @@ static GHashTable *client_alarms_hash = NULL;
 
 /* List of tray icons being displayed */
 static GList *tray_icons_list = NULL;
+
+/* Top Tray Image */
+static GtkWidget *tray_image = NULL;
+static GtkWidget *tray_event_box = NULL;
+static int tray_blink_id = -1;
+static int tray_blink_state = FALSE;
+static AlarmNotify *an;
 
 /* Structure that stores a client we are monitoring */
 typedef struct {
@@ -136,7 +156,10 @@ static void display_notification (time_t trigger, CompQueuedAlarms *cqa,
 static void audio_notification (time_t trigger, CompQueuedAlarms *cqa, gpointer alarm_id);
 static void mail_notification (time_t trigger, CompQueuedAlarms *cqa, gpointer alarm_id);
 static void procedure_notification (time_t trigger, CompQueuedAlarms *cqa, gpointer alarm_id);
-
+#ifdef HAVE_LIBNOTIFY
+static void popup_notification (time_t trigger, CompQueuedAlarms *cqa,
+				  gpointer alarm_id, gboolean use_description);
+#endif
 static void query_objects_changed_cb (ECal *client, GList *objects, gpointer data);
 static void query_objects_removed_cb (ECal *client, GList *objects, gpointer data);
 
@@ -309,6 +332,9 @@ alarm_trigger_cb (gpointer alarm_id, time_t trigger, gpointer data)
 	alarm = e_cal_component_get_alarm (comp, qa->instance->auid);
 	g_assert (alarm != NULL);
 
+	/* Show it independent of what the notification is?*/
+	display_notification (trigger, cqa, alarm_id, TRUE);
+
 	e_cal_component_alarm_get_action (alarm, &action);
 	e_cal_component_alarm_free (alarm);
 
@@ -318,7 +344,9 @@ alarm_trigger_cb (gpointer alarm_id, time_t trigger, gpointer data)
 		break;
 
 	case E_CAL_COMPONENT_ALARM_DISPLAY:
-		display_notification (trigger, cqa, alarm_id, TRUE);
+#ifdef HAVE_LIBNOTIFY
+		popup_notification (trigger, cqa, alarm_id, TRUE);
+#endif
 		break;
 
 	case E_CAL_COMPONENT_ALARM_EMAIL:
@@ -735,6 +763,7 @@ typedef struct {
 	char *description;
 	char *location;
 	gboolean blink_state;
+	gboolean snooze_set;
 	gint blink_id;
 	time_t trigger;
 	CompQueuedAlarms *cqa;
@@ -746,6 +775,43 @@ typedef struct {
 	GtkWidget *image;
 	GtkTreeIter iter;
 } TrayIconData;
+
+static void
+free_tray_icon_data (TrayIconData *tray_data)
+{
+	g_return_if_fail (tray_data != NULL);
+
+	if (tray_data->summary){
+		g_free (tray_data->summary);
+		tray_data->summary = NULL;
+	}
+
+	if (tray_data->description){
+		g_free (tray_data->description);
+		tray_data->description = NULL;
+	}
+
+	if (tray_data->location){
+		g_free (tray_data->description);
+		tray_data->location = NULL;
+	}
+
+	g_object_unref (tray_data->client);
+	tray_data->client = NULL;
+
+	g_object_unref (tray_data->query);
+	tray_data->query = NULL;
+
+	g_object_unref (tray_data->comp);
+	tray_data->comp = NULL;
+	
+	tray_data->cqa = NULL;
+	tray_data->alarm_id = NULL;
+	tray_data->tray_icon = NULL;
+	tray_data->image = NULL;
+
+	g_free (tray_data);
+}
 
 static void
 on_dialog_objs_removed_cb (ECal *client, GList *objects, gpointer data)
@@ -766,8 +832,8 @@ on_dialog_objs_removed_cb (ECal *client, GList *objects, gpointer data)
 		if (!strcmp (uid, our_uid)) {
 			tray_data->cqa = NULL;
 			tray_data->alarm_id = NULL;
-
-			gtk_widget_destroy (tray_data->tray_icon);
+			tray_icons_list = g_list_remove (tray_icons_list, tray_data);
+			tray_data = NULL;
 		}
 	}
 }
@@ -784,8 +850,7 @@ notify_dialog_cb (AlarmNotifyResult result, int snooze_mins, gpointer data)
 	switch (result) {
 	case ALARM_NOTIFY_SNOOZE:
 		create_snooze (tray_data->cqa, tray_data->alarm_id, snooze_mins);
-		tray_data->cqa = NULL;
-	
+		tray_data->snooze_set = TRUE;
 		if (alarm_notifications_dialog) {
 			GtkTreeSelection *selection = 
 				gtk_tree_view_get_selection (
@@ -793,7 +858,7 @@ notify_dialog_cb (AlarmNotifyResult result, int snooze_mins, gpointer data)
 			GtkTreeIter iter;
 			GtkTreeModel *model = NULL;
 			
-			/* We can also use tray_data->iter */
+			/* We can` also use tray_data->iter */
 			if (gtk_tree_selection_get_selected (selection, &model, &iter)) {
 				gtk_list_store_remove (GTK_LIST_STORE (model), &iter);
 				if (!gtk_tree_model_get_iter_first (model, &iter)) {
@@ -814,18 +879,12 @@ notify_dialog_cb (AlarmNotifyResult result, int snooze_mins, gpointer data)
 	case ALARM_NOTIFY_EDIT:
 		edit_component (tray_data->client, tray_data->comp);
 
-		gtk_widget_destroy (alarm_notifications_dialog->dialog);
-		g_free (alarm_notifications_dialog);
-		alarm_notifications_dialog = NULL;
-
-		gtk_widget_destroy (tray_data->tray_icon);
-		
 		break;
 
 	case ALARM_NOTIFY_CLOSE:
 
-		
 		if (alarm_notifications_dialog) {
+			GList *list;
 			GtkTreeIter iter;
 			GtkTreeModel *model = 
 				gtk_tree_view_get_model (
@@ -841,10 +900,30 @@ notify_dialog_cb (AlarmNotifyResult result, int snooze_mins, gpointer data)
 			gtk_widget_destroy (alarm_notifications_dialog->dialog);
 			g_free (alarm_notifications_dialog);
 			alarm_notifications_dialog = NULL;
-		}
 		
-		gtk_widget_destroy (tray_data->tray_icon);	
-		
+			/* FIXME tray_icons_list is a global data structure - make this thread safe */
+
+			list = tray_icons_list;
+			while (list != NULL) {
+
+				tray_data = list->data;
+	
+				if (!tray_data->snooze_set){
+					GList *temp = list->next;
+					tray_icons_list = g_list_remove_link (tray_icons_list, list);
+		remove_queued_alarm (tray_data->cqa, tray_data->alarm_id, TRUE, TRUE);
+					free_tray_icon_data (tray_data);
+					tray_data = NULL;
+					g_list_free_1 (list);
+					if (tray_icons_list != list)	/* List head is modified */
+						list = tray_icons_list;
+					else 
+						list = temp;
+				} else
+					list = list->next;
+	}
+	}
+
 		break;
 
 	default:
@@ -852,45 +931,6 @@ notify_dialog_cb (AlarmNotifyResult result, int snooze_mins, gpointer data)
 	}
 
 	return;
-}
-
-static gint
-tray_icon_destroyed_cb (GtkWidget *tray, gpointer user_data)
-{
-	TrayIconData *tray_data = user_data;
-	
-	g_signal_handlers_disconnect_matched (tray_data->query, G_SIGNAL_MATCH_FUNC,
-					      0, 0, NULL, on_dialog_objs_removed_cb, NULL);
-
-	if (tray_data->cqa != NULL)
-		remove_queued_alarm (tray_data->cqa, tray_data->alarm_id, TRUE, TRUE);
-
-	if (tray_data->summary != NULL) {
-		g_free (tray_data->summary);
-		tray_data->summary = NULL;
-	}
-
-	if (tray_data->description != NULL) {
-		g_free (tray_data->description);
-		tray_data->description = NULL;
-	}
-
-	if (tray_data->location != NULL) {
-		g_free (tray_data->location);
-		tray_data->location = NULL;
-	}
-
-	if (tray_data->blink_id)
-		g_source_remove (tray_data->blink_id);
-
-	g_object_unref (tray_data->comp);
-	g_object_unref (tray_data->client);
-	g_object_unref (tray_data->query);
-
-	tray_icons_list = g_list_remove (tray_icons_list, tray_data);
-	g_free (tray_data);
-
-	return TRUE;
 }
 
 /* Callbacks.  */
@@ -901,8 +941,19 @@ open_alarm_dialog (TrayIconData *tray_data)
 	
 	qa = lookup_queued_alarm (tray_data->cqa, tray_data->alarm_id);
 	if (qa) {
+		GdkPixbuf *pixbuf;
+		GtkTooltips *tooltips = gtk_tooltips_new ();
 		
-		gtk_widget_hide (tray_data->tray_icon);
+		pixbuf = e_icon_factory_get_icon ("stock_appointment-reminder", E_ICON_SIZE_LARGE_TOOLBAR);
+
+		gtk_image_set_from_pixbuf (GTK_IMAGE (tray_image), pixbuf);
+		g_object_unref (pixbuf);	
+
+		if (tray_blink_id > -1)
+			g_source_remove (tray_blink_id);
+		tray_blink_id = -1;
+		
+		gtk_tooltips_set_tip (tooltips, tray_event_box, NULL, NULL);
 	
 		if (!alarm_notifications_dialog)
 			alarm_notifications_dialog = notified_alarms_dialog_new ();
@@ -938,37 +989,193 @@ open_alarm_dialog (TrayIconData *tray_data)
 }
 
 static void
-popup_dismiss_cb (EPopup *ep, EPopupItem *pitem, void *data)
+alarm_quit (EPopup *ep, EPopupItem *pitem, void *data)
 {
-	TrayIconData *tray_data = data;
-
-	gtk_widget_destroy (tray_data->tray_icon);
+	bonobo_main_quit ();
 }
 
 static void
-popup_dismiss_all_cb (EPopup *ep, EPopupItem *pitem, void *data)
+menu_item_toggle_callback (GtkToggleButton *item, void *data)
 {
-	while (tray_icons_list != NULL) {
-		TrayIconData *tray_data = tray_icons_list->data;
+	gboolean state = gtk_toggle_button_get_active (item);
+	ESource *source = e_source_copy ((ESource *) data);
+	GSList *groups, *p;
 
-		gtk_widget_destroy (tray_data->tray_icon);
+	if (e_source_get_uri ((ESource *)data)) {
+		g_free (e_source_get_uri (source));
+		e_source_set_absolute_uri (source, g_strdup (e_source_get_uri ((ESource *)data)));
+	}
 
-		tray_icons_list = g_list_remove (tray_icons_list, tray_icons_list);
+	if (state) {
+		const char *uid = e_source_peek_uid (source);
+		ESourceList *selected_cal = alarm_notify_get_selected_calendars (an);
+		ESourceList *all_cal;
+		ESourceGroup *sel_group = NULL;
+		const char *grp_name=NULL;
+		ESourceGroup *group;
+		ESource *del_source;		
+
+		e_cal_get_sources (&all_cal, E_CAL_SOURCE_TYPE_EVENT, NULL);
+
+		alarm_notify_add_calendar (an, E_CAL_SOURCE_TYPE_EVENT, source, FALSE);
+		
+		/* Browse the list of calendars for the newly added calendar*/
+		groups = e_source_list_peek_groups (all_cal);
+		for (p = groups; p != NULL; p = p->next) {
+			ESourceGroup *group = E_SOURCE_GROUP (p->data);
+			ESource *sel_source = e_source_group_peek_source_by_uid (group, uid);
+
+			if (sel_source) {
+				sel_group = group;
+				grp_name = e_source_group_peek_name (sel_group);
+				/* You have got the group name*/
+				break;
 	}
 }
 
-static void
-popup_open_cb (EPopup *ep, EPopupItem *pitem, void *data)
-{
-	TrayIconData *tray_data = data;
+		/* Add the source the the group name in the alarms calendar list*/
+		group = e_source_list_peek_group_by_name (selected_cal, grp_name);	
+		del_source = e_source_group_peek_source_by_uid (group, uid);
+		
+		if (!del_source) {
+			char *xml, *old_xml;
 
-	open_alarm_dialog (tray_data);
+			old_xml = e_source_group_to_xml (group);
+			e_source_group_add_source (group, source, -1);
+			xml = e_source_group_to_xml (group);
+			config_data_replace_string_list ("/apps/evolution/calendar/notify/calendars", old_xml, xml);
+
+			g_free (xml);
+			g_free (old_xml);
+		}
+
+		g_object_unref (all_cal);
+
+	} else {
+		const char *uid = e_source_peek_uid (source);
+		ESourceList *selected_cal = alarm_notify_get_selected_calendars (an);
+		alarm_notify_remove_calendar (an, E_CAL_SOURCE_TYPE_EVENT, e_source_get_uri (source));
+		
+		/* Browse the calendar for alarms and remove the source */
+		groups = e_source_list_peek_groups (selected_cal);
+		for (p = groups; p != NULL; p = p->next) {
+			ESourceGroup *group = E_SOURCE_GROUP (p->data);
+			ESource *del_source;
+		
+			del_source = e_source_group_peek_source_by_uid (group, uid);
+			if (del_source) {
+				char *xml, *old_xml;
+
+				old_xml = e_source_group_to_xml (group);
+
+				e_source_group_remove_source_by_uid (group, uid);
+				
+				xml = e_source_group_to_xml (group);
+
+				config_data_replace_string_list ("/apps/evolution/calendar/notify/calendars", old_xml, xml);
+
+				g_free (xml);
+				g_free (old_xml);
+				break;
+			}
+		}
+	}
+		
+}
+
+static GtkWidget *
+populate ()
+{
+	GtkWidget *frame = gtk_frame_new (NULL);
+	GtkWidget *label1 = gtk_label_new (NULL);
+	GtkWidget *box = gtk_vbox_new(FALSE, 0);
+	ESourceList *selected_cal = alarm_notify_get_selected_calendars (an);	
+	GSList *groups;
+	GSList *p;
+	ESourceList *source_list;
+	
+	gtk_label_set_markup (GTK_LABEL(label1), _("<b>Calendars</b>"));
+	gtk_frame_set_label_widget (GTK_FRAME(frame), label1);
+	
+	if (!e_cal_get_sources (&source_list, E_CAL_SOURCE_TYPE_EVENT, NULL)) {
+		g_message (G_STRLOC ": Could not get the list of sources to load");
+
+		return NULL;
+	}
+		
+	groups = e_source_list_peek_groups (source_list);
+
+	for (p = groups; p != NULL; p = p->next) {
+		ESourceGroup *group = E_SOURCE_GROUP (p->data);
+		char *txt = g_strdup_printf ("<b>%s</b>", e_source_group_peek_name (group));
+		GtkWidget *item = gtk_label_new (NULL);
+		GSList *q;
+		GtkWidget *hbox, *image;
+
+		hbox = gtk_hbox_new (FALSE, 0);
+		image = e_icon_factory_get_image  ("stock_appointment-reminder", E_ICON_SIZE_SMALL_TOOLBAR);
+
+		gtk_box_pack_start ((GtkBox *)hbox, image, FALSE, FALSE, 2);
+		gtk_box_pack_start ((GtkBox *)hbox, item, FALSE, FALSE, 2);
+		
+		gtk_label_set_markup (GTK_LABEL(item), txt);
+		gtk_label_set_justify (GTK_LABEL(item), GTK_JUSTIFY_LEFT);
+		g_free (txt);
+
+		gtk_box_pack_start (GTK_BOX(box), hbox, TRUE, TRUE, 4);
+		gtk_widget_show_all (hbox);
+
+		for (q = e_source_group_peek_sources (group); q != NULL; q = q->next) {
+			ESource *source = E_SOURCE (q->data);
+			GtkWidget *hbox = gtk_hbox_new (FALSE, 0);
+			GtkWidget *item = gtk_check_button_new_with_label (e_source_peek_name (source));
+
+			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(item), e_source_list_peek_source_by_uid (selected_cal, e_source_peek_uid (source)) ? TRUE:FALSE);
+			
+			gtk_box_pack_start ((GtkBox *)hbox, item, FALSE, FALSE, 24);
+			gtk_object_set_data_full (GTK_OBJECT (item), "ESourceMenu", source,
+						  (GtkDestroyNotify) g_object_unref);
+
+			g_signal_connect (item, "toggled", G_CALLBACK (menu_item_toggle_callback), source);
+
+			gtk_box_pack_start (GTK_BOX(box), hbox, FALSE, FALSE, 2);
+			gtk_widget_show_all (hbox);
+		}
+	}
+
+	gtk_container_add (GTK_CONTAINER(frame), box);
+	gtk_container_set_border_width (GTK_CONTAINER(frame), 6);
+	return frame;
+}
+
+static void
+alarm_pref_response (GtkWidget *widget, int response, gpointer dummy)
+{
+	gtk_widget_destroy (widget);	
+}
+
+static void
+alarms_configure (EPopup *ep, EPopupItem *pitem, void *data)
+{
+	GtkWidget *box = populate ();
+	GtkWidget *dialog;
+
+	dialog = gtk_dialog_new_with_buttons (_("Preferences"), 
+						NULL,0,
+						GTK_STOCK_CLOSE, GTK_RESPONSE_ACCEPT,
+						GTK_STOCK_HELP, GTK_RESPONSE_HELP,
+						NULL);
+
+	gtk_container_add (GTK_CONTAINER (GTK_DIALOG (dialog)->vbox), box);
+	gtk_dialog_set_has_separator (GTK_DIALOG(dialog), FALSE);
+	g_signal_connect (dialog, "response", G_CALLBACK (alarm_pref_response), NULL);
+	gtk_widget_show_all (dialog);
 }
 
 static EPopupItem tray_items[] = {
-	{ E_POPUP_ITEM, "00.open", N_("Open"), popup_open_cb, NULL, GTK_STOCK_OPEN },
-	{ E_POPUP_ITEM, "10.dismiss", N_("Dismiss"), popup_dismiss_cb, NULL, NULL },
-	{ E_POPUP_ITEM, "20.dismissall", N_("Dismiss All"), popup_dismiss_all_cb, NULL, NULL },
+	{ E_POPUP_ITEM, "00.configure", N_("_Configure Alarms"), alarms_configure, NULL, GTK_STOCK_PREFERENCES },
+	{ E_POPUP_BAR , "10.bar" },
+	{ E_POPUP_ITEM, "10.quit", N_("_Quit"), alarm_quit, NULL, GTK_STOCK_QUIT },
 };
 
 static void
@@ -983,13 +1190,35 @@ tray_icon_clicked_cb (GtkWidget *widget, GdkEventButton *event, gpointer user_da
 	TrayIconData *tray_data = user_data;
 
 	if (event->type == GDK_BUTTON_PRESS) {
-		if (event->button == 1) {
-			return open_alarm_dialog (tray_data);
+		if (event->button == 1 && g_list_length (tray_icons_list) > 0) {
+			GList *tmp;
+			for (tmp = tray_icons_list; tmp; tmp = tmp->next) {
+				open_alarm_dialog (tmp->data);
+			}
+			
+			return TRUE;
 		} else if (event->button == 3) {
 			GtkMenu *menu;
 			GSList *menus = NULL;
 			EPopup *ep;
 			int i;
+			GdkPixbuf *pixbuf;
+			GtkTooltips *tooltips = gtk_tooltips_new ();
+			
+			tray_blink_state = FALSE;
+			pixbuf = e_icon_factory_get_icon  (tray_blink_state == TRUE ?
+							   "stock_appointment-reminder-excl" :
+							   "stock_appointment-reminder",
+							   E_ICON_SIZE_LARGE_TOOLBAR);
+	
+			gtk_image_set_from_pixbuf (GTK_IMAGE (tray_image), pixbuf);
+			g_object_unref (pixbuf);	
+
+			if (tray_blink_id > -1)
+				g_source_remove (tray_blink_id);
+			tray_blink_id = -1;
+
+			gtk_tooltips_set_tip (tooltips, tray_event_box, NULL, NULL);
 
 			ep = e_popup_new("org.gnome.evolution.alarmNotify.popup");
 			for (i=0;i<sizeof(tray_items)/sizeof(tray_items[0]);i++)
@@ -1008,16 +1237,16 @@ tray_icon_clicked_cb (GtkWidget *widget, GdkEventButton *event, gpointer user_da
 static gboolean
 tray_icon_blink_cb (gpointer data)
 {
-	TrayIconData *tray_data = data;
 	GdkPixbuf *pixbuf;
 
-	tray_data->blink_state = tray_data->blink_state == TRUE ? FALSE : TRUE;
-	pixbuf = e_icon_factory_get_icon  (tray_data->blink_state == TRUE ?
+	tray_blink_state = tray_blink_state == TRUE ? FALSE: TRUE;
+	
+	pixbuf = e_icon_factory_get_icon  (tray_blink_state == TRUE?
 					   "stock_appointment-reminder-excl" :
 					   "stock_appointment-reminder",
 					   E_ICON_SIZE_LARGE_TOOLBAR);
 
-	gtk_image_set_from_pixbuf (GTK_IMAGE (tray_data->image), pixbuf);
+	gtk_image_set_from_pixbuf (GTK_IMAGE (tray_image), pixbuf);
 	g_object_unref (pixbuf);
 
 	return TRUE;
@@ -1031,13 +1260,14 @@ display_notification (time_t trigger, CompQueuedAlarms *cqa,
 	QueuedAlarm *qa;
 	ECalComponent *comp;
 	const char *summary, *description, *location;
-	GtkWidget *tray_icon, *image, *ebox;
+	GtkWidget *tray_icon=NULL, *image=NULL;
 	GtkTooltips *tooltips;
 	TrayIconData *tray_data;
 	ECalComponentText text;
 	GSList *text_list;
-	char *str, *start_str, *end_str, *alarm_str;
+	char *str, *start_str, *end_str, *alarm_str, *time_str;
 	icaltimezone *current_zone;
+	ECalComponentOrganizer organiser;
 
 	comp = cqa->alarms->comp;
 	qa = lookup_queued_alarm (cqa, alarm_id);
@@ -1046,6 +1276,7 @@ display_notification (time_t trigger, CompQueuedAlarms *cqa,
 	
 	/* get a sensible description for the event */
 	e_cal_component_get_summary (comp, &text);
+	e_cal_component_get_organizer (comp, &organiser); 
 
 	if (text.value)
 		summary = text.value;
@@ -1074,30 +1305,14 @@ display_notification (time_t trigger, CompQueuedAlarms *cqa,
 	/* create the tray icon */
 	tooltips = gtk_tooltips_new ();
 
-	tray_icon = GTK_WIDGET (egg_tray_icon_new (qa->instance->auid));
-	image = e_icon_factory_get_image  ("stock_appointment-reminder", E_ICON_SIZE_LARGE_TOOLBAR);
-	ebox = gtk_event_box_new ();
-
-	gtk_widget_show (image);
-	gtk_widget_show (ebox);
-
 	current_zone = config_data_get_timezone ();
 	alarm_str = timet_to_str_with_zone (trigger, current_zone);
 	start_str = timet_to_str_with_zone (qa->instance->occur_start, current_zone);
 	end_str = timet_to_str_with_zone (qa->instance->occur_end, current_zone);
-	str = g_strdup_printf (_("Alarm on %s\n%s\nStarting at %s\nEnding at %s"),
-			       alarm_str, summary, start_str, end_str);
-	gtk_tooltips_set_tip (GTK_TOOLTIPS (tooltips), ebox, str, str);
-	g_free (start_str);
-	g_free (end_str);
-	g_free (alarm_str);
-	g_free (str);
-	
-	g_object_set_data (G_OBJECT (tray_icon), "image", image);
-	g_object_set_data (G_OBJECT (tray_icon), "available", GINT_TO_POINTER (1));
+	time_str = calculate_time (qa->instance->occur_start, qa->instance->occur_end);
 
-	gtk_container_add (GTK_CONTAINER (ebox), image);
-	gtk_container_add (GTK_CONTAINER (tray_icon), ebox);
+	str = g_strdup_printf ("%s\n%s %s",
+			       summary, start_str, time_str);
 
 	/* create the private structure */
 	tray_data = g_new0 (TrayIconData, 1);
@@ -1107,32 +1322,132 @@ display_notification (time_t trigger, CompQueuedAlarms *cqa,
 	tray_data->trigger = trigger;
 	tray_data->cqa = cqa;
 	tray_data->alarm_id = alarm_id;
-	tray_data->comp = e_cal_component_clone (comp);
+	tray_data->comp = g_object_ref (e_cal_component_clone (comp));
 	tray_data->client = cqa->parent_client->client;
 	tray_data->query = g_object_ref (cqa->parent_client->query);
 	tray_data->image = image;
 	tray_data->blink_state = FALSE;
+	tray_data->snooze_set = FALSE;
 	g_object_ref (tray_data->client);
 	tray_data->tray_icon = tray_icon;
 
 	tray_icons_list = g_list_prepend (tray_icons_list, tray_data);
 
-	g_signal_connect (G_OBJECT (tray_icon), "destroy",
-			  G_CALLBACK (tray_icon_destroyed_cb), tray_data);
-	g_signal_connect (G_OBJECT (ebox), "button_press_event",
-			  G_CALLBACK (tray_icon_clicked_cb), tray_data);
+	if (g_list_length (tray_icons_list) > 1) {
+		char *tip;
+
+		tip =  g_strdup_printf (_("You have %d alarms"), g_list_length (tray_icons_list));
+		gtk_tooltips_set_tip (GTK_TOOLTIPS (tooltips), tray_event_box, tip, NULL);
+		g_free (tip);
+	}
+	else 
+		gtk_tooltips_set_tip (GTK_TOOLTIPS (tooltips), tray_event_box, str, NULL);
+
+	g_free (start_str);
+	g_free (end_str);
+	g_free (alarm_str);
+	g_free (time_str);
+	g_free (str);
+
 	g_signal_connect (G_OBJECT (tray_data->query), "objects_removed",
 			  G_CALLBACK (on_dialog_objs_removed_cb), tray_data);
 
+	// FIXME: We should remove this check
 	if (!config_data_get_notify_with_tray ()) {
-		tray_data->blink_id = -1;
+		tray_blink_id = -1;
 		open_alarm_dialog (tray_data);
 		gtk_window_stick (GTK_WINDOW (alarm_notifications_dialog->dialog));
 	} else {
-		tray_data->blink_id = g_timeout_add (500, tray_icon_blink_cb, tray_data);
-		gtk_widget_show (tray_icon);
+		if (tray_blink_id == -1)
+			tray_blink_id = g_timeout_add (500, tray_icon_blink_cb, tray_data);
 	}
+	}
+
+#ifdef HAVE_LIBNOTIFY
+static void
+popup_notification (time_t trigger, CompQueuedAlarms *cqa,
+	            gpointer alarm_id, gboolean use_description)
+{
+	QueuedAlarm *qa;
+	ECalComponent *comp;
+	const char *summary, *location;
+	GtkTooltips *tooltips;
+	ECalComponentText text;
+	char *str, *start_str, *end_str, *alarm_str, *time_str;
+	icaltimezone *current_zone;
+	ECalComponentOrganizer organiser;
+	NotifyIcon *icon;
+	char *filename;
+	char *body;
+	
+	comp = cqa->alarms->comp;
+	qa = lookup_queued_alarm (cqa, alarm_id);
+	if (!qa)
+		return;
+	if (!notify_is_initted ())
+		notify_init("Evolution Alarm Notify");
+	filename = e_icon_factory_get_icon_filename ("stock_appointment-reminder", E_ICON_SIZE_DIALOG);
+	icon = notify_icon_new_from_uri (filename);
+	g_free (filename);
+	
+	/* get a sensible description for the event */
+	e_cal_component_get_summary (comp, &text);
+	e_cal_component_get_organizer (comp, &organiser); 
+
+
+	if (text.value)
+		summary = text.value;
+	else
+	        summary = _("No summary available.");
+
+	e_cal_component_get_location (comp, &location);
+
+	/* create the tray icon */
+	tooltips = gtk_tooltips_new ();
+
+	current_zone = config_data_get_timezone ();
+	alarm_str = timet_to_str_with_zone (trigger, current_zone);
+	start_str = timet_to_str_with_zone (qa->instance->occur_start, current_zone);
+	end_str = timet_to_str_with_zone (qa->instance->occur_end, current_zone);
+	time_str = calculate_time (qa->instance->occur_start, qa->instance->occur_end);
+
+	str = g_strdup_printf ("%s %s",
+			       start_str, time_str);
+
+	if (organiser.cn) {
+		if (location)
+			body = g_strdup_printf ("<b>%s</b>\n%s %s\n%s %s", organiser.cn, _("Location:"), location, start_str, time_str);
+		else
+			body = g_strdup_printf ("<b>%s</b>\n%s %s", organiser.cn, start_str, time_str);
+	}
+	else {
+		if (location)
+			body = g_strdup_printf ("%s %s\n%s %s", _("Location:"), location, start_str, time_str);
+		else
+			body = g_strdup_printf ("%s %s", start_str, time_str);			
 }
+
+	if (!notify_send_notification (
+					NULL, "device", NOTIFY_URGENCY_NORMAL,
+					summary,
+					body, 	/* body text */
+					icon,			/* icon */
+					TRUE, 0,		/* expiry, server default */
+					NULL,			/* hints */
+					NULL,			/* no user_data */
+					0))			/* no actions */
+					g_warning ("Could not send notification to daemon\n");	
+
+	/* create the private structure */
+	g_free (start_str);
+	g_free (end_str);
+	g_free (alarm_str);
+	g_free (time_str);
+	g_free (str);
+
+
+}
+#endif
 
 /* Performs notification of an audio alarm */
 static void
@@ -1173,8 +1488,6 @@ audio_notification (time_t trigger, CompQueuedAlarms *cqa,
 	if (attach)
 		icalattach_unref (attach);
 
-	/* We present a notification message in addition to playing the sound */
-	display_notification (trigger, cqa, alarm_id, FALSE);
 }
 
 /* Performs notification of a mail alarm */
@@ -1185,8 +1498,6 @@ mail_notification (time_t trigger, CompQueuedAlarms *cqa, gpointer alarm_id)
 	GtkWidget *label;
 
 	/* FIXME */
-
-	display_notification (trigger, cqa, alarm_id, FALSE);
 
 	dialog = gtk_dialog_new_with_buttons (_("Warning"),
 					      NULL, 0,
@@ -1301,7 +1612,6 @@ procedure_notification (time_t trigger, CompQueuedAlarms *cqa, gpointer alarm_id
 	if (result < 0)
 		goto fallback;
 
-	remove_queued_alarm (cqa, alarm_id, TRUE, TRUE);
 	return;
 
  fallback:
@@ -1337,8 +1647,10 @@ check_midnight_refresh (gpointer user_data)
  * beginning of the program.
  **/
 void
-alarm_queue_init (void)
+alarm_queue_init (gpointer data)
 {
+	GtkWidget *tray_icon;
+	an = data;
 	g_return_if_fail (alarm_queue_inited == FALSE);
 
 	client_alarms_hash = g_hash_table_new (g_direct_hash, g_direct_equal);
@@ -1352,6 +1664,19 @@ alarm_queue_init (void)
 
 	/* install timeout handler (every 30 mins) for not missing the midnight refresh */
 	g_timeout_add (1800000, (GSourceFunc) check_midnight_refresh, NULL);
+
+	tray_icon = GTK_WIDGET (egg_tray_icon_new ("Evolution Alarm"));
+	tray_image = e_icon_factory_get_image  ("stock_appointment-reminder", E_ICON_SIZE_LARGE_TOOLBAR);
+	tray_event_box = gtk_event_box_new ();
+	gtk_container_add (GTK_CONTAINER (tray_event_box), tray_image);
+	gtk_container_add (GTK_CONTAINER (tray_icon), tray_event_box);
+	g_signal_connect (G_OBJECT (tray_event_box), "button_press_event",
+			  G_CALLBACK (tray_icon_clicked_cb), NULL);
+	gtk_widget_show_all (tray_icon);
+
+#ifdef HAVE_LIBNOTIFY
+	notify_init("Evolution Alarms");
+#endif
 
 	alarm_queue_inited = TRUE;
 }
@@ -1479,11 +1804,12 @@ alarm_queue_add_client (ECal *client)
 static void
 add_id_cb (gpointer key, gpointer value, gpointer data)
 {
-	GSList **ids;
-	const ECalComponentId *id;
+	GSList **ids = (GSList **) data;
+	ECalComponentId *id = g_new0 (ECalComponentId, 1);
+	ECalComponentId *temp = (ECalComponentId *)key;
 
-	ids = data;
-	id = key;
+	id->uid = g_strdup (temp->uid);
+	id->rid = g_strdup (temp->rid);
 
 	*ids = g_slist_prepend (*ids, (ECalComponentId *) id);
 }

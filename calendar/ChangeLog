@@ -1,3 +1,40 @@
+2005-11-24  Srinivasa Ragavan and P.S.Chakravarthi <sragavan@novell.com>, <pchakravarthi@novell.com>
+
+	(simultaneously a patch for configure.in in evolution source dir is
+	 applied to include libnotify, if present)
+	* gui/alarm-notify/alarm-notify.c (alarm_notify_get_selected_calendars):
+	added a field in _AlarmNotifyPrivate called selected_calendars and relevant
+	code elsewhere for use in disabling and enabling alarms for particular calendars.
+	* gui/alarm-notify/alarm-queue.c (free_tray_icon_data):added
+	(notify_dialog_cb): modified to free the non snoozed alarms on close.
+	(open_alarm_dialog): code added to set up tooltip on the panel icon if there
+	are alarms present.
+	(alarm_quit): added. Call back when "Quit" option is chosen on right click of the
+	panel icon.
+	(alarms_configure): added. The call back function for generating the "Configure Alarms"
+	dialog on right click on the panel icon.
+	(menu_item_toggle_cb): added. Call back when a particular calendar is selected
+	or deselected in the "Configure Alarms" dialog.
+	(populate): added. Function to populate the view in the dialog that appears when
+	"Configure Alarms" option is chosen on right click of the panel icon.
+	(alarm_preference_response):added. Called when the "Configure Alarms" dialog is
+	closed.
+	(tray_icon_clicked_cb): modified to get tooltip, giving alarm summary on mouse over
+	the panel icon, to have the panel icon blink in case of active alarms.
+	(display_notification): modified the code to change the strings shown in the alarm
+	dialog.
+	(popup_notification): added. Compiles if there is libnotify. If present, gives
+	a small notification bubble on alarm trigger giving necesary information on the
+	appointment.
+	(alarm_queue_init): modified to add the panel icon that is being used in above
+	functions.
+	* gui/alarm-notify/config-data.[ch](config_data_get_calendars):added. Gets calendar
+	information for notification from a gconf key.
+	(config_data_replace_string_list): added. To replace an old gconf key with a new one.
+	* gui/alarm-notify/util.[ch] (calculate_time):added. An utility function which
+	gives a time difference between two time_t instances in hours, minutes and seconds.
+
+
 2005-11-24  Tor Lillqvist  <tml@novell.com>
 
 	* gui/e-alarm-list.c

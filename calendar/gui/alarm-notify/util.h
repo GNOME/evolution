@@ -25,5 +25,5 @@
 #include <libecal/e-cal-component.h>
 
 char *timet_to_str_with_zone (time_t t, icaltimezone *zone);
-
+char *calculate_time (time_t start, time_t end);
 #endif

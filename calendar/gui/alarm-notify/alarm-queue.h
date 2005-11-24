@@ -24,7 +24,7 @@
 #include <libecal/e-cal.h>
 
 
-void alarm_queue_init (void);
+void alarm_queue_init (gpointer);
 void alarm_queue_done (void);
 
 void alarm_queue_add_client (ECal *client);

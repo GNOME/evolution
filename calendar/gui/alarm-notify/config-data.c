@@ -95,6 +95,84 @@ ensure_inited (void)
 
 }
 
+ESourceList *
+config_data_get_calendars (const char *key)
+{
+	ESourceList *cal_sources;
+	gboolean state;
+	GSList *gconf_list;
+	
+	if (!inited)
+		conf_client = gconf_client_get_default ();
+	
+	gconf_list = gconf_client_get_list (conf_client,
+					    key,
+					    GCONF_VALUE_STRING,
+					    NULL);
+	cal_sources = e_source_list_new_for_gconf (conf_client, key);
+
+	if (cal_sources && g_slist_length (gconf_list))
+		return cal_sources;
+
+	state = gconf_client_get_bool (conf_client, 
+				      "/apps/evolution/calendar/notify/notify_with_tray",
+				      NULL);
+	if (!state) /* Should be old client*/ {
+		GSList *source;
+		gconf_client_set_bool (conf_client, 
+				      "/apps/evolution/calendar/notify/notify_with_tray",
+				      TRUE,
+				      NULL);
+		source = gconf_client_get_list (conf_client,
+						"/apps/evolution/calendar/sources",
+						GCONF_VALUE_STRING,
+						NULL);
+		gconf_client_set_list (conf_client,
+				       key,
+				       GCONF_VALUE_STRING,
+				       source,
+				       NULL);
+		cal_sources = e_source_list_new_for_gconf (conf_client, key);
+	}
+	
+
+	return cal_sources;
+	
+}
+
+void
+config_data_replace_string_list (const char *key, 
+				 const char *old,
+				 const char *new)
+{
+	GSList *source, *tmp;
+
+	if (!inited)
+		conf_client = gconf_client_get_default ();
+
+	source = gconf_client_get_list (conf_client,
+					key,
+					GCONF_VALUE_STRING,
+					NULL);
+		
+	for (tmp = source; tmp; tmp = tmp->next) {
+		
+		if (strcmp (tmp->data, old) == 0) {
+			gboolean state;
+
+			g_free (tmp->data);
+			tmp->data = g_strdup ((gchar *) new);
+
+			state = gconf_client_set_list (conf_client,
+					       key,
+					       GCONF_VALUE_STRING,
+					       source,
+					       NULL);
+			break;
+		}
+	}
+}
+
 GConfClient *
 config_data_get_conf_client (void)
 {

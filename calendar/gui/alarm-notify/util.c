@@ -47,3 +47,52 @@ timet_to_str_with_zone (time_t t, icaltimezone *zone)
 				     FALSE, FALSE, buf, sizeof (buf));
 	return g_strdup (buf);
 }
+
+char *
+calculate_time (time_t start, time_t end)
+{
+	time_t difference = end - start;
+	char *str;
+
+	if (difference < 60) {/* Can't be zero */
+		str = g_strdup_printf (_("(%d seconds)"), difference);
+	} else if (difference > 60 && difference < 3600) { /* It will be x minutes y seconds*/
+		int minutes, seconds;
+		minutes = difference / 60;
+		seconds = difference % 60;
+		if (seconds)
+			str = g_strdup_printf (_("(%d %s %d %s)"), minutes, ngettext(_("minute"), _("minutes"), minutes), seconds, ngettext(_("second"), _("seconds"), seconds));
+		else
+			str = g_strdup_printf (_("(%d %s)"), minutes, ngettext(_("minute"), _("minutes"), minutes));
+	} else {
+		guint hours, minutes, seconds;
+		char *s_hours = NULL, *s_minutes = NULL, *s_seconds = NULL;
+		
+		hours = difference / 3600;
+		minutes = (difference % 3600)/60;
+		seconds = difference % 60;
+
+		
+		if (seconds)
+			s_seconds = g_strdup_printf (ngettext(_(" %u second"), _(" %u seconds"), seconds), seconds);
+		if (minutes)
+			s_minutes = g_strdup_printf (ngettext(_(" %u minute"), _(" %u minutes"), minutes), minutes);
+		if (hours)
+			s_hours = g_strdup_printf (ngettext(_("%u hour"),_("%u hours"), hours), hours);
+
+		if (s_minutes && s_seconds)
+                         str = g_strconcat ("(", s_hours, s_minutes, s_seconds, ")", NULL);
+		else if (s_minutes)
+			str = g_strconcat ("(", s_hours, s_minutes, ")", NULL);
+		else if (s_seconds)
+			str = g_strconcat ("(", s_hours, s_seconds, ")", NULL);
+		else
+			str = g_strconcat ("(", s_hours, ")", NULL);
+
+		g_free (s_hours);
+		g_free (s_minutes);
+		g_free (s_seconds);
+	}
+
+	return g_strchug(str);
+}
