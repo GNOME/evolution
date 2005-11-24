@@ -1,3 +1,8 @@
+2005-11-24  Sushma Rai  <rsushma@novell.com>
+
+	* addressbook.error.xml: Added new error id "gw-book-list-init" and 
+	corresponding warning message.
+
 2005-10-04  Srinivasa Ragavan <sragavan@novell.com>
 
 	* gui/component/addressbook-view.c (abv_source_popups): 

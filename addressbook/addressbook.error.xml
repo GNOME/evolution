@@ -103,4 +103,9 @@
   <_secondary>You are connecting to an unsupported GroupWise server and may encounter problems using Evolution. For best results the server should be upgraded to a supported version</_secondary>
  </error>
 
+ <error id="gw-book-list-init" type="warning">
+  <_primary>GroupWise Address book creation:</_primary> 
+  <_secondary>Currently you can access only GroupWise System Address Book from Evolution. Please use some other GroupWise mail client once, to get your GroupWise Frequent Contacts and Groupwise Personal Contacts folders.</_secondary>
+ </error>
+
 </error-list>

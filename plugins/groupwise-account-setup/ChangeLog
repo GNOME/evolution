@@ -1,3 +1,10 @@
+2005-11-24  Sushma Rai  <rsushma@novell.com>
+
+	* camel-gw-listener.c (add_addressbook_sources): Checking if the 
+	frequent contacts folder is read from the server, and if not
+	displaying the warning message to user, asking to use some other
+	GroupWise mail clinet to get it created.
+
 2005-11-09  Parthasarathi Susarla <sparthasarathi@novell.com>
 	
 	* camel-gw-listener.c (get_addressbook_names_from_server):
