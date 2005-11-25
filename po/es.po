@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-11-24 23:05+0100\n"
-"PO-Revision-Date: 2005-11-24 23:09+0100\n"
+"PO-Revision-Date: 2005-11-25 00:59+0100\n"
 "Last-Translator: \n"
 "Language-Team:  <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -12837,7 +12837,7 @@ msgstr "Importar correo de Pine."
 #: ../mail/mail-autofilter.c:78
 #, c-format
 msgid "Mail to %s"
-msgstr "Enviar a %s"
+msgstr "Correo enviado a %s"
 
 #: ../mail/mail-autofilter.c:242 ../mail/mail-autofilter.c:281
 #, c-format
@@ -12852,7 +12852,7 @@ msgstr "Asunto es %s"
 #: ../mail/mail-autofilter.c:300
 #, c-format
 msgid "%s mailing list"
-msgstr "lista de correo %s"
+msgstr "Lista de correo %s"
 
 #: ../mail/mail-autofilter.c:369
 msgid "Add Filter Rule"
