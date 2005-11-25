@@ -88,7 +88,7 @@ ensure_sources (AddressbookComponent *component)
 				     "addressbook", "local",
 				     NULL);
 
-	base_uri_proto = g_strconcat ("file://", base_uri, NULL);
+	base_uri_proto = g_filename_to_uri (base_uri, NULL, NULL);
 
 	groups = e_source_list_peek_groups (source_list);
 	if (groups) {

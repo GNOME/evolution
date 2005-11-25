@@ -1,3 +1,9 @@
+2005-11-25  Tor Lillqvist  <tml@novell.com>
+
+	* gui/component/addressbook-component.c (ensure_sources): Use
+	g_filename_to_uri() instead of just prefixing "file://" for Win32
+	portability.
+
 2005-11-24  Sushma Rai  <rsushma@novell.com>
 
 	* addressbook.error.xml: Added new error id "gw-book-list-init" and 
