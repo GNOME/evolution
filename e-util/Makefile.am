@@ -1,5 +1,6 @@
 eutilincludedir = $(privincludedir)/e-util
 econdincludedir = $(privincludedir)/e-conduit
+ecpsdir = $(privdatadir)/ecps
 
 if OS_WIN32
 WIN32_BOOTSTRAP_LIBS = $(top_builddir)/win32/libemiscwidgets.la
@@ -10,23 +11,26 @@ INCLUDES =								\
 	-I$(top_srcdir)							\
 	-I$(top_builddir)						\
 	-I$(top_srcdir)/widgets						\
-	-DEVOLUTION_PREFIX=\""$(prefix)"\"				\
-	-DEVOLUTION_SYSCONFDIR=\""$(sysconfdir)"\"			\
+	-DEVOLUTION_CATEGORY_ICONS=\""$(imagesdir)/categories"\"	\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"				\
-	-DEVOLUTION_LIBDIR=\""$(datadir)"\"				\
+	-DEVOLUTION_ECPSDIR=\""$(ecpsdir)"\"				\
+	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"			\
+	-DEVOLUTION_GALVIEWSDIR=\""$(viewsdir)"\"			\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"				\
 	-DEVOLUTION_HELPDIR=\""$(evolutionhelpdir)"\"			\
-	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"			\
-	-DEVOLUTION_IMAGESDIR=\""$(imagesdir)"\"			\
 	-DEVOLUTION_ICONSDIR=\""$(imagesdir)"\"				\
-	-DEVOLUTION_CATEGORY_ICONS=\""$(imagesdir)/categories"\"	\
-	-DEVOLUTION_PLUGINDIR=\""$(plugindir)"\"			\
-	-DEVOLUTION_PRIVDATADIR=\""$(privdatadir)"\"			\
-	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"			\
-	-DSEARCH_RULE_DIR=\"$(ruledir)\"				\
-	-DEVOLUTION_GALVIEWSDIR=\""$(viewsdir)"\"			\
+	-DEVOLUTION_IMAGESDIR=\""$(imagesdir)"\"			\
+	-DEVOLUTION_LIBDIR=\""$(datadir)"\"				\
 	-DEVOLUTION_LIBEXECDIR=\""$(privlibexecdir)"\"			\
+	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"			\
+	-DEVOLUTION_PLUGINDIR=\""$(plugindir)"\"			\
+	-DEVOLUTION_PREFIX=\""$(prefix)"\"				\
+	-DEVOLUTION_PRIVDATADIR=\""$(privdatadir)"\"			\
 	-DEVOLUTION_SOUNDDIR=\""$(soundsdir)"\"				\
+	-DEVOLUTION_SYSCONFDIR=\""$(sysconfdir)"\"			\
+	-DEVOLUTION_TOOLSDIR=\""$(privlibexecdir)"\"			\
+	-DEVOLUTION_UIDIR=\""$(evolutionuidir)"\"			\
+	-DSEARCH_RULE_DIR=\"$(ruledir)\"				\
 	-DG_LOG_DOMAIN=\"e-utils\"					\
 	$(GNOME_PILOT_CFLAGS)						\
 	$(EXTRA_GNOME_CFLAGS)                   			\
@@ -143,7 +147,8 @@ libeutil_la_LDFLAGS = $(NO_UNDEFINED)
 libeutil_la_LIBADD = 		\
 	$(WIN32_BOOTSTRAP_LIBS)	\
 	$(ICONV_LIBS)		\
-	$(E_UTIL_LIBS)
+	$(E_UTIL_LIBS)		\
+	$(INTLLIBS)
 
 econdinclude_HEADERS =		\
 	e-pilot-map.h		\

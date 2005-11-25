@@ -35,22 +35,25 @@
 static const char *localedir = NULL;
 
 /* The others are in UTF-8 */
-static const char *prefix;
-static const char *sysconfdir;
+static const char *category_icons;
 static const char *datadir;
-static const char *libdir;
+static const char *ecpsdir;
+static const char *etspecdir;
+static const char *galviewsdir;
 static const char *gladedir;
 static const char *helpdir;
-static const char *etspecdir;
-static const char *imagesdir;
 static const char *iconsdir;
-static const char *category_icons;
+static const char *imagesdir;
+static const char *libdir;
+static const char *libexecdir;
 static const char *plugindir;
+static const char *prefix;
 static const char *privdatadir;
 static const char *search_rule_dir;
-static const char *galviewsdir;
-static const char *libexecdir;
 static const char *sounddir;
+static const char *sysconfdir;
+static const char *toolsdir;
+static const char *uidir;
 
 static HMODULE hmodule;
 G_LOCK_DEFINE_STATIC (mutex);
@@ -108,20 +111,36 @@ setup (void)
         g_free (cp_prefix);
 
 	prefix = g_strdup (full_prefix);
-	sysconfdir = replace_prefix (full_prefix, EVOLUTION_SYSCONFDIR);
-	datadir = replace_prefix (full_prefix, EVOLUTION_DATADIR);
-	libdir = replace_prefix (full_prefix, EVOLUTION_LIBDIR);
-        gladedir = replace_prefix (full_prefix, EVOLUTION_GLADEDIR);
-        helpdir = replace_prefix (full_prefix, EVOLUTION_HELPDIR);
-        etspecdir = replace_prefix (full_prefix, EVOLUTION_ETSPECDIR);
-        imagesdir = replace_prefix (full_prefix, EVOLUTION_IMAGESDIR);
+
+	/* It makes sense to have some of the paths overridable with
+	 * environment variables.
+	 */
 	category_icons = replace_prefix (full_prefix, EVOLUTION_CATEGORY_ICONS);
+	datadir = replace_prefix (full_prefix, EVOLUTION_DATADIR);
+	ecpsdir = replace_prefix (full_prefix, EVOLUTION_ECPSDIR);
+	etspecdir = replace_prefix (full_prefix, EVOLUTION_ETSPECDIR);
+	galviewsdir = replace_prefix (full_prefix, EVOLUTION_GALVIEWSDIR);
+	gladedir = replace_prefix (full_prefix, EVOLUTION_GLADEDIR);
+	helpdir = replace_prefix (full_prefix, EVOLUTION_HELPDIR);
+	if (g_getenv ("EVOLUTION_ICONSDIR") &&
+	    g_file_test (g_getenv ("EVOLUTION_ICONSDIR"), G_FILE_TEST_IS_DIR))
+		iconsdir = g_getenv ("EVOLUTION_ICONSDIR");
+	else
+		iconsdir = replace_prefix (full_prefix, EVOLUTION_ICONSDIR);
+	if (g_getenv ("EVOLUTION_IMAGESDIR") &&
+	    g_file_test (g_getenv ("EVOLUTION_IMAGESDIR"), G_FILE_TEST_IS_DIR))
+		imagesdir = g_getenv ("EVOLUTION_IMAGESDIR");
+	else
+		imagesdir = replace_prefix (full_prefix, EVOLUTION_IMAGESDIR);
+	libdir = replace_prefix (full_prefix, EVOLUTION_LIBDIR);
+	libexecdir = replace_prefix (full_prefix, EVOLUTION_LIBEXECDIR);
 	plugindir = replace_prefix (full_prefix, EVOLUTION_PLUGINDIR);
 	privdatadir = replace_prefix (full_prefix, EVOLUTION_PRIVDATADIR);
 	search_rule_dir = replace_prefix (full_prefix, SEARCH_RULE_DIR);
-	galviewsdir = replace_prefix (full_prefix, EVOLUTION_GALVIEWSDIR);
-	libexecdir = replace_prefix (full_prefix, EVOLUTION_LIBEXECDIR);
 	sounddir = replace_prefix (full_prefix, EVOLUTION_SOUNDDIR);
+	sysconfdir = replace_prefix (full_prefix, EVOLUTION_SYSCONFDIR);
+	toolsdir = replace_prefix (full_prefix, EVOLUTION_TOOLSDIR);
+	uidir = replace_prefix (full_prefix, EVOLUTION_UIDIR);
 
         g_free (full_prefix);
 
@@ -138,20 +157,23 @@ _e_get_##varbl (void)				\
         return varbl;				\
 }
 
-GETTER(localedir)
-GETTER(prefix)
-GETTER(sysconfdir)
+GETTER(category_icons)
 GETTER(datadir)
-GETTER(libdir)
+GETTER(ecpsdir)
+GETTER(etspecdir)
+GETTER(galviewsdir)
 GETTER(gladedir)
 GETTER(helpdir)
-GETTER(etspecdir)
-GETTER(imagesdir)
 GETTER(iconsdir)
-GETTER(category_icons)
+GETTER(imagesdir)
+GETTER(libdir)
+GETTER(libexecdir)
+GETTER(localedir)
 GETTER(plugindir)
+GETTER(prefix)
 GETTER(privdatadir)
 GETTER(search_rule_dir)
-GETTER(galviewsdir)
-GETTER(libexecdir)
 GETTER(sounddir)
+GETTER(sysconfdir)
+GETTER(toolsdir)
+GETTER(uidir)

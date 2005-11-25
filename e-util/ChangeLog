@@ -1,3 +1,15 @@
+2005-11-25  Tor Lillqvist  <tml@novell.com>
+
+	* e-util-private.h: Sort the stuff in the Win32 part for
+	clarity. Add some new run-time overrides for compile-time
+	paths. Include fcntl.h and define O_BINARY as zero if not defined
+	(on Unix).
+
+	* e-win32-reloc.c: Sort here, too, and add the implementation for
+	the new run-time overrides.
+
+	* Makefile.am: Ditto here. Link with INTLLIBS.
+
 2005-11-09  P. S. Chakravarthi <pchakravarthi@novell.com>
 
 	Fixes #314638
