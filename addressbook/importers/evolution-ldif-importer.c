@@ -23,6 +23,7 @@
 #include <string.h>
 
 #include <glib/gi18n.h>
+#include <glib/gstdio.h>
 
 #include <gtk/gtkvbox.h>
 
@@ -690,8 +691,9 @@ ldif_import(EImport *ei, EImportTarget *target, EImportImporter *im)
 {
 	LDIFImporter *gci;
 	EBook *book;
-	FILE *file;
+	FILE *file = NULL;
 	EImportTargetURI *s = (EImportTargetURI *)target;
+	gchar *filename;
 
 	book = e_book_new(g_datalist_get_data(&target->data, "ldif-source"), NULL);
 	if (book == NULL) {
@@ -700,7 +702,11 @@ ldif_import(EImport *ei, EImportTarget *target, EImportImporter *im)
 		return;
 	}
 
-	file = fopen(s->uri_src+7, "r");
+	filename = g_filename_from_uri(s->uri_src, NULL, NULL);
+	if (filename != NULL) {
+		file = g_fopen(filename, "r");
+		g_free (filename);
+	}
 	if (file == NULL) {
 		g_message(G_STRLOC ":Can't open .ldif file");
 		e_import_complete(ei, target);
