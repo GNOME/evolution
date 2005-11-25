@@ -105,7 +105,8 @@ CLEANFILES    = $(BUILT_SOURCES)
 EXTRA_DIST =			\
 	$(glade_DATA)		\
 	$(schema_in_files)	\
-	$(server_in_files)
+	$(server_in_files)	\
+	openldap-extract.h
 
 dist-hook:
 	cd $(distdir); rm -f $(BUILT_SOURCES)

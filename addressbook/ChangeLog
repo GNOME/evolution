@@ -1,5 +1,12 @@
 2005-11-25  Tor Lillqvist  <tml@novell.com>
 
+	* gui/component/openldap-extract.h: New file. Contains various
+	things lifted from OpenLDAP for use on Windows where we use
+	Microsoft's LDAP implementation. The same file is also in
+	e-d-s/backends/ldap.
+
+	* gui/component/Makefile.am: Distribute openldap-extract.h.
+
 	* importers/evolution-ldif-importer.c (ldif_import)
 	* gui/widgets/eab-gui-util.c (eab_load_error_dialog): Use
 	g_filename_from_uri() instead of just stripping off the "file://"
