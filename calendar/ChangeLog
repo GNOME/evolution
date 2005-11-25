@@ -1,3 +1,9 @@
+2005-11-25  Tor Lillqvist  <tml@novell.com>
+
+	* gui/e-itip-control.c
+	* gui/itip-utils.c: Use g_ascii_strcasecmp() instead of
+	strcasecmp() for portability.
+
 2005-11-24  Srinivasa Ragavan and P.S.Chakravarthi <sragavan@novell.com>, <pchakravarthi@novell.com>
 
 	(simultaneously a patch for configure.in in evolution source dir is

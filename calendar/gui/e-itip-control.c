@@ -639,7 +639,7 @@ find_attendee (icalcomponent *ical_comp, const char *address)
 
 		text = g_strdup (itip_strip_mailto (attendee));
 		text = g_strstrip (text);
-		if (!g_strcasecmp (address, text)) {
+		if (!g_ascii_strcasecmp (address, text)) {
 			g_free (text);
 			break;
 		}
@@ -2499,7 +2499,7 @@ ok_clicked_cb (GtkWidget *widget, gpointer data)
 			
 			text = g_strdup (itip_strip_mailto (attendee));
 			text = g_strstrip (text);
-			if (g_strcasecmp (priv->my_address, text))
+			if (g_ascii_strcasecmp (priv->my_address, text))
 				list = g_slist_prepend (list, prop);
 			g_free (text);
 		}

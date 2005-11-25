@@ -104,7 +104,7 @@ itip_organizer_is_user (ECalComponent *comp, ECal *client)
  		if (e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_ORGANIZER_NOT_EMAIL_ADDRESS)) { 
  			char *email = NULL;
  			
-  			if (e_cal_get_cal_address (client, &email, NULL) && !g_strcasecmp (email, strip)) {
+  			if (e_cal_get_cal_address (client, &email, NULL) && !g_ascii_strcasecmp (email, strip)) {
 				g_free (email);
 				
  				return TRUE;
@@ -218,7 +218,7 @@ itip_strip_mailto (const gchar *address)
 	if (address == NULL)
 		return NULL;
 	
-	if (!g_strncasecmp (address, "mailto:", 7))
+	if (!g_ascii_strncasecmp (address, "mailto:", 7))
 		address += 7;
 
 	return address;
@@ -315,7 +315,7 @@ users_has_attendee (GList *users, const char *address)
 	GList *l;
 
 	for (l = users; l != NULL; l = l->next) {
-		if (!g_strcasecmp (address, l->data))
+		if (!g_ascii_strcasecmp (address, l->data))
 			return TRUE;
 	}
 
@@ -407,9 +407,9 @@ comp_to_list (ECalComponentItipMethod method, ECalComponent *comp, GList *users)
 
 			if (users_has_attendee (users, att->value))
 				continue;
-			else if (!g_strcasecmp (att->value, organizer.value))
+			else if (!g_ascii_strcasecmp (att->value, organizer.value))
 				continue;
-			else if (!g_strcasecmp (itip_strip_mailto (att->value), sender))
+			else if (!g_ascii_strcasecmp (itip_strip_mailto (att->value), sender))
 				continue;
 			else if (att->status == ICAL_PARTSTAT_DELEGATED && (att->delto && *att->delto)
 					&& !(att->rsvp) && method == E_CAL_COMPONENT_METHOD_REQUEST)
@@ -463,7 +463,7 @@ comp_to_list (ECalComponentItipMethod method, ECalComponent *comp, GList *users)
 		for (l = attendees; l != NULL; l = l->next) {
 			ECalComponentAttendee *att = l->data;
 
-			if (!g_strcasecmp (itip_strip_mailto (att->value), sender)){
+			if (!g_ascii_strcasecmp (itip_strip_mailto (att->value), sender)){
 
 				if (!(att->delfrom && *att->delfrom))
 					break;
