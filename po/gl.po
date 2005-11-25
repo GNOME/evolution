@@ -42,8 +42,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gl\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-11-24 12:01+0100\n"
-"PO-Revision-Date: 2005-11-24 12:05+0100\n"
+"POT-Creation-Date: 2005-11-25 01:38+0100\n"
+"PO-Revision-Date: 2005-11-25 01:43+0100\n"
 "Last-Translator: Ignacio Casal Quinteiro <nacho.resa@gmail.com>\n"
 "Language-Team: Galego\n"
 "MIME-Version: 1.0\n"
@@ -76,7 +76,6 @@ msgstr[0] "o cartafol de libretas de enderezos ten %d tarxeta"
 msgstr[1] "o cartafol de libretas de enderezos ten %d tarxetas"
 
 #: ../a11y/addressbook/ea-minicard.c:31
-#: ../calendar/gui/alarm-notify/alarm-queue.c:969
 #: ../ui/evolution-message-composer.xml.h:11
 msgid "Open"
 msgstr "Abrir"
@@ -397,8 +396,10 @@ msgid ""
 "Please use some other GroupWise mail client once, to get your GroupWise "
 "Frequent Contacts and Groupwise Personal Contacts folders."
 msgstr ""
-"Actualmente só podes acceder ao sistema GroupWise de libro de enderezos desde Evolution. "
-"Por favor use algún outro cliente de correo Groupwise unha vez para obter os contactos frecuentes de GroupWise e os cartafoles de contactos persoais de GroupWise."
+"Actualmente só podes acceder ao sistema GroupWise de libro de enderezos "
+"desde Evolution. Por favor use algún outro cliente de correo Groupwise unha "
+"vez para obter os contactos frecuentes de GroupWise e os cartafoles de "
+"contactos persoais de GroupWise."
 
 #: ../addressbook/addressbook.error.xml.h:9
 msgid "Delete address book '{0}'?"
@@ -1178,6 +1179,8 @@ msgstr "tarxetas"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:57
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:7
+#: ../calendar/gui/alarm-notify/util.c:64
+#: ../calendar/gui/alarm-notify/util.c:66
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:26
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:14
 #: ../filter/filter.glade.h:16 ../mail/em-account-editor.c:1951
@@ -1328,7 +1331,7 @@ msgid "_Birthday:"
 msgstr "_Cumpreanos:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:28
-#: ../plugins/itip-formatter/itip-view.c:1662
+#: ../plugins/itip-formatter/itip-view.c:1661
 msgid "_Calendar:"
 msgstr "_Calendario:"
 
@@ -4446,6 +4449,8 @@ msgid "Evolution Calendar alarm notification service"
 msgstr "Servizo de notificación por alarma do Calendario de Evolution"
 
 #: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:116
+#: ../calendar/gui/alarm-notify/util.c:64
+#: ../calendar/gui/alarm-notify/util.c:66
 msgid "minute"
 msgid_plural "minutes"
 msgstr[0] "minuto"
@@ -4471,8 +4476,10 @@ msgstr "Citas"
 
 #. Location
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:2
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1419
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1425
 #: ../calendar/gui/e-itip-control.c:1117
-#: ../plugins/itip-formatter/itip-view.c:884
+#: ../plugins/itip-formatter/itip-view.c:883
 msgid "Location:"
 msgstr "Ubicación:"
 
@@ -4503,46 +4510,48 @@ msgstr "_Pospoñer"
 msgid "location of appointment"
 msgstr "lugar da cita"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:970
-msgid "Dismiss"
-msgstr "Rexeitar"
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1097
+msgid "<b>Calendars</b>"
+msgstr "<b>Calendarios</b>"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:971
-msgid "Dismiss All"
-msgstr "Rexeitar todas"
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1163
+msgid "Preferences"
+msgstr "Preferencias"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1053
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1176
+msgid "_Configure Alarms"
+msgstr "_Configurar alarmas"
+
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1178 ../ui/evolution.xml.h:44
+msgid "_Quit"
+msgstr "_Saír"
+
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1284
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1401
 msgid "No summary available."
 msgstr "Non hai resumo dispoñible."
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1062
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1064
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1293
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1295
 msgid "No description available."
 msgstr "Non hai unha descrición dispoñible."
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1072
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1303
 msgid "No location information available."
 msgstr "Non hai información do lugar dispoñible."
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1088
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1339
 #, c-format
-msgid ""
-"Alarm on %s\n"
-"%s\n"
-"Starting at %s\n"
-"Ending at %s"
-msgstr ""
-"Alarma en %s\n"
-"%s\n"
-"Comeza ás %s\n"
-"Remata ás %s"
+msgid "You have %d alarms"
+msgstr "Ten %d alarmas."
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1191
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1215
+#. FIXME
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1502
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1526
 msgid "Warning"
 msgstr "Advertencia"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1195
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1506
 msgid ""
 "Evolution does not support calendar reminders with\n"
 "email notifications yet, but this reminder was\n"
@@ -4554,7 +4563,7 @@ msgstr ""
 "configurado para enviar unha mensaxe de correo-e. No seu lugar\n"
 "Evolution amosará un diálogo de recordatorio normal."
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1221
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1532
 #, c-format
 msgid ""
 "An Evolution Calendar reminder is about to trigger. This reminder is "
@@ -4571,7 +4580,7 @@ msgstr ""
 "\n"
 "Está seguro de quere executar este programa?"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1235
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1546
 msgid "Do not ask me about this program again."
 msgstr "Non preguntar de novo sobre este programa."
 
@@ -4586,6 +4595,62 @@ msgstr "Non foi posible crear a fábrica do servicio de notificacións de alarma
 #: ../calendar/gui/alarm-notify/util.c:41
 msgid "invalid time"
 msgstr "hora inválida"
+
+#. Can't be zero
+#: ../calendar/gui/alarm-notify/util.c:58
+#, c-format
+msgid "(%d seconds)"
+msgstr "(%d segundos)"
+
+#: ../calendar/gui/alarm-notify/util.c:64
+#, c-format
+msgid "(%d %s %d %s)"
+msgstr "(%d %s %d %s)"
+
+#: ../calendar/gui/alarm-notify/util.c:64
+#: ../calendar/gui/dialogs/recurrence-page.c:990
+msgid "second"
+msgstr "segundo"
+
+#: ../calendar/gui/alarm-notify/util.c:64 ../filter/filter.glade.h:18
+#: ../mail/mail-config.glade.h:177
+msgid "seconds"
+msgstr "segundos"
+
+#: ../calendar/gui/alarm-notify/util.c:66
+#, c-format
+msgid "(%d %s)"
+msgstr "(%d %s)"
+
+#: ../calendar/gui/alarm-notify/util.c:77
+#, c-format
+msgid " %u second"
+msgstr " %u segundo"
+
+#: ../calendar/gui/alarm-notify/util.c:77
+#, c-format
+msgid " %u seconds"
+msgstr "%u segundos"
+
+#: ../calendar/gui/alarm-notify/util.c:79
+#, c-format
+msgid " %u minute"
+msgstr "%u minuto"
+
+#: ../calendar/gui/alarm-notify/util.c:79
+#, c-format
+msgid " %u minutes"
+msgstr "%u minutos"
+
+#: ../calendar/gui/alarm-notify/util.c:81
+#, c-format
+msgid "%u hour"
+msgstr "%u hora"
+
+#: ../calendar/gui/alarm-notify/util.c:81
+#, c-format
+msgid "%u hours"
+msgstr "%u horas"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:1
 msgid "Alarm programs"
@@ -6219,7 +6284,7 @@ msgstr "<b>De:</b>"
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:7
 #: ../plugins/itip-formatter/itip-formatter.c:1627
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.c:190
-#: ../widgets/misc/e-cell-date-edit.c:248 ../widgets/misc/e-dateedit.c:474
+#: ../widgets/misc/e-cell-date-edit.c:249 ../widgets/misc/e-dateedit.c:474
 #: ../widgets/misc/e-dateedit.c:1513 ../widgets/misc/e-dateedit.c:1727
 msgid "None"
 msgstr "Nada"
@@ -6421,10 +6486,6 @@ msgstr "en"
 #: ../calendar/gui/dialogs/recurrence-page.c:989
 msgid "first"
 msgstr "primeiro"
-
-#: ../calendar/gui/dialogs/recurrence-page.c:990
-msgid "second"
-msgstr "segundo"
 
 #: ../calendar/gui/dialogs/recurrence-page.c:991
 msgid "third"
@@ -6796,7 +6857,7 @@ msgstr "Data Límite:"
 #: ../calendar/gui/e-cal-component-preview.c:222
 #: ../calendar/gui/e-itip-control.c:1131
 #: ../plugins/exchange-operations/exchange-account-setup.c:265
-#: ../plugins/itip-formatter/itip-view.c:909
+#: ../plugins/itip-formatter/itip-view.c:908
 msgid "Status:"
 msgstr "Estado:"
 
@@ -7286,10 +7347,10 @@ msgstr "Erro de iCalendar"
 
 #: ../calendar/gui/e-itip-control.c:1037 ../calendar/gui/e-itip-control.c:1053
 #: ../calendar/gui/e-itip-control.c:1064 ../calendar/gui/e-itip-control.c:1081
+#: ../plugins/itip-formatter/itip-view.c:337
 #: ../plugins/itip-formatter/itip-view.c:338
-#: ../plugins/itip-formatter/itip-view.c:339
+#: ../plugins/itip-formatter/itip-view.c:405
 #: ../plugins/itip-formatter/itip-view.c:406
-#: ../plugins/itip-formatter/itip-view.c:407
 msgid "An unknown person"
 msgstr "Unha persoa descoñecida"
 
@@ -10837,10 +10898,6 @@ msgstr "atrás"
 #: ../filter/filter.glade.h:17
 msgid "months"
 msgstr "meses"
-
-#: ../filter/filter.glade.h:18 ../mail/mail-config.glade.h:177
-msgid "seconds"
-msgstr "segundos"
 
 #: ../filter/filter.glade.h:19
 msgid "the current time"
@@ -14448,7 +14505,7 @@ msgstr "?"
 
 #. strftime format of a time,
 #. in 12-hour format, without seconds.
-#: ../mail/message-list.c:1355 ../plugins/itip-formatter/itip-view.c:198
+#: ../mail/message-list.c:1355 ../plugins/itip-formatter/itip-view.c:197
 #: ../widgets/table/e-cell-date.c:72
 msgid "Today %l:%M %p"
 msgstr "Hoxe ás %l:%M %p"
@@ -15889,311 +15946,311 @@ msgid "Conflict Search Table"
 msgstr "Táboa de buscas e conflictos"
 
 #. strftime format of a weekday and a date.
-#: ../plugins/itip-formatter/itip-view.c:184 ../ui/evolution-calendar.xml.h:34
-#: ../widgets/misc/e-cell-date-edit.c:240 ../widgets/misc/e-dateedit.c:466
+#: ../plugins/itip-formatter/itip-view.c:183 ../ui/evolution-calendar.xml.h:34
+#: ../widgets/misc/e-cell-date-edit.c:241 ../widgets/misc/e-dateedit.c:466
 msgid "Today"
 msgstr "Hoxe"
 
 #. strftime format of a time,
 #. in 24-hour format, without seconds.
-#: ../plugins/itip-formatter/itip-view.c:189
+#: ../plugins/itip-formatter/itip-view.c:188
 msgid "Today %H:%M"
 msgstr "Hoxe ás %H:%M"
 
 #. strftime format of a time,
 #. in 24-hour format.
-#: ../plugins/itip-formatter/itip-view.c:193
+#: ../plugins/itip-formatter/itip-view.c:192
 msgid "Today %H:%M:%S"
 msgstr "Hoxe ás %H:%M:%S"
 
 #. strftime format of a time,
 #. in 12-hour format.
-#: ../plugins/itip-formatter/itip-view.c:202
+#: ../plugins/itip-formatter/itip-view.c:201
 msgid "Today %l:%M:%S %p"
 msgstr "Hoxe ás %l:%M:%S %p"
 
 #. strftime format of a weekday and a date.
-#: ../plugins/itip-formatter/itip-view.c:212
+#: ../plugins/itip-formatter/itip-view.c:211
 msgid "Tomorrow"
 msgstr "Mañán"
 
 #. strftime format of a time,
 #. in 24-hour format, without seconds.
-#: ../plugins/itip-formatter/itip-view.c:217
+#: ../plugins/itip-formatter/itip-view.c:216
 msgid "Tomorrow %H:%M"
 msgstr "Mañán ás %H:%M"
 
 #. strftime format of a time,
 #. in 24-hour format.
-#: ../plugins/itip-formatter/itip-view.c:221
+#: ../plugins/itip-formatter/itip-view.c:220
 msgid "Tomorrow %H:%M:%S"
 msgstr "Mañán ás %H:%M:%S"
 
 #. strftime format of a time,
 #. in 12-hour format, without seconds.
-#: ../plugins/itip-formatter/itip-view.c:226
+#: ../plugins/itip-formatter/itip-view.c:225
 msgid "Tomorrow %l:%M %p"
 msgstr "Mañán ás %l:%M %p"
 
 #. strftime format of a time,
 #. in 12-hour format.
-#: ../plugins/itip-formatter/itip-view.c:230
+#: ../plugins/itip-formatter/itip-view.c:229
 msgid "Tomorrow %l:%M:%S %p"
 msgstr "Mañán ás %l:%M:%S %p"
 
 #. strftime format of a weekday.
-#: ../plugins/itip-formatter/itip-view.c:249
+#: ../plugins/itip-formatter/itip-view.c:248
 #, c-format
 msgid "%A"
 msgstr "%A"
 
 #. strftime format of a weekday and a
 #. time, in 24-hour format, without seconds.
-#: ../plugins/itip-formatter/itip-view.c:254
+#: ../plugins/itip-formatter/itip-view.c:253
 msgid "%A %H:%M"
 msgstr "%A %H:%M"
 
 #. strftime format of a weekday and a
 #. time, in 24-hour format.
-#: ../plugins/itip-formatter/itip-view.c:258
+#: ../plugins/itip-formatter/itip-view.c:257
 msgid "%A %H:%M:%S"
 msgstr "%A %H:%M:%S"
 
 #. strftime format of a weekday and a
 #. time, in 12-hour format, without seconds.
-#: ../plugins/itip-formatter/itip-view.c:263
+#: ../plugins/itip-formatter/itip-view.c:262
 msgid "%A %l:%M %p"
 msgstr "%A %l:%M %p"
 
 #. strftime format of a weekday and a
 #. time, in 12-hour format.
-#: ../plugins/itip-formatter/itip-view.c:267
+#: ../plugins/itip-formatter/itip-view.c:266
 msgid "%A %l:%M:%S %p"
 msgstr "%A %l:%M:%S %p"
 
 #. strftime format of a weekday and a date
 #. without a year.
-#: ../plugins/itip-formatter/itip-view.c:276
+#: ../plugins/itip-formatter/itip-view.c:275
 msgid "%A, %B %e"
 msgstr "%A, %e de %B"
 
 #. strftime format of a weekday, a date
 #. without a year and a time,
 #. in 24-hour format, without seconds.
-#: ../plugins/itip-formatter/itip-view.c:282
+#: ../plugins/itip-formatter/itip-view.c:281
 msgid "%A, %B %e %H:%M"
 msgstr "%A, %e de %B %H:%M"
 
 #. strftime format of a weekday, a date without a year
 #. and a time, in 24-hour format.
-#: ../plugins/itip-formatter/itip-view.c:286
+#: ../plugins/itip-formatter/itip-view.c:285
 msgid "%A, %B %e %H:%M:%S"
 msgstr "%A, %e de %B %H:%M:%S"
 
 #. strftime format of a weekday, a date without a year
 #. and a time, in 12-hour format, without seconds.
-#: ../plugins/itip-formatter/itip-view.c:291
+#: ../plugins/itip-formatter/itip-view.c:290
 msgid "%A, %B %e %l:%M %p"
 msgstr "%A, %e de %B %l:%M %p"
 
 #. strftime format of a weekday, a date without a year
 #. and a time, in 12-hour format.
-#: ../plugins/itip-formatter/itip-view.c:295
+#: ../plugins/itip-formatter/itip-view.c:294
 msgid "%A, %B %e %l:%M:%S %p"
 msgstr "%A, %e de %B %l:%M:%S %p"
 
 #. strftime format of a weekday and a date.
-#: ../plugins/itip-formatter/itip-view.c:301
+#: ../plugins/itip-formatter/itip-view.c:300
 msgid "%A, %B %e, %Y"
 msgstr "%A, %e de %B de %Y"
 
 #. strftime format of a weekday, a date and a
 #. time, in 24-hour format, without seconds.
-#: ../plugins/itip-formatter/itip-view.c:306
+#: ../plugins/itip-formatter/itip-view.c:305
 msgid "%A, %B %e, %Y %H:%M"
 msgstr "%A, %e de %B de %Y ás %H:%M"
 
 #. strftime format of a weekday, a date and a
 #. time, in 24-hour format.
-#: ../plugins/itip-formatter/itip-view.c:310
+#: ../plugins/itip-formatter/itip-view.c:309
 msgid "%A, %B %e, %Y %H:%M:%S"
 msgstr "%A, %e de %B de %Y, %H:%M:%S"
 
 #. strftime format of a weekday, a date and a
 #. time, in 12-hour format, without seconds.
-#: ../plugins/itip-formatter/itip-view.c:315
+#: ../plugins/itip-formatter/itip-view.c:314
 msgid "%A, %B %e, %Y %l:%M %p"
 msgstr "%A, %e de %B de %Y, %l:%M %p"
 
 #. strftime format of a weekday, a date and a
 #. time, in 12-hour format.
-#: ../plugins/itip-formatter/itip-view.c:319
+#: ../plugins/itip-formatter/itip-view.c:318
 msgid "%A, %B %e, %Y %l:%M:%S %p"
 msgstr "%A, %e de %B de %Y, %l:%M:%S %p"
 
-#: ../plugins/itip-formatter/itip-view.c:344
+#: ../plugins/itip-formatter/itip-view.c:343
 #, c-format
 msgid "<b>%s</b> through %s has published the following meeting information:"
 msgstr "<b>%s</b> publicou información de reunión a través de %s:"
 
-#: ../plugins/itip-formatter/itip-view.c:346
+#: ../plugins/itip-formatter/itip-view.c:345
 #, c-format
 msgid "<b>%s</b> has published the following meeting information:"
 msgstr "<b>%s</b> publicou a seguinte información de reunión:"
 
-#: ../plugins/itip-formatter/itip-view.c:351
+#: ../plugins/itip-formatter/itip-view.c:350
 #, c-format
 msgid "<b>%s</b> has delegated the following meeting to you:"
 msgstr "<b>%s</b> delegou a reunión seguinte a vostede:"
 
-#: ../plugins/itip-formatter/itip-view.c:354
+#: ../plugins/itip-formatter/itip-view.c:353
 #, c-format
 msgid "<b>%s</b> through %s requests your presence at the following meeting:"
 msgstr "<b>%s</b> solicita súa presencia na seguinte xuntanza a través de %s:"
 
-#: ../plugins/itip-formatter/itip-view.c:356
+#: ../plugins/itip-formatter/itip-view.c:355
 #, c-format
 msgid "<b>%s</b> requests your presence at the following meeting:"
 msgstr "<b>%s</b> solicita a súa presencia na seguinte xuntanza:"
 
-#: ../plugins/itip-formatter/itip-view.c:362
+#: ../plugins/itip-formatter/itip-view.c:361
 #, c-format
 msgid "<b>%s</b> through %s wishes to add to an existing meeting:"
 msgstr "<b>%s</b> desexa apuntarse a unha xuntanza existente a través de %s:"
 
-#: ../plugins/itip-formatter/itip-view.c:364
+#: ../plugins/itip-formatter/itip-view.c:363
 #, c-format
 msgid "<b>%s</b> wishes to add to an existing meeting:"
 msgstr "<b>%s</b> desexa apuntarse a unha xuntanza existente:"
 
-#: ../plugins/itip-formatter/itip-view.c:367
+#: ../plugins/itip-formatter/itip-view.c:366
 #, c-format
 msgid "<b>%s</b> wishes to receive the latest information for the following meeting:"
 msgstr "<b>%s</b> desexa recibir a última información da xuntanza seguinte:"
 
-#: ../plugins/itip-formatter/itip-view.c:370
+#: ../plugins/itip-formatter/itip-view.c:369
 #, c-format
 msgid "<b>%s</b> has sent back the following meeting response:"
 msgstr "<b>%s</b> devolveu a seguinte resposta á xuntanza:"
 
-#: ../plugins/itip-formatter/itip-view.c:374
+#: ../plugins/itip-formatter/itip-view.c:373
 #, c-format
 msgid "<b>%s</b> through %s has cancelled the following meeting:"
 msgstr "<b>%s</b> cancelou a seguinte xuntanza a través de %s:"
 
-#: ../plugins/itip-formatter/itip-view.c:376
+#: ../plugins/itip-formatter/itip-view.c:375
 #, c-format
 msgid "<b>%s</b> has cancelled the following meeting."
 msgstr "<b>%s</b> cancelou a xuntanza seguinte."
 
-#: ../plugins/itip-formatter/itip-view.c:379
+#: ../plugins/itip-formatter/itip-view.c:378
 #, c-format
 msgid "<b>%s</b> has proposed the following meeting changes."
 msgstr "<b>%s</b> propoñeu os trocos seguintes para a xuntanza."
 
-#: ../plugins/itip-formatter/itip-view.c:383
+#: ../plugins/itip-formatter/itip-view.c:382
 #, c-format
 msgid "<b>%s</b> through %s has declined the following meeting changes:"
 msgstr "<b>%s</b> declinou os seguintes trocos para a xuntanza a través de %s:"
 
-#: ../plugins/itip-formatter/itip-view.c:385
+#: ../plugins/itip-formatter/itip-view.c:384
 #, c-format
 msgid "<b>%s</b> has declined the following meeting changes."
 msgstr "<b>%s</b> declinou os trocos seguintes para a xuntanza."
 
-#: ../plugins/itip-formatter/itip-view.c:412
+#: ../plugins/itip-formatter/itip-view.c:411
 #, c-format
 msgid "<b>%s</b> through %s has published the following task:"
 msgstr "<b>%s</b> publicou a seguinte tarefa a través de %s:"
 
-#: ../plugins/itip-formatter/itip-view.c:414
+#: ../plugins/itip-formatter/itip-view.c:413
 #, c-format
 msgid "<b>%s</b> has published the following task:"
 msgstr "<b>%s</b> publicou a tarefa seguinte:"
 
-#: ../plugins/itip-formatter/itip-view.c:419
+#: ../plugins/itip-formatter/itip-view.c:418
 #, c-format
 msgid "<b>%s</b> requests the assignment of %s to the following task:"
 msgstr "<b>%s</b> solicita a asignación de %s para a seguinte tarefa:"
 
-#: ../plugins/itip-formatter/itip-view.c:422
+#: ../plugins/itip-formatter/itip-view.c:421
 #, c-format
 msgid "<b>%s</b> through %s has assigned you a task:"
 msgstr "<b>%s</b> a través de %s asignouselle unha tarefa:"
 
-#: ../plugins/itip-formatter/itip-view.c:424
+#: ../plugins/itip-formatter/itip-view.c:423
 #, c-format
 msgid "<b>%s</b> has assigned you a task:"
 msgstr "<b>%s</b> asignoulle a vostede unha tarefa:"
 
-#: ../plugins/itip-formatter/itip-view.c:430
+#: ../plugins/itip-formatter/itip-view.c:429
 #, c-format
 msgid "<b>%s</b> through %s wishes to add to an existing task:"
 msgstr "<b>%s</b> a través de %s desexa engadirse a unha tarefa existente:"
 
-#: ../plugins/itip-formatter/itip-view.c:432
+#: ../plugins/itip-formatter/itip-view.c:431
 #, c-format
 msgid "<b>%s</b> wishes to add to an existing task:"
 msgstr "<b>%s</b> desexa engadirse a unha tarefa existente:"
 
-#: ../plugins/itip-formatter/itip-view.c:435
+#: ../plugins/itip-formatter/itip-view.c:434
 #, c-format
 msgid ""
 "<b>%s</b> wishes to receive the latest information for the following "
 "assigned task:"
 msgstr "<b>%s</b> quere recibir a última información para a seguinte tarefa asignada:"
 
-#: ../plugins/itip-formatter/itip-view.c:438
+#: ../plugins/itip-formatter/itip-view.c:437
 #, c-format
 msgid "<b>%s</b> has sent back the following assigned task response:"
 msgstr "<b>%s</b> devolveu a seguinte resposta á tarefa:"
 
-#: ../plugins/itip-formatter/itip-view.c:442
+#: ../plugins/itip-formatter/itip-view.c:441
 #, c-format
 msgid "<b>%s</b> through %s has cancelled the following assigned task:"
 msgstr "<b>%s</b> cancelou a seguinte asignación de tarefa a través de %s:"
 
-#: ../plugins/itip-formatter/itip-view.c:444
+#: ../plugins/itip-formatter/itip-view.c:443
 #, c-format
 msgid "<b>%s</b> has cancelled the following assigned task:"
 msgstr "<b>%s</b> cancelou a seguinte tarefa asignada:"
 
-#: ../plugins/itip-formatter/itip-view.c:447
+#: ../plugins/itip-formatter/itip-view.c:446
 #, c-format
 msgid "<b>%s</b> has proposed the following task assignment changes:"
 msgstr "<b>%s</b> propuxo os seguintes trocos na asignación de tarefas:"
 
-#: ../plugins/itip-formatter/itip-view.c:451
+#: ../plugins/itip-formatter/itip-view.c:450
 #, c-format
 msgid "<b>%s</b> through %s has declined the following assigned task:"
 msgstr "<b>%s</b> declinou a seguinte tarefa asignada a través de %s:"
 
-#: ../plugins/itip-formatter/itip-view.c:453
+#: ../plugins/itip-formatter/itip-view.c:452
 #, c-format
 msgid "<b>%s</b> has declined the following assigned task:"
 msgstr "<b>%s</b> declinou a seguinte tarefa asignada:"
 
 #. Start time
-#: ../plugins/itip-formatter/itip-view.c:892
+#: ../plugins/itip-formatter/itip-view.c:891
 msgid "Start time:"
 msgstr "Hora de comezo:"
 
 #. End time
-#: ../plugins/itip-formatter/itip-view.c:901
+#: ../plugins/itip-formatter/itip-view.c:900
 msgid "End time:"
 msgstr "Hora de finalización:"
 
 #. Comment
-#: ../plugins/itip-formatter/itip-view.c:917
-#: ../plugins/itip-formatter/itip-view.c:967
+#: ../plugins/itip-formatter/itip-view.c:916
+#: ../plugins/itip-formatter/itip-view.c:966
 msgid "Comment:"
 msgstr "Comentario:"
 
-#: ../plugins/itip-formatter/itip-view.c:981
+#: ../plugins/itip-formatter/itip-view.c:980
 msgid "Send u_pdates to attendees"
 msgstr "Mandar _actualizacións aos participantes"
 
-#: ../plugins/itip-formatter/itip-view.c:990
+#: ../plugins/itip-formatter/itip-view.c:989
 msgid "A_pply to all instances"
 msgstr "_Aplicar a todas as instancias"
 
@@ -17106,7 +17163,7 @@ msgstr "Erro de sistema descoñecido."
 msgid "%ld KB"
 msgstr "%ld KB"
 
-#: ../shell/e-shell.c:1257 ../widgets/misc/e-cell-date-edit.c:256
+#: ../shell/e-shell.c:1257 ../widgets/misc/e-cell-date-edit.c:257
 msgid "OK"
 msgstr "Aceptar"
 
@@ -19455,10 +19512,6 @@ msgstr "_Novo"
 msgid "_Quick Reference"
 msgstr "_Referencia rápida"
 
-#: ../ui/evolution.xml.h:44
-msgid "_Quit"
-msgstr "_Saír"
-
 #: ../ui/evolution.xml.h:45
 msgid "_Send / Receive"
 msgstr "_Enviar / Recibir"
@@ -19752,11 +19805,11 @@ msgstr "Ancho mínimo"
 msgid "Spacing"
 msgstr "Espaciado"
 
-#: ../widgets/misc/e-cell-date-edit.c:232 ../widgets/misc/e-dateedit.c:460
+#: ../widgets/misc/e-cell-date-edit.c:233 ../widgets/misc/e-dateedit.c:460
 msgid "Now"
 msgstr "Agora"
 
-#: ../widgets/misc/e-cell-date-edit.c:801
+#: ../widgets/misc/e-cell-date-edit.c:802
 #, c-format
 msgid "The time must be in the format: %s"
 msgstr "A data ten que ser introducida no formato: %s"
