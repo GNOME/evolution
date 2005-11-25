@@ -1,8 +1,8 @@
 2005-11-25  Tor Lillqvist  <tml@novell.com>
 
-	* gui/calendar-component.c (ensure_sources): Use
-	g_filename_to_uri() instead of just prefixing "file://" for Win32
-	portability.
+	* gui/calendar-component.c (ensure_sources)
+	* gui/tasks-component.c (ensure_sources): Use g_filename_to_uri()
+	instead of just prefixing "file://" for Win32 portability.
 
 	* gui/e-itip-control.c
 	* gui/itip-utils.c: Use g_ascii_strcasecmp() instead of

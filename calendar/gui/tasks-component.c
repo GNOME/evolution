@@ -139,7 +139,7 @@ ensure_sources (TasksComponent *component)
 				     "tasks", "local",
 				     NULL);
 
-	base_uri_proto = g_strconcat ("file://", base_uri, NULL);
+	base_uri_proto = g_filename_to_uri (base_uri, NULL, NULL);
 
 	groups = e_source_list_peek_groups (source_list);
 	if (groups) {
@@ -873,7 +873,7 @@ setup_create_ecal (TasksComponent *component, TasksComponentView *component_view
 			dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL,
 							 GTK_MESSAGE_WARNING, GTK_BUTTONS_OK,
 							 _("Unable to open the task list '%s' for creating events and meetings"), 
-							   e_source_peek_name (source));
+							 e_source_peek_name (source));
 			gtk_dialog_run (GTK_DIALOG (dialog));
 			gtk_widget_destroy (dialog);
 
