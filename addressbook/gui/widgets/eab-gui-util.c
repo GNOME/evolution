@@ -97,10 +97,11 @@ eab_load_error_dialog (GtkWidget *parent, ESource *source, EBookStatus status)
 	}
 		
 	else if (!strncmp (uri, "file:", 5)) {
-		const char *path = uri+7; /* file:// */
+		char *path = g_filename_from_uri (uri, NULL, NULL);
 		label = g_strdup_printf (
 			_("We were unable to open this addressbook.  Please check that the "
 			  "path %s exists and that you have permission to access it."), path);
+		g_free (path);
 		label_string = label;
 	}
 	else if (!strncmp (uri, "ldap:", 5)) {
