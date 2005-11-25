@@ -34,6 +34,13 @@
 
 #include <bonobo/bonobo-generic-factory.h>
 
+#ifdef G_OS_WIN32
+/* Include <windows.h> early and work around DATADIR lossage */
+#define DATADIR crap_DATADIR
+#include <windows.h>
+#undef DATADIR
+#endif
+
 #include <glade/glade.h>
 
 #include "addressbook.h"
@@ -41,14 +48,20 @@
 #include "addressbook-config.h"
 
 #include "e-util/e-error.h"
+#include "e-util/e-util-private.h"
 
 #include "addressbook/gui/widgets/eab-config.h"
 
 #define d(x)
 
 #ifdef HAVE_LDAP
-#include "ldap.h"
-#include "ldap_schema.h"
+#ifndef G_OS_WIN32
+#include <ldap.h>
+#include <ldap_schema.h>
+#else
+#include <winldap.h>
+#include "openldap-extract.h"
+#endif
 #endif
 
 #define LDAP_PORT_STRING "389"
@@ -389,8 +402,14 @@ query_for_supported_bases (GtkWidget *button, AddressbookSourceDialog *sdialog)
 	GtkWidget *supported_bases_table;
 	GladeXML *gui;
 	GtkTreeIter iter;
+	char *gladefile;
 
-	gui = glade_xml_new (EVOLUTION_GLADEDIR "/" GLADE_FILE_NAME, "supported-bases-dialog", NULL);
+	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
+				      GLADE_FILE_NAME,
+				      NULL);
+	gui = glade_xml_new (gladefile, "supported-bases-dialog", NULL);
+	g_free (gladefile);
+
 	dialog = glade_xml_get_widget (gui, "supported-bases-dialog");
 
 	gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (sdialog->window));
@@ -565,12 +584,17 @@ eabc_general_name(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, str
 	const char *uri;
 	GtkWidget *w;
 	GladeXML *gui;
-	
+	char *gladefile;
 
 	if (old)
 		return old;
 
-	gui = glade_xml_new (EVOLUTION_GLADEDIR "/" GLADE_FILE_NAME, item->label, NULL);
+	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
+				      GLADE_FILE_NAME,
+				      NULL);
+	gui = glade_xml_new (gladefile, item->label, NULL);
+	g_free (gladefile);
+
 	w = glade_xml_get_widget(gui, item->label);
 	gtk_box_pack_start((GtkBox *)parent, w, FALSE, FALSE, 0);
 
@@ -692,11 +716,17 @@ eabc_general_host(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, str
 	char *uri, port[16];
 	LDAPURLDesc *lud;
 	GladeXML *gui;
+	char *gladefile;
 
 	if (!source_group_is_remote(sdialog->source_group))
 		return NULL;
 
-	gui = glade_xml_new (EVOLUTION_GLADEDIR "/" GLADE_FILE_NAME, item->label, NULL);
+	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
+				      GLADE_FILE_NAME,
+				      NULL);
+	gui = glade_xml_new (gladefile, item->label, NULL);
+	g_free (gladefile);
+
 	w = glade_xml_get_widget(gui, item->label);
 	gtk_box_pack_start((GtkBox *)parent, w, FALSE, FALSE, 0);
 
@@ -768,11 +798,17 @@ eabc_general_auth(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, str
 	GtkWidget *w;
 	const char *tmp;
 	GladeXML *gui;
+	char *gladefile;
 
 	if (!source_group_is_remote(sdialog->source_group))
 		return NULL;
 
-	gui = glade_xml_new (EVOLUTION_GLADEDIR "/" GLADE_FILE_NAME, item->label, NULL);
+	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
+				      GLADE_FILE_NAME,
+				      NULL);
+	gui = glade_xml_new (gladefile, item->label, NULL);
+	g_free (gladefile);
+
 	w = glade_xml_get_widget(gui, item->label);
 	gtk_box_pack_start((GtkBox *)parent, w, FALSE, FALSE, 0);
 
@@ -830,11 +866,17 @@ eabc_details_search(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, s
 	LDAPURLDesc *lud;
 	char *uri;
 	GladeXML *gui;
+	char *gladefile;
 
 	if (!source_group_is_remote(sdialog->source_group))
 		return NULL;
 
-	gui = glade_xml_new (EVOLUTION_GLADEDIR "/" GLADE_FILE_NAME, item->label, NULL);
+	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
+				      GLADE_FILE_NAME,
+				      NULL);
+	gui = glade_xml_new (gladefile, item->label, NULL);
+	g_free (gladefile);
+
 	w = glade_xml_get_widget(gui, item->label);
 	gtk_box_pack_start((GtkBox *)parent, w, FALSE, FALSE, 0);
 
@@ -904,11 +946,17 @@ eabc_details_limit(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, st
 	GtkWidget *w;
 	const char *tmp;
 	GladeXML *gui;
+	char *gladefile;
 
 	if (!source_group_is_remote(sdialog->source_group))
 		return NULL;
 
-	gui = glade_xml_new (EVOLUTION_GLADEDIR "/" GLADE_FILE_NAME, item->label, NULL);
+	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
+				      GLADE_FILE_NAME,
+				      NULL);
+	gui = glade_xml_new (gladefile, item->label, NULL);
+	g_free (gladefile);
+
 	w = glade_xml_get_widget(gui, item->label);
 	gtk_box_pack_start((GtkBox *)parent, w, FALSE, FALSE, 0);
 
@@ -1086,8 +1134,13 @@ addressbook_config_edit_source (GtkWidget *parent, ESource *source)
 	GSList *items = NULL;
 	EABConfigTargetSource *target;
 	char *xml;
+	char *gladefile;
 
-	sdialog->gui = glade_xml_new (EVOLUTION_GLADEDIR "/" GLADE_FILE_NAME, "account-editor-notebook", NULL);
+	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
+				      GLADE_FILE_NAME,
+				      NULL);
+	sdialog->gui = glade_xml_new (gladefile, "account-editor-notebook", NULL);
+	g_free (gladefile);
 
 	if (source) {
 		sdialog->original_source = source;

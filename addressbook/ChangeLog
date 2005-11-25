@@ -7,6 +7,14 @@
 
 	* gui/component/Makefile.am: Distribute openldap-extract.h.
 
+	* gui/component/addressbook-config.c: Include openldap-extract.h on
+	Windows. Include e-util-private.h to get redefinition of
+	EVOLUTION_GLADEDIR (as a call to a function) on Windows.
+	(query_for_supported_bases, eabc_general_name, eabc_general_host,
+	eabc_general_auth, eabc_details_search, eabc_details_limit,
+	addressbook_config_edit_source): Construct the path of the glade
+	file at run-time to enable install-anywhere on Windows.
+
 	* importers/evolution-ldif-importer.c (ldif_import)
 	* gui/widgets/eab-gui-util.c (eab_load_error_dialog): Use
 	g_filename_from_uri() instead of just stripping off the "file://"
