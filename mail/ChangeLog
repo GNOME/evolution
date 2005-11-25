@@ -1,3 +1,12 @@
+2005-11-25  Tor Lillqvist  <tml@novell.com>
+
+	* em-composer-prefs.c (sig_add_script_response): Use gstdio
+	wrappers.
+	(url_requested): Use g_filename_from_uri()
+	instead of just stripping off the "file:" prefix.
+	(em_composer_prefs_construct): Construct glade file pathname at
+	run-time for Win32 install-anywhere.
+
 2005-11-23  Parthasarathi Susarla <sparthasarathi@novell.com>
 	
 	** See bug #315987

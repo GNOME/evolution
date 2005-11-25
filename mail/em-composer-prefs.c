@@ -62,10 +62,12 @@
 
 #include <gtkhtml/gtkhtml.h>
 
+#include <glib/gstdio.h>
+
 #include "misc/e-charset-picker.h"
 #include "e-util/e-error.h"
-
-#include <e-util/e-icon-factory.h>
+#include "e-util/e-util-private.h"
+#include "e-util/e-icon-factory.h"
 
 #include "mail-config.h"
 #include "mail-signature-editor.h"
@@ -389,7 +391,7 @@ sig_add_script_response (GtkWidget *widget, int button, EMComposerPrefs *prefs)
 		if (script && *script && g_shell_parse_argv (script, &argc, &argv, NULL)) {
 			struct stat st;
 			
-			if (stat (argv[0], &st) == 0 && S_ISREG (st.st_mode) && access (argv[0], X_OK) == 0) {
+			if (g_stat (argv[0], &st) == 0 && S_ISREG (st.st_mode) && g_access (argv[0], X_OK) == 0) {
 				ESignature *sig;
 				
 				if ((sig = g_object_get_data ((GObject *) entry, "sig"))) {
@@ -497,11 +499,15 @@ url_requested (GtkHTML *html, const char *url, GtkHTMLStream *handle)
 	char buf[128];
 	ssize_t size;
 	int fd;
+	char *filename;
 	
 	if (!strncmp (url, "file:", 5))
-		url += 5;
-	
-	fd = open (url, O_RDONLY);
+		filename = g_filename_from_uri (url, NULL, NULL);
+	else
+		filename = g_strdup (url);
+	fd = g_open (filename, O_RDONLY | O_BINARY, 0);
+	g_free (filename);
+
 	status = GTK_HTML_STREAM_OK;
 	if (fd != -1) {
 		while ((size = read (fd, buf, sizeof (buf)))) {
@@ -858,12 +864,17 @@ em_composer_prefs_construct (EMComposerPrefs *prefs)
 	EMConfigTargetPrefs *target;
 	GSList *l;
 	int i;
+	char *gladefile;
 	
 	prefs->gconf = mail_config_get_gconf_client ();
 	
-	gui = glade_xml_new (EVOLUTION_GLADEDIR "/mail-config.glade", "composer_toplevel", NULL);
+	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
+				      "mail-config.glade",
+				      NULL);
+	gui = glade_xml_new (gladefile, "composer_toplevel", NULL);
 	prefs->gui = gui;
-	prefs->sig_script_gui = glade_xml_new (EVOLUTION_GLADEDIR "/mail-config.glade", "vbox_add_script_signature", NULL);
+	prefs->sig_script_gui = glade_xml_new (gladefile, "vbox_add_script_signature", NULL);
+	g_free (gladefile);
 
 	/** @HookPoint-EMConfig: Mail Composer Preferences
 	 * @Id: org.gnome.evolution.mail.composerPrefs
