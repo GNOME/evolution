@@ -4,6 +4,7 @@
 	OOF state and check for the OOF state and message only of the account
 	is valid. Fixes the problem of printing OOF error message in case
 	of authentication failure.
+	(set_oof_info): Similar.
 
 2005-10-03  Shakti Sen <shprasad@novell.com>
 
