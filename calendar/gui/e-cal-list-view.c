@@ -54,6 +54,7 @@
 #include <libgnome/gnome-util.h>
 #include <e-util/e-categories-config.h>
 #include <e-util/e-dialog-utils.h>
+#include <e-util/e-util-private.h>
 
 #include <libecal/e-cal-time-util.h>
 #include "e-cal-model-calendar.h"
@@ -203,6 +204,7 @@ setup_e_table (ECalListView *cal_list_view)
 	ECell             *cell, *popup_cell;
 	GnomeCanvas       *canvas;
 	GtkStyle          *style;
+	gchar		  *etspecfile;
 
 	model = E_CAL_MODEL_CALENDAR (e_calendar_view_get_model (E_CALENDAR_VIEW (cal_list_view)));
 
@@ -264,11 +266,15 @@ setup_e_table (ECalListView *cal_list_view)
 
 	/* Create table view */
 
+	etspecfile = g_build_filename (EVOLUTION_ETSPECDIR,
+				       "e-cal-list-view.etspec",
+				       NULL);
 	cal_list_view->table_scrolled = E_TABLE_SCROLLED (
 		e_table_scrolled_new_from_spec_file (E_TABLE_MODEL (model),
 						     extras,
-						     EVOLUTION_ETSPECDIR "/e-cal-list-view.etspec",
+						     etspecfile,
 						     NULL));
+	g_free (etspecfile);
 
 	/* Make sure text is readable on top of our color coding */
 

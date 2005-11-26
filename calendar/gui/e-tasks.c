@@ -37,6 +37,7 @@
 #include "e-util/e-error.h"
 #include "e-util/e-categories-config.h"
 #include "e-util/e-config-listener.h"
+#include "e-util/e-util-private.h"
 #include "shell/e-user-creatable-items-handler.h"
 #include <libedataserver/e-url.h>
 #include <libedataserver/e-categories.h>
@@ -1310,7 +1311,7 @@ e_tasks_setup_view_menus (ETasks *tasks, BonoboUIComponent *uic)
 	ETasksPrivate *priv;
 	GalViewFactory *factory;
 	ETableSpecification *spec;
-	char *dir;
+	char *dir0, *dir1, *filename;
 	static GalViewCollection *collection = NULL;
 
 	g_return_if_fail (tasks != NULL);
@@ -1332,18 +1333,25 @@ e_tasks_setup_view_menus (ETasks *tasks, BonoboUIComponent *uic)
 
 		gal_view_collection_set_title (collection, _("Tasks"));
 
-		dir = g_build_filename (tasks_component_peek_base_directory (tasks_component_peek ()), 
-					"tasks", "views", NULL);		
+		dir0 = g_build_filename (EVOLUTION_GALVIEWSDIR,
+					 "tasks",
+					 NULL);
+		dir1 = g_build_filename (tasks_component_peek_base_directory (tasks_component_peek ()), 
+					 "tasks", "views", NULL);
 		gal_view_collection_set_storage_directories (collection,
-							     EVOLUTION_GALVIEWSDIR "/tasks/",
-							     dir);
-		g_free (dir);
+							     dir0,
+							     dir1);
+		g_free (dir1);
+		g_free (dir0);
 
 		/* Create the views */
 
 		spec = e_table_specification_new ();
-		e_table_specification_load_from_file (spec, 
-						      EVOLUTION_ETSPECDIR "/e-calendar-table.etspec");
+		filename = g_build_filename (EVOLUTION_ETSPECDIR,
+					     "e-calendar-table.etspec",
+					     NULL);
+		e_table_specification_load_from_file (spec, filename);
+		g_free (filename);
 
 		factory = gal_view_factory_etable_new (spec);
 		g_object_unref (spec);

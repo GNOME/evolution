@@ -32,6 +32,7 @@
 #include <libgnome/gnome-i18n.h>
 #include <misc/e-dateedit.h>
 #include <e-util/e-icon-factory.h>
+#include <e-util/e-util-private.h>
 #include <evolution-shell-component-utils.h>
 #include "event-page.h"
 #include "recurrence-page.h"
@@ -395,6 +396,7 @@ event_editor_init (EventEditor *ee)
 	EventEditorPrivate *priv;
 	CompEditor *editor = COMP_EDITOR(ee);
 	gboolean status;
+	char *xmlfile;
 
 	priv = g_new0 (EventEditorPrivate, 1);
 	ee->priv = priv;
@@ -408,9 +410,13 @@ event_editor_init (EventEditor *ee)
 
 	bonobo_ui_component_add_verb_list_with_data (editor->uic, verbs, ee);
 
+	xmlfile = g_build_filename (EVOLUTION_UIDIR,
+				    "evolution-event-editor.xml",
+				    NULL);
 	bonobo_ui_util_set_ui (editor->uic, PREFIX,
-			       EVOLUTION_UIDIR "/evolution-event-editor.xml",
+			       xmlfile,
 			       "evolution-event-editor", NULL);
+	g_free (xmlfile);
 
 	/* Hide send options */
 	bonobo_ui_component_set_prop (

@@ -43,6 +43,7 @@
 #include <glade/glade.h>
 #include <libedataserver/e-time-utils.h>
 #include <e-util/e-dialog-widgets.h>
+#include <e-util/e-util-private.h>
 #include <misc/e-dateedit.h>
 #include <libecal/e-cal-recur.h>
 #include <libecal/e-cal-time-util.h>
@@ -2355,11 +2356,16 @@ RecurrencePage *
 recurrence_page_construct (RecurrencePage *rpage)
 {
 	RecurrencePagePrivate *priv;
+	char *gladefile;
 
 	priv = rpage->priv;
 
-	priv->xml = glade_xml_new (EVOLUTION_GLADEDIR 
-				   "/recurrence-page.glade", NULL, NULL);
+	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
+				      "recurrence-page.glade",
+				      NULL);
+	priv->xml = glade_xml_new (gladefile, NULL, NULL);
+	g_free (gladefile);
+
 	if (!priv->xml) {
 		g_message ("recurrence_page_construct(): "
 			   "Could not load the Glade XML file!");

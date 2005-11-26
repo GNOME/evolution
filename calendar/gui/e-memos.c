@@ -38,6 +38,7 @@
 #include "e-util/e-error.h"
 #include "e-util/e-categories-config.h"
 #include "e-util/e-config-listener.h"
+#include "e-util/e-util-private.h"
 #include "shell/e-user-creatable-items-handler.h"
 #include <libecal/e-cal-time-util.h>
 #include <libedataserver/e-url.h>
@@ -1068,7 +1069,7 @@ e_memos_setup_view_menus (EMemos *memos, BonoboUIComponent *uic)
 	EMemosPrivate *priv;
 	GalViewFactory *factory;
 	ETableSpecification *spec;
-	char *dir;
+	char *dir0, *dir1, *filename;
 	static GalViewCollection *collection = NULL;
 
 	g_return_if_fail (memos != NULL);
@@ -1090,19 +1091,26 @@ e_memos_setup_view_menus (EMemos *memos, BonoboUIComponent *uic)
 
 		gal_view_collection_set_title (collection, _("Memos"));
 
-		dir = g_build_filename (memos_component_peek_base_directory (memos_component_peek ()), 
-					"memos", "views", NULL);
-	
+		dir0 = g_build_filename (EVOLUTION_GALVIEWSDIR,
+					 "memos",
+					 NULL);
+		dir1 = g_build_filename (memos_component_peek_base_directory (memos_component_peek ()), 
+					 "memos", "views", NULL);
 		gal_view_collection_set_storage_directories (collection,
-							     EVOLUTION_GALVIEWSDIR "/memos/",
-							     dir);
-		g_free (dir);
+							     dir0,
+							     dir1);
+		g_free (dir1);
+		g_free (dir0);
 
 		/* Create the views */
 
 		spec = e_table_specification_new ();
+		filename = g_build_filename (EVOLUTION_ETSPECDIR,
+					     "e-memo-table.etspec",
+					     NULL);
 		e_table_specification_load_from_file (spec, 
-						      EVOLUTION_ETSPECDIR "/e-memo-table.etspec");
+						      filename);
+		g_free (filename);
 
 		factory = gal_view_factory_etable_new (spec);
 		g_object_unref (spec);

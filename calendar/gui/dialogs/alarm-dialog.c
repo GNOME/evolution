@@ -51,6 +51,7 @@
 #include <libecal/e-cal-time-util.h>
 #include "e-util/e-dialog-widgets.h"
 #include "e-util/e-icon-factory.h"
+#include "e-util/e-util-private.h"
 #include <libebook/e-destination.h>
 #include <libedataserverui/e-name-selector.h>
 #include "../calendar-config.h"
@@ -910,13 +911,18 @@ alarm_dialog_run (GtkWidget *parent, ECal *ecal, ECalComponentAlarm *alarm)
 	Dialog dialog;
 	int response_id;
 	GList *icon_list;
+	char *gladefile;
 	
 	g_return_val_if_fail (alarm != NULL, FALSE);
 
 	dialog.alarm = alarm;
 	dialog.ecal = ecal;
 	
-	dialog.xml = glade_xml_new (EVOLUTION_GLADEDIR "/alarm-dialog.glade", NULL, NULL);
+	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
+				      "alarm-dialog.glade",
+				      NULL);
+	dialog.xml = glade_xml_new (gladefile, NULL, NULL);
+	g_free (gladefile);
 	if (!dialog.xml) {
 		g_message (G_STRLOC ": Could not load the Glade XML file!");
 		return FALSE;

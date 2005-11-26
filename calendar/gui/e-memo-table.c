@@ -54,6 +54,7 @@
 #include "e-comp-editor-registry.h"
 #include "print.h"
 #include <e-util/e-icon-factory.h>
+#include <e-util/e-util-private.h>
 #include "e-cal-popup.h"
 
 
@@ -207,6 +208,7 @@ e_memo_table_init (EMemoTable *memo_table)
 	ETableExtras *extras;
 	gint i;
 	AtkObject *a11y;
+	gchar *etspecfile;
 
 	/* Create the model */
 
@@ -242,10 +244,15 @@ e_memo_table_init (EMemoTable *memo_table)
 
 	/* Create the table */
 
+	etspecfile = g_build_filename (EVOLUTION_ETSPECDIR,
+				       "e-memo-table.etspec",
+				       NULL);
 	table = e_table_scrolled_new_from_spec_file (E_TABLE_MODEL (memo_table->model),
 						     extras,
-						     EVOLUTION_ETSPECDIR "/e-memo-table.etspec",
+						     etspecfile,
 						     NULL);
+	g_free (etspecfile);
+
 	/* FIXME: this causes a message from GLib about 'extras' having only a floating
 	   reference */
 	/* g_object_unref (extras); */

@@ -32,6 +32,7 @@
 #include <misc/e-dateedit.h>
 #include <misc/e-url-entry.h>
 #include "e-util/e-dialog-widgets.h"
+#include "e-util/e-util-private.h"
 #include "../calendar-config.h"
 #include "../e-timezone-entry.h"
 #include "comp-editor-util.h"
@@ -768,11 +769,16 @@ TaskDetailsPage *
 task_details_page_construct (TaskDetailsPage *tdpage)
 {
 	TaskDetailsPagePrivate *priv;
+	char *gladefile;
 
 	priv = tdpage->priv;
 
-	priv->xml = glade_xml_new (EVOLUTION_GLADEDIR 
-				   "/task-details-page.glade", NULL, NULL);
+	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
+				      "task-details-page.glade",
+				      NULL);
+	priv->xml = glade_xml_new (gladefile, NULL, NULL);
+	g_free (gladefile);
+
 	if (!priv->xml) {
 		g_message ("task_details_page_construct(): "
 			   "Could not load the Glade XML file!");

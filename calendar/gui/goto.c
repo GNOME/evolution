@@ -18,6 +18,7 @@
 #include <gtk/gtkdialog.h>
 #include <libgnomeui/gnome-dialog.h>
 #include <glade/glade.h>
+#include "e-util/e-util-private.h"
 #include "calendar-commands.h"
 #include "calendar-config.h"
 #include "tag-calendar.h"
@@ -203,6 +204,7 @@ goto_dialog (GnomeCalendar *gcal)
 	time_t start_time;
 	struct icaltimetype tt;
 	int b;
+	char *gladefile;
 
 	if (dlg) {
 		return;
@@ -211,7 +213,11 @@ goto_dialog (GnomeCalendar *gcal)
 	dlg = g_new0 (GoToDialog, 1);
 	
 	/* Load the content widgets */
-	dlg->xml = glade_xml_new (EVOLUTION_GLADEDIR "/goto-dialog.glade", NULL, NULL);
+	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
+				      "goto-dialog.glade",
+				      NULL);
+	dlg->xml = glade_xml_new (gladefile, NULL, NULL);
+	g_free (gladefile);
 	if (!dlg->xml) {
 		g_message ("goto_dialog(): Could not load the Glade XML file!");
 		g_free (dlg);

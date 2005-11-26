@@ -51,6 +51,7 @@
 #include <widgets/menus/gal-define-views-dialog.h>
 #include "widgets/menus/gal-view-menus.h"
 #include "e-util/e-error.h"
+#include "e-util/e-util-private.h"
 #include "e-comp-editor-registry.h"
 #include "dialogs/delete-error.h"
 #include "dialogs/event-editor.h"
@@ -2092,7 +2093,7 @@ void
 gnome_calendar_setup_view_menus (GnomeCalendar *gcal, BonoboUIComponent *uic)
 {
 	GnomeCalendarPrivate *priv;
-	char *path;
+	char *path0, *path1, *etspecfile;
 	CalendarViewFactory *factory;
 	GalViewFactory *gal_factory;
 	static GalViewCollection *collection = NULL;
@@ -2115,12 +2116,16 @@ gnome_calendar_setup_view_menus (GnomeCalendar *gcal, BonoboUIComponent *uic)
 
 		gal_view_collection_set_title (collection, _("Calendar"));
 
-		path = g_build_filename (calendar_component_peek_base_directory (calendar_component_peek ()), 
+		path0 = g_build_filename (EVOLUTION_GALVIEWSDIR,
+					  "calendar",
+					  NULL);
+		path1 = g_build_filename (calendar_component_peek_base_directory (calendar_component_peek ()), 
 					 "calendar", "views", NULL);
 		gal_view_collection_set_storage_directories (collection,
-							     EVOLUTION_GALVIEWSDIR "/calendar/",
-							     path);
-		g_free (path);
+							     path0,
+							     path1);
+		g_free (path1);
+		g_free (path0);
 
 		/* Create the views */
 
@@ -2141,7 +2146,11 @@ gnome_calendar_setup_view_menus (GnomeCalendar *gcal, BonoboUIComponent *uic)
 		g_object_unref (factory);
 
 		spec = e_table_specification_new ();
-		e_table_specification_load_from_file (spec, EVOLUTION_ETSPECDIR "/e-cal-list-view.etspec");
+		etspecfile = g_build_filename (EVOLUTION_ETSPECDIR,
+					       "e-cal-list-view.etspec",
+					       NULL);
+		e_table_specification_load_from_file (spec, etspecfile);
+		g_free (etspecfile);
 		gal_factory = gal_view_factory_etable_new (spec);
 		g_object_unref (spec);
 		gal_view_collection_add_factory (collection, GAL_VIEW_FACTORY (gal_factory));

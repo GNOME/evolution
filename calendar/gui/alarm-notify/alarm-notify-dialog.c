@@ -44,6 +44,7 @@
 #include "config-data.h"
 #include "util.h"
 #include <e-util/e-icon-factory.h>
+#include <e-util/e-util-private.h>
 
 
 	
@@ -218,8 +219,14 @@ notified_alarms_dialog_new (void)
 			G_TYPE_POINTER, /* End */
 		
 			G_TYPE_POINTER /* FuncInfo*/));
+	char *gladefile;
 	 
-	an->xml = glade_xml_new (EVOLUTION_GLADEDIR "/alarm-notify.glade", NULL, NULL);
+	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
+				      "alarm-notify.glade",
+				      NULL);
+	an->xml = glade_xml_new (gladefile, NULL, NULL);
+	g_free (gladefile);
+
 	if (!an->xml) {
 		g_message ("alarm_notify_dialog(): Could not load the Glade XML file!");
 		g_free (an);

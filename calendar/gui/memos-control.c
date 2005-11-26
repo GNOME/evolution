@@ -46,6 +46,7 @@
 #include <bonobo/bonobo-ui-util.h>
 #include <e-util/e-dialog-utils.h>
 #include <e-util/e-print.h>
+#include <e-util/e-util-private.h>
 
 #include "calendar-config.h"
 #include "e-memos.h"
@@ -197,6 +198,7 @@ memos_control_activate (BonoboControl *control, EMemos *memos)
 	int n_selected;
 	EMemoTable *cal_table;
 	ETable *etable;
+	char *xmlfile;
 
 	uic = bonobo_control_get_ui_component (control);
 	g_assert (uic != NULL);
@@ -211,10 +213,14 @@ memos_control_activate (BonoboControl *control, EMemos *memos)
 
 	bonobo_ui_component_freeze (uic, NULL);
 
+	xmlfile = g_build_filename (EVOLUTION_UIDIR,
+				    "evolution-memos.xml",
+				    NULL);
 	bonobo_ui_util_set_ui (uic, PREFIX,
-			       EVOLUTION_UIDIR "/evolution-memos.xml",
+			       xmlfile,
 			       "evolution-memos",
 			       NULL);
+	g_free (xmlfile);
 
 	e_memos_setup_view_menus (memos, uic);
 

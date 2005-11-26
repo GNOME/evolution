@@ -40,6 +40,7 @@
 #include <libgnome/gnome-i18n.h>
 
 #include "e-util/e-mktemp.h"
+#include "e-util/e-util-private.h"
 #include <camel/camel.h>
 
 #include "comp-editor.h"
@@ -565,6 +566,7 @@ cal_attachment_edit (CalAttachment *attachment, GtkWidget *parent)
 	DialogData *dialog_data;
 	GladeXML *editor_gui;
 	char *type;
+	char *xmlfile;
 	
 	g_return_if_fail (attachment != NULL);
 	g_return_if_fail (E_IS_CAL_ATTACHMENT (attachment));
@@ -578,8 +580,12 @@ cal_attachment_edit (CalAttachment *attachment, GtkWidget *parent)
 		return;
 	}
 	
-	editor_gui = glade_xml_new (EVOLUTION_GLADEDIR "/cal-attachment.glade",
-				    NULL, NULL);
+	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
+				      "cal-attachment.glade",
+				      NULL);
+	editor_gui = glade_xml_new (gladefile, NULL, NULL);
+	g_free (gladefile);
+
 	if (editor_gui == NULL) {
 		g_warning ("Cannot load `cal-attachment.glade'");
 		return;

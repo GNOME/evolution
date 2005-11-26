@@ -1,3 +1,36 @@
+2005-11-26  Tor Lillqvist  <tml@novell.com>
+
+	* gui/calendar-commands.c
+	* gui/e-cal-list-view.c
+	* gui/e-calendar-table.c
+	* gui/e-memo-table.c
+	* gui/e-memos.c
+	* gui/e-tasks.c
+	* gui/gnome-cal.c
+	* gui/goto.c
+	* gui/memos-control.c
+	* gui/tasks-control.c
+	* gui/alarm-notify/alarm-notify-dialog.c
+	* gui/alarm-notify/notify-main.c
+	* gui/dialogs/alarm-dialog.c
+	* gui/dialogs/alarm-list-dialog.c
+	* gui/dialogs/cal-attachment.c
+	* gui/dialogs/cal-prefs-dialog.c
+	* gui/dialogs/comp-editor.c
+	* gui/dialogs/e-delegate-dialog.c
+	* gui/dialogs/event-editor.c
+	* gui/dialogs/meeting-page.c
+	* gui/dialogs/memo-page.c
+	* gui/dialogs/recurrence-page.c
+	* gui/dialogs/schedule-page.c
+	* gui/dialogs/task-details-page.c
+	* gui/dialogs/task-page.c
+	* gui/dialogs/url-editor-dialog.c: Include e-util-private.h to get
+	redefinition of compile-time pathnames as calls to functions on
+	Windows. Construct the pathnames of files and directories under
+	the installation prefix at run-time to enable install-anywhere on
+	Windows. No effect on functionality on Unix.
+
 2005-11-25  Tor Lillqvist  <tml@novell.com>
 
 	* gui/calendar-component.c (ensure_sources)

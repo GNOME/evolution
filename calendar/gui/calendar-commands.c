@@ -65,6 +65,7 @@
 #include "e-cal-list-view.h"
 #include "evolution-shell-component-utils.h"
 #include "e-util/e-icon-factory.h"
+#include "e-util/e-util-private.h"
 #include "e-cal-menu.h"
 
 /* Focusing information for the calendar view.  We have to keep track of this
@@ -639,6 +640,7 @@ calendar_control_activate (BonoboControl *control,
 	Bonobo_UIContainer remote_uih;
 	BonoboUIComponent *uic;
 	FocusData *focus;
+	gchar *xmlfile;
 
 	uic = bonobo_control_get_ui_component (control);
 	g_assert (uic != NULL);
@@ -653,10 +655,14 @@ calendar_control_activate (BonoboControl *control,
 
 	bonobo_ui_component_freeze (uic, NULL);
 
+	xmlfile = g_build_filename (EVOLUTION_UIDIR,
+				    "evolution-calendar.xml",
+				    NULL);
 	bonobo_ui_util_set_ui (uic, PREFIX,
-			       EVOLUTION_UIDIR "/evolution-calendar.xml",
+			       xmlfile,
 			       "evolution-calendar",
 			       NULL);
+	g_free (xmlfile);
 
 	e_pixmaps_update (uic, pixmaps);
 

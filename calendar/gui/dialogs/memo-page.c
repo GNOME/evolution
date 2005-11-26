@@ -41,6 +41,7 @@
 #include "common/authentication.h"
 #include "e-util/e-dialog-widgets.h"
 #include "e-util/e-categories-config.h"
+#include "e-util/e-util-private.h"
 #include "../calendar-config.h"
 #include "comp-editor.h"
 #include "comp-editor-util.h"
@@ -550,11 +551,16 @@ MemoPage *
 memo_page_construct (MemoPage *tpage)
 {
 	MemoPagePrivate *priv;
+	char *gladefile;
 
 	priv = tpage->priv;
 
-	priv->xml = glade_xml_new (EVOLUTION_GLADEDIR "/memo-page.glade",
-				   NULL, NULL);
+	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
+				      "memo-page.glade",
+				      NULL);
+	priv->xml = glade_xml_new (gladefile, NULL, NULL);
+	g_free (gladefile);
+
 	if (!priv->xml) {
 		g_message ("memo_page_construct(): "
 			   "Could not load the Glade XML file!");

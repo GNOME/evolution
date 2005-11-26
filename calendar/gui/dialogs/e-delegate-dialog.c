@@ -33,6 +33,7 @@
 #include <misc/e-map.h>
 #include <libebook/e-destination.h>
 #include <libedataserverui/e-name-selector.h>
+#include "e-util/e-util-private.h"
 #include "e-delegate-dialog.h"
 
 struct _EDelegateDialogPrivate {
@@ -123,6 +124,7 @@ e_delegate_dialog_construct (EDelegateDialog *edd, const char *name, const char 
 	EDestination *dest;
 	ENameSelectorModel *name_selector_model;
 	ENameSelectorDialog *name_selector_dialog;
+	char *gladefile;
 
 	g_return_val_if_fail (edd != NULL, NULL);
 	g_return_val_if_fail (E_IS_DELEGATE_DIALOG (edd), NULL);
@@ -131,8 +133,12 @@ e_delegate_dialog_construct (EDelegateDialog *edd, const char *name, const char 
 
 	/* Load the content widgets */
 
-	priv->xml = glade_xml_new (EVOLUTION_GLADEDIR "/e-delegate-dialog.glade",
-				   NULL, NULL);
+	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
+				      "e-delegate-dialog.glade",
+				      NULL);
+	priv->xml = glade_xml_new (gladefile, NULL, NULL);
+	g_free (gladefile);
+
 	if (!priv->xml) {
 		g_message ("e_delegate_dialog_construct(): Could not load the Glade XML file!");
 		goto error;

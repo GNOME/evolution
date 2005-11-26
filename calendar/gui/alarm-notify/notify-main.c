@@ -40,6 +40,7 @@
 #include <libedataserver/e-source.h>
 #include <libedataserverui/e-passwords.h>
 #include "e-util/e-icon-factory.h"
+#include "e-util/e-util-private.h"
 #include "alarm.h"
 #include "alarm-queue.h"
 #include "alarm-notify.h"
@@ -70,10 +71,17 @@ save_session_cb (GnomeClient *client, GnomeSaveStyle save_style, gint shutdown,
 {
 	char *args[2];
 
-	args[0] = EVOLUTION_LIBEXECDIR "/evolution-alarm-notify";
+	args[0] = g_build_filename (EVOLUTION_LIBEXECDIR,
+				    "evolution-alarm-notify"
+#ifdef G_OS_WIN32
+				    ".exe"
+#endif
+				    ,
+				    NULL);
 	args[1] = NULL;
 	gnome_client_set_restart_command (client, 1, args);
-
+	g_free (args[0]);
+	
 	return TRUE;
 }
 

@@ -34,6 +34,7 @@
 #include <libgnomeui/gnome-dialog-util.h>
 #include <glade/glade.h>
 #include <e-util/e-dialog-widgets.h>
+#include <e-util/e-util-private.h>
 #include <misc/e-dateedit.h>
 #include "../calendar-config.h"
 #include "../e-meeting-time-sel.h"
@@ -408,11 +409,16 @@ SchedulePage *
 schedule_page_construct (SchedulePage *spage, EMeetingStore *ems)
 {
 	SchedulePagePrivate *priv;
+	char *gladefile;
 	
 	priv = spage->priv;
 
-	priv->xml = glade_xml_new (EVOLUTION_GLADEDIR 
-				   "/schedule-page.glade", NULL, NULL);
+	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
+				      "schedule-page.glade",
+				      NULL);
+	priv->xml = glade_xml_new (gladefile, NULL, NULL);
+	g_free (gladefile);
+
 	if (!priv->xml) {
 		g_message ("schedule_page_construct(): "
 			   "Could not load the Glade XML file!");

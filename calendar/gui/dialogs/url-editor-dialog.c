@@ -43,6 +43,7 @@
 #include <glade/glade.h>
 #include <e-util/e-dialog-widgets.h>
 #include <e-util/e-icon-factory.h>
+#include <e-util/e-util-private.h>
 #include <misc/e-dateedit.h>
 #include <stdlib.h>
 #include <string.h>
@@ -66,9 +67,15 @@ gboolean
 url_editor_dialog_new (DialogData *dialog_data, EPublishUri *uri)
 {
 	int b;
-
+	char *gladefile;
 	UrlDialogData *url_dlg_data = g_new0 (UrlDialogData, 1);
-	url_dlg_data->xml = glade_xml_new (EVOLUTION_GLADEDIR "/url-editor-dialog.glade", NULL, NULL);
+
+	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
+				      "url-editor-dialog.glade",
+				      NULL);
+	url_dlg_data->xml = glade_xml_new (gladefile, NULL, NULL);
+	g_free (gladefile);
+
 	if (!url_dlg_data->xml) {
 		g_message ("url_editor_dialog_construct(): Could not load the Glade XML file!");
 		return FALSE;
@@ -365,7 +372,7 @@ url_editor_dialog_fb_url_changed (GtkEntry *url_entry, void *data)
 				    URL_LIST_LOCATION_COLUMN, &url_name, 
 				    -1);
 
-		if (!strcasecmp (url_name, entry_contents)) {
+		if (!g_ascii_strcasecmp (url_name, entry_contents)) {
 			gtk_widget_set_sensitive ((GtkWidget *) url_dlg_data->ok, FALSE);
 			return;
 		}

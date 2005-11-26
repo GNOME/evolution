@@ -40,6 +40,7 @@
 #include <table/e-cell-text.h>
 #include <table/e-cell-combo.h>
 #include <e-util/e-dialog-utils.h>
+#include <e-util/e-util-private.h>
 #include <misc/e-cell-date-edit.h>
 #include <misc/e-cell-percent.h>
 
@@ -297,6 +298,7 @@ e_calendar_table_init (ECalendarTable *cal_table)
 	GdkPixbuf *pixbuf;
 	GList *strings;
 	AtkObject *a11y;
+	char *etspecfile;
 
 	/* Create the model */
 
@@ -493,10 +495,15 @@ e_calendar_table_init (ECalendarTable *cal_table)
 
 	/* Create the table */
 
+	etspecfile = g_build_filename (EVOLUTION_ETSPECDIR,
+				       "e-calendar-table.etspec",
+				       NULL);
 	table = e_table_scrolled_new_from_spec_file (E_TABLE_MODEL (cal_table->model),
 						     extras,
-						     EVOLUTION_ETSPECDIR "/e-calendar-table.etspec",
+						     etspecfile,
 						     NULL);
+	g_free (etspecfile);
+
 	/* FIXME: this causes a message from GLib about 'extras' having only a floating
 	   reference */
 	/* g_object_unref (extras); */

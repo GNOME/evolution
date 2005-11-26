@@ -42,6 +42,7 @@
 #include <libgnomeui/gnome-messagebox.h>
 #include <e-util/e-dialog-utils.h>
 #include <e-util/e-icon-factory.h>
+#include <e-util/e-util-private.h>
 #include <evolution-shell-component-utils.h>
 
 #include <camel/camel-url.h>
@@ -1400,6 +1401,7 @@ comp_editor_init (CompEditor *editor)
 {
 	CompEditorPrivate *priv;
 	BonoboUIContainer *container;
+	char *xmlfile;
 
 	priv = g_new0 (CompEditorPrivate, 1);
 	editor->priv = priv;
@@ -1425,9 +1427,14 @@ comp_editor_init (CompEditor *editor)
 
 	bonobo_ui_component_freeze (editor->uic, NULL);
 
+	xmlfile = g_build_filename (EVOLUTION_UIDIR,
+				    "evolution-editor.xml",
+				    NULL);
 	bonobo_ui_util_set_ui (editor->uic, PREFIX,
-			       EVOLUTION_UIDIR "/evolution-editor.xml",
+			       xmlfile,
 			       "evolution-editor", NULL);
+	g_free (xmlfile);
+
 	e_pixmaps_update (editor->uic, pixmaps);
 	bonobo_ui_component_thaw (editor->uic, NULL);
 

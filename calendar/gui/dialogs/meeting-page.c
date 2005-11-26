@@ -41,6 +41,7 @@
 #include <misc/e-dateedit.h>
 #include <e-util/e-dialog-utils.h>
 #include <e-util/e-dialog-widgets.h>
+#include <e-util/e-util-private.h>
 
 #include "../calendar-component.h"
 #include "../e-meeting-attendee.h"
@@ -672,7 +673,7 @@ existing_attendee (EMeetingAttendee *ia, ECalComponent *comp)
 		const char *address;
 		
 		address = itip_strip_mailto (attendee->value);
-		if (address && !g_strcasecmp (ia_address, address)) {
+		if (address && !g_ascii_strcasecmp (ia_address, address)) {
 			e_cal_component_free_attendee_list (attendees);
 			return TRUE;
 		}
@@ -1035,11 +1036,16 @@ meeting_page_construct (MeetingPage *mpage, EMeetingStore *ems,
 	GtkWidget *sw;
 	EAccount *a;
 	GtkTreeSelection *selection;
+	char *gladefile;
 	
 	priv = mpage->priv;
 
-	priv->xml = glade_xml_new (EVOLUTION_GLADEDIR 
-				   "/meeting-page.glade", NULL, NULL);
+	gladefile = g_build_filename (EVOLUTION_GLADEDIR, 
+				      "meeting-page.glade",
+				      NULL);
+	priv->xml = glade_xml_new (gladefile, NULL, NULL);
+	g_free (gladefile);
+
 	if (!priv->xml) {
 		g_message (G_STRLOC ": Could not load the Glade XML file!");
 		return NULL;

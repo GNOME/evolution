@@ -45,6 +45,7 @@
 #include <bonobo/bonobo-ui-util.h>
 #include <e-util/e-dialog-utils.h>
 #include <e-util/e-print.h>
+#include <e-util/e-util-private.h>
 #include "dialogs/cal-prefs-dialog.h"
 #include "calendar-config.h"
 #include "calendar-commands.h"
@@ -263,6 +264,7 @@ tasks_control_activate (BonoboControl *control, ETasks *tasks)
 	ECalendarTable *cal_table;
 	ETable *etable;
 	gboolean state;
+	char *xmlfile;
 
 	uic = bonobo_control_get_ui_component (control);
 	g_assert (uic != NULL);
@@ -277,10 +279,14 @@ tasks_control_activate (BonoboControl *control, ETasks *tasks)
 
 	bonobo_ui_component_freeze (uic, NULL);
 
+	xmlfile = g_build_filename (EVOLUTION_UIDIR,
+				    "evolution-tasks.xml",
+				    NULL);
 	bonobo_ui_util_set_ui (uic, PREFIX,
-			       EVOLUTION_UIDIR "/evolution-tasks.xml",
+			       xmlfile,
 			       "evolution-tasks",
 			       NULL);
+	g_free (xmlfile);
 
 	e_tasks_setup_view_menus (tasks, uic);
 
