@@ -40,6 +40,10 @@
 #include <gtk/gtk.h>
 #include <libgnome/gnome-util.h>
 
+#ifdef G_OS_WIN32
+#include <windows.h>
+#endif
+
 #include "e-i18n.h"
 #include "e-util.h"
 #include "e-util-private.h"
@@ -432,18 +436,35 @@ e_strstrcase (const gchar *haystack, const gchar *needle)
 		return (gchar *) haystack;
 
 	for (ptr = haystack; *(ptr + len - 1) != '\0'; ptr++)
-		if (!g_strncasecmp (ptr, needle, len))
+		if (!g_ascii_strncasecmp (ptr, needle, len))
 			return (gchar *) ptr;
 
 	return NULL;
 }
 
 /* This only makes a filename safe for usage as a filename.  It still may have shell meta-characters in it. */
+
+/* This code is rather misguided and mostly pointless, but can't be
+ * changed because of backward compatibility, I guess.
+ *
+ * It replaces some perfectly safe characters like '%' with an
+ * underscore. (Recall that on Unix, the only bytes not allowed in a
+ * file name component are '\0' and '/'.) On the other hand, the UTF-8
+ * for a printable non-ASCII Unicode character (that thus consists of
+ * several very nonprintable non-ASCII bytes) is let through as
+ * such. But those bytes are of course also allowed in filenames, so
+ * it doesn't matter as such...
+ */
 void
 e_filename_make_safe (gchar *string)
 {
 	gchar *p, *ts;
 	gunichar c;
+#ifdef G_OS_WIN32
+	const char *unsafe_chars = " /'\"`&();|<>$%{}!\\:*?";
+#else
+	const char *unsafe_chars = " /'\"`&();|<>$%{}!";
+#endif	
 	
 	g_return_if_fail (string != NULL);
 	p = string;
@@ -452,7 +473,11 @@ e_filename_make_safe (gchar *string)
 		c = g_utf8_get_char (p);
 		ts = p;
 		p = g_utf8_next_char (p);
-		if (!g_unichar_isprint(c) || ( c < 0xff && strchr (" /'\"`&();|<>$%{}!", c&0xff ))) {
+		/* I wonder what this code is supposed to actually
+		 * achieve, and whether it does that as currently
+		 * written?
+		 */
+		if (!g_unichar_isprint(c) || ( c < 0xff && strchr (unsafe_chars, c&0xff ))) {
 			while (ts<p) 	
 				*ts++ = '_';
 		}
@@ -1252,3 +1277,33 @@ e_gettext (const char *msgid)
 	return dgettext (E_I18N_DOMAIN, msgid);
 }
 
+#ifdef G_OS_WIN32
+
+int
+fsync (int fd)
+{
+	int handle;
+	struct stat st;
+
+	handle = _get_osfhandle (fd);
+	if (handle == -1)
+		return -1;
+
+	fstat (fd, &st);
+
+	/* FlushFileBuffers() fails if called on a handle to the
+	 * console output. As we cannot know whether fd refers to the
+	 * console output or not, punt, and call FlushFileBuffers()
+	 * only for regular files and pipes.
+	 */
+	if (!(S_ISREG (st.st_mode) || S_ISFIFO (st.st_mode)))
+		return 0;
+
+	if (FlushFileBuffers ((HANDLE) handle))
+		return 0;
+
+	errno = EIO;
+	return -1;
+}
+
+#endif

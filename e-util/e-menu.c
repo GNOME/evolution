@@ -785,7 +785,7 @@ emph_construct_menu(EPluginHook *eph, xmlNodePtr root)
 				EMenuUIFile *ui = g_malloc0(sizeof(*ui));
 
 				ui->filename = tmp;
-				ui->appdir = g_strdup("/tmp");
+				ui->appdir = g_strdup(g_get_tmp_dir());
 				ui->appname = g_strdup("Evolution");
 				menu->uis = g_slist_append(menu->uis, ui);
 			}

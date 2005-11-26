@@ -44,10 +44,6 @@
 #include "e-util.h"
 #include "e-xml-utils.h"
 
-#ifdef G_OS_WIN32
-#define fsync(fd) 0		/* No fsync() in Microsoft's C library */
-#endif
-
 xmlNode *
 e_xml_get_child_by_name (const xmlNode *parent, const xmlChar *child_name)
 {
@@ -316,9 +312,9 @@ e_xml_get_bool_prop_by_name_with_default(const xmlNode *parent,
 
 	prop = xmlGetProp ((xmlNode *) parent, prop_name);
 	if (prop != NULL) {
-		if (g_strcasecmp (prop, "true") == 0) {
+		if (g_ascii_strcasecmp (prop, "true") == 0) {
 			ret_val = TRUE;
-		} else if (g_strcasecmp (prop, "false") == 0) {
+		} else if (g_ascii_strcasecmp (prop, "false") == 0) {
 			ret_val = FALSE;
 		}
 		xmlFree(prop);

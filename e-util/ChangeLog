@@ -3,6 +3,26 @@
 	* e-dialog-utils.c
 	* e-gtk-utils.c: Conditionalize X11 specific code on GDK_WINDOWING_X11.
 
+	* e-menu.c (emph_construct_menu): Use g_get_tmp_dir() instead of
+	hardcoding /tmp.
+
+	* e-util.c (e_strstrcase): Use g_ascii_strncasecmp() instead of
+	the deprecated g_strncasecmp(). What kinds of strings this
+	function is supposed to be used on (UTF-8 or some random single-
+	or multi-byte encoding) is anybody's guess. This function isn't
+	used in Evolution and should probably go away, though. And this is
+	one of the files that have a partially duplicated copy in
+	e-d-s/libedataserver, too, so doubly so.
+	(e_filename_make_safe): Mark more bytes as unsafe on Win32. Add
+	comments. This function is really under-specified and weird, one
+	wonders whether it really does what the author thought it should
+	do.
+	(fsync): Add Win32 implementation of fsync().
+	
+	* e-xml-utils.c (e_xml_get_bool_prop_by_name_with_default): Use
+	g_ascii_strcasecmp() instead of the deprecated g_strcasecmp(),
+	especially as we are comparing to literal ASCII strings.
+
 2005-11-25  Tor Lillqvist  <tml@novell.com>
 
 	* e-util-private.h: Sort the stuff in the Win32 part for
