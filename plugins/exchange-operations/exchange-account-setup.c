@@ -692,11 +692,10 @@ set_oof_info ()
 
 	account = exchange_operations_get_exchange_account ();
 
-	if (!exchange_oof_set (account, oof_data->state, oof_data->message)) {
+	if (account && !exchange_oof_set (account, oof_data->state, oof_data->message)) {
 
 		e_error_run (NULL, ERROR_DOMAIN ":state-update-error", NULL);
 	}
-
 }
 
 static void
