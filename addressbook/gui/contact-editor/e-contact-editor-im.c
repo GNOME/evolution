@@ -34,6 +34,7 @@
 #include <gtk/gtkstock.h>
 #include <string.h>
 #include <e-util/e-icon-factory.h>
+#include <e-util/e-util-private.h>
 
 static void e_contact_editor_im_init		(EContactEditorIm		 *card);
 static void e_contact_editor_im_class_init	(EContactEditorImClass	 *klass);
@@ -247,6 +248,7 @@ e_contact_editor_im_init (EContactEditorIm *e_contact_editor_im)
 	GladeXML *gui;
 	GtkWidget *widget;
 	GList *icon_list;
+	char *gladefile;
 
 	gtk_dialog_add_buttons (GTK_DIALOG (e_contact_editor_im),
 				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
@@ -262,7 +264,11 @@ e_contact_editor_im_init (EContactEditorIm *e_contact_editor_im)
 	e_contact_editor_im->service = FIRST_IM_TYPE;
 	e_contact_editor_im->location = g_strdup("HOME");
 	e_contact_editor_im->username = NULL;
-	gui = glade_xml_new (EVOLUTION_GLADEDIR "/im.glade", NULL, NULL);
+
+	gladefile = g_build_filename (EVOLUTION_GLADEDIR, "im.glade", NULL);
+	gui = glade_xml_new (gladefile, NULL, NULL);
+	g_free (gladefile);
+
 	e_contact_editor_im->gui = gui;
 
 	widget = glade_xml_get_widget(gui, "dialog-im");

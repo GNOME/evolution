@@ -1,3 +1,20 @@
+2005-11-26  Tor Lillqvist  <tml@novell.com>
+
+	* gui/contact-editor/e-contact-editor.c
+	* gui/contact-editor/e-contact-editor-address.c
+	* gui/contact-editor/e-contact-editor-fullname.c
+	* gui/contact-editor/e-contact-editor-im.c
+	* gui/contact-list-editor/e-contact-list-editor.c
+	* gui/merging/eab-contact-merging.c
+	* gui/widgets/e-addressbook-view.c
+	* printing/e-contact-print.c
+	* printing/e-contact-print-style-editor.c: Include
+	e-util-private.h to get redefinition of compile-time pathnames as
+	calls to functions on Windows. Construct the pathnames of files
+	and directories under the installation prefix at run-time to
+	enable install-anywhere on Windows. No effect on functionality on
+	Unix.
+
 2005-11-25  Tor Lillqvist  <tml@novell.com>
 
 	* gui/component/openldap-extract.h: New file. Contains various

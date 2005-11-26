@@ -71,6 +71,7 @@
 #include "eab-contact-merging.h"
 
 #include "e-util/e-error.h"
+#include "e-util/e-util-private.h"
 
 #include "e-contact-editor.h"
 #include <gdk/gdkkeysyms.h>
@@ -422,6 +423,7 @@ eab_view_new (void)
 	GtkWidget *widget = GTK_WIDGET (g_object_new (E_TYPE_AB_VIEW, NULL));
 	EABView *eav = EAB_VIEW (widget);
 	FilterPart *part;
+	char *xmlfile;
 
 	/* create our model */
 	eav->model = eab_model_new ();
@@ -464,7 +466,9 @@ eab_view_new (void)
 	eav->search_context = rule_context_new ();
 	rule_context_add_part_set (eav->search_context, "partset", filter_part_get_type (),
 				   rule_context_add_part, rule_context_next_part);
-	rule_context_load (eav->search_context, SEARCH_RULE_DIR "/addresstypes.xml", "");
+	xmlfile = g_build_filename (SEARCH_RULE_DIR, "addresstypes.xml", NULL);
+	rule_context_load (eav->search_context, xmlfile, "");
+	g_free (xmlfile);
 
 	eav->search_rule = filter_rule_new ();
 	part = rule_context_next_part (eav->search_context, NULL);
@@ -537,6 +541,8 @@ init_collection (void)
 	GalViewFactory *factory;
 	ETableSpecification *spec;
 	char *galview;
+	char *addressbookdir;
+	char *etspecfile;
 
 	if (collection == NULL) {
 		collection = gal_view_collection_new();
@@ -544,14 +550,22 @@ init_collection (void)
 		gal_view_collection_set_title (collection, _("Address Book"));
 
 		galview = gnome_util_prepend_user_home("/.evolution/addressbook/views");
+		addressbookdir = g_build_filename (EVOLUTION_GALVIEWSDIR,
+						   "addressbook",
+						   NULL);
 		gal_view_collection_set_storage_directories
 			(collection,
-			 EVOLUTION_GALVIEWSDIR "/addressbook/",
+			 addressbookdir,
 			 galview);
+		g_free(addressbookdir);
 		g_free(galview);
 
 		spec = e_table_specification_new();
-		e_table_specification_load_from_file (spec, EVOLUTION_ETSPECDIR "/e-addressbook-view.etspec");
+		etspecfile = g_build_filename (EVOLUTION_ETSPECDIR,
+					       "e-addressbook-view.etspec",
+					       NULL);
+		e_table_specification_load_from_file (spec, etspecfile);
+		g_free (etspecfile);
 
 		factory = gal_view_factory_etable_new (spec);
 		g_object_unref (spec);
@@ -1280,13 +1294,18 @@ create_table_view (EABView *view)
 {
 	ETableModel *adapter;
 	GtkWidget *table;
+	char *etspecfile;
 	
 	adapter = eab_table_adapter_new(view->model);
 
 	/* Here we create the table.  We give it the three pieces of
 	   the table we've created, the header, the model, and the
 	   initial layout.  It does the rest.  */
-	table = e_table_scrolled_new_from_spec_file (adapter, NULL, EVOLUTION_ETSPECDIR "/e-addressbook-view.etspec", NULL);
+	etspecfile = g_build_filename (EVOLUTION_ETSPECDIR,
+				       "e-addressbook-view.etspec",
+				       NULL);
+	table = e_table_scrolled_new_from_spec_file (adapter, NULL, etspecfile, NULL);
+	g_free (etspecfile);
 
 	view->object = G_OBJECT(adapter);
 	view->widget = table;

@@ -60,6 +60,7 @@
 #include "misc/e-url-entry.h"
 #include "shell/evolution-shell-component-utils.h"
 #include "e-util/e-icon-factory.h"
+#include "e-util/e-util-private.h"
 
 #include "eab-contact-merging.h"
 #include <libgnomevfs/gnome-vfs-ops.h>
@@ -3149,6 +3150,7 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 	GladeXML *gui;
 	GtkWidget *widget, *label;
 	char *icon_path;
+	char *gladefile;
 
 	e_contact_editor->name = e_contact_name_new();
 
@@ -3161,7 +3163,12 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 	e_contact_editor->load_source_id = 0;
 	e_contact_editor->load_book = NULL;
 
-	gui = glade_xml_new (EVOLUTION_GLADEDIR "/contact-editor.glade", NULL, NULL);
+	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
+				      "contact-editor.glade",
+				      NULL);
+	gui = glade_xml_new (gladefile, NULL, NULL);
+	g_free (gladefile);
+
 	e_contact_editor->gui = gui;
 
 	setup_tab_order(gui);

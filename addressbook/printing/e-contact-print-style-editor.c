@@ -20,6 +20,7 @@
  */
 
 #include "e-contact-print-style-editor.h"
+#include "e-util/e-util-private.h"
 
 static void e_contact_print_style_editor_init		(EContactPrintStyleEditor		 *card);
 static void e_contact_print_style_editor_class_init	(EContactPrintStyleEditorClass	 *klass);
@@ -99,9 +100,15 @@ static void
 e_contact_print_style_editor_init (EContactPrintStyleEditor *e_contact_print_style_editor)
 {
 	GladeXML *gui;
+	char *gladefile;
 
 	/*   e_contact_print_style_editor->card = NULL;*/
-	gui = glade_xml_new (EVOLUTION_GLADEDIR "/e-contact-print.glade", NULL, NULL);
+	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
+				      "e-contact-print.glade",
+				      NULL);
+	gui = glade_xml_new (gladefile, NULL, NULL);
+	g_free (gladefile);
+
 	e_contact_print_style_editor->gui = gui;
 	gtk_widget_reparent(glade_xml_get_widget(gui, "vbox-contact-print-style-editor"),
 			    GTK_WIDGET(e_contact_print_style_editor));

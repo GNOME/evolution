@@ -43,6 +43,7 @@
 #include <libebook/e-book.h>
 #include <libebook/e-contact.h>
 #include <e-util/e-util.h>
+#include <e-util/e-util-private.h>
 #include <e-util/e-print.h>
 
 #define SCALE 5

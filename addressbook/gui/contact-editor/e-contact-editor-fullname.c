@@ -22,6 +22,7 @@
 #include <config.h>
 #include "e-contact-editor-fullname.h"
 #include <e-util/e-icon-factory.h>
+#include <e-util/e-util-private.h>
 #include <libgnome/gnome-util.h>
 #include <libgnome/gnome-i18n.h>
 #include <gtk/gtkcombo.h>
@@ -104,6 +105,7 @@ e_contact_editor_fullname_init (EContactEditorFullname *e_contact_editor_fullnam
 	GladeXML *gui;
 	GtkWidget *widget;
 	GList *icon_list;
+	char *gladefile;
 
 	gtk_widget_realize (GTK_WIDGET (e_contact_editor_fullname));
 	gtk_dialog_set_has_separator (GTK_DIALOG (e_contact_editor_fullname),
@@ -119,7 +121,13 @@ e_contact_editor_fullname_init (EContactEditorFullname *e_contact_editor_fullnam
 	gtk_window_set_resizable(GTK_WINDOW(e_contact_editor_fullname), TRUE);
 
 	e_contact_editor_fullname->name = NULL;
-	gui = glade_xml_new (EVOLUTION_GLADEDIR "/fullname.glade", NULL, NULL);
+
+	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
+				      "fullname.glade",
+				      NULL);
+	gui = glade_xml_new (gladefile, NULL, NULL);
+	g_free (gladefile);
+
 	e_contact_editor_fullname->gui = gui;
 
 	widget = glade_xml_get_widget(gui, "dialog-checkfullname");

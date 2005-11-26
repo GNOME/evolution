@@ -23,6 +23,7 @@
 
 #include <e-contact-editor-address.h>
 #include <e-util/e-icon-factory.h>
+#include <e-util/e-util-private.h>
 
 #include <glib.h>
 #include <libgnome/gnome-i18n.h>
@@ -421,6 +422,7 @@ e_contact_editor_address_init (EContactEditorAddress *e_contact_editor_address)
 	GladeXML *gui;
 	GtkWidget *widget;
 	GList *icon_list;
+	char *gladefile;
 
 	gtk_dialog_add_buttons (GTK_DIALOG (e_contact_editor_address),
 				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
@@ -431,7 +433,12 @@ e_contact_editor_address_init (EContactEditorAddress *e_contact_editor_address)
 
 	e_contact_editor_address->address = NULL;
 
-	gui = glade_xml_new (EVOLUTION_GLADEDIR "/fulladdr.glade", NULL, NULL);
+	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
+				      "fulladdr.glade",
+				      NULL);
+	gui = glade_xml_new (gladefile, NULL, NULL);
+	g_free (gladefile);
+
 	e_contact_editor_address->gui = gui;
 
 	setup_tab_order (gui);

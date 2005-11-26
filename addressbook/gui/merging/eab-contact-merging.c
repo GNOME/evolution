@@ -18,6 +18,7 @@
 #include <gtk/gtkdialog.h>
 #include <gtk/gtkcontainer.h>
 #include "addressbook/gui/widgets/eab-contact-display.h"
+#include "e-util/e-util-private.h"
 
 typedef enum {
 	E_CONTACT_MERGING_ADD,
@@ -153,6 +154,7 @@ static void
 match_query_callback (EContact *contact, EContact *match, EABContactMatchType type, gpointer closure)
 {
 	EContactMergingLookup *lookup = closure;
+	char *gladefile;
 
 	if ((gint) type <= (gint) EAB_CONTACT_MATCH_VAGUE) {
 		doit (lookup);
@@ -161,11 +163,19 @@ match_query_callback (EContact *contact, EContact *match, EABContactMatchType ty
 		
 		GtkWidget *widget;
 
-		if (lookup->op == E_CONTACT_MERGING_ADD)
-			ui = glade_xml_new (EVOLUTION_GLADEDIR "/eab-contact-duplicate-detected.glade", NULL, NULL);
-		else if (lookup->op == E_CONTACT_MERGING_COMMIT)
-			ui = glade_xml_new (EVOLUTION_GLADEDIR "/eab-contact-commit-duplicate-detected.glade", NULL, NULL);
-		else {
+		if (lookup->op == E_CONTACT_MERGING_ADD) {
+			gladefile = g_build_filename (EVOLUTION_GLADEDIR,
+						      "eab-contact-duplicate-detected.glade",
+						      NULL);
+			ui = glade_xml_new (gladefile, NULL, NULL);
+			g_free (gladefile);
+		} else if (lookup->op == E_CONTACT_MERGING_COMMIT) {
+			gladefile = g_build_filename (EVOLUTION_GLADEDIR,
+						      "eab-contact-commit-duplicate-detected.glade",
+						      NULL);
+			ui = glade_xml_new (gladefile, NULL, NULL);
+			g_free (gladefile);
+		} else {
 			doit (lookup);
 			return;
 		}
