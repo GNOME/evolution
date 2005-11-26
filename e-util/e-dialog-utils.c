@@ -28,7 +28,10 @@
 
 #include "e-dialog-utils.h"
 
+#include <gdkconfig.h>
+#ifdef GDK_WINDOWING_X11
 #include <gdk/gdkx.h>
+#endif
 
 #include <gtk/gtkmain.h>
 #include <gtk/gtkplug.h>
@@ -120,6 +123,7 @@ e_notice_with_xid (GdkNativeWindow parent, GtkMessageType type, const char *form
 }
 
 
+#ifdef GDK_WINDOWING_X11
 /* Tests whether or not an X Window is being managed by the
  * window manager.
  */
@@ -146,6 +150,8 @@ window_is_wm_toplevel (Display *display, Window window)
 	return FALSE;
 }
 
+#endif
+
 /**
  * e_dialog_set_transient_for:
  * @dialog: a dialog window
@@ -163,11 +169,12 @@ e_dialog_set_transient_for (GtkWindow *dialog,
 			    GtkWidget *parent_widget)
 {
 	GtkWidget *toplevel;
+#ifdef GDK_WINDOWING_X11
 	Window parent, root_ret, *children;
 	unsigned int numchildren;
 	Display *display;
 	Status status;
-
+#endif
 	g_return_if_fail (GTK_IS_WINDOW (dialog));
 	g_return_if_fail (GTK_IS_WIDGET (parent_widget));
 
@@ -180,7 +187,7 @@ e_dialog_set_transient_for (GtkWindow *dialog,
 					      GTK_WINDOW (toplevel));
 		return;
 	}
-
+#ifdef GDK_WINDOWING_X11
 	/* Find the top-level windowmanager-managed X Window */
 	display = GDK_WINDOW_XDISPLAY (parent_widget->window);
 	parent = GDK_WINDOW_XID (parent_widget->window);
@@ -193,6 +200,10 @@ e_dialog_set_transient_for (GtkWindow *dialog,
 	}
 
 	e_dialog_set_transient_for_xid (dialog, parent);
+#endif
+#ifdef GDK_WINDOWING_WIN32
+	g_warning ("Not implemented: e_dialog_set_transient_for() plug windows");
+#endif
 }
 
 static void

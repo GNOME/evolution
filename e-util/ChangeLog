@@ -1,3 +1,7 @@
+2005-11-26  Tor Lillqvist  <tml@novell.com>
+
+	* e-dialog-utils.c: Conditionalize X11 stuff on GDK_WINDOWING_X11.
+
 2005-11-25  Tor Lillqvist  <tml@novell.com>
 
 	* e-util-private.h: Sort the stuff in the Win32 part for
