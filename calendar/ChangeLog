@@ -19,6 +19,7 @@
 	* gui/dialogs/comp-editor.c
 	* gui/dialogs/e-delegate-dialog.c
 	* gui/dialogs/event-editor.c
+	* gui/dialogs/event-page.c
 	* gui/dialogs/meeting-page.c
 	* gui/dialogs/memo-page.c
 	* gui/dialogs/recurrence-page.c

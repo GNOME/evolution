@@ -45,6 +45,7 @@
 #include "../e-timezone-entry.h"
 #include <e-util/e-dialog-utils.h>
 #include <e-util/e-dialog-widgets.h>
+#include <e-util/e-util-private.h>
 
 #include "../e-meeting-attendee.h"
 #include "../e-meeting-store.h"
@@ -2747,14 +2748,19 @@ event_page_construct (EventPage *epage, EMeetingStore *model, ECal *client)
 	EAccount *def_account;
 	GList *address_strings = NULL, *l;
 	EAccount *a;
+	char *gladefile;
 
 	priv = epage->priv;
 	g_object_ref (model);
 	priv->model = model;
 	priv->client = client;
 
-	priv->xml = glade_xml_new (EVOLUTION_GLADEDIR "/event-page.glade", 
-				   NULL, NULL);
+	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
+				      "event-page.glade",
+				      NULL);
+	priv->xml = glade_xml_new (gladefile, NULL, NULL);
+	g_free (gladefile);
+
 	if (!priv->xml) {
 		g_message ("event_page_construct(): " 
 			   "Could not load the Glade XML file!");
