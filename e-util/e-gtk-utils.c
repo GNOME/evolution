@@ -35,9 +35,11 @@
 #include <gtk/gtkhbox.h>
 #include <gtk/gtkalignment.h>
 
+#ifdef GDK_WINDOWING_X11
 #include <gdk/gdkx.h>
 
 #include <X11/Xlib.h>
+#endif
 
 #include "e-gtk-utils.h"
 
@@ -137,6 +139,7 @@ e_signal_connect_full_while_alive (void *instance,
 }
 
 
+#ifdef GDK_WINDOWING_X11
 /* BackingStore support.  */
 
 static void
@@ -156,6 +159,8 @@ widget_realize_callback_for_backing_store (GtkWidget *widget,
 				 CWBackingStore, &attributes);
 }
 
+#endif
+
 /**
  * e_make_widget_backing_stored:
  * @widget: A GtkWidget
@@ -171,7 +176,9 @@ widget_realize_callback_for_backing_store (GtkWidget *widget,
 void
 e_make_widget_backing_stored  (GtkWidget *widget)
 {
+#ifdef GDK_WINDOWING_X11
 	g_signal_connect (widget, "realize", G_CALLBACK (widget_realize_callback_for_backing_store), NULL);
+#endif
 }
 
 

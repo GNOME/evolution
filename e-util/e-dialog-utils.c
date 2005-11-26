@@ -202,7 +202,7 @@ e_dialog_set_transient_for (GtkWindow *dialog,
 	e_dialog_set_transient_for_xid (dialog, parent);
 #endif
 #ifdef GDK_WINDOWING_WIN32
-	g_warning ("Not implemented: e_dialog_set_transient_for() plug windows");
+	g_warning ("Not implemented on Win32: e_dialog_set_transient_for() for plug windows");
 #endif
 }
 

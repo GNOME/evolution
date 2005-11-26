@@ -1,6 +1,7 @@
 2005-11-26  Tor Lillqvist  <tml@novell.com>
 
-	* e-dialog-utils.c: Conditionalize X11 stuff on GDK_WINDOWING_X11.
+	* e-dialog-utils.c
+	* e-gtk-utils.c: Conditionalize X11 specific code on GDK_WINDOWING_X11.
 
 2005-11-25  Tor Lillqvist  <tml@novell.com>
 
