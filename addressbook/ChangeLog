@@ -15,6 +15,11 @@
 	addressbook_config_edit_source): Construct the path of the glade
 	file at run-time to enable install-anywhere on Windows.
 
+	* gui/component/addressbook-view.c (control_activate): Include
+	e-util-private,h to get redefinition of EVOLUTION_UIDIR (as a call
+	to a function) on Windows. Construct the path of the xml file at
+	run-time to enable install-anywhere on Windows.
+
 	* importers/evolution-ldif-importer.c (ldif_import)
 	* gui/widgets/eab-gui-util.c (eab_load_error_dialog): Use
 	g_filename_from_uri() instead of just stripping off the "file://"
