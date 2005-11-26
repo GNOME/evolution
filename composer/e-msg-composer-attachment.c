@@ -44,6 +44,7 @@
 #include <libgnome/gnome-i18n.h>
 
 #include "e-util/e-mktemp.h"
+#include "e-util/e-util-private.h"
 
 #include "e-msg-composer.h"
 #include "e-msg-composer-attachment.h"
@@ -544,6 +545,7 @@ e_msg_composer_attachment_edit (EMsgComposerAttachment *attachment, GtkWidget *p
 	DialogData *dialog_data;
 	GladeXML *editor_gui;
 	char *type;
+	char *gladefile;
 	
 	g_return_if_fail (attachment != NULL);
 	g_return_if_fail (E_IS_MSG_COMPOSER_ATTACHMENT (attachment));
@@ -557,8 +559,12 @@ e_msg_composer_attachment_edit (EMsgComposerAttachment *attachment, GtkWidget *p
 		return;
 	}
 	
-	editor_gui = glade_xml_new (EVOLUTION_GLADEDIR "/e-msg-composer-attachment.glade",
-				    NULL, NULL);
+	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
+				      "e-msg-composer-attachment.glade",
+				      NULL);
+	editor_gui = glade_xml_new (gladefile, NULL, NULL);
+	g_free (gladefile);
+
 	if (editor_gui == NULL) {
 		g_warning ("Cannot load `e-msg-composer-attachment.glade'");
 		return;

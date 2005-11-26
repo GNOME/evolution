@@ -1,3 +1,11 @@
+2005-11-26  Tor Lillqvist  <tml@novell.com>
+
+	* e-msg-composer-attachment.c: Include e-util-private.h to get
+	redefinition of compile-time pathnames as calls to functions on
+	Windows. Construct the pathnames of files and directories under
+	the installation prefix at run-time to enable install-anywhere on
+	Windows. No effect on functionality on Unix.
+
 2005-10-22  Parthasarathi Susarla <sparthasarathi@novell.com>
 	
 	* e-msg-composer.c: (get_file_content):
