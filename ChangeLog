@@ -1,3 +1,8 @@
+2005-11-26  Tor Lillqvist  <tml@novell.com>
+
+	* configure.in: Drop the IPv6 and getaddrinfo checks, unused here
+	in Evolution. (It's used in e-d-s, though.)
+
 2005-11-23  Srinivasa Ragavan <sragavan@novell.com>
 
 	* configure.in: Made hal dependency optional.
