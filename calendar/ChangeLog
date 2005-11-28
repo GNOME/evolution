@@ -1,3 +1,13 @@
+2005-11-28  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #318777
+	* gui/e-cal-model.c: 
+	(add_instance_cb): Set the instance start as the started date for
+	the recurring instance.
+	(e_cal_view_objects_added_cb): 
+	(e_cal_view_objects_removed_cb): Check if the comp_data is removed
+	from the array before freeing the data.
+
 2005-11-26  Tor Lillqvist  <tml@novell.com>
 
 	* gui/calendar-commands.c

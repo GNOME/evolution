@@ -1288,10 +1288,31 @@ add_instance_cb (ECalComponent *comp, time_t instance_start, time_t instance_end
 	ECalModelComponent *comp_data;
 	ECalModelPrivate *priv;
 	RecurrenceExpansionData *rdata = user_data;
+	icaltimetype time;
+	ECalComponentDateTime datetime, to_set;
+	icaltimezone *zone = NULL;
+
+	g_return_val_if_fail (E_IS_CAL_COMPONENT (comp), TRUE);
 
 	priv = rdata->model->priv;
 
 	e_table_model_pre_change (E_TABLE_MODEL (rdata->model));
+
+	/* set the right instance start date to component */
+	e_cal_component_get_dtstart (comp, &datetime);
+	e_cal_get_timezone (rdata->client, datetime.tzid, &zone, NULL);
+	time = icaltime_from_timet_with_zone (instance_start, FALSE, zone ? zone : priv->zone);
+	to_set.value = &time;
+	to_set.tzid = datetime.tzid; 
+	e_cal_component_set_dtstart (comp, &to_set);
+	
+	/* set the right instance end date to component*/
+	e_cal_component_get_dtend (comp, &datetime);
+	e_cal_get_timezone (rdata->client, datetime.tzid, &zone, NULL);
+	time = icaltime_from_timet_with_zone (instance_end, FALSE, zone ? zone : priv->zone);
+	to_set.value = &time;
+	to_set.tzid = datetime.tzid; 
+	e_cal_component_set_dtend (comp, &to_set);
 
 	comp_data = g_new0 (ECalModelComponent, 1);
 	comp_data->client = g_object_ref (rdata->client);
@@ -1356,8 +1377,8 @@ e_cal_view_objects_added_cb (ECalView *query, GList *objects, gpointer user_data
 			pos = get_position_in_array (priv->objects, comp_data);
 			e_table_model_row_deleted (E_TABLE_MODEL (model), pos);
 
- 			g_ptr_array_remove (priv->objects, comp_data);
- 			e_cal_model_free_component_data (comp_data);
+ 			if (g_ptr_array_remove (priv->objects, comp_data))
+	 			e_cal_model_free_component_data (comp_data);
  		}
 
 		e_cal_component_free_id (id);
@@ -1412,7 +1433,7 @@ e_cal_view_objects_removed_cb (ECalView *query, GList *ids, gpointer user_data)
 	GList *l;
 	
 	priv = model->priv;
-
+	
 	for (l = ids; l; l = l->next) {
 		ECalModelComponent *comp_data = NULL;
 		ECalComponentId *id = l->data;
@@ -1425,8 +1446,8 @@ e_cal_view_objects_removed_cb (ECalView *query, GList *ids, gpointer user_data)
 			pos = get_position_in_array (priv->objects, comp_data);
 			e_table_model_row_deleted (E_TABLE_MODEL (model), pos);
 
-			g_ptr_array_remove (priv->objects, comp_data);
-			e_cal_model_free_component_data (comp_data);
+			if (g_ptr_array_remove (priv->objects, comp_data))
+				e_cal_model_free_component_data (comp_data);
 		}
 	}
 }
