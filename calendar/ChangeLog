@@ -1,12 +1,12 @@
-2005-11-16  Irene Huang <Irene.Huang@sun.com>
+2005-11-28  Chenthill Palanisamy  <pchenthill@novell.com>
 
-	* gui/dialogs/cal-prefs-dialog.c:
-	(cal_prefs_dialog_url_add_clicked): Use strcmp instead of !=.
-	(cal_prefs_dialog_url_remove_clicked):
-	When new a dialog of confirm, set parent to
-	PREFS_WINDOW (dialog_data->page)
-	instead of using PREFS_WINDOW (dialog_data).
-
+	Fixes #318777
+	* gui/e-cal-model.c: 
+	(add_instance_cb): Set the instance start as the started date for
+	the recurring instance.
+	(e_cal_view_objects_added_cb): 
+	(e_cal_view_objects_removed_cb): Check if the comp_data is removed
+	from the array before freeing the data.
 2005-11-09  Dinesh Layek  <LDinesh@novell.com>
 
 	Fixes #312533
