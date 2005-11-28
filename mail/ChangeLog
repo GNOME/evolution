@@ -1,3 +1,10 @@
+2005-11-28  Sam Yang  <sam.yang@sun.com>
+
+	** See bug #322414
+	* em-folder-view.c: (emfv_setting_notify):
+	Respond to the change of /apps/evolution/mail/display/show_preview 
+	in gconf.
+
 2005-11-25  Tor Lillqvist  <tml@novell.com>
 
 	* em-composer-prefs.c (sig_add_script_response): Use gstdio
