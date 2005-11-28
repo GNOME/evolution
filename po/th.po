@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: evolution-2.4\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-11-27 16:34+0700\n"
-"PO-Revision-Date: 2005-11-27 18:52+0700\n"
+"PO-Revision-Date: 2005-11-28 20:06+0700\n"
 "Last-Translator: Theppitak Karoonboonyanan <thep@linux.thai.net>\n"
 "Language-Team: Thai <L10N@opentle.org>\n"
 "MIME-Version: 1.0\n"
@@ -274,7 +274,7 @@ msgstr ""
 
 #: ../a11y/e-table/gal-a11y-e-cell.c:107
 msgid "Table Cell"
-msgstr ""
+msgstr "ช่องตาราง"
 
 #: ../a11y/e-table/gal-a11y-e-table-click-to-add.c:44
 #: ../a11y/e-table/gal-a11y-e-table-click-to-add.c:119
@@ -284,7 +284,7 @@ msgstr "คลิกเพื่อเพิ่ม"
 
 #: ../a11y/e-table/gal-a11y-e-table-click-to-add.c:53
 msgid "click"
-msgstr ""
+msgstr "คลิก"
 
 #: ../a11y/e-table/gal-a11y-e-table-column-header.c:135
 msgid "sort"
@@ -399,6 +399,7 @@ msgstr "สมุดที่อยู่ Evolution หยุดทำงาน�
 msgid ""
 "The image you have selected is large. Do you want to resize and store it?"
 msgstr ""
+"รูปภาพที่คุณเลือกมีขนาดใหญ่ คุณต้องการปรับขนาดก่อนหรือไม่?"
 
 #: ../addressbook/addressbook.error.xml.h:19
 msgid ""
@@ -420,7 +421,7 @@ msgstr "สมุดที่อยู่นี้ไม่สามารถเ
 
 #: ../addressbook/addressbook.error.xml.h:22
 msgid "This addressbook server does not have any suggested search bases."
-msgstr ""
+msgstr "เซิร์ฟเวอร์สมุดที่อยู่ไม่มีฐานการค้นที่แนะนำเลย"
 
 #: ../addressbook/addressbook.error.xml.h:23
 msgid ""
@@ -511,7 +512,7 @@ msgstr "ไม่สามารถโหลดสมุดที่อยู่
 #: ../addressbook/conduit/address-conduit.c:1252
 #: ../addressbook/conduit/address-conduit.c:1255
 msgid "Could not read pilot's Address application block"
-msgstr ""
+msgstr "ไม่สามารถอ่านบล็อคโปรแกรมสมุดที่อยู่ของ pilot ได้"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:1
 msgid "Autocompletion"
@@ -720,10 +721,9 @@ msgid ""
 "\n"
 "Please be patient while Evolution migrates your folders..."
 msgstr ""
-"ตำแหน่งและลำดับขั้นของโฟลเดอร์ที่อยู่ติดต่อของ Evolution มีการเปลี่ยนแปลงตั้งแต่ Evolution 1."
-"x.\n"
+"ตำแหน่งและโครงสร้างของโฟลเดอร์ที่อยู่ติดต่อของ Evolution มีการเปลี่ยนแปลงจากรุ่น 1.x\n"
 "\n"
-"กรุณารอในขณะที่ Evolution ถ่ายโอนโฟลเดอร์ของคุณ..."
+"กรุณาอดใจรอ ขณะที่ Evolution ถ่ายโอนโฟลเดอร์ของคุณ..."
 
 #: ../addressbook/gui/component/addressbook-migrate.c:1148
 msgid ""
@@ -741,6 +741,9 @@ msgid ""
 "\n"
 "Please be patient while Evolution migrates your folders..."
 msgstr ""
+"วิธีเก็บหมายเลขโทรศัพท์ของ Evolution ได้เปลี่ยนไปแล้ว\n"
+"\n"
+"กรุณาอดใจรอ ขณะที่ Evolution ถ่ายโอนโฟลเดอร์ของคุณ..."
 
 #: ../addressbook/gui/component/addressbook-migrate.c:1167
 msgid ""
@@ -748,6 +751,9 @@ msgid ""
 "\n"
 "Please be patient while Evolution migrates your Pilot Sync data..."
 msgstr ""
+"บันทึกการเปลี่ยนแปลงของการ sync palm ของ Evolution ได้เปลี่ยนไปแล้ว\n"
+"\n"
+"กรุณาอดใจรอ ขณะที่ Evolution ถ่ายโอนข้อมูลการ sync pilot ของคุณ..."
 
 #: ../addressbook/gui/component/addressbook-view.c:769
 msgid "_New Address Book"
@@ -818,6 +824,7 @@ msgid ""
 "The number of characters that must be typed before Evolution will attempt to "
 "autocomplete."
 msgstr ""
+"จำนวนอักขระที่จะต้องป้อน ก่อนที่ Evolution จะพยายามเติมเต็มส่วนที่เหลือ"
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:7
 msgid "URI for the folder last used in the select names dialog"
@@ -879,7 +886,7 @@ msgstr "<b>ข้อมูลเซิร์ฟเวอร์</b>"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:11
 msgid "<b>Type:</b>"
-msgstr ""
+msgstr "<b>ชนิด:</b>"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:12
 msgid "Add Address Book"
@@ -929,23 +936,20 @@ msgid "One"
 msgstr "หนึ่ง"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:26
-#, fuzzy
 msgid "Search Filter"
-msgstr "โฟลเดอร์ค้นหา"
+msgstr "ตัวกรองสำหรับค้นหา"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:27
 msgid "Search _base:"
 msgstr "_จุดเริ่มต้นค้นหา:"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:28
-#, fuzzy
 msgid "Search _filter:"
-msgstr "โ_ฟลเดอร์ค้นหา"
+msgstr "ตัว_กรองสำหรับค้นหา:"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:29
-#, fuzzy
 msgid "Search filter"
-msgstr "การแก้ไขการค้นหา"
+msgstr "ตัวกรองสำหรับค้นหา"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:30
 msgid ""
@@ -2054,7 +2058,7 @@ msgstr "ปาเลา"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:304
 msgid "Palestinian Territory"
-msgstr ""
+msgstr "ดินแดนยึดครองปาเลสไตน์"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:305
 msgid "Panama"
@@ -2302,7 +2306,7 @@ msgstr "สหราชอาณาจักร"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:366
 msgid "United States Minor Outlying Islands"
-msgstr ""
+msgstr "เกาะเล็กรอบนอกของสหรัฐอเมริกา"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:367
 msgid "Uruguay"
@@ -4246,17 +4250,17 @@ msgstr "ไม่สามารถเริ่มเซิร์ฟเวอร
 #: ../calendar/conduits/calendar/calendar-conduit.c:1486
 #: ../calendar/conduits/calendar/calendar-conduit.c:1489
 msgid "Could not read pilot's Calendar application block"
-msgstr ""
+msgstr "ไม่สามารถอ่านบล็อคโปรแกรมปฏิทินของ pilot ได้"
 
 #: ../calendar/conduits/memo/memo-conduit.c:937
 #: ../calendar/conduits/memo/memo-conduit.c:940
 msgid "Could not read pilot's Memo application block"
-msgstr ""
+msgstr "ไม่สามารถอ่านบล็อคโปรแกรมบันทึกข้อความของ pilot ได้"
 
 #: ../calendar/conduits/memo/memo-conduit.c:976
 #: ../calendar/conduits/memo/memo-conduit.c:979
 msgid "Could not write pilot's Memo application block"
-msgstr ""
+msgstr "ไม่สามารถเขียนบล็อคโปรแกรมบันทึกข้อความของ pilot ได้"
 
 #: ../calendar/conduits/todo/todo-conduit.c:237
 msgid "Default Priority:"
@@ -5975,9 +5979,8 @@ msgid "Or_ganizer"
 msgstr "ผู้_ประสานงาน"
 
 #: ../calendar/gui/dialogs/event-page.c:873
-#, fuzzy
 msgid "_Delegatees"
-msgstr "ลบ"
+msgstr "ผู้_รับฉันทะ"
 
 #: ../calendar/gui/dialogs/event-page.c:875
 msgid "Atte_ndees"
@@ -7183,12 +7186,12 @@ msgstr[1] "ทุก %d ปี"
 #, c-format
 msgid "a total of %d time"
 msgid_plural " a total of %d times"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "ทั้งหมด %d ครั้ง"
+msgstr[1] "ทั้งหมด %d ครั้ง"
 
 #: ../calendar/gui/e-itip-control.c:837
 msgid ", ending on "
-msgstr ""
+msgstr "สิ้นสุด "
 
 #: ../calendar/gui/e-itip-control.c:861
 msgid "Starts"
@@ -10289,7 +10292,7 @@ msgstr "ไม่ต้องเปลี่ยนสถานะ"
 
 #: ../designs/OOA/ooa.glade.h:12
 msgid "Out of Office Assistant"
-msgstr ""
+msgstr "ผู้ช่วยจัดการสถานะไม่อยู่ที่ทำงาน"
 
 #: ../designs/OOA/ooa.glade.h:13
 msgid "Yes, Change Status"
@@ -10314,36 +10317,40 @@ msgid ""
 "sent is read, and to specify what Evolution should do when someone requests "
 "a receipt from you.</small>"
 msgstr ""
+"<small>หน้านี้เปิดโอกาสให้คุณเลือกว่าคุณต้องการจะรับการแจ้งผ่านการแจ้งรับ"
+"เมื่อข้อความที่คุณส่งถูกเปิดอ่านหรือไม่\n"
+"และเปิดให้คุณระบุสิ่งที่ Evolution ควรจะทำเมื่อมีผู้ร้องขอการแจ้งกลับจากคุณ</small>"
 
 #: ../designs/read_receipts/read.glade.h:6
 msgid "Always send back a read receipt"
-msgstr ""
+msgstr "ส่งการแจ้งรับข้อความเสมอ"
 
 #: ../designs/read_receipts/read.glade.h:7
 msgid "Ask me if I want to send back a read receipt"
-msgstr ""
+msgstr "ถามก่อนส่งการแจ้งรับข้อความ"
 
 #: ../designs/read_receipts/read.glade.h:8
 msgid "Never send back a read receipt"
-msgstr ""
+msgstr "ไม่ส่งการแจ้งรับข้อความ"
 
 #: ../designs/read_receipts/read.glade.h:9
 msgid "Read Receipts"
-msgstr ""
+msgstr "การแจ้งรับข้อความ"
 
 #: ../designs/read_receipts/read.glade.h:10
 msgid "Request a read receipt for all messages I send"
-msgstr ""
+msgstr "ร้องขอการแจ้งรับสำหรับทุกข้อความที่ส่ง"
 
 #: ../designs/read_receipts/read.glade.h:11
 msgid "Unless the message is sent to a mailing list, and not to me personally"
-msgstr ""
+msgstr "ถ้าข้อความไม่ได้ส่งไปที่เมลลิงลิสต์และไม่ได้ส่งตรงถึงฉัน"
 
 #: ../designs/read_receipts/read.glade.h:12
 msgid ""
 "When you receive an email with a read receipt request, what should Evolution "
 "do?"
 msgstr ""
+"เมื่อคุณได้รับอีเมลที่ร้องขอการแจ้งรับ Evolution ควรทำอย่างไร?"
 
 #: ../e-util/e-dialog-utils.c:281
 msgid ""
@@ -10500,7 +10507,7 @@ msgstr ""
 
 #: ../e-util/eggtrayicon.c:119
 msgid "The orientation of the tray."
-msgstr ""
+msgstr "แนววางของถาด"
 
 #: ../filter/filter-datespec.c:78
 #, c-format
@@ -10677,7 +10684,7 @@ msgstr "คุณต้องเลือกวันที่"
 
 #: ../filter/filter.error.xml.h:10
 msgid "You must name this filter."
-msgstr ""
+msgstr "คุณต้องตั้งชื่อตัวกรองนี้"
 
 #: ../filter/filter.error.xml.h:11
 msgid "You must specify a file name."
@@ -10689,7 +10696,7 @@ msgstr "<b>_กฎการกรอง</b>"
 
 #: ../filter/filter.glade.h:2
 msgid "Compare against"
-msgstr ""
+msgstr "เปรียบเทียบกับ"
 
 #: ../filter/filter.glade.h:4
 msgid "Show filters for mail:"
@@ -10700,26 +10707,32 @@ msgid ""
 "The message's date will be compared against\n"
 "12:00am of the date specified."
 msgstr ""
+"เวลาของข้อความจะถูกเปรียบเทียบกับเวลา\n"
+"0.00 น. ของวันที่ระบุ"
 
 #: ../filter/filter.glade.h:7
 msgid ""
 "The message's date will be compared against\n"
 "a time relative to when filtering occurs."
 msgstr ""
+"เวลาของข้อความจะถูกเปรียบเทียบกับเวลา\n"
+"ที่นับเทียบกับเวลาที่การกรองเกิดขึ้น"
 
 #: ../filter/filter.glade.h:9
 msgid ""
 "The message's date will be compared against\n"
 "the current time when filtering occurs."
 msgstr ""
+"เวลาของข้อความจะถูกเปรียบเทียบกับเวลา\n"
+"ปัจจุบันขณะที่การกรองเกิดขึ้น"
 
 #: ../filter/filter.glade.h:12
 msgid "a time relative to the current time"
-msgstr ""
+msgstr "เวลานับเทียบกับเวลาปัจจุบัน"
 
 #: ../filter/filter.glade.h:13
 msgid "ago"
-msgstr ""
+msgstr "ก่อน"
 
 #: ../filter/filter.glade.h:17
 msgid "months"
@@ -10914,11 +10927,11 @@ msgstr "เพิ่มสคริปต์สำหรับลายเซ็
 
 #: ../mail/em-composer-prefs.c:999
 msgid "Signature(s)"
-msgstr ""
+msgstr "ลายเซ็น"
 
 #: ../mail/em-composer-utils.c:862 ../mail/em-format-quote.c:389
 msgid "-------- Forwarded Message --------"
-msgstr ""
+msgstr "-------- ข้อความส่งต่อ --------"
 
 #: ../mail/em-composer-utils.c:1657
 msgid "an unknown sender"
@@ -10932,6 +10945,8 @@ msgid ""
 "On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} "
 "${TimeZone}, ${Sender} wrote:"
 msgstr ""
+"เมื่อ ${AbbrevWeekdayName} ${Year}-${Month}-${Day} เวลา ${24Hour}:${Minute} "
+"${TimeZone}, ${Sender} เขียนว่า:"
 
 #: ../mail/em-filter-editor.c:147
 msgid "_Filter Rules"
@@ -11261,21 +11276,21 @@ msgstr "ส่งแล้ว"
 
 #: ../mail/em-folder-tree-model.c:499 ../mail/em-folder-tree-model.c:803
 msgid "Loading..."
-msgstr ""
+msgstr "กำลังโหลด..."
 
 #: ../mail/em-folder-tree.c:694
 msgid "Mail Folder Tree"
-msgstr ""
+msgstr "ลำดับชั้นโฟลเดอร์เมล"
 
 #: ../mail/em-folder-tree.c:854
 #, c-format
 msgid "Moving folder %s"
-msgstr ""
+msgstr "กำลังย้ายโฟลเดอร์ %s"
 
 #: ../mail/em-folder-tree.c:856
 #, c-format
 msgid "Copying folder %s"
-msgstr ""
+msgstr "กำลังคัดลอกโฟลเดอร์ %s"
 
 #: ../mail/em-folder-tree.c:863 ../mail/message-list.c:1623
 #, c-format
@@ -11528,57 +11543,62 @@ msgstr "หาพบ: %d"
 
 #: ../mail/em-format-html-display.c:712 ../mail/em-format-html.c:597
 msgid "Unsigned"
-msgstr ""
+msgstr "ไม่มีลายเซ็นกำกับ"
 
 #: ../mail/em-format-html-display.c:712
 msgid ""
 "This message is not signed. There is no guarantee that this message is "
 "authentic."
 msgstr ""
+"ข้อความนี้ไม่มีลายเซ็นกำกับ ไม่มีอะไรประกันได้เลยว่าข้อความนี้เป็นมาจากผู้ส่งจริง"
 
 #: ../mail/em-format-html-display.c:713 ../mail/em-format-html.c:598
 msgid "Valid signature"
-msgstr ""
+msgstr "ลายเซ็นถูกต้อง"
 
 #: ../mail/em-format-html-display.c:713
 msgid ""
 "This message is signed and is valid meaning that it is very likely that this "
 "message is authentic."
 msgstr ""
+"ข้อความนี้มีลายเซ็นกำกับที่ถูกต้อง ซึ่งหมายความว่า ข้อความนี้น่าจะมาจากผู้ส่งจริง"
 
 #: ../mail/em-format-html-display.c:714 ../mail/em-format-html.c:599
 msgid "Invalid signature"
-msgstr ""
+msgstr "ลายเซ็นไม่ถูกต้อง"
 
 #: ../mail/em-format-html-display.c:714
 msgid ""
 "The signature of this message cannot be verified, it may have been altered "
 "in transit."
 msgstr ""
+"ลายเซ็นกำกับข้อความนี้ตรวจสอบแล้วไม่ผ่าน เป็นไปได้ว่าข้อความอาจถูกแก้ไขระหว่างทาง"
 
 #: ../mail/em-format-html-display.c:715
 msgid "Valid signature, cannot verify sender"
-msgstr ""
+msgstr "ลายเซ็นถูกต้อง แต่ไม่สามารถตรวจสอบผู้ส่ง"
 
 #: ../mail/em-format-html-display.c:715
 msgid ""
 "This message is signed with a valid signature, but the sender of the message "
 "cannot be verified."
 msgstr ""
+"ข้อความนี้มีลายเซ็นกำกับที่ถูกต้อง แต่ไม่สามารถตรวจสอบผู้ส่งข้อความได้"
 
 #: ../mail/em-format-html-display.c:721 ../mail/em-format-html.c:606
 msgid "Unencrypted"
-msgstr ""
+msgstr "ไม่ได้เข้ารหัส"
 
 #: ../mail/em-format-html-display.c:721
 msgid ""
 "This message is not encrypted.  Its content may be viewed in transit across "
 "the Internet."
 msgstr ""
+"ข้อความนี้ไม่ได้เข้ารหัส เนื้อหาอาจถูกดักอ่านระหว่างทางในอินเทอร์เน็ตได้"
 
 #: ../mail/em-format-html-display.c:722 ../mail/em-format-html.c:607
 msgid "Encrypted, weak"
-msgstr ""
+msgstr "เข้ารหัสแบบอ่อน"
 
 #: ../mail/em-format-html-display.c:722
 msgid ""
@@ -11586,20 +11606,23 @@ msgid ""
 "be difficult, but not impossible for an outsider to view the content of this "
 "message in a practical amount of time."
 msgstr ""
+"ข้อความนี้ถูกเข้ารหัส แต่ใช้อัลกอริทึมเข้ารหัสที่อ่อน บุคคลอื่นอาจดักอ่านได้ยากก็จริง "
+"แต่ก็ไม่ใช่เป็นไปไม่ได้ โดยใช้เวลาไม่มากเกินไป"
 
 #: ../mail/em-format-html-display.c:723 ../mail/em-format-html.c:608
 msgid "Encrypted"
-msgstr ""
+msgstr "เข้ารหัส"
 
 #: ../mail/em-format-html-display.c:723
 msgid ""
 "This message is encrypted.  It would be difficult for an outsider to view "
 "the content of this message."
 msgstr ""
+"ข้อความนี้ถูกเข้ารหัส บุคคลอื่นดักอ่านเนื้อหาได้ยาก"
 
 #: ../mail/em-format-html-display.c:724 ../mail/em-format-html.c:609
 msgid "Encrypted, strong"
-msgstr ""
+msgstr "เข้ารหัสแบบแน่นหนา"
 
 #: ../mail/em-format-html-display.c:724
 msgid ""
@@ -11607,14 +11630,16 @@ msgid ""
 "very difficult for an outsider to view the content of this message in a "
 "practical amount of time."
 msgstr ""
+"ข้อความนี้ถูกเข้ารหัสด้วยอัลกอริทึมเข้ารหัสที่แน่นหนา บุคคลอื่นดักอ่านเนื้อหาได้ยากมาก "
+"ด้วยเวลาปกติ"
 
 #: ../mail/em-format-html-display.c:825 ../smime/gui/smime-ui.glade.h:48
 msgid "_View Certificate"
-msgstr ""
+msgstr "_ดูใบรับรอง"
 
 #: ../mail/em-format-html-display.c:840
 msgid "This certificate is not viewable"
-msgstr ""
+msgstr "ใบรับรองนี้เปิดดูไม่ได้"
 
 #: ../mail/em-format-html-display.c:1122
 msgid "Completed on %B %d, %Y, %l:%M %p"
@@ -11638,15 +11663,15 @@ msgstr "_ซ่อน"
 
 #: ../mail/em-format-html-display.c:1195
 msgid "_Fit to Width"
-msgstr ""
+msgstr "_พอดีความกว้าง"
 
 #: ../mail/em-format-html-display.c:1196
 msgid "Show _Original Size"
-msgstr ""
+msgstr "แสดงขนาด_จริง"
 
 #: ../mail/em-format-html-display.c:1566
 msgid "Attachment Button"
-msgstr ""
+msgstr "ปุ่มเอกสารแนบ"
 
 #: ../mail/em-format-html-display.c:1773
 msgid "Select folder to save all attachments..."
@@ -11684,7 +11709,7 @@ msgstr "กำลังดึง `%s'"
 
 #: ../mail/em-format-html.c:600
 msgid "Valid signature but cannot verify sender"
-msgstr ""
+msgstr "ลายเซ็นถูกต้องแต่ไม่สามารถตรวจสอบผู้ส่ง"
 
 #: ../mail/em-format-html.c:870
 msgid "Malformed external-body part."
@@ -11776,31 +11801,31 @@ msgstr "กลุ่มข่าว"
 #: ../mail/em-format.c:1102
 #, c-format
 msgid "%s attachment"
-msgstr ""
+msgstr "เอกสารแนบ %s"
 
 #: ../mail/em-format.c:1141 ../mail/em-format.c:1288 ../mail/em-format.c:1575
 msgid "Could not parse S/MIME message: Unknown error"
-msgstr ""
+msgstr "ไม่สามารถแจงข้อความ S/MIME: ข้อผิดพลาดไม่ทราบสาเหตุ"
 
 #: ../mail/em-format.c:1270 ../mail/em-format.c:1426
 msgid "Could not parse MIME message. Displaying as source."
-msgstr ""
+msgstr "ไม่สามารถแจงข้อความ MIME จะแสดงข้อความต้นฉบับ"
 
 #: ../mail/em-format.c:1278
 msgid "Unsupported encryption type for multipart/encrypted"
-msgstr ""
+msgstr "ชนิดการเข้ารหัสที่ไม่สนับสนุนสำหรับ multipart/encrypted"
 
 #: ../mail/em-format.c:1445
 msgid "Unsupported signature format"
-msgstr ""
+msgstr "รูปแบบลายเซ็นที่ไม่สนับสนุน"
 
 #: ../mail/em-format.c:1453 ../mail/em-format.c:1517
 msgid "Error verifying signature"
-msgstr ""
+msgstr "เกิดข้อผิดพลาดขณะตรวจสอบลายเซ็น"
 
 #: ../mail/em-format.c:1453 ../mail/em-format.c:1517
 msgid "Unknown error verifying signature"
-msgstr ""
+msgstr "เกิดข้อผิดพลาดไม่ทราบสาเหตุขณะตรวจสอบลายเซ็น"
 
 #: ../mail/em-mailer-prefs.c:101
 msgid "Every time"
@@ -11825,7 +11850,7 @@ msgid ""
 "\n"
 "Please be patient while Evolution migrates your folders..."
 msgstr ""
-"ตำแหน่งและโครงสร้างของโฟลเดอร์กล่อมเมลของ Evolution มีการเปลี่ยนแปลงจากรุ่น 1.x\n"
+"ตำแหน่งและโครงสร้างของโฟลเดอร์กล่องเมลของ Evolution มีการเปลี่ยนแปลงจากรุ่น 1.x\n"
 "\n"
 "กรุณาอดใจรอ ขณะที่ Evolution ถ่ายโอนโฟลเดอร์ของคุณ..."
 
@@ -11842,38 +11867,40 @@ msgstr "ไม่สามารถคัดลอกโฟลเดอร์ `%
 #: ../mail/em-migrate.c:1843
 #, c-format
 msgid "Unable to scan for existing mailboxes at `%s': %s"
-msgstr ""
+msgstr "ไม่สามารถตรวจหากล่องเมลที่มีอยู่ที่ `%s': %s"
 
 #: ../mail/em-migrate.c:2047
 #, c-format
 msgid "Unable to open old POP keep-on-server data `%s': %s"
-msgstr ""
+msgstr "ไม่สามารถเปิดข้อมูล POP เก่า `%s' ชนิดเก็บไว้ที่เซิร์ฟเวอร์: %s"
 
 #: ../mail/em-migrate.c:2061
 #, c-format
 msgid "Unable to create POP3 keep-on-server data directory `%s': %s"
-msgstr ""
+msgstr "ไม่สามารถสร้างไดเรกทอรีข้อมูล POP3 `%s' ชนิดเก็บไว้ที่เซิร์ฟเวอร์: %s"
 
 #: ../mail/em-migrate.c:2090
 #, c-format
 msgid "Unable to copy POP3 keep-on-server data `%s': %s"
-msgstr ""
+msgstr "ไม่สามารถคัดลอกข้อมูล POP3 `%s' ชนิดเก็บไว้ที่เซิร์ฟเวอร์: %s"
 
 #: ../mail/em-migrate.c:2561 ../mail/em-migrate.c:2573
 #, c-format
 msgid "Failed to create local mail storage `%s': %s"
-msgstr ""
+msgstr "ไม่สามารถสร้างที่เก็บเมลท้องถิ่น `%s': %s"
 
 #: ../mail/em-migrate.c:2693
 #, c-format
 msgid "Unable to create local mail folders at `%s': %s"
-msgstr ""
+msgstr "ไม่สามารถสร้างโฟลเดอร์เมลท้องถิ่น `%s': %s"
 
 #: ../mail/em-migrate.c:2711
 msgid ""
 "Unable to read settings from previous Evolution install, `evolution/config."
 "xmldb' does not exist or is corrupt."
 msgstr ""
+"ไม่สามารถอ่านค่าตั้งจากการติดตั้งครั้งก่อนของ Evolution "
+"ไม่มีแฟ้ม `evolution/config.xmldb' หรือแฟ้มเสียหาย"
 
 #: ../mail/em-popup.c:556 ../mail/em-popup.c:567
 msgid "_Reply to sender"
@@ -11911,7 +11938,7 @@ msgstr "โฟลเดอร์"
 #. FIXME: This is just to get the shadow, is there a better way?
 #: ../mail/em-subscribe-editor.c:862
 msgid "Please select a server."
-msgstr "โปรดเลือกเซิร์ฟเวอร์"
+msgstr "กรุณาเลือกเซิร์ฟเวอร์"
 
 #: ../mail/em-subscribe-editor.c:883
 msgid "No server has been selected"
@@ -13679,7 +13706,7 @@ msgstr ""
 msgid ""
 "A read receipt notification has been requested for &quot;{1}&quot;.  Send "
 "the reciept notification to {0}?"
-msgstr "&quot;{1}&quot; ร้องขอการแจ้งกลับเมื่อได้รับข้อความ จะแจ้งกลับไปยัง {0} หรือไม่?"
+msgstr "&quot;{1}&quot; ร้องขอการแจ้งรับข้อความ จะแจ้งกลับไปยัง {0} หรือไม่?"
 
 #: ../mail/mail.error.xml.h:7
 msgid ""
@@ -14000,7 +14027,7 @@ msgstr "กำลังสอบถามรายการกลไกการ
 
 #: ../mail/mail.error.xml.h:81
 msgid "Read receipt requested."
-msgstr ""
+msgstr "ร้องขอการแจ้งรับข้อความแล้ว"
 
 #: ../mail/mail.error.xml.h:82
 msgid "Really delete folder &quot;{0}&quot; and all of its subfolders?"
@@ -14713,9 +14740,8 @@ msgid "Permissions for %s"
 msgstr "การกำหนดสิทธิ์สำหรับ %s"
 
 #: ../plugins/exchange-operations/exchange-delegates.c:421
-#, fuzzy
 msgid "Delegate To"
-msgstr "ลบ"
+msgstr "มอบฉันทะให้กับ"
 
 #: ../plugins/exchange-operations/exchange-delegates.c:562
 #, c-format
@@ -14736,24 +14762,22 @@ msgid "Could not find delegate %s in Active Directory"
 msgstr ""
 
 #: ../plugins/exchange-operations/exchange-delegates.c:719
-#, fuzzy, c-format
+#, c-format
 msgid "Could not remove delegate %s"
-msgstr "ไม่สามารถลบ delegate %s"
+msgstr "ไม่สามารถลบตัวแทน %s"
 
 #: ../plugins/exchange-operations/exchange-delegates.c:779
-#, fuzzy
 msgid "Could not update list of delegates."
-msgstr "ไม่สามารถอัพเดตรายการ delegate"
+msgstr "ไม่สามารถอัพเดตรายการตัวแทน"
 
 #: ../plugins/exchange-operations/exchange-delegates.c:797
-#, fuzzy, c-format
+#, c-format
 msgid "Could not add delegate %s"
-msgstr "ไม่สามารถเพิ่ม delegate %s"
+msgstr "ไม่สามารถเพิ่มตัวแทน %s"
 
 #: ../plugins/exchange-operations/exchange-delegates.c:965
-#, fuzzy
 msgid "Error reading delegates list."
-msgstr "เกิดข้อผิดพลาดขณะเรียกดูรายการ delegate"
+msgstr "เกิดข้อผิดพลาดขณะเรียกดูรายการตัวแทน"
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:1
 msgid "Author (read, create)"
@@ -14967,9 +14991,8 @@ msgid "Could not connect to server {0}."
 msgstr "ไม่สามารถเชื่อมต่อไปยังเซิร์ฟเวอร์ {0}"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:10
-#, fuzzy
 msgid "Could not determine folder permissions for delegates."
-msgstr "ไม่สามารถพิจารณาสิทธิ์ของ delegate"
+msgstr "ไม่สามารถพิจารณาสิทธิ์ในโฟลเดอร์ของตัวแทน"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:11
 msgid "Could not find Exchange Web Storage System."
@@ -15527,14 +15550,12 @@ msgid "Organizer has removed the delegate %s "
 msgstr ""
 
 #: ../plugins/itip-formatter/itip-formatter.c:905
-#, fuzzy
 msgid "Sent a cancellation notice to the delegate"
-msgstr "ส่งประกาศการยกเลิกไปยัง delegate แล้ว"
+msgstr "ส่งประกาศการยกเลิกไปยังตัวแทนแล้ว"
 
 #: ../plugins/itip-formatter/itip-formatter.c:907
-#, fuzzy
 msgid "Could not send the cancellation notice to the delegate"
-msgstr "ไม่สามารถส่งประกาศการยกเลิกไปยัง delegate"
+msgstr "ไม่สามารถส่งประกาศการยกเลิกไปยังตัวแทน"
 
 #: ../plugins/itip-formatter/itip-formatter.c:991
 msgid "Attendee status could not be updated because the status is invalid"
@@ -18684,7 +18705,7 @@ msgstr ""
 
 #: ../ui/evolution-message-composer.xml.h:15
 msgid "Request read receipt"
-msgstr "ร้องขอการแจ้งเมื่อเปิดอ่าน"
+msgstr "ร้องขอการแจ้งรับข้อความ"
 
 #: ../ui/evolution-message-composer.xml.h:16
 msgid "S/MIME Encrypt"
