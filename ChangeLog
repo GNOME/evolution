@@ -1,3 +1,8 @@
+2005-11-28  P S Chakravarthi <pchakravarthi@novell.com>
+
+	* configure.in: Added libnotify for use in new
+	alarm notification UI.
+
 2005-11-26  Tor Lillqvist  <tml@novell.com>
 
 	* configure.in: Drop the IPv6 and getaddrinfo checks, unused here
