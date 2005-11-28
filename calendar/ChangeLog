@@ -1,5 +1,15 @@
 2005-11-28  Chenthill Palanisamy  <pchenthill@novell.com>
 
+	Fixes #317322
+	* gui/e-calendar-view.c:
+	(e_calendar_view_delete_selected_occurrence): Do not
+	set a new rid if the component already has it. If an 
+	instance is removed from master component, send a modify
+	request setting the exception for that instance. Cleaned
+	up the code.
+
+2005-11-28  Chenthill Palanisamy  <pchenthill@novell.com>
+
 	Fixes #314639
 	* gui/e-calendar-view.c: 
 	(e_calendar_view_new_appointment_for): Check if the default
