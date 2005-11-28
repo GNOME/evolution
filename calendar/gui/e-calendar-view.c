@@ -943,71 +943,79 @@ e_calendar_view_delete_selected_events (ECalendarView *cal_view)
 void
 e_calendar_view_delete_selected_occurrence (ECalendarView *cal_view)
 {
-	ECalendarViewEvent *event;
 	GList *selected;
-	const char *uid, *rid = NULL;
-	GError *error = NULL;
 	ECalComponent *comp;
-	struct icaltimetype itt;
-	ECalComponentDateTime dt;
-	icaltimezone *zone = NULL;
+	ECalendarViewEvent *event;
 		
 	selected = e_calendar_view_get_selected_events (cal_view);
 	if (!selected)
 		return;
-
+	
 	event = (ECalendarViewEvent *) selected->data;
-
 	comp = e_cal_component_new ();
 	e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
-	e_cal_component_get_uid (comp, &uid);
 
-	e_cal_component_get_dtstart (comp, &dt);
-
-	if (dt.tzid) {
+	if (delete_component_dialog (comp, FALSE, 1, e_cal_component_get_vtype (comp), GTK_WIDGET (cal_view))) {
+		const char *uid, *rid = NULL;
 		GError *error = NULL;
+		ECalComponentDateTime dt;
+		icaltimezone *zone = NULL;
+		gboolean is_instance = FALSE;
 
-		e_cal_get_timezone (event->comp_data->client, dt.tzid, &zone, &error);
-		if (error) {
-			zone = e_calendar_view_get_timezone (cal_view);	
-			g_clear_error(&error);
-		}
-	} else 
-		zone = e_calendar_view_get_timezone (cal_view);
+		e_cal_component_get_uid (comp, &uid);
+		e_cal_component_get_dtstart (comp, &dt);
+		is_instance = e_cal_component_is_instance (comp);
 
-	itt = icaltime_from_timet_with_zone (event->comp_data->instance_start, TRUE, zone ? zone : icaltimezone_get_utc_timezone ());
+		if (dt.tzid) {
+			GError *error = NULL;
 
-	if (!e_cal_get_recurrences_no_master (event->comp_data->client)) 
-		rid = icaltime_as_ical_string (itt);
-	else
-		rid = e_cal_component_get_recurid_as_string (comp);
-
-	e_cal_component_free_datetime (&dt);
-	if (rid) {
-		if (delete_component_dialog (comp, FALSE, 1, e_cal_component_get_vtype (comp), GTK_WIDGET (cal_view))) {
-
-			if (itip_organizer_is_user (comp, event->comp_data->client)
-			    && cancel_component_dialog ((GtkWindow *) gtk_widget_get_toplevel (GTK_WIDGET (cal_view)),
-							event->comp_data->client,
-							comp, TRUE) && !e_cal_get_save_schedules (event->comp_data->client)) {
-				if (!e_cal_component_is_instance (comp)) {
-					ECalComponentRange range;
-
-					/* set the recurrence ID of the object we send */
-					range.type = E_CAL_COMPONENT_RANGE_SINGLE;
-					e_cal_component_get_dtstart (comp, &range.datetime);
-					range.datetime.value->is_date = 1;
-					e_cal_component_set_recurid (comp, &range);
-
-					e_cal_component_free_datetime (&range.datetime);
-				}
-				itip_send_comp (E_CAL_COMPONENT_METHOD_CANCEL, comp, event->comp_data->client, NULL, NULL);
+			e_cal_get_timezone (event->comp_data->client, dt.tzid, &zone, &error);
+			if (error) {
+				zone = e_calendar_view_get_timezone (cal_view);	
+				g_clear_error(&error);
 			}
+		} else 
+			zone = e_calendar_view_get_timezone (cal_view);
 
-			e_cal_remove_object_with_mod (event->comp_data->client, uid, rid, CALOBJ_MOD_THIS, &error);
-			delete_error_dialog (error, E_CAL_COMPONENT_EVENT);
-			g_clear_error (&error);
+
+		if (is_instance)  
+			rid = e_cal_component_get_recurid_as_string (comp);
+
+		e_cal_component_free_datetime (&dt);
+
+
+		if (itip_organizer_is_user (comp, event->comp_data->client)
+				&& cancel_component_dialog ((GtkWindow *) gtk_widget_get_toplevel (GTK_WIDGET (cal_view)),
+					event->comp_data->client,
+					comp, TRUE) && !e_cal_get_save_schedules (event->comp_data->client)) {
+			if (!e_cal_component_is_instance (comp)) {
+				ECalComponentRange range;
+
+				/* set the recurrence ID of the object we send */
+				range.type = E_CAL_COMPONENT_RANGE_SINGLE;
+				e_cal_component_get_dtstart (comp, &range.datetime);
+				range.datetime.value->is_date = 1;
+				e_cal_component_set_recurid (comp, &range);
+
+				e_cal_component_free_datetime (&range.datetime);
+			}
+			itip_send_comp (E_CAL_COMPONENT_METHOD_CANCEL, comp, event->comp_data->client, NULL, NULL);
 		}
+
+		if (is_instance)
+			e_cal_remove_object_with_mod (event->comp_data->client, uid, rid, CALOBJ_MOD_THIS, &error);
+		else {
+			struct icaltimetype instance_rid;
+
+			instance_rid = icaltime_from_timet_with_zone (event->comp_data->instance_start, 
+					TRUE, zone ? zone : icaltimezone_get_utc_timezone ());
+			e_cal_util_remove_instances (event->comp_data->icalcomp, instance_rid, CALOBJ_MOD_THIS);
+			e_cal_modify_object (event->comp_data->client, event->comp_data->icalcomp, CALOBJ_MOD_THIS,
+				       	&error);
+		}
+
+		delete_error_dialog (error, E_CAL_COMPONENT_EVENT);
+		g_clear_error (&error);
 	}
 
 	/* free memory */
