@@ -1,3 +1,9 @@
+2005-11-28  Jeffrey Stedfast  <fejj@novell.com>
+
+	* em-folder-view.c (emfv_setting_notify): literal strings do not
+	need to be \0 terminated, they are already nul-terminated by
+	definition.
+
 2005-11-28  Sam Yang  <sam.yang@sun.com>
 
 	** See bug #322414
@@ -752,6 +758,7 @@
 	we don't update too often and suck loads of cpu time.
 
 2005-06-07  Andre Klapper <9016009@gmx.de>
+
 	* mail.error.xml: Fixing typo (bug 306151)
 
 2005-06-02  Not Zed  <NotZed@Ximian.com>

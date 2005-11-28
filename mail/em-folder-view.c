@@ -2634,24 +2634,24 @@ emfv_setting_notify(GConfClient *gconf, guint cnxn_id, GConfEntry *entry, EMFold
         case EMFV_SHOW_PREVIEW: {
 		gboolean state_gconf, state_camel;
 		char *ret;
-
+		
 		/* If emfv->folder hasn't been initialized, do nothing */ 
 		if (!emfv->folder)
 			return;
+		
 		state_gconf = gconf_value_get_bool (value);
-		ret = camel_object_meta_get (emfv->folder, "evolution:show_preview");
-		if (ret){
+		if ((ret = camel_object_meta_get (emfv->folder, "evolution:show_preview"))) {
 			state_camel = (ret[0] != '0');
 			g_free (ret);
 			if (state_gconf == state_camel)
 				return;
 		}
-
-		if (camel_object_meta_set (emfv->folder, "evolution:show_preview", state_gconf ? "1\0" : "0\0"))
+		
+		if (camel_object_meta_set (emfv->folder, "evolution:show_preview", state_gconf ? "1" : "0"))
 			camel_object_state_write (emfv->folder);
 		em_folder_browser_show_preview ((EMFolderBrowser *)emfv, state_gconf);
 		bonobo_ui_component_set_prop (emfv->uic, "/commands/ViewPreview", "state", state_gconf ? "1" : "0", NULL);
-		break;}
+		break; }
 	}
 }
 
