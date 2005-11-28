@@ -1,5 +1,12 @@
 2005-11-28  Chenthill Palanisamy  <pchenthill@novell.com>
 
+	Fixes #314639
+	* gui/e-calendar-view.c: 
+	(e_calendar_view_new_appointment_for): Check if the default
+	client is loaded before creating the appointment.
+
+2005-11-28  Chenthill Palanisamy  <pchenthill@novell.com>
+
 	Fixes #318777
 	* gui/e-cal-model.c: 
 	(add_instance_cb): Set the instance start as the started date for

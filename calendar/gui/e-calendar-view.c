@@ -1670,12 +1670,20 @@ e_calendar_view_new_appointment_for (ECalendarView *cal_view,
 	ECalComponent *comp;
 	icalcomponent *icalcomp;
 	ECalComponentTransparency transparency;
+	ECal *default_client = NULL;
 	guint32 flags = 0;
 
 	g_return_if_fail (E_IS_CALENDAR_VIEW (cal_view));
 
 	priv = cal_view->priv;
 
+	default_client = e_cal_model_get_default_client (priv->model);
+
+	if (default_client && e_cal_get_load_state (default_client) != E_CAL_LOAD_LOADED) {
+		g_warning ("Default client not loaded \n");
+		return;
+	}
+	
 	dt.value = &itt;
 	if (all_day)
 		dt.tzid = NULL;
