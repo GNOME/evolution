@@ -16,6 +16,8 @@ Bugzilla bugs fixed (see http://bugzilla.gnome.org/show_bug.cgi):
 #301081 - Converting mail to task forgets recipients (Mubeen)
 #312467 - gw - Logout from proxy and then immedeitly login 'evolution' (Sankar)
 #317906 - gw - Shared folder properties of one folder are reflected in all (Vivek)
+#322311 - New defined viewname with non-ASCII characters is not displayed (Simon Zheng) 	
+#322616 -  End time in list view is displayed in UTC timezone (Chenthill)
 
 Updated Translations:
 
