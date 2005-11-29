@@ -107,9 +107,11 @@ gal_view_generate_string (GalViewCollection *collection,
 		ret_val = g_strdup(gal_view_get_title(view));
 	else
 		ret_val = g_strdup_printf("%s_%d", gal_view_get_title(view), which);
-	for (pointer = ret_val; *pointer; pointer++) {
-		if (!isalnum((guint) *pointer)) {
-			*pointer = '_';
+	for (pointer = ret_val; *pointer; pointer = g_utf8_next_char(pointer)) {
+		if (!g_unichar_isalnum(g_utf8_get_char(pointer))) {
+			char *ptr = pointer;
+			for (; ptr < g_utf8_next_char(pointer); *ptr = '_', ptr++)
+				;
 		}
 	}
 	return ret_val;

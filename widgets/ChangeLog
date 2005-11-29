@@ -1,3 +1,10 @@
+2005-11-29 Simon Zheng <simon.zheng@sun.com>
+
+	* menus/gal-view-collection.c: (gal_view_generate_string):
+	Fix #322311. Using g_utf8_next_char() to traverses UTF-8
+	string and replace characters that are neither a alpha nor
+	a numeral.
+
 2005-09-30  Li Yuan  <li.yuan@sun.com>
 
 	* menus/gal-define-views-dialog.c:
