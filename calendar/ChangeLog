@@ -1,3 +1,9 @@
+2005-11-29  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #322616
+	* gui/e-cal-model-calendar.c: (get_dtend): Convert to
+	proper time zone.
+
 2005-11-28  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #317322
