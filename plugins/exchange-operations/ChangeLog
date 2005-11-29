@@ -1,5 +1,5 @@
 2005-11-24  Sushma Rai  <rsushma@novell.com>
-
+	
 	* exchange-account-setup.c (org_gnome_exchange_settings): Initialize
 	OOF state and check for the OOF state and message only of the account
 	is valid. Fixes the problem of printing OOF error message in case
@@ -13,30 +13,12 @@
 	properly to get the efolder.
 	* exchange-folder.c (org_gnome_exchange_folder_inbox_unsubscribe),
 	(exchange_get_folder), (org_gnome_exchange_check_inbox_subscribed),
-	(unsubscribe_dialog_ab_response), (unsubscribe_dialog_response): 
+	(unsubscribe_dialog_ab_response), (unsubscribe_dialog_response):
 	Creating proper path.
-	
+
 	The above modifications will now allow the user to do the operations
 	like unsubscribed to Inbox and giving permission to a folder.
-		-
 
-2005-09-30  Shakti Sen <shprasad@novell.com>
-
-	* exchange-folder-subscription.c (setup_folder_name_combo): Sets the
-	corresponding 'Folder name'.
-	(create_folder_subscription_dialog): Sets the cursor to User's entry
-	text field.
-	* exchange-folder-subscription.h: Added one more argument to function
-	create_folder_subscription_dialog() to set the window title.
-	* exchange-folder.c (org_gnome_exchange_inbox_subscription),
-	(org_gnome_exchange_addressbook_subscription),
-	(org_gnome_exchange_calendar_subscription),
-	(org_gnome_exchange_tasks_subscription): Added newly.
-	* org-gnome-exchange-operations.eplug.in: Changed the activate callback
-	function names so that it can show appropriate window title.
-
-	Fixes bug #317019, #317023.
-	
 2005-09-28  Sarfraaz Ahmed <asarfraaz@novell.com>
 
 	* exchange-account-setup.c (owa_authenticate_user) : Propogate the
@@ -44,15 +26,6 @@
 	* exchange-calendar.c
 	* exchange-contacts.c
 	* exchange-folder.c : Parse the new account uri.
-
-2005-09-28  Tor Lillqvist  <tml@novell.com>
-
-	* Makefile.am (INCLUDES, LIBADD): Use just CAMEL_EXCHANGE_CFLAGS
-	and _LIBS, they now includes all necessary (see top-level
-	ChangeLog).
-	(LDFLAGS): Use NO_UNDEFINED.
-
-	* org-gnome-exchange-operations.eplug.in: Use SOEXT.
 
 2005-09-22  Praveen Kumar  <kpraveen@novell.com>
 

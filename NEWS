@@ -1,74 +1,114 @@
-Evolution 2.5.2 2005-10-25
---------------------------
-
-New Features:
-	- New Event / Meeting Editor dialog (Srinivasa Ragavan &
-	  Chenthill)
-	-  Hula Account setup plugin (Harish)
+Evolution 2.4.2 2005-11-29
+---------------------------
 
 Bugzilla bugs fixed (see http://bugzilla.gnome.org/show_bug.cgi):
 
-	#302974 - Added accelerators for Next and Previous message
-		  (Sankar)
-	#314638 - Fixes a memory build-up, while creating a new meeting
-		  with new category (Chakravarthi)
-	#313538 - Fix to show Free/Busy information for organiser
-		  (Chenthil)	  
-	#321088 - Fix to reduce the size of time window in free/busy to
-		  avoid the scroll of widget in the wrong direction.
-		  It Shows only 35 days in the canvas. (Chenthill)
-	#273322 - Fixed a crash in evolution, when calendar is removed,
-		  remove it from publishing. (Dinesh)
-	#316710 - Fixed a alarm issue to popup for exchange, by
-		  obtaining correct key for a authenticated calendar (Chakravarthi)
-	#319217 - Show only alarms starting from today for missed alarms
-		  (Chakravarthi)
-	#316280 - Fix to addressbook print to use specified page size
-		  (Evan Yan)
-	#229972 - In contact editor, move focus automatically to next
-		  field, after setting phone from the menus (Devashish)
-	#301081 - Fix to rememberpublishing recipents in converting mail
-		  to task plugin (Mubeen)
-	#308752 - Renamed 'Meetings and Tasks' to 'Calendar and Tasks'
-		  in Preferences (Dinesh)
-	
-Other Fixes:
 
-	- Category syncing in todo-conduits (Nathen Owens)
-	- Adjust the Date/Time widgets to take actual size in
-	  meeting/event page (Chenthill)
-	- Automatic file extention filling in saving a calendar (Dinesh)
-	- Code Cleanup (Harish) 
-	
-Update Translations:
+#316297 - Evolution help contents fails with error cannot load section (Harish)
+#314638 - Memory builds up to 1GB when a meeting is created (Chakravarthi) 
+#317322 - crash when delete a imported recurrent event (Chenthill)
+#314639 - Evolution crashed on right click and select new appointment (Chenthill)
+#312533 - modifying a repeated calendar entry in day view corrupts entry (Dinesh)
+#273322 - Evolution crashes after some apparent corruption in the local (Dinesh)
+#310495 - sorting tasks based on summary first sorts based on upper-case (Mubeen)
+#272920 - Month calendar in "day view" should scroll with scroll wheel (Viren)
+#316280 - evolution contact print use fixed page size, print to A5 (Evan Yan)
+#301081 - Converting mail to task forgets recipients (Mubeen)
+#312467 - gw - Logout from proxy and then immedeitly login 'evolution' (Sankar)
+#317906 - gw - Shared folder properties of one folder are reflected in all (Vivek)
+#322311 - New defined viewname with non-ASCII characters is not displayed (Simon Zheng) 	
+#322616 -  End time in list view is displayed in UTC timezone (Chenthill)
 
-	- bg (Alexander Shopov)
-	- ca (Adam Weinberger)
+Updated Translations:
+
+	- bg (Rostislav Raykov)
+	- da (Martin Willemoes Hansen)
+	- es (QA team)
 	- es (Francisco Javier F. Serrador)
-	- et (Priit Laes)
+	- et (Ivar Smolin)
+	- eu (Inaki Larranaga)
 	- fi (Ilkka Tuohela)
+	- fr (Stephane Raimbault)
 	- gl (Ignacio Casal Quinteiro)
-	- ku (Erdal Ronahi)
-	- lt (Žygimantas Beručka)
 
-Evolution 2.5.1 2005-10-25
+Evolution 2.4.1 2005-10-03
 --------------------------
-New !!  Evolution Memos component (Nathan Owens)
-and plenty of bug fixes as usual.
 
-Evolution 2.4.0 2005-09-05
---------------------------
-What is new ?
+Bugzilla bugs fixed (see http://bugzilla.gnome.org/show_bug.cgi):
 
-- A new menu layout (More HIG compliant)
-- Inline PGP Signature/Encryption support.
-- Performance enhancements on Camel/GroupWise Backends.
-- Auto-fit Image Attachments
-- Support for GroupWise proxy accounts
-- Extended EPlugin support, importers as an EPlugin.
-- Thunderbird-compatible storage of labels on IMAP.
-- Support for delegation of meetings (Calendar)
-- Marcus Baines Line (calendar) 
+General/GAL/Plugins :
+
+	#271308 - evolution-2.1.3.2 does not build outside of srcdir (Harish)
+	#316351 - Evolution crashes when performing 'checkrow' action using LDTP (Harry Lu)
+	#317792 - junk plugin not honouring the flags (Vivek)
+	#312886 - Folder size always shows 0 kb... (Arunprakash)
+	#316274 - Exchange Plugin cannot be enabled on a machine w/o KRB5 (Irene Huang)
+
+Addressbook:
+
+	#248624 - Contact list prints poorly with Evolution 1.4.+ (Devashish) 
+	#274285 - All contacts are printed even if 'selection' is chosen (Devashish)
+	#209354 - printing of a contact gives ugly result (Devashish)
+	#202201 - Context menu for printing should apply to multiple contacts (Devashish)
+	#315034 - Duplicate contact - Adding new contact with first and last name (Devashish)
+	#316373 - Support inetOrgPerson schema in LDIF import (Sushma)
+	#269655 - GW - PROXY - - Preview Pane For Contacts Should Clear After Search (Devashish)
+	#235038 - contact-list-editor box should support multiple selection (Sushma)
+	#240762 - Cannot edit the '_Address Cards' View (Li Yuan)
+
+Calendar:
+
+	#315095 - Free/busy publish does not publish on GW/Exchange (Chenthill)
+	#271480 - Receive 2 reminders for every meeting on my GW calendar (Chenthill)
+	#264449 - Task list flickering, selections/changes lost (Mubeen Jukaku)
+	#257649 - Keyboard date traversal in Calendar views (Viren)
+	#244981 - Calendar does not print end times in week view (Chenthill) 
+	#316954 - Unable to "Schedule Meeting" from existing appointment (Chenthill) 
+	#301391 - Copy-Paste of repetitive appointment changes end date (Chenthill)
+	#269685 - Changing a calendar item does not change the alarm text (Chakravarthi)
+	#303702 - Segfault trying to sync calendar with an multi-day all-day event (Varadhan)
+	#258786 - 'Mark Selected Tasks as Complete' active even after tasks are complete (Viren)
+	#314599 - Recurrence Tab Should Not Default To Forever (Viren)
+	#273781 - evolution-alarm-notify - appointment should have a windowmanager (Chenthill)
+	#274188 - all-day Appointments in List View start one day too early (Chakravarthi)
+	#273847 - Attached file appears inline in meeting request mail  (Chenthill)
+	#246480 - copy/paste of appointments loses time (Chenthill) 
+	#317014 - 'Add/ Remove/ contacts' tab is disabled in Assignment tab (Viren)
+	#261625 - Extending old event causes new alarm to fire (Chakravarthi)
+	#314922 - Can't add meeting invitees on creating the Meeting request while in Mailer (Dinesh)
+	#311694 - In mail view 'New ->Appointment' opens appointment popup with no summary (Dinesh)
+	#314918 - GW - Evolution crashed on adding attendees to Meeting request (Dinesh)
+	#315752 - "Convert to Task" causes crash (Chenthill)
+	#315345 - Evolution crashes on  displaying messages from "Calendar" folder of an IMAP account (Chenthill)
+	#270036 - Free/Busy settings tab (Dinesh)
+
+Mailer:
+	
+	#316983 - Read-receipt is sent to myself (Carsten Guenther)
+	#315506 - Unable to set default Sent folder (Sankar) 
+	#257321 - Sent folder should have a unique icon (Sankar)
+	#313078 - Enter wrong IP address while configuring mail id evolution keeps sending loginrequest (Vivek)
+	#314337 - Copy/paste a webpage to mail composer,Print Preview makes evolution crash (Shreyas)
+	#317400 - GW Error message "Proxy access cannot be given to user"" (Sankar)
+
+Updated Translations:
+
+	- bn (Runa Bhattacharjee)
+	- cy (Rhys Jones)
+	- et (Ivar Smolin)
+	- eu (Inaki Larranaga)
+	- fa (Elnaz Sarbar, Meelad Zakaria)
+	- fi (Ilkka Tuohela)
+	- fr (Vincent Untz, Stéphane Raimbault)
+	- hu (Gabor Kelemen)
+	- it (Alessio Frusciante)
+	- lt (Žygimantas Beručka) 
+	- ro (Mugurel Tudor)
+	- ru (Nickolay V. Shmyrev)
+	- sv (Christian Rose)
+	- th (Theppitak Karoonboonyanan)
+	- tr (Baris Cicek)
+	- vi (Clytie Siddall)
 
 Evolution 2.3.8 2005-08-23
 ---------------------------

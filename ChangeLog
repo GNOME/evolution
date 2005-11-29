@@ -1,80 +1,29 @@
-2005-11-28  P S Chakravarthi <pchakravarthi@novell.com>
+2005-11-29  Harish Krishnaswamy  <kharish@novell.com>
 
-	* configure.in: Added libnotify for use in new
-	alarm notification UI.
+	* configure.in, NEWS : Release updates.
+	*** Release 2.4.2 ***
 
-2005-11-26  Tor Lillqvist  <tml@novell.com>
+2005-10-03  Harish Krishnaswamy <kharish@novell.com>
 
-	* configure.in: Drop the IPv6 and getaddrinfo checks, unused here
-	in Evolution. (It's used in e-d-s, though.)
-
-2005-11-23  Srinivasa Ragavan <sragavan@novell.com>
-
-	* configure.in: Made hal dependency optional.
-
-2005-11-16  Parthasarathi Susarla <sparthasarathi@novell.com>
+	* configure.in, NEWS: Release updates.
+	*** Release 2.4.1 ***
 	
-	* README, removed gal requirement.
-
-2005-11-14  Harish Krishnaswamy  <kharish@novell.com>
-
-	* NEWS, configure.in: Release updates, version bump.
-	***** Release 2.5.2 *****
-
-2005-10-27  Erdal Ronahi  <erdal.ronahi@gmail.com>
-
-	* configure.in: Added ku (Kurdish) to ALL_LINGUAS
-
-2005-10-26  Tor Lillqvist  <tml@novell.com>
-
-	* configure.in: Don't require hal on Win32.
-
-2005-10-25  Harish Krishnaswamy  <kharish@novell.com>
-
-	* Makefile.am: Distclean should remove the header,
-	not iconv-detect.c
-
-2005-10-25  Harish Krishnaswamy  <kharish@novell.com>
-
-	* configure.in: Turn development warning on.
-	Bump version to 2.5.1.
-
-2005-10-19  Harish Krishnaswamy <kharish@novell.com>
-
-	Committing for Nathan Owens <pianocomp81@yahoo.com>
-
-	* configure.in: Add views/memos/Makefile,
-	calendar/conduits/memo/Makefile to Makefile list
-
-2005-10-18  Srinivasa Ragavan <sragavan@novell.com>
-
-	* configure.in: Added iPod sync e-plugin to experimental plugins.
-
-2005-10-17  Runa Bhattacharjee <runa@bengalinux.org>
-
-	* configure.in : Added Bengali (bn) to ALL_LINGUAS.
-
-2005-10-3  Harish Krishnaswamy <kharish@novell.com>
+2005-10-03  Harish Krishnaswamy <kharish@novell.com>
 
 	* marshal.mk : do not add the srcdir prefix as
 	$< already returns the full path.
 	Fixes #271308.
 
-2005-09-28  Tor Lillqvist  <tml@novell.com>
-
-	* configure.in: Drop unused SOCKET_LIBS leftover. Don't check for
-	OpenLDAP on Win32. Instead, set related variables unconditionally,
-	as LDAP support is always present (in <winldap.h> and -lwldap32).
-	(CAMEL_EXCHANGE): Add more stuff to CAMEL_EXCHANGE_CFLAGS and
-	_LIBS. These are used only in
-	plugins/exchange-operations/Makefile.am, and now it's enough to
-	use only that CAMEL_EXCHANGE_CFLAGS and _LIBS there.
-
-	* win32/dummy.la: libdir is prefix/lib, not bin.
-
 2005-09-05  Mengjie Yu  <meng-jie.yu@sun.com>
 
 	* configure.in:grep on Solaris doesn't support -q, use > /dev/null instead.
+
+2005-09-05  Runa Bhattacharjee <runa@bengalinux.org>
+	* configure.in: Added Bengali (bn) to ALL_LINGUAS.
+
+2005-09-02 Jessica Prabhakar <pjessica@novell.com>
+
+	* help/C/evolution.xml: minor spelling and grammar edits
 
 2005-08-28  Harish Krishnaswamy <kharish@novell.com>
 

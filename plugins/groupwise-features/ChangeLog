@@ -1,9 +1,3 @@
-2005-11-10  Harish Krishnaswamy  <kharish@novell.com>
-
-	* mail-send-options.c: (org_gnome_compose_send_options):
-	Function signature specifies a void return. So, do not 
-	return NULL.
-	
 2005-10-20  Sankar P  <psankar@novell.com>
 
 	* proxy-login.c (org_gnome_proxy_account_login) (proxy_login_get_cnc): 
@@ -13,19 +7,7 @@
 
 	* proxy-login.c (proxy_login_update_tree) (proxy_login_get_cnc):
 	Added the missing unrefs for the connection object.
-
-2005-10-19  Shreyas Srinivasan  <sshreyas@novell.com>
-
-	* proxy.c (org_gnome_proxy): Dont try to connect when the account is
-	offline. Also connect to the server only when the proxy tab is clicked.
-	* Fixes #314297, #314345
-
-2005-10-14  Vivek Jain <jvivek@novell.com>
 	
-	* proxy.c :(proxy_get_cnc)
-	"use_ssl" should be Null checked before comparing it with any value. 
-	its NULL when evo is not compiled with ssl support and caused crash.
-
 2005-10-07  Vivek Jain <jvivek@novell.com>
 
 	* share-folder.c : (remove_clicked)
@@ -46,6 +28,11 @@
 	* install-shared.c 	: (org_gnome_popup_wizard)
 	enable shared-folder functionalilty, remove env check 
 
+2005-09-30  Shreyas Srinivasan  <sshreyas@novell.com>
+
+	* proxy.c (proxy_page_changed_cb): Load proxy list only when
+	the tab is clicked. Fixes #314337
+	
 2005-09-28  Sankar P  <psankar@novell.com>
 
 	*  proxy.c (proxy_dialog_store_widgets_data):

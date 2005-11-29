@@ -1,44 +1,17 @@
-2005-11-29 Simon Zheng <simon.zheng@sun.coma
+2005-11-29 Simon Zheng <simon.zheng@sun.com>
 
 	* menus/gal-view-collection.c: (gal_view_generate_string):
 	Fix #322311. Using g_utf8_next_char() to traverses UTF-8
 	string and replace characters that are neither a alpha nor
 	a numeral.
 
-2005-09-29  Tor Lillqvist  <tml@novell.com>
-
-	* menus/gal-view-collection.c (load_single_dir)
-	* menus/gal-view-instance.c (load_current_view): Use
-	g_win32_locale_filename_from_utf8() from GLib 2.8 instead of
-	gnome_win32_locale_filename_from_utf8() which was temporarily in
-	libgnome.
-
-2005-09-29  Li Yuan  <li.yuan@sun.com>
+2005-09-30  Li Yuan  <li.yuan@sun.com>
 
 	* menus/gal-define-views-dialog.c:
 	(etable_selection_change_forall_cb):
 	Fix #240762. If the galview implement the edit function,
 	enable the edit button. If not, disable it.
 
-2005-09-28  Tor Lillqvist  <tml@novell.com>
-
-	* e-timezone-dialog/Makefile.am
-	* menus/Makefile.am
-	* text/Makefile.am: Install in privsolib instead of privlib (no
-	difference on Unix). Use NO_UNDEFINED. Link with all needed
-	libraries to satisfy the -no-undefined used on Windows.
-
-	* e-timezone-dialog/Makefile.am
-	* text/Makefile.am: On Win32, use bootstrap import library for
-	libemiscwidgets, which hasn't been built yet when we come
-	here.
-
-	* menus/Makefile.am: Drop several overlapping CFLAGS, use
-	E_UTIL_CFLAGS instead.
-
-	* text/Makefile.am: Drop several overlapping
-	CFLAGS. EXTRA_GNOME_CFLAGS should be enough.
-	
 2005-08-03  Li Yuan  <li.yuan@sun.com>
 
 	* menus/gal-view-new-dialog.glade:

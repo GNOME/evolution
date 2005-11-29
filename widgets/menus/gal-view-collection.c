@@ -400,7 +400,7 @@ load_single_dir (GalViewCollection *collection,
 	
 	if (g_file_test (filename, G_FILE_TEST_IS_REGULAR)) {
 #ifdef G_OS_WIN32
-		gchar *locale_filename = g_win32_locale_filename_from_utf8 (filename);
+		gchar *locale_filename = gnome_win32_locale_filename_from_utf8 (filename);
 		if (locale_filename != NULL)
 			doc = xmlParseFile (locale_filename);
 		g_free (locale_filename);

@@ -152,10 +152,10 @@ ensure_sources (CalendarComponent *component)
 	}
 
 	base_uri = g_build_filename (calendar_component_peek_base_directory (component),
-				     "calendar", "local",
+				     "/calendar/local/",
 				     NULL);
 
-	base_uri_proto = g_filename_to_uri (base_uri, NULL, NULL);
+	base_uri_proto = g_strconcat ("file://", base_uri, NULL);
 
 	groups = e_source_list_peek_groups (source_list);
 	if (groups) {
@@ -532,10 +532,10 @@ edit_calendar_cb (EPopup *ep, EPopupItem *pitem, void *data)
 }
 
 static EPopupItem ecc_source_popups[] = {
-	{ E_POPUP_ITEM, "10.new", N_("_New Calendar"), new_calendar_cb, NULL, "stock_calendar", 0, 0 },
-	{ E_POPUP_ITEM, "15.copy", N_("_Copy"), copy_calendar_cb, NULL, "stock_folder-copy", 0, E_CAL_POPUP_SOURCE_PRIMARY },
-	{ E_POPUP_ITEM, "20.delete", N_("_Delete"), delete_calendar_cb, NULL, "stock_delete", 0, E_CAL_POPUP_SOURCE_USER|E_CAL_POPUP_SOURCE_PRIMARY },
-	{ E_POPUP_ITEM, "30.properties", N_("_Properties..."), edit_calendar_cb, NULL, "stock_folder-properties", 0, E_CAL_POPUP_SOURCE_PRIMARY },
+	{ E_POPUP_ITEM, "10.new", N_("New Calendar"), new_calendar_cb, NULL, "stock_calendar", 0, 0 },
+	{ E_POPUP_ITEM, "15.copy", N_("Copy"), copy_calendar_cb, NULL, "stock_folder-copy", 0, E_CAL_POPUP_SOURCE_PRIMARY },
+	{ E_POPUP_ITEM, "20.delete", N_("Delete"), delete_calendar_cb, NULL, "stock_delete", 0, E_CAL_POPUP_SOURCE_USER|E_CAL_POPUP_SOURCE_PRIMARY },
+	{ E_POPUP_ITEM, "30.properties", N_("Properties..."), edit_calendar_cb, NULL, "stock_folder-properties", 0, E_CAL_POPUP_SOURCE_PRIMARY },
 };
 
 static void
@@ -1145,9 +1145,6 @@ setup_create_ecal (CalendarComponent *calendar_component, CalendarComponentView 
 		
 	if (priv->create_ecal) {
 		icaltimezone *zone;
-		
-		zone = calendar_config_get_icaltimezone ();
-		e_cal_set_default_timezone (priv->create_ecal, zone, NULL);
 
 		if (!e_cal_open (priv->create_ecal, FALSE, NULL)) {
 			GtkWidget *dialog;
@@ -1155,12 +1152,15 @@ setup_create_ecal (CalendarComponent *calendar_component, CalendarComponentView 
 			dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL,
 							 GTK_MESSAGE_WARNING, GTK_BUTTONS_OK,
 							 _("Unable to open the calendar '%s' for creating events and meetings"), 
-							 e_source_peek_name (source));
+							   e_source_peek_name (source));
 			gtk_dialog_run (GTK_DIALOG (dialog));
 			gtk_widget_destroy (dialog);
 
 			return NULL;
 		}
+
+		zone = calendar_config_get_icaltimezone ();
+		e_cal_set_default_timezone (priv->create_ecal, zone, NULL);
 
 	} else {
 		GtkWidget *dialog;

@@ -1,11 +1,3 @@
-2005-10-19 Harish Krishnaswamy <kharish@novell.com>
-	
-	Committing for Nathan Owens <pianocomp81@yahoo.com>
-	
-	* Makefile.am: added memos directory
-	* views/memos/*: added galview.xml, Makefile.am, Memos.galview for
-	initial Memos component
-
 2005-09-28  Devashish Sharma <sdevashish@novell.com>
 
 	* addressbook/Phone_List.galview: Match new column values, change

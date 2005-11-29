@@ -71,7 +71,6 @@
 #include "eab-contact-merging.h"
 
 #include "e-util/e-error.h"
-#include "e-util/e-util-private.h"
 
 #include "e-contact-editor.h"
 #include <gdk/gdkkeysyms.h>
@@ -423,7 +422,6 @@ eab_view_new (void)
 	GtkWidget *widget = GTK_WIDGET (g_object_new (E_TYPE_AB_VIEW, NULL));
 	EABView *eav = EAB_VIEW (widget);
 	FilterPart *part;
-	char *xmlfile;
 
 	/* create our model */
 	eav->model = eab_model_new ();
@@ -466,9 +464,7 @@ eab_view_new (void)
 	eav->search_context = rule_context_new ();
 	rule_context_add_part_set (eav->search_context, "partset", filter_part_get_type (),
 				   rule_context_add_part, rule_context_next_part);
-	xmlfile = g_build_filename (SEARCH_RULE_DIR, "addresstypes.xml", NULL);
-	rule_context_load (eav->search_context, xmlfile, "");
-	g_free (xmlfile);
+	rule_context_load (eav->search_context, SEARCH_RULE_DIR "/addresstypes.xml", "");
 
 	eav->search_rule = filter_rule_new ();
 	part = rule_context_next_part (eav->search_context, NULL);
@@ -541,8 +537,6 @@ init_collection (void)
 	GalViewFactory *factory;
 	ETableSpecification *spec;
 	char *galview;
-	char *addressbookdir;
-	char *etspecfile;
 
 	if (collection == NULL) {
 		collection = gal_view_collection_new();
@@ -550,22 +544,14 @@ init_collection (void)
 		gal_view_collection_set_title (collection, _("Address Book"));
 
 		galview = gnome_util_prepend_user_home("/.evolution/addressbook/views");
-		addressbookdir = g_build_filename (EVOLUTION_GALVIEWSDIR,
-						   "addressbook",
-						   NULL);
 		gal_view_collection_set_storage_directories
 			(collection,
-			 addressbookdir,
+			 EVOLUTION_GALVIEWSDIR "/addressbook/",
 			 galview);
-		g_free(addressbookdir);
 		g_free(galview);
 
 		spec = e_table_specification_new();
-		etspecfile = g_build_filename (EVOLUTION_ETSPECDIR,
-					       "e-addressbook-view.etspec",
-					       NULL);
-		e_table_specification_load_from_file (spec, etspecfile);
-		g_free (etspecfile);
+		e_table_specification_load_from_file (spec, EVOLUTION_ETSPECDIR "/e-addressbook-view.etspec");
 
 		factory = gal_view_factory_etable_new (spec);
 		g_object_unref (spec);
@@ -943,27 +929,27 @@ new_list (EPopup *ep, EPopupItem *pitem, void *data)
 static EPopupItem eabv_popup_items[] = {
 	{ E_POPUP_ITEM, "05.open", N_("_Open"), open_contact, NULL, NULL, EAB_POPUP_SELECT_ANY|EAB_POPUP_SELECT_EDITABLE },
 	{ E_POPUP_BAR, "10.bar" },
-	{ E_POPUP_ITEM, "10.new",  N_("_New Contact..."), new_card, NULL, "stock_contact", 0, EAB_POPUP_SELECT_EDITABLE},
-	{ E_POPUP_ITEM, "15.newlist", N_("New Contact _List..."), new_list, NULL, "stock_contact-list", 0, EAB_POPUP_SELECT_EDITABLE },
+	{ E_POPUP_ITEM, "10.new",  N_("New Contact..."), new_card, NULL, "stock_contact", 0, EAB_POPUP_SELECT_EDITABLE},
+	{ E_POPUP_ITEM, "15.newlist", N_("New Contact List..."), new_list, NULL, "stock_contact-list", 0, EAB_POPUP_SELECT_EDITABLE },
 
 	{ E_POPUP_BAR, "20.bar" },
-	{ E_POPUP_ITEM, "30.saveas", N_("_Save as VCard..."), save_as, NULL, "stock_save-as", 0, EAB_POPUP_SELECT_ANY },
-	{ E_POPUP_ITEM, "40.forward", N_("_Forward Contact"), send_as, NULL, "stock_mail-forward", EAB_POPUP_SELECT_ONE },
-	{ E_POPUP_ITEM, "40.forward", N_("_Forward Contacts"), send_as, NULL, "stock_mail-forward", EAB_POPUP_SELECT_MANY },
-	{ E_POPUP_ITEM, "50.mailto", N_("Send _Message to Contact"), send_to, NULL, "stock_mail-send", EAB_POPUP_SELECT_ONE|EAB_POPUP_SELECT_EMAIL|EAB_POPUP_CONTACT },
-	{ E_POPUP_ITEM, "50.mailto", N_("Send _Message to List"), send_to, NULL, "stock_mail-send", EAB_POPUP_SELECT_ONE|EAB_POPUP_SELECT_EMAIL|EAB_POPUP_LIST },
-	{ E_POPUP_ITEM, "50.mailto", N_("Send _Message to Contacts"), send_to, NULL, "stock_mail-send", EAB_POPUP_SELECT_MANY|EAB_POPUP_SELECT_EMAIL },
-	{ E_POPUP_ITEM, "60.print", N_("_Print"), print, NULL, "stock_print", 0, EAB_POPUP_SELECT_ANY },
+	{ E_POPUP_ITEM, "30.saveas", N_("Save as VCard..."), save_as, NULL, "stock_save-as", 0, EAB_POPUP_SELECT_ANY },
+	{ E_POPUP_ITEM, "40.forward", N_("Forward Contact"), send_as, NULL, "stock_mail-forward", EAB_POPUP_SELECT_ONE },
+	{ E_POPUP_ITEM, "40.forward", N_("Forward Contacts"), send_as, NULL, "stock_mail-forward", EAB_POPUP_SELECT_MANY },
+	{ E_POPUP_ITEM, "50.mailto", N_("Send Message to Contact"), send_to, NULL, "stock_mail-send", EAB_POPUP_SELECT_ONE|EAB_POPUP_SELECT_EMAIL|EAB_POPUP_CONTACT },
+	{ E_POPUP_ITEM, "50.mailto", N_("Send Message to List"), send_to, NULL, "stock_mail-send", EAB_POPUP_SELECT_ONE|EAB_POPUP_SELECT_EMAIL|EAB_POPUP_LIST },
+	{ E_POPUP_ITEM, "50.mailto", N_("Send Message to Contacts"), send_to, NULL, "stock_mail-send", EAB_POPUP_SELECT_MANY|EAB_POPUP_SELECT_EMAIL },
+	{ E_POPUP_ITEM, "60.print", N_("Print"), print, NULL, "stock_print", 0, EAB_POPUP_SELECT_ANY },
 
 	{ E_POPUP_BAR, "70.bar" },
-	{ E_POPUP_ITEM, "80.copyto", N_("Cop_y to Address Book..."), copy_to_folder, NULL, NULL, 0, EAB_POPUP_SELECT_ANY },
-	{ E_POPUP_ITEM, "90.moveto", N_("Mo_ve to Address Book..."), move_to_folder, NULL, NULL, 0, EAB_POPUP_SELECT_ANY|EAB_POPUP_SELECT_EDITABLE },
+	{ E_POPUP_ITEM, "80.copyto", N_("Copy to Address Book..."), copy_to_folder, NULL, NULL, 0, EAB_POPUP_SELECT_ANY },
+	{ E_POPUP_ITEM, "90.moveto", N_("Move to Address Book..."), move_to_folder, NULL, NULL, 0, EAB_POPUP_SELECT_ANY|EAB_POPUP_SELECT_EDITABLE },
 
 	{ E_POPUP_BAR, "a0.bar" },
-	{ E_POPUP_ITEM, "b0.cut", N_("Cu_t"), cut, NULL, "stock_cut", 0, EAB_POPUP_SELECT_ANY|EAB_POPUP_SELECT_EDITABLE },
-	{ E_POPUP_ITEM, "c0.copy", N_("_Copy"), copy, NULL, "stock_copy", 0, EAB_POPUP_SELECT_ANY },
-	{ E_POPUP_ITEM, "d0.paste", N_("P_aste"), paste, NULL, "stock_paste", 0, EAB_POPUP_SELECT_EDITABLE },
-	{ E_POPUP_ITEM, "e0.delete", N_("_Delete"), delete, NULL, "stock_delete", 0, EAB_POPUP_SELECT_EDITABLE|EAB_POPUP_SELECT_ANY },
+	{ E_POPUP_ITEM, "b0.cut", N_("Cut"), cut, NULL, "stock_cut", 0, EAB_POPUP_SELECT_ANY|EAB_POPUP_SELECT_EDITABLE },
+	{ E_POPUP_ITEM, "c0.copy", N_("Copy"), copy, NULL, "stock_copy", 0, EAB_POPUP_SELECT_ANY },
+	{ E_POPUP_ITEM, "d0.paste", N_("Paste"), paste, NULL, "stock_paste", 0, EAB_POPUP_SELECT_EDITABLE },
+	{ E_POPUP_ITEM, "e0.delete", N_("Delete"), delete, NULL, "stock_delete", 0, EAB_POPUP_SELECT_EDITABLE|EAB_POPUP_SELECT_ANY },
 };
 
 static void
@@ -1294,18 +1280,13 @@ create_table_view (EABView *view)
 {
 	ETableModel *adapter;
 	GtkWidget *table;
-	char *etspecfile;
 	
 	adapter = eab_table_adapter_new(view->model);
 
 	/* Here we create the table.  We give it the three pieces of
 	   the table we've created, the header, the model, and the
 	   initial layout.  It does the rest.  */
-	etspecfile = g_build_filename (EVOLUTION_ETSPECDIR,
-				       "e-addressbook-view.etspec",
-				       NULL);
-	table = e_table_scrolled_new_from_spec_file (adapter, NULL, etspecfile, NULL);
-	g_free (etspecfile);
+	table = e_table_scrolled_new_from_spec_file (adapter, NULL, EVOLUTION_ETSPECDIR "/e-addressbook-view.etspec", NULL);
 
 	view->object = G_OBJECT(adapter);
 	view->widget = table;
@@ -1772,9 +1753,9 @@ eab_view_print(EABView *view)
 			      NULL);
 		GList *list = get_selected_contacts (view); 
 		print = e_contact_print_dialog_new (book, query, list);
-		g_free(query);
-		e_free_object_list(list);
-		gtk_widget_show(print);
+		g_free (query);
+		e_free_object_list (list);
+		gtk_widget_show (print);
 	}
 	else if (view->view_type == EAB_VIEW_TABLE) {
 		GtkWidget *dialog;
@@ -1782,7 +1763,6 @@ eab_view_print(EABView *view)
 		ETable *etable;
 		EContactPrintDialogWeakData *weak_data;
 
-		/* FIXME: Allow range selection in table views, as in minicard view */
 		dialog = e_print_get_dialog (_("Print cards"), GNOME_PRINT_DIALOG_COPIES);
 
 		g_object_get(view->widget, "table", &etable, NULL);
@@ -1900,7 +1880,6 @@ eab_view_delete_selection(EABView *view, gboolean is_delete)
 	    !eab_editor_confirm_delete(GTK_WINDOW(gtk_widget_get_toplevel(view->widget)),
 				       plural, is_list, name)) {
 		g_free (name);
-		e_free_object_list(list);
 		return;
 	}
 

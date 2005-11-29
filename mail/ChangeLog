@@ -1,152 +1,8 @@
-2005-11-28  Jeffrey Stedfast  <fejj@novell.com>
-
-	* em-folder-view.c (emfv_setting_notify): literal strings do not
-	need to be \0 terminated, they are already nul-terminated by
-	definition.
-
-2005-11-28  Sam Yang  <sam.yang@sun.com>
-
-	** See bug #322414
-	* em-folder-view.c: (emfv_setting_notify):
-	Respond to the change of /apps/evolution/mail/display/show_preview 
-	in gconf.
-
-2005-11-25  Tor Lillqvist  <tml@novell.com>
-
-	* em-composer-prefs.c (sig_add_script_response): Use gstdio
-	wrappers.
-	(url_requested): Use g_filename_from_uri()
-	instead of just stripping off the "file:" prefix.
-	(em_composer_prefs_construct): Construct glade file pathname at
-	run-time for Win32 install-anywhere.
-
-2005-11-23  Parthasarathi Susarla <sparthasarathi@novell.com>
-	
-	** See bug #315987
-	* em-composer-utils.c:
-	(em_utils_composer_send_cb): Send only if account is enabled
-	(em_utils_composer_save_draft_cb): Save message to server
-	folder only if the account is enabled, else save it locally
-	(generate_account_hash): Add default account into the account hash
-	only if the account none of the account is enabled.
-	(guess_account): use only enabled account
-
-	* mail.error.xml: Add error message for send-no-account-enabled
-
-2005-11-11  Boby Wang <boby.wang@sun.com>
-
-	** See bug 321214.
-	* mail-config.glade:
-	Focus on the Tools-> Settings-> Composer Preferences -> Forward
-	Style and Reply Style comboboxes.Comboboxes are named after
-	their current settings. Now the names were corrected.
-
-2005-10-26  Vivek Jain <jvivek@novell.com>
-	
-	**See #313096
-	
-	* em-junk-hook.c: (emjh_construct)
-	load the plugin only if it is enabled.
-
-2005-10-22  Parthasarathi Susarla <sparthasarathi@novell.com>
-	
-	* mail-config.c: (mail_config_get_default_account):
-	Return valid transport, only if the account is enabled.
-
-2005-10-22  Parthasarathi Susarla <sparthasarathi@novell.com>
-	
-	* em-composer-utils.c: (create_new_composer):
-	If the account corresponding to the fromuri is not enabled.
-	Then load the preferred account from the composer.
-
-2005-10-21  Jeff Cai <jeff.cai@sun.com>
-
-	Reverse previous patch because of bug 319376.	
-	* em-folder-view.h:
-
-2005-10-21  Jeff Cai <jeff.cai@sun.com>
-
-	* mail/em-folder-view.h : Change the declaration of flag 
-	'preview_active' from one bit of int to one bit of guint 
-	because it will be -1 on linux if being declared one bit of int.
-
-2005-10-19  Philip Van Hoof <pvanhoof@gnome.org>
-	
-	** See bug 318611
-
-	mail/em-composer-utils.c,
-	data hiding
-
-2005-10-19  Harish Krishnaswamy <kharish@novell.com>
-
-	* em-format-html-display.h : Include e-attachment-bar.h
-	relative to the top dir, so it stops borking the print-message
-	plugin.
-
-2005-10-18  Srinivasa Ragavan <sragavan@novell.com>
-
-	* em-folder-browser.c (emfb_focus_search) (emfb_tools_vfolders): Make '/' to 
-	focus on search bar entry. Fixes bug #268027
-
-	* em-folder-view.c (emfv_enable_menus): Set the target widget.
-
-	* em-format-html-display.[ch] (em_format_html_display_get_bar): Added a
-	function to get the attachment bar.
-
-	* em-utils.c (em_utils_temp_save_attachments): Added function to save
-	parts of the attachments.
-
-2005-10-03  Srinivasa Ragavan <sragavan@novell.com>
-
-	* em-folder-view.c (emfv_ena) (emfv_popup_items): Mark visible with
-	  junk flags as well.
-	* em-popup.[ch] (em_popup_target_new_select): Set the flags
-	  for junk respectively.
-	
-2005-10-18  Sankar P  <psankar@novell.com>
-	
-	- Enhances Signature-Preferences. 
-	- Added shortcuts for common operations.
-		-- Delete on Del key
-		-- Edit on Dbl.Click
-	- Prevents adding duplicate and NULL signatures
-	
-	* mail-signature-editor.c (menu_file_save_cb) (mail_signature_editor)
-	(sig_name_changed) (menu_file_save_close_cb) (delete_event_cb) (do_exit):
-		Modified the functions for handling the above scenarios.
-	* mail.error.xml:
-		Added error strings for duplicate and NULL signatures.
-	* em-composer-prefs.c (em_composer_prefs_construct) (sig_delete_cb) (sig_add_cb):
-		Modified the functions so as to handle the keyboard accelarators
-	and to grab focus to the list on deletion/insertion of signatures.	
-	* em-composer-prefs.c (signature_key_press)(sig_tree_event_cb):
-		Added new functions to handle the 
-	keypress events on the signatures list tree.
-
-	Fixes #269749
-	
 2005-09-29  Parthasarathi Susarla <sparthasarathi@novell.com>
 	
 	** See bug 317284
-	
-	* em-mailer-prefs.c: (emmp_header_add_header):
-	Check if its a valid header and only then add it
-	
-2005-09-28  Tor Lillqvist  <tml@novell.com>
-
-	* em-composer-utils.c (reply_get_composer, get_reply_list,
-	post_reply_to_message)
-	* em-folder-view.c (emfv_format_link_clicked)
-	* importers/netscape-importer.c (netscape_get_boolean): Use
-	g_ascii_str(n)casecmp() instead of str(n)casecmp(). We are
-	comparing to literal ASCII strings in these cases, so just
-	casefolding ASCII is enough. Also better for portability.
-
-	* em-format-html-display.c
-	* message-list.c: Define localtime_r() for Win32 using localtime()
-	(which is thread-safe in Microsoft's C library).
-
-	* mail-tools.c (mail_tool_do_movemail): Not implemented on Win32.
+	* em-mailer-prefs.c:(emmp_header_add_header):
+	Make sure that the header text is not empty
 
 2005-09-28  Parthasarathi Susarla <sparthasarathi@novell.com>
 	
@@ -154,14 +10,12 @@
 	* em-vfolder-rule.c: (em_vfolder_rule_add_source):
 	Do not add a NULL uri.
 
-2005-09-26  S.Antony Vincent Pandian <santony@gmail.com>
+2005-09-27  Sankar P  <psankar@novell.com>
 
-	Fixes #208647
-
-	* em-folder-tree.c : Have added a menu item Empty 
-	Trash in the folder tree's context menu and also
-	added its callback.
-
+	* em-account-editor.c (emae_check_complete) :
+	Removed a few wrong commits that accidentally went in 
+	while committing the patch for 315506.
+	
 2005-09-22  Carsten Guenther <carsten.guenther@scalix.com>
 
 	Fixes #316983
@@ -758,7 +612,6 @@
 	we don't update too often and suck loads of cpu time.
 
 2005-06-07  Andre Klapper <9016009@gmx.de>
-
 	* mail.error.xml: Fixing typo (bug 306151)
 
 2005-06-02  Not Zed  <NotZed@Ximian.com>

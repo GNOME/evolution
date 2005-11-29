@@ -24,28 +24,16 @@
 #endif
 
 #include <string.h>
-#include <fcntl.h>
 #include <stdlib.h>
 
 #include <glib.h>
 
-#include <libgnomevfs/gnome-vfs-mime-handlers.h>
-#include <libgnomevfs/gnome-vfs-mime.h>
-
 #include "e-cal-popup.h"
 #include <libedataserverui/e-source-selector.h>
-
-#include <camel/camel-mime-part.h>
-#include <camel/camel-stream-fs.h>
-#include "e-util/e-util.h"
-#include "e-util/e-i18n.h"
-#include "e-util/e-mktemp.h"
-#include "e-util/e-dialog-utils.h"
 
 #include "gui/e-calendar-view.h"
 #include "gui/e-cal-model.h"
 #include "itip-utils.h"
-#include "e-attachment.h"
 
 static GObjectClass *ecalp_parent;
 
@@ -84,344 +72,11 @@ ecalp_target_free(EPopup *ep, EPopupTarget *t)
 	((EPopupClass *)ecalp_parent)->target_free(ep, t);
 }
 
-/* Standard menu code */
-
-static char *
-temp_save_part(CamelMimePart *part, char *path, gboolean file)
-{
-	const char *filename;
-	char *tmpdir, *mfilename = NULL;
-	CamelStream *stream;
-	CamelDataWrapper *wrapper;
-
-	if (!path) {
-		tmpdir = e_mkdtemp("evolution-tmp-XXXXXX");
-		if (tmpdir == NULL) {
-			return NULL;
-		}
-
-		filename = camel_mime_part_get_filename (part);
-		if (filename == NULL) {
-			/* This is the default filename used for temporary file creation */
-			filename = _("Unknown");
-		} else {
-			mfilename = g_strdup(filename);
-			e_filename_make_safe(mfilename);
-			filename = mfilename;
-		}
-
-		path = g_build_filename(tmpdir, filename, NULL);
-		g_free(tmpdir);
-		g_free(mfilename);
-	} else if (!file) {
-		tmpdir = path;
-		filename = camel_mime_part_get_filename (part);
-		if (filename == NULL) {
-			/* This is the default filename used for temporary file creation */
-			filename = _("Unknown");
-		} else {
-			mfilename = g_strdup(filename);
-			e_filename_make_safe(mfilename);
-			filename = mfilename;
-		}
-		
-		path = g_build_filename(tmpdir, filename, NULL);
-		g_free(mfilename);
-	}
-
-	wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (part));
-	stream = camel_stream_fs_new_with_name (path, O_RDWR|O_CREAT|O_TRUNC, 0600);
-
-	if (!stream) {
-		/* TODO handle error conditions */
-		g_message ("DEBUG: could not open the file to write\n");
-		return NULL;
-	}
-
-	if (camel_data_wrapper_decode_to_stream (wrapper, (CamelStream *) stream) == -1) {
-		camel_stream_close (stream);
-		camel_object_unref (stream);
-		g_message ("DEBUG: could not write to file\n");
-		return NULL;
-	}
-
-	camel_stream_close(stream);
-	camel_object_unref(stream);
-
-	return path;
-}
-
-static void
-ecalp_part_popup_saveas(EPopup *ep, EPopupItem *item, void *data)
-{
-	EPopupTarget *t = ep->target;
-	CamelMimePart *part = NULL;
-	char *file, *filename, *mfilename = NULL;
-
-	part = ((EAttachment *) ((ECalPopupTargetAttachments *) t)->attachments->data)->body;
-	filename = camel_mime_part_get_filename (part);
-	if (filename == NULL) {
-		/* This is the default filename used for temporary file creation */
-		filename = _("Unknown");
-	} else {
-		mfilename = g_strdup(filename);
-		e_filename_make_safe(mfilename);
-		filename = mfilename;
-	}	
-	file = e_file_dialog_save (_("Save As..."), filename);
-	
-	if (file)
-		temp_save_part (part, file, TRUE);
-		
-	g_free (file);
-	g_free (mfilename);
-}
-
-static void
-ecalp_part_popup_save_selected(EPopup *ep, EPopupItem *item, void *data)
-{
-	GSList *parts;
-	EPopupTarget *t = ep->target;
-	char *dir, *path;
-	
-	dir = e_file_dialog_save_folder (_("Select folder to save selected attachments..."));
-	parts = ((ECalPopupTargetAttachments *) t)->attachments;
-	
-	for (;parts; parts=parts->next) {
-		path = temp_save_part (((EAttachment *)parts->data)->body, dir, FALSE);
-		/* Probably we 'll do some reporting in next release, like listing the saved files and locations */
-		g_free (path);
-	}
-}
-
-static void
-ecalp_part_popup_set_background(EPopup *ep, EPopupItem *item, void *data)
-{
-	EPopupTarget *t = ep->target;
-	GConfClient *gconf;
-	char *str, *filename, *path, *extension;
-	unsigned int i=1;
-	CamelMimePart *part = NULL;
-
-	part = ((EAttachment *) ((ECalPopupTargetAttachments *) t)->attachments->data)->body;
-	
-	filename = g_strdup(camel_mime_part_get_filename(part));
-	   
-	/* if filename is blank, create a default filename based on MIME type */
-	if (!filename || !filename[0]) {
-		CamelContentType *ct;
-
-		ct = camel_mime_part_get_content_type(part);
-		g_free (filename);
-		filename = g_strdup_printf (_("untitled_image.%s"), ct->subtype);
-	}
-
-	e_filename_make_safe(filename);
-	
-	path = g_build_filename(g_get_home_dir(), ".gnome2", "wallpapers", filename, NULL);
-	
-	extension = strrchr(filename, '.');
-	if (extension)
-		*extension++ = 0;
-	
-	/* if file exists, stick a (number) on the end */
-	while (g_file_test(path, G_FILE_TEST_EXISTS)) {
-		char *name;
-		name = g_strdup_printf(extension?"%s (%d).%s":"%s (%d)", filename, i++, extension);
-		g_free(path);
-		path = g_build_filename(g_get_home_dir(), ".gnome2", "wallpapers", name, NULL);
-		g_free(name);
-	}
-	
-	g_free(filename);
-	
-	if (temp_save_part(part, path, TRUE)) {
-		gconf = gconf_client_get_default();
-		
-		/* if the filename hasn't changed, blank the filename before 
-		*  setting it so that gconf detects a change and updates it */
-		if ((str = gconf_client_get_string(gconf, "/desktop/gnome/background/picture_filename", NULL)) != NULL 
-		     && strcmp (str, path) == 0) {
-			gconf_client_set_string(gconf, "/desktop/gnome/background/picture_filename", "", NULL);
-		}
-		
-		g_free (str);
-		gconf_client_set_string(gconf, "/desktop/gnome/background/picture_filename", path, NULL);
-		
-		/* if GNOME currently doesn't display a picture, set to "wallpaper"
-		 * display mode, otherwise leave it alone */
-		if ((str = gconf_client_get_string(gconf, "/desktop/gnome/background/picture_options", NULL)) == NULL 
-		     || strcmp(str, "none") == 0) {
-			gconf_client_set_string(gconf, "/desktop/gnome/background/picture_options", "wallpaper", NULL);
-		}
-		
-		gconf_client_suggest_sync(gconf, NULL);
-		
-		g_free(str);
-		g_object_unref(gconf);
-	}
-	
-	g_free(path);
-}
-
-static const EPopupItem ecalp_standard_part_apps_bar = { E_POPUP_BAR, "99.object" };
-
-static ECalPopupItem ecalp_attachment_object_popups[] = {
-	{ E_POPUP_ITEM, "00.attach.00", N_("_Save As..."), ecalp_part_popup_saveas, NULL, "stock_save-as", E_CAL_POPUP_ATTACHMENTS_ONE },
-	{ E_POPUP_ITEM, "00.attach.10", N_("Set as _Background"), ecalp_part_popup_set_background, NULL, NULL, E_CAL_POPUP_ATTACHMENTS_IMAGE },
-	{ E_POPUP_ITEM, "00.attach.20", N_("_Save Selected"), ecalp_part_popup_save_selected, NULL, "stock_save-as", E_CAL_POPUP_ATTACHMENTS_MULTIPLE },
-	{ E_POPUP_BAR, "05.attach", },
-};
-
-static void
-ecalp_apps_open_in(EPopup *ep, EPopupItem *item, void *data)
-{
-	char *path;
-	EPopupTarget *target = ep->target;
-	CamelMimePart *part;
-
-	part = ((EAttachment *) ((ECalPopupTargetAttachments *) target)->attachments->data)->body;
-
-	path = temp_save_part(part, NULL, FALSE);
-	if (path) {
-		GnomeVFSMimeApplication *app = item->user_data;
-		char *uri;
-		GList *uris = NULL;
-		
-		uri = gnome_vfs_get_uri_from_local_path(path);
-		uris = g_list_append(uris, uri);
-
-		gnome_vfs_mime_application_launch(app, uris);
-
-		g_free(uri);
-		g_list_free(uris);
-		g_free(path);
-	}
-}
-
-static void
-ecalp_apps_popup_free(EPopup *ep, GSList *free_list, void *data)
-{
-	while (free_list) {
-		GSList *n = free_list->next;
-		EPopupItem *item = free_list->data;
-
-		g_free(item->path);
-		g_free(item->label);
-		g_free(item);
-		g_slist_free_1(free_list);
-
-		free_list = n;
-	}
-}
-
-static void
-ecalp_standard_items_free(EPopup *ep, GSList *items, void *data)
-{
-	g_slist_free(items);
-}
-
-static void 
-ecalp_standard_menu_factory (EPopup *ecalp, void *data)
-{
-	int i, len;
-	EPopupItem *items;
-	GSList *menus = NULL;
-	GList *apps = NULL;
-	char *mime_type = NULL;
-	const char *filename = NULL;
-
-	switch (ecalp->target->type) {
-	case E_CAL_POPUP_TARGET_ATTACHMENTS: {
-		ECalPopupTargetAttachments *t = (ECalPopupTargetAttachments *)ecalp->target;
-		GSList *list = t->attachments;
-		EAttachment *attachment;
-
-		items = ecalp_attachment_object_popups;
-		len = G_N_ELEMENTS(ecalp_attachment_object_popups);
-
-		if (g_slist_length(list) != 1 || !((EAttachment *)list->data)->is_available_local) {
-			break;
-		}
-
-		/* Only one attachment selected */
-		attachment = list->data;
-		mime_type = camel_data_wrapper_get_mime_type((CamelDataWrapper *)attachment->body);
-		filename = camel_mime_part_get_filename(attachment->body);
-
-
-		break; }		
-	default:
-		items = NULL;
-		len = 0;	
-	}
-
-	if (mime_type) {
-		apps = gnome_vfs_mime_get_all_applications(mime_type);
-		
-		if (apps == NULL && strcmp(mime_type, "application/octet-stream") == 0) {
-			const char *name_type;
-			
-			if (filename) {
-				/* GNOME-VFS will misidentify TNEF attachments as MPEG */
-				if (!strcmp (filename, "winmail.dat"))
-					name_type = "application/vnd.ms-tnef";
-				else
-					name_type = gnome_vfs_mime_type_from_name(filename);
-				if (name_type)
-					apps = gnome_vfs_mime_get_all_applications(name_type);
-			}
-		}
-		g_free (mime_type);
-
-		if (apps) {
-			GString *label = g_string_new("");
-			GSList *open_menus = NULL;
-			GList *l;
-
-			menus = g_slist_prepend(menus, (void *)&ecalp_standard_part_apps_bar);
-
-			for (l = apps, i = 0; l; l = l->next, i++) {
-				GnomeVFSMimeApplication *app = l->data;
-				EPopupItem *item;
-
-				if (app->requires_terminal)
-					continue;
-
-				item = g_malloc0(sizeof(*item));
-				item->type = E_POPUP_ITEM;
-				item->path = g_strdup_printf("99.object.%02d", i);
-				item->label = g_strdup_printf(_("Open in %s..."), app->name);
-				item->activate = ecalp_apps_open_in;
-				item->user_data = app;
-
-				open_menus = g_slist_prepend(open_menus, item);
-			}
-
-			if (open_menus)
-				e_popup_add_items(ecalp, open_menus, NULL, ecalp_apps_popup_free, NULL);
-
-			g_string_free(label, TRUE);
-			g_list_free(apps);
-		}
-	}
-
-	for (i=0;i<len;i++) {
-		if ((items[i].visible & ecalp->target->mask) == 0)
-			menus = g_slist_prepend(menus, &items[i]);
-	}
-
-	if (menus)
-		e_popup_add_items(ecalp, menus, NULL, ecalp_standard_items_free, NULL);
-}
-
 static void
 ecalp_class_init(GObjectClass *klass)
 {
 	klass->finalize = ecalp_finalise;
 	((EPopupClass *)klass)->target_free = ecalp_target_free;
-
-	e_popup_class_add_factory((EPopupClass *)klass, NULL, ecalp_standard_menu_factory, NULL);
 }
 
 GType
@@ -718,16 +373,8 @@ e_cal_popup_target_new_attachments(ECalPopup *ecp, CompEditor *editor, GSList *a
 	t->attachments = attachments;
 	if (len > 0)
 		mask &= ~ E_CAL_POPUP_ATTACHMENTS_MANY;
-
-	if (len == 1 && ((EAttachment *)attachments->data)->is_available_local) {
-		if (camel_content_type_is(((CamelDataWrapper *) ((EAttachment *) attachments->data)->body)->mime_type, "image", "*"))
-			mask &= ~ E_CAL_POPUP_ATTACHMENTS_IMAGE;
+	if (len == 1)
 		mask &= ~ E_CAL_POPUP_ATTACHMENTS_ONE;
-	}
-
-	if (len > 1)
-		mask &= ~ E_CAL_POPUP_ATTACHMENTS_MULTIPLE;
-	
 	t->target.mask = mask;
 
 	return t;
@@ -795,8 +442,6 @@ static const EPopupHookTargetMask ecalph_attachments_masks[] = {
 	{ "one", E_CAL_POPUP_ATTACHMENTS_ONE },
 	{ "many", E_CAL_POPUP_ATTACHMENTS_MANY },
 	{ "modify", E_CAL_POPUP_ATTACHMENTS_MODIFY },
-	{ "multiple", E_CAL_POPUP_ATTACHMENTS_MULTIPLE },
-	{ "image", E_CAL_POPUP_ATTACHMENTS_IMAGE },
 	{ 0 }
 };
 

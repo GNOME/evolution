@@ -66,11 +66,7 @@ typedef enum {
         time_t end; \
         guint16 start_minute; \
         guint16 end_minute; \
-        guint different_timezone : 1; \
-	GtkWidget *tooltip; \
-	gint	timeout; \
-	GdkColor *color; \
-	gint x,y; 
+        guint different_timezone : 1;
 
 typedef struct {
 	E_CALENDAR_VIEW_EVENT_FIELDS
@@ -158,7 +154,7 @@ void           e_calendar_view_modify_and_send (ECalComponent *comp,
 					       GtkWindow *toplevel,
 					       gboolean new);
 
-gboolean	e_calendar_view_get_tooltips (ECalendarViewEvent *pevent);
+
 G_END_DECLS
 
 #endif

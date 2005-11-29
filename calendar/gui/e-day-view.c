@@ -4005,7 +4005,7 @@ e_day_view_finish_resize (EDayView *day_view)
 	EDayViewEvent *event;
 	gint day, event_num;
 	ECalComponent *comp;
-	ECalComponentDateTime date;
+	ECalComponentDateTime prev_date, date;
 	struct icaltimetype itt;
 	time_t dt;
 	ECal *client;
@@ -4040,11 +4040,19 @@ e_day_view_finish_resize (EDayView *day_view)
 		dt = e_day_view_convert_grid_position_to_time (day_view, day, day_view->resize_start_row);
 		*date.value = icaltime_from_timet_with_zone (dt, FALSE,
 							     e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
+		e_cal_component_get_dtstart (comp, &prev_date);
+		date.value->year = prev_date.value->year;
+		date.value->month = prev_date.value->month;
+		date.value->day = prev_date.value->day;
 		e_cal_component_set_dtstart (comp, &date);
 	} else {
 		dt = e_day_view_convert_grid_position_to_time (day_view, day, day_view->resize_end_row + 1);
 		*date.value = icaltime_from_timet_with_zone (dt, FALSE,
 							     e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
+		e_cal_component_get_dtstart (comp, &prev_date);
+		date.value->year = prev_date.value->year;
+		date.value->month = prev_date.value->month;
+		date.value->day = prev_date.value->day;
 		e_cal_component_set_dtend (comp, &date);
 	}
 
@@ -4224,9 +4232,6 @@ e_day_view_add_event (ECalComponent *comp,
 	}
 
 	event.start = start;
-	event.tooltip = NULL;
-	event.color = NULL;
-	event.timeout = -1;
 	event.end = end;
 	event.canvas_item = NULL;
 	event.comp_data->instance_start = start;
@@ -4468,7 +4473,6 @@ e_day_view_reshape_long_event (EDayView *day_view,
 					       NULL);
 		g_signal_connect (event->canvas_item, "event",
 				  G_CALLBACK (e_day_view_on_text_item_event), day_view);
-		g_object_set_data ((GObject *)event->canvas_item, "event", (gpointer)event);
 		g_signal_emit_by_name (G_OBJECT(day_view),
 				       "event_added", event);
 
@@ -4650,7 +4654,6 @@ e_day_view_reshape_day_event (EDayView *day_view,
 						       NULL);
 			g_signal_connect (event->canvas_item, "event",
 					  G_CALLBACK (e_day_view_on_text_item_event), day_view);
-			g_object_set_data ((GObject *)event->canvas_item, "event", (gpointer)event);
 			g_signal_emit_by_name (G_OBJECT(day_view),
 					       "event_added", event);
 
@@ -5770,6 +5773,7 @@ cancel_editing (EDayView *day_view)
 	e_day_view_stop_editing_event (day_view);
 }
 
+
 static gboolean
 e_day_view_on_text_item_event (GnomeCanvasItem *item,
 			       GdkEvent *event,
@@ -5829,50 +5833,10 @@ e_day_view_on_text_item_event (GnomeCanvasItem *item,
 			e_day_view_on_editing_stopped (day_view, item);
 
 		return FALSE;
-	case GDK_ENTER_NOTIFY:
-		{
-			EDayViewEvent *pevent = (EDayViewEvent *)g_object_get_data ((GObject *)item, "event");
-			
-			pevent->x = ((GdkEventCrossing *)event)->x_root;
-			pevent->y = ((GdkEventCrossing *)event)->y_root;
-			pevent->tooltip = NULL;			
-			pevent->timeout = g_timeout_add (500, (GSourceFunc)e_calendar_view_get_tooltips, pevent);
-			
-		return TRUE;
-		}
-	case GDK_LEAVE_NOTIFY:
-		{
-			EDayViewEvent *pevent = (EDayViewEvent *)g_object_get_data ((GObject *)item, "event");
-			
-			if (pevent && pevent->tooltip) {
-				gtk_widget_destroy (pevent->tooltip);
-				pevent->tooltip = NULL;
-			}
-
-			if (pevent && pevent->timeout != -1) {
-				g_source_remove (pevent->timeout);
-				pevent->timeout = -1;
-			}
-			
-		return TRUE;
-		}
-	case GDK_MOTION_NOTIFY:
-		{
-			EDayViewEvent *pevent = (EDayViewEvent *)g_object_get_data ((GObject *)item, "event");
-			
-			pevent->x = ((GdkEventMotion *)event)->x_root;
-			pevent->y = ((GdkEventMotion *)event)->y_root;
-
-			if (pevent->tooltip) {
-				gtk_window_move ((GtkWindow *)pevent->tooltip, ((int)((GdkEventMotion *)event)->x_root)+16, ((int)((GdkEventMotion *)event)->y_root) +16);
-			}
-
-			return TRUE;
-		}
 	default:
 		break;
 	}
-	
+
 	return FALSE;
 }
 

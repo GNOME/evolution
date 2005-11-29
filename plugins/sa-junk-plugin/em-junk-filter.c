@@ -311,10 +311,8 @@ em_junk_sa_run_spamd (char *binary)
 		
 	if (em_junk_sa_local_only)
 		argv[i++] = "--local";
-
-	/* See bug #268852*/
-	argv[i++] = "--max-children=1";
-	/*argv[i++] = "--daemonize";*/
+		
+	//argv[i++] = "--daemonize";
 	argv[i++] = "--pidfile";
 	argv[i++] = em_junk_sa_spamd_pidfile;
 	argv[i] = NULL;

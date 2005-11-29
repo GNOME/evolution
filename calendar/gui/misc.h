@@ -23,10 +23,9 @@
 #define MISC_H
 
 #include <glib.h>
-#include <time.h>
 
 gboolean string_is_empty (const char *value);
 char    *get_uri_without_password (const char *uri);
 gint get_position_in_array (GPtrArray *objects, gpointer item);
-char * calculate_time (time_t start, time_t end);
+
 #endif

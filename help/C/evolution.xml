@@ -924,7 +924,7 @@
    <section id="usage-mail-getnsend-delete">
     <title>Deleting Mail</title>
     <para>After you read your mail, you might want to delete it. To delete a message, select it and press the Delete key, click the Trash button, press Ctrl+D, or right-click the message, then click Delete. </para>
-    <para>When you press Delete or click the Trash button, your mail isn&apos;t actually deleted, but is marked for deletion. Your e-mail is recoverable until you have expunged your mail. When you expunge a folder, you remove all the mail that you have marked for deletion. To show deleted messages, click View &gt; Hide Deleted Messages. You can also find deleted messages in the your Trash folder. </para>
+    <para>When you press Delete or click the Trash button, your mail isn&apos;t actually deleted, but is marked for deletion. Your e-mail is recoverable until you have expunged your mail. When you expunge a folder, you remove all the mail that you have marked for deletion. To show deleted messages, click View &gt; Hide Deleted Messages. You can also find deleted messages in your Trash folder. </para>
     <para>To permanently erase all the deleted messages in a folder, click Folder &gt; Expunge or press Ctrl+E.</para>
     <para>Both local and IMAP Trash folders are actually search folders that display all messages you have marked for later deletion. For more information about search folders, see <link linkend="usage-mail-organize-vfolders">Using Search Folders</link>. Because emptying your trash expunges the messages in your Trash folder, emptying Trash is the same as expunging deleted mail from all your folders.</para>
     <para>However, this is not true for the Trash folder on Exchange servers, which behaves just the same as it does in Outlook. It is a normal folder with actual messages in it.</para>
@@ -982,7 +982,7 @@
 
    <section id="usage-mail-getnsend-get-attach">
     <title>Working with Attachments and HTML Mail</title>
-    <para>If someone sends you an <link linkend="attachment">attachment</link>, Evolution displays the file icon at the end of the message to which it&apos;s attached. Text, including HTML formatting and embedded images, appears as part of the message, rather than as a separate attachment. Attachements are also listed on the top bar of the message. To vie the attachments, click the arrow to expand the attachment window. To open an attachment, double-click the attachment. Click the Save All button save all the attachments.</para>
+    <para>If someone sends you an <link linkend="attachment">attachment</link>, Evolution displays the file icon at the end of the message to which it&apos;s attached. Text, including HTML formatting and embedded images, appears as part of the message, rather than as a separate attachment. Attachments are also listed on the top bar of the message. To view the attachments, click the arrow to expand the attachment window. To open an attachment, double-click the attachment. Click the Save All button save all the attachments.</para>
 
     <section id="usage-mail-getnsend-get-attach-actions">
      <title>Saving or Opening Attachments</title>
@@ -1130,7 +1130,7 @@
 
    <section id="usage-mail-getnsend-send-delay">
     <title>Sending Composed Messages Later</title>
-    <para>Evolution normally sends mail as soon as you click Send. However, can save a message to be sent later:</para>
+    <para>Evolution normally sends mail as soon as you click Send. However, you can save a message to be sent later:</para>
     <itemizedlist>
      <listitem>
       <para>If you are offline when you click Send, Evolution adds your message to the Outbox queue. The next time you connect to the Internet and send or receive mail, that message is sent.</para>
@@ -1414,7 +1414,7 @@
 
    <section id="usage-mail-getnsend-fwd">
     <title>Forwarding Mail</title>
-    <para>When you receive an e-mail from someone, you can forward it to other individuals or groups that might be interested. You can forward a message as an attachment to a new message (this is the default) or you can send it <link linkend="inline">in	line</link> as a quoted portion of the message you are sending. Attachment forwarding is best if you want to send the full, unaltered message to someone else. Inline forwarding is best if you want to send portions of a message, or if you have a large number of comments on different sections of the message you are forwarding. Remember to note from whom the message came, and whether you have removed or altered content.</para>
+    <para>When you receive an e-mail from someone, you can forward it to other individuals or groups that might be interested. You can forward a message as an attachment to a new message (this is the default) or you can send it <link linkend="inline">inline</link> as a quoted portion of the message you are sending. Attachment forwarding is best if you want to send the full, unaltered message to someone else. Inline forwarding is best if you want to send portions of a message, or if you have a large number of comments on different sections of the message you are forwarding. Remember to note from whom the message came, and whether you have removed or altered content.</para>
     <para>To forward a message you are reading, click Forward on the toolbar, click Actions &gt; Forward, or press Ctrl+F. If you prefer to forward the message <link linkend="inline">inline</link> instead of attached, click Actions &gt; Forward Inline from the menu. Select an addressee as you would when sending a new message; the subject is already entered, although you can alter it if you want. Add your comments on the message in the composition frame, then click Send.</para>
     <para>Attachments to a message you are forwarding only forwarded when you send the original message as an attachment. Inline messages do not forward any attachments.</para>
    </section>
@@ -4331,7 +4331,7 @@ Accepting and Replying to a Meeting Request</title>
        </listitem>
       </itemizedlist>
       <para>or</para>
-      <para>If you are creating the address book for a specific account, type the name of the address book, if you want the address book stored locally when offline, and if you want the address book to be your default folder.</para>
+      <para>If you are creating the address book for a specific account, type the name of the address book. Select if you want the address book stored locally when offline, and if you want the address book to be your default folder.</para>
      </listitem>
      <listitem id="bxmw9v2">
       <para>Click OK.</para>

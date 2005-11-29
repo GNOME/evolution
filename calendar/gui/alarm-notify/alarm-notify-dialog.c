@@ -32,19 +32,17 @@
 #include <gtk/gtksignal.h>
 #include <gtk/gtkscrolledwindow.h>
 #include <gtk/gtkwindow.h>
-#include <gtk/gtk.h>
 #include <libgnome/gnome-i18n.h>
 #if 0 
 #  include <libgnomeui/gnome-winhints.h>
 #endif
 #include <glade/glade.h>
-#include <libedataserver/e-time-utils.h>
+#include <e-util/e-time-utils.h>
 #include <libecal/e-cal-time-util.h>
 #include "alarm-notify-dialog.h"
 #include "config-data.h"
 #include "util.h"
 #include <e-util/e-icon-factory.h>
-#include <e-util/e-util-private.h>
 
 
 	
@@ -219,14 +217,8 @@ notified_alarms_dialog_new (void)
 			G_TYPE_POINTER, /* End */
 		
 			G_TYPE_POINTER /* FuncInfo*/));
-	char *gladefile;
 	 
-	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
-				      "alarm-notify.glade",
-				      NULL);
-	an->xml = glade_xml_new (gladefile, NULL, NULL);
-	g_free (gladefile);
-
+	an->xml = glade_xml_new (EVOLUTION_GLADEDIR "/alarm-notify.glade", NULL, NULL);
 	if (!an->xml) {
 		g_message ("alarm_notify_dialog(): Could not load the Glade XML file!");
 		g_free (an);
@@ -302,6 +294,7 @@ notified_alarms_dialog_new (void)
 	
 	return na;
 }
+ 
  
 /**
  * add_alarm_to_notified_alarms_dialog:
@@ -400,11 +393,6 @@ static void
 fill_in_labels (AlarmNotify *an, const gchar *summary, const gchar *description, 
 		const gchar *location, time_t occur_start, time_t occur_end)
 {
-	GtkTextTagTable *table = gtk_text_tag_table_new ();
-	GtkTextBuffer *buffer =  gtk_text_buffer_new (table);
-	gtk_text_buffer_set_text (buffer, description, -1);
-	gtk_text_view_set_buffer (GTK_TEXT_VIEW (an->description), buffer);
-	gtk_label_set_text (GTK_LABEL (an->location), location);
-	g_object_unref (table);
-	g_object_unref (buffer);
+	gtk_label_set_text (GTK_LABEL (an->description), description);
+	gtk_label_set_text (GTK_LABEL (an->location), location);		  
 }

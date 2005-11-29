@@ -1,70 +1,9 @@
-2005-11-26  Tor Lillqvist  <tml@novell.com>
-
-	* e-dialog-utils.c
-	* e-gtk-utils.c: Conditionalize X11 specific code on GDK_WINDOWING_X11.
-
-	* e-menu.c (emph_construct_menu): Use g_get_tmp_dir() instead of
-	hardcoding /tmp.
-
-	* e-util.c (e_strstrcase): Use g_ascii_strncasecmp() instead of
-	the deprecated g_strncasecmp(). What kinds of strings this
-	function is supposed to be used on (UTF-8 or some random single-
-	or multi-byte encoding) is anybody's guess. This function isn't
-	used in Evolution and should probably go away, though. And this is
-	one of the files that have a partially duplicated copy in
-	e-d-s/libedataserver, too, so doubly so.
-	(e_filename_make_safe): Mark more bytes as unsafe on Win32. Add
-	comments. This function is really under-specified and weird, one
-	wonders whether it really does what the author thought it should
-	do.
-	(fsync): Add Win32 implementation of fsync().
-	
-	* e-xml-utils.c (e_xml_get_bool_prop_by_name_with_default): Use
-	g_ascii_strcasecmp() instead of the deprecated g_strcasecmp(),
-	especially as we are comparing to literal ASCII strings.
-
-2005-11-25  Tor Lillqvist  <tml@novell.com>
-
-	* e-util-private.h: Sort the stuff in the Win32 part for
-	clarity. Add some new run-time overrides for compile-time
-	paths. Include fcntl.h and define O_BINARY as zero if not defined
-	(on Unix).
-
-	* e-win32-reloc.c: Sort here, too, and add the implementation for
-	the new run-time overrides.
-
-	* Makefile.am: Ditto here. Link with INTLLIBS.
-
 2005-11-09  P. S. Chakravarthi <pchakravarthi@novell.com>
 
 	Fixes #314638
 	* e-categories-config.c (e_categories_config_get_icon_for):
-	added a g_object_unref to unref the GdkPixBuff object
-	created in this function.
-
-2005-10-18  Srinivasa Ragavan <sragavan@novell.com>
-
-	* e-dialog-utils.c: (save_ok), (e_file_dialog_save),
-	(save_folder_ok), (folderchooser_response),
-	(e_file_dialog_save_folder): Shows the default file name in the
-	save file dialog. Added code to choose folder to save multiple
-	attachments
-	* e-dialog-utils.h: Added an additional parameter to e_file_dialog_save.
-
-2005-10-04  Devashish Sharma  <sdevashish@novell.com>
-
-	* e-util.c (g_str_case_compare): added a function for case insensitive
-	and locale sensitive UTF8 string compare. See #207110.
-
-2005-09-28  Tor Lillqvist  <tml@novell.com>
-
-	* e-html-utils.c (e_text_to_html_full): Use g_ascii_strncasecmp()
-	instead of strncasecmp(). We are comparing to literal ASCII
-	strings, just casefolding ASCII is enough. Also better for
-	portability.
-
-	* e-profile-event.c (e_profile_event_target_new): Use
-	g_get_current_time() instead of gettimeofday() for portability.
+	added a g_object_unref to unref the GdkPixBuff object created
+	in this function.
 
 2005-08-23  Not Zed  <NotZed@Ximian.com>
 

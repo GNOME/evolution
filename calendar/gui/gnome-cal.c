@@ -51,7 +51,6 @@
 #include <widgets/menus/gal-define-views-dialog.h>
 #include "widgets/menus/gal-view-menus.h"
 #include "e-util/e-error.h"
-#include "e-util/e-util-private.h"
 #include "e-comp-editor-registry.h"
 #include "dialogs/delete-error.h"
 #include "dialogs/event-editor.h"
@@ -518,7 +517,7 @@ dn_e_cal_view_objects_modified_cb (ECalView *query, GList *objects, gpointer dat
 
 /* Callback used when the calendar query reports of a removed object */
 static void
-dn_e_cal_view_objects_removed_cb (ECalView *query, GList *ids, gpointer data)
+dn_e_cal_view_objects_removed_cb (ECalView *query, GList *uids, gpointer data)
 {
 	GnomeCalendar *gcal;
 
@@ -2093,7 +2092,7 @@ void
 gnome_calendar_setup_view_menus (GnomeCalendar *gcal, BonoboUIComponent *uic)
 {
 	GnomeCalendarPrivate *priv;
-	char *path0, *path1, *etspecfile;
+	char *path;
 	CalendarViewFactory *factory;
 	GalViewFactory *gal_factory;
 	static GalViewCollection *collection = NULL;
@@ -2116,16 +2115,12 @@ gnome_calendar_setup_view_menus (GnomeCalendar *gcal, BonoboUIComponent *uic)
 
 		gal_view_collection_set_title (collection, _("Calendar"));
 
-		path0 = g_build_filename (EVOLUTION_GALVIEWSDIR,
-					  "calendar",
-					  NULL);
-		path1 = g_build_filename (calendar_component_peek_base_directory (calendar_component_peek ()), 
+		path = g_build_filename (calendar_component_peek_base_directory (calendar_component_peek ()), 
 					 "calendar", "views", NULL);
 		gal_view_collection_set_storage_directories (collection,
-							     path0,
-							     path1);
-		g_free (path1);
-		g_free (path0);
+							     EVOLUTION_GALVIEWSDIR "/calendar/",
+							     path);
+		g_free (path);
 
 		/* Create the views */
 
@@ -2146,11 +2141,7 @@ gnome_calendar_setup_view_menus (GnomeCalendar *gcal, BonoboUIComponent *uic)
 		g_object_unref (factory);
 
 		spec = e_table_specification_new ();
-		etspecfile = g_build_filename (EVOLUTION_ETSPECDIR,
-					       "e-cal-list-view.etspec",
-					       NULL);
-		e_table_specification_load_from_file (spec, etspecfile);
-		g_free (etspecfile);
+		e_table_specification_load_from_file (spec, EVOLUTION_ETSPECDIR "/e-cal-list-view.etspec");
 		gal_factory = gal_view_factory_etable_new (spec);
 		g_object_unref (spec);
 		gal_view_collection_add_factory (collection, GAL_VIEW_FACTORY (gal_factory));
@@ -2237,13 +2228,13 @@ gc_define_views(EPopup *ep, EPopupItem *pitem, void *data)
 static EPopupItem gc_popups[] = {
 	/* Code generates the path to fit */
 	{ E_POPUP_BAR, NULL },
-	{ E_POPUP_RADIO|E_POPUP_ACTIVE, NULL, N_("_Custom View"), },
-	{ E_POPUP_ITEM, NULL, N_("_Save Custom View"), gc_save_custom_view },
+	{ E_POPUP_RADIO|E_POPUP_ACTIVE, NULL, N_("Custom View"), },
+	{ E_POPUP_ITEM, NULL, N_("Save Custom View"), gc_save_custom_view },
 
 	/* index == 3, when we have non-custom view */
 
 	{ E_POPUP_BAR, NULL },
-	{ E_POPUP_ITEM, NULL, N_("_Define Views..."), gc_define_views },
+	{ E_POPUP_ITEM, NULL, N_("Define Views..."), gc_define_views },
 };
 
 static void
@@ -2402,6 +2393,7 @@ client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar *gcal)
 
 	g_signal_handlers_disconnect_matched (ecal, G_SIGNAL_MATCH_FUNC, 0, 0, NULL, client_cal_opened_cb, NULL);
 
+	e_cal_set_default_timezone (ecal, priv->zone, NULL);
 
 	switch (source_type) {
 	case E_CAL_SOURCE_TYPE_EVENT :
@@ -2495,6 +2487,7 @@ default_client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar 
 
 	g_signal_handlers_disconnect_matched (ecal, G_SIGNAL_MATCH_FUNC, 0, 0, NULL, default_client_cal_opened_cb, NULL);
 
+	e_cal_set_default_timezone (ecal, priv->zone, NULL);
 	
 	switch (source_type) {
 	case E_CAL_SOURCE_TYPE_EVENT:
@@ -2521,13 +2514,9 @@ open_ecal (GnomeCalendar *gcal, ECal *cal, gboolean only_if_exists, open_func of
 {
 	GnomeCalendarPrivate *priv;
 	char *msg;
-	icaltimezone *zone;
 
 	priv = gcal->priv;
 
-	zone = calendar_config_get_icaltimezone ();
-	e_cal_set_default_timezone (cal, zone, NULL);
-	
 	msg = g_strdup_printf (_("Opening %s"), e_cal_get_uri (cal));
 	switch (e_cal_get_source_type (cal)) {
 	case E_CAL_SOURCE_TYPE_EVENT :
@@ -2896,7 +2885,6 @@ gnome_calendar_set_default_source (GnomeCalendar *gcal, ECalSourceType source_ty
 		if (!priv->default_client[source_type])
 			return FALSE;
 	}
-	
 
 	open_ecal (gcal, priv->default_client[source_type], FALSE, default_client_cal_opened_cb);
 

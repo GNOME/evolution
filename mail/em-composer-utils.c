@@ -297,7 +297,7 @@ composer_get_message (EMsgComposer *composer, gboolean save_html_object_data)
 	
 	camel_object_unref (cia);
 
-	postlist = e_msg_composer_hdrs_get_post_to(e_msg_composer_get_hdrs (composer));
+	postlist = e_msg_composer_hdrs_get_post_to((EMsgComposerHdrs *) composer->hdrs);
 	num_post = g_list_length(postlist);
 	g_list_foreach(postlist, (GFunc)g_free, NULL);
 	g_list_free(postlist);
@@ -381,13 +381,6 @@ em_utils_composer_send_cb (EMsgComposer *composer, gpointer user_data)
 	CamelMessageInfo *info;
 	struct _send_data *send;
 	CamelFolder *mail_folder;
-	EAccount *account;
-
-	account = e_msg_composer_get_preferred_account (composer);
-	if (!account->enabled) {
-		e_error_run(NULL, "mail:send-no-account-enabled", NULL);
-		return;
-	}
 
 	if (!(message = composer_get_message (composer, FALSE)))
 		return;
@@ -428,11 +421,16 @@ save_draft_done (CamelFolder *folder, CamelMimeMessage *msg, CamelMessageInfo *i
 {
 	struct _save_draft_info *sdi = user_data;
 	struct emcs_t *emcs;
+	CORBA_Environment ev;
 	
 	if (!ok)
 		goto done;
 
-	e_msg_composer_set_saved (sdi->composer);
+	if (sdi->composer->editor_engine) {
+		CORBA_exception_init (&ev);
+		GNOME_GtkHTML_Editor_Engine_runCommand (sdi->composer->editor_engine, "saved", &ev);
+		CORBA_exception_free (&ev);
+	}
 	
 	if ((emcs = sdi->emcs) == NULL) {
 		emcs = emcs_new ();
@@ -526,7 +524,7 @@ em_utils_composer_save_draft_cb (EMsgComposer *composer, int quit, gpointer user
 		id = mail_get_folder (account->drafts_folder_uri, 0, save_draft_folder, &folder, mail_thread_new);
 		mail_msg_wait (id);
 		
-		if (!folder || !account->enabled) {
+		if (!folder) {
 			if (e_error_run((GtkWindow *)composer, "mail:ask-default-drafts", NULL) != GTK_RESPONSE_YES) {
 				g_object_unref(composer);
 				camel_object_unref(msg);
@@ -595,13 +593,6 @@ create_new_composer (const char *subject, const char *fromuri)
 	if (fromuri)
 		account = mail_config_get_account_by_source_url(fromuri);
 
-	/* If the account corresponding to the fromuri is not enabled.
-	 * We get the preffered account from the composer and use that
-	 * as the account to send the mail.
-	 */
-	if (!account)
-		account = e_msg_composer_get_preferred_account (composer);
-
 	e_msg_composer_set_headers (composer, account?account->name:NULL, NULL, NULL, NULL, subject);
 
 	em_composer_utils_setup_default_callbacks (composer);
@@ -653,7 +644,7 @@ em_utils_compose_new_message_with_mailto (const char *url, const char *fromuri)
 
 	if (fromuri
 	    && (account = mail_config_get_account_by_source_url(fromuri)))
-		e_msg_composer_hdrs_set_from_account(e_msg_composer_get_hdrs(composer), account->name);
+		e_msg_composer_hdrs_set_from_account((EMsgComposerHdrs *)composer->hdrs, account->name);
 
 	e_msg_composer_unset_changed (composer);
 	e_msg_composer_drop_editor_undo (composer);
@@ -680,7 +671,7 @@ em_utils_post_to_folder (CamelFolder *folder)
 	if (folder != NULL) {
 		char *url = mail_tools_folder_to_url (folder);
 		
-		e_msg_composer_hdrs_set_post_to (e_msg_composer_get_hdrs (composer), url);
+		e_msg_composer_hdrs_set_post_to ((EMsgComposerHdrs *) ((EMsgComposer *) composer)->hdrs, url);
 		g_free (url);
 		
 		url = camel_url_to_string (CAMEL_SERVICE (folder->parent_store)->url, CAMEL_URL_HIDE_ALL);
@@ -688,7 +679,7 @@ em_utils_post_to_folder (CamelFolder *folder)
 		g_free (url);
 		
 		if (account)
-			e_msg_composer_hdrs_set_from_account (e_msg_composer_get_hdrs(composer), account->name);
+			e_msg_composer_hdrs_set_from_account ((EMsgComposerHdrs *) ((EMsgComposer *) composer)->hdrs, account->name);
 	}
 	
 	em_composer_utils_setup_default_callbacks (composer);
@@ -715,7 +706,7 @@ em_utils_post_to_url (const char *url)
 	composer = e_msg_composer_new_with_type (E_MSG_COMPOSER_POST);
 	
 	if (url != NULL)
-		e_msg_composer_hdrs_set_post_to (e_msg_composer_get_hdrs (composer), url);
+		e_msg_composer_hdrs_set_post_to ((EMsgComposerHdrs *) ((EMsgComposer *) composer)->hdrs, url);
 	
 	em_composer_utils_setup_default_callbacks (composer);
 	
@@ -1277,7 +1268,11 @@ generate_account_hash (void)
 	accounts = mail_config_get_accounts ();
 	account_hash = g_hash_table_new (camel_strcase_hash, camel_strcase_equal);
 	
-	def = mail_config_get_default_account ();
+	/* add the default account to the hash first */
+	if ((def = mail_config_get_default_account ())) {
+		if (def->id->address)
+			g_hash_table_insert (account_hash, (char *) def->id->address, (void *) def);
+	}
 	
 	iter = e_list_get_iterator ((EList *) accounts);
 	while (e_iterator_is_valid (iter)) {
@@ -1306,10 +1301,6 @@ generate_account_hash (void)
 	}
 	
 	g_object_unref (iter);
-
-	/* The default account has to be there if none of the enabled accounts are present */
-	if (g_hash_table_size (account_hash) == 0 && def && def->id->address)
-		g_hash_table_insert (account_hash, (char *) def->id->address, (void *) def);
 	
 	return account_hash;
 }
@@ -1377,7 +1368,7 @@ reply_get_composer (CamelMimeMessage *message, EAccount *account,
 
 	/* Set the subject of the new message. */
 	if ((subject = (char *) camel_mime_message_get_subject (message))) {
-		if (g_ascii_strncasecmp (subject, "Re: ", 4) != 0)
+		if (strncasecmp (subject, "Re: ", 4) != 0)
 			subject = g_strdup_printf ("Re: %s", subject);
 		else
 			subject = g_strdup (subject);
@@ -1401,7 +1392,7 @@ reply_get_composer (CamelMimeMessage *message, EAccount *account,
 		}
 
 		post = camel_address_encode((CamelAddress *)postto);
-		e_msg_composer_hdrs_set_post_to_base (e_msg_composer_get_hdrs(composer), store_url ? store_url : "", post);
+		e_msg_composer_hdrs_set_post_to_base (E_MSG_COMPOSER_HDRS (composer->hdrs), store_url ? store_url : "", post);
 		g_free(post);
 		g_free (store_url);
 	}
@@ -1467,7 +1458,7 @@ guess_account (CamelMimeMessage *message, CamelFolder *folder)
 		if (to) {
 			for (i = 0; camel_internet_address_get(to, i, NULL, &tmp); i++) {
 				account = g_hash_table_lookup(account_hash, tmp);
-				if (account && account->enabled)
+				if (account)
 					break;
 			}
 		}
@@ -1531,7 +1522,7 @@ get_reply_list (CamelMimeMessage *message, CamelInternetAddress *to)
 		header++;
 	
 	/* check for NO */
-	if (!g_ascii_strncasecmp (header, "NO", 2))
+	if (!strncasecmp (header, "NO", 2))
 		return FALSE;
 	
 	/* Search for the first mailto angle-bracket enclosed URL.
@@ -2007,7 +1998,7 @@ post_reply_to_message (CamelFolder *folder, const char *uid, CamelMimeMessage *m
 	
 	/* Set the subject of the new message. */
 	if ((subject = (char *) camel_mime_message_get_subject (message))) {
-		if (g_ascii_strncasecmp (subject, "Re: ", 4) != 0)
+		if (strncasecmp (subject, "Re: ", 4) != 0)
 			subject = g_strdup_printf ("Re: %s", subject);
 		else
 			subject = g_strdup (subject);
@@ -2020,7 +2011,7 @@ post_reply_to_message (CamelFolder *folder, const char *uid, CamelMimeMessage *m
 	g_free (subject);
 	
 	url = mail_tools_folder_to_url (real_folder);
-	e_msg_composer_hdrs_set_post_to (e_msg_composer_get_hdrs(composer), url);
+	e_msg_composer_hdrs_set_post_to ((EMsgComposerHdrs *) composer->hdrs, url);
 	g_free (url);
 	
 	/* Add In-Reply-To and References. */

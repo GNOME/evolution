@@ -25,7 +25,7 @@
 #include <string.h>
 #include <glib/garray.h>
 #include <libgnome/gnome-i18n.h>
-#include <libedataserver/e-time-utils.h>
+#include <e-util/e-time-utils.h>
 #include <libecal/e-cal-time-util.h>
 #include "comp-util.h"
 #include "e-cal-model.h"
@@ -544,11 +544,11 @@ set_classification (ECalModelComponent *comp_data, const char *value)
 	} else {
 	  icalproperty_class ical_class;
 
-	  if (!g_ascii_strcasecmp (value, "PUBLIC"))
+	  if (!strcasecmp (value, "PUBLIC"))
 	    ical_class = ICAL_CLASS_PUBLIC;
-	  else if (!g_ascii_strcasecmp (value, "PRIVATE"))
+	  else if (!strcasecmp (value, "PRIVATE"))
 	    ical_class = ICAL_CLASS_PRIVATE;
-	  else if (!g_ascii_strcasecmp (value, "CONFIDENTIAL"))
+	  else if (!strcasecmp (value, "CONFIDENTIAL"))
 	    ical_class = ICAL_CLASS_CONFIDENTIAL;
 	  else
 	    ical_class = ICAL_CLASS_NONE;
@@ -1244,9 +1244,10 @@ find_client_data (ECalModel *model, ECal *client)
 	return NULL;
 }
 
+/* Pass NULL for the client if we just want to find based on uid */
 /* FIXME how do we prevent the same UID is different calendars? */
 static ECalModelComponent *
-search_by_id_and_client (ECalModelPrivate *priv, ECal *client, const ECalComponentId *id)
+search_by_uid_and_client (ECalModelPrivate *priv, ECal *client, const char *uid)
 {
 	gint i;
 
@@ -1254,27 +1255,19 @@ search_by_id_and_client (ECalModelPrivate *priv, ECal *client, const ECalCompone
 		ECalModelComponent *comp_data = g_ptr_array_index (priv->objects, i);
 
 		if (comp_data) {
-			const char *uid, *rid;
-			gboolean has_rid = (id->rid && *id->rid);
+			const char *tmp_uid;
 
-			uid = icalcomponent_get_uid (comp_data->icalcomp);
-			rid = icaltime_as_ical_string (icalcomponent_get_recurrenceid (comp_data->icalcomp));
-
-			if (uid && *uid) {
-				if ((!client || comp_data->client == client) && !strcmp (id->uid, uid)) {
-					if (has_rid) {
-						if (!(rid && *rid && !strcmp (rid, id->rid)))	
-							continue;
-					}
+			tmp_uid = icalcomponent_get_uid (comp_data->icalcomp);
+			if (tmp_uid && *tmp_uid) {
+				if ((!client || comp_data->client == client) && !strcmp (uid, tmp_uid)) 
 					return comp_data;
-				}
 			}
 		}
 	}
 
 	return NULL;
 }
-	
+
 typedef struct {
 	ECal *client;
 	ECalView *query;
@@ -1363,15 +1356,10 @@ e_cal_view_objects_added_cb (ECalView *query, GList *objects, gpointer user_data
 
 	for (l = objects; l; l = l->next) {
 		ECalModelComponent *comp_data;
-		ECalComponentId *id;
-		ECalComponent *comp = e_cal_component_new ();
-
-		e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (l->data));
-		id = e_cal_component_get_id (comp);
 
 		/* remove the components if they are already present and re-add them */
-		while ((comp_data = search_by_id_and_client (priv, NULL,
-							      id))) {
+		while ((comp_data = search_by_uid_and_client (priv, e_cal_view_get_client (query),
+							      icalcomponent_get_uid (l->data)))) {
 			int pos;
 
 			pos = get_position_in_array (priv->objects, comp_data);
@@ -1381,11 +1369,9 @@ e_cal_view_objects_added_cb (ECalView *query, GList *objects, gpointer user_data
 	 			e_cal_model_free_component_data (comp_data);
  		}
 
-		e_cal_component_free_id (id);
-		g_object_unref (comp);
 		ensure_dates_are_in_default_zone (l->data);
 
-		if (e_cal_util_component_has_recurrences (l->data) && (priv->flags & E_CAL_MODEL_FLAGS_EXPAND_RECURRENCES)) {
+		if ((priv->flags & E_CAL_MODEL_FLAGS_EXPAND_RECURRENCES)) {
 			RecurrenceExpansionData rdata;
 
 			rdata.client = e_cal_view_get_client (query);
@@ -1421,28 +1407,43 @@ e_cal_view_objects_modified_cb (ECalView *query, GList *objects, gpointer user_d
 	
 	priv = model->priv;
 
+	for (l = objects; l; l = l->next) {
+		ECalModelComponent *comp_data;
+
+		/* remove all recurrences and re-add them after generating them */
+		while ((comp_data = search_by_uid_and_client (priv, e_cal_view_get_client (query),
+							      icalcomponent_get_uid (l->data)))) {
+			int pos;
+
+			pos = get_position_in_array (priv->objects, comp_data);
+			e_table_model_row_deleted (E_TABLE_MODEL (model), pos);
+
+			if (g_ptr_array_remove (priv->objects, comp_data))
+				e_cal_model_free_component_data (comp_data);
+		}
+	}
+
 	/* now re-add all objects */
 	e_cal_view_objects_added_cb (query, objects, model);
 }
 
 static void
-e_cal_view_objects_removed_cb (ECalView *query, GList *ids, gpointer user_data)
+e_cal_view_objects_removed_cb (ECalView *query, GList *uids, gpointer user_data)
 {
 	ECalModelPrivate *priv;
 	ECalModel *model = (ECalModel *) user_data;
 	GList *l;
 	
 	priv = model->priv;
-	
-	for (l = ids; l; l = l->next) {
-		ECalModelComponent *comp_data = NULL;
-		ECalComponentId *id = l->data;
+
+	for (l = uids; l; l = l->next) {
+		ECalModelComponent *comp_data;
 		int pos;
 
 		e_table_model_pre_change (E_TABLE_MODEL (model));
 		
 		/* make sure we remove all objects with this UID */
-		while ((comp_data = search_by_id_and_client (priv, e_cal_view_get_client (query), id))) {
+		while ((comp_data = search_by_uid_and_client (priv, e_cal_view_get_client (query), l->data))) {
 			pos = get_position_in_array (priv->objects, comp_data);
 			e_table_model_row_deleted (E_TABLE_MODEL (model), pos);
 
@@ -1931,7 +1932,7 @@ e_cal_model_get_component_at (ECalModel *model, gint row)
 }
 
 ECalModelComponent *
-e_cal_model_get_component_for_uid  (ECalModel *model, const ECalComponentId *id)
+e_cal_model_get_component_for_uid  (ECalModel *model, const char *uid)
 {
 	ECalModelPrivate *priv;
 
@@ -1939,8 +1940,8 @@ e_cal_model_get_component_for_uid  (ECalModel *model, const ECalComponentId *id)
 
 	priv = model->priv;
 
-	return search_by_id_and_client (priv, NULL, id);
-} 
+	return search_by_uid_and_client (priv, NULL, uid);
+}
 
 /**
  * e_cal_model_date_value_to_string
@@ -2108,8 +2109,8 @@ e_cal_model_set_instance_times (ECalModelComponent *comp_data, icaltimezone *zon
 	start_time = icalcomponent_get_dtstart (comp_data->icalcomp);
 	end_time = icalcomponent_get_dtend (comp_data->icalcomp);
 
-	comp_data->instance_start = icaltime_as_timet_with_zone (start_time, zone);
+	comp_data->instance_start = icaltime_as_timet (start_time);
 
 	comp_data->instance_end = comp_data->instance_start +
-		(icaltime_as_timet_with_zone (end_time, zone) - icaltime_as_timet_with_zone (start_time, zone));
+		(icaltime_as_timet (end_time) - icaltime_as_timet (start_time));
 }

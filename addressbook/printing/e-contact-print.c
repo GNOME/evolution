@@ -43,7 +43,6 @@
 #include <libebook/e-book.h>
 #include <libebook/e-contact.h>
 #include <e-util/e-util.h>
-#include <e-util/e-util-private.h>
 #include <e-util/e-print.h>
 
 #define SCALE 5
@@ -876,7 +875,7 @@ e_contact_print_response(GtkWidget *dialog, gint response_id, gpointer data)
 	GnomePrintContext *pc;
 	gboolean uses_book = FALSE, uses_list = FALSE, uses_range = FALSE;
 
-	uses_range = GPOINTER_TO_INT (g_object_get_data(G_OBJECT (dialog), "uses_range"));
+	uses_range = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (dialog), "uses_range"));
 	if (uses_range) {
 		if (gnome_print_dialog_get_range (GNOME_PRINT_DIALOG (dialog)) & GNOME_PRINT_RANGE_ALL)
 			uses_book = TRUE;
@@ -1063,9 +1062,8 @@ e_contact_print_preview(EBook *book, char *query, GList *list)
 	pc = gnome_print_job_get_context (master);
 	e_contact_build_style (style, config);
 
-	if (list == NULL) {
+	if (list == NULL) 
 		uses_book = TRUE;
-	}
 	else {
 		uses_list = TRUE;
 		copied_list = g_list_copy (list);
@@ -1103,9 +1101,9 @@ e_contact_print_preview(EBook *book, char *query, GList *list)
 		g_object_ref (book);
 		e_contact_do_print (book, ctxt->query, ctxt);
 	}
-	else if(uses_list) {
+	else if (uses_list) {
 		ctxt->contacts = g_list_copy (copied_list);
-		g_list_foreach (ctxt->contacts, (GFunc)g_object_ref, NULL);
+		g_list_foreach (ctxt->contacts, (GFunc) g_object_ref, NULL);
 		complete_sequence (NULL, E_BOOK_VIEW_STATUS_OK, ctxt);
 	}
 }

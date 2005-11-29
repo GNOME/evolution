@@ -248,7 +248,6 @@ e_pub_publish (gboolean publish) {
 	
 				source_uid = g_strdup (p->data);
 				source =  e_source_list_peek_source_by_uid (source_list, source_uid);
-
 				if (source)
 					client = auth_new_cal_from_source (source, E_CAL_SOURCE_TYPE_EVENT);
 

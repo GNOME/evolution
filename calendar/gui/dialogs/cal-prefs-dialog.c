@@ -47,7 +47,6 @@
 #include <libgnomeui/gnome-color-picker.h>
 #include <glade/glade.h>
 #include <e-util/e-dialog-widgets.h>
-#include <e-util/e-util-private.h>
 #include <misc/e-dateedit.h>
 
 
@@ -105,18 +104,12 @@ cal_prefs_dialog_new (void)
 {
 	DialogData *dialog_data;
 	EvolutionConfigControl *config_control;
-	char *gladefile;
 
 	dialog_data = g_new0 (DialogData, 1);
 
 	/* Load the content widgets */
 
-	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
-				      "cal-prefs-dialog.glade",
-				      NULL);
-	dialog_data->xml = glade_xml_new (gladefile, NULL, NULL);
-	g_free (gladefile);
-
+	dialog_data->xml = glade_xml_new (EVOLUTION_GLADEDIR "/cal-prefs-dialog.glade", NULL, NULL);
 	if (!dialog_data->xml) {
 		g_message ("cal_prefs_dialog_construct(): Could not load the Glade XML file!");
 		return NULL;

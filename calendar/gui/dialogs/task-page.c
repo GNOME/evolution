@@ -26,7 +26,6 @@
 #endif
 
 #include <string.h>
-#include <gdk/gdkkeysyms.h>
 #include <gtk/gtksignal.h>
 #include <gtk/gtktextview.h>
 #include <gtk/gtktogglebutton.h>
@@ -37,12 +36,9 @@
 #include <glade/glade.h>
 #include <libedataserverui/e-source-option-menu.h>
 #include <misc/e-dateedit.h>
-#include <e-util/e-dialog-utils.h>
 #include "common/authentication.h"
-#include "e-util/e-popup.h"
 #include "e-util/e-dialog-widgets.h"
 #include "e-util/e-categories-config.h"
-#include "e-util/e-util-private.h"
 #include "../e-timezone-entry.h"
 #include "../calendar-config.h"
 #include "comp-editor.h"
@@ -50,10 +46,6 @@
 #include "e-send-options-utils.h"
 #include "task-page.h"
 
-#include "../e-meeting-attendee.h"
-#include "../e-meeting-store.h"
-#include "../e-meeting-list-view.h"
-#include "../e-cal-popup.h"
 
 
 /* Private part of the TaskPage structure */
@@ -61,37 +53,20 @@ struct _TaskPagePrivate {
 	/* Glade XML data */
 	GladeXML *xml;
 
-	/* Bonobo Controller for the menu/toolbar */
-	BonoboUIComponent *uic;
-	
 	/* Widgets from the Glade file */
 	GtkWidget *main;
 
-	EAccountList *accounts;
-	EMeetingAttendee *ia;	
-	char *default_address;
-	char *user_add;
-	ECalComponent *comp;
-
-	/* For meeting/event */
-	GtkWidget *calendar_label;
-	GtkWidget *org_cal_label;
-	GtkWidget *attendee_box;
-
-	/* Lists of attendees */
-	GPtrArray *deleted_attendees;
-	
 	GtkWidget *summary;
 	GtkWidget *summary_label;
 
 	GtkWidget *due_date;
 	GtkWidget *start_date;
-	GtkWidget *timezone;
-	GtkWidget *timezone_label;
-	
+	GtkWidget *due_timezone;
+	GtkWidget *start_timezone;
+
 	GtkWidget *description;
 
-	ECalComponentClassification classification;
+	GtkWidget *classification;
 
 	GtkWidget *categories_btn;
 	GtkWidget *categories;
@@ -100,26 +75,6 @@ struct _TaskPagePrivate {
 	GtkWidget *sendoptions_frame;
 	GtkWidget *sendoptions_button;
 
-	/* Meeting related items */
-	GtkWidget *list_box;
-	GtkWidget *organizer_table;
-	GtkWidget *organizer;
-	GtkWidget *add;
-	GtkWidget *remove;
-	GtkWidget *edit;
-	GtkWidget *invite;
-	GtkWidget *attendees_label;
-
-	/* ListView stuff */
-	EMeetingStore *model;
-	ECal	  *client;
-	EMeetingListView *list_view;
-	gint row;
-
-	/* For handling who the organizer is */
-	gboolean user_org;
-	gboolean existing;
-	
 	gboolean updating;
 	gboolean sendoptions_shown;
 	gboolean is_assignment;
@@ -179,16 +134,16 @@ task_page_init (TaskPage *tpage)
 	tpage->priv = priv;
 
 	priv->xml = NULL;
-	priv->uic = NULL;
 
 	priv->main = NULL;
 	priv->summary = NULL;
 	priv->summary_label = NULL;
 	priv->due_date = NULL;
 	priv->start_date = NULL;
-	priv->timezone = NULL;
+	priv->due_timezone = NULL;
+	priv->start_timezone = NULL;
 	priv->description = NULL;
-	priv->classification = E_CAL_COMPONENT_CLASS_NONE;
+	priv->classification = NULL;
 	priv->categories_btn = NULL;
 	priv->categories = NULL;
 	priv->sendoptions_frame = NULL;
@@ -199,28 +154,6 @@ task_page_init (TaskPage *tpage)
 	priv->updating = FALSE;
 	priv->sendoptions_shown = FALSE;
 	priv->is_assignment = FALSE;
-	
-	priv->deleted_attendees = g_ptr_array_new ();
-
-	priv->comp = NULL;
-
-	priv->accounts = NULL;
-	priv->ia = NULL;
-	priv->default_address = NULL;
-	priv->invite = NULL;
-	
-	priv->model = NULL;
-	priv->list_view = NULL;	
-	priv->default_address = NULL;
-}
-
-static void
-cleanup_attendees (GPtrArray *attendees)
-{
-	int i;
-	
-	for (i = 0; i < attendees->len; i++)
-		g_object_unref (g_ptr_array_index (attendees, i));
 }
 
 /* Destroy handler for the task page */
@@ -248,42 +181,12 @@ task_page_finalize (GObject *object)
 		g_object_unref (priv->sod);
 		priv->sod = NULL;
 	}
-
-	if (priv->comp != NULL)
-		g_object_unref (priv->comp);
- 
-	cleanup_attendees (priv->deleted_attendees);
-	g_ptr_array_free (priv->deleted_attendees, TRUE);
-
+	
 	g_free (priv);
 	tpage->priv = NULL;
 
 	if (G_OBJECT_CLASS (task_page_parent_class)->finalize)
 		(* G_OBJECT_CLASS (task_page_parent_class)->finalize) (object);
-}
-
-static void
-set_classification_menu (TaskPage *page, gint class)
-{
-	bonobo_ui_component_freeze (page->priv->uic, NULL);
-	switch (class) {
-		case E_CAL_COMPONENT_CLASS_PUBLIC:
-			bonobo_ui_component_set_prop (
-				page->priv->uic, "/commands/ActionClassPublic",
-				"state", "1", NULL);
-			break;
-		case E_CAL_COMPONENT_CLASS_CONFIDENTIAL:
-			bonobo_ui_component_set_prop (
-				page->priv->uic, "/commands/ActionClassConfidential",
-				"state", "1", NULL);
-			break;
-		case E_CAL_COMPONENT_CLASS_PRIVATE:
-			bonobo_ui_component_set_prop (
-				page->priv->uic, "/commands/ActionClassPrivate",
-				"state", "1", NULL);
-			break;
-	}
-	bonobo_ui_component_thaw (page->priv->uic, NULL);
 }
 
 
@@ -331,58 +234,23 @@ clear_widgets (TaskPage *tpage)
 	e_date_edit_set_time (E_DATE_EDIT (priv->due_date), 0);
 
 	/* Classification */
-	priv->classification = E_CAL_COMPONENT_CLASS_PRIVATE;
-	set_classification_menu (tpage, priv->classification);
+	e_dialog_option_menu_set (priv->classification, E_CAL_COMPONENT_CLASS_PRIVATE, classification_map);
 
 	/* Categories */
 	e_dialog_editable_set (priv->categories, NULL);
-	
-	gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (priv->organizer)->entry), priv->default_address);
-	
 }
 
-void
-task_page_set_view_role (TaskPage *page, gboolean state)
+/* Decode the radio button group for classifications */
+static ECalComponentClassification
+classification_get (GtkWidget *widget)
 {
-	TaskPagePrivate *priv = page->priv;
-
-	e_meeting_list_view_column_set_visible (priv->list_view, "Role", state);
-}
-
-void
-task_page_set_view_status (TaskPage *page, gboolean state)
-{
-	TaskPagePrivate *priv = page->priv;
-
-	e_meeting_list_view_column_set_visible (priv->list_view, "Status", state);
-}
-
-void
-task_page_set_view_type (TaskPage *page, gboolean state)
-{
-	TaskPagePrivate *priv = page->priv;
-
-	e_meeting_list_view_column_set_visible (priv->list_view, "Type", state);
-}
-
-void
-task_page_set_view_rsvp (TaskPage *page, gboolean state)
-{
-	TaskPagePrivate *priv = page->priv;
-
-	e_meeting_list_view_column_set_visible (priv->list_view, "RSVP", state);
-}
-
-void 
-task_page_set_classification (TaskPage *page, ECalComponentClassification class)
-{
-	page->priv->classification = class;
+	return e_dialog_option_menu_get (widget, classification_map);
 }
 
 static void
 sensitize_widgets (TaskPage *tpage)
 {
-	gboolean read_only, sens, sensitize;
+	gboolean read_only;
 	TaskPagePrivate *priv;
 	
 	priv = tpage->priv;
@@ -390,67 +258,25 @@ sensitize_widgets (TaskPage *tpage)
 	if (!e_cal_is_read_only (COMP_EDITOR_PAGE (tpage)->client, &read_only, NULL))
 		read_only = TRUE;
 	
-	if (COMP_EDITOR_PAGE (tpage)->flags & COMP_EDITOR_IS_ASSIGNED)
-	 	sens = COMP_EDITOR_PAGE (tpage)->flags & COMP_EDITOR_PAGE_USER_ORG;
-
-	sensitize = (!read_only && sens);
-
+	gtk_widget_set_sensitive (priv->summary_label, !read_only);
 	gtk_entry_set_editable (GTK_ENTRY (priv->summary), !read_only);
 	gtk_widget_set_sensitive (priv->due_date, !read_only);
 	gtk_widget_set_sensitive (priv->start_date, !read_only);
-	gtk_widget_set_sensitive (priv->timezone, !read_only);
+	gtk_widget_set_sensitive (priv->due_timezone, !read_only);
+	gtk_widget_set_sensitive (priv->start_timezone, !read_only);
 	gtk_widget_set_sensitive (priv->description, !read_only);
+	gtk_widget_set_sensitive (priv->classification, !read_only);
 	gtk_widget_set_sensitive (priv->categories_btn, !read_only);
 	gtk_widget_set_sensitive (priv->sendoptions_button, !read_only);
 	gtk_entry_set_editable (GTK_ENTRY (priv->categories), !read_only);
-
-	gtk_widget_set_sensitive (priv->organizer, !read_only);
-	gtk_widget_set_sensitive (priv->add, (!read_only &&  sens));
-	gtk_widget_set_sensitive (priv->remove, (!read_only &&  sens));
-	gtk_widget_set_sensitive (priv->invite, (!read_only &&  sens));
-	gtk_widget_set_sensitive (GTK_WIDGET (priv->list_view), !read_only);	
-
-	bonobo_ui_component_set_prop (priv->uic, "/commands/InsertAttachments", "sensitive", sensitize ? "1" : "0"
-			, NULL);
-	bonobo_ui_component_set_prop (priv->uic, "/commands/ViewTimeZone", "sensitive", sensitize ? "1" : "0"
-			, NULL);
-	bonobo_ui_component_set_prop (priv->uic, "/commands/ActionClassPublic", "sensitive", sensitize ? "1" : "0"
-			, NULL);
-	bonobo_ui_component_set_prop (priv->uic, "/commands/ActionClassPrivate", "sensitive", sensitize ? "1" : "0"
-			, NULL);
-	bonobo_ui_component_set_prop (priv->uic, "/commands/ActionClassConfidential", "sensitive",
-		       	sensitize ? "1" : "0", NULL);
-	bonobo_ui_component_set_prop (priv->uic, "/commands/ViewCategories", "sensitive", sensitize ? "1" : "0"
-			, NULL);
-	bonobo_ui_component_set_prop (priv->uic, "/commands/InsertSendOptions", "sensitive", sensitize ? "1" : "0"
-			, NULL);
-	bonobo_ui_component_set_prop (priv->uic, "/commands/OptionStatus", "sensitive", sensitize ? "1" : "0"
-			, NULL);
-
-	
-	if (!priv->is_assignment) {
-		gtk_widget_hide (priv->calendar_label);
-		gtk_widget_hide (priv->list_box);
-		gtk_widget_hide (priv->attendee_box);
-		gtk_widget_hide (priv->organizer);
-		gtk_widget_hide (priv->invite);
-		gtk_label_set_text_with_mnemonic ((GtkLabel *) priv->org_cal_label, _("_Group"));
-	} else {
-		gtk_widget_show (priv->invite);	
-		gtk_widget_show (priv->calendar_label);
-		gtk_widget_show (priv->list_box);
-		gtk_widget_show (priv->attendee_box);
-		gtk_widget_show (priv->organizer);
-		gtk_label_set_text_with_mnemonic ((GtkLabel *) priv->org_cal_label, _("Or_ganizer"));		
-	}
 }
 void
 task_page_hide_options (TaskPage *page)
 {
 	g_return_if_fail (IS_TASK_PAGE (page));
 
+	gtk_widget_hide (page->priv->sendoptions_frame);
 
-	bonobo_ui_component_set_prop (page->priv->uic, "/commands/InsertSendOptions", "hidden", "1", NULL);
 	page->priv->sendoptions_shown = FALSE;
 	
 }
@@ -459,7 +285,7 @@ task_page_show_options (TaskPage *page)
 {
 	g_return_if_fail (IS_TASK_PAGE (page));
 	
-	bonobo_ui_component_set_prop (page->priv->uic, "/commands/InsertSendOptions", "hidden", "0", NULL);
+	gtk_widget_show (page->priv->sendoptions_frame);
 	page->priv->sendoptions_shown = TRUE;
 }
 
@@ -469,38 +295,6 @@ task_page_set_assignment (TaskPage *page, gboolean set)
 	g_return_if_fail (IS_TASK_PAGE (page));
 
 	page->priv->is_assignment = set;
-	sensitize_widgets (page);
-}
-
-static EAccount *
-get_current_account (TaskPage *page)
-{	
-	TaskPagePrivate *priv;
-	EIterator *it;
-	const char *str;
-	
-	priv = page->priv;
-
-	str = gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (priv->organizer)->entry));
-	if (!str)
-		return NULL;
-	
-	for (it = e_list_get_iterator((EList *)priv->accounts); e_iterator_is_valid(it); e_iterator_next(it)) {
-		EAccount *a = (EAccount *)e_iterator_get(it);
-		char *full = g_strdup_printf("%s <%s>", a->id->name, a->id->address);
-
-		if (!strcmp (full, str)) {
-			g_free (full);
-			g_object_unref (it);
-
-			return a;
-		}
-	
-		g_free (full);
-	}
-	g_object_unref (it);
-	
-	return NULL;	
 }
 
 /* fill_widgets handler for the task page */
@@ -522,23 +316,10 @@ task_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 	priv = tpage->priv;
 
 	priv->updating = TRUE;
-
-	/* Clean out old data */
-	if (priv->comp != NULL)
-		g_object_unref (priv->comp);
-	priv->comp = NULL;
 	
-	cleanup_attendees (priv->deleted_attendees);
-	g_ptr_array_set_size (priv->deleted_attendees, 0);
-	
-	/* Component for cancellation */
-	priv->comp = e_cal_component_clone (comp);
-
 	/* Clean the screen */
 	clear_widgets (tpage);
 
-	priv->user_add = itip_get_comp_attendee (comp, page->client);
-	
         /* Summary, description(s) */
 	e_cal_component_get_summary (comp, &text);
 	e_dialog_editable_set (priv->summary, text.value);
@@ -569,6 +350,7 @@ task_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 		if (due_tt->is_date) {
 			e_date_edit_set_time_of_day (E_DATE_EDIT (priv->due_date),
 						     -1, -1);
+			zone = default_zone;
 		} else {
 			e_date_edit_set_time_of_day (E_DATE_EDIT (priv->due_date),
 						     due_tt->hour,
@@ -580,30 +362,25 @@ task_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 		/* If no time is set, we use the default timezone, so the
 		   user usually doesn't have to set this when they set the
 		   date. */
-		zone = NULL;
+		zone = default_zone;
 	}
 
 	/* Note that if we are creating a new task, the timezones may not be
 	   on the server, so we try to get the builtin timezone with the TZID
 	   first. */
-	if (!zone && d.tzid) {
+	if (!zone)
+		zone = icaltimezone_get_builtin_timezone_from_tzid (d.tzid);
+	if (!zone) {
 		if (!e_cal_get_timezone (page->client, d.tzid, &zone, NULL))
 			/* FIXME: Handle error better. */
 			g_warning ("Couldn't get timezone from server: %s",
 				   d.tzid ? d.tzid : "");
 	}
-	
-	e_timezone_entry_set_timezone (E_TIMEZONE_ENTRY (priv->timezone),
-				       zone ? zone : default_zone);
-	gtk_widget_show_all (priv->timezone);
-
-	if (!(COMP_EDITOR_PAGE (tpage)->flags & COMP_EDITOR_PAGE_NEW_ITEM) && !zone) {
-			task_page_set_show_timezone (tpage, FALSE);
-			bonobo_ui_component_set_prop (priv->uic, "/commands/ViewTimeZone", 
-					"state", "0", NULL);
-	}
+	e_timezone_entry_set_timezone (E_TIMEZONE_ENTRY (priv->due_timezone),
+				       zone);
 
 	e_cal_component_free_datetime (&d);
+
 
 	/* Start Date. */
 	e_cal_component_get_dtstart (comp, &d);
@@ -631,6 +408,17 @@ task_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 		zone = default_zone;
 	}
 
+	if (!zone)
+		zone = icaltimezone_get_builtin_timezone_from_tzid (d.tzid);
+	if (!zone) {
+		if (!e_cal_get_timezone (page->client, d.tzid, &zone, NULL))
+			/* FIXME: Handle error better. */
+			g_warning ("Couldn't get timezone from server: %s",
+				   d.tzid ? d.tzid : "");
+	}
+	e_timezone_entry_set_timezone (E_TIMEZONE_ENTRY (priv->start_timezone),
+				       zone);
+
 	e_cal_component_free_datetime (&d);
 
 	/* Classification. */
@@ -646,7 +434,7 @@ task_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 		cl = E_CAL_COMPONENT_CLASS_PUBLIC;
                 break;
 	}
-	set_classification_menu (tpage, cl);
+	e_dialog_option_menu_set (priv->classification, cl, classification_map);
 
 	e_cal_component_get_uid (comp, &uid);
 	if (e_cal_get_object (COMP_EDITOR_PAGE (tpage)->client, uid, NULL, &icalcomp, NULL)) {
@@ -662,91 +450,11 @@ task_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 	source = e_cal_get_source (page->client);
 	e_source_option_menu_select (E_SOURCE_OPTION_MENU (priv->source_selector), source);
 
-	if (priv->is_assignment) {
-		ECalComponentOrganizer organizer;	
-		
-		priv->user_add = itip_get_comp_attendee (comp, COMP_EDITOR_PAGE (tpage)->client);	
-
-		/* If there is an existing organizer show it properly */
-		if (e_cal_component_has_organizer (comp)) {
-			e_cal_component_get_organizer (comp, &organizer);
-			if (organizer.value != NULL) {
-				const gchar *strip = itip_strip_mailto (organizer.value);
-				gchar *string;
-				if (itip_organizer_is_user (comp, page->client)) {
-					if (e_cal_get_static_capability (
-								page->client,
-								CAL_STATIC_CAPABILITY_ORGANIZER_NOT_EMAIL_ADDRESS))
-						priv->user_org = TRUE;
-				} else {
-					if (e_cal_get_static_capability (
-								page->client,
-								CAL_STATIC_CAPABILITY_ORGANIZER_NOT_EMAIL_ADDRESS))
-						gtk_widget_set_sensitive (priv->invite, FALSE);
-					gtk_widget_set_sensitive (priv->add, FALSE);
-					gtk_widget_set_sensitive (priv->remove, FALSE);
-					priv->user_org = FALSE;
-				}
-
-				if (e_cal_get_static_capability (COMP_EDITOR_PAGE (tpage)->client, CAL_STATIC_CAPABILITY_NO_ORGANIZER) && (COMP_EDITOR_PAGE (tpage)->flags & COMP_EDITOR_PAGE_DELEGATE))
-					string = g_strdup (priv->user_add);
-				else if ( organizer.cn != NULL)
-					string = g_strdup_printf ("%s <%s>", organizer.cn, strip);
-				else
-					string = g_strdup (strip);
-
-				g_free (string);
-				priv->existing = TRUE;
-			}
-		} else {
-			EAccount *a;
-
-			a = get_current_account (tpage);
-			if (a != NULL) {
-				CompEditorPage *page = (CompEditorPage *) tpage;
-				priv->ia = e_meeting_store_add_attendee_with_defaults (priv->model);
-				g_object_ref (priv->ia);
-
-				e_meeting_attendee_set_address (priv->ia, g_strdup_printf ("MAILTO:%s", a->id->address));
-				e_meeting_attendee_set_cn (priv->ia, g_strdup (a->id->name));
-				if (page->client && e_cal_get_organizer_must_accept (page->client))
-					e_meeting_attendee_set_status (priv->ia, ICAL_PARTSTAT_NEEDSACTION);
-				else
-					e_meeting_attendee_set_status (priv->ia, ICAL_PARTSTAT_ACCEPTED);
-			}
-		}
-	}
-
-
 	priv->updating = FALSE;
 
 	sensitize_widgets (tpage);
 
 	return TRUE;
-}
-
-static void
-set_attendees (ECalComponent *comp, const GPtrArray *attendees)
-{
-	GSList *comp_attendees = NULL, *l;
-	int i;
-	
-	for (i = 0; i < attendees->len; i++) {
-		EMeetingAttendee *ia = g_ptr_array_index (attendees, i);
-		ECalComponentAttendee *ca;
-		
-		ca = e_meeting_attendee_as_e_cal_component_attendee (ia);
-		
-		comp_attendees = g_slist_prepend (comp_attendees, ca);
-		
-	}
-	comp_attendees = g_slist_reverse (comp_attendees);
-	
-	e_cal_component_set_attendee_list (comp, comp_attendees);
-	
-	for (l = comp_attendees; l != NULL; l = l->next)
-		g_free (l->data);	
-	g_slist_free (comp_attendees);
 }
 
 /* fill_component handler for the task page */
@@ -831,7 +539,7 @@ task_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 						&due_tt.minute);
 	if (due_date_set) {
 		if (time_set) {
-			due_zone = e_timezone_entry_get_timezone (E_TIMEZONE_ENTRY (priv->timezone));
+			due_zone = e_timezone_entry_get_timezone (E_TIMEZONE_ENTRY (priv->due_timezone));
 			date.tzid = icaltimezone_get_tzid (due_zone);
 		} else {
 			due_tt.is_date = TRUE;
@@ -860,7 +568,7 @@ task_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 						&start_tt.minute);
 	if (start_date_set) {
 		if (time_set) {
-			start_zone = e_timezone_entry_get_timezone (E_TIMEZONE_ENTRY (priv->timezone));
+			start_zone = e_timezone_entry_get_timezone (E_TIMEZONE_ENTRY (priv->start_timezone));
 			date.tzid = icaltimezone_get_tzid (start_zone);
 		} else {
 			start_tt.is_date = TRUE;
@@ -872,7 +580,7 @@ task_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 	}
 	
 	/* Classification. */
-	e_cal_component_set_classification (comp, priv->classification);
+	e_cal_component_set_classification (comp, classification_get (priv->classification));
 	
 	/* send options */
 	if (priv->sendoptions_shown && priv->sod) 
@@ -889,429 +597,7 @@ task_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 	if (str)
 		g_free (str);
 
-	if (priv->is_assignment) {
-		ECalComponentOrganizer organizer = {NULL, NULL, NULL, NULL};
-
-		if (!priv->existing) {
-			EAccount *a;
-			gchar *addr = NULL;
-
-			/* Find the identity for the organizer or sentby field */
-			a = get_current_account (tpage);
-
-			/* Sanity Check */
-			if (a == NULL) {
-				e_notice (page, GTK_MESSAGE_ERROR,
-						_("The organizer selected no longer has an account."));
-				return FALSE;			
-			}
-
-			if (a->id->address == NULL || strlen (a->id->address) == 0) {
-				e_notice (page, GTK_MESSAGE_ERROR,
-						_("An organizer is required."));
-				return FALSE;
-			} 
-
-			addr = g_strdup_printf ("MAILTO:%s", a->id->address);
-
-			organizer.value = addr;
-			organizer.cn = a->id->name;
-			e_cal_component_set_organizer (comp, &organizer);
-
-			g_free (addr);
-		}
-
-		if (e_meeting_store_count_actual_attendees (priv->model) < 1) {
-			e_notice (page, GTK_MESSAGE_ERROR,
-					_("At least one attendee is required."));
-			return FALSE;
-		}
-
-
-		if (COMP_EDITOR_PAGE (tpage)->flags & COMP_EDITOR_PAGE_DELEGATE ) {
-			GSList *attendee_list, *l;
-			int i;
-			const GPtrArray *attendees = e_meeting_store_get_attendees (priv->model);
-
-			e_cal_component_get_attendee_list (priv->comp, &attendee_list);
-
-			for (i = 0; i < attendees->len; i++) {
-				EMeetingAttendee *ia = g_ptr_array_index (attendees, i);
-				ECalComponentAttendee *ca;
-
-				/* Remove the duplicate user from the component if present */
-				if (e_meeting_attendee_is_set_delto (ia)) {
-					for (l = attendee_list; l; l = l->next) {
-						ECalComponentAttendee *a = l->data;
-
-						if (g_str_equal (a->value, e_meeting_attendee_get_address (ia))) {
-							attendee_list = g_slist_remove (attendee_list, l->data);
-							break;
-						}
-					}
-				}
-
-				ca = e_meeting_attendee_as_e_cal_component_attendee (ia);
-
-				attendee_list = g_slist_append (attendee_list, ca);
-			}
-			e_cal_component_set_attendee_list (comp, attendee_list);
-			e_cal_component_free_attendee_list (attendee_list);
-		} else 
-			set_attendees (comp, e_meeting_store_get_attendees (priv->model));
-	}
-
 	return TRUE;
-}
-
-static void
-add_clicked_cb (GtkButton *btn, TaskPage *page)
-{
-	EMeetingAttendee *attendee;
-
-	attendee = e_meeting_store_add_attendee_with_defaults (page->priv->model);
-
-	if (COMP_EDITOR_PAGE (page)->flags & COMP_EDITOR_PAGE_DELEGATE) {
-		e_meeting_attendee_set_delfrom (attendee, g_strdup_printf ("MAILTO:%s", page->priv->user_add));
-	}
-
-	e_meeting_list_view_edit (page->priv->list_view, attendee);
-}
-
-static gboolean
-existing_attendee (EMeetingAttendee *ia, ECalComponent *comp) 
-{
-	GSList *attendees, *l;
-	const gchar *ia_address;
-	
-	ia_address = itip_strip_mailto (e_meeting_attendee_get_address (ia));
-	if (!ia_address)
-		return FALSE;
-	
-	e_cal_component_get_attendee_list (comp, &attendees);
-
-	for (l = attendees; l; l = l->next) {
-		ECalComponentAttendee *attendee = l->data;
-		const char *address;
-		
-		address = itip_strip_mailto (attendee->value);
-		if (address && !g_strcasecmp (ia_address, address)) {
-			e_cal_component_free_attendee_list (attendees);
-			return TRUE;
-		}
-	}
-	
-	e_cal_component_free_attendee_list (attendees);
-	
-	return FALSE;
-}
-
-static void
-remove_attendee (TaskPage *page, EMeetingAttendee *ia) 
-{
-	TaskPagePrivate *priv;
-	int pos = 0;
-	gboolean delegate = (COMP_EDITOR_PAGE (page)->flags & COMP_EDITOR_PAGE_DELEGATE);
-	
-	priv = page->priv;
-
-	/* If the user deletes the organizer attendee explicitly,
-	   assume they no longer want the organizer showing up */
-	if (ia == priv->ia) {
-		g_object_unref (priv->ia);
-		priv->ia = NULL;
-	}	
-		
-	/* If this was a delegatee, no longer delegate */
-	if (e_meeting_attendee_is_set_delfrom (ia)) {
-		EMeetingAttendee *ib;
-		
-		ib = e_meeting_store_find_attendee (priv->model, e_meeting_attendee_get_delfrom (ia), &pos);
-		if (ib != NULL) {
-			e_meeting_attendee_set_delto (ib, NULL);
-			
-			if (!delegate) 
-				e_meeting_attendee_set_edit_level (ib,  E_MEETING_ATTENDEE_EDIT_FULL);
-		}		
-	}
-	
-	/* Handle deleting all attendees in the delegation chain */	
-	while (ia != NULL) {
-		EMeetingAttendee *ib = NULL;
-
-		if (existing_attendee (ia, priv->comp)) {
-			g_object_ref (ia);
-			g_ptr_array_add (priv->deleted_attendees, ia);
-		}
-		
-		if (e_meeting_attendee_get_delto (ia) != NULL)
-			ib = e_meeting_store_find_attendee (priv->model, e_meeting_attendee_get_delto (ia), NULL);
-		e_meeting_store_remove_attendee (priv->model, ia);
-
-		ia = ib;
-	}
-	
-	sensitize_widgets (page);
-}
-
-static void
-remove_clicked_cb (GtkButton *btn, TaskPage *page)
-{
-	TaskPagePrivate *priv;
-	EMeetingAttendee *ia;
-	GtkTreeSelection *selection;
-	GList *paths = NULL, *tmp;
-	GtkTreeIter iter;
-	GtkTreePath *path = NULL;
-	gboolean valid_iter;
-	char *address;
-	
-	priv = page->priv;
-
-	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (priv->list_view));
-	if (!(paths = gtk_tree_selection_get_selected_rows (selection, (GtkTreeModel **) &(priv->model)))) {
-		g_warning ("Could not get a selection to delete.");
-		return;
-	}
-	paths = g_list_reverse (paths);
-	
-	for (tmp = paths; tmp; tmp=tmp->next) {
-		path = tmp->data;
-		
-		gtk_tree_model_get_iter (GTK_TREE_MODEL(priv->model), &iter, path);
-
-		gtk_tree_model_get (GTK_TREE_MODEL (priv->model), &iter, E_MEETING_STORE_ADDRESS_COL, &address, -1);
-		ia = e_meeting_store_find_attendee (priv->model, address, NULL);
-		g_free (address);
-		if (!ia) {
-			g_warning ("Cannot delete attendee\n");
-			continue;
-		} else if (e_meeting_attendee_get_edit_level (ia) != E_MEETING_ATTENDEE_EDIT_FULL) {
-			g_warning("Not enough rights to delete attendee: %s\n", e_meeting_attendee_get_address(ia));	
-			continue;
-		}
-		
-		remove_attendee (page, ia);
-	}
-	
-	/* Select closest item after removal */
-	valid_iter = gtk_tree_model_get_iter (GTK_TREE_MODEL (priv->model), &iter, path);
-	if (!valid_iter) {
-		gtk_tree_path_prev (path);
-		valid_iter = gtk_tree_model_get_iter (GTK_TREE_MODEL (priv->model), &iter, path);
-	}
-	
-	if (valid_iter) {
-		gtk_tree_selection_unselect_all (selection);
-		gtk_tree_selection_select_iter (selection, &iter);
-	}
-	
-	g_list_foreach (paths, (GFunc) gtk_tree_path_free, NULL);
-	g_list_free (paths);
-}
-
-static void
-invite_cb (GtkWidget *widget, gpointer data) 
-{
-	TaskPage *page;
-	TaskPagePrivate *priv;
-	
-	page = TASK_PAGE (data);
-	priv = page->priv;
-
-	e_meeting_list_view_invite_others_dialog (priv->list_view);
-}
-
-static void
-attendee_added_cb (EMeetingListView *emlv, EMeetingAttendee *ia, gpointer user_data)
-{
-   TaskPage *page = TASK_PAGE (user_data);	
-   TaskPagePrivate *priv;
-   gboolean delegate = (COMP_EDITOR_PAGE (page)->flags & COMP_EDITOR_PAGE_DELEGATE);
-
-   priv = page->priv;
-
-   if (delegate) {
-	   if (existing_attendee (ia, priv->comp))
-		   e_meeting_store_remove_attendee (priv->model, ia);
-	   else {
-		   if (!e_cal_get_static_capability (COMP_EDITOR_PAGE(page)->client, 
-					   CAL_STATIC_CAPABILITY_DELEGATE_TO_MANY)) {
-			   const char *delegator_id = e_meeting_attendee_get_delfrom (ia);
-			   EMeetingAttendee *delegator;
-
-			   delegator = e_meeting_store_find_attendee (priv->model, delegator_id, NULL);
-			   e_meeting_attendee_set_delto (delegator, 
-					   g_strdup (e_meeting_attendee_get_address (ia)));
-
-			   gtk_widget_set_sensitive (priv->invite, FALSE);
-			   gtk_widget_set_sensitive (priv->add, FALSE);
-		   }
-	   }
-   }
-
-}
-
-/* Callbacks for list view*/
-static void
-popup_add_cb (EPopup *ep, EPopupItem *pitem, void *data)
-{
-	TaskPage *page = data;
-
-	add_clicked_cb (NULL, page);
-}
-
-static void
-popup_delete_cb (EPopup *ep, EPopupItem *pitem, void *data)
-{
-	TaskPage *page = data;
-	TaskPagePrivate *priv;
-	
-	priv = page->priv;
-
-	remove_clicked_cb (NULL, page);
-}
-
-enum {
-	ATTENDEE_CAN_DELEGATE = 1<<1,
-	ATTENDEE_CAN_DELETE = 1<<2,
-	ATTENDEE_CAN_ADD = 1<<3,
-	ATTENDEE_LAST = 1<<4,
-};
-
-static EPopupItem context_menu_items[] = {
-	{ E_POPUP_ITEM, "10.delete", N_("_Remove"), popup_delete_cb, NULL, GTK_STOCK_REMOVE, ATTENDEE_CAN_DELETE },
-	{ E_POPUP_ITEM, "15.add", N_("_Add "), popup_add_cb, NULL, GTK_STOCK_ADD },	
-};
-
-static void
-context_popup_free(EPopup *ep, GSList *items, void *data)
-{
-	g_slist_free(items);
-}
-
-static gint
-button_press_event (GtkWidget *widget, GdkEventButton *event, TaskPage *page)
-{
-	TaskPagePrivate *priv;
-	GtkMenu *menu;
-	EMeetingAttendee *ia;
-	GtkTreePath *path;
-	GtkTreeIter iter;
-	char *address;
-	guint32 disable_mask = ~0;
-	GSList *menus = NULL;
-	ECalPopup *ep;
-	int i;
-
-	priv = page->priv;
-
-	/* only process right-clicks */
-	if (event->button != 3 || event->type != GDK_BUTTON_PRESS)
-		return FALSE;
-
-	/* only if we right-click on an attendee */
-	if (gtk_tree_view_get_path_at_pos (GTK_TREE_VIEW (priv->list_view), event->x, event->y, &path, NULL, NULL, NULL)) {
-		GtkTreeSelection *selection;
-
-		if (gtk_tree_model_get_iter (GTK_TREE_MODEL (priv->model), &iter, path)) {
-		
-			gtk_tree_model_get (GTK_TREE_MODEL (priv->model), &iter, E_MEETING_STORE_ADDRESS_COL, &address, -1);
-			ia = e_meeting_store_find_attendee (priv->model, address, &priv->row);
-			g_free (address);
-
-			if (ia) {
-				selection = gtk_tree_view_get_selection ((GtkTreeView *) priv->list_view);
-				gtk_tree_selection_unselect_all (selection);
-				gtk_tree_selection_select_path (selection, path);
-		
- 				if (e_meeting_attendee_get_edit_level (ia) == E_MEETING_ATTENDEE_EDIT_FULL)
- 					disable_mask &= ~ATTENDEE_CAN_DELETE;
-			}
-		}
-	}
-
-	if (GTK_WIDGET_IS_SENSITIVE(priv->add))
-		disable_mask &= ~ATTENDEE_CAN_ADD;
-	else if (COMP_EDITOR_PAGE (page)->flags & COMP_EDITOR_PAGE_USER_ORG)
-		disable_mask &= ~ATTENDEE_CAN_ADD;
-
-	ep = e_cal_popup_new("org.gnome.evolution.calendar.task.popup");
-
-	for (i=0;i<sizeof(context_menu_items)/sizeof(context_menu_items[0]);i++)
-		menus = g_slist_prepend(menus, &context_menu_items[i]);
-	
-	e_popup_add_items((EPopup *)ep, menus, NULL, context_popup_free, page);
-	menu = e_popup_create_menu_once((EPopup *)ep, NULL, disable_mask);
-	gtk_menu_popup (menu, NULL, NULL, NULL, NULL, event->button, event->time);
-
-	return TRUE;
-}
-
-static gboolean
-list_view_event (EMeetingListView *list_view, GdkEvent *event, TaskPage *page) {
-	
-	TaskPagePrivate *priv= page->priv;
-	
-	if (event->type == GDK_2BUTTON_PRESS && COMP_EDITOR_PAGE (page)->flags & COMP_EDITOR_PAGE_USER_ORG) {
-		EMeetingAttendee *attendee;
-
-		attendee = e_meeting_store_add_attendee_with_defaults (priv->model);
-
-		if (COMP_EDITOR_PAGE (page)->flags & COMP_EDITOR_PAGE_DELEGATE) {
-			e_meeting_attendee_set_delfrom (attendee, g_strdup_printf ("MAILTO:%s", page->priv->user_add));
-		}
-
-		e_meeting_list_view_edit (page->priv->list_view, attendee);
-		return TRUE;
-	}
-
-	return FALSE;	
-}
-
-
-static gboolean
-list_key_press (EMeetingListView *list_view, GdkEventKey *event, TaskPage *page)
-{
-	if (event->keyval == GDK_Delete) {
-		TaskPagePrivate *priv;
-	
-		priv = page->priv;
-		remove_clicked_cb (NULL, page);
-
-		return TRUE;
-	} else if (event->keyval == GDK_Insert) {
-		add_clicked_cb (NULL, page);
-
-		return TRUE;
-	}
-
-	return FALSE;
-}
-
-void 
-task_page_set_show_timezone (TaskPage *page, gboolean state)
-{
-	if (state) {
-		gtk_widget_show_all (page->priv->timezone);
-		gtk_widget_show (page->priv->timezone_label);	
-	} else {
-		gtk_widget_hide (page->priv->timezone);
-		gtk_widget_hide (page->priv->timezone_label);
-	}
-		
-}
-
-void
-task_page_set_show_categories (TaskPage *page, gboolean state)
-{
-	if (state) {
-		gtk_widget_show (page->priv->categories_btn);
-		gtk_widget_show (page->priv->categories);	
-	} else {
-		gtk_widget_hide (page->priv->categories_btn);
-		gtk_widget_hide (page->priv->categories);
-	}
 }
 
 /* fill_timezones handler for the event page */
@@ -1325,8 +611,15 @@ task_page_fill_timezones (CompEditorPage *page, GHashTable *timezones)
 	tpage = TASK_PAGE (page);
 	priv = tpage->priv;
 
+	/* add due date timezone */
+	zone = e_timezone_entry_get_timezone (E_TIMEZONE_ENTRY (priv->due_timezone));
+	if (zone) {
+		if (!g_hash_table_lookup (timezones, icaltimezone_get_tzid (zone)))
+			g_hash_table_insert (timezones, icaltimezone_get_tzid (zone), zone);
+	}
+
 	/* add start date timezone */
-	zone = e_timezone_entry_get_timezone (E_TIMEZONE_ENTRY (priv->timezone));
+	zone = e_timezone_entry_get_timezone (E_TIMEZONE_ENTRY (priv->start_timezone));
 	if (zone) {
 		if (!g_hash_table_lookup (timezones, icaltimezone_get_tzid (zone)))
 			g_hash_table_insert (timezones, icaltimezone_get_tzid (zone), zone);
@@ -1369,8 +662,6 @@ get_widgets (TaskPage *tpage)
 	TaskPagePrivate *priv;
 	GSList *accel_groups;
 	GtkWidget *toplevel;
-	GtkWidget *sw;
-	GtkTreeSelection *selection;
 
 	priv = tpage->priv;
 
@@ -1401,47 +692,35 @@ get_widgets (TaskPage *tpage)
 	priv->start_date = GW ("start-date");
 	gtk_widget_show (priv->start_date);
 
-	priv->timezone = GW ("timezone");
-	priv->timezone_label = GW ("timezone-label");
-	priv->attendees_label = GW ("attendees-label");
+	priv->due_timezone = GW ("due-timezone");
+	priv->start_timezone = GW ("start-timezone");
+
 	priv->description = GW ("description");
+
+	priv->classification = GW ("classification");
+
 	priv->categories_btn = GW ("categories-button");
 	priv->categories = GW ("categories");
-	priv->organizer = GW ("organizer");
-	priv->invite = GW ("invite");
-	priv->add = GW ("add-attendee");
-	priv->remove = GW ("remove-attendee");
-	priv->list_box = GW ("list-box");
-	priv->calendar_label = GW ("group-label");
-	priv->attendee_box = GW ("attendee-box");
-	priv->org_cal_label = GW ("org-task-label");
-
-	priv->list_view = e_meeting_list_view_new (priv->model);
-	
-	selection = gtk_tree_view_get_selection ((GtkTreeView *) priv->list_view);
-	gtk_tree_selection_set_mode (selection, GTK_SELECTION_MULTIPLE);
-	gtk_widget_show (GTK_WIDGET (priv->list_view));
-
-	sw = gtk_scrolled_window_new (NULL, NULL);
-	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (sw), GTK_SHADOW_IN);
-	gtk_widget_show (sw);
-	gtk_container_add (GTK_CONTAINER (sw), GTK_WIDGET (priv->list_view));
-	gtk_box_pack_start (GTK_BOX (priv->list_box), sw, TRUE, TRUE, 0);
 
 	priv->source_selector = GW ("source");
 	
+	priv->sendoptions_frame = GW ("send-options-frame");
+	priv->sendoptions_button = GW ("send-options-button");
+
 #undef GW
 
 	return (priv->summary
 		&& priv->summary_label
 		&& priv->due_date
 		&& priv->start_date
-		&& priv->timezone
+		&& priv->due_timezone
+		&& priv->start_timezone
+		&& priv->classification
 		&& priv->description
 		&& priv->categories_btn
 		&& priv->categories
-		);
+		&& priv->sendoptions_frame
+		&& priv->sendoptions_button);
 }
 
 /* Callback used when the summary changes; we emit the notification signal. */
@@ -1493,7 +772,7 @@ date_changed_cb (EDateEdit *dedit, gpointer data)
 						&start_tt.minute);
 	if (date_set) {
 		if (time_set) {
-			icaltimezone *zone = e_timezone_entry_get_timezone (E_TIMEZONE_ENTRY (priv->timezone));
+			icaltimezone *zone = e_timezone_entry_get_timezone (E_TIMEZONE_ENTRY (priv->start_timezone));
 			start_dt.tzid = icaltimezone_get_tzid (zone);
 		} else {
 			start_tt.is_date = TRUE;
@@ -1513,7 +792,7 @@ date_changed_cb (EDateEdit *dedit, gpointer data)
 						&due_tt.minute);
 	if (date_set) {
 		if (time_set) {
-			icaltimezone *zone = e_timezone_entry_get_timezone (E_TIMEZONE_ENTRY (priv->timezone));
+			icaltimezone *zone = e_timezone_entry_get_timezone (E_TIMEZONE_ENTRY (priv->due_timezone));
 			due_dt.tzid = icaltimezone_get_tzid (zone);
 		} else {
 			due_tt.is_date = TRUE;
@@ -1534,19 +813,6 @@ date_changed_cb (EDateEdit *dedit, gpointer data)
 	/* Notify upstream */
 	comp_editor_page_notify_dates_changed (COMP_EDITOR_PAGE (tpage),
 					       &dates);
-}
-
-static void
-timezone_changed_cb (EDateEdit *dedit, gpointer data)
-{
-	TaskPage *tpage;
-	TaskPagePrivate *priv;
-	
-	tpage = TASK_PAGE (data);
-	priv = tpage->priv;
-
-	date_changed_cb ((EDateEdit *) priv->start_date, tpage);
-	date_changed_cb ((EDateEdit *) priv->due_date, tpage);
 }
 
 /* Callback used when the categories button is clicked; we must bring up the
@@ -1593,13 +859,6 @@ source_changed_cb (GtkWidget *widget, ESource *source, gpointer data)
 		ECal *client;
 
 		client = auth_new_cal_from_source (source, E_CAL_SOURCE_TYPE_TODO);
-		if (client) {
-			icaltimezone *zone;
-			
-			zone = calendar_config_get_icaltimezone ();
-			e_cal_set_default_timezone (client, zone, NULL);
-		}
-		
 		if (!client || !e_cal_open (client, FALSE, NULL)) {
 			GtkWidget *dialog;
 
@@ -1630,13 +889,15 @@ source_changed_cb (GtkWidget *widget, ESource *source, gpointer data)
 	}
 }
 
-void
-task_page_sendoptions_clicked_cb (TaskPage *tpage)
+static void
+e_sendoptions_clicked_cb (GtkWidget *button, gpointer data)
 {
+	TaskPage *tpage;
 	TaskPagePrivate *priv;
 	GtkWidget *toplevel;
 	ESource *source;
 
+	tpage = TASK_PAGE (data);
 	priv = tpage->priv;
 	
 	if (!priv->sod) {
@@ -1689,13 +950,14 @@ init_widgets (TaskPage *tpage)
 	g_signal_connect((priv->due_date), "changed",
 			    G_CALLBACK (date_changed_cb), tpage);
 
-	/* time zone changed */
-	g_signal_connect (priv->timezone, "changed", G_CALLBACK(timezone_changed_cb), tpage);
-
 	/* Categories button */
 	g_signal_connect((priv->categories_btn), "clicked",
 			    G_CALLBACK (categories_clicked_cb), tpage);
 	
+	/* send options button */
+	g_signal_connect((priv->sendoptions_button), "clicked", 
+			    G_CALLBACK (e_sendoptions_clicked_cb), tpage);
+
 	/* Source selector */
 	g_signal_connect((priv->source_selector), "source_selected",
 			 G_CALLBACK (source_changed_cb), tpage);
@@ -1713,54 +975,19 @@ init_widgets (TaskPage *tpage)
 			  G_CALLBACK (field_changed_cb), tpage);
 	g_signal_connect (priv->due_date, "changed",
 			  G_CALLBACK (field_changed_cb), tpage);
-	g_signal_connect((priv->timezone), "changed",
+	g_signal_connect((priv->due_timezone), "changed",
+			    G_CALLBACK (field_changed_cb), tpage);
+	g_signal_connect((priv->start_timezone), "changed",
+			    G_CALLBACK (field_changed_cb), tpage);
+	g_signal_connect((priv->classification), "changed",
 			    G_CALLBACK (field_changed_cb), tpage);
 	g_signal_connect((priv->categories), "changed",
 			    G_CALLBACK (field_changed_cb), tpage);
-	g_signal_connect (G_OBJECT (priv->list_view), "button_press_event", G_CALLBACK (button_press_event), tpage);
-	g_signal_connect (G_OBJECT (priv->list_view), "event", G_CALLBACK (list_view_event), tpage);
-	g_signal_connect (priv->list_view, "key_press_event", G_CALLBACK (list_key_press), tpage);	
-	
-	/* Add attendee button */
-	g_signal_connect (priv->add, "clicked", G_CALLBACK (add_clicked_cb), tpage);
 
-	/* Remove attendee button */
-	g_signal_connect (priv->remove, "clicked", G_CALLBACK (remove_clicked_cb), tpage);
-
-	/* Contacts button */
-	g_signal_connect(priv->invite, "clicked", G_CALLBACK (invite_cb), tpage);	
-
-	/* Meeting List View */
-	g_signal_connect (priv->list_view, "attendee_added", G_CALLBACK (attendee_added_cb), tpage);	
-	
 	/* Set the default timezone, so the timezone entry may be hidden. */
 	zone = calendar_config_get_icaltimezone ();
-	e_timezone_entry_set_default_timezone (E_TIMEZONE_ENTRY (priv->timezone), zone);
-	
-	task_page_set_show_timezone (tpage, calendar_config_get_show_timezone());
-
-	e_meeting_list_view_column_set_visible (priv->list_view, "Attendee                          ", 
-			TRUE);
-	e_meeting_list_view_column_set_visible (priv->list_view, "Role", calendar_config_get_show_role());
-	e_meeting_list_view_column_set_visible (priv->list_view, "RSVP", calendar_config_get_show_rsvp());
-	e_meeting_list_view_column_set_visible (priv->list_view, "Status", calendar_config_get_show_status());
-	e_meeting_list_view_column_set_visible (priv->list_view, "Type", calendar_config_get_show_type());
-	
-	if (!calendar_config_get_show_timezone()) {
-		gtk_widget_hide (priv->timezone_label);
-		gtk_widget_hide (priv->timezone);
-	} else {
-		gtk_widget_show (priv->timezone_label);
-		gtk_widget_show_all (priv->timezone);
-	}
-
-	if (!calendar_config_get_show_categories()) {
-		gtk_widget_hide (priv->categories_btn);
-		gtk_widget_hide (priv->categories);
-	} else {
-		gtk_widget_show (priv->categories_btn);
-		gtk_widget_show (priv->categories);
-	}	
+	e_timezone_entry_set_default_timezone (E_TIMEZONE_ENTRY (priv->start_timezone), zone);
+	e_timezone_entry_set_default_timezone (E_TIMEZONE_ENTRY (priv->due_timezone), zone);
 
 	return TRUE;
 }
@@ -1777,27 +1004,14 @@ init_widgets (TaskPage *tpage)
  * created.
  **/
 TaskPage *
-task_page_construct (TaskPage *tpage, EMeetingStore *model, ECal *client)
+task_page_construct (TaskPage *tpage)
 {
 	TaskPagePrivate *priv;
-	char *backend_address = NULL;
-	EIterator *it;
-	EAccount *def_account;
-	GList *address_strings = NULL, *l;
-	EAccount *a;
-	char *gladefile;
-	
+
 	priv = tpage->priv;
-	g_object_ref (model);
-	priv->model = model;
-	priv->client = client;
 
-	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
-				      "task-page.glade",
-				      NULL);
-	priv->xml = glade_xml_new (gladefile, NULL, NULL);
-	g_free (gladefile);
-
+	priv->xml = glade_xml_new (EVOLUTION_GLADEDIR "/task-page.glade",
+				   NULL, NULL);
 	if (!priv->xml) {
 		g_message ("task_page_construct(): "
 			   "Could not load the Glade XML file!");
@@ -1809,49 +1023,6 @@ task_page_construct (TaskPage *tpage, EMeetingStore *model, ECal *client)
 			   "Could not find all widgets in the XML file!");
 		return NULL;
 	}
-	/* Address information */
-	if (!e_cal_get_cal_address (client, &backend_address, NULL))
-		return NULL;
-
-	priv->accounts = itip_addresses_get ();
-	def_account = itip_addresses_get_default();
-	for (it = e_list_get_iterator((EList *)priv->accounts);
-	     e_iterator_is_valid(it);
-	     e_iterator_next(it)) {
-		a = (EAccount *)e_iterator_get(it);
-		char *full;
-		
-		full = g_strdup_printf("%s <%s>", a->id->name, a->id->address);
-
-		address_strings = g_list_append(address_strings, full);
-
-		/* Note that the address specified by the backend gets
-		 * precedence over the default mail address.
-		 */
-		if (backend_address && !strcmp (backend_address, a->id->address)) {
-			if (priv->default_address)
-				g_free (priv->default_address);
-			
-			priv->default_address = g_strdup (full);
-		} else if (a == def_account && !priv->default_address) {
-			priv->default_address = g_strdup (full);
-		}
-	}
-	
-	if (backend_address)
-		g_free (backend_address);
-
-	g_object_unref(it);
-
-	if (address_strings)
-		gtk_combo_set_popdown_strings (GTK_COMBO (priv->organizer), address_strings);
-	else
-		g_warning ("No potential organizers!");
-
-	for (l = address_strings; l != NULL; l = l->next)
-		g_free (l->data);
-	g_list_free (address_strings);
-	
 
 	if (!init_widgets (tpage)) {
 		g_message ("task_page_construct(): " 
@@ -1871,37 +1042,17 @@ task_page_construct (TaskPage *tpage, EMeetingStore *model, ECal *client)
  * not be created.
  **/
 TaskPage *
-task_page_new (EMeetingStore *model, ECal *client, BonoboUIComponent *uic)
+task_page_new (void)
 {
 	TaskPage *tpage;
 
 	tpage = gtk_type_new (TYPE_TASK_PAGE);
-	if (!task_page_construct (tpage, model, client)) {
+	if (!task_page_construct (tpage)) {
 		g_object_unref (tpage);
 		return NULL;
 	}
-	
-	tpage->priv->uic = uic;
 
 	return tpage;
-}
-
-ECalComponent *
-task_page_get_cancel_comp (TaskPage *page)
-{
-	TaskPagePrivate *priv;
-
-	g_return_val_if_fail (page != NULL, NULL);
-	g_return_val_if_fail (IS_TASK_PAGE (page), NULL);
-
-	priv = page->priv;
-
-	if (priv->deleted_attendees->len == 0)
-		return NULL;
-	
-	set_attendees (priv->comp, priv->deleted_attendees);
-	
-	return e_cal_component_clone (priv->comp);
 }
 
 GtkWidget *task_page_create_date_edit (void);

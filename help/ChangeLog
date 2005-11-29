@@ -2,14 +2,6 @@
 
 	* C/evolution.xml: Set id to index. Fixes #316297.
 
-2005-06-15  Andre Klapper  <a9016009@gmx.de>
- 	* quickref/C/quickref.tex: Updating and fixing several
- 	typos, wrong keyboard shortcuts and inconsistencies
- 	(fixes bug #268024)
-
-	committed on behalf of Andre since he does not have 
-	commit rights -partha
- 
 2005-08-29  Sankar P  <psankar@novell.com>
 
 	* C/evolution.xml: Committed on behalf of Jessica.  

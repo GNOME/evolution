@@ -33,6 +33,7 @@
 #include "config-data.h"
 #include "common/authentication.h"
 
+
 /* Private part of the AlarmNotify structure */
 struct _AlarmNotifyPrivate {
 	/* Mapping from EUri's to LoadedClient structures */
@@ -40,7 +41,6 @@ struct _AlarmNotifyPrivate {
 	   just need to hash based on source */
 	GHashTable *uri_client_hash [E_CAL_SOURCE_TYPE_LAST];
         ESourceList *source_lists [E_CAL_SOURCE_TYPE_LAST];	
-	ESourceList *selected_calendars;
         GMutex *mutex;
 };
 
@@ -54,6 +54,7 @@ static void alarm_notify_finalize (GObject *object);
 static BonoboObjectClass *parent_class;
 
 
+
 BONOBO_TYPE_FUNC_FULL(AlarmNotify, GNOME_Evolution_Calendar_AlarmNotify, BONOBO_TYPE_OBJECT, alarm_notify)
 
 /* Class initialization function for the alarm notify service */
@@ -139,10 +140,6 @@ list_changed_cb (ESourceList *source_list, gpointer data)
 		for (q = sources; q != NULL; q = q->next) {
 			ESource *source = E_SOURCE (q->data);
 			char *uri;
-			const char *uid = e_source_peek_uid (source);
-
-			if (!e_source_list_peek_source_by_uid (priv->selected_calendars, uid)) 
-				continue;
 			
 			uri = e_source_get_uri (source);
 			if (!g_hash_table_lookup (priv->uri_client_hash[source_type], uri)) {
@@ -166,11 +163,6 @@ list_changed_cb (ESourceList *source_list, gpointer data)
 	g_list_free (prd.removals);
 }
 
-ESourceList *
-alarm_notify_get_selected_calendars (AlarmNotify *an)
-{
-	return an->priv->selected_calendars;
-}
 static void
 load_calendars (AlarmNotify *an, ECalSourceType source_type)
 {
@@ -195,10 +187,6 @@ load_calendars (AlarmNotify *an, ECalSourceType source_type)
 		for (q = sources; q != NULL; q = q->next) {
 			ESource *source = E_SOURCE (q->data);
 			char *uri;
-			const char *uid = e_source_peek_uid (source);
-
-			if (!e_source_list_peek_source_by_uid (priv->selected_calendars, uid)) 
-				continue;
 			
 			uri = e_source_get_uri (source);
 			g_message ("Loading %s", uri);
@@ -236,13 +224,11 @@ alarm_notify_init (AlarmNotify *an, AlarmNotifyClass *klass)
 	priv = g_new0 (AlarmNotifyPrivate, 1);
 	an->priv = priv;
 	priv->mutex = g_mutex_new ();
-	priv->selected_calendars = config_data_get_calendars ("/apps/evolution/calendar/notify/calendars");
-
 
 	for (i = 0; i < E_CAL_SOURCE_TYPE_LAST; i++)
 		priv->uri_client_hash[i] = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_object_unref);
 
-	alarm_queue_init (an);
+	alarm_queue_init ();
 
 	for (i = 0; i < E_CAL_SOURCE_TYPE_LAST; i++)
 		load_calendars (an, i);
@@ -358,7 +344,6 @@ alarm_notify_add_calendar (AlarmNotify *an, ECalSourceType source_type,  ESource
 	if (g_hash_table_lookup (priv->uri_client_hash[source_type], str_uri)) {
 		g_mutex_unlock (an->priv->mutex);
 		g_free (str_uri);
-		g_free (pass_key);
 		return;
 	}
 	/* if loading of this requires password and password is not currently availble in e-password
@@ -371,7 +356,6 @@ alarm_notify_add_calendar (AlarmNotify *an, ECalSourceType source_type,  ESource
 		g_free (pass_key);
 		return;
 	}
-	
 	client = auth_new_cal_from_source (source, source_type);
 
 	if (client) {
@@ -379,8 +363,8 @@ alarm_notify_add_calendar (AlarmNotify *an, ECalSourceType source_type,  ESource
 		g_signal_connect (G_OBJECT (client), "cal_opened", G_CALLBACK (cal_opened_cb), an);
 		e_cal_open_async (client, FALSE);
 	}
-	g_free (str_uri);
 	g_free (pass_key);
+	g_free (str_uri);
 	g_mutex_unlock (an->priv->mutex);
 }
 

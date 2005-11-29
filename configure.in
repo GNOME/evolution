@@ -1,7 +1,7 @@
 # Process this file with autoconf to produce a configure script.
 AC_PREREQ(2.52)
 
-AC_INIT(evolution, 2.5.2, http://bugzilla.gnome.org/enter_bug.cgi?product=Evolution)
+AC_INIT(evolution, 2.4.2, http://bugzilla.gnome.org/enter_bug.cgi?product=Evolution)
 AC_CONFIG_SRCDIR(README)
 AM_INIT_AUTOMAKE(AC_PACKAGE_NAME, AC_PACKAGE_VERSION)
 
@@ -23,7 +23,7 @@ dnl This is for api/versioning tracking for things like bonobo .server files
 dnl
 dnl This should always be the major/minor of the stable version or stable version to be
 dnl *************************************************************************************************
-BASE_VERSION=2.6
+BASE_VERSION=2.4
 AC_SUBST(BASE_VERSION)
 AC_DEFINE_UNQUOTED(BASE_VERSION, "$BASE_VERSION", [Base version (Major.Minor)])
 
@@ -45,7 +45,7 @@ dnl The controls whether things like the development warning in shell/main.c are
 dnl
 dnl This should be set to 0 for stable releases and 1 for unstable releases
 dnl *************************************************************************************************
-AC_DEFINE(DEVELOPMENT, 1, [If we are in development mode or not])
+AC_DEFINE(DEVELOPMENT, 0, [If we are in development mode or not])
 AC_SUBST(DEVELOPMENT)
 
 AC_ISC_POSIX
@@ -78,7 +78,7 @@ AC_SUBST(HAVE_JW)
 dnl I18N stuff
 AC_PROG_INTLTOOL([0.30])
 
-ALL_LINGUAS="am ar az be bg bn bs ca cs cy da de el en_AU en_CA en_GB es et eu fa fi fr ga gl gu he hr hu id is it ja ko ku lt lv mn ms nb ne nl nn no pa pl pt pt_BR ro ru rw sk sl sq sr sr@Latn sv te th tr uk vi wa xh zh_CN zh_TW"
+ALL_LINGUAS="am ar az be bg bn bs ca cs cy da de el en_AU en_CA en_GB es et eu fa fi fr ga gl gu he hr hu id is it ja ko lt lv mn ms nb ne nl nn no pa pl pt pt_BR ro ru rw sk sl sq sr sr@Latn sv te th tr uk vi wa xh zh_CN zh_TW"
 AM_GLIB_GNU_GETTEXT
 
 GETTEXT_PACKAGE=evolution-$BASE_VERSION
@@ -103,15 +103,14 @@ case "$host" in
     SA_JUNK_PLUGIN=''
     DL_LIB=''
     SOFTOKN3_LIB=''
-    HAL_REQUIREMENT=''
     ;;
 *)  os_win32=no
     NO_UNDEFINED=''
+    SOCKET_LIBS=''
     SOEXT='.so'
     SA_JUNK_PLUGIN=sa-junk-plugin
     DL_LIB='-ldl'
     SOFTOKN3_LIB='-lsoftokn3'
-    HAL_REQUIREMENT='hal'
     ;;
 esac
 AC_MSG_RESULT([$os_win32])
@@ -400,9 +399,69 @@ AC_SUBST(A11Y_CFLAGS)
 AC_SUBST(A11Y_LIBS)
 
 dnl **************************************************
+dnl * IPv6 support and getaddrinfo calls
+dnl **************************************************
+AC_CACHE_CHECK([if system supports getaddrinfo and getnameinfo], have_addrinfo,
+[
+	AC_TRY_COMPILE([
+		#include "confdefs.h"
+		#include <sys/types.h>
+		#include <sys/socket.h>
+		#include <netinet/in.h>
+		#include <netdb.h>
+
+	],[
+		struct addrinfo hints, *res;
+		struct sockaddr_in6 sin6;
+		int af = AF_INET6;
+		char host[NI_MAXHOST];
+		char serv[NI_MAXSERV];
+
+		getaddrinfo("www.ximian.com", 0, &hints, &res);
+		freeaddrinfo(res);
+		getnameinfo((struct sockaddr *)&sin6, sizeof(sin6), host, sizeof(host), serv, sizeof(serv), 0);
+	],[
+		have_addrinfo=yes
+	],[
+		have_addrinfo=no
+	])
+])
+
+if test x"$have_addrinfo" = "xno" ; then
+   AC_DEFINE(NEED_ADDRINFO,1,[Enable getaddrinfo emulation])
+   if test x"$enable_ipv6" = "xyes" ; then
+      AC_ERROR(system doesn't support necessary interfaces for ipv6 support)
+   fi
+   msg_ipv6=no
+else
+   AC_ARG_ENABLE(ipv6, [  --enable-ipv6=[no/yes]      Enable support for resolving IPv6 addresses.],,enable_ipv6=yes)
+   if test x"$enable_ipv6" = "xyes"; then
+        msg_ipv6=yes
+	AC_DEFINE(ENABLE_IPv6,1,[Enable IPv6 support])
+	AC_TRY_COMPILE([
+		#include "confdefs.h"
+		#include <sys/types.h>
+		#include <sys/socket.h>
+		#include <netinet/in.h>
+		#include <netdb.h>
+
+	],[
+		struct addrinfo hints;
+		
+		hints.ai_flags = AI_ADDRCONFIG;
+	],[
+		AC_DEFINE(HAVE_AI_ADDRCONFIG,1,[Define if the system defines the AI_ADDRCONFIG flag for getaddrinfo])
+	])
+   else
+	msg_ipv6=no
+   fi
+fi
+
+AM_CONDITIONAL(ENABLE_IPv6, test "x$enable_ipv6" = "xyes")
+
+dnl **************************************************
 dnl LDAP support.
 dnl **************************************************
-if test "$os_win32" != yes; then
 EVO_LDAP_CHECK(no)
 case $with_openldap in
 no)
@@ -418,15 +477,6 @@ no)
 		;;
 	esac
 esac
-else # Win32
-LDAP_CFLAGS=""
-LDAP_LIBS="-lwldap32"
-AC_SUBST(LDAP_CFLAGS)
-AC_SUBST(LDAP_LIBS)
-AC_DEFINE(HAVE_LDAP,1,[Define if you have LDAP support])
-AM_CONDITIONAL(ENABLE_LDAP, true)
-msg_ldap="yes"
-fi # Win32
 
 dnl **************************************************
 dnl NNTP support.
@@ -1133,16 +1183,6 @@ CPPFLAGS="$CPPFLAGS_save"
 PKG_CHECK_MODULES(EXTRA_GNOME, libgnomeprint-2.2 >= 2.2.0 libgnomeprintui-2.2 >= 2.2.1 $FULL_GNOME_DEPS)
 AC_SUBST(EXTRA_GNOME_LIBS)
 AC_SUBST(EXTRA_GNOME_CFLAGS)
-
-PKG_CHECK_MODULES(HAL, hal >= 0.5.4, HAVE_HAL="yes", HAVE_HAL="no")
-if test "x$HAVE_HAL" = "xyes"; then
-   AC_DEFINE(HAVE_HAL, 1, [hal available])
-   HAL_REQUIREMENT="hal"
-   IPOD_SYNC="ipod-sync"
-else
-   HAL_REQUIREMENT=""
-   IPOD_SYNC=""
-fi
  
 dnl --- Flags for the various libraries we build
 
@@ -1213,18 +1253,6 @@ AC_SUBST(EVOLUTION_ADDRESSBOOK_CONDUIT_CFLAGS)
 AC_SUBST(EVOLUTION_ADDRESSBOOK_CONDUIT_LIBS)
 fi
 
-LIBNOTIFY_CFLAGS=
-LIBNOTIFY_LIBS=
-PKG_CHECK_MODULES(LIBNOTIFY, libnotify, HAVE_LIBNOTIFY="yes", HAVE_LIBNOTIFY="no")
-if test "x$HAVE_LIBNOTIFY" = "xyes"; then
-	AC_DEFINE(HAVE_LIBNOTIFY, 1, [libnotify available])
-	libnotify="libnotify"
-else
-	libnotify=""
-fi
-AC_SUBST(LIBNOTIFY_CFLAGS)
-AC_SUBST(LIBNOTIFY_LIBS)
-
 dnl --- evolution-calendar flags
 PKG_CHECK_MODULES(SOUPTEMP, libsoup-2.4, have_libsoup_24="yes", have_libsoup_24="no")
 if test $have_libsoup_24 = yes; then
@@ -1239,7 +1267,7 @@ EVO_SET_COMPILE_FLAGS(LIBSOUP, $LIBSOUP >= $LIBSOUP_REQUIRED)
 AC_SUBST(LIBSOUP_CFLAGS)
 AC_SUBST(LIBSOUP_LIBS)
 
-EVO_SET_COMPILE_FLAGS(EVOLUTION_CALENDAR, libgnome-2.0 libgnomeui-2.0 libbonoboui-2.0 libglade-2.0 gnome-vfs-2.0 libgnomeprint-2.2 libgnomeprintui-2.2 gnome-vfs-module-2.0 libgtkhtml-$GTKHTML_PACKAGE >= $GTKHTML_REQUIRED libebook-$EDS_PACKAGE >= $EDS_REQUIRED libecal-$EDS_PACKAGE >= $EDS_REQUIRED libedataserverui-$EDS_PACKAGE >= $EDS_REQUIRED $HAL_REQUIREMENT $libnotify)
+EVO_SET_COMPILE_FLAGS(EVOLUTION_CALENDAR, libgnome-2.0 libgnomeui-2.0 libbonoboui-2.0 libglade-2.0 gnome-vfs-2.0 libgnomeprint-2.2 libgnomeprintui-2.2 gnome-vfs-module-2.0 libgtkhtml-$GTKHTML_PACKAGE >= $GTKHTML_REQUIRED libebook-$EDS_PACKAGE >= $EDS_REQUIRED libecal-$EDS_PACKAGE >= $EDS_REQUIRED libedataserverui-$EDS_PACKAGE >= $EDS_REQUIRED)
 AC_SUBST(EVOLUTION_CALENDAR_CFLAGS)
 AC_SUBST(EVOLUTION_CALENDAR_LIBS)
 
@@ -1382,11 +1410,11 @@ AC_SUBST_FILE(EVO_PLUGIN_RULE)
 AC_ARG_ENABLE(plugins, [  --enable-plugins=[no/base/all/experimental/list]      Enable plugins.],enable_plugins="$enableval",enable_plugins=all)
 
 dnl Add any new plugins here
-plugins_base="calendar-file calendar-http calendar-weather itip-formatter plugin-manager default-source addressbook-file startup-wizard print-message mark-all-read groupwise-features groupwise-account-setup hula-account-setup mail-account-disable $SA_JUNK_PLUGIN $EXCHANGE_PLUGIN $MONO_PLUGIN" 
+plugins_base="calendar-file calendar-http calendar-weather itip-formatter plugin-manager default-source addressbook-file startup-wizard print-message mark-all-read groupwise-features groupwise-account-setup mail-account-disable $SA_JUNK_PLUGIN $EXCHANGE_PLUGIN $MONO_PLUGIN" 
 
 plugins_standard="bbdb subject-thread save-calendar select-one-source copy-tool mail-to-task mark-calendar-offline audio-inline mailing-list-actions new-mail-notify default-mailer" 
 
-plugins_experimental="backup-restore folder-unsubscribe mail-to-meeting mail-remote prefer-plain save-attachments $IPOD_SYNC"
+plugins_experimental="backup-restore folder-unsubscribe mail-to-meeting mail-remote prefer-plain save-attachments"
 
 case x"$enable_plugins" in
 xno)
@@ -1472,7 +1500,7 @@ if echo ${plugins_enabled} | grep "exchange-operations" > /dev/null ; then
 		dnl **************************************************
 		dnl * Exchange Operations plugin
 		dnl **************************************************
-		EVO_SET_COMPILE_FLAGS(CAMEL_EXCHANGE, libbonoboui-2.0 >= $BONOBOUI_REQUIRED libglade-2.0 libgnomeprint-2.2 libgnomeprintui-2.2 gthread-2.0 gconf-2.0 camel-provider-$EDS_PACKAGE libebook-$EDS_PACKAGE >= $EDS_REQUIRED libedataserverui-$EDS_PACKAGE libexchange-storage-$EDS_PACKAGE >= $EDS_REQUIRED libecal-$EDS_PACKAGE)
+		EVO_SET_COMPILE_FLAGS(CAMEL_EXCHANGE, camel-provider-$EDS_PACKAGE libedataserver-$EDS_PACKAGE libexchange-storage-$EDS_PACKAGE >= $EDS_REQUIRED)
 		AC_SUBST(CAMEL_EXCHANGE_CFLAGS)
 		AC_SUBST(CAMEL_EXCHANGE_LIBS)
 	else
@@ -1480,6 +1508,7 @@ if echo ${plugins_enabled} | grep "exchange-operations" > /dev/null ; then
 		echo "warning: libevolution-exchange-$EDS_PACKAGE was not found, Exchange Operations plugin will not be built."
 	fi
 fi
+
 
 ##################################################
 # Check for gtk-doc.
@@ -1619,7 +1648,6 @@ views/addressbook/Makefile
 views/calendar/Makefile
 views/mail/Makefile
 views/tasks/Makefile
-views/memos/Makefile
 widgets/Makefile
 widgets/e-timezone-dialog/Makefile
 widgets/menus/Makefile
@@ -1633,7 +1661,6 @@ calendar/idl/Makefile
 calendar/conduits/Makefile
 calendar/conduits/todo/Makefile
 calendar/conduits/calendar/Makefile
-calendar/conduits/memo/Makefile
 calendar/gui/Makefile
 calendar/gui/alarm-notify/Makefile
 calendar/gui/dialogs/Makefile
@@ -1679,11 +1706,9 @@ plugins/addressbook-file/Makefile
 plugins/startup-wizard/Makefile
 plugins/print-message/Makefile
 plugins/groupwise-account-setup/Makefile
-plugins/hula-account-setup/Makefile
 plugins/groupwise-features/Makefile
 plugins/mail-account-disable/Makefile
 plugins/sa-junk-plugin/Makefile
-plugins/ipod-sync/Makefile
 smime/Makefile
 smime/lib/Makefile
 smime/gui/Makefile
@@ -1702,18 +1727,17 @@ fi
 
 echo "
 	Mail Directory:   $system_mail_dir, $system_mail_perm
-	LDAP support:     $msg_ldap
-	HAL:		  $HAVE_HAL"
+	LDAP support:     $msg_ldap"
 if test "$msg_nntp" = "yes"; then
 echo "\
 	NNTP support:     $msg_nntp"
 fi
 echo "\
 	Pilot conduits:   $msg_pilot
-	Libnotify:	  $HAVE_LIBNOTIFY
 	Kerberos 4/5:     $msg_krb4/$msg_krb5
 	SSL support:      $msg_ssl
 	SMIME support:    $msg_smime
+	IPv6 support:     $msg_ipv6
 	Plugins:	  $msg_plugins
 	Gtk-doc:	  $enable_gtk_doc
 	DBus API version  $DBUS_VERSION"

@@ -28,7 +28,6 @@
 
 #include <gnome.h>
 #include <libgnomevfs/gnome-vfs-ops.h>
-#include <libedataserver/e-time-utils.h>
 #include <table/e-table-scrolled.h>
 #include <widgets/menus/gal-view-instance.h>
 #include <widgets/menus/gal-view-factory-etable.h>
@@ -37,7 +36,7 @@
 #include "e-util/e-error.h"
 #include "e-util/e-categories-config.h"
 #include "e-util/e-config-listener.h"
-#include "e-util/e-util-private.h"
+#include "e-util/e-time-utils.h"
 #include "shell/e-user-creatable-items-handler.h"
 #include <libedataserver/e-url.h>
 #include <libedataserver/e-categories.h>
@@ -259,11 +258,13 @@ set_timezone (ETasks *tasks)
 	zone = calendar_config_get_icaltimezone ();
 	for (l = priv->clients_list; l != NULL; l = l->next) {
 		ECal *client = l->data;
-		/* FIXME Error checking */
-		e_cal_set_default_timezone (client, zone, NULL);
+
+		if (e_cal_get_load_state (client) == E_CAL_LOAD_LOADED)
+			/* FIXME Error checking */
+			e_cal_set_default_timezone (client, zone, NULL);
 	}
 
-	if (priv->default_client) 
+	if (priv->default_client && e_cal_get_load_state (priv->default_client) == E_CAL_LOAD_LOADED)
 		/* FIXME Error checking */
 		e_cal_set_default_timezone (priv->default_client, zone, NULL);
 
@@ -517,7 +518,6 @@ setup_widgets (ETasks *tasks)
 	ETasksPrivate *priv;
 	ETable *etable;
 	ECalModel *model;
-	gboolean state;
 
 	priv = tasks->priv;
 
@@ -586,10 +586,7 @@ setup_widgets (ETasks *tasks)
 	priv->preview = e_cal_component_preview_new ();
 	e_cal_component_preview_set_default_timezone (E_CAL_COMPONENT_PREVIEW (priv->preview), calendar_config_get_icaltimezone ());	
 	gtk_paned_add2 (GTK_PANED (priv->paned), priv->preview);
-	state = calendar_config_get_preview_state ();
-
-	if (state)
-		gtk_widget_show (priv->preview);
+	gtk_widget_show (priv->preview);
 
 	model = e_calendar_table_get_model (E_CALENDAR_TABLE (priv->tasks_view));
 	g_signal_connect (G_OBJECT (model), "model_row_changed",
@@ -872,6 +869,7 @@ client_cal_opened_cb (ECal *ecal, ECalendarStatus status, ETasks *tasks)
 		model = e_calendar_table_get_model (E_CALENDAR_TABLE (priv->tasks_view));
 		e_cal_model_add_client (model, ecal);
 
+		set_timezone (tasks);
 		set_status_message (tasks, NULL);
 		break;
 	case E_CALENDAR_STATUS_BUSY :
@@ -914,6 +912,7 @@ default_client_cal_opened_cb (ECal *ecal, ECalendarStatus status, ETasks *tasks)
 		g_signal_handlers_disconnect_matched (ecal, G_SIGNAL_MATCH_FUNC, 0, 0, NULL, default_client_cal_opened_cb, NULL);
 		model = e_calendar_table_get_model (E_CALENDAR_TABLE (priv->tasks_view));
 		
+		set_timezone (tasks);
 		e_cal_model_set_default_client (model, ecal);
 		set_status_message (tasks, NULL);
 		break;
@@ -947,13 +946,8 @@ static gboolean
 open_ecal (ETasks *tasks, ECal *cal, gboolean only_if_exists, open_func of)
 {
 	ETasksPrivate *priv;
-	icaltimezone *zone;
 
 	priv = tasks->priv;
-	
-	zone = calendar_config_get_icaltimezone ();
-	e_cal_set_default_timezone (priv->default_client, zone, NULL);
-
 	
 	set_status_message (tasks, _("Opening tasks at %s"), e_cal_get_uri (cal));
 
@@ -1003,52 +997,6 @@ e_tasks_new_task			(ETasks		*tasks)
 	g_object_unref (comp);
 
 	comp_editor_focus (COMP_EDITOR (tedit));
-}
-
-void
-e_tasks_show_preview (ETasks *tasks, gboolean state)
-{
-	ETasksPrivate *priv;
-
-	g_return_if_fail (tasks != NULL);
-	g_return_if_fail (E_IS_TASKS (tasks));
-	priv = tasks->priv;
-
-	if (state) {
-		ECalModel *model;
-		ECalModelComponent *comp_data;
-		ECalComponent *comp;
-		ETable *etable;
-		const char *uid;
-		int n_selected;
-		
-		etable = e_table_scrolled_get_table (E_TABLE_SCROLLED (E_CALENDAR_TABLE (priv->tasks_view)->etable));
-		n_selected = e_table_selected_count (etable);
-		
-		if (n_selected != 1) {
-			e_cal_component_preview_clear (E_CAL_COMPONENT_PREVIEW (priv->preview));
-		} else {
-			model = e_calendar_table_get_model (E_CALENDAR_TABLE (priv->tasks_view));
-			
-			comp_data = e_cal_model_get_component_at (model, e_table_get_cursor_row (etable));
-			comp = e_cal_component_new ();
-			e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (comp_data->icalcomp));
-		
-			e_cal_component_preview_display (E_CAL_COMPONENT_PREVIEW (priv->preview), comp_data->client, comp);
-			
-			e_cal_component_get_uid (comp, &uid);
-			if (priv->current_uid)
-				g_free (priv->current_uid);
-			priv->current_uid = g_strdup (uid);
-			
-			g_object_unref (comp);
-		}
-		gtk_widget_show (priv->preview);
-
-	} else	{
-		e_cal_component_preview_clear (E_CAL_COMPONENT_PREVIEW (priv->preview));		
-		gtk_widget_hide (priv->preview);
-	}
 }
 
 gboolean
@@ -1311,7 +1259,7 @@ e_tasks_setup_view_menus (ETasks *tasks, BonoboUIComponent *uic)
 	ETasksPrivate *priv;
 	GalViewFactory *factory;
 	ETableSpecification *spec;
-	char *dir0, *dir1, *filename;
+	char *dir;
 	static GalViewCollection *collection = NULL;
 
 	g_return_if_fail (tasks != NULL);
@@ -1333,25 +1281,18 @@ e_tasks_setup_view_menus (ETasks *tasks, BonoboUIComponent *uic)
 
 		gal_view_collection_set_title (collection, _("Tasks"));
 
-		dir0 = g_build_filename (EVOLUTION_GALVIEWSDIR,
-					 "tasks",
-					 NULL);
-		dir1 = g_build_filename (tasks_component_peek_base_directory (tasks_component_peek ()), 
-					 "tasks", "views", NULL);
+		dir = g_build_filename (tasks_component_peek_base_directory (tasks_component_peek ()), 
+					"tasks", "views", NULL);		
 		gal_view_collection_set_storage_directories (collection,
-							     dir0,
-							     dir1);
-		g_free (dir1);
-		g_free (dir0);
+							     EVOLUTION_GALVIEWSDIR "/tasks/",
+							     dir);
+		g_free (dir);
 
 		/* Create the views */
 
 		spec = e_table_specification_new ();
-		filename = g_build_filename (EVOLUTION_ETSPECDIR,
-					     "e-calendar-table.etspec",
-					     NULL);
-		e_table_specification_load_from_file (spec, filename);
-		g_free (filename);
+		e_table_specification_load_from_file (spec, 
+						      EVOLUTION_ETSPECDIR "/e-calendar-table.etspec");
 
 		factory = gal_view_factory_etable_new (spec);
 		g_object_unref (spec);

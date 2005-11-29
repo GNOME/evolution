@@ -28,12 +28,12 @@
 #include <bonobo/bonobo-object.h>
 #include <bonobo/bonobo-moniker-util.h>
 #include <libgnome/gnome-i18n.h>
-#include <libedataserver/e-time-utils.h>
 #include <gtk/gtkmessagedialog.h>
 #include <gtk/gtkwidget.h>
 #include <libical/ical.h>
 #include <Evolution-Composer.h>
 #include <e-util/e-dialog-utils.h>
+#include <e-util/e-time-utils.h>
 #include <libecal/e-cal-time-util.h>
 #include <libecal/e-cal-util.h>
 #include <libsoup/soup-session-async.h>
@@ -104,7 +104,7 @@ itip_organizer_is_user (ECalComponent *comp, ECal *client)
  		if (e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_ORGANIZER_NOT_EMAIL_ADDRESS)) { 
  			char *email = NULL;
  			
-  			if (e_cal_get_cal_address (client, &email, NULL) && !g_ascii_strcasecmp (email, strip)) {
+  			if (e_cal_get_cal_address (client, &email, NULL) && !g_strcasecmp (email, strip)) {
 				g_free (email);
 				
  				return TRUE;
@@ -205,8 +205,10 @@ itip_get_comp_attendee (ECalComponent *comp, ECal *client)
 	/* We could not find the attendee in the component, so just give the default
 	account address if the email address is not set in the backend */
 	/* FIXME do we have a better way ? */
-	a = itip_addresses_get_default ();
-	address = g_strdup (a->id->address);
+	if (!(address && *address)) {
+		a = itip_addresses_get_default ();
+		address = g_strdup (a->id->address);
+	}
 	
 	e_cal_component_free_attendee_list (attendees);
 	return address;
@@ -218,7 +220,7 @@ itip_strip_mailto (const gchar *address)
 	if (address == NULL)
 		return NULL;
 	
-	if (!g_ascii_strncasecmp (address, "mailto:", 7))
+	if (!g_strncasecmp (address, "mailto:", 7))
 		address += 7;
 
 	return address;
@@ -315,7 +317,7 @@ users_has_attendee (GList *users, const char *address)
 	GList *l;
 
 	for (l = users; l != NULL; l = l->next) {
-		if (!g_ascii_strcasecmp (address, l->data))
+		if (!g_strcasecmp (address, l->data))
 			return TRUE;
 	}
 
@@ -407,9 +409,9 @@ comp_to_list (ECalComponentItipMethod method, ECalComponent *comp, GList *users)
 
 			if (users_has_attendee (users, att->value))
 				continue;
-			else if (!g_ascii_strcasecmp (att->value, organizer.value))
+			else if (!g_strcasecmp (att->value, organizer.value))
 				continue;
-			else if (!g_ascii_strcasecmp (itip_strip_mailto (att->value), sender))
+			else if (!g_strcasecmp (itip_strip_mailto (att->value), sender))
 				continue;
 			else if (att->status == ICAL_PARTSTAT_DELEGATED && (att->delto && *att->delto)
 					&& !(att->rsvp) && method == E_CAL_COMPONENT_METHOD_REQUEST)
@@ -463,7 +465,7 @@ comp_to_list (ECalComponentItipMethod method, ECalComponent *comp, GList *users)
 		for (l = attendees; l != NULL; l = l->next) {
 			ECalComponentAttendee *att = l->data;
 
-			if (!g_ascii_strcasecmp (itip_strip_mailto (att->value), sender)){
+			if (!g_strcasecmp (itip_strip_mailto (att->value), sender)){
 
 				if (!(att->delfrom && *att->delfrom))
 					break;

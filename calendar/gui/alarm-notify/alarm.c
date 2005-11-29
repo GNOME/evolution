@@ -167,14 +167,16 @@ queue_alarm (AlarmRecord *ar)
 
 	/* Insert the new alarm in order if the alarm's trigger time is 
 	   after the current time */
-	alarms = g_list_insert_sorted (alarms, ar, compare_alarm_by_time);
+	if (ar->trigger > time (NULL)) { 
+		alarms = g_list_insert_sorted (alarms, ar, compare_alarm_by_time);
 
-	/* If there first item on the list didn't change, the time out is fine */
-	if (old_head == alarms)
-		return;
+		/* If there first item on the list didn't change, the time out is fine */
+		if (old_head == alarms)
+			return;
 
-	/* Set the timer for removal upon activation */
-	setup_timeout ();
+		/* Set the timer for removal upon activation */
+		setup_timeout ();
+	}
 }
 
 

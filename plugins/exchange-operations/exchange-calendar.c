@@ -99,7 +99,6 @@ e_exchange_calendar_get_calendars (ECalSourceType ftype)
 			tmp = (gchar *)e_folder_get_physical_uri (folder);
 			if (g_str_has_prefix (tmp, uri_prefix)) {
 				ruri = g_strdup (tmp+prefix_len); /* ATTN: Shouldn't free this explictly */
-				printf ("adding ruri : %s\n", ruri);
 				g_ptr_array_add (calendar_list, (gpointer)ruri);
 			}
 		}
@@ -154,8 +153,6 @@ e_exchange_calendar_pcalendar (EPlugin *epl, EConfigHookItemFactoryData *data)
 	const char *rel_uri;
 	int row, i;
 	gint offline_status;
-	char *offline_msg;
-	GtkWidget *lbl_offline_msg;
 
 
 	if (!hidden)
@@ -188,14 +185,7 @@ e_exchange_calendar_pcalendar (EPlugin *epl, EConfigHookItemFactoryData *data)
 	if (offline_status == OFFLINE_MODE) {
 		/* Evolution is in offline mode; we will not be able to create
 		   new folders or modify existing folders. */
-		offline_msg = g_markup_printf_escaped ("<b>%s</b>", 
-						       _("Evolution is in offline mode. You cannot create or modify folders now.\nPlease switch to online mode for such operations."));
-		lbl_offline_msg = gtk_label_new ("");
-		gtk_label_set_markup (GTK_LABEL (lbl_offline_msg), offline_msg);
-		g_free (offline_msg);
-		gtk_widget_show (lbl_offline_msg);
-		gtk_table_attach (GTK_TABLE (parent), lbl_offline_msg, 0, 2, row, row+1, GTK_FILL|GTK_EXPAND, 0, 0, 0);
-		return lbl_offline_msg;		
+		return NULL;		
 	}
 
 	rel_uri = e_source_peek_relative_uri (t->source);

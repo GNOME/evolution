@@ -40,7 +40,6 @@
 #include <table/e-cell-text.h>
 #include <table/e-cell-combo.h>
 #include <e-util/e-dialog-utils.h>
-#include <e-util/e-util-private.h>
 #include <misc/e-cell-date-edit.h>
 #include <misc/e-cell-percent.h>
 
@@ -298,7 +297,6 @@ e_calendar_table_init (ECalendarTable *cal_table)
 	GdkPixbuf *pixbuf;
 	GList *strings;
 	AtkObject *a11y;
-	char *etspecfile;
 
 	/* Create the model */
 
@@ -495,15 +493,10 @@ e_calendar_table_init (ECalendarTable *cal_table)
 
 	/* Create the table */
 
-	etspecfile = g_build_filename (EVOLUTION_ETSPECDIR,
-				       "e-calendar-table.etspec",
-				       NULL);
 	table = e_table_scrolled_new_from_spec_file (E_TABLE_MODEL (cal_table->model),
 						     extras,
-						     etspecfile,
+						     EVOLUTION_ETSPECDIR "/e-calendar-table.etspec",
 						     NULL);
-	g_free (etspecfile);
-
 	/* FIXME: this causes a message from GLib about 'extras' having only a floating
 	   reference */
 	/* g_object_unref (extras); */
@@ -1029,7 +1022,7 @@ e_calendar_table_on_save_as (EPopup *ep, EPopupItem *pitem, void *data)
 	if (comp_data == NULL)
 		return;
 	
-	filename = e_file_dialog_save (_("Save as..."), NULL);
+	filename = e_file_dialog_save (_("Save as..."));
 	if (filename == NULL)
 		return;
 	
@@ -1303,21 +1296,14 @@ hide_completed_rows (ECalModel *model, GList *clients_list, char *hide_sexp, GPt
 
 		for (m = objects; m; m = m->next) {
 			ECalModelComponent *comp_data;
-			ECalComponentId *id;
-			ECalComponent *comp = e_cal_component_new ();
 
-			e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (m->data));
-			id = e_cal_component_get_id (comp);
-
-			if ((comp_data =  e_cal_model_get_component_for_uid (model, id))) {
+			if ((comp_data =  e_cal_model_get_component_for_uid (model, icalcomponent_get_uid (m->data)))) {
 				e_table_model_pre_change (E_TABLE_MODEL (model));
 				pos = get_position_in_array (comp_objects, comp_data);
 				e_table_model_row_deleted (E_TABLE_MODEL (model), pos);
 
 				g_ptr_array_remove (comp_objects, comp_data);
 			}
-			e_cal_component_free_id (id);
-			g_object_unref (comp);
 		}
 
 		g_list_foreach (objects, (GFunc) icalcomponent_free, NULL);
@@ -1342,13 +1328,8 @@ show_completed_rows (ECalModel *model, GList *clients_list, char *show_sexp, GPt
 
 		for (m = objects; m; m = m->next) {
 			ECalModelComponent *comp_data;
-			ECalComponentId *id;
-			ECalComponent *comp = e_cal_component_new ();
 
-			e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (m->data));
-			id = e_cal_component_get_id (comp);
-
-			if (!(e_cal_model_get_component_for_uid (model, id))) {
+			if (!(e_cal_model_get_component_for_uid (model, icalcomponent_get_uid (m->data)))) {
 				e_table_model_pre_change (E_TABLE_MODEL (model));
 				comp_data = g_new0 (ECalModelComponent, 1);
 				comp_data->client = client;
@@ -1361,8 +1342,6 @@ show_completed_rows (ECalModel *model, GList *clients_list, char *show_sexp, GPt
 				g_ptr_array_add (comp_objects, comp_data);
 				e_table_model_row_inserted (E_TABLE_MODEL (model), comp_objects->len - 1);
 			} 
-			e_cal_component_free_id (id);
-			g_object_unref (comp);
 		}
 	}
 }

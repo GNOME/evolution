@@ -112,25 +112,6 @@ gboolean  calendar_config_get_24_hour_format	(void);
 void	  calendar_config_set_24_hour_format	(gboolean     use_24_hour);
 guint calendar_config_add_notification_24_hour_format (GConfClientNotifyFunc func, gpointer data);
 
-gboolean  calendar_config_get_show_status (void);
-void	  calendar_config_set_show_status (gboolean	status);
-
-gboolean  calendar_config_get_show_type (void);
-void	  calendar_config_set_show_type (gboolean	status);
-
-gboolean  calendar_config_get_show_rsvp (void);
-void	  calendar_config_set_show_rsvp (gboolean	status);
-
-gboolean  calendar_config_get_show_timezone (void);
-void	  calendar_config_set_show_timezone (gboolean	status);
-
-gboolean  calendar_config_get_show_categories (void);
-void	  calendar_config_set_show_categories (gboolean	status);
-
-gboolean calendar_config_get_show_role	(void);
-void calendar_config_set_show_role	(gboolean state);
-
-
 /* The time divisions in the Day/Work-Week view in minutes (5/10/15/30/60). */
 gint	  calendar_config_get_time_divisions	(void);
 void	  calendar_config_set_time_divisions	(gint	      divisions);
@@ -162,9 +143,6 @@ void	  calendar_config_set_hpane_pos		(gint	      hpane_pos);
 gint      calendar_config_get_vpane_pos		(void);
 void	  calendar_config_set_vpane_pos		(gint	      vpane_pos);
 
-gboolean  calendar_config_get_preview_state	(void);
-void	  calendar_config_set_preview_state	(gboolean     state);
-
 gint      calendar_config_get_month_hpane_pos	(void);
 void	  calendar_config_set_month_hpane_pos	(gint	      hpane_pos);
 
@@ -184,17 +162,6 @@ guint	  calendar_config_add_notification_primary_tasks (GConfClientNotifyFunc fu
 /* The pane position */
 gint      calendar_config_get_task_vpane_pos    (void);
 void      calendar_config_set_task_vpane_pos    (gint         vpane_pos);
-
-
-/* The current list of memo lists selected */
-GSList   *calendar_config_get_memos_selected (void);
-void	  calendar_config_set_memos_selected (GSList *selected);
-guint	  calendar_config_add_notification_memos_selected (GConfClientNotifyFunc func, gpointer data);
-
-/* The primary calendar */
-char     *calendar_config_get_primary_memos (void);
-void	  calendar_config_set_primary_memos (const char *primary_uid);
-guint	  calendar_config_add_notification_primary_memos (GConfClientNotifyFunc func, gpointer data);
 
 /* Colors for the task list */
 const char *calendar_config_get_tasks_due_today_color	(void);

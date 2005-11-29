@@ -268,107 +268,6 @@ calendar_config_add_notification_24_hour_format (GConfClientNotifyFunc func, gpo
 	return id;
 }
 
-/* Show RSVP*/
-gboolean
-calendar_config_get_show_rsvp	(void)
-{
-	calendar_config_init ();
-
-	return gconf_client_get_bool (config, CALENDAR_CONFIG_SHOW_RSVP, NULL);
-}
-
-void
-calendar_config_set_show_rsvp	(gboolean state)
-{
-	calendar_config_init ();
-
-	gconf_client_set_bool (config, CALENDAR_CONFIG_SHOW_RSVP, state, NULL);
-}
-
-/* Show Role*/
-gboolean
-calendar_config_get_show_role	(void)
-{
-	calendar_config_init ();
-
-	return gconf_client_get_bool (config, CALENDAR_CONFIG_SHOW_ROLE, NULL);
-}
-
-void
-calendar_config_set_show_role	(gboolean state)
-{
-	calendar_config_init ();
-
-	gconf_client_set_bool (config, CALENDAR_CONFIG_SHOW_ROLE, state, NULL);
-}
-
-/* Show Type*/
-gboolean
-calendar_config_get_show_type	(void)
-{
-	calendar_config_init ();
-
-	return gconf_client_get_bool (config, CALENDAR_CONFIG_SHOW_TYPE, NULL);
-}
-
-void
-calendar_config_set_show_type	(gboolean state)
-{
-	calendar_config_init ();
-
-	gconf_client_set_bool (config, CALENDAR_CONFIG_SHOW_TYPE, state, NULL);
-}
-
-/* Show status */
-gboolean
-calendar_config_get_show_status	(void)
-{
-	calendar_config_init ();
-
-	return gconf_client_get_bool (config, CALENDAR_CONFIG_SHOW_STATUS, NULL);
-}
-
-void
-calendar_config_set_show_status	(gboolean state)
-{
-	calendar_config_init ();
-
-	gconf_client_set_bool (config, CALENDAR_CONFIG_SHOW_STATUS, state, NULL);
-}
-
-/* Show timezone */
-gboolean  
-calendar_config_get_show_timezone (void)
-{
-	calendar_config_init ();
-
-	return gconf_client_get_bool (config, CALENDAR_CONFIG_SHOW_TIMEZONE, NULL);
-}
-
-void	  
-calendar_config_set_show_timezone (gboolean	status)
-{
-	calendar_config_init ();
-
-	gconf_client_set_bool (config, CALENDAR_CONFIG_SHOW_TIMEZONE, status, NULL);	
-}
-
-gboolean  
-calendar_config_get_show_categories (void)
-{
-	calendar_config_init ();
-
-	return gconf_client_get_bool (config, CALENDAR_CONFIG_SHOW_CATEGORIES, NULL);
-}
-void	  
-calendar_config_set_show_categories (gboolean	status)
-{
-	calendar_config_init ();
-
-	gconf_client_set_bool (config, CALENDAR_CONFIG_SHOW_CATEGORIES, status, NULL);
-}
-
-
 /* The start day of the week (0 = Sun to 6 = Mon). */
 gint
 calendar_config_get_week_start_day	(void)
@@ -640,22 +539,6 @@ calendar_config_set_vpane_pos		(gint	      vpane_pos)
 	gconf_client_set_int (config, CALENDAR_CONFIG_VPANE_POS, vpane_pos, NULL);
 }
 
-gboolean
-calendar_config_get_preview_state		(void)
-{
-	calendar_config_init ();
-
-	return gconf_client_get_bool (config, CALENDAR_CONFIG_TASK_PREVIEW, NULL);
-}
-
-
-void
-calendar_config_set_preview_state		(gboolean state)
-{
-	calendar_config_init ();
-
-	gconf_client_set_bool (config, CALENDAR_CONFIG_TASK_PREVIEW, state, NULL);
-}
 
 gint
 calendar_config_get_month_hpane_pos	(void)
@@ -750,55 +633,6 @@ calendar_config_set_task_vpane_pos	(gint	      vpane_pos)
 	gconf_client_set_int (config, CALENDAR_CONFIG_TASK_VPANE_POS, vpane_pos, NULL);
 }
 
-/***************************************/
-
-/* The current list of memo lists selected */
-GSList   *
-calendar_config_get_memos_selected (void)
-{
-	return gconf_client_get_list (config, CALENDAR_CONFIG_MEMOS_SELECTED_MEMOS, GCONF_VALUE_STRING, NULL);
-}
-
-void
-calendar_config_set_memos_selected (GSList *selected)
-{
-	gconf_client_set_list (config, CALENDAR_CONFIG_MEMOS_SELECTED_MEMOS, GCONF_VALUE_STRING, selected, NULL);
-}
-
-guint
-calendar_config_add_notification_memos_selected (GConfClientNotifyFunc func, gpointer data)
-{
-	guint id;
-	
-	id = gconf_client_notify_add (config, CALENDAR_CONFIG_MEMOS_SELECTED_MEMOS, func, data, NULL, NULL);
-	
-	return id;
-}
-
-/* The primary memo list */
-char *
-calendar_config_get_primary_memos (void)
-{
-	return gconf_client_get_string (config, CALENDAR_CONFIG_PRIMARY_MEMOS, NULL);
-}
-
-void
-calendar_config_set_primary_memos (const char *primary_uid)
-{
-	gconf_client_set_string (config, CALENDAR_CONFIG_PRIMARY_MEMOS, primary_uid, NULL);
-}
-
-
-guint
-calendar_config_add_notification_primary_memos (GConfClientNotifyFunc func, gpointer data)
-{
-	guint id;
-	
-	id = gconf_client_notify_add (config, CALENDAR_CONFIG_PRIMARY_MEMOS, func, data, NULL, NULL);
-	
-	return id;
-}
-/***************************************/
 
 /* Whether we compress the weekend in the week/month views. */
 gboolean

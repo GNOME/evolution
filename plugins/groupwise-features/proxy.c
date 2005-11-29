@@ -54,13 +54,11 @@
 #include <mail/em-config.h>
 #include <mail/mail-component.h>
 #include <mail/mail-ops.h>
-#include <mail/mail-session.h>
 #include <e-util/e-account.h>
 #include <e-util/e-account-list.h>
 #include <e-util/e-icon-factory.h>
 
 #include <camel/camel-url.h>
-#include <camel/camel-offline-store.h>
 #include <libedataserverui/e-passwords.h>
 #include <libedataserverui/e-name-selector.h>
 #include <proxy.h>
@@ -490,7 +488,7 @@ proxy_get_cnc (EAccount *account)
 
 	key =  g_strdup_printf ("groupwise://%s@%s/", url->user, poa_address); 
 	
-	if (use_ssl && !g_str_equal (use_ssl, "never"))
+	if (!g_str_equal (use_ssl, "never"))
 		uri = g_strdup_printf ("https://%s:%s/soap", poa_address, soap_port);
 	else 
 		uri = g_strdup_printf ("http://%s:%s/soap", poa_address, soap_port);
@@ -645,18 +643,10 @@ org_gnome_proxy (EPlugin *epl, EConfigHookItemFactoryData *data)
 	GtkButton *addProxy, *removeProxy, *editProxy;
 	proxyDialog *prd;
 	proxyDialogPrivate *priv;
-	CamelOfflineStore *store;
-	CamelException ex;
 	int pag_num;
 
 	target_account = (EMConfigTargetAccount *)data->config->target;
 	account = target_account->account;
-
-	if (!(store = (CamelOfflineStore *) camel_session_get_service (session, e_account_get_string(account, E_ACCOUNT_SOURCE_URL), CAMEL_PROVIDER_STORE, &ex))) {	  
-		camel_exception_clear (&ex);
-		return NULL;
-	}
-
 	if (g_strrstr (e_account_get_string(account, E_ACCOUNT_SOURCE_URL), "groupwise://"))
 	{
 		prd = proxy_dialog_new ();
@@ -664,7 +654,7 @@ org_gnome_proxy (EPlugin *epl, EConfigHookItemFactoryData *data)
 		priv = prd->priv;
 		priv->xml_tab = glade_xml_new (EVOLUTION_GLADEDIR "/proxy-listing.glade", "proxy_vbox", NULL);
 
-		if (account->enabled && (store->state == CAMEL_OFFLINE_STORE_NETWORK_AVAIL)) {	
+		if (account->enabled) {	
 			priv->tab_dialog = GTK_WIDGET (glade_xml_get_widget (priv->xml_tab, "proxy_vbox"));
 			priv->tree = GTK_TREE_VIEW (glade_xml_get_widget (priv->xml_tab, "proxy_access_list"));
 			priv->store =  gtk_tree_store_new (2,
@@ -684,11 +674,6 @@ org_gnome_proxy (EPlugin *epl, EConfigHookItemFactoryData *data)
 			prd->cnc = proxy_get_cnc(account);
 			
 			priv->proxy_list = NULL;
-		} else if (account->enabled){
-			GtkWidget *label;
-			priv->tab_dialog = gtk_vbox_new (TRUE, 10);
-			label = gtk_label_new (_("The Proxy tab will be available only when the account is online."));
-			gtk_box_pack_start ((GtkBox *)priv->tab_dialog, label, TRUE, TRUE, 10);	
 		} else {
 			GtkWidget *label;
 			priv->tab_dialog = gtk_vbox_new (TRUE, 10);
@@ -708,13 +693,11 @@ org_gnome_proxy (EPlugin *epl, EConfigHookItemFactoryData *data)
 			priv = prd->priv;
 
 			if (priv) {
-				pag_num = gtk_notebook_page_num ( (GtkNotebook *)(data->parent), (GtkWidget *) priv->tab_dialog);
-				gtk_notebook_remove_page ( (GtkNotebook *)(data->parent), pag_num); 
+			pag_num = gtk_notebook_page_num ( (GtkNotebook *)(data->parent), (GtkWidget *) priv->tab_dialog);
+			gtk_notebook_remove_page ( (GtkNotebook *)(data->parent), pag_num); 
 			}
 		}	
 	}
-	
-	camel_object_unref (store);
 	return NULL;
 }
 
@@ -724,11 +707,10 @@ proxy_page_changed_cb (GtkNotebook *notebook, GtkNotebookPage *page, int num, EA
 	proxyDialog *prd;
 	proxyDialogPrivate *priv;
 
-	prd = g_object_get_data ((GObject *) account, "prd");
-
-	if (!prd || !prd->priv)
+	if (!prd || !prd->priv || !prd->priv->proxy_list)
 		return;
 	
+	prd = g_object_get_data ((GObject *) account, "prd");
 	priv = prd->priv;
 
 	if (num == g_object_get_data ((GObject *) account, "proxy_tab_num") && account->enabled) {

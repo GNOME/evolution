@@ -22,7 +22,6 @@
 
 #include "e-contact-list-editor.h"
 #include <e-util/e-icon-factory.h>
-#include <e-util/e-util-private.h>
 
 #include <string.h>
 
@@ -192,7 +191,6 @@ e_contact_list_editor_init (EContactListEditor *editor)
 {
 	GladeXML *gui;
 	GList *icon_list;
-	char *gladefile;
 
 	editor->contact = NULL;
 	editor->changed = FALSE;
@@ -205,12 +203,7 @@ e_contact_list_editor_init (EContactListEditor *editor)
 	editor->load_source_id = 0;
 	editor->load_book = NULL;
 
-	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
-				      "contact-list-editor.glade",
-				      NULL);
-	gui = glade_xml_new (gladefile, NULL, NULL);
-	g_free (gladefile);
-
+	gui = glade_xml_new (EVOLUTION_GLADEDIR "/contact-list-editor.glade", NULL, NULL);
 	editor->gui = gui;
 
 	editor->app = glade_xml_get_widget (gui, "contact list editor");
@@ -649,18 +642,13 @@ e_contact_list_editor_create_table(gchar *name,
 	
 	ETableModel *model;
 	GtkWidget *table;
-	char *etspecfile;
 
 	model = e_contact_list_model_new ();
 
-	etspecfile = g_build_filename (EVOLUTION_ETSPECDIR,
-				       "e-contact-list-editor.etspec",
-				       NULL);
 	table = e_table_scrolled_new_from_spec_file (model,
 				      NULL,
-				      etspecfile,
+				      EVOLUTION_ETSPECDIR "/e-contact-list-editor.etspec",
 				      NULL);
-	g_free (etspecfile);
 
 	g_object_set_data(G_OBJECT(table), "model", model);
 
