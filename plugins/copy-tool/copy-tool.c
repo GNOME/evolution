@@ -44,10 +44,10 @@ org_gnome_copy_tool_copy_address(void *ep, EMPopupTargetURI *t)
 static void
 ct_selection_get(GtkWidget *widget, GtkSelectionData *data, guint info, guint time_stamp, void *dummy)
 {
-	printf("get selection, address is '%s'\n", address_uri);
-
 	if (address_uri == NULL)
 		return;
+
+	printf("get selection, address is '%s'\n", address_uri);
 
 	if (strncmp (address_uri, "mailto:", 7) == 0) {
 		CamelInternetAddress *cia = camel_internet_address_new();

@@ -1,3 +1,10 @@
+2005-11-29  Simon Zheng  <Simon.Zheng@Sun.Com>
+
+	Fix for 322733.
+
+	* copy-tool.c: (ct_selection_get): Move printf() statement after 
+	NULL checking. 
+
 2005-05-11  Not Zed  <NotZed@Ximian.com>
 
 	* Makefile.am: added built_sources/cleanfiles.
