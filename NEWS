@@ -1,3 +1,34 @@
+Evolution 2.4.2 2005-11-29
+---------------------------
+
+Bugzilla bugs fixed (see http://bugzilla.gnome.org/show_bug.cgi):
+
+
+#316297 - Evolution help contents fails with error cannot load section (Harish)
+#314638 - Memory builds up to 1GB when a meeting is created (Chakravarthi) 
+#317322 - crash when delete a imported recurrent event (Chenthill)
+#314639 - Evolution crashed on right click and select new appointment (Chenthill)
+#312533 - modifying a repeated calendar entry in day view corrupts entry (Dinesh)
+#273322 - Evolution crashes after some apparent corruption in the local (Dinesh)
+#310495 - sorting tasks based on summary first sorts based on upper-case (Mubeen)
+#272920 - Month calendar in "day view" should scroll with scroll wheel (Viren)
+#316280 - evolution contact print use fixed page size, print to A5 (Evan Yan)
+#301081 - Converting mail to task forgets recipients (Mubeen)
+#312467 - gw - Logout from proxy and then immedeitly login 'evolution' (Sankar)
+#317906 - gw - Shared folder properties of one folder are reflected in all (Vivek)
+
+Updated Translations:
+
+	- bg (Rostislav Raykov)
+	- da (Martin Willemoes Hansen)
+	- es (QA team)
+	- es (Francisco Javier F. Serrador)
+	- et (Ivar Smolin)
+	- eu (Inaki Larranaga)
+	- fi (Ilkka Tuohela)
+	- fr (Stephane Raimbault)
+	- gl (Ignacio Casal Quinteiro)
+
 Evolution 2.4.1 2005-10-03
 --------------------------
 
