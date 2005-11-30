@@ -1,9 +1,11 @@
-2005-11-29  Simon Zheng  <Simon.Zheng@Sun.Com>
+2005-11-30  Simon Zheng  <Simon.Zheng@Sun.Com>
 
 	Fix for 322733.
 
-	* copy-tool.c: (ct_selection_get): Move printf() statement after 
-	NULL checking. 
+	* copy-tool.c: (ct_selection_get): Removed printf() statement 
+	in order to avoid printing NULL point.
+	(org_gnome_copy_tool_copy_address): Removed printf() statement.
+	(ct_selection_clear_event): Removed printf() statement.
 
 2005-05-11  Not Zed  <NotZed@Ximian.com>
 

@@ -35,8 +35,6 @@ org_gnome_copy_tool_copy_address(void *ep, EMPopupTargetURI *t)
 	g_free(address_uri);
 	address_uri = g_strdup(t->uri);
 
-	printf("copying address '%s'\n", address_uri);
-
 	gtk_selection_owner_set(invisible, GDK_SELECTION_PRIMARY, gtk_get_current_event_time());
 	gtk_selection_owner_set(invisible, GDK_SELECTION_CLIPBOARD, gtk_get_current_event_time());
 }
@@ -44,12 +42,7 @@ org_gnome_copy_tool_copy_address(void *ep, EMPopupTargetURI *t)
 static void
 ct_selection_get(GtkWidget *widget, GtkSelectionData *data, guint info, guint time_stamp, void *dummy)
 {
-	if (address_uri == NULL)
-		return;
-
-	printf("get selection, address is '%s'\n", address_uri);
-
-	if (strncmp (address_uri, "mailto:", 7) == 0) {
+	if (address_uri && (strncmp (address_uri, "mailto:", 7) == 0)) {
 		CamelInternetAddress *cia = camel_internet_address_new();
 		CamelURL *curl;
 		char *addr;
@@ -60,7 +53,6 @@ ct_selection_get(GtkWidget *widget, GtkSelectionData *data, guint info, guint ti
 		/* should it perhaps use address format? */
 		addr = camel_address_encode((CamelAddress *)cia);
 		tmp = addr && addr[0] ? addr : address_uri + 7;
-		printf("get selection, setting to' %s'\n", tmp);
 
 		gtk_selection_data_set(data, data->target, 8, tmp, strlen(tmp));
 		g_free(addr);
@@ -72,8 +64,6 @@ ct_selection_get(GtkWidget *widget, GtkSelectionData *data, guint info, guint ti
 static void
 ct_selection_clear_event(GtkWidget *widget, GdkEventSelection *event, void *dummy)
 {
-	printf("selection clear event\n");
-
 	g_free(address_uri);
 	address_uri = NULL;
 }
