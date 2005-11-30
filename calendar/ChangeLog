@@ -1,3 +1,9 @@
+2005-11-30  Harish Krishnaswamy  <kharish@novell.com>
+
+	* gui/e-calendar-view.c: (e_calendar_view_new_appointment_for):
+	itt was being used before being initialized. Move the accessor bits
+	after they have been set appropriately.
+
 2005-11-29  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #322616

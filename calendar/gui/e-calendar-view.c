@@ -1687,17 +1687,12 @@ e_calendar_view_new_appointment_for (ECalendarView *cal_view,
 
 	default_client = e_cal_model_get_default_client (priv->model);
 
-	if (default_client && e_cal_get_load_state (default_client) != E_CAL_LOAD_LOADED) {
+	if (!default_client || e_cal_get_load_state (default_client) != E_CAL_LOAD_LOADED) {
 		g_warning ("Default client not loaded \n");
 		return;
 	}
 	
-	dt.value = &itt;
-	if (all_day)
-		dt.tzid = NULL;
-	else
-		dt.tzid = icaltimezone_get_tzid (e_cal_model_get_timezone (cal_view->priv->model));
-
+	
 	icalcomp = e_cal_model_create_component_with_defaults (priv->model);
 	comp = e_cal_component_new ();
 	e_cal_component_set_icalcomponent (comp, icalcomp);
@@ -1708,6 +1703,13 @@ e_calendar_view_new_appointment_for (ECalendarView *cal_view,
 		itt.hour = itt.minute = itt.second = 0;
 		itt.is_date = TRUE;
 	}
+
+	dt.value = &itt;
+	if (all_day)
+		dt.tzid = NULL;
+	else
+		dt.tzid = icaltimezone_get_tzid (e_cal_model_get_timezone (cal_view->priv->model));
+
 	e_cal_component_set_dtstart (comp, &dt);
 
 	itt = icaltime_from_timet_with_zone (dtend, FALSE, e_cal_model_get_timezone (cal_view->priv->model));
@@ -1720,6 +1722,13 @@ e_calendar_view_new_appointment_for (ECalendarView *cal_view,
 		itt.hour = itt.minute = itt.second = 0;
 		itt.is_date = TRUE;
 	}
+
+	dt.value = &itt;
+	if (all_day)
+		dt.tzid = NULL;
+	else
+		dt.tzid = icaltimezone_get_tzid (e_cal_model_get_timezone (cal_view->priv->model));
+
 	e_cal_component_set_dtend (comp, &dt);
 
 	/* TRANSPARENCY */
