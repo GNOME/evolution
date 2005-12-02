@@ -26,6 +26,7 @@ EXTRA_DIST = 			\
 	intltool-merge.in	\
 	intltool-update.in	\
 	intltool-extract.in	\
+	evolution-zip.in	\
 	$(pkgconfig_DATA:-$(BASE_VERSION).pc=.pc.in)
 
 if ENABLE_SMIME

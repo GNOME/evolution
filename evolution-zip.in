@@ -1,0 +1,116 @@
+#!/bin/sh
+
+# Build Win32 zipfile distribution of Evolution. Separate runtime and
+# developer zipfiles. End-users will install Evolution using an
+# executable installer combining all necessary pieces, of course, not
+# unzipping each module separately.
+
+ZIP=/tmp/evolution-@VERSION@.zip
+DEVZIP=/tmp/evolution-dev-@VERSION@.zip
+
+cd @prefix@
+rm $ZIP
+zip -r $ZIP -@ <<EOF
+bin/libeutil-0.dll
+bin/libeconduit-0.dll
+bin/libevolution-a11y-0.dll
+bin/libevolution-calendar-a11y-0.dll
+bin/libevolution-widgets-a11y-0.dll
+bin/libevolution-addressbook-a11y-0.dll
+bin/libetimezonedialog-0.dll
+bin/libetable-0.dll
+bin/libetext-0.dll
+bin/libemiscwidgets-0.dll
+bin/libefilterbar-0.dll
+bin/libmenus-0.dll
+bin/libeshell-0.dll
+bin/libfilter-0.dll
+bin/libessmime-0.dll
+bin/libevolution-smime-0.dll
+bin/libeabutil-0.dll
+bin/libevolution-addressbook-importers-0.dll
+bin/libecontacteditor-0.dll
+bin/libecontactlisteditor-0.dll
+bin/libevolution-calendar-importers-0.dll
+bin/libevolution-mail-importers-0.dll
+bin/evolution-@BASE_VERSION@.exe
+lib/bonobo/servers/GNOME_Evolution_Shell_@BASE_VERSION@.server
+lib/bonobo/servers/GNOME_Evolution_Addressbook_@BASE_VERSION@.server
+lib/bonobo/servers/GNOME_Evolution_Calendar_AlarmNotify_@BASE_VERSION@.server
+lib/bonobo/servers/GNOME_Evolution_Calendar_@BASE_VERSION@.server
+lib/bonobo/servers/GNOME_Evolution_Mail_@BASE_VERSION@.server
+lib/evolution/@BASE_VERSION@/components/libevolution-addressbook.dll
+lib/evolution/@BASE_VERSION@/components/libevolution-calendar.dll
+lib/evolution/@BASE_VERSION@/components/libevolution-mail.dll
+libexec/evolution/@BASE_VERSION@/evolution-addressbook-export.exe
+libexec/evolution/@BASE_VERSION@/evolution-alarm-notify.exe
+share/mime-info/evolution-@BASE_VERSION@.keys
+share/mime-info/evolution-@BASE_VERSION@.mime
+share/evolution/@BASE_VERSION@/errors
+share/evolution/@BASE_VERSION@/glade
+share/evolution/@BASE_VERSION@/ecps
+share/evolution/@BASE_VERSION@/etspec
+share/evolution/@BASE_VERSION@/addresstypes.xml
+share/evolution/@BASE_VERSION@/filtertypes.xml
+share/evolution/@BASE_VERSION@/vfoldertypes.xml
+share/evolution/@BASE_VERSION@/searchtypes.xml
+share/evolution/@BASE_VERSION@/default
+share/evolution/@BASE_VERSION@/weather
+share/evolution/@BASE_VERSION@/ui
+share/evolution/@BASE_VERSION@/views
+etc/gconf/schemas/apps_evolution_shell-@BASE_VERSION@.schemas
+etc/gconf/schemas/apps_evolution_addressbook-@BASE_VERSION@.schemas
+etc/gconf/schemas/apps_evolution_calendar-@BASE_VERSION@.schemas
+etc/gconf/schemas/evolution-mail-@BASE_VERSION@.schemas
+EOF
+
+zip -r $ZIP share/pixmaps share/evolution/@BASE_VERSION@/images
+zip $ZIP lib/evolution/@BASE_VERSION@/plugins/*.eplug lib/evolution/@BASE_VERSION@/plugins/*.dll lib/evolution/@BASE_VERSION@/plugins/*.xml
+
+zip $ZIP lib/locale/*/LC_MESSAGES/evolution-@BASE_VERSION@.mo
+
+rm $DEVZIP
+zip -r $DEVZIP -@ <<EOF
+lib/libeutil.dll.a
+lib/libeconduit.dll.a
+lib/libevolution-a11y.dll.a
+lib/libevolution-calendar-a11y.dll.a
+lib/libevolution-widgets-a11y.dll.a
+lib/libevolution-addressbook-a11y.dll.a
+lib/libetimezonedialog.dll.a
+lib/libetable.dll.a
+lib/libetext.dll.a
+lib/libemiscwidgets.dll.a
+lib/libefilterbar.dll.a
+lib/libmenus.dll.a
+lib/libeshell.dll.a
+lib/libfilter.dll.a
+lib/libessmime.dll.a
+lib/libevolution-smime.dll.a
+lib/libeabutil.dll.a
+lib/libevolution-addressbook-importers.dll.a
+lib/libecontacteditor.dll.a
+lib/libecontactlisteditor.dll.a
+lib/libevolution-calendar-importers.dll.a
+lib/libevolution-mail-importers.dll.a
+lib/pkgconfig/evolution-shell-@BASE_VERSION@.pc
+lib/pkgconfig/evolution-plugin-@BASE_VERSION@.pc
+include/evolution-@BASE_VERSION@/e-conduit
+include/evolution-@BASE_VERSION@/e-util
+include/evolution-@BASE_VERSION@/a11y
+include/evolution-@BASE_VERSION@/table
+include/evolution-@BASE_VERSION@/text
+include/evolution-@BASE_VERSION@/misc
+include/evolution-@BASE_VERSION@/menus
+include/evolution-@BASE_VERSION@/shell
+include/evolution-@BASE_VERSION@/addressbook
+include/evolution-@BASE_VERSION@/calendar
+include/evolution-@BASE_VERSION@/mail
+share/idl/evolution-@BASE_VERSION@/Evolution-ConfigControl.idl
+share/idl/evolution-@BASE_VERSION@/Evolution-Component.idl
+share/idl/evolution-@BASE_VERSION@/Evolution-Shell.idl
+share/idl/evolution-@BASE_VERSION@/Evolution.idl
+share/idl/evolution-@BASE_VERSION@/evolution-calendar.idl
+share/idl/evolution-@BASE_VERSION@/Evolution-Composer.idl
+share/idl/evolution-@BASE_VERSION@/Evolution-Mail.idl
+EOF

@@ -1,3 +1,11 @@
+2005-12-02  Tor Lillqvist  <tml@novell.com>
+
+	* evolution-zip.in: New file, a script used to build a
+	Win32 zipfile distribution of Evolution.
+
+	* Makefile.am
+	* configure.in: Distribute and expand it.
+
 2005-11-28  P S Chakravarthi <pchakravarthi@novell.com>
 
 	* configure.in: Added libnotify for use in new
