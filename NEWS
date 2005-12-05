@@ -1,3 +1,10 @@
+Evolution 2.4.2.1 2005-12-05
+-----------------------------
+
+Fixes for 
+#323129 - Issue with mailto: URI handler and Composer behavior (Harish)
+#323042 - Task summary column not available (Harish)
+
 Evolution 2.4.2 2005-11-29
 ---------------------------
 
