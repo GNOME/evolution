@@ -137,11 +137,13 @@ typedef enum {
 	E_FOCUS_START,
 	E_FOCUS_END
 } EFocus;
-int       g_str_compare                                                    (const void        *x,
+int       e_str_compare                                                    (const void        *x,
 									    const void        *y);
-int       g_collate_compare                                                (const void        *x,
+int       e_str_case_compare                                               (const void        *x,
 									    const void        *y);
-int       g_int_compare                                                    (const void        *x,
+int       e_collate_compare                                                (const void        *x,
+									    const void        *y);
+int       e_int_compare                                                    (const void        *x,
 									    const void        *y);
 char     *e_strdup_strip                                                   (const char        *string);
 void      e_free_object_list                                               (GList             *list);

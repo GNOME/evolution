@@ -1,3 +1,10 @@
+2005-12-05  Harish Krishnaswamy  <kharish@novell.com>
+
+	* e-util.[ch]: (e_str_compare), (e_collate_compare), (e_int_compare):
+	prefix the wrapper functions with e - do not use g lest it is 
+	assumed to be a glib function. Modified Devasish's fix for #207110 in HEAD
+	to fix #323042 (stable branch).
+
 2005-11-09  P. S. Chakravarthi <pchakravarthi@novell.com>
 
 	Fixes #314638

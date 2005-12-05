@@ -108,7 +108,7 @@ e_strint_compare(gconstpointer data1, gconstpointer data2)
 	int int1 = atoi(data1);
 	int int2 = atoi(data2);
 
-	return g_int_compare(GINT_TO_POINTER(int1), GINT_TO_POINTER(int2));
+	return e_int_compare(GINT_TO_POINTER(int1), GINT_TO_POINTER(int2));
 }
 
 /* UTF-8 strncasecmp - not optimized */
@@ -167,9 +167,9 @@ ete_init (ETableExtras *extras)
 	extras->searches = g_hash_table_new(g_str_hash, g_str_equal);
 	extras->pixbufs = g_hash_table_new(g_str_hash, g_str_equal);
 
-	e_table_extras_add_compare(extras, "string", g_str_compare);
-	e_table_extras_add_compare(extras, "collate", g_collate_compare);
-	e_table_extras_add_compare(extras, "integer", g_int_compare);
+	e_table_extras_add_compare(extras, "string", e_str_compare);
+	e_table_extras_add_compare(extras, "collate", e_collate_compare);
+	e_table_extras_add_compare(extras, "integer", e_int_compare);
 	e_table_extras_add_compare(extras, "string-integer", e_strint_compare);
 
 	e_table_extras_add_search(extras, "string", e_string_search);

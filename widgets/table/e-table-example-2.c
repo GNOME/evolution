@@ -296,7 +296,7 @@ create_table ()
 		ETableCol *ecol = e_table_col_new (
 						   i, headers [i],
 						   1.0, 20, cell_left_just,
-						   g_str_compare, TRUE);
+						   e_str_compare, TRUE);
 		/* Add it to the header. */
 		e_table_header_add_column (e_table_header, ecol, i);
 	}
@@ -305,7 +305,7 @@ create_table ()
 
 	cell_checkbox = e_cell_checkbox_new ();
 	pixbuf = gdk_pixbuf_new_from_file ("clip.png");
-	ecol = e_table_col_new_with_pixbuf (i, pixbuf, 0.0, 18, cell_checkbox, g_int_compare, TRUE);
+	ecol = e_table_col_new_with_pixbuf (i, pixbuf, 0.0, 18, cell_checkbox, e_int_compare, TRUE);
 	e_table_header_add_column (e_table_header, ecol, i);
 
 	/*

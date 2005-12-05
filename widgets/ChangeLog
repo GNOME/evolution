@@ -1,3 +1,13 @@
+2005-12-05  Harish Krishnaswamy  <kharish@novell.com>
+
+	* table/e-table-example-2.c: (create_table):
+	* table/e-table-extras.c: (e_strint_compare), (ete_init):
+	* table/e-table-size-test.c: (create_table):
+	* table/test-check.c: (check_test):
+	* table/test-cols.c: (multi_cols_test):
+	* table/test-table.c: (table_browser_test):
+	s/g_*_compare/e_*_compare. Fixes #207110 and #323042.
+
 2005-11-29 Simon Zheng <simon.zheng@sun.com>
 
 	* menus/gal-view-collection.c: (gal_view_generate_string):
