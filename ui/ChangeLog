@@ -1,5 +1,12 @@
 2005-11-22  Karsten Bräckelmann  <guenther@rudersport.de>
 
+	* evolution-mail-message.xml: Re-established sane Reply* menu order,
+	fixes bug #321639.
+
+	Committing patch on behalf of guenther. - partha
+
+2005-11-22  Karsten Bräckelmann  <guenther@rudersport.de>
+
 	* evolution-mail-message.xml: Re-added the ForwardAs submenu,
 	fixes regression bug #321640.
 	
