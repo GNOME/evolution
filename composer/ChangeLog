@@ -1,3 +1,12 @@
+2005-12-05  Parthasarathi Susarla <sparthasarathi@novell.com>
+	
+	** See bug #322863
+	* e-msg-composer.c: (e_msg_composer_new_with_message):
+	Check if the account indeed exists before freeing/duping it.
+	The account would typically not exist, when redirecting mails
+	originated from other accounts which are not configured in ones 
+	machine.
+
 2005-11-26  Tor Lillqvist  <tml@novell.com>
 
 	* e-msg-composer-attachment.c: Include e-util-private.h to get
