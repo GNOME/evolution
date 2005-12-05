@@ -652,6 +652,7 @@ org_gnome_proxy (EPlugin *epl, EConfigHookItemFactoryData *data)
 	target_account = (EMConfigTargetAccount *)data->config->target;
 	account = target_account->account;
 
+	camel_exception_init (&ex);
 	if (!(store = (CamelOfflineStore *) camel_session_get_service (session, e_account_get_string(account, E_ACCOUNT_SOURCE_URL), CAMEL_PROVIDER_STORE, &ex))) {	  
 		camel_exception_clear (&ex);
 		return NULL;
@@ -715,6 +716,7 @@ org_gnome_proxy (EPlugin *epl, EConfigHookItemFactoryData *data)
 	}
 	
 	camel_object_unref (store);
+	camel_exception_clear (&ex);
 	return NULL;
 }
 

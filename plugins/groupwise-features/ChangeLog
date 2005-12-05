@@ -1,3 +1,9 @@
+2005-12-05  Parthasarathi Susarla <sparthasarathi@novell.com>
+	
+	* proxy.c: initialize CamelException.
+
+	Fixes bug #314576
+
 2005-11-10  Harish Krishnaswamy  <kharish@novell.com>
 
 	* mail-send-options.c: (org_gnome_compose_send_options):
