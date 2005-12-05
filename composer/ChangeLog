@@ -1,3 +1,9 @@
+2005-12-05 Harish Krishnaswamy <kharish@novell.com>
+
+	* e-msg-composer.c (handle_mailto): Fix for 
+	#323129. For more information on the bug/patch 
+	see #316937.
+
 2005-09-29  Parthasarathi Susarla <sparthasarathi@novell.com>
 
 	** See bug 317337

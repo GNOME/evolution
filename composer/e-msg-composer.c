@@ -4575,6 +4575,8 @@ handle_mailto (EMsgComposer *composer, const char *mailto)
 								 content,
 								 "attachment");
 				}
+				gtk_widget_show (composer->attachment_expander);
+        			gtk_widget_show (composer->attachment_scrolled_window);  
 			} else if (!g_ascii_strcasecmp (header, "from")) {
 				/* Ignore */
 			} else if (!g_ascii_strcasecmp (header, "reply-to")) {
