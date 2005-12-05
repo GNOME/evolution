@@ -1,3 +1,7 @@
+2005-12-05  Francisco Javier F. Serrador  <serrador@cvs.gnome.org>
+
+	* es.po: Updated Spanish translation.
+
 2005-12-03  Adam Weinberger  <adamw@gnome.org>
 
 	* POTFILES.in: Added missing file.
@@ -465,7 +469,6 @@
 	* ca.po: Updated Catalan translation by
 	Xavier Conde Rueda <xavi.conde@gmail.com>
 
->>>>>>> 1.2188
 2005-08-20  Frank Arnold  <farnold@cvs.gnome.org>
 
 	* POTFILES.in: Removed missing files. See bug #312668.
