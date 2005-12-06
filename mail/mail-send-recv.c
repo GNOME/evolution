@@ -261,7 +261,7 @@ format_url(const char *internal_url)
        	char *pretty_url;
 
 	url = camel_url_new(internal_url, NULL);
-	if (url->host)
+	if (url->host && *url->host)
 		pretty_url = g_strdup_printf(_("Server: %s, Type: %s"), url->host, url->protocol);
 	else if (url->path)
 		pretty_url = g_strdup_printf(_("Path: %s, Type: %s"), url->path, url->protocol);

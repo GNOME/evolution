@@ -1,3 +1,11 @@
+2005-12-05  Shi Pu  <shi.pu@sun.com>
+
+	See bug ** 323253
+
+	* mail-send-recv.c: (format_url):
+	If url->host is NULL or it is emtpy,
+	don't print it out in send & receive dialog.
+
 2005-11-28  Jeffrey Stedfast  <fejj@novell.com>
 
 	* em-folder-view.c (emfv_setting_notify): literal strings do not
