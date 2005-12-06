@@ -1,3 +1,4 @@
+# translation of evolution.HEAD.be_BY@classic.po to Belarusian
 # translation of e.po to Belarusian
 # translation of evolution.HEAD.be.po to Belarusian
 # Vital Khilko <v.khilko@sam-solutions.net>, 2004, 2005.
@@ -5,10 +6,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: e\n"
+"Project-Id-Version: evolution.HEAD.be_BY@classic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-11-29 21:43+0100\n"
-"PO-Revision-Date: 2005-11-30 00:24+0200\n"
+"PO-Revision-Date: 2005-12-04 14:15+0200\n"
 "Last-Translator: Vital Khilko <vk@altlinux.ru>\n"
 "Language-Team: Belarusian <i18n@mova.org>\n"
 "MIME-Version: 1.0\n"
@@ -379,7 +380,7 @@ msgstr "Памылка захаваньня {0} у {1}: {2}"
 
 #: ../addressbook/addressbook.error.xml.h:12
 msgid "Failed to authenticate with LDAP server."
-msgstr "Збой ідэнтыфікацыі на паслужніку LDAP."
+msgstr "Збой праверкі тоеснасьці на паслужніку LDAP."
 
 #: ../addressbook/addressbook.error.xml.h:13
 msgid "GroupWise Address book creation:"
@@ -680,7 +681,7 @@ msgstr "Інфармацыя аб паслужніку"
 
 #: ../addressbook/gui/component/addressbook-config.c:988
 msgid "Authentication"
-msgstr "Ідэнтыфікацыя"
+msgstr "Праверка тоеснасьці"
 
 #: ../addressbook/gui/component/addressbook-config.c:991
 #: ../addressbook/gui/component/ldap-config.glade.h:17
@@ -796,7 +797,7 @@ msgstr "Ананімнае далучэньне да паслужніку LDAP"
 #: ../addressbook/gui/component/addressbook.c:191
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:492
 msgid "Failed to authenticate.\n"
-msgstr "Збой ідэнтыфікацыі.\n"
+msgstr "Збой праверкі тоеснасьці.\n"
 
 #: ../addressbook/gui/component/addressbook.c:198
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:471
@@ -876,7 +877,7 @@ msgstr "636"
 #: ../addressbook/gui/component/ldap-config.glade.h:6
 #: ../calendar/gui/dialogs/url-editor-dialog.glade.h:2
 msgid "<b>Authentication</b>"
-msgstr "<b>Ідэнтыфікацыя</b>"
+msgstr "<b>Праверка тоеснасьці</b>"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:7
 msgid "<b>Display</b>"
@@ -926,7 +927,7 @@ msgstr "Адрасы э.пошты"
 #: ../addressbook/gui/component/ldap-config.glade.h:20
 msgid "Evolution will use this email address to authenticate you with the server."
 msgstr ""
-"\"Evolution\" будзе выкарыстоўваць гэты адрас для ідэнтыфікацыі вас на "
+"\"Evolution\" будзе выкарыстоўваць гэты адрас для праверкі тоеснасьці вас на "
 "паслужніку."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:21
@@ -1053,7 +1054,7 @@ msgid ""
 "setting this to \"Email Address\" requires anonymous access to your ldap "
 "server."
 msgstr ""
-"Гэты мэтад \"Evolution\" будзе выкарыстоўваць для вашай ідэнтыфікацыі. "
+"Гэты мэтад \"Evolution\" будзе выкарыстоўваць для праверкі тоеснасьці. "
 "Усталёўка значэньня у \"Адрас пошты\" патрабуе ананімны доступ да вашага "
 "паслужніку LDAP."
 
@@ -3345,12 +3346,12 @@ msgstr "Не атрымалася скасаваць"
 #: ../addressbook/gui/widgets/eab-gui-util.c:63
 #: ../calendar/gui/comp-editor-factory.c:438
 msgid "Authentication Failed"
-msgstr "Збой ідэнтыфікацыі"
+msgstr "Збой праверкі тоеснасьці"
 
 #. E_BOOK_ERROR_AUTHENTICATION_REQUIRED
 #: ../addressbook/gui/widgets/eab-gui-util.c:64
 msgid "Authentication Required"
-msgstr "Патрабуе ідэнтыфікацыю"
+msgstr "Патрабуецца праверка тоеснасьці"
 
 #. E_BOOK_ERROR_TLS_NOT_AVAILABLE
 #: ../addressbook/gui/widgets/eab-gui-util.c:65
@@ -12897,11 +12898,11 @@ msgstr "<span weight=\"bold\">Сыгналы</span>"
 
 #: ../mail/mail-config.glade.h:10
 msgid "<span weight=\"bold\">Authentication Type</span>"
-msgstr "<span weight=\"bold\">Тып ідэнтыфікацыі</span>"
+msgstr "<span weight=\"bold\">Тып праверкі тоеснасьці</span>"
 
 #: ../mail/mail-config.glade.h:11
 msgid "<span weight=\"bold\">Authentication</span>"
-msgstr "<span weight=\"bold\">Ідэнтыфікацыя</span>"
+msgstr "<span weight=\"bold\">Праверка тоеснасьці</span>"
 
 #: ../mail/mail-config.glade.h:12
 msgid "<span weight=\"bold\">Composing Messages</span>"
@@ -13327,7 +13328,7 @@ msgstr "Тэчка да_сланых паведамленьняў:"
 
 #: ../mail/mail-config.glade.h:131
 msgid "Ser_ver requires authentication"
-msgstr "Паслужнік патрабуе ідэнтыфікацыю"
+msgstr "Паслужнік патрабуе праверку тоеснасьці"
 
 #: ../mail/mail-config.glade.h:132
 msgid "Server _Type: "
@@ -14239,7 +14240,7 @@ msgstr ""
 
 #: ../mail/mail.error.xml.h:76
 msgid "Please provide an unique name to identify this signature."
-msgstr "Пазначце унікальную назву для ідэнтыфікацыі гэтага подпісу."
+msgstr "Пазначце унікальную назву для праверкі тоеснасьці гэтага подпісу."
 
 #: ../mail/mail.error.xml.h:77
 msgid "Please wait."
@@ -14256,7 +14257,7 @@ msgstr "Запыт паслужніку"
 #: ../mail/mail.error.xml.h:80
 msgid "Querying server for a list of supported authentication mechanisms."
 msgstr ""
-"Запытваецца паслужнік для атрыманьня сьпісу мэханізмаў ідэнтыфікацыі, якія "
+"Запытваецца паслужнік для атрыманьня сьпісу мэханізмаў праверкі тоеснасьці, якія "
 "падтрымліваюцца."
 
 #: ../mail/mail.error.xml.h:81
@@ -14372,8 +14373,8 @@ msgid ""
 "This server does not support this type of authentication and may not support "
 "authentication at all."
 msgstr ""
-"Гэты паслужнік не падтрымлівае запатрабаваны тып ідэнтыфікацыі і, магчыма, "
-"не падтрымлівае ідэнтыфікацыю зусім."
+"Гэты паслужнік не падтрымлівае запатрабаваны тып праверкі тоеснасьці і, магчыма, "
+"не падтрымлівае праверку зусім."
 
 #: ../mail/mail.error.xml.h:108
 msgid "This signature has been changed, but has not been saved."
@@ -14873,7 +14874,7 @@ msgid ""
 "authentication."
 msgstr ""
 "Гэтая можнасьць дазволіць далучыцца да паслужніку Exchange, праз "
-"выкарыстаньне ідэнтыфікацыі з абароненым паролем (NTLM)."
+"выкарыстаньне праверкі тоеснасьці з абароненым паролем (NTLM)."
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:74
 msgid "Plaintext Password"
@@ -14885,7 +14886,7 @@ msgid ""
 "password authentication."
 msgstr ""
 "Гэтая можнасьць дазволіць далучыцца да паслужніку Exchange сродкамі "
-"стандартнай ідэнтыфікацыі (пароль у выглядзе звычайнага тэксту)."
+"стандартнай праверкі тоеснасьці (пароль у выглядзе звычайнага тэксту)."
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:253
 msgid "Out Of Office"
@@ -14952,11 +14953,11 @@ msgstr "URL _OWA:"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:636
 msgid "A_uthenticate"
-msgstr "_Ідэнтыфікацыя"
+msgstr "_Праверка тоеснасьці"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:823
 msgid "Authentication Type"
-msgstr "Тып ідэнтыфікацыі"
+msgstr "Тып праверкі тоеснасьці"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:837
 msgid "Ch_eck for Supported Types"
@@ -15247,7 +15248,7 @@ msgstr ""
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:4
 msgid "Could not authenticate to server."
-msgstr "Збой ідэнтыфікацыі на паслужніку."
+msgstr "Збой праверкі тоеснасьціі на паслужніку."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:5
 msgid "Could not change password."
@@ -20788,4 +20789,5 @@ msgstr "Кантэкст IM"
 #: ../widgets/text/e-text.c:3683 ../widgets/text/e-text.c:3684
 msgid "Handle Popup"
 msgstr "Кіраваць усплыўным"
+
 
