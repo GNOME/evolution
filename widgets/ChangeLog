@@ -1,3 +1,9 @@
+2005-12-06  Veerapuram Varadhan <vvaradhan@novell.com>
+
+	* menus/gal-view-new-dialog.c (gal_view_new_dialog_set_property):
+	Load the widget pointer before using it.  Fixes a compiler warning
+	as well as #313219
+	
 2005-11-29 Simon Zheng <simon.zheng@sun.coma
 
 	* menus/gal-view-collection.c: (gal_view_generate_string):
