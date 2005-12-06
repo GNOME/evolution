@@ -1051,7 +1051,7 @@ table_canvas_focus_event_cb (GtkWidget *widget, GdkEventFocus *event, gpointer d
 	canvas = GNOME_CANVAS (widget);
 	tree = E_TREE (data);
 
-	if (!canvas->focused_item) {
+	if (!canvas->focused_item || (e_selection_model_cursor_row (tree->priv->selection) == -1)) {
 		e_table_item_set_cursor (E_TABLE_ITEM (tree->priv->item), 0, 0);
 		gnome_canvas_item_grab_focus (tree->priv->item);
 	}

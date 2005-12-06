@@ -1,3 +1,11 @@
+2005-12-06  Li Yuan <li.yuan@sun.com>
+
+	* e-tree.c: (table_canvas_focus_event_cb):
+	Fixes bug #322776.
+	When focus come into e-tree, it is possible that the focused_item 
+	is not NULL and there is no focused item in e-tree. So test 
+	e_selection_model_cursor_row also.
+
 2005-10-14  Kaushal Kumar  <kakumar@novell.com>
 
 	* table/e-table-group-container.c
