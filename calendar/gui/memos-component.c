@@ -143,7 +143,7 @@ ensure_sources (MemosComponent *component)
 				     "memos", "local",
 				     NULL);
 
-	base_uri_proto = g_strconcat ("file://", base_uri, NULL);
+	base_uri_proto = g_filename_to_uri (base_uri, NULL, NULL);
 
 	groups = e_source_list_peek_groups (source_list);
 	if (groups) {
@@ -1277,8 +1277,6 @@ memos_component_init (MemosComponent *component, MemosComponentClass *klass)
 
 	priv = g_new0 (MemosComponentPrivate, 1);
 	
-	printf("priv (MemosComponentnPrivate) == %p\n", priv);
-
 	priv->base_directory = g_build_filename (g_get_home_dir (), ".evolution", NULL);
 	priv->config_directory = g_build_filename (g_get_home_dir (),
 						   ".evolution", "memos", "config",

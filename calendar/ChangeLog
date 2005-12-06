@@ -1,3 +1,12 @@
+2005-12-06  Tor Lillqvist  <tml@novell.com>
+
+	* gui/e-cal-config.c (ecph_class_init)
+	* gui/memos-component.c (memos_component_init): Remove stray
+	leftover debugging output.
+
+	* gui/memos-component.c (ensure_sources): Use g_filename_to_uri()
+	instead of just prefixing "file://".
+
 2005-11-29  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #322616
