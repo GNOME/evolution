@@ -34,6 +34,8 @@
 #include <pi-socket.h>
 #include <pi-dlp.h>
 #include <pi-address.h>
+#include <libedataserver/e-url.h>
+#include <libedataserverui/e-passwords.h>
 #include <libebook/e-book.h>
 #include <gpilotd/gnome-pilot-conduit.h>
 #include <gpilotd/gnome-pilot-conduit-sync-abs.h>
@@ -878,10 +880,15 @@ local_record_from_ecard (EAddrLocalRecord *local, EContact *contact, EAddrCondui
 		char *add;
 		
 		/* If the address has 2 lines, make sure both get added */
-		if (address->ext != NULL)
+		if (address->ext != NULL && 
+		    strlen (address->ext) > 0) {
 			add = g_strconcat (address->street, "\n", address->ext, NULL);
-		else
+			LOG (g_warning ("Address has two lines: [%s]\n", add));
+		}
+		else {
 			add = g_strdup (address->street);
+			LOG (g_warning ("Address has only one line: [%s]\n", add));
+		}
 		local->addr->entry[entryAddress] = e_pilot_utf8_to_pchar (add);
 		g_free (add);
 		
@@ -1151,6 +1158,50 @@ check_for_slow_setting (GnomePilotConduit *c, EAddrConduitContext *ctxt)
 	}
 }
 
+static void
+addressbook_authenticate (EBook *book, 
+			  gpointer data)
+{
+	gchar *auth;
+	gchar *user;
+	gchar *passwd;
+	gchar *str_uri;
+	gchar *pass_key;
+	gchar *auth_domain;
+	gchar *component_name;
+	EUri *e_uri;
+
+	ESource *source = (ESource *)data;
+
+	auth = e_source_get_property (source, "auth");
+	auth_domain = e_source_get_property (source, "auth-domain");
+	component_name = auth_domain ? auth_domain : "Addressbook";
+
+	if (auth && !strcmp ("plain/password", auth))
+		user = e_source_get_property (source, "user");
+	else 
+		user = e_source_get_property (source, "email_addr");
+	if (!user)
+		user = "";	
+
+	str_uri = e_source_get_uri (source);
+	e_uri = e_uri_new (str_uri);	
+	pass_key = e_uri_to_string (e_uri, FALSE);
+	e_uri_free (e_uri);
+	
+	passwd = e_passwords_get_password (component_name, pass_key);
+	if (passwd)
+		passwd = "";
+
+	if (book)
+		if (!e_book_authenticate_user (book, user, passwd, auth, NULL))
+			LOG (g_warning ("Authentication failed"));
+	g_free (pass_key);
+	g_free (str_uri);
+
+	return;
+}
+
 /* Pilot syncing callbacks */
 static gint
 pre_sync (GnomePilotConduit *conduit,
@@ -1164,6 +1215,7 @@ pre_sync (GnomePilotConduit *conduit,
 	unsigned char *buf;
 	char *filename;
 	char *change_id;
+	char *auth;
 	gint num_records, add_records = 0, mod_records = 0, del_records = 0;
 
 	abs_conduit = GNOME_PILOT_CONDUIT_SYNC_ABS (conduit);
@@ -1178,6 +1230,12 @@ pre_sync (GnomePilotConduit *conduit,
 		ctxt->ebook = e_book_new (ctxt->cfg->source, NULL);
 	} else {
 		ctxt->ebook = e_book_new_default_addressbook (NULL);
+	}
+	auth = e_source_get_property (ctxt->cfg->source, "auth");
+	if (auth) {
+		LOG (g_message ("contacts needs authentication\n"));
+		g_signal_connect (ctxt->ebook, "auth_required", 
+				  G_CALLBACK (addressbook_authenticate), ctxt->cfg->source);
 	}
 	if (!ctxt->ebook || !e_book_open (ctxt->ebook, TRUE, NULL)) {
 		WARN(_("Could not load addressbook"));

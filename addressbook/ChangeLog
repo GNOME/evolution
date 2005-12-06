@@ -1,3 +1,11 @@
+2005-12-06  Veerapuram Varadhan <vvaradhan@novell.com>
+	
+	* conduits/addressbook-conduit.c: (pre_sync):
+	Authenticate by reading the store-password for calendars that has
+	"auth" property set.
+	* conduits/addressbook-conduit.c: (addressbook_authenticate):
+	Implement authentication using e-passwords.
+	
 2005-11-26  Tor Lillqvist  <tml@novell.com>
 
 	* gui/contact-editor/e-contact-editor.c
