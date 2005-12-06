@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-12-02 13:41+0200\n"
-"PO-Revision-Date: 2005-12-02 14:24+0200\n"
+"POT-Creation-Date: 2005-12-06 19:19+0200\n"
+"PO-Revision-Date: 2005-12-06 19:48+0200\n"
 "Last-Translator: Žygimantas Beručka <zygis@gnome.org>\n"
 "Language-Team: Lithuanian <komp_lt@konferencijos.lt>\n"
 "MIME-Version: 1.0\n"
@@ -313,7 +313,7 @@ msgstr "Išskleidžiamas sąrašas"
 
 #: ../a11y/widgets/ea-combo-button.c:50
 msgid "Activate Default"
-msgstr "Aktyvuoti įprastąjį"
+msgstr "Aktyvuoti numatytąjį"
 
 #: ../a11y/widgets/ea-combo-button.c:52
 msgid "Popup Menu"
@@ -514,17 +514,17 @@ msgstr "{0}"
 msgid "{1}"
 msgstr "{1}"
 
-#: ../addressbook/conduit/address-conduit.c:298
+#: ../addressbook/conduit/address-conduit.c:300
 msgid "Default Sync Address:"
-msgstr "Įprastas sinchronizavimo adresas:"
+msgstr "Numatytasis sinchronizavimo adresas:"
 
-#: ../addressbook/conduit/address-conduit.c:1183
-#: ../addressbook/conduit/address-conduit.c:1184
+#: ../addressbook/conduit/address-conduit.c:1241
+#: ../addressbook/conduit/address-conduit.c:1242
 msgid "Could not load addressbook"
 msgstr "Nepavyko įkelti adresų knygos"
 
-#: ../addressbook/conduit/address-conduit.c:1252
-#: ../addressbook/conduit/address-conduit.c:1255
+#: ../addressbook/conduit/address-conduit.c:1310
+#: ../addressbook/conduit/address-conduit.c:1313
 msgid "Could not read pilot's Address application block"
 msgstr "Nepavyko perskaityti piloto Address programos bloko"
 
@@ -1151,6 +1151,7 @@ msgstr "kortelės"
 #: ../calendar/gui/alarm-notify/util.c:66
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:26
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:14
+#: ../calendar/gui/misc.c:111 ../calendar/gui/misc.c:113
 #: ../filter/filter.glade.h:16 ../mail/em-account-editor.c:1951
 #: ../plugins/calendar-http/calendar-http.c:263
 #: ../plugins/calendar-weather/calendar-weather.c:563
@@ -4310,21 +4311,21 @@ msgstr "{0}."
 msgid "Enter password"
 msgstr "Įveskite slaptažodį"
 
-#: ../calendar/conduits/calendar/calendar-conduit.c:246
+#: ../calendar/conduits/calendar/calendar-conduit.c:248
 msgid "Split Multi-Day Events:"
 msgstr "Išskaidyti kelių dienų įvykius:"
 
-#: ../calendar/conduits/calendar/calendar-conduit.c:1377
-#: ../calendar/conduits/calendar/calendar-conduit.c:1378
+#: ../calendar/conduits/calendar/calendar-conduit.c:1425
+#: ../calendar/conduits/calendar/calendar-conduit.c:1426
 #: ../calendar/conduits/memo/memo-conduit.c:854
 #: ../calendar/conduits/memo/memo-conduit.c:855
-#: ../calendar/conduits/todo/todo-conduit.c:988
-#: ../calendar/conduits/todo/todo-conduit.c:989
+#: ../calendar/conduits/todo/todo-conduit.c:1032
+#: ../calendar/conduits/todo/todo-conduit.c:1033
 msgid "Could not start evolution-data-server"
 msgstr "Nepavyko paleisti evolution-data-server"
 
-#: ../calendar/conduits/calendar/calendar-conduit.c:1486
-#: ../calendar/conduits/calendar/calendar-conduit.c:1489
+#: ../calendar/conduits/calendar/calendar-conduit.c:1522
+#: ../calendar/conduits/calendar/calendar-conduit.c:1525
 msgid "Could not read pilot's Calendar application block"
 msgstr "Nepavyko perskaityti piloto Calendar programos bloko"
 
@@ -4338,17 +4339,17 @@ msgstr "Nepavyko perskaityti piloto Raštelių programos bloko"
 msgid "Could not write pilot's Memo application block"
 msgstr "Nepavyko įrašyti piloto Memo programos bloko"
 
-#: ../calendar/conduits/todo/todo-conduit.c:237
+#: ../calendar/conduits/todo/todo-conduit.c:239
 msgid "Default Priority:"
 msgstr "Numatytasis prioritetas:"
 
-#: ../calendar/conduits/todo/todo-conduit.c:1071
-#: ../calendar/conduits/todo/todo-conduit.c:1074
+#: ../calendar/conduits/todo/todo-conduit.c:1112
+#: ../calendar/conduits/todo/todo-conduit.c:1115
 msgid "Could not read pilot's ToDo application block"
 msgstr "Nepavyko perskaityti piloto ToDo programos bloko"
 
-#: ../calendar/conduits/todo/todo-conduit.c:1110
-#: ../calendar/conduits/todo/todo-conduit.c:1113
+#: ../calendar/conduits/todo/todo-conduit.c:1151
+#: ../calendar/conduits/todo/todo-conduit.c:1154
 msgid "Could not write pilot's ToDo application block"
 msgstr "Nepavyko įrašyti piloto ToDo programos bloko"
 
@@ -4432,7 +4433,8 @@ msgstr "Evolution kalendoriaus perspėjimo pranešimo tarnyba"
 
 #: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:117
 #: ../calendar/gui/alarm-notify/util.c:64
-#: ../calendar/gui/alarm-notify/util.c:66
+#: ../calendar/gui/alarm-notify/util.c:66 ../calendar/gui/misc.c:111
+#: ../calendar/gui/misc.c:113
 msgid "minute"
 msgid_plural "minutes"
 msgstr[0] "minutė"
@@ -4580,57 +4582,57 @@ msgid "invalid time"
 msgstr "netinkamas laikas"
 
 #. Can't be zero
-#: ../calendar/gui/alarm-notify/util.c:58
+#: ../calendar/gui/alarm-notify/util.c:58 ../calendar/gui/misc.c:105
 #, c-format
 msgid "(%d seconds)"
 msgstr "(%d sekundės)"
 
-#: ../calendar/gui/alarm-notify/util.c:64
+#: ../calendar/gui/alarm-notify/util.c:64 ../calendar/gui/misc.c:111
 #, c-format
 msgid "(%d %s %d %s)"
 msgstr "(%d %s %d %s)"
 
 #: ../calendar/gui/alarm-notify/util.c:64
-#: ../calendar/gui/dialogs/recurrence-page.c:991
+#: ../calendar/gui/dialogs/recurrence-page.c:991 ../calendar/gui/misc.c:111
 msgid "second"
 msgstr "sekundė"
 
-#: ../calendar/gui/alarm-notify/util.c:64 ../filter/filter.glade.h:18
-#: ../mail/mail-config.glade.h:177
+#: ../calendar/gui/alarm-notify/util.c:64 ../calendar/gui/misc.c:111
+#: ../filter/filter.glade.h:18 ../mail/mail-config.glade.h:177
 msgid "seconds"
 msgstr "sekundžių"
 
-#: ../calendar/gui/alarm-notify/util.c:66
+#: ../calendar/gui/alarm-notify/util.c:66 ../calendar/gui/misc.c:113
 #, c-format
 msgid "(%d %s)"
 msgstr "(%d %s)"
 
-#: ../calendar/gui/alarm-notify/util.c:77
+#: ../calendar/gui/alarm-notify/util.c:77 ../calendar/gui/misc.c:124
 #, c-format
 msgid " %u second"
 msgstr "%u sekundė"
 
-#: ../calendar/gui/alarm-notify/util.c:77
+#: ../calendar/gui/alarm-notify/util.c:77 ../calendar/gui/misc.c:124
 #, c-format
 msgid " %u seconds"
 msgstr "%u sekundės"
 
-#: ../calendar/gui/alarm-notify/util.c:79
+#: ../calendar/gui/alarm-notify/util.c:79 ../calendar/gui/misc.c:126
 #, c-format
 msgid " %u minute"
 msgstr "%u minutė"
 
-#: ../calendar/gui/alarm-notify/util.c:79
+#: ../calendar/gui/alarm-notify/util.c:79 ../calendar/gui/misc.c:126
 #, c-format
 msgid " %u minutes"
 msgstr "%u minutės"
 
-#: ../calendar/gui/alarm-notify/util.c:81
+#: ../calendar/gui/alarm-notify/util.c:81 ../calendar/gui/misc.c:128
 #, c-format
 msgid "%u hour"
 msgstr "%u valanda"
 
-#: ../calendar/gui/alarm-notify/util.c:81
+#: ../calendar/gui/alarm-notify/util.c:81 ../calendar/gui/misc.c:128
 #, c-format
 msgid "%u hours"
 msgstr "%u valandos"
@@ -4680,15 +4682,15 @@ msgstr "Dienos, kuriose turi būti pažymėtos pirma ir paskutinė darbo valando
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:11
 msgid "Default appointment reminder"
-msgstr "Įprastas paskyrimo priminimas"
+msgstr "Numatytasis paskyrimo priminimas"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:12
 msgid "Default reminder units"
-msgstr "Įprasti priminimo vienetai"
+msgstr "Numatytieji priminimo vienetai"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:13
 msgid "Default reminder value"
-msgstr "Įprasta priminimo reikšmė"
+msgstr "Numatytoji priminimo reikšmė"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:14
 msgid "Free/busy server urls"
@@ -4766,7 +4768,7 @@ msgstr "Mėnesio rodinio vertikalaus skydelio pozicija"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:32
 msgid "Number of units for determining for a default reminder."
-msgstr "Vienetų skaičius nustatantis įprastą priminimą."
+msgstr "Vienetų skaičius nustatantis numatytąjį priminimą."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:33
 msgid "Number of units for determining when to hide tasks."
@@ -4879,7 +4881,7 @@ msgid ""
 "The default timezone to use for dates and times in the calendar, as an "
 "untranslated Olsen timezone database location like \"America/New York\"."
 msgstr ""
-"Įprasta laiko juosta naudojama datoms ir laikui kalendoriuje, taip kaip yra "
+"Numatytoji laiko juosta naudojama datoms ir laikui kalendoriuje, taip kaip yra "
 "neišverstoje Olseno laiko juostų duomenų bazėje. Pvz. „America/New York“."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:56
@@ -4910,7 +4912,7 @@ msgstr "Dvidešimt keturių valandų laiko formatas"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:61
 msgid "Units for a default reminder, \"minutes\", \"hours\" or \"days\"."
-msgstr "Įprasto priminimo vienetai, „minutes“, „hours“ arba „days“."
+msgstr "Numatytojo priminimo vienetai, „minutes“, „hours“ arba „days“."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:62
 msgid ""
@@ -4960,7 +4962,7 @@ msgstr "Ar užduočių rodinyje paslėpti atliktas užduotis."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:73
 msgid "Whether to set a default reminder for appointments."
-msgstr "Ar nurodyti įprastą paskyrimų priminimą."
+msgstr "Ar nurodyti numatytąjį paskyrimų priminimą."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:74
 msgid "Whether to show RSVP field in the event/task/meeting editor"
@@ -5512,7 +5514,7 @@ msgstr "<b>Perspėjimai</b>"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:8
 msgid "<b>Default Free/Busy Server</b>"
-msgstr "<b>Įprastas „laisvas/užsiėmęs“ informacijos serveris</b>"
+msgstr "<b>Numatytasis „laisvas/užsiėmęs“ informacijos serveris</b>"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:9
 msgid "<b>General</b>"
@@ -10242,7 +10244,7 @@ msgstr "Sukurti laišką"
 msgid "_Attachment Bar"
 msgstr "_Priedų juosta"
 
-#: ../composer/e-msg-composer.c:4881
+#: ../composer/e-msg-composer.c:4883
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)"
 "<b>"
@@ -11038,7 +11040,7 @@ msgstr "Pašto siuntimas"
 
 #: ../mail/em-account-editor.c:2165 ../mail/mail-config.glade.h:68
 msgid "Defaults"
-msgstr "Įprastos reikšmės"
+msgstr "Numatytieji"
 
 #. Security settings
 #: ../mail/em-account-editor.c:2226 ../mail/mail-config.glade.h:122
@@ -11066,7 +11068,7 @@ msgstr "Evolution abonementų padėjėjas"
 #. translators: default account indicator
 #: ../mail/em-account-prefs.c:455
 msgid "[Default]"
-msgstr "[Įprasta]"
+msgstr "[Numatytasis]"
 
 #: ../mail/em-account-prefs.c:510
 msgid "Account name"
@@ -11495,7 +11497,7 @@ msgstr "Skanuojami aplankai, esantys „%s“"
 #: ../ui/evolution-message-composer.xml.h:54 ../ui/evolution-tasks.xml.h:30
 #: ../ui/evolution.xml.h:49
 msgid "_View"
-msgstr "_Rodyti"
+msgstr "_Rodymas"
 
 #: ../mail/em-folder-tree.c:2043
 msgid "Open in _New Window"
@@ -11672,7 +11674,7 @@ msgstr "Filtruoti pagal k_onferenciją"
 #. default charset used in mail view
 #: ../mail/em-folder-view.c:1923 ../mail/em-folder-view.c:1967
 msgid "Default"
-msgstr "Įprastas"
+msgstr "Numatytasis"
 
 #: ../mail/em-folder-view.c:2066
 #: ../plugins/print-message/org-gnome-print-message.eplug.xml.h:2
@@ -12179,11 +12181,11 @@ msgstr "Citatų išskyrimo spalva."
 
 #: ../mail/evolution-mail.schemas.in.in.h:6
 msgid "Composer Window default height"
-msgstr "Rašymo lango įprastas aukštis"
+msgstr "Rašymo lango numatytasis aukštis"
 
 #: ../mail/evolution-mail.schemas.in.in.h:7
 msgid "Composer Window default width"
-msgstr "Rašymo lango įprastas plotis"
+msgstr "Rašymo lango numatytasis plotis"
 
 #: ../mail/evolution-mail.schemas.in.in.h:8
 msgid "Default charset in which to compose messages"
@@ -12203,35 +12205,35 @@ msgstr "Koduotė, kuri yra naudojama skaitant laiškus"
 
 #: ../mail/evolution-mail.schemas.in.in.h:12
 msgid "Default forward style"
-msgstr "Įprastas persiuntimo stilius"
+msgstr "Numatytasis persiuntimo stilius"
 
 #: ../mail/evolution-mail.schemas.in.in.h:13
 msgid "Default height of the Composer Window"
-msgstr "Įprastas rašymo lango aukštis"
+msgstr "Numatytasis rašymo lango aukštis"
 
 #: ../mail/evolution-mail.schemas.in.in.h:14
 msgid "Default height of the Message Window"
-msgstr "Įprastas laiško lango aukštis"
+msgstr "Numatytasis laiško lango aukštis"
 
 #: ../mail/evolution-mail.schemas.in.in.h:15
 msgid "Default height of the Subscribe dialog"
-msgstr "Įprastas užsisakymo dialogo aukštis"
+msgstr "Numatytasis užsisakymo dialogo aukštis"
 
 #: ../mail/evolution-mail.schemas.in.in.h:16
 msgid "Default reply style"
-msgstr "Įprastas atsakymų stilius"
+msgstr "Numatytasis atsakymų stilius"
 
 #: ../mail/evolution-mail.schemas.in.in.h:17
 msgid "Default width of the Composer Window"
-msgstr "Įprastas rašymo lango plotis"
+msgstr "Numatytasis rašymo lango plotis"
 
 #: ../mail/evolution-mail.schemas.in.in.h:18
 msgid "Default width of the Message Window"
-msgstr "Įprastas laiško lango plotis"
+msgstr "Numatytasis laiško lango plotis"
 
 #: ../mail/evolution-mail.schemas.in.in.h:19
 msgid "Default width of the Subscribe dialog"
-msgstr "Įprastas užsisakymo dialogo plotis"
+msgstr "Numatytasis užsisakymo dialogo plotis"
 
 #: ../mail/evolution-mail.schemas.in.in.h:20
 msgid "Draw spelling error indicators on words as you type."
@@ -12277,7 +12279,7 @@ msgid ""
 "in GNOME's mime-type database may be used for displaying content."
 msgstr ""
 "Jei Evolution neturi vidinės atitinkamo objekto tipo žiūryklės, objektui "
-"peržiūrėti gali būti naudojamas įprastas bonobo komponentas, susietas su "
+"peržiūrėti gali būti naudojamas numatytasis bonobo komponentas, susietas su "
 "atitinkamu tipu GNOME mime tipų bazėje."
 
 #: ../mail/evolution-mail.schemas.in.in.h:29
@@ -12372,11 +12374,11 @@ msgstr "Laiško „Peržiūroje“ pažymėti citatas."
 
 #: ../mail/evolution-mail.schemas.in.in.h:48
 msgid "Message Window default height"
-msgstr "Žinutės lango įprastas aukštis"
+msgstr "Žinutės lango numatytasis aukštis"
 
 #: ../mail/evolution-mail.schemas.in.in.h:49
 msgid "Message Window default width"
-msgstr "Žinutės lango įprastas plotis"
+msgstr "Žinutės lango numatytasis plotis"
 
 #: ../mail/evolution-mail.schemas.in.in.h:50
 msgid "Message-display style (normal, full headers, source)"
@@ -12458,11 +12460,11 @@ msgstr "Tikrinti gaunamą paštą dėl galimo šlamšto"
 
 #: ../mail/evolution-mail.schemas.in.in.h:67
 msgid "Send HTML mail by default"
-msgstr "Įprastai siųsti laiškus HTML formatu"
+msgstr "Jei nenurodoma kitaip, siųsti laiškus HTML formatu"
 
 #: ../mail/evolution-mail.schemas.in.in.h:68
 msgid "Send HTML mail by default."
-msgstr "Įprastai siųsti laiškus HTML formatu."
+msgstr "Jei nenurodoma kitaip, siųsti laiškus HTML formatu."
 
 #: ../mail/evolution-mail.schemas.in.in.h:69
 msgid "Show Animations"
@@ -12495,11 +12497,11 @@ msgstr "Rašybą tikrinti rašymo metu"
 
 #: ../mail/evolution-mail.schemas.in.in.h:78
 msgid "Subscribe dialog default height"
-msgstr "Užsisakymo dialogo įprastas aukštis"
+msgstr "Užsisakymo dialogo numatytasis aukštis"
 
 #: ../mail/evolution-mail.schemas.in.in.h:79
 msgid "Subscribe dialog default width"
-msgstr "Užsisakymo dialogo įprastas plotis"
+msgstr "Užsisakymo dialogo numatytasis plotis"
 
 #: ../mail/evolution-mail.schemas.in.in.h:80
 msgid "Terminal font"
@@ -12550,7 +12552,7 @@ msgstr "Laiko tarpas, skirtas pažymėti laiškus kaip perskaitytus."
 
 #: ../mail/evolution-mail.schemas.in.in.h:90
 msgid "UID string of the default account."
-msgstr "Įprastos sąskaitos UID seka."
+msgstr "Numatytojo abonemento UID seka."
 
 #: ../mail/evolution-mail.schemas.in.in.h:91
 msgid "Use Spamassassin daemon and client"
@@ -12938,7 +12940,7 @@ msgstr "<span weight=\"bold\">Konfigūracija</span>"
 
 #: ../mail/mail-config.glade.h:14
 msgid "<span weight=\"bold\">Default Behavior</span>"
-msgstr "<span weight=\"bold\">Įprasta elgsena</span>"
+msgstr "<span weight=\"bold\">Numatytoji elgsena</span>"
 
 #: ../mail/mail-config.glade.h:15
 msgid "<span weight=\"bold\">Delete Mail</span>"
@@ -13138,7 +13140,7 @@ msgstr "Įp_rastas"
 
 #: ../mail/mail-config.glade.h:67
 msgid "Default character e_ncoding:"
-msgstr "Įprasta simbolių _koduotė:"
+msgstr "Numatytoji simbolių _koduotė:"
 
 #: ../mail/mail-config.glade.h:70
 msgid "Digitally _sign outgoing messages (by default)"
@@ -13311,7 +13313,7 @@ msgstr "P_asirinkti..."
 
 #: ../mail/mail-config.glade.h:120
 msgid "S_tandard Font:"
-msgstr "Įpras_tas šriftas:"
+msgstr "S_tandartinis šriftas:"
 
 #: ../mail/mail-config.glade.h:121
 msgid "Se_lect..."
@@ -13323,15 +13325,15 @@ msgstr "Pasirinkit HTML fiksuoto pločio šriftą"
 
 #: ../mail/mail-config.glade.h:124
 msgid "Select HTML fixed width font for printing"
-msgstr "Pasirinkit HTML fiksuoti pločio šriftą naudojamą spausdinant"
+msgstr "Pasirinkite HTML fiksuoti pločio šriftą naudojamą spausdinant"
 
 #: ../mail/mail-config.glade.h:125
 msgid "Select HTML variable width font"
-msgstr "Pasirinkit HTML kintamo pločio šriftą"
+msgstr "Pasirinkite HTML kintamo pločio šriftą"
 
 #: ../mail/mail-config.glade.h:126
 msgid "Select HTML variable width font for printing"
-msgstr "Pasirinkit HTML kintamo pločio šriftą spausdinimui"
+msgstr "Pasirinkite HTML kintamo pločio šriftą spausdinimui"
 
 #: ../mail/mail-config.glade.h:127
 msgid "Send message receipts:"
@@ -13371,7 +13373,7 @@ msgstr "Parašų lentelė"
 
 #: ../mail/mail-config.glade.h:137
 msgid "Specify _filename:"
-msgstr "Nurodykit _bylos vardą:"
+msgstr "Nurodykite _bylos vardą:"
 
 #: ../mail/mail-config.glade.h:138
 msgid "Spell Checking"
@@ -13458,7 +13460,7 @@ msgstr "Į_kelti paveikslėlius laiškuose iš kontaktų"
 
 #: ../mail/mail-config.glade.h:162
 msgid "_Make this my default account"
-msgstr "_Padaryti šį abonementą įprastu"
+msgstr "_Padaryti šį abonementą numatytuoju"
 
 #: ../mail/mail-config.glade.h:163
 msgid "_Mark messages as read after"
@@ -14373,8 +14375,8 @@ msgid ""
 "This message cannot be sent because the account you chose to send with is "
 "not enabled"
 msgstr ""
-"Šio laiško išsiųsti negalima, nes abonementas, kurį naudodami siunčiate, "
-"yra neįjungtas"
+"Šio laiško išsiųsti negalima, nes abonementas, kurį naudodami siunčiate, yra "
+"neįjungtas"
 
 #: ../mail/mail.error.xml.h:106
 msgid ""
@@ -14402,7 +14404,7 @@ msgid ""
 "Unable to open the drafts folder for this account.  Use the system drafts "
 "folder instead?"
 msgstr ""
-"Nepavyko atverti šios abonemento juodraščių aplanko. Ar vietoj to naudoti "
+"Nepavyko atverti šios abonemento juodraščių aplanko. Ar vietoje to naudoti "
 "sistemos juodraščių aplanką?"
 
 #: ../mail/mail.error.xml.h:111
@@ -14411,11 +14413,11 @@ msgstr "Nepavyko perskaityti licencijos bylos."
 
 #: ../mail/mail.error.xml.h:112
 msgid "Use _Default"
-msgstr "Nau_doti įprastą"
+msgstr "Nau_doti numatytąjį"
 
 #: ../mail/mail.error.xml.h:113
 msgid "Use default drafts folder?"
-msgstr "Naudoti įprastą juodraščių aplanką?"
+msgstr "Naudoti numatytąjį juodraščių aplanką?"
 
 #: ../mail/mail.error.xml.h:114
 msgid "You have not filled in all of the required information."
@@ -14721,8 +14723,8 @@ msgid ""
 "Periodically synchronize contact information and images from my _instant "
 "messenger"
 msgstr ""
-"Periodiškai sinchronizuoti kontaktų informaciją ir paveikslėlius su mano "
-"_greitų žinučių programa"
+"Periodiškai sinchronizuoti kontaktų informaciją ir paveikslėlius su _greitų "
+"žinučių programa"
 
 #. Synchronize now button.
 #: ../plugins/bbdb/bbdb.c:470
@@ -14857,7 +14859,7 @@ msgstr "Ar norite nustatyti Evolution Jūsų numatytąja pašto programa?"
 #: ../plugins/default-source/default-source.c:82
 #: ../plugins/default-source/default-source.c:109
 msgid "Mark as default folder"
-msgstr "Naudoti šį aplanką įprastu"
+msgstr "Pažymėti šį aplanką numatytuoju"
 
 #: ../plugins/exchange-operations/e-foreign-folder-dialog.glade.h:1
 msgid "Open Other User's Folder"
@@ -15755,13 +15757,13 @@ msgstr "%sĮveskite %s slaptažodį (naudotojas %s)"
 msgid "_Proxy Login..."
 msgstr "_Tarpinio serverio prisijungimo vardas..."
 
-#: ../plugins/groupwise-features/proxy.c:690
+#: ../plugins/groupwise-features/proxy.c:691
 msgid "The Proxy tab will be available only when the account is online."
 msgstr ""
 "Tarpinio serverio kortelė bus prieinama tik tada, kai abonementas "
 "prisijungęs."
 
-#: ../plugins/groupwise-features/proxy.c:695
+#: ../plugins/groupwise-features/proxy.c:696
 msgid "The Proxy tab will be available only when the account is enabled."
 msgstr ""
 "Tarpinio serverio kortelė bus prieinama tik tada, kai abonementas įjungtas."
@@ -16395,7 +16397,7 @@ msgid ""
 "Provide actions for common mailing list commands (subscribe, "
 "unsubscribe, ...)."
 msgstr ""
-"Aprūpina veiksmais įprastoms pašto konferencijų komandoms (užsisakyti, "
+"Suteikia veiksmus standartinėms konferencijų komandoms (užsisakyti, "
 "atsisakyti, ...)."
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:7
@@ -16907,15 +16909,15 @@ msgstr "Konfigūracijos versija"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:3
 msgid "Default sidebar width"
-msgstr "Įprastas šoninio skydelio plotis"
+msgstr "Numatytasis šoninio skydelio plotis"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:4
 msgid "Default window height"
-msgstr "Įprastas lango aukštis"
+msgstr "Numatytasis lango aukštis"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:5
 msgid "Default window width"
-msgstr "Įprastas lango plotis"
+msgstr "Numatytasis lango plotis"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:6
 msgid "ID or alias of the component to be shown by default at start-up."
@@ -16952,15 +16954,15 @@ msgstr ""
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:13
 msgid "The default height for the main window, in pixels."
-msgstr "Įprastas pagrindinio lango aukštis, taškais."
+msgstr "Numatytasis pagrindinio lango aukštis, taškais."
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:14
 msgid "The default width for the main window, in pixels."
-msgstr "Įprastas pagrindinio lango plotis, taškais."
+msgstr "Numatytasis pagrindinio lango plotis, taškais."
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:15
 msgid "The default width for the sidebar, in pixels."
-msgstr "Įprastas šoninio skydelio plotis, taškais."
+msgstr "Numatytasis šoninio skydelio plotis, taškais."
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:16
 msgid ""
@@ -17978,19 +17980,19 @@ msgstr "Įveskite PKCS12 bylos slaptažodį:"
 
 #: ../smime/lib/e-pkcs12.c:363
 msgid "Imported Certificate"
-msgstr "Įkeltas sertifikatas"
+msgstr "Įmportuotas sertifikatas"
 
 #: ../tools/evolution-launch-composer.c:324
 msgid "An attachment to add."
-msgstr "Prikabinamas priedas."
+msgstr "Prisegtina byla."
 
 #: ../tools/evolution-launch-composer.c:325
 msgid "Content type of the attachment."
-msgstr "Priedo tipas."
+msgstr "Prisegtos bylos turinio tipas."
 
 #: ../tools/evolution-launch-composer.c:326
 msgid "The filename to display in the mail."
-msgstr "Vardas rodomas laiške,"
+msgstr "Rodomas laiške bylos vardas."
 
 #: ../tools/evolution-launch-composer.c:327
 msgid "Description of the attachment."
@@ -18002,7 +18004,7 @@ msgstr "Pažymėti priedą kaip išvedamą laiško kontekste."
 
 #: ../tools/evolution-launch-composer.c:329
 msgid "Default subject for the message."
-msgstr "Įprasta laiško tema."
+msgstr "Numatytoji laiško tema."
 
 #. This most likely means that KILL_PROCESS_CMD wasn't
 #. * found, so just bail completely.
@@ -19986,7 +19988,7 @@ msgstr "Užrašo valdymo elementas"
 
 #: ../widgets/misc/e-expander.c:216
 msgid "A widget to display in place of the usual expander label"
-msgstr "Valdymo elementas rodomas vietoje įprasto plėtiklio užrašo"
+msgstr "Valdymo elementas rodomas vietoje numatytojo plėtiklio užrašo"
 
 #: ../widgets/misc/e-expander.c:222 ../widgets/table/e-tree.c:3318
 msgid "Expander Size"
@@ -20562,7 +20564,7 @@ msgstr "Ilgio riba"
 #: ../widgets/table/e-table.c:3323 ../widgets/table/e-tree.c:3297
 #: ../widgets/table/e-tree.c:3298
 msgid "Uniform row height"
-msgstr "Įprastas eilutės aukštis"
+msgstr "Numatytasis eilutės aukštis"
 
 #: ../widgets/table/e-table-group-container.c:957
 #: ../widgets/table/e-table-group-container.c:958
