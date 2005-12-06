@@ -31,6 +31,8 @@
 #include <libecal/e-cal-types.h>
 #include <libecal/e-cal.h>
 #include <libecal/e-cal-time-util.h>
+#include <libedataserver/e-url.h>
+#include <libedataserverui/e-passwords.h>
 #include <libedataserver/e-categories.h>
 #include <pi-source.h>
 #include <pi-socket.h>
@@ -425,20 +427,62 @@ static char *print_remote (GnomePilotRecord *remote)
 	return buff;
 }
 
+static char *
+auth_func_cb (ECal *ecal, const char* prompt, const char *key, gpointer user_data)
+{
+	char *password;
+	ESource *source;
+	const gchar *auth_domain, *component_name;
+
+	source = e_cal_get_source (ecal);
+	auth_domain = e_source_get_property (source, "auth-domain");
+	component_name = auth_domain ? auth_domain : "Todo";
+	password = e_passwords_get_password (component_name, key);
+
+	LOG (g_message ("auth_domain = %s, component_name = %s\n",
+			auth_domain, component_name));
+	return password;
+}
+
 static int
 start_calendar_server (EToDoConduitContext *ctxt)
 {
+	char *str_uri = NULL;
+	char *pass_key = NULL;
+	int retval = 0;
 	g_return_val_if_fail (ctxt != NULL, -2);
 
 	if (ctxt->cfg->source) {
 		ctxt->client = e_cal_new (ctxt->cfg->source, E_CAL_SOURCE_TYPE_TODO);
-		if (!e_cal_open (ctxt->client, TRUE, NULL)) 
+		/* Set the default timezone on the backend.
+		   As of Evo. 2.5.x, timezone should be set before
+		   calling e_cal_open.
+		*/
+		if (ctxt->timezone && !e_cal_set_default_timezone (ctxt->client, ctxt->timezone, NULL))
 			return -1;
+
+		LOG (g_message ( "  timezone set to : %s", icaltimezone_get_tzid (ctxt->timezone) ));	
+
+		if (e_source_get_property (ctxt->cfg->source, "auth")) {
+			EUri *e_uri;
+
+			LOG (g_message ("Authenticating to fetch todo data\n"));
+			str_uri = e_source_get_uri (ctxt->cfg->source);
+			e_uri = e_uri_new (str_uri);
+			pass_key = e_uri_to_string (e_uri, FALSE);
+			e_uri_free (e_uri);
+			if (ctxt->client)
+				e_cal_set_auth_func (ctxt->client, (ECalAuthFunc) auth_func_cb, NULL);
+		}
+		if (!e_cal_open (ctxt->client, TRUE, NULL)) 
+			retval = -1;
 	} else if (!e_cal_open_default (&ctxt->client, E_CAL_SOURCE_TYPE_TODO, NULL, NULL, NULL)) {
-		return -1;
+		retval = -1;
 	}
 
-	return 0;
+	g_free (str_uri);
+	g_free (pass_key);
+	return retval;
 }
 
 /* Utility routines */
@@ -996,13 +1040,10 @@ pre_sync (GnomePilotConduit *conduit,
 		return -1;
 	LOG (g_message ( "  Using timezone: %s", icaltimezone_get_tzid (ctxt->timezone) ));
 
-	/* Set the default timezone on the backend. */
-	if (ctxt->timezone && !e_cal_set_default_timezone (ctxt->client, ctxt->timezone, NULL))
-		return -1;
-	
 	/* Get the default component */
 	if (!e_cal_get_default_object (ctxt->client, &icalcomp, NULL))
 		return -1;
+	LOG (g_message ( "  Got default component: %p", icalcomp));
 	
 	ctxt->default_comp = e_cal_component_new ();
 	if (!e_cal_component_set_icalcomponent (ctxt->default_comp, icalcomp)) {

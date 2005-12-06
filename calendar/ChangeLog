@@ -1,5 +1,14 @@
 2005-12-06  Veerapuram Varadhan <vvaradhan@novell.com>
 
+	* conduits/todo/todo-conduit.c (start_calendar_server):
+	Authenticate by reading the stored-password for tasks that has
+	"auth" property set.  
+	(pre_sync): Moved setting of timezone to start_calendar_server as
+	per the current e-d-s requirements.
+	** Fixes #316315
+
+2005-12-06  Veerapuram Varadhan <vvaradhan@novell.com>
+
 	* conduits/calendar/calendar-conduit.c (start_calendar_server):
 	Authenticate by reading the stored-password for calendar that has
 	"auth" property set.  
