@@ -886,7 +886,7 @@ item_key_press (ETableItem *eti, int row, int col, GdkEvent *event, ETree *et)
 	case GDK_Right:
 	case GDK_KP_Right:
 		/* Only allow if the Shift modifier is used -- eg. Ctrl-Equal shouldn't be handled.  */
-		if (key->state & ~(GDK_SHIFT_MASK | GDK_LOCK_MASK))
+		if ((key->state == 0) || (key->state & ~(GDK_SHIFT_MASK | GDK_LOCK_MASK)))
 			break;
 		if (row != -1) {
 			path = e_tree_table_adapter_node_at_row(et->priv->etta, row);
@@ -899,7 +899,7 @@ item_key_press (ETableItem *eti, int row, int col, GdkEvent *event, ETree *et)
 	case GDK_Left:
 	case GDK_KP_Left:
 		/* Only allow if the Shift modifier is used -- eg. Ctrl-Minus shouldn't be handled.  */
-		if (key->state & ~(GDK_SHIFT_MASK | GDK_LOCK_MASK))
+		if ((key->state == 0) || (key->state & ~(GDK_SHIFT_MASK | GDK_LOCK_MASK)))
 			break;
 		if (row != -1) {
 			path = e_tree_table_adapter_node_at_row(et->priv->etta, row);
