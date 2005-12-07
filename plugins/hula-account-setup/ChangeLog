@@ -1,3 +1,7 @@
+2005-12-07  Funda Wang  <fundawang@linux.net.cn>
+
+	* org-gnome-evolution-hula-account-setup.eplug.xml: i18nlized.
+
 2005-11-14  Harish Krishnaswamy  <kharish@novell.com>
 
 	* Makefile.am, camel-hula-listener.[ch], hula-account-setup.c,

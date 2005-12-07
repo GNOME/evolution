@@ -3,7 +3,7 @@
   <e-plugin id="org.gnome.evolution.plugin.hula-account-setup" type="shlib" _name="Hula Account Setup"
     location="@PLUGINDIR@/liborg-gnome-evolution-hula-account-setup@SOEXT@" load-on-startup="true">
     <author name="Harish Krishnaswamy" email="kharish@novell.com"/>
-    <description>A plugin to setup hula calendar sources.</description>
+    <_description>A plugin to setup hula calendar sources.</_description>
     
     <hook class="org.gnome.evolution.mail.config:1.0">
       <group target="account" id="org.gnome.evolution.mail.config.accountDruid">

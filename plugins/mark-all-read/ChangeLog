@@ -1,3 +1,7 @@
+2005-12-07  Funda Wang  <fundawang@linux.net.cn>
+
+	* org-gnome-mark-all-read.eplug.in: i18nlized.
+
 2005-06-27  Tor Lillqvist  <tml@novell.com>
 
 	* Makefile.am: Use NO_UNDEFINED. Link with more libraries.

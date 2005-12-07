@@ -5,11 +5,11 @@
     id="org.gnome.evolution.plugin.exchange-operations"
     location="@PLUGINDIR@/liborg-gnome-exchange-operations@SOEXT@"
     load-on-startup="true"
-    name="Exchange Operations">
+    _name="Exchange Operations">
     <author name="Sushma Rai" email="rsushma@novell.com"/>
     <author name="Praveen Kumar" email="kpraveen@novell.com"/>
     <author name="Shakti Sen" email="shprasad@novell.com"/>
-    <description>A plugin that handles a collection of Exchange account specific operations and features.</description>
+    <_description>A plugin that handles a collection of Exchange account specific operations and features.</_description>
 	
     <hook class="org.gnome.evolution.mail.config:1.0">
       	<group 
@@ -19,7 +19,7 @@
 		commit="org_gnome_exchange_commit">
 		<item type="page" 
 	      		path="40.oof" 
-	      		label="Exchange Settings"
+	      		_label="Exchange Settings"
 	      		factory="org_gnome_exchange_settings"/>
                 <item type="item_table"
                         path="10.receive/10.config/20.owa"
@@ -209,7 +209,7 @@
 		<item 
 			type="page" 
 			path="10.size" 
-			label="Size" 
+			_label="Size" 
 			factory="org_gnome_exchange_show_folder_size_factory"/>
 		</group>
 	</hook>

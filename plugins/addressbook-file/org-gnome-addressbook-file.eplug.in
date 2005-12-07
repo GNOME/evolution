@@ -4,9 +4,9 @@
      type="shlib"
      location="@PLUGINDIR@/liborg-gnome-addressbook-file@SOEXT@"
      id="org.gnome.evolution.addressbook.file"
-     name="Local Address Books">
+     _name="Local Address Books">
      <author name="Sivaiah Nallagatla" email="snallagatla@novell.com"/>
-     <description>Provides core functionallity for local address books.</description>
+     <_description>Provides core functionallity for local address books.</_description>
         <hook class="org.gnome.evolution.addressbook.config:1.0">
             <group
 	     target="source"

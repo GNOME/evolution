@@ -1,3 +1,7 @@
+2005-12-07  Funda Wang  <fundawang@linux.net.cn>
+
+	* org-gnome-addressbook-file.eplug.in: i18nlized.
+
 2005-08-23  Not Zed  <NotZed@Ximian.com>
 
 	* addressbook-file.c (e_book_file_dummy): fix relative_uri type,
