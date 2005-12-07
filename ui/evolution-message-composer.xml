@@ -35,8 +35,12 @@
 		pixtype="stock" pixname="gtk-delete"
 		_tip="Delete all but signature"/>
 
-		<cmd name="RequestReceipt" _label="Request read receipt"
-		     _tip="Check to get delivery notification when your message is read"
+		<cmd name="RequestReceipt" _label="R_equest Read Receipt"
+		     _tip="Get delivery notification when your message is read"
+		     type="toggle" state="0"/>
+	     
+	        <cmd name="SetPriority" _label="_Prioritise Message"
+		     _tip="Set the message priority to high"
 		     type="toggle" state="0"/>
 		
 		<cmd name="FormatHtml" _label="HT_ML" _tip="Send the mail in HTML format"
@@ -131,6 +135,7 @@
                 	<placeholder name="Component"/>
 			<separator f="" name="emailcomposer"/>
 			<menuitem name="RequestReceipt" verb=""/>
+			<menuitem name="SetPriority" verb=""/>
                 </submenu>
 		
 		<submenu name="Format" _label="For_mat">
