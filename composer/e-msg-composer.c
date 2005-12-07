@@ -204,6 +204,7 @@ struct _EMsgComposerPrivate {
 	guint32 view_cc                : 1;
 	guint32 view_subject           : 1;
 	guint32 request_receipt        : 1;
+	guint32 set_priority	       : 1;
 	guint32 has_changed            : 1;
 	guint32 autosaved              : 1;
 	
@@ -565,6 +566,10 @@ build_message (EMsgComposer *composer, gboolean save_html_object_data)
 		
 		camel_medium_add_header (CAMEL_MEDIUM (new), "Disposition-Notification-To", mdn_address);
 	}
+
+	/* Message Priority */
+	if (p->set_priority) 
+		camel_medium_add_header (CAMEL_MEDIUM (new), "X-Priority", "1");
 	
 	if (p->mime_body) {
 		plain_encoding = CAMEL_TRANSFER_ENCODING_7BIT;
@@ -2048,6 +2053,19 @@ menu_insert_receipt_cb (BonoboUIComponent           *component,
 }
 
 static void
+menu_insert_priority_cb (BonoboUIComponent           *component,
+			const char                  *path,
+			Bonobo_UIComponent_EventType type,
+			const char                  *state,
+			gpointer                     user_data)
+{
+	if (type != Bonobo_UIComponent_STATE_CHANGED)
+		return;
+	
+	e_msg_composer_set_priority (E_MSG_COMPOSER (user_data), atoi (state));
+}
+
+static void
 menu_changed_charset_cb (BonoboUIComponent           *component,
 			 const char                  *path,
 			 Bonobo_UIComponent_EventType type,
@@ -2365,6 +2383,14 @@ setup_ui (EMsgComposer *composer)
 	bonobo_ui_component_add_listener (
 		p->uic, "RequestReceipt",
 		menu_insert_receipt_cb, composer);
+	
+	/* Insert/Set Priority*/
+	bonobo_ui_component_set_prop (
+		p->uic, "/commands/SetPriority",
+		"state", p->set_priority? "1" : "0", NULL);
+	bonobo_ui_component_add_listener (
+		p->uic, "SetPriority",
+		menu_insert_priority_cb, composer);
 	
 	/* Security -> PGP Sign */
 	bonobo_ui_component_set_prop (
@@ -5807,6 +5833,45 @@ e_msg_composer_set_request_receipt (EMsgComposer *composer, gboolean request_rec
 }
 
 
+/**
+ * e_msg_composer_get_priority
+ * @composer: A message composer widget
+ * 
+ * Get the status of the "Priority" flag.
+ * 
+ * Return value: The status of the "Priority" flag.
+ **/
+gboolean
+e_msg_composer_get_priority (EMsgComposer *composer)
+{
+	EMsgComposerPrivate *p = composer->priv;
+	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), FALSE);
+	
+	return p->set_priority;
+}
+
+
+/**
+ * e_msg_composer_set_priority:
+ * @composer: A message composer widget
+ * @state: whether to set priority or not
+ *
+ * If set, a message is sent with a high priority
+ */
+void
+e_msg_composer_set_priority (EMsgComposer *composer, gboolean set_priority)
+{
+	EMsgComposerPrivate *p = composer->priv;
+	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
+	
+	if ((p->set_priority && set_priority) ||
+	    (!p->set_priority && !set_priority))
+		return;
+	
+	p->set_priority= set_priority;
+	bonobo_ui_component_set_prop (p->uic, "/commands/SetPriority",
+				      "state", p->set_priority ? "1" : "0", NULL);
+}
 
 EDestination **
 e_msg_composer_get_recipients (EMsgComposer *composer)

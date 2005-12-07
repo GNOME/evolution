@@ -125,6 +125,10 @@ gboolean                 e_msg_composer_get_request_receipt              (EMsgCo
 void                     e_msg_composer_set_request_receipt              (EMsgComposer *composer,
 									  gboolean      request_receipt);
 
+gboolean                 e_msg_composer_get_priority              (EMsgComposer *composer);
+void                     e_msg_composer_set_priority              (EMsgComposer *composer,
+								  gboolean      set_priority);
+
 EDestination           **e_msg_composer_get_recipients                   (EMsgComposer *composer);
 EDestination           **e_msg_composer_get_to                           (EMsgComposer *composer);
 EDestination           **e_msg_composer_get_cc                           (EMsgComposer *composer);

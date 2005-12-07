@@ -1,3 +1,13 @@
+2005-12-07  Parthasarathi Susarla <sparthasarathi@novell.com>
+	
+	* e-msg-composer.[ch]:
+	(build_message):
+	(menu_insert_priority_cb):
+	(setup_ui):
+	(e_msg_composer_get_priority):
+	(e_msg_composer_set_priority):
+	Add support for setting priority of a message.
+
 2005-12-05  Parthasarathi Susarla <sparthasarathi@novell.com>
 	
 	** See bug #322863
