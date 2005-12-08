@@ -45,6 +45,7 @@
 #include "../e-timezone-entry.h"
 #include <e-util/e-dialog-utils.h>
 #include <e-util/e-dialog-widgets.h>
+#include <e-util/e-icon-factory.h>
 #include <e-util/e-util-private.h>
 
 #include "../e-meeting-attendee.h"
@@ -64,7 +65,6 @@
 struct _EventPagePrivate {
 	/* Glade XML data */
 	GladeXML *xml;
-
 	/* Widgets from the Glade file */
 
 	GtkWidget *main;
@@ -98,6 +98,9 @@ struct _EventPagePrivate {
 	GtkWidget *end_timezone;
 	GtkWidget *timezone_label;
 	gboolean   all_day_event;
+	GtkWidget *status_icons;
+	GtkWidget *alarm_icon;
+	GtkWidget *recur_icon;
 
 	GtkWidget *description;
 
@@ -214,6 +217,9 @@ event_page_init (EventPage *epage)
 	priv->end_timezone = NULL;
 	priv->timezone_label = NULL;
 	priv->all_day_event = FALSE;
+	priv->status_icons = NULL;
+	priv->alarm_icon = NULL;
+	priv->recur_icon = NULL;
 	priv->description = NULL;
 	priv->classification = E_CAL_COMPONENT_CLASS_NONE;
 	priv->show_time_as_busy = FALSE;
@@ -752,6 +758,23 @@ event_page_set_classification (EventPage *epage, ECalComponentClassification cla
 	epage->priv->classification = class;
 }
 
+static GtkWidget *
+create_image_event_box (const char *image_text, const char *tip_text)
+{
+	GtkWidget *image, *box;
+	GtkTooltips *tip;
+	
+	box = gtk_event_box_new ();
+	tip = gtk_tooltips_new ();
+	image = e_icon_factory_get_image (image_text, E_ICON_SIZE_MENU);
+
+	gtk_container_add ((GtkContainer *) box, image);
+	gtk_widget_show_all (box);
+	gtk_tooltips_set_tip (tip, box, tip_text, NULL);
+
+	return box;	
+}
+
 static void
 sensitize_widgets (EventPage *epage)
 {
@@ -772,6 +795,11 @@ sensitize_widgets (EventPage *epage)
 
 	custom = is_custom_alarm_store (priv->alarm_list_store, priv->old_summary, priv->alarm_units, priv->alarm_interval, NULL);
 	alarm = e_dialog_toggle_get (priv->alarm);
+
+	if (alarm && !priv->alarm_icon) {
+		priv->alarm_icon = create_image_event_box ("stock_bell", "This event has alarms");
+		gtk_box_pack_start ((GtkBox *)priv->status_icons, priv->alarm_icon, FALSE, FALSE, 3);
+	}
 	
 	gtk_entry_set_editable (GTK_ENTRY (priv->summary), sensitize);
 	gtk_entry_set_editable (GTK_ENTRY (priv->location), sensitize);
@@ -2027,6 +2055,9 @@ get_widgets (EventPage *epage)
 	priv->timezone_label = GW ("timezone-label");
 	priv->start_timezone = GW ("start-timezone");
 	priv->end_timezone = priv->start_timezone;
+	priv->status_icons = GW ("status-icons");
+
+	gtk_widget_show (priv->status_icons);
 
 	if (!calendar_config_get_show_timezone()) {
 		gtk_widget_hide (priv->timezone_label);
@@ -2502,8 +2533,17 @@ alarm_changed_cb (GtkWidget *widget, gpointer data)
 		icalcomponent_add_property (icalcomp, icalprop);
 
 		e_alarm_list_append (priv->alarm_list_store, NULL, ca);
+
+		if (!priv->alarm_icon) {
+			priv->alarm_icon = create_image_event_box ("stock_bell", "This event has alarms");
+			gtk_box_pack_start ((GtkBox *)priv->status_icons, priv->alarm_icon, FALSE, FALSE, 3);
+		}
 	} else {
 		e_alarm_list_clear (priv->alarm_list_store);
+		if (priv->alarm_icon) {
+			gtk_container_remove (priv->status_icons, priv->alarm_icon);
+			priv->alarm_icon = NULL;
+		}
 	}	
 		
 	sensitize_widgets (epage);	
@@ -2692,8 +2732,10 @@ init_widgets (EventPage *epage)
 	}
 	
 	g_signal_connect (priv->alarm,
-			  "toggled", G_CALLBACK (alarm_changed_cb),
+			  "toggled", G_CALLBACK (field_changed_cb),
 			  epage);
+	g_signal_connect (priv->alarm_time, "changed",
+			  G_CALLBACK (field_changed_cb), epage);
 	g_signal_connect (priv->alarm_custom, "clicked",
 			  G_CALLBACK (alarm_custom_clicked_cb), epage);
 
@@ -2715,8 +2757,6 @@ init_widgets (EventPage *epage)
 	g_signal_connect (priv->alarm,
 			  "toggled", G_CALLBACK (alarm_changed_cb),
 			  epage);
-	g_signal_connect (priv->alarm_custom, "clicked",
-			  G_CALLBACK (alarm_custom_clicked_cb), epage);
 
 	/* Set the default timezone, so the timezone entry may be hidden. */
 	zone = calendar_config_get_icaltimezone ();
@@ -2887,6 +2927,14 @@ event_page_create_source_option_menu (void)
 
 	gtk_widget_show (menu);
 	return menu;
+}
+
+GtkWidget *make_status_icons (void);
+
+GtkWidget *
+make_status_icons (void)
+{
+	return gtk_hbox_new (FALSE, 2);
 }
 
 static void

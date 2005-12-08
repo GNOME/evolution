@@ -75,7 +75,7 @@ typedef enum {
 typedef struct {
 	E_CALENDAR_VIEW_EVENT_FIELDS
 } ECalendarViewEvent;
-        
+ 
 typedef struct _ECalendarView        ECalendarView;
 typedef struct _ECalendarViewClass   ECalendarViewClass;
 typedef struct _ECalendarViewPrivate ECalendarViewPrivate;
@@ -84,6 +84,13 @@ struct _ECalendarView {
 	GtkTable table;
 	ECalendarViewPrivate *priv;
 };
+
+typedef struct {
+	ECalendarViewEvent * (* get_view_event) (ECalendarView *view, int day, int event_num);
+	ECalendarView *cal_view;
+	int day;
+	int event_num;
+} ECalendarViewEventData;
 
 struct _ECalendarViewClass {
 	GtkTableClass parent_class;
@@ -158,7 +165,7 @@ void           e_calendar_view_modify_and_send (ECalComponent *comp,
 					       GtkWindow *toplevel,
 					       gboolean new);
 
-gboolean	e_calendar_view_get_tooltips (ECalendarViewEvent *pevent);
+gboolean	e_calendar_view_get_tooltips (ECalendarViewEventData *data);
 G_END_DECLS
 
 #endif

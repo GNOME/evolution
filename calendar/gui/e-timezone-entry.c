@@ -120,7 +120,7 @@ e_timezone_entry_init		(ETimezoneEntry	*tentry)
 	priv->entry  = gtk_entry_new ();
 	gtk_entry_set_editable (GTK_ENTRY (priv->entry), FALSE);
 	/*gtk_widget_set_usize (priv->date_entry, 90, 0);*/
-	gtk_box_pack_start (GTK_BOX (tentry), priv->entry, TRUE, TRUE, 6);
+	gtk_box_pack_start (GTK_BOX (tentry), priv->entry, TRUE, TRUE, 0);
 	gtk_widget_show (priv->entry);
 	g_signal_connect (priv->entry, "changed", G_CALLBACK (on_entry_changed), tentry);
 	

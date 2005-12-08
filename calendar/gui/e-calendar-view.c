@@ -1903,7 +1903,7 @@ get_label (struct icaltimetype *tt)
 
 
 gboolean
-e_calendar_view_get_tooltips (ECalendarViewEvent *pevent)
+e_calendar_view_get_tooltips (ECalendarViewEventData *data)
 {
 	GtkWidget *label, *box, *hbox, *ebox, *frame;
 	const char *str;
@@ -1912,7 +1912,11 @@ e_calendar_view_get_tooltips (ECalendarViewEvent *pevent)
 	ECalComponentDateTime dtstart, dtend;
 	icalcomponent *clone_comp;
 	time_t t_start, t_end;
+	ECalendarViewEvent *pevent;
 	
+	pevent = data->get_view_event (data->cal_view, data->day, data->event_num);
+	g_free (data);
+
 	ECalComponent *newcomp = e_cal_component_new ();
 	icaltimezone *zone;
 	GdkColor color, outer_color;

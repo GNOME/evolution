@@ -1169,6 +1169,22 @@ key_press_event(GtkWidget *widget, GdkEventKey *event)
         return FALSE;
 }
 
+static gint
+editor_key_press_event(GtkWidget *widget, GdkEventKey *event, CompEditor *editor)
+{
+        EAttachmentBar *bar = E_ATTACHMENT_BAR (widget);
+
+        if (event->keyval == GDK_Escape) {
+		commit_all_fields (editor);
+		
+		if (prompt_to_save_changes (editor, TRUE))
+			close_dialog (editor);
+
+                return TRUE;
+        }
+                                                                                
+        return FALSE;
+}
 /* Menu callbacks */
 static void
 menu_file_save_cb (BonoboUIComponent *uic,
@@ -1338,6 +1354,7 @@ setup_widgets (CompEditor *editor)
 	gtk_notebook_set_show_tabs (priv->notebook, FALSE);
 
 	g_signal_connect (editor, "delete_event", G_CALLBACK (delete_event_cb), editor);
+	g_signal_connect (editor, "key_press_event", G_CALLBACK (editor_key_press_event), editor);	
 
 	/*Attachments */
 	priv->attachment_scrolled_window = gtk_scrolled_window_new (NULL, NULL);

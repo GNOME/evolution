@@ -1,3 +1,25 @@
+2005-12-09  Srinivasa Ragavan  <sragavan@novell.com>
+
+	reviewed by: Chenthill Palanisamy  <pchenthill@novell.com>
+
+	* gui/dialogs/comp-editor.c: (editor_key_press_event),
+	(setup_widgets):
+	* gui/dialogs/event-page.c: (event_page_init),
+	(create_image_event_box), (sensitize_widgets), (get_widgets),
+	(alarm_changed_cb), (init_widgets),
+	(event_page_create_source_option_menu), (make_status_icons):
+	* gui/dialogs/event-page.glade:
+	* gui/e-calendar-view.c: (e_calendar_view_get_tooltips):
+	* gui/e-calendar-view.h:
+	* gui/e-day-view.c: (e_day_view_reshape_long_event),
+	(e_day_view_reshape_day_event), (tooltip_get_view_event),
+	(tooltip_destroy), (e_day_view_on_text_item_event):
+	* gui/e-timezone-entry.c: (e_timezone_entry_init):
+	* gui/e-week-view.c: (tooltip_get_view_event), (tooltip_destroy),
+	(tooltip_event_cb), (e_week_view_on_text_item_event): Fixes tooltip
+	crash while editing a component in view. Fixes for layout issues
+	and added the alarm icon in the editor.
+
 2005-12-06  Veerapuram Varadhan <vvaradhan@novell.com>
 
 	* conduits/todo/todo-conduit.c (start_calendar_server):
