@@ -49,7 +49,7 @@
 #include "e-util-private.h"
 
 int
-g_str_compare (const void *x, const void *y)
+e_str_compare (const void *x, const void *y)
 {
 	if (x == NULL || y == NULL) {
 		if (x == y)
@@ -62,7 +62,7 @@ g_str_compare (const void *x, const void *y)
 }
 
 int
-g_str_case_compare (const void *x, const void *y)
+e_str_case_compare (const void *x, const void *y)
 {
 	if (x == NULL || y == NULL) {
 		if (x == y)
@@ -75,7 +75,7 @@ g_str_case_compare (const void *x, const void *y)
 }
 
 int
-g_collate_compare (const void *x, const void *y)
+e_collate_compare (const void *x, const void *y)
 {
 	if (x == NULL || y == NULL) {
 		if (x == y)
@@ -88,7 +88,7 @@ g_collate_compare (const void *x, const void *y)
 }
 
 int
-g_int_compare (const void *x, const void *y)
+e_int_compare (const void *x, const void *y)
 {
 	if (GPOINTER_TO_INT (x) < GPOINTER_TO_INT (y))
 		return -1;

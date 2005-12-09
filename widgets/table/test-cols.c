@@ -196,7 +196,7 @@ multi_cols_test (void)
 		g_free (images);
 	} 
 					       
-	col_1 = e_table_col_new (1, "Item Name", 1.0, 20, cell_left_just, g_str_compare, TRUE);
+	col_1 = e_table_col_new (1, "Item Name", 1.0, 20, cell_left_just, e_str_compare, TRUE);
 	e_table_header_add_column (e_table_header, col_1, 0);
 
 	col_0 = e_table_col_new (0, "A", 0.0, 48, cell_image_toggle, g_int_compare, TRUE);

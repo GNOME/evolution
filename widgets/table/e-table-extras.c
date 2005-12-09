@@ -167,10 +167,10 @@ ete_init (ETableExtras *extras)
 	extras->searches = g_hash_table_new(g_str_hash, g_str_equal);
 	extras->pixbufs = g_hash_table_new(g_str_hash, g_str_equal);
 
-	e_table_extras_add_compare(extras, "string", g_str_compare);
-	e_table_extras_add_compare(extras, "stringcase", g_str_case_compare);
-	e_table_extras_add_compare(extras, "collate", g_collate_compare);
-	e_table_extras_add_compare(extras, "integer", g_int_compare);
+	e_table_extras_add_compare(extras, "string", e_str_compare);
+	e_table_extras_add_compare(extras, "stringcase", e_str_case_compare);
+	e_table_extras_add_compare(extras, "collate", e_collate_compare);
+	e_table_extras_add_compare(extras, "integer", e_int_compare);
 	e_table_extras_add_compare(extras, "string-integer", e_strint_compare);
 
 	e_table_extras_add_search(extras, "string", e_string_search);

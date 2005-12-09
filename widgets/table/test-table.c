@@ -293,7 +293,7 @@ table_browser_test (void)
 		ETableCol *ecol = e_table_col_new (
 			i, column_labels [i],
 			1.0, 20, cell_left_just,
-			g_str_compare, TRUE,
+			e_str_compare, TRUE,
 			priority);
 
 		e_table_header_add_column (e_table_header, ecol, i);

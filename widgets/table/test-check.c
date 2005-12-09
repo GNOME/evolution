@@ -187,7 +187,7 @@ check_test (void)
 	gdk_pixbuf_unref (pixbuf);
 	e_table_header_add_column (e_table_header, col_0, 0);
 	
-	col_1 = e_table_col_new (1, "Item Name", 1.0, 20, cell_left_just, g_str_compare, TRUE);
+	col_1 = e_table_col_new (1, "Item Name", 1.0, 20, cell_left_just, e_str_compare, TRUE);
 	e_table_header_add_column (e_table_header, col_1, 1);
 	e_table_col_set_arrow (col_1, E_TABLE_COL_ARROW_DOWN);
 

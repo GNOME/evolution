@@ -1,3 +1,13 @@
+2005-12-09  Harish Krishnaswamy  <kharish@novell.com>
+
+	* e-table-example-2.c (create_table):
+	* e-table-extras.c (ete_init):
+	* e-table-size-test.c (create_table):
+	* test-check.c (check_test):
+	* test-cols.c (multi_cols_test):
+	* test-table.c (table_browser_test):
+	 s/g_*_compare/e_*_compare. 
+
 2005-12-07  Boby Wang  <boby.wang@sun.com>
 
 	Fixes #322740.
