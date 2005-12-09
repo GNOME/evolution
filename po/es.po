@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-12-05 01:40+0100\n"
-"PO-Revision-Date: 2005-12-05 01:41+0100\n"
+"POT-Creation-Date: 2005-12-09 12:09+0100\n"
+"PO-Revision-Date: 2005-12-09 12:14+0100\n"
 "Last-Translator: Francisco Javier F. Serrador <serrador@cvs.gnome.org>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -523,17 +523,17 @@ msgstr "{0}"
 msgid "{1}"
 msgstr "{1}"
 
-#: ../addressbook/conduit/address-conduit.c:298
+#: ../addressbook/conduit/address-conduit.c:300
 msgid "Default Sync Address:"
 msgstr "Dirección de sincr. predeterminada:"
 
-#: ../addressbook/conduit/address-conduit.c:1183
-#: ../addressbook/conduit/address-conduit.c:1184
+#: ../addressbook/conduit/address-conduit.c:1241
+#: ../addressbook/conduit/address-conduit.c:1242
 msgid "Could not load addressbook"
 msgstr "No se pudo cargar la libreta de direcciones"
 
-#: ../addressbook/conduit/address-conduit.c:1252
-#: ../addressbook/conduit/address-conduit.c:1255
+#: ../addressbook/conduit/address-conduit.c:1310
+#: ../addressbook/conduit/address-conduit.c:1313
 msgid "Could not read pilot's Address application block"
 msgstr "No se pudo leer el bloque de la aplicación de Direcciones del Pilot"
 
@@ -2926,7 +2926,7 @@ msgstr "Cor_tar"
 #: ../calendar/gui/dialogs/comp-editor.c:432
 #: ../calendar/gui/e-calendar-table.c:1182
 #: ../calendar/gui/e-calendar-view.c:1570 ../calendar/gui/e-memo-table.c:860
-#: ../calendar/gui/tasks-component.c:440 ../composer/e-msg-composer.c:3049
+#: ../calendar/gui/tasks-component.c:440 ../composer/e-msg-composer.c:3075
 #: ../mail/em-folder-tree.c:979 ../mail/em-folder-view.c:1036
 #: ../mail/message-list.c:1718 ../ui/evolution-addressbook.xml.h:32
 #: ../ui/evolution-calendar.xml.h:39 ../ui/evolution-composer-entries.xml.h:7
@@ -4312,7 +4312,7 @@ msgid "_Discard Changes"
 msgstr "_Descartar cambios"
 
 #: ../calendar/calendar.error.xml.h:67 ../ui/evolution-editor.xml.h:23
-#: ../ui/evolution-message-composer.xml.h:51
+#: ../ui/evolution-message-composer.xml.h:53
 #: ../ui/evolution-signature-editor.xml.h:15
 msgid "_Save"
 msgstr "_Guardar"
@@ -4335,21 +4335,21 @@ msgstr "{0}."
 msgid "Enter password"
 msgstr "Introduzca contraseña"
 
-#: ../calendar/conduits/calendar/calendar-conduit.c:246
+#: ../calendar/conduits/calendar/calendar-conduit.c:248
 msgid "Split Multi-Day Events:"
 msgstr "Dividir acontecimientos de días múltiples:"
 
-#: ../calendar/conduits/calendar/calendar-conduit.c:1377
-#: ../calendar/conduits/calendar/calendar-conduit.c:1378
+#: ../calendar/conduits/calendar/calendar-conduit.c:1425
+#: ../calendar/conduits/calendar/calendar-conduit.c:1426
 #: ../calendar/conduits/memo/memo-conduit.c:854
 #: ../calendar/conduits/memo/memo-conduit.c:855
-#: ../calendar/conduits/todo/todo-conduit.c:988
-#: ../calendar/conduits/todo/todo-conduit.c:989
+#: ../calendar/conduits/todo/todo-conduit.c:1032
+#: ../calendar/conduits/todo/todo-conduit.c:1033
 msgid "Could not start evolution-data-server"
 msgstr "No se ha podido iniciar el servidor evolution-data-server"
 
-#: ../calendar/conduits/calendar/calendar-conduit.c:1486
-#: ../calendar/conduits/calendar/calendar-conduit.c:1489
+#: ../calendar/conduits/calendar/calendar-conduit.c:1522
+#: ../calendar/conduits/calendar/calendar-conduit.c:1525
 msgid "Could not read pilot's Calendar application block"
 msgstr "No se pudo leer información de la aplicación de calendario del Pilot"
 
@@ -4363,17 +4363,17 @@ msgstr "No se pudo leer los datos de la aplicación Memo del Pilot"
 msgid "Could not write pilot's Memo application block"
 msgstr "No se pudo escribir los datos de la aplicación Memo del Pilot"
 
-#: ../calendar/conduits/todo/todo-conduit.c:237
+#: ../calendar/conduits/todo/todo-conduit.c:239
 msgid "Default Priority:"
 msgstr "Prioridad predeterminada:"
 
-#: ../calendar/conduits/todo/todo-conduit.c:1071
-#: ../calendar/conduits/todo/todo-conduit.c:1074
+#: ../calendar/conduits/todo/todo-conduit.c:1112
+#: ../calendar/conduits/todo/todo-conduit.c:1115
 msgid "Could not read pilot's ToDo application block"
 msgstr "No se pudo leer los datos de la aplicación ToDo del Pilot"
 
-#: ../calendar/conduits/todo/todo-conduit.c:1110
-#: ../calendar/conduits/todo/todo-conduit.c:1113
+#: ../calendar/conduits/todo/todo-conduit.c:1151
+#: ../calendar/conduits/todo/todo-conduit.c:1154
 msgid "Could not write pilot's ToDo application block"
 msgstr "No se pudo escribir el bloque de aplicación ToDo del Pilot."
 
@@ -4502,7 +4502,7 @@ msgstr "_Posponer el aviso:"
 #: ../ui/evolution-addressbook.xml.h:35 ../ui/evolution-calendar.xml.h:41
 #: ../ui/evolution-composer-entries.xml.h:8 ../ui/evolution-editor.xml.h:17
 #: ../ui/evolution-mail-messagedisplay.xml.h:5 ../ui/evolution-memos.xml.h:17
-#: ../ui/evolution-message-composer.xml.h:44
+#: ../ui/evolution-message-composer.xml.h:45
 #: ../ui/evolution-signature-editor.xml.h:12
 #: ../ui/evolution-subscribe.xml.h:10 ../ui/evolution-tasks.xml.h:25
 #: ../ui/evolution.xml.h:33
@@ -5228,7 +5228,7 @@ msgid "New calendar"
 msgstr "Calendario nuevo"
 
 #: ../calendar/gui/calendar-component.c:1500
-#: ../calendar/gui/dialogs/event-page.c:829
+#: ../calendar/gui/dialogs/event-page.c:857
 msgid "Cale_ndar"
 msgstr "Cale_ndario"
 
@@ -5414,7 +5414,7 @@ msgstr "%.0fGib"
 
 #: ../calendar/gui/dialogs/cal-attachment-bar.c:311
 #: ../calendar/gui/dialogs/cal-attachment-bar.c:1106
-#: ../calendar/gui/dialogs/comp-editor.c:2582
+#: ../calendar/gui/dialogs/comp-editor.c:2599
 #: ../composer/e-msg-composer-attachment-bar.c:307 ../mail/em-utils.c:138
 #: ../mail/em-utils.c:483 ../mail/em-utils.c:520
 #: ../widgets/misc/e-attachment-bar.c:341
@@ -5423,11 +5423,11 @@ msgstr "adjunto"
 
 #: ../calendar/gui/dialogs/cal-attachment-bar.c:473
 #: ../calendar/gui/dialogs/comp-editor.c:1056
-#: ../calendar/gui/dialogs/event-page.c:1734
+#: ../calendar/gui/dialogs/event-page.c:1762
 #: ../calendar/gui/dialogs/meeting-page.c:909
 #: ../calendar/gui/dialogs/task-page.c:1183
 #: ../composer/e-msg-composer-attachment-bar.c:470
-#: ../composer/e-msg-composer.c:3545
+#: ../composer/e-msg-composer.c:3571
 #: ../plugins/groupwise-features/junk-settings.glade.h:8
 #: ../plugins/groupwise-features/properties.glade.h:14
 #: ../widgets/table/e-table-config.glade.h:18
@@ -5437,7 +5437,7 @@ msgstr "_Quitar"
 #: ../calendar/gui/dialogs/cal-attachment-bar.c:474
 #: ../calendar/gui/dialogs/comp-editor.c:1057
 #: ../composer/e-msg-composer-attachment-bar.c:471
-#: ../composer/e-msg-composer.c:3546 ../mail/em-folder-tree.c:2058
+#: ../composer/e-msg-composer.c:3572 ../mail/em-folder-tree.c:2058
 #: ../ui/evolution-mail-list.xml.h:29
 msgid "_Properties"
 msgstr "_Propiedades"
@@ -5445,7 +5445,7 @@ msgstr "_Propiedades"
 #: ../calendar/gui/dialogs/cal-attachment-bar.c:476
 #: ../calendar/gui/dialogs/comp-editor.c:1059
 #: ../composer/e-msg-composer-attachment-bar.c:473
-#: ../composer/e-msg-composer.c:3548
+#: ../composer/e-msg-composer.c:3574
 msgid "_Add attachment..."
 msgstr "_Añadir adjunto…"
 
@@ -5966,28 +5966,28 @@ msgstr " (Vence "
 msgid "Due "
 msgstr "Vence "
 
-#: ../calendar/gui/dialogs/comp-editor.c:194 ../composer/e-msg-composer.c:2800
+#: ../calendar/gui/dialogs/comp-editor.c:194 ../composer/e-msg-composer.c:2826
 #, c-format
 msgid "Attached message - %s"
 msgstr "Mensaje adjunto - %s"
 
 #. translators, this count will always be >1
 #: ../calendar/gui/dialogs/comp-editor.c:199
-#: ../calendar/gui/dialogs/comp-editor.c:369 ../composer/e-msg-composer.c:2805
-#: ../composer/e-msg-composer.c:2984
+#: ../calendar/gui/dialogs/comp-editor.c:369 ../composer/e-msg-composer.c:2831
+#: ../composer/e-msg-composer.c:3010
 #, c-format
 msgid "Attached message"
 msgid_plural "%d attached messages"
 msgstr[0] "Mensaje adjunto"
 msgstr[1] "%d mensajes adjuntos"
 
-#: ../calendar/gui/dialogs/comp-editor.c:433 ../composer/e-msg-composer.c:3050
+#: ../calendar/gui/dialogs/comp-editor.c:433 ../composer/e-msg-composer.c:3076
 #: ../mail/em-folder-tree.c:980 ../mail/em-folder-utils.c:368
 #: ../mail/em-folder-view.c:932 ../mail/message-list.c:1719
 msgid "_Move"
 msgstr "_Mover"
 
-#: ../calendar/gui/dialogs/comp-editor.c:435 ../composer/e-msg-composer.c:3052
+#: ../calendar/gui/dialogs/comp-editor.c:435 ../composer/e-msg-composer.c:3078
 #: ../mail/em-folder-tree.c:982 ../mail/message-list.c:1721
 msgid "Cancel _Drag"
 msgstr "Cancelar _arrastre"
@@ -5996,7 +5996,7 @@ msgstr "Cancelar _arrastre"
 msgid "Could not update object"
 msgstr "No se pudo actualizar el objeto"
 
-#: ../calendar/gui/dialogs/comp-editor.c:914 ../composer/e-msg-composer.c:2443
+#: ../calendar/gui/dialogs/comp-editor.c:914 ../composer/e-msg-composer.c:2469
 #, c-format
 msgid "<b>%d</b> Attachment"
 msgid_plural "<b>%d</b> Attachments"
@@ -6008,65 +6008,65 @@ msgid "Hide Attachment _Bar"
 msgstr "Ocultar _barra de adjuntos"
 
 #: ../calendar/gui/dialogs/comp-editor.c:947
-#: ../calendar/gui/dialogs/comp-editor.c:1364
+#: ../calendar/gui/dialogs/comp-editor.c:1381
 msgid "Show Attachment _Bar"
 msgstr "Mostrar _barra de adjuntos"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1388
+#: ../calendar/gui/dialogs/comp-editor.c:1405
 msgid "Attachment Button: Press space key to toggle attachment bar"
 msgstr ""
 "Botón de adjuntos: Pulse la tecla de espacio para cambiar la barra de "
 "adjuntos"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1991
-#: ../calendar/gui/dialogs/comp-editor.c:2034
+#: ../calendar/gui/dialogs/comp-editor.c:2008
+#: ../calendar/gui/dialogs/comp-editor.c:2051
 msgid "Edit Appointment"
 msgstr "Editar cita"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1997
-#: ../calendar/gui/dialogs/comp-editor.c:2040
+#: ../calendar/gui/dialogs/comp-editor.c:2014
+#: ../calendar/gui/dialogs/comp-editor.c:2057
 #, c-format
 msgid "Meeting - %s"
 msgstr "Reunión - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1999
-#: ../calendar/gui/dialogs/comp-editor.c:2042
+#: ../calendar/gui/dialogs/comp-editor.c:2016
+#: ../calendar/gui/dialogs/comp-editor.c:2059
 #, c-format
 msgid "Appointment - %s"
 msgstr "Cita - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2003
-#: ../calendar/gui/dialogs/comp-editor.c:2046
+#: ../calendar/gui/dialogs/comp-editor.c:2020
+#: ../calendar/gui/dialogs/comp-editor.c:2063
 #, c-format
 msgid "Assigned Task - %s"
 msgstr "Tarea asignada - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2005
-#: ../calendar/gui/dialogs/comp-editor.c:2048
+#: ../calendar/gui/dialogs/comp-editor.c:2022
+#: ../calendar/gui/dialogs/comp-editor.c:2065
 #, c-format
 msgid "Task - %s"
 msgstr "Tarea - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2008
-#: ../calendar/gui/dialogs/comp-editor.c:2051
+#: ../calendar/gui/dialogs/comp-editor.c:2025
+#: ../calendar/gui/dialogs/comp-editor.c:2068
 #, c-format
 msgid "Journal entry - %s"
 msgstr "Entrada del diario - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2019
-#: ../calendar/gui/dialogs/comp-editor.c:2061
+#: ../calendar/gui/dialogs/comp-editor.c:2036
+#: ../calendar/gui/dialogs/comp-editor.c:2078
 msgid "No summary"
 msgstr "Sin resumen"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2675
-#: ../calendar/gui/dialogs/comp-editor.c:2708
-#: ../calendar/gui/dialogs/comp-editor.c:2732
+#: ../calendar/gui/dialogs/comp-editor.c:2692
+#: ../calendar/gui/dialogs/comp-editor.c:2725
+#: ../calendar/gui/dialogs/comp-editor.c:2749
 msgid "Changes made to this item may be discarded if an update arrives"
 msgstr ""
 "Los cambios efectuados a este elemento pueden descartarse si llega una "
 "actualización por correo"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2756
+#: ../calendar/gui/dialogs/comp-editor.c:2773
 msgid "Unable to use current version!"
 msgstr "Imposible obtener versión actual."
 
@@ -6154,88 +6154,88 @@ msgstr "_Cita"
 msgid "Recurrence"
 msgstr "Repetición"
 
-#: ../calendar/gui/dialogs/event-page.c:835
+#: ../calendar/gui/dialogs/event-page.c:863
 #: ../calendar/gui/dialogs/task-page.c:444
 msgid "Or_ganizer"
 msgstr "Or_ganizador"
 
-#: ../calendar/gui/dialogs/event-page.c:873
+#: ../calendar/gui/dialogs/event-page.c:901
 msgid "_Delegatees"
 msgstr "_Delegados"
 
-#: ../calendar/gui/dialogs/event-page.c:875
+#: ../calendar/gui/dialogs/event-page.c:903
 msgid "Atte_ndees"
 msgstr "_Participantes"
 
-#: ../calendar/gui/dialogs/event-page.c:1034
+#: ../calendar/gui/dialogs/event-page.c:1062
 msgid "Event with no start date"
 msgstr "Acontecimiento sin fecha de inicio"
 
-#: ../calendar/gui/dialogs/event-page.c:1037
+#: ../calendar/gui/dialogs/event-page.c:1065
 msgid "Event with no end date"
 msgstr "Acontecimiento sin fecha de finalización"
 
-#: ../calendar/gui/dialogs/event-page.c:1202
+#: ../calendar/gui/dialogs/event-page.c:1230
 #: ../calendar/gui/dialogs/task-page.c:848
 msgid "Start date is wrong"
 msgstr "La fecha de inicio está equivocada"
 
-#: ../calendar/gui/dialogs/event-page.c:1212
+#: ../calendar/gui/dialogs/event-page.c:1240
 msgid "End date is wrong"
 msgstr "La fecha de finalización  está equivocada"
 
-#: ../calendar/gui/dialogs/event-page.c:1235
+#: ../calendar/gui/dialogs/event-page.c:1263
 msgid "Start time is wrong"
 msgstr "La hora de inicio está equivocada"
 
-#: ../calendar/gui/dialogs/event-page.c:1242
+#: ../calendar/gui/dialogs/event-page.c:1270
 msgid "End time is wrong"
 msgstr "La  hora de finalización  está equivocada"
 
-#: ../calendar/gui/dialogs/event-page.c:1397
+#: ../calendar/gui/dialogs/event-page.c:1425
 #: ../calendar/gui/dialogs/meeting-page.c:464
 #: ../calendar/gui/dialogs/task-page.c:905
 msgid "The organizer selected no longer has an account."
 msgstr "El organizador seleccionado ya no tiene una cuenta."
 
-#: ../calendar/gui/dialogs/event-page.c:1403
+#: ../calendar/gui/dialogs/event-page.c:1431
 #: ../calendar/gui/dialogs/meeting-page.c:470
 #: ../calendar/gui/dialogs/task-page.c:911
 msgid "An organizer is required."
 msgstr "Se requiere un organizador."
 
-#: ../calendar/gui/dialogs/event-page.c:1418
+#: ../calendar/gui/dialogs/event-page.c:1446
 #: ../calendar/gui/dialogs/meeting-page.c:485
 #: ../calendar/gui/dialogs/task-page.c:926
 msgid "At least one attendee is required."
 msgstr "Es necesario por lo menos un participante."
 
-#: ../calendar/gui/dialogs/event-page.c:1735
+#: ../calendar/gui/dialogs/event-page.c:1763
 #: ../calendar/gui/dialogs/meeting-page.c:910
 #: ../calendar/gui/dialogs/task-page.c:1184
 msgid "_Add "
 msgstr "_Añadir"
 
-#: ../calendar/gui/dialogs/event-page.c:2422
+#: ../calendar/gui/dialogs/event-page.c:2453
 #, c-format
 msgid "Unable to open the calendar '%s'."
 msgstr "No se pudo abrir el calendario «%s»."
 
-#: ../calendar/gui/dialogs/event-page.c:2662
+#: ../calendar/gui/dialogs/event-page.c:2702
 #, c-format
 msgid "%d day before appointment"
 msgid_plural "%d days before appointment"
 msgstr[0] "%d día antes de la cita"
 msgstr[1] "%d días antes de la cita"
 
-#: ../calendar/gui/dialogs/event-page.c:2670
+#: ../calendar/gui/dialogs/event-page.c:2710
 #, c-format
 msgid "%d hour before appointment"
 msgid_plural "%d hours before appointment"
 msgstr[0] "%d hora antes de la cita"
 msgstr[1] "%d horas antes de la cita"
 
-#: ../calendar/gui/dialogs/event-page.c:2678
+#: ../calendar/gui/dialogs/event-page.c:2718
 #, c-format
 msgid "%d minute before appointement"
 msgid_plural "%d minutes before appointment"
@@ -6328,7 +6328,7 @@ msgstr "<b>De:</b>"
 #: ../calendar/gui/dialogs/meeting-page.c:316
 #: ../calendar/gui/dialogs/meeting-page.glade.h:4
 #: ../calendar/gui/e-cal-model-tasks.c:653
-#: ../calendar/gui/e-itip-control.c:1103 ../composer/e-msg-composer.c:2246
+#: ../calendar/gui/e-itip-control.c:1103 ../composer/e-msg-composer.c:2264
 #: ../filter/filter-rule.c:881 ../mail/em-account-editor.c:683
 #: ../mail/em-account-editor.c:1348 ../mail/em-account-prefs.c:464
 #: ../mail/em-folder-view.c:1065 ../mail/em-junk-hook.c:78
@@ -7090,7 +7090,7 @@ msgstr "Actualizando objetos"
 
 #: ../calendar/gui/e-calendar-table.c:1032
 #: ../calendar/gui/e-calendar-view.c:1140 ../calendar/gui/e-memo-table.c:742
-#: ../composer/e-msg-composer.c:1341
+#: ../composer/e-msg-composer.c:1346
 msgid "Save as..."
 msgstr "Guardar como…"
 
@@ -10255,14 +10255,14 @@ msgstr "Publicar en:"
 msgid "A_ttach"
 msgstr "_Adjuntar"
 
-#: ../composer/e-msg-composer.c:832
+#: ../composer/e-msg-composer.c:837
 msgid ""
 "Cannot sign outgoing message: No signing certificate set for this account"
 msgstr ""
 "No se puede firmar el mensaje saliente: No hay establecido un certificado de "
 "firma para esta cuenta"
 
-#: ../composer/e-msg-composer.c:839
+#: ../composer/e-msg-composer.c:844
 msgid ""
 "Cannot encrypt outgoing message: No encryption certificate set for this "
 "account"
@@ -10270,47 +10270,47 @@ msgstr ""
 "No se puede cifrar el mensaje saliente: no hay establecido un certificado de "
 "cifrado para esta cuenta"
 
-#: ../composer/e-msg-composer.c:1322 ../composer/e-msg-composer.c:1356
+#: ../composer/e-msg-composer.c:1327 ../composer/e-msg-composer.c:1361
 #: ../plugins/mail-remote/e-corba-utils.c:135
 msgid "Unknown reason"
 msgstr "Razón desconocida"
 
-#: ../composer/e-msg-composer.c:1394
+#: ../composer/e-msg-composer.c:1399
 msgid "Could not open file"
 msgstr "No se pudo abrir el archivo"
 
-#: ../composer/e-msg-composer.c:1402
+#: ../composer/e-msg-composer.c:1407
 msgid "Unable to retrieve message from editor"
 msgstr "No se pudo obtener el mensaje del editor"
 
-#: ../composer/e-msg-composer.c:1677
+#: ../composer/e-msg-composer.c:1682
 msgid "Untitled Message"
 msgstr "Mensaje sin título"
 
 #. NB: This function is never used anymore
-#: ../composer/e-msg-composer.c:1712
+#: ../composer/e-msg-composer.c:1717
 msgid "Open File"
 msgstr "Abrir archivo"
 
-#: ../composer/e-msg-composer.c:2126 ../mail/em-account-editor.c:588
+#: ../composer/e-msg-composer.c:2144 ../mail/em-account-editor.c:588
 #: ../mail/em-account-editor.c:633 ../mail/em-account-editor.c:700
 msgid "Autogenerated"
 msgstr "Auto-generado"
 
-#: ../composer/e-msg-composer.c:2229
+#: ../composer/e-msg-composer.c:2247
 msgid "Si_gnature:"
 msgstr "_Firma:"
 
-#: ../composer/e-msg-composer.c:2472 ../composer/e-msg-composer.c:3673
-#: ../composer/e-msg-composer.c:3676
+#: ../composer/e-msg-composer.c:2498 ../composer/e-msg-composer.c:3699
+#: ../composer/e-msg-composer.c:3702
 msgid "Compose a message"
 msgstr "Redactar un mensaje"
 
-#: ../composer/e-msg-composer.c:3791
+#: ../composer/e-msg-composer.c:3817
 msgid "_Attachment Bar"
 msgstr "Barra de _adjuntos"
 
-#: ../composer/e-msg-composer.c:4881
+#: ../composer/e-msg-composer.c:4909
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)"
 "<b>"
@@ -11553,7 +11553,7 @@ msgstr "Analizando carpetas en «%s»"
 #: ../mail/em-folder-tree.c:2042 ../ui/evolution-addressbook.xml.h:44
 #: ../ui/evolution-editor.xml.h:24 ../ui/evolution-mail-global.xml.h:22
 #: ../ui/evolution-mail-messagedisplay.xml.h:8
-#: ../ui/evolution-message-composer.xml.h:54 ../ui/evolution-tasks.xml.h:30
+#: ../ui/evolution-message-composer.xml.h:56 ../ui/evolution-tasks.xml.h:30
 #: ../ui/evolution.xml.h:46
 msgid "_View"
 msgstr "_Ver"
@@ -15822,12 +15822,12 @@ msgstr "%s Introduzca la contraseña para %s (usuario %s)"
 msgid "_Proxy Login..."
 msgstr "Sesión _proxy…"
 
-#: ../plugins/groupwise-features/proxy.c:690
+#: ../plugins/groupwise-features/proxy.c:691
 msgid "The Proxy tab will be available only when the account is online."
 msgstr ""
 "La solapa del Proxy estará disponible sólo cuando la cuenta esté conectada."
 
-#: ../plugins/groupwise-features/proxy.c:695
+#: ../plugins/groupwise-features/proxy.c:696
 msgid "The Proxy tab will be available only when the account is enabled."
 msgstr ""
 "La solapa del Proxy estará disponible sólo cuando la cuenta esté activada."
@@ -15853,6 +15853,10 @@ msgid "Track Message Status..."
 msgstr "Seguir el estado del mensaje…"
 
 #: ../plugins/hula-account-setup/org-gnome-evolution-hula-account-setup.eplug.xml.h:1
+msgid "A plugin to setup hula calendar sources."
+msgstr "Un complemento para configurar fuentes de calendarios hula."
+
+#: ../plugins/hula-account-setup/org-gnome-evolution-hula-account-setup.eplug.xml.h:2
 msgid "Hula Account Setup"
 msgstr "Configuración de la cuenta Hula"
 
@@ -18372,7 +18376,7 @@ msgid "Click here to view help availabe"
 msgstr "Pulse aquí para ver la ayuda disponible"
 
 #: ../ui/evolution-editor.xml.h:6 ../ui/evolution-mail-messagedisplay.xml.h:1
-#: ../ui/evolution-message-composer.xml.h:4
+#: ../ui/evolution-message-composer.xml.h:3
 #: ../ui/evolution-signature-editor.xml.h:2
 msgid "Close"
 msgstr "Cerrar"
@@ -18382,12 +18386,12 @@ msgid "_Attachments"
 msgstr "_Adjuntos"
 
 #: ../ui/evolution-editor.xml.h:15 ../ui/evolution-mail-messagedisplay.xml.h:4
-#: ../ui/evolution-message-composer.xml.h:42 ../ui/evolution-subscribe.xml.h:9
+#: ../ui/evolution-message-composer.xml.h:43 ../ui/evolution-subscribe.xml.h:9
 msgid "_Close"
 msgstr "_Cerrar"
 
 #: ../ui/evolution-editor.xml.h:18 ../ui/evolution-mail-messagedisplay.xml.h:6
-#: ../ui/evolution-message-composer.xml.h:45
+#: ../ui/evolution-message-composer.xml.h:46
 #: ../ui/evolution-signature-editor.xml.h:13
 #: ../ui/evolution-subscribe.xml.h:11 ../ui/evolution.xml.h:34
 msgid "_File"
@@ -18397,7 +18401,7 @@ msgstr "_Archivo"
 msgid "_Help"
 msgstr "A_yuda"
 
-#: ../ui/evolution-editor.xml.h:20 ../ui/evolution-message-composer.xml.h:47
+#: ../ui/evolution-editor.xml.h:20 ../ui/evolution-message-composer.xml.h:48
 #: ../ui/evolution-signature-editor.xml.h:14
 msgid "_Insert"
 msgstr "_Insertar"
@@ -19177,32 +19181,31 @@ msgstr "Adjuntar"
 msgid "Attach a file"
 msgstr "Adjuntar un archivo"
 
-#: ../ui/evolution-message-composer.xml.h:3
-msgid "Check to get delivery notification when your message is read"
-msgstr ""
-"Marcar para obtener una notificación de entrega cuando se lea su mensaje"
-
-#: ../ui/evolution-message-composer.xml.h:5
+#: ../ui/evolution-message-composer.xml.h:4
 #: ../ui/evolution-signature-editor.xml.h:3
 msgid "Close the current file"
 msgstr "Cierra el archivo actual"
 
-#: ../ui/evolution-message-composer.xml.h:6
+#: ../ui/evolution-message-composer.xml.h:5
 msgid "Delete all but signature"
 msgstr "Borra todo excepto la firma"
 
-#: ../ui/evolution-message-composer.xml.h:7
+#: ../ui/evolution-message-composer.xml.h:6
 msgid "Encrypt this message with PGP"
 msgstr "Encriptar este mensaje con PGP"
 
-#: ../ui/evolution-message-composer.xml.h:8
+#: ../ui/evolution-message-composer.xml.h:7
 msgid "Encrypt this message with your S/MIME Encryption Certificate"
 msgstr "Encriptar este mensaje con su certificado de encriptación S/MIME"
 
-#: ../ui/evolution-message-composer.xml.h:9
+#: ../ui/evolution-message-composer.xml.h:8
 #: ../ui/evolution-signature-editor.xml.h:4
 msgid "For_mat"
 msgstr "For_mato"
+
+#: ../ui/evolution-message-composer.xml.h:9
+msgid "Get delivery notification when your message is read"
+msgstr "Obtener notificación de entrega cuando su mensaje sea leído"
 
 #: ../ui/evolution-message-composer.xml.h:10
 msgid "HT_ML"
@@ -19221,8 +19224,8 @@ msgid "PGP Sign"
 msgstr "Firmar con PGP"
 
 #: ../ui/evolution-message-composer.xml.h:15
-msgid "Request read receipt"
-msgstr "Solicitar confirmación de lectura"
+msgid "R_equest Read Receipt"
+msgstr "_Solicitar confirmación de lectura"
 
 #: ../ui/evolution-message-composer.xml.h:16
 msgid "S/MIME Encrypt"
@@ -19279,74 +19282,82 @@ msgid "Send this message"
 msgstr "Enviar este mensaje"
 
 #: ../ui/evolution-message-composer.xml.h:31
+msgid "Set the message priority to high"
+msgstr "Establecer la prioridad del mensaje a alta"
+
+#: ../ui/evolution-message-composer.xml.h:32
 msgid "Sign this message with your PGP key"
 msgstr "Firmar este mensaje con su clave PGP"
 
-#: ../ui/evolution-message-composer.xml.h:32
+#: ../ui/evolution-message-composer.xml.h:33
 msgid "Sign this message with your S/MIME Signature Certificate"
 msgstr "Firmar este mensaje con su certificado de firma S/MIME"
 
-#: ../ui/evolution-message-composer.xml.h:33
+#: ../ui/evolution-message-composer.xml.h:34
 msgid "Toggles whether the BCC field is displayed"
 msgstr "Conmutador que indica si se muestra el campo «Cco»"
 
-#: ../ui/evolution-message-composer.xml.h:34
+#: ../ui/evolution-message-composer.xml.h:35
 msgid "Toggles whether the CC field is displayed"
 msgstr "Conmutador que indica si se muestra el campo «Cc»"
 
-#: ../ui/evolution-message-composer.xml.h:35
+#: ../ui/evolution-message-composer.xml.h:36
 msgid "Toggles whether the From chooser is displayed"
 msgstr "Conmutador que indica si se muestra el selector «De»"
 
-#: ../ui/evolution-message-composer.xml.h:36
+#: ../ui/evolution-message-composer.xml.h:37
 msgid "Toggles whether the Post-To field is displayed"
 msgstr "Conmutador que indica si se muestra el campo «Publicar-en»"
 
-#: ../ui/evolution-message-composer.xml.h:37
+#: ../ui/evolution-message-composer.xml.h:38
 msgid "Toggles whether the Reply-To field is displayed"
 msgstr "Conmutador que indica si se muestra el campo «Responder-a»"
 
-#: ../ui/evolution-message-composer.xml.h:38
+#: ../ui/evolution-message-composer.xml.h:39
 msgid "Toggles whether the To field is displayed"
 msgstr "Conmutador que indica si se muestra el campo «Para»"
 
-#: ../ui/evolution-message-composer.xml.h:39
+#: ../ui/evolution-message-composer.xml.h:40
 msgid "_Attachment..."
 msgstr "_Adjunto…"
 
-#: ../ui/evolution-message-composer.xml.h:40
+#: ../ui/evolution-message-composer.xml.h:41
 msgid "_Bcc Field"
 msgstr "Campo «Cc_o»"
 
-#: ../ui/evolution-message-composer.xml.h:41
+#: ../ui/evolution-message-composer.xml.h:42
 msgid "_Cc Field"
 msgstr "Campo «_Cc»"
 
-#: ../ui/evolution-message-composer.xml.h:43
+#: ../ui/evolution-message-composer.xml.h:44
 msgid "_Delete all"
 msgstr "_Borrar todo"
 
-#: ../ui/evolution-message-composer.xml.h:46
+#: ../ui/evolution-message-composer.xml.h:47
 msgid "_From Field"
 msgstr "Campo «_De»"
 
-#: ../ui/evolution-message-composer.xml.h:48
+#: ../ui/evolution-message-composer.xml.h:49
 msgid "_Open..."
 msgstr "_Abrir…"
 
-#: ../ui/evolution-message-composer.xml.h:49
+#: ../ui/evolution-message-composer.xml.h:50
 msgid "_Post-To Field"
 msgstr "Campo «_Publicar-en»"
 
-#: ../ui/evolution-message-composer.xml.h:50
+#: ../ui/evolution-message-composer.xml.h:51
+msgid "_Prioritise Message"
+msgstr "_Priorizar mensaje"
+
+#: ../ui/evolution-message-composer.xml.h:52
 msgid "_Reply-To Field"
 msgstr "Campo «_Responder-a»"
 
-#: ../ui/evolution-message-composer.xml.h:52
+#: ../ui/evolution-message-composer.xml.h:54
 msgid "_Security"
 msgstr "_Seguridad"
 
-#: ../ui/evolution-message-composer.xml.h:53
+#: ../ui/evolution-message-composer.xml.h:55
 msgid "_To Field"
 msgstr "Campo «_Para»"
 
