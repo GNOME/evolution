@@ -7318,7 +7318,7 @@ msgstr "在第"
 # calendar/gui/event-editor.c:754
 #: ../calendar/gui/dialogs/recurrence-page.c:1369
 msgid "occurrences"
-msgstr "出現"
+msgstr "次"
 
 # calendar/gui/dialogs/task-editor-dialog.glade.h:7
 # calendar/gui/event-editor-dialog.glade.h:8
@@ -7355,12 +7355,12 @@ msgstr "每"
 
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:5
 msgid "This appointment rec_urs"
-msgstr "這個約會循環(_U)"
+msgstr "這個約會的循環規則為(_U)"
 
 # calendar/gui/event-editor-dialog.glade.h:37
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:8
 msgid "for"
-msgstr "發生"
+msgstr "舉行"
 
 # calendar/gui/event-editor-dialog.glade.h:38
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:9
@@ -22311,7 +22311,7 @@ msgstr "中歐字母"
 
 #: ../widgets/misc/e-charset-picker.c:65
 msgid "Chinese"
-msgstr "中國"
+msgstr "中文"
 
 #: ../widgets/misc/e-charset-picker.c:66
 msgid "Cyrillic"
@@ -22319,23 +22319,23 @@ msgstr "斯拉夫文"
 
 #: ../widgets/misc/e-charset-picker.c:67
 msgid "Greek"
-msgstr "希臘"
+msgstr "希臘文"
 
 #: ../widgets/misc/e-charset-picker.c:68
 msgid "Hebrew"
-msgstr "希伯來"
+msgstr "希伯來文"
 
 #: ../widgets/misc/e-charset-picker.c:69
 msgid "Japanese"
-msgstr "日本"
+msgstr "日文"
 
 #: ../widgets/misc/e-charset-picker.c:70
 msgid "Korean"
-msgstr "韓國"
+msgstr "韓文"
 
 #: ../widgets/misc/e-charset-picker.c:71
 msgid "Turkish"
-msgstr "土耳其"
+msgstr "土耳其文"
 
 #: ../widgets/misc/e-charset-picker.c:72
 msgid "Unicode"
@@ -22354,7 +22354,7 @@ msgstr "西歐，新"
 #: ../widgets/misc/e-charset-picker.c:91 ../widgets/misc/e-charset-picker.c:92
 #: ../widgets/misc/e-charset-picker.c:93
 msgid "Traditional"
-msgstr "正體"
+msgstr "繁體"
 
 #: ../widgets/misc/e-charset-picker.c:94 ../widgets/misc/e-charset-picker.c:95
 #: ../widgets/misc/e-charset-picker.c:96 ../widgets/misc/e-charset-picker.c:97
