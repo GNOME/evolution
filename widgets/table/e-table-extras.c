@@ -108,7 +108,7 @@ e_strint_compare(gconstpointer data1, gconstpointer data2)
 	int int1 = atoi(data1);
 	int int2 = atoi(data2);
 
-	return g_int_compare(GINT_TO_POINTER(int1), GINT_TO_POINTER(int2));
+	return e_int_compare(GINT_TO_POINTER(int1), GINT_TO_POINTER(int2));
 }
 
 /* UTF-8 strncasecmp - not optimized */

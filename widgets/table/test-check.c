@@ -183,7 +183,7 @@ check_test (void)
 
 	cell_image_check = e_cell_checkbox_new ();
 	pixbuf = gdk_pixbuf_new_from_file ("clip.png");
-	col_0 = e_table_col_new_with_pixbuf (0, pixbuf, 0.0, 18, cell_image_check, g_int_compare, TRUE);
+	col_0 = e_table_col_new_with_pixbuf (0, pixbuf, 0.0, 18, cell_image_check, e_int_compare, TRUE);
 	gdk_pixbuf_unref (pixbuf);
 	e_table_header_add_column (e_table_header, col_0, 0);
 	
