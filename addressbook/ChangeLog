@@ -1,3 +1,9 @@
+2005-12-10  Sushma Rai  <rsushma@novell.com>
+
+	* gui/contact-editor/e-contact-editor.c (fill_in_address_textview):
+	Not inserting new line at the end and also, placing the cursor at
+	the beginning of the widget. Fixes #300300.
+
 2005-12-06  Veerapuram Varadhan <vvaradhan@novell.com>
 	
 	* conduits/addressbook-conduit.c: (pre_sync):

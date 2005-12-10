@@ -1714,7 +1714,7 @@ fill_in_address_textview (EContactEditor *editor, gint record, EContactAddress *
 	gchar         *textview_name;
 	GtkWidget     *textview;
 	GtkTextBuffer *text_buffer;
-	GtkTextIter    iter;
+	GtkTextIter    iter_end, iter_start;
 
 	textview_name = g_strdup_printf ("textview-%s-address", address_name [record]);
 	textview = glade_xml_get_widget (editor->gui, textview_name);
@@ -1723,9 +1723,15 @@ fill_in_address_textview (EContactEditor *editor, gint record, EContactAddress *
 	text_buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (textview));
 	gtk_text_buffer_set_text (text_buffer, address->street ? address->street : "", -1);
 
-	gtk_text_buffer_get_end_iter (text_buffer, &iter);
-	gtk_text_buffer_insert (text_buffer, &iter, "\n", -1);
-	gtk_text_buffer_insert (text_buffer, &iter, address->ext ? address->ext : "", -1);
+	gtk_text_buffer_get_end_iter (text_buffer, &iter_end);
+	if (address->ext) {
+		gtk_text_buffer_insert (text_buffer, &iter_end, "\n", -1);
+		gtk_text_buffer_insert (text_buffer, &iter_end, address->ext, -1);
+	} else {
+		gtk_text_buffer_insert (text_buffer, &iter_end, "", -1);
+	}
+	gtk_text_buffer_get_iter_at_line (text_buffer, &iter_start, 0); 
+	gtk_text_buffer_place_cursor (text_buffer, &iter_start);
 }
 
 static void
