@@ -10,14 +10,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 2.5.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-11-27 06:43+0800\n"
-"PO-Revision-Date: 2005-11-26 20:19+0800\n"
+"POT-Creation-Date: 2005-12-10 08:43+0800\n"
+"PO-Revision-Date: 2005-12-10 08:54+0800\n"
 "Last-Translator: Chao-Hsiung Liao <j_h_liau@yahoo.com.tw>\n"
 "Language-Team: Chinese (traditional) <community@linuxhall.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
+"Plural-Forms: nplurals=1; plural=0;"
 
 # addressbook/gui/component/GNOME_Evolution_Addressbook.oaf.in.h:5
 #: ../a11y/addressbook/ea-addressbook-view.c:94
@@ -564,20 +564,20 @@ msgid "{1}"
 msgstr "{1}"
 
 # mail/mail-config.glade.h:29
-#: ../addressbook/conduit/address-conduit.c:298
+#: ../addressbook/conduit/address-conduit.c:300
 msgid "Default Sync Address:"
 msgstr "預設的同步地址:"
 
 # camel/camel-provider.c:140
-#: ../addressbook/conduit/address-conduit.c:1183
-#: ../addressbook/conduit/address-conduit.c:1184
+#: ../addressbook/conduit/address-conduit.c:1241
+#: ../addressbook/conduit/address-conduit.c:1242
 msgid "Could not load addressbook"
 msgstr "無法載入通訊錄"
 
 # addressbook/conduit/address-conduit.c:687
 # addressbook/conduit/address-conduit.c:690
-#: ../addressbook/conduit/address-conduit.c:1252
-#: ../addressbook/conduit/address-conduit.c:1255
+#: ../addressbook/conduit/address-conduit.c:1310
+#: ../addressbook/conduit/address-conduit.c:1313
 msgid "Could not read pilot's Address application block"
 msgstr "無法讀取 pilot 通訊錄程式區塊"
 
@@ -860,9 +860,9 @@ msgstr "新增通訊錄(_N)"
 #: ../addressbook/gui/widgets/e-addressbook-view.c:966
 #: ../calendar/gui/calendar-component.c:537
 #: ../calendar/gui/e-calendar-table.c:1194
-#: ../calendar/gui/e-calendar-view.c:1575 ../calendar/gui/e-memo-table.c:869
+#: ../calendar/gui/e-calendar-view.c:1583 ../calendar/gui/e-memo-table.c:869
 #: ../calendar/gui/tasks-component.c:441 ../mail/em-folder-tree.c:2054
-#: ../mail/em-folder-view.c:1049 ../ui/evolution-addressbook.xml.h:34
+#: ../mail/em-folder-view.c:1050 ../ui/evolution-addressbook.xml.h:34
 #: ../ui/evolution-calendar.xml.h:40 ../ui/evolution-mail-list.xml.h:27
 #: ../ui/evolution-memos.xml.h:16 ../ui/evolution-tasks.xml.h:24
 msgid "_Delete"
@@ -1244,6 +1244,7 @@ msgstr "名片"
 #: ../calendar/gui/alarm-notify/util.c:66
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:26
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:14
+#: ../calendar/gui/misc.c:111 ../calendar/gui/misc.c:113
 #: ../filter/filter.glade.h:16 ../mail/em-account-editor.c:1951
 #: ../plugins/calendar-http/calendar-http.c:263
 #: ../plugins/calendar-weather/calendar-weather.c:563
@@ -3052,7 +3053,7 @@ msgstr "儲存為 VCard..."
 #: ../addressbook/gui/widgets/e-addressbook-view.c:944
 #: ../calendar/gui/dialogs/comp-editor.c:1055
 #: ../calendar/gui/e-calendar-table.c:1174
-#: ../calendar/gui/e-calendar-view.c:1555 ../calendar/gui/e-memo-table.c:852
+#: ../calendar/gui/e-calendar-view.c:1563 ../calendar/gui/e-memo-table.c:852
 #: ../ui/evolution-addressbook.xml.h:38
 msgid "_Open"
 msgstr "開啟(_O)"
@@ -3130,9 +3131,9 @@ msgstr "剪下(_T)"
 #: ../calendar/gui/calendar-component.c:536
 #: ../calendar/gui/dialogs/comp-editor.c:432
 #: ../calendar/gui/e-calendar-table.c:1182
-#: ../calendar/gui/e-calendar-view.c:1562 ../calendar/gui/e-memo-table.c:860
-#: ../calendar/gui/tasks-component.c:440 ../composer/e-msg-composer.c:3049
-#: ../mail/em-folder-tree.c:979 ../mail/em-folder-view.c:1035
+#: ../calendar/gui/e-calendar-view.c:1570 ../calendar/gui/e-memo-table.c:860
+#: ../calendar/gui/tasks-component.c:440 ../composer/e-msg-composer.c:3075
+#: ../mail/em-folder-tree.c:979 ../mail/em-folder-view.c:1036
 #: ../mail/message-list.c:1718 ../ui/evolution-addressbook.xml.h:32
 #: ../ui/evolution-calendar.xml.h:39 ../ui/evolution-composer-entries.xml.h:7
 #: ../ui/evolution-editor.xml.h:16 ../ui/evolution-mail-message.xml.h:104
@@ -3813,10 +3814,11 @@ msgstr "移除連絡人時發生錯誤"
 msgid ""
 "Opening %d contact will open %d new window as well.\n"
 "Do you really want to display this contact?"
-msgid_plural ""
 "Opening %d contacts will open %d new windows as well.\n"
 "Do you really want to display all of these contacts?"
-msgstr[0] ""
+msgstr ""
+"開啟 %d 個連絡人會一併開啟 %d 個新視窗。\n"
+"確定要顯示這個連絡人？"
 "開啟 %d 個連絡人會一併開啟 %d 個新視窗。\n"
 "確定要顯示這個連絡人？"
 
@@ -4686,7 +4688,7 @@ msgid "_Discard Changes"
 msgstr "放棄變更(_D)"
 
 #: ../calendar/calendar.error.xml.h:67 ../ui/evolution-editor.xml.h:23
-#: ../ui/evolution-message-composer.xml.h:51
+#: ../ui/evolution-message-composer.xml.h:53
 #: ../ui/evolution-signature-editor.xml.h:15
 msgid "_Save"
 msgstr "儲存(_S)"
@@ -4710,26 +4712,26 @@ msgstr "{0}."
 msgid "Enter password"
 msgstr "輸入密碼"
 
-#: ../calendar/conduits/calendar/calendar-conduit.c:246
+#: ../calendar/conduits/calendar/calendar-conduit.c:248
 msgid "Split Multi-Day Events:"
 msgstr "分割多日事件:"
 
 # addressbook/conduit/address-conduit.c:654
 # calendar/conduits/calendar/calendar-conduit.c:731
 # calendar/conduits/todo/todo-conduit.c:545
-#: ../calendar/conduits/calendar/calendar-conduit.c:1377
-#: ../calendar/conduits/calendar/calendar-conduit.c:1378
+#: ../calendar/conduits/calendar/calendar-conduit.c:1425
+#: ../calendar/conduits/calendar/calendar-conduit.c:1426
 #: ../calendar/conduits/memo/memo-conduit.c:854
 #: ../calendar/conduits/memo/memo-conduit.c:855
-#: ../calendar/conduits/todo/todo-conduit.c:988
-#: ../calendar/conduits/todo/todo-conduit.c:989
+#: ../calendar/conduits/todo/todo-conduit.c:1032
+#: ../calendar/conduits/todo/todo-conduit.c:1033
 msgid "Could not start evolution-data-server"
 msgstr "無法啟動 Evolution 資料伺服器"
 
 # calendar/conduits/calendar/calendar-conduit.c:786
 # calendar/conduits/calendar/calendar-conduit.c:789
-#: ../calendar/conduits/calendar/calendar-conduit.c:1486
-#: ../calendar/conduits/calendar/calendar-conduit.c:1489
+#: ../calendar/conduits/calendar/calendar-conduit.c:1522
+#: ../calendar/conduits/calendar/calendar-conduit.c:1525
 msgid "Could not read pilot's Calendar application block"
 msgstr "無法讀取 pilot 行事曆程式區塊"
 
@@ -4748,21 +4750,21 @@ msgid "Could not write pilot's Memo application block"
 msgstr "無法寫入 pilot 備忘錄程式區塊"
 
 # calendar/gui/dialogs/task-editor-dialog.glade.h:26
-#: ../calendar/conduits/todo/todo-conduit.c:237
+#: ../calendar/conduits/todo/todo-conduit.c:239
 msgid "Default Priority:"
 msgstr "預設優先順序:"
 
 # calendar/conduits/todo/todo-conduit.c:600
 # calendar/conduits/todo/todo-conduit.c:603
-#: ../calendar/conduits/todo/todo-conduit.c:1071
-#: ../calendar/conduits/todo/todo-conduit.c:1074
+#: ../calendar/conduits/todo/todo-conduit.c:1112
+#: ../calendar/conduits/todo/todo-conduit.c:1115
 msgid "Could not read pilot's ToDo application block"
 msgstr "無法讀取 pilot 待辦事項程式區塊"
 
 # calendar/conduits/todo/todo-conduit.c:600
 # calendar/conduits/todo/todo-conduit.c:603
-#: ../calendar/conduits/todo/todo-conduit.c:1110
-#: ../calendar/conduits/todo/todo-conduit.c:1113
+#: ../calendar/conduits/todo/todo-conduit.c:1151
+#: ../calendar/conduits/todo/todo-conduit.c:1154
 msgid "Could not write pilot's ToDo application block"
 msgstr "無法讀取 pilot 待辦事項程式區塊"
 
@@ -4858,7 +4860,8 @@ msgstr "Evolution 行事曆鬧鈴通知服務"
 
 #: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:117
 #: ../calendar/gui/alarm-notify/util.c:64
-#: ../calendar/gui/alarm-notify/util.c:66
+#: ../calendar/gui/alarm-notify/util.c:66 ../calendar/gui/misc.c:111
+#: ../calendar/gui/misc.c:113
 msgid "minute"
 msgid_plural "minutes"
 msgstr[0] "分"
@@ -4907,7 +4910,7 @@ msgstr "忽略時間(_T):"
 #: ../ui/evolution-addressbook.xml.h:35 ../ui/evolution-calendar.xml.h:41
 #: ../ui/evolution-composer-entries.xml.h:8 ../ui/evolution-editor.xml.h:17
 #: ../ui/evolution-mail-messagedisplay.xml.h:5 ../ui/evolution-memos.xml.h:17
-#: ../ui/evolution-message-composer.xml.h:44
+#: ../ui/evolution-message-composer.xml.h:45
 #: ../ui/evolution-signature-editor.xml.h:12
 #: ../ui/evolution-subscribe.xml.h:10 ../ui/evolution-tasks.xml.h:25
 #: ../ui/evolution.xml.h:33
@@ -5032,7 +5035,7 @@ msgstr "失效時間"
 
 # calendar/gui/event-editor.c:1563
 #. Can't be zero
-#: ../calendar/gui/alarm-notify/util.c:58
+#: ../calendar/gui/alarm-notify/util.c:58 ../calendar/gui/misc.c:105
 #, c-format
 msgid "(%d seconds)"
 msgstr "(%d 秒)"
@@ -5041,59 +5044,59 @@ msgstr "(%d 秒)"
 # calendar/gui/print.c:1097
 # calendar/gui/print.c:1099
 # calendar/gui/print.c:1100
-#: ../calendar/gui/alarm-notify/util.c:64
+#: ../calendar/gui/alarm-notify/util.c:64 ../calendar/gui/misc.c:111
 #, c-format
 msgid "(%d %s %d %s)"
 msgstr "(%d %s %d %s)"
 
 #: ../calendar/gui/alarm-notify/util.c:64
-#: ../calendar/gui/dialogs/recurrence-page.c:991
+#: ../calendar/gui/dialogs/recurrence-page.c:991 ../calendar/gui/misc.c:111
 msgid "second"
 msgstr "二"
 
-#: ../calendar/gui/alarm-notify/util.c:64 ../filter/filter.glade.h:18
-#: ../mail/mail-config.glade.h:177
+#: ../calendar/gui/alarm-notify/util.c:64 ../calendar/gui/misc.c:111
+#: ../filter/filter.glade.h:18 ../mail/mail-config.glade.h:177
 msgid "seconds"
 msgstr "秒後"
 
 # calendar/gui/e-week-view-main-item.c:342
-#: ../calendar/gui/alarm-notify/util.c:66
+#: ../calendar/gui/alarm-notify/util.c:66 ../calendar/gui/misc.c:113
 #, c-format
 msgid "(%d %s)"
 msgstr "(%d %s)"
 
 # calendar/gui/event-editor.c:1563
-#: ../calendar/gui/alarm-notify/util.c:77
+#: ../calendar/gui/alarm-notify/util.c:77 ../calendar/gui/misc.c:124
 #, c-format
 msgid " %u second"
 msgstr " %u 秒"
 
 # calendar/gui/event-editor.c:1563
-#: ../calendar/gui/alarm-notify/util.c:77
+#: ../calendar/gui/alarm-notify/util.c:77 ../calendar/gui/misc.c:124
 #, c-format
 msgid " %u seconds"
 msgstr " %u 秒"
 
 # calendar/gui/event-editor.c:1558
-#: ../calendar/gui/alarm-notify/util.c:79
+#: ../calendar/gui/alarm-notify/util.c:79 ../calendar/gui/misc.c:126
 #, c-format
 msgid " %u minute"
 msgstr " %u 分"
 
 # calendar/gui/event-editor.c:1558
-#: ../calendar/gui/alarm-notify/util.c:79
+#: ../calendar/gui/alarm-notify/util.c:79 ../calendar/gui/misc.c:126
 #, c-format
 msgid " %u minutes"
 msgstr " %u 分"
 
 # calendar/gui/event-editor.c:1553
-#: ../calendar/gui/alarm-notify/util.c:81
+#: ../calendar/gui/alarm-notify/util.c:81 ../calendar/gui/misc.c:128
 #, c-format
 msgid "%u hour"
 msgstr "%u 小時"
 
 # calendar/gui/event-editor.c:1553
-#: ../calendar/gui/alarm-notify/util.c:81
+#: ../calendar/gui/alarm-notify/util.c:81 ../calendar/gui/misc.c:128
 #, c-format
 msgid "%u hours"
 msgstr "%u 小時"
@@ -5664,7 +5667,7 @@ msgid "New calendar"
 msgstr "新行事曆"
 
 #: ../calendar/gui/calendar-component.c:1500
-#: ../calendar/gui/dialogs/event-page.c:829
+#: ../calendar/gui/dialogs/event-page.c:857
 msgid "Cale_ndar"
 msgstr "行事曆(_N)"
 
@@ -5886,7 +5889,7 @@ msgstr "%.0fG"
 
 #: ../calendar/gui/dialogs/cal-attachment-bar.c:311
 #: ../calendar/gui/dialogs/cal-attachment-bar.c:1106
-#: ../calendar/gui/dialogs/comp-editor.c:2582
+#: ../calendar/gui/dialogs/comp-editor.c:2599
 #: ../composer/e-msg-composer-attachment-bar.c:307 ../mail/em-utils.c:138
 #: ../mail/em-utils.c:483 ../mail/em-utils.c:520
 #: ../widgets/misc/e-attachment-bar.c:341
@@ -5895,11 +5898,11 @@ msgstr "附件"
 
 #: ../calendar/gui/dialogs/cal-attachment-bar.c:473
 #: ../calendar/gui/dialogs/comp-editor.c:1056
-#: ../calendar/gui/dialogs/event-page.c:1734
+#: ../calendar/gui/dialogs/event-page.c:1762
 #: ../calendar/gui/dialogs/meeting-page.c:909
 #: ../calendar/gui/dialogs/task-page.c:1183
 #: ../composer/e-msg-composer-attachment-bar.c:470
-#: ../composer/e-msg-composer.c:3545
+#: ../composer/e-msg-composer.c:3571
 #: ../plugins/groupwise-features/junk-settings.glade.h:8
 #: ../plugins/groupwise-features/properties.glade.h:14
 #: ../widgets/table/e-table-config.glade.h:18
@@ -5909,7 +5912,7 @@ msgstr "移除(_R)"
 #: ../calendar/gui/dialogs/cal-attachment-bar.c:474
 #: ../calendar/gui/dialogs/comp-editor.c:1057
 #: ../composer/e-msg-composer-attachment-bar.c:471
-#: ../composer/e-msg-composer.c:3546 ../mail/em-folder-tree.c:2058
+#: ../composer/e-msg-composer.c:3572 ../mail/em-folder-tree.c:2058
 #: ../ui/evolution-mail-list.xml.h:29
 msgid "_Properties"
 msgstr "屬性(_P)"
@@ -5918,7 +5921,7 @@ msgstr "屬性(_P)"
 #: ../calendar/gui/dialogs/cal-attachment-bar.c:476
 #: ../calendar/gui/dialogs/comp-editor.c:1059
 #: ../composer/e-msg-composer-attachment-bar.c:473
-#: ../composer/e-msg-composer.c:3548
+#: ../composer/e-msg-composer.c:3574
 msgid "_Add attachment..."
 msgstr "新增附件..."
 
@@ -6519,7 +6522,7 @@ msgid "Due "
 msgstr "期限 "
 
 # mail/mail-tools.c:219
-#: ../calendar/gui/dialogs/comp-editor.c:194 ../composer/e-msg-composer.c:2800
+#: ../calendar/gui/dialogs/comp-editor.c:194 ../composer/e-msg-composer.c:2826
 #, c-format
 msgid "Attached message - %s"
 msgstr "附加訊息 - %s"
@@ -6527,21 +6530,21 @@ msgstr "附加訊息 - %s"
 # composer/e-msg-composer-attachment-bar.c:501
 #. translators, this count will always be >1
 #: ../calendar/gui/dialogs/comp-editor.c:199
-#: ../calendar/gui/dialogs/comp-editor.c:369 ../composer/e-msg-composer.c:2805
-#: ../composer/e-msg-composer.c:2984
+#: ../calendar/gui/dialogs/comp-editor.c:369 ../composer/e-msg-composer.c:2831
+#: ../composer/e-msg-composer.c:3010
 #, c-format
 msgid "Attached message"
 msgid_plural "%d attached messages"
 msgstr[0] "附加 1 個訊息"
 msgstr[1] "附加 %d 個訊息"
 
-#: ../calendar/gui/dialogs/comp-editor.c:433 ../composer/e-msg-composer.c:3050
+#: ../calendar/gui/dialogs/comp-editor.c:433 ../composer/e-msg-composer.c:3076
 #: ../mail/em-folder-tree.c:980 ../mail/em-folder-utils.c:368
-#: ../mail/em-folder-view.c:931 ../mail/message-list.c:1719
+#: ../mail/em-folder-view.c:932 ../mail/message-list.c:1719
 msgid "_Move"
 msgstr "移動(_M)"
 
-#: ../calendar/gui/dialogs/comp-editor.c:435 ../composer/e-msg-composer.c:3052
+#: ../calendar/gui/dialogs/comp-editor.c:435 ../composer/e-msg-composer.c:3078
 #: ../mail/em-folder-tree.c:982 ../mail/message-list.c:1721
 msgid "Cancel _Drag"
 msgstr "取消拖拉(_D)"
@@ -6551,7 +6554,7 @@ msgstr "取消拖拉(_D)"
 msgid "Could not update object"
 msgstr "無法更新物件"
 
-#: ../calendar/gui/dialogs/comp-editor.c:914 ../composer/e-msg-composer.c:2443
+#: ../calendar/gui/dialogs/comp-editor.c:914 ../composer/e-msg-composer.c:2469
 #, c-format
 msgid "<b>%d</b> Attachment"
 msgid_plural "<b>%d</b> Attachments"
@@ -6569,38 +6572,38 @@ msgstr "隱藏附加檔案列(_B)"
 # mail/mail-config.glade.h:9
 # mail/message-list.c:1081
 #: ../calendar/gui/dialogs/comp-editor.c:947
-#: ../calendar/gui/dialogs/comp-editor.c:1364
+#: ../calendar/gui/dialogs/comp-editor.c:1381
 msgid "Show Attachment _Bar"
 msgstr "顯示附加檔案列(_B)"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1388
+#: ../calendar/gui/dialogs/comp-editor.c:1405
 msgid "Attachment Button: Press space key to toggle attachment bar"
 msgstr "附件按鈕：按下空白鍵切換附加檔案列"
 
 # calendar/gui/dialogs/alarm-notify.glade.h:2
-#: ../calendar/gui/dialogs/comp-editor.c:1991
-#: ../calendar/gui/dialogs/comp-editor.c:2034
+#: ../calendar/gui/dialogs/comp-editor.c:2008
+#: ../calendar/gui/dialogs/comp-editor.c:2051
 msgid "Edit Appointment"
 msgstr "編輯約會"
 
 # importers/netscape-importer.c:790
 # importers/pine-importer.c:656
-#: ../calendar/gui/dialogs/comp-editor.c:1997
-#: ../calendar/gui/dialogs/comp-editor.c:2040
+#: ../calendar/gui/dialogs/comp-editor.c:2014
+#: ../calendar/gui/dialogs/comp-editor.c:2057
 #, c-format
 msgid "Meeting - %s"
 msgstr "會議 - %s"
 
 # calendar/gui/event-editor-dialog.glade.h:3
-#: ../calendar/gui/dialogs/comp-editor.c:1999
-#: ../calendar/gui/dialogs/comp-editor.c:2042
+#: ../calendar/gui/dialogs/comp-editor.c:2016
+#: ../calendar/gui/dialogs/comp-editor.c:2059
 #, c-format
 msgid "Appointment - %s"
 msgstr "約會 - %s"
 
 # calendar/gui/calendar-model.c:1578
-#: ../calendar/gui/dialogs/comp-editor.c:2003
-#: ../calendar/gui/dialogs/comp-editor.c:2046
+#: ../calendar/gui/dialogs/comp-editor.c:2020
+#: ../calendar/gui/dialogs/comp-editor.c:2063
 #, c-format
 msgid "Assigned Task - %s"
 msgstr "指派的工作 - %s"
@@ -6608,31 +6611,31 @@ msgstr "指派的工作 - %s"
 # calendar/gui/calendar-summary.c:275
 # calendar/gui/print.c:948
 # views/tasks/galview.xml.h:1
-#: ../calendar/gui/dialogs/comp-editor.c:2005
-#: ../calendar/gui/dialogs/comp-editor.c:2048
+#: ../calendar/gui/dialogs/comp-editor.c:2022
+#: ../calendar/gui/dialogs/comp-editor.c:2065
 #, c-format
 msgid "Task - %s"
 msgstr "工作 - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2008
-#: ../calendar/gui/dialogs/comp-editor.c:2051
+#: ../calendar/gui/dialogs/comp-editor.c:2025
+#: ../calendar/gui/dialogs/comp-editor.c:2068
 #, c-format
 msgid "Journal entry - %s"
 msgstr "日誌項目 - %s"
 
 # calendar/gui/e-calendar-table.c:159
-#: ../calendar/gui/dialogs/comp-editor.c:2019
-#: ../calendar/gui/dialogs/comp-editor.c:2061
+#: ../calendar/gui/dialogs/comp-editor.c:2036
+#: ../calendar/gui/dialogs/comp-editor.c:2078
 msgid "No summary"
 msgstr "沒有摘要"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2675
-#: ../calendar/gui/dialogs/comp-editor.c:2708
-#: ../calendar/gui/dialogs/comp-editor.c:2732
+#: ../calendar/gui/dialogs/comp-editor.c:2692
+#: ../calendar/gui/dialogs/comp-editor.c:2725
+#: ../calendar/gui/dialogs/comp-editor.c:2749
 msgid "Changes made to this item may be discarded if an update arrives"
 msgstr "如果有新的更新，則會放棄對此項目所做的變更"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2756
+#: ../calendar/gui/dialogs/comp-editor.c:2773
 msgid "Unable to use current version!"
 msgstr "無法使用目前的版本！"
 
@@ -6724,79 +6727,79 @@ msgstr "約會(_M)"
 msgid "Recurrence"
 msgstr "週期性"
 
-#: ../calendar/gui/dialogs/event-page.c:835
+#: ../calendar/gui/dialogs/event-page.c:863
 #: ../calendar/gui/dialogs/task-page.c:444
 msgid "Or_ganizer"
 msgstr "召集人(_G)"
 
-#: ../calendar/gui/dialogs/event-page.c:873
+#: ../calendar/gui/dialogs/event-page.c:901
 msgid "_Delegatees"
 msgstr "代理者(_D)"
 
 # widgets/meeting-time-sel/e-meeting-time-sel.c:744
-#: ../calendar/gui/dialogs/event-page.c:875
+#: ../calendar/gui/dialogs/event-page.c:903
 msgid "Atte_ndees"
 msgstr "到會者(_N)"
 
-#: ../calendar/gui/dialogs/event-page.c:1034
+#: ../calendar/gui/dialogs/event-page.c:1062
 msgid "Event with no start date"
 msgstr "無開始日期的事件"
 
-#: ../calendar/gui/dialogs/event-page.c:1037
+#: ../calendar/gui/dialogs/event-page.c:1065
 msgid "Event with no end date"
 msgstr "無結束日期的事件"
 
 # calendar/gui/e-calendar-table.c:154
-#: ../calendar/gui/dialogs/event-page.c:1202
+#: ../calendar/gui/dialogs/event-page.c:1230
 #: ../calendar/gui/dialogs/task-page.c:848
 msgid "Start date is wrong"
 msgstr "開始日期錯誤"
 
-#: ../calendar/gui/dialogs/event-page.c:1212
+#: ../calendar/gui/dialogs/event-page.c:1240
 msgid "End date is wrong"
 msgstr "結束日期錯誤"
 
 # calendar/gui/event-editor-dialog.glade.h:31
-#: ../calendar/gui/dialogs/event-page.c:1235
+#: ../calendar/gui/dialogs/event-page.c:1263
 msgid "Start time is wrong"
 msgstr "開始時間錯誤"
 
-#: ../calendar/gui/dialogs/event-page.c:1242
+#: ../calendar/gui/dialogs/event-page.c:1270
 msgid "End time is wrong"
 msgstr "結束時間錯誤"
 
-#: ../calendar/gui/dialogs/event-page.c:1397
+#: ../calendar/gui/dialogs/event-page.c:1425
 #: ../calendar/gui/dialogs/meeting-page.c:464
 #: ../calendar/gui/dialogs/task-page.c:905
 msgid "The organizer selected no longer has an account."
 msgstr "選取的召集人已經沒有帳號。"
 
-#: ../calendar/gui/dialogs/event-page.c:1403
+#: ../calendar/gui/dialogs/event-page.c:1431
 #: ../calendar/gui/dialogs/meeting-page.c:470
 #: ../calendar/gui/dialogs/task-page.c:911
 msgid "An organizer is required."
 msgstr "需要一個召集人。"
 
-#: ../calendar/gui/dialogs/event-page.c:1418
+#: ../calendar/gui/dialogs/event-page.c:1446
 #: ../calendar/gui/dialogs/meeting-page.c:485
 #: ../calendar/gui/dialogs/task-page.c:926
 msgid "At least one attendee is required."
 msgstr "最少需要一個到會者。"
 
-#: ../calendar/gui/dialogs/event-page.c:1735
+#: ../calendar/gui/dialogs/event-page.c:1763
 #: ../calendar/gui/dialogs/meeting-page.c:910
 #: ../calendar/gui/dialogs/task-page.c:1184
 msgid "_Add "
 msgstr "新增(_A)"
 
 # shell/e-storage.c:475
-#: ../calendar/gui/dialogs/event-page.c:2422
+#: ../calendar/gui/dialogs/event-page.c:2453
 #, c-format
 msgid "Unable to open the calendar '%s'."
 msgstr "無法開啟行事曆 '%s'。"
 
 # calendar/gui/event-editor.c:1612
-#: ../calendar/gui/dialogs/event-page.c:2662
+#: ../calendar/gui/dialogs/event-page.c:2702
 #, c-format
 msgid "%d day before appointment"
 msgid_plural "%d days before appointment"
@@ -6804,7 +6807,7 @@ msgstr[0] "在每個約會前 %d 天"
 msgstr[1] "在每個約會前 %d 天"
 
 # calendar/gui/event-editor-dialog.glade.h:36
-#: ../calendar/gui/dialogs/event-page.c:2670
+#: ../calendar/gui/dialogs/event-page.c:2710
 #, c-format
 msgid "%d hour before appointment"
 msgid_plural "%d hours before appointment"
@@ -6812,7 +6815,7 @@ msgstr[0] "約會前 %d 小時"
 msgstr[1] "約會前 %d 小時"
 
 # calendar/gui/event-editor.c:1612
-#: ../calendar/gui/dialogs/event-page.c:2678
+#: ../calendar/gui/dialogs/event-page.c:2718
 #, c-format
 msgid "%d minute before appointement"
 msgid_plural "%d minutes before appointment"
@@ -6890,7 +6893,7 @@ msgstr "時間(_T):"
 #: ../calendar/gui/dialogs/event-page.glade.h:18
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:8
 msgid "for"
-msgstr "發生"
+msgstr "舉行"
 
 # calendar/gui/event-editor-dialog.glade.h:45
 #: ../calendar/gui/dialogs/event-page.glade.h:20
@@ -6914,10 +6917,10 @@ msgstr "<b>從:</b>"
 #: ../calendar/gui/dialogs/meeting-page.c:316
 #: ../calendar/gui/dialogs/meeting-page.glade.h:4
 #: ../calendar/gui/e-cal-model-tasks.c:653
-#: ../calendar/gui/e-itip-control.c:1103 ../composer/e-msg-composer.c:2246
+#: ../calendar/gui/e-itip-control.c:1103 ../composer/e-msg-composer.c:2264
 #: ../filter/filter-rule.c:881 ../mail/em-account-editor.c:683
 #: ../mail/em-account-editor.c:1348 ../mail/em-account-prefs.c:464
-#: ../mail/em-folder-view.c:1064 ../mail/em-junk-hook.c:78
+#: ../mail/em-folder-view.c:1065 ../mail/em-junk-hook.c:78
 #: ../plugins/calendar-weather/calendar-weather.c:370
 #: ../plugins/calendar-weather/calendar-weather.c:424
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:7
@@ -7169,7 +7172,7 @@ msgstr "週期性日期無效"
 # calendar/gui/event-editor.c:449
 #: ../calendar/gui/dialogs/recurrence-page.c:930
 msgid "on"
-msgstr "於"
+msgstr "的"
 
 #: ../calendar/gui/dialogs/recurrence-page.c:990
 msgid "first"
@@ -7207,7 +7210,7 @@ msgstr "在第"
 # calendar/gui/event-editor.c:754
 #: ../calendar/gui/dialogs/recurrence-page.c:1371
 msgid "occurrences"
-msgstr "出現"
+msgstr "次"
 
 # calendar/gui/dialogs/task-editor-dialog.glade.h:7
 # calendar/gui/event-editor-dialog.glade.h:8
@@ -7240,7 +7243,7 @@ msgstr "每"
 
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:5
 msgid "This appointment rec_urs"
-msgstr "這個約會循環(_U)"
+msgstr "這個約會的循環規則為(_U)"
 
 # calendar/gui/event-editor-dialog.glade.h:38
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:9
@@ -7572,7 +7575,7 @@ msgstr "%s 為未知的觸發類型"
 
 # calendar/gui/e-calendar-table.c:163
 #: ../calendar/gui/e-cal-component-memo-preview.c:72
-#: ../calendar/gui/e-cal-component-preview.c:70 ../mail/em-folder-view.c:2704
+#: ../calendar/gui/e-cal-component-preview.c:70 ../mail/em-folder-view.c:2728
 #, c-format
 msgid "Click to open %s"
 msgstr "按一下來開啟 %s"
@@ -7643,13 +7646,13 @@ msgid "Summary"
 msgstr "摘要"
 
 # ui/evolution-calendar.xml.h:36
-#: ../calendar/gui/e-cal-model-calendar.c:180
+#: ../calendar/gui/e-cal-model-calendar.c:183
 #: ../calendar/gui/e-calendar-table.c:438
 msgid "Free"
 msgstr "空閒"
 
 # widgets/meeting-time-sel/e-meeting-time-sel.c:393
-#: ../calendar/gui/e-cal-model-calendar.c:183
+#: ../calendar/gui/e-cal-model-calendar.c:186
 #: ../calendar/gui/e-calendar-table.c:439
 #: ../calendar/gui/e-meeting-time-sel.c:415
 msgid "Busy"
@@ -7728,8 +7731,8 @@ msgid "untitled_image.%s"
 msgstr "untitled_image.%s"
 
 #: ../calendar/gui/e-cal-popup.c:270 ../calendar/gui/e-calendar-table.c:1176
-#: ../calendar/gui/e-calendar-view.c:1556 ../calendar/gui/e-memo-table.c:854
-#: ../mail/em-folder-view.c:1045 ../mail/em-popup.c:553 ../mail/em-popup.c:564
+#: ../calendar/gui/e-calendar-view.c:1564 ../calendar/gui/e-memo-table.c:854
+#: ../mail/em-folder-view.c:1046 ../mail/em-popup.c:553 ../mail/em-popup.c:564
 msgid "_Save As..."
 msgstr "另存新檔(_S)..."
 
@@ -7820,8 +7823,8 @@ msgstr "更新物件"
 
 # composer/e-msg-composer.c:774
 #: ../calendar/gui/e-calendar-table.c:1032
-#: ../calendar/gui/e-calendar-view.c:1132 ../calendar/gui/e-memo-table.c:742
-#: ../composer/e-msg-composer.c:1341
+#: ../calendar/gui/e-calendar-view.c:1140 ../calendar/gui/e-memo-table.c:742
+#: ../composer/e-msg-composer.c:1346
 msgid "Save as..."
 msgstr "另存新檔..."
 
@@ -7830,9 +7833,9 @@ msgid "Open _Web Page"
 msgstr "開啟網頁(_W)"
 
 #: ../calendar/gui/e-calendar-table.c:1177
-#: ../calendar/gui/e-calendar-view.c:1536
-#: ../calendar/gui/e-calendar-view.c:1557 ../calendar/gui/e-memo-table.c:855
-#: ../mail/em-folder-view.c:1046
+#: ../calendar/gui/e-calendar-view.c:1544
+#: ../calendar/gui/e-calendar-view.c:1565 ../calendar/gui/e-memo-table.c:855
+#: ../mail/em-folder-view.c:1047
 #: ../plugins/print-message/org-gnome-print-message.xml.h:3
 #: ../ui/evolution-addressbook.xml.h:40 ../ui/evolution-calendar.xml.h:44
 #: ../ui/evolution-mail-message.xml.h:122 ../ui/evolution-memos.xml.h:20
@@ -7841,15 +7844,15 @@ msgid "_Print..."
 msgstr "列印(_P)..."
 
 #: ../calendar/gui/e-calendar-table.c:1181
-#: ../calendar/gui/e-calendar-view.c:1561 ../calendar/gui/e-memo-table.c:859
+#: ../calendar/gui/e-calendar-view.c:1569 ../calendar/gui/e-memo-table.c:859
 #: ../ui/evolution-addressbook.xml.h:1 ../ui/evolution-calendar.xml.h:1
 #: ../ui/evolution-memos.xml.h:1 ../ui/evolution-tasks.xml.h:1
 msgid "C_ut"
 msgstr "剪下(_U)"
 
 #: ../calendar/gui/e-calendar-table.c:1183
-#: ../calendar/gui/e-calendar-view.c:1539
-#: ../calendar/gui/e-calendar-view.c:1563 ../calendar/gui/e-memo-table.c:861
+#: ../calendar/gui/e-calendar-view.c:1547
+#: ../calendar/gui/e-calendar-view.c:1571 ../calendar/gui/e-memo-table.c:861
 #: ../ui/evolution-addressbook.xml.h:39 ../ui/evolution-calendar.xml.h:43
 #: ../ui/evolution-composer-entries.xml.h:9 ../ui/evolution-editor.xml.h:22
 #: ../ui/evolution-memos.xml.h:19 ../ui/evolution-tasks.xml.h:28
@@ -7927,84 +7930,84 @@ msgid "Task sort"
 msgstr "工作排序"
 
 # mail/mail-ops.c:898
-#: ../calendar/gui/e-calendar-view.c:1258
+#: ../calendar/gui/e-calendar-view.c:1266
 msgid "Moving items"
 msgstr "移動項目"
 
 # mail/mail-ops.c:898
-#: ../calendar/gui/e-calendar-view.c:1260
+#: ../calendar/gui/e-calendar-view.c:1268
 msgid "Copying items"
 msgstr "複製項目"
 
-#: ../calendar/gui/e-calendar-view.c:1530
+#: ../calendar/gui/e-calendar-view.c:1538
 msgid "New _Appointment..."
 msgstr "新增約會(_A)..."
 
-#: ../calendar/gui/e-calendar-view.c:1531
+#: ../calendar/gui/e-calendar-view.c:1539
 msgid "New All Day _Event"
 msgstr "新增全天事件(_E)"
 
 # importers/netscape-importer.c:790
 # importers/pine-importer.c:656
-#: ../calendar/gui/e-calendar-view.c:1532
+#: ../calendar/gui/e-calendar-view.c:1540
 msgid "New _Meeting"
 msgstr "新增會議(_M)"
 
 # ui/evolution-tasks.xml.h:3
-#: ../calendar/gui/e-calendar-view.c:1533
+#: ../calendar/gui/e-calendar-view.c:1541
 msgid "New _Task"
 msgstr "新增工作(_T)"
 
 #. FIXME: hook in this somehow
-#: ../calendar/gui/e-calendar-view.c:1543
+#: ../calendar/gui/e-calendar-view.c:1551
 #: ../widgets/menus/gal-view-menus.c:291
 msgid "_Current View"
 msgstr "目前檢視(_C)"
 
-#: ../calendar/gui/e-calendar-view.c:1545
+#: ../calendar/gui/e-calendar-view.c:1553
 msgid "Select T_oday"
 msgstr "選擇今天(_O)"
 
-#: ../calendar/gui/e-calendar-view.c:1546
+#: ../calendar/gui/e-calendar-view.c:1554
 msgid "_Select Date..."
 msgstr "選擇日期(_S)..."
 
 #. TODO: Why is this in a context menu when it applies globally?
-#: ../calendar/gui/e-calendar-view.c:1551 ../ui/evolution-calendar.xml.h:45
+#: ../calendar/gui/e-calendar-view.c:1559 ../ui/evolution-calendar.xml.h:45
 msgid "_Publish Free/Busy Information"
 msgstr "發佈空閒/忙碌資訊(_P)"
 
-#: ../calendar/gui/e-calendar-view.c:1567
+#: ../calendar/gui/e-calendar-view.c:1575
 msgid "Cop_y to Calendar..."
 msgstr "複製至行事曆(_Y)..."
 
-#: ../calendar/gui/e-calendar-view.c:1568
+#: ../calendar/gui/e-calendar-view.c:1576
 msgid "Mo_ve to Calendar..."
 msgstr "移至行事曆(_V)..."
 
-#: ../calendar/gui/e-calendar-view.c:1569
+#: ../calendar/gui/e-calendar-view.c:1577
 msgid "_Delegate Meeting..."
 msgstr "委派會議(_D)..."
 
-#: ../calendar/gui/e-calendar-view.c:1570
+#: ../calendar/gui/e-calendar-view.c:1578
 msgid "_Schedule Meeting..."
 msgstr "會議排程(_S)..."
 
-#: ../calendar/gui/e-calendar-view.c:1571
+#: ../calendar/gui/e-calendar-view.c:1579
 msgid "_Forward as iCalendar..."
 msgstr "以 iCalendar 轉寄(_F)..."
 
 # calendar/gui/e-day-view.c:3175
 # calendar/gui/e-week-view.c:3309
-#: ../calendar/gui/e-calendar-view.c:1576
+#: ../calendar/gui/e-calendar-view.c:1584
 msgid "Make this Occurrence _Movable"
 msgstr "將這個事件標示成可移動(_M)"
 
-#: ../calendar/gui/e-calendar-view.c:1577
+#: ../calendar/gui/e-calendar-view.c:1585
 msgid "Delete this _Occurrence"
 msgstr "刪除這個事件(_O)"
 
-#: ../calendar/gui/e-calendar-view.c:1578
+#: ../calendar/gui/e-calendar-view.c:1586
 msgid "Delete _All Occurrences"
 msgstr "刪除全部事件(_A)"
 
@@ -11259,69 +11262,69 @@ msgstr "張貼到:"
 msgid "A_ttach"
 msgstr "附加(_T)"
 
-#: ../composer/e-msg-composer.c:832
+#: ../composer/e-msg-composer.c:837
 msgid ""
 "Cannot sign outgoing message: No signing certificate set for this account"
 msgstr "無法簽名送出的郵件：此帳號沒有設定簽名憑證"
 
-#: ../composer/e-msg-composer.c:839
+#: ../composer/e-msg-composer.c:844
 msgid ""
 "Cannot encrypt outgoing message: No encryption certificate set for this "
 "account"
 msgstr "無法加密送出的郵件：沒有設定加密憑證(此帳號)"
 
 # camel/camel-sasl-login.c:127
-#: ../composer/e-msg-composer.c:1322 ../composer/e-msg-composer.c:1356
+#: ../composer/e-msg-composer.c:1327 ../composer/e-msg-composer.c:1361
 #: ../plugins/mail-remote/e-corba-utils.c:135
 msgid "Unknown reason"
 msgstr "不明的原因"
 
 # camel/camel-filter-driver.c:671
-#: ../composer/e-msg-composer.c:1394
+#: ../composer/e-msg-composer.c:1399
 msgid "Could not open file"
 msgstr "無法開啟檔案"
 
 # camel/providers/pop3/camel-pop3-folder.c:320
-#: ../composer/e-msg-composer.c:1402
+#: ../composer/e-msg-composer.c:1407
 msgid "Unable to retrieve message from editor"
 msgstr "無法從編輯器取得郵件"
 
 # mail/mail-search.c:138
-#: ../composer/e-msg-composer.c:1677
+#: ../composer/e-msg-composer.c:1682
 msgid "Untitled Message"
 msgstr "未命名的郵件"
 
 # composer/e-msg-composer.c:966
 #. NB: This function is never used anymore
-#: ../composer/e-msg-composer.c:1712
+#: ../composer/e-msg-composer.c:1717
 msgid "Open File"
 msgstr "開啟檔案"
 
-#: ../composer/e-msg-composer.c:2126 ../mail/em-account-editor.c:588
+#: ../composer/e-msg-composer.c:2144 ../mail/em-account-editor.c:588
 #: ../mail/em-account-editor.c:633 ../mail/em-account-editor.c:700
 msgid "Autogenerated"
 msgstr "自動產生的"
 
 # mail/mail-config.glade.h:74
-#: ../composer/e-msg-composer.c:2229
+#: ../composer/e-msg-composer.c:2247
 msgid "Si_gnature:"
 msgstr "簽名檔(_G):"
 
 # composer/e-msg-composer.c:1526
 # composer/e-msg-composer.c:1871
-#: ../composer/e-msg-composer.c:2472 ../composer/e-msg-composer.c:3673
-#: ../composer/e-msg-composer.c:3676
+#: ../composer/e-msg-composer.c:2498 ../composer/e-msg-composer.c:3699
+#: ../composer/e-msg-composer.c:3702
 msgid "Compose a message"
 msgstr "編輯郵件"
 
 # composer/e-msg-composer-attachment.glade.h:1
 # mail/mail-config.glade.h:9
 # mail/message-list.c:1081
-#: ../composer/e-msg-composer.c:3791
+#: ../composer/e-msg-composer.c:3817
 msgid "_Attachment Bar"
 msgstr "附加檔案列(_A)"
 
-#: ../composer/e-msg-composer.c:4881
+#: ../composer/e-msg-composer.c:4909
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)"
 "<b>"
@@ -12139,7 +12142,7 @@ msgstr "Evolution 郵件撰寫器組態控制"
 msgid "Evolution Mail preferences control"
 msgstr "Evolution 郵件優先設定控制"
 
-#: ../mail/GNOME_Evolution_Mail.server.in.in.h:11 ../mail/em-folder-view.c:494
+#: ../mail/GNOME_Evolution_Mail.server.in.in.h:11 ../mail/em-folder-view.c:495
 #: ../mail/importers/elm-importer.c:342
 #: ../mail/importers/netscape-importer.c:1902
 #: ../mail/importers/pine-importer.c:388 ../mail/mail-component.c:561
@@ -12449,7 +12452,7 @@ msgstr "垃圾郵件測試"
 
 # addressbook/contact-editor/e-contact-editor.c:1256
 # addressbook/gui/widgets/e-addressbook-view.c:720
-#: ../mail/em-filter-i18n.h:37 ../mail/em-folder-view.c:1063
+#: ../mail/em-filter-i18n.h:37 ../mail/em-folder-view.c:1064
 #: ../widgets/misc/e-expander.c:189
 msgid "Label"
 msgstr "標籤"
@@ -12713,7 +12716,7 @@ msgstr "掃描「%s」內的資料夾"
 #: ../mail/em-folder-tree.c:2042 ../ui/evolution-addressbook.xml.h:44
 #: ../ui/evolution-editor.xml.h:24 ../ui/evolution-mail-global.xml.h:22
 #: ../ui/evolution-mail-messagedisplay.xml.h:8
-#: ../ui/evolution-message-composer.xml.h:54 ../ui/evolution-tasks.xml.h:30
+#: ../ui/evolution-message-composer.xml.h:56 ../ui/evolution-tasks.xml.h:30
 #: ../ui/evolution.xml.h:46
 msgid "_View"
 msgstr "檢視(_V)"
@@ -12750,13 +12753,13 @@ msgid "Copying `%s' to `%s'"
 msgstr "將「%s」複製到「%s」"
 
 # shell/e-shell-importer.c:601
-#: ../mail/em-folder-utils.c:368 ../mail/em-folder-view.c:931
-#: ../mail/em-folder-view.c:946 ../mail/importers/evolution-mbox-importer.c:85
+#: ../mail/em-folder-utils.c:368 ../mail/em-folder-view.c:932
+#: ../mail/em-folder-view.c:947 ../mail/importers/evolution-mbox-importer.c:85
 #: ../mail/importers/evolution-outlook-importer.c:134
 msgid "Select folder"
 msgstr "選擇資料夾"
 
-#: ../mail/em-folder-utils.c:368 ../mail/em-folder-view.c:946
+#: ../mail/em-folder-utils.c:368 ../mail/em-folder-view.c:947
 msgid "C_opy"
 msgstr "複製(_O)"
 
@@ -12794,149 +12797,149 @@ msgstr "建立資料夾"
 msgid "Specify where to create the folder:"
 msgstr "指定要建立資料夾的位置："
 
-#: ../mail/em-folder-view.c:1039 ../mail/em-popup.c:558 ../mail/em-popup.c:569
+#: ../mail/em-folder-view.c:1040 ../mail/em-popup.c:558 ../mail/em-popup.c:569
 msgid "Reply to _All"
 msgstr "回覆所有人(_A)"
 
-#: ../mail/em-folder-view.c:1040 ../ui/evolution-mail-message.xml.h:125
+#: ../mail/em-folder-view.c:1041 ../ui/evolution-mail-message.xml.h:125
 msgid "_Reply to Sender"
 msgstr "回覆寄件者(_R)"
 
-#: ../mail/em-folder-view.c:1041 ../mail/em-popup.c:560 ../mail/em-popup.c:571
+#: ../mail/em-folder-view.c:1042 ../mail/em-popup.c:560 ../mail/em-popup.c:571
 #: ../ui/evolution-mail-message.xml.h:109
 msgid "_Forward"
 msgstr "轉寄(_F)"
 
-#: ../mail/em-folder-view.c:1044 ../ui/evolution-mail-message.xml.h:107
+#: ../mail/em-folder-view.c:1045 ../ui/evolution-mail-message.xml.h:107
 msgid "_Edit as New Message..."
 msgstr "編輯為新郵件(_E)..."
 
-#: ../mail/em-folder-view.c:1050
+#: ../mail/em-folder-view.c:1051
 msgid "U_ndelete"
 msgstr "復原(_N)"
 
-#: ../mail/em-folder-view.c:1051 ../ui/evolution-addressbook.xml.h:37
+#: ../mail/em-folder-view.c:1052 ../ui/evolution-addressbook.xml.h:37
 msgid "_Move to Folder..."
 msgstr "移至資料夾(_M)..."
 
-#: ../mail/em-folder-view.c:1052 ../ui/evolution-addressbook.xml.h:33
+#: ../mail/em-folder-view.c:1053 ../ui/evolution-addressbook.xml.h:33
 msgid "_Copy to Folder..."
 msgstr "複製至資料夾(_C)..."
 
-#: ../mail/em-folder-view.c:1055
+#: ../mail/em-folder-view.c:1056
 msgid "Mar_k as Read"
 msgstr "標示成已閱讀(_K)"
 
-#: ../mail/em-folder-view.c:1056
+#: ../mail/em-folder-view.c:1057
 msgid "Mark as _Unread"
 msgstr "標示成未閱讀(_U)"
 
-#: ../mail/em-folder-view.c:1057
+#: ../mail/em-folder-view.c:1058
 msgid "Mark as _Important"
 msgstr "標示成重要(_I)"
 
-#: ../mail/em-folder-view.c:1058
+#: ../mail/em-folder-view.c:1059
 msgid "_Mark as Unimportant"
 msgstr "標示成不重要(_M)"
 
-#: ../mail/em-folder-view.c:1059
+#: ../mail/em-folder-view.c:1060
 msgid "Mark as _Junk"
 msgstr "標示成垃圾郵件(_J)"
 
-#: ../mail/em-folder-view.c:1060
+#: ../mail/em-folder-view.c:1061
 msgid "Mark as _Not Junk"
 msgstr "標示成非垃圾郵件(_N)"
 
-#: ../mail/em-folder-view.c:1061
+#: ../mail/em-folder-view.c:1062
 msgid "Mark for Follo_w Up..."
 msgstr "標示為跟隨(_W)..."
 
-#: ../mail/em-folder-view.c:1069
+#: ../mail/em-folder-view.c:1070
 msgid "Fla_g Completed"
 msgstr "標幟已完成(_G)"
 
-#: ../mail/em-folder-view.c:1070
+#: ../mail/em-folder-view.c:1071
 msgid "Cl_ear Flag"
 msgstr "清除標幟(_E)"
 
-#: ../mail/em-folder-view.c:1073
+#: ../mail/em-folder-view.c:1074
 msgid "Crea_te Rule From Message"
 msgstr "從郵件建立規則(_T)"
 
 # mail/folder-browser.c:653
-#: ../mail/em-folder-view.c:1074
+#: ../mail/em-folder-view.c:1075
 msgid "Search Folder from _Subject"
 msgstr "從主旨建立搜尋資料夾(_S)"
 
 # mail/folder-browser.c:656
-#: ../mail/em-folder-view.c:1075
+#: ../mail/em-folder-view.c:1076
 msgid "Search Folder from Se_nder"
 msgstr "從寄件者建立搜尋資料夾(_N)"
 
 # mail/folder-browser.c:659
-#: ../mail/em-folder-view.c:1076
+#: ../mail/em-folder-view.c:1077
 msgid "Search Folder from _Recipients"
 msgstr "從收件者建立搜尋資料夾(_R)"
 
 # mail/folder-browser.c:662
-#: ../mail/em-folder-view.c:1077
+#: ../mail/em-folder-view.c:1078
 msgid "Search Folder from Mailing _List"
 msgstr "從郵件清單建立搜尋資料夾(_L)"
 
-#: ../mail/em-folder-view.c:1081
+#: ../mail/em-folder-view.c:1082
 msgid "Filter on Sub_ject"
 msgstr "從主旨建立過濾器(_J)"
 
-#: ../mail/em-folder-view.c:1082
+#: ../mail/em-folder-view.c:1083
 msgid "Filter on Sen_der"
 msgstr "從寄件者建立過濾器(_D)"
 
-#: ../mail/em-folder-view.c:1083
+#: ../mail/em-folder-view.c:1084
 msgid "Filter on Re_cipients"
 msgstr "收件者過濾器(_C)"
 
-#: ../mail/em-folder-view.c:1084
+#: ../mail/em-folder-view.c:1085
 msgid "Filter on _Mailing List"
 msgstr "從通信論壇建立過濾器(_M)"
 
 # mail/mail-config.glade.h:21
 #. default charset used in mail view
-#: ../mail/em-folder-view.c:1922 ../mail/em-folder-view.c:1966
+#: ../mail/em-folder-view.c:1923 ../mail/em-folder-view.c:1967
 msgid "Default"
 msgstr "預設值"
 
 # mail/mail-callbacks.c:1407
-#: ../mail/em-folder-view.c:2065
+#: ../mail/em-folder-view.c:2066
 #: ../plugins/print-message/org-gnome-print-message.eplug.xml.h:2
 #: ../plugins/print-message/print-message.c:87
 msgid "Print Message"
 msgstr "列印郵件"
 
-#: ../mail/em-folder-view.c:2221
+#: ../mail/em-folder-view.c:2222
 msgid "Unable to retrieve message"
 msgstr "無法接收郵件"
 
-#: ../mail/em-folder-view.c:2414
+#: ../mail/em-folder-view.c:2415
 msgid "_Copy Link Location"
 msgstr "複製連結位址(_C)"
 
 # ui/evolution.xml.h:10
-#: ../mail/em-folder-view.c:2416
+#: ../mail/em-folder-view.c:2417
 msgid "Create _Search Folder"
 msgstr "建立搜尋資料夾(_S)"
 
 # addressbook/gui/widgets/e-addressbook-view.c:710
-#: ../mail/em-folder-view.c:2417
+#: ../mail/em-folder-view.c:2418
 msgid "_From this Address"
 msgstr "從這個位址(_F)"
 
 # addressbook/gui/widgets/e-addressbook-view.c:724
-#: ../mail/em-folder-view.c:2418
+#: ../mail/em-folder-view.c:2419
 msgid "_To this Address"
 msgstr "到這個位址(_T)"
 
 # calendar/gui/e-calendar-table.c:163
-#: ../mail/em-folder-view.c:2699
+#: ../mail/em-folder-view.c:2723
 #, c-format
 msgid "Click to mail %s"
 msgstr "按一下來傳送郵件 %s"
@@ -17339,11 +17342,11 @@ msgstr "%s請輸入 %s 所需的密碼(使用者 %s)"
 msgid "_Proxy Login..."
 msgstr "代理伺服器登入(_P)..."
 
-#: ../plugins/groupwise-features/proxy.c:690
+#: ../plugins/groupwise-features/proxy.c:691
 msgid "The Proxy tab will be available only when the account is online."
 msgstr "代理伺服器頁籤只有在帳號上線時才會出現。"
 
-#: ../plugins/groupwise-features/proxy.c:695
+#: ../plugins/groupwise-features/proxy.c:696
 msgid "The Proxy tab will be available only when the account is enabled."
 msgstr "代理伺服器頁籤只有在啟用此帳號時才會出現。"
 
@@ -17370,8 +17373,12 @@ msgstr "分享"
 msgid "Track Message Status..."
 msgstr "追蹤郵件狀態..."
 
-# shell/e-shortcuts-view.c:137
 #: ../plugins/hula-account-setup/org-gnome-evolution-hula-account-setup.eplug.xml.h:1
+msgid "A plugin to setup hula calendar sources."
+msgstr "用來設定 hula 行事曆來源的外掛程式。"
+
+# shell/e-shortcuts-view.c:137
+#: ../plugins/hula-account-setup/org-gnome-evolution-hula-account-setup.eplug.xml.h:2
 msgid "Hula Account Setup"
 msgstr "Hula 帳號設定"
 
@@ -20147,7 +20154,7 @@ msgstr "按這裡以檢視可用的說明"
 # ui/evolution-task-editor-dialog.xml.h:11
 # ui/evolution.xml.h:5
 #: ../ui/evolution-editor.xml.h:6 ../ui/evolution-mail-messagedisplay.xml.h:1
-#: ../ui/evolution-message-composer.xml.h:4
+#: ../ui/evolution-message-composer.xml.h:3
 #: ../ui/evolution-signature-editor.xml.h:2
 msgid "Close"
 msgstr "關閉"
@@ -20157,12 +20164,12 @@ msgid "_Attachments"
 msgstr "附加檔案(_A)"
 
 #: ../ui/evolution-editor.xml.h:15 ../ui/evolution-mail-messagedisplay.xml.h:4
-#: ../ui/evolution-message-composer.xml.h:42 ../ui/evolution-subscribe.xml.h:9
+#: ../ui/evolution-message-composer.xml.h:43 ../ui/evolution-subscribe.xml.h:9
 msgid "_Close"
 msgstr "關閉(_C)"
 
 #: ../ui/evolution-editor.xml.h:18 ../ui/evolution-mail-messagedisplay.xml.h:6
-#: ../ui/evolution-message-composer.xml.h:45
+#: ../ui/evolution-message-composer.xml.h:46
 #: ../ui/evolution-signature-editor.xml.h:13
 #: ../ui/evolution-subscribe.xml.h:11 ../ui/evolution.xml.h:34
 msgid "_File"
@@ -20172,7 +20179,7 @@ msgstr "檔案(_F)"
 msgid "_Help"
 msgstr "說明(_H)"
 
-#: ../ui/evolution-editor.xml.h:20 ../ui/evolution-message-composer.xml.h:47
+#: ../ui/evolution-editor.xml.h:20 ../ui/evolution-message-composer.xml.h:48
 #: ../ui/evolution-signature-editor.xml.h:14
 msgid "_Insert"
 msgstr "插入(_I)"
@@ -21091,36 +21098,36 @@ msgstr "附加"
 msgid "Attach a file"
 msgstr "附加檔案"
 
-#: ../ui/evolution-message-composer.xml.h:3
-msgid "Check to get delivery notification when your message is read"
-msgstr "核取以在您的郵件被閱讀時取得送信通知"
-
 # ui/evolution-message-composer.xml.h:4
 # ui/evolution-task-editor-dialog.xml.h:12
-#: ../ui/evolution-message-composer.xml.h:5
+#: ../ui/evolution-message-composer.xml.h:4
 #: ../ui/evolution-signature-editor.xml.h:3
 msgid "Close the current file"
 msgstr "關閉目前檔案"
 
 # calendar/gui/e-day-view.c:3179
-#: ../ui/evolution-message-composer.xml.h:6
+#: ../ui/evolution-message-composer.xml.h:5
 msgid "Delete all but signature"
 msgstr "刪除簽名檔以外的全部事件"
 
 # ui/evolution-message-composer.xml.h:5
-#: ../ui/evolution-message-composer.xml.h:7
+#: ../ui/evolution-message-composer.xml.h:6
 msgid "Encrypt this message with PGP"
 msgstr "使用 PGP 將這封郵件加密"
 
 # ui/evolution-message-composer.xml.h:6
-#: ../ui/evolution-message-composer.xml.h:8
+#: ../ui/evolution-message-composer.xml.h:7
 msgid "Encrypt this message with your S/MIME Encryption Certificate"
 msgstr "使用您的 S/MIME 加密憑證將這封郵件加密"
 
-#: ../ui/evolution-message-composer.xml.h:9
+#: ../ui/evolution-message-composer.xml.h:8
 #: ../ui/evolution-signature-editor.xml.h:4
 msgid "For_mat"
 msgstr "格式(_M)"
+
+#: ../ui/evolution-message-composer.xml.h:9
+msgid "Get delivery notification when your message is read"
+msgstr "在您的郵件被閱讀時取得送信通知"
 
 #: ../ui/evolution-message-composer.xml.h:10
 msgid "HT_ML"
@@ -21142,8 +21149,8 @@ msgid "PGP Sign"
 msgstr "PGP 加簽"
 
 #: ../ui/evolution-message-composer.xml.h:15
-msgid "Request read receipt"
-msgstr "要求讀信回條"
+msgid "R_equest Read Receipt"
+msgstr "要求讀信回條(_E)"
 
 # ui/evolution-message-composer.xml.h:15
 #: ../ui/evolution-message-composer.xml.h:16
@@ -21211,83 +21218,92 @@ msgstr "使用 HTML 格式傳送郵件"
 msgid "Send this message"
 msgstr "傳送這個郵件"
 
-# ui/evolution-message-composer.xml.h:35
+# ui/evolution-mail.xml.h:74
 #: ../ui/evolution-message-composer.xml.h:31
+msgid "Set the message priority to high"
+msgstr "將郵件優先權設為「高」"
+
+# ui/evolution-message-composer.xml.h:35
+#: ../ui/evolution-message-composer.xml.h:32
 msgid "Sign this message with your PGP key"
 msgstr "用您的 PGP 鑰匙給郵件加上數位簽名"
 
 # ui/evolution-message-composer.xml.h:36
-#: ../ui/evolution-message-composer.xml.h:32
+#: ../ui/evolution-message-composer.xml.h:33
 msgid "Sign this message with your S/MIME Signature Certificate"
 msgstr "用您的 S/MIME 簽名憑證給郵件加上數位簽名"
 
 # ui/evolution-message-composer.xml.h:37
-#: ../ui/evolution-message-composer.xml.h:33
+#: ../ui/evolution-message-composer.xml.h:34
 msgid "Toggles whether the BCC field is displayed"
 msgstr "切換密件副本欄位的顯示狀態"
 
 # ui/evolution-message-composer.xml.h:38
-#: ../ui/evolution-message-composer.xml.h:34
+#: ../ui/evolution-message-composer.xml.h:35
 msgid "Toggles whether the CC field is displayed"
 msgstr "切換副本欄位的顯示狀態"
 
 # ui/evolution-message-composer.xml.h:39
-#: ../ui/evolution-message-composer.xml.h:35
+#: ../ui/evolution-message-composer.xml.h:36
 msgid "Toggles whether the From chooser is displayed"
 msgstr "切換寄件者選擇器的顯示狀態"
 
 # ui/evolution-message-composer.xml.h:40
-#: ../ui/evolution-message-composer.xml.h:36
+#: ../ui/evolution-message-composer.xml.h:37
 msgid "Toggles whether the Post-To field is displayed"
 msgstr "切換是否顯示「張貼至」欄位"
 
 # ui/evolution-message-composer.xml.h:40
-#: ../ui/evolution-message-composer.xml.h:37
+#: ../ui/evolution-message-composer.xml.h:38
 msgid "Toggles whether the Reply-To field is displayed"
 msgstr "切換回覆欄位的顯示狀態"
 
 # ui/evolution-message-composer.xml.h:38
-#: ../ui/evolution-message-composer.xml.h:38
+#: ../ui/evolution-message-composer.xml.h:39
 msgid "Toggles whether the To field is displayed"
 msgstr "切換是否顯示「收件者」欄位"
 
-#: ../ui/evolution-message-composer.xml.h:39
+#: ../ui/evolution-message-composer.xml.h:40
 msgid "_Attachment..."
 msgstr "附件(_A)..."
 
-#: ../ui/evolution-message-composer.xml.h:40
+#: ../ui/evolution-message-composer.xml.h:41
 msgid "_Bcc Field"
 msgstr "密件副本欄位(_B)"
 
-#: ../ui/evolution-message-composer.xml.h:41
+#: ../ui/evolution-message-composer.xml.h:42
 msgid "_Cc Field"
 msgstr "副本欄位(_C)"
 
-#: ../ui/evolution-message-composer.xml.h:43
+#: ../ui/evolution-message-composer.xml.h:44
 msgid "_Delete all"
 msgstr "全部刪除(_D)"
 
-#: ../ui/evolution-message-composer.xml.h:46
+#: ../ui/evolution-message-composer.xml.h:47
 msgid "_From Field"
 msgstr "寄件者欄位(_F)"
 
-#: ../ui/evolution-message-composer.xml.h:48
+#: ../ui/evolution-message-composer.xml.h:49
 msgid "_Open..."
 msgstr "開啟(_O)..."
 
-#: ../ui/evolution-message-composer.xml.h:49
+#: ../ui/evolution-message-composer.xml.h:50
 msgid "_Post-To Field"
 msgstr "張貼到欄位(_P)"
 
-#: ../ui/evolution-message-composer.xml.h:50
+#: ../ui/evolution-message-composer.xml.h:51
+msgid "_Prioritise Message"
+msgstr "郵件優先權(_P)"
+
+#: ../ui/evolution-message-composer.xml.h:52
 msgid "_Reply-To Field"
 msgstr "回覆欄位(_R)"
 
-#: ../ui/evolution-message-composer.xml.h:52
+#: ../ui/evolution-message-composer.xml.h:54
 msgid "_Security"
 msgstr "安全性(_S)"
 
-#: ../ui/evolution-message-composer.xml.h:53
+#: ../ui/evolution-message-composer.xml.h:55
 msgid "_To Field"
 msgstr "數件者欄位(_T)"
 
@@ -21935,7 +21951,7 @@ msgstr "中歐字母"
 
 #: ../widgets/misc/e-charset-picker.c:65
 msgid "Chinese"
-msgstr "中國"
+msgstr "中文"
 
 #: ../widgets/misc/e-charset-picker.c:66
 msgid "Cyrillic"
@@ -21943,7 +21959,7 @@ msgstr "斯拉夫文"
 
 #: ../widgets/misc/e-charset-picker.c:67
 msgid "Greek"
-msgstr "希臘"
+msgstr "希臘文"
 
 #: ../widgets/misc/e-charset-picker.c:68
 msgid "Hebrew"
@@ -21951,15 +21967,15 @@ msgstr "希伯來"
 
 #: ../widgets/misc/e-charset-picker.c:69
 msgid "Japanese"
-msgstr "日本"
+msgstr "日文"
 
 #: ../widgets/misc/e-charset-picker.c:70
 msgid "Korean"
-msgstr "韓國"
+msgstr "韓文"
 
 #: ../widgets/misc/e-charset-picker.c:71
 msgid "Turkish"
-msgstr "土耳其"
+msgstr "土耳其文"
 
 #: ../widgets/misc/e-charset-picker.c:72
 msgid "Unicode"
@@ -21977,7 +21993,7 @@ msgstr "西歐，新"
 #: ../widgets/misc/e-charset-picker.c:91 ../widgets/misc/e-charset-picker.c:92
 #: ../widgets/misc/e-charset-picker.c:93
 msgid "Traditional"
-msgstr "正體"
+msgstr "繁體"
 
 #: ../widgets/misc/e-charset-picker.c:94 ../widgets/misc/e-charset-picker.c:95
 #: ../widgets/misc/e-charset-picker.c:96 ../widgets/misc/e-charset-picker.c:97
@@ -22998,3 +23014,4 @@ msgstr "IM 快顯選單"
 #: ../widgets/text/e-text.c:3683 ../widgets/text/e-text.c:3684
 msgid "Handle Popup"
 msgstr "處理彈出式項目"
+
