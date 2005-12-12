@@ -407,7 +407,9 @@ print_error (const char *owa_url, E2kAutoconfigResult result)
 			break;
 
 		case E2K_AUTOCONFIG_CANT_BPROPFIND:
-			e_error_run (NULL, ERROR_DOMAIN ":connect-exchange-error", NULL);
+			e_error_run (NULL, ERROR_DOMAIN ":connect-exchange-error", 
+				     "http://support.novell.com/cgi-bin/search/searchtid.cgi?/ximian/ximian328.html",
+				     NULL);
 			break;
 
 		case E2K_AUTOCONFIG_EXCHANGE_5_5:

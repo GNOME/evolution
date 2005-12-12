@@ -115,8 +115,8 @@ supports Microsoft Exchange 2000 and 2003 only.</_secondary>
   <_secondary>Your current usage is : {0}KB. Try to clear up some space by deleting some mails.</_secondary>
  </error>
 
- <error id="connector-exchange-error" type="error">
-  <_primary>Exchange Connector access error.</_primary>
+ <error id="connect-exchange-error" type="error">
+  <_primary>Could not connect to Exchange server.</_primary>
   <_secondary xml:space="preserve">Exchange Connector requires access to certain
 functionality on the Exchange Server that appears
 to be disabled or blocked.  (This is usually 
@@ -127,7 +127,7 @@ you to be able to use Ximian Connector.
 For information to provide to your Exchange 
 administrator, please follow the link below:
 
-http://support.novell.com/cgi-bin/search/searchtid.cgi?/ximian/ximian328.html
+{0}
   </_secondary>
  </error>
 
