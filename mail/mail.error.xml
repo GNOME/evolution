@@ -269,7 +269,7 @@ all proxy information will be deleted permanently.</_secondary>
  </error>
 
  <error id="ask-signature-changed" type="question" default="GTK_RESPONSE_YES">
-  <_title>Discard changed?</_title>
+  <_title>Discard changes?</_title>
   <_primary>Do you wish to save your changes?</_primary>
   <_secondary xml:space="preserve">This signature has been changed, but has not been saved.</_secondary>
   <button _label="_Discard changes" response="GTK_RESPONSE_NO"/>

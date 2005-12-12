@@ -1,3 +1,7 @@
+2005-12-12  Shreyas Srinivasan  <sshreyas@novell.com>
+
+	* mail.error.xml: Fix #47857
+	
 2005-12-05  Shi Pu  <shi.pu@sun.com>
 
 	See bug ** 323253
