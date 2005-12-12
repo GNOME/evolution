@@ -40,9 +40,9 @@
 #include <gtk/gtk.h>
 #include <libxml/xmlmemory.h>
 
-#include "e-util/e-i18n.h"
-#include "e-util/e-iconv.h"
+#include <libedataserver/e-iconv.h>
 
+#include "e-util/e-i18n.h"
 #include "e-unicode.h"
 
 #define d(x) x

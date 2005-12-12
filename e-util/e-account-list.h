@@ -20,7 +20,7 @@
 #ifndef __E_ACCOUNT_LIST__
 #define __E_ACCOUNT_LIST__
 
-#include "e-list.h"
+#include <libedataserver/e-list.h> 
 #include "e-account.h"
 #include <gconf/gconf-client.h>
 

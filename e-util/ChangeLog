@@ -1,3 +1,36 @@
+2005-12-12  Irene Huang <Irene.Huang@sun.com>
+
+	reviewed by: Veerapuram Varadhan  <vvaradhan@novell.com>
+	
+	* Makefile.am: Remove files that have an identical counterpart in
+	libedataserver, e-list.[c|h], e-list-iterator.[c|h], e-iconv.[c|h]
+	e-component-listener.[c|h], md5-utils.[c|h], e-time-utils.[c|h],
+	e-uid.[c|h]. Change md5-utils.h to e-html-utils.h in pilot-compile.
+	* e-component-listener.c:
+	* e-component-listener.h: 
+	* e-iterator.c:
+	* e-iterator.h:
+	* e-time-utils.c:
+	* e-time-utils.h:
+	* e-iconv.c:
+	* e-iconv.h:
+	* e-uid.c:
+	* e-uid.h:
+	* md5-utils.c:
+	* md5-utils.h:
+	* e-list-iterator.h:
+	* e-list-iterator.c:
+	* e-list.h:
+	* e-list.c: 
+	Removed
+	* e-account-list.h:
+	* e-account.c:
+	* e-signature-list.c:
+	* e-signature.c:
+	* e-signature-list.h: Change inclusion of <e-util/e-list.h>
+	to <libedataserver/e-list.h>. Change inclusion of "e-uid.h" and
+	"e-list.h" to <libedataserver/e-uid.h> and <libedataserver/e-list.h>.
+
 2005-12-09  Harish Krishnaswamy  <kharish@novell.com>
 
 	* e-util.[ch] (e_str_compare), (e_str_case_compare),

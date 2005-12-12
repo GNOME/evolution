@@ -33,7 +33,7 @@
 
 #include <gconf/gconf-client.h>
 
-#include "e-uid.h"
+#include <libedataserver/e-uid.h>
 
 #include "e-signature.h"
 

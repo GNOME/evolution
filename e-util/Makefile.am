@@ -45,7 +45,6 @@ eutilinclude_HEADERS = 				\
 	e-account.h				\
 	e-bconf-map.h				\
 	e-categories-config.h			\
-	e-component-listener.h			\
 	e-config.h				\
 	e-config-listener.h			\
 	e-corba-utils.h				\
@@ -61,9 +60,6 @@ eutilinclude_HEADERS = 				\
 	e-html-utils.h				\
 	e-icon-factory.h			\
 	e-import.h				\
-	e-iterator.h				\
-	e-list-iterator.h			\
-	e-list.h				\
 	e-menu.h				\
 	e-mktemp.h				\
 	e-print.h				\
@@ -73,11 +69,7 @@ eutilinclude_HEADERS = 				\
 	e-request.h				\
 	e-signature.h				\
 	e-signature-list.h			\
-	e-time-utils.h				\
-	e-uid.h					\
-	md5-utils.h				\
 	e-bit-array.h				\
-	e-iconv.h				\
 	e-sorter.h				\
 	e-sorter-array.h			\
 	e-text-event-processor-emacs-like.h	\
@@ -94,7 +86,6 @@ libeutil_la_SOURCES =				\
 	e-account.c				\
 	e-bconf-map.c				\
 	e-categories-config.c			\
-	e-component-listener.c			\
 	e-config.c				\
 	e-config-listener.c			\
 	e-corba-utils.c				\
@@ -110,9 +101,6 @@ libeutil_la_SOURCES =				\
 	e-html-utils.c				\
 	e-icon-factory.c			\
 	e-import.c				\
-	e-iterator.c				\
-	e-list-iterator.c			\
-	e-list.c				\
 	e-menu.c				\
 	e-mktemp.c				\
 	e-plugin.c				\
@@ -122,14 +110,10 @@ libeutil_la_SOURCES =				\
 	e-request.c				\
 	e-signature.c				\
 	e-signature-list.c			\
-	e-time-utils.c				\
-	e-uid.c					\
 	eggtrayicon.c				\
 	eggtrayicon.h				\
-	md5-utils.c				\
 	e-bit-array.c				\
 	e-i18n.h				\
-	e-iconv.c				\
 	e-sorter.c				\
 	e-sorter-array.c			\
 	e-text-event-processor-emacs-like.c     \
@@ -162,7 +146,7 @@ pilot_sources = \
 if ENABLE_PILOT_CONDUITS
 pilot_compile = $(pilot_sources)
 else
-pilot_compile = md5-utils.c
+pilot_compile = e-html-utils.c
 endif
 
 libeconduit_la_SOURCES = $(pilot_compile)

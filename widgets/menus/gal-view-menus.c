@@ -26,7 +26,7 @@
 #include <e-util/e-xml-utils.h>
 #include <widgets/menus/gal-define-views-dialog.h>
 #include <bonobo/bonobo-ui-util.h>
-#include <e-util/e-list.h>
+#include <libedataserver/e-list.h>
 
 struct _GalViewMenusPrivate {
 	GalViewInstance *instance;

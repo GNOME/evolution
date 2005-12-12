@@ -1,3 +1,12 @@
+2005-12-12  Irene Huang <Irene.Huang@sun.com>
+
+	reviewed by: Veerapuram Varadhan  <vvaradhan@novell.com>
+	
+	* menus/gal-view-menus.c: Change #include <e-util/e-list.h> to
+	#include <libedataserver/e-list.h>.
+	* misc/e-unicode.c: Change #include <e-util/e-iconv.h> to
+	#include <libedataserver/e-iconv.h>.
+
 2005-12-06  Veerapuram Varadhan <vvaradhan@novell.com>
 
 	* menus/gal-view-new-dialog.c (gal_view_new_dialog_set_property):
