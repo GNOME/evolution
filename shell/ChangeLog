@@ -1,3 +1,10 @@
+2005-12-12  David Malcolm  <dmalcolm@redhat.com>
+
+	* e-shell-window.c (setup_widgets): escape the string when generating 
+	XML UI description of component switcher menu item, to avoid it being 
+	non-well-formed when a translation contains a quote character. Fixes 
+	#322001
+
 2005-11-14  Harish Krishnaswamy  <kharish@novell.com>
 
 	* e-shell-settings-dialog.c: (set_dialog_size),

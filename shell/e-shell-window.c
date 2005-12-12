@@ -708,7 +708,7 @@ setup_widgets (EShellWindow *window)
 	button_id = 0;
 	xml = g_string_new("");
 	for (p = e_component_registry_peek_list (registry); p != NULL; p = p->next) {
-		char *tmp;
+		char *tmp, *tmp2;
 		EComponentInfo *info = p->data;
 		ComponentView *view = component_view_new (info->id, info->alias, button_id);
 
@@ -732,7 +732,12 @@ setup_widgets (EShellWindow *window)
 				info->alias,
 				info->menu_label,
 				info->menu_accelerator);
-		g_string_append_printf(xml, _("Switch to %s"), info->button_label);
+		tmp = g_strdup_printf (_("Switch to %s"), info->button_label);
+		tmp2 = g_markup_escape_text (tmp, -1);
+		g_string_append (xml, tmp2);
+		g_free (tmp2);
+		g_free (tmp);
+
 		tmp = bonobo_ui_util_pixbuf_to_xml (info->menu_icon),
 		g_string_append_printf(xml, "\" pixtype=\"pixbuf\" pixname=\"%s\"/>"
 				       "</placeholder></submenu></submenu>\n",
