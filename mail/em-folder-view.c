@@ -1037,8 +1037,8 @@ static EPopupItem emfv_popup_items[] = {
 
 	{ E_POPUP_BAR, "10.emfv", NULL, NULL, NULL, NULL },
 
-	{E_POPUP_ITEM, "10.emfv.00", N_("Reply to _All"), emfv_popup_reply_all, NULL, "stock_mail-reply-to-all", EM_POPUP_SELECT_ONE },
-	{ E_POPUP_ITEM, "10.emfv.01", N_("_Reply to Sender"), emfv_popup_reply_sender, NULL, "stock_mail-reply", EM_POPUP_SELECT_ONE },
+	{ E_POPUP_ITEM, "10.emfv.00", N_("_Reply to Sender"), emfv_popup_reply_sender, NULL, "stock_mail-reply", EM_POPUP_SELECT_ONE },
+	{ E_POPUP_ITEM, "10.emfv.01", N_("Reply to _All"), emfv_popup_reply_all, NULL, "stock_mail-reply-to-all", EM_POPUP_SELECT_ONE },
 	{ E_POPUP_ITEM, "10.emfv.02", N_("_Forward"), emfv_popup_forward, NULL, "stock_mail-forward", EM_POPUP_SELECT_MANY },
 
 	{ E_POPUP_BAR, "20.emfv", NULL, NULL, NULL, NULL },
