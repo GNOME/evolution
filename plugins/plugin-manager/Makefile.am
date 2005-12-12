@@ -18,4 +18,5 @@ EXTRA_DIST =						\
 	org-gnome-plugin-manager.xml
 
 BUILT_SOURCES = org-gnome-plugin-manager.eplug
+
 CLEANFILES = $(BUILT_SOURCES)

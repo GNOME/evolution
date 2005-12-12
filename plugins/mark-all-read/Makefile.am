@@ -16,3 +16,6 @@ liborg_gnome_mark_all_read_la_LIBADD = 			\
 	$(EVOLUTION_MAIL_LIBS)
 
 EXTRA_DIST = org-gnome-mark-all-read.eplug.in
+
+BUILT_SOURCES = $(plugin_DATA)
+CLEANFILES = $(BUILT_SOURCES)

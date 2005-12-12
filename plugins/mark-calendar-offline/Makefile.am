@@ -11,3 +11,6 @@ liborg_gnome_mark_calendar_offline_la_SOURCES = mark-calendar-offline.c
 liborg_gnome_mark_calendar_offline_la_LDFLAGS = -module -avoid-version
 
 EXTRA_DIST = org-gnome-mark-calendar-offline.eplug.xml
+
+BUILT_SOURCES = $(plugin_DATA)
+CLEANFILES = $(BUILT_SOURCES)

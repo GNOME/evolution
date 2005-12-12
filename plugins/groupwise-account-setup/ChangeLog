@@ -1,3 +1,7 @@
+2005-12-12  Harish Krishnaswamy  <kharish@novell.com>
+
+	* Makefile.am: Fix make-clean issues.
+
 2005-11-24  Sushma Rai  <rsushma@novell.com>
 
 	* camel-gw-listener.c (add_addressbook_sources): Checking if the 

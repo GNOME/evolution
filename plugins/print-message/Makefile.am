@@ -18,4 +18,6 @@ liborg_gnome_print_message_la_LIBADD =			\
 EXTRA_DIST = 					\
 	org-gnome-print-message.eplug.xml\
 	org-gnome-print-message.xml
+
+BUILT_SOURCES = org-gnome-print-message.eplug
 CLEANFILES = $(BUILT_SOURCES)

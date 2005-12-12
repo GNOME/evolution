@@ -1,3 +1,7 @@
+2005-12-12  Harish Krishnaswamy  <kharish@novell.com>
+
+	* Makefile.am: Fix make-clean issues.
+
 2005-08-23  Not Zed  <NotZed@Ximian.com>
 
 	* Makefile.am: Remove the special case for win32, its a bug on all

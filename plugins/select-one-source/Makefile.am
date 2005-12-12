@@ -11,3 +11,6 @@ liborg_gnome_select_one_source_la_SOURCES = select-one-source.c
 liborg_gnome_select_one_source_la_LDFLAGS = -module -avoid-version
 
 EXTRA_DIST = org-gnome-select-one-source.eplug.xml
+
+BUILT_SOURCES = $(plugin_DATA)
+CLEANFILES = $(BUILT_SOURCES)

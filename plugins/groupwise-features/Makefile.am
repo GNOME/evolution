@@ -68,7 +68,7 @@ error_DATA = 					\
 
 errordir = $(privdatadir)/errors
 
-BUILT_SOURCES = $(error_i18n)
+BUILT_SOURCES = org-gnome-groupwise-features.eplug $(error_i18n)
 
 EXTRA_DIST =						\
 	$(error_DATA)					\

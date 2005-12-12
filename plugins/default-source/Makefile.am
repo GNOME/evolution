@@ -18,3 +18,6 @@ liborg_gnome_default_source_la_LIBADD =		\
 
 
 EXTRA_DIST = org-gnome-default-source.eplug.in
+
+BUILT_SOURCES = $(plugin_DATA)
+CLEANFILES = $(BUILT_SOURCES)

@@ -36,3 +36,5 @@ EXTRA_DIST = \
 
 BUILT_SOURCES = org-gnome-default-mailer.eplug	\
 	org-gnome-default-mailer.error
+
+CLEANFILES = $(BUILT_SOURCES)

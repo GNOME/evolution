@@ -27,3 +27,6 @@ liborg_gnome_gw_account_setup_la_LIBADD=			\
 	$(CAMEL_GROUPWISE_LIBS)
 
 EXTRA_DIST = org-gnome-gw-account-setup.eplug.xml
+
+BUILT_SOURCES = $(plugin_DATA)
+CLEANFILES = $(BUILT_SOURCES)

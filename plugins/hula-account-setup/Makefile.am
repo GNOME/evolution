@@ -24,3 +24,6 @@ liborg_gnome_evolution_hula_account_setup_la_LIBADD=			\
 	$(EVOLUTION_MAIL_LIBS)
 
 EXTRA_DIST = org-gnome-evolution-hula-account-setup.eplug.xml
+
+BUILT_SOURCES = $(plugin_DATA)
+CLEANFILES = $(BUILT_SOURCES)

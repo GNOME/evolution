@@ -16,3 +16,6 @@ libmail_account_disable_la_LIBADD = $(top_builddir)/e-util/libeutil.la		\
 	$(EVOLUTION_MAIL_LIBS)
 
 EXTRA_DIST = org-gnome-mail-account-disable.eplug.xml
+
+BUILT_SOURCES = $(plugin_DATA)
+CLEANFILES = $(BUILT_SOURCES)
