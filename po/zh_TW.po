@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: evolution 2.5.2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-12-10 08:43+0800\n"
-"PO-Revision-Date: 2005-12-10 08:54+0800\n"
+"PO-Revision-Date: 2005-12-12 15:59+0800\n"
 "Last-Translator: Chao-Hsiung Liao <j_h_liau@yahoo.com.tw>\n"
 "Language-Team: Chinese (traditional) <community@linuxhall.org>\n"
 "MIME-Version: 1.0\n"
@@ -4915,7 +4915,7 @@ msgstr "忽略時間(_T):"
 #: ../ui/evolution-subscribe.xml.h:10 ../ui/evolution-tasks.xml.h:25
 #: ../ui/evolution.xml.h:33
 msgid "_Edit"
-msgstr "編輯 (_E)"
+msgstr "編輯(_E)"
 
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:5
 msgid "_Snooze"
@@ -5923,7 +5923,7 @@ msgstr "屬性(_P)"
 #: ../composer/e-msg-composer-attachment-bar.c:473
 #: ../composer/e-msg-composer.c:3574
 msgid "_Add attachment..."
-msgstr "新增附件..."
+msgstr "新增附件(_A)..."
 
 # composer/e-msg-composer-attachment.glade.h:1
 # mail/mail-config.glade.h:9
@@ -11479,7 +11479,7 @@ msgstr "撰寫郵件前，您需要先設定帳號。"
 # mail/mail-callbacks.c:1188
 #: ../composer/mail-composer.error.xml.h:30
 msgid "_Save Message"
-msgstr "儲存郵件"
+msgstr "儲存郵件(_S)"
 
 # composer/e-msg-composer.c:935
 # data/evolution.desktop.in.h:1
@@ -14379,7 +14379,7 @@ msgstr "永遠寄送密件副本(Bcc)給(_B):"
 
 #: ../mail/mail-config.glade.h:42
 msgid "Always _trust keys in my keyring when encrypting"
-msgstr "加密時永遠信任在我的鑰匙圈裡的金鑰"
+msgstr "加密時永遠信任在我的鑰匙圈裡的金鑰(_T)"
 
 #: ../mail/mail-config.glade.h:43
 msgid "Always encrypt to _myself when sending encrypted mail"
@@ -16275,7 +16275,7 @@ msgstr "<span weight=\"bold\">即時傳訊的連絡人</span>"
 msgid ""
 "Periodically synchronize contact information and images from my _instant "
 "messenger"
-msgstr "定期從我的即時傳訊軟體同步連絡人資"
+msgstr "定期從我的即時傳訊軟體同步連絡人資訊(_I)"
 
 #. Synchronize now button.
 #: ../plugins/bbdb/bbdb.c:470
@@ -17892,7 +17892,7 @@ msgstr "註解："
 # shell/e-storage.c:475
 #: ../plugins/itip-formatter/itip-view.c:980
 msgid "Send u_pdates to attendees"
-msgstr "傳送更新給到會者"
+msgstr "傳送更新給到會者(_P)"
 
 #: ../plugins/itip-formatter/itip-view.c:989
 msgid "A_pply to all instances"
@@ -22303,7 +22303,7 @@ msgstr "建立新的傳送項目至追蹤資訊(_E)"
 
 #: ../widgets/misc/e-send-options.glade.h:8
 msgid "Deli_vered and opened"
-msgstr "已遞送與已開啟"
+msgstr "已遞送與已開啟(_V)"
 
 # addressbook/printing/e-contact-print.glade.h:23
 #: ../widgets/misc/e-send-options.glade.h:9
@@ -22438,7 +22438,7 @@ msgstr "編輯主分類清單..."
 # addressbook/contact-editor/e-contact-editor.c:603
 #: ../widgets/misc/gal-categories.glade.h:3
 msgid "Item(s) belong to these _categories:"
-msgstr "屬於這些分類的項目:"
+msgstr "屬於這些分類的項目(_C):"
 
 # calendar/gui/e-calendar-table.c:150
 #: ../widgets/misc/gal-categories.glade.h:4
