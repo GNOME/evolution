@@ -73,4 +73,6 @@ EXTRA_DIST = 							\
 	org-gnome-exchange-ab-subscription.xml			\
 	$(glade_DATA)						
 
-BUILT_SOURCES = $(error_DATA)
+BUILT_SOURCES = $(error_DATA) org-gnome-exchange-operations.eplug 
+
+CLEANFILES = $(BUILT_SOURCES)
