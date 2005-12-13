@@ -1,3 +1,9 @@
+2005-12-13  David Malcolm  <dmalcolm@redhat.com>
+
+	* evolution-mail-message.xml: Add ellipsis characters to various menu
+	items that are commands/actions requiring further user interaction,
+	fixing bug #323951
+
 2005-12-03  Karsten Bräckelmann  <guenther@rudersport.de>
 
 	* evolution-mail-message.xml: Properly renamed Reply to All, adding

@@ -313,8 +313,8 @@
     <placeholder name="MessagePlaceholder">
       <submenu name="Message" _label="_Message">
         <placeholder name="MessageTopActions">
-          <menuitem name="ActionCompose" verb="MailCompose" _label="Compose _New Message"/>
-          <menuitem name="MailPost" verb="" _label="Pos_t New Message to Folder"/>
+          <menuitem name="ActionCompose" verb="MailCompose" _label="Compose _New Message..."/>
+          <menuitem name="MailPost" verb="" _label="Pos_t New Message to Folder..."/>
           <menuitem name="MessageOpen" verb="" _label="_Open in New Window"/>
           <menuitem name="MessageEdit" verb="" _label="_Edit as New Message..."/>
           <menuitem name="AddSenderToAddressbook" verb="" _label="A_dd Sender to Address Book"/>
@@ -335,23 +335,23 @@
 
         <placeholder name="MailMessageActions">
 
-          <menuitem name="MessageReplySender" verb="" _label="_Reply to Sender"/>
-          <menuitem name="MessageReplyList" verb="" _label="Reply to _List"/>
-          <menuitem name="MessageReplyAll" verb="" _label="Reply to _All"/>
-          <menuitem name="MessagePostReply" verb="" _label="Post a Repl_y"/>
-          <menuitem name="MessageForward" verb="" _label="_Forward"/>
+          <menuitem name="MessageReplySender" verb="" _label="_Reply to Sender..."/>
+          <menuitem name="MessageReplyList" verb="" _label="Reply to _List..."/>
+          <menuitem name="MessageReplyAll" verb="" _label="Reply to _All..."/>
+          <menuitem name="MessagePostReply" verb="" _label="Post a Repl_y..."/>
+          <menuitem name="MessageForward" verb="" _label="_Forward..."/>
           <submenu name="ForwardAs" _label="F_orward As...">
             <menuitem verb="MessageForwardAttached" _label="_Attached"/>
             <menuitem verb="MessageForwardInline" _label="_Inline"/>
             <menuitem verb="MessageForwardQuoted" _label="_Quoted"/>
             <separator f="" name="forwardlist1"/>
-            <menuitem verb="MessageRedirect" _label="Re_direct"/>
+            <menuitem verb="MessageRedirect" _label="Re_direct..."/>
           </submenu>
 
 	  <separator f="" name="emaillist3"/>
 
-          <menuitem name="MessageMove" verb="" _label="_Move to Folder"/>
-          <menuitem name="MessageCopy" verb="" _label="_Copy to Folder"/>
+          <menuitem name="MessageMove" verb="" _label="_Move to Folder..."/>
+          <menuitem name="MessageCopy" verb="" _label="_Copy to Folder..."/>
 
 	  <separator f="" name="emaillist4"/>
 
