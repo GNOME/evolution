@@ -1,3 +1,8 @@
+2005-12-03  Karsten Bräckelmann  <guenther@rudersport.de>
+
+	* evolution-mail-message.xml: Properly renamed Reply to All, adding
+	the menu shortkey back, fixing bug #323108.
+
 2005-12-07  Parthasarathi Susarla <sparthasarathi@novell.com>
 	
 	* evolution-message-composer.xml: Add menu item for prioritising
