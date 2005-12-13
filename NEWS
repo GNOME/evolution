@@ -1,3 +1,63 @@
+Evolution 2.5.3 2005-12-12
+--------------------------
+  
+Bugzilla bugs fixed (see http://bugzilla.gnome.org/show_bug.cgi):
+
+	#321639 -  order of Reply methods confusing in the menu (Karsten Brackelmann)
+	#321640 -  Forward As menu missing (Karsten Brackelmann)
+	#323140 -  Mail Contex Menu ordered incorrectly (Karsten Brackelmann)
+	#323253 -  Evolution fails to show mailbox in send & receive dialog (Shi Pu)
+	#322414 -  Evolution doesn't respect to a key's change in gconf (Sam Yang) 
+	#315987 -  Evolution 2.4 crashes EVERY time i sent an email (Parthasarathi)
+	#316315 -  Evolution exchange storage crashes on ECalendar sync (Varadhan)
+	#322616 -  End time in list view is displayed in UTC timezone (Chenthill)
+	#317322 -  crash when delete a imported recurrent event (Chenthill)
+	#314639 -  Evolution crashed on right click and select new appointment (Chenthill)
+	#318777 -  recurrence editing ... (Chenthill)
+	#321237 -  The categories' name cannot be displayed in braille monitor (Boby Wang)
+	#314550 -  When description of meeting is lengthy alarm notify popup should
+		   have scrollbar (Chakravarthi)
+	#322863 -  crashes on redirect (Parthasarathi)
+	#300300 -  Evolution, EAddress-conduit extra newline breaks PalmOS (Sushma)
+	#303856 -  Appointment Editor's OK button still greyed out after changing
+		   value (Johnny Jacob)
+	#322740 -  Screen Reader can't read the subject or date (Boby Wang)
+	#322776 -  Unable to keyboard navigate into message headers pane, if no
+	           message selected. (Li Yuan)
+	#313219 -  gal_view_new_dialog_set_property() does GTK_IS_ENTRY(random)
+	           (Veerapuram Varadhan)
+	#322311 -  New defined viewname with non-ASCII characters is not displayed
+	           in the View menu on some Non Ascii locale (Simon Zheng)
+	#272514 -  Don't include URL in translateable evolution-exchange message (Sushma)
+	#314583 -  Incorrect error messages (Sushma)
+	#314576 -  hang when using "Type: None" for a mail account (Partha)
+
+New features and other fixes :
+
+Evolution Editor UI and tooltip enhancements (Srinivasa Ragavan and Chenthill)  
+Resolve duplicate symbols in e-util wrt libedataserver (Irene)
+Fix make-clean issues in Evolution plugins (Harish) 
+e-attachment-bar crasher and Misc. code clean-up (Harish)
+Win32 related fixes and code clean-up (Tor Lillqvist)
+
+Updated Translations:
+
+	- be (Vital Khilko)
+	- bg (Rostislav Raykov)
+	- cs (Miloslav Trmac)
+	- en_CA (Adam Weinberger)
+	- es (Francisco Javier F. Serrador)
+	- et (Ivar Smolin)
+	- fi (Ilkka Tuohela)
+	- gl (Ignacio Casal Quinteiro)
+	- ja (Takeshi AIHANA)
+	- lt (Zygimantas Beručka)
+	- nb, no (Kjartan Maraas)
+	- th (Theppitak Karoonboonyanan)
+	- zh_CN (Funda Wang)
+	- zh_TW (Abel Cheung)
+	- zh_TW (Chao-Hsuing Liao) 
+
 Evolution 2.5.2 2005-10-25
 --------------------------
 

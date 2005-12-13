@@ -1,3 +1,8 @@
+2005-12-12  Harish Krishnaswamy  <kharish@novell.com>
+
+	* NEWS, configure.in: Release updates, version bump.
+	***** Release 2.5.3 *****
+
 2005-12-02  Tor Lillqvist  <tml@novell.com>
 
 	* evolution-zip.in: New file, a script used to build a
