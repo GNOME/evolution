@@ -196,11 +196,9 @@ data/evolution.keys.in.in
 designs/OOA/ooa.glade
 designs/read_receipts/read.glade
 e-util/e-categories-config.c
-e-util/e-component-listener.c
 e-util/e-dialog-utils.c
 e-util/e-error.c
 e-util/e-system.error.xml
-e-util/e-time-utils.c
 e-util/eggtrayicon.c
 filter/filter-datespec.c
 filter/filter-file.c

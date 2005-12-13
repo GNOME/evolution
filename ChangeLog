@@ -1,3 +1,8 @@
+2005-12-13  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	* po/POTFILES.in: Removed the entries for 
+	e-util/e-component-listener.c and e-util/e-time-utils.c.
+
 2005-12-12  Harish Krishnaswamy  <kharish@novell.com>
 
 	* NEWS, configure.in: Release updates, version bump.
