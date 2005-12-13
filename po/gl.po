@@ -42,8 +42,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gl\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-12-08 15:58+0100\n"
-"PO-Revision-Date: 2005-12-08 15:58+0100\n"
+"POT-Creation-Date: 2005-12-14 00:20+0100\n"
+"PO-Revision-Date: 2005-12-14 00:23+0100\n"
 "Last-Translator: Ignacio Casal Quinteiro <nacho.resa@gmail.com>\n"
 "Language-Team: Galego\n"
 "MIME-Version: 1.0\n"
@@ -1267,7 +1267,7 @@ msgstr "Contacto"
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:13
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:526
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:541
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2373
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2379
 msgid "Contact Editor"
 msgstr "Editor de Contactos"
 
@@ -2511,20 +2511,20 @@ msgid "Changed"
 msgstr "Modificado"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:536
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2368
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2374
 #, c-format
 msgid "Contact Editor - %s"
 msgstr "Editor de Contactos - %s"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2681
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2687
 msgid "Please select an image for this contact"
 msgstr "Escolla unha imaxe para este contacto"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2682
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2688
 msgid "No image"
 msgstr "Sen imaxe"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2961
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2967
 msgid ""
 "The contact data is invalid:\n"
 "\n"
@@ -2532,7 +2532,7 @@ msgstr ""
 "Os datos do contacto son inválidos:\n"
 "\n"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3013
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3019
 msgid "Invalid contact."
 msgstr "Contacto inválido."
 
@@ -2946,7 +2946,7 @@ msgstr "Cor_tar"
 #: ../mail/em-folder-tree.c:979 ../mail/em-folder-view.c:1036
 #: ../mail/message-list.c:1718 ../ui/evolution-addressbook.xml.h:32
 #: ../ui/evolution-calendar.xml.h:39 ../ui/evolution-composer-entries.xml.h:7
-#: ../ui/evolution-editor.xml.h:16 ../ui/evolution-mail-message.xml.h:105
+#: ../ui/evolution-editor.xml.h:16 ../ui/evolution-mail-message.xml.h:106
 #: ../ui/evolution-memos.xml.h:15 ../ui/evolution-tasks.xml.h:23
 msgid "_Copy"
 msgstr "_Copiar"
@@ -3861,7 +3861,7 @@ msgstr "Sombreado"
 
 #. FIXME: Take care of i18n
 #: ../addressbook/printing/e-contact-print.glade.h:36
-#: ../plugins/exchange-operations/exchange-account-setup.c:939
+#: ../plugins/exchange-operations/exchange-account-setup.c:941
 #: ../plugins/exchange-operations/exchange-calendar.c:224
 #: ../plugins/exchange-operations/exchange-contacts.c:197
 msgid "Size:"
@@ -5188,7 +5188,7 @@ msgid "New calendar"
 msgstr "Novo calendario"
 
 #: ../calendar/gui/calendar-component.c:1500
-#: ../calendar/gui/dialogs/event-page.c:829
+#: ../calendar/gui/dialogs/event-page.c:857
 msgid "Cale_ndar"
 msgstr "Cale_ndario"
 
@@ -5374,7 +5374,7 @@ msgstr "%.0fG"
 
 #: ../calendar/gui/dialogs/cal-attachment-bar.c:311
 #: ../calendar/gui/dialogs/cal-attachment-bar.c:1106
-#: ../calendar/gui/dialogs/comp-editor.c:2582
+#: ../calendar/gui/dialogs/comp-editor.c:2599
 #: ../composer/e-msg-composer-attachment-bar.c:307 ../mail/em-utils.c:138
 #: ../mail/em-utils.c:483 ../mail/em-utils.c:520
 #: ../widgets/misc/e-attachment-bar.c:341
@@ -5383,7 +5383,7 @@ msgstr "anexo"
 
 #: ../calendar/gui/dialogs/cal-attachment-bar.c:473
 #: ../calendar/gui/dialogs/comp-editor.c:1056
-#: ../calendar/gui/dialogs/event-page.c:1734
+#: ../calendar/gui/dialogs/event-page.c:1762
 #: ../calendar/gui/dialogs/meeting-page.c:909
 #: ../calendar/gui/dialogs/task-page.c:1183
 #: ../composer/e-msg-composer-attachment-bar.c:470
@@ -5961,63 +5961,63 @@ msgid "Hide Attachment _Bar"
 msgstr "Agochar _barra de adxuntos"
 
 #: ../calendar/gui/dialogs/comp-editor.c:947
-#: ../calendar/gui/dialogs/comp-editor.c:1364
+#: ../calendar/gui/dialogs/comp-editor.c:1381
 msgid "Show Attachment _Bar"
 msgstr "Amosar _barra de adxuntos"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1388
+#: ../calendar/gui/dialogs/comp-editor.c:1405
 msgid "Attachment Button: Press space key to toggle attachment bar"
 msgstr "Botón de adxuntos: Prema a tecla de espazo para cambiar a barra de adxuntos"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1991
-#: ../calendar/gui/dialogs/comp-editor.c:2034
+#: ../calendar/gui/dialogs/comp-editor.c:2008
+#: ../calendar/gui/dialogs/comp-editor.c:2051
 msgid "Edit Appointment"
 msgstr "Editar Cita"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1997
-#: ../calendar/gui/dialogs/comp-editor.c:2040
+#: ../calendar/gui/dialogs/comp-editor.c:2014
+#: ../calendar/gui/dialogs/comp-editor.c:2057
 #, c-format
 msgid "Meeting - %s"
 msgstr "Xuntanza - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1999
-#: ../calendar/gui/dialogs/comp-editor.c:2042
+#: ../calendar/gui/dialogs/comp-editor.c:2016
+#: ../calendar/gui/dialogs/comp-editor.c:2059
 #, c-format
 msgid "Appointment - %s"
 msgstr "Cita - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2003
-#: ../calendar/gui/dialogs/comp-editor.c:2046
+#: ../calendar/gui/dialogs/comp-editor.c:2020
+#: ../calendar/gui/dialogs/comp-editor.c:2063
 #, c-format
 msgid "Assigned Task - %s"
 msgstr "Tarefa asignada - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2005
-#: ../calendar/gui/dialogs/comp-editor.c:2048
+#: ../calendar/gui/dialogs/comp-editor.c:2022
+#: ../calendar/gui/dialogs/comp-editor.c:2065
 #, c-format
 msgid "Task - %s"
 msgstr "Tarefa - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2008
-#: ../calendar/gui/dialogs/comp-editor.c:2051
+#: ../calendar/gui/dialogs/comp-editor.c:2025
+#: ../calendar/gui/dialogs/comp-editor.c:2068
 #, c-format
 msgid "Journal entry - %s"
 msgstr "Entrada de diario - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2019
-#: ../calendar/gui/dialogs/comp-editor.c:2061
+#: ../calendar/gui/dialogs/comp-editor.c:2036
+#: ../calendar/gui/dialogs/comp-editor.c:2078
 msgid "No summary"
 msgstr "Sen resumo"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2675
-#: ../calendar/gui/dialogs/comp-editor.c:2708
-#: ../calendar/gui/dialogs/comp-editor.c:2732
+#: ../calendar/gui/dialogs/comp-editor.c:2692
+#: ../calendar/gui/dialogs/comp-editor.c:2725
+#: ../calendar/gui/dialogs/comp-editor.c:2749
 msgid "Changes made to this item may be discarded if an update arrives"
 msgstr ""
 "Os trocos efectuados a este elemento poden descartarse se chega unha "
 "actualización por correo"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2756
+#: ../calendar/gui/dialogs/comp-editor.c:2773
 msgid "Unable to use current version!"
 msgstr "Imposible usar a versión actual!"
 
@@ -6103,88 +6103,88 @@ msgstr "_Cita"
 msgid "Recurrence"
 msgstr "Recorrencia"
 
-#: ../calendar/gui/dialogs/event-page.c:835
+#: ../calendar/gui/dialogs/event-page.c:863
 #: ../calendar/gui/dialogs/task-page.c:444
 msgid "Or_ganizer"
 msgstr "Or_ganizador"
 
-#: ../calendar/gui/dialogs/event-page.c:873
+#: ../calendar/gui/dialogs/event-page.c:901
 msgid "_Delegatees"
 msgstr "_Delegados"
 
-#: ../calendar/gui/dialogs/event-page.c:875
+#: ../calendar/gui/dialogs/event-page.c:903
 msgid "Atte_ndees"
 msgstr "_Participantes"
 
-#: ../calendar/gui/dialogs/event-page.c:1034
+#: ../calendar/gui/dialogs/event-page.c:1062
 msgid "Event with no start date"
 msgstr "Evento sen data de comezo"
 
-#: ../calendar/gui/dialogs/event-page.c:1037
+#: ../calendar/gui/dialogs/event-page.c:1065
 msgid "Event with no end date"
 msgstr "Evento sen data de finalización"
 
-#: ../calendar/gui/dialogs/event-page.c:1202
+#: ../calendar/gui/dialogs/event-page.c:1230
 #: ../calendar/gui/dialogs/task-page.c:848
 msgid "Start date is wrong"
 msgstr "A data de comezo é incorrecta"
 
-#: ../calendar/gui/dialogs/event-page.c:1212
+#: ../calendar/gui/dialogs/event-page.c:1240
 msgid "End date is wrong"
 msgstr "A data de finalización é incorrecta"
 
-#: ../calendar/gui/dialogs/event-page.c:1235
+#: ../calendar/gui/dialogs/event-page.c:1263
 msgid "Start time is wrong"
 msgstr "A hora de comezo está equivocada"
 
-#: ../calendar/gui/dialogs/event-page.c:1242
+#: ../calendar/gui/dialogs/event-page.c:1270
 msgid "End time is wrong"
 msgstr "A hora de finalización está equivocada"
 
-#: ../calendar/gui/dialogs/event-page.c:1397
+#: ../calendar/gui/dialogs/event-page.c:1425
 #: ../calendar/gui/dialogs/meeting-page.c:464
 #: ../calendar/gui/dialogs/task-page.c:905
 msgid "The organizer selected no longer has an account."
 msgstr "O organizador seleccionado xa non ten unha conta."
 
-#: ../calendar/gui/dialogs/event-page.c:1403
+#: ../calendar/gui/dialogs/event-page.c:1431
 #: ../calendar/gui/dialogs/meeting-page.c:470
 #: ../calendar/gui/dialogs/task-page.c:911
 msgid "An organizer is required."
 msgstr "Requírese un organizador."
 
-#: ../calendar/gui/dialogs/event-page.c:1418
+#: ../calendar/gui/dialogs/event-page.c:1446
 #: ../calendar/gui/dialogs/meeting-page.c:485
 #: ../calendar/gui/dialogs/task-page.c:926
 msgid "At least one attendee is required."
 msgstr "É necesario polo menos un participante."
 
-#: ../calendar/gui/dialogs/event-page.c:1735
+#: ../calendar/gui/dialogs/event-page.c:1763
 #: ../calendar/gui/dialogs/meeting-page.c:910
 #: ../calendar/gui/dialogs/task-page.c:1184
 msgid "_Add "
 msgstr "_Engadir "
 
-#: ../calendar/gui/dialogs/event-page.c:2422
+#: ../calendar/gui/dialogs/event-page.c:2453
 #, c-format
 msgid "Unable to open the calendar '%s'."
 msgstr "Non se puido abrir o calendario '%s'."
 
-#: ../calendar/gui/dialogs/event-page.c:2662
+#: ../calendar/gui/dialogs/event-page.c:2702
 #, c-format
 msgid "%d day before appointment"
 msgid_plural "%d days before appointment"
 msgstr[0] "%d día antes da cita"
 msgstr[1] "%d días antes da cita"
 
-#: ../calendar/gui/dialogs/event-page.c:2670
+#: ../calendar/gui/dialogs/event-page.c:2710
 #, c-format
 msgid "%d hour before appointment"
 msgid_plural "%d hours before appointment"
 msgstr[0] "%d hora antes da cita"
 msgstr[1] "%d horas antes da cita"
 
-#: ../calendar/gui/dialogs/event-page.c:2678
+#: ../calendar/gui/dialogs/event-page.c:2718
 #, c-format
 msgid "%d minute before appointement"
 msgid_plural "%d minutes before appointment"
@@ -7050,7 +7050,7 @@ msgstr "Abrir páxina _web"
 #: ../mail/em-folder-view.c:1047
 #: ../plugins/print-message/org-gnome-print-message.xml.h:3
 #: ../ui/evolution-addressbook.xml.h:40 ../ui/evolution-calendar.xml.h:44
-#: ../ui/evolution-mail-message.xml.h:123 ../ui/evolution-memos.xml.h:20
+#: ../ui/evolution-mail-message.xml.h:124 ../ui/evolution-memos.xml.h:20
 #: ../ui/evolution-tasks.xml.h:29
 msgid "_Print..."
 msgstr "_Imprimir..."
@@ -7203,22 +7203,12 @@ msgid "Delete _All Occurrences"
 msgstr "Borrar _Tódalas Ocorrencias"
 
 #. strftime format of a weekday, a date and a time, 24-hour.
-#. strptime format of a weekday, a date and a time,
-#. in 24-hour format.
-#. strftime format of a weekday, a date and a
-#. time, in 24-hour format.
-#: ../calendar/gui/e-cell-date-edit-text.c:115 ../e-util/e-time-utils.c:180
-#: ../e-util/e-time-utils.c:393
+#: ../calendar/gui/e-cell-date-edit-text.c:115
 msgid "%a %m/%d/%Y %H:%M:%S"
 msgstr "%a %d/%m/%Y %H:%M:%S"
 
 #. strftime format of a weekday, a date and a time, 12-hour.
-#. strptime format of a weekday, a date and a time,
-#. in 12-hour format.
-#. strftime format of a weekday, a date and a
-#. time, in 12-hour format.
-#: ../calendar/gui/e-cell-date-edit-text.c:118 ../e-util/e-time-utils.c:175
-#: ../e-util/e-time-utils.c:402
+#: ../calendar/gui/e-cell-date-edit-text.c:118
 msgid "%a %m/%d/%Y %I:%M:%S %p"
 msgstr "%a %d/%m/%Y %I:%M:%S %p"
 
@@ -7799,22 +7789,17 @@ msgstr "%A, %d de %B de %Y"
 #. name, %m = month number, %d = month day, %Y = full year.
 #. This is a strftime() format string %a = abbreviated weekday name,
 #. %m = month number, %d = month day, %Y = full year.
-#. strptime format of a weekday and a date.
-#. strftime format of a weekday and a date.
 #: ../calendar/gui/e-meeting-time-sel-item.c:448
-#: ../calendar/gui/e-meeting-time-sel.c:2138 ../e-util/e-time-utils.c:203
-#: ../e-util/e-time-utils.c:296 ../e-util/e-time-utils.c:384
+#: ../calendar/gui/e-meeting-time-sel.c:2138
 msgid "%a %m/%d/%Y"
 msgstr "%a %d/%m/%Y"
 
 #. This is a strftime() format string %m = month number,
 #. %d = month day, %Y = full year.
-#. strptime format of a weekday and a date.
-#. This is the preferred date format for the locale.
 #. This is a strftime() format for a short date. %m = month,
 #. %d = day of month, %Y = year (all digits).
-#: ../calendar/gui/e-meeting-time-sel-item.c:452 ../e-util/e-time-utils.c:238
-#: ../e-util/e-time-utils.c:299 ../widgets/misc/e-dateedit.c:1736
+#: ../calendar/gui/e-meeting-time-sel-item.c:452
+#: ../widgets/misc/e-dateedit.c:1736
 msgid "%m/%d/%Y"
 msgstr "%d/%m/%Y"
 
@@ -10570,104 +10555,6 @@ msgstr "O ficheiro existe &quot;{0}&quot;."
 msgid "_Overwrite"
 msgstr "S_obrescribir"
 
-#. strptime format of a weekday, a date and a time,
-#. in 12-hour format, without seconds.
-#. strftime format of a weekday, a date and a
-#. time, in 12-hour format, without seconds.
-#: ../e-util/e-time-utils.c:185 ../e-util/e-time-utils.c:398
-msgid "%a %m/%d/%Y %I:%M %p"
-msgstr "%a %d/%m/%Y %I:%M %p"
-
-#. strptime format of a weekday, a date and a time,
-#. in 24-hour format, without seconds.
-#. strftime format of a weekday, a date and a
-#. time, in 24-hour format, without seconds.
-#: ../e-util/e-time-utils.c:190 ../e-util/e-time-utils.c:389
-msgid "%a %m/%d/%Y %H:%M"
-msgstr "%a %d/%m/%Y %H:%M"
-
-#. strptime format of a weekday, a date and a time,
-#. in 12-hour format, without minutes or seconds.
-#: ../e-util/e-time-utils.c:195
-msgid "%a %m/%d/%Y %I %p"
-msgstr "%a %d/%m/%Y %I %p"
-
-#. strptime format of a weekday, a date and a time,
-#. in 24-hour format, without minutes or seconds.
-#: ../e-util/e-time-utils.c:200
-msgid "%a %m/%d/%Y %H"
-msgstr "%a %d/%m/%Y %H"
-
-#. strptime format of a date and a time, in 12-hour format.
-#: ../e-util/e-time-utils.c:211
-msgid "%m/%d/%Y %I:%M:%S %p"
-msgstr "%d/%m/%Y %I:%M:%S %p"
-
-#. strptime format of a date and a time, in 24-hour format.
-#: ../e-util/e-time-utils.c:215
-msgid "%m/%d/%Y %H:%M:%S"
-msgstr "%d/%m/%Y %H:%M:%S"
-
-#. strptime format of a date and a time, in 12-hour format,
-#. without seconds.
-#: ../e-util/e-time-utils.c:220
-msgid "%m/%d/%Y %I:%M %p"
-msgstr "%d/%m/%Y %I:%M %p"
-
-#. strptime format of a date and a time, in 24-hour format,
-#. without seconds.
-#: ../e-util/e-time-utils.c:225
-msgid "%m/%d/%Y %H:%M"
-msgstr "%d/%m/%Y %H:%M"
-
-#. strptime format of a date and a time, in 12-hour format,
-#. without minutes or seconds.
-#: ../e-util/e-time-utils.c:230
-msgid "%m/%d/%Y %I %p"
-msgstr "%d/%m/%Y %I %p"
-
-#. strptime format of a date and a time, in 24-hour format,
-#. without minutes or seconds.
-#: ../e-util/e-time-utils.c:235
-msgid "%m/%d/%Y %H"
-msgstr "%d/%m/%Y %H"
-
-#. strptime format for a time of day, in 12-hour format.
-#. strftime format of a time in 12-hour format.
-#: ../e-util/e-time-utils.c:339 ../e-util/e-time-utils.c:438
-msgid "%I:%M:%S %p"
-msgstr "%I:%M:%S %p"
-
-#. strptime format for a time of day, in 24-hour format.
-#. strftime format of a time in 24-hour format.
-#: ../e-util/e-time-utils.c:343 ../e-util/e-time-utils.c:430
-msgid "%H:%M:%S"
-msgstr "%H:%M:%S"
-
-#. strptime format for time of day, without seconds,
-#. in 12-hour format.
-#. strftime format of a time in 12-hour format,
-#. without seconds.
-#. This is a strftime() format. %I = hour (1-12), %M = minute, %p = am/pm string.
-#: ../e-util/e-time-utils.c:348 ../e-util/e-time-utils.c:435
-#: ../widgets/misc/e-dateedit.c:1447 ../widgets/misc/e-dateedit.c:1774
-msgid "%I:%M %p"
-msgstr "%I:%M %p"
-
-#. strptime format for time of day, without seconds 24-hour format.
-#. strftime format of a time in 24-hour format,
-#. without seconds.
-#. This is a strftime() format. %H = hour (0-23), %M = minute.
-#: ../e-util/e-time-utils.c:352 ../e-util/e-time-utils.c:427
-#: ../widgets/misc/e-dateedit.c:1444 ../widgets/misc/e-dateedit.c:1771
-msgid "%H:%M"
-msgstr "%H:%M"
-
-#. strptime format for hour and AM/PM, 12-hour format.
-#: ../e-util/e-time-utils.c:356
-msgid "%I %p"
-msgstr "%I %p"
-
 #: ../e-util/eggtrayicon.c:119
 msgid "The orientation of the tray."
 msgstr "A orientación do panel de notificación."
@@ -11470,11 +11357,11 @@ msgstr "Copiando as mensaxes ao cartafol %s"
 msgid "Cannot drop message(s) into toplevel store"
 msgstr "Non se pode deixar a(s) mensaxe(s) no almacén de nivel superior"
 
-#: ../mail/em-folder-tree.c:977 ../ui/evolution-mail-message.xml.h:106
+#: ../mail/em-folder-tree.c:977
 msgid "_Copy to Folder"
 msgstr "_Copiar ó Cartafol"
 
-#: ../mail/em-folder-tree.c:978 ../ui/evolution-mail-message.xml.h:117
+#: ../mail/em-folder-tree.c:978
 msgid "_Move to Folder"
 msgstr "_Mover ó Cartafol"
 
@@ -11562,20 +11449,19 @@ msgstr "Crear cartafol"
 msgid "Specify where to create the folder:"
 msgstr "Especifica ónde crear o cartafol:"
 
-#: ../mail/em-folder-view.c:1040 ../mail/em-popup.c:558 ../mail/em-popup.c:569
-msgid "Reply to _All"
-msgstr "Responder a _Todos"
-
-#: ../mail/em-folder-view.c:1041 ../ui/evolution-mail-message.xml.h:126
+#: ../mail/em-folder-view.c:1040
 msgid "_Reply to Sender"
 msgstr "_Responder ó Autor"
 
+#: ../mail/em-folder-view.c:1041 ../mail/em-popup.c:558 ../mail/em-popup.c:569
+msgid "Reply to _All"
+msgstr "Responder a _Todos"
+
 #: ../mail/em-folder-view.c:1042 ../mail/em-popup.c:560 ../mail/em-popup.c:571
-#: ../ui/evolution-mail-message.xml.h:110
 msgid "_Forward"
 msgstr "_Remitir"
 
-#: ../mail/em-folder-view.c:1045 ../ui/evolution-mail-message.xml.h:108
+#: ../mail/em-folder-view.c:1045 ../ui/evolution-mail-message.xml.h:109
 msgid "_Edit as New Message..."
 msgstr "_Editar coma unha Nova Mensaxe"
 
@@ -11584,10 +11470,12 @@ msgid "U_ndelete"
 msgstr "_Recuperar"
 
 #: ../mail/em-folder-view.c:1052 ../ui/evolution-addressbook.xml.h:37
+#: ../ui/evolution-mail-message.xml.h:118
 msgid "_Move to Folder..."
 msgstr "_Mover ó Cartafol.."
 
 #: ../mail/em-folder-view.c:1053 ../ui/evolution-addressbook.xml.h:33
+#: ../ui/evolution-mail-message.xml.h:107
 msgid "_Copy to Folder..."
 msgstr "_Copiar a un Cartafol..."
 
@@ -12079,7 +11967,6 @@ msgid "_Reply to sender"
 msgstr "_Responder ao remitente"
 
 #: ../mail/em-popup.c:557 ../mail/em-popup.c:568
-#: ../ui/evolution-mail-message.xml.h:85
 msgid "Reply to _List"
 msgstr "Responder á _Lista"
 
@@ -14093,7 +13980,7 @@ msgid "Delete account?"
 msgstr "Borrar conta?"
 
 #: ../mail/mail.error.xml.h:44
-msgid "Discard changed?"
+msgid "Discard changes?"
 msgstr "Descartar trocos?"
 
 #: ../mail/mail.error.xml.h:45
@@ -14954,19 +14841,19 @@ msgstr "Tamaño dos cartafoles"
 msgid "Exchange Settings"
 msgstr "Configuración de Exchange"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:611
+#: ../plugins/exchange-operations/exchange-account-setup.c:613
 msgid "_OWA Url:"
 msgstr "Url _OWA:"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:636
+#: ../plugins/exchange-operations/exchange-account-setup.c:638
 msgid "A_uthenticate"
 msgstr "A_utenticación"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:823
+#: ../plugins/exchange-operations/exchange-account-setup.c:825
 msgid "Authentication Type"
 msgstr "Tipo de Autenticación"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:837
+#: ../plugins/exchange-operations/exchange-account-setup.c:839
 msgid "Ch_eck for Supported Types"
 msgstr "_Comprobar tipos soportados"
 
@@ -15272,52 +15159,52 @@ msgstr ""
 "nome de usuario, e contrasinal e probe outra vez."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:9
+msgid "Could not connect to Exchange server."
+msgstr "Non se puido conectar co servidor Exchange."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:10
 msgid "Could not connect to server {0}."
 msgstr "Non se puido conectar co servidor {0}."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:10
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:11
 msgid "Could not determine folder permissions for delegates."
 msgstr "Non se puideron determinar os permisos do cartafol para delegados."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:11
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:12
 msgid "Could not find Exchange Web Storage System."
 msgstr "Non se puido atopar o sistema de almacenamiento Web de Exchange."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:12
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:13
 msgid "Could not locate server {0}."
 msgstr "Non se puido localizar o servidor {0}."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:13
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:14
 msgid "Could not make {0} a delegate"
 msgstr "Non se puido facer de {0} un delegado"
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:14
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:15
 msgid "Could not read folder permissions"
 msgstr "Non se puideron ler os permisos do cartafol"
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:15
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:16
 msgid "Could not read folder permissions."
 msgstr "Non se puideron ler os permisos do cartafol."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:16
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:17
 msgid "Could not read out-of-office state"
 msgstr "Non se puido ler o estado de dispoñibilidade"
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:17
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:18
 msgid "Could not update folder permissions."
 msgstr "Non se puideron actualizar os permisos do cartafol."
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:18
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:19
 msgid "Could not update out-of-office state"
 msgstr "Non se puido actualizar o estado de dispoñibilidade"
 
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:19
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:20
 msgid "Exchange Account is offline."
 msgstr "A conta de Exchange está desconectada."
-
-#: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:20
-msgid "Exchange Connector access error."
-msgstr "Erro de acceso do conector de Exchange."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:21
 msgid ""
@@ -15331,8 +15218,7 @@ msgid ""
 "For information to provide to your Exchange \n"
 "administrator, please follow the link below:\n"
 "\n"
-"http://support.novell.com/cgi-bin/search/searchtid.cgi?/ximian/ximian328."
-"html\n"
+"{0}\n"
 "  "
 msgstr ""
 "Exchange Connector require acceso a certa funcionalidade\n"
@@ -15344,8 +15230,7 @@ msgstr ""
 "A información que pode proporcionar a seu administrador\n"
 "de Exchange, pode obtela da ligazón de abaixo:\n"
 "\n"
-"http://support.novell.com/cgi-bin/search/searchtid.cgi?/ximian/ximian328."
-"html\n"
+"{0}\n"
 "  "
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:33
@@ -15705,7 +15590,7 @@ msgid "Subscribe to my _notifications"
 msgstr "Subscribirse ás miñas _notificacións"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:13
-#: ../ui/evolution-mail-message.xml.h:125
+#: ../ui/evolution-mail-message.xml.h:126
 msgid "_Read"
 msgstr "_Lido"
 
@@ -18603,7 +18488,7 @@ msgstr "Agochar temporalmente as mensaxes seleccionadas"
 msgid "Threaded Message list"
 msgstr "Lista de Mensaxes por Fíos"
 
-#: ../ui/evolution-mail-list.xml.h:28 ../ui/evolution-mail-message.xml.h:116
+#: ../ui/evolution-mail-list.xml.h:28 ../ui/evolution-mail-message.xml.h:117
 #: ../ui/evolution-mail-messagedisplay.xml.h:7
 msgid "_Message"
 msgstr "_Mensaxe"
@@ -18634,8 +18519,8 @@ msgid "Check for _Junk"
 msgstr "Buscar _spam"
 
 #: ../ui/evolution-mail-message.xml.h:8
-msgid "Compose _New Message"
-msgstr "Redactar unha _Nova Mensaxe"
+msgid "Compose _New Message..."
+msgstr "Redactar unha _Nova Mensaxe..."
 
 #: ../ui/evolution-mail-message.xml.h:9
 msgid "Compose a reply to all of the recipients of the selected message"
@@ -18854,12 +18739,12 @@ msgid "P_revious Unread Message"
 msgstr "_Anterior Mensaxe Sen Ler"
 
 #: ../ui/evolution-mail-message.xml.h:71
-msgid "Pos_t New Message to Folder"
-msgstr "_Publicar unha mensaxe nova no cartafol"
+msgid "Pos_t New Message to Folder..."
+msgstr "_Publicar unha mensaxe nova no cartafol..."
 
 #: ../ui/evolution-mail-message.xml.h:72
-msgid "Post a Repl_y"
-msgstr "Publicar unha _resposta"
+msgid "Post a Repl_y..."
+msgstr "Publicar unha _resposta..."
 
 #: ../ui/evolution-mail-message.xml.h:73
 msgid "Post a message to a Public folder"
@@ -18882,154 +18767,170 @@ msgid "Print this message"
 msgstr "Imprimir esta mensaxe"
 
 #: ../ui/evolution-mail-message.xml.h:81
-msgid "Re_direct"
-msgstr "Re_dirixir"
+msgid "Re_direct..."
+msgstr "Re_dirixir..."
 
 #: ../ui/evolution-mail-message.xml.h:82
 msgid "Redirect (bounce) the selected message to someone"
 msgstr "Redirixir (rebotar) a mensaxe seleccionada a alguén"
 
+#: ../ui/evolution-mail-message.xml.h:85
+msgid "Reply to _All..."
+msgstr "Responder a _Todos..."
+
 #: ../ui/evolution-mail-message.xml.h:86
+msgid "Reply to _List..."
+msgstr "Responder á _Lista..."
+
+#: ../ui/evolution-mail-message.xml.h:87
 msgid "Reset the text to its original size"
 msgstr "Restablecer o texto a seu tamaño orixinal"
 
-#: ../ui/evolution-mail-message.xml.h:87
+#: ../ui/evolution-mail-message.xml.h:88
 msgid "Save the message as a text file"
 msgstr "Gardar a mensaxe coma un ficheiro de texto"
 
-#: ../ui/evolution-mail-message.xml.h:88
+#: ../ui/evolution-mail-message.xml.h:89
 msgid "Search Folder from Mailing _List..."
 msgstr "Cartafol de busca da _lista de correo..."
 
-#: ../ui/evolution-mail-message.xml.h:89
+#: ../ui/evolution-mail-message.xml.h:90
 msgid "Search Folder from Recipients..."
 msgstr "Cartafol de busca dos destinatarios..."
 
-#: ../ui/evolution-mail-message.xml.h:90
+#: ../ui/evolution-mail-message.xml.h:91
 msgid "Search Folder from S_ubject..."
 msgstr "Cartafol de busca según o as_unto..."
 
-#: ../ui/evolution-mail-message.xml.h:91
+#: ../ui/evolution-mail-message.xml.h:92
 msgid "Search Folder from Sen_der..."
 msgstr "Cartafol de busca según o _remitente..."
 
-#: ../ui/evolution-mail-message.xml.h:92
+#: ../ui/evolution-mail-message.xml.h:93
 msgid "Search for text in the body of the displayed message"
 msgstr "Buscar texto no corpo da mensaxe amosada"
 
-#: ../ui/evolution-mail-message.xml.h:93
+#: ../ui/evolution-mail-message.xml.h:94
 msgid "Select _All Text"
 msgstr "Seleccionar _todo o texto"
 
-#: ../ui/evolution-mail-message.xml.h:94
+#: ../ui/evolution-mail-message.xml.h:95
 msgid "Select all the text in a message"
 msgstr "Seleccionar todo o texto dunha mensaxe"
 
-#: ../ui/evolution-mail-message.xml.h:95
+#: ../ui/evolution-mail-message.xml.h:96
 msgid "Set up the page settings for your current printer"
 msgstr "Establecer a configuración da páxina para a impresora actual"
 
-#: ../ui/evolution-mail-message.xml.h:96
+#: ../ui/evolution-mail-message.xml.h:97
 msgid "Show a blinking cursor in the body of displayed messages"
 msgstr "Amosa un cursor palpabrexante no corpo das mensaxes amosadas"
 
-#: ../ui/evolution-mail-message.xml.h:97
+#: ../ui/evolution-mail-message.xml.h:98
 msgid "Show message in the normal style"
 msgstr "Amosa-la mensaxe no estilo normal"
 
-#: ../ui/evolution-mail-message.xml.h:98
+#: ../ui/evolution-mail-message.xml.h:99
 msgid "Show message with all email headers"
 msgstr "Amosa-la mensaxe con tódalas cabeceiras"
 
-#: ../ui/evolution-mail-message.xml.h:99
+#: ../ui/evolution-mail-message.xml.h:100
 msgid "Show the raw email source of the message"
 msgstr "Amosa-lo código fonte sen procesar da mensaxe"
 
-#: ../ui/evolution-mail-message.xml.h:100
+#: ../ui/evolution-mail-message.xml.h:101
 msgid "Un-delete the selected messages"
 msgstr "Recuperar as mensaxes seleccionadas"
 
-#: ../ui/evolution-mail-message.xml.h:101
+#: ../ui/evolution-mail-message.xml.h:102
 msgid "Uni_mportant"
 msgstr "Non i_mportante"
 
-#: ../ui/evolution-mail-message.xml.h:102
+#: ../ui/evolution-mail-message.xml.h:103
 msgid "Zoom _Out"
 msgstr "_Reducir"
 
-#: ../ui/evolution-mail-message.xml.h:103
+#: ../ui/evolution-mail-message.xml.h:104
 msgid "_Attached"
 msgstr "_Anexar"
 
-#: ../ui/evolution-mail-message.xml.h:104
+#: ../ui/evolution-mail-message.xml.h:105
 msgid "_Caret Mode"
 msgstr "Activar _cursor"
 
-#: ../ui/evolution-mail-message.xml.h:107
+#: ../ui/evolution-mail-message.xml.h:108
 msgid "_Delete Message"
 msgstr "_Borrar mensaxe"
 
-#: ../ui/evolution-mail-message.xml.h:109
+#: ../ui/evolution-mail-message.xml.h:110
 msgid "_Find in Message..."
 msgstr "_Buscar na Mensaxe..."
 
 #: ../ui/evolution-mail-message.xml.h:111
+msgid "_Forward..."
+msgstr "_Remitir..."
+
+#: ../ui/evolution-mail-message.xml.h:112
 msgid "_Go To"
 msgstr "_Ir A"
 
-#: ../ui/evolution-mail-message.xml.h:112
+#: ../ui/evolution-mail-message.xml.h:113
 msgid "_Important"
 msgstr "_Importante"
 
-#: ../ui/evolution-mail-message.xml.h:113
+#: ../ui/evolution-mail-message.xml.h:114
 msgid "_Inline"
 msgstr "_En liña"
 
-#: ../ui/evolution-mail-message.xml.h:114
+#: ../ui/evolution-mail-message.xml.h:115
 msgid "_Junk"
 msgstr "_Spam"
 
-#: ../ui/evolution-mail-message.xml.h:115
+#: ../ui/evolution-mail-message.xml.h:116
 msgid "_Load Images"
 msgstr "_Cargar Imaxes"
 
-#: ../ui/evolution-mail-message.xml.h:118
+#: ../ui/evolution-mail-message.xml.h:119
 msgid "_Next Message"
 msgstr "_Seguinte Mensaxe"
 
-#: ../ui/evolution-mail-message.xml.h:119
+#: ../ui/evolution-mail-message.xml.h:120
 msgid "_Normal Size"
 msgstr "Tamaño _normal"
 
-#: ../ui/evolution-mail-message.xml.h:120
+#: ../ui/evolution-mail-message.xml.h:121
 msgid "_Not Junk"
 msgstr "_Non é spam"
 
-#: ../ui/evolution-mail-message.xml.h:121
+#: ../ui/evolution-mail-message.xml.h:122
 msgid "_Open in New Window"
 msgstr "_Abrir nunha Nova Fiestra"
 
-#: ../ui/evolution-mail-message.xml.h:122
+#: ../ui/evolution-mail-message.xml.h:123
 msgid "_Previous Message"
 msgstr "_Anterior Mensaxe"
 
-#: ../ui/evolution-mail-message.xml.h:124
+#: ../ui/evolution-mail-message.xml.h:125
 msgid "_Quoted"
 msgstr "_Citado"
 
 #: ../ui/evolution-mail-message.xml.h:127
+msgid "_Reply to Sender..."
+msgstr "_Responder ó Autor..."
+
+#: ../ui/evolution-mail-message.xml.h:128
 msgid "_Save Message..."
 msgstr "_Gardar Mensaxe..."
 
-#: ../ui/evolution-mail-message.xml.h:128
+#: ../ui/evolution-mail-message.xml.h:129
 msgid "_Undelete Message"
 msgstr "_Recuperar a mensaxe"
 
-#: ../ui/evolution-mail-message.xml.h:129
+#: ../ui/evolution-mail-message.xml.h:130
 msgid "_Unread"
 msgstr "_Non lida"
 
-#: ../ui/evolution-mail-message.xml.h:130
+#: ../ui/evolution-mail-message.xml.h:131
 msgid "_Zoom In"
 msgstr "_Ampliar"
 
@@ -19947,6 +19848,16 @@ msgstr "Caixa combo para seleccionar a hora"
 #: ../widgets/misc/e-dateedit.c:384
 msgid "Time Combo Box"
 msgstr "Caixa combo da hora"
+
+#. This is a strftime() format. %H = hour (0-23), %M = minute.
+#: ../widgets/misc/e-dateedit.c:1444 ../widgets/misc/e-dateedit.c:1771
+msgid "%H:%M"
+msgstr "%H:%M"
+
+#. This is a strftime() format. %I = hour (1-12), %M = minute, %p = am/pm string.
+#: ../widgets/misc/e-dateedit.c:1447 ../widgets/misc/e-dateedit.c:1774
+msgid "%I:%M %p"
+msgstr "%I:%M %p"
 
 #: ../widgets/misc/e-expander.c:181
 msgid "Expanded"
