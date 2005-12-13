@@ -1,5 +1,13 @@
 2005-12-13  Chenthill Palanisamy  <pchenthill@novell.com>
 
+	* configure.in: added a new variable to include all
+	the plugin directories.
+	* plugins/Makefile.am: Add all the plugin directories
+	in the dist_subdirs, so that dist has all the plugin
+	directories even if some package is missing.
+
+2005-12-13  Chenthill Palanisamy  <pchenthill@novell.com>
+
 	* po/POTFILES.in: Removed the entries for 
 	e-util/e-component-listener.c and e-util/e-time-utils.c.
 
