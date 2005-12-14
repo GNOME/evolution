@@ -1,3 +1,9 @@
+2005-11-23  Johnny Jacob <johnnyjacob@gmail.com>
+	
+	** See Bug # 246245
+	* e-msg-composer-select-file.c (e_msg_composer_select_file_attachments):   
+	Changed the title caption from "Attach file(s)" to "Insert Attachment".
+
 2005-12-07  Parthasarathi Susarla <sparthasarathi@novell.com>
 	
 	* e-msg-composer.[ch]:

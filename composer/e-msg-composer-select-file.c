@@ -236,7 +236,7 @@ void e_msg_composer_select_file_attachments(struct _EMsgComposer *composer, GtkW
 		return;
 	}
 
-	*w = get_selector (composer, _("Attach file(s)"), SELECTOR_MODE_MULTI|SELECTOR_SHOW_INLINE);
+	*w = get_selector (composer, _("Insert Attachment"), SELECTOR_MODE_MULTI|SELECTOR_SHOW_INLINE);
 	g_signal_connect(*w, "response", G_CALLBACK(select_attach_response), composer);
 	g_signal_connect(*w, "destroy", G_CALLBACK(gtk_widget_destroyed), w);
 	g_object_set_data((GObject *)*w, "callback", func);
