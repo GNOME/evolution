@@ -1,3 +1,10 @@
+2005-11-28  Johnny Jacob  <johnnyjacob@gmail.com>
+
+	** Fixes the bug #320210
+
+	* calendar.error.xml : Default button is changed to GTK_RESPONSE_YES
+	in "prompt-delete-titled-appointment".
+
 2005-12-09  Srinivasa Ragavan  <sragavan@novell.com>
 
 	reviewed by: Chenthill Palanisamy  <pchenthill@novell.com>
