@@ -1,3 +1,11 @@
+2005-12-14  Sushma Rai  <rsushma@novell.com>
+
+	* importers/evolution-ldif-importer.c (ldif_import): Proceeding with
+	the import activity only if the book is writable.
+
+	* importers/evolution-vcard-importer.c (vcard_import): Similar.
+	Fixes #266003
+
 2005-11-11 Evan Yan <evan.yan@sun.com>
 
 	* pinting/e-contact-print.c (e_contact_build_style):

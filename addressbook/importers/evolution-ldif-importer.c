@@ -700,6 +700,13 @@ ldif_import(EImport *ei, EImportTarget *target, EImportImporter *im)
 		return;
 	}
 
+	if (!e_book_is_writable (book)) {
+		g_message(G_STRLOC ":Book is readonly");
+		e_import_complete(ei, target);
+		g_object_unref(book);
+		return;
+	}
+
 	file = fopen(s->uri_src+7, "r");
 	if (file == NULL) {
 		g_message(G_STRLOC ":Can't open .ldif file");
