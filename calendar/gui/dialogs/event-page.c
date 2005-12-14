@@ -94,6 +94,7 @@ struct _EventPagePrivate {
 	GtkWidget *end_time_selector;
 	GtkWidget *time_hour;
 	GtkWidget *hour_selector;
+	GtkWidget *minute_selector;
 	GtkWidget *start_timezone;
 	GtkWidget *end_timezone;
 	GtkWidget *timezone_label;
@@ -171,6 +172,10 @@ static void notify_dates_changed (EventPage *epage, struct icaltimetype *start_t
 static gboolean check_start_before_end (struct icaltimetype *start_tt, icaltimezone *start_zone, 
 					struct icaltimetype *end_tt, icaltimezone *end_zone, gboolean adjust_end_time);
 static void set_attendees (ECalComponent *comp, const GPtrArray *attendees);
+static void hour_sel_changed ( GtkSpinButton *widget, EventPage *epage);
+static void minute_sel_changed ( GtkSpinButton *widget, EventPage *epage);
+static void hour_minute_changed ( EventPage *epage);
+static void update_end_time_selector( EventPage *epage);
 G_DEFINE_TYPE (EventPage, event_page, TYPE_COMP_EDITOR_PAGE);
 
 /* Class initialization function for the event page */
@@ -417,10 +422,10 @@ set_all_day (EventPage *epage, gboolean all_day)
 
 	set_all_day_event_menu (epage, all_day);
 	
-	if (all_day)
-		gtk_option_menu_set_history ((GtkOptionMenu *) priv->end_time_selector, 1);
 	/* TODO implement for in end time selector */
-	gtk_widget_set_sensitive (priv->end_time_selector, FALSE);
+	if (all_day)
+		gtk_option_menu_set_history (priv->end_time_selector, 1);
+	gtk_widget_set_sensitive (priv->end_time_selector, !all_day);
 
 	e_date_edit_set_show_time (E_DATE_EDIT (priv->start_time), !all_day);
 	e_date_edit_set_show_time (E_DATE_EDIT (priv->end_time), !all_day);
@@ -813,7 +818,15 @@ sensitize_widgets (EventPage *epage)
 	gtk_widget_set_sensitive (priv->alarm_custom, alarm);
 	gtk_widget_set_sensitive (priv->categories_btn, sensitize);
 	/*TODO implement the for portion of the end time selector */
-	gtk_widget_set_sensitive (priv->end_time_selector, FALSE);
+	if ( (COMP_EDITOR_PAGE(epage)->flags) & COMP_EDITOR_PAGE_NEW_ITEM ) {
+		if (priv->all_day_event)
+			gtk_option_menu_set_history (priv->end_time_selector, 1);
+		else 
+			gtk_option_menu_set_history (priv->end_time_selector, 0);
+        } else 
+		gtk_option_menu_set_history (priv->end_time_selector, 1);
+
+
 	gtk_entry_set_editable (GTK_ENTRY (priv->categories), sensitize);
 
 	if (delegate) {
@@ -1070,6 +1083,7 @@ event_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 	e_cal_component_free_datetime (&start_date);
 	e_cal_component_free_datetime (&end_date);
 
+	update_end_time_selector (epage);
 	/* Classification */
 	e_cal_component_get_classification (comp, &cl);
 	switch (cl) {
@@ -1529,18 +1543,103 @@ event_page_set_dates (CompEditorPage *page, CompEditorPageDates *dates)
 
 
 static void
-time_sel_changed (GtkOptionMenu *widget, EventPagePrivate *priv)
+time_sel_changed (GtkOptionMenu *widget, EventPage *epage)
 {
+	EventPagePrivate *priv;
 	int selection = gtk_option_menu_get_history (widget);
+
+	priv = epage->priv;
 
 	if (selection == 1) {
 		gtk_widget_hide (priv->time_hour);
 		gtk_widget_show (priv->end_time);
+		hour_sel_changed (priv->hour_selector, epage);
+		minute_sel_changed (priv->minute_selector, epage);
 	} else if (!selection){
 		gtk_widget_show (priv->time_hour);
 		gtk_widget_hide (priv->end_time);
+
+		update_end_time_selector ( epage);
 	}
-		
+}
+
+static
+void update_end_time_selector (EventPage *epage)
+{
+	EventPagePrivate *priv;
+	struct icaltimetype start_tt = icaltime_null_time();
+	struct icaltimetype end_tt = icaltime_null_time();
+	time_t start_timet,end_timet;
+	gint hours,minutes;
+
+	priv = epage->priv;
+
+	e_date_edit_get_date (E_DATE_EDIT (priv->start_time),
+                             &start_tt.year,
+                             &start_tt.month,
+                             &start_tt.day);
+        e_date_edit_get_time_of_day (E_DATE_EDIT (priv->start_time),
+       	                             &start_tt.hour,
+               	                     &start_tt.minute);
+	e_date_edit_get_date (E_DATE_EDIT (priv->end_time),
+                             &end_tt.year,
+                             &end_tt.month,
+                             &end_tt.day);
+	e_date_edit_get_time_of_day (E_DATE_EDIT (priv->end_time),
+               	                     &end_tt.hour,
+                       	             &end_tt.minute);
+	
+	end_timet = icaltime_as_timet (end_tt);
+	start_timet = icaltime_as_timet (start_tt);
+
+	end_timet -= start_timet;
+	hours = end_timet / ( 60 * 60 );
+	minutes = (end_timet/60) - ( hours * 60 );
+
+	gtk_spin_button_set_value (priv->hour_selector, hours);
+	gtk_spin_button_set_value (priv->minute_selector, minutes);
+}
+
+void
+static hour_sel_changed (GtkSpinButton *widget, EventPage *epage)
+{
+	hour_minute_changed(epage);
+}
+
+void
+static minute_sel_changed (GtkSpinButton *widget, EventPage *epage)
+{
+	hour_minute_changed ( epage);
+}
+
+void
+static hour_minute_changed ( EventPage *epage)
+{
+	EventPagePrivate *priv;
+	gint for_hours, for_minutes;
+	struct icaltimetype end_tt = icaltime_null_time();
+
+	priv = epage->priv;
+
+	e_date_edit_get_date (E_DATE_EDIT (priv->start_time),
+                              &end_tt.year,
+                              &end_tt.month,
+                              &end_tt.day);
+        e_date_edit_get_time_of_day (E_DATE_EDIT (priv->start_time),
+                                     &end_tt.hour,
+                                     &end_tt.minute);
+
+	for_hours = gtk_spin_button_get_value ( priv->hour_selector);
+	for_minutes = gtk_spin_button_get_value ( priv->minute_selector);
+
+	icaltime_adjust (&end_tt, 0, for_hours, for_minutes, 0);
+
+	e_date_edit_set_date_and_time_of_day (E_DATE_EDIT (priv->end_time),
+				  	      end_tt.year,
+					      end_tt.month,
+					      end_tt.day,
+			      		      end_tt.hour,
+					      end_tt.minute);
 }
 
 static void
@@ -1898,12 +1997,12 @@ event_page_set_all_day_event (EventPage *epage, gboolean all_day)
 				     &end_tt.minute);
 	g_assert (date_set);
 
-	if (all_day) {
-		/* FIXME the history set here is wrong */
-		gtk_option_menu_set_history ((GtkOptionMenu *) priv->end_time_selector, 1);
-	}
 	/* TODO implement the for portion in end time selector */
-	gtk_widget_set_sensitive (priv->end_time_selector, FALSE);
+	gtk_widget_set_sensitive (priv->end_time_selector, !all_day);
+	if (all_day) 
+		gtk_option_menu_set_history (priv->end_time_selector, 1);
+	else 
+		gtk_option_menu_set_history (priv->end_time_selector, 0);
 	
 	if (all_day) {
 		bonobo_ui_component_set_prop (epage->priv->uic, "/commands/ViewTimeZone", "sensitive", "0", NULL);
@@ -2104,6 +2203,7 @@ get_widgets (EventPage *epage)
 	
 	priv->time_hour = GW ("time-hour");
 	priv->hour_selector = GW ("hour_selector");
+	priv->minute_selector = GW ("minute_selector");
 	priv->end_time_selector = GW ("end-time-selector");
 	
 	priv->end_time = GW ("end-time");
@@ -2690,7 +2790,13 @@ init_widgets (EventPage *epage)
 	gtk_option_menu_set_history ((GtkOptionMenu *) priv->end_time_selector, 1);
 	gtk_widget_hide (priv->time_hour);
 	gtk_widget_show (priv->end_time);
-	g_signal_connect (priv->end_time_selector, "changed", G_CALLBACK (time_sel_changed), priv);
+	g_signal_connect (priv->end_time_selector, "changed", G_CALLBACK (time_sel_changed), epage);
+	update_end_time_selector ( epage);
+
+	/* Hour and Minute selector */
+	gtk_spin_button_set_range( (GtkSpinButton*) priv->hour_selector, 0, G_MAXINT);
+	g_signal_connect (priv->hour_selector, "value-changed", G_CALLBACK (hour_sel_changed), epage);
+	g_signal_connect (priv->minute_selector, "value-changed", G_CALLBACK (minute_sel_changed), epage);
 
 	/* Add the user defined time if necessary */
 	priv->alarm_units = calendar_config_get_default_reminder_units ();
