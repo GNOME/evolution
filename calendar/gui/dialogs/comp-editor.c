@@ -1240,10 +1240,23 @@ menu_file_close_cb (BonoboUIComponent *uic,
 		   const char *path)
 {
 	CompEditor *editor = (CompEditor *) data;
+	ECalComponent *comp;
+	ECalComponentText text;
+	CompEditorPrivate *priv = editor->priv;
+	
 	commit_all_fields (editor);
-		
-	if (prompt_to_save_changes (editor, TRUE))
+
+	if (prompt_to_save_changes (editor, TRUE)) {
+		comp = comp_editor_get_current_comp (editor);
+		e_cal_component_get_summary (comp, &text);
+		g_object_unref (comp);
+
+		if (!text.value)
+			if (!send_component_prompt_subject ((GtkWindow *) editor, priv->client, priv->comp))
+				return;
+
 		close_dialog (editor);
+	}
 }
 
 static void

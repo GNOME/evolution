@@ -1,3 +1,10 @@
+2005-11-27  Johnny Jacob  <johnnyjacob@gmail.com>
+
+	** Fixes bug #324060
+
+	* gui/dialogs/comp-editor.c (menu_file_close_cb): 
+	Check wheather the summary is empty and prompt accordingly,
+
 2005-11-28  Srinivasa Ragavan <sragavan@novell.com>
 
 	** Refixes the bug #320210
