@@ -702,6 +702,13 @@ ldif_import(EImport *ei, EImportTarget *target, EImportImporter *im)
 		return;
 	}
 
+	if (!e_book_is_writable (book)) {
+		g_message(G_STRLOC ":Book is readonly");
+		e_import_complete(ei, target);
+		g_object_unref(book);
+		return;
+	}
+
 	filename = g_filename_from_uri(s->uri_src, NULL, NULL);
 	if (filename != NULL) {
 		file = g_fopen(filename, "r");

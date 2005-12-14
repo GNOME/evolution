@@ -464,6 +464,13 @@ vcard_import(EImport *ei, EImportTarget *target, EImportImporter *im)
 		e_import_complete(ei, target);
 		return;
 	}
+	
+	if (!e_book_is_writable (book)) {
+		g_message (G_STRLOC ":Book is readonly.");
+		e_import_complete(ei, target);
+		g_object_unref(book);
+		return;	
+	}
 
 	if (!g_file_get_contents (s->uri_src+7, &contents, NULL, NULL)) {
 		g_message (G_STRLOC ":Couldn't read file.");
