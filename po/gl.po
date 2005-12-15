@@ -42,8 +42,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gl\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-12-14 00:20+0100\n"
-"PO-Revision-Date: 2005-12-14 00:23+0100\n"
+"POT-Creation-Date: 2005-12-15 01:55+0100\n"
+"PO-Revision-Date: 2005-12-15 01:56+0100\n"
 "Last-Translator: Ignacio Casal Quinteiro <nacho.resa@gmail.com>\n"
 "Language-Team: Galego\n"
 "MIME-Version: 1.0\n"
@@ -1183,8 +1183,9 @@ msgstr "tarxetas"
 #: ../calendar/gui/alarm-notify/util.c:66
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:26
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:14
-#: ../calendar/gui/misc.c:111 ../calendar/gui/misc.c:113
-#: ../filter/filter.glade.h:16 ../mail/em-account-editor.c:1951
+#: ../calendar/gui/dialogs/event-page.glade.h:20 ../calendar/gui/misc.c:111
+#: ../calendar/gui/misc.c:113 ../filter/filter.glade.h:16
+#: ../mail/em-account-editor.c:1951
 #: ../plugins/calendar-http/calendar-http.c:263
 #: ../plugins/calendar-weather/calendar-weather.c:563
 msgid "minutes"
@@ -3682,19 +3683,19 @@ msgstr "Vista de árbore GTK"
 msgid "Importing ..."
 msgstr "Importando ..."
 
-#: ../addressbook/importers/evolution-ldif-importer.c:754
+#: ../addressbook/importers/evolution-ldif-importer.c:761
 msgid "LDAP Data Interchange Format (.ldif)"
 msgstr "Formato de intercambio de datos LDAP (.ldif)"
 
-#: ../addressbook/importers/evolution-ldif-importer.c:755
+#: ../addressbook/importers/evolution-ldif-importer.c:762
 msgid "Evolution LDIF importer"
 msgstr "Importador de LDIF de Evolution"
 
-#: ../addressbook/importers/evolution-vcard-importer.c:529
+#: ../addressbook/importers/evolution-vcard-importer.c:536
 msgid "VCard (.vcf, .gcrd)"
 msgstr "VCard (.vcf, .gcrd)"
 
-#: ../addressbook/importers/evolution-vcard-importer.c:530
+#: ../addressbook/importers/evolution-vcard-importer.c:537
 msgid "Evolution VCard Importer"
 msgstr "Importador de VCard de Evolution"
 
@@ -5188,7 +5189,7 @@ msgid "New calendar"
 msgstr "Novo calendario"
 
 #: ../calendar/gui/calendar-component.c:1500
-#: ../calendar/gui/dialogs/event-page.c:857
+#: ../calendar/gui/dialogs/event-page.c:870
 msgid "Cale_ndar"
 msgstr "Cale_ndario"
 
@@ -5374,7 +5375,7 @@ msgstr "%.0fG"
 
 #: ../calendar/gui/dialogs/cal-attachment-bar.c:311
 #: ../calendar/gui/dialogs/cal-attachment-bar.c:1106
-#: ../calendar/gui/dialogs/comp-editor.c:2599
+#: ../calendar/gui/dialogs/comp-editor.c:2612
 #: ../composer/e-msg-composer-attachment-bar.c:307 ../mail/em-utils.c:138
 #: ../mail/em-utils.c:483 ../mail/em-utils.c:520
 #: ../widgets/misc/e-attachment-bar.c:341
@@ -5383,7 +5384,7 @@ msgstr "anexo"
 
 #: ../calendar/gui/dialogs/cal-attachment-bar.c:473
 #: ../calendar/gui/dialogs/comp-editor.c:1056
-#: ../calendar/gui/dialogs/event-page.c:1762
+#: ../calendar/gui/dialogs/event-page.c:1861
 #: ../calendar/gui/dialogs/meeting-page.c:909
 #: ../calendar/gui/dialogs/task-page.c:1183
 #: ../composer/e-msg-composer-attachment-bar.c:470
@@ -5426,7 +5427,6 @@ msgid "Suggest automatic display of attachment"
 msgstr "Suxerir que se amose o anexo automaticamente"
 
 #: ../calendar/gui/dialogs/cal-attachment-select-file.c:190
-#: ../composer/e-msg-composer-select-file.c:239
 msgid "Attach file(s)"
 msgstr "Anexar un ficheiro(s)"
 
@@ -5961,63 +5961,63 @@ msgid "Hide Attachment _Bar"
 msgstr "Agochar _barra de adxuntos"
 
 #: ../calendar/gui/dialogs/comp-editor.c:947
-#: ../calendar/gui/dialogs/comp-editor.c:1381
+#: ../calendar/gui/dialogs/comp-editor.c:1394
 msgid "Show Attachment _Bar"
 msgstr "Amosar _barra de adxuntos"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1405
+#: ../calendar/gui/dialogs/comp-editor.c:1418
 msgid "Attachment Button: Press space key to toggle attachment bar"
 msgstr "Botón de adxuntos: Prema a tecla de espazo para cambiar a barra de adxuntos"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2008
-#: ../calendar/gui/dialogs/comp-editor.c:2051
+#: ../calendar/gui/dialogs/comp-editor.c:2021
+#: ../calendar/gui/dialogs/comp-editor.c:2064
 msgid "Edit Appointment"
 msgstr "Editar Cita"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2014
-#: ../calendar/gui/dialogs/comp-editor.c:2057
+#: ../calendar/gui/dialogs/comp-editor.c:2027
+#: ../calendar/gui/dialogs/comp-editor.c:2070
 #, c-format
 msgid "Meeting - %s"
 msgstr "Xuntanza - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2016
-#: ../calendar/gui/dialogs/comp-editor.c:2059
+#: ../calendar/gui/dialogs/comp-editor.c:2029
+#: ../calendar/gui/dialogs/comp-editor.c:2072
 #, c-format
 msgid "Appointment - %s"
 msgstr "Cita - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2020
-#: ../calendar/gui/dialogs/comp-editor.c:2063
+#: ../calendar/gui/dialogs/comp-editor.c:2033
+#: ../calendar/gui/dialogs/comp-editor.c:2076
 #, c-format
 msgid "Assigned Task - %s"
 msgstr "Tarefa asignada - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2022
-#: ../calendar/gui/dialogs/comp-editor.c:2065
+#: ../calendar/gui/dialogs/comp-editor.c:2035
+#: ../calendar/gui/dialogs/comp-editor.c:2078
 #, c-format
 msgid "Task - %s"
 msgstr "Tarefa - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2025
-#: ../calendar/gui/dialogs/comp-editor.c:2068
+#: ../calendar/gui/dialogs/comp-editor.c:2038
+#: ../calendar/gui/dialogs/comp-editor.c:2081
 #, c-format
 msgid "Journal entry - %s"
 msgstr "Entrada de diario - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2036
-#: ../calendar/gui/dialogs/comp-editor.c:2078
+#: ../calendar/gui/dialogs/comp-editor.c:2049
+#: ../calendar/gui/dialogs/comp-editor.c:2091
 msgid "No summary"
 msgstr "Sen resumo"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2692
-#: ../calendar/gui/dialogs/comp-editor.c:2725
-#: ../calendar/gui/dialogs/comp-editor.c:2749
+#: ../calendar/gui/dialogs/comp-editor.c:2705
+#: ../calendar/gui/dialogs/comp-editor.c:2738
+#: ../calendar/gui/dialogs/comp-editor.c:2762
 msgid "Changes made to this item may be discarded if an update arrives"
 msgstr ""
 "Os trocos efectuados a este elemento poden descartarse se chega unha "
 "actualización por correo"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2773
+#: ../calendar/gui/dialogs/comp-editor.c:2786
 msgid "Unable to use current version!"
 msgstr "Imposible usar a versión actual!"
 
@@ -6103,88 +6103,88 @@ msgstr "_Cita"
 msgid "Recurrence"
 msgstr "Recorrencia"
 
-#: ../calendar/gui/dialogs/event-page.c:863
+#: ../calendar/gui/dialogs/event-page.c:876
 #: ../calendar/gui/dialogs/task-page.c:444
 msgid "Or_ganizer"
 msgstr "Or_ganizador"
 
-#: ../calendar/gui/dialogs/event-page.c:901
+#: ../calendar/gui/dialogs/event-page.c:914
 msgid "_Delegatees"
 msgstr "_Delegados"
 
-#: ../calendar/gui/dialogs/event-page.c:903
+#: ../calendar/gui/dialogs/event-page.c:916
 msgid "Atte_ndees"
 msgstr "_Participantes"
 
-#: ../calendar/gui/dialogs/event-page.c:1062
+#: ../calendar/gui/dialogs/event-page.c:1075
 msgid "Event with no start date"
 msgstr "Evento sen data de comezo"
 
-#: ../calendar/gui/dialogs/event-page.c:1065
+#: ../calendar/gui/dialogs/event-page.c:1078
 msgid "Event with no end date"
 msgstr "Evento sen data de finalización"
 
-#: ../calendar/gui/dialogs/event-page.c:1230
+#: ../calendar/gui/dialogs/event-page.c:1244
 #: ../calendar/gui/dialogs/task-page.c:848
 msgid "Start date is wrong"
 msgstr "A data de comezo é incorrecta"
 
-#: ../calendar/gui/dialogs/event-page.c:1240
+#: ../calendar/gui/dialogs/event-page.c:1254
 msgid "End date is wrong"
 msgstr "A data de finalización é incorrecta"
 
-#: ../calendar/gui/dialogs/event-page.c:1263
+#: ../calendar/gui/dialogs/event-page.c:1277
 msgid "Start time is wrong"
 msgstr "A hora de comezo está equivocada"
 
-#: ../calendar/gui/dialogs/event-page.c:1270
+#: ../calendar/gui/dialogs/event-page.c:1284
 msgid "End time is wrong"
 msgstr "A hora de finalización está equivocada"
 
-#: ../calendar/gui/dialogs/event-page.c:1425
+#: ../calendar/gui/dialogs/event-page.c:1439
 #: ../calendar/gui/dialogs/meeting-page.c:464
 #: ../calendar/gui/dialogs/task-page.c:905
 msgid "The organizer selected no longer has an account."
 msgstr "O organizador seleccionado xa non ten unha conta."
 
-#: ../calendar/gui/dialogs/event-page.c:1431
+#: ../calendar/gui/dialogs/event-page.c:1445
 #: ../calendar/gui/dialogs/meeting-page.c:470
 #: ../calendar/gui/dialogs/task-page.c:911
 msgid "An organizer is required."
 msgstr "Requírese un organizador."
 
-#: ../calendar/gui/dialogs/event-page.c:1446
+#: ../calendar/gui/dialogs/event-page.c:1460
 #: ../calendar/gui/dialogs/meeting-page.c:485
 #: ../calendar/gui/dialogs/task-page.c:926
 msgid "At least one attendee is required."
 msgstr "É necesario polo menos un participante."
 
-#: ../calendar/gui/dialogs/event-page.c:1763
+#: ../calendar/gui/dialogs/event-page.c:1862
 #: ../calendar/gui/dialogs/meeting-page.c:910
 #: ../calendar/gui/dialogs/task-page.c:1184
 msgid "_Add "
 msgstr "_Engadir "
 
-#: ../calendar/gui/dialogs/event-page.c:2453
+#: ../calendar/gui/dialogs/event-page.c:2553
 #, c-format
 msgid "Unable to open the calendar '%s'."
 msgstr "Non se puido abrir o calendario '%s'."
 
-#: ../calendar/gui/dialogs/event-page.c:2702
+#: ../calendar/gui/dialogs/event-page.c:2808
 #, c-format
 msgid "%d day before appointment"
 msgid_plural "%d days before appointment"
 msgstr[0] "%d día antes da cita"
 msgstr[1] "%d días antes da cita"
 
-#: ../calendar/gui/dialogs/event-page.c:2710
+#: ../calendar/gui/dialogs/event-page.c:2816
 #, c-format
 msgid "%d hour before appointment"
 msgid_plural "%d hours before appointment"
 msgstr[0] "%d hora antes da cita"
 msgstr[1] "%d horas antes da cita"
 
-#: ../calendar/gui/dialogs/event-page.c:2718
+#: ../calendar/gui/dialogs/event-page.c:2824
 #, c-format
 msgid "%d minute before appointement"
 msgid_plural "%d minutes before appointment"
@@ -6256,7 +6256,7 @@ msgstr "_Hora:"
 msgid "for"
 msgstr "para"
 
-#: ../calendar/gui/dialogs/event-page.glade.h:20
+#: ../calendar/gui/dialogs/event-page.glade.h:21
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:11
 msgid "until"
 msgstr "ata"
@@ -10178,6 +10178,10 @@ msgstr "Publicar en:"
 #: ../composer/e-msg-composer-select-file.c:82
 msgid "A_ttach"
 msgstr "A_dxuntar"
+
+#: ../composer/e-msg-composer-select-file.c:239
+msgid "Insert Attachment"
+msgstr "Inserir adxunto"
 
 #: ../composer/e-msg-composer.c:837
 msgid "Cannot sign outgoing message: No signing certificate set for this account"
