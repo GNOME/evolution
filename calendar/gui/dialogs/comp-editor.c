@@ -1159,7 +1159,8 @@ button_press_event (GtkWidget *widget, GdkEventButton *event)
 static gint
 key_press_event(GtkWidget *widget, GdkEventKey *event)
 {
-        EAttachmentBar *bar = E_ATTACHMENT_BAR (widget);
+        CompEditor *Editor = COMP_EDITOR (widget);
+	EAttachmentBar *bar = E_ATTACHMENT_BAR (Editor->priv->attachment_bar);
 
         if (event->keyval == GDK_Delete) {
                 e_attachment_bar_remove_selected (bar);
@@ -1172,7 +1173,8 @@ key_press_event(GtkWidget *widget, GdkEventKey *event)
 static gint
 editor_key_press_event(GtkWidget *widget, GdkEventKey *event, CompEditor *editor)
 {
-        EAttachmentBar *bar = E_ATTACHMENT_BAR (widget);
+        CompEditor *Editor = COMP_EDITOR (widget);
+	EAttachmentBar *bar = E_ATTACHMENT_BAR (Editor->priv->attachment_bar);
 
         if (event->keyval == GDK_Escape) {
 		commit_all_fields (editor);
@@ -2384,7 +2386,7 @@ static gboolean
 real_send_comp (CompEditor *editor, ECalComponentItipMethod method)
 {
 	CompEditorPrivate *priv;
-	ECalComponent *tmp_comp, *send_comp;
+	ECalComponent *send_comp;
 	char *address = NULL;
 	
 	g_return_val_if_fail (editor != NULL, FALSE);
@@ -2404,15 +2406,6 @@ real_send_comp (CompEditor *editor, ECalComponentItipMethod method)
 	if (!e_cal_component_has_attachments (priv->comp)) {
 		if (itip_send_comp (method, send_comp, priv->client,
 					NULL, NULL)) {
-#if 0
-			tmp_comp = priv->comp;
-			g_object_ref (tmp_comp);
-			comp_editor_edit_comp (editor, tmp_comp);
-			g_object_unref (tmp_comp);
-			
-			comp_editor_set_changed (editor, TRUE);
-#endif
-			save_comp (editor);
 			g_object_unref (send_comp);
 			return TRUE;
 		}
@@ -2434,12 +2427,6 @@ real_send_comp (CompEditor *editor, ECalComponentItipMethod method)
 		mime_attach_list = comp_editor_get_mime_attach_list (editor);
 		if (itip_send_comp (method, send_comp, priv->client,
 					NULL, mime_attach_list)) {
-			tmp_comp = priv->comp;
-			g_object_ref (tmp_comp);
-			comp_editor_edit_comp (editor, tmp_comp);
-			g_object_unref (tmp_comp);
-			
-			comp_editor_set_changed (editor, TRUE);
 			save_comp (editor);
 			g_object_unref (send_comp);
 			return TRUE;
