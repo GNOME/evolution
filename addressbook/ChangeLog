@@ -1,4 +1,4 @@
-2005-12-15  Srinivasa Ragavan  <set EMAIL_ADDRESS environment variable>
+2005-12-15  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* gui/search/e-addressbook-search-dialog.c: (dialog_response): Added
 	code to set the color from the theme to indicate advance search
