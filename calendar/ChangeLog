@@ -1,4 +1,12 @@
+2005-12-15  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* gui/e-calendar-view.c: (e_calendar_view_get_tooltips): Added 
+	code to make the tooltips strings translatable. Also picked up
+	the color from the theme for the tooltip instead of hardcoded
+	colors.
+
 2005-12-09  Johnny Jacob <johnnyjacob@gmail.com>
+
 	* gui/dialogs/event-page.c : 
 	(hour_sel_changed) : Added. Event handler for hour_selector
 	(minute_sel_changed) : Added. Event handler for minute_selector

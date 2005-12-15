@@ -1913,16 +1913,13 @@ e_calendar_view_get_tooltips (ECalendarViewEventData *data)
 	icalcomponent *clone_comp;
 	time_t t_start, t_end;
 	ECalendarViewEvent *pevent;
+	GtkStyle *style = gtk_widget_get_default_style ();
 	
 	pevent = data->get_view_event (data->cal_view, data->day, data->event_num);
 	g_free (data);
 
 	ECalComponent *newcomp = e_cal_component_new ();
 	icaltimezone *zone;
-	GdkColor color, outer_color;
-
-     	gdk_color_parse ("PeachPuff2", &color);		
-	gdk_color_parse ("antique white", &outer_color);
 
 	clone_comp = icalcomponent_new_clone (pevent->comp_data->icalcomp);
 	if (!e_cal_component_set_icalcomponent (newcomp, clone_comp))
@@ -1931,7 +1928,7 @@ e_calendar_view_get_tooltips (ECalendarViewEventData *data)
 	box = gtk_vbox_new (FALSE, 0);
 
 	str = icalcomponent_get_summary (pevent->comp_data->icalcomp);
-	tmp = g_strdup_printf ("<b>%s</b>", str);
+	tmp = g_strdup_printf (_("<b>%s</b>"), str);
 	label = gtk_label_new (NULL);
 	gtk_label_set_line_wrap ((GtkLabel *)label, TRUE);
 	gtk_label_set_markup ((GtkLabel *)label, tmp);
@@ -1940,10 +1937,8 @@ e_calendar_view_get_tooltips (ECalendarViewEventData *data)
 	gtk_box_pack_start ((GtkBox *)hbox, label, FALSE, FALSE, 0);
 	ebox = gtk_event_box_new ();
 	gtk_container_add ((GtkContainer *)ebox, hbox);
-	gtk_widget_modify_bg (ebox, GTK_STATE_NORMAL, &color);
-	gtk_widget_modify_bg (ebox, GTK_STATE_ACTIVE, &color);
-	gtk_widget_modify_bg (ebox, GTK_STATE_SELECTED, &color);
-	gtk_widget_modify_bg (ebox, GTK_STATE_PRELIGHT, &color);
+	gtk_widget_modify_bg (ebox, GTK_STATE_NORMAL, &(style->bg[GTK_STATE_SELECTED]));
+	gtk_widget_modify_fg (label, GTK_STATE_NORMAL, &(style->text[GTK_STATE_SELECTED]));
 	
 	gtk_box_pack_start ((GtkBox *)box, ebox, FALSE, FALSE, 0);
 	g_free (tmp);
@@ -1954,15 +1949,11 @@ e_calendar_view_get_tooltips (ECalendarViewEventData *data)
 		GtkWidget *hbox = gtk_hbox_new (FALSE, 0);
 		ptr = strchr(organiser.value, ':');
 		ptr++;
-		tmp = g_strdup_printf ("Organiser: %s <%s>", organiser.cn, ptr);
+		tmp = g_strdup_printf (_("Organizer: %s <%s>"), organiser.cn, ptr);
 		label = gtk_label_new (tmp);
 		gtk_box_pack_start ((GtkBox *)hbox, label, FALSE, FALSE, 0);
 		ebox = gtk_event_box_new ();
 		gtk_container_add ((GtkContainer *)ebox, hbox);
-		gtk_widget_modify_bg (ebox, GTK_STATE_NORMAL, &outer_color);
-		gtk_widget_modify_bg (ebox, GTK_STATE_ACTIVE, &outer_color);
-		gtk_widget_modify_bg (ebox, GTK_STATE_SELECTED, &outer_color);
-		gtk_widget_modify_bg (ebox, GTK_STATE_PRELIGHT, &outer_color);		
 		gtk_box_pack_start ((GtkBox *)box, ebox, FALSE, FALSE, 0);
 
 		g_free (tmp);
@@ -1971,17 +1962,13 @@ e_calendar_view_get_tooltips (ECalendarViewEventData *data)
 	e_cal_component_get_location (newcomp, &str);
 
 	if (str) {
-		tmp = g_strdup_printf ("Location: %s", str);
+		tmp = g_strdup_printf (_("Location: %s"), str);
 		label = gtk_label_new (NULL);
 		gtk_label_set_markup ((GtkLabel *)label, tmp);
 		hbox = gtk_hbox_new (FALSE, 0);
 		gtk_box_pack_start ((GtkBox *)hbox, label, FALSE, FALSE, 0);
 		ebox = gtk_event_box_new ();
 		gtk_container_add ((GtkContainer *)ebox, hbox);
-		gtk_widget_modify_bg (ebox, GTK_STATE_NORMAL, &outer_color);
-		gtk_widget_modify_bg (ebox, GTK_STATE_ACTIVE, &outer_color);
-		gtk_widget_modify_bg (ebox, GTK_STATE_SELECTED, &outer_color);
-		gtk_widget_modify_bg (ebox, GTK_STATE_PRELIGHT, &outer_color);		
 		gtk_box_pack_start ((GtkBox *)box, ebox, FALSE, FALSE, 0);
 		g_free (tmp);
 	}
@@ -2005,15 +1992,11 @@ e_calendar_view_get_tooltips (ECalendarViewEventData *data)
 	tmp1 = get_label(dtstart.value);
 	tmp = calculate_time (t_start, t_end);
 
-	tmp2 = g_strdup_printf("Time: %s %s", tmp1, tmp);
+	tmp2 = g_strdup_printf(_("Time: %s %s"), tmp1, tmp);
 	hbox = gtk_hbox_new (FALSE, 0);
 	gtk_box_pack_start ((GtkBox *)hbox, gtk_label_new_with_mnemonic (tmp2), FALSE, FALSE, 0);
 	ebox = gtk_event_box_new ();
 	gtk_container_add ((GtkContainer *)ebox, hbox);
-	gtk_widget_modify_bg (ebox, GTK_STATE_NORMAL, &outer_color);
-	gtk_widget_modify_bg (ebox, GTK_STATE_ACTIVE, &outer_color);
-	gtk_widget_modify_bg (ebox, GTK_STATE_SELECTED, &outer_color);
-	gtk_widget_modify_bg (ebox, GTK_STATE_PRELIGHT, &outer_color);		
 	gtk_box_pack_start ((GtkBox *)box, ebox, FALSE, FALSE, 0);
 	
 	g_free (tmp);
