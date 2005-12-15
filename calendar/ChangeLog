@@ -1,4 +1,4 @@
-2005-11-24  Chenthill Palanisamy  <pchenthill@novell.com>
+2005-12-15  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #321739
 	* gui/dialogs/event-page.c: (event_page_fill_widgets),
