@@ -413,16 +413,6 @@
        _label="Forward" priority="1"
        pixtype="pixbuf"/>
 
-      <separator f="" name="emaillist1"/>
-
-      <toolitem name="MessageMove" verb=""
-       _label="Move"
-       pixtype="pixbuf"/>
- 
-      <toolitem name="MessageCopy" verb=""
-       _label="Copy"
-       pixtype="pixbuf"/>
-
       <separator f="" name="emaillist2"/>
 
       <toolitem name="PrintMessage" verb=""

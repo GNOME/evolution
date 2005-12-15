@@ -1,3 +1,10 @@
+2005-12-14  Rajeev ramanathan <rajeevramanathan_2004@yahoo.co.in>
+
+	** Fixes the bug #316897
+
+	* evolution-mail-message.xml: Removed MoveToFolder and CopyToFolder
+	from the evolution tool bar to make it small.
+
 2005-12-13  David Malcolm  <dmalcolm@redhat.com>
 
 	* evolution-mail-message.xml: Add ellipsis characters to various menu
