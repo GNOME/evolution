@@ -42,8 +42,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gl\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-12-15 01:55+0100\n"
-"PO-Revision-Date: 2005-12-15 01:56+0100\n"
+"POT-Creation-Date: 2005-12-15 22:10+0100\n"
+"PO-Revision-Date: 2005-12-15 22:11+0100\n"
 "Last-Translator: Ignacio Casal Quinteiro <nacho.resa@gmail.com>\n"
 "Language-Team: Galego\n"
 "MIME-Version: 1.0\n"
@@ -2791,8 +2791,8 @@ msgstr ""
 "cartafol.  ¿Gostaríalle engadilo de todas maneiras?"
 
 #. FIXME: get the toplevel window...
-#: ../addressbook/gui/search/e-addressbook-search-dialog.c:160
-#: ../widgets/misc/e-filter-bar.c:156
+#: ../addressbook/gui/search/e-addressbook-search-dialog.c:165
+#: ../widgets/misc/e-filter-bar.c:162
 msgid "Advanced Search"
 msgstr "Busca Avanzada"
 
@@ -2864,7 +2864,7 @@ msgstr "Fonte"
 #: ../addressbook/gui/widgets/e-addressbook-view.c:245
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:11
 #: ../calendar/gui/e-calendar-table.etspec.h:13
-#: ../calendar/gui/e-meeting-list-view.c:377
+#: ../calendar/gui/e-meeting-list-view.c:479
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:11
 #: ../calendar/gui/e-memo-table.etspec.h:5
 msgid "Type"
@@ -2947,7 +2947,7 @@ msgstr "Cor_tar"
 #: ../mail/em-folder-tree.c:979 ../mail/em-folder-view.c:1036
 #: ../mail/message-list.c:1718 ../ui/evolution-addressbook.xml.h:32
 #: ../ui/evolution-calendar.xml.h:39 ../ui/evolution-composer-entries.xml.h:7
-#: ../ui/evolution-editor.xml.h:16 ../ui/evolution-mail-message.xml.h:106
+#: ../ui/evolution-editor.xml.h:16 ../ui/evolution-mail-message.xml.h:104
 #: ../ui/evolution-memos.xml.h:15 ../ui/evolution-tasks.xml.h:23
 msgid "_Copy"
 msgstr "_Copiar"
@@ -3104,7 +3104,7 @@ msgstr "Radio"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:33
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:9
-#: ../calendar/gui/e-meeting-list-view.c:388
+#: ../calendar/gui/e-meeting-list-view.c:490
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:9
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:721
 msgid "Role"
@@ -5066,7 +5066,7 @@ msgstr "Non concorda"
 
 #: ../calendar/gui/calendar-commands.c:120 ../calendar/gui/print.c:2512
 #: ../ui/evolution-addressbook.xml.h:17 ../ui/evolution-calendar.xml.h:19
-#: ../ui/evolution-mail-message.xml.h:78 ../ui/evolution-memos.xml.h:11
+#: ../ui/evolution-mail-message.xml.h:76 ../ui/evolution-memos.xml.h:11
 #: ../ui/evolution-tasks.xml.h:14
 msgid "Print"
 msgstr "Imprimir"
@@ -5375,7 +5375,7 @@ msgstr "%.0fG"
 
 #: ../calendar/gui/dialogs/cal-attachment-bar.c:311
 #: ../calendar/gui/dialogs/cal-attachment-bar.c:1106
-#: ../calendar/gui/dialogs/comp-editor.c:2612
+#: ../calendar/gui/dialogs/comp-editor.c:2599
 #: ../composer/e-msg-composer-attachment-bar.c:307 ../mail/em-utils.c:138
 #: ../mail/em-utils.c:483 ../mail/em-utils.c:520
 #: ../widgets/misc/e-attachment-bar.c:341
@@ -5961,63 +5961,63 @@ msgid "Hide Attachment _Bar"
 msgstr "Agochar _barra de adxuntos"
 
 #: ../calendar/gui/dialogs/comp-editor.c:947
-#: ../calendar/gui/dialogs/comp-editor.c:1394
+#: ../calendar/gui/dialogs/comp-editor.c:1396
 msgid "Show Attachment _Bar"
 msgstr "Amosar _barra de adxuntos"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1418
+#: ../calendar/gui/dialogs/comp-editor.c:1420
 msgid "Attachment Button: Press space key to toggle attachment bar"
 msgstr "Botón de adxuntos: Prema a tecla de espazo para cambiar a barra de adxuntos"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2021
-#: ../calendar/gui/dialogs/comp-editor.c:2064
+#: ../calendar/gui/dialogs/comp-editor.c:2023
+#: ../calendar/gui/dialogs/comp-editor.c:2066
 msgid "Edit Appointment"
 msgstr "Editar Cita"
-
-#: ../calendar/gui/dialogs/comp-editor.c:2027
-#: ../calendar/gui/dialogs/comp-editor.c:2070
-#, c-format
-msgid "Meeting - %s"
-msgstr "Xuntanza - %s"
 
 #: ../calendar/gui/dialogs/comp-editor.c:2029
 #: ../calendar/gui/dialogs/comp-editor.c:2072
 #, c-format
+msgid "Meeting - %s"
+msgstr "Xuntanza - %s"
+
+#: ../calendar/gui/dialogs/comp-editor.c:2031
+#: ../calendar/gui/dialogs/comp-editor.c:2074
+#, c-format
 msgid "Appointment - %s"
 msgstr "Cita - %s"
-
-#: ../calendar/gui/dialogs/comp-editor.c:2033
-#: ../calendar/gui/dialogs/comp-editor.c:2076
-#, c-format
-msgid "Assigned Task - %s"
-msgstr "Tarefa asignada - %s"
 
 #: ../calendar/gui/dialogs/comp-editor.c:2035
 #: ../calendar/gui/dialogs/comp-editor.c:2078
 #, c-format
+msgid "Assigned Task - %s"
+msgstr "Tarefa asignada - %s"
+
+#: ../calendar/gui/dialogs/comp-editor.c:2037
+#: ../calendar/gui/dialogs/comp-editor.c:2080
+#, c-format
 msgid "Task - %s"
 msgstr "Tarefa - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2038
-#: ../calendar/gui/dialogs/comp-editor.c:2081
+#: ../calendar/gui/dialogs/comp-editor.c:2040
+#: ../calendar/gui/dialogs/comp-editor.c:2083
 #, c-format
 msgid "Journal entry - %s"
 msgstr "Entrada de diario - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2049
-#: ../calendar/gui/dialogs/comp-editor.c:2091
+#: ../calendar/gui/dialogs/comp-editor.c:2051
+#: ../calendar/gui/dialogs/comp-editor.c:2093
 msgid "No summary"
 msgstr "Sen resumo"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2705
-#: ../calendar/gui/dialogs/comp-editor.c:2738
-#: ../calendar/gui/dialogs/comp-editor.c:2762
+#: ../calendar/gui/dialogs/comp-editor.c:2692
+#: ../calendar/gui/dialogs/comp-editor.c:2725
+#: ../calendar/gui/dialogs/comp-editor.c:2749
 msgid "Changes made to this item may be discarded if an update arrives"
 msgstr ""
 "Os trocos efectuados a este elemento poden descartarse se chega unha "
 "actualización por correo"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2786
+#: ../calendar/gui/dialogs/comp-editor.c:2773
 msgid "Unable to use current version!"
 msgstr "Imposible usar a versión actual!"
 
@@ -6116,44 +6116,44 @@ msgstr "_Delegados"
 msgid "Atte_ndees"
 msgstr "_Participantes"
 
-#: ../calendar/gui/dialogs/event-page.c:1075
+#: ../calendar/gui/dialogs/event-page.c:1073
 msgid "Event with no start date"
 msgstr "Evento sen data de comezo"
 
-#: ../calendar/gui/dialogs/event-page.c:1078
+#: ../calendar/gui/dialogs/event-page.c:1076
 msgid "Event with no end date"
 msgstr "Evento sen data de finalización"
 
-#: ../calendar/gui/dialogs/event-page.c:1244
+#: ../calendar/gui/dialogs/event-page.c:1242
 #: ../calendar/gui/dialogs/task-page.c:848
 msgid "Start date is wrong"
 msgstr "A data de comezo é incorrecta"
 
-#: ../calendar/gui/dialogs/event-page.c:1254
+#: ../calendar/gui/dialogs/event-page.c:1252
 msgid "End date is wrong"
 msgstr "A data de finalización é incorrecta"
 
-#: ../calendar/gui/dialogs/event-page.c:1277
+#: ../calendar/gui/dialogs/event-page.c:1275
 msgid "Start time is wrong"
 msgstr "A hora de comezo está equivocada"
 
-#: ../calendar/gui/dialogs/event-page.c:1284
+#: ../calendar/gui/dialogs/event-page.c:1282
 msgid "End time is wrong"
 msgstr "A hora de finalización está equivocada"
 
-#: ../calendar/gui/dialogs/event-page.c:1439
+#: ../calendar/gui/dialogs/event-page.c:1437
 #: ../calendar/gui/dialogs/meeting-page.c:464
 #: ../calendar/gui/dialogs/task-page.c:905
 msgid "The organizer selected no longer has an account."
 msgstr "O organizador seleccionado xa non ten unha conta."
 
-#: ../calendar/gui/dialogs/event-page.c:1445
+#: ../calendar/gui/dialogs/event-page.c:1443
 #: ../calendar/gui/dialogs/meeting-page.c:470
 #: ../calendar/gui/dialogs/task-page.c:911
 msgid "An organizer is required."
 msgstr "Requírese un organizador."
 
-#: ../calendar/gui/dialogs/event-page.c:1460
+#: ../calendar/gui/dialogs/event-page.c:1458
 #: ../calendar/gui/dialogs/meeting-page.c:485
 #: ../calendar/gui/dialogs/task-page.c:926
 msgid "At least one attendee is required."
@@ -6327,14 +6327,14 @@ msgid "Member"
 msgstr "Membro"
 
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:8
-#: ../calendar/gui/e-meeting-list-view.c:399
+#: ../calendar/gui/e-meeting-list-view.c:501
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:8
 msgid "RSVP"
 msgstr "RSVP"
 
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:10
 #: ../calendar/gui/e-calendar-table.etspec.h:10
-#: ../calendar/gui/e-meeting-list-view.c:410
+#: ../calendar/gui/e-meeting-list-view.c:512
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:10 ../mail/em-filter-i18n.h:63
 #: ../mail/message-list.etspec.h:12
 msgid "Status"
@@ -7050,7 +7050,7 @@ msgstr "Abrir páxina _web"
 #: ../mail/em-folder-view.c:1047
 #: ../plugins/print-message/org-gnome-print-message.xml.h:3
 #: ../ui/evolution-addressbook.xml.h:40 ../ui/evolution-calendar.xml.h:44
-#: ../ui/evolution-mail-message.xml.h:124 ../ui/evolution-memos.xml.h:20
+#: ../ui/evolution-mail-message.xml.h:122 ../ui/evolution-memos.xml.h:20
 #: ../ui/evolution-tasks.xml.h:29
 msgid "_Print..."
 msgstr "_Imprimir..."
@@ -7201,6 +7201,21 @@ msgstr "Borrar esta _Ocorrencia"
 #: ../calendar/gui/e-calendar-view.c:1586
 msgid "Delete _All Occurrences"
 msgstr "Borrar _Tódalas Ocorrencias"
+
+#: ../calendar/gui/e-calendar-view.c:1960
+#, c-format
+msgid "Organizer: %s <%s>"
+msgstr "Organizador: %s <%s>"
+
+#: ../calendar/gui/e-calendar-view.c:1973 ../calendar/gui/print.c:2339
+#, c-format
+msgid "Location: %s"
+msgstr "Localización: %s"
+
+#: ../calendar/gui/e-calendar-view.c:2003
+#, c-format
+msgid "Time: %s %s"
+msgstr "Hora: %s %s"
 
 #. strftime format of a weekday, a date and a time, 24-hour.
 #: ../calendar/gui/e-cell-date-edit-text.c:115
@@ -7770,7 +7785,7 @@ msgid "Delegated"
 msgstr "Delegado"
 
 #. The extra space is just a hack to occupy more space for Attendee
-#: ../calendar/gui/e-meeting-list-view.c:361
+#: ../calendar/gui/e-meeting-list-view.c:463
 msgid "Attendee                          "
 msgstr "Participante                          "
 
@@ -8085,14 +8100,13 @@ msgid "You must be an attendee of the event."
 msgstr "Debe ser un participante no evento."
 
 #: ../calendar/gui/memos-component.c:449 ../ui/evolution-addressbook.xml.h:3
-#: ../ui/evolution-mail-message.xml.h:12 ../ui/evolution-memos.xml.h:2
-#: ../ui/evolution-tasks.xml.h:2
+#: ../ui/evolution-memos.xml.h:2 ../ui/evolution-tasks.xml.h:2
 msgid "Copy"
 msgstr "Copiar"
 
 #: ../calendar/gui/memos-component.c:450 ../mail/em-filter-i18n.h:11
 #: ../ui/evolution-addressbook.xml.h:9 ../ui/evolution-calendar.xml.h:5
-#: ../ui/evolution-mail-message.xml.h:26 ../ui/evolution-memos.xml.h:6
+#: ../ui/evolution-mail-message.xml.h:25 ../ui/evolution-memos.xml.h:6
 #: ../ui/evolution-tasks.xml.h:6
 msgid "Delete"
 msgstr "Eliminar"
@@ -8399,11 +8413,6 @@ msgstr "Tarefa"
 #, c-format
 msgid "Summary: %s"
 msgstr "Resumo: %s"
-
-#: ../calendar/gui/print.c:2339
-#, c-format
-msgid "Location: %s"
-msgstr "Localización: %s"
 
 #: ../calendar/gui/print.c:2382
 #, c-format
@@ -11133,7 +11142,7 @@ msgid "is not Flagged"
 msgstr "non está marcado"
 
 #: ../mail/em-filter-i18n.h:35 ../mail/mail-config.glade.h:93
-#: ../ui/evolution-mail-message.xml.h:49
+#: ../ui/evolution-mail-message.xml.h:48
 msgid "Junk"
 msgstr "Spam"
 
@@ -11465,7 +11474,7 @@ msgstr "Responder a _Todos"
 msgid "_Forward"
 msgstr "_Remitir"
 
-#: ../mail/em-folder-view.c:1045 ../ui/evolution-mail-message.xml.h:109
+#: ../mail/em-folder-view.c:1045 ../ui/evolution-mail-message.xml.h:107
 msgid "_Edit as New Message..."
 msgstr "_Editar coma unha Nova Mensaxe"
 
@@ -11474,12 +11483,12 @@ msgid "U_ndelete"
 msgstr "_Recuperar"
 
 #: ../mail/em-folder-view.c:1052 ../ui/evolution-addressbook.xml.h:37
-#: ../ui/evolution-mail-message.xml.h:118
+#: ../ui/evolution-mail-message.xml.h:116
 msgid "_Move to Folder..."
 msgstr "_Mover ó Cartafol.."
 
 #: ../mail/em-folder-view.c:1053 ../ui/evolution-addressbook.xml.h:33
-#: ../ui/evolution-mail-message.xml.h:107
+#: ../ui/evolution-mail-message.xml.h:105
 msgid "_Copy to Folder..."
 msgstr "_Copiar a un Cartafol..."
 
@@ -14471,7 +14480,7 @@ msgstr "Seguemento"
 msgid "For Your Information"
 msgstr "Para a súa información"
 
-#: ../mail/message-tag-followup.c:78 ../ui/evolution-mail-message.xml.h:43
+#: ../mail/message-tag-followup.c:78 ../ui/evolution-mail-message.xml.h:42
 msgid "Forward"
 msgstr "Remitir"
 
@@ -14479,11 +14488,11 @@ msgstr "Remitir"
 msgid "No Response Necessary"
 msgstr "Non é necesaria unha resposta"
 
-#: ../mail/message-tag-followup.c:81 ../ui/evolution-mail-message.xml.h:83
+#: ../mail/message-tag-followup.c:81 ../ui/evolution-mail-message.xml.h:81
 msgid "Reply"
 msgstr "Responder"
 
-#: ../mail/message-tag-followup.c:82 ../ui/evolution-mail-message.xml.h:84
+#: ../mail/message-tag-followup.c:82 ../ui/evolution-mail-message.xml.h:82
 msgid "Reply to All"
 msgstr "Responder a Todos"
 
@@ -15594,7 +15603,7 @@ msgid "Subscribe to my _notifications"
 msgstr "Subscribirse ás miñas _notificacións"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:13
-#: ../ui/evolution-mail-message.xml.h:126
+#: ../ui/evolution-mail-message.xml.h:124
 msgid "_Read"
 msgstr "_Lido"
 
@@ -16528,7 +16537,7 @@ msgstr "Da unha opción para imprimir o correo desde o editor"
 
 #: ../plugins/print-message/org-gnome-print-message.xml.h:1
 #: ../ui/evolution-addressbook.xml.h:18 ../ui/evolution-calendar.xml.h:20
-#: ../ui/evolution-mail-message.xml.h:79 ../ui/evolution-memos.xml.h:12
+#: ../ui/evolution-mail-message.xml.h:77 ../ui/evolution-memos.xml.h:12
 #: ../ui/evolution-tasks.xml.h:15
 msgid "Print Pre_view"
 msgstr "Pre_visualización da Impresión"
@@ -18049,7 +18058,7 @@ msgstr "Lista"
 msgid "Month"
 msgstr "Mes"
 
-#: ../ui/evolution-calendar.xml.h:15 ../ui/evolution-mail-message.xml.h:61
+#: ../ui/evolution-calendar.xml.h:15 ../ui/evolution-mail-message.xml.h:59
 msgid "Next"
 msgstr "Seguinte"
 
@@ -18057,7 +18066,7 @@ msgstr "Seguinte"
 msgid "Previews the calendar to be printed"
 msgstr "Previsualiza a axenda que se vai imprimir"
 
-#: ../ui/evolution-calendar.xml.h:18 ../ui/evolution-mail-message.xml.h:77
+#: ../ui/evolution-calendar.xml.h:18 ../ui/evolution-mail-message.xml.h:75
 msgid "Previous"
 msgstr "Anterior"
 
@@ -18403,12 +18412,12 @@ msgstr "Cambiar o nome deste cartafol"
 msgid "Change the properties of this folder"
 msgstr "Cambiar as propiedades deste cartafol"
 
-#: ../ui/evolution-mail-list.xml.h:3 ../ui/evolution-mail-message.xml.h:13
+#: ../ui/evolution-mail-list.xml.h:3 ../ui/evolution-mail-message.xml.h:12
 msgid "Copy selected message(s) to the clipboard"
 msgstr "Copiar a(s) mensaxe(s) seleccionada(s) ao portarretallos"
 
 #. Alphabetical by name, yo
-#: ../ui/evolution-mail-list.xml.h:5 ../ui/evolution-mail-message.xml.h:24
+#: ../ui/evolution-mail-list.xml.h:5 ../ui/evolution-mail-message.xml.h:23
 msgid "Cut selected message(s) to the clipboard"
 msgstr "Cotar a(s) mensaxe(s) seleccionada(s) ao portarretallos"
 
@@ -18440,7 +18449,7 @@ msgstr "Ocutar as mensaxes eliminadas no canto de amosalas cunha liña que as at
 msgid "Mar_k Messages as Read"
 msgstr "Marcar men_saxes como lidas"
 
-#: ../ui/evolution-mail-list.xml.h:14 ../ui/evolution-mail-message.xml.h:70
+#: ../ui/evolution-mail-list.xml.h:14 ../ui/evolution-mail-message.xml.h:68
 msgid "Paste message(s) from the clipboard"
 msgstr "Pegar a(s) mensaxe(s) desde o portarretallos"
 
@@ -18492,7 +18501,7 @@ msgstr "Agochar temporalmente as mensaxes seleccionadas"
 msgid "Threaded Message list"
 msgstr "Lista de Mensaxes por Fíos"
 
-#: ../ui/evolution-mail-list.xml.h:28 ../ui/evolution-mail-message.xml.h:117
+#: ../ui/evolution-mail-list.xml.h:28 ../ui/evolution-mail-message.xml.h:115
 #: ../ui/evolution-mail-messagedisplay.xml.h:7
 msgid "_Message"
 msgstr "_Mensaxe"
@@ -18538,403 +18547,399 @@ msgstr "Compoñer unha resposta á lista de correo da mensaxe seleccionada"
 msgid "Compose a reply to the sender of the selected message"
 msgstr "Redactar unha resposta para o autor da mensaxe seleccionada"
 
-#: ../ui/evolution-mail-message.xml.h:14
+#: ../ui/evolution-mail-message.xml.h:13
 msgid "Copy selected messages to another folder"
 msgstr "Copiar as mensaxes seleccionadas a outro cartafol"
 
-#: ../ui/evolution-mail-message.xml.h:15
+#: ../ui/evolution-mail-message.xml.h:14
 msgid "Create R_ule"
 msgstr "Crear _regra"
 
-#: ../ui/evolution-mail-message.xml.h:16
+#: ../ui/evolution-mail-message.xml.h:15
 msgid "Create a Search Folder for these recipients"
 msgstr "Crear un cartafol de busca para estes destinatarios"
 
-#: ../ui/evolution-mail-message.xml.h:17
+#: ../ui/evolution-mail-message.xml.h:16
 msgid "Create a Search Folder for this mailing list"
 msgstr "Crear un cartafol de busca para esta lista de correo"
 
-#: ../ui/evolution-mail-message.xml.h:18
+#: ../ui/evolution-mail-message.xml.h:17
 msgid "Create a Search Folder for this sender"
 msgstr "Crear un cartafol de busca para este remitente"
 
-#: ../ui/evolution-mail-message.xml.h:19
+#: ../ui/evolution-mail-message.xml.h:18
 msgid "Create a Search Folder for this subject"
 msgstr "Crear un cartafol de busca para este asunto"
 
-#: ../ui/evolution-mail-message.xml.h:20
+#: ../ui/evolution-mail-message.xml.h:19
 msgid "Create a rule to filter messages from this sender"
 msgstr "Crear unha regra para filtrar mensaxes deste autor"
 
-#: ../ui/evolution-mail-message.xml.h:21
+#: ../ui/evolution-mail-message.xml.h:20
 msgid "Create a rule to filter messages to these recipients"
 msgstr "Crear unha regra para filtrar mensaxes a estes destinatarios"
 
-#: ../ui/evolution-mail-message.xml.h:22
+#: ../ui/evolution-mail-message.xml.h:21
 msgid "Create a rule to filter messages to this mailing list"
 msgstr "Crear unha regra para filtrar mensaxes a esta lista de correo"
 
-#: ../ui/evolution-mail-message.xml.h:23
+#: ../ui/evolution-mail-message.xml.h:22
 msgid "Create a rule to filter messages with this subject"
 msgstr "Crear unha regra para filtrar mensaxes con este asunto"
 
-#: ../ui/evolution-mail-message.xml.h:25
+#: ../ui/evolution-mail-message.xml.h:24
 msgid "Decrease the text size"
 msgstr "Reduce o tamaño do texto"
 
-#: ../ui/evolution-mail-message.xml.h:27
+#: ../ui/evolution-mail-message.xml.h:26
 msgid "Display the next important message"
 msgstr "Amosa-la seguinte mensaxe importante"
 
-#: ../ui/evolution-mail-message.xml.h:28
+#: ../ui/evolution-mail-message.xml.h:27
 msgid "Display the next message"
 msgstr "Amosa-la seguinte mensaxe"
 
-#: ../ui/evolution-mail-message.xml.h:29
+#: ../ui/evolution-mail-message.xml.h:28
 msgid "Display the next unread message"
 msgstr "Amosa-la seguinte mensaxe sen ler"
 
-#: ../ui/evolution-mail-message.xml.h:30
+#: ../ui/evolution-mail-message.xml.h:29
 msgid "Display the next unread thread"
 msgstr "Amosar o seguinte fío sen ler"
 
-#: ../ui/evolution-mail-message.xml.h:31
+#: ../ui/evolution-mail-message.xml.h:30
 msgid "Display the previous important message"
 msgstr "Amosar a anterior mensaxe importante"
 
-#: ../ui/evolution-mail-message.xml.h:32
+#: ../ui/evolution-mail-message.xml.h:31
 msgid "Display the previous message"
 msgstr "Amosa-la mensaxe anterior"
 
-#: ../ui/evolution-mail-message.xml.h:33
+#: ../ui/evolution-mail-message.xml.h:32
 msgid "Display the previous unread message"
 msgstr "Amosar a anterior mensaxe sen ler"
 
-#: ../ui/evolution-mail-message.xml.h:34
+#: ../ui/evolution-mail-message.xml.h:33
 msgid "F_orward As..."
 msgstr "_Remitir como..."
 
-#: ../ui/evolution-mail-message.xml.h:35
+#: ../ui/evolution-mail-message.xml.h:34
 msgid "Filter on Mailing _List..."
 msgstr "Filtrar pola _Lista de Correo..."
 
-#: ../ui/evolution-mail-message.xml.h:36
+#: ../ui/evolution-mail-message.xml.h:35
 msgid "Filter on Se_nder..."
 msgstr "Filtrar polo A_utor..."
 
-#: ../ui/evolution-mail-message.xml.h:37
+#: ../ui/evolution-mail-message.xml.h:36
 msgid "Filter on _Recipients..."
 msgstr "Filtrar polos _Destinatarios..."
 
-#: ../ui/evolution-mail-message.xml.h:38
+#: ../ui/evolution-mail-message.xml.h:37
 msgid "Filter on _Subject..."
 msgstr "Filtrar polo A_sunto..."
 
-#: ../ui/evolution-mail-message.xml.h:39
+#: ../ui/evolution-mail-message.xml.h:38
 msgid "Filter the selected messages for junk status"
 msgstr "Filtrar as mensaxes seleccionadas polo estado de spam"
 
-#: ../ui/evolution-mail-message.xml.h:40
+#: ../ui/evolution-mail-message.xml.h:39
 msgid "Flag selected message(s) for follow-up"
 msgstr "Marca-la(s) mensaxe(s) seleccionada(s) para seguemento"
 
-#: ../ui/evolution-mail-message.xml.h:41
+#: ../ui/evolution-mail-message.xml.h:40
 msgid "Follow _Up..."
 msgstr "Se_guemento..."
 
-#: ../ui/evolution-mail-message.xml.h:42
+#: ../ui/evolution-mail-message.xml.h:41
 msgid "Force images in HTML mail to be loaded"
 msgstr "Forzar a carga das imaxes nas mensaxes HTML"
 
-#: ../ui/evolution-mail-message.xml.h:44
+#: ../ui/evolution-mail-message.xml.h:43
 msgid "Forward the selected message in the body of a new message"
 msgstr "Remiti-lo correo seleccionado no corpo dunha nova mensaxe"
 
-#: ../ui/evolution-mail-message.xml.h:45
+#: ../ui/evolution-mail-message.xml.h:44
 msgid "Forward the selected message quoted like a reply"
 msgstr "Remiti-lo correo seleccionado citado coma unha resposta"
 
-#: ../ui/evolution-mail-message.xml.h:46
+#: ../ui/evolution-mail-message.xml.h:45
 msgid "Forward the selected message to someone"
 msgstr "Remiti-lo correo seleccionado a alguén"
 
-#: ../ui/evolution-mail-message.xml.h:47
+#: ../ui/evolution-mail-message.xml.h:46
 msgid "Forward the selected message to someone as an attachment"
 msgstr "Remiti-lo correo seleccionado a alguén coma un anexo"
 
-#: ../ui/evolution-mail-message.xml.h:48
+#: ../ui/evolution-mail-message.xml.h:47
 msgid "Increase the text size"
 msgstr "Incrementar o tamaño do texto"
 
-#: ../ui/evolution-mail-message.xml.h:50
+#: ../ui/evolution-mail-message.xml.h:49
 msgid "Mar_k as"
 msgstr "Mar_car como"
 
-#: ../ui/evolution-mail-message.xml.h:51
+#: ../ui/evolution-mail-message.xml.h:50
 msgid "Mark the selected message(s) as having been read"
 msgstr "Marcar a(s) mensaxe(s) seleccionada(s) como se foran lidas"
 
-#: ../ui/evolution-mail-message.xml.h:52
+#: ../ui/evolution-mail-message.xml.h:51
 msgid "Mark the selected message(s) as important"
 msgstr "Marcar a(s) mensaxe(s) seleccionada(s) coma importante"
 
-#: ../ui/evolution-mail-message.xml.h:53
+#: ../ui/evolution-mail-message.xml.h:52
 msgid "Mark the selected message(s) as junk"
 msgstr "Marcar a(s) mensaxe(s) seleccionada(s) coma spam"
 
-#: ../ui/evolution-mail-message.xml.h:54
+#: ../ui/evolution-mail-message.xml.h:53
 msgid "Mark the selected message(s) as not being junk"
 msgstr "Marcar a(s) mensaxe(s) seleccionada(s) coma non spam"
 
-#: ../ui/evolution-mail-message.xml.h:55
+#: ../ui/evolution-mail-message.xml.h:54
 msgid "Mark the selected message(s) as not having been read"
 msgstr "Marcar a(s) mensaxe(s) seleccionada(s) como se non foran lidas"
 
-#: ../ui/evolution-mail-message.xml.h:56
+#: ../ui/evolution-mail-message.xml.h:55
 msgid "Mark the selected message(s) as unimportant"
 msgstr "Marcar a(s) mensaxe(s) seleccionada(s) coma non importantes"
 
-#: ../ui/evolution-mail-message.xml.h:57
+#: ../ui/evolution-mail-message.xml.h:56
 msgid "Mark the selected messages for deletion"
 msgstr "Marcar as mensaxes seleccionadas para borralas"
 
-#: ../ui/evolution-mail-message.xml.h:58
+#: ../ui/evolution-mail-message.xml.h:57
 msgid "Message Source"
 msgstr "Mensaxe en bruto"
 
-#: ../ui/evolution-mail-message.xml.h:59
-msgid "Move"
-msgstr "Mover"
-
-#: ../ui/evolution-mail-message.xml.h:60
+#: ../ui/evolution-mail-message.xml.h:58
 msgid "Move selected message(s) to another folder"
 msgstr "Mover a(s) mensaxe(s) seleccionada(s) a outro cartafol"
 
-#: ../ui/evolution-mail-message.xml.h:62
+#: ../ui/evolution-mail-message.xml.h:60
 msgid "Next _Important Message"
 msgstr "Seguinte Mensaxe _Importante"
 
-#: ../ui/evolution-mail-message.xml.h:63
+#: ../ui/evolution-mail-message.xml.h:61
 msgid "Next _Thread"
 msgstr "Seguinte _Fío"
 
-#: ../ui/evolution-mail-message.xml.h:64
+#: ../ui/evolution-mail-message.xml.h:62
 msgid "Next _Unread Message"
 msgstr "Seguinte Mensaxe _Sen Ler"
 
-#: ../ui/evolution-mail-message.xml.h:65
+#: ../ui/evolution-mail-message.xml.h:63
 msgid "Not Junk"
 msgstr "Non é spam"
 
-#: ../ui/evolution-mail-message.xml.h:66
+#: ../ui/evolution-mail-message.xml.h:64
 msgid "Open a window for composing a mail message"
 msgstr "Abrir unha fiestra para compoñer unha mensaxe de correo"
 
-#: ../ui/evolution-mail-message.xml.h:67
+#: ../ui/evolution-mail-message.xml.h:65
 msgid "Open the selected message in a new window"
 msgstr "Abrir a mensaxe seleccionada nunha nova fiestra"
 
-#: ../ui/evolution-mail-message.xml.h:68
+#: ../ui/evolution-mail-message.xml.h:66
 msgid "Open the selected message in the composer for editing"
 msgstr "Abri-la mensaxe seleccionada no compositor para editala"
 
-#: ../ui/evolution-mail-message.xml.h:69
+#: ../ui/evolution-mail-message.xml.h:67
 msgid "P_revious Unread Message"
 msgstr "_Anterior Mensaxe Sen Ler"
 
-#: ../ui/evolution-mail-message.xml.h:71
+#: ../ui/evolution-mail-message.xml.h:69
 msgid "Pos_t New Message to Folder..."
 msgstr "_Publicar unha mensaxe nova no cartafol..."
 
-#: ../ui/evolution-mail-message.xml.h:72
+#: ../ui/evolution-mail-message.xml.h:70
 msgid "Post a Repl_y..."
 msgstr "Publicar unha _resposta..."
 
-#: ../ui/evolution-mail-message.xml.h:73
+#: ../ui/evolution-mail-message.xml.h:71
 msgid "Post a message to a Public folder"
 msgstr "Publicar unha mensaxe nun cartafol público"
 
-#: ../ui/evolution-mail-message.xml.h:74
+#: ../ui/evolution-mail-message.xml.h:72
 msgid "Post a reply to a message in a Public folder"
 msgstr "Publicar unha resposta a unha mensaxe nun cartafol público"
 
-#: ../ui/evolution-mail-message.xml.h:75
+#: ../ui/evolution-mail-message.xml.h:73
 msgid "Pr_evious Important Message"
 msgstr "_Anterior Mensaxe Importante"
 
-#: ../ui/evolution-mail-message.xml.h:76
+#: ../ui/evolution-mail-message.xml.h:74
 msgid "Preview the message to be printed"
 msgstr "Previsualizar a mensaxe que se vai imprimir"
 
-#: ../ui/evolution-mail-message.xml.h:80
+#: ../ui/evolution-mail-message.xml.h:78
 msgid "Print this message"
 msgstr "Imprimir esta mensaxe"
 
-#: ../ui/evolution-mail-message.xml.h:81
+#: ../ui/evolution-mail-message.xml.h:79
 msgid "Re_direct..."
 msgstr "Re_dirixir..."
 
-#: ../ui/evolution-mail-message.xml.h:82
+#: ../ui/evolution-mail-message.xml.h:80
 msgid "Redirect (bounce) the selected message to someone"
 msgstr "Redirixir (rebotar) a mensaxe seleccionada a alguén"
 
-#: ../ui/evolution-mail-message.xml.h:85
+#: ../ui/evolution-mail-message.xml.h:83
 msgid "Reply to _All..."
 msgstr "Responder a _Todos..."
 
-#: ../ui/evolution-mail-message.xml.h:86
+#: ../ui/evolution-mail-message.xml.h:84
 msgid "Reply to _List..."
 msgstr "Responder á _Lista..."
 
-#: ../ui/evolution-mail-message.xml.h:87
+#: ../ui/evolution-mail-message.xml.h:85
 msgid "Reset the text to its original size"
 msgstr "Restablecer o texto a seu tamaño orixinal"
 
-#: ../ui/evolution-mail-message.xml.h:88
+#: ../ui/evolution-mail-message.xml.h:86
 msgid "Save the message as a text file"
 msgstr "Gardar a mensaxe coma un ficheiro de texto"
 
-#: ../ui/evolution-mail-message.xml.h:89
+#: ../ui/evolution-mail-message.xml.h:87
 msgid "Search Folder from Mailing _List..."
 msgstr "Cartafol de busca da _lista de correo..."
 
-#: ../ui/evolution-mail-message.xml.h:90
+#: ../ui/evolution-mail-message.xml.h:88
 msgid "Search Folder from Recipients..."
 msgstr "Cartafol de busca dos destinatarios..."
 
-#: ../ui/evolution-mail-message.xml.h:91
+#: ../ui/evolution-mail-message.xml.h:89
 msgid "Search Folder from S_ubject..."
 msgstr "Cartafol de busca según o as_unto..."
 
-#: ../ui/evolution-mail-message.xml.h:92
+#: ../ui/evolution-mail-message.xml.h:90
 msgid "Search Folder from Sen_der..."
 msgstr "Cartafol de busca según o _remitente..."
 
-#: ../ui/evolution-mail-message.xml.h:93
+#: ../ui/evolution-mail-message.xml.h:91
 msgid "Search for text in the body of the displayed message"
 msgstr "Buscar texto no corpo da mensaxe amosada"
 
-#: ../ui/evolution-mail-message.xml.h:94
+#: ../ui/evolution-mail-message.xml.h:92
 msgid "Select _All Text"
 msgstr "Seleccionar _todo o texto"
 
-#: ../ui/evolution-mail-message.xml.h:95
+#: ../ui/evolution-mail-message.xml.h:93
 msgid "Select all the text in a message"
 msgstr "Seleccionar todo o texto dunha mensaxe"
 
-#: ../ui/evolution-mail-message.xml.h:96
+#: ../ui/evolution-mail-message.xml.h:94
 msgid "Set up the page settings for your current printer"
 msgstr "Establecer a configuración da páxina para a impresora actual"
 
-#: ../ui/evolution-mail-message.xml.h:97
+#: ../ui/evolution-mail-message.xml.h:95
 msgid "Show a blinking cursor in the body of displayed messages"
 msgstr "Amosa un cursor palpabrexante no corpo das mensaxes amosadas"
 
-#: ../ui/evolution-mail-message.xml.h:98
+#: ../ui/evolution-mail-message.xml.h:96
 msgid "Show message in the normal style"
 msgstr "Amosa-la mensaxe no estilo normal"
 
-#: ../ui/evolution-mail-message.xml.h:99
+#: ../ui/evolution-mail-message.xml.h:97
 msgid "Show message with all email headers"
 msgstr "Amosa-la mensaxe con tódalas cabeceiras"
 
-#: ../ui/evolution-mail-message.xml.h:100
+#: ../ui/evolution-mail-message.xml.h:98
 msgid "Show the raw email source of the message"
 msgstr "Amosa-lo código fonte sen procesar da mensaxe"
 
-#: ../ui/evolution-mail-message.xml.h:101
+#: ../ui/evolution-mail-message.xml.h:99
 msgid "Un-delete the selected messages"
 msgstr "Recuperar as mensaxes seleccionadas"
 
-#: ../ui/evolution-mail-message.xml.h:102
+#: ../ui/evolution-mail-message.xml.h:100
 msgid "Uni_mportant"
 msgstr "Non i_mportante"
 
-#: ../ui/evolution-mail-message.xml.h:103
+#: ../ui/evolution-mail-message.xml.h:101
 msgid "Zoom _Out"
 msgstr "_Reducir"
 
-#: ../ui/evolution-mail-message.xml.h:104
+#: ../ui/evolution-mail-message.xml.h:102
 msgid "_Attached"
 msgstr "_Anexar"
 
-#: ../ui/evolution-mail-message.xml.h:105
+#: ../ui/evolution-mail-message.xml.h:103
 msgid "_Caret Mode"
 msgstr "Activar _cursor"
 
-#: ../ui/evolution-mail-message.xml.h:108
+#: ../ui/evolution-mail-message.xml.h:106
 msgid "_Delete Message"
 msgstr "_Borrar mensaxe"
 
-#: ../ui/evolution-mail-message.xml.h:110
+#: ../ui/evolution-mail-message.xml.h:108
 msgid "_Find in Message..."
 msgstr "_Buscar na Mensaxe..."
 
-#: ../ui/evolution-mail-message.xml.h:111
+#: ../ui/evolution-mail-message.xml.h:109
 msgid "_Forward..."
 msgstr "_Remitir..."
 
-#: ../ui/evolution-mail-message.xml.h:112
+#: ../ui/evolution-mail-message.xml.h:110
 msgid "_Go To"
 msgstr "_Ir A"
 
-#: ../ui/evolution-mail-message.xml.h:113
+#: ../ui/evolution-mail-message.xml.h:111
 msgid "_Important"
 msgstr "_Importante"
 
-#: ../ui/evolution-mail-message.xml.h:114
+#: ../ui/evolution-mail-message.xml.h:112
 msgid "_Inline"
 msgstr "_En liña"
 
-#: ../ui/evolution-mail-message.xml.h:115
+#: ../ui/evolution-mail-message.xml.h:113
 msgid "_Junk"
 msgstr "_Spam"
 
-#: ../ui/evolution-mail-message.xml.h:116
+#: ../ui/evolution-mail-message.xml.h:114
 msgid "_Load Images"
 msgstr "_Cargar Imaxes"
 
-#: ../ui/evolution-mail-message.xml.h:119
+#: ../ui/evolution-mail-message.xml.h:117
 msgid "_Next Message"
 msgstr "_Seguinte Mensaxe"
 
-#: ../ui/evolution-mail-message.xml.h:120
+#: ../ui/evolution-mail-message.xml.h:118
 msgid "_Normal Size"
 msgstr "Tamaño _normal"
 
-#: ../ui/evolution-mail-message.xml.h:121
+#: ../ui/evolution-mail-message.xml.h:119
 msgid "_Not Junk"
 msgstr "_Non é spam"
 
-#: ../ui/evolution-mail-message.xml.h:122
+#: ../ui/evolution-mail-message.xml.h:120
 msgid "_Open in New Window"
 msgstr "_Abrir nunha Nova Fiestra"
 
-#: ../ui/evolution-mail-message.xml.h:123
+#: ../ui/evolution-mail-message.xml.h:121
 msgid "_Previous Message"
 msgstr "_Anterior Mensaxe"
 
-#: ../ui/evolution-mail-message.xml.h:125
+#: ../ui/evolution-mail-message.xml.h:123
 msgid "_Quoted"
 msgstr "_Citado"
 
-#: ../ui/evolution-mail-message.xml.h:127
+#: ../ui/evolution-mail-message.xml.h:125
 msgid "_Reply to Sender..."
 msgstr "_Responder ó Autor..."
 
-#: ../ui/evolution-mail-message.xml.h:128
+#: ../ui/evolution-mail-message.xml.h:126
 msgid "_Save Message..."
 msgstr "_Gardar Mensaxe..."
 
-#: ../ui/evolution-mail-message.xml.h:129
+#: ../ui/evolution-mail-message.xml.h:127
 msgid "_Undelete Message"
 msgstr "_Recuperar a mensaxe"
 
-#: ../ui/evolution-mail-message.xml.h:130
+#: ../ui/evolution-mail-message.xml.h:128
 msgid "_Unread"
 msgstr "_Non lida"
 
-#: ../ui/evolution-mail-message.xml.h:131
+#: ../ui/evolution-mail-message.xml.h:129
 msgid "_Zoom In"
 msgstr "_Ampliar"
 
@@ -19915,16 +19920,16 @@ msgstr "Indicador de espazo"
 msgid "Spacing around expander arrow"
 msgstr "Espaciado arredor da frecha do expansor"
 
-#: ../widgets/misc/e-filter-bar.c:195
+#: ../widgets/misc/e-filter-bar.c:201
 msgid "_Searches"
 msgstr "_Buscas"
 
-#: ../widgets/misc/e-filter-bar.c:197
+#: ../widgets/misc/e-filter-bar.c:203
 msgid "Search Editor"
 msgstr "Editor de Buscas"
 
 #. FIXME: get the toplevel window...
-#: ../widgets/misc/e-filter-bar.c:220
+#: ../widgets/misc/e-filter-bar.c:226
 msgid "Save Search"
 msgstr "Gardar Busca"
 
@@ -19983,41 +19988,41 @@ msgstr "Anchura de columna"
 
 #. To translators: This is the accessibility name of
 #. the search bar's text entry widget
-#: ../widgets/misc/e-search-bar.c:346
+#: ../widgets/misc/e-search-bar.c:357
 msgid "Search Text Entry"
 msgstr "Entrada de busca de texto"
 
-#: ../widgets/misc/e-search-bar.c:550
+#: ../widgets/misc/e-search-bar.c:576
 msgid "_Search"
 msgstr "_Buscar"
 
-#: ../widgets/misc/e-search-bar.c:556
+#: ../widgets/misc/e-search-bar.c:582
 msgid "_Find Now"
 msgstr "_Buscar Agora"
 
-#: ../widgets/misc/e-search-bar.c:557 ../widgets/misc/e-search-bar.c:944
+#: ../widgets/misc/e-search-bar.c:583 ../widgets/misc/e-search-bar.c:970
 msgid "_Clear"
 msgstr "_Limpar"
 
-#: ../widgets/misc/e-search-bar.c:648
+#: ../widgets/misc/e-search-bar.c:674
 msgid "Search Type"
 msgstr "Tipo de busca"
 
-#: ../widgets/misc/e-search-bar.c:852
+#: ../widgets/misc/e-search-bar.c:878
 msgid "Item ID"
 msgstr "ID de elemento"
 
-#: ../widgets/misc/e-search-bar.c:859
+#: ../widgets/misc/e-search-bar.c:885
 msgid "Subitem ID"
 msgstr "ID de subelemento"
 
-#: ../widgets/misc/e-search-bar.c:866 ../widgets/text/e-entry.c:1249
+#: ../widgets/misc/e-search-bar.c:892 ../widgets/text/e-entry.c:1249
 #: ../widgets/text/e-entry.c:1250 ../widgets/text/e-text.c:3462
 #: ../widgets/text/e-text.c:3463
 msgid "Text"
 msgstr "Texto"
 
-#: ../widgets/misc/e-search-bar.c:946
+#: ../widgets/misc/e-search-bar.c:972
 msgid "Find _Now"
 msgstr "Buscar _Agora"
 
