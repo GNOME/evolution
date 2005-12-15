@@ -2722,7 +2722,7 @@ e_week_view_reshape_event_span (EWeekView *week_view,
 					       NULL);
 	}
 	
-	g_object_set_data ((GObject *)span->background_item, "event", event);
+	g_object_set_data ((GObject *)span->background_item, "event-num", event_num);
 	g_signal_connect (span->background_item, "event",
 			  G_CALLBACK (tooltip_event_cb),
 			  week_view);
@@ -2757,7 +2757,7 @@ e_week_view_reshape_event_span (EWeekView *week_view,
 				&& e_cal_util_component_has_attendee (event->comp_data->icalcomp)) {
 			set_text_as_bold (event, span);
 		} */
-		g_object_set_data ((GObject *)span->text_item, "event", event);		
+		g_object_set_data ((GObject *)span->text_item, "event-num", event_num);		
 		g_signal_connect (span->text_item, "event",
 				  G_CALLBACK (e_week_view_on_text_item_event),
 				  week_view);
@@ -3159,7 +3159,7 @@ e_week_view_on_text_item_event (GnomeCanvasItem *item,
 
 		data->cal_view = week_view;
 		data->day = -1;
-		data->event_num = event_num;
+		data->event_num = nevent;
 		data->get_view_event = tooltip_get_view_event;
 		pevent->timeout = g_timeout_add (500, (GSourceFunc)e_calendar_view_get_tooltips, data);		
 			
