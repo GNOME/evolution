@@ -1901,6 +1901,14 @@ get_label (struct icaltimetype *tt)
         return g_strdup (buffer);
 }
 
+/* 
+ * It is expected to show the tooltips in this below format
+ *
+ * 	<B>SUBJECT OF THE MEETING</B>
+ * 	Organiser: NameOfTheUser<email@ofuser.com>
+ * 	Location: PlaceOfTheMeeting
+ * 	Time : DateAndTime (xx Minutes)
+ */
 
 gboolean
 e_calendar_view_get_tooltips (ECalendarViewEventData *data)
@@ -1928,7 +1936,7 @@ e_calendar_view_get_tooltips (ECalendarViewEventData *data)
 	box = gtk_vbox_new (FALSE, 0);
 
 	str = icalcomponent_get_summary (pevent->comp_data->icalcomp);
-	tmp = g_strdup_printf (_("<b>%s</b>"), str);
+	tmp = g_strdup_printf ("<b>%s</b>", str);
 	label = gtk_label_new (NULL);
 	gtk_label_set_line_wrap ((GtkLabel *)label, TRUE);
 	gtk_label_set_markup ((GtkLabel *)label, tmp);

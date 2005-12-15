@@ -1,3 +1,10 @@
+2005-12-15  Srinivasa Ragavan  <sragavan@novell.com>
+
+	reviewed by: <delete if not using a buddy>
+
+	* gui/e-calendar-view.c: (e_calendar_view_get_tooltips): Removed
+	markup from translatable strings.
+
 2005-12-15  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #324058
