@@ -1,3 +1,11 @@
+2005-12-15  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* e-filter-bar.c: (rule_advanced_response), (option_changed),
+	(set_property): Added code to Show color in search widget.
+	* e-search-bar.c: (entry_activated_cb),
+	(activate_button_clicked_cb), (clear_button_clicked_cb): Added
+	code to show color in search widget, when the filter is active.
+
 2005-11-24  Tor Lillqvist  <tml@novell.com>
 
 	* e-dateedit.c

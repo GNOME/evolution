@@ -259,6 +259,17 @@ static void
 entry_activated_cb (GtkWidget *widget,
 		     ESearchBar *esb)
 {
+	const char *text = gtk_entry_get_text (esb->entry);
+	GtkStyle *style = gtk_widget_get_default_style ();
+
+	if (text && *text) {
+		gtk_widget_modify_base (esb->entry, GTK_STATE_NORMAL, &(style->base[GTK_STATE_SELECTED]));
+		gtk_widget_modify_text (esb->entry, GTK_STATE_NORMAL, &(style->text[GTK_STATE_SELECTED]));
+	} else {
+		gtk_widget_modify_base (esb->entry, GTK_STATE_NORMAL, NULL);
+		gtk_widget_modify_text (esb->entry, GTK_STATE_NORMAL, NULL);		
+	}
+	
 	emit_search_activated (esb);
 }
 
@@ -450,6 +461,16 @@ static void
 activate_button_clicked_cb (GtkWidget *widget,
 			    ESearchBar *esb)
 {
+	const char *text = gtk_entry_get_text (esb->entry);
+	GtkStyle *style = gtk_widget_get_default_style ();
+
+	if (text && *text) {
+		gtk_widget_modify_base (esb->entry, GTK_STATE_NORMAL, &(style->base[GTK_STATE_SELECTED]));
+		gtk_widget_modify_text (esb->entry, GTK_STATE_NORMAL, &(style->text[GTK_STATE_SELECTED]));
+	} else {
+		gtk_widget_modify_base (esb->entry, GTK_STATE_NORMAL, NULL);
+		gtk_widget_modify_text (esb->entry, GTK_STATE_NORMAL, NULL);		
+	}
 	emit_search_activated (esb);
 
 	gtk_widget_grab_focus (esb->entry);
@@ -459,6 +480,11 @@ static void
 clear_button_clicked_cb (GtkWidget *widget,
 			 ESearchBar *esb)
 {
+	GtkStyle *style = gtk_widget_get_default_style ();
+
+	gtk_widget_modify_base (esb->entry, GTK_STATE_NORMAL, NULL);
+	gtk_widget_modify_text (esb->entry, GTK_STATE_NORMAL, NULL);
+	
 	clear_search (esb);
 
 	gtk_widget_grab_focus (esb->entry);

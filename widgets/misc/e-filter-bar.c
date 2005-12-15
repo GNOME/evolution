@@ -107,18 +107,24 @@ static void
 rule_advanced_response (GtkWidget *dialog, int response, void *data)
 {
 	EFilterBar *efb = data;
+	ESearchBar *esb = efb;
 	FilterRule *rule;
 	
 	if (response == GTK_RESPONSE_OK || response == GTK_RESPONSE_APPLY) {
 		rule = g_object_get_data ((GObject *) dialog, "rule");
 		if (rule) {
+			GtkStyle *style = gtk_widget_get_default_style ();
+
 			if (!filter_rule_validate (rule))
 				return;
 			
 			efb->current_query = rule;
 			g_object_ref (rule);
 			g_signal_emit_by_name (efb, "query_changed");
-			
+
+			gtk_widget_modify_base (esb->entry, GTK_STATE_NORMAL, &(style->base[GTK_STATE_SELECTED]));
+			gtk_widget_modify_text (esb->entry, GTK_STATE_NORMAL, &(style->text[GTK_STATE_SELECTED]));
+				
 			if (response == GTK_RESPONSE_APPLY) {
 				if (!rule_context_find_rule (efb->context, rule->name, rule->source))
 					rule_context_add_rule (efb->context, rule);
@@ -298,6 +304,11 @@ option_changed (ESearchBar *esb, void *data)
 			}
 			gtk_widget_set_sensitive (esb->entry, TRUE);
 		} else {
+			GtkStyle *style = gtk_widget_get_default_style ();
+
+			gtk_widget_modify_base (esb->entry, GTK_STATE_NORMAL, NULL);
+			gtk_widget_modify_text (esb->entry, GTK_STATE_NORMAL, NULL);
+			
 			gtk_widget_set_sensitive (esb->entry, id == E_SEARCHBAR_CLEAR_ID);
 			efb->current_query = NULL;
 		}
@@ -666,11 +677,17 @@ set_property (GObject *object, guint property_id, const GValue *value, GParamSpe
 					FilterRule *rule = NULL;
 					
 					if ((node = node->children)) {
+						GtkStyle *style = gtk_widget_get_default_style ();
+						
 						rule = filter_rule_new ();
 						if (filter_rule_xml_decode (rule, node, efb->context) != 0) {
+							gtk_widget_modify_base (((ESearchBar *)efb)->entry, GTK_STATE_NORMAL, NULL);
+							gtk_widget_modify_text (((ESearchBar *)efb)->entry, GTK_STATE_NORMAL, NULL);							
 							g_object_unref (rule);
 							rule = NULL;
 						} else {
+							gtk_widget_modify_base (((ESearchBar *)efb)->entry, GTK_STATE_NORMAL, &(style->base[GTK_STATE_SELECTED]));
+							gtk_widget_modify_text (((ESearchBar *)efb)->entry, GTK_STATE_NORMAL, &(style->text[GTK_STATE_SELECTED]));
 							g_object_set_data_full (object, "rule", rule, (GDestroyNotify) g_object_unref);
 						}
 					}
@@ -685,10 +702,18 @@ set_property (GObject *object, guint property_id, const GValue *value, GParamSpe
 				} else if (!strcmp (node->name, "search-bar")) {
 					int subitem_id, item_id;
 					char *text;
+					GtkStyle *style = gtk_widget_get_default_style ();
 					
 					/* set the text first (it doesn't emit a signal) */
 					text = xmlGetProp (node, "text");
 					e_search_bar_set_text ((ESearchBar *) efb, text);
+					if (text && *text) {
+						gtk_widget_modify_base (((ESearchBar *)efb)->entry, GTK_STATE_NORMAL, &(style->base[GTK_STATE_SELECTED]));
+						gtk_widget_modify_text (((ESearchBar *)efb)->entry, GTK_STATE_NORMAL, &(style->text[GTK_STATE_SELECTED]));
+					} else {
+						gtk_widget_modify_base (((ESearchBar *)efb)->entry, GTK_STATE_NORMAL, NULL);
+						gtk_widget_modify_text (((ESearchBar *)efb)->entry, GTK_STATE_NORMAL, NULL);						
+					}
 					xmlFree (text);
 					
 					/* now set the item_id and subitem_id */

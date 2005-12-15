@@ -1,3 +1,9 @@
+2005-12-15  Srinivasa Ragavan  <set EMAIL_ADDRESS environment variable>
+
+	* gui/search/e-addressbook-search-dialog.c: (dialog_response): Added
+	code to set the color from the theme to indicate advance search
+	presence.
+
 2005-12-14  Sushma Rai  <rsushma@novell.com>
 
 	* importers/evolution-ldif-importer.c (ldif_import): Proceeding with

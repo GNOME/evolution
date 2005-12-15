@@ -136,10 +136,15 @@ dialog_response (GtkWidget *widget, int response_id, EABSearchDialog *dialog)
 	char *query;
 
 	if (response_id == GTK_RESPONSE_OK) {
+		GtkStyle *style = gtk_widget_get_default_style ();
+		
 		query = get_query(dialog);
 		g_object_set(dialog->view,
 			     "query", query,
 			     NULL);
+		gtk_widget_modify_base (dialog->view->search->entry, GTK_STATE_NORMAL, &(style->base[GTK_STATE_SELECTED]));
+		gtk_widget_modify_text (dialog->view->search->entry, GTK_STATE_NORMAL, &(style->text[GTK_STATE_SELECTED]));
+		
 		g_free(query);
 	}
 
