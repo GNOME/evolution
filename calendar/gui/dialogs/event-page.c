@@ -1021,13 +1021,10 @@ event_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 			if (organizer.value != NULL) {
 				const gchar *strip = itip_strip_mailto (organizer.value);
 				gchar *string;
-				//			gtk_widget_hide (priv->organizer_table);
-				//			gtk_widget_show (priv->existing_organizer_table);
 				if (itip_organizer_is_user (comp, page->client)) {
 					if (e_cal_get_static_capability (
 								page->client,
 								CAL_STATIC_CAPABILITY_ORGANIZER_NOT_EMAIL_ADDRESS))
-						//					gtk_widget_hide (priv->existing_organizer_btn);
 						priv->user_org = TRUE;
 				} else {
 					if (e_cal_get_static_capability (
@@ -1064,6 +1061,7 @@ event_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 					e_meeting_attendee_set_status (priv->ia, ICAL_PARTSTAT_NEEDSACTION);
 				else
 					e_meeting_attendee_set_status (priv->ia, ICAL_PARTSTAT_ACCEPTED);
+				e_meeting_list_view_add_attendee_to_name_selector (E_MEETING_LIST_VIEW (priv->list_view), priv->ia);
 			}
 		}
 	}
@@ -1724,6 +1722,8 @@ remove_attendee (EventPage *epage, EMeetingAttendee *ia)
 		
 		if (e_meeting_attendee_get_delto (ia) != NULL)
 			ib = e_meeting_store_find_attendee (priv->model, e_meeting_attendee_get_delto (ia), NULL);
+		
+		e_meeting_list_view_remove_attendee_from_name_selector (priv->list_view, ia);
 		e_meeting_store_remove_attendee (priv->model, ia);
 
 		ia = ib;

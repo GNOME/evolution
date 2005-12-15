@@ -1,3 +1,16 @@
+2005-11-24  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #321739
+	* gui/dialogs/event-page.c: (event_page_fill_widgets),
+	(remove_attendee): Add/remove attendee from e-name-selector also.
+	* gui/e-meeting-list-view.h:
+	* gui/e-meeting-list-view.c: (get_index_from_role),
+	(e_meeting_list_view_add_attendee_to_name_selector),
+	(e_meeting_list_view_remove_attendee_from_name_selector),
+	(attendee_edited_cb), (process_section), (add_to_list),
+	(name_selector_dialog_close_cb): Syncronize the adding/removing
+	attendees between EMeetingListView and ENameSelector dialog.	
+
 2005-12-15  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* gui/e-calendar-view.c: (e_calendar_view_get_tooltips): Added 

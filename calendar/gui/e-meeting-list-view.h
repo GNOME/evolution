@@ -61,6 +61,8 @@ void       e_meeting_list_view_column_set_visible (EMeetingListView *emlv, const
 void       e_meeting_list_view_edit (EMeetingListView *emlv, EMeetingAttendee *attendee);
 
 void       e_meeting_list_view_invite_others_dialog (EMeetingListView *emlv);
+void	   e_meeting_list_view_remove_attendee_from_name_selector (EMeetingListView *view, EMeetingAttendee *ma);
+void       e_meeting_list_view_add_attendee_to_name_selector (EMeetingListView *view, EMeetingAttendee *ma);
 
 G_END_DECLS
 
