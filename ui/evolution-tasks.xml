@@ -16,7 +16,7 @@
     <cmd name="TasksAssign" _label="_Assign Task" accel="*Control*a"/>
     <cmd name="TasksForward" _label="_Forward as iCalendar" accel="*Control*f"/>
 
-    <cmd name="ViewPreview" _tip="Show task preview window" accel="*Control**Alt*v" type="toggle"/>
+    <cmd name="ViewPreview" _tip="Show task preview window" accel="*Control*m" type="toggle"/>
 
   </commands>
   

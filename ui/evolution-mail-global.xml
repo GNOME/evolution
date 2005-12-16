@@ -33,7 +33,7 @@
 
     <cmd name="ViewPreview"
      _tip="Show message preview window"
-     accel="*Control**Alt*v"
+     accel="*Control*m"
      type="toggle"/>
 
   </commands>

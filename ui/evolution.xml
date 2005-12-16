@@ -112,7 +112,7 @@
       <placeholder name="ViewBegin"/>
       <submenu name="Window" _label="_Window"/>
       <menuitem name="ViewToolbar" id="ViewToolbar" verb="" accel="*Control**Shift*o"/>
-      <menuitem name="ViewStatusBar" id="ViewStatusBar" accel="*Control**Shift*v"/>
+      <menuitem name="ViewStatusBar" id="ViewStatusBar"/>
       <placeholder name="ViewPreview"/>
       <submenu name="Buttons" _label="_Switcher Appearance">
             <menuitem name="ViewButtonsIconText" id="ViewButtonsIconText" verb=""/>

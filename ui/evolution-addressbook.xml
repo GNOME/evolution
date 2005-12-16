@@ -61,7 +61,7 @@
 
     <cmd name="ContactsViewPreview" _label="Contact _Preview"
 	 _tip="Show contact preview window"
-	 accel="*Control**Alt*v"
+	 accel="*Control*m"
 	 type="toggle"/>
   </commands>
 
