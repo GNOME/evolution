@@ -101,11 +101,11 @@
 
     <cmd name="MessageMarkAsJunk"
      _tip="Mark the selected message(s) as junk"
-     pixtype="pixbuf"/>
+     accel="*Control*j" pixtype="pixbuf"/>
 
     <cmd name="MessageMarkAsNotJunk"
      _tip="Mark the selected message(s) as not being junk"
-     pixtype="pixbuf"/>
+     accel="*Control**Shift*j" pixtype="pixbuf"/>
 
     <cmd name="MessageFilterJunk"
      _tip="Filter the selected messages for junk status"

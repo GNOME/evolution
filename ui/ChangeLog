@@ -1,3 +1,8 @@
+2005-12-16  Shreyas Srinivasan  <sshreyas@novell.com>
+
+	* evolution-mail-message.xml: Fix #315901, Add shortcut to 
+	mark spam. Committed on behalf on Andre Klapper
+	
 2005-12-16  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fixes bugs #322499 and #227853
