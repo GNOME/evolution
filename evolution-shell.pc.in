@@ -5,7 +5,7 @@ libexecdir=@libexecdir@
 includedir=@includedir@
 datadir=@datadir@
 
-privlibdir=@privlibdir@
+privlibdir=@privsolibdir@
 privlibexecdir=@privlibexecdir@
 privincludedir=@privincludedir@
 idldir=@idldir@

@@ -1,4 +1,4 @@
-2005-12-06  Tor Lillqvist  <tml@novell.com>
+2005-12-17  Tor Lillqvist  <tml@novell.com>
 
 	* configure.in: Include libedataserver-$EDS_PACKAGE in the
 	requirement list for E_WIDGETS.
@@ -19,6 +19,9 @@
 	* shell/GNOME_Evolution_Shell.server.in.in
 	* shell/GNOME_Evolution_Test.server.in.in: Correspondingly, use
 	the @..._IN_SERVER_FILE@ strings.
+
+	* evolution-plugin.pc.in
+	* evolution-shell.pc.in: Use @privsolibdir@ to set privlibdir.
 
 2005-12-13  Chenthill Palanisamy  <pchenthill@novell.com>
 
