@@ -27,6 +27,8 @@
 
 #include <string.h>
 #include <time.h>
+#include <glib.h>
+#include <glib/gstdio.h>
 #include <gtk/gtkimage.h>
 #include <gtk/gtkstock.h>
 #include <gdk/gdkkeysyms.h>
@@ -1148,7 +1150,7 @@ on_save_as (EPopup *ep, EPopupItem *pitem, void *data)
 		return;
 	}
 	
-	file = fopen (filename, "w");
+	file = g_fopen (filename, "w");
 	if (file == NULL) {
 		g_warning ("Couldn't save item");
 		return;

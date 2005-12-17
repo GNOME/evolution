@@ -5,7 +5,8 @@
 	filenames from URIs and vice versa.
 
 	* gui/e-cal-list-view.c
-	* gui/e-calendar-table.c: Use gstdio wrappers.
+	* gui/e-calendar-table.c
+	* gui/e-calendar-view.c: Use gstdio wrappers.
 
 	* gui/e-cal-model-tasks.c: Use e_util_utf8_strcasecmp() to do
 	proper comparison of translated (UTF-8) strings.
