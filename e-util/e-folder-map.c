@@ -20,10 +20,7 @@
  *
  */
 
-
-#ifdef HAVE_CONFIG_H
 #include <config.h>
-#endif
 
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -36,6 +33,8 @@
 #include <libxml/parser.h>
 #include <libxml/xmlmemory.h>
 
+#include <libedataserver/e-xml-utils.h>
+
 #include "e-folder-map.h"
 
 #define d(x)
@@ -47,7 +46,8 @@ is_type_folder (const char *metadata, const char *search_type)
 	xmlDocPtr doc;
 	char *type;
 	
-	if (!(doc = xmlParseFile (metadata))) {
+	doc = e_xml_parse_file (metadata);
+	if (!doc) {
 		g_warning ("Cannot parse `%s'", metadata);
 		return FALSE;
 	}

@@ -19,14 +19,11 @@
  *
  */
 
-#ifdef HAVE_CONFIG_H
 #include <config.h>
-#endif
 
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
-#include <dirent.h>
 
 /* This isn't as portable as, say, the stuff in GNU coreutils.  But I care not for OSF1. */
 #ifdef HAVE_STATVFS
@@ -47,6 +44,9 @@
 #include <errno.h>
 #include <string.h>
 
+#include <glib.h>
+#include <glib/gstdio.h>
+
 #include "e-fsutils.h"
 
 /**
@@ -60,8 +60,8 @@
  **/
 long e_fsutils_usage(const char *inpath)
 {
-	DIR *dir;
-	struct dirent *d;
+	GDir *dir;
+	const char *d;
 	long size = 0;
 	GSList *paths;
 
@@ -73,24 +73,20 @@ long e_fsutils_usage(const char *inpath)
 
 		paths = g_slist_remove_link(paths, paths);
 
-		dir = opendir(path);
+		dir = g_dir_open(path, 0, NULL);
 		if (dir == NULL) {
 			g_free(path);
 			goto fail;
 		}
 
-		while ((d = readdir(dir))) {
+		while ((d = g_dir_read_name(dir))) {
 			char *full_path;
 			struct stat st;
 
-			if (strcmp(d->d_name, ".") == 0
-			    || strcmp(d->d_name, "..") == 0)
-				continue;
-		
-			full_path = g_build_filename(path, d->d_name, NULL);
-			if (stat(full_path, &st) == -1) {
+			full_path = g_build_filename(path, d, NULL);
+			if (g_stat(full_path, &st) == -1) {
 				g_free(full_path);
-				closedir(dir);
+				g_dir_close(dir);
 				g_free(path);
 				goto fail;
 			} else if (S_ISDIR(st.st_mode)) {
@@ -99,13 +95,15 @@ long e_fsutils_usage(const char *inpath)
 			} else if (S_ISREG(st.st_mode)) {
 				/* This is in 512 byte blocks.  st_blksize is page size on linux,
 				   on *BSD it might be significant. */
+#ifndef G_OS_WIN32
 				size += st.st_blocks/2;
+#endif
 			}
 
 			g_free(full_path);
 		}
 
-		closedir(dir);
+		g_dir_close(dir);
 		g_free(path);
 	}
 

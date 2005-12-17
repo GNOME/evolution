@@ -19,13 +19,10 @@
  *
  */
 
-#ifdef HAVE_CONFIG_H
 #include <config.h>
-#endif
 
 #include <string.h>
 #include <sys/types.h>
-#include <dirent.h>
 
 #include <libxml/parser.h>
 #include <libxml/xmlmemory.h>
@@ -42,6 +39,9 @@
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-url.h>
 
+#include <libedataserver/e-xml-utils.h>
+
+#include "e-util-private.h"
 #include "e-error.h"
 
 #define d(x) 
@@ -159,7 +159,7 @@ map_type(const char *name)
 static void
 ee_load(const char *path)
 {
-	xmlDocPtr doc;
+	xmlDocPtr doc = NULL;
 	xmlNodePtr root, error, scan;
 	struct _e_error *e;
 	struct _e_error_button *lastbutton;
@@ -168,7 +168,7 @@ ee_load(const char *path)
 
 	d(printf("loading error file %s\n", path));
 	
-	doc = xmlParseFile(path);
+	doc = e_xml_parse_file (path);
 	if (doc == NULL) {
 		g_warning("Error file '%s' not found", path);
 		return;
@@ -300,9 +300,9 @@ ee_load(const char *path)
 static void
 ee_load_tables(void)
 {
-	DIR *dir;
-	struct dirent *d;
-	const char *base = EVOLUTION_PRIVDATADIR "/errors";
+	GDir *dir;
+	const char *d;
+	char *base;
 	struct _e_error_table *table;
 	int i;
 
@@ -320,22 +320,26 @@ ee_load_tables(void)
 	g_hash_table_insert(error_table, table->domain, table);
 
 	/* look for installed error tables */
-	dir = opendir(base);
-	if (dir == NULL)
+	base = g_build_filename (EVOLUTION_PRIVDATADIR, "errors", NULL);
+	dir = g_dir_open(base, 0, NULL);
+	if (dir == NULL) {
+		g_free (base);
 		return;
+	}
 
-	while ( (d = readdir(dir)) ) {
+	while ( (d = g_dir_read_name(dir)) ) {
 		char *path;
 
-		if (d->d_name[0] == '.')
+		if (d[0] == '.')
 			continue;
 
-		path = g_build_filename(base, d->d_name, NULL);
+		path = g_build_filename(base, d, NULL);
 		ee_load(path);
 		g_free(path);
 	}
 
-	closedir(dir);
+	g_dir_close(dir);
+	g_free (base);
 }
 
 /* unfortunately, gmarkup_escape doesn't expose its gstring based api :( */
