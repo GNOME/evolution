@@ -1,3 +1,13 @@
+2005-12-17  Tor Lillqvist  <tml@novell.com>
+
+	* junk-settings.c
+	* proxy-login.c
+	* proxy.c
+	* share-folder.c: Construct glade file name at run-time.
+
+	* process-meeting.c (find_attendee): Use g_ascii_strcasecmp()
+	instead of g_strcasecmp().
+
 2005-12-12  Harish Krishnaswamy  <kharish@novell.com>
 
 	* Makefile.am: Fix make-clean issues.

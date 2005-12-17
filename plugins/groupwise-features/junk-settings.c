@@ -38,6 +38,7 @@
 #include <libgnomeui/gnome-ui-init.h>
 #include <libgnome/gnome-init.h>
 #include <e-util/e-error.h>
+#include <e-util/e-util-private.h>
 #include <e-gw-connection.h>
 #define ROOTNODE "vboxSettings"
 #define d(x)
@@ -375,8 +376,14 @@ junk_settings_construct (JunkSettings *js)
 {
 	GladeXML *xml;
 	GtkWidget *box;
+	char *gladefile;
 
-	xml = glade_xml_new (EVOLUTION_GLADEDIR "/junk-settings.glade", ROOTNODE, NULL);
+	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
+				      "junk-settings.glade",
+				      NULL);
+	xml = glade_xml_new (gladefile, ROOTNODE, NULL);
+	g_free (gladefile);
+
 	js->xml =xml; 
 
 	if (!js->xml) {

@@ -56,6 +56,7 @@
 #include <e-util/e-account.h>
 #include <e-util/e-error.h>
 #include <e-util/e-icon-factory.h>
+#include <e-util/e-util-private.h>
 
 #include <e-gw-container.h>
 #include <e-gw-connection.h>
@@ -472,6 +473,7 @@ org_gnome_proxy_account_login (EPopup *ep, EPopupItem *p, void *data)
 	char *uri = data;
 	proxyLoginPrivate *priv;
 	EGwConnection *cnc;
+	char *gladefile;
 
 	/* This pops-up the password dialog in case the User has forgot-passwords explicitly */
 	cnc = proxy_login_get_cnc (mail_config_get_account_by_source_url (uri));
@@ -479,7 +481,13 @@ org_gnome_proxy_account_login (EPopup *ep, EPopupItem *p, void *data)
 
 	pld = proxy_login_new();
 	priv = pld->priv;
-	priv->xml = glade_xml_new (EVOLUTION_GLADEDIR "/proxy-login-dialog.glade", NULL, NULL);
+
+	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
+				      "proxy-login-dialog.glade",
+				      NULL);
+	priv->xml = glade_xml_new (gladefile, NULL, NULL);
+	g_free (gladefile);
+
 	priv->main = glade_xml_get_widget (priv->xml, "proxy_login_dialog");
 	pld->account = mail_config_get_account_by_source_url (uri);
 	priv->tree = GTK_TREE_VIEW (glade_xml_get_widget (priv->xml, "proxy_login_treeview"));

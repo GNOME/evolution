@@ -39,6 +39,7 @@
 #include <libgnomeui/gnome-ui-init.h>
 #include <libgnome/gnome-init.h>
 #include <e-util/e-error.h>
+#include <e-util/e-util-private.h>
 #include <e-gw-container.h>
 #include <e-gw-connection.h>
 #define ROOTNODE "vboxSharing"
@@ -519,9 +520,16 @@ notification_clicked(GtkButton *button, ShareFolder *sf)
 	GtkButton *not_ok;
 	GtkButton *not_cancel;
 	GtkWidget *vbox;
+	char *gladefile;
 
 	sf->window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-	xmln = glade_xml_new (EVOLUTION_GLADEDIR "/properties.glade", NROOTNODE , NULL);
+
+	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
+				      "properties.glade",
+				      NULL);
+	xmln = glade_xml_new (gladefile, NROOTNODE , NULL);
+	g_free (gladefile);
+
 	vbox = GTK_WIDGET (glade_xml_get_widget (xmln, "vbox191"));
 	gtk_container_add (GTK_CONTAINER (sf->window), vbox);
 	sf->subject = GTK_ENTRY (glade_xml_get_widget (xmln, "entry3"));
@@ -681,8 +689,14 @@ share_folder_construct (ShareFolder *sf)
 	ENameSelectorModel *name_selector_model;
 	ENameSelectorEntry *name_selector_entry;
 	GtkWidget *box;
+	char *gladefile;
 
-	xml = glade_xml_new (EVOLUTION_GLADEDIR "/properties.glade", ROOTNODE, NULL);
+	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
+				      "properties.glade",
+				      NULL);
+	xml = glade_xml_new (gladefile, ROOTNODE, NULL);
+	g_free (gladefile);
+
 	sf->xml =xml; 
 
 	if (!sf->xml) {

@@ -46,6 +46,7 @@
 #include <libgnomeui/gnome-ui-init.h>
 #include <libgnome/gnome-init.h>
 #include <e-util/e-error.h>
+#include <e-util/e-util-private.h>
 #include <e-gw-container.h>
 #include <e-gw-connection.h>
 #include <e-gw-message.h>
@@ -648,6 +649,7 @@ org_gnome_proxy (EPlugin *epl, EConfigHookItemFactoryData *data)
 	CamelOfflineStore *store;
 	CamelException ex;
 	int pag_num;
+	char *gladefile;
 
 	target_account = (EMConfigTargetAccount *)data->config->target;
 	account = target_account->account;
@@ -663,7 +665,12 @@ org_gnome_proxy (EPlugin *epl, EConfigHookItemFactoryData *data)
 		prd = proxy_dialog_new ();
 		g_object_set_data_full ((GObject *) account, "prd", prd, (GDestroyNotify) g_object_unref);
 		priv = prd->priv;
-		priv->xml_tab = glade_xml_new (EVOLUTION_GLADEDIR "/proxy-listing.glade", "proxy_vbox", NULL);
+
+		gladefile = g_build_filename (EVOLUTION_GLADEDIR,
+					      "proxy-listing.glade",
+					      NULL);
+		priv->xml_tab = glade_xml_new (gladefile, "proxy_vbox", NULL);
+		g_free (gladefile);
 
 		if (account->enabled && (store->state == CAMEL_OFFLINE_STORE_NETWORK_AVAIL)) {	
 			priv->tab_dialog = GTK_WIDGET (glade_xml_get_widget (priv->xml_tab, "proxy_vbox"));
@@ -872,10 +879,17 @@ proxy_add_account (GtkWidget *button, EAccount *account)
 	ENameSelectorEntry *name_selector_entry;
 	GtkWidget *proxy_name, *name_box;
 	proxyDialog *prd = NULL;
+	char *gladefile;
 
 	prd = g_object_get_data ((GObject *)account, "prd");    
 	priv = prd->priv;
-	priv->xml = glade_xml_new (EVOLUTION_GLADEDIR "/proxy-add-dialog.glade", NULL, NULL);
+
+	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
+				      "proxy-add-dialog.glade",
+				      NULL);
+	priv->xml = glade_xml_new (gladefile, NULL, NULL);
+	g_free (gladefile);
+
 	proxy_dialog_initialize_widgets (account);
 	priv->main = glade_xml_get_widget (priv->xml, "ProxyAccessRights");
 	okButton = (GtkButton *) glade_xml_get_widget (priv->xml,"proxy_button_ok");
@@ -966,6 +980,7 @@ proxy_edit_account (GtkWidget *button, EAccount *account)
 	char *account_mailid;
 	GtkWidget *contacts;
 	proxyDialog *prd = NULL;
+	char *gladefile;
 
 	prd = g_object_get_data ((GObject *)account, "prd");    
 	priv = prd->priv;
@@ -979,7 +994,12 @@ proxy_edit_account (GtkWidget *button, EAccount *account)
 		account_mailid = g_strrstr (account_mailid, "\n") + 1;
 		edited = proxy_get_item_from_list (account, account_mailid);
 		if (edited) {
-			priv->xml = glade_xml_new (EVOLUTION_GLADEDIR "/proxy-add-dialog.glade", NULL, NULL);
+			gladefile = g_build_filename (EVOLUTION_GLADEDIR,
+						      "proxy-add-dialog.glade",
+						      NULL);
+			priv->xml = glade_xml_new (gladefile, NULL, NULL);
+			g_free (gladefile);
+
 			priv->main = glade_xml_get_widget (priv->xml, "ProxyAccessRights");
 			proxy_dialog_initialize_widgets (account);
 			okButton = (GtkButton *) glade_xml_get_widget (priv->xml,"proxy_button_ok");
