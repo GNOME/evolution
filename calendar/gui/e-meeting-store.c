@@ -33,6 +33,7 @@
 #include <libecal/e-cal-component.h>
 #include <libecal/e-cal-util.h>
 #include <libecal/e-cal-time-util.h>
+#include <libedataserver/e-util.h>
 #include "calendar-config.h"
 #include "itip-utils.h"
 #include "e-meeting-utils.h"
@@ -96,13 +97,13 @@ start_addressbook_server (EMeetingStore *store)
 static icalparameter_cutype
 text_to_type (const char *type)
 {
-	if (!g_strcasecmp (type, _("Individual")))
+	if (!e_util_utf8_strcasecmp (type, _("Individual")))
 		return ICAL_CUTYPE_INDIVIDUAL;
-	else if (!g_strcasecmp (type, _("Group")))
+	else if (!e_util_utf8_strcasecmp (type, _("Group")))
 		return ICAL_CUTYPE_GROUP;
-	else if (!g_strcasecmp (type, _("Resource")))
+	else if (!e_util_utf8_strcasecmp (type, _("Resource")))
 		return ICAL_CUTYPE_RESOURCE;
-	else if (!g_strcasecmp (type, _("Room")))
+	else if (!e_util_utf8_strcasecmp (type, _("Room")))
 		return ICAL_CUTYPE_ROOM;
 	else
 		return ICAL_CUTYPE_NONE;
@@ -131,13 +132,13 @@ type_to_text (icalparameter_cutype type)
 static icalparameter_role
 text_to_role (const char *role)
 {
-	if (!g_strcasecmp (role, _("Chair")))
+	if (!e_util_utf8_strcasecmp (role, _("Chair")))
 		return ICAL_ROLE_CHAIR;
-	else if (!g_strcasecmp (role, _("Required Participant")))
+	else if (!e_util_utf8_strcasecmp (role, _("Required Participant")))
 		return ICAL_ROLE_REQPARTICIPANT;
-	else if (!g_strcasecmp (role, _("Optional Participant")))
+	else if (!e_util_utf8_strcasecmp (role, _("Optional Participant")))
 		return ICAL_ROLE_OPTPARTICIPANT;
-	else if (!g_strcasecmp (role, _("Non-Participant")))
+	else if (!e_util_utf8_strcasecmp (role, _("Non-Participant")))
 		return ICAL_ROLE_NONPARTICIPANT;
 	else
 		return ICAL_ROLE_NONE;
@@ -165,7 +166,7 @@ role_to_text (icalparameter_role role)
 static gboolean
 text_to_boolean (const char *role)
 {
-	if (!g_strcasecmp (role, _("Yes")))
+	if (!e_util_utf8_strcasecmp (role, _("Yes")))
 		return TRUE;
 	else
 		return FALSE;
@@ -183,19 +184,19 @@ boolean_to_text (gboolean b)
 static icalparameter_partstat
 text_to_partstat (const char *partstat)
 {
-	if (!g_strcasecmp (partstat, _("Needs Action")))
+	if (!e_util_utf8_strcasecmp (partstat, _("Needs Action")))
 		return ICAL_PARTSTAT_NEEDSACTION;
-	else if (!g_strcasecmp (partstat, _("Accepted")))
+	else if (!e_util_utf8_strcasecmp (partstat, _("Accepted")))
 		return ICAL_PARTSTAT_ACCEPTED;
-	else if (!g_strcasecmp (partstat, _("Declined")))
+	else if (!e_util_utf8_strcasecmp (partstat, _("Declined")))
 		return ICAL_PARTSTAT_DECLINED;
-	else if (!g_strcasecmp (partstat, _("Tentative")))
+	else if (!e_util_utf8_strcasecmp (partstat, _("Tentative")))
 		return ICAL_PARTSTAT_TENTATIVE;
-	else if (!g_strcasecmp (partstat, _("Delegated")))
+	else if (!e_util_utf8_strcasecmp (partstat, _("Delegated")))
 		return ICAL_PARTSTAT_DELEGATED;
-	else if (!g_strcasecmp (partstat, _("Completed")))
+	else if (!e_util_utf8_strcasecmp (partstat, _("Completed")))
 		return ICAL_PARTSTAT_COMPLETED;
-	else if (!g_strcasecmp (partstat, _("In Process")))
+	else if (!e_util_utf8_strcasecmp (partstat, _("In Process")))
 		return ICAL_PARTSTAT_INPROCESS;
 	else
 		return ICAL_PARTSTAT_NONE;
@@ -884,7 +885,7 @@ e_meeting_store_find_attendee (EMeetingStore *store, const gchar *address, gint 
 		attendee = g_ptr_array_index (store->priv->attendees, i);
 			
 		attendee_address = e_meeting_attendee_get_address (attendee);
-		if (attendee_address && !g_strcasecmp (itip_strip_mailto (attendee_address), itip_strip_mailto (address))) {
+		if (attendee_address && !g_ascii_strcasecmp (itip_strip_mailto (attendee_address), itip_strip_mailto (address))) {
 			if (row != NULL)
 				*row = i;
 
