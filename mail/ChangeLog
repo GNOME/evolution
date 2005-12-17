@@ -21,9 +21,10 @@
 	* mail-signature-editor.c
 	* mail-tools.c
 	* mail-vfolder.c
-	* message-list.c: Beautify #include order and syntax. Use gstdio
-	wrappers. Construct pathnames of files to be read at run-time
-	instead of using compile-time paths.
+	* message-list.c
+	* message-tag-followup.c: Beautify #include order and syntax. Use
+	gstdio wrappers. Construct pathnames of files to be read at
+	run-time instead of using compile-time paths.
 
 	* mail-tools.c (mail_tool_get_local_movemail_path): Not used, put
 	in #if 0.

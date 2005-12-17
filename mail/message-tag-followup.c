@@ -20,9 +20,7 @@
  *
  */
 
-#ifdef HAVE_CONFIG_H
 #include <config.h>
-#endif
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -56,10 +54,13 @@
 #include <libgnomeui/gnome-pixmap.h>
 #include <libgnome/gnome-i18n.h>
 
+#include "e-util/e-icon-factory.h"
+#include "e-util/e-util-private.h"
+
+#include "misc/e-dateedit.h"
+
 #include "message-tag-followup.h"
 #include "mail-config.h"
-#include <e-util/e-icon-factory.h>
-#include "misc/e-dateedit.h"
 
 static void message_tag_followup_class_init (MessageTagFollowUpClass *class);
 static void message_tag_followup_init (MessageTagFollowUp *followup);
@@ -291,6 +292,7 @@ construct (MessageTagEditor *editor)
 	GList *icon_list;
 	GdkPixbuf *pixbuf;
 	int i;
+	char *gladefile;
 	
 	gtk_window_set_title (GTK_WINDOW (editor), _("Flag to Follow Up"));
 	
@@ -305,7 +307,11 @@ construct (MessageTagEditor *editor)
 	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (editor)->vbox), 0);
 	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (editor)->action_area), 12);
 
-	gui = glade_xml_new (EVOLUTION_GLADEDIR "/mail-dialogs.glade", "followup_editor", NULL);
+	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
+				      "mail-dialogs.glade",
+				      NULL);
+	gui = glade_xml_new (gladefile, "followup_editor", NULL);
+	g_free (gladefile);
 	
 	widget = glade_xml_get_widget (gui, "toplevel");
 	
