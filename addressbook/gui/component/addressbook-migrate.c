@@ -19,12 +19,8 @@
  * Author: Chris Toshok (toshok@ximian.com)
  */
 
-#ifdef HAVE_CONFIG_H
 #include <config.h>
-#endif
 
-#include <glib.h>
-#include <glib/gstdio.h>
 #include <string.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -32,20 +28,23 @@
 #include <fcntl.h>
 #include <errno.h>
 
-#include "addressbook-migrate.h"
+#include <glib.h>
+#include <glib/gstdio.h>
+
+#include <gtk/gtk.h>
+
 #include <libebook/e-destination.h>
 #include <libebook/e-book.h>
 #include <libgnome/gnome-i18n.h>
-#include <gtk/gtkwidget.h>
-#include <gtk/gtkvbox.h>
-#include <gtk/gtkmain.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtkprogressbar.h>
+
+#include <libedataserver/e-xml-utils.h>
 
 #include "e-util/e-util.h"
 #include "e-util/e-util-private.h"
 #include "e-util/e-xml-utils.h"
 #include "e-util/e-folder-map.h"
+
+#include "addressbook-migrate.h"
 
 /*#define SLOW_MIGRATION*/
 
