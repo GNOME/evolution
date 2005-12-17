@@ -1,3 +1,8 @@
+2005-12-17  Tor Lillqvist  <tml@novell.com>
+
+	* itip-formatter.c: Use g_ascii_strcasecmp() instead of
+	g_strcasecmp().
+
 2005-11-24  Tor Lillqvist  <tml@novell.com>
 
 	* itip-view.c: Drop extra inclusion of e-util/e-time-utils.h,

@@ -605,7 +605,7 @@ find_attendee (icalcomponent *ical_comp, const char *address)
 
 		text = g_strdup (itip_strip_mailto (attendee));
 		text = g_strstrip (text);
-		if (!g_strcasecmp (address, text)) {
+		if (!g_ascii_strcasecmp (address, text)) {
 			g_free (text);
 			break;
 		}
@@ -1452,9 +1452,9 @@ view_response_cb (GtkWidget *widget, ItipViewResponse response, gpointer data)
 			
 			/* We do this to ensure there is at most one
 			 * attendee in the response */
-                        if (found || g_strcasecmp (pitip->my_address, text))
+                        if (found || g_ascii_strcasecmp (pitip->my_address, text))
                                 list = g_slist_prepend (list, prop);
-			else if (!g_strcasecmp (pitip->my_address, text))
+			else if (!g_ascii_strcasecmp (pitip->my_address, text))
 				found = TRUE;
                         g_free (text);			
                 }
