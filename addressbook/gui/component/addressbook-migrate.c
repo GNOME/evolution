@@ -24,11 +24,11 @@
 #endif
 
 #include <glib.h>
+#include <glib/gstdio.h>
 #include <string.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
-#include <dirent.h>
 #include <fcntl.h>
 #include <errno.h>
 
@@ -36,14 +36,16 @@
 #include <libebook/e-destination.h>
 #include <libebook/e-book.h>
 #include <libgnome/gnome-i18n.h>
-#include <e-util/e-util.h>
-#include <e-util/e-xml-utils.h>
 #include <gtk/gtkwidget.h>
 #include <gtk/gtkvbox.h>
 #include <gtk/gtkmain.h>
 #include <gtk/gtklabel.h>
 #include <gtk/gtkprogressbar.h>
-#include <e-util/e-folder-map.h>
+
+#include "e-util/e-util.h"
+#include "e-util/e-util-private.h"
+#include "e-util/e-xml-utils.h"
+#include "e-util/e-folder-map.h"
 
 /*#define SLOW_MIGRATION*/
 
@@ -174,7 +176,11 @@ check_for_conflict (ESourceGroup *group, char *name)
 static char *
 get_source_name (ESourceGroup *group, const char *path)
 {
+#ifndef G_OS_WIN32
 	char **p = g_strsplit (path, "/", 0);
+#else
+	char **p = g_strsplit_set (path, "\\/", 0);
+#endif
 	int i, j, starting_index;
 	int num_elements;
 	gboolean conflict;
@@ -390,7 +396,7 @@ migrate_contacts (MigrationContext *context, EBook *old_book, EBook *new_book)
 static void
 migrate_contact_folder_to_source (MigrationContext *context, char *old_path, ESource *new_source)
 {
-	char *old_uri = g_strdup_printf ("file://%s", old_path);
+	char *old_uri = g_filename_to_uri (old_path, NULL, NULL);
 	GError *e = NULL;
 
 	EBook *old_book = NULL, *new_book = NULL;
@@ -466,7 +472,7 @@ create_groups (MigrationContext *context,
 				     "addressbook", "local",
 				     NULL);
 
-	base_uri_proto = g_strconcat ("file://", base_uri, NULL);
+	base_uri_proto = g_filename_to_uri (base_uri, NULL, NULL);
 
 	groups = e_source_list_peek_groups (context->source_list);
 	if (groups) {
@@ -785,9 +791,13 @@ migrate_completion_folders (MigrationContext *context)
 				   for the uri. */
 
 				if (!strncmp (physical_uri, "file://", 7)) {
-					char *uid = g_hash_table_lookup (context->folder_uid_map,
-									 physical_uri + 7);
+					char *filename = g_filename_from_uri (physical_uri, NULL, NULL);
+					char *uid = NULL;
 
+					if (filename)
+						uid  = g_hash_table_lookup (context->folder_uid_map,
+									    filename);
+					g_free (filename);
 					if (uid)
 						source = e_source_list_peek_source_by_uid (context->source_list, uid);
 				}
@@ -1000,34 +1010,34 @@ migrate_company_phone_for_local_folders (MigrationContext *context, ESourceGroup
 static void
 migrate_pilot_data (const char *old_path, const char *new_path)
 {
-	struct dirent *dent;
+	const char *dent;
 	const char *ext;
 	char *filename;
-	DIR *dir;
+	GDir *dir;
 	
-	if (!(dir = opendir (old_path)))
+	if (!(dir = g_dir_open (old_path, 0, NULL)))
 		return;
 	
-	while ((dent = readdir (dir))) {
-		if ((!strncmp (dent->d_name, "pilot-map-", 10) &&
-		     ((ext = strrchr (dent->d_name, '.')) && !strcmp (ext, ".xml"))) ||
-		    (!strncmp (dent->d_name, "pilot-sync-evolution-addressbook-", 33) &&
-		     ((ext = strrchr (dent->d_name, '.')) && !strcmp (ext, ".db")))) {
+	while ((dent = g_dir_read_name (dir))) {
+		if ((!strncmp (dent, "pilot-map-", 10) &&
+		     ((ext = strrchr (dent, '.')) && !strcmp (ext, ".xml"))) ||
+		    (!strncmp (dent, "pilot-sync-evolution-addressbook-", 33) &&
+		     ((ext = strrchr (dent, '.')) && !strcmp (ext, ".db")))) {
 			/* src and dest file formats are identical for both map and changelog files */
 			unsigned char inbuf[4096];
 			size_t nread, nwritten;
 			int fd0, fd1;
 			ssize_t n;
 			
-			filename = g_build_filename (old_path, dent->d_name, NULL);
-			if ((fd0 = open (filename, O_RDONLY)) == -1) {
+			filename = g_build_filename (old_path, dent, NULL);
+			if ((fd0 = g_open (filename, O_RDONLY | O_BINARY, 0)) == -1) {
 				g_free (filename);
 				continue;
 			}
 			
 			g_free (filename);
-			filename = g_build_filename (new_path, dent->d_name, NULL);
-			if ((fd1 = open (filename, O_WRONLY | O_CREAT | O_TRUNC, 0666)) == -1) {
+			filename = g_build_filename (new_path, dent, NULL);
+			if ((fd1 = g_open (filename, O_WRONLY | O_CREAT | O_TRUNC | O_BINARY, 0666)) == -1) {
 				g_free (filename);
 				close (fd0);
 				continue;
@@ -1058,10 +1068,10 @@ migrate_pilot_data (const char *old_path, const char *new_path)
 			
 			if (n != -1)
 				n = fsync (fd1);
-			
+
 			if (n == -1) {
-				g_warning ("Failed to migrate %s: %s", dent->d_name, strerror (errno));
-				unlink (filename);
+				g_warning ("Failed to migrate %s: %s", dent, strerror (errno));
+				g_unlink (filename);
 			}
 			
 			close (fd0);
@@ -1070,7 +1080,7 @@ migrate_pilot_data (const char *old_path, const char *new_path)
 		}
 	}
 	
-	closedir (dir);
+	g_dir_close (dir);
 }
 
 static MigrationContext*
