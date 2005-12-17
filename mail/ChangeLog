@@ -29,6 +29,14 @@
 	* mail-tools.c (mail_tool_get_local_movemail_path): Not used, put
 	in #if 0.
 
+	* importers/elm-importer.c
+	* importers/evolution-mbox-importer.c
+	* importers/evolution-outlook-importer.c
+	* importers/mail-importer.c
+	* importers/netscape-importer.c
+	* importers/pine-importer.c: Use GLib API when
+	applicable.
+
 2005-12-12  Karsten Bräckelmann  <guenther@rudersport.de>
 
 	* em-folder-view.c: Mail Context Menu re-ordered correctly,

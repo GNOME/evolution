@@ -40,6 +40,7 @@
 #include <gtk/gtklabel.h>
 
 #include <glib/gi18n.h>
+#include <glib/gstdio.h>
 
 #include <camel/camel-exception.h>
 
@@ -102,6 +103,7 @@ mbox_supported(EImport *ei, EImportTarget *target, EImportImporter *im)
 	gboolean ret = FALSE;
 	int fd, n;
 	EImportTargetURI *s;
+	char *filename;
 
 	if (target->type != E_IMPORT_TARGET_URI)
 		return FALSE;
@@ -113,7 +115,9 @@ mbox_supported(EImport *ei, EImportTarget *target, EImportImporter *im)
 	if (strncmp(s->uri_src, "file:///", strlen("file:///")) != 0)
 		return FALSE;
 
-	fd = open(s->uri_src + strlen("file://"), O_RDONLY);
+	filename = g_filename_from_uri(s->uri_src, NULL, NULL);
+	fd = g_open(filename, O_RDONLY, 0);
+	g_free(filename);
 	if (fd != -1) {
 		n = read(fd, signature, 5);
 		ret = n == 5 && memcmp(signature, "From ", 5) == 0;
@@ -178,6 +182,7 @@ static void
 mbox_import(EImport *ei, EImportTarget *target, EImportImporter *im)
 {
 	MboxImporter *importer;
+	char *filename;
 
 	/* TODO: do we validate target? */
 
@@ -189,7 +194,9 @@ mbox_import(EImport *ei, EImportTarget *target, EImportImporter *im)
 	importer->status_timeout_id = g_timeout_add(100, mbox_status_timeout, importer);
 	importer->cancel = camel_operation_new(mbox_status, importer);
 
-	mail_importer_import_mbox(((EImportTargetURI *)target)->uri_src+strlen("file://"), ((EImportTargetURI *)target)->uri_dest, importer->cancel, mbox_import_done, importer);
+	filename = g_filename_from_uri(((EImportTargetURI *)target)->uri_src, NULL, NULL);
+	mail_importer_import_mbox(filename, ((EImportTargetURI *)target)->uri_dest, importer->cancel, mbox_import_done, importer);
+	g_free(filename);
 }
 
 static void

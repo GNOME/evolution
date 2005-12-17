@@ -28,11 +28,13 @@
 
 #include <string.h>
 #include <sys/types.h>
-#include <dirent.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
 #include <fcntl.h>
+
+#include <glib.h>
+#include <glib/gstdio.h>
 
 #include <gmodule.h>
 #include <libgnome/gnome-util.h>
@@ -196,7 +198,7 @@ import_mbox_import(struct _mail_msg *mm)
 	int fd;
 	CamelMessageInfo *info;
 
-	if (stat(m->path, &st) == -1) {
+	if (g_stat(m->path, &st) == -1) {
 		g_warning("cannot find source file to import '%s': %s", m->path, g_strerror(errno));
 		return;
 	}
@@ -212,7 +214,7 @@ import_mbox_import(struct _mail_msg *mm)
 	if (S_ISREG(st.st_mode)) {
 		CamelOperation *oldcancel = NULL;
 
-		fd = open(m->path, O_RDONLY);
+		fd = g_open(m->path, O_RDONLY|O_BINARY, 0);
 		if (fd == -1) {
 			g_warning("cannot find source file to import '%s': %s", m->path, g_strerror(errno));
 			goto fail1;
@@ -359,13 +361,13 @@ struct _import_folders_data {
 static void
 import_folders_rec(struct _import_folders_data *m, const char *filepath, const char *folderparent)
 {
-	DIR *dir;
-	struct dirent *d;
+	GDir *dir;
+	const char *d;
 	struct stat st;
 	char *filefull, *foldersub, *uri, *utf8_filename;
 	const char *folder;
 
-	dir = opendir(filepath);
+	dir = g_dir_open(filepath, 0, NULL);
  	if (dir == NULL)
 		return;
 
@@ -373,21 +375,21 @@ import_folders_rec(struct _import_folders_data *m, const char *filepath, const c
 	camel_operation_start(NULL, _("Scanning %s"), utf8_filename);
 	g_free (utf8_filename);
 
-	while ( (d=readdir(dir)) ) {
-		if (d->d_name[0] == '.')
+	while ( (d=g_dir_read_name(dir))) {
+		if (d[0] == '.')
 			continue;
 
-		filefull = g_build_filename(filepath, d->d_name, NULL);
+		filefull = g_build_filename(filepath, d, NULL);
 
 		/* skip non files and directories, and skip directories in mozilla mode */
-		if (stat(filefull, &st) == -1
+		if (g_stat(filefull, &st) == -1
 		    || !(S_ISREG(st.st_mode)
 			 || (m->elmfmt && S_ISDIR(st.st_mode)))) {
 			g_free(filefull);
 			continue;
 		}
 
-		folder = d->d_name;
+		folder = d;
 		if (folderparent == NULL) {
 			int i;
 
@@ -412,7 +414,7 @@ import_folders_rec(struct _import_folders_data *m, const char *filepath, const c
 
 			g_free(filefull);
 			filefull = tmp;
-			if (stat(filefull, &st) == -1) {
+			if (g_stat(filefull, &st) == -1) {
 				g_free(filefull);
 				continue;
 			}
@@ -426,6 +428,7 @@ import_folders_rec(struct _import_folders_data *m, const char *filepath, const c
 
 		g_free(filefull);
 	}
+	g_dir_close(dir);
 
 	camel_operation_end(NULL);
 }

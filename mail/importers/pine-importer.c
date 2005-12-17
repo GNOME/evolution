@@ -74,7 +74,6 @@ pine_supported(EImport *ei, EImportTarget *target, EImportImporter *im)
 	EImportTargetHome *s;
 	char *maildir, *addrfile;
 	gboolean md_exists, addr_exists;
-	struct stat st;
 
 	if (target->type != E_IMPORT_TARGET_HOME)
 		return FALSE;
@@ -82,11 +81,11 @@ pine_supported(EImport *ei, EImportTarget *target, EImportImporter *im)
 	s = (EImportTargetHome *)target;
 
 	maildir = g_build_filename(s->homedir, "mail", NULL);
-	md_exists = lstat(maildir, &st) == 0 && S_ISDIR(st.st_mode);
+	md_exists = g_file_test(maildir, G_FILE_TEST_IS_DIR);
 	g_free(maildir);
 
 	addrfile = g_build_filename(s->homedir, ".addressbook", NULL);
-	addr_exists = lstat(addrfile, &st) == 0 && S_ISREG(st.st_mode);
+	addr_exists = g_file_test(addrfile, G_FILE_TEST_IS_REGULAR);
 	g_free (addrfile);
 
 	return md_exists || addr_exists;

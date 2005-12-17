@@ -159,7 +159,6 @@ elm_supported(EImport *ei, EImportTarget *target, EImportImporter *im)
 	const char *maildir;
 	char *elmdir;
 	gboolean mailexists, exists;
-	struct stat st;
 
 	if (target->type != E_IMPORT_TARGET_HOME)
 		return FALSE;
@@ -167,7 +166,7 @@ elm_supported(EImport *ei, EImportTarget *target, EImportImporter *im)
 	s = (EImportTargetHome *)target;
 
 	elmdir = g_build_filename(s->homedir, ".elm", NULL);
-	exists = lstat(elmdir, &st) == 0 && S_ISDIR(st.st_mode);
+	exists = g_file_test(elmdir, G_FILE_TEST_IS_DIR);
 	g_free(elmdir);
 	if (!exists)
 		return FALSE;
@@ -181,7 +180,7 @@ elm_supported(EImport *ei, EImportTarget *target, EImportImporter *im)
 	else
 		elmdir = g_strdup (maildir);
 
-	mailexists = lstat(elmdir, &st) == 0 && S_ISDIR(st.st_mode);
+	mailexists = g_file_test(elmdir, G_FILE_TEST_IS_DIR);
 	g_free (elmdir);
 
 	return mailexists;

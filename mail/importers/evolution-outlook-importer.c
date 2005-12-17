@@ -34,6 +34,9 @@
 #include <ctype.h>
 #include <string.h>
 
+#include <glib.h>
+#include <glib/gstdio.h>
+
 #include <gtk/gtkhbox.h>
 #include <gtk/gtklabel.h>
 #include <gtk/gtkmessagedialog.h>
@@ -50,6 +53,8 @@
 
 #include <importer/evolution-importer.h>
 #include <importer/GNOME_Evolution_Importer.h>
+
+#include <e-util/e-util-private.h>
 
 #include "mail/em-folder-selection-button.h"
 
@@ -154,7 +159,7 @@ support_format_fn(EvolutionImporter *importer, const char *filename, void *data)
 	   Taken from liboe 0.92 (STABLE)
 	   Copyright (C) 2000 Stephan B. Nedregård (stephan@micropop.com) */
 
-	handle = fopen (filename, "rb");
+	handle = g_fopen (filename, "rb");
 	if (handle == NULL)
 		return FALSE; /* Can't open file: Can't support it :) */
 
@@ -332,7 +337,7 @@ import_outlook_import(struct _mail_msg *mm)
 		int fd;
 		off_t pos;
 
-		fd = open(m->path, O_RDONLY);
+		fd = g_open(m->path, O_RDONLY|O_BINARY, 0);
 		if (fd == -1) {
 			g_warning("cannot find source file to import '%s': %s", m->path, g_strerror(errno));
 			goto fail;

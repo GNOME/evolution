@@ -36,6 +36,7 @@
 #include <dirent.h>
 
 #include <glib.h>
+#include <glib/gstdio.h>
 #include <gnome.h>
 
 #include <gconf/gconf.h>
@@ -1652,7 +1653,7 @@ is_dir_empty (const char *path)
 		}
 
 		fullpath = g_build_filename(path, contents->d_name, NULL);
-		if (lstat (fullpath, &buf) == -1) {
+		if (g_lstat (fullpath, &buf) == -1) {
 			g_free(fullpath);
 			continue;
 		}
