@@ -20,10 +20,7 @@
  * Boston, MA 02111-1307, USA.
  */
 
-
-#ifdef HAVE_CONFIG_H
 #include <config.h>
-#endif
 
 #include <string.h>
 #include <sys/types.h>
@@ -32,23 +29,30 @@
 #include <fcntl.h>
 #include <errno.h>
 
+#include <glib.h>
+#include <glib/gstdio.h>
+
 #include <gtk/gtk.h>
+
 #include <libgnome/gnome-i18n.h>
-#include <e-util/e-xml-utils.h>
+
+#include <libedataserver/e-xml-hash-utils.h>
+#include <libedataserver/e-xml-utils.h>
+
 #include "e-util/e-error.h"
+#include "e-util/e-xml-utils.h"
 
-#include "rule-context.h"
-#include "filter-rule.h"
-#include "filter-marshal.h"
-
-#include "filter-input.h"
-#include "filter-option.h"
 #include "filter-code.h"
 #include "filter-colour.h"
 #include "filter-datespec.h"
-#include "filter-int.h"
 #include "filter-file.h"
+#include "filter-input.h"
+#include "filter-int.h"
 #include "filter-label.h"
+#include "filter-marshal.h"
+#include "filter-option.h"
+#include "filter-rule.h"
+#include "rule-context.h"
 
 #define d(x) 
 
@@ -300,13 +304,12 @@ load(RuleContext *rc, const char *system, const char *user)
 	xmlDocPtr systemdoc, userdoc;
 	struct _part_set_map *part_map;
 	struct _rule_set_map *rule_map;
-	struct stat st;
-	
+
 	rule_context_set_error(rc, NULL);
 	
 	d(printf("loading rules %s %s\n", system, user));
 	
-	systemdoc = xmlParseFile(system);
+	systemdoc = e_xml_parse_file (system);
 	if (systemdoc == NULL) {
 		rule_context_set_error(rc, g_strdup_printf("Unable to load system rules '%s': %s",
 							     system, g_strerror(errno)));
@@ -321,9 +324,9 @@ load(RuleContext *rc, const char *system, const char *user)
 	}
 	/* doesn't matter if this doens't exist */
 	userdoc = NULL;
-	if (stat (user, &st) != -1 && S_ISREG (st.st_mode))
-		userdoc = xmlParseFile(user);
-	
+	if (g_file_test(user, G_FILE_TEST_IS_REGULAR))
+		userdoc = e_xml_parse_file (user);
+
 	/* now parse structure */
 	/* get rule parts */
 	set = root->children;
@@ -528,7 +531,7 @@ revert(RuleContext *rc, const char *user)
 	
 	d(printf("restoring rules %s\n", user));
 	
-	userdoc = xmlParseFile(user);
+	userdoc = e_xml_parse_file (user);
 	if (userdoc == NULL)
 		/* clear out anythign we have? */
 		return 0;

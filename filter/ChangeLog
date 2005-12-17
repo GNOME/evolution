@@ -1,6 +1,8 @@
 2005-12-17  Tor Lillqvist  <tml@novell.com>
 
-	* filter-file.c: Use gstdio wrappers.
+	* filter-file.c
+	* rule-context.c: Use libedataserver's e_xml_parse_file(). Use
+	gstdio wrappers. Use g_file_test().
 
 2005-08-23  Not Zed  <NotZed@Ximian.com>
 

@@ -20,12 +20,10 @@
  *
  */
 
-
 #include <config.h>
 
 #include <string.h>
 #include <sys/types.h>
-#include <sys/stat.h>
 
 #include <glib.h>
 #include <glib/gstdio.h>
@@ -158,7 +156,6 @@ static gboolean
 validate (FilterElement *fe)
 {
 	FilterFile *file = (FilterFile *) fe;
-	struct stat st;
 	
 	if (!file->path) {
 		/* FIXME: FilterElement should probably have a
@@ -173,7 +170,7 @@ validate (FilterElement *fe)
 	/* FIXME: do more to validate command-lines? */
 	
 	if (strcmp (file->type, "file") == 0) {
-		if (g_stat (file->path, &st) == -1 || !S_ISREG (st.st_mode)) {
+		if (!g_file_test (file->path, G_FILE_TEST_IS_REGULAR)) {
 			/* FIXME: FilterElement should probably have a
 			   GtkWidget member pointing to the value gotten with
 			   ::get_widget() so that we can get the parent window
