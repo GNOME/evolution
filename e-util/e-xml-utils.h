@@ -25,12 +25,13 @@
 #define __E_XML_UTILS__
 
 #include <glib.h>
+
 #include <libxml/tree.h>
+
+#include <libedataserver/e-xml-utils.h>
 
 G_BEGIN_DECLS
 
-xmlNode *e_xml_get_child_by_name                     (const xmlNode *parent,
-                                                      const xmlChar *child_name);
 /* lang set to NULL means use the current locale. */
 xmlNode *e_xml_get_child_by_name_by_lang             (const xmlNode *parent,
                                                       const xmlChar *child_name,

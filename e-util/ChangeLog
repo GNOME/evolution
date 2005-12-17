@@ -28,6 +28,11 @@
 	the uses of fsync() in evo are pretty irrelevant. Just #define
 	fsync() away on Win32.
 
+	* e-xml-utils.c (e_xml_get_child_by_name, e_xml_save_file): Remove
+	these functions that are now in libedataserver/e-xml-utils.c
+
+	* e-xml-utils.h: Include libedataserver/e-xml-utils.h.
+
 2005-12-12  Irene Huang <Irene.Huang@sun.com>
 
 	reviewed by: Veerapuram Varadhan  <vvaradhan@novell.com>
