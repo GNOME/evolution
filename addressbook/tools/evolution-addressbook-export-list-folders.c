@@ -24,6 +24,7 @@
 #include <config.h>
 
 #include <glib.h>
+#include <glib/gstdio.h>
 #include <bonobo-activation/bonobo-activation.h>
 #include <libbonobo.h>
 #include <libgnome/libgnome.h>
@@ -45,7 +46,7 @@ action_list_folders_init (ActionContext * p_actctx)
 	}
 
 	if (p_actctx->action_list_folders.output_file != NULL) {
-		if (!(outputfile = fopen (p_actctx->action_list_folders.output_file, "w"))) {
+		if (!(outputfile = g_fopen (p_actctx->action_list_folders.output_file, "w"))) {
 			g_warning (_("Can not open file"));
 			exit (-1);
 		}

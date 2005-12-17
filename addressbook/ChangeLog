@@ -1,7 +1,8 @@
 2005-12-17  Tor Lillqvist  <tml@novell.com>
 
 	* gui/component/addressbook-migrate.c
-	* importers/evolution-vcard-importer.c: Use gstdio
+	* importers/evolution-vcard-importer.c
+	* tools/evolution-addressbook-export-list-folders.c: Use gstdio
 	wrappers. Use GDir API instead of dirent. Use GLib to convert file
 	names to URIs and back. Open files in binary mode.
 
