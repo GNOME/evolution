@@ -19,42 +19,39 @@
  *
  */
 
-#ifdef HAVE_CONFIG_H
 #include <config.h>
-#endif
 
 #include <stdlib.h>
 #include <string.h>
 
-#include <gtk/gtkdialog.h>
-#include <gtk/gtkstock.h>
-#include <gtk/gtkentry.h>
-#include <gtk/gtkmessagedialog.h>
-#include <gtk/gtktogglebutton.h>
-#include <gtk/gtkbox.h>
-#include <gtk/gtkvbox.h>
-#include <gtk/gtkcheckbutton.h>
+#include <glib.h>
+#include <glib/gstdio.h>
+
+#include <gtk/gtk.h>
 
 #include <gconf/gconf-client.h>
 
 #include <libgnome/gnome-config.h>
 #include <libgnome/gnome-sound.h>
 
+#include <libedataserverui/e-passwords.h>
+#include <libedataserver/e-msgport.h>
+
 #include <camel/camel.h>	/* FIXME: this is where camel_init is defined, it shouldn't include everything else */
-#include "camel/camel-filter-driver.h"
+#include <camel/camel-filter-driver.h>
 #include <camel/camel-i18n.h>
+
+#include "e-util/e-error.h"
+#include "e-util/e-util-private.h"
 
 #include "em-filter-context.h"
 #include "em-filter-rule.h"
 #include "mail-component.h"
 #include "mail-config.h"
-#include "mail-session.h"
-#include "mail-tools.h"
 #include "mail-mt.h"
 #include "mail-ops.h"
-#include <libedataserverui/e-passwords.h>
-#include "libedataserver/e-msgport.h"
-#include "e-util/e-error.h"
+#include "mail-session.h"
+#include "mail-tools.h"
 
 #define d(x)
 
@@ -375,7 +372,7 @@ alert_user(CamelSession *session, CamelSessionAlertType type, const char *prompt
 	if (cancel)
 		user_message_reply = e_msgport_new ();	
 	m = mail_msg_new (&user_message_op, user_message_reply, sizeof (*m));
-	m->ismain = pthread_self() == mail_gui_thread;
+	m->ismain = pthread_equal(pthread_self(), mail_gui_thread);
 	m->type = type;
 	m->prompt = g_strdup(prompt);
 	m->allow_cancel = cancel;
@@ -460,9 +457,10 @@ main_get_filter_driver (CamelSession *session, const char *type, CamelException 
 	gconf = mail_config_get_gconf_client ();
 	
 	user = g_strdup_printf ("%s/mail/filters.xml", mail_component_peek_base_directory (mail_component_peek ()));
-	system = EVOLUTION_PRIVDATADIR "/filtertypes.xml";
+	system = g_build_filename (EVOLUTION_PRIVDATADIR, "filtertypes.xml", NULL);
 	fc = (RuleContext *) em_filter_context_new ();
 	rule_context_load (fc, system, user);
+	g_free (system);
 	g_free (user);
 	
 	driver = camel_filter_driver_new (session);
@@ -476,7 +474,7 @@ main_get_filter_driver (CamelSession *session, const char *type, CamelException 
 			
 			filename = gconf_client_get_string (gconf, "/apps/evolution/mail/filters/logfile", NULL);
 			if (filename) {
-				ms->filter_logfile = fopen (filename, "a+");
+				ms->filter_logfile = g_fopen (filename, "a+");
 				g_free (filename);
 			}
 		}

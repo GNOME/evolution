@@ -1,10 +1,13 @@
 2005-12-13  Tor Lillqvist <tml@novell.com>
 
-	* mail-mt.c: Add copyright blurb. Include just <gtk/gtk.h> and not
-	a handful of individual gtk headers. Harmonize #include order and
-	syntax. Use pthread_equal() to compare pthread_t values. Use
-	separate flag field to indicate whether a pthread_t field is valid
-	or not. Use e_util_pthread_id() in debugging output.
+	* mail-mt.c: Add copyright blurb. Use separate flag field to
+	indicate whether a pthread_t field is valid or not. Use
+	e_util_pthread_id() in debugging output.
+
+	* mail-mt.c
+	* mail-session.c: Include just <gtk/gtk.h> and not a handful of
+	individual gtk headers. Harmonize #include order and syntax. Use
+	pthread_equal() to compare pthread_t values.
 
 	(em_channel_setup): Call g_io_channel_win32_new_socket() on Win32
 	instead of g_io_channel_unix_new(). This avoids the occasional
