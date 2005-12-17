@@ -45,26 +45,18 @@
 
 #include <string.h>
 #include <stdlib.h>
-#include <dirent.h>
 #include <sys/time.h>
 #include <sys/types.h>
 #include <sys/stat.h>
-#include <sys/wait.h>
 #include <fcntl.h>
 #include <unistd.h>
 #include <errno.h>
 #include <ctype.h>
 
-#include <gtk/gtkoptionmenu.h>
-#include <gtk/gtkscrolledwindow.h>
-#include <gtk/gtkmain.h>
-#include <gtk/gtkmenuitem.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtkstock.h>
-#include <gtk/gtkdnd.h>
-#include <gtk/gtkvbox.h>
-#include <gtk/gtkhbox.h>
-#include <gtk/gtkimage.h>
+#include <glib.h>
+#include <glib/gstdio.h>
+
+#include <gtk/gtk.h>
 
 #include <gconf/gconf.h>
 #include <gconf/gconf-client.h>
@@ -92,6 +84,7 @@
 #include "misc/e-charset-picker.h"
 #include "misc/e-expander.h"
 #include "e-util/e-error.h"
+#include "e-util/e-util-private.h"
 
 #include <camel/camel-session.h>
 #include <camel/camel-charset-map.h>
@@ -959,7 +952,7 @@ get_file_content (EMsgComposer *composer, const char *file_name, gboolean want_h
 	char *content;
 	int fd;
 	
-	fd = open (file_name, O_RDONLY);
+	fd = g_open (file_name, O_RDONLY, 0);
 	if (fd == -1) {
 		if (warn)
 			e_error_run((GtkWindow *)composer, "mail-composer:no-sig-file",
@@ -1303,11 +1296,11 @@ save (EMsgComposer *composer, const char *filename)
 	int fd;
 	
 	/* check to see if we already have the file and that we can create it */
-	if ((fd = open (filename, O_RDONLY | O_CREAT | O_EXCL, 0777)) == -1) {
+	if ((fd = g_open (filename, O_RDONLY | O_CREAT | O_EXCL, 0777)) == -1) {
 		int resp, errnosav = errno;
 		struct stat st;
 		
-		if (stat (filename, &st) == 0 && S_ISREG (st.st_mode)) {
+		if (g_stat (filename, &st) == 0 && S_ISREG (st.st_mode)) {
 			resp = e_error_run((GtkWindow *)composer, E_ERROR_ASK_FILE_EXISTS_OVERWRITE, filename, NULL);
 			if (resp != GTK_RESPONSE_OK)
 				return;
@@ -1461,7 +1454,7 @@ autosave_load_draft (const char *filename)
 	composer = e_msg_composer_new_with_message (msg);
 	if (composer) {
 		if (autosave_save_draft (composer))
-			unlink (filename);
+			g_unlink (filename);
 		
 		g_signal_connect (GTK_OBJECT (composer), "send",
 				  G_CALLBACK (em_utils_composer_send_cb), NULL);
@@ -1484,30 +1477,30 @@ autosave_is_owned (AutosaveManager *am, const char *file)
 static void
 autosave_manager_query_load_orphans (AutosaveManager *am, GtkWindow *parent)
 {
-	DIR *dir;
-	struct dirent *d;
+	GDir *dir;
+	const char *dname;
 	GSList *match = NULL;
 	gint len = strlen (AUTOSAVE_SEED);
 	gint load = FALSE;
 	
-	dir = opendir (g_get_home_dir());
+	dir = g_dir_open (g_get_home_dir(), 0, NULL);
 	if (!dir) {
 		return;
 	}
 	
-	while ((d = readdir (dir))) {
-		if ((!strncmp (d->d_name, AUTOSAVE_SEED, len - 6))
-		    && (strlen (d->d_name) == len)
-		    && (!autosave_is_owned (am, d->d_name))) {
-			char *filename =  g_strdup_printf ("%s/%s", g_get_home_dir(), d->d_name);
+	while ((dname = g_dir_read_name (dir))) {
+		if ((!strncmp (dname, AUTOSAVE_SEED, len - 6))
+		    && (strlen (dname) == len)
+		    && (!autosave_is_owned (am, dname))) {
+			char *filename =  g_strdup_printf ("%s/%s", g_get_home_dir(), dname);
 			struct stat st;
 		
 			/*
 			 * check if the file has any length,  It is a valid case if it doesn't 
 			 * so we simply don't ask then.
 			 */
-			if (stat (filename, &st) == -1 || st.st_size == 0) {
-				unlink (filename);
+			if (g_stat (filename, &st) == -1 || st.st_size == 0) {
+				g_unlink (filename);
 				g_free (filename);
 				continue;
 			}
@@ -1515,7 +1508,7 @@ autosave_manager_query_load_orphans (AutosaveManager *am, GtkWindow *parent)
 		}
 	}
 	
-	closedir (dir);
+	g_dir_close (dir);
 	
 	if (match != NULL)
 		load = e_error_run(parent, "mail-composer:recover-autosave", NULL) == GTK_RESPONSE_YES;
@@ -1528,7 +1521,7 @@ autosave_manager_query_load_orphans (AutosaveManager *am, GtkWindow *parent)
 		if (load) { 
 			composer = autosave_load_draft (filename);
 		} else {
-			unlink (filename);
+			g_unlink (filename);
 		}
 			
 		g_free (filename);
@@ -1566,7 +1559,7 @@ autosave_init_file (EMsgComposer *composer)
 	EMsgComposerPrivate *p = composer->priv;
 	if (p->autosave_file == NULL) {
 		p->autosave_file = g_strdup_printf ("%s/%s", g_get_home_dir(), AUTOSAVE_SEED);
-		p->autosave_fd = mkstemp (p->autosave_file);
+		p->autosave_fd = g_mkstemp (p->autosave_file);
 		return TRUE;
 	}
 	return FALSE;
@@ -1641,10 +1634,13 @@ autosave_manager_unregister (AutosaveManager *am, EMsgComposer *composer)
 	
 	/* only remove the file if we can successfully save it */
 	/* FIXME this test could probably be more efficient */
-	if (autosave_save_draft (composer))
-		unlink (p->autosave_file);
-	
-	close (p->autosave_fd);
+	if (autosave_save_draft (composer)) {
+		/* Close before unlinking necessary on Win32 */
+		close (p->autosave_fd);
+		g_unlink (p->autosave_file);
+	} else {
+		close (p->autosave_fd);
+	}
 	g_free (p->autosave_file);
 	p->autosave_file = NULL;
 	
@@ -2294,6 +2290,7 @@ setup_ui (EMsgComposer *composer)
 	BonoboUIContainer *container;
 	gboolean hide_smime;
 	char *charset;
+	char *xmlfile;
 	
 	container = bonobo_window_get_ui_container (BONOBO_WINDOW (composer));
 	
@@ -2305,9 +2302,11 @@ setup_ui (EMsgComposer *composer)
 	
 	bonobo_ui_component_freeze (p->uic, NULL);
 	
+	xmlfile = g_build_filename (EVOLUTION_UIDIR, "evolution-message-composer.xml", NULL);
 	bonobo_ui_util_set_ui (p->uic, PREFIX,
-			       EVOLUTION_UIDIR "/evolution-message-composer.xml",
+			       xmlfile,
 			       "evolution-message-composer", NULL);
+	g_free (xmlfile);
 	
 	e_pixmaps_update (p->uic, pixcache);
 	
@@ -3433,6 +3432,7 @@ composer_entry_focus_in_event_cb (GtkWidget *widget, GdkEventFocus *event, gpoin
 	EMsgComposer *composer = user_data;
 	EMsgComposerPrivate *p = composer->priv;
 	BonoboUIContainer *container;
+	char *xmlfile;
 
 	p->focused_entry = widget;
 
@@ -3443,9 +3443,11 @@ composer_entry_focus_in_event_cb (GtkWidget *widget, GdkEventFocus *event, gpoin
 
 	bonobo_ui_component_freeze (p->entry_uic, NULL);
 
+	xmlfile = g_build_filename (EVOLUTION_UIDIR, "evolution-composer-entries.xml", NULL);
 	bonobo_ui_util_set_ui (p->entry_uic, PREFIX,
-			       EVOLUTION_UIDIR "/evolution-composer-entries.xml",
+			       xmlfile,
 			       "evolution-composer-entries", NULL);
+	g_free (xmlfile);
 	
 	bonobo_ui_component_thaw (p->entry_uic, NULL);
 	
@@ -4995,7 +4997,7 @@ e_msg_composer_add_inline_image_from_file (EMsgComposer *composer,
 	EMsgComposerPrivate *p = composer->priv;
 	
 	/* check for regular file */
-	if (stat (file_name, &statbuf) < 0 || !S_ISREG (statbuf.st_mode))
+	if (g_stat (file_name, &statbuf) < 0 || !S_ISREG (statbuf.st_mode))
 		return NULL;
 	
 	stream = camel_stream_fs_new_with_name (file_name, O_RDONLY, 0);

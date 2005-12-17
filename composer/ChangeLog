@@ -1,3 +1,12 @@
+2005-12-17  Tor Lillqvist  <tml@novell.com>
+
+	* e-msg-composer.c: Include <gtk/gtk.h> instead of attempting to
+	hand-pick individual GTK headers. Use gstdio wrappers. Use GDir
+	instead of dirent. Use g_mkstemp() instead of mkstemp(). Construct
+	xml file names at run-time.
+	(autosave_manager_unregister): Close file before unlinking so we
+	don't leave stray autosave files laying around on Win32.
+
 2005-11-23  Johnny Jacob <johnnyjacob@gmail.com>
 	
 	** See Bug # 246245
