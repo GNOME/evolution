@@ -9,8 +9,9 @@
 	* e-mktemp.c: Use GLib API where applicable for portability.
 
 	* e-error.c
-	* e-folder-map.c: Use e_xml_parse_file() instead of using libxml
-	directly.
+	* e-folder-map.c
+	* e-pilot-map.c: Use e_xml_parse_file() and e_xml_save_file()
+	instead of using libxml directly.
 
 	* e-util-private.h (fsync)
 	* e-util.c: Don't bother with a Win32 implementation of fsync() as

@@ -20,12 +20,15 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include "e-pilot-map.h"
-
-#include <string.h> /* memset(), strcmp() */
+#include <string.h>
 #include <stdlib.h>
+
 #include <glib.h>
 #include <libxml/parser.h>
+
+#include <libedataserver/e-xml-utils.h>
+
+#include "e-pilot-map.h"
 
 typedef struct 
 {
@@ -402,7 +405,7 @@ e_pilot_map_write (const char *filename, EPilotMap *map)
 	
 	/* Write the file */
 	xmlSetDocCompressMode (doc, 0);
-	ret = xmlSaveFile (filename, doc);
+	ret = e_xml_save_file (filename, doc);
 	if (ret < 0) {
 		g_warning ("Pilot map file '%s' could not be saved\n", filename);
 		return -1;
