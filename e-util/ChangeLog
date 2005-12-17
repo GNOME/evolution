@@ -31,8 +31,6 @@
 	* e-xml-utils.c (e_xml_get_child_by_name, e_xml_save_file): Remove
 	these functions that are now in libedataserver/e-xml-utils.c
 
-	* e-xml-utils.h: Include libedataserver/e-xml-utils.h.
-
 	* eggtrayicon.c: For building on Win32 against GTK+ 2.8, include a
 	copy of the GtkStatusIcon code from GTK+ HEAD (i.e., what will be
 	GTK+ 2.10) and some helper functions from gdk/win32. Eventually

@@ -28,8 +28,6 @@
 
 #include <libxml/tree.h>
 
-#include <libedataserver/e-xml-utils.h>
-
 G_BEGIN_DECLS
 
 /* lang set to NULL means use the current locale. */
