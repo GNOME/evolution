@@ -1,3 +1,9 @@
+2005-12-17  Tor Lillqvist  <tml@novell.com>
+
+	* e-table/gal-a11y-e-cell.c
+	(gal_a11y_e_cell_remove_action_by_name): Use g_ascii_strcasecmp()
+	instead of g_strcasecmp() for well-definedness.
+
 2005-09-27  Harry Lu <harry.lu@sun.com>
 
 	Fix for #316351

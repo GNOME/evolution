@@ -337,7 +337,7 @@ gal_a11y_e_cell_remove_action_by_name (GalA11yECell *cell,
 	g_return_val_if_fail (GAL_A11Y_IS_E_CELL (cell), FALSE);
 	for (list_node = cell->action_list; list_node && !action_found;
           	          list_node = list_node->next) {
-		if (!g_strcasecmp (((ActionInfo *)(list_node->data))->name, action_name)) {
+		if (!g_ascii_strcasecmp (((ActionInfo *)(list_node->data))->name, action_name)) {
 			action_found = TRUE;
 			break;
 		}
