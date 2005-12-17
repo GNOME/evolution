@@ -22,6 +22,9 @@
 	or later, and always on Win32, use the GtkStatusIcon API instead
 	of EggTrayIcon.
 
+	* gui/dialogs/cal-attachment-bar.h
+	* gui/dialogs/cal-attachment-bar.c: Remove unused files from CVS.
+
 2005-12-15  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fixes bug #324094
