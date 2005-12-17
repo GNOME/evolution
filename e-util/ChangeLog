@@ -4,7 +4,8 @@
 	GNOME_FULL_CFLAGS.
 
 	* e-error.c
-	* e-fsutils.c: Use gstdio wrappers. Use GDir instead of dirent.
+	* e-fsutils.c
+	* e-icon-factory.c: Use GLib API where applicable for portability.
 
 	* e-error.c
 	* e-folder-map.c: Use e_xml_parse_file() instead of using libxml

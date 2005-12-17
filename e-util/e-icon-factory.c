@@ -20,23 +20,21 @@
  *
  */
 
-
-#ifdef HAVE_CONFIG_H
 #include <config.h>
-#endif
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <sys/types.h>
 #include <sys/stat.h>
-#include <dirent.h>
 
 #include <pthread.h>
 
 #include <gtk/gtkimage.h>
 #include <libgnomeui/gnome-icon-theme.h>
-#include <e-util/e-icon-factory.h>
+
+#include "e-icon-factory.h"
+#include "e-util-private.h"
 
 #include "art/broken-image-16.xpm"
 #include "art/broken-image-24.xpm"
@@ -90,56 +88,59 @@ static Icon *
 load_icon (const char *icon_key, const char *icon_name, int size, int scale)
 {
 	GdkPixbuf *pixbuf, *unscaled = NULL;
-	char *filename = NULL;
+	char *basename, *filename = NULL;
 	
-	if (icon_name[0] == '/')
+	if (g_path_is_absolute (icon_name))
 		filename = g_strdup (icon_name);
 	else
 		filename = gnome_icon_theme_lookup_icon (icon_theme, icon_name, size, NULL, NULL);
 
 	if (!filename || !(unscaled = gdk_pixbuf_new_from_file (filename, NULL))) {
 		if (scale) {
-			struct dirent *dent;
+			const char *dent;
 			int width, height;
-			size_t baselen;
-			GString *path;
-			DIR *dir;
+			GDir *dir;
 			char *x;
 			
-			path = g_string_new (EVOLUTION_ICONSDIR);
-			if (path->str[path->len - 1] != '/')
-				g_string_append_c (path, '/');
-			
-			baselen = path->len;
-			
-			if (!(dir = opendir (path->str))) {
-				g_string_free (path, TRUE);
+			if (!(dir = g_dir_open (EVOLUTION_ICONSDIR, 0, NULL))) {
 				goto done;
 			}
 			
 			/* scan icon directories looking for an icon with a size >= the size we need. */
-			while ((dent = readdir (dir))) {
-				if (!(dent->d_name[0] >= '1' && dent->d_name[0] <= '9'))
+			while ((dent = g_dir_read_name (dir))) {
+				if (!(dent[0] >= '1' && dent[0] <= '9'))
 					continue;
 				
-				if (((width = strtol (dent->d_name, &x, 10)) < size) || *x != 'x')
+				if (((width = strtol (dent, &x, 10)) < size) || *x != 'x')
 					continue;
 				
 				if (((height = strtol (x + 1, &x, 10)) != width) || *x != '\0')
 					continue;
 				
 				/* if the icon exists in this directory, we can [use/scale] it */
-				g_string_truncate (path, baselen);
-				g_string_append_printf (path, "%s/%s.png", dent->d_name, icon_name);
-				if ((unscaled = gdk_pixbuf_new_from_file (path->str, NULL)))
+				g_free (filename);
+				basename = g_strconcat (icon_name, ".png", NULL);
+				filename = g_build_filename (EVOLUTION_ICONSDIR,
+							     dent,
+							     basename,
+							     NULL);
+				if ((unscaled = gdk_pixbuf_new_from_file (filename, NULL)))
 					break;
 			}
 			
-			g_string_free (path, TRUE);
-			closedir (dir);
+			g_dir_close (dir);
 		} else {
+			gchar *size_x_size;
+
+			size_x_size = g_strdup_printf ("%dx%d", size, size);
+			basename = g_strconcat (icon_name, ".png", NULL);
 			g_free (filename);
-			filename = g_strdup_printf (EVOLUTION_ICONSDIR "/%dx%d/%s.png", size, size, icon_name);
+			filename = g_build_filename (EVOLUTION_ICONSDIR,
+						     size_x_size,
+						     basename,
+						     NULL);
+			g_free (basename);
+			g_free (size_x_size);
 			unscaled = gdk_pixbuf_new_from_file (filename, NULL);
 		}
 	}
