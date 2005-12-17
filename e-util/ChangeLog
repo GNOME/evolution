@@ -1,5 +1,8 @@
 2005-12-17  Tor Lillqvist  <tml@novell.com>
 
+	* Makefile.am (INCLUDES): Don't need EXTRA_GNOME_CFLAGS or
+	GNOME_FULL_CFLAGS.
+
 	* e-util-private.h (fsync)
 	* e-util.c: Don't bother with a Win32 implementation of fsync() as
 	the uses of fsync() in evo are pretty irrelevant. Just #define

@@ -33,8 +33,6 @@ INCLUDES =								\
 	-DSEARCH_RULE_DIR=\"$(ruledir)\"				\
 	-DG_LOG_DOMAIN=\"e-utils\"					\
 	$(GNOME_PILOT_CFLAGS)						\
-	$(EXTRA_GNOME_CFLAGS)                   			\
-	$(GNOME_FULL_CFLAGS)						\
 	$(ICONV_CFLAGS)                        				\
 	$(E_UTIL_CFLAGS)
 
