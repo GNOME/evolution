@@ -21,9 +21,7 @@
  *
  */
 
-#ifdef HAVE_CONFIG_H
 #include <config.h>
-#endif
 
 #include <string.h>
 #include <sys/types.h>
@@ -31,13 +29,17 @@
 #include <fcntl.h>
 #include <errno.h>
 
+#include <glib.h>
+#include <glib/gstdio.h>
+
 #include <gtk/gtk.h>
 
 #include <bonobo.h>
 #include <bonobo/bonobo-stream-memory.h>
 
-#include <e-util/e-signature-list.h>
 #include "e-util/e-error.h"
+#include "e-util/e-signature-list.h"
+#include "e-util/e-util-private.h"
 
 #include "e-msg-composer.h"
 #include "mail-signature-editor.h"
@@ -161,7 +163,7 @@ menu_file_save_cb (BonoboUIComponent *uic, void *user_data, const char *path)
 	if (ev._major != CORBA_NO_EXCEPTION)
 		goto exception;
 
-	if ((fd = open (filename, O_WRONLY | O_TRUNC | O_CREAT, 0666)) == -1)
+	if ((fd = g_open (filename, O_WRONLY | O_TRUNC | O_CREAT, 0666)) == -1)
 		goto exception;
 
 	text = get_text (pstream_iface, editor->html ? "text/html" : "text/plain", &ev);
@@ -179,7 +181,7 @@ menu_file_save_cb (BonoboUIComponent *uic, void *user_data, const char *path)
 	g_byte_array_free (text, TRUE);
 	close (fd);
 
-	if (rename (filename, editor->sig->filename) == -1)
+	if (g_rename (filename, editor->sig->filename) == -1)
 		goto exception;
 
 	g_free (filename);
@@ -218,7 +220,7 @@ menu_file_save_cb (BonoboUIComponent *uic, void *user_data, const char *path)
 exception:
 	menu_file_save_error (uic, &ev);
 	CORBA_exception_free (&ev);
-	unlink (filename);
+	g_unlink (filename);
 	g_free (filename);
 }
 
@@ -368,6 +370,7 @@ mail_signature_editor (ESignature *sig, GtkWindow *parent, gboolean is_new)
 	BonoboUIComponent *component;
 	BonoboUIContainer *container;
 	GtkWidget *vbox, *hbox, *label, *frame, *vbox1;
+	char *xmlfile;
 	
 	if (!sig->filename || !*sig->filename)
 		return;
@@ -392,9 +395,14 @@ mail_signature_editor (ESignature *sig, GtkWindow *parent, gboolean is_new)
 	component = bonobo_ui_component_new_default ();
 	bonobo_ui_component_set_container (component, bonobo_object_corba_objref (BONOBO_OBJECT (container)), NULL);
 	bonobo_ui_component_add_verb_list_with_data (component, verbs, editor);
+
+	xmlfile = g_build_filename (EVOLUTION_UIDIR,
+				    "evolution-signature-editor.xml",
+				    NULL);
 	bonobo_ui_util_set_ui (component, PREFIX,
-			       EVOLUTION_UIDIR "/evolution-signature-editor.xml",
+			       xmlfile,
 			       "evolution-signature-editor", NULL);
+	g_free (xmlfile);
 
 	editor->control = bonobo_widget_new_control (GNOME_GTKHTML_EDITOR_CONTROL_ID,
 						     bonobo_ui_component_get_container (component));
