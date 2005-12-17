@@ -22,9 +22,7 @@
  *
  */
 
-#ifdef HAVE_CONFIG_H
 #include <config.h>
-#endif
 
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -33,45 +31,48 @@
 #include <string.h>
 #include <ctype.h>
 
-#include <glib/gunicode.h>
+#include <glib.h>
+#include <glib/gstdio.h>
 
 #include <gconf/gconf-client.h>
 
-#include <gtk/gtkmain.h>
-#include <gtk/gtkinvisible.h>
-#include <libgnome/gnome-i18n.h>
-#include <atk/atkutil.h>
+#include <gtk/gtk.h>
 
-#include <e-util/e-util.h>
-#include <misc/e-gui-utils.h>
-#include <table/e-cell-text.h>
-#include <table/e-cell-toggle.h>
-#include <table/e-cell-checkbox.h>
-#include <table/e-cell-tree.h>
-#include <table/e-cell-date.h>
-#include <table/e-cell-size.h>
-#include <table/e-tree-memory.h>
-#include <table/e-tree-memory-callbacks.h>
+#include <libgnome/gnome-i18n.h>
 
 #include <camel/camel-exception.h>
 #include <camel/camel-file-utils.h>
 #include <camel/camel-folder.h>
 #include <camel/camel-folder-thread.h>
 #include <camel/camel-vee-folder.h>
+
 #include <libedataserver/e-memory.h>
+
+#include "e-util/e-icon-factory.h"
+#include "e-util/e-profile-event.h"
+#include "e-util/e-util-private.h"
+#include "e-util/e-util.h"
+
+#include "misc/e-gui-utils.h"
+
+#include "table/e-cell-checkbox.h"
+#include "table/e-cell-date.h"
+#include "table/e-cell-size.h"
+#include "table/e-cell-text.h"
+#include "table/e-cell-toggle.h"
+#include "table/e-cell-tree.h"
+#include "table/e-tree-memory-callbacks.h"
+#include "table/e-tree-memory.h"
 
 #include "filter/filter-label.h"
 
-#include "mail-config.h"
-#include "message-list.h"
-#include "mail-mt.h"
-#include "mail-tools.h"
-#include "mail-ops.h"
 #include "em-popup.h"
-
 #include "em-utils.h"
-#include <e-util/e-icon-factory.h>
-#include <e-util/e-profile-event.h>
+#include "mail-config.h"
+#include "mail-mt.h"
+#include "mail-ops.h"
+#include "mail-tools.h"
+#include "message-list.h"
 
 #include "art/empty.xpm"
 
@@ -572,15 +573,12 @@ select_path(MessageList *ml, ETreePath path)
 /**
  * message_list_select:
  * @message_list: a MessageList
- * @base_row: the (model) row to start from
  * @direction: the direction to search in
  * @flags: a set of flag values
  * @mask: a mask for comparing against @flags
  *
- * This moves the message list selection to a suitable row. @base_row
- * lists the first (model) row to try, but as a special case, model
- * row -1 is mapped to the last row. @flags and @mask combine to specify
- * what constitutes a suitable row. @direction is
+ * This moves the message list selection to a suitable row. @flags and
+ * @mask combine to specify what constitutes a suitable row. @direction is
  * %MESSAGE_LIST_SELECT_NEXT if it should find the next matching
  * message, or %MESSAGE_LIST_SELECT_PREVIOUS if it should find the
  * previous. %MESSAGE_LIST_SELECT_WRAP is an option bit which specifies the
@@ -1519,7 +1517,7 @@ message_list_setup_etree (MessageList *message_list, gboolean outgoing)
 		d(printf ("folder name is '%s'\n", name));
 		
 		path = mail_config_folder_to_cachename (message_list->folder, "et-expanded-");
-		if (path && stat (path, &st) == 0 && st.st_size > 0 && S_ISREG (st.st_mode)) {
+		if (path && g_stat (path, &st) == 0 && st.st_size > 0 && S_ISREG (st.st_mode)) {
 			/* build based on saved file */
 			e_tree_load_expanded_state (message_list->tree, path);
 		}
@@ -2007,6 +2005,8 @@ message_list_construct (MessageList *message_list)
 {
 	AtkObject *a11y;
 	gboolean construct_failed;
+	char *etspecfile;
+
 	message_list->model =
 		e_tree_memory_callbacks_new (ml_tree_icon_at,
 					     
@@ -2036,12 +2036,15 @@ message_list_construct (MessageList *message_list)
 	 * The etree
 	 */
 	message_list->extras = message_list_create_extras ();
+
+	etspecfile = g_build_filename (EVOLUTION_ETSPECDIR, "message-list.etspec", NULL);
 	construct_failed = (e_tree_scrolled_construct_from_spec_file (E_TREE_SCROLLED (message_list),
 								      message_list->model,
 								      message_list->extras, 
-								      EVOLUTION_ETSPECDIR "/message-list.etspec",
+								      etspecfile,
 								      NULL)
 			    == NULL);
+	g_free (etspecfile);
 
 	message_list->tree = e_tree_scrolled_get_tree(E_TREE_SCROLLED (message_list));
 	if (!construct_failed)
@@ -3299,7 +3302,7 @@ load_hide_state (MessageList *ml)
 	ml->hide_after = ML_HIDE_NONE_END;
 
 	filename = mail_config_folder_to_cachename(ml->folder, "hidestate-");
-	in = fopen(filename, "r");
+	in = g_fopen(filename, "rb");
 	if (in) {
 		camel_file_util_decode_fixed_int32 (in, &version);
 		if (version == HIDE_STATE_VERSION) {
@@ -3347,8 +3350,8 @@ save_hide_state (MessageList *ml)
 
 	filename = mail_config_folder_to_cachename(ml->folder, "hidestate-");
 	if (ml->hidden == NULL && ml->hide_before == ML_HIDE_NONE_START && ml->hide_after == ML_HIDE_NONE_END) {
-		unlink(filename);
-	} else if ((out = fopen (filename, "w"))) {
+		g_unlink(filename);
+	} else if ((out = g_fopen (filename, "wb"))) {
 		camel_file_util_encode_fixed_int32 (out, HIDE_STATE_VERSION);
 		camel_file_util_encode_fixed_int32 (out, ml->hide_before);
 		camel_file_util_encode_fixed_int32 (out, ml->hide_after);

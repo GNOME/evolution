@@ -19,12 +19,14 @@
 	* mail-ops.c: Use gstdio wrappers. Open file in binary mode.
 
 	* mail-signature-editor.c
-	* mail-vfolder.c: Use gstdio wrappers. Construct XML file pathname
-	at run-time.
+	* mail-tools.c
+	* mail-vfolder.c
+	* message-list.c: Beautify #include order and syntax. Use gstdio
+	wrappers. Construct pathnames of files to be read at run-time
+	instead of using compile-time paths.
 
-	* mail-tools.c: Use gstdio wrappers. Beautify #include order and
-	syntax.
-	(mail_tool_get_local_movemail_path): Not used, put in #if 0.
+	* mail-tools.c (mail_tool_get_local_movemail_path): Not used, put
+	in #if 0.
 
 2005-12-12  Karsten Bräckelmann  <guenther@rudersport.de>
 
