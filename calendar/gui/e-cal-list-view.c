@@ -41,6 +41,7 @@
 #include <gtk/gtksignal.h>
 #include <gtk/gtkvscrollbar.h>
 #include <gtk/gtkwindow.h>
+#include <glib/gstdio.h>
 #include <misc/e-gui-utils.h>
 #include <table/e-table-memory-store.h>
 #include <table/e-cell-checkbox.h>
@@ -181,7 +182,7 @@ e_cal_list_view_load_state (ECalListView *cal_list_view, gchar *filename)
 	g_return_if_fail (E_IS_CAL_LIST_VIEW (cal_list_view));
 	g_return_if_fail (filename != NULL);
 
-	if (stat (filename, &st) == 0 && st.st_size > 0 && S_ISREG (st.st_mode))
+	if (g_stat (filename, &st) == 0 && st.st_size > 0 && S_ISREG (st.st_mode))
 		e_table_load_state (e_table_scrolled_get_table (cal_list_view->table_scrolled), filename);
 }
 

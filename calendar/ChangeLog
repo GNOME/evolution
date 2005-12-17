@@ -4,6 +4,8 @@
 	* gui/e-cal-component-memo-preview.c: Use GLib to construct
 	filenames from URIs and vice versa.
 
+	* gui/e-cal-list-view.c: Use gstdio wrappers.
+
 2005-12-15  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fixes bug #324094
