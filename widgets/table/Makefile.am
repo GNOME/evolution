@@ -1,3 +1,9 @@
+if OS_WIN32
+WIN32_BOOTSTRAP_LIBS =					\
+	$(top_builddir)/win32/libemiscwidgets.la	\
+	$(top_builddir)/win32/libetext.la
+endif
+
 glade_DATA = 					\
 	e-table-config.glade			\
 	e-table-config-no-group.glade		\
@@ -6,15 +12,12 @@ glade_DATA = 					\
 INCLUDES =					\
 	-I$(top_srcdir)                         \
 	-I$(top_srcdir)/widgets                 \
+	$(E_WIDGETS_CFLAGS)			\
 	$(EXTRA_GNOME_CFLAGS)			\
-	$(GNOME_BONOBO_CFLAGS)			\
-	$(GNOME_INCLUDEDIR)			\
-	$(ICONV_CFLAGS)				\
-        $(GNOME_FULL_CFLAGS)			\
 	-DEVOLUTION_GLADEDIR=\"$(gladedir)\"	\
         -DG_LOG_DOMAIN=\"e-table\"
 
-privlib_LTLIBRARIES = libetable.la
+privsolib_LTLIBRARIES = libetable.la
 
 libetable_la_SOURCES = 				\
 	e-cell.c				\
@@ -142,6 +145,15 @@ libetableinclude_HEADERS = 			\
 	e-tree-sorted.h				\
 	e-tree-table-adapter.h			\
 	e-tree.h
+
+libetable_la_LDFLAGS = $(NO_UNDEFINED)
+
+libetable_la_LIBADD =					\
+	$(WIN32_BOOTSTRAP_LIBS)				\
+	$(top_builddir)/e-util/libeutil.la		\
+	$(top_builddir)/a11y/libevolution-a11y.la	\
+	$(E_WIDGETS_LIBS)				\
+	$(EXTRA_GNOME_LIBS)
 
 icons = 			\
 	add-col.xpm		\

@@ -1,3 +1,10 @@
+2005-12-17  Tor Lillqvist  <tml@novell.com>
+
+	* Makefile.am: Link with bootstrap libs on Win32. Use
+	E_WIDGETS_CFLAGS instead of GNOME_BONOBO_CFLAGS, GNOME_INCLUDEDIR,
+	ICONV_CFLAGS and GNOME_FULL_CFLAGS. Link with all required
+	libraries. Use -no-undefined on Win32.
+
 2005-12-09  Harish Krishnaswamy  <kharish@novell.com>
 
 	* e-table-example-2.c (create_table):
