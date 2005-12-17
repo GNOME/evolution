@@ -30,6 +30,11 @@
 
 #include <glib.h>
 #include <glib/gi18n.h>
+#include <glib/gstdio.h>
+
+#if !GLIB_CHECK_VERSION (2, 8, 0)
+#define g_access access
+#endif
 
 #include <gtk/gtkcheckbutton.h>
 #include <gtk/gtkdialog.h>
@@ -220,7 +225,7 @@ save_part(GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, void *d)
 	 * the POSIX access-call should suffice for checking the file existence.
 	 */
 
-	if (access(save, F_OK) == 0)
+	if (g_access(save, F_OK) == 0)
 		doit = e_error_run(NULL, E_ERROR_ASK_FILE_EXISTS_OVERWRITE, save, NULL) == GTK_RESPONSE_OK;
 
 	if (doit)
@@ -271,20 +276,22 @@ static void
 entry_changed(GtkWidget *entry, struct _save_data *data)
 {
 	char *path;
+	char *basename = NULL;
 	const char *file;
-	struct stat st;
 
 	path = gnome_file_entry_get_full_path((GnomeFileEntry *)data->entry, FALSE);
 	if (path == NULL
-	    || (file = strrchr(path, '/')) == NULL
-	    || file[1] == 0
-	    || (stat(path, &st) == 0 && S_ISDIR(st.st_mode)))
+	    || G_IS_DIR_SEPARATOR (path[strlen(path)-1])
+	    || (basename = g_path_get_basename(path)) == NULL
+	    || (basename[0] == '.' && basename[1] == '\0')
+	    || (g_file_test(path, G_FILE_TEST_IS_DIR)))
 		file = "attachment";
 	else
-		file++;
+		file = basename;
 
 	gtk_tree_model_foreach((GtkTreeModel *)data->model, entry_changed_update, (void *)file);
 	g_free(path);
+	g_free(basename);
 }
 
 static void
