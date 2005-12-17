@@ -1,6 +1,5 @@
 
 #include <sys/types.h>
-#include <dirent.h>
 #include <string.h>
 
 #include "mono-plugin.h"

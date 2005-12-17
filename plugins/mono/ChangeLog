@@ -1,3 +1,7 @@
+2005-12-17  Tor Lillqvist  <tml@novell.com>
+
+	* mono-plugin.c: Drop unused inclusion of <dirent.h>.
+
 2005-08-19  Not Zed  <NotZed@Ximian.com>
 
 	** See #308117.
