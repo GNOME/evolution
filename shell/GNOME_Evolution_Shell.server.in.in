@@ -2,7 +2,7 @@
 
   <oaf_server iid="OAFIID:GNOME_Evolution_Shell:@VERSION@"
 	      type="exe"
-	      location="@BINDIR@/evolution-@VERSION@@EXEEXT@">
+	      location="@BINDIR_IN_SERVER_FILE@/evolution-@VERSION@@EXEEXT@">
 
     <oaf_attribute name="repo_ids" type="stringv">
       <item value="IDL:GNOME/Evolution/Shell:@VERSION@"/>
@@ -14,7 +14,7 @@
 
   <oaf_server iid="OAFIID:GNOME_Evolution_Shell_Config_Factory:@VERSION@"
 	      type="exe"
-	      location="@BINDIR@/evolution-@VERSION@">
+	      location="@BINDIR_IN_SERVER_FILE@/evolution-@VERSION@@EXEEXT@">
 
     <oaf_attribute name="repo_ids" type="stringv">
       <item value="IDL:GNOME/GenericFactory:1.0"/>

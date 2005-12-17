@@ -1150,7 +1150,7 @@ EVO_SET_COMPILE_FLAGS(CAMEL, camel-provider-$EDS_PACKAGE)
 AC_SUBST(CAMEL_CFLAGS)
 AC_SUBST(CAMEL_LIBS)
 
-EVO_SET_COMPILE_FLAGS(CAMEL_GROUPWISE, camel-provider-$EDS_PACKAGE libedataserver-$EDS_PACKAGE libegroupwise-$EDS_PACKAGE >= $EDS_REQUIRED)
+EVO_SET_COMPILE_FLAGS(CAMEL_GROUPWISE, camel-provider-$EDS_PACKAGE libedataserver-$EDS_PACKAGE >= $EDS_REQUIRED libegroupwise-$EDS_PACKAGE >= $EDS_REQUIRED)
 AC_SUBST(CAMEL_GROUPWISE_CFLAGS)
 AC_SUBST(CAMEL_GROUPWISE_LIBS)
 
@@ -1173,7 +1173,7 @@ EVO_SET_COMPILE_FLAGS(E_NAME, libgnomeui-2.0 libbonoboui-2.0 >= $BONOBOUI_REQUIR
 AC_SUBST(E_NAME_CFLAGS)
 AC_SUBST(E_NAME_LIBS)
 
-EVO_SET_COMPILE_FLAGS(E_UTIL, gthread-2.0 gconf-2.0 libxml-2.0 libbonoboui-2.0 >= $BONOBOUI_REQUIRED libglade-2.0 libgnomeui-2.0 libgnome-2.0 libgnomecanvas-2.0 libgnomeprintui-2.2 libedataserver-$EDS_PACKAGE libedataserverui-$EDS_PACKAGE >= $EDS_REQUIRED $mozilla_nspr $mono_package, $THREADS_CFLAGS $MANUAL_NSPR_CFLAGS, $THREADS_LIBS $MANUAL_NSPR_LIBS)
+EVO_SET_COMPILE_FLAGS(E_UTIL, gthread-2.0 gconf-2.0 libxml-2.0 libbonoboui-2.0 >= $BONOBOUI_REQUIRED libglade-2.0 libgnomeui-2.0 libgnome-2.0 libgnomecanvas-2.0 libgnomeprintui-2.2 libedataserver-$EDS_PACKAGE >= $EDS_REQUIRED libedataserverui-$EDS_PACKAGE >= $EDS_REQUIRED $mozilla_nspr $mono_package, $THREADS_CFLAGS $MANUAL_NSPR_CFLAGS, $THREADS_LIBS $MANUAL_NSPR_LIBS)
 AC_SUBST(E_UTIL_CFLAGS)
 AC_SUBST(E_UTIL_LIBS)
 
@@ -1181,7 +1181,7 @@ EVO_SET_COMPILE_FLAGS(TZDIALOG, libecal-$EDS_PACKAGE >= $EDS_REQUIRED, $GNOME_FU
 AC_SUBST(TZDIALOG_CFLAGS)
 AC_SUBST(TZDIALOG_LIBS)
 
-EVO_SET_COMPILE_FLAGS(E_WIDGETS, glib-2.0 libbonoboui-2.0 >= $BONOBOUI_REQUIRED gnome-vfs-2.0 gnome-vfs-module-2.0 libgnomeui-2.0 libglade-2.0 libgnomecanvas-2.0 libxml-2.0 gconf-2.0 libedataserverui-$EDS_PACKAGE)
+EVO_SET_COMPILE_FLAGS(E_WIDGETS, glib-2.0 libbonoboui-2.0 >= $BONOBOUI_REQUIRED gnome-vfs-2.0 gnome-vfs-module-2.0 libgnomeui-2.0 libglade-2.0 libgnomecanvas-2.0 libxml-2.0 gconf-2.0 libedataserverui-$EDS_PACKAGE libedataserver-$EDS_PACKAGE >= $EDS_REQUIRED)
 AC_SUBST(E_WIDGETS_CFLAGS)
 AC_SUBST(E_WIDGETS_LIBS)
  
@@ -1286,18 +1286,6 @@ dnl --- etc)
 privlibdir='${libdir}'/evolution/$BASE_VERSION
 AC_SUBST(privlibdir)
 
-if test "$os_win32" = yes; then
-  # On Win32 there is no "rpath" mechanism. We install the private
-  # shared libraries in $libdir, meaning the DLLs will actually be in
-  # $bindir. This means just having $bindir in PATH will be enough. This
-  # also means gnome_win32_get_prefixes() will be able to deduce the
-  # installation folder correctly.
-  privsolibdir=$libdir
-else
-  privsolibdir=$privlibdir
-fi
-AC_SUBST(privsolibdir)
-
 privlibexecdir='${libexecdir}'/evolution/$BASE_VERSION
 AC_SUBST(privlibexecdir)
 
@@ -1327,6 +1315,30 @@ AC_SUBST(imagesdir)
 
 images16dir="$privdatadir/images/16x16"
 AC_SUBST(images16dir)
+
+if test "$os_win32" = yes; then
+  # On Win32 there is no "rpath" mechanism. We install the private
+  # shared libraries in $libdir, meaning the DLLs will actually be in
+  # $bindir. This means just having $bindir in PATH will be enough. This
+  # also means gnome_win32_get_prefixes() will be able to deduce the
+  # installation folder correctly.
+  privsolibdir=$libdir
+  # On Win32, use a relative path to the executables in .server
+  # files. The path is relative to the folder where the .server file
+  # is, i.e. $prefix/lib/bonobo/servers.
+  bindir_in_server_file=../../../bin
+  privlibexecdir_in_server_file=../../../libexec/evolution/$BASE_VERSION
+  componentdir_in_server_file=../../../lib/evolution/$BASE_VERSION/components
+else
+  privsolibdir=$privlibdir
+  bindir_in_server_file="$bindir"
+  privlibexecdir_in_server_file='${libexecdir}'/evolution/$BASE_VERSION
+  componentdir_in_server_file="$componentdir"
+fi
+AC_SUBST(privsolibdir)
+AC_SUBST(bindir_in_server_file)
+AC_SUBST(privlibexecdir_in_server_file)
+AC_SUBST(componentdir_in_server_file)
 
 dnl images18dir="$privdatadir/images/18x18"
 dnl AC_SUBST(images18dir)

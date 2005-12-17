@@ -3,7 +3,7 @@
   <!-- (factory) -->
   <oaf_server iid="OAFIID:GNOME_Evolution_Test_Factory:@VERSION@"
 	      type="shlib"
-	      location="@COMPONENTDIR@/libevolution-test@SOEXT@">
+	      location="@COMPONENTDIR_IN_SERVER_FILE@/libevolution-test@SOEXT@">
 
     <oaf_attribute name="repo_ids" type="stringv">
       <item value="IDL:GNOME/ObjectFactory:1.0"/>

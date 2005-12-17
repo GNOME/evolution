@@ -1,3 +1,25 @@
+2005-12-06  Tor Lillqvist  <tml@novell.com>
+
+	* configure.in: Include libedataserver-$EDS_PACKAGE in the
+	requirement list for E_WIDGETS.
+
+	Set bindir_in_server_file, privlibexecdir_in_server_file and
+	componentdir_in_server_file. On Unix, they are the same as bindir,
+	privlibexecdir and componentdir respectively. On Win32, use paths
+	relative from lib/bonobo/servers. AC_SUBST these variables.
+
+	* server.mk: Substitute the values above new variables for the
+	corresponding @..._IN_SERVER_FILE@ strings in the .server.in.in
+	files.
+
+	* addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in
+	* calendar/gui/GNOME_Evolution_Calendar.server.in.in
+	* calendar/gui/alarm-notify/GNOME_Evolution_Calendar_AlarmNotify.server.in.in
+	* mail/GNOME_Evolution_Mail.server.in.in
+	* shell/GNOME_Evolution_Shell.server.in.in
+	* shell/GNOME_Evolution_Test.server.in.in: Correspondingly, use
+	the @..._IN_SERVER_FILE@ strings.
+
 2005-12-13  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	* configure.in: added a new variable to include all

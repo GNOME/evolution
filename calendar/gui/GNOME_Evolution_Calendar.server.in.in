@@ -2,7 +2,7 @@
 
 <oaf_server iid="OAFIID:GNOME_Evolution_Calendar_Factory:@VERSION@"
             type="shlib"
-            location="@COMPONENTDIR@/libevolution-calendar@SOEXT@">
+            location="@COMPONENTDIR_IN_SERVER_FILE@/libevolution-calendar@SOEXT@">
 
 	<oaf_attribute name="repo_ids" type="stringv">
 		<item value="IDL:GNOME/ObjectFactory:1.0"/>
