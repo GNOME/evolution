@@ -1,3 +1,10 @@
+2005-12-17  Tor Lillqvist  <tml@novell.com>
+
+	* e-util-private.h (fsync)
+	* e-util.c: Don't bother with a Win32 implementation of fsync() as
+	the uses of fsync() in evo are pretty irrelevant. Just #define
+	fsync() away on Win32.
+
 2005-12-12  Irene Huang <Irene.Huang@sun.com>
 
 	reviewed by: Veerapuram Varadhan  <vvaradhan@novell.com>

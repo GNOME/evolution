@@ -1276,34 +1276,3 @@ e_gettext (const char *msgid)
 
 	return dgettext (E_I18N_DOMAIN, msgid);
 }
-
-#ifdef G_OS_WIN32
-
-int
-fsync (int fd)
-{
-	int handle;
-	struct stat st;
-
-	handle = _get_osfhandle (fd);
-	if (handle == -1)
-		return -1;
-
-	fstat (fd, &st);
-
-	/* FlushFileBuffers() fails if called on a handle to the
-	 * console output. As we cannot know whether fd refers to the
-	 * console output or not, punt, and call FlushFileBuffers()
-	 * only for regular files and pipes.
-	 */
-	if (!(S_ISREG (st.st_mode) || S_ISFIFO (st.st_mode)))
-		return 0;
-
-	if (FlushFileBuffers ((HANDLE) handle))
-		return 0;
-
-	errno = EIO;
-	return -1;
-}
-
-#endif

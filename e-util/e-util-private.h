@@ -33,7 +33,7 @@
 
 #ifdef G_OS_WIN32
 
-int fsync (int fd);
+#define fsync(fd) 0
 
 const char *_e_get_category_icons (void) G_GNUC_CONST;
 const char *_e_get_datadir (void) G_GNUC_CONST;
