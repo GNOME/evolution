@@ -1,6 +1,22 @@
-#ifdef HAVE_CONFIG_H
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+/* 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of version 2 of the GNU General Public
+ * License as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public
+ * License along with this program; if not, write to the
+ * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+ * Boston, MA 02111-1307, USA.
+ *
+ */
+
 #include <config.h>
-#endif
 
 #include <stdio.h>
 #include <string.h>
@@ -10,22 +26,20 @@
 
 #include <glib.h>
 
-#include <gtk/gtkmain.h>
-#include <gtk/gtkwidget.h>
-#include <gtk/gtkdialog.h>
-#include <gtk/gtkstock.h>
-#include <gtk/gtkmessagedialog.h>
+#include <gtk/gtk.h>
 #include <libgnome/gnome-i18n.h>
-#include <misc/e-gui-utils.h>
 
-#include "libedataserver/e-msgport.h"
+#include <libedataserver/e-msgport.h>
+#include <libedataserver/e-util.h>
+
+#include <camel/camel-url.h>
+#include <camel/camel-operation.h>
+
+#include "misc/e-gui-utils.h"
 #include "e-util/e-error.h"
+#include "e-util/e-icon-factory.h"
 
 #include "e-activity-handler.h"
-#include <e-util/e-icon-factory.h>
-
-#include "camel/camel-url.h"
-#include "camel/camel-operation.h"
 
 #include "mail-config.h"
 #include "mail-component.h"
@@ -41,8 +55,8 @@ static void set_stop(int sensitive);
 static void mail_operation_status(struct _CamelOperation *op, const char *what, int pc, void *data);
 
 #ifdef LOG_LOCKS
-#define MAIL_MT_LOCK(x) (log_locks?fprintf(log, "%ld: lock " # x "\n", pthread_self()):0, pthread_mutex_lock(&x))
-#define MAIL_MT_UNLOCK(x) (log_locks?fprintf(log, "%ld: unlock " # x "\n", pthread_self()): 0, pthread_mutex_unlock(&x))
+#define MAIL_MT_LOCK(x) (log_locks?fprintf(log, "%" G_GINT64_MODIFIER "x: lock " # x "\n", e_util_pthread_id(pthread_self())):0, pthread_mutex_lock(&x))
+#define MAIL_MT_UNLOCK(x) (log_locks?fprintf(log, "%" G_GINT64_MODIFIER "x: unlock " # x "\n", e_util_pthread_id(pthread_self())): 0, pthread_mutex_unlock(&x))
 #else
 #define MAIL_MT_LOCK(x) pthread_mutex_lock(&x)
 #define MAIL_MT_UNLOCK(x) pthread_mutex_unlock(&x)
@@ -98,8 +112,8 @@ void *mail_msg_new(mail_msg_op_t *ops, EMsgPort *reply_port, size_t size)
 					fprintf(log, "Logging async operations\n");
 
 				if (log_locks) {
-					fprintf(log, "Logging lock operations, mail_gui_thread = %ld\n\n", mail_gui_thread);
-					fprintf(log, "%ld: lock mail_msg_lock\n", pthread_self());
+					fprintf(log, "Logging lock operations, mail_gui_thread = %" G_GINT64_MODIFIER "x\n\n", e_util_pthread_id(mail_gui_thread));
+					fprintf(log, "%" G_GINT64_MODIFIER "x: lock mail_msg_lock\n", e_util_pthread_id(pthread_self()));
 				}
 			} else {
 				g_warning ("Could not open log file: %s", strerror(errno));
@@ -294,7 +308,7 @@ void mail_msg_cancel(unsigned int msgid)
 void mail_msg_wait(unsigned int msgid)
 {
 	struct _mail_msg *m;
-	int ismain = pthread_self() == mail_gui_thread;
+	int ismain = pthread_equal(pthread_self(), mail_gui_thread);
 
 	if (ismain) {
 		MAIL_MT_LOCK(mail_msg_lock);
@@ -333,7 +347,7 @@ int mail_msg_active(unsigned int msgid)
 
 void mail_msg_wait_all(void)
 {
-	int ismain = pthread_self() == mail_gui_thread;
+	int ismain = pthread_equal(pthread_self(), mail_gui_thread);
 
 	if (ismain) {
 		MAIL_MT_LOCK(mail_msg_lock);
@@ -537,7 +551,7 @@ mail_msg_received(EThread *e, EMsg *msg, void *data)
 
 #ifdef LOG_OPS
 		if (log_ops)
-			fprintf(log, "%p: Received at thread %ld: '%s'\n", m, pthread_self(), text);
+			fprintf(log, "%p: Received at thread %" G_GINT64_MODIFIER "x: '%s'\n", m, e_util_pthread_id(pthread_self()), text);
 #endif
 
 		d(printf("message received at thread\n"));
@@ -548,7 +562,7 @@ mail_msg_received(EThread *e, EMsg *msg, void *data)
 #ifdef LOG_OPS
 	else
 		if (log_ops)
-			fprintf(log, "%p: Received at thread %ld\n", m, pthread_self());
+			fprintf(log, "%p: Received at thread %" G_GINT64_MODIFIER "x\n", m, e_util_pthread_id(pthread_self()));
 #endif
 
 	if (m->ops->receive_msg) {
@@ -589,7 +603,11 @@ em_channel_setup(EMsgPort **port, GIOChannel **channel, GIOFunc func)
 	guint id;
 
 	*port = e_msgport_new();
+#ifndef G_OS_WIN32
 	*channel = g_io_channel_unix_new(e_msgport_fd(*port));
+#else
+	*channel = g_io_channel_win32_new_socket(e_msgport_fd(*port));
+#endif
 	source = g_io_create_watch(*channel, G_IO_IN);
 	g_source_set_callback(source, (GSourceFunc)func, *port, NULL);
 	g_source_set_can_recurse(source, FALSE);
@@ -640,6 +658,7 @@ struct _proxy_msg {
 	mail_async_event_t type;
 
 	pthread_t thread;
+	int have_thread;
 
 	MailAsyncFunc func;
 	void *o;
@@ -653,8 +672,9 @@ do_async_event(struct _mail_msg *mm)
 	struct _proxy_msg *m = (struct _proxy_msg *)mm;
 
 	m->thread = pthread_self();
+	m->have_thread = TRUE;
 	m->func(m->o, m->event_data, m->data);
-	m->thread = ~0;
+	m->have_thread = FALSE;
 
 	g_mutex_lock(m->ea->lock);
 	m->ea->tasks = g_slist_remove(m->ea->tasks, m);
@@ -691,7 +711,7 @@ int mail_async_event_emit(MailAsyncEvent *ea, mail_async_event_t type, MailAsync
 {
 	struct _proxy_msg *m;
 	int id;
-	int ismain = pthread_self() == mail_gui_thread;
+	int ismain = pthread_equal(pthread_self(), mail_gui_thread);
 
 	/* we dont have a reply port for this, we dont care when/if it gets executed, just queue it */
 	m = mail_msg_new(&async_event_op, NULL, sizeof(*m));
@@ -701,7 +721,7 @@ int mail_async_event_emit(MailAsyncEvent *ea, mail_async_event_t type, MailAsync
 	m->data = data;
 	m->ea = ea;
 	m->type = type;
-	m->thread = ~0;
+	m->have_thread = FALSE;
 	
 	id = m->msg.seq;
 	g_mutex_lock(ea->lock);
@@ -731,7 +751,7 @@ int mail_async_event_destroy(MailAsyncEvent *ea)
 	while (ea->tasks) {
 		m = ea->tasks->data;
 		id = m->msg.seq;
-		if (m->thread == thread) {
+		if (m->have_thread && pthread_equal(m->thread, thread)) {
 			g_warning("Destroying async event from inside an event, returning EDEADLK");
 			g_mutex_unlock(ea->lock);
 			errno = EDEADLK;
@@ -825,7 +845,7 @@ void *mail_call_main(mail_call_t type, MailMainFunc func, ...)
 	void *ret;
 	va_list ap;
 	EMsgPort *reply = NULL;
-	int ismain = pthread_self() == mail_gui_thread;
+	int ismain = pthread_equal(pthread_self(), mail_gui_thread);
 
 	va_start(ap, func);
 
@@ -915,7 +935,7 @@ static void do_op_status(struct _mail_msg *mm)
 	char *out, *p, *o, c;
 	int pc;
 	
-	g_assert (mail_gui_thread == pthread_self ());
+	g_assert (pthread_equal(mail_gui_thread, pthread_self ()));
 	
 	MAIL_MT_LOCK (mail_msg_lock);
 	
