@@ -1,3 +1,8 @@
+2005-12-17  Tor Lillqvist  <tml@novell.com>
+
+	* conduits/calendar/calendar-conduit.c: Use GLib to construct
+	filenames from URIs and back.
+
 2005-12-15  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fixes bug #324094
