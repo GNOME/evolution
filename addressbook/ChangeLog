@@ -1,8 +1,9 @@
 2005-12-17  Tor Lillqvist  <tml@novell.com>
 
-	* gui/component/addressbook-migrate.c: Use gstdio wrappers. Use
-	GDir API instead of dirent. Use GLib API to convert file names to
-	URIs and back. Open files in binary mode.
+	* gui/component/addressbook-migrate.c
+	* importers/evolution-vcard-importer.c: Use gstdio
+	wrappers. Use GDir API instead of dirent. Use GLib to convert file
+	names to URIs and back. Open files in binary mode.
 
 2005-12-15  Srinivasa Ragavan  <sragavan@novell.com>
 

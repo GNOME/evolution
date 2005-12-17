@@ -31,6 +31,7 @@
 
 #include <gtk/gtkvbox.h>
 #include <glib/gi18n.h>
+#include <glib/gstdio.h>
 
 #include <libebook/e-book.h>
 #include <libedataserverui/e-source-selector.h>
@@ -323,7 +324,7 @@ guess_vcard_encoding (const char *filename)
 	char *line_utf8;
 	VCardEncoding encoding = VCARD_ENCODING_NONE;
 
-	handle = fopen (filename, "r");
+	handle = g_fopen (filename, "r");
 	if (handle == NULL) {
 		g_print ("\n");
 		return VCARD_ENCODING_NONE;
@@ -411,6 +412,8 @@ static gboolean
 vcard_supported(EImport *ei, EImportTarget *target, EImportImporter *im)
 {
 	EImportTargetURI *s;
+	gchar *filename;
+	gboolean retval;
 
 	if (target->type != E_IMPORT_TARGET_URI)
 		return FALSE;
@@ -422,8 +425,13 @@ vcard_supported(EImport *ei, EImportTarget *target, EImportImporter *im)
 	if (strncmp(s->uri_src, "file:///", 8) != 0)
 		return FALSE;
 
-	/* FIXME: need to parse the url properly */
-	return guess_vcard_encoding(s->uri_src+7) != VCARD_ENCODING_NONE;
+	filename = g_filename_from_uri (s->uri_src, NULL, NULL);
+	if (filename == NULL)
+		return FALSE;
+	retval = (guess_vcard_encoding(filename) != VCARD_ENCODING_NONE);
+	g_free (filename);
+
+	return retval;
 }
 
 static void
@@ -449,10 +457,17 @@ vcard_import(EImport *ei, EImportTarget *target, EImportImporter *im)
 	VCardEncoding encoding;
 	EBook *book;
 	EImportTargetURI *s = (EImportTargetURI *)target;
+	gchar *filename;
 
-	/* FIXME: get filename properly */
-	encoding = guess_vcard_encoding(s->uri_src+7);
+	filename = g_filename_from_uri(s->uri_src, NULL, NULL);
+	if (filename == NULL) {
+		g_message(G_STRLOC ": Couldn't get filename from URI '%s'", s->uri_src);
+		e_import_complete(ei, target);
+		return;
+	}
+	encoding = guess_vcard_encoding(filename);
 	if (encoding == VCARD_ENCODING_NONE) {
+		g_free (filename);
 		/* this check is superfluous, we've already checked otherwise we can't get here ... */
 		e_import_complete(ei, target);
 		return;
@@ -461,6 +476,7 @@ vcard_import(EImport *ei, EImportTarget *target, EImportImporter *im)
 	book = e_book_new(g_datalist_get_data(&target->data, "vcard-source"), NULL);
 	if (book == NULL) {
 		g_message(G_STRLOC ":Couldn't create EBook.");
+		g_free (filename);
 		e_import_complete(ei, target);
 		return;
 	}
@@ -472,13 +488,15 @@ vcard_import(EImport *ei, EImportTarget *target, EImportImporter *im)
 		return;	
 	}
 
-	if (!g_file_get_contents (s->uri_src+7, &contents, NULL, NULL)) {
+	if (!g_file_get_contents (filename, &contents, NULL, NULL)) {
 		g_message (G_STRLOC ":Couldn't read file.");
+		g_free (filename);
 		e_import_complete(ei, target);
 		g_object_unref(book);
 		return;
 	}
 
+	g_free (filename);
 	gci = g_malloc0(sizeof(*gci));
 	g_datalist_set_data(&target->data, "vcard-data", gci);
 	gci->import = g_object_ref(ei);
