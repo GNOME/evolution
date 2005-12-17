@@ -20,6 +20,10 @@
 	* mail-signature-editor.c: Use gstdio wrappers. Construct UI XML
 	file pathname at run-time.
 
+	* mail-tools.c: Use gstdio wrappers. Beautify #include order and
+	syntax.
+	(mail_tool_get_local_movemail_path): Not used, put in #if 0.
+
 2005-12-12  Karsten Bräckelmann  <guenther@rudersport.de>
 
 	* em-folder-view.c: Mail Context Menu re-ordered correctly,

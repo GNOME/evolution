@@ -22,9 +22,7 @@
  * USA
  */
 
-#ifdef HAVE_CONFIG_H
 #include <config.h>
-#endif
 
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -33,28 +31,32 @@
 #include <errno.h>
 #include <string.h>
 
+#include <glib.h>
+#include <glib/gstdio.h>
+
 #include <gconf/gconf.h>
 #include <gconf/gconf-client.h>
+
 #include <libgnome/gnome-i18n.h>
 
-#include <camel/camel-vee-folder.h>
 #include <camel/camel-file-utils.h>
-#include <camel/camel-movemail.h>
 #include <camel/camel-mime-message.h>
+#include <camel/camel-movemail.h>
+#include <camel/camel-vee-folder.h>
 
-#include "em-vfolder-rule.h"
-#include "em-vfolder-context.h"
-#include <filter/filter-option.h>
-#include <filter/filter-input.h>
+#include "filter/filter-option.h"
+#include "filter/filter-input.h"
 
-#include "mail-component.h"
-#include "mail-session.h"
-#include "mail-config.h"
-#include "mail-vfolder.h"
-#include "mail-tools.h"
-#include "mail-mt.h"
-#include "mail-folder-cache.h"
 #include "em-utils.h"
+#include "em-vfolder-context.h"
+#include "em-vfolder-rule.h"
+#include "mail-component.h"
+#include "mail-config.h"
+#include "mail-folder-cache.h"
+#include "mail-mt.h"
+#include "mail-session.h"
+#include "mail-tools.h"
+#include "mail-vfolder.h"
 
 /* **************************************** */
 
@@ -98,6 +100,9 @@ mail_tool_get_trash (const gchar *url, int connect, CamelException *ex)
 	return trash;
 }
 
+#if 0
+/* Not used */
+
 static char *
 mail_tool_get_local_movemail_path (const unsigned char *uri, CamelException *ex)
 {
@@ -111,7 +116,7 @@ mail_tool_get_local_movemail_path (const unsigned char *uri, CamelException *ex)
 			*c = '_';
 
 	path = g_strdup_printf("%s/mail/spool", mail_component_peek_base_directory(NULL));
-	if (stat(path, &st) == -1 && camel_mkdir(path, 0777) == -1) {
+	if (g_stat(path, &st) == -1 && camel_mkdir(path, 0777) == -1) {
 		camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM, _("Could not create spool directory `%s': %s"),
 				     path, g_strerror(errno));
 		g_free(path);
@@ -124,6 +129,8 @@ mail_tool_get_local_movemail_path (const unsigned char *uri, CamelException *ex)
 	
 	return full;
 }
+
+#endif
 
 char *
 mail_tool_do_movemail (const char *source_url, CamelException *ex)
@@ -155,8 +162,8 @@ mail_tool_do_movemail (const char *source_url, CamelException *ex)
 	camel_movemail (uri->path, dest_path, ex);
 	camel_url_free(uri);
 
-	if (stat (dest_path, &sb) < 0 || sb.st_size == 0) {
-		unlink (dest_path); /* Clean up the movemail.foo file. */
+	if (g_stat (dest_path, &sb) < 0 || sb.st_size == 0) {
+		g_unlink (dest_path); /* Clean up the movemail.foo file. */
 		g_free (dest_path);
 		return NULL;
 	}
