@@ -33,6 +33,8 @@
 
 #include <sys/stat.h>
 #include <unistd.h>
+#include <glib.h>
+#include <glib/gstdio.h>
 #include <gnome.h>
 #include <misc/e-gui-utils.h>
 #include <table/e-cell-checkbox.h>
@@ -1039,7 +1041,7 @@ e_calendar_table_on_save_as (EPopup *ep, EPopupItem *pitem, void *data)
 		return;
 	}
 	
-	file = fopen (filename, "w");
+	file = g_fopen (filename, "w");
 	if (file == NULL) {
 		g_warning ("Couldn't save item");
 		return;
@@ -1376,7 +1378,7 @@ e_calendar_table_load_state	(ECalendarTable *cal_table,
 
 	g_return_if_fail (E_IS_CALENDAR_TABLE (cal_table));
 
-	if (stat (filename, &st) == 0 && st.st_size > 0
+	if (g_stat (filename, &st) == 0 && st.st_size > 0
 	    && S_ISREG (st.st_mode)) {
 		e_table_load_state (e_table_scrolled_get_table (E_TABLE_SCROLLED (cal_table->etable)), filename);
 	}
