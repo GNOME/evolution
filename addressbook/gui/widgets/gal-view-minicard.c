@@ -8,9 +8,14 @@
  * (C) 2000, 2001 Ximian, Inc.
  */
 #include <config.h>
-#include "gal-view-minicard.h"
+
 #include <libxml/parser.h>
+
+#include <libedataserver/e-xml-utils.h>
+
 #include <e-util/e-xml-utils.h>
+
+#include "gal-view-minicard.h"
 
 #define PARENT_TYPE gal_view_get_type ()
 #define d(x) x
@@ -22,7 +27,8 @@ gal_view_minicard_load (GalView *view,
 			const char *filename)
 {
 	xmlDoc *doc;
-	doc = xmlParseFile (filename);
+
+	doc = e_xml_parse_file (filename);
 	if (doc) {
 		xmlNode *root = xmlDocGetRootElement(doc);
 		GAL_VIEW_MINICARD (view)->column_width = e_xml_get_double_prop_by_name_with_default (root, "column_width", 150);
@@ -41,7 +47,7 @@ gal_view_minicard_save (GalView *view,
 	root = xmlNewNode (NULL, "EMinicardViewState");
 	e_xml_set_double_prop_by_name (root, "column_width", GAL_VIEW_MINICARD (view)->column_width);
 	xmlDocSetRootElement(doc, root);
-	xmlSaveFile(filename, doc);
+	e_xml_save_file (filename, doc);
 	xmlFreeDoc(doc);
 }
 

@@ -20,13 +20,14 @@
  */
 
 #include <config.h>
-#include "e-contact-print.h"
 
 #include <ctype.h>
 #include <sys/types.h>
 #include <stdlib.h>
 #include <string.h>
+
 #include <glib.h>
+
 #include <libxml/tree.h>
 #include <libxml/parser.h>
 #include <libxml/xmlmemory.h>
@@ -42,9 +43,14 @@
 #include <libgnomeprintui/gnome-print-job-preview.h>
 #include <libebook/e-book.h>
 #include <libebook/e-contact.h>
-#include <e-util/e-util.h>
-#include <e-util/e-util-private.h>
-#include <e-util/e-print.h>
+
+#include <libedataserver/e-xml-utils.h>
+
+#include "e-util/e-print.h"
+#include "e-util/e-util.h"
+#include "e-util/e-util-private.h"
+
+#include "e-contact-print.h"
 
 #define SCALE 5
 #define HYPHEN_PIXELS 20
@@ -769,7 +775,7 @@ e_contact_build_style(EContactPrintStyle *style, GnomePrintConfig *config)
 	style->right_footer = g_strdup("");
 	style->reverse_on_even_pages = FALSE;
 	filename = g_concat_dir_and_file(EVOLUTION_ECPSDIR, "medbook.ecps");
-	styledoc = xmlParseFile(filename);
+	styledoc = e_xml_parse_file (filename);
 	g_free(filename);
 	if (styledoc) {
 		xmlNodePtr stylenode = xmlDocGetRootElement(styledoc);

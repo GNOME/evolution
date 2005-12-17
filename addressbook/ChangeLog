@@ -5,6 +5,12 @@
 	wrappers. Use GDir API instead of dirent. Use GLib to convert file
 	names to URIs and back. Open files in binary mode.
 
+	* gui/widgets/gal-view-minicard.c
+	* printing/e-contact-print.c: Use libedataserver's
+	e_xml_parse_file() and e_xml_save_file() instead of calling libxml
+	functions directly, as they don't understand the GLib file name
+	encoding (UTF-8) on Win32.
+
 2005-12-15  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* gui/search/e-addressbook-search-dialog.c: (dialog_response): Added
