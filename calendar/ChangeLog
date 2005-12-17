@@ -1,5 +1,12 @@
 2005-12-15  Srinivasa Ragavan  <sragavan@novell.com>
 
+	** Fixes bug #324094
+
+	* gui/e-calendar-view.c: (e_calendar_view_get_tooltips): Added
+	comments to few strings for translation.
+
+2005-12-15  Srinivasa Ragavan  <sragavan@novell.com>
+
 	* gui/e-week-view.c: (e_week_view_reshape_event_span),
 	(e_week_view_on_text_item_event): Added event-num to the
 	CanvasItem to be picked up by the event handler. This causes 
@@ -7,7 +14,6 @@
 
 2005-12-15  Srinivasa Ragavan  <sragavan@novell.com>
 
-	reviewed by: <delete if not using a buddy>
 
 	* gui/e-calendar-view.c: (e_calendar_view_get_tooltips): Removed
 	markup from translatable strings.

@@ -1957,6 +1957,7 @@ e_calendar_view_get_tooltips (ECalendarViewEventData *data)
 		GtkWidget *hbox = gtk_hbox_new (FALSE, 0);
 		ptr = strchr(organiser.value, ':');
 		ptr++;
+		/* To Translators: It will display "Organiser: NameOfTheUser <email@ofuser.com>" */
 		tmp = g_strdup_printf (_("Organizer: %s <%s>"), organiser.cn, ptr);
 		label = gtk_label_new (tmp);
 		gtk_box_pack_start ((GtkBox *)hbox, label, FALSE, FALSE, 0);
@@ -1970,6 +1971,7 @@ e_calendar_view_get_tooltips (ECalendarViewEventData *data)
 	e_cal_component_get_location (newcomp, &str);
 
 	if (str) {
+		/* To Translators: It will display "Location: PlaceOfTheMeeting" */
 		tmp = g_strdup_printf (_("Location: %s"), str);
 		label = gtk_label_new (NULL);
 		gtk_label_set_markup ((GtkLabel *)label, tmp);
@@ -1999,7 +2001,8 @@ e_calendar_view_get_tooltips (ECalendarViewEventData *data)
 		
 	tmp1 = get_label(dtstart.value);
 	tmp = calculate_time (t_start, t_end);
-
+	
+	/* To Translators: It will display "Time: ActualStartDateAndTime (DurationOfTheMeeting)"*/
 	tmp2 = g_strdup_printf(_("Time: %s %s"), tmp1, tmp);
 	hbox = gtk_hbox_new (FALSE, 0);
 	gtk_box_pack_start ((GtkBox *)hbox, gtk_label_new_with_mnemonic (tmp2), FALSE, FALSE, 0);
