@@ -25,19 +25,18 @@
 #endif
 
 #include <glib.h>
+#include <glib/gstdio.h>
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <stdlib.h>
 #include <string.h>
 #include <fcntl.h>
 #include <unistd.h>
-#include <dirent.h>
 #include <errno.h>
 #include <stdio.h>
 #include <time.h>
 
-#include <e-util/e-util.h>
-
+#include "e-util.h"
 #include "e-mktemp.h"
 
 #define d(x)
@@ -53,8 +52,8 @@
 static int
 expire_dir_rec(const char *base, time_t now)
 {
-	DIR *dir;
-	struct dirent *d;
+	GDir *dir;
+	const char *d;
 	GString *path;
 	size_t len;
 	struct stat st;
@@ -62,32 +61,28 @@ expire_dir_rec(const char *base, time_t now)
 
 	d(printf("expire dir '%s'\n", base));
 
-	dir = opendir(base);
+	dir = g_dir_open(base, 0, NULL);
 	if (dir == NULL)
 		return 0;
 
 	path = g_string_new(base);
 	len = path->len;
 
-	while ( (d = readdir(dir)) ) {
-		if (strcmp(d->d_name, ".") == 0
-		    || strcmp(d->d_name, "..") == 0)
-			continue;
-
+	while ( (d = g_dir_read_name(dir)) ) {
 		g_string_truncate(path, len);
-		g_string_append_printf(path, "/%s", d->d_name);
+		g_string_append_printf(path, "/%s", d);
 		d(printf("Checking '%s' for expiry\n", path->str));
 
-		if (stat(path->str, &st) == 0
+		if (g_stat(path->str, &st) == 0
 		    && st.st_atime + TEMP_EXPIRE < now) {
 			if (S_ISDIR(st.st_mode)) {
 				if (expire_dir_rec(path->str, now) == 0) {
 					d(printf("Removing dir '%s'\n", path->str));
-					rmdir(path->str);
+					g_rmdir(path->str);
 				} else {
 					count++;
 				}
-			} else if (unlink(path->str) == -1) {
+			} else if (g_unlink(path->str) == -1) {
 				d(printf("expiry failed: %s\n", strerror(errno)));
 				count++;
 			} else {
@@ -98,7 +93,7 @@ expire_dir_rec(const char *base, time_t now)
 		}
 	}
 	g_string_free(path, TRUE);
-	closedir(dir);
+	g_dir_close(dir);
 
 	d(printf("expire dir '%s' %d remaining files\n", base, count));
 
@@ -126,12 +121,12 @@ get_dir (gboolean make)
 		int ret;
 		
 		/* shoot now, ask questions later */
-		ret = mkdir (path->str, S_IRWXU);
+		ret = g_mkdir (path->str, S_IRWXU);
 		if (ret == -1) {
 			if (errno == EEXIST) {
 				struct stat st;
 				
-				if (stat (path->str, &st) == -1) {
+				if (g_stat (path->str, &st) == -1) {
 					/* reset errno */
 					errno = EEXIST;
 					g_string_free (path, TRUE);
@@ -203,7 +198,7 @@ e_mkstemp (const char *template)
 	else
 		g_string_append (path, "unknown-XXXXXX");
 	
-	fd = mkstemp (path->str);
+	fd = g_mkstemp (path->str);
 	g_string_free(path, TRUE);
 	
 	return fd;
@@ -231,7 +226,7 @@ e_mkdtemp (const char *template)
 #else
 	tmpdir = mktemp (path->str);
 	if (tmpdir) {
-		if (mkdir (tmpdir, S_IRWXU) == -1)
+		if (g_mkdir (tmpdir, S_IRWXU) == -1)
 			tmpdir = NULL;
 	}
 #endif

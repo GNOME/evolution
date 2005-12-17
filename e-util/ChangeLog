@@ -5,7 +5,8 @@
 
 	* e-error.c
 	* e-fsutils.c
-	* e-icon-factory.c: Use GLib API where applicable for portability.
+	* e-icon-factory.c
+	* e-mktemp.c: Use GLib API where applicable for portability.
 
 	* e-error.c
 	* e-folder-map.c: Use e_xml_parse_file() instead of using libxml
