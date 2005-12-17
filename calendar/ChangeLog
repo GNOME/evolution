@@ -3,6 +3,9 @@
 	* conduits/calendar/calendar-conduit.c: Use GLib to construct
 	filenames from URIs and back.
 
+	* gui/e-cal-component-memo-preview.c (write_html): Use
+	g_filename_to_uri() to construct a file: URI.
+
 2005-12-15  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fixes bug #324094

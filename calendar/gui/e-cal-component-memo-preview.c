@@ -162,8 +162,10 @@ write_html (GtkHTMLStream *stream, ECal *ecal, ECalComponent *comp, icaltimezone
 
 			icon_file = e_categories_get_icon_file_for ((const char *) node->data);
 			if (icon_file && g_file_test(icon_file, G_FILE_TEST_EXISTS)) {
-				gtk_html_stream_printf (stream, "<IMG ALT=\"%s\" SRC=\"file://%s\">",
-							(const char *) node->data, icon_file);
+				gchar *icon_file_uri = g_filename_to_uri (icon_file, NULL, NULL);
+				gtk_html_stream_printf (stream, "<IMG ALT=\"%s\" SRC=\"%s\">",
+							(const char *) node->data, icon_file_uri);
+				g_free (icon_file_uri);
 				one_added = TRUE;
 			}
 			else{
