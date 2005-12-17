@@ -46,6 +46,8 @@
 #include <camel/camel-exception.h>
 #include <camel/camel-stream-mem.h>
 
+#include "e-util/e-util-private.h"
+
 #include "mail/mail-mt.h"
 #include "mail/mail-component.h"
 #include "mail/mail-tools.h"
