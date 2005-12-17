@@ -1,3 +1,7 @@
+2005-12-17  Tor Lillqvist  <tml@novell.com>
+
+	* filter-file.c: Use gstdio wrappers.
+
 2005-08-23  Not Zed  <NotZed@Ximian.com>
 
 	* filter-rule.c (get_widget): cast.

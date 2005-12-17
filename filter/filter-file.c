@@ -21,21 +21,25 @@
  */
 
 
-#ifdef HAVE_CONFIG_H
 #include <config.h>
-#endif
 
 #include <string.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 
+#include <glib.h>
+#include <glib/gstdio.h>
+
 #include <gtk/gtk.h>
+
 #include <libgnome/gnome-i18n.h>
 #include <libgnomeui/gnome-file-entry.h>
 
-#include "filter-file.h"
-#include "libedataserver/e-sexp.h"
+#include <libedataserver/e-sexp.h>
+
 #include "e-util/e-error.h"
+
+#include "filter-file.h"
 
 #define d(x)
 
@@ -169,7 +173,7 @@ validate (FilterElement *fe)
 	/* FIXME: do more to validate command-lines? */
 	
 	if (strcmp (file->type, "file") == 0) {
-		if (stat (file->path, &st) == -1 || !S_ISREG (st.st_mode)) {
+		if (g_stat (file->path, &st) == -1 || !S_ISREG (st.st_mode)) {
 			/* FIXME: FilterElement should probably have a
 			   GtkWidget member pointing to the value gotten with
 			   ::get_widget() so that we can get the parent window
