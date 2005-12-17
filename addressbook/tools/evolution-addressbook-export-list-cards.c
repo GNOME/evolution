@@ -28,6 +28,7 @@
 #include <unistd.h>
 
 #include <glib.h>
+#include <glib/gstdio.h>
 #include <bonobo-activation/bonobo-activation.h>
 #include <libbonobo.h>
 #include <libgnome/libgnome.h>
@@ -616,6 +617,7 @@ output_n_cards_file (FILE * outputfile, GList *contacts, int size, int begin_no,
 static void
 fork_to_background (void)
 {
+#ifndef G_OS_WIN32
 	pid_t pid;
 	pid = fork ();
 	if (pid == -1) {
@@ -630,6 +632,7 @@ fork_to_background (void)
 		/* parent exit,  note the use of _exit() instead of exit() */
 		_exit (-1);
 	}
+#endif
 }
 
 
@@ -660,7 +663,7 @@ action_list_cards (GList *contacts, ActionContext * p_actctx)
 			outputfile = stdout;
 		} else {
 			/* fopen output file */
-			if (!(outputfile = fopen (p_actctx->action_list_cards.output_file, "w"))) {
+			if (!(outputfile = g_fopen (p_actctx->action_list_cards.output_file, "w"))) {
 				g_warning (_("Can not open file"));
 				exit (-1);
 			}
@@ -696,7 +699,7 @@ action_list_cards (GList *contacts, ActionContext * p_actctx)
 					g_strdup_printf ("%s.%04d", p_actctx->action_list_cards.output_file, series_no);
 			}
 
-			if (!(outputfile = fopen (file_series_name, "w"))) {
+			if (!(outputfile = g_fopen (file_series_name, "w"))) {
 				g_warning (_("Can not open file"));
 				exit (-1);
 			}
@@ -721,6 +724,14 @@ action_list_cards (GList *contacts, ActionContext * p_actctx)
 		}
 		while (series_no * size < length);
 		g_free (file_series_name);
+#ifdef G_OS_WIN32
+		/* On Unix the parent exits already in
+		 * fork_to_background(), but without fork() exit only
+		 * after doing the job. XXX Is this correct? 
+		 */
+		if (IsFirstOne == FALSE)
+			_exit (-1);
+#endif
 	}
 }
 

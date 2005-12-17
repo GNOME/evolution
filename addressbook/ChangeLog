@@ -11,6 +11,10 @@
 	functions directly, as they don't understand the GLib file name
 	encoding (UTF-8) on Win32.
 
+	* tools/evolution-addressbook-export-list-cards.c: Use gstdio
+	wrappers. No fork() on Windows, but the fork-to-background
+	functionality doesn't seem essential?
+
 2005-12-15  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* gui/search/e-addressbook-search-dialog.c: (dialog_response): Added
