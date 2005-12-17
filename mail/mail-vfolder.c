@@ -20,34 +20,34 @@
  *
  */
 
-#ifdef HAVE_CONFIG_H
 #include <config.h>
-#endif
+
+#include <string.h>
 
 #include <glib.h>
-#include <string.h>
+
 #include <libgnome/gnome-i18n.h>
 
-#include "mail-component.h"
-#include "mail-config.h"
-#include "mail-vfolder.h"
-#include "mail-tools.h"
-#include "mail-autofilter.h"
-#include "mail-folder-cache.h"
-#include "mail-ops.h"
-#include "mail-mt.h"
-#include "em-utils.h"
+#include <camel/camel-vee-folder.h>
+#include <camel/camel-vee-store.h>
+#include <camel/camel-vtrash-folder.h>
 
 #include "e-util/e-account-list.h"
 #include "e-util/e-error.h"
+#include "e-util/e-util-private.h"
 
-#include "camel/camel-vee-folder.h"
-#include "camel/camel-vee-store.h"
-#include "camel/camel-vtrash-folder.h"
-
+#include "em-utils.h"
 #include "em-vfolder-context.h"
 #include "em-vfolder-editor.h"
 #include "em-vfolder-rule.h"
+#include "mail-autofilter.h"
+#include "mail-component.h"
+#include "mail-config.h"
+#include "mail-folder-cache.h"
+#include "mail-mt.h"
+#include "mail-ops.h"
+#include "mail-tools.h"
+#include "mail-vfolder.h"
 
 #define d(x) /*(printf("%s(%d):%s: ",  __FILE__, __LINE__, __PRETTY_FUNCTION__), (x))*/
 
@@ -447,7 +447,7 @@ mail_vfolder_add_uri(CamelStore *store, const char *curi, int remove)
 		return;
 	}
 
-	g_assert(pthread_self() == mail_gui_thread);
+	g_assert(pthread_equal(pthread_self(), mail_gui_thread));
 
 	is_ignore = uri_is_ignore(store, curi);
 
@@ -542,7 +542,7 @@ mail_vfolder_delete_uri(CamelStore *store, const char *curi)
 
 	d(printf ("Deleting uri to check: %s\n", uri));
 	
-	g_assert (pthread_self() == mail_gui_thread);
+	g_assert (pthread_equal(pthread_self(), mail_gui_thread));
 	
 	changed = g_string_new ("");
 	
@@ -617,7 +617,7 @@ mail_vfolder_rename_uri(CamelStore *store, const char *cfrom, const char *cto)
 	if (context == NULL || uri_is_spethal(store, cfrom) || uri_is_spethal(store, cto))
 		return;
 
-	g_assert(pthread_self() == mail_gui_thread);
+	g_assert(pthread_equal(pthread_self(), mail_gui_thread));
 
 	from = em_uri_from_camel(cfrom);
 	to = em_uri_from_camel(cto);
@@ -915,6 +915,7 @@ vfolder_load_storage(void)
 {
 	char *user, *storeuri;
 	FilterRule *rule;
+	char *xmlfile;
 
 	vfolder_hash = g_hash_table_new(g_str_hash, g_str_equal);
 
@@ -939,10 +940,13 @@ vfolder_load_storage(void)
 	/* load our rules */
 	user = g_strdup_printf ("%s/mail/vfolders.xml", mail_component_peek_base_directory (mail_component_peek ()));
 	context = em_vfolder_context_new ();
+
+	xmlfile = g_build_filename (EVOLUTION_PRIVDATADIR, "vfoldertypes.xml", NULL);
 	if (rule_context_load ((RuleContext *)context,
-			       EVOLUTION_PRIVDATADIR "/vfoldertypes.xml", user) != 0) {
+			       xmlfile, user) != 0) {
 		g_warning("cannot load vfolders: %s\n", ((RuleContext *)context)->error);
 	}
+	g_free (xmlfile);
 	g_free (user);
 	
 	g_signal_connect(context, "rule_added", G_CALLBACK(context_rule_added), context);
