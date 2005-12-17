@@ -1,7 +1,8 @@
 2005-12-17  Tor Lillqvist  <tml@novell.com>
 
 	* conduits/calendar/calendar-conduit.c
-	* gui/e-cal-component-memo-preview.c: Use GLib to construct
+	* gui/e-cal-component-memo-preview.c
+	* gui/e-cal-component-preview.c: Use GLib to construct
 	filenames from URIs and vice versa.
 
 	* gui/e-cal-list-view.c
