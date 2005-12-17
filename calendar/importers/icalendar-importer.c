@@ -46,6 +46,7 @@
 #include "common/authentication.h"
 
 #include "e-util/e-import.h"
+#include "e-util/e-util-private.h"
 
 /* We timeout after 2 minutes, when opening the folders. */
 #define IMPORTER_TIMEOUT_SECONDS 120
@@ -360,6 +361,7 @@ ivcal_cancel(EImport *ei, EImportTarget *target, EImportImporter *im)
 static gboolean
 ical_supported(EImport *ei, EImportTarget *target, EImportImporter *im)
 {
+	char *filename;
 	char *contents;
 	gboolean ret = FALSE;
 	EImportTargetURI *s;
@@ -374,7 +376,11 @@ ical_supported(EImport *ei, EImportTarget *target, EImportImporter *im)
 	if (strncmp(s->uri_src, "file:///", 8) != 0)
 		return FALSE;
 
-	if (g_file_get_contents (s->uri_src+7, &contents, NULL, NULL)) {
+	filename = g_filename_from_uri (s->uri_src, NULL, NULL);
+	if (!filename)
+		return FALSE;
+
+	if (g_file_get_contents (filename, &contents, NULL, NULL)) {
 		icalcomponent *icalcomp;
 
 		icalcomp = e_cal_util_parse_ics_string (contents);
@@ -388,6 +394,7 @@ ical_supported(EImport *ei, EImportTarget *target, EImportImporter *im)
 			icalcomponent_free (icalcomp);
 		}
 	}
+	g_free (filename);
 
 	return ret;
 }
@@ -395,15 +402,23 @@ ical_supported(EImport *ei, EImportTarget *target, EImportImporter *im)
 static void
 ical_import(EImport *ei, EImportTarget *target, EImportImporter *im)
 {
+	char *filename;
 	char *contents;
 	icalcomponent *icalcomp;
 	EImportTargetURI *s = (EImportTargetURI *)target;
 
-	/* FIXME: uri */
-	if (!g_file_get_contents (s->uri_src+7, &contents, NULL, NULL)) {
+	filename = g_filename_from_uri (s->uri_src, NULL, NULL);
+	if (!filename) {
 		e_import_complete(ei, target);
 		return;
 	}
+
+	if (!g_file_get_contents (filename, &contents, NULL, NULL)) {
+		g_free (filename);
+		e_import_complete(ei, target);
+		return;
+	}
+	g_free (filename);
 
 	icalcomp = e_cal_util_parse_ics_string (contents);
 	g_free (contents);
@@ -440,6 +455,7 @@ ical_importer_peek(void)
 static gboolean
 vcal_supported(EImport *ei, EImportTarget *target, EImportImporter *im)
 {
+	char *filename;
 	char *contents;
 	gboolean ret = FALSE;
 	EImportTargetURI *s;
@@ -454,9 +470,13 @@ vcal_supported(EImport *ei, EImportTarget *target, EImportImporter *im)
 	if (strncmp(s->uri_src, "file:///", 8) != 0)
 		return FALSE;
 
+	filename = g_filename_from_uri (s->uri_src, NULL, NULL);
+	if (!filename)
+		return FALSE;
+
 	/* Z: Wow, this is *efficient* */
 
-	if (g_file_get_contents(s->uri_src+7, &contents, NULL, NULL)) {
+	if (g_file_get_contents(filename, &contents, NULL, NULL)) {
 		VObject *vcal;
 
 		/* parse the file */
@@ -476,6 +496,7 @@ vcal_supported(EImport *ei, EImportTarget *target, EImportImporter *im)
 			cleanVObject (vcal);
 		}
 	}
+	g_free (filename);
 
 	return ret;
 }
@@ -488,8 +509,14 @@ load_vcalendar_file (const char *filename)
 	icalvcal_defaults defaults = { 0 };
 	icalcomponent *icalcomp = NULL;
 	char *contents;
+	char *default_alarm_filename;
 
-	defaults.alarm_audio_url = "file://" EVOLUTION_SOUNDDIR "/default_alarm.wav";
+	default_alarm_filename = g_build_filename (EVOLUTION_SOUNDDIR,
+						   "default_alarm.wav",
+						   NULL);
+	defaults.alarm_audio_url = g_filename_to_uri (default_alarm_filename,
+						      NULL, NULL);
+	g_free (default_alarm_filename);
 	defaults.alarm_audio_fmttype = "audio/x-wav";
 	defaults.alarm_description = (char*) _("Reminder!!");
 
@@ -513,11 +540,18 @@ load_vcalendar_file (const char *filename)
 static void
 vcal_import(EImport *ei, EImportTarget *target, EImportImporter *im)
 {
+	char *filename;
 	icalcomponent *icalcomp;
 	EImportTargetURI *s = (EImportTargetURI *)target;
 
-	/* FIXME: uri */
-	icalcomp = load_vcalendar_file(s->uri_src+7);
+	filename = g_filename_from_uri(s->uri_src, NULL, NULL);
+	if (!filename) {
+		e_import_complete(ei, target);
+		return;
+	}
+
+	icalcomp = load_vcalendar_file(filename);
+	g_free (filename);
 	if (icalcomp)
 		ivcal_import(ei, target, icalcomp);
 	else
@@ -631,7 +665,7 @@ gnome_calendar_import(EImport *ei, EImportTarget *target, EImportImporter *im)
 		    && tasks_state == E_CAL_LOAD_LOADED)
 			break;
 
-		sleep(1);
+		g_usleep(1000000);
 		if (ici->cancelled)
 			goto out;
 	}

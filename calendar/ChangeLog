@@ -28,7 +28,10 @@
 	* gui/dialogs/cal-attachment-bar.c: Remove unused files from CVS.
 
 	* gui/dialogs/comp-editor.c: : Use gstdio wrappers. Use
-	g_filename_from_uri()
+	g_filename_from_uri().
+
+	* importers/icalendar-importer.c: Use g_build_filename(),
+	g_filename_from_uri(), g_usleep().
 
 2005-12-15  Srinivasa Ragavan  <sragavan@novell.com>
 
