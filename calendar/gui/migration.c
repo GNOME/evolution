@@ -20,17 +20,17 @@
  * Author: Rodrigo Moya <rodrigo@ximian.com>
  */
 
-#ifdef HAVE_CONFIG_H
 #include <config.h>
-#endif
 
 #include <string.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
-#include <dirent.h>
 #include <fcntl.h>
 #include <errno.h>
+
+#include <glib.h>
+#include <glib/gstdio.h>
 
 #include <bonobo/bonobo-i18n.h>
 #include <libgnomevfs/gnome-vfs-uri.h>
@@ -41,12 +41,17 @@
 #include <gtk/gtklabel.h>
 #include <gtk/gtkprogressbar.h>
 #include <libecal/e-cal.h>
-#include <e-util/e-bconf-map.h>
-#include <e-util/e-folder-map.h>
+
 #include <libedataserver/e-dbhash.h>
 #include <libedataserver/e-xml-hash-utils.h>
-#include "calendar-config.h"
+#include <libedataserver/e-xml-utils.h>
+
+#include "e-util/e-bconf-map.h"
+#include "e-util/e-folder-map.h"
+#include "e-util/e-util-private.h"
+
 #include "calendar-config-keys.h"
+#include "calendar-config.h"
 #include "e-cal-event.h"
 #include "migration.h"
 
@@ -416,10 +421,10 @@ create_calendar_sources (CalendarComponent *component,
 	*personal_source = NULL;
 
 	base_uri = g_build_filename (calendar_component_peek_base_directory (component),
-				     "/calendar/local/",
+				     "calendar", "local",
 				     NULL);
 
-	base_uri_proto = g_strconcat ("file://", base_uri, NULL);
+	base_uri_proto = g_filename_to_uri (base_uri, NULL, NULL);
 
 	groups = e_source_list_peek_groups (source_list);
 	if (groups) {
@@ -601,12 +606,12 @@ static void
 migrate_pilot_data (const char *component, const char *conduit, const char *old_path, const char *new_path)
 {
 	char *changelog, *map;
-	struct dirent *dent;
+	const char *dent;
 	const char *ext;
 	char *filename;
-	DIR *dir;
+	GDir *dir;
 	
-	if (!(dir = opendir (old_path)))
+	if (!(dir = g_dir_open (old_path, 0, NULL)))
 		return;
 	
 	map = g_alloca (12 + strlen (conduit));
@@ -615,24 +620,24 @@ migrate_pilot_data (const char *component, const char *conduit, const char *old_
 	changelog = g_alloca (24 + strlen (conduit));
 	sprintf (changelog, "pilot-sync-evolution-%s-", conduit);
 	
-	while ((dent = readdir (dir))) {
-		if (!strncmp (dent->d_name, map, strlen (map)) &&
-		    ((ext = strrchr (dent->d_name, '.')) && !strcmp (ext, ".xml"))) {
+	while ((dent = g_dir_read_name (dir))) {
+		if (!strncmp (dent, map, strlen (map)) &&
+		    ((ext = strrchr (dent, '.')) && !strcmp (ext, ".xml"))) {
 			/* pilot map file - src and dest file formats are identical */
 			unsigned char inbuf[4096];
 			size_t nread, nwritten;
 			int fd0, fd1;
 			ssize_t n;
 			
-			filename = g_build_filename (old_path, dent->d_name, NULL);
-			if ((fd0 = open (filename, O_RDONLY)) == -1) {
+			filename = g_build_filename (old_path, dent, NULL);
+			if ((fd0 = g_open (filename, O_RDONLY|O_BINARY, 0)) == -1) {
 				g_free (filename);
 				continue;
 			}
 			
 			g_free (filename);
-			filename = g_build_filename (new_path, dent->d_name, NULL);
-			if ((fd1 = open (filename, O_WRONLY | O_CREAT | O_TRUNC, 0666)) == -1) {
+			filename = g_build_filename (new_path, dent, NULL);
+			if ((fd1 = g_open (filename, O_WRONLY | O_CREAT | O_TRUNC | O_BINARY, 0666)) == -1) {
 				g_free (filename);
 				close (fd0);
 				continue;
@@ -665,22 +670,22 @@ migrate_pilot_data (const char *component, const char *conduit, const char *old_
 				n = fsync (fd1);
 			
 			if (n == -1) {
-				g_warning ("Failed to migrate %s: %s", dent->d_name, strerror (errno));
-				unlink (filename);
+				g_warning ("Failed to migrate %s: %s", dent, strerror (errno));
+				g_unlink (filename);
 			}
 			
 			close (fd0);
 			close (fd1);
 			g_free (filename);
-		} else if (!strncmp (dent->d_name, changelog, strlen (changelog)) &&
-			   ((ext = strrchr (dent->d_name, '.')) && !strcmp (ext, ".db"))) {
+		} else if (!strncmp (dent, changelog, strlen (changelog)) &&
+			   ((ext = strrchr (dent, '.')) && !strcmp (ext, ".db"))) {
 			/* src and dest formats differ, src format is db3 while dest format is xml */
 			EXmlHash *xmlhash;
 			EDbHash *dbhash;
 			struct stat st;
 			
-			filename = g_build_filename (old_path, dent->d_name, NULL);
-			if (stat (filename, &st) == -1) {
+			filename = g_build_filename (old_path, dent, NULL);
+			if (g_stat (filename, &st) == -1) {
 				g_free (filename);
 				continue;
 			}
@@ -688,9 +693,9 @@ migrate_pilot_data (const char *component, const char *conduit, const char *old_
 			dbhash = e_dbhash_new (filename);
 			g_free (filename);
 			
-			filename = g_strdup_printf ("%s/%s.ics-%s", new_path, component, dent->d_name);
-			if (stat (filename, &st) != -1)
-				unlink (filename);
+			filename = g_strdup_printf ("%s/%s.ics-%s", new_path, component, dent);
+			if (g_stat (filename, &st) != -1)
+				g_unlink (filename);
 			xmlhash = e_xmlhash_new (filename);
 			g_free (filename);
 			
@@ -703,7 +708,7 @@ migrate_pilot_data (const char *component, const char *conduit, const char *old_
 		}
 	}
 	
-	closedir (dir);
+	g_dir_close (dir);
 }
 
 gboolean
@@ -891,11 +896,10 @@ migrate_tasks (TasksComponent *component, int major, int minor, int revision, GE
 	if (major == 1) {
 		xmlDocPtr config_doc = NULL;
 		char *conf_file;
-		struct stat st;
 
 		conf_file = g_build_filename (g_get_home_dir (), "evolution", "config.xmldb", NULL);
-		if (lstat (conf_file, &st) == 0 && S_ISREG (st.st_mode)) 
-			config_doc = xmlParseFile (conf_file);
+		if (g_file_test (conf_file, G_FILE_TEST_IS_REGULAR))
+			config_doc = e_xml_parse_file (conf_file);
 		g_free (conf_file);
 		
 		if (config_doc && minor <= 2) {

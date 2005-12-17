@@ -14,6 +14,10 @@
 	* gui/e-meeting-store.c: Use e_util_utf8_strcasecmp() to do
 	proper casefolded comparison of translated (UTF-8) strings.
 
+	* gui/migration.c: Use gstdio wrappers. Use GDir API instead of
+	dirent. Use g_filename_{to,from}_uri(). Open files in binary
+	mode. Use e_xml_parse_file() instead of xmlParseFile().
+
 2005-12-15  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fixes bug #324094
