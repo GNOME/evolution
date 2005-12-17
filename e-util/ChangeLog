@@ -6,12 +6,22 @@
 	* e-error.c
 	* e-fsutils.c
 	* e-icon-factory.c
-	* e-mktemp.c: Use GLib API where applicable for portability.
+	* e-mktemp.c
+	* e-plugin.c: Use GLib API where applicable for portability.
 
 	* e-error.c
 	* e-folder-map.c
-	* e-pilot-map.c: Use e_xml_parse_file() and e_xml_save_file()
+	* e-pilot-map.c
+	* e-plugin.c: Use e_xml_parse_file() and e_xml_save_file()
 	instead of using libxml directly.
+
+	* e-plugin.c: Add copyright header.
+	(epl_construct): [Win32 only:] Remap the plugin location from the
+	compile-time path to to a run-time path, to handle the common case
+	where the location in the .eplug file is in Evo's compile-time
+	prefix. Use libedataserver's e_util_get_prefix() and
+	e_util_replace_prefix(). We could alternatively use relative paths
+	in the .eplug files on Win32, like we do for .server files.
 
 	* e-util-private.h (fsync)
 	* e-util.c: Don't bother with a Win32 implementation of fsync() as

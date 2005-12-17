@@ -1,17 +1,36 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+/*
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Street #330, Boston, MA 02111-1307, USA.
+ *
+ */
 
-#ifdef HAVE_CONFIG_H
 #include <config.h>
-#endif
 
 #include <sys/types.h>
-#include <dirent.h>
 #include <string.h>
 
 #include <glib/gi18n.h>
+
 #include <gconf/gconf-client.h>
 
+#include <libedataserver/e-msgport.h>
+#include <libedataserver/e-util.h>
+#include <libedataserver/e-xml-utils.h>
+
 #include "e-plugin.h"
-#include "libedataserver/e-msgport.h"
+#include "e-util-private.h"
 
 /* plugin debug */
 #define pd(x)
@@ -264,7 +283,7 @@ e_plugin_get_type(void)
 		type = g_type_register_static(G_TYPE_OBJECT, "EPlugin", &info, 0);
 
 		/* Add paths in the environment variable or default global and user specific paths */
-		path = g_strdup(getenv("EVOLUTION_PLUGIN_PATH"));
+		path = g_strdup(g_getenv("EVOLUTION_PLUGIN_PATH"));
 		if (path == NULL) {
 			/* Add the global path */
 			e_plugin_add_load_path(EVOLUTION_PLUGINDIR);
@@ -273,7 +292,7 @@ e_plugin_get_type(void)
 		}
 		
 		p = path;
-		while ((col = strchr(p, ':'))) {
+		while ((col = strchr(p, G_SEARCHPATH_SEPARATOR))) {
 			*col++ = 0;
 			e_plugin_add_load_path(p);
 			p = col;
@@ -343,10 +362,9 @@ ep_load(const char *filename)
 	int cache = FALSE;
 	struct _plugin_doc *pdoc;
 
-	doc = xmlParseFile(filename);
-	if (doc == NULL) {
+	doc = e_xml_parse_file (filename);
+	if (doc == NULL)
 		return -1;
-	}
 
 	root = xmlDocGetRootElement(doc);
 	if (strcmp(root->name, "e-plugin-list") != 0) {
@@ -474,29 +492,29 @@ e_plugin_load_plugins(void)
 	}
 
 	for (l = ep_path;l;l = g_slist_next(l)) {
-		DIR *dir;
-		struct dirent *d;
+		GDir *dir;
+		const char *d;
 		char *path = l->data;
 
 		pd(printf("scanning plugin dir '%s'\n", path));
 
-		dir = opendir(path);
+		dir = g_dir_open(path, 0, NULL);
 		if (dir == NULL) {
 			/*g_warning("Could not find plugin path: %s", path);*/
 			continue;
 		}
 
-		while ( (d = readdir(dir)) ) {
-			if (strlen(d->d_name) > 6
-			    && !strcmp(d->d_name + strlen(d->d_name) - 6, ".eplug")) {
-				char * name = g_build_filename(path, d->d_name, NULL);
+		while ( (d = g_dir_read_name(dir)) ) {
+			if (strlen(d) > 6
+			    && !strcmp(d + strlen(d) - 6, ".eplug")) {
+				char * name = g_build_filename(path, d, NULL);
 
 				ep_load(name);
 				g_free(name);
 			}
 		}
 
-		closedir(dir);
+		g_dir_close(dir);
 	}
 
 	return 0;
@@ -857,7 +875,14 @@ epl_construct(EPlugin *ep, xmlNodePtr root)
 		g_warning("Library plugin '%s' has no location", ep->id);
 		return -1;
 	}
-
+#ifdef G_OS_WIN32
+	{
+		char *mapped_location = e_util_replace_prefix (e_util_get_prefix (),
+							       epl->location);
+		g_free (epl->location);
+		epl->location = mapped_location;
+	}
+#endif
 	/* If we're enabled, check for the load-on-startup property */
 	if (ep->enabled) {
 		xmlChar *tmp;
