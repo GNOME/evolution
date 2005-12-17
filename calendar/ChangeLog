@@ -27,6 +27,9 @@
 	* gui/dialogs/cal-attachment-bar.h
 	* gui/dialogs/cal-attachment-bar.c: Remove unused files from CVS.
 
+	* gui/dialogs/comp-editor.c: : Use gstdio wrappers. Use
+	g_filename_from_uri()
+
 2005-12-15  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fixes bug #324094

@@ -28,6 +28,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <glib.h>
+#include <glib/gstdio.h>
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtkstock.h>
 #include <bonobo/bonobo-ui-util.h>
@@ -635,12 +636,14 @@ get_attachment_list (CompEditor *editor)
 		g_free (safe_fname);
 
 		/* do not overwrite existing files, this will result in truncation */
-		if (!g_file_test (attach_file_url+7, G_FILE_TEST_EXISTS)) {
-			stream = camel_stream_fs_new_with_name((const char *) attach_file_url+7, O_RDWR|O_CREAT|O_TRUNC, 0600);
+		filename = g_filename_from_uri (attach_file_url, NULL, NULL);
+		if (!g_file_test (filename, G_FILE_TEST_EXISTS)) {
+			stream = camel_stream_fs_new_with_name(filename, O_RDWR|O_CREAT|O_TRUNC, 0600);
 			if (!stream) {
 				/* TODO handle error conditions */
 				g_message ("DEBUG: could not open the file to write\n");
 				g_free (attach_file_url);
+				g_free (filename);
 				continue;
 			}
 		
@@ -657,6 +660,7 @@ get_attachment_list (CompEditor *editor)
 
 		list = g_slist_append (list, g_strdup (attach_file_url));
 		g_free (attach_file_url);
+		g_free (filename);
 	}
 
 	if (parts)
@@ -2210,22 +2214,25 @@ set_attachment_list (CompEditor *editor, GSList *attach_list)
 		*/
 		/* get url sans protocol and add it to the bar.
 		 * how to set the filename properly */		
-		file_name = attach_filename +7;
+		file_name = g_filename_from_uri (attach_filename, NULL, NULL);
 		
-		if (stat (file_name, &statbuf) < 0) {
+		if (g_stat (file_name, &statbuf) < 0) {
 			g_warning ("Cannot attach file %s: %s", file_name, g_strerror (errno));
+			g_free (file_name);
 			continue;
 		}
 	
 		/* return if it's not a regular file */
 		if (!S_ISREG (statbuf.st_mode)) {
 			g_warning ("Cannot attach file %s: not a regular file", file_name);
+			g_free (file_name);
 			return;
 		}
 		
 		stream = camel_stream_fs_new_with_name (file_name, O_RDONLY, 0);
 		if (!stream) {
 			g_warning ("Cannot attach file %s: %s", file_name, g_strerror (errno));
+			g_free (file_name);
 			return;
 		}
 
@@ -2245,7 +2252,8 @@ set_attachment_list (CompEditor *editor, GSList *attach_list)
 			camel_data_wrapper_construct_from_stream (wrapper, stream);
 			camel_data_wrapper_set_mime_type (wrapper, "application/octet-stream");
 		}
-		
+		g_free (file_name);
+
 		camel_object_unref (stream);
 		
 		part = camel_mime_part_new ();
