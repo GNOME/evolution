@@ -26,6 +26,7 @@
 #include <string.h>
 #include <gtk/gtkmessagedialog.h>
 #include <libgnome/gnome-i18n.h>
+#include <libedataserver/e-util.h>
 #include "calendar-config.h"
 #include "e-cal-model-tasks.h"
 #include "e-cell-date-edit-text.h"
@@ -650,15 +651,15 @@ set_status (ECalModelComponent *comp_data, const char *value)
 	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_STATUS_PROPERTY);
 
 	/* an empty string is the same as 'None' */
-	if (!value[0] || !g_strcasecmp (value, _("None")))
+	if (!value[0] || !e_util_utf8_strcasecmp (value, _("None")))
 		status = ICAL_STATUS_NONE;
-	else if (!g_strcasecmp (value, _("Not Started")))
+	else if (!e_util_utf8_strcasecmp (value, _("Not Started")))
 		status = ICAL_STATUS_NEEDSACTION;
-	else if (!g_strcasecmp (value, _("In Progress")))
+	else if (!e_util_utf8_strcasecmp (value, _("In Progress")))
 		status = ICAL_STATUS_INPROCESS;
-	else if (!g_strcasecmp (value, _("Completed")))
+	else if (!e_util_utf8_strcasecmp (value, _("Completed")))
 		status = ICAL_STATUS_COMPLETED;
-	else if (!g_strcasecmp (value, _("Cancelled")))
+	else if (!e_util_utf8_strcasecmp (value, _("Cancelled")))
 		status = ICAL_STATUS_CANCELLED;
 	else {
 		g_warning ("Invalid status: %s\n", value);
