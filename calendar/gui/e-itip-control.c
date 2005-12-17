@@ -30,6 +30,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <glib.h>
+#include <glib/gstdio.h>
 #include <gtk/gtkmisc.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-util.h>
@@ -51,12 +52,13 @@
 #include <libedataserver/e-time-utils.h>
 #include <e-util/e-dialog-widgets.h>
 #include <e-util/e-html-utils.h>
+#include <e-util/e-icon-factory.h>
+#include <e-util/e-util-private.h>
 #include "dialogs/delete-error.h"
 #include "calendar-config.h"
 #include "itip-utils.h"
 #include "e-itip-control.h"
 #include "common/authentication.h"
-#include <e-util/e-icon-factory.h>
 
 struct _EItipControlPrivate {
 	GtkWidget *html;
@@ -2090,7 +2092,7 @@ url_requested_cb (GtkHTML *html, const gchar *url, GtkHTMLStream *handle, gpoint
 {	unsigned char buffer[4096];
 	int len, fd;
 
-	if ((fd = open (url, O_RDONLY)) == -1) {
+	if ((fd = g_open (url, O_RDONLY|O_BINARY, 0)) == -1) {
 		g_warning ("%s", g_strerror (errno));
 		return;
 	}
