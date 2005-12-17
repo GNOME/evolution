@@ -24,18 +24,18 @@
  * USA
  */
 
-#ifdef HAVE_CONFIG_H
 #include <config.h>
-#endif
 
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
-
 #include <string.h>
 #include <errno.h>
+
+#include <glib.h>
+#include <glib/gstdio.h>
+
 #include <libgnome/gnome-exec.h>
-#include <e-util/e-util.h>
 #include <libgnome/gnome-i18n.h>
 
 #include <camel/camel-mime-filter-from.h>
@@ -52,19 +52,20 @@
 #include <camel/camel-transport.h>
 #include <camel/camel-multipart.h>
 
-#include "mail-component.h"
-#include "mail-config.h"
-#include "mail-tools.h"
-#include "mail-ops.h"
-#include "mail-vfolder.h"
-#include "mail-session.h"
 #include "composer/e-msg-composer.h"
 
+#include "e-util/e-util.h"
+#include "e-util/e-util-private.h"
+
 #include "em-filter-rule.h"
-
-#include "mail-mt.h"
-
 #include "em-utils.h"
+#include "mail-component.h"
+#include "mail-config.h"
+#include "mail-mt.h"
+#include "mail-ops.h"
+#include "mail-session.h"
+#include "mail-tools.h"
+#include "mail-vfolder.h"
 
 #define w(x)
 #define d(x) 
@@ -289,7 +290,7 @@ fetch_mail_fetch (struct _mail_msg *mm)
 			camel_folder_thaw (fm->destination);
 			
 			if (!camel_exception_is_set (&mm->ex))
-				unlink (path);
+				g_unlink (path);
 		}
 		g_free (path);
 	} else {
@@ -1983,7 +1984,7 @@ save_messages_save (struct _mail_msg *mm)
 	int fd, i;
 	char *from;
 	
-	fd = open (m->path, O_WRONLY | O_CREAT | O_TRUNC, 0666);
+	fd = g_open (m->path, O_WRONLY | O_CREAT | O_TRUNC | O_BINARY, 0666);
 	if (fd == -1) {
 		camel_exception_setv(&mm->ex, CAMEL_EXCEPTION_SYSTEM,
 				     _("Unable to create output file: %s\n %s"), m->path, strerror(errno));

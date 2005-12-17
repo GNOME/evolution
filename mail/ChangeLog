@@ -12,6 +12,8 @@
 	descriptor interpretation assumed." style warnings, which indicate
 	a real problem in this case.
 
+	* mail-ops.c: Use gstdio wrappers. Open file in binary mode.
+
 2005-12-12  Karsten Bräckelmann  <guenther@rudersport.de>
 
 	* em-folder-view.c: Mail Context Menu re-ordered correctly,
