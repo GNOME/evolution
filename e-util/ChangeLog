@@ -33,6 +33,18 @@
 
 	* e-xml-utils.h: Include libedataserver/e-xml-utils.h.
 
+	* eggtrayicon.c: For building on Win32 against GTK+ 2.8, include a
+	copy of the GtkStatusIcon code from GTK+ HEAD (i.e., what will be
+	GTK+ 2.10) and some helper functions from gdk/win32. Eventually
+	when GTK+ 2.10 is released and Evo no longer needs to support
+	older GTK+ versions, eggtrayicon.[ch] can be removed completely
+	from here, as the use of eggtrayicon in ../calendar/gui/
+	alarm-notify/alarm-queue.c will automatically switch to using
+	GtkStatusIcon instead.
+
+	* eggtrayicon.h: Ditto, for building on Win32 against GTK+ 2.8,
+	include a copy of gtkstatusicon.h from GTK+ HEAD.
+
 2005-12-12  Irene Huang <Irene.Huang@sun.com>
 
 	reviewed by: Veerapuram Varadhan  <vvaradhan@novell.com>
