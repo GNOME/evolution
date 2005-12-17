@@ -28,20 +28,19 @@
    attachment.  Also, this contains the code to let users edit the
    attachment manually. */
 
-#ifdef HAVE_CONFIG_H
 #include <config.h>
-#endif
 
 #include <sys/stat.h>
 #include <string.h>
 #include <errno.h>
 
-#include <camel/camel.h>
-#include <gtk/gtknotebook.h>
-#include <gtk/gtktogglebutton.h>
-#include <gtk/gtkdialog.h>
+#include <glib.h>
+#include <glib/gstdio.h>
+
+#include <gtk/gtk.h>
 #include <libgnomevfs/gnome-vfs-mime.h>
 #include <libgnome/gnome-i18n.h>
+#include <camel/camel.h>
 
 #include "e-util/e-mktemp.h"
 #include "e-util/e-util-private.h"
@@ -183,7 +182,7 @@ e_msg_composer_attachment_new (const char *file_name,
 	
 	g_return_val_if_fail (file_name != NULL, NULL);
 	
-	if (stat (file_name, &statbuf) < 0) {
+	if (g_stat (file_name, &statbuf) < 0) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("Cannot attach file %s: %s"),
 				      file_name, g_strerror (errno));
@@ -293,7 +292,7 @@ e_msg_composer_attachment_build_remote_file (const char *file_name,
 	
 	g_return_if_fail (file_name != NULL);
 	
-	if (stat (file_name, &statbuf) < 0) {
+	if (g_stat (file_name, &statbuf) < 0) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("Cannot attach file %s: %s"),
 				      file_name, g_strerror (errno));
