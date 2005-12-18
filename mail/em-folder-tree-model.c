@@ -34,9 +34,10 @@
 
 #include <libxml/parser.h>
 
+#include <libedataserver/e-xml-utils.h>
+
 #include <e-util/e-mktemp.h>
 
-#include <e-util/e-xml-utils.h>
 #include <libgnome/gnome-i18n.h>
 
 #include <camel/camel-file-utils.h>
@@ -323,12 +324,11 @@ static void
 em_folder_tree_model_load_state (EMFolderTreeModel *model, const char *filename)
 {
 	xmlNodePtr root, node;
-	struct stat st;
 	
 	if (model->state)
 		xmlFreeDoc (model->state);
 	
-	if (stat (filename, &st) == 0 && (model->state = xmlParseFile (filename)))
+	if ((model->state = e_xml_parse_file (filename)))
 		return;
 	
 	/* setup some defaults - expand "Local Folders" and "Search Folders" */

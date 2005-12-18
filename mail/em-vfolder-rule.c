@@ -38,6 +38,7 @@
 #include "mail/em-folder-selector.h"
 #include "mail/mail-component.h"
 #include "e-util/e-error.h"
+#include "e-util/e-util-private.h"
 
 #define d(x)
 
@@ -600,6 +601,7 @@ get_widget(FilterRule *fr, RuleContext *rc)
 	GtkTreeIter iter;
 	GladeXML *gui;
 	int i;
+	char *gladefile;
 	
         widget = FILTER_RULE_CLASS(parent_class)->get_widget(fr, rc);
 	
@@ -607,7 +609,12 @@ get_widget(FilterRule *fr, RuleContext *rc)
 	data->rc = rc;
 	data->vr = vr;
 	
-	gui = glade_xml_new(EVOLUTION_GLADEDIR "/mail-dialogs.glade", "vfolder_source_frame", NULL);
+	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
+				      "mail-dialogs.glade",
+				      NULL);
+	gui = glade_xml_new(gladefile, "vfolder_source_frame", NULL);
+	g_free (gladefile);
+
         frame = glade_xml_get_widget(gui, "vfolder_source_frame");
 	
 	g_object_set_data_full((GObject *)frame, "data", data, g_free);

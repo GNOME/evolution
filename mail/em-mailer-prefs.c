@@ -54,6 +54,8 @@
 #include <gtk/gtkoptionmenu.h>
 #include <gtk/gtkmenuitem.h>
 
+#include "e-util/e-util-private.h"
+
 #include "mail-config.h"
 #include "em-config.h"
 
@@ -719,8 +721,14 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs)
 	EMConfig *ec;
 	EMConfigTargetPrefs *target;
 	GSList *l;
+	char *gladefile;
 
-	gui = glade_xml_new (EVOLUTION_GLADEDIR "/mail-config.glade", "preferences_toplevel", NULL);
+	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
+				      "mail-config.glade",
+				      NULL);
+	gui = glade_xml_new (gladefile, "preferences_toplevel", NULL);
+	g_free (gladefile);
+
 	prefs->gui = gui;
 
 	/** @HookPoint-EMConfig: Mail Preferences Page

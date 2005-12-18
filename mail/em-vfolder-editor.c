@@ -27,6 +27,8 @@
 #include <gtk/gtk.h>
 #include <libgnome/gnome-i18n.h>
 
+#include "e-util/e-util-private.h"
+
 #include "em-vfolder-editor.h"
 #include "em-vfolder-rule.h"
 
@@ -99,8 +101,14 @@ em_vfolder_editor_new (EMVFolderContext *vc)
 {
 	EMVFolderEditor *ve = (EMVFolderEditor *) g_object_new (em_vfolder_editor_get_type(), NULL);
 	GladeXML *gui;
+	char *gladefile;
 	
-	gui = glade_xml_new (EVOLUTION_GLADEDIR "/filter.glade", "rule_editor", NULL);
+	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
+				      "filter.glade",
+				      NULL);
+	gui = glade_xml_new (gladefile, "rule_editor", NULL);
+	g_free (gladefile);
+
 	rule_editor_construct ((RuleEditor *) ve, (RuleContext *) vc, gui, "incoming", _("Search _Folders"));
         gtk_widget_hide(glade_xml_get_widget (gui, "filter_source"));
 	g_object_unref (gui);

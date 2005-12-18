@@ -42,6 +42,7 @@
 #include "mail-component.h"
 #include "em-utils.h"
 #include "e-util/e-error.h"
+#include "e-util/e-util-private.h"
 
 #include "em-vfolder-context.h"
 #include "em-vfolder-rule.h"
@@ -360,8 +361,10 @@ filter_gui_add_from_message (CamelMimeMessage *msg, const char *source, int flag
 	fc = em_filter_context_new ();
 	user = g_strdup_printf ("%s/mail/filters.xml",
 				mail_component_peek_base_directory (mail_component_peek ()));
-	system = EVOLUTION_PRIVDATADIR "/filtertypes.xml";
+	system = g_build_filename (EVOLUTION_PRIVDATADIR, "filtertypes.xml", NULL);
 	rule_context_load ((RuleContext *)fc, system, user);
+	g_free (system);
+
 	rule = filter_rule_from_message (fc, msg, flags);
 	
 	filter_rule_set_source (rule, source);
@@ -384,8 +387,9 @@ mail_filter_rename_uri(CamelStore *store, const char *olduri, const char *newuri
 
 	fc = em_filter_context_new ();
 	user = g_strdup_printf ("%s/mail/filters.xml", mail_component_peek_base_directory (mail_component_peek ()));
-	system = EVOLUTION_PRIVDATADIR "/filtertypes.xml";
+	system = g_build_filename (EVOLUTION_PRIVDATADIR, "filtertypes.xml", NULL);
 	rule_context_load ((RuleContext *)fc, system, user);
+	g_free (system);
 	
 	changed = rule_context_rename_uri((RuleContext *)fc, eolduri, enewuri, g_str_equal);
 	if (changed) {
@@ -414,8 +418,9 @@ mail_filter_delete_uri(CamelStore *store, const char *uri)
 
 	fc = em_filter_context_new ();
 	user = g_strdup_printf ("%s/mail/filters.xml", mail_component_peek_base_directory (mail_component_peek ()));
-	system = EVOLUTION_PRIVDATADIR "/filtertypes.xml";
+	system = g_build_filename (EVOLUTION_PRIVDATADIR, "filtertypes.xml", NULL);
 	rule_context_load ((RuleContext *)fc, system, user);
+	g_free (system);
 	
 	deleted = rule_context_delete_uri ((RuleContext *) fc, euri, g_str_equal);
 	if (deleted) {

@@ -25,6 +25,15 @@
 #include <config.h>
 #endif
 
+#include <glib.h>
+#ifdef G_OS_WIN32
+/* Work around 'DATADIR' and 'interface' lossage in <windows.h> */
+#define DATADIR crap_DATADIR
+#include <windows.h>
+#undef DATADIR
+#undef interface
+#endif
+
 #include <gtk/gtkscrolledwindow.h>
 #include <gtk/gtkbutton.h>
 
@@ -38,6 +47,8 @@
 #include <bonobo/bonobo-generic-factory.h>
 #include <bonobo/bonobo-ui-component.h>
 #include <bonobo/bonobo-ui-util.h>
+
+#include "e-util/e-util-private.h"
 
 #include "em-format-html-display.h"
 #include "em-message-browser.h"
@@ -59,6 +70,13 @@ static void emmb_activate(EMFolderView *emfv, BonoboUIComponent *uic, int state)
 static EMFolderViewClass *emmb_parent;
 
 static void
+free_one_ui_file (gpointer data,
+		  gpointer user_data)
+{
+	g_free (data);
+}
+
+static void
 emmb_init(GObject *o)
 {
 	EMMessageBrowser *emmb = (EMMessageBrowser *)o;
@@ -68,9 +86,17 @@ emmb_init(GObject *o)
 
 	((EMFolderView *)emmb)->preview_active = TRUE;
 
+	g_slist_foreach (emmb->view.ui_files, free_one_ui_file, NULL);
 	g_slist_free(emmb->view.ui_files);
-	emmb->view.ui_files = g_slist_append(NULL, EVOLUTION_UIDIR "/evolution-mail-messagedisplay.xml");
-	emmb->view.ui_files = g_slist_append(emmb->view.ui_files, EVOLUTION_UIDIR "/evolution-mail-message.xml");
+
+	emmb->view.ui_files = g_slist_append(NULL,
+					     g_build_filename (EVOLUTION_UIDIR,
+							       "evolution-mail-messagedisplay.xml",
+							       NULL));
+	emmb->view.ui_files = g_slist_append(emmb->view.ui_files,
+					     g_build_filename (EVOLUTION_UIDIR,
+							       "evolution-mail-message.xml",
+							       NULL));
 
 	/* currently: just use a scrolledwindow for preview widget */
 	p->preview = gtk_scrolled_window_new(NULL, NULL);

@@ -48,6 +48,7 @@
 
 #include "misc/e-info-label.h"
 #include "e-util/e-error.h"
+#include "e-util/e-util-private.h"
 
 #include "em-search-context.h"
 #include "mail-config.h"
@@ -342,7 +343,7 @@ setup_search_context (MailComponent *component)
 
 	if (priv->search_context == NULL) {
 		char *user = g_build_filename(component->priv->base_directory, "mail/searches.xml", NULL);
-		char *system = g_strdup (EVOLUTION_PRIVDATADIR "/searchtypes.xml");
+		char *system = g_build_filename (EVOLUTION_PRIVDATADIR, "searchtypes.xml", NULL);
 		
 		priv->search_context = (RuleContext *)em_search_context_new ();
 		g_object_set_data_full (G_OBJECT (priv->search_context), "user", user, g_free);
@@ -1040,6 +1041,13 @@ mail_component_init (MailComponent *component)
 	priv->lock = g_mutex_new();
 
 	priv->base_directory = g_build_filename (g_get_home_dir (), ".evolution", NULL);
+#ifdef G_OS_WIN32
+	{
+		char *p = priv->base_directory;
+		while ((p = strchr(p, '\\')))
+			*p++ = '/';
+	}
+#endif
 	if (camel_mkdir (priv->base_directory, 0777) == -1 && errno != EEXIST)
 		abort ();
 	

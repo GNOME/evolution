@@ -20,30 +20,32 @@
  *
  */
 
-#ifdef HAVE_CONFIG_H
 #include <config.h>
-#endif
 
 #include <string.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
 
-#include <gtk/gtkvbox.h>
-#include <gtk/gtkbutton.h>
-#include <gtk/gtkvpaned.h>
+#include <glib.h>
+#include <glib/gstdio.h>
+
+#include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
+
+#ifdef G_OS_WIN32
+/* Work around 'DATADIR' and 'interface' lossage in <windows.h> */
+#define DATADIR crap_DATADIR
+#include <windows.h>
+#undef DATADIR
+#undef interface
+#endif
 
 #include <libgnome/gnome-url.h>
 
 #include <libgnomeprintui/gnome-print-dialog.h>
 
 #include <gconf/gconf-client.h>
-
-#include <widgets/menus/gal-view-etable.h>
-#include <widgets/menus/gal-view-factory-etable.h>
-#include <widgets/menus/gal-view-instance.h>
-#include "widgets/menus/gal-view-menus.h"
 
 #include <camel/camel-mime-message.h>
 #include <camel/camel-stream.h>
@@ -63,13 +65,22 @@
 #include <bonobo/bonobo-ui-component.h>
 #include <bonobo/bonobo-ui-util.h>
 
-#include "misc/e-charset-picker.h"
-#include "e-util/e-error.h"
+#include <gtkhtml/gtkhtml.h>
+#include <gtkhtml/gtkhtml-stream.h>
 
-#include <e-util/e-dialog-utils.h>
-#include <e-util/e-icon-factory.h>
-#include <e-util/e-print.h>
-#include <e-util/e-profile-event.h>
+#include "menus/gal-view-etable.h"
+#include "menus/gal-view-factory-etable.h"
+#include "menus/gal-view-instance.h"
+#include "menus/gal-view-menus.h"
+
+#include "misc/e-charset-picker.h"
+
+#include "e-util/e-error.h"
+#include "e-util/e-dialog-utils.h"
+#include "e-util/e-icon-factory.h"
+#include "e-util/e-print.h"
+#include "e-util/e-profile-event.h"
+#include "e-util/e-util-private.h"
 
 #include "filter/filter-rule.h"
 
@@ -77,7 +88,7 @@
 #include "em-format-html-print.h"
 #include "em-folder-selection.h"
 #include "em-folder-view.h"
-#include "em-folder-browser.h" /* EMFolderBrowser stuff */
+#include "em-folder-browser.h"
 #include "em-mailer-prefs.h"
 #include "em-message-browser.h"
 #include "message-list.h"
@@ -86,9 +97,6 @@
 #include "em-marshal.h"
 #include "em-menu.h"
 #include "em-event.h"
-
-#include <gtkhtml/gtkhtml.h>
-#include <gtkhtml/gtkhtml-stream.h>
 
 #include "mail-mt.h"
 #include "mail-ops.h"
@@ -184,7 +192,11 @@ emfv_init(GObject *o)
 	emfv->statusbar_active = TRUE;
 	emfv->list_active = FALSE;
 	
-	emfv->ui_files = g_slist_append(NULL, EVOLUTION_UIDIR "/evolution-mail-message.xml");
+	emfv->ui_files = g_slist_append(NULL,
+					g_build_filename (EVOLUTION_UIDIR,
+							  "evolution-mail-message.xml",
+							  NULL));
+
 	emfv->ui_app_name = "evolution-mail";
 
 	emfv->enable_map = g_slist_prepend(NULL, (void *)emfv_enable_map);
@@ -220,11 +232,19 @@ emfv_init(GObject *o)
 }
 
 static void
+free_one_ui_file (gpointer data,
+		  gpointer user_data)
+{
+	g_free (data);
+}
+
+static void
 emfv_finalise(GObject *o)
 {
 	EMFolderView *emfv = (EMFolderView *)o;
 	struct _EMFolderViewPrivate *p = emfv->priv;
 
+	g_slist_foreach (emfv->ui_files, free_one_ui_file, NULL);
 	g_slist_free(emfv->ui_files);
 	g_slist_free(emfv->enable_map);
 
@@ -489,18 +509,28 @@ emfv_setup_view_instance(EMFolderView *emfv)
 		GalViewFactory *factory;
 		const char *evolution_dir;
 		char *dir;
+		char *galviewsmaildir;
+		char *etspecfile;
 
 		collection = gal_view_collection_new ();
 	
 		gal_view_collection_set_title (collection, _("Mail"));
 	
 		evolution_dir = mail_component_peek_base_directory (mail_component_peek ());
+		galviewsmaildir = g_build_filename (EVOLUTION_GALVIEWSDIR,
+						    "mail",
+						    NULL);
 		dir = g_build_filename (evolution_dir, "mail", "views", NULL);
-		gal_view_collection_set_storage_directories (collection, EVOLUTION_GALVIEWSDIR "/mail/", dir);
+		gal_view_collection_set_storage_directories (collection, galviewsmaildir, dir);
 		g_free (dir);
+		g_free (galviewsmaildir);
 	
 		spec = e_table_specification_new ();
-		e_table_specification_load_from_file (spec, EVOLUTION_ETSPECDIR "/message-list.etspec");
+		etspecfile = g_build_filename (EVOLUTION_ETSPECDIR,
+					       "message-list.etspec",
+					       NULL);
+		e_table_specification_load_from_file (spec, etspecfile);
+		g_free (etspecfile);
 	
 		factory = gal_view_factory_etable_new (spec);
 		g_object_unref (spec);
@@ -539,13 +569,18 @@ emfv_setup_view_instance(EMFolderView *emfv)
 		char *path;
 		
 		path = mail_config_folder_to_cachename (emfv->folder, "et-header-");
-		if (path && stat (path, &st) == 0 && st.st_size > 0 && S_ISREG (st.st_mode)) {
+		if (path && g_stat (path, &st) == 0 && st.st_size > 0 && S_ISREG (st.st_mode)) {
 			ETableSpecification *spec;
 			ETableState *state;
 			GalView *view;
+			char *etspecfile;
 			
 			spec = e_table_specification_new ();
-			e_table_specification_load_from_file (spec, EVOLUTION_ETSPECDIR "/message-list.etspec");
+			etspecfile = g_build_filename (EVOLUTION_ETSPECDIR,
+						       "message-list.etspec",
+						       NULL);
+			e_table_specification_load_from_file (spec, etspecfile);
+			g_free (etspecfile);
 			view = gal_view_etable_new (spec, "");
 			g_object_unref (spec);
 			

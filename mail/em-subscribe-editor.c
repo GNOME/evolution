@@ -37,6 +37,7 @@
 #include "camel/camel-store.h"
 #include "camel/camel-session.h"
 #include "e-util/e-account-list.h"
+#include "e-util/e-util-private.h"
 
 #include "em-subscribe-editor.h"
 
@@ -835,11 +836,17 @@ GtkDialog *em_subscribe_editor_new(void)
 	EIterator *iter;
 	GladeXML *xml;
 	GtkWidget *menu, *w;
+	char *gladefile;
 
 	se = g_malloc0(sizeof(*se));
 	e_dlist_init(&se->stores);
 
-	xml = glade_xml_new (EVOLUTION_GLADEDIR "/mail-dialogs.glade", "subscribe_dialog", NULL);
+	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
+				      "mail-dialogs.glade",
+				      NULL);
+	xml = glade_xml_new (gladefile, "subscribe_dialog", NULL);
+	g_free (gladefile);
+
 	if (xml == NULL) {
 		/* ?? */
 		return NULL;

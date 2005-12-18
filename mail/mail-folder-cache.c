@@ -33,6 +33,9 @@
 #include <string.h>
 #include <time.h>
 
+#include <glib.h>
+#include <glib/gstdio.h>
+
 #include <libgnome/gnome-sound.h>
 #include <libgnome/gnome-i18n.h>
 #include <bonobo/bonobo-exception.h>
@@ -59,7 +62,7 @@
 
 #include "em-event.h"
 
-#define w(x) 
+#define w(x)
 #define d(x)
 
 /* This code is a mess, there is no reason it should be so complicated. */
@@ -392,7 +395,7 @@ setup_folder(CamelFolderInfo *fi, struct _store_info *si)
 	if (mfi) {
 		update_1folder(mfi, 0, fi);
 	} else {
-		d(printf("Adding new folder: %s (%s) %d unread\n", fi->path, fi->url, fi->unread_message_count));
+		d(printf("Adding new folder: %s (%s)\n", fi->full_name, fi->uri));
 		mfi = g_malloc0(sizeof(*mfi));
 		mfi->full_name = g_strdup(fi->full_name);
 		mfi->uri = g_strdup(fi->uri);
@@ -679,12 +682,12 @@ rename_folders(struct _store_info *si, const char *oldbase, const char *newbase,
 	e_filename_make_safe(newuri);
 	oldfile = g_strdup_printf("%s/mail/config/custom_view-%s.xml", mail_component_peek_base_directory(NULL), olduri);
 	newfile = g_strdup_printf("%s/mail/config/custom_view-%s.xml", mail_component_peek_base_directory(NULL), newuri);
-	rename(oldfile, newfile);
+	g_rename(oldfile, newfile);
 	g_free(oldfile);
 	g_free(newfile);
 	oldfile = g_strdup_printf("%s/mail/config/current_view-%s.xml", mail_component_peek_base_directory(NULL), olduri);
 	newfile = g_strdup_printf("%s/mail/config/current_view-%s.xml", mail_component_peek_base_directory(NULL), newuri);
-	rename(oldfile, newfile);
+	g_rename(oldfile, newfile);
 	g_free(oldfile);
 	g_free(newfile);
 	g_free(olduri);
@@ -819,7 +822,7 @@ update_folders(CamelStore *store, CamelFolderInfo *fi, void *data)
 	struct _update_data *ud = data;
 	struct _store_info *si;
 
-	d(printf("Got folderinfo for store\n"));
+	d(printf("Got folderinfo for store %s\n", store->parent_object.provider->protocol));
 
 	LOCK(info_lock);
 	si = g_hash_table_lookup(stores, store);
@@ -940,7 +943,7 @@ mail_note_store(CamelStore *store, CamelOperation *op,
 	int hook = 0;
 	
 	g_assert(CAMEL_IS_STORE(store));
-	g_assert(pthread_self() == mail_gui_thread);
+	g_assert(pthread_equal(pthread_self(), mail_gui_thread));
 
 	LOCK(info_lock);
 

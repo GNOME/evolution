@@ -29,8 +29,6 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include <fcntl.h>
-#include <pwd.h>
-#include <sys/wait.h>
 #include <signal.h>
 #include <errno.h>
 
@@ -38,6 +36,12 @@
 #include <ctype.h>
 
 #include <glib.h>
+#include <glib/gstdio.h>
+
+#ifndef G_OS_WIN32
+#include <sys/wait.h>
+#endif
+
 #include <gtk/gtkdialog.h>
 #include <gtkhtml/gtkhtml.h>
 #include <glade/glade.h>
@@ -70,6 +74,10 @@
 #include "mail-config.h"
 #include "mail-mt.h"
 #include "mail-tools.h"
+
+#if !GLIB_CHECK_VERSION (2, 8, 0)
+#define g_creat creat
+#endif
 
 /* Note, the first element of each MailConfigLabel must NOT be translated */
 MailConfigLabel label_defaults[5] = {
@@ -252,7 +260,7 @@ config_write_style (void)
 	char *citation_color;
 	FILE *rc;
 	
-	if (!(rc = fopen (config->gtkrc, "wt"))) {
+	if (!(rc = g_fopen (config->gtkrc, "wt"))) {
 		g_warning ("unable to open %s", config->gtkrc);
 		return;
 	}
@@ -823,7 +831,7 @@ mail_config_uri_renamed (GCompareFunc uri_cmp, const char *old, const char *new)
 		oldname = uri_to_evname (old, cachenames[i]);
 		newname = uri_to_evname (new, cachenames[i]);
 		/*printf ("** renaming %s to %s\n", oldname, newname);*/
-		rename (oldname, newname);
+		g_rename (oldname, newname);
 		g_free (oldname);
 		g_free (newname);
 	}
@@ -917,9 +925,9 @@ get_new_signature_filename (void)
 
 	base_directory = mail_component_peek_base_directory (mail_component_peek ());
 	filename = g_build_filename (base_directory, "signatures", NULL);
-	if (lstat (filename, &st)) {
+	if (g_lstat (filename, &st)) {
 		if (errno == ENOENT) {
-			if (mkdir (filename, 0700))
+			if (g_mkdir (filename, 0700))
 				g_warning ("Fatal problem creating %s directory.", filename);
 		} else
 			g_warning ("Fatal problem with %s directory.", filename);
@@ -932,10 +940,10 @@ get_new_signature_filename (void)
 	
 	for (i = 0; i < (INT_MAX - 1); i++) {
 		sprintf (id, "%d", i);
-		if (lstat (filename, &st) == -1 && errno == ENOENT) {
+		if (g_lstat (filename, &st) == -1 && errno == ENOENT) {
 			int fd;
 			
-			fd = creat (filename, 0600);
+			fd = g_creat (filename, 0600);
 			if (fd >= 0) {
 				close (fd);
 				return filename;
@@ -990,7 +998,7 @@ void
 mail_config_remove_signature (ESignature *signature)
 {
 	if (signature->filename && !signature->script)
-		unlink (signature->filename);
+		g_unlink (signature->filename);
 	
 	e_signature_list_remove (config->signatures, signature);
 	mail_config_save_signatures ();
@@ -999,6 +1007,7 @@ mail_config_remove_signature (ESignature *signature)
 char *
 mail_config_signature_run_script (const char *script)
 {
+#ifndef G_OS_WIN32
 	int result, status;
 	int in_fds[2];
 	pid_t pid;
@@ -1104,4 +1113,7 @@ mail_config_signature_run_script (const char *script)
 		
 		return content;
 	}
+#else
+	return NULL;
+#endif
 }

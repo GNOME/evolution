@@ -4,8 +4,44 @@
 
 	* em-account-editor.c
 	* em-account-prefs.c
-	* em-filter-editor.c: Use gstdio wrappers. Construct pathnames of
-	glade files at run-time.
+	* em-filter-editor.c
+	* em-folder-browser.c
+	* em-folder-view.c
+	* em-format-html.c
+	* em-format-html-display.c
+	* em-mailer-prefs.c
+	* em-message-browser.c
+	* em-migrate.c
+	* em-subscribe-editor.c
+	* em-sync-stream.c
+	* em-utils.c
+	* em-vfolder-editor.c
+	* em-vfolder-rule.c
+	* mail-autofilter.c
+	* mail-component.c
+	* mail-config.c
+	* mail-folder-cache.c: Use gstdio wrappers. Construct pathnames of
+	glade, xml, etspec and png files at run-time. Use
+	g_filename_{to,from}_uri().
+
+	* em-folder-browser.c (emfb_init)
+	* em-folder-view.c (emfv_finalise)
+	* em-message-browser.c (emmb_init): As EMFolderView::ui_files now
+	always is a list of filenames constructed with g_build_filename(),
+	use g_free() on each list entry before calling g_slist_free() on
+	the list.
+
+	* em-folder-tree-model.c (em_folder_tree_model_load_state): Use
+	e_xml_parse_file().
+
+	* em-migrate.c: Bypass all the code for upgrading from 1.x on Win32.
+	(emm_setup_initial): Use GDir instead of dirent.
+
+	* em-sync-stream.c
+	* mail-folder-cache.c: Use pthread_equal() to compare pthread_t
+	values.
+
+	* em-vfs-stream.c: No EINPROGRESS or ELOOP on Win32.
 
 2005-12-17  Tor Lillqvist  <tml@novell.com>
 

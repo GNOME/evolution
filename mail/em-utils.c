@@ -31,6 +31,21 @@
 #include <errno.h>
 #include <time.h>
 
+#include <glib.h>
+#include <glib/gstdio.h>
+
+#ifdef G_OS_WIN32
+/* Work around namespace clobbage in <windows.h> */
+#define DATADIR windows_DATADIR
+#include <windows.h>
+#undef DATADIR
+#undef interface
+#endif
+
+#if !GLIB_CHECK_VERSION (2, 8, 0)
+#define g_access access
+#endif
+
 #include <camel/camel-stream-fs.h>
 #include <camel/camel-url-scanner.h>
 #include <camel/camel-file-utils.h>
@@ -53,12 +68,13 @@
 #include "mail-config.h"
 #include "message-tag-followup.h"
 
-#include <e-util/e-mktemp.h>
-#include <e-util/e-account-list.h>
-#include <e-util/e-dialog-utils.h>
+#include "e-util/e-util.h"
+#include "e-util/e-util-private.h"
+#include "e-util/e-mktemp.h"
+#include "e-util/e-account-list.h"
+#include "e-util/e-dialog-utils.h"
 #include "e-util/e-error.h"
 
-#include <e-util/e-util.h>
 
 #include "em-utils.h"
 #include "em-composer-utils.h"
@@ -317,9 +333,10 @@ em_utils_edit_filters (GtkWidget *parent)
 	
 	fc = em_filter_context_new ();
 	user = g_strdup_printf ("%s/mail/filters.xml", base_directory);
-	system = EVOLUTION_PRIVDATADIR "/filtertypes.xml";
+	system = g_build_filename (EVOLUTION_PRIVDATADIR, "filtertypes.xml", NULL);
 	rule_context_load ((RuleContext *) fc, system, user);
 	g_free (user);
+	g_free (system);
 	
 	if (((RuleContext *) fc)->error) {
 		e_error_run((GtkWindow *)parent, "mail:filter-load-error", ((RuleContext *)fc)->error, NULL);
@@ -420,11 +437,11 @@ emu_can_save(GtkWindow *parent, const char *path)
 		return FALSE;
 
 	/* make sure we can actually save to it... */
-	if (stat (path, &st) != -1 && !S_ISREG (st.st_mode))
+	if (g_stat (path, &st) != -1 && !S_ISREG (st.st_mode))
 		return FALSE;
 	
-	if (access (path, F_OK) == 0) {
-		if (access (path, W_OK) != 0) {
+	if (g_access (path, F_OK) == 0) {
+		if (g_access (path, W_OK) != 0) {
 			e_error_run(parent, "mail:no-save-path", path, g_strerror(errno), NULL);
 			return FALSE;
 		}
@@ -582,14 +599,14 @@ em_utils_save_part_to_file(GtkWidget *parent, const char *filename, CamelMimePar
 	}
 	g_free(dirname);
 
-	if (access(filename, F_OK) == 0) {
-		if (access(filename, W_OK) != 0) {
+	if (g_access(filename, F_OK) == 0) {
+		if (g_access(filename, W_OK) != 0) {
 			e_error_run((GtkWindow *)parent, E_ERROR_ASK_FILE_EXISTS_OVERWRITE, filename, NULL);
 			return FALSE;
 		}
 	}
 	
-	if (stat(filename, &st) != -1 && !S_ISREG(st.st_mode)) {
+	if (g_stat(filename, &st) != -1 && !S_ISREG(st.st_mode)) {
 		e_error_run((GtkWindow *)parent, "mail:no-write-path-notfile", filename, NULL);
 		return FALSE;
 	}
@@ -1158,7 +1175,7 @@ em_utils_selection_set_urilist(GtkSelectionData *data, CamelFolder *folder, GPtr
 {
 	char *tmpdir;
 	CamelStream *fstream;
-	char *uri, *p, *file = NULL;
+	char *uri, *file = NULL, *tmpfile;
 	int fd;
 	CamelMessageInfo *info;
 
@@ -1183,25 +1200,30 @@ em_utils_selection_set_urilist(GtkSelectionData *data, CamelFolder *folder, GPtr
 
 	e_filename_make_safe(file);
 
-	p = uri = g_alloca (strlen (tmpdir) + strlen(file) + 16);
-	p += sprintf (uri, "file:///%s/%s", tmpdir, file);
+	tmpfile = g_build_filename(tmpdir, file, NULL);
 	g_free(tmpdir);
 	g_free(file);
 	
-	fd = open(uri + 7, O_WRONLY | O_CREAT | O_EXCL, 0666);
-	if (fd == -1)
+	fd = g_open(tmpfile, O_WRONLY | O_CREAT | O_EXCL | O_BINARY, 0666);
+	g_free(tmpfile);
+	if (fd == -1) {
 		return;
-	
+	}
+
+	uri = g_filename_to_uri(tmpfile, NULL, NULL);
 	fstream = camel_stream_fs_new_with_fd(fd);
 	if (fstream) {
-		/* terminate with \r\n to be compliant with the spec */
-		strcpy (p, "\r\n");
-		
-		if (em_utils_write_messages_to_stream(folder, uids, fstream) == 0)
-			gtk_selection_data_set(data, data->target, 8, uri, strlen(uri));
+		if (em_utils_write_messages_to_stream(folder, uids, fstream) == 0) {
+			/* terminate with \r\n to be compliant with the spec */
+			char *uri_crlf = g_strconcat(uri, "\r\n", NULL);
+
+			gtk_selection_data_set(data, data->target, 8, uri_crlf, strlen(uri_crlf));
+			g_free(uri_crlf);
+		}
 
 		camel_object_unref(fstream);
 	}
+	g_free(uri);
 }
 
 /**
@@ -1237,7 +1259,7 @@ em_utils_selection_get_urilist(GtkSelectionData *data, CamelFolder *folder)
 			continue;
 
 		if (strcmp(url->protocol, "file") == 0
-		    && (fd = open(url->path, O_RDONLY)) != -1) {
+		    && (fd = g_open(url->path, O_RDONLY | O_BINARY, 0)) != -1) {
 			stream = camel_stream_fs_new_with_fd(fd);
 			res = em_utils_read_messages_from_stream(folder, stream);
 			camel_object_unref(stream);
@@ -1818,6 +1840,14 @@ char *em_uri_to_camel(const char *euri)
 				curl = camel_url_new("mbox:", NULL);
 
 			base = g_strdup_printf("%s/.evolution/mail/%s", g_get_home_dir(), eurl->user);
+#ifdef G_OS_WIN32
+			/* Turn backslashes into slashes to avoid URI encoding */
+			{
+				char *p = base;
+				while ((p = strchr (p, '\\')))
+					*p++ = '/';
+			}
+#endif
 			camel_url_set_path(curl, base);
 			g_free(base);
 			camel_url_set_fragment(curl, eurl->path[0]=='/'?eurl->path+1:eurl->path);

@@ -263,7 +263,7 @@ stream_write (CamelStream *stream, const char *buffer, size_t n)
 	if (emss->cancel)
 		return -1;
 
-	if (pthread_self() == mail_gui_thread) {
+	if (pthread_equal(pthread_self(), mail_gui_thread)) {
 		EMSS_CLASS(emss)->sync_write(stream, buffer, n);
 #ifdef LOG_STREAM
 		if (p->logfd)
@@ -293,7 +293,7 @@ stream_flush(CamelStream *stream)
 	if (emss->cancel)
 		return -1;
 
-	if (pthread_self() == mail_gui_thread)
+	if (pthread_equal(pthread_self(), mail_gui_thread))
 		return ((EMSyncStreamClass *)(((CamelObject *)emss)->klass))->sync_flush(stream);
 	else
 		sync_op(emss, EMSS_FLUSH, NULL, 0);
@@ -311,7 +311,7 @@ stream_close(CamelStream *stream)
 
 	d(printf("%p: closing stream\n", stream));
 
-	if (pthread_self() == mail_gui_thread) {
+	if (pthread_equal(pthread_self(), mail_gui_thread)) {
 #ifdef LOG_STREAM
 		if (emss->priv->logfd) {
 			fclose(emss->priv->logfd);

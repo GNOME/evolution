@@ -26,6 +26,17 @@
 
 #include <string.h>
 
+#include <glib.h>
+#include <glib/gstdio.h>
+
+#ifdef G_OS_WIN32
+/* Work around 'DATADIR' and 'interface' lossage in <windows.h> */
+#define DATADIR crap_DATADIR
+#include <windows.h>
+#undef DATADIR
+#undef interface
+#endif
+
 #include <gtkhtml/gtkhtml.h>
 #include <gtkhtml/gtkhtml-embedded.h>
 #include <gtkhtml/gtkhtml-search.h>
@@ -68,8 +79,8 @@
 #include <camel/camel-folder.h>
 #include <camel/camel-string-utils.h>
 
-/* should this be in e-util rather than gal? */
 #include <e-util/e-util.h>
+#include <e-util/e-util-private.h>
 
 #include <libedataserver/e-msgport.h>
 #include <e-util/e-gui-utils.h>
@@ -545,13 +556,19 @@ em_format_html_display_search(EMFormatHTMLDisplay *efhd)
 {
 	struct _EMFormatHTMLDisplayPrivate *p = efhd->priv;
 	GladeXML *xml;
+	char *gladefile;
 
 	if (p->search_dialog) {
 		gdk_window_raise(((GtkWidget *)p->search_dialog)->window);
 		return;
 	}
 
-	xml = glade_xml_new (EVOLUTION_GLADEDIR "/mail-dialogs.glade", "search_message_dialog", NULL);
+	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
+				      "mail-dialogs.glade",
+				      NULL);
+	xml = glade_xml_new (gladefile, "search_message_dialog", NULL);
+	g_free (gladefile);
+
 	if (xml == NULL) {
 		g_warning("Cannot open search dialog glade file");
 		/* ?? */
@@ -855,12 +872,18 @@ efhd_xpkcs7mime_validity_clicked(GtkWidget *button, EMFormatHTMLPObject *pobject
 	struct _smime_pobject *po = (struct _smime_pobject *)pobject;
 	GladeXML *xml;
 	GtkWidget *vbox, *w;
+	char *gladefile;
 
 	if (po->widget)
 		/* FIXME: window raise? */
 		return;
 
-	xml = glade_xml_new(EVOLUTION_GLADEDIR "/mail-dialogs.glade", "message_security_dialog", NULL);
+	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
+				      "mail-dialogs.glade",
+				      NULL);
+	xml = glade_xml_new(gladefile, "message_security_dialog", NULL);
+	g_free (gladefile);
+
 	po->widget = glade_xml_get_widget(xml, "message_security_dialog");
 
 	vbox = glade_xml_get_widget(xml, "signature_vbox");
@@ -1285,7 +1308,7 @@ static void
 efhd_drag_data_get(GtkWidget *w, GdkDragContext *drag, GtkSelectionData *data, guint info, guint time, EMFormatHTMLPObject *pobject)
 {
 	CamelMimePart *part = pobject->part;
-	char *uri, *path;
+	char *uri, *uri_crlf, *path;
 	CamelStream *stream;
 
 	switch (info) {
@@ -1319,10 +1342,12 @@ efhd_drag_data_get(GtkWidget *w, GdkDragContext *drag, GtkSelectionData *data, g
 		if (path == NULL)
 			return;
 
-		uri = g_strdup_printf("file://%s\r\n", path);
+		uri = g_filename_to_uri(path, NULL, NULL);
 		g_free(path);
-		gtk_selection_data_set(data, data->target, 8, uri, strlen(uri));
-		g_object_set_data_full((GObject *)w, "e-drag-uri", uri, g_free);
+		uri_crlf = g_strconcat(uri, "\r\n", NULL);
+		g_free(uri);
+		gtk_selection_data_set(data, data->target, 8, uri_crlf, strlen(uri_crlf));
+		g_object_set_data_full((GObject *)w, "e-drag-uri", uri_crlf, g_free);
 		break;
 	default:
 		abort();
@@ -1338,7 +1363,12 @@ efhd_drag_data_delete(GtkWidget *w, GdkDragContext *drag, EMFormatHTMLPObject *p
 	if (uri) {
 		/* NB: this doesn't kill the dnd directory */
 		/* NB: is this ever called? */
-		unlink(uri+7);
+		/* NB even more: doesn't the e-drag-uri have \r\n
+		 * appended? (see efhd_drag_data_get())
+		 */
+		char *filename = g_filename_from_uri (uri, NULL, NULL);
+		g_unlink(filename);
+		g_free(filename);
 		g_object_set_data((GObject *)w, "e-drag-uri", NULL);
 	}
 }

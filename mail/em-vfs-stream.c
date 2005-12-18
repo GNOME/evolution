@@ -33,6 +33,13 @@
 
 #include "em-vfs-stream.h"
 
+#ifndef EINPROGRESS
+#define EINPROGRESS EAGAIN
+#endif
+#ifndef ELOOP
+#define ELOOP EIO
+#endif
+
 #define LOG_STREAM
 
 #define d(x) 

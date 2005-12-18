@@ -36,6 +36,9 @@
 #include <errno.h>
 #include <ctype.h>
 
+#include <glib.h>
+#include <glib/gstdio.h>
+
 #include <gtk/gtk.h>
 
 #include <gconf/gconf-client.h>
@@ -61,12 +64,19 @@
 #include "e-util/e-account-list.h"
 #include "e-util/e-signature-list.h"
 #include "e-util/e-error.h"
+#include "e-util/e-util-private.h"
 
 #include "mail-config.h"
 #include "em-utils.h"
 #include "em-migrate.h"
 
 #define d(x) x
+
+#ifndef G_OS_WIN32
+
+/* No previous versions have been available on Win32, so don't bother
+ * with upgrade support from 1.x on Win32.
+ */
 
 /* upgrade helper functions */
 static xmlDocPtr
@@ -1404,6 +1414,8 @@ nofile:
 	return g_strdup_printf("%s:%s", protocol, dirname);
 }
 
+#endif	/* !G_OS_WIN32 */
+
 enum {
 	CP_UNIQUE = 0,
 	CP_OVERWRITE,
@@ -1428,16 +1440,16 @@ cp (const char *src, const char *dest, gboolean show_progress, int mode)
 
 	/* if the dest file exists and has content, abort - we don't
 	 * want to corrupt their existing data */
-	if (stat (dest, &st) == 0 && st.st_size > 0 && mode == CP_UNIQUE) {
+	if (g_stat (dest, &st) == 0 && st.st_size > 0 && mode == CP_UNIQUE) {
 		errno = EEXIST;
 		return -1;
 	}
 	
-	if (stat (src, &st) == -1
-	    || (readfd = open (src, O_RDONLY)) == -1)
+	if (g_stat (src, &st) == -1
+	    || (readfd = g_open (src, O_RDONLY | O_BINARY, 0)) == -1)
 		return -1;
 
-	if ((writefd = open (dest, open_flags[mode], 0666)) == -1) {
+	if ((writefd = g_open (dest, open_flags[mode] | O_BINARY, 0666)) == -1) {
 		errnosav = errno;
 		close (readfd);
 		errno = errnosav;
@@ -1462,9 +1474,10 @@ cp (const char *src, const char *dest, gboolean show_progress, int mode)
 			goto exception;
 		
 		total += nwritten;
-		
+#ifndef G_OS_WIN32		
 		if (show_progress)
 			em_migrate_set_progress (((double) total) / ((double) st.st_size));
+#endif
 	} while (total < st.st_size);
 	
 	if (fsync (writefd) == -1)
@@ -1496,6 +1509,8 @@ cp (const char *src, const char *dest, gboolean show_progress, int mode)
 	
 	return -1;
 }
+
+#ifndef G_OS_WIN32
 
 static int
 cp_r (const char *src, const char *dest, const char *pattern, int mode)
@@ -2621,11 +2636,13 @@ em_migrate_1_4 (const char *evolution_dir, xmlDocPtr filters, xmlDocPtr vfolders
 	return 0;
 }
 
+#endif
+
 static int
 emm_setup_initial(const char *evolution_dir)
 {
-	DIR *dir;
-	struct dirent *d;
+	GDir *dir;
+	const char *d;
 	struct stat st;
 	const GList *l;
 	char *local, *base;
@@ -2635,7 +2652,7 @@ emm_setup_initial(const char *evolution_dir)
 
 	d(printf("Setting up initial mail tree\n"));
 	
-	base = g_build_filename(evolution_dir, "/mail/local", NULL);
+	base = g_build_filename(evolution_dir, "mail/local", NULL);
 	if (camel_mkdir(base, 0777) == -1 && errno != EEXIST) {
 		g_free(base);
 		return -1;
@@ -2645,32 +2662,33 @@ emm_setup_initial(const char *evolution_dir)
 	for (l = gnome_i18n_get_language_list("LC_MESSAGES");
 	     l != NULL;
 	     l = g_list_next(l)) {
-		local = g_build_filename(EVOLUTION_PRIVDATADIR "/default", (char *)l->data, "mail/local", NULL);
-		if (stat(local, &st) == 0)
+		local = g_build_filename(EVOLUTION_PRIVDATADIR,
+					 "default",
+					 (char *)l->data,
+					 "mail/local", NULL);
+		if (g_stat(local, &st) == 0)
 			goto gotlocal;
 
 		g_free(local);
 	}
 
-	local = g_build_filename(EVOLUTION_PRIVDATADIR "/default/C/mail/local", NULL);
+	local = g_build_filename(EVOLUTION_PRIVDATADIR,
+				 "default/C/mail/local", NULL);
 gotlocal:
 
-	dir = opendir(local);
+	dir = g_dir_open(local, 0, NULL);
 	if (dir) {
-		while ((d = readdir(dir))) {
+		while ((d = g_dir_read_name(dir))) {
 			char *src, *dest;
 
-			if (!strcmp(d->d_name, ".") || !strcmp(d->d_name, ".."))
-				continue;
-
-			src = g_build_filename(local, d->d_name, NULL);
-			dest = g_build_filename(base, d->d_name, NULL);
+			src = g_build_filename(local, d, NULL);
+			dest = g_build_filename(base, d, NULL);
 
 			cp(src, dest, FALSE, CP_UNIQUE);
 			g_free(dest);
 			g_free(src);
 		}
-		closedir(dir);
+		g_dir_close(dir);
 	}
 
 	g_free(local);
@@ -2687,7 +2705,7 @@ em_migrate (const char *evolution_dir, int major, int minor, int revision, Camel
 	
 	/* make sure ~/.evolution/mail exists */
 	path = g_build_filename (evolution_dir, "mail", NULL);
-	if (stat (path, &st) == -1) {
+	if (g_stat (path, &st) == -1) {
 		if (errno != ENOENT || camel_mkdir (path, 0777) == -1) {
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM, 
 					      _("Unable to create local mail folders at `%s': %s"),
@@ -2701,7 +2719,8 @@ em_migrate (const char *evolution_dir, int major, int minor, int revision, Camel
 	
 	if (major == 0)
 		return emm_setup_initial(evolution_dir);
-	
+
+#ifndef G_OS_WIN32
 	if (major == 1 && minor < 5) {
 		xmlDocPtr config_xmldb = NULL, filters, vfolders;
 		
@@ -2759,6 +2778,6 @@ em_migrate (const char *evolution_dir, int major, int minor, int revision, Camel
 		
 		g_free (path);
 	}
-	
+#endif	/* !G_OS_WIN32 */
 	return 0;
 }

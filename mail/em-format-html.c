@@ -31,10 +31,20 @@
 #include <fcntl.h>
 #include <ctype.h>
 
+#include <glib.h>
+#ifdef G_OS_WIN32
+/* Work around 'DATADIR' and 'interface' lossage in <windows.h> */
+#define DATADIR crap_DATADIR
+#include <windows.h>
+#undef DATADIR
+#undef interface
+#endif
+
 #include <libedataserver/e-iconv.h>
 #include <libedataserver/e-util.h>	/* for e_utf8_strftime, what about e_time_format_time? */
 #include <libedataserver/e-time-utils.h>
 #include "e-util/e-icon-factory.h"
+#include "e-util/e-util-private.h"
 
 #include <gtkhtml/gtkhtml.h>
 #include <gtkhtml/gtkhtml-embedded.h>
@@ -906,7 +916,7 @@ efh_message_external(EMFormatHTML *efh, CamelStream *stream, CamelMimePart *part
 		if (name == NULL)
 			goto fail;
 		
-		url = g_strdup_printf ("file:///%s", *name == '/' ? name+1:name);
+		url = g_filename_to_uri (name, NULL, NULL);
 		if (site)
 			desc = g_strdup_printf(_("Pointer to local file (%s) valid at site \"%s\""), name, site);
 		else
@@ -1715,10 +1725,17 @@ efh_format_headers(EMFormatHTML *efh, CamelStream *stream, CamelMedium *part)
 		if (rupert && efh->show_rupert) {
 			char *classid;
 			CamelMimePart *iconpart;
+			char *pngfile;
 
 			classid = g_strdup_printf("icon:///em-format-html/%s/icon/header", emf->part_id->str);
 			camel_stream_printf(stream, "<td align=\"right\" valign=\"top\"><img width=16 height=16 src=\"%s\"></td>", classid);
-			iconpart = em_format_html_file_part((EMFormatHTML *)emf, "image/png", EVOLUTION_ICONSDIR "/monkey-16.png");
+
+			pngfile = g_build_filename (EVOLUTION_ICONSDIR,
+						    "monkey-16.png",
+						    NULL);
+			iconpart = em_format_html_file_part((EMFormatHTML *)emf, "image/png", pngfile);
+			g_free (pngfile);
+
 			if (iconpart) {
 				em_format_add_puri(emf, sizeof(EMFormatPURI), classid, iconpart, efh_write_image);
 				camel_object_unref(iconpart);

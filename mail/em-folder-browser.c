@@ -39,6 +39,14 @@
 #include <gdk/gdkkeysyms.h>
 #include <gconf/gconf-client.h>
 
+#ifdef G_OS_WIN32
+/* Work around 'DATADIR' and 'interface' lossage in <windows.h> */
+#define DATADIR crap_DATADIR
+#include <windows.h>
+#undef DATADIR
+#undef interface
+#endif
+
 #include <libgnomeprintui/gnome-print-dialog.h>
 
 #include "mail-mt.h"
@@ -67,6 +75,7 @@
 #include <camel/camel-search-private.h>
 
 #include "e-util/e-dialog-utils.h"
+#include "e-util/e-util-private.h"
 #include "em-utils.h"
 #include "em-composer-utils.h"
 #include "em-format-html-display.h"
@@ -160,6 +169,13 @@ emfb_pane_button_release_event(GtkWidget *w, GdkEventButton *e, EMFolderBrowser 
 }
 
 static void
+free_one_ui_file (gpointer data,
+		  gpointer user_data)
+{
+	g_free (data);
+}
+
+static void
 emfb_init(GObject *o)
 {
 	EMFolderBrowser *emfb = (EMFolderBrowser *)o;
@@ -171,10 +187,21 @@ emfb_init(GObject *o)
 	emfb->view.preview_active = TRUE;
 	emfb->view.list_active = TRUE;
 
+	g_slist_foreach (emfb->view.ui_files, free_one_ui_file, NULL);
 	g_slist_free(emfb->view.ui_files);
-	emfb->view.ui_files = g_slist_append(NULL, EVOLUTION_UIDIR "/evolution-mail-global.xml");
-	emfb->view.ui_files = g_slist_append(emfb->view.ui_files, EVOLUTION_UIDIR "/evolution-mail-list.xml");
-	emfb->view.ui_files = g_slist_append(emfb->view.ui_files, EVOLUTION_UIDIR "/evolution-mail-message.xml");
+
+	emfb->view.ui_files = g_slist_append(NULL,
+					     g_build_filename (EVOLUTION_UIDIR,
+							       "evolution-mail-global.xml",
+							       NULL));
+	emfb->view.ui_files = g_slist_append(emfb->view.ui_files,
+					     g_build_filename (EVOLUTION_UIDIR,
+							       "evolution-mail-list.xml",
+							       NULL));
+	emfb->view.ui_files = g_slist_append(emfb->view.ui_files,
+					     g_build_filename (EVOLUTION_UIDIR,
+							       "evolution-mail-message.xml",
+							       NULL));
 
 	emfb->view.enable_map = g_slist_prepend(emfb->view.enable_map, (void *)emfb_enable_map);
 
