@@ -20,9 +20,10 @@
  * Author: Ettore Perazzoli
  */
 
-#ifdef HAVE_CONFIG_H
 #include <config.h>
-#endif
+
+#include <glib.h>
+#include <glib/gstdio.h>
 
 #include "e-util/e-dialog-utils.h"
 #include "e-util/e-gtk-utils.h"
@@ -35,6 +36,8 @@
 #include "e-shell.h"
 #include "es-menu.h"
 #include "es-event.h"
+
+#include "e-util/e-util-private.h"
 
 #include <libxml/xmlmemory.h>
 #include <libxml/parser.h>
@@ -51,9 +54,6 @@
 #include <gtk/gtkwindow.h>
 #include <gtk/gtkdialog.h>
 #include <gtk/gtkstock.h>
-
-#include <gdk/gdkx.h>
-#include <X11/Xlib.h>
 
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-util.h>
@@ -406,6 +406,7 @@ idle_cb (void *data)
 	return FALSE;
 }
 
+#ifndef G_OS_WIN32
 
 /* SIGSEGV handling.
    
@@ -458,6 +459,10 @@ setup_segv_redirect (void)
 	g_static_mutex_lock (&segv_mutex);
 }
 
+#else
+#define setup_segv_redirect() 0
+#endif
+
 int
 main (int argc, char **argv)
 {
@@ -493,8 +498,8 @@ main (int argc, char **argv)
 	GnomeProgram *program;
 	poptContext popt_context;
 	const char **args;
-	char *evolution_directory;
 	GList *icon_list;
+	char *filename;
 
 	/* Make ElectricFence work.  */
 	free (malloc (10));
@@ -516,7 +521,10 @@ main (int argc, char **argv)
 	}
 
 	if (killev) {
-		execl (EVOLUTION_TOOLSDIR "/killev", "killev", NULL);
+		filename = g_build_filename (EVOLUTION_TOOLSDIR,
+					     "killev",
+					     NULL);
+		execl (filename, "killev", NULL);
 		/* Not reached */
 		exit (0);
 	}
@@ -532,7 +540,7 @@ main (int argc, char **argv)
 	if (evolution_debug_log) {
 		int fd;
 
-		fd = open (evolution_debug_log, O_WRONLY | O_CREAT | O_TRUNC, 0600);
+		fd = g_open (evolution_debug_log, O_WRONLY | O_CREAT | O_TRUNC, 0600);
 		if (fd) {
 			dup2 (fd, STDOUT_FILENO);
 			dup2 (fd, STDERR_FILENO);
@@ -553,12 +561,8 @@ main (int argc, char **argv)
 		g_list_free (icon_list);
 	}
 
-	/* FIXME We shouldn't be using the old directory at all I think */
-	evolution_directory = g_build_filename (g_get_home_dir (), "evolution", NULL);
 	if (setup_only)
 		exit (0);
-
-	g_free (evolution_directory);
 
 	uri_list = NULL;
 

@@ -20,36 +20,38 @@
  * Author: Iain Holmes  <iain@ximian.com>
  */
 
-#ifdef HAVE_CONFIG_H
 #include <config.h>
-#endif
 
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
-
 #include <string.h>
 
 #include <glib.h>
+
 #include <gdk/gdkkeysyms.h>
+
+#include <glade/glade.h>
+
 #include <libgnome/gnome-i18n.h>
+
 #include <libgnomeui/gnome-druid.h>
 #include <libgnomeui/gnome-druid-page-edge.h>
 #include <libgnomeui/gnome-druid-page-standard.h>
 #include <libgnomeui/gnome-file-entry.h>
 
+#include "misc/e-gui-utils.h"
+
+#include "e-util/e-dialog-utils.h"
+#include "e-util/e-error.h"
+#include "e-util/e-gtk-utils.h"
+#include "e-util/e-icon-factory.h"
+#include "e-util/e-import.h"
+#include "e-util/e-util-private.h"
+
 #include "e-shell.h"
 #include "e-shell-window.h"
 #include "e-shell-constants.h"
-
-#include <glade/glade.h>
-#include <misc/e-gui-utils.h>
-
-#include <e-util/e-gtk-utils.h>
-#include <e-util/e-dialog-utils.h>
-#include <e-util/e-icon-factory.h>
-#include <e-util/e-import.h>
-#include <e-util/e-error.h>
 
 #include "e-shell-importer.h"
 
@@ -193,7 +195,7 @@ filename_changed (GtkEntry *entry,
 		int i=0, firstitem=0;
 
 		g_free(page->target->uri_src);
-		page->target->uri_src = g_strdup_printf("file://%s", filename);
+		page->target->uri_src = g_filename_to_uri(filename, NULL, NULL);
 
 		l = e_import_get_importers(data->import, (EImportTarget *)page->target);
 		item = page->items;
@@ -667,6 +669,7 @@ e_shell_importer_start_import (EShellWindow *shell_window)
 	GtkWidget *html;
 	static gboolean dialog_open = FALSE;
 	GdkPixbuf *icon;
+	char *gladefile;
 
 	if (dialog_open) {
 		return;
@@ -680,7 +683,9 @@ e_shell_importer_start_import (EShellWindow *shell_window)
 	data->window = shell_window;
 	data->shell = e_shell_window_peek_shell (data->window);
 
-	data->wizard = glade_xml_new (EVOLUTION_GLADEDIR "/import.glade", NULL, NULL);
+	gladefile = g_build_filename (EVOLUTION_GLADEDIR, "import.glade", NULL);
+	data->wizard = glade_xml_new (gladefile, NULL, NULL);
+	g_free (gladefile);
 	data->dialog = glade_xml_get_widget (data->wizard, "importwizard");
 	gtk_window_set_default_size (GTK_WINDOW (data->dialog), 480, 320);
 	gtk_window_set_wmclass (GTK_WINDOW (data->dialog), "importdruid",

@@ -20,26 +20,16 @@
  * Author: Ettore Perazzoli <ettore@ximian.com>
  */
 
-#ifdef HAVE_CONFIG_H
 #include <config.h>
-#endif
 
-#include "e-shell-window-commands.h"
-
-#include "e-shell-importer.h"
-#include "e-shell-window.h"
-
-#include "evolution-shell-component-utils.h"
-
-#include "e-util/e-icon-factory.h"
-#include "e-util/e-dialog-utils.h"
-#include "e-util/e-error.h"
+#include <string.h>
 
 #include <glib/gprintf.h>
 
 #include <libgnome/gnome-exec.h>
-#include <libgnome/gnome-url.h>
 #include <libgnome/gnome-i18n.h>
+#include <libgnome/gnome-url.h>
+
 #include <libgnomeui/gnome-about.h>
 
 #include <libgnomevfs/gnome-vfs-mime-handlers.h>
@@ -51,7 +41,17 @@
 #include <libedataserverui/e-passwords.h>
 
 #include <gconf/gconf-client.h>
-#include <string.h>
+
+#include "e-util/e-icon-factory.h"
+#include "e-util/e-dialog-utils.h"
+#include "e-util/e-error.h"
+#include "e-util/e-util-private.h"
+
+#include "e-shell-window-commands.h"
+#include "e-shell-window.h"
+#include "evolution-shell-component-utils.h"
+
+#include "e-shell-importer.h"
 
 /* Utility functions.  */
 
@@ -577,6 +577,8 @@ command_about_box (BonoboUIComponent *uih,
 	gtk_widget_show (about_box_window);
 }
 
+#if 0
+/* Unused */
 static void
 command_help_faq (BonoboUIComponent *uih,
 		  EShellWindow *window,
@@ -586,6 +588,7 @@ command_help_faq (BonoboUIComponent *uih,
 	/* FIXME use the error */
 	gnome_url_show ("http://gnome.org/projects/evolution/faq.shtml", NULL);	
 }
+#endif
 
 static void
 command_quick_reference (BonoboUIComponent *uih,

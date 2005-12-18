@@ -20,57 +20,56 @@
  * Author: Ettore Perazzoli
  */
 
-#ifdef HAVE_CONFIG_H
 #include <config.h>
-#endif
 
+#include <string.h>
 #include <sys/types.h>
-#include <dirent.h>
-
-#include "e-shell.h"
-
-#include "e-util/e-dialog-utils.h"
-#include "e-util/e-bconf-map.h"
-#include "e-util/e-fsutils.h"
-#include "e-util/e-error.h"
-
-#include "e-shell-constants.h"
-#include "e-shell-settings-dialog.h"
-
-#include "e-shell-marshal.h"
-#include "es-event.h"
-
-#include "evolution-shell-component-utils.h"
 
 #include <glib.h>
+#include <glib/gstdio.h>
 
 #include <gtk/gtkmain.h>
 #include <gtk/gtksignal.h>
-#include <gdk/gdkx.h>
 
+#ifdef GDK_WINDOWING_X11
+#include <gdk/gdkprivate.h>
+#include <gdk/gdkx.h>
 #include <X11/Xatom.h>
+#include <X11/Xlib.h>
+#elif defined (GDK_WINDOWING_WIN32)
+/* gdkwin32.h includes <windows.h> which stomps over the namespace */
+#undef DATADIR
+#define interface windows_interface
+#include <gdk/gdkwin32.h>
+#undef interface
+#endif
 
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-util.h>
 
-/* (For the displayName stuff.)  */
-#include <gdk/gdkprivate.h>
-#include <X11/Xlib.h>
+#include <gconf/gconf-client.h>
 
 #include <bonobo-activation/bonobo-activation.h>
 #include <bonobo/bonobo-exception.h>
 #include <bonobo/bonobo-moniker-util.h>
 
+#include <libedataserver/e-xml-utils.h>
 #include <libedataserverui/e-passwords.h>
 
-#include <e-util/e-util.h>
-
-#include <gconf/gconf-client.h>
-
-#include <string.h>
+#include "e-util/e-bconf-map.h"
+#include "e-util/e-dialog-utils.h"
+#include "e-util/e-error.h"
+#include "e-util/e-fsutils.h"
+#include "e-util/e-util.h"
 
 #include "Evolution.h"
+#include "e-shell-constants.h"
+#include "e-shell-marshal.h"
+#include "e-shell-settings-dialog.h"
+#include "e-shell.h"
+#include "es-event.h"
 #include "evolution-listener.h"
+#include "evolution-shell-component-utils.h"
 
 static void set_line_status_complete(EvolutionListener *el, void *data);
 
@@ -182,7 +181,13 @@ set_interactive (EShell *shell,
 
 		CORBA_exception_init (&ev);
 
+#ifdef GDK_WINDOWING_X11
 		GNOME_Evolution_Component_interactive (info->iface, interactive,GPOINTER_TO_INT (GDK_WINDOW_XWINDOW (view->window)), &ev);
+#elif defined (GDK_WINDOWING_WIN32)
+		GNOME_Evolution_Component_interactive (info->iface, interactive,GPOINTER_TO_INT (GDK_WINDOW_HWND (view->window)), &ev);
+#else
+#error Port this to your windowing system
+#endif
 
 		/* Ignore errors, the components can decide to not implement
 		   this interface. */
@@ -544,23 +549,21 @@ detect_version (GConfClient *gconf, int *major, int *minor, int *revision)
 		/* Since 1.4.0 We've been keeping the version key in gconf */
 		sscanf(val, "%u.%u.%u", major, minor, revision);
 		g_free(val);
-	} else if (lstat (evolution_dir, &st) != 0 || !S_ISDIR (st.st_mode)) {
+	} else if (g_lstat (evolution_dir, &st) != 0 || !S_ISDIR (st.st_mode)) {
 		/* If ~/evolution does not exit or is not a directory it must be a new installation */
 		*major = 0;
 		*minor = 0;
 		*revision = 0;
 	} else {
-		xmlDocPtr config_doc = NULL;
+		xmlDocPtr config_doc;
 		xmlNodePtr source;
 		char *tmp;
 
 		tmp = g_build_filename (evolution_dir, "config.xmldb", NULL);
-		if (lstat(tmp, &st) == 0
-		    && S_ISREG(st.st_mode))
-			config_doc = xmlParseFile (tmp);
+		config_doc = e_xml_parse_file (tmp);
 		g_free (tmp);
-
 		tmp = NULL;
+
 		if (config_doc
 		    && (source = e_bconf_get_path (config_doc, "/Shell"))
 		    && (tmp = e_bconf_get_value (source, "upgrade_from_1_0_to_1_2_performed"))
@@ -573,8 +576,7 @@ detect_version (GConfClient *gconf, int *major, int *minor, int *revision)
 			*minor = 0;
 			*revision = 0;
 		}
-		if (tmp)
-			xmlFree(tmp);
+		g_free (tmp);
 		if (config_doc)
 			xmlFreeDoc (config_doc);		
 	}
@@ -739,23 +741,19 @@ e_shell_new (EShellStartupLineMode startup_line_mode,
 static int
 remove_dir(const char *root, const char *path)
 {
-	DIR *dir;
-	struct dirent *d;
+	GDir *dir;
+	const char *dname;
 	int res = -1;
 	char *new = NULL;
 	struct stat st;
 
-	dir = opendir(path);
+	dir = g_dir_open(path, 0, NULL);
 	if (dir == NULL)
 		return -1;
 
-	while ( (d = readdir(dir)) ) {
-		if (!strcmp(d->d_name, ".")
-		    || !strcmp(d->d_name, ".."))
-			continue;
-
-		new = g_build_filename(path, d->d_name, NULL);
-		if (stat(new, &st) == -1)
+	while ( (dname = g_dir_read_name(dir)) ) {
+		new = g_build_filename(path, dname, NULL);
+		if (g_stat(new, &st) == -1)
 			goto fail;
 
 		/* make sure we're really removing something from evolution dir */
@@ -766,17 +764,17 @@ remove_dir(const char *root, const char *path)
 			if (remove_dir(root, new) == -1)
 				goto fail;
 		} else {
-			if (unlink(new) == -1)
+			if (g_unlink(new) == -1)
 				goto fail;
 		}
 		g_free(new);
 		new = NULL;
 	}
 
-	res = rmdir(path);
+	res = g_rmdir(path);
 fail:
 	g_free(new);
-	closedir(dir);
+	g_dir_close(dir);
 	return res;
 }
 
@@ -852,7 +850,7 @@ check_old:
 	g_free(last_version);
 
 	if (lmajor == 1 && lminor < 5
-	    && stat(oldpath, &st) == 0
+	    && g_stat(oldpath, &st) == 0
 	    && S_ISDIR(st.st_mode)) {
 		int res;
 

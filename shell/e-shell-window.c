@@ -866,6 +866,7 @@ e_shell_window_new (EShell *shell,
 	GConfClient *gconf_client = gconf_client_get_default ();
 	BonoboUIContainer *ui_container;
 	char *default_component_id = NULL;
+	char *xmlfile;
 
 	if (bonobo_window_construct (BONOBO_WINDOW (window),
 				     bonobo_ui_container_new (),
@@ -888,10 +889,12 @@ e_shell_window_new (EShell *shell,
 					   bonobo_object_corba_objref (BONOBO_OBJECT (ui_container)),
 					   NULL);
 
+	xmlfile = g_build_filename (EVOLUTION_UIDIR, "evolution.xml", NULL);
 	bonobo_ui_util_set_ui (priv->ui_component,
 			       PREFIX,
-			       EVOLUTION_UIDIR "/evolution.xml",
+			       xmlfile,
 			       "evolution-" BASE_VERSION, NULL);
+	g_free (xmlfile);
 
 	e_shell_window_commands_setup (window);
 	e_menu_activate((EMenu *)priv->menu, priv->ui_component, TRUE);

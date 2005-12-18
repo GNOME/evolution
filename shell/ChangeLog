@@ -1,3 +1,20 @@
+2005-12-17  Tor Lillqvist  <tml@novell.com>
+
+	* e-config-upgrade.c: Use libedataserver's e_xml_parse_file()
+	instead of xmlParseFile() directly.
+
+	* e-shell.c
+	* e-shell-importer.c: Use GLib API when applicable.
+
+	* e-shell-importer.c
+	* e-shell-window.c: Construct pathname of glade file at run-time.
+
+	* e-shell-window-commands.c: Include e-util-private.h for Win32
+	redefinition of EVOLUTION_DATADIR.
+
+	* main.c: No SIGSEGV handling on Win32.
+	(main): Drop unused evolution_directory variable.
+
 2005-12-12  David Malcolm  <dmalcolm@redhat.com>
 
 	* e-shell-window.c (setup_widgets): escape the string when generating 

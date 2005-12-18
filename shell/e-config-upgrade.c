@@ -22,17 +22,22 @@
  *
  */
 
+#include <config.h>
+
 #include <sys/types.h>
 #include <sys/stat.h>
-
 #include <stdio.h>
 #include <ctype.h>
 
 #include <glib.h>
+
 #include <gconf/gconf.h>
 #include <gconf/gconf-client.h>
 
+#include <libedataserver/e-xml-utils.h>
+
 #include "e-util/e-bconf-map.h"
+
 #include "e-config-upgrade.h"
 
 /* ********************************************************************** */
@@ -129,15 +134,12 @@ e_gconf_map_list_t remap_list[] = {
 int
 e_config_upgrade(int major, int minor, int revision)
 {
-	xmlDocPtr config_doc = NULL;
+	xmlDocPtr config_doc;
 	char *conf_file;
-	struct stat st;
 	int res = 0;
 
-
 	conf_file = g_build_filename (g_get_home_dir (), "evolution", "config.xmldb", NULL);
-	if (lstat (conf_file, &st) == 0 && S_ISREG (st.st_mode)) 
-		config_doc = xmlParseFile (conf_file);
+	config_doc = e_xml_parse_file (conf_file);
 	g_free (conf_file);
 	
 	if (config_doc && major <=1 && minor < 3) {
