@@ -60,6 +60,9 @@
 #include <config.h>
 #endif
 
+#include <glib.h>
+#include <glib/gstdio.h>
+
 /* XXX toshok why oh *why* god WHY did they do this?  no fucking
    sense */
 /* private NSS defines used by PSM */
@@ -85,10 +88,10 @@
 #include "prprf.h"
 #include "prmem.h"
 #include "e-util/e-dialog-utils.h"
+#include "e-util/e-util-private.h"
 #include <gtk/gtkmessagedialog.h>
 #include <libgnome/gnome-i18n.h>
 #include <libedataserverui/e-passwords.h>
-#include <fcntl.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
@@ -1100,7 +1103,7 @@ e_cert_db_import_certs_from_file (ECertDB *cert_db,
 		return FALSE;
 	}
 
-	fd = open (file_path, O_RDONLY);
+	fd = g_open (file_path, O_RDONLY|O_BINARY, 0);
 	if (fd == -1) {
 		/* XXX gerror */
 		return FALSE;

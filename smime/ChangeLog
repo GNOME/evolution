@@ -9,6 +9,9 @@
 	* gui/e-cert-selector.c (e_cert_selector_new):
 	Construct glade file pathname at run-time.
 
+	* lib/e-cert-db.c
+	* lib/e-pkcs12.c: Use gstdio wrappers. Open file in binary mode.
+
 2005-07-28  Mengjie Yu  <meng-jie.yu@sun.com>
 
 	* lib/e-cert-db.c:

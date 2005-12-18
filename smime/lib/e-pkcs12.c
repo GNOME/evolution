@@ -60,6 +60,8 @@
 #include <config.h>
 #endif
 
+#include <glib.h>
+#include <glib/gstdio.h>
 #include <gtk/gtk.h>
 #include <libgnome/gnome-i18n.h>
 #include <libedataserverui/e-passwords.h>
@@ -179,7 +181,7 @@ input_to_decoder (SEC_PKCS12DecoderContext *dcx, const char *path, GError **erro
 	FILE *fp;
 
 	/* open path */
-	fp = fopen (path, "r");
+	fp = g_fopen (path, "rb");
 	if (!fp) {
 		/* XXX gerror */
 		printf ("couldn't open `%s'\n", path);
