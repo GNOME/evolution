@@ -16,6 +16,7 @@ INCLUDES =						\
 	-I$(top_srcdir)/smime/gui			\
 	$(EVOLUTION_MAIL_CFLAGS)			\
 	$(CERT_UI_CFLAGS)				\
+	$(THREADS_CFLAGS)				\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"		\
 	-DEVOLUTION_PRIVDATADIR=\""$(privdatadir)"\"	\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
@@ -228,8 +229,8 @@ libevolution_mail_la_LIBADD =					\
 	$(SMIME_LIBS)						\
 	$(EVOLUTION_MAIL_LIBS)					\
 	$(GTKHTML_LIBS)						\
-	$(CAMEL_LIBS)						\
-	$(REGEX_LIBS)
+	$(REGEX_LIBS)						\
+	$(THREADS_LIBS)
 
 libevolution_mail_la_LDFLAGS =				\
 	-avoid-version -module $(NO_UNDEFINED)

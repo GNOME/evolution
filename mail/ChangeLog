@@ -1,3 +1,7 @@
+2005-12-18  Tor Lillqvist  <tml@novell.com>
+
+	* Makefile.am: Use THREADS_CFLAGS and _LIBS. Don't need	CAMEL_LIBS.
+
 2005-12-17  Tor Lillqvist  <tml@novell.com>
 
 	* mail-mt.c: Add copyright blurb. Use separate flag field to
