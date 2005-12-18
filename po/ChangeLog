@@ -1,3 +1,7 @@
+2005-12-18  Funda Wang  <fundawang@linux.net.cn>
+
+	* POTFILES.in: Removed obsolete files.
+
 2005-12-18  Takeshi AIHANA <aihana@gnome.gr.jp>
 
 	* ja.po: Updated Japanese translation.

@@ -96,9 +96,7 @@ calendar/gui/control-factory.c
 calendar/gui/dialogs/alarm-dialog.glade
 calendar/gui/dialogs/alarm-list-dialog.c
 calendar/gui/dialogs/alarm-list-dialog.glade
-calendar/gui/dialogs/cal-attachment-bar.c
 calendar/gui/dialogs/cal-attachment-select-file.c
-calendar/gui/dialogs/cal-attachment.c
 calendar/gui/dialogs/cal-attachment.glade
 calendar/gui/dialogs/cal-prefs-dialog.c
 calendar/gui/dialogs/cal-prefs-dialog.glade
