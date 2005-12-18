@@ -1,3 +1,13 @@
+2005-12-18  Tor Lillqvist  <tml@novell.com>
+
+	* e-table-config.c (find_model_column_by_name): Use
+	g_ascii_strcasecmp() instead of g_strcasecmp(). This function
+	handles the English column names.
+
+	* e-table-specification.c (e_table_specification_load_from_file)
+	* e-table-state.c (e_table_state_load_from_file):
+	Use e_xml_parse_file().
+
 2005-12-17  Tor Lillqvist  <tml@novell.com>
 
 	* Makefile.am: Link with bootstrap libs on Win32. Use

@@ -181,7 +181,7 @@ find_model_column_by_name (ETableSpecification *spec, const char *s)
 
 		if ((*column)->disabled)
 			continue;
-		if (g_strcasecmp ((*column)->title, s) == 0)
+		if (g_ascii_strcasecmp ((*column)->title, s) == 0)
 			return (*column)->model_col;
 	}
 	return -1;

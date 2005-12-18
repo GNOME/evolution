@@ -29,6 +29,8 @@
 #include <libxml/parser.h>
 #include <libxml/xmlmemory.h>
 
+#include <libedataserver/e-xml-utils.h>
+
 #include "e-util/e-util.h"
 #include "e-util/e-xml-utils.h"
 
@@ -120,10 +122,7 @@ e_table_state_load_from_file    (ETableState *state,
 {
 	xmlDoc *doc;
 
-	if (!g_file_test (filename, G_FILE_TEST_EXISTS))
-		return FALSE;
-
-	doc = xmlParseFile (filename);
+	doc = e_xml_parse_file (filename);
 	if (doc) {
 		xmlNode *node = xmlDocGetRootElement(doc);
 		e_table_state_load_from_node(state, node);
@@ -138,6 +137,7 @@ e_table_state_load_from_string  (ETableState *state,
 				 const char          *xml)
 {
 	xmlDoc *doc;
+
 	doc = xmlParseMemory ((char *) xml, strlen(xml));
 	if (doc) {
 		xmlNode *node = xmlDocGetRootElement(doc);

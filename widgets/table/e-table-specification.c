@@ -31,6 +31,8 @@
 #include <libxml/parser.h>
 #include <libxml/xmlmemory.h>
 
+#include <libedataserver/e-xml-utils.h>
+
 #include "e-util/e-util.h"
 #include "e-util/e-xml-utils.h"
 
@@ -131,18 +133,7 @@ e_table_specification_load_from_file (ETableSpecification *specification,
 {
 	xmlDoc *doc;
 
-	if (!g_file_test (filename, G_FILE_TEST_EXISTS))
-		return FALSE;
-
-#ifdef G_OS_WIN32
-	{
-		gchar *locale_filename = g_win32_locale_filename_from_utf8 (filename);
-		doc = xmlParseFile (locale_filename);
-		g_free (locale_filename);
-	}
-#else
-	doc = xmlParseFile (filename);
-#endif
+	doc = e_xml_parse_file (filename);
 	if (doc) {
 		xmlNode *node = xmlDocGetRootElement (doc);
 		e_table_specification_load_from_node (specification, node);
