@@ -1,3 +1,11 @@
+2005-12-18  Tor Lillqvist  <tml@novell.com>
+
+	* Makefile.am: Link with bootstrap libs on Win32. Use
+	EVOLUTION_IMAGES instead of MAP_DIR for uniformity. Use
+	EVOLUTION_MAIL_CFLAGS instead of E_WIDGETS_CFLAGS. Use privsolib
+	instead of privlib (no difference on Unix). Use -no-undefined on
+	Win32. Link with all required libraries.
+
 2005-12-15  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* e-filter-bar.c: (rule_advanced_response), (option_changed),

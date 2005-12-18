@@ -1,18 +1,20 @@
+if OS_WIN32
+WIN32_BOOTSTRAP_LIBS = $(top_builddir)/win32/libfilter.la
+endif
+
 INCLUDES =								\
 	-I$(top_srcdir)							\
 	-I$(top_srcdir)/a11y/widgets					\
-	-I$(top_srcdir)/widgets/					\
-	-DMAP_DIR=\""$(imagesdir)"\"					\
-	-DEVOLUTION_PRIVDATADIR=\""$(privdatadir)"\"			\
+	-I$(top_srcdir)/widgets						\
+	-DEVOLUTION_IMAGES=\""$(imagesdir)"\"				\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"				\
-	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"			\
 	-DG_LOG_DOMAIN=__FILE__						\
-	$(E_WIDGETS_CFLAGS)						\
+	$(EVOLUTION_MAIL_CFLAGS)					\
 	$(EXTRA_GNOME_CFLAGS)						\
 	$(ICONV_CFLAGS)
 
 
-privlib_LTLIBRARIES =		\
+privsolib_LTLIBRARIES =		\
 	libemiscwidgets.la	\
 	libefilterbar.la
 
@@ -29,9 +31,6 @@ endif
 glade_DATA = e-send-options.glade \
 	     gal-categories.glade \
 	     e-attachment.glade
-
-libemiscwidgets_la_LDFLAGS = $(ICONV_LIBS)
-
 
 widgetsinclude_HEADERS =			\
 	$(pilot_headers)			\
@@ -130,16 +129,28 @@ libemiscwidgets_la_SOURCES =			\
 MARSHAL_GENERATED = e-util-marshal.c e-util-marshal.h
 @EVO_MARSHAL_RULE@
 
+libemiscwidgets_la_LDFLAGS = $(NO_UNDEFINED)
+
 libemiscwidgets_la_LIBADD = $(top_builddir)/e-util/libeutil.la		\
+	$(top_builddir)/e-util/libeutil.la				\
 	$(top_builddir)/widgets/table/libetable.la			\
 	$(top_builddir)/widgets/text/libetext.la			\
 	$(top_builddir)/a11y/widgets/libevolution-widgets-a11y.la	\
 	$(top_builddir)/a11y/libevolution-a11y.la			\
-	$(E_WIDGETS_LIBS)
+	$(CAMEL_LIBS)							\
+	$(EXTRA_GNOME_LIBS)						\
+	$(ICONV_LIBS)
 
 libefilterbar_la_SOURCES =	\
 	e-filter-bar.c		\
 	e-filter-bar.h
+
+libefilterbar_la_LDFLAGS = $(NO_UNDEFINED)
+
+libefilterbar_la_LIBADD =			\
+	$(WIN32_BOOTSTRAP_LIBS)			\
+	libemiscwidgets.la			\
+	$(E_WIDGETS_LIBS)
 
 noinst_PROGRAMS = 			\
 	test-calendar			\
@@ -153,9 +164,9 @@ noinst_PROGRAMS = 			\
 test_calendar_SOURCES = 	\
 	test-calendar.c
 
-test_calendar_LDADD = 						\
-	./libemiscwidgets.la					\
-	$(top_builddir)/e-util/libeutil.la			\
+test_calendar_LDADD = 				\
+	libemiscwidgets.la			\
+	$(top_builddir)/e-util/libeutil.la	\
 	$(E_WIDGETS_LIBS)
 
 # test-dateedit
@@ -163,8 +174,8 @@ test_calendar_LDADD = 						\
 test_dateedit_SOURCES = 	\
 	test-dateedit.c
 
-test_dateedit_LDADD = 			\
-	./libemiscwidgets.la		\
+test_dateedit_LDADD = 				\
+	libemiscwidgets.la			\
 	$(top_builddir)/e-util/libeutil.la	\
 	$(E_WIDGETS_LIBS)
 
@@ -173,9 +184,9 @@ test_dateedit_LDADD = 			\
 test_dropdown_button_SOURCES = 	\
 	test-dropdown-button.c
 
-test_dropdown_button_LDADD =	\
-	./libemiscwidgets.la	\
-	$(top_builddir)/e-util/libeutil.la  \
+test_dropdown_button_LDADD =			\
+	libemiscwidgets.la			\
+	$(top_builddir)/e-util/libeutil.la  	\
 	$(E_WIDGETS_LIBS)
 
 # test-multi-config-dialog
@@ -183,8 +194,8 @@ test_dropdown_button_LDADD =	\
 test_multi_config_dialog_SOURCES = 	\
 	test-multi-config-dialog.c
 
-test_multi_config_dialog_LDADD = 	\
-	./libemiscwidgets.la		\
+test_multi_config_dialog_LDADD = 		\
+	libemiscwidgets.la			\
 	$(top_builddir)/e-util/libeutil.la	\
 	$(E_WIDGETS_LIBS)
 
@@ -193,8 +204,8 @@ test_multi_config_dialog_LDADD = 	\
 test_info_label_SOURCES = 	\
 	test-info-label.c
 
-test_info_label_LDADD = 		\
-	./libemiscwidgets.la	\
+test_info_label_LDADD = 			\
+	libemiscwidgets.la			\
 	$(top_builddir)/e-util/libeutil.la	\
 	$(E_WIDGETS_LIBS)
 
