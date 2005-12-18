@@ -2,6 +2,10 @@
 
 	* e-timezone-dialog/Makefile.am: Link with libeutil.
 
+	* e-timezone-dialog/e-timezone-dialog.c
+	(e_timezone_dialog_construct): Construct glade file pathname at
+	run-time.
+
 2005-12-12  Irene Huang <Irene.Huang@sun.com>
 
 	reviewed by: Veerapuram Varadhan  <vvaradhan@novell.com>

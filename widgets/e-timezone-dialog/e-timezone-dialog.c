@@ -32,6 +32,8 @@
 #include <glade/glade.h>
 #include <misc/e-map.h>
 
+#include "e-util/e-util-private.h"
+
 #include "e-timezone-dialog.h"
 
 #define E_TIMEZONE_DIALOG_MAP_POINT_NORMAL_RGBA 0xc070a0ff
@@ -224,6 +226,7 @@ e_timezone_dialog_construct (ETimezoneDialog *etd)
 {
 	ETimezoneDialogPrivate *priv;
 	GtkWidget *map;
+	gchar *filename;
 
 	g_return_val_if_fail (etd != NULL, NULL);
 	g_return_val_if_fail (E_IS_TIMEZONE_DIALOG (etd), NULL);
@@ -232,7 +235,12 @@ e_timezone_dialog_construct (ETimezoneDialog *etd)
 
 	/* Load the content widgets */
 
-	priv->xml = glade_xml_new (EVOLUTION_GLADEDIR "/e-timezone-dialog.glade", NULL, NULL);
+	filename = g_build_filename (EVOLUTION_GLADEDIR,
+				     "e-timezone-dialog.glade",
+				     NULL);
+	priv->xml = glade_xml_new (filename, NULL, NULL);
+	g_free (filename);
+
 	if (!priv->xml) {
 		g_message ("e_timezone_dialog_construct(): Could not load the Glade XML file!");
 		goto error;
