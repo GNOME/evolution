@@ -31,6 +31,9 @@
 #include <libgnome/gnome-i18n.h>
 #include <glade/glade.h>
 #include <time.h>
+
+#include "e-util/e-util-private.h"
+
 #include "e-dateedit.h"
 #include "e-send-options.h"
 
@@ -622,11 +625,17 @@ e_sendoptions_dialog_run (ESendOptionsDialog *sod, GtkWidget *parent, Item_type 
 {
 	ESendOptionsDialogPrivate *priv;
 	GtkWidget *toplevel;
+	gchar *filename;
 
 	g_return_val_if_fail (sod != NULL || E_IS_SENDOPTIONS_DIALOG (sod), FALSE);
 	
 	priv = sod->priv;
-	priv->xml = glade_xml_new (EVOLUTION_GLADEDIR "/e-send-options.glade", NULL, NULL);
+
+	filename = g_build_filename (EVOLUTION_GLADEDIR,
+				     "e-send-options.glade",
+				     NULL);
+	priv->xml = glade_xml_new (filename, NULL, NULL);
+	g_free (filename);
 
 	if (!priv->xml) {
 		g_message ( G_STRLOC ": Could not load the Glade XML file ");

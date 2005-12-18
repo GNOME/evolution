@@ -6,7 +6,8 @@
 	instead of privlib (no difference on Unix). Use -no-undefined on
 	Win32. Link with all required libraries.
 
-	* e-attachment.c: Use gstdio wrappers. Construct glade file name
+	* e-attachment.c
+	* e-send-options.c: Use gstdio wrappers. Construct glade file name
 	at run-time.
 
 	* e-map.c: Construct map file name at run-time.
