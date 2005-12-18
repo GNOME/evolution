@@ -6,8 +6,9 @@
 	(e_timezone_dialog_construct): Construct glade file pathname at
 	run-time.
 
-	* menus/gal-view-collection.c (gal_view_collection_save): Include
-	libedataserver/e-xml-utils.h for e_xml_save_file() prototype.
+	* menus/gal-view-collection.c
+	* menus/gal-view-instance.c: Include libedataserver/e-xml-utils.h
+	for e_xml_save_file() prototype.
 
 2005-12-12  Irene Huang <Irene.Huang@sun.com>
 

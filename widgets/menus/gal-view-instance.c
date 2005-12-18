@@ -33,6 +33,7 @@
 #include <libxml/parser.h>
 #include <libgnome/gnome-util.h>
 #include <glib/gstdio.h>
+#include <libedataserver/e-xml-utils.h>
 
 #include "e-util/e-i18n.h"
 #include "e-util/e-util.h"
