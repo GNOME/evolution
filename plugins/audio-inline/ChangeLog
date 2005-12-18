@@ -1,3 +1,9 @@
+2005-12-18  Tor Lillqvist  <tml@novell.com>
+
+	* audio-inline.c: Use g_ascii_strcasecmp() instead of
+	strcasecmp(), especially as we are comparing to plain ASCII
+	strings.
+
 2005-05-11  Not Zed  <NotZed@Ximian.com>
 
 	* Makefile.am: add cleanfiles and built_sources.

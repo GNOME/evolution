@@ -223,18 +223,18 @@ org_gnome_audio_inline_play_clicked (GtkWidget *button, EMFormatHTMLPObject *pob
 
 			type = camel_mime_part_get_content_type (po->part);
 			if (type) {
-				if (!strcasecmp (type->type, "audio")) {
-					if (!strcasecmp (type->subtype, "mpeg") || !strcasecmp (type->subtype, "x-mpeg")
-					    || !strcasecmp (type->subtype, "mpeg3") || !strcasecmp (type->subtype, "x-mpeg3")
-					    || !strcasecmp (type->subtype, "mp3") || !strcasecmp (type->subtype, "x-mp3")) {
+				if (!g_ascii_strcasecmp (type->type, "audio")) {
+					if (!g_ascii_strcasecmp (type->subtype, "mpeg") || !g_ascii_strcasecmp (type->subtype, "x-mpeg")
+					    || !g_ascii_strcasecmp (type->subtype, "mpeg3") || !g_ascii_strcasecmp (type->subtype, "x-mpeg3")
+					    || !g_ascii_strcasecmp (type->subtype, "mp3") || !g_ascii_strcasecmp (type->subtype, "x-mp3")) {
 						po->thread = org_gnome_audio_inline_gst_mpeg_thread (filesrc);
-					} else if (!strcasecmp (type->subtype, "flac") || !strcasecmp (type->subtype, "x-flac")) {
+					} else if (!g_ascii_strcasecmp (type->subtype, "flac") || !g_ascii_strcasecmp (type->subtype, "x-flac")) {
 						po->thread = org_gnome_audio_inline_gst_flac_thread (filesrc);
-					} else if (!strcasecmp (type->subtype, "mod") || !strcasecmp (type->subtype, "x-mod")) {
+					} else if (!g_ascii_strcasecmp (type->subtype, "mod") || !g_ascii_strcasecmp (type->subtype, "x-mod")) {
 						po->thread = org_gnome_audio_inline_gst_mod_thread (filesrc);
 					}
-				} else if (!strcasecmp (type->type, "application")) {
-					if (!strcasecmp (type->subtype, "ogg") || !strcasecmp (type->subtype, "x-ogg")) {
+				} else if (!g_ascii_strcasecmp (type->type, "application")) {
+					if (!g_ascii_strcasecmp (type->subtype, "ogg") || !g_ascii_strcasecmp (type->subtype, "x-ogg")) {
 						po->thread = org_gnome_audio_inline_gst_ogg_thread (filesrc);
 					}
 				}
