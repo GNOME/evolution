@@ -26,6 +26,21 @@
 #include <config.h>
 #endif
 
+#include <glib.h>
+
+#ifdef G_OS_WIN32
+/* Include <windows.h> early (as the gnome-vfs stuff below will
+ * include it anyway, sigh) to workaround the DATADIR problem.
+ * <windows.h> (and the headers it includes) stomps all over the
+ * namespace like a baboon on crack, and especially the DATADIR enum
+ * in objidl.h causes problems.
+ */
+#undef DATADIR
+#define DATADIR crap_DATADIR
+#include <windows.h>
+#undef DATADIR
+#endif
+
 #include <sys/stat.h>
 #include <string.h>
 #include <errno.h>
@@ -37,8 +52,10 @@
 #include <gtk/gtkdialog.h>
 #include <libgnomevfs/gnome-vfs-mime.h>
 #include <libgnome/gnome-i18n.h>
+#include <glib/gstdio.h>
 
 #include "e-util/e-mktemp.h"
+#include "e-util/e-util-private.h"
 
 #include "e-attachment.h"
 
@@ -216,7 +233,7 @@ e_attachment_new (const char *file_name,
 	
 	g_return_val_if_fail (file_name != NULL, NULL);
 	
-	if (stat (file_name, &statbuf) < 0) {
+	if (g_stat (file_name, &statbuf) < 0) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("Cannot attach file %s: %s"),
 				      file_name, g_strerror (errno));
@@ -420,7 +437,7 @@ e_attachment_build_remote_file (const char *file_name,
 	
 	g_return_if_fail (file_name != NULL);
 	
-	if (stat (file_name, &statbuf) < 0) {
+	if (g_stat (file_name, &statbuf) < 0) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("Cannot attach file %s: %s"),
 				      file_name, g_strerror (errno));
@@ -655,6 +672,7 @@ e_attachment_edit (EAttachment *attachment, GtkWidget *parent)
 	DialogData *dialog_data;
 	GladeXML *editor_gui;
 	char *type;
+	char *filename;
 	
 	g_return_if_fail (attachment != NULL);
 	g_return_if_fail (E_IS_ATTACHMENT (attachment));
@@ -668,8 +686,13 @@ e_attachment_edit (EAttachment *attachment, GtkWidget *parent)
 		return;
 	}
 	
-	editor_gui = glade_xml_new (EVOLUTION_GLADEDIR "/e-attachment.glade",
+	filename = g_build_filename (EVOLUTION_GLADEDIR,
+				     "e-attachment.glade",
+				     NULL);
+	editor_gui = glade_xml_new (filename,
 				    NULL, NULL);
+	g_free (filename);
+
 	if (editor_gui == NULL) {
 		g_warning ("Cannot load `e-attachment.glade'");
 		return;
