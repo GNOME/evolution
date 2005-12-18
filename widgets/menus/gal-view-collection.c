@@ -30,6 +30,7 @@
 #include <glib.h>
 #include <libxml/parser.h>
 #include <libgnome/gnome-util.h>
+#include <libedataserver/e-xml-utils.h>
 
 #include "e-util/e-i18n.h"
 #include "e-util/e-util.h"
@@ -179,7 +180,6 @@ gal_view_collection_dispose (GObject *object)
 	collection->system_dir = NULL;
 
 	g_free(collection->local_dir);
-	collection->system_dir = NULL;
 	collection->local_dir = NULL;
 
 	g_free (collection->default_view);
