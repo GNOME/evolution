@@ -397,7 +397,10 @@ char *
 e_file_dialog_save_folder (const char *title)
 {
 	GtkWidget *selection;
-	char *path, *filename = NULL;
+#ifndef USE_GTKFILECHOOSER
+	char *path;
+#endif
+	char *filename = NULL;
 	char *dir, *gdir = NULL;
 	GConfClient *gconf;
 
