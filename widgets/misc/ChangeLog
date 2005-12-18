@@ -9,6 +9,8 @@
 	* e-attachment.c: Use gstdio wrappers. Construct glade file name
 	at run-time.
 
+	* e-map.c: Construct map file name at run-time.
+
 2005-12-15  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* e-filter-bar.c: (rule_advanced_response), (option_changed),

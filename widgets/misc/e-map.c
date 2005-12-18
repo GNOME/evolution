@@ -29,6 +29,8 @@
 #include <libart_lgpl/art_filterlevel.h>
 #include <libgnome/gnome-i18n.h>
 
+#include "e-util/e-util-private.h"
+
 #include "e-map.h"
 
 /* Scroll step increment */
@@ -203,11 +205,13 @@ static void
 e_map_init (EMap *view)
 {
 	EMapPrivate *priv;
+	char *map_file_name = g_build_filename (EVOLUTION_IMAGES, "world_map-960.png", NULL);
 
 	priv = g_new0 (EMapPrivate, 1);
 	view->priv = priv;
 
-	load_map_background (view, MAP_DIR"/world_map-960.png");
+	load_map_background (view, map_file_name);
+	g_free (map_file_name);
 	priv->frozen = FALSE;
 	priv->smooth_zoom = TRUE;
 	priv->zoom_state = E_MAP_ZOOMED_OUT;
