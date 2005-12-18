@@ -18,8 +18,9 @@ libetimezonedialog_la_SOURCES =	\
 
 libetimezonedialog_la_LDFLAGS = $(NO_UNDEFINED)
 
-libetimezonedialog_la_LIBADD =		\
-	$(WIN32_BOOTSTRAP_LIBS)		\
+libetimezonedialog_la_LIBADD =			\
+	$(WIN32_BOOTSTRAP_LIBS)			\
+	$(top_builddir)/e-util/libeutil.la	\
 	$(EVOLUTION_CALENDAR_LIBS)
 
 glade_DATA = e-timezone-dialog.glade

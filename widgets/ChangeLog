@@ -1,3 +1,7 @@
+2005-12-18  Tor Lillqvist  <tml@novell.com>
+
+	* e-timezone-dialog/Makefile.am: Link with libeutil.
+
 2005-12-12  Irene Huang <Irene.Huang@sun.com>
 
 	reviewed by: Veerapuram Varadhan  <vvaradhan@novell.com>
