@@ -3,7 +3,8 @@
 	* Makefile.am: Use THREADS_CFLAGS and _LIBS. Don't need	CAMEL_LIBS.
 
 	* em-account-editor.c
-	* em-account-prefs.c: Use gstdio wrappers. Construct pathnames of
+	* em-account-prefs.c
+	* em-filter-editor.c: Use gstdio wrappers. Construct pathnames of
 	glade files at run-time.
 
 2005-12-17  Tor Lillqvist  <tml@novell.com>

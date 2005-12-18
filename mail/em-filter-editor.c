@@ -28,6 +28,8 @@
 #include <gtk/gtk.h>
 #include <libgnome/gnome-i18n.h>
 
+#include "e-util/e-util-private.h"
+
 #include "em-filter-editor.h"
 #include "em-filter-rule.h"
 
@@ -105,8 +107,14 @@ em_filter_editor_new (EMFilterContext *fc, const EMFilterSource *source_names)
 {
 	EMFilterEditor *fe = (EMFilterEditor *) g_object_new (em_filter_editor_get_type(), NULL);
 	GladeXML *gui;
+	char *gladefile;
 
-	gui = glade_xml_new (EVOLUTION_GLADEDIR "/filter.glade", "rule_editor", NULL);
+	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
+				      "filter.glade",
+				      NULL);
+	gui = glade_xml_new (gladefile, "rule_editor", NULL);
+	g_free (gladefile);
+
 	em_filter_editor_construct (fe, fc, gui, source_names);
 	g_object_unref (gui);
 	
