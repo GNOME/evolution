@@ -42,6 +42,7 @@
 
 #include "e-util/e-account-list.h"
 #include "e-util/e-error.h"
+#include "e-util/e-util-private.h"
 
 #include "em-account-prefs.h"
 
@@ -537,8 +538,14 @@ em_account_prefs_construct (EMAccountPrefs *prefs)
 	GtkWidget *toplevel, *widget;
 	GtkCellRenderer *renderer;
 	GladeXML *gui;
+	char *gladefile;
 	
-	gui = glade_xml_new (EVOLUTION_GLADEDIR "/mail-config.glade", "accounts_tab", NULL);
+	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
+				      "mail-config.glade",
+				      NULL);
+	gui = glade_xml_new (gladefile, "accounts_tab", NULL);
+	g_free (gladefile);
+
 	prefs->gui = gui;
 	
 	/* get our toplevel widget */
