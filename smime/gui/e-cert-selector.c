@@ -40,6 +40,8 @@
 
 #include "e-cert-selector.h"
 
+#include "e-util/e-util-private.h"
+
 struct _ECertSelectorPrivate {
 	CERTCertList *certlist;
 
@@ -153,11 +155,16 @@ e_cert_selector_new(int type, const char *currentid)
 	GladeXML *gui;
 	GtkWidget *w, *menu;
 	int n=0, active=0;
+	char *gladefile;
 
 	ecs = g_object_new(e_cert_selector_get_type(), NULL);
 	p = ecs->priv;
 
-	gui = glade_xml_new(EVOLUTION_GLADEDIR "/smime-ui.glade", "cert_selector_vbox", NULL);
+	gladefile = g_build_filename(EVOLUTION_GLADEDIR,
+				     "smime-ui.glade",
+				     NULL);
+	gui = glade_xml_new(gladefile, "cert_selector_vbox", NULL);
+	g_free (gladefile);
 
 	p->menu = glade_xml_get_widget(gui, "cert_menu");
 	p->description = glade_xml_get_widget(gui, "cert_description");

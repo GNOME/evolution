@@ -1,3 +1,14 @@
+2005-12-18  Tor Lillqvist  <tml@novell.com>
+
+	* gui/Makefile.am: Link with libeutil.
+
+	* gui/ca-trust-dialog.c (ca_trust_dialog_show)
+	* gui/cert-trust-dialog.c (cert_trust_dialog_show)
+	* gui/certificate-manager.c (certificate_manager_config_control_new)
+	* gui/certificate-viewer.c (certificate_viewer_show)
+	* gui/e-cert-selector.c (e_cert_selector_new):
+	Construct glade file pathname at run-time.
+
 2005-07-28  Mengjie Yu  <meng-jie.yu@sun.com>
 
 	* lib/e-cert-db.c:

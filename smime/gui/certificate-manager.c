@@ -49,6 +49,8 @@
 #include <pkcs11.h>
 #include <pk11func.h>
 
+#include "e-util/e-util-private.h"
+
 typedef struct {
 	GladeXML *gui;
 
@@ -970,12 +972,18 @@ certificate_manager_config_control_new (void)
 {
 	CertificateManagerData *cfm_data;
 	GtkWidget *control_widget;
+	char *gladefile;
 
 	/* We need to peek the db here to make sure it (and NSS) are fully initialized. */
 	e_cert_db_peek ();
 
 	cfm_data = g_new0 (CertificateManagerData, 1);
-	cfm_data->gui = glade_xml_new (EVOLUTION_GLADEDIR "/" GLADE_FILE_NAME, NULL, NULL);
+
+	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
+				      GLADE_FILE_NAME,
+				      NULL);
+	cfm_data->gui = glade_xml_new (gladefile, NULL, NULL);
+	g_free (gladefile);
 
 	cfm_data->yourcerts_treeview = glade_xml_get_widget (cfm_data->gui, "yourcerts-treeview");
 	cfm_data->contactcerts_treeview = glade_xml_get_widget (cfm_data->gui, "contactcerts-treeview");

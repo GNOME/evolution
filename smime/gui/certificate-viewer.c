@@ -34,6 +34,8 @@
 #include <libgnome/gnome-i18n.h>
 #include <glade/glade.h>
 
+#include "e-util/e-util-private.h"
+
 #define GLADE_FILE_NAME "smime-ui.glade"
 
 typedef struct {
@@ -322,9 +324,15 @@ certificate_viewer_show (ECert *cert)
 {
 	CertificateViewerData *cvm_data;
 	char *title;
+	char *gladefile;
 
 	cvm_data = g_new0 (CertificateViewerData, 1);
-	cvm_data->gui = glade_xml_new (EVOLUTION_GLADEDIR "/" GLADE_FILE_NAME, NULL, NULL);
+
+	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
+				      GLADE_FILE_NAME,
+				      NULL);
+	cvm_data->gui = glade_xml_new (gladefile, NULL, NULL);
+	g_free (gladefile);
 
 	cvm_data->dialog = glade_xml_get_widget (cvm_data->gui, "certificate-viewer-dialog");
 

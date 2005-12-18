@@ -34,6 +34,7 @@ libevolution_smime_la_SOURCES = 	\
 
 
 libevolution_smime_la_LIBADD =			\
+	$(top_builddir)/e-util/libeutil.la	\
 	$(top_builddir)/shell/libeshell.la	\
 	$(top_builddir)/smime/lib/libessmime.la	\
 	$(CERT_UI_LIBS)

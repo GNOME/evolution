@@ -39,6 +39,8 @@
 #include <libgnome/gnome-i18n.h>
 #include <glade/glade.h>
 
+#include "e-util/e-util-private.h"
+
 #define GLADE_FILE_NAME "smime-ui.glade"
 
 typedef struct {
@@ -116,9 +118,15 @@ cert_trust_dialog_show (ECert *cert)
 {
 	CertTrustDialogData *ctd_data;
 	CERTCertificate *icert;
+	char *gladefile;
 
 	ctd_data = g_new0 (CertTrustDialogData, 1);
-	ctd_data->gui = glade_xml_new (EVOLUTION_GLADEDIR "/" GLADE_FILE_NAME, NULL, NULL);
+
+	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
+				      GLADE_FILE_NAME,
+				      NULL);
+	ctd_data->gui = glade_xml_new (gladefile, NULL, NULL);
+	g_free (gladefile);
 
 	ctd_data->dialog = glade_xml_get_widget (ctd_data->gui, "cert-trust-dialog");
 	ctd_data->cert = g_object_ref (cert);
