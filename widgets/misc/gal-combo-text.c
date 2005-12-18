@@ -23,6 +23,7 @@
 #include <config.h>
 
 #include <ctype.h>
+#include <string.h>
 
 #include <gtk/gtk.h>
 
@@ -88,17 +89,9 @@ E_MAKE_TYPE (gal_combo_text,
 static gint
 strcase_equal (gconstpointer v, gconstpointer v2)
 {
-	return g_strcasecmp ((const gchar*) v, (const gchar*)v2) == 0;
+	return g_ascii_strcasecmp ((const gchar*) v, (const gchar*)v2) == 0;
 }
 
-
-/*
- * a char* hash function from ASU
- *
- * This is cut/paste from gutils.c
- * We've got to do this, because this widget will soon move out of the
- * Gnumeric source and into a separate library.
- */
 static guint
 strcase_hash (gconstpointer v)
 {
@@ -107,14 +100,14 @@ strcase_hash (gconstpointer v)
 	guint h = 0, g;
 
 	for(p = s; *p != '\0'; p += 1) {
-		h = ( h << 4 ) + tolower (*p);
+		h = ( h << 4 ) + g_ascii_tolower (*p);
 		if ( ( g = h & 0xf0000000 ) ) {
 			h = h ^ (g >> 24);
 			h = h ^ g;
 		}
 	}
 
-	return h /* % M */;
+	return h;
 }
 
 /**

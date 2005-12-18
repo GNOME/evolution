@@ -12,6 +12,9 @@
 
 	* e-map.c: Construct map file name at run-time.
 
+	* gal-combo-text.c (strcase_equal): Use g_ascii_strcasecmp().
+	(strcase_hash): Use g_ascii_tolower().
+
 2005-12-15  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* e-filter-bar.c: (rule_advanced_response), (option_changed),
