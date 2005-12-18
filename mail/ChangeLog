@@ -2,6 +2,9 @@
 
 	* Makefile.am: Use THREADS_CFLAGS and _LIBS. Don't need	CAMEL_LIBS.
 
+	* em-account-editor.c: Use gstdio wrappers. Construct pathnames of
+	glade files at run-time.
+
 2005-12-17  Tor Lillqvist  <tml@novell.com>
 
 	* mail-mt.c: Add copyright blurb. Use separate flag field to

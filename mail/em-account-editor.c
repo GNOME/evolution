@@ -40,6 +40,7 @@
 #endif
 
 #include <glib.h>
+#include <glib/gstdio.h>
 
 #include <string.h>
 #include <stdarg.h>
@@ -71,6 +72,7 @@
 #include <e-util/e-signature-list.h>
 
 #include "e-util/e-error.h"
+#include "e-util/e-util-private.h"
 
 #include "em-config.h"
 #include "em-folder-selection-button.h"
@@ -357,7 +359,7 @@ emae_load_text(GtkTextView *view, const char *filename)
 
 	g_return_val_if_fail (filename != NULL , FALSE);
 
-	fd = fopen (filename, "r");
+	fd = g_fopen (filename, "r");
 	if (fd) {
 		buffer =  gtk_text_buffer_new (NULL);
 		gtk_text_buffer_get_start_iter (buffer, &iter);
@@ -380,8 +382,14 @@ emae_display_license(EMAccountEditor *emae, CamelProvider *prov)
 	GtkWidget *w, *dialog;
 	char *tmp;
 	GtkResponseType response = GTK_RESPONSE_NONE;
+	char *gladefile;
 	
-	xml = glade_xml_new (EVOLUTION_GLADEDIR "/mail-dialogs.glade", "license_dialog", NULL);
+	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
+				      "mail-dialogs.glade",
+				      NULL);
+	xml = glade_xml_new (gladefile, "license_dialog", NULL);
+	g_free (gladefile);
+
 	dialog = glade_xml_get_widget(xml, "license_dialog");
 	gtk_dialog_set_response_sensitive((GtkDialog *)dialog, GTK_RESPONSE_ACCEPT, FALSE);
 	tmp = g_strdup_printf(_("%s License Agreement"), prov->license);
@@ -1685,11 +1693,16 @@ emae_identity_page(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, st
 	int i;
 	GtkWidget *w;
 	GladeXML *xml;
+	char *gladefile;
 
 	/*if (old)
 	  return old;*/
 
-	xml = glade_xml_new(EVOLUTION_GLADEDIR "/mail-config.glade", item->label, NULL);
+	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
+				      "mail-config.glade",
+				      NULL);
+	xml = glade_xml_new(gladefile, item->label, NULL);
+	g_free (gladefile);
 
 	/* Management & Identity fields, in the druid the management frame is relocated to the last page later on */
 	for (i=0;i<sizeof(emae_identity_entries)/sizeof(emae_identity_entries[0]);i++)
@@ -1707,14 +1720,24 @@ emae_identity_page(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, st
 	} else {
 		/* TODO: this could/should probably be neater */
 		gtk_widget_hide(glade_xml_get_widget(xml, "sigLabel"));
+#if 0
 		gtk_widget_hide(glade_xml_get_widget(xml, "sigOption"));
+#endif
 		gtk_widget_hide(glade_xml_get_widget(xml, "sigAddNew"));
 	}
 	
 	w = glade_xml_get_widget(xml, item->label);
 	if (((EConfig *)gui->config)->type == E_CONFIG_DRUID) {
-		GladeXML *druidxml = glade_xml_new(EVOLUTION_GLADEDIR "/mail-config.glade", "identity_page", NULL);
-		GtkWidget *page = glade_xml_get_widget(druidxml, "identity_page");
+		GladeXML *druidxml;
+		GtkWidget *page;
+
+		gladefile = g_build_filename (EVOLUTION_GLADEDIR,
+					      "mail-config.glade",
+					      NULL);
+		druidxml = glade_xml_new(gladefile, "identity_page", NULL);
+		g_free (gladefile);
+
+		page = glade_xml_get_widget(druidxml, "identity_page");
 
 		gtk_box_pack_start((GtkBox*)((GnomeDruidPageStandard *)page)->vbox, w, TRUE, TRUE, 0);
 		w = page;
@@ -1738,19 +1761,32 @@ emae_receive_page(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, str
 	EMAccountEditorPrivate *gui = emae->priv;
 	GtkWidget *w;
 	GladeXML *xml;
+	char *gladefile;
 
 	/*if (old)
 	  return old;*/
 
-	xml = glade_xml_new(EVOLUTION_GLADEDIR "/mail-config.glade", item->label, NULL);
+	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
+				      "mail-config.glade",
+				      NULL);
+	xml = glade_xml_new(gladefile, item->label, NULL);
+	g_free (gladefile);
 
 	gui->source.type = CAMEL_PROVIDER_STORE;
 	emae_setup_service(emae, &gui->source, xml);
 
 	w = glade_xml_get_widget(xml, item->label);
 	if (((EConfig *)gui->config)->type == E_CONFIG_DRUID) {
-		GladeXML *druidxml = glade_xml_new(EVOLUTION_GLADEDIR "/mail-config.glade", "source_page", NULL);
-		GtkWidget *page = glade_xml_get_widget(druidxml, "source_page");
+		GladeXML *druidxml;
+		GtkWidget *page;
+
+		gladefile = g_build_filename (EVOLUTION_GLADEDIR,
+					      "mail-config.glade",
+					      NULL);
+		druidxml = glade_xml_new(gladefile, "source_page", NULL);
+		g_free (gladefile);
+
+		page = glade_xml_get_widget(druidxml, "source_page");
 
 		gtk_box_pack_start((GtkBox*)((GnomeDruidPageStandard *)page)->vbox, w, TRUE, TRUE, 0);
 		w = page;
@@ -2085,6 +2121,7 @@ emae_send_page(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, struct
 	EMAccountEditorPrivate *gui = emae->priv;
 	GtkWidget *w;
 	GladeXML *xml;
+	char *gladefile;
 
 	/* no transport options page at all for these types of providers */
 	if (gui->source.provider && CAMEL_PROVIDER_IS_STORE_AND_TRANSPORT(gui->source.provider)) {
@@ -2092,7 +2129,11 @@ emae_send_page(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, struct
 		return NULL;
 	}
 
-	xml = glade_xml_new(EVOLUTION_GLADEDIR "/mail-config.glade", item->label, NULL);
+	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
+				      "mail-config.glade",
+				      NULL);
+	xml = glade_xml_new(gladefile, item->label, NULL);
+	g_free (gladefile);
 
 	/* Transport */
 	gui->transport.type = CAMEL_PROVIDER_TRANSPORT;
@@ -2100,8 +2141,16 @@ emae_send_page(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, struct
 
 	w = glade_xml_get_widget(xml, item->label);
 	if (((EConfig *)gui->config)->type == E_CONFIG_DRUID) {
-		GladeXML *druidxml = glade_xml_new(EVOLUTION_GLADEDIR "/mail-config.glade", "transport_page", NULL);
-		GtkWidget *page = glade_xml_get_widget(druidxml, "transport_page");
+		GladeXML *druidxml;
+		GtkWidget *page;
+
+		gladefile = g_build_filename (EVOLUTION_GLADEDIR,
+					      "mail-config.glade",
+					      NULL);
+		druidxml = glade_xml_new(gladefile, "transport_page", NULL);
+		g_free (gladefile);
+
+		page = glade_xml_get_widget(druidxml, "transport_page");
 
 		gtk_box_pack_start((GtkBox*)((GnomeDruidPageStandard *)page)->vbox, w, TRUE, TRUE, 0);
 		w = page;
@@ -2125,11 +2174,16 @@ emae_defaults_page(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, st
 	EMAccountEditorPrivate *gui = emae->priv;
 	GtkWidget *w;
 	GladeXML *xml;
+	char *gladefile;
 
 	/*if (old)
 	  return old;*/
 
-	xml = glade_xml_new(EVOLUTION_GLADEDIR "/mail-config.glade", item->label, NULL);
+	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
+				      "mail-config.glade",
+				      NULL);
+	xml = glade_xml_new(gladefile, item->label, NULL);
+	g_free (gladefile);
 
 	/* Special folders */
 	gui->drafts_folder_button = (GtkButton *)emae_account_folder(emae, "drafts_button", E_ACCOUNT_DRAFTS_FOLDER_URI, MAIL_COMPONENT_FOLDER_DRAFTS, xml);
@@ -2180,11 +2234,16 @@ emae_security_page(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, st
 #endif
 	GtkWidget *w;
 	GladeXML *xml;
+	char *gladefile;
 
 	/*if (old)
 	  return old;*/
 
-	xml = glade_xml_new(EVOLUTION_GLADEDIR "/mail-config.glade", item->label, NULL);
+	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
+				      "mail-config.glade",
+				      NULL);
+	xml = glade_xml_new(gladefile, item->label, NULL);
+	g_free (gladefile);
 
 	/* Security */
 	emae_account_entry(emae, "pgp_key", E_ACCOUNT_PGP_KEY, xml);
@@ -2289,8 +2348,17 @@ emae_management_page(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, 
 
 	w = gui->management_frame;
 	if (((EConfig *)gui->config)->type == E_CONFIG_DRUID) {
-		GladeXML *druidxml = glade_xml_new(EVOLUTION_GLADEDIR "/mail-config.glade", "management_page", NULL);
-		GtkWidget *page = glade_xml_get_widget(druidxml, "management_page");
+		GladeXML *druidxml;
+		GtkWidget *page;
+		char *gladefile;
+
+		gladefile = g_build_filename (EVOLUTION_GLADEDIR,
+					      "mail-config.glade",
+					      NULL);
+		druidxml = glade_xml_new(gladefile, "management_page", NULL);
+		g_free (gladefile);
+		
+		page = glade_xml_get_widget(druidxml, "management_page");
 
 		gtk_widget_reparent(w, ((GnomeDruidPageStandard *)page)->vbox);
 		w = page;
@@ -2304,8 +2372,15 @@ emae_management_page(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, 
 static GtkWidget *
 emae_widget_druid_glade(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, struct _GtkWidget *old, void *data)
 {
-	GladeXML *druidxml = glade_xml_new(EVOLUTION_GLADEDIR "/mail-config.glade", item->label, NULL);
+	GladeXML *druidxml;
 	GtkWidget *w;
+	char *gladefile;
+
+	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
+				      "mail-config.glade",
+				      NULL);
+	druidxml = glade_xml_new(gladefile, item->label, NULL);
+	g_free (gladefile);
 
 	w = glade_xml_get_widget(druidxml, item->label);
 	/* i think the glade file has issues, we need to show all on at least the end page */
