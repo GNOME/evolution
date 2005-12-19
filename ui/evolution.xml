@@ -62,7 +62,7 @@
 
       <separator f="" name="eshell4"/>
       
-      <menuitem name="SendReceive" verb="" _label="_Send / Receive" accel="F9"/>
+      <menuitem name="SendReceive" verb="" _label="Send / _Receive" accel="F9"/>
 
       <placeholder name="FileOps"/>
 
