@@ -1,3 +1,11 @@
+2005-12-19  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	committing for David Trowbridge <trowbrds cs colorado edu>
+
+	* e-dialog-widgets.[ch]	(e_dialog_combo_box_set), 
+	(e_dialog_combo_box_get): Added	new functions to get/set
+       	combox values.
+
 2005-12-18  Tor Lillqvist  <tml@novell.com>
 
 	* e-dialog-utils.c (e_file_dialog_save_folder): Silence unused

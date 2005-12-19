@@ -55,6 +55,9 @@ ecp_target_free (EConfig *ec, EConfigTarget *t)
 				p->source_changed_id = 0;
 			}
 			break; }
+		case EC_CONFIG_TARGET_PREFS: {
+			/* ECalConfigTargetPrefs *s = (ECalConfigTargetPrefs *)t; */
+			break; }
 		}
 	}
 
@@ -63,6 +66,11 @@ ecp_target_free (EConfig *ec, EConfigTarget *t)
 		ECalConfigTargetSource *s = (ECalConfigTargetSource *)t;
 		if (s->source)
 			g_object_unref (s->source);
+		break; }
+	case EC_CONFIG_TARGET_PREFS: {
+		ECalConfigTargetPrefs *s = (ECalConfigTargetPrefs *)t;
+		if (s->gconf)
+			g_object_unref (s->gconf);
 		break; }
 	}
 
@@ -88,6 +96,9 @@ ecp_set_target (EConfig *ec, EConfigTarget *t)
 			ECalConfigTargetSource *s = (ECalConfigTargetSource *)t;
 
 			p->source_changed_id = g_signal_connect (s->source, "changed", G_CALLBACK (ecp_source_changed), ec);
+			break; }
+		case EC_CONFIG_TARGET_PREFS: {
+			/* ECalConfigTargetPrefs *s = (ECalConfigTargetPrefs *)t; */
 			break; }
 		}
 	}
@@ -143,12 +154,25 @@ e_cal_config_target_new_source (ECalConfig *ecp, struct _ESource *source)
 	return t;
 }
 
+ECalConfigTargetPrefs *
+e_cal_config_target_new_prefs (ECalConfig *ecp, struct _GConfClient *gconf)
+{
+	ECalConfigTargetPrefs *t = e_config_target_new (&ecp->config, EC_CONFIG_TARGET_PREFS, sizeof (*t));
+
+	t->gconf = gconf;
+	if (gconf)
+		g_object_ref (gconf);
+
+	return t;
+}
+
 static const EConfigHookTargetMask ecph_no_masks[] = {
 	{ 0 }
 };
 
 static const EConfigHookTargetMap ecph_targets[] = {
 	{ "source", EC_CONFIG_TARGET_SOURCE, ecph_no_masks },
+	{ "prefs", EC_CONFIG_TARGET_PREFS, ecph_no_masks },
 	{ 0 },
 };
 

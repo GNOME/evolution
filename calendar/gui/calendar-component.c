@@ -35,7 +35,6 @@
 #include <libecal/e-cal-time-util.h>
 #include <libedataserverui/e-source-selector.h>
 #include <shell/e-user-creatable-items-handler.h>
-#include "e-pub-utils.h"
 #include "e-calendar-view.h"
 #include "calendar-config-keys.h"
 #include "calendar-config.h"
@@ -737,25 +736,6 @@ static void
 config_primary_tasks_selection_changed_cb (GConfClient *client, guint id, GConfEntry *entry, gpointer data)
 {
 	update_primary_task_selection (data);
-}
-
-static gboolean
-init_calendar_publishing_cb (gpointer data)
-{	
-	/* Publish if it is time to publish again */
-	e_pub_publish (FALSE);
-
-	return FALSE;
-}
-
-static void
-conf_changed_callback (GConfClient *client,
-		       unsigned int connection_id,
-		       GConfEntry *entry,
-		       void *user_data)
-{
-	/* publish config changed, so publish */
-	e_pub_publish (TRUE);
 }
 
 /* Evolution::Component CORBA methods.  */
@@ -1674,27 +1654,6 @@ ESourceList *
 calendar_component_peek_source_list (CalendarComponent *component)
 {
 	return component->priv->source_list;
-}
-
-void
-calendar_component_init_publishing (void)
-{
-	guint idle_id = 0;
-	CalendarComponent *calendar_component;
-	CalendarComponentPrivate *priv;
-	
-	calendar_component = calendar_component_peek ();
-	
-	priv = calendar_component->priv;
-	
-	gconf_client_add_dir (priv->gconf_client, CALENDAR_CONFIG_PUBLISH, GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
-
-	priv->gconf_notify_id
-		= gconf_client_notify_add (priv->gconf_client, CALENDAR_CONFIG_PUBLISH,
-					   (GConfClientNotifyFunc) conf_changed_callback, NULL,
-					   NULL, NULL);
-	
-	idle_id = g_idle_add ((GSourceFunc) init_calendar_publishing_cb, GINT_TO_POINTER (idle_id));
 }
 
 BONOBO_TYPE_FUNC_FULL (CalendarComponent, GNOME_Evolution_Component, PARENT_TYPE, calendar_component)

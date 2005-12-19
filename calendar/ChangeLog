@@ -1,4 +1,24 @@
 2005-12-19  Chenthill Palanisamy  <pchenthill@novell.com>
+	
+	Committing for David Trowbridge <trowbrds cs colorado edu>
+
+	* gui/Makefile.am, gui/calendar-commands.c,
+	gui/calendar-componet.[hc], gui/calendar-config-keys.h,
+	gui/calendar-config.c, gui/e-calendar-view.c: remove references to the
+	old f/b publishing code
+
+	* gui/e-cal-config.[hc]: add 'prefs' target
+
+	* gui/main.c: remove calls to publishing, use new EConfig-based
+	preferences dialog
+
+	* gui/dialogs/Makefile.am, gui/dialogs/cal-prefs-dialog.[ch]: Convert
+	to use EConfig
+
+	* gui/dialogs/cal-prefs-dialog.glade: reorganize for EConfig and clean
+	up UI for better HIG compliance
+
+2005-12-19  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #324195
 	* gui/e-cal-model.c: (e_cal_model_set_instance_times): If the 

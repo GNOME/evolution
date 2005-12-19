@@ -1307,20 +1307,6 @@ calendar_config_get_hide_completed_tasks_sexp (gboolean get_completed)
 	return sexp;
 }
 
-GSList *
-calendar_config_get_free_busy (void)
-{	
-	return gconf_client_get_list (config, CALENDAR_CONFIG_PUBLISH, 
-				      GCONF_VALUE_STRING, NULL);
-}
-
-void
-calendar_config_set_free_busy (GSList *url_list)
-{
-	gconf_client_set_list (config, CALENDAR_CONFIG_PUBLISH, 
-			       GCONF_VALUE_STRING, url_list, NULL);
-}
-
 gchar *
 calendar_config_get_free_busy_template (void)
 {

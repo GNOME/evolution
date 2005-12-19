@@ -44,6 +44,9 @@ int e_dialog_spin_get_int (GtkWidget *widget);
 void e_dialog_option_menu_set (GtkWidget *widget, int value, const int *value_map);
 int e_dialog_option_menu_get (GtkWidget *widget, const int *value_map);
 
+void e_dialog_combo_box_set (GtkWidget *widget, int value, const int *value_map);
+int e_dialog_combo_box_get (GtkWidget *widget, const int *value_map);
+
 void e_dialog_dateedit_set (GtkWidget *widget, time_t t);
 time_t e_dialog_dateedit_get (GtkWidget *widget);
 

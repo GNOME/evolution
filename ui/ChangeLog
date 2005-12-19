@@ -1,3 +1,9 @@
+2005-12-19  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	committing for David Trowbridge <trowbrds cs colorado edu>
+	
+	* evolution-calendar.xml: Removed the Publish FreeBusy menu item.
+
 2005-12-16  Shreyas Srinivasan  <sshreyas@novell.com>
 
 	* evolution-mail-message.xml: Fix #315901, Add shortcut to 

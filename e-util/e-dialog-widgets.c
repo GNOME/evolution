@@ -28,6 +28,7 @@
 #include <gtk/gtkmenu.h>
 #include <gtk/gtkmenuitem.h>
 #include <gtk/gtkoptionmenu.h>
+#include <gtk/gtkcombobox.h>
 #include <gtk/gtkradiobutton.h>
 #include <gtk/gtksignal.h>
 #include <gtk/gtkspinbutton.h>
@@ -628,6 +629,63 @@ e_dialog_option_menu_get (GtkWidget *widget, const int *value_map)
 	}
 	
 	return v;
+}
+
+/**
+ * e_dialog_combo_box_set:
+ * @widget: A #GtkComboBox.
+ * @value: Enumerated value.
+ * @value_map: Map from enumeration values to array indices.
+ *
+ * Sets the selected item in a #GtkComboBox.  Please read the description of
+ * e_dialog_radio_set() to see how @value_map maps enumeration values to item
+ * indices.
+ **/
+void
+e_dialog_combo_box_set (GtkWidget *widget, int value, const int *value_map)
+{
+	int i;
+
+	g_return_if_fail (widget != NULL);
+	g_return_if_fail (GTK_IS_COMBO_BOX (widget));
+	g_return_if_fail (value_map != NULL);
+
+	i = value_to_index (value_map, value);
+
+	if (i != -1)
+		gtk_combo_box_set_active (GTK_COMBO_BOX (widget), i);
+	else
+		g_message ("e_dialog_combo_box_set(): could not find value %d in value map!",
+			   value);
+}
+
+/**
+ * e_dialog_combo_box_get:
+ * @widget: A #GtkComboBox.
+ * @value_map: Map from enumeration values to array indices.
+ *
+ * Queries the selected item in a #GtkComboBox.  Please read the description
+ * of e_dialog_radio_set() to see how @value_map maps enumeration values to item
+ * indices.
+ *
+ * Return value: Enumeration value which corresponds to the selected item in the
+ * combo box.
+ **/
+int
+e_dialog_combo_box_get (GtkWidget *widget, const int *value_map)
+{
+	int i;
+
+	g_return_val_if_fail (widget != NULL, -1);
+	g_return_val_if_fail (GTK_IS_COMBO_BOX (widget), -1);
+	g_return_val_if_fail (value_map != NULL, -1);
+
+	i = index_to_value (value_map, gtk_combo_box_get_active (GTK_COMBO_BOX (widget)));
+	if (i == -1) {
+		g_message ("e_dialog_combo_box_get(): could not find index %d in value map!", i);
+		return -1;
+	}
+	return i;
 }
 
 /**

@@ -1,3 +1,9 @@
+2005-12-19  Chenthill Palanisamy  <pchenthill@novell.com>
+	
+	committing for David Trowbridge <trowbrds cs colorado edu>
+
+	* configure.in: Added the plugin for publishing calendar.
+
 2005-12-17  Tor Lillqvist  <tml@novell.com>
 
 	* configure.in: Include libedataserver-$EDS_PACKAGE in the

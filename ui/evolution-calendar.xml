@@ -23,8 +23,7 @@
     <cmd name="Delete" _tip="Delete the appointment" accel="*Control*d" pixtype="stock" pixname="gtk-delete"/>
     <cmd name="DeleteOccurrence" _tip="Delete this occurrence" pixtype="stock" pixname="gtk-delete"/>
     <cmd name="DeleteAllOccurrences" _tip="Delete All Occurrences" pixtype="stock" pixname="gtk-delete"/>
-
-    <cmd name="PublishFreeBusy" _tip="Publish Free/Busy information for this calendar"/>
+    
     <cmd name="CalendarPurge" _label="Purg_e" _tip="Purge old appointments and meetings" accel="*Control*e"/>
   </commands>
 
@@ -69,7 +68,6 @@
 
     <placeholder name="ActionsPlaceholder">
     <submenu name="Actions" _label="_Actions">
-	<menuitem name="PublishFreeBusy" verb="" _label="_Publish Free/Busy Information"/>
 	<menuitem name="CalendarPurge" verb=""/>
     </submenu>
     </placeholder>

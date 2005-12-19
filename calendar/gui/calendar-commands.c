@@ -61,7 +61,6 @@
 #include "print.h"
 #include "dialogs/cal-prefs-dialog.h"
 #include "itip-utils.h"
-#include "e-pub-utils.h"
 #include "e-cal-list-view.h"
 #include "evolution-shell-component-utils.h"
 #include "e-util/e-icon-factory.h"
@@ -328,12 +327,6 @@ delete_occurrence_cmd (BonoboUIComponent *uic, gpointer data, const gchar *path)
 	set_clock_cursor (gcal);
 	gnome_calendar_delete_selected_occurrence (gcal);
 	set_normal_cursor (gcal);
-}
-
-static void
-publish_freebusy_cmd (BonoboUIComponent *uic, gpointer data, const gchar *path)
-{
-	e_pub_publish (TRUE);
 }
 
 static void
@@ -616,7 +609,6 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_VERB ("ShowMonthView", show_month_view_clicked),
 	BONOBO_UI_VERB ("ShowListView", show_list_view_clicked),
 
-	BONOBO_UI_VERB ("PublishFreeBusy", publish_freebusy_cmd),
 	BONOBO_UI_VERB ("CalendarPurge", purge_cmd),
 
 	BONOBO_UI_VERB_END

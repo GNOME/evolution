@@ -54,7 +54,6 @@
 #include "e-calendar-view.h"
 #include "e-comp-editor-registry.h"
 #include "itip-utils.h"
-#include "e-pub-utils.h"
 #include "dialogs/delete-comp.h"
 #include "dialogs/delete-error.h"
 #include "dialogs/event-editor.h"
@@ -1200,7 +1199,7 @@ transfer_item_to (ECalendarViewEvent *event, ECal *dest_client, gboolean remove_
 		icalcomponent_free (orig_icalcomp);
 		
 		
-		if (!e_cal_modify_object (dest_client, event->comp_data->icalcomp, CALOBJ_MOD_ALL, NULL))
+		if (!e_cal_modify_object (dest_client, event->comp_data->icalcomp, CALOBJ_MOD_ALL, NULL)) 
 			return;
 	} else {
 		orig_icalcomp = icalcomponent_new_clone (event->comp_data->icalcomp);
@@ -1416,12 +1415,6 @@ on_forward (EPopup *ep, EPopupItem *pitem, void *data)
 }
 
 static void
-on_publish (EPopup *ep, EPopupItem *pitem, void *data)
-{
-	e_pub_publish (TRUE);
-}
-
-static void
 on_delete_appointment (EPopup *ep, EPopupItem *pitem, void *data)
 {
 	ECalendarView *cal_view = data;
@@ -1554,11 +1547,6 @@ static EPopupItem ecv_main_items [] = {
 	
 	{ E_POPUP_ITEM, "61.today", N_("Select T_oday"), on_goto_today, NULL, GTK_STOCK_HOME },
 	{ E_POPUP_ITEM, "62.todate", N_("_Select Date..."), on_goto_date, NULL, GTK_STOCK_JUMP_TO },
-
-	{ E_POPUP_BAR, "70." },
-
-	/* TODO: Why is this in a context menu when it applies globally? */
-	{ E_POPUP_ITEM, "70.publish", N_("_Publish Free/Busy Information"), on_publish, },
 };
 
 static EPopupItem ecv_child_items [] = {

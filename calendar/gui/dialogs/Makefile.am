@@ -76,9 +76,7 @@ libcal_dialogs_la_SOURCES =	\
 	task-details-page.c	\
 	task-details-page.h	\
 	task-page.c		\
-	task-page.h		\
-	url-editor-dialog.c	\
-	url-editor-dialog.h
+	task-page.h		
 
 glade_DATA =				\
 	alarm-dialog.glade		\
@@ -91,8 +89,7 @@ glade_DATA =				\
 	recurrence-page.glade		\
 	schedule-page.glade		\
 	task-details-page.glade		\
-	task-page.glade			\
-	url-editor-dialog.glade
+	task-page.glade
 
 CLEANFILES = $(BUILT_SOURCES)
 

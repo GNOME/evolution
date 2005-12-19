@@ -61,7 +61,5 @@ const char       *calendar_component_peek_base_directory    (CalendarComponent *
 const char       *calendar_component_peek_config_directory  (CalendarComponent *component);
 ESourceList      *calendar_component_peek_source_list       (CalendarComponent *component);
 
-void calendar_component_init_publishing (void);
-
 
 #endif /* _CALENDAR_COMPONENT_H_ */
