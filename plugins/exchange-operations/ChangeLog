@@ -1,5 +1,23 @@
 2005-12-19  Sushma Rai  <rsushma@novell.com>
 
+	* exchange-account-setup.c (owa_authenticate_user): Adding the 
+	parameter "save-passwd" to CamelURL, during account creation, which can
+	be used to see if the user has remembered password or password is
+	temporarily remembered so that password is not prompted second time at
+	the end of account creation.
+	
+	* exchange-config-listener.c (exchange_config_listener_authenticate): 
+	Using the flag E_PASSWORDS_REMEMBER_FOREVER instead of 
+	E_PASSWORDS_REMEMBER_SESSION. Reading the save-passwd URL parameter to
+	see if the password was remembered by the user or remembered 
+	temporarily by the plugin and foget it in case of remembered by the
+	plugin. Also free CamelURL.
+	(account_added): Calling exchange_config_listener_authenticate().
+	
+	Fixes #324485
+
+2005-12-19  Sushma Rai  <rsushma@novell.com>
+
 	* exchange-account-setup.c (org_gnome_exchange_settings)
 	(owa_editor_entry_changed)(org_gnome_exchange_owa_url)
 	(org_gnome_exchange_commit): free CamelURL.

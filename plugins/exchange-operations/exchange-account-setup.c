@@ -478,8 +478,10 @@ owa_authenticate_user(GtkWidget *button, EConfig *config)
 		print_error (owa_url, result);
 	camel_url_set_host (url, valid ? exchange_params->host : "");
 
-	if (valid)
+	if (valid) {
 		camel_url_set_authmech (url, exchange_params->is_ntlm ? "NTLM" : "Basic");
+		camel_url_set_param (url, "save-passwd", remember_password? "true" : "false");
+	}
 	camel_url_set_param (url, "ad_server", valid ? exchange_params->ad_server: NULL);
 	camel_url_set_param (url, "mailbox", valid ? exchange_params->mailbox : NULL);
 	camel_url_set_param (url, "owa_path", valid ? exchange_params->owa_path : NULL);

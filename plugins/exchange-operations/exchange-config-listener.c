@@ -588,21 +588,39 @@ exchange_config_listener_authenticate (ExchangeConfigListener *ex_conf_listener,
 	ExchangeConfigListenerPrivate *priv;
 	ExchangeAccountResult result;
 	char *key, *password, *title;
-	gboolean remember = FALSE;
+	gboolean oldremember, remember = FALSE;
 	CamelURL *camel_url;
-	
+	const char *remember_password;
+
 	g_return_val_if_fail (EXCHANGE_IS_CONFIG_LISTENER (ex_conf_listener), EXCHANGE_ACCOUNT_CONFIG_ERROR);
 	priv = ex_conf_listener->priv;
 	
 	camel_url = camel_url_new (priv->configured_uri, NULL);
 	key = camel_url_to_string (camel_url, CAMEL_URL_HIDE_PASSWORD | CAMEL_URL_HIDE_PARAMS);
+	remember_password = camel_url_get_param (camel_url, "save-passwd");
 	password = e_passwords_get_password ("Exchange", key);
 	if (!password) {
+		oldremember = remember = exchange_account_is_save_password (account);	
 		title = g_strdup_printf (_("Enter Password for %s"), account->account_name);
-		password = e_passwords_ask_password (title, "Exchange", key, title, E_PASSWORDS_REMEMBER_SESSION|E_PASSWORDS_SECRET , &remember, NULL);
-	}			
+		password = e_passwords_ask_password (title, "Exchange", key, title,
+						     E_PASSWORDS_REMEMBER_FOREVER|E_PASSWORDS_SECRET,
+						     &remember, NULL);
+		if (remember != oldremember) {
+			exchange_account_set_save_password (account, remember);
+		}
+		g_free (title);
+	}
+	else if (remember_password && !g_strcasecmp (remember_password, "fasle")) {
+		/* get_password returns the password cached but user has not
+		 * selected remember password option, forget this password
+		 * whis is stored temporarily by e2k_validate_user(), to avoid
+		 * asking for password again, at the end of account creation.
+		 */
+		e_passwords_forget_password ("Exchange", key);
+	}
  	exchange_account_connect (account, password, &result);
-
+	g_free (key);
+	camel_url_free (camel_url);
 	return result;
 }
 
@@ -658,6 +676,7 @@ account_added (EAccountList *account_list, EAccount *account)
 		return;
 	}
 
+	exchange_config_listener_authenticate (config_listener, exchange_account);
 	exchange_account_set_online (exchange_account);
 }
 
