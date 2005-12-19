@@ -1,5 +1,13 @@
 2005-12-19  Sushma Rai  <rsushma@novell.com>
 
+	* exchange-account-setup.c (org_gnome_exchange_settings)
+	(owa_editor_entry_changed)(org_gnome_exchange_owa_url)
+	(org_gnome_exchange_commit): free CamelURL.
+	(owa_authenticate_user): free CamelURL and exchange_params.
+	Fixes #324483.
+
+2005-12-19  Sushma Rai  <rsushma@novell.com>
+
 	* exchange-folder-permission.c: Corrected include path of header files
 	which was breaking the build.
 	
