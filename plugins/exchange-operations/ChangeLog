@@ -23,7 +23,7 @@
 	is valid. Fixes the problem of printing OOF error message in case
 	of authentication failure.
 	(set_oof_info): Similar.
-	Fixes #314583.
+	Fixes #314583, #315331.
 
 2005-10-03  Shakti Sen <shprasad@novell.com>
 
