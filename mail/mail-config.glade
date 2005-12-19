@@ -6546,7 +6546,7 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 			  <property name="visible">True</property>
 			  <property name="tooltip" translatable="yes">Checks incoming mail messages to be Junk</property>
 			  <property name="can_focus">True</property>
-			  <property name="label" translatable="yes">Check _incoming mail for junk</property>
+			  <property name="label" translatable="yes">Check in_coming mail for junk</property>
 			  <property name="use_underline">True</property>
 			  <property name="relief">GTK_RELIEF_NORMAL</property>
 			  <property name="focus_on_click">True</property>
@@ -6917,7 +6917,7 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 			    <widget class="GtkCheckButton" id="chkAutoSmileys">
 			      <property name="visible">True</property>
 			      <property name="can_focus">True</property>
-			      <property name="label" translatable="yes">Automatically _insert smiley images</property>
+			      <property name="label" translatable="yes">Automatically insert _smiley images</property>
 			      <property name="use_underline">True</property>
 			      <property name="relief">GTK_RELIEF_NORMAL</property>
 			      <property name="focus_on_click">True</property>
@@ -7410,7 +7410,7 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 	      <child>
 		<widget class="GtkLabel" id="label548">
 		  <property name="visible">True</property>
-		  <property name="label" translatable="yes">&lt;b&gt;S_ignatures&lt;/b&gt;</property>
+		  <property name="label" translatable="yes">&lt;b&gt;Sig_natures&lt;/b&gt;</property>
 		  <property name="use_underline">True</property>
 		  <property name="use_markup">True</property>
 		  <property name="justify">GTK_JUSTIFY_LEFT</property>
