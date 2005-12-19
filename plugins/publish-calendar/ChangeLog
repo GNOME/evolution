@@ -1,0 +1,35 @@
+2005-12-19  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Committing for: David Trowbridge <trowbrds cs colorado edu>
+
+	* Makefile.am:
+	* org-gnome-publish-calendar.eplug.in:
+	* org-gnome-publish-calendar.xml:
+	* publish-calendar.c: (publish), (add_timeout), (update_timestamp),
+	(add_offset_timeout), (url_list_changed),
+	(url_list_enable_toggled), (selection_changed), (url_add_clicked),
+	(url_edit_clicked), (url_list_double_click), (url_remove_clicked),
+	(url_enable_clicked), (online_state_changed),
+	(publish_calendar_locations), (publish_urls), (action_publish),
+	(e_plugin_lib_enable):
+	* publish-calendar.glade:
+	* publish-format-fb.c: (write_calendar), (publish_calendar_as_fb):
+	* publish-format-fb.h:
+	* publish-format-ical.c: (write_calendar),
+	(publish_calendar_as_ical):
+	* publish-format-ical.h:
+	* publish-location.c: (migrateURI), (e_publish_uri_from_xml),
+	(e_publish_uri_to_xml):
+	* publish-location.h:
+	* url-editor-dialog.c: (create_uri), (check_input),
+	(source_selection_changed), (publish_service_changed),
+	(type_selector_changed), (server_entry_changed),
+	(file_entry_changed), (port_entry_changed),
+	(username_entry_changed), (password_entry_changed),
+	(remember_pw_toggled), (set_from_uri),
+	(url_editor_dialog_construct), (url_editor_dialog_new),
+	(url_editor_dialog_dispose), (url_editor_dialog_class_init),
+	(url_editor_dialog_init), (url_editor_dialog_get_type),
+	(url_editor_dialog_run):
+	* url-editor-dialog.h: Committing the intial patch.
+

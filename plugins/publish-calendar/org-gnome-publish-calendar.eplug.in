@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<e-plugin-list>
+    <e-plugin
+     type="shlib"
+     location="@PLUGINDIR@/liborg-gnome-publish-calendar.so"
+     id="org.gnome.evolution.calendar.publish"
+     name="Calendar Publishing">
+        <description>Allows calendars to be published to the web</description>
+	<author name="David Trowbridge" email="trowbrds@cs.colorado.edu"/>
+	<!-- calendar main menu -->
+	<hook class="org.gnome.evolution.shell.bonobomenu:1.0">
+	    <menu id="org.gnome.evolution.shell" target="shell">
+	        <ui file="@PLUGINDIR@/org-gnome-publish-calendar.xml" />
+	        <item
+	         type="item"
+	         verb="EPublishCalendarPublish"
+	         path="/commands/EPublishCalendarPublish"
+	         activate="action_publish" />
+	    </menu>
+	</hook>
+
+	<!-- config page -->
+	<hook class="org.gnome.evolution.calendar.config:1.0">
+	    <group
+	     target="prefs"
+	     id="org.gnome.evolution.calendar.prefs">
+	        <item
+		 type="page"
+		 path="30.publishing"
+		 label="Calendar Publishing"/>
+		<item
+		 type="section"
+		 path="30.publishing/00.urls"
+		 label="Locations"/>
+		<item
+		 type="item"
+		 path="30.publishing/00.urls/00.locations"
+		 factory="publish_calendar_locations"/>
+	    </group>
+	</hook>
+
+	<!-- shell hooks -->
+	<hook class="org.gnome.evolution.shell.events:1.0">
+	    <event id="state.changed" handle="online_state_changed" target="state" />
+	</hook>
+    </e-plugin>
+</e-plugin-list>
