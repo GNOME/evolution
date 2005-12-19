@@ -1,5 +1,13 @@
 2005-12-19  Sushma Rai  <rsushma@novell.com>
 
+	* exchange-delegates-user.c (exchange_delegates_user_edit): Using the
+	window title as "Delegates Permissions". Label "Permissions for <user>"
+	was repeated twice.
+
+	* exchange-delegates.glade: Added translator comments. Fixes #313545.
+
+2005-12-19  Sushma Rai  <rsushma@novell.com>
+
 	* exchange-account-setup.c (owa_authenticate_user): Adding the 
 	parameter "save-passwd" to CamelURL, during account creation, which can
 	be used to see if the user has remembered password or password is

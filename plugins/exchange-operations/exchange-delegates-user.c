@@ -188,16 +188,18 @@ exchange_delegates_user_edit (ExchangeDelegatesUser *user,
 		"delegate_permissions", PACKAGE);
 	g_return_val_if_fail (xml, FALSE);
 
-	title = g_strdup_printf (_("Permissions for %s"), user->display_name);
+	title = g_strdup (_("Delegate Permissions"));
 
 	dialog = glade_xml_get_widget (xml, "delegate_permissions");
 	gtk_window_set_title (GTK_WINDOW (dialog), title);
 	e_dialog_set_transient_for (GTK_WINDOW (dialog), parent_window);
+	g_free (title);
 
 	table = glade_xml_get_widget (xml, "toplevel_table");
 	gtk_widget_reparent (table, GTK_DIALOG (dialog)->vbox);
 	gtk_box_set_spacing (GTK_BOX (GTK_DIALOG (dialog)->vbox), 6);
 
+	title = g_strdup_printf (_("Permissions for %s"), user->display_name);
 	label = glade_xml_get_widget (xml, "delegate_label");
 	gtk_label_set_text (GTK_LABEL (label), title);
 	g_free (title);
