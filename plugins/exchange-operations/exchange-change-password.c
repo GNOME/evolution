@@ -25,8 +25,8 @@
 
 #include "exchange-change-password.h"
 
-#include <exchange/exchange-account.h>
-#include <exchange/e2k-utils.h>
+#include <exchange-account.h>
+#include <e2k-utils.h>
 
 #include <glade/glade-xml.h>
 #include <gtk/gtkdialog.h>

@@ -26,12 +26,12 @@
 #include <glade/glade-xml.h>
 #include <gtk/gtk.h>
 #include <e-util/e-error.h>
-#include <exchange/e-folder.h>
+#include <e-folder.h>
 #include <exchange-account.h>
 #include <exchange-hierarchy.h>
 #include "exchange-hierarchy-foreign.h"
-#include <exchange/e2k-types.h>
-#include <exchange/exchange-types.h>
+#include <e2k-types.h>
+#include <exchange-types.h>
 #include <e2k-propnames.h>
 #include <libedataserver/e-xml-hash-utils.h>
 #include <libedataserverui/e-name-selector.h>

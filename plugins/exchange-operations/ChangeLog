@@ -1,3 +1,12 @@
+2005-12-19  Sushma Rai  <rsushma@novell.com>
+
+	* exchange-folder-permission.c: Corrected include path of header files
+	which was breaking the build.
+	
+	* exchange-change-password.[ch]: Similar.
+
+	* exchange-folder-subscription.c: Similar.
+
 2005-12-12  Sushma Rai  <rsushma@novell.com>
 
 	* exchange-account-setup.c (print_error): Passing the support URL to

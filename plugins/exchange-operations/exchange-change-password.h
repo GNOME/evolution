@@ -4,7 +4,7 @@
 #ifndef __EXCHANGE_CHANGE_PASSWORD_H__
 #define __EXCHANGE_CHANGE_PASSWORD_H__
 
-#include <exchange/exchange-types.h>
+#include <exchange-types.h>
 
 #ifdef __cplusplus
 extern "C" {
