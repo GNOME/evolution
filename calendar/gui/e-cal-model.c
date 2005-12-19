@@ -2108,6 +2108,15 @@ e_cal_model_set_instance_times (ECalModelComponent *comp_data, icaltimezone *zon
 	start_time = icalcomponent_get_dtstart (comp_data->icalcomp);
 	end_time = icalcomponent_get_dtend (comp_data->icalcomp);
 
+	if (start_time.is_date && end_time.is_date && (icaltime_compare_date_only (start_time, end_time) == 0)) {
+		/* If both DTSTART and DTEND are DATE values, and they are the
+		   same day, we add 1 day to DTEND. This means that most
+		   events created with the old Evolution behavior will still
+		   work OK. */
+		icaltime_adjust (&end_time, 1, 0, 0, 0);
+		icalcomponent_set_dtend (comp_data->icalcomp, end_time);
+	}
+
 	comp_data->instance_start = icaltime_as_timet_with_zone (start_time, zone);
 
 	comp_data->instance_end = comp_data->instance_start +

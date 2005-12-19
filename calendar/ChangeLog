@@ -1,3 +1,9 @@
+2005-12-19  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #324195
+	* gui/e-cal-model.c: (e_cal_model_set_instance_times): If the 
+	start and end times are same dates, increment the enddate by one.
+
 2005-12-17  Tor Lillqvist  <tml@novell.com>
 
 	* conduits/calendar/calendar-conduit.c
