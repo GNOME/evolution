@@ -2560,6 +2560,8 @@ enum {
 	EMFV_LOAD_HTTP,
 	EMFV_HEADERS,
 	EMFV_SHOW_PREVIEW,
+	EMFV_SHOW_DELETED,
+	EMFV_THREAD_LIST,
 	EMFV_SETTINGS		/* last, for loop count */
 };
 
@@ -2576,6 +2578,8 @@ static const char * const emfv_display_keys[] = {
 	"load_http_images",
 	"headers",
 	"show_preview",
+	"show_deleted",
+	"thread_list",
 };
 
 static GHashTable *emfv_setting_key;
@@ -2686,6 +2690,34 @@ emfv_setting_notify(GConfClient *gconf, guint cnxn_id, GConfEntry *entry, EMFold
 			camel_object_state_write (emfv->folder);
 		em_folder_browser_show_preview ((EMFolderBrowser *)emfv, state_gconf);
 		bonobo_ui_component_set_prop (emfv->uic, "/commands/ViewPreview", "state", state_gconf ? "1" : "0", NULL);
+		break; }
+	case EMFV_SHOW_DELETED: {
+		gboolean state;
+
+		state = gconf_value_get_bool (value);
+		em_folder_view_set_hide_deleted (emfv, !state);
+		bonobo_ui_component_set_prop (emfv->uic, "/commands/HideDeleted", "state", state ? "0" : "1", NULL);
+		break; }
+	case EMFV_THREAD_LIST: {
+		gboolean state_gconf, state_camel;
+		char *ret;
+
+		/* If emfv->folder or emfv->list hasn't been initialized, do nothing */
+		if (!emfv->folder || !emfv->list)
+			return;
+
+		state_gconf = gconf_value_get_bool (value);
+		if ((ret = camel_object_meta_get (emfv->folder, "evolution:thread_list"))) {
+			state_camel = (ret[0] != '0');
+			g_free (ret);
+			if (state_gconf == state_camel)
+				return;
+		}
+
+		if (camel_object_meta_set (emfv->folder, "evolution:thread_list", state_gconf ? "1" : "0"))
+			camel_object_state_write (emfv->folder);
+		message_list_set_threaded (emfv->list, state_gconf);
+		bonobo_ui_component_set_prop (emfv->uic, "/commands/ViewThreaded", "state", state_gconf ? "1" : "0", NULL);
 		break; }
 	}
 }

@@ -82,6 +82,13 @@
 	* importers/pine-importer.c: Use GLib API when
 	applicable.
 
+2005-12-16  Sam Yang  <sam.yang@sun.com>
+
+	** Fixes bug #323867.
+
+	* em-folder-view.c: (emfv_setting_notify):
+	Respond to the change of /apps/evolution/mail/display/show_deleted and thread_list in gconf.
+
 2005-12-12  Karsten Bräckelmann  <guenther@rudersport.de>
 
 	* em-folder-view.c: Mail Context Menu re-ordered correctly,
