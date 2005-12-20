@@ -1,3 +1,12 @@
+2005-12-20  P S Chakravarthi <pchakravarthi@novell.com>
+
+	Fixes #323955
+
+	* gui/alarm-notify/notify-main.c main (), init_alarm_service ()
+	alarm_notify_factory_fn ():
+	removed the mutex code to create the alarm_notify_service so that
+	the hang as reported in the bug can be avoided.
+
 2005-11-30  Harish Krishnaswamy  <kharish@novell.com>
 
 	* gui/e-calendar-view.c: (e_calendar_view_new_appointment_for):
