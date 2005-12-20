@@ -43,7 +43,7 @@
   <button stock="gtk-delete" response="GTK_RESPONSE_YES"/>
  </error>
 
- <error id="prompt-delete-titled-appointment" type="question" default="GTK_RESPONSE_YES">
+ <error id="prompt-delete-titled-appointment" type="question" default="GTK_RESPONSE_NO">
   <_primary>Are you sure you want to delete the appointment titled '{0}'?</_primary>
   <_secondary>All information on this appointment will be deleted and can not be restored.</_secondary>
   <button stock="gtk-cancel" response="GTK_RESPONSE_NO"/>

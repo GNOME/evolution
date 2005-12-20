@@ -1,3 +1,9 @@
+2005-12-20  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #324525
+	* calendar.error.xml: Set the default response while deleting a
+	calendar item to Cancel. Reverting fix for #320210. 
+
 2005-12-20  Veerapuram Varadhan	 <vvaradhan@novell.com>
 
 	Fixes #323125, #323126
