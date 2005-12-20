@@ -1,3 +1,10 @@
+2005-12-20  Boby Wang <Boby.Wang@sun.com> 
+
+	** See bug 324319
+	* em-format-html-display.c: (efhd_add_bar):
+	Add the accessible name of arrow button, and the attachment
+	bar can be opened by gok.
+
 2005-12-20  Parthasarathi Susarla <sparthasarathi@novell.com>
 	
 	** See bug 234008
@@ -98,6 +105,7 @@
 	* em-folder-view.c: (emfv_setting_notify):
 	Respond to the change of /apps/evolution/mail/display/show_deleted and thread_list in gconf.
 
+>>>>>>> 1.3748
 2005-12-12  Karsten Bräckelmann  <guenther@rudersport.de>
 
 	* em-folder-view.c: Mail Context Menu re-ordered correctly,

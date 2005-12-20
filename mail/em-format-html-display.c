@@ -1977,6 +1977,7 @@ efhd_add_bar(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject *pobjec
 	gtk_box_pack_start ((GtkBox *)hbox3, priv->forward, FALSE, FALSE, 0);
 	gtk_box_pack_start ((GtkBox *)hbox3, priv->down, FALSE, FALSE, 0);
 	priv->arrow = (GtkWidget *)gtk_tool_button_new(hbox3, NULL);
+	atk_object_set_name (gtk_widget_get_accessible (priv->arrow), _("Toggle Attachment Bar"));
 
 	priv->label = gtk_label_new(_("No Attachment"));
 	save = gtk_button_new();
