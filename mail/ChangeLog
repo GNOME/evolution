@@ -1,3 +1,8 @@
+2005-12-20  Veerapuram Varadhan  <vvaradhan@novell.com>
+
+	Fixes #246256
+	* mail-dialogs.glade: Change "Case _Sensitive" to "Case _sensitive".
+	
 2005-12-20  Boby Wang <Boby.Wang@sun.com> 
 
 	** See bug 324319
