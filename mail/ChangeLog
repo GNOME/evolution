@@ -110,7 +110,6 @@
 	* em-folder-view.c: (emfv_setting_notify):
 	Respond to the change of /apps/evolution/mail/display/show_deleted and thread_list in gconf.
 
->>>>>>> 1.3748
 2005-12-12  Karsten Bräckelmann  <guenther@rudersport.de>
 
 	* em-folder-view.c: Mail Context Menu re-ordered correctly,
