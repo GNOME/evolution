@@ -38,12 +38,12 @@ G_BEGIN_DECLS
 typedef struct CalSearchBarPrivate CalSearchBarPrivate;
 
 enum {
-	CAL_SEARCH_ANY_FIELD_CONTAINS    = (1 << 0),
-	CAL_SEARCH_SUMMARY_CONTAINS      = (1 << 1),
-	CAL_SEARCH_DESCRIPTION_CONTAINS  = (1 << 2),
+	CAL_SEARCH_SUMMARY_CONTAINS      = (1 << 0),
+	CAL_SEARCH_DESCRIPTION_CONTAINS  = (1 << 1),
+	CAL_SEARCH_CATEGORY_IS           = (1 << 2),
 	CAL_SEARCH_COMMENT_CONTAINS      = (1 << 3),
 	CAL_SEARCH_LOCATION_CONTAINS     = (1 << 4),
-	CAL_SEARCH_CATEGORY_IS           = (1 << 5)
+	CAL_SEARCH_ANY_FIELD_CONTAINS    = (1 << 5)
 };
 
 #define CAL_SEARCH_ALL (0xff)

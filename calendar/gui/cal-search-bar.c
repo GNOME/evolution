@@ -35,22 +35,22 @@
 
 /* IDs and option items for the ESearchBar */
 enum {
-	SEARCH_ANY_FIELD_CONTAINS,
 	SEARCH_SUMMARY_CONTAINS,
 	SEARCH_DESCRIPTION_CONTAINS,
+	SEARCH_CATEGORY_IS,
 	SEARCH_COMMENT_CONTAINS,
 	SEARCH_LOCATION_CONTAINS,
-	SEARCH_CATEGORY_IS
+	SEARCH_ANY_FIELD_CONTAINS
 };
 
 /* Comments are disabled because they are kind of useless right now, see bug 33247 */
 static ESearchBarItem search_option_items[] = {
-	{ N_("Any field contains"), SEARCH_ANY_FIELD_CONTAINS, NULL },
 	{ N_("Summary contains"), SEARCH_SUMMARY_CONTAINS, NULL },
 	{ N_("Description contains"), SEARCH_DESCRIPTION_CONTAINS, NULL },
+	{ N_("Category is"), SEARCH_CATEGORY_IS, NULL },
 	{ N_("Comment contains"), SEARCH_COMMENT_CONTAINS, NULL },
 	{ N_("Location contains"), SEARCH_LOCATION_CONTAINS, NULL },
-	{ N_("Category is"), SEARCH_CATEGORY_IS, NULL },
+	{ N_("Any field contains"), SEARCH_ANY_FIELD_CONTAINS, NULL },
 };
 
 /* IDs for the categories suboptions */
@@ -416,8 +416,6 @@ cal_search_bar_construct (CalSearchBar *cal_search, guint32 flags)
 	
 	e_search_bar_construct (E_SEARCH_BAR (cal_search), NULL, items);
 	make_suboptions (cal_search);
-
-	e_search_bar_set_ids (E_SEARCH_BAR (cal_search), SEARCH_CATEGORY_IS, CATEGORIES_ALL);
 
 	return cal_search;
 }

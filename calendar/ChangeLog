@@ -1,3 +1,15 @@
+2005-12-20  Veerapuram Varadhan	 <vvaradhan@novell.com>
+
+	Fixes #323125, #323126
+	* gui/cal-search-bar.c: Re-order the search-bar menu items and
+	make "Summary contains", which is what most people use to search
+	for an item (be it a calendar/task/memo), as default.
+	(cal_search_bar_construct): Do not set "Category is" as default
+	option in search-bar menu.
+
+	* gui/cal-search-bar.h: Re-order the bit-values in accordance to
+	re-ordered search-bar menu items.
+	
 2005-12-20  P S Chakravarthi <pchakravarthi@novell.com>  
 
 	Fixes #323955
