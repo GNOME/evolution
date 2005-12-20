@@ -147,14 +147,14 @@
 
  <error id="ask-send-task-pending-download" type="question" default="GTK_RESPONSE_YES">
   <_primary>Download in progress. Do you want to save the task?</_primary>
-  <_secondary xml:space="preserve"> There are few attachments getting downloaded. Saving the task will cause the task to be saved without those pending attachments </_secondary>
+  <_secondary xml:space="preserve">Some attachments are being downloaded. Saving the task would result in the loss of these attachments.</_secondary>
   <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
   <button _label="_Save" response="GTK_RESPONSE_YES"/>
  </error>
 
   <error id="ask-send-event-pending-download" type="question" default="GTK_RESPONSE_YES">
   <_primary>Download in progress. Do you want to save the appointment?</_primary>
-  <_secondary xml:space="preserve"> There are few attachments getting downloaded. Saving the appointment will cause the appointment to be saved without those pending attachments </_secondary>
+  <_secondary xml:space="preserve">Some attachments are being downloaded. Saving the appointment would result in the loss of these attachments.</_secondary>
   <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
   <button _label="_Save" response="GTK_RESPONSE_YES"/>
  </error>
@@ -204,27 +204,27 @@
  
  <error id="prompt-send-no-subject-calendar" type="question" default="GTK_RESPONSE_YES">
   <_primary>Are you sure you want to send the appointment without a summary?</_primary>
-  <_secondary>Adding a meaningful Summary to your appointment will give your recipients an idea of what your appointment is about.</_secondary>
+  <_secondary>Adding a meaningful summary to your appointment will give your recipients an idea of what your appointment is about.</_secondary>
   <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
   <button _label="_Save" response="GTK_RESPONSE_YES"/>
  </error>
 
  <error id="prompt-send-no-subject-task" type="question" default="GTK_RESPONSE_YES">
   <_primary>Are you sure you want to send the task without a summary?</_primary>
-  <_secondary>Adding a meaningful Summary to your task will give your recipients an idea of what your task is about.</_secondary>
+  <_secondary>Adding a meaningful summary to your task will give your recipients an idea of what your task is about.</_secondary>
   <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
   <button _label="_Send" response="GTK_RESPONSE_YES"/>
  </error>
 
  <error id="prompt-no-contents-offline-calendar" type="error" default="GTK_RESPONSE_YES">
   <_primary>Error loading calendar</_primary>
-  <_secondary>The calendar is not marked for offline usage</_secondary>
+  <_secondary>The calendar is not marked for offline usage.</_secondary>
   <button stock ="gtk-ok" response="GTK_RESPONSE_YES"/>
  </error>
  
  <error id="prompt-no-contents-offline-tasks" type="error" default="GTK_RESPONSE_YES">
   <_primary>Error loading task list</_primary>
-  <_secondary>The task list is not marked for offline usage</_secondary>
+  <_secondary>The task list is not marked for offline usage.</_secondary>
   <button stock ="gtk-ok" response="GTK_RESPONSE_YES"/>
  </error>
 
@@ -236,8 +236,8 @@
 
  <error id="server-version" type="warning">
  <title>Server Version</title> 
- <_primary>Some features may not work properly with your current server</_primary>
- <_secondary>You are connecting to an unsupported GroupWise server and may encounter problems using Evolution. For best results the server should be upgraded to a supported version</_secondary>
+ <_primary>Some features may not work properly with your current server.</_primary>
+ <_secondary>You are connecting to an unsupported GroupWise server and may encounter problems using Evolution. For best results, the server should be upgraded to a supported version.</_secondary>
  </error>
 
 </error-list>
