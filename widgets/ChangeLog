@@ -1,3 +1,11 @@
+2005-12-20  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fixes bug #240762
+
+	* menus/gal-define-views-dialog.c:
+	(etable_selection_change_forall_cb): Made only the user created
+	views to be editable.
+
 2005-12-18  Tor Lillqvist  <tml@novell.com>
 
 	* e-timezone-dialog/Makefile.am: Link with libeutil.
