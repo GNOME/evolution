@@ -26,4 +26,5 @@ liborg_gnome_publish_calendar_la_LDFLAGS = -module -avoid-version
 
 EXTRA_DIST =					\
 	org-gnome-publish-calendar.eplug.in	\
-	publish-calendar.glade
+	publish-calendar.glade			\
+	org-gnome-publish-calendar.xml

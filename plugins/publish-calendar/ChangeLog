@@ -1,3 +1,8 @@
+2005-12-20  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	* Makefile.am: Added the org-gnome-publish-calendar.xml
+	file to extra dist.
+
 2005-12-19  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Committing for: David Trowbridge <trowbrds cs colorado edu>
