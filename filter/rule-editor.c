@@ -59,8 +59,10 @@ enum {
 	BUTTON_ADD,
 	BUTTON_EDIT,
 	BUTTON_DELETE,
+	BUTTON_TOP,
 	BUTTON_UP,
 	BUTTON_DOWN,
+	BUTTON_BOTTOM,
 	BUTTON_LAST
 };
 
@@ -476,6 +478,17 @@ rule_move (RuleEditor *re, int from, int to)
 }
 
 static void
+rule_top (GtkWidget *widget, RuleEditor *re)
+{
+	int pos;
+
+	d(printf ("top rule\n"));
+	pos = rule_context_get_rank_rule (re->context, re->current, re->source);
+	if (pos > 0)
+		rule_move (re, pos, 0);
+}
+
+static void
 rule_up (GtkWidget *widget, RuleEditor *re)
 {
 	int pos;
@@ -497,6 +510,26 @@ rule_down (GtkWidget *widget, RuleEditor *re)
 		rule_move (re, pos, pos + 1);
 }
 
+static void
+rule_bottom (GtkWidget *widget, RuleEditor *re)
+{
+	int pos;
+	int index = -1, count = 0;
+	FilterRule *rule = NULL;
+
+	d(printf ("bottom rule\n"));
+	pos = rule_context_get_rank_rule (re->context, re->current, re->source);
+	/* There's probably a better/faster way to get the count of the list here */
+	while ((rule = rule_context_next_rule (re->context, rule, re->source))) {
+		if (rule == re->current)
+			index = count;
+		count++;
+	}
+	count--;
+	if (pos >= 0)
+		rule_move (re, pos, count);
+}
+
 static struct {
 	char *name;
 	GtkSignalFunc func;
@@ -504,8 +537,10 @@ static struct {
 	{ "rule_add",    G_CALLBACK (rule_add)    },
 	{ "rule_edit",   G_CALLBACK (rule_edit)   },
 	{ "rule_delete", G_CALLBACK (rule_delete) },
+	{ "rule_top",    G_CALLBACK (rule_top)    },
 	{ "rule_up",     G_CALLBACK (rule_up)     },
 	{ "rule_down",   G_CALLBACK (rule_down)   },
+	{ "rule_bottom", G_CALLBACK (rule_bottom) },
 };
 
 static void
@@ -526,8 +561,10 @@ set_sensitive (RuleEditor *re)
 	
 	gtk_widget_set_sensitive (GTK_WIDGET (re->priv->buttons[BUTTON_EDIT]), index != -1);
 	gtk_widget_set_sensitive (GTK_WIDGET (re->priv->buttons[BUTTON_DELETE]), index != -1);
+	gtk_widget_set_sensitive (GTK_WIDGET (re->priv->buttons[BUTTON_TOP]), index > 0);
 	gtk_widget_set_sensitive (GTK_WIDGET (re->priv->buttons[BUTTON_UP]), index > 0);
 	gtk_widget_set_sensitive (GTK_WIDGET (re->priv->buttons[BUTTON_DOWN]), index >= 0 && index < count);
+	gtk_widget_set_sensitive (GTK_WIDGET (re->priv->buttons[BUTTON_BOTTOM]), index >= 0 && index < count);
 }
 
 
