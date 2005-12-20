@@ -352,10 +352,12 @@ update_1folder(struct _folder_info *mfi, int new, CamelFolderInfo *info)
 		d(printf("update 1 folder '%s'\n", folder->full_name));
 		if ((count_trash && (CAMEL_IS_VTRASH_FOLDER (folder)))
 		    || folder == mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_OUTBOX)
+		    || folder == mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_DRAFTS)
 		    || (count_sent && folder == mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_SENT))) {
 			d(printf(" total count\n"));
 			unread = camel_folder_get_message_count (folder);
-			if (folder == mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_OUTBOX)) {
+			if (folder == mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_OUTBOX) 
+					|| folder == mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_DRAFTS)) {
 				if ((deleted = camel_folder_get_deleted_message_count (folder)) > 0)
 					unread -= deleted;
 			}

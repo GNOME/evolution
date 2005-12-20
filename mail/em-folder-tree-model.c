@@ -443,6 +443,7 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model, GtkTreeIter *ite
 	g_hash_table_insert (si->full_hash, g_strdup (fi->full_name), path_row);
 	
 	/* HACK: if we have the folder, and its the outbox folder, we need the total count, not unread */
+	/* HACK2: We do the same to the draft folder */
 	/* This is duplicated in mail-folder-cache too, should perhaps be functionised */
 	unread = fi->unread;
 	if (mail_note_get_folder_from_uri(fi->uri, &folder) && folder) {
@@ -457,8 +458,21 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model, GtkTreeIter *ite
 			}
 			
 			unread = total > 0 ? total : 0;
+		} 
+		if (folder == mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_DRAFTS)) {
+			int total;
+			
+			if ((total = camel_folder_get_message_count (folder)) > 0) {
+				int deleted = camel_folder_get_deleted_message_count (folder);
+				
+				if (deleted != -1)
+					total -= deleted;
+			}
+			
+			unread = total > 0 ? total : 0;
 		}
 		camel_object_unref(folder);
+
 	}
 
 	/* TODO: maybe this should be handled by mail_get_folderinfo (except em-folder-tree doesn't use it, duh) */

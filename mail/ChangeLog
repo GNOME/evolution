@@ -1,3 +1,12 @@
+2005-12-20  Parthasarathi Susarla <sparthasarathi@novell.com>
+	
+	** See bug 234008
+
+	* em-folder-tree-model.c:
+	* mail-folder-cache.c:
+	Make sure that the Draft folder highlights the number of messages in
+	it
+	
 2005-12-18  Tor Lillqvist  <tml@novell.com>
 
 	* Makefile.am: Use THREADS_CFLAGS and _LIBS. Don't need	CAMEL_LIBS.
