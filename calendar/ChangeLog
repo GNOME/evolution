@@ -1,3 +1,11 @@
+2005-12-15  Johnny Jacob  <johnnyjacob@gmail.com>
+
+	Fixes Bug #324196 
+
+	* gui/dialogs/comp-editor.c: (prompt_and_save_changes) :
+	Renamed from prompt_to_save_changes. Check wheather the 
+	summary is empty and prompt.
+
 2005-12-19  Chenthill Palanisamy  <pchenthill@novell.com>
 	
 	Committing for David Trowbridge <trowbrds cs colorado edu>

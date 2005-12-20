@@ -134,7 +134,7 @@ static void comp_editor_show_help (CompEditor *editor);
 static void real_set_e_cal (CompEditor *editor, ECal *client);
 static void real_edit_comp (CompEditor *editor, ECalComponent *comp);
 static gboolean real_send_comp (CompEditor *editor, ECalComponentItipMethod method);
-static gboolean prompt_to_save_changes (CompEditor *editor, gboolean send);
+static gboolean prompt_and_save_changes (CompEditor *editor, gboolean send);
 static void delete_comp (CompEditor *editor);
 static void close_dialog (CompEditor *editor);
 
@@ -856,10 +856,12 @@ save_comp_with_send (CompEditor *editor)
 }
 
 static gboolean
-prompt_to_save_changes (CompEditor *editor, gboolean send)
+prompt_and_save_changes (CompEditor *editor, gboolean send)
 {
 	CompEditorPrivate *priv;
 	gboolean read_only;
+	ECalComponent *comp;
+	ECalComponentText text;
 
 	priv = editor->priv;
 
@@ -871,6 +873,14 @@ prompt_to_save_changes (CompEditor *editor, gboolean send)
 
 	switch (save_component_dialog (GTK_WINDOW(editor), priv->comp)) {
 	case GTK_RESPONSE_YES: /* Save */
+		comp = comp_editor_get_current_comp (editor);
+		e_cal_component_get_summary (comp, &text);
+		g_object_unref (comp);
+
+		if (!text.value)
+			if (!send_component_prompt_subject ((GtkWindow *) editor, priv->client, priv->comp))
+				return FALSE;
+
 		if (e_cal_component_is_instance (priv->comp))
 			if (!recur_component_dialog (priv->client, priv->comp, &priv->mod, GTK_WINDOW (editor), FALSE))
 				return FALSE;
@@ -899,7 +909,7 @@ delete_event_cb (GtkWidget *widget, GdkEvent *event, gpointer data)
 
 	commit_all_fields (editor);
 	
-	if (prompt_to_save_changes (editor, TRUE))
+	if (prompt_and_save_changes (editor, TRUE))
 		close_dialog (editor);
 
 	return TRUE;
@@ -1183,7 +1193,7 @@ editor_key_press_event(GtkWidget *widget, GdkEventKey *event, CompEditor *editor
         if (event->keyval == GDK_Escape) {
 		commit_all_fields (editor);
 		
-		if (prompt_to_save_changes (editor, TRUE))
+		if (prompt_and_save_changes (editor, TRUE))
 			close_dialog (editor);
 
                 return TRUE;
@@ -1252,17 +1262,8 @@ menu_file_close_cb (BonoboUIComponent *uic,
 	
 	commit_all_fields (editor);
 
-	if (prompt_to_save_changes (editor, TRUE)) {
-		comp = comp_editor_get_current_comp (editor);
-		e_cal_component_get_summary (comp, &text);
-		g_object_unref (comp);
-
-		if (!text.value)
-			if (!send_component_prompt_subject ((GtkWindow *) editor, priv->client, priv->comp))
-				return;
-
+	if (prompt_and_save_changes (editor, TRUE))
 		close_dialog (editor);
-	}
 }
 
 static void
@@ -1490,7 +1491,7 @@ comp_editor_key_press_event (GtkWidget *d, GdkEventKey *e)
 {
 #if 0
 	if (e->keyval == GDK_Escape) {
-		if (prompt_to_save_changes (COMP_EDITOR (d), TRUE))
+		if (prompt_and_save_changes (COMP_EDITOR (d), TRUE))
 			close_dialog (COMP_EDITOR (d));
 		return TRUE;
 	}
@@ -2516,7 +2517,7 @@ comp_editor_get_current_comp (CompEditor *editor)
 gboolean
 comp_editor_save_comp (CompEditor *editor, gboolean send)
 {
-	return prompt_to_save_changes (editor, send);
+	return prompt_and_save_changes (editor, send);
 }
 
 /**
@@ -2564,7 +2565,7 @@ comp_editor_close (CompEditor *editor)
 
 	commit_all_fields (editor);
 	
-	close = prompt_to_save_changes (editor, TRUE);
+	close = prompt_and_save_changes (editor, TRUE);
 	if (close)
 		close_dialog (editor);
 
