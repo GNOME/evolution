@@ -53,9 +53,6 @@ static BonoboGenericFactory *factory;
 
 static AlarmNotify *alarm_notify_service = NULL;
 
-/* to ensure alarm_notify object is created only once */
-GStaticMutex mutex_init = G_STATIC_MUTEX_INIT;
-
 /* Callback for the master client's "die" signal.  We must terminate the daemon
  * since the session is ending.
  */
@@ -114,15 +111,9 @@ init_session (void)
 static BonoboObject *
 alarm_notify_factory_fn (BonoboGenericFactory *factory, const char *component_id, void *data)
 {
-	g_static_mutex_lock (&mutex_init);
-	if (!alarm_notify_service) {
-		alarm_notify_service = alarm_notify_new ();
-		g_assert (alarm_notify_service != NULL);
-	}
+	g_assert (alarm_notify_service != NULL);
 
 	bonobo_object_ref (BONOBO_OBJECT (alarm_notify_service));
-
-	g_static_mutex_unlock (&mutex_init);
 	return BONOBO_OBJECT (alarm_notify_service);
 }
 
@@ -130,14 +121,8 @@ alarm_notify_factory_fn (BonoboGenericFactory *factory, const char *component_id
 static gboolean
 init_alarm_service (gpointer user_data)
 {
-	if (!g_static_mutex_trylock (&mutex_init))
-		return FALSE;
-	if (!alarm_notify_service) {
-		alarm_notify_service = alarm_notify_new ();
-		g_assert (alarm_notify_service != NULL);
-	}
-	g_static_mutex_unlock (&mutex_init);
-	
+	alarm_notify_service = alarm_notify_new ();
+	g_assert (alarm_notify_service != NULL);
 	return FALSE;
 }
 
@@ -160,14 +145,14 @@ main (int argc, char **argv)
 
 	e_icon_factory_init ();
 
+	init_alarm_service (NULL);
+
 	factory = bonobo_generic_factory_new ("OAFIID:GNOME_Evolution_Calendar_AlarmNotify_Factory:" BASE_VERSION,
 					      (BonoboFactoryCallback) alarm_notify_factory_fn, NULL);
 	if (!factory)
 		g_error (_("Could not create the alarm notify service factory"));
 
 	init_session ();
-
-	g_idle_add ((GSourceFunc) init_alarm_service, NULL);
 
 	/* FIXME Ideally we should not use camel libraries in calendar, though it is the case
 	   currently for attachments. Remove this once that is fixed. 

@@ -1,4 +1,14 @@
-2005-12-15  Johnny Jacob  <johnnyjacob@gmail.com>
+2005-12-20  P S Chakravarthi <pchakravarthi@novell.com>  
+
+	Fixes #323955
+	
+	* gui/alarm-notify/notify-main.c main (), init_alarm_service (), 
+	  alarm_notify_factory_fn ():
+	Removed the mutex code for creating alarm_notify_service and
+	made init_alarm_service a simple function call rather than in 
+	a g_idle_add () to avoid evolution hang.
+
+2005-12-19  Johnny Jacob  <johnnyjacob@gmail.com>
 
 	Fixes Bug #324196 
 
