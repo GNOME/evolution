@@ -1,3 +1,12 @@
+2005-12-20  Srinivasa Ragavan <sragavan@novell.comcom>
+
+	** Fixes bug #246225 
+	** Fixes bug #246227
+
+	* filter-rule.c: Added the UI suggestions for "Advanced search" and "Save search"
+	
+	Commiting patch from Arulanandan P <arulanandan@gmail.com>
+
 2005-12-17  Tor Lillqvist  <tml@novell.com>
 
 	* filter-file.c

@@ -788,7 +788,7 @@ get_widget (FilterRule *fr, struct _RuleContext *f)
 	   rule parts need to be a vbox */
 	vbox = gtk_vbox_new (FALSE, 6);
 
-	label = gtk_label_new_with_mnemonic (_("_Rule name:"));
+	label = gtk_label_new_with_mnemonic (_("_Search name:"));
 	name = gtk_entry_new ();
 	gtk_label_set_mnemonic_widget ((GtkLabel *)label, name);
 
@@ -816,7 +816,7 @@ get_widget (FilterRule *fr, struct _RuleContext *f)
 	gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 0);
 	gtk_widget_show (hbox);
 
-	text = g_strdup_printf("<b>%s</b>", _("If"));
+	text = g_strdup_printf("<b>%s</b>", _("Find items that meet the following criteria"));
 	label = gtk_label_new (text);
 	gtk_label_set_use_markup (GTK_LABEL (label), TRUE);
 	gtk_misc_set_alignment (GTK_MISC (label), 0, 0.5);
@@ -855,9 +855,9 @@ get_widget (FilterRule *fr, struct _RuleContext *f)
 	gtk_box_pack_start (GTK_BOX (hbox), add, FALSE, FALSE, 0);
 
 	if (f->flags & RULE_CONTEXT_GROUPING) {
-		const char *thread_types[] = { N_("if all criteria are met"), N_("if any criteria are met") };
+		const char *thread_types[] = { N_("If all criteria are met"), N_("If any criteria are met") };
 
-		label = gtk_label_new (_("Execute actions"));
+		label = gtk_label_new (_("Find items:"));
 		menu = gtk_menu_new ();
 	
 		for (i=0;i<2;i++) {
