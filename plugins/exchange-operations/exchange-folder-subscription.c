@@ -177,7 +177,8 @@ create_folder_subscription_dialog (gchar *mail_account, gchar *fname, gchar **us
 
 	dialog = glade_xml_get_widget (glade_xml, "dialog");
 	g_return_val_if_fail (dialog != NULL, FALSE);
-	gtk_window_set_title (GTK_WINDOW (dialog), g_strdup_printf ("%s %s", _("Subscribe to Other User's"), fname));
+	gtk_window_set_modal (GTK_WINDOW (dialog), FALSE);
+	gtk_window_set_title (GTK_WINDOW (dialog), _("Subscribe to Other User's Folder"));
 
 	name_selector_widget = setup_name_selector (glade_xml, &name_selector);
 	gtk_widget_grab_focus (name_selector_widget);

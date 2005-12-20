@@ -1,3 +1,8 @@
+2005-12-20  Sushma Rai  <rsushma@novell.com>
+
+	* exchange-folder-subscription.c (create_folder_subscription_dialog): 
+	Setting the correct title. Fixes #324580.
+
 2005-12-19  Sushma Rai  <rsushma@novell.com>
 
 	* exchange-delegates-user.c (exchange_delegates_user_edit): Using the
