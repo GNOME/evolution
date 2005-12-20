@@ -1,3 +1,9 @@
+2005-12-20  Johnny Jacob  <johnnyjacob@gmail.com>
+
+	** See Bug #246233
+	* e-filter-bar.c: (member_activated) : Changed "Search Editor" to
+	"Searches"
+
 2005-12-18  Tor Lillqvist  <tml@novell.com>
 
 	* Makefile.am: Link with bootstrap libs on Win32. Use
