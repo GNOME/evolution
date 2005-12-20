@@ -1,5 +1,11 @@
 2005-12-20  Srinivasa Ragavan  <sragavan@novell.com>
 
+	* evolution-mail-message.xml: Reverting David's patch
+	for ellipsis, for discussing it again and to close for all
+	menu items.
+
+2005-12-20  Srinivasa Ragavan  <sragavan@novell.com>
+
 	* evolution-editor.xml: Added tooltips for Attachment
 	* evolution-event-editor.xml: Added tooltips for Alarms
 
