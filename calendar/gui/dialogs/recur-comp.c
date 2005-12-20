@@ -49,17 +49,17 @@ recur_component_dialog (ECal *client,
 	switch (vtype) {
 	case E_CAL_COMPONENT_EVENT:
 		if (!delegated)
-			str = g_strdup_printf (_("You are modifying a recurring event, what would you like to modify?"));
+			str = g_strdup_printf (_("You are modifying a recurring event. What would you like to modify?"));
 		else 
-			str = g_strdup_printf (_("You are delegating a recurring event, what would like to delegate?"));
+			str = g_strdup_printf (_("You are delegating a recurring event. What would you like to delegate?"));
 		break;
 
 	case E_CAL_COMPONENT_TODO:
-		str = g_strdup_printf (_("You are modifying a recurring task, what would you like to modify?"));
+		str = g_strdup_printf (_("You are modifying a recurring task. What would you like to modify?"));
 		break;
 
 	case E_CAL_COMPONENT_JOURNAL:
-		str = g_strdup_printf (_("You are modifying a recurring journal entry, what would you like to modify?"));
+		str = g_strdup_printf (_("You are modifying a recurring journal entry. What would you like to modify?"));
 		break;
 
 	default:
