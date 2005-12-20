@@ -47,6 +47,8 @@
 		_tip="Query free / busy information for the attendees" pixtype="pixbuf"/>
 		<cmd name="InsertSendOptions" _label="Send Options"
 		_tip="Insert advanced send options"/>
+		<cmd name="ActionAlarm" _label="Alarms"
+		_tip="Click here to set or unset alarms for this event" />
 	</commands>
 	
 

@@ -8,7 +8,7 @@
 	  <cmd name="EditPaste" _tip="Paste text from the clipboard" accel="*Control*v" pixtype="stock" pixname="gtk-paste"/>
 	  <cmd name="EditSelectAll" _tip="Select all text" accel="*Control*a"/>
 
-	  <cmd name="InsertAttachment" _tip="Click here to attach a file" accel="*Control**Alt*a" pixtype="pixbuf"/>
+	  <cmd name="InsertAttachments" _tip="Click here to attach a file" accel="*Control**Alt*a" pixtype="pixbuf"/>
 	  <cmd name="Help" _tip="Click here to view help availabe" accel="*Control*h" pixtype="stock" pixname="gtk-help"/>
 	  
 	  
@@ -39,7 +39,7 @@
 
     <submenu name="Insert" _label="_Insert">
       <placeholder name="Attachments">
-	      <menuitem name="InsertAttachments" verb="" _label="_Attachments" pixtype="pixbuf"/>
+	      <menuitem name="InsertAttachments" verb="" _label="_Attachment..." pixtype="pixbuf"/>
 	<separator f="" name="attach"/>
       </placeholder>
      </submenu>
@@ -58,7 +58,7 @@
     <toolitem name="FileClose" verb="" _label="Close"/>
     <separator f="" name="editor1"/>
 
-    <toolitem name="InsertAttachments" verb="" _label="Attachments" pixtype="pixbuf"/>
+    <toolitem name="InsertAttachments" verb="" _label="Attach" pixtype="pixbuf"/>
     <separator f="" name="ecal3"/>
 
   </dockitem>

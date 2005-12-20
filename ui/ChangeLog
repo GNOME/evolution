@@ -1,3 +1,8 @@
+2005-12-20  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* evolution-editor.xml: Added tooltips for Attachment
+	* evolution-event-editor.xml: Added tooltips for Alarms
+
 2005-12-19  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	committing for David Trowbridge <trowbrds cs colorado edu>
