@@ -1438,7 +1438,7 @@ e_meeting_time_selector_options_menu_position_callback (GtkMenu *menu,
 	/* Calculate our preferred position. */
 	gdk_window_get_origin (mts->options_button->window, x, y);
 	*x += mts->options_button->allocation.x;
-	*y += mts->options_button->allocation.y + mts->options_button->allocation.height / 2 - 2;
+	*y += mts->options_button->allocation.y + mts->options_button->allocation.height - 2;
 
 	/* Now make sure we are on the screen. */
 	gtk_widget_size_request (mts->options_menu, &menu_requisition);
@@ -1487,7 +1487,7 @@ e_meeting_time_selector_autopick_menu_position_callback (GtkMenu *menu,
 	/* Calculate our preferred position. */
 	gdk_window_get_origin (mts->autopick_button->window, x, y);
 	*x += mts->autopick_button->allocation.x;
-	*y += mts->autopick_button->allocation.y + mts->autopick_button->allocation.height / 2 - 2;
+	*y += mts->autopick_button->allocation.y + mts->autopick_button->allocation.height - 2;
 
 	/* Now make sure we are on the screen. */
 	gtk_widget_size_request (mts->autopick_menu, &menu_requisition);

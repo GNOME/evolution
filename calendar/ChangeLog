@@ -1,15 +1,23 @@
+2005-12-21  P S Chakravarthi <pchakravarthi@novell.com>
+
+	Fixes #248133
+	* gui/e-meeting-time-sel.c :
+	modified the code in options and autopick call backs
+	so that the menu that drops is at appropriate position
+	as suggested in the bug report.
+
 2005-12-21  Johnny Jacob <johnnyjacob@gmail.com>
- 
- 	* gui/memos-component.c (impl_createControls): -> createView for
- 	new shell apis.
- 
+
+	* gui/memos-component.c (impl_createControls): -> createView for
+	new shell apis.
+
 2005-12-21  Not Zed  <NotZed@Ximian.com>
- 
- 	* gui/tasks-component.c (impl_createControls): same.
- 
- 	* gui/calendar-component.c (impl_createControls): ->createView for
- 	new shell apis.
- 
+
+	* gui/tasks-component.c (impl_createControls): same.
+
+	* gui/calendar-component.c (impl_createControls): ->createView for
+	new shell apis.
+
 2005-12-20  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #324525
@@ -28,6 +36,7 @@
 	* gui/cal-search-bar.h: Re-order the bit-values in accordance to
 	re-ordered search-bar menu items.
 	
+>>>>>>> 1.2900
 2005-12-20  P S Chakravarthi <pchakravarthi@novell.com>  
 
 	Fixes #323955
