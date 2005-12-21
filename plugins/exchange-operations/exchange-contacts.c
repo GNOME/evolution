@@ -308,6 +308,7 @@ e_exchange_contacts_commit (EPlugin *epl, EConfigTarget *target)
 	EABConfigTargetSource *t = (EABConfigTargetSource *) target;
 	ESource *source = t->source;
 	gchar *uri_text, *gname, *gruri, *ruri, *path, *path_prefix, *oldpath=NULL;
+	gchar *username, *authtype;
 	int prefix_len;
 	ExchangeAccount *account;
 	ExchangeAccountFolderResult result;
@@ -326,6 +327,9 @@ e_exchange_contacts_commit (EPlugin *epl, EConfigTarget *target)
 		return;
 
 	account = exchange_operations_get_exchange_account ();
+	username = exchange_account_get_username (account);
+	authtype = exchange_account_get_authtype (account);
+
 	path_prefix = g_strconcat (account->account_filename, "/;", NULL);
 	prefix_len = strlen (path_prefix);
 	g_free (path_prefix);
@@ -344,9 +348,14 @@ e_exchange_contacts_commit (EPlugin *epl, EConfigTarget *target)
 		ruri = g_strconcat (gruri, "/", gname, NULL);
 	}
 	e_source_set_relative_uri (source, ruri);
+	e_source_set_property (source, "username", username);
+	e_source_set_property (source, "auth-domain", "Exchange");
+	if (authtype)
+		e_source_set_property (source, "auth-type", authtype);
+	e_source_set_property (source, "auth", "plain/password");
 
 	path = g_strdup_printf ("/%s", ruri+prefix_len);
-	
+
 	if (!contacts_src_exists) {
 		/* Create the new folder */
 		result = exchange_account_create_folder (account, path, "contacts");
@@ -361,7 +370,7 @@ e_exchange_contacts_commit (EPlugin *epl, EConfigTarget *target)
 	}
 	else {
 		/* Nothing happened specific to exchange; just return */
-		return;
+		goto done;
 	}
 
 	switch (result) {
@@ -389,6 +398,7 @@ e_exchange_contacts_commit (EPlugin *epl, EConfigTarget *target)
 	default:
 		break;
 	}
+done:
 	g_free (ruri);
 	g_free (path);
 	g_free (oldpath);

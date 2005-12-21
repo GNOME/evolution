@@ -1,3 +1,11 @@
+2005-12-21  Sushma Rai  <rsushma@novell.com>
+
+	* exchange-contacts.c (e_exchange_contacts_commit): Setting the 
+	username, authtype, auth-domain and auth properties on the esource
+	created, so that corresponding folder will be authenticated and loaded
+	after the folder creation. Fixes #324678. 
+	Also fixed memory leak in case of no any changes condition.
+
 2005-12-20  Sushma Rai  <rsushma@novell.com>
 
 	* exchange-folder-subscription.c (create_folder_subscription_dialog): 
