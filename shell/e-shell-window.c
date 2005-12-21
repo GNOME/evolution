@@ -25,6 +25,7 @@
 #endif
 
 #include "e-shell-window.h"
+#include "e-shell-view.h"
 
 #include "Evolution.h"
 
@@ -67,6 +68,9 @@ struct _ComponentView {
 	char *component_id;
 	char *component_alias;
 
+	GNOME_Evolution_ComponentView component_view;
+	char *title;
+
 	GtkWidget *sidebar_widget;
 	GtkWidget *view_widget;
 	GtkWidget *statusbar_widget;
@@ -78,6 +82,8 @@ typedef struct _ComponentView ComponentView;
 
 struct _EShellWindowPrivate {
 	EShell *shell;
+
+	EShellView *shell_view;	/* CORBA wrapper for this, just a placeholder */
 
 	/* plugin menu manager */
 	ESMenu *menu;
@@ -149,6 +155,13 @@ component_view_new (const char *id, const char *alias, int button_id)
 static void
 component_view_free (ComponentView *view)
 {
+	if (view->component_view) {
+		CORBA_Environment ev = { 0 };
+
+		CORBA_Object_release(view->component_view, &ev);
+		CORBA_exception_free(&ev);
+	}
+
 	g_free (view->component_id);
 	g_free (view->component_alias);
 	g_free (view);
@@ -193,6 +206,7 @@ init_view (EShellWindow *window,
 	EShellWindowPrivate *priv = window->priv;
 	EComponentRegistry *registry = e_shell_peek_component_registry (window->priv->shell);
 	GNOME_Evolution_Component component_iface;
+	GNOME_Evolution_ComponentView component_view;
 	Bonobo_UIContainer container;
 	Bonobo_Control sidebar_control;
 	Bonobo_Control view_control;
@@ -221,18 +235,28 @@ init_view (EShellWindow *window,
 
 	/* 2. Set up view.  */
 
-	GNOME_Evolution_Component_createControls (component_iface, &sidebar_control, &view_control, &statusbar_control, &ev);
-	if (BONOBO_EX (&ev)) {
-		g_warning ("Cannot create view for %s", view->component_id);
+	/* The rest of the code assumes that the component is valid and can create
+	   controls; if this fails something is really wrong in the component
+	   (e.g. methods not implemented)...  So handle it as if there was no
+	   component at all.  */
 
-		/* The rest of the code assumes that the component is valid and can create
-		   controls; if this fails something is really wrong in the component
-		   (e.g. methods not implemented)...  So handle it as if there was no
-		   component at all.  */
+	component_view = GNOME_Evolution_Component_createView(component_iface, BONOBO_OBJREF(priv->shell_view), &ev);
+	if (component_view == NULL || BONOBO_EX (&ev)) {
+		g_warning ("Cannot create view for %s", view->component_id);
 		bonobo_object_release_unref (component_iface, NULL);
 		CORBA_exception_free (&ev);
 		return;
 	}
+
+	GNOME_Evolution_ComponentView_getControls(component_view, &sidebar_control, &view_control, &statusbar_control, &ev);
+	if (BONOBO_EX (&ev)) {
+		g_warning ("Cannot create view for %s", view->component_id);
+		bonobo_object_release_unref (component_iface, NULL);
+		CORBA_exception_free (&ev);
+		return;
+	}
+
+	view->component_view = component_view;
 
 	CORBA_exception_free (&ev);
 
@@ -301,9 +325,12 @@ switch_view (EShellWindow *window, ComponentView *component_view)
 		gtk_notebook_set_current_page (GTK_NOTEBOOK (priv->statusbar_notebook), component_view->notebook_page_num);
 	}
 
-	title = g_strdup_printf ("Evolution - %s", info->button_label);
-	gtk_window_set_title (GTK_WINDOW (window), title);
-	g_free (title);
+	if (component_view->title == NULL) {
+		title = g_strdup_printf ("Evolution - %s", info->button_label);
+		gtk_window_set_title (GTK_WINDOW (window), title);
+		g_free (title);
+	} else
+		gtk_window_set_title (GTK_WINDOW (window), component_view->title);
 
 	if (info->button_icon)
 		gtk_window_set_icon (GTK_WINDOW (window), info->button_icon);
@@ -839,6 +866,7 @@ e_shell_window_init (EShellWindow *shell_window)
 	EShellWindowPrivate *priv = g_new0 (EShellWindowPrivate, 1);
 
 	priv->tooltips = gtk_tooltips_new ();
+	priv->shell_view = e_shell_view_new(shell_window);
 
 	shell_window->priv = priv;
 
@@ -1062,5 +1090,31 @@ e_shell_window_show_settings (EShellWindow *window)
 	g_return_if_fail (E_IS_SHELL_WINDOW (window));
 
 	e_shell_show_settings (window->priv->shell, window->priv->current_view ? window->priv->current_view->component_alias : NULL, window);
+}
+
+void
+e_shell_window_set_title(EShellWindow *window, const char *component_id, const char *title)
+{
+	EShellWindowPrivate *priv = window->priv;
+	ComponentView *view = NULL;
+	GSList *p;
+
+	for (p = priv->component_views; p != NULL; p = p->next) {
+		ComponentView *this_view = p->data;
+
+		if (strcmp (this_view->component_id, component_id) == 0
+		    || (this_view->component_alias != NULL
+			&& strcmp (this_view->component_alias, component_id) == 0)) {
+			view = p->data;
+			break;
+		}
+	}
+
+	if (view) {
+		g_free(view->title);
+		view->title = g_strdup(title);
+		if (view->title && view == priv->current_view)
+			gtk_window_set_title((GtkWindow *)window, title);
+	}
 }
 

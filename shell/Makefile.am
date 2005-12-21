@@ -79,6 +79,7 @@ eshellincludedir = $(privincludedir)/shell
 
 eshellinclude_HEADERS = 			\
 	Evolution.h				\
+	e-component-view.h			\
 	e-shell-utils.h				\
 	e-user-creatable-items-handler.h	\
 	evolution-config-control.h		\
@@ -91,6 +92,7 @@ eshellinclude_HEADERS = 			\
 libeshell_la_SOURCES = 				\
 	$(IDL_GENERATED)			\
 	$(MARSHAL_GENERATED)			\
+	e-component-view.c		\
 	evolution-component.c			\
 	evolution-listener.c			\
 	e-shell-utils.c				\
@@ -118,6 +120,8 @@ evolution_SOURCES =				\
 	e-corba-config-page.h			\
 	e-history.c				\
 	e-history.h				\
+	e-shell.c				\
+	e-shell.h				\
 	e-shell-constants.h			\
 	e-shell-folder-title-bar.c		\
 	e-shell-folder-title-bar.h		\
@@ -129,8 +133,8 @@ evolution_SOURCES =				\
 	e-shell-window-commands.h		\
 	e-shell-window.c			\
 	e-shell-window.h			\
-	e-shell.c				\
-	e-shell.h				\
+	e-shell-view.c				\
+	e-shell-view.h				\
 	e-sidebar.c				\
 	e-sidebar.h				\
 	es-event.c				\

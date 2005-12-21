@@ -64,6 +64,7 @@
 
 #include "e-activity-handler.h"
 #include "shell/e-user-creatable-items-handler.h"
+#include "shell/e-component-view.h"
 
 #include "composer/e-msg-composer.h"
 
@@ -491,10 +492,15 @@ view_on_url (GObject *emitter, const char *url, const char *nice_url, MailCompon
 }
 
 static void
-view_changed(EMFolderView *emfv, EInfoLabel *el)
+view_changed(EMFolderView *emfv, EComponentView *component_view)
 {
+	EInfoLabel *el = g_object_get_data((GObject *)component_view, "info-label");
+	CORBA_Environment ev;
+
+	CORBA_exception_init(&ev);
+
 	if (emfv->folder) {
-		char *name;
+		char *name, *title;
 		guint32 visible, unread, deleted, junked;
 		GString *tmp = g_string_new("");
 
@@ -556,20 +562,27 @@ view_changed(EMFolderView *emfv, EInfoLabel *el)
 			e_info_label_set_info(el, _(name), tmp->str);
 		else
 			e_info_label_set_info(el, name, tmp->str);
+
+		title = g_strdup_printf("%s, %s", name, tmp->str);
+		e_component_view_set_title(component_view, title);
+		g_free(title);
+
 		g_string_free(tmp, TRUE);
 		camel_object_free(emfv->folder, CAMEL_FOLDER_NAME, name);
 	} else {
 		e_info_label_set_info(el, _("Mail"), "");
+		e_component_view_set_title(component_view, _("Mail"));
 	}
 }
 
 static int
 view_changed_timeout(void *d)
 {
-	EInfoLabel *el = d;
+	EComponentView *component_view = d;	
+	EInfoLabel *el = g_object_get_data((GObject *)component_view, "info-label");
 	EMFolderView *emfv = g_object_get_data((GObject *)el, "folderview");
 
-	view_changed(emfv, el);
+	view_changed(emfv, component_view);
 
 	g_object_set_data((GObject *)emfv, "view-changed-timeout", NULL);
 
@@ -580,9 +593,10 @@ view_changed_timeout(void *d)
 }
 
 static void
-view_changed_cb(EMFolderView *emfv, EInfoLabel *el)
+view_changed_cb(EMFolderView *emfv, EComponentView *component_view)
 {
 	void *v;
+	EInfoLabel *el = g_object_get_data((GObject *)component_view, "info-label");
 
 	/* This can get called 3 times every cursor move, so
 	   we don't need to/want to run it immediately */
@@ -596,23 +610,19 @@ view_changed_cb(EMFolderView *emfv, EInfoLabel *el)
 		g_object_ref(el);
 	}
 
-	g_object_set_data((GObject *)emfv, "view-changed-timeout", GINT_TO_POINTER(g_timeout_add(250, view_changed_timeout, el)));
+	g_object_set_data((GObject *)emfv, "view-changed-timeout", GINT_TO_POINTER(g_timeout_add(250, view_changed_timeout, component_view)));
 }
 
 /* Evolution::Component CORBA methods.  */
 
-static void
-impl_createControls (PortableServer_Servant servant,
-		     Bonobo_Control *corba_tree_control,
-		     Bonobo_Control *corba_view_control,
-		     Bonobo_Control *corba_statusbar_control,
-		     CORBA_Environment *ev)
+static GNOME_Evolution_ComponentView
+impl_createView (PortableServer_Servant servant,
+		 GNOME_Evolution_ShellView parent,
+		 CORBA_Environment *ev)
 {
 	MailComponent *mail_component = MAIL_COMPONENT (bonobo_object_from_servant (servant));
 	MailComponentPrivate *priv = mail_component->priv;
-	BonoboControl *tree_control;
-	BonoboControl *view_control;
-	BonoboControl *statusbar_control;
+	EComponentView *component_view;
 	GtkWidget *tree_widget, *vbox, *info;
 	GtkWidget *view_widget;
 	GtkWidget *statusbar_widget;
@@ -653,25 +663,23 @@ impl_createControls (PortableServer_Servant servant,
 	gtk_widget_show(info);
 	gtk_widget_show(vbox);
 
-	tree_control = bonobo_control_new (vbox);
-	view_control = bonobo_control_new (view_widget);
-	statusbar_control = bonobo_control_new (statusbar_widget);
-	
-	*corba_tree_control = CORBA_Object_duplicate (BONOBO_OBJREF (tree_control), ev);
-	*corba_view_control = CORBA_Object_duplicate (BONOBO_OBJREF (view_control), ev);
-	*corba_statusbar_control = CORBA_Object_duplicate (BONOBO_OBJREF (statusbar_control), ev);
+	component_view = e_component_view_new(parent, "mail", vbox, view_widget, statusbar_widget);
+
+	g_object_set_data((GObject *)component_view, "info-label", info);
 
 	g_object_set_data_full((GObject *)view_widget, "e-creatable-items-handler",
 			       e_user_creatable_items_handler_new("mail", create_local_item_cb, tree_widget),
 			       (GDestroyNotify)g_object_unref);
 
-	g_signal_connect (view_control, "activate", G_CALLBACK (view_control_activate_cb), view_widget);
+	g_signal_connect (component_view->view_control, "activate", G_CALLBACK (view_control_activate_cb), view_widget);
 	g_signal_connect (tree_widget, "folder-selected", G_CALLBACK (folder_selected_cb), view_widget);
 
-	g_signal_connect(view_widget, "changed", G_CALLBACK(view_changed_cb), info);
-	g_signal_connect(view_widget, "loaded", G_CALLBACK(view_changed_cb), info);
-
+	g_signal_connect(view_widget, "changed", G_CALLBACK(view_changed_cb), component_view);
+	g_signal_connect(view_widget, "loaded", G_CALLBACK(view_changed_cb), component_view);
+	
 	g_object_set_data((GObject*)info, "folderview", view_widget);
+
+	return BONOBO_OBJREF(component_view);
 }
 
 static CORBA_boolean
@@ -1017,7 +1025,7 @@ mail_component_class_init (MailComponentClass *class)
 	object_class->dispose  = impl_dispose;
 	object_class->finalize = impl_finalize;
 	
-	epv->createControls          = impl_createControls;
+	epv->createView          = impl_createView;
 	epv->requestQuit = impl_requestQuit;
 	epv->quit = impl_quit;
 	epv->_get_userCreatableItems = impl__get_userCreatableItems;

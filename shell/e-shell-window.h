@@ -68,6 +68,8 @@ BonoboUIComponent *e_shell_window_peek_bonobo_ui_component  (EShellWindow *windo
 ESidebar          *e_shell_window_peek_sidebar              (EShellWindow *window);
 GtkWidget         *e_shell_window_peek_statusbar            (EShellWindow *window);
 
+void e_shell_window_set_title(EShellWindow *window, const char *component_id, const char *title);
+
 void  e_shell_window_save_defaults  (EShellWindow *window);
 void  e_shell_window_show_settings  (EShellWindow *window);
 

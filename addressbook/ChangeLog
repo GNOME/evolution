@@ -1,3 +1,10 @@
+2005-12-21  Not Zed  <NotZed@Ximian.com>
+ 
+ 	* gui/component/addressbook-component.c (impl_createView): changed
+ 	from createControls for new shell apis.
+
+	Committed on behalf of Notzed - partha
+ 
 2005-12-17  Tor Lillqvist  <tml@novell.com>
 
 	* gui/component/addressbook-migrate.c

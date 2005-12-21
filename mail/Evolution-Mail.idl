@@ -3,7 +3,7 @@
 #define _GNOME_EVOLUTION_MAILCOMPONENT_IDL
 
 
-#include <shell/Evolution-Component.idl>
+#include <shell/Evolution-Shell.idl>
 
 module GNOME {
 module Evolution {

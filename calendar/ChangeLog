@@ -1,3 +1,15 @@
+2005-12-21  Johnny Jacob <johnnyjacob@gmail.com>
+ 
+ 	* gui/memos-component.c (impl_createControls): -> createView for
+ 	new shell apis.
+ 
+2005-12-21  Not Zed  <NotZed@Ximian.com>
+ 
+ 	* gui/tasks-component.c (impl_createControls): same.
+ 
+ 	* gui/calendar-component.c (impl_createControls): ->createView for
+ 	new shell apis.
+ 
 2005-12-20  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #324525

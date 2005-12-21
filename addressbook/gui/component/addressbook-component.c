@@ -41,6 +41,10 @@
 #include "misc/e-task-bar.h"
 #include "misc/e-info-label.h"
 
+#include "shell/e-component-view.h"
+
+#include "shell/e-component-view.h"
+
 #include <string.h>
 #include <bonobo/bonobo-i18n.h>
 #include <gtk/gtkimage.h>
@@ -183,30 +187,27 @@ view_destroyed_cb (gpointer data, GObject *where_the_object_was)
 
 /* Evolution::Component CORBA methods.  */
 
-static void
-impl_createControls (PortableServer_Servant servant,
-		     Bonobo_Control *corba_sidebar_control,
-		     Bonobo_Control *corba_view_control,
-		     Bonobo_Control *corba_statusbar_control,
-		     CORBA_Environment *ev)
+static GNOME_Evolution_ComponentView
+impl_createView (PortableServer_Servant servant,
+		 GNOME_Evolution_ShellView parent,
+		 CORBA_Environment *ev)
 {
 	AddressbookComponent *addressbook_component = ADDRESSBOOK_COMPONENT (bonobo_object_from_servant (servant));
 	AddressbookComponentPrivate *priv = addressbook_component->priv;
 	AddressbookView *view = addressbook_view_new ();
-	BonoboControl *sidebar_control;
-	BonoboControl *view_control;
-	BonoboControl *statusbar_control;
-
-	sidebar_control = bonobo_control_new (addressbook_view_peek_sidebar (view));
-	view_control = addressbook_view_peek_folder_view (view);
-	statusbar_control = bonobo_control_new (addressbook_view_peek_statusbar (view));
 
 	g_object_weak_ref (G_OBJECT (view), view_destroyed_cb, addressbook_component);
 	priv->views = g_list_append (priv->views, view);
 
-	*corba_sidebar_control = CORBA_Object_duplicate (BONOBO_OBJREF (sidebar_control), ev);
-	*corba_view_control = CORBA_Object_duplicate (BONOBO_OBJREF (view_control), ev);
-	*corba_statusbar_control = CORBA_Object_duplicate (BONOBO_OBJREF (statusbar_control), ev);
+	EComponentView *component_view;
+
+	component_view = e_component_view_new_controls (parent, "contacts",
+							bonobo_control_new (addressbook_view_peek_sidebar (view)),
+							addressbook_view_peek_folder_view (view),
+							bonobo_control_new (addressbook_view_peek_statusbar (view)));
+
+	return BONOBO_OBJREF(component_view);
+
 }
 
 static GNOME_Evolution_CreatableItemTypeList *
@@ -438,7 +439,7 @@ addressbook_component_class_init (AddressbookComponentClass *class)
 	POA_GNOME_Evolution_Component__epv *epv = &class->epv;
 	GObjectClass *object_class = G_OBJECT_CLASS (class);
 
-	epv->createControls          = impl_createControls;
+	epv->createView              = impl_createView;
 	epv->_get_userCreatableItems = impl__get_userCreatableItems;
 	epv->requestCreateItem       = impl_requestCreateItem;
 	epv->upgradeFromVersion      = impl_upgradeFromVersion;

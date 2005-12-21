@@ -67,6 +67,7 @@
 #include "e-shell-marshal.h"
 #include "e-shell-settings-dialog.h"
 #include "e-shell.h"
+#include "e-shell-view.h"
 #include "es-event.h"
 #include "evolution-listener.h"
 #include "evolution-shell-component-utils.h"
@@ -216,7 +217,7 @@ raise_exception_if_not_ready (PortableServer_Servant servant,
 	return FALSE;
 }
 
-static void
+static GNOME_Evolution_ShellView
 impl_Shell_createNewWindow (PortableServer_Servant servant,
 			    const CORBA_char *component_id,
 			    CORBA_Environment *ev)
@@ -224,9 +225,10 @@ impl_Shell_createNewWindow (PortableServer_Servant servant,
 	BonoboObject *bonobo_object;
 	EShell *shell;
 	EShellWindow *shell_window;
+	EShellView *shell_view;
 
 	if (raise_exception_if_not_ready (servant, ev))
-		return;
+		return CORBA_OBJECT_NIL;
 
 	bonobo_object = bonobo_object_from_servant (servant);
 	shell = E_SHELL (bonobo_object);
@@ -238,8 +240,14 @@ impl_Shell_createNewWindow (PortableServer_Servant servant,
 	if (shell_window == NULL) {
 		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
 				     ex_GNOME_Evolution_Shell_ComponentNotFound, NULL);
-		return;
+		return CORBA_OBJECT_NIL;
 	}
+
+	/* refs?? */
+	shell_view = e_shell_view_new(shell_window);
+	
+	return BONOBO_OBJREF(shell_view);
+
 }
 
 static void

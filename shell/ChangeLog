@@ -1,3 +1,42 @@
+2005-12-21  Not Zed  <NotZed@Ximian.com>
+ 
+ 	* e-shell-view.c (impl_ShellView_setTitle): take a component id
+ 	argument.
+ 
+ 	* e-shell-window.c (component_view_free): release the corba object
+ 	properly.
+ 	(e_shell_window_set_title): new helper to set the title for the
+ 	component.
+ 	(switch_view): use the component specific title if available or
+ 	fallback to the component name.
+ 
+2004-12-21  Not Zed  <NotZed@Ximian.com>
+ 
+ 	** See bug #60354.
+ 
+ 	* Evolution-Component.idl: createControls -> createView and
+ 	ComponentView to keep track of things.
+ 
+ 	* Evolution-Shell.idl: return a new type ShellView from
+ 	createNewWindow so other parts of the system can access it later.
+ 	ShellView so far just lets you set title or switch component, but
+ 	could be subclassed later.
+ 
+ 	* e-shell.c (impl_Shell_createNewWindow): return a shell view.
+ 
+ 	* e-shell-window.c (init_view): create the view from the compnent
+ 	first, then get the controls from it separately.
+ 	(init): setup the e-shell-view object for the create view
+ 	thing.
+ 
+ 	* e-shell-view.c (e_shell_view_new): simple bonobo object for
+ 	Evolution_ShellView, keep track of the EShellWindow.
+ 
+ 	* e-component-view.[ch]: simple bonobo object for
+ 	Evolution_ComponentView.  Just keep track of the controls.
+
+	Committed on behalf of NotZed - partha
+ 
 2005-12-17  Tor Lillqvist  <tml@novell.com>
 
 	* e-config-upgrade.c: Use libedataserver's e_xml_parse_file()

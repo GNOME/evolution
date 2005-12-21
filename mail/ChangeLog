@@ -1,3 +1,18 @@
+2005-12-21  Not Zed  <NotZed@Ximian.com>
+ 
+ 	* mail-component.c (impl_createView, view_changed_cb): api updates.
+ 
+2004-12-21  Not Zed  <NotZed@Ximian.com>
+ 
+ 	** See bug #60354.
+ 
+ 	* mail-component.c (view_changed_cb): set the shell window title
+ 	as well.
+ 	(impl_createView): renamed from createControls, just return a
+ 	EComponentView instead.
+	
+	Committed on behalf of notzed - partha
+
 2005-12-21  Jeff Cai <jeff.cai@sun.com>
 
 	** See bug 324473
