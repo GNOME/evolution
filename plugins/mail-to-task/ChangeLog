@@ -1,3 +1,10 @@
+2005-12-21  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Committing for Hiroyuki Ikezoe <poincare@ikezoe.net>
+
+	Fixes #274433
+	* mail-to-task.c: (set_description): Convert the string to utf8.
+
 2005-10-11  Mubeen Jukaku  <jmubeen@novell.com>
 
 	* mail-to-task.c (set_attendees): Re-implemented this funciton.

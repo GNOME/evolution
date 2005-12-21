@@ -77,7 +77,8 @@ set_description (ECalComponent *comp, CamelMimeMessage *message)
 	CamelStream *mem;
 	ECalComponentText text;
 	GSList sl;
-	char *str;
+	char *str, *convert_str = NULL;
+	int bytes_read, bytes_written;
 
 	content = camel_medium_get_content_object ((CamelMedium *) message);
 	if (!content)
@@ -89,7 +90,18 @@ set_description (ECalComponent *comp, CamelMimeMessage *message)
 	str = g_strndup (((CamelStreamMem *) mem)->buffer->data, ((CamelStreamMem *) mem)->buffer->len);
 	camel_object_unref (mem);
 
-	text.value = str;
+	/* convert to UTF-8 string */
+	if (str && content->mime_type->params->value)
+	{
+		convert_str = g_convert (str, strlen (str), 
+					 "UTF-8", content->mime_type->params->value,
+					 &bytes_read, &bytes_written, NULL);
+	}
+
+	if (convert_str)
+		text.value = convert_str;
+	else 
+		text.value = str;
 	text.altrep = NULL;
 	sl.next = NULL;
 	sl.data = &text;
@@ -97,6 +109,8 @@ set_description (ECalComponent *comp, CamelMimeMessage *message)
 	e_cal_component_set_description_list (comp, &sl);
 
 	g_free (str);
+	if (convert_str)
+		g_free (convert_str);
 }
 
 static void
