@@ -1,3 +1,12 @@
+2005-12-21  Tor Lillqvist  <tml@novell.com>
+
+	* em-camel-stream.c (em_camel_stream_init)
+	* em-sync-stream.c (em_sync_stream_init): Use
+	g_io_channel_win32_new_socket() on Win32 instead of
+	g_io_channel_unix_new() to avoid confusion between file
+	descriptors and sockets (which can and do overlap!). We know that
+	e_msgport_fd() returns a socket on Win32.
+
 2005-12-21  Not Zed  <NotZed@Ximian.com>
  
  	* mail-component.c (impl_createView, view_changed_cb): api updates.

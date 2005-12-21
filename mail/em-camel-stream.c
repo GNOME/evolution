@@ -162,7 +162,11 @@ em_camel_stream_init (CamelObject *object)
 	estream->data_port = e_msgport_new();
 	estream->reply_port = e_msgport_new();
 
+#ifndef G_OS_WIN32
 	estream->gui_channel = g_io_channel_unix_new(e_msgport_fd(estream->data_port));
+#else
+	estream->gui_channel = g_io_channel_win32_new_socket(e_msgport_fd(estream->data_port));
+#endif
 	estream->gui_watch = g_io_add_watch(estream->gui_channel, G_IO_IN, emcs_gui_received, estream);
 
 	estream->used = 0;

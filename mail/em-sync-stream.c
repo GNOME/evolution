@@ -188,7 +188,11 @@ em_sync_stream_init (CamelObject *object)
 	p->data_port = e_msgport_new();
 	p->reply_port = e_msgport_new();
 
+#ifndef G_OS_WIN32
 	p->gui_channel = g_io_channel_unix_new(e_msgport_fd(p->data_port));
+#else
+	p->gui_channel = g_io_channel_win32_new_socket(e_msgport_fd(p->data_port));
+#endif
 	p->gui_watch = g_io_add_watch(p->gui_channel, G_IO_IN, emcs_gui_received, emss);
 
 #ifdef LOG_STREAM
