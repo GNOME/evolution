@@ -1,3 +1,9 @@
+2005-12-21  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #306150
+	* gui/apps_evolution_calendar.schemas.in.in: Changed the 
+	message id to be gramatically correct.
+	
 2005-12-21  P S Chakravarthi <pchakravarthi@novell.com>
 
 	Fixes #248133

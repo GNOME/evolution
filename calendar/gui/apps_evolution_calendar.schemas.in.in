@@ -427,7 +427,7 @@
       <default>15</default>
       <locale name="C">
         <short>Default reminder value</short>
-        <long>Number of units for determining for a default reminder.</long>
+        <long>Number of units for determining a default reminder.</long>
       </locale>
     </schema>
 
