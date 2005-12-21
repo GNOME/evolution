@@ -595,7 +595,7 @@ task_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 	
 	e_timezone_entry_set_timezone (E_TIMEZONE_ENTRY (priv->timezone),
 				       zone ? zone : default_zone);
-	gtk_widget_show_all (priv->timezone);
+	task_page_set_show_timezone (tpage, calendar_config_get_show_timezone());
 
 	if (!(COMP_EDITOR_PAGE (tpage)->flags & COMP_EDITOR_PAGE_NEW_ITEM) && !zone) {
 			task_page_set_show_timezone (tpage, FALSE);
@@ -1746,21 +1746,7 @@ init_widgets (TaskPage *tpage)
 	e_meeting_list_view_column_set_visible (priv->list_view, "Status", calendar_config_get_show_status());
 	e_meeting_list_view_column_set_visible (priv->list_view, "Type", calendar_config_get_show_type());
 	
-	if (!calendar_config_get_show_timezone()) {
-		gtk_widget_hide (priv->timezone_label);
-		gtk_widget_hide (priv->timezone);
-	} else {
-		gtk_widget_show (priv->timezone_label);
-		gtk_widget_show_all (priv->timezone);
-	}
-
-	if (!calendar_config_get_show_categories()) {
-		gtk_widget_hide (priv->categories_btn);
-		gtk_widget_hide (priv->categories);
-	} else {
-		gtk_widget_show (priv->categories_btn);
-		gtk_widget_show (priv->categories);
-	}	
+	task_page_set_show_categories (tpage, calendar_config_get_show_categories());
 
 	return TRUE;
 }

@@ -34,6 +34,17 @@
 	Renamed from prompt_to_save_changes. Check wheather the 
 	summary is empty and prompt.
 
+2005-12-21  Sam Yang  <sam.yang@sun.com>
+
+	Fixes #323984
+	* gui/dialogs/task-page.c: (task_page_fill_widgets): Invoke 
+	task_page_set_show_timezone() to check whether to show timezone 
+	widgets on task page. Just like what we did in init_widgets(). 
+	(init_widgets): Since we have called task_page_set_show_timezone() 
+	before, remove its duplicate code. Invoke 
+	task_page_set_show_categories() directly other than copy its code here.
+    	    
+
 2005-12-19  Chenthill Palanisamy  <pchenthill@novell.com>
 	
 	Committing for David Trowbridge <trowbrds cs colorado edu>
