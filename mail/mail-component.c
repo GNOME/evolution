@@ -563,7 +563,7 @@ view_changed(EMFolderView *emfv, EComponentView *component_view)
 		else
 			e_info_label_set_info(el, name, tmp->str);
 
-		title = g_strdup_printf("%s, %s", name, tmp->str);
+		title = g_strdup_printf("%s (%s)", name, tmp->str);
 		e_component_view_set_title(component_view, title);
 		g_free(title);
 
