@@ -2736,6 +2736,5 @@ em_account_editor_construct(EMAccountEditor *emae, EAccount *account, em_account
 	e_config_set_target((EConfig *)ec, (EConfigTarget *)target);
 	emae->editor = e_config_create_window((EConfig *)ec, NULL, type==EMAE_NOTEBOOK?_("Account Editor"):_("Evolution Account Assistant"));
 
-	g_object_ref(emae);
 	g_signal_connect(emae->editor, "destroy", G_CALLBACK(emae_editor_destroyed), emae);
 }
