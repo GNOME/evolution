@@ -1,3 +1,10 @@
+2005-12-21  Jeff Cai <jeff.cai@sun.com>
+
+	** See bug 324473
+	* em-account-editor.c: (em_account_editor_construct):
+	delete reference to account editor to make sure be destroyed
+	when it is closed.
+
 2005-09-29  Parthasarathi Susarla <sparthasarathi@novell.com>
 	
 	** See bug 317284
