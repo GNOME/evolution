@@ -606,7 +606,7 @@ add_addressbook_sources (EAccount *account)
 	GConfClient* client;
 	const char* use_ssl;
 	const char *poa_address;
-	gboolean is_frequent_contacts = FALSE;
+	gboolean is_frequent_contacts = FALSE, is_writable = FALSE;
 
         url = camel_url_new (account->source->url, NULL);
 	if (url == NULL) {
@@ -631,6 +631,20 @@ add_addressbook_sources (EAccount *account)
 		return FALSE;
 	for (; temp_list != NULL; temp_list = g_list_next (temp_list)) {
 		const char *book_name =  e_gw_container_get_name (E_GW_CONTAINER(temp_list->data));
+		/* is_writable is set to TRUE if the book has isPersonal property,
+		 * by e_gw_connection_get_address_book_list()
+		 */
+		is_writable = e_gw_container_get_is_writable (E_GW_CONTAINER(temp_list->data));
+		if (is_writable && 
+		    !g_ascii_strncasecmp (book_name, "Novell GroupWise Address Book", strlen (book_name))) {
+			/* This is a hack to not to show multiple groupwise system address books 
+			 * if they are the personal address books with the name of system address book
+			 * See http://bugzilla.gnome.org/show_bug.cgi?id=320119
+			 * and http://bugzilla.gnome.org/show_bug.cgi?id=309511
+			 */
+			continue;
+		} 
+ 
 		if (!is_frequent_contacts)
 			is_frequent_contacts = e_gw_container_get_is_frequent_contacts (E_GW_CONTAINER (temp_list->data));
 		source = e_source_new (book_name, g_strconcat (";",book_name, NULL));
@@ -643,14 +657,14 @@ add_addressbook_sources (EAccount *account)
 		 * properties, instead of using writable to distinguish between the
 		 * system address book and other address books.
 		 */
-		if (!e_gw_container_get_is_writable (E_GW_CONTAINER(temp_list->data)))
+		if (!is_writable)
 			e_source_set_property (source, "offline_sync", "1");
 		else
 			e_source_set_property (source, "offline_sync", 
 					       camel_url_get_param (url, "offline_sync") ? "1" : "0");
-		if (!e_gw_container_get_is_writable (E_GW_CONTAINER(temp_list->data)))
+		if (!is_writable)
 			e_source_set_property (source, "completion", "true");
-		if (e_gw_container_get_is_frequent_contacts (E_GW_CONTAINER(temp_list->data)))
+		if (is_frequent_contacts)
 			e_source_set_property (source, "completion", "true");
 		e_source_set_property (source, "use_ssl", use_ssl);
 		e_source_group_add_source (group, source, -1);

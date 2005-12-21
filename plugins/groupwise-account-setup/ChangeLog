@@ -1,3 +1,12 @@
+2005-12-21  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Committing for Sushma Rai  <rsushma@novell.com>
+
+	Fixes #320119
+	* camel-gw-listener.c: (add_addressbook_sources): Skip the 
+	Novell System Addressbook which is a personal addressbook
+	returned from the server.
+
 2005-12-12  Harish Krishnaswamy  <kharish@novell.com>
 
 	* Makefile.am: Fix make-clean issues.
