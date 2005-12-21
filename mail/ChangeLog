@@ -20,6 +20,12 @@
 	delete reference to account editor to make sure be destroyed 
 	when it is closed.
 
+2005-12-21  Sam Yang  <sam.yang@sun.com>
+
+	Fixes #324670
+	* em-folder-view.c: (emfv_setting_notify): Respond to the change 
+	of mail/display/paned_size in gconf. 
+
 2005-12-20  Veerapuram Varadhan  <vvaradhan@novell.com>
 
 	Fixes #246256

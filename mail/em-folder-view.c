@@ -2562,6 +2562,7 @@ enum {
 	EMFV_SHOW_PREVIEW,
 	EMFV_SHOW_DELETED,
 	EMFV_THREAD_LIST,
+	EMFV_PANED_SIZE,
 	EMFV_SETTINGS		/* last, for loop count */
 };
 
@@ -2580,6 +2581,7 @@ static const char * const emfv_display_keys[] = {
 	"show_preview",
 	"show_deleted",
 	"thread_list",
+	"paned_size",
 };
 
 static GHashTable *emfv_setting_key;
@@ -2718,6 +2720,19 @@ emfv_setting_notify(GConfClient *gconf, guint cnxn_id, GConfEntry *entry, EMFold
 			camel_object_state_write (emfv->folder);
 		message_list_set_threaded (emfv->list, state_gconf);
 		bonobo_ui_component_set_prop (emfv->uic, "/commands/ViewThreaded", "state", state_gconf ? "1" : "0", NULL);
+		break; }
+	case EMFV_PANED_SIZE: {
+		EMFolderBrowser *emfb = (EMFolderBrowser *)emfv;
+		int paned_size;
+
+		if (!emfb->vpane || !emfv->preview_active)
+			return;
+
+		paned_size = gconf_value_get_int (value);
+		if (paned_size == gtk_paned_get_position (GTK_PANED (emfb->vpane)))
+			return;
+
+		gtk_paned_set_position (GTK_PANED (emfb->vpane), paned_size);
 		break; }
 	}
 }
