@@ -989,7 +989,9 @@ ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, 
 		}		
 		if (edit_display) {
 			GdkEventKey key = event->key;
-			if (key.keyval == GDK_KP_Enter || key.keyval == GDK_Return){
+			if (key.type == GDK_KEY_PRESS &&
+			    (key.keyval == GDK_KP_Enter || key.keyval == GDK_Return)) {
+				/* stop editing when it's only GDK_KEY_PRESS event */
 				e_table_item_leave_edit_ (text_view->cell_view.e_table_item_view);
 			} else {
 				e_tep_event.key.time = key.time;

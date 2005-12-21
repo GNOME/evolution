@@ -1,3 +1,11 @@
+2005-12-21  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	committing for Akira TAGOH <tagoh@gnome-db.org>
+	
+	Fixes #303876
+	* table/e-cell-text.c: (ect_event): Check if its a keep press
+	event when the Return key is pressed.
+
 2005-12-18  Tor Lillqvist  <tml@novell.com>
 
 	* e-table-config.c (find_model_column_by_name): Use
