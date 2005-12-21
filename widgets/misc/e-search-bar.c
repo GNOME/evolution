@@ -200,8 +200,20 @@ search_now_verb_cb (BonoboUIComponent *ui_component,
 		    const char *verb_name)
 {
 	ESearchBar *esb;
+	GtkStyle *style = gtk_widget_get_default_style ();
+	const char *text;
 
 	esb = E_SEARCH_BAR (data);
+	text =  gtk_entry_get_text (esb->entry);
+
+	if (text && *text) {
+		gtk_widget_modify_base (esb->entry, GTK_STATE_NORMAL, &(style->base[GTK_STATE_SELECTED]));
+		gtk_widget_modify_text (esb->entry, GTK_STATE_NORMAL, &(style->text[GTK_STATE_SELECTED]));
+	} else {
+		gtk_widget_modify_base (esb->entry, GTK_STATE_NORMAL, NULL);
+		gtk_widget_modify_text (esb->entry, GTK_STATE_NORMAL, NULL);		
+	}
+	
 	emit_search_activated (esb);
 }
 
@@ -212,6 +224,9 @@ clear_verb_cb (BonoboUIComponent *ui_component,
 {
 	ESearchBar *esb;
 
+	gtk_widget_modify_base (esb->entry, GTK_STATE_NORMAL, NULL);
+	gtk_widget_modify_text (esb->entry, GTK_STATE_NORMAL, NULL);
+	
 	esb = E_SEARCH_BAR (data);
 	clear_search (esb);
 }

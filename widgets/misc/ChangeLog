@@ -1,3 +1,10 @@
+2005-12-21  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fixes bug #324590
+
+	* e-search-bar.c: (search_now_verb_cb), (clear_verb_cb): Added
+	code to clear search entry from menu.
+
 2005-12-20  Johnny Jacob  <johnnyjacob@gmail.com>
 
 	** See Bug #246233
