@@ -1,3 +1,7 @@
+2005-12-22  Tor Lillqvist  <tml@novell.com>
+
+	* configure.in: Fix minor typo in the Network Manager tests.
+
 2005-12-22  Shreyas Srinivasan  <sshreyas@novell.com>
 
 	* configure.in: Network Manager Support- Check if dbus, dbus-glib, 

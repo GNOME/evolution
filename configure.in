@@ -1204,8 +1204,7 @@ if test "x$NM_SUPPORT_GLIB" = "xyes"; then
 else
    PKG_CHECK_MODULES(NM, dbus-glib-1, NM_SUPPORT="yes", NM_SUPPORT="no")
    AC_CHECK_HEADER(NetworkManager/NetworkManager.h, [ nm_header="yes" ] )
-if test "x$NM_SUPPORT" = "xyes" -a "x{nm_header}" != "x"; then 
-dnl   if test "x$NM_SUPPORT" = "xyes"; then 
+if test "x$NM_SUPPORT" = "xyes" -a "x$nm_header" = "xyes"; then 
 	AC_DEFINE(NM_SUPPORT, 1, [network manager available])
 	NM_SUPPORT_PACKAGES="dbus-1 dbus-glib-1"
    fi	   
