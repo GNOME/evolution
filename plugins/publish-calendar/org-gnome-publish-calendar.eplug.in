@@ -2,7 +2,7 @@
 <e-plugin-list>
     <e-plugin
      type="shlib"
-     location="@PLUGINDIR@/liborg-gnome-publish-calendar.so"
+     location="@PLUGINDIR@/liborg-gnome-publish-calendar@SOEXT@"
      id="org.gnome.evolution.calendar.publish"
      name="Calendar Publishing">
         <description>Allows calendars to be published to the web</description>

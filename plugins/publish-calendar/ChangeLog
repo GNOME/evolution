@@ -1,3 +1,7 @@
+2005-12-22  Tor Lillqvist  <tml@novell.com>
+
+	* org-gnome-publish-calendar.eplug.in: Use SOEXT.
+
 2005-12-20  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	* Makefile.am: Added the org-gnome-publish-calendar.xml
