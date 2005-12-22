@@ -28,6 +28,11 @@ module Evolution {
 		CREATABLE_OBJECT,
 		CREATABLE_FOLDER
 	};
+	enum ShellState {
+		USER_OFFLINE,
+		FORCED_OFFLINE,
+		USER_ONLINE
+	};
 
 	/* A type of item that the component can create when asked by the user,
 	   e.g. a mail message or an appointment.  */
@@ -124,7 +129,7 @@ module Evolution {
 
 		/* Set the online status of the component asynchronously */
 
-		void setLineStatus(in boolean online, in Listener listener);
+		void setLineStatus(in ShellState shell_state, in Listener listener);
 	};
 
 };

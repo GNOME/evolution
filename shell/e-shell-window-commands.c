@@ -640,7 +640,7 @@ command_work_offline (BonoboUIComponent *uih,
 		      EShellWindow *window,
 		      const char *path)
 {
-	e_shell_go_offline (e_shell_window_peek_shell (window), window);
+	e_shell_go_offline (e_shell_window_peek_shell (window), window, GNOME_Evolution_USER_OFFLINE);
 }
 
 static void
@@ -648,7 +648,7 @@ command_work_online (BonoboUIComponent *uih,
 		     EShellWindow *window,
 		     const char *path)
 {
-	e_shell_go_online (e_shell_window_peek_shell (window), window);
+	e_shell_go_online (e_shell_window_peek_shell (window), window, GNOME_Evolution_USER_ONLINE);
 }
 
 static void

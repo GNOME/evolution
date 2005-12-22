@@ -449,10 +449,10 @@ offline_toggle_clicked_callback (GtkButton *button,
 
 	switch (e_shell_get_line_status (priv->shell)) {
 	case E_SHELL_LINE_STATUS_ONLINE:
-		e_shell_go_offline (priv->shell, window);
+		e_shell_go_offline (priv->shell, window, GNOME_Evolution_USER_OFFLINE);
 		break;
 	case E_SHELL_LINE_STATUS_OFFLINE:
-		e_shell_go_online (priv->shell, window);
+		e_shell_go_online (priv->shell, window, GNOME_Evolution_USER_ONLINE);
 		break;
 	default:
 		g_assert_not_reached ();
@@ -583,6 +583,16 @@ setup_statusbar_notebook (EShellWindow *window)
 }
 
 static void
+setup_nm_support (EShellWindow *window)
+{
+	#ifdef NM_SUPPORT_GLIB
+	       e_shell_nm_glib_initialise (window);
+	#elif NM_SUPPORT
+	       e_shell_dbus_initialise (window);
+	#endif             
+}
+
+static void
 setup_status_bar (EShellWindow *window)
 {
 	EShellWindowPrivate *priv;
@@ -593,6 +603,9 @@ setup_status_bar (EShellWindow *window)
 	priv->status_bar = gtk_hbox_new (FALSE, 2);
 	if(gconf_client_get_bool (gconf_client_get_default(),"/apps/evolution/shell/view_defaults/statusbar_visible",NULL))
 		gtk_widget_show (priv->status_bar);
+
+	/* setup dbus interface here*/
+	setup_nm_support (window);
 
 	setup_offline_toggle (window);
 	setup_menu_hint_label (window);

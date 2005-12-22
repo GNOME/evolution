@@ -311,9 +311,9 @@ impl_Shell_setLineStatus (PortableServer_Servant servant,
 	e_passwords_set_online(online);
 
 	if (online)
-		e_shell_go_online (shell, NULL);
+		e_shell_go_online (shell, NULL, GNOME_Evolution_USER_ONLINE);
 	else
-		e_shell_go_offline (shell, NULL);
+		e_shell_go_offline (shell, NULL, GNOME_Evolution_USER_OFFLINE);
 }
 
 static GNOME_Evolution_Component
@@ -707,7 +707,7 @@ e_shell_construct (EShell *shell,
 	e_passwords_set_online(start_online);
 
 	if (start_online)
-		e_shell_go_online (shell, NULL);
+		e_shell_go_online (shell, NULL, GNOME_Evolution_USER_ONLINE);
 
 	return E_SHELL_CONSTRUCT_RESULT_OK;
 }
@@ -1117,15 +1117,21 @@ set_line_status_complete(EvolutionListener *el, void *data)
 }
 
 static void
-set_line_status(EShell *shell, gboolean status)
+set_line_status(EShell *shell, GNOME_Evolution_ShellState shell_state)
 {
 	EShellPrivate *priv;
 	GSList *component_infos;
 	GSList *p;
 	CORBA_Environment ev;
 	GConfClient *client;
+	gboolean status;
 
 	priv = shell->priv;
+	
+	if (shell_state == GNOME_Evolution_FORCED_OFFLINE || shell_state == GNOME_Evolution_USER_OFFLINE)
+		status = FALSE;
+	else 
+		status = TRUE;
 
 	if ((status && priv->line_status == E_SHELL_LINE_STATUS_ONLINE)
 	    || (!status && priv->line_status != E_SHELL_LINE_STATUS_ONLINE))
@@ -1150,7 +1156,7 @@ set_line_status(EShell *shell, gboolean status)
 
 		CORBA_exception_init (&ev);
 
-		GNOME_Evolution_Component_setLineStatus(info->iface, status, bonobo_object_corba_objref((BonoboObject *)priv->line_status_listener), &ev);
+		GNOME_Evolution_Component_setLineStatus(info->iface, shell_state, bonobo_object_corba_objref((BonoboObject *)priv->line_status_listener), &ev);
 		if (ev._major == CORBA_NO_EXCEPTION)
 			priv->line_status_pending++;
 		
@@ -1171,14 +1177,14 @@ set_line_status(EShell *shell, gboolean status)
  **/
 void
 e_shell_go_offline (EShell *shell,
-		    EShellWindow *action_window)
+		    EShellWindow *action_window, GNOME_Evolution_ShellState shell_state)
 {
 	g_return_if_fail (shell != NULL);
 	g_return_if_fail (E_IS_SHELL (shell));
 	g_return_if_fail (action_window != NULL);
 	g_return_if_fail (action_window == NULL || E_IS_SHELL_WINDOW (action_window));
 
-	set_line_status(shell, FALSE);
+	set_line_status(shell, shell_state);
 }
 
 /**
@@ -1190,13 +1196,13 @@ e_shell_go_offline (EShell *shell,
  **/
 void
 e_shell_go_online (EShell *shell,
-		   EShellWindow *action_window)
+		   EShellWindow *action_window, GNOME_Evolution_ShellState shell_state)
 {
 	g_return_if_fail (shell != NULL);
 	g_return_if_fail (E_IS_SHELL (shell));
 	g_return_if_fail (action_window == NULL || E_IS_SHELL_WINDOW (action_window));
 
-	set_line_status(shell, TRUE);
+	set_line_status(shell, shell_state);
 }
 
 void

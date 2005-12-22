@@ -73,6 +73,7 @@
 #include <gtk/gtklabel.h>
 
 #include <e-util/e-mktemp.h>
+#include <Evolution.h>
 
 #include <table/e-tree.h>
 #include <table/e-tree-memory.h>
@@ -94,6 +95,9 @@ static void create_local_item_cb(EUserCreatableItemsHandler *handler, const char
 
 #define PARENT_TYPE evolution_component_get_type ()
 static BonoboObjectClass *parent_class = NULL;
+
+#define OFFLINE 0
+#define ONLINE 1
 
 struct _store_info {	
 	CamelStore *store;
@@ -973,10 +977,36 @@ setline_check(void *key, void *value, void *data)
 	}
 }
 
+int 
+status_check (GNOME_Evolution_ShellState shell_state)
+{
+	int status;
+
+	switch (shell_state)
+	{
+	    case GNOME_Evolution_USER_OFFLINE:
+		    status = OFFLINE;
+		    break;
+	    case GNOME_Evolution_FORCED_OFFLINE: 
+		    /*Network is down so change network state on the camel session*/
+		    status = OFFLINE;
+		    /* Cancel all operations as they wont happen anyway cos Network is down*/
+		    mail_cancel_all ();
+		    camel_session_set_network_state (session, FALSE);
+		    break;
+	    case GNOME_Evolution_USER_ONLINE:
+		    camel_session_set_network_state (session, TRUE);
+		    status = ONLINE;
+	}	  
+
+	return status;
+}
+
 static void
-impl_setLineStatus(PortableServer_Servant servant, CORBA_boolean status, GNOME_Evolution_Listener listener, CORBA_Environment *ev)
+impl_setLineStatus(PortableServer_Servant servant, GNOME_Evolution_ShellState shell_state, GNOME_Evolution_Listener listener, CORBA_Environment *ev)
 {
 	struct _setline_data *sd;
+	int status = status_check(shell_state);
 
 	/* This will dis/enable further auto-mail-check action. */
 	/* FIXME: If send/receive active, wait for it to finish? */

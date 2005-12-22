@@ -98,4 +98,5 @@ struct _CamelStore *mail_component_peek_local_store (MailComponent *mc);
 struct _CamelFolder *mail_component_get_folder(MailComponent *mc, enum _mail_component_folder_t id);
 const char *mail_component_get_folder_uri(MailComponent *mc, enum _mail_component_folder_t id);
 
+int status_check (GNOME_Evolution_ShellState shell_state);
 #endif /* _MAIL_COMPONENT_H_ */

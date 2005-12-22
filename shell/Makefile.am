@@ -48,6 +48,13 @@ $(IDL_GENERATED_H): $(IDLS)
 
 $(IDL_GENERATED_C): $(IDL_GENERATED_H)
 
+if NM_SUPPORT_GLIB
+NM_SUPPORT_FILES = e-shell-nm-glib.c
+else
+if NM_SUPPORT
+NM_SUPPORT_FILES = e-shell-nm.c 
+endif
+endif 
 
 # Data Server CORBA stuff
 DATASERVER_IDL_GENERATED_H =			\
@@ -112,6 +119,7 @@ libeshell_la_LIBADD =					\
 
 evolution_SOURCES =				\
 	$(DATASERVER_IDL_GENERATED)		\
+	$(NM_SUPPORT_FILES)			\
 	e-component-registry.c			\
 	e-component-registry.h			\
 	e-config-upgrade.c			\
@@ -139,7 +147,7 @@ evolution_SOURCES =				\
 	e-sidebar.h				\
 	es-event.c				\
 	es-menu.c				\
-	main.c
+	main.c					
 
 evolution_LDADD =							\
 	libeshell.la							\

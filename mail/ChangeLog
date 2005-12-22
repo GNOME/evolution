@@ -1,3 +1,9 @@
+2005-12-22  Shreyas Srinivasan  <sshreyas@novell.com>
+
+	* mail-component.[c,h]: Handle Network Disconnect
+	sent by the shell. Add function status_check which 
+	handles various Network states.
+	
 2005-12-21  Tor Lillqvist  <tml@novell.com>
 
 	* em-camel-stream.c (em_camel_stream_init)

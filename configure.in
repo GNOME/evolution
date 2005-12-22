@@ -1143,7 +1143,7 @@ else
    HAL_REQUIREMENT=""
    IPOD_SYNC=""
 fi
- 
+
 dnl --- Flags for the various libraries we build
 
 EVO_SET_COMPILE_FLAGS(CAMEL, camel-provider-$EDS_PACKAGE)
@@ -1195,7 +1195,28 @@ AC_SUBST(LIBFILTER_LIBS)
 
 dnl --- evolution (shell) flags
 
-EVO_SET_COMPILE_FLAGS(SHELL, libgnome-2.0 libgnomeui-2.0 libbonoboui-2.0 >= $BONOBOUI_REQUIRED libglade-2.0 gnome-vfs-2.0 libgtkhtml-$GTKHTML_PACKAGE >= $GTKHTML_REQUIRED)
+NM_SUPPORT_PACKAGES=""
+
+PKG_CHECK_MODULES(NM, dbus-glib-1 libnm_glib, NM_SUPPORT_GLIB="yes", NM_SUPPORT_GLIB="no")
+if test "x$NM_SUPPORT_GLIB" = "xyes"; then 
+   AC_DEFINE(NM_SUPPORT_GLIB, 1, [network manager available])
+   NM_SUPPORT_PACKAGES="dbus-1 dbus-glib-1 libnm_glib"
+else
+   PKG_CHECK_MODULES(NM, dbus-glib-1, NM_SUPPORT="yes", NM_SUPPORT="no")
+   AC_CHECK_HEADER(NetworkManager/NetworkManager.h, [ nm_header="yes" ] )
+if test "x$NM_SUPPORT" = "xyes" -a "x{nm_header}" != "x"; then 
+dnl   if test "x$NM_SUPPORT" = "xyes"; then 
+	AC_DEFINE(NM_SUPPORT, 1, [network manager available])
+	NM_SUPPORT_PACKAGES="dbus-1 dbus-glib-1"
+   fi	   
+fi 
+
+AM_CONDITIONAL(NM_SUPPORT_GLIB, test x$NM_SUPPORT_GLIB = xyes)
+AM_CONDITIONAL(NM_SUPPORT, test x$NM_SUPPORT = xyes)
+
+
+EVO_SET_COMPILE_FLAGS(SHELL, libgnome-2.0 libgnomeui-2.0 libbonoboui-2.0 >= $BONOBOUI_REQUIRED libglade-2.0 gnome-vfs-2.0 libgtkhtml-$GTKHTML_PACKAGE >= $GTKHTML_REQUIRED $NM_SUPPORT_PACKAGES)   
+
 AC_SUBST(SHELL_CFLAGS)
 AC_SUBST(SHELL_LIBS)
 

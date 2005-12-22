@@ -119,9 +119,9 @@ void                e_shell_close_all_windows        (EShell *shell);
 
 EShellLineStatus  e_shell_get_line_status  (EShell       *shell);
 void              e_shell_go_offline       (EShell       *shell,
-					    EShellWindow *action_window);
+					    EShellWindow *action_window, GNOME_Evolution_ShellState shell_state);
 void              e_shell_go_online        (EShell       *shell,
-					    EShellWindow *action_window);
+					    EShellWindow *action_window, GNOME_Evolution_ShellState shell_state);
 
 void  e_shell_send_receive  (EShell *shell);
 
