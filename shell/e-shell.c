@@ -315,7 +315,7 @@ impl_Shell_setLineStatus (PortableServer_Servant servant,
 	else
 		e_shell_go_offline (shell, NULL, GNOME_Evolution_USER_OFFLINE);
 }
-
+/*
 static GNOME_Evolution_Component
 impl_Shell_findComponent(PortableServer_Servant servant,
 			 const CORBA_char *id,
@@ -339,7 +339,7 @@ impl_Shell_findComponent(PortableServer_Servant servant,
 		return ci->iface;
 	}
 }
-
+*/
 
 /* EShellWindow handling and bookkeeping.  */
 
@@ -527,7 +527,7 @@ e_shell_class_init (EShellClass *klass)
 	epv->createNewWindow = impl_Shell_createNewWindow;
 	epv->handleURI       = impl_Shell_handleURI;
 	epv->setLineStatus   = impl_Shell_setLineStatus;
-	epv->findComponent   = impl_Shell_findComponent;
+/*	epv->findComponent   = impl_Shell_findComponent;*/
 }
 
 static void

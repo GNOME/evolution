@@ -15,107 +15,12 @@
 
 module GNOME {
 module Evolution {
-	enum CreatableItem {
-		CREATABLE_OBJECT,
-		CREATABLE_FOLDER
-	};
 
-	/* A type of item that the component can create when asked by the user,
-	   e.g. a mail message or an appointment.  */
-	struct CreatableItemType {
-		string id;
-		string description;
-		string menuDescription;
-		string tooltip;
-		char menuShortcut;
-		string iconName;
-		CreatableItem type;
-	};
-	typedef sequence <CreatableItemType> CreatableItemTypeList;
-
-	interface ComponentView : Bonobo::Unknown {
-		void getControls (out Bonobo::Control sidebar_control,
-				  out Bonobo::Control view_control,
-				  out Bonobo::Control statusbar_control);
-	};
-
-	interface Listener : Bonobo::Unknown {
-		/* Indicate the change of state is complete */
-		void complete();
-	};
 
 	interface ShellView : Bonobo::Unknown {
 		/* Should really use a ComponentView i guess */
 		void setTitle(in string component, in string title);
 		void setComponent(in string component);
-	};
-
-	interface Component : Bonobo::Unknown {
-		exception Failed {};
-		exception UnknownType {};
-		/* We don't know about the old version we're upgrading from */
-		exception UnsupportedVersion {};
-		/* We encountered a non-recoverable, fatal error, explain why */
-		exception UpgradeFailed {
-			string what;
-			string why;
-		};
-
-		/*** Upgrade path.  ***/
-
-		void upgradeFromVersion (in short major, in short minor, in short revision)
-			raises (UnsupportedVersion, UpgradeFailed);
-
-		/*** Basic functionality.  ***/
-		ComponentView createView(in ShellView parent)
-			raises (Failed);
-
-		/* Create the controls for embedding in the shell.  */
-
-		/* Check if the component can quit.
-		   Do not perform any quit-related tasks however.
-		   May be called multiple times, depending on user interaction. */
-		boolean requestQuit ();
-
-		/* Ask the component to quit.  Returns TRUE when the
-		   component has completed any closing-down tasks, and
-		   is ready to exit().  This will be called repeatedly
-		   at intervals until it returns TRUE. */
-		boolean quit ();
-
-		/* Notify the component of whether the shell is currently
-		   running in interactive mode or not.  (I.e. basically,
-		   whether there are any Evolution windows on the screen.)
-		   @new_view_xid is an X Window ID ("None" if @now_interactive
-		   is FALSE) */
-		void interactive (in boolean now_interactive,
-				  in unsigned long new_view_xid);
-
-
-		/*** The following stuff is needed to build the "New" toolbar
-                     item as well as the "File -> New" submenu.  ***/
-
-		/* List of creatable items. */
-		readonly attribute CreatableItemTypeList userCreatableItems;
-
-		/* Pop up a new editing dialog for the item with the specified
-		   @item_type_name.  */
-		void requestCreateItem (in string item_type_name)
-			raises (UnknownType, Failed);
-
-
-		/*** URI handling (e.g. for the command-line, "evolution
-		     mailto:foo@bar.org")  ***/
-		void handleURI (in string uri);
-
-
-		/*** Send/receive.  ***/
-
-		void sendAndReceive ();
-
-		/* Set the online status of the component asynchronously */
-
-		void setLineStatus(in boolean online, in Listener listener);
 	};
 
 	interface Shell : Bonobo::Unknown {
@@ -158,8 +63,8 @@ module Evolution {
 		/*
 		 * Lookup a component by id.
 		 */
-		Component findComponent(in string id)
-			raises (NotReady, ComponentNotFound);
+		/*Component findComponent(in string id)
+			raises (NotReady, ComponentNotFound);*/
 	};
 };
 };

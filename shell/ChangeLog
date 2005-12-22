@@ -1,3 +1,15 @@
+2005-12-22  Parthasarathi Susarla <sparthasarathi@novell.com>
+	
+	* Evolution-Component.idl
+	* Evolution-Shell.idl
+	* Evolution.idl:
+	Remove duplicate definitions and circular dependencies.
+	
+	* e-shell.c: comment out the implementation for findComponent. 
+	If implemented, this creates a circular dependency between the
+	Shell.idl and Component.idl. 
+	** This is just a work-around **
+
 2005-12-22  Shreyas Srinivasan <sshreyas@novell.com>
 
 	* Network Manager Support for shell
