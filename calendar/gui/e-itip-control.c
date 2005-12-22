@@ -2190,6 +2190,7 @@ insert_rsvp (GtkWidget *hbox, EItipControl *itip)
 
 	priv = itip->priv;
 	
+	/* To translators: RSVP means "please reply" */
 	btn = gtk_check_button_new_with_label ("RSVP");
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (btn), TRUE);
 	priv->rsvp = TRUE;

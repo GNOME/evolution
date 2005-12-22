@@ -498,6 +498,7 @@ build_table (EMeetingListView *lview)
 
 	renderer = e_cell_renderer_combo_new ();
 	g_object_set (G_OBJECT (renderer), "list", get_rsvp_strings (), "editable", TRUE, NULL);
+	/* To translators: RSVP means "please reply" */
 	pos = gtk_tree_view_insert_column_with_attributes (view, -1, _("RSVP"), renderer,
 						     "text", E_MEETING_STORE_RSVP_COL,
 						     NULL);
