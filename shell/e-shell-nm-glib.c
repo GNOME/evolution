@@ -26,6 +26,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <Evolution.h>
 #include <NetworkManager/libnm_glib.h>
 #include <e-shell-window.h>
 
