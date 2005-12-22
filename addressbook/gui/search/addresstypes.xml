@@ -73,7 +73,74 @@
 	<code>(not (is "category_list" ${category}))</code>
     </option>
    </input>
-   <input type="string" name="category"/>
+   <input type="optionlist" name="category">
+    <option value="Anniversary">
+        <title>Anniversary</title>
+    </option>
+    <option value="Holiday">
+        <title>Holiday</title>
+    </option>
+    <option value="Ideas">
+        <title>Ideas</title>
+    </option>
+    <option value="Status">
+        <title>Status</title>
+    </option>
+    <option value="Holiday Cards">
+        <title>Holiday Cards</title>
+    </option>
+    <option value="Hot Contacts">
+        <title>Hot Contacts</title>
+    </option>
+    <option value="International">
+        <title>International</title>
+    </option>
+    <option value="Birthday">
+        <title>Birthday</title>
+    </option>
+    <option value="VIP">
+        <title>VIP</title>
+    </option>
+    <option value="Gifts">
+        <title>Gifts</title>
+    </option>
+    <option value="Waiting">
+        <title>Waiting</title>
+    </option>
+    <option value="Key Customer">
+        <title>Key Customer</title>
+    </option>
+    <option value="Time &amp; Expenses">
+        <title>Time &amp; Expenses </title>
+    </option>
+    <option value="Miscellaneous">
+        <title>Miscellaneous</title>
+    </option>
+    <option value="Business">
+        <title>Business</title>
+    </option>
+    <option value="Personal">
+        <title>Personal</title>
+    </option>
+    <option value="Suppliers">
+        <title>Suppliers</title>
+    </option>
+    <option value="Goals/Objectives">
+        <title>Goals/Objectives</title>
+    </option>
+    <option value="Strategies">
+        <title>Strategies</title>
+    </option>
+    <option value="Competition">
+        <title>Competition</title>
+    </option>
+    <option value="Favourites">
+        <title>Favourites</title>
+    </option>
+    <option value="Phone Calls">
+        <title>Phone Calls</title>
+    </option>
+   </input>
  </part>
  <part name="sexp">
    <title>Expression</title>

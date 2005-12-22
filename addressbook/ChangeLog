@@ -1,3 +1,8 @@
+2005-12-22  Srinivasa Ragavan <sragavan@novell.com>
+
+	* gui/search/addresstypes.xml: Modified the categories to option menu
+	format in advanced search
+	
 2005-12-21  Not Zed  <NotZed@Ximian.com>
  
  	* gui/component/addressbook-component.c (impl_createView): changed
