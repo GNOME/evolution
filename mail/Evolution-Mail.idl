@@ -4,6 +4,7 @@
 
 
 #include <shell/Evolution-Shell.idl>
+#include <shell/Evolution-Component.idl>
 
 module GNOME {
 module Evolution {
