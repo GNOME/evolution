@@ -22,7 +22,12 @@ liborg_gnome_publish_calendar_la_SOURCES =	\
 	url-editor-dialog.c			\
 	url-editor-dialog.h
 
-liborg_gnome_publish_calendar_la_LDFLAGS = -module -avoid-version
+liborg_gnome_publish_calendar_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)
+
+liborg_gnome_publish_calendar_la_LIBADD =			\
+	$(top_builddir)/e-util/libeutil.la			\
+	$(top_builddir)/calendar/gui/libevolution-calendar.la	\
+	$(EVOLUTION_CALENDAR_LIBS)
 
 EXTRA_DIST =					\
 	org-gnome-publish-calendar.eplug.in	\

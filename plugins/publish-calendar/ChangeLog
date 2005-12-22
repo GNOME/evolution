@@ -1,5 +1,8 @@
 2005-12-22  Tor Lillqvist  <tml@novell.com>
 
+	* Makefile.am: Use -no-undefined on Windows. Link with used
+	libraries.
+
 	* org-gnome-publish-calendar.eplug.in: Use SOEXT.
 
 2005-12-20  Chenthill Palanisamy  <pchenthill@novell.com>
