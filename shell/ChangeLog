@@ -1,3 +1,11 @@
+2005-09-24  Andre Klapper  <a9016009@gmx.de>:
+	
+	Reviewed and committed by Harish <kharish@novell.com>
+
+	* shell.error.xml: fixed two dead links to "support.ximian.com" now to
+	the (yet to come) FAQ at go-evolution.org. (#315866)
+
+
 2005-12-22  Parthasarathi Susarla <sparthasarathi@novell.com>
 	
 	* Evolution-Component.idl
