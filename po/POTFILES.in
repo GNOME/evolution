@@ -362,6 +362,9 @@ plugins/prefer-plain/prefer-plain.c
 plugins/print-message/org-gnome-print-message.eplug.xml
 plugins/print-message/org-gnome-print-message.xml
 plugins/print-message/print-message.c
+plugins/publish-calendar/org-gnome-publish-calendar.xml
+plugins/publish-calendar/publish-calendar.c
+plugins/publish-calendar/publish-calendar.glade
 plugins/sa-junk-plugin/em-junk-filter.c
 plugins/sa-junk-plugin/org-gnome-sa-junk-plugin.eplug.xml
 plugins/save-attachments/org-gnome-save-attachments.eplug.xml
