@@ -281,6 +281,7 @@ plugins/exchange-operations/exchange-account-setup.c
 plugins/exchange-operations/exchange-calendar.c
 plugins/exchange-operations/exchange-change-password.c
 plugins/exchange-operations/exchange-change-password.glade
+plugins/exchange-operations/exchange-config-listener.c
 plugins/exchange-operations/exchange-contacts.c
 plugins/exchange-operations/exchange-delegates-user.c
 plugins/exchange-operations/exchange-delegates.c
