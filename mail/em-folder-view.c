@@ -837,6 +837,9 @@ emfv_popup_flag_completed(EPopup *ep, EPopupItem *pitem, void *data)
 	
 	uids = message_list_get_selected(emfv->list);
 	em_utils_flag_for_followup_completed((GtkWidget *)emfv, emfv->folder, uids);
+
+	if (emfv->preview)
+		em_format_redraw (emfv->preview);
 }
 
 static void
@@ -846,6 +849,9 @@ emfv_popup_flag_clear(EPopup *ep, EPopupItem *pitem, void *data)
 	GPtrArray *uids = message_list_get_selected(emfv->list);
 
 	em_utils_flag_for_followup_clear((GtkWidget *)emfv, emfv->folder, uids);
+
+	if (emfv->preview)
+		em_format_redraw (emfv->preview);
 }
 
 static void
@@ -1242,8 +1248,8 @@ EMFV_MAP_CALLBACK(emfv_message_mark_nojunk, emfv_popup_mark_nojunk)
 EMFV_MAP_CALLBACK(emfv_message_delete, emfv_popup_delete)
 EMFV_MAP_CALLBACK(emfv_message_undelete, emfv_popup_undelete)
 EMFV_MAP_CALLBACK(emfv_message_followup_flag, emfv_popup_flag_followup)
-/*EMFV_MAP_CALLBACK(emfv_message_followup_clear, emfv_popup_flag_clear)
-  EMFV_MAP_CALLBACK(emfv_message_followup_completed, emfv_popup_flag_completed)*/
+EMFV_MAP_CALLBACK(emfv_message_followup_clear, emfv_popup_flag_clear)
+EMFV_MAP_CALLBACK(emfv_message_followup_completed, emfv_popup_flag_completed)
 EMFV_MAP_CALLBACK(emfv_message_open, emfv_popup_open)
 EMFV_MAP_CALLBACK(emfv_message_edit, emfv_popup_edit)
 EMFV_MAP_CALLBACK(emfv_message_saveas, emfv_popup_saveas)
@@ -1694,6 +1700,8 @@ static BonoboUIVerb emfv_message_verbs[] = {
 	BONOBO_UI_UNSAFE_VERB ("MessageMarkAsJunk", emfv_message_mark_junk),
 	BONOBO_UI_UNSAFE_VERB ("MessageMarkAsNotJunk", emfv_message_mark_nojunk),
 	BONOBO_UI_UNSAFE_VERB ("MessageFollowUpFlag", emfv_message_followup_flag),
+	BONOBO_UI_UNSAFE_VERB ("MessageFollowUpComplete", emfv_message_followup_completed),
+	BONOBO_UI_UNSAFE_VERB ("MessageFollowUpClear", emfv_message_followup_clear),
 	BONOBO_UI_UNSAFE_VERB ("MessageMove", emfv_message_move),
 	BONOBO_UI_UNSAFE_VERB ("MessageOpen", emfv_message_open),
 	BONOBO_UI_UNSAFE_VERB ("MessagePostReply", emfv_message_post_reply),
@@ -1808,7 +1816,9 @@ static const EMFolderViewEnable emfv_enable_map[] = {
 	{ "MessageMarkAsUnimportant", EM_POPUP_SELECT_MANY|EM_POPUP_SELECT_MARK_UNIMPORTANT },
 	{ "MessageMarkAsJunk",        EM_POPUP_SELECT_MANY|EM_POPUP_SELECT_JUNK },
 	{ "MessageMarkAsNotJunk",     EM_POPUP_SELECT_MANY|EM_POPUP_SELECT_NOT_JUNK },
-	{ "MessageFollowUpFlag",      EM_POPUP_SELECT_MANY },
+	{ "MessageFollowUpFlag",      EM_POPUP_SELECT_MANY|EM_POPUP_SELECT_FLAG_FOLLOWUP },
+	{ "MessageFollowUpComplete",  EM_POPUP_SELECT_MANY|EM_POPUP_SELECT_FLAG_COMPLETED },
+	{ "MessageFollowUpClear",     EM_POPUP_SELECT_MANY|EM_POPUP_SELECT_FLAG_CLEAR },
 	{ "MessageMove",              EM_POPUP_SELECT_MANY },
 	{ "MessageOpen",              EM_POPUP_SELECT_MANY },
 	{ "MessagePostReply",         EM_POPUP_SELECT_ONE },
@@ -1895,6 +1905,12 @@ emfv_enable_menus(EMFolderView *emfv)
 			bonobo_ui_component_set_prop(emfv->uic, name->str, "sensitive", state?"1":"0", NULL);
 		}
 	}
+
+	/* Just Hide/Unhide Junk-Not Junk*/
+	bonobo_ui_component_set_prop(emfv->uic, "/commands/MessageMarkAsJunk", "hidden", 
+				*(bonobo_ui_component_get_prop(emfv->uic, "/commands/MessageMarkAsJunk", "sensitive",NULL)) == '1'?"0":"1", NULL);
+	bonobo_ui_component_set_prop(emfv->uic, "/commands/MessageMarkAsNotJunk", "hidden", 
+				*(bonobo_ui_component_get_prop(emfv->uic, "/commands/MessageMarkAsNotJunk", "sensitive",NULL)) == '1'?"0":"1", NULL);	
 
 	g_string_free(name, TRUE);
 }

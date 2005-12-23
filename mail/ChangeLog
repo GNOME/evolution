@@ -1,3 +1,15 @@
+2005-12-23  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fixes bug #228040, #324677
+
+	* em-folder-view.c (emfv_popup_flag_completed),
+	(emfv_popup_flag_clear), (emfv_enable_menus): Added menus for complete
+	and clear. Also added code to refresh preview on setting flags. Also
+	added code to hide junk/not-junk menu depending on their sensitivity.
+	
+	* em-utils.c: (tag_editor_response), (em_utils_flag_for_followup):
+	Added code to refresh preview.
+	
 2005-12-22  Shreyas Srinivasan  <sshreyas@novell.com>
 
 	* mail-component.[c,h]: Handle Network Disconnect

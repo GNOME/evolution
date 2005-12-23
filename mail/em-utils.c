@@ -78,6 +78,7 @@
 
 #include "em-utils.h"
 #include "em-composer-utils.h"
+#include "em-folder-view.h"
 #include "em-format-quote.h"
 #include "em-account-editor.h"
 #include "e-attachment.h"
@@ -739,6 +740,7 @@ void em_utils_add_address(struct _GtkWidget *parent, const char *email)
 
 /* tag-editor callback data */
 struct ted_t {
+	EMFolderView *emfv;
 	MessageTagEditor *editor;
 	CamelFolder *folder;
 	GPtrArray *uids;
@@ -778,6 +780,9 @@ tag_editor_response (GtkWidget *dialog, int button, struct ted_t *ted)
 		
 		camel_folder_thaw (folder);
 		camel_tag_list_free (&tags);
+
+		if (ted->emfv->preview)
+			em_format_redraw(ted->emfv->preview);
 	}
 	
 	gtk_widget_destroy (dialog);
@@ -810,6 +815,7 @@ em_utils_flag_for_followup (GtkWidget *parent, CamelFolder *folder, GPtrArray *u
 	camel_object_ref (folder);
 	
 	ted = g_new (struct ted_t, 1);
+	ted->emfv = (EMFolderView *) parent;
 	ted->editor = MESSAGE_TAG_EDITOR (editor);
 	ted->folder = folder;
 	ted->uids = uids;
