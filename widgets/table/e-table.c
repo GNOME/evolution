@@ -3327,7 +3327,7 @@ e_table_class_init (ETableClass *class)
 
 	g_object_class_install_property (object_class, PROP_ALWAYS_SEARCH,
 					 g_param_spec_boolean ("always_search",
-							       _("Always Search"),
+							       _("Always search"),
 							       /*_( */"XXX blurb" /*)*/,
 							       FALSE,
 							       G_PARAM_READWRITE));
