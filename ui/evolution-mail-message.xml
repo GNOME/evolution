@@ -372,6 +372,8 @@
       	    <separator f="" name="emaillist2"/>
 
             <menuitem name="MessageFollowUpFlag" verb="" _label="Follow _Up..."/>
+            <menuitem name="MessageFollowUpClear" verb="" _label="_Clear Flag"/>
+            <menuitem name="MessageFollowUpComplete" verb="" _label="_Flag Completed" pixtype="pixbuf"/>
 
           </submenu>
           <menuitem name="MessageApplyFilters" verb="" _label="A_pply Filters"/>

@@ -105,7 +105,7 @@
 
       <placeholder name="PluginManagerPlaceholder"/>
 
-      <menuitem name="Settings" verb="" _label="Prefere_nces" _tip="Change Evolution's settings"/>
+      <menuitem name="Settings" verb="" _label="Prefere_nces" _tip="Change Evolution's settings" accel="*Control**Shift*s"/>
     </submenu>
 
     <submenu name="View" _label="_View">

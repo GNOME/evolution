@@ -1,3 +1,16 @@
+2005-12-23  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fixes bug #324677
+
+	* evolution-mail-message.xml: Added Clear and
+	Completed flag options to menu.
+
+2005-12-22  M Victor Aloysius J  <victoraloy@gmail.com>
+
+	** Fixes bug #313293
+
+	* evolution.xml: Added Shortcut for preferences.
+
 2005-12-20  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* evolution-mail-message.xml: Reverting David's patch
