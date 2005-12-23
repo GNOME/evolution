@@ -168,7 +168,7 @@ calconduit_load_configuration (guint32 pilot_id)
 							  NULL);
 				/* need to upgrade the last_uri. yay. */
 				g_free (c->last_uri);
-				c->last_uri = g_filename_to_uri (new_filename);
+				c->last_uri = g_filename_to_uri (new_filename, NULL, NULL);
 				g_free (new_filename);
 			}
 		}

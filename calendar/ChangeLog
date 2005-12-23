@@ -1,3 +1,9 @@
+2005-12-23  Harish Krishnaswamy  <kharish@novell.com>
+
+	* conduits/calendar/calendar-conduit.c
+	(calconduit_load_configuration): Fix a build breaker.
+	g_filename_to_uri takes 3 arguments.
+
 2005-12-21  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #306150
