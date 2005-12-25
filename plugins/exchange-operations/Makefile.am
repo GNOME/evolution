@@ -64,7 +64,7 @@ error_DATA = org-gnome-exchange-operations.error
 errordir = $(privdatadir)/errors
 
 EXTRA_DIST = 							\
-	org-gnome-exchange-operations.eplug.in			\
+	org-gnome-exchange-operations.eplug.xml			\
 	org-gnome-exchange-operations.error.xml			\
 	org-gnome-folder-permissions.xml			\
 	org-gnome-folder-subscription.xml			\

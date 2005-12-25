@@ -2,10 +2,10 @@
 	<e-plugin
 	id="org.gnome.evolution.profiler" 
 	type="shlib" 
-	name="Evolution Profiler" 
+	_name="Evolution Profiler" 
 	location="@PLUGINDIR@/liborg-gnome-evolution-profiler.so">
 
-		<description>Writes a log of profiling data events.</description>
+		<_description>Writes a log of profiling data events.</_description>
 		<author name="Michael Zucchi" email="notzed@novell.com"/>
 
 		<hook class="org.gnome.evolution.profile.events:1.0">

@@ -14,7 +14,7 @@ liborg_gnome_addressbook_file_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED
 liborg_gnome_addressbook_file_la_LIBADD =	\
 	$(EVOLUTION_ADDRESSBOOK_LIBS)
 
-EXTRA_DIST = org-gnome-addressbook-file.eplug.in
+EXTRA_DIST = org-gnome-addressbook-file.eplug.xml
 
 BUILT_SOURCES = $(plugin_DATA)
 CLEANFILES = $(BUILT_SOURCES)

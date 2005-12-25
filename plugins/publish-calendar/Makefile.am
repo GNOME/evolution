@@ -30,6 +30,6 @@ liborg_gnome_publish_calendar_la_LIBADD =			\
 	$(EVOLUTION_CALENDAR_LIBS)
 
 EXTRA_DIST =					\
-	org-gnome-publish-calendar.eplug.in	\
+	org-gnome-publish-calendar.eplug.xml	\
 	publish-calendar.glade			\
 	org-gnome-publish-calendar.xml

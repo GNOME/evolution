@@ -1,3 +1,7 @@
+2005-12-25  Funda Wang  <fundawang@linux.net.cn>
+
+	* Makefile.am: Mark this plugin as translatable (bug#301149).
+
 2005-12-12  Harish Krishnaswamy  <kharish@novell.com>
 
 	* Makefile.am: Fix make-clean issues.

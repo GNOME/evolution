@@ -4,8 +4,8 @@
      type="shlib"
      location="@PLUGINDIR@/liborg-gnome-publish-calendar@SOEXT@"
      id="org.gnome.evolution.calendar.publish"
-     name="Calendar Publishing">
-        <description>Allows calendars to be published to the web</description>
+     _name="Calendar Publishing">
+        <_description>Allows calendars to be published to the web</_description>
 	<author name="David Trowbridge" email="trowbrds@cs.colorado.edu"/>
 	<!-- calendar main menu -->
 	<hook class="org.gnome.evolution.shell.bonobomenu:1.0">
@@ -27,11 +27,11 @@
 	        <item
 		 type="page"
 		 path="30.publishing"
-		 label="Calendar Publishing"/>
+		 _label="Calendar Publishing"/>
 		<item
 		 type="section"
 		 path="30.publishing/00.urls"
-		 label="Locations"/>
+		 _label="Locations"/>
 		<item
 		 type="item"
 		 path="30.publishing/00.urls/00.locations"

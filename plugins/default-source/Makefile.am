@@ -17,7 +17,7 @@ liborg_gnome_default_source_la_LIBADD =		\
 	$(EVOLUTION_ADDRESSBOOK_LIBS)
 
 
-EXTRA_DIST = org-gnome-default-source.eplug.in
+EXTRA_DIST = org-gnome-default-source.eplug.xml
 
 BUILT_SOURCES = $(plugin_DATA)
 CLEANFILES = $(BUILT_SOURCES)

@@ -1,5 +1,9 @@
 2005-12-25  Funda Wang  <fundawang@linux.net.cn>
 
+	* POTFILES.in: Mark various plugins as  translatable (bug#301149).
+
+2005-12-25  Funda Wang  <fundawang@linux.net.cn>
+
 	* zh_CN.po: Updated Simplified Chinese translation.
 
 2005-12-23  Francisco Javier F. Serrador  <serrador@cvs.gnome.org>
