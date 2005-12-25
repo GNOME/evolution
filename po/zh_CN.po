@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Evolution 2.6\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-12-24 21:38+0100\n"
+"POT-Creation-Date: 2005-12-25 12:28+0800\n"
 "PO-Revision-Date: 2005-12-25 11:40+0800\n"
 "Last-Translator: Funda Wang <fundawang@linux.net.cn>\n"
 "Language-Team: zh_CN <i18n-translation@lists.linux.net.cn>\n"
@@ -5271,7 +5271,12 @@ msgid ""
 "15 minutes\n"
 "10 minutes\n"
 "05 minutes"
-msgstr "60 分钟\n30 分钟\n15 分钟\n10 分钟\n5 分钟"
+msgstr ""
+"60 分钟\n"
+"30 分钟\n"
+"15 分钟\n"
+"10 分钟\n"
+"5 分钟"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:6
 msgid "<b>Publishing</b>"
@@ -5363,7 +5368,13 @@ msgid ""
 "Saturday\n"
 "Sunday"
 msgstr ""
-"周一\n周二\n周三\n周四\n周五\n周六\n周日"
+"周一\n"
+"周二\n"
+"周三\n"
+"周四\n"
+"周五\n"
+"周六\n"
+"周日"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:32
 msgid "Publishing Table"
@@ -14122,6 +14133,7 @@ msgid "Received"
 msgstr "已接收"
 
 #: ../mail/message-list.etspec.h:11
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.eplug.xml.h:4
 msgid "Size"
 msgstr "大小"
 
@@ -14184,6 +14196,14 @@ msgstr "主题含有"
 #: ../mail/searchtypes.xml.h:6
 msgid "Subject or Sender contains"
 msgstr "主题或发送者含有"
+
+#: ../plugins/addressbook-file/org-gnome-addressbook-file.eplug.xml.h:1
+msgid "Local Address Books"
+msgstr "本地地址簿"
+
+#: ../plugins/addressbook-file/org-gnome-addressbook-file.eplug.xml.h:2
+msgid "Provides core functionallity for local address books."
+msgstr "提供本地地址簿的核心功能。"
 
 #: ../plugins/audio-inline/org-gnome-audio-inline.eplug.xml.h:1
 msgid ""
@@ -14404,6 +14424,16 @@ msgstr "您是否想要将 Evolution 设置为您的默认电子邮件客户端�
 msgid "Mark as default folder"
 msgstr "标为默认文件夹"
 
+#: ../plugins/default-source/org-gnome-default-source.eplug.xml.h:1
+msgid "Default Sources"
+msgstr "默认源"
+
+#: ../plugins/default-source/org-gnome-default-source.eplug.xml.h:2
+msgid ""
+"Provides functionallity for marking a calendar or addressbook as the default "
+"one."
+msgstr "提供了将日历或地址簿标为默认日历或地址簿的功能。"
+
 #: ../plugins/exchange-operations/e-foreign-folder-dialog.glade.h:1
 msgid "Open Other User's Folder"
 msgstr "打开其他用户的文件夹"
@@ -14498,6 +14528,7 @@ msgid "Folders Size"
 msgstr "文件夹大小"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:366
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.eplug.xml.h:3
 msgid "Exchange Settings"
 msgstr "Exchange 设置"
 
@@ -14784,6 +14815,16 @@ msgstr "订阅其他用户的联系人"
 #: ../plugins/exchange-operations/org-gnome-exchange-cal-subscription.xml.h:1
 msgid "Subscribe to Other User's Calendar"
 msgstr "订阅其他用户的日历"
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.eplug.xml.h:1
+msgid ""
+"A plugin that handles a collection of Exchange account specific operations "
+"and features."
+msgstr "包含若干 Exchange 帐户特定操作和特性的插件。"
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.eplug.xml.h:2
+msgid "Exchange Operations"
+msgstr "Exchange 操作"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:1
 msgid "Cannot change password due to configuration problems."
@@ -16010,6 +16051,18 @@ msgstr "订阅这封信所属的邮件列表"
 msgid "Unsubscribe to the mailing list this message belongs to"
 msgstr "退订这封信所属的邮件列表"
 
+#: ../plugins/mark-all-read/org-gnome-mark-all-read.eplug.xml.h:1
+msgid "Mark All Read"
+msgstr "全部标为已读"
+
+#: ../plugins/mark-all-read/org-gnome-mark-all-read.eplug.xml.h:2
+msgid "Mark me_ssages as read"
+msgstr "把信件标记为已读(_S)"
+
+#: ../plugins/mark-all-read/org-gnome-mark-all-read.eplug.xml.h:3
+msgid "Used for marking all the messages under a folder as read"
+msgstr "用于将文件夹内的全部信件全部标为已读"
+
 #: ../plugins/mark-calendar-offline/org-gnome-mark-calendar-offline.eplug.xml.h:1
 msgid "Mark calendar offline"
 msgstr "将日历标为脱机"
@@ -16145,6 +16198,26 @@ msgstr "打印预览(_V)"
 msgid "Prints the message"
 msgstr "打印该信件"
 
+#: ../plugins/profiler/org-gnome-evolution-profiler.eplug.xml.h:1
+msgid "Evolution Profiler"
+msgstr "Evolution 配置器"
+
+#: ../plugins/profiler/org-gnome-evolution-profiler.eplug.xml.h:2
+msgid "Writes a log of profiling data events."
+msgstr "编写配置数据事件的日志。"
+
+#: ../plugins/publish-calendar/org-gnome-publish-calendar.eplug.xml.h:1
+msgid "Allows calendars to be published to the web"
+msgstr "允许将日历发布到 Web"
+
+#: ../plugins/publish-calendar/org-gnome-publish-calendar.eplug.xml.h:2
+msgid "Calendar Publishing"
+msgstr "日历发布"
+
+#: ../plugins/publish-calendar/org-gnome-publish-calendar.eplug.xml.h:3
+msgid "Locations"
+msgstr "位置"
+
 #: ../plugins/publish-calendar/org-gnome-publish-calendar.xml.h:1
 msgid "_Publish Calendar Information"
 msgstr "发布日历信息(_P)"
@@ -16213,7 +16286,9 @@ msgstr "发布为(_P)："
 msgid ""
 "iCal\n"
 "Free/Busy"
-msgstr "iCal\n忙/闲"
+msgstr ""
+"iCal\n"
+"忙/闲"
 
 #: ../plugins/sa-junk-plugin/em-junk-filter.c:99
 msgid "Spamassassin (built-in)"
@@ -20336,50 +20411,4 @@ msgstr "输入法环境"
 #: ../widgets/text/e-text.c:3683 ../widgets/text/e-text.c:3684
 msgid "Handle Popup"
 msgstr "处理弹出"
-
-msgid "Execute actions"
-msgstr "执行动作"
-
-msgid "Execute Command..."
-msgstr "执行命令..."
-
-msgid "Local Address Books"
-msgstr "本地地址簿"
-
-msgid "Provides core functionallity for local address books."
-msgstr "提供本地地址簿的核心功能。"
-
-msgid "Default Sources"
-msgstr "默认源"
-
-msgid ""
-"Provides functionallity for marking a calendar or addressbook as the "
-"default one."
-msgstr "提供了将日历或地址簿标为默认日历或地址簿的功能。"
-
-msgid "Subscribe to Other User's"
-msgstr "订阅其他用户的"
-
-msgid ""
-"A plugin that handles a collection of Exchange account specific "
-"operations and features."
-msgstr "包含若干 Exchange 帐户特定操作和特性的插件。"
-
-msgid "Exchange Operations"
-msgstr "Exchange 操作"
-
-msgid "Exchange Connector access error."
-msgstr "Exchange Connector 访问错误。"
-
-msgid "Mark All Read"
-msgstr "全部标为已读"
-
-msgid "Mark me_ssages as read"
-msgstr "把信件标记为已读(_S)"
-
-msgid "Used for marking all the messages under a folder as read"
-msgstr "用于将文件夹内的全部信件全部标为已读"
-
-msgid "Publish Free/Busy information for this calendar"
-msgstr "为此日历发布忙闲信息"
 
