@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-12-23 15:45+0100\n"
-"PO-Revision-Date: 2005-12-23 15:55+0100\n"
+"POT-Creation-Date: 2005-12-25 12:45+0100\n"
+"PO-Revision-Date: 2005-12-25 12:52+0100\n"
 "Last-Translator: Francisco Javier F. Serrador <serrador@cvs.gnome.org>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -10717,7 +10717,7 @@ msgstr "Buscar elementos:"
 
 #: ../filter/filter-rule.c:881
 msgid "All related"
-msgstr "Todos los relacionados"
+msgstr "Todas las relacionadas"
 
 #: ../filter/filter-rule.c:881
 msgid "Replies"
@@ -10838,7 +10838,7 @@ msgstr "la fecha actual"
 
 #: ../filter/filter.glade.h:20
 msgid "the time you specify"
-msgstr "la fecha que especificó"
+msgstr "la fecha que especifique"
 
 #: ../filter/filter.glade.h:22
 msgid "years"
@@ -11164,11 +11164,11 @@ msgstr "es"
 
 #: ../mail/em-filter-i18n.h:28
 msgid "is after"
-msgstr "está después de"
+msgstr "es posterior a"
 
 #: ../mail/em-filter-i18n.h:29
 msgid "is before"
-msgstr "está antes de"
+msgstr "es anterior a"
 
 #: ../mail/em-filter-i18n.h:30
 msgid "is Flagged"
@@ -14510,6 +14510,7 @@ msgid "Received"
 msgstr "Recibido"
 
 #: ../mail/message-list.etspec.h:11
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.eplug.xml.h:4
 msgid "Size"
 msgstr "Tamaño"
 
@@ -14572,6 +14573,14 @@ msgstr "El asunto contiene"
 #: ../mail/searchtypes.xml.h:6
 msgid "Subject or Sender contains"
 msgstr "El asunto o el remitente contiene"
+
+#: ../plugins/addressbook-file/org-gnome-addressbook-file.eplug.xml.h:1
+msgid "Local Address Books"
+msgstr "Libretas local de direcciones"
+
+#: ../plugins/addressbook-file/org-gnome-addressbook-file.eplug.xml.h:2
+msgid "Provides core functionallity for local address books."
+msgstr "Proporciona funcionalidad básica para libretas de direcciones locales."
 
 #: ../plugins/audio-inline/org-gnome-audio-inline.eplug.xml.h:1
 msgid ""
@@ -14804,6 +14813,16 @@ msgstr "¿Quiere que Evolution sea su cliente de correo predeterminado?"
 msgid "Mark as default folder"
 msgstr "Marcar como carpeta predeterminada"
 
+#: ../plugins/default-source/org-gnome-default-source.eplug.xml.h:1
+msgid "Default Sources"
+msgstr "Fuentes predeterminadas"
+
+#: ../plugins/default-source/org-gnome-default-source.eplug.xml.h:2
+msgid ""
+"Provides functionallity for marking a calendar or addressbook as the default "
+"one."
+msgstr "Proporciona funcionalidad para hacer calendarios o libretas de direcciones como la predeterminada."
+
 #: ../plugins/exchange-operations/e-foreign-folder-dialog.glade.h:1
 msgid "Open Other User's Folder"
 msgstr "Abrir la carpeta de otro usuario"
@@ -14902,6 +14921,7 @@ msgid "Folders Size"
 msgstr "Tamaño de las carpetas"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:366
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.eplug.xml.h:3
 msgid "Exchange Settings"
 msgstr "Configuración de Exchange"
 
@@ -15195,6 +15215,16 @@ msgstr "Subscribirse a los contactos de otro usuario"
 #: ../plugins/exchange-operations/org-gnome-exchange-cal-subscription.xml.h:1
 msgid "Subscribe to Other User's Calendar"
 msgstr "Subscribirse al calendario de otro usuario"
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.eplug.xml.h:1
+msgid ""
+"A plugin that handles a collection of Exchange account specific operations "
+"and features."
+msgstr "Un complemento que manipula una colección de operaciones y características específicas de una cuenta Exchange."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.eplug.xml.h:2
+msgid "Exchange Operations"
+msgstr "Operaciones de Exchange"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:1
 msgid "Cannot change password due to configuration problems."
@@ -16483,6 +16513,18 @@ msgstr "Suscribirse a la lista de correo a la que pertenece este mensaje"
 msgid "Unsubscribe to the mailing list this message belongs to"
 msgstr "Desuscribirse de la lista de correo a la que pertenece este mensaje"
 
+#: ../plugins/mark-all-read/org-gnome-mark-all-read.eplug.xml.h:1
+msgid "Mark All Read"
+msgstr "Marca todo como leído"
+
+#: ../plugins/mark-all-read/org-gnome-mark-all-read.eplug.xml.h:2
+msgid "Mark me_ssages as read"
+msgstr "Marcar los _mensajes como leídos"
+
+#: ../plugins/mark-all-read/org-gnome-mark-all-read.eplug.xml.h:3
+msgid "Used for marking all the messages under a folder as read"
+msgstr "Se usa para marcar todos los mensajes bajo una carpeta como leídos"
+
 #: ../plugins/mark-calendar-offline/org-gnome-mark-calendar-offline.eplug.xml.h:1
 msgid "Mark calendar offline"
 msgstr "Marcar calendario como desconectado"
@@ -16620,6 +16662,26 @@ msgstr "_Vista preliminar de impresión"
 #: ../plugins/print-message/org-gnome-print-message.xml.h:2
 msgid "Prints the message"
 msgstr "Imprime el mensaje"
+
+#: ../plugins/profiler/org-gnome-evolution-profiler.eplug.xml.h:1
+msgid "Evolution Profiler"
+msgstr "Perfilador de Evolution"
+
+#: ../plugins/profiler/org-gnome-evolution-profiler.eplug.xml.h:2
+msgid "Writes a log of profiling data events."
+msgstr "Escribe un registro perfilando los datos de los eventos."
+
+#: ../plugins/publish-calendar/org-gnome-publish-calendar.eplug.xml.h:1
+msgid "Allows calendars to be published to the web"
+msgstr "Permite publicar calendarios en la web"
+
+#: ../plugins/publish-calendar/org-gnome-publish-calendar.eplug.xml.h:2
+msgid "Calendar Publishing"
+msgstr "Publicación de calendarios"
+
+#: ../plugins/publish-calendar/org-gnome-publish-calendar.eplug.xml.h:3
+msgid "Locations"
+msgstr "Lugares"
 
 #: ../plugins/publish-calendar/org-gnome-publish-calendar.xml.h:1
 msgid "_Publish Calendar Information"
@@ -17395,7 +17457,9 @@ msgstr "Evolution no se pudo iniciar."
 msgid ""
 "Forgetting your passwords will clear all remembered passwords. You will be "
 "reprompted next time they are needed."
-msgstr "Olvidar sus contraseñas borrará todas las contraseñas recordadas. Se le volverá a preguntar la próxima vez que se necesiten."
+msgstr ""
+"Olvidar sus contraseñas borrará todas las contraseñas recordadas. Se le "
+"volverá a preguntar la próxima vez que se necesiten."
 
 #: ../shell/shell.error.xml.h:7
 msgid "Insufficient disk space for upgrade."
