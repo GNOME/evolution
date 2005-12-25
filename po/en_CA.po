@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-12-23 01:56-0500\n"
+"POT-Creation-Date: 2005-12-25 01:30-0500\n"
 "PO-Revision-Date: 2005-08-21 19:18-0400\n"
 "Last-Translator: Adam Weinberger <adamw@gnome.org>\n"
 "Language-Team: Canadian English <adamw@gnome.org>\n"
@@ -14386,6 +14386,7 @@ msgid "Received"
 msgstr "Received"
 
 #: ../mail/message-list.etspec.h:11
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.eplug.xml.h:4
 msgid "Size"
 msgstr "Size"
 
@@ -14448,6 +14449,14 @@ msgstr "Subject contains"
 #: ../mail/searchtypes.xml.h:6
 msgid "Subject or Sender contains"
 msgstr "Subject or Sender contains"
+
+#: ../plugins/addressbook-file/org-gnome-addressbook-file.eplug.xml.h:1
+msgid "Local Address Books"
+msgstr "Local Address Books"
+
+#: ../plugins/addressbook-file/org-gnome-addressbook-file.eplug.xml.h:2
+msgid "Provides core functionallity for local address books."
+msgstr "Provides core functionality for local address books."
 
 #: ../plugins/audio-inline/org-gnome-audio-inline.eplug.xml.h:1
 msgid ""
@@ -14675,6 +14684,18 @@ msgstr "Do you want to make Evolution your default e-mail client?"
 msgid "Mark as default folder"
 msgstr "Mark as default folder"
 
+#: ../plugins/default-source/org-gnome-default-source.eplug.xml.h:1
+msgid "Default Sources"
+msgstr "Default Sources"
+
+#: ../plugins/default-source/org-gnome-default-source.eplug.xml.h:2
+msgid ""
+"Provides functionallity for marking a calendar or addressbook as the default "
+"one."
+msgstr ""
+"Provides functionality for marking a calendar or addressbook as the default "
+"one."
+
 #: ../plugins/exchange-operations/e-foreign-folder-dialog.glade.h:1
 msgid "Open Other User's Folder"
 msgstr "Open Other User's Folder"
@@ -14773,6 +14794,7 @@ msgid "Folders Size"
 msgstr "Folders Size"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:366
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.eplug.xml.h:3
 msgid "Exchange Settings"
 msgstr "Exchange Settings"
 
@@ -15063,6 +15085,18 @@ msgstr "Subscribe to Other User's Contacts"
 #: ../plugins/exchange-operations/org-gnome-exchange-cal-subscription.xml.h:1
 msgid "Subscribe to Other User's Calendar"
 msgstr "Subscribe to Other User's Calendar"
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.eplug.xml.h:1
+msgid ""
+"A plugin that handles a collection of Exchange account specific operations "
+"and features."
+msgstr ""
+"A plugin that handles a collection of Exchange account-specific operations "
+"and features."
+
+#: ../plugins/exchange-operations/org-gnome-exchange-operations.eplug.xml.h:2
+msgid "Exchange Operations"
+msgstr "Exchange Operations"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:1
 msgid "Cannot change password due to configuration problems."
@@ -16332,6 +16366,18 @@ msgstr "Subscribe to the mailing list this message belongs to"
 msgid "Unsubscribe to the mailing list this message belongs to"
 msgstr "Unsubscribe from the mailing list this message belongs to"
 
+#: ../plugins/mark-all-read/org-gnome-mark-all-read.eplug.xml.h:1
+msgid "Mark All Read"
+msgstr "Mark All Read"
+
+#: ../plugins/mark-all-read/org-gnome-mark-all-read.eplug.xml.h:2
+msgid "Mark me_ssages as read"
+msgstr "Mark me_ssages as read"
+
+#: ../plugins/mark-all-read/org-gnome-mark-all-read.eplug.xml.h:3
+msgid "Used for marking all the messages under a folder as read"
+msgstr "Used for marking all the messages under a folder as read"
+
 #: ../plugins/mark-calendar-offline/org-gnome-mark-calendar-offline.eplug.xml.h:1
 msgid "Mark calendar offline"
 msgstr "Mark calendar offline"
@@ -16467,6 +16513,26 @@ msgstr "Print Pre_view"
 #: ../plugins/print-message/org-gnome-print-message.xml.h:2
 msgid "Prints the message"
 msgstr "Prints the message"
+
+#: ../plugins/profiler/org-gnome-evolution-profiler.eplug.xml.h:1
+msgid "Evolution Profiler"
+msgstr "Evolution Profiler"
+
+#: ../plugins/profiler/org-gnome-evolution-profiler.eplug.xml.h:2
+msgid "Writes a log of profiling data events."
+msgstr "Writes a log of profiling data events."
+
+#: ../plugins/publish-calendar/org-gnome-publish-calendar.eplug.xml.h:1
+msgid "Allows calendars to be published to the web"
+msgstr "Allows calendars to be published to the web"
+
+#: ../plugins/publish-calendar/org-gnome-publish-calendar.eplug.xml.h:2
+msgid "Calendar Publishing"
+msgstr "Calendar Publishing"
+
+#: ../plugins/publish-calendar/org-gnome-publish-calendar.eplug.xml.h:3
+msgid "Locations"
+msgstr "Locations"
 
 #: ../plugins/publish-calendar/org-gnome-publish-calendar.xml.h:1
 msgid "_Publish Calendar Information"
