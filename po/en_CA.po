@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-12-25 01:30-0500\n"
+"POT-Creation-Date: 2005-12-26 16:53-0500\n"
 "PO-Revision-Date: 2005-08-21 19:18-0400\n"
 "Last-Translator: Adam Weinberger <adamw@gnome.org>\n"
 "Language-Team: Canadian English <adamw@gnome.org>\n"
@@ -14455,7 +14455,7 @@ msgid "Local Address Books"
 msgstr "Local Address Books"
 
 #: ../plugins/addressbook-file/org-gnome-addressbook-file.eplug.xml.h:2
-msgid "Provides core functionallity for local address books."
+msgid "Provides core functionality for local address books."
 msgstr "Provides core functionality for local address books."
 
 #: ../plugins/audio-inline/org-gnome-audio-inline.eplug.xml.h:1
@@ -16775,6 +16775,10 @@ msgid "_Show only this Task List"
 msgstr "_Show only this Task List"
 
 #: ../plugins/startup-wizard/org-gnome-evolution-startup-wizard.eplug.xml.h:1
+msgid "A plugin that handles the Startup wizard."
+msgstr "A plugin that handles the Startup wizard."
+
+#: ../plugins/startup-wizard/org-gnome-evolution-startup-wizard.eplug.xml.h:2
 msgid "Startup wizard"
 msgstr "Startup wizard"
 
