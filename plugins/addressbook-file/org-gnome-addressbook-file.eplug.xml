@@ -6,7 +6,7 @@
      id="org.gnome.evolution.addressbook.file"
      _name="Local Address Books">
      <author name="Sivaiah Nallagatla" email="snallagatla@novell.com"/>
-     <_description>Provides core functionallity for local address books.</_description>
+     <_description>Provides core functionality for local address books.</_description>
         <hook class="org.gnome.evolution.addressbook.config:1.0">
             <group
 	     target="source"
