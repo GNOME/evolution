@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD.gu\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-12-26 05:20+0100\n"
-"PO-Revision-Date: 2005-12-26 17:13+0530\n"
+"POT-Creation-Date: 2005-12-27 05:28+0100\n"
+"PO-Revision-Date: 2005-12-27 12:26+0530\n"
 "Last-Translator: Ankit Patel <ankit644@yahoo.com>\n"
 "Language-Team: Gujarati <indianoss-gujarati@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -13,6 +13,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.9.1\n"
 "Plural-Forms: nplurals=2; plural=(n!=1);\n\n"
+"\n"
 "\n"
 "\n"
 "\n"
@@ -14325,7 +14326,7 @@ msgid "Local Address Books"
 msgstr "સ્થાનિક સરનામા પોથી"
 
 #: ../plugins/addressbook-file/org-gnome-addressbook-file.eplug.xml.h:2
-msgid "Provides core functionallity for local address books."
+msgid "Provides core functionality for local address books."
 msgstr "સ્થાનિક સરનામા પોથીઓ માટે મૂળ વિધેયો પૂરા પાડે છે."
 
 #: ../plugins/audio-inline/org-gnome-audio-inline.eplug.xml.h:1
@@ -16614,6 +16615,10 @@ msgid "_Show only this Task List"
 msgstr "માત્ર આ બાબત યાદી બતાવો (_S)"
 
 #: ../plugins/startup-wizard/org-gnome-evolution-startup-wizard.eplug.xml.h:1
+msgid "A plugin that handles the Startup wizard."
+msgstr "પ્લગઈન કે જે શરૂઆતી વિઝાર્ડ નિયંત્રિત કરે છે."
+
+#: ../plugins/startup-wizard/org-gnome-evolution-startup-wizard.eplug.xml.h:2
 msgid "Startup wizard"
 msgstr "શરૂઆત વિઝાર્ડ"
 
@@ -17126,7 +17131,9 @@ msgstr "ઈવોલ્યુશન શરુ કરી શકાતું ન�
 msgid ""
 "Forgetting your passwords will clear all remembered passwords. You will be "
 "reprompted next time they are needed."
-msgstr "તમારા પાસવર્ડો ભૂલી જવાનું યાદ રાખેલ બધા પાસવર્ડો સાફ કરી નાંખશે. તમે આગળના સમયે જ્યારે જરૂરી હોય ત્યારે ફરીથી પૂછવામાં આવશે."
+msgstr ""
+"તમારા પાસવર્ડો ભૂલી જવાનું યાદ રાખેલ બધા પાસવર્ડો સાફ કરી નાંખશે. તમે આગળના સમયે જ્યારે "
+"જરૂરી હોય ત્યારે ફરીથી પૂછવામાં આવશે."
 
 #: ../shell/shell.error.xml.h:7
 msgid "Insufficient disk space for upgrade."
