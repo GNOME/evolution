@@ -1,3 +1,13 @@
+2005-12-22  Tor Lillqvist  <tml@novell.com>
+
+	* Evolution-Shell.idl: Guard against generating code when running
+	this through the IDL compiler elsewhere than here in evo/shell,
+	the same way as in Evolution-Component.idl. Otherwise we get
+	duplicated IDL-generated functions in the libeshell and
+	libevolution-mail DLLs (shared libraries), which causes much pain
+	on Win32 at least, and is useless and potentially risky on all
+	platforms.
+
 2005-09-24  Andre Klapper  <a9016009@gmx.de>:
 	
 	Reviewed and committed by Harish <kharish@novell.com>
