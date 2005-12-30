@@ -68,7 +68,7 @@ Or you might have just typed your password wrong.</_secondary>
 
  <error id="account-version-error" type="error">
   <_primary>The Exchange server is not compatible with Exchange Connector.</_primary>
-  <_secondary xml:space="preserve">The server is runinng Exchange 5.5. Exchange Connector 
+  <_secondary xml:space="preserve">The server is running Exchange 5.5. Exchange Connector 
 supports Microsoft Exchange 2000 and 2003 only.</_secondary>
  </error>
 

@@ -21,7 +21,7 @@
     <cmd name="Paste" _tip="Paste the clipboard" accel="*Control*v" pixtype="stock" pixname="gtk-paste"/>
 
     <cmd name="Delete" _tip="Delete the appointment" accel="*Control*d" pixtype="stock" pixname="gtk-delete"/>
-    <cmd name="DeleteOccurrence" _tip="Delete this occurrence" pixtype="stock" pixname="gtk-delete"/>
+    <cmd name="DeleteOccurrence" _tip="Delete this Occurrence" pixtype="stock" pixname="gtk-delete"/>
     <cmd name="DeleteAllOccurrences" _tip="Delete All Occurrences" pixtype="stock" pixname="gtk-delete"/>
     
     <cmd name="CalendarPurge" _label="Purg_e" _tip="Purge old appointments and meetings" accel="*Control*e"/>

@@ -4,7 +4,7 @@
     type="shlib"
     id="org.gnome.evolution.plugin.manager"
     location="@PLUGINDIR@/liborg-gnome-plugin-manager@SOEXT@"
-    _name="Plugin manager">
+    _name="Plugin Manager">
     <_description>A plugin for managing which plugins are enabled or disabled.</_description>
     <author name="Michael Zucchi" email="notzed@ximian.com"/>
     <hook class="org.gnome.evolution.shell.bonobomenu:1.0">
