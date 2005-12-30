@@ -382,7 +382,7 @@ do_save_calendar_csv (FormatHandler *handler, EPlugin *ep, ECalPopupTargetSource
 			gint i=0;
 			
 			static gchar *labels[] = {
-				 N_("Uid"),
+				 N_("UID"),
 				 N_("Summary"),
 				 N_("Description List"),
 				 N_("Categories List"),
@@ -395,7 +395,7 @@ do_save_calendar_csv (FormatHandler *handler, EPlugin *ep, ECalPopupTargetSource
 				 N_("Due"),
 				 N_("percent Done"),
 				 N_("Priority"),
-				 N_("Url"),
+				 N_("URL"),
 				 N_("Attendees List"),
 				 N_("Location"),
 				 N_("Modified"),
