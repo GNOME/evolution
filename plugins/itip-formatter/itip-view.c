@@ -701,43 +701,43 @@ set_buttons (ItipView *view)
 	gtk_container_foreach (GTK_CONTAINER (priv->button_box), (GtkCallback) gtk_widget_destroy, NULL);
 
 	/* Everything gets the open button */
-	set_one_button (view, "_Open Calendar", GTK_STOCK_JUMP_TO, ITIP_VIEW_RESPONSE_OPEN);
+	set_one_button (view, _("_Open Calendar"), GTK_STOCK_JUMP_TO, ITIP_VIEW_RESPONSE_OPEN);
 	
 	switch (priv->mode) {
 	case ITIP_VIEW_MODE_PUBLISH:
 		/* FIXME Is this really the right button? */
-		set_one_button (view, "_Accept", GTK_STOCK_APPLY, ITIP_VIEW_RESPONSE_ACCEPT);
+		set_one_button (view, _("_Accept"), GTK_STOCK_APPLY, ITIP_VIEW_RESPONSE_ACCEPT);
 		break;
 	case ITIP_VIEW_MODE_REQUEST:
-		set_one_button (view, is_recur_set ? "_Decline all" : "_Decline", GTK_STOCK_CANCEL, ITIP_VIEW_RESPONSE_DECLINE);
-		set_one_button (view, is_recur_set ? "_Tentative all" : "_Tentative", GTK_STOCK_DIALOG_QUESTION, ITIP_VIEW_RESPONSE_TENTATIVE);
-		set_one_button (view, is_recur_set ? "_Accept all" : "_Accept", GTK_STOCK_APPLY, ITIP_VIEW_RESPONSE_ACCEPT);
+		set_one_button (view, is_recur_set ? _("_Decline all") : _("_Decline"), GTK_STOCK_CANCEL, ITIP_VIEW_RESPONSE_DECLINE);
+		set_one_button (view, is_recur_set ? _("_Tentative all") : _("_Tentative"), GTK_STOCK_DIALOG_QUESTION, ITIP_VIEW_RESPONSE_TENTATIVE);
+		set_one_button (view, is_recur_set ? _("_Accept all") : _("_Accept"), GTK_STOCK_APPLY, ITIP_VIEW_RESPONSE_ACCEPT);
 		break;
 	case ITIP_VIEW_MODE_ADD:
-		set_one_button (view, "_Decline", GTK_STOCK_CANCEL, ITIP_VIEW_RESPONSE_DECLINE);
-		set_one_button (view, "_Tentative", GTK_STOCK_DIALOG_QUESTION, ITIP_VIEW_RESPONSE_TENTATIVE);
-		set_one_button (view, "_Accept", GTK_STOCK_APPLY, ITIP_VIEW_RESPONSE_ACCEPT);
+		set_one_button (view, _("_Decline"), GTK_STOCK_CANCEL, ITIP_VIEW_RESPONSE_DECLINE);
+		set_one_button (view, _("_Tentative"), GTK_STOCK_DIALOG_QUESTION, ITIP_VIEW_RESPONSE_TENTATIVE);
+		set_one_button (view, _("_Accept"), GTK_STOCK_APPLY, ITIP_VIEW_RESPONSE_ACCEPT);
 		break;
 	case ITIP_VIEW_MODE_REFRESH:
 		/* FIXME Is this really the right button? */
-		set_one_button (view, "_Send Information", GTK_STOCK_REFRESH, ITIP_VIEW_RESPONSE_REFRESH);
+		set_one_button (view, _("_Send Information"), GTK_STOCK_REFRESH, ITIP_VIEW_RESPONSE_REFRESH);
 		break;
 	case ITIP_VIEW_MODE_REPLY:
 		/* FIXME Is this really the right button? */
-		set_one_button (view, "_Update Attendee Status", GTK_STOCK_REFRESH, ITIP_VIEW_RESPONSE_UPDATE);
+		set_one_button (view, _("_Update Attendee Status"), GTK_STOCK_REFRESH, ITIP_VIEW_RESPONSE_UPDATE);
 		break;
 	case ITIP_VIEW_MODE_CANCEL:
-		set_one_button (view, "_Update", GTK_STOCK_REFRESH, ITIP_VIEW_RESPONSE_CANCEL);
+		set_one_button (view, _("_Update"), GTK_STOCK_REFRESH, ITIP_VIEW_RESPONSE_CANCEL);
 		break;
 	case ITIP_VIEW_MODE_COUNTER:
-		set_one_button (view, "_Decline", GTK_STOCK_CANCEL, ITIP_VIEW_RESPONSE_DECLINE);
-		set_one_button (view, "_Tentative", GTK_STOCK_DIALOG_QUESTION, ITIP_VIEW_RESPONSE_TENTATIVE);
-		set_one_button (view, "_Accept", GTK_STOCK_APPLY, ITIP_VIEW_RESPONSE_ACCEPT);
+		set_one_button (view, _("_Decline"), GTK_STOCK_CANCEL, ITIP_VIEW_RESPONSE_DECLINE);
+		set_one_button (view, _("_Tentative"), GTK_STOCK_DIALOG_QUESTION, ITIP_VIEW_RESPONSE_TENTATIVE);
+		set_one_button (view, _("_Accept"), GTK_STOCK_APPLY, ITIP_VIEW_RESPONSE_ACCEPT);
 		break;
 	case ITIP_VIEW_MODE_DECLINECOUNTER:
-		set_one_button (view, "_Decline", GTK_STOCK_CANCEL, ITIP_VIEW_RESPONSE_DECLINE);
-		set_one_button (view, "_Tentative", GTK_STOCK_DIALOG_QUESTION, ITIP_VIEW_RESPONSE_TENTATIVE);
-		set_one_button (view, "_Accept", GTK_STOCK_APPLY, ITIP_VIEW_RESPONSE_ACCEPT);
+		set_one_button (view, _("_Decline"), GTK_STOCK_CANCEL, ITIP_VIEW_RESPONSE_DECLINE);
+		set_one_button (view, _("_Tentative"), GTK_STOCK_DIALOG_QUESTION, ITIP_VIEW_RESPONSE_TENTATIVE);
+		set_one_button (view, _("_Accept"), GTK_STOCK_APPLY, ITIP_VIEW_RESPONSE_ACCEPT);
 		break;
 	default:
 		break;
