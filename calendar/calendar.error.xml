@@ -3,7 +3,7 @@
 
  <error id="prompt-cancel-meeting" type="question" defult="GTK_RESPONSE_YES">
   <_primary>Would you like to send all the participants a cancellation notice?</_primary>
-  <_secondary>If you don't send a cancellation notice, the other participants may not know the meeting is canceled.</_secondary>
+  <_secondary>If you don't send a cancellation notice, the other participants may not know the meeting is cancelled.</_secondary>
   <button _label="Don't Send" response="GTK_RESPONSE_NO"/>
   <button _label="Send Notice" response="GTK_RESPONSE_YES"/>
  </error>
