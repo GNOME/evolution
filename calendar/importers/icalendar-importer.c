@@ -518,7 +518,7 @@ load_vcalendar_file (const char *filename)
 						      NULL, NULL);
 	g_free (default_alarm_filename);
 	defaults.alarm_audio_fmttype = "audio/x-wav";
-	defaults.alarm_description = (char*) _("Reminder!!");
+	defaults.alarm_description = (char*) _("Reminder!");
 
 	if (g_file_get_contents (filename, &contents, NULL, NULL)) {
 		VObject *vcal;
