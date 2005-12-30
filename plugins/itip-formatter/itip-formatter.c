@@ -1146,7 +1146,7 @@ extract_itip_data (FormatItipPObject *pitip, GtkContainer *container)
 	if (pitip->main_comp == NULL) {
 		set_itip_error (pitip, container, 
 				_("The calendar attached is not valid"), 
-				_("The message claims to contain a calendar, but the calendar is not valid iCalendar."));
+				_("The message claims to contain a calendar, but the calendar is not a valid iCalendar."));
 
 		return FALSE;
 	}
