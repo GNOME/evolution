@@ -41,7 +41,7 @@ If you choose to remove this data, the entire contents of the &quot;evolution&qu
  <error id="upgrade-remove-1-4-confirm" type="warning" default="GTK_RESPONSE_CANCEL">
   <title>Really delete old data?</title>
   <_primary>Really delete old data?</_primary>
-  <_secondary xml:space="preserve">The entire contents of the &quot;evolution&quot; directory is about to be permanently removed.
+  <_secondary xml:space="preserve">The entire contents of the &quot;evolution&quot; directory are about to be permanently removed.
 
 It is suggested you manually verify that all of your mail, contact, and calendar data is present, and that this version of Evolution operates correctly before deleting this old data.
 
