@@ -616,7 +616,7 @@ org_gnome_exchange_owa_url(EPlugin *epl, EConfigHookItemFactoryData *data)
 	row = ((GtkTable *)data->parent)->nrows;
 
 	hbox = gtk_hbox_new (FALSE, 6);
-	label = gtk_label_new_with_mnemonic(_("_OWA Url:"));
+	label = gtk_label_new_with_mnemonic(_("_OWA URL:"));
 	gtk_widget_show(label);
 
 	owa_entry = gtk_entry_new();

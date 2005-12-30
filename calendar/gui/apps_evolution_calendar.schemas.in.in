@@ -516,8 +516,8 @@
       <list_type>string</list_type>
       <default>[]</default>
       <locale name="C">
-        <short>Free/busy server urls</short>
-        <long>List of server urls for free/busy publishing.</long>
+        <short>Free/busy server URLs</short>
+        <long>List of server URLs for free/busy publishing.</long>
       </locale>
     </schema>    
 
@@ -527,8 +527,8 @@
       <owner>evolution-calendar</owner>
       <type>string</type>
       <locale name="C">
-        <short>Free/busy template url</short>
-        <long>The url template to use as a free/busy data fallback, %u is replaced by the user part of the mail address and %d is replaced by the domain.</long>
+        <short>Free/busy template URL</short>
+        <long>The URL template to use as a free/busy data fallback, %u is replaced by the user part of the mail address and %d is replaced by the domain.</long>
       </locale>
     </schema>
   </schemalist>

@@ -104,7 +104,7 @@ init (EUrlEntry *url_entry)
 	priv->button = gtk_button_new ();
 	gtk_widget_set_sensitive (priv->button, FALSE);
 	gtk_box_pack_start (GTK_BOX (url_entry), priv->button, FALSE, FALSE, 0);
-	atk_object_set_name (gtk_widget_get_accessible (priv->button), _("click here to go to url"));
+	atk_object_set_name (gtk_widget_get_accessible (priv->button), _("Click here to go to URL"));
 	pixmap = e_icon_factory_get_image ("stock_connect-to-url", E_ICON_SIZE_BUTTON);
 	gtk_container_add (GTK_CONTAINER (priv->button), pixmap);
 	gtk_widget_show (pixmap);
