@@ -4105,16 +4105,16 @@ msgstr "Editor konnte nicht geladen werden."
 msgid ""
 "Email invitations will be sent to all participants and allow them to RSVP."
 msgstr ""
-"Es werden E-Mail-Einladungen an alle Teilnehmer verschickt, und ihnen so zu "
-"erlauben, darauf zu reagieren."
+"Es werden E-Mail-Einladungen an alle Teilnehmer verschickt, damit diese die "
+"Einladungen akzeptieren können."
 
 #: ../calendar/calendar.error.xml.h:33
 msgid ""
 "Email invitations will be sent to all participants and allow them to accept "
 "this task."
 msgstr ""
-"Es werden E-Mail-Einladungen an alle Teilnehmer verschickt, und ihnen so zu "
-"erlauben, diese Aufgabe zu übernehmen."
+"Es werden E-Mail-Einladungen an alle Teilnehmer verschickt, damit diese die "
+"Aufgabe übernehmen können."
 
 #: ../calendar/calendar.error.xml.h:34
 msgid "Error loading calendar"
@@ -5766,7 +5766,7 @@ msgstr "Termin bearbeiten"
 #: ../calendar/gui/dialogs/comp-editor.c:1896
 #, c-format
 msgid "Meeting - %s"
-msgstr "Besprechung -%s"
+msgstr "Besprechung - %s"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1855
 #: ../calendar/gui/dialogs/comp-editor.c:1898
@@ -10473,7 +10473,7 @@ msgstr "falls alle Kriterien zutreffen"
 
 #: ../filter/filter-rule.c:858
 msgid "if any criteria are met"
-msgstr "falls irgendein Kriterium zutreffen"
+msgstr "falls irgendein Kriterium zutrifft"
 
 #: ../filter/filter-rule.c:860
 msgid "Execute actions"
@@ -10625,7 +10625,7 @@ msgstr "Regel bearbeiten"
 
 #: ../filter/rule-editor.c:698
 msgid "Rule name"
-msgstr "Regelname "
+msgstr "Regelname"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:1
 msgid "Composer Preferences"
@@ -10709,8 +10709,8 @@ msgid ""
 "and tick the check box for accepting it\n"
 msgstr ""
 "\n"
-"Bitte lesen Sie die Lizenzvereinbarung aufmerksam\n"
-"für %s (unten angezeigt).\n"
+"Bitte lesen Sie aufmerksam die unten angezeigte\n"
+"Lizenzvereinbarung für %s.\n"
 "Haken Sie das Kontrollkästchen ab, um sie zu akzeptieren.\n"
 
 #: ../mail/em-account-editor.c:464 ../mail/em-filter-folder-element.c:237
@@ -11091,13 +11091,13 @@ msgstr "Sucho_rdner aus Suche anlegen..."
 #: ../mail/em-folder-properties.c:144
 msgid "Total message:"
 msgid_plural "Total messages:"
-msgstr[0] "Nachricht insgesamt:"
+msgstr[0] "Nachrichten insgesamt:"
 msgstr[1] "Nachrichten insgesamt:"
 
 #: ../mail/em-folder-properties.c:156
 msgid "Unread message:"
 msgid_plural "Unread messages:"
-msgstr[0] "Ungelesene Nachricht:"
+msgstr[0] "Ungelesene Nachrichten:"
 msgstr[1] "Ungelesene Nachrichten:"
 
 #: ../mail/em-folder-properties.c:278
@@ -11481,7 +11481,7 @@ msgid ""
 "message in a practical amount of time."
 msgstr ""
 "Diese Nachricht ist verschlüsselt, der Verschlüsselungsalgorithmus ist "
-"jedoch schwach. Daher können dritte ihren inhalt zwar nur schwerlich, jedoch "
+"jedoch schwach. Daher können Dritte ihren Inhalt zwar nur schwerlich, jedoch "
 "nicht unmöglich innerhalb eines praktikablen Zeitraums ausspähen."
 
 #: ../mail/em-format-html-display.c:708 ../mail/em-format-html.c:606
@@ -11493,7 +11493,7 @@ msgid ""
 "This message is encrypted.  It would be difficult for an outsider to view "
 "the content of this message."
 msgstr ""
-"Diese Nachricht ist verschlüsselt. Daher können dritte ihren Inhalt nur "
+"Diese Nachricht ist verschlüsselt. Daher können Dritte ihren Inhalt nur "
 "schwerlich ausspähen."
 
 #: ../mail/em-format-html-display.c:709 ../mail/em-format-html.c:607
@@ -11507,7 +11507,7 @@ msgid ""
 "practical amount of time."
 msgstr ""
 "Diese Nachricht ist mit einem starken Verschlüsselungsalgorithmus "
-"verschlüsselt. Daher können dritte ihren inhalt nur sehr schwerlich "
+"verschlüsselt. Daher können Dritte ihren Inhalt nur sehr schwerlich "
 "innerhalb eines praktikablen Zeitraums ausspähen."
 
 #: ../mail/em-format-html-display.c:810 ../smime/gui/smime-ui.glade.h:48
@@ -14194,7 +14194,7 @@ msgstr "Sie müssen einen Namen für diesen Suchordner vergeben."
 
 #: ../mail/mail.error.xml.h:112
 msgid "You must specify a folder."
-msgstr "Sie müssen einen Ordner angeben"
+msgstr "Sie müssen einen Ordner angeben."
 
 # CHECK
 #: ../mail/mail.error.xml.h:113
@@ -14478,7 +14478,7 @@ msgstr ""
 
 #: ../plugins/bbdb/bbdb.c:444
 msgid "<span weight=\"bold\">Instant Messaging Contacts</span>"
-msgstr "<span weight=\"bold\">Instant-Messaging Kontakte</span>"
+msgstr "<span weight=\"bold\">Instant-Messaging-Kontakte</span>"
 
 #. Enable Gaim Checkbox
 #: ../plugins/bbdb/bbdb.c:457
@@ -16829,7 +16829,7 @@ msgstr "_Importieren"
 
 #: ../shell/e-shell-settings-dialog.c:318
 msgid "Evolution Settings"
-msgstr "Evolution-Einstellungen "
+msgstr "Evolution-Einstellungen"
 
 #: ../shell/e-shell-utils.c:118
 msgid "No folder name specified."
@@ -17112,7 +17112,7 @@ msgid ""
 "Forgetting your passwords will clear all remembered passwords. You will be "
 "reprompted next time they are needed. "
 msgstr ""
-"Durch das verwerfen der Passworterinnerungen werden alle gespeicherten "
+"Durch das Verwerfen der Passworterinnerungen werden alle gespeicherten "
 "Passworte gelöscht. Wenn sie wieder benötigt werden, wird Ihnen eine "
 "Eingabeaufforderung angezeigt."
 
