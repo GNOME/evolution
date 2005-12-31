@@ -1,3 +1,39 @@
+2005-12-30  Andre Klapper <a9016009@gmx.de>
+
+	* mail.error.xml:  Fixing several typos and harmonizing
+	  capital/small letters. Partially fixes bug 306117.
+
+2005-12-30  Andre Klapper <a9016009@gmx.de>
+
+	* mail-session.c:
+	  changing "canceled" to "cancelled" to stay consistant to the rest.
+	  Fixes bug 325116.
+
+2005-12-30  Andre Klapper <a9016009@gmx.de>
+
+	* evolution-mail.schemas.in.in: added quotes to literal values.
+	  Fixes bug 272772.
+
+2005-12-29  Andre Klapper <a9016009@gmx.de>
+
+	* em-folder-properties.c: removed wrong singular string.
+	  Fixes bug 311472.
+
+2005-12-22  Andre Klapper <a9016009@gmx.de>
+
+	* mail-config.glade: changed one duplicated mnemonic.
+          Fixes bug 313801.
+
+2005-12-20  Andre Klapper <a9016009@gmx.de>
+
+	* mail-config.glade: changing file selector window title from
+	  "Execute command..." to "Select sound file". Fixes bug 324173.
+
+2005-12-19  Andre Klapper <a9016009@gmx.de>
+
+	* mail-config.glade: changed 3 HIG-violating mnemonics.
+          Fixes bug 256913.
+
 2005-12-23  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fixes bug #228040, #324677
