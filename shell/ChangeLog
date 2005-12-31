@@ -1,3 +1,11 @@
+2005-12-30  Andre Klapper <a9016009@gmx.de>
+
+	* shell.error.xml: removed a typo. yeah.
+
+2005-12-30  Andre Klapper <a9016009@gmx.de>
+
+	* shell.error.xml: removed a duplicated word. Fixes bug 325119.
+
 2005-12-22  Tor Lillqvist  <tml@novell.com>
 
 	* Evolution-Shell.idl: Guard against generating code when running
