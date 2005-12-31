@@ -1,3 +1,8 @@
+2005-12-30  Andre Klapper <a9016009@gmx.de>
+
+	* org-gnome-evolution-bbdb.eplug.xml:  Fixing several typos and 
+	  harmonizing capital/small letters. Partially fixes bug 306117.
+
 2005-09-13  Sushma Rai  <rsushma@novell.com>
 
 	* bbdb.c (bbdb_do_it): If the contact has only e-mail id and not name,
