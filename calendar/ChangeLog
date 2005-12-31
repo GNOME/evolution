@@ -1,3 +1,28 @@
+2005-12-30  Andre Klapper <a9016009@gmx.de>
+
+	* icalendar-importer.c: removed a duplicated exclamation mark.
+	  Fixes bug 325123.
+
+2005-12-30  Andre Klapper <a9016009@gmx.de>
+
+	* gui/apps_evolution_calendar.schemas.in.in:
+ 	  harmonized "URL", "Url" and "url". Fixes bug 325125.
+
+2005-12-30  Andre Klapper <a9016009@gmx.de>
+
+	* calendar.error.xml:
+	  changing "canceled" to "cancelled" to stay consistant to the rest.
+	  Fixes bug 325116.
+
+2005-12-20  Andre Klapper  <a9016009@gmx.de>
+
+	* calendar.error.xml: Adding punctation to some error messages.
+	  Fixes bug 313144.
+
+2005-12-20  Andre Klapper  <a9016009@gmx.de>
+
+	* gui/dialogs/recur-comp.c: fixing string bug 308851
+
 2005-12-23  Harish Krishnaswamy  <kharish@novell.com>
 
 	* conduits/calendar/calendar-conduit.c
