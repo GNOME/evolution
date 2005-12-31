@@ -1,3 +1,13 @@
+2005-12-30  Andre Klapper <a9016009@gmx.de>
+
+	* evolution-calendar.xml:  Fixing several typos and harmonizing
+	  capital/small letters. Partially fixes bug 306117.
+
+2005-12-19  Andre Klapper <a9016009@gmx.de>
+
+	* evolution.xml: fixed duplicated mnemonic.
+          Fixes bug 319946.
+
 2005-12-31  Harish Krishnaswamy <kharish@novell.com>
 	
 	* evolution-mail-message.xml : Revert the patch committed
