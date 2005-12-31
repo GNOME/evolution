@@ -1,3 +1,12 @@
+2005-12-30  Andre Klapper <a9016009@gmx.de>
+
+	* itip-formatter.c: added a missing word. Fixes bug 325128.
+
+2005-12-30  Andre Klapper <a9016009@gmx.de>
+
+	* itip-formatter.c, itip-view.c: Marked missing strings translatable.
+	  Fixes bug 313554 in CVS HEAD.
+
 2005-12-17  Tor Lillqvist  <tml@novell.com>
 
 	* itip-formatter.c: Use g_ascii_strcasecmp() instead of
