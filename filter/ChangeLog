@@ -1,3 +1,8 @@
+2005-12-20  Matthew Hall  <matt@castleinthesky.org>
+
+	* filter.glade; rule-editor.c: adding top/bottom buttons for
+	filter manager dialog. Fixes bug 205616.
+
 2005-12-20  Srinivasa Ragavan <sragavan@novell.comcom>
 
 	** Fixes bug #246225 
