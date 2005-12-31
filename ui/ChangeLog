@@ -1,3 +1,9 @@
+2005-12-31  Harish Krishnaswamy <kharish@novell.com>
+	
+	* evolution-mail-message.xml : Revert the patch committed
+	for shortcut to mark spam (see 2005-12-16 below) 
+	as it uses an existing accel.
+	
 2005-12-23  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fixes bug #324677
