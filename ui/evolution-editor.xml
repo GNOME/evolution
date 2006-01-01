@@ -9,7 +9,7 @@
 	  <cmd name="EditSelectAll" _tip="Select all text" accel="*Control*a"/>
 
 	  <cmd name="InsertAttachments" _tip="Click here to attach a file" accel="*Control**Alt*a" pixtype="pixbuf"/>
-	  <cmd name="Help" _tip="Click here to view help availabe" accel="*Control*h" pixtype="stock" pixname="gtk-help"/>
+	  <cmd name="Help" _tip="Click here to view help available" accel="*Control*h" pixtype="stock" pixname="gtk-help"/>
 	  
 	  
   </commands>
