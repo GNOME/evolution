@@ -97,7 +97,7 @@ extern struct _CamelSession *session;
  * @arg0: The first of a NULL terminated list of arguments for the error.
  *
  * Convenience function to query the user with a Yes/No dialog and a
- * "Don't show this dialog again" checkbox. If the user checks that
+ * "Do not show this dialog again" checkbox. If the user checks that
  * checkbox, then @promptkey is set to %FALSE, otherwise it is set to
  * %TRUE.
  *
@@ -120,7 +120,7 @@ em_utils_prompt_user(GtkWindow *parent, const char *promptkey, const char *tag, 
 	va_end(ap);
 
 	if (promptkey) {
-		check = gtk_check_button_new_with_label (_("Don't show this message again."));
+		check = gtk_check_button_new_with_label (_("Do not show this message again."));
 		gtk_container_set_border_width((GtkContainer *)check, 12);
 		gtk_box_pack_start ((GtkBox *)((GtkDialog *) mbox)->vbox, check, TRUE, TRUE, 0);
 		gtk_widget_show (check);

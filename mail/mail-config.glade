@@ -3607,7 +3607,7 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 			    <widget class="GtkCheckButton" id="pgp_no_imip_sign">
 			      <property name="visible">True</property>
 			      <property name="can_focus">True</property>
-			      <property name="label" translatable="yes">_Don't sign meeting requests (for Outlook compatibility)</property>
+			      <property name="label" translatable="yes">_Do not sign meeting requests (for Outlook compatibility)</property>
 			      <property name="use_underline">True</property>
 			      <property name="relief">GTK_RELIEF_NORMAL</property>
 			      <property name="focus_on_click">True</property>
@@ -5672,7 +5672,7 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 		    <widget class="GtkCheckButton" id="chkPromptWantHTML">
 		      <property name="visible">True</property>
 		      <property name="can_focus">True</property>
-		      <property name="label" translatable="yes">_Prompt when sending HTML messages to contacts that don't want them</property>
+		      <property name="label" translatable="yes">_Prompt when sending HTML messages to contacts that do not want them</property>
 		      <property name="use_underline">True</property>
 		      <property name="relief">GTK_RELIEF_NORMAL</property>
 		      <property name="focus_on_click">True</property>
