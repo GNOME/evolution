@@ -196,11 +196,11 @@ create_gui (GList *importers)
 	gtk_dialog_add_action_widget((GtkDialog *)dialog, dummy, GTK_RESPONSE_ACCEPT);
 
 	dummy = gtk_button_new_from_stock(GTK_STOCK_NO);
-	gtk_button_set_label((GtkButton *)dummy, _("Don't import"));
+	gtk_button_set_label((GtkButton *)dummy, _("Do not import"));
 	gtk_dialog_add_action_widget((GtkDialog *)dialog, dummy, GTK_RESPONSE_REJECT);
 
 	dummy = gtk_button_new_from_stock(GTK_STOCK_CANCEL);
-	gtk_button_set_label((GtkButton *)dummy, _("Don't ask me again"));
+	gtk_button_set_label((GtkButton *)dummy, _("Do not ask me again"));
 	gtk_dialog_add_action_widget((GtkDialog *)dialog, dummy, GTK_RESPONSE_CANCEL);
 	d->importers = NULL;
 	d->current = NULL;

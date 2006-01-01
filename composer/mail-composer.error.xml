@@ -24,7 +24,7 @@
   <_title>Unfinished messages found</_title>
   <_primary>Do you want to recover unfinished messages?</_primary>
   <_secondary>Evolution quit unexpectedly while you were composing a new message. Recovering the message will allow you to continue where you left off.</_secondary>
-  <button _label="Don't Recover" response="GTK_RESPONSE_CANCEL"/>
+  <button _label="Do not Recover" response="GTK_RESPONSE_CANCEL"/>
   <button _label="Recover" response="GTK_RESPONSE_YES"/>
  </error>
 
