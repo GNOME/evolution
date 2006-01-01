@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: evolution.HEAD.nn\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-12-30 21:47+0100\n"
-"PO-Revision-Date: 2006-01-01 15:59+0100\n"
+"PO-Revision-Date: 2006-01-01 16:42+0100\n"
 "Last-Translator: Åsmund Skjæveland <aasmunds@fys.uio.no>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
 "MIME-Version: 1.0\n"
@@ -4693,11 +4693,11 @@ msgstr "Einingar på standard påminning"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:14
 msgid "Free/busy server URLs"
-msgstr "Fri/oppteken-tenar-adresser"
+msgstr "Ledig/oppteken-tenar-adresser"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:15
 msgid "Free/busy template URL"
-msgstr "Fri/oppteken-mal-adresse"
+msgstr "Ledig/oppteken-mal-adresse"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:16
 msgid "Hide completed tasks"
@@ -4733,7 +4733,7 @@ msgstr "Førre alarmtid"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:24
 msgid "List of server URLs for free/busy publishing."
-msgstr "Liste over tenaradresser til fri/oppteken-offentleggjering."
+msgstr "Liste over tenaradresser til ledig/oppteken-offentleggjering."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:25
 msgid "Marcus Bains Line"
@@ -4773,7 +4773,7 @@ msgstr "Tal på einingar som avgjer når oppgåver skal gøymast."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:34
 msgid "Overdue tasks color"
-msgstr "Farge på oppgåver som"
+msgstr "Farge på oppgåver som har gått over tida"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:35
 msgid ""
@@ -7414,7 +7414,7 @@ msgstr "<b>%s</b> har publisert ledig/oppteken-informasjon."
 
 #: ../calendar/gui/e-itip-control.c:1462
 msgid "Free/Busy Information"
-msgstr "Fri/ledig-informasjon"
+msgstr "Ledig/oppteken-informasjon"
 
 #: ../calendar/gui/e-itip-control.c:1466
 #, c-format
@@ -7423,7 +7423,7 @@ msgstr "<b>%s</b> spør etter ledig/oppteken-informasjonen din."
 
 #: ../calendar/gui/e-itip-control.c:1467
 msgid "Free/Busy Request"
-msgstr "Fri/ledig forespørsel"
+msgstr "Ledig/oppteken-førespurnad"
 
 #: ../calendar/gui/e-itip-control.c:1471
 #, c-format
@@ -7432,7 +7432,7 @@ msgstr "<b>%s</b> har svart på ein førespurnad etter ledig/oppteken-informasjo
 
 #: ../calendar/gui/e-itip-control.c:1472
 msgid "Free/Busy Reply"
-msgstr "Fri/Oppteke svar"
+msgstr "Ledig/oppteken svar"
 
 #: ../calendar/gui/e-itip-control.c:1477
 msgid "Bad Free/Busy Message"
@@ -13670,7 +13670,7 @@ msgstr "Klarte ikkje laga katalogen for innkomande e-post «%s»: %s"
 #: ../mail/mail-tools.c:150
 #, c-format
 msgid "Trying to movemail a non-mbox source `%s'"
-msgstr "Prøver å fjerna ei ikkje-mbox-kjelde «%s»"
+msgstr ""
 
 #: ../mail/mail-tools.c:256
 #, c-format
@@ -15256,7 +15256,7 @@ msgid ""
 msgstr ""
 "Dette tyder truleg at tenaren din krev at du oppgjev\n"
 "Windows-domenet som ein del av brukarnamnet\n"
-"(t.d. «DOMENE\brukar»).\n"
+"(t.d. «DOMENE\\brukar»).\n"
 "\n"
 "Eller du har kanskje skrive passordet feil."
 
@@ -15357,7 +15357,7 @@ msgstr "Sluttar å tinge mappa «%s»"
 
 #: ../plugins/folder-unsubscribe/org-gnome-mail-folder-unsubscribe.eplug.xml.h:1
 msgid "Allows unsubscribing of mail folders in the folder tree context menu."
-msgstr "Tillat å avslutta tinging av epostmapper i mappetrekonteksmenyen."
+msgstr "Tillat å avslutta tinging av epostmapper i mappetrekontekstmenyen."
 
 #: ../plugins/folder-unsubscribe/org-gnome-mail-folder-unsubscribe.eplug.xml.h:2
 msgid "Unsubscribe Folders"
@@ -16402,7 +16402,7 @@ msgstr "_Markér kalenderen for bruk fråkopla"
 
 #: ../plugins/mono/org-gnome-evolution-mono.eplug.xml.h:1
 msgid "A plugin which implements mono plugins."
-msgstr "Eit tillegg som gjer det mogleg å bruka mono-tillegg.tillegg."
+msgstr "Eit tillegg som gjer det mogleg å bruka mono-tillegg."
 
 #: ../plugins/mono/org-gnome-evolution-mono.eplug.xml.h:2
 msgid "Mono Loader"
@@ -19342,7 +19342,7 @@ msgstr "Lag eit nytt vindauge som viser denne mappa"
 
 #: ../ui/evolution.xml.h:6
 msgid "Display window buttons using the desktop toolbar setting"
-msgstr "Vis vindaugeknappane i tråd med skrivebordet si verktøylinjeinnstillingberre med tekst"
+msgstr "Vis vindaugeknappane i tråd med skrivebordet si verktøylinjeinnstilling"
 
 #: ../ui/evolution.xml.h:7
 msgid "Display window buttons with icons and text"
@@ -19350,7 +19350,7 @@ msgstr "Vis vindaugeknappane med ikon og tekst"
 
 #: ../ui/evolution.xml.h:8
 msgid "Display window buttons with icons only"
-msgstr "Vis vindaugeknappane berre med ikontekst"
+msgstr "Vis vindaugeknappane berre med ikon"
 
 #: ../ui/evolution.xml.h:9
 msgid "Display window buttons with text only"
@@ -20411,7 +20411,7 @@ msgid ""
 "To add a column to your table, drag it into\n"
 "the location in which you want it to appear."
 msgstr ""
-"For å leggja til ei kollonne i tabellen dreg\n"
+"For å leggja til ei kolonne i tabellen dreg\n"
 "du henne til staden du vil ha henne."
 
 #: ../widgets/table/e-table-group-container.c:350
