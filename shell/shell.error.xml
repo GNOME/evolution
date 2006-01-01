@@ -31,7 +31,7 @@ If you choose to continue, you may not have access to some of your old data.
   <_primary>Delete old data from version {0}?</_primary>
   <_secondary xml:space="preserve">The previous version of evolution stored its data in a different location.
 
-If you choose to remove this data, the entire contents of the &quot;evolution&quot; directory will be removed permanently.  If you choose to keep this data, then you may manually remove the contents of &quot;evolution&quot; at your convenience.
+If you choose to remove this data, the entire contents of the &quot;evolution&quot; directory will be removed permanently. If you choose to keep this data, then you may manually remove the contents of &quot;evolution&quot; at your convenience.
 </_secondary>
   <button _label="_Remind Me Later" response="GTK_RESPONSE_CANCEL"/>
   <button _label="_Keep Data" response="GTK_RESPONSE_ACCEPT"/>

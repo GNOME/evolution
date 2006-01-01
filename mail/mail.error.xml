@@ -8,7 +8,7 @@
 
  <error id="camel-service-auth-failed" type="warning">
   <_primary>Your login to your server &quot;{0}&quot; as &quot;{0}&quot; failed.</_primary>
-  <_secondary xml:space="preserve">Check to make sure your password is spelled correctly.  Remember that many passwords are case sensitive; your caps lock might be on.</_secondary>
+  <_secondary xml:space="preserve">Check to make sure your password is spelled correctly. Remember that many passwords are case sensitive; your caps lock might be on.</_secondary>
  </error>
 
  <error id="ask-send-html" type="question" default="GTK_RESPONSE_YES">
@@ -50,7 +50,7 @@ Many email systems add an Apparently-To header to messages that only have BCC re
 
  <error id="ask-default-drafts" type="question" default="GTK_RESPONSE_YES">
   <_primary>Use default drafts folder?</_primary>
-  <_secondary xml:space="preserve">Unable to open the drafts folder for this account.  Use the system drafts folder instead?</_secondary>
+  <_secondary xml:space="preserve">Unable to open the drafts folder for this account. Use the system drafts folder instead?</_secondary>
   <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
   <button _label="Use _Default" response="GTK_RESPONSE_YES"/>
  </error>
@@ -85,8 +85,8 @@ Many email systems add an Apparently-To header to messages that only have BCC re
 
  <error id="camel-exception" type="warning">
   <_primary>Your message with the subject &quot;{0}&quot; was not delivered.</_primary>
-  <_secondary xml:space="preserve">The message was sent via the &quot;sendmail&quot; external application.  Sendmail reports the following error: status 67: mail not sent.
-The message is stored in the Outbox folder.  Check the message for errors and resend.</_secondary>
+  <_secondary xml:space="preserve">The message was sent via the &quot;sendmail&quot; external application. Sendmail reports the following error: status 67: mail not sent.
+The message is stored in the Outbox folder. Check the message for errors and resend.</_secondary>
  </error>
 
  <error id="async-error" type="error">
@@ -336,7 +336,7 @@ You can choose to ignore this folder, overwrite or append its contents, or quit.
 
  <error id="no-load-license" type="error">
   <_primary>Unable to read license file.</_primary>
-  <_secondary xml:space="preserve">Cannot read the license file &quot;{0}&quot;, due to an installation problem.  You will not be able to use this provider until you can accept its license.</_secondary>
+  <_secondary xml:space="preserve">Cannot read the license file &quot;{0}&quot;, due to an installation problem. You will not be able to use this provider until you can accept its license.</_secondary>
  </error>
 
   <error id="checking-service" type="info">
@@ -354,7 +354,7 @@ You can choose to ignore this folder, overwrite or append its contents, or quit.
   <error id="ask-receipt" type="question" default="GTK_RESPONSE_NO">
     <_title>Read receipt requested.</_title>
     <_primary>Read receipt requested.</_primary>
-    <_secondary xml:space="preserve">A read receipt notification has been requested for &quot;{1}&quot;.  Send the receipt notification to {0}?</_secondary>
+    <_secondary xml:space="preserve">A read receipt notification has been requested for &quot;{1}&quot;. Send the receipt notification to {0}?</_secondary>
     <button stock="gtk-no" response="GTK_RESPONSE_NO"/>
     <button stock="gtk-yes" _label="Send Receipt" response="GTK_RESPONSE_YES"/>
   </error>

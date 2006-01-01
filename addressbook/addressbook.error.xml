@@ -92,7 +92,7 @@
 
  <error id="ask-list-add-exists" type="question" default="GTK_RESPONSE_NO">
   <_primary>Address '{0}' already exists.</_primary>
-  <_secondary>A contact already exists with this address.  Would you like to add a new card with the same address anyway?</_secondary>
+  <_secondary>A contact already exists with this address. Would you like to add a new card with the same address anyway?</_secondary>
   <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
   <button stock="gtk-ok" _label="_Add" response="GTK_RESPONSE_YES"/>
  </error>

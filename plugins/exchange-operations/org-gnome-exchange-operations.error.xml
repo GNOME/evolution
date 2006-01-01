@@ -119,10 +119,10 @@ supports Microsoft Exchange 2000 and 2003 only.</_secondary>
   <_primary>Could not connect to Exchange server.</_primary>
   <_secondary xml:space="preserve">Exchange Connector requires access to certain
 functionality on the Exchange Server that appears
-to be disabled or blocked.  (This is usually 
-unintentional.)  Your Exchange Administrator will 
+to be disabled or blocked. (This is usually 
+unintentional.) Your Exchange Administrator will 
 need to enable this functionality in order for 
-you to be able to use Ximian Connector.
+you to be able to use Evolution Exchange Connector.
 
 For information to provide to your Exchange 
 administrator, please follow the link below:
