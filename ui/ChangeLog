@@ -1,3 +1,9 @@
+2006-01-01  Harish Krishnaswamy <kharish@novell.com>
+	
+	* evolution-executive-summary.xml : Remove 
+	ui/evolution-executive-summary.xml from CVS.
+	Fixes #325120.
+
 2005-12-30  Andre Klapper <a9016009@gmx.de>
 
 	* evolution-calendar.xml:  Fixing several typos and harmonizing
