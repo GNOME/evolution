@@ -1926,6 +1926,14 @@ e_calendar_view_get_tooltips (ECalendarViewEventData *data)
 	box = gtk_vbox_new (FALSE, 0);
 
 	str = icalcomponent_get_summary (pevent->comp_data->icalcomp);
+
+	if (!(str && *str)) {
+		g_object_unref (newcomp);
+		gtk_widget_destroy (box);
+
+		return FALSE;
+	}
+
 	tmp = g_strdup_printf ("<b>%s</b>", str);
 	label = gtk_label_new (NULL);
 	gtk_label_set_line_wrap ((GtkLabel *)label, TRUE);

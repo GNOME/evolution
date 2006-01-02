@@ -1,3 +1,14 @@
+2006-01-02  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #325414
+
+	* gui/e-calendar-view.c: (e_calendar_view_get_tooltips): Added null
+	check for the string before creating the tooltips and stopped showing
+	it.
+	* gui/e-day-view.c: (e_day_view_on_editing_stopped):
+	* gui/e-week-view.c: (e_week_view_on_editing_stopped): Added code to
+	hide tooltips window when start/stop hiding
+
 2006-01-02  Harish Krishnaswamy  <kharish@novell.com>
 
 	reviewed by: Chenthill Palanisamy <pchenthill@novell.com> 

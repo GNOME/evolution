@@ -6331,6 +6331,17 @@ e_day_view_on_editing_stopped (EDayView *day_view,
 
  out:
 
+	if (event) {
+		if (event->tooltip) {
+			gtk_widget_destroy (event->tooltip);
+			event->tooltip = NULL;
+		}
+
+		if (event->timeout != -1) {
+			g_source_remove (event->timeout);
+			event->timeout = -1;
+		}
+	}	
 	g_object_unref (comp);
 	g_free (text);
 
