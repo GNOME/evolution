@@ -2338,6 +2338,7 @@ static EMConfigItem emae_editor_items[] = {
 	/* table not vbox: { E_CONFIG_SECTION, "50.security/10.smime", "smime_table", emae_widget_glade }, */
 	{ 0 },
 };
+static gboolean emae_editor_items_translated = FALSE;
 
 static GtkWidget *
 emae_management_page(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, struct _GtkWidget *old, void *data)
@@ -2424,6 +2425,7 @@ static EMConfigItem emae_druid_items[] = {
 	{ E_CONFIG_PAGE_FINISH, "999.end", "finish_page", emae_widget_druid_glade },
 	{ 0 },
 };
+static gboolean emae_druid_items_translated = FALSE;
 
 static void
 emae_free(EConfig *ec, GSList *items, void *data)
@@ -2675,9 +2677,23 @@ em_account_editor_construct(EMAccountEditor *emae, EAccount *account, em_account
 	if (type == EMAE_NOTEBOOK) {
 		ec = em_config_new(E_CONFIG_BOOK, id);
 		items = emae_editor_items;
+		if (!emae_editor_items_translated) {
+			for (i=0;items[i].path;i++) {
+				if (items[i].label)
+					items[i].label = gettext(items[i].label);
+			}
+			emae_editor_items_translated = TRUE;
+		}
 	} else {
 		ec = em_config_new(E_CONFIG_DRUID, id);
 		items = emae_druid_items;
+		if (!emae_druid_items_translated) {
+			for (i=0;items[i].path;i++) {
+				if (items[i].label)
+					items[i].label = _(items[i].label);
+			}
+			emae_druid_items_translated = TRUE;
+		}
 	}
 
 	emae->config = gui->config = ec;
