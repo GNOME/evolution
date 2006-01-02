@@ -362,7 +362,7 @@ show_fb_config (CalendarPrefsDialog *prefs)
 	gchar *template_url;
 
 	template_url = calendar_config_get_free_busy_template ();
-	gtk_entry_set_text (GTK_ENTRY (prefs->template_url), template_url);
+	gtk_entry_set_text (GTK_ENTRY (prefs->template_url), (template_url ? template_url : ""));
 
 	g_free (template_url);
 }
