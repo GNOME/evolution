@@ -3,7 +3,6 @@ XML_FILES =					\
 	evolution-addressbook.xml		\
 	evolution-calendar.xml			\
 	evolution-composer-entries.xml		\
-	evolution-executive-summary.xml		\
 	evolution-mail-message.xml		\
 	evolution-mail-list.xml			\
 	evolution-mail-global.xml		\
