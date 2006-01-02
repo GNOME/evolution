@@ -1,3 +1,11 @@
+2006-01-02  Sushma Rai  <rsushma@novell.com>
+
+	* exchange-folder-permission.c (org_gnome_exchange_folder_permissions):
+	Proceed only with the exchange account folders.
+	
+	* exchange-folder.c (org_gnome_exchange_check_inbox_subscribe): 
+	Similar. Fixes #325491.
+
 2005-12-30  Andre Klapper <a9016009@gmx.de>
 
 	* evolution/plugins/exchange-operations/org-gnome-exchange-operations.error.xml:

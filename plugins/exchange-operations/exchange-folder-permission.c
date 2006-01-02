@@ -150,8 +150,12 @@ org_gnome_exchange_folder_permissions (EPlugin *ep, EMPopupTargetFolder *target)
 	int i = 0;
 	static int first =0;
 	gchar *path = NULL;
-	ExchangeAccount *account = exchange_operations_get_exchange_account ();
+	ExchangeAccount *account = NULL;
 
+	if (!g_strrstr (target->uri, "exchange://"))
+		return;
+
+	account = exchange_operations_get_exchange_account ();
 	if (!account)
 		return;
 
