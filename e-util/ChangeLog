@@ -1,3 +1,12 @@
+2006-01-02  Tor Lillqvist  <tml@novell.com>
+
+	* e-menu.c (emph_construct_menu): Don't eventually free a return
+	value from xmlGetProp() with g_free(). g_strdup() it first, and
+	xmlFree() what xmlGetProp() returned.
+
+	On Win32, replace a configure-time prefix of the ui file with the
+	run-time one.
+
 2005-12-19  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	committing for David Trowbridge <trowbrds cs colorado edu>

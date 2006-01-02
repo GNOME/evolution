@@ -29,12 +29,13 @@
 
 #include <glib.h>
 
-#include "e-menu.h"
-
-#include <e-util/e-icon-factory.h>
-
 #include <libgnome/gnome-i18n.h>
 #include <bonobo/bonobo-ui-util.h>
+
+#include <libedataserver/e-util.h>
+
+#include "e-menu.h"
+#include "e-icon-factory.h"
 
 #define d(x)
 
@@ -784,7 +785,16 @@ emph_construct_menu(EPluginHook *eph, xmlNodePtr root)
 			if (tmp) {
 				EMenuUIFile *ui = g_malloc0(sizeof(*ui));
 
-				ui->filename = tmp;
+				ui->filename = g_strdup(tmp);
+				xmlFree(tmp);
+#ifdef G_OS_WIN32
+				{
+					char *mapped_location = e_util_replace_prefix (e_util_get_prefix (),
+										       ui->filename);
+					g_free (ui->filename);
+					ui->filename = mapped_location;
+				}
+#endif
 				ui->appdir = g_strdup(g_get_tmp_dir());
 				ui->appname = g_strdup("Evolution");
 				menu->uis = g_slist_append(menu->uis, ui);
