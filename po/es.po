@@ -9,13 +9,13 @@
 # Eneko Lacunza <enlar@iname.com>, 2001-2002.
 # Héctor García Álvarez <hector@scouts-es.org>, 2002.
 # Pablo Gonzalo del Campo <pablodc@bigfoot.com>,2003 (revisión).
-# Francisco Javier F. Serrador <serrador@cvs.gnome.org>, 2003, 2004, 2005.
+# Francisco Javier F. Serrador <serrador@cvs.gnome.org>, 2003, 2004, 2005, 2006.
 msgid ""
 msgstr ""
-"Project-Id-Version: evolution-2.6\n"
+"Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-12-30 18:17+0100\n"
-"PO-Revision-Date: 2005-12-30 18:33+0100\n"
+"POT-Creation-Date: 2006-01-02 17:30+0100\n"
+"PO-Revision-Date: 2006-01-02 17:37+0100\n"
 "Last-Translator: Francisco Javier F. Serrador <serrador@cvs.gnome.org>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -4100,7 +4100,7 @@ msgid "Delete task list '{0}'?"
 msgstr "¿Desea borrar la lista de tareas «{0}»?"
 
 #: ../calendar/calendar.error.xml.h:26
-msgid "Don't Send"
+msgid "Do not Send"
 msgstr "No enviar"
 
 #: ../calendar/calendar.error.xml.h:27
@@ -4143,24 +4143,22 @@ msgstr "Error al cargar la lista de tareas"
 
 #: ../calendar/calendar.error.xml.h:35
 msgid ""
-"If you don't send a cancellation notice, the other participants may not know "
-"the journal has been deleted."
-msgstr ""
-"Si no envía una notificación de cancelación, los otros participantes quizá "
-"no sepan que el diario ha sido borrado."
+"If you do not send a cancellation notice, the other participants may not "
+"know the journal has been deleted."
+msgstr "Si no envía una notificación de cancelación, los otros participantes quizá no sepan que el diario ha sido borrado."
 
 #: ../calendar/calendar.error.xml.h:36
 msgid ""
-"If you don't send a cancellation notice, the other participants may not know "
-"the meeting is cancelled."
+"If you do not send a cancellation notice, the other participants may not "
+"know the meeting is cancelled."
 msgstr ""
 "Si no envía una notificación de cancelación, los otros participantes quizá "
 "no sepan que la reunión se ha cancelado."
 
 #: ../calendar/calendar.error.xml.h:37
 msgid ""
-"If you don't send a cancellation notice, the other participants may not know "
-"the task has been deleted."
+"If you do not send a cancellation notice, the other participants may not "
+"know the task has been deleted."
 msgstr ""
 "Si no envía una notificación de cancelación, los otros participantes quizá "
 "no sepan que la tarea ha sido borrada."
@@ -4912,8 +4910,8 @@ msgid ""
 "user part of the mail address and %d is replaced by the domain."
 msgstr ""
 "La plantilla URL para usar como datos de resguardo de disponibilidad, %u se "
-"reemplaza por la parte del usuario de la dirección de correo y %d se reemplaza "
-"por el dominio."
+"reemplaza por la parte del usuario de la dirección de correo y %d se "
+"reemplaza por el dominio."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:56
 msgid ""
@@ -4921,8 +4919,8 @@ msgid ""
 "untranslated Olsen timezone database location like \"America/New York\"."
 msgstr ""
 "La zona horaria predeterminada que se usará en las fechas y horas en el "
-"calendario, como una localización sin correspondencia en una base de datos de "
-"franjas horarias Olsen, como en \"América/New York\"."
+"calendario, como una localización sin correspondencia en una base de datos "
+"de franjas horarias Olsen, como en \"América/New York\"."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:57
 msgid "Time divisions"
@@ -6759,7 +6757,7 @@ msgid "%s for an unknown trigger type"
 msgstr "%s para un tipo de disparador desconocido"
 
 #: ../calendar/gui/e-cal-component-memo-preview.c:72
-#: ../calendar/gui/e-cal-component-preview.c:70 ../mail/em-folder-view.c:2826
+#: ../calendar/gui/e-cal-component-preview.c:70 ../mail/em-folder-view.c:2829
 #, c-format
 msgid "Click to open %s"
 msgstr "Pulse para abrir %s"
@@ -7136,19 +7134,19 @@ msgid "Delete _All Occurrences"
 msgstr "Borrar tod_as las repeticiones"
 
 #. To Translators: It will display "Organiser: NameOfTheUser <email@ofuser.com>"
-#: ../calendar/gui/e-calendar-view.c:1951
+#: ../calendar/gui/e-calendar-view.c:1959
 #, c-format
 msgid "Organizer: %s <%s>"
 msgstr "Organizador: %s <%s>"
 
 #. To Translators: It will display "Location: PlaceOfTheMeeting"
-#: ../calendar/gui/e-calendar-view.c:1965 ../calendar/gui/print.c:2339
+#: ../calendar/gui/e-calendar-view.c:1973 ../calendar/gui/print.c:2339
 #, c-format
 msgid "Location: %s"
 msgstr "Lugar: %s"
 
 #. To Translators: It will display "Time: ActualStartDateAndTime (DurationOfTheMeeting)"
-#: ../calendar/gui/e-calendar-view.c:1996
+#: ../calendar/gui/e-calendar-view.c:2004
 #, c-format
 msgid "Time: %s %s"
 msgstr "Hora: %s (%s)"
@@ -10184,7 +10182,7 @@ msgid ""
 "account"
 msgstr ""
 "No se puede cifrar el mensaje saliente: no hay establecido un certificado de "
-"cifrado para esta cuenta"
+"encriptado para esta cuenta"
 
 #: ../composer/e-msg-composer.c:1320 ../composer/e-msg-composer.c:1354
 #: ../plugins/mail-remote/e-corba-utils.c:135
@@ -10294,12 +10292,12 @@ msgid "Directories can not be attached to Messages."
 msgstr "Los directorios no pueden adjuntarse a los mensajes."
 
 #: ../composer/mail-composer.error.xml.h:13
-msgid "Do you want to recover unfinished messages?"
-msgstr "¿Quiere recuperar los mensajes no terminados?"
+msgid "Do not Recover"
+msgstr "No recuperar"
 
 #: ../composer/mail-composer.error.xml.h:14
-msgid "Don't Recover"
-msgstr "No recuperar"
+msgid "Do you want to recover unfinished messages?"
+msgstr "¿Quiere recuperar los mensajes no terminados?"
 
 #: ../composer/mail-composer.error.xml.h:15
 msgid "Download in progress. Do you want to send the mail?"
@@ -10422,7 +10420,7 @@ msgid "I am currently out of the office"
 msgstr "Ahora no estoy en la oficina"
 
 #: ../designs/OOA/ooa.glade.h:10
-msgid "No, Don't Change Status"
+msgid "No, Do not Change Status"
 msgstr "No, no cambiar el estado"
 
 #: ../designs/OOA/ooa.glade.h:12
@@ -10923,19 +10921,19 @@ msgid "Security"
 msgstr "Seguridad"
 
 #. Most sections for this is auto-generated fromt the camel config
-#: ../mail/em-account-editor.c:2322 ../mail/em-account-editor.c:2412
+#: ../mail/em-account-editor.c:2322 ../mail/em-account-editor.c:2413
 msgid "Receiving Options"
 msgstr "Opciones de recepción"
 
-#: ../mail/em-account-editor.c:2323 ../mail/em-account-editor.c:2413
+#: ../mail/em-account-editor.c:2323 ../mail/em-account-editor.c:2414
 msgid "Checking for New Mail"
 msgstr "Comprobación de correo nuevo"
 
-#: ../mail/em-account-editor.c:2737 ../mail/mail-config.glade.h:34
+#: ../mail/em-account-editor.c:2753 ../mail/mail-config.glade.h:34
 msgid "Account Editor"
 msgstr "Editor de cuentas"
 
-#: ../mail/em-account-editor.c:2737 ../mail/mail-config.glade.h:80
+#: ../mail/em-account-editor.c:2753 ../mail/mail-config.glade.h:80
 msgid "Evolution Account Assistant"
 msgstr "Asistente de cuentas de Evolution"
 
@@ -11293,7 +11291,7 @@ msgid_plural "Unread messages:"
 msgstr[0] "Mensaje no leído:"
 msgstr[1] "Mensajes no leídos:"
 
-#: ../mail/em-folder-properties.c:280
+#: ../mail/em-folder-properties.c:289
 #: ../plugins/groupwise-features/properties.glade.h:3
 msgid "Folder Properties"
 msgstr "Propiedades de la carpeta"
@@ -11594,7 +11592,7 @@ msgstr "_Desde esta dirección"
 msgid "_To this Address"
 msgstr "_A esta dirección"
 
-#: ../mail/em-folder-view.c:2821
+#: ../mail/em-folder-view.c:2824
 #, c-format
 msgid "Click to mail %s"
 msgstr "Pulse para enviar correo a %s"
@@ -11655,40 +11653,35 @@ msgstr ""
 
 #: ../mail/em-format-html-display.c:738 ../mail/em-format-html.c:616
 msgid "Unencrypted"
-msgstr "Descifrado"
+msgstr "Desencriptado"
 
 #: ../mail/em-format-html-display.c:738
 msgid ""
-"This message is not encrypted.  Its content may be viewed in transit across "
+"This message is not encrypted. Its content may be viewed in transit across "
 "the Internet."
-msgstr ""
-"Este mensaje no está cifrado. Su contenido puede verse en tránsito a través "
-"de Internet."
+msgstr "Este mensaje no está encriptado. Su contenido puede verse en tránsito a través de Internet."
 
 #: ../mail/em-format-html-display.c:739 ../mail/em-format-html.c:617
 msgid "Encrypted, weak"
-msgstr "Cifrado, débil"
+msgstr "Encriptado, débil"
 
 #: ../mail/em-format-html-display.c:739
 msgid ""
-"This message is encrypted, but with a weak encryption algorithm.  It would "
-"be difficult, but not impossible for an outsider to view the content of this "
+"This message is encrypted, but with a weak encryption algorithm. It would be "
+"difficult, but not impossible for an outsider to view the content of this "
 "message in a practical amount of time."
-msgstr ""
-"Este mensaje está cifrado, pero con un algoritmo de cifrado débil. Debería "
-"ser difícil, pero no imposible para un espía ver el contenido de este "
-"mensaje empleando algo de tiempo."
+msgstr "Este mensaje está encriptado, pero con un algoritmo de encriptado débil. Debería ser difícil, pero no imposible para un espía ver el contenido de este mensaje empleando algo de tiempo."
 
 #: ../mail/em-format-html-display.c:740 ../mail/em-format-html.c:618
 msgid "Encrypted"
-msgstr "Cifrado"
+msgstr "Encriptado"
 
 #: ../mail/em-format-html-display.c:740
 msgid ""
 "This message is encrypted.  It would be difficult for an outsider to view "
 "the content of this message."
 msgstr ""
-"Este mensaje está cifrado. Sería difícil para un espía ver el contenido de "
+"Este mensaje está encriptado. Sería difícil para un espía ver el contenido de "
 "este mensaje."
 
 #: ../mail/em-format-html-display.c:741 ../mail/em-format-html.c:619
@@ -11697,11 +11690,11 @@ msgstr "Cifrado, fuerte"
 
 #: ../mail/em-format-html-display.c:741
 msgid ""
-"This message is encrypted, with a strong encryption algorithm.  It would be "
+"This message is encrypted, with a strong encryption algorithm. It would be "
 "very difficult for an outsider to view the content of this message in a "
 "practical amount of time."
 msgstr ""
-"Este mensaje está cifrado con un algoritmo de cifrado fuerte. Sería muy "
+"Este mensaje está encriptado, con un algoritmo de encriptado fuerte. Sería muy "
 "difícil que un espía vea el contenido de este mensaje en empleando un tiempo "
 "razonable."
 
@@ -11889,7 +11882,7 @@ msgstr "No se pudo analizar el mensaje MIME. Mostrando la fuente."
 
 #: ../mail/em-format.c:1278
 msgid "Unsupported encryption type for multipart/encrypted"
-msgstr "Tipo de cifrado no soportado para multipart/encrypted"
+msgstr "Tipo de encriptado no soportado para multipart/encrypted"
 
 #: ../mail/em-format.c:1445
 msgid "Unsupported signature format"
@@ -12022,7 +12015,7 @@ msgid "No server has been selected"
 msgstr "No se ha seleccionado ningún servidor"
 
 #: ../mail/em-utils.c:123
-msgid "Don't show this message again."
+msgid "Do not show this message again."
 msgstr "No mostrar otra vez este mensaje."
 
 #: ../mail/em-utils.c:356
@@ -12282,7 +12275,9 @@ msgstr "Anchura predeterminada de la ventana de mensajes"
 
 #: ../mail/evolution-mail.schemas.in.in.h:50
 msgid "Message-display style (\"normal\", \"full headers\", \"source\")"
-msgstr "Estilo de visualización del mensaje (\"normal\", \"full headers\", \"source\")"
+msgstr ""
+"Estilo de visualización del mensaje (\"normal\", \"full headers\", \"source"
+"\")"
 
 #: ../mail/evolution-mail.schemas.in.in.h:51
 msgid "Minimum days between emptying the trash on exit"
@@ -12918,7 +12913,7 @@ msgstr "_Firmar siempre los mensajes salientes cuando se use esta cuenta"
 
 #: ../mail/mail-config.glade.h:39
 msgid "Also encrypt to sel_f when sending encrypted mail"
-msgstr "También cifrar a _mí mismo cuando envíe correo cifrado"
+msgstr "También cifrar a _mí mismo cuando envíe correo encriptado"
 
 #: ../mail/mail-config.glade.h:40
 msgid "Alway_s carbon-copy (cc) to:"
@@ -12934,7 +12929,7 @@ msgstr "Siempre _confiar en las claves de mi anillo cuando cifre"
 
 #: ../mail/mail-config.glade.h:43
 msgid "Always encrypt to _myself when sending encrypted mail"
-msgstr "Siempre cifrarme a _mí mismo cuando envíe correo cifrado"
+msgstr "Siempre cifrarme a _mí mismo cuando envíe correo encriptado"
 
 #: ../mail/mail-config.glade.h:44
 msgid "Attach original message"
@@ -13054,7 +13049,7 @@ msgstr "Vaciar _papelera al salir"
 
 #: ../mail/mail-config.glade.h:78
 msgid "Encry_ption certificate:"
-msgstr "Certificado de _cifrado:"
+msgstr "Certificado de _encriptado:"
 
 #: ../mail/mail-config.glade.h:79
 msgid "Encrypt out_going messages (by default)"
@@ -13331,7 +13326,7 @@ msgid "_Do not notify me when new mail arrives"
 msgstr "_No notificarme cuando llegue correo nuevo"
 
 #: ../mail/mail-config.glade.h:158
-msgid "_Don't sign meeting requests (for Outlook compatibility)"
+msgid "_Do not sign meeting requests (for Outlook compatibility)"
 msgstr "No _firmar las solicitudes de reunión (para compatibilidad con Outlook)"
 
 #: ../mail/mail-config.glade.h:160
@@ -13359,7 +13354,7 @@ msgid "_Path:"
 msgstr "R_uta:"
 
 #: ../mail/mail-config.glade.h:167
-msgid "_Prompt when sending HTML messages to contacts that don't want them"
+msgid "_Prompt when sending HTML messages to contacts that do not want them"
 msgstr "_Preguntar al enviar mensajes en HTML a contactos que no los quieren"
 
 #: ../mail/mail-config.glade.h:168
@@ -13813,8 +13808,8 @@ msgstr ""
 
 #: ../mail/mail.error.xml.h:6
 msgid ""
-"A read receipt notification has been requested for &quot;{1}&quot;.  Send "
-"the receipt notification to {0}?"
+"A read receipt notification has been requested for &quot;{1}&quot;. Send the "
+"receipt notification to {0}?"
 msgstr ""
 "Se ha solicitado una notificación de recepción para «{1}». ¿Quiere enviar "
 "una notificación de recepción a {0}?"
@@ -13936,7 +13931,7 @@ msgstr "No se pudo abrir el destino «{2}»."
 #: ../mail/mail.error.xml.h:33
 msgid ""
 "Cannot read the license file &quot;{0}&quot;, due to an installation "
-"problem.  You will not be able to use this provider until you can accept its "
+"problem. You will not be able to use this provider until you can accept its "
 "license."
 msgstr ""
 "No se pudo leer el archivo de licencia «{0}», debido a un problema de "
@@ -13969,7 +13964,7 @@ msgstr "No se puede establecer el script de firma «{0}»."
 
 #: ../mail/mail.error.xml.h:40
 msgid ""
-"Check to make sure your password is spelled correctly.  Remember that many "
+"Check to make sure your password is spelled correctly. Remember that many "
 "passwords are case sensitive; your caps lock might be on."
 msgstr ""
 "Verifique que su contraseña está escrita correctamente. Recuerde que muchas "
@@ -13993,16 +13988,16 @@ msgid "Discard changes?"
 msgstr "¿Desea descartar los cambios?"
 
 #: ../mail/mail.error.xml.h:45
+msgid "Do not delete"
+msgstr "No borrar"
+
+#: ../mail/mail.error.xml.h:46
 msgid "Do you want the operation to be performed in the subfolders?"
 msgstr "¿Desea realizar esta operación en las subcarpetas?"
 
-#: ../mail/mail.error.xml.h:46
+#: ../mail/mail.error.xml.h:47
 msgid "Do you wish to save your changes?"
 msgstr "¿Desea guardar los cambios?"
-
-#: ../mail/mail.error.xml.h:47
-msgid "Don't delete"
-msgstr "No borrar"
 
 #: ../mail/mail.error.xml.h:48
 msgid "Enter password."
@@ -14229,10 +14224,10 @@ msgstr ""
 
 #: ../mail/mail.error.xml.h:100
 msgid ""
-"The message was sent via the &quot;sendmail&quot; external application.  "
+"The message was sent via the &quot;sendmail&quot; external application. "
 "Sendmail reports the following error: status 67: mail not sent.\n"
-"The message is stored in the Outbox folder.  Check the message for errors "
-"and resend."
+"The message is stored in the Outbox folder. Check the message for errors and "
+"resend."
 msgstr ""
 "El mensaje fue enviado por medio de la aplicación externa «sendmail». "
 "Sendmail informa del siguiente error: status 67: mail not sent.\n"
@@ -14282,7 +14277,7 @@ msgstr "No es posible conectarse con el servidor GroupWise."
 
 #: ../mail/mail.error.xml.h:110
 msgid ""
-"Unable to open the drafts folder for this account.  Use the system drafts "
+"Unable to open the drafts folder for this account. Use the system drafts "
 "folder instead?"
 msgstr ""
 "No se pudo abrir la carpeta de borradores para esta cuenta. ¿Quiere usar la "
@@ -15051,19 +15046,19 @@ msgid "Exchange Folder Tree"
 msgstr "Árbol de carpetas de Exchange"
 
 #: ../plugins/exchange-operations/exchange-folder.c:66
-#: ../plugins/exchange-operations/exchange-folder.c:227
-#: ../plugins/exchange-operations/exchange-folder.c:237
+#: ../plugins/exchange-operations/exchange-folder.c:229
+#: ../plugins/exchange-operations/exchange-folder.c:239
 msgid "Unsubscribe Folder..."
 msgstr "Desuscribirse de la carpeta…"
 
-#: ../plugins/exchange-operations/exchange-folder.c:464
-#: ../plugins/exchange-operations/exchange-folder.c:524
+#: ../plugins/exchange-operations/exchange-folder.c:466
+#: ../plugins/exchange-operations/exchange-folder.c:526
 #, c-format
 msgid "Really unsubscribe from folder \"%s\"?"
 msgstr "¿Seguro que desea desuscribirse de la carpeta «%s»?"
 
-#: ../plugins/exchange-operations/exchange-folder.c:476
-#: ../plugins/exchange-operations/exchange-folder.c:536
+#: ../plugins/exchange-operations/exchange-folder.c:478
+#: ../plugins/exchange-operations/exchange-folder.c:538
 #, c-format
 msgid "Unsubscribe from \"%s\""
 msgstr "Desuscribirse de «%s»"
@@ -15250,10 +15245,10 @@ msgstr "La cuenta de Exchange está desconectada."
 msgid ""
 "Exchange Connector requires access to certain\n"
 "functionality on the Exchange Server that appears\n"
-"to be disabled or blocked.  (This is usually \n"
-"unintentional.)  Your Exchange Administrator will \n"
+"to be disabled or blocked. (This is usually \n"
+"unintentional.) Your Exchange Administrator will \n"
 "need to enable this functionality in order for \n"
-"you to be able to use Ximian Connector.\n"
+"you to be able to use Evolution Exchange Connector.\n"
 "\n"
 "For information to provide to your Exchange \n"
 "administrator, please follow the link below:\n"
@@ -15428,7 +15423,7 @@ msgstr "Sólo puede configurar una sola cuenta de Exchange."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:72
 msgid ""
-"Your current usage is : {0}KB. Try to clear up some space by deleting some "
+"Your current usage is: {0}KB. Try to clear up some space by deleting some "
 "mails."
 msgstr ""
 "Su uso actual es: {0}Kib. Intente hacer algo de espacio borrando algunos "
@@ -15436,13 +15431,13 @@ msgstr ""
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:73
 msgid ""
-"Your current usage is : {0}KB. You will not be able to either send or "
-"recieve mails now."
+"Your current usage is: {0}KB. You will not be able to either send or recieve "
+"mails now."
 msgstr "Su uso actual es: {0} Kib. No podrá ni enviar ni recibir mensajes ahora."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:74
 msgid ""
-"Your current usage is : {0}KB. You will not be able to send mails till you "
+"Your current usage is: {0}KB. You will not be able to send mails till you "
 "clear up some space by deleting some mails."
 msgstr ""
 "Su uso actual es: {0} Kib. No podrá enviar mensajes hasta que haga algo de "
@@ -15508,7 +15503,7 @@ msgid "Junk Mail Settings..."
 msgstr "Opciones de spam…"
 
 #: ../plugins/groupwise-features/junk-settings.glade.h:1
-msgid "<b>Junk List :</b>"
+msgid "<b>Junk List:</b>"
 msgstr "<b>Lista de spam:</b>"
 
 #: ../plugins/groupwise-features/junk-settings.glade.h:2
@@ -15555,7 +15550,7 @@ msgid "Accept Tentatively"
 msgstr "Aceptar provisionalmente"
 
 #: ../plugins/groupwise-features/properties.glade.h:2
-msgid "<b>Users :</b>"
+msgid "<b>Users:</b>"
 msgstr "<b>Usuarios:</b>"
 
 #: ../plugins/groupwise-features/properties.glade.h:4
@@ -15860,7 +15855,9 @@ msgstr "El calendario adjunto no es válido"
 msgid ""
 "The message claims to contain a calendar, but the calendar is not a valid "
 "iCalendar."
-msgstr "El mensaje dice contener un calendario, pero el calendario no es un iCalendar válido."
+msgstr ""
+"El mensaje dice contener un calendario, pero el calendario no es un "
+"iCalendar válido."
 
 #: ../plugins/itip-formatter/itip-formatter.c:1183
 #: ../plugins/itip-formatter/itip-formatter.c:1198
@@ -17264,16 +17261,16 @@ msgid "Work Offline"
 msgstr "Trabajar desconectado"
 
 #: ../shell/e-shell-window.c:370
-msgid "Evolution is currently online.  Click on this button to work offline."
-msgstr "Evolution está conectado.  Pulse este botón para trabajar desconectado."
+msgid "Evolution is currently online.Click on this button to work offline."
+msgstr "Evolution está conectado. Pulse este botón para trabajar desconectado."
 
 #: ../shell/e-shell-window.c:378
 msgid "Evolution is in the process of going offline."
 msgstr "Evolution está en proceso de desconectarse."
 
 #: ../shell/e-shell-window.c:385
-msgid "Evolution is currently offline.  Click on this button to work online."
-msgstr "Evolution está desconectado.  Pulse este botón para trabajar conectado."
+msgid "Evolution is currently offline.Click on this button to work online."
+msgstr "Evolution está desconectado. Pulse este botón para trabajar conectado."
 
 #: ../shell/e-shell-window.c:775
 #, c-format
@@ -17500,8 +17497,8 @@ msgid ""
 "The previous version of evolution stored its data in a different location.\n"
 "\n"
 "If you choose to remove this data, the entire contents of the &quot;"
-"evolution&quot; directory will be removed permanently.  If you choose to "
-"keep this data, then you may manually remove the contents of &quot;"
+"evolution&quot; directory will be removed permanently. If you choose to keep "
+"this data, then you may manually remove the contents of &quot;"
 "evolution&quot; at your convenience.\n"
 msgstr ""
 "La versión anterior de Evolution almacenaba sus datos en un lugar "
@@ -17610,21 +17607,21 @@ msgstr ""
 
 #: ../smime/gui/certificate-manager.c:136
 #: ../smime/gui/certificate-manager.c:144
-#: ../smime/gui/certificate-manager.c:379
-#: ../smime/gui/certificate-manager.c:387
-#: ../smime/gui/certificate-manager.c:599
-#: ../smime/gui/certificate-manager.c:607
+#: ../smime/gui/certificate-manager.c:375
+#: ../smime/gui/certificate-manager.c:383
+#: ../smime/gui/certificate-manager.c:595
+#: ../smime/gui/certificate-manager.c:603
 msgid "Select a certificate to import..."
 msgstr "Seleccione un certificado para importar…"
 
 #: ../smime/gui/certificate-manager.c:267
-#: ../smime/gui/certificate-manager.c:476
-#: ../smime/gui/certificate-manager.c:694
+#: ../smime/gui/certificate-manager.c:472
+#: ../smime/gui/certificate-manager.c:690
 msgid "Certificate Name"
 msgstr "Nombre del certificado"
 
 #: ../smime/gui/certificate-manager.c:276
-#: ../smime/gui/certificate-manager.c:494
+#: ../smime/gui/certificate-manager.c:490
 msgid "Purposes"
 msgstr "Propósito"
 
@@ -17637,7 +17634,7 @@ msgstr "Número de serie"
 msgid "Expires"
 msgstr "Caducidad"
 
-#: ../smime/gui/certificate-manager.c:485
+#: ../smime/gui/certificate-manager.c:481
 msgid "E-Mail Address"
 msgstr "Dirección de correo-e"
 
@@ -17901,15 +17898,15 @@ msgstr "Versión 3"
 
 #: ../smime/lib/e-cert.c:633
 msgid "PKCS #1 MD2 With RSA Encryption"
-msgstr "PKCS #1 MD2 con cifrado RSA"
+msgstr "PKCS #1 MD2 con encriptado RSA"
 
 #: ../smime/lib/e-cert.c:636
 msgid "PKCS #1 MD5 With RSA Encryption"
-msgstr "PKCS #1 MD5 con cifrado RSA"
+msgstr "PKCS #1 MD5 con encriptado RSA"
 
 #: ../smime/lib/e-cert.c:639
 msgid "PKCS #1 SHA-1 With RSA Encryption"
-msgstr "PKCS #1 SHA-1 con cifrado RSA"
+msgstr "PKCS #1 SHA-1 con encriptado RSA"
 
 #: ../smime/lib/e-cert.c:642
 msgid "C"
@@ -17945,7 +17942,7 @@ msgstr "ST"
 
 #: ../smime/lib/e-cert.c:666
 msgid "PKCS #1 RSA Encryption"
-msgstr "PKCS #1 cifrado RSA"
+msgstr "PKCS #1 encriptado RSA"
 
 #: ../smime/lib/e-cert.c:669
 msgid "Certificate Key Usage"
@@ -18383,7 +18380,7 @@ msgid "Click here to save the current window"
 msgstr "Pulse aquí para guardar la vista actual"
 
 #: ../ui/evolution-editor.xml.h:5
-msgid "Click here to view help availabe"
+msgid "Click here to view help available"
 msgstr "Pulse aquí para ver la ayuda disponible"
 
 #: ../ui/evolution-editor.xml.h:6 ../ui/evolution-mail-messagedisplay.xml.h:1
@@ -18532,10 +18529,6 @@ msgstr "Campo de _estado"
 #: ../ui/evolution-event-editor.xml.h:33 ../ui/evolution-task-editor.xml.h:25
 msgid "_Type Field"
 msgstr "Campo de _tipo"
-
-#: ../ui/evolution-executive-summary.xml.h:1
-msgid "Customize My Evolution"
-msgstr "Personaliza Mi Evolution"
 
 #: ../ui/evolution-mail-global.xml.h:2
 msgid "Cancel the current mail operation"
@@ -19856,17 +19849,17 @@ msgstr "Botón anterior"
 msgid "Month Calendar"
 msgstr "Calendario mensual"
 
-#: ../widgets/misc/e-canvas-background.c:456
-#: ../widgets/misc/e-canvas-background.c:457 ../widgets/text/e-entry.c:1284
+#: ../widgets/misc/e-canvas-background.c:459
+#: ../widgets/misc/e-canvas-background.c:460 ../widgets/text/e-entry.c:1284
 #: ../widgets/text/e-entry.c:1285 ../widgets/text/e-text.c:3540
 #: ../widgets/text/e-text.c:3541
 msgid "Fill color"
 msgstr "Color de relleno"
 
-#: ../widgets/misc/e-canvas-background.c:463
-#: ../widgets/misc/e-canvas-background.c:464
-#: ../widgets/misc/e-canvas-background.c:470
-#: ../widgets/misc/e-canvas-background.c:471 ../widgets/text/e-entry.c:1291
+#: ../widgets/misc/e-canvas-background.c:466
+#: ../widgets/misc/e-canvas-background.c:467
+#: ../widgets/misc/e-canvas-background.c:473
+#: ../widgets/misc/e-canvas-background.c:474 ../widgets/text/e-entry.c:1291
 #: ../widgets/text/e-entry.c:1292 ../widgets/text/e-entry.c:1298
 #: ../widgets/text/e-entry.c:1299 ../widgets/text/e-text.c:3547
 #: ../widgets/text/e-text.c:3548 ../widgets/text/e-text.c:3555
@@ -19874,30 +19867,30 @@ msgstr "Color de relleno"
 msgid "GDK fill color"
 msgstr "Color de relleno GDK"
 
-#: ../widgets/misc/e-canvas-background.c:477
-#: ../widgets/misc/e-canvas-background.c:478 ../widgets/text/e-entry.c:1305
+#: ../widgets/misc/e-canvas-background.c:480
+#: ../widgets/misc/e-canvas-background.c:481 ../widgets/text/e-entry.c:1305
 #: ../widgets/text/e-entry.c:1306 ../widgets/text/e-text.c:3562
 #: ../widgets/text/e-text.c:3563
 msgid "Fill stipple"
 msgstr "Punteo de relleno"
 
-#: ../widgets/misc/e-canvas-background.c:484
-#: ../widgets/misc/e-canvas-background.c:485
+#: ../widgets/misc/e-canvas-background.c:487
+#: ../widgets/misc/e-canvas-background.c:488
 msgid "X1"
 msgstr "X1"
 
-#: ../widgets/misc/e-canvas-background.c:491
-#: ../widgets/misc/e-canvas-background.c:492
+#: ../widgets/misc/e-canvas-background.c:494
+#: ../widgets/misc/e-canvas-background.c:495
 msgid "X2"
 msgstr "X2"
 
-#: ../widgets/misc/e-canvas-background.c:498
-#: ../widgets/misc/e-canvas-background.c:499
+#: ../widgets/misc/e-canvas-background.c:501
+#: ../widgets/misc/e-canvas-background.c:502
 msgid "Y1"
 msgstr "Y1"
 
-#: ../widgets/misc/e-canvas-background.c:505
-#: ../widgets/misc/e-canvas-background.c:506
+#: ../widgets/misc/e-canvas-background.c:508
+#: ../widgets/misc/e-canvas-background.c:509
 msgid "Y2"
 msgstr "Y2"
 
@@ -20318,20 +20311,20 @@ msgstr ""
 "Bajo"
 
 #: ../widgets/misc/e-send-options.glade.h:23
-msgid "W_ithin"
-msgstr "_Dentro"
-
-#: ../widgets/misc/e-send-options.glade.h:24
 msgid "When acce_pted:"
 msgstr "Al ace_ptar: "
 
-#: ../widgets/misc/e-send-options.glade.h:25
+#: ../widgets/misc/e-send-options.glade.h:24
 msgid "When co_mpleted:"
 msgstr "Al _terminar:"
 
-#: ../widgets/misc/e-send-options.glade.h:26
+#: ../widgets/misc/e-send-options.glade.h:25
 msgid "When decli_ned:"
 msgstr "Al _rehusar:"
+
+#: ../widgets/misc/e-send-options.glade.h:26
+msgid "Wi_thin"
+msgstr "_Dentro"
 
 #: ../widgets/misc/e-send-options.glade.h:27
 msgid "_After:"
@@ -20914,6 +20907,9 @@ msgstr "Contexto IM"
 #: ../widgets/text/e-text.c:3683 ../widgets/text/e-text.c:3684
 msgid "Handle Popup"
 msgstr "Tirador emergente"
+
+#~ msgid "Customize My Evolution"
+#~ msgstr "Personaliza Mi Evolution"
 
 #~ msgid "Automatic contacts"
 #~ msgstr "Contactos automáticos"
