@@ -70,9 +70,6 @@ int e_shell_nm_glib_initialise (EShellWindow *window )
 	}
 
 	id = libnm_glib_register_callback (ctx, e_shell_glib_network_monitor, window, NULL);
-	libnm_glib_unregister_callback (ctx, id);
-
-	id = libnm_glib_register_callback (ctx, e_shell_glib_network_monitor, window, NULL);
 	
 	return TRUE;
 }
