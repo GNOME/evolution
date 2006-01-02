@@ -200,8 +200,10 @@ org_gnome_exchange_check_inbox_subscribed (EPlugin *ep, EMPopupTargetFolder *tar
 	gchar *path = NULL;
 	gchar *sub_folder = NULL;
 
-	account = exchange_operations_get_exchange_account ();
+	if (!g_strrstr (target->uri, "exchange://"))
+		return;
 
+	account = exchange_operations_get_exchange_account ();
 	if (!account)
 		return;
 

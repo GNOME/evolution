@@ -28,7 +28,7 @@
 #include <gtk/gtkdialog.h>
 #include <gconf/gconf-client.h>
 #include <libedataserver/e-xml-hash-utils.h>
-#include <exchange/exchange-account.h>
+#include <exchange-account.h>
 #include <e-util/e-dialog-utils.h>
 #include <calendar/gui/e-cal-popup.h>
 #include <libedataserverui/e-source-selector.h>
@@ -150,8 +150,12 @@ org_gnome_exchange_folder_permissions (EPlugin *ep, EMPopupTargetFolder *target)
 	int i = 0;
 	static int first =0;
 	gchar *path = NULL;
-	ExchangeAccount *account = exchange_operations_get_exchange_account ();
+	ExchangeAccount *account = NULL;
 
+	if (!g_strrstr (target->uri, "exchange://"))
+		return;
+
+	account = exchange_operations_get_exchange_account ();
 	if (!account)
 		return;
 
