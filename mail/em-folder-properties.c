@@ -216,6 +216,7 @@ static EMConfigItem emfp_items[] = {
 	{ E_CONFIG_SECTION, "00.general/00.folder", NULL /* set by code */ },
 	{ E_CONFIG_ITEM, "00.general/00.folder/00.info", NULL, emfp_get_folder_item },
 };
+static gboolean emfp_items_translated = FALSE;
 
 static void
 emfp_dialog_got_folder (char *uri, CamelFolder *folder, void *data)
@@ -243,8 +244,16 @@ emfp_dialog_got_folder (char *uri, CamelFolder *folder, void *data)
 	    && (!strcmp(prop_data->name, "Drafts")
 		|| !strcmp(prop_data->name, "Inbox")
 		|| !strcmp(prop_data->name, "Outbox")
-		|| !strcmp(prop_data->name, "Sent")))
+		|| !strcmp(prop_data->name, "Sent"))) {
 		emfp_items[EMFP_FOLDER_SECTION].label = _(prop_data->name);
+		if (!emfp_items_translated) {
+			for (i=0;i<sizeof(emfp_items)/sizeof(emfp_items[0]);i++) {
+				if (emfp_items[i].label)
+					emfp_items[i].label = _(emfp_items[i].label);
+			}
+			emfp_items_translated = TRUE;
+		}
+	}
 	else
 		emfp_items[EMFP_FOLDER_SECTION].label = prop_data->name;
 
