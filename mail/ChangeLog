@@ -1,5 +1,13 @@
 2006-01-02  Harish Krishnaswamy  <kharish@novell.com>
 
+	* em-folder-view.c: (emfv_setting_notify):
+	Remove the first check in the previous commit.
+	This is redundant as it is always guaranteed
+	that the component has been activated at this point.
+	And when not, it ought to crash :-).
+
+2006-01-02  Harish Krishnaswamy  <kharish@novell.com>
+
 	reviewed by: Parthasarathi <sparthasarathi@novell.com>
 
 	* em-folder-view.c: (emfv_setting_notify):
