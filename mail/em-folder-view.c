@@ -2707,14 +2707,20 @@ emfv_setting_notify(GConfClient *gconf, guint cnxn_id, GConfEntry *entry, EMFold
 		if (camel_object_meta_set (emfv->folder, "evolution:show_preview", state_gconf ? "1" : "0"))
 			camel_object_state_write (emfv->folder);
 		em_folder_browser_show_preview ((EMFolderBrowser *)emfv, state_gconf);
-		bonobo_ui_component_set_prop (emfv->uic, "/commands/ViewPreview", "state", state_gconf ? "1" : "0", NULL);
+		/* Set the prop only if the component has already been
+		 * activated. */ 
+		if (emfv->uic)
+			bonobo_ui_component_set_prop (emfv->uic, "/commands/ViewPreview", "state", state_gconf ? "1" : "0", NULL);
 		break; }
-	case EMFV_SHOW_DELETED: {
+	case EMFV_SHOW_DELETED: { 
 		gboolean state;
 
 		state = gconf_value_get_bool (value);
 		em_folder_view_set_hide_deleted (emfv, !state);
-		bonobo_ui_component_set_prop (emfv->uic, "/commands/HideDeleted", "state", state ? "0" : "1", NULL);
+		/* Set the prop only if the component has already been
+		 * activated. */ 
+		if (emfv->uic) 
+			bonobo_ui_component_set_prop (emfv->uic, "/commands/HideDeleted", "state", state ? "0" : "1", NULL);
 		break; }
 	case EMFV_THREAD_LIST: {
 		gboolean state_gconf, state_camel;

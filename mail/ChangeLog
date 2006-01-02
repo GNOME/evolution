@@ -1,3 +1,12 @@
+2006-01-02  Harish Krishnaswamy  <kharish@novell.com>
+
+	reviewed by: Parthasarathi <sparthasarathi@novell.com>
+
+	* em-folder-view.c: (emfv_setting_notify):
+	Set the properties on the bonobo component only if
+	it already has been activated. Fixes #325375 (critical
+	warning crasher).
+
 2006-01-01  Changwoo Ryu  <cwryu@debian.org>
 
 	* em-folder-properties.c (emfp_dialog_got_folder): translate
