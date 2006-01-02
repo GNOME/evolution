@@ -169,6 +169,9 @@
     <toolitem name="SendReceive" verb="SendReceive"
      _label="Send / Receive" priority="1"
      pixtype="pixbuf"/>
+
+    <separator f="" name="global1"/>
+
   </dockitem>
 
   <popups>

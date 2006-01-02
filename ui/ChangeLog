@@ -1,3 +1,11 @@
+2006-12-02  Karsten Bräckelmann  <guenther@rudersport.de>
+ 
+ 	* evolution.xml: Remove the Mailer specific separator.
+	* evolution-mail-global.xml: Move it here.
+ 
+ 	This adds the separator always between the global SendReceive and
+	the component specific buttons. Fixes #323151.
+
 2006-01-01  Harish Krishnaswamy <kharish@novell.com>
 	
 	* evolution-executive-summary.xml : Remove 
