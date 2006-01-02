@@ -1,5 +1,13 @@
 2006-01-02  Harish Krishnaswamy  <kharish@novell.com>
 
+	reviewed by: Chenthill Palanisamy <pchenthill@novell.com> 
+
+	* gui/e-tasks.c: (open_ecal): The timezone should be set on
+	the task we are trying to open - not on the default.
+	Fixes #325489.
+
+2006-01-02  Harish Krishnaswamy  <kharish@novell.com>
+
 	* gui/dialogs/cal-prefs-dialog.c: (show_fb_config):
 	Fixes #325468 (critical warning crasher).
 

@@ -952,7 +952,7 @@ open_ecal (ETasks *tasks, ECal *cal, gboolean only_if_exists, open_func of)
 	priv = tasks->priv;
 	
 	zone = calendar_config_get_icaltimezone ();
-	e_cal_set_default_timezone (priv->default_client, zone, NULL);
+	e_cal_set_default_timezone (cal, zone, NULL);
 
 	
 	set_status_message (tasks, _("Opening tasks at %s"), e_cal_get_uri (cal));
