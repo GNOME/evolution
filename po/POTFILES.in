@@ -422,7 +422,6 @@ ui/evolution-calendar.xml
 ui/evolution-composer-entries.xml
 ui/evolution-editor.xml
 ui/evolution-event-editor.xml
-ui/evolution-executive-summary.xml
 ui/evolution-mail-global.xml
 ui/evolution-mail-list.xml
 ui/evolution-mail-message.xml
