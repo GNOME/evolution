@@ -85,6 +85,7 @@ New features and other fixes :
 	- Added visual cue to the present of search filter (Srinivasa Ragavan)
 	- G_CRITICAL warnings (Harish)
 	- Network Manager support in Evolution (Shreyas)
+	- Publish Calendar plugin (David Trowbridge)
 	- Using gstdio wrappers and code cleanup (Tor Lillqvist)
 	- Win32 Fixes (Tor Lillqvist)
 
