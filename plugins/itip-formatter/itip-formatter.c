@@ -351,7 +351,7 @@ source_selected_cb (ItipView *view, ESource *source, gpointer data)
 
 	/* If it is a GW recurrence instance, enable the 'Apply to all
 	 * instances' option */
-	if (e_cal_get_static_capability (pitip->current_ecal, CAL_STATIC_CAPABILITY_RECURRENCES_NO_MASTER)) {
+	if (pitip->current_ecal && e_cal_get_static_capability (pitip->current_ecal, CAL_STATIC_CAPABILITY_RECURRENCES_NO_MASTER)) {
 		icalcomponent *icalcomp = e_cal_component_get_icalcomponent (pitip->comp);
 	
 		if (check_is_instance (icalcomp))
