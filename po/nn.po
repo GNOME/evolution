@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: evolution.HEAD.nn\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-12-30 21:47+0100\n"
-"PO-Revision-Date: 2006-01-01 16:42+0100\n"
+"PO-Revision-Date: 2006-01-02 16:50+0100\n"
 "Last-Translator: Åsmund Skjæveland <aasmunds@fys.uio.no>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
 "MIME-Version: 1.0\n"
@@ -18110,7 +18110,7 @@ msgstr "Førehandsvisar kalenderen som skal skrivast ut"
 
 #: ../ui/evolution-calendar.xml.h:17 ../ui/evolution-mail-message.xml.h:75
 msgid "Previous"
-msgstr "Forrige"
+msgstr "Førre"
 
 #: ../ui/evolution-calendar.xml.h:20
 msgid "Print this calendar"
@@ -18791,7 +18791,7 @@ msgstr "Opna valt melding i redigeringsvindauget"
 
 #: ../ui/evolution-mail-message.xml.h:67
 msgid "P_revious Unread Message"
-msgstr "Fo_rrige ulesne melding"
+msgstr "Fø_rre ulesne melding"
 
 #: ../ui/evolution-mail-message.xml.h:69
 msgid "Pos_t New Message to Folder"
@@ -18959,7 +18959,7 @@ msgstr "_Opna i nytt vindauge"
 
 #: ../ui/evolution-mail-message.xml.h:123
 msgid "_Previous Message"
-msgstr "_Forrige melding"
+msgstr "_Førre melding"
 
 #: ../ui/evolution-mail-message.xml.h:125
 msgid "_Quoted"
