@@ -298,10 +298,6 @@ initialize_yourcerts_ui (CertificateManagerData *cfm)
 				     column);
 	gtk_tree_view_column_set_sort_column_id (column, 3);
 
-	gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (cfm->yourcerts_streemodel),
-					      0,
-					      GTK_SORT_ASCENDING);
-
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (cfm->yourcerts_treeview));
 	g_signal_connect (selection, "changed", G_CALLBACK (yourcerts_selection_changed), cfm);
 

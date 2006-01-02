@@ -1,9 +1,16 @@
+2006-01-02  Harish Krishnaswamy  <kharish@novell.com>
+
+	* gui/certificate-manager.c: (initialize_yourcerts_ui):
+	Do not set the sort column before the model is initialized.
+	This is done later by the function unload_certs.
+	Fixes #325472 (critical warning crasher).
+
 2005-12-18  Tor Lillqvist  <tml@novell.com>
 
 	* gui/Makefile.am: Link with libeutil.
 
 	* gui/ca-trust-dialog.c (ca_trust_dialog_show)
-	* gui/cert-trust-dialog.c (cert_trust_dialog_show)
+ 	* gui/cert-trust-dialog.c (cert_trust_dialog_show)
 	* gui/certificate-manager.c (certificate_manager_config_control_new)
 	* gui/certificate-viewer.c (certificate_viewer_show)
 	* gui/e-cert-selector.c (e_cert_selector_new):
