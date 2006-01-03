@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD.gu\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-01-02 05:25+0100\n"
-"PO-Revision-Date: 2006-01-02 14:20+0530\n"
+"POT-Creation-Date: 2006-01-03 05:20+0100\n"
+"PO-Revision-Date: 2006-01-03 10:15+0530\n"
 "Last-Translator: Ankit Patel <ankit644@yahoo.com>\n"
 "Language-Team: Gujarati <indianoss-gujarati@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -13,6 +13,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.9.1\n"
 "Plural-Forms: nplurals=2; plural=(n!=1);\n\n"
+"\n"
 "\n"
 "\n"
 "\n"
@@ -4828,7 +4829,9 @@ msgstr "બાબતો ઊભી તકતીની સ્થિતિ"
 msgid ""
 "The URL template to use as a free/busy data fallback, %u is replaced by the "
 "user part of the mail address and %d is replaced by the domain."
-msgstr "મુક્ત/વ્યસ્ત માહિતી ફોલબેક તરીકે વાપરવાની URL ટેમ્પલેટ, %u એ મેઈલ સરનામાના વપરાશકર્તા ભાગથી બદલાઈ જશે અને %d એ ડોમેઈન દ્વારા બદલાઈ જશે."
+msgstr ""
+"મુક્ત/વ્યસ્ત માહિતી ફોલબેક તરીકે વાપરવાની URL ટેમ્પલેટ, %u એ મેઈલ સરનામાના વપરાશકર્તા "
+"ભાગથી બદલાઈ જશે અને %d એ ડોમેઈન દ્વારા બદલાઈ જશે."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:56
 msgid ""
@@ -6641,7 +6644,7 @@ msgid "%s for an unknown trigger type"
 msgstr "%s અજ્ઞાત પ્રકારની ફેરબદલી માટે"
 
 #: ../calendar/gui/e-cal-component-memo-preview.c:72
-#: ../calendar/gui/e-cal-component-preview.c:70 ../mail/em-folder-view.c:2826
+#: ../calendar/gui/e-cal-component-preview.c:70 ../mail/em-folder-view.c:2829
 #, c-format
 msgid "Click to open %s"
 msgstr "%s ખોલવા માટે ક્લિક કરો"
@@ -7018,19 +7021,19 @@ msgid "Delete _All Occurrences"
 msgstr "બધા વારાઓ કાઢી નાંખો (_A)"
 
 #. To Translators: It will display "Organiser: NameOfTheUser <email@ofuser.com>"
-#: ../calendar/gui/e-calendar-view.c:1951
+#: ../calendar/gui/e-calendar-view.c:1959
 #, c-format
 msgid "Organizer: %s <%s>"
 msgstr "આયોજક: %s <%s>"
 
 #. To Translators: It will display "Location: PlaceOfTheMeeting"
-#: ../calendar/gui/e-calendar-view.c:1965 ../calendar/gui/print.c:2339
+#: ../calendar/gui/e-calendar-view.c:1973 ../calendar/gui/print.c:2339
 #, c-format
 msgid "Location: %s"
 msgstr "સ્થળ: %s"
 
 #. To Translators: It will display "Time: ActualStartDateAndTime (DurationOfTheMeeting)"
-#: ../calendar/gui/e-calendar-view.c:1996
+#: ../calendar/gui/e-calendar-view.c:2004
 #, c-format
 msgid "Time: %s %s"
 msgstr "સમય: %s %s"
@@ -10773,19 +10776,19 @@ msgid "Security"
 msgstr "સુરક્ષા"
 
 #. Most sections for this is auto-generated fromt the camel config
-#: ../mail/em-account-editor.c:2322 ../mail/em-account-editor.c:2412
+#: ../mail/em-account-editor.c:2322 ../mail/em-account-editor.c:2413
 msgid "Receiving Options"
 msgstr "વિકલ્પો મેળવી રહ્યા છીએ"
 
-#: ../mail/em-account-editor.c:2323 ../mail/em-account-editor.c:2413
+#: ../mail/em-account-editor.c:2323 ../mail/em-account-editor.c:2414
 msgid "Checking for New Mail"
 msgstr "નવા મેઈલો માટે ચકાસી રહ્યા છીએ"
 
-#: ../mail/em-account-editor.c:2737 ../mail/mail-config.glade.h:34
+#: ../mail/em-account-editor.c:2753 ../mail/mail-config.glade.h:34
 msgid "Account Editor"
 msgstr "ખાતા સંપાદક"
 
-#: ../mail/em-account-editor.c:2737 ../mail/mail-config.glade.h:80
+#: ../mail/em-account-editor.c:2753 ../mail/mail-config.glade.h:80
 msgid "Evolution Account Assistant"
 msgstr "ઈવોલ્યુશન ખાતા મદદનીશ"
 
@@ -11143,7 +11146,7 @@ msgid_plural "Unread messages:"
 msgstr[0] "નહિં વાંચેલ સંદેશો:"
 msgstr[1] "નહિં વાંચેલ સંદેશાઓ:"
 
-#: ../mail/em-folder-properties.c:280
+#: ../mail/em-folder-properties.c:289
 #: ../plugins/groupwise-features/properties.glade.h:3
 msgid "Folder Properties"
 msgstr "ફોલ્ડરના ગુણધર્મો"
@@ -11444,7 +11447,7 @@ msgstr "આ સરનામા તરફથી (_F)"
 msgid "_To this Address"
 msgstr "આ સરનામા પ્રતિ (_T)"
 
-#: ../mail/em-folder-view.c:2821
+#: ../mail/em-folder-view.c:2824
 #, c-format
 msgid "Click to mail %s"
 msgstr "મેઈલ %s કરવા માટે ક્લિક કરો"
@@ -11514,7 +11517,9 @@ msgid ""
 "This message is encrypted, but with a weak encryption algorithm. It would be "
 "difficult, but not impossible for an outsider to view the content of this "
 "message in a practical amount of time."
-msgstr "આ સંદેશો એનક્રિપ્ટ થયેલ છે, પરંતુ નબળા એનક્રિપ્શન અલગોરિધમ સાથે. તે મુશ્કેલ હશે, પરંતુ એ બહારના વ્યક્તિ માટે પ્રાયોગિક સમય દરમ્યાન સંદેશાના સમાવિષ્ટો જોવાનું અશક્ય નથી."
+msgstr ""
+"આ સંદેશો એનક્રિપ્ટ થયેલ છે, પરંતુ નબળા એનક્રિપ્શન અલગોરિધમ સાથે. તે મુશ્કેલ હશે, પરંતુ એ "
+"બહારના વ્યક્તિ માટે પ્રાયોગિક સમય દરમ્યાન સંદેશાના સમાવિષ્ટો જોવાનું અશક્ય નથી."
 
 #: ../mail/em-format-html-display.c:740 ../mail/em-format-html.c:618
 msgid "Encrypted"
@@ -11535,7 +11540,9 @@ msgid ""
 "This message is encrypted, with a strong encryption algorithm. It would be "
 "very difficult for an outsider to view the content of this message in a "
 "practical amount of time."
-msgstr "આ સંદેશો એનક્રિપ્ટ થયેલ છે, મજબૂત એનક્રિપ્શન અલગોરિધમ સાથે. બહારની વ્યક્તિ માટે પ્રાયોગિક સમય દરમ્યાન આ સંદેશાના સમાવિષ્ટોને જોવાનું મુશ્કેલ થઈ જશે."
+msgstr ""
+"આ સંદેશો એનક્રિપ્ટ થયેલ છે, મજબૂત એનક્રિપ્શન અલગોરિધમ સાથે. બહારની વ્યક્તિ માટે પ્રાયોગિક "
+"સમય દરમ્યાન આ સંદેશાના સમાવિષ્ટોને જોવાનું મુશ્કેલ થઈ જશે."
 
 #: ../mail/em-format-html-display.c:842 ../smime/gui/smime-ui.glade.h:48
 msgid "_View Certificate"
@@ -13754,7 +13761,9 @@ msgid ""
 "Cannot read the license file &quot;{0}&quot;, due to an installation "
 "problem. You will not be able to use this provider until you can accept its "
 "license."
-msgstr "લાઈસન્સ ફાઈલ &quot;{0}&quot; વાંચી શકતા નથી, સ્થાપન સમસ્યાને કારણે.  જ્યાં સુધી તમે આ વિક્રેતાનું લાઈસન્સ સ્વીકારો નહિં ત્યાં સુધી તમે એને વાપરવા સમર્થ નથી."
+msgstr ""
+"લાઈસન્સ ફાઈલ &quot;{0}&quot; વાંચી શકતા નથી, સ્થાપન સમસ્યાને કારણે.  જ્યાં સુધી તમે આ "
+"વિક્રેતાનું લાઈસન્સ સ્વીકારો નહિં ત્યાં સુધી તમે એને વાપરવા સમર્થ નથી."
 
 #: ../mail/mail.error.xml.h:34
 msgid "Cannot rename &quot;{0}&quot; to &quot;{1}&quot;."
@@ -13784,7 +13793,9 @@ msgstr "સહી સ્ક્રિપ્ટ &quot;{0}&quot; સુયોજિ
 msgid ""
 "Check to make sure your password is spelled correctly. Remember that many "
 "passwords are case sensitive; your caps lock might be on."
-msgstr "તમારો પાસવર્ડ યોગ્ય રીતે લખાયેલો છે કે તે ચકાસવા માટે ખાતરી કરો. યાદ રાખો કે ઘણા પાસવર્ડો કેસ પ્રત્યે સંવેદનશીલ હોય છે; તમારી કેપ્સ લોક કી કદાચ ચાલુ હશે."
+msgstr ""
+"તમારો પાસવર્ડ યોગ્ય રીતે લખાયેલો છે કે તે ચકાસવા માટે ખાતરી કરો. યાદ રાખો કે ઘણા "
+"પાસવર્ડો કેસ પ્રત્યે સંવેદનશીલ હોય છે; તમારી કેપ્સ લોક કી કદાચ ચાલુ હશે."
 
 #: ../mail/mail.error.xml.h:41
 msgid "Could not save signature file."
@@ -14036,7 +14047,8 @@ msgid ""
 "The message is stored in the Outbox folder. Check the message for errors and "
 "resend."
 msgstr ""
-"બાહ્ય કાર્યક્રમ &quot;sendmail&quot; દ્વારા મોકલાયેલ સંદેશો પહોંચી ગયો. Sendmail નીચેની ભૂલોનો અહેવાલ આપે છે: સ્થિતિ ૬૭: મેઈલ મોકલાયો નથી.\n"
+"બાહ્ય કાર્યક્રમ &quot;sendmail&quot; દ્વારા મોકલાયેલ સંદેશો પહોંચી ગયો. Sendmail "
+"નીચેની ભૂલોનો અહેવાલ આપે છે: સ્થિતિ ૬૭: મેઈલ મોકલાયો નથી.\n"
 "સંદેશો આઉટબોક્સ ફોલ્ડરમાં સંગ્રહાયેલો છે. સંદેશાને ભૂલો અને ફરીથી મોકલવા માટે ચકાસો."
 
 #: ../mail/mail.error.xml.h:102
@@ -14833,19 +14845,19 @@ msgid "Exchange Folder Tree"
 msgstr "એક્સચેન્જ ફોલ્ડર વૃક્ષ"
 
 #: ../plugins/exchange-operations/exchange-folder.c:66
-#: ../plugins/exchange-operations/exchange-folder.c:227
-#: ../plugins/exchange-operations/exchange-folder.c:237
+#: ../plugins/exchange-operations/exchange-folder.c:229
+#: ../plugins/exchange-operations/exchange-folder.c:239
 msgid "Unsubscribe Folder..."
 msgstr "ફોલ્ડરોની ઉમેદવારી દૂર કરો..."
 
-#: ../plugins/exchange-operations/exchange-folder.c:464
-#: ../plugins/exchange-operations/exchange-folder.c:524
+#: ../plugins/exchange-operations/exchange-folder.c:466
+#: ../plugins/exchange-operations/exchange-folder.c:526
 #, c-format
 msgid "Really unsubscribe from folder \"%s\"?"
 msgstr "શું ખરેખર ફોલ્ડર \"%s\" માંથી ઉમેદવારી દૂર કરવી છે?"
 
-#: ../plugins/exchange-operations/exchange-folder.c:476
-#: ../plugins/exchange-operations/exchange-folder.c:536
+#: ../plugins/exchange-operations/exchange-folder.c:478
+#: ../plugins/exchange-operations/exchange-folder.c:538
 #, c-format
 msgid "Unsubscribe from \"%s\""
 msgstr "\"%s\" માંથી ઉમેદવારી દૂર કરો"
@@ -15209,19 +15221,25 @@ msgstr "તમે માત્ર એક એક્સચેન્જ ખાત�
 msgid ""
 "Your current usage is: {0}KB. Try to clear up some space by deleting some "
 "mails."
-msgstr "તમારો વર્તમાન વપરાશ: {0}KB છે. અમુક મેઈલ કાઢી નાંખીને થોડી જગ્યા સાફ કરવાનો પ્રયત્ન કરો."
+msgstr ""
+"તમારો વર્તમાન વપરાશ: {0}KB છે. અમુક મેઈલ કાઢી નાંખીને થોડી જગ્યા સાફ કરવાનો પ્રયત્ન "
+"કરો."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:73
 msgid ""
 "Your current usage is: {0}KB. You will not be able to either send or recieve "
 "mails now."
-msgstr "તમારો વર્તમાન વપરાશ: {0}KB છે. તમે હમણાં ક્યાં મેઈલો મોકલવા માટે કે મેળવવા માટે સમર્થ હશો નહિં."
+msgstr ""
+"તમારો વર્તમાન વપરાશ: {0}KB છે. તમે હમણાં ક્યાં મેઈલો મોકલવા માટે કે મેળવવા માટે સમર્થ "
+"હશો નહિં."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:74
 msgid ""
 "Your current usage is: {0}KB. You will not be able to send mails till you "
 "clear up some space by deleting some mails."
-msgstr "તમારો વર્તમાન વપરાશ: {0}KB છે. તમે જ્યાં સુધી અમુક મેઈલો કાઢી નાંખીને અમુક જગ્યા ખાલી કરો નહિં ત્યાં સુધી મેઈલો મોકલવા માટે સમર્થ હશો નહિં."
+msgstr ""
+"તમારો વર્તમાન વપરાશ: {0}KB છે. તમે જ્યાં સુધી અમુક મેઈલો કાઢી નાંખીને અમુક જગ્યા ખાલી "
+"કરો નહિં ત્યાં સુધી મેઈલો મોકલવા માટે સમર્થ હશો નહિં."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:75
 msgid "Your password has expired."
@@ -17342,21 +17360,21 @@ msgstr ""
 
 #: ../smime/gui/certificate-manager.c:136
 #: ../smime/gui/certificate-manager.c:144
-#: ../smime/gui/certificate-manager.c:379
-#: ../smime/gui/certificate-manager.c:387
-#: ../smime/gui/certificate-manager.c:599
-#: ../smime/gui/certificate-manager.c:607
+#: ../smime/gui/certificate-manager.c:375
+#: ../smime/gui/certificate-manager.c:383
+#: ../smime/gui/certificate-manager.c:595
+#: ../smime/gui/certificate-manager.c:603
 msgid "Select a certificate to import..."
 msgstr "આયાત કરવા માટે પ્રમાણપત્ર પસંદ કરો..."
 
 #: ../smime/gui/certificate-manager.c:267
-#: ../smime/gui/certificate-manager.c:476
-#: ../smime/gui/certificate-manager.c:694
+#: ../smime/gui/certificate-manager.c:472
+#: ../smime/gui/certificate-manager.c:690
 msgid "Certificate Name"
 msgstr "પ્રમાણપત્ર નામ"
 
 #: ../smime/gui/certificate-manager.c:276
-#: ../smime/gui/certificate-manager.c:494
+#: ../smime/gui/certificate-manager.c:490
 msgid "Purposes"
 msgstr "હેતુઓ"
 
@@ -17369,7 +17387,7 @@ msgstr "શ્રેણી સંખ્યા"
 msgid "Expires"
 msgstr "મુદત પુરી થાય છે"
 
-#: ../smime/gui/certificate-manager.c:485
+#: ../smime/gui/certificate-manager.c:481
 msgid "E-Mail Address"
 msgstr "ઈ-મેઈલ સરનામુ"
 
@@ -19588,17 +19606,17 @@ msgstr "પહેલાનું બટન"
 msgid "Month Calendar"
 msgstr "મહિના કેલેન્ડર"
 
-#: ../widgets/misc/e-canvas-background.c:456
-#: ../widgets/misc/e-canvas-background.c:457 ../widgets/text/e-entry.c:1284
+#: ../widgets/misc/e-canvas-background.c:459
+#: ../widgets/misc/e-canvas-background.c:460 ../widgets/text/e-entry.c:1284
 #: ../widgets/text/e-entry.c:1285 ../widgets/text/e-text.c:3540
 #: ../widgets/text/e-text.c:3541
 msgid "Fill color"
 msgstr "રંગ ભરો"
 
-#: ../widgets/misc/e-canvas-background.c:463
-#: ../widgets/misc/e-canvas-background.c:464
-#: ../widgets/misc/e-canvas-background.c:470
-#: ../widgets/misc/e-canvas-background.c:471 ../widgets/text/e-entry.c:1291
+#: ../widgets/misc/e-canvas-background.c:466
+#: ../widgets/misc/e-canvas-background.c:467
+#: ../widgets/misc/e-canvas-background.c:473
+#: ../widgets/misc/e-canvas-background.c:474 ../widgets/text/e-entry.c:1291
 #: ../widgets/text/e-entry.c:1292 ../widgets/text/e-entry.c:1298
 #: ../widgets/text/e-entry.c:1299 ../widgets/text/e-text.c:3547
 #: ../widgets/text/e-text.c:3548 ../widgets/text/e-text.c:3555
@@ -19606,30 +19624,30 @@ msgstr "રંગ ભરો"
 msgid "GDK fill color"
 msgstr "GDK ભરવાનો રંગ"
 
-#: ../widgets/misc/e-canvas-background.c:477
-#: ../widgets/misc/e-canvas-background.c:478 ../widgets/text/e-entry.c:1305
+#: ../widgets/misc/e-canvas-background.c:480
+#: ../widgets/misc/e-canvas-background.c:481 ../widgets/text/e-entry.c:1305
 #: ../widgets/text/e-entry.c:1306 ../widgets/text/e-text.c:3562
 #: ../widgets/text/e-text.c:3563
 msgid "Fill stipple"
 msgstr "સ્ટીપલ ભરો"
 
-#: ../widgets/misc/e-canvas-background.c:484
-#: ../widgets/misc/e-canvas-background.c:485
+#: ../widgets/misc/e-canvas-background.c:487
+#: ../widgets/misc/e-canvas-background.c:488
 msgid "X1"
 msgstr "X1"
 
-#: ../widgets/misc/e-canvas-background.c:491
-#: ../widgets/misc/e-canvas-background.c:492
+#: ../widgets/misc/e-canvas-background.c:494
+#: ../widgets/misc/e-canvas-background.c:495
 msgid "X2"
 msgstr "X2"
 
-#: ../widgets/misc/e-canvas-background.c:498
-#: ../widgets/misc/e-canvas-background.c:499
+#: ../widgets/misc/e-canvas-background.c:501
+#: ../widgets/misc/e-canvas-background.c:502
 msgid "Y1"
 msgstr "Y1"
 
-#: ../widgets/misc/e-canvas-background.c:505
-#: ../widgets/misc/e-canvas-background.c:506
+#: ../widgets/misc/e-canvas-background.c:508
+#: ../widgets/misc/e-canvas-background.c:509
 msgid "Y2"
 msgstr "Y2"
 
@@ -20049,20 +20067,20 @@ msgstr ""
 "નીચું"
 
 #: ../widgets/misc/e-send-options.glade.h:23
-msgid "W_ithin"
-msgstr "ની સાથે (_i)"
-
-#: ../widgets/misc/e-send-options.glade.h:24
 msgid "When acce_pted:"
 msgstr "જ્યારે સ્વીકારાય (_p):"
 
-#: ../widgets/misc/e-send-options.glade.h:25
+#: ../widgets/misc/e-send-options.glade.h:24
 msgid "When co_mpleted:"
 msgstr "જ્યારે પૂર્ણ થાય (_m):"
 
-#: ../widgets/misc/e-send-options.glade.h:26
+#: ../widgets/misc/e-send-options.glade.h:25
 msgid "When decli_ned:"
 msgstr "જ્યારે નકારાય (_n):"
+
+#: ../widgets/misc/e-send-options.glade.h:26
+msgid "Wi_thin"
+msgstr "ની સાથે (_t)"
 
 #: ../widgets/misc/e-send-options.glade.h:27
 msgid "_After:"
