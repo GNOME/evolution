@@ -1,14 +1,14 @@
 # Canadian English translation of evolution
-# Copyright (C) 2004-2005 Adam Weinberger and the GNOME Foundation
+# Copyright (C) 2004-2006 Adam Weinberger and the GNOME Foundation
 # This file is distributed under the same licence as the evolution package.
-# Adam Weinberger <adamw@gnome.org>, 2004, 2005.
+# Adam Weinberger <adamw@gnome.org>, 2004, 2005, 2006.
 #
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-12-30 17:28-0500\n"
+"POT-Creation-Date: 2006-01-02 21:48-0500\n"
 "PO-Revision-Date: 2005-08-21 19:18-0400\n"
 "Last-Translator: Adam Weinberger <adamw@gnome.org>\n"
 "Language-Team: Canadian English <adamw@gnome.org>\n"
@@ -4083,8 +4083,8 @@ msgid "Delete task list '{0}'?"
 msgstr "Delete task list '{0}'?"
 
 #: ../calendar/calendar.error.xml.h:26
-msgid "Don't Send"
-msgstr "Don't Send"
+msgid "Do not Send"
+msgstr "Do Not Send"
 
 #: ../calendar/calendar.error.xml.h:27
 msgid "Download in progress. Do you want to save the appointment?"
@@ -4126,27 +4126,27 @@ msgstr "Error loading task list"
 
 #: ../calendar/calendar.error.xml.h:35
 msgid ""
-"If you don't send a cancellation notice, the other participants may not know "
-"the journal has been deleted."
+"If you do not send a cancellation notice, the other participants may not "
+"know the journal has been deleted."
 msgstr ""
-"If you do not send a cancellation notice, the other participants may not know "
-"the journal has been deleted."
+"If you do not send a cancellation notice, the other participants may not "
+"know the journal has been deleted."
 
 #: ../calendar/calendar.error.xml.h:36
 msgid ""
-"If you don't send a cancellation notice, the other participants may not know "
-"the meeting is cancelled."
+"If you do not send a cancellation notice, the other participants may not "
+"know the meeting is cancelled."
 msgstr ""
-"If you do not send a cancellation notice, the other participants may not know "
-"the meeting is cancelled."
+"If you do not send a cancellation notice, the other participants may not "
+"know the meeting is cancelled."
 
 #: ../calendar/calendar.error.xml.h:37
 msgid ""
-"If you don't send a cancellation notice, the other participants may not know "
-"the task has been deleted."
+"If you do not send a cancellation notice, the other participants may not "
+"know the task has been deleted."
 msgstr ""
-"If you do not send a cancellation notice, the other participants may not know "
-"the task has been deleted."
+"If you do not send a cancellation notice, the other participants may not "
+"know the task has been deleted."
 
 #: ../calendar/calendar.error.xml.h:38
 #: ../ui/evolution-message-composer.xml.h:28
@@ -6703,7 +6703,7 @@ msgid "%s for an unknown trigger type"
 msgstr "%s for an unknown trigger type"
 
 #: ../calendar/gui/e-cal-component-memo-preview.c:72
-#: ../calendar/gui/e-cal-component-preview.c:70 ../mail/em-folder-view.c:2826
+#: ../calendar/gui/e-cal-component-preview.c:70 ../mail/em-folder-view.c:2829
 #, c-format
 msgid "Click to open %s"
 msgstr "Click to open %s"
@@ -7080,19 +7080,19 @@ msgid "Delete _All Occurrences"
 msgstr "Delete _All Occurrences"
 
 #. To Translators: It will display "Organiser: NameOfTheUser <email@ofuser.com>"
-#: ../calendar/gui/e-calendar-view.c:1951
+#: ../calendar/gui/e-calendar-view.c:1959
 #, c-format
 msgid "Organizer: %s <%s>"
 msgstr "Organizer: %s <%s>"
 
 #. To Translators: It will display "Location: PlaceOfTheMeeting"
-#: ../calendar/gui/e-calendar-view.c:1965 ../calendar/gui/print.c:2339
+#: ../calendar/gui/e-calendar-view.c:1973 ../calendar/gui/print.c:2339
 #, c-format
 msgid "Location: %s"
 msgstr "Location: %s"
 
 #. To Translators: It will display "Time: ActualStartDateAndTime (DurationOfTheMeeting)"
-#: ../calendar/gui/e-calendar-view.c:1996
+#: ../calendar/gui/e-calendar-view.c:2004
 #, c-format
 msgid "Time: %s %s"
 msgstr "Time: %s %s"
@@ -10236,12 +10236,12 @@ msgid "Directories can not be attached to Messages."
 msgstr "Directories can not be attached to Messages."
 
 #: ../composer/mail-composer.error.xml.h:13
-msgid "Do you want to recover unfinished messages?"
-msgstr "Do you want to recover unfinished messages?"
+msgid "Do not Recover"
+msgstr "Do Not Recover"
 
 #: ../composer/mail-composer.error.xml.h:14
-msgid "Don't Recover"
-msgstr "Don't Recover"
+msgid "Do you want to recover unfinished messages?"
+msgstr "Do you want to recover unfinished messages?"
 
 #: ../composer/mail-composer.error.xml.h:15
 msgid "Download in progress. Do you want to send the mail?"
@@ -10366,8 +10366,8 @@ msgid "I am currently out of the office"
 msgstr "I am currently out of the office"
 
 #: ../designs/OOA/ooa.glade.h:10
-msgid "No, Don't Change Status"
-msgstr "No, Don't Change Status"
+msgid "No, Do not Change Status"
+msgstr "No, Do Not Change Status"
 
 #: ../designs/OOA/ooa.glade.h:12
 msgid "Out of Office Assistant"
@@ -10864,19 +10864,19 @@ msgid "Security"
 msgstr "Security"
 
 #. Most sections for this is auto-generated fromt the camel config
-#: ../mail/em-account-editor.c:2322 ../mail/em-account-editor.c:2412
+#: ../mail/em-account-editor.c:2322 ../mail/em-account-editor.c:2413
 msgid "Receiving Options"
 msgstr "Receiving Options"
 
-#: ../mail/em-account-editor.c:2323 ../mail/em-account-editor.c:2413
+#: ../mail/em-account-editor.c:2323 ../mail/em-account-editor.c:2414
 msgid "Checking for New Mail"
 msgstr "Checking for New Mail"
 
-#: ../mail/em-account-editor.c:2737 ../mail/mail-config.glade.h:34
+#: ../mail/em-account-editor.c:2753 ../mail/mail-config.glade.h:34
 msgid "Account Editor"
 msgstr "Account Editor"
 
-#: ../mail/em-account-editor.c:2737 ../mail/mail-config.glade.h:80
+#: ../mail/em-account-editor.c:2753 ../mail/mail-config.glade.h:80
 msgid "Evolution Account Assistant"
 msgstr "Evolution Account Assistant"
 
@@ -11234,7 +11234,7 @@ msgid_plural "Unread messages:"
 msgstr[0] "Unread messages:"
 msgstr[1] "Unread messages:"
 
-#: ../mail/em-folder-properties.c:280
+#: ../mail/em-folder-properties.c:289
 #: ../plugins/groupwise-features/properties.glade.h:3
 msgid "Folder Properties"
 msgstr "Folder Properties"
@@ -11535,7 +11535,7 @@ msgstr "_From this Address"
 msgid "_To this Address"
 msgstr "_To this Address"
 
-#: ../mail/em-folder-view.c:2821
+#: ../mail/em-folder-view.c:2824
 #, c-format
 msgid "Click to mail %s"
 msgstr "Click to mail %s"
@@ -11600,10 +11600,10 @@ msgstr "Unencrypted"
 
 #: ../mail/em-format-html-display.c:738
 msgid ""
-"This message is not encrypted.  Its content may be viewed in transit across "
+"This message is not encrypted. Its content may be viewed in transit across "
 "the Internet."
 msgstr ""
-"This message is not encrypted.  Its content may be viewed in transit across "
+"This message is not encrypted. Its content may be viewed in transit across "
 "the Internet."
 
 #: ../mail/em-format-html-display.c:739 ../mail/em-format-html.c:617
@@ -11612,12 +11612,12 @@ msgstr "Encrypted, weak"
 
 #: ../mail/em-format-html-display.c:739
 msgid ""
-"This message is encrypted, but with a weak encryption algorithm.  It would "
-"be difficult, but not impossible for an outsider to view the content of this "
+"This message is encrypted, but with a weak encryption algorithm. It would be "
+"difficult, but not impossible for an outsider to view the content of this "
 "message in a practical amount of time."
 msgstr ""
-"This message is encrypted, but with a weak encryption algorithm.  It would "
-"be difficult, but not impossible for an outsider to view the content of this "
+"This message is encrypted, but with a weak encryption algorithm. It would be "
+"difficult--but not impossible--for an outsider to view the content of this "
 "message in a practical amount of time."
 
 #: ../mail/em-format-html-display.c:740 ../mail/em-format-html.c:618
@@ -11638,11 +11638,11 @@ msgstr "Encrypted, strong"
 
 #: ../mail/em-format-html-display.c:741
 msgid ""
-"This message is encrypted, with a strong encryption algorithm.  It would be "
+"This message is encrypted, with a strong encryption algorithm. It would be "
 "very difficult for an outsider to view the content of this message in a "
 "practical amount of time."
 msgstr ""
-"This message is encrypted, with a strong encryption algorithm.  It would be "
+"This message is encrypted, with a strong encryption algorithm. It would be "
 "very difficult for an outsider to view the content of this message in a "
 "practical amount of time."
 
@@ -11963,8 +11963,8 @@ msgid "No server has been selected"
 msgstr "No server has been selected"
 
 #: ../mail/em-utils.c:123
-msgid "Don't show this message again."
-msgstr "Don't show this message again."
+msgid "Do not show this message again."
+msgstr "Do not show this message again."
 
 #: ../mail/em-utils.c:356
 msgid "Filters"
@@ -13268,8 +13268,8 @@ msgid "_Do not notify me when new mail arrives"
 msgstr "_Do not notify me when new mail arrives"
 
 #: ../mail/mail-config.glade.h:158
-msgid "_Don't sign meeting requests (for Outlook compatibility)"
-msgstr "_Don't sign meeting requests (for Outlook compatibility)"
+msgid "_Do not sign meeting requests (for Outlook compatibility)"
+msgstr "_Do not sign meeting requests (for Outlook compatibility)"
 
 #: ../mail/mail-config.glade.h:160
 msgid "_Forward style:"
@@ -13296,8 +13296,8 @@ msgid "_Path:"
 msgstr "_Path:"
 
 #: ../mail/mail-config.glade.h:167
-msgid "_Prompt when sending HTML messages to contacts that don't want them"
-msgstr "_Prompt when sending HTML messages to contacts that don't want them"
+msgid "_Prompt when sending HTML messages to contacts that do not want them"
+msgstr "_Prompt when sending HTML messages to contacts that do not want them"
 
 #: ../mail/mail-config.glade.h:168
 msgid "_Prompt when sending messages with an empty subject line"
@@ -13751,11 +13751,11 @@ msgstr ""
 
 #: ../mail/mail.error.xml.h:6
 msgid ""
-"A read receipt notification has been requested for &quot;{1}&quot;.  Send "
-"the receipt notification to {0}?"
+"A read receipt notification has been requested for &quot;{1}&quot;. Send the "
+"receipt notification to {0}?"
 msgstr ""
-"A read receipt notification has been requested for &quot;{1}&quot;.  Send "
-"the receipt notification to {0}?"
+"A read receipt notification has been requested for &quot;{1}&quot;. Send the "
+"receipt notification to {0}?"
 
 #: ../mail/mail.error.xml.h:7
 msgid ""
@@ -13876,11 +13876,11 @@ msgstr "Cannot open target &quot;{2}&quot;."
 #: ../mail/mail.error.xml.h:33
 msgid ""
 "Cannot read the license file &quot;{0}&quot;, due to an installation "
-"problem.  You will not be able to use this provider until you can accept its "
+"problem. You will not be able to use this provider until you can accept its "
 "license."
 msgstr ""
 "Cannot read the licence file &quot;{0}&quot;, due to an installation "
-"problem.  You will not be able to use this provider until you can accept its "
+"problem. You will not be able to use this provider until you can accept its "
 "licence."
 
 #: ../mail/mail.error.xml.h:34
@@ -13909,10 +13909,10 @@ msgstr "Cannot set signature script &quot;{0}&quot;."
 
 #: ../mail/mail.error.xml.h:40
 msgid ""
-"Check to make sure your password is spelled correctly.  Remember that many "
+"Check to make sure your password is spelled correctly. Remember that many "
 "passwords are case sensitive; your caps lock might be on."
 msgstr ""
-"Check to make sure your password is spelled correctly.  Remember that many "
+"Check to make sure your password is spelled correctly. Remember that many "
 "passwords are case sensitive; your caps lock might be on."
 
 #: ../mail/mail.error.xml.h:41
@@ -13932,16 +13932,16 @@ msgid "Discard changes?"
 msgstr "Discard changes?"
 
 #: ../mail/mail.error.xml.h:45
+msgid "Do not delete"
+msgstr "Do not delete"
+
+#: ../mail/mail.error.xml.h:46
 msgid "Do you want the operation to be performed in the subfolders?"
 msgstr "Do you want the operation to be performed in the subfolders?"
 
-#: ../mail/mail.error.xml.h:46
+#: ../mail/mail.error.xml.h:47
 msgid "Do you wish to save your changes?"
 msgstr "Do you wish to save your changes?"
-
-#: ../mail/mail.error.xml.h:47
-msgid "Don't delete"
-msgstr "Don't delete"
 
 #: ../mail/mail.error.xml.h:48
 msgid "Enter password."
@@ -14165,15 +14165,15 @@ msgstr ""
 
 #: ../mail/mail.error.xml.h:100
 msgid ""
-"The message was sent via the &quot;sendmail&quot; external application.  "
+"The message was sent via the &quot;sendmail&quot; external application. "
 "Sendmail reports the following error: status 67: mail not sent.\n"
-"The message is stored in the Outbox folder.  Check the message for errors "
-"and resend."
+"The message is stored in the Outbox folder. Check the message for errors and "
+"resend."
 msgstr ""
-"The message was sent via the &quot;sendmail&quot; external application.  "
+"The message was sent via the &quot;sendmail&quot; external application. "
 "Sendmail reports the following error: status 67: mail not sent.\n"
-"The message is stored in the Outbox folder.  Check the message for errors "
-"and resend."
+"The message is stored in the Outbox folder. Check the message for errors and "
+"resend."
 
 #: ../mail/mail.error.xml.h:102
 msgid "The script file must exist and be executable."
@@ -14219,10 +14219,10 @@ msgstr "Unable to connect to the GroupWise server."
 
 #: ../mail/mail.error.xml.h:110
 msgid ""
-"Unable to open the drafts folder for this account.  Use the system drafts "
+"Unable to open the drafts folder for this account. Use the system drafts "
 "folder instead?"
 msgstr ""
-"Unable to open the drafts folder for this account.  Use the system drafts "
+"Unable to open the drafts folder for this account. Use the system drafts "
 "folder instead?"
 
 #: ../mail/mail.error.xml.h:111
@@ -14565,7 +14565,7 @@ msgid ""
 "reply to mails. Also fills in IM contact information from your buddy lists."
 msgstr ""
 "Automatically fills your addressbook with names and email addresses as you "
-"reply to mails. Also fills in IM contact information from your buddy lists."
+"reply to messages. Also fills in IM contact information from your buddy lists."
 
 #: ../plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:3
 msgid "BBDB"
@@ -14984,19 +14984,19 @@ msgid "Exchange Folder Tree"
 msgstr "Exchange Folder Tree"
 
 #: ../plugins/exchange-operations/exchange-folder.c:66
-#: ../plugins/exchange-operations/exchange-folder.c:227
-#: ../plugins/exchange-operations/exchange-folder.c:237
+#: ../plugins/exchange-operations/exchange-folder.c:229
+#: ../plugins/exchange-operations/exchange-folder.c:239
 msgid "Unsubscribe Folder..."
 msgstr "Unsubscribe Folder..."
 
-#: ../plugins/exchange-operations/exchange-folder.c:464
-#: ../plugins/exchange-operations/exchange-folder.c:524
+#: ../plugins/exchange-operations/exchange-folder.c:466
+#: ../plugins/exchange-operations/exchange-folder.c:526
 #, c-format
 msgid "Really unsubscribe from folder \"%s\"?"
 msgstr "Really unsubscribe from folder \"%s\"?"
 
-#: ../plugins/exchange-operations/exchange-folder.c:476
-#: ../plugins/exchange-operations/exchange-folder.c:536
+#: ../plugins/exchange-operations/exchange-folder.c:478
+#: ../plugins/exchange-operations/exchange-folder.c:538
 #, c-format
 msgid "Unsubscribe from \"%s\""
 msgstr "Unsubscribe from \"%s\""
@@ -15183,10 +15183,10 @@ msgstr "Exchange Account is offline."
 msgid ""
 "Exchange Connector requires access to certain\n"
 "functionality on the Exchange Server that appears\n"
-"to be disabled or blocked.  (This is usually \n"
-"unintentional.)  Your Exchange Administrator will \n"
+"to be disabled or blocked. (This is usually \n"
+"unintentional.) Your Exchange Administrator will \n"
 "need to enable this functionality in order for \n"
-"you to be able to use Ximian Connector.\n"
+"you to be able to use Evolution Exchange Connector.\n"
 "\n"
 "For information to provide to your Exchange \n"
 "administrator, please follow the link below:\n"
@@ -15196,10 +15196,10 @@ msgid ""
 msgstr ""
 "Exchange Connector requires access to certain\n"
 "functionality on the Exchange Server that appears\n"
-"to be disabled or blocked.  (This is usually \n"
-"unintentional.)  Your Exchange Administrator will \n"
+"to be disabled or blocked. (This is usually \n"
+"unintentional.) Your Exchange Administrator will \n"
 "need to enable this functionality in order for \n"
-"you to be able to use Ximian Connector.\n"
+"you to be able to use Evolution Exchange Connector.\n"
 "\n"
 "For information to provide to your Exchange \n"
 "administrator, please follow the link below:\n"
@@ -15360,27 +15360,27 @@ msgstr "You may only configure a single Exchange account."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:72
 msgid ""
-"Your current usage is : {0}KB. Try to clear up some space by deleting some "
+"Your current usage is: {0}KB. Try to clear up some space by deleting some "
 "mails."
 msgstr ""
-"Your current usage is : {0} KB. Try to clear up some space by deleting some "
+"Your current usage is: {0}KB. Try to clear up some space by deleting some "
 "mail."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:73
 msgid ""
-"Your current usage is : {0}KB. You will not be able to either send or "
-"recieve mails now."
+"Your current usage is: {0}KB. You will not be able to either send or recieve "
+"mails now."
 msgstr ""
-"Your current usage is : {0} KB. You will not be able to either send or "
-"receive mail now."
+"Your current usage is: {0}KB. You will not be able to either send or recieve "
+"mail now."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:74
 msgid ""
-"Your current usage is : {0}KB. You will not be able to send mails till you "
+"Your current usage is: {0}KB. You will not be able to send mails till you "
 "clear up some space by deleting some mails."
 msgstr ""
-"Your current usage is : {0} KB. You will not be able to send mail until you "
-"clear up some space by deleting some mail."
+"Your current usage is: {0}KB. You will not be able to send mail until you "
+"clear up space by deleting some mail."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:75
 msgid "Your password has expired."
@@ -15440,7 +15440,7 @@ msgid "Junk Mail Settings..."
 msgstr "Junk Mail Settings..."
 
 #: ../plugins/groupwise-features/junk-settings.glade.h:1
-msgid "<b>Junk List :</b>"
+msgid "<b>Junk List:</b>"
 msgstr "<b>Junk List:</b>"
 
 #: ../plugins/groupwise-features/junk-settings.glade.h:2
@@ -15487,7 +15487,7 @@ msgid "Accept Tentatively"
 msgstr "Accept Tentatively"
 
 #: ../plugins/groupwise-features/properties.glade.h:2
-msgid "<b>Users :</b>"
+msgid "<b>Users:</b>"
 msgstr "<b>Users:</b>"
 
 #: ../plugins/groupwise-features/properties.glade.h:4
@@ -16556,7 +16556,7 @@ msgid ""
 "This plugin is unsupported demonstration code only.\n"
 msgstr ""
 "A test plugin which demonstrates a formatter plugin which lets you choose to "
-"disable HTML mails.\n"
+"disable HTML emails.\n"
 "\n"
 "This plugin is unsupported demonstration code only.\n"
 
@@ -17190,16 +17190,16 @@ msgid "Work Offline"
 msgstr "Work Offline"
 
 #: ../shell/e-shell-window.c:370
-msgid "Evolution is currently online.  Click on this button to work offline."
-msgstr "Evolution is currently online.  Click on this button to work offline."
+msgid "Evolution is currently online.Click on this button to work offline."
+msgstr "Evolution is currently online. Click on this button to work offline."
 
 #: ../shell/e-shell-window.c:378
 msgid "Evolution is in the process of going offline."
 msgstr "Evolution is in the process of going offline."
 
 #: ../shell/e-shell-window.c:385
-msgid "Evolution is currently offline.  Click on this button to work online."
-msgstr "Evolution is currently offline.  Click on this button to work online."
+msgid "Evolution is currently offline.Click on this button to work online."
+msgstr "Evolution is currently offline. Click on this button to work online."
 
 #: ../shell/e-shell-window.c:775
 #, c-format
@@ -17425,15 +17425,15 @@ msgid ""
 "The previous version of evolution stored its data in a different location.\n"
 "\n"
 "If you choose to remove this data, the entire contents of the &quot;"
-"evolution&quot; directory will be removed permanently.  If you choose to "
-"keep this data, then you may manually remove the contents of &quot;"
+"evolution&quot; directory will be removed permanently. If you choose to keep "
+"this data, then you may manually remove the contents of &quot;"
 "evolution&quot; at your convenience.\n"
 msgstr ""
 "The previous version of evolution stored its data in a different location.\n"
 "\n"
-"If you choose to remove this data, the entire contents of the &quot;"
-"evolution&quot; directory will be removed permanently.  If you choose to "
-"keep this data, then you may manually remove the contents of &quot;"
+"If you choose to remove these data, the entire contents of the &quot;"
+"evolution&quot; directory will be removed permanently. If you choose to keep "
+"these data, then you may manually remove the contents of &quot;"
 "evolution&quot; at your convenience.\n"
 
 #: ../shell/shell.error.xml.h:19
@@ -17535,21 +17535,21 @@ msgstr ""
 
 #: ../smime/gui/certificate-manager.c:136
 #: ../smime/gui/certificate-manager.c:144
-#: ../smime/gui/certificate-manager.c:379
-#: ../smime/gui/certificate-manager.c:387
-#: ../smime/gui/certificate-manager.c:599
-#: ../smime/gui/certificate-manager.c:607
+#: ../smime/gui/certificate-manager.c:375
+#: ../smime/gui/certificate-manager.c:383
+#: ../smime/gui/certificate-manager.c:595
+#: ../smime/gui/certificate-manager.c:603
 msgid "Select a certificate to import..."
 msgstr "Select a certificate to import..."
 
 #: ../smime/gui/certificate-manager.c:267
-#: ../smime/gui/certificate-manager.c:476
-#: ../smime/gui/certificate-manager.c:694
+#: ../smime/gui/certificate-manager.c:472
+#: ../smime/gui/certificate-manager.c:690
 msgid "Certificate Name"
 msgstr "Certificate Name"
 
 #: ../smime/gui/certificate-manager.c:276
-#: ../smime/gui/certificate-manager.c:494
+#: ../smime/gui/certificate-manager.c:490
 msgid "Purposes"
 msgstr "Purposes"
 
@@ -17562,7 +17562,7 @@ msgstr "Serial Number"
 msgid "Expires"
 msgstr "Expires"
 
-#: ../smime/gui/certificate-manager.c:485
+#: ../smime/gui/certificate-manager.c:481
 msgid "E-Mail Address"
 msgstr "E-Mail Address"
 
@@ -18308,7 +18308,7 @@ msgid "Click here to save the current window"
 msgstr "Click here to save the current window"
 
 #: ../ui/evolution-editor.xml.h:5
-msgid "Click here to view help availabe"
+msgid "Click here to view help available"
 msgstr "Click here to view help available"
 
 #.
@@ -18462,10 +18462,6 @@ msgstr "_Status Field"
 #: ../ui/evolution-event-editor.xml.h:33 ../ui/evolution-task-editor.xml.h:25
 msgid "_Type Field"
 msgstr "_Type Field"
-
-#: ../ui/evolution-executive-summary.xml.h:1
-msgid "Customize My Evolution"
-msgstr "Customize My Evolution"
 
 #: ../ui/evolution-mail-global.xml.h:2
 msgid "Cancel the current mail operation"
@@ -19789,17 +19785,17 @@ msgstr "Previous Button"
 msgid "Month Calendar"
 msgstr "Month Calendar"
 
-#: ../widgets/misc/e-canvas-background.c:456
-#: ../widgets/misc/e-canvas-background.c:457 ../widgets/text/e-entry.c:1284
+#: ../widgets/misc/e-canvas-background.c:459
+#: ../widgets/misc/e-canvas-background.c:460 ../widgets/text/e-entry.c:1284
 #: ../widgets/text/e-entry.c:1285 ../widgets/text/e-text.c:3540
 #: ../widgets/text/e-text.c:3541
 msgid "Fill color"
 msgstr "Fill colour"
 
-#: ../widgets/misc/e-canvas-background.c:463
-#: ../widgets/misc/e-canvas-background.c:464
-#: ../widgets/misc/e-canvas-background.c:470
-#: ../widgets/misc/e-canvas-background.c:471 ../widgets/text/e-entry.c:1291
+#: ../widgets/misc/e-canvas-background.c:466
+#: ../widgets/misc/e-canvas-background.c:467
+#: ../widgets/misc/e-canvas-background.c:473
+#: ../widgets/misc/e-canvas-background.c:474 ../widgets/text/e-entry.c:1291
 #: ../widgets/text/e-entry.c:1292 ../widgets/text/e-entry.c:1298
 #: ../widgets/text/e-entry.c:1299 ../widgets/text/e-text.c:3547
 #: ../widgets/text/e-text.c:3548 ../widgets/text/e-text.c:3555
@@ -19807,30 +19803,30 @@ msgstr "Fill colour"
 msgid "GDK fill color"
 msgstr "GDK fill colour"
 
-#: ../widgets/misc/e-canvas-background.c:477
-#: ../widgets/misc/e-canvas-background.c:478 ../widgets/text/e-entry.c:1305
+#: ../widgets/misc/e-canvas-background.c:480
+#: ../widgets/misc/e-canvas-background.c:481 ../widgets/text/e-entry.c:1305
 #: ../widgets/text/e-entry.c:1306 ../widgets/text/e-text.c:3562
 #: ../widgets/text/e-text.c:3563
 msgid "Fill stipple"
 msgstr "Fill stipple"
 
-#: ../widgets/misc/e-canvas-background.c:484
-#: ../widgets/misc/e-canvas-background.c:485
+#: ../widgets/misc/e-canvas-background.c:487
+#: ../widgets/misc/e-canvas-background.c:488
 msgid "X1"
 msgstr "X1"
 
-#: ../widgets/misc/e-canvas-background.c:491
-#: ../widgets/misc/e-canvas-background.c:492
+#: ../widgets/misc/e-canvas-background.c:494
+#: ../widgets/misc/e-canvas-background.c:495
 msgid "X2"
 msgstr "X2"
 
-#: ../widgets/misc/e-canvas-background.c:498
-#: ../widgets/misc/e-canvas-background.c:499
+#: ../widgets/misc/e-canvas-background.c:501
+#: ../widgets/misc/e-canvas-background.c:502
 msgid "Y1"
 msgstr "Y1"
 
-#: ../widgets/misc/e-canvas-background.c:505
-#: ../widgets/misc/e-canvas-background.c:506
+#: ../widgets/misc/e-canvas-background.c:508
+#: ../widgets/misc/e-canvas-background.c:509
 msgid "Y2"
 msgstr "Y2"
 
@@ -20250,20 +20246,20 @@ msgstr ""
 "Low"
 
 #: ../widgets/misc/e-send-options.glade.h:23
-msgid "W_ithin"
-msgstr "W_ithin"
-
-#: ../widgets/misc/e-send-options.glade.h:24
 msgid "When acce_pted:"
 msgstr "When acce_pted:"
 
-#: ../widgets/misc/e-send-options.glade.h:25
+#: ../widgets/misc/e-send-options.glade.h:24
 msgid "When co_mpleted:"
 msgstr "When co_mpleted:"
 
-#: ../widgets/misc/e-send-options.glade.h:26
+#: ../widgets/misc/e-send-options.glade.h:25
 msgid "When decli_ned:"
 msgstr "When decli_ned:"
+
+#: ../widgets/misc/e-send-options.glade.h:26
+msgid "Wi_thin"
+msgstr "Wi_thin"
 
 #: ../widgets/misc/e-send-options.glade.h:27
 msgid "_After:"
