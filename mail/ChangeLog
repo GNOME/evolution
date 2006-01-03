@@ -1,3 +1,9 @@
+2006-01-04  Parthasarathi Susarla <sparthasarathi@novell.com>
+	
+	* em-composer-utils.c:
+	(em_utils_composer_send_cb): Use the composer window as the 
+	parent window while showing the error message.
+
 2006-01-02  Shreyas Srinivasan  <sshreyas@novell.com>
 
 	* mail.error.xml: Fix 313095, Add error identifier

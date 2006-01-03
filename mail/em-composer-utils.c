@@ -385,7 +385,7 @@ em_utils_composer_send_cb (EMsgComposer *composer, gpointer user_data)
 
 	account = e_msg_composer_get_preferred_account (composer);
 	if (!account->enabled) {
-		e_error_run(NULL, "mail:send-no-account-enabled", NULL);
+		e_error_run((GtkWindow *)composer, "mail:send-no-account-enabled", NULL);
 		return;
 	}
 
