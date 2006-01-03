@@ -258,6 +258,14 @@ all proxy information will be deleted permanently.</_secondary>
   <button stock="gtk-no" _label="Do not delete" response="GTK_RESPONSE_NO"/>
  </error>
 
+<error id="ask-delete-proxy-accounts" type="question" default="GTK_RESPONSE_NO" modal="true">
+  <_title>Delete account?</_title>
+  <_primary>Are you sure you want to disable this account and delete all its proxies?</_primary>
+  <_secondary xml:space="preserve">If you proceed, all proxy accounts will be deleted permanently.</_secondary>
+  <button stock="gtk-yes" response="GTK_RESPONSE_YES"/>
+  <button stock="gtk-no" _label="Do not disable" response="GTK_RESPONSE_NO"/>
+ </error>
+
  <error id="no-save-signature" type="error">
   <_primary>Could not save signature file.</_primary>
   <_secondary xml:space="preserve">Because &quot;{0}&quot;.</_secondary>

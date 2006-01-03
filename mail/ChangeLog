@@ -1,3 +1,8 @@
+2006-01-02  Shreyas Srinivasan  <sshreyas@novell.com>
+
+	* mail.error.xml: Fix 313095, Add error identifier
+	ask-delete-proxy-accounts. 
+	
 2006-01-02  Harish Krishnaswamy  <kharish@novell.com>
 
 	* em-folder-view.c: (emfv_setting_notify):
