@@ -1,3 +1,10 @@
+2006-01-04  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	* gui/e-day-view.c: (e_day_view_convert_event_coords),
+	(tooltip_get_view_event), (tooltip_destroy),
+	(e_day_view_on_text_item_event): Reverting the patch as it
+	causes crash while viewing the tooltip in top canvas.
+
 2006-01-04  Tor Lillqvist  <tml@novell.com>
 
 	* gui/dialogs/cal-prefs-dialog.c: Reinstate the run-time glade
