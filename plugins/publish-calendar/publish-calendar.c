@@ -30,6 +30,7 @@
 #include <calendar/gui/e-cal-config.h>
 #include <calendar/gui/e-cal-menu.h>
 #include <shell/es-event.h>
+#include <e-util/e-util-private.h>
 #include "url-editor-dialog.h"
 #include "publish-format-fb.h"
 #include "publish-format-ical.h"
@@ -438,8 +439,13 @@ publish_calendar_locations (EPlugin *epl, EConfigHookItemFactoryData *data)
 	GSList *l;
 	GtkTreeIter iter;
 	GConfClient *client;
+	char *gladefile;
 
-	xml = glade_xml_new (PLUGINDIR "/publish-calendar.glade", "toplevel", NULL);
+	gladefile = g_build_filename (EVOLUTION_PLUGINDIR,
+				      "publish-calendar.glade",
+				      NULL);
+	xml = glade_xml_new (gladefile, "toplevel", NULL);
+	g_free (gladefile);
 
 	ui->treeview = glade_xml_get_widget (xml, "url list");
 	if (store == NULL)

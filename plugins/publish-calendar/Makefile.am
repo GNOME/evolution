@@ -1,7 +1,7 @@
 INCLUDES =					\
 	-I$(top_srcdir)				\
 	$(EVOLUTION_CALENDAR_CFLAGS)		\
-	-DPLUGINDIR="\"$(plugindir)\""
+	-DEVOLUTION_PLUGINDIR="\"$(plugindir)\""
 
 @EVO_PLUGIN_RULE@
 

@@ -1,3 +1,13 @@
+2006-01-04  Tor Lillqvist  <tml@novell.com>
+
+	* Makefile.am: Use EVOLUTION_PLUGINDIR as the macro name for the
+	plugindir, to match what is redefined for Win32 in
+	e-util/e-util-private.h
+
+	* publish-calendar.c (publish_calendar_locations)
+	* url-editor-dialog.c (url_editor_dialog_construct): Construct
+	glade file pathname at run-time.
+
 2005-12-25  Funda Wang  <fundawang@linux.net.cn>
 
 	* Makefile.am: Mark this plugin as translatable (bug#301149).

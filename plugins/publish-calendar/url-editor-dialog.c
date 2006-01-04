@@ -24,6 +24,7 @@
 #include <libedataserverui/e-passwords.h>
 #include <libgnomevfs/gnome-vfs-utils.h>
 #include <string.h>
+#include <e-util/e-util-private.h>
 
 static GtkDialogClass *parent_class = NULL;
 
@@ -323,10 +324,15 @@ url_editor_dialog_construct (UrlEditorDialog *dialog)
 	GConfClient *gconf;
 	GtkSizeGroup *group;
 	EPublishUri *uri;
+	char *gladefile;
 
 	gconf = gconf_client_get_default ();
 
-	gui = glade_xml_new (PLUGINDIR "/publish-calendar.glade", "publishing toplevel", NULL);
+	gladefile = g_build_filename (EVOLUTION_PLUGINDIR,
+				      "publish-calendar.glade",
+				      NULL);
+	gui = glade_xml_new (gladefile, "publishing toplevel", NULL);
+	g_free (gladefile);
 	dialog->gui = gui;
 
 #define GW(name) ((dialog->name) = glade_xml_get_widget (dialog->gui, #name))
