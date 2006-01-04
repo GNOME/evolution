@@ -1,3 +1,12 @@
+2006-01-04  Tor Lillqvist  <tml@novell.com>
+
+	* evolution-zip.in: Include also the glade files in the plugins
+	directory.
+
+	Include all of etc/gconf in the zipfile. (One should "make
+	install" to a temporary directory when building a distribution
+	anyway, so only evolution's GConf stuff will be included.)
+
 2006-01-02  Harish Krishnaswamy  <kharish@novell.com>
 
 	* NEWS, configure.in: Release updates, version bump.

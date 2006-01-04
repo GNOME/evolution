@@ -58,14 +58,11 @@ share/evolution/@BASE_VERSION@/default
 share/evolution/@BASE_VERSION@/weather
 share/evolution/@BASE_VERSION@/ui
 share/evolution/@BASE_VERSION@/views
-etc/gconf/schemas/apps_evolution_shell-@BASE_VERSION@.schemas
-etc/gconf/schemas/apps_evolution_addressbook-@BASE_VERSION@.schemas
-etc/gconf/schemas/apps_evolution_calendar-@BASE_VERSION@.schemas
-etc/gconf/schemas/evolution-mail-@BASE_VERSION@.schemas
+etc/gconf
 EOF
 
 zip -r $ZIP share/pixmaps share/evolution/@BASE_VERSION@/images
-zip $ZIP lib/evolution/@BASE_VERSION@/plugins/*.eplug lib/evolution/@BASE_VERSION@/plugins/*.dll lib/evolution/@BASE_VERSION@/plugins/*.xml
+zip $ZIP lib/evolution/@BASE_VERSION@/plugins/*.eplug lib/evolution/@BASE_VERSION@/plugins/*.dll lib/evolution/@BASE_VERSION@/plugins/*.xml lib/evolution/@BASE_VERSION@/plugins/*.glade
 
 zip $ZIP lib/locale/*/LC_MESSAGES/evolution-@BASE_VERSION@.mo
 
