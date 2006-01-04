@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-01-04 01:39+0900\n"
-"PO-Revision-Date: 2006-01-04 01:37+0900\n"
+"POT-Creation-Date: 2006-01-04 15:36+0900\n"
+"PO-Revision-Date: 2006-01-04 15:33+0900\n"
 "Last-Translator: Takeshi AIHANA <aihana@gnome.gr.jp>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
 "MIME-Version: 1.0\n"
@@ -2410,7 +2410,7 @@ msgstr "サービス"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:128
 #: ../calendar/gui/e-cal-list-view.etspec.h:3
-#: ../plugins/publish-calendar/publish-calendar.c:455
+#: ../plugins/publish-calendar/publish-calendar.c:461
 #: ../plugins/save-calendar/csv-format.c:400
 msgid "Location"
 msgstr "場所"
@@ -7090,17 +7090,17 @@ msgstr "場所: %s"
 #: ../calendar/gui/e-calendar-view.c:2004
 #, c-format
 msgid "Time: %s %s"
-msgstr "時刻; %s %s"
+msgstr "時刻: %s %s"
 
 #. strftime format of a weekday, a date and a time, 24-hour.
 #: ../calendar/gui/e-cell-date-edit-text.c:115
 msgid "%a %m/%d/%Y %H:%M:%S"
-msgstr "%Y/%m/%d (%a)%k:%M:%S"
+msgstr "%Y/%m/%d (%a) %H:%M:%S"
 
 #. strftime format of a weekday, a date and a time, 12-hour.
 #: ../calendar/gui/e-cell-date-edit-text.c:118
 msgid "%a %m/%d/%Y %I:%M:%S %p"
-msgstr "%Y/%m/%d (%a) %p%l:%M:%S"
+msgstr "%Y/%m/%d (%a) %p%I:%M:%S"
 
 #: ../calendar/gui/e-cell-date-edit-text.c:123
 #, c-format
@@ -10894,7 +10894,7 @@ msgstr "[デフォルト]"
 #. g_object_set((GObject *)renderer, "activatable", TRUE, NULL);
 #: ../mail/em-account-prefs.c:505 ../mail/em-composer-prefs.c:930
 #: ../plugins/plugin-manager/plugin-manager.c:213
-#: ../plugins/publish-calendar/publish-calendar.c:451
+#: ../plugins/publish-calendar/publish-calendar.c:457
 msgid "Enabled"
 msgstr "有効"
 
@@ -11649,7 +11649,7 @@ msgstr "この証明書は表示可能な形式ではありません"
 
 #: ../mail/em-format-html-display.c:1145
 msgid "Completed on %B %d, %Y, %l:%M %p"
-msgstr "%Y年%B%e日 %p%l:%M に完了"
+msgstr "%Y年%B%e日 %p%I:%M に完了"
 
 #: ../mail/em-format-html-display.c:1153
 msgid "Overdue:"
@@ -11657,7 +11657,7 @@ msgstr "期限切れ:"
 
 #: ../mail/em-format-html-display.c:1156
 msgid "by %B %d, %Y, %l:%M %p"
-msgstr "%Y年%B%e日 %p%l:%M まで"
+msgstr "%Y年%B%e日 %p%I:%M まで"
 
 #: ../mail/em-format-html-display.c:1216
 msgid "_View Inline"
@@ -14343,19 +14343,19 @@ msgstr "?"
 #: ../mail/message-list.c:1353 ../plugins/itip-formatter/itip-view.c:197
 #: ../widgets/table/e-cell-date.c:72
 msgid "Today %l:%M %p"
-msgstr "今日の%p%l時%M分"
+msgstr "今日の%p%I:%M"
 
 #: ../mail/message-list.c:1362 ../widgets/table/e-cell-date.c:82
 msgid "Yesterday %l:%M %p"
-msgstr "昨日の%p%l時%M分"
+msgstr "昨日の%p%I:%M"
 
 #: ../mail/message-list.c:1374 ../widgets/table/e-cell-date.c:94
 msgid "%a %l:%M %p"
-msgstr "%p%l時%M分 (%a)"
+msgstr "%p%I:%M (%a)"
 
 #: ../mail/message-list.c:1382 ../widgets/table/e-cell-date.c:102
 msgid "%b %d %l:%M %p"
-msgstr "%B%e日 %p%l時%M分"
+msgstr "%B%e日 %p%I:%M"
 
 #: ../mail/message-list.c:1384 ../widgets/table/e-cell-date.c:104
 msgid "%b %d %Y"
@@ -15864,19 +15864,19 @@ msgstr "今日"
 #. in 24-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:188
 msgid "Today %H:%M"
-msgstr "今日の%k:%M"
+msgstr "今日の%H:%M"
 
 #. strftime format of a time,
 #. in 24-hour format.
 #: ../plugins/itip-formatter/itip-view.c:192
 msgid "Today %H:%M:%S"
-msgstr "今日の%k:%M:%S"
+msgstr "今日の%H:%M:%S"
 
 #. strftime format of a time,
 #. in 12-hour format.
 #: ../plugins/itip-formatter/itip-view.c:201
 msgid "Today %l:%M:%S %p"
-msgstr "今日の%p%l時%M分%S秒"
+msgstr "今日の%p%I:%M:%S"
 
 #. strftime format of a weekday and a date.
 #: ../plugins/itip-formatter/itip-view.c:211
@@ -15887,25 +15887,25 @@ msgstr "明日"
 #. in 24-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:216
 msgid "Tomorrow %H:%M"
-msgstr "明日の%k:%M"
+msgstr "明日の%H:%M"
 
 #. strftime format of a time,
 #. in 24-hour format.
 #: ../plugins/itip-formatter/itip-view.c:220
 msgid "Tomorrow %H:%M:%S"
-msgstr "明日の%k:%M:%S"
+msgstr "明日の%H:%M:%S"
 
 #. strftime format of a time,
 #. in 12-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:225
 msgid "Tomorrow %l:%M %p"
-msgstr "明日の%p%l時%M分"
+msgstr "明日の%p%I:%M"
 
 #. strftime format of a time,
 #. in 12-hour format.
 #: ../plugins/itip-formatter/itip-view.c:229
 msgid "Tomorrow %l:%M:%S %p"
-msgstr "明日の%p%l時%M分%S秒"
+msgstr "明日の%p%I:%M:%S"
 
 #. strftime format of a weekday.
 #: ../plugins/itip-formatter/itip-view.c:248
@@ -15917,25 +15917,25 @@ msgstr "%A"
 #. time, in 24-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:253
 msgid "%A %H:%M"
-msgstr "%Aの%k:%M"
+msgstr "%Aの%H:%M"
 
 #. strftime format of a weekday and a
 #. time, in 24-hour format.
 #: ../plugins/itip-formatter/itip-view.c:257
 msgid "%A %H:%M:%S"
-msgstr "%Aの%k:%M:%S"
+msgstr "%Aの%H:%M:%S"
 
 #. strftime format of a weekday and a
 #. time, in 12-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:262
 msgid "%A %l:%M %p"
-msgstr "%Aの%p%l:%M"
+msgstr "%Aの%p%I:%M"
 
 #. strftime format of a weekday and a
 #. time, in 12-hour format.
 #: ../plugins/itip-formatter/itip-view.c:266
 msgid "%A %l:%M:%S %p"
-msgstr "%Aの%p%l:%M:%S"
+msgstr "%Aの%p%I:%M:%S"
 
 #. strftime format of a weekday and a date
 #. without a year.
@@ -15948,25 +15948,25 @@ msgstr "%B%e日 %A"
 #. in 24-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:281
 msgid "%A, %B %e %H:%M"
-msgstr "%B%e日 %A %k:%M"
+msgstr "%B%e日 %A %H:%M"
 
 #. strftime format of a weekday, a date without a year
 #. and a time, in 24-hour format.
 #: ../plugins/itip-formatter/itip-view.c:285
 msgid "%A, %B %e %H:%M:%S"
-msgstr "%B%e日 %A %k:%M:%S"
+msgstr "%B%e日 %A %H:%M:%S"
 
 #. strftime format of a weekday, a date without a year
 #. and a time, in 12-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:290
 msgid "%A, %B %e %l:%M %p"
-msgstr "%B%e日 %A %p%l時%M分"
+msgstr "%B%e日 %A %p%I:%M"
 
 #. strftime format of a weekday, a date without a year
 #. and a time, in 12-hour format.
 #: ../plugins/itip-formatter/itip-view.c:294
 msgid "%A, %B %e %l:%M:%S %p"
-msgstr "%B%e日 %A %p%l:%M:%S"
+msgstr "%B%e日 %A %p%I:%M:%S"
 
 #. strftime format of a weekday and a date.
 #: ../plugins/itip-formatter/itip-view.c:300
@@ -15977,25 +15977,25 @@ msgstr "%Y年 %B%e日 %A"
 #. time, in 24-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:305
 msgid "%A, %B %e, %Y %H:%M"
-msgstr "%Y年 %B%e日 %A %k:%M"
+msgstr "%Y年 %B%e日 %A %H:%M"
 
 #. strftime format of a weekday, a date and a
 #. time, in 24-hour format.
 #: ../plugins/itip-formatter/itip-view.c:309
 msgid "%A, %B %e, %Y %H:%M:%S"
-msgstr "%Y年 %B%e日 %A %k:%M:%S"
+msgstr "%Y年 %B%e日 %A %H:%M:%S"
 
 #. strftime format of a weekday, a date and a
 #. time, in 12-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:314
 msgid "%A, %B %e, %Y %l:%M %p"
-msgstr "%Y年%B%e日 %A %p%l時%M分"
+msgstr "%Y年 %B%e日 %A %p%I:%M"
 
 #. strftime format of a weekday, a date and a
 #. time, in 12-hour format.
 #: ../plugins/itip-formatter/itip-view.c:318
 msgid "%A, %B %e, %Y %l:%M:%S %p"
-msgstr "%Y年%B%e日 %A %p%l時%M分%S秒"
+msgstr "%Y年 %B%e日 %A %p%I:%M:%S"
 
 #: ../plugins/itip-formatter/itip-view.c:343
 #, c-format
@@ -16639,7 +16639,7 @@ msgstr "公開する場所"
 msgid "_Publish Calendar Information"
 msgstr "カレンダ情報を公開する(_P)"
 
-#: ../plugins/publish-calendar/publish-calendar.c:371
+#: ../plugins/publish-calendar/publish-calendar.c:372
 msgid "Are you sure you want to remove this URL?"
 msgstr "本当にこの URL を削除してもよろしいですか？"
 
@@ -20005,12 +20005,12 @@ msgstr "時刻のコンボ・ボックスです"
 #. This is a strftime() format. %H = hour (0-23), %M = minute.
 #: ../widgets/misc/e-dateedit.c:1444 ../widgets/misc/e-dateedit.c:1771
 msgid "%H:%M"
-msgstr "%k時%M分"
+msgstr "%H:%M"
 
 #. This is a strftime() format. %I = hour (1-12), %M = minute, %p = am/pm string.
 #: ../widgets/misc/e-dateedit.c:1447 ../widgets/misc/e-dateedit.c:1774
 msgid "%I:%M %p"
-msgstr "%p%l時%M分"
+msgstr "%p%I:%M"
 
 #: ../widgets/misc/e-expander.c:181
 msgid "Expanded"
@@ -20353,7 +20353,7 @@ msgstr "ポップアップの一覧"
 
 #: ../widgets/table/e-cell-date.c:64
 msgid "%l:%M %p"
-msgstr "%p%l:%M"
+msgstr "%p%I:%M"
 
 #: ../widgets/table/e-cell-pixbuf.c:397
 msgid "Selected Column"
