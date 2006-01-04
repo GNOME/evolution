@@ -1,3 +1,8 @@
+2006-01-04  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* mail-tools.c: Uncommented mail_tool_get_local_movemail_path for
+	non-win32 builds since it is used in non-win32 build.
+
 2006-01-04  Parthasarathi Susarla <sparthasarathi@novell.com>
 	
 	* em-composer-utils.c:

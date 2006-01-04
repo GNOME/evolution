@@ -100,8 +100,7 @@ mail_tool_get_trash (const gchar *url, int connect, CamelException *ex)
 	return trash;
 }
 
-#if 0
-/* Not used */
+#ifndef G_OS_WIN32
 
 static char *
 mail_tool_get_local_movemail_path (const unsigned char *uri, CamelException *ex)
