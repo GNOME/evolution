@@ -73,6 +73,8 @@ static gboolean em_junk_sa_use_spamc = FALSE;
 static gboolean em_junk_sa_available = FALSE;
 static gboolean em_junk_sa_system_spamd_available = FALSE;
 static gboolean em_junk_sa_new_daemon_started = FALSE;
+static gboolean em_junk_sa_checked_spamassassin_version = FALSE;
+static guint em_junk_sa_spamassassin_version = 0;
 static char *em_junk_sa_socket_path = NULL;
 static char *em_junk_sa_spamd_pidfile = NULL;
 static char *em_junk_sa_spamc_binary = NULL;
@@ -588,12 +590,52 @@ em_junk_sa_check_junk(EPlugin *ep, EMJunkHookTarget *target)
 	return rv;
 }
 
+static guint
+get_spamassassin_version ()
+{	
+	GByteArray *out = NULL;
+	int i;
+	
+	char * argv[3] = {
+		"sa-learn",
+		"--version",
+		NULL
+	};
+	
+	if (!em_junk_sa_checked_spamassassin_version){
+		out = g_byte_array_new ();
+		
+		if (pipe_to_sa_full (NULL, NULL, argv, -1, 1, out) != 0){
+			if(out)
+				g_byte_array_free (out, TRUE);
+			return em_junk_sa_spamassassin_version;
+		}
+	
+		if(out->len > 0){
+			for(i = 0; i < out->len; i++){
+				if(g_ascii_isdigit (out->data[i])){
+					em_junk_sa_spamassassin_version = (out->data[i] - '0');
+					em_junk_sa_checked_spamassassin_version = TRUE;
+					break;
+				}
+			}	
+		}
+
+
+		if(out)
+			g_byte_array_free (out, TRUE);
+	}
+	
+	return em_junk_sa_spamassassin_version;
+}
+
 void
 em_junk_sa_report_junk (EPlugin *ep, EMJunkHookTarget *target)
 {
+	char *sync_op = ((get_spamassassin_version () >= 3) ? "--no-sync": "--no-rebuild");
 	char *argv[6] = {
 		"sa-learn",
-		"--no-rebuild",
+		sync_op,
 		"--spam",
 		"--single",
 		NULL,
@@ -620,9 +662,10 @@ em_junk_sa_report_junk (EPlugin *ep, EMJunkHookTarget *target)
 void
 em_junk_sa_report_non_junk (EPlugin *ep, EMJunkHookTarget *target)
 {
+	char *sync_op = ((get_spamassassin_version () >= 3) ? "--no-sync": "--no-rebuild");
 	char *argv[6] = {
 		"sa-learn",
-		"--no-rebuild",
+		sync_op,
 		"--ham",
 		"--single",
 		NULL,
@@ -645,9 +688,10 @@ em_junk_sa_report_non_junk (EPlugin *ep, EMJunkHookTarget *target)
 void
 em_junk_sa_commit_reports (EPlugin *ep, EMJunkHookTarget *target)
 {
+	char *sync_op = ((get_spamassassin_version () >= 3) ? "--sync": "--rebuild");
 	char *argv[4] = {
 		"sa-learn",
-		"--rebuild",
+		sync_op,
 		NULL,
 		NULL
 	};

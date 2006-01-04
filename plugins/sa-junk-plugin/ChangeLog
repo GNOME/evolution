@@ -1,3 +1,14 @@
+2005-01-04  Shi Pu  <shi.pu@sun.com>
+
+	See bug **  325210
+
+	* em-junk-filter.c:
+	(get_spamassassin_version): gets the spamassassin version which evolution used
+	(em_junk_sa_report_junk),
+	(em_junk_sa_report_non_junk),
+	(em_junk_sa_commit_reports): judge spamassassin version to decide
+	which sync option should be used
+
 2005-10-06  Vivek Jain <jvivek@novell.com>
 	
 	** See Bug #268852
