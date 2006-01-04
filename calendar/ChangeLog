@@ -112,7 +112,6 @@
 	* gui/cal-search-bar.h: Re-order the bit-values in accordance to
 	re-ordered search-bar menu items.
 	
->>>>>>> 1.2900
 2005-12-20  P S Chakravarthi <pchakravarthi@novell.com>  
 
 	Fixes #323955
