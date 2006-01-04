@@ -33,6 +33,7 @@
 #include "cal-prefs-dialog.h"
 #include <widgets/misc/e-dateedit.h>
 #include <e-util/e-dialog-widgets.h>
+#include <e-util/e-util-private.h>
 #include <libgnome/gnome-i18n.h>
 #include <string.h>
 
@@ -497,8 +498,13 @@ calendar_prefs_dialog_construct (CalendarPrefsDialog *prefs)
 		"fri_button",
 		"sat_button",
 	};
+	char *gladefile;
 
-	gui = glade_xml_new (EVOLUTION_GLADEDIR "/cal-prefs-dialog.glade", "toplevel-notebook", NULL);
+	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
+				      "cal-prefs-dialog.glade",
+				      NULL);
+	gui = glade_xml_new (gladefile, "toplevel-notebook", NULL);
+	g_free (gladefile);
 	prefs->gui = gui;
 
 	prefs->gconf = gconf_client_get_default ();

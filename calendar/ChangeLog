@@ -1,3 +1,9 @@
+2006-01-04  Tor Lillqvist  <tml@novell.com>
+
+	* gui/dialogs/cal-prefs-dialog.c: Reinstate the run-time glade
+	file pathname lookup change from 2005-11-26. It had been
+	overwritten on 2005-12-19.
+
 2006-01-03  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #325416
