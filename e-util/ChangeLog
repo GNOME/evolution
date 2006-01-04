@@ -1,3 +1,9 @@
+2006-01-05  Tor Lillqvist  <tml@novell.com>
+
+	* e-plugin.c (epl_construct)
+	* e-menu.c (emph_construct_menu): [Win32] The interface of
+	e_util_replace_prefix() changed a bit.
+
 2006-01-02  Tor Lillqvist  <tml@novell.com>
 
 	* e-menu.c (emph_construct_menu): Don't eventually free a return

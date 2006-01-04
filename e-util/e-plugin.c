@@ -877,8 +877,10 @@ epl_construct(EPlugin *ep, xmlNodePtr root)
 	}
 #ifdef G_OS_WIN32
 	{
-		char *mapped_location = e_util_replace_prefix (e_util_get_prefix (),
-							       epl->location);
+		char *mapped_location =
+			e_util_replace_prefix (EVOLUTION_PREFIX,
+					       e_util_get_prefix (),
+					       epl->location);
 		g_free (epl->location);
 		epl->location = mapped_location;
 	}

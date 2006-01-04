@@ -789,8 +789,10 @@ emph_construct_menu(EPluginHook *eph, xmlNodePtr root)
 				xmlFree(tmp);
 #ifdef G_OS_WIN32
 				{
-					char *mapped_location = e_util_replace_prefix (e_util_get_prefix (),
-										       ui->filename);
+					char *mapped_location =
+						e_util_replace_prefix (EVOLUTION_PREFIX,
+								       e_util_get_prefix (),
+								       ui->filename);
 					g_free (ui->filename);
 					ui->filename = mapped_location;
 				}
