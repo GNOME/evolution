@@ -2785,6 +2785,7 @@ init_widgets (EventPage *epage)
 	/* Alarm dialog */
 	g_signal_connect (GTK_DIALOG (priv->alarm_dialog), "response", G_CALLBACK (gtk_widget_hide), priv->alarm_dialog);
 	gtk_widget_hide (priv->alarm_dialog);
+	gtk_window_set_modal (priv->alarm_dialog, TRUE);
 
 	/* Meeting List View */
 	g_signal_connect (priv->list_view, "attendee_added", G_CALLBACK (attendee_added_cb), epage);	

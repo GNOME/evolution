@@ -1,5 +1,10 @@
 2006-01-05  Johnny Jacob  <johnnyjacob@gmail.com>
 
+	* gui/dialogs/event-page.c (init_widgets): Set alarm-dialog as
+	modal.
+
+2006-01-05  Johnny Jacob  <johnnyjacob@gmail.com>
+
 	Fixes #216535
 	* gui/dialogs/event-page.c (end_date_changed_cb ): Added. Signal
 	handler for end_time.
