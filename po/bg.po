@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 2.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-01-04 09:31+0200\n"
-"PO-Revision-Date: 2006-01-04 00:43+0200\n"
+"POT-Creation-Date: 2006-01-05 19:13+0200\n"
+"PO-Revision-Date: 2006-01-05 19:20+0200\n"
 "Last-Translator: Alexander Shopov <ash@contact.bg>\n"
 "Language-Team: Bulgarian <dict@fsa-bg.org>\n"
 "MIME-Version: 1.0\n"
@@ -638,7 +638,7 @@ msgid "Create a new contact list"
 msgstr "Създаване на нов списък с контакти"
 
 #: ../addressbook/gui/component/addressbook-component.c:242
-#: ../addressbook/gui/component/addressbook-config.c:1202
+#: ../addressbook/gui/component/addressbook-config.c:1204
 msgid "New Address Book"
 msgstr "Нов адресник"
 
@@ -669,7 +669,7 @@ msgid "Copy book content locally for offline operation"
 msgstr ""
 "Копиране на съдържанието на адресника за локална употреба в режим „Изключен“"
 
-#: ../addressbook/gui/component/addressbook-config.c:981
+#: ../addressbook/gui/component/addressbook-config.c:983
 #: ../addressbook/gui/component/ldap-config.glade.h:22
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:20
 #: ../calendar/gui/dialogs/calendar-setup.c:368
@@ -680,34 +680,34 @@ msgstr ""
 msgid "General"
 msgstr "Основни"
 
-#: ../addressbook/gui/component/addressbook-config.c:982
+#: ../addressbook/gui/component/addressbook-config.c:984
 #: ../mail/importers/pine-importer.c:392
 msgid "Addressbook"
 msgstr "Адресник"
 
-#: ../addressbook/gui/component/addressbook-config.c:986
+#: ../addressbook/gui/component/addressbook-config.c:988
 msgid "Server Information"
 msgstr "Информация за сървъра"
 
-#: ../addressbook/gui/component/addressbook-config.c:988
+#: ../addressbook/gui/component/addressbook-config.c:990
 msgid "Authentication"
 msgstr "Удостоверяване"
 
-#: ../addressbook/gui/component/addressbook-config.c:991
+#: ../addressbook/gui/component/addressbook-config.c:993
 #: ../addressbook/gui/component/ldap-config.glade.h:17
 #: ../mail/mail-dialogs.glade.h:7 ../smime/gui/smime-ui.glade.h:20
 msgid "Details"
 msgstr "Подробности"
 
-#: ../addressbook/gui/component/addressbook-config.c:992
+#: ../addressbook/gui/component/addressbook-config.c:994
 msgid "Searching"
 msgstr "Търсене"
 
-#: ../addressbook/gui/component/addressbook-config.c:994
+#: ../addressbook/gui/component/addressbook-config.c:996
 msgid "Downloading"
 msgstr "Изтегляне"
 
-#: ../addressbook/gui/component/addressbook-config.c:1200
+#: ../addressbook/gui/component/addressbook-config.c:1202
 #: ../addressbook/gui/component/ldap-config.glade.h:13
 msgid "Address Book Properties"
 msgstr "Настройки на адресника"
@@ -1149,7 +1149,7 @@ msgid "cards"
 msgstr "карти"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:57
-#: ../calendar/gui/alarm-notify/alarm-notify.glade.h:7
+#: ../calendar/gui/alarm-notify/alarm-notify.glade.h:8
 #: ../calendar/gui/alarm-notify/util.c:64
 #: ../calendar/gui/alarm-notify/util.c:66
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:26
@@ -4456,7 +4456,7 @@ msgstr "_Задачи"
 msgid "Evolution Calendar alarm notification service"
 msgstr "Услуга за алармите към календара на Evolution"
 
-#: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:117
+#: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:115
 #: ../calendar/gui/alarm-notify/util.c:64
 #: ../calendar/gui/alarm-notify/util.c:66 ../calendar/gui/misc.c:111
 #: ../calendar/gui/misc.c:113
@@ -4465,18 +4465,30 @@ msgid_plural "minutes"
 msgstr[0] "минута"
 msgstr[1] "минути"
 
-#: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:258
+#: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:130
+#: ../calendar/gui/alarm-notify/alarm-notify.glade.h:6
+#: ../calendar/gui/dialogs/alarm-dialog.glade.h:24
+#: ../calendar/gui/dialogs/calendar-setup.glade.h:13
+#: ../calendar/gui/dialogs/event-page.glade.h:19 ../filter/filter.glade.h:15
+#: ../plugins/calendar-http/calendar-http.c:264
+#: ../plugins/calendar-weather/calendar-weather.c:564
+msgid "hours"
+msgid_plural "hours"
+msgstr[0] "час"
+msgstr[1] "часове"
+
+#: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:270
 msgid "Start time"
 msgstr "Начало"
 
-#: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:356
+#: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:374
 #, c-format
 msgid ""
 "<big><b>%s</b></big>\n"
-"%s until %s"
+"%s %s"
 msgstr ""
 "<big><b>%s</b></big>\n"
-"%s до %s"
+"%s %s"
 
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:1
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:4
@@ -4516,7 +4528,7 @@ msgstr "_Редактиране"
 msgid "_Snooze"
 msgstr "_Отлагане"
 
-#: ../calendar/gui/alarm-notify/alarm-notify.glade.h:6
+#: ../calendar/gui/alarm-notify/alarm-notify.glade.h:7
 msgid "location of appointment"
 msgstr "място на среща"
 
@@ -5332,14 +5344,6 @@ msgstr "допълнително време всеки"
 msgid "hour(s)"
 msgstr "час(ове)"
 
-#: ../calendar/gui/dialogs/alarm-dialog.glade.h:24
-#: ../calendar/gui/dialogs/calendar-setup.glade.h:13
-#: ../calendar/gui/dialogs/event-page.glade.h:19 ../filter/filter.glade.h:15
-#: ../plugins/calendar-http/calendar-http.c:264
-#: ../plugins/calendar-weather/calendar-weather.c:564
-msgid "hours"
-msgstr "часове"
-
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:25
 msgid "minute(s)"
 msgstr "минут(а/и)"
@@ -6090,26 +6094,26 @@ msgstr "Необходим е поне един участник."
 msgid "_Add "
 msgstr "Доб_авяне "
 
-#: ../calendar/gui/dialogs/event-page.c:2553
+#: ../calendar/gui/dialogs/event-page.c:2567
 #, c-format
 msgid "Unable to open the calendar '%s'."
 msgstr "Не може да се отвори календара „%s“."
 
-#: ../calendar/gui/dialogs/event-page.c:2808
+#: ../calendar/gui/dialogs/event-page.c:2823
 #, c-format
 msgid "%d day before appointment"
 msgid_plural "%d days before appointment"
 msgstr[0] "%d ден преди среща"
 msgstr[1] "%d дни преди среща"
 
-#: ../calendar/gui/dialogs/event-page.c:2816
+#: ../calendar/gui/dialogs/event-page.c:2831
 #, c-format
 msgid "%d hour before appointment"
 msgid_plural "%d hours before appointment"
 msgstr[0] "%d час преди среща"
 msgstr[1] "%d часа преди среща"
 
-#: ../calendar/gui/dialogs/event-page.c:2824
+#: ../calendar/gui/dialogs/event-page.c:2839
 #, c-format
 msgid "%d minute before appointement"
 msgid_plural "%d minutes before appointment"
@@ -12311,7 +12315,7 @@ msgstr "Запитване при непопълнено поле „Тема“
 
 #: ../mail/evolution-mail.schemas.in.in.h:56
 msgid "Prompt the user when he or she tries to expunge a folder."
-msgstr "Предупреждаване на потребителя, когато иска да изтрие папка."
+msgstr "Предупреждаване на потребителя, когато иска да изчисти папка."
 
 #: ../mail/evolution-mail.schemas.in.in.h:57
 msgid ""
@@ -12320,7 +12324,7 @@ msgstr "Запитване до потребителя, когато се опи
 
 #: ../mail/evolution-mail.schemas.in.in.h:58
 msgid "Prompt when user expunges"
-msgstr "Предупреждаване при изтриване"
+msgstr "Предупреждаване при изчистване"
 
 #: ../mail/evolution-mail.schemas.in.in.h:59
 msgid "Prompt when user only fills Bcc"
@@ -14657,8 +14661,8 @@ msgid ""
 "Periodically synchronize contact information and images from my _instant "
 "messenger"
 msgstr ""
-"Периодично синхронизиране на информацията за контактите\n"
-"и изображенията с програмата за _бързи съобщения"
+"Периодично синхронизиране на контактите и\n"
+"изображенията с програмата за _бързи съобщения"
 
 #. Synchronize now button.
 #: ../plugins/bbdb/bbdb.c:470
@@ -16801,7 +16805,7 @@ msgstr ""
 "iCal\n"
 "Свободен/зает"
 
-#: ../plugins/sa-junk-plugin/em-junk-filter.c:99
+#: ../plugins/sa-junk-plugin/em-junk-filter.c:101
 msgid "Spamassassin (built-in)"
 msgstr "Spamassassin (вграден)"
 
@@ -20488,7 +20492,7 @@ msgstr "Неизбрана колона"
 
 #: ../widgets/table/e-cell-text.c:1742
 msgid "Strikeout Column"
-msgstr "Зачеркната колона"
+msgstr "Зачертана колона"
 
 #: ../widgets/table/e-cell-text.c:1749
 msgid "Underline Column"
