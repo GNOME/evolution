@@ -1,3 +1,14 @@
+2006-01-05  Sushma Rai  <rsushma@novell.com>
+
+	* exchange-calendar.c (e_exchange_calendar_commit): Setting the
+	username, authtype, auth-domain and auth properties on the esource
+	created, so that corresponding folder will be authenticated and loaded
+	after the folder creation. Also fixed memory leak in case of no any 
+	changes condition.
+
+	* exchange-config-listener.c (remove_selected_non_offline_esources):
+	Not freeing the non allocated string offline_mode.
+
 2006-01-02  Sushma Rai  <rsushma@novell.com>
 
 	* exchange-folder-permission.c (org_gnome_exchange_folder_permissions):

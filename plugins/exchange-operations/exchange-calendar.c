@@ -323,6 +323,7 @@ e_exchange_calendar_commit (EPlugin *epl, EConfigTarget *target)
 	ECalConfigTargetSource *t = (ECalConfigTargetSource *) target;
 	ESource *source = t->source;
 	gchar *uri_text, *gruri, *gname, *ruri, *ftype, *path, *path_prefix, *oldpath=NULL;
+	gchar *username, *authtype;
 	int prefix_len;
 	ExchangeAccount *account;
 	ExchangeAccountFolderResult result;
@@ -335,11 +336,14 @@ e_exchange_calendar_commit (EPlugin *epl, EConfigTarget *target)
 		return ;
 	}	
 
-	status = exchange_is_offline (&offline_status); 	
+	status = exchange_is_offline (&offline_status);
 	if (offline_status == OFFLINE_MODE || status != CONFIG_LISTENER_STATUS_OK)
 		return;
 
 	account = exchange_operations_get_exchange_account ();
+	username = exchange_account_get_username (account);
+	authtype = exchange_account_get_authtype (account);
+
 	path_prefix = g_strconcat (account->account_filename, "/;", NULL);
 	prefix_len = strlen (path_prefix);
 	g_free (path_prefix);
@@ -370,6 +374,11 @@ e_exchange_calendar_commit (EPlugin *epl, EConfigTarget *target)
 		ruri = g_strconcat (gruri, "/", gname, NULL);
 	}
 	e_source_set_relative_uri (source, ruri);
+	e_source_set_property (source, "username", username);
+	e_source_set_property (source, "auth-domain", "Exchange");
+	if (authtype)
+		 e_source_set_property (source, "auth-type", authtype);
+	e_source_set_property (source, "auth", "1");
 
 	path = g_build_filename ("/", ruri+prefix_len, NULL);
 	
@@ -387,7 +396,7 @@ e_exchange_calendar_commit (EPlugin *epl, EConfigTarget *target)
 	}
 	else {
 		/* Nothing happened specific to exchange; just return */
-		return;
+		goto done;
 	}
 
 	switch (result) {
@@ -415,7 +424,8 @@ e_exchange_calendar_commit (EPlugin *epl, EConfigTarget *target)
 	default:
 		break;
 	}
-	
+
+done:	
 	g_free (uri_text);
 	g_free (ruri);
 	g_free (path);

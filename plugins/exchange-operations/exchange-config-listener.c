@@ -1143,7 +1143,7 @@ remove_selected_non_offline_esources (ExchangeAccount *account, const char *gcon
 	const char *source_uid;
 	GConfClient *client;
 	ESourceList *source_list = NULL;
-	char *offline_mode=NULL;
+	const char *offline_mode=NULL;
 	char *selected_gconf_key;
 
 
@@ -1179,8 +1179,7 @@ remove_selected_non_offline_esources (ExchangeAccount *account, const char *gcon
 							     selected_gconf_key, 
 							     GCONF_VALUE_STRING, NULL);
 				if (ids) {
-					offline_mode = (gchar*) e_source_get_property (source,
-										       "offline_sync");
+					offline_mode = e_source_get_property (source, "offline_sync");
 					if (!offline_mode || 
 					    (offline_mode && strcmp (offline_mode, "1"))) {
 						while ((node_to_be_deleted = 
@@ -1197,8 +1196,6 @@ remove_selected_non_offline_esources (ExchangeAccount *account, const char *gcon
 					}
 					g_slist_foreach (ids, (GFunc) g_free, NULL);
 					g_slist_free (ids);
-					g_free (offline_mode);
-					
 				}
 			}
 			found_group = TRUE;
