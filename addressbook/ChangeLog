@@ -1,3 +1,8 @@
+2006-01-04  Shi Pu  <shi.pu@sun.com>
+
+        * gui/component/addressbook-config.c (eabc_details_search): add a not
+        NULL-pointer check before using lud->scope.
+
 2005-12-14  Sushma Rai  <rsushma@novell.com>
 
 	* importers/evolution-ldif-importer.c (ldif_import): Proceeding with
