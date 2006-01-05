@@ -221,6 +221,8 @@ org_gnome_exchange_settings(EPlugin *epl, EConfigHookItemFactoryData *data)
 		camel_url_free(url);
 		return data->old;
 	}
+	if (url)
+		camel_url_free (url);
 
 	account = exchange_operations_get_exchange_account ();
 
@@ -441,7 +443,6 @@ owa_authenticate_user(GtkWidget *button, EConfig *config)
 	exchange_params->owa_path = NULL;
 	exchange_params->is_ntlm = TRUE;
 
-
 	source_url = e_account_get_string (target_account->account, E_ACCOUNT_SOURCE_URL);
 
 	url = camel_url_new(source_url, NULL);
@@ -483,6 +484,8 @@ owa_authenticate_user(GtkWidget *button, EConfig *config)
 
 	g_free (exchange_params->owa_path);
 	g_free (exchange_params->mailbox);
+	g_free (exchange_params->host);
+	g_free (exchange_params->ad_server);
 	g_free (exchange_params);
 
 	if (valid) {	
@@ -530,6 +533,7 @@ owa_editor_entry_changed(GtkWidget *entry, EConfig *config)
 	url_string = camel_url_to_string(url, 0);
 	e_account_set_string(target->account, E_ACCOUNT_SOURCE_URL, url_string);
 	g_free(url_string);
+	camel_url_free (url);
 }
 
 static char *
@@ -629,6 +633,7 @@ org_gnome_exchange_owa_url(EPlugin *epl, EConfigHookItemFactoryData *data)
 			g_free(uri);
 		}
 	}
+	camel_url_free (url);	
 	if (owa_url)
 		gtk_entry_set_text(GTK_ENTRY (owa_entry), owa_url); 
 	gtk_label_set_mnemonic_widget((GtkLabel *)label, owa_entry);
@@ -728,6 +733,7 @@ org_gnome_exchange_commit (EPlugin *epl, EConfigHookItemFactoryData *data)
 		return;
 	}
 
+	camel_url_free (url);
 	/* Set oof data in exchange account */
 	set_oof_info ();
 	destroy_oof_data ();
