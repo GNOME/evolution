@@ -600,8 +600,11 @@ exchange_config_listener_authenticate (ExchangeConfigListener *ex_conf_listener,
 	if (!password) {
 		title = g_strdup_printf (_("Enter Password for %s"), account->account_name);
 		password = e_passwords_ask_password (title, "Exchange", key, title, E_PASSWORDS_REMEMBER_SESSION|E_PASSWORDS_SECRET , &remember, NULL);
+		g_free (title);
 	}			
  	exchange_account_connect (account, password, &result);
+	g_free (key);
+	camel_url_free (camel_url);
 
 	return result;
 }

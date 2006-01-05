@@ -1,5 +1,10 @@
 2006-01-05  Sushma Rai  <rsushma@novell.com>
 
+	* exchange-config-listener.c (exchange_config_listener_authenticate):
+	Some more leak fixes. Freeing title, key and camel_url.
+
+2006-01-05  Sushma Rai  <rsushma@novell.com>
+
 	* exchange-account-setup.c (org_gnome_exchange_settings)
 	(owa_editor_entry_changed)(org_gnome_exchange_owa_url)
 	(org_gnome_exchange_commit): free CamelURL.
