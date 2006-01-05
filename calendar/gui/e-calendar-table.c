@@ -1189,7 +1189,7 @@ static EPopupItem tasks_popup_items [] = {
 	{ E_POPUP_ITEM, "80.assign", N_("_Assign Task"), e_calendar_table_on_assign, NULL, NULL, E_CAL_POPUP_SELECT_ONE, E_CAL_POPUP_SELECT_EDITABLE|E_CAL_POPUP_SELECT_ASSIGNABLE },
 	{ E_POPUP_ITEM, "90.forward", N_("_Forward as iCalendar"), e_calendar_table_on_forward, NULL, "stock_mail-forward", E_CAL_POPUP_SELECT_ONE },
 	{ E_POPUP_ITEM, "a0.markonecomplete", N_("_Mark as Complete"), mark_as_complete_cb, NULL, NULL, E_CAL_POPUP_SELECT_ONE, E_CAL_POPUP_SELECT_EDITABLE | E_CAL_POPUP_SELECT_NOTCOMPLETE},
-	{ E_POPUP_ITEM, "b0.markmanycomplete", N_("_Mark Selected Tasks as Complete"), mark_as_complete_cb, NULL, NULL, E_CAL_POPUP_SELECT_MANY, E_CAL_POPUP_SELECT_EDITABLE },
+	{ E_POPUP_ITEM, "b0.markmanycomplete", N_("_Mark Selected Tasks as Complete"), mark_as_complete_cb, NULL, NULL, E_CAL_POPUP_SELECT_MANY, E_CAL_POPUP_SELECT_EDITABLE | E_CAL_POPUP_SELECT_NOTCOMPLETE },
 
 	{ E_POPUP_BAR, "c0.bar" },
 

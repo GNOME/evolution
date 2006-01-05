@@ -1,5 +1,14 @@
 2006-01-05  Johnny Jacob  <johnnyjacob@gmail.com>
 
+	Fixes #258786 
+	* gui/e-cal-popup.c (e_cal_popup_target_new_select) : When more than
+	one event is selected, check for ICAL_COMPLETED_PROPERTY and set the bit
+	accordingly.
+	* gui/e-calendar-table.c (tasks_popup_items) : Enable "b0.markmanycomplete" menu item
+	only if E_CAL_POPUP_SELECT_NOTCOMPLETE is set.
+
+2006-01-05  Johnny Jacob  <johnnyjacob@gmail.com>
+
 	Fixes #303193
 	* gui/alarm-notify/alarm-notify-dialog.c (notified_alarms_dialog_new):
 	Changed events handled for edit_btn, snooze_btn from pressed to

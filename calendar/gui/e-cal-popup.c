@@ -569,8 +569,18 @@ e_cal_popup_target_new_select(ECalPopup *eabp, struct _ECalModel *model, GPtrArr
 		mask &= ~E_CAL_POPUP_SELECT_ANY;
 		if (t->events->len == 1)
 			mask &= ~E_CAL_POPUP_SELECT_ONE;
-		else
+		else {
 			mask &= ~E_CAL_POPUP_SELECT_MANY;
+			/* Now check for any incomplete tasks and set the flags*/
+			int i=0;
+			for (; i < t->events->len; i++) {
+				ECalModelComponent *comp_data = (ECalModelComponent *)t->events->pdata[i];
+				if (!icalcomponent_get_first_property (comp_data->icalcomp, ICAL_COMPLETED_PROPERTY)) {
+					mask &= ~E_CAL_POPUP_SELECT_NOTCOMPLETE;
+					break;
+				}
+			}
+		}
 
 		if (icalcomponent_get_first_property (comp_data->icalcomp, ICAL_URL_PROPERTY))
 			mask &= ~E_CAL_POPUP_SELECT_HASURL;
