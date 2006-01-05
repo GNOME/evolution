@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.gnome-2-12.nn\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-12-30 20:42+0100\n"
-"PO-Revision-Date: 2006-01-01 16:42+0100\n"
+"POT-Creation-Date: 2006-01-05 20:23+0100\n"
+"PO-Revision-Date: 2006-01-05 22:51+0100\n"
 "Last-Translator: Åsmund Skjæveland <aasmunds@fys.uio.no>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
 "MIME-Version: 1.0\n"
@@ -461,7 +461,10 @@ msgid ""
 "You are connecting to an unsupported GroupWise server and may encounter "
 "problems using Evolution. For best results the server should be upgraded to "
 "a supported version"
-msgstr "Du brukar ein ikkje støtta GroupWise-tenar og kan få problem med å bruka Evolution. For å få best resultat bør tenaren oppgraderast til ein støtta versjon"
+msgstr ""
+"Du brukar ein ikkje støtta GroupWise-tenar og kan få problem med å bruka "
+"Evolution. For å få best resultat bør tenaren oppgraderast til ein støtta "
+"versjon"
 
 #: ../addressbook/addressbook.error.xml.h:29
 msgid ""
@@ -613,7 +616,7 @@ msgid "Create a new contact list"
 msgstr "Lag ei ny kontaktliste"
 
 #: ../addressbook/gui/component/addressbook-component.c:241
-#: ../addressbook/gui/component/addressbook-config.c:1118
+#: ../addressbook/gui/component/addressbook-config.c:1120
 #: ../addressbook/gui/component/addressbook-view.c:763
 msgid "New Address Book"
 msgstr "Ny adressebok"
@@ -645,7 +648,7 @@ msgstr "_Type:"
 msgid "Copy book content locally for offline operation"
 msgstr "Kopier innhaldet lokalt for å arbeida fråkopla"
 
-#: ../addressbook/gui/component/addressbook-config.c:902
+#: ../addressbook/gui/component/addressbook-config.c:904
 #: ../addressbook/gui/component/ldap-config.glade.h:23
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:25
 #: ../calendar/gui/dialogs/calendar-setup.c:366
@@ -655,34 +658,34 @@ msgstr "Kopier innhaldet lokalt for å arbeida fråkopla"
 msgid "General"
 msgstr "Allmennt"
 
-#: ../addressbook/gui/component/addressbook-config.c:903
+#: ../addressbook/gui/component/addressbook-config.c:905
 #: ../mail/importers/pine-importer.c:393
 msgid "Addressbook"
 msgstr "Adressebok"
 
-#: ../addressbook/gui/component/addressbook-config.c:907
+#: ../addressbook/gui/component/addressbook-config.c:909
 msgid "Server Information"
 msgstr "Tenarinformasjon"
 
-#: ../addressbook/gui/component/addressbook-config.c:909
+#: ../addressbook/gui/component/addressbook-config.c:911
 msgid "Authentication"
 msgstr "Autentisering"
 
-#: ../addressbook/gui/component/addressbook-config.c:912
+#: ../addressbook/gui/component/addressbook-config.c:914
 #: ../addressbook/gui/component/ldap-config.glade.h:18
 #: ../mail/mail-dialogs.glade.h:7 ../smime/gui/smime-ui.glade.h:20
 msgid "Details"
 msgstr "Detaljar"
 
-#: ../addressbook/gui/component/addressbook-config.c:913
+#: ../addressbook/gui/component/addressbook-config.c:915
 msgid "Searching"
 msgstr "Søkjer"
 
-#: ../addressbook/gui/component/addressbook-config.c:915
+#: ../addressbook/gui/component/addressbook-config.c:917
 msgid "Downloading"
 msgstr "Lastar ned"
 
-#: ../addressbook/gui/component/addressbook-config.c:1116
+#: ../addressbook/gui/component/addressbook-config.c:1118
 #: ../addressbook/gui/component/ldap-config.glade.h:14
 msgid "Address Book Properties"
 msgstr "Addressebokeigenskapar"
@@ -3338,7 +3341,10 @@ msgid ""
 "We were unable to open this addressbook. This either means this book is not "
 "marked for offline usage or not yet downloaded for offline usage. Please "
 "load the addressbook once in online mode to download its contents"
-msgstr "Klarte ikkje å opna denne adresseboka. Det tyder anten at boka ikkje er markert for fråkopla bruk, eller ikkje er lasta ned til fråkopla bruk enno. Last adresseboka ein gong i tilkopla modus for å sjå på innhaldet."
+msgstr ""
+"Klarte ikkje å opna denne adresseboka. Det tyder anten at boka ikkje er "
+"markert for fråkopla bruk, eller ikkje er lasta ned til fråkopla bruk enno. "
+"Last adresseboka ein gong i tilkopla modus for å sjå på innhaldet."
 
 # TRN. «Aksessera». Blæ.
 #: ../addressbook/gui/widgets/eab-gui-util.c:102
@@ -3765,7 +3771,7 @@ msgstr "Skuggelegging"
 
 #. FIXME: Take care of i18n
 #: ../addressbook/printing/e-contact-print.glade.h:36
-#: ../plugins/exchange-operations/exchange-account-setup.c:939
+#: ../plugins/exchange-operations/exchange-account-setup.c:945
 #: ../plugins/exchange-operations/exchange-calendar.c:214
 #: ../plugins/exchange-operations/exchange-contacts.c:186
 msgid "Size:"
@@ -3899,13 +3905,17 @@ msgstr "Filnamn ikkje oppgjeve."
 msgid ""
 " There are few attachments getting downloaded. Saving the appointment will "
 "cause the appointment to be saved without those pending attachments "
-msgstr "Somme vedlegg vert lasta ned. Å lagra avtalen no vil gjera at dei vedleggja ikkje vil verta tekne med"
+msgstr ""
+"Somme vedlegg vert lasta ned. Å lagra avtalen no vil gjera at dei vedleggja "
+"ikkje vil verta tekne med"
 
 #: ../calendar/calendar.error.xml.h:2
 msgid ""
 " There are few attachments getting downloaded. Saving the task will cause "
 "the task to be saved without those pending attachments "
-msgstr "Somme vedlegg vert lasta ned. Å lagra oppgåva no vil gjera at dei vedleggja ikkje vil verta tekne med"
+msgstr ""
+"Somme vedlegg vert lasta ned. Å lagra oppgåva no vil gjera at dei vedleggja "
+"ikkje vil verta tekne med"
 
 #: ../calendar/calendar.error.xml.h:3
 msgid ""
@@ -4595,13 +4605,17 @@ msgstr "Farge på oppgåver som har gått over tida"
 msgid ""
 "Position of the horizontal pane, between the date navigator calendar and the "
 "task list when not in the month view, in pixels."
-msgstr "Plasseringa til det vassrette panelet, mellom datonavigeringskalenderen og oppgåvelista når ikkje i månadsframsyning, i pikslar."
+msgstr ""
+"Plasseringa til det vassrette panelet, mellom datonavigeringskalenderen og "
+"oppgåvelista når ikkje i månadsframsyning, i pikslar."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:36
 msgid ""
 "Position of the horizontal pane, between the view and the date navigator "
 "calendar and task list in the month view, in pixels."
-msgstr "Plasseringa til det vassrette panelet, mellom framsyninga og datonavigeringskalenderen og oppgåvelista i månadsframsyninga, i pikslar."
+msgstr ""
+"Plasseringa til det vassrette panelet, mellom framsyninga og "
+"datonavigeringskalenderen og oppgåvelista i månadsframsyninga, i pikslar."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:37
 msgid ""
@@ -4615,13 +4629,18 @@ msgstr ""
 msgid ""
 "Position of the vertical pane, between the view and the date navigator "
 "calendar and task list in the month view, in pixels."
-msgstr "Plasseringa til det loddrette panelet, mellom framsyninga og datonavigeringskalenderen og oppgåvelista i månadsframsyninga, i pikslar."
+msgstr ""
+"Plasseringa til det loddrette panelet, mellom framsyninga og "
+"datonavigeringskalenderen og oppgåvelista i månadsframsyninga, i pikslar."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:39
 msgid ""
 "Position of the vertical pane, between the view and the date navigator "
 "calendar and task list when not in the month view, in pixels."
-msgstr "Plasseringa til det loddrette panelet, mellom framsyninga og datonavigeringskalenderen og oppgåvelista når ikkje i månadsframsyninga, i pikslar."
+msgstr ""
+"Plasseringa til det loddrette panelet, mellom framsyninga og "
+"datonavigeringskalenderen og oppgåvelista når ikkje i månadsframsyninga, i "
+"pikslar."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:40
 msgid "Programs that are allowed to be run by alarms."
@@ -4651,14 +4670,18 @@ msgstr "Plassering av vassrett oppgåvefelt"
 msgid ""
 "The default timezone to use for dates and times in the calendar, as an "
 "untranslated Olsen timezone database location like \"America/New York\"."
-msgstr "Standard tidssonar å bruka for datoar og tidspunkt i kalenderen, som ein ikkje omsett Olsen-tidssone-stad, t.d. «America/New York»."
+msgstr ""
+"Standard tidssonar å bruka for datoar og tidspunkt i kalenderen, som ein "
+"ikkje omsett Olsen-tidssone-stad, t.d. «America/New York»."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:48
 #, no-c-format
 msgid ""
 "The url template to use as a free/busy data fallback, %u is replaced by the "
 "user part of the mail address and %d is replaced by the domain."
-msgstr "Adressemalen å bruka som standardverdi for ledig/oppteken-data. «%u» vert erstatta av brukar-delen av epost-adressa, og «%d» vert erstatta av domenet."
+msgstr ""
+"Adressemalen å bruka som standardverdi for ledig/oppteken-data. «%u» vert "
+"erstatta av brukar-delen av e-post-adressa, og «%d» vert erstatta av domenet."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:49
 msgid "Time divisions"
@@ -4714,7 +4737,9 @@ msgstr ""
 msgid ""
 "Whether to compress weekends in the month view, which puts Saturday and "
 "Sunday in the space of one weekday."
-msgstr "Om helger skal komprimerast i månadsframsyninga, slik at laurdag og sundag vert viste i lag på like stor plass som ein arbeidsdag."
+msgstr ""
+"Om helger skal komprimerast i månadsframsyninga, slik at laurdag og sundag "
+"vert viste i lag på like stor plass som ein arbeidsdag."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:62
 msgid "Whether to display the end time of events in the week and month views."
@@ -5266,7 +5291,7 @@ msgstr "<b>Arbeidsveke</b>"
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:15
 #, no-c-format
 msgid "<i>%u and %d will be replaced by user and domain from the email address.</i>"
-msgstr "<i>%u og %d vil bytast ut med brukar og domene frå epost-adressa.</i>"
+msgstr "<i>%u og %d vil bytast ut med brukar og domene frå e-post-adressa.</i>"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:16
 msgid "Calendar and Tasks Settings"
@@ -6540,7 +6565,7 @@ msgstr "Forfallsdato:"
 #. Status
 #: ../calendar/gui/e-cal-component-preview.c:222
 #: ../calendar/gui/e-itip-control.c:1134
-#: ../plugins/exchange-operations/exchange-account-setup.c:265
+#: ../plugins/exchange-operations/exchange-account-setup.c:267
 #: ../plugins/itip-formatter/itip-view.c:909
 msgid "Status:"
 msgstr "Status:"
@@ -9797,7 +9822,9 @@ msgstr ""
 msgid ""
 " There are few attachments getting downloaded. Sending the mail will cause "
 "the mail to be sent without those pending attachments "
-msgstr " Somme vedlegg vert lasta ned. Å senda eposten no vil gjera at dei vedleggja ikkje vil verta sendte med"
+msgstr ""
+" Somme vedlegg vert lasta ned. Å senda e-posten no vil gjera at dei vedleggja "
+"ikkje vil verta sendte med"
 
 #: ../composer/mail-composer.error.xml.h:2
 msgid "All accounts have been removed."
@@ -10468,7 +10495,7 @@ msgstr "Regelnamn"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:1
 msgid "Composer Preferences"
-msgstr "Redigerarinstillingar"
+msgstr "Redigeringsinstillingar"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:2
 msgid "Configure mail preferences, including security and message display, here"
@@ -10476,7 +10503,7 @@ msgstr "Set opp e-postinnstillingar, inkludert tryggleik og meldingsvising"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:3
 msgid "Configure spell-checking, signatures, and the message composer here"
-msgstr "Set opp stavekontroll, signaturar og meldingsredigeraren"
+msgstr "Set opp stavekontroll, signaturar og meldingsredigeringa"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:4
 msgid "Configure your email accounts here"
@@ -10496,11 +10523,11 @@ msgstr "Evolution e-postkomponent"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:8
 msgid "Evolution Mail composer"
-msgstr "Evolution e-postredigerar"
+msgstr "Evolution e-postredigering"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:9
 msgid "Evolution Mail composer configuration control"
-msgstr "Evolution oppsettkontroll for e-postredigerar"
+msgstr "Evolution oppsettkontroll for e-postredigering"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:10
 msgid "Evolution Mail preferences control"
@@ -10561,16 +10588,16 @@ msgstr "Identitet"
 
 #: ../mail/em-account-editor.c:1760 ../mail/mail-config.glade.h:117
 msgid "Receiving Email"
-msgstr "Mottek e-post"
+msgstr "Mottak av e-post"
 
 # TRN: Kva betyr dette?
 #: ../mail/em-account-editor.c:1943
 msgid "Automatically check for _new mail every"
-msgstr "Se automatisk etter ny e-post kvart"
+msgstr "Sjå automatisk etter ny e-post kvart"
 
 #: ../mail/em-account-editor.c:2111 ../mail/mail-config.glade.h:128
 msgid "Sending Email"
-msgstr "Sendar e-post"
+msgstr "Sending av e-post"
 
 #: ../mail/em-account-editor.c:2165 ../mail/mail-config.glade.h:68
 msgid "Defaults"
@@ -10578,24 +10605,24 @@ msgstr "Standard"
 
 #. Security settings
 #: ../mail/em-account-editor.c:2226 ../mail/mail-config.glade.h:122
-#: ../plugins/exchange-operations/exchange-account-setup.c:313
+#: ../plugins/exchange-operations/exchange-account-setup.c:315
 msgid "Security"
 msgstr "Tryggleik"
 
 #. Most sections for this is auto-generated fromt the camel config
-#: ../mail/em-account-editor.c:2263 ../mail/em-account-editor.c:2337
+#: ../mail/em-account-editor.c:2263 ../mail/em-account-editor.c:2338
 msgid "Receiving Options"
 msgstr "Mottaksval"
 
-#: ../mail/em-account-editor.c:2264 ../mail/em-account-editor.c:2338
+#: ../mail/em-account-editor.c:2264 ../mail/em-account-editor.c:2339
 msgid "Checking for New Mail"
 msgstr "Ser etter ny e-post"
 
-#: ../mail/em-account-editor.c:2661 ../mail/mail-config.glade.h:34
+#: ../mail/em-account-editor.c:2677 ../mail/mail-config.glade.h:34
 msgid "Account Editor"
-msgstr "Kontoredigerar"
+msgstr "Kontoredigering"
 
-#: ../mail/em-account-editor.c:2661 ../mail/mail-config.glade.h:80
+#: ../mail/em-account-editor.c:2677 ../mail/mail-config.glade.h:80
 msgid "Evolution Account Assistant"
 msgstr "Evolution kontoassistent"
 
@@ -10935,7 +10962,7 @@ msgid_plural "Unread messages:"
 msgstr[0] "Ulesen melding:"
 msgstr[1] "Ulesne meldingar:"
 
-#: ../mail/em-folder-properties.c:278
+#: ../mail/em-folder-properties.c:287
 #: ../plugins/groupwise-features/properties.glade.h:3
 msgid "Folder Properties"
 msgstr "Mappeeigenskapar"
@@ -11819,7 +11846,9 @@ msgstr "Høgda på meldingslisteramma."
 msgid ""
 "If a user tries to open 10 or more messages at one time, ask the user if "
 "they really want to do it."
-msgstr "Dersom brukaren prøver å opna 10 eller fleire meldingar, spør om han/ho verkeleg vil gjera det."
+msgstr ""
+"Dersom brukaren prøver å opna 10 eller fleire meldingar, spør om han/ho "
+"verkeleg vil gjera det."
 
 #: ../mail/evolution-mail.schemas.in.in.h:28
 msgid ""
@@ -14142,7 +14171,9 @@ msgstr "Emne eller avsendar inneheld"
 msgid ""
 "A formatter plugin which displays audio attachments inline and allows you to "
 "play them directly from evolution."
-msgstr "Eit formateringstillegg som viser lydvedlegg innskote i meldinga, og let deg spela dei i Evolution."
+msgstr ""
+"Eit formateringstillegg som viser lydvedlegg innskote i meldinga, og let deg "
+"spela dei i Evolution."
 
 #: ../plugins/audio-inline/org-gnome-audio-inline.eplug.xml.h:2
 msgid "Audio inline plugin"
@@ -14225,7 +14256,9 @@ msgstr "<span weight=\"bold\">Lynmeldingskontaktar</span>"
 msgid ""
 "Periodically synchronize contact information and images from my _instant "
 "messenger"
-msgstr "Jamnleg synkronisera kontaktinformasjon og bilete frå l_ynmeldingsprogrammet mitt"
+msgstr ""
+"Jamnleg synkronisera kontaktinformasjon og bilete frå l_ynmeldingsprogrammet "
+"mitt"
 
 #. Synchronize now button.
 #: ../plugins/bbdb/bbdb.c:464
@@ -14240,7 +14273,9 @@ msgstr "Automatiske kontaktar"
 msgid ""
 "Automatically fills your addressbook with names and email addresses as you "
 "reply to mails. Also fills in IM contact information from your buddy lists."
-msgstr "Fyller automatisk ut adresseboka di med namn og epost-adresser når du svarar på epost. Fyller også i lynmeldingsinformasjon frå vennelistene dine."
+msgstr ""
+"Fyller automatisk ut adresseboka di med namn og e-post-adresser når du svarar "
+"på e-post. Fyller også i lynmeldingsinformasjon frå vennelistene dine."
 
 #: ../plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:3
 msgid "BBDB"
@@ -14319,7 +14354,9 @@ msgstr "Vérkalendrar"
 msgid ""
 "A test plugin which demonstrates a popup menu plugin which lets you copy "
 "things to the clipboard."
-msgstr "Eit test-tillegg som viser ein sprettoppmeny som let deg kopiera ting til utklippstavla."
+msgstr ""
+"Eit test-tillegg som viser ein sprettoppmeny som let deg kopiera ting til "
+"utklippstavla."
 
 #: ../plugins/copy-tool/org-gnome-copy-tool.eplug.xml.h:2
 msgid "Copy _Email Address"
@@ -14331,11 +14368,13 @@ msgstr "Kopiverktøy"
 
 #: ../plugins/default-mailer/apps-evolution-mail-prompts-checkdefault.schemas.in.in.h:1
 msgid "Check whether Evolution is the default mailer"
-msgstr "Kontroller om Evolution er standard epost-program"
+msgstr "Kontroller om Evolution er standard e-post-program"
 
 #: ../plugins/default-mailer/apps-evolution-mail-prompts-checkdefault.schemas.in.in.h:2
 msgid "Every time Evolution starts, check whether or not it is the default mailer."
-msgstr "Kvar gong Evolution startar kontrollerer han om han er standard epost-program."
+msgstr ""
+"Kvar gong Evolution startar kontrollerer han om han er standard e-post-"
+"program."
 
 #: ../plugins/default-mailer/org-gnome-default-mailer.eplug.xml.h:1
 msgid "Checks whether Evolution is the default mail client on startup."
@@ -14396,11 +14435,11 @@ msgstr ""
 "Dette valet vil kopla til Exchange-tenaren med klartekstpassord-"
 "autentisering."
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:253
+#: ../plugins/exchange-operations/exchange-account-setup.c:255
 msgid "Out Of Office"
 msgstr "Ute av kontoret"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:260
+#: ../plugins/exchange-operations/exchange-account-setup.c:262
 msgid ""
 "The message specified below will be automatically sent to \n"
 "each person who sends mail to you while you are out of the office."
@@ -14408,66 +14447,66 @@ msgstr ""
 "Meldinga under vil automatisk verta sendt til alle som \n"
 "sender e-post til deg medan du ikkje er på kontoret."
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:272
-#: ../plugins/exchange-operations/exchange-account-setup.c:277
+#: ../plugins/exchange-operations/exchange-account-setup.c:274
+#: ../plugins/exchange-operations/exchange-account-setup.c:279
 msgid "I am out of the office"
 msgstr "Eg er ikkje på kontoret no"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:273
-#: ../plugins/exchange-operations/exchange-account-setup.c:276
+#: ../plugins/exchange-operations/exchange-account-setup.c:275
+#: ../plugins/exchange-operations/exchange-account-setup.c:278
 msgid "I am in the office"
 msgstr "Eg er på kontoret no"
 
 #. Change Password
-#: ../plugins/exchange-operations/exchange-account-setup.c:324
+#: ../plugins/exchange-operations/exchange-account-setup.c:326
 msgid "Change the password for Exchange account"
 msgstr "Byt passordet for Exchange-kontoen"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:326
+#: ../plugins/exchange-operations/exchange-account-setup.c:328
 #: ../plugins/exchange-operations/exchange-change-password.glade.h:2
 msgid "Change Password"
 msgstr "Byt passord"
 
 #. Delegation Assistant
-#: ../plugins/exchange-operations/exchange-account-setup.c:331
+#: ../plugins/exchange-operations/exchange-account-setup.c:333
 msgid "Manage the delegate settings for Exchange account"
 msgstr "Handsama delegat-innstillingane for Exchange-konto"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:333
+#: ../plugins/exchange-operations/exchange-account-setup.c:335
 msgid "Delegation Assitant"
 msgstr "Delegeringsassistent"
 
 #. Miscelleneous settings
-#: ../plugins/exchange-operations/exchange-account-setup.c:345
+#: ../plugins/exchange-operations/exchange-account-setup.c:347
 msgid "Miscelleneous"
 msgstr "Ymse"
 
 #. Folder Size
-#: ../plugins/exchange-operations/exchange-account-setup.c:355
+#: ../plugins/exchange-operations/exchange-account-setup.c:357
 msgid "View the size of all Exchange folders"
 msgstr "Vis storleiken til alle Exchange-mappene"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:357
+#: ../plugins/exchange-operations/exchange-account-setup.c:359
 msgid "Folders Size"
 msgstr "Mappestorleik"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:364
+#: ../plugins/exchange-operations/exchange-account-setup.c:366
 msgid "Exchange Settings"
 msgstr "Exchange-innstillingar"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:611
+#: ../plugins/exchange-operations/exchange-account-setup.c:615
 msgid "_OWA Url:"
 msgstr "_OWA Url:"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:636
+#: ../plugins/exchange-operations/exchange-account-setup.c:641
 msgid "A_uthenticate"
 msgstr "A_utentiser"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:823
+#: ../plugins/exchange-operations/exchange-account-setup.c:829
 msgid "Authentication Type"
 msgstr "Autentiseringstype"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:837
+#: ../plugins/exchange-operations/exchange-account-setup.c:843
 msgid "Ch_eck for Supported Types"
 msgstr " _Søk etter støtta typar"
 
@@ -14623,19 +14662,19 @@ msgid "Exchange Folder Tree"
 msgstr "Exchange-mappetre"
 
 #: ../plugins/exchange-operations/exchange-folder.c:62
-#: ../plugins/exchange-operations/exchange-folder.c:223
-#: ../plugins/exchange-operations/exchange-folder.c:233
+#: ../plugins/exchange-operations/exchange-folder.c:225
+#: ../plugins/exchange-operations/exchange-folder.c:235
 msgid "Unsubscribe Folder..."
 msgstr "Slutta å tinge på mappe..."
 
-#: ../plugins/exchange-operations/exchange-folder.c:460
-#: ../plugins/exchange-operations/exchange-folder.c:520
+#: ../plugins/exchange-operations/exchange-folder.c:462
+#: ../plugins/exchange-operations/exchange-folder.c:522
 #, c-format
 msgid "Really unsubscribe from folder \"%s\"?"
 msgstr "Verkelig slutta å tinge på mappe «%s»?"
 
-#: ../plugins/exchange-operations/exchange-folder.c:472
-#: ../plugins/exchange-operations/exchange-folder.c:532
+#: ../plugins/exchange-operations/exchange-folder.c:474
+#: ../plugins/exchange-operations/exchange-folder.c:534
 #, c-format
 msgid "Unsubscribe from \"%s\""
 msgstr "Slutta å tinge på «%s»"
@@ -14736,7 +14775,9 @@ msgstr "Kan ikkje visa mapper."
 msgid ""
 "Changes to Exchange account configuration will take place after you quit and "
 "restart Evolution."
-msgstr "Endringar til Exchange-kontooppsett vil tre i kraft etter at du har avslutta og starta Evolution på nytt."
+msgstr ""
+"Endringar til Exchange-kontooppsett vil tre i kraft etter at du har avslutta "
+"og starta Evolution på nytt."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:4
 msgid "Could not authenticate to server."
@@ -14830,7 +14871,8 @@ msgstr ""
 "Følg lenkja under for informasjon du kan gje til\n"
 "Exchange-administratoren din.\n"
 "\n"
-"http://support.novell.com/cgi-bin/search/searchtid.cgi?/ximian/ximian328.html\n"
+"http://support.novell.com/cgi-bin/search/searchtid.cgi?/ximian/ximian328."
+"html\n"
 "  "
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:33
@@ -15039,7 +15081,7 @@ msgstr "Sluttar å tinge mappa «%s»"
 
 #: ../plugins/folder-unsubscribe/org-gnome-mail-folder-unsubscribe.eplug.xml.h:1
 msgid "Allows unsubscribing of mail folders in the folder tree context menu."
-msgstr "Tillat å avslutta tinging av epostmapper i mappetrekontekstmenyen."
+msgstr "Tillat å avslutta tinging av e-postmapper i mappetrekontekstmenyen."
 
 #: ../plugins/folder-unsubscribe/org-gnome-mail-folder-unsubscribe.eplug.xml.h:2
 msgid "Unsubscribe Folders"
@@ -15325,7 +15367,9 @@ msgstr "Oppføringa i kalenderen er ikke gyldig"
 msgid ""
 "The message does contain a calendar, but the calendar contains no events, "
 "tasks or free/busy information"
-msgstr "Meldinga inneheld ein kalender, men kalenderen inneheld ingen hendingar, oppgåver eller ledig/oppteken-informasjon."
+msgstr ""
+"Meldinga inneheld ein kalender, men kalenderen inneheld ingen hendingar, "
+"oppgåver eller ledig/oppteken-informasjon."
 
 #: ../plugins/itip-formatter/itip-formatter.c:1209
 msgid "The calendar attached contains multiple items"
@@ -15725,7 +15769,9 @@ msgstr "Inga lagringsplass tilgjengeleg"
 
 #: ../plugins/mail-remote/org-gnome-evolution-mail-remote.eplug.xml.h:1
 msgid "A plugin which implements a CORBA interface for accessing mail data remotely."
-msgstr "Eit tillegg som inneheld eit CORBA-grensesnitt for å aksessera epost-data eksternt."
+msgstr ""
+"Eit tillegg som inneheld eit CORBA-grensesnitt for å aksessera e-post-data "
+"eksternt."
 
 #: ../plugins/mail-remote/org-gnome-evolution-mail-remote.eplug.xml.h:2
 msgid "Mail Remote"
@@ -15735,7 +15781,7 @@ msgstr "E-post eksternt"
 msgid ""
 "A plugin which allows the creation of meetings from the contents of a mail "
 "message."
-msgstr "Eit tillegg som tillet oppretting av møte frå innhaldet i ein epost."
+msgstr "Eit tillegg som tillet oppretting av møte frå innhaldet i ein e-post."
 
 #: ../plugins/mail-to-meeting/org-gnome-mail-to-meeting.eplug.xml.h:2
 msgid "Con_vert to Meeting"
@@ -15749,7 +15795,7 @@ msgstr "E-post til møte"
 msgid ""
 "A plugin which allows the creation of tasks from the contents of a mail "
 "message."
-msgstr "Eit tillegg som tillet oppretting av oppgåver frå innhaldet i ein epost."
+msgstr "Eit tillegg som tillet oppretting av oppgåver frå innhaldet i ein e-post."
 
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml.h:2
 msgid "Con_vert to Task"
@@ -15787,7 +15833,9 @@ msgstr "E-post_liste"
 msgid ""
 "Provide actions for common mailing list commands (subscribe, "
 "unsubscribe, ...)."
-msgstr "Gjev handlingar for vanlege epostliste-kommandoar (tinga, sei opp tinging, ...)."
+msgstr ""
+"Gjev handlingar for vanlege e-postliste-kommandoar (tinga, sei opp "
+"tinging, ...)."
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:7
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:11
@@ -15816,9 +15864,10 @@ msgid ""
 "You should receive an answer from the mailing list shortly after the message "
 "has been sent."
 msgstr ""
-"Ei epostmelding vil verta sendt til adressa «{0}». Du kan anten senda meldinga automatisk, eller sjå og endra henne fyrst.\n"
+"Ei e-postmelding vil verta sendt til adressa «{0}». Du kan anten senda "
+"meldinga automatisk, eller sjå og endra henne fyrst.\n"
 "\n"
-"Du skal få eit svar frå epost-lista kort tid etter at meldinga er sendt."
+"Du skal få eit svar frå e-post-lista kort tid etter at meldinga er sendt."
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:5
 msgid "Malformed header"
@@ -15851,7 +15900,8 @@ msgid ""
 "\n"
 "Header: {0}"
 msgstr ""
-"Handlinga kunne ikkje utførast. Det tyder at hovudet til denne handlinga ikkje inneheldt nokon handlingar me kunne handsama.\n"
+"Handlinga kunne ikkje utførast. Det tyder at hovudet til denne handlinga "
+"ikkje inneheldt nokon handlingar me kunne handsama.\n"
 "\n"
 "Hovud: {0}"
 
@@ -15994,7 +16044,8 @@ msgid ""
 "\n"
 "This plugin is unsupported demonstration code only.\n"
 msgstr ""
-"Eit testtillegg som viser eit formateringstillegg som let deg slå av HTML-epost.\n"
+"Eit testtillegg som viser eit formateringstillegg som let deg slå av HTML-"
+"e-post.\n"
 "\n"
 "Dette tillegget er berre meint som demonstrasjon og er ikkje støtta.\n"
 
@@ -16348,14 +16399,18 @@ msgstr "Standard breidde på sidefeltet, i bildepunkt."
 msgid ""
 "The last upgraded configuration version of Evolution, with major/minor/"
 "configuration level"
-msgstr "Den siste oppgraderte oppsettsversjonen av Evolution, med stort/lite/oppsettnivå."
+msgstr ""
+"Den siste oppgraderte oppsettsversjonen av Evolution, med stort/lite/"
+"oppsettnivå."
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:17
 msgid ""
 "The style of the window buttons. Can be \"text\", \"icons\", \"both\", "
 "\"toolbar\". If \"toolbar\" is set, the style of the buttons is determined "
 "by the GNOME toolbar setting."
-msgstr "Stil på vindaugeknappane. Kan vera «text», «icons»,«both» eller «toolbar». Når «toolbar» er valt vert stilen styrt av GNOME si verktøylinjeinnstilling."
+msgstr ""
+"Stil på vindaugeknappane. Kan vera «text», «icons»,«both» eller «toolbar». "
+"Når «toolbar» er valt vert stilen styrt av GNOME si verktøylinjeinnstilling."
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:18
 msgid "Toolbar is visible"
@@ -17834,7 +17889,7 @@ msgstr "Bruk filterreglar på valde meldingar"
 
 #: ../ui/evolution-mail-message.xml.h:7
 msgid "Check for _Junk"
-msgstr "Ser etter _skrot"
+msgstr "Sjå etter _skrot"
 
 #: ../ui/evolution-mail-message.xml.h:8
 msgid "Compose _New Message"
@@ -19171,7 +19226,9 @@ msgstr "Verdskart"
 msgid ""
 "Mouse-based interactive map widget for selecting timezone. Keyboard users "
 "should select the timezone from the below combo box instead."
-msgstr "Musstyrt interaktivt kartelement til å velja tidssone med. Tastaturbrukarar bør velja tidssone frå kombinasjonsboksen under i staden."
+msgstr ""
+"Musstyrt interaktivt kartelement til å velja tidssone med. Tastaturbrukarar "
+"bør velja tidssone frå kombinasjonsboksen under i staden."
 
 #: ../widgets/misc/e-pilot-settings.c:103
 msgid "Sync with:"
