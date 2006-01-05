@@ -890,17 +890,19 @@ eabc_details_search(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, s
 	g_signal_connect (sdialog->rootdn, "changed", G_CALLBACK (rootdn_changed_cb), sdialog);
 
 	sdialog->scope_optionmenu = glade_xml_get_widget (gui, "scope-optionmenu");
-	switch (lud->lud_scope) {
-	case LDAP_SCOPE_BASE:
-		sdialog->scope = ADDRESSBOOK_LDAP_SCOPE_BASE;
-		break;
-	default:
-	case LDAP_SCOPE_ONELEVEL:
-		sdialog->scope = ADDRESSBOOK_LDAP_SCOPE_ONELEVEL;
-		break;
-	case LDAP_SCOPE_SUBTREE:
-		sdialog->scope = ADDRESSBOOK_LDAP_SCOPE_SUBTREE;
-		break;
+	if (lud) {
+		switch (lud->lud_scope) {
+		case LDAP_SCOPE_BASE:
+			sdialog->scope = ADDRESSBOOK_LDAP_SCOPE_BASE;
+			break;
+		default:
+		case LDAP_SCOPE_ONELEVEL:
+			sdialog->scope = ADDRESSBOOK_LDAP_SCOPE_ONELEVEL;
+			break;
+		case LDAP_SCOPE_SUBTREE:
+			sdialog->scope = ADDRESSBOOK_LDAP_SCOPE_SUBTREE;
+			break;
+		}
 	}
 	gtk_option_menu_set_history (GTK_OPTION_MENU(sdialog->scope_optionmenu), sdialog->scope);
 	g_signal_connect(sdialog->scope_optionmenu, "changed", G_CALLBACK(scope_optionmenu_changed_cb), sdialog);
