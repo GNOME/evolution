@@ -38,15 +38,14 @@
 #  include <libgnomeui/gnome-winhints.h>
 #endif
 #include <glade/glade.h>
-#include <libedataserver/e-time-utils.h>
+#include <e-util/e-time-utils.h>
 #include <libecal/e-cal-time-util.h>
 #include "alarm-notify-dialog.h"
 #include "config-data.h"
 #include "util.h"
 #include <e-util/e-icon-factory.h>
-#include <e-util/e-util-private.h>
 
-
+
 	
 enum {
 	ALARM_DISPLAY_COLUMN,
@@ -73,8 +72,10 @@ typedef struct {
 	GladeXML *xml;
 
 	GtkWidget *dialog;
-	GtkWidget *snooze_time;
+	GtkWidget *snooze_time_min;
+	GtkWidget *snooze_time_hrs;
 	GtkWidget *minutes_label;
+	GtkWidget *hrs_label;
 	GtkWidget *description;
 	GtkWidget *location;
 	GtkWidget *treeview;
@@ -85,7 +86,6 @@ typedef struct {
 } AlarmNotify;
 
 
-
 static void
 tree_selection_changed_cb (GtkTreeSelection *selection, gpointer data);
 
@@ -98,24 +98,37 @@ edit_pressed_cb (GtkButton *button, gpointer user_data);
 static void
 snooze_pressed_cb (GtkButton *button, gpointer user_data);
 
-
 AlarmNotify *an = NULL;
 gboolean have_one = FALSE;
 
 
-
 static void
 an_update_minutes_label (GtkSpinButton *sb, gpointer data)
 {
 	AlarmNotify *an;
 	char *new_label;
-	int snooze_timeout;
+	int snooze_timeout_min;
 
 	an = (AlarmNotify *) data;
 
-	snooze_timeout = gtk_spin_button_get_value_as_int (sb);
-	new_label = g_strdup (ngettext ("minute", "minutes", snooze_timeout));
+	snooze_timeout_min  = gtk_spin_button_get_value_as_int (sb);
+	new_label = g_strdup (ngettext ("minute", "minutes", snooze_timeout_min));
 	gtk_label_set_text (GTK_LABEL (an->minutes_label), new_label);
+	g_free (new_label);
+}
+
+static void
+an_update_hrs_label (GtkSpinButton *sb, gpointer data)
+{
+	AlarmNotify *an;
+	char *new_label;
+	int snooze_timeout_hrs;
+
+	an = (AlarmNotify *) data;
+
+	snooze_timeout_hrs  = gtk_spin_button_get_value_as_int (sb);
+	new_label = g_strdup (ngettext ("hours", "hours", snooze_timeout_hrs));
+	gtk_label_set_text (GTK_LABEL (an->hrs_label), new_label);
 	g_free (new_label);
 }
 
@@ -175,7 +188,8 @@ snooze_pressed_cb (GtkButton *button, gpointer user_data)
 
 	g_return_if_fail (funcinfo);
 
-	snooze_timeout = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (an->snooze_time));
+	snooze_timeout = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (an->snooze_time_min));
+	snooze_timeout += 60 * (gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (an->snooze_time_hrs)));
 	(* funcinfo->func) (ALARM_NOTIFY_SNOOZE, snooze_timeout, funcinfo->func_data);
 
 }
@@ -219,14 +233,8 @@ notified_alarms_dialog_new (void)
 			G_TYPE_POINTER, /* End */
 		
 			G_TYPE_POINTER /* FuncInfo*/));
-	char *gladefile;
 	 
-	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
-				      "alarm-notify.glade",
-				      NULL);
-	an->xml = glade_xml_new (gladefile, NULL, NULL);
-	g_free (gladefile);
-
+	an->xml = glade_xml_new (EVOLUTION_GLADEDIR "/alarm-notify.glade", NULL, NULL);
 	if (!an->xml) {
 		g_message ("alarm_notify_dialog(): Could not load the Glade XML file!");
 		g_free (an);
@@ -234,8 +242,10 @@ notified_alarms_dialog_new (void)
 	}
 	
 	an->dialog = glade_xml_get_widget (an->xml, "alarm-notify");
-	an->snooze_time = glade_xml_get_widget (an->xml, "snooze-time");
+	an->snooze_time_min = glade_xml_get_widget (an->xml, "snooze-time-min");
 	an->minutes_label = glade_xml_get_widget (an->xml, "minutes-label");
+	an->snooze_time_hrs = glade_xml_get_widget (an->xml, "snooze-time-hrs");
+	an->hrs_label = glade_xml_get_widget (an->xml, "hrs-label");
 	an->description = glade_xml_get_widget (an->xml, "description-label");
 	an->location = glade_xml_get_widget (an->xml, "location-label");
 	an->treeview = glade_xml_get_widget (an->xml, "appointments-treeview");
@@ -243,7 +253,7 @@ notified_alarms_dialog_new (void)
 	snooze_btn = glade_xml_get_widget (an->xml, "snooze-button");
 	edit_btn = glade_xml_get_widget (an->xml, "edit-button");
 
-	if (!(an->dialog && an->scrolledwindow && an->treeview && an->snooze_time
+	if (!(an->dialog && an->scrolledwindow && an->treeview && an->snooze_time_min && an->snooze_time_hrs 
 	      && an->description && an->location && edit_btn && snooze_btn)) {
 		g_message ("alarm_notify_dialog(): Could not find all widgets in Glade file!");
 		g_object_unref (an->xml);
@@ -291,8 +301,12 @@ notified_alarms_dialog_new (void)
 	}
 	
 	/* Set callback for updating the snooze "minutes" label */
-	g_signal_connect (G_OBJECT (an->snooze_time), "value_changed",
+	g_signal_connect (G_OBJECT (an->snooze_time_min), "value_changed",
 	 		G_CALLBACK (an_update_minutes_label), an);
+	
+	/* Set callback for updating the snooze "hours" label */
+	g_signal_connect (G_OBJECT (an->snooze_time_hrs), "value_changed",
+	 		G_CALLBACK (an_update_hrs_label), an);
 	
 	
 	na = g_new0 (AlarmNotificationsDialog, 1);
@@ -302,6 +316,7 @@ notified_alarms_dialog_new (void)
 	
 	return na;
 }
+ 
  
 /**
  * add_alarm_to_notified_alarms_dialog:
@@ -332,7 +347,7 @@ add_alarm_to_notified_alarms_dialog (AlarmNotificationsDialog *na, time_t trigge
 	GtkTreeIter iter;
 	GtkTreeModel *model = gtk_tree_view_get_model (GTK_TREE_VIEW (na->treeview));
 	AlarmFuncInfo *funcinfo = NULL;
-	gchar *to_display = NULL, *start, *end;
+	gchar *to_display = NULL, *start, *end, *str_time;
 	icaltimezone *current_zone;
 	
 	g_return_val_if_fail (trigger != -1, iter);
@@ -353,13 +368,15 @@ add_alarm_to_notified_alarms_dialog (AlarmNotificationsDialog *na, time_t trigge
 	current_zone = config_data_get_timezone ();
 	start = timet_to_str_with_zone (occur_start, current_zone);
 	end = timet_to_str_with_zone (occur_end, current_zone);
-	to_display = g_strdup_printf (_("<big><b>%s</b></big>\n%s until %s"), 
-		summary, start, end);
+	str_time = calculate_time (occur_start, occur_end);
+	to_display = g_strdup_printf (_("<big><b>%s</b></big>\n%s %s"), 
+		summary, start, str_time);
 	g_free (start);
 	g_free (end);
 	gtk_list_store_set (GTK_LIST_STORE(model), &iter, 
 		ALARM_DISPLAY_COLUMN, to_display, -1);
 	g_free (to_display);
+	g_free (str_time);
 	
 	gtk_list_store_set (GTK_LIST_STORE(model), &iter, ALARM_SUMMARY_COLUMN, summary, -1);
 	gtk_list_store_set (GTK_LIST_STORE(model), &iter, ALARM_DESCRIPTION_COLUMN, description, -1);
