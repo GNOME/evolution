@@ -183,6 +183,8 @@ snooze_pressed_cb (GtkButton *button, gpointer user_data)
 	AlarmFuncInfo *funcinfo = NULL;
 	GtkTreeSelection *selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (an->treeview));
 
+	gtk_widget_grab_focus (button);
+
 	if (gtk_tree_selection_get_selected (selection, &model, &iter))
 		gtk_tree_model_get (model, &iter, ALARM_FUNCINFO_COLUMN, &funcinfo, -1);	
 
@@ -286,8 +288,8 @@ notified_alarms_dialog_new (void)
 	gtk_image_set_from_file (GTK_IMAGE (image), icon_path);
 	g_free (icon_path);
 
-	g_signal_connect (edit_btn, "pressed", G_CALLBACK (edit_pressed_cb), an);
-	g_signal_connect (snooze_btn, "pressed", G_CALLBACK (snooze_pressed_cb), an);
+	g_signal_connect (edit_btn, "clicked", G_CALLBACK (edit_pressed_cb), an);
+	g_signal_connect (snooze_btn, "clicked", G_CALLBACK (snooze_pressed_cb), an);
 	g_signal_connect (G_OBJECT (an->dialog), "response", G_CALLBACK (dialog_response_cb), an);
 	g_signal_connect (G_OBJECT (an->dialog), "destroy", G_CALLBACK (dialog_destroyed_cb), an);
 	

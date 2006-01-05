@@ -1,3 +1,11 @@
+2006-01-05  Johnny Jacob  <johnnyjacob@gmail.com>
+
+	Fixes #303193
+	* gui/alarm-notify/alarm-notify-dialog.c (notified_alarms_dialog_new):
+	Changed events handled for edit_btn, snooze_btn from pressed to
+	clicked
+	(snooze_pressed_callback) : Grab keyboard focus to snooze_btn.
+	
 2006-01-05  P S Chakravarthi <pchakravarthi@novell.com>
 
 	Fixes 317808
