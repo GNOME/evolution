@@ -38,7 +38,7 @@
 #  include <libgnomeui/gnome-winhints.h>
 #endif
 #include <glade/glade.h>
-#include <e-util/e-time-utils.h>
+#include <libedataserver/e-time-utils.h>
 #include <libecal/e-cal-time-util.h>
 #include "alarm-notify-dialog.h"
 #include "config-data.h"
@@ -183,7 +183,7 @@ snooze_pressed_cb (GtkButton *button, gpointer user_data)
 	AlarmFuncInfo *funcinfo = NULL;
 	GtkTreeSelection *selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (an->treeview));
 
-	gtk_widget_grab_focus (button);
+	gtk_widget_grab_focus ((GtkWidget *) button);
 
 	if (gtk_tree_selection_get_selected (selection, &model, &iter))
 		gtk_tree_model_get (model, &iter, ALARM_FUNCINFO_COLUMN, &funcinfo, -1);	

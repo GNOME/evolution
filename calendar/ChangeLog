@@ -1,3 +1,11 @@
+2006-01-05  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	* gui/alarm-notify/alarm-notify-dialog.c: 
+	Include the e-time-utils.h from libedataserver
+	as it has been removed from e-util. Fixes a build
+	break.
+	(snooze_pressed_cb):Fixed a warning.
+
 2006-01-05  Johnny Jacob  <johnnyjacob@gmail.com>
 
 	Fixes #258786 
