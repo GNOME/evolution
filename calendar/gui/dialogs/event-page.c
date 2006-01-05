@@ -2424,19 +2424,33 @@ times_updated (EventPage *epage, gboolean adjust_end_time)
 	notify_dates_changed (epage, &start_tt, &end_tt);
 }
 
-/* Callback used when the start or end date widgets change.  We check that the
+/* Callback used when the start date widget change.  We check that the
  * start date < end date and we set the "all day event" button as appropriate.
  */
 static void
-date_changed_cb (GtkWidget *dedit, gpointer data)
+start_date_changed_cb (GtkWidget *dedit, gpointer data)
 {
 	EventPage *epage;
 	
 	epage = EVENT_PAGE (data);
 
-	times_updated (epage, dedit == epage->priv->start_time);
+	hour_minute_changed (epage);
+
+	times_updated (epage, TRUE);
 }
 
+/* Callback used when the end date widget change.  We check that the
+ * start date < end date and we set the "all day event" button as appropriate.
+ */
+static void
+end_date_changed_cb (GtkWidget *dedit, gpointer data)
+{
+	EventPage *epage;
+	
+	epage = EVENT_PAGE (data);
+
+	times_updated (epage, FALSE);
+}
 
 /* Callback used when the start timezone is changed. If sync_timezones is set,
  * we set the end timezone to the same value. It also updates the start time
@@ -2727,9 +2741,9 @@ init_widgets (EventPage *epage)
 
 	/* Start and end times */
 	g_signal_connect((priv->start_time), "changed",
-			    G_CALLBACK (date_changed_cb), epage);
+			    G_CALLBACK (start_date_changed_cb), epage);
 	g_signal_connect((priv->end_time), "changed",
-			    G_CALLBACK (date_changed_cb), epage);
+			    G_CALLBACK (end_date_changed_cb), epage);
 
 	/* Categories */
 	g_signal_connect((priv->categories_btn), "clicked",

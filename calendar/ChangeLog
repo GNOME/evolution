@@ -1,3 +1,11 @@
+2006-01-05  Johnny Jacob  <johnnyjacob@gmail.com>
+
+	Fixes #216535
+	* gui/dialogs/event-page.c (end_date_changed_cb ): Added. Signal
+	handler for end_time.
+	(start_date_changed_cb) : Added. Changes the end_time according to 
+	the duration.
+
 2006-01-05  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	* gui/alarm-notify/alarm-notify-dialog.c: 
