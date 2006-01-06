@@ -1,3 +1,7 @@
+2006-01-06  Andre Klapper <a9016009@gmx.de>
+	* lib/e-cert-c: marked LDAP specifix strings as not translatable.
+	  Fixes bug 273076.
+
 2006-01-02  Harish Krishnaswamy  <kharish@novell.com>
 
 	* gui/certificate-manager.c: (initialize_yourcerts_ui):

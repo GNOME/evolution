@@ -639,28 +639,28 @@ get_oid_text (SECItem *oid, char **text)
 		*text = g_strdup (_("PKCS #1 SHA-1 With RSA Encryption"));
 		break;
 	case SEC_OID_AVA_COUNTRY_NAME:
-		*text = g_strdup (_("C"));
+		*text = g_strdup ("C");
 		break;
 	case SEC_OID_AVA_COMMON_NAME:
-		*text = g_strdup (_("CN"));
+		*text = g_strdup ("CN");
 		break;
 	case SEC_OID_AVA_ORGANIZATIONAL_UNIT_NAME:
-		*text = g_strdup (_("OU"));
+		*text = g_strdup ("OU");
 		break;
 	case SEC_OID_AVA_ORGANIZATION_NAME:
-		*text = g_strdup (_("O"));
+		*text = g_strdup ("O");
 		break;
 	case SEC_OID_AVA_LOCALITY:
-		*text = g_strdup (_("L"));
+		*text = g_strdup ("L");
 		break;
 	case SEC_OID_AVA_DN_QUALIFIER:
-		*text = g_strdup (_("DN"));
+		*text = g_strdup ("DN");
 		break;
 	case SEC_OID_AVA_DC:
-		*text = g_strdup (_("DC"));
+		*text = g_strdup ("DC");
 		break;
 	case SEC_OID_AVA_STATE_OR_PROVINCE:
-		*text = g_strdup (_("ST"));
+		*text = g_strdup ("ST");
 		break;
 	case SEC_OID_PKCS1_RSA_ENCRYPTION:
 		*text = g_strdup (_("PKCS #1 RSA Encryption"));
@@ -675,10 +675,10 @@ get_oid_text (SECItem *oid, char **text)
 		*text = g_strdup (_("Certificate Authority Key Identifier"));
 		break;
 	case SEC_OID_RFC1274_UID:
-		*text = g_strdup (_("UID"));
+		*text = g_strdup ("UID");
 		break;
 	case SEC_OID_PKCS9_EMAIL_ADDRESS:
-		*text = g_strdup (_("E"));
+		*text = g_strdup ("E");
 		break;
 	default:
 		if (!get_default_oid_format (oid, &temp))
