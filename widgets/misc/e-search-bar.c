@@ -223,11 +223,11 @@ clear_verb_cb (BonoboUIComponent *ui_component,
 	       const char *verb_name)
 {
 	ESearchBar *esb;
+	esb = E_SEARCH_BAR (data);
 
 	gtk_widget_modify_base (esb->entry, GTK_STATE_NORMAL, NULL);
 	gtk_widget_modify_text (esb->entry, GTK_STATE_NORMAL, NULL);
 	
-	esb = E_SEARCH_BAR (data);
 	clear_search (esb);
 }
 
