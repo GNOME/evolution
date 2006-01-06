@@ -40,7 +40,7 @@
 #include <gtkhtml/gtkhtml-embedded.h>
 #include <mail/em-format-hook.h>
 #include <mail/em-format-html.h>
-#include <e-util/e-account-list.h>
+#include <libedataserver/e-account-list.h>
 #include <e-util/e-icon-factory.h>
 #include <e-util/e-gtk-utils.h>
 #include <e-util/e-util.h>

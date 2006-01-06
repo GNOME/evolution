@@ -46,7 +46,7 @@
 #include <mail/em-config.h>
 #include <mail/em-format-html.h>
 #include <mail/em-utils.h>
-#include <e-util/e-account-list.h>
+#include <libedataserver/e-account-list.h>
 #include <e-util/e-icon-factory.h>
 #include <e-util/e-error.h>
 #include <calendar/gui/calendar-config.h>
