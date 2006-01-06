@@ -29,7 +29,7 @@
 
 #include <bonobo/bonobo-ui-component.h>
 
-#include <e-util/e-account.h>
+#include <libedataserver/e-account.h>
 #include <camel/camel-mime-message.h>
 #include <libebook/e-destination.h>
 

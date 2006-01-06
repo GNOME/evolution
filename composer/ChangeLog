@@ -1,3 +1,10 @@
+2006-01-06  Simon Zheng <simon.zheng@sun.com>
+
+	* e-msg-composer-hdrs.h: use libedataserver/e-account.h 
+	instead of e-util/e-account.h.
+	* evolution-composer.c: use libedataserver/e-account-list.h 
+	instead of e-util/e-account-list.h.
+
 2005-12-17  Tor Lillqvist  <tml@novell.com>
 
 	* e-msg-composer.c

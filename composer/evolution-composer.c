@@ -33,7 +33,7 @@
 #include <misc/e-gui-utils.h>
 #include "evolution-composer.h"
 #include "mail/mail-config.h"
-#include "e-util/e-account-list.h"
+#include "libedataserver/e-account-list.h"
 #include <camel/camel-mime-filter-tohtml.h>
 #include <camel/camel-stream-mem.h>
 
