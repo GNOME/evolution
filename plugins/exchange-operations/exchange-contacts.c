@@ -34,7 +34,7 @@
 
 #include "mail/em-account-editor.h"
 #include "mail/em-config.h"
-#include "e-util/e-account.h"
+#include "libedataserver/e-account.h"
 #include "e-util/e-error.h"
 
 #include "exchange-operations.h"

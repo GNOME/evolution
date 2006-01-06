@@ -8,7 +8,7 @@
 #include <exchange-account.h>
 
 #include "exchange-types.h"
-#include "e-util/e-account-list.h"
+#include "libedataserver/e-account-list.h"
 #include <libedataserver/e-source-list.h>
 #include <libedataserver/e-source-group.h>
 

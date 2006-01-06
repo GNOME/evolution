@@ -22,7 +22,7 @@
 #include "config.h"
 #endif
 
-#include "e-util/e-account.h"
+#include "libedataserver/e-account.h"
 #include "e-util/e-error.h"
 
 #include <string.h>

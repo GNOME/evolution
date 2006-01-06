@@ -1,3 +1,12 @@
+2006-01-06  Simon Zheng <simon.zheng@sun.com>
+
+	* exchange-account-setup.c:
+	* exchange-calendar.c:
+	* exchange-config-listener.h:
+	* exchange-contacts.c:
+	use libedataserver/e-account-list.h instead of e-util/e-account-list.h.
+	use libedataserver/e-account.h instead of e-util/e-account.h.
+
 2006-01-05  Sushma Rai  <rsushma@novell.com>
 
 	* exchange-calendar.c (e_exchange_calendar_commit): Setting the
