@@ -5840,13 +5840,13 @@ e_day_view_on_text_item_event (GnomeCanvasItem *item,
                } else if ((event->key.keyval == GDK_Up)
                           && (event->key.state & GDK_SHIFT_MASK)
                           && (event->key.state & GDK_CONTROL_MASK)
-                          && (event->key.state & GDK_MOD1_MASK)) {
+                          && !(event->key.state & GDK_MOD1_MASK)) {
                        e_day_view_change_event_end_time_up (day_view);
                        return TRUE;
                } else if ((event->key.keyval == GDK_Down)
                           && (event->key.state & GDK_SHIFT_MASK)
                           && (event->key.state & GDK_CONTROL_MASK)
-                          && (event->key.state & GDK_MOD1_MASK)) {
+                          && !(event->key.state & GDK_MOD1_MASK)) {
                        e_day_view_change_event_end_time_down (day_view);
                        return TRUE;
 		}
