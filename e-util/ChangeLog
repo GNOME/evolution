@@ -1,3 +1,9 @@
+2006-01-06  Simon Zheng <simon.zheng@sun.com>
+
+	* e-account.[ch], e-account-list.[ch]: removed. 
+	Merged to evolution-data-server/libedataserver/.
+	* Makefile.am: remove above files from list.
+
 2006-01-05  Tor Lillqvist  <tml@novell.com>
 
 	* e-plugin.c (epl_construct)

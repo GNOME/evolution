@@ -39,8 +39,6 @@ INCLUDES =								\
 privsolib_LTLIBRARIES = libeutil.la libeconduit.la
 
 eutilinclude_HEADERS = 				\
-	e-account-list.h			\
-	e-account.h				\
 	e-bconf-map.h				\
 	e-categories-config.h			\
 	e-config.h				\
@@ -80,8 +78,6 @@ eutilinclude_HEADERS = 				\
 libeutil_la_SOURCES =				\
 	$(eutilinclude_HEADERS)			\
 	e-util-marshal.c			\
-	e-account-list.c			\
-	e-account.c				\
 	e-bconf-map.c				\
 	e-categories-config.c			\
 	e-config.c				\
