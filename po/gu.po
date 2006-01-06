@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD.gu\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-01-04 05:25+0100\n"
-"PO-Revision-Date: 2006-01-04 10:38+0530\n"
+"POT-Creation-Date: 2006-01-06 05:29+0100\n"
+"PO-Revision-Date: 2006-01-06 13:03+0530\n"
 "Last-Translator: Ankit Patel <ankit644@yahoo.com>\n"
 "Language-Team: Gujarati <indianoss-gujarati@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -13,6 +13,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.9.1\n"
 "Plural-Forms: nplurals=2; plural=(n!=1);\n\n"
+"\n"
 "\n"
 "\n"
 "\n"
@@ -632,7 +633,7 @@ msgid "Create a new contact list"
 msgstr "નવી સંપર્ક યાદી બનાવો"
 
 #: ../addressbook/gui/component/addressbook-component.c:242
-#: ../addressbook/gui/component/addressbook-config.c:1202
+#: ../addressbook/gui/component/addressbook-config.c:1204
 msgid "New Address Book"
 msgstr "નવી સરનામા પોથી"
 
@@ -662,7 +663,7 @@ msgstr "પ્રકાર (_T):"
 msgid "Copy book content locally for offline operation"
 msgstr "ઓફલાઈન ક્રિયાઓ માટે બુકના સમાવિષ્ટો સ્થાનીકપણે નકલ કરો"
 
-#: ../addressbook/gui/component/addressbook-config.c:981
+#: ../addressbook/gui/component/addressbook-config.c:983
 #: ../addressbook/gui/component/ldap-config.glade.h:22
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:20
 #: ../calendar/gui/dialogs/calendar-setup.c:368
@@ -673,34 +674,34 @@ msgstr "ઓફલાઈન ક્રિયાઓ માટે બુકના �
 msgid "General"
 msgstr "સામાન્ય"
 
-#: ../addressbook/gui/component/addressbook-config.c:982
+#: ../addressbook/gui/component/addressbook-config.c:984
 #: ../mail/importers/pine-importer.c:392
 msgid "Addressbook"
 msgstr "સરનામાપોથી"
 
-#: ../addressbook/gui/component/addressbook-config.c:986
+#: ../addressbook/gui/component/addressbook-config.c:988
 msgid "Server Information"
 msgstr "સર્વર જાણકારી"
 
-#: ../addressbook/gui/component/addressbook-config.c:988
+#: ../addressbook/gui/component/addressbook-config.c:990
 msgid "Authentication"
 msgstr "સત્તાધિકરણ"
 
-#: ../addressbook/gui/component/addressbook-config.c:991
+#: ../addressbook/gui/component/addressbook-config.c:993
 #: ../addressbook/gui/component/ldap-config.glade.h:17
 #: ../mail/mail-dialogs.glade.h:7 ../smime/gui/smime-ui.glade.h:20
 msgid "Details"
 msgstr "વિગતો"
 
-#: ../addressbook/gui/component/addressbook-config.c:992
+#: ../addressbook/gui/component/addressbook-config.c:994
 msgid "Searching"
 msgstr "શોધી રહ્યા છીએ"
 
-#: ../addressbook/gui/component/addressbook-config.c:994
+#: ../addressbook/gui/component/addressbook-config.c:996
 msgid "Downloading"
 msgstr "ડાઉનલોડ કરી રહ્યા છીએ"
 
-#: ../addressbook/gui/component/addressbook-config.c:1200
+#: ../addressbook/gui/component/addressbook-config.c:1202
 #: ../addressbook/gui/component/ldap-config.glade.h:13
 msgid "Address Book Properties"
 msgstr "સરનામાપોથીના ગુણધર્મો"
@@ -1131,7 +1132,7 @@ msgid "cards"
 msgstr "પત્રો"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:57
-#: ../calendar/gui/alarm-notify/alarm-notify.glade.h:7
+#: ../calendar/gui/alarm-notify/alarm-notify.glade.h:8
 #: ../calendar/gui/alarm-notify/util.c:64
 #: ../calendar/gui/alarm-notify/util.c:66
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:26
@@ -4385,7 +4386,7 @@ msgstr "બાબતો (_T)"
 msgid "Evolution Calendar alarm notification service"
 msgstr "ઈવોલ્યુશન કેલેન્ડર એલાર્મ સૂચન સેવા"
 
-#: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:117
+#: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:115
 #: ../calendar/gui/alarm-notify/util.c:64
 #: ../calendar/gui/alarm-notify/util.c:66 ../calendar/gui/misc.c:111
 #: ../calendar/gui/misc.c:113
@@ -4394,18 +4395,30 @@ msgid_plural "minutes"
 msgstr[0] "મિનિટ"
 msgstr[1] "મિનિટો"
 
-#: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:258
+#: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:130
+#: ../calendar/gui/alarm-notify/alarm-notify.glade.h:6
+#: ../calendar/gui/dialogs/alarm-dialog.glade.h:24
+#: ../calendar/gui/dialogs/calendar-setup.glade.h:13
+#: ../calendar/gui/dialogs/event-page.glade.h:19 ../filter/filter.glade.h:15
+#: ../plugins/calendar-http/calendar-http.c:264
+#: ../plugins/calendar-weather/calendar-weather.c:564
+msgid "hours"
+msgid_plural "hours"
+msgstr[0] "કલાકો"
+msgstr[1] "કલાકો"
+
+#: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:270
 msgid "Start time"
 msgstr "શરૂઆતનો સમય"
 
-#: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:356
+#: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:374
 #, c-format
 msgid ""
 "<big><b>%s</b></big>\n"
-"%s until %s"
+"%s %s"
 msgstr ""
 "<big><b>%s</b></big>\n"
-"%s જ્યાં સુધી %s નહિં થાય"
+"%s %s"
 
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:1
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:4
@@ -4445,7 +4458,7 @@ msgstr "ફેરફાર કરો (_E)"
 msgid "_Snooze"
 msgstr "પુનરાવર્તન (_S)"
 
-#: ../calendar/gui/alarm-notify/alarm-notify.glade.h:6
+#: ../calendar/gui/alarm-notify/alarm-notify.glade.h:7
 msgid "location of appointment"
 msgstr "મુલાકાતનું સ્થાન"
 
@@ -5240,14 +5253,6 @@ msgstr "દરેક માટે વધારાનો સમય"
 msgid "hour(s)"
 msgstr "કલાક(ો)"
 
-#: ../calendar/gui/dialogs/alarm-dialog.glade.h:24
-#: ../calendar/gui/dialogs/calendar-setup.glade.h:13
-#: ../calendar/gui/dialogs/event-page.glade.h:19 ../filter/filter.glade.h:15
-#: ../plugins/calendar-http/calendar-http.c:264
-#: ../plugins/calendar-weather/calendar-weather.c:564
-msgid "hours"
-msgstr "કલાકો"
-
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:25
 msgid "minute(s)"
 msgstr "મિનિટ(ો)"
@@ -5985,26 +5990,26 @@ msgstr "ઓછામાં ઓછો એક સભા ભરનાર તો હ
 msgid "_Add "
 msgstr "ઉમેરો (_A) "
 
-#: ../calendar/gui/dialogs/event-page.c:2553
+#: ../calendar/gui/dialogs/event-page.c:2567
 #, c-format
 msgid "Unable to open the calendar '%s'."
 msgstr "કેલેન્ડર '%s' ખોલી શકાય એમ નથી."
 
-#: ../calendar/gui/dialogs/event-page.c:2808
+#: ../calendar/gui/dialogs/event-page.c:2823
 #, c-format
 msgid "%d day before appointment"
 msgid_plural "%d days before appointment"
 msgstr[0] "મુલાકાત પહેલાનો %d દિવસ"
 msgstr[1] "મુલાકાત પહેલાના %d દિવસો "
 
-#: ../calendar/gui/dialogs/event-page.c:2816
+#: ../calendar/gui/dialogs/event-page.c:2831
 #, c-format
 msgid "%d hour before appointment"
 msgid_plural "%d hours before appointment"
 msgstr[0] "મુલાકાત પહેલાનો %d કલાક"
 msgstr[1] "મુલાકાત પહેલાના %d કલાકો"
 
-#: ../calendar/gui/dialogs/event-page.c:2824
+#: ../calendar/gui/dialogs/event-page.c:2839
 #, c-format
 msgid "%d minute before appointement"
 msgid_plural "%d minutes before appointment"
@@ -13576,26 +13581,26 @@ msgstr "આ સહી માટે નામ દાખલ કરો."
 msgid "Name:"
 msgstr "નામ:"
 
-#: ../mail/mail-tools.c:120
+#: ../mail/mail-tools.c:119
 #, c-format
 msgid "Could not create spool directory `%s': %s"
 msgstr "સ્પુલ ડિરેક્ટરી `%s' બનાવી શક્યા નહિં: %s"
 
-#: ../mail/mail-tools.c:150
+#: ../mail/mail-tools.c:149
 #, c-format
 msgid "Trying to movemail a non-mbox source `%s'"
 msgstr "મેઈલબોક્સ સ્રોત ના હોય તેવા `%s' માં મેઈલને ખસેડવાનો પ્રયત્ન કરી રહ્યા છીએ"
 
-#: ../mail/mail-tools.c:256
+#: ../mail/mail-tools.c:255
 #, c-format
 msgid "Forwarded message - %s"
 msgstr "આગળ ધપાવાયેલ સંદેશો - %s"
 
-#: ../mail/mail-tools.c:258
+#: ../mail/mail-tools.c:257
 msgid "Forwarded message"
 msgstr "આગળ ધપાવાયેલ સંદેશો"
 
-#: ../mail/mail-tools.c:298
+#: ../mail/mail-tools.c:297
 #, c-format
 msgid "Invalid folder: `%s'"
 msgstr "અયોગ્ય ફોલ્ડર: `%s'"
@@ -16545,7 +16550,7 @@ msgstr ""
 "iCal\n"
 "મુક્ત/વ્યસ્ત"
 
-#: ../plugins/sa-junk-plugin/em-junk-filter.c:99
+#: ../plugins/sa-junk-plugin/em-junk-filter.c:101
 msgid "Spamassassin (built-in)"
 msgstr "Spamassassin (built-in)"
 
