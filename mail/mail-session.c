@@ -238,7 +238,7 @@ get_password (CamelSession *session, CamelService *service, const char *domain,
 	g_free(url);
 
 	if (ret == NULL)
-		camel_exception_set(ex, CAMEL_EXCEPTION_USER_CANCEL, _("User cancelled operation."));
+		camel_exception_set(ex, CAMEL_EXCEPTION_USER_CANCEL, _("User canceled operation."));
 
 	return ret;
 }

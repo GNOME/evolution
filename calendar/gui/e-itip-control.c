@@ -1227,9 +1227,9 @@ get_cancel_options (gboolean found, icalcomponent_kind kind)
 	if (!found) {
 		switch (kind) {
 		case ICAL_VEVENT_COMPONENT:
-			return g_strdup_printf ("<i>%s</i>", _("The meeting has been cancelled, however it could not be found in your calendars"));
+			return g_strdup_printf ("<i>%s</i>", _("The meeting has been canceled, however it could not be found in your calendars"));
 		case ICAL_VTODO_COMPONENT:
- 			return g_strdup_printf ("<i>%s</i>", _("The task has been cancelled, however it could not be found in your task lists"));
+ 			return g_strdup_printf ("<i>%s</i>", _("The task has been canceled, however it could not be found in your task lists"));
 		default:
 			g_assert_not_reached ();
 			return NULL;
@@ -1345,8 +1345,8 @@ show_current_event (EItipControl *itip)
 		adjust_item (itip, priv->comp);
 		break;
 	case ICAL_METHOD_CANCEL:
-		itip_desc = _("<b>%s</b> has cancelled a meeting.");
-		itip_title = _("Meeting Cancellation");
+		itip_desc = _("<b>%s</b> has canceled a meeting.");
+		itip_title = _("Meeting Cancelation");
 		/* FIXME priv->current_ecal will always be NULL so the
 		 * user won't see an error message, the OK button will
 		 * just be de-sensitized */
@@ -1422,8 +1422,8 @@ show_current_todo (EItipControl *itip)
 		adjust_item (itip, priv->comp);
 		break;
 	case ICAL_METHOD_CANCEL:
-		itip_desc = _("<b>%s</b> has cancelled a task.");
-		itip_title = _("Task Cancellation");
+		itip_desc = _("<b>%s</b> has canceled a task.");
+		itip_title = _("Task Cancelation");
 		/* FIXME priv->current_ecal will always be NULL so the
 		 * user won't see an error message, the OK button will
 		 * just be de-sensitized */

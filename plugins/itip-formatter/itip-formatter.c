@@ -802,7 +802,7 @@ update_item (FormatItipPObject *pitip, ItipViewResponse response)
 		case ITIP_VIEW_RESPONSE_CANCEL:
 			/* FIXME some calendars just might not save it at all, is this accurate? */
 			itip_view_add_lower_info_item_printf (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_INFO, 
-							      _("Sent to calendar '%s' as cancelled"), e_source_peek_name (source));
+							      _("Sent to calendar '%s' as canceled"), e_source_peek_name (source));
 			break;
 		default:
 			g_assert_not_reached ();
@@ -902,9 +902,9 @@ remove_delegate (FormatItipPObject *pitip, const char *delegate, const char *del
 	if (status)
 		send_comp_to_attendee (E_CAL_COMPONENT_METHOD_REQUEST, pitip->comp, delegator, pitip->current_ecal, comment);
 	if (status) {			
-		itip_view_add_lower_info_item (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_INFO, _("Sent a cancellation notice to the delegate"));
+		itip_view_add_lower_info_item (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_INFO, _("Sent a cancelation notice to the delegate"));
 	} else
-		itip_view_add_lower_info_item (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_INFO, _("Could not send the cancellation notice to the delegate"));
+		itip_view_add_lower_info_item (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_INFO, _("Could not send the cancelation notice to the delegate"));
 
 	g_free (comment);
 

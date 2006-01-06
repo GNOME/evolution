@@ -461,7 +461,7 @@ e_calendar_table_init (ECalendarTable *cal_table)
 	strings = g_list_append (strings, (char*) _("Not Started"));
 	strings = g_list_append (strings, (char*) _("In Progress"));
 	strings = g_list_append (strings, (char*) _("Completed"));
-	strings = g_list_append (strings, (char*) _("Cancelled"));
+	strings = g_list_append (strings, (char*) _("Canceled"));
 	e_cell_combo_set_popdown_strings (E_CELL_COMBO (popup_cell),
 					  strings);
 

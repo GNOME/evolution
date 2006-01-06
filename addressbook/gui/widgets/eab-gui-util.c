@@ -58,7 +58,7 @@ static const char *status_to_string[] = {
 	/* E_BOOK_ERROR_CONTACT_NOT_FOUND */         		N_("Contact not found"),
 	/* E_BOOK_ERROR_CONTACT_ID_ALREADY_EXISTS */ 		N_("Contact ID already exists"),
 	/* E_BOOK_ERROR_PROTOCOL_NOT_SUPPORTED */    		N_("Protocol not supported"),
-	/* E_BOOK_ERROR_CANCELLED */                 		N_("Cancelled"),
+	/* E_BOOK_ERROR_CANCELLED */                 		N_("Canceled"),
 	/* E_BOOK_ERROR_COULD_NOT_CANCEL */                     N_("Could not cancel"),
 	/* E_BOOK_ERROR_AUTHENTICATION_FAILED */                N_("Authentication Failed"),
 	/* E_BOOK_ERROR_AUTHENTICATION_REQUIRED */              N_("Authentication Required"),

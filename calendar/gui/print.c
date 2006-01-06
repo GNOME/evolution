@@ -2372,7 +2372,7 @@ print_comp_item (GnomePrintContext *pc, ECalComponent *comp, ECal *client,
 				status_string = _("Completed");
 				break;
 			case ICAL_STATUS_CANCELLED:
-				status_string = _("Cancelled");
+				status_string = _("Canceled");
 				break;
 			default:
 				break;

@@ -231,7 +231,7 @@ write_html (GtkHTMLStream *stream, ECal *ecal, ECalComponent *comp, icaltimezone
 		str = g_strdup (_("Completed"));
 		break;
 	case ICAL_STATUS_CANCELLED :
-		str = g_strdup (_("Cancelled"));
+		str = g_strdup (_("Canceled"));
 		break;
 	case ICAL_STATUS_NONE :
 	default :

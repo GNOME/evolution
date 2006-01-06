@@ -346,7 +346,7 @@ get_status (ECalModelComponent *comp_data)
 		case ICAL_STATUS_COMPLETED:
 			return _("Completed");
 		case ICAL_STATUS_CANCELLED:
-			return _("Cancelled");
+			return _("Canceled");
 		default:
 			return "";
 		}
@@ -659,7 +659,7 @@ set_status (ECalModelComponent *comp_data, const char *value)
 		status = ICAL_STATUS_INPROCESS;
 	else if (!e_util_utf8_strcasecmp (value, _("Completed")))
 		status = ICAL_STATUS_COMPLETED;
-	else if (!e_util_utf8_strcasecmp (value, _("Cancelled")))
+	else if (!e_util_utf8_strcasecmp (value, _("Canceled")))
 		status = ICAL_STATUS_CANCELLED;
 	else {
 		g_warning ("Invalid status: %s\n", value);

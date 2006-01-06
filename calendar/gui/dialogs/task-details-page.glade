@@ -270,7 +270,7 @@
 		      <child>
 			<widget class="GtkMenuItem" id="convertwidget6">
 			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">Cancelled</property>
+			  <property name="label" translatable="yes">Canceled</property>
 			  <property name="use_underline">True</property>
 			</widget>
 		      </child>

@@ -2,8 +2,8 @@
 <error-list domain="calendar">
 
  <error id="prompt-cancel-meeting" type="question" defult="GTK_RESPONSE_YES">
-  <_primary>Would you like to send all the participants a cancellation notice?</_primary>
-  <_secondary>If you do not send a cancellation notice, the other participants may not know the meeting is cancelled.</_secondary>
+  <_primary>Would you like to send all the participants a cancelation notice?</_primary>
+  <_secondary>If you do not send a cancelation notice, the other participants may not know the meeting is canceled.</_secondary>
   <button _label="Do not Send" response="GTK_RESPONSE_NO"/>
   <button _label="Send Notice" response="GTK_RESPONSE_YES"/>
  </error>
@@ -16,8 +16,8 @@
  </error>
 
  <error id="prompt-cancel-task" type="question" defult="GTK_RESPONSE_YES">
-  <_primary>Would you like to send all the participants a cancellation notice?</_primary>
-  <_secondary>If you do not send a cancellation notice, the other participants may not know the task has been deleted.</_secondary>
+  <_primary>Would you like to send all the participants a cancelation notice?</_primary>
+  <_secondary>If you do not send a cancelation notice, the other participants may not know the task has been deleted.</_secondary>
   <button _label="Do not Send" response="GTK_RESPONSE_NO"/>
   <button _label="Send Notice" response="GTK_RESPONSE_YES"/>
  </error>
@@ -30,8 +30,8 @@
  </error>
 
  <error id="prompt-cancel-journal" type="question" defult="GTK_RESPONSE_YES">
-  <_primary>Would you like to send a cancellation notice for this journal entry?</_primary>
-  <_secondary>If you do not send a cancellation notice, the other participants may not know the journal has been deleted.</_secondary>
+  <_primary>Would you like to send a cancelation notice for this journal entry?</_primary>
+  <_secondary>If you do not send a cancelation notice, the other participants may not know the journal has been deleted.</_secondary>
   <button _label="Do not Send" response="GTK_RESPONSE_NO"/>
   <button _label="Send Notice" response="GTK_RESPONSE_YES"/>
  </error>

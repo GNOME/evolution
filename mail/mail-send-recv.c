@@ -155,7 +155,7 @@ receive_cancel(GtkButton *button, struct _send_info *info)
 	if (info->state == SEND_ACTIVE) {
 		camel_operation_cancel(info->cancel);
 		if (info->status)
-			e_clipped_label_set_text(info->status, _("Cancelling..."));
+			e_clipped_label_set_text(info->status, _("Canceling..."));
 		info->state = SEND_CANCELLED;
 	}
 	if (info->stop)
@@ -610,7 +610,7 @@ receive_done (char *uri, void *data)
 
 		switch(info->state) {
 		case SEND_CANCELLED:
-			e_clipped_label_set_text(info->status, _("Cancelled."));
+			e_clipped_label_set_text(info->status, _("Canceled."));
 			break;
 		default:
 			info->state = SEND_COMPLETE;

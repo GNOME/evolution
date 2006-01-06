@@ -758,7 +758,7 @@ send_queue_send(struct _mail_msg *mm)
 	if (j > 0)
 		report_status (m, CAMEL_FILTER_STATUS_END, 100, _("Failed to send %d of %d messages"), j, send_uids->len);
 	else if (mm->ex.id == CAMEL_EXCEPTION_USER_CANCEL)
-		report_status (m, CAMEL_FILTER_STATUS_END, 100, _("Cancelled."));
+		report_status (m, CAMEL_FILTER_STATUS_END, 100, _("Canceled."));
 	else
 		report_status (m, CAMEL_FILTER_STATUS_END, 100, _("Complete."));
 	

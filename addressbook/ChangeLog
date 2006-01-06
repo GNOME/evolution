@@ -1,3 +1,8 @@
+2006-01-06  Andre Klapper <a9016009@gmx.de>
+	* evolution/addressbook/gui/widgets/eab-gui-util.c:
+	changing "cancelled" (British English)
+	to "canceled" (American English). Fixes bug 325334.
+
 2006-01-04  Shi Pu  <shi.pu@sun.com>
 
 	* gui/component/addressbook-config.c (eabc_details_search): add a not

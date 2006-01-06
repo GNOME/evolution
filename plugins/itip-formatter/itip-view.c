@@ -370,9 +370,9 @@ set_calendar_sender_text (ItipView *view)
 		break;
 	case ITIP_VIEW_MODE_CANCEL:
 		if (priv->sentby)
-			sender = g_strdup_printf (_("<b>%s</b> through %s has cancelled the following meeting:"), organizer, priv->sentby);
+			sender = g_strdup_printf (_("<b>%s</b> through %s has canceled the following meeting:"), organizer, priv->sentby);
 		else
-			sender = g_strdup_printf (_("<b>%s</b> has cancelled the following meeting."), organizer);
+			sender = g_strdup_printf (_("<b>%s</b> has canceled the following meeting."), organizer);
 		break;
 	case ITIP_VIEW_MODE_COUNTER:
 		sender = g_strdup_printf (_("<b>%s</b> has proposed the following meeting changes."), attendee);
@@ -438,9 +438,9 @@ set_tasklist_sender_text (ItipView *view)
 		break;
 	case ITIP_VIEW_MODE_CANCEL:
 		if (priv->sentby)
-			sender = g_strdup_printf (_("<b>%s</b> through %s has cancelled the following assigned task:"), organizer, priv->sentby);
+			sender = g_strdup_printf (_("<b>%s</b> through %s has canceled the following assigned task:"), organizer, priv->sentby);
 		else
-			sender = g_strdup_printf (_("<b>%s</b> has cancelled the following assigned task:"), organizer);
+			sender = g_strdup_printf (_("<b>%s</b> has canceled the following assigned task:"), organizer);
 		break;
 	case ITIP_VIEW_MODE_COUNTER:
 		sender = g_strdup_printf (_("<b>%s</b> has proposed the following task assignment changes:"), attendee);
