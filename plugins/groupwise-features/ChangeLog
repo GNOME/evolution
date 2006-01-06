@@ -1,3 +1,14 @@
+2006-01-06  Simon Zheng <simon.zheng@sun.com>
+
+	* junk-mail-settings.c:
+	* mail-send-options.c:
+	* proxy-login.c:
+	* proxy.c:
+	* proxy.h:
+	* send-options.c:
+	use libedataserver/e-account-list.h instead of e-util/e-account-list.h.
+	use libedataserver/e-account.h instead of e-util/e-account.h.
+
 2005-12-30  Andre Klapper <a9016009@gmx.de>
 
 	* evolution/plugins/groupwise-features/properties.glade:

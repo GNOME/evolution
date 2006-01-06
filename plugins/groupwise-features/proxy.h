@@ -22,7 +22,7 @@
  */
 
 #include <gtk/gtkwidget.h>
-#include <e-util/e-account.h>
+#include <libedataserver/e-account.h>
 #include <gtk/gtk.h>
 
 #define TYPE_PROXY_DIALOG       (proxy_dialog_get_type ())

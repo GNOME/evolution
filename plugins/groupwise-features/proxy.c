@@ -56,8 +56,8 @@
 #include <mail/mail-component.h>
 #include <mail/mail-ops.h>
 #include <mail/mail-session.h>
-#include <e-util/e-account.h>
-#include <e-util/e-account-list.h>
+#include <libedataserver/e-account.h>
+#include <libedataserver/e-account-list.h>
 #include <e-util/e-icon-factory.h>
 
 #include <camel/camel-url.h>

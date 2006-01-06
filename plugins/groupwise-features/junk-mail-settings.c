@@ -35,7 +35,7 @@
 #include <mail/em-folder-view.h>
 #include <e-gw-connection.h>
 #include "mail/em-account-editor.h"
-#include "e-util/e-account.h"
+#include "libedataserver/e-account.h"
 #include "mail/em-config.h"
 #include "share-folder.h"
 #include "junk-settings.h"

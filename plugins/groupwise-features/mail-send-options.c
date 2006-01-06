@@ -35,7 +35,7 @@
 #include "mail/em-utils.h"
 
 #include "composer/e-msg-composer.h"
-#include "e-util/e-account.h"
+#include "libedataserver/e-account.h"
 
 #include "misc/e-send-options.h"
 

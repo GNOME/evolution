@@ -53,7 +53,7 @@
 #include <camel/camel-url.h>
 #include <camel/camel-store.h>
 #include <mail/mail-ops.h>
-#include <e-util/e-account.h>
+#include <libedataserver/e-account.h>
 #include <e-util/e-error.h>
 #include <e-util/e-icon-factory.h>
 #include <e-util/e-util-private.h>

@@ -28,7 +28,7 @@
 #include <gtk/gtk.h>
 #include "mail/em-account-editor.h"
 #include "mail/em-config.h"
-#include "e-util/e-account.h"
+#include "libedataserver/e-account.h"
 #include <misc/e-send-options.h>
 #include <mail/em-config.h>
 #include <e-gw-connection.h>
