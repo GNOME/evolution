@@ -31,7 +31,7 @@
 #include <bonobo/bonobo-exception.h>
 #include "evolution-mail-session.h"
 
-#include <e-util/e-account-list.h>
+#include <libedataserver/e-account-list.h>
 
 #include "evolution-mail-store.h"
 #include "e-corba-utils.h"

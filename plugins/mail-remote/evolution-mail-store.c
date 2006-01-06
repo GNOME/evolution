@@ -44,7 +44,7 @@
 #include <camel/camel-mime-message.h>
 #include <camel/camel-folder.h>
 
-#include <e-util/e-account.h>
+#include <libedataserver/e-account.h>
 
 #include "mail/mail-component.h"
 #include "mail/mail-send-recv.h"

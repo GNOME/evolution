@@ -1,3 +1,10 @@
+2006-01-06  Simon Zheng <simon.zheng@sun.com>
+
+	* evolution-mail-session.c:
+	* evolution-mail-store.c:
+	use libedataserver/e-account-list.h instead of e-util/e-account-list.h.
+	use libedataserver/e-account.h instead of e-util/e-account.h.
+
 2005-08-10  Not Zed  <NotZed@Ximian.com>
 
 	** See #271985.
