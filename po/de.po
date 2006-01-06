@@ -6553,35 +6553,35 @@ msgstr "_Wöchentlich"
 #, c-format
 msgid "%d day"
 msgid_plural "%d days"
-msgstr[0] "%d Tage"
+msgstr[0] "%d Tag"
 msgstr[1] "%d Tage"
 
 #: ../calendar/gui/e-alarm-list.c:400
 #, c-format
 msgid "%d week"
 msgid_plural "%d weeks"
-msgstr[0] "%d Wochen"
+msgstr[0] "%d Woche"
 msgstr[1] "%d Wochen"
 
 #: ../calendar/gui/e-alarm-list.c:405
 #, c-format
 msgid "%d hour"
 msgid_plural "%d hours"
-msgstr[0] "%d Stunden"
+msgstr[0] "%d Stunde"
 msgstr[1] "%d Stunden"
 
 #: ../calendar/gui/e-alarm-list.c:410
 #, c-format
 msgid "%d minute"
 msgid_plural "%d minutes"
-msgstr[0] "%d Minuten"
+msgstr[0] "%d Minute"
 msgstr[1] "%d Minuten"
 
 #: ../calendar/gui/e-alarm-list.c:415
 #, c-format
 msgid "%d second"
 msgid_plural "%d seconds"
-msgstr[0] "%d Sekunden"
+msgstr[0] "%d Sekunde"
 msgstr[1] "%d Sekunden"
 
 #: ../calendar/gui/e-alarm-list.c:462
@@ -12673,7 +12673,7 @@ msgstr "<b>Alarme</b>"
 
 #: ../mail/mail-config.glade.h:10
 msgid "<span weight=\"bold\">Authentication Type</span>"
-msgstr "<b>Legitimationstyp</b>"
+msgstr "<b>Legitimationsart</b>"
 
 #: ../mail/mail-config.glade.h:11
 msgid "<span weight=\"bold\">Authentication</span>"
