@@ -36,7 +36,7 @@
 #include "camel/camel-exception.h"
 #include "camel/camel-store.h"
 #include "camel/camel-session.h"
-#include "e-util/e-account-list.h"
+#include "libedataserver/e-account-list.h"
 #include "e-util/e-util-private.h"
 
 #include "em-subscribe-editor.h"

@@ -58,7 +58,7 @@
 #include <e-util/e-util.h>
 #include <misc/e-gui-utils.h>
 
-#include <e-util/e-account-list.h>
+#include <libedataserver/e-account-list.h>
 #include <e-util/e-signature-list.h>
 
 #include <camel/camel-service.h>

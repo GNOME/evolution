@@ -57,7 +57,7 @@
 #include "mail/em-filter-folder-element.h"
 #include <filter/filter-int.h>
 
-#include "e-util/e-account-list.h"
+#include "libedataserver/e-account-list.h"
 #include "e-util/e-signature-list.h"
 
 #include "mail/mail-mt.h"

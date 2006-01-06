@@ -28,7 +28,7 @@
 #include <string.h>
 
 #include <camel/camel-gpg-context.h>
-#include <e-util/e-account.h>
+#include <libedataserver/e-account.h>
 
 #include "mail-crypto.h"
 #include "mail-session.h"

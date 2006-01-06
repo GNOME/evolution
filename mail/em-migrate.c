@@ -61,7 +61,7 @@
 #include <e-util/e-xml-utils.h>
 
 #include "e-util/e-bconf-map.h"
-#include "e-util/e-account-list.h"
+#include "libedataserver/e-account-list.h"
 #include "e-util/e-signature-list.h"
 #include "e-util/e-error.h"
 #include "e-util/e-util-private.h"

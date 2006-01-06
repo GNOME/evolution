@@ -31,7 +31,7 @@
 
 #include <camel/camel-store.h>
 
-#include <e-util/e-account-list.h>
+#include <libedataserver/e-account-list.h>
 
 #ifdef __cplusplus
 extern "C" {

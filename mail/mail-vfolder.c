@@ -32,7 +32,7 @@
 #include <camel/camel-vee-store.h>
 #include <camel/camel-vtrash-folder.h>
 
-#include "e-util/e-account-list.h"
+#include "libedataserver/e-account-list.h"
 #include "e-util/e-error.h"
 #include "e-util/e-util-private.h"
 

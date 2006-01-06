@@ -1,3 +1,21 @@
+2006-01-06  Simon Zheng <simon.zheng@sun.com>
+
+	* em-account-editor.c:
+	* em-account-prefs.c:
+	* em-composer-utils.c:
+	* em-folder-tree-model.h:
+	* em-migrate.c:
+	* em-subscribe-editor.c:
+	* em-utils.c:
+	* importers/netscape-importer.c:
+	* mail-config.c:
+	* mail-crypto.c:
+	* mail-ops.h:
+	* mail-send-recv.c:
+	* mail-vfolder.c:
+	use libedataserver/e-account-list.h instead of e-util/e-account-list.h.
+	use libedataserver/e-account.h instead of e-util/e-account.h.
+
 2006-01-04  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* mail-tools.c: Uncommented mail_tool_get_local_movemail_path for

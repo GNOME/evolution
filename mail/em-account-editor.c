@@ -68,7 +68,7 @@
 #include <libgnomeui/gnome-druid.h>
 #include <libgnomeui/gnome-druid-page-standard.h>
 
-#include <e-util/e-account-list.h>
+#include <libedataserver/e-account-list.h>
 #include <e-util/e-signature-list.h>
 
 #include "e-util/e-error.h"

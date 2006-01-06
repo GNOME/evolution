@@ -47,7 +47,7 @@
 #include "em-format-quote.h"
 #include "em-event.h"
 
-#include "e-util/e-account-list.h"
+#include "libedataserver/e-account-list.h"
 
 #include <camel/camel-multipart.h>
 #include <camel/camel-string-utils.h>

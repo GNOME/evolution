@@ -40,7 +40,7 @@
 #include "mail-ops.h"
 #include "mail-send-recv.h"
 
-#include "e-util/e-account-list.h"
+#include "libedataserver/e-account-list.h"
 #include "e-util/e-error.h"
 #include "e-util/e-util-private.h"
 

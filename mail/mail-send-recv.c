@@ -41,7 +41,7 @@
 #include <libgnome/gnome-i18n.h>
 
 #include "e-util/e-gtk-utils.h"
-#include "e-util/e-account-list.h"
+#include "libedataserver/e-account-list.h"
 
 #include "misc/e-clipped-label.h"
 #include "em-filter-rule.h"

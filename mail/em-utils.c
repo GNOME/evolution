@@ -71,7 +71,7 @@
 #include "e-util/e-util.h"
 #include "e-util/e-util-private.h"
 #include "e-util/e-mktemp.h"
-#include "e-util/e-account-list.h"
+#include "libedataserver/e-account-list.h"
 #include "e-util/e-dialog-utils.h"
 #include "e-util/e-error.h"
 
