@@ -126,7 +126,7 @@
 	      
  <error id="prompt-meeting-invite" type="question" default="GTK_RESPONSE_YES">
   <_primary>Would you like to send meeting invitations to participants?</_primary>
-  <_secondary>Email invitations will be sent to all participants and allow them to RSVP.</_secondary>
+  <_secondary>Email invitations will be sent to all participants and allow them to reply.</_secondary>
   <button _label="Do not Send" response="GTK_RESPONSE_NO"/>
   <button _label="Send" response="GTK_RESPONSE_YES"/>
  </error>
