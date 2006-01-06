@@ -1,3 +1,8 @@
+2006-01-06  Simon Zheng <simon.zheng@sun.com>
+
+	* gui/itip-utils.h: use libedataserver/e-account-list.h instead
+	of e-util/e-account-list.h.
+
 2006-01-06  Johnny Jacob  <johnnyjacob@gmail.com>
 
 	* gui/dialog/event-page.c: (set_all_day), (sensitize_widgets)

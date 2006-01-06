@@ -7,7 +7,7 @@
 #include <glib.h>
 #include <libecal/e-cal.h>
 #include <libecal/e-cal-component.h>
-#include <e-util/e-account-list.h>
+#include <libedataserver/e-account-list.h>
 
 typedef enum {
 	E_CAL_COMPONENT_METHOD_PUBLISH,
