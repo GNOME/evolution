@@ -33,8 +33,8 @@
 #include <mail/em-popup.h>
 #include <mail/em-account-editor.h>
 #include <mail/mail-config.h>
-#include <e-util/e-account.h>
-#include <e-util/e-account-list.h>
+#include <libedataserver/e-account.h>
+#include <libedataserver/e-account-list.h>
 
 #define ACCOUNT_DISABLE 0
 #define PROXY_LOGOUT 1
