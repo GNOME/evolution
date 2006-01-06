@@ -367,7 +367,7 @@ update_offline_toggle_status (EShellWindow *window)
 		icon_pixmap = online_pixmap;
 		icon_mask   = online_mask;
 		sensitive   = TRUE;
-		tooltip     = _("Evolution is currently online."
+		tooltip     = _("Evolution is currently online. "
 				"Click on this button to work offline.");
 		flags = ES_MENU_SHELL_ONLINE;
 		break;
@@ -382,7 +382,7 @@ update_offline_toggle_status (EShellWindow *window)
 		icon_pixmap = offline_pixmap;
 		icon_mask   = offline_mask;
 		sensitive   = TRUE;
-		tooltip     = _("Evolution is currently offline."
+		tooltip     = _("Evolution is currently offline. "
 				"Click on this button to work online.");
 		flags = ES_MENU_SHELL_OFFLINE;
 		break;

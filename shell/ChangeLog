@@ -1,3 +1,7 @@
+2006-01-06  Andre Klapper <a9016009@gmx.de>
+	* shell/e-shell-window.c: fixing two missing whitespaces.
+	Fixes bug 325568.
+
 2006-01-02  Harish Krishnaswamy  <kharish@novell.com>
 
 	* e-shell-nm-glib.c: (e_shell_nm_glib_initialise):
