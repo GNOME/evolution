@@ -1,3 +1,10 @@
+2006-01-06  Johnny Jacob  <johnnyjacob@gmail.com>
+
+	* gui/dialog/event-page.c: (set_all_day), (sensitize_widgets)
+	(time_sel_changed), (update_end_time_selector), (hour_minute_changed),
+	(event_page_set_all_day_event), (alarm_changed_cb), (init_widgets) :
+	Fixed warnings.
+
 2005-01-06  Boby Wang <boby.wang@sun.com>
 
 	* gui/e-day-view.c: (e_day_view_on_text_item_event):
@@ -5,7 +12,7 @@
 	of the event selected. Now: Ctrl+Shift+Up(or Down)
 	Before: Ctrl+Alt+Shift+Up(or Down) conflict with switching
 	the workspace in Gnome Desktop.
-
+ 
 2006-01-05  Johnny Jacob  <johnnyjacob@gmail.com>
 
 	* gui/dialogs/event-page.c (init_widgets): Set alarm-dialog as

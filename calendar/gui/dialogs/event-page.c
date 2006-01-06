@@ -424,7 +424,7 @@ set_all_day (EventPage *epage, gboolean all_day)
 	
 	/* TODO implement for in end time selector */
 	if (all_day)
-		gtk_option_menu_set_history (priv->end_time_selector, 1);
+		gtk_option_menu_set_history (GTK_OPTION_MENU (priv->end_time_selector), 1);
 	gtk_widget_set_sensitive (priv->end_time_selector, !all_day);
 
 	e_date_edit_set_show_time (E_DATE_EDIT (priv->start_time), !all_day);
@@ -820,11 +820,11 @@ sensitize_widgets (EventPage *epage)
 	/*TODO implement the for portion of the end time selector */
 	if ( (COMP_EDITOR_PAGE(epage)->flags) & COMP_EDITOR_PAGE_NEW_ITEM ) {
 		if (priv->all_day_event)
-			gtk_option_menu_set_history (priv->end_time_selector, 1);
+			gtk_option_menu_set_history (GTK_OPTION_MENU (priv->end_time_selector), 1);
 		else 
-			gtk_option_menu_set_history (priv->end_time_selector, 0);
+			gtk_option_menu_set_history (GTK_OPTION_MENU (priv->end_time_selector), 0);
         } else 
-		gtk_option_menu_set_history (priv->end_time_selector, 1);
+		gtk_option_menu_set_history (GTK_OPTION_MENU (priv->end_time_selector), 1);
 
 
 	gtk_entry_set_editable (GTK_ENTRY (priv->categories), sensitize);
@@ -1551,8 +1551,8 @@ time_sel_changed (GtkOptionMenu *widget, EventPage *epage)
 	if (selection == 1) {
 		gtk_widget_hide (priv->time_hour);
 		gtk_widget_show (priv->end_time);
-		hour_sel_changed (priv->hour_selector, epage);
-		minute_sel_changed (priv->minute_selector, epage);
+		hour_sel_changed (GTK_SPIN_BUTTON (priv->hour_selector), epage);
+		minute_sel_changed (GTK_SPIN_BUTTON (priv->minute_selector), epage);
 	} else if (!selection){
 		gtk_widget_show (priv->time_hour);
 		gtk_widget_hide (priv->end_time);
@@ -1594,8 +1594,8 @@ void update_end_time_selector (EventPage *epage)
 	hours = end_timet / ( 60 * 60 );
 	minutes = (end_timet/60) - ( hours * 60 );
 
-	gtk_spin_button_set_value (priv->hour_selector, hours);
-	gtk_spin_button_set_value (priv->minute_selector, minutes);
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (priv->hour_selector), hours);
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (priv->minute_selector), minutes);
 }
 
 void
@@ -1627,8 +1627,8 @@ static hour_minute_changed ( EventPage *epage)
                                      &end_tt.hour,
                                      &end_tt.minute);
 
-	for_hours = gtk_spin_button_get_value ( priv->hour_selector);
-	for_minutes = gtk_spin_button_get_value ( priv->minute_selector);
+	for_hours = gtk_spin_button_get_value (GTK_SPIN_BUTTON (priv->hour_selector));
+	for_minutes = gtk_spin_button_get_value (GTK_SPIN_BUTTON (priv->minute_selector));
 
 	icaltime_adjust (&end_tt, 0, for_hours, for_minutes, 0);
 
@@ -2000,9 +2000,9 @@ event_page_set_all_day_event (EventPage *epage, gboolean all_day)
 	/* TODO implement the for portion in end time selector */
 	gtk_widget_set_sensitive (priv->end_time_selector, !all_day);
 	if (all_day) 
-		gtk_option_menu_set_history (priv->end_time_selector, 1);
+		gtk_option_menu_set_history (GTK_OPTION_MENU (priv->end_time_selector), 1);
 	else 
-		gtk_option_menu_set_history (priv->end_time_selector, 0);
+		gtk_option_menu_set_history (GTK_OPTION_MENU (priv->end_time_selector), 0);
 	
 	if (all_day) {
 		bonobo_ui_component_set_prop (epage->priv->uic, "/commands/ViewTimeZone", "sensitive", "0", NULL);
@@ -2655,7 +2655,7 @@ alarm_changed_cb (GtkWidget *widget, gpointer data)
 	} else {
 		e_alarm_list_clear (priv->alarm_list_store);
 		if (priv->alarm_icon) {
-			gtk_container_remove (priv->status_icons, priv->alarm_icon);
+			gtk_container_remove (GTK_CONTAINER (priv->status_icons), priv->alarm_icon);
 			priv->alarm_icon = NULL;
 		}
 	}	
@@ -2785,7 +2785,7 @@ init_widgets (EventPage *epage)
 	/* Alarm dialog */
 	g_signal_connect (GTK_DIALOG (priv->alarm_dialog), "response", G_CALLBACK (gtk_widget_hide), priv->alarm_dialog);
 	gtk_widget_hide (priv->alarm_dialog);
-	gtk_window_set_modal (priv->alarm_dialog, TRUE);
+	gtk_window_set_modal (GTK_WINDOW (priv->alarm_dialog), TRUE);
 
 	/* Meeting List View */
 	g_signal_connect (priv->list_view, "attendee_added", G_CALLBACK (attendee_added_cb), epage);	
@@ -2802,7 +2802,7 @@ init_widgets (EventPage *epage)
 	}	
 
 	/* End time selector */
-	gtk_option_menu_set_history ((GtkOptionMenu *) priv->end_time_selector, 1);
+	gtk_option_menu_set_history (GTK_OPTION_MENU (priv->end_time_selector), 1);
 	gtk_widget_hide (priv->time_hour);
 	gtk_widget_show (priv->end_time);
 	g_signal_connect (priv->end_time_selector, "changed", G_CALLBACK (time_sel_changed), epage);
