@@ -1,3 +1,10 @@
+2006-01-06  Simon Zheng <simon.zheng@sun.com>
+
+	* camel-gw-listener.c:
+	* camel-gw-listener.h:
+	use libedataserver/e-account-list.h instead of e-util/e-account-list.h.
+	use libedataserver/e-account.h instead of e-util/e-account.h.
+
 2005-12-21  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Committing for Sushma Rai  <rsushma@novell.com>

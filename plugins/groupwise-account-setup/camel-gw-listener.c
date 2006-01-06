@@ -31,7 +31,7 @@
 #include <e-gw-connection.h>
 #include <libedataserverui/e-passwords.h>
 #include "e-util/e-error.h"
-#include <e-util/e-account.h>
+#include <libedataserver/e-account.h>
 
 /*stores some info about all currently existing groupwise accounts 
   list of GwAccountInfo structures */
