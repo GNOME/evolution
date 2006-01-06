@@ -24,7 +24,7 @@
 #ifndef CAMEL_HULA_LISTENER_H
 #define CAMEL_HULA_LISTENER_H
 
-#include <e-util/e-account-list.h>
+#include <libedataserver/e-account-list.h>
 #include<libedataserver/e-source.h>
 #include<libedataserver/e-source-list.h>
 #include <camel/camel-url.h>
