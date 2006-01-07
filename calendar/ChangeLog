@@ -1,3 +1,7 @@
+2005-01-06  Andre Klapper <a9016009@gmx.de>
+	* gui/e-alarm-list.c: added translator comments to several strings.
+	Fixes bug 325612.
+
 2006-01-06  Andre Klapper <a9016009@gmx.de>
 	* evolution/calendar/calendar.error.xml:
 	* evolution/calendar/gui/e-itip-control.c:
@@ -11829,94 +11833,4 @@
 	expunge async, just get the object list immediately
 
 	* gui/e-tasks.c (e_tasks_delete_completed): no need to do the
-	expunge async, just get the object list immediately
-
-	* gui/e-cal-model.c (query_objects_added_cb): callback for objects
-	added to the query
-	(query_objects_modified_cb): ditto for modifications
-	(query_objects_removed_cb): ditto for removed
-	(query_progress_cb): progress of the query
-	(query_done_cb): query is done
-	(update_query_for_client): connect to the new signals
-
-	* cal-client/client-test.c (cal_opened_cb): run a query
-
-	* cal-client/cal-query.c: we are given the listener now - listen
-	for signals from the listener and emit signals matching the api
-	changes
-
-	* cal-client/query-listener.[hc]: rewrite to match new query
-	listener methods and emit signals rather than using function
-	callbacks
-
-	* cal-client/cal-marshal.list: add to marshallers
-
-	* cal-client/cal-listener.h: add query signal
-
-	* cal-client/cal-listener.c (impl_notifyQuery): implement
-	(cal_listener_class_init): set notifyQuery method
-	(cal_listener_class_init): add query signal
-
-	* cal-client/cal-client.h: update protos
-
-	* cal-client/cal-client.c (cal_query_cb): handle response to
-	getQuery
-	(cal_client_init): listen for query signal
-	(cal_client_get_query): get a query from the calendar
-
-	* pcs/query.h: update protos
-
-	* pcs/query.c: rewrite to implement the query start method and
-	provide notification calls
-
-	* pcs/cal.h: add proto
-
-	* pcs/cal.c (impl_Cal_getQuery): re-implement so the backend
-	doesn't create the query for us
-	(cal_notify_query): respond with the query
-
-	* pcs/cal-factory.c: re-order includes
-
-	* pcs/cal-common.h: add types
-
-	* pcs/cal-backend.h: update protos, vmethods
-
-	* pcs/cal-backend.c (cal_backend_class_init): init start_query
-	vmethod
-	(cal_backend_finalize): free mutex
-	(cal_backend_start_query): call through
-	(cal_backend_add_query): add a query to the list the backend is
-	running
-	(cal_backend_get_queries): get the query list
-
-	* pcs/cal-backend-object-sexp.h: add proto
-
-	* pcs/cal-backend-file.c (cal_backend_file_start_query): skeleton
-	for new backend implementation
-
-	* pcs/Makefile.am: don't build dead files
-
-	* idl/evolution-calendar.idl: make the getQuery call async, make
-	the query listener calls oneway and match the addressbook
-
-2003-09-09  Rodrigo Moya <rodrigo@ximian.com>
-
-	* pcs/cal-backend-file.c (cal_backend_file_get_object_component):
-	added case for getting the individual recurrences if 'rid' is
-	not NULL,
-
-2003-09-09  Rodrigo Moya <rodrigo@ximian.com>
-
-	* pcs/cal-backend-file.c (match_object_sexp): expand recurrences
-	for recurrent objects.
-	(match_recurrence_sexp): add the recurrences that match the query
-	expression to the object list.
-
-2003-09-08  Rodrigo Moya <rodrigo@ximian.com>
-
-	* pcs/cal-backend-file.c: don't store all recurrences in the
-	private structure.
-	
-2003-09-04  Rodrigo Moya <rodrigo@ximian.com>
-
-	* gui/e-day-vie
+	expunge asyn

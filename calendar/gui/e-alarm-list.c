@@ -392,26 +392,31 @@ get_alarm_duration_string (struct icaldurationtype *duration)
 	have_something = FALSE;
 
 	if (duration->days >= 1) {
+		/* Translator: Entire string is like "Pop up an alert %d days before start of appointment" */
 		g_string_sprintf (string, ngettext("%d day", "%d days", duration->days), duration->days);
 		have_something = TRUE;
 	}
 
 	if (duration->weeks >= 1) {
+		/* Translator: Entire string is like "Pop up an alert %d weeks before start of appointment" */
 		g_string_sprintf (string, ngettext("%d week","%d weeks", duration->weeks), duration->weeks);
 		have_something = TRUE;
 	}
 
 	if (duration->hours >= 1) {
+		/* Translator: Entire string is like "Pop up an alert %d hours before start of appointment" */
 		g_string_sprintf (string, ngettext("%d hour", "%d hours", duration->hours), duration->hours);
 		have_something = TRUE;
 	}
 
 	if (duration->minutes >= 1) {
+		/* Translator: Entire string is like "Pop up an alert %d minutes before start of appointment" */
 		g_string_sprintf (string, ngettext("%d minute", "%d minutes", duration->minutes), duration->minutes);
 		have_something = TRUE;
 	}
 
 	if (duration->seconds >= 1) {
+		/* Translator: Entire string is like "Pop up an alert %d seconds before start of appointment" */
 		g_string_sprintf (string, ngettext("%d second", "%d seconds", duration->seconds), duration->seconds);
 		have_something = TRUE;
 	}
@@ -494,14 +499,20 @@ get_alarm_string (ECalComponentAlarm *alarm)
 
 		if (dur) {
 			if (trigger.u.rel_duration.is_neg)
+				/* Translator: The first %s refers to the base, which would be actions like 
+				 * "Play a Sound". Second %s refers to the duration string e.g:"15 minutes" */
 				str = g_strdup_printf (_("%s %s before the end of the appointment"),
 						       base, dur);
 			else
+				/* Translator: The first %s refers to the base, which would be actions like 
+				 * "Play a Sound". Second %s refers to the duration string e.g:"15 minutes" */
 				str = g_strdup_printf (_("%s %s after the end of the appointment"),
 						       base, dur);
 
 			g_free (dur);
 		} else
+			/* Translator: The %s refers to the base, which would be actions like 
+			 * "Play a sound" */ 
 			str = g_strdup_printf (_("%s at the end of the appointment"), base);
 
 		break;
@@ -524,12 +535,16 @@ get_alarm_string (ECalComponentAlarm *alarm)
 		e_time_format_date_and_time (&tm, calendar_config_get_24_hour_format (),
 					     FALSE, FALSE, buf, sizeof (buf));
 
+		/* Translator: The first %s refers to the base, which would be actions like 
+		 * "Play a Sound". Second %s is an absolute time, e.g. "10:00AM" */
 		str = g_strdup_printf (_("%s at %s"), base, buf);
 
 		break; }
 
 	case E_CAL_COMPONENT_ALARM_TRIGGER_NONE:
 	default:
+		/* Translator: The %s refers to the base, which would be actions like 
+		 * "Play a sound". "Trigger types" are absolute or relative dates */
 		str = g_strdup_printf (_("%s for an unknown trigger type"), base);
 		break;
 	}
