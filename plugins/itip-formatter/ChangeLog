@@ -1,3 +1,8 @@
+2006-01-07  Andre Klapper <a9016009@gmx.de>
+
+	* itip-formatter.c, itip-view.c: Marked missing strings translatable.
+	  Fixes bug 313554.
+
 2005-09-12  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #315345

@@ -272,7 +272,7 @@ cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
 		d(printf ("Failed opening itip formatter calendar '%s' during non-search opening\n", e_source_peek_name (source)));
 		itip_view_add_lower_info_item_printf (ITIP_VIEW (pitip->view),
 						      ITIP_VIEW_INFO_ITEM_TYPE_WARNING,
-						      "Failed to load the calendar '%s'",
+						      _("Failed to load the calendar '%s'"),
 						      e_source_peek_name (source));
 		g_hash_table_remove (pitip->ecals[source_type], e_source_peek_uid (source));
 		return;
@@ -389,7 +389,7 @@ find_cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
 		d(printf ("Failed opening itip formatter calendar '%s' during search opening... ", e_source_peek_name (source)));
 		itip_view_add_lower_info_item_printf (ITIP_VIEW (pitip->view),
 						      ITIP_VIEW_INFO_ITEM_TYPE_WARNING,
-						      "Failed to load the calendar '%s'",
+						      _("Failed to load the calendar '%s'"),
 						      e_source_peek_name (source));
 		g_hash_table_remove (pitip->ecals[source_type], e_source_peek_uid (source));
 		goto cleanup;
@@ -404,7 +404,7 @@ find_cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
 	    && e_cal_get_object_list (ecal, fd->sexp, &objects, NULL)
 	    && g_list_length (objects) > 0) {
 		itip_view_add_upper_info_item_printf (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_WARNING, 
-						      "An appointment in the calendar '%s' conflicts with this meeting", e_source_peek_name (source));
+						      _("An appointment in the calendar '%s' conflicts with this meeting"), e_source_peek_name (source));
 
 		e_cal_free_object_list (objects);
 	}
@@ -430,7 +430,7 @@ find_cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
 
 		/* FIXME Check read only state of calendar? */
 		itip_view_add_lower_info_item_printf (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_INFO, 
-						      "Found the appointment in the calendar '%s'", e_source_peek_name (source));
+						      _("Found the appointment in the calendar '%s'"), e_source_peek_name (source));
 
 		set_buttons_sensitive (pitip);
 	}
@@ -484,22 +484,22 @@ find_cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
 
 				/* FIXME Shouldn't the buttons be sensitized here? */
 			} else {
-				itip_view_add_lower_info_item (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_ERROR, "Unable to find any calendars");
+				itip_view_add_lower_info_item (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_ERROR, _("Unable to find any calendars"));
 				itip_view_set_buttons_sensitive (ITIP_VIEW (pitip->view), FALSE);
 			}
 		} else if (!pitip->current_ecal) {
 			switch (pitip->type) {
 			case E_CAL_SOURCE_TYPE_EVENT:
 				itip_view_add_lower_info_item_printf (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_WARNING, 
-								      "Unable to find this meeting in any calendar");
+								      _("Unable to find this meeting in any calendar"));
 				break;
 			case E_CAL_SOURCE_TYPE_TODO:
 				itip_view_add_lower_info_item_printf (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_WARNING, 
-								      "Unable to find this task in any task list");
+								      _("Unable to find this task in any task list"));
 				break;
 			case E_CAL_SOURCE_TYPE_JOURNAL:
 				itip_view_add_lower_info_item_printf (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_WARNING, 
-								      "Unable to find this journal entry in any journal");
+								      _("Unable to find this journal entry in any journal"));
 				break;
 			default:
 				g_assert_not_reached ();
@@ -525,7 +525,7 @@ find_server (FormatItipPObject *pitip, ECalComponent *comp)
 	rid = e_cal_component_get_recurid_as_string (comp);
 
 	pitip->progress_info_id = itip_view_add_lower_info_item (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_PROGRESS, 
-								 "Searching for an existing version of this appointment");
+								 _("Searching for an existing version of this appointment"));
 
 	itip_view_set_buttons_sensitive (ITIP_VIEW (pitip->view), FALSE);
 
