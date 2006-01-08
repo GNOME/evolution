@@ -55,6 +55,12 @@
 #include "e-cal-event.h"
 #include "migration.h"
 
+#ifndef G_OS_WIN32
+
+/* No previous versions have been available on Win32, so don't
+ * bother with upgrade support from 1.x on Win32.
+ */
+
 static e_gconf_map_t calendar_display_map[] = {
 	/* /Calendar/Display */
 	{ "Timezone", "calendar/display/timezone", E_GCONF_MAP_STRING },
@@ -377,6 +383,7 @@ migrate_ical_folder (char *old_path, ESourceGroup *dest_group, char *source_name
 	return retval;
 }
 
+#endif	/* !G_OS_WIN32 */
 
 #define WEBCAL_BASE_URI "webcal://"
 #define CONTACTS_BASE_URI "contacts://"
@@ -525,7 +532,7 @@ create_task_sources (TasksComponent *component,
 	base_uri = g_build_filename (tasks_component_peek_base_directory (component),
 				     "tasks", "local", NULL);
 
-	base_uri_proto = g_strconcat ("file://", base_uri, NULL);
+	base_uri_proto = g_filename_to_uri (base_uri, NULL, NULL);
 
 	groups = e_source_list_peek_groups (source_list);
 	if (groups) {
@@ -593,6 +600,8 @@ create_task_sources (TasksComponent *component,
 	g_free (base_uri_proto);
 	g_free (base_uri);
 }
+
+#ifndef G_OS_WIN32
 
 static void
 migrate_pilot_db_key (const char *key, gpointer user_data)
@@ -711,6 +720,8 @@ migrate_pilot_data (const char *component, const char *conduit, const char *old_
 	g_dir_close (dir);
 }
 
+#endif
+
 gboolean
 migrate_calendars (CalendarComponent *component, int major, int minor, int revision, GError **err)
 {
@@ -725,6 +736,7 @@ migrate_calendars (CalendarComponent *component, int major, int minor, int revis
 	   groups/sources. */
 	create_calendar_sources (component, calendar_component_peek_source_list (component), &on_this_computer, &personal_source, &on_the_web, &contacts);
 
+#ifndef G_OS_WIN32
 	if (major == 1) {
 		xmlDocPtr config_doc = NULL;
 		char *conf_file;
@@ -849,6 +861,7 @@ migrate_calendars (CalendarComponent *component, int major, int minor, int revis
 		}
 
 	}
+#endif	/* !G_OS_WIN32 */
 
 	e_source_list_sync (calendar_component_peek_source_list (component), NULL);
 
@@ -893,6 +906,7 @@ migrate_tasks (TasksComponent *component, int major, int minor, int revision, GE
 	   groups/sources. */
 	create_task_sources (component, tasks_component_peek_source_list (component), &on_this_computer, &on_the_web, &personal_source);
 	
+#ifndef G_OS_WIN32
 	if (major == 1) {
 		xmlDocPtr config_doc = NULL;
 		char *conf_file;
@@ -988,7 +1002,7 @@ migrate_tasks (TasksComponent *component, int major, int minor, int revision, GE
 			}
 		}
 	}
-
+#endif	/* !G_OS_WIN32 */
 	e_source_list_sync (tasks_component_peek_source_list (component), NULL);
 	retval = TRUE;
 fail:
@@ -1026,7 +1040,7 @@ create_memo_sources (MemosComponent *component,
 	base_uri = g_build_filename (memos_component_peek_base_directory (component),
 				     "memos", "local", NULL);
 
-	base_uri_proto = g_strconcat ("file://", base_uri, NULL);
+	base_uri_proto = g_filename_to_uri (base_uri, NULL, NULL);
 
 	groups = e_source_list_peek_groups (source_list);
 	if (groups) {

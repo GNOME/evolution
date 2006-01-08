@@ -1,3 +1,10 @@
+2006-01-08  Tor Lillqvist  <tml@novell.com>
+
+	* gui/migration.c: Bypass most of this file on Win32, as there are
+	no 1.x installations on Win32 to migrate from. Use
+	g_filename_to_uri() in a couple places instead of just prefixing
+	file://.
+
 2006-01-08  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* gui/dialogs/alarm-dialog.glade: Added code to hscroll the custom
