@@ -1,3 +1,11 @@
+2006-01-08  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* gui/dialogs/alarm-dialog.glade: Added code to hscroll the custom
+	message of alarm. Fixes bug #325446
+	
+	* gui/dialogs/task-page.glade: Added code to expand the description
+	scrolled window when the parent window is dragged. Fixes bug #325502
+	
 2005-01-06  Andre Klapper <a9016009@gmx.de>
 	* gui/e-alarm-list.c: added translator comments to several strings.
 	Fixes bug 325612.
