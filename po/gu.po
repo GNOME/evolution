@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD.gu\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-01-06 05:29+0100\n"
-"PO-Revision-Date: 2006-01-06 13:03+0530\n"
+"POT-Creation-Date: 2006-01-08 21:36+0100\n"
+"PO-Revision-Date: 2006-01-09 10:32+0530\n"
 "Last-Translator: Ankit Patel <ankit644@yahoo.com>\n"
 "Language-Team: Gujarati <indianoss-gujarati@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -13,6 +13,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.9.1\n"
 "Plural-Forms: nplurals=2; plural=(n!=1);\n\n"
+"\n"
 "\n"
 "\n"
 "\n"
@@ -3327,7 +3328,7 @@ msgstr "પ્રોટોકોલને આધાર નથી"
 #: ../calendar/gui/e-cal-model-tasks.c:349
 #: ../calendar/gui/e-cal-model-tasks.c:662
 #: ../calendar/gui/e-calendar-table.c:464 ../calendar/gui/print.c:2375
-msgid "Cancelled"
+msgid "Canceled"
 msgstr "નકારાઈ ગયું"
 
 #. E_BOOK_ERROR_COULD_NOT_CANCEL
@@ -4074,14 +4075,14 @@ msgid "Editor could not be loaded."
 msgstr "સંપાદક લોડ કરી શકાયું નહિં."
 
 #: ../calendar/calendar.error.xml.h:30
-msgid "Email invitations will be sent to all participants and allow them to RSVP."
-msgstr "ઈ-મેઈલ આમંત્રણ બધા સ્પર્ધકોને મોકલવામાં આવશે અને તેમને RSVP વાપરવાની પરવાનગી આપશે."
-
-#: ../calendar/calendar.error.xml.h:31
 msgid ""
 "Email invitations will be sent to all participants and allow them to accept "
 "this task."
 msgstr "ઈ-મેઈલનું આમંત્રણ બધા સ્પર્ધકોને મોકલવામાં આવે છે અને તેમને આ બાબત સ્વીકારવાની પરવાનગી આપે છે."
+
+#: ../calendar/calendar.error.xml.h:31
+msgid "Email invitations will be sent to all participants and allow them to reply."
+msgstr "ઈ-મેઈલ આમંત્રણો બધા સ્પર્ધકોને મોકલવામાં આવશે અને તેમને પ્રત્યુત્તર કરવાની પરવાનગી આપશે."
 
 #: ../calendar/calendar.error.xml.h:32
 msgid "Error loading calendar"
@@ -4097,20 +4098,20 @@ msgstr "બાબત યાદી લાવવામાં ભૂલ"
 
 #: ../calendar/calendar.error.xml.h:35
 msgid ""
-"If you do not send a cancellation notice, the other participants may not "
-"know the journal has been deleted."
+"If you do not send a cancelation notice, the other participants may not know "
+"the journal has been deleted."
 msgstr "જો તમે નકારાત્મક સૂચન મોકલો નહિં, તો બીજા સ્પર્ધકોને ખબર નહિં પડે કે જર્નલ કાઢી નંખાયેલ છે."
 
 #: ../calendar/calendar.error.xml.h:36
 msgid ""
-"If you do not send a cancellation notice, the other participants may not "
-"know the meeting is cancelled."
+"If you do not send a cancelation notice, the other participants may not know "
+"the meeting is canceled."
 msgstr "જો તમે નકારાત્મક સૂચન મોકલો નહિં, તો બીજા સ્પર્ધકોને ખબર નહિં પડે કે મંત્રણા રદ થઈ ગઈ છે."
 
 #: ../calendar/calendar.error.xml.h:37
 msgid ""
-"If you do not send a cancellation notice, the other participants may not "
-"know the task has been deleted."
+"If you do not send a cancelation notice, the other participants may not know "
+"the task has been deleted."
 msgstr "જો તમે નકારાત્મક સૂચન મોકલો નહિં, તો બીજા સ્પર્ધકોને ખબર નહિં પડે કે બાબત કાઢી નંખાયેલ છે."
 
 #: ../calendar/calendar.error.xml.h:38
@@ -4191,11 +4192,11 @@ msgid "Would you like to save your changes to this task?"
 msgstr "શું તમે આ બાબતના તમારા બદલાવો સંગ્રહવા માંગો છો?"
 
 #: ../calendar/calendar.error.xml.h:55
-msgid "Would you like to send a cancellation notice for this journal entry?"
+msgid "Would you like to send a cancelation notice for this journal entry?"
 msgstr "શું તમે આ જર્નલ પ્રવેશ માટે નકારાત્મક સૂચન મોકલવા માંગો છો?"
 
 #: ../calendar/calendar.error.xml.h:56
-msgid "Would you like to send all the participants a cancellation notice?"
+msgid "Would you like to send all the participants a cancelation notice?"
 msgstr "શું તમે બધા સ્પર્ધકોને નકારાત્મક સૂચન મોકલવા માંગો છો?"
 
 #: ../calendar/calendar.error.xml.h:57
@@ -5189,17 +5190,17 @@ msgid "Mes_sage:"
 msgstr "સંદેશો (_s):"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:8
-#: ../calendar/gui/e-alarm-list.c:444
+#: ../calendar/gui/e-alarm-list.c:449
 msgid "Play a sound"
 msgstr "ધ્વનિ વગાડો"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:9
-#: ../calendar/gui/e-alarm-list.c:448
+#: ../calendar/gui/e-alarm-list.c:453
 msgid "Pop up an alert"
 msgstr "ચેતવણી દર્શાવો"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:10
-#: ../calendar/gui/e-alarm-list.c:456
+#: ../calendar/gui/e-alarm-list.c:461
 msgid "Run a program"
 msgstr "કાર્યક્રમ ચલાવો"
 
@@ -5208,7 +5209,7 @@ msgid "Send To:"
 msgstr "ને મોકલો:"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:12
-#: ../calendar/gui/e-alarm-list.c:452
+#: ../calendar/gui/e-alarm-list.c:457
 msgid "Send an email"
 msgstr "ઈ-મેઈલ મોકલો"
 
@@ -6564,87 +6565,102 @@ msgstr "વપરાશકર્તા નામ (_U):"
 msgid "_Weekly"
 msgstr "અઠવાડિયે (_W)"
 
-#: ../calendar/gui/e-alarm-list.c:395
+#. Translator: Entire string is like "Pop up an alert %d days before start of appointment"
+#: ../calendar/gui/e-alarm-list.c:396
 #, c-format
 msgid "%d day"
 msgid_plural "%d days"
 msgstr[0] "%d દિવસ"
 msgstr[1] "%d દિવસો"
 
-#: ../calendar/gui/e-alarm-list.c:400
+#. Translator: Entire string is like "Pop up an alert %d weeks before start of appointment"
+#: ../calendar/gui/e-alarm-list.c:402
 #, c-format
 msgid "%d week"
 msgid_plural "%d weeks"
 msgstr[0] "%d અઠવાડિયુ"
 msgstr[1] "%d અઠવાડિયાઓ"
 
-#: ../calendar/gui/e-alarm-list.c:405
+#. Translator: Entire string is like "Pop up an alert %d hours before start of appointment"
+#: ../calendar/gui/e-alarm-list.c:408
 #, c-format
 msgid "%d hour"
 msgid_plural "%d hours"
 msgstr[0] "%d કલાક"
 msgstr[1] "%d કલાકો"
 
-#: ../calendar/gui/e-alarm-list.c:410
+#. Translator: Entire string is like "Pop up an alert %d minutes before start of appointment"
+#: ../calendar/gui/e-alarm-list.c:414
 #, c-format
 msgid "%d minute"
 msgid_plural "%d minutes"
 msgstr[0] "%d મિનિટ"
 msgstr[1] "%d મિનિટો"
 
-#: ../calendar/gui/e-alarm-list.c:415
+#. Translator: Entire string is like "Pop up an alert %d seconds before start of appointment"
+#: ../calendar/gui/e-alarm-list.c:420
 #, c-format
 msgid "%d second"
 msgid_plural "%d seconds"
 msgstr[0] "%d સેકન્ડ"
 msgstr[1] "%d સેકન્ડો"
 
-#: ../calendar/gui/e-alarm-list.c:462
+#: ../calendar/gui/e-alarm-list.c:467
 msgid "Unknown action to be performed"
 msgstr "અજ્ઞાત ક્રિયા થઈ ગઈ છે"
 
 #. Translator: The first %s refers to the base, which would be actions like
 #. * "Play a Sound". Second %s refers to the duration string e.g:"15 minutes"
-#: ../calendar/gui/e-alarm-list.c:476
+#: ../calendar/gui/e-alarm-list.c:481
 #, c-format
 msgid "%s %s before the start of the appointment"
 msgstr "%s %s મુલાકાત શરુ થવા પહેલા"
 
 #. Translator: The first %s refers to the base, which would be actions like
 #. * "Play a Sound". Second %s refers to the duration string e.g:"15 minutes"
-#: ../calendar/gui/e-alarm-list.c:481
+#: ../calendar/gui/e-alarm-list.c:486
 #, c-format
 msgid "%s %s after the start of the appointment"
 msgstr "%s %s મુલાકાત શરુ થયા પછી"
 
 #. Translator: The %s refers to the base, which would be actions like
 #. * "Play a sound"
-#: ../calendar/gui/e-alarm-list.c:488
+#: ../calendar/gui/e-alarm-list.c:493
 #, c-format
 msgid "%s at the start of the appointment"
 msgstr "%s મુલાકાત શરુ થતી વખતે"
 
-#: ../calendar/gui/e-alarm-list.c:497
+#. Translator: The first %s refers to the base, which would be actions like
+#. * "Play a Sound". Second %s refers to the duration string e.g:"15 minutes"
+#: ../calendar/gui/e-alarm-list.c:504
 #, c-format
 msgid "%s %s before the end of the appointment"
 msgstr "%s %s મુલાકાત અંત થયા પહેલા"
 
-#: ../calendar/gui/e-alarm-list.c:500
+#. Translator: The first %s refers to the base, which would be actions like
+#. * "Play a Sound". Second %s refers to the duration string e.g:"15 minutes"
+#: ../calendar/gui/e-alarm-list.c:509
 #, c-format
 msgid "%s %s after the end of the appointment"
 msgstr "%s %s મુલાકાત પૂરી થયા પછી"
 
-#: ../calendar/gui/e-alarm-list.c:505
+#. Translator: The %s refers to the base, which would be actions like
+#. * "Play a sound"
+#: ../calendar/gui/e-alarm-list.c:516
 #, c-format
 msgid "%s at the end of the appointment"
 msgstr "%s મુલાકાત પૂરી થતી વખતે"
 
-#: ../calendar/gui/e-alarm-list.c:527
+#. Translator: The first %s refers to the base, which would be actions like
+#. * "Play a Sound". Second %s is an absolute time, e.g. "10:00AM"
+#: ../calendar/gui/e-alarm-list.c:540
 #, c-format
 msgid "%s at %s"
 msgstr "%s તરફ %s"
 
-#: ../calendar/gui/e-alarm-list.c:533
+#. Translator: The %s refers to the base, which would be actions like
+#. * "Play a sound". "Trigger types" are absolute or relative dates
+#: ../calendar/gui/e-alarm-list.c:548
 #, c-format
 msgid "%s for an unknown trigger type"
 msgstr "%s અજ્ઞાત પ્રકારની ફેરબદલી માટે"
@@ -7218,12 +7234,12 @@ msgstr "નકારાયેલ છે"
 
 #: ../calendar/gui/e-itip-control.c:1230
 msgid ""
-"The meeting has been cancelled, however it could not be found in your "
+"The meeting has been canceled, however it could not be found in your "
 "calendars"
-msgstr "મંત્રણા રદ થઈ ગયેલ છે, તેમછતાં પણ તે તમારા કેલેન્ડરોમાં મળી આવી નથી"
+msgstr "મંત્રણા રદ થઈ ગયેલ છે, તેમછતાં પણ તે તમારા કેલેન્ડરોમાં મેળવી શકાશે નહિં"
 
 #: ../calendar/gui/e-itip-control.c:1232
-msgid "The task has been cancelled, however it could not be found in your task lists"
+msgid "The task has been canceled, however it could not be found in your task lists"
 msgstr "બાબત રદ થઈ ગયેલ છે, તેમછતાં પણ તે તમારી બાબત યાદીમાં મેળવી શકાઈ નથી"
 
 #: ../calendar/gui/e-itip-control.c:1311
@@ -7279,11 +7295,11 @@ msgstr "મંત્રણાનો વળતો જવાબ"
 
 #: ../calendar/gui/e-itip-control.c:1348
 #, c-format
-msgid "<b>%s</b> has cancelled a meeting."
+msgid "<b>%s</b> has canceled a meeting."
 msgstr "<b>%s</b> એ મંત્રણા રદ કરી નાંખી."
 
 #: ../calendar/gui/e-itip-control.c:1349
-msgid "Meeting Cancellation"
+msgid "Meeting Cancelation"
 msgstr "મંત્રણા રદ"
 
 #: ../calendar/gui/e-itip-control.c:1359 ../calendar/gui/e-itip-control.c:1436
@@ -7349,11 +7365,11 @@ msgstr "બાબતનો વળતો જવાબ"
 
 #: ../calendar/gui/e-itip-control.c:1425
 #, c-format
-msgid "<b>%s</b> has cancelled a task."
+msgid "<b>%s</b> has canceled a task."
 msgstr "<b>%s</b> એ બાબત નકારી કાઢી હતી."
 
 #: ../calendar/gui/e-itip-control.c:1426
-msgid "Task Cancellation"
+msgid "Task Cancelation"
 msgstr "બાબત રદ"
 
 #: ../calendar/gui/e-itip-control.c:1437
@@ -13374,7 +13390,7 @@ msgid "Failed to send %d of %d messages"
 msgstr "%d માંના %d સંદેશાઓને મોકલવામાં નિષ્ફળ"
 
 #: ../mail/mail-ops.c:761 ../mail/mail-send-recv.c:613
-msgid "Cancelled."
+msgid "Canceled."
 msgstr "રદ થઈ ગયેલ."
 
 #: ../mail/mail-ops.c:763
@@ -13516,7 +13532,7 @@ msgid "Checking Service"
 msgstr "સેવા ચકાસી રહ્યા છીએ"
 
 #: ../mail/mail-send-recv.c:158
-msgid "Cancelling..."
+msgid "Canceling..."
 msgstr "રદ કરી રહ્યા છીએ..."
 
 #: ../mail/mail-send-recv.c:265
@@ -13565,7 +13581,7 @@ msgid "Enter Password"
 msgstr "પાસવર્ડ દાખલ કરો"
 
 #: ../mail/mail-session.c:241
-msgid "User cancelled operation."
+msgid "User canceled operation."
 msgstr "વપરાશકર્તાએ પ્રક્રિયા નકારી કાઢી."
 
 #: ../mail/mail-signature-editor.c:384
@@ -15628,7 +15644,7 @@ msgstr "કેલેન્ડર '%s' ને નકારાઈ ગયેલ છ
 
 #: ../plugins/itip-formatter/itip-formatter.c:805
 #, c-format
-msgid "Sent to calendar '%s' as cancelled"
+msgid "Sent to calendar '%s' as canceled"
 msgstr "કેલેન્ડર '%s' ને રદ કરાયેલ તરીકે મોકલાયેલ છે"
 
 #: ../plugins/itip-formatter/itip-formatter.c:898
@@ -15637,11 +15653,11 @@ msgid "Organizer has removed the delegate %s "
 msgstr "આયોજકે પ્રતિનિધી %s ને દૂર કરી નાંખ્યો "
 
 #: ../plugins/itip-formatter/itip-formatter.c:905
-msgid "Sent a cancellation notice to the delegate"
+msgid "Sent a cancelation notice to the delegate"
 msgstr "પ્રતિનિધીને રદ કરવાનું સૂચન મોકલ્યું છે"
 
 #: ../plugins/itip-formatter/itip-formatter.c:907
-msgid "Could not send the cancellation notice to the delegate"
+msgid "Could not send the cancelation notice to the delegate"
 msgstr "પ્રતિનિધીને રદ કરવાનું સૂચન મોકલી શક્યા નહિં"
 
 #: ../plugins/itip-formatter/itip-formatter.c:991
@@ -15902,12 +15918,12 @@ msgstr "<b>%s</b> એ નીચેની મંત્રણા પ્રત્�
 
 #: ../plugins/itip-formatter/itip-view.c:373
 #, c-format
-msgid "<b>%s</b> through %s has cancelled the following meeting:"
+msgid "<b>%s</b> through %s has canceled the following meeting:"
 msgstr "<b>%s</b> મારફતે %s એ નીચેની મંત્રણા રદ કરી:"
 
 #: ../plugins/itip-formatter/itip-view.c:375
 #, c-format
-msgid "<b>%s</b> has cancelled the following meeting."
+msgid "<b>%s</b> has canceled the following meeting."
 msgstr "<b>%s</b> એ નીચેની મંત્રણા રદ કરી."
 
 #: ../plugins/itip-formatter/itip-view.c:378
@@ -15974,12 +15990,12 @@ msgstr "<b>%s</b> એ નીચેની સોંપાયેલી બાબ�
 
 #: ../plugins/itip-formatter/itip-view.c:441
 #, c-format
-msgid "<b>%s</b> through %s has cancelled the following assigned task:"
+msgid "<b>%s</b> through %s has canceled the following assigned task:"
 msgstr "<b>%s</b> મારફતે %s એ નીચેની સોંપાયેલ બાબતો રદ કરી:"
 
 #: ../plugins/itip-formatter/itip-view.c:443
 #, c-format
-msgid "<b>%s</b> has cancelled the following assigned task:"
+msgid "<b>%s</b> has canceled the following assigned task:"
 msgstr "<b>%s</b> એ નીચેની સોંપાયેલ બાબતો રદ કરી:"
 
 #: ../plugins/itip-formatter/itip-view.c:446
@@ -16600,7 +16616,7 @@ msgstr "સંગ્રહો"
 msgid "%F %T"
 msgstr "%F %T"
 
-#: ../plugins/save-calendar/csv-format.c:385 ../smime/lib/e-cert.c:678
+#: ../plugins/save-calendar/csv-format.c:385
 msgid "UID"
 msgstr "UID"
 
@@ -17039,7 +17055,7 @@ msgid "Work Offline"
 msgstr "ઓફલાઈન કામ કરો"
 
 #: ../shell/e-shell-window.c:370
-msgid "Evolution is currently online.Click on this button to work offline."
+msgid "Evolution is currently online. Click on this button to work offline."
 msgstr "ઈવોલ્યુશન વર્તમાનમાં ઓનલાઈન છે. ઓફલાઈન કામ કરવા માટે આ બટન પર ક્લિક કરો."
 
 #: ../shell/e-shell-window.c:378
@@ -17047,7 +17063,7 @@ msgid "Evolution is in the process of going offline."
 msgstr "ઈવોલ્યુશન પ્રક્રિયાને ઓફલાઈન કામ કરવાની પ્રક્રિયામાં છે."
 
 #: ../shell/e-shell-window.c:385
-msgid "Evolution is currently offline.Click on this button to work online."
+msgid "Evolution is currently offline. Click on this button to work online."
 msgstr "ઈવોલ્યુશન વર્તમાનમાં ઓફલાઈન છે. ઓનલાઈન કામ કરવા માટે આ બટન પર ક્લિક કરો."
 
 #: ../shell/e-shell-window.c:775
@@ -17677,38 +17693,6 @@ msgstr "PKCS #1 MD5 એ RSA એનક્રિપ્શન સાથે"
 msgid "PKCS #1 SHA-1 With RSA Encryption"
 msgstr "PKCS #1 SHA-1 એ RSA એનક્રિપ્શન સાથે"
 
-#: ../smime/lib/e-cert.c:642
-msgid "C"
-msgstr "C"
-
-#: ../smime/lib/e-cert.c:645
-msgid "CN"
-msgstr "CN"
-
-#: ../smime/lib/e-cert.c:648
-msgid "OU"
-msgstr "OU"
-
-#: ../smime/lib/e-cert.c:651
-msgid "O"
-msgstr "O"
-
-#: ../smime/lib/e-cert.c:654
-msgid "L"
-msgstr "L"
-
-#: ../smime/lib/e-cert.c:657
-msgid "DN"
-msgstr "DN"
-
-#: ../smime/lib/e-cert.c:660
-msgid "DC"
-msgstr "DC"
-
-#: ../smime/lib/e-cert.c:663
-msgid "ST"
-msgstr "ST"
-
 #: ../smime/lib/e-cert.c:666
 msgid "PKCS #1 RSA Encryption"
 msgstr "PKCS #1 RSA એનક્રિપ્શન"
@@ -17724,10 +17708,6 @@ msgstr "નેટસ્કેપ પ્રમાણપત્ર પ્રકા�
 #: ../smime/lib/e-cert.c:675
 msgid "Certificate Authority Key Identifier"
 msgstr "પ્રમાણપત્ર સત્તાધિકાર કી ઓળખનાર"
-
-#: ../smime/lib/e-cert.c:681
-msgid "E"
-msgstr "E"
 
 #: ../smime/lib/e-cert.c:687
 #, c-format
