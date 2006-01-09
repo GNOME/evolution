@@ -1,3 +1,10 @@
+2006-01-09  Sushma Rai  <rsushma@novell.com>
+
+	* exchange-folder-subscription.c (create_folder_subscription_dialog):
+	Instead of gtk_dialog_run(), calling gtk_widget_show().
+	(dialog_destroy): Added callback to do the cleanup on closing the 
+	window. Fixes #314748. 
+
 2006-01-06  Simon Zheng <simon.zheng@sun.com>
 
 	* exchange-account-setup.c:

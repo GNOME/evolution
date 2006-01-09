@@ -155,6 +155,18 @@ setup_server_option_menu (GladeXML *glade_xml, gchar *mail_account)
 	/* FIXME: Default to the current storage in the shell view.  */
 }
 
+static void 
+dialog_destroy (GtkWidget *dialog, gint response, gpointer data) {
+	ENameSelector *name_selector = data;
+
+	if (response == GTK_RESPONSE_OK || response == GTK_RESPONSE_CANCEL) {
+		if (name_selector) {
+			g_object_unref (name_selector);
+			name_selector = NULL;
+		}
+		gtk_widget_destroy (dialog);
+	}
+}
 
 gboolean
 create_folder_subscription_dialog (gchar *mail_account, gchar *fname, gchar **user_email_address_ret, gchar **folder_name_ret)
@@ -165,7 +177,6 @@ create_folder_subscription_dialog (gchar *mail_account, gchar *fname, gchar **us
 	GtkWidget *name_selector_widget;
 	GtkWidget *folder_name_entry;
 	char *user_email_address = NULL;
-	int response;
 	EDestinationStore *destination_store;
 	GList *destinations;
 	EDestination *destination;
@@ -193,19 +204,12 @@ create_folder_subscription_dialog (gchar *mail_account, gchar *fname, gchar **us
 			  G_CALLBACK (folder_name_entry_changed_callback), dialog);
 
 	while (TRUE) {
-		response = gtk_dialog_run (GTK_DIALOG (dialog));
-		if (response == GTK_RESPONSE_CANCEL) {
-			gtk_widget_destroy (dialog);
-			g_object_unref (name_selector);
-			return FALSE;
-		}
+		g_signal_connect (dialog, "response", G_CALLBACK(dialog_destroy), name_selector);
+		gtk_widget_show (dialog);
 		destination_store = e_name_selector_entry_peek_destination_store (E_NAME_SELECTOR_ENTRY (GTK_ENTRY (name_selector_widget)));
 		destinations = e_destination_store_list_destinations (destination_store);
-		if (!destinations) {
-			gtk_widget_destroy (dialog);
-			g_object_unref (name_selector);
+		if (!destinations)
 			return FALSE;
-		}
 		destination = destinations->data;
 		user_email_address = g_strdup (e_destination_get_email (destination));
 		g_list_free (destinations);
@@ -216,18 +220,12 @@ create_folder_subscription_dialog (gchar *mail_account, gchar *fname, gchar **us
 		/* It would be nice to insensitivize the OK button appropriately                   instead of doing this, but unfortunately we can't do this for the
 		   Bonobo control.  */
 		e_error_run (GTK_WINDOW (dialog), ERROR_DOMAIN ":select-user", NULL);
-
-
 	}
-	gtk_widget_show_all (dialog);
 
 	if (user_email_address)
 		*user_email_address_ret = user_email_address;
 	*folder_name_ret = g_strdup (gtk_entry_get_text (GTK_ENTRY (folder_name_entry)));
 
-	gtk_widget_destroy (dialog);
-	g_object_unref (name_selector);
 	return TRUE;
-
 }
 
