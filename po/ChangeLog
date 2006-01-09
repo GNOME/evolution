@@ -37,7 +37,6 @@
 	* POTFILES.in: Added missing file.
 	* en_CA.po: Updated Canadian English translation.
 
->>>>>>> 1.2231.2.48
 2005-12-12  Abel Cheung  <maddog@linuxhall.org>
 
 	* zh_TW.po: Fix mnemonic keys.
