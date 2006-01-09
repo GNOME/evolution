@@ -1,3 +1,8 @@
+2006-01-09  Harish Krishnaswamy  <kharish@novell.com>
+
+	* zh_TW.po: Updated Chinese Translation by
+	Zhe Su <zsu@novell.com>
+
 2006-01-09  Priit Laes  <plaes@cvs.gnome.org>
 
 	* et.po: Translation updated by Ivar Smolin.
@@ -32,6 +37,7 @@
 	* POTFILES.in: Added missing file.
 	* en_CA.po: Updated Canadian English translation.
 
+>>>>>>> 1.2231.2.48
 2005-12-12  Abel Cheung  <maddog@linuxhall.org>
 
 	* zh_TW.po: Fix mnemonic keys.

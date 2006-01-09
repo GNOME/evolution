@@ -22339,7 +22339,7 @@ msgstr "土耳其文"
 
 #: ../widgets/misc/e-charset-picker.c:72
 msgid "Unicode"
-msgstr "Unicode"
+msgstr "萬國碼"
 
 #: ../widgets/misc/e-charset-picker.c:73
 msgid "Western European"
