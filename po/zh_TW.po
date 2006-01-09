@@ -22040,7 +22040,7 @@ msgstr "土耳其語"
 
 #: ../widgets/misc/e-charset-picker.c:72
 msgid "Unicode"
-msgstr "Unicode"
+msgstr "萬國碼"
 
 #: ../widgets/misc/e-charset-picker.c:73
 msgid "Western European"
@@ -22054,7 +22054,7 @@ msgstr "西歐語系，新"
 #: ../widgets/misc/e-charset-picker.c:91 ../widgets/misc/e-charset-picker.c:92
 #: ../widgets/misc/e-charset-picker.c:93
 msgid "Traditional"
-msgstr "正體"
+msgstr "繁體"
 
 #: ../widgets/misc/e-charset-picker.c:94 ../widgets/misc/e-charset-picker.c:95
 #: ../widgets/misc/e-charset-picker.c:96 ../widgets/misc/e-charset-picker.c:97
