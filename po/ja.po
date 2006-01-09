@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-01-04 15:36+0900\n"
-"PO-Revision-Date: 2006-01-04 15:33+0900\n"
+"POT-Creation-Date: 2006-01-09 14:12+0900\n"
+"PO-Revision-Date: 2006-01-09 14:10+0900\n"
 "Last-Translator: Takeshi AIHANA <aihana@gnome.gr.jp>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
 "MIME-Version: 1.0\n"
@@ -539,7 +539,7 @@ msgstr "ここで自動補完を設定します"
 #. Create the contacts group
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:5
 #: ../addressbook/gui/component/addressbook-view.c:1186
-#: ../calendar/gui/calendar-component.c:246 ../calendar/gui/migration.c:393
+#: ../calendar/gui/calendar-component.c:246 ../calendar/gui/migration.c:400
 msgid "Contacts"
 msgstr "連絡先"
 
@@ -580,8 +580,8 @@ msgstr "ここでお使いの S/MIME 型の証明書を管理します"
 #: ../addressbook/gui/component/addressbook-component.c:141
 #: ../addressbook/gui/component/addressbook-migrate.c:507
 #: ../calendar/gui/calendar-component.c:208
-#: ../calendar/gui/memos-component.c:193 ../calendar/gui/migration.c:467
-#: ../calendar/gui/migration.c:560 ../calendar/gui/migration.c:1061
+#: ../calendar/gui/memos-component.c:193 ../calendar/gui/migration.c:474
+#: ../calendar/gui/migration.c:567 ../calendar/gui/migration.c:1075
 #: ../calendar/gui/tasks-component.c:189 ../mail/em-folder-tree-model.c:198
 #: ../mail/em-folder-tree-model.c:200 ../mail/mail-component.c:298
 #: ../mail/mail-vfolder.c:223
@@ -597,8 +597,8 @@ msgstr "このコンピュータ"
 #: ../addressbook/gui/component/addressbook-migrate.c:515
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:20
 #: ../calendar/gui/calendar-component.c:216
-#: ../calendar/gui/memos-component.c:201 ../calendar/gui/migration.c:475
-#: ../calendar/gui/migration.c:568 ../calendar/gui/migration.c:1069
+#: ../calendar/gui/memos-component.c:201 ../calendar/gui/migration.c:482
+#: ../calendar/gui/migration.c:575 ../calendar/gui/migration.c:1083
 #: ../calendar/gui/tasks-component.c:197 ../filter/filter-label.c:123
 #: ../mail/em-migrate.c:1053 ../mail/mail-config.c:86
 #: ../mail/mail-config.glade.h:104
@@ -628,7 +628,7 @@ msgid "Create a new contact list"
 msgstr "新しい連絡先一覧を作成します"
 
 #: ../addressbook/gui/component/addressbook-component.c:242
-#: ../addressbook/gui/component/addressbook-config.c:1202
+#: ../addressbook/gui/component/addressbook-config.c:1204
 msgid "New Address Book"
 msgstr "新しいアドレス帳"
 
@@ -658,7 +658,7 @@ msgstr "種類(_T):"
 msgid "Copy book content locally for offline operation"
 msgstr "オフライン操作用にアドレス帳の内容をローカルへコピーする"
 
-#: ../addressbook/gui/component/addressbook-config.c:981
+#: ../addressbook/gui/component/addressbook-config.c:983
 #: ../addressbook/gui/component/ldap-config.glade.h:22
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:20
 #: ../calendar/gui/dialogs/calendar-setup.c:368
@@ -669,45 +669,45 @@ msgstr "オフライン操作用にアドレス帳の内容をローカルへコ
 msgid "General"
 msgstr "全般"
 
-#: ../addressbook/gui/component/addressbook-config.c:982
+#: ../addressbook/gui/component/addressbook-config.c:984
 #: ../mail/importers/pine-importer.c:392
 msgid "Addressbook"
 msgstr "アドレス帳"
 
-#: ../addressbook/gui/component/addressbook-config.c:986
+#: ../addressbook/gui/component/addressbook-config.c:988
 msgid "Server Information"
 msgstr "サーバの情報"
 
-#: ../addressbook/gui/component/addressbook-config.c:988
+#: ../addressbook/gui/component/addressbook-config.c:990
 msgid "Authentication"
 msgstr "認証"
 
-#: ../addressbook/gui/component/addressbook-config.c:991
+#: ../addressbook/gui/component/addressbook-config.c:993
 #: ../addressbook/gui/component/ldap-config.glade.h:17
 #: ../mail/mail-dialogs.glade.h:7 ../smime/gui/smime-ui.glade.h:20
 msgid "Details"
 msgstr "詳細"
 
-#: ../addressbook/gui/component/addressbook-config.c:992
+#: ../addressbook/gui/component/addressbook-config.c:994
 msgid "Searching"
 msgstr "検索"
 
-#: ../addressbook/gui/component/addressbook-config.c:994
+#: ../addressbook/gui/component/addressbook-config.c:996
 msgid "Downloading"
 msgstr "ダウンロード"
 
-#: ../addressbook/gui/component/addressbook-config.c:1200
+#: ../addressbook/gui/component/addressbook-config.c:1202
 #: ../addressbook/gui/component/ldap-config.glade.h:13
 msgid "Address Book Properties"
 msgstr "アドレス帳のプロパティ"
 
 #: ../addressbook/gui/component/addressbook-migrate.c:73
-#: ../calendar/gui/migration.c:147 ../mail/em-migrate.c:1200
+#: ../calendar/gui/migration.c:153 ../mail/em-migrate.c:1200
 msgid "Migrating..."
 msgstr "移行中..."
 
 #: ../addressbook/gui/component/addressbook-migrate.c:125
-#: ../calendar/gui/migration.c:194 ../mail/em-migrate.c:1241
+#: ../calendar/gui/migration.c:200 ../mail/em-migrate.c:1241
 #, c-format
 msgid "Migrating `%s':"
 msgstr "'%s' の移行中:"
@@ -1136,7 +1136,7 @@ msgid "cards"
 msgstr "カード"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:57
-#: ../calendar/gui/alarm-notify/alarm-notify.glade.h:7
+#: ../calendar/gui/alarm-notify/alarm-notify.glade.h:8
 #: ../calendar/gui/alarm-notify/util.c:64
 #: ../calendar/gui/alarm-notify/util.c:66
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:26
@@ -3332,7 +3332,7 @@ msgstr "プロトコルがサポートされていません"
 #: ../calendar/gui/e-cal-model-tasks.c:349
 #: ../calendar/gui/e-cal-model-tasks.c:662
 #: ../calendar/gui/e-calendar-table.c:464 ../calendar/gui/print.c:2375
-msgid "Cancelled"
+msgid "Canceled"
 msgstr "キャンセル済み"
 
 #. E_BOOK_ERROR_COULD_NOT_CANCEL
@@ -4093,17 +4093,17 @@ msgstr "エディタを読み込めませんでした。"
 
 #: ../calendar/calendar.error.xml.h:30
 msgid ""
-"Email invitations will be sent to all participants and allow them to RSVP."
-msgstr ""
-"全ての出席者へ会議開催通知を送信するので返事をお願いできるようになります。"
-
-#: ../calendar/calendar.error.xml.h:31
-msgid ""
 "Email invitations will be sent to all participants and allow them to accept "
 "this task."
 msgstr ""
 "全ての出席者へ会議開催通知を送信するので、このタスクを受諾することができま"
 "す。"
+
+#: ../calendar/calendar.error.xml.h:31
+msgid ""
+"Email invitations will be sent to all participants and allow them to reply."
+msgstr ""
+"全ての出席者へ会議開催通知を送信するので返事をお願いできるようになります。"
 
 #: ../calendar/calendar.error.xml.h:32
 msgid "Error loading calendar"
@@ -4119,24 +4119,24 @@ msgstr "タスク一覧を読み込む際にエラー"
 
 #: ../calendar/calendar.error.xml.h:35
 msgid ""
-"If you do not send a cancellation notice, the other participants may not "
-"know the journal has been deleted."
+"If you do not send a cancelation notice, the other participants may not know "
+"the journal has been deleted."
 msgstr ""
 "キャンセル通知を送信しないと、ジャーナルが削除されたことが他の出席者には周知"
 "されないかもしれません。"
 
 #: ../calendar/calendar.error.xml.h:36
 msgid ""
-"If you do not send a cancellation notice, the other participants may not "
-"know the meeting is cancelled."
+"If you do not send a cancelation notice, the other participants may not know "
+"the meeting is canceled."
 msgstr ""
 "キャンセル通知を送信しないと、会議がキャンセルされたことが他の出席者には周知"
 "されないかもしれません。"
 
 #: ../calendar/calendar.error.xml.h:37
 msgid ""
-"If you do not send a cancellation notice, the other participants may not "
-"know the task has been deleted."
+"If you do not send a cancelation notice, the other participants may not know "
+"the task has been deleted."
 msgstr ""
 "キャンセル通知を送信しないと、タスクが削除されたことが他の出席者には周知され"
 "ないかもしれません。"
@@ -4227,11 +4227,11 @@ msgid "Would you like to save your changes to this task?"
 msgstr "このタスクの変更を保存しますか？"
 
 #: ../calendar/calendar.error.xml.h:55
-msgid "Would you like to send a cancellation notice for this journal entry?"
+msgid "Would you like to send a cancelation notice for this journal entry?"
 msgstr "このジャーナル・エントリのキャンセル通知を送信しますか？"
 
 #: ../calendar/calendar.error.xml.h:56
-msgid "Would you like to send all the participants a cancellation notice?"
+msgid "Would you like to send all the participants a cancelation notice?"
 msgstr "出席者全員に会議キャンセル通知を送信しますか？"
 
 #: ../calendar/calendar.error.xml.h:57
@@ -4423,7 +4423,7 @@ msgstr "タスク(_T)"
 msgid "Evolution Calendar alarm notification service"
 msgstr "Evolution カレンダ・アラーム通知サービス"
 
-#: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:117
+#: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:115
 #: ../calendar/gui/alarm-notify/util.c:64
 #: ../calendar/gui/alarm-notify/util.c:66 ../calendar/gui/misc.c:111
 #: ../calendar/gui/misc.c:113
@@ -4432,15 +4432,27 @@ msgid_plural "minutes"
 msgstr[0] "分"
 msgstr[1] "分間"
 
-#: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:258
+#: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:130
+#: ../calendar/gui/alarm-notify/alarm-notify.glade.h:6
+#: ../calendar/gui/dialogs/alarm-dialog.glade.h:24
+#: ../calendar/gui/dialogs/calendar-setup.glade.h:13
+#: ../calendar/gui/dialogs/event-page.glade.h:19 ../filter/filter.glade.h:15
+#: ../plugins/calendar-http/calendar-http.c:264
+#: ../plugins/calendar-weather/calendar-weather.c:564
+msgid "hours"
+msgid_plural "hours"
+msgstr[0] "時"
+msgstr[1] "時間"
+
+#: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:270
 msgid "Start time"
 msgstr "開始時刻"
 
-#: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:356
+#: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:374
 #, c-format
 msgid ""
 "<big><b>%s</b></big>\n"
-"%s until %s"
+"%s %s"
 msgstr ""
 "<big><b>%s</b></big>\n"
 "%s から %s まで"
@@ -4483,7 +4495,7 @@ msgstr "編集(_E)"
 msgid "_Snooze"
 msgstr "アラーム停止(_S)"
 
-#: ../calendar/gui/alarm-notify/alarm-notify.glade.h:6
+#: ../calendar/gui/alarm-notify/alarm-notify.glade.h:7
 msgid "location of appointment"
 msgstr "予定の場所"
 
@@ -5077,13 +5089,13 @@ msgstr "日"
 #. Create the Webcal source group
 #. Create the LDAP source group
 #: ../calendar/gui/calendar-component.c:234
-#: ../calendar/gui/memos-component.c:220 ../calendar/gui/migration.c:494
-#: ../calendar/gui/migration.c:587 ../calendar/gui/migration.c:1088
+#: ../calendar/gui/memos-component.c:220 ../calendar/gui/migration.c:501
+#: ../calendar/gui/migration.c:594 ../calendar/gui/migration.c:1102
 #: ../calendar/gui/tasks-component.c:216
 msgid "On The Web"
 msgstr "ウェブ"
 
-#: ../calendar/gui/calendar-component.c:252 ../calendar/gui/migration.c:396
+#: ../calendar/gui/calendar-component.c:252 ../calendar/gui/migration.c:403
 msgid "Birthdays & Anniversaries"
 msgstr "誕生日と記念日"
 
@@ -5224,17 +5236,17 @@ msgid "Mes_sage:"
 msgstr "メッセージ(_S):"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:8
-#: ../calendar/gui/e-alarm-list.c:444
+#: ../calendar/gui/e-alarm-list.c:449
 msgid "Play a sound"
 msgstr "サウンドを演奏する"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:9
-#: ../calendar/gui/e-alarm-list.c:448
+#: ../calendar/gui/e-alarm-list.c:453
 msgid "Pop up an alert"
 msgstr "警告をポップアップする"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:10
-#: ../calendar/gui/e-alarm-list.c:456
+#: ../calendar/gui/e-alarm-list.c:461
 msgid "Run a program"
 msgstr "プログラムを実行する"
 
@@ -5243,7 +5255,7 @@ msgid "Send To:"
 msgstr "送信先:"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:12
-#: ../calendar/gui/e-alarm-list.c:452
+#: ../calendar/gui/e-alarm-list.c:457
 msgid "Send an email"
 msgstr "E-メールを送信する"
 
@@ -5287,14 +5299,6 @@ msgstr "回 / "
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:23
 msgid "hour(s)"
 msgstr "時間"
-
-#: ../calendar/gui/dialogs/alarm-dialog.glade.h:24
-#: ../calendar/gui/dialogs/calendar-setup.glade.h:13
-#: ../calendar/gui/dialogs/event-page.glade.h:19 ../filter/filter.glade.h:15
-#: ../plugins/calendar-http/calendar-http.c:264
-#: ../plugins/calendar-weather/calendar-weather.c:564
-msgid "hours"
-msgstr "時"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:25
 msgid "minute(s)"
@@ -6037,26 +6041,26 @@ msgstr "最低一名の出席者が必要です。"
 msgid "_Add "
 msgstr "追加(_A) "
 
-#: ../calendar/gui/dialogs/event-page.c:2553
+#: ../calendar/gui/dialogs/event-page.c:2567
 #, c-format
 msgid "Unable to open the calendar '%s'."
 msgstr "カレンダ '%s' を開けません。"
 
-#: ../calendar/gui/dialogs/event-page.c:2808
+#: ../calendar/gui/dialogs/event-page.c:2823
 #, c-format
 msgid "%d day before appointment"
 msgid_plural "%d days before appointment"
 msgstr[0] "予定の %d 日前"
 msgstr[1] "予定の %d 日前"
 
-#: ../calendar/gui/dialogs/event-page.c:2816
+#: ../calendar/gui/dialogs/event-page.c:2831
 #, c-format
 msgid "%d hour before appointment"
 msgid_plural "%d hours before appointment"
 msgstr[0] "予定の %d 時間前"
 msgstr[1] "予定の %d 時間前"
 
-#: ../calendar/gui/dialogs/event-page.c:2824
+#: ../calendar/gui/dialogs/event-page.c:2839
 #, c-format
 msgid "%d minute before appointement"
 msgid_plural "%d minutes before appointment"
@@ -6612,87 +6616,102 @@ msgstr "ユーザ名(_U):"
 msgid "_Weekly"
 msgstr "毎週(_W)"
 
-#: ../calendar/gui/e-alarm-list.c:395
+#. Translator: Entire string is like "Pop up an alert %d days before start of appointment"
+#: ../calendar/gui/e-alarm-list.c:396
 #, c-format
 msgid "%d day"
 msgid_plural "%d days"
 msgstr[0] "%d 日"
 msgstr[1] "%d 日間"
 
-#: ../calendar/gui/e-alarm-list.c:400
+#. Translator: Entire string is like "Pop up an alert %d weeks before start of appointment"
+#: ../calendar/gui/e-alarm-list.c:402
 #, c-format
 msgid "%d week"
 msgid_plural "%d weeks"
 msgstr[0] "%d 週間"
 msgstr[1] "%d 週間"
 
-#: ../calendar/gui/e-alarm-list.c:405
+#. Translator: Entire string is like "Pop up an alert %d hours before start of appointment"
+#: ../calendar/gui/e-alarm-list.c:408
 #, c-format
 msgid "%d hour"
 msgid_plural "%d hours"
 msgstr[0] "%d 時間"
 msgstr[1] "%d 時間"
 
-#: ../calendar/gui/e-alarm-list.c:410
+#. Translator: Entire string is like "Pop up an alert %d minutes before start of appointment"
+#: ../calendar/gui/e-alarm-list.c:414
 #, c-format
 msgid "%d minute"
 msgid_plural "%d minutes"
 msgstr[0] "%d 分"
 msgstr[1] "%d 分間"
 
-#: ../calendar/gui/e-alarm-list.c:415
+#. Translator: Entire string is like "Pop up an alert %d seconds before start of appointment"
+#: ../calendar/gui/e-alarm-list.c:420
 #, c-format
 msgid "%d second"
 msgid_plural "%d seconds"
 msgstr[0] "%d 秒"
 msgstr[1] "%d 秒間"
 
-#: ../calendar/gui/e-alarm-list.c:462
+#: ../calendar/gui/e-alarm-list.c:467
 msgid "Unknown action to be performed"
 msgstr "実行するアクションが不明です"
 
 #. Translator: The first %s refers to the base, which would be actions like
 #. * "Play a Sound". Second %s refers to the duration string e.g:"15 minutes"
-#: ../calendar/gui/e-alarm-list.c:476
+#: ../calendar/gui/e-alarm-list.c:481
 #, c-format
 msgid "%s %s before the start of the appointment"
 msgstr "予定を開始する %2$s前に%1$s"
 
 #. Translator: The first %s refers to the base, which would be actions like
 #. * "Play a Sound". Second %s refers to the duration string e.g:"15 minutes"
-#: ../calendar/gui/e-alarm-list.c:481
+#: ../calendar/gui/e-alarm-list.c:486
 #, c-format
 msgid "%s %s after the start of the appointment"
 msgstr "予定を開始する %2$s後に%1$s"
 
 #. Translator: The %s refers to the base, which would be actions like
 #. * "Play a sound"
-#: ../calendar/gui/e-alarm-list.c:488
+#: ../calendar/gui/e-alarm-list.c:493
 #, c-format
 msgid "%s at the start of the appointment"
 msgstr "予定を開始した時点で%s"
 
-#: ../calendar/gui/e-alarm-list.c:497
+#. Translator: The first %s refers to the base, which would be actions like
+#. * "Play a Sound". Second %s refers to the duration string e.g:"15 minutes"
+#: ../calendar/gui/e-alarm-list.c:504
 #, c-format
 msgid "%s %s before the end of the appointment"
 msgstr "予定を終了する %2$s前に%1$s"
 
-#: ../calendar/gui/e-alarm-list.c:500
+#. Translator: The first %s refers to the base, which would be actions like
+#. * "Play a Sound". Second %s refers to the duration string e.g:"15 minutes"
+#: ../calendar/gui/e-alarm-list.c:509
 #, c-format
 msgid "%s %s after the end of the appointment"
 msgstr "予定を終了する %2$s後に%1$s"
 
-#: ../calendar/gui/e-alarm-list.c:505
+#. Translator: The %s refers to the base, which would be actions like
+#. * "Play a sound"
+#: ../calendar/gui/e-alarm-list.c:516
 #, c-format
 msgid "%s at the end of the appointment"
 msgstr "予定を終了した時点で%s"
 
-#: ../calendar/gui/e-alarm-list.c:527
+#. Translator: The first %s refers to the base, which would be actions like
+#. * "Play a Sound". Second %s is an absolute time, e.g. "10:00AM"
+#: ../calendar/gui/e-alarm-list.c:540
 #, c-format
 msgid "%s at %s"
 msgstr "%2$sの時点で%1$s"
 
-#: ../calendar/gui/e-alarm-list.c:533
+#. Translator: The %s refers to the base, which would be actions like
+#. * "Play a sound". "Trigger types" are absolute or relative dates
+#: ../calendar/gui/e-alarm-list.c:548
 #, c-format
 msgid "%s for an unknown trigger type"
 msgstr "トリガーの種類が不明な %s"
@@ -7268,14 +7287,14 @@ msgstr "辞退済"
 
 #: ../calendar/gui/e-itip-control.c:1230
 msgid ""
-"The meeting has been cancelled, however it could not be found in your "
+"The meeting has been canceled, however it could not be found in your "
 "calendars"
 msgstr ""
 "会議がキャンセルされましたが、お使いのカレンダの中に見つかりませんでした"
 
 #: ../calendar/gui/e-itip-control.c:1232
 msgid ""
-"The task has been cancelled, however it could not be found in your task lists"
+"The task has been canceled, however it could not be found in your task lists"
 msgstr ""
 "タスクがキャンセルされましたが、お使いのタスク一覧の中に見つかりませんでした"
 
@@ -7332,11 +7351,11 @@ msgstr "会議への返信"
 
 #: ../calendar/gui/e-itip-control.c:1348
 #, c-format
-msgid "<b>%s</b> has cancelled a meeting."
+msgid "<b>%s</b> has canceled a meeting."
 msgstr "<b>%s</b> さんが会議をキャンセルしました。"
 
 #: ../calendar/gui/e-itip-control.c:1349
-msgid "Meeting Cancellation"
+msgid "Meeting Cancelation"
 msgstr "会議のキャンセル"
 
 #: ../calendar/gui/e-itip-control.c:1359 ../calendar/gui/e-itip-control.c:1436
@@ -7402,11 +7421,11 @@ msgstr "タスクへの返信"
 
 #: ../calendar/gui/e-itip-control.c:1425
 #, c-format
-msgid "<b>%s</b> has cancelled a task."
-msgstr "<b>%s</b> さんはタスクをキャンセルしました。"
+msgid "<b>%s</b> has canceled a task."
+msgstr "<b>%s</b> さんがタスクをキャンセルしました。"
 
 #: ../calendar/gui/e-itip-control.c:1426
-msgid "Task Cancellation"
+msgid "Task Cancelation"
 msgstr "タスクの取り消し"
 
 #: ../calendar/gui/e-itip-control.c:1437
@@ -8045,7 +8064,7 @@ msgstr "新しいメモ一覧を作成します"
 msgid "Print Memos"
 msgstr "メモの印刷"
 
-#: ../calendar/gui/migration.c:156
+#: ../calendar/gui/migration.c:162
 msgid ""
 "The location and hierarchy of the Evolution task folders has changed since "
 "Evolution 1.x.\n"
@@ -8057,7 +8076,7 @@ msgstr ""
 "\n"
 "Evolution がお使いのフォルダを移行している間、少々お待ち下さい..."
 
-#: ../calendar/gui/migration.c:160
+#: ../calendar/gui/migration.c:166
 msgid ""
 "The location and hierarchy of the Evolution calendar folders has changed "
 "since Evolution 1.x.\n"
@@ -8070,18 +8089,18 @@ msgstr ""
 "Evolution がお使いのフォルダを移行している間、少々お待ち下さい..."
 
 #. FIXME: set proper domain/code
-#: ../calendar/gui/migration.c:753 ../calendar/gui/migration.c:919
+#: ../calendar/gui/migration.c:765 ../calendar/gui/migration.c:933
 msgid "Unable to migrate old settings from evolution/config.xmldb"
 msgstr "${HOME}/evolution/config.xmldb から古い設定を移行できません"
 
 #. FIXME: domain/code
-#: ../calendar/gui/migration.c:782
+#: ../calendar/gui/migration.c:794
 #, c-format
 msgid "Unable to migrate calendar `%s'"
 msgstr "カレンダ '%s' を移行できません"
 
 #. FIXME: domain/code
-#: ../calendar/gui/migration.c:948
+#: ../calendar/gui/migration.c:962
 #, c-format
 msgid "Unable to migrate tasks `%s'"
 msgstr "タスク '%s' を移行できません"
@@ -13468,7 +13487,7 @@ msgid "Failed to send %d of %d messages"
 msgstr "メッセージ %d / %d の送信に失敗しました"
 
 #: ../mail/mail-ops.c:761 ../mail/mail-send-recv.c:613
-msgid "Cancelled."
+msgid "Canceled."
 msgstr "キャンセルしました"
 
 #: ../mail/mail-ops.c:763
@@ -13610,7 +13629,7 @@ msgid "Checking Service"
 msgstr "サービスの確認"
 
 #: ../mail/mail-send-recv.c:158
-msgid "Cancelling..."
+msgid "Canceling..."
 msgstr "キャンセル中..."
 
 #: ../mail/mail-send-recv.c:265
@@ -13659,7 +13678,7 @@ msgid "Enter Password"
 msgstr "パスワードの入力"
 
 #: ../mail/mail-session.c:241
-msgid "User cancelled operation."
+msgid "User canceled operation."
 msgstr "ユーザによって操作がキャンセルされました"
 
 #: ../mail/mail-signature-editor.c:384
@@ -13675,26 +13694,26 @@ msgstr "この署名の名前を入力して下さい。"
 msgid "Name:"
 msgstr "名前:"
 
-#: ../mail/mail-tools.c:120
+#: ../mail/mail-tools.c:119
 #, c-format
 msgid "Could not create spool directory `%s': %s"
 msgstr "スプール用フォルダ '%s' を生成できませんでした: %s"
 
-#: ../mail/mail-tools.c:150
+#: ../mail/mail-tools.c:149
 #, c-format
 msgid "Trying to movemail a non-mbox source `%s'"
 msgstr "mbox 形式ではないソース '%s' の移動を試みます"
 
-#: ../mail/mail-tools.c:256
+#: ../mail/mail-tools.c:255
 #, c-format
 msgid "Forwarded message - %s"
 msgstr "転送されたメッセージ - %s"
 
-#: ../mail/mail-tools.c:258
+#: ../mail/mail-tools.c:257
 msgid "Forwarded message"
 msgstr "転送されたメッセージ"
 
-#: ../mail/mail-tools.c:298
+#: ../mail/mail-tools.c:297
 #, c-format
 msgid "Invalid folder: `%s'"
 msgstr "不正なフォルダ: '%s'"
@@ -15766,7 +15785,7 @@ msgstr "辞退したものとしてカレンダ '%s' に保存しました"
 
 #: ../plugins/itip-formatter/itip-formatter.c:805
 #, c-format
-msgid "Sent to calendar '%s' as cancelled"
+msgid "Sent to calendar '%s' as canceled"
 msgstr "キャンセルしたものとしてカレンダ '%s' に保存しました"
 
 #: ../plugins/itip-formatter/itip-formatter.c:898
@@ -15775,11 +15794,11 @@ msgid "Organizer has removed the delegate %s "
 msgstr "Organizer が DeleGate %s を削除しました"
 
 #: ../plugins/itip-formatter/itip-formatter.c:905
-msgid "Sent a cancellation notice to the delegate"
+msgid "Sent a cancelation notice to the delegate"
 msgstr "DeleGate へキャンセル通知を送信しました"
 
 #: ../plugins/itip-formatter/itip-formatter.c:907
-msgid "Could not send the cancellation notice to the delegate"
+msgid "Could not send the cancelation notice to the delegate"
 msgstr "DeleGate へキャンセル通知を送信できませんでした"
 
 #: ../plugins/itip-formatter/itip-formatter.c:991
@@ -16046,12 +16065,12 @@ msgstr "<b>%s</b> さんが次の会議の返事を返してきました:"
 
 #: ../plugins/itip-formatter/itip-view.c:373
 #, c-format
-msgid "<b>%s</b> through %s has cancelled the following meeting:"
-msgstr "<b>%s</b> さんは %s さんが次の会議をキャンセルしたと考えています:"
+msgid "<b>%s</b> through %s has canceled the following meeting:"
+msgstr "<b>%s</b> さんは %s さんが次の会議をキャンセルしたもの認識しています:"
 
 #: ../plugins/itip-formatter/itip-view.c:375
 #, c-format
-msgid "<b>%s</b> has cancelled the following meeting."
+msgid "<b>%s</b> has canceled the following meeting."
 msgstr "<b>%s</b> さんが次の会議をキャンセルしました:"
 
 #: ../plugins/itip-formatter/itip-view.c:378
@@ -16119,14 +16138,15 @@ msgstr "<b>%s</b> さんは次のタスク割り当てに対する回答を返�
 
 #: ../plugins/itip-formatter/itip-view.c:441
 #, c-format
-msgid "<b>%s</b> through %s has cancelled the following assigned task:"
+msgid "<b>%s</b> through %s has canceled the following assigned task:"
 msgstr ""
-"<b>%s</b> さんは %s さんが割り当てたタスクをキャンセルしたと考えています:"
+"<b>%s</b> さんは %s さんが割り当てたタスクをキャンセルしたものと認識していま"
+"す:"
 
 #: ../plugins/itip-formatter/itip-view.c:443
 #, c-format
-msgid "<b>%s</b> has cancelled the following assigned task:"
-msgstr "<b>%s</b> さんはタスクの割り当てをキャンセルしました:"
+msgid "<b>%s</b> has canceled the following assigned task:"
+msgstr "<b>%s</b> さんは次の割り当てられたタスクをキャンセルしました:"
 
 #: ../plugins/itip-formatter/itip-view.c:446
 #, c-format
@@ -16136,7 +16156,9 @@ msgstr "<b>%s</b> さんがタスク割り当ての変更を提案してきま�
 #: ../plugins/itip-formatter/itip-view.c:450
 #, c-format
 msgid "<b>%s</b> through %s has declined the following assigned task:"
-msgstr "<b>%s</b> さんは %s さんが次のタスク割り当てを辞退すると考えています:"
+msgstr ""
+"<b>%s</b> さんは %s さんが次の割り当てられたタスクを辞退したものと認識してい"
+"ます:"
 
 #: ../plugins/itip-formatter/itip-view.c:452
 #, c-format
@@ -16707,7 +16729,7 @@ msgstr ""
 "iCal 形式\n"
 "Free/Busy 形式"
 
-#: ../plugins/sa-junk-plugin/em-junk-filter.c:99
+#: ../plugins/sa-junk-plugin/em-junk-filter.c:101
 msgid "Spamassassin (built-in)"
 msgstr "Spamassassin (内蔵)"
 
@@ -16761,7 +16783,7 @@ msgstr "保存"
 msgid "%F %T"
 msgstr "%F %T"
 
-#: ../plugins/save-calendar/csv-format.c:385 ../smime/lib/e-cert.c:678
+#: ../plugins/save-calendar/csv-format.c:385
 msgid "UID"
 msgstr "UID"
 
@@ -17217,7 +17239,7 @@ msgid "Work Offline"
 msgstr "オフラインで動作"
 
 #: ../shell/e-shell-window.c:370
-msgid "Evolution is currently online.Click on this button to work offline."
+msgid "Evolution is currently online. Click on this button to work offline."
 msgstr ""
 "Evolution は現在オンラインです (オフラインにする時は、このボタンをクリックし"
 "て下さい)"
@@ -17227,7 +17249,7 @@ msgid "Evolution is in the process of going offline."
 msgstr "Evolution はオフラインのままで処理します"
 
 #: ../shell/e-shell-window.c:385
-msgid "Evolution is currently offline.Click on this button to work online."
+msgid "Evolution is currently offline. Click on this button to work online."
 msgstr ""
 "Evolution は現在オフラインです (オンラインにする時は、このボタンをクリックし"
 "て下さい)"
@@ -17861,38 +17883,6 @@ msgstr "RSA で暗号化された PKCS #1 MD5"
 msgid "PKCS #1 SHA-1 With RSA Encryption"
 msgstr "RSA で暗号化された PKCS #1 SHA-1"
 
-#: ../smime/lib/e-cert.c:642
-msgid "C"
-msgstr "C"
-
-#: ../smime/lib/e-cert.c:645
-msgid "CN"
-msgstr "CN"
-
-#: ../smime/lib/e-cert.c:648
-msgid "OU"
-msgstr "OU"
-
-#: ../smime/lib/e-cert.c:651
-msgid "O"
-msgstr "O"
-
-#: ../smime/lib/e-cert.c:654
-msgid "L"
-msgstr "L"
-
-#: ../smime/lib/e-cert.c:657
-msgid "DN"
-msgstr "DN"
-
-#: ../smime/lib/e-cert.c:660
-msgid "DC"
-msgstr "DC"
-
-#: ../smime/lib/e-cert.c:663
-msgid "ST"
-msgstr "ST"
-
 #: ../smime/lib/e-cert.c:666
 msgid "PKCS #1 RSA Encryption"
 msgstr "PKCS #1 RSA 暗号化"
@@ -17908,10 +17898,6 @@ msgstr "Netscape 証明書の種類"
 #: ../smime/lib/e-cert.c:675
 msgid "Certificate Authority Key Identifier"
 msgstr "認証局の鍵の識別子"
-
-#: ../smime/lib/e-cert.c:681
-msgid "E"
-msgstr "東"
 
 #: ../smime/lib/e-cert.c:687
 #, c-format
