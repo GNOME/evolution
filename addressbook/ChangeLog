@@ -1,3 +1,8 @@
+2006-01-09  Ali Akcaagac / Andre Klapper <a9016009@gmx.de>
+	* tools/evolution-addressbook-clean.in: changing old evo1.4 path to
+	current path. Fixes bug 307513.
+	Committing on behalf of Ali Akcaagac.
+
 2006-01-04  Shi Pu  <shi.pu@sun.com>
 
         * gui/component/addressbook-config.c (eabc_details_search): add a not

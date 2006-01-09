@@ -18,7 +18,7 @@ if ($? != 0) {
 $HOME = $ENV{"HOME"};
 
 system ("@EVOLUTION_TOOLSDIR@/killev");
-do_system ("/bin/mv ${HOME}/evolution/local/Contacts/addressbook.db ${HOME}/evolution/local/Contacts/addressbook-backup.db");
+do_system ("/bin/mv ${HOME}/.evolution/addressbook/local/system/addressbook.db ${HOME}/.evolution/addressbook/local/system/addressbook-backup.db");
 do_system ("@EVOLUTION_TOOLSDIR@/evolution-addressbook-import --input-file $filename");
 do_system ("/bin/rm $filename");
 
