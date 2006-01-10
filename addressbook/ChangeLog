@@ -1,3 +1,9 @@
+2006-01-10  Simon Zheng  <simon.zheng@sun.com>
+
+	* gui/widgets/eab-gui-util.c:use e_filename_make_safe() in 
+	evolution-data-server/libedataserver/e-data-server-util.c
+        instead of the copy in evolution/e-util/e-util.c.
+
 2006-01-09  Ali Akcaagac  / Andre Klapper <a9016009@gmx.de>
 	* tools/evolution-addressbook-clean.in: changing old evo1.4 path to
 	current path. Fixes bug 307513.

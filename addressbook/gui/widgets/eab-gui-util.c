@@ -26,6 +26,7 @@
 #include <errno.h>
 #include <string.h>
 
+#include <libedataserver/e-data-server-util.h>
 #include <libedataserverui/e-source-selector.h>
 #include <e-util/e-util.h>
 #include "eab-gui-util.h"
