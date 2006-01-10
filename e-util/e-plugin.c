@@ -26,7 +26,7 @@
 #include <gconf/gconf-client.h>
 
 #include <libedataserver/e-msgport.h>
-#include <libedataserver/e-util.h>
+#include <libedataserver/e-data-server-util.h>
 #include <libedataserver/e-xml-utils.h>
 
 #include "e-plugin.h"

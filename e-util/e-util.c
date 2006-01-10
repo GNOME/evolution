@@ -44,6 +44,7 @@
 #include <windows.h>
 #endif
 
+#include <libedataserver/e-data-server-util.h>
 #include "e-i18n.h"
 #include "e-util.h"
 #include "e-util-private.h"
@@ -265,59 +266,6 @@ e_write_file_mkstemp(char *filename, const char *data)
 	return 0;
 }
 
-/**
- * e_mkdir_hier:
- * @path: a directory path
- * @mode: a mode, as for mkdir(2)
- *
- * This creates the named directory with the given @mode, creating
- * any necessary intermediate directories (with the same @mode).
- *
- * Return value: 0 on success, -1 on error, in which case errno will
- * be set as for mkdir(2).
- **/
-int
-e_mkdir_hier(const char *path, mode_t mode)
-{
-	char *copy, *p;
-
-	if (g_path_is_absolute (path)) {
-		p = copy = g_strdup (path);
-	} else {
-		gchar *current_dir = g_get_current_dir();
-		p = copy = g_build_filename (current_dir, path, NULL);
-		g_free (current_dir);
-	}
-
-	p = (char *)g_path_skip_root (p);
-	do {
-		char *p1 = strchr (p, '/');
-#ifdef G_OS_WIN32
-		{
-			char *p2 = strchr (p, '\\');
-			if (p1 == NULL ||
-			    (p2 != NULL && p2 < p1))
-				p1 = p2;
-		}
-#endif
-		p = p1;
-		if (p)
-			*p = '\0';
-		if (!g_file_test (copy, G_FILE_TEST_IS_DIR)) {
-			if (g_mkdir (copy, mode) == -1) {
-				g_free (copy);
-				return -1;
-			}
-		}
-		if (p) {
-			*p++ = '/';
-		}
-	} while (p);
-
-	g_free (copy);
-	return 0;
-}
-
 #if 0
 char *
 e_read_uri(const char *uri)
@@ -416,72 +364,6 @@ e_strsplit (const gchar *string,
   g_slist_free (string_list);
 
   return str_array;
-}
-
-gchar *
-e_strstrcase (const gchar *haystack, const gchar *needle)
-{
-	/* find the needle in the haystack neglecting case */
-	const gchar *ptr;
-	guint len;
-
-	g_return_val_if_fail (haystack != NULL, NULL);
-	g_return_val_if_fail (needle != NULL, NULL);
-
-	len = strlen(needle);
-	if (len > strlen(haystack))
-		return NULL;
-
-	if (len == 0)
-		return (gchar *) haystack;
-
-	for (ptr = haystack; *(ptr + len - 1) != '\0'; ptr++)
-		if (!g_ascii_strncasecmp (ptr, needle, len))
-			return (gchar *) ptr;
-
-	return NULL;
-}
-
-/* This only makes a filename safe for usage as a filename.  It still may have shell meta-characters in it. */
-
-/* This code is rather misguided and mostly pointless, but can't be
- * changed because of backward compatibility, I guess.
- *
- * It replaces some perfectly safe characters like '%' with an
- * underscore. (Recall that on Unix, the only bytes not allowed in a
- * file name component are '\0' and '/'.) On the other hand, the UTF-8
- * for a printable non-ASCII Unicode character (that thus consists of
- * several very nonprintable non-ASCII bytes) is let through as
- * such. But those bytes are of course also allowed in filenames, so
- * it doesn't matter as such...
- */
-void
-e_filename_make_safe (gchar *string)
-{
-	gchar *p, *ts;
-	gunichar c;
-#ifdef G_OS_WIN32
-	const char *unsafe_chars = " /'\"`&();|<>$%{}!\\:*?";
-#else
-	const char *unsafe_chars = " /'\"`&();|<>$%{}!";
-#endif	
-	
-	g_return_if_fail (string != NULL);
-	p = string;
-
-	while(p && *p) {
-		c = g_utf8_get_char (p);
-		ts = p;
-		p = g_utf8_next_char (p);
-		/* I wonder what this code is supposed to actually
-		 * achieve, and whether it does that as currently
-		 * written?
-		 */
-		if (!g_unichar_isprint(c) || ( c < 0xff && strchr (unsafe_chars, c&0xff ))) {
-			while (ts<p) 	
-				*ts++ = '_';
-		}
-	}
 }
 
 static gint
@@ -685,7 +567,7 @@ e_format_number_float (gfloat number)
 gboolean
 e_create_directory (gchar *directory)
 {
-	gint ret_val = e_mkdir_hier (directory, 0777);
+	gint ret_val = e_util_mkdir_hier (directory, 0777);
 	if (ret_val == -1)
 		return FALSE;
 	else
@@ -795,70 +677,6 @@ e_sort (void             *base,
 	memcpy(base, base_copy, nmemb * size);
 	g_free(base_copy);
 #endif
-}
-
-size_t e_strftime(char *s, size_t max, const char *fmt, const struct tm *tm)
-{
-#ifdef HAVE_LKSTRFTIME
-	return strftime(s, max, fmt, tm);
-#else
-	char *c, *ffmt, *ff;
-	size_t ret;
-
-	ffmt = g_strdup(fmt);
-	ff = ffmt;
-	while ((c = strstr(ff, "%l")) != NULL) {
-		c[1] = 'I';
-		ff = c;
-	}
-
-	ff = ffmt;
-	while ((c = strstr(ff, "%k")) != NULL) {
-		c[1] = 'H';
-		ff = c;
-	}
-
-	ret = strftime(s, max, ffmt, tm);
-	g_free(ffmt);
-	return ret;
-#endif
-}
-
-size_t 
-e_utf8_strftime(char *s, size_t max, const char *fmt, const struct tm *tm)
-{
-	size_t sz, ret;
-	char *locale_fmt, *buf;
-
-	locale_fmt = g_locale_from_utf8(fmt, -1, NULL, &sz, NULL);
-	if (!locale_fmt)
-		return 0;
-
-	ret = e_strftime(s, max, locale_fmt, tm);
-	if (!ret) {
-		g_free (locale_fmt);
-		return 0;
-	}
-
-	buf = g_locale_to_utf8(s, ret, NULL, &sz, NULL);
-	if (!buf) {
-		g_free (locale_fmt);
-		return 0;
-	}
-
-	if (sz >= max) {
-		char *tmp = buf + max - 1;
-		tmp = g_utf8_find_prev_char(buf, tmp);
-		if (tmp)
-			sz = tmp - buf;
-		else
-			sz = 0;
-	}
-	memcpy(s, buf, sz);
-	s[sz] = '\0';
-	g_free(locale_fmt);
-	g_free(buf);
-	return sz;
 }
 
 /**

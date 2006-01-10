@@ -1,3 +1,26 @@
+2006-01-10  Simon Zheng  <simon.zheng@sun.com>
+
+	* e-mktemp.c (get_dir):
+	* e-plugin.c:
+	* e-util.[ch] (e_create_directory):
+	(e_sort):
+	Delete e_mkdir_hier(), and use e_util_mkdir_hier() 
+	instead of it.
+
+	Delete e_strstrcasea(), and use e_util_strstrcase() 
+	instead of it.
+
+	Delete e_strftime(), use the copy in evolution-data-server/
+	libedataserver/e-data-server-util.c instead of it.
+
+	Delete e_filename_make_safe(), and use the copy in 
+	evolution-data-server/libedataserver/e-data-server-util.c
+	instead of it.
+
+	Detelte e_utf8_strftime(), and use the copy in 
+	evolution-data-server/libedataserver/e-data-server-util.c
+	instead of it.     
+
 2006-01-06  Simon Zheng <simon.zheng@sun.com>
 
 	* e-account.[ch], e-account-list.[ch]: removed. 

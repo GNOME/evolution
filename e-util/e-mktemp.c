@@ -36,6 +36,7 @@
 #include <stdio.h>
 #include <time.h>
 
+#include <libedataserver/e-data-server-util.h>
 #include "e-util.h"
 #include "e-mktemp.h"
 
@@ -110,7 +111,7 @@ get_dir (gboolean make)
 #ifdef TEMP_HOME
 	path = g_string_new (g_get_home_dir());
 	g_string_append_printf(path, "/.evolution/cache/tmp");
-	if (make && e_mkdir_hier(path->str, 0777) == -1) {
+	if (make && e_util_mkdir_hier(path->str, 0777) == -1) {
 		g_string_free(path, TRUE);
 		path = NULL;
 	}
