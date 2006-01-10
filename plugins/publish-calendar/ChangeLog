@@ -1,5 +1,6 @@
 2006-01-11  Chenthill Palanisamy  <pchenthill@novell.com>
 
+	Fixes #325926
 	* org-gnome-publish-calendar.eplug.xml: Use the target and hook id
 	of calendar instead of shell.
 
