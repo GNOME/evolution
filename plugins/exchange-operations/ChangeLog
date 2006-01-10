@@ -1,3 +1,13 @@
+2006-01-11  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fixes bug #316100
+	
+	* org-gnome-exchange-ab-subscription.xml:
+	* org-gnome-exchange-tasks-subscription.xml:
+	* org-gnome-folder-permissions.xml:
+	* org-gnome-folder-subscription.xml:
+	Removed empty menu entry which was pointing to Tools menu.
+
 2006-01-09  Sushma Rai  <rsushma@novell.com>
 
 	* exchange-folder-subscription.c (create_folder_subscription_dialog):
