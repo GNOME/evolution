@@ -54,6 +54,7 @@
 
 #include "composer/e-msg-composer.h"
 
+#include <libedataserver/e-data-server-util.h>
 #include "e-util/e-util.h"
 #include "e-util/e-util-private.h"
 

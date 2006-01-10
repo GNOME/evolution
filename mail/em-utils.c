@@ -68,6 +68,7 @@
 #include "mail-config.h"
 #include "message-tag-followup.h"
 
+#include <libedataserver/e-data-server-util.h>
 #include "e-util/e-util.h"
 #include "e-util/e-util-private.h"
 #include "e-util/e-mktemp.h"
@@ -593,7 +594,7 @@ em_utils_save_part_to_file(GtkWidget *parent, const char *filename, CamelMimePar
 		return FALSE;
 	
 	dirname = g_path_get_dirname(filename);
-	if (camel_mkdir(dirname, 0777) == -1) {
+	if (e_util_mkdir_hier(dirname, 0777) == -1) {
 		e_error_run((GtkWindow *)parent, "mail:no-create-path", filename, g_strerror(errno), NULL);
 		g_free(dirname);
 		return FALSE;

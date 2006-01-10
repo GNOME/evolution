@@ -1,3 +1,39 @@
+2006-01-10  Simon Zheng  <simon.zheng@sun.com>
+
+	* em-composer-utils.c:
+	* em-folder-tree-model.c: (em_folder_tree_model_save_state):
+	* em-format-html.c:
+	* em-migrate.c: (cp_r), (em_migrate_folder),
+	(em_migrate_pop_uid_caches_1_4),
+	(em_migrate_folder_expand_state_1_4),
+	(em_migrate_folder_view_settings_1_4), 
+	(em_migrate_imap_cmeta_1_4),
+	(em_migrate_1_4), (emm_setup_initial), 
+	(em_migrate):
+	* em-popup.c:
+	* em-utils.c: (em_utils_save_part_to_file):
+	* mail-component.c: (mail_component_init):
+	* mail-config.c:
+	* mail-folder-cache.c:
+	* mail-mt.c:
+	* mail-ops.c:
+	* mail-tools.c: (mail_tool_get_local_movemail_path):
+	Use e_util_mkdir_hier() instead of e_mkdir_hier().
+
+        Use e_util_strstrcase() instead of e_strstrcasea().
+    
+        use e_strftime() in evolution-data-server/
+        libedataserver/e-data-server-util.c instead of the copy in 
+        evolution/e-util/e-util.c.
+ 
+ 	use e_filename_make_safe() in evolution-data-server/
+        libedataserver/e-data-server-util.c instead of the copy in 
+        evolution/e-util/e-util.c.
+        
+        use e_utf8_strftime() in evolution-data-server/
+        libedataserver/e-data-server-util.c instead of the copy in 
+        evolution/e-util/e-util.c.
+
 2006-01-06  Andre Klapper <a9016009@gmx.de>
 	* evolution/mail/mail-ops.c:
 	* evolution/mail/mail-send-recv.c:

@@ -55,6 +55,7 @@
 #include <bonobo/bonobo-moniker-util.h>
 #include <bonobo/bonobo-exception.h>
 
+#include <libedataserver/e-data-server-util.h>
 #include <e-util/e-util.h>
 #include <misc/e-gui-utils.h>
 

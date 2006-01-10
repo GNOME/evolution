@@ -41,7 +41,7 @@
 #endif
 
 #include <libedataserver/e-iconv.h>
-#include <libedataserver/e-util.h>	/* for e_utf8_strftime, what about e_time_format_time? */
+#include <libedataserver/e-data-server-util.h>	/* for e_utf8_strftime, what about e_time_format_time? */
 #include <libedataserver/e-time-utils.h>
 #include "e-util/e-icon-factory.h"
 #include "e-util/e-util-private.h"

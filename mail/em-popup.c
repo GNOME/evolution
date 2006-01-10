@@ -63,6 +63,7 @@
 #include <gconf/gconf.h>
 #include <gconf/gconf-client.h>
 
+#include <libedataserver/e-data-server-util.h>
 #include <e-util/e-util.h>
 #include "e-attachment.h"
 

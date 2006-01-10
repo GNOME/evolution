@@ -35,6 +35,7 @@
 #include <libxml/parser.h>
 
 #include <libedataserver/e-xml-utils.h>
+#include <libedataserver/e-data-server-util.h>
 
 #include <e-util/e-mktemp.h>
 
@@ -1052,7 +1053,7 @@ em_folder_tree_model_save_state (EMFolderTreeModel *model)
 		return;
 	
 	dirname = g_path_get_dirname (model->filename);
-	if (camel_mkdir (dirname, 0777) == -1 && errno != EEXIST) {
+	if (e_util_mkdir_hier (dirname, 0777) == -1 && errno != EEXIST) {
 		g_free (dirname);
 		return;
 	}

@@ -35,6 +35,7 @@
 #include <fcntl.h>
 #include <errno.h>
 
+#include <libedataserver/e-data-server-util.h>
 #include "em-utils.h"
 #include "em-composer-utils.h"
 #include "em-format.h"
@@ -1086,7 +1087,7 @@ mail_component_init (MailComponent *component)
 			*p++ = '/';
 	}
 #endif
-	if (camel_mkdir (priv->base_directory, 0777) == -1 && errno != EEXIST)
+	if (e_util_mkdir_hier (priv->base_directory, 0777) == -1 && errno != EEXIST)
 		abort ();
 	
 	priv->model = em_folder_tree_model_new (priv->base_directory);

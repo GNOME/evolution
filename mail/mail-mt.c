@@ -30,7 +30,7 @@
 #include <libgnome/gnome-i18n.h>
 
 #include <libedataserver/e-msgport.h>
-#include <libedataserver/e-util.h>
+#include <libedataserver/e-data-server-util.h>
 
 #include <camel/camel-url.h>
 #include <camel/camel-operation.h>

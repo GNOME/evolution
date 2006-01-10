@@ -27,6 +27,7 @@
 #include <string.h>
 #include <gtk/gtkdialog.h>
 
+#include <libedataserver/e-data-server-util.h>
 #include <e-util/e-util.h>
 #include <libgnome/gnome-i18n.h>
 
