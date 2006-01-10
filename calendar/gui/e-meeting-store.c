@@ -33,7 +33,7 @@
 #include <libecal/e-cal-component.h>
 #include <libecal/e-cal-util.h>
 #include <libecal/e-cal-time-util.h>
-#include <libedataserver/e-util.h>
+#include <libedataserver/e-data-server-util.h>
 #include "calendar-config.h"
 #include "itip-utils.h"
 #include "e-meeting-utils.h"

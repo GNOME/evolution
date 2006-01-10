@@ -31,6 +31,7 @@
 #include <bonobo/bonobo-exception.h>
 #include <gconf/gconf-client.h>
 #include <libecal/e-cal.h>
+#include <libedataserver/e-data-server-util.h>
 #include <libedataserverui/e-source-selector.h>
 #include <shell/e-user-creatable-items-handler.h>
 #include <shell/e-component-view.h>
@@ -1321,7 +1322,7 @@ tasks_component_peek (void)
 	if (component == NULL) {
 		component = g_object_new (tasks_component_get_type (), NULL);
 
-		if (e_mkdir_hier (component->priv->config_directory, 0777) != 0) {
+		if (e_util_mkdir_hier (component->priv->config_directory, 0777) != 0) {
 			g_warning (G_STRLOC ": Cannot create directory %s: %s",
 				   component->priv->config_directory, g_strerror (errno));
 			g_object_unref (component);

@@ -26,7 +26,7 @@
 #include <string.h>
 #include <gtk/gtkmessagedialog.h>
 #include <libgnome/gnome-i18n.h>
-#include <libedataserver/e-util.h>
+#include <libedataserver/e-data-server-util.h>
 #include "calendar-config.h"
 #include "e-cal-model-tasks.h"
 #include "e-cell-date-edit-text.h"

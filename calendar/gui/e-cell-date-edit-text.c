@@ -38,6 +38,7 @@
 #include <libgnomeui/gnome-stock-icons.h> 
 #include <libgnome/gnome-i18n.h>
 #include <libedataserver/e-time-utils.h>
+#include <libedataserver/e-data-server-util.h>
 #include <e-util/e-util.h>
 #include <libecal/e-cal-time-util.h>
 

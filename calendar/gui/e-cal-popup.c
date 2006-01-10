@@ -33,6 +33,7 @@
 #include <libgnomevfs/gnome-vfs-mime.h>
 
 #include "e-cal-popup.h"
+#include <libedataserver/e-data-server-util.h>
 #include <libedataserverui/e-source-selector.h>
 
 #include <camel/camel-mime-part.h>

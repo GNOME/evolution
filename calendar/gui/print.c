@@ -45,6 +45,7 @@
 #include <libgnomeprintui/gnome-print-preview.h>
 #include <libgnomeprintui/gnome-print-dialog.h>
 #include <libedataserver/e-time-utils.h>
+#include <libedataserver/e-data-server-util.h>
 #include <e-util/e-util.h>
 #include <e-util/e-dialog-widgets.h>
 #include <e-util/e-print.h>

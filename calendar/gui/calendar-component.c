@@ -31,6 +31,7 @@
 #include <bonobo/bonobo-i18n.h>
 #include <bonobo/bonobo-exception.h>
 #include <libical/icalvcal.h>
+#include <libedataserver/e-data-server-util.h>
 #include <libedataserver/e-url.h>
 #include <libecal/e-cal-time-util.h>
 #include <libedataserverui/e-source-selector.h>
@@ -1627,7 +1628,7 @@ calendar_component_peek (void)
 	if (component == NULL) {
 		component = g_object_new (calendar_component_get_type (), NULL);
 
-		if (e_mkdir_hier (calendar_component_peek_config_directory (component), 0777) != 0) {
+		if (e_util_mkdir_hier (calendar_component_peek_config_directory (component), 0777) != 0) {
 			g_warning (G_STRLOC ": Cannot create directory %s: %s",
 				   calendar_component_peek_config_directory (component),
 				   g_strerror (errno));
