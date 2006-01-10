@@ -7,7 +7,7 @@
 # Copyright (C) 2004 THE evolution'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the evolution package.
 # Punjab Linux Technology <punjablinux@netscape.net>, 2004.
-# Amanpreet Singh Alam <aalam@redhat.com>, 2004.
+# Amanpreet Singh Alam <aalam@redhat.com>, 2004, 2006.
 # Amanpreet Singh Alam <amanpreetalam@yahoo.com>, 2005.
 # Amanpreet Singh Brar <amanpreetsinghalam@redhat.com>, 2005.
 # Amanpreet Singh Brar <amanpreetalam@yahoo.com>, 2005.
@@ -16,9 +16,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.gnome-2-12\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-12-26 04:21+0100\n"
-"PO-Revision-Date: 2005-12-26 10:15+0530\n"
-"Last-Translator: Amanpreet Singh Alam <amanpreetalam@yahoo.com>\n"
+"POT-Creation-Date: 2006-01-10 04:24+0100\n"
+"PO-Revision-Date: 2006-01-10 15:57+0530\n"
+"Last-Translator: Amanpreet Singh Alam <aalam@redhat.com>\n"
 "Language-Team: Punjabi <fedora-trans-pa@redhat.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -629,7 +629,7 @@ msgid "Create a new contact list"
 msgstr "ਨਵੀ ਸੰਪਰਕ ਸੂਚੀ ਬਣਾਉ"
 
 #: ../addressbook/gui/component/addressbook-component.c:241
-#: ../addressbook/gui/component/addressbook-config.c:1118
+#: ../addressbook/gui/component/addressbook-config.c:1120
 #: ../addressbook/gui/component/addressbook-view.c:763
 msgid "New Address Book"
 msgstr "ਨਵੀ ਸਿਰਨਾਵਾਂ ਕਿਤਾਬ"
@@ -660,7 +660,7 @@ msgstr "ਕਿਸਮ(_T):"
 msgid "Copy book content locally for offline operation"
 msgstr "ਬੰਦ ਕਾਰਵਾਈ ਦੌਰਾਨ ਕਿਤਾਬ ਭਾਗ ਨਕਲ ਕਰੋ"
 
-#: ../addressbook/gui/component/addressbook-config.c:902
+#: ../addressbook/gui/component/addressbook-config.c:904
 #: ../addressbook/gui/component/ldap-config.glade.h:23
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:25
 #: ../calendar/gui/dialogs/calendar-setup.c:366
@@ -670,34 +670,34 @@ msgstr "ਬੰਦ ਕਾਰਵਾਈ ਦੌਰਾਨ ਕਿਤਾਬ ਭਾਗ �
 msgid "General"
 msgstr "ਸਧਾਰਨ"
 
-#: ../addressbook/gui/component/addressbook-config.c:903
+#: ../addressbook/gui/component/addressbook-config.c:905
 #: ../mail/importers/pine-importer.c:393
 msgid "Addressbook"
 msgstr "ਸਿਰਨਾਵਾਂ-ਕਿਤਾਬ"
 
-#: ../addressbook/gui/component/addressbook-config.c:907
+#: ../addressbook/gui/component/addressbook-config.c:909
 msgid "Server Information"
 msgstr "ਸਰਵਰ ਜਾਣਕਾਰੀ"
 
-#: ../addressbook/gui/component/addressbook-config.c:909
+#: ../addressbook/gui/component/addressbook-config.c:911
 msgid "Authentication"
 msgstr "ਪ੍ਰਮਾਣਿਕਤਾ"
 
-#: ../addressbook/gui/component/addressbook-config.c:912
+#: ../addressbook/gui/component/addressbook-config.c:914
 #: ../addressbook/gui/component/ldap-config.glade.h:18
 #: ../mail/mail-dialogs.glade.h:7 ../smime/gui/smime-ui.glade.h:20
 msgid "Details"
 msgstr "ਵੇਰਵਾ"
 
-#: ../addressbook/gui/component/addressbook-config.c:913
+#: ../addressbook/gui/component/addressbook-config.c:915
 msgid "Searching"
 msgstr "ਖੋਜ ਜਾਰੀ ਹੈ"
 
-#: ../addressbook/gui/component/addressbook-config.c:915
+#: ../addressbook/gui/component/addressbook-config.c:917
 msgid "Downloading"
 msgstr "ਡਾਊਨਲੋਡ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ"
 
-#: ../addressbook/gui/component/addressbook-config.c:1116
+#: ../addressbook/gui/component/addressbook-config.c:1118
 #: ../addressbook/gui/component/ldap-config.glade.h:14
 msgid "Address Book Properties"
 msgstr "ਸਿਰਨਾਵਾਂ ਕਿਤਾਬ ਵਿਸ਼ੇਸਤਾਵਾਂ"
@@ -3755,7 +3755,7 @@ msgstr "ਛਾਂ"
 
 #. FIXME: Take care of i18n
 #: ../addressbook/printing/e-contact-print.glade.h:36
-#: ../plugins/exchange-operations/exchange-account-setup.c:939
+#: ../plugins/exchange-operations/exchange-account-setup.c:945
 #: ../plugins/exchange-operations/exchange-calendar.c:214
 #: ../plugins/exchange-operations/exchange-contacts.c:186
 msgid "Size:"
@@ -6506,7 +6506,7 @@ msgstr "ਮਿਆਦ:"
 #. Status
 #: ../calendar/gui/e-cal-component-preview.c:222
 #: ../calendar/gui/e-itip-control.c:1134
-#: ../plugins/exchange-operations/exchange-account-setup.c:265
+#: ../plugins/exchange-operations/exchange-account-setup.c:267
 #: ../plugins/itip-formatter/itip-view.c:909
 msgid "Status:"
 msgstr "ਸਥਿਤੀ:"
@@ -10562,24 +10562,24 @@ msgstr "ਮੂਲ"
 
 #. Security settings
 #: ../mail/em-account-editor.c:2226 ../mail/mail-config.glade.h:122
-#: ../plugins/exchange-operations/exchange-account-setup.c:313
+#: ../plugins/exchange-operations/exchange-account-setup.c:315
 msgid "Security"
 msgstr "ਸੁਰੱਖਿਆ"
 
 #. Most sections for this is auto-generated fromt the camel config
-#: ../mail/em-account-editor.c:2263 ../mail/em-account-editor.c:2337
+#: ../mail/em-account-editor.c:2263 ../mail/em-account-editor.c:2338
 msgid "Receiving Options"
 msgstr "ਪ੍ਰਾਪਤੀ ਚੋਣ"
 
-#: ../mail/em-account-editor.c:2264 ../mail/em-account-editor.c:2338
+#: ../mail/em-account-editor.c:2264 ../mail/em-account-editor.c:2339
 msgid "Checking for New Mail"
 msgstr "ਨਵਾਂ ਪੱਤਰ ਲਈ ਜਾਂਚ ਜਾਰੀ"
 
-#: ../mail/em-account-editor.c:2661 ../mail/mail-config.glade.h:34
+#: ../mail/em-account-editor.c:2677 ../mail/mail-config.glade.h:34
 msgid "Account Editor"
 msgstr "ਖਾਤਾ ਸੰਪਾਦਕ"
 
-#: ../mail/em-account-editor.c:2661 ../mail/mail-config.glade.h:80
+#: ../mail/em-account-editor.c:2677 ../mail/mail-config.glade.h:80
 msgid "Evolution Account Assistant"
 msgstr "ਈਵੇਲੂਸ਼ਨ ਖਾਤਾ ਸਹਾਇਕ"
 
@@ -10919,7 +10919,7 @@ msgid_plural "Unread messages:"
 msgstr[0] "ਨਾ ਪੜਿਆ ਸੁਨੇਹਾ:"
 msgstr[1] "ਨਾ ਪੜਿਆ ਸੁਨੇਹੇ:"
 
-#: ../mail/em-folder-properties.c:278
+#: ../mail/em-folder-properties.c:287
 #: ../plugins/groupwise-features/properties.glade.h:3
 msgid "Folder Properties"
 msgstr "ਫੋਲਡਰ ਵਿਸ਼ੇਸਤਾ"
@@ -14366,11 +14366,11 @@ msgid ""
 "password authentication."
 msgstr "ਇਹ ਚੋਣ ਤੁਹਾਨੂੰ ਐਕਸ਼ਚੇਜ਼ ਸਰਵਰ ਨਾਲ ਸਧਾਰਨ ਗੁਪਤ-ਕੋਡ ਪ੍ਰਮਾਣਕਿਤਾ ਨਾਲ ਜੋੜੇਗੀ।"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:253
+#: ../plugins/exchange-operations/exchange-account-setup.c:255
 msgid "Out Of Office"
 msgstr "ਦਫਤਰੋਂ ਬਾਹਰ"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:260
+#: ../plugins/exchange-operations/exchange-account-setup.c:262
 msgid ""
 "The message specified below will be automatically sent to \n"
 "each person who sends mail to you while you are out of the office."
@@ -14378,66 +14378,66 @@ msgstr ""
 "ਹੇਠਾਂ ਨਿਰਧਾਰਿਤ ਕੀਤਾ ਸੁਨੇਹਾ ਸਵੈ-ਚਾਲਿਤ ਹੀ ਉਹਨਾਂ ਸਾਰੇ ਪੱਤਰ ਭੇਜਣ ਵਾਲਿਆਂ ਨੂੰ ਭੇਜ ਦਿੱਤਾ\n"
 "ਜਾਵੇਗਾ, ਜੋ ਕਿ ਤੁਹਾਡੇ ਦਫਤਰੋਂ ਬਾਹਰ ਹੋਣ ਦੀ ਸੂਰਤ ਵਿੱਚ ਪੱਤਰ ਭੇਜਣ।"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:272
-#: ../plugins/exchange-operations/exchange-account-setup.c:277
+#: ../plugins/exchange-operations/exchange-account-setup.c:274
+#: ../plugins/exchange-operations/exchange-account-setup.c:279
 msgid "I am out of the office"
 msgstr "ਮੈਂ ਦਫ਼ਤਰ ਤੋਂ ਬਾਹਰ ਹਾਂ"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:273
-#: ../plugins/exchange-operations/exchange-account-setup.c:276
+#: ../plugins/exchange-operations/exchange-account-setup.c:275
+#: ../plugins/exchange-operations/exchange-account-setup.c:278
 msgid "I am in the office"
 msgstr "ਮੈਂ ਦਫ਼ਤਰ ਵਿੱਚ ਹਾਂ"
 
 #. Change Password
-#: ../plugins/exchange-operations/exchange-account-setup.c:324
+#: ../plugins/exchange-operations/exchange-account-setup.c:326
 msgid "Change the password for Exchange account"
 msgstr "ਐਕਸ਼ਚੇਜ਼ ਖਾਤੇ ਲਈ ਗੁਪਤ-ਕੋਡ ਤਬਦੀਲ"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:326
+#: ../plugins/exchange-operations/exchange-account-setup.c:328
 #: ../plugins/exchange-operations/exchange-change-password.glade.h:2
 msgid "Change Password"
 msgstr "ਗੁਪਤ-ਕੋਡ ਤਬਦੀਲ"
 
 #. Delegation Assistant
-#: ../plugins/exchange-operations/exchange-account-setup.c:331
+#: ../plugins/exchange-operations/exchange-account-setup.c:333
 msgid "Manage the delegate settings for Exchange account"
 msgstr "ਐਕਸਚੇਜ਼ ਖਾਤੇ ਲਈ ਪਰਤੀਨਿਧ ਵਿਵਸਥਾ ਪਰਬੰਧਨ"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:333
+#: ../plugins/exchange-operations/exchange-account-setup.c:335
 msgid "Delegation Assitant"
 msgstr "ਪਰਤੀਨਿਧ ਸਹਾਇਕ"
 
 #. Miscelleneous settings
-#: ../plugins/exchange-operations/exchange-account-setup.c:345
+#: ../plugins/exchange-operations/exchange-account-setup.c:347
 msgid "Miscelleneous"
 msgstr "ਫੁਟਕਲ"
 
 #. Folder Size
-#: ../plugins/exchange-operations/exchange-account-setup.c:355
+#: ../plugins/exchange-operations/exchange-account-setup.c:357
 msgid "View the size of all Exchange folders"
 msgstr "ਸਭ ਐਕਸ਼ਚੇਜ਼ ਫੋਲਡਰਾਂ ਦਾ ਅਕਾਰ ਵੇਖਾਓ"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:357
+#: ../plugins/exchange-operations/exchange-account-setup.c:359
 msgid "Folders Size"
 msgstr "ਫੋਲਡਰ ਅਕਾਰ"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:364
+#: ../plugins/exchange-operations/exchange-account-setup.c:366
 msgid "Exchange Settings"
 msgstr "ਐਕਸ਼ਚੇਜ਼ ਵਿਵਸਥਾ"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:611
+#: ../plugins/exchange-operations/exchange-account-setup.c:615
 msgid "_OWA Url:"
 msgstr "_OWA Url:"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:636
+#: ../plugins/exchange-operations/exchange-account-setup.c:641
 msgid "A_uthenticate"
 msgstr "ਪ੍ਰਮਾਣਕਿਤਾ(_u)"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:823
+#: ../plugins/exchange-operations/exchange-account-setup.c:829
 msgid "Authentication Type"
 msgstr "ਪ੍ਰਮਾਣਕਿਤਾ ਕਿਸਮ"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:837
+#: ../plugins/exchange-operations/exchange-account-setup.c:843
 msgid "Ch_eck for Supported Types"
 msgstr "ਸਹਾਇਕ ਕਿਸਮ ਲਈ ਜਾਂਚ(_e)"
 
@@ -14593,19 +14593,19 @@ msgid "Exchange Folder Tree"
 msgstr "ਐਕਸ਼ਚੇਜ਼ ਫੋਲਡਰ ਲੜੀ"
 
 #: ../plugins/exchange-operations/exchange-folder.c:62
-#: ../plugins/exchange-operations/exchange-folder.c:223
-#: ../plugins/exchange-operations/exchange-folder.c:233
+#: ../plugins/exchange-operations/exchange-folder.c:225
+#: ../plugins/exchange-operations/exchange-folder.c:235
 msgid "Unsubscribe Folder..."
 msgstr "ਫੋਲਡਰ ਲਈ ਮੈਂਬਰ ਹਟਾਓ..."
 
-#: ../plugins/exchange-operations/exchange-folder.c:460
-#: ../plugins/exchange-operations/exchange-folder.c:520
+#: ../plugins/exchange-operations/exchange-folder.c:462
+#: ../plugins/exchange-operations/exchange-folder.c:522
 #, c-format
 msgid "Really unsubscribe from folder \"%s\"?"
 msgstr "ਕੀ ਫੋਲਡਰ \"%s\" ਲਈ ਮੈਂਬਰੀ ਹਟਾਉਣੀ ਹੈ?"
 
-#: ../plugins/exchange-operations/exchange-folder.c:472
-#: ../plugins/exchange-operations/exchange-folder.c:532
+#: ../plugins/exchange-operations/exchange-folder.c:474
+#: ../plugins/exchange-operations/exchange-folder.c:534
 #, c-format
 msgid "Unsubscribe from \"%s\""
 msgstr "\"%s\" ਲਈ ਮੈਂਬਰੀ ਹਟਾਓ"
@@ -15222,6 +15222,43 @@ msgstr "ਸਾਂਝ"
 msgid "Track Message Status..."
 msgstr "ਸੁਨੇਹਾ ਹਾਲਤ ਟਰੈਕ..."
 
+#: ../plugins/itip-formatter/itip-formatter.c:275
+#: ../plugins/itip-formatter/itip-formatter.c:392
+#, c-format
+msgid "Failed to load the calendar '%s'"
+msgstr "'%s' ਕੈਲੰਡਰ ਲੋਡ ਕਰਨ ਲਈ ਅਸਮਰੱਥ"
+
+#: ../plugins/itip-formatter/itip-formatter.c:407
+#, c-format
+msgid "An appointment in the calendar '%s' conflicts with this meeting"
+msgstr "ਕੈਲੰਡਰ '%s' ਵਿੱਚ ਇੱਕ ਮੁਲਾਕਾਤ ਇਹ ਮੀਟਿੰਗ ਨਾਲ ਟਕਰਾਉਦੀ ਹੈ।"
+
+#: ../plugins/itip-formatter/itip-formatter.c:433
+#, c-format
+msgid "Found the appointment in the calendar '%s'"
+msgstr "ਕੈਲੰਡਰ '%s' ਵਿੱਚ ਮੁਲਾਕਾਤ ਮਿਲੀ"
+
+#  FIXME: domain/code
+#: ../plugins/itip-formatter/itip-formatter.c:487
+msgid "Unable to find any calendars"
+msgstr "ਕੋਈ ਕੈਲੰਡਰ ਲੱਭਣ ਲਈ ਅਸਮਰੱਥ"
+
+#: ../plugins/itip-formatter/itip-formatter.c:494
+msgid "Unable to find this meeting in any calendar"
+msgstr "ਕਿਸੇ ਵੀ ਕੈਲੰਡਰ ਵਿੱਚ ਇਹ ਮੀਟਿੰਗ ਲੱਭਣ ਲਈ ਅਸਮਰੱਥ"
+
+#: ../plugins/itip-formatter/itip-formatter.c:498
+msgid "Unable to find this task in any task list"
+msgstr "ਕਿਸੇ ਕੰਮ ਸੂਚੀ ਵਿੱਚ ਇਹ ਕੰਮ ਲੱਭਣ ਲਈ ਅਸਮਰੱਥ"
+
+#: ../plugins/itip-formatter/itip-formatter.c:502
+msgid "Unable to find this journal entry in any journal"
+msgstr "ਕਿਸੇ ਜਰਨਲ ਵਿੱਚ ਇਹ ਜਰਨਲ ਇੰਦਰਾਜ਼ ਲੱਭਣ ਲਈ ਅਸਫ਼ਲ"
+
+#: ../plugins/itip-formatter/itip-formatter.c:528
+msgid "Searching for an existing version of this appointment"
+msgstr "ਇਹ ਮੁਲਾਕਾਤ ਦੇ ਮੌਜੂਦਾ ਵਰਜਨ ਲਈ ਖੋਜ ਜਾਰੀ ਹੈ"
+
 #: ../plugins/itip-formatter/itip-formatter.c:724
 msgid "Unable to parse item"
 msgstr "ਇਕਾਈ ਪਾਰਸ ਕਰਨ ਤੋਂ ਅਸਫਲ"
@@ -15619,6 +15656,60 @@ msgstr "<b>%s</b> ਨੇ %s ਅੱਗੇ ਦਿੱਤੇ ਕੰਮ ਤੋਂ ਇ
 #, c-format
 msgid "<b>%s</b> has declined the following assigned task:"
 msgstr "<b>%s</b> ਨੇ ਅੱਗੇ ਦਿੱਤੇ ਜਾਰੀ ਕੰਮ ਤੋਂ ਇਨਕਾਰ ਕਰ ਦਿੱਤਾ ਹੈ:"
+
+#. Everything gets the open button
+#: ../plugins/itip-formatter/itip-view.c:705
+msgid "_Open Calendar"
+msgstr "ਕੈਲੰਡਰ ਖੋਲ੍ਹੋ(_O)"
+
+#. FIXME Is this really the right button?
+#: ../plugins/itip-formatter/itip-view.c:710
+#: ../plugins/itip-formatter/itip-view.c:715
+#: ../plugins/itip-formatter/itip-view.c:720
+#: ../plugins/itip-formatter/itip-view.c:736
+#: ../plugins/itip-formatter/itip-view.c:741
+msgid "_Accept"
+msgstr "ਮਨਜ਼ੂਰ(_A)"
+
+#: ../plugins/itip-formatter/itip-view.c:713
+msgid "_Decline all"
+msgstr "ਸਭ ਲਈ ਇਨਕਾਰ(_D)"
+
+#: ../plugins/itip-formatter/itip-view.c:713
+#: ../plugins/itip-formatter/itip-view.c:718
+#: ../plugins/itip-formatter/itip-view.c:734
+#: ../plugins/itip-formatter/itip-view.c:739
+msgid "_Decline"
+msgstr "ਇਨਕਾਰ(_D)"
+
+#: ../plugins/itip-formatter/itip-view.c:714
+msgid "_Tentative all"
+msgstr "ਸਭ ਆਰਜ਼ੀ(_T)"
+
+#: ../plugins/itip-formatter/itip-view.c:714
+#: ../plugins/itip-formatter/itip-view.c:719
+#: ../plugins/itip-formatter/itip-view.c:735
+#: ../plugins/itip-formatter/itip-view.c:740
+msgid "_Tentative"
+msgstr "ਆਰਜ਼ੀ(_T)"
+
+#: ../plugins/itip-formatter/itip-view.c:715
+msgid "_Accept all"
+msgstr "ਸਭ ਮਨਜ਼ੂਰ(_A)"
+
+#. FIXME Is this really the right button?
+#: ../plugins/itip-formatter/itip-view.c:724
+msgid "_Send Information"
+msgstr "ਜਾਣਕਾਰੀ ਭੇਜੋ(_S)"
+
+#. FIXME Is this really the right button?
+#: ../plugins/itip-formatter/itip-view.c:728
+msgid "_Update Attendee Status"
+msgstr "ਦਰਸ਼ਕਾਂ ਹਾਲਤ ਅੱਪਡੇਟ(_U)"
+
+#: ../plugins/itip-formatter/itip-view.c:731
+msgid "_Update"
+msgstr "ਅੱਪਡੇਟ(_U)"
 
 #. Start time
 #: ../plugins/itip-formatter/itip-view.c:892
@@ -16484,12 +16575,12 @@ msgstr "ਬੱਗ-ਬੱਡੀ ਨੂੰ ਚਲਾਇਆ ਨਹੀਂ ਜਾ ਸ
 #: ../shell/e-shell-window-commands.c:532
 msgid "translator-credits"
 msgstr ""
-"ਅਮਨਪ੍ਰੀਤ ਸਿੰਘ ਆਲਮ (amanpreetalam@yahoo.com)\n"
-"ਪੰਜਾਬ ਲੀਨਕਸ ਤਕਨਾਲੋਜੀ (http://punlinux.sf.net)"
+"ਅਮਨਪਰੀਤ ਸਿੰਘ ਆਲਮ <aalam@redhat.com>\n"
+"ਪੰਜਾਬੀ ਓਪਨ ਸਰੋਤ ਟੀਮ"
 
 #: ../shell/e-shell-window-commands.c:546
 msgid "Groupware Suite"
-msgstr "ਸਮੂਹਿਕ ਸਰੂਪ"
+msgstr "ਗਰੁੱਪਵੇਅਰ ਸਰੂਪ"
 
 #: ../shell/e-shell-window-commands.c:774
 msgid "_Work Online"
@@ -16701,8 +16792,8 @@ msgid ""
 "Forgetting your passwords will clear all remembered passwords. You will be "
 "reprompted next time they are needed."
 msgstr ""
-"ਤੁਹਾਡੇ ਗੁਪਤ-ਕੋਡ ਭੁੱਲਣ ਨਾਲ ਸਭ ਗੁਪਤ-ਕੋਡਾਂ ਨੂੰ ਸਾਫ਼ ਕਰ ਦਿੱਤਾ ਜਾਵੇਗਾ। ਤੁਹਾਨੂੰ ਅਗਲੀ ਵਾਰ ਲੋੜ "
-"ਪੈਣ ਉੱਤੇ ਮੁੜ-ਪੁੱਛਿਆ ਜਾਵੇਗਾ।"
+"ਤੁਹਾਡੇ ਗੁਪਤ-ਕੋਡ ਭੁੱਲਣ ਨਾਲ ਸਭ ਗੁਪਤ-ਕੋਡਾਂ ਨੂੰ ਸਾਫ਼ ਕਰ ਦਿੱਤਾ ਜਾਵੇਗਾ। ਤੁਹਾਨੂੰ ਅਗਲੀ ਵਾਰ ਲੋੜ ਪੈਣ ਉੱਤੇ "
+"ਮੁੜ-ਪੁੱਛਿਆ ਜਾਵੇਗਾ।"
 
 #  shell:upgrade-nospace primary
 #: ../shell/shell.error.xml.h:7
