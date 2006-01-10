@@ -34,6 +34,7 @@
 #include <camel/camel-medium.h>
 #include <camel/camel-mime-message.h>
 #include <libedataserver/e-time-utils.h>
+#include <libedataserver/e-data-server-util.h>
 #include <libedataserverui/e-source-option-menu.h>
 #include <libecal/e-cal.h>
 #include <libecal/e-cal-time-util.h>

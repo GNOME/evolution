@@ -1,3 +1,9 @@
+2006-01-10  Simon Zheng  <simon.zheng@sun.com>
+
+	* itip-view.c: use e_utf8_strftime() in evolution-data-server/
+        libedataserver/e-data-server-util.c instead of the copy in 
+        evolution/e-util/e-util.c.
+
 2006-01-06  Andre Klapper <a9016009@gmx.de>
 
 	* evolution/plugins/itip-formatter/itip-formatter.c:
