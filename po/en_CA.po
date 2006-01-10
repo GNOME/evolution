@@ -1,14 +1,14 @@
 # Canadian English translation of evolution
-# Copyright (C) 2004-2005 Adam Weinberger and the GNOME Foundation
+# Copyright (C) 2004-2006 Adam Weinberger and the GNOME Foundation
 # This file is distributed under the same licence as the evolution package.
-# Adam Weinberger <adamw@gnome.org>, 2004, 2005.
+# Adam Weinberger <adamw@gnome.org>, 2004, 2005, 2006.
 #
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-12-23 15:48-0500\n"
+"POT-Creation-Date: 2006-01-09 21:49-0500\n"
 "PO-Revision-Date: 2005-08-21 19:18-0400\n"
 "Last-Translator: Adam Weinberger <adamw@gnome.org>\n"
 "Language-Team: Canadian English <adamw@gnome.org>\n"
@@ -614,7 +614,7 @@ msgid "Create a new contact list"
 msgstr "Create a new contact list"
 
 #: ../addressbook/gui/component/addressbook-component.c:241
-#: ../addressbook/gui/component/addressbook-config.c:1118
+#: ../addressbook/gui/component/addressbook-config.c:1120
 #: ../addressbook/gui/component/addressbook-view.c:763
 msgid "New Address Book"
 msgstr "New Address Book"
@@ -645,7 +645,7 @@ msgstr "_Type:"
 msgid "Copy book content locally for offline operation"
 msgstr "Copy book content locally for offline operation"
 
-#: ../addressbook/gui/component/addressbook-config.c:902
+#: ../addressbook/gui/component/addressbook-config.c:904
 #: ../addressbook/gui/component/ldap-config.glade.h:23
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:25
 #: ../calendar/gui/dialogs/calendar-setup.c:366
@@ -655,34 +655,34 @@ msgstr "Copy book content locally for offline operation"
 msgid "General"
 msgstr "General"
 
-#: ../addressbook/gui/component/addressbook-config.c:903
+#: ../addressbook/gui/component/addressbook-config.c:905
 #: ../mail/importers/pine-importer.c:393
 msgid "Addressbook"
 msgstr "Addressbook"
 
-#: ../addressbook/gui/component/addressbook-config.c:907
+#: ../addressbook/gui/component/addressbook-config.c:909
 msgid "Server Information"
 msgstr "Server Information"
 
-#: ../addressbook/gui/component/addressbook-config.c:909
+#: ../addressbook/gui/component/addressbook-config.c:911
 msgid "Authentication"
 msgstr "Authentication"
 
-#: ../addressbook/gui/component/addressbook-config.c:912
+#: ../addressbook/gui/component/addressbook-config.c:914
 #: ../addressbook/gui/component/ldap-config.glade.h:18
 #: ../mail/mail-dialogs.glade.h:7 ../smime/gui/smime-ui.glade.h:20
 msgid "Details"
 msgstr "Details"
 
-#: ../addressbook/gui/component/addressbook-config.c:913
+#: ../addressbook/gui/component/addressbook-config.c:915
 msgid "Searching"
 msgstr "Searching"
 
-#: ../addressbook/gui/component/addressbook-config.c:915
+#: ../addressbook/gui/component/addressbook-config.c:917
 msgid "Downloading"
 msgstr "Downloading"
 
-#: ../addressbook/gui/component/addressbook-config.c:1116
+#: ../addressbook/gui/component/addressbook-config.c:1118
 #: ../addressbook/gui/component/ldap-config.glade.h:14
 msgid "Address Book Properties"
 msgstr "Address Book Properties"
@@ -3753,7 +3753,7 @@ msgstr "Shading"
 
 #. FIXME: Take care of i18n
 #: ../addressbook/printing/e-contact-print.glade.h:36
-#: ../plugins/exchange-operations/exchange-account-setup.c:939
+#: ../plugins/exchange-operations/exchange-account-setup.c:945
 #: ../plugins/exchange-operations/exchange-calendar.c:214
 #: ../plugins/exchange-operations/exchange-contacts.c:186
 msgid "Size:"
@@ -6541,7 +6541,7 @@ msgstr "Due Date:"
 #. Status
 #: ../calendar/gui/e-cal-component-preview.c:222
 #: ../calendar/gui/e-itip-control.c:1134
-#: ../plugins/exchange-operations/exchange-account-setup.c:265
+#: ../plugins/exchange-operations/exchange-account-setup.c:267
 #: ../plugins/itip-formatter/itip-view.c:909
 msgid "Status:"
 msgstr "Status:"
@@ -10588,24 +10588,24 @@ msgstr "Defaults"
 
 #. Security settings
 #: ../mail/em-account-editor.c:2226 ../mail/mail-config.glade.h:122
-#: ../plugins/exchange-operations/exchange-account-setup.c:313
+#: ../plugins/exchange-operations/exchange-account-setup.c:315
 msgid "Security"
 msgstr "Security"
 
 #. Most sections for this is auto-generated fromt the camel config
-#: ../mail/em-account-editor.c:2263 ../mail/em-account-editor.c:2337
+#: ../mail/em-account-editor.c:2263 ../mail/em-account-editor.c:2338
 msgid "Receiving Options"
 msgstr "Receiving Options"
 
-#: ../mail/em-account-editor.c:2264 ../mail/em-account-editor.c:2338
+#: ../mail/em-account-editor.c:2264 ../mail/em-account-editor.c:2339
 msgid "Checking for New Mail"
 msgstr "Checking for New Mail"
 
-#: ../mail/em-account-editor.c:2661 ../mail/mail-config.glade.h:34
+#: ../mail/em-account-editor.c:2677 ../mail/mail-config.glade.h:34
 msgid "Account Editor"
 msgstr "Account Editor"
 
-#: ../mail/em-account-editor.c:2661 ../mail/mail-config.glade.h:80
+#: ../mail/em-account-editor.c:2677 ../mail/mail-config.glade.h:80
 msgid "Evolution Account Assistant"
 msgstr "Evolution Account Assistant"
 
@@ -10944,7 +10944,7 @@ msgid_plural "Unread messages:"
 msgstr[0] "Unread message:"
 msgstr[1] "Unread messages:"
 
-#: ../mail/em-folder-properties.c:278
+#: ../mail/em-folder-properties.c:287
 #: ../plugins/groupwise-features/properties.glade.h:3
 msgid "Folder Properties"
 msgstr "Folder Properties"
@@ -14429,11 +14429,11 @@ msgstr ""
 "This option will connect to the Exchange server using standard plaintext "
 "password authentication."
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:253
+#: ../plugins/exchange-operations/exchange-account-setup.c:255
 msgid "Out Of Office"
 msgstr "Out Of Office"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:260
+#: ../plugins/exchange-operations/exchange-account-setup.c:262
 msgid ""
 "The message specified below will be automatically sent to \n"
 "each person who sends mail to you while you are out of the office."
@@ -14441,66 +14441,66 @@ msgstr ""
 "The message specified below will be automatically sent to \n"
 "each person who sends mail to you while you are out of the office."
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:272
-#: ../plugins/exchange-operations/exchange-account-setup.c:277
+#: ../plugins/exchange-operations/exchange-account-setup.c:274
+#: ../plugins/exchange-operations/exchange-account-setup.c:279
 msgid "I am out of the office"
 msgstr "I am out of the office"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:273
-#: ../plugins/exchange-operations/exchange-account-setup.c:276
+#: ../plugins/exchange-operations/exchange-account-setup.c:275
+#: ../plugins/exchange-operations/exchange-account-setup.c:278
 msgid "I am in the office"
 msgstr "I am in the office"
 
 #. Change Password
-#: ../plugins/exchange-operations/exchange-account-setup.c:324
+#: ../plugins/exchange-operations/exchange-account-setup.c:326
 msgid "Change the password for Exchange account"
 msgstr "Change the password for Exchange account"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:326
+#: ../plugins/exchange-operations/exchange-account-setup.c:328
 #: ../plugins/exchange-operations/exchange-change-password.glade.h:2
 msgid "Change Password"
 msgstr "Change Password"
 
 #. Delegation Assistant
-#: ../plugins/exchange-operations/exchange-account-setup.c:331
+#: ../plugins/exchange-operations/exchange-account-setup.c:333
 msgid "Manage the delegate settings for Exchange account"
 msgstr "Manage the delegate settings for Exchange account"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:333
+#: ../plugins/exchange-operations/exchange-account-setup.c:335
 msgid "Delegation Assitant"
 msgstr "Delegation Assitant"
 
 #. Miscelleneous settings
-#: ../plugins/exchange-operations/exchange-account-setup.c:345
+#: ../plugins/exchange-operations/exchange-account-setup.c:347
 msgid "Miscelleneous"
 msgstr "Miscelleneous"
 
 #. Folder Size
-#: ../plugins/exchange-operations/exchange-account-setup.c:355
+#: ../plugins/exchange-operations/exchange-account-setup.c:357
 msgid "View the size of all Exchange folders"
 msgstr "View the size of all Exchange folders"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:357
+#: ../plugins/exchange-operations/exchange-account-setup.c:359
 msgid "Folders Size"
 msgstr "Folders Size"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:364
+#: ../plugins/exchange-operations/exchange-account-setup.c:366
 msgid "Exchange Settings"
 msgstr "Exchange Settings"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:611
+#: ../plugins/exchange-operations/exchange-account-setup.c:615
 msgid "_OWA Url:"
 msgstr "_OWA URL:"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:636
+#: ../plugins/exchange-operations/exchange-account-setup.c:641
 msgid "A_uthenticate"
 msgstr "A_uthenticate"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:823
+#: ../plugins/exchange-operations/exchange-account-setup.c:829
 msgid "Authentication Type"
 msgstr "Authentication Type"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:837
+#: ../plugins/exchange-operations/exchange-account-setup.c:843
 msgid "Ch_eck for Supported Types"
 msgstr "Ch_eck for Supported Types"
 
@@ -14656,19 +14656,19 @@ msgid "Exchange Folder Tree"
 msgstr "Exchange Folder Tree"
 
 #: ../plugins/exchange-operations/exchange-folder.c:62
-#: ../plugins/exchange-operations/exchange-folder.c:223
-#: ../plugins/exchange-operations/exchange-folder.c:233
+#: ../plugins/exchange-operations/exchange-folder.c:225
+#: ../plugins/exchange-operations/exchange-folder.c:235
 msgid "Unsubscribe Folder..."
 msgstr "Unsubscribe Folder..."
 
-#: ../plugins/exchange-operations/exchange-folder.c:460
-#: ../plugins/exchange-operations/exchange-folder.c:520
+#: ../plugins/exchange-operations/exchange-folder.c:462
+#: ../plugins/exchange-operations/exchange-folder.c:522
 #, c-format
 msgid "Really unsubscribe from folder \"%s\"?"
 msgstr "Really unsubscribe from folder \"%s\"?"
 
-#: ../plugins/exchange-operations/exchange-folder.c:472
-#: ../plugins/exchange-operations/exchange-folder.c:532
+#: ../plugins/exchange-operations/exchange-folder.c:474
+#: ../plugins/exchange-operations/exchange-folder.c:534
 #, c-format
 msgid "Unsubscribe from \"%s\""
 msgstr "Unsubscribe from \"%s\""
@@ -15288,6 +15288,42 @@ msgstr "Sharing"
 msgid "Track Message Status..."
 msgstr "Track Message Status..."
 
+#: ../plugins/itip-formatter/itip-formatter.c:275
+#: ../plugins/itip-formatter/itip-formatter.c:392
+#, c-format
+msgid "Failed to load the calendar '%s'"
+msgstr "Failed to load the calendar '%s'"
+
+#: ../plugins/itip-formatter/itip-formatter.c:407
+#, c-format
+msgid "An appointment in the calendar '%s' conflicts with this meeting"
+msgstr "An appointment in the calendar '%s' conflicts with this meeting"
+
+#: ../plugins/itip-formatter/itip-formatter.c:433
+#, c-format
+msgid "Found the appointment in the calendar '%s'"
+msgstr "Found the appointment in the calendar '%s'"
+
+#: ../plugins/itip-formatter/itip-formatter.c:487
+msgid "Unable to find any calendars"
+msgstr "Unable to find any calendars"
+
+#: ../plugins/itip-formatter/itip-formatter.c:494
+msgid "Unable to find this meeting in any calendar"
+msgstr "Unable to find this meeting in any calendar"
+
+#: ../plugins/itip-formatter/itip-formatter.c:498
+msgid "Unable to find this task in any task list"
+msgstr "Unable to find this task in any task list"
+
+#: ../plugins/itip-formatter/itip-formatter.c:502
+msgid "Unable to find this journal entry in any journal"
+msgstr "Unable to find this journal entry in any journal"
+
+#: ../plugins/itip-formatter/itip-formatter.c:528
+msgid "Searching for an existing version of this appointment"
+msgstr "Searching for an existing version of this appointment"
+
 #: ../plugins/itip-formatter/itip-formatter.c:724
 msgid "Unable to parse item"
 msgstr "Unable to parse item"
@@ -15694,6 +15730,60 @@ msgstr "<b>%s</b> through %s has declined the following assigned task:"
 #, c-format
 msgid "<b>%s</b> has declined the following assigned task:"
 msgstr "<b>%s</b> has declined the following assigned task:"
+
+#. Everything gets the open button
+#: ../plugins/itip-formatter/itip-view.c:705
+msgid "_Open Calendar"
+msgstr "_Open Calendar"
+
+#. FIXME Is this really the right button?
+#: ../plugins/itip-formatter/itip-view.c:710
+#: ../plugins/itip-formatter/itip-view.c:715
+#: ../plugins/itip-formatter/itip-view.c:720
+#: ../plugins/itip-formatter/itip-view.c:736
+#: ../plugins/itip-formatter/itip-view.c:741
+msgid "_Accept"
+msgstr "_Accept"
+
+#: ../plugins/itip-formatter/itip-view.c:713
+msgid "_Decline all"
+msgstr "_Decline all"
+
+#: ../plugins/itip-formatter/itip-view.c:713
+#: ../plugins/itip-formatter/itip-view.c:718
+#: ../plugins/itip-formatter/itip-view.c:734
+#: ../plugins/itip-formatter/itip-view.c:739
+msgid "_Decline"
+msgstr "_Decline"
+
+#: ../plugins/itip-formatter/itip-view.c:714
+msgid "_Tentative all"
+msgstr "_Tentative all"
+
+#: ../plugins/itip-formatter/itip-view.c:714
+#: ../plugins/itip-formatter/itip-view.c:719
+#: ../plugins/itip-formatter/itip-view.c:735
+#: ../plugins/itip-formatter/itip-view.c:740
+msgid "_Tentative"
+msgstr "_Tentative"
+
+#: ../plugins/itip-formatter/itip-view.c:715
+msgid "_Accept all"
+msgstr "_Accept all"
+
+#. FIXME Is this really the right button?
+#: ../plugins/itip-formatter/itip-view.c:724
+msgid "_Send Information"
+msgstr "_Send Information"
+
+#. FIXME Is this really the right button?
+#: ../plugins/itip-formatter/itip-view.c:728
+msgid "_Update Attendee Status"
+msgstr "_Update Attendee Status"
+
+#: ../plugins/itip-formatter/itip-view.c:731
+msgid "_Update"
+msgstr "_Update"
 
 #. Start time
 #: ../plugins/itip-formatter/itip-view.c:892
