@@ -1,3 +1,8 @@
+2006-01-11  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	* org-gnome-publish-calendar.eplug.xml: Use the target and hook id
+	of calendar instead of shell.
+
 2006-01-04  Tor Lillqvist  <tml@novell.com>
 
 	* Makefile.am: Use EVOLUTION_PLUGINDIR as the macro name for the
