@@ -1,3 +1,12 @@
+2005-12-21 Rohini S <srohini@novell.com>
+
+	** See bug #246237
+
+	* e-msg-composer.c 
+	(create_composer):
+	(subject_changed_cb):
+	Modified to change window title to "Compose Message"
+
 2006-01-06  Simon Zheng <simon.zheng@sun.com>
 
 	* e-msg-composer-hdrs.h: use libedataserver/e-account.h 

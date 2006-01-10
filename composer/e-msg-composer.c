@@ -2494,7 +2494,7 @@ subject_changed_cb (EMsgComposerHdrs *hdrs,
 	
 	composer = E_MSG_COMPOSER (data);
 	
-	gtk_window_set_title (GTK_WINDOW (composer), subject[0] ? subject : _("Compose a message"));
+	gtk_window_set_title (GTK_WINDOW (composer), subject[0] ? subject : _("Compose Message"));
 }
 
 static void
@@ -3698,10 +3698,10 @@ create_composer (int visible_mask)
 	BonoboObject *impl;	
 	EMsgComposerPrivate *p;
 	
-	composer = g_object_new (E_TYPE_MSG_COMPOSER, "win_name", _("Compose a message"), NULL);
+	composer = g_object_new (E_TYPE_MSG_COMPOSER, "win_name", _("Compose Message"), NULL);
 	p = composer->priv;
 	
-	gtk_window_set_title ((GtkWindow *) composer, _("Compose a message"));
+	gtk_window_set_title ((GtkWindow *) composer, _("Compose Message"));
 	
 	all_composers = g_slist_prepend (all_composers, composer);
 	
