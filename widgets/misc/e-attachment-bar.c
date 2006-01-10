@@ -40,6 +40,7 @@
 #include "e-attachment-bar.h"
 
 #include <libedataserver/e-iconv.h>
+#include <libedataserver/e-data-server-util.h>
 
 #include <camel/camel-data-wrapper.h>
 #include <camel/camel-mime-message.h>

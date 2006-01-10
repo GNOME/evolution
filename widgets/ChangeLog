@@ -1,3 +1,25 @@
+2006-01-10  Simon Zheng  <simon.zheng@sun.com>
+
+	* menus/gal-view-instance.c:
+	* misc/e-attachment-bar.c:
+	* misc/e-calendar-item.c:
+	* misc/e-dateedit.c:
+	Use e_util_mkdir_hier() instead of e_mkdir_hier().
+
+        Use e_util_strstrcase() instead of e_strstrcasea().
+    
+        use e_strfime() in evolution-data-server/
+        libedataserver/e-data-server-util.c instead of the copy in 
+        evolution/e-util/e-util.c.
+ 
+ 	use e_filename_make_safe() in evolution-data-server/
+        libedataserver/e-data-server-util.c instead of the copy in 
+        evolution/e-util/e-util.c.
+        
+        use e_utf8_strftime() in evolution-data-server/
+        libedataserver/e-data-server-util.c instead of the copy in 
+        evolution/e-util/e-util.c.
+
 2005-12-30  Andre Klapper <a9016009@gmx.de>
 
 	* evolution/widgets/misc/e-url-entry.c:
