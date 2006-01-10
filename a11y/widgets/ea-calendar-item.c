@@ -30,7 +30,7 @@
 #include <glib/gdate.h>
 #include <e-util/e-util.h>
 #include <libgnome/gnome-i18n.h>
-#include <e-util/e-util.h>
+#include <libedataserver/e-data-server-util.h>
 #include "ea-calendar-item.h"
 #include "ea-calendar-cell.h"
 #include "ea-cell-table.h"
