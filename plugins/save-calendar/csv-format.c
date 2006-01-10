@@ -35,7 +35,7 @@
 #include <gtk/gtk.h>
 #include <libedataserver/e-source.h>
 #include <libecal/e-cal-time-util.h>
-#include <libedataserver/e-util.h>
+#include <libedataserver/e-data-server-util.h>
 #include <libedataserverui/e-source-selector.h>
 #include <libecal/e-cal.h>
 #include "calendar/common/authentication.h"

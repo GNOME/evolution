@@ -1,3 +1,11 @@
+2006-01-10  Simon Zheng  <simon.zheng@sun.com>
+
+	* csv-format.c:
+	* rdf-format.c:
+	use e_utf8_strftime() in evolution-data-server/
+        libedataserver/e-data-server-util.c instead of the copy in 
+        evolution/e-util/e-util.c.
+
 2005-12-30  Andre Klapper <a9016009@gmx.de>
 
 	* csv-format.c: fixed two strings for consistency.

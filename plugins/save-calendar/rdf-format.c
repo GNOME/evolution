@@ -39,7 +39,7 @@
 #include <calendar/gui/e-cal-popup.h>
 #include <libgnomevfs/gnome-vfs.h>
 #include <libecal/e-cal-time-util.h>
-#include <libedataserver/e-util.h>
+#include <libedataserver/e-data-server-util.h>
 #include <libxml/xmlmemory.h>
 #include <libxml/parser.h>
 #include <libxml/tree.h>
