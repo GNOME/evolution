@@ -728,7 +728,7 @@ e_text_set_property (GObject *object,
 
 		text->needs_redraw = 1;
 		text->needs_recalc_bounds = 1;
-		if ( text->line_wrap )
+		if (text->line_wrap)
 			text->needs_split_into_lines = 1;
 		else {
 			text->needs_calc_height = 1;
@@ -758,9 +758,11 @@ e_text_set_property (GObject *object,
 	case PROP_CLIP_WIDTH:
 		text->clip_width = fabs (g_value_get_double (value));
 		calc_ellipsis (text);
-		if ( text->line_wrap )
+		if ( text->line_wrap ) {
+			if (text->layout)
+				pango_layout_set_width (text->layout, text->clip_width < 0 ? -1 : text->clip_width * PANGO_SCALE);
 			text->needs_split_into_lines = 1;
-		else {
+		} else {
 			text->needs_calc_height = 1;
 		}
 		needs_reflow = 1;
