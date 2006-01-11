@@ -273,6 +273,9 @@ install_loadable_roots (void)
 		   XXX yes this is gross.  *sigh*
 		*/
 		char *paths_to_check[] = {
+#ifdef MOZILLA_NSS_LIB_DIR
+			MOZILLA_NSS_LIB_DIR,
+#endif
 			"/usr/lib",
 			"/usr/lib/mozilla",
 			"/opt/mozilla/lib",
