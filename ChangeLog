@@ -1,3 +1,8 @@
+2006-01-09  Simon Zheng  <simon.zheng@sun.com>
+
+	* configure.in: Add the macro MOZILLA_NSS_LIB_DIR to store mozilla
+	nss library path.
+
 2006-01-07  Tor Lillqvist  <tml@novell.com>
 
 	* server.mk: Add whitespace before all line continuation
