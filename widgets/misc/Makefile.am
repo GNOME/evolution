@@ -79,7 +79,6 @@ widgetsinclude_HEADERS =			\
 	gal-combo-text.h
 
 libemiscwidgets_la_SOURCES =			\
-	$(MARSHAL_GENERATED)			\
 	$(widgetsinclude_HEADERS)		\
 	$(pilot_sources)			\
 	e-activity-handler.c			\
@@ -126,8 +125,6 @@ libemiscwidgets_la_SOURCES =			\
 	gal-combo-box.c				\
 	gal-combo-text.c
 
-MARSHAL_GENERATED = e-util-marshal.c e-util-marshal.h
-@EVO_MARSHAL_RULE@
 
 libemiscwidgets_la_LDFLAGS = $(NO_UNDEFINED)
 
@@ -209,8 +206,6 @@ test_info_label_LDADD = 			\
 	$(top_builddir)/e-util/libeutil.la	\
 	$(E_WIDGETS_LIBS)
 
-BUILT_SOURCES = $(MARSHAL_GENERATED)
-CLEANFILES    = $(BUILT_SOURCES)
 
 EXTRA_DIST =			\
 	$(glade_DATA)		\
@@ -222,4 +217,3 @@ EXTRA_DIST =			\
 dist-hook:
 	-mkdir $(distdir)/pixmaps
 	cp $(srcdir)/pixmaps/*.xpm $(distdir)/pixmaps
-	cd $(distdir); rm -f $(BUILT_SOURCES)

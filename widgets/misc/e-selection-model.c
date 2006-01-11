@@ -26,7 +26,7 @@
 #include <gdk/gdkkeysyms.h>
 
 #include "e-util/e-i18n.h"
-#include "e-util-marshal.h"
+#include "e-util/e-util-marshal.h"
 #include "e-util/e-util.h"
 
 #include "e-selection-model.h"

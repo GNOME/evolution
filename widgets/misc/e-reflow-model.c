@@ -23,7 +23,7 @@
 
 #include <config.h>
 
-#include "e-util-marshal.h"
+#include "e-util/e-util-marshal.h"
 
 #include "e-util/e-util.h"
 

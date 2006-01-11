@@ -29,7 +29,7 @@
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtk.h>
 
-#include "e-util-marshal.h"
+#include "e-util/e-util-marshal.h"
 #include "e-util/e-util.h"
 
 #include "gal-combo-box.h"

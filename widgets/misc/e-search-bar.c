@@ -47,7 +47,7 @@
 #include <string.h>
 
 #include "e-search-bar.h"
-#include "e-util-marshal.h"
+#include "e-util/e-util-marshal.h"
 
 
 enum {
