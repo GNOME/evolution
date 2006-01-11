@@ -1,3 +1,8 @@
+2006-01-11  Johnny Jacob  <johnnyjacob#gmail.com>
+
+	* text/e-text.c (e_text_set_property): Add the width to
+	the pango layout.
+
 2006-01-10  Simon Zheng  <simon.zheng@sun.com>
 
 	* menus/gal-view-instance.c:
