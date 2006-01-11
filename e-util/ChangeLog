@@ -1,3 +1,8 @@
+2006-01-11  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	* e-menu.c: Fixes a build break. Replace the 
+	libedataserver/e-util.h with libedataserver/e-data-server-util.h.
+
 2006-01-10  Simon Zheng  <simon.zheng@sun.com>
 
 	* e-mktemp.c (get_dir):

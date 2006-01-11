@@ -32,7 +32,7 @@
 #include <libgnome/gnome-i18n.h>
 #include <bonobo/bonobo-ui-util.h>
 
-#include <libedataserver/e-util.h>
+#include <libedataserver/e-data-server-util.h>
 
 #include "e-menu.h"
 #include "e-icon-factory.h"
