@@ -1,3 +1,7 @@
+2006-01-11  Harry Lu  <harry.lu@sun.com>
+
+	* e-marshal.list: removed.
+
 2006-01-11  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	* e-menu.c: Fixes a build break. Replace the 
