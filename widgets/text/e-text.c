@@ -728,7 +728,7 @@ e_text_set_property (GObject *object,
 
 		text->needs_redraw = 1;
 		text->needs_recalc_bounds = 1;
-		if ( text->line_wrap )
+		if (text->line_wrap)
 			text->needs_split_into_lines = 1;
 		else {
 			text->needs_calc_height = 1;
