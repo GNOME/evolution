@@ -1,3 +1,8 @@
+2006-01-11  Harish Krishnaswamy <kharish@novell.com>
+	
+	* configure.in: Enlose the computed value of MOZILLA_NSS_LIB_DIR
+	with quotes as this will be used in the code as a string constant.
+
 2006-01-09  Simon Zheng  <simon.zheng@sun.com>
 
 	* configure.in: Add the macro MOZILLA_NSS_LIB_DIR to store mozilla

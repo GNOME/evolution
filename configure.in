@@ -755,7 +755,7 @@ dnl If the user specifies --with-foo or --enable-nss=static, then we have to do 
 			mozilla_nss="mozilla-nss"
 			AC_DEFINE(HAVE_NSS,1,[Define if you have NSS])
 			AC_DEFINE(HAVE_SSL,1,[Define if you have a supported SSL library])
-			AC_DEFINE_UNQUOTED(MOZILLA_NSS_LIB_DIR,`$PKG_CONFIG --variable=libdir mozilla-nss`,[Define to the full path of mozilla nss library])
+			AC_DEFINE_UNQUOTED(MOZILLA_NSS_LIB_DIR,"`$PKG_CONFIG --variable=libdir mozilla-nss`",[Define to the full path of mozilla nss library])
 			MANUAL_NSPR_CFLAGS=""
 			MANUAL_NSPR_LIBS=""
 			MANUAL_NSS_CFLAGS=""
