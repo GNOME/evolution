@@ -1,3 +1,7 @@
+2006-01-11  Andre Klapper <a9016009@gmx.de>
+	* org-gnome-sa-junk-plugin.eplug.xml: Changing strings to be more precise.
+	Fixes bug 325132.
+
 2005-01-04  Shi Pu  <shi.pu@sun.com>
 
 	See bug **  325210

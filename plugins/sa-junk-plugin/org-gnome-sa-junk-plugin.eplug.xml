@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <e-plugin-list>
 	<e-plugin id="org.gnome.evolution.sa_junk_plugin" 
-		type="shlib" _name="Sa junk-plugin"
+		type="shlib" _name="Spamassassin junk plugin"
 		location="@PLUGINDIR@/liborg-gnome-sa-junk-plugin@SOEXT@">
-		<_description>learns junk messages using spamd.</_description>
+		<_description>Filters junk messages using Spamassassin. This plugin requires Spamassassin to be installed.</_description>
 		<author name="Vivek Jain" email="jvivek@novell.com"/>
 		<hook class="org.gnome.evolution.mail.junk:1.0">
 			<group id="EMJunk">
