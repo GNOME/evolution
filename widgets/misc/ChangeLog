@@ -1,3 +1,8 @@
+2006-01-11  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	* Makefile.am: Remove the e-util-marshal.list from extra dist.
+	Fixes a build break.
+
 2006-01-10  Simon Zheng  <simon.zheng@sun.com>
 
 	* Makefile.am:

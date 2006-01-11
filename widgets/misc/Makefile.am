@@ -211,7 +211,6 @@ EXTRA_DIST =			\
 	$(glade_DATA)		\
 	e-pilot-settings.h	\
 	e-pilot-settings.c	\
-	e-util-marshal.list	\
 	ChangeLog.pre-1-4
 
 dist-hook:
