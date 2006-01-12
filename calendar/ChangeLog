@@ -1,3 +1,10 @@
+2006-01-12  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* gui/GNOME_Evolution_Calendar.server.in.in:
+
+	Changes accels for Calendar (C+F3 -> C+3), Tasks (C+F4 ->C+4) and
+	Memo (C+F6 to C+5).
+
 2006-01-12  Harish Krishnaswamy  <kharish@novell.com>
 
 	* gui/gnome-cal.c: (gnome_calendar_class_init):

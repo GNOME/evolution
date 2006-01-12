@@ -44,7 +44,7 @@
 	<oaf_attribute name="name" type="string" _value="Evolution's Calendar component"/>
 
 	<oaf_attribute name="evolution:menu_label" type="string" _value="_Calendars"/>
-	<oaf_attribute name="evolution:menu_accelerator" type="string" value="*Control*F3"/>
+	<oaf_attribute name="evolution:menu_accelerator" type="string" value="*Control*3"/>
 	<oaf_attribute name="evolution:button_label" type="string" _value="Calendars"/>
 	<oaf_attribute name="evolution:button_tooltips" type="string" _value="Calendars"/>
         <oaf_attribute name="evolution:button_icon" type="string" value="stock_calendar"/>
@@ -64,7 +64,7 @@
 	<oaf_attribute name="name" type="string" _value="Evolution's Tasks component"/>
 
 	<oaf_attribute name="evolution:menu_label" type="string" _value="_Tasks"/>
-	<oaf_attribute name="evolution:menu_accelerator" type="string" value="*Control*F4"/>
+	<oaf_attribute name="evolution:menu_accelerator" type="string" value="*Control*4"/>
 	<oaf_attribute name="evolution:button_label" type="string" _value="Tasks"/>
 	<oaf_attribute name="evolution:button_tooltips" type="string" _value="Tasks"/>
         <oaf_attribute name="evolution:button_icon" type="string" value="stock_todo"/>
@@ -84,7 +84,7 @@
 	<oaf_attribute name="name" type="string" _value="Evolution's Memos component"/>
 
 	<oaf_attribute name="evolution:menu_label" type="string" _value="Memo_s"/>
-	<oaf_attribute name="evolution:menu_accelerator" type="string" value="*Control*F6"/>
+	<oaf_attribute name="evolution:menu_accelerator" type="string" value="*Control*5"/>
 	<oaf_attribute name="evolution:button_label" type="string" _value="Memos"/>
 	<oaf_attribute name="evolution:button_tooltips" type="string" _value="Memos"/>
         <oaf_attribute name="evolution:button_icon" type="string" value="stock_notes"/>
