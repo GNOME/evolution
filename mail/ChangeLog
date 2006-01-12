@@ -1,3 +1,9 @@
+2006-01-12  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* GNOME_Evolution_Mail.server.in.in:
+
+	Changes MailView accel from Control+F1 to Control+1.
+
 2006-01-10  Simon Zheng  <simon.zheng@sun.com>
 
 	* em-composer-utils.c:
