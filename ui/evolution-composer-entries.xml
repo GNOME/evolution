@@ -30,4 +30,11 @@
         </placeholder>
       </submenu>
   </menu>
+
+  <dockitem name="Toolbar">
+ 	<toolitem name="EditCut" verb=""  _label="Cut" _tip="Cut selection to clipboard"/>
+	<toolitem name="EditCopy" verb=""  _label="Copy" _tip="Copy selection to clipboard"/>
+	<toolitem name="EditPaste" verb=""  _label="Paste" _tip="Paste from clipboard"/>
+  </dockitem>
+
 </Root>

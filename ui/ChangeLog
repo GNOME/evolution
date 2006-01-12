@@ -1,3 +1,8 @@
+2006-01-12  Shreyas Srinivasan  <sshreyas@novell.com>
+
+	* evolution-composer-entries.xml: Fix #325110
+	Override cut, copy and paste commands defined in gtkhtml
+
 2006-12-02  Karsten Bräckelmann  <guenther@rudersport.de>
  
  	* evolution.xml: Remove the Mailer specific separator.
