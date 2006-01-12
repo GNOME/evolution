@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-01-06 13:07+0100\n"
-"PO-Revision-Date: 2006-01-07 12:05+0200\n"
+"PO-Revision-Date: 2006-01-11 13:58+0200\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -6106,7 +6106,7 @@ msgstr "Ko_rraldaja:"
 #: ../calendar/gui/dialogs/event-page.glade.h:13
 #: ../calendar/gui/dialogs/task-page.glade.h:6
 msgid "Su_mmary:"
-msgstr "K_okkuvõte:"
+msgstr "Kokku_võte:"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:15
 msgid "_Description:"
