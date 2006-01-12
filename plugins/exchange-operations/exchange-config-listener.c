@@ -28,8 +28,8 @@
 
 #include "exchange-config-listener.h"
 #include "exchange-operations.h"
+#include "exchange-change-password.h"
 
-#include <exchange-account.h>
 #include <exchange-constants.h>
 #include <exchange-hierarchy.h>
 #include <e-folder-exchange.h>
@@ -43,9 +43,13 @@
 #include <libedataserver/e-source-list.h>
 #include <libedataserver/e-source-group.h>
 #include <libedataserverui/e-passwords.h>
+#include <glade/glade-xml.h>
 
 #include <stdlib.h>
 #include <string.h>
+
+#define FILENAME CONNECTOR_GLADEDIR "/exchange-passwd-expiry.glade"
+#define ROOTNODE "passwd_exp_dialog"
 
 struct _ExchangeConfigListenerPrivate {
 	GConfClient *gconf;
@@ -582,19 +586,87 @@ remove_account_esources (ExchangeAccount *account)
 	remove_account_esource (account, EXCHANGE_CONTACTS_FOLDER);
 }
 
+#ifdef HAVE_KRB5
+static char * 
+get_new_exchange_password (ExchangeAccount *account)
+{
+	char *old_password, *new_password;
+
+	old_password = exchange_account_get_password (account);
+	new_password = exchange_get_new_password (old_password, 0);
+	
+	if (new_password) {
+		exchange_account_set_password (account, 
+					       old_password, 
+					       new_password);
+		g_free (old_password);
+		return new_password;
+	}
+	g_free (old_password);
+	return NULL;
+}
+#endif
+
+#ifdef HAVE_KRB5
+static void
+change_passwd_cb (GtkWidget *button, ExchangeAccount *account)
+{
+	char *current_passwd, *new_passwd;
+
+	gtk_widget_hide (gtk_widget_get_toplevel(button));
+	current_passwd = exchange_account_get_password (account);
+	new_passwd = exchange_get_new_password (current_passwd, TRUE);
+	exchange_account_set_password (account, current_passwd, new_passwd);
+	g_free (current_passwd);
+	g_free (new_passwd);
+}
+#endif
+
+static void
+display_passwd_expiry_message (int max_passwd_age, ExchangeAccount *account)
+{
+	GladeXML *xml;
+	GtkWidget *top_widget, *change_passwd_button;
+	GtkResponseType response;
+	GtkLabel *warning_msg_label;
+	char *passwd_expiry_msg =
+		g_strdup_printf (_("Your password will expire in next %d days"), max_passwd_age);
+	
+	xml = glade_xml_new (FILENAME, ROOTNODE, NULL);
+	g_return_if_fail (xml != NULL);
+	top_widget = glade_xml_get_widget (xml, ROOTNODE);
+	g_return_if_fail (top_widget != NULL);
+
+	warning_msg_label = GTK_LABEL (glade_xml_get_widget (xml,
+						"passwd_exp_label"));
+	gtk_label_set_text (warning_msg_label, passwd_expiry_msg);
+	change_passwd_button = glade_xml_get_widget (xml,
+						"change_passwd_button");
+	gtk_widget_set_sensitive (change_passwd_button, TRUE);
+	g_signal_connect (change_passwd_button,
+			  "clicked",
+			  G_CALLBACK (change_passwd_cb),
+			  account); 
+	response = gtk_dialog_run (GTK_DIALOG (top_widget));
+	
+	gtk_widget_destroy (top_widget);
+	g_object_unref (xml);
+	g_free (passwd_expiry_msg);
+}
+
 ExchangeAccountResult 
 exchange_config_listener_authenticate (ExchangeConfigListener *ex_conf_listener, ExchangeAccount *account) 
 {
 	ExchangeConfigListenerPrivate *priv;
 	ExchangeAccountResult result;
-	char *key, *password, *title;
+	char *key, *password, *title, *new_password;
 	gboolean oldremember, remember = FALSE;
 	CamelURL *camel_url;
 	const char *remember_password;
 
 	g_return_val_if_fail (EXCHANGE_IS_CONFIG_LISTENER (ex_conf_listener), EXCHANGE_ACCOUNT_CONFIG_ERROR);
 	priv = ex_conf_listener->priv;
-	
+
 	camel_url = camel_url_new (priv->configured_uri, NULL);
 	key = camel_url_to_string (camel_url, CAMEL_URL_HIDE_PASSWORD | CAMEL_URL_HIDE_PARAMS);
 	remember_password = camel_url_get_param (camel_url, "save-passwd");
@@ -610,7 +682,7 @@ exchange_config_listener_authenticate (ExchangeConfigListener *ex_conf_listener,
 		}
 		g_free (title);
 	}
-	else if (remember_password && !g_strcasecmp (remember_password, "fasle")) {
+	else if (remember_password && !g_strcasecmp (remember_password, "false")) {
 		/* get_password returns the password cached but user has not
 		 * selected remember password option, forget this password
 		 * whis is stored temporarily by e2k_validate_user(), to avoid
@@ -619,6 +691,57 @@ exchange_config_listener_authenticate (ExchangeConfigListener *ex_conf_listener,
 		e_passwords_forget_password ("Exchange", key);
 	}
  	exchange_account_connect (account, password, &result);
+	g_free (password);
+	if (result == EXCHANGE_ACCOUNT_PASSWORD_EXPIRED) {
+		new_password = get_new_exchange_password (account);
+		if (new_password) {
+			/* try connecting with new password */
+ 			exchange_account_connect (account, new_password, &result);
+			g_free (new_password);
+		}
+	}
+	else if (result == EXCHANGE_ACCOUNT_QUOTA_RECIEVE_ERROR ||
+		 result == EXCHANGE_ACCOUNT_QUOTA_SEND_ERROR ||
+		 result == EXCHANGE_ACCOUNT_QUOTA_WARN) {
+		gchar *current_quota_usage;
+
+		switch (result) {
+			case EXCHANGE_ACCOUNT_QUOTA_RECIEVE_ERROR:
+				current_quota_usage = g_strdup_printf ("%.2f", 
+							account->mbox_size);
+				e_error_run (NULL, "org-gnome-exchange-operations:account-quota-error", current_quota_usage);
+				g_free (current_quota_usage);
+				break;
+			case EXCHANGE_ACCOUNT_QUOTA_SEND_ERROR:
+				current_quota_usage = g_strdup_printf ("%.2f", 
+							account->mbox_size);
+				e_error_run (NULL, "org-gnome-exchange-operations:account-quota-send-error", current_quota_usage);
+				g_free (current_quota_usage);
+				break;
+			case EXCHANGE_ACCOUNT_QUOTA_WARN:
+				current_quota_usage = g_strdup_printf ("%.2f", 
+							account->mbox_size);
+				e_error_run (NULL, "org-gnome-exchange-operations:account-quota-warn", current_quota_usage);
+				g_free (current_quota_usage);
+				break;
+			default:
+				break;
+		}
+		/* reset result, so that we check if the password 
+		 * expiry warning period 
+		 */
+		result = EXCHANGE_ACCOUNT_CONNECT_SUCCESS;
+		
+	}
+	if (result == EXCHANGE_ACCOUNT_CONNECT_SUCCESS) {
+		int max_pwd_age_days;
+
+		/* check for password expiry warning */
+		max_pwd_age_days = exchange_account_check_password_expiry (account);
+		if (max_pwd_age_days >= 0) {
+			display_passwd_expiry_message (max_pwd_age_days, account);
+		}
+	}
 	g_free (key);
 	camel_url_free (camel_url);
 	return result;
@@ -675,7 +798,7 @@ account_added (EAccountList *account_list, EAccount *account)
 		remove_selected_non_offline_esources (exchange_account, CONF_KEY_TASKS);
 		return;
 	}
-
+	exchange_account_set_online (exchange_account);
 	exchange_config_listener_authenticate (config_listener, exchange_account);
 	exchange_account_set_online (exchange_account);
 }

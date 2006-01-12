@@ -1,3 +1,23 @@
+2006-01-12  Sushma Rai  <rsushma@novell.com>
+
+	* exchange-config-listener.c (exchange_config_listener_authenticate): 
+	Checking for the password expired error code during connect and if the
+	password is expired, showing the error message, prompting for resetting
+	the password and trying to connect again with the new password.
+	Checking  if the password will expire in next a few days, which is 
+	specified by the user during account creation, and if yes, showing
+	the corresponding error message to the user, which allows him to change
+	his password. 
+	Fixes #326060.
+	Also, Checking for the quota related error codes and displaying the
+	corresponding error/warning messages to the user. Fixes #326087.
+
+	* org-gnome-exchange-operations.error.xml: Added a space.
+
+	* exchange-passwd-expiry.glade: Added new.
+
+	* Makefile.am: Added exchange-passwd-expiry.glade.
+
 2006-01-11  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fixes bug #316100
