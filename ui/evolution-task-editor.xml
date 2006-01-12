@@ -34,7 +34,7 @@
 		type="radio" group="class" _tip="Classify as Confidential"/>
 		
 		<cmd name="OptionStatus" 
-			_tip="Click change / view the status details of the task" accel="*Control**Alt*t" pixtype="pixbuf"/>
+			_tip="Click change / view the status details of the task" accel="*Control*t" pixtype="pixbuf"/>
 		<cmd name="InsertSendOptions" _label="Send Options"
 		_tip="Insert advanced send options"/>
 	

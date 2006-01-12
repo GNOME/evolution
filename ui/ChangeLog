@@ -1,3 +1,9 @@
+2006-01-12  Harish Krishnaswamy  <kharish@novell.com>
+
+	* evolution-calendar.xml:
+	* evolution-task-editor.xml: Fix accelerators
+	(UI Hackfest - see http://go-evolution.org/Shortcut_Keys_Review)
+
 2006-01-12  Shreyas Srinivasan  <sshreyas@novell.com>
 
 	* evolution-composer-entries.xml: Fix #325110

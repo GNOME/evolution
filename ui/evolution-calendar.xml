@@ -59,8 +59,8 @@
     <submenu name="View">
       <placeholder name="ViewBegin">
 	<menuitem name="Today" verb="CalendarToday" _label="Select _Today"
-                  accel="*Control**Alt*t"/>
-	<menuitem name="Goto" verb="CalendarGoto" _label="Select _Date" accel="*Control**Alt*g"/>
+                  accel="*Control*t"/>
+	<menuitem name="Goto" verb="CalendarGoto" _label="Select _Date" accel="*Control*g"/>
 	<separator f="" name="ecal"/>
       </placeholder>
 
