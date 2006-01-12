@@ -8,8 +8,8 @@
 	  <cmd name="EditPaste" _tip="Paste text from the clipboard" accel="*Control*v" pixtype="stock" pixname="gtk-paste"/>
 	  <cmd name="EditSelectAll" _tip="Select all text" accel="*Control*a"/>
 
-	  <cmd name="InsertAttachments" _tip="Click here to attach a file" accel="*Control**Alt*a" pixtype="pixbuf"/>
-	  <cmd name="Help" _tip="Click here to view help available" accel="*Control*h" pixtype="stock" pixname="gtk-help"/>
+	  <cmd name="InsertAttachments" _tip="Click here to attach a file" accel="*Control*m" pixtype="pixbuf"/>
+	  <cmd name="Help" _tip="Click here to view help available" accel="F1" pixtype="stock" pixname="gtk-help"/>
 	  
 	  
   </commands>

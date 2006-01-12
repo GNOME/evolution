@@ -13,7 +13,7 @@
     <cmd name="TasksMarkComplete" _tip="Mark selected tasks as complete" accel="*Control*k" sensitive="0"/>
 
     <cmd name="TasksPurge" _label="Purg_e" _tip="Delete completed tasks" accel="*Control*e"/>
-    <cmd name="TasksAssign" _label="_Assign Task" accel="*Control*a"/>
+    <cmd name="TasksAssign" _label="_Assign Task"/>
     <cmd name="TasksForward" _label="_Forward as iCalendar" accel="*Control*f"/>
 
     <cmd name="ViewPreview" _tip="Show task preview window" accel="*Control*m" type="toggle"/>
