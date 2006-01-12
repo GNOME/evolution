@@ -1,6 +1,12 @@
+2006-01-12  Harish Krishnaswamy  <kharish@novell.com>
+
+	* gui/gnome-cal.c: (gnome_calendar_class_init):
+	Re-define keyboard shortcuts for switching between views.
+	UI Hackfest - Refer http://go-evolution.org/Shortcut_Keys_Review
+
 2006-01-10  Simon Zheng  <simon.zheng@sun.com>
 
-	* gui/calendar-component.c: (calendar_component_peek):
+	* gui/calendar-component.c: (calendar_component_peek): 
 	* gui/calendar-config.c:
 	* gui/e-cal-model-tasks.c:
 	* gui/e-cal-popup.c:

@@ -415,30 +415,30 @@ gnome_calendar_class_init (GnomeCalendarClass *class)
 				      G_TYPE_ENUM,
 				      GNOME_CAL_GOTO_SAME_DAY_OF_NEXT_WEEK);
  
- 	/* Ctrl+Alt+ Y/W/E/M/L to switch between
+ 	/* Ctrl+Y/J/K/M/L to switch between
 	 * DayView/WorkWeekView/WeekView/MonthView/ListView */
     	gtk_binding_entry_add_signal (binding_set, GDK_y,
- 				      GDK_CONTROL_MASK | GDK_MOD1_MASK,
+ 				      GDK_CONTROL_MASK,
  				      "change_view", 1,
  				      G_TYPE_ENUM,
  				      GNOME_CAL_DAY_VIEW);
- 	gtk_binding_entry_add_signal (binding_set, GDK_w,
- 				      GDK_CONTROL_MASK | GDK_MOD1_MASK,
+ 	gtk_binding_entry_add_signal (binding_set, GDK_j,
+ 				      GDK_CONTROL_MASK,
  				      "change_view", 1,
  				      G_TYPE_ENUM,
  				      GNOME_CAL_WORK_WEEK_VIEW);
- 	gtk_binding_entry_add_signal (binding_set, GDK_e,
- 				      GDK_CONTROL_MASK | GDK_MOD1_MASK,
+ 	gtk_binding_entry_add_signal (binding_set, GDK_k,
+ 				      GDK_CONTROL_MASK,
  				      "change_view", 1,
  				      G_TYPE_ENUM,
  				      GNOME_CAL_WEEK_VIEW);
  	gtk_binding_entry_add_signal (binding_set, GDK_m,
- 				      GDK_CONTROL_MASK | GDK_MOD1_MASK,
+ 				      GDK_CONTROL_MASK,
  				      "change_view", 1,
  				      G_TYPE_ENUM,
  				      GNOME_CAL_MONTH_VIEW);
 	gtk_binding_entry_add_signal (binding_set, GDK_l,
- 				      GDK_CONTROL_MASK | GDK_MOD1_MASK,
+ 				      GDK_CONTROL_MASK,
  				      "change_view", 1,
  				      G_TYPE_ENUM,
  				      GNOME_CAL_LIST_VIEW);
