@@ -28,7 +28,7 @@
                 pixtype="pixbuf"/>
 		
 		<cmd name="FileAttach" _label="Attach" _tip="Attach a file"
-		accel="*Ctrl**Shift*a"
+		accel="*Ctrl*m"
 		pixtype="pixbuf"/>
 		
 		<cmd name="DeleteAll" _label="_Delete all"

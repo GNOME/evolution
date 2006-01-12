@@ -1,3 +1,13 @@
+2006-01-12  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* evolution-mail-global.xml:
+	* evolution-mail-message.xml:
+	* evolution-message-composer.xml:
+	* evolution.xml:
+
+	Changes accelerator assignment specified in 
+	http://go-evolution.org/Shortcut_Keys_Review
+
 2006-01-12  Harish Krishnaswamy  <kharish@novell.com>
 
 	* evolution-editor.xml:

@@ -11,7 +11,6 @@
 
     <cmd name="FolderCreate"
      _tip="Create a new folder for storing mail"
-     accel="*Control**Shift*f"
      pixtype="pixbuf"/>
 
     <cmd name="FolderCopy"

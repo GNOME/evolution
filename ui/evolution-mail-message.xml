@@ -72,12 +72,10 @@
      pixtype="pixbuf"/>
 
     <cmd name="MessageForwardAttached"
-     _tip="Forward the selected message to someone as an attachment"
-     accel="*Control*j"/>
+     _tip="Forward the selected message to someone as an attachment"/>
 
     <cmd name="MessageForwardInline"
-     _tip="Forward the selected message in the body of a new message"
-     accel="*Control**Shift*j"/>
+     _tip="Forward the selected message in the body of a new message"/>
 
     <cmd name="MessageForwardQuoted"
      _tip="Forward the selected message quoted like a reply"/>
@@ -101,10 +99,12 @@
 
     <cmd name="MessageMarkAsJunk"
      _tip="Mark the selected message(s) as junk"
+     accel="*Control*j"
      pixtype="pixbuf"/>
 
     <cmd name="MessageMarkAsNotJunk"
      _tip="Mark the selected message(s) as not being junk"
+     accel="*Control**Shift*j"
      pixtype="pixbuf"/>
 
     <cmd name="MessageFilterJunk"
@@ -130,8 +130,7 @@
      pixtype="pixbuf"/>
 
     <cmd name="MailPost"
-     _tip="Post a message to a Public folder"
-     accel="*Control**Alt*m"/>
+     _tip="Post a message to a Public folder"/>
 
     <cmd name="MessagePostReply"
      _tip="Post a reply to a message in a Public folder"
@@ -162,7 +161,7 @@
 
     <cmd name="MessageSearch"
      _tip="Search for text in the body of the displayed message"
-     accel="*Control**Alt*f"
+     accel="*Control**Shift*f"
      pixtype="stock" pixname="gtk-find"/>
 
     <cmd name="MessageUndelete"
@@ -177,7 +176,6 @@
 
     <cmd name="PrintPreviewMessage"
      _tip="Preview the message to be printed"
-     accel="*Control**Shift*p"
      pixtype="stock" pixname="gtk-print-preview"/>
 
     <cmd name="PrintSetup"
@@ -186,7 +184,7 @@
 
     <cmd name="SelectAllText"
      _tip="Select all the text in a message"
-     accel="*Control**Alt*a"/>
+     accel="*Control**Shift*x"/>
 
     <cmd name="ToolsFilterMailingList"
      _tip="Create a rule to filter messages to this mailing list"/>
