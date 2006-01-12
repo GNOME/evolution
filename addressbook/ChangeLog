@@ -1,3 +1,9 @@
+2006-01-12  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* gui/component/GNOME_Evolution_Addressbook.server.in.in:
+
+	Changes Contacts View accel from Control+F2 to Control+2.	
+
 2006-01-10  Simon Zheng  <simon.zheng@sun.com>
 
 	* gui/widgets/eab-gui-util.c:use e_filename_make_safe() in 
