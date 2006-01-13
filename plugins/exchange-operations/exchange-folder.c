@@ -620,24 +620,24 @@ org_gnome_exchange_folder_subscription (EPlugin *ep, EMMenuTargetSelect *target,
 void
 org_gnome_exchange_calendar_subscription (EPlugin *ep, EMMenuTargetSelect *target)
 {
-	gchar *folder_name = "Calendar";
+	gchar *folder_name = N_("Calendar");
 	org_gnome_exchange_folder_subscription (ep, target, folder_name);
 }
 void
 org_gnome_exchange_addressbook_subscription (EPlugin *ep, EMMenuTargetSelect *target)
 {
-	gchar *folder_name = "Contacts";
+	gchar *folder_name = N_("Contacts");
 	org_gnome_exchange_folder_subscription (ep, target, folder_name);
 }
 void
 org_gnome_exchange_tasks_subscription (EPlugin *ep, EMMenuTargetSelect *target)
 {
-	gchar *folder_name = "Tasks";
+	gchar *folder_name = N_("Tasks");
 	org_gnome_exchange_folder_subscription (ep, target, folder_name);
 }
 void
 org_gnome_exchange_inbox_subscription (EPlugin *ep, EMMenuTargetSelect *target)
 {
-	gchar *folder_name = "Inbox";
+	gchar *folder_name = N_("Inbox");
 	org_gnome_exchange_folder_subscription (ep, target, folder_name);
 }

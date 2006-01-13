@@ -1,3 +1,11 @@
+2006-01-11  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #271546
+	* exchange-folder.c: (org_gnome_exchange_calendar_subscription),
+	(org_gnome_exchange_addressbook_subscription),
+	(org_gnome_exchange_tasks_subscription),
+	(org_gnome_exchange_inbox_subscription): Mark the string for completion.
+
 2006-01-12  Sushma Rai  <rsushma@novell.com>
 
 	* exchange-config-listener.c (exchange_config_listener_authenticate): 
