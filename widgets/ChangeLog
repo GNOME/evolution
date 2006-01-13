@@ -1,3 +1,10 @@
+2006-01-13  Srinivasa Ragavan  <sragavan@novell.com>
+	
+	** Fixes bug #326264
+	
+	* menus/gal-view-menus.c: (build_menus): Changes mnemonics of Current
+	View menu item, since it collides with Caret Mode.
+
 2006-01-11  Johnny Jacob  <johnnyjacob#gmail.com>
 
 	* text/e-text.c (e_text_set_property): Add the width to

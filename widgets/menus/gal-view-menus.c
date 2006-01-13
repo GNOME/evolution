@@ -288,7 +288,7 @@ build_menus(GalViewMenus *menus)
 	
 	submenu = bonobo_ui_node_new_child(place, "submenu");
 	bonobo_ui_node_set_attr(submenu, "name", "CurrentView");
-	bonobo_ui_node_set_attr(submenu, "_label", N_("_Current View"));
+	bonobo_ui_node_set_attr(submenu, "_label", N_("C_urrent View"));
 
 	id = gal_view_instance_get_current_view_id (instance);
 
