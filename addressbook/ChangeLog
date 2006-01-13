@@ -1,3 +1,10 @@
+2006-01-13  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fixes bug #326268
+	
+	* gui/widgets/e-addressbook-view.c: Adds mnemonics to Advanced Search
+	menu item in contacts view.
+
 2006-01-12  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* gui/component/GNOME_Evolution_Addressbook.server.in.in:

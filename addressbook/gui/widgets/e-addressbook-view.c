@@ -176,7 +176,7 @@ static ESearchBarItem addressbook_search_option_items[] = {
 };
 
 static ESearchBarItem addressbook_search_items[] = {
-	{ N_("Advanced..."), ESB_ADVANCED, NULL },
+	{ N_("_Advanced..."), ESB_ADVANCED, NULL },
 	{ NULL, -1, NULL },
 };
 
