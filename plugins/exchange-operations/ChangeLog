@@ -1,5 +1,10 @@
 2006-01-13  Sushma Rai  <rsushma@novell.com>
 
+	* exchange-config-listener.c (exchange_config_listener_authenticate):
+	Set the "save-passwd" parameter value EAccount. Fixes #326842.
+
+2006-01-13  Sushma Rai  <rsushma@novell.com>
+
 	* exchange-config-listener.c: Added krb5 checks while invoking
 	change_passwd_cb() and exchange_config_listener_authenticate().
 

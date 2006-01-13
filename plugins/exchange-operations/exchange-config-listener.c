@@ -661,7 +661,7 @@ exchange_config_listener_authenticate (ExchangeConfigListener *ex_conf_listener,
 {
 	ExchangeConfigListenerPrivate *priv;
 	ExchangeAccountResult result;
-	char *key, *password, *title, *new_password;
+	char *key, *password, *title, *new_password, *url_string;
 	gboolean oldremember, remember = FALSE;
 	CamelURL *camel_url;
 	const char *remember_password;
@@ -681,6 +681,14 @@ exchange_config_listener_authenticate (ExchangeConfigListener *ex_conf_listener,
 						     &remember, NULL);
 		if (remember != oldremember) {
 			exchange_account_set_save_password (account, remember);
+			camel_url_set_param (camel_url, "save-passwd", remember? "true" : "false");
+			url_string = camel_url_to_string (camel_url, 0);
+			e_account_set_string (ex_conf_listener->priv->configured_account, E_ACCOUNT_SOURCE_URL, url_string);
+			e_account_set_string (ex_conf_listener->priv->configured_account, E_ACCOUNT_TRANSPORT_URL, url_string);
+			e_account_set_bool (ex_conf_listener->priv->configured_account, E_ACCOUNT_SOURCE_SAVE_PASSWD, remember);
+			e_account_list_change (E_ACCOUNT_LIST (ex_conf_listener), ex_conf_listener->priv->configured_account);
+			e_account_list_save (E_ACCOUNT_LIST (ex_conf_listener));
+			g_free (url_string);
 		}
 		g_free (title);
 	}
@@ -691,6 +699,7 @@ exchange_config_listener_authenticate (ExchangeConfigListener *ex_conf_listener,
 		 * asking for password again, at the end of account creation.
 		 */
 		e_passwords_forget_password ("Exchange", key);
+		exchange_account_set_save_password (account, FALSE);
 	}
  	exchange_account_connect (account, password, &result);
 	g_free (password);
