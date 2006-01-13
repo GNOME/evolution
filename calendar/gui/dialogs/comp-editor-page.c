@@ -44,6 +44,8 @@ enum {
 	SUMMARY_CHANGED,
 	DATES_CHANGED,
 	CLIENT_CHANGED,
+	FOCUS_IN,
+	FOCUS_OUT,
 	LAST_SIGNAL
 };
 
@@ -140,7 +142,23 @@ comp_editor_page_class_init (CompEditorPageClass *class)
 			      NULL, NULL,
 			      g_cclosure_marshal_VOID__OBJECT,
 			      G_TYPE_NONE, 1, G_TYPE_OBJECT);
-
+	comp_editor_page_signals[FOCUS_IN] = 
+		g_signal_new ("focus_in",
+			      G_TYPE_FROM_CLASS (class),
+			      G_SIGNAL_RUN_FIRST,
+			      G_STRUCT_OFFSET (CompEditorPageClass, focus_in),
+			      NULL, NULL,
+			      g_cclosure_marshal_VOID__POINTER,
+			      G_TYPE_NONE, 1, G_TYPE_POINTER);   
+	comp_editor_page_signals[FOCUS_OUT] = 
+		g_signal_new ("focus_out",
+			      G_TYPE_FROM_CLASS (class),
+			      G_SIGNAL_RUN_FIRST,
+			      G_STRUCT_OFFSET (CompEditorPageClass, focus_out),
+			      NULL, NULL,
+			      g_cclosure_marshal_VOID__POINTER,
+			      G_TYPE_NONE, 1, G_TYPE_POINTER);  
+					
 	class->changed = NULL;
 	class->summary_changed = NULL;
 	class->dates_changed = NULL;
@@ -332,6 +350,39 @@ comp_editor_page_set_summary (CompEditorPage *page, const char *summary)
 		(* CLASS (page)->set_summary) (page, summary);
 }
 
+/**
+ * comp_editor_page_unset_focused_widget
+ * @page: An editor page
+ * @widget: The widget that has the current focus
+**/
+void
+comp_editor_page_unset_focused_widget (CompEditorPage *page, GtkWidget *widget)
+{
+	g_return_if_fail (page!= NULL);
+	g_return_if_fail (IS_COMP_EDITOR_PAGE (page));
+
+	gtk_signal_emit (GTK_OBJECT (page),
+			 comp_editor_page_signals[FOCUS_OUT],
+			 widget);
+
+}
+
+/**
+ * comp_editor_page_set_focussed_widget:
+ * @page: An editor page
+ * @widget: The widget that has the current focus
+**/
+void 
+comp_editor_page_set_focused_widget (CompEditorPage *page, GtkWidget *widget)
+{
+	g_return_if_fail (page!= NULL);
+	g_return_if_fail (IS_COMP_EDITOR_PAGE (page));
+
+	gtk_signal_emit (GTK_OBJECT (page),
+			 comp_editor_page_signals[FOCUS_IN],
+			 widget);
+
+}
 /**
  * comp_editor_page_set_dates:
  * @page: An editor page

@@ -79,7 +79,8 @@ typedef struct {
 	void (* summary_changed) (CompEditorPage *page, const char *summary);
 	void (* dates_changed)   (CompEditorPage *page, const char *dates);
 	void (* client_changed)  (CompEditorPage *page, ECal *client);
-
+	void (* focus_in) 	 (CompEditorPage *page, GtkWidget *widget);
+	void (* focus_out)	 (CompEditorPage *page, GtkWidget *widget);
 	/* Virtual methods */
 
 	GtkWidget *(* get_widget) (CompEditorPage *page);

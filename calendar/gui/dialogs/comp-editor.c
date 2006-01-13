@@ -97,6 +97,9 @@ struct _CompEditorPrivate {
 	/* Notebook to hold the pages */
 	GtkNotebook *notebook;
 
+	/* Focussed Widget*/
+	GtkWidget *focused_entry;	
+
 	/* Attachment handling */
 	GtkWidget *attachment_bar;
 	GtkWidget *attachment_scrolled_window;
@@ -142,6 +145,8 @@ static void page_changed_cb (GtkObject *obj, gpointer data);
 static void needs_send_cb (GtkObject *obj, gpointer data);
 static void page_summary_changed_cb (GtkObject *obj, const char *summary, gpointer data);
 static void page_dates_changed_cb (GtkObject *obj, CompEditorPageDates *dates, gpointer data);
+static void page_focus_in_widget_cb (GtkObject *obj, GtkWidget *widget, gpointer data);
+static void page_focus_out_widget_cb (GtkObject *obj, GtkWidget *widget, gpointer data);
 
 static void obj_modified_cb (ECal *client, GList *objs, gpointer data);
 static void obj_removed_cb (ECal *client, GList *uids, gpointer data);
@@ -1290,9 +1295,13 @@ menu_edit_copy_cb (BonoboUIComponent *uic,
 		   void *data,
 		   const char *path)
 {
-	/*TODO Implement the function 
-	CompEditor *editor = (CompEditor *) data; */
+	CompEditor *editor = (CompEditor *) data;
+	CompEditorPrivate *priv = editor->priv;
 
+	if (GTK_IS_ENTRY (priv->focused_entry))
+		gtk_editable_copy_clipboard (GTK_EDITABLE (priv->focused_entry));
+	if (GTK_IS_TEXT_VIEW (priv->focused_entry))
+		g_signal_emit_by_name (priv->focused_entry, "copy-clipboard");
 }
 
 static void
@@ -1300,9 +1309,31 @@ menu_edit_paste_cb (BonoboUIComponent *uic,
 		    void *data,
 		    const char *path)
 {
-	/*TODO Implement the function 
-	CompEditor *editor = (CompEditor *) data; */
+	CompEditor *editor = (CompEditor *) data;
+	CompEditorPrivate *priv = editor->priv;
 
+	if (GTK_IS_ENTRY (priv->focused_entry))
+		gtk_editable_paste_clipboard (GTK_EDITABLE (priv->focused_entry));
+	if (GTK_IS_TEXT_VIEW (priv->focused_entry))
+		g_signal_emit_by_name (priv->focused_entry, "paste-clipboard");
+
+
+}
+
+static void
+menu_edit_selectall_cb (BonoboUIComponent *uic,
+			void *data,
+			const char *path)
+{
+	CompEditor *editor = (CompEditor *) data;
+	CompEditorPrivate *priv = editor->priv;
+
+	if (GTK_IS_ENTRY (priv->focused_entry)) {
+		gtk_editable_set_position (GTK_EDITABLE (priv->focused_entry), -1);
+		gtk_editable_select_region (GTK_EDITABLE (priv->focused_entry), 0, -1);
+	} 
+	if (GTK_IS_TEXT_VIEW (priv->focused_entry)) 
+		g_signal_emit_by_name (priv->focused_entry, "select-all", TRUE);
 }
 
 static void
@@ -1310,8 +1341,14 @@ menu_edit_cut_cb (BonoboUIComponent *uic,
 		  void *data,
 		  const char *path)
 {
-	/*TODO Implement the function 
-	CompEditor *editor = (CompEditor *) data; */
+	CompEditor *editor = data;
+	CompEditorPrivate *priv = editor->priv;
+	
+	if (GTK_IS_ENTRY (priv->focused_entry))
+		gtk_editable_cut_clipboard (GTK_EDITABLE (priv->focused_entry));
+	if (GTK_IS_TEXT_VIEW (priv->focused_entry))
+		g_signal_emit_by_name (priv->focused_entry, "cut-clipboard");
+
 
 }
 
@@ -1356,7 +1393,7 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_VERB ("EditCopy", menu_edit_copy_cb),
 	BONOBO_UI_VERB ("EditPaste", menu_edit_paste_cb),
 	BONOBO_UI_VERB ("EditCut", menu_edit_cut_cb),
-	
+	BONOBO_UI_VERB ("EditSelectAll", menu_edit_selectall_cb),	
 	BONOBO_UI_VERB ("InsertAttachments", menu_insert_attachment_cb),
 	
 	BONOBO_UI_VERB ("Help", menu_help_cb),
@@ -1464,6 +1501,7 @@ comp_editor_init (CompEditor *editor)
 
 	setup_widgets (editor);
 
+	priv->focused_entry = NULL;
 	priv->pages = NULL;
 	priv->changed = FALSE;
 	priv->needs_send = FALSE;
@@ -1904,7 +1942,10 @@ comp_editor_append_page (CompEditor *editor,
 			    G_CALLBACK (page_summary_changed_cb), editor);
 	g_signal_connect(page, "dates_changed",
 			    G_CALLBACK (page_dates_changed_cb), editor);
-
+	g_signal_connect(page, "focus_in",
+			        G_CALLBACK (page_focus_in_widget_cb), editor);
+	g_signal_connect(page, "focus_out",
+				G_CALLBACK (page_focus_out_widget_cb), editor);
 	/* Listen for when the page is mapped/unmapped so we can
 	   install/uninstall the appropriate GtkAccelGroup. */
 	g_signal_connect((page_widget), "map",
@@ -2734,6 +2775,30 @@ needs_send_cb (GtkObject *obj, gpointer data)
 	comp_editor_set_needs_send (editor, TRUE);
 }
 
+/* Focus out widget callback */
+static void 
+page_focus_out_widget_cb (GtkObject *obj, GtkWidget *widget, gpointer data)
+{
+	CompEditor *editor = COMP_EDITOR (data);
+	CompEditorPrivate *priv;
+
+	priv = editor->priv;
+
+	priv->focused_entry = NULL;
+}
+
+/* Focus in widget callback*/
+static void
+page_focus_in_widget_cb (GtkObject *obj, GtkWidget *widget, gpointer data)
+{
+	
+	CompEditor *editor = COMP_EDITOR (data);
+	CompEditorPrivate *priv;
+
+	priv = editor->priv;
+
+	priv->focused_entry = widget;
+}
 /* Page signal callbacks */
 static void
 page_summary_changed_cb (GtkObject *obj, const char *summary, gpointer data)

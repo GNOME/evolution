@@ -2232,6 +2232,30 @@ get_widgets (EventPage *epage)
 		&& priv->description );
 }
 
+/* sets the current focused widget */
+static gboolean
+widget_focus_in_cb (GtkWidget *widget, GdkEventFocus *event, gpointer data)
+{
+	EventPage *epage;
+	epage = EVENT_PAGE (data);
+
+	comp_editor_page_set_focused_widget (COMP_EDITOR_PAGE (epage), widget);
+
+	return FALSE;
+}
+
+/* unset the current focused widget */
+static gboolean
+widget_focus_out_cb (GtkWidget *widget, GdkEventFocus *event, gpointer data)
+{
+	EventPage *epage;
+	epage = EVENT_PAGE (data);
+
+	comp_editor_page_unset_focused_widget (COMP_EDITOR_PAGE (epage), widget);
+
+	return FALSE;
+}
+
 /* Callback used when the summary changes; we emit the notification signal. */
 static void
 summary_changed_cb (GtkEditable *editable, gpointer data)
@@ -2742,11 +2766,20 @@ init_widgets (EventPage *epage)
 	/* Summary */
 	g_signal_connect((priv->summary), "changed",
 			    G_CALLBACK (summary_changed_cb), epage);
+	g_signal_connect(priv->summary, "focus-in-event",
+			    G_CALLBACK (widget_focus_in_cb), epage);
+	g_signal_connect(priv->summary, "focus-out-event",
+			    G_CALLBACK (widget_focus_out_cb), epage);
+
 
 	/* Description */
 	text_buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (priv->description));
 
 	gtk_text_view_set_wrap_mode (GTK_TEXT_VIEW (priv->description), GTK_WRAP_WORD);
+	g_signal_connect(priv->description, "focus-in-event",
+			    G_CALLBACK (widget_focus_in_cb), epage);
+	g_signal_connect(priv->description, "focus-out-event",
+			    G_CALLBACK (widget_focus_out_cb), epage);
 
 	/* Start and end times */
 	g_signal_connect((priv->start_time), "changed",
@@ -2877,6 +2910,10 @@ init_widgets (EventPage *epage)
 			    G_CALLBACK (field_changed_cb), epage);
 	g_signal_connect((priv->location), "changed",
 			    G_CALLBACK (field_changed_cb), epage);
+	g_signal_connect((priv->location), "focus-in-event",
+			    G_CALLBACK (widget_focus_in_cb), epage);
+	g_signal_connect((priv->location), "focus-out-event",
+			    G_CALLBACK (widget_focus_out_cb), epage);
 	g_signal_connect((priv->start_time), "changed",
 			    G_CALLBACK (field_changed_cb), epage);
 	g_signal_connect((priv->end_time), "changed",

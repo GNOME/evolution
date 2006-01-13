@@ -1565,7 +1565,28 @@ categories_clicked_cb (GtkWidget *button, gpointer data)
 	entry = priv->categories;
 	e_categories_config_open_dialog_for_entry (GTK_ENTRY (entry));
 }
+/* sets the current focused widget */
+static gboolean 
+widget_focus_in_cb (GtkWidget *widget,  GdkEventFocus *event, gpointer data)
+{
+	TaskPage *tpage;
+	tpage = TASK_PAGE  (data);
 
+	comp_editor_page_set_focused_widget (COMP_EDITOR_PAGE(tpage), widget);
+
+	return FALSE;
+}
+/* unsets the current focused widget */
+static gboolean
+widget_focus_out_cb (GtkWidget *widget, GdkEventFocus *event, gpointer data)
+{
+	TaskPage *tpage;
+	tpage = TASK_PAGE (data);
+
+	comp_editor_page_unset_focused_widget (COMP_EDITOR_PAGE(tpage), widget);
+
+	return FALSE;
+}
 /* This is called when any field is changed; it notifies upstream. */
 static void
 field_changed_cb (GtkWidget *widget, gpointer data)
@@ -1702,6 +1723,18 @@ init_widgets (TaskPage *tpage)
 
 	/* Connect the default signal handler to use to make sure the "changed"
 	   field gets set whenever a field is changed. */
+
+	/* Set the current focus entry */
+	g_signal_connect (priv->summary, "focus-in-event",
+			  G_CALLBACK (widget_focus_in_cb), tpage);
+	g_signal_connect (priv->summary, "focus-out-event",
+			  G_CALLBACK (widget_focus_out_cb), tpage);
+
+	g_signal_connect (priv->description, "focus-in-event",
+			  G_CALLBACK (widget_focus_in_cb), tpage);
+	g_signal_connect (priv->description, "focus-out-event",
+			  G_CALLBACK (widget_focus_out_cb), tpage);
+
 
 	/* Belongs to priv->description */
 	g_signal_connect ((text_buffer), "changed",

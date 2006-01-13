@@ -1,3 +1,18 @@
+2006-01-13  Johnny Jacob  <johnnyjacob@gmail.com>
+
+	* gui/dialogs/comp-editor-page.c: (comp_editor_page_class_init),
+	(comp_editor_page_unset_focused_widget),
+	(comp_editor_page_set_focused_widget):
+	* gui/dialogs/comp-editor-page.h:
+	* gui/dialogs/comp-editor.c: (menu_edit_copy_cb),
+	(menu_edit_paste_cb), (menu_edit_selectall_cb), (menu_edit_cut_cb),
+	(comp_editor_init), (comp_editor_append_page),
+	(page_focus_out_widget_cb), (page_focus_in_widget_cb):
+	* gui/dialogs/event-page.c: (widget_focus_in_cb),
+	(widget_focus_out_cb), (init_widgets):
+	* gui/dialogs/task-page.c: (widget_focus_in_cb),
+	(widget_focus_out_cb), (init_widgets): Implementation for the edit button.
+
 2006-01-13  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #313112
