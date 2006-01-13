@@ -1,3 +1,9 @@
+2006-01-13  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #311888
+	* gui/dialogs/recurrence-page.c: (recurrence_page_set_dates):
+	Set the selection based on the start date of the appointment.
+
 2006-01-13  Johnny Jacob  <johnnyjacob@gmail.com>
 
 	* gui/dialogs/comp-editor-page.c: (comp_editor_page_class_init),

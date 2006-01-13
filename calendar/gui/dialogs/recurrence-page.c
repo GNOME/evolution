@@ -1908,6 +1908,22 @@ recurrence_page_set_dates (CompEditorPage *page, CompEditorPageDates *dates)
 							 priv->weekday_blocked_day_mask);
 		}
 	}
+
+	if (COMP_EDITOR_PAGE (rpage)->flags & COMP_EDITOR_PAGE_NEW_ITEM) {
+		ECalendar *ecal;
+		GDate *start, *end;
+
+		ecal = E_CALENDAR (priv->preview_calendar);
+		start = g_date_new ();
+		end = g_date_new ();
+
+		g_date_set_dmy (start, dates->start->value->day, dates->start->value->month, dates->start->value->year);
+		g_date_set_dmy (end, dates->end->value->day, dates->end->value->month, dates->end->value->year);
+		e_calendar_item_set_selection (ecal->calitem, start, end);
+
+		g_date_free (start);
+		g_date_free (end);
+	}
 	
 	/* Make sure the preview gets updated. */
 	preview_recur (rpage);
