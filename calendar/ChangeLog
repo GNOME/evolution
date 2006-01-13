@@ -1,3 +1,10 @@
+2006-01-14  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #259505
+	* gui/gnome-cal.c:
+	(gnome_calendar_on_date_navigator_selection_changed): Check 
+	the previous selection before setting the view.
+
 2006-01-13  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #271810
