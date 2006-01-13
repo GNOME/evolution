@@ -1,3 +1,10 @@
+2006-01-13  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fixes bug #326378
+	
+	* mail-composer.error.xml: Added mnemonics to Recover, Do not Recover
+	buttons in composer.
+
 2005-12-21 Rohini S <srohini@novell.com>
 
 	** See bug #246237
