@@ -1449,9 +1449,12 @@ on_unrecur_appointment (EPopup *ep, EPopupItem *pitem, void *data)
 
 	comp = e_cal_component_new ();
 	e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
-	e_cal_component_set_recurid (comp, NULL);
-	cal_comp_util_add_exdate (comp, event->comp_data->instance_start, e_calendar_view_get_timezone (cal_view));
-	e_cal_component_commit_sequence (comp);
+	
+	if (e_cal_component_has_recurrences (comp)) {
+		e_cal_component_set_recurid (comp, NULL);
+		cal_comp_util_add_exdate (comp, event->comp_data->instance_start, e_calendar_view_get_timezone (cal_view));
+		e_cal_component_commit_sequence (comp);
+	}
 
 	/* For the unrecurred instance we duplicate the original object,
 	   create a new uid for it, get rid of the recurrence rules, and set
@@ -1482,8 +1485,16 @@ on_unrecur_appointment (EPopup *ep, EPopupItem *pitem, void *data)
 	/* Now update both ECalComponents. Note that we do this last since at
 	 * present the updates happen synchronously so our event may disappear.
 	 */
+	if (e_cal_component_has_recurrences (comp)) {
 	if (!e_cal_modify_object (client, e_cal_component_get_icalcomponent (comp), CALOBJ_MOD_ALL, NULL))
 		g_message ("on_unrecur_appointment(): Could not update the object!");
+	} else {
+		ECalComponentId *id = e_cal_component_get_id (comp);
+		
+		if (!e_cal_remove_object_with_mod (client, id->uid, id->rid, CALOBJ_MOD_THIS,
+					NULL));
+			g_message ("on_unrecur_appointment(): Could not remove the old object!");
+	}
 
 	g_object_unref (comp);
 

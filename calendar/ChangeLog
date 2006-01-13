@@ -1,4 +1,10 @@
-2006-01-14  Chenthill Palanisamy  <pchenthill@novell.com>
+2006-01-13  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #313112
+	* gui/e-calendar-view.c: (on_unrecur_appointment):
+	Remove the old instance if its a detached instance.
+
+2006-01-13  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #259505
 	* gui/gnome-cal.c:
