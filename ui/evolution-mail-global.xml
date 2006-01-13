@@ -80,7 +80,7 @@
       </placeholder>
 
       <placeholder name="MailFilterTools">
-        <menuitem name="ToolsFilters" verb="" _label="Message F_ilters"/>
+        <menuitem name="ToolsFilters" verb="" _label="_Message Filters"/>
       </placeholder>
 
       <placeholder name="MailVFolderTools">

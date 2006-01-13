@@ -1,5 +1,15 @@
 2006-01-13  Srinivasa Ragavan  <sragavan@novell.com>
 
+	** Fixes bug #326265, #326266
+
+	* evolution-mail-global.xml: Changed mnemonics of Message Filters menu
+	item.
+	* evolution-mail-message.xml: Added menmonics of Message Source menu
+	item.
+	* evolution.xml: Chaned mnemonics of Import menu item.
+
+2006-01-13  Srinivasa Ragavan  <sragavan@novell.com>
+
 	** Fixes bug #326381
 	
 	* evolution-message-composer.xml:

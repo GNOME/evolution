@@ -69,7 +69,7 @@
       <separator f="" name="eshell1"/>
       
       <menuitem name="FileImporter" verb=""
-	_label="_Import..."
+	_label="I_mport..."
 	_tip="Import data from other programs"
 	pixtype="pixbuf"/>
 

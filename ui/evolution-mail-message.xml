@@ -302,7 +302,7 @@
          <menuitem name="ViewLoadImages" verb="" _label="_Load Images"/>
          <menuitem name="ViewFullHeaders" verb="" _label="All Message _Headers"/>
            <menuitem name="CaretMode" verb="" _label="_Caret Mode"/>
-           <menuitem name="ViewSource" verb="" _label="Message Source"/>
+           <menuitem name="ViewSource" verb="" _label="_Message Source"/>
 
        </placeholder>
 
