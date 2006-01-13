@@ -982,6 +982,16 @@ emfb_folder_changed(CamelFolder *folder, CamelFolderChangeInfo *changes, EMFolde
 	mail_async_event_emit(emfb->view.async, MAIL_ASYNC_GUI, (MailAsyncFunc)emfb_gui_folder_changed, folder, NULL, emfb);
 }
 
+static void
+emfb_etree_unfreeze (GtkWidget *widget, GdkEvent *event, EMFolderView *emfv)
+{
+
+	ETableItem *item = e_tree_get_item (emfv->list->tree);
+
+	g_object_set_data (((GnomeCanvasItem *) item)->canvas, "freeze-cursor", 0);
+}
+
+
 /* TODO: This should probably be handled by message-list, by storing/queueing
    up the select operation if its busy rebuilding the message-list */
 static void
@@ -1023,6 +1033,8 @@ emfb_list_built (MessageList *ml, EMFolderBrowser *emfb)
 	 * e_canvas_item_region_show_relay() uses a timeout, we have to use a timeout of the
 	 * same interval but a lower priority. */
 	emfb->priv->idle_scroll_id = g_timeout_add_full (G_PRIORITY_LOW, 250, (GSourceFunc) scroll_idle_cb, emfb, NULL);
+	/* FIXME: This is another ugly hack done to hide a bug that above hack leaves. */
+	g_signal_connect (((GtkScrolledWindow *) ml)->vscrollbar, "button-press-event", G_CALLBACK (emfb_etree_unfreeze), emfb);
 }
 
 static void

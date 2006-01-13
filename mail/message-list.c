@@ -1508,6 +1508,7 @@ message_list_setup_etree (MessageList *message_list, gboolean outgoing)
 		char *path;
 		char *name;
 		struct stat st;
+		ETableItem *item = e_tree_get_item (message_list->tree);
 
 		g_object_set (message_list->tree,
 			      "uniform_row_height", TRUE,
@@ -1517,6 +1518,8 @@ message_list_setup_etree (MessageList *message_list, gboolean outgoing)
 		d(printf ("folder name is '%s'\n", name));
 		
 		path = mail_config_folder_to_cachename (message_list->folder, "et-expanded-");
+		g_object_set_data (((GnomeCanvasItem *) item)->canvas, "freeze-cursor", 1);
+		
 		if (path && g_stat (path, &st) == 0 && st.st_size > 0 && S_ISREG (st.st_mode)) {
 			/* build based on saved file */
 			e_tree_load_expanded_state (message_list->tree, path);

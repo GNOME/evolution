@@ -1,3 +1,10 @@
+2006-01-13  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* em-folder-browser.c: (emfb_etree_unfreeze), (emfb_list_built):
+	* message-list.c: (message_list_setup_etree):
+
+	Fixes the scroll issue with the message list.
+
 2006-01-12  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* GNOME_Evolution_Mail.server.in.in:
