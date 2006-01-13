@@ -1021,6 +1021,8 @@ event_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 			if (organizer.value != NULL) {
 				const gchar *strip = itip_strip_mailto (organizer.value);
 				gchar *string;
+				GList *list = NULL;
+				
 				if (itip_organizer_is_user (comp, page->client)) {
 					if (e_cal_get_static_capability (
 								page->client,
@@ -1043,7 +1045,14 @@ event_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 				else
 					string = g_strdup (strip);
 
+				if (!priv->user_org) {
+					list = g_list_append (list, string);
+					gtk_combo_set_popdown_strings (GTK_COMBO (priv->organizer), list);
+					gtk_entry_set_editable (GTK_COMBO (priv->organizer)->entry, FALSE);
+				}
+
 				g_free (string);
+				g_list_free (list);
 				priv->existing = TRUE;
 			}
 		} else {

@@ -1,3 +1,10 @@
+2006-01-13  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #326735
+	* gui/dialogs/event-page.c: (event_page_fill_widgets): If
+	the user is not the organizer, set the orignal organizer in
+	the combobox and make it non-editable.
+
 2006-01-12  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* gui/GNOME_Evolution_Calendar.server.in.in:
