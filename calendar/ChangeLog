@@ -1,5 +1,14 @@
 2006-01-13  Chenthill Palanisamy  <pchenthill@novell.com>
 
+	Fixes #271541
+	* calendar.error.xml: Added a new message for displaying 
+	error message while trying to create a new event in read only
+	calendars
+	* gui/e-calendar-view.c: (e_calendar_view_new_appointment_for):
+	Run the error dialog using the message.
+
+2006-01-13  Chenthill Palanisamy  <pchenthill@novell.com>
+
 	Fixes #326735
 	* gui/dialogs/event-page.c: (event_page_fill_widgets): If
 	the user is not the organizer, set the orignal organizer in

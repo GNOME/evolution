@@ -1680,6 +1680,7 @@ e_calendar_view_new_appointment_for (ECalendarView *cal_view,
 	ECalComponentTransparency transparency;
 	ECal *default_client = NULL;
 	guint32 flags = 0;
+	gboolean readonly = FALSE;
 
 	g_return_if_fail (E_IS_CALENDAR_VIEW (cal_view));
 
@@ -1689,6 +1690,17 @@ e_calendar_view_new_appointment_for (ECalendarView *cal_view,
 
 	if (default_client && e_cal_get_load_state (default_client) != E_CAL_LOAD_LOADED) {
 		g_warning ("Default client not loaded \n");
+		return;
+	}
+	
+	if (e_cal_is_read_only (default_client, &readonly, NULL) && readonly) {
+		GtkWidget *widget;
+		
+		widget = e_error_new (NULL, "calendar:prompt-read-only-cal", NULL);
+	
+		g_signal_connect ((GtkDialog *)widget, "response", G_CALLBACK (gtk_widget_destroy), 
+				  widget);
+		gtk_widget_show (widget);
 		return;
 	}
 	

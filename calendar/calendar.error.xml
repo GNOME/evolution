@@ -222,6 +222,12 @@
   <button stock ="gtk-ok" response="GTK_RESPONSE_YES"/>
  </error>
  
+ <error id="prompt-read-only-cal" type="error" default="GTK_RESPONSE_YES">
+  <_primary>Cannot create a new event</_primary>
+  <_secondary>The calendar you have selected is read-only</_secondary>
+  <button stock ="gtk-ok" response="GTK_RESPONSE_YES"/>
+ </error>
+
  <error id="prompt-no-contents-offline-tasks" type="error" default="GTK_RESPONSE_YES">
   <_primary>Error loading task list</_primary>
   <_secondary>The task list is not marked for offline usage.</_secondary>
