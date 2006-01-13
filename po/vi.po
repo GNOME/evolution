@@ -7,8 +7,8 @@ msgid ""
 ""
 msgstr "Project-Id-Version: evolution 1.4 Gnome HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-01-10 21:56+0100\n"
-"PO-Revision-Date: 2006-01-11 15:20+1030\n"
+"POT-Creation-Date: 2006-01-13 05:32+0100\n"
+"PO-Revision-Date: 2006-01-13 23:33+1030\n"
 "Last-Translator: Clytie Siddall <clytie@riverland.net.au>\n"
 "Language-Team: Vietnamese <gnomevi-list@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -1377,8 +1377,8 @@ msgstr "Địa chỉ"
 #:../addressbook/gui/widgets/e-minicard.c:175
 #:../widgets/menus/gal-define-views-model.c:181
 #:../widgets/table/e-cell-text.c:1770 ../widgets/text/e-entry.c:1312
-#:../widgets/text/e-entry.c:1313 ../widgets/text/e-text.c:3584
-#:../widgets/text/e-text.c:3585
+#:../widgets/text/e-entry.c:1313 ../widgets/text/e-text.c:3586
+#:../widgets/text/e-text.c:3587
 msgid "Editable"
 msgstr "Có thể sửa"
 
@@ -2749,7 +2749,7 @@ msgstr "Gập lỗi khi gọi khung xem sổ"
 #:../widgets/table/e-table.c:3344
 #:../widgets/table/e-tree-selection-model.c:825
 #:../widgets/text/e-entry.c:1235 ../widgets/text/e-entry.c:1236
-#:../widgets/text/e-text.c:3448 ../widgets/text/e-text.c:3449
+#:../widgets/text/e-text.c:3450 ../widgets/text/e-text.c:3451
 msgid "Model"
 msgstr "Mô hình"
 
@@ -2858,7 +2858,7 @@ msgid "Mo_ve to Address Book..."
 msgstr "Chu_yển vào Sổ địa chỉ..."
 
 #:../addressbook/gui/widgets/e-addressbook-view.c:963
-#:../ui/evolution-composer-entries.xml.h:2 ../ui/evolution-editor.xml.h:8
+#:../ui/evolution-composer-entries.xml.h:4 ../ui/evolution-editor.xml.h:8
 msgid "Cu_t"
 msgstr "_Cắt"
 
@@ -2870,7 +2870,7 @@ msgstr "_Cắt"
 #:../calendar/gui/tasks-component.c:442 ../composer/e-msg-composer.c:3074
 #:../mail/em-folder-tree.c:979 ../mail/em-folder-view.c:1077
 #:../mail/message-list.c:1716 ../ui/evolution-addressbook.xml.h:32
-#:../ui/evolution-calendar.xml.h:37 ../ui/evolution-composer-entries.xml.h:7
+#:../ui/evolution-calendar.xml.h:37 ../ui/evolution-composer-entries.xml.h:13
 #:../ui/evolution-editor.xml.h:16 ../ui/evolution-mail-message.xml.h:105
 #:../ui/evolution-memos.xml.h:15 ../ui/evolution-tasks.xml.h:23
 msgid "_Copy"
@@ -3076,7 +3076,7 @@ msgstr "Chỗ Mạng"
 #:../widgets/table/e-table-group-leaf.c:629
 #:../widgets/table/e-table-group-leaf.c:630
 #:../widgets/table/e-table-item.c:3012 ../widgets/table/e-table-item.c:3013
-#:../widgets/text/e-text.c:3626 ../widgets/text/e-text.c:3627
+#:../widgets/text/e-text.c:3628 ../widgets/text/e-text.c:3629
 msgid "Width"
 msgstr "Rộng"
 
@@ -3091,7 +3091,7 @@ msgstr "Rộng"
 #:../widgets/table/e-table-group-leaf.c:622
 #:../widgets/table/e-table-group-leaf.c:623
 #:../widgets/table/e-table-item.c:3018 ../widgets/table/e-table-item.c:3019
-#:../widgets/text/e-text.c:3634 ../widgets/text/e-text.c:3635
+#:../widgets/text/e-text.c:3636 ../widgets/text/e-text.c:3637
 msgid "Height"
 msgstr "Cao"
 
@@ -4412,7 +4412,7 @@ msgstr "Thời gian _ngủ:"
 #:../plugins/exchange-operations/exchange-delegates.glade.h:15
 #:../plugins/publish-calendar/publish-calendar.glade.h:20
 #:../ui/evolution-addressbook.xml.h:35 ../ui/evolution-calendar.xml.h:39
-#:../ui/evolution-composer-entries.xml.h:8 ../ui/evolution-editor.xml.h:17
+#:../ui/evolution-composer-entries.xml.h:14 ../ui/evolution-editor.xml.h:17
 #:../ui/evolution-mail-messagedisplay.xml.h:5 ../ui/evolution-memos.xml.h:17
 #:../ui/evolution-message-composer.xml.h:45
 #:../ui/evolution-signature-editor.xml.h:23
@@ -6871,7 +6871,7 @@ msgstr "_Cắt"
 #:../calendar/gui/e-calendar-view.c:1542
 #:../calendar/gui/e-calendar-view.c:1561 ../calendar/gui/e-memo-table.c:863
 #:../ui/evolution-addressbook.xml.h:39 ../ui/evolution-calendar.xml.h:41
-#:../ui/evolution-composer-entries.xml.h:9 ../ui/evolution-editor.xml.h:22
+#:../ui/evolution-composer-entries.xml.h:15 ../ui/evolution-editor.xml.h:22
 #:../ui/evolution-memos.xml.h:19 ../ui/evolution-tasks.xml.h:28
 msgid "_Paste"
 msgstr "_Dán"
@@ -7890,7 +7890,8 @@ msgid "You must be an attendee of the event."
 msgstr "Bạn phải là người dự dữ kiện ấy."
 
 #:../calendar/gui/memos-component.c:451 ../ui/evolution-addressbook.xml.h:3
-#:../ui/evolution-memos.xml.h:2 ../ui/evolution-tasks.xml.h:2
+#:../ui/evolution-composer-entries.xml.h:1 ../ui/evolution-memos.xml.h:2
+#:../ui/evolution-tasks.xml.h:2
 msgid "Copy"
 msgstr "Chép"
 
@@ -13477,7 +13478,7 @@ msgid "Checking for new mail"
 msgstr "Đang kiểm tra tìm thư mới"
 
 #:../mail/mail-session.c:204
-#:../plugins/exchange-operations/exchange-config-listener.c:604
+#:../plugins/exchange-operations/exchange-config-listener.c:676
 #,c-format
 msgid "Enter Password for %s"
 msgstr "Nhập mật khẩu cho « %s »"
@@ -14650,6 +14651,11 @@ msgid "Your current password has expired. Please change your password now."
 msgstr "Mật khẩu hiện thời của bạn đã hết hạn. Hãy thay đổi mật khẩu bạn ngay bây "
 "giờ."
 
+#:../plugins/exchange-operations/exchange-config-listener.c:633
+#,c-format
+msgid "Your password will expire in next %d days"
+msgstr "Mật khẩu bạn sẽ hết hạn dùng trong vòng %d ngày"
+
 #:../plugins/exchange-operations/exchange-delegates-user.c:144
 #:../plugins/exchange-operations/exchange-permissions-dialog.c:576
 msgid "Custom"
@@ -15151,21 +15157,21 @@ msgstr "Bạn có thể cấu hình chỉ một tài khoản Exchange riêng l�
 
 #:../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:72
 msgid ""
-"Your current usage is: {0}KB. Try to clear up some space by deleting some "
+"Your current usage is: {0} KB. Try to clear up some space by deleting some "
 "mails."
 msgstr "Hiện thời bạn đang sử dụng chỗ: {0}KB. Hãy cố giải phóng thêm chỗ trống bằng "
 "cách xóa bỏ một số thư."
 
 #:../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:73
 msgid ""
-"Your current usage is: {0}KB. You will not be able to either send or recieve "
-"mails now."
+"Your current usage is: {0} KB. You will not be able to either send or "
+"recieve mails now."
 msgstr "Hiện thời bạn đang sử dụng chỗ: {0}KB. Như thế thì bạn sẽ không thể gởi hoặc "
 "nhận thư."
 
 #:../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:74
 msgid ""
-"Your current usage is: {0}KB. You will not be able to send mails till you "
+"Your current usage is: {0} KB. You will not be able to send mails till you "
 "clear up some space by deleting some mails."
 msgstr "Hiện thời bạn đang sử dụng chỗ: {0}KB. Bạn sẽ không thể gởi thư đến khi bạn "
 "giải phóng thêm chỗ trống bằng cách xóa bỏ một số thư."
@@ -16459,12 +16465,14 @@ msgid "Spamassassin (built-in)"
 msgstr "Spamassassin (sẵn có)"
 
 #:../plugins/sa-junk-plugin/org-gnome-sa-junk-plugin.eplug.xml.h:1
-msgid "Sa junk-plugin"
-msgstr "Bộ cầm phít Thư rác SA"
+msgid ""
+"Filters junk messages using Spamassassin. This plugin requires Spamassassin "
+"to be installed."
+msgstr "Lọc thư rác bằng Spamassassin (nên bộ cầm phít cần đến Spamassassin đã được cài đặt)."
 
 #:../plugins/sa-junk-plugin/org-gnome-sa-junk-plugin.eplug.xml.h:2
-msgid "learns junk messages using spamd."
-msgstr "học biết phát hiện thư rác, dùng trình nền spamd"
+msgid "Spamassassin junk plugin"
+msgstr "Bộ cầm phít rác Spamassassin"
 
 #:../plugins/save-attachments/org-gnome-save-attachments.eplug.xml.h:1
 msgid "A plugin for saving all attachments or parts of a message at once."
@@ -17531,7 +17539,7 @@ msgid "_Edit CA Trust"
 msgstr "_Sửa đổi tính tin cây CA"
 
 #.XXX we shouldn't be popping up dialogs in this code.
-#:../smime/lib/e-cert-db.c:654
+#:../smime/lib/e-cert-db.c:657
 msgid "Certificate already exists"
 msgstr "Chứng nhận này đã có"
 
@@ -17764,7 +17772,8 @@ msgstr "Chép đoạn đã chọn"
 msgid "Copy to Folder..."
 msgstr "Chép vào thư mục..."
 
-#:../ui/evolution-addressbook.xml.h:7 ../ui/evolution-memos.xml.h:4
+#:../ui/evolution-addressbook.xml.h:7
+#:../ui/evolution-composer-entries.xml.h:5 ../ui/evolution-memos.xml.h:4
 #:../ui/evolution-tasks.xml.h:4
 msgid "Cut"
 msgstr "Cắt"
@@ -17789,7 +17798,8 @@ msgstr "Chuyển các liên lạc được chọn sang thư mục khác..."
 msgid "Move to Folder..."
 msgstr "Chuyển sang thư mục..."
 
-#:../ui/evolution-addressbook.xml.h:14 ../ui/evolution-memos.xml.h:8
+#:../ui/evolution-addressbook.xml.h:14
+#:../ui/evolution-composer-entries.xml.h:8 ../ui/evolution-memos.xml.h:8
 #:../ui/evolution-tasks.xml.h:11
 msgid "Paste"
 msgstr "Dán"
@@ -17810,7 +17820,7 @@ msgstr "In các liên lạc được chọn"
 msgid "Save selected contacts as a VCard."
 msgstr "Lưu các liên lạc được chọn là vCard"
 
-#:../ui/evolution-addressbook.xml.h:22 ../widgets/text/e-text.c:2684
+#:../ui/evolution-addressbook.xml.h:22 ../widgets/text/e-text.c:2686
 msgid "Select All"
 msgstr "Chọn tất cả"
 
@@ -17975,24 +17985,36 @@ msgstr "Tuần làm việc"
 msgid "_Open Appointment"
 msgstr "Mở _Cuộc hẹn"
 
-#:../ui/evolution-composer-entries.xml.h:1 ../ui/evolution-editor.xml.h:7
+#:../ui/evolution-composer-entries.xml.h:2 ../ui/evolution-editor.xml.h:7
 msgid "Copy selected text to the clipboard"
 msgstr "Sao chép đoạn được chọn sang bảng tạm"
 
-#:../ui/evolution-composer-entries.xml.h:3 ../ui/evolution-editor.xml.h:9
+#:../ui/evolution-composer-entries.xml.h:3
+msgid "Copy selection to clipboard"
+msgstr "Chép vùng chọn sang bảng tạm"
+
+#:../ui/evolution-composer-entries.xml.h:6 ../ui/evolution-editor.xml.h:9
 msgid "Cut selected text to the clipboard"
 msgstr "Cắt đoạn được chọn vào bảng tạm"
 
-#:../ui/evolution-composer-entries.xml.h:4 ../ui/evolution-editor.xml.h:10
+#:../ui/evolution-composer-entries.xml.h:7
+msgid "Cut selection to clipboard"
+msgstr "Cắt vùng chọn sang bảng tạm"
+
+#:../ui/evolution-composer-entries.xml.h:9
+msgid "Paste from clipboard"
+msgstr "Dán bảng tạm"
+
+#:../ui/evolution-composer-entries.xml.h:10 ../ui/evolution-editor.xml.h:10
 msgid "Paste text from the clipboard"
 msgstr "Dán đoạn từ bảng tạm"
 
-#:../ui/evolution-composer-entries.xml.h:5 ../ui/evolution-editor.xml.h:12
+#:../ui/evolution-composer-entries.xml.h:11 ../ui/evolution-editor.xml.h:12
 #:../ui/evolution-subscribe.xml.h:6
 msgid "Select _All"
 msgstr "Chọn _Tất cả"
 
-#:../ui/evolution-composer-entries.xml.h:6 ../ui/evolution-editor.xml.h:13
+#:../ui/evolution-composer-entries.xml.h:12 ../ui/evolution-editor.xml.h:13
 msgid "Select all text"
 msgstr "Chọn toàn bộ văn bản"
 
@@ -19489,8 +19511,8 @@ msgstr "Lịch tháng"
 
 #:../widgets/misc/e-canvas-background.c:459
 #:../widgets/misc/e-canvas-background.c:460 ../widgets/text/e-entry.c:1284
-#:../widgets/text/e-entry.c:1285 ../widgets/text/e-text.c:3540
-#:../widgets/text/e-text.c:3541
+#:../widgets/text/e-entry.c:1285 ../widgets/text/e-text.c:3542
+#:../widgets/text/e-text.c:3543
 msgid "Fill color"
 msgstr "Màu tô đầy"
 
@@ -19499,16 +19521,16 @@ msgstr "Màu tô đầy"
 #:../widgets/misc/e-canvas-background.c:473
 #:../widgets/misc/e-canvas-background.c:474 ../widgets/text/e-entry.c:1291
 #:../widgets/text/e-entry.c:1292 ../widgets/text/e-entry.c:1298
-#:../widgets/text/e-entry.c:1299 ../widgets/text/e-text.c:3547
-#:../widgets/text/e-text.c:3548 ../widgets/text/e-text.c:3555
-#:../widgets/text/e-text.c:3556
+#:../widgets/text/e-entry.c:1299 ../widgets/text/e-text.c:3549
+#:../widgets/text/e-text.c:3550 ../widgets/text/e-text.c:3557
+#:../widgets/text/e-text.c:3558
 msgid "GDK fill color"
 msgstr "Màu tô đầy GDK"
 
 #:../widgets/misc/e-canvas-background.c:480
 #:../widgets/misc/e-canvas-background.c:481 ../widgets/text/e-entry.c:1305
-#:../widgets/text/e-entry.c:1306 ../widgets/text/e-text.c:3562
-#:../widgets/text/e-text.c:3563
+#:../widgets/text/e-entry.c:1306 ../widgets/text/e-text.c:3564
+#:../widgets/text/e-text.c:3565
 msgid "Fill stipple"
 msgstr "Tô đầy dùng thuật vẽ bằng chấm"
 
@@ -19835,8 +19857,8 @@ msgid "Subitem ID"
 msgstr "ID mục con"
 
 #:../widgets/misc/e-search-bar.c:907 ../widgets/text/e-entry.c:1249
-#:../widgets/text/e-entry.c:1250 ../widgets/text/e-text.c:3462
-#:../widgets/text/e-text.c:3463
+#:../widgets/text/e-entry.c:1250 ../widgets/text/e-text.c:3464
+#:../widgets/text/e-text.c:3465
 msgid "Text"
 msgstr "Chữ"
 
@@ -20412,7 +20434,7 @@ msgid "This should test the minicard canvas item"
 msgstr "Hành động này nên thử ra mục vải căng thẻ tí tị"
 
 #:../widgets/text/e-entry.c:1242 ../widgets/text/e-entry.c:1243
-#:../widgets/text/e-text.c:3455 ../widgets/text/e-text.c:3456
+#:../widgets/text/e-text.c:3457 ../widgets/text/e-text.c:3458
 msgid "Event Processor"
 msgstr "Bộ xử lý dữ kiện"
 
@@ -20425,57 +20447,57 @@ msgid "GDKFont"
 msgstr "Phông chữ GDK"
 
 #:../widgets/text/e-entry.c:1277 ../widgets/text/e-entry.c:1278
-#:../widgets/text/e-text.c:3491 ../widgets/text/e-text.c:3492
+#:../widgets/text/e-text.c:3493 ../widgets/text/e-text.c:3494
 msgid "Justification"
 msgstr "Canh đều"
 
 #:../widgets/text/e-entry.c:1319 ../widgets/text/e-entry.c:1320
-#:../widgets/text/e-text.c:3591 ../widgets/text/e-text.c:3592
+#:../widgets/text/e-text.c:3593 ../widgets/text/e-text.c:3594
 msgid "Use ellipsis"
 msgstr "Dùng dấu chấm lửng"
 
 #:../widgets/text/e-entry.c:1326 ../widgets/text/e-entry.c:1327
-#:../widgets/text/e-text.c:3598 ../widgets/text/e-text.c:3599
+#:../widgets/text/e-text.c:3600 ../widgets/text/e-text.c:3601
 msgid "Ellipsis"
 msgstr "Dấu chấm lửng"
 
 #:../widgets/text/e-entry.c:1333 ../widgets/text/e-entry.c:1334
-#:../widgets/text/e-text.c:3605 ../widgets/text/e-text.c:3606
+#:../widgets/text/e-text.c:3607 ../widgets/text/e-text.c:3608
 msgid "Line wrap"
 msgstr "Ngắt dòng"
 
 #:../widgets/text/e-entry.c:1340 ../widgets/text/e-entry.c:1341
-#:../widgets/text/e-text.c:3612 ../widgets/text/e-text.c:3613
+#:../widgets/text/e-text.c:3614 ../widgets/text/e-text.c:3615
 msgid "Break characters"
 msgstr "Ngắt ký tự"
 
 #:../widgets/text/e-entry.c:1347 ../widgets/text/e-entry.c:1348
-#:../widgets/text/e-text.c:3619 ../widgets/text/e-text.c:3620
+#:../widgets/text/e-text.c:3621 ../widgets/text/e-text.c:3622
 msgid "Max lines"
 msgstr "Số dòng tối đa"
 
 #:../widgets/text/e-entry.c:1354 ../widgets/text/e-entry.c:1355
-#:../widgets/text/e-text.c:3648 ../widgets/text/e-text.c:3649
+#:../widgets/text/e-text.c:3650 ../widgets/text/e-text.c:3651
 msgid "Allow newlines"
 msgstr "Cho phép ký tự dòng mới"
 
 #:../widgets/text/e-entry.c:1361 ../widgets/text/e-entry.c:1362
-#:../widgets/text/e-text.c:3641 ../widgets/text/e-text.c:3642
+#:../widgets/text/e-text.c:3643 ../widgets/text/e-text.c:3644
 msgid "Draw borders"
 msgstr "Viền vẽ"
 
 #:../widgets/text/e-entry.c:1368 ../widgets/text/e-entry.c:1369
-#:../widgets/text/e-text.c:3655 ../widgets/text/e-text.c:3656
+#:../widgets/text/e-text.c:3657 ../widgets/text/e-text.c:3658
 msgid "Draw background"
 msgstr "Nền vẽ"
 
 #:../widgets/text/e-entry.c:1375 ../widgets/text/e-entry.c:1376
-#:../widgets/text/e-text.c:3662 ../widgets/text/e-text.c:3663
+#:../widgets/text/e-text.c:3664 ../widgets/text/e-text.c:3665
 msgid "Draw button"
 msgstr "Nút vẽ"
 
 #:../widgets/text/e-entry.c:1382 ../widgets/text/e-entry.c:1383
-#:../widgets/text/e-text.c:3669 ../widgets/text/e-text.c:3670
+#:../widgets/text/e-text.c:3671 ../widgets/text/e-text.c:3672
 msgid "Cursor position"
 msgstr "Ví trị con trỏ"
 
@@ -20483,58 +20505,58 @@ msgstr "Ví trị con trỏ"
 msgid "Emulate label resize"
 msgstr "Mô phỏng đổi cỡ nhãn"
 
-#:../widgets/text/e-text.c:2696
+#:../widgets/text/e-text.c:2698
 msgid "Input Methods"
 msgstr "Cách nhập"
 
-#:../widgets/text/e-text.c:3469 ../widgets/text/e-text.c:3470
+#:../widgets/text/e-text.c:3471 ../widgets/text/e-text.c:3472
 msgid "Bold"
 msgstr "Đậm"
 
-#:../widgets/text/e-text.c:3476 ../widgets/text/e-text.c:3477
+#:../widgets/text/e-text.c:3478 ../widgets/text/e-text.c:3479
 msgid "Strikeout"
 msgstr "Gạch xóa"
 
-#:../widgets/text/e-text.c:3483 ../widgets/text/e-text.c:3484
+#:../widgets/text/e-text.c:3485 ../widgets/text/e-text.c:3486
 msgid "Anchor"
 msgstr "Neo"
 
-#:../widgets/text/e-text.c:3498 ../widgets/text/e-text.c:3499
+#:../widgets/text/e-text.c:3500 ../widgets/text/e-text.c:3501
 msgid "Clip Width"
 msgstr "Rộng trích đoạn"
 
-#:../widgets/text/e-text.c:3505 ../widgets/text/e-text.c:3506
+#:../widgets/text/e-text.c:3507 ../widgets/text/e-text.c:3508
 msgid "Clip Height"
 msgstr "Cao trích đoạn"
 
-#:../widgets/text/e-text.c:3512 ../widgets/text/e-text.c:3513
+#:../widgets/text/e-text.c:3514 ../widgets/text/e-text.c:3515
 msgid "Clip"
 msgstr "Trích đoạn"
 
-#:../widgets/text/e-text.c:3519 ../widgets/text/e-text.c:3520
+#:../widgets/text/e-text.c:3521 ../widgets/text/e-text.c:3522
 msgid "Fill clip rectangle"
 msgstr "Tô đầy hình chữ nhật trích đoạn"
 
-#:../widgets/text/e-text.c:3526 ../widgets/text/e-text.c:3527
+#:../widgets/text/e-text.c:3528 ../widgets/text/e-text.c:3529
 msgid "X Offset"
 msgstr "Hiệu số X"
 
-#:../widgets/text/e-text.c:3533 ../widgets/text/e-text.c:3534
+#:../widgets/text/e-text.c:3535 ../widgets/text/e-text.c:3536
 msgid "Y Offset"
 msgstr "Hiệu số Y"
 
-#:../widgets/text/e-text.c:3569 ../widgets/text/e-text.c:3570
+#:../widgets/text/e-text.c:3571 ../widgets/text/e-text.c:3572
 msgid "Text width"
 msgstr "Rộng văn bản"
 
-#:../widgets/text/e-text.c:3576 ../widgets/text/e-text.c:3577
+#:../widgets/text/e-text.c:3578 ../widgets/text/e-text.c:3579
 msgid "Text height"
 msgstr "Cao văn bản"
 
-#:../widgets/text/e-text.c:3676 ../widgets/text/e-text.c:3677
+#:../widgets/text/e-text.c:3678 ../widgets/text/e-text.c:3679
 msgid "IM Context"
 msgstr "Ngữ cảnh IM"
 
-#:../widgets/text/e-text.c:3683 ../widgets/text/e-text.c:3684
+#:../widgets/text/e-text.c:3685 ../widgets/text/e-text.c:3686
 msgid "Handle Popup"
 msgstr "Bộ bật lên móc kéo"
