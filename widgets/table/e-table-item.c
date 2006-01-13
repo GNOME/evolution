@@ -1664,7 +1664,17 @@ static const char gray50_bits[] = {
 static void
 adjustment_changed (GtkAdjustment *adjustment, ETableItem *eti)
 {
+	/* FIXME: It is the ugliest of hack to set the focus to scroll. Fix this up when moving away from e-tree */
+	if (g_object_get_data ((GObject *) ((GnomeCanvasItem *) eti)->canvas, "freeze-cursor"))
+		eti_maybe_show_cursor (eti, 0);
+
 	eti_check_cursor_on_screen (eti);
+}
+
+static void
+eti_tree_unfreeze (GtkWidget *widget,  GdkEvent *event, ETableItem *eti)
+{
+	g_object_set_data (((GnomeCanvasItem *) eti)->canvas, "freeze-cursor", 0);
 }
 
 static void
@@ -1709,6 +1719,8 @@ eti_realize (GnomeCanvasItem *item)
 	eti->vadjustment_value_change_id =
 		g_signal_connect (gtk_layout_get_vadjustment(GTK_LAYOUT(item->canvas)), "value_changed",
 				  G_CALLBACK (adjustment_changed), eti);
+
+	g_signal_connect (GTK_LAYOUT(item->canvas), "scroll_event", G_CALLBACK (eti_tree_unfreeze), eti);
 
 	if (eti->cell_views == NULL)
 		eti_attach_cell_views (eti);

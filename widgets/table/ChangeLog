@@ -1,3 +1,8 @@
+2006-01-13  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* e-table-item.c: (adjustment_changed), (eti_tree_unfreeze),
+	(eti_realize): Fixes the scroll issue with e-tree.
+
 2005-12-21  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	committing for Akira TAGOH <tagoh@gnome-db.org>
