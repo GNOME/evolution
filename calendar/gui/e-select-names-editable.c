@@ -193,7 +193,7 @@ GList *
 e_select_names_editable_get_names (ESelectNamesEditable *esne)
 {
 	EDestinationStore *destination_store;
-	GList *destinations;
+	GList *destinations, *l;
 	EDestination *destination;
 	GList *result = NULL;
 

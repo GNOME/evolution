@@ -764,7 +764,7 @@
 			  </child>
 
 			  <child>
-			    <widget class="GnomeFileEntry" id="file-entry1">
+			    <widget class="GnomeFileEntry" id="aalarm-file-entry">
 			      <property name="visible">True</property>
 			      <property name="max_saved">10</property>
 			      <property name="directory_entry">False</property>

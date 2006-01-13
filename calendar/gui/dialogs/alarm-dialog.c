@@ -97,6 +97,7 @@ typedef struct {
 	GtkWidget *aalarm_group;
 	GtkWidget *aalarm_sound;
 	GtkWidget *aalarm_attach;
+	GtkWidget *aalarm_file_entry;
 
 	/* Mail alarm widgets */
 	const char *email;
@@ -554,6 +555,7 @@ get_widgets (Dialog *dialog)
 	dialog->aalarm_group = GW ("aalarm-group");
 	dialog->aalarm_sound = GW ("aalarm-sound");
 	dialog->aalarm_attach = GW ("aalarm-attach");
+	dialog->aalarm_file_entry = GW ("aalarm-file-entry");
 
 	dialog->malarm_group = GW ("malarm-group");
 	dialog->malarm_address_group = GW ("malarm-address-group");
@@ -584,6 +586,7 @@ get_widgets (Dialog *dialog)
 		&& dialog->aalarm_group
 		&& dialog->aalarm_sound
 		&& dialog->aalarm_attach
+		&& dialog->aalarm_file_entry
 		&& dialog->malarm_group
 		&& dialog->malarm_address_group
 		&& dialog->malarm_addressbook
@@ -678,10 +681,17 @@ repeat_toggle_toggled_cb (GtkToggleButton *toggle, gpointer data)
 static void
 check_custom_sound (Dialog *dialog)
 {
-	char *str;
+	char *str, *dir;
 	gboolean sens;
 	
 	str = e_dialog_editable_get (dialog->aalarm_attach);
+
+	if ( str && *str ) {
+		dir = g_path_get_dirname (str);
+		if ( dir && *dir ) {
+			calendar_config_set_dir_path (dir);
+		}
+	}
 
 	sens = e_dialog_toggle_get (dialog->aalarm_sound) ? str && *str : TRUE;
 	gtk_dialog_set_response_sensitive (GTK_DIALOG (dialog->toplevel), GTK_RESPONSE_OK, sens);
@@ -827,6 +837,7 @@ static void
 action_selection_done_cb (GtkMenuShell *menu_shell, gpointer data)
 {
 	Dialog *dialog = data;
+	char *dir;
 	ECalComponentAlarmAction action;
 	int page = 0, i;
 	
@@ -842,6 +853,9 @@ action_selection_done_cb (GtkMenuShell *menu_shell, gpointer data)
 
 	switch (action) {	
 	case E_CAL_COMPONENT_ALARM_AUDIO:
+		dir = calendar_config_get_dir_path ();
+		if ( dir && *dir )
+			gnome_file_entry_set_default_path (dialog->aalarm_file_entry, dir);
 		check_custom_sound (dialog);
 		break;
 

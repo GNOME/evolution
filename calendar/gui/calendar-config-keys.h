@@ -89,6 +89,7 @@ G_BEGIN_DECLS
 /* Free/Busy settings */
 #define CALENDAR_CONFIG_TEMPLATE CALENDAR_CONFIG_PREFIX"/publish/template"
 
+#define CALENDAR_CONFIG_SAVE_DIR "/apps/evolution/mail/save_dir"
 G_END_DECLS
 
 #endif

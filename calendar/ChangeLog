@@ -1,4 +1,15 @@
-2005-12-20  Chenthill Palanisamy  <pchenthill@novell.com>
+2005-01-13  Johnny Jacob  <johnnyjacob@gmail.com>
+
+	Fixes #213660
+	* gui/dialogs/alarm-dialog.c (check_custom_sound):
+	Save the directory path in gconf.
+	(action_selection_done_cb) : Read from gconf and set
+	the default path for the file entry.
+	* gui/dialogs/calendar-config.ch (calendar_config_set_dir): Added.
+	save the path in gconf.
+	(calendar_config_get_dir_path): Added. Retrive the path from gconf.
+
+2005-01-13  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #320101
 	* gui/e-select-names-editable.c:

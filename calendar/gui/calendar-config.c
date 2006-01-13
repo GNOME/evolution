@@ -1331,3 +1331,19 @@ calendar_config_add_notification_free_busy_template (GConfClientNotifyFunc func,
 	
 	return id;	
 }
+
+void
+calendar_config_set_dir_path (const gchar *path)
+{
+	gconf_client_set_string (config, CALENDAR_CONFIG_SAVE_DIR, path, NULL);
+}
+
+char *
+calendar_config_get_dir_path (void)
+{
+	char *path;
+
+	path = gconf_client_get_string (config, CALENDAR_CONFIG_SAVE_DIR, NULL);
+
+	return path;
+}
