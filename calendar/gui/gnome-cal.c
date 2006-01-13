@@ -1774,7 +1774,8 @@ void
 gnome_calendar_goto (GnomeCalendar *gcal, time_t new_time)
 {
 	GnomeCalendarPrivate *priv;
-	
+	int i;
+
 	g_return_if_fail (gcal != NULL);
 	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
 	g_return_if_fail (new_time != -1);
@@ -1784,6 +1785,11 @@ gnome_calendar_goto (GnomeCalendar *gcal, time_t new_time)
 	update_view_times (gcal, new_time);
 	gnome_calendar_update_date_navigator (gcal);
 	gnome_calendar_notify_dates_shown_changed (gcal);
+	
+	for (i = 0; i < GNOME_CAL_LAST_VIEW; i++) {
+		if (E_CALENDAR_VIEW_CLASS (G_OBJECT_GET_CLASS (priv->views[i]))->set_selected_time_range) 
+			E_CALENDAR_VIEW_CLASS (G_OBJECT_GET_CLASS (priv->views[i]))->set_selected_time_range (priv->views[i], new_time, new_time);
+	}		
 }
 
 
@@ -3115,9 +3121,12 @@ gnome_calendar_on_date_navigator_selection_changed (ECalendarItem *calitem, Gnom
 		/* FIXME Gross hack so that the view times are updated properly */
 		priv->range_selected = TRUE;
 
-		e_week_view_set_weeks_shown (E_WEEK_VIEW (priv->month_view),
+		if (priv->current_view_type == GNOME_CAL_MONTH_VIEW) {
+			e_week_view_set_weeks_shown (E_WEEK_VIEW (priv->month_view),
 					     (new_days_shown + 6) / 7);
-		view_type = GNOME_CAL_MONTH_VIEW;
+			view_type = GNOME_CAL_MONTH_VIEW;
+		} else
+			view_type = GNOME_CAL_LIST_VIEW;
 	} else if (new_days_shown == 7 && starts_on_week_start_day) {
 		view_type = GNOME_CAL_WEEK_VIEW;
 	} else {		

@@ -210,6 +210,7 @@ e_week_view_main_item_draw_day (EWeekViewMainItem *wvmitem,
 	PangoContext *pango_context;
 	PangoFontMetrics *font_metrics;
 	PangoLayout *layout;
+	gboolean today = FALSE;
 
 #if 0
 	g_print ("Drawing Day:%i at %i,%i\n", day, x, y);
@@ -345,18 +346,27 @@ e_week_view_main_item_draw_day (EWeekViewMainItem *wvmitem,
 						    e_calendar_view_get_timezone (E_CALENDAR_VIEW (week_view)));
 		if (g_date_year (date) == tt.year 
 		    && g_date_month (date) == tt.month
-		    && g_date_day (date) == tt.day)
+		    && g_date_day (date) == tt.day) {
 			gdk_gc_set_foreground (gc, &week_view->colors[E_WEEK_VIEW_COLOR_TODAY]);
+			today = TRUE;
+		}
 		else
 			gdk_gc_set_foreground (gc, &week_view->colors[E_WEEK_VIEW_COLOR_DATES]);
 	} else {
 		gdk_gc_set_foreground (gc, &week_view->colors[E_WEEK_VIEW_COLOR_DATES]);
 	}
 
-	g_date_strftime (buffer, sizeof (buffer),
-			 format_string ? format_string : "%d", date);
+	if (today) {
+		g_date_strftime (buffer, sizeof (buffer),
+				 format_string ? format_string : "<b>%d</b>", date);
+		layout = gtk_widget_create_pango_layout (GTK_WIDGET (week_view), buffer);
+		pango_layout_set_markup (layout, buffer, strlen(buffer));	
+	} else {
+		g_date_strftime (buffer, sizeof (buffer),
+				 format_string ? format_string : "%d", date);
+		layout = gtk_widget_create_pango_layout (GTK_WIDGET (week_view), buffer);	
+	}
 
-	layout = gtk_widget_create_pango_layout (GTK_WIDGET (week_view), buffer);
 	pango_layout_get_pixel_size (layout, &date_width, NULL);
 	date_x = x + width - date_width - E_WEEK_VIEW_DATE_R_PAD;
 	date_x = MAX (date_x, x + 1);

@@ -1,3 +1,13 @@
+2006-01-13  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fixes bug #274234
+	
+	* gui/e-week-view-main-item.c: (e_week_view_main_item_draw_day): Bolds 
+	the date if drawing Today.
+	* gui/gnome-cal.c (gnome_calendar_goto)
+	(gnome_calendar_on_date_navigator_selection_changed): Call the parent
+	views to update the selection.
+
 2006-01-13  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #271541
