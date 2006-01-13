@@ -1,3 +1,10 @@
+2006-01-13  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fixes bug #326265
+
+	* e-charset-picker.c: (e_charset_picker_bonobo_ui_populate):
+	Added mnemonics to "Character Encoding" menu.
+
 2006-01-11  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	* Makefile.am: Remove the e-util-marshal.list from extra dist.

@@ -476,7 +476,7 @@ e_charset_picker_bonobo_ui_populate (BonoboUIComponent *uic, const char *path,
 			break;
 	}
 	
-	label = g_strdup (_("Character Encoding"));
+	label = g_strdup (_("Ch_aracter Encoding"));
 	encoded_label = bonobo_ui_util_encode_str (label);
 	menuitems = g_string_new ("");
 	g_string_append_printf (menuitems, "<submenu name=\"ECharsetPicker\" label=\"%s\">\n",
