@@ -1,3 +1,11 @@
+2005-12-20  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #320101
+	* gui/e-select-names-editable.c:
+	(e_select_names_editable_get_emails),
+	(e_select_names_editable_get_names): Append the list of email ids
+	and names.
+
 2006-01-13  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #311888
