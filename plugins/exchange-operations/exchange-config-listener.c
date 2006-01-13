@@ -643,10 +643,12 @@ display_passwd_expiry_message (int max_passwd_age, ExchangeAccount *account)
 	change_passwd_button = glade_xml_get_widget (xml,
 						"change_passwd_button");
 	gtk_widget_set_sensitive (change_passwd_button, TRUE);
+#ifdef HAVE_KRB5
 	g_signal_connect (change_passwd_button,
 			  "clicked",
 			  G_CALLBACK (change_passwd_cb),
 			  account); 
+#endif
 	response = gtk_dialog_run (GTK_DIALOG (top_widget));
 	
 	gtk_widget_destroy (top_widget);
@@ -693,12 +695,14 @@ exchange_config_listener_authenticate (ExchangeConfigListener *ex_conf_listener,
  	exchange_account_connect (account, password, &result);
 	g_free (password);
 	if (result == EXCHANGE_ACCOUNT_PASSWORD_EXPIRED) {
+#ifdef HAVE_KRB5
 		new_password = get_new_exchange_password (account);
 		if (new_password) {
 			/* try connecting with new password */
  			exchange_account_connect (account, new_password, &result);
 			g_free (new_password);
 		}
+#endif
 	}
 	else if (result == EXCHANGE_ACCOUNT_QUOTA_RECIEVE_ERROR ||
 		 result == EXCHANGE_ACCOUNT_QUOTA_SEND_ERROR ||

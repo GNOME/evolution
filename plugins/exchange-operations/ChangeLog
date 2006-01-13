@@ -1,3 +1,8 @@
+2006-01-13  Sushma Rai  <rsushma@novell.com>
+
+	* exchange-config-listener.c: Added krb5 checks while invoking
+	change_passwd_cb() and exchange_config_listener_authenticate().
+
 2006-01-11  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #271546
