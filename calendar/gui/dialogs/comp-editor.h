@@ -55,6 +55,7 @@ typedef struct {
 	/* Virtual functions */
 	void (* set_e_cal) (CompEditor *page, ECal *client);
 	void (* edit_comp) (CompEditor *page, ECalComponent *comp);
+	void (* object_created) (CompEditor *page);
 	gboolean (* send_comp) (CompEditor *page, ECalComponentItipMethod method);
 } CompEditorClass;
 

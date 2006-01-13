@@ -182,6 +182,13 @@ static struct {
 	{ "text/calendar", 0, GDK_ACTION_COPY },
 };
 
+enum {
+	OBJECT_CREATED,
+	LAST_SIGNAL
+};
+
+static guint comp_editor_signals[LAST_SIGNAL] = { 0 };
+
 static void
 attach_message(CompEditor *editor, CamelMimeMessage *msg)
 {
@@ -534,6 +541,16 @@ comp_editor_class_init (CompEditorClass *klass)
 	klass->set_e_cal = real_set_e_cal;
 	klass->edit_comp = real_edit_comp;
 	klass->send_comp = real_send_comp;
+	klass->object_created = NULL;
+
+	comp_editor_signals[OBJECT_CREATED] =
+		g_signal_new ("object_created",
+			      G_TYPE_FROM_CLASS (klass),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (CompEditorClass, object_created),
+			      NULL, NULL,
+			      g_cclosure_marshal_VOID__VOID,
+			      G_TYPE_NONE, 0);
 
 	widget_class->key_press_event = comp_editor_key_press_event;
 	object_class->finalize = comp_editor_finalize;
@@ -735,6 +752,8 @@ save_comp (CompEditor *editor)
 	/* send the component to the server */
 	if (!cal_comp_is_on_server (priv->comp, priv->client)) {
 		result = e_cal_create_object (priv->client, icalcomp, NULL, &error);
+		if (result)
+			g_signal_emit_by_name (editor, "object_created");
 	} else {
 		if (priv->mod == CALOBJ_MOD_THIS) {
 			e_cal_component_set_rdate_list (priv->comp, NULL);

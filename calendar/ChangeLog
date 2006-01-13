@@ -1,3 +1,13 @@
+2006-01-13  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #271810
+	* gui/dialogs/comp-editor.c: (comp_editor_class_init), (save_comp):
+	* gui/dialogs/comp-editor.h: Added to signal to indicate the object
+	has been created.
+	* gui/e-calendar-view.c: (user_created_cb),
+	(open_event_with_flags): Emit the user_created signal if object
+	is created to ensure the calendar is selected.
+
 2006-01-13  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fixes bug #274234

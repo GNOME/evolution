@@ -1791,6 +1791,13 @@ e_calendar_view_new_appointment (ECalendarView *cal_view)
 	e_calendar_view_new_appointment_full (cal_view, FALSE, FALSE);
 }
 
+/* Ensures the calendar is selected */
+static void
+object_created_cb (CompEditor *ce, ECalendarView *cal_view)
+{
+	g_signal_emit_by_name (cal_view, "user_created");
+}
+
 static void
 open_event_with_flags (ECalendarView *cal_view, ECal *client, icalcomponent *icalcomp, guint32 flags)
 {
@@ -1810,6 +1817,8 @@ open_event_with_flags (ECalendarView *cal_view, ECal *client, icalcomponent *ica
 
 		ee = event_editor_new (client, flags);
 		ce = COMP_EDITOR (ee);
+
+		g_signal_connect (ce, "object_created", G_CALLBACK (object_created_cb), cal_view);
 
 		comp = e_cal_component_new ();
 		e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (icalcomp));
