@@ -1,3 +1,11 @@
+2006-01-13  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fixes bug #326381
+	
+	* evolution-message-composer.xml:
+	* evolution-signature-editor.xml
+	Changed _Insert to I_nsert.
+
 2006-01-12  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* evolution-mail-global.xml:

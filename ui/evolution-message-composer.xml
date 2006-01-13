@@ -129,7 +129,7 @@
 	                <menuitem name="ViewBCC" verb=""/>
 		</submenu>
 		
-                <submenu name="Insert" _label="_Insert">
+                <submenu name="Insert" _label="I_nsert">
 	                <menuitem name="FileAttach" verb=""
 	                _label="_Attachment..." pixtype="pixbuf"/>
                 	<placeholder name="Component"/>
