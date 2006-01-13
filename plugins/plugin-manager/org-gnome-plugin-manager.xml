@@ -1,6 +1,6 @@
 <Root>
   <commands>
-    <cmd name="EPluginManagerManage" _label="Plugins"
+    <cmd name="EPluginManagerManage" _label="_Plugins"
       _tip="Enable and disable plugins"/>
   </commands>
 
