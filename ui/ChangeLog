@@ -1,3 +1,11 @@
+2006-01-14  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fixes bug #326458
+	
+	* evolution-editor.xml: Removes a useless separator.
+	* evolution-event-editor.xml: Changes string Show Time Zone to Time
+	Zone.
+
 2006-01-13  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fixes bug #326265, #326266

@@ -40,7 +40,6 @@
     <submenu name="Insert" _label="_Insert">
       <placeholder name="Attachments">
 	      <menuitem name="InsertAttachments" verb="" _label="_Attachment..." pixtype="pixbuf"/>
-	<separator f="" name="attach"/>
       </placeholder>
      </submenu>
 
