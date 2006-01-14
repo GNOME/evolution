@@ -16,7 +16,7 @@
 		_tip="Toggles whether the Status field is displayed"
 		type="toggle" state="0"/>
 
-		<cmd name="ViewTimeZone" _label="Show Time _Zone"
+		<cmd name="ViewTimeZone" _label="Time _Zone"
 		_tip="Toggles whether the time zone is displayed"
 		type="toggle" state="0" pixtype="pixbuf"/>	
 	
