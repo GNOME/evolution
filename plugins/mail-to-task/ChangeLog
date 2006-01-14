@@ -1,3 +1,14 @@
+2006-01-14  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fixes bug #323011
+
+	* Makefile.am: Added org-gnome-mail-to-task.xml to build
+	* mail-to-task.c (convert_to_task), (org_gnome_mail_to_task),
+	(org_gnome_mail_to_task_menu): Added Code to handle menu.
+	* org-gnome-mail-to-task.eplug.xml: Added plug to show Convert to Task
+	menu item under Message menu.
+	* org-gnome-mail-to-task.xml: Added UI files for menu item.
+
 2005-12-21  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Committing for Hiroyuki Ikezoe <poincare@ikezoe.net>

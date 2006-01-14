@@ -1,0 +1,16 @@
+<Root>
+  <commands>
+    <cmd name="ConvertTask" _label="Con_vert to Task"
+      _tip="Convert the selected message to a new task"
+      pixtype="stock" pixname="stock_todo"/>
+  </commands>
+
+  <menu>
+    <placeholder name="MessagePlaceholder">	  
+      <submenu name="Message">
+	  <separator f="" name="emaillist5"/>
+	  <menuitem name="ConvertTask" verb=""/>
+      </submenu>
+   </placeholder>
+  </menu>
+</Root>

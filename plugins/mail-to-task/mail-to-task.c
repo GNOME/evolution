@@ -23,6 +23,7 @@
 #include <camel/camel-mime-message.h>
 #include <camel/camel-stream.h>
 #include <camel/camel-stream-mem.h>
+#include "mail/em-menu.h"
 #include "mail/em-popup.h"
 
 typedef struct {
@@ -188,6 +189,7 @@ do_mail_to_task (AsyncData *data)
 }
 
 void org_gnome_mail_to_task (void *ep, EMPopupTargetSelect *t);
+void org_gnome_mail_to_task_menu (EPlugin *ep, EMMenuTargetSelect *target);
 
 static void
 copy_uids (char *uid, GPtrArray *uid_array) 
@@ -195,24 +197,13 @@ copy_uids (char *uid, GPtrArray *uid_array)
 	g_ptr_array_add (uid_array, g_strdup (uid));
 }
 
-void
-org_gnome_mail_to_task (void *ep, EMPopupTargetSelect *t)
+static void
+convert_to_task (GPtrArray *uid_array, struct _CamelFolder *folder)
 {
 	GtkWidget *dialog;
 	GConfClient *conf_client;
 	ESourceList *source_list;
-	GPtrArray *uid_array = NULL;
-
-	if (t->uids->len > 0) {
-		/* FIXME Some how in the thread function the values inside t->uids gets freed 
-		   and are corrupted which needs to be fixed, this is sought of work around fix for
-		   the gui inresponsiveness */
-		uid_array = g_ptr_array_new ();
-		g_ptr_array_foreach (t->uids, (GFunc)copy_uids, (gpointer) uid_array);
-	} else {
-		return;
-	}
-			
+	
 	/* ask the user which tasks list to save to */
 	conf_client = gconf_client_get_default ();
 	source_list = e_source_list_new_for_gconf (conf_client, "/apps/evolution/tasks/sources");
@@ -246,7 +237,7 @@ org_gnome_mail_to_task (void *ep, EMPopupTargetSelect *t)
 			/* Fill the elements in AsynData */
 			data = g_new0 (AsyncData, 1);
 			data->client = client;
-			data->folder = t->folder; 
+			data->folder = folder; 
 			data->uids = uid_array;
 
 			thread = g_thread_create ((GThreadFunc) do_mail_to_task, data, FALSE, &error);
@@ -261,6 +252,42 @@ org_gnome_mail_to_task (void *ep, EMPopupTargetSelect *t)
 	g_object_unref (conf_client);
 	g_object_unref (source_list);
 	gtk_widget_destroy (dialog);
+	
+}
+
+void
+org_gnome_mail_to_task (void *ep, EMPopupTargetSelect *t)
+{
+	GPtrArray *uid_array = NULL;
+
+	if (t->uids->len > 0) {
+		/* FIXME Some how in the thread function the values inside t->uids gets freed 
+		   and are corrupted which needs to be fixed, this is sought of work around fix for
+		   the gui inresponsiveness */
+		uid_array = g_ptr_array_new ();
+		g_ptr_array_foreach (t->uids, (GFunc)copy_uids, (gpointer) uid_array);
+	} else {
+		return;
+	}
+
+	convert_to_task (uid_array, t->folder);
+}
+
+void org_gnome_mail_to_task_menu (EPlugin *ep, EMMenuTargetSelect *t)
+{
+	GPtrArray *uid_array = NULL;
+
+	if (t->uids->len > 0) {
+		/* FIXME Some how in the thread function the values inside t->uids gets freed 
+		   and are corrupted which needs to be fixed, this is sought of work around fix for
+		   the gui inresponsiveness */
+		uid_array = g_ptr_array_new ();
+		g_ptr_array_foreach (t->uids, (GFunc)copy_uids, (gpointer) uid_array);
+	} else {
+		return;
+	}
+
+	convert_to_task (uid_array, t->folder);
 }
 
 int e_plugin_lib_enable(EPluginLib *ep, int enable);
