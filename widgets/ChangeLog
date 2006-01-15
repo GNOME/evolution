@@ -1,3 +1,10 @@
+2006-01-15  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fixes bug #220286
+
+	* text/e-text.c: (tooltip_ungrab), (_do_tooltip), (e_text_event):
+	Added a ungrab for keyboard, so that it hides the tooltip.
+
 2006-01-13  Srinivasa Ragavan  <sragavan@novell.com>
 	
 	** Fixes bug #326264

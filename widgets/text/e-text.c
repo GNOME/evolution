@@ -1891,6 +1891,18 @@ tooltip_event(GtkWidget *tooltip, GdkEvent *event, EText *text)
 	return ret_val;
 }
 
+static gboolean
+tooltip_ungrab (GtkWidget *tooltip, GdkEventKey *event, EText *text)
+{
+	gdk_keyboard_ungrab(GDK_CURRENT_TIME);
+
+	e_canvas_hide_tooltip (E_CANVAS(GNOME_CANVAS_ITEM(text)->canvas));
+	
+	gtk_propagate_event (GTK_WIDGET(GNOME_CANVAS_ITEM(text)->canvas), event);
+
+	return TRUE;
+}
+
 static void
 tooltip_destroy(gpointer data, GObject *where_object_was)
 {
@@ -2074,6 +2086,7 @@ _do_tooltip (gpointer data)
 					(double)tooltip_height + (text->draw_borders ? BORDER_INDENT * 2 : 0));
 	g_signal_connect (tooltip_window, "event",
 			  G_CALLBACK(tooltip_event), text);
+	
 	g_object_weak_ref (G_OBJECT (tooltip_window),
 			   tooltip_destroy, text);
 	g_object_ref (text);
@@ -2082,6 +2095,10 @@ _do_tooltip (gpointer data)
 				tooltip_window,
 				pixel_origin.x - 2 + tooltip_x,
 				pixel_origin.y - 2 + tooltip_y);
+	gdk_keyboard_grab (tooltip_window->window, FALSE, GDK_CURRENT_TIME);
+
+	g_signal_connect (tooltip_window, "key-press-event", G_CALLBACK (tooltip_ungrab), text);
+	
 	text->tooltip_owner = TRUE;
 	
 	text->tooltip_timeout = 0;
@@ -2259,6 +2276,15 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 
 	case GDK_KEY_RELEASE:
 
+		if (text->tooltip_count > 0)
+			text->tooltip_count --;
+		if ( text->tooltip_count == 0 && text->clip) {
+			if ( text->tooltip_timeout ) {
+				gtk_timeout_remove (text->tooltip_timeout);
+				text->tooltip_timeout = 0;
+			}
+		}
+
 		if (text->editing) {
 			GdkEventKey key;
 			gint ret;
@@ -2404,7 +2430,7 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 		{
 				if ( text->tooltip_count == 0 && text->clip) {
 					if (!text->tooltip_timeout)
-						text->tooltip_timeout = gtk_timeout_add (1000, _do_tooltip, text);
+						text->tooltip_timeout = gtk_timeout_add (2000, _do_tooltip, text);
 				}
 				text->tooltip_count ++;
 		}
