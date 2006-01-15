@@ -7,8 +7,8 @@ msgid ""
 ""
 msgstr "Project-Id-Version: evolution 1.4 Gnome HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-01-13 21:57+0100\n"
-"PO-Revision-Date: 2006-01-14 13:26+1030\n"
+"POT-Creation-Date: 2006-01-14 21:52+0100\n"
+"PO-Revision-Date: 2006-01-15 16:57+1030\n"
 "Last-Translator: Clytie Siddall <clytie@riverland.net.au>\n"
 "Language-Team: Vietnamese <gnomevi-list@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -18132,13 +18132,13 @@ msgstr "Truy vấn thông tin Rảnh/Bận cho các người dự"
 msgid "R_ole Field"
 msgstr "Trường _Vai trò"
 
-#:../ui/evolution-event-editor.xml.h:15 ../ui/evolution-task-editor.xml.h:9
-msgid "Show Time _Zone"
-msgstr "Hiện múi _giờ"
-
-#:../ui/evolution-event-editor.xml.h:16
+#:../ui/evolution-event-editor.xml.h:15
 msgid "Show time as b_usy"
 msgstr "Hiện giờ là _bận"
+
+#:../ui/evolution-event-editor.xml.h:16
+msgid "Time _Zone"
+msgstr "_Múi giờ"
 
 #:../ui/evolution-event-editor.xml.h:17 ../ui/evolution-task-editor.xml.h:12
 msgid "Toggles whether the Attendee Type field is displayed"
@@ -19096,6 +19096,10 @@ msgstr "Đả_o vùng chọn"
 #:../ui/evolution-task-editor.xml.h:4
 msgid "Click change / view the status details of the task"
 msgstr "Nhấn để thay đổi/xem chi tiết trạng thái của tác vụ"
+
+#:../ui/evolution-task-editor.xml.h:9
+msgid "Show Time _Zone"
+msgstr "Hiện múi _giờ"
 
 #:../ui/evolution-task-editor.xml.h:10
 msgid "Status Details"
