@@ -1,3 +1,11 @@
+2006-01-16  Srinivasa Ragavan  <sragavan@novell.com>
+	
+	** Fixes bug #239929 (Committing Rajeev's patch)
+	
+	* em-format-html-display.c: (efhd_scroll_event),
+	(em_format_html_display_new):Adds handler to zoom-in/out on control
+	scroll.
+	
 2006-01-13  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* em-folder-browser.c: (emfb_etree_unfreeze), (emfb_list_built):

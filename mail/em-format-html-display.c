@@ -28,6 +28,7 @@
 
 #include <glib.h>
 #include <glib/gstdio.h>
+#include <gdk/gdkkeysyms.h>
 
 #ifdef G_OS_WIN32
 /* Work around 'DATADIR' and 'interface' lossage in <windows.h> */
@@ -399,6 +400,24 @@ em_format_html_display_get_type(void)
 	return type;
 }
 
+static gboolean
+efhd_scroll_event(GtkWidget *w, GdkEventScroll *event, EMFormatHTMLDisplay *efhd)
+{
+	if(event->state & GDK_CONTROL_MASK)
+	{
+		if(event->direction == GDK_SCROLL_UP)
+		{
+			gtk_html_zoom_in (efhd->formathtml.html);
+		}
+		else if(event->direction == GDK_SCROLL_DOWN)
+		{
+			gtk_html_zoom_out (efhd->formathtml.html);	
+		}
+		return TRUE;
+	}
+	return FALSE;
+}
+
 EMFormatHTMLDisplay *em_format_html_display_new(void)
 {
 	EMFormatHTMLDisplay *efhd;
@@ -409,6 +428,7 @@ EMFormatHTMLDisplay *em_format_html_display_new(void)
 	g_signal_connect(efhd->formathtml.html, "link_clicked", G_CALLBACK(efhd_html_link_clicked), efhd);
 	g_signal_connect(efhd->formathtml.html, "on_url", G_CALLBACK(efhd_html_on_url), efhd);
 	g_signal_connect(efhd->formathtml.html, "button_press_event", G_CALLBACK(efhd_html_button_press_event), efhd);
+	g_signal_connect(efhd->formathtml.html,"event", G_CALLBACK(efhd_scroll_event), efhd);
 
 	return efhd;
 }
