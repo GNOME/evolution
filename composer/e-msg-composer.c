@@ -1289,6 +1289,21 @@ set_editor_text(EMsgComposer *composer, const char *text, ssize_t len, int set_s
 /* Commands.  */
 
 static void
+show_attachments (EMsgComposer *composer, 	 
+		  gboolean show) 	 
+{
+	EMsgComposerPrivate *p = composer->priv;
+
+	e_expander_set_expanded (E_EXPANDER (p->attachment_expander), show);
+	if (show) 	 
+		gtk_label_set_text_with_mnemonic (GTK_LABEL (composer->priv->attachment_expander_label), 	 
+		_("Hide _Attachment Bar")); 	 
+	else 	 
+		gtk_label_set_text_with_mnemonic (GTK_LABEL (composer->priv->attachment_expander_label), 	 
+		_("Show _Attachment Bar")); 	 
+}
+
+static void
 save (EMsgComposer *composer, const char *filename)
 {
 	EMsgComposerPrivate *p = composer->priv;
@@ -2472,11 +2487,11 @@ attachment_bar_changed_cb (EAttachmentBar *bar,
 		g_free (num_text);
 
 		gtk_widget_show (p->attachment_expander_icon);
-		
+		show_attachments (composer, TRUE);
 	} else {
 		gtk_label_set_text (GTK_LABEL (p->attachment_expander_num), "");
-		gtk_widget_hide (p->attachment_expander);
-		gtk_widget_hide (p->attachment_scrolled_window);
+		gtk_widget_hide (p->attachment_expander_icon);		
+		show_attachments (composer, FALSE);
 	}
 	
 	
@@ -2484,7 +2499,21 @@ attachment_bar_changed_cb (EAttachmentBar *bar,
            changes on close */
 	e_msg_composer_set_changed (composer);
 }
+static void
+attachment_expander_activate_cb (EExpander *expander, 	 
+				void      *data) 	 
+{ 	 
+	EMsgComposer *composer = E_MSG_COMPOSER (data); 	 
+	gboolean show = e_expander_get_expanded (expander); 	 
 
+	/* Update the expander label */ 	 
+	if (show) 	 
+		gtk_label_set_text_with_mnemonic (GTK_LABEL (composer->priv->attachment_expander_label), 	 
+		_("Hide _Attachment Bar")); 	 
+	else 	 
+		gtk_label_set_text_with_mnemonic (GTK_LABEL (composer->priv->attachment_expander_label), 	 
+		_("Show _Attachment Bar")); 	 
+ }
 static void
 subject_changed_cb (EMsgComposerHdrs *hdrs,
 		    gchar *subject,
@@ -3042,8 +3071,7 @@ drop_action(EMsgComposer *composer, GdkDragContext *context, guint32 action, Gtk
 	}
 
 	if (e_attachment_bar_get_num_attachments(E_ATTACHMENT_BAR(p->attachment_bar))) {
-		gtk_widget_show (p->attachment_expander);
-		gtk_widget_show (p->attachment_scrolled_window);
+		show_attachments (composer, TRUE);
 	}
 
 	gtk_drag_finish(context, success, delete, time);
@@ -3816,7 +3844,7 @@ create_composer (int visible_mask)
 			  G_CALLBACK (attachment_bar_changed_cb), composer);
 
 	p->attachment_expander_label =
-		gtk_label_new_with_mnemonic (_("_Attachment Bar"));
+		gtk_label_new_with_mnemonic (_("Show _Attachment Bar"));
 	p->attachment_expander_num = gtk_label_new ("");
 	gtk_label_set_use_markup (GTK_LABEL (p->attachment_expander_num), TRUE);
 	gtk_misc_set_alignment (GTK_MISC (p->attachment_expander_label), 0.0, 0.5);
@@ -3836,15 +3864,16 @@ create_composer (int visible_mask)
 	gtk_widget_show_all (expander_hbox);
 	gtk_widget_hide (p->attachment_expander_icon);
 
-	
-	gtk_box_pack_start (GTK_BOX (vbox), expander_hbox, FALSE, FALSE, 0);
-	gtk_box_pack_start (GTK_BOX (vbox), p->attachment_scrolled_window,
-			    FALSE, FALSE, GNOME_PAD_SMALL);
-	
-	p->attachment_expander = expander_hbox;
-	gtk_widget_hide (p->attachment_scrolled_window);
-	gtk_widget_hide (expander_hbox);
-	
+	p->attachment_expander = e_expander_new ("");
+	e_expander_set_label_widget (E_EXPANDER (p->attachment_expander), expander_hbox);
+	gtk_container_add (GTK_CONTAINER (p->attachment_expander), p->attachment_scrolled_window);
+
+	gtk_box_pack_start (GTK_BOX (vbox), p->attachment_expander, FALSE, FALSE, GNOME_PAD_SMALL);
+	gtk_widget_show (p->attachment_expander);
+	e_expander_set_expanded (E_EXPANDER (p->attachment_expander), FALSE); 	 
+	g_signal_connect_after (p->attachment_expander, "activate", 	 
+				G_CALLBACK (attachment_expander_activate_cb), composer);
+
 	bonobo_window_set_contents (BONOBO_WINDOW (composer), vbox);
 	gtk_widget_show (vbox);
 	
@@ -4841,6 +4870,22 @@ e_msg_composer_new_from_url (const char *url)
 	return composer;
 }
 
+/**
+* e_msg_composer_show_attachments: 	 
+* @composer: A message composer widget 	 
+* @show: A boolean specifying whether the attachment bar should be shown or 	 
+* not 	 
+* 	 
+* If @show is %FALSE, hide the attachment bar.  Otherwise, show it. 	 
+**/ 	 
+void 	 
+e_msg_composer_show_attachments (EMsgComposer *composer, 	 
+				 gboolean show) 	 
+{ 	 
+	g_return_if_fail (E_IS_MSG_COMPOSER (composer)); 	 
+
+	show_attachments (composer, show); 	 
+}
 
 /**
  * e_msg_composer_set_headers:
@@ -4968,9 +5013,8 @@ e_msg_composer_attach (EMsgComposer *composer, CamelMimePart *attachment)
 	
 	bar = E_ATTACHMENT_BAR (p->attachment_bar);
 	e_attachment_bar_attach_mime_part (bar, attachment);
-	gtk_widget_show (p->attachment_expander);
-	gtk_widget_show (p->attachment_scrolled_window);
 
+	show_attachments (composer, TRUE);
 }
 
 
@@ -6094,10 +6138,8 @@ e_msg_composer_show_attachments_ui (EMsgComposer *composer)
 {
 	EMsgComposerPrivate *p = composer->priv;
 
-	if (e_attachment_bar_get_num_attachments(E_ATTACHMENT_BAR(p->attachment_bar))) {
-		gtk_widget_show (p->attachment_expander);
-		gtk_widget_show (p->attachment_scrolled_window);
-	}
+	if (e_attachment_bar_get_num_attachments(E_ATTACHMENT_BAR(p->attachment_bar))) 
+		show_attachments (composer, TRUE);
 }
 
 void

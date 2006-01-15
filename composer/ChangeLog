@@ -1,3 +1,11 @@
+2006-1-13  Johnny Jacob  <johnnyjacob@gmail.com>
+
+	** Fixes bug #323127
+	* e-msg-composer.c (create_composer) : Add a Expander
+	for attachments bar.
+	(show_attachments): Show/Hide attachment bar.
+	(attachment_expander_activate_cb) : Event handler for attachment bar.
+
 2006-01-13  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fixes bug #326378
