@@ -469,20 +469,20 @@ getNextCSVEntry(CSVImporter *gci, FILE *f) {
 	GString *str;
 	char *buf;
 
-	str = g_string_new("");
-	if(!fgets(line, sizeof(line),f)) {
-		g_string_free(str, TRUE);
-		break;
+        while (!feof (f)) {	
+		if(!fgets(line, sizeof(line),f)) 
+			break;
 	}
 
 	if(gci->count == 0 && importer != MOZILLA_IMPORTER) {
-		if(!fgets(line, sizeof(line),f)) {
-			g_string_free(str, TRUE);
-			break;
+		while (!feof (f) ) {
+			if(!fgets(line, sizeof(line),f)) 
+				break;
 		}
 		gci->count ++;
 	}
-
+	
+	str = g_string_new("");
 	str = g_string_append (str, line);
 	
 	if(strlen(str->str) == 0) {
