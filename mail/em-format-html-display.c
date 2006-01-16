@@ -428,7 +428,7 @@ EMFormatHTMLDisplay *em_format_html_display_new(void)
 	g_signal_connect(efhd->formathtml.html, "link_clicked", G_CALLBACK(efhd_html_link_clicked), efhd);
 	g_signal_connect(efhd->formathtml.html, "on_url", G_CALLBACK(efhd_html_on_url), efhd);
 	g_signal_connect(efhd->formathtml.html, "button_press_event", G_CALLBACK(efhd_html_button_press_event), efhd);
-	g_signal_connect(efhd->formathtml.html,"event", G_CALLBACK(efhd_scroll_event), efhd);
+	g_signal_connect(efhd->formathtml.html,"scroll_event", G_CALLBACK(efhd_scroll_event), efhd);
 
 	return efhd;
 }

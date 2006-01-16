@@ -1,3 +1,9 @@
+2006-01-16  Srinivasa Ragavan  <sragavan@novell.com>
+
+
+	* em-format-html-display.c: (em_format_html_display_new): Changed
+	event to scroll_event in rajeev's patch.
+
 2006-01-12  Rohini S  <srohini@novell.com>
 	
 	** Fixes bug #246257
