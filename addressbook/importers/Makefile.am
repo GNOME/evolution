@@ -14,6 +14,7 @@ INCLUDES = 						\
 libevolution_addressbook_importers_la_SOURCES = \
 	evolution-ldif-importer.c		\
 	evolution-vcard-importer.c		\
+	evolution-csv-importer.c	        \
 	evolution-addressbook-importers.h
 
 libevolution_addressbook_importers_la_LDFLAGS = $(NO_UNDEFINED)

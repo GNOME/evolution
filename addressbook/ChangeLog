@@ -1,3 +1,8 @@
+2005-01-16  Devashish Sharma  <sdevashish@novell.com>
+	
+	* importers/evolution-csv-importer.c : Added support for CSV and TAB
+	file import.
+	
 2006-01-16  Devashish Sharma <sdevashish@novell.com>
 
 	* gui/contact-editor/e-contact-editor.c (full_name_clicked) : Setting

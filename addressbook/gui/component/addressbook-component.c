@@ -484,6 +484,9 @@ addressbook_component_init (AddressbookComponent *component)
 		klass = g_type_class_ref(e_import_get_type());
 		e_import_class_add_importer(klass, evolution_ldif_importer_peek(), NULL, NULL);
 		e_import_class_add_importer(klass, evolution_vcard_importer_peek(), NULL, NULL);
+		e_import_class_add_importer(klass, evolution_csv_outlook_importer_peek(), NULL, NULL);
+		e_import_class_add_importer(klass, evolution_csv_mozilla_importer_peek(), NULL, NULL);
+		e_import_class_add_importer(klass, evolution_csv_evolution_importer_peek(), NULL, NULL);
 	}
 }
 
