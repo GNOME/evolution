@@ -1,3 +1,11 @@
+2006-01-16  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* table/e-tree-table-adapter.c (set_expanded_state_func),
+	(set_collapsed_state_func): 
+	(e_tree_table_adapter_load_all_expanded_state):
+	* table/e-tree.c: (e_tree_load_all_expanded_state):
+	Added functions to collapse/Expand all
+
 2006-01-15  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fixes bug #220286

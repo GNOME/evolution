@@ -2014,6 +2014,12 @@ e_tree_load_expanded_state (ETree *et, char *filename)
 	e_tree_table_adapter_load_expanded_state (et->priv->etta, filename);
 }
 
+void
+e_tree_load_all_expanded_state (ETree *et, gboolean state)
+{
+	e_tree_table_adapter_load_all_expanded_state (et->priv->etta, state);
+}
+
 gint
 e_tree_row_count (ETree *et)
 {
