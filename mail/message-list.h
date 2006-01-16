@@ -114,6 +114,9 @@ struct _MessageList {
 	
 	/* Are we displaying threaded view? */
 	guint threaded : 1;
+
+	guint expand_all :1;
+	guint collapse_all :1;
 	
 	/* do we automatically hide deleted messages? */
 	guint hidedeleted : 1;

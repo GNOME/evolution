@@ -1,3 +1,20 @@
+2006-01-16  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fixes bug #218570
+
+	* em-folder-browser.c (emfb_expand_all_threads),
+	(emfb_collapse_all_threads), (emfb_set_folder), (emfb_activate):
+	Added code to handle expande/collapse all and call e-tree for regen of
+	the list.
+	* message-list.c (load_tree_expand_all),
+	(message_list_set_threaded_expand_all),
+	(message_list_set_threaded_collapse_all),
+	(message_list_set_expand_all), (regen_list_regened): Added code to
+	conditionally check for expand/collapse all and save the state after
+	the operation.
+	* message-list.h: Added state variable for expand/collapse all of
+	threads.
+
 2006-01-12  Rohini S  <srohini@novell.com>
 
 	** Fixes bug #221270.

@@ -597,6 +597,24 @@ emfb_folder_properties(BonoboUIComponent *uid, void *data, const char *path)
 		em_folder_properties_show(NULL, emfb->view.folder, emfb->view.folder_uri);
 }
 
+/* VIEWTHREADED*/
+static void
+emfb_expand_all_threads(BonoboUIComponent *uid, void *data, const char *path)
+{
+	EMFolderView *emfv = data;
+
+	message_list_set_threaded_expand_all(emfv->list);
+
+}
+
+static void
+emfb_collapse_all_threads(BonoboUIComponent *uid, void *data, const char *path)
+{
+	EMFolderView *emfv = data;
+
+	message_list_set_threaded_collapse_all(emfv->list);
+}
+
 static void
 emfb_folder_copy(BonoboUIComponent *uid, void *data, const char *path)
 {
@@ -823,6 +841,9 @@ static BonoboUIVerb emfb_verbs[] = {
 	BONOBO_UI_UNSAFE_VERB ("ViewShowAll", emfb_view_show_all),
 	/* ViewThreaded is a toggle */
 
+	BONOBO_UI_UNSAFE_VERB ("ViewThreadsExpandAll", emfb_expand_all_threads),
+	BONOBO_UI_UNSAFE_VERB ("ViewThreadsCollapseAll", emfb_collapse_all_threads),	
+
 	BONOBO_UI_UNSAFE_VERB ("FolderCopy", emfb_folder_copy),
 	BONOBO_UI_UNSAFE_VERB ("FolderMove", emfb_folder_move),
 	BONOBO_UI_UNSAFE_VERB ("FolderDelete", emfb_folder_delete),
@@ -861,6 +882,8 @@ static const EMFolderViewEnable emfb_enable_map[] = {
 	{ "MailPost", EM_POPUP_SELECT_FOLDER },
 	{ "MessageMarkAllAsRead", EM_POPUP_SELECT_FOLDER },
 	{ "ViewHideSelected", EM_POPUP_SELECT_MANY },
+	{ "ViewThreadsCollapseAll", EM_FOLDER_VIEW_SELECT_THREADED},
+	{ "ViewThreadsExpandAll", EM_FOLDER_VIEW_SELECT_THREADED},
 	{ NULL },
 };
 
@@ -1091,8 +1114,11 @@ emfb_set_folder(EMFolderView *emfv, CamelFolder *folder, const char *uri)
 		} else
 			state = gconf_client_get_bool(gconf, "/apps/evolution/mail/display/thread_list", NULL);
 		message_list_set_threaded(emfv->list, state);
-		if (emfv->uic)
+		if (emfv->uic) {
 			bonobo_ui_component_set_prop(emfv->uic, "/commands/ViewThreaded", "state", state?"1":"0", NULL);
+			bonobo_ui_component_set_prop(emfv->uic, "/commands/ViewThreadsCollapseAll", "sensitive", state?"1":"0", NULL);		
+			bonobo_ui_component_set_prop(emfv->uic, "/commands/ViewThreadsExpandAll", "sensitive", state?"1":"0", NULL);					
+		}
 		
 		if (emfv->uic) {
 			state = (folder->folder_flags & CAMEL_FOLDER_IS_TRASH) == 0;
@@ -1189,6 +1215,8 @@ emfb_activate(EMFolderView *emfv, BonoboUIComponent *uic, int act)
 		}
 
 		bonobo_ui_component_set_prop(uic, "/commands/ViewThreaded", "state", state?"1":"0", NULL);
+		bonobo_ui_component_set_prop(uic, "/commands/ViewThreadsCollapseAll", "sensitive", state?"1":"0", NULL);		
+		bonobo_ui_component_set_prop(uic, "/commands/ViewThreadsExpandAll", "sensitive", state?"1":"0", NULL);				
 		bonobo_ui_component_add_listener(uic, "ViewThreaded", emfb_view_threaded, emfv);
 		message_list_set_threaded(emfv->list, state);
 

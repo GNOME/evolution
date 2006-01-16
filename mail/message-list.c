@@ -1479,6 +1479,16 @@ save_tree_state(MessageList *ml)
 }
 
 static void
+load_tree_expand_all (MessageList *ml, gboolean state)
+{
+
+	if (ml->folder == NULL || ml->tree == NULL)
+		return;
+
+	e_tree_load_all_expanded_state (ml->tree, state);
+	save_tree_state (ml);
+}
+static void
 load_tree_state (MessageList *ml)
 {
 	char *filename;
@@ -3102,8 +3112,41 @@ void message_list_free_uids(MessageList *ml, GPtrArray *uids)
 }
 
 /* set whether we are in threaded view or flat view */
+void 
+message_list_set_threaded_expand_all (MessageList *ml)
+{
+	if (ml->threaded) {
+		ml->expand_all = 1;
+		
+		if (ml->frozen == 0)
+			mail_regen_list (ml, ml->search, NULL, NULL);
+	}	
+}
+	
+void 
+message_list_set_threaded_collapse_all (MessageList *ml)
+{
+	if (ml->threaded) {
+		ml->collapse_all = 1;
+
+		if (ml->frozen == 0)
+			mail_regen_list (ml, ml->search, NULL, NULL);
+	}
+}
+	
 void
 message_list_set_threaded (MessageList *ml, gboolean threaded)
+{
+	if (ml->threaded != threaded) {
+		ml->threaded = threaded;
+		
+		if (ml->frozen == 0)
+			mail_regen_list (ml, ml->search, NULL, NULL);
+	}
+}
+
+void
+message_list_set_expand_all (MessageList *ml, gboolean threaded)
 {
 	if (ml->threaded != threaded) {
 		ml->threaded = threaded;
@@ -3596,7 +3639,15 @@ regen_list_regened (struct _mail_msg *mm)
 		m->ml->thread_tree = m->tree;
 		m->tree = NULL;
 		
-		load_tree_state (m->ml);
+		if (m->ml->expand_all)
+			load_tree_expand_all (m->ml, TRUE);
+		else if (m->ml->collapse_all)
+			load_tree_expand_all (m->ml, FALSE);
+		else
+			load_tree_state (m->ml);
+		
+		m->ml->expand_all = FALSE;
+		m->ml->collapse_all = FALSE;
 	} else
 		build_flat (m->ml, m->summary, m->changes);
 
