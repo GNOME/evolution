@@ -1418,7 +1418,7 @@ AC_SUBST_FILE(EVO_PLUGIN_RULE)
 AC_ARG_ENABLE(plugins, [  --enable-plugins=[no/base/all/experimental/list]      Enable plugins.],enable_plugins="$enableval",enable_plugins=all)
 
 dnl Add any new plugins here
-plugins_base_always="calendar-file calendar-http calendar-weather itip-formatter plugin-manager default-source addressbook-file startup-wizard print-message mark-all-read groupwise-features groupwise-account-setup hula-account-setup mail-account-disable publish-calendar"
+plugins_base_always="calendar-file calendar-http calendar-weather itip-formatter plugin-manager default-source addressbook-file startup-wizard print-message mark-all-read groupwise-features groupwise-account-setup hula-account-setup mail-account-disable publish-calendar caldav"
 plugins_base="$plugins_base_always $SA_JUNK_PLUGIN $EXCHANGE_PLUGIN $MONO_PLUGIN" 
 all_plugins_base="$plugins_base_always sa-junk-plugin exchange-operations mono"
 
@@ -1691,6 +1691,7 @@ mail/default/pt/Makefile
 mail/importers/Makefile
 plugins/Makefile
 plugins/mark-all-read/Makefile
+plugins/caldav/Makefile
 plugins/calendar-file/Makefile
 plugins/calendar-http/Makefile
 plugins/calendar-weather/Makefile

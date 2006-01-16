@@ -1,3 +1,8 @@
+2006-01-16  Harish Krishnaswamy <kharish@novell.com>
+	
+	* configure.in: Add caldav to plugins_base_always
+	and Makefile target.
+
 2006-01-11  Harish Krishnaswamy <kharish@novell.com>
 	
 	* configure.in: Enlose the computed value of MOZILLA_NSS_LIB_DIR
