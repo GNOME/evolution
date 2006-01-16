@@ -1,3 +1,9 @@
+2006-01-16  Harish Krishnaswamy  <kharish@novell.com>
+
+	* mail-component.c: (impl__get_userCreatableItems):
+	remove shortcut keys (UI Hackfest -
+	See http://go-evolution.org/Shortcut_Keys_Review).
+
 2006-01-16  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fixes bug #326877
