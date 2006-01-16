@@ -1473,7 +1473,7 @@ impl__get_userCreatableItems (PortableServer_Servant servant,
 	list->_buffer[2].description = _("New all day appointment");
 	list->_buffer[2].menuDescription = _("All Day A_ppointment");
 	list->_buffer[2].tooltip = _("Create a new all-day appointment");
-	list->_buffer[2].menuShortcut = 'p';
+	list->_buffer[2].menuShortcut = '\0';
 	list->_buffer[2].iconName = "stock_new-24h-appointment";
 	list->_buffer[2].type = GNOME_Evolution_CREATABLE_OBJECT;
 
@@ -1481,7 +1481,7 @@ impl__get_userCreatableItems (PortableServer_Servant servant,
 	list->_buffer[3].description = _("New calendar");
 	list->_buffer[3].menuDescription = _("Cale_ndar");
 	list->_buffer[3].tooltip = _("Create a new calendar");
-	list->_buffer[3].menuShortcut = 'n';
+	list->_buffer[3].menuShortcut = '\0';
 	list->_buffer[3].iconName = "stock_calendar";
 	list->_buffer[3].type = GNOME_Evolution_CREATABLE_FOLDER;
 

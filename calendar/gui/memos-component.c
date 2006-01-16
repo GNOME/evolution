@@ -1166,7 +1166,7 @@ impl__get_userCreatableItems (PortableServer_Servant servant,
 	list->_buffer[1].description = _("New memo list");
 	list->_buffer[1].menuDescription = _("Memo l_ist");
 	list->_buffer[1].tooltip = _("Create a new memo list");
-	list->_buffer[1].menuShortcut = 'i';
+	list->_buffer[1].menuShortcut = '\0';
 	list->_buffer[1].iconName = "stock_notes";
 	list->_buffer[1].type = GNOME_Evolution_CREATABLE_FOLDER;
 

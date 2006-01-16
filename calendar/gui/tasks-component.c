@@ -1181,7 +1181,7 @@ impl__get_userCreatableItems (PortableServer_Servant servant,
 	list->_buffer[1].description = _("New assigned task");
 	list->_buffer[1].menuDescription = _("Assigne_d Task");
 	list->_buffer[1].tooltip = _("Create a new assigned task");
-	list->_buffer[1].menuShortcut = 'd';
+	list->_buffer[1].menuShortcut = '\0';
 	list->_buffer[1].iconName = "stock_task";
 	list->_buffer[1].type = GNOME_Evolution_CREATABLE_OBJECT;
 
@@ -1189,7 +1189,7 @@ impl__get_userCreatableItems (PortableServer_Servant servant,
 	list->_buffer[2].description = _("New task list");
 	list->_buffer[2].menuDescription = _("Task l_ist");
 	list->_buffer[2].tooltip = _("Create a new task list");
-	list->_buffer[2].menuShortcut = 'i';
+	list->_buffer[2].menuShortcut = '\0';
 	list->_buffer[2].iconName = "stock_todo";
 	list->_buffer[2].type = GNOME_Evolution_CREATABLE_FOLDER;
 
