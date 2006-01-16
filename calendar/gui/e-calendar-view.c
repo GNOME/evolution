@@ -1415,6 +1415,48 @@ on_forward (EPopup *ep, EPopupItem *pitem, void *data)
 }
 
 static void
+on_reply (EPopup *ep, EPopupItem *pitem, void *data)
+{
+	ECalendarView *cal_view = data;
+	GList *selected;
+	gboolean reply_all = FALSE;
+
+	selected = e_calendar_view_get_selected_events (cal_view);
+	if (selected) {
+		ECalComponent *comp;
+		ECalendarViewEvent *event = (ECalendarViewEvent *) selected->data;
+
+		comp = e_cal_component_new ();
+		e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
+		reply_to_calendar_comp (E_CAL_COMPONENT_METHOD_REPLY, comp, event->comp_data->client, reply_all, NULL, NULL);
+
+		g_list_free (selected);
+		g_object_unref (comp);
+	}
+}
+
+static void
+on_reply_all (EPopup *ep, EPopupItem *pitem, void *data)
+{
+	ECalendarView *cal_view = data;
+	GList *selected;
+	gboolean reply_all = TRUE;
+
+	selected = e_calendar_view_get_selected_events (cal_view);
+	if (selected) {
+		ECalComponent *comp;
+		ECalendarViewEvent *event = (ECalendarViewEvent *) selected->data;
+
+		comp = e_cal_component_new ();
+		e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
+		reply_to_calendar_comp (E_CAL_COMPONENT_METHOD_REPLY, comp, event->comp_data->client, reply_all, NULL, NULL);
+
+		g_list_free (selected);
+		g_object_unref (comp);
+	}
+}
+
+static void
 on_delete_appointment (EPopup *ep, EPopupItem *pitem, void *data)
 {
 	ECalendarView *cal_view = data;
@@ -1573,11 +1615,13 @@ static EPopupItem ecv_child_items [] = {
 
 	{ E_POPUP_BAR, "40." },
 
-	{ E_POPUP_ITEM, "44.copyto", N_("Cop_y to Calendar..."), on_copy_to, NULL, NULL, 0, E_CAL_POPUP_SELECT_NOTEDITING },
-	{ E_POPUP_ITEM, "45.moveto", N_("Mo_ve to Calendar..."), on_move_to, NULL, NULL, 0, E_CAL_POPUP_SELECT_NOTEDITING | E_CAL_POPUP_SELECT_EDITABLE },
-	{ E_POPUP_ITEM, "46.delegate", N_("_Delegate Meeting..."), on_delegate, NULL, NULL, 0, E_CAL_POPUP_SELECT_NOTEDITING | E_CAL_POPUP_SELECT_EDITABLE | E_CAL_POPUP_SELECT_DELEGATABLE | E_CAL_POPUP_SELECT_MEETING},
-	{ E_POPUP_ITEM, "47.schedule", N_("_Schedule Meeting..."), on_meeting, NULL, NULL, 0, E_CAL_POPUP_SELECT_NOTEDITING | E_CAL_POPUP_SELECT_EDITABLE | E_CAL_POPUP_SELECT_NOTMEETING },
-	{ E_POPUP_ITEM, "48.forward", N_("_Forward as iCalendar..."), on_forward, NULL, "stock_mail-forward", 0, E_CAL_POPUP_SELECT_NOTEDITING },
+	{ E_POPUP_ITEM, "43.copyto", N_("Cop_y to Calendar..."), on_copy_to, NULL, NULL, 0, E_CAL_POPUP_SELECT_NOTEDITING },
+	{ E_POPUP_ITEM, "44.moveto", N_("Mo_ve to Calendar..."), on_move_to, NULL, NULL, 0, E_CAL_POPUP_SELECT_NOTEDITING | E_CAL_POPUP_SELECT_EDITABLE },
+	{ E_POPUP_ITEM, "45.delegate", N_("_Delegate Meeting..."), on_delegate, NULL, NULL, 0, E_CAL_POPUP_SELECT_NOTEDITING | E_CAL_POPUP_SELECT_EDITABLE | E_CAL_POPUP_SELECT_DELEGATABLE | E_CAL_POPUP_SELECT_MEETING},
+	{ E_POPUP_ITEM, "46.schedule", N_("_Schedule Meeting..."), on_meeting, NULL, NULL, 0, E_CAL_POPUP_SELECT_NOTEDITING | E_CAL_POPUP_SELECT_EDITABLE | E_CAL_POPUP_SELECT_NOTMEETING },
+	{ E_POPUP_ITEM, "47.forward", N_("_Forward as iCalendar..."), on_forward, NULL, "stock_mail-forward", 0, E_CAL_POPUP_SELECT_NOTEDITING },
+	{ E_POPUP_ITEM, "48.reply", N_("_Reply"), on_reply, NULL, "stock_mail-reply", E_CAL_POPUP_SELECT_MEETING | E_CAL_POPUP_SELECT_NOSAVESCHEDULES, E_CAL_POPUP_SELECT_NOTEDITING },
+	{ E_POPUP_ITEM, "49.reply-all", N_("Reply to _All"), on_reply_all, NULL, "stock_mail-reply-to-all", E_CAL_POPUP_SELECT_MEETING | E_CAL_POPUP_SELECT_NOSAVESCHEDULES, E_CAL_POPUP_SELECT_NOTEDITING },
 
 	{ E_POPUP_BAR, "50." },
 
@@ -1877,6 +1921,7 @@ e_calendar_view_edit_appointment (ECalendarView *cal_view,
 		g_object_unref (comp);
 	}
 
+	
 	open_event_with_flags (cal_view, client, icalcomp, flags);
 }
 

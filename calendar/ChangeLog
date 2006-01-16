@@ -1,5 +1,24 @@
 2006-01-16 P S Chakravarthi <pchakravarthi@novell.com>
 
+	Minor Feature: Reply and Reply all for calendar items of clients
+	that support such facility (personal, exchange).
+
+	* gui/e-cal-popup.[ch] : added a definition for
+	E_CAL_POPUP_SELECT_NOSAVESCHEDULES which separates out calendar items
+	of clients without the static capability of saving schedules.
+	* gui/itip-utils.c:
+	reply_to_calendar_comp (), html_new_lines_for (): added.
+	comp_to_list (): added another boolean parameter called reply_all which
+	indicates if reply to everyone is wanted or not.
+	added code for E_CAL_COMPONENT_METHOD_REPLY
+	itip_get_comp_attendee () : added code for E_CAL_COMPONENT_METHOD_REPLY
+	comp_content_type () : added code for E_CAL_COMPONENT_METHOD_REPLY
+	* gui/e-calendar-view.c on_reply (), on_reply_all (): added.
+	modified E_CAL_POPUP_* menu items to include Reply and Reply All
+
+
+2006-01-16 P S Chakravarthi <pchakravarthi@novell.com>
+
 	Fixes a crash in alarm-daemon on selecting "Quit" in panel options
 	* gui/alarm-notify/alarm-queue.c  (remove_client_alarms):
 	Removed the code loops through a list of ids generated.

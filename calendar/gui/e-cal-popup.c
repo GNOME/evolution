@@ -549,7 +549,7 @@ e_cal_popup_target_new_select(ECalPopup *eabp, struct _ECalModel *model, GPtrArr
 	guint32 mask = ~0;
 	ECal *client;
 	gboolean read_only, user_org = FALSE;
-
+	
 	/* FIXME: This is duplicated in e-cal-menu */
 
 	t->model = model;
@@ -598,6 +598,9 @@ e_cal_popup_target_new_select(ECalPopup *eabp, struct _ECalModel *model, GPtrArr
 
 		if (e_cal_util_component_has_attendee (comp_data->icalcomp))
 			mask &= ~E_CAL_POPUP_SELECT_MEETING;
+
+		if (!e_cal_get_save_schedules (comp_data->client))
+			mask &= ~E_CAL_POPUP_SELECT_NOSAVESCHEDULES;
 
 		if (e_cal_util_component_has_organizer (comp_data->icalcomp)) {
 
@@ -790,6 +793,7 @@ static const EPopupHookTargetMask ecalph_select_masks[] = {
 	{ "delegate", E_CAL_POPUP_SELECT_DELEGATABLE }, 
 	{ "accept", E_CAL_POPUP_SELECT_ACCEPTABLE },
 	{ "not-complete", E_CAL_POPUP_SELECT_NOTCOMPLETE },
+	{ "no-save-schedules", E_CAL_POPUP_SELECT_NOSAVESCHEDULES },
 	{ 0 }
 };
 

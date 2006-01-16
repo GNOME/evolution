@@ -48,4 +48,7 @@ gboolean itip_publish_comp (ECal *client, gchar* uri, gchar* username,
 gboolean itip_publish_begin (ECalComponent *pub_comp, ECal *client, 
 			     gboolean cloned, ECalComponent **clone);
 
+gboolean reply_to_calendar_comp (ECalComponentItipMethod method, ECalComponent *send_comp,
+				ECal *client, gboolean reply_all, icalcomponent *zones, GSList *attachments_list);
+
 #endif
