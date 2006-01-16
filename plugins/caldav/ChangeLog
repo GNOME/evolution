@@ -1,0 +1,11 @@
+2006-01-16  Harish Krishnaswamy <kharish@novell.com>
+
+	* Makefile.am : Integrate with eplugin make 
+	scripts and add a ChangeLog file for the eplugin.
+	
+2006-01-16  Harish Krishnaswamy <kharish@novell.com>
+
+	* caldav*:  'Import' the CalDAV eplugin 
+	implementation into evolution. Please
+	refer evolution-caldav module in cvs.gnome.org for
+	prior Change history.
