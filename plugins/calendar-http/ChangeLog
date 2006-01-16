@@ -2,7 +2,7 @@
 
 	Fixes #267402
 	* plugins/calendar-http/calendar-http.c
-	* plugins/calendar-http/org-gnome-calendar-http.eplug.xml
+	* plugins/calendar-http/org-gnome-calendar-http.eplug.xml:
 	Add support for accessing web calendars over HTTPS.
 
 2005-06-27  Tor Lillqvist  <tml@novell.com>
