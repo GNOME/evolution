@@ -1,3 +1,8 @@
+2006-01-16  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* evolution-mail-list.xml: Adds two new menu items for collapse and
+	expand of all threads.
+
 2006-01-14  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fixes bug #326458

@@ -57,6 +57,12 @@
      accel="*Control*t"
      type="toggle" />
 
+    <cmd name="ViewThreadsCollapseAll"
+    _tip="Collapse all message threads"/>
+
+    <cmd name="ViewThreadsExpandAll"
+    _tip="Expand all message threads"/>
+
   </commands>
 
   <keybindings>
@@ -68,7 +74,10 @@
     <submenu name="View">
 
       <placeholder name="MailMessageView">
-        <menuitem name="ViewThreaded" verb="" _label="Group By _Threads"/>
+	      <menuitem name="ViewThreaded" verb="" _label="_Group By Threads"/>
+        <menuitem name="ViewThreadsExpandAll" verb="" _label="E_xpand All Threads"/>
+        <menuitem name="ViewThreadsCollapseAll" verb="" _label="Collapse All _Threads"/>
+	      
         <menuitem name="HideDeleted" verb="" _label="Hide _Deleted Messages"/>
  	<separator f="" name="emaillist"/>
 	<menuitem name="ViewHideSelected" verb="" _label="Hide S_elected Messages"/>
