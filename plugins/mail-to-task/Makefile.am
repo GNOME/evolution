@@ -1,4 +1,4 @@
-INCLUDES =						\
+NCLUDES =						\
 	-I$(top_srcdir)					\
 	$(EVOLUTION_MAIL_CFLAGS)
 
@@ -13,5 +13,5 @@ liborg_gnome_mail_to_task_la_LDFLAGS = -module -avoid-version
 EXTRA_DIST = org-gnome-mail-to-task.eplug.xml \
 	     org-gnome-mail-to-task.xml
 
-BUILT_SOURCES = $(plugin_DATA)
+BUILT_SOURCES = org-gnome-mail-to-task.eplug
 CLEANFILES = $(BUILT_SOURCES)

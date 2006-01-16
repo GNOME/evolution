@@ -1,3 +1,9 @@
+2006-01-16  Harish Krishnaswamy  <kharish@novell.com>
+
+	* Makefile.am: Enumerate files for BUILT_SOURCES macro
+	as plugin_DATA now includes static files from the source
+	tree.
+
 2006-01-14  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fixes bug #323011
