@@ -1,3 +1,15 @@
+2006-01-16  Johnny Jacob <johnnyjacob@gmail.com>
+
+	* gui/dialogs/event-page.c (edit_button_cb): Added.
+	edit the selected attendee.
+	(sensitize_widgets) : enable/disable edit button and 
+	Attendee list view.
+	(button_press_event) : don't popup the menu if editing is
+	disabled.
+	(get_widgets) : get and connect signals for edit button
+	* gui/e-meetings-list-view.ch (e_meeting_list_view_set_editable ) :
+	Added. set/unset the editable property of list view.
+
 2006-01-16  Harish Krishnaswamy  <kharish@novell.com>
 
 	* gui/calendar-component.c: (impl__get_userCreatableItems):

@@ -835,6 +835,8 @@ sensitize_widgets (EventPage *epage)
 
 	gtk_widget_set_sensitive (priv->organizer, !read_only);
 	gtk_widget_set_sensitive (priv->add, (!read_only &&  sens) || delegate);
+	gtk_widget_set_sensitive (priv->edit, (!read_only && sens) || delegate);
+	e_meeting_list_view_set_editable (priv->list_view, (!read_only && sens) || delegate);
 	gtk_widget_set_sensitive (priv->remove, (!read_only &&  sens) || delegate);
 	gtk_widget_set_sensitive (priv->invite, (!read_only &&  sens) || delegate);
 	gtk_widget_set_sensitive (GTK_WIDGET (priv->list_view), !read_only);	
@@ -968,7 +970,7 @@ event_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 	epage = EVENT_PAGE (page);
 	priv = epage->priv;
 
-	if (!e_cal_component_has_organizer (comp)) 
+	if (!e_cal_component_has_organizer (comp))
 		page->flags |= COMP_EDITOR_PAGE_USER_ORG;
 
 	/* Don't send off changes during this time */
@@ -1034,6 +1036,7 @@ event_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 								CAL_STATIC_CAPABILITY_ORGANIZER_NOT_EMAIL_ADDRESS))
 					gtk_widget_set_sensitive (priv->invite, FALSE);
 					gtk_widget_set_sensitive (priv->add, FALSE);
+					gtk_widget_set_sensitive (priv->edit, FALSE);
 					gtk_widget_set_sensitive (priv->remove, FALSE);
 					priv->user_org = FALSE;
 				}
@@ -1650,6 +1653,27 @@ static hour_minute_changed ( EventPage *epage)
 }
 
 static void
+edit_clicked_cb (GtkButton *btn, EventPage *epage)
+{
+	EventPagePrivate *priv;
+	EMeetingAttendee *attendee;
+	GtkTreePath *path = NULL;
+	GtkTreeViewColumn *focus_col;
+	gint row = 0;
+	
+	priv = epage->priv;
+
+	gtk_tree_view_get_cursor (GTK_TREE_VIEW (priv->list_view), &path, NULL);
+	g_return_if_fail (path != NULL);
+
+	row = gtk_tree_path_get_indices (path)[0];
+
+	gtk_tree_view_get_cursor (GTK_TREE_VIEW (priv->list_view), &path, &focus_col);
+	gtk_tree_view_set_cursor (GTK_TREE_VIEW (priv->list_view), path, focus_col, TRUE);
+	gtk_tree_path_free (path);
+}
+
+static void
 add_clicked_cb (GtkButton *btn, EventPage *epage)
 {
 	EMeetingAttendee *attendee;
@@ -1833,6 +1857,7 @@ attendee_added_cb (EMeetingListView *emlv, EMeetingAttendee *ia, gpointer user_d
 
 			   gtk_widget_set_sensitive (priv->invite, FALSE);
 			   gtk_widget_set_sensitive (priv->add, FALSE);
+			   gtk_widget_set_sensitive (priv->edit, FALSE);
 		   }
 	   }
    }
@@ -1868,7 +1893,7 @@ enum {
 
 static EPopupItem context_menu_items[] = {
 	{ E_POPUP_ITEM, "10.delete", N_("_Remove"), popup_delete_cb, NULL, GTK_STOCK_REMOVE, ATTENDEE_CAN_DELETE },
-	{ E_POPUP_ITEM, "15.add", N_("_Add "), popup_add_cb, NULL, GTK_STOCK_ADD },	
+	{ E_POPUP_ITEM, "15.add", N_("_Add "), popup_add_cb, NULL, GTK_STOCK_ADD, ATTENDEE_CAN_ADD },	
 };
 
 static void
@@ -1890,7 +1915,6 @@ button_press_event (GtkWidget *widget, GdkEventButton *event, EventPage *epage)
 	GSList *menus = NULL;
 	ECalPopup *ep;
 	int i;
-
 	priv = epage->priv;
 
 	/* only process right-clicks */
@@ -2190,6 +2214,7 @@ get_widgets (EventPage *epage)
 	priv->invite = GW ("invite");
 	priv->add = GW ("add-attendee");
 	priv->remove = GW ("remove-attendee");
+	priv->edit = GW ("edit-attendee");
 	priv->list_box = GW ("list-box");
 	
 	priv->calendar_label = GW ("calendar-label");
@@ -2820,6 +2845,9 @@ init_widgets (EventPage *epage)
 
 	/* Remove attendee button */
 	g_signal_connect (priv->remove, "clicked", G_CALLBACK (remove_clicked_cb), epage);
+
+	/* Edit attendee button */
+	g_signal_connect (priv->edit, "clicked", G_CALLBACK (edit_clicked_cb), epage);
 
 	/* Contacts button */
 	g_signal_connect(priv->invite, "clicked", G_CALLBACK (invite_cb), epage);	

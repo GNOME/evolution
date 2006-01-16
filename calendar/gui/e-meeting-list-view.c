@@ -851,3 +851,24 @@ e_meeting_list_view_invite_others_dialog (EMeetingListView *view)
 	dialog = e_name_selector_peek_dialog (view->priv->name_selector);
 	gtk_widget_show (GTK_WIDGET (dialog));
 }
+
+void 
+e_meeting_list_view_set_editable (EMeetingListView *lview, gboolean set)
+{
+	GtkCellRenderer *renderer;
+	EMeetingListViewPrivate *priv;
+
+	priv = lview->priv;
+
+	gint edit_level = set;
+
+	g_hash_table_foreach (priv->renderers, change_edit_cols_for_organizer, GINT_TO_POINTER (edit_level));
+}
+
+static void   
+set_editable (gpointer key, gpointer value, gpointer user_data)
+{
+       GtkCellRenderer *renderer = (GtkCellRenderer *) value;
+       guint edit_level = GPOINTER_TO_INT (user_data); 
+       g_object_set (G_OBJECT (renderer), "editable", GINT_TO_POINTER (edit_level), NULL);
+}
