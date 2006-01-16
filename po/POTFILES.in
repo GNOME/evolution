@@ -62,6 +62,7 @@ addressbook/gui/widgets/eab-vcard-control.c
 addressbook/gui/widgets/gal-view-factory-minicard.c
 addressbook/gui/widgets/gal-view-factory-treeview.c
 addressbook/gui/widgets/test-reflow.c
+addressbook/importers/evolution-csv-importer.c
 addressbook/importers/evolution-ldif-importer.c
 addressbook/importers/evolution-vcard-importer.c
 addressbook/printing/e-contact-print-envelope.c
@@ -275,6 +276,7 @@ plugins/backup-restore/org-gnome-backup-restore.eplug.xml
 plugins/backup-restore/org-gnome-backup-restore.xml
 plugins/bbdb/bbdb.c
 plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml
+plugins/caldav/caldav-source.c
 plugins/calendar-file/org-gnome-calendar-file.eplug.xml
 plugins/calendar-http/calendar-http.c
 plugins/calendar-http/org-gnome-calendar-http.eplug.xml
