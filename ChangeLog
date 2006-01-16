@@ -1,6 +1,6 @@
 2006-01-16  Chenthill Palanisamy  <pchenthill@novell.com>
 	
-	* configure.in: Use libnotify >= 0.30.
+	* configure.in: Use libnotify >= 0.3.0.
 
 2006-01-16  Harish Krishnaswamy <kharish@novell.com>
 	

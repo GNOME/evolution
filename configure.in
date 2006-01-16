@@ -1239,7 +1239,7 @@ fi
 
 LIBNOTIFY_CFLAGS=
 LIBNOTIFY_LIBS=
-PKG_CHECK_MODULES(LIBNOTIFY, libnotify >= 0.30, HAVE_LIBNOTIFY="yes", HAVE_LIBNOTIFY="no")
+PKG_CHECK_MODULES(LIBNOTIFY, libnotify >= 0.3.0, HAVE_LIBNOTIFY="yes", HAVE_LIBNOTIFY="no")
 if test "x$HAVE_LIBNOTIFY" = "xyes"; then
 	AC_DEFINE(HAVE_LIBNOTIFY, 1, [libnotify available])
 	libnotify="libnotify"
