@@ -1906,12 +1906,6 @@ emfv_enable_menus(EMFolderView *emfv)
 		}
 	}
 
-	/* Just Hide/Unhide Junk-Not Junk*/
-	bonobo_ui_component_set_prop(emfv->uic, "/commands/MessageMarkAsJunk", "hidden", 
-				*(bonobo_ui_component_get_prop(emfv->uic, "/commands/MessageMarkAsJunk", "sensitive",NULL)) == '1'?"0":"1", NULL);
-	bonobo_ui_component_set_prop(emfv->uic, "/commands/MessageMarkAsNotJunk", "hidden", 
-				*(bonobo_ui_component_get_prop(emfv->uic, "/commands/MessageMarkAsNotJunk", "sensitive",NULL)) == '1'?"0":"1", NULL);	
-
 	g_string_free(name, TRUE);
 }
 

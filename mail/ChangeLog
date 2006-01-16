@@ -1,5 +1,12 @@
 2006-01-16  Srinivasa Ragavan  <sragavan@novell.com>
 
+	** Fixes bug #326877
+
+	* em-folder-view.c: (emfv_enable_menus): Reverting the patch to hide
+	junk/not junk toolbuttons in disabled state.
+
+2006-01-16  Srinivasa Ragavan  <sragavan@novell.com>
+
 	** Fixes bug #218570
 
 	* em-folder-browser.c (emfb_expand_all_threads),
