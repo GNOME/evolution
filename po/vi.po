@@ -7,8 +7,8 @@ msgid ""
 ""
 msgstr "Project-Id-Version: evolution 1.4 Gnome HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-01-14 21:52+0100\n"
-"PO-Revision-Date: 2006-01-15 16:57+1030\n"
+"POT-Creation-Date: 2006-01-15 21:57+0100\n"
+"PO-Revision-Date: 2006-01-16 15:05+1030\n"
 "Last-Translator: Clytie Siddall <clytie@riverland.net.au>\n"
 "Language-Team: Vietnamese <gnomevi-list@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -1378,8 +1378,8 @@ msgstr "Địa chỉ"
 #:../addressbook/gui/widgets/e-minicard.c:175
 #:../widgets/menus/gal-define-views-model.c:181
 #:../widgets/table/e-cell-text.c:1770 ../widgets/text/e-entry.c:1312
-#:../widgets/text/e-entry.c:1313 ../widgets/text/e-text.c:3586
-#:../widgets/text/e-text.c:3587
+#:../widgets/text/e-entry.c:1313 ../widgets/text/e-text.c:3612
+#:../widgets/text/e-text.c:3613
 msgid "Editable"
 msgstr "Có thể sửa"
 
@@ -2750,7 +2750,7 @@ msgstr "Gập lỗi khi gọi khung xem sổ"
 #:../widgets/table/e-table.c:3344
 #:../widgets/table/e-tree-selection-model.c:825
 #:../widgets/text/e-entry.c:1235 ../widgets/text/e-entry.c:1236
-#:../widgets/text/e-text.c:3450 ../widgets/text/e-text.c:3451
+#:../widgets/text/e-text.c:3476 ../widgets/text/e-text.c:3477
 msgid "Model"
 msgstr "Mô hình"
 
@@ -2871,7 +2871,7 @@ msgstr "_Cắt"
 #:../calendar/gui/dialogs/comp-editor.c:445
 #:../calendar/gui/e-calendar-table.c:1184
 #:../calendar/gui/e-calendar-view.c:1571 ../calendar/gui/e-memo-table.c:862
-#:../calendar/gui/tasks-component.c:442 ../composer/e-msg-composer.c:3074
+#:../calendar/gui/tasks-component.c:442 ../composer/e-msg-composer.c:3102
 #:../mail/em-folder-tree.c:979 ../mail/em-folder-view.c:1077
 #:../mail/message-list.c:1719 ../ui/evolution-addressbook.xml.h:32
 #:../ui/evolution-calendar.xml.h:37 ../ui/evolution-composer-entries.xml.h:13
@@ -3080,7 +3080,7 @@ msgstr "Chỗ Mạng"
 #:../widgets/table/e-table-group-leaf.c:629
 #:../widgets/table/e-table-group-leaf.c:630
 #:../widgets/table/e-table-item.c:3024 ../widgets/table/e-table-item.c:3025
-#:../widgets/text/e-text.c:3628 ../widgets/text/e-text.c:3629
+#:../widgets/text/e-text.c:3654 ../widgets/text/e-text.c:3655
 msgid "Width"
 msgstr "Rộng"
 
@@ -3095,7 +3095,7 @@ msgstr "Rộng"
 #:../widgets/table/e-table-group-leaf.c:622
 #:../widgets/table/e-table-group-leaf.c:623
 #:../widgets/table/e-table-item.c:3030 ../widgets/table/e-table-item.c:3031
-#:../widgets/text/e-text.c:3636 ../widgets/text/e-text.c:3637
+#:../widgets/text/e-text.c:3662 ../widgets/text/e-text.c:3663
 msgid "Height"
 msgstr "Cao"
 
@@ -5698,27 +5698,27 @@ msgstr " (Đến hạn "
 msgid "Due "
 msgstr "Đến hạn "
 
-#:../calendar/gui/dialogs/comp-editor.c:207 ../composer/e-msg-composer.c:2825
+#:../calendar/gui/dialogs/comp-editor.c:207 ../composer/e-msg-composer.c:2854
 #,c-format
 msgid "Attached message - %s"
 msgstr "Thư đính kèm - %s"
 
 #.translators, this count will always be >1
 #:../calendar/gui/dialogs/comp-editor.c:212
-#:../calendar/gui/dialogs/comp-editor.c:382 ../composer/e-msg-composer.c:2830
-#:../composer/e-msg-composer.c:3009
+#:../calendar/gui/dialogs/comp-editor.c:382 ../composer/e-msg-composer.c:2859
+#:../composer/e-msg-composer.c:3038
 #,c-format
 msgid "Attached message"
 msgid_plural "%d attached messages"
 msgstr[0] "%d thư đính kèm"
 
-#:../calendar/gui/dialogs/comp-editor.c:446 ../composer/e-msg-composer.c:3075
+#:../calendar/gui/dialogs/comp-editor.c:446 ../composer/e-msg-composer.c:3103
 #:../mail/em-folder-tree.c:980 ../mail/em-folder-utils.c:368
 #:../mail/em-folder-view.c:973 ../mail/message-list.c:1720
 msgid "_Move"
 msgstr "_Di chuyển"
 
-#:../calendar/gui/dialogs/comp-editor.c:448 ../composer/e-msg-composer.c:3077
+#:../calendar/gui/dialogs/comp-editor.c:448 ../composer/e-msg-composer.c:3105
 #:../mail/em-folder-tree.c:982 ../mail/message-list.c:1722
 msgid "Cancel _Drag"
 msgstr "Hủy bỏ _kéo"
@@ -5727,7 +5727,7 @@ msgstr "Hủy bỏ _kéo"
 msgid "Could not update object"
 msgstr "Không thể cập nhật đối tượng"
 
-#:../calendar/gui/dialogs/comp-editor.c:952 ../composer/e-msg-composer.c:2468
+#:../calendar/gui/dialogs/comp-editor.c:952 ../composer/e-msg-composer.c:2483
 #,c-format
 msgid "<b>%d</b> Attachment"
 msgid_plural "<b>%d</b> Attachments"
@@ -5747,7 +5747,7 @@ msgstr "Hiện thanh đính _kèm"
 #:../calendar/gui/dialogs/meeting-page.c:909
 #:../calendar/gui/dialogs/task-page.c:1183
 #:../composer/e-msg-composer-attachment-bar.c:470
-#:../composer/e-msg-composer.c:3573
+#:../composer/e-msg-composer.c:3601
 #:../plugins/groupwise-features/junk-settings.glade.h:8
 #:../plugins/groupwise-features/properties.glade.h:14
 #:../widgets/table/e-table-config.glade.h:18
@@ -5756,14 +5756,14 @@ msgstr "_Gỡ bỏ"
 
 #:../calendar/gui/dialogs/comp-editor.c:1095
 #:../composer/e-msg-composer-attachment-bar.c:471
-#:../composer/e-msg-composer.c:3574 ../mail/em-folder-tree.c:2058
+#:../composer/e-msg-composer.c:3602 ../mail/em-folder-tree.c:2058
 #:../ui/evolution-mail-list.xml.h:29
 msgid "_Properties"
 msgstr "_Thuộc tính"
 
 #:../calendar/gui/dialogs/comp-editor.c:1097
 #:../composer/e-msg-composer-attachment-bar.c:473
-#:../composer/e-msg-composer.c:3576
+#:../composer/e-msg-composer.c:3604
 msgid "_Add attachment..."
 msgstr "_Thêm đính kèm..."
 
@@ -6081,7 +6081,7 @@ msgstr "<b>Từ</b>"
 #:../calendar/gui/dialogs/meeting-page.c:316
 #:../calendar/gui/dialogs/meeting-page.glade.h:4
 #:../calendar/gui/e-cal-model-tasks.c:654
-#:../calendar/gui/e-itip-control.c:1105 ../composer/e-msg-composer.c:2260
+#:../calendar/gui/e-itip-control.c:1105 ../composer/e-msg-composer.c:2275
 #:../filter/filter-rule.c:881 ../mail/em-account-editor.c:691
 #:../mail/em-account-editor.c:1356 ../mail/em-account-prefs.c:465
 #:../mail/em-folder-view.c:1106 ../mail/em-junk-hook.c:78
@@ -6765,7 +6765,7 @@ msgstr "Đã gán"
 msgid "Save As..."
 msgstr "Lưu mới..."
 
-#:../calendar/gui/e-cal-popup.c:188 ../mail/em-format-html-display.c:1842
+#:../calendar/gui/e-cal-popup.c:188 ../mail/em-format-html-display.c:1862
 msgid "Select folder to save selected attachments..."
 msgstr "Chọn thư mục nơi cần lưu những đính kèm đã chọn..."
 
@@ -6855,7 +6855,7 @@ msgstr "Đang cập nhật các đối tượng"
 
 #:../calendar/gui/e-calendar-table.c:1034
 #:../calendar/gui/e-calendar-view.c:1141 ../calendar/gui/e-memo-table.c:744
-#:../composer/e-msg-composer.c:1339
+#:../composer/e-msg-composer.c:1354
 msgid "Save as..."
 msgstr "Lưu mới..."
 
@@ -10043,47 +10043,52 @@ msgid ""
 msgstr "Không thể mật mã hóa thư gửi đi: chưa lập chứng nhận mật mã cho tài khoản "
 "này."
 
-#:../composer/e-msg-composer.c:1320 ../composer/e-msg-composer.c:1354
+#:../composer/e-msg-composer.c:1300 ../composer/e-msg-composer.c:2512
+msgid "Hide _Attachment Bar"
+msgstr "Ẩn thanh đính _kèm"
+
+#:../composer/e-msg-composer.c:1303 ../composer/e-msg-composer.c:2515
+#:../composer/e-msg-composer.c:3847
+msgid "Show _Attachment Bar"
+msgstr "Hiện thanh đính _kèm"
+
+#:../composer/e-msg-composer.c:1335 ../composer/e-msg-composer.c:1369
 #:../plugins/mail-remote/e-corba-utils.c:135
 msgid "Unknown reason"
 msgstr "Không biết sao"
 
-#:../composer/e-msg-composer.c:1392
+#:../composer/e-msg-composer.c:1407
 msgid "Could not open file"
 msgstr "Không mở được tập tin"
 
-#:../composer/e-msg-composer.c:1400
+#:../composer/e-msg-composer.c:1415
 msgid "Unable to retrieve message from editor"
 msgstr "Không nhận được thư từ trình biên soạn."
 
-#:../composer/e-msg-composer.c:1678
+#:../composer/e-msg-composer.c:1693
 msgid "Untitled Message"
 msgstr "Thư chưa tên"
 
 #.NB: This function is never used anymore
-#:../composer/e-msg-composer.c:1713
+#:../composer/e-msg-composer.c:1728
 msgid "Open File"
 msgstr "Mở tập tin"
 
-#:../composer/e-msg-composer.c:2140 ../mail/em-account-editor.c:596
+#:../composer/e-msg-composer.c:2155 ../mail/em-account-editor.c:596
 #:../mail/em-account-editor.c:641 ../mail/em-account-editor.c:708
 msgid "Autogenerated"
 msgstr "Tự động phát sinh"
 
-#:../composer/e-msg-composer.c:2243
+#:../composer/e-msg-composer.c:2258
 msgid "Si_gnature:"
 msgstr "Chữ _ký:"
 
-#:../composer/e-msg-composer.c:2497 ../composer/e-msg-composer.c:3701
-#:../composer/e-msg-composer.c:3704
+#:../composer/e-msg-composer.c:2526 ../composer/e-msg-composer.c:3729
+#:../composer/e-msg-composer.c:3732
 msgid "Compose Message"
 msgstr "Biên soạn thư"
 
-#:../composer/e-msg-composer.c:3819
-msgid "_Attachment Bar"
-msgstr "Thanh đính _kèm"
-
-#:../composer/e-msg-composer.c:4911
+#:../composer/e-msg-composer.c:4956
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)"
 "<b>"
@@ -11432,67 +11437,67 @@ msgid "Click to mail %s"
 msgstr "Nhấn để gửi thư cho « %s »"
 
 #.message-search popup match count string
-#:../mail/em-format-html-display.c:472
+#:../mail/em-format-html-display.c:492
 #,c-format
 msgid "Matches: %d"
 msgstr "Khớp: %d"
 
-#:../mail/em-format-html-display.c:729 ../mail/em-format-html.c:607
+#:../mail/em-format-html-display.c:749 ../mail/em-format-html.c:607
 msgid "Unsigned"
 msgstr "Chưa ký"
 
-#:../mail/em-format-html-display.c:729
+#:../mail/em-format-html-display.c:749
 msgid ""
 "This message is not signed. There is no guarantee that this message is "
 "authentic."
 msgstr "Thư này không có chữ ký nên không thể đảm bảo thư này do người ấy gửi."
 
-#:../mail/em-format-html-display.c:730 ../mail/em-format-html.c:608
+#:../mail/em-format-html-display.c:750 ../mail/em-format-html.c:608
 msgid "Valid signature"
 msgstr "Chữ ký hợp lệ"
 
-#:../mail/em-format-html-display.c:730
+#:../mail/em-format-html-display.c:750
 msgid ""
 "This message is signed and is valid meaning that it is very likely that this "
 "message is authentic."
 msgstr "Thư này có chữ ký và hợp lệ nên rất có thể là thư ấy do người ấy gửi."
 
-#:../mail/em-format-html-display.c:731 ../mail/em-format-html.c:609
+#:../mail/em-format-html-display.c:751 ../mail/em-format-html.c:609
 msgid "Invalid signature"
 msgstr "Chữ ký không hợp lệ"
 
-#:../mail/em-format-html-display.c:731
+#:../mail/em-format-html-display.c:751
 msgid ""
 "The signature of this message cannot be verified, it may have been altered "
 "in transit."
 msgstr "Không thể xác minh chữ ký của thư này: có lẽ nó bị giả trong khi truyền."
 
-#:../mail/em-format-html-display.c:732
+#:../mail/em-format-html-display.c:752
 msgid "Valid signature, cannot verify sender"
 msgstr "Chữ ký hợp lệ nhưng mà không thể xác minh người gửi."
 
-#:../mail/em-format-html-display.c:732
+#:../mail/em-format-html-display.c:752
 msgid ""
 "This message is signed with a valid signature, but the sender of the message "
 "cannot be verified."
 msgstr "Thư này có chữ ký hợp lệ, nhưng mà không thể xác minh người gửi thư."
 
-#:../mail/em-format-html-display.c:738 ../mail/em-format-html.c:616
+#:../mail/em-format-html-display.c:758 ../mail/em-format-html.c:616
 msgid "Unencrypted"
 msgstr "Không mật mã"
 
-#:../mail/em-format-html-display.c:738
+#:../mail/em-format-html-display.c:758
 msgid ""
 "This message is not encrypted. Its content may be viewed in transit across "
 "the Internet."
 msgstr "Thư này không mật mã nên bất cứ người nào có xem được nội dung nó trong khi "
 "truyền qua Mạng."
 
-#:../mail/em-format-html-display.c:739 ../mail/em-format-html.c:617
+#:../mail/em-format-html-display.c:759 ../mail/em-format-html.c:617
 msgid "Encrypted, weak"
 msgstr "Mật mã yếu"
 
-#:../mail/em-format-html-display.c:739
+#:../mail/em-format-html-display.c:759
 msgid ""
 "This message is encrypted, but with a weak encryption algorithm. It would be "
 "difficult, but not impossible for an outsider to view the content of this "
@@ -11500,21 +11505,21 @@ msgid ""
 msgstr "Thư này mật mã, nhưng mà dùng thuật toán mật mã yếu. Người khác sẽ gặp khó "
 "khăn đọc thư này được một thời gian hữu ích, nhưng mà có thể làm như thế."
 
-#:../mail/em-format-html-display.c:740 ../mail/em-format-html.c:618
+#:../mail/em-format-html-display.c:760 ../mail/em-format-html.c:618
 msgid "Encrypted"
 msgstr "Mật mã"
 
-#:../mail/em-format-html-display.c:740
+#:../mail/em-format-html-display.c:760
 msgid ""
 "This message is encrypted.  It would be difficult for an outsider to view "
 "the content of this message."
 msgstr "Thư này mật mã. Người khác sẽ gặp khó khăn nhiều đọc nội dung thư."
 
-#:../mail/em-format-html-display.c:741 ../mail/em-format-html.c:619
+#:../mail/em-format-html-display.c:761 ../mail/em-format-html.c:619
 msgid "Encrypted, strong"
 msgstr "Mật mã mạnh"
 
-#:../mail/em-format-html-display.c:741
+#:../mail/em-format-html-display.c:761
 msgid ""
 "This message is encrypted, with a strong encryption algorithm. It would be "
 "very difficult for an outsider to view the content of this message in a "
@@ -11522,70 +11527,70 @@ msgid ""
 msgstr "Thư này mật mã dùng thuật toán mật mã mạnh. Người khác sẽ gặp khó khăn rất "
 "nhiều đọc nội dung thư được thời gian hữu ích. "
 
-#:../mail/em-format-html-display.c:842 ../smime/gui/smime-ui.glade.h:48
+#:../mail/em-format-html-display.c:862 ../smime/gui/smime-ui.glade.h:48
 msgid "_View Certificate"
 msgstr "_Xem Chứng nhận"
 
-#:../mail/em-format-html-display.c:857
+#:../mail/em-format-html-display.c:877
 msgid "This certificate is not viewable"
 msgstr "Chứng nhận này không thể xem"
 
-#:../mail/em-format-html-display.c:1145
+#:../mail/em-format-html-display.c:1165
 msgid "Completed on %B %d, %Y, %l:%M %p"
 msgstr "Hoàn thành lúc %d %B, %Y, %l:%M %p"
 
-#:../mail/em-format-html-display.c:1153
+#:../mail/em-format-html-display.c:1173
 msgid "Overdue:"
 msgstr "Quá hạn:"
 
-#:../mail/em-format-html-display.c:1156
+#:../mail/em-format-html-display.c:1176
 msgid "by %B %d, %Y, %l:%M %p"
 msgstr "trước %d %B, %Y, %l:%M %p"
 
-#:../mail/em-format-html-display.c:1216
+#:../mail/em-format-html-display.c:1236
 msgid "_View Inline"
 msgstr "_Xem trực tiếp"
 
-#:../mail/em-format-html-display.c:1217
+#:../mail/em-format-html-display.c:1237
 msgid "_Hide"
 msgstr "Ẩ_n"
 
-#:../mail/em-format-html-display.c:1218
+#:../mail/em-format-html-display.c:1238
 msgid "_Fit to Width"
 msgstr "_Vừa khít độ rộng"
 
-#:../mail/em-format-html-display.c:1219
+#:../mail/em-format-html-display.c:1239
 msgid "Show _Original Size"
 msgstr "Hiển thị kích thước _gốc"
 
-#:../mail/em-format-html-display.c:1596
+#:../mail/em-format-html-display.c:1616
 msgid "Attachment Button"
 msgstr "Nút đính kèm"
 
-#:../mail/em-format-html-display.c:1803
+#:../mail/em-format-html-display.c:1823
 msgid "Select folder to save all attachments..."
 msgstr "Chọn thư mục nơi cần lưu mọi đính kèm..."
 
-#:../mail/em-format-html-display.c:1850
+#:../mail/em-format-html-display.c:1870
 msgid "Save Selected..."
 msgstr "Lưu các điều chọn..."
 
 #.Cant i put in the number of attachments here ?
-#:../mail/em-format-html-display.c:1917
+#:../mail/em-format-html-display.c:1937
 #,c-format
 msgid "%d attachment"
 msgid_plural "%d attachments"
 msgstr[0] "%d đính kèm"
 
-#:../mail/em-format-html-display.c:1980
+#:../mail/em-format-html-display.c:2000
 msgid "Toggle Attachment Bar"
 msgstr "Bật/tắt thanh đính kèm"
 
-#:../mail/em-format-html-display.c:1982
+#:../mail/em-format-html-display.c:2002
 msgid "No Attachment"
 msgstr "Không có đính kèm"
 
-#:../mail/em-format-html-display.c:1985
+#:../mail/em-format-html-display.c:2005
 msgid "Save All"
 msgstr "Lưu tất cả"
 
@@ -17835,7 +17840,7 @@ msgstr "In các liên lạc được chọn"
 msgid "Save selected contacts as a VCard."
 msgstr "Lưu các liên lạc được chọn là vCard"
 
-#:../ui/evolution-addressbook.xml.h:22 ../widgets/text/e-text.c:2686
+#:../ui/evolution-addressbook.xml.h:22 ../widgets/text/e-text.c:2712
 msgid "Select All"
 msgstr "Chọn tất cả"
 
@@ -19538,8 +19543,8 @@ msgstr "Lịch tháng"
 
 #:../widgets/misc/e-canvas-background.c:459
 #:../widgets/misc/e-canvas-background.c:460 ../widgets/text/e-entry.c:1284
-#:../widgets/text/e-entry.c:1285 ../widgets/text/e-text.c:3542
-#:../widgets/text/e-text.c:3543
+#:../widgets/text/e-entry.c:1285 ../widgets/text/e-text.c:3568
+#:../widgets/text/e-text.c:3569
 msgid "Fill color"
 msgstr "Màu tô đầy"
 
@@ -19548,16 +19553,16 @@ msgstr "Màu tô đầy"
 #:../widgets/misc/e-canvas-background.c:473
 #:../widgets/misc/e-canvas-background.c:474 ../widgets/text/e-entry.c:1291
 #:../widgets/text/e-entry.c:1292 ../widgets/text/e-entry.c:1298
-#:../widgets/text/e-entry.c:1299 ../widgets/text/e-text.c:3549
-#:../widgets/text/e-text.c:3550 ../widgets/text/e-text.c:3557
-#:../widgets/text/e-text.c:3558
+#:../widgets/text/e-entry.c:1299 ../widgets/text/e-text.c:3575
+#:../widgets/text/e-text.c:3576 ../widgets/text/e-text.c:3583
+#:../widgets/text/e-text.c:3584
 msgid "GDK fill color"
 msgstr "Màu tô đầy GDK"
 
 #:../widgets/misc/e-canvas-background.c:480
 #:../widgets/misc/e-canvas-background.c:481 ../widgets/text/e-entry.c:1305
-#:../widgets/text/e-entry.c:1306 ../widgets/text/e-text.c:3564
-#:../widgets/text/e-text.c:3565
+#:../widgets/text/e-entry.c:1306 ../widgets/text/e-text.c:3590
+#:../widgets/text/e-text.c:3591
 msgid "Fill stipple"
 msgstr "Tô đầy dùng thuật vẽ bằng chấm"
 
@@ -19887,8 +19892,8 @@ msgid "Subitem ID"
 msgstr "ID mục con"
 
 #:../widgets/misc/e-search-bar.c:907 ../widgets/text/e-entry.c:1249
-#:../widgets/text/e-entry.c:1250 ../widgets/text/e-text.c:3464
-#:../widgets/text/e-text.c:3465
+#:../widgets/text/e-entry.c:1250 ../widgets/text/e-text.c:3490
+#:../widgets/text/e-text.c:3491
 msgid "Text"
 msgstr "Chữ"
 
@@ -20464,7 +20469,7 @@ msgid "This should test the minicard canvas item"
 msgstr "Hành động này nên thử ra mục vải căng thẻ tí tị"
 
 #:../widgets/text/e-entry.c:1242 ../widgets/text/e-entry.c:1243
-#:../widgets/text/e-text.c:3457 ../widgets/text/e-text.c:3458
+#:../widgets/text/e-text.c:3483 ../widgets/text/e-text.c:3484
 msgid "Event Processor"
 msgstr "Bộ xử lý dữ kiện"
 
@@ -20477,57 +20482,57 @@ msgid "GDKFont"
 msgstr "Phông chữ GDK"
 
 #:../widgets/text/e-entry.c:1277 ../widgets/text/e-entry.c:1278
-#:../widgets/text/e-text.c:3493 ../widgets/text/e-text.c:3494
+#:../widgets/text/e-text.c:3519 ../widgets/text/e-text.c:3520
 msgid "Justification"
 msgstr "Canh đều"
 
 #:../widgets/text/e-entry.c:1319 ../widgets/text/e-entry.c:1320
-#:../widgets/text/e-text.c:3593 ../widgets/text/e-text.c:3594
+#:../widgets/text/e-text.c:3619 ../widgets/text/e-text.c:3620
 msgid "Use ellipsis"
 msgstr "Dùng dấu chấm lửng"
 
 #:../widgets/text/e-entry.c:1326 ../widgets/text/e-entry.c:1327
-#:../widgets/text/e-text.c:3600 ../widgets/text/e-text.c:3601
+#:../widgets/text/e-text.c:3626 ../widgets/text/e-text.c:3627
 msgid "Ellipsis"
 msgstr "Dấu chấm lửng"
 
 #:../widgets/text/e-entry.c:1333 ../widgets/text/e-entry.c:1334
-#:../widgets/text/e-text.c:3607 ../widgets/text/e-text.c:3608
+#:../widgets/text/e-text.c:3633 ../widgets/text/e-text.c:3634
 msgid "Line wrap"
 msgstr "Ngắt dòng"
 
 #:../widgets/text/e-entry.c:1340 ../widgets/text/e-entry.c:1341
-#:../widgets/text/e-text.c:3614 ../widgets/text/e-text.c:3615
+#:../widgets/text/e-text.c:3640 ../widgets/text/e-text.c:3641
 msgid "Break characters"
 msgstr "Ngắt ký tự"
 
 #:../widgets/text/e-entry.c:1347 ../widgets/text/e-entry.c:1348
-#:../widgets/text/e-text.c:3621 ../widgets/text/e-text.c:3622
+#:../widgets/text/e-text.c:3647 ../widgets/text/e-text.c:3648
 msgid "Max lines"
 msgstr "Số dòng tối đa"
 
 #:../widgets/text/e-entry.c:1354 ../widgets/text/e-entry.c:1355
-#:../widgets/text/e-text.c:3650 ../widgets/text/e-text.c:3651
+#:../widgets/text/e-text.c:3676 ../widgets/text/e-text.c:3677
 msgid "Allow newlines"
 msgstr "Cho phép ký tự dòng mới"
 
 #:../widgets/text/e-entry.c:1361 ../widgets/text/e-entry.c:1362
-#:../widgets/text/e-text.c:3643 ../widgets/text/e-text.c:3644
+#:../widgets/text/e-text.c:3669 ../widgets/text/e-text.c:3670
 msgid "Draw borders"
 msgstr "Viền vẽ"
 
 #:../widgets/text/e-entry.c:1368 ../widgets/text/e-entry.c:1369
-#:../widgets/text/e-text.c:3657 ../widgets/text/e-text.c:3658
+#:../widgets/text/e-text.c:3683 ../widgets/text/e-text.c:3684
 msgid "Draw background"
 msgstr "Nền vẽ"
 
 #:../widgets/text/e-entry.c:1375 ../widgets/text/e-entry.c:1376
-#:../widgets/text/e-text.c:3664 ../widgets/text/e-text.c:3665
+#:../widgets/text/e-text.c:3690 ../widgets/text/e-text.c:3691
 msgid "Draw button"
 msgstr "Nút vẽ"
 
 #:../widgets/text/e-entry.c:1382 ../widgets/text/e-entry.c:1383
-#:../widgets/text/e-text.c:3671 ../widgets/text/e-text.c:3672
+#:../widgets/text/e-text.c:3697 ../widgets/text/e-text.c:3698
 msgid "Cursor position"
 msgstr "Ví trị con trỏ"
 
@@ -20535,58 +20540,58 @@ msgstr "Ví trị con trỏ"
 msgid "Emulate label resize"
 msgstr "Mô phỏng đổi cỡ nhãn"
 
-#:../widgets/text/e-text.c:2698
+#:../widgets/text/e-text.c:2724
 msgid "Input Methods"
 msgstr "Cách nhập"
 
-#:../widgets/text/e-text.c:3471 ../widgets/text/e-text.c:3472
+#:../widgets/text/e-text.c:3497 ../widgets/text/e-text.c:3498
 msgid "Bold"
 msgstr "Đậm"
 
-#:../widgets/text/e-text.c:3478 ../widgets/text/e-text.c:3479
+#:../widgets/text/e-text.c:3504 ../widgets/text/e-text.c:3505
 msgid "Strikeout"
 msgstr "Gạch xóa"
 
-#:../widgets/text/e-text.c:3485 ../widgets/text/e-text.c:3486
+#:../widgets/text/e-text.c:3511 ../widgets/text/e-text.c:3512
 msgid "Anchor"
 msgstr "Neo"
 
-#:../widgets/text/e-text.c:3500 ../widgets/text/e-text.c:3501
+#:../widgets/text/e-text.c:3526 ../widgets/text/e-text.c:3527
 msgid "Clip Width"
 msgstr "Rộng trích đoạn"
 
-#:../widgets/text/e-text.c:3507 ../widgets/text/e-text.c:3508
+#:../widgets/text/e-text.c:3533 ../widgets/text/e-text.c:3534
 msgid "Clip Height"
 msgstr "Cao trích đoạn"
 
-#:../widgets/text/e-text.c:3514 ../widgets/text/e-text.c:3515
+#:../widgets/text/e-text.c:3540 ../widgets/text/e-text.c:3541
 msgid "Clip"
 msgstr "Trích đoạn"
 
-#:../widgets/text/e-text.c:3521 ../widgets/text/e-text.c:3522
+#:../widgets/text/e-text.c:3547 ../widgets/text/e-text.c:3548
 msgid "Fill clip rectangle"
 msgstr "Tô đầy hình chữ nhật trích đoạn"
 
-#:../widgets/text/e-text.c:3528 ../widgets/text/e-text.c:3529
+#:../widgets/text/e-text.c:3554 ../widgets/text/e-text.c:3555
 msgid "X Offset"
 msgstr "Hiệu số X"
 
-#:../widgets/text/e-text.c:3535 ../widgets/text/e-text.c:3536
+#:../widgets/text/e-text.c:3561 ../widgets/text/e-text.c:3562
 msgid "Y Offset"
 msgstr "Hiệu số Y"
 
-#:../widgets/text/e-text.c:3571 ../widgets/text/e-text.c:3572
+#:../widgets/text/e-text.c:3597 ../widgets/text/e-text.c:3598
 msgid "Text width"
 msgstr "Rộng văn bản"
 
-#:../widgets/text/e-text.c:3578 ../widgets/text/e-text.c:3579
+#:../widgets/text/e-text.c:3604 ../widgets/text/e-text.c:3605
 msgid "Text height"
 msgstr "Cao văn bản"
 
-#:../widgets/text/e-text.c:3678 ../widgets/text/e-text.c:3679
+#:../widgets/text/e-text.c:3704 ../widgets/text/e-text.c:3705
 msgid "IM Context"
 msgstr "Ngữ cảnh IM"
 
-#:../widgets/text/e-text.c:3685 ../widgets/text/e-text.c:3686
+#:../widgets/text/e-text.c:3711 ../widgets/text/e-text.c:3712
 msgid "Handle Popup"
 msgstr "Bộ bật lên móc kéo"
