@@ -1,3 +1,16 @@
+2006-01-16  Srinivasa Ragavan  <sragavan@novell.com>
+
+	Fixes #324739
+	* gui/e-calendar-view.c: (tooltip_grab),
+	(e_calendar_view_get_tooltips):
+	* gui/e-day-view.c: (e_day_view_convert_event_coords),
+	(e_day_view_on_time_canvas_scroll), (tooltip_get_view_event),
+	(tooltip_destroy), (e_day_view_on_text_item_event),
+	(e_day_view_on_editing_stopped):
+	* gui/e-week-view.c: (e_week_view_on_scroll), (tooltip_destroy),
+	(tooltip_event_cb), (e_week_view_on_text_item_event),
+	(e_week_view_on_editing_stopped):
+
 2006-01-16  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Patch submitted by Sebastien Bacher <seb128@debian.org>

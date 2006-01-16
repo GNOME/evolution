@@ -2835,6 +2835,12 @@ e_day_view_convert_event_coords (EDayView *day_view,
 		event_y = event->motion.y;
 		event_window = event->motion.window;
 		break;
+	case GDK_ENTER_NOTIFY:
+	case GDK_LEAVE_NOTIFY:
+		event_x = event->crossing.x;
+		event_y = event->crossing.y;
+		event_window = event->crossing.window;
+		break;
 	default:
 		/* Shouldn't get here. */
 		g_assert_not_reached ();
@@ -2959,6 +2965,12 @@ e_day_view_on_time_canvas_scroll (GtkWidget      *widget,
 				  GdkEventScroll *scroll,
 				  EDayView       *day_view)
 {
+	GtkWidget *tool_window = g_object_get_data ((GObject *)day_view, "tooltip-window");
+
+	if (tool_window) {
+		gtk_widget_destroy (tool_window);
+		g_object_set_data (day_view, "tooltip-window", NULL);
+	}
 	
 	switch (scroll->direction) {
 	case GDK_SCROLL_UP:
@@ -5777,7 +5789,6 @@ tooltip_get_view_event (EDayView *day_view, int day, int event_num)
 {
 	EDayViewEvent *pevent;
 
-	
 	if (day == E_DAY_VIEW_LONG_EVENT) {
 		pevent = &g_array_index (day_view->long_events, EDayViewEvent,
 					event_num);
@@ -5792,13 +5803,13 @@ tooltip_get_view_event (EDayView *day_view, int day, int event_num)
 static void
 tooltip_destroy (EDayView *day_view, GnomeCanvasItem *item)
 {
-	int day = GPOINTER_TO_INT (g_object_get_data (item, "event-day"));
-	int event_num = GPOINTER_TO_INT (g_object_get_data (item, "event-num"));
 	EDayViewEvent *pevent;
+	int event_num = GPOINTER_TO_INT(g_object_get_data ((GObject *)item, "event-num"));
+	int day = GPOINTER_TO_INT(g_object_get_data ((GObject *)item, "event-day"));
 
 	pevent = tooltip_get_view_event (day_view, day, event_num);
 	if (pevent) {
-		if (pevent->tooltip) {
+		if (pevent->tooltip && g_object_get_data (day_view, "tooltip-window")) {
 			gtk_widget_destroy (pevent->tooltip);
 			pevent->tooltip = NULL;
 		}
@@ -5807,6 +5818,8 @@ tooltip_destroy (EDayView *day_view, GnomeCanvasItem *item)
 			g_source_remove (pevent->timeout);
 			pevent->timeout = -1;
 		}
+
+		g_object_set_data (day_view, "tooltip-window", NULL);		
 	}
 }
 
@@ -5874,12 +5887,45 @@ e_day_view_on_text_item_event (GnomeCanvasItem *item,
 		return FALSE;
 	case GDK_ENTER_NOTIFY:
 		{
-			int day = GPOINTER_TO_INT (g_object_get_data (item, "event-day"));
-			int event_num = GPOINTER_TO_INT (g_object_get_data (item, "event-num"));
 			EDayViewEvent *pevent;
 			ECalendarViewEventData *data;
-			
+			gint event_x, event_y, row, day, event_num;
+			ECalendarViewPosition pos;
+			gboolean main_canvas = TRUE;
+
+			/* Convert the coords to the main canvas window, or return if the
+			   window is not found. */
+			if (!e_day_view_convert_event_coords (day_view, (GdkEvent*) event,
+							      GTK_LAYOUT (day_view->main_canvas)->bin_window,
+							      &event_x, &event_y)) {
+				main_canvas = FALSE;
+				if (!e_day_view_convert_event_coords (day_view, (GdkEvent*) event,
+								      GTK_LAYOUT (day_view->top_canvas)->bin_window,
+								      &event_x, &event_y))  {
+					return FALSE;
+				}
+			}
+			/* Find out where the mouse is. */
+			if (main_canvas) {
+				pos = e_day_view_convert_position_in_main_canvas (day_view,
+										  event_x, event_y,
+										  &day, &row,
+										  &event_num);
+			} else {
+				int tmp;
+				
+				pos = e_day_view_convert_position_in_top_canvas (day_view,
+										 event_x, event_y,
+										 &tmp, &event_num);
+				day = E_DAY_VIEW_LONG_EVENT;
+			}
+
+			if (pos == E_CALENDAR_VIEW_POS_OUTSIDE)
+				return FALSE;
+
 			pevent = tooltip_get_view_event (day_view, day, event_num);
+			g_object_set_data (item, "event-num", GINT_TO_POINTER (event_num));
+			g_object_set_data (item, "event-day", GINT_TO_POINTER (day));
 
 			data = g_malloc (sizeof (ECalendarViewEventData));
 			pevent->x = ((GdkEventCrossing *)event)->x_root;
@@ -5899,15 +5945,16 @@ e_day_view_on_text_item_event (GnomeCanvasItem *item,
 		return TRUE;
 	case GDK_MOTION_NOTIFY:
 		{
-			int day = GPOINTER_TO_INT (g_object_get_data (item, "event-day"));
-			int event_num = GPOINTER_TO_INT (g_object_get_data (item, "event-num"));
 			EDayViewEvent *pevent;
+			int event_num = GPOINTER_TO_INT(g_object_get_data ((GObject *)item, "event-num"));
+			int day = GPOINTER_TO_INT(g_object_get_data ((GObject *)item, "event-day"));
 
 			pevent = tooltip_get_view_event (day_view, day, event_num);
 						
 			pevent->x = ((GdkEventMotion *)event)->x_root;
 			pevent->y = ((GdkEventMotion *)event)->y_root;
-
+			pevent->tooltip = (GtkWidget *)g_object_get_data (day_view, "tooltip-window");
+			
 			if (pevent->tooltip) {
 				gtk_window_move ((GtkWindow *)pevent->tooltip, ((int)((GdkEventMotion *)event)->x_root)+16, ((int)((GdkEventMotion *)event)->y_root) +16);
 			}
@@ -6331,17 +6378,6 @@ e_day_view_on_editing_stopped (EDayView *day_view,
 
  out:
 
-	if (event) {
-		if (event->tooltip) {
-			gtk_widget_destroy (event->tooltip);
-			event->tooltip = NULL;
-		}
-
-		if (event->timeout != -1) {
-			g_source_remove (event->timeout);
-			event->timeout = -1;
-		}
-	}	
 	g_object_unref (comp);
 	g_free (text);
 

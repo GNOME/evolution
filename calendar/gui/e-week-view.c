@@ -2155,6 +2155,12 @@ e_week_view_on_scroll (GtkWidget *widget,
 {
 	GtkAdjustment *adj = GTK_RANGE (week_view->vscrollbar)->adjustment;
 	gfloat new_value;
+	GtkWidget *tool_window = g_object_get_data (week_view, "tooltip-window");
+
+	if (tool_window) {
+		gtk_widget_destroy (tool_window);
+		g_object_set_data (week_view, "tooltip-window", NULL);
+	}
 	
 	switch (scroll->direction){
 	case GDK_SCROLL_UP:
@@ -2567,7 +2573,7 @@ tooltip_destroy (EWeekView *week_view, GnomeCanvasItem *item)
 
 	pevent = tooltip_get_view_event (week_view, -1, event_num);
 	if (pevent) {
-		if (pevent->tooltip) {
+		if (pevent->tooltip && g_object_get_data (week_view, "tooltip-window")) {
 			gtk_widget_destroy (pevent->tooltip);
 			pevent->tooltip = NULL;
 		}
@@ -2576,6 +2582,7 @@ tooltip_destroy (EWeekView *week_view, GnomeCanvasItem *item)
 			g_source_remove (pevent->timeout);
 			pevent->timeout = -1;
 		}
+		g_object_set_data (week_view, "tooltip-window", NULL);
 	}
 }
 
@@ -2611,7 +2618,8 @@ tooltip_event_cb (GnomeCanvasItem *item,
 		case GDK_MOTION_NOTIFY:
 			pevent->x = ((GdkEventMotion *)event)->x_root;
 			pevent->y = ((GdkEventMotion *)event)->y_root;
-
+			pevent->tooltip = (GtkWidget *)g_object_get_data (view, "tooltip-window");
+			
 			if (pevent->tooltip) {
 				gtk_window_move ((GtkWindow *)pevent->tooltip, ((int)((GdkEventMotion *)event)->x_root)+16, ((int)((GdkEventMotion *)event)->y_root) +16);
 			}
@@ -3030,7 +3038,7 @@ e_week_view_on_text_item_event (GnomeCanvasItem *item,
 	EWeekViewEvent *pevent;
 	
 	pevent = tooltip_get_view_event (week_view, -1, nevent);
-	
+
 #if 0
 	g_print ("In e_week_view_on_text_item_event\n");
 #endif
@@ -3150,7 +3158,19 @@ e_week_view_on_text_item_event (GnomeCanvasItem *item,
 	case GDK_ENTER_NOTIFY:
 	{
 		ECalendarViewEventData *data;
-			
+		int nspan;
+
+		if (!e_week_view_find_event_from_item (week_view,
+						       item,
+						       &nevent,
+						       &nspan))
+			return FALSE;
+
+		
+		g_object_set_data ((GObject *)item, "event-num", nevent);		
+		
+		pevent = tooltip_get_view_event (week_view, -1, nevent);
+
 		data = g_malloc (sizeof (ECalendarViewEventData));
 			
 		pevent->x = ((GdkEventCrossing *)gdkevent)->x_root;
@@ -3172,7 +3192,8 @@ e_week_view_on_text_item_event (GnomeCanvasItem *item,
 	case GDK_MOTION_NOTIFY:
 		pevent->x = ((GdkEventMotion *)gdkevent)->x_root;
 		pevent->y = ((GdkEventMotion *)gdkevent)->y_root;
-
+		pevent->tooltip = (GtkWidget *)g_object_get_data (week_view, "tooltip-window");
+		
 		if (pevent->tooltip)
 			gtk_window_move ((GtkWindow *)pevent->tooltip, ((int)((GdkEventMotion *)gdkevent)->x_root)+16, ((int)((GdkEventMotion *)gdkevent)->y_root) +16);
 
@@ -3539,18 +3560,6 @@ e_week_view_on_editing_stopped (EWeekView *week_view,
 	}
 
  out:
-
-	if (event) {
-		if (event->tooltip) {
-			gtk_widget_destroy (event->tooltip);
-			event->tooltip = NULL;
-		}
-
-		if (event->timeout != -1) {
-			g_source_remove (event->timeout);
-			event->timeout = -1;
-		}
-	}	
 
 	g_free (text);
 	g_object_unref (comp);

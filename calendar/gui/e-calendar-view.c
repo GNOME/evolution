@@ -1942,14 +1942,17 @@ e_calendar_view_modify_and_send (ECalComponent *comp,
 }
 
 static gboolean
-tooltip_grab (GtkWidget *tooltip, GdkEventKey *event, ECalendarViewEvent *pevent)
+tooltip_grab (GtkWidget *tooltip, GdkEventKey *event, ECalendarView *view)
 {
+	GtkWidget *widget = (GtkWidget *) g_object_get_data (view, "tooltip-window");
+
+	if (!widget)
+		return;
+
 	gdk_keyboard_ungrab(GDK_CURRENT_TIME);
-
-	gtk_widget_destroy (pevent->tooltip);
-	pevent->tooltip = NULL;
-	pevent->timeout = -1;
-
+	gtk_widget_destroy (widget);
+	g_object_set_data (view, "tooltip-window", NULL);
+	
 	return FALSE;
 }
 
@@ -1989,12 +1992,15 @@ e_calendar_view_get_tooltips (ECalendarViewEventData *data)
 	time_t t_start, t_end;
 	ECalendarViewEvent *pevent;
 	GtkStyle *style = gtk_widget_get_default_style ();
-	
-	pevent = data->get_view_event (data->cal_view, data->day, data->event_num);
-	g_free (data);
-
+	GtkWidget *widget = (GtkWidget *) g_object_get_data (data->cal_view, "tooltip-window");
 	ECalComponent *newcomp = e_cal_component_new ();
-	icaltimezone *zone;
+	icaltimezone *zone;	
+
+	/* Delete any stray tooltip if left */
+	if (widget)
+		gtk_widget_destroy (widget);
+
+	pevent = data->get_view_event (data->cal_view, data->day, data->event_num);
 
 	clone_comp = icalcomponent_new_clone (pevent->comp_data->icalcomp);
 	if (!e_cal_component_set_icalcomponent (newcomp, clone_comp))
@@ -2007,6 +2013,7 @@ e_calendar_view_get_tooltips (ECalendarViewEventData *data)
 	if (!(str && *str)) {
 		g_object_unref (newcomp);
 		gtk_widget_destroy (box);
+		g_free (data);
 
 		return FALSE;
 	}
@@ -2099,11 +2106,13 @@ e_calendar_view_get_tooltips (ECalendarViewEventData *data)
 			
 	gtk_widget_show_all (pevent->tooltip);	
 	gdk_keyboard_grab (pevent->tooltip->window, FALSE, GDK_CURRENT_TIME);
-	g_signal_connect (pevent->tooltip, "key-press-event", G_CALLBACK (tooltip_grab), pevent);
+	g_signal_connect (pevent->tooltip, "key-press-event", G_CALLBACK (tooltip_grab), data->cal_view);
 	pevent->timeout = -1;
 
+	g_object_set_data (data->cal_view, "tooltip-window", pevent->tooltip);
 	g_object_unref (newcomp);
-	
+	g_free (data);
+
 	return FALSE;
 }
 	
