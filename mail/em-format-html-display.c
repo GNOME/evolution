@@ -496,6 +496,8 @@ efhd_update_matches(EMFormatHTMLDisplay *efhd)
 		sprintf(str, fmt, e_searching_tokenizer_match_count(efhd->search_tok));
 		gtk_label_set_text((GtkLabel *)p->search_matches_label, str);
 	}
+	gtk_widget_show((GtkWidget *)p->search_matches_label);
+	
 }
 
 static void
@@ -613,6 +615,7 @@ em_format_html_display_search(EMFormatHTMLDisplay *efhd)
 	g_signal_connect(p->search_case_check, "toggled", G_CALLBACK(efhd_search_case_toggled), efhd);
 	g_signal_connect(p->search_dialog, "response", G_CALLBACK(efhd_search_response), efhd);
 	gtk_widget_show((GtkWidget *)p->search_dialog);
+	gtk_widget_hide((GtkWidget *)p->search_matches_label);
 }
 
 void

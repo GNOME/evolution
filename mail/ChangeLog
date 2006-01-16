@@ -1,3 +1,14 @@
+2006-01-12  Rohini S  <srohini@novell.com>
+	
+	** Fixes bug #246257
+
+	* mail-dialogs.glade: Interchange of label and checkbox 
+	positions in Find message dialog
+	* em-format-html-display.c: (efhd_update_matches),
+	(em_format_html_display_search):
+	Hide Matches Label on dialog open and Show Matches Label when
+	required. Fixes bug 246257.
+
 2006-01-16  Srinivasa Ragavan  <sragavan@novell.com>
 	
 	** Fixes bug #239929 (Committing Rajeev's patch)
