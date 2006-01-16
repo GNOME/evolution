@@ -12,13 +12,17 @@
 	     target="source"
 	     id="org.gnome.evolution.calendar.calendarProperties"
 	     check="e_calendar_http_check">
-                <item
+		<item
 		 type="item_table"
 		 path="00.general/00.source/40.url"
 		 factory="e_calendar_http_url"/>
 		<item
 		 type="item_table"
-		 path="00.general/00.source/50.refresh"
+		 path="00.general/00.source/50.secure"
+		 factory="e_calendar_http_secure"/>
+		<item
+		 type="item_table"
+		 path="00.general/00.source/60.refresh"
 		 factory="e_calendar_http_refresh"/>
             </group>
         </hook>

@@ -1,3 +1,10 @@
+2006-01-16  Tony Tsui  <tsui.tony@gmail.com>
+
+	Fixes #267402
+	* plugins/calendar-http/calendar-http.c
+	* plugins/calendar-http/org-gnome-calendar-http.eplug.xml
+	Add support for accessing web calendars over HTTPS.
+
 2005-06-27  Tor Lillqvist  <tml@novell.com>
 
 	* Makefile.am: There is no EVOLUTION_CFLAGS. Use

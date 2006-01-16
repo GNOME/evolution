@@ -19,6 +19,7 @@
  *
  */
 
+#include <glib-object.h>
 #include <gtk/gtklabel.h>
 #include <gtk/gtkentry.h>
 #include <gtk/gtktable.h>
@@ -27,6 +28,7 @@
 #include <gtk/gtkmenu.h>
 #include <gtk/gtkmenuitem.h>
 #include <gtk/gtkhbox.h>
+#include <gtk/gtkcheckbutton.h>
 #include <e-util/e-config.h>
 #include <calendar/gui/e-cal-config.h>
 #include <libedataserver/e-source.h>
@@ -37,7 +39,7 @@
 GtkWidget *e_calendar_http_url (EPlugin *epl, EConfigHookItemFactoryData *data);
 GtkWidget *e_calendar_http_refresh (EPlugin *epl, EConfigHookItemFactoryData *data);
 gboolean   e_calendar_http_check (EPlugin *epl, EConfigHookPageCheckData *data);
-
+GtkWidget * e_calendar_http_secure (EPlugin *epl, EConfigHookItemFactoryData *data);
 static gchar *
 print_uri_noproto (EUri *uri)
 {
@@ -80,6 +82,16 @@ url_changed (GtkEntry *entry, ESource *source)
 	char *relative_uri;
 
 	uri = e_uri_new (gtk_entry_get_text (GTK_ENTRY (entry)));
+
+	if (strncmp (uri->protocol, "https", sizeof ("https") - 1) == 0) {
+		gpointer secure_checkbox;
+
+		secure_checkbox = g_object_get_data (G_OBJECT (gtk_widget_get_parent (GTK_WIDGET (entry))),
+		                                     "secure_checkbox");
+                 
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (secure_checkbox), TRUE);
+	}
+
 	relative_uri = print_uri_noproto (uri);
 	e_source_set_relative_uri (source, relative_uri);
 	g_free (relative_uri);
@@ -94,7 +106,7 @@ e_calendar_http_url (EPlugin *epl, EConfigHookItemFactoryData *data)
 	int row;
 	ECalConfigTargetSource *t = (ECalConfigTargetSource *) data->target;
 	EUri *uri;
-        char *uri_text;
+	char *uri_text;
 	static GtkWidget *hidden = NULL;
 
 	if (!hidden)
@@ -103,12 +115,13 @@ e_calendar_http_url (EPlugin *epl, EConfigHookItemFactoryData *data)
 	if (data->old)
 		gtk_widget_destroy (label);
 
-        uri_text = e_source_get_uri (t->source);
+	uri_text = e_source_get_uri (t->source);
 	uri = e_uri_new (uri_text);
 	if ((strcmp (uri->protocol, "http") &&
+	     strcmp (uri->protocol, "https") &&
 	     strcmp (uri->protocol, "webcal"))) {
 		e_uri_free (uri);
-                g_free (uri_text);
+		g_free (uri_text);
 		return hidden;
 	}
 	e_uri_free (uri);
@@ -129,7 +142,7 @@ e_calendar_http_url (EPlugin *epl, EConfigHookItemFactoryData *data)
 	gtk_label_set_mnemonic_widget (GTK_LABEL (label), entry);
 	g_signal_connect (G_OBJECT (entry), "changed", G_CALLBACK (url_changed), t->source);
 
-        g_free (uri_text);
+	g_free (uri_text);
 	return entry;
 }
 
@@ -212,6 +225,15 @@ option_changed (GtkOptionMenu *option, ECalConfigTargetSource *t)
 	g_free (refresh_str);
 }
 
+static void 
+secure_setting_changed (GtkWidget *widget, ESource *source)
+{
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget)))
+		e_source_set_property (source, "use_ssl", "1");
+	else 
+		e_source_set_property (source, "use_ssl", "0");
+}
+
 GtkWidget *
 e_calendar_http_refresh (EPlugin *epl, EConfigHookItemFactoryData *data)
 {
@@ -222,7 +244,7 @@ e_calendar_http_refresh (EPlugin *epl, EConfigHookItemFactoryData *data)
 	ECalConfigTargetSource *t = (ECalConfigTargetSource *) data->target;
 	ESource *source = t->source;
 	EUri *uri;
-        char* uri_text;
+	char* uri_text;
 	static GtkWidget *hidden = NULL;
 
 	if (!hidden)
@@ -231,10 +253,11 @@ e_calendar_http_refresh (EPlugin *epl, EConfigHookItemFactoryData *data)
 	if (data->old)
 		gtk_widget_destroy (label);
 
-        uri_text = e_source_get_uri (t->source);
+	uri_text = e_source_get_uri (t->source);
 	uri = e_uri_new (uri_text);
-        g_free (uri_text);
+	g_free (uri_text);
 	if ((strcmp (uri->protocol, "http") &&
+	     strcmp (uri->protocol, "https") &&
 	     strcmp (uri->protocol, "webcal"))) {
 		e_uri_free (uri);
 		return hidden;
@@ -284,6 +307,51 @@ e_calendar_http_refresh (EPlugin *epl, EConfigHookItemFactoryData *data)
 	return hbox;
 }
 
+GtkWidget *
+e_calendar_http_secure (EPlugin *epl, EConfigHookItemFactoryData *data)
+{
+	ECalConfigTargetSource *t = (ECalConfigTargetSource *) data->target;
+	GtkWidget *secure_setting, *parent;
+	const char *secure_prop;
+	int row;
+	EUri *uri;
+	char* uri_text;
+	static GtkWidget *hidden = NULL;
+
+	if (!hidden)
+		hidden = gtk_label_new ("");
+
+	uri_text = e_source_get_uri (t->source);
+	uri = e_uri_new (uri_text);
+	g_free (uri_text);
+	if ((strcmp (uri->protocol, "http") &&
+	     strcmp (uri->protocol, "https") &&
+	     strcmp (uri->protocol, "webcal"))) {
+		e_uri_free (uri);
+		return hidden;
+	}
+	e_uri_free (uri);
+
+	parent = data->parent;
+
+	row = ((GtkTable*)parent)->nrows;
+
+	secure_setting = gtk_check_button_new_with_mnemonic (_("_Secure connection"));
+
+	secure_prop = e_source_get_property (t->source, "use_ssl");
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (secure_setting), (secure_prop && g_str_equal (secure_prop, "1"))  ? TRUE : FALSE);
+  
+	g_signal_connect (secure_setting, "toggled", G_CALLBACK (secure_setting_changed), t->source);
+
+	gtk_widget_show (secure_setting);
+	gtk_table_attach (GTK_TABLE (parent), secure_setting, 1, 2, row, row+1, GTK_EXPAND | GTK_FILL, 0, 0, 0);
+
+	/* Store pointer to secure checkbox so we can retrieve it in url_changed() */
+	g_object_set_data (G_OBJECT (parent), "secure_checkbox", (gpointer)secure_setting);
+	
+	return secure_setting;
+}
+
 gboolean
 e_calendar_http_check (EPlugin *epl, EConfigHookPageCheckData *data)
 {
@@ -292,23 +360,24 @@ e_calendar_http_check (EPlugin *epl, EConfigHookPageCheckData *data)
 	EUri *uri;
 	gboolean ok = FALSE;
 	ESourceGroup *group = e_source_peek_group (t->source);
-        char *uri_text;
+	char *uri_text;
 
 	if (strncmp (e_source_group_peek_base_uri (group), "webcal", 6))
 		return TRUE;
 
-        uri_text = e_source_get_uri (t->source);
-        if (!strncmp (uri_text, "file:", 5)) {
-                g_free (uri_text);
-                return FALSE;
-        }
+	uri_text = e_source_get_uri (t->source);
+	if (!strncmp (uri_text, "file:", 5)) {
+		g_free (uri_text);
+		return FALSE;
+	}
 
 	uri = e_uri_new (uri_text);
 	ok = ((!strcmp (uri->protocol, "webcal")) ||
-              (!strcmp (uri->protocol, "http")) ||
-              (!strcmp (uri->protocol, "file")) );
+	      (!strcmp (uri->protocol, "http")) ||
+	      (!strcmp (uri->protocol, "https")) ||
+	      (!strcmp (uri->protocol, "file")) );
 	e_uri_free (uri);
-        g_free (uri_text);
+	g_free (uri_text);
 
 	return ok;
 }
