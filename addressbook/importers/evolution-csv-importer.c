@@ -469,16 +469,12 @@ getNextCSVEntry(CSVImporter *gci, FILE *f) {
 	GString *str;
 	char *buf;
 
-        while (!feof (f)) {	
-		if(!fgets(line, sizeof(line),f)) 
-			break;
-	}
+	if(!fgets(line, sizeof(line),f)) 
+		return NULL;
 
 	if(gci->count == 0 && importer != MOZILLA_IMPORTER) {
-		while (!feof (f) ) {
-			if(!fgets(line, sizeof(line),f)) 
-				break;
-		}
+		if(!fgets(line, sizeof(line),f)) 
+			return NULL;
 		gci->count ++;
 	}
 	
