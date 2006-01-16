@@ -102,7 +102,7 @@ supports Microsoft Exchange 2000 and 2003 only.</_secondary>
 
  <error id="account-quota-error" type="error">
   <_primary>You have exceeded your quota for storing mails on this server.</_primary>
-  <_secondary>Your current usage is: {0} KB.  You will not be able to either send or recieve mails now.</_secondary>
+  <_secondary>Your current usage is: {0} KB.  You will not be able to either send or receive mails now.</_secondary>
  </error>
 
  <error id="account-quota-send-error" type="warning">

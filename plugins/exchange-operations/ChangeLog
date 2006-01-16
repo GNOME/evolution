@@ -1,5 +1,10 @@
 2006-01-16  Harish Krishnaswamy  <kharish@novell.com>
 
+	* org-gnome-exchange-operations.error.xml:
+	Fixed a minor typo in error string. (#327053).
+
+2006-01-16  Harish Krishnaswamy  <kharish@novell.com>
+
 	* exchange-config-listener.c: (display_passwd_expiry_message):
 	Fix a grammar error in translatable string. (#327155)
 
