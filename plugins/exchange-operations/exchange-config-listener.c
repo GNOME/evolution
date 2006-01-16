@@ -630,7 +630,7 @@ display_passwd_expiry_message (int max_passwd_age, ExchangeAccount *account)
 	GtkResponseType response;
 	GtkLabel *warning_msg_label;
 	char *passwd_expiry_msg =
-		g_strdup_printf (_("Your password will expire in next %d days"), max_passwd_age);
+		g_strdup_printf (_("Your password will expire in the next %d days"), max_passwd_age);
 	
 	xml = glade_xml_new (FILENAME, ROOTNODE, NULL);
 	g_return_if_fail (xml != NULL);
