@@ -1,5 +1,16 @@
 2006-01-16 P S Chakravarthi <pchakravarthi@novell.com>
 
+	Fixes #324816 #324889
+
+	* gui/alarm-notify/alarm-queue.c : menu_item_toggle_callback :
+	revised the code to use only e_source_group_add_source and
+	e_source_group_remove_source alone to update gconf rather than
+	explicit updating of the gconf xml
+	[along with a patch in e-source-list.c]
+
+
+2006-01-16 P S Chakravarthi <pchakravarthi@novell.com>
+
 	Minor Feature: Reply and Reply all for calendar items of clients
 	that support such facility (personal, exchange).
 

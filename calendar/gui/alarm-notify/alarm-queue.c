@@ -1029,7 +1029,7 @@ menu_item_toggle_callback (GtkToggleButton *item, void *data)
 {
 	gboolean state = gtk_toggle_button_get_active (item);
 	ESource *source = e_source_copy ((ESource *) data);
-	GSList *groups, *p;
+	GSList *groups, *sel_groups, *p;
 
 	if (e_source_get_uri ((ESource *)data)) {
 		g_free (e_source_get_uri (source));
@@ -1040,44 +1040,57 @@ menu_item_toggle_callback (GtkToggleButton *item, void *data)
 		const char *uid = e_source_peek_uid (source);
 		ESourceList *selected_cal = alarm_notify_get_selected_calendars (an);
 		ESourceList *all_cal;
-		ESourceGroup *sel_group = NULL;
-		const char *grp_name=NULL;
-		ESourceGroup *group;
-		ESource *del_source;		
+		ESourceGroup *group = NULL, *sel_group = NULL;
+		const char *grp_uid = NULL;
+		char * check_grp_uid = NULL;
+		ESource *source_got = NULL;		
+		gboolean found_grp = FALSE;
 
 		e_cal_get_sources (&all_cal, E_CAL_SOURCE_TYPE_EVENT, NULL);
 
 		alarm_notify_add_calendar (an, E_CAL_SOURCE_TYPE_EVENT, source, FALSE);
-		
-		/* Browse the list of calendars for the newly added calendar*/
+
+		/* Browse the list of all calendars for the newly added calendar*/
 		groups = e_source_list_peek_groups (all_cal);
 		for (p = groups; p != NULL; p = p->next) {
-			ESourceGroup *group = E_SOURCE_GROUP (p->data);
-			ESource *sel_source = e_source_group_peek_source_by_uid (group, uid);
+			group = E_SOURCE_GROUP (p->data);
+			source_got = e_source_group_peek_source_by_uid (group, uid);
 
-			if (sel_source) {
-				sel_group = group;
-				grp_name = e_source_group_peek_name (sel_group);
-				/* You have got the group name*/
+			if (source_got) {	/* You have got the group */
 				break;
-	}
-}
-
-		/* Add the source the the group name in the alarms calendar list*/
-		group = e_source_list_peek_group_by_name (selected_cal, grp_name);	
-		del_source = e_source_group_peek_source_by_uid (group, uid);
-		
-		if (!del_source) {
-			char *xml, *old_xml;
-
-			old_xml = e_source_group_to_xml (group);
-			e_source_group_add_source (group, source, -1);
-			xml = e_source_group_to_xml (group);
-			config_data_replace_string_list ("/apps/evolution/calendar/notify/calendars", old_xml, xml);
-
-			g_free (xml);
-			g_free (old_xml);
+			}
 		}
+
+		/* Ensure that the source is under some source group in all calendar list */
+		if (group == NULL){
+			g_warning ("Source Group selected is *NOT* in all calendar list");
+			g_object_unref (all_cal);
+			return;
+		}
+
+		/* Get the group id from the above */
+		grp_uid =  e_source_group_peek_uid (group);
+
+		/* Look for the particular group in the original selected calendars list */
+		sel_groups = e_source_list_peek_groups (selected_cal);
+		for (p = sel_groups; p != NULL; p = p->next) {
+			sel_group = E_SOURCE_GROUP (p->data);
+			check_grp_uid = g_strdup ((const char *)e_source_group_peek_uid (sel_group));
+			if (!strcmp (grp_uid, check_grp_uid)) {
+				g_free (check_grp_uid);
+				found_grp = TRUE;
+				break;
+			}	
+			g_free (check_grp_uid);
+		}
+
+		if (found_grp != TRUE) {
+			g_warning ("Did not find the source group to add the source in the selected calendars");
+			g_object_unref (all_cal);
+			return;
+		}
+
+		e_source_group_add_source (sel_group, source, -1);
 
 		g_object_unref (all_cal);
 
@@ -1094,18 +1107,7 @@ menu_item_toggle_callback (GtkToggleButton *item, void *data)
 		
 			del_source = e_source_group_peek_source_by_uid (group, uid);
 			if (del_source) {
-				char *xml, *old_xml;
-
-				old_xml = e_source_group_to_xml (group);
-
 				e_source_group_remove_source_by_uid (group, uid);
-				
-				xml = e_source_group_to_xml (group);
-
-				config_data_replace_string_list ("/apps/evolution/calendar/notify/calendars", old_xml, xml);
-
-				g_free (xml);
-				g_free (old_xml);
 				break;
 			}
 		}
