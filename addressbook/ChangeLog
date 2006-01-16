@@ -1,3 +1,10 @@
+2006-01-16  Harish Krishnaswamy  <kharish@novell.com>
+
+	* gui/component/addressbook-component.c:
+	(impl__get_userCreatableItems):
+	remove shortcut keys (UI Hackfest -
+	See http://go-evolution.org/Shortcut_Keys_Review).
+
 2005-01-16  Devashish Sharma  <sdevashish@novell.com>
 	
 	* importers/evolution-csv-importer.c : Added support for CSV and TAB
