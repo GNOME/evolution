@@ -1,3 +1,7 @@
+2006-01-16  Chenthill Palanisamy  <pchenthill@novell.com>
+	
+	* configure.in: Use libnotify >= 0.30.
+
 2006-01-16  Harish Krishnaswamy <kharish@novell.com>
 	
 	* configure.in: Add caldav to plugins_base_always

@@ -1462,7 +1462,6 @@ popup_notification (time_t trigger, CompQueuedAlarms *cqa,
 	char *str, *start_str, *end_str, *alarm_str, *time_str;
 	icaltimezone *current_zone;
 	ECalComponentOrganizer organiser;
-	NotifyIcon *icon;
 	char *filename;
 	char *body;
 	
@@ -1472,8 +1471,7 @@ popup_notification (time_t trigger, CompQueuedAlarms *cqa,
 		return;
 	if (!notify_is_initted ())
 		notify_init("Evolution Alarm Notify");
-	filename = e_icon_factory_get_icon_filename ("stock_appointment-reminder", E_ICON_SIZE_DIALOG);
-	icon = notify_icon_new_from_uri (filename);
+	GdkPixbuf *icon = e_icon_factory_get_icon("stock_appointment-reminder", E_ICON_SIZE_DIALOG);
 	g_free (filename);
 	
 	/* get a sensible description for the event */
@@ -1513,16 +1511,10 @@ popup_notification (time_t trigger, CompQueuedAlarms *cqa,
 			body = g_strdup_printf ("%s %s", start_str, time_str);			
 }
 
-	if (!notify_send_notification (
-					NULL, "device", NOTIFY_URGENCY_NORMAL,
-					summary,
-					body, 	/* body text */
-					icon,			/* icon */
-					TRUE, 0,		/* expiry, server default */
-					NULL,			/* hints */
-					NULL,			/* no user_data */
-					0))			/* no actions */
-					g_warning ("Could not send notification to daemon\n");	
+	NotifyNotification *n = notify_notification_new (summary, body, "", NULL);
+	notify_notification_set_icon_data_from_pixbuf (n, icon);
+	if (!notify_notification_show(n, NULL))
+	    g_warning ("Could not send notification to daemon\n");	
 
 	/* create the private structure */
 	g_free (start_str);

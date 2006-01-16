@@ -1,3 +1,11 @@
+2006-01-16  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Patch submitted by Sebastien Bacher <seb128@debian.org>
+	
+	Fixes #325629
+	* gui/alarm-notify/alarm-queue.c: (popup_notification): Use the new
+	apis in libnotify.
+	
 2006-01-16 P S Chakravarthi <pchakravarthi@novell.com>
 
 	Fixes #324816 #324889
