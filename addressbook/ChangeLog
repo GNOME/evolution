@@ -1,3 +1,20 @@
+2006-01-16  Devashish Sharma <sdevashish@novell.com>
+
+	* gui/contact-editor/e-contact-editor.c (full_name_clicked) : Setting
+	the default response for categories dialog.
+	Fixes #317283
+
+2006-01-16  Devashish Sharma <sdevashish@novell.com>
+
+	* gui/contact-editor/e-contact-editor.c (full_name_clicked) : Setting
+	the default response for contact full name dialog.
+	Fixes #317282
+
+2006-01-16  Devashish Sharma  <sdevashish@novell.com>
+
+	* gui/contact-editor/e-contact-editor.c : Fixed the default focus in
+	the contact editor dialog.
+	
 2006-01-13  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fixes bug #326268
