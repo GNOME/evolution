@@ -564,7 +564,7 @@ remove_comp (ClientAlarms *ca, const ECalComponentId *id)
 	CompQueuedAlarms *cqa;
 
 	cqa = lookup_comp_queued_alarms (ca, id);
-	if (!cqa)
+	if (!cqa) 
 		return;
 
 	/* If a component is present, then it means we must have alarms queued
@@ -934,7 +934,7 @@ notify_dialog_cb (AlarmNotifyResult result, int snooze_mins, gpointer data)
 				if (!tray_data->snooze_set){
 					GList *temp = list->next;
 					tray_icons_list = g_list_remove_link (tray_icons_list, list);
-		remove_queued_alarm (tray_data->cqa, tray_data->alarm_id, TRUE, TRUE);
+					remove_queued_alarm (tray_data->cqa, tray_data->alarm_id, TRUE, TRUE);
 					free_tray_icon_data (tray_data);
 					tray_data = NULL;
 					g_list_free_1 (list);
@@ -944,7 +944,7 @@ notify_dialog_cb (AlarmNotifyResult result, int snooze_mins, gpointer data)
 						list = temp;
 				} else
 					list = list->next;
-	}
+			}
 	}
 
 		break;
@@ -1838,13 +1838,15 @@ compare_ids (gpointer a, gpointer b)
 
 	id = a;
 	id1 = b;
-	
-	if (g_str_equal (id->uid, id1->uid)) {
-		if (id->rid && id1->rid)
-			return g_str_equal (id->rid, id1->rid);
-		else if (!(id->rid && id1->rid))
-			return TRUE;
-	} 
+
+	if (id->uid != NULL && id1->uid != NULL) {
+		if (g_str_equal (id->uid, id1->uid)) {
+			if (id->rid && id1->rid)
+				return g_str_equal (id->rid, id1->rid);
+			else if (!(id->rid && id1->rid))
+				return TRUE;
+		} 
+	}
 	return FALSE;
 }
 
@@ -1884,7 +1886,7 @@ alarm_queue_add_client (ECal *client)
 
 	g_hash_table_insert (client_alarms_hash, client, ca);
 
-	ca->uid_alarms_hash = g_hash_table_new (g_str_hash, (GEqualFunc) compare_ids);
+	ca->uid_alarms_hash = g_hash_table_new (g_direct_hash, (GEqualFunc) compare_ids);
 
 	if (e_cal_get_load_state (client) == E_CAL_LOAD_LOADED) {
 		load_alarms_for_today (ca);
@@ -1895,43 +1897,20 @@ alarm_queue_add_client (ECal *client)
 	}
 }
 
-/* Called from g_hash_table_foreach(); adds a component UID to a list */
 static void
-add_id_cb (gpointer key, gpointer value, gpointer data)
-{
-	GSList **ids = (GSList **) data;
-	ECalComponentId *id = g_new0 (ECalComponentId, 1);
-	ECalComponentId *temp = (ECalComponentId *)key;
+remove_comp_by_id (gpointer key, gpointer value, gpointer userdata) {
 
-	id->uid = g_strdup (temp->uid);
-	id->rid = g_strdup (temp->rid);
-
-	*ids = g_slist_prepend (*ids, (ECalComponentId *) id);
+	ClientAlarms *ca = (ClientAlarms *)userdata;
+	remove_comp (ca, (ECalComponentId *)key);
 }
+
 
 /* Removes all the alarms queued for a particular calendar client */
 static void
 remove_client_alarms (ClientAlarms *ca)
 {
-	GSList *ids = NULL;
-	GSList *l;
-
-	/* First we build a list of UIDs so that we can remove them one by one */
-
-	g_hash_table_foreach (ca->uid_alarms_hash, add_id_cb, &ids);
-
-	for (l = ids; l; l = l->next) {
-		const ECalComponentId *id;
-
-		id = l->data;
-
-		remove_comp (ca, id);
-	}
-
-	g_slist_free (ids);
-
+	g_hash_table_foreach (ca->uid_alarms_hash, (GHFunc)remove_comp_by_id, ca);
 	/* The hash table should be empty now */
-
 	g_assert (g_hash_table_size (ca->uid_alarms_hash) == 0);
 }
 

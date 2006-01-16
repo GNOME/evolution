@@ -1,4 +1,17 @@
-2005-01-13  Johnny Jacob  <johnnyjacob@gmail.com>
+2006-01-16 P S Chakravarthi <pchakravarthi@novell.com>
+
+	Fixes a crash in alarm-daemon on selecting "Quit" in panel options
+	* gui/alarm-notify/alarm-queue.c  (remove_client_alarms):
+	Removed the code loops through a list of ids generated.
+	used g_hash_table_foreach instead.
+	* gui/alarm-notify/alarm-queue.c (add_id_cb) : removed.
+	* gui/alarm-notify/alarm-queue.c (remove_comp_by_id) : added
+	* gui/alarm-notify/alarm-queue.c (alarm_queue_add_client) :
+	replaced g_str_equal with g_direct_equal in g_hash_table_new
+	to consider structure pointers rather than strings for keys.
+
+
+2006-01-13  Johnny Jacob  <johnnyjacob@gmail.com>
 
 	Fixes #213660
 	* gui/dialogs/alarm-dialog.c (check_custom_sound):
@@ -9,7 +22,7 @@
 	save the path in gconf.
 	(calendar_config_get_dir_path): Added. Retrive the path from gconf.
 
-2005-01-13  Chenthill Palanisamy  <pchenthill@novell.com>
+2006-01-13  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #320101
 	* gui/e-select-names-editable.c:
