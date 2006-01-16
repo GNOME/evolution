@@ -1,5 +1,11 @@
-2006-01-16  Srinivasa Ragavan  <sragavan@novell.com>
+2006-01-12  Rohini S  <srohini@novell.com>
 
+	** Fixes bug #221270.
+
+	* mail-send-recv.c: (format_url), (build_dialog):
+	Changed to display account name in Send/Receive dialog.
+
+2006-01-16  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* em-format-html-display.c: (em_format_html_display_new): Changed
 	event to scroll_event in rajeev's patch.
