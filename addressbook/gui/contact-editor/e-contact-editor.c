@@ -26,6 +26,7 @@
 
 #include <string.h>
 #include <time.h>
+#include <gdk/gdkkeysyms.h>
 #include <gtk/gtkcheckbutton.h>
 #include <gtk/gtkcheckmenuitem.h>
 #include <gtk/gtkcombo.h>
@@ -672,13 +673,13 @@ init_email_record_location (EContactEditor *editor, gint record)
 
 		item = gtk_menu_item_new_with_label (_(common_location [i].pretty_name));
 		gtk_menu_shell_append (GTK_MENU_SHELL (location_menu), item);
++		g_signal_connect (item, "activate", G_CALLBACK (email_menu_changed), email_entry);
 	}
 
 	gtk_widget_show_all (location_menu);
 	gtk_option_menu_set_menu (GTK_OPTION_MENU (location_option_menu), location_menu);
 
 	g_signal_connect (location_option_menu, "changed", G_CALLBACK (object_changed), editor);
-	g_signal_connect (location_option_menu, "changed", G_CALLBACK (email_menu_changed), email_entry);
 	g_signal_connect (email_entry, "changed", G_CALLBACK (object_changed), editor);
 	g_signal_connect_swapped (email_entry, "activate", G_CALLBACK (entry_activated), editor);
 }
@@ -1246,13 +1247,13 @@ init_phone_record_type (EContactEditor *editor, gint record)
 
 		item = gtk_menu_item_new_with_label (e_contact_pretty_name (phones [i].field_id));
 		gtk_menu_shell_append (GTK_MENU_SHELL (phone_type_menu), item);
+		g_signal_connect (item, "activate", G_CALLBACK (phone_menu_changed), phone_entry);
 	}
 
 	gtk_widget_show_all (phone_type_menu);
 	gtk_option_menu_set_menu (GTK_OPTION_MENU (phone_type_option_menu), phone_type_menu);
 
 	g_signal_connect (phone_type_option_menu, "changed", G_CALLBACK (object_changed), editor);
-	g_signal_connect (phone_type_option_menu, "changed", G_CALLBACK (phone_menu_changed), phone_entry);
 	g_signal_connect (phone_entry, "changed", G_CALLBACK (object_changed), editor);
 	g_signal_connect_swapped (phone_entry, "activate", G_CALLBACK (entry_activated), editor);
 }
@@ -1389,13 +1390,13 @@ init_im_record_service (EContactEditor *editor, gint record)
 
 		item = gtk_menu_item_new_with_label (im_service [i].pretty_name);
 		gtk_menu_shell_append (GTK_MENU_SHELL (service_menu), item);
+		g_signal_connect (item, "activate", G_CALLBACK (im_menu_changed), name_entry);
 	}
 
 	gtk_widget_show_all (service_menu);
 	gtk_option_menu_set_menu (GTK_OPTION_MENU (service_option_menu), service_menu);
 
 	g_signal_connect (service_option_menu, "changed", G_CALLBACK (object_changed), editor);
-	g_signal_connect (service_option_menu, "changed", G_CALLBACK (im_menu_changed), name_entry);
 	g_signal_connect (name_entry, "changed", G_CALLBACK (object_changed), editor);
 	g_signal_connect_swapped (name_entry, "activate", G_CALLBACK (entry_activated), editor);
 }
@@ -2528,6 +2529,16 @@ source_selected (GtkWidget *source_option_menu, ESource *source, EContactEditor 
 						   (EBookCallback) new_target_cb, editor);
 }
 
+static gboolean
+full_name_key_press_event( GtkWidget *widget, GdkEventKey *event, EContactEditor *editor)
+{
+	if (event->keyval == GDK_Return) {
+		gtk_dialog_response (GTK_DIALOG (widget), GTK_RESPONSE_OK);
+		return TRUE;
+	}
+	return FALSE;
+}
+
 static void
 full_name_clicked (GtkWidget *button, EContactEditor *editor)
 {
@@ -2540,6 +2551,9 @@ full_name_clicked (GtkWidget *button, EContactEditor *editor)
 	g_object_set (dialog,
 		      "editable", fullname_supported & editor->target_editable,
 		      NULL);
+
+	g_signal_connect (GTK_WIDGET (dialog), "key-press-event", G_CALLBACK (full_name_key_press_event), editor);
+
 	gtk_widget_show (GTK_WIDGET(dialog));
 	result = gtk_dialog_run (dialog);
 	gtk_widget_hide (GTK_WIDGET (dialog));
@@ -2589,6 +2603,16 @@ response (GtkDialog *dialog, int response, EContactEditor *editor)
 	gtk_widget_destroy(GTK_WIDGET(dialog));
 }
 
+static gboolean
+categories_key_press_event( GtkWidget *widget, GdkEventKey *event, EContactEditor *editor)
+{
+	if (event->keyval == GDK_Return) {
+		gtk_dialog_response (GTK_DIALOG (widget), GTK_RESPONSE_OK);
+		return TRUE;
+	}
+	return FALSE;
+}
+
 static void
 categories_clicked (GtkWidget *button, EContactEditor *editor)
 {
@@ -2606,6 +2630,8 @@ categories_clicked (GtkWidget *button, EContactEditor *editor)
 		g_free (categories);
 		return;
 	}
+	
+	g_signal_connect (GTK_WIDGET (dialog), "key-press-event", G_CALLBACK (categories_key_press_event), editor);
 
 	g_signal_connect(dialog, "response",
 			G_CALLBACK (response), editor);	
