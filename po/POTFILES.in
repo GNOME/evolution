@@ -301,6 +301,7 @@ plugins/exchange-operations/exchange-folder-size-display.c
 plugins/exchange-operations/exchange-folder-subscription.c
 plugins/exchange-operations/exchange-folder-tree.glade
 plugins/exchange-operations/exchange-folder.c
+plugins/exchange-operations/exchange-passwd-expiry.glade
 plugins/exchange-operations/exchange-permissions-dialog.c
 plugins/exchange-operations/exchange-permissions-dialog.glade
 plugins/exchange-operations/exchange-user-dialog.c
@@ -350,6 +351,7 @@ plugins/mail-remote/evolution-mail-store.c
 plugins/mail-remote/org-gnome-evolution-mail-remote.eplug.xml
 plugins/mail-to-meeting/org-gnome-mail-to-meeting.eplug.xml
 plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml
+plugins/mail-to-task/org-gnome-mail-to-task.xml
 plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml
 plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml
 plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml
