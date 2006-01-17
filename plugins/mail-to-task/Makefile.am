@@ -1,4 +1,4 @@
-NCLUDES =						\
+INCLUDES =						\
 	-I$(top_srcdir)					\
 	$(EVOLUTION_MAIL_CFLAGS)
 
