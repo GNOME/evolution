@@ -1,5 +1,10 @@
 2006-01-17  Harish Krishnaswamy  <kharish@novell.com>
 
+	* configure.in, NEWS: Release updates, version bump.
+	***** Release 2.5.5 *****
+
+2006-01-17  Harish Krishnaswamy  <kharish@novell.com>
+
 	Patch submitted by Johnny Jacob <johnnyjacob@gmail.com>
 	* configure.in: Add import-ics-attachments to plugins list
 	and Makefile target.
