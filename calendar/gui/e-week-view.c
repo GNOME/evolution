@@ -2084,15 +2084,32 @@ e_week_view_on_button_press (GtkWidget *widget,
 	day = e_week_view_convert_position_to_day (week_view, x, y);
 	if (day == -1)
 		return FALSE;
+	
+	if (event->type == GDK_2BUTTON_PRESS) {
+		GList *list;
+		ECalModelComponent *comp_data;
+		ECalendarViewEvent *ecalevent;
+		ECalComponent *comp = e_cal_component_new ();
+		gboolean is_meeting;
+
+		list = e_week_view_get_selected_events (E_CALENDAR_VIEW (week_view));
+		ecalevent = (ECalendarViewEvent *)list->data;
+		comp_data = ecalevent->comp_data;
+		e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (comp_data->icalcomp));
+
+		is_meeting = e_cal_component_has_attendees (comp);
+		e_calendar_view_edit_appointment (E_CALENDAR_VIEW (week_view),
+						comp_data->client,
+						comp_data->icalcomp, is_meeting);
+		g_object_unref (comp);
+		g_list_free (list);
+		return TRUE;
+	}
+
 
 	/* If an event is pressed just return. */
 	if (week_view->pressed_event_num != -1)
 		return FALSE;
-
-	if (event->button == 1 && event->type == GDK_2BUTTON_PRESS) {
-		e_calendar_view_new_appointment_full (E_CALENDAR_VIEW (week_view), TRUE, FALSE);
-		return TRUE;
-	}
 
 	if (event->button == 1) {
 		/* Start the selection drag. */
