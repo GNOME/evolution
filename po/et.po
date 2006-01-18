@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Evolution 2.4\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-01-07 04:22+0100\n"
-"PO-Revision-Date: 2006-01-07 12:05+0200\n"
+"PO-Revision-Date: 2006-01-13 18:13+0200\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -3993,7 +3993,7 @@ msgstr "Oled sa kindel, et soovid seda ülesannet ilma kokkuvõtteta saata?"
 
 #: ../calendar/calendar.error.xml.h:25
 msgid "Delete calendar '{0}'?"
-msgstr "Kustutada kalender '{0}'?"
+msgstr "Kas kustutada kalender '{0}'?"
 
 #: ../calendar/calendar.error.xml.h:26
 msgid "Delete task list '{0}'?"
@@ -4384,8 +4384,8 @@ msgid ""
 "configured to send an email.  Evolution will display\n"
 "a normal reminder dialog box instead."
 msgstr ""
-"See meeldetuletus on konfigureeritud saatma e-posti,\n"
-"aga Evolution ei toeta kalendripõhiste meeldetuletuste\n"
+"See meeldetuletus on seadistatud saatma e-posti, aga\n"
+"Evolution ei toeta kalendripõhiste meeldetuletuste\n"
 "saatmist e-posti teel.  Evolution kuvab selle asemel\n"
 "hariliku meeldetuletusdialoogi."
 
@@ -5211,7 +5211,7 @@ msgstr "<b>Üldine</b>"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:10
 msgid "<b>Publishing</b>"
-msgstr "<b>Avalikustamine</b>"
+msgstr "<b>Avaldamine</b>"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:11
 msgid "<b>Task List</b>"
@@ -5288,7 +5288,7 @@ msgstr "Esmaspäev"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:29
 msgid "Publishing Table"
-msgstr "Avalikustamise tabel"
+msgstr "Avaldamise tabel"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:30
 msgid "S_un"
@@ -5911,7 +5911,7 @@ msgstr "Näita aega kui _hõivatut"
 #: ../calendar/gui/dialogs/event-page.glade.h:20
 #: ../calendar/gui/dialogs/task-page.glade.h:13
 msgid "Su_mmary:"
-msgstr "K_okkuvõte:"
+msgstr "Kokku_võte:"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:21
 msgid "This appointment has customized alarms"
@@ -6360,15 +6360,15 @@ msgstr "<b>Vaba/hõivatud kal_endrid</b>"
 
 #: ../calendar/gui/dialogs/url-editor-dialog.glade.h:4
 msgid "<b>Publishing Frequency</b>"
-msgstr "<b>Avalikustamise sagedus</b>"
+msgstr "<b>Avaldamise sagedus</b>"
 
 #: ../calendar/gui/dialogs/url-editor-dialog.glade.h:5
 msgid "<b>Publishing _Location</b>"
-msgstr "<b>Avalikustamise _asukoht</b>"
+msgstr "<b>Avaldamise _asukoht</b>"
 
 #: ../calendar/gui/dialogs/url-editor-dialog.glade.h:6
 msgid "Free/Busy Publishing Settings"
-msgstr "Vaba/Hõivatud avalikustamise sätted"
+msgstr "Vaba/Hõivatud avaldaminse sätted"
 
 #: ../calendar/gui/dialogs/url-editor-dialog.glade.h:7
 msgid "_Daily"
@@ -6961,7 +6961,7 @@ msgstr "Tähtaeg"
 
 #: ../calendar/gui/e-itip-control.c:951 ../calendar/gui/e-itip-control.c:1008
 msgid "iCalendar Information"
-msgstr "iKalendri teave"
+msgstr "iKalendri andmed"
 
 #. Title
 #: ../calendar/gui/e-itip-control.c:968
@@ -7021,7 +7021,7 @@ msgstr ""
 #: ../calendar/gui/e-itip-control.c:1312
 #, c-format
 msgid "<b>%s</b> has published meeting information."
-msgstr "<b>%s</b> avalikustas koosoleku info."
+msgstr "<b>%s</b> avaldas koosoleku andmed."
 
 #: ../calendar/gui/e-itip-control.c:1313
 msgid "Meeting Information"
@@ -7091,7 +7091,7 @@ msgstr "Vigane koosoleku sõnum"
 #: ../calendar/gui/e-itip-control.c:1388
 #, c-format
 msgid "<b>%s</b> has published task information."
-msgstr "<b>%s</b> avalikustas ülesande info."
+msgstr "<b>%s</b> avaldas ülesande andmed."
 
 #: ../calendar/gui/e-itip-control.c:1389
 msgid "Task Information"
@@ -7155,11 +7155,11 @@ msgstr "Vigane ülesande sõnum"
 #: ../calendar/gui/e-itip-control.c:1462
 #, c-format
 msgid "<b>%s</b> has published free/busy information."
-msgstr "<b>%s</b> avalikustas vaba/hõivatud andmed."
+msgstr "<b>%s</b> avaldas vaba/hõivatud andmed."
 
 #: ../calendar/gui/e-itip-control.c:1463
 msgid "Free/Busy Information"
-msgstr "Vaba/hõivatud teave"
+msgstr "Vaba/hõivatud andmed"
 
 #: ../calendar/gui/e-itip-control.c:1467
 #, c-format
@@ -7434,7 +7434,7 @@ msgstr "Kontorist väljas"
 
 #: ../calendar/gui/e-meeting-time-sel.c:414
 msgid "No Information"
-msgstr "Teave puudub"
+msgstr "Andmed puuduvad"
 
 #: ../calendar/gui/e-meeting-time-sel.c:445
 msgid "O_ptions"
@@ -7631,23 +7631,23 @@ msgstr "Vaja on vähemalt ühte osavõtjat"
 
 #: ../calendar/gui/itip-utils.c:510 ../calendar/gui/itip-utils.c:632
 msgid "Event information"
-msgstr "Teave sündmuse kohta"
+msgstr "Andmed sündmuse kohta"
 
 #: ../calendar/gui/itip-utils.c:512 ../calendar/gui/itip-utils.c:634
 msgid "Task information"
-msgstr "Teave ülesande kohta"
+msgstr "Andmed ülesande kohta"
 
 #: ../calendar/gui/itip-utils.c:514 ../calendar/gui/itip-utils.c:636
 msgid "Journal information"
-msgstr "Päevaraamatu teave"
+msgstr "Päevaraamatu andmed"
 
 #: ../calendar/gui/itip-utils.c:516 ../calendar/gui/itip-utils.c:654
 msgid "Free/Busy information"
-msgstr "Vaba/Hõivatud teave"
+msgstr "Vaba/Hõivatud andmed"
 
 #: ../calendar/gui/itip-utils.c:518
 msgid "Calendar information"
-msgstr "Kalendri teave"
+msgstr "Kalendri andmed"
 
 #: ../calendar/gui/itip-utils.c:567
 msgid "Updated"
@@ -7664,7 +7664,7 @@ msgstr "Loenduri esitus"
 #: ../calendar/gui/itip-utils.c:650
 #, c-format
 msgid "Free/Busy information (%s to %s)"
-msgstr "Vaba/hõivatud teave (%s -> %s)"
+msgstr "Vaba/hõivatud andmed (%s -> %s)"
 
 #: ../calendar/gui/itip-utils.c:660
 msgid "iCalendar information"
@@ -9904,7 +9904,7 @@ msgstr "aadressikaart"
 
 #: ../data/evolution.keys.in.in.h:2
 msgid "calendar information"
-msgstr "kalendri teave"
+msgstr "kalendri andmed"
 
 #: ../designs/OOA/ooa.glade.h:1
 msgid ""
@@ -9948,7 +9948,7 @@ msgstr "Puhkuseteadete assistent"
 
 #: ../designs/OOA/ooa.glade.h:13
 msgid "Yes, Change Status"
-msgstr "Jah, muuda staatust"
+msgstr "Jah, muuda olekut"
 
 #: ../designs/read_receipts/read.glade.h:1
 msgid "      "
@@ -10834,7 +10834,7 @@ msgstr "Lähtekonto"
 
 #: ../mail/em-filter-i18n.h:61
 msgid "Specific header"
-msgstr ""
+msgstr "Spetsiifiline päis"
 
 #: ../mail/em-filter-i18n.h:62
 msgid "starts with"
@@ -11230,6 +11230,8 @@ msgid ""
 "This message is signed with a valid signature, but the sender of the message "
 "cannot be verified."
 msgstr ""
+"See sõnum on signeeritud korrektse allkirjaga, kuid selle saatjat pole "
+"võimalik verifitseerida."
 
 #: ../mail/em-format-html-display.c:705 ../mail/em-format-html.c:606
 msgid "Unencrypted"
@@ -13016,7 +13018,7 @@ msgstr "_Server:"
 
 #: ../mail/mail-dialogs.glade.h:15
 msgid "Security Information"
-msgstr "Turvalisuse teave"
+msgstr "Turvalisuse andmed"
 
 #: ../mail/mail-dialogs.glade.h:17 ../mail/message-tags.glade.h:4
 msgid ""
@@ -14188,7 +14190,7 @@ msgstr ""
 
 #: ../plugins/calendar-weather/org-gnome-calendar-weather.eplug.xml.h:1
 msgid "Provides core functionality for weather calendars."
-msgstr "Tagab ilmakalendrite põhitalitluse."
+msgstr "Ilmakalendrite põhitalitluse tagamine."
 
 #: ../plugins/calendar-weather/org-gnome-calendar-weather.eplug.xml.h:2
 msgid "Weather Calendars"
@@ -14224,10 +14226,11 @@ msgstr ""
 #: ../plugins/default-mailer/org-gnome-default-mailer.eplug.xml.h:1
 msgid "Checks whether Evolution is the default mail client on startup."
 msgstr ""
+"Käivitumisel kontrollimiseks, kas Evolution on vaikimisi e-postiklient."
 
 #: ../plugins/default-mailer/org-gnome-default-mailer.eplug.xml.h:2
 msgid "Default Mail Client "
-msgstr "Vaikimisi postiklient "
+msgstr "Vaikimisi postiklient"
 
 #: ../plugins/default-mailer/org-gnome-default-mailer.error.xml.h:1
 msgid "Do you want to make Evolution your default e-mail client?"
@@ -15407,12 +15410,12 @@ msgstr "%A, %e. %B %Y, %l:%M%S %p"
 #: ../plugins/itip-formatter/itip-view.c:344
 #, c-format
 msgid "<b>%s</b> through %s has published the following meeting information:"
-msgstr "<b>%s</b> avalikustas läbi %s teabe järgneva koosoleku kohta:"
+msgstr "<b>%s</b> avaldas %s kaudu teabe järgneva koosoleku kohta:"
 
 #: ../plugins/itip-formatter/itip-view.c:346
 #, c-format
 msgid "<b>%s</b> has published the following meeting information:"
-msgstr "<b>%s</b> avalikustas teabe järgneva koosoleku kohta:"
+msgstr "<b>%s</b> avaldas järgneva koosoleku andmed:"
 
 #: ../plugins/itip-formatter/itip-view.c:351
 #, c-format
@@ -15480,12 +15483,12 @@ msgstr "<b>%s</b> keeldus järgnevatest koosoleku muudatusest."
 #: ../plugins/itip-formatter/itip-view.c:412
 #, c-format
 msgid "<b>%s</b> through %s has published the following task:"
-msgstr "<b>%s</b> avalikustas %s kaudu järgneva ülesande:"
+msgstr "<b>%s</b> avaldas %s kaudu järgneva ülesande:"
 
 #: ../plugins/itip-formatter/itip-view.c:414
 #, c-format
 msgid "<b>%s</b> has published the following task:"
-msgstr "<b>%s</b> avalikustas järgmise ülesande:"
+msgstr "<b>%s</b> avaldas järgmise ülesande:"
 
 #: ../plugins/itip-formatter/itip-view.c:419
 #, c-format
@@ -16186,7 +16189,7 @@ msgstr ""
 #: ../plugins/startup-wizard/startup-wizard.c:140
 #: ../shell/e-shell-importer.c:145
 msgid "Please select the information that you would like to import:"
-msgstr "Palun valige andmed, mida soovite importida:"
+msgstr "Palun valige andmed, mida soovid importida:"
 
 #: ../plugins/startup-wizard/startup-wizard.c:154
 #: ../shell/e-shell-importer.c:398
@@ -16367,6 +16370,12 @@ msgid ""
 "You can select \"Automatic\" if you do not know, and Evolution will attempt "
 "to work it out."
 msgstr ""
+"Vali fail, mida Sa soovid Evolutioni importida,\n"
+"ning vali ka allpool olevast valikukastist, mis\n"
+"tüüpi failiga on tegemist.\n"
+"\n"
+"Kui Sa ole veendunud, et Evolution tunneb faili\n"
+"ise ära, siis võid failitüübiks valida \"Automaatne\"."
 
 #: ../shell/e-shell-importer.c:142
 msgid "Choose the destination for this import"
@@ -16379,6 +16388,10 @@ msgid ""
 "settings found. If you would like to\n"
 "try again, please click the \"Back\" button.\n"
 msgstr ""
+"Evolution kontrollis järgnevate rakenduste sätete importimise\n"
+"võimalust: Pine, Netscape, Elm ja iCalendar. Paraku ei leitud\n"
+"ühtegi imporditavat seadistusfaili. Kui sa soovid veel proovida,\n"
+"siis vajuta \"Tagasi\" nuppu.\n"
 
 #: ../shell/e-shell-importer.c:283
 msgid "F_ilename:"
@@ -16402,7 +16415,7 @@ msgstr "Üksiku _faili importimine"
 
 #: ../shell/e-shell-importer.c:698
 msgid "_Import"
-msgstr "_Importimine"
+msgstr "_Impordi"
 
 #: ../shell/e-shell-settings-dialog.c:318
 msgid "Evolution Settings"
@@ -16452,7 +16465,7 @@ msgstr "Bug buddy (veateatamisprogramm) ei saa käivitada."
 msgid "translator-credits"
 msgstr ""
 "Ilmar Kerm <ikerm@hot.ee>, 2001\n"
-"Ivar Smolin <okul@linux.ee>, 2002, 2003, 2005\n"
+"Ivar Smolin <okul@linux.ee>, 2002, 2003, 2005, 2006\n"
 "Kaarel Jõgi <kaarel@gg.ee>, 2002\n"
 "Priit Laes <amd@store20.com>, 2003, 2004, 2005"
 
@@ -16568,6 +16581,9 @@ msgid ""
 "With this assistant you will be guided through the process of\n"
 "importing external files into Evolution."
 msgstr ""
+"Tere tulemast kasutama Evolutioni Impordiabilist.\n"
+"Siin on sul võimalik vahetute juhiste abil\n"
+"importid aväliseid faile Evolutioni keskkonda."
 
 #. Preview/Alpha/Beta version warning message
 #: ../shell/main.c:230
@@ -17634,7 +17650,7 @@ msgstr "Kopeerib valitud sõnumi(d) lõikelauale"
 #. Alphabetical by name, yo
 #: ../ui/evolution-mail-list.xml.h:5 ../ui/evolution-mail-message.xml.h:24
 msgid "Cut selected message(s) to the clipboard"
-msgstr "Tõstab valitud sõnumi(d) lõikelauale"
+msgstr "Valitud sõnumi(te) lõikelauale tõstmine"
 
 #: ../ui/evolution-mail-list.xml.h:6
 msgid "E_xpunge"
@@ -17753,15 +17769,15 @@ msgstr "Koosta _uus sõnum"
 
 #: ../ui/evolution-mail-message.xml.h:9
 msgid "Compose a reply to all of the recipients of the selected message"
-msgstr "Koostab vastuse kõigile valitud sõnumi adressaatidele"
+msgstr "Vastuse koostamine kõigile valitud sõnumi adressaatidele"
 
 #: ../ui/evolution-mail-message.xml.h:10
 msgid "Compose a reply to the mailing list of the selected message"
-msgstr "Koostab vastuse valitud sõnumi postiloendisse"
+msgstr "Vastuse koostamine valitud sõnumi postiloendisse"
 
 #: ../ui/evolution-mail-message.xml.h:11
 msgid "Compose a reply to the sender of the selected message"
-msgstr "Koostab vastuse valitud sõnumi koostajale"
+msgstr "Vastuse koostamine valitud sõnumi koostajale"
 
 #: ../ui/evolution-mail-message.xml.h:14
 msgid "Copy selected messages to another folder"
@@ -17895,35 +17911,35 @@ msgstr "Märgi _kui"
 
 #: ../ui/evolution-mail-message.xml.h:50
 msgid "Mark the selected message(s) as having been read"
-msgstr "Märgib valitud sõnum(id) loetuks"
+msgstr "Valitud sõnumi(te) märkimine loetuks"
 
 #: ../ui/evolution-mail-message.xml.h:51
 msgid "Mark the selected message(s) as important"
-msgstr "Märgib valitud sõnum(id) tähtsaks"
+msgstr "Valitud sõnumi(te) märkimine tähtsaks"
 
 #: ../ui/evolution-mail-message.xml.h:52
 msgid "Mark the selected message(s) as junk"
-msgstr "Märgib valitud sõnumi(d) rämpsuks"
+msgstr "Valitud sõnumi(te) märkimine rämpsuks"
 
 #: ../ui/evolution-mail-message.xml.h:53
 msgid "Mark the selected message(s) as not being junk"
-msgstr "Märgib valitud sõnumi(d) mitterämpsuks"
+msgstr "Valitud sõnumi(te) märkimine mitterämpsuks"
 
 #: ../ui/evolution-mail-message.xml.h:54
 msgid "Mark the selected message(s) as not having been read"
-msgstr "Märgib valitud sõnumi(d) lugemata sõnumi(te)ks"
+msgstr "Valitud sõnumi(te) märkimine lugemata sõnumi(te)ks"
 
 #: ../ui/evolution-mail-message.xml.h:55
 msgid "Mark the selected message(s) as unimportant"
-msgstr "Märgib valitud sõnumi(d) vähetähtsaks"
+msgstr "Valitud sõnumi(te) märkimine vähetähtsaks"
 
 #: ../ui/evolution-mail-message.xml.h:56
 msgid "Mark the selected messages for deletion"
-msgstr "Märgib valitud sõnumid kustutatuks"
+msgstr "Valitud sõnumi(te) märkimine kustutatuks"
 
 #: ../ui/evolution-mail-message.xml.h:57
 msgid "Message Source"
-msgstr ""
+msgstr "Sõnumi allikas"
 
 #: ../ui/evolution-mail-message.xml.h:58
 msgid "Move"
@@ -17931,7 +17947,7 @@ msgstr "Tõsta"
 
 #: ../ui/evolution-mail-message.xml.h:59
 msgid "Move selected message(s) to another folder"
-msgstr "Tõstab valitud sõnumi(d) teise kausta"
+msgstr "Valitud sõnumi(te) teise kausta tõstmine"
 
 #: ../ui/evolution-mail-message.xml.h:61
 msgid "Next _Important Message"
@@ -18286,11 +18302,11 @@ msgstr "Allkirjastab sõnumi sinu S/MIME allkirjasertifikaadi abil"
 
 #: ../ui/evolution-message-composer.xml.h:33
 msgid "Toggles whether the BCC field is displayed"
-msgstr "Lülitab pimekoopia välja näitamise sisse või välja"
+msgstr "Pimekoopia välja näitamise sisse- või väljalülitamine"
 
 #: ../ui/evolution-message-composer.xml.h:34
 msgid "Toggles whether the CC field is displayed"
-msgstr "Lülitab koopiavälja näitamise sisse või välja"
+msgstr "Koopiavälja näitamise sisse- või väljalülitamine"
 
 #: ../ui/evolution-message-composer.xml.h:35
 msgid "Toggles whether the From chooser is displayed"
@@ -18302,7 +18318,7 @@ msgstr ""
 
 #: ../ui/evolution-message-composer.xml.h:37
 msgid "Toggles whether the Reply-To field is displayed"
-msgstr "Lülitab vasta-kellele välja näitamise sisse või välja"
+msgstr "Vasta-kellele välja näitamise sisse- või väljalülitamine"
 
 #: ../ui/evolution-message-composer.xml.h:38
 msgid "Toggles whether the To field is displayed"
@@ -18547,7 +18563,7 @@ msgstr "Saada veateade kasutades Bug Buddy't"
 
 #: ../ui/evolution.xml.h:30
 msgid "Toggle whether we are working offline."
-msgstr "Lülitab autonoomse reziimi sisse või välja"
+msgstr "Autonoomse reziimi sisse- või väljalülitamine"
 
 #: ../ui/evolution.xml.h:31
 msgid "Tool_bar"
@@ -19846,13 +19862,3 @@ msgstr ""
 #: ../widgets/text/e-text.c:3683 ../widgets/text/e-text.c:3684
 msgid "Handle Popup"
 msgstr ""
-
-#~ msgid ""
-#~ "The suggested filename extension of this filetype (%s) is unused in the "
-#~ "chosen filename. Do you want to continue?"
-#~ msgstr ""
-#~ "Selle failitüübi (%s) jaoks soovitatud failinime laiendit pole kasutatud. "
-#~ "Kas sa soovid jätkata?"
-
-#~ msgid "Evolution _FAQ"
-#~ msgstr "Evolutioni _KKK"
