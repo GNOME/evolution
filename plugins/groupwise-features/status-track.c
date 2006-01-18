@@ -30,6 +30,7 @@
 #include <gtk/gtk.h>
 
 #include "camel/camel-folder.h"
+#include "camel/camel-mime-utils.h"
 #include "camel/camel-medium.h"
 #include "camel/camel-mime-message.h"
 #include <mail/em-popup.h>
@@ -55,11 +56,16 @@ add_recipient (GtkTable *table, char *recp, int row)
 int
 add_detail (GtkTable *table, char *label, char *value, int row)
 {
-	GtkWidget *widget ;
-	time_t time = e_gw_connection_get_date_from_string (value) ;
-	char *str = ctime (&time) ;
-	
-	str [strlen(str)-1] = '\0' ;
+	GtkWidget *widget;
+	time_t time;
+	time_t actual_time;
+	char *str;
+
+	time = e_gw_connection_get_date_from_string (value);
+	actual_time = camel_header_decode_date (ctime(&time), NULL);
+	*str = ctime (&actual_time);
+
+	str [strlen(str)-1] = '\0';
 
 	widget = gtk_label_new (label);
 	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
@@ -67,6 +73,7 @@ add_detail (GtkTable *table, char *label, char *value, int row)
 	widget = gtk_label_new (str);
 	gtk_table_attach (table, widget , 2, 3, row,  row + 1, GTK_FILL, 0, 0, 0);
 	row++;
+
 	return row ;
 }
 

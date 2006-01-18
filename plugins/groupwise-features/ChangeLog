@@ -1,3 +1,11 @@
+2006-01-18  Vivek Jain <jvivek@novell.com>
+ 	
+ 	* status-track.c : (add_detail): decode the date
+ 	to local time **Fixes #314755
+ 	also fixed some styling issues.
+
+	Committed on behalf of Vivek - partha
+
 2006-01-06  Simon Zheng <simon.zheng@sun.com>
 
 	* junk-mail-settings.c:
