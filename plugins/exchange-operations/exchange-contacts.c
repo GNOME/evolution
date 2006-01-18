@@ -146,9 +146,11 @@ e_exchange_contacts_pcontacts (EPlugin *epl, EConfigHookItemFactoryData *data)
 	}
 
         uri_text = e_source_get_uri (source);
-	if (uri_text && strncmp (uri_text, "exchange", 8)) {
-		g_free (uri_text);		
-		return NULL;
+	if (uri_text && g_ascii_strncasecmp (uri_text, "exchange", 8)) {
+		if (g_ascii_strncasecmp (uri_text, "gal", 3)) {
+			g_free (uri_text);
+			return NULL;
+		}
 	}
 
 	g_free (uri_text);

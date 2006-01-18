@@ -1,3 +1,9 @@
+2006-01-18  Sushma Rai  <rsushma@novell.com>
+
+	* exchange-contacts.c (e_exchange_contacts_pcontacts): Displaying the
+	offline message for both Exchange personal and GAL folders. 
+	Fixes #327483.
+
 2006-01-16  Harish Krishnaswamy  <kharish@novell.com>
 
 	* org-gnome-exchange-operations.error.xml:
