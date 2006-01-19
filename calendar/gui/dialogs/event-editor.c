@@ -514,6 +514,16 @@ event_editor_init (EventEditor *ee)
 	comp_editor_set_help_section (COMP_EDITOR (ee), "usage-calendar-apts");
 }
 
+/* Handler for the delete event. It hides the window without destroying it.
+   Connected to the recur dialog and Free busy dialog */
+static gboolean 
+window_delete_event (GtkWidget *widget, GdkEvent *event, gpointer user_data)
+{
+	gtk_widget_hide (widget);
+
+	return TRUE;
+}
+
 EventEditor *
 event_editor_construct (EventEditor *ee, ECal *client)
 {
@@ -537,6 +547,7 @@ event_editor_construct (EventEditor *ee, ECal *client)
 							  "gtk-close", GTK_RESPONSE_CLOSE,
 							  NULL);
 	g_signal_connect (priv->recur_window, "response", G_CALLBACK (gtk_widget_hide), NULL);
+	g_signal_connect ((GtkWidget *) priv->recur_window, "delete-event", G_CALLBACK(window_delete_event), NULL);
 	priv->recur_page = recurrence_page_new ();
 	g_object_ref (priv->recur_page);
 	gtk_object_sink (GTK_OBJECT (priv->recur_page));
@@ -564,6 +575,7 @@ event_editor_construct (EventEditor *ee, ECal *client)
 			gtk_widget_hide (priv->sched_window);
 
 			g_signal_connect (priv->sched_window, "response", G_CALLBACK(gtk_widget_hide), NULL);
+			g_signal_connect ((GtkWidget *) priv->sched_window, "delete-event", G_CALLBACK(window_delete_event), NULL);
 			comp_editor_append_page (COMP_EDITOR (ee), COMP_EDITOR_PAGE (priv->sched_page), NULL, FALSE);
 	} else
 			bonobo_ui_component_set_prop (editor->uic, "/commands/ActionFreeBusy", "hidden", "1", NULL);
