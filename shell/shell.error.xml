@@ -73,7 +73,7 @@ Click help for details.</_secondary>
   <button stock="gtk-quit" response="GTK_RESPONSE_CANCEL"/>
  </error>
 
- <error id="forget-passwords" type="question" default="GTK_RESPONSE_OK">
+ <error id="forget-passwords" type="question" default="GTK_RESPONSE_CANCEL">
   <_primary>Are you sure you want to forget all remembered passwords?</_primary>
   <_secondary xml:space="preserve">Forgetting your passwords will clear all remembered passwords. You will be reprompted next time they are needed.</_secondary>
   <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
