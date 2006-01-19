@@ -1,5 +1,10 @@
 2006-01-19  Andre Klapper <a9016009@gmx.de>
 
+	* evolution-meesage-composer.xml: changing British English to
+	American English. Fixes bug 326637.
+
+2006-01-19  Andre Klapper <a9016009@gmx.de>
+
 	* evolution.xml: changing "_About Evolution..." to "_About" to be
 	HIG-compliant. Fixes bug 327309.
 

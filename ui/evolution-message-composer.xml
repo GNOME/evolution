@@ -39,7 +39,7 @@
 		     _tip="Get delivery notification when your message is read"
 		     type="toggle" state="0"/>
 	     
-	        <cmd name="SetPriority" _label="_Prioritise Message"
+	        <cmd name="SetPriority" _label="_Prioritize Message"
 		     _tip="Set the message priority to high"
 		     type="toggle" state="0"/>
 		
