@@ -1,3 +1,9 @@
+2006-01-19  Andre Klapper <a9016009@gmx.de>
+
+	* org-gnome-exchange-operations.error.xml:
+	changed "mails" to "mail" or "messages", removed duplicated
+	whitespaces. Fixes bug 325569.
+
 2006-01-18  Sushma Rai  <rsushma@novell.com>
 
 	* exchange-contacts.c (e_exchange_contacts_pcontacts): Displaying the
