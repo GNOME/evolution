@@ -7,7 +7,7 @@
     _name="Prefer plain-text">
 
 
-    <_description xml:space="preserve">A test plugin which demonstrates a formatter plugin which lets you choose to disable HTML emails.
+    <_description xml:space="preserve">A test plugin which demonstrates a formatter plugin which lets you choose to disable HTML messages.
 
 This plugin is unsupported demonstration code only.
 </_description>
