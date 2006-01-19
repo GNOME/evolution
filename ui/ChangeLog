@@ -1,3 +1,8 @@
+2006-01-19  Andre Klapper <a9016009@gmx.de>
+
+	* evolution.xml: changing "_About Evolution..." to "_About" to be
+	HIG-compliant. Fixes bug 327309.
+
 2006-01-16  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* evolution-mail-list.xml: Adds two new menu items for collapse and

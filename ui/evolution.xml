@@ -157,7 +157,7 @@
       <separator f="" name="eshell4"/>
 
       <menuitem name="HelpAbout" verb=""
-	_label="_About Evolution..."/>
+	_label="_About"/>
 
     </submenu>
   </menu>
