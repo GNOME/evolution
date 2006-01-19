@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Evolution 2.4\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-01-07 04:22+0100\n"
-"PO-Revision-Date: 2006-01-13 18:13+0200\n"
+"PO-Revision-Date: 2006-01-18 20:49+0200\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -488,7 +488,7 @@ msgstr "_Lisa"
 
 #: ../addressbook/addressbook.error.xml.h:32
 msgid "_Discard"
-msgstr "_Unusta"
+msgstr "_Hülga"
 
 #: ../addressbook/addressbook.error.xml.h:33
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:76
@@ -5151,7 +5151,7 @@ msgstr "Lubatud"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.c:733
 msgid "Are you sure you want to remove this URL?"
-msgstr "Oled sa kindel, et soovid eemaldada seda URL'i?"
+msgstr "Oled sa kindel, et soovid eemaldada seda URL-i?"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.c:736
 msgid "Remove"
@@ -5370,7 +5370,7 @@ msgstr "_24 tunnine"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:47
 msgid "_Add URL"
-msgstr "_URL'i lisamine"
+msgstr "_URL-i lisamine"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:48
 msgid "_Ask for confirmation when deleting items"
@@ -7269,7 +7269,7 @@ msgstr "Värskenda vastaja olekut"
 
 #: ../calendar/gui/e-itip-control.c:2352
 msgid "Send Latest Information"
-msgstr "Saadab värskeima teabe"
+msgstr "Värskeimate andmete saatmine"
 
 #: ../calendar/gui/e-itip-control.c:2380 ../calendar/gui/itip-utils.c:571
 #: ../mail/mail-send-recv.c:414 ../mail/mail-send-recv.c:466
@@ -9716,7 +9716,7 @@ msgstr "Tundmatu põhjus"
 
 #: ../composer/e-msg-composer.c:1294
 msgid "Could not open file"
-msgstr "Tõrge faili avamisel"
+msgstr "Faili pole võimalik avada"
 
 #: ../composer/e-msg-composer.c:1302
 msgid "Unable to retrieve message from editor"
@@ -9772,7 +9772,7 @@ msgid ""
 "Are you sure you want to discard the message, titled '{0}', you are "
 "composing?"
 msgstr ""
-"Kas sa tõesti soovid tühistada sõnumit '{0}', mille koostamine on pooleli?"
+"Kas sa tõesti soovid hüljata sõnumit '{0}', mille koostamine on pooleli?"
 
 #: ../composer/mail-composer.error.xml.h:4
 msgid "Because &quot;{0}&quot;, you may need to select different mail options."
@@ -9789,7 +9789,7 @@ msgid ""
 "you choose to save the message in your Drafts folder. This will allow you to "
 "continue the message at a later date."
 msgstr ""
-"Selle redaktoriakna sulgemine tühistab sõnumi lõplikult. Kui sa tahad sõnumi "
+"Selle redaktoriakna sulgemine hülgab sõnumi lõplikult. Kui sa tahad sõnumi "
 "koostamist hiljem jätkata, siis salvesta see sõnum Mustandite kausta."
 
 #: ../composer/mail-composer.error.xml.h:7
@@ -9882,7 +9882,7 @@ msgstr ""
 
 #: ../composer/mail-composer.error.xml.h:29
 msgid "_Discard Changes"
-msgstr "_Loobu muudatustest"
+msgstr "_Hülga muudatused"
 
 #: ../composer/mail-composer.error.xml.h:30
 msgid "_Save Message"
@@ -13843,7 +13843,7 @@ msgstr "_Lisa"
 
 #: ../mail/mail.error.xml.h:118
 msgid "_Discard changes"
-msgstr "_Muudatustest loobumine"
+msgstr "_Hülga muudatused"
 
 #: ../mail/mail.error.xml.h:119
 msgid "_Empty Trash"
@@ -16017,7 +16017,7 @@ msgstr "Salvesta manused..."
 
 #: ../plugins/save-attachments/org-gnome-save-attachments.xml.h:2
 msgid "Save all attachments"
-msgstr "Salvestab kõik manused"
+msgstr "Kõikide manuste salvestamine"
 
 #: ../plugins/save-attachments/save-attachments.c:331
 msgid "Select save base name"
@@ -16464,10 +16464,10 @@ msgstr "Bug buddy (veateatamisprogramm) ei saa käivitada."
 #: ../shell/e-shell-window-commands.c:532
 msgid "translator-credits"
 msgstr ""
-"Ilmar Kerm <ikerm@hot.ee>, 2001\n"
-"Ivar Smolin <okul@linux.ee>, 2002, 2003, 2005, 2006\n"
-"Kaarel Jõgi <kaarel@gg.ee>, 2002\n"
-"Priit Laes <amd@store20.com>, 2003, 2004, 2005"
+"Ilmar Kerm <ikerm@hot.ee>, 2001.\n"
+"Ivar Smolin <okul@linux.ee>, 2002, 2003, 2005, 2006.\n"
+"Kaarel Jõgi <kaarel@gg.ee>, 2002.\n"
+"Priit Laes <amd@store20.com>, 2003, 2004, 2005."
 
 #: ../shell/e-shell-window-commands.c:546
 msgid "Groupware Suite"
@@ -17371,7 +17371,7 @@ msgstr "Saada kontaktile sõnum"
 
 #: ../ui/evolution-addressbook.xml.h:25
 msgid "Send selected contacts to another person."
-msgstr "Saadab valitud kontaktid teisele isikule."
+msgstr "Valitud kontaktide saatmine teisele isikule."
 
 #: ../ui/evolution-addressbook.xml.h:26
 msgid "Show contact preview window"
@@ -17875,7 +17875,7 @@ msgstr "Valitud sõnumitest rämpsu filtreerimine"
 
 #: ../ui/evolution-mail-message.xml.h:39
 msgid "Flag selected message(s) for follow-up"
-msgstr "Märgib valitud sõnumi(d) jälgimiseks"
+msgstr "Valitud sõnumi(te) märkimine jälgimiseks"
 
 #: ../ui/evolution-mail-message.xml.h:40
 msgid "Follow _Up..."
@@ -17887,23 +17887,23 @@ msgstr "Laeb HTML-vormingus sõnumi pildid"
 
 #: ../ui/evolution-mail-message.xml.h:43
 msgid "Forward the selected message in the body of a new message"
-msgstr "Saadab valitud sõnumi kellelegi edasi (saadetava sõnumi sees)"
+msgstr "Valitud sõnumi kellelegi edastamine (saadetava sõnumi sees)"
 
 #: ../ui/evolution-mail-message.xml.h:44
 msgid "Forward the selected message quoted like a reply"
-msgstr "Saadab valitud sõnumi kellelegi edasi (tsitaadina)"
+msgstr "Valitud sõnumi kellelegi edastamine (tsitaadina)"
 
 #: ../ui/evolution-mail-message.xml.h:45
 msgid "Forward the selected message to someone"
-msgstr "Saadab valitud sõnumi kellelegi edasi"
+msgstr "Valitud sõnumi kellelegi edastamine"
 
 #: ../ui/evolution-mail-message.xml.h:46
 msgid "Forward the selected message to someone as an attachment"
-msgstr "Saadab valitud sõnumi kellelegi edasi (manusena)"
+msgstr "Valitud sõnumi kellelegi edastamine (manusena)"
 
 #: ../ui/evolution-mail-message.xml.h:47
 msgid "Increase the text size"
-msgstr "Suurendab teksti suurust"
+msgstr "Teksti suuruse suurendamine"
 
 #: ../ui/evolution-mail-message.xml.h:49
 msgid "Mar_k as"
@@ -18023,7 +18023,7 @@ msgstr "Taastab teksti algse suuruse"
 
 #: ../ui/evolution-mail-message.xml.h:86
 msgid "Save the message as a text file"
-msgstr "Salvestab sõnumi tekstifaili"
+msgstr "Sõnumi salvestamine tekstifaili"
 
 #: ../ui/evolution-mail-message.xml.h:87
 msgid "Search Folder from Mailing _List..."
@@ -18290,7 +18290,7 @@ msgstr "Saada sõnum HTML formaadis"
 
 #: ../ui/evolution-message-composer.xml.h:30
 msgid "Send this message"
-msgstr "Saadab selle sõnumi"
+msgstr "Selle sõnumi saatmine"
 
 #: ../ui/evolution-message-composer.xml.h:31
 msgid "Sign this message with your PGP key"
@@ -18442,7 +18442,7 @@ msgstr "_Märgi lõpetatuks"
 
 #: ../ui/evolution-tasks.xml.h:10
 msgid "Mark selected tasks as complete"
-msgstr "Märgib valitud ülesanded lõpetatuks"
+msgstr "Valitud ülesannete märkimine lõpetatuks"
 
 #: ../ui/evolution-tasks.xml.h:12
 msgid "Paste task from the clipboard"
