@@ -4501,6 +4501,8 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 
 	      <child>
 		<widget class="GtkButton" id="cmdAccountDefault">
+		  <property name="width_request">89</property>
+		  <property name="height_request">36</property>
 		  <property name="visible">True</property>
 		  <property name="sensitive">False</property>
 		  <property name="can_default">True</property>
@@ -4514,6 +4516,8 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 
 	      <child>
 		<widget class="GtkButton" id="cmdAccountAble">
+		  <property name="width_request">89</property>
+		  <property name="height_request">36</property>
 		  <property name="visible">True</property>
 		  <property name="sensitive">False</property>
 		  <property name="can_default">True</property>

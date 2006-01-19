@@ -1,3 +1,19 @@
+2006-01-19  Ranjan Somani  <sranjan@novell.com>
+
+ 	** Fixes #318785
+ 
+         * mail-config.glade: Resizing of Default n Enable button 
+	 
+	 committing on behalf of Ranjan -partha
+	 
+2006-01-19  Parthasarathi Susarla <sparthasarathi@novell.com>
+	
+	** See bug 324327
+
+	* em-composer-utils.c: (em_utils_handle_receipt):
+	account can be null. Not necessary to send receipt when 
+	account is not enabled
+
 2006-01-16  Harish Krishnaswamy  <kharish@novell.com>
 
 	* mail-component.c: (impl__get_userCreatableItems):
