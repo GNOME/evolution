@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-01-16 21:38+0200\n"
+"POT-Creation-Date: 2006-01-20 08:28+0200\n"
 "PO-Revision-Date: 2006-01-16 21:45+0200\n"
 "Last-Translator: Ilkka Tuohela <hile@iki.fi>\n"
 "Language-Team: Finnish <gnome-fi-laatu@lists.sourceforge.net>\n"
@@ -2653,7 +2653,7 @@ msgstr "_Pikaviestipalvelu:"
 #: ../addressbook/gui/contact-editor/im.glade.h:5
 #: ../plugins/calendar-weather/calendar-weather.c:409
 #: ../plugins/exchange-operations/exchange-calendar.c:234
-#: ../plugins/exchange-operations/exchange-contacts.c:214
+#: ../plugins/exchange-operations/exchange-contacts.c:216
 msgid "_Location:"
 msgstr "_Sijainti:"
 
@@ -3861,7 +3861,7 @@ msgstr "Varjostus"
 #: ../addressbook/printing/e-contact-print.glade.h:36
 #: ../plugins/exchange-operations/exchange-account-setup.c:949
 #: ../plugins/exchange-operations/exchange-calendar.c:224
-#: ../plugins/exchange-operations/exchange-contacts.c:197
+#: ../plugins/exchange-operations/exchange-contacts.c:199
 msgid "Size:"
 msgstr "Koko:"
 
@@ -5491,7 +5491,7 @@ msgid "E_nable"
 msgstr "Kä_ytä"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:18
-#: ../calendar/gui/dialogs/event-editor.c:555
+#: ../calendar/gui/dialogs/event-editor.c:566
 #: ../ui/evolution-event-editor.xml.h:7
 msgid "Free/Busy"
 msgstr "Vapaa/Varattu"
@@ -6031,11 +6031,11 @@ msgstr "Valtuuta:"
 msgid "Enter Delegate"
 msgstr "Syötä valtuutettu"
 
-#: ../calendar/gui/dialogs/event-editor.c:531
+#: ../calendar/gui/dialogs/event-editor.c:541
 msgid "Appoint_ment"
 msgstr "Tapaa_minen"
 
-#: ../calendar/gui/dialogs/event-editor.c:535
+#: ../calendar/gui/dialogs/event-editor.c:545
 #: ../ui/evolution-event-editor.xml.h:13
 msgid "Recurrence"
 msgstr "Toistuvuus"
@@ -14682,10 +14682,11 @@ msgstr "Yhdistä tiedot _pikaviestimistä"
 #: ../plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:2
 msgid ""
 "Automatically fills your addressbook with names and email addresses as you "
-"reply to mails. Also fills in IM contact information from your buddy lists."
+"reply to messages. Also fills in IM contact information from your buddy "
+"lists."
 msgstr ""
-"Lisää osoitekirjaan automaattisesti nimet ja sähköpostiosoitteet, joihin "
-"lähetät vastauksia. Liittää myös IM-yhteystiedot kaverilistaltasi."
+"Lisää nimet ja sähköpostiosoitteet automaattisesti osoitekirjaan, kun vastaat "
+"viesteihin. Liittää myös IM-yhteystiedot kaverilistoiltasi."
 
 #: ../plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:3
 msgid "BBDB"
@@ -14943,7 +14944,7 @@ msgid "Ch_eck for Supported Types"
 msgstr "Tar_kista tuetut tyypit"
 
 #: ../plugins/exchange-operations/exchange-calendar.c:192
-#: ../plugins/exchange-operations/exchange-contacts.c:162
+#: ../plugins/exchange-operations/exchange-contacts.c:164
 msgid ""
 "Evolution is in offline mode. You cannot create or modify folders now.\n"
 "Please switch to online mode for such operations."
@@ -15493,16 +15494,16 @@ msgid "Unsupported operation"
 msgstr "Toimenpide ei ole tuettu"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:68
-msgid "You are nearing your quota available for storing mails on this server."
-msgstr "Sähköpostille varattu tilasi tällä palvelimella alkaa loppua."
+msgid "You are nearing your quota available for storing mail on this server."
+msgstr "Sähköpostisi tallennukseen varattu tila tällä palvelimella alkaa loppua."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:69
 msgid "You cannot make yourself your own delegate"
 msgstr "Et voi valtuuttaa itseäsi."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:70
-msgid "You have exceeded your quota for storing mails on this server."
-msgstr "Sähköpostille varattu tilasi tällä palvelimella on loppu."
+msgid "You have exceeded your quota for storing mail on this server."
+msgstr "Sähköpostillesi varattu tila tällä palvelimella on loppu."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:71
 msgid "You may only configure a single Exchange account."
@@ -15511,7 +15512,7 @@ msgstr "Voit määritellä vain yhden Exchange-tilin."
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:72
 msgid ""
 "Your current usage is: {0} KB. Try to clear up some space by deleting some "
-"mails."
+"mail."
 msgstr ""
 "Käytät tällä hetkellä {0} kt. Yritä vapauttaa tilaa poistamalla joitain "
 "viestejä."
@@ -15519,17 +15520,17 @@ msgstr ""
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:73
 msgid ""
 "Your current usage is: {0} KB. You will not be able to either send or "
-"receive mails now."
+"receive mail now."
 msgstr ""
 "Käytät tällä hetkellä {0} kt. Et voi lähettää tai vastaanottaa sähköpostia."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:74
 msgid ""
-"Your current usage is: {0} KB. You will not be able to send mails till you "
-"clear up some space by deleting some mails."
+"Your current usage is: {0} KB. You will not be able to send mail until you "
+"clear up some space by deleting some mail."
 msgstr ""
 "Käytät tällä hetkellä {0} kt. Et voi lähettää sähköpostia ennen kuin olet "
-"vapautat tilaa poistamalla joitain tallennettuja viestejä."
+"vapauttanut tilaa poistamalla joitain tallennettuja viestejä."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:75
 msgid "Your password has expired."
@@ -15776,7 +15777,7 @@ msgstr "Uusi _jaettu kansio..."
 msgid "Sharing"
 msgstr "Jakaminen"
 
-#: ../plugins/groupwise-features/status-track.c:235
+#: ../plugins/groupwise-features/status-track.c:242
 msgid "Track Message Status..."
 msgstr "Seuraa viestin tilaa..."
 
@@ -15787,6 +15788,31 @@ msgstr "Hula-kalenterien lähteiden määrittelyn liitännäinen."
 #: ../plugins/hula-account-setup/org-gnome-evolution-hula-account-setup.eplug.xml.h:2
 msgid "Hula Account Setup"
 msgstr "Hula-tilin asetukset"
+
+#: ../plugins/import-ics-attachments/icsimporter.c:81
+msgid "_Import to Calendar"
+msgstr "_Tuo kalenteriin"
+
+#: ../plugins/import-ics-attachments/icsimporter.c:86
+msgid "_Import to Tasks"
+msgstr "_Tuo tehtäviin"
+
+#: ../plugins/import-ics-attachments/icsimporter.c:196
+msgid "Import ICS"
+msgstr "Tuo ICS-tiedosto"
+
+#: ../plugins/import-ics-attachments/icsimporter.c:224
+msgid "Select Task List"
+msgstr "Valitse tehtävälista"
+
+#: ../plugins/import-ics-attachments/icsimporter.c:228
+msgid "Select Calendar"
+msgstr "Valitse kalenteri"
+
+#: ../plugins/import-ics-attachments/icsimporter.c:259
+#: ../shell/e-shell-importer.c:703
+msgid "_Import"
+msgstr "_Tuo"
 
 #: ../plugins/ipod-sync/ical-format.c:137
 #: ../plugins/save-calendar/ical-format.c:137
@@ -16711,7 +16737,7 @@ msgstr "Liitännäinen"
 #: ../plugins/prefer-plain/org-gnome-prefer-plain.eplug.xml.h:1
 msgid ""
 "A test plugin which demonstrates a formatter plugin which lets you choose to "
-"disable HTML mails.\n"
+"disable HTML messages.\n"
 "\n"
 "This plugin is unsupported demonstration code only.\n"
 msgstr ""
@@ -17284,10 +17310,6 @@ msgstr "Tuodaan tietoja ja asetuksia _vanhemmista ohjelmista"
 #: ../shell/e-shell-importer.c:341
 msgid "Import a _single file"
 msgstr "Tuo _yksi tiedosto"
-
-#: ../shell/e-shell-importer.c:703
-msgid "_Import"
-msgstr "_Tuo"
 
 #: ../shell/e-shell-settings-dialog.c:318
 msgid "Evolution Settings"
@@ -19444,7 +19466,7 @@ msgid "_Post-To Field"
 msgstr "_Postitusosoite-kenttä (Post-To)"
 
 #: ../ui/evolution-message-composer.xml.h:51
-msgid "_Prioritise Message"
+msgid "_Prioritize Message"
 msgstr "_Aseta viestin prioriteetti"
 
 #: ../ui/evolution-message-composer.xml.h:52
@@ -19704,8 +19726,8 @@ msgid "View/Hide the Status Bar"
 msgstr "Näytä/piilota tilarivi"
 
 #: ../ui/evolution.xml.h:36
-msgid "_About Evolution..."
-msgstr "_Tietoja Evolutionista"
+msgid "_About"
+msgstr "_Tietoja"
 
 #: ../ui/evolution.xml.h:37
 msgid "_Close Window"
@@ -21016,6 +21038,9 @@ msgstr "IM-konteksti"
 #: ../widgets/text/e-text.c:3711 ../widgets/text/e-text.c:3712
 msgid "Handle Popup"
 msgstr "Kahvan ponnahdusikkuna"
+
+#~ msgid "_About Evolution..."
+#~ msgstr "_Tietoja Evolutionista"
 
 #~ msgid "_Attachment Bar"
 #~ msgstr "Liitep_alkki"
