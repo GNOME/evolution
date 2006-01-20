@@ -1,3 +1,13 @@
+2006-01-17  Johnny Jacob <johnnyjacob@gmail.com>
+
+	* gui/dialogs/event-page.c (edit_button_cb): Added.
+	edit the selected attendee.
+	(sensitize_widgets): enable/disable edit button and 
+	Attendee list view.
+	(button_press_event): don't popup the menu if editing is
+	disabled.
+	(get_widgets): get and connect signals for edit button
+
 2006-01-19  Johnny Jacob  <johnnyjacob@gmail.com>
 
 	Fixes #327487
