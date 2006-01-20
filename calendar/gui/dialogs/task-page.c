@@ -1622,7 +1622,7 @@ field_changed_cb (GtkWidget *widget, gpointer data)
 	priv = tpage->priv;
 	
 	if (!priv->updating)
-		comp_editor_page_notify_changed (COMP_EDITOR_PAGE (tpage), 0);
+		comp_editor_page_notify_changed (COMP_EDITOR_PAGE (tpage));
 }
 
 static void

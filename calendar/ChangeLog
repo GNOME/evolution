@@ -1,3 +1,7 @@
+2006-01-20  Andre Klapper <a9016009@gmx.de>
+	* gui/dialogs/task-page.c (field_changed_cb):
+	Removed wrong parameter to be able compile again.
+
 2006-01-17  Johnny Jacob <johnnyjacob@gmail.com>
 
 	* gui/dialogs/event-page.c (edit_button_cb): Added.
