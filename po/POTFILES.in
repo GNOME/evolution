@@ -338,6 +338,7 @@ plugins/groupwise-features/share-folder-common.c
 plugins/groupwise-features/status-track.c
 plugins/hula-account-setup/camel-hula-listener.c
 plugins/hula-account-setup/org-gnome-evolution-hula-account-setup.eplug.xml
+plugins/import-ics-attachments/icsimporter.c
 plugins/ipod-sync/ical-format.c
 plugins/ipod-sync/org-gnome-ipod-sync-evolution.eplug.xml
 plugins/ipod-sync/sync.c

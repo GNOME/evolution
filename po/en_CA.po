@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-01-16 12:08-0500\n"
+"POT-Creation-Date: 2006-01-19 23:15-0500\n"
 "PO-Revision-Date: 2005-08-21 19:18-0400\n"
 "Last-Translator: Adam Weinberger <adamw@gnome.org>\n"
 "Language-Team: Canadian English <adamw@gnome.org>\n"
@@ -2651,7 +2651,7 @@ msgstr "_IM Service:"
 #: ../addressbook/gui/contact-editor/im.glade.h:5
 #: ../plugins/calendar-weather/calendar-weather.c:409
 #: ../plugins/exchange-operations/exchange-calendar.c:234
-#: ../plugins/exchange-operations/exchange-contacts.c:214
+#: ../plugins/exchange-operations/exchange-contacts.c:216
 msgid "_Location:"
 msgstr "_Location:"
 
@@ -3860,7 +3860,7 @@ msgstr "Shading"
 #: ../addressbook/printing/e-contact-print.glade.h:36
 #: ../plugins/exchange-operations/exchange-account-setup.c:949
 #: ../plugins/exchange-operations/exchange-calendar.c:224
-#: ../plugins/exchange-operations/exchange-contacts.c:197
+#: ../plugins/exchange-operations/exchange-contacts.c:199
 msgid "Size:"
 msgstr "Size:"
 
@@ -5480,7 +5480,7 @@ msgid "E_nable"
 msgstr "E_nable"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:18
-#: ../calendar/gui/dialogs/event-editor.c:555
+#: ../calendar/gui/dialogs/event-editor.c:566
 #: ../ui/evolution-event-editor.xml.h:7
 msgid "Free/Busy"
 msgstr "Free/Busy"
@@ -6019,11 +6019,11 @@ msgstr "Delegate To:"
 msgid "Enter Delegate"
 msgstr "Enter Delegate"
 
-#: ../calendar/gui/dialogs/event-editor.c:531
+#: ../calendar/gui/dialogs/event-editor.c:541
 msgid "Appoint_ment"
 msgstr "Appoint_ment"
 
-#: ../calendar/gui/dialogs/event-editor.c:535
+#: ../calendar/gui/dialogs/event-editor.c:545
 #: ../ui/evolution-event-editor.xml.h:13
 msgid "Recurrence"
 msgstr "Recurrence"
@@ -14651,7 +14651,8 @@ msgstr "Synchronize with _buddy list now"
 #: ../plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:2
 msgid ""
 "Automatically fills your addressbook with names and email addresses as you "
-"reply to mails. Also fills in IM contact information from your buddy lists."
+"reply to messages. Also fills in IM contact information from your buddy "
+"lists."
 msgstr ""
 "Automatically fills your addressbook with names and email addresses as you "
 "reply to messages. Also fills in IM contact information from your buddy "
@@ -14916,7 +14917,7 @@ msgid "Ch_eck for Supported Types"
 msgstr "Ch_eck for Supported Types"
 
 #: ../plugins/exchange-operations/exchange-calendar.c:192
-#: ../plugins/exchange-operations/exchange-contacts.c:162
+#: ../plugins/exchange-operations/exchange-contacts.c:164
 msgid ""
 "Evolution is in offline mode. You cannot create or modify folders now.\n"
 "Please switch to online mode for such operations."
@@ -15466,15 +15467,15 @@ msgid "Unsupported operation"
 msgstr "Unsupported operation"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:68
-msgid "You are nearing your quota available for storing mails on this server."
-msgstr "You are nearing your available quota for storing mail on this server."
+msgid "You are nearing your quota available for storing mail on this server."
+msgstr "You are nearing your quota available for storing mail on this server."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:69
 msgid "You cannot make yourself your own delegate"
 msgstr "You cannot make yourself your own delegate"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:70
-msgid "You have exceeded your quota for storing mails on this server."
+msgid "You have exceeded your quota for storing mail on this server."
 msgstr "You have exceeded your quota for storing mail on this server."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:71
@@ -15484,7 +15485,7 @@ msgstr "You may only configure a single Exchange account."
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:72
 msgid ""
 "Your current usage is: {0} KB. Try to clear up some space by deleting some "
-"mails."
+"mail."
 msgstr ""
 "Your current usage is: {0} KB. Try to clear up some space by deleting some "
 "mail."
@@ -15492,18 +15493,18 @@ msgstr ""
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:73
 msgid ""
 "Your current usage is: {0} KB. You will not be able to either send or "
-"receive mails now."
+"receive mail now."
 msgstr ""
 "Your current usage is: {0} KB. You will not be able to either send or "
 "receive mail now."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:74
 msgid ""
-"Your current usage is: {0} KB. You will not be able to send mails till you "
-"clear up some space by deleting some mails."
+"Your current usage is: {0} KB. You will not be able to send mail until you "
+"clear up some space by deleting some mail."
 msgstr ""
 "Your current usage is: {0} KB. You will not be able to send mail until you "
-"clear up space by deleting some mail."
+"clear up some space by deleting some mail."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:75
 msgid "Your password has expired."
@@ -15747,7 +15748,7 @@ msgstr "New _Shared Folder..."
 msgid "Sharing"
 msgstr "Sharing"
 
-#: ../plugins/groupwise-features/status-track.c:235
+#: ../plugins/groupwise-features/status-track.c:242
 msgid "Track Message Status..."
 msgstr "Track Message Status..."
 
@@ -15758,6 +15759,31 @@ msgstr "A plugin to setup hula calendar sources."
 #: ../plugins/hula-account-setup/org-gnome-evolution-hula-account-setup.eplug.xml.h:2
 msgid "Hula Account Setup"
 msgstr "Hula Account Setup"
+
+#: ../plugins/import-ics-attachments/icsimporter.c:81
+msgid "_Import to Calendar"
+msgstr "_Import to Calendar"
+
+#: ../plugins/import-ics-attachments/icsimporter.c:86
+msgid "_Import to Tasks"
+msgstr "_Import to Tasks"
+
+#: ../plugins/import-ics-attachments/icsimporter.c:196
+msgid "Import ICS"
+msgstr "Import ICS"
+
+#: ../plugins/import-ics-attachments/icsimporter.c:224
+msgid "Select Task List"
+msgstr "Select Task List"
+
+#: ../plugins/import-ics-attachments/icsimporter.c:228
+msgid "Select Calendar"
+msgstr "Select Calendar"
+
+#: ../plugins/import-ics-attachments/icsimporter.c:259
+#: ../shell/e-shell-importer.c:703
+msgid "_Import"
+msgstr "_Import"
 
 #: ../plugins/ipod-sync/ical-format.c:137
 #: ../plugins/save-calendar/ical-format.c:137
@@ -16679,12 +16705,12 @@ msgstr "Plugin"
 #: ../plugins/prefer-plain/org-gnome-prefer-plain.eplug.xml.h:1
 msgid ""
 "A test plugin which demonstrates a formatter plugin which lets you choose to "
-"disable HTML mails.\n"
+"disable HTML messages.\n"
 "\n"
 "This plugin is unsupported demonstration code only.\n"
 msgstr ""
 "A test plugin which demonstrates a formatter plugin which lets you choose to "
-"disable HTML emails.\n"
+"disable HTML messages.\n"
 "\n"
 "This plugin is unsupported demonstration code only.\n"
 
@@ -17252,10 +17278,6 @@ msgstr "Import data and settings from _older programs"
 #: ../shell/e-shell-importer.c:341
 msgid "Import a _single file"
 msgstr "Import a _single file"
-
-#: ../shell/e-shell-importer.c:703
-msgid "_Import"
-msgstr "_Import"
 
 #: ../shell/e-shell-settings-dialog.c:318
 msgid "Evolution Settings"
@@ -19412,7 +19434,7 @@ msgid "_Post-To Field"
 msgstr "_Post-To Field"
 
 #: ../ui/evolution-message-composer.xml.h:51
-msgid "_Prioritise Message"
+msgid "_Prioritize Message"
 msgstr "_Prioritize Message"
 
 #: ../ui/evolution-message-composer.xml.h:52
@@ -19671,8 +19693,8 @@ msgid "View/Hide the Status Bar"
 msgstr "View/Hide the Status Bar"
 
 #: ../ui/evolution.xml.h:36
-msgid "_About Evolution..."
-msgstr "_About Evolution..."
+msgid "_About"
+msgstr "_About"
 
 #: ../ui/evolution.xml.h:37
 msgid "_Close Window"
