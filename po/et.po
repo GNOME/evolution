@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-01-18 13:40+0100\n"
-"PO-Revision-Date: 2006-01-18 20:49+0200\n"
+"PO-Revision-Date: 2006-01-19 22:44+0200\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -217,7 +217,7 @@ msgstr ""
 
 #: ../a11y/calendar/ea-jump-button.c:158
 msgid "Click here, you can find more events."
-msgstr ""
+msgstr "Täiendavate sündmuste lisamiseks klõpsa siia"
 
 #: ../a11y/calendar/ea-week-view.c:155
 #, c-format
@@ -287,11 +287,11 @@ msgstr "Tabeli väli"
 #: ../a11y/e-table/gal-a11y-e-table-click-to-add.c:119
 #: ../widgets/table/e-table-click-to-add.c:575
 msgid "click to add"
-msgstr "lisamiseks kliki"
+msgstr "lisamiseks klõpsa"
 
 #: ../a11y/e-table/gal-a11y-e-table-click-to-add.c:53
 msgid "click"
-msgstr "kliki"
+msgstr "klõpsa"
 
 #: ../a11y/e-table/gal-a11y-e-table-column-header.c:135
 msgid "sort"
@@ -3310,7 +3310,7 @@ msgstr "Kontakti ID on juba olemas"
 #. E_BOOK_ERROR_PROTOCOL_NOT_SUPPORTED
 #: ../addressbook/gui/widgets/eab-gui-util.c:61
 msgid "Protocol not supported"
-msgstr "Mitte toetatud protokoll"
+msgstr "Toetamata protokoll"
 
 #. E_BOOK_ERROR_CANCELLED
 #: ../addressbook/gui/widgets/eab-gui-util.c:62
@@ -4086,7 +4086,6 @@ msgid "Are you sure you want to send the task without a summary?"
 msgstr "Oled sa kindel, et soovid seda ülesannet ilma kokkuvõtteta saata?"
 
 #: ../calendar/calendar.error.xml.h:23
-#, fuzzy
 msgid "Cannot create a new event"
 msgstr "Uut sündmust pole võimalik luua"
 
@@ -4430,9 +4429,8 @@ msgid "Evolution's Tasks component"
 msgstr "Evolutioni ülesannetekomponent"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:11
-#, fuzzy
 msgid "Memo_s"
-msgstr "Liikmed"
+msgstr "_Märkmed"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:12
 #: ../calendar/gui/e-memos.c:1092 ../calendar/gui/memos-component.c:530
@@ -5146,11 +5144,11 @@ msgstr "Tõrge kalendrite uuendamisel."
 #: ../calendar/gui/calendar-component.c:1139
 #, c-format
 msgid "Unable to open the calendar '%s' for creating events and meetings"
-msgstr ""
+msgstr "Kalendrit '%s' pole võimalik sündmuste ja koosolekute loomiseks avada"
 
 #: ../calendar/gui/calendar-component.c:1152
 msgid "There is no calendar available for creating events and meetings"
-msgstr ""
+msgstr "Sündmuste ja koosolekute loomiseks pole kalendrit saadaval"
 
 #: ../calendar/gui/calendar-component.c:1266
 msgid "Calendar Source Selector"
@@ -6307,9 +6305,8 @@ msgid "_Group:"
 msgstr "_Grupp:"
 
 #: ../calendar/gui/dialogs/memo-page.glade.h:9
-#, fuzzy
 msgid "_Memo Content:"
-msgstr "Uus kontakt:"
+msgstr "_Märkme sisu:"
 
 #: ../calendar/gui/dialogs/new-calendar.glade.h:2
 msgid "<b>Calendar options</b>"
@@ -6749,7 +6746,7 @@ msgstr "%s tundmatule trigeri tüübile"
 #: ../calendar/gui/e-cal-component-preview.c:70 ../mail/em-folder-view.c:2823
 #, c-format
 msgid "Click to open %s"
-msgstr "Kliki, et avada aadressi %s"
+msgstr "Klõpsa, et avada aadressi %s"
 
 #: ../calendar/gui/e-cal-component-memo-preview.c:201
 msgid "Memo:"
@@ -7810,22 +7807,19 @@ msgstr "_Lõpp:"
 
 #: ../calendar/gui/e-memo-table.c:276
 msgid "Memo Table"
-msgstr ""
+msgstr "Märkmetabel"
 
 #: ../calendar/gui/e-memo-table.c:872
-#, fuzzy
 msgid "_Delete Selected Memos"
-msgstr "_Kustuta valitud ülesanded"
+msgstr "_Kustuta valitud märkmed"
 
 #: ../calendar/gui/e-memo-table.c:995 ../calendar/gui/e-memo-table.etspec.h:2
-#, fuzzy
 msgid "Click to add a memo"
-msgstr "Ülesande lisamiseks vajuta siia"
+msgstr "Märkme lisamiseks vajuta siia"
 
 #: ../calendar/gui/e-memo-table.etspec.h:3
-#, fuzzy
 msgid "Memo sort"
-msgstr "Sortimata"
+msgstr "Märkmete sortimine"
 
 #: ../calendar/gui/e-memos.c:728 ../calendar/gui/e-tasks.c:823
 #: ../calendar/gui/gnome-cal.c:2571
@@ -8099,18 +8093,16 @@ msgid "New memo list"
 msgstr "Uus märkmeloend"
 
 #: ../calendar/gui/memos-component.c:1167
-#, fuzzy
 msgid "Memo l_ist"
-msgstr "Ü_lesannete nimekiri"
+msgstr "Märkmete n_imekiri"
 
 #: ../calendar/gui/memos-component.c:1168
-#, fuzzy
 msgid "Create a new memo list"
-msgstr "Uue ülesandeloendi loomine"
+msgstr "Uue märkmeloendi loomine"
 
 #: ../calendar/gui/memos-control.c:340
 msgid "Print Memos"
-msgstr "Trüki märkmed"
+msgstr "Märkmete trükkimine"
 
 #: ../calendar/gui/migration.c:162
 msgid ""
@@ -10351,17 +10343,15 @@ msgstr "Sa ei saa sellele sõnumile manustada faili `{0}'"
 
 #: ../composer/mail-composer.error.xml.h:26
 msgid "You need to configure an account before you can compose mail."
-msgstr ""
+msgstr "Enne sõnumite koostamist tuleb sul seadistada postikonto."
 
 #: ../composer/mail-composer.error.xml.h:28
-#, fuzzy
 msgid "_Don't Recover"
-msgstr "Ära taasta"
+msgstr "Ära _taasta"
 
 #: ../composer/mail-composer.error.xml.h:29
-#, fuzzy
 msgid "_Recover"
-msgstr "Taasta"
+msgstr "_Taasta"
 
 #: ../composer/mail-composer.error.xml.h:30
 msgid "_Save Message"
@@ -10590,7 +10580,7 @@ msgstr[1] "%d aastat tagasi"
 
 #: ../filter/filter-datespec.c:285
 msgid "<click here to select a date>"
-msgstr "<kuupäeva valimiseks kliki siia>"
+msgstr "<kuupäeva valimiseks klõpsa siia>"
 
 #: ../filter/filter-datespec.c:288 ../filter/filter-datespec.c:299
 msgid "now"
@@ -10632,7 +10622,6 @@ msgid "Test"
 msgstr "Test"
 
 #: ../filter/filter-rule.c:791
-#, fuzzy
 msgid "_Search name:"
 msgstr "_Otsingubaas:"
 
@@ -10649,9 +10638,8 @@ msgid "If any criteria are met"
 msgstr "Kui üks tingimustest on täidetud"
 
 #: ../filter/filter-rule.c:860
-#, fuzzy
 msgid "Find items:"
-msgstr "Kirjete tõstmine"
+msgstr "Kirjete otsimine:"
 
 #: ../filter/filter-rule.c:881
 msgid "All related"
@@ -11142,7 +11130,7 @@ msgstr "Postiloend"
 
 #: ../mail/em-filter-i18n.h:39
 msgid "Match All"
-msgstr ""
+msgstr "Kõik sobivused"
 
 #: ../mail/em-filter-i18n.h:40
 msgid "Message Body"
@@ -11284,7 +11272,7 @@ msgstr "Kausta omadused"
 
 #: ../mail/em-folder-selection-button.c:123
 msgid "<click here to select a folder>"
-msgstr "<kausta valimiseks kliki siia>"
+msgstr "<kausta valimiseks klõpsa siia>"
 
 #: ../mail/em-folder-selector.c:261
 msgid "Create"
@@ -11577,7 +11565,7 @@ msgstr "S_ellele aadressile"
 #: ../mail/em-folder-view.c:2818
 #, c-format
 msgid "Click to mail %s"
-msgstr "Kliki, et saata sõnumit aadressile %s"
+msgstr "Klõpsa, et saata sõnumit aadressile %s"
 
 #. message-search popup match count string
 #: ../mail/em-format-html-display.c:492
@@ -11638,28 +11626,26 @@ msgid "Unencrypted"
 msgstr "Krüptimata"
 
 #: ../mail/em-format-html-display.c:761
-#, fuzzy
 msgid ""
 "This message is not encrypted. Its content may be viewed in transit across "
 "the Internet."
 msgstr ""
-"See sõnum ei ole krüptitud. Sõnumi sisu edastati internetis kaudu lahtiselt "
-"ja see võis näha olla ka kolmandale osapoolele."
+"See sõnum ei ole krüptitud ja seetõttu võib see interneti kaudu liikudes "
+"olla kolmandatele osapooltele nähtav."
 
 #: ../mail/em-format-html-display.c:762 ../mail/em-format-html.c:617
 msgid "Encrypted, weak"
 msgstr "Krüptitud, nõrgalt"
 
 #: ../mail/em-format-html-display.c:762
-#, fuzzy
 msgid ""
 "This message is encrypted, but with a weak encryption algorithm. It would be "
 "difficult, but not impossible for an outsider to view the content of this "
 "message in a practical amount of time."
 msgstr ""
-"See sõnum on krüptitud nõrga krüptoalgoritmiga.  Võimalikul ründajal peaks "
-"olema väga raske aga sugugi mitte võimatu mõistliku aja jooksul sõnumi "
-"krüpteering lahti murda."
+"See sõnum on krüptitud nõrga krüptoalgoritmiga. Võimalikul ründajal peaks "
+"olema väga raske aga sugugi mitte võimatu mõistliku aja jooksul sõnumi sisu "
+"näha."
 
 #: ../mail/em-format-html-display.c:763 ../mail/em-format-html.c:618
 msgid "Encrypted"
@@ -11677,14 +11663,13 @@ msgid "Encrypted, strong"
 msgstr "Krüptitud, tugevalt"
 
 #: ../mail/em-format-html-display.c:764
-#, fuzzy
 msgid ""
 "This message is encrypted, with a strong encryption algorithm. It would be "
 "very difficult for an outsider to view the content of this message in a "
 "practical amount of time."
 msgstr ""
-"See sõnum on krüptitud tugeva krüptoalgoritmiga.  Võimalikul ründajal peaks "
-"olema väga raske mõistliku aja jooksul sõnumi krüpteering lahti murda."
+"See sõnum on krüptitud tugeva krüptoalgoritmiga. Võimalikul ründajal peaks "
+"olema väga raske mõistliku aja jooksul sõnumi krüpteeringut lahti murda."
 
 #: ../mail/em-format-html-display.c:865 ../smime/gui/smime-ui.glade.h:48
 msgid "_View Certificate"
@@ -11743,9 +11728,8 @@ msgstr[0] "%d manus"
 msgstr[1] "%d manust"
 
 #: ../mail/em-format-html-display.c:2003
-#, fuzzy
 msgid "Toggle Attachment Bar"
-msgstr "Manuseriba"
+msgstr "Manuseriba sisse- ja väljalülitamine"
 
 #: ../mail/em-format-html-display.c:2005
 msgid "No Attachment"
@@ -11916,7 +11900,7 @@ msgstr ""
 #: ../mail/em-migrate.c:1648
 #, c-format
 msgid "Unable to create new folder `%s': %s"
-msgstr "Ei suuda luua uut kataloogi `%s': %s"
+msgstr "Uut kataloogi `%s' pole võimalik luua: %s"
 
 #: ../mail/em-migrate.c:1674
 #, c-format
@@ -12002,9 +11986,8 @@ msgid "No server has been selected"
 msgstr "Serverit ei ole valitud"
 
 #: ../mail/em-utils.c:124
-#, fuzzy
 msgid "Do not show this message again."
-msgstr "Seda teadet ära enam uuesti näita."
+msgstr "Seda teadet enam uuesti mitte näidata."
 
 #: ../mail/em-utils.c:357
 msgid "Filters"
@@ -13949,14 +13932,12 @@ msgid "Discard changes?"
 msgstr "Kas hüljata muudatused?"
 
 #: ../mail/mail.error.xml.h:46
-#, fuzzy
 msgid "Do not delete"
 msgstr "Ära kustuta"
 
 #: ../mail/mail.error.xml.h:47
-#, fuzzy
 msgid "Do not disable"
-msgstr "Keela"
+msgstr "Ära keela"
 
 #: ../mail/mail.error.xml.h:48
 msgid "Do you want the operation to be performed in the subfolders?"
@@ -14565,13 +14546,12 @@ msgid "BBDB"
 msgstr "BBDB"
 
 #: ../plugins/caldav/caldav-source.c:64 ../plugins/caldav/caldav-source.c:68
-#, fuzzy
 msgid "CalDAV"
-msgstr "Helista"
+msgstr ""
 
 #: ../plugins/caldav/caldav-source.c:269
 msgid "Use _SSL"
-msgstr ""
+msgstr "Kasuta _SSL-i"
 
 #: ../plugins/calendar-file/org-gnome-calendar-file.eplug.xml.h:1
 msgid "Local Calendars"
@@ -14582,9 +14562,8 @@ msgid "Provides core functionality for local calendars."
 msgstr "Kohalike kalendrite põhitalitluse tagamine."
 
 #: ../plugins/calendar-http/calendar-http.c:339
-#, fuzzy
 msgid "_Secure connection"
-msgstr "_Turvalise ühenduse kasutamine:"
+msgstr "_Turvaline ühendus"
 
 #: ../plugins/calendar-http/org-gnome-calendar-http.eplug.xml.h:1
 msgid "HTTP Calendars"
@@ -14693,16 +14672,14 @@ msgid "Mark as default folder"
 msgstr "Märgitud vaikimisi kaustaks"
 
 #: ../plugins/default-source/org-gnome-default-source.eplug.xml.h:1
-#, fuzzy
 msgid "Default Sources"
-msgstr "Vaikimisi"
+msgstr "Vaikimisi allikad"
 
 #: ../plugins/default-source/org-gnome-default-source.eplug.xml.h:2
-#, fuzzy
 msgid ""
 "Provides functionallity for marking a calendar or addressbook as the default "
 "one."
-msgstr "Tagab ilmakalendrite põhitalitluse."
+msgstr "."
 
 #: ../plugins/exchange-operations/e-foreign-folder-dialog.glade.h:1
 msgid "Open Other User's Folder"
@@ -15294,7 +15271,7 @@ msgstr ""
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:53
 msgid "The Exchange server is not compatible with Exchange Connector."
-msgstr ""
+msgstr "Exchange server pole Exchange Connector'iga ühilduv."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:54
 msgid ""
@@ -15358,31 +15335,28 @@ msgid "You may only configure a single Exchange account."
 msgstr ""
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:72
-#, fuzzy
 msgid ""
 "Your current usage is: {0} KB. Try to clear up some space by deleting some "
 "mails."
 msgstr ""
-"Sinu praegune kasutatav maht on {0}KB. Proovi mõnede sõnumite kustutamise "
+"Sinu praegune kasutatav maht on {0} KB. Proovi mõnede sõnumite kustutamise "
 "abil vaba ruumi juurde teha."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:73
-#, fuzzy
 msgid ""
 "Your current usage is: {0} KB. You will not be able to either send or "
 "receive mails now."
 msgstr ""
-"Sinu praegune kasutatav maht on {0}KB. Hetkel ei ole sul võimalik sõnumeid "
+"Sinu praegune kasutatav maht on {0} KB. Hetkel ei ole sul võimalik sõnumeid "
 "saata ega vastu võtta."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:74
-#, fuzzy
 msgid ""
 "Your current usage is: {0} KB. You will not be able to send mails till you "
 "clear up some space by deleting some mails."
 msgstr ""
-"Sinu praegune kasutatav maht on {0}KB. Sul pole võimalik sõnumeid saata ega "
-"vastu võtta enne kui sa pole mõne sõnumi kustutamise abil omale vaba ruumi "
+"Sinu praegune kasutatav maht on {0} KB. Sul pole võimalik sõnumeid saata ega "
+"vastu võtta enne, kui sa pole mõne sõnumi kustutamise abil omale vaba ruumi "
 "juurde loonud."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:75
@@ -18231,24 +18205,20 @@ msgid "Attach"
 msgstr "Manusta"
 
 #: ../ui/evolution-editor.xml.h:2
-#, fuzzy
 msgid "Click here to attach a file"
-msgstr "<kausta valimiseks kliki siia>"
+msgstr "Faili manustamiseks klõpsa siia"
 
 #: ../ui/evolution-editor.xml.h:3
-#, fuzzy
 msgid "Click here to close the current window"
-msgstr "Sulge fail"
+msgstr "Käesoleva akna sulgemiseks klõpsa siia"
 
 #: ../ui/evolution-editor.xml.h:4
-#, fuzzy
 msgid "Click here to save the current window"
-msgstr "Sulge fail"
+msgstr "Käesoleva akna salvestamiseks klõpsa siia"
 
 #: ../ui/evolution-editor.xml.h:5
-#, fuzzy
 msgid "Click here to view help available"
-msgstr "<kuupäeva valimiseks kliki siia>"
+msgstr "Saadaoleva abiteabe vaatamiseks klõpsa siia"
 
 #.
 #. <cmd name="FileSave" _label="Save"
