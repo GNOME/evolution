@@ -188,7 +188,7 @@ week_start_day_changed (GtkWidget *widget, CalendarPrefsDialog *prefs)
 {
 	int week_start_day;
 
-	week_start_day = e_dialog_option_menu_get (prefs->week_start_day, week_start_day_map);
+	week_start_day = e_dialog_combo_box_get (prefs->week_start_day, week_start_day_map);
 	calendar_config_set_week_start_day (week_start_day);
 }
 
@@ -210,7 +210,7 @@ time_divisions_changed (GtkWidget *widget, CalendarPrefsDialog *prefs)
 {
 	int time_divisions;
 
-	time_divisions = e_dialog_option_menu_get (prefs->time_divisions, time_division_map);
+	time_divisions = e_dialog_combo_box_get (prefs->time_divisions, time_division_map);
 	calendar_config_set_time_divisions (time_divisions);
 }
 
@@ -285,15 +285,20 @@ default_reminder_toggled (GtkToggleButton *toggle, CalendarPrefsDialog *prefs)
 static void
 default_reminder_interval_changed (GtkWidget *widget, CalendarPrefsDialog *prefs)
 {
-	calendar_config_set_default_reminder_interval (
-		e_dialog_spin_get_int (prefs->default_reminder_interval));
+	const gchar *str;
+	gdouble value;
+
+	str = gtk_entry_get_text (GTK_ENTRY (widget));
+	value = g_ascii_strtod (str, NULL);
+
+	calendar_config_set_default_reminder_interval (value);
 }
 
 static void
 default_reminder_units_changed (GtkWidget *widget, CalendarPrefsDialog *prefs)
 {
 	calendar_config_set_default_reminder_units (
-		e_dialog_option_menu_get (prefs->default_reminder_units, default_reminder_units_map));
+		e_dialog_combo_box_get (prefs->default_reminder_units, default_reminder_units_map));
 }
 
 static void

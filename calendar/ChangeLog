@@ -1,3 +1,12 @@
+2006-01-19  Johnny Jacob  <johnnyjacob@gmail.com>
+
+	Fixes #327487
+	* gui/dialogs/cal-prefs-dialog.c (default_reminder_units_changed),
+	(time_divisions_changed), (week_start_day_changed) : Use 
+	e_dialog_combo_box functions to access the widgets.
+	(default_reminder_interval_changed): Hack to update the spin
+	 button value
+
 2006-01-19  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #327293
