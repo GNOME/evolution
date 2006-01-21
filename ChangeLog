@@ -1,3 +1,7 @@
+2006-01-21  Chao-Hsiung Liao  <j_h_liau@yahoo.com.tw>
+
+	* configure.in: Add "zh_HK" to ALL_LINGUAS.
+	
 2006-01-19  Harish Krishnaswamy  <kharish@novell.com>
 
 	* configure.in: Fix to allow longer file names 
