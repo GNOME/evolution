@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-01-16 17:51+0100\n"
-"PO-Revision-Date: 2006-01-16 17:58+0100\n"
+"POT-Creation-Date: 2006-01-21 19:41+0100\n"
+"PO-Revision-Date: 2006-01-21 19:53+0100\n"
 "Last-Translator: Francisco Javier F. Serrador <serrador@cvs.gnome.org>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -2667,7 +2667,7 @@ msgstr "Servicio de _MI:"
 #: ../addressbook/gui/contact-editor/im.glade.h:5
 #: ../plugins/calendar-weather/calendar-weather.c:409
 #: ../plugins/exchange-operations/exchange-calendar.c:234
-#: ../plugins/exchange-operations/exchange-contacts.c:214
+#: ../plugins/exchange-operations/exchange-contacts.c:216
 msgid "_Location:"
 msgstr "_Lugar:"
 
@@ -3661,6 +3661,36 @@ msgstr "Vista de la tarjeta"
 msgid "GTK Tree View"
 msgstr "Vista de árbol GTK"
 
+#: ../addressbook/importers/evolution-csv-importer.c:521
+#: ../mail/importers/evolution-outlook-importer.c:264
+#: ../mail/importers/netscape-importer.c:1252
+msgid "Importing..."
+msgstr "Importando…"
+
+#: ../addressbook/importers/evolution-csv-importer.c:723
+msgid "Outlook CSV or Tab (.csv, .tab)"
+msgstr "VSC o Tab de Outlook (.csv, .tab)"
+
+#: ../addressbook/importers/evolution-csv-importer.c:724
+msgid "Outlook CSV and Tab Importer"
+msgstr "Importador de VSC y Tab"
+
+#: ../addressbook/importers/evolution-csv-importer.c:732
+msgid "Mozilla CSV or Tab (.csv, .tab)"
+msgstr "VSC o Tab de Mozilla (.csv, .tab)"
+
+#: ../addressbook/importers/evolution-csv-importer.c:733
+msgid "Mozilla CSV and Tab Importer"
+msgstr "Importador de VSC y Tab de Mozilla"
+
+#: ../addressbook/importers/evolution-csv-importer.c:741
+msgid "Evolution CSV or Tab (.csv, .tab)"
+msgstr "VSC o Tab de Evolution (.csv, .tab)"
+
+#: ../addressbook/importers/evolution-csv-importer.c:742
+msgid "Evolution CSV and Tab Importer"
+msgstr "Importador de VSC y Tab de Evolution"
+
 #: ../addressbook/importers/evolution-ldif-importer.c:583
 #: ../addressbook/importers/evolution-vcard-importer.c:250
 #: ../calendar/importers/icalendar-importer.c:312
@@ -3849,7 +3879,7 @@ msgstr "Escala de grises"
 #: ../addressbook/printing/e-contact-print.glade.h:36
 #: ../plugins/exchange-operations/exchange-account-setup.c:949
 #: ../plugins/exchange-operations/exchange-calendar.c:224
-#: ../plugins/exchange-operations/exchange-contacts.c:197
+#: ../plugins/exchange-operations/exchange-contacts.c:199
 msgid "Size:"
 msgstr "Tamaño:"
 
@@ -5501,7 +5531,7 @@ msgid "E_nable"
 msgstr "_Activar"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:18
-#: ../calendar/gui/dialogs/event-editor.c:555
+#: ../calendar/gui/dialogs/event-editor.c:566
 #: ../ui/evolution-event-editor.xml.h:7
 msgid "Free/Busy"
 msgstr "Disponibilidad"
@@ -5757,6 +5787,7 @@ msgid "_Refresh:"
 msgstr "_Refrescar:"
 
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:11
+#: ../plugins/caldav/caldav-source.c:247
 #: ../plugins/calendar-http/calendar-http.c:133
 msgid "_URL:"
 msgstr "_URL:"
@@ -5885,7 +5916,7 @@ msgstr "Mostrar _barra de adjuntos"
 #: ../calendar/gui/dialogs/comp-editor.c:1094
 #: ../calendar/gui/dialogs/event-page.c:1895
 #: ../calendar/gui/dialogs/meeting-page.c:909
-#: ../calendar/gui/dialogs/task-page.c:1183
+#: ../calendar/gui/dialogs/task-page.c:1206
 #: ../composer/e-msg-composer-attachment-bar.c:470
 #: ../composer/e-msg-composer.c:3601
 #: ../plugins/groupwise-features/junk-settings.glade.h:8
@@ -6045,17 +6076,17 @@ msgstr "Delegar en:"
 msgid "Enter Delegate"
 msgstr "Introducir un delegado"
 
-#: ../calendar/gui/dialogs/event-editor.c:531
+#: ../calendar/gui/dialogs/event-editor.c:541
 msgid "Appoint_ment"
 msgstr "_Cita"
 
-#: ../calendar/gui/dialogs/event-editor.c:535
+#: ../calendar/gui/dialogs/event-editor.c:545
 #: ../ui/evolution-event-editor.xml.h:13
 msgid "Recurrence"
 msgstr "Repetición"
 
 #: ../calendar/gui/dialogs/event-page.c:878
-#: ../calendar/gui/dialogs/task-page.c:444
+#: ../calendar/gui/dialogs/task-page.c:446
 msgid "Or_ganizer"
 msgstr "Or_ganizador"
 
@@ -6076,7 +6107,7 @@ msgid "Event with no end date"
 msgstr "Acontecimiento sin fecha de finalización"
 
 #: ../calendar/gui/dialogs/event-page.c:1254
-#: ../calendar/gui/dialogs/task-page.c:848
+#: ../calendar/gui/dialogs/task-page.c:851
 msgid "Start date is wrong"
 msgstr "La fecha de inicio está equivocada"
 
@@ -6094,25 +6125,25 @@ msgstr "La  hora de finalización  está equivocada"
 
 #: ../calendar/gui/dialogs/event-page.c:1449
 #: ../calendar/gui/dialogs/meeting-page.c:464
-#: ../calendar/gui/dialogs/task-page.c:905
+#: ../calendar/gui/dialogs/task-page.c:908
 msgid "The organizer selected no longer has an account."
 msgstr "El organizador seleccionado ya no tiene una cuenta."
 
 #: ../calendar/gui/dialogs/event-page.c:1455
 #: ../calendar/gui/dialogs/meeting-page.c:470
-#: ../calendar/gui/dialogs/task-page.c:911
+#: ../calendar/gui/dialogs/task-page.c:914
 msgid "An organizer is required."
 msgstr "Se requiere un organizador."
 
 #: ../calendar/gui/dialogs/event-page.c:1470
 #: ../calendar/gui/dialogs/meeting-page.c:485
-#: ../calendar/gui/dialogs/task-page.c:926
+#: ../calendar/gui/dialogs/task-page.c:929
 msgid "At least one attendee is required."
 msgstr "Es necesario por lo menos un participante."
 
 #: ../calendar/gui/dialogs/event-page.c:1896
 #: ../calendar/gui/dialogs/meeting-page.c:910
-#: ../calendar/gui/dialogs/task-page.c:1184
+#: ../calendar/gui/dialogs/task-page.c:1207
 msgid "_Add "
 msgstr "_Añadir"
 
@@ -6610,15 +6641,15 @@ msgstr "_Tarea"
 msgid "Task Details"
 msgstr "Detalles"
 
-#: ../calendar/gui/dialogs/task-page.c:437
+#: ../calendar/gui/dialogs/task-page.c:439
 msgid "_Group"
 msgstr "_Grupo"
 
-#: ../calendar/gui/dialogs/task-page.c:821
+#: ../calendar/gui/dialogs/task-page.c:824
 msgid "Due date is wrong"
 msgstr "La fecha de vencimiento es errónea"
 
-#: ../calendar/gui/dialogs/task-page.c:1635
+#: ../calendar/gui/dialogs/task-page.c:1659
 #, c-format
 msgid "Unable to open tasks in '%s'."
 msgstr "No es posible abrir las tareas en «%s»."
@@ -12605,11 +12636,6 @@ msgstr "Importador de carpetas en formato buzón de Berkeley"
 msgid "Importing `%s'"
 msgstr "Importando «%s»"
 
-#: ../mail/importers/evolution-outlook-importer.c:264
-#: ../mail/importers/netscape-importer.c:1252
-msgid "Importing..."
-msgstr "Importando…"
-
 #: ../mail/importers/evolution-outlook-importer.c:266
 #: ../mail/importers/netscape-importer.c:1254
 #: ../plugins/startup-wizard/startup-wizard.c:236
@@ -13345,7 +13371,7 @@ msgstr ""
 " Teclee el nombre por el que quiere identificar a esta cuenta.\n"
 " Por ejemplo: «Trabajo» o «Personal»"
 
-#: ../mail/mail-config.glade.h:149
+#: ../mail/mail-config.glade.h:149 ../plugins/caldav/caldav-source.c:282
 msgid "User_name:"
 msgstr "_Usuario:"
 
@@ -14688,15 +14714,24 @@ msgstr "Sincronizar con la lista de _compañeros ahora"
 #: ../plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:2
 msgid ""
 "Automatically fills your addressbook with names and email addresses as you "
-"reply to mails. Also fills in IM contact information from your buddy lists."
+"reply to messages. Also fills in IM contact information from your buddy "
+"lists."
 msgstr ""
-"Rellena automáticamente la libreta de contactos con los nombres y "
-"direcciones de correo-e cuando contesta a los correos. También rellenar la "
+"Rellena automáticamente su libreta de contactos con los nombres y "
+"direcciones de correo-e cuando contesta a los correos. También rellena la "
 "información de contacto de MI de su lista de amigos."
 
 #: ../plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:3
 msgid "BBDB"
 msgstr "BBDB"
+
+#: ../plugins/caldav/caldav-source.c:64 ../plugins/caldav/caldav-source.c:68
+msgid "CalDAV"
+msgstr "CalDAV"
+
+#: ../plugins/caldav/caldav-source.c:269
+msgid "Use _SSL"
+msgstr "Usar _SSL"
 
 #: ../plugins/calendar-file/org-gnome-calendar-file.eplug.xml.h:1
 msgid "Local Calendars"
@@ -14945,7 +14980,7 @@ msgid "Ch_eck for Supported Types"
 msgstr "_Comprobar tipos soportados "
 
 #: ../plugins/exchange-operations/exchange-calendar.c:192
-#: ../plugins/exchange-operations/exchange-contacts.c:162
+#: ../plugins/exchange-operations/exchange-contacts.c:164
 msgid ""
 "Evolution is in offline mode. You cannot create or modify folders now.\n"
 "Please switch to online mode for such operations."
@@ -15499,7 +15534,7 @@ msgid "Unsupported operation"
 msgstr "Operación no soportada"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:68
-msgid "You are nearing your quota available for storing mails on this server."
+msgid "You are nearing your quota available for storing mail on this server."
 msgstr "Está cerca de su cuota disponible para almacenar correo en este servidor."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:69
@@ -15507,7 +15542,7 @@ msgid "You cannot make yourself your own delegate"
 msgstr "No puede hacerse así mismo su propio delegado"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:70
-msgid "You have exceeded your quota for storing mails on this server."
+msgid "You have exceeded your quota for storing mail on this server."
 msgstr "Ha excedido su cuota para almacenar correo en este servidor."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:71
@@ -15517,24 +15552,22 @@ msgstr "Sólo puede configurar una sola cuenta de Exchange."
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:72
 msgid ""
 "Your current usage is: {0} KB. Try to clear up some space by deleting some "
-"mails."
-msgstr ""
-"Su uso actual es: {0} Kib. Intente hacer algo de espacio borrando algunos "
-"correos."
+"mail."
+msgstr "Su uso actual es: {0} Kib. Intente hacer algo de espacio borrando algunos mensajes."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:73
 msgid ""
 "Your current usage is: {0} KB. You will not be able to either send or "
-"receive mails now."
-msgstr "Su uso actual es: {0} Kib. No podrá ni enviar ni recibir mensajes ahora."
+"receive mail now."
+msgstr "Su uso actual es: {0} Kib. No podrá ni enviar ni recibir correo ahora."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:74
 msgid ""
-"Your current usage is: {0} KB. You will not be able to send mails till you "
-"clear up some space by deleting some mails."
+"Your current usage is: {0} KB. You will not be able to send mail until you "
+"clear up some space by deleting some mail."
 msgstr ""
-"Su uso actual es: {0} Kib. No podrá enviar mensajes hasta que haga algo de "
-"espacio borrando algunos correos."
+"Su uso actual es: {0} Kib. No podrá enviar correo hasta que haga algo de "
+"espacio borrando algunos mensajes."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:75
 msgid "Your password has expired."
@@ -15780,7 +15813,7 @@ msgstr "Carpeta compartida _nueva…"
 msgid "Sharing"
 msgstr "Compartir"
 
-#: ../plugins/groupwise-features/status-track.c:235
+#: ../plugins/groupwise-features/status-track.c:242
 msgid "Track Message Status..."
 msgstr "Seguir el estado del mensaje…"
 
@@ -15791,6 +15824,31 @@ msgstr "Un complemento para configurar fuentes de calendarios hula."
 #: ../plugins/hula-account-setup/org-gnome-evolution-hula-account-setup.eplug.xml.h:2
 msgid "Hula Account Setup"
 msgstr "Configuración de la cuenta Hula"
+
+#: ../plugins/import-ics-attachments/icsimporter.c:81
+msgid "_Import to Calendar"
+msgstr "_Importar al calendario"
+
+#: ../plugins/import-ics-attachments/icsimporter.c:86
+msgid "_Import to Tasks"
+msgstr "_Importar a las tareas"
+
+#: ../plugins/import-ics-attachments/icsimporter.c:196
+msgid "Import ICS"
+msgstr "Importar ICS"
+
+#: ../plugins/import-ics-attachments/icsimporter.c:224
+msgid "Select Task List"
+msgstr "Seleccione la lista de tareas"
+
+#: ../plugins/import-ics-attachments/icsimporter.c:228
+msgid "Select Calendar"
+msgstr "Seleccione el calendario"
+
+#: ../plugins/import-ics-attachments/icsimporter.c:259
+#: ../shell/e-shell-importer.c:703
+msgid "_Import"
+msgstr "_Importar"
 
 #: ../plugins/ipod-sync/ical-format.c:137
 #: ../plugins/save-calendar/ical-format.c:137
@@ -16717,7 +16775,7 @@ msgstr "Complemento"
 #: ../plugins/prefer-plain/org-gnome-prefer-plain.eplug.xml.h:1
 msgid ""
 "A test plugin which demonstrates a formatter plugin which lets you choose to "
-"disable HTML mails.\n"
+"disable HTML messages.\n"
 "\n"
 "This plugin is unsupported demonstration code only.\n"
 msgstr ""
@@ -17296,12 +17354,8 @@ msgstr "Importar datos y configuración de programas _antiguos"
 msgid "Import a _single file"
 msgstr "Importar un _único archivo"
 
-#: ../shell/e-shell-importer.c:703
-msgid "_Import"
-msgstr "_Importar"
-
 #: ../shell/e-shell-settings-dialog.c:318
-msgid "Evolution Settings"
+msgid "Evolution Preferences"
 msgstr "Preferencias de Evolution"
 
 #: ../shell/e-shell-utils.c:118
@@ -19457,7 +19511,7 @@ msgid "_Post-To Field"
 msgstr "Campo «_Publicar-en»"
 
 #: ../ui/evolution-message-composer.xml.h:51
-msgid "_Prioritise Message"
+msgid "_Prioritize Message"
 msgstr "_Priorizar mensaje"
 
 #: ../ui/evolution-message-composer.xml.h:52
@@ -19718,8 +19772,8 @@ msgid "View/Hide the Status Bar"
 msgstr "Ver/Ocultar la barra de estado"
 
 #: ../ui/evolution.xml.h:36
-msgid "_About Evolution..."
-msgstr "A_cerca de Evolution…"
+msgid "_About"
+msgstr "A_cerca de"
 
 #: ../ui/evolution.xml.h:37
 msgid "_Close Window"
@@ -21031,6 +21085,12 @@ msgstr "Contexto IM"
 #: ../widgets/text/e-text.c:3711 ../widgets/text/e-text.c:3712
 msgid "Handle Popup"
 msgstr "Tirador emergente"
+
+#~ msgid "Evolution Settings"
+#~ msgstr "Preferencias de Evolution"
+
+#~ msgid "_About Evolution..."
+#~ msgstr "A_cerca de Evolution…"
 
 #~ msgid "_Attachment Bar"
 #~ msgstr "Barra de _adjuntos"
