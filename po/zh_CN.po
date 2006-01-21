@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Evolution 2.6\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-01-18 05:51+0100\n"
-"PO-Revision-Date: 2006-01-18 21:25+0800\n"
+"POT-Creation-Date: 2006-01-21 05:49+0100\n"
+"PO-Revision-Date: 2006-01-21 18:36+0800\n"
 "Last-Translator: Funda Wang <fundawang@linux.net.cn>\n"
 "Language-Team: zh_CN <i18n-translation@lists.linux.net.cn>\n"
 "MIME-Version: 1.0\n"
@@ -2612,7 +2612,7 @@ msgstr "即时通讯服务(_I)："
 #: ../addressbook/gui/contact-editor/im.glade.h:5
 #: ../plugins/calendar-weather/calendar-weather.c:409
 #: ../plugins/exchange-operations/exchange-calendar.c:234
-#: ../plugins/exchange-operations/exchange-contacts.c:214
+#: ../plugins/exchange-operations/exchange-contacts.c:216
 msgid "_Location:"
 msgstr "位置(_L)："
 
@@ -3810,7 +3810,7 @@ msgstr "阴影"
 #: ../addressbook/printing/e-contact-print.glade.h:36
 #: ../plugins/exchange-operations/exchange-account-setup.c:949
 #: ../plugins/exchange-operations/exchange-calendar.c:224
-#: ../plugins/exchange-operations/exchange-contacts.c:197
+#: ../plugins/exchange-operations/exchange-contacts.c:199
 msgid "Size:"
 msgstr "大小："
 
@@ -5378,7 +5378,7 @@ msgid "E_nable"
 msgstr "启用(_N)"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:18
-#: ../calendar/gui/dialogs/event-editor.c:555
+#: ../calendar/gui/dialogs/event-editor.c:566
 #: ../ui/evolution-event-editor.xml.h:7
 msgid "Free/Busy"
 msgstr "忙/闲"
@@ -5759,7 +5759,7 @@ msgstr "显示附件栏(_B)"
 #: ../calendar/gui/dialogs/comp-editor.c:1094
 #: ../calendar/gui/dialogs/event-page.c:1895
 #: ../calendar/gui/dialogs/meeting-page.c:909
-#: ../calendar/gui/dialogs/task-page.c:1183
+#: ../calendar/gui/dialogs/task-page.c:1206
 #: ../composer/e-msg-composer-attachment-bar.c:470
 #: ../composer/e-msg-composer.c:3601
 #: ../plugins/groupwise-features/junk-settings.glade.h:8
@@ -5915,17 +5915,17 @@ msgstr "授权给："
 msgid "Enter Delegate"
 msgstr "输入代表"
 
-#: ../calendar/gui/dialogs/event-editor.c:531
+#: ../calendar/gui/dialogs/event-editor.c:541
 msgid "Appoint_ment"
 msgstr "约会(_M)"
 
-#: ../calendar/gui/dialogs/event-editor.c:535
+#: ../calendar/gui/dialogs/event-editor.c:545
 #: ../ui/evolution-event-editor.xml.h:13
 msgid "Recurrence"
 msgstr "再现("
 
 #: ../calendar/gui/dialogs/event-page.c:878
-#: ../calendar/gui/dialogs/task-page.c:444
+#: ../calendar/gui/dialogs/task-page.c:446
 msgid "Or_ganizer"
 msgstr "组织者(_G)"
 
@@ -5946,7 +5946,7 @@ msgid "Event with no end date"
 msgstr "没有结束日期的事件"
 
 #: ../calendar/gui/dialogs/event-page.c:1254
-#: ../calendar/gui/dialogs/task-page.c:848
+#: ../calendar/gui/dialogs/task-page.c:851
 msgid "Start date is wrong"
 msgstr "开始日期有错"
 
@@ -5964,25 +5964,25 @@ msgstr "结束时间有错"
 
 #: ../calendar/gui/dialogs/event-page.c:1449
 #: ../calendar/gui/dialogs/meeting-page.c:464
-#: ../calendar/gui/dialogs/task-page.c:905
+#: ../calendar/gui/dialogs/task-page.c:908
 msgid "The organizer selected no longer has an account."
 msgstr "选中的组织者没有帐户了。"
 
 #: ../calendar/gui/dialogs/event-page.c:1455
 #: ../calendar/gui/dialogs/meeting-page.c:470
-#: ../calendar/gui/dialogs/task-page.c:911
+#: ../calendar/gui/dialogs/task-page.c:914
 msgid "An organizer is required."
 msgstr "需要一名组织者。"
 
 #: ../calendar/gui/dialogs/event-page.c:1470
 #: ../calendar/gui/dialogs/meeting-page.c:485
-#: ../calendar/gui/dialogs/task-page.c:926
+#: ../calendar/gui/dialogs/task-page.c:929
 msgid "At least one attendee is required."
 msgstr "需要至少一个出席者。"
 
 #: ../calendar/gui/dialogs/event-page.c:1896
 #: ../calendar/gui/dialogs/meeting-page.c:910
-#: ../calendar/gui/dialogs/task-page.c:1184
+#: ../calendar/gui/dialogs/task-page.c:1207
 msgid "_Add "
 msgstr "添加(_A)"
 
@@ -6478,15 +6478,15 @@ msgstr "任务(_T)"
 msgid "Task Details"
 msgstr "任务细节"
 
-#: ../calendar/gui/dialogs/task-page.c:437
+#: ../calendar/gui/dialogs/task-page.c:439
 msgid "_Group"
 msgstr "组(_G)"
 
-#: ../calendar/gui/dialogs/task-page.c:821
+#: ../calendar/gui/dialogs/task-page.c:824
 msgid "Due date is wrong"
 msgstr "到期日期错误"
 
-#: ../calendar/gui/dialogs/task-page.c:1635
+#: ../calendar/gui/dialogs/task-page.c:1659
 #, c-format
 msgid "Unable to open tasks in '%s'."
 msgstr "无法打开“%s”中的任务。"
@@ -11510,8 +11510,8 @@ msgid ""
 "difficult, but not impossible for an outsider to view the content of this "
 "message in a practical amount of time."
 msgstr ""
-"这封信已加密，但使用的是弱加密算法。如果外人想要查看这封信的内容，可能要花一定"
-"时间进行暴力破解，这很困难但并不是不可能。"
+"这封信已加密，但使用的是弱加密算法。如果外人想要查看这封信的内容，可能要花一"
+"定时间进行暴力破解，这很困难但并不是不可能。"
 
 #: ../mail/em-format-html-display.c:763 ../mail/em-format-html.c:618
 msgid "Encrypted"
@@ -14392,7 +14392,8 @@ msgstr "立即同步好友列表(_B)"
 #: ../plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:2
 msgid ""
 "Automatically fills your addressbook with names and email addresses as you "
-"reply to mails. Also fills in IM contact information from your buddy lists."
+"reply to messages. Also fills in IM contact information from your buddy "
+"lists."
 msgstr ""
 "在您回复邮件时自动用姓名和电子邮件地址填入您的地址簿。同时还将填入您好友列表"
 "的即时通讯联系信息。"
@@ -14647,7 +14648,7 @@ msgid "Ch_eck for Supported Types"
 msgstr "检查支持的类型(_E)"
 
 #: ../plugins/exchange-operations/exchange-calendar.c:192
-#: ../plugins/exchange-operations/exchange-contacts.c:162
+#: ../plugins/exchange-operations/exchange-contacts.c:164
 msgid ""
 "Evolution is in offline mode. You cannot create or modify folders now.\n"
 "Please switch to online mode for such operations."
@@ -15181,7 +15182,7 @@ msgid "Unsupported operation"
 msgstr "不支持的操作"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:68
-msgid "You are nearing your quota available for storing mails on this server."
+msgid "You are nearing your quota available for storing mail on this server."
 msgstr "您即将用完您在此服务器上的存储邮件的配额。"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:69
@@ -15189,8 +15190,8 @@ msgid "You cannot make yourself your own delegate"
 msgstr "您不能授权给您自己"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:70
-msgid "You have exceeded your quota for storing mails on this server."
-msgstr "您已经达到了在此服务器上存储邮件的配额。"
+msgid "You have exceeded your quota for storing mail on this server."
+msgstr "您已经超过了在此服务器上存储邮件的配额。"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:71
 msgid "You may only configure a single Exchange account."
@@ -15199,19 +15200,19 @@ msgstr "您只能配置单个 Exchange 账户。"
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:72
 msgid ""
 "Your current usage is: {0} KB. Try to clear up some space by deleting some "
-"mails."
+"mail."
 msgstr "您目前使用了 {0} KB。试着通过删除邮件来清理一些空间。"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:73
 msgid ""
 "Your current usage is: {0} KB. You will not be able to either send or "
-"receive mails now."
+"receive mail now."
 msgstr "您目前使用了 {0} KB。您现在既不能发送也不能接收邮件。"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:74
 msgid ""
-"Your current usage is: {0} KB. You will not be able to send mails till you "
-"clear up some space by deleting some mails."
+"Your current usage is: {0} KB. You will not be able to send mail until you "
+"clear up some space by deleting some mail."
 msgstr "您目前使用了 {0} KB。您将无法发送邮件，除非您通过删除邮件来清理空间。"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:75
@@ -15456,7 +15457,7 @@ msgstr "新建共享文件夹(_S)..."
 msgid "Sharing"
 msgstr "共享"
 
-#: ../plugins/groupwise-features/status-track.c:235
+#: ../plugins/groupwise-features/status-track.c:242
 msgid "Track Message Status..."
 msgstr "跟踪信件状态..."
 
@@ -15467,6 +15468,31 @@ msgstr "设置 Hula 日历源的插件。"
 #: ../plugins/hula-account-setup/org-gnome-evolution-hula-account-setup.eplug.xml.h:2
 msgid "Hula Account Setup"
 msgstr "Hula 账户设置"
+
+#: ../plugins/import-ics-attachments/icsimporter.c:81
+msgid "_Import to Calendar"
+msgstr "导入到日历(_I)"
+
+#: ../plugins/import-ics-attachments/icsimporter.c:86
+msgid "_Import to Tasks"
+msgstr "导入到任务(_I)"
+
+#: ../plugins/import-ics-attachments/icsimporter.c:196
+msgid "Import ICS"
+msgstr "导入 ICS"
+
+#: ../plugins/import-ics-attachments/icsimporter.c:224
+msgid "Select Task List"
+msgstr "选择任务列表"
+
+#: ../plugins/import-ics-attachments/icsimporter.c:228
+msgid "Select Calendar"
+msgstr "选择日历"
+
+#: ../plugins/import-ics-attachments/icsimporter.c:259
+#: ../shell/e-shell-importer.c:703
+msgid "_Import"
+msgstr "导入(_I)"
 
 #: ../plugins/ipod-sync/ical-format.c:137
 #: ../plugins/save-calendar/ical-format.c:137
@@ -16361,7 +16387,7 @@ msgstr "插件"
 #: ../plugins/prefer-plain/org-gnome-prefer-plain.eplug.xml.h:1
 msgid ""
 "A test plugin which demonstrates a formatter plugin which lets you choose to "
-"disable HTML mails.\n"
+"disable HTML messages.\n"
 "\n"
 "This plugin is unsupported demonstration code only.\n"
 msgstr ""
@@ -16509,8 +16535,7 @@ msgstr "垃圾克星(内置)"
 msgid ""
 "Filters junk messages using Spamassassin. This plugin requires Spamassassin "
 "to be installed."
-msgstr ""
-"使用垃圾克星过滤垃圾邮件。此插件需要安装 Spamassassin。"
+msgstr "使用垃圾克星过滤垃圾邮件。此插件需要安装 Spamassassin。"
 
 #: ../plugins/sa-junk-plugin/org-gnome-sa-junk-plugin.eplug.xml.h:2
 msgid "Spamassassin junk plugin"
@@ -16922,10 +16947,6 @@ msgstr "从旧版程序中导入数据和设置(_O)"
 #: ../shell/e-shell-importer.c:341
 msgid "Import a _single file"
 msgstr "导入单个文件(_S)"
-
-#: ../shell/e-shell-importer.c:703
-msgid "_Import"
-msgstr "导入(_I)"
 
 #: ../shell/e-shell-settings-dialog.c:318
 msgid "Evolution Settings"
@@ -19060,7 +19081,7 @@ msgid "_Post-To Field"
 msgstr "投递到域(_P)"
 
 #: ../ui/evolution-message-composer.xml.h:51
-msgid "_Prioritise Message"
+msgid "_Prioritize Message"
 msgstr "标为优先(_P)"
 
 #: ../ui/evolution-message-composer.xml.h:52
@@ -19319,8 +19340,8 @@ msgid "View/Hide the Status Bar"
 msgstr "查看/隐藏状态栏"
 
 #: ../ui/evolution.xml.h:36
-msgid "_About Evolution..."
-msgstr "关于 Evolution(_A)..."
+msgid "_About"
+msgstr "关于(_A)"
 
 #: ../ui/evolution.xml.h:37
 msgid "_Close Window"
