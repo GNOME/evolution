@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-01-20 08:28+0200\n"
-"PO-Revision-Date: 2006-01-16 21:45+0200\n"
+"POT-Creation-Date: 2006-01-21 22:20+0200\n"
+"PO-Revision-Date: 2006-01-21:22:25+0200\n"
 "Last-Translator: Ilkka Tuohela <hile@iki.fi>\n"
 "Language-Team: Finnish <gnome-fi-laatu@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -5874,7 +5874,7 @@ msgstr "Näytä _liitepalkki"
 #: ../calendar/gui/dialogs/comp-editor.c:1094
 #: ../calendar/gui/dialogs/event-page.c:1895
 #: ../calendar/gui/dialogs/meeting-page.c:909
-#: ../calendar/gui/dialogs/task-page.c:1183
+#: ../calendar/gui/dialogs/task-page.c:1206
 #: ../composer/e-msg-composer-attachment-bar.c:470
 #: ../composer/e-msg-composer.c:3601
 #: ../plugins/groupwise-features/junk-settings.glade.h:8
@@ -6041,7 +6041,7 @@ msgid "Recurrence"
 msgstr "Toistuvuus"
 
 #: ../calendar/gui/dialogs/event-page.c:878
-#: ../calendar/gui/dialogs/task-page.c:444
+#: ../calendar/gui/dialogs/task-page.c:446
 msgid "Or_ganizer"
 msgstr "_Järjestäjä"
 
@@ -6062,7 +6062,7 @@ msgid "Event with no end date"
 msgstr "Tapahtuma ilman päättymispäivää"
 
 #: ../calendar/gui/dialogs/event-page.c:1254
-#: ../calendar/gui/dialogs/task-page.c:848
+#: ../calendar/gui/dialogs/task-page.c:851
 msgid "Start date is wrong"
 msgstr "Aloituspäiväys on virheellinen"
 
@@ -6080,25 +6080,25 @@ msgstr "Lopetusaika on virheellinen"
 
 #: ../calendar/gui/dialogs/event-page.c:1449
 #: ../calendar/gui/dialogs/meeting-page.c:464
-#: ../calendar/gui/dialogs/task-page.c:905
+#: ../calendar/gui/dialogs/task-page.c:908
 msgid "The organizer selected no longer has an account."
 msgstr "Valitulla järjestäjällä ei enää ole käyttäjätiliä"
 
 #: ../calendar/gui/dialogs/event-page.c:1455
 #: ../calendar/gui/dialogs/meeting-page.c:470
-#: ../calendar/gui/dialogs/task-page.c:911
+#: ../calendar/gui/dialogs/task-page.c:914
 msgid "An organizer is required."
 msgstr "Järjestäjä vaaditaan."
 
 #: ../calendar/gui/dialogs/event-page.c:1470
 #: ../calendar/gui/dialogs/meeting-page.c:485
-#: ../calendar/gui/dialogs/task-page.c:926
+#: ../calendar/gui/dialogs/task-page.c:929
 msgid "At least one attendee is required."
 msgstr "Vähintään yksi läsnäolija vaaditaan."
 
 #: ../calendar/gui/dialogs/event-page.c:1896
 #: ../calendar/gui/dialogs/meeting-page.c:910
-#: ../calendar/gui/dialogs/task-page.c:1184
+#: ../calendar/gui/dialogs/task-page.c:1207
 msgid "_Add "
 msgstr "_Lisää "
 
@@ -6598,15 +6598,15 @@ msgstr "_Tehtävä"
 msgid "Task Details"
 msgstr "Tehtävän yksityiskohdat"
 
-#: ../calendar/gui/dialogs/task-page.c:437
+#: ../calendar/gui/dialogs/task-page.c:439
 msgid "_Group"
 msgstr "_Ryhmä"
 
-#: ../calendar/gui/dialogs/task-page.c:821
+#: ../calendar/gui/dialogs/task-page.c:824
 msgid "Due date is wrong"
 msgstr "Eräpäivä on virheellinen"
 
-#: ../calendar/gui/dialogs/task-page.c:1635
+#: ../calendar/gui/dialogs/task-page.c:1659
 #, c-format
 msgid "Unable to open tasks in '%s'."
 msgstr "Tehtäviä kohteesta '%s' ei voi avata."
@@ -14685,8 +14685,8 @@ msgid ""
 "reply to messages. Also fills in IM contact information from your buddy "
 "lists."
 msgstr ""
-"Lisää nimet ja sähköpostiosoitteet automaattisesti osoitekirjaan, kun vastaat "
-"viesteihin. Liittää myös IM-yhteystiedot kaverilistoiltasi."
+"Lisää nimet ja sähköpostiosoitteet automaattisesti osoitekirjaan, kun "
+"vastaat viesteihin. Liittää myös IM-yhteystiedot kaverilistoiltasi."
 
 #: ../plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:3
 msgid "BBDB"
@@ -15495,7 +15495,8 @@ msgstr "Toimenpide ei ole tuettu"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:68
 msgid "You are nearing your quota available for storing mail on this server."
-msgstr "Sähköpostisi tallennukseen varattu tila tällä palvelimella alkaa loppua."
+msgstr ""
+"Sähköpostisi tallennukseen varattu tila tällä palvelimella alkaa loppua."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:69
 msgid "You cannot make yourself your own delegate"
@@ -17312,7 +17313,7 @@ msgid "Import a _single file"
 msgstr "Tuo _yksi tiedosto"
 
 #: ../shell/e-shell-settings-dialog.c:318
-msgid "Evolution Settings"
+msgid "Evolution Preferences"
 msgstr "Evolutionin asetukset"
 
 #: ../shell/e-shell-utils.c:118
@@ -21038,6 +21039,9 @@ msgstr "IM-konteksti"
 #: ../widgets/text/e-text.c:3711 ../widgets/text/e-text.c:3712
 msgid "Handle Popup"
 msgstr "Kahvan ponnahdusikkuna"
+
+#~ msgid "Evolution Settings"
+#~ msgstr "Evolutionin asetukset"
 
 #~ msgid "_About Evolution..."
 #~ msgstr "_Tietoja Evolutionista"
