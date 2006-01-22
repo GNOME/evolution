@@ -34,6 +34,7 @@
 #include <mail/mail-mt.h>
 #include <mail/em-folder-view.h>
 #include <mail/em-format-html-display.h>
+#include <mail/em-utils.h>
 #include "e-attachment-bar.h"
 #include <camel/camel-vee-folder.h>
 #include "e-util/e-error.h"
@@ -45,6 +46,7 @@
 #include <libedataserverui/e-source-selector.h>
 #include <libecal/e-cal.h>
 #include <libical/icalvcal.h>
+#include <calendar/common/authentication.h>
 
 typedef struct {
 	ECal *client;
@@ -78,12 +80,12 @@ popup_free (EPopup *ep, GSList *items, void *data)
 
 static EPopupItem popup_calendar_items[] = {
 	{ E_POPUP_BAR, "25.display.00"},
-	{ E_POPUP_ITEM, "25.display.01", N_("_Import to Calendar"), import_ics, NULL, "stock_mail-import"}
+	{ E_POPUP_ITEM, "25.display.01", N_("_Import to Calendar"), (EPopupActivateFunc)import_ics, NULL, "stock_mail-import"}
 };
 
 static EPopupItem popup_tasks_items[] = {
 	{ E_POPUP_BAR, "25.display.00"},
-	{ E_POPUP_ITEM, "25.display.01", N_("_Import to Tasks"), import_ics, NULL, "stock_mail-import"}
+	{ E_POPUP_ITEM, "25.display.01", N_("_Import to Tasks"), (EPopupActivateFunc)import_ics, NULL, "stock_mail-import"}
 };
 
 
@@ -138,7 +140,6 @@ get_menu_type (void *data)
 {
 	CamelMimePart *part;
 	char *path;
-	gint i=0;
 	icalcomponent *icalcomp, *subcomp;
 	icalcomponent_kind kind;
 	EPopupTarget *target = (EPopupTarget *) data;	
@@ -160,7 +161,7 @@ get_menu_type (void *data)
 	} else if ( kind == ICAL_VEVENT_COMPONENT) {
 		return ICAL_VEVENT_COMPONENT;
 	}
-	printf ("completed add_menu_type\n");
+	return ICAL_NO_COMPONENT;
 }
 
 static void
@@ -273,21 +274,21 @@ static void
 dialog_response_cb (GtkDialog *dialog, gint response_id, ICalImporterData *icidata)
 {
 	switch (response_id) {
-	case GTK_RESPONSE_OK :
-		import_items(icidata);
-	break;
+		case GTK_RESPONSE_OK :
+			import_items(icidata);
+		break;
 
-	case GTK_RESPONSE_CANCEL :
-	case GTK_RESPONSE_DELETE_EVENT :
-		gtk_signal_emit_by_name (dialog, "close");	
-	break;
+		case GTK_RESPONSE_CANCEL :
+		case GTK_RESPONSE_DELETE_EVENT :
+			gtk_signal_emit_by_name ((GtkObject *)dialog, "close");	
+		break;
 	}
 }
 
 static void 
 dialog_close_cb (GtkDialog *dialog, ICalImporterData *icidata)
 {
-	gtk_widget_destroy (dialog);
+	gtk_widget_destroy ((GtkWidget *)dialog);
 }
 
 /* This removes all components except VEVENTs and VTIMEZONEs from the toplevel */
@@ -423,11 +424,11 @@ get_icalcomponent_from_file(char *filename)
 	char *contents;
 	icalcomponent *icalcomp;
 
-	g_return_if_fail (filename != NULL);
+	g_return_val_if_fail (filename != NULL, NULL);
 
 	if (!g_file_get_contents (filename, &contents, NULL, NULL)) {
 		g_free (filename);
-		return;
+		return NULL;
 	}
 	g_free (filename);
 
