@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 2.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-01-22 20:08+0200\n"
-"PO-Revision-Date: 2006-01-22 20:08+0200\n"
+"POT-Creation-Date: 2006-01-22 20:24+0200\n"
+"PO-Revision-Date: 2006-01-22 20:24+0200\n"
 "Last-Translator: Alexander Shopov <ash@contact.bg>\n"
 "Language-Team: Bulgarian <dict@fsa-bg.org>\n"
 "MIME-Version: 1.0\n"
@@ -846,8 +846,8 @@ msgid ""
 "The number of characters that must be typed before Evolution will attempt to "
 "autocomplete."
 msgstr ""
-"Броят символи, които трябва да бъдат изписани, преди Evolution да се опита "
-"да довърши израза автоматично."
+"Броят знаци, които трябва да бъдат изписани, преди Evolution да се опита да "
+"довърши израза автоматично."
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:7
 msgid "URI for the folder last used in the select names dialog"
@@ -12403,7 +12403,7 @@ msgstr "Предупреждаване, когато потребителя по
 #: ../mail/evolution-mail.schemas.in.in.h:60
 msgid "Prompt when user tries to open 10 or more messages at once"
 msgstr ""
-"Предупреждаване когато потребител се опита да отвори 10 или повече писма "
+"Предупреждаване, когато потребител се опита да отвори 10 или повече писма "
 "едновременно"
 
 #: ../mail/evolution-mail.schemas.in.in.h:61
@@ -17394,15 +17394,15 @@ msgstr "Папката няма име."
 
 #: ../shell/e-shell-utils.c:125
 msgid "Folder name cannot contain the Return character."
-msgstr "В името на папката не може да се съдържа символа „Return“"
+msgstr "В името на папката не може да се съдържа знака „Return“"
 
 #: ../shell/e-shell-utils.c:131
 msgid "Folder name cannot contain the character \"/\"."
-msgstr "В името на папката не може да се съдържа символа „/“."
+msgstr "В името на папката не може да се съдържа знака „/“."
 
 #: ../shell/e-shell-utils.c:137
 msgid "Folder name cannot contain the character \"#\"."
-msgstr "В името на папката не може да се съдържа символа „#“."
+msgstr "В името на папката не може да се съдържа знака „#“."
 
 #: ../shell/e-shell-utils.c:143
 msgid "'.' and '..' are reserved folder names."
@@ -20221,7 +20221,7 @@ msgstr "Неизвестна кодова таблица: %s"
 
 #: ../widgets/misc/e-charset-picker.c:216
 msgid "Character Encoding"
-msgstr "Кодиране на символите"
+msgstr "Кодиране на знаците"
 
 #: ../widgets/misc/e-charset-picker.c:231
 msgid "Enter the character set to use"
@@ -20298,8 +20298,8 @@ msgid ""
 "If set, an underline in the text indicates the next character should be used "
 "for the mnemonic accelerator key"
 msgstr ""
-"Ако е настроено, подчертаването в текста обозначава, че следващия символ "
-"трябва да се използва като клавиш за мнемоничен ускорител"
+"Ако е зададено, подчертаването в текста обозначава, че следващия знак трябва "
+"да се използва като клавиш за мнемоничен ускорител"
 
 #: ../widgets/misc/e-expander.c:206
 msgid "Space to put between the label and the child"
@@ -20991,7 +20991,7 @@ msgstr "Ретро изглед"
 
 #: ../widgets/table/e-tree.c:3318
 msgid "Draw lines and +/- expanders."
-msgstr "Изчертаване на линиите и символите за разширяване „+“ и „-“"
+msgstr "Изчертаване на линиите и знаците за разширяване „+“ и „-“"
 
 #: ../widgets/text/e-entry-test.c:49
 msgid "Minicard Test"
@@ -21041,7 +21041,7 @@ msgstr "Пренасяне на редове"
 #: ../widgets/text/e-entry.c:1340 ../widgets/text/e-entry.c:1341
 #: ../widgets/text/e-text.c:3640 ../widgets/text/e-text.c:3641
 msgid "Break characters"
-msgstr "Изходни символи"
+msgstr "Пренасяне на знаците"
 
 #: ../widgets/text/e-entry.c:1347 ../widgets/text/e-entry.c:1348
 #: ../widgets/text/e-text.c:3647 ../widgets/text/e-text.c:3648
