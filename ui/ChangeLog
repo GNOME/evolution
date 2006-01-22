@@ -1,3 +1,8 @@
+2006-01-22  Ranjan Somani  <sranjan@novell.com>
+
+	* ui/evolution-mail-message.xml: Removed the extra toolbar separator 
+	 Fixes #326387
+
 2006-01-19  Andre Klapper <a9016009@gmx.de>
 
 	* evolution-meesage-composer.xml: changing British English to

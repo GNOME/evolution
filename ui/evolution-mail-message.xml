@@ -431,8 +431,6 @@
        pixtype="pixbuf"/>
     </placeholder>
 
-    <separator f="" name="emailmessage"/>
-
     <placeholder name="MailNextButtons">
       <toolitem name="MailPrevious" verb=""
        _label="Previous"
