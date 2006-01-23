@@ -571,6 +571,7 @@ print_month_small (GnomePrintContext *pc, GnomeCalendar *gcal, time_t month,
 	double font_size, max_font_size;
 	double header_size, col_width, row_height, text_xpad, w;
 	double cell_top, cell_bottom, cell_left, cell_right, text_right;
+	/* Translators: These are workday abbreviations, e.g. Su=Sunday and Th=Thursday */
 	char *daynames[] = { N_("Su"), N_("Mo"), N_("Tu"), N_("We"),
 			     N_("Th"), N_("Fr"), N_("Sa") };
 

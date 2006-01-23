@@ -1,3 +1,8 @@
+2006-01-23  Andre Klapper <a9016009@gmx.de>
+
+	* gui/print.c: added translator comments to workday
+	abbreviations. Fixes bug 328007.
+
 2006-01-23  Pavithran <pavithran@gmx.de>
 
 	** Fixes bug #327713 , #327730
