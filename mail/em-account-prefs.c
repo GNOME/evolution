@@ -433,6 +433,7 @@ mail_accounts_load (EMAccountPrefs *prefs)
 	char *name, *val;
 	EIterator *node;
 	int row = 0;
+	GtkTreeSelection *selection;
 	
 	model = (GtkListStore *) gtk_tree_view_get_model (prefs->table);
 	gtk_list_store_clear (model);
@@ -441,6 +442,8 @@ mail_accounts_load (EMAccountPrefs *prefs)
 	
 	accounts = mail_config_get_accounts ();
 	node = e_list_get_iterator ((EList *) accounts);
+	selection = gtk_tree_view_get_selection(prefs->table);
+	
 	while (e_iterator_is_valid (node)) {
 		EAccount *account;
 		CamelURL *url;
@@ -470,6 +473,10 @@ mail_accounts_load (EMAccountPrefs *prefs)
 			if (url)
 				camel_url_free (url);
 		
+			/* select the first row by default */
+			if (row == 0)
+				gtk_tree_selection_select_iter (selection, &iter);					                       
+									
 			row++;
 		}
 		

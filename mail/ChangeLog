@@ -1,3 +1,21 @@
+2006-01-23  Ranjan Somani  <sranjan@novell.com>
+
+	** Fixes #326795
+
+	* em-message-browser.c: Pressing Esc key lets u close the window
+
+2006-01-20  Nancy Cai <nancy.cai@sun.com>
+	
+	** Fixes #326649
+
+	* em-account-prefs.c: (mail_accounts_load):select the first row
+
+2006-01-23  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* em-format-html-display.c (efhd_attachment_bar_refresh),
+	(efhd_mnemonic_show_bar), (efhd_add_bar): Added Mnemonics for Save /
+	Save All and for show/hide attachment bar.
+
 2006-01-19  Ranjan Somani  <sranjan@novell.com>
 
  	** Fixes #318785

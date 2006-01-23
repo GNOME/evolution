@@ -132,6 +132,7 @@ struct _EMFormatHTMLDisplayPrivate {
 	GtkWidget *attachment_bar;
 	GtkWidget *attachment_box;
 	GtkWidget *label;
+	GtkWidget *save_txt;
 	GtkWidget *arrow;
 	GtkWidget *forward;
 	GtkWidget *down;
@@ -1937,13 +1938,14 @@ efhd_attachment_bar_refresh (EMFormatHTMLDisplay *efhd)
 		char *txt;
 
 		/* Cant i put in the number of attachments here ?*/
-		txt = g_strdup_printf(ngettext("%d attachment", "%d attachments", nattachments), nattachments);
-		gtk_label_set_text ((GtkLabel *)efhd->priv->label, txt);
+		txt = g_strdup_printf(ngettext("%d attachme_nt", "%d attachme_nts", nattachments), nattachments);
+		gtk_label_set_text_with_mnemonic ((GtkLabel *)efhd->priv->label, txt);
 		g_free (txt);
 	
 		/* Show the bar even when the first attachment is added */
 		if (nattachments == 1) {
 			gtk_widget_show_all (efhd->priv->attachment_area);
+			gtk_label_set_text_with_mnemonic ((GtkLabel *)efhd->priv->save_txt, _("S_ave"));
 			
 			if (efhd->priv->show_bar) {
 				gtk_widget_show(efhd->priv->down);
@@ -1953,6 +1955,8 @@ efhd_attachment_bar_refresh (EMFormatHTMLDisplay *efhd)
 				gtk_widget_hide(efhd->priv->down);
 				gtk_widget_hide(efhd->priv->attachment_box);
 			}
+		} else if (nattachments > 1) {
+			gtk_label_set_text_with_mnemonic ((GtkLabel *)efhd->priv->save_txt, _("S_ave All"));			
 		}
 	}
 }
@@ -1983,15 +1987,25 @@ efhd_bar_scroll_event(GtkWidget *w, GdkEventScroll *event, EMFormatHTMLDisplay *
 	return TRUE;
 }
 
+gboolean 
+efhd_mnemonic_show_bar (GtkWidget *widget, gboolean focus, GtkWidget *efhd)
+{
+	attachment_bar_arrow_clicked (NULL, efhd);
+
+	return TRUE;
+}
+
 static gboolean
 efhd_add_bar(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject *pobject)
 {
 	EMFormatHTMLDisplay *efhd = (EMFormatHTMLDisplay *)efh;
 	struct _EMFormatHTMLDisplayPrivate *priv = efhd->priv;
-	GtkWidget *hbox1, *hbox2, *hbox3, *vbox, *txt, *image, *save;
+	GtkWidget *hbox1, *hbox2, *hbox3, *vbox, *txt, *image, *save, *scroll;
 	int width, height;
 
 	priv->attachment_bar = e_attachment_bar_new(NULL);
+	scroll = gtk_scrolled_window_new (NULL, NULL);
+	gtk_scrolled_window_set_policy (scroll, GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
 	((EAttachmentBar *)priv->attachment_bar)->expand = TRUE;
 	
 	priv->forward = gtk_arrow_new(GTK_ARROW_RIGHT, GTK_SHADOW_NONE);
@@ -2000,12 +2014,16 @@ efhd_add_bar(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject *pobjec
 	gtk_box_pack_start ((GtkBox *)hbox3, priv->forward, FALSE, FALSE, 0);
 	gtk_box_pack_start ((GtkBox *)hbox3, priv->down, FALSE, FALSE, 0);
 	priv->arrow = (GtkWidget *)gtk_tool_button_new(hbox3, NULL);
+	g_signal_connect (priv->arrow, "mnemonic_activate", G_CALLBACK (efhd_mnemonic_show_bar), efh);
+	printf("it is %d %d \n", priv->arrow, efh);
 	atk_object_set_name (gtk_widget_get_accessible (priv->arrow), _("Toggle Attachment Bar"));
 
 	priv->label = gtk_label_new(_("No Attachment"));
+	gtk_label_set_mnemonic_widget (priv->label, priv->arrow);
 	save = gtk_button_new();
 	image = gtk_image_new_from_stock ("gtk-save", GTK_ICON_SIZE_BUTTON);
-	txt = gtk_label_new(_("Save All"));
+	txt = gtk_label_new_with_mnemonic(_("S_ave"));
+	priv->save_txt = txt;
 	hbox1 = gtk_hbox_new(FALSE, 0);
 	gtk_box_pack_start((GtkBox *)hbox1, image, FALSE, FALSE, 2);
 	gtk_box_pack_start((GtkBox *)hbox1, txt, FALSE, FALSE, 0);
@@ -2017,7 +2035,8 @@ efhd_add_bar(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject *pobjec
 	gtk_box_pack_start ((GtkBox *)hbox2, priv->label, FALSE, FALSE, 2);
 	gtk_box_pack_start ((GtkBox *)hbox2, save, FALSE, FALSE, 2);
 
-	priv->attachment_box = gtk_frame_new (NULL);
+	priv->attachment_box = scroll;
+	gtk_scrolled_window_set_shadow_type (scroll, GTK_SHADOW_IN);
 	gtk_container_add ((GtkContainer *)priv->attachment_box, priv->attachment_bar);
 
 	gtk_widget_get_size_request(priv->attachment_bar, &width, &height);

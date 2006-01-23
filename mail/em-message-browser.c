@@ -37,6 +37,8 @@
 #include <gtk/gtkscrolledwindow.h>
 #include <gtk/gtkbutton.h>
 
+#include <gdk/gdkkeysyms.h>
+
 #include <gconf/gconf-client.h>
 
 #include <camel/camel-folder.h>
@@ -214,6 +216,18 @@ GtkWidget *em_message_browser_new(void)
 	return (GtkWidget *)emmb;
 }
 
+static int
+messagebrowser_key_pressed (EMMessageBrowser *emmb, GdkEventKey *event, void *user_data)
+{
+	if (event->keyval == GDK_Escape) {
+		gtk_widget_destroy(gtk_widget_get_toplevel((GtkWidget *)emmb));
+		g_signal_stop_emission_by_name (emmb, "key-press-event"); 
+		return TRUE;
+	}
+	
+	return FALSE;
+}
+
 GtkWidget *em_message_browser_window_new(void)
 {
 	EMMessageBrowser *emmb;
@@ -257,6 +271,7 @@ GtkWidget *em_message_browser_window_new(void)
 	gtk_window_set_default_size ((GtkWindow *) emmb->window, window_size.width, window_size.height);
 	g_signal_connect (emmb->window, "size-allocate", G_CALLBACK (window_size_allocate), NULL);
 	g_signal_connect (((EMFolderView *) emmb)->list, "message_selected", G_CALLBACK (emmb_list_message_selected), emmb);
+	g_signal_connect (emmb, "key-press-event" , G_CALLBACK (messagebrowser_key_pressed), NULL); 
 	
 	/* cleanup? */
 
