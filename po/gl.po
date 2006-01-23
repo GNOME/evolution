@@ -40,8 +40,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gl\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-01-20 12:39+0100\n"
-"PO-Revision-Date: 2006-01-20 12:44+0100\n"
+"POT-Creation-Date: 2006-01-23 16:12+0100\n"
+"PO-Revision-Date: 2006-01-23 16:17+0100\n"
 "Last-Translator: Ignacio Casal Quinteiro <nacho.resa@gmail.com>\n"
 "Language-Team: Galego\n"
 "MIME-Version: 1.0\n"
@@ -833,12 +833,12 @@ msgstr "Selector de orixe de contactos"
 msgid "Accessing LDAP Server anonymously"
 msgstr "Accedendo ao servidor LDAP anonimamente"
 
-#: ../addressbook/gui/component/addressbook.c:191
+#: ../addressbook/gui/component/addressbook.c:197
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:492
 msgid "Failed to authenticate.\n"
 msgstr "Fallou ao autenticar.\n"
 
-#: ../addressbook/gui/component/addressbook.c:198
+#: ../addressbook/gui/component/addressbook.c:204
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:471
 #, c-format
 msgid "Enter password for %s (user %s)"
@@ -2535,21 +2535,25 @@ msgstr ""
 msgid "Invalid contact."
 msgstr "Contacto inválido."
 
-#: ../addressbook/gui/contact-editor/e-contact-quick-add.c:277
+#: ../addressbook/gui/contact-editor/e-contact-quick-add.c:291
 msgid "Contact Quick-Add"
 msgstr "Engadir contacto rápido"
 
-#: ../addressbook/gui/contact-editor/e-contact-quick-add.c:280
+#: ../addressbook/gui/contact-editor/e-contact-quick-add.c:294
 msgid "_Edit Full"
 msgstr "_Editar Completo"
 
-#: ../addressbook/gui/contact-editor/e-contact-quick-add.c:306
-msgid "_Full name:"
-msgstr "Nome _Completo:"
+#: ../addressbook/gui/contact-editor/e-contact-quick-add.c:337
+msgid "_Full name"
+msgstr "Nome _completo"
 
-#: ../addressbook/gui/contact-editor/e-contact-quick-add.c:316
-msgid "E-_mail:"
-msgstr "Correo _Electrónico:"
+#: ../addressbook/gui/contact-editor/e-contact-quick-add.c:347
+msgid "E-_mail"
+msgstr "Correo _electrónico"
+
+#: ../addressbook/gui/contact-editor/e-contact-quick-add.c:357
+msgid "_Select Address Book"
+msgstr "_Seleccione o Libro de Enderezos"
 
 #: ../addressbook/gui/contact-editor/eab-editor.c:323
 #, c-format
@@ -3015,12 +3019,10 @@ msgid "Email"
 msgstr "Correo Electrónico"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:11
-#: ../addressbook/gui/widgets/eab-popup-control.c:441
 msgid "Email 2"
 msgstr "Correo Electrónico 2"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:12
-#: ../addressbook/gui/widgets/eab-popup-control.c:451
 msgid "Email 3"
 msgstr "Correo Electrónico 3"
 
@@ -3614,40 +3616,9 @@ msgstr "Información de contacto"
 msgid "Contact information for %s"
 msgstr "Información de contacto de %s"
 
-#.
-#. * This is the code for the UI thingie that lets you manipulate the e-mail
-#. * addresses (and *only* the e-mail addresses) associated with an existing
-#. * contact.
-#.
-#: ../addressbook/gui/widgets/eab-popup-control.c:198
-msgid "(none)"
-msgstr "(ningún)"
-
-#: ../addressbook/gui/widgets/eab-popup-control.c:431
-msgid "Primary Email"
-msgstr "Correo Electrónico Principal"
-
-#: ../addressbook/gui/widgets/eab-popup-control.c:567
-msgid "Select an Action"
-msgstr "Escolla unha Acción"
-
-#: ../addressbook/gui/widgets/eab-popup-control.c:575
-#, c-format
-msgid "Create a new contact \"%s\""
-msgstr "Crear un novo contacto \"%s\""
-
-#: ../addressbook/gui/widgets/eab-popup-control.c:591
-#, c-format
-msgid "Add address to existing contact \"%s\""
-msgstr "Engadir un enderezo a un contacto existente \"%s\""
-
-#: ../addressbook/gui/widgets/eab-popup-control.c:869
+#: ../addressbook/gui/widgets/eab-popup-control.c:287
 msgid "Querying Address Book..."
 msgstr "Consultando o libro de enderezos..."
-
-#: ../addressbook/gui/widgets/eab-popup-control.c:968
-msgid "Merge E-Mail Address"
-msgstr "Mestura-lo Enderezo de Correo"
 
 #: ../addressbook/gui/widgets/eab-vcard-control.c:139
 #, c-format
@@ -3677,33 +3648,33 @@ msgstr "Vista de Tarxeta"
 msgid "GTK Tree View"
 msgstr "Vista de árbore GTK"
 
-#: ../addressbook/importers/evolution-csv-importer.c:521
+#: ../addressbook/importers/evolution-csv-importer.c:624
 #: ../mail/importers/evolution-outlook-importer.c:264
 #: ../mail/importers/netscape-importer.c:1252
 msgid "Importing..."
 msgstr "Importando..."
 
-#: ../addressbook/importers/evolution-csv-importer.c:723
+#: ../addressbook/importers/evolution-csv-importer.c:826
 msgid "Outlook CSV or Tab (.csv, .tab)"
 msgstr "Outlook CSV ou Tab (.csv, .tab)"
 
-#: ../addressbook/importers/evolution-csv-importer.c:724
+#: ../addressbook/importers/evolution-csv-importer.c:827
 msgid "Outlook CSV and Tab Importer"
 msgstr "Outlook CSV e importador Tab"
 
-#: ../addressbook/importers/evolution-csv-importer.c:732
+#: ../addressbook/importers/evolution-csv-importer.c:835
 msgid "Mozilla CSV or Tab (.csv, .tab)"
 msgstr "Mozilla CSV ou Tab (.csv, .tab)"
 
-#: ../addressbook/importers/evolution-csv-importer.c:733
+#: ../addressbook/importers/evolution-csv-importer.c:836
 msgid "Mozilla CSV and Tab Importer"
 msgstr "Mozilla CSV e importador Tab"
 
-#: ../addressbook/importers/evolution-csv-importer.c:741
+#: ../addressbook/importers/evolution-csv-importer.c:844
 msgid "Evolution CSV or Tab (.csv, .tab)"
 msgstr "Evolution CSV ou Tab (.csv, .tab)"
 
-#: ../addressbook/importers/evolution-csv-importer.c:742
+#: ../addressbook/importers/evolution-csv-importer.c:845
 msgid "Evolution CSV and Tab Importer"
 msgstr "Evolution CSV e importador Tab"
 
@@ -3893,7 +3864,7 @@ msgstr "Sombreado"
 
 #. FIXME: Take care of i18n
 #: ../addressbook/printing/e-contact-print.glade.h:36
-#: ../plugins/exchange-operations/exchange-account-setup.c:949
+#: ../plugins/exchange-operations/exchange-account-setup.c:965
 #: ../plugins/exchange-operations/exchange-calendar.c:224
 #: ../plugins/exchange-operations/exchange-contacts.c:199
 msgid "Size:"
@@ -4559,7 +4530,6 @@ msgid "Snooze _time:"
 msgstr "_Pospoñer o aviso:"
 
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:4
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:54
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:6
 #: ../filter/filter.glade.h:11 ../mail/mail-config.glade.h:159
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:15
@@ -5470,56 +5440,54 @@ msgstr ""
 "10 minutos\n"
 "05 minutos"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:6
-msgid "<b>Publishing</b>"
-msgstr "<b>Publicación</b>"
-
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:8
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:7
 #, no-c-format
 msgid "<i>%u and %d will be replaced by user and domain from the email address.</i>"
 msgstr "<i>%u e %d reemprazarán polo usuario e o dominio do enderezo de correo-e.</i>"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:9
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:8
 #: ../mail/mail-config.glade.h:9
 msgid "<span weight=\"bold\">Alerts</span>"
 msgstr "<span weight=\"bold\">Alertas</span>"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:10
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:9
 msgid "<span weight=\"bold\">Default Free/Busy Server</span>"
 msgstr "<span weight=\"bold\">Servidor Libre/Ocupado por defecto</span>"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:11
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:10
 #: ../mail/mail-config.glade.h:18
 #: ../plugins/itip-formatter/itip-formatter.c:1977
 #: ../plugins/publish-calendar/publish-calendar.glade.h:1
 msgid "<span weight=\"bold\">General</span>"
 msgstr "<span weight=\"bold\">Xeral</span>"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:12
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:11
 msgid "<span weight=\"bold\">Task List</span>"
 msgstr "<span weight=\"bold\">Lista de tarefas</span>"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:13
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:12
 msgid "<span weight=\"bold\">Time</span>"
 msgstr "<span weight=\"bold\">Hora</span>"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:14
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:13
 msgid "<span weight=\"bold\">Work Week</span>"
 msgstr "<span weight=\"bold\">Semana laboral</span>"
 
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:14
+msgid "Color for overdue tasks"
+msgstr "Cor para as tarefas vencidas"
+
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:15
+msgid "Color for tasks due today"
+msgstr "Cor para as tarefas que vencen hoxe"
+
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:16
 msgid "Day _ends:"
 msgstr "A xornada _remata ás:"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:16
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:17
 msgid "Display"
 msgstr "Amosar"
-
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:17
-#: ../mail/mail-config.glade.h:74
-#: ../plugins/publish-calendar/publish-calendar.glade.h:9
-msgid "E_nable"
-msgstr "A_ctivar"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:18
 #: ../calendar/gui/dialogs/event-editor.c:566
@@ -5568,141 +5536,133 @@ msgstr ""
 "Domingo"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:32
-msgid "Publishing Table"
-msgstr "Táboa de publicación"
-
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:33
 msgid "S_un"
 msgstr "_Dom"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:34
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:33
 #: ../calendar/gui/dialogs/recurrence-page.c:1051
 #: ../calendar/gui/e-itip-control.c:734
 msgid "Saturday"
 msgstr "Sábado"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:35
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:34
 msgid "Sh_ow a reminder"
 msgstr "Am_osar un recordatorio"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:36
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:35
 msgid "Show week _numbers in date navigator"
 msgstr "Amosa-los _números das semanas no navegador de datas"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:37
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:36
 #: ../calendar/gui/dialogs/recurrence-page.c:1052
 #: ../calendar/gui/e-itip-control.c:728
 msgid "Sunday"
 msgstr "Domingo"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:38
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:37
 msgid "T_asks due today:"
 msgstr "Tarefas que _vencen hoxe:"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:39
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:38
 msgid "T_hu"
 msgstr "_Xov"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:40
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:39
 msgid "Template:"
 msgstr "Modelo:"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:41
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:40
 #: ../calendar/gui/dialogs/recurrence-page.c:1049
 #: ../calendar/gui/e-itip-control.c:732
 msgid "Thursday"
 msgstr "Xoves"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:42
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:41
 #: ../calendar/gui/dialogs/event-page.glade.h:14
 msgid "Time _zone:"
 msgstr "Fuso _horario:"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:43
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:42
 msgid "Time format:"
 msgstr "Formato da hora:"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:44
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:43
 #: ../calendar/gui/dialogs/recurrence-page.c:1047
 #: ../calendar/gui/e-itip-control.c:730
 msgid "Tuesday"
 msgstr "Martes"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:45
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:44
 msgid "W_eek starts:"
 msgstr "A _semana comeza en:"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:46
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:45
 #: ../calendar/gui/dialogs/recurrence-page.c:1048
 #: ../calendar/gui/e-itip-control.c:731
 msgid "Wednesday"
 msgstr "Mércores"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:47
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:46
 msgid "Work days:"
 msgstr "Días laborables:"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:48
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:47
 msgid "_12 hour (AM/PM)"
 msgstr "_12 horas (AM/PM)"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:49
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:48
 msgid "_24 hour"
 msgstr "_24 horas"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:50
-msgid "_Add URL"
-msgstr "_Engadir URL"
-
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:51
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:49
 msgid "_Ask for confirmation when deleting items"
 msgstr "_Pedir confirmación ao eliminar elementos"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:52
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:50
 msgid "_Compress weekends in month view"
 msgstr "_Comprimi-las fins de semana na vista mensual"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:53
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:51
 msgid "_Day begins:"
 msgstr "A _xornada comeza ás:"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:55
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:52
 msgid "_Fri"
 msgstr "_Ven"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:56
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:53
 msgid "_Hide completed tasks after"
 msgstr "_Agocha-las tarefas completadas despois de"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:57
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:54
 msgid "_Mon"
 msgstr "_Lun"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:58
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:55
 msgid "_Overdue tasks:"
 msgstr "Tarefas _atrasadas:"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:59
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:56
 msgid "_Sat"
 msgstr "_Sáb"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:60
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:57
 msgid "_Show appointment end times in week and month view"
 msgstr "_Amosar os prazos finais das citas nas vistas semanal e mensual"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:61
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:58
 msgid "_Time divisions:"
 msgstr "Di_visións horarias:"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:62
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:59
 msgid "_Tue"
 msgstr "_Mar"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:63
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:60
 msgid "_Wed"
 msgstr "Mé_r"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:64
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:61
 msgid "before every appointment"
 msgstr "antes de cada cita"
 
@@ -5905,7 +5865,7 @@ msgstr "Amosar _barra de adxuntos"
 #: ../calendar/gui/dialogs/comp-editor.c:1094
 #: ../calendar/gui/dialogs/event-page.c:1895
 #: ../calendar/gui/dialogs/meeting-page.c:909
-#: ../calendar/gui/dialogs/task-page.c:1183
+#: ../calendar/gui/dialogs/task-page.c:1206
 #: ../composer/e-msg-composer-attachment-bar.c:470
 #: ../composer/e-msg-composer.c:3601
 #: ../plugins/groupwise-features/junk-settings.glade.h:8
@@ -6073,7 +6033,7 @@ msgid "Recurrence"
 msgstr "Recorrencia"
 
 #: ../calendar/gui/dialogs/event-page.c:878
-#: ../calendar/gui/dialogs/task-page.c:444
+#: ../calendar/gui/dialogs/task-page.c:446
 msgid "Or_ganizer"
 msgstr "Or_ganizador"
 
@@ -6094,7 +6054,7 @@ msgid "Event with no end date"
 msgstr "Evento sen data de finalización"
 
 #: ../calendar/gui/dialogs/event-page.c:1254
-#: ../calendar/gui/dialogs/task-page.c:848
+#: ../calendar/gui/dialogs/task-page.c:851
 msgid "Start date is wrong"
 msgstr "A data de comezo é incorrecta"
 
@@ -6112,25 +6072,25 @@ msgstr "A hora de finalización está equivocada"
 
 #: ../calendar/gui/dialogs/event-page.c:1449
 #: ../calendar/gui/dialogs/meeting-page.c:464
-#: ../calendar/gui/dialogs/task-page.c:905
+#: ../calendar/gui/dialogs/task-page.c:908
 msgid "The organizer selected no longer has an account."
 msgstr "O organizador seleccionado xa non ten unha conta."
 
 #: ../calendar/gui/dialogs/event-page.c:1455
 #: ../calendar/gui/dialogs/meeting-page.c:470
-#: ../calendar/gui/dialogs/task-page.c:911
+#: ../calendar/gui/dialogs/task-page.c:914
 msgid "An organizer is required."
 msgstr "Requírese un organizador."
 
 #: ../calendar/gui/dialogs/event-page.c:1470
 #: ../calendar/gui/dialogs/meeting-page.c:485
-#: ../calendar/gui/dialogs/task-page.c:926
+#: ../calendar/gui/dialogs/task-page.c:929
 msgid "At least one attendee is required."
 msgstr "É necesario polo menos un participante."
 
 #: ../calendar/gui/dialogs/event-page.c:1896
 #: ../calendar/gui/dialogs/meeting-page.c:910
-#: ../calendar/gui/dialogs/task-page.c:1184
+#: ../calendar/gui/dialogs/task-page.c:1207
 msgid "_Add "
 msgstr "_Engadir "
 
@@ -6248,7 +6208,7 @@ msgstr "<b>De:</b>"
 #: ../calendar/gui/e-cal-model-tasks.c:654
 #: ../calendar/gui/e-itip-control.c:1105 ../composer/e-msg-composer.c:2275
 #: ../filter/filter-rule.c:881 ../mail/em-account-editor.c:691
-#: ../mail/em-account-editor.c:1356 ../mail/em-account-prefs.c:465
+#: ../mail/em-account-editor.c:1356 ../mail/em-account-prefs.c:468
 #: ../mail/em-folder-view.c:1106 ../mail/em-junk-hook.c:78
 #: ../plugins/calendar-weather/calendar-weather.c:370
 #: ../plugins/calendar-weather/calendar-weather.c:424
@@ -6628,15 +6588,15 @@ msgstr "_Tarefa"
 msgid "Task Details"
 msgstr "Detalles de tarefas"
 
-#: ../calendar/gui/dialogs/task-page.c:437
+#: ../calendar/gui/dialogs/task-page.c:439
 msgid "_Group"
 msgstr "_Grupo"
 
-#: ../calendar/gui/dialogs/task-page.c:821
+#: ../calendar/gui/dialogs/task-page.c:824
 msgid "Due date is wrong"
 msgstr "A data de vencemento é errónea"
 
-#: ../calendar/gui/dialogs/task-page.c:1635
+#: ../calendar/gui/dialogs/task-page.c:1659
 #, c-format
 msgid "Unable to open tasks in '%s'."
 msgstr "Non é posible abrir as tarefas en '%s'."
@@ -6935,7 +6895,7 @@ msgstr "Asignada"
 msgid "Save As..."
 msgstr "Gardar Como..."
 
-#: ../calendar/gui/e-cal-popup.c:188 ../mail/em-format-html-display.c:1865
+#: ../calendar/gui/e-cal-popup.c:188 ../mail/em-format-html-display.c:1866
 msgid "Select folder to save selected attachments..."
 msgstr "Seleccione o cartafol onde gardar os adxuntos seleccionados..."
 
@@ -7195,19 +7155,25 @@ msgid "Delete _All Occurrences"
 msgstr "Borrar _Tódalas Ocorrencias"
 
 #. To Translators: It will display "Organiser: NameOfTheUser <email@ofuser.com>"
-#: ../calendar/gui/e-calendar-view.c:2043
+#: ../calendar/gui/e-calendar-view.c:2045
 #, c-format
 msgid "Organizer: %s <%s>"
 msgstr "Organizador: %s <%s>"
 
+#. With SunOne accouts, there may be no ':' in organiser.value
+#: ../calendar/gui/e-calendar-view.c:2049
+#, c-format
+msgid "Organizer: %s"
+msgstr "Organizador: %s"
+
 #. To Translators: It will display "Location: PlaceOfTheMeeting"
-#: ../calendar/gui/e-calendar-view.c:2057 ../calendar/gui/print.c:2340
+#: ../calendar/gui/e-calendar-view.c:2064 ../calendar/gui/print.c:2340
 #, c-format
 msgid "Location: %s"
 msgstr "Localización: %s"
 
 #. To Translators: It will display "Time: ActualStartDateAndTime (DurationOfTheMeeting)"
-#: ../calendar/gui/e-calendar-view.c:2088
+#: ../calendar/gui/e-calendar-view.c:2095
 #, c-format
 msgid "Time: %s %s"
 msgstr "Hora: %s %s"
@@ -11011,26 +10977,26 @@ msgid "Enable"
 msgstr "Activado"
 
 #. translators: default account indicator
-#: ../mail/em-account-prefs.c:456
+#: ../mail/em-account-prefs.c:459
 msgid "[Default]"
 msgstr "[Predeterminado]"
 
 #. g_object_set((GObject *)renderer, "activatable", TRUE, NULL);
-#: ../mail/em-account-prefs.c:505 ../mail/em-composer-prefs.c:930
+#: ../mail/em-account-prefs.c:512 ../mail/em-composer-prefs.c:930
 #: ../plugins/plugin-manager/plugin-manager.c:213
 #: ../plugins/publish-calendar/publish-calendar.c:457
 msgid "Enabled"
 msgstr "Activado"
 
-#: ../mail/em-account-prefs.c:511
+#: ../mail/em-account-prefs.c:518
 msgid "Account name"
 msgstr "Nome da Conta"
 
-#: ../mail/em-account-prefs.c:513
+#: ../mail/em-account-prefs.c:520
 msgid "Protocol"
 msgstr "Protocolo"
 
-#: ../mail/em-account-prefs.c:518
+#: ../mail/em-account-prefs.c:525
 msgid "Mail Accounts Table"
 msgstr "Táboa de contas de correo"
 
@@ -11657,16 +11623,16 @@ msgid "Click to mail %s"
 msgstr "Prema para enviar correo a %s"
 
 #. message-search popup match count string
-#: ../mail/em-format-html-display.c:492
+#: ../mail/em-format-html-display.c:493
 #, c-format
 msgid "Matches: %d"
 msgstr "Coincide con: %d"
 
-#: ../mail/em-format-html-display.c:752 ../mail/em-format-html.c:607
+#: ../mail/em-format-html-display.c:753 ../mail/em-format-html.c:607
 msgid "Unsigned"
 msgstr "Non asinado"
 
-#: ../mail/em-format-html-display.c:752
+#: ../mail/em-format-html-display.c:753
 msgid ""
 "This message is not signed. There is no guarantee that this message is "
 "authentic."
@@ -11674,11 +11640,11 @@ msgstr ""
 "Esta mensaxe non está asinada. Non hai garantía de que a mensaxe sexa "
 "auténtica."
 
-#: ../mail/em-format-html-display.c:753 ../mail/em-format-html.c:608
+#: ../mail/em-format-html-display.c:754 ../mail/em-format-html.c:608
 msgid "Valid signature"
 msgstr "Sinatura válida"
 
-#: ../mail/em-format-html-display.c:753
+#: ../mail/em-format-html-display.c:754
 msgid ""
 "This message is signed and is valid meaning that it is very likely that this "
 "message is authentic."
@@ -11686,11 +11652,11 @@ msgstr ""
 "Esta mensaxe está asinada e é válida, o que significa que é moi probable que "
 "a mensaxe sexa auténtica."
 
-#: ../mail/em-format-html-display.c:754 ../mail/em-format-html.c:609
+#: ../mail/em-format-html-display.c:755 ../mail/em-format-html.c:609
 msgid "Invalid signature"
 msgstr "Sinatura inválida"
 
-#: ../mail/em-format-html-display.c:754
+#: ../mail/em-format-html-display.c:755
 msgid ""
 "The signature of this message cannot be verified, it may have been altered "
 "in transit."
@@ -11698,11 +11664,11 @@ msgstr ""
 "A sinatura desta mensaxe non se pode verificar, puido haber sido alterada en "
 "tránsito."
 
-#: ../mail/em-format-html-display.c:755
+#: ../mail/em-format-html-display.c:756
 msgid "Valid signature, cannot verify sender"
 msgstr "Sinatura válida, non se pode verificar o remitente"
 
-#: ../mail/em-format-html-display.c:755
+#: ../mail/em-format-html-display.c:756
 msgid ""
 "This message is signed with a valid signature, but the sender of the message "
 "cannot be verified."
@@ -11710,11 +11676,11 @@ msgstr ""
 "Esta mensaxe está asinada cunha sinatura válida, pero o remitente da mensaxe "
 "non se puido verificar."
 
-#: ../mail/em-format-html-display.c:761 ../mail/em-format-html.c:616
+#: ../mail/em-format-html-display.c:762 ../mail/em-format-html.c:616
 msgid "Unencrypted"
 msgstr "Descifrado"
 
-#: ../mail/em-format-html-display.c:761
+#: ../mail/em-format-html-display.c:762
 msgid ""
 "This message is not encrypted. Its content may be viewed in transit across "
 "the Internet."
@@ -11722,11 +11688,11 @@ msgstr ""
 "Esta mensaxe non está cifrada. O seu contido pode verse en tránsito a través "
 "de Internet."
 
-#: ../mail/em-format-html-display.c:762 ../mail/em-format-html.c:617
+#: ../mail/em-format-html-display.c:763 ../mail/em-format-html.c:617
 msgid "Encrypted, weak"
 msgstr "Cifrado, débil"
 
-#: ../mail/em-format-html-display.c:762
+#: ../mail/em-format-html-display.c:763
 msgid ""
 "This message is encrypted, but with a weak encryption algorithm. It would be "
 "difficult, but not impossible for an outsider to view the content of this "
@@ -11736,11 +11702,11 @@ msgstr ""
 "difícil, pero non imposible para un espía ver o contido desta mensaxe "
 "empregando algo de tempo."
 
-#: ../mail/em-format-html-display.c:763 ../mail/em-format-html.c:618
+#: ../mail/em-format-html-display.c:764 ../mail/em-format-html.c:618
 msgid "Encrypted"
 msgstr "Cifrado"
 
-#: ../mail/em-format-html-display.c:763
+#: ../mail/em-format-html-display.c:764
 msgid ""
 "This message is encrypted.  It would be difficult for an outsider to view "
 "the content of this message."
@@ -11748,11 +11714,11 @@ msgstr ""
 "Esta mensaxe está cifrada. Sería difícil para un espía ver o contido desta "
 "mensaxe."
 
-#: ../mail/em-format-html-display.c:764 ../mail/em-format-html.c:619
+#: ../mail/em-format-html-display.c:765 ../mail/em-format-html.c:619
 msgid "Encrypted, strong"
 msgstr "Cifrado, forte"
 
-#: ../mail/em-format-html-display.c:764
+#: ../mail/em-format-html-display.c:765
 msgid ""
 "This message is encrypted, with a strong encryption algorithm. It would be "
 "very difficult for an outsider to view the content of this message in a "
@@ -11761,73 +11727,77 @@ msgstr ""
 "Esta mensaxe está cifrada cun algoritmo de cifrado forte. Sería moi difícil "
 "que un espía vira o contido desta mensaxe empregando un tempo razoable."
 
-#: ../mail/em-format-html-display.c:865 ../smime/gui/smime-ui.glade.h:48
+#: ../mail/em-format-html-display.c:866 ../smime/gui/smime-ui.glade.h:48
 msgid "_View Certificate"
 msgstr "_Ver certificado"
 
-#: ../mail/em-format-html-display.c:880
+#: ../mail/em-format-html-display.c:881
 msgid "This certificate is not viewable"
 msgstr "Este certificado non é visible"
 
-#: ../mail/em-format-html-display.c:1168
+#: ../mail/em-format-html-display.c:1169
 msgid "Completed on %B %d, %Y, %l:%M %p"
 msgstr "Rematado o %d de %B de %Y, %l:%M %p"
 
-#: ../mail/em-format-html-display.c:1176
+#: ../mail/em-format-html-display.c:1177
 msgid "Overdue:"
 msgstr "Atrasado:"
 
-#: ../mail/em-format-html-display.c:1179
+#: ../mail/em-format-html-display.c:1180
 msgid "by %B %d, %Y, %l:%M %p"
 msgstr "antes do %d de %B de %Y, %l:%M %p"
 
-#: ../mail/em-format-html-display.c:1239
+#: ../mail/em-format-html-display.c:1240
 msgid "_View Inline"
 msgstr "_Ver incluido"
 
-#: ../mail/em-format-html-display.c:1240
+#: ../mail/em-format-html-display.c:1241
 msgid "_Hide"
 msgstr "_Agochar"
 
-#: ../mail/em-format-html-display.c:1241
+#: ../mail/em-format-html-display.c:1242
 msgid "_Fit to Width"
 msgstr "_Axustar ao ancho"
 
-#: ../mail/em-format-html-display.c:1242
+#: ../mail/em-format-html-display.c:1243
 msgid "Show _Original Size"
 msgstr "Amosar tamaño _orixinal"
 
-#: ../mail/em-format-html-display.c:1619
+#: ../mail/em-format-html-display.c:1620
 msgid "Attachment Button"
 msgstr "Botón de adxunto"
 
-#: ../mail/em-format-html-display.c:1826
+#: ../mail/em-format-html-display.c:1827
 msgid "Select folder to save all attachments..."
 msgstr "Seleccione o cartafol onde gardar todos os adxuntos..."
 
-#: ../mail/em-format-html-display.c:1873
+#: ../mail/em-format-html-display.c:1874
 msgid "Save Selected..."
 msgstr "Gardar seleccionados..."
 
 #. Cant i put in the number of attachments here ?
-#: ../mail/em-format-html-display.c:1940
+#: ../mail/em-format-html-display.c:1941
 #, c-format
-msgid "%d attachment"
-msgid_plural "%d attachments"
-msgstr[0] "%d adxunto"
-msgstr[1] "%d adxuntos"
+msgid "%d attachme_nt"
+msgid_plural "%d attachme_nts"
+msgstr[0] "%d ad_xunto"
+msgstr[1] "%d ad_xuntos"
 
-#: ../mail/em-format-html-display.c:2003
+#: ../mail/em-format-html-display.c:1948 ../mail/em-format-html-display.c:2025
+msgid "S_ave"
+msgstr "G_ardar"
+
+#: ../mail/em-format-html-display.c:1959
+msgid "S_ave All"
+msgstr "G_ardar todo"
+
+#: ../mail/em-format-html-display.c:2019
 msgid "Toggle Attachment Bar"
 msgstr "Cambiar a barra de adxuntos"
 
-#: ../mail/em-format-html-display.c:2005
+#: ../mail/em-format-html-display.c:2021
 msgid "No Attachment"
 msgstr "Sen adxunto"
-
-#: ../mail/em-format-html-display.c:2008
-msgid "Save All"
-msgstr "Gardar todo"
 
 #: ../mail/em-format-html-print.c:130
 #, c-format
@@ -13091,6 +13061,11 @@ msgstr "Feito"
 #: ../mail/mail-config.glade.h:73
 msgid "Drafts _Folder:"
 msgstr "_Cartafol de borradores:"
+
+#: ../mail/mail-config.glade.h:74
+#: ../plugins/publish-calendar/publish-calendar.glade.h:9
+msgid "E_nable"
+msgstr "A_ctivar"
 
 #: ../mail/mail-config.glade.h:75
 msgid "Email Accounts"
@@ -14669,37 +14644,35 @@ msgstr "Respaldar e restaurar os datos de Evolution e a configuración"
 msgid "Restore Settings..."
 msgstr "Configuración da restauración..."
 
-#: ../plugins/bbdb/bbdb.c:410
+#: ../plugins/bbdb/bbdb.c:429
 #: ../plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:1
 msgid "Automatic Contacts"
 msgstr "Contactos automáticos"
 
-#: ../plugins/bbdb/bbdb.c:419
+#: ../plugins/bbdb/bbdb.c:438
 msgid "<span weight=\"bold\">Automatic Contacts</span>"
 msgstr "<span weight=\"bold\">Contactos automáticos</span>"
 
 #. Enable BBDB checkbox
-#: ../plugins/bbdb/bbdb.c:432
+#: ../plugins/bbdb/bbdb.c:451
 msgid "_Automatically create entries in the addressbook when responding to mail"
 msgstr ""
 "Crear entradas _automaticamente no libro de enderezos cando se responda ao "
 "correo"
 
-#: ../plugins/bbdb/bbdb.c:450
+#: ../plugins/bbdb/bbdb.c:472
 msgid "<span weight=\"bold\">Instant Messaging Contacts</span>"
 msgstr "<span weight=\"bold\">Contactos de mensaxería instantánea</span>"
 
 #. Enable Gaim Checkbox
-#: ../plugins/bbdb/bbdb.c:463
-msgid ""
-"Periodically synchronize contact information and images from my _instant "
-"messenger"
+#: ../plugins/bbdb/bbdb.c:485
+msgid "Periodically synchronize contact information and images from gaim buddy list"
 msgstr ""
 "Sincronizar periodicamente a información de contacto e as imaxes desde a "
-"miña mensaxería _instantánea"
+"miña lista de amigos de gaim"
 
 #. Synchronize now button.
-#: ../plugins/bbdb/bbdb.c:470
+#: ../plugins/bbdb/bbdb.c:502
 msgid "Synchronize with _buddy list now"
 msgstr "Sincronizar coa lista de _compañeiros agora"
 
@@ -14963,11 +14936,11 @@ msgstr "URL _OWA:"
 msgid "A_uthenticate"
 msgstr "A_utenticación"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:833
+#: ../plugins/exchange-operations/exchange-account-setup.c:838
 msgid "Authentication Type"
 msgstr "Tipo de Autenticación"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:847
+#: ../plugins/exchange-operations/exchange-account-setup.c:852
 msgid "Ch_eck for Supported Types"
 msgstr "_Comprobar tipos soportados"
 
@@ -15817,27 +15790,27 @@ msgstr "Un complemento para configurar as fontes de calendario de hula."
 msgid "Hula Account Setup"
 msgstr "Configuración da conta Hula"
 
-#: ../plugins/import-ics-attachments/icsimporter.c:81
+#: ../plugins/import-ics-attachments/icsimporter.c:83
 msgid "_Import to Calendar"
 msgstr "_Importar ao Calendario"
 
-#: ../plugins/import-ics-attachments/icsimporter.c:86
+#: ../plugins/import-ics-attachments/icsimporter.c:88
 msgid "_Import to Tasks"
 msgstr "_Importar ás Tarefas"
 
-#: ../plugins/import-ics-attachments/icsimporter.c:196
+#: ../plugins/import-ics-attachments/icsimporter.c:197
 msgid "Import ICS"
 msgstr "Importar ICS"
 
-#: ../plugins/import-ics-attachments/icsimporter.c:224
+#: ../plugins/import-ics-attachments/icsimporter.c:225
 msgid "Select Task List"
 msgstr "Seleccionar lista de tarefas"
 
-#: ../plugins/import-ics-attachments/icsimporter.c:228
+#: ../plugins/import-ics-attachments/icsimporter.c:229
 msgid "Select Calendar"
 msgstr "Seleccionar calendario"
 
-#: ../plugins/import-ics-attachments/icsimporter.c:259
+#: ../plugins/import-ics-attachments/icsimporter.c:260
 #: ../shell/e-shell-importer.c:703
 msgid "_Import"
 msgstr "_Importar"
@@ -17342,7 +17315,7 @@ msgid "Import a _single file"
 msgstr "Importar un úni_co ficheiro"
 
 #: ../shell/e-shell-settings-dialog.c:318
-msgid "Evolution Settings"
+msgid "Evolution Preferences"
 msgstr "Preferencias de Evolution"
 
 #: ../shell/e-shell-utils.c:118
