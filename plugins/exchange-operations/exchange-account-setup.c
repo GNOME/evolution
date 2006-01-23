@@ -66,7 +66,7 @@ CamelServiceAuthType camel_exchange_ntlm_authtype = {
         N_("This option will connect to the Exchange server using "
            "secure password (NTLM) authentication."),
 
-        "",
+        "NTLM",
         TRUE
 };
 
@@ -802,7 +802,7 @@ org_gnome_exchange_auth_section (EPlugin *epl, EConfigHookItemFactoryData *data)
 {
 	EMConfigTargetAccount *target_account;
 	const char *source_url; 
-	char *label_text;
+	char *label_text, *exchange_account_authtype = NULL;
 	CamelURL *url;
 	GtkWidget *hbox, *button, *auth_label, *vbox, *label_hide;
 	GtkComboBox *dropdown;
@@ -810,7 +810,8 @@ org_gnome_exchange_auth_section (EPlugin *epl, EConfigHookItemFactoryData *data)
 	GtkListStore *store;
 	int i, active=0, auth_changed_id = 0;
 	GList *authtypes, *l, *ll;
-	
+	ExchangeAccount *account;
+
 	target_account = (EMConfigTargetAccount *)data->config->target;
 	source_url = e_account_get_string (target_account->account, 
 					   E_ACCOUNT_SOURCE_URL);
@@ -827,6 +828,10 @@ org_gnome_exchange_auth_section (EPlugin *epl, EConfigHookItemFactoryData *data)
 		camel_url_free(url);
 		return data->old;
 	}
+
+	account = exchange_operations_get_exchange_account ();
+	if (account)
+		exchange_account_authtype = exchange_account_get_authtype (account);
 
 	vbox = gtk_vbox_new (FALSE, 6);
 
@@ -865,8 +870,18 @@ org_gnome_exchange_auth_section (EPlugin *epl, EConfigHookItemFactoryData *data)
 		gtk_list_store_set (store, &iter, 0, authtype->name, 1, 
 				    authtype, 2, !avail, -1);
 
-		if (url && url->authmech && !strcmp(url->authmech, authtype->authproto))
+		if (url && url->authmech && !strcmp(url->authmech, authtype->authproto)) {
 			active = i;
+		}
+		else if (url && exchange_account_authtype && 
+			 !strcmp (exchange_account_authtype, authtype->authproto)) {
+			/* if the url doesn't contain authmech, read the value from 
+			 * exchange account and set the tab selection and 
+			 * also set the authmech back to url 
+			 */
+			camel_url_set_authmech (url, exchange_account_authtype);
+			active = i;
+		}
 	}
 
 	gtk_combo_box_set_model (dropdown, (GtkTreeModel *)store);
@@ -904,6 +919,7 @@ org_gnome_exchange_auth_section (EPlugin *epl, EConfigHookItemFactoryData *data)
 	if (url)
 		camel_url_free(url);
 	g_list_free (authtypes);
+	g_free (exchange_account_authtype);
 
 	return vbox;
 }

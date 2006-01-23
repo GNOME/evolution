@@ -1,3 +1,13 @@
+2006-01-23  Sushma Rai  <rsushma@novell.com>
+
+	* exchange-account-setup.c (camel_exchange_ntlm): Setting the authproto
+	value to NTLM, which is used later. 
+	(org_gnome_exchange_auth_section): Reading the auth type from 
+	ExchangeAccount and setting it in URL if the url doesn't contain the
+	auth mechanism value. Since the auth mechanism is not set using the 
+	authentication type tab in druid during account setup, when the editor
+	is invoked, it doesn't get set in the account URI. Fixes #327284.
+
 2006-01-19  Andre Klapper <a9016009@gmx.de>
 
 	* org-gnome-exchange-operations.error.xml:
