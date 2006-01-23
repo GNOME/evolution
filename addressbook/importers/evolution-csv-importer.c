@@ -285,6 +285,46 @@ add_to_notes(EContact *contact, gint i, char *val) {
 	g_string_free(new_text, TRUE);
 }
 
+/* @str: a date string in the format MM-DD-YYYY or MMDDYYYY */
+static EContactDate*
+date_from_string (const char *str)
+{
+	EContactDate* date;
+	int length;
+	char *t;
+	int i = 0;
+
+	g_return_val_if_fail (str != NULL, NULL);
+
+	date = e_contact_date_new();
+	/* ignore time part */
+	if ((t = strchr (str, 'T')) != NULL)
+		length = t - str;
+	else
+		length = strlen(str);
+	
+	if (g_ascii_isdigit (str[i]) && g_ascii_isdigit (str[i+1])) {
+		date->month = str[i] * 10 + str[i+1] - '0' * 11;
+		i = i+3;
+	}
+	else {
+		date->month = str[i] - '0' * 1;
+		i = i+2;
+	}
+
+	if (g_ascii_isdigit (str[i]) && g_ascii_isdigit (str[i+1])) {
+		date->day = str[i] * 10 + str[i+1] - '0' * 11;
+		i = i+3;
+	}
+	else {
+		date->day = str[i] - '0' * 1;
+		i = i+2;
+	}
+	date->year = str[i] * 1000 + str[i+1] * 100 + str[i+2] * 10 + str[i+3] - '0' * 1111;
+			
+	return date;
+}
+
 static gboolean 
 parseLine (CSVImporter *gci, EContact *contact, char **buf) {
 	
@@ -311,6 +351,13 @@ parseLine (CSVImporter *gci, EContact *contact, char **buf) {
 				break;
 			if(*ptr != '"') {
 				g_string_append_unichar(value, *ptr);
+			}
+			else {
+				ptr++;
+				while (*ptr != '"') {
+					g_string_append_unichar(value, *ptr);
+					ptr++;
+				}
 			}
 			ptr++;
 		}
@@ -398,16 +445,19 @@ parseLine (CSVImporter *gci, EContact *contact, char **buf) {
 				case FLAG_OTHER_ADDRESS|FLAG_POSTAL_CODE:
 					other_address->code = g_strdup(value->str);
 					break;
+				case FLAG_OTHER_ADDRESS|FLAG_POBOX:
+					other_address->po = g_strdup(value->str);
+					break;
 				case FLAG_OTHER_ADDRESS|FLAG_COUNTRY:
 					other_address->country = g_strdup(value->str);
 					break;
 
 				case FLAG_DATE_BDAY:
-					e_contact_set(contact, E_CONTACT_BIRTH_DATE, e_contact_date_from_string(value->str));
+					e_contact_set(contact, E_CONTACT_BIRTH_DATE, date_from_string(value->str));
 					break;
 					
 				case FLAG_DATE_ANNIVERSARY:
-					e_contact_set(contact, E_CONTACT_ANNIVERSARY, e_contact_date_from_string(value->str));
+					e_contact_set(contact, E_CONTACT_ANNIVERSARY, date_from_string(value->str));
 					break;
 
 				case FLAG_BIRTH_DAY:
@@ -465,10 +515,12 @@ parseLine (CSVImporter *gci, EContact *contact, char **buf) {
 static EContact *
 getNextCSVEntry(CSVImporter *gci, FILE *f) {
 	EContact *contact = NULL;
-	char line[2048];
+	GString  *line;
 	GString *str;
 	char *buf;
+	char c;
 
+	/*	
 	if(!fgets(line, sizeof(line),f)) 
 		return NULL;
 
@@ -477,15 +529,66 @@ getNextCSVEntry(CSVImporter *gci, FILE *f) {
 			return NULL;
 		gci->count ++;
 	}
+	*/
+
+	line = g_string_new("");
+	while (1) {
+		c = fgetc (f) ;
+		if (c == EOF)
+			return NULL;
+		if (c == '\n') {
+			g_string_append_unichar(line, c);
+			break ;
+		}
+		if (c == '"') {
+			g_string_append_unichar(line, c);
+			c = fgetc (f);
+			while (c != '"') {
+				g_string_append_unichar(line, c);
+				c = fgetc (f);
+			}
+			g_string_append_unichar(line, c);
+		}
+		else
+			g_string_append_unichar(line, c);
+	}
 	
+	if(gci->count == 0 && importer != MOZILLA_IMPORTER) {
+		g_string_free (line, TRUE);
+		line = g_string_new("");
+		while (1) {
+			c = fgetc (f) ;
+			if (c == EOF)
+				return NULL;
+			if (c == '\n') {
+				g_string_append_unichar(line, c);
+				break ;
+			}
+			if (c == '"') {
+				g_string_append_unichar(line, c);
+				c = fgetc (f);
+				while (c != '"') {
+					g_string_append_unichar(line, c);
+					c = fgetc (f);
+				}
+				g_string_append_unichar(line, c);
+			}
+			else
+				g_string_append_unichar(line, c);
+		}	
+		gci->count ++;
+	}
+
 	str = g_string_new("");
-	str = g_string_append (str, line);
+	str = g_string_append (str, line->str);
+
+	g_string_free (line, TRUE);
 	
 	if(strlen(str->str) == 0) {
 		g_string_free(str, TRUE);
 		return NULL;
 	}
-
+	
 	contact = e_contact_new();
 
 	buf = str->str;

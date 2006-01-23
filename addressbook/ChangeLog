@@ -1,5 +1,11 @@
 2006-01-23  Devashish Sharma  <sdevashish@novell.com>
 
+	* importers/evolution-csv-importer.c : Made some changes for solving some 
+	bugs in csv and tab file import. Mainly changes made to file parsing 
+	mechanism.
+
+2006-01-23  Devashish Sharma  <sdevashish@novell.com>
+
 	* gui/contact-editor/e-contact-quick-add.c : Added source selector to
 	the quick add dialog so that the user can choose the addressbook also
 	while storing the contact. Earlier it automatically went to the
