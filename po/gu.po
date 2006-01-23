@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD.gu\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-01-17 05:50+0100\n"
-"PO-Revision-Date: 2006-01-17 17:59+0530\n"
+"POT-Creation-Date: 2006-01-23 05:48+0100\n"
+"PO-Revision-Date: 2006-01-23 14:46+0530\n"
 "Last-Translator: Ankit Patel <ankit644@yahoo.com>\n"
 "Language-Team: Gujarati <indianoss-gujarati@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -13,6 +13,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.9.1\n"
 "Plural-Forms: nplurals=2; plural=(n!=1);\n\n"
+"\n"
 "\n"
 "\n"
 "\n"
@@ -2644,7 +2645,7 @@ msgstr "_IM સેવા:"
 #: ../addressbook/gui/contact-editor/im.glade.h:5
 #: ../plugins/calendar-weather/calendar-weather.c:409
 #: ../plugins/exchange-operations/exchange-calendar.c:234
-#: ../plugins/exchange-operations/exchange-contacts.c:214
+#: ../plugins/exchange-operations/exchange-contacts.c:216
 msgid "_Location:"
 msgstr "જગ્યા (_L):"
 
@@ -3852,7 +3853,7 @@ msgstr "છાયા"
 #: ../addressbook/printing/e-contact-print.glade.h:36
 #: ../plugins/exchange-operations/exchange-account-setup.c:949
 #: ../plugins/exchange-operations/exchange-calendar.c:224
-#: ../plugins/exchange-operations/exchange-contacts.c:197
+#: ../plugins/exchange-operations/exchange-contacts.c:199
 msgid "Size:"
 msgstr "માપ:"
 
@@ -5428,7 +5429,7 @@ msgid "E_nable"
 msgstr "સક્રિય કરો (_n)"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:18
-#: ../calendar/gui/dialogs/event-editor.c:555
+#: ../calendar/gui/dialogs/event-editor.c:566
 #: ../ui/evolution-event-editor.xml.h:7
 msgid "Free/Busy"
 msgstr "મુક્ત/વ્યસ્ત"
@@ -5811,7 +5812,7 @@ msgstr "જોડાણ પટ્ટી બતાવો (_B)"
 #: ../calendar/gui/dialogs/comp-editor.c:1094
 #: ../calendar/gui/dialogs/event-page.c:1895
 #: ../calendar/gui/dialogs/meeting-page.c:909
-#: ../calendar/gui/dialogs/task-page.c:1183
+#: ../calendar/gui/dialogs/task-page.c:1206
 #: ../composer/e-msg-composer-attachment-bar.c:470
 #: ../composer/e-msg-composer.c:3601
 #: ../plugins/groupwise-features/junk-settings.glade.h:8
@@ -5967,17 +5968,17 @@ msgstr "ને ડિલિગેટ:"
 msgid "Enter Delegate"
 msgstr "ડિલિગેટ દાખલ કરો"
 
-#: ../calendar/gui/dialogs/event-editor.c:531
+#: ../calendar/gui/dialogs/event-editor.c:541
 msgid "Appoint_ment"
 msgstr "મુલાકાત (_m)"
 
-#: ../calendar/gui/dialogs/event-editor.c:535
+#: ../calendar/gui/dialogs/event-editor.c:545
 #: ../ui/evolution-event-editor.xml.h:13
 msgid "Recurrence"
 msgstr "વળતર"
 
 #: ../calendar/gui/dialogs/event-page.c:878
-#: ../calendar/gui/dialogs/task-page.c:444
+#: ../calendar/gui/dialogs/task-page.c:446
 msgid "Or_ganizer"
 msgstr "આયોજક (_g)"
 
@@ -5998,7 +5999,7 @@ msgid "Event with no end date"
 msgstr "અંતિમ તારીખ વગરની ઘટના"
 
 #: ../calendar/gui/dialogs/event-page.c:1254
-#: ../calendar/gui/dialogs/task-page.c:848
+#: ../calendar/gui/dialogs/task-page.c:851
 msgid "Start date is wrong"
 msgstr "શરુઆતની તારીખ ખોટી છે"
 
@@ -6016,25 +6017,25 @@ msgstr "અંતિમ સમય ખોટો છે"
 
 #: ../calendar/gui/dialogs/event-page.c:1449
 #: ../calendar/gui/dialogs/meeting-page.c:464
-#: ../calendar/gui/dialogs/task-page.c:905
+#: ../calendar/gui/dialogs/task-page.c:908
 msgid "The organizer selected no longer has an account."
 msgstr "પસંદ થયેલ આયોજકને લાંબા સમય સુધી ખાતુ મળશે નહિં."
 
 #: ../calendar/gui/dialogs/event-page.c:1455
 #: ../calendar/gui/dialogs/meeting-page.c:470
-#: ../calendar/gui/dialogs/task-page.c:911
+#: ../calendar/gui/dialogs/task-page.c:914
 msgid "An organizer is required."
 msgstr "આયોજક જરુરી છે."
 
 #: ../calendar/gui/dialogs/event-page.c:1470
 #: ../calendar/gui/dialogs/meeting-page.c:485
-#: ../calendar/gui/dialogs/task-page.c:926
+#: ../calendar/gui/dialogs/task-page.c:929
 msgid "At least one attendee is required."
 msgstr "ઓછામાં ઓછો એક સભા ભરનાર તો હોવો જ જોઈએ."
 
 #: ../calendar/gui/dialogs/event-page.c:1896
 #: ../calendar/gui/dialogs/meeting-page.c:910
-#: ../calendar/gui/dialogs/task-page.c:1184
+#: ../calendar/gui/dialogs/task-page.c:1207
 msgid "_Add "
 msgstr "ઉમેરો (_A) "
 
@@ -6532,15 +6533,15 @@ msgstr "બાબત (_T)"
 msgid "Task Details"
 msgstr "ક્રિયા વિગતો"
 
-#: ../calendar/gui/dialogs/task-page.c:437
+#: ../calendar/gui/dialogs/task-page.c:439
 msgid "_Group"
 msgstr "જૂથ (_G)"
 
-#: ../calendar/gui/dialogs/task-page.c:821
+#: ../calendar/gui/dialogs/task-page.c:824
 msgid "Due date is wrong"
 msgstr "નક્કી થયેલ તારીખ ખોટી છે"
 
-#: ../calendar/gui/dialogs/task-page.c:1635
+#: ../calendar/gui/dialogs/task-page.c:1659
 #, c-format
 msgid "Unable to open tasks in '%s'."
 msgstr "'%s' માં બાબતો ખોલવા સમર્થ નથી."
@@ -14521,10 +14522,9 @@ msgstr "બડી યાદી સાથે હમણાં સુમેળ ક�
 #: ../plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:2
 msgid ""
 "Automatically fills your addressbook with names and email addresses as you "
-"reply to mails. Also fills in IM contact information from your buddy lists."
-msgstr ""
-"તમારી સરનામાપુસ્તિકા આપોઆપ નામો અને ઈમેઈલ સરનામાઓથી ભરે છે મેઈલોને પ્રત્યુત્તર આપવા માટે. "
-"અને તમારી વ્યક્તિ યાદીઓમાંથી IM સંપર્ક જાણકારી પણ ભરે છે."
+"reply to messages. Also fills in IM contact information from your buddy "
+"lists."
+msgstr "તમારી સરનામાપુસ્તિકા આપોઆપ નામો અને ઈમેઈલ સરનામાઓથી ભરે છે મેઈલોને પ્રત્યુત્તર આપવા માટે. અને તમારી વ્યક્તિ યાદીઓમાંથી IM સંપર્ક જાણકારી પણ ભરે છે."
 
 #: ../plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:3
 msgid "BBDB"
@@ -14777,7 +14777,7 @@ msgid "Ch_eck for Supported Types"
 msgstr "આધારભૂત પ્રકારો માટે ચકાસો (_e)"
 
 #: ../plugins/exchange-operations/exchange-calendar.c:192
-#: ../plugins/exchange-operations/exchange-contacts.c:162
+#: ../plugins/exchange-operations/exchange-contacts.c:164
 msgid ""
 "Evolution is in offline mode. You cannot create or modify folders now.\n"
 "Please switch to online mode for such operations."
@@ -15327,16 +15327,16 @@ msgid "Unsupported operation"
 msgstr "બિનઆધારભૂત પ્રક્રિયા"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:68
-msgid "You are nearing your quota available for storing mails on this server."
-msgstr "તમે આ સર્વર પર મેઈલો સંગ્રહવા માટે ઉપલબ્ધ ક્વોટા નજીક કરી રહ્યા છો."
+msgid "You are nearing your quota available for storing mail on this server."
+msgstr "તમે આ સર્વર પર મેઈલ સંગ્રહવા માટે ઉપલબ્ધ ક્વોટા નજીક કરી રહ્યા છો."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:69
 msgid "You cannot make yourself your own delegate"
 msgstr "તમે તમારી પોતાની જાતે પ્રતિનિધી બની શકો નહિં"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:70
-msgid "You have exceeded your quota for storing mails on this server."
-msgstr "તમે આ સર્વર પર મેઈલો સંગ્રહવા માટે ક્વોટાની મર્યાદા ઓળંગી દીધી છે."
+msgid "You have exceeded your quota for storing mail on this server."
+msgstr "તમે આ સર્વર પર મેઈલ સંગ્રહવા માટે ક્વોટાની મર્યાદા ઓળંગી દીધી છે."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:71
 msgid "You may only configure a single Exchange account."
@@ -15345,7 +15345,7 @@ msgstr "તમે માત્ર એક એક્સચેન્જ ખાત�
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:72
 msgid ""
 "Your current usage is: {0} KB. Try to clear up some space by deleting some "
-"mails."
+"mail."
 msgstr ""
 "તમારો વર્તમાન વપરાશ: {0} KB છે. અમુક મેઈલ કાઢી નાંખીને થોડી જગ્યા સાફ કરવાનો પ્રયત્ન "
 "કરો."
@@ -15353,18 +15353,14 @@ msgstr ""
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:73
 msgid ""
 "Your current usage is: {0} KB. You will not be able to either send or "
-"receive mails now."
-msgstr ""
-"તમારો વર્તમાન વપરાશ: {0} KB છે. તમે હમણાં ક્યાં મેઈલો મોકલવા માટે કે મેળવવા માટે સમર્થ "
-"હશો નહિં."
+"receive mail now."
+msgstr "તમારો વર્તમાન વપરાશ: {0} KB છે. તમે ક્યાં તો મેઈલો મોકલવા માટે કે મેળવવા માટે સમર્થ હશો નહિં."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:74
 msgid ""
-"Your current usage is: {0} KB. You will not be able to send mails till you "
-"clear up some space by deleting some mails."
-msgstr ""
-"તમારો વર્તમાન વપરાશ: {0} KB છે. તમે જ્યાં સુધી અમુક મેઈલો કાઢી નાંખીને અમુક જગ્યા ખાલી "
-"કરો નહિં ત્યાં સુધી મેઈલો મોકલવા માટે સમર્થ હશો નહિં."
+"Your current usage is: {0} KB. You will not be able to send mail until you "
+"clear up some space by deleting some mail."
+msgstr "તમારો વર્તમાન વપરાશ: {0} KB છે. તમે જ્યાં સુધી અમુક મેઈલો કાઢી નાંખીને અમુક જગ્યા ખાલી કરો નહિં ત્યાં સુધી મેઈલો મોકલવા માટે સમર્થ હશો નહિં."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:75
 msgid "Your password has expired."
@@ -15608,7 +15604,7 @@ msgstr "નવું વહેંચાયેલ ફોલ્ડર (_S)..."
 msgid "Sharing"
 msgstr "વહેંચી રહ્યા છીએ"
 
-#: ../plugins/groupwise-features/status-track.c:235
+#: ../plugins/groupwise-features/status-track.c:242
 msgid "Track Message Status..."
 msgstr "સંદેશા સ્થિતિ ટ્રેક કરો..."
 
@@ -15619,6 +15615,31 @@ msgstr "hula કેલેન્ડર સ્રોતો સુયોજિત �
 #: ../plugins/hula-account-setup/org-gnome-evolution-hula-account-setup.eplug.xml.h:2
 msgid "Hula Account Setup"
 msgstr "Hula ખાતા સુયોજન"
+
+#: ../plugins/import-ics-attachments/icsimporter.c:83
+msgid "_Import to Calendar"
+msgstr "કેલેન્ડરમાં આયાત કરો (_I)"
+
+#: ../plugins/import-ics-attachments/icsimporter.c:88
+msgid "_Import to Tasks"
+msgstr "બાબતોમાં આયાત કરો"
+
+#: ../plugins/import-ics-attachments/icsimporter.c:197
+msgid "Import ICS"
+msgstr "ICS આયાત કરો"
+
+#: ../plugins/import-ics-attachments/icsimporter.c:225
+msgid "Select Task List"
+msgstr "બાબત યાદી પસંદ કરો"
+
+#: ../plugins/import-ics-attachments/icsimporter.c:229
+msgid "Select Calendar"
+msgstr "કેલેન્ડર પસંદ કરો"
+
+#: ../plugins/import-ics-attachments/icsimporter.c:260
+#: ../shell/e-shell-importer.c:703
+msgid "_Import"
+msgstr "આયાત (_I)"
 
 #: ../plugins/ipod-sync/ical-format.c:137
 #: ../plugins/save-calendar/ical-format.c:137
@@ -16521,12 +16542,11 @@ msgstr "પ્લગઈન"
 #: ../plugins/prefer-plain/org-gnome-prefer-plain.eplug.xml.h:1
 msgid ""
 "A test plugin which demonstrates a formatter plugin which lets you choose to "
-"disable HTML mails.\n"
+"disable HTML messages.\n"
 "\n"
 "This plugin is unsupported demonstration code only.\n"
 msgstr ""
-"ચકાસણી પ્લગઈન કે જે ફોર્મેટર પ્લગઈનને રજૂ કરે છે કે જે તમને HTML મેઈલો નિષ્ક્રિય કરવા માટે "
-"પસંદ કરવા માટે નિષ્ક્રિય કરે છે.\n"
+"ચકાસણી પ્લગઈન કે જે ફોર્મેટર પ્લગઈનને રજૂ કરે છે કે જે તમને HTML મેઈલો નિષ્ક્રિય કરવા માટે પસંદ કરવા માટે પરવાનગી આપે છે.\n"
 "\n"
 "આ પ્લગઈન એ બિનઆધારભૂત રજૂઆત કોડ જ છે.\n"
 
@@ -16670,7 +16690,9 @@ msgstr "Spamassassin (built-in)"
 msgid ""
 "Filters junk messages using Spamassassin. This plugin requires Spamassassin "
 "to be installed."
-msgstr "Spamassassin ની મદદથી બગડેલા સંદેશાઓને ગાળે છે. આ પ્લગઈનને Spamassassin સ્થાપિત થયેલ હોય એ જરૂરી છે."
+msgstr ""
+"Spamassassin ની મદદથી બગડેલા સંદેશાઓને ગાળે છે. આ પ્લગઈનને Spamassassin સ્થાપિત થયેલ "
+"હોય એ જરૂરી છે."
 
 #: ../plugins/sa-junk-plugin/org-gnome-sa-junk-plugin.eplug.xml.h:2
 msgid "Spamassassin junk plugin"
@@ -17084,13 +17106,9 @@ msgstr "જૂના કાર્યક્રમોમાંથી માહિ�
 msgid "Import a _single file"
 msgstr "એક ફાઈલ જ આયાત કરો (_s)"
 
-#: ../shell/e-shell-importer.c:703
-msgid "_Import"
-msgstr "આયાત (_I)"
-
 #: ../shell/e-shell-settings-dialog.c:318
-msgid "Evolution Settings"
-msgstr "ઈવોલ્યુશન સુયોજનો"
+msgid "Evolution Preferences"
+msgstr "ઈવોલ્યુશન પસંદગીઓ"
 
 #: ../shell/e-shell-utils.c:118
 msgid "No folder name specified."
@@ -19233,7 +19251,7 @@ msgid "_Post-To Field"
 msgstr "ને પોસ્ટ કરો ક્ષેત્ર (_P)"
 
 #: ../ui/evolution-message-composer.xml.h:51
-msgid "_Prioritise Message"
+msgid "_Prioritize Message"
 msgstr "સંદેશાનું પ્રાધાન્યકરણ કરો (_P)"
 
 #: ../ui/evolution-message-composer.xml.h:52
@@ -19492,8 +19510,8 @@ msgid "View/Hide the Status Bar"
 msgstr "પરિસ્થિતિદર્શક પટ્ટી જુઓ/છુપાવો"
 
 #: ../ui/evolution.xml.h:36
-msgid "_About Evolution..."
-msgstr "ઈવોલ્યુશન વિશે (_A)..."
+msgid "_About"
+msgstr "વિશે (_A)"
 
 #: ../ui/evolution.xml.h:37
 msgid "_Close Window"
