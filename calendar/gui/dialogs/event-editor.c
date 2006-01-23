@@ -589,6 +589,7 @@ event_editor_construct (EventEditor *ee, ECal *client)
 		bonobo_ui_component_set_prop (editor->uic, "/commands/ViewRSVP", "hidden", "1", NULL);
 		bonobo_ui_component_set_prop (editor->uic, "/commands/ViewType", "hidden", "1", NULL);
 		bonobo_ui_component_set_prop (editor->uic, "/commands/ViewStatus", "hidden", "1", NULL);
+		bonobo_ui_component_set_prop (editor->uic, "/menu/View/AttendeeOptions/timezonesep", "hidden", "1", NULL);
 	}
 
 	comp_editor_set_e_cal (COMP_EDITOR (ee), client);
