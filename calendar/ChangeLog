@@ -1,3 +1,12 @@
+2006-01-16  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #326478
+	* gui/dialogs/cal-prefs-dialog.c: (spec_from_picker),
+	(tasks_due_today_set_color), (tasks_overdue_set_color),
+	(set_color_picker):
+	* gui/dialogs/cal-prefs-dialog.glade: Changed the gtk color
+	button to gnome color picker.
+
 2006-01-20  Andre Klapper <a9016009@gmx.de>
 	* gui/dialogs/task-page.c (field_changed_cb):
 	Removed wrong parameter to be able compile again.

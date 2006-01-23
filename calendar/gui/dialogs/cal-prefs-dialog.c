@@ -31,6 +31,7 @@
 #include "../e-timezone-entry.h"
 #include "../calendar-config.h"
 #include "cal-prefs-dialog.h"
+#include <libgnomeui/gnome-color-picker.h>
 #include <widgets/misc/e-dateedit.h>
 #include <e-util/e-dialog-widgets.h>
 #include <e-util/e-util-private.h>
@@ -101,10 +102,10 @@ static const char *
 spec_from_picker (GtkWidget *picker)
 {
 	static char spec[8];
-	GdkColor color;
+	guint8 r, g, b;
 
-	gtk_color_button_get_color (GTK_COLOR_BUTTON (picker), &color);
-	g_snprintf (spec, sizeof (spec), "#%02x%02x%02x", color.red, color.green, color.blue);
+	gnome_color_picker_get_i8 (GNOME_COLOR_PICKER (picker), &r, &g, &b, NULL);
+	g_snprintf (spec, sizeof (spec), "#%02x%02x%02x", r, g, b);
 
 	return spec;
 }
@@ -259,13 +260,13 @@ hide_completed_tasks_units_changed (GtkWidget *widget, CalendarPrefsDialog *pref
 }
 
 static void
-tasks_due_today_set_color (GtkColorButton *picker, guint r, guint g, guint b, guint a, CalendarPrefsDialog *prefs)
+tasks_due_today_set_color (GnomeColorPicker *picker, guint r, guint g, guint b, guint a, CalendarPrefsDialog *prefs)
 {
 	calendar_config_set_tasks_due_today_color (spec_from_picker (prefs->tasks_due_today_color));
 }
 
 static void
-tasks_overdue_set_color (GtkColorButton *picker, guint r, guint g, guint b, guint a, CalendarPrefsDialog *prefs)
+tasks_overdue_set_color (GnomeColorPicker *picker, guint r, guint g, guint b, guint a, CalendarPrefsDialog *prefs)
 {
 	calendar_config_set_tasks_overdue_color (spec_from_picker (prefs->tasks_overdue_color));
 }
@@ -358,7 +359,11 @@ set_color_picker (GtkWidget *picker, const char *spec)
 	if (!spec || !gdk_color_parse (spec, &color))
 		color.red = color.green = color.blue = 0;
 
-	gtk_color_button_set_color (GTK_COLOR_BUTTON (picker), &color);
+	gnome_color_picker_set_i16 (GNOME_COLOR_PICKER (picker),
+				    color.red,
+				    color.green,
+				    color.blue,
+				    65535);
 }
 
 /* Shows the current Free/Busy settings in the dialog */
