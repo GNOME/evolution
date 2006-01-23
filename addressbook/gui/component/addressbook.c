@@ -171,12 +171,18 @@ addressbook_authenticate (EBook *book, gboolean previous_failure, ESource *sourc
 
 	auth = e_source_get_property (source, "auth");
 
-	if (auth && !strcmp ("ldap/simple-binddn", auth))
+	if (auth && !strcmp ("ldap/simple-binddn", auth)) {
 		user = e_source_get_property (source, "binddn");
-	else if (auth && !strcmp ("plain/password", auth))
+	}
+	else if (auth && !strcmp ("plain/password", auth)) {
 		user = e_source_get_property (source, "user");
-	else
+		if (!user) {
+			user = e_source_get_property (source, "username");
+		}
+	}
+	else {
 		user = e_source_get_property (source, "email_addr");
+	}
 	if (!user)
 		user = "";
 
