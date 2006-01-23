@@ -646,7 +646,7 @@ gtk_menu_item_func (EUserCreatableItemsHandler *handler, gpointer menu,
 					    handler->priv->accel_group,
 					    'n', GDK_CONTROL_MASK,
 					    GTK_ACCEL_VISIBLE);
-	} else {
+	} else if (item->shortcut != '\0') {
 		gtk_widget_add_accelerator (menuitem, "activate",
 					    handler->priv->accel_group,
 					    item->shortcut,

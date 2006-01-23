@@ -1,3 +1,8 @@
+2006-01-23  Joe Marcus Clarke <marcus@freebsd.org>
+
+	* e-user-creatable-items-handler.c: adding a check to make sure 
+	the shortcut key is not the NUL byte. Fixes bug 327468.
+
 2006-01-21  Andre Klapper <a9016009@gmx.de>
 
 	* e-shell-settings-dialog.c: changed string "Settings" to 
