@@ -122,6 +122,7 @@ set_page_timeout_callback (void *data)
 	gtk_notebook_set_page (GTK_NOTEBOOK (priv->notebook), priv->set_page_timeout_page);
 
 	priv->set_page_timeout_id = 0;
+	gtk_widget_grab_focus(priv->list_e_table);
 	return FALSE;
 }
 

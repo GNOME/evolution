@@ -1,3 +1,10 @@
+2006-01-16  Nancy Cai <nancy.cai@sun.com>
+
+	** Fixes bug #326649
+	
+	* e-multi-config-dialog.c: (set_page_timeout_callback):
+	make the preferences dialog's keyboard navigation more consistent.	
+
 2006-01-13  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fixes bug #326265
