@@ -148,8 +148,10 @@ exchange_operations_cta_select_node_from_tree (GtkTreeStore *store, GtkTreeIter 
 	GtkTreeIter iter;
 	gboolean status;
 
-	exchange_operations_tokenize_string (&luri, nodename, '/');
+	if (!luri)
+		return;
 
+	exchange_operations_tokenize_string (&luri, nodename, '/');
        	if (!nodename[0]) {
 		return;
 	}

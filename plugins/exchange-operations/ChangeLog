@@ -1,5 +1,11 @@
 2006-01-23  Sushma Rai  <rsushma@novell.com>
 
+	* exchange-operations.c 
+	(exchange_operations_cta_select_node_from_tree): Checking for the NULL
+	URI, Fixes #328282.
+
+2006-01-23  Sushma Rai  <rsushma@novell.com>
+
 	* exchange-account-setup.c (camel_exchange_ntlm): Setting the authproto
 	value to NTLM, which is used later. 
 	(org_gnome_exchange_auth_section): Reading the auth type from 
