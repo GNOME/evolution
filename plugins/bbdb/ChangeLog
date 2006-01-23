@@ -1,3 +1,11 @@
+2006-01-23  Devashish Sharma <sdevashish@novell.com>
+
+	* bbdb.c :
+	* gaimbuddies.c : 
+	Added provision for having the gaimbuddies synced to a separate
+	addressbook. Earlier it used the same addressbook as used for
+	Automatic Contacts.
+
 2006-01-19  Andre Klapper <a9016009@gmx.de>
 
 	* org-gnome-evolution-bbdb.eplug.xml:

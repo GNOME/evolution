@@ -61,7 +61,7 @@ typedef struct {
 } GaimBuddy;
 
 /* Defined in bbdb.c */
-EBook *bbdb_open_addressbook (void);
+EBook *bbdb_open_addressbook (int type);
 
 /* Forward declarations for this file. */
 void bbdb_sync_buddy_list (void);
@@ -125,7 +125,7 @@ bbdb_sync_buddy_list (void)
 		return;
 
 	/* Open the addressbook */
-	book = bbdb_open_addressbook ();
+	book = bbdb_open_addressbook (GAIM_ADDRESSBOOK);
 	if (book == NULL) {
 		free_buddy_list (blist);
 		return;
@@ -141,7 +141,7 @@ bbdb_sync_buddy_list (void)
 		EContact *c;
 
 		if (b->alias == NULL || strlen (b->alias) == 0)
-			continue;
+			b->alias = b->account_name;
 
 		/* Look for an exact match full name == buddy alias */
 		query = e_book_query_field_test (E_CONTACT_FULL_NAME, E_BOOK_QUERY_IS, b->alias);

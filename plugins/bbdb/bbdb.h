@@ -5,13 +5,18 @@
 #define GCONF_KEY_ENABLE "/apps/evolution/autocontacts/enable_autocontacts"
 #define GCONF_KEY_ENABLE_GAIM "/apps/evolution/autocontacts/auto_sync_gaim"
 #define GCONF_KEY_WHICH_ADDRESSBOOK "/apps/evolution/autocontacts/addressbook_source"
+#define GCONF_KEY_WHICH_ADDRESSBOOK_GAIM "/apps/evolution/autocontacts/gaim_addressbook_source"
 #define GCONF_KEY_GAIM_LAST_SYNC "/apps/evolution/autocontacts/gaim_last_sync_time"
+
+#define GAIM_ADDRESSBOOK 1
+#define AUTOMATIC_CONTACTS_ADDRESSBOOK 0
+
 
 /* How often to poll the buddy list for changes (every two minutes) */
 #define BBDB_BLIST_CHECK_INTERVAL (2 * 60 * 1000) 
 
 /* bbdb.c */
-EBook *bbdb_open_addressbook (void);
+EBook *bbdb_open_addressbook (int type);
 gboolean bbdb_check_gaim_enabled (void);
 
 /* gaimbuddies.c */
