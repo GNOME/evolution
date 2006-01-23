@@ -1,3 +1,11 @@
+2006-01-23  Irene Huang <Irene.Huang@sun.com>
+
+	Fixes #327958
+
+	* gui/e-calendar-view.c: (e_calendar_view_get_tooltips):
+	Check if ptr==NULL, for special occassion with SunOne 
+	accouts.
+
 2006-01-16  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #326478

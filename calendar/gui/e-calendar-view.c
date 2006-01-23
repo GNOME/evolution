@@ -2038,9 +2038,16 @@ e_calendar_view_get_tooltips (ECalendarViewEventData *data)
 		char *ptr ; 
 		GtkWidget *hbox = gtk_hbox_new (FALSE, 0);
 		ptr = strchr(organiser.value, ':');
-		ptr++;
-		/* To Translators: It will display "Organiser: NameOfTheUser <email@ofuser.com>" */
-		tmp = g_strdup_printf (_("Organizer: %s <%s>"), organiser.cn, ptr);
+		
+		if (ptr) {
+			ptr++;
+			/* To Translators: It will display "Organiser: NameOfTheUser <email@ofuser.com>" */
+			tmp = g_strdup_printf (_("Organizer: %s <%s>"), organiser.cn, ptr);
+		}
+		else 
+			/* With SunOne accouts, there may be no ':' in organiser.value*/
+			tmp = g_strdup_printf (_("Organizer: %s"), organiser.cn);
+
 		label = gtk_label_new (tmp);
 		gtk_box_pack_start ((GtkBox *)hbox, label, FALSE, FALSE, 0);
 		ebox = gtk_event_box_new ();
