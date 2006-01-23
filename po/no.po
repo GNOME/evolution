@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 2.5.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-01-19 13:36+0100\n"
-"PO-Revision-Date: 2006-01-19 13:49+0100\n"
+"POT-Creation-Date: 2006-01-23 11:14+0100\n"
+"PO-Revision-Date: 2006-01-23 11:18+0100\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian Bokmal <i18n-nb@lister.ping.uio.no>\n"
 "MIME-Version: 1.0\n"
@@ -4881,7 +4881,7 @@ msgstr "Vis tid for avtalers slutt i ukes- og månedsvisning"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:44
 msgid "Show categories field in the event/meeting/task editor"
-msgstr ""
+msgstr "Vis kategorifelt ved redigering av hendelse/møte/oppgave"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:45
 msgid "Show display alarms in notification tray"
@@ -4889,7 +4889,7 @@ msgstr "Vis alarmer i varslingsområdet på panelet"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:46
 msgid "Show status field in the event/task/meeting editor"
-msgstr ""
+msgstr "Vis statusfelt ved redigering av hendelse/oppgave/møte"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:47
 #: ../mail/evolution-mail.schemas.in.in.h:73
@@ -4903,11 +4903,11 @@ msgstr "Vis forhåndsvisningsvinduet."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:49
 msgid "Show timezone field in the event/meeting editor"
-msgstr ""
+msgstr "Vis tidssonefelt ved redigering av hendelse/møte"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:50
 msgid "Show type field in the event/task/meeting editor"
-msgstr ""
+msgstr "Vis typefelt ved redigering av hendelse/oppgave/møte"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:51
 msgid "Show week numbers in date navigator"
@@ -5863,7 +5863,7 @@ msgstr "Vis ve_dleggsfelt"
 #: ../calendar/gui/dialogs/comp-editor.c:1085
 #: ../calendar/gui/dialogs/event-page.c:1893
 #: ../calendar/gui/dialogs/meeting-page.c:894
-#: ../calendar/gui/dialogs/task-page.c:1181
+#: ../calendar/gui/dialogs/task-page.c:1204
 #: ../composer/e-msg-composer-attachment-bar.c:470
 #: ../composer/e-msg-composer.c:3597
 #: ../plugins/groupwise-features/junk-settings.glade.h:8
@@ -6030,7 +6030,7 @@ msgid "Recurrence"
 msgstr "Gjeninntreffelse"
 
 #: ../calendar/gui/dialogs/event-page.c:878
-#: ../calendar/gui/dialogs/task-page.c:444
+#: ../calendar/gui/dialogs/task-page.c:446
 msgid "Or_ganizer"
 msgstr "Or_ganisator"
 
@@ -6051,7 +6051,7 @@ msgid "Event with no end date"
 msgstr "Hendelse uten sluttdato"
 
 #: ../calendar/gui/dialogs/event-page.c:1255
-#: ../calendar/gui/dialogs/task-page.c:849
+#: ../calendar/gui/dialogs/task-page.c:852
 msgid "Start date is wrong"
 msgstr "Startdato er feil"
 
@@ -6069,25 +6069,25 @@ msgstr "Tid for slutt er feil"
 
 #: ../calendar/gui/dialogs/event-page.c:1450
 #: ../calendar/gui/dialogs/meeting-page.c:464
-#: ../calendar/gui/dialogs/task-page.c:906
+#: ../calendar/gui/dialogs/task-page.c:909
 msgid "The organizer selected no longer has an account."
 msgstr "Valgt organisator har ingen konto lenger."
 
 #: ../calendar/gui/dialogs/event-page.c:1456
 #: ../calendar/gui/dialogs/meeting-page.c:470
-#: ../calendar/gui/dialogs/task-page.c:912
+#: ../calendar/gui/dialogs/task-page.c:915
 msgid "An organizer is required."
 msgstr "En organisator kreves."
 
 #: ../calendar/gui/dialogs/event-page.c:1471
 #: ../calendar/gui/dialogs/meeting-page.c:485
-#: ../calendar/gui/dialogs/task-page.c:927
+#: ../calendar/gui/dialogs/task-page.c:930
 msgid "At least one attendee is required."
 msgstr "Minst en deltaker kreves."
 
 #: ../calendar/gui/dialogs/event-page.c:1894
 #: ../calendar/gui/dialogs/meeting-page.c:895
-#: ../calendar/gui/dialogs/task-page.c:1182
+#: ../calendar/gui/dialogs/task-page.c:1205
 msgid "_Add "
 msgstr "_Legg til"
 
@@ -6587,15 +6587,15 @@ msgstr "_Oppgave"
 msgid "Task Details"
 msgstr "Oppgavedetaljer"
 
-#: ../calendar/gui/dialogs/task-page.c:437
+#: ../calendar/gui/dialogs/task-page.c:439
 msgid "_Group"
 msgstr "_Gruppe"
 
-#: ../calendar/gui/dialogs/task-page.c:822
+#: ../calendar/gui/dialogs/task-page.c:825
 msgid "Due date is wrong"
 msgstr "Ferdigdato er feil"
 
-#: ../calendar/gui/dialogs/task-page.c:1631
+#: ../calendar/gui/dialogs/task-page.c:1655
 #, c-format
 msgid "Unable to open tasks in '%s'."
 msgstr "Kan ikke åpne oppgaver i «%s»."
@@ -14648,7 +14648,8 @@ msgstr "Synkroniser med _vennelisten nå"
 #: ../plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:2
 msgid ""
 "Automatically fills your addressbook with names and email addresses as you "
-"reply to mails. Also fills in IM contact information from your buddy lists."
+"reply to messages. Also fills in IM contact information from your buddy "
+"lists."
 msgstr ""
 "Fyller dine adressebøker med navn og e-postadresser automatisk etter hvert "
 "som du svarer på meldinger. Fyller også ut IM-kontaktinformasjon fra dine "
@@ -15209,7 +15210,9 @@ msgstr "Abonner på annen brukers kalender"
 msgid ""
 "A plugin that handles a collection of Exchange account specific operations "
 "and features."
-msgstr "Et tillegg som håndterer en samling operasjoner og funksjoner som er spesifikke for Exchange-kontoer."
+msgstr ""
+"Et tillegg som håndterer en samling operasjoner og funksjoner som er "
+"spesifikke for Exchange-kontoer."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.eplug.xml.h:2
 msgid "Exchange Operations"
@@ -15461,7 +15464,7 @@ msgid "Unsupported operation"
 msgstr "Operasjonen er ikke støttet"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:68
-msgid "You are nearing your quota available for storing mails on this server."
+msgid "You are nearing your quota available for storing mail on this server."
 msgstr ""
 "Du nærmer deg den tilgjengelige kvoten for lagring av e-post på denne "
 "tjeneren."
@@ -15471,8 +15474,8 @@ msgid "You cannot make yourself your own delegate"
 msgstr "Du kan ikke gjøre deg selv til din egen delegat"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:70
-msgid "You have exceeded your quota for storing mails on this server."
-msgstr "Du har overgått kvoten din for lagring av e-post på denne tjeneren."
+msgid "You have exceeded your quota for storing mail on this server."
+msgstr "Du har overgått din kvote for lagring av e-post på denne tjeneren."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:71
 msgid "You may only configure a single Exchange account."
@@ -15481,20 +15484,20 @@ msgstr "Du kan bare konfigurere en Exchange-konto."
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:72
 msgid ""
 "Your current usage is: {0} KB. Try to clear up some space by deleting some "
-"mails."
-msgstr "Din nåværende bruk er: {0}KB. Prøv å frigjør litt plass ved å slette noen meldinger."
+"mail."
+msgstr "Din nåværende bruk er: {0} KB. Prøv å frigjøre litt plass ved å slette noen meldinger."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:73
 msgid ""
 "Your current usage is: {0} KB. You will not be able to either send or "
-"receive mails now."
-msgstr "Din nåværende bruk er: {0}KB. Du vil ikke kunne sende eller motta e-post nå."
+"receive mail now."
+msgstr "Din nåværende bruk er: {0} KB. Du vil ikke kunne sende eller motta e-post nå."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:74
 msgid ""
-"Your current usage is: {0} KB. You will not be able to send mails till you "
-"clear up some space by deleting some mails."
-msgstr "Din nåværende bruk er: {0}KB. Du vil ikke kunne sende e-post før du frigjør litt plass ved å slette noen meldinger."
+"Your current usage is: {0} KB. You will not be able to send mail until you "
+"clear up some space by deleting some mail."
+msgstr "Din nåværende bruk er: {0} KB. Du vil ikke kunne sende e-post før du frigjør litt plass ved å slette noen meldinger."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:75
 msgid "Your password has expired."
@@ -15751,6 +15754,31 @@ msgstr "Et tillegg for å sette opp Hula-kalenderressurser."
 msgid "Hula Account Setup"
 msgstr "Oppsett av konto for Hula"
 
+#: ../plugins/import-ics-attachments/icsimporter.c:83
+msgid "_Import to Calendar"
+msgstr "_Importer til kalenderen"
+
+#: ../plugins/import-ics-attachments/icsimporter.c:88
+msgid "_Import to Tasks"
+msgstr "_Importer til oppgaver"
+
+#: ../plugins/import-ics-attachments/icsimporter.c:197
+msgid "Import ICS"
+msgstr "Importer ICS"
+
+#: ../plugins/import-ics-attachments/icsimporter.c:225
+msgid "Select Task List"
+msgstr "Velg oppgaveliste"
+
+#: ../plugins/import-ics-attachments/icsimporter.c:229
+msgid "Select Calendar"
+msgstr "Velg kalender"
+
+#: ../plugins/import-ics-attachments/icsimporter.c:260
+#: ../shell/e-shell-importer.c:703
+msgid "_Import"
+msgstr "_Importer"
+
 #: ../plugins/ipod-sync/ical-format.c:137
 #: ../plugins/save-calendar/ical-format.c:137
 msgid "iCalendar format (.ics)"
@@ -15776,7 +15804,9 @@ msgstr "Ingen mappe for utdata"
 msgid ""
 "The output directory was not found on iPod! Please ensure that iPod has been "
 "correctly set up and try again."
-msgstr "Fant ikke mappe det skal skrives til på iPod! Vennligst sjekk at iPod'en er korrekt satt opp og prøv igjen."
+msgstr ""
+"Fant ikke mappe det skal skrives til på iPod! Vennligst sjekk at iPod'en er "
+"korrekt satt opp og prøv igjen."
 
 #: ../plugins/ipod-sync/sync.c:174 ../plugins/ipod-sync/sync.c:202
 msgid "Could not export data!"
@@ -16670,7 +16700,7 @@ msgstr "Tillegg"
 #: ../plugins/prefer-plain/org-gnome-prefer-plain.eplug.xml.h:1
 msgid ""
 "A test plugin which demonstrates a formatter plugin which lets you choose to "
-"disable HTML mails.\n"
+"disable HTML messages.\n"
 "\n"
 "This plugin is unsupported demonstration code only.\n"
 msgstr ""
@@ -16819,7 +16849,9 @@ msgstr "Spamassassin (integrert)"
 msgid ""
 "Filters junk messages using Spamassassin. This plugin requires Spamassassin "
 "to be installed."
-msgstr "Filtrerer uønskede meldinger med Spamassassin. Dette tillegget krever at Spamassassin er installert."
+msgstr ""
+"Filtrerer uønskede meldinger med Spamassassin. Dette tillegget krever at "
+"Spamassassin er installert."
 
 #: ../plugins/sa-junk-plugin/org-gnome-sa-junk-plugin.eplug.xml.h:2
 msgid "Spamassassin junk plugin"
@@ -17245,13 +17277,9 @@ msgstr "Importer data og innstillinger fra _eldre programmer"
 msgid "Import a _single file"
 msgstr "Importer en en_kelt fil"
 
-#: ../shell/e-shell-importer.c:703
-msgid "_Import"
-msgstr "_Importer"
-
 #: ../shell/e-shell-settings-dialog.c:318
-msgid "Evolution Settings"
-msgstr "Innstillinger for Evolution"
+msgid "Evolution Preferences"
+msgstr "Evolution brukervalg"
 
 #: ../shell/e-shell-utils.c:118
 msgid "No folder name specified."
@@ -19405,7 +19433,7 @@ msgid "_Post-To Field"
 msgstr "_Post-til-felt"
 
 #: ../ui/evolution-message-composer.xml.h:51
-msgid "_Prioritise Message"
+msgid "_Prioritize Message"
 msgstr "_Prioriter melding"
 
 #: ../ui/evolution-message-composer.xml.h:52
@@ -19665,8 +19693,8 @@ msgid "View/Hide the Status Bar"
 msgstr "Vis/skjul statuslinjen"
 
 #: ../ui/evolution.xml.h:36
-msgid "_About Evolution..."
-msgstr "_Om Evolution..."
+msgid "_About"
+msgstr "_Om"
 
 #: ../ui/evolution.xml.h:37
 msgid "_Close Window"
