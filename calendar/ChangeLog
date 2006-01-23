@@ -1,5 +1,10 @@
 2006-01-23  Andre Klapper <a9016009@gmx.de>
 
+	* gui/e-day-view-time-item.c: added translator comment
+	to a string. Fixes bug 328006.
+
+2006-01-23  Andre Klapper <a9016009@gmx.de>
+
 	* gui/print.c: added translator comments to workday
 	abbreviations. Fixes bug 328007.
 

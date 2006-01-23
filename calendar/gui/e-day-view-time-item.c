@@ -550,6 +550,10 @@ e_day_view_time_item_show_popup_menu (EDayViewTimeItem *dvtmitem,
 
 	for (i = 0; i < num_divisions; i++) {
 		g_snprintf (buffer, sizeof (buffer),
+		/* TO TRANSLATORS: %02i is the number of minutes; this is a context menu entry 
+		 * to change the length of the time division in the calendar day view, e.g.
+		 * a day is displayed in 24 "60 minute divisions" or 48 "30 minute divisions"
+		 */
 			    _("%02i minute divisions"), divisions[i]);
 		item = gtk_radio_menu_item_new_with_label (group, buffer);
 		group = gtk_radio_menu_item_group (GTK_RADIO_MENU_ITEM (item));
