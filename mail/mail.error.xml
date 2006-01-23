@@ -44,7 +44,7 @@ Many email systems add an Apparently-To header to messages that only have BCC re
  </error>
 
  <error id="send-no-recipients" type="warning">
-  <_primary>This message cannot be sent because you have not specified any Recipients</_primary>
+  <_primary>This message cannot be sent because you have not specified any recipients</_primary>
   <_secondary xml:space="preserve">Please enter a valid email address in the To: field. You can search for email addresses by clicking on the To: button next to the entry box.</_secondary>
  </error>
 

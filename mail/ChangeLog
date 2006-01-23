@@ -1,3 +1,7 @@
+2006-01-23  Andre Klapper <a9016009@gmx.de>
+
+	* mail.error.xml: fixed a typo. Fixes bug 328306.
+
 2006-01-23  Ranjan Somani  <sranjan@novell.com>
 
 	** Fixes #326795
