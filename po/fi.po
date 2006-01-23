@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-01-21 22:20+0200\n"
-"PO-Revision-Date: 2006-01-21:22:25+0200\n"
+"POT-Creation-Date: 2006-01-23 22:23+0200\n"
+"PO-Revision-Date: 2006-01-23 22:25+0200\n"
 "Last-Translator: Ilkka Tuohela <hile@iki.fi>\n"
 "Language-Team: Finnish <gnome-fi-laatu@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -799,12 +799,12 @@ msgstr "Yhteystietojen lähdevalinta"
 msgid "Accessing LDAP Server anonymously"
 msgstr "Otetaan yhteyttä LDAP-palvelimeen anonyymisti"
 
-#: ../addressbook/gui/component/addressbook.c:191
+#: ../addressbook/gui/component/addressbook.c:197
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:492
 msgid "Failed to authenticate.\n"
 msgstr "Kirjautuminen epäonnistui.\n"
 
-#: ../addressbook/gui/component/addressbook.c:198
+#: ../addressbook/gui/component/addressbook.c:204
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:471
 #, c-format
 msgid "Enter password for %s (user %s)"
@@ -2503,21 +2503,25 @@ msgstr ""
 msgid "Invalid contact."
 msgstr "Virheellinen yhteystieto."
 
-#: ../addressbook/gui/contact-editor/e-contact-quick-add.c:277
+#: ../addressbook/gui/contact-editor/e-contact-quick-add.c:291
 msgid "Contact Quick-Add"
 msgstr "Yhteystiedon pikalisäys"
 
-#: ../addressbook/gui/contact-editor/e-contact-quick-add.c:280
+#: ../addressbook/gui/contact-editor/e-contact-quick-add.c:294
 msgid "_Edit Full"
 msgstr "Muokkaa _kaikkia tietoja"
 
-#: ../addressbook/gui/contact-editor/e-contact-quick-add.c:306
-msgid "_Full name:"
-msgstr "_Koko nimi:"
+#: ../addressbook/gui/contact-editor/e-contact-quick-add.c:337
+msgid "_Full name"
+msgstr "_Koko nimi"
 
-#: ../addressbook/gui/contact-editor/e-contact-quick-add.c:316
-msgid "E-_mail:"
-msgstr "Sähköposti:"
+#: ../addressbook/gui/contact-editor/e-contact-quick-add.c:347
+msgid "E-_mail"
+msgstr "Sähköposti"
+
+#: ../addressbook/gui/contact-editor/e-contact-quick-add.c:357
+msgid "_Select Address Book"
+msgstr "_Valitse osoitekirja"
 
 #: ../addressbook/gui/contact-editor/eab-editor.c:323
 #, c-format
@@ -2983,12 +2987,10 @@ msgid "Email"
 msgstr "Sähköposti"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:11
-#: ../addressbook/gui/widgets/eab-popup-control.c:441
 msgid "Email 2"
 msgstr "Sähköposti 2"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:12
-#: ../addressbook/gui/widgets/eab-popup-control.c:451
 msgid "Email 3"
 msgstr "Sähköposti 3"
 
@@ -3342,7 +3344,7 @@ msgstr "Protokolla ei ole tuettu"
 #: ../calendar/gui/e-cal-component-preview.c:234
 #: ../calendar/gui/e-cal-model-tasks.c:349
 #: ../calendar/gui/e-cal-model-tasks.c:662
-#: ../calendar/gui/e-calendar-table.c:464 ../calendar/gui/print.c:2376
+#: ../calendar/gui/e-calendar-table.c:464 ../calendar/gui/print.c:2377
 msgid "Canceled"
 msgstr "Peruutettu"
 
@@ -3580,40 +3582,9 @@ msgstr "Yhteystiedot"
 msgid "Contact information for %s"
 msgstr "%s yhteystiedot"
 
-#.
-#. * This is the code for the UI thingie that lets you manipulate the e-mail
-#. * addresses (and *only* the e-mail addresses) associated with an existing
-#. * contact.
-#.
-#: ../addressbook/gui/widgets/eab-popup-control.c:198
-msgid "(none)"
-msgstr "(ei nimeä)"
-
-#: ../addressbook/gui/widgets/eab-popup-control.c:431
-msgid "Primary Email"
-msgstr "Ensisijainen sähköposti"
-
-#: ../addressbook/gui/widgets/eab-popup-control.c:567
-msgid "Select an Action"
-msgstr "Valitse toiminto"
-
-#: ../addressbook/gui/widgets/eab-popup-control.c:575
-#, c-format
-msgid "Create a new contact \"%s\""
-msgstr "Luo uusi yhteystieto \"%s\""
-
-#: ../addressbook/gui/widgets/eab-popup-control.c:591
-#, c-format
-msgid "Add address to existing contact \"%s\""
-msgstr "Lisää osoite olemassaolevaan yhteystietoon \"%s\""
-
-#: ../addressbook/gui/widgets/eab-popup-control.c:869
+#: ../addressbook/gui/widgets/eab-popup-control.c:287
 msgid "Querying Address Book..."
 msgstr "Etsitään osoitekirjasta..."
-
-#: ../addressbook/gui/widgets/eab-popup-control.c:968
-msgid "Merge E-Mail Address"
-msgstr "Yhdistä sähköpostiosoite"
 
 #: ../addressbook/gui/widgets/eab-vcard-control.c:139
 #, c-format
@@ -3643,33 +3614,33 @@ msgstr "Korttinäkymä"
 msgid "GTK Tree View"
 msgstr "GTK puunäkymä"
 
-#: ../addressbook/importers/evolution-csv-importer.c:521
+#: ../addressbook/importers/evolution-csv-importer.c:624
 #: ../mail/importers/evolution-outlook-importer.c:264
 #: ../mail/importers/netscape-importer.c:1252
 msgid "Importing..."
 msgstr "Tuodaan..."
 
-#: ../addressbook/importers/evolution-csv-importer.c:723
+#: ../addressbook/importers/evolution-csv-importer.c:826
 msgid "Outlook CSV or Tab (.csv, .tab)"
 msgstr "Outlookin CSV tai Tab (.csv, .tab)"
 
-#: ../addressbook/importers/evolution-csv-importer.c:724
+#: ../addressbook/importers/evolution-csv-importer.c:827
 msgid "Outlook CSV and Tab Importer"
 msgstr "Outlookin CSV- ja Tab-tuoja"
 
-#: ../addressbook/importers/evolution-csv-importer.c:732
+#: ../addressbook/importers/evolution-csv-importer.c:835
 msgid "Mozilla CSV or Tab (.csv, .tab)"
 msgstr "Mozillan CVS tai Tab (.cvs, .tab)"
 
-#: ../addressbook/importers/evolution-csv-importer.c:733
+#: ../addressbook/importers/evolution-csv-importer.c:836
 msgid "Mozilla CSV and Tab Importer"
 msgstr "Mozilln CVS- ja Tab-tuoja"
 
-#: ../addressbook/importers/evolution-csv-importer.c:741
+#: ../addressbook/importers/evolution-csv-importer.c:844
 msgid "Evolution CSV or Tab (.csv, .tab)"
 msgstr "Evolutionin CSV tai Tab (.csv, .tab)"
 
-#: ../addressbook/importers/evolution-csv-importer.c:742
+#: ../addressbook/importers/evolution-csv-importer.c:845
 msgid "Evolution CSV and Tab Importer"
 msgstr "Evolutionin CSV- ja Tab-tuoja"
 
@@ -3859,7 +3830,7 @@ msgstr "Varjostus"
 
 #. FIXME: Take care of i18n
 #: ../addressbook/printing/e-contact-print.glade.h:36
-#: ../plugins/exchange-operations/exchange-account-setup.c:949
+#: ../plugins/exchange-operations/exchange-account-setup.c:965
 #: ../plugins/exchange-operations/exchange-calendar.c:224
 #: ../plugins/exchange-operations/exchange-contacts.c:199
 msgid "Size:"
@@ -4455,7 +4426,7 @@ msgid "Memos"
 msgstr "Muistilaput"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:13
-#: ../calendar/gui/e-tasks.c:1334 ../calendar/gui/print.c:1832
+#: ../calendar/gui/e-tasks.c:1334 ../calendar/gui/print.c:1833
 #: ../calendar/gui/tasks-component.c:521
 #: ../calendar/gui/tasks-component.c:1015 ../calendar/gui/tasks-control.c:472
 #: ../calendar/importers/icalendar-importer.c:80
@@ -4533,7 +4504,6 @@ msgid "Snooze _time:"
 msgstr "Torkkumisaika:"
 
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:4
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:54
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:6
 #: ../filter/filter.glade.h:11 ../mail/mail-config.glade.h:159
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:15
@@ -5100,7 +5070,7 @@ msgstr "Sijainti sisältää"
 msgid "Unmatched"
 msgstr "Täsmäämättömät"
 
-#: ../calendar/gui/calendar-commands.c:119 ../calendar/gui/print.c:2513
+#: ../calendar/gui/calendar-commands.c:119 ../calendar/gui/print.c:2514
 #: ../ui/evolution-addressbook.xml.h:17 ../ui/evolution-calendar.xml.h:18
 #: ../ui/evolution-mail-message.xml.h:75 ../ui/evolution-memos.xml.h:11
 #: ../ui/evolution-tasks.xml.h:14
@@ -5437,58 +5407,56 @@ msgstr ""
 "10 minuuttia\n"
 "5 minuuttia"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:6
-msgid "<b>Publishing</b>"
-msgstr "<b>Julkaiseminen</b>"
-
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:8
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:7
 #, no-c-format
 msgid ""
 "<i>%u and %d will be replaced by user and domain from the email address.</i>"
 msgstr ""
 "<i>%u ja %d korvataan käyttäjällä ja aluenimellä sähköpostiosoitteesta.</i>"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:9
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:8
 #: ../mail/mail-config.glade.h:9
 msgid "<span weight=\"bold\">Alerts</span>"
 msgstr "<span weight=\"bold\">Hälytykset</span>"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:10
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:9
 msgid "<span weight=\"bold\">Default Free/Busy Server</span>"
 msgstr "<span weight=\"bold\">Vapaa/varattu-tietojen oletuspalvelin</span>"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:11
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:10
 #: ../mail/mail-config.glade.h:18
 #: ../plugins/itip-formatter/itip-formatter.c:1977
 #: ../plugins/publish-calendar/publish-calendar.glade.h:1
 msgid "<span weight=\"bold\">General</span>"
 msgstr "<span weight=\"bold\">Yleistä</span>"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:12
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:11
 msgid "<span weight=\"bold\">Task List</span>"
 msgstr "<span weight=\"bold\">Tehtävälista</span>"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:13
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:12
 msgid "<span weight=\"bold\">Time</span>"
 msgstr "<span weight=\"bold\">Aika</span>"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:14
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:13
 msgid "<span weight=\"bold\">Work Week</span>"
 msgstr "<span weight=\"bold\">Työviikko</span>"
 
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:14
+msgid "Color for overdue tasks"
+msgstr "Eräpäivän ylittäneiden tehtävien väri"
+
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:15
+msgid "Color for tasks due today"
+msgstr "Tänään erääntyvien tehtävien väri"
+
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:16
 msgid "Day _ends:"
 msgstr "Päivä _päättyy:"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:16
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:17
 msgid "Display"
 msgstr "Näytä"
-
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:17
-#: ../mail/mail-config.glade.h:74
-#: ../plugins/publish-calendar/publish-calendar.glade.h:9
-msgid "E_nable"
-msgstr "Kä_ytä"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:18
 #: ../calendar/gui/dialogs/event-editor.c:566
@@ -5537,141 +5505,133 @@ msgstr ""
 "sunnuntai"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:32
-msgid "Publishing Table"
-msgstr "Julkaisemistaulu"
-
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:33
 msgid "S_un"
 msgstr "_Su"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:34
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:33
 #: ../calendar/gui/dialogs/recurrence-page.c:1051
 #: ../calendar/gui/e-itip-control.c:734
 msgid "Saturday"
 msgstr "Lauantai"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:35
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:34
 msgid "Sh_ow a reminder"
 msgstr "Näytä muistutus"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:36
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:35
 msgid "Show week _numbers in date navigator"
 msgstr "Näytä _viikkonumerot"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:37
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:36
 #: ../calendar/gui/dialogs/recurrence-page.c:1052
 #: ../calendar/gui/e-itip-control.c:728
 msgid "Sunday"
 msgstr "Sunnuntai"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:38
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:37
 msgid "T_asks due today:"
 msgstr "_Tänään erääntyvät tehtävät:"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:39
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:38
 msgid "T_hu"
 msgstr "_To"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:40
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:39
 msgid "Template:"
 msgstr "Pohja:"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:41
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:40
 #: ../calendar/gui/dialogs/recurrence-page.c:1049
 #: ../calendar/gui/e-itip-control.c:732
 msgid "Thursday"
 msgstr "Torstai"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:42
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:41
 #: ../calendar/gui/dialogs/event-page.glade.h:14
 msgid "Time _zone:"
 msgstr "Aikavyöhyke: "
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:43
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:42
 msgid "Time format:"
 msgstr "Ajan muoto:"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:44
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:43
 #: ../calendar/gui/dialogs/recurrence-page.c:1047
 #: ../calendar/gui/e-itip-control.c:730
 msgid "Tuesday"
 msgstr "Tiistai"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:45
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:44
 msgid "W_eek starts:"
 msgstr "Viikko _alkaa:"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:46
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:45
 #: ../calendar/gui/dialogs/recurrence-page.c:1048
 #: ../calendar/gui/e-itip-control.c:731
 msgid "Wednesday"
 msgstr "Keskiviikko"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:47
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:46
 msgid "Work days:"
 msgstr "Työpäivät:"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:48
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:47
 msgid "_12 hour (AM/PM)"
 msgstr "_12 tuntia (am/pm)"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:49
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:48
 msgid "_24 hour"
 msgstr "_24 tuntia"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:50
-msgid "_Add URL"
-msgstr "_Lisää URL"
-
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:51
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:49
 msgid "_Ask for confirmation when deleting items"
 msgstr "Pyydä _vahvistusta poistettaessa"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:52
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:50
 msgid "_Compress weekends in month view"
 msgstr "_Tiivistä viikonloput kuukausinäkymässä"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:53
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:51
 msgid "_Day begins:"
 msgstr "_Päivä alkaa:"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:55
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:52
 msgid "_Fri"
 msgstr "_Pe"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:56
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:53
 msgid "_Hide completed tasks after"
 msgstr "Piilota _poistetut viestit kun on kulunut"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:57
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:54
 msgid "_Mon"
 msgstr "_Ma"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:58
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:55
 msgid "_Overdue tasks:"
 msgstr "_Eräpäivän ylittäneet tehtävät:"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:59
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:56
 msgid "_Sat"
 msgstr "_La"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:60
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:57
 msgid "_Show appointment end times in week and month view"
 msgstr "_Näytä tapaamisten loppumisajat viikko- ja kuukausinäkymissä"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:61
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:58
 msgid "_Time divisions:"
 msgstr "_Aikajaot:"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:62
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:59
 msgid "_Tue"
 msgstr "_Ti"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:63
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:60
 msgid "_Wed"
 msgstr "_Ke"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:64
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:61
 msgid "before every appointment"
 msgstr "_Ennen joka tapaamista"
 
@@ -5805,23 +5765,23 @@ msgstr "%s Et tehnyt muutoksia, suljetaanko muokkain?"
 msgid "Validation error: %s"
 msgstr "Tarkistusvirhe: %s"
 
-#: ../calendar/gui/dialogs/comp-editor-util.c:187 ../calendar/gui/print.c:2271
+#: ../calendar/gui/dialogs/comp-editor-util.c:187 ../calendar/gui/print.c:2272
 msgid " to "
 msgstr " - "
 
-#: ../calendar/gui/dialogs/comp-editor-util.c:191 ../calendar/gui/print.c:2275
+#: ../calendar/gui/dialogs/comp-editor-util.c:191 ../calendar/gui/print.c:2276
 msgid " (Completed "
 msgstr " (Valmis "
 
-#: ../calendar/gui/dialogs/comp-editor-util.c:193 ../calendar/gui/print.c:2277
+#: ../calendar/gui/dialogs/comp-editor-util.c:193 ../calendar/gui/print.c:2278
 msgid "Completed "
 msgstr "Valmis"
 
-#: ../calendar/gui/dialogs/comp-editor-util.c:198 ../calendar/gui/print.c:2282
+#: ../calendar/gui/dialogs/comp-editor-util.c:198 ../calendar/gui/print.c:2283
 msgid " (Due "
 msgstr "(erääntyy "
 
-#: ../calendar/gui/dialogs/comp-editor-util.c:200 ../calendar/gui/print.c:2284
+#: ../calendar/gui/dialogs/comp-editor-util.c:200 ../calendar/gui/print.c:2285
 msgid "Due "
 msgstr "Erääntyy "
 
@@ -6216,7 +6176,7 @@ msgstr "<b>Lähde:</b>"
 #: ../calendar/gui/e-cal-model-tasks.c:654
 #: ../calendar/gui/e-itip-control.c:1105 ../composer/e-msg-composer.c:2275
 #: ../filter/filter-rule.c:881 ../mail/em-account-editor.c:691
-#: ../mail/em-account-editor.c:1356 ../mail/em-account-prefs.c:465
+#: ../mail/em-account-editor.c:1356 ../mail/em-account-prefs.c:468
 #: ../mail/em-folder-view.c:1106 ../mail/em-junk-hook.c:78
 #: ../plugins/calendar-weather/calendar-weather.c:370
 #: ../plugins/calendar-weather/calendar-weather.c:424
@@ -6299,7 +6259,7 @@ msgstr "Järjestäjä:"
 msgid "Organizer:"
 msgstr "Järjestäjä:"
 
-#: ../calendar/gui/dialogs/memo-editor.c:130 ../calendar/gui/print.c:2312
+#: ../calendar/gui/dialogs/memo-editor.c:130 ../calendar/gui/print.c:2313
 msgid "Memo"
 msgstr "Muistilappu"
 
@@ -6523,7 +6483,7 @@ msgstr "<span weight=\"bold\">Tila</span>"
 #: ../calendar/gui/e-cal-model-tasks.c:660
 #: ../calendar/gui/e-calendar-table.c:463 ../calendar/gui/e-itip-control.c:897
 #: ../calendar/gui/e-meeting-store.c:197 ../calendar/gui/e-meeting-store.c:220
-#: ../calendar/gui/print.c:2373 ../plugins/save-calendar/csv-format.c:390
+#: ../calendar/gui/print.c:2374 ../plugins/save-calendar/csv-format.c:390
 msgid "Completed"
 msgstr "Valmis"
 
@@ -6538,7 +6498,7 @@ msgstr "Korkea"
 #: ../calendar/gui/e-cal-model-tasks.c:345
 #: ../calendar/gui/e-cal-model-tasks.c:658
 #: ../calendar/gui/e-cal-model-tasks.c:733
-#: ../calendar/gui/e-calendar-table.c:462 ../calendar/gui/print.c:2370
+#: ../calendar/gui/e-calendar-table.c:462 ../calendar/gui/print.c:2371
 msgid "In Progress"
 msgstr "Työn alla"
 
@@ -6559,7 +6519,7 @@ msgstr "Tavallinen"
 #: ../calendar/gui/e-cal-component-preview.c:238
 #: ../calendar/gui/e-cal-model-tasks.c:343
 #: ../calendar/gui/e-cal-model-tasks.c:656
-#: ../calendar/gui/e-calendar-table.c:461 ../calendar/gui/print.c:2367
+#: ../calendar/gui/e-calendar-table.c:461 ../calendar/gui/print.c:2368
 msgid "Not Started"
 msgstr "Ei aloitettu"
 
@@ -6905,7 +6865,7 @@ msgstr "Annettu tehtäväksi"
 msgid "Save As..."
 msgstr "Tallenna nimellä..."
 
-#: ../calendar/gui/e-cal-popup.c:188 ../mail/em-format-html-display.c:1865
+#: ../calendar/gui/e-cal-popup.c:188 ../mail/em-format-html-display.c:1866
 msgid "Select folder to save selected attachments..."
 msgstr "Valitse kansio, johon valitut liitteet tallennetaan..."
 
@@ -7165,19 +7125,25 @@ msgid "Delete _All Occurrences"
 msgstr "Poista _kaikki tapahtumakerrat"
 
 #. To Translators: It will display "Organiser: NameOfTheUser <email@ofuser.com>"
-#: ../calendar/gui/e-calendar-view.c:2043
+#: ../calendar/gui/e-calendar-view.c:2045
 #, c-format
 msgid "Organizer: %s <%s>"
 msgstr "Järjestäjä: %s <%s>"
 
+#. With SunOne accouts, there may be no ':' in organiser.value
+#: ../calendar/gui/e-calendar-view.c:2049
+#, c-format
+msgid "Organizer: %s"
+msgstr "Järjestäjä: %s"
+
 #. To Translators: It will display "Location: PlaceOfTheMeeting"
-#: ../calendar/gui/e-calendar-view.c:2057 ../calendar/gui/print.c:2340
+#: ../calendar/gui/e-calendar-view.c:2064 ../calendar/gui/print.c:2341
 #, c-format
 msgid "Location: %s"
 msgstr "Sijainti: %s"
 
 #. To Translators: It will display "Time: ActualStartDateAndTime (DurationOfTheMeeting)"
-#: ../calendar/gui/e-calendar-view.c:2088
+#: ../calendar/gui/e-calendar-view.c:2095
 #, c-format
 msgid "Time: %s %s"
 msgstr "Aika: %s %s"
@@ -7215,19 +7181,19 @@ msgstr "%02i minuutin välein"
 #. order but don't change the specifiers or add
 #. anything.
 #: ../calendar/gui/e-day-view-top-item.c:715 ../calendar/gui/e-day-view.c:1493
-#: ../calendar/gui/e-week-view-main-item.c:313 ../calendar/gui/print.c:1527
+#: ../calendar/gui/e-week-view-main-item.c:313 ../calendar/gui/print.c:1528
 msgid "%A %d %B"
 msgstr "%A %d %B"
 
 #. String to use in 12-hour time format for times in the morning.
 #: ../calendar/gui/e-day-view.c:748 ../calendar/gui/e-week-view.c:512
-#: ../calendar/gui/print.c:842
+#: ../calendar/gui/print.c:843
 msgid "am"
 msgstr "am"
 
 #. String to use in 12-hour time format for times in the afternoon.
 #: ../calendar/gui/e-day-view.c:751 ../calendar/gui/e-week-view.c:515
-#: ../calendar/gui/print.c:844
+#: ../calendar/gui/print.c:845
 msgid "pm"
 msgstr "pm"
 
@@ -7908,7 +7874,7 @@ msgstr "Aikavyöhykepainike"
 #. strftime format %d = day of month, %B = full
 #. month name. You can change the order but don't
 #. change the specifiers or add anything.
-#: ../calendar/gui/e-week-view-main-item.c:330 ../calendar/gui/print.c:1511
+#: ../calendar/gui/e-week-view-main-item.c:330 ../calendar/gui/print.c:1512
 msgid "%d %B"
 msgstr "%d %B"
 
@@ -8302,115 +8268,116 @@ msgstr "30."
 msgid "31st"
 msgstr "31."
 
-#: ../calendar/gui/print.c:574
+#. Translators: These are workday abbreviations, e.g. Su=Sunday and Th=Thursday
+#: ../calendar/gui/print.c:575
 msgid "Su"
 msgstr "Su"
 
-#: ../calendar/gui/print.c:574
+#: ../calendar/gui/print.c:575
 msgid "Mo"
 msgstr "Ma"
 
-#: ../calendar/gui/print.c:574
+#: ../calendar/gui/print.c:575
 msgid "Tu"
 msgstr "Ti"
 
-#: ../calendar/gui/print.c:574
+#: ../calendar/gui/print.c:575
 msgid "We"
 msgstr "Ke"
 
-#: ../calendar/gui/print.c:575
+#: ../calendar/gui/print.c:576
 msgid "Th"
 msgstr "To"
 
-#: ../calendar/gui/print.c:575
+#: ../calendar/gui/print.c:576
 msgid "Fr"
 msgstr "Pe"
 
-#: ../calendar/gui/print.c:575
+#: ../calendar/gui/print.c:576
 msgid "Sa"
 msgstr "La"
 
 #. Day
-#: ../calendar/gui/print.c:1927
+#: ../calendar/gui/print.c:1928
 msgid "Selected day (%a %b %d %Y)"
 msgstr "Valittu päivä (%a %d.%b.%Y)"
 
-#: ../calendar/gui/print.c:1952 ../calendar/gui/print.c:1956
+#: ../calendar/gui/print.c:1953 ../calendar/gui/print.c:1957
 msgid "%a %b %d"
 msgstr "%a %b %d"
 
-#: ../calendar/gui/print.c:1953
+#: ../calendar/gui/print.c:1954
 msgid "%a %d %Y"
 msgstr "%a %d %Y"
 
-#: ../calendar/gui/print.c:1957 ../calendar/gui/print.c:1959
-#: ../calendar/gui/print.c:1960
+#: ../calendar/gui/print.c:1958 ../calendar/gui/print.c:1960
+#: ../calendar/gui/print.c:1961
 msgid "%a %b %d %Y"
 msgstr "%a %b %d %Y"
 
-#: ../calendar/gui/print.c:1964
+#: ../calendar/gui/print.c:1965
 #, c-format
 msgid "Selected week (%s - %s)"
 msgstr "Valittu viikko (%s - %s)"
 
 #. Month
-#: ../calendar/gui/print.c:1972
+#: ../calendar/gui/print.c:1973
 msgid "Selected month (%b %Y)"
 msgstr "Valittu kuukausi (%b %Y)"
 
 #. Year
-#: ../calendar/gui/print.c:1979
+#: ../calendar/gui/print.c:1980
 msgid "Selected year (%Y)"
 msgstr "Valittu vuosi (%Y)"
 
-#: ../calendar/gui/print.c:2308
+#: ../calendar/gui/print.c:2309
 msgid "Appointment"
 msgstr "Tapaaminen"
 
-#: ../calendar/gui/print.c:2310
+#: ../calendar/gui/print.c:2311
 msgid "Task"
 msgstr "Tehtävä"
 
-#: ../calendar/gui/print.c:2332
+#: ../calendar/gui/print.c:2333
 #, c-format
 msgid "Summary: %s"
 msgstr "Yhteenveto: %s"
 
-#: ../calendar/gui/print.c:2383
+#: ../calendar/gui/print.c:2384
 #, c-format
 msgid "Status: %s"
 msgstr "Tila: %s"
 
-#: ../calendar/gui/print.c:2400
+#: ../calendar/gui/print.c:2401
 #, c-format
 msgid "Priority: %s"
 msgstr "Prioriteetti: %s"
 
-#: ../calendar/gui/print.c:2412
+#: ../calendar/gui/print.c:2413
 #, c-format
 msgid "Percent Complete: %i"
 msgstr "Valmis (%%): %i"
 
-#: ../calendar/gui/print.c:2424
+#: ../calendar/gui/print.c:2425
 #, c-format
 msgid "URL: %s"
 msgstr "URL: %s"
 
-#: ../calendar/gui/print.c:2438
+#: ../calendar/gui/print.c:2439
 #, c-format
 msgid "Categories: %s"
 msgstr "Ryhmät: %s"
 
-#: ../calendar/gui/print.c:2449
+#: ../calendar/gui/print.c:2450
 msgid "Contacts: "
 msgstr "Yhteystiedot: "
 
-#: ../calendar/gui/print.c:2589 ../calendar/gui/print.c:2677
-#: ../calendar/gui/print.c:2803 ../mail/em-format-html-print.c:178
+#: ../calendar/gui/print.c:2590 ../calendar/gui/print.c:2678
+#: ../calendar/gui/print.c:2804 ../mail/em-format-html-print.c:178
 msgid "Print Preview"
 msgstr "Tulostuksen esikatselu"
 
-#: ../calendar/gui/print.c:2624
+#: ../calendar/gui/print.c:2625
 msgid "Print Item"
 msgstr "Tulosta kohta"
 
@@ -10989,26 +10956,26 @@ msgid "Enable"
 msgstr "Käytössä"
 
 #. translators: default account indicator
-#: ../mail/em-account-prefs.c:456
+#: ../mail/em-account-prefs.c:459
 msgid "[Default]"
 msgstr "[Oletus]"
 
 #. g_object_set((GObject *)renderer, "activatable", TRUE, NULL);
-#: ../mail/em-account-prefs.c:505 ../mail/em-composer-prefs.c:930
+#: ../mail/em-account-prefs.c:512 ../mail/em-composer-prefs.c:930
 #: ../plugins/plugin-manager/plugin-manager.c:213
 #: ../plugins/publish-calendar/publish-calendar.c:457
 msgid "Enabled"
 msgstr "Käytössä"
 
-#: ../mail/em-account-prefs.c:511
+#: ../mail/em-account-prefs.c:518
 msgid "Account name"
 msgstr "Tilin nimi"
 
-#: ../mail/em-account-prefs.c:513
+#: ../mail/em-account-prefs.c:520
 msgid "Protocol"
 msgstr "Protokolla"
 
-#: ../mail/em-account-prefs.c:518
+#: ../mail/em-account-prefs.c:525
 msgid "Mail Accounts Table"
 msgstr "Sähköpostitilit"
 
@@ -11635,16 +11602,16 @@ msgid "Click to mail %s"
 msgstr "Napsauta lähettääksesi %s"
 
 #. message-search popup match count string
-#: ../mail/em-format-html-display.c:492
+#: ../mail/em-format-html-display.c:493
 #, c-format
 msgid "Matches: %d"
 msgstr "Osumia: %d"
 
-#: ../mail/em-format-html-display.c:752 ../mail/em-format-html.c:607
+#: ../mail/em-format-html-display.c:753 ../mail/em-format-html.c:607
 msgid "Unsigned"
 msgstr "Allekirjoittamaton"
 
-#: ../mail/em-format-html-display.c:752
+#: ../mail/em-format-html-display.c:753
 msgid ""
 "This message is not signed. There is no guarantee that this message is "
 "authentic."
@@ -11652,11 +11619,11 @@ msgstr ""
 "Viesti ei ole allekirjoitettu. Ei ole varmaa, että viestin lähettäjä on "
 "varmasti se, jolta viesti näyttää olevan."
 
-#: ../mail/em-format-html-display.c:753 ../mail/em-format-html.c:608
+#: ../mail/em-format-html-display.c:754 ../mail/em-format-html.c:608
 msgid "Valid signature"
 msgstr "Hyväksytty allekirjoitus"
 
-#: ../mail/em-format-html-display.c:753
+#: ../mail/em-format-html-display.c:754
 msgid ""
 "This message is signed and is valid meaning that it is very likely that this "
 "message is authentic."
@@ -11664,11 +11631,11 @@ msgstr ""
 "Tämä viesti on allekirjoitettu ja varmennettu. Viesti on "
 "hyvintodennäköisesti aito."
 
-#: ../mail/em-format-html-display.c:754 ../mail/em-format-html.c:609
+#: ../mail/em-format-html-display.c:755 ../mail/em-format-html.c:609
 msgid "Invalid signature"
 msgstr "Hylätty allekirjoitus"
 
-#: ../mail/em-format-html-display.c:754
+#: ../mail/em-format-html-display.c:755
 msgid ""
 "The signature of this message cannot be verified, it may have been altered "
 "in transit."
@@ -11676,11 +11643,11 @@ msgstr ""
 "Tämän viestin allekirjoitusta ei voida tarkistaa, se on ehkä muuttunut "
 "siirron aikana."
 
-#: ../mail/em-format-html-display.c:755
+#: ../mail/em-format-html-display.c:756
 msgid "Valid signature, cannot verify sender"
 msgstr "Allekirjoitus on kelvollinen, mutta lähettäjää ei voida varmistaa"
 
-#: ../mail/em-format-html-display.c:755
+#: ../mail/em-format-html-display.c:756
 msgid ""
 "This message is signed with a valid signature, but the sender of the message "
 "cannot be verified."
@@ -11688,11 +11655,11 @@ msgstr ""
 "Tämä viesti on allekirjoitettu kelvollisella allekirjoituksella, mutta "
 "viestin lähettäjää ei voida varmistaa."
 
-#: ../mail/em-format-html-display.c:761 ../mail/em-format-html.c:616
+#: ../mail/em-format-html-display.c:762 ../mail/em-format-html.c:616
 msgid "Unencrypted"
 msgstr "Salaamaton"
 
-#: ../mail/em-format-html-display.c:761
+#: ../mail/em-format-html-display.c:762
 msgid ""
 "This message is not encrypted. Its content may be viewed in transit across "
 "the Internet."
@@ -11700,11 +11667,11 @@ msgstr ""
 "Viesti ei ole salattu. Viestin sisältöä voidaan tutkia sen kulkiessa "
 "Internetin läpi."
 
-#: ../mail/em-format-html-display.c:762 ../mail/em-format-html.c:617
+#: ../mail/em-format-html-display.c:763 ../mail/em-format-html.c:617
 msgid "Encrypted, weak"
 msgstr "Heikosti salattu"
 
-#: ../mail/em-format-html-display.c:762
+#: ../mail/em-format-html-display.c:763
 msgid ""
 "This message is encrypted, but with a weak encryption algorithm. It would be "
 "difficult, but not impossible for an outsider to view the content of this "
@@ -11714,11 +11681,11 @@ msgstr ""
 "mahdotonta, että ulkopuolinen pystyy purkamaan ja katsomaan viestin sisällön "
 "melko lyhyessä ajassa."
 
-#: ../mail/em-format-html-display.c:763 ../mail/em-format-html.c:618
+#: ../mail/em-format-html-display.c:764 ../mail/em-format-html.c:618
 msgid "Encrypted"
 msgstr "Salattu"
 
-#: ../mail/em-format-html-display.c:763
+#: ../mail/em-format-html-display.c:764
 msgid ""
 "This message is encrypted.  It would be difficult for an outsider to view "
 "the content of this message."
@@ -11726,11 +11693,11 @@ msgstr ""
 "Viesti on salattu. Ulkopuolisen on vaikea avata viestin sisältö "
 "luettavakseen."
 
-#: ../mail/em-format-html-display.c:764 ../mail/em-format-html.c:619
+#: ../mail/em-format-html-display.c:765 ../mail/em-format-html.c:619
 msgid "Encrypted, strong"
 msgstr "Salattu vahvalla algoritmilla"
 
-#: ../mail/em-format-html-display.c:764
+#: ../mail/em-format-html-display.c:765
 msgid ""
 "This message is encrypted, with a strong encryption algorithm. It would be "
 "very difficult for an outsider to view the content of this message in a "
@@ -11740,73 +11707,77 @@ msgstr ""
 "vaikea purkaa salausta ja nähdä tämän viestin sisältön missään "
 "käytännöllisessä ajassa."
 
-#: ../mail/em-format-html-display.c:865 ../smime/gui/smime-ui.glade.h:48
+#: ../mail/em-format-html-display.c:866 ../smime/gui/smime-ui.glade.h:48
 msgid "_View Certificate"
 msgstr "_Näytä varmenne"
 
-#: ../mail/em-format-html-display.c:880
+#: ../mail/em-format-html-display.c:881
 msgid "This certificate is not viewable"
 msgstr "Tätä varmennetta ei voida näyttää"
 
-#: ../mail/em-format-html-display.c:1168
+#: ../mail/em-format-html-display.c:1169
 msgid "Completed on %B %d, %Y, %l:%M %p"
 msgstr "Valmistui %B %d, %Y, %l:%M %p"
 
-#: ../mail/em-format-html-display.c:1176
+#: ../mail/em-format-html-display.c:1177
 msgid "Overdue:"
 msgstr "Eräpäivä ylitetty:"
 
-#: ../mail/em-format-html-display.c:1179
+#: ../mail/em-format-html-display.c:1180
 msgid "by %B %d, %Y, %l:%M %p"
 msgstr "kirjoittanut %d %l:%M %p"
 
-#: ../mail/em-format-html-display.c:1239
+#: ../mail/em-format-html-display.c:1240
 msgid "_View Inline"
 msgstr "Näytä _sisäkkäisesti"
 
-#: ../mail/em-format-html-display.c:1240
+#: ../mail/em-format-html-display.c:1241
 msgid "_Hide"
 msgstr "_Piilota"
 
-#: ../mail/em-format-html-display.c:1241
+#: ../mail/em-format-html-display.c:1242
 msgid "_Fit to Width"
 msgstr "Sovita _leveyteen"
 
-#: ../mail/em-format-html-display.c:1242
+#: ../mail/em-format-html-display.c:1243
 msgid "Show _Original Size"
 msgstr "Näytä alkuperäinen k_oko"
 
-#: ../mail/em-format-html-display.c:1619
+#: ../mail/em-format-html-display.c:1620
 msgid "Attachment Button"
 msgstr "Liitepainike"
 
-#: ../mail/em-format-html-display.c:1826
+#: ../mail/em-format-html-display.c:1827
 msgid "Select folder to save all attachments..."
 msgstr "Valitse kansio, johon kaikki liitteet tallennetaan..."
 
-#: ../mail/em-format-html-display.c:1873
+#: ../mail/em-format-html-display.c:1874
 msgid "Save Selected..."
 msgstr "Tallenna valitut..."
 
 #. Cant i put in the number of attachments here ?
-#: ../mail/em-format-html-display.c:1940
+#: ../mail/em-format-html-display.c:1941
 #, c-format
-msgid "%d attachment"
-msgid_plural "%d attachments"
-msgstr[0] "%d liite"
-msgstr[1] "%d liitettä"
+msgid "%d attachme_nt"
+msgid_plural "%d attachme_nts"
+msgstr[0] "%d _liite"
+msgstr[1] "%d _liitettä"
 
-#: ../mail/em-format-html-display.c:2003
+#: ../mail/em-format-html-display.c:1948 ../mail/em-format-html-display.c:2025
+msgid "S_ave"
+msgstr "T_allenna"
+
+#: ../mail/em-format-html-display.c:1959
+msgid "S_ave All"
+msgstr "Tallenna _kaikki"
+
+#: ../mail/em-format-html-display.c:2019
 msgid "Toggle Attachment Bar"
 msgstr "Näytä tai piilota liitepalkki"
 
-#: ../mail/em-format-html-display.c:2005
+#: ../mail/em-format-html-display.c:2021
 msgid "No Attachment"
 msgstr "Ei liitteitä"
-
-#: ../mail/em-format-html-display.c:2008
-msgid "Save All"
-msgstr "Tallenna kaikki"
 
 #: ../mail/em-format-html-print.c:130
 #, c-format
@@ -13073,6 +13044,11 @@ msgstr "Valmis"
 msgid "Drafts _Folder:"
 msgstr "_Luonnosten kansio:"
 
+#: ../mail/mail-config.glade.h:74
+#: ../plugins/publish-calendar/publish-calendar.glade.h:9
+msgid "E_nable"
+msgstr "Kä_ytä"
+
 #: ../mail/mail-config.glade.h:75
 msgid "Email Accounts"
 msgstr "Sähköpostitilit"
@@ -14317,9 +14293,9 @@ msgstr ""
 
 #: ../mail/mail.error.xml.h:109
 msgid ""
-"This message cannot be sent because you have not specified any Recipients"
+"This message cannot be sent because you have not specified any recipients"
 msgstr ""
-"Viestiä ei voida lähettää, koska et ole määritellyt yhtäkään vastaanottajaa"
+"Viestiä ei voida lähettää, koska et ole määritellyt vastaanottajia"
 
 #: ../mail/mail.error.xml.h:110
 msgid ""
@@ -14647,35 +14623,35 @@ msgstr "Varmuuskopioi ja palauta Evolutionin tietoja ja asetuksia"
 msgid "Restore Settings..."
 msgstr "Palauta asetukset..."
 
-#: ../plugins/bbdb/bbdb.c:410
+#: ../plugins/bbdb/bbdb.c:429
 #: ../plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:1
 msgid "Automatic Contacts"
 msgstr "Automaattiset yhteystiedot"
 
-#: ../plugins/bbdb/bbdb.c:419
+#: ../plugins/bbdb/bbdb.c:438
 msgid "<span weight=\"bold\">Automatic Contacts</span>"
 msgstr "<span weight=\"bold\">Automaattiset yhteystiedot</span>"
 
 #. Enable BBDB checkbox
-#: ../plugins/bbdb/bbdb.c:432
+#: ../plugins/bbdb/bbdb.c:451
 msgid ""
 "_Automatically create entries in the addressbook when responding to mail"
 msgstr "Lisää lähettäjä _automaattisesti osoitekirjaan, kun viestiin vastataan"
 
-#: ../plugins/bbdb/bbdb.c:450
+#: ../plugins/bbdb/bbdb.c:472
 msgid "<span weight=\"bold\">Instant Messaging Contacts</span>"
 msgstr "<span weight=\"bold\">Pikaviestinten yhteystiedot</span>"
 
 #. Enable Gaim Checkbox
-#: ../plugins/bbdb/bbdb.c:463
+#: ../plugins/bbdb/bbdb.c:485
 msgid ""
-"Periodically synchronize contact information and images from my _instant "
-"messenger"
+"Periodically synchronize contact information and images from gaim buddy list"
 msgstr ""
-"Hae ja yhdistä säännöllisin väliajoin yhteystiedot ja kuvat _pikaviestimistä"
+"Hae ja yhdistä säännöllisin väliajoin yhteystiedot ja kuvat gaimin "
+"kaverilistasta"
 
 #. Synchronize now button.
-#: ../plugins/bbdb/bbdb.c:470
+#: ../plugins/bbdb/bbdb.c:502
 msgid "Synchronize with _buddy list now"
 msgstr "Yhdistä tiedot _pikaviestimistä"
 
@@ -14935,11 +14911,11 @@ msgstr "_OWA URL:"
 msgid "A_uthenticate"
 msgstr "K_irjautuminen"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:833
+#: ../plugins/exchange-operations/exchange-account-setup.c:838
 msgid "Authentication Type"
 msgstr "Kirjautumisen tyyppi"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:847
+#: ../plugins/exchange-operations/exchange-account-setup.c:852
 msgid "Ch_eck for Supported Types"
 msgstr "Tar_kista tuetut tyypit"
 
@@ -15790,27 +15766,27 @@ msgstr "Hula-kalenterien lähteiden määrittelyn liitännäinen."
 msgid "Hula Account Setup"
 msgstr "Hula-tilin asetukset"
 
-#: ../plugins/import-ics-attachments/icsimporter.c:81
+#: ../plugins/import-ics-attachments/icsimporter.c:83
 msgid "_Import to Calendar"
 msgstr "_Tuo kalenteriin"
 
-#: ../plugins/import-ics-attachments/icsimporter.c:86
+#: ../plugins/import-ics-attachments/icsimporter.c:88
 msgid "_Import to Tasks"
 msgstr "_Tuo tehtäviin"
 
-#: ../plugins/import-ics-attachments/icsimporter.c:196
+#: ../plugins/import-ics-attachments/icsimporter.c:197
 msgid "Import ICS"
 msgstr "Tuo ICS-tiedosto"
 
-#: ../plugins/import-ics-attachments/icsimporter.c:224
+#: ../plugins/import-ics-attachments/icsimporter.c:225
 msgid "Select Task List"
 msgstr "Valitse tehtävälista"
 
-#: ../plugins/import-ics-attachments/icsimporter.c:228
+#: ../plugins/import-ics-attachments/icsimporter.c:229
 msgid "Select Calendar"
 msgstr "Valitse kalenteri"
 
-#: ../plugins/import-ics-attachments/icsimporter.c:259
+#: ../plugins/import-ics-attachments/icsimporter.c:260
 #: ../shell/e-shell-importer.c:703
 msgid "_Import"
 msgstr "_Tuo"
@@ -21040,6 +21016,33 @@ msgstr "IM-konteksti"
 msgid "Handle Popup"
 msgstr "Kahvan ponnahdusikkuna"
 
+#~ msgid "(none)"
+#~ msgstr "(ei nimeä)"
+
+#~ msgid "Primary Email"
+#~ msgstr "Ensisijainen sähköposti"
+
+#~ msgid "Select an Action"
+#~ msgstr "Valitse toiminto"
+
+#~ msgid "Create a new contact \"%s\""
+#~ msgstr "Luo uusi yhteystieto \"%s\""
+
+#~ msgid "Add address to existing contact \"%s\""
+#~ msgstr "Lisää osoite olemassaolevaan yhteystietoon \"%s\""
+
+#~ msgid "Merge E-Mail Address"
+#~ msgstr "Yhdistä sähköpostiosoite"
+
+#~ msgid "<b>Publishing</b>"
+#~ msgstr "<b>Julkaiseminen</b>"
+
+#~ msgid "Publishing Table"
+#~ msgstr "Julkaisemistaulu"
+
+#~ msgid "_Add URL"
+#~ msgstr "_Lisää URL"
+
 #~ msgid "Evolution Settings"
 #~ msgstr "Evolutionin asetukset"
 
@@ -21150,12 +21153,6 @@ msgstr "Kahvan ponnahdusikkuna"
 
 #~ msgid "Calendar and Tasks Settings"
 #~ msgstr "Kalenterin ja tehtävien asetukset"
-
-#~ msgid "Color for overdue tasks"
-#~ msgstr "Eräpäivän ylittäneiden tehtävien väri"
-
-#~ msgid "Color for tasks due today"
-#~ msgstr "Tänään erääntyvien tehtävien väri"
 
 #~ msgid "Days"
 #~ msgstr "Päivää"
