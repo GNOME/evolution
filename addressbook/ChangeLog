@@ -1,3 +1,17 @@
+2006-01-23  Devashish Sharma  <sdevashish@novell.com>
+
+	* gui/contact-editor/e-contact-quick-add.c : Added source selector to
+	the quick add dialog so that the user can choose the addressbook also
+	while storing the contact. Earlier it automatically went to the
+	default addressbook.
+
+	* gui/widgets/eab-popup-control.c : It now directly tries to quick add
+	the contact to the selected addressbook. All the duplicate detected and
+	merging contacts logic is then handled by duplicate contact detected
+	dialog. So removed the searching and merging code from the file.
+	Earlier it added the contact to the default addressbook and checked
+	for duplicated there only. 
+
 2006-01-23  Sushma Rai  <rsushma@novell.com>
 
 	* addressbook/gui/component/addressbook.c (addressbook_authenticate):

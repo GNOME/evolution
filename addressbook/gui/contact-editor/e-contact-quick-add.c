@@ -37,6 +37,7 @@
 #include <libgnomeui/gnome-app.h>
 #include <libebook/e-book.h>
 #include <libebook/e-contact.h>
+#include <libedataserverui/e-source-option-menu.h>
 #include <addressbook/gui/component/addressbook.h>
 #include <addressbook/util/eab-book-util.h>
 #include "e-contact-editor.h"
@@ -48,12 +49,14 @@ struct _QuickAdd {
 	gchar *name;
 	gchar *email;
 	EContact *contact;
+	EBook *book;
 
 	EContactQuickAddCallback cb;
 	gpointer closure;
 
 	GtkWidget *name_entry;
 	GtkWidget *email_entry;
+	GtkWidget *option_menu;
 
 	gint refs;
 
@@ -64,6 +67,7 @@ quick_add_new (void)
 {
 	QuickAdd *qa = g_new0 (QuickAdd, 1);
 	qa->contact = e_contact_new ();
+	qa->book = NULL;
 	qa->refs = 1;
 	return qa;
 }
@@ -135,8 +139,7 @@ static void
 quick_add_merge_contact (QuickAdd *qa)
 {
 	quick_add_ref (qa);
-
-	addressbook_load_default_book (merge_cb, qa);
+	addressbook_load (qa->book, merge_cb, qa);
 }
 
 
@@ -211,7 +214,7 @@ ce_have_book (EBook *book, EBookStatus status, gpointer closure)
 static void
 edit_contact (QuickAdd *qa)
 {
-	addressbook_load_default_book (ce_have_book, qa);
+	addressbook_load (qa->book, ce_have_book, qa);
 }
 
 #define QUICK_ADD_RESPONSE_EDIT_FULL 2
@@ -264,12 +267,23 @@ clicked_cb (GtkWidget *w, gint button, gpointer closure)
 
 }
 
+static void
+source_selected (GtkWidget *source_option_menu, ESource *source, QuickAdd *qa)
+{
+	if (qa->book) {
+		g_object_unref (qa->book);
+		qa->book = NULL;
+	}
+	qa->book = e_book_new (source, NULL);
+}
+
 static GtkWidget *
 build_quick_add_dialog (QuickAdd *qa)
 {
 	GtkWidget *dialog;
 	GtkWidget *label;
 	GtkTable *table;
+	EBook *book;
 	const gint xpad=0, ypad=0;
 
 	g_return_val_if_fail (qa != NULL, NULL);
@@ -299,11 +313,28 @@ build_quick_add_dialog (QuickAdd *qa)
 	if (qa->email)
 		gtk_entry_set_text (GTK_ENTRY (qa->email_entry), qa->email);
 
-	table = GTK_TABLE (gtk_table_new (2, 2, FALSE));
+	ESourceList *source_list;
+	GConfClient *gconf_client;
+
+	gconf_client = gconf_client_get_default ();
+	source_list = e_source_list_new_for_gconf (gconf_client, "/apps/evolution/addressbook/sources");
+	qa->option_menu = e_source_option_menu_new (source_list);
+	book = e_book_new_default_addressbook (NULL);
+	e_source_option_menu_select (E_SOURCE_OPTION_MENU (qa->option_menu), e_book_get_source(book));
+	if (qa->book) {
+		g_object_unref (book);
+		qa->book = NULL;
+	}
+	qa->book = book ;
+	g_signal_connect (qa->option_menu, "source_selected", G_CALLBACK (source_selected), qa);
+	
+	g_object_unref (source_list);	
+
+	table = GTK_TABLE (gtk_table_new (3, 2, FALSE));
 	gtk_table_set_row_spacings (table, 6);
 	gtk_table_set_col_spacings (table, 12);
 
-	label = gtk_label_new_with_mnemonic (_("_Full name:"));
+	label = gtk_label_new_with_mnemonic (_("_Full name"));
 	gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
 
 	gtk_table_attach (table, label,
@@ -313,7 +344,7 @@ build_quick_add_dialog (QuickAdd *qa)
 			  1, 2, 0, 1,
 			  GTK_EXPAND | GTK_FILL, 0, xpad, ypad);
 
-	label = gtk_label_new_with_mnemonic (_("E-_mail:"));
+	label = gtk_label_new_with_mnemonic (_("E-_mail"));
 	gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
 
 	gtk_table_attach (table, label,
@@ -321,6 +352,16 @@ build_quick_add_dialog (QuickAdd *qa)
 			  GTK_FILL, 0, xpad, ypad);
 	gtk_table_attach (table, qa->email_entry,
 			  1, 2, 1, 2,
+			  GTK_EXPAND | GTK_FILL, 0, xpad, ypad);
+
+	label = gtk_label_new_with_mnemonic (_("_Select Address Book"));
+	gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
+
+	gtk_table_attach (table, label,
+			  0, 1, 2, 3,
+			  GTK_FILL, 0, xpad, ypad);
+	gtk_table_attach (table, qa->option_menu,
+			  1, 2, 2, 3,
 			  GTK_EXPAND | GTK_FILL, 0, xpad, ypad);
 
 	gtk_container_set_border_width (GTK_CONTAINER (table), 
