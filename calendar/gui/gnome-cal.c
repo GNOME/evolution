@@ -3478,7 +3478,8 @@ gnome_calendar_purge (GnomeCalendar *gcal, time_t older_than)
 			/* FIXME write occur-before and occur-after
 			 * sexp funcs so we don't have to use the max
 			 * int */
-			e_cal_generate_instances_for_object (client, m->data,
+			if (!e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_RECURRENCES_NO_MASTER))
+				e_cal_generate_instances_for_object (client, m->data,
 							     older_than, G_MAXINT32,
 							     (ECalRecurInstanceFn) check_instance_cb,
 							     &remove);
@@ -3486,11 +3487,24 @@ gnome_calendar_purge (GnomeCalendar *gcal, time_t older_than)
 			/* FIXME Better error handling */
 			if (remove) {
 				const char *uid = icalcomponent_get_uid (m->data);
+				GError *error = NULL;
 
-				if (e_cal_util_component_is_instance (m->data) || e_cal_util_component_has_recurrences (m->data))
-					e_cal_remove_object_with_mod (client, uid, NULL, CALOBJ_MOD_ALL, NULL);
-				else
-					e_cal_remove_object (client, uid, NULL);
+				if (e_cal_util_component_is_instance (m->data) || e_cal_util_component_has_recurrences (m->data)) {
+					const char *rid = NULL;
+					struct icaltimetype recur_id = icalcomponent_get_recurrenceid (m->data);
+
+					if (!icaltime_is_null_time (recur_id) )
+						rid = icaltime_as_ical_string (recur_id);
+					
+					e_cal_remove_object_with_mod (client, uid, rid, CALOBJ_MOD_ALL, &error);
+				} else {
+					e_cal_remove_object (client, uid, &error);
+				}
+
+				if (error) {
+					g_warning ("Unable to purge events %s \n", error->message);
+					g_error_free (error);
+				}
 			}
 		}
 

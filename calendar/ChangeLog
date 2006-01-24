@@ -1,3 +1,12 @@
+2006-01-24  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #323700
+	* gui/gnome-cal.c:
+	(gnome_calendar_on_date_navigator_selection_changed),
+	(gnome_calendar_purge): For clients which have no master object
+	for recurrences need not call generate instances. Pass the 
+	recurrence id to remove the detached instances.
+
 2005-09-17  Jon Ander Hernandez <hernandez@movimage.com>
 	
 	** Fixes bug #313118
