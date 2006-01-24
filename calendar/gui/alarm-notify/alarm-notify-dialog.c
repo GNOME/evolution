@@ -371,7 +371,7 @@ add_alarm_to_notified_alarms_dialog (AlarmNotificationsDialog *na, time_t trigge
 	start = timet_to_str_with_zone (occur_start, current_zone);
 	end = timet_to_str_with_zone (occur_end, current_zone);
 	str_time = calculate_time (occur_start, occur_end);
-	to_display = g_strdup_printf (_("<big><b>%s</b></big>\n%s %s"), 
+	to_display = g_strdup_printf ("<big><b>%s</b></big>\n%s %s", 
 		summary, start, str_time);
 	g_free (start);
 	g_free (end);

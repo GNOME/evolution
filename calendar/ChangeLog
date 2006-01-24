@@ -1,3 +1,11 @@
+2005-09-17  Jon Ander Hernandez <hernandez@movimage.com>
+	
+	** Fixes bug #313118
+
+	* calendar/gui/alarm-notify/alarm-notify-dialog.c 
+	(add_alarm_to_notified_alarms_dialog): Don't use mark-up for
+	translatable strings.
+
 2006-01-24  Andre Klapper <a9016009@gmx.de>
 
 	* gui/dialogs/meeting-page.c: removed surrounding
