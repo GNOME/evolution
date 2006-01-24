@@ -1,3 +1,11 @@
+2006-01-24  Sushma Rai  <rsushma@novell.com>
+
+	* exchange-config-listener.c (exchange_config_listener_authenticate):
+	Not using e_error_run(), to avoid modal error dialogs. Fixes #328385.
+
+	* exchange-operations.c (exchange_operations_report_error): Similar.
+	Also displaying the current quota usage instead of the quota limit.
+
 2006-01-23  Sushma Rai  <rsushma@novell.com>
 
 	* exchange-operations.c 

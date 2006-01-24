@@ -716,30 +716,38 @@ exchange_config_listener_authenticate (ExchangeConfigListener *ex_conf_listener,
 	else if (result == EXCHANGE_ACCOUNT_QUOTA_RECIEVE_ERROR ||
 		 result == EXCHANGE_ACCOUNT_QUOTA_SEND_ERROR ||
 		 result == EXCHANGE_ACCOUNT_QUOTA_WARN) {
-		gchar *current_quota_usage;
+		gchar *current_quota_usage = NULL;
+		const char *error_code;
+		GtkWidget *widget;
 
 		switch (result) {
 			case EXCHANGE_ACCOUNT_QUOTA_RECIEVE_ERROR:
 				current_quota_usage = g_strdup_printf ("%.2f", 
 							account->mbox_size);
-				e_error_run (NULL, "org-gnome-exchange-operations:account-quota-error", current_quota_usage);
-				g_free (current_quota_usage);
+				error_code = "org-gnome-exchange-operations:account-quota-error";
 				break;
 			case EXCHANGE_ACCOUNT_QUOTA_SEND_ERROR:
 				current_quota_usage = g_strdup_printf ("%.2f", 
 							account->mbox_size);
-				e_error_run (NULL, "org-gnome-exchange-operations:account-quota-send-error", current_quota_usage);
-				g_free (current_quota_usage);
+				error_code = "org-gnome-exchange-operations:account-quota-send-error";
 				break;
 			case EXCHANGE_ACCOUNT_QUOTA_WARN:
 				current_quota_usage = g_strdup_printf ("%.2f", 
 							account->mbox_size);
-				e_error_run (NULL, "org-gnome-exchange-operations:account-quota-warn", current_quota_usage);
-				g_free (current_quota_usage);
+				error_code = "org-gnome-exchange-operations:account-quota-warn";
 				break;
 			default:
 				break;
 		}
+
+		if (current_quota_usage) {
+			widget = e_error_new (NULL, error_code, current_quota_usage);
+			g_signal_connect ((GtkDialog *)widget, "response", 
+					  G_CALLBACK (gtk_widget_destroy), widget);
+			gtk_widget_show (widget);
+			g_free (current_quota_usage);
+		}
+
 		/* reset result, so that we check if the password 
 		 * expiry warning period 
 		 */

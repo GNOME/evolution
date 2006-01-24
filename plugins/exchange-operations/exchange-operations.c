@@ -223,6 +223,7 @@ exchange_operations_report_error (ExchangeAccount *account, ExchangeAccountResul
 {
 	gchar *error_string;
 	gchar *quota_value;
+	GtkWidget *widget;
 
 	g_return_if_fail (account != NULL);
 
@@ -233,27 +234,29 @@ exchange_operations_report_error (ExchangeAccount *account, ExchangeAccountResul
 	
 	switch (result) {
 		case EXCHANGE_ACCOUNT_MAILBOX_NA:
-			e_error_run (NULL, error_string, exchange_account_get_username (account), NULL);
+			widget = e_error_new (NULL, error_string, exchange_account_get_username (account), NULL);
 			break;
 		case EXCHANGE_ACCOUNT_NO_MAILBOX:
-			e_error_run (NULL, error_string, exchange_account_get_username (account),
-				     account->exchange_server, NULL);
+			widget = e_error_new (NULL, error_string, exchange_account_get_username (account), 
+					      account->exchange_server, NULL);
 			break;
 		case EXCHANGE_ACCOUNT_RESOLVE_ERROR:
 		case EXCHANGE_ACCOUNT_CONNECT_ERROR:
 		case EXCHANGE_ACCOUNT_UNKNOWN_ERROR:
-			e_error_run (NULL, error_string, account->exchange_server, NULL);
+			widget = e_error_new (NULL, error_string, account->exchange_server, NULL);
 			break;
 		case EXCHANGE_ACCOUNT_QUOTA_RECIEVE_ERROR:
 		case EXCHANGE_ACCOUNT_QUOTA_SEND_ERROR:
 		case EXCHANGE_ACCOUNT_QUOTA_WARN:
-			quota_value = g_strdup_printf ("%d", exchange_account_get_quota_limit (account));
-			e_error_run (NULL, error_string, quota_value, NULL);
+			quota_value = g_strdup_printf ("%.2f", account->mbox_size);
+			widget = e_error_new (NULL, error_string, quota_value, NULL);
 			g_free (quota_value);
 			break;
 		default:
-			e_error_run (NULL, error_string, NULL);
+			widget = e_error_new (NULL, error_string, NULL);
 	}
+	g_signal_connect ((GtkDialog *)widget, "response", G_CALLBACK (gtk_widget_destroy), widget);
+	gtk_widget_show (widget);
 	g_free (error_string);
 }
 
