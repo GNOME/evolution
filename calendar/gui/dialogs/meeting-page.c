@@ -299,15 +299,20 @@ static void
 clear_widgets (MeetingPage *mpage)
 {
 	MeetingPagePrivate *priv;
+	gchar *str;
 
 	priv = mpage->priv;
 
 	if (COMP_EDITOR_PAGE (mpage)->flags & COMP_EDITOR_PAGE_DELEGATE) {
-		gtk_label_set_markup_with_mnemonic ((GtkLabel *)priv->att_label, _("<b>Dele_gatees</b>"));
+		str = g_strdup_printf ("<b>%s</b>", _("Dele_gatees"));
+		gtk_label_set_markup_with_mnemonic ((GtkLabel *)priv->att_label, str);
+		g_free (str);
 	}
 
 	if (e_cal_get_static_capability (COMP_EDITOR_PAGE (mpage)->client, CAL_STATIC_CAPABILITY_NO_ORGANIZER)) {
-		gtk_label_set_markup (GTK_LABEL (priv->org_label), _("<b>From:</b>"));
+		str = g_strdup_printf ("<b>%s</b>", _("From:"));
+		gtk_label_set_markup (GTK_LABEL (priv->org_label), str);
+		g_free (str);
 		gtk_widget_hide (priv->existing_organizer_btn);
 	}
 				
