@@ -40,8 +40,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gl\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-01-23 16:12+0100\n"
-"PO-Revision-Date: 2006-01-23 16:17+0100\n"
+"POT-Creation-Date: 2006-01-24 21:37+0100\n"
+"PO-Revision-Date: 2006-01-24 21:39+0100\n"
 "Last-Translator: Ignacio Casal Quinteiro <nacho.resa@gmail.com>\n"
 "Language-Team: Galego\n"
 "MIME-Version: 1.0\n"
@@ -3376,7 +3376,7 @@ msgstr "Protocolo non soportado"
 #: ../calendar/gui/e-cal-component-preview.c:234
 #: ../calendar/gui/e-cal-model-tasks.c:349
 #: ../calendar/gui/e-cal-model-tasks.c:662
-#: ../calendar/gui/e-calendar-table.c:464 ../calendar/gui/print.c:2376
+#: ../calendar/gui/e-calendar-table.c:464 ../calendar/gui/print.c:2377
 msgid "Canceled"
 msgstr "Cancelado"
 
@@ -4452,7 +4452,7 @@ msgid "Memos"
 msgstr "Notas"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:13
-#: ../calendar/gui/e-tasks.c:1334 ../calendar/gui/print.c:1832
+#: ../calendar/gui/e-tasks.c:1334 ../calendar/gui/print.c:1833
 #: ../calendar/gui/tasks-component.c:521
 #: ../calendar/gui/tasks-component.c:1015 ../calendar/gui/tasks-control.c:472
 #: ../calendar/importers/icalendar-importer.c:80
@@ -4501,15 +4501,6 @@ msgstr[1] "horas"
 #: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:270
 msgid "Start time"
 msgstr "Hora de comezo"
-
-#: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:374
-#, c-format
-msgid ""
-"<big><b>%s</b></big>\n"
-"%s %s"
-msgstr ""
-"<big><b>%s</b></big>\n"
-"%s %s"
 
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:1
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:4
@@ -5103,7 +5094,7 @@ msgstr "A ubicación contén"
 msgid "Unmatched"
 msgstr "Non concorda"
 
-#: ../calendar/gui/calendar-commands.c:119 ../calendar/gui/print.c:2513
+#: ../calendar/gui/calendar-commands.c:119 ../calendar/gui/print.c:2514
 #: ../ui/evolution-addressbook.xml.h:17 ../ui/evolution-calendar.xml.h:18
 #: ../ui/evolution-mail-message.xml.h:75 ../ui/evolution-memos.xml.h:11
 #: ../ui/evolution-tasks.xml.h:14
@@ -5796,23 +5787,23 @@ msgstr "%s  Non fixo cambios, ¿quere actualizar o editor?"
 msgid "Validation error: %s"
 msgstr "Erro de validación: %s"
 
-#: ../calendar/gui/dialogs/comp-editor-util.c:187 ../calendar/gui/print.c:2271
+#: ../calendar/gui/dialogs/comp-editor-util.c:187 ../calendar/gui/print.c:2272
 msgid " to "
 msgstr " a "
 
-#: ../calendar/gui/dialogs/comp-editor-util.c:191 ../calendar/gui/print.c:2275
+#: ../calendar/gui/dialogs/comp-editor-util.c:191 ../calendar/gui/print.c:2276
 msgid " (Completed "
 msgstr " (Completada "
 
-#: ../calendar/gui/dialogs/comp-editor-util.c:193 ../calendar/gui/print.c:2277
+#: ../calendar/gui/dialogs/comp-editor-util.c:193 ../calendar/gui/print.c:2278
 msgid "Completed "
 msgstr "Completada "
 
-#: ../calendar/gui/dialogs/comp-editor-util.c:198 ../calendar/gui/print.c:2282
+#: ../calendar/gui/dialogs/comp-editor-util.c:198 ../calendar/gui/print.c:2283
 msgid " (Due "
 msgstr " (Pendente "
 
-#: ../calendar/gui/dialogs/comp-editor-util.c:200 ../calendar/gui/print.c:2284
+#: ../calendar/gui/dialogs/comp-editor-util.c:200 ../calendar/gui/print.c:2285
 msgid "Due "
 msgstr "Pendente "
 
@@ -5864,7 +5855,7 @@ msgstr "Amosar _barra de adxuntos"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1094
 #: ../calendar/gui/dialogs/event-page.c:1895
-#: ../calendar/gui/dialogs/meeting-page.c:909
+#: ../calendar/gui/dialogs/meeting-page.c:914
 #: ../calendar/gui/dialogs/task-page.c:1206
 #: ../composer/e-msg-composer-attachment-bar.c:470
 #: ../composer/e-msg-composer.c:3601
@@ -6071,25 +6062,25 @@ msgid "End time is wrong"
 msgstr "A hora de finalización está equivocada"
 
 #: ../calendar/gui/dialogs/event-page.c:1449
-#: ../calendar/gui/dialogs/meeting-page.c:464
+#: ../calendar/gui/dialogs/meeting-page.c:469
 #: ../calendar/gui/dialogs/task-page.c:908
 msgid "The organizer selected no longer has an account."
 msgstr "O organizador seleccionado xa non ten unha conta."
 
 #: ../calendar/gui/dialogs/event-page.c:1455
-#: ../calendar/gui/dialogs/meeting-page.c:470
+#: ../calendar/gui/dialogs/meeting-page.c:475
 #: ../calendar/gui/dialogs/task-page.c:914
 msgid "An organizer is required."
 msgstr "Requírese un organizador."
 
 #: ../calendar/gui/dialogs/event-page.c:1470
-#: ../calendar/gui/dialogs/meeting-page.c:485
+#: ../calendar/gui/dialogs/meeting-page.c:490
 #: ../calendar/gui/dialogs/task-page.c:929
 msgid "At least one attendee is required."
 msgstr "É necesario polo menos un participante."
 
 #: ../calendar/gui/dialogs/event-page.c:1896
-#: ../calendar/gui/dialogs/meeting-page.c:910
+#: ../calendar/gui/dialogs/meeting-page.c:915
 #: ../calendar/gui/dialogs/task-page.c:1207
 msgid "_Add "
 msgstr "_Engadir "
@@ -6190,20 +6181,20 @@ msgstr "para"
 msgid "until"
 msgstr "ata"
 
-#: ../calendar/gui/dialogs/meeting-page.c:306
-msgid "<b>Dele_gatees</b>"
-msgstr "<b>Dele_gados</b>"
+#: ../calendar/gui/dialogs/meeting-page.c:307
+msgid "Dele_gatees"
+msgstr "Dele_gados"
 
-#: ../calendar/gui/dialogs/meeting-page.c:310
-msgid "<b>From:</b>"
-msgstr "<b>De:</b>"
+#: ../calendar/gui/dialogs/meeting-page.c:313
+msgid "From:"
+msgstr "De:"
 
 #. an empty string is the same as 'None'
 #. Put the "None" and "UTC" entries at the top of the combo's list.
 #. When "None" is selected we want the field to be cleared.
 #. Note that we don't show this here, since by default a 'None' date
 #. is not permitted.
-#: ../calendar/gui/dialogs/meeting-page.c:316
+#: ../calendar/gui/dialogs/meeting-page.c:321
 #: ../calendar/gui/dialogs/meeting-page.glade.h:4
 #: ../calendar/gui/e-cal-model-tasks.c:654
 #: ../calendar/gui/e-itip-control.c:1105 ../composer/e-msg-composer.c:2275
@@ -6291,7 +6282,7 @@ msgstr "Organizador"
 msgid "Organizer:"
 msgstr "Organizador:"
 
-#: ../calendar/gui/dialogs/memo-editor.c:130 ../calendar/gui/print.c:2312
+#: ../calendar/gui/dialogs/memo-editor.c:130 ../calendar/gui/print.c:2313
 msgid "Memo"
 msgstr "Nota"
 
@@ -6513,7 +6504,7 @@ msgstr "<span weight=\"bold\">Estado</span>"
 #: ../calendar/gui/e-cal-model-tasks.c:660
 #: ../calendar/gui/e-calendar-table.c:463 ../calendar/gui/e-itip-control.c:897
 #: ../calendar/gui/e-meeting-store.c:197 ../calendar/gui/e-meeting-store.c:220
-#: ../calendar/gui/print.c:2373 ../plugins/save-calendar/csv-format.c:390
+#: ../calendar/gui/print.c:2374 ../plugins/save-calendar/csv-format.c:390
 msgid "Completed"
 msgstr "Completada"
 
@@ -6528,7 +6519,7 @@ msgstr "Alta"
 #: ../calendar/gui/e-cal-model-tasks.c:345
 #: ../calendar/gui/e-cal-model-tasks.c:658
 #: ../calendar/gui/e-cal-model-tasks.c:733
-#: ../calendar/gui/e-calendar-table.c:462 ../calendar/gui/print.c:2370
+#: ../calendar/gui/e-calendar-table.c:462 ../calendar/gui/print.c:2371
 msgid "In Progress"
 msgstr "En Progreso"
 
@@ -6549,7 +6540,7 @@ msgstr "Normal"
 #: ../calendar/gui/e-cal-component-preview.c:238
 #: ../calendar/gui/e-cal-model-tasks.c:343
 #: ../calendar/gui/e-cal-model-tasks.c:656
-#: ../calendar/gui/e-calendar-table.c:461 ../calendar/gui/print.c:2367
+#: ../calendar/gui/e-calendar-table.c:461 ../calendar/gui/print.c:2368
 msgid "Not Started"
 msgstr "Non Iniciada"
 
@@ -7167,7 +7158,7 @@ msgid "Organizer: %s"
 msgstr "Organizador: %s"
 
 #. To Translators: It will display "Location: PlaceOfTheMeeting"
-#: ../calendar/gui/e-calendar-view.c:2064 ../calendar/gui/print.c:2340
+#: ../calendar/gui/e-calendar-view.c:2064 ../calendar/gui/print.c:2341
 #, c-format
 msgid "Location: %s"
 msgstr "Localización: %s"
@@ -7199,7 +7190,11 @@ msgstr ""
 "\n"
 "%s"
 
-#: ../calendar/gui/e-day-view-time-item.c:553
+#. TO TRANSLATORS: %02i is the number of minutes; this is a context menu entry
+#. * to change the length of the time division in the calendar day view, e.g.
+#. * a day is displayed in 24 "60 minute divisions" or 48 "30 minute divisions"
+#.
+#: ../calendar/gui/e-day-view-time-item.c:557
 #, c-format
 msgid "%02i minute divisions"
 msgstr "%02i divisións de minuto"
@@ -7211,19 +7206,19 @@ msgstr "%02i divisións de minuto"
 #. order but don't change the specifiers or add
 #. anything.
 #: ../calendar/gui/e-day-view-top-item.c:715 ../calendar/gui/e-day-view.c:1493
-#: ../calendar/gui/e-week-view-main-item.c:313 ../calendar/gui/print.c:1527
+#: ../calendar/gui/e-week-view-main-item.c:313 ../calendar/gui/print.c:1528
 msgid "%A %d %B"
 msgstr "%A, %d de %B"
 
 #. String to use in 12-hour time format for times in the morning.
 #: ../calendar/gui/e-day-view.c:748 ../calendar/gui/e-week-view.c:512
-#: ../calendar/gui/print.c:842
+#: ../calendar/gui/print.c:843
 msgid "am"
 msgstr "am"
 
 #. String to use in 12-hour time format for times in the afternoon.
 #: ../calendar/gui/e-day-view.c:751 ../calendar/gui/e-week-view.c:515
-#: ../calendar/gui/print.c:844
+#: ../calendar/gui/print.c:845
 msgid "pm"
 msgstr "pm"
 
@@ -7911,7 +7906,7 @@ msgstr "Botón de Fuso horario "
 #. strftime format %d = day of month, %B = full
 #. month name. You can change the order but don't
 #. change the specifiers or add anything.
-#: ../calendar/gui/e-week-view-main-item.c:330 ../calendar/gui/print.c:1511
+#: ../calendar/gui/e-week-view-main-item.c:330 ../calendar/gui/print.c:1512
 msgid "%d %B"
 msgstr "%d de %b"
 
@@ -8302,115 +8297,116 @@ msgstr "30"
 msgid "31st"
 msgstr "31"
 
-#: ../calendar/gui/print.c:574
+#. Translators: These are workday abbreviations, e.g. Su=Sunday and Th=Thursday
+#: ../calendar/gui/print.c:575
 msgid "Su"
 msgstr "Do"
 
-#: ../calendar/gui/print.c:574
+#: ../calendar/gui/print.c:575
 msgid "Mo"
 msgstr "Lu"
 
-#: ../calendar/gui/print.c:574
+#: ../calendar/gui/print.c:575
 msgid "Tu"
 msgstr "Ma"
 
-#: ../calendar/gui/print.c:574
+#: ../calendar/gui/print.c:575
 msgid "We"
 msgstr "Me"
 
-#: ../calendar/gui/print.c:575
+#: ../calendar/gui/print.c:576
 msgid "Th"
 msgstr "Xo"
 
-#: ../calendar/gui/print.c:575
+#: ../calendar/gui/print.c:576
 msgid "Fr"
 msgstr "Ve"
 
-#: ../calendar/gui/print.c:575
+#: ../calendar/gui/print.c:576
 msgid "Sa"
 msgstr "Sá"
 
 #. Day
-#: ../calendar/gui/print.c:1927
+#: ../calendar/gui/print.c:1928
 msgid "Selected day (%a %b %d %Y)"
 msgstr "Día seleccionado (%a, %d de %b de %Y)"
 
-#: ../calendar/gui/print.c:1952 ../calendar/gui/print.c:1956
+#: ../calendar/gui/print.c:1953 ../calendar/gui/print.c:1957
 msgid "%a %b %d"
 msgstr "%a, %d de %b"
 
-#: ../calendar/gui/print.c:1953
+#: ../calendar/gui/print.c:1954
 msgid "%a %d %Y"
 msgstr "%a %d de %Y"
 
-#: ../calendar/gui/print.c:1957 ../calendar/gui/print.c:1959
-#: ../calendar/gui/print.c:1960
+#: ../calendar/gui/print.c:1958 ../calendar/gui/print.c:1960
+#: ../calendar/gui/print.c:1961
 msgid "%a %b %d %Y"
 msgstr "%a, %d de %b de %Y"
 
-#: ../calendar/gui/print.c:1964
+#: ../calendar/gui/print.c:1965
 #, c-format
 msgid "Selected week (%s - %s)"
 msgstr "Semana seleccionada (%s - %s)"
 
 #. Month
-#: ../calendar/gui/print.c:1972
+#: ../calendar/gui/print.c:1973
 msgid "Selected month (%b %Y)"
 msgstr "Mes seleccionado (%b de %Y)"
 
 #. Year
-#: ../calendar/gui/print.c:1979
+#: ../calendar/gui/print.c:1980
 msgid "Selected year (%Y)"
 msgstr "Ano seleccionado (%Y)"
 
-#: ../calendar/gui/print.c:2308
+#: ../calendar/gui/print.c:2309
 msgid "Appointment"
 msgstr "Cita"
 
-#: ../calendar/gui/print.c:2310
+#: ../calendar/gui/print.c:2311
 msgid "Task"
 msgstr "Tarefa"
 
-#: ../calendar/gui/print.c:2332
+#: ../calendar/gui/print.c:2333
 #, c-format
 msgid "Summary: %s"
 msgstr "Resumo: %s"
 
-#: ../calendar/gui/print.c:2383
+#: ../calendar/gui/print.c:2384
 #, c-format
 msgid "Status: %s"
 msgstr "Estado: %s"
 
-#: ../calendar/gui/print.c:2400
+#: ../calendar/gui/print.c:2401
 #, c-format
 msgid "Priority: %s"
 msgstr "Prioridade: %s"
 
-#: ../calendar/gui/print.c:2412
+#: ../calendar/gui/print.c:2413
 #, c-format
 msgid "Percent Complete: %i"
 msgstr "Porcentaxe completada: %i"
 
-#: ../calendar/gui/print.c:2424
+#: ../calendar/gui/print.c:2425
 #, c-format
 msgid "URL: %s"
 msgstr "URL: %s"
 
-#: ../calendar/gui/print.c:2438
+#: ../calendar/gui/print.c:2439
 #, c-format
 msgid "Categories: %s"
 msgstr "Categorías: %s"
 
-#: ../calendar/gui/print.c:2449
+#: ../calendar/gui/print.c:2450
 msgid "Contacts: "
 msgstr "Contactos: "
 
-#: ../calendar/gui/print.c:2589 ../calendar/gui/print.c:2677
-#: ../calendar/gui/print.c:2803 ../mail/em-format-html-print.c:178
+#: ../calendar/gui/print.c:2590 ../calendar/gui/print.c:2678
+#: ../calendar/gui/print.c:2804 ../mail/em-format-html-print.c:178
 msgid "Print Preview"
 msgstr "Previsualización da Impresión"
 
-#: ../calendar/gui/print.c:2624
+#: ../calendar/gui/print.c:2625
 msgid "Print Item"
 msgstr "Imprimir Elemento"
 
@@ -14312,7 +14308,7 @@ msgstr ""
 "non está activada"
 
 #: ../mail/mail.error.xml.h:109
-msgid "This message cannot be sent because you have not specified any Recipients"
+msgid "This message cannot be sent because you have not specified any recipients"
 msgstr ""
 "Esta mensaxe non pode ser enviada porque non se especificou ningún "
 "destinatario"
