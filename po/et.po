@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-01-18 13:40+0100\n"
-"PO-Revision-Date: 2006-01-19 22:44+0200\n"
+"PO-Revision-Date: 2006-01-21 21:56+0200\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -201,7 +201,7 @@ msgstr "%d. %b"
 #: ../a11y/calendar/ea-gnome-calendar.c:255
 #: ../calendar/importers/icalendar-importer.c:772
 msgid "Gnome Calendar"
-msgstr "Gnome Calendar"
+msgstr "Gnome kalender"
 
 #: ../a11y/calendar/ea-gnome-calendar.c:290
 msgid "search bar"
@@ -370,7 +370,7 @@ msgstr ""
 
 #: ../addressbook/addressbook.error.xml.h:9
 msgid "Delete address book '{0}'?"
-msgstr "Kustutame aadressiraamatu '{0}'?"
+msgstr "Kustutada aadressiraamatu '{0}'?"
 
 #: ../addressbook/addressbook.error.xml.h:10
 msgid "Error loading addressbook."
@@ -551,7 +551,7 @@ msgstr "Evolutioni aadressiraamat"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:7
 msgid "Evolution Addressbook address pop-up"
-msgstr ""
+msgstr "Evolutioni aadressiraamatu aadressi hüpikaken"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:8
 msgid "Evolution Addressbook address viewer"
@@ -1418,7 +1418,7 @@ msgstr "Andorra"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:143
 msgid "Angola"
-msgstr "Angola"
+msgstr "Angoola"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:144
 msgid "Anguilla"
@@ -2910,7 +2910,7 @@ msgstr "Suvaline kategooria"
 #. FIXME: Allow range selection in table views, as in minicard view
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1786
 msgid "Print cards"
-msgstr "Trüki kaardid"
+msgstr "Prindi kaardid"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:1
 msgid "Assistant"
@@ -3670,7 +3670,7 @@ msgstr "Evolutioni VKaardi importija"
 #: ../addressbook/printing/e-contact-print-envelope.c:213
 #: ../addressbook/printing/e-contact-print-envelope.c:234
 msgid "Print envelope"
-msgstr "Trüki ümbrik"
+msgstr "Prindi ümbrik"
 
 #: ../addressbook/printing/e-contact-print.c:1033
 msgid "Print contacts"
@@ -4295,13 +4295,12 @@ msgid ""
 msgstr ""
 
 #: ../calendar/calendar.error.xml.h:64
-#, fuzzy
 msgid "You have changed this appointment, but not yet saved them."
-msgstr "Sa oled muutnud seda sündmust, kuid muudatused ei ole salvestatud."
+msgstr "Sa oled muutnud seda sündmust, kuid muudatused pole veel salvestatud."
 
 #: ../calendar/calendar.error.xml.h:65
 msgid "You have made changes to this task, but not yet saved them."
-msgstr "Sa oled seda ülesannet muutnud aga muudatused on salvestamata."
+msgstr "Sa oled seda ülesannet muutnud, kuid muudatused pole veel salvestatud."
 
 #: ../calendar/calendar.error.xml.h:66
 msgid "Your calendars will not be available until Evolution is restarted."
@@ -5074,7 +5073,7 @@ msgstr "Puudub"
 #: ../ui/evolution-mail-message.xml.h:75 ../ui/evolution-memos.xml.h:11
 #: ../ui/evolution-tasks.xml.h:14
 msgid "Print"
-msgstr "Trüki"
+msgstr "Prindi"
 
 #: ../calendar/gui/calendar-commands.c:119
 #: ../calendar/gui/calendar-component.c:709
@@ -5826,15 +5825,13 @@ msgstr[0] "<b>%d</b> fail manusena"
 msgstr[1] "<b>%d</b> faili manusena"
 
 #: ../calendar/gui/dialogs/comp-editor.c:982
-#, fuzzy
 msgid "Hide Attachment _Bar"
-msgstr "Manuseriba"
+msgstr "Peida manuseri_ba"
 
 #: ../calendar/gui/dialogs/comp-editor.c:985
 #: ../calendar/gui/dialogs/comp-editor.c:1457
-#, fuzzy
 msgid "Show Attachment _Bar"
-msgstr "Manuseriba"
+msgstr "Näita manuseri_ba"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1094
 #: ../calendar/gui/dialogs/event-page.c:1895
@@ -6273,9 +6270,8 @@ msgid "Unable to open memos in '%s'."
 msgstr "Märkmeid pole võimalik '%s'-s avada."
 
 #: ../calendar/gui/dialogs/memo-page.glade.h:2
-#, fuzzy
 msgid "<span weight=\"bold\">Basics</span>"
-msgstr "<span weight=\"bold\">Olek</span>"
+msgstr ""
 
 #: ../calendar/gui/dialogs/memo-page.glade.h:4
 msgid "Classi_fication:"
@@ -6346,15 +6342,15 @@ msgstr "Ülesandeloendi nimi"
 
 #: ../calendar/gui/dialogs/recur-comp.c:52
 msgid "You are modifying a recurring event. What would you like to modify?"
-msgstr ""
+msgstr "Sa muudad korduvat sündmust. Mida sa täpsemalt soovid muuta?"
 
 #: ../calendar/gui/dialogs/recur-comp.c:54
 msgid "You are delegating a recurring event. What would you like to delegate?"
-msgstr ""
+msgstr "Sa delegeerid korduvat sündmust. Mida sa täpsemalt soovid delegeerida?"
 
 #: ../calendar/gui/dialogs/recur-comp.c:58
 msgid "You are modifying a recurring task. What would you like to modify?"
-msgstr ""
+msgstr "Sa muudad korduvat ülesannet. Mida sa täpsemalt soovid muuta?"
 
 #: ../calendar/gui/dialogs/recur-comp.c:62
 msgid ""
@@ -6949,7 +6945,7 @@ msgstr "Ülesannete tabel"
 #: ../calendar/gui/e-calendar-table.c:705
 #: ../calendar/gui/e-calendar-view.c:678 ../calendar/gui/e-memo-table.c:435
 msgid "Deleting selected objects"
-msgstr "Kustutan valitud objektid"
+msgstr "Valitud objektide kustutamine"
 
 #: ../calendar/gui/e-calendar-table.c:884
 #: ../calendar/gui/e-calendar-view.c:806 ../calendar/gui/e-memo-table.c:612
@@ -6975,7 +6971,7 @@ msgstr "_Ava veebileht"
 #: ../ui/evolution-mail-message.xml.h:124 ../ui/evolution-memos.xml.h:20
 #: ../ui/evolution-tasks.xml.h:29
 msgid "_Print..."
-msgstr "_Trüki..."
+msgstr "_Prindi..."
 
 #: ../calendar/gui/e-calendar-table.c:1183
 #: ../calendar/gui/e-calendar-view.c:1612 ../calendar/gui/e-memo-table.c:861
@@ -7832,14 +7828,13 @@ msgstr ""
 " %s"
 
 #: ../calendar/gui/e-memos.c:776
-#, fuzzy
 msgid "Loading memos"
-msgstr "Ülesannete laadimine"
+msgstr "Märkmete laadimine"
 
 #: ../calendar/gui/e-memos.c:861
-#, fuzzy, c-format
+#, c-format
 msgid "Opening memos at %s"
-msgstr "Avan ülesanded asukohast %s"
+msgstr "Märkmete avamine asukohast %s"
 
 #: ../calendar/gui/e-memos.c:1034 ../calendar/gui/e-tasks.c:1226
 msgid "Deleting selected objects..."
@@ -7857,7 +7852,7 @@ msgstr "Ülesannete laadimine"
 #: ../calendar/gui/e-tasks.c:958
 #, c-format
 msgid "Opening tasks at %s"
-msgstr "Avan ülesanded asukohast %s"
+msgstr "Ülesannete avamine asukohast %s"
 
 #: ../calendar/gui/e-tasks.c:1203
 msgid "Completing tasks..."
@@ -8375,11 +8370,11 @@ msgstr "Kontaktid:"
 #: ../calendar/gui/print.c:2589 ../calendar/gui/print.c:2677
 #: ../calendar/gui/print.c:2803 ../mail/em-format-html-print.c:178
 msgid "Print Preview"
-msgstr "Väljatrüki eelvaade"
+msgstr "Väljatprindi eelvaade"
 
 #: ../calendar/gui/print.c:2624
 msgid "Print Item"
-msgstr "Trüki kirje"
+msgstr "Prindi kirje"
 
 #: ../calendar/gui/tasks-component.c:441
 msgid "_New Task List"
@@ -8460,7 +8455,7 @@ msgstr "Seda küsimust rohkem mitte esitada."
 
 #: ../calendar/gui/tasks-control.c:472
 msgid "Print Tasks"
-msgstr "Trüki ülesanded"
+msgstr "Prindi ülesanded"
 
 #. The first letter of each day of the week starting with Sunday
 #: ../calendar/gui/weekday-picker.c:319
@@ -10158,9 +10153,8 @@ msgid "A_ttach"
 msgstr "_Manusta"
 
 #: ../composer/e-msg-composer-select-file.c:239
-#, fuzzy
 msgid "Insert Attachment"
-msgstr "Manus"
+msgstr "Manuse lisamine"
 
 #: ../composer/e-msg-composer.c:830
 msgid ""
@@ -12421,11 +12415,11 @@ msgstr "Kohandatud kirjatüüpide kasutamine sõnumi näitamisel"
 
 #: ../mail/evolution-mail.schemas.in.in.h:95
 msgid "Use only local spam tests."
-msgstr "Kasuta ainult lokaalseid spämmiteste."
+msgstr "Ainult kohalike rämpspostitestide kasutamine."
 
 #: ../mail/evolution-mail.schemas.in.in.h:96
 msgid "Use only the local spam tests (no DNS)."
-msgstr ""
+msgstr "Ainult kohalike (mitte-DNS) rämpspostitestide kasutamine."
 
 #: ../mail/evolution-mail.schemas.in.in.h:97
 msgid "Variable width font"
@@ -12873,7 +12867,6 @@ msgid "Attachment"
 msgstr "Manus"
 
 #: ../mail/mail-config.glade.h:46
-#, fuzzy
 msgid "Automatically insert _smiley images"
 msgstr "Automaatne _emotikonipiltide lisamine"
 
@@ -12898,7 +12891,6 @@ msgid "Ch_eck for Supported Types "
 msgstr "_Toetatavate tüüpide tuvastus"
 
 #: ../mail/mail-config.glade.h:52
-#, fuzzy
 msgid "Check in_coming mail for junk"
 msgstr "Sissetuleva posti _rämpsukontroll"
 
@@ -13431,7 +13423,7 @@ msgstr "Kontrollin %s"
 
 #: ../mail/mail-ops.c:104
 msgid "Filtering Folder"
-msgstr "Filtreerin kausta"
+msgstr "Kausta filtreerimine"
 
 #: ../mail/mail-ops.c:265
 msgid "Fetching Mail"
@@ -13449,8 +13441,8 @@ msgid ""
 "Failed to append to %s: %s\n"
 "Appending to local `Sent' folder instead."
 msgstr ""
-"Tõrge lisamisel kasuta %s: %s\n"
-"Selle asemel lisan kausta `Saadetud'."
+"Tõrge kausta %s lisamisel: %s\n"
+"Selle asemel lisatakse kausta `Saadetud'."
 
 #: ../mail/mail-ops.c:623
 #, c-format
@@ -13502,7 +13494,7 @@ msgstr "Kausta %s avamine"
 #: ../mail/mail-ops.c:1284
 #, c-format
 msgid "Opening store %s"
-msgstr "Avan hoidlat %s"
+msgstr "Hoidla %s avamine"
 
 #: ../mail/mail-ops.c:1362
 #, c-format
@@ -13906,14 +13898,13 @@ msgid "Cannot set signature script &quot;{0}&quot;."
 msgstr "Signatuuriskripti &quot;{0}&quot; pole võimalik määrata."
 
 #: ../mail/mail.error.xml.h:41
-#, fuzzy
 msgid ""
 "Check to make sure your password is spelled correctly. Remember that many "
 "passwords are case sensitive; your caps lock might be on."
 msgstr ""
 "Kontrolli, kas parool on õigesti sisestatud.  Kuna paroolid on üldiselt "
-"tõstutundlikud, siis veendu, et klaviatuuri caps lock klahv ei oleks sisse "
-"lülitatud."
+"tõstutundlikud, siis veendu, et klaviatuuri \"Caps Lock\" klahv ei oleks "
+"sisse lülitatud."
 
 #: ../mail/mail.error.xml.h:42
 msgid "Could not save signature file."
@@ -13921,11 +13912,11 @@ msgstr "Signatuurifaili pole võimalik salvestada."
 
 #: ../mail/mail.error.xml.h:43
 msgid "Delete &quot;{0}&quot;?"
-msgstr "Kustuta &quot;{0}&quot;?"
+msgstr "Kustutada &quot;{0}&quot;?"
 
 #: ../mail/mail.error.xml.h:44
 msgid "Delete account?"
-msgstr "Kustuta konto?"
+msgstr "Kustutada konto?"
 
 #: ../mail/mail.error.xml.h:45
 msgid "Discard changes?"
@@ -16314,6 +16305,7 @@ msgid ""
 "Provide actions for common mailing list commands (subscribe, "
 "unsubscribe, ...)."
 msgstr ""
+"Üldiste postiloendikäskude (tellimine, tellimusest loobumine) tagamine."
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:7
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:11
@@ -16482,9 +16474,8 @@ msgid "Enable and disable plugins"
 msgstr "Pluginate lubamine ja keelamine"
 
 #: ../plugins/plugin-manager/org-gnome-plugin-manager.xml.h:2
-#, fuzzy
 msgid "_Plugins"
-msgstr "Pluginad"
+msgstr "_Pluginad"
 
 #: ../plugins/plugin-manager/plugin-manager.c:45
 msgid "Author(s)"
@@ -16662,9 +16653,8 @@ msgid ""
 msgstr ""
 
 #: ../plugins/sa-junk-plugin/org-gnome-sa-junk-plugin.eplug.xml.h:2
-#, fuzzy
 msgid "Spamassassin junk plugin"
-msgstr "Spamassassin (sisseehitatud)"
+msgstr "Spamassassin rämpspostiplugin"
 
 #: ../plugins/save-attachments/org-gnome-save-attachments.eplug.xml.h:1
 msgid "A plugin for saving all attachments or parts of a message at once."
@@ -17963,7 +17953,7 @@ msgstr "Valiku lõikamine"
 
 #: ../ui/evolution-addressbook.xml.h:10
 msgid "Delete selected contacts"
-msgstr "Kustutab valitud kontaktid"
+msgstr "Valitud kontaktide kustutamine"
 
 #: ../ui/evolution-addressbook.xml.h:11
 msgid "Forward Contact"
@@ -17989,7 +17979,7 @@ msgstr "Lõikepuhvri asetamine"
 
 #: ../ui/evolution-addressbook.xml.h:16
 msgid "Previews the contacts to be printed"
-msgstr "Trükitavate kontaktide eelvaatlemine"
+msgstr "Prinditavate kontaktide eelvaatlemine"
 
 #: ../ui/evolution-addressbook.xml.h:19
 msgid "Print selected contacts"
@@ -18094,7 +18084,7 @@ msgstr "Järgmine"
 
 #: ../ui/evolution-calendar.xml.h:16
 msgid "Previews the calendar to be printed"
-msgstr "Trükitava kalendri eelvaatlemine"
+msgstr "Prinditava kalendri eelvaatlemine"
 
 #: ../ui/evolution-calendar.xml.h:17 ../ui/evolution-mail-message.xml.h:74
 msgid "Previous"
@@ -18489,7 +18479,7 @@ msgstr "Kõigi sõnumite loetuksmärkimine"
 
 #: ../ui/evolution-mail-list.xml.h:5 ../ui/evolution-mail-message.xml.h:12
 msgid "Copy selected message(s) to the clipboard"
-msgstr "Kopeerib valitud sõnumi(d) lõikelauale"
+msgstr "Valitud sõnumi(te) kopeerimine lõikelauale"
 
 #. Alphabetical by name, yo
 #: ../ui/evolution-mail-list.xml.h:7 ../ui/evolution-mail-message.xml.h:23
@@ -18635,7 +18625,7 @@ msgstr "Vastuse koostamine valitud sõnumi koostajale"
 
 #: ../ui/evolution-mail-message.xml.h:13
 msgid "Copy selected messages to another folder"
-msgstr "Kopeerib valitud sõnumi teise kausta"
+msgstr "Valitud sõnumi teise kausta kopeerimine"
 
 #: ../ui/evolution-mail-message.xml.h:14
 msgid "Create R_ule"
@@ -18854,7 +18844,7 @@ msgstr "_Eelmine tähtis sõnum"
 
 #: ../ui/evolution-mail-message.xml.h:73
 msgid "Preview the message to be printed"
-msgstr "Trükitava sõnumi eelvaatlemine"
+msgstr "Prinditava sõnumi eelvaatlemine"
 
 #: ../ui/evolution-mail-message.xml.h:77
 msgid "Print this message"
@@ -18946,7 +18936,6 @@ msgid "_Caret Mode"
 msgstr "_Kursorirežiim"
 
 #: ../ui/evolution-mail-message.xml.h:103
-#, fuzzy
 msgid "_Clear Flag"
 msgstr "_Eemalda silt"
 
@@ -18959,7 +18948,6 @@ msgid "_Find in Message..."
 msgstr "_Otsi sõnumist..."
 
 #: ../ui/evolution-mail-message.xml.h:109
-#, fuzzy
 msgid "_Flag Completed"
 msgstr "Märgista kui _lõpetatud"
 
@@ -18972,9 +18960,8 @@ msgid "_Important"
 msgstr "_Tähtis"
 
 #: ../ui/evolution-mail-message.xml.h:113
-#, fuzzy
 msgid "_Inline"
-msgstr "Samal joonel"
+msgstr "Samal _joonel"
 
 #: ../ui/evolution-mail-message.xml.h:114
 msgid "_Junk"
@@ -18985,9 +18972,8 @@ msgid "_Load Images"
 msgstr "_Laadi pildid"
 
 #: ../ui/evolution-mail-message.xml.h:117
-#, fuzzy
 msgid "_Message Source"
-msgstr "Sõnumi allikas"
+msgstr "Sõnumi _allikas"
 
 #: ../ui/evolution-mail-message.xml.h:119
 msgid "_Next Message"
@@ -19010,9 +18996,8 @@ msgid "_Previous Message"
 msgstr "_Eelmine sõnum"
 
 #: ../ui/evolution-mail-message.xml.h:125
-#, fuzzy
 msgid "_Quoted"
-msgstr "Tsitaadina"
+msgstr "_Tsitaadina"
 
 #: ../ui/evolution-mail-message.xml.h:128
 msgid "_Save Message..."
@@ -19039,29 +19024,24 @@ msgid "Main toolbar"
 msgstr "Peatööriistariba"
 
 #: ../ui/evolution-memos.xml.h:3
-#, fuzzy
 msgid "Copy selected memo"
-msgstr "Kopeerib valitud ülesande"
+msgstr "Valitud märkme kopeerimine"
 
 #: ../ui/evolution-memos.xml.h:5
-#, fuzzy
 msgid "Cut selected memo"
-msgstr "Lõikab valitud ülesande"
+msgstr "Valitud märkme lõikamine"
 
 #: ../ui/evolution-memos.xml.h:7
-#, fuzzy
 msgid "Delete selected memos"
-msgstr "Kustutab valitud ülesanded"
+msgstr "Valitud märkmete kustutamine"
 
 #: ../ui/evolution-memos.xml.h:9
-#, fuzzy
 msgid "Paste memo from the clipboard"
-msgstr "Teksti asetamine lõikepuhvrist"
+msgstr "Märkme asetamine lõikepuhvrist"
 
 #: ../ui/evolution-memos.xml.h:10
-#, fuzzy
 msgid "Previews the list of memos to be printed"
-msgstr "Trükitavate kontaktide eelvaatlemine"
+msgstr "Prinditavate märkmete eelvaatlemine"
 
 #: ../ui/evolution-memos.xml.h:13
 #, fuzzy
@@ -19118,7 +19098,6 @@ msgstr "HT_ML"
 
 #: ../ui/evolution-message-composer.xml.h:11
 #: ../ui/evolution-signature-editor.xml.h:16
-#, fuzzy
 msgid "I_nsert"
 msgstr "_Lisa"
 
@@ -19340,19 +19319,19 @@ msgstr "_Oleku üksikasjad"
 
 #: ../ui/evolution-tasks.xml.h:3
 msgid "Copy selected task"
-msgstr "Kopeerib valitud ülesande"
+msgstr "Valitud ülesande kopeerimine"
 
 #: ../ui/evolution-tasks.xml.h:5
 msgid "Cut selected task"
-msgstr "Lõikab valitud ülesande"
+msgstr "Valitud ülesande lõikamine"
 
 #: ../ui/evolution-tasks.xml.h:7
 msgid "Delete completed tasks"
-msgstr "Kustutab lõpetatud ülesanded"
+msgstr "Lõpetatud ülesannete kustutamine"
 
 #: ../ui/evolution-tasks.xml.h:8
 msgid "Delete selected tasks"
-msgstr "Kustutab valitud ülesanded"
+msgstr "Valitud ülesannete kustutamine"
 
 #: ../ui/evolution-tasks.xml.h:9
 msgid "Mar_k as Complete"
@@ -19368,7 +19347,7 @@ msgstr "Asetab lõikepuhvrist ülesande"
 
 #: ../ui/evolution-tasks.xml.h:13
 msgid "Previews the list of tasks to be printed"
-msgstr "Trükitavate kontaktide eelvaatlemine"
+msgstr "Prinditavate kontaktide eelvaatlemine"
 
 #: ../ui/evolution-tasks.xml.h:16
 msgid "Print the list of tasks"
@@ -20379,13 +20358,13 @@ msgstr "Liiguta ü_les"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:11
 msgid "Sh_ow these fields in order:"
-msgstr "_Näita välju sellest järjestuses:"
+msgstr "Välju _näidatakse sellest järjestuses:"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:12
 #: ../widgets/table/e-table-config.c:563
 #: ../widgets/table/e-table-config.glade.h:10
 msgid "Show Fields"
-msgstr "Näita välju"
+msgstr "Näidatavad väljad"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:13
 #: ../widgets/table/e-table-config.glade.h:11
@@ -20833,9 +20812,6 @@ msgstr ""
 #~ msgid "Sa junk-plugin"
 #~ msgstr "SA rämpspostiplugin"
 
-#~ msgid "learns junk messages using spamd."
-#~ msgstr "spamd abil rämpsposti õppimine."
-
 #~ msgid "C"
 #~ msgstr "C"
 
@@ -20991,14 +20967,8 @@ msgstr ""
 #~ msgid "Execute Command..."
 #~ msgstr "Käsu käivitamine..."
 
-#~ msgid "Automatic contacts"
-#~ msgstr "Automaatsed kontaktid"
-
 #~ msgid "Exchange Connector access error."
 #~ msgstr "Exchange Connector'ile ligipääsu viga."
-
-#~ msgid "Plugin manager"
-#~ msgstr "Pluginahaldur"
 
 #~ msgid "Url"
 #~ msgstr "Url"
