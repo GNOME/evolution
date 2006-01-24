@@ -1,4 +1,10 @@
+2005-01-24  Sushma Rai  <rsushma@novell.com>
+
+	* addressbook/gui/component/addressbook.c (addressbook_authenticate):
+	Checking for the property user and username. Fixes #327819.
+
 2006-01-09  Ali Akcaagac / Andre Klapper <a9016009@gmx.de>
+
 	* tools/evolution-addressbook-clean.in: changing old evo1.4 path to
 	current path. Fixes bug 307513.
 	Committing on behalf of Ali Akcaagac.
