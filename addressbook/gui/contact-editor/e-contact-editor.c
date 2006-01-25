@@ -3096,9 +3096,6 @@ app_delete_event_cb (GtkWidget *widget, GdkEvent *event, gpointer data)
 	if (ce->changed) {
 		switch (eab_prompt_save_dialog (GTK_WINDOW (ce->app))) {
 			case GTK_RESPONSE_YES:
-				if (!eab_editor_is_valid (EAB_EDITOR (ce)))
-					return TRUE;
-
 				eab_editor_save_contact (EAB_EDITOR (ce), TRUE);
 				return TRUE;
 

@@ -1,3 +1,15 @@
+2006-01-25  Simon Zheng  <simon.zheng@sun.com>
+
+	** Fixes #327203
+
+	* gui/contact-editor/e-contact-editor.c (app_delete_event_cb):
+	Checking the validity of contact editor should be done after
+	extracting all fields. This's done in save_contact().
+	* gui/contact-editor/eab-editor.c
+	(eab_editor_prompt_to_save_changes): To avoid repeating free memory,
+	delete eab_editor_close(). In fact, eab_editor_save_contact() has
+	done it before.
+
 2006-01-23  Devashish Sharma  <sdevashish@novell.com>
 
 	* importers/evolution-csv-importer.c : Made some changes for solving some 
