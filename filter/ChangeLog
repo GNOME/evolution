@@ -1,3 +1,9 @@
+2006-01-25  Not Zed  <NotZed@Ximian.com>
+
+	 * filter-rule.[ch]: Added new thread-matching mode 'single' for
+	 messages not part of any conversation.
+	 Committed on behalf of Notzed - partha
+
 2005-12-20  Matthew Hall  <matt@castleinthesky.org>
 
 	* filter.glade; rule-editor.c: adding top/bottom buttons for

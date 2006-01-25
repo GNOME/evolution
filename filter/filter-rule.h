@@ -51,6 +51,7 @@ enum _filter_threading_t {
 	FILTER_THREAD_ALL,	/* add all possible threads */
 	FILTER_THREAD_REPLIES,	/* add only replies */
 	FILTER_THREAD_REPLIES_PARENTS,	/* replies plus parents */
+	FILTER_THREAD_SINGLE,	/* messages with no replies or parents */
 };
 
 #define FILTER_SOURCE_INCOMING "incoming" /* performed on incoming email */

@@ -302,6 +302,9 @@ xml_encode (FilterRule *fr)
 	case FILTER_THREAD_REPLIES_PARENTS:
 		xmlSetProp(node, "threading", "replies_parents");
 		break;
+	case FILTER_THREAD_SINGLE:
+		xmlSetProp(node, "threading", "single");
+		break;
 	}
 
 	if (fr->source) {
@@ -402,6 +405,8 @@ xml_decode (FilterRule *fr, xmlNodePtr node, RuleContext *f)
 			fr->threading = FILTER_THREAD_REPLIES;
 		else if (!strcmp(grouping, "replies_parents"))
 			fr->threading = FILTER_THREAD_REPLIES_PARENTS;
+		else if (!strcmp(grouping, "single"))
+			fr->threading = FILTER_THREAD_SINGLE;
 		xmlFree (grouping);
 	}
 	
@@ -552,6 +557,9 @@ build_code (FilterRule *fr, GString *out)
 		break;
 	case FILTER_THREAD_REPLIES_PARENTS:
 		g_string_append(out, " (match-threads \"replies_parents\" ");
+		break;
+	case FILTER_THREAD_SINGLE:
+		g_string_append(out, " (match-threads \"single\" ");
 		break;
 	}
 
@@ -878,12 +886,12 @@ get_widget (FilterRule *fr, struct _RuleContext *f)
 	}
 
 	if (f->flags & RULE_CONTEXT_THREADING) {
-		const char *thread_types[] = { N_("None"), N_("All related"), N_("Replies"), N_("Replies and parents") };
+		const char *thread_types[] = { N_("None"), N_("All related"), N_("Replies"), N_("Replies and parents"), N_("No reply or parent") };
 
 		label = gtk_label_new (_("Include threads"));
 		menu = gtk_menu_new ();
 	
-		for (i=0;i<4;i++) {
+		for (i=0;i<5;i++) {
 			item = gtk_menu_item_new_with_label(_(thread_types[i]));
 			gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
 			gtk_widget_show (item);
