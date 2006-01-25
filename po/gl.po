@@ -40,8 +40,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gl\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-01-24 21:37+0100\n"
-"PO-Revision-Date: 2006-01-24 21:39+0100\n"
+"POT-Creation-Date: 2006-01-25 18:51+0100\n"
+"PO-Revision-Date: 2006-01-25 19:01+0100\n"
 "Last-Translator: Ignacio Casal Quinteiro <nacho.resa@gmail.com>\n"
 "Language-Team: Galego\n"
 "MIME-Version: 1.0\n"
@@ -576,7 +576,7 @@ msgstr "Configurar autocompletado aquí"
 
 #. Create the contacts group
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:5
-#: ../addressbook/gui/component/addressbook-view.c:1186
+#: ../addressbook/gui/component/addressbook-view.c:1344
 #: ../calendar/gui/calendar-component.c:247 ../calendar/gui/migration.c:400
 #: ../plugins/exchange-operations/exchange-folder.c:629
 msgid "Contacts"
@@ -699,7 +699,7 @@ msgstr "Copiar o contido do libro localmente para operación desconectada"
 
 #: ../addressbook/gui/component/addressbook-config.c:983
 #: ../addressbook/gui/component/ldap-config.glade.h:22
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:20
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:19
 #: ../calendar/gui/dialogs/calendar-setup.c:368
 #: ../calendar/gui/dialogs/calendar-setup.c:379
 #: ../calendar/gui/dialogs/calendar-setup.c:390
@@ -802,30 +802,54 @@ msgstr ""
 "\n"
 "Teña paciencia mentras Evolution migra seus datos Pilot Sync..."
 
-#: ../addressbook/gui/component/addressbook-view.c:769
+#: ../addressbook/gui/component/addressbook-view.c:444
+#: ../mail/em-folder-utils.c:503
+#, c-format
+msgid "Rename the \"%s\" folder to:"
+msgstr "Renomear o cartafol \"%s\" a:"
+
+#: ../addressbook/gui/component/addressbook-view.c:447
+#: ../mail/em-folder-utils.c:505
+msgid "Rename Folder"
+msgstr "Renomea-lo cartafol"
+
+#: ../addressbook/gui/component/addressbook-view.c:452
+#: ../mail/em-folder-utils.c:511
+msgid "Folder names cannot contain '/'"
+msgstr "Os nomes de cartafoles non poden conter o carácter '/'"
+
+#: ../addressbook/gui/component/addressbook-view.c:455
+msgid "A Folder with this name already exists"
+msgstr "Un cartafol con este nome xa existe"
+
+#: ../addressbook/gui/component/addressbook-view.c:963
 msgid "_New Address Book"
 msgstr "_Novo Libro de Enderezos"
 
 #. FIXME: need to disable for undeletable folders
-#: ../addressbook/gui/component/addressbook-view.c:770
+#: ../addressbook/gui/component/addressbook-view.c:964
 #: ../addressbook/gui/widgets/e-addressbook-view.c:966
 #: ../calendar/gui/calendar-component.c:538
 #: ../calendar/gui/e-calendar-table.c:1196
 #: ../calendar/gui/e-calendar-view.c:1628 ../calendar/gui/e-memo-table.c:871
 #: ../calendar/gui/tasks-component.c:443 ../mail/em-folder-tree.c:2054
-#: ../mail/em-folder-view.c:1091 ../ui/evolution-addressbook.xml.h:34
+#: ../mail/em-folder-view.c:1091 ../ui/evolution-addressbook.xml.h:49
 #: ../ui/evolution-calendar.xml.h:38 ../ui/evolution-mail-list.xml.h:30
 #: ../ui/evolution-memos.xml.h:16 ../ui/evolution-tasks.xml.h:24
 msgid "_Delete"
 msgstr "_Borrar"
 
-#: ../addressbook/gui/component/addressbook-view.c:772
+#: ../addressbook/gui/component/addressbook-view.c:966
+msgid "Save As Vcard..."
+msgstr "Gardar como VCard..."
+
+#: ../addressbook/gui/component/addressbook-view.c:968
 #: ../calendar/gui/calendar-component.c:539
 #: ../calendar/gui/tasks-component.c:444
 msgid "_Properties..."
 msgstr "_Propiedades..."
 
-#: ../addressbook/gui/component/addressbook-view.c:1197
+#: ../addressbook/gui/component/addressbook-view.c:1355
 msgid "Contact Source Selector"
 msgstr "Selector de orixe de contactos"
 
@@ -1264,9 +1288,9 @@ msgid "Contact"
 msgstr "Contacto"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:13
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:527
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:542
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2380
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:553
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:568
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2406
 msgid "Contact Editor"
 msgstr "Editor de Contactos"
 
@@ -2451,7 +2475,7 @@ msgstr "Servizo"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:128
 #: ../calendar/gui/e-cal-list-view.etspec.h:3
-#: ../plugins/publish-calendar/publish-calendar.c:461
+#: ../plugins/publish-calendar/publish-calendar.c:478
 #: ../plugins/save-calendar/csv-format.c:400
 msgid "Location"
 msgstr "Ubicación"
@@ -2509,21 +2533,21 @@ msgstr "Campos requeridos"
 msgid "Changed"
 msgstr "Modificado"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:537
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2375
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:563
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2401
 #, c-format
 msgid "Contact Editor - %s"
 msgstr "Editor de Contactos - %s"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2713
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2739
 msgid "Please select an image for this contact"
 msgstr "Escolla unha imaxe para este contacto"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2714
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2740
 msgid "No image"
 msgstr "Sen imaxe"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2993
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3019
 msgid ""
 "The contact data is invalid:\n"
 "\n"
@@ -2531,7 +2555,7 @@ msgstr ""
 "Os datos do contacto son inválidos:\n"
 "\n"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3045
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3071
 msgid "Invalid contact."
 msgstr "Contacto inválido."
 
@@ -2555,7 +2579,7 @@ msgstr "Correo _electrónico"
 msgid "_Select Address Book"
 msgstr "_Seleccione o Libro de Enderezos"
 
-#: ../addressbook/gui/contact-editor/eab-editor.c:323
+#: ../addressbook/gui/contact-editor/eab-editor.c:322
 #, c-format
 msgid ""
 "Are you sure you want\n"
@@ -2564,7 +2588,7 @@ msgstr ""
 "¿Está seguro de que quere\n"
 "borrar a lista de contactos (%s)?"
 
-#: ../addressbook/gui/contact-editor/eab-editor.c:326
+#: ../addressbook/gui/contact-editor/eab-editor.c:325
 msgid ""
 "Are you sure you want\n"
 "to delete these contact lists?"
@@ -2572,7 +2596,7 @@ msgstr ""
 "¿Está seguro de que quere\n"
 "borrar estas listas de contactos?"
 
-#: ../addressbook/gui/contact-editor/eab-editor.c:331
+#: ../addressbook/gui/contact-editor/eab-editor.c:330
 #, c-format
 msgid ""
 "Are you sure you want\n"
@@ -2581,7 +2605,7 @@ msgstr ""
 "¿Está seguro de que quere\n"
 "borrar o contacto (%s)?"
 
-#: ../addressbook/gui/contact-editor/eab-editor.c:334
+#: ../addressbook/gui/contact-editor/eab-editor.c:333
 msgid ""
 "Are you sure you want\n"
 "to delete these contacts?"
@@ -2880,8 +2904,8 @@ msgid "Address Book"
 msgstr "Libro de Enderezos"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:821
-#: ../addressbook/gui/widgets/e-addressbook-view.c:2037
-#: ../ui/evolution-addressbook.xml.h:20
+#: ../addressbook/gui/widgets/e-addressbook-view.c:2051
+#: ../ui/evolution-addressbook.xml.h:31
 msgid "Save as VCard..."
 msgstr "Gardar como VCard..."
 
@@ -2889,7 +2913,7 @@ msgstr "Gardar como VCard..."
 #: ../calendar/gui/dialogs/comp-editor.c:1093
 #: ../calendar/gui/e-calendar-table.c:1176
 #: ../calendar/gui/e-calendar-view.c:1606 ../calendar/gui/e-memo-table.c:854
-#: ../ui/evolution-addressbook.xml.h:38
+#: ../ui/evolution-addressbook.xml.h:56
 msgid "_Open"
 msgstr "_Abrir"
 
@@ -2902,7 +2926,6 @@ msgid "New Contact _List..."
 msgstr "Nova _Lista de Contactos..."
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:950
-#: ../ui/evolution-addressbook.xml.h:41
 msgid "_Save as VCard..."
 msgstr "_Gardar coma VCard..."
 
@@ -2950,7 +2973,7 @@ msgstr "Cor_tar"
 #: ../calendar/gui/e-calendar-view.c:1613 ../calendar/gui/e-memo-table.c:862
 #: ../calendar/gui/tasks-component.c:442 ../composer/e-msg-composer.c:3102
 #: ../mail/em-folder-tree.c:979 ../mail/em-folder-view.c:1077
-#: ../mail/message-list.c:1729 ../ui/evolution-addressbook.xml.h:32
+#: ../mail/message-list.c:1729 ../ui/evolution-addressbook.xml.h:46
 #: ../ui/evolution-calendar.xml.h:37 ../ui/evolution-composer-entries.xml.h:13
 #: ../ui/evolution-editor.xml.h:16 ../ui/evolution-mail-message.xml.h:104
 #: ../ui/evolution-memos.xml.h:15 ../ui/evolution-tasks.xml.h:23
@@ -3573,6 +3596,10 @@ msgstr[1] "contactos"
 msgid "card.vcf"
 msgstr "tarxeta.vcf"
 
+#: ../addressbook/gui/widgets/eab-gui-util.c:457
+msgid "Select Address Book"
+msgstr "Seleccione o Libro de Enderezos"
+
 #: ../addressbook/gui/widgets/eab-gui-util.c:596
 msgid "list"
 msgstr "lista"
@@ -3592,10 +3619,6 @@ msgstr "Mover contactos a"
 #: ../addressbook/gui/widgets/eab-gui-util.c:763
 msgid "Copy contacts to"
 msgstr "Copiar contactos a"
-
-#: ../addressbook/gui/widgets/eab-gui-util.c:766
-msgid "Select target addressbook."
-msgstr "Seleccione o libro de enderezos destino."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:989
 msgid "Multiple VCards"
@@ -4509,8 +4532,8 @@ msgstr "Citas"
 
 #. Location
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:2
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1503
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1509
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1270
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1276
 #: ../calendar/gui/e-itip-control.c:1119
 #: ../plugins/itip-formatter/itip-view.c:884
 msgid "Location:"
@@ -4525,13 +4548,13 @@ msgstr "_Pospoñer o aviso:"
 #: ../filter/filter.glade.h:11 ../mail/mail-config.glade.h:159
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:15
 #: ../plugins/publish-calendar/publish-calendar.glade.h:20
-#: ../ui/evolution-addressbook.xml.h:35 ../ui/evolution-calendar.xml.h:39
+#: ../ui/evolution-addressbook.xml.h:51 ../ui/evolution-calendar.xml.h:39
 #: ../ui/evolution-composer-entries.xml.h:14 ../ui/evolution-editor.xml.h:17
 #: ../ui/evolution-mail-messagedisplay.xml.h:5 ../ui/evolution-memos.xml.h:17
 #: ../ui/evolution-message-composer.xml.h:46
 #: ../ui/evolution-signature-editor.xml.h:24
 #: ../ui/evolution-subscribe.xml.h:10 ../ui/evolution-tasks.xml.h:25
-#: ../ui/evolution.xml.h:38
+#: ../ui/evolution.xml.h:37
 msgid "_Edit"
 msgstr "_Editar"
 
@@ -4543,48 +4566,32 @@ msgstr "_Pospoñer"
 msgid "location of appointment"
 msgstr "lugar da cita"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1129
-msgid "<b>Calendars</b>"
-msgstr "<b>Calendarios</b>"
-
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1195
-msgid "Preferences"
-msgstr "Preferencias"
-
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1208
-msgid "_Configure Alarms"
-msgstr "_Configurar alarmas"
-
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1210 ../ui/evolution.xml.h:45
-msgid "_Quit"
-msgstr "_Saír"
-
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1358
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1485
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1109
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1252
 msgid "No summary available."
 msgstr "Non hai resumo dispoñible."
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1367
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1369
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1118
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1120
 msgid "No description available."
 msgstr "Non hai unha descrición dispoñible."
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1377
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1128
 msgid "No location information available."
 msgstr "Non hai información do lugar dispoñible."
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1416
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1186
 #, c-format
 msgid "You have %d alarms"
 msgstr "Ten %d alarmas."
 
 #. FIXME
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1580
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1604
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1346
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1370
 msgid "Warning"
 msgstr "Advertencia"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1584
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1350
 msgid ""
 "Evolution does not support calendar reminders with\n"
 "email notifications yet, but this reminder was\n"
@@ -4596,7 +4603,7 @@ msgstr ""
 "configurado para enviar unha mensaxe de correo-e. No seu lugar\n"
 "Evolution amosará un diálogo de recordatorio normal."
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1610
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1376
 #, c-format
 msgid ""
 "An Evolution Calendar reminder is about to trigger. This reminder is "
@@ -4613,7 +4620,7 @@ msgstr ""
 "\n"
 "Está seguro de quere executar este programa?"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1624
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1390
 msgid "Do not ask me about this program again."
 msgstr "Non preguntar de novo sobre este programa."
 
@@ -4641,7 +4648,7 @@ msgid "(%d %s %d %s)"
 msgstr "(%d %s %d %s)"
 
 #: ../calendar/gui/alarm-notify/util.c:64
-#: ../calendar/gui/dialogs/recurrence-page.c:991 ../calendar/gui/misc.c:111
+#: ../calendar/gui/dialogs/recurrence-page.c:992 ../calendar/gui/misc.c:111
 msgid "second"
 msgstr "segundo"
 
@@ -5095,7 +5102,7 @@ msgid "Unmatched"
 msgstr "Non concorda"
 
 #: ../calendar/gui/calendar-commands.c:119 ../calendar/gui/print.c:2514
-#: ../ui/evolution-addressbook.xml.h:17 ../ui/evolution-calendar.xml.h:18
+#: ../ui/evolution-addressbook.xml.h:26 ../ui/evolution-calendar.xml.h:18
 #: ../ui/evolution-mail-message.xml.h:75 ../ui/evolution-memos.xml.h:11
 #: ../ui/evolution-tasks.xml.h:14
 msgid "Print"
@@ -5371,8 +5378,9 @@ msgid "A_dd"
 msgstr "Enga_dir"
 
 #: ../calendar/gui/dialogs/alarm-list-dialog.glade.h:2
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:14
 #: ../calendar/gui/dialogs/event-page.glade.h:4
-#: ../ui/evolution-event-editor.xml.h:1
+#: ../ui/evolution-event-editor.xml.h:2
 msgid "Alarms"
 msgstr "Alarmas"
 
@@ -5416,6 +5424,10 @@ msgstr "Nome do ficheiro:"
 #: ../widgets/misc/e-attachment.glade.h:5
 msgid "MIME type:"
 msgstr "Tipo MIME:"
+
+#: ../calendar/gui/dialogs/cal-prefs-dialog.c:470
+msgid "Selected Calendars for Alarms"
+msgstr "Seleccionar axenda para alarmas"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:1
 msgid ""
@@ -5464,35 +5476,27 @@ msgstr "<span weight=\"bold\">Hora</span>"
 msgid "<span weight=\"bold\">Work Week</span>"
 msgstr "<span weight=\"bold\">Semana laboral</span>"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:14
-msgid "Color for overdue tasks"
-msgstr "Cor para as tarefas vencidas"
-
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:15
-msgid "Color for tasks due today"
-msgstr "Cor para as tarefas que vencen hoxe"
-
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:16
 msgid "Day _ends:"
 msgstr "A xornada _remata ás:"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:17
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:16
 msgid "Display"
 msgstr "Amosar"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:18
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:17
 #: ../calendar/gui/dialogs/event-editor.c:566
-#: ../ui/evolution-event-editor.xml.h:7
+#: ../ui/evolution-event-editor.xml.h:8
 msgid "Free/Busy"
 msgstr "Dispoñibilidade"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:19
-#: ../calendar/gui/dialogs/recurrence-page.c:1050
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:18
+#: ../calendar/gui/dialogs/recurrence-page.c:1051
 #: ../calendar/gui/e-itip-control.c:733
 msgid "Friday"
 msgstr "Venres"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:21
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:20
 msgid ""
 "Minutes\n"
 "Hours\n"
@@ -5502,13 +5506,13 @@ msgstr ""
 "Horas\n"
 "Días"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:24
-#: ../calendar/gui/dialogs/recurrence-page.c:1046
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:23
+#: ../calendar/gui/dialogs/recurrence-page.c:1047
 #: ../calendar/gui/e-itip-control.c:729
 msgid "Monday"
 msgstr "Luns"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:25
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:24
 msgid ""
 "Monday\n"
 "Tuesday\n"
@@ -5526,134 +5530,144 @@ msgstr ""
 "Sábado\n"
 "Domingo"
 
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:31
+#: ../calendar/gui/dialogs/calendar-setup.glade.h:5
+#: ../mail/mail-config.glade.h:105
+msgid "Pick a color"
+msgstr "Escoller unha cor"
+
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:32
 msgid "S_un"
 msgstr "_Dom"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:33
-#: ../calendar/gui/dialogs/recurrence-page.c:1051
+#: ../calendar/gui/dialogs/recurrence-page.c:1052
 #: ../calendar/gui/e-itip-control.c:734
 msgid "Saturday"
 msgstr "Sábado"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:34
+msgid "Select the calendars for alarm notification"
+msgstr "Seleccione as axendas para a notificación de alarma"
+
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:35
 msgid "Sh_ow a reminder"
 msgstr "Am_osar un recordatorio"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:35
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:36
 msgid "Show week _numbers in date navigator"
 msgstr "Amosa-los _números das semanas no navegador de datas"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:36
-#: ../calendar/gui/dialogs/recurrence-page.c:1052
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:37
+#: ../calendar/gui/dialogs/recurrence-page.c:1053
 #: ../calendar/gui/e-itip-control.c:728
 msgid "Sunday"
 msgstr "Domingo"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:37
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:38
 msgid "T_asks due today:"
 msgstr "Tarefas que _vencen hoxe:"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:38
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:39
 msgid "T_hu"
 msgstr "_Xov"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:39
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:40
 msgid "Template:"
 msgstr "Modelo:"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:40
-#: ../calendar/gui/dialogs/recurrence-page.c:1049
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:41
+#: ../calendar/gui/dialogs/recurrence-page.c:1050
 #: ../calendar/gui/e-itip-control.c:732
 msgid "Thursday"
 msgstr "Xoves"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:41
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:42
 #: ../calendar/gui/dialogs/event-page.glade.h:14
 msgid "Time _zone:"
 msgstr "Fuso _horario:"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:42
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:43
 msgid "Time format:"
 msgstr "Formato da hora:"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:43
-#: ../calendar/gui/dialogs/recurrence-page.c:1047
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:44
+#: ../calendar/gui/dialogs/recurrence-page.c:1048
 #: ../calendar/gui/e-itip-control.c:730
 msgid "Tuesday"
 msgstr "Martes"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:44
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:45
 msgid "W_eek starts:"
 msgstr "A _semana comeza en:"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:45
-#: ../calendar/gui/dialogs/recurrence-page.c:1048
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:46
+#: ../calendar/gui/dialogs/recurrence-page.c:1049
 #: ../calendar/gui/e-itip-control.c:731
 msgid "Wednesday"
 msgstr "Mércores"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:46
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:47
 msgid "Work days:"
 msgstr "Días laborables:"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:47
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:48
 msgid "_12 hour (AM/PM)"
 msgstr "_12 horas (AM/PM)"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:48
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:49
 msgid "_24 hour"
 msgstr "_24 horas"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:49
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:50
 msgid "_Ask for confirmation when deleting items"
 msgstr "_Pedir confirmación ao eliminar elementos"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:50
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:51
 msgid "_Compress weekends in month view"
 msgstr "_Comprimi-las fins de semana na vista mensual"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:51
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:52
 msgid "_Day begins:"
 msgstr "A _xornada comeza ás:"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:52
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:53
 msgid "_Fri"
 msgstr "_Ven"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:53
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:54
 msgid "_Hide completed tasks after"
 msgstr "_Agocha-las tarefas completadas despois de"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:54
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:55
 msgid "_Mon"
 msgstr "_Lun"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:55
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:56
 msgid "_Overdue tasks:"
 msgstr "Tarefas _atrasadas:"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:56
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:57
 msgid "_Sat"
 msgstr "_Sáb"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:57
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:58
 msgid "_Show appointment end times in week and month view"
 msgstr "_Amosar os prazos finais das citas nas vistas semanal e mensual"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:58
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:59
 msgid "_Time divisions:"
 msgstr "Di_visións horarias:"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:59
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:60
 msgid "_Tue"
 msgstr "_Mar"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:60
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:61
 msgid "_Wed"
 msgstr "Mé_r"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:61
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:62
 msgid "before every appointment"
 msgstr "antes de cada cita"
 
@@ -5706,11 +5720,6 @@ msgstr "Engadir calendario"
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:3
 msgid "Add Task List"
 msgstr "Engadir Lista de Tarefas"
-
-#: ../calendar/gui/dialogs/calendar-setup.glade.h:5
-#: ../mail/mail-config.glade.h:105
-msgid "Pick a color"
-msgstr "Escoller unha cor"
 
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:6
 msgid "_Add Calendar"
@@ -5868,7 +5877,7 @@ msgstr "Elimina_r"
 #: ../calendar/gui/dialogs/comp-editor.c:1095
 #: ../composer/e-msg-composer-attachment-bar.c:471
 #: ../composer/e-msg-composer.c:3602 ../mail/em-folder-tree.c:2058
-#: ../ui/evolution-mail-list.xml.h:33
+#: ../ui/evolution-addressbook.xml.h:59 ../ui/evolution-mail-list.xml.h:33
 msgid "_Properties"
 msgstr "_Propiedades"
 
@@ -6019,7 +6028,7 @@ msgid "Appoint_ment"
 msgstr "_Cita"
 
 #: ../calendar/gui/dialogs/event-editor.c:545
-#: ../ui/evolution-event-editor.xml.h:13
+#: ../ui/evolution-event-editor.xml.h:14
 msgid "Recurrence"
 msgstr "Recorrencia"
 
@@ -6198,7 +6207,7 @@ msgstr "De:"
 #: ../calendar/gui/dialogs/meeting-page.glade.h:4
 #: ../calendar/gui/e-cal-model-tasks.c:654
 #: ../calendar/gui/e-itip-control.c:1105 ../composer/e-msg-composer.c:2275
-#: ../filter/filter-rule.c:881 ../mail/em-account-editor.c:691
+#: ../filter/filter-rule.c:889 ../mail/em-account-editor.c:691
 #: ../mail/em-account-editor.c:1356 ../mail/em-account-prefs.c:468
 #: ../mail/em-folder-view.c:1106 ../mail/em-junk-hook.c:78
 #: ../plugins/calendar-weather/calendar-weather.c:370
@@ -6394,51 +6403,51 @@ msgstr "Esta instancia e as futuras"
 msgid "All Instances"
 msgstr "Todas as instancias"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:498
+#: ../calendar/gui/dialogs/recurrence-page.c:499
 msgid "This appointment contains recurrences that Evolution cannot edit."
 msgstr "Esta cita contén recorrencias que Evolution non pode editar."
 
-#: ../calendar/gui/dialogs/recurrence-page.c:819
+#: ../calendar/gui/dialogs/recurrence-page.c:820
 msgid "Recurrence date is invalid"
 msgstr "A data de repetición está equivocada"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:930
+#: ../calendar/gui/dialogs/recurrence-page.c:931
 msgid "on"
 msgstr "en"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:990
+#: ../calendar/gui/dialogs/recurrence-page.c:991
 msgid "first"
 msgstr "primeiro"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:992
+#: ../calendar/gui/dialogs/recurrence-page.c:993
 msgid "third"
 msgstr "terceiro"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:993
+#: ../calendar/gui/dialogs/recurrence-page.c:994
 msgid "fourth"
 msgstr "cuarto"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:994
+#: ../calendar/gui/dialogs/recurrence-page.c:995
 msgid "last"
 msgstr "último"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1017
+#: ../calendar/gui/dialogs/recurrence-page.c:1018
 msgid "Other Date"
 msgstr "Outra data"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1045
+#: ../calendar/gui/dialogs/recurrence-page.c:1046
 msgid "day"
 msgstr "día"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1182
+#: ../calendar/gui/dialogs/recurrence-page.c:1183
 msgid "on the"
 msgstr "no"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1371
+#: ../calendar/gui/dialogs/recurrence-page.c:1372
 msgid "occurrences"
 msgstr "ocorrencias"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:2342
+#: ../calendar/gui/dialogs/recurrence-page.c:2343
 msgid "Date/Time"
 msgstr "Data/Hora"
 
@@ -6774,7 +6783,7 @@ msgstr "Nota:"
 msgid "Web Page:"
 msgstr "Páxina Web:"
 
-#: ../calendar/gui/e-cal-component-preview.c:155 ../filter/filter-rule.c:796
+#: ../calendar/gui/e-cal-component-preview.c:155 ../filter/filter-rule.c:804
 msgid "Untitled"
 msgstr "Sen título"
 
@@ -6988,7 +6997,7 @@ msgstr "Abrir páxina _web"
 #: ../calendar/gui/e-calendar-view.c:1608 ../calendar/gui/e-memo-table.c:857
 #: ../mail/em-folder-view.c:1088
 #: ../plugins/print-message/org-gnome-print-message.xml.h:3
-#: ../ui/evolution-addressbook.xml.h:40 ../ui/evolution-calendar.xml.h:42
+#: ../ui/evolution-addressbook.xml.h:58 ../ui/evolution-calendar.xml.h:42
 #: ../ui/evolution-mail-message.xml.h:124 ../ui/evolution-memos.xml.h:20
 #: ../ui/evolution-tasks.xml.h:29
 msgid "_Print..."
@@ -6996,7 +7005,7 @@ msgstr "_Imprimir..."
 
 #: ../calendar/gui/e-calendar-table.c:1183
 #: ../calendar/gui/e-calendar-view.c:1612 ../calendar/gui/e-memo-table.c:861
-#: ../ui/evolution-addressbook.xml.h:1 ../ui/evolution-calendar.xml.h:1
+#: ../ui/evolution-addressbook.xml.h:2 ../ui/evolution-calendar.xml.h:1
 #: ../ui/evolution-memos.xml.h:1 ../ui/evolution-tasks.xml.h:1
 msgid "C_ut"
 msgstr "Co_rtar"
@@ -7004,7 +7013,7 @@ msgstr "Co_rtar"
 #: ../calendar/gui/e-calendar-table.c:1185
 #: ../calendar/gui/e-calendar-view.c:1595
 #: ../calendar/gui/e-calendar-view.c:1614 ../calendar/gui/e-memo-table.c:863
-#: ../ui/evolution-addressbook.xml.h:39 ../ui/evolution-calendar.xml.h:41
+#: ../ui/evolution-addressbook.xml.h:57 ../ui/evolution-calendar.xml.h:41
 #: ../ui/evolution-composer-entries.xml.h:15 ../ui/evolution-editor.xml.h:22
 #: ../ui/evolution-memos.xml.h:19 ../ui/evolution-tasks.xml.h:28
 msgid "_Paste"
@@ -8055,14 +8064,14 @@ msgstr "Información de iCalendar"
 msgid "You must be an attendee of the event."
 msgstr "Debe ser un participante no evento."
 
-#: ../calendar/gui/memos-component.c:451 ../ui/evolution-addressbook.xml.h:3
+#: ../calendar/gui/memos-component.c:451 ../ui/evolution-addressbook.xml.h:6
 #: ../ui/evolution-composer-entries.xml.h:1 ../ui/evolution-memos.xml.h:2
 #: ../ui/evolution-tasks.xml.h:2
 msgid "Copy"
 msgstr "Copiar"
 
 #: ../calendar/gui/memos-component.c:452 ../mail/em-filter-i18n.h:11
-#: ../ui/evolution-addressbook.xml.h:9 ../ui/evolution-calendar.xml.h:5
+#: ../ui/evolution-addressbook.xml.h:15 ../ui/evolution-calendar.xml.h:5
 #: ../ui/evolution-mail-message.xml.h:25 ../ui/evolution-memos.xml.h:6
 #: ../ui/evolution-tasks.xml.h:6
 msgid "Delete"
@@ -10667,48 +10676,52 @@ msgstr "Máis tarde"
 msgid "Test"
 msgstr "Proba"
 
-#: ../filter/filter-rule.c:791
+#: ../filter/filter-rule.c:799
 msgid "_Search name:"
 msgstr "_Procurar nome:"
 
-#: ../filter/filter-rule.c:819
+#: ../filter/filter-rule.c:827
 msgid "Find items that meet the following criteria"
 msgstr "Buscar os elementos que cumpran cos seguintes criterios"
 
-#: ../filter/filter-rule.c:858
+#: ../filter/filter-rule.c:866
 msgid "If all criteria are met"
 msgstr "Se se cumpren tódolos criterios"
 
-#: ../filter/filter-rule.c:858
+#: ../filter/filter-rule.c:866
 msgid "If any criteria are met"
 msgstr "Se se cumpre algún criterio"
 
-#: ../filter/filter-rule.c:860
+#: ../filter/filter-rule.c:868
 msgid "Find items:"
 msgstr "Procurar elementos:"
 
-#: ../filter/filter-rule.c:881
+#: ../filter/filter-rule.c:889
 msgid "All related"
 msgstr "Todos os relacionados"
 
-#: ../filter/filter-rule.c:881
+#: ../filter/filter-rule.c:889
 msgid "Replies"
 msgstr "Respostas"
 
-#: ../filter/filter-rule.c:881
+#: ../filter/filter-rule.c:889
 msgid "Replies and parents"
 msgstr "Respostas e antecesores"
 
-#: ../filter/filter-rule.c:883
+#: ../filter/filter-rule.c:889
+msgid "No reply or parent"
+msgstr "Sen respostas ou antecesores"
+
+#: ../filter/filter-rule.c:891
 msgid "Include threads"
 msgstr "Incluír conversacións"
 
-#: ../filter/filter-rule.c:978 ../filter/filter.glade.h:3
+#: ../filter/filter-rule.c:986 ../filter/filter.glade.h:3
 #: ../mail/em-utils.c:349
 msgid "Incoming"
 msgstr "Entrante"
 
-#: ../filter/filter-rule.c:978 ../mail/em-utils.c:350
+#: ../filter/filter-rule.c:986 ../mail/em-utils.c:350
 msgid "Outgoing"
 msgstr "Saínte"
 
@@ -10980,7 +10993,7 @@ msgstr "[Predeterminado]"
 #. g_object_set((GObject *)renderer, "activatable", TRUE, NULL);
 #: ../mail/em-account-prefs.c:512 ../mail/em-composer-prefs.c:930
 #: ../plugins/plugin-manager/plugin-manager.c:213
-#: ../plugins/publish-calendar/publish-calendar.c:457
+#: ../plugins/publish-calendar/publish-calendar.c:474
 msgid "Enabled"
 msgstr "Activado"
 
@@ -11406,7 +11419,7 @@ msgstr "_Mover ó Cartafol"
 msgid "Scanning folders in \"%s\""
 msgstr "Examinando os cartafoles en \"%s\""
 
-#: ../mail/em-folder-tree.c:2042 ../ui/evolution-addressbook.xml.h:44
+#: ../mail/em-folder-tree.c:2042 ../ui/evolution-addressbook.xml.h:64
 #: ../ui/evolution-editor.xml.h:24 ../ui/evolution-mail-global.xml.h:24
 #: ../ui/evolution-mail-messagedisplay.xml.h:8
 #: ../ui/evolution-message-composer.xml.h:56 ../ui/evolution-tasks.xml.h:30
@@ -11454,19 +11467,6 @@ msgstr "Seleccionar cartafol"
 msgid "C_opy"
 msgstr "C_opiar"
 
-#: ../mail/em-folder-utils.c:503
-#, c-format
-msgid "Rename the \"%s\" folder to:"
-msgstr "Renomear o cartafol \"%s\" a:"
-
-#: ../mail/em-folder-utils.c:505
-msgid "Rename Folder"
-msgstr "Renomea-lo cartafol"
-
-#: ../mail/em-folder-utils.c:511
-msgid "Folder names cannot contain '/'"
-msgstr "Os nomes de cartafoles non poden conter o carácter '/'"
-
 #: ../mail/em-folder-utils.c:581
 #: ../plugins/groupwise-features/share-folder-common.c:141
 #, c-format
@@ -11502,11 +11502,11 @@ msgstr "_Editar coma unha Nova Mensaxe"
 msgid "U_ndelete"
 msgstr "_Recuperar"
 
-#: ../mail/em-folder-view.c:1093 ../ui/evolution-addressbook.xml.h:37
+#: ../mail/em-folder-view.c:1093
 msgid "_Move to Folder..."
 msgstr "_Mover ó Cartafol.."
 
-#: ../mail/em-folder-view.c:1094 ../ui/evolution-addressbook.xml.h:33
+#: ../mail/em-folder-view.c:1094
 msgid "_Copy to Folder..."
 msgstr "_Copiar a un Cartafol..."
 
@@ -11779,7 +11779,7 @@ msgid_plural "%d attachme_nts"
 msgstr[0] "%d ad_xunto"
 msgstr[1] "%d ad_xuntos"
 
-#: ../mail/em-format-html-display.c:1948 ../mail/em-format-html-display.c:2025
+#: ../mail/em-format-html-display.c:1948 ../mail/em-format-html-display.c:2024
 msgid "S_ave"
 msgstr "G_ardar"
 
@@ -11787,11 +11787,11 @@ msgstr "G_ardar"
 msgid "S_ave All"
 msgstr "G_ardar todo"
 
-#: ../mail/em-format-html-display.c:2019
+#: ../mail/em-format-html-display.c:2018
 msgid "Toggle Attachment Bar"
 msgstr "Cambiar a barra de adxuntos"
 
-#: ../mail/em-format-html-display.c:2021
+#: ../mail/em-format-html-display.c:2020
 msgid "No Attachment"
 msgstr "Sen adxunto"
 
@@ -15619,7 +15619,7 @@ msgid "Add Send Options to groupwise messages"
 msgstr "Engadir opcións de envío ás mensaxes de Groupwises"
 
 #: ../plugins/groupwise-features/org-gnome-compose-send-options.xml.h:2
-#: ../ui/evolution-event-editor.xml.h:14 ../ui/evolution-task-editor.xml.h:8
+#: ../ui/evolution-event-editor.xml.h:15 ../ui/evolution-task-editor.xml.h:8
 #: ../widgets/misc/e-send-options.glade.h:17
 msgid "Send Options"
 msgstr "Opcións de envío"
@@ -16773,7 +16773,7 @@ msgid "Gives an option to print mail from composer"
 msgstr "Da unha opción para imprimir o correo desde o editor"
 
 #: ../plugins/print-message/org-gnome-print-message.xml.h:1
-#: ../ui/evolution-addressbook.xml.h:18 ../ui/evolution-calendar.xml.h:19
+#: ../ui/evolution-addressbook.xml.h:27 ../ui/evolution-calendar.xml.h:19
 #: ../ui/evolution-mail-message.xml.h:76 ../ui/evolution-memos.xml.h:12
 #: ../ui/evolution-tasks.xml.h:15
 msgid "Print Pre_view"
@@ -16807,7 +16807,7 @@ msgstr "Ubicacións"
 msgid "_Publish Calendar Information"
 msgstr "_Publicar información do calendario"
 
-#: ../plugins/publish-calendar/publish-calendar.c:372
+#: ../plugins/publish-calendar/publish-calendar.c:386
 msgid "Are you sure you want to remove this URL?"
 msgstr "Está seguro de que quere borrar esta URL?"
 
@@ -18197,120 +18197,210 @@ msgstr "Non se puido executar '%s': %s\n"
 msgid "Shutting down %s (%s)\n"
 msgstr "Pechando %s (%s)\n"
 
-#: ../ui/evolution-addressbook.xml.h:2
+#: ../ui/evolution-addressbook.xml.h:1
+msgid "Address _Book Properties"
+msgstr "Propiedades do li_bro de enderezos"
+
+#: ../ui/evolution-addressbook.xml.h:3
+msgid "Change the properties of the selected folder"
+msgstr "Cambiar as propiedades do cartafol seleccionado"
+
+#: ../ui/evolution-addressbook.xml.h:4
+msgid "Co_py All Contacts To..."
+msgstr "C_opiar todos os contactos a..."
+
+#: ../ui/evolution-addressbook.xml.h:5
 msgid "Contact _Preview"
 msgstr "_Previsualización de contactos"
 
-#: ../ui/evolution-addressbook.xml.h:4
+#: ../ui/evolution-addressbook.xml.h:7
 msgid "Copy Selected Contacts to Another Folder..."
 msgstr "Copia os contactos seleccionados a outro cartafol..."
 
-#: ../ui/evolution-addressbook.xml.h:5 ../ui/evolution-calendar.xml.h:2
+#: ../ui/evolution-addressbook.xml.h:8
+msgid "Copy the contacts of the selected folder into another folder"
+msgstr "Copiar os contactos do cartafol seleccionado noutro cartafol"
+
+#: ../ui/evolution-addressbook.xml.h:9 ../ui/evolution-calendar.xml.h:2
 msgid "Copy the selection"
 msgstr "Copiar a selección"
 
-#: ../ui/evolution-addressbook.xml.h:6
+#: ../ui/evolution-addressbook.xml.h:10
 msgid "Copy to Folder..."
 msgstr "Copiar ao Cartafol..."
 
-#: ../ui/evolution-addressbook.xml.h:7
+#: ../ui/evolution-addressbook.xml.h:11
+msgid "Create a new addressbook folder"
+msgstr "Crear un novo cartafol de libro de enderezos"
+
+#: ../ui/evolution-addressbook.xml.h:12
 #: ../ui/evolution-composer-entries.xml.h:5 ../ui/evolution-memos.xml.h:4
 #: ../ui/evolution-tasks.xml.h:4
 msgid "Cut"
 msgstr "Cortar"
 
-#: ../ui/evolution-addressbook.xml.h:8 ../ui/evolution-calendar.xml.h:3
+#: ../ui/evolution-addressbook.xml.h:13 ../ui/evolution-calendar.xml.h:3
 msgid "Cut the selection"
 msgstr "Cortar a selección"
 
-#: ../ui/evolution-addressbook.xml.h:10
+#: ../ui/evolution-addressbook.xml.h:14
+msgid "Del_ete Address Book"
+msgstr "_Borrar libro de enderezos"
+
+#: ../ui/evolution-addressbook.xml.h:16
 msgid "Delete selected contacts"
 msgstr "Elimina-los contactos seleccionados"
 
-#: ../ui/evolution-addressbook.xml.h:11
+#: ../ui/evolution-addressbook.xml.h:17
+msgid "Delete the selected folder"
+msgstr "Borrar o cartafol seleccionado"
+
+#: ../ui/evolution-addressbook.xml.h:18
 msgid "Forward Contact"
 msgstr "Remitir Contacto"
 
-#: ../ui/evolution-addressbook.xml.h:12
+#: ../ui/evolution-addressbook.xml.h:19
+msgid "Mo_ve All Contacts To..."
+msgstr "Mo_ver todos os contactos a..."
+
+#: ../ui/evolution-addressbook.xml.h:20
 msgid "Move Selected Contacts to Another Folder..."
 msgstr "Mover as mensaxes seleccionadas a outro cartafol..."
 
-#: ../ui/evolution-addressbook.xml.h:13
+#: ../ui/evolution-addressbook.xml.h:21
+msgid "Move the contacts of the selected folder into another folder"
+msgstr "Mover os contactos do cartafol seleccionado a outro cartafol"
+
+#: ../ui/evolution-addressbook.xml.h:22
 msgid "Move to Folder..."
 msgstr "Mover ao Cartafol.."
 
-#: ../ui/evolution-addressbook.xml.h:14
+#: ../ui/evolution-addressbook.xml.h:23
 #: ../ui/evolution-composer-entries.xml.h:8 ../ui/evolution-memos.xml.h:8
 #: ../ui/evolution-tasks.xml.h:11
 msgid "Paste"
 msgstr "Pegar"
 
-#: ../ui/evolution-addressbook.xml.h:15 ../ui/evolution-calendar.xml.h:15
+#: ../ui/evolution-addressbook.xml.h:24 ../ui/evolution-calendar.xml.h:15
 msgid "Paste the clipboard"
 msgstr "Pegar o contido do portarretallos"
 
-#: ../ui/evolution-addressbook.xml.h:16
+#: ../ui/evolution-addressbook.xml.h:25
 msgid "Previews the contacts to be printed"
 msgstr "Previsualiza os contactos que se han imprimir"
 
-#: ../ui/evolution-addressbook.xml.h:19
+#: ../ui/evolution-addressbook.xml.h:28
 msgid "Print selected contacts"
 msgstr "Imprimi-los contactos seleccionados"
 
-#: ../ui/evolution-addressbook.xml.h:21
+#: ../ui/evolution-addressbook.xml.h:29
+msgid "Rename the selected folder"
+msgstr "Renomear o cartafol seleccionado"
+
+#: ../ui/evolution-addressbook.xml.h:30
+msgid "S_ave Address Book As VCard"
+msgstr "G_ardar  Libro de Enderezos como VCard"
+
+#: ../ui/evolution-addressbook.xml.h:32
 msgid "Save selected contacts as a VCard."
 msgstr "Garda-los contactos seleccionados coma unha VCard."
 
-#: ../ui/evolution-addressbook.xml.h:22 ../widgets/text/e-text.c:2712
+#: ../ui/evolution-addressbook.xml.h:33
+msgid "Save the contacts of the selected folder as VCard"
+msgstr "Garda-los contactos do cartafol seleccionado coma unha VCard."
+
+#: ../ui/evolution-addressbook.xml.h:34 ../widgets/text/e-text.c:2712
 msgid "Select All"
 msgstr "Seleccionar Todo"
 
-#: ../ui/evolution-addressbook.xml.h:23
+#: ../ui/evolution-addressbook.xml.h:35
+#: ../ui/evolution-composer-entries.xml.h:11 ../ui/evolution-editor.xml.h:12
+#: ../ui/evolution-subscribe.xml.h:6
+msgid "Select _All"
+msgstr "Seleccionar _Todo"
+
+#: ../ui/evolution-addressbook.xml.h:36
 msgid "Select all contacts"
 msgstr "Seleccionar tódolos contactos"
 
-#: ../ui/evolution-addressbook.xml.h:24
+#: ../ui/evolution-addressbook.xml.h:37
 msgid "Send a message to the selected contacts."
 msgstr "Enviar unha mensaxe aos contactos seleccionados."
 
-#: ../ui/evolution-addressbook.xml.h:25
+#: ../ui/evolution-addressbook.xml.h:38
 msgid "Send message to contact"
 msgstr "Enviar mensaxe a un contacto"
 
-#: ../ui/evolution-addressbook.xml.h:26
+#: ../ui/evolution-addressbook.xml.h:39
 msgid "Send selected contacts to another person."
 msgstr "Envia-los contactos seleccionados a outra persoa."
 
-#: ../ui/evolution-addressbook.xml.h:27
+#: ../ui/evolution-addressbook.xml.h:40
 msgid "Show contact preview window"
 msgstr "Amosar a fiestra de previsualización de contactos"
 
-#: ../ui/evolution-addressbook.xml.h:28
+#: ../ui/evolution-addressbook.xml.h:41
+msgid "St_op"
+msgstr "De_ter"
+
+#: ../ui/evolution-addressbook.xml.h:42
 msgid "Stop"
 msgstr "Parar"
 
-#: ../ui/evolution-addressbook.xml.h:29
+#: ../ui/evolution-addressbook.xml.h:43
 msgid "Stop Loading"
 msgstr "Parar a Carga"
 
-#: ../ui/evolution-addressbook.xml.h:30
+#: ../ui/evolution-addressbook.xml.h:44
 msgid "View the current contact"
 msgstr "Ver o contacto actual"
 
-#: ../ui/evolution-addressbook.xml.h:31 ../ui/evolution-calendar.xml.h:36
+#: ../ui/evolution-addressbook.xml.h:45 ../ui/evolution-calendar.xml.h:36
 #: ../ui/evolution-tasks.xml.h:21
 msgid "_Actions"
 msgstr "_Accións"
 
-#: ../ui/evolution-addressbook.xml.h:36
+#: ../ui/evolution-addressbook.xml.h:47
+msgid "_Copy Contact to..."
+msgstr "_Copiar contacto a..."
+
+#: ../ui/evolution-addressbook.xml.h:48
+msgid "_Copy Folder Contacts To"
+msgstr "_Copiar cartafol de contactos a"
+
+#: ../ui/evolution-addressbook.xml.h:50
+msgid "_Delete Contact"
+msgstr "_Borrar contacto"
+
+#: ../ui/evolution-addressbook.xml.h:52
 msgid "_Forward Contact..."
 msgstr "_Remitir Contacto..."
 
-#: ../ui/evolution-addressbook.xml.h:42
-msgid "_Select All"
-msgstr "_Seleccionar Todo"
+#: ../ui/evolution-addressbook.xml.h:53
+msgid "_Move Contact to..."
+msgstr "_Mover contacto a..."
 
-#: ../ui/evolution-addressbook.xml.h:43
+#: ../ui/evolution-addressbook.xml.h:54
+msgid "_Move Folder Contacts To"
+msgstr "_Mover cartafol de contactos a"
+
+#: ../ui/evolution-addressbook.xml.h:55 ../ui/evolution.xml.h:43
+msgid "_New"
+msgstr "_Novo"
+
+#: ../ui/evolution-addressbook.xml.h:60
+msgid "_Rename"
+msgstr "_Renomear"
+
+#: ../ui/evolution-addressbook.xml.h:61
+msgid "_Save Contact as VCard..."
+msgstr "_Gardar contacto como VCard..."
+
+#: ../ui/evolution-addressbook.xml.h:62
+msgid "_Save Folder Contacts As VCard"
+msgstr "_Garda-lo cartafol de contactos coma unha VCard"
+
+#: ../ui/evolution-addressbook.xml.h:63
 msgid "_Send Message to Contact..."
 msgstr "_Enviar unha Mensaxe ao Contacto..."
 
@@ -18450,11 +18540,6 @@ msgstr "Pega do portarretallos"
 msgid "Paste text from the clipboard"
 msgstr "Pegar texto desde o portarretallos"
 
-#: ../ui/evolution-composer-entries.xml.h:11 ../ui/evolution-editor.xml.h:12
-#: ../ui/evolution-subscribe.xml.h:6
-msgid "Select _All"
-msgstr "Seleccionar _Todo"
-
 #: ../ui/evolution-composer-entries.xml.h:12 ../ui/evolution-editor.xml.h:13
 msgid "Select all text"
 msgstr "Seleccionar todo o texto"
@@ -18502,7 +18587,7 @@ msgstr "_Pechar"
 #: ../ui/evolution-editor.xml.h:18 ../ui/evolution-mail-messagedisplay.xml.h:6
 #: ../ui/evolution-message-composer.xml.h:47
 #: ../ui/evolution-signature-editor.xml.h:25
-#: ../ui/evolution-subscribe.xml.h:11 ../ui/evolution.xml.h:39
+#: ../ui/evolution-subscribe.xml.h:11 ../ui/evolution.xml.h:38
 msgid "_File"
 msgstr "_Ficheiro"
 
@@ -18518,89 +18603,89 @@ msgstr "_Inserir"
 msgid "_Options"
 msgstr "_Opcións"
 
-#: ../ui/evolution-event-editor.xml.h:2
+#: ../ui/evolution-event-editor.xml.h:1
+msgid "Alar_ms"
+msgstr "Alar_mas"
+
+#: ../ui/evolution-event-editor.xml.h:3
 msgid "All day Event"
 msgstr "Evento para todo o día"
 
-#: ../ui/evolution-event-editor.xml.h:3 ../ui/evolution-task-editor.xml.h:1
+#: ../ui/evolution-event-editor.xml.h:4 ../ui/evolution-task-editor.xml.h:1
 msgid "Classify as Confidential"
 msgstr "Clasificar como confidencial"
 
-#: ../ui/evolution-event-editor.xml.h:4 ../ui/evolution-task-editor.xml.h:2
+#: ../ui/evolution-event-editor.xml.h:5 ../ui/evolution-task-editor.xml.h:2
 msgid "Classify as Private"
 msgstr "Clasificar como privado"
 
-#: ../ui/evolution-event-editor.xml.h:5 ../ui/evolution-task-editor.xml.h:3
+#: ../ui/evolution-event-editor.xml.h:6 ../ui/evolution-task-editor.xml.h:3
 msgid "Classify as public"
 msgstr "Clasificar como público"
 
-#: ../ui/evolution-event-editor.xml.h:6
+#: ../ui/evolution-event-editor.xml.h:7
 msgid "Click here to set or unset alarms for this event"
 msgstr "Prema aquí para establecer ou quitar alarmas para este evento"
 
-#: ../ui/evolution-event-editor.xml.h:8 ../ui/evolution-task-editor.xml.h:5
+#: ../ui/evolution-event-editor.xml.h:9 ../ui/evolution-task-editor.xml.h:5
 msgid "Insert advanced send options"
 msgstr "Inserir opcións avanzadas de envío"
 
-#: ../ui/evolution-event-editor.xml.h:9
+#: ../ui/evolution-event-editor.xml.h:10
 msgid "Make this a recurring event"
 msgstr "Convertir en evento repetitivo"
 
-#: ../ui/evolution-event-editor.xml.h:10 ../ui/evolution-task-editor.xml.h:6
+#: ../ui/evolution-event-editor.xml.h:11 ../ui/evolution-task-editor.xml.h:6
 msgid "Pu_blic"
 msgstr "Pú_blico"
 
-#: ../ui/evolution-event-editor.xml.h:11
+#: ../ui/evolution-event-editor.xml.h:12
 msgid "Query free / busy information for the attendees"
 msgstr "Consultar información de dispoñibilidade para os participantes"
 
-#: ../ui/evolution-event-editor.xml.h:12 ../ui/evolution-task-editor.xml.h:7
+#: ../ui/evolution-event-editor.xml.h:13 ../ui/evolution-task-editor.xml.h:7
 msgid "R_ole Field"
 msgstr "Campo _rol"
 
-#: ../ui/evolution-event-editor.xml.h:15
+#: ../ui/evolution-event-editor.xml.h:16
 msgid "Show time as b_usy"
 msgstr "Amosar hora como _ocupada"
 
-#: ../ui/evolution-event-editor.xml.h:16
+#: ../ui/evolution-event-editor.xml.h:17 ../ui/evolution-task-editor.xml.h:11
 msgid "Time _Zone"
 msgstr "_Fuso horario"
 
-#: ../ui/evolution-event-editor.xml.h:17 ../ui/evolution-task-editor.xml.h:12
+#: ../ui/evolution-event-editor.xml.h:18 ../ui/evolution-task-editor.xml.h:12
 msgid "Toggles whether the Attendee Type field is displayed"
 msgstr "Conmuta cando se amosa o campo Tipo de participante"
 
-#: ../ui/evolution-event-editor.xml.h:18 ../ui/evolution-task-editor.xml.h:13
+#: ../ui/evolution-event-editor.xml.h:19 ../ui/evolution-task-editor.xml.h:13
 msgid "Toggles whether the RSVP field is displayed"
 msgstr "Conmuta cando se amosa o campo RSVP"
 
-#: ../ui/evolution-event-editor.xml.h:19 ../ui/evolution-task-editor.xml.h:14
+#: ../ui/evolution-event-editor.xml.h:20 ../ui/evolution-task-editor.xml.h:14
 msgid "Toggles whether the Role field is displayed"
 msgstr "Conmuta cando se amosa o campo Rol"
 
-#: ../ui/evolution-event-editor.xml.h:20 ../ui/evolution-task-editor.xml.h:15
+#: ../ui/evolution-event-editor.xml.h:21 ../ui/evolution-task-editor.xml.h:15
 msgid "Toggles whether the Status field is displayed"
 msgstr "Conmuta cando se amosa o campo Estado"
 
-#: ../ui/evolution-event-editor.xml.h:21 ../ui/evolution-task-editor.xml.h:16
+#: ../ui/evolution-event-editor.xml.h:22 ../ui/evolution-task-editor.xml.h:16
 msgid "Toggles whether the time zone is displayed"
 msgstr "Conmuta cando se amosa o campo Fuso horario"
 
-#: ../ui/evolution-event-editor.xml.h:22 ../ui/evolution-task-editor.xml.h:17
+#: ../ui/evolution-event-editor.xml.h:23 ../ui/evolution-task-editor.xml.h:17
 msgid "Toggles whether to display categories"
 msgstr "Conmuta cando se amosan as categorías"
 
-#: ../ui/evolution-event-editor.xml.h:23
+#: ../ui/evolution-event-editor.xml.h:24
 msgid "Toggles whether to have All day Event"
 msgstr "Conmuta cando se ten un Evento para todo o día"
 
-#: ../ui/evolution-event-editor.xml.h:24
+#: ../ui/evolution-event-editor.xml.h:25
 msgid "Toggles whether to show time as busy"
 msgstr "Conmuta cando se deben amosar as horas como ocupadas"
-
-#: ../ui/evolution-event-editor.xml.h:25
-msgid "_Alarms"
-msgstr "_Alarmas"
 
 #: ../ui/evolution-event-editor.xml.h:26
 msgid "_All day Event"
@@ -18614,19 +18699,27 @@ msgstr "_Clasificación"
 msgid "_Confidential"
 msgstr "_Confidencial"
 
-#: ../ui/evolution-event-editor.xml.h:30 ../ui/evolution-task-editor.xml.h:21
+#: ../ui/evolution-event-editor.xml.h:30
+msgid "_Free/Busy"
+msgstr "_Disponibilidade"
+
+#: ../ui/evolution-event-editor.xml.h:31 ../ui/evolution-task-editor.xml.h:21
 msgid "_Private"
 msgstr "_Privado"
 
-#: ../ui/evolution-event-editor.xml.h:31 ../ui/evolution-task-editor.xml.h:22
+#: ../ui/evolution-event-editor.xml.h:32 ../ui/evolution-task-editor.xml.h:22
 msgid "_RSVP"
 msgstr "_RSVP"
 
-#: ../ui/evolution-event-editor.xml.h:32 ../ui/evolution-task-editor.xml.h:24
+#: ../ui/evolution-event-editor.xml.h:33
+msgid "_Recurrence"
+msgstr "_Recorrencia"
+
+#: ../ui/evolution-event-editor.xml.h:34 ../ui/evolution-task-editor.xml.h:25
 msgid "_Status Field"
 msgstr "Campo de e_stado"
 
-#: ../ui/evolution-event-editor.xml.h:33 ../ui/evolution-task-editor.xml.h:25
+#: ../ui/evolution-event-editor.xml.h:35 ../ui/evolution-task-editor.xml.h:26
 msgid "_Type Field"
 msgstr "Campo _tipo"
 
@@ -19258,7 +19351,7 @@ msgstr "_Ampliar"
 msgid "Close this window"
 msgstr "Pechar esta fiestra"
 
-#: ../ui/evolution-mail-messagedisplay.xml.h:3 ../ui/evolution.xml.h:17
+#: ../ui/evolution-mail-messagedisplay.xml.h:3 ../ui/evolution.xml.h:16
 msgid "Main toolbar"
 msgstr "Barra de ferramentas principal"
 
@@ -19539,18 +19632,18 @@ msgid "Click change / view the status details of the task"
 msgstr "Prema para cambiar/ ver os detalles do estado da tarefa"
 
 #: ../ui/evolution-task-editor.xml.h:9
-msgid "Show Time _Zone"
-msgstr "Amosar fuso _horario"
-
-#: ../ui/evolution-task-editor.xml.h:10
 msgid "Status Details"
 msgstr "Detalles do estado"
 
-#: ../ui/evolution-task-editor.xml.h:11
+#: ../ui/evolution-task-editor.xml.h:10
 msgid "Time Zone"
 msgstr "Fuso horario"
 
 #: ../ui/evolution-task-editor.xml.h:23
+msgid "_Send Options"
+msgstr "Opción_s de envío"
+
+#: ../ui/evolution-task-editor.xml.h:24
 msgid "_Status Details"
 msgstr "Detalles do e_stado"
 
@@ -19645,58 +19738,54 @@ msgid "Exit the program"
 msgstr "Saír do programa"
 
 #: ../ui/evolution.xml.h:11
-msgid "Forget _Passwords"
-msgstr "Esquecer _Contrasinais"
-
-#: ../ui/evolution.xml.h:12
 msgid "Forget remembered passwords so you will be prompted for them again"
 msgstr "Esquecer tódalas claves, de maneira que se lle volven pedir."
 
-#: ../ui/evolution.xml.h:13
+#: ../ui/evolution.xml.h:12
 msgid "Hide window buttons"
 msgstr "Agochar os botóns da fiestra"
 
-#: ../ui/evolution.xml.h:14
+#: ../ui/evolution.xml.h:13
 msgid "I_mport..."
 msgstr "I_mportar..."
 
-#: ../ui/evolution.xml.h:15
+#: ../ui/evolution.xml.h:14
 msgid "Icons _and text"
 msgstr "Iconas _e texto"
 
-#: ../ui/evolution.xml.h:16
+#: ../ui/evolution.xml.h:15
 msgid "Import data from other programs"
 msgstr "Importar datos doutros programas"
 
-#: ../ui/evolution.xml.h:18
+#: ../ui/evolution.xml.h:17
 msgid "New _Window"
 msgstr "Nova _fiestra"
 
-#: ../ui/evolution.xml.h:19
+#: ../ui/evolution.xml.h:18
 msgid "Prefere_nces"
 msgstr "Prefere_ncias"
 
-#: ../ui/evolution.xml.h:20
+#: ../ui/evolution.xml.h:19
 msgid "Send / Receive"
 msgstr "Enviar / Recibir"
 
-#: ../ui/evolution.xml.h:21
+#: ../ui/evolution.xml.h:20
 msgid "Send / _Receive"
 msgstr "Enviar / _Recibir"
 
-#: ../ui/evolution.xml.h:22
+#: ../ui/evolution.xml.h:21
 msgid "Send queued items and retrieve new items"
 msgstr "Envía o correo na cola e obtén o novo"
 
-#: ../ui/evolution.xml.h:23
+#: ../ui/evolution.xml.h:22
 msgid "Set up Pilot configuration"
 msgstr "Configuración do Pilot"
 
-#: ../ui/evolution.xml.h:24
+#: ../ui/evolution.xml.h:23
 msgid "Show information about Evolution"
 msgstr "Amosar información acerca de Evolution"
 
-#: ../ui/evolution.xml.h:25
+#: ../ui/evolution.xml.h:24
 msgid "Submit Bug Report"
 msgstr "Enviar un Informe de Erro"
 
@@ -19704,37 +19793,41 @@ msgstr "Enviar un Informe de Erro"
 #. _label="Evolution _FAQ"/>
 #.
 #. <separator/>
-#: ../ui/evolution.xml.h:30
+#: ../ui/evolution.xml.h:29
 msgid "Submit _Bug Report"
 msgstr "_Enviar un Informe de Erro"
 
-#: ../ui/evolution.xml.h:31
+#: ../ui/evolution.xml.h:30
 msgid "Submit a bug report using Bug Buddy"
 msgstr "Enviar un informe de erro usando o Bug Buddy"
 
-#: ../ui/evolution.xml.h:32
+#: ../ui/evolution.xml.h:31
 msgid "Toggle whether we are working offline."
 msgstr "Trocar entre traballo conectado e desconectado"
 
-#: ../ui/evolution.xml.h:33
+#: ../ui/evolution.xml.h:32
 msgid "Tool_bar"
 msgstr "_Barra de ferramentas"
 
-#: ../ui/evolution.xml.h:34
+#: ../ui/evolution.xml.h:33
 msgid "Tool_bar style"
 msgstr "Estilo da _barra de ferramentas"
 
-#: ../ui/evolution.xml.h:35
+#: ../ui/evolution.xml.h:34
 msgid "View/Hide the Status Bar"
 msgstr "Ver/Agochar a barra de estado"
 
-#: ../ui/evolution.xml.h:36
+#: ../ui/evolution.xml.h:35
 msgid "_About"
 msgstr "_Acerca de"
 
-#: ../ui/evolution.xml.h:37
+#: ../ui/evolution.xml.h:36
 msgid "_Close Window"
 msgstr "_Pechar fiestra"
+
+#: ../ui/evolution.xml.h:39
+msgid "_Forget Passwords"
+msgstr "Es_quecer Contrasinais"
 
 #: ../ui/evolution.xml.h:41
 msgid "_Hide buttons"
@@ -19744,13 +19837,13 @@ msgstr "_Agochar botóns"
 msgid "_Icons only"
 msgstr "Só _iconas"
 
-#: ../ui/evolution.xml.h:43
-msgid "_New"
-msgstr "_Novo"
-
 #: ../ui/evolution.xml.h:44
 msgid "_Quick Reference"
 msgstr "_Referencia rápida"
+
+#: ../ui/evolution.xml.h:45
+msgid "_Quit"
+msgstr "_Saír"
 
 #: ../ui/evolution.xml.h:46
 msgid "_Switcher Appearance"
