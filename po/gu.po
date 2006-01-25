@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD.gu\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-01-23 22:04+0100\n"
-"PO-Revision-Date: 2006-01-24 10:16+0530\n"
+"POT-Creation-Date: 2006-01-25 05:52+0100\n"
+"PO-Revision-Date: 2006-01-25 13:32+0530\n"
 "Last-Translator: Ankit Patel <ankit644@yahoo.com>\n"
 "Language-Team: Gujarati <indianoss-gujarati@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -13,6 +13,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.9.1\n"
 "Plural-Forms: nplurals=2; plural=(n!=1);\n\n"
+"\n"
 "\n"
 "\n"
 "\n"
@@ -2516,7 +2517,7 @@ msgstr "ઈ-મેઈલ (_m)"
 msgid "_Select Address Book"
 msgstr "સરનામા પુસ્તિકા પસંદ કરો (_S)"
 
-#: ../addressbook/gui/contact-editor/eab-editor.c:323
+#: ../addressbook/gui/contact-editor/eab-editor.c:322
 #, c-format
 msgid ""
 "Are you sure you want\n"
@@ -2525,7 +2526,7 @@ msgstr ""
 "શું તમે ખરેખર આ સંપર્ક યાદી (%s)\n"
 "દૂર કરવા માંગો છો?"
 
-#: ../addressbook/gui/contact-editor/eab-editor.c:326
+#: ../addressbook/gui/contact-editor/eab-editor.c:325
 msgid ""
 "Are you sure you want\n"
 "to delete these contact lists?"
@@ -2533,7 +2534,7 @@ msgstr ""
 "શું તમે ખરેખર આ સંપર્ક યાદીઓ\n"
 "દૂર કરવા માંગો છો?"
 
-#: ../addressbook/gui/contact-editor/eab-editor.c:331
+#: ../addressbook/gui/contact-editor/eab-editor.c:330
 #, c-format
 msgid ""
 "Are you sure you want\n"
@@ -2542,7 +2543,7 @@ msgstr ""
 "શું તમે ખરેખર આ સંપર્ક (%s)\n"
 "દૂર કરવા માંગો છો?"
 
-#: ../addressbook/gui/contact-editor/eab-editor.c:334
+#: ../addressbook/gui/contact-editor/eab-editor.c:333
 msgid ""
 "Are you sure you want\n"
 "to delete these contacts?"
@@ -4430,15 +4431,6 @@ msgstr[1] "કલાકો"
 msgid "Start time"
 msgstr "શરૂઆતનો સમય"
 
-#: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:374
-#, c-format
-msgid ""
-"<big><b>%s</b></big>\n"
-"%s %s"
-msgstr ""
-"<big><b>%s</b></big>\n"
-"%s %s"
-
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:1
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:4
 msgid "Appointments"
@@ -4578,7 +4570,7 @@ msgid "(%d %s %d %s)"
 msgstr "(%d %s %d %s)"
 
 #: ../calendar/gui/alarm-notify/util.c:64
-#: ../calendar/gui/dialogs/recurrence-page.c:991 ../calendar/gui/misc.c:111
+#: ../calendar/gui/dialogs/recurrence-page.c:992 ../calendar/gui/misc.c:111
 msgid "second"
 msgstr "દ્વિતિય"
 
@@ -5404,7 +5396,7 @@ msgid "Free/Busy"
 msgstr "મુક્ત/વ્યસ્ત"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:19
-#: ../calendar/gui/dialogs/recurrence-page.c:1050
+#: ../calendar/gui/dialogs/recurrence-page.c:1051
 #: ../calendar/gui/e-itip-control.c:733
 msgid "Friday"
 msgstr "શુક્રવાર"
@@ -5420,7 +5412,7 @@ msgstr ""
 "દિવસો"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:24
-#: ../calendar/gui/dialogs/recurrence-page.c:1046
+#: ../calendar/gui/dialogs/recurrence-page.c:1047
 #: ../calendar/gui/e-itip-control.c:729
 msgid "Monday"
 msgstr "સોમવાર"
@@ -5448,7 +5440,7 @@ msgid "S_un"
 msgstr "સુર્ય (_u)"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:33
-#: ../calendar/gui/dialogs/recurrence-page.c:1051
+#: ../calendar/gui/dialogs/recurrence-page.c:1052
 #: ../calendar/gui/e-itip-control.c:734
 msgid "Saturday"
 msgstr "શનિવાર"
@@ -5462,7 +5454,7 @@ msgid "Show week _numbers in date navigator"
 msgstr "તારીખ બતાવનારમાં અઠવાડિયાનો ક્રમાંક બતાવો (_n)"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:36
-#: ../calendar/gui/dialogs/recurrence-page.c:1052
+#: ../calendar/gui/dialogs/recurrence-page.c:1053
 #: ../calendar/gui/e-itip-control.c:728
 msgid "Sunday"
 msgstr "રવિવાર"
@@ -5480,7 +5472,7 @@ msgid "Template:"
 msgstr "ટેમ્પલેટ:"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:40
-#: ../calendar/gui/dialogs/recurrence-page.c:1049
+#: ../calendar/gui/dialogs/recurrence-page.c:1050
 #: ../calendar/gui/e-itip-control.c:732
 msgid "Thursday"
 msgstr "ગુરુવાર"
@@ -5495,7 +5487,7 @@ msgid "Time format:"
 msgstr "સમયનું બંધારણ:"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:43
-#: ../calendar/gui/dialogs/recurrence-page.c:1047
+#: ../calendar/gui/dialogs/recurrence-page.c:1048
 #: ../calendar/gui/e-itip-control.c:730
 msgid "Tuesday"
 msgstr "મંગળવાર"
@@ -5505,7 +5497,7 @@ msgid "W_eek starts:"
 msgstr "અઠવાડિયુ શરુ થાય છે (_e):"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:45
-#: ../calendar/gui/dialogs/recurrence-page.c:1048
+#: ../calendar/gui/dialogs/recurrence-page.c:1049
 #: ../calendar/gui/e-itip-control.c:731
 msgid "Wednesday"
 msgstr "બુધવાર"
@@ -5772,7 +5764,7 @@ msgstr "જોડાણ પટ્ટી બતાવો (_B)"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1094
 #: ../calendar/gui/dialogs/event-page.c:1895
-#: ../calendar/gui/dialogs/meeting-page.c:909
+#: ../calendar/gui/dialogs/meeting-page.c:914
 #: ../calendar/gui/dialogs/task-page.c:1206
 #: ../composer/e-msg-composer-attachment-bar.c:470
 #: ../composer/e-msg-composer.c:3601
@@ -5977,25 +5969,25 @@ msgid "End time is wrong"
 msgstr "અંતિમ સમય ખોટો છે"
 
 #: ../calendar/gui/dialogs/event-page.c:1449
-#: ../calendar/gui/dialogs/meeting-page.c:464
+#: ../calendar/gui/dialogs/meeting-page.c:469
 #: ../calendar/gui/dialogs/task-page.c:908
 msgid "The organizer selected no longer has an account."
 msgstr "પસંદ થયેલ આયોજકને લાંબા સમય સુધી ખાતુ મળશે નહિં."
 
 #: ../calendar/gui/dialogs/event-page.c:1455
-#: ../calendar/gui/dialogs/meeting-page.c:470
+#: ../calendar/gui/dialogs/meeting-page.c:475
 #: ../calendar/gui/dialogs/task-page.c:914
 msgid "An organizer is required."
 msgstr "આયોજક જરુરી છે."
 
 #: ../calendar/gui/dialogs/event-page.c:1470
-#: ../calendar/gui/dialogs/meeting-page.c:485
+#: ../calendar/gui/dialogs/meeting-page.c:490
 #: ../calendar/gui/dialogs/task-page.c:929
 msgid "At least one attendee is required."
 msgstr "ઓછામાં ઓછો એક સભા ભરનાર તો હોવો જ જોઈએ."
 
 #: ../calendar/gui/dialogs/event-page.c:1896
-#: ../calendar/gui/dialogs/meeting-page.c:910
+#: ../calendar/gui/dialogs/meeting-page.c:915
 #: ../calendar/gui/dialogs/task-page.c:1207
 msgid "_Add "
 msgstr "ઉમેરો (_A) "
@@ -6096,20 +6088,20 @@ msgstr "ના માટે"
 msgid "until"
 msgstr "ત્યાં સુધી નહિં"
 
-#: ../calendar/gui/dialogs/meeting-page.c:306
-msgid "<b>Dele_gatees</b>"
-msgstr "<b>પ્રતિનિધીઓ (_g)</b>"
+#: ../calendar/gui/dialogs/meeting-page.c:307
+msgid "Dele_gatees"
+msgstr "પ્રતિનિધિઓ (_g)"
 
-#: ../calendar/gui/dialogs/meeting-page.c:310
-msgid "<b>From:</b>"
-msgstr "<b>તરફથી:</b>"
+#: ../calendar/gui/dialogs/meeting-page.c:313
+msgid "From:"
+msgstr "તરફથી:"
 
 #. an empty string is the same as 'None'
 #. Put the "None" and "UTC" entries at the top of the combo's list.
 #. When "None" is selected we want the field to be cleared.
 #. Note that we don't show this here, since by default a 'None' date
 #. is not permitted.
-#: ../calendar/gui/dialogs/meeting-page.c:316
+#: ../calendar/gui/dialogs/meeting-page.c:321
 #: ../calendar/gui/dialogs/meeting-page.glade.h:4
 #: ../calendar/gui/e-cal-model-tasks.c:654
 #: ../calendar/gui/e-itip-control.c:1105 ../composer/e-msg-composer.c:2275
@@ -6309,51 +6301,51 @@ msgstr "આ અને ભવિષ્યની પળો"
 msgid "All Instances"
 msgstr "બધી પળો"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:498
+#: ../calendar/gui/dialogs/recurrence-page.c:499
 msgid "This appointment contains recurrences that Evolution cannot edit."
 msgstr "આ મુલાકાત વળતર કે જેમાં ઈવોલ્યુશન ફેરફાર કરી શકતું નથી તેને સમાવે છે."
 
-#: ../calendar/gui/dialogs/recurrence-page.c:819
+#: ../calendar/gui/dialogs/recurrence-page.c:820
 msgid "Recurrence date is invalid"
 msgstr "વળતરવની તારીખ અયોગ્ય છે"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:930
+#: ../calendar/gui/dialogs/recurrence-page.c:931
 msgid "on"
 msgstr "પર"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:990
+#: ../calendar/gui/dialogs/recurrence-page.c:991
 msgid "first"
 msgstr "પ્રથમ"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:992
+#: ../calendar/gui/dialogs/recurrence-page.c:993
 msgid "third"
 msgstr "તૃતિય"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:993
+#: ../calendar/gui/dialogs/recurrence-page.c:994
 msgid "fourth"
 msgstr "ચતુર્થ"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:994
+#: ../calendar/gui/dialogs/recurrence-page.c:995
 msgid "last"
 msgstr "અંતિમ"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1017
+#: ../calendar/gui/dialogs/recurrence-page.c:1018
 msgid "Other Date"
 msgstr "બીજી તારીખ"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1045
+#: ../calendar/gui/dialogs/recurrence-page.c:1046
 msgid "day"
 msgstr "દિવસ"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1182
+#: ../calendar/gui/dialogs/recurrence-page.c:1183
 msgid "on the"
 msgstr "ના પર"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1371
+#: ../calendar/gui/dialogs/recurrence-page.c:1372
 msgid "occurrences"
 msgstr "વારાઓ"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:2342
+#: ../calendar/gui/dialogs/recurrence-page.c:2343
 msgid "Date/Time"
 msgstr "તારીખ/સમય"
 
