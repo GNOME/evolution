@@ -7,8 +7,8 @@ msgid ""
 ""
 msgstr "Project-Id-Version: evolution 1.4 Gnome HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-01-23 22:04+0100\n"
-"PO-Revision-Date: 2006-01-24 16:14+1030\n"
+"POT-Creation-Date: 2006-01-24 22:04+0100\n"
+"PO-Revision-Date: 2006-01-25 15:48+1030\n"
 "Last-Translator: Clytie Siddall <clytie@riverland.net.au>\n"
 "Language-Team: Vietnamese <gnomevi-list@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -4393,14 +4393,6 @@ msgstr[0] "giờ"
 msgid "Start time"
 msgstr "Thời điểm đầu:"
 
-#:../calendar/gui/alarm-notify/alarm-notify-dialog.c:374
-#,c-format
-msgid ""
-"<big><b>%s</b></big>\n"
-"%s %s"
-msgstr "<big><b>%s</b></big>\n"
-"%s %s"
-
 #:../calendar/gui/alarm-notify/alarm-notify.glade.h:1
 #:../plugins/groupwise-features/proxy-add-dialog.glade.h:4
 msgid "Appointments"
@@ -5732,7 +5724,7 @@ msgstr "Hiện thanh đính _kèm"
 
 #:../calendar/gui/dialogs/comp-editor.c:1094
 #:../calendar/gui/dialogs/event-page.c:1895
-#:../calendar/gui/dialogs/meeting-page.c:909
+#:../calendar/gui/dialogs/meeting-page.c:914
 #:../calendar/gui/dialogs/task-page.c:1206
 #:../composer/e-msg-composer-attachment-bar.c:470
 #:../composer/e-msg-composer.c:3601
@@ -5937,25 +5929,25 @@ msgid "End time is wrong"
 msgstr "Thời điểm kết thúc sai"
 
 #:../calendar/gui/dialogs/event-page.c:1449
-#:../calendar/gui/dialogs/meeting-page.c:464
+#:../calendar/gui/dialogs/meeting-page.c:469
 #:../calendar/gui/dialogs/task-page.c:908
 msgid "The organizer selected no longer has an account."
 msgstr "Bộ tổ chức đã chọn không còn có tài khoản lại."
 
 #:../calendar/gui/dialogs/event-page.c:1455
-#:../calendar/gui/dialogs/meeting-page.c:470
+#:../calendar/gui/dialogs/meeting-page.c:475
 #:../calendar/gui/dialogs/task-page.c:914
 msgid "An organizer is required."
 msgstr "Cần một bộ tổ chức."
 
 #:../calendar/gui/dialogs/event-page.c:1470
-#:../calendar/gui/dialogs/meeting-page.c:485
+#:../calendar/gui/dialogs/meeting-page.c:490
 #:../calendar/gui/dialogs/task-page.c:929
 msgid "At least one attendee is required."
 msgstr "Cần ít nhất một người dự."
 
 #:../calendar/gui/dialogs/event-page.c:1896
-#:../calendar/gui/dialogs/meeting-page.c:910
+#:../calendar/gui/dialogs/meeting-page.c:915
 #:../calendar/gui/dialogs/task-page.c:1207
 msgid "_Add "
 msgstr "Th_êm "
@@ -6053,20 +6045,20 @@ msgstr "trong"
 msgid "until"
 msgstr "tới khi"
 
-#:../calendar/gui/dialogs/meeting-page.c:306
-msgid "<b>Dele_gatees</b>"
-msgstr "<b>Người ủ_y nhiệm</b>"
+#:../calendar/gui/dialogs/meeting-page.c:307
+msgid "Dele_gatees"
+msgstr "Người ủ_y nhiệm"
 
-#:../calendar/gui/dialogs/meeting-page.c:310
-msgid "<b>From:</b>"
-msgstr "<b>Từ :</b>"
+#:../calendar/gui/dialogs/meeting-page.c:313
+msgid "From:"
+msgstr "Từ :"
 
 #.an empty string is the same as 'None'
 #.Put the "None" and "UTC" entries at the top of the combo's list.
 #.When "None" is selected we want the field to be cleared.
 #.Note that we don't show this here, since by default a 'None' date
 #.is not permitted.
-#:../calendar/gui/dialogs/meeting-page.c:316
+#:../calendar/gui/dialogs/meeting-page.c:321
 #:../calendar/gui/dialogs/meeting-page.glade.h:4
 #:../calendar/gui/e-cal-model-tasks.c:654
 #:../calendar/gui/e-itip-control.c:1105 ../composer/e-msg-composer.c:2275
@@ -14388,7 +14380,8 @@ msgstr "<span weight=\"bold\">Liên lạc tin nhắn tức khắc</span>"
 #:../plugins/bbdb/bbdb.c:485
 msgid ""
 "Periodically synchronize contact information and images from gaim buddy list"
-msgstr "Đồng bộ hóa theo định kỷ các thông tin liên lạc và ảnh đều từ danh sách người bạn Gaim"
+msgstr "Đồng bộ hóa theo định kỷ các thông tin liên lạc và ảnh đều từ danh sách "
+"người bạn Gaim"
 
 #.Synchronize now button.
 #:../plugins/bbdb/bbdb.c:502
