@@ -454,16 +454,16 @@ eab_select_source (const gchar *title, const gchar *message, const gchar *select
 	if (!e_book_get_addressbooks (&source_list, NULL))
 		return NULL;
 
-	dialog = gtk_dialog_new_with_buttons (title, parent,
+	dialog = gtk_dialog_new_with_buttons (_("Select Address Book"), parent,
 					      GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
 					      NULL);
-	gtk_window_set_default_size (GTK_WINDOW (dialog), 200, 350);
+	gtk_window_set_default_size (GTK_WINDOW (dialog), 350, 300);
 
 	cancel_button = gtk_dialog_add_button (GTK_DIALOG (dialog), GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);
 	ok_button = gtk_dialog_add_button (GTK_DIALOG (dialog), GTK_STOCK_OK, GTK_RESPONSE_ACCEPT);
 	gtk_widget_set_sensitive (ok_button, FALSE);
 
-	label = gtk_label_new (message);
+	//label = gtk_label_new (message);
 
 	selector = e_source_selector_new (source_list);
 	e_source_selector_show_selection (E_SOURCE_SELECTOR (selector), FALSE);
@@ -480,7 +480,7 @@ eab_select_source (const gchar *title, const gchar *message, const gchar *select
 	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolled_window), GTK_SHADOW_IN);
 	gtk_container_add (GTK_CONTAINER (scrolled_window), selector);
 
-	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), label, FALSE, FALSE, 4);
+	//gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), label, FALSE, FALSE, 4);
 	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), scrolled_window, TRUE, TRUE, 4);
 
 	gtk_widget_show_all (dialog);
@@ -763,7 +763,7 @@ eab_transfer_contacts (EBook *source, GList *contacts /* adopted */, gboolean de
 			desc = _("Copy contacts to");
 	}
 
-	destination_source = eab_select_source (desc, _("Select target addressbook."),
+	destination_source = eab_select_source (desc, NULL,
 						last_uid, parent_window);
 
 	if (!destination_source)

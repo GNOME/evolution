@@ -1,3 +1,10 @@
+2006-01-25  Devashish Sharma  <sdevashish@novell.com>
+
+	* gui/component/addressbook-view.c : 
+	* gui/widgets/e-addressbook-view.[ch] :
+	Added functions for handling callbacks from the folder menu items and
+	modified some existing functions.
+
 2006-01-25  Simon Zheng  <simon.zheng@sun.com>
 
 	** Fixes #327203

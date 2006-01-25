@@ -126,7 +126,7 @@ void       eab_view_discard_menus       (EABView  *view);
 RuleContext *eab_view_peek_search_context (EABView *view);
 FilterRule  *eab_view_peek_search_rule    (EABView *view);
 
-void       eab_view_save_as             (EABView  *view);
+void       eab_view_save_as             (EABView  *view, gboolean all);
 void       eab_view_view                (EABView  *view);
 void       eab_view_send                (EABView  *view);
 void       eab_view_send_to             (EABView  *view);
@@ -139,8 +139,8 @@ void       eab_view_paste               (EABView  *view);
 void       eab_view_select_all          (EABView  *view);
 void       eab_view_show_all            (EABView  *view);
 void       eab_view_stop                (EABView  *view);
-void       eab_view_copy_to_folder      (EABView  *view);
-void       eab_view_move_to_folder      (EABView  *view);
+void       eab_view_copy_to_folder      (EABView  *view, gboolean all);
+void       eab_view_move_to_folder      (EABView  *view, gboolean all);
 
 gboolean   eab_view_can_create          (EABView  *view);
 gboolean   eab_view_can_print           (EABView  *view);

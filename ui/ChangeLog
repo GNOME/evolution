@@ -1,3 +1,8 @@
+2005-12-12  Devashish Sharma <sdevashish@novell.com>
+
+	* evolution-addressbook.xml : Added menu items for address book 
+	operations.
+
 2006-01-22  Ranjan Somani  <sranjan@novell.com>
 
 	* ui/evolution-mail-message.xml: Removed the extra toolbar separator 

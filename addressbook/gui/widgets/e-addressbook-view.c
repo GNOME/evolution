@@ -900,7 +900,7 @@ copy_to_folder (EPopup *ep, EPopupItem *pitem, void *data)
 {
 	ContactAndBook *contact_and_book = data;
 
-	eab_view_copy_to_folder (contact_and_book->view);
+	eab_view_copy_to_folder (contact_and_book->view, FALSE);
 }
 
 static void
@@ -908,7 +908,7 @@ move_to_folder (EPopup *ep, EPopupItem *pitem, void *data)
 {
 	ContactAndBook *contact_and_book = data;
 
-	eab_view_move_to_folder (contact_and_book->view);
+	eab_view_move_to_folder (contact_and_book->view, FALSE);
 }
 
 static void
@@ -2030,9 +2030,23 @@ get_selected_contacts (EABView *view)
 }
 
 void
-eab_view_save_as (EABView *view)
+eab_view_save_as (EABView *view, gboolean all)
 {
-	GList *list = get_selected_contacts (view);
+	GList *list = NULL;
+	EBook *book ;
+	
+	g_object_get(view->model, 
+		     "book", &book,
+		     NULL);
+
+	if (all) {
+		EBookQuery *query = e_book_query_any_field_contains("");
+		e_book_get_contacts(book, query, &list, NULL);
+	        e_book_query_unref(query);	
+	}
+	else {
+		list = get_selected_contacts(view);
+	}
 	if (list)
 		eab_contact_list_save (_("Save as VCard..."), list, NULL);
 	e_free_object_list(list);
@@ -2113,16 +2127,24 @@ eab_view_stop(EABView *view)
 }
 
 static void
-view_transfer_contacts (EABView *view, gboolean delete_from_source)
+view_transfer_contacts (EABView *view, gboolean delete_from_source, gboolean all)
 {
 	EBook *book;
-	GList *contacts;
+	GList *contacts = NULL;
 	GtkWindow *parent_window;
 
 	g_object_get(view->model, 
 		     "book", &book,
 		     NULL);
-	contacts = get_selected_contacts (view);
+
+	if (all) {
+		EBookQuery *query = e_book_query_any_field_contains("");
+		e_book_get_contacts(book, query, &contacts, NULL);
+	        e_book_query_unref(query);	
+	}
+	else {
+		contacts = get_selected_contacts (view);
+	}
 	parent_window = GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (view)));
 
 	eab_transfer_contacts (book, contacts, delete_from_source, parent_window);
@@ -2130,15 +2152,15 @@ view_transfer_contacts (EABView *view, gboolean delete_from_source)
 }
 
 void
-eab_view_copy_to_folder (EABView *view)
+eab_view_copy_to_folder (EABView *view, gboolean all)
 {
-	view_transfer_contacts (view, FALSE);
+	view_transfer_contacts (view, FALSE, all);
 }
 
 void
-eab_view_move_to_folder (EABView *view)
+eab_view_move_to_folder (EABView *view, gboolean all)
 {
-	view_transfer_contacts (view, TRUE);
+	view_transfer_contacts (view, TRUE, all);
 }
 
 

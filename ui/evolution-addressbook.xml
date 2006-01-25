@@ -63,6 +63,30 @@
 	 _tip="Show contact preview window"
 	 accel="*Control*m"
 	 type="toggle"/>
+ 
+    <cmd name="FolderCreate" _label="_New"
+         _tip="Create a new addressbook folder"
+	 pixtype="pixbuf"/>
+
+    <cmd name="FolderCopy" _label="_Copy Folder Contacts To"
+	 _tip="Copy the contacts of the selected folder into another folder" 
+	 pixtype="pixbuf"/>  
+ 
+    <cmd name="FolderMove" _label="_Move Folder Contacts To"
+	 _tip="Move the contacts of the selected folder into another folder" 
+	 pixtype="pixbuf"/>  
+    <cmd name="FolderSave" _label="_Save Folder Contacts As VCard"
+	 _tip="Save the contacts of the selected folder as VCard"
+	 pixtype="pixbuf"/>   
+    <cmd name="FolderDelete" _label="_Delete"
+	 _tip="Delete the selected folder"
+	 pixtype="pixbuf"/>   
+    <cmd name="FolderRename" _label="_Rename"
+	 _tip="Rename the selected folder"
+	 pixtype="pixbuf"/>   
+    <cmd name="ChangeFolderProperties" _label="_Properties"
+	 _tip="Change the properties of the selected folder"
+	 pixtype="pixbuf"/>   
   </commands>
 
   <menu>
@@ -71,7 +95,9 @@
 	<menuitem name="ContactsView"
 		  verb="" _label="_Open"/>
 	<menuitem name="ContactsSaveAsVCard"
-		  verb="" _label="_Save as VCard..."/>
+		  verb="" _label="_Save Contact as VCard..."/>
+	<menuitem name="FolderSave" 
+		  verb="" _label="S_ave Address Book As VCard" pixtype="pixbuf"/>
       </placeholder>
 
       <placeholder name="Print">
@@ -101,12 +127,17 @@
 
 	<separator f="" name="eadbk6"/>
 
-	<menuitem name="ContactDelete" verb="" _label="_Delete"/>
+	<menuitem name="ContactDelete" verb="" _label="_Delete Contact"/>
+	
+	<menuitem name="FolderDelete" verb="" _label="Del_ete Address Book" pixtype="stock" pixname="gtk-delete"/>
       </placeholder>
     </submenu>
 
+    <placeholder name="FolderPlaceholder">
+    </placeholder>      
+
     <placeholder name="ActionsPlaceholder">
-    <submenu name="Actions" _label="_Actions">
+      <submenu name="Actions" _label="_Actions">
 	<menuitem name="ContactsSendContactToOther"
 		  _label="_Forward Contact..." verb=""/>
 
@@ -116,9 +147,20 @@
 
 	<separator f="" name="eadbk5"/>
 
-	<menuitem name="ContactsCopyToFolder" _label="_Copy to Folder..." verb=""/>
-	<menuitem name="ContactsMoveToFolder" _label="_Move to Folder..." verb=""/>
-    </submenu>
+	<menuitem name="ContactsCopyToFolder" _label="_Copy Contact to..." verb=""/>
+	<menuitem name="ContactsMoveToFolder" _label="_Move Contact to..." verb=""/>
+	
+	<separator f="" name="eadbk4"/>
+
+	<menuitem name="FolderCopy" verb="" _label="Co_py All Contacts To..." pixtype="pixbuf"/>
+
+	<menuitem name="FolderMove" verb="" _label="Mo_ve All Contacts To..." pixtype="pixbuf"/>
+
+	<separator f="" name="eadbk3"/>
+
+	<menuitem name="ChangeFolderProperties" verb="" _label="Address _Book Properties" pixtype="pixbuf"/>
+
+      </submenu>
     </placeholder>
 
   </menu>
