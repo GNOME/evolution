@@ -1,3 +1,9 @@
+2006-12-7 M Victor Aloysius J <victoraloy@gmail.com>
+
+       * gui/contact-editor/e-contact-editor.c (style_makes_sense): 
+         (name_to_style):Added feature for missing middle name.             
+         Fixes #237297 
+
 2006-01-25  Devashish Sharma  <sdevashish@novell.com>
 
 	* gui/component/addressbook-view.c : 

@@ -357,13 +357,20 @@ style_makes_sense (const EContactName *name, const gchar *company, int style)
 	case 0: /* Fall Through */
 	case 1:
 		return TRUE;
-	case 2:
+        case 2:
+                if(name) {
+                        if (name->additional && *name->additional)
+                                return TRUE; 
+                        else
+                                return FALSE;
+                }
+	case 3:
 		if (company && *company)
 			return TRUE;
 		else
 			return FALSE;
-	case 3: /* Fall Through */
-	case 4:
+	case 4: /* Fall Through */
+	case 5:
 		if (company && *company && name && ((name->given && *name->given) || (name->family && *name->family)))
 			return TRUE;
 		else
@@ -378,6 +385,7 @@ name_to_style (const EContactName *name, const gchar *company, int style)
 {
 	char *string;
 	char *strings[4], **stringptr;
+        char *midstring[4], **midstrptr; 
 	char *substring;
 	switch (style) {
 	case 0:
@@ -402,11 +410,29 @@ name_to_style (const EContactName *name, const gchar *company, int style)
 		*stringptr = NULL;
 		string = g_strjoinv(" ", strings);
 		break;
-	case 2:
+        case 2:
+                midstrptr=midstring;  
+                if(name){
+                        if (name->family && *name->family)
+			        *(midstrptr++) = name->family;
+                       if (name->given && *name->given)
+			        *(midstrptr++) = name->given;
+                 }
+                *midstrptr = NULL;
+                stringptr = strings;
+                *(stringptr++) = g_strjoinv(", ", midstring);
+               	if (name) {
+			if (name->additional && *name->additional)
+				*(stringptr++) = name->additional;
+		}
+		*stringptr = NULL;
+               	string = g_strjoinv(" ", strings);
+               	break; 
+	case 3:
 		string = g_strdup(company);
 		break;
-	case 3: /* Fall Through */
-	case 4:
+	case 4: /* Fall Through */
+	case 5:
 		stringptr = strings;
 		if (name) {
 			if (name->family && *name->family)
@@ -418,7 +444,7 @@ name_to_style (const EContactName *name, const gchar *company, int style)
 		substring = g_strjoinv(", ", strings);
 		if (!(company && *company))
 			company = "";
-		if (style == 3)
+		if (style == 4)
 			string = g_strdup_printf("%s (%s)", substring, company);
 		else
 			string = g_strdup_printf("%s (%s)", company, substring);
@@ -449,7 +475,7 @@ file_as_get_style (EContactEditor *editor)
 	filestring = g_strdup (gtk_entry_get_text (file_as));
 
 	style = -1;
-	for (i = 0; i < 5; i++) {
+	for (i = 0; i < 6; i++) {
 		trystring = name_to_style (name, company, i);
 		if (!strcmp(trystring, filestring)) {
 			g_free(trystring);
@@ -485,7 +511,7 @@ file_as_set_style (EContactEditor *editor, int style)
 
 	widget = glade_xml_get_widget (editor->gui, "combo-file-as");
 
-	for (i = 0; i < 5; i++) {
+	for (i = 0; i < 6; i++) {
 		if (style_makes_sense (editor->name, company, i)) {
 			char *u;
 			u = name_to_style (editor->name, company, i);
