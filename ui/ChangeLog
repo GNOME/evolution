@@ -1,3 +1,14 @@
+2006-01-25  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fixes bugs #328513, #328514, #328551, #328553, #328558, #328559, #328560
+	* evolution-addressbook.xml:
+	* evolution-event-editor.xml:
+	* evolution-task-editor.xml:
+	* evolution.xml:
+	
+	Added mnemonics for missing menu items, solved few mnemonics clash and
+	C+A+S to C+S for save contact in address book.
+
 2005-12-12  Devashish Sharma <sdevashish@novell.com>
 
 	* evolution-addressbook.xml : Added menu items for address book 

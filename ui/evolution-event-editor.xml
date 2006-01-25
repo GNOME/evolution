@@ -68,7 +68,7 @@
 	    <menuitem name="InsertSendOptions" verb="" _label="Send Options"/>	    
     </submenu>
     <submenu name="Options">
-	    <menuitem name="ActionAlarm" verb="" _label="_Alarms" pixtype="pixbuf"/>
+	    <menuitem name="ActionAlarm" verb="" _label="Alar_ms" pixtype="pixbuf"/>
 	    <menuitem name="ActionShowTimeBusy" verb="" _label="Show time as b_usy"/>
 	    <menuitem name="ActionAllDayEvent" verb="" _label="_All day Event"/>
 	    <submenu name="Classification" _label="_Classification">
@@ -76,8 +76,8 @@
 		    <menuitem name="ActionClassPrivate" id="ActionClassPrivate" verb=""/>
 		    <menuitem name="ActionClassConfidential" id="ActionClassConfidential" verb=""/>
 	    </submenu>
-	    <menuitem name="ActionRecurrence" verb="" _label="Recurrence" pixtype="pixbuf"/>
-	    <menuitem name="ActionFreeBusy" verb="" _label="Free/Busy"/>	    
+	    <menuitem name="ActionRecurrence" verb="" _label="_Recurrence" pixtype="pixbuf"/>
+	    <menuitem name="ActionFreeBusy" verb="" _label="_Free/Busy"/>	    
     </submenu>
   </menu>
 

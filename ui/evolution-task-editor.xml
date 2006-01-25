@@ -16,7 +16,7 @@
 		_tip="Toggles whether the Status field is displayed"
 		type="toggle" state="0"/>
 
-		<cmd name="ViewTimeZone" _label="Show Time _Zone"
+		<cmd name="ViewTimeZone" _label="Time _Zone"
 		_tip="Toggles whether the time zone is displayed"
 		type="toggle" state="0" pixtype="pixbuf"/>
 
@@ -35,7 +35,7 @@
 		
 		<cmd name="OptionStatus" 
 			_tip="Click change / view the status details of the task" accel="*Control*t" pixtype="pixbuf"/>
-		<cmd name="InsertSendOptions" _label="Send Options"
+		<cmd name="InsertSendOptions" _label="_Send Options"
 		_tip="Insert advanced send options"/>
 	
 	</commands>

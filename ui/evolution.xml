@@ -84,7 +84,7 @@
       <placeholder name="EmptyTrashPlaceholder"/>
 
 
-      <menuitem name="ForgetPasswords" verb="" _label="Forget _Passwords"/>
+      <menuitem name="ForgetPasswords" verb="" _label="_Forget Passwords"/>
 
       <menuitem name="ToggleOffline" verb=""
 	_label="_Work Offline"
