@@ -303,6 +303,41 @@ default_reminder_units_changed (GtkWidget *widget, CalendarPrefsDialog *prefs)
 }
 
 static void
+alarms_selection_changed (ESourceSelector *selector, CalendarPrefsDialog *prefs)
+{
+	ESourceList *source_list = prefs->alarms_list;
+	GSList *selection;
+	GSList *l;
+	GSList *groups;
+
+	/* first we clear all the alarm flags from all sources */
+	g_message ("Clearing selection");
+	for (groups = e_source_list_peek_groups (source_list); groups; groups = groups->next) {
+		ESourceGroup *group = E_SOURCE_GROUP (groups->data);
+		GSList *sources;
+		for (sources = e_source_group_peek_sources (group); sources; sources = sources->next) {
+			ESource *source = E_SOURCE (sources->data);
+
+			g_message ("Unsetting for %s", e_source_peek_name (source));
+			e_source_set_property (source, "alarm", "false");
+		}
+	}
+
+	/* then we loop over the selector's selection, setting the
+	   property on those sources */
+	selection = e_source_selector_get_selection (selector);
+	for (l = selection; l; l = l->next) {
+		g_message ("Setting for %s", e_source_peek_name (E_SOURCE (l->data)));
+		e_source_set_property (E_SOURCE (l->data), "alarm", "true");
+	}
+	e_source_selector_free_selection (selection);
+
+	/* FIXME show an error if this fails? */
+	e_source_list_sync (source_list, NULL);	
+	printf("changed\n");
+}
+
+static void
 template_url_changed (GtkEntry *entry, CalendarPrefsDialog *prefs)
 {
 	calendar_config_set_free_busy_template (gtk_entry_get_text (entry));
@@ -346,6 +381,9 @@ setup_changes (CalendarPrefsDialog *prefs)
 	g_signal_connect (G_OBJECT (prefs->default_reminder_interval), "changed",
 			  G_CALLBACK (default_reminder_interval_changed), prefs);
 	g_signal_connect (G_OBJECT (prefs->default_reminder_units), "changed", G_CALLBACK (default_reminder_units_changed), prefs);
+
+	g_signal_connect (G_OBJECT (prefs->alarm_list_widget), "selection_changed", G_CALLBACK (alarms_selection_changed), prefs);
+	
 
 	g_signal_connect (G_OBJECT (prefs->template_url), "changed", G_CALLBACK (template_url_changed), prefs);
 }
@@ -400,6 +438,38 @@ show_task_list_config (CalendarPrefsDialog *prefs)
 
 	gtk_widget_set_sensitive (prefs->tasks_hide_completed_interval, hide_completed_tasks);
 	gtk_widget_set_sensitive (prefs->tasks_hide_completed_units, hide_completed_tasks);
+}
+
+static void
+initialize_selection (ESourceSelector *selector, ESourceList *source_list)
+{
+	GSList *groups;
+
+	for (groups = e_source_list_peek_groups (source_list); groups; groups = groups->next) {
+		ESourceGroup *group = E_SOURCE_GROUP (groups->data);
+		GSList *sources;
+		for (sources = e_source_group_peek_sources (group); sources; sources = sources->next) {
+			ESource *source = E_SOURCE (sources->data);
+			const char *completion = e_source_get_property (source, "alarm");
+			if (!completion  || !g_ascii_strcasecmp (completion, "true")) {
+				if (!completion)
+					e_source_set_property (E_SOURCE (source), "alarm", "true");
+				e_source_selector_select_source (selector, source);
+			}
+		}
+	}
+}
+
+static void
+show_alarms_config (CalendarPrefsDialog *prefs)
+{
+	if (!e_cal_get_sources (&prefs->alarms_list, E_CAL_SOURCE_TYPE_EVENT, NULL))
+		return;
+
+	prefs->alarm_list_widget = e_source_selector_new (prefs->alarms_list);
+	atk_object_set_name (gtk_widget_get_accessible (prefs->alarm_list_widget), _("Selected Calendars for Alarms"));
+	gtk_container_add (GTK_CONTAINER (prefs->scrolled_window), prefs->alarm_list_widget);
+	initialize_selection (prefs->alarm_list_widget, prefs->alarms_list);
 }
 
 /* Shows the current config settings in the dialog. */
@@ -460,6 +530,9 @@ show_config (CalendarPrefsDialog *prefs)
 	/* Task list */
 	show_task_list_config (prefs);
 
+	/* Alarms list*/
+	show_alarms_config (prefs);
+
 	/* Free/Busy */
 	show_fb_config (prefs);
 
@@ -480,6 +553,7 @@ static ECalConfigItem eccp_items[] = {
 	{ E_CONFIG_PAGE,          "10.display",                   "display",             eccp_widget_glade },
 	{ E_CONFIG_SECTION,       "10.display/00.general",        "displayGeneral",      eccp_widget_glade },
 	{ E_CONFIG_SECTION,       "10.display/10.taskList",       "taskList",            eccp_widget_glade },
+	{ E_CONFIG_PAGE,	  "15.alarms",			  "alarms",		 eccp_widget_glade },
 	{ E_CONFIG_PAGE,          "20.freeBusy",                  "freebusy",            eccp_widget_glade },
 	{ E_CONFIG_SECTION,       "20.freeBusy/00.defaultServer", "defaultFBServer",     eccp_widget_glade },
 };
@@ -558,6 +632,10 @@ calendar_prefs_dialog_construct (CalendarPrefsDialog *prefs)
 	prefs->tasks_hide_completed_interval = glade_xml_get_widget (gui, "tasks_hide_completed_interval");
 	prefs->tasks_hide_completed_units = glade_xml_get_widget (gui, "tasks_hide_completed_units");
 
+
+	/* Alarms tab */
+	prefs->scrolled_window = glade_xml_get_widget (gui, "calendar-source-scrolled-window");
+	
 	/* Free/Busy tab */
 	prefs->template_url = glade_xml_get_widget (gui, "template_url");
 	target = e_cal_config_target_new_prefs (ec, prefs->gconf);

@@ -92,10 +92,13 @@ process_removal_in_hash (gpointer key, gpointer value, gpointer data)
 		for (q = sources; q != NULL; q = q->next) {
 			ESource *source = E_SOURCE (q->data);
 			char *source_uri;
-
+			const char *completion = e_source_get_property (source, "alarm");
+			
 			source_uri = e_source_get_uri (source);
 			if (strcmp (source_uri, uri) == 0)
-				found = TRUE;
+				if (!completion || !g_ascii_strcasecmp (completion, "true"))
+					found = TRUE;
+			
 			g_free (source_uri);
 
 			if (found)
@@ -118,6 +121,7 @@ list_changed_cb (ESourceList *source_list, gpointer data)
 	GList *l;
 	int i;
 	
+	printf("LIST CHANGED\n");
 	priv = an->priv;
 
 	/* Figure out the source type */
@@ -139,9 +143,9 @@ list_changed_cb (ESourceList *source_list, gpointer data)
 		for (q = sources; q != NULL; q = q->next) {
 			ESource *source = E_SOURCE (q->data);
 			char *uri;
-			const char *uid = e_source_peek_uid (source);
-
-			if (!e_source_list_peek_source_by_uid (priv->selected_calendars, uid)) 
+			const char *completion = e_source_get_property (source, "alarm");
+			
+			if (completion  && !g_ascii_strcasecmp (completion, "false")) 
 				continue;
 			
 			uri = e_source_get_uri (source);
@@ -195,9 +199,9 @@ load_calendars (AlarmNotify *an, ECalSourceType source_type)
 		for (q = sources; q != NULL; q = q->next) {
 			ESource *source = E_SOURCE (q->data);
 			char *uri;
-			const char *uid = e_source_peek_uid (source);
-
-			if (!e_source_list_peek_source_by_uid (priv->selected_calendars, uid)) 
+			const char *completion = e_source_get_property (source, "alarm");
+			
+			if (completion  && !g_ascii_strcasecmp (completion, "false")) 
 				continue;
 			
 			uri = e_source_get_uri (source);
@@ -236,7 +240,7 @@ alarm_notify_init (AlarmNotify *an, AlarmNotifyClass *klass)
 	priv = g_new0 (AlarmNotifyPrivate, 1);
 	an->priv = priv;
 	priv->mutex = g_mutex_new ();
-	priv->selected_calendars = config_data_get_calendars ("/apps/evolution/calendar/notify/calendars");
+	priv->selected_calendars = config_data_get_calendars ("/apps/evolution/calendar/sources");
 
 
 	for (i = 0; i < E_CAL_SOURCE_TYPE_LAST; i++)

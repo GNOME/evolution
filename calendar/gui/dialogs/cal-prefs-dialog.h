@@ -28,6 +28,7 @@
 #include <gtk/gtk.h>
 #include <glade/glade.h>
 #include <gconf/gconf-client.h>
+#include <libedataserverui/e-source-selector.h>
 #include "evolution-config-control.h"
 
 G_BEGIN_DECLS
@@ -65,6 +66,11 @@ struct _CalendarPrefsDialog {
 	GtkWidget *tasks_hide_completed;
 	GtkWidget *tasks_hide_completed_interval;
 	GtkWidget *tasks_hide_completed_units;
+
+	/* Alarms tab */
+	GtkWidget *scrolled_window;
+	ESourceList *alarms_list;
+	GtkWidget *alarm_list_widget;
 
 	/* Free/Busy tab */
 	GtkWidget *url_add;

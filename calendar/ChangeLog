@@ -1,5 +1,34 @@
 2006-01-25  Chenthill Palanisamy  <pchenthill@novell.com>
 
+	* gui/alarm-notify/alarm-queue.c: (popup_notification):
+	Removed the unsed variable filename. Do not set the icon
+	from pixbuf. Just pass the icon name to notification_new.
+	
+2006-01-25  Srinivasa Ragavan  <sragavan@novell.com>
+
+	Fixes #325762
+	* gui/alarm-notify/alarm-notify.c: (process_removal_in_hash),
+	(list_changed_cb), (load_calendars), (alarm_notify_init):
+	* gui/alarm-notify/alarm-queue.c: (open_alarm_dialog),
+	(tray_icon_clicked_cb), (icon_activated), (tray_icon_blink_cb),
+	(display_notification), , (alarm_queue_init),
+	(alarm_queue_remove_client):
+	* gui/dialogs/cal-prefs-dialog.c: (alarms_selection_changed),
+	(setup_changes), (initialize_selection), (show_alarms_config),
+	(show_config), (calendar_prefs_dialog_construct):
+	* gui/dialogs/cal-prefs-dialog.glade:
+	* gui/dialogs/cal-prefs-dialog.h: The alarms icon is show in the 
+	notification tray only when there is an alarm. The selection
+	of calendars for alarms is moved to preferences.
+
+2006-01-25  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #
+	* gui/e-calendar-view.c: (on_unrecur_appointment):
+	
+
+2006-01-25  Chenthill Palanisamy  <pchenthill@novell.com>
+
 	Fixes #327879
 	
 	* gui/dialogs/recurrence-page.c: (clear_widgets):
