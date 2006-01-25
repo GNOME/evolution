@@ -2015,7 +2015,6 @@ efhd_add_bar(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject *pobjec
 	gtk_box_pack_start ((GtkBox *)hbox3, priv->down, FALSE, FALSE, 0);
 	priv->arrow = (GtkWidget *)gtk_tool_button_new(hbox3, NULL);
 	g_signal_connect (priv->arrow, "mnemonic_activate", G_CALLBACK (efhd_mnemonic_show_bar), efh);
-	printf("it is %d %d \n", priv->arrow, efh);
 	atk_object_set_name (gtk_widget_get_accessible (priv->arrow), _("Toggle Attachment Bar"));
 
 	priv->label = gtk_label_new(_("No Attachment"));
