@@ -1,3 +1,15 @@
+2006-01-23  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #328224, 328408, 328389
+	* publish-calendar.c: (publish_uri_async), (url_add_clicked),
+	(url_edit_clicked), ,
+	(publish_uris_set_timeout), (e_plugin_lib_enable): Publish 
+	the calendar in a seperate thread so that the gui remains 
+	responsive.
+	(publish_calendar_locations): Clear the items gtk store.
+	* publish-location.c: (migrateURI), (e_publish_uri_from_xml):
+	If the uri is NULL return back.
+
 2006-01-11  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #325926

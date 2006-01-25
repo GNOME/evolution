@@ -47,6 +47,20 @@ void         online_state_changed (EPlugin *ep, ESEventTargetState *target);
 void         publish_calendar_context_activate (EPlugin *ep, ECalPopupTargetSource *target);
 GtkWidget   *publish_calendar_locations (EPlugin *epl, EConfigHookItemFactoryData *data);
 static void  update_timestamp (EPublishUri *uri);
+static void publish (EPublishUri *uri);
+
+static void
+publish_uri_async (EPublishUri *uri) 
+{
+	GThread *thread = NULL;
+	GError *error = NULL;
+
+	thread = g_thread_create ((GThreadFunc) publish, uri, FALSE, &error);
+	if (!thread) {
+		g_warning (G_STRLOC ": %s", error->message);
+		g_error_free (error);
+	}
+}
 
 static void
 publish (EPublishUri *uri)
@@ -304,7 +318,7 @@ url_add_clicked (GtkButton *button, PublishUIData *ui)
 		url_list_changed (ui);
 		publish_uris = g_slist_prepend (publish_uris, uri);
 		add_timeout (uri);
-		publish (uri);
+		publish_uri_async (uri);
 	} else {
 		g_free (uri);
 	}
@@ -338,7 +352,7 @@ url_edit_clicked (GtkButton *button, PublishUIData *ui)
 			g_source_remove (id);
 		add_timeout (uri);
 		url_list_changed (ui);
-		publish (uri);
+		publish_uri_async (uri);
 	}
 }
 
@@ -450,6 +464,9 @@ publish_calendar_locations (EPlugin *epl, EConfigHookItemFactoryData *data)
 	ui->treeview = glade_xml_get_widget (xml, "url list");
 	if (store == NULL)
 		store = gtk_list_store_new (URL_LIST_N_COLUMNS, G_TYPE_BOOLEAN, G_TYPE_STRING, G_TYPE_POINTER);
+	else 
+		gtk_list_store_clear (store);
+
 	gtk_tree_view_set_model (GTK_TREE_VIEW (ui->treeview), GTK_TREE_MODEL (store));
 
 	renderer = gtk_cell_renderer_toggle_new ();
@@ -530,39 +547,53 @@ action_publish (EPlugin *ep, ECalMenuTargetSelect *t)
 
 }
 
+static void
+publish_uris_set_timeout (GSList *uris)
+{
+	GSList *l;
+
+	uri_timeouts = g_hash_table_new (g_direct_hash, g_direct_equal);
+	l = uris;
+
+	while (l) {
+		gchar *xml = l->data;
+
+		EPublishUri *uri = e_publish_uri_from_xml (xml);
+
+		if (!uri->location) {
+			g_free (uri);
+			continue;
+		}
+
+		publish_uris = g_slist_prepend (publish_uris, uri);
+
+		/* Add a timeout based on the last publish time */
+		add_offset_timeout (uri);
+
+		l = g_slist_next (l);
+	}
+	g_slist_foreach (uris, (GFunc) g_free, NULL);
+	g_slist_free (uris);
+}
+
 int
 e_plugin_lib_enable (EPlugin *ep, int enable)
 {
-	GSList *uris, *l;
+	GSList *uris;
 	GConfClient *client;
 
 	if (enable) {
+		GThread *thread = NULL;
+		GError *error = NULL;
+
+
 		client = gconf_client_get_default ();
 		uris = gconf_client_get_list (client, "/apps/evolution/calendar/publish/uris", GCONF_VALUE_STRING, NULL);
-
-		uri_timeouts = g_hash_table_new (g_direct_hash, g_direct_equal);
-
-		l = uris;
-		while (l) {
-			gchar *xml = l->data;
-
-			EPublishUri *uri = e_publish_uri_from_xml (xml);
-
-			if (!uri->location) {
-				g_free (uri);
-				continue;
-			}
-
-			publish_uris = g_slist_prepend (publish_uris, uri);
-
-			/* Add a timeout based on the last publish time */
-			add_offset_timeout (uri);
-
-			l = g_slist_next (l);
+		thread = g_thread_create ((GThreadFunc) publish_uris_set_timeout, uris, FALSE, &error);
+		if (!thread) {
+			g_warning ("Could create thread to set timeout for publishing uris : %s", error->message);
+			g_error_free (error);
 		}
-		g_slist_foreach (uris, (GFunc) g_free, NULL);
-		g_slist_free (uris);
-
 		g_object_unref (client);
 	}
 
