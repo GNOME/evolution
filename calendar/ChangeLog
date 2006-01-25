@@ -1,3 +1,11 @@
+2006-01-25  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #327879
+	
+	* gui/dialogs/recurrence-page.c: (clear_widgets):
+	Use make_ending_special to fill the ending fields 
+	properly.
+
 2006-01-24  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #323700

@@ -209,6 +209,7 @@ static void recurrence_page_set_dates (CompEditorPage *page, CompEditorPageDates
 
 static void field_changed (RecurrencePage *apage);
 static void make_ending_count_special (RecurrencePage *rpage);
+static void make_ending_special (RecurrencePage *rpage);
 
 G_DEFINE_TYPE (RecurrencePage, recurrence_page, TYPE_COMP_EDITOR_PAGE);
 
@@ -381,7 +382,7 @@ clear_widgets (RecurrencePage *rpage)
 				  ENDING_FOR,
 				  ending_types_map);
 	g_signal_handlers_unblock_matched (menu, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
-	make_ending_count_special (rpage);
+	make_ending_special (rpage);
 	/* Exceptions list */
 	e_date_time_list_clear (priv->exception_list_store);
 }
