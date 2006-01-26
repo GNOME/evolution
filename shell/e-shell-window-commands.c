@@ -179,7 +179,7 @@ static const char *authors[] = {
 	"Benjamin Kahn",
 	"Bertrand Guiheneuf",
 	"Bill Zhu",
-	"Bjorn Torkelsson"
+	"Bjorn Torkelsson",
 	"Bob Doan",
 	"Bolian Yin",
 	"Brian Mury",

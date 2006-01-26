@@ -1,3 +1,7 @@
+2006-01-26  Andre Klapper <a9016009@gmx.de>
+	* e-shell-window-commands.c: adding missing comma in the
+	contributors list.
+
 2006-01-23  Joe Marcus Clarke <marcus@freebsd.org>
 
 	* e-user-creatable-items-handler.c: adding a check to make sure 
