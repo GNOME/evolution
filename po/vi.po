@@ -7,8 +7,8 @@ msgid ""
 ""
 msgstr "Project-Id-Version: evolution 1.4 Gnome HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-01-24 22:04+0100\n"
-"PO-Revision-Date: 2006-01-25 15:48+1030\n"
+"POT-Creation-Date: 2006-01-25 22:03+0100\n"
+"PO-Revision-Date: 2006-01-26 16:07+1030\n"
 "Last-Translator: Clytie Siddall <clytie@riverland.net.au>\n"
 "Language-Team: Vietnamese <gnomevi-list@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -530,7 +530,7 @@ msgstr "Cấu hình tự động gỡ xong ở đây"
 
 #.Create the contacts group
 #:../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:5
-#:../addressbook/gui/component/addressbook-view.c:1186
+#:../addressbook/gui/component/addressbook-view.c:1344
 #:../calendar/gui/calendar-component.c:247 ../calendar/gui/migration.c:400
 #:../plugins/exchange-operations/exchange-folder.c:629
 msgid "Contacts"
@@ -653,7 +653,7 @@ msgstr "Sao chép nội dung sổ về máy để phục vụ các thao tác ngo
 
 #:../addressbook/gui/component/addressbook-config.c:983
 #:../addressbook/gui/component/ldap-config.glade.h:22
-#:../calendar/gui/dialogs/cal-prefs-dialog.glade.h:20
+#:../calendar/gui/dialogs/cal-prefs-dialog.glade.h:19
 #:../calendar/gui/dialogs/calendar-setup.c:368
 #:../calendar/gui/dialogs/calendar-setup.c:379
 #:../calendar/gui/dialogs/calendar-setup.c:390
@@ -751,30 +751,54 @@ msgstr "Các tập tin bản ghi thay đổi và bản đồ đều của Evolut
 "\n"
 "Hãy kiên nhẫn trong khi Evolution chuyển đổi dữ liệu Pilot Sync..."
 
-#:../addressbook/gui/component/addressbook-view.c:769
+#:../addressbook/gui/component/addressbook-view.c:444
+#:../mail/em-folder-utils.c:503
+#,c-format
+msgid "Rename the \"%s\" folder to:"
+msgstr "Đổi tên thư mục « %s » thành:"
+
+#:../addressbook/gui/component/addressbook-view.c:447
+#:../mail/em-folder-utils.c:505
+msgid "Rename Folder"
+msgstr "Đổi tên thư mục"
+
+#:../addressbook/gui/component/addressbook-view.c:452
+#:../mail/em-folder-utils.c:511
+msgid "Folder names cannot contain '/'"
+msgstr "Tên thư mục không thể chứa ký tự sổ chéo."
+
+#:../addressbook/gui/component/addressbook-view.c:455
+msgid "A Folder with this name already exists"
+msgstr "Thư mục tên này đã có"
+
+#:../addressbook/gui/component/addressbook-view.c:963
 msgid "_New Address Book"
 msgstr "Sổ địa chỉ _mới"
 
 #.FIXME: need to disable for undeletable folders
-#:../addressbook/gui/component/addressbook-view.c:770
+#:../addressbook/gui/component/addressbook-view.c:964
 #:../addressbook/gui/widgets/e-addressbook-view.c:966
 #:../calendar/gui/calendar-component.c:538
 #:../calendar/gui/e-calendar-table.c:1196
 #:../calendar/gui/e-calendar-view.c:1628 ../calendar/gui/e-memo-table.c:871
 #:../calendar/gui/tasks-component.c:443 ../mail/em-folder-tree.c:2054
-#:../mail/em-folder-view.c:1091 ../ui/evolution-addressbook.xml.h:34
+#:../mail/em-folder-view.c:1091 ../ui/evolution-addressbook.xml.h:49
 #:../ui/evolution-calendar.xml.h:38 ../ui/evolution-mail-list.xml.h:30
 #:../ui/evolution-memos.xml.h:16 ../ui/evolution-tasks.xml.h:24
 msgid "_Delete"
 msgstr "_Xóa bỏ"
 
-#:../addressbook/gui/component/addressbook-view.c:772
+#:../addressbook/gui/component/addressbook-view.c:966
+msgid "Save As Vcard..."
+msgstr "Lưu dạng vCard..."
+
+#:../addressbook/gui/component/addressbook-view.c:968
 #:../calendar/gui/calendar-component.c:539
 #:../calendar/gui/tasks-component.c:444
 msgid "_Properties..."
 msgstr "Th_uộc tính..."
 
-#:../addressbook/gui/component/addressbook-view.c:1197
+#:../addressbook/gui/component/addressbook-view.c:1355
 msgid "Contact Source Selector"
 msgstr "Bộ chọn nguồn liên lạc"
 
@@ -1199,9 +1223,9 @@ msgid "Contact"
 msgstr "Liên lạc"
 
 #:../addressbook/gui/contact-editor/contact-editor.glade.h:13
-#:../addressbook/gui/contact-editor/e-contact-editor.c:527
-#:../addressbook/gui/contact-editor/e-contact-editor.c:542
-#:../addressbook/gui/contact-editor/e-contact-editor.c:2380
+#:../addressbook/gui/contact-editor/e-contact-editor.c:553
+#:../addressbook/gui/contact-editor/e-contact-editor.c:568
+#:../addressbook/gui/contact-editor/e-contact-editor.c:2406
 msgid "Contact Editor"
 msgstr "Bộ sửa liên lạc"
 
@@ -2386,7 +2410,7 @@ msgstr "Dịch vụ"
 
 #:../addressbook/gui/contact-editor/e-contact-editor-im.c:128
 #:../calendar/gui/e-cal-list-view.etspec.h:3
-#:../plugins/publish-calendar/publish-calendar.c:461
+#:../plugins/publish-calendar/publish-calendar.c:478
 #:../plugins/save-calendar/csv-format.c:400
 msgid "Location"
 msgstr "Địa chỉ"
@@ -2444,28 +2468,28 @@ msgstr "Trường cần thiết"
 msgid "Changed"
 msgstr "Đã đổi"
 
-#:../addressbook/gui/contact-editor/e-contact-editor.c:537
-#:../addressbook/gui/contact-editor/e-contact-editor.c:2375
+#:../addressbook/gui/contact-editor/e-contact-editor.c:563
+#:../addressbook/gui/contact-editor/e-contact-editor.c:2401
 #,c-format
 msgid "Contact Editor - %s"
 msgstr "Bộ sửa liên lạc — %s"
 
-#:../addressbook/gui/contact-editor/e-contact-editor.c:2713
+#:../addressbook/gui/contact-editor/e-contact-editor.c:2739
 msgid "Please select an image for this contact"
 msgstr "Hãy chọn ảnh cho liên lạc này"
 
-#:../addressbook/gui/contact-editor/e-contact-editor.c:2714
+#:../addressbook/gui/contact-editor/e-contact-editor.c:2740
 msgid "No image"
 msgstr "Không ảnh"
 
-#:../addressbook/gui/contact-editor/e-contact-editor.c:2993
+#:../addressbook/gui/contact-editor/e-contact-editor.c:3019
 msgid ""
 "The contact data is invalid:\n"
 "\n"
 msgstr "Dữ liệu liên lạc không hợp lệ:\n"
 "\n"
 
-#:../addressbook/gui/contact-editor/e-contact-editor.c:3045
+#:../addressbook/gui/contact-editor/e-contact-editor.c:3071
 msgid "Invalid contact."
 msgstr "Liên lạc không hợp lệ."
 
@@ -2489,7 +2513,7 @@ msgstr "Thư đ_iện tử "
 msgid "_Select Address Book"
 msgstr "_Chọn Sổ địa chỉ"
 
-#:../addressbook/gui/contact-editor/eab-editor.c:323
+#:../addressbook/gui/contact-editor/eab-editor.c:322
 #,c-format
 msgid ""
 "Are you sure you want\n"
@@ -2497,14 +2521,14 @@ msgid ""
 msgstr "Bạn có chắc muốn xoá bỏ\n"
 "danh sách liên lạc (%s) không?"
 
-#:../addressbook/gui/contact-editor/eab-editor.c:326
+#:../addressbook/gui/contact-editor/eab-editor.c:325
 msgid ""
 "Are you sure you want\n"
 "to delete these contact lists?"
 msgstr "Bạn có chắc muốn xoá bỏ\n"
 "những danh sách liên lạc này không?"
 
-#:../addressbook/gui/contact-editor/eab-editor.c:331
+#:../addressbook/gui/contact-editor/eab-editor.c:330
 #,c-format
 msgid ""
 "Are you sure you want\n"
@@ -2512,7 +2536,7 @@ msgid ""
 msgstr "Bạn có chắc muốn xoá bỏ\n"
 "liên lạc (%s) không?"
 
-#:../addressbook/gui/contact-editor/eab-editor.c:334
+#:../addressbook/gui/contact-editor/eab-editor.c:333
 msgid ""
 "Are you sure you want\n"
 "to delete these contacts?"
@@ -2807,8 +2831,8 @@ msgid "Address Book"
 msgstr "Sổ địa chỉ"
 
 #:../addressbook/gui/widgets/e-addressbook-view.c:821
-#:../addressbook/gui/widgets/e-addressbook-view.c:2037
-#:../ui/evolution-addressbook.xml.h:20
+#:../addressbook/gui/widgets/e-addressbook-view.c:2051
+#:../ui/evolution-addressbook.xml.h:31
 msgid "Save as VCard..."
 msgstr "Lưu dạng vCard..."
 
@@ -2816,7 +2840,7 @@ msgstr "Lưu dạng vCard..."
 #:../calendar/gui/dialogs/comp-editor.c:1093
 #:../calendar/gui/e-calendar-table.c:1176
 #:../calendar/gui/e-calendar-view.c:1606 ../calendar/gui/e-memo-table.c:854
-#:../ui/evolution-addressbook.xml.h:38
+#:../ui/evolution-addressbook.xml.h:56
 msgid "_Open"
 msgstr "_Mở"
 
@@ -2829,7 +2853,6 @@ msgid "New Contact _List..."
 msgstr "_Danh sách liên lạc mới..."
 
 #:../addressbook/gui/widgets/e-addressbook-view.c:950
-#:../ui/evolution-addressbook.xml.h:41
 msgid "_Save as VCard..."
 msgstr "Lư_u dạng vCard..."
 
@@ -2877,7 +2900,7 @@ msgstr "Cắ_t"
 #:../calendar/gui/e-calendar-view.c:1613 ../calendar/gui/e-memo-table.c:862
 #:../calendar/gui/tasks-component.c:442 ../composer/e-msg-composer.c:3102
 #:../mail/em-folder-tree.c:979 ../mail/em-folder-view.c:1077
-#:../mail/message-list.c:1729 ../ui/evolution-addressbook.xml.h:32
+#:../mail/message-list.c:1729 ../ui/evolution-addressbook.xml.h:46
 #:../ui/evolution-calendar.xml.h:37 ../ui/evolution-composer-entries.xml.h:13
 #:../ui/evolution-editor.xml.h:16 ../ui/evolution-mail-message.xml.h:104
 #:../ui/evolution-memos.xml.h:15 ../ui/evolution-tasks.xml.h:23
@@ -3481,6 +3504,10 @@ msgstr[0] "liên lạc"
 msgid "card.vcf"
 msgstr "card.vcf"
 
+#:../addressbook/gui/widgets/eab-gui-util.c:457
+msgid "Select Address Book"
+msgstr "Chọn Sổ địa chỉ"
+
 #:../addressbook/gui/widgets/eab-gui-util.c:596
 msgid "list"
 msgstr "danh sách"
@@ -3500,10 +3527,6 @@ msgstr "Chuyển các liên lạc sang"
 #:../addressbook/gui/widgets/eab-gui-util.c:763
 msgid "Copy contacts to"
 msgstr "Chép các liên lạc sang"
-
-#:../addressbook/gui/widgets/eab-gui-util.c:766
-msgid "Select target addressbook."
-msgstr "Chọn sổ địa chỉ đích."
 
 #:../addressbook/gui/widgets/eab-gui-util.c:989
 msgid "Multiple VCards"
@@ -4400,8 +4423,8 @@ msgstr "Cuộc hẹn"
 
 #.Location
 #:../calendar/gui/alarm-notify/alarm-notify.glade.h:2
-#:../calendar/gui/alarm-notify/alarm-queue.c:1503
-#:../calendar/gui/alarm-notify/alarm-queue.c:1509
+#:../calendar/gui/alarm-notify/alarm-queue.c:1270
+#:../calendar/gui/alarm-notify/alarm-queue.c:1276
 #:../calendar/gui/e-itip-control.c:1119
 #:../plugins/itip-formatter/itip-view.c:884
 msgid "Location:"
@@ -4416,13 +4439,13 @@ msgstr "Thời gian _ngủ:"
 #:../filter/filter.glade.h:11 ../mail/mail-config.glade.h:159
 #:../plugins/exchange-operations/exchange-delegates.glade.h:15
 #:../plugins/publish-calendar/publish-calendar.glade.h:20
-#:../ui/evolution-addressbook.xml.h:35 ../ui/evolution-calendar.xml.h:39
+#:../ui/evolution-addressbook.xml.h:51 ../ui/evolution-calendar.xml.h:39
 #:../ui/evolution-composer-entries.xml.h:14 ../ui/evolution-editor.xml.h:17
 #:../ui/evolution-mail-messagedisplay.xml.h:5 ../ui/evolution-memos.xml.h:17
 #:../ui/evolution-message-composer.xml.h:46
 #:../ui/evolution-signature-editor.xml.h:24
 #:../ui/evolution-subscribe.xml.h:10 ../ui/evolution-tasks.xml.h:25
-#:../ui/evolution.xml.h:38
+#:../ui/evolution.xml.h:37
 msgid "_Edit"
 msgstr "_Hiệu chỉnh"
 
@@ -4434,48 +4457,32 @@ msgstr "_Ngủ"
 msgid "location of appointment"
 msgstr "địa điểm cuộc hẹn"
 
-#:../calendar/gui/alarm-notify/alarm-queue.c:1129
-msgid "<b>Calendars</b>"
-msgstr "<b>Lịch</b>"
-
-#:../calendar/gui/alarm-notify/alarm-queue.c:1195
-msgid "Preferences"
-msgstr "Tù_y thích"
-
-#:../calendar/gui/alarm-notify/alarm-queue.c:1208
-msgid "_Configure Alarms"
-msgstr "_Cấu hình Báo động"
-
-#:../calendar/gui/alarm-notify/alarm-queue.c:1210 ../ui/evolution.xml.h:45
-msgid "_Quit"
-msgstr "T_hoát"
-
-#:../calendar/gui/alarm-notify/alarm-queue.c:1358
-#:../calendar/gui/alarm-notify/alarm-queue.c:1485
+#:../calendar/gui/alarm-notify/alarm-queue.c:1109
+#:../calendar/gui/alarm-notify/alarm-queue.c:1252
 msgid "No summary available."
 msgstr "Không có tóm tắt"
 
-#:../calendar/gui/alarm-notify/alarm-queue.c:1367
-#:../calendar/gui/alarm-notify/alarm-queue.c:1369
+#:../calendar/gui/alarm-notify/alarm-queue.c:1118
+#:../calendar/gui/alarm-notify/alarm-queue.c:1120
 msgid "No description available."
 msgstr "Không có mô tả."
 
-#:../calendar/gui/alarm-notify/alarm-queue.c:1377
+#:../calendar/gui/alarm-notify/alarm-queue.c:1128
 msgid "No location information available."
 msgstr "Không có thông tin về địa điểm."
 
-#:../calendar/gui/alarm-notify/alarm-queue.c:1416
+#:../calendar/gui/alarm-notify/alarm-queue.c:1186
 #,c-format
 msgid "You have %d alarms"
 msgstr "Bạn có %d bảo động"
 
 #.FIXME
-#:../calendar/gui/alarm-notify/alarm-queue.c:1580
-#:../calendar/gui/alarm-notify/alarm-queue.c:1604
+#:../calendar/gui/alarm-notify/alarm-queue.c:1346
+#:../calendar/gui/alarm-notify/alarm-queue.c:1370
 msgid "Warning"
 msgstr "Cảnh báo"
 
-#:../calendar/gui/alarm-notify/alarm-queue.c:1584
+#:../calendar/gui/alarm-notify/alarm-queue.c:1350
 msgid ""
 "Evolution does not support calendar reminders with\n"
 "email notifications yet, but this reminder was\n"
@@ -4486,7 +4493,7 @@ msgstr "Evolution chưa hỗ trợ bộ nhắc nhở lịch thông qua\n"
 "cấu hình để gửi thư. Thay vào đó, Evolution\n"
 "sẽ hiển thị một hộp thoại nhắc nhở thông thường."
 
-#:../calendar/gui/alarm-notify/alarm-queue.c:1610
+#:../calendar/gui/alarm-notify/alarm-queue.c:1376
 #,c-format
 msgid ""
 "An Evolution Calendar reminder is about to trigger. This reminder is "
@@ -4502,7 +4509,7 @@ msgstr "Lịch Evolution sắp nhắc nhở bạn. Bộ nhắc nhở này đư�
 "\n"
 "Bạn có chắc muốn chạy chương trình này không?"
 
-#:../calendar/gui/alarm-notify/alarm-queue.c:1624
+#:../calendar/gui/alarm-notify/alarm-queue.c:1390
 msgid "Do not ask me about this program again."
 msgstr "Đừng hỏi tôi về chương trình này lần nữa."
 
@@ -4530,7 +4537,7 @@ msgid "(%d %s %d %s)"
 msgstr "(%d %s %d %s)"
 
 #:../calendar/gui/alarm-notify/util.c:64
-#:../calendar/gui/dialogs/recurrence-page.c:991 ../calendar/gui/misc.c:111
+#:../calendar/gui/dialogs/recurrence-page.c:992 ../calendar/gui/misc.c:111
 msgid "second"
 msgstr "giây"
 
@@ -4966,7 +4973,7 @@ msgid "Unmatched"
 msgstr "Không khớp"
 
 #:../calendar/gui/calendar-commands.c:119 ../calendar/gui/print.c:2514
-#:../ui/evolution-addressbook.xml.h:17 ../ui/evolution-calendar.xml.h:18
+#:../ui/evolution-addressbook.xml.h:26 ../ui/evolution-calendar.xml.h:18
 #:../ui/evolution-mail-message.xml.h:75 ../ui/evolution-memos.xml.h:11
 #:../ui/evolution-tasks.xml.h:14
 msgid "Print"
@@ -5240,8 +5247,9 @@ msgid "A_dd"
 msgstr "Th_êm"
 
 #:../calendar/gui/dialogs/alarm-list-dialog.glade.h:2
+#:../calendar/gui/dialogs/cal-prefs-dialog.glade.h:14
 #:../calendar/gui/dialogs/event-page.glade.h:4
-#:../ui/evolution-event-editor.xml.h:1
+#:../ui/evolution-event-editor.xml.h:2
 msgid "Alarms"
 msgstr "Báo động"
 
@@ -5285,6 +5293,10 @@ msgstr "Tên tập tin:"
 #:../widgets/misc/e-attachment.glade.h:5
 msgid "MIME type:"
 msgstr "Kiểu MIME:"
+
+#:../calendar/gui/dialogs/cal-prefs-dialog.c:470
+msgid "Selected Calendars for Alarms"
+msgstr "Các Lịch đã chọn cho Báo động"
 
 #:../calendar/gui/dialogs/cal-prefs-dialog.glade.h:1
 msgid ""
@@ -5334,35 +5346,27 @@ msgstr "<span weight=\"bold\">Giờ</span>"
 msgid "<span weight=\"bold\">Work Week</span>"
 msgstr "<span weight=\"bold\">Tuần Làm Việc</span>"
 
-#:../calendar/gui/dialogs/cal-prefs-dialog.glade.h:14
-msgid "Color for overdue tasks"
-msgstr "Màu cho tác vụ quá hạn"
-
 #:../calendar/gui/dialogs/cal-prefs-dialog.glade.h:15
-msgid "Color for tasks due today"
-msgstr "Màu cho tác vụ hết hạn vào hôm nay"
-
-#:../calendar/gui/dialogs/cal-prefs-dialog.glade.h:16
 msgid "Day _ends:"
 msgstr "Ngày _kết thúc:"
 
-#:../calendar/gui/dialogs/cal-prefs-dialog.glade.h:17
+#:../calendar/gui/dialogs/cal-prefs-dialog.glade.h:16
 msgid "Display"
 msgstr "Hiển thị"
 
-#:../calendar/gui/dialogs/cal-prefs-dialog.glade.h:18
+#:../calendar/gui/dialogs/cal-prefs-dialog.glade.h:17
 #:../calendar/gui/dialogs/event-editor.c:566
-#:../ui/evolution-event-editor.xml.h:7
+#:../ui/evolution-event-editor.xml.h:8
 msgid "Free/Busy"
 msgstr "Rảnh/Bận"
 
-#:../calendar/gui/dialogs/cal-prefs-dialog.glade.h:19
-#:../calendar/gui/dialogs/recurrence-page.c:1050
+#:../calendar/gui/dialogs/cal-prefs-dialog.glade.h:18
+#:../calendar/gui/dialogs/recurrence-page.c:1051
 #:../calendar/gui/e-itip-control.c:733
 msgid "Friday"
 msgstr "Thứ Sáu"
 
-#:../calendar/gui/dialogs/cal-prefs-dialog.glade.h:21
+#:../calendar/gui/dialogs/cal-prefs-dialog.glade.h:20
 msgid ""
 "Minutes\n"
 "Hours\n"
@@ -5371,13 +5375,13 @@ msgstr "Phút\n"
 "Giờ\n"
 "Ngày"
 
-#:../calendar/gui/dialogs/cal-prefs-dialog.glade.h:24
-#:../calendar/gui/dialogs/recurrence-page.c:1046
+#:../calendar/gui/dialogs/cal-prefs-dialog.glade.h:23
+#:../calendar/gui/dialogs/recurrence-page.c:1047
 #:../calendar/gui/e-itip-control.c:729
 msgid "Monday"
 msgstr "Thứ Hai"
 
-#:../calendar/gui/dialogs/cal-prefs-dialog.glade.h:25
+#:../calendar/gui/dialogs/cal-prefs-dialog.glade.h:24
 msgid ""
 "Monday\n"
 "Tuesday\n"
@@ -5394,134 +5398,144 @@ msgstr "Thứ Hai\n"
 "Thứ Bảy\n"
 "Chủ Nhật"
 
+#:../calendar/gui/dialogs/cal-prefs-dialog.glade.h:31
+#:../calendar/gui/dialogs/calendar-setup.glade.h:5
+#:../mail/mail-config.glade.h:105
+msgid "Pick a color"
+msgstr "Chọn màu"
+
 #:../calendar/gui/dialogs/cal-prefs-dialog.glade.h:32
 msgid "S_un"
 msgstr "_CN"
 
 #:../calendar/gui/dialogs/cal-prefs-dialog.glade.h:33
-#:../calendar/gui/dialogs/recurrence-page.c:1051
+#:../calendar/gui/dialogs/recurrence-page.c:1052
 #:../calendar/gui/e-itip-control.c:734
 msgid "Saturday"
 msgstr "Thứ Bảy"
 
 #:../calendar/gui/dialogs/cal-prefs-dialog.glade.h:34
+msgid "Select the calendars for alarm notification"
+msgstr "Chọn những lịch cần dùng tính năng báo động"
+
+#:../calendar/gui/dialogs/cal-prefs-dialog.glade.h:35
 msgid "Sh_ow a reminder"
 msgstr "_Hiện bộ nhắc nhở"
 
-#:../calendar/gui/dialogs/cal-prefs-dialog.glade.h:35
+#:../calendar/gui/dialogs/cal-prefs-dialog.glade.h:36
 msgid "Show week _numbers in date navigator"
 msgstr "Hiện _số thứ tự tuần trong bộ duyệt ngày"
 
-#:../calendar/gui/dialogs/cal-prefs-dialog.glade.h:36
-#:../calendar/gui/dialogs/recurrence-page.c:1052
+#:../calendar/gui/dialogs/cal-prefs-dialog.glade.h:37
+#:../calendar/gui/dialogs/recurrence-page.c:1053
 #:../calendar/gui/e-itip-control.c:728
 msgid "Sunday"
 msgstr "Chủ Nhật"
 
-#:../calendar/gui/dialogs/cal-prefs-dialog.glade.h:37
+#:../calendar/gui/dialogs/cal-prefs-dialog.glade.h:38
 msgid "T_asks due today:"
 msgstr "_Tác vụ hết hạn vào hôm nay:"
 
-#:../calendar/gui/dialogs/cal-prefs-dialog.glade.h:38
+#:../calendar/gui/dialogs/cal-prefs-dialog.glade.h:39
 msgid "T_hu"
 msgstr "T_5"
 
-#:../calendar/gui/dialogs/cal-prefs-dialog.glade.h:39
+#:../calendar/gui/dialogs/cal-prefs-dialog.glade.h:40
 msgid "Template:"
 msgstr "Mẫu:"
 
-#:../calendar/gui/dialogs/cal-prefs-dialog.glade.h:40
-#:../calendar/gui/dialogs/recurrence-page.c:1049
+#:../calendar/gui/dialogs/cal-prefs-dialog.glade.h:41
+#:../calendar/gui/dialogs/recurrence-page.c:1050
 #:../calendar/gui/e-itip-control.c:732
 msgid "Thursday"
 msgstr "Thứ Năm"
 
-#:../calendar/gui/dialogs/cal-prefs-dialog.glade.h:41
+#:../calendar/gui/dialogs/cal-prefs-dialog.glade.h:42
 #:../calendar/gui/dialogs/event-page.glade.h:14
 msgid "Time _zone:"
 msgstr "Múi _giờ:"
 
-#:../calendar/gui/dialogs/cal-prefs-dialog.glade.h:42
+#:../calendar/gui/dialogs/cal-prefs-dialog.glade.h:43
 msgid "Time format:"
 msgstr "Dạng thức giờ:"
 
-#:../calendar/gui/dialogs/cal-prefs-dialog.glade.h:43
-#:../calendar/gui/dialogs/recurrence-page.c:1047
+#:../calendar/gui/dialogs/cal-prefs-dialog.glade.h:44
+#:../calendar/gui/dialogs/recurrence-page.c:1048
 #:../calendar/gui/e-itip-control.c:730
 msgid "Tuesday"
 msgstr "Thứ Ba"
 
-#:../calendar/gui/dialogs/cal-prefs-dialog.glade.h:44
+#:../calendar/gui/dialogs/cal-prefs-dialog.glade.h:45
 msgid "W_eek starts:"
 msgstr "Tuần _bắt đầu :"
 
-#:../calendar/gui/dialogs/cal-prefs-dialog.glade.h:45
-#:../calendar/gui/dialogs/recurrence-page.c:1048
+#:../calendar/gui/dialogs/cal-prefs-dialog.glade.h:46
+#:../calendar/gui/dialogs/recurrence-page.c:1049
 #:../calendar/gui/e-itip-control.c:731
 msgid "Wednesday"
 msgstr "Thứ Tư"
 
-#:../calendar/gui/dialogs/cal-prefs-dialog.glade.h:46
+#:../calendar/gui/dialogs/cal-prefs-dialog.glade.h:47
 msgid "Work days:"
 msgstr "Ngày làm việc:"
 
-#:../calendar/gui/dialogs/cal-prefs-dialog.glade.h:47
+#:../calendar/gui/dialogs/cal-prefs-dialog.glade.h:48
 msgid "_12 hour (AM/PM)"
 msgstr "_12 giờ (AM/PM: sáng/chiều)"
 
-#:../calendar/gui/dialogs/cal-prefs-dialog.glade.h:48
+#:../calendar/gui/dialogs/cal-prefs-dialog.glade.h:49
 msgid "_24 hour"
 msgstr "_24 giờ"
 
-#:../calendar/gui/dialogs/cal-prefs-dialog.glade.h:49
+#:../calendar/gui/dialogs/cal-prefs-dialog.glade.h:50
 msgid "_Ask for confirmation when deleting items"
 msgstr "_Hỏi xác thực khi xóa bỏ mục"
 
-#:../calendar/gui/dialogs/cal-prefs-dialog.glade.h:50
+#:../calendar/gui/dialogs/cal-prefs-dialog.glade.h:51
 msgid "_Compress weekends in month view"
 msgstr "_Nén các ngày cuối tuần trong khung xem tháng"
 
-#:../calendar/gui/dialogs/cal-prefs-dialog.glade.h:51
+#:../calendar/gui/dialogs/cal-prefs-dialog.glade.h:52
 msgid "_Day begins:"
 msgstr "_Ngày bắt đầu :"
 
-#:../calendar/gui/dialogs/cal-prefs-dialog.glade.h:52
+#:../calendar/gui/dialogs/cal-prefs-dialog.glade.h:53
 msgid "_Fri"
 msgstr "T_6"
 
-#:../calendar/gui/dialogs/cal-prefs-dialog.glade.h:53
+#:../calendar/gui/dialogs/cal-prefs-dialog.glade.h:54
 msgid "_Hide completed tasks after"
 msgstr "Ẩ_n tác vụ hoàn thành sau (khi)"
 
-#:../calendar/gui/dialogs/cal-prefs-dialog.glade.h:54
+#:../calendar/gui/dialogs/cal-prefs-dialog.glade.h:55
 msgid "_Mon"
 msgstr "T_2"
 
-#:../calendar/gui/dialogs/cal-prefs-dialog.glade.h:55
+#:../calendar/gui/dialogs/cal-prefs-dialog.glade.h:56
 msgid "_Overdue tasks:"
 msgstr "Tác vụ _quá hạn:"
 
-#:../calendar/gui/dialogs/cal-prefs-dialog.glade.h:56
+#:../calendar/gui/dialogs/cal-prefs-dialog.glade.h:57
 msgid "_Sat"
 msgstr "T_7"
 
-#:../calendar/gui/dialogs/cal-prefs-dialog.glade.h:57
+#:../calendar/gui/dialogs/cal-prefs-dialog.glade.h:58
 msgid "_Show appointment end times in week and month view"
 msgstr "_Hiện thời điểm kết thúc cuộc hẹn trong khung xem tuần và tháng đều"
 
-#:../calendar/gui/dialogs/cal-prefs-dialog.glade.h:58
+#:../calendar/gui/dialogs/cal-prefs-dialog.glade.h:59
 msgid "_Time divisions:"
 msgstr "_Chia thời gian:"
 
-#:../calendar/gui/dialogs/cal-prefs-dialog.glade.h:59
+#:../calendar/gui/dialogs/cal-prefs-dialog.glade.h:60
 msgid "_Tue"
 msgstr "T_3"
 
-#:../calendar/gui/dialogs/cal-prefs-dialog.glade.h:60
+#:../calendar/gui/dialogs/cal-prefs-dialog.glade.h:61
 msgid "_Wed"
 msgstr "T_4"
 
-#:../calendar/gui/dialogs/cal-prefs-dialog.glade.h:61
+#:../calendar/gui/dialogs/cal-prefs-dialog.glade.h:62
 msgid "before every appointment"
 msgstr "trước mỗi cuộc hẹn"
 
@@ -5575,11 +5589,6 @@ msgstr "Thêm Lịch"
 #:../calendar/gui/dialogs/calendar-setup.glade.h:3
 msgid "Add Task List"
 msgstr "Thêm Danh sách Tác vụ"
-
-#:../calendar/gui/dialogs/calendar-setup.glade.h:5
-#:../mail/mail-config.glade.h:105
-msgid "Pick a color"
-msgstr "Chọn màu"
 
 #:../calendar/gui/dialogs/calendar-setup.glade.h:6
 msgid "_Add Calendar"
@@ -5737,7 +5746,7 @@ msgstr "_Gỡ bỏ"
 #:../calendar/gui/dialogs/comp-editor.c:1095
 #:../composer/e-msg-composer-attachment-bar.c:471
 #:../composer/e-msg-composer.c:3602 ../mail/em-folder-tree.c:2058
-#:../ui/evolution-mail-list.xml.h:33
+#:../ui/evolution-addressbook.xml.h:59 ../ui/evolution-mail-list.xml.h:33
 msgid "_Properties"
 msgstr "Th_uộc tính"
 
@@ -5886,7 +5895,7 @@ msgid "Appoint_ment"
 msgstr "Cuộc _hẹn"
 
 #:../calendar/gui/dialogs/event-editor.c:545
-#:../ui/evolution-event-editor.xml.h:13
+#:../ui/evolution-event-editor.xml.h:14
 msgid "Recurrence"
 msgstr "Định kỳ"
 
@@ -6062,7 +6071,7 @@ msgstr "Từ :"
 #:../calendar/gui/dialogs/meeting-page.glade.h:4
 #:../calendar/gui/e-cal-model-tasks.c:654
 #:../calendar/gui/e-itip-control.c:1105 ../composer/e-msg-composer.c:2275
-#:../filter/filter-rule.c:881 ../mail/em-account-editor.c:691
+#:../filter/filter-rule.c:889 ../mail/em-account-editor.c:691
 #:../mail/em-account-editor.c:1356 ../mail/em-account-prefs.c:468
 #:../mail/em-folder-view.c:1106 ../mail/em-junk-hook.c:78
 #:../plugins/calendar-weather/calendar-weather.c:370
@@ -6259,51 +6268,51 @@ msgstr "Lần này và những lần sau này"
 msgid "All Instances"
 msgstr "Mọi lần"
 
-#:../calendar/gui/dialogs/recurrence-page.c:498
+#:../calendar/gui/dialogs/recurrence-page.c:499
 msgid "This appointment contains recurrences that Evolution cannot edit."
 msgstr "Cuộc hẹn chứa nhiều lần lặp lại mà Evolution không thể hiệu chỉnh."
 
-#:../calendar/gui/dialogs/recurrence-page.c:819
+#:../calendar/gui/dialogs/recurrence-page.c:820
 msgid "Recurrence date is invalid"
 msgstr "Ngày lặp không hợp lệ"
 
-#:../calendar/gui/dialogs/recurrence-page.c:930
+#:../calendar/gui/dialogs/recurrence-page.c:931
 msgid "on"
 msgstr "vào"
 
-#:../calendar/gui/dialogs/recurrence-page.c:990
+#:../calendar/gui/dialogs/recurrence-page.c:991
 msgid "first"
 msgstr "thứ nhắt"
 
-#:../calendar/gui/dialogs/recurrence-page.c:992
+#:../calendar/gui/dialogs/recurrence-page.c:993
 msgid "third"
 msgstr "thứ ba"
 
-#:../calendar/gui/dialogs/recurrence-page.c:993
+#:../calendar/gui/dialogs/recurrence-page.c:994
 msgid "fourth"
 msgstr "thứ tư"
 
-#:../calendar/gui/dialogs/recurrence-page.c:994
+#:../calendar/gui/dialogs/recurrence-page.c:995
 msgid "last"
 msgstr "cuối cùng"
 
-#:../calendar/gui/dialogs/recurrence-page.c:1017
+#:../calendar/gui/dialogs/recurrence-page.c:1018
 msgid "Other Date"
 msgstr "Ngày khác"
 
-#:../calendar/gui/dialogs/recurrence-page.c:1045
+#:../calendar/gui/dialogs/recurrence-page.c:1046
 msgid "day"
 msgstr "ngày"
 
-#:../calendar/gui/dialogs/recurrence-page.c:1182
+#:../calendar/gui/dialogs/recurrence-page.c:1183
 msgid "on the"
 msgstr "vào"
 
-#:../calendar/gui/dialogs/recurrence-page.c:1371
+#:../calendar/gui/dialogs/recurrence-page.c:1372
 msgid "occurrences"
 msgstr "lần"
 
-#:../calendar/gui/dialogs/recurrence-page.c:2342
+#:../calendar/gui/dialogs/recurrence-page.c:2343
 msgid "Date/Time"
 msgstr "Ngày/Giờ"
 
@@ -6634,7 +6643,7 @@ msgstr "Ghi nhớ :"
 msgid "Web Page:"
 msgstr "Trang Mạng:"
 
-#:../calendar/gui/e-cal-component-preview.c:155 ../filter/filter-rule.c:796
+#:../calendar/gui/e-cal-component-preview.c:155 ../filter/filter-rule.c:804
 msgid "Untitled"
 msgstr "Không tên"
 
@@ -6848,7 +6857,7 @@ msgstr "Mở trang _Mạng"
 #:../calendar/gui/e-calendar-view.c:1608 ../calendar/gui/e-memo-table.c:857
 #:../mail/em-folder-view.c:1088
 #:../plugins/print-message/org-gnome-print-message.xml.h:3
-#:../ui/evolution-addressbook.xml.h:40 ../ui/evolution-calendar.xml.h:42
+#:../ui/evolution-addressbook.xml.h:58 ../ui/evolution-calendar.xml.h:42
 #:../ui/evolution-mail-message.xml.h:124 ../ui/evolution-memos.xml.h:20
 #:../ui/evolution-tasks.xml.h:29
 msgid "_Print..."
@@ -6856,7 +6865,7 @@ msgstr "_In..."
 
 #:../calendar/gui/e-calendar-table.c:1183
 #:../calendar/gui/e-calendar-view.c:1612 ../calendar/gui/e-memo-table.c:861
-#:../ui/evolution-addressbook.xml.h:1 ../ui/evolution-calendar.xml.h:1
+#:../ui/evolution-addressbook.xml.h:2 ../ui/evolution-calendar.xml.h:1
 #:../ui/evolution-memos.xml.h:1 ../ui/evolution-tasks.xml.h:1
 msgid "C_ut"
 msgstr "Cắ_t"
@@ -6864,7 +6873,7 @@ msgstr "Cắ_t"
 #:../calendar/gui/e-calendar-table.c:1185
 #:../calendar/gui/e-calendar-view.c:1595
 #:../calendar/gui/e-calendar-view.c:1614 ../calendar/gui/e-memo-table.c:863
-#:../ui/evolution-addressbook.xml.h:39 ../ui/evolution-calendar.xml.h:41
+#:../ui/evolution-addressbook.xml.h:57 ../ui/evolution-calendar.xml.h:41
 #:../ui/evolution-composer-entries.xml.h:15 ../ui/evolution-editor.xml.h:22
 #:../ui/evolution-memos.xml.h:19 ../ui/evolution-tasks.xml.h:28
 msgid "_Paste"
@@ -7902,14 +7911,14 @@ msgstr "Thông tin iCalendar"
 msgid "You must be an attendee of the event."
 msgstr "Bạn phải là người dự sự kiện ấy."
 
-#:../calendar/gui/memos-component.c:451 ../ui/evolution-addressbook.xml.h:3
+#:../calendar/gui/memos-component.c:451 ../ui/evolution-addressbook.xml.h:6
 #:../ui/evolution-composer-entries.xml.h:1 ../ui/evolution-memos.xml.h:2
 #:../ui/evolution-tasks.xml.h:2
 msgid "Copy"
 msgstr "Chép"
 
 #:../calendar/gui/memos-component.c:452 ../mail/em-filter-i18n.h:11
-#:../ui/evolution-addressbook.xml.h:9 ../ui/evolution-calendar.xml.h:5
+#:../ui/evolution-addressbook.xml.h:15 ../ui/evolution-calendar.xml.h:5
 #:../ui/evolution-mail-message.xml.h:25 ../ui/evolution-memos.xml.h:6
 #:../ui/evolution-tasks.xml.h:6
 msgid "Delete"
@@ -10488,48 +10497,52 @@ msgstr "Sau đó"
 msgid "Test"
 msgstr "Kiểm tra"
 
-#:../filter/filter-rule.c:791
+#:../filter/filter-rule.c:799
 msgid "_Search name:"
 msgstr "Tên tìm _kiếm:"
 
-#:../filter/filter-rule.c:819
+#:../filter/filter-rule.c:827
 msgid "Find items that meet the following criteria"
 msgstr "Tìm mục khớp tiêu chuẩn theo đây"
 
-#:../filter/filter-rule.c:858
+#:../filter/filter-rule.c:866
 msgid "If all criteria are met"
 msgstr "Nếu mọi tiêu chuẩn đều thỏa"
 
-#:../filter/filter-rule.c:858
+#:../filter/filter-rule.c:866
 msgid "If any criteria are met"
 msgstr "Nếu tiêu chuẩn nào thỏa"
 
-#:../filter/filter-rule.c:860
+#:../filter/filter-rule.c:868
 msgid "Find items:"
 msgstr "Tìm mục:"
 
-#:../filter/filter-rule.c:881
+#:../filter/filter-rule.c:889
 msgid "All related"
 msgstr "Mọi thứ liên quan"
 
-#:../filter/filter-rule.c:881
+#:../filter/filter-rule.c:889
 msgid "Replies"
 msgstr "Trả lời"
 
-#:../filter/filter-rule.c:881
+#:../filter/filter-rule.c:889
 msgid "Replies and parents"
 msgstr "Trả lời và mẹ"
 
-#:../filter/filter-rule.c:883
+#:../filter/filter-rule.c:889
+msgid "No reply or parent"
+msgstr "Không có trả lời hay điều mẹ"
+
+#:../filter/filter-rule.c:891
 msgid "Include threads"
 msgstr "Gồm các nhánh"
 
-#:../filter/filter-rule.c:978 ../filter/filter.glade.h:3
+#:../filter/filter-rule.c:986 ../filter/filter.glade.h:3
 #:../mail/em-utils.c:349
 msgid "Incoming"
 msgstr "Đến vào"
 
-#:../filter/filter-rule.c:978 ../mail/em-utils.c:350
+#:../filter/filter-rule.c:986 ../mail/em-utils.c:350
 msgid "Outgoing"
 msgstr "Gửi đi"
 
@@ -10796,7 +10809,7 @@ msgstr "[Mặc định]"
 #.g_object_set((GObject *)renderer, "activatable", TRUE, NULL);
 #:../mail/em-account-prefs.c:512 ../mail/em-composer-prefs.c:930
 #:../plugins/plugin-manager/plugin-manager.c:213
-#:../plugins/publish-calendar/publish-calendar.c:457
+#:../plugins/publish-calendar/publish-calendar.c:474
 msgid "Enabled"
 msgstr "Bật"
 
@@ -11219,7 +11232,7 @@ msgstr "Chu_yển vào thư mục"
 msgid "Scanning folders in \"%s\""
 msgstr "Đang quét các thư mục trong « %s »..."
 
-#:../mail/em-folder-tree.c:2042 ../ui/evolution-addressbook.xml.h:44
+#:../mail/em-folder-tree.c:2042 ../ui/evolution-addressbook.xml.h:64
 #:../ui/evolution-editor.xml.h:24 ../ui/evolution-mail-global.xml.h:24
 #:../ui/evolution-mail-messagedisplay.xml.h:8
 #:../ui/evolution-message-composer.xml.h:56 ../ui/evolution-tasks.xml.h:30
@@ -11267,19 +11280,6 @@ msgstr "Chọn thư mục"
 msgid "C_opy"
 msgstr "_Chép"
 
-#:../mail/em-folder-utils.c:503
-#,c-format
-msgid "Rename the \"%s\" folder to:"
-msgstr "Đổi tên thư mục « %s » thành:"
-
-#:../mail/em-folder-utils.c:505
-msgid "Rename Folder"
-msgstr "Đổi tên thư mục"
-
-#:../mail/em-folder-utils.c:511
-msgid "Folder names cannot contain '/'"
-msgstr "Tên thư mục không thể chứa ký tự sổ chéo."
-
 #:../mail/em-folder-utils.c:581
 #:../plugins/groupwise-features/share-folder-common.c:141
 #,c-format
@@ -11315,11 +11315,11 @@ msgstr "_Hiệu chỉnh dạng thư mới..."
 msgid "U_ndelete"
 msgstr "_Hủy xóa bỏ"
 
-#:../mail/em-folder-view.c:1093 ../ui/evolution-addressbook.xml.h:37
+#:../mail/em-folder-view.c:1093
 msgid "_Move to Folder..."
 msgstr "Ch_uyển sang thư mục..."
 
-#:../mail/em-folder-view.c:1094 ../ui/evolution-addressbook.xml.h:33
+#:../mail/em-folder-view.c:1094
 msgid "_Copy to Folder..."
 msgstr "_Chép vào thư mục..."
 
@@ -11577,7 +11577,7 @@ msgid "%d attachme_nt"
 msgid_plural "%d attachme_nts"
 msgstr[0] "%d đính kèm"
 
-#:../mail/em-format-html-display.c:1948 ../mail/em-format-html-display.c:2025
+#:../mail/em-format-html-display.c:1948 ../mail/em-format-html-display.c:2024
 msgid "S_ave"
 msgstr "_Lưu"
 
@@ -11585,11 +11585,11 @@ msgstr "_Lưu"
 msgid "S_ave All"
 msgstr "L_ưu hết"
 
-#:../mail/em-format-html-display.c:2019
+#:../mail/em-format-html-display.c:2018
 msgid "Toggle Attachment Bar"
 msgstr "Bật/tắt thanh đính kèm"
 
-#:../mail/em-format-html-display.c:2021
+#:../mail/em-format-html-display.c:2020
 msgid "No Attachment"
 msgstr "Không có đính kèm"
 
@@ -15319,7 +15319,7 @@ msgid "Add Send Options to groupwise messages"
 msgstr "Thêm Tùy chọn Gửi vào mọi thư Groupwise"
 
 #:../plugins/groupwise-features/org-gnome-compose-send-options.xml.h:2
-#:../ui/evolution-event-editor.xml.h:14 ../ui/evolution-task-editor.xml.h:8
+#:../ui/evolution-event-editor.xml.h:15 ../ui/evolution-task-editor.xml.h:8
 #:../widgets/misc/e-send-options.glade.h:17
 msgid "Send Options"
 msgstr "Tùy chọn Gửi"
@@ -16447,7 +16447,7 @@ msgid "Gives an option to print mail from composer"
 msgstr "Cung cấp tùy chọn để in thư từ bộ soạn"
 
 #:../plugins/print-message/org-gnome-print-message.xml.h:1
-#:../ui/evolution-addressbook.xml.h:18 ../ui/evolution-calendar.xml.h:19
+#:../ui/evolution-addressbook.xml.h:27 ../ui/evolution-calendar.xml.h:19
 #:../ui/evolution-mail-message.xml.h:76 ../ui/evolution-memos.xml.h:12
 #:../ui/evolution-tasks.xml.h:15
 msgid "Print Pre_view"
@@ -16481,7 +16481,7 @@ msgstr "Địa điểm"
 msgid "_Publish Calendar Information"
 msgstr "_Xuất bản thông tin lịch"
 
-#:../plugins/publish-calendar/publish-calendar.c:372
+#:../plugins/publish-calendar/publish-calendar.c:386
 msgid "Are you sure you want to remove this URL?"
 msgstr "Bạn có chắc muốn gỡ bỏ địa chỉ Mạng này không?"
 
@@ -17839,120 +17839,210 @@ msgstr "Không thể thực hiện « %s »: %s\n"
 msgid "Shutting down %s (%s)\n"
 msgstr "Đang tắt %s (%s)\n"
 
-#:../ui/evolution-addressbook.xml.h:2
+#:../ui/evolution-addressbook.xml.h:1
+msgid "Address _Book Properties"
+msgstr "Th_uộc tính Sổ địa chỉ"
+
+#:../ui/evolution-addressbook.xml.h:3
+msgid "Change the properties of the selected folder"
+msgstr "Thay đổi thuộc tính của thư mục đã chọn"
+
+#:../ui/evolution-addressbook.xml.h:4
+msgid "Co_py All Contacts To..."
+msgstr "Ché_p các liên lạc sang..."
+
+#:../ui/evolution-addressbook.xml.h:5
 msgid "Contact _Preview"
 msgstr "_Xem thử liên lạc"
 
-#:../ui/evolution-addressbook.xml.h:4
+#:../ui/evolution-addressbook.xml.h:7
 msgid "Copy Selected Contacts to Another Folder..."
 msgstr "Chép các liên lạc đã chọn sang thư mục khác..."
 
-#:../ui/evolution-addressbook.xml.h:5 ../ui/evolution-calendar.xml.h:2
+#:../ui/evolution-addressbook.xml.h:8
+msgid "Copy the contacts of the selected folder into another folder"
+msgstr "Sao chép nội dung của thư mục đã chọn sang thư mục khác"
+
+#:../ui/evolution-addressbook.xml.h:9 ../ui/evolution-calendar.xml.h:2
 msgid "Copy the selection"
 msgstr "Chép vùng chọn"
 
-#:../ui/evolution-addressbook.xml.h:6
+#:../ui/evolution-addressbook.xml.h:10
 msgid "Copy to Folder..."
 msgstr "Chép vào thư mục..."
 
-#:../ui/evolution-addressbook.xml.h:7
+#:../ui/evolution-addressbook.xml.h:11
+msgid "Create a new addressbook folder"
+msgstr "Tạo thư mục sổ địa chỉ mới"
+
+#:../ui/evolution-addressbook.xml.h:12
 #:../ui/evolution-composer-entries.xml.h:5 ../ui/evolution-memos.xml.h:4
 #:../ui/evolution-tasks.xml.h:4
 msgid "Cut"
 msgstr "Cắt"
 
-#:../ui/evolution-addressbook.xml.h:8 ../ui/evolution-calendar.xml.h:3
+#:../ui/evolution-addressbook.xml.h:13 ../ui/evolution-calendar.xml.h:3
 msgid "Cut the selection"
 msgstr "Cắt vùng chọn"
 
-#:../ui/evolution-addressbook.xml.h:10
+#:../ui/evolution-addressbook.xml.h:14
+msgid "Del_ete Address Book"
+msgstr "_Xóa bỏ Sổ địa chỉ"
+
+#:../ui/evolution-addressbook.xml.h:16
 msgid "Delete selected contacts"
 msgstr "Xoá bỏ các liên lạc đã chọn"
 
-#:../ui/evolution-addressbook.xml.h:11
+#:../ui/evolution-addressbook.xml.h:17
+msgid "Delete the selected folder"
+msgstr "Xoá bỏ thư mục đã chọn"
+
+#:../ui/evolution-addressbook.xml.h:18
 msgid "Forward Contact"
 msgstr "Chuyển tiếp liên lạc"
 
-#:../ui/evolution-addressbook.xml.h:12
+#:../ui/evolution-addressbook.xml.h:19
+msgid "Mo_ve All Contacts To..."
+msgstr "Chu_yển các liên lạc sang..."
+
+#:../ui/evolution-addressbook.xml.h:20
 msgid "Move Selected Contacts to Another Folder..."
 msgstr "Chuyển các liên lạc đã chọn sang thư mục khác..."
 
-#:../ui/evolution-addressbook.xml.h:13
+#:../ui/evolution-addressbook.xml.h:21
+msgid "Move the contacts of the selected folder into another folder"
+msgstr "Chuyển các liên lạc của thư mục đã chọn vào thư mục khác"
+
+#:../ui/evolution-addressbook.xml.h:22
 msgid "Move to Folder..."
 msgstr "Chuyển sang thư mục..."
 
-#:../ui/evolution-addressbook.xml.h:14
+#:../ui/evolution-addressbook.xml.h:23
 #:../ui/evolution-composer-entries.xml.h:8 ../ui/evolution-memos.xml.h:8
 #:../ui/evolution-tasks.xml.h:11
 msgid "Paste"
 msgstr "Dán"
 
-#:../ui/evolution-addressbook.xml.h:15 ../ui/evolution-calendar.xml.h:15
+#:../ui/evolution-addressbook.xml.h:24 ../ui/evolution-calendar.xml.h:15
 msgid "Paste the clipboard"
 msgstr "Dán bảng tạm"
 
-#:../ui/evolution-addressbook.xml.h:16
+#:../ui/evolution-addressbook.xml.h:25
 msgid "Previews the contacts to be printed"
 msgstr "Xem thử liên lạc cần in"
 
-#:../ui/evolution-addressbook.xml.h:19
+#:../ui/evolution-addressbook.xml.h:28
 msgid "Print selected contacts"
 msgstr "In các liên lạc đã chọn"
 
-#:../ui/evolution-addressbook.xml.h:21
+#:../ui/evolution-addressbook.xml.h:29
+msgid "Rename the selected folder"
+msgstr "Đổi tên thư mục đã chọn"
+
+#:../ui/evolution-addressbook.xml.h:30
+msgid "S_ave Address Book As VCard"
+msgstr "_Lưu Sổ địa chỉ dạng vCard"
+
+#:../ui/evolution-addressbook.xml.h:32
 msgid "Save selected contacts as a VCard."
 msgstr "Lưu các liên lạc đã chọn là vCard"
 
-#:../ui/evolution-addressbook.xml.h:22 ../widgets/text/e-text.c:2712
+#:../ui/evolution-addressbook.xml.h:33
+msgid "Save the contacts of the selected folder as VCard"
+msgstr "Lưu các liên lạc của thư mục đã chọn dạng vCard"
+
+#:../ui/evolution-addressbook.xml.h:34 ../widgets/text/e-text.c:2712
 msgid "Select All"
 msgstr "Chọn hết"
 
-#:../ui/evolution-addressbook.xml.h:23
+#:../ui/evolution-addressbook.xml.h:35
+#:../ui/evolution-composer-entries.xml.h:11 ../ui/evolution-editor.xml.h:12
+#:../ui/evolution-subscribe.xml.h:6
+msgid "Select _All"
+msgstr "Chọn _hết"
+
+#:../ui/evolution-addressbook.xml.h:36
 msgid "Select all contacts"
 msgstr "Chọn mọi liên lạc"
 
-#:../ui/evolution-addressbook.xml.h:24
+#:../ui/evolution-addressbook.xml.h:37
 msgid "Send a message to the selected contacts."
 msgstr "Gửi thư cho các liên lạc đã chọn."
 
-#:../ui/evolution-addressbook.xml.h:25
+#:../ui/evolution-addressbook.xml.h:38
 msgid "Send message to contact"
 msgstr "Gửi thư cho liên lạc"
 
-#:../ui/evolution-addressbook.xml.h:26
+#:../ui/evolution-addressbook.xml.h:39
 msgid "Send selected contacts to another person."
 msgstr "Gửi các liên lạc đã chọn cho người khác"
 
-#:../ui/evolution-addressbook.xml.h:27
+#:../ui/evolution-addressbook.xml.h:40
 msgid "Show contact preview window"
 msgstr "Hiện khung xem thử liên lạc"
 
-#:../ui/evolution-addressbook.xml.h:28
+#:../ui/evolution-addressbook.xml.h:41
+msgid "St_op"
+msgstr "_Dừng"
+
+#:../ui/evolution-addressbook.xml.h:42
 msgid "Stop"
 msgstr "Dừng"
 
-#:../ui/evolution-addressbook.xml.h:29
+#:../ui/evolution-addressbook.xml.h:43
 msgid "Stop Loading"
 msgstr "Ngưng tải"
 
-#:../ui/evolution-addressbook.xml.h:30
+#:../ui/evolution-addressbook.xml.h:44
 msgid "View the current contact"
 msgstr "Xem liên lạc hiện thời"
 
-#:../ui/evolution-addressbook.xml.h:31 ../ui/evolution-calendar.xml.h:36
+#:../ui/evolution-addressbook.xml.h:45 ../ui/evolution-calendar.xml.h:36
 #:../ui/evolution-tasks.xml.h:21
 msgid "_Actions"
 msgstr "_Hành động"
 
-#:../ui/evolution-addressbook.xml.h:36
+#:../ui/evolution-addressbook.xml.h:47
+msgid "_Copy Contact to..."
+msgstr "_Chép liên lạc sang..."
+
+#:../ui/evolution-addressbook.xml.h:48
+msgid "_Copy Folder Contacts To"
+msgstr "_Chép Liên lạc Thư mục vào..."
+
+#:../ui/evolution-addressbook.xml.h:50
+msgid "_Delete Contact"
+msgstr "_Xóa bỏ Liên lạc"
+
+#:../ui/evolution-addressbook.xml.h:52
 msgid "_Forward Contact..."
 msgstr "_Chuyển tiếp liên lạc..."
 
-#:../ui/evolution-addressbook.xml.h:42
-msgid "_Select All"
-msgstr "Chọn _hết"
+#:../ui/evolution-addressbook.xml.h:53
+msgid "_Move Contact to..."
+msgstr "Chu_yển liên lạc sang..."
 
-#:../ui/evolution-addressbook.xml.h:43
+#:../ui/evolution-addressbook.xml.h:54
+msgid "_Move Folder Contacts To"
+msgstr "Chu_yển liên lạc thư mục sang"
+
+#:../ui/evolution-addressbook.xml.h:55 ../ui/evolution.xml.h:43
+msgid "_New"
+msgstr "Mớ_i"
+
+#:../ui/evolution-addressbook.xml.h:60
+msgid "_Rename"
+msgstr "Đổi t_ên"
+
+#:../ui/evolution-addressbook.xml.h:61
+msgid "_Save Contact as VCard..."
+msgstr "_Lưu Liên lạc dạng vCard..."
+
+#:../ui/evolution-addressbook.xml.h:62
+msgid "_Save Folder Contacts As VCard"
+msgstr "_Lưu Liên lạc Thư mục dạng vCard"
+
+#:../ui/evolution-addressbook.xml.h:63
 msgid "_Send Message to Contact..."
 msgstr "_Gửi thư tới liên lạc..."
 
@@ -18092,11 +18182,6 @@ msgstr "Dán bảng tạm"
 msgid "Paste text from the clipboard"
 msgstr "Dán đoạn từ bảng tạm"
 
-#:../ui/evolution-composer-entries.xml.h:11 ../ui/evolution-editor.xml.h:12
-#:../ui/evolution-subscribe.xml.h:6
-msgid "Select _All"
-msgstr "Chọn _hết"
-
 #:../ui/evolution-composer-entries.xml.h:12 ../ui/evolution-editor.xml.h:13
 msgid "Select all text"
 msgstr "Chọn toàn bộ văn bản"
@@ -18144,7 +18229,7 @@ msgstr "_Đóng"
 #:../ui/evolution-editor.xml.h:18 ../ui/evolution-mail-messagedisplay.xml.h:6
 #:../ui/evolution-message-composer.xml.h:47
 #:../ui/evolution-signature-editor.xml.h:25
-#:../ui/evolution-subscribe.xml.h:11 ../ui/evolution.xml.h:39
+#:../ui/evolution-subscribe.xml.h:11 ../ui/evolution.xml.h:38
 msgid "_File"
 msgstr "_Tập tin"
 
@@ -18160,89 +18245,89 @@ msgstr "_Chèn"
 msgid "_Options"
 msgstr "Tù_y chọn"
 
-#:../ui/evolution-event-editor.xml.h:2
+#:../ui/evolution-event-editor.xml.h:1
+msgid "Alar_ms"
+msgstr "_Báo động"
+
+#:../ui/evolution-event-editor.xml.h:3
 msgid "All day Event"
 msgstr "Sự kiện nguyên ngày"
 
-#:../ui/evolution-event-editor.xml.h:3 ../ui/evolution-task-editor.xml.h:1
+#:../ui/evolution-event-editor.xml.h:4 ../ui/evolution-task-editor.xml.h:1
 msgid "Classify as Confidential"
 msgstr "Phân loại là Tin tưởng"
 
-#:../ui/evolution-event-editor.xml.h:4 ../ui/evolution-task-editor.xml.h:2
+#:../ui/evolution-event-editor.xml.h:5 ../ui/evolution-task-editor.xml.h:2
 msgid "Classify as Private"
 msgstr "Phân loại là Riêng"
 
-#:../ui/evolution-event-editor.xml.h:5 ../ui/evolution-task-editor.xml.h:3
+#:../ui/evolution-event-editor.xml.h:6 ../ui/evolution-task-editor.xml.h:3
 msgid "Classify as public"
 msgstr "Phân loại là Công"
 
-#:../ui/evolution-event-editor.xml.h:6
+#:../ui/evolution-event-editor.xml.h:7
 msgid "Click here to set or unset alarms for this event"
 msgstr "Nhấn đây để lập hay bỏ lập báo động cho sự kiện này"
 
-#:../ui/evolution-event-editor.xml.h:8 ../ui/evolution-task-editor.xml.h:5
+#:../ui/evolution-event-editor.xml.h:9 ../ui/evolution-task-editor.xml.h:5
 msgid "Insert advanced send options"
 msgstr "Chèn tùy chọn gửi cấp cao"
 
-#:../ui/evolution-event-editor.xml.h:9
+#:../ui/evolution-event-editor.xml.h:10
 msgid "Make this a recurring event"
 msgstr "Đặt là sự kiện lặp"
 
-#:../ui/evolution-event-editor.xml.h:10 ../ui/evolution-task-editor.xml.h:6
+#:../ui/evolution-event-editor.xml.h:11 ../ui/evolution-task-editor.xml.h:6
 msgid "Pu_blic"
 msgstr "_Công"
 
-#:../ui/evolution-event-editor.xml.h:11
+#:../ui/evolution-event-editor.xml.h:12
 msgid "Query free / busy information for the attendees"
 msgstr "Truy vấn thông tin Rảnh/Bận cho các người dự"
 
-#:../ui/evolution-event-editor.xml.h:12 ../ui/evolution-task-editor.xml.h:7
+#:../ui/evolution-event-editor.xml.h:13 ../ui/evolution-task-editor.xml.h:7
 msgid "R_ole Field"
 msgstr "Trường _Vai trò"
 
-#:../ui/evolution-event-editor.xml.h:15
+#:../ui/evolution-event-editor.xml.h:16
 msgid "Show time as b_usy"
 msgstr "Hiện giờ là _bận"
 
-#:../ui/evolution-event-editor.xml.h:16
+#:../ui/evolution-event-editor.xml.h:17 ../ui/evolution-task-editor.xml.h:11
 msgid "Time _Zone"
 msgstr "_Múi giờ"
 
-#:../ui/evolution-event-editor.xml.h:17 ../ui/evolution-task-editor.xml.h:12
+#:../ui/evolution-event-editor.xml.h:18 ../ui/evolution-task-editor.xml.h:12
 msgid "Toggles whether the Attendee Type field is displayed"
 msgstr "Bật tắt hiển thị trường Kiểu người dự"
 
-#:../ui/evolution-event-editor.xml.h:18 ../ui/evolution-task-editor.xml.h:13
+#:../ui/evolution-event-editor.xml.h:19 ../ui/evolution-task-editor.xml.h:13
 msgid "Toggles whether the RSVP field is displayed"
 msgstr "Bật tắt hiển thị trường Trả lời trước"
 
-#:../ui/evolution-event-editor.xml.h:19 ../ui/evolution-task-editor.xml.h:14
+#:../ui/evolution-event-editor.xml.h:20 ../ui/evolution-task-editor.xml.h:14
 msgid "Toggles whether the Role field is displayed"
 msgstr "Bật tắt hiển thị trường Vai trò"
 
-#:../ui/evolution-event-editor.xml.h:20 ../ui/evolution-task-editor.xml.h:15
+#:../ui/evolution-event-editor.xml.h:21 ../ui/evolution-task-editor.xml.h:15
 msgid "Toggles whether the Status field is displayed"
 msgstr "Bật tắt hiển thị trường Trạng thái"
 
-#:../ui/evolution-event-editor.xml.h:21 ../ui/evolution-task-editor.xml.h:16
+#:../ui/evolution-event-editor.xml.h:22 ../ui/evolution-task-editor.xml.h:16
 msgid "Toggles whether the time zone is displayed"
 msgstr "Bật tắt hiển thị Múi giờ"
 
-#:../ui/evolution-event-editor.xml.h:22 ../ui/evolution-task-editor.xml.h:17
+#:../ui/evolution-event-editor.xml.h:23 ../ui/evolution-task-editor.xml.h:17
 msgid "Toggles whether to display categories"
 msgstr "Bật tắt hiển thị các loại"
 
-#:../ui/evolution-event-editor.xml.h:23
+#:../ui/evolution-event-editor.xml.h:24
 msgid "Toggles whether to have All day Event"
 msgstr "Bật tắt có dự kiện nguyên ngày"
 
-#:../ui/evolution-event-editor.xml.h:24
+#:../ui/evolution-event-editor.xml.h:25
 msgid "Toggles whether to show time as busy"
 msgstr "Bật tắt hiển thị giờ là bận"
-
-#:../ui/evolution-event-editor.xml.h:25
-msgid "_Alarms"
-msgstr "_Báo động"
 
 #:../ui/evolution-event-editor.xml.h:26
 msgid "_All day Event"
@@ -18256,19 +18341,27 @@ msgstr "_Phân loại"
 msgid "_Confidential"
 msgstr "_Tin tưởng"
 
-#:../ui/evolution-event-editor.xml.h:30 ../ui/evolution-task-editor.xml.h:21
+#:../ui/evolution-event-editor.xml.h:30
+msgid "_Free/Busy"
+msgstr "_Rảnh/Bận"
+
+#:../ui/evolution-event-editor.xml.h:31 ../ui/evolution-task-editor.xml.h:21
 msgid "_Private"
 msgstr "_Riêng"
 
-#:../ui/evolution-event-editor.xml.h:31 ../ui/evolution-task-editor.xml.h:22
+#:../ui/evolution-event-editor.xml.h:32 ../ui/evolution-task-editor.xml.h:22
 msgid "_RSVP"
 msgstr "T_rả lời trước"
 
-#:../ui/evolution-event-editor.xml.h:32 ../ui/evolution-task-editor.xml.h:24
+#:../ui/evolution-event-editor.xml.h:33
+msgid "_Recurrence"
+msgstr "Định _kỳ"
+
+#:../ui/evolution-event-editor.xml.h:34 ../ui/evolution-task-editor.xml.h:25
 msgid "_Status Field"
 msgstr "Trường _Trạng thái"
 
-#:../ui/evolution-event-editor.xml.h:33 ../ui/evolution-task-editor.xml.h:25
+#:../ui/evolution-event-editor.xml.h:35 ../ui/evolution-task-editor.xml.h:26
 msgid "_Type Field"
 msgstr "Trường _Kiểu"
 
@@ -18901,7 +18994,7 @@ msgstr "_Phóng to"
 msgid "Close this window"
 msgstr "Đóng cửa sổ này"
 
-#:../ui/evolution-mail-messagedisplay.xml.h:3 ../ui/evolution.xml.h:17
+#:../ui/evolution-mail-messagedisplay.xml.h:3 ../ui/evolution.xml.h:16
 msgid "Main toolbar"
 msgstr "Thanh công cụ chính"
 
@@ -19182,18 +19275,18 @@ msgid "Click change / view the status details of the task"
 msgstr "Nhấn để thay đổi/xem chi tiết trạng thái của tác vụ"
 
 #:../ui/evolution-task-editor.xml.h:9
-msgid "Show Time _Zone"
-msgstr "Hiện múi _giờ"
-
-#:../ui/evolution-task-editor.xml.h:10
 msgid "Status Details"
 msgstr "Chi tiết trạng thái"
 
-#:../ui/evolution-task-editor.xml.h:11
+#:../ui/evolution-task-editor.xml.h:10
 msgid "Time Zone"
 msgstr "Múi giờ"
 
 #:../ui/evolution-task-editor.xml.h:23
+msgid "_Send Options"
+msgstr "Tùy chọn _Gửi"
+
+#:../ui/evolution-task-editor.xml.h:24
 msgid "_Status Details"
 msgstr "_Chi tiết trạng thái"
 
@@ -19286,58 +19379,54 @@ msgid "Exit the program"
 msgstr "Thoát khỏi chương trình"
 
 #:../ui/evolution.xml.h:11
-msgid "Forget _Passwords"
-msgstr "Quên các _mật khẩu"
-
-#:../ui/evolution.xml.h:12
 msgid "Forget remembered passwords so you will be prompted for them again"
 msgstr "Quên đi các mật khẩu đã nhớ, như vậy bạn sẽ lại được nhắc gõ mật khẩu"
 
-#:../ui/evolution.xml.h:13
+#:../ui/evolution.xml.h:12
 msgid "Hide window buttons"
 msgstr "Ẩn mọi nút cửa sổ"
 
-#:../ui/evolution.xml.h:14
+#:../ui/evolution.xml.h:13
 msgid "I_mport..."
 msgstr "_Nhập..."
 
-#:../ui/evolution.xml.h:15
+#:../ui/evolution.xml.h:14
 msgid "Icons _and text"
 msgstr "Ảnh _và chữ"
 
-#:../ui/evolution.xml.h:16
+#:../ui/evolution.xml.h:15
 msgid "Import data from other programs"
 msgstr "Nhập dữ liệu từ chương trình khác"
 
-#:../ui/evolution.xml.h:18
+#:../ui/evolution.xml.h:17
 msgid "New _Window"
 msgstr "Cửa sổ _mới"
 
-#:../ui/evolution.xml.h:19
+#:../ui/evolution.xml.h:18
 msgid "Prefere_nces"
 msgstr "Tù_y thích..."
 
-#:../ui/evolution.xml.h:20
+#:../ui/evolution.xml.h:19
 msgid "Send / Receive"
 msgstr "Gửi / Nhận"
 
-#:../ui/evolution.xml.h:21
+#:../ui/evolution.xml.h:20
 msgid "Send / _Receive"
 msgstr "Gửi / _Nhận"
 
-#:../ui/evolution.xml.h:22
+#:../ui/evolution.xml.h:21
 msgid "Send queued items and retrieve new items"
 msgstr "Gửi các mục đang đợi gửi và nhận các mục mới"
 
-#:../ui/evolution.xml.h:23
+#:../ui/evolution.xml.h:22
 msgid "Set up Pilot configuration"
 msgstr "Thiết lập cấu hình Pilot"
 
-#:../ui/evolution.xml.h:24
+#:../ui/evolution.xml.h:23
 msgid "Show information about Evolution"
 msgstr "Hiện thông tin về Evolution"
 
-#:../ui/evolution.xml.h:25
+#:../ui/evolution.xml.h:24
 msgid "Submit Bug Report"
 msgstr "Gửi Báo cáo Lỗi"
 
@@ -19345,37 +19434,41 @@ msgstr "Gửi Báo cáo Lỗi"
 #._label="Evolution _FAQ"/>
 #.
 #.<separator/>
-#:../ui/evolution.xml.h:30
+#:../ui/evolution.xml.h:29
 msgid "Submit _Bug Report"
 msgstr "Gửi _Báo cáo Lỗi"
 
-#:../ui/evolution.xml.h:31
+#:../ui/evolution.xml.h:30
 msgid "Submit a bug report using Bug Buddy"
 msgstr "Báo cáo lỗi bằng Bug Buddy"
 
-#:../ui/evolution.xml.h:32
+#:../ui/evolution.xml.h:31
 msgid "Toggle whether we are working offline."
 msgstr "Bật tắt hoạt động ngoại tuyến"
 
-#:../ui/evolution.xml.h:33
+#:../ui/evolution.xml.h:32
 msgid "Tool_bar"
 msgstr "Thanh c_ông cụ"
 
-#:../ui/evolution.xml.h:34
+#:../ui/evolution.xml.h:33
 msgid "Tool_bar style"
 msgstr "_Kiểu dáng thanh công cụ"
 
-#:../ui/evolution.xml.h:35
+#:../ui/evolution.xml.h:34
 msgid "View/Hide the Status Bar"
 msgstr "Xem/Ẩn thanh trạng thái"
 
-#:../ui/evolution.xml.h:36
+#:../ui/evolution.xml.h:35
 msgid "_About"
 msgstr "_Giới thiệu"
 
-#:../ui/evolution.xml.h:37
+#:../ui/evolution.xml.h:36
 msgid "_Close Window"
 msgstr "_Đóng cửa sổ"
+
+#:../ui/evolution.xml.h:39
+msgid "_Forget Passwords"
+msgstr "Quên các _mật khẩu"
 
 #:../ui/evolution.xml.h:41
 msgid "_Hide buttons"
@@ -19385,13 +19478,13 @@ msgstr "Ẩ_n nút"
 msgid "_Icons only"
 msgstr "_Chỉ ảnh thôi"
 
-#:../ui/evolution.xml.h:43
-msgid "_New"
-msgstr "Mớ_i"
-
 #:../ui/evolution.xml.h:44
 msgid "_Quick Reference"
 msgstr "_Tham khảo nhanh"
+
+#:../ui/evolution.xml.h:45
+msgid "_Quit"
+msgstr "T_hoát"
 
 #:../ui/evolution.xml.h:46
 msgid "_Switcher Appearance"
