@@ -1,3 +1,8 @@
+2006-01-27  Andre Klapper <a9016009@gmx.de>
+	* apps_evolution_shell.schemas.in.in: changed tow strings to add
+	missing punctuation and clarification for translators.
+	Fixes bug 306117.
+
 2006-01-26  Andre Klapper <a9016009@gmx.de>
 	* e-shell-window-commands.c: adding missing comma in the
 	contributors list.

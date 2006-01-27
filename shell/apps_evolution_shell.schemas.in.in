@@ -10,7 +10,7 @@
       <type>string</type>
       <locale name="C">
         <short>Configuration version</short>
-        <long>The configuration version of Evolution, with major/minor/configuration level</long>
+        <long>The configuration version of Evolution, with major/minor/configuration level (for example "2.6.0").</long>
       </locale>
     </schema>
 
@@ -23,7 +23,7 @@
       <type>string</type>
       <locale name="C">
         <short>Last upgraded configuration version</short>
-        <long>The last upgraded configuration version of Evolution, with major/minor/configuration level</long>
+        <long>The last upgraded configuration version of Evolution, with major/minor/configuration level (for example "2.6.0").</long>
       </locale>
     </schema>
 
