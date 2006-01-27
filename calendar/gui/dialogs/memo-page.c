@@ -59,7 +59,10 @@ struct _MemoPagePrivate {
 
 	GtkWidget *memo_content;
 
-	GtkWidget *classification;
+	/* Bonobo Controller for the menu/toolbar */
+	BonoboUIComponent *uic;
+
+	ECalComponentClassification classification;
 
 	GtkWidget *categories_btn;
 	GtkWidget *categories;
@@ -118,37 +121,38 @@ memo_page_class_init (MemoPageClass *klass)
 
 /* Object initialization function for the memo page */
 static void
-memo_page_init (MemoPage *tpage)
+memo_page_init (MemoPage *mpage)
 {
 	MemoPagePrivate *priv;
 
 	priv = g_new0 (MemoPagePrivate, 1);
-	tpage->priv = priv;
+	mpage->priv = priv;
 
 	priv->xml = NULL;
 
 	priv->main = NULL;
 	priv->memo_content = NULL;
-	priv->classification = NULL;
+	priv->classification = E_CAL_COMPONENT_CLASS_NONE;
 	priv->categories_btn = NULL;
 	priv->categories = NULL;
 
 	priv->updating = FALSE;
+
 }
 
 /* Destroy handler for the memo page */
 static void
 memo_page_finalize (GObject *object)
 {
-	MemoPage *tpage;
+	MemoPage *mpage;
 	MemoPagePrivate *priv;
 
 	g_return_if_fail (object != NULL);
 	g_return_if_fail (IS_MEMO_PAGE (object));
 
-	tpage = MEMO_PAGE (object);
-	priv = tpage->priv;
-
+	mpage = MEMO_PAGE (object);
+	priv = mpage->priv;
+	
 	if (priv->main)
 		gtk_widget_unref (priv->main);
 
@@ -158,23 +162,45 @@ memo_page_finalize (GObject *object)
 	}
 
 	g_free (priv);
-	tpage->priv = NULL;
+	mpage->priv = NULL;
 
 	if (G_OBJECT_CLASS (memo_page_parent_class)->finalize)
 		(* G_OBJECT_CLASS (memo_page_parent_class)->finalize) (object);
 }
 
-
+static void
+set_classification_menu (MemoPage *page, gint class)
+{
+	bonobo_ui_component_freeze (page->priv->uic, NULL);
+	switch (class) {
+		case E_CAL_COMPONENT_CLASS_PUBLIC:
+			bonobo_ui_component_set_prop (
+				page->priv->uic, "/commands/ActionClassPublic",
+				"state", "1", NULL);
+			break;
+		case E_CAL_COMPONENT_CLASS_CONFIDENTIAL:
+			bonobo_ui_component_set_prop (
+				page->priv->uic, "/commands/ActionClassConfidential",
+				"state", "1", NULL);
+			break;
+		case E_CAL_COMPONENT_CLASS_PRIVATE:
+			bonobo_ui_component_set_prop (
+				page->priv->uic, "/commands/ActionClassPrivate",
+				"state", "1", NULL);
+			break;
+	}
+	bonobo_ui_component_thaw (page->priv->uic, NULL);
+}
 
 /* get_widget handler for the task page */
 static GtkWidget *
 memo_page_get_widget (CompEditorPage *page)
 {
-	MemoPage *tpage;
+	MemoPage *mpage;
 	MemoPagePrivate *priv;
 
-	tpage = MEMO_PAGE (page);
-	priv = tpage->priv;
+	mpage = MEMO_PAGE (page);
+	priv = mpage->priv;
 
 	return priv->main;
 }
@@ -183,44 +209,44 @@ memo_page_get_widget (CompEditorPage *page)
 static void
 memo_page_focus_main_widget (CompEditorPage *page)
 {
-	MemoPage *tpage;
+	MemoPage *mpage;
 	MemoPagePrivate *priv;
 
-	tpage = MEMO_PAGE (page);
-	priv = tpage->priv;
+	mpage = MEMO_PAGE (page);
+	priv = mpage->priv;
 
 	gtk_widget_grab_focus (priv->memo_content);
 }
 
 /* Fills the widgets with default values */
 static void
-clear_widgets (MemoPage *tpage)
+clear_widgets (MemoPage *mpage)
 {
 	MemoPagePrivate *priv;
 
-	priv = tpage->priv;
+	priv = mpage->priv;
 
 	/* memo content */
 	gtk_text_buffer_set_text (gtk_text_view_get_buffer (GTK_TEXT_VIEW (priv->memo_content)), "", 0);
 
 	/* Classification */
-	e_dialog_option_menu_set (priv->classification, E_CAL_COMPONENT_CLASS_PRIVATE, classification_map);
+	priv->classification = E_CAL_COMPONENT_CLASS_PRIVATE;
+	set_classification_menu (mpage, priv->classification);
 
 	/* Categories */
 	e_dialog_editable_set (priv->categories, NULL);
 }
 
-/* Decode the radio button group for classifications */
-static ECalComponentClassification
-classification_get (GtkWidget *widget)
+void 
+memo_page_set_classification (MemoPage *page, ECalComponentClassification class)
 {
-	return e_dialog_option_menu_get (widget, classification_map);
+	page->priv->classification = class;
 }
 
 static void
 sensitize_widgets (MemoPage *mpage)
 {
-	gboolean read_only;
+	gboolean read_only, sens, sensitize;
 	MemoPagePrivate *priv;
 	
 	priv = mpage->priv;
@@ -228,30 +254,48 @@ sensitize_widgets (MemoPage *mpage)
 	if (!e_cal_is_read_only (COMP_EDITOR_PAGE (mpage)->client, &read_only, NULL))
 		read_only = TRUE;
 	
+	if (COMP_EDITOR_PAGE (mpage)->flags & COMP_EDITOR_IS_ASSIGNED)
+	 	sens = COMP_EDITOR_PAGE (mpage)->flags & COMP_EDITOR_PAGE_USER_ORG;
+
+	sensitize = (!read_only && sens);
+	
+	priv = mpage->priv;
+
+	if (!e_cal_is_read_only (COMP_EDITOR_PAGE (mpage)->client, &read_only, NULL))
+		read_only = TRUE;
+	
 	gtk_widget_set_sensitive (priv->memo_content, !read_only);
-	gtk_widget_set_sensitive (priv->classification, !read_only);
 	gtk_widget_set_sensitive (priv->categories_btn, !read_only);
 	gtk_entry_set_editable (GTK_ENTRY (priv->categories), !read_only);
+
+	bonobo_ui_component_set_prop (priv->uic, "/commands/ActionClassPublic", "sensitive", sensitize ? "1" : "0"
+			, NULL);
+	bonobo_ui_component_set_prop (priv->uic, "/commands/ActionClassPrivate", "sensitive", sensitize ? "1" : "0"
+			, NULL);
+	bonobo_ui_component_set_prop (priv->uic, "/commands/ActionClassConfidential", "sensitive",
+		       	sensitize ? "1" : "0", NULL);
+	bonobo_ui_component_set_prop (priv->uic, "/commands/ViewCategories", "sensitive", sensitize ? "1" : "0"
+			, NULL);
 }
 
 /* fill_widgets handler for the memo page */
 static gboolean
 memo_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 {
-	MemoPage *tpage;
+	MemoPage *mpage;
 	MemoPagePrivate *priv;
 	ECalComponentClassification cl;
 	GSList *l;
 	const char *categories;
 	ESource *source;
 
-	tpage = MEMO_PAGE (page);
-	priv = tpage->priv;
+	mpage = MEMO_PAGE (page);
+	priv = mpage->priv;
 
 	priv->updating = TRUE;
 	
 	/* Clean the screen */
-	clear_widgets (tpage);
+	clear_widgets (mpage);
 
 	e_cal_component_get_description_list (comp, &l);
 	if (l && l->data) {
@@ -271,15 +315,26 @@ memo_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 
 	switch (cl) {
 	case E_CAL_COMPONENT_CLASS_PUBLIC:
+		{
+			cl = E_CAL_COMPONENT_CLASS_PUBLIC;
+			break;
+		}
 	case E_CAL_COMPONENT_CLASS_PRIVATE:
+		{	
+			cl = E_CAL_COMPONENT_CLASS_PRIVATE;
+			break;
+		}
 	case E_CAL_COMPONENT_CLASS_CONFIDENTIAL:
-		break;
+		{
+			cl = E_CAL_COMPONENT_CLASS_CONFIDENTIAL;
+			break;
+		}
 	default:
 		/* default to PUBLIC */
 		cl = E_CAL_COMPONENT_CLASS_PUBLIC;
                 break;
 	}
-	e_dialog_option_menu_set (priv->classification, cl, classification_map);
+	set_classification_menu (mpage, cl);
 
 	/* Categories */
 	e_cal_component_get_categories (comp, &categories);
@@ -291,7 +346,7 @@ memo_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 
 	priv->updating = FALSE;
 
-	sensitize_widgets (tpage);
+	sensitize_widgets (mpage);
 
 	return TRUE;
 }
@@ -300,15 +355,15 @@ memo_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 static gboolean
 memo_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 {
-	MemoPage *tpage;
+	MemoPage *mpage;
 	MemoPagePrivate *priv;
 	char *cat, *str;
 	int i;
 	GtkTextBuffer *text_buffer;
 	GtkTextIter text_iter_start, text_iter_end;
 
-	tpage = MEMO_PAGE (page);
-	priv = tpage->priv;
+	mpage = MEMO_PAGE (page);
+	priv = mpage->priv;
 	text_buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (priv->memo_content));
 
 	/* Memo Content */
@@ -365,7 +420,7 @@ memo_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 		g_free (str);
 
 	/* Classification. */
-	e_cal_component_set_classification (comp, classification_get (priv->classification));
+	e_cal_component_set_classification (comp, priv->classification);
 
 	/* Categories */
 	cat = e_dialog_editable_get (priv->categories);
@@ -381,19 +436,28 @@ memo_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 	return TRUE;
 }
 
-
-
+void
+memo_page_set_show_categories (MemoPage *page, gboolean state)
+{
+	if (state) {
+		gtk_widget_show (page->priv->categories_btn);
+		gtk_widget_show (page->priv->categories);	
+	} else {
+		gtk_widget_hide (page->priv->categories_btn);
+		gtk_widget_hide (page->priv->categories);
+	}
+}
 
 /* Gets the widgets from the XML file and returns if they are all available. */
 static gboolean
-get_widgets (MemoPage *tpage)
+get_widgets (MemoPage *mpage)
 {
-	CompEditorPage *page = COMP_EDITOR_PAGE (tpage);
+	CompEditorPage *page = COMP_EDITOR_PAGE (mpage);
 	MemoPagePrivate *priv;
 	GSList *accel_groups;
 	GtkWidget *toplevel;
 
-	priv = tpage->priv;
+	priv = mpage->priv;
 
 #define GW(name) glade_xml_get_widget (priv->xml, name)
 
@@ -417,8 +481,6 @@ get_widgets (MemoPage *tpage)
 
 	priv->memo_content = GW ("memo_content");
 
-	priv->classification = GW ("classification");
-
 	priv->categories_btn = GW ("categories-button");
 	priv->categories = GW ("categories");
 
@@ -426,8 +488,7 @@ get_widgets (MemoPage *tpage)
 
 #undef GW
 
-	return (priv->classification
-		&& priv->memo_content
+	return (priv->memo_content
 		&& priv->categories_btn
 		&& priv->categories);
 }
@@ -438,12 +499,12 @@ get_widgets (MemoPage *tpage)
 static void
 categories_clicked_cb (GtkWidget *button, gpointer data)
 {
-	MemoPage *tpage;
+	MemoPage *mpage;
 	MemoPagePrivate *priv;
 	GtkWidget *entry;
 
-	tpage = MEMO_PAGE (data);
-	priv = tpage->priv;
+	mpage = MEMO_PAGE (data);
+	priv = mpage->priv;
 
 	entry = priv->categories;
 	e_categories_config_open_dialog_for_entry (GTK_ENTRY (entry));
@@ -453,24 +514,24 @@ categories_clicked_cb (GtkWidget *button, gpointer data)
 static void
 field_changed_cb (GtkWidget *widget, gpointer data)
 {
-	MemoPage *tpage;
+	MemoPage *mpage;
 	MemoPagePrivate *priv;
 	
-	tpage = MEMO_PAGE (data);
-	priv = tpage->priv;
+	mpage = MEMO_PAGE (data);
+	priv = mpage->priv;
 	
 	if (!priv->updating)
-		comp_editor_page_notify_changed (COMP_EDITOR_PAGE (tpage));
+		comp_editor_page_notify_changed (COMP_EDITOR_PAGE (mpage));
 }
 
 static void
 source_changed_cb (GtkWidget *widget, ESource *source, gpointer data)
 {
-	MemoPage *tpage;
+	MemoPage *mpage;
 	MemoPagePrivate *priv;
 
-	tpage = MEMO_PAGE (data);
-	priv = tpage->priv;
+	mpage = MEMO_PAGE (data);
+	priv = mpage->priv;
 
 	if (!priv->updating) {
 		ECal *client;
@@ -483,7 +544,7 @@ source_changed_cb (GtkWidget *widget, ESource *source, gpointer data)
 				g_object_unref (client);
 
 			e_source_option_menu_select (E_SOURCE_OPTION_MENU (priv->source_selector),
-						     e_cal_get_source (COMP_EDITOR_PAGE (tpage)->client));
+						     e_cal_get_source (COMP_EDITOR_PAGE (mpage)->client));
 
 			dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL,
 							 GTK_MESSAGE_WARNING, GTK_BUTTONS_OK,
@@ -495,19 +556,19 @@ source_changed_cb (GtkWidget *widget, ESource *source, gpointer data)
 			comp_editor_notify_client_changed (
 				COMP_EDITOR (gtk_widget_get_toplevel (priv->main)),
 				client);
-			sensitize_widgets (tpage);
+			sensitize_widgets (mpage);
 		}
 	}
 }
 
 /* Hooks the widget signals */
 static gboolean
-init_widgets (MemoPage *tpage)
+init_widgets (MemoPage *mpage)
 {
 	MemoPagePrivate *priv;
 	GtkTextBuffer *text_buffer;
 
-	priv = tpage->priv;
+	priv = mpage->priv;
 
 	/* Memo Content */
 	text_buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (priv->memo_content));
@@ -516,44 +577,44 @@ init_widgets (MemoPage *tpage)
 
 	/* Categories button */
 	g_signal_connect((priv->categories_btn), "clicked",
-			    G_CALLBACK (categories_clicked_cb), tpage);
+			    G_CALLBACK (categories_clicked_cb), mpage);
 
 	/* Source selector */
 	g_signal_connect((priv->source_selector), "source_selected",
-			 G_CALLBACK (source_changed_cb), tpage);
+			 G_CALLBACK (source_changed_cb), mpage);
 
 	/* Connect the default signal handler to use to make sure the "changed"
 	   field gets set whenever a field is changed. */
 
 	/* Belongs to priv->memo_content */
 	g_signal_connect ((text_buffer), "changed",
-			  G_CALLBACK (field_changed_cb), tpage);
+			  G_CALLBACK (field_changed_cb), mpage);
 
-	g_signal_connect((priv->classification), "changed",
-			    G_CALLBACK (field_changed_cb), tpage);
 	g_signal_connect((priv->categories), "changed",
-			    G_CALLBACK (field_changed_cb), tpage);
-	
+			    G_CALLBACK (field_changed_cb), mpage);
+
+	memo_page_set_show_categories (mpage, calendar_config_get_show_categories());
+
 	return TRUE;
 }
 
 
 /**
  * memo_page_construct:
- * @tpage: An memo page.
+ * @mpage: An memo page.
  * 
  * Constructs an memo page by loading its Glade data.
  * 
- * Return value: The same object as @tpage, or NULL if the widgets could not be
+ * Return value: The same object as @mpage, or NULL if the widgets could not be
  * created.
  **/
 MemoPage *
-memo_page_construct (MemoPage *tpage)
+memo_page_construct (MemoPage *mpage)
 {
 	MemoPagePrivate *priv;
 	char *gladefile;
 
-	priv = tpage->priv;
+	priv = mpage->priv;
 
 	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
 				      "memo-page.glade",
@@ -567,19 +628,19 @@ memo_page_construct (MemoPage *tpage)
 		return NULL;
 	}
 
-	if (!get_widgets (tpage)) {
+	if (!get_widgets (mpage)) {
 		g_message ("memo_page_construct(): "
 			   "Could not find all widgets in the XML file!");
 		return NULL;
 	}
 
-	if (!init_widgets (tpage)) {
+	if (!init_widgets (mpage)) {
 		g_message ("memo_page_construct(): " 
 			   "Could not initialize the widgets!");
 		return NULL;
 	}
 
-	return tpage;
+	return mpage;
 }
 
 /**
@@ -591,17 +652,18 @@ memo_page_construct (MemoPage *tpage)
  * not be created.
  **/
 MemoPage *
-memo_page_new (void)
+memo_page_new (BonoboUIComponent *uic)
 {
-	MemoPage *tpage;
+	MemoPage *mpage;
 
-	tpage = gtk_type_new (TYPE_MEMO_PAGE);
-	if (!memo_page_construct (tpage)) {
-		g_object_unref (tpage);
+	mpage = gtk_type_new (TYPE_MEMO_PAGE);
+	mpage->priv->uic = uic;
+	if (!memo_page_construct (mpage)) {
+		g_object_unref (mpage);
 		return NULL;
 	}
 
-	return tpage;
+	return mpage;
 }
 
 GtkWidget *memo_page_create_source_option_menu (void);

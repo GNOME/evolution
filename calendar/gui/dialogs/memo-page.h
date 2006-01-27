@@ -24,6 +24,9 @@
 #ifndef MEMO_PAGE_H
 #define MEMO_PAGE_H
 
+#include <bonobo/bonobo-window.h>
+#include <bonobo/bonobo-ui-util.h>
+#include <bonobo/bonobo-widget.h>
 #include "comp-editor-page.h"
 
 G_BEGIN_DECLS
@@ -49,7 +52,7 @@ typedef struct {
 
 GtkType   memo_page_get_type  (void);
 MemoPage *memo_page_construct (MemoPage *epage);
-MemoPage *memo_page_new       (void);
+MemoPage *memo_page_new       (BonoboUIComponent *uic);
 
 G_END_DECLS
 

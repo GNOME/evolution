@@ -1,3 +1,32 @@
+2006-01-28  Rajeev ramanathan <rajeevramanathan_2004@yahoo.co.in>
+
+	** Fixes bug #328510, #328885
+
+	* calendar.error.xml: Added error for saving memos.
+	* gui/dialogs/event-editor.c: (menu_class_public_cb),
+	(menu_class_private_cb), (menu_class_confidential_cb):
+	Added change notification for event page.
+	* gui/dialogs/memo-editor.c: (menu_show_categories_cb),
+	(menu_class_public_cb), (menu_class_private_cb),
+	(menu_class_confidential_cb), (memo_editor_init),
+	(memo_editor_construct), (memo_editor_set_e_cal),
+	(memo_editor_finalize): Added menus to memo.
+	* gui/dialogs/memo-page.c: (memo_page_init), (memo_page_finalize),
+	(set_classification_menu), (memo_page_get_widget),
+	(memo_page_focus_main_widget), (clear_widgets),
+	(memo_page_set_classification), (sensitize_widgets),
+	(memo_page_fill_widgets), (memo_page_fill_component),
+	(memo_page_set_show_categories), (get_widgets),
+	(categories_clicked_cb), (field_changed_cb), (source_changed_cb),
+	(init_widgets), (memo_page_construct), (memo_page_new): Added code to 
+	handle memos.
+	* gui/dialogs/memo-page.glade:
+	* gui/dialogs/memo-page.h: 
+	* gui/dialogs/save-comp.c: (save_component_dialog):
+	* gui/dialogs/task-editor.c: (menu_class_public_cb),
+	(menu_class_private_cb), (menu_class_confidential_cb): Added code to
+	change notification for task page.
+
 2006-01-27  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* gui/dialogs/alarm-list-dialog.c (get_widgets),

@@ -48,6 +48,8 @@ save_component_dialog (GtkWindow *parent, ECalComponent *comp)
 			return e_error_run (parent, "calendar:prompt-save-appointment", NULL);
 		case E_CAL_COMPONENT_TODO:
 			return e_error_run (parent, "calendar:prompt-save-task", NULL);
+		case E_CAL_COMPONENT_JOURNAL:
+			return e_error_run (parent, "calendar:prompt-save-memo", NULL);
 		default:
 			return GTK_RESPONSE_NO;
 	}

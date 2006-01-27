@@ -32,8 +32,11 @@
 #include <glade/glade.h>
 #include <libgnome/gnome-i18n.h>
 
+#include <evolution-shell-component-utils.h>
+#include <e-util/e-util-private.h>
 #include "memo-page.h"
 #include "cancel-comp.h"
+#include "../calendar-config.h"
 #include "memo-editor.h"
 
 struct _MemoEditorPrivate {
@@ -98,31 +101,127 @@ client_changed_cb (CompEditorPage *page, ECal *client, gpointer user_data)
 /*	set_menu_sens (MEMO_EDITOR (user_data)); */
 }
 
+static void
+menu_show_categories_cb (BonoboUIComponent         	*component,
+		         const char                  	*path,
+		         Bonobo_UIComponent_EventType 	type,
+		         const char                  	*state,
+		         gpointer                     	user_data)
+{
+	MemoEditor *me = (MemoEditor *) user_data;
+	
+	if (type != Bonobo_UIComponent_STATE_CHANGED)
+		return;
+
+	memo_page_set_show_categories (me->priv->memo_page, atoi(state));	
+	calendar_config_set_show_categories (atoi(state));
+}
+
+static void
+menu_class_public_cb (BonoboUIComponent           	*ui_component,
+		      const char                  	*path,
+		      Bonobo_UIComponent_EventType 	type,
+		      const char                  	*state,
+		      gpointer			  	user_data)
+{
+	MemoEditor *me = (MemoEditor *) user_data;
+
+	if (state[0] == '0')
+		return;
+
+	comp_editor_page_notify_changed (COMP_EDITOR_PAGE (me->priv->memo_page));
+	memo_page_set_classification (me->priv->memo_page, E_CAL_COMPONENT_CLASS_PUBLIC);
+}
+
+static void
+menu_class_private_cb (BonoboUIComponent          	*ui_component,
+		       const char                  	*path,
+		       Bonobo_UIComponent_EventType 	type,
+		       const char                  	*state,
+		       gpointer			  	user_data)
+{
+	MemoEditor *me = (MemoEditor *) user_data;
+	if (state[0] == '0')
+		return;
+	
+	comp_editor_page_notify_changed (COMP_EDITOR_PAGE (me->priv->memo_page));
+	memo_page_set_classification (me->priv->memo_page, E_CAL_COMPONENT_CLASS_PRIVATE);
+}
+
+static void
+menu_class_confidential_cb (BonoboUIComponent           	*ui_component,
+		     	    const char                  	*path,
+		     	    Bonobo_UIComponent_EventType 	type,
+		     	    const char                  	*state,
+		     	    gpointer				user_data)
+{
+	MemoEditor *me = (MemoEditor *) user_data;
+	if (state[0] == '0')
+		return;
+
+	comp_editor_page_notify_changed (COMP_EDITOR_PAGE (me->priv->memo_page));
+	memo_page_set_classification (me->priv->memo_page, E_CAL_COMPONENT_CLASS_CONFIDENTIAL);
+}
+
 /* Object initialization function for the memo editor */
 static void
-memo_editor_init (MemoEditor *te)
+memo_editor_init (MemoEditor *me)
 {
 	MemoEditorPrivate *priv;
+	CompEditor *editor = COMP_EDITOR(me);
+	gboolean status;
+	char *xmlfile;
 	
 	priv = g_new0 (MemoEditorPrivate, 1);
-	te->priv = priv;
+	me->priv = priv;
 
 	priv->updating = FALSE;	
 
+	bonobo_ui_component_freeze (editor->uic, NULL);
+
+	xmlfile = g_build_filename (EVOLUTION_UIDIR, "evolution-memo-editor.xml", NULL);
+	bonobo_ui_util_set_ui (editor->uic, PREFIX,
+			       xmlfile,
+			       "evolution-memo-editor", NULL);
+	g_free (xmlfile);
+	
+	status = calendar_config_get_show_categories ();
+	bonobo_ui_component_set_prop (
+		editor->uic, "/commands/ViewCategories",
+		"state", status ? "1" : "0", NULL);
+	bonobo_ui_component_add_listener (
+		editor->uic, "ViewCategories",
+		menu_show_categories_cb, editor);
+
+	bonobo_ui_component_set_prop (
+		editor->uic, "/commands/ActionClassPublic",
+		"state", "1", NULL);
+	bonobo_ui_component_add_listener (
+		editor->uic, "ActionClassPublic",
+		menu_class_public_cb, editor);
+	bonobo_ui_component_add_listener (
+		editor->uic, "ActionClassPrivate",
+		menu_class_private_cb, editor);
+	bonobo_ui_component_add_listener (
+		editor->uic, "ActionClassConfidential",
+		menu_class_confidential_cb, editor);
+
+	bonobo_ui_component_thaw (editor->uic, NULL);	
+
 	/* TODO add help stuff */
-/*	comp_editor_set_help_section (COMP_EDITOR (te), "usage-calendar-memo"); */
+/*	comp_editor_set_help_section (COMP_EDITOR (me), "usage-calendar-memo"); */
 }
 
 MemoEditor *
 memo_editor_construct (MemoEditor *me, ECal *client)
 {
 	MemoEditorPrivate *priv;
-	
+	CompEditor *editor = COMP_EDITOR (me);
 	gboolean read_only = FALSE;
 	
 	priv = me->priv;
 
-	priv->memo_page = memo_page_new ();
+	priv->memo_page = memo_page_new (editor->uic);
 	g_object_ref (priv->memo_page);
 	gtk_object_sink (GTK_OBJECT (priv->memo_page));
 	comp_editor_append_page (COMP_EDITOR (me), 
@@ -133,7 +232,8 @@ memo_editor_construct (MemoEditor *me, ECal *client)
 
 	if (!e_cal_is_read_only (client, &read_only, NULL))
 		read_only = TRUE;
-
+	
+	bonobo_ui_component_set_prop (editor->uic, "/Toolbar/ecal3", "hidden", "1", NULL);
 	comp_editor_set_e_cal (COMP_EDITOR (me), client);
 
 	init_widgets (me);
@@ -144,11 +244,11 @@ memo_editor_construct (MemoEditor *me, ECal *client)
 static void
 memo_editor_set_e_cal (CompEditor *editor, ECal *client)
 {
-	MemoEditor *te;
+	MemoEditor *me;
 	MemoEditorPrivate *priv;
 
-	te = MEMO_EDITOR (editor);
-	priv = te->priv;
+	me = MEMO_EDITOR (editor);
+	priv = me->priv;
 
 	if (COMP_EDITOR_CLASS (memo_editor_parent_class)->set_e_cal)
 		COMP_EDITOR_CLASS (memo_editor_parent_class)->set_e_cal (editor, client);
@@ -196,6 +296,7 @@ memo_editor_finalize (GObject *object)
 {
 	MemoEditor *me;
 	MemoEditorPrivate *priv;
+	ECalComponent *comp;
 
 	g_return_if_fail (object != NULL);
 	g_return_if_fail (IS_MEMO_EDITOR (object));

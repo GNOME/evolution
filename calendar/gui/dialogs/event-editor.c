@@ -240,35 +240,39 @@ menu_show_categories_cb (BonoboUIComponent           *component,
 }
 
 static void
-menu_class_public_cb (BonoboUIComponent           *ui_component,
+menu_class_public_cb (BonoboUIComponent          *ui_component,
 		     const char                  *path,
 		     Bonobo_UIComponent_EventType type,
 		     const char                  *state,
 		     gpointer			  user_data)
 {
 	EventEditor *ee = (EventEditor *) user_data;
-
 	if (state[0] == '0')
 		return;
+
+	comp_editor_page_notify_changed (COMP_EDITOR_PAGE (ee->priv->event_page));
+	
 	event_page_set_classification (ee->priv->event_page, E_CAL_COMPONENT_CLASS_PUBLIC);
 }
 
 static void
-menu_class_private_cb (BonoboUIComponent           *ui_component,
+menu_class_private_cb (BonoboUIComponent          *ui_component,
 		      const char                  *path,
 		      Bonobo_UIComponent_EventType type,
 		      const char                  *state,
-		      gpointer			  user_data)
+		      gpointer			   user_data)
 {
 	EventEditor *ee = (EventEditor *) user_data;
 	if (state[0] == '0')
 		return;
 	
+	comp_editor_page_notify_changed (COMP_EDITOR_PAGE (ee->priv->event_page));
+
 	event_page_set_classification (ee->priv->event_page, E_CAL_COMPONENT_CLASS_PRIVATE);
 }
 
 static void
-menu_class_confidential_cb (BonoboUIComponent           *ui_component,
+menu_class_confidential_cb (BonoboUIComponent          *ui_component,
 		     	   const char                  *path,
 		     	   Bonobo_UIComponent_EventType type,
 		     	   const char                  *state,
@@ -277,7 +281,9 @@ menu_class_confidential_cb (BonoboUIComponent           *ui_component,
 	EventEditor *ee = (EventEditor *) user_data;
 	if (state[0] == '0')
 		return;
-	
+
+	comp_editor_page_notify_changed (COMP_EDITOR_PAGE (ee->priv->event_page));
+
 	event_page_set_classification (ee->priv->event_page, E_CAL_COMPONENT_CLASS_CONFIDENTIAL);
 }
 
