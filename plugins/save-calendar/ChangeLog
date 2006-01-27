@@ -1,3 +1,10 @@
+2006-01-09  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* csv-format.c: (string_needsquotes):
+	* save-calendar.c: (ask_destination_and_save): Fix confusion
+	between = and ==. Silences the compiler, but someone has to check
+	if this really is correct.
+
 2006-01-10  Simon Zheng  <simon.zheng@sun.com>
 
 	* csv-format.c:

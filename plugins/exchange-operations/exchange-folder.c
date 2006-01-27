@@ -335,12 +335,9 @@ unsubscribe_dialog_ab_response (GtkDialog *dialog, int response, gpointer data)
 		gchar *path = NULL;
 		gchar *uri = NULL;
 		const char *source_uid = NULL;
-		GConfClient *client;
 		ESourceGroup *source_group = NULL;
 		ESource *source = NULL;
 		EABPopupTargetSource *target = data;
-
-		client = gconf_client_get_default ();
 
 		account = exchange_operations_get_exchange_account ();
 

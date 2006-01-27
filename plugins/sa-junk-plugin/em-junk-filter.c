@@ -324,7 +324,6 @@ em_junk_sa_run_spamd (char *binary)
 	d(fprintf (stderr, "trying to run %s with socket path %s\n", binary, em_junk_sa_get_socket_path ()));
 			
 	if (!pipe_to_sa_full (NULL, NULL, argv, -1, 0, NULL)) {
-		int i;
 		struct timespec time_req;
 		struct stat stat_buf;
 

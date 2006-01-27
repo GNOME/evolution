@@ -375,7 +375,6 @@ static void
 junk_settings_construct (JunkSettings *js)
 {
 	GladeXML *xml;
-	GtkWidget *box;
 	char *gladefile;
 
 	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
@@ -408,7 +407,6 @@ junk_settings_construct (JunkSettings *js)
 
 	js->entry = GTK_ENTRY (glade_xml_get_widget (js->xml, "entry4"));
 		/*TODO:connect entry and label*/
-	box = GTK_WIDGET (glade_xml_get_widget (js->xml, "hbox227"));
 	gtk_widget_show ((GtkWidget *) js->entry);
 
 	js->scrolled_window = GTK_WIDGET (glade_xml_get_widget (js->xml,"scrolledwindow4"));

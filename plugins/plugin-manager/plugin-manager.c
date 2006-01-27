@@ -132,13 +132,11 @@ eppm_selection_changed(GtkTreeSelection *selection, Manager *m)
 static void
 eppm_enable_toggled(GtkCellRendererToggle *renderer, char *arg1, Manager *m)
 {
-	GtkTreeSelection *selection;
 	GtkTreePath *path;
 	GtkTreeIter iter;
 	EPlugin *plugin;
 
 	path = gtk_tree_path_new_from_string(arg1);
-	selection = gtk_tree_view_get_selection(m->tree);
 	if (gtk_tree_model_get_iter((GtkTreeModel *)m->model, &iter, path)) {
 		gtk_tree_model_get((GtkTreeModel *)m->model, &iter, 2, &plugin, -1);
 		e_plugin_enable(plugin, !plugin->enabled);

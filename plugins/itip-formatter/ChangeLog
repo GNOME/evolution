@@ -1,3 +1,12 @@
+2006-01-09  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* itip-formatter.c: (find_cal_opened_cb), (message_foreach_part),
+	(update_attendee_status), (view_response_cb), (check_is_instance),
+	(format_itip_object): Add some comments and remove unused code.
+	* itip-view.c: (itip_view_class_init), (recur_toggled_cb),
+	(itip_view_add_upper_info_item_printf),
+	(itip_view_add_lower_info_item_printf): Remove more cruft.
+
 2006-01-10  Simon Zheng  <simon.zheng@sun.com>
 
 	* itip-view.c: use e_utf8_strftime() in evolution-data-server/

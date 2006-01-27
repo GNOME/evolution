@@ -661,7 +661,10 @@ exchange_config_listener_authenticate (ExchangeConfigListener *ex_conf_listener,
 {
 	ExchangeConfigListenerPrivate *priv;
 	ExchangeAccountResult result;
-	char *key, *password, *title, *new_password, *url_string;
+	char *key, *password, *title, *url_string;
+#ifdef HAVE_KRB5
+	char *new_password;
+#endif
 	gboolean oldremember, remember = FALSE;
 	CamelURL *camel_url;
 	const char *remember_password;
@@ -717,7 +720,7 @@ exchange_config_listener_authenticate (ExchangeConfigListener *ex_conf_listener,
 		 result == EXCHANGE_ACCOUNT_QUOTA_SEND_ERROR ||
 		 result == EXCHANGE_ACCOUNT_QUOTA_WARN) {
 		gchar *current_quota_usage = NULL;
-		const char *error_code;
+		const char *error_code = NULL;
 		GtkWidget *widget;
 
 		switch (result) {

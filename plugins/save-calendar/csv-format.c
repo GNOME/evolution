@@ -229,15 +229,15 @@ string_needsquotes (const char *value, CsvConfig *config)
 
 	if (!needquotes) {
 		gint len = strlen (config->delimiter);
-		if ((len == 2) && (config->delimiter[1] = ' ')) {
+		if ((len == 2) && (config->delimiter[1] == ' ')) {
 			needquotes = strchr (value, config->delimiter[0])?TRUE:FALSE;
 			if (!needquotes) {
-				gint len = strlen (config->newline);
-				if ((len == 2) && (config->newline[1] = ' ')) {
+				len = strlen (config->newline);
+				if ((len == 2) && (config->newline[1] == ' ')) {
 					needquotes = strchr (value, config->newline[0])?TRUE:FALSE;
 					if (!needquotes) {
-						gint len = strlen (config->quote);
-						if ((len == 2) && (config->quote[1] = ' ')) {
+						len = strlen (config->quote);
+						if ((len == 2) && (config->quote[1] == ' ')) {
 							needquotes = strchr 
 								(value, config->quote[0])?TRUE:FALSE;
 						}

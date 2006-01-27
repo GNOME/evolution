@@ -147,6 +147,7 @@ startup_wizard_importer_page (EPlugin *ep, EConfigHookItemFactoryData *hook_data
 	for (l = import_importers; l; l = l->next) {
 		EImportImporter *eii = l->data;
 		char *str;
+		/* *label already declared */
 		GtkWidget *w, *label;
 
 		w = e_import_get_widget(import, (EImportTarget *)import_target, eii);

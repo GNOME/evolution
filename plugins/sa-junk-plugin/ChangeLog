@@ -1,3 +1,7 @@
+2006-01-09  Kjartan Maraas <kmaraas@gnome.org>
+
+	* em-junk-filter.c: (em_junk_sa_run_spamd): Remove unused var.
+
 2006-01-11  Andre Klapper <a9016009@gmx.de>
 	* org-gnome-sa-junk-plugin.eplug.xml: Changing strings to be more precise.
 	Fixes bug 325132.

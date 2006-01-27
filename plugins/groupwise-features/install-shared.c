@@ -154,7 +154,7 @@ accept_clicked(GnomeDruidPage *page, GtkWidget *druid, CamelMimeMessage *msg)
 {
 	EMFolderTreeModel *model;
 	EMFolderTree *folder_tree;
-	GtkWidget *dialog ;
+	GtkWidget *dialog;
 	struct AcceptData *accept_data; 
 	char *uri;
 
@@ -186,18 +186,15 @@ org_gnome_popup_wizard (EPlugin *ep, EMEventTargetMessage *target)
 	GtkWidget *window;
 	GnomeDruid *wizard;
 	GnomeDruidPageEdge *title_page;
-	CamelMimeMessage *msg = (CamelMimeMessage *) target->message ;
-	CamelStreamMem *content ;
+	CamelMimeMessage *msg = (CamelMimeMessage *) target->message;
+	CamelStreamMem *content;
 	CamelDataWrapper *dw;
-	CamelMimePart *mime_part ;
-	char *notification;
 	char *start_message;
 
 	if (!msg)
-		return ;
+		return;
 
-	mime_part = CAMEL_MIME_PART(msg) ;
-	if ((notification = (char *)camel_medium_get_header (CAMEL_MEDIUM(msg),"X-notification")) == NULL
+	if (((char *)camel_medium_get_header (CAMEL_MEDIUM(msg),"X-notification")) == NULL
 	    || (from_addr = camel_mime_message_get_from ((CamelMimeMessage *)target->message)) == NULL
 	    || !camel_internet_address_get(from_addr, 0, &name, &email)
 	    || (dw = camel_medium_get_content_object (CAMEL_MEDIUM (msg))) == NULL) {
@@ -210,7 +207,7 @@ org_gnome_popup_wizard (EPlugin *ep, EMEventTargetMessage *target)
 		}
 
 		content = (CamelStreamMem *)camel_stream_mem_new();
-		camel_data_wrapper_write_to_stream(dw, (CamelStream *)content) ;
+		camel_data_wrapper_write_to_stream(dw, (CamelStream *)content);
 		camel_stream_write((CamelStream *)content, "", 1);
 
 		from_addr = camel_mime_message_get_from ((CamelMimeMessage *)target->message);

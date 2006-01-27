@@ -250,10 +250,6 @@ send_options_finalize ()
 static void 
 e_send_options_copy_general_opts (ESendOptionsGeneral *gopts, EGwSendOptionsGeneral *ggopts)
 {
-	time_t temp;
-
-	temp = time (NULL);
-
 	ggopts->priority = gopts->priority;
 
 	ggopts->reply_enabled = gopts->reply_enabled;
@@ -498,7 +494,7 @@ add_send_options_to_source (EGwSendOptions *n_opts)
 	ESource *csource, *tsource;
 	ESourceList *list;
 	EGwSendOptionsGeneral *gopts;
-	EGwSendOptionsStatusTracking *topts, *mopts, *copts;
+	EGwSendOptionsStatusTracking *topts, *copts;
 
 	list = e_source_list_new_for_gconf (gconf, "/apps/evolution/calendar/sources");
 	csource = get_source (list);
@@ -507,7 +503,6 @@ add_send_options_to_source (EGwSendOptions *n_opts)
 	tsource = get_source (list);
 	
 	gopts = e_gw_sendoptions_get_general_options (n_opts);
-	mopts = e_gw_sendoptions_get_status_tracking_options (n_opts, "mail");
 	copts = e_gw_sendoptions_get_status_tracking_options (n_opts, "calendar");
 	topts = e_gw_sendoptions_get_status_tracking_options (n_opts, "task");
 

@@ -1,3 +1,7 @@
+2006-01-16  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* plugin-manager.c: (eppm_enable_toggled): Remove unused var.
+
 2006-01-13  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fixes bug #326265

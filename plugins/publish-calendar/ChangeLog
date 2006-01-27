@@ -1,3 +1,7 @@
+2006-01-27  Kjartan Maraas <kmaraas@gnome.org>
+
+	* publish-format-fb.c: Add missing include.
+
 2006-01-27  Andre Klapper <a9016009@gmx.de>
 	* publish-calendar.glade:
 	removed string "dialog1" from translation. Fixes bug 306118.

@@ -27,6 +27,7 @@
 #include <libedataserver/e-source-list.h>
 #include <libecal/e-cal.h>
 #include <libecal/e-cal-util.h>
+#include <libecal/e-cal-time-util.h>
 #include <calendar/common/authentication.h>
 #include "publish-format-fb.h"
 

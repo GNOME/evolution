@@ -192,8 +192,10 @@ org_gnome_exchange_settings(EPlugin *epl, EConfigHookItemFactoryData *data)
 	GtkFrame *frm_auth;
 	GtkVBox *vbox_auth;
 	GtkTable *tbl_auth;
+#ifdef HAVE_KRB5
 	GtkLabel *lbl_chpass;
 	GtkButton *btn_chpass;
+#endif
 	GtkLabel *lbl_dass;
 	GtkButton *btn_dass;
 	
@@ -371,27 +373,15 @@ org_gnome_exchange_settings(EPlugin *epl, EConfigHookItemFactoryData *data)
 static void
 print_error (const char *owa_url, E2kAutoconfigResult result)
 {
-	char *old, *new;
-
 	switch (result) {
 
 		case E2K_AUTOCONFIG_CANT_CONNECT:
-			if (!strncmp (owa_url, "http:", 5)) {
-				old = "http";
-				new = "https";
-			} else {
-				old = "https";
-				new = "http";
-			}
-
 			e_error_run (NULL, ERROR_DOMAIN ":account-connect-error", "", NULL);
-			
 			break;
 
 		case E2K_AUTOCONFIG_CANT_RESOLVE:
-
 			e_error_run (NULL, ERROR_DOMAIN ":account-resolve-error", "", NULL);
-				break;
+			break;
 
 		case E2K_AUTOCONFIG_AUTH_ERROR:
 		case E2K_AUTOCONFIG_AUTH_ERROR_TRY_NTLM:

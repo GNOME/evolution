@@ -63,7 +63,7 @@ add_detail (GtkTable *table, char *label, char *value, int row)
 
 	time = e_gw_connection_get_date_from_string (value);
 	actual_time = camel_header_decode_date (ctime(&time), NULL);
-	*str = ctime (&actual_time);
+	str = ctime (&actual_time);
 
 	str [strlen(str)-1] = '\0';
 

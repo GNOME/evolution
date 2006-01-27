@@ -50,7 +50,7 @@
 
 #define MEETING_ICON "stock_new-meeting"
 
-G_DEFINE_TYPE (ItipView, itip_view, GTK_TYPE_HBOX);
+G_DEFINE_TYPE (ItipView, itip_view, GTK_TYPE_HBOX)
 
 typedef struct  {
 	ItipViewInfoItemType type;
@@ -775,10 +775,8 @@ itip_view_destroy (GtkObject *object)
 static void
 itip_view_class_init (ItipViewClass *klass)
 {
-	GObjectClass *object_class;
 	GtkObjectClass *gtkobject_class;
 	
-	object_class = G_OBJECT_CLASS (klass);
 	gtkobject_class = GTK_OBJECT_CLASS (klass);
 	
 	gtkobject_class->destroy = itip_view_destroy;
@@ -822,11 +820,9 @@ recur_toggled_cb (GtkWidget *widget, gpointer data)
 {
 	ItipView *view = data;
 	ItipViewPrivate *priv;
-	gboolean is_recur;
 	
 	priv = view->priv;
 	
-	is_recur = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (priv->recur_check));
 	itip_view_set_mode (view, priv->mode);
 }
 
@@ -1448,7 +1444,6 @@ itip_view_add_upper_info_item (ItipView *view, ItipViewInfoItemType type, const 
 guint
 itip_view_add_upper_info_item_printf (ItipView *view, ItipViewInfoItemType type, const char *format, ...)
 {
-	ItipViewPrivate *priv;
 	va_list args;
 	char *message;
 	guint id;
@@ -1456,8 +1451,6 @@ itip_view_add_upper_info_item_printf (ItipView *view, ItipViewInfoItemType type,
 	g_return_val_if_fail (view != NULL, 0);
 	g_return_val_if_fail (ITIP_IS_VIEW (view), 0);	
 	
-	priv = view->priv;
-
 	va_start (args, format);
 	message = g_strdup_vprintf (format, args);
 	va_end (args);
@@ -1546,7 +1539,6 @@ itip_view_add_lower_info_item (ItipView *view, ItipViewInfoItemType type, const 
 guint
 itip_view_add_lower_info_item_printf (ItipView *view, ItipViewInfoItemType type, const char *format, ...)
 {
-	ItipViewPrivate *priv;
 	va_list args;
 	char *message;
 	guint id;
@@ -1554,8 +1546,6 @@ itip_view_add_lower_info_item_printf (ItipView *view, ItipViewInfoItemType type,
 	g_return_val_if_fail (view != NULL, 0);
 	g_return_val_if_fail (ITIP_IS_VIEW (view), 0);	
 	
-	priv = view->priv;
-
 	va_start (args, format);
 	message = g_strdup_vprintf (format, args);
 	va_end (args);

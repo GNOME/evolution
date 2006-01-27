@@ -447,6 +447,7 @@ find_cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
 
 		if ((pitip->method == ICAL_METHOD_PUBLISH || pitip->method ==  ICAL_METHOD_REQUEST) 
 		    && !pitip->current_ecal) {
+			/* Reuse already declared one or rename? */
 			ESource *source = NULL;
 			char *uid;
 
@@ -682,6 +683,7 @@ message_foreach_part (CamelMimePart *part, GSList **part_list)
 	if (CAMEL_IS_MULTIPART (containee)) {
 		parts = camel_multipart_get_number (CAMEL_MULTIPART (containee));
 		for (i = 0; go && i < parts; i++) {
+			/* Reuse already declared *parts? */
 			CamelMimePart *part = camel_multipart_get_part (CAMEL_MULTIPART (containee), i);
 			
 			message_foreach_part (part, part_list);
@@ -964,6 +966,7 @@ update_attendee_status (FormatItipPObject *pitip)
 									itip_strip_mailto (a->delfrom),
 									itip_strip_mailto (a->value), NULL);
 						if (response == GTK_RESPONSE_YES) {
+							/* Already declared in this function */
 							icalproperty *prop = find_attendee (icalcomp, itip_strip_mailto (a->value));
 							icalcomponent_add_property (icalcomp,icalproperty_new_clone (prop));
 							e_cal_component_rescan (comp);
@@ -992,6 +995,7 @@ update_attendee_status (FormatItipPObject *pitip)
 					goto cleanup;
 				} else {
 					if (a->status == ICAL_PARTSTAT_DELEGATED) {
+						/* *prop already declared in this function */
 						icalproperty *prop, *new_prop;
 
 						prop = find_attendee (icalcomp, itip_strip_mailto (a->value));
@@ -1413,9 +1417,7 @@ view_response_cb (GtkWidget *widget, ItipViewResponse response, gpointer data)
 
         if (itip_view_get_rsvp (ITIP_VIEW (pitip->view)) && status) {
                 ECalComponent *comp = NULL;
-                ECalComponentVType vtype;
                 icalcomponent *ical_comp;
-                icalproperty *prop;
                 icalvalue *value;
                 const char *attendee, *comment;
                 GSList *l, *list = NULL;
@@ -1425,8 +1427,6 @@ view_response_cb (GtkWidget *widget, ItipViewResponse response, gpointer data)
                 if (comp == NULL)
                         return;
 		
-                vtype = e_cal_component_get_vtype (comp);
-
                 if (pitip->my_address == NULL)
                         find_my_address (pitip, pitip->ical_comp, NULL);
                 g_assert (pitip->my_address != NULL);
@@ -1504,7 +1504,6 @@ check_is_instance (icalcomponent *icalcomp)
 		x_name = icalproperty_get_x_name (icalprop);
 		if (!strcmp (x_name, "X-GW-RECURRENCE-KEY")) {
 			return TRUE;
-			break;
 		}
 		icalprop = icalcomponent_get_next_property (icalcomp, ICAL_X_PROPERTY);
 	}
@@ -1776,6 +1775,7 @@ format_itip_object (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject 
                 CamelFolder *folder;
                 CamelURL *url;
                 char *uri;
+		/* *l is already declared in this function */
                 GSList *groups, *l;
                 ESource *source = NULL;
                 gboolean found = FALSE;

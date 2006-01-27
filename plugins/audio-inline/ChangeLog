@@ -1,3 +1,8 @@
+2006-01-09  Kjartan Maraas <kmaraas@gnome.org>
+
+	* audio-inline.c: (org_gnome_audio_inline_add_button):
+	s/volatile static/static volatile/g. Remove unused var.
+
 2005-12-18  Tor Lillqvist  <tml@novell.com>
 
 	* audio-inline.c: Use g_ascii_strcasecmp() instead of

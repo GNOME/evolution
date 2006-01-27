@@ -645,7 +645,8 @@ delegates_apply (ExchangeDelegates *delegates)
 	GByteArray *entryid_dup;
 	char *error = NULL;
 	E2kProperties *props;
-	int i, status;
+	int i;
+	E2kGlobalCatalogStatus status;
 
 	if (!delegates->loaded_folders)
 		return;
@@ -681,11 +682,8 @@ delegates_apply (ExchangeDelegates *delegates)
 	}
 
 	if ((delegates->removed_users || delegates->added_users) && !delegates->self_dn) {
-		E2kGlobalCatalog *gc;
-		E2kGlobalCatalogStatus status;
 		E2kGlobalCatalogEntry *entry;
 
-		gc = exchange_account_get_global_catalog (delegates->account);
 		status = e2k_global_catalog_lookup (
 			gc, NULL, /* FIXME: cancellable */
 			E2K_GLOBAL_CATALOG_LOOKUP_BY_LEGACY_EXCHANGE_DN,

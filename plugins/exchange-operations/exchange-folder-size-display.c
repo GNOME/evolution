@@ -114,7 +114,6 @@ exchange_folder_size_display (GtkListStore *model, GtkWidget *parent)
         GtkWidget *dialog, *table;
 	GList *l;
 	char *col_name;
-        int response;
 
 	printf ("exchange_folder_size_display called\n");
         g_return_if_fail (GTK_IS_WIDGET (parent));
@@ -151,6 +150,6 @@ exchange_folder_size_display (GtkListStore *model, GtkWidget *parent)
                                      column);
         gtk_tree_view_set_model (GTK_TREE_VIEW (table),
                                  GTK_TREE_MODEL (model));
-	response = gtk_dialog_run (GTK_DIALOG (dialog));
+	gtk_dialog_run (GTK_DIALOG (dialog));
         gtk_widget_destroy (dialog);
 }

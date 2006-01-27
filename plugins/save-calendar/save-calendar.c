@@ -139,8 +139,7 @@ ask_destination_and_save (EPlugin *ep, ECalPopupTargetSource *target, ECalSource
 			renderer, "text", DEST_NAME_COLUMN, NULL);
 
 	while (format_handlers) {
-		FormatHandler *handler = format_handlers->data;
-
+		handler = format_handlers->data;
 		gtk_list_store_append (store, &iter);
 		gtk_list_store_set (store, &iter, DEST_NAME_COLUMN, 
 			handler->combo_label, -1);

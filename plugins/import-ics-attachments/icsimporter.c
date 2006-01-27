@@ -219,7 +219,7 @@ init_widgets(char *path)
 	subcomp = icalcomponent_get_inner(icidata->icalcomp);
 	kind = icalcomponent_isa (subcomp);
 
-	char *label_str;
+	char *label_str = NULL;
 	if (kind == ICAL_VTODO_COMPONENT ) {
 		e_cal_get_sources (&source_list, E_CAL_SOURCE_TYPE_TODO, NULL);
 		label_str = _("Select Task List");
@@ -232,7 +232,7 @@ init_widgets(char *path)
 
 	char *markup;
 	markup = g_markup_printf_escaped ("<b>%s</b>", label_str);
-	gtk_label_set_markup (label, markup);
+	gtk_label_set_markup (GTK_LABEL (label), markup);
 	hbox = gtk_hbox_new (FALSE, FALSE);
 	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 6);
 	gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 6);
@@ -240,9 +240,9 @@ init_widgets(char *path)
 	selector = e_source_selector_new (source_list);
 	e_source_selector_show_selection (E_SOURCE_SELECTOR (selector), FALSE);
 	scrolled = gtk_scrolled_window_new(NULL, NULL);
-	gtk_scrolled_window_set_policy((GtkScrolledWindow *)scrolled, GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW (scrolled), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	gtk_container_add((GtkContainer *)scrolled, selector);
-	gtk_scrolled_window_set_shadow_type (scrolled, GTK_SHADOW_IN);
+	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolled), GTK_SHADOW_IN);
 	hbox = gtk_hbox_new (FALSE, FALSE);
 	gtk_box_pack_start (GTK_BOX (hbox), scrolled, TRUE, TRUE, 6);
 	gtk_box_pack_start (GTK_BOX (vbox), hbox, TRUE, TRUE, 6);
@@ -261,13 +261,13 @@ init_widgets(char *path)
 	gtk_box_pack_start (GTK_BOX(hbox), label, FALSE, FALSE, 6);
 	gtk_widget_show(label);
 	GtkWidget *button = gtk_button_new ();
-	gtk_container_add (button, hbox);
-	gtk_dialog_add_action_widget (dialog, button, GTK_RESPONSE_OK);
+	gtk_container_add (GTK_CONTAINER (button), hbox);
+	gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button, GTK_RESPONSE_OK);
 	gtk_widget_grab_focus (button); 
 
-	gtk_window_set_default_size (dialog, 210,340);
+	gtk_window_set_default_size (GTK_WINDOW (dialog), 210,340);
 	gtk_widget_show_all (dialog);
-	gtk_dialog_run (dialog);
+	gtk_dialog_run (GTK_DIALOG (dialog));
 }
 
 static void
@@ -414,7 +414,7 @@ ical_import_done(ICalImporterData *icidata)
 {
 	g_object_unref (icidata->client);
 	icalcomponent_free (icidata->icalcomp);
-	gtk_signal_emit_by_name (GTK_DIALOG(icidata->window), "close");
+	gtk_signal_emit_by_name (GTK_OBJECT (icidata->window), "close");
 	g_free (icidata);
 }
 

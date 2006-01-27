@@ -31,7 +31,7 @@
 
 void org_gnome_audio_inline_format (void *ep, EMFormatHookTarget *t);
 
-volatile static int org_gnome_audio_class_id_counter = 0;
+static volatile int org_gnome_audio_class_id_counter = 0;
 
 struct _org_gnome_audio_inline_pobject {
 	EMFormatHTMLPObject object;
@@ -252,7 +252,6 @@ static void
 org_gnome_audio_inline_add_button (GtkWidget *box, char *icon_name, GCallback cb, gpointer data)
 {
 	GtkWidget *icon, *button;
-	GdkPixbuf *pixbuf;
 
 	icon = e_icon_factory_get_image (icon_name, E_ICON_SIZE_LARGE_TOOLBAR);
 	gtk_widget_show (icon);

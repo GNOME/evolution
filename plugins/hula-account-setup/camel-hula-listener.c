@@ -50,7 +50,7 @@ struct _HulaAccountInfo {
 typedef struct _HulaAccountInfo HulaAccountInfo;
 
 #define HULA_CALDAV_URI_PREFIX "caldav://"
-#define HULA_PREFIX_LENGTH 9
+#define HULA_CALDAV_PREFIX_LENGTH 9
 #define HULA_URI_PREFIX "hula://"
 #define HULA_PREFIX_LENGTH 7
 #define PARENT_TYPE G_TYPE_OBJECT
@@ -130,6 +130,16 @@ is_hula_account (EAccount *account)
 	}
 }
 
+static gboolean
+is_hula_caldav_account (EAccount *account)
+{
+        if (account->source->url != NULL) {
+                return (strncmp (account->source->url,  HULA_CALDAV_URI_PREFIX, HULA_CALDAV_PREFIX_LENGTH ) == 0);
+        } else {
+                return FALSE;
+        }
+}
+
 /* looks up for an existing hula account info in the hula_accounts list based on uid */
 
 static HulaAccountInfo* 
@@ -170,7 +180,7 @@ add_esource (const char *conf_key, const char *group_name,  const char *source_n
 	char *source_selection_key;
 	char *relative_uri;
 	const char *cal_port = "8081";
-	const char *use_ssl = "";
+	/* const char *use_ssl = ""; */
 	/* offline_sync to come soon */ 
 	
 	/* TODO use_ssl = camel_url_get_param (url, "use_ssl"); */
@@ -293,7 +303,7 @@ remove_esource (const char *conf_key, const char *group_name, char* source_name,
 	
 }
 
-/* looks up for e-source with having same info as old_account_info and changes its values passed in new values */
+/* looks for e-source with the same info as old_account_info and changes its values to the values passed in */
 
 static void 
 modify_esource (const char* conf_key, HulaAccountInfo *old_account_info, const char* new_group_name, CamelURL *new_url)
@@ -307,18 +317,13 @@ modify_esource (const char* conf_key, HulaAccountInfo *old_account_info, const c
 	CamelURL *url;
 	gboolean found_group;
       	GConfClient* client;
-	const char *address;
-	const char *cal_port;
 	char *new_relative_uri;
-	const char *new_address;
 	
 	url = camel_url_new (old_account_info->source_url, NULL);
-	address = url->host; 
-	if (!address || strlen (address) ==0)
+	if (!url->host || strlen (url->host) ==0)
 		return;
-	new_address = new_url->host;
-	
-	old_relative_uri = g_strdup_printf ("%s@%s:%s/dav/%s/calendar/Personal", url->user, url->host, cal_port, url->user);
+
+	old_relative_uri = g_strdup_printf ("%s@%s:%d/dav/%s/calendar/Personal", url->user, url->host, url->port, url->user);
 	client = gconf_client_get_default ();
         list = e_source_list_new_for_gconf (client, conf_key);
 	groups = e_source_list_peek_groups (list); 
@@ -340,7 +345,7 @@ modify_esource (const char* conf_key, HulaAccountInfo *old_account_info, const c
 				
 				if (strcmp (e_source_peek_relative_uri (source), old_relative_uri) == 0) {
 					
-					new_relative_uri = g_strdup_printf ("%s@%s:%s/dav/%s/calendar/Personal", url->user, url->host, cal_port, url->user);
+					new_relative_uri = g_strdup_printf ("%s@%s:%d/dav/%s/calendar/Personal", new_url->user, new_url->host, new_url->port, new_url->user);
 					e_source_group_set_name (group, new_group_name);
 					e_source_set_relative_uri (source, new_relative_uri);
 					e_source_set_property (source, "username", new_url->user);
@@ -414,7 +419,7 @@ account_added (EAccountList *account_listener, EAccount *account)
 	EAccount *parent;
 	CamelURL *parent_url;
 
-	if (!is_hula_account (account))
+	if (!is_hula_account (account) || !is_hula_caldav_account (account))
 		return;
 	
 	info = g_new0 (HulaAccountInfo, 1);
@@ -439,7 +444,7 @@ account_removed (EAccountList *account_listener, EAccount *account)
 {
        	HulaAccountInfo *info;
 	
-	if (!is_hula_account (account))
+	if (!is_hula_account (account) || !is_hula_caldav_account (account))
 		return;
 	
 	info = lookup_account_info (account->uid);
@@ -466,6 +471,8 @@ account_changed (EAccountList *account_listener, EAccount *account)
 	const char *old_address, *new_address;
 	
 	is_hula = is_hula_account (account);
+	if (is_hula == FALSE)
+		is_hula = is_hula_caldav_account (account);
 	
 	existing_account_info = lookup_account_info (account->uid);
        
@@ -474,12 +481,12 @@ account_changed (EAccountList *account_listener, EAccount *account)
 		if (!account->enabled)
 			return;
 
-		/* some account of other type is changed to hula*/
+		/* some account of other type is changed to hula */
 		account_added (account_listener, account);
 
-	} else if ( existing_account_info != NULL && !is_hula) {
+	} else if (existing_account_info != NULL && !is_hula) {
 
-		/*hula account is changed to some other type */
+		/* hula account is changed to some other type */
 		remove_calendar_sources (existing_account_info);
 		hula_accounts = g_list_remove (hula_accounts, existing_account_info);
 		g_free (existing_account_info->uid);
@@ -494,7 +501,7 @@ account_changed (EAccountList *account_listener, EAccount *account)
 			return;
 		}
 		
-		/* some info of hula account is changed . update the sources with new info if required */
+		/* some info of hula account is changed. update the sources with new info if required */
 		old_url = camel_url_new (existing_account_info->source_url, NULL);
 		old_address = old_url->host; 
 		old_caldav_port = camel_url_get_param (old_url, "caldav_port");
