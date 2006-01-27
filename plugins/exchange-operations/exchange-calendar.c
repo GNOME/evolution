@@ -337,8 +337,10 @@ e_exchange_calendar_commit (EPlugin *epl, EConfigTarget *target)
 	}	
 
 	status = exchange_is_offline (&offline_status);
-	if (offline_status == OFFLINE_MODE || status != CONFIG_LISTENER_STATUS_OK)
+	if (offline_status == OFFLINE_MODE || status != CONFIG_LISTENER_STATUS_OK) {
+		g_free (uri_text);
 		return;
+	}
 
 	account = exchange_operations_get_exchange_account ();
 	username = exchange_account_get_username (account);
@@ -359,19 +361,38 @@ e_exchange_calendar_commit (EPlugin *epl, EConfigTarget *target)
 		/* FIXME: This one would ever occur? */
 		ftype = g_strdup ("mail");
 	}
+	
 
 	gname = (gchar*) e_source_peek_name (source);
 	gruri = (gchar*) e_source_peek_relative_uri (source);
+	
 	if (calendar_src_exists) {
-		gchar *tmpruri, *tmpdelimit;
-		tmpruri = g_strdup (gruri);
-		tmpdelimit = g_strrstr (tmpruri, "/");
-		tmpdelimit[0] = '\0';
-		ruri = g_strconcat (tmpruri, "/", gname, NULL);
+		gchar *tmpruri, *uri_string;
+		EUri *euri;
+		int uri_len;
+
+		/* sample uri_string: exchange://user;auth=NTLM@host/ */
+		/* sample uri_text: exchange://user;auth=NTLM@host/;personal/Calendar */
+
+		euri = e_uri_new (uri_text);
+		uri_string = e_uri_to_string (euri, FALSE);
+		e_uri_free (euri);
+
+		/* sample gruri: user;auth=NTLM@host/;personal/Calendar */
+		/* sample ruri: user;auth=NTLM@host/personal/Calendar */
+		/* sample path: /personal/Calendar */
+		
+		uri_len = strlen (uri_string) + 1;
+		tmpruri = g_strdup (uri_string + strlen ("exchange://"));
+		ruri = g_strconcat (tmpruri, uri_text + uri_len, NULL);
+		path = g_build_filename ("/", uri_text + uri_len, NULL);
+		oldpath = g_build_filename ("/", calendar_old_source_uri + prefix_len, NULL);
+		g_free (uri_string);
 		g_free (tmpruri);
 	}
 	else {
 		ruri = g_strconcat (gruri, "/", gname, NULL);
+		path = g_build_filename ("/", ruri+prefix_len, NULL);
 	}
 	e_source_set_relative_uri (source, ruri);
 	e_source_set_property (source, "username", username);
@@ -379,16 +400,13 @@ e_exchange_calendar_commit (EPlugin *epl, EConfigTarget *target)
 	if (authtype)
 		 e_source_set_property (source, "auth-type", authtype);
 	e_source_set_property (source, "auth", "1");
-
-	path = g_build_filename ("/", ruri+prefix_len, NULL);
 	
 	if (!calendar_src_exists) {
 		/* Create the new folder */
 		result = exchange_account_create_folder (account, path, ftype);
 	}
-	else if (gruri && strcmp (gruri, calendar_old_source_uri)) {
+	else if (gruri && strcmp (gruri, calendar_old_source_uri) && strcmp (path, oldpath)) {
 		/* Rename the folder */
-		oldpath = g_build_filename ("/", calendar_old_source_uri+prefix_len, NULL);
 		result = exchange_account_xfer_folder (account, oldpath, path, TRUE);
 		exchange_operations_update_child_esources (source, 
 							   calendar_old_source_uri, 

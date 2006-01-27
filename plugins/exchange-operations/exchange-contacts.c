@@ -321,12 +321,13 @@ e_exchange_contacts_commit (EPlugin *epl, EConfigTarget *target)
 		g_free (uri_text);
 		return ;
 	}	
-	g_free (uri_text);
 
 	exchange_config_listener_get_offline_status (exchange_global_config_listener, 
 								    &offline_status);
-	if (offline_status == OFFLINE_MODE)
+	if (offline_status == OFFLINE_MODE) {
+		g_free (uri_text);
 		return;
+	}
 
 	account = exchange_operations_get_exchange_account ();
 	username = exchange_account_get_username (account);
@@ -338,17 +339,29 @@ e_exchange_contacts_commit (EPlugin *epl, EConfigTarget *target)
 
 	gname = (gchar*) e_source_peek_name (source);
 	gruri = (gchar*) e_source_peek_relative_uri (source);
+
 	if (contacts_src_exists) {
-		gchar *tmpruri, *tmpdelimit;
-		tmpruri = g_strdup (gruri);
-		tmpdelimit = g_strrstr (tmpruri, "/");
-		tmpdelimit[0] = '\0';
-		ruri = g_strconcat (tmpruri, "/", gname, NULL);
+		gchar *tmpruri, *uri_string;
+		EUri *euri;
+		int uri_len;
+
+		euri = e_uri_new (uri_text);
+		uri_string = e_uri_to_string (euri, FALSE);
+		e_uri_free (euri);
+	
+		uri_len = strlen (uri_string) + 1;	
+		tmpruri = g_strdup (uri_string + strlen ("exchange://"));
+		ruri = g_strconcat (tmpruri, uri_text + uri_len, NULL);
+		path = g_build_filename ("/", uri_text + uri_len, NULL);
+		oldpath = g_build_filename ("/", contacts_old_src_uri + prefix_len, NULL);
+		g_free (uri_string);
 		g_free (tmpruri);
 	}
 	else {
 		ruri = g_strconcat (gruri, "/", gname, NULL);
+		path = g_build_filename ("/", ruri+prefix_len, NULL);
 	}
+
 	e_source_set_relative_uri (source, ruri);
 	e_source_set_property (source, "username", username);
 	e_source_set_property (source, "auth-domain", "Exchange");
@@ -356,15 +369,12 @@ e_exchange_contacts_commit (EPlugin *epl, EConfigTarget *target)
 		e_source_set_property (source, "auth-type", authtype);
 	e_source_set_property (source, "auth", "plain/password");
 
-	path = g_strdup_printf ("/%s", ruri+prefix_len);
-
 	if (!contacts_src_exists) {
 		/* Create the new folder */
 		result = exchange_account_create_folder (account, path, "contacts");
 	}
-	else if (strcmp (gruri, contacts_old_src_uri)) {
+	else if (gruri && strcmp (gruri, contacts_old_src_uri) && strcmp (path, oldpath)) {
 		/* Rename the folder */
-		oldpath = g_strdup_printf ("/%s", contacts_old_src_uri+prefix_len);
 		result = exchange_account_xfer_folder (account, oldpath, path, TRUE);
 		exchange_operations_update_child_esources (source, 
 							   contacts_old_src_uri, 
