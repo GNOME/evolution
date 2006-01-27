@@ -1,3 +1,7 @@
+2006-01-27  Andre Klapper <a9016009@gmx.de>
+	* proxy-listing.glade:
+	removed string "dialog1" from translation. Fixes bug 306118.
+
 2006-01-18  Vivek Jain <jvivek@novell.com>
  	
  	* status-track.c : (add_detail): decode the date

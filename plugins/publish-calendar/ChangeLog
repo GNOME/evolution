@@ -1,3 +1,7 @@
+2006-01-27  Andre Klapper <a9016009@gmx.de>
+	* publish-calendar.glade:
+	removed string "dialog1" from translation. Fixes bug 306118.
+
 2006-01-23  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #328224, 328408, 328389

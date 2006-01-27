@@ -4,7 +4,7 @@
 <glade-interface>
 
 <widget class="GtkDialog" id="certificate-viewer-dialog">
-  <property name="title" translatable="yes">dialog1</property>
+  <property name="title" translatable="no">dialog1</property>
   <property name="type">GTK_WINDOW_TOPLEVEL</property>
   <property name="window_position">GTK_WIN_POS_NONE</property>
   <property name="modal">False</property>
