@@ -1,3 +1,10 @@
+2006-01-18  Rajeev Ramanathan <rajeevramanathan_2004@yahoo.co.in>
+
+	** Fixes bug #328150
+
+	* evolution-memo-editor.xml: Added a new xml file for memos.
+	* Makefile.am: Added new file to the build
+
 2006-01-25  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fixes bugs #328513, #328514, #328551, #328553, #328558, #328559, #328560

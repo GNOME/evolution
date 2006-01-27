@@ -1,0 +1,32 @@
+<Root>
+	<commands>
+		<cmd name="ViewCategories" _label="_Categories"
+		_tip="Toggles whether to display categories"
+		type="toggle" state="0"/>
+
+    		<cmd name="ActionClassPublic" _label="Pu_blic" 
+      		type="radio" group="class" _tip="Classify as public"/>
+
+ 	 	<cmd name="ActionClassPrivate" _label="_Private" 
+      		type="radio" group="class" _tip="Classify as Private"/>
+
+    		<cmd name="ActionClassConfidential" _label="_Confidential" 
+		type="radio" group="class" _tip="Classify as Confidential"/>
+		
+	</commands>
+
+  <menu>
+    <submenu name="View">
+	<menuitem name="ViewCategories" verb=""/>	
+    </submenu>
+    
+    <submenu name="Options">
+	    <submenu name="Classification" _label="_Classification">
+		    <menuitem name="ActionClassPublic" id="ActionClassPublic" verb=""/>
+		    <menuitem name="ActionClassPrivate" id="ActionClassPrivate" verb=""/>
+		    <menuitem name="ActionClassConfidential" id="ActionClassConfidential" verb=""/>
+	    </submenu>
+    </submenu>
+  </menu>
+
+</Root>
