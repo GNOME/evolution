@@ -187,9 +187,5 @@ eab_search_dialog_new (EABView *addr_view)
 static void
 eab_search_dialog_dispose (GObject *object)
 {
-	EABSearchDialog *view;
-
-	view = EAB_SEARCH_DIALOG (object);
-
 	G_OBJECT_CLASS(eab_search_dialog_parent_class)->dispose (object);
 }

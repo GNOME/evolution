@@ -397,20 +397,21 @@ fill_in_countries (GladeXML *gui)
 		static GList *country_list;
 		if (!sorted) {
 			int i;
-			char *locale;
 
 			for (i = 0; countries[i]; i++) {
 				countries[i] = _(countries[i]);
 			}
 
-			locale = setlocale (LC_COLLATE, NULL);
-			qsort (countries + 1, i - 1, sizeof (countries[0]), compare_func);
-			country_list = NULL;
-			for (i = 0; countries[i]; i++) {
-				country_list = g_list_prepend (country_list, countries[i]);
-			}
-			country_list = g_list_reverse (country_list);
-			sorted = TRUE;
+			if (setlocale (LC_COLLATE, NULL) != NULL) {
+				qsort (countries + 1, i - 1, sizeof (countries[0]), compare_func);
+				country_list = NULL;
+				for (i = 0; countries[i]; i++) {
+					country_list = g_list_prepend (country_list, countries[i]);
+				}
+				country_list = g_list_reverse (country_list);
+				sorted = TRUE;
+			} else
+				return;
 		}
 		gtk_combo_set_popdown_strings (combo, country_list);
 	}

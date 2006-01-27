@@ -488,6 +488,7 @@ book_view_loaded (EBook *book, EBookStatus status, EBookView *book_view, gpointe
 static void
 get_view (EABModel *model)
 {
+	/* Should this be checked somehow? */
 	gboolean success;
 
 	if (model->book && model->query) {

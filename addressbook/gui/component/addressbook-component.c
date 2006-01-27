@@ -282,11 +282,7 @@ impl_requestCreateItem (PortableServer_Servant servant,
 			const CORBA_char *item_type_name,
 			CORBA_Environment *ev)
 {
-	AddressbookComponent *addressbook_component = ADDRESSBOOK_COMPONENT (bonobo_object_from_servant (servant));
-	AddressbookComponentPrivate *priv;
 	EBook *book;
-
-	priv = addressbook_component->priv;
 
 	if (!item_type_name ||
 	    (strcmp (item_type_name, "address_book") &&

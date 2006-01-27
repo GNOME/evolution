@@ -345,7 +345,7 @@ eab_book_and_contact_list_to_string (EBook *book, GList *contacts)
 	return s1;
 }
 
-#if notyet
+#ifdef notyet
 /*
  *  Convenience routine to check for addresses in the local address book.
  */

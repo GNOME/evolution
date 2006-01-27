@@ -94,7 +94,7 @@ eab_popup_control_cleanup (EABPopupControl *pop)
 	}
 
 	if (pop->query_tag) {
-#if notyet
+#ifdef notyet
 		e_book_simple_query_cancel (pop->book, pop->query_tag);
 #endif
 		pop->query_tag = 0;

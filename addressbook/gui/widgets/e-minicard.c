@@ -515,10 +515,6 @@ e_minicard_realize (GnomeCanvasItem *item)
 static void
 e_minicard_unrealize (GnomeCanvasItem *item)
 {
-	EMinicard *e_minicard;
-
-	e_minicard = E_MINICARD (item);
-
 	if (GNOME_CANVAS_ITEM_CLASS(parent_class)->unrealize)
 		(* GNOME_CANVAS_ITEM_CLASS(parent_class)->unrealize) (item);
 }
@@ -573,10 +569,8 @@ static gboolean
 e_minicard_event (GnomeCanvasItem *item, GdkEvent *event)
 {
 	EMinicard *e_minicard;
-	GtkWidget *canvas;
 	
 	e_minicard = E_MINICARD (item);
-	canvas = GTK_WIDGET (GNOME_CANVAS_ITEM (item)->canvas);
 
 	switch( event->type ) {
 	case GDK_FOCUS_CHANGE:
@@ -793,7 +787,7 @@ add_field (EMinicard *e_minicard, EContactField field, gdouble left_width)
 			    	   NULL );
 
 
-#if notyet
+#ifdef notyet
 	g_object_set(E_MINICARD_LABEL(new_item)->field,
 		     "allow_newlines", e_card_simple_get_allow_newlines (e_minicard->contact, field),
 		     NULL);
@@ -895,8 +889,7 @@ remodel( EMinicard *e_minicard )
 				} else {
 					e_minicard_field_destroy(minicard_field);
 				}
-				list = g_list_remove_link(list, this_list);
-				g_list_free_1(this_list);
+				list = g_list_delete_link(list, this_list);
 				g_free(string);
 			} else {
 				char *string;
@@ -941,7 +934,7 @@ e_minicard_reflow( GnomeCanvasItem *item, int flags )
 		
 		for(list = e_minicard->fields; list; list = g_list_next(list)) {
 			EMinicardField *field = E_MINICARD_FIELD(list->data);
-			GnomeCanvasItem *item = field->label;
+			item = field->label;
 			g_object_get (item,
 				      "height", &text_height,
 				      NULL);

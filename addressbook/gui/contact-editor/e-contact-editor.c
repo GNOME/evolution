@@ -157,7 +157,7 @@ phones [] = {
 };
 
 /* Defaults from the table above */
-gint phones_default [] = { 1, 6, 9, 2, 7, 12, 10, 10 };
+static const gint phones_default [] = { 1, 6, 9, 2, 7, 12, 10, 10 };
 
 static EContactField addresses [] = {
 	E_CONTACT_ADDRESS_WORK,
@@ -171,7 +171,7 @@ static EContactField address_labels [] = {
 	E_CONTACT_ADDRESS_LABEL_OTHER
 };
 
-static gchar *address_name [] = {
+static const gchar *address_name [] = {
 	"work",
 	"home",
 	"other"
@@ -192,7 +192,7 @@ im_service [] =
 };
 
 /* Defaults from the table above */
-gint im_service_default [] = { 0, 2, 4, 5 };
+static const gint im_service_default [] = { 0, 2, 4, 5 };
 
 static struct {
 	gchar *name;
@@ -206,7 +206,7 @@ common_location [] =
 };
 
 /* Default from the table above */
-gint email_default [] = { 0, 1, 2, 2 };
+static const gint email_default [] = { 0, 1, 2, 2 };
 
 #define STRING_IS_EMPTY(x)      (!(x) || !(*(x)))
 #define STRING_MAKE_NON_NULL(x) ((x) ? (x) : "")
@@ -466,7 +466,6 @@ file_as_get_style (EContactEditor *editor)
 	EContactName *name = editor->name;
 	const gchar *company;
 	int i;
-	int style;
 
 	if (!(file_as && GTK_IS_ENTRY(file_as)))
 		return -1;
@@ -999,7 +998,7 @@ extract_email (EContactEditor *editor)
 		l_next = g_list_next (l);
 
 		e_vcard_attribute_free (l->data);
-		g_list_delete_link (l, l);
+		l = g_list_delete_link (l, l);
 	}
 
 	old_attr_list = l;
@@ -1232,7 +1231,7 @@ extract_phone (EContactEditor *editor)
 		l_next = g_list_next (l);
 
 		e_vcard_attribute_free (l->data);
-		g_list_delete_link (l, l);
+		l = g_list_delete_link (l, l);
 	}
 
 	old_attr_list = l;
@@ -1299,11 +1298,11 @@ static void
 sensitize_phone_types (EContactEditor *editor, GtkWidget *option_menu)
 {
 	GtkWidget *menu;
-	GList     *item_list, *l;
+	GList     *l;
 	gint       i;
 
 	menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (option_menu));
-	l = item_list = gtk_container_get_children (GTK_CONTAINER (menu));
+	l = gtk_container_get_children (GTK_CONTAINER (menu));
 
 	for (i = 0; i < G_N_ELEMENTS (phones); i++) {
 		GtkWidget *widget;
@@ -1591,7 +1590,7 @@ extract_im (EContactEditor *editor)
 			l_next = g_list_next (l);
 
 			e_vcard_attribute_free (l->data);
-			g_list_delete_link (l, l);
+			l = g_list_delete_link (l, l);
 		}
 
 		old_service_attr_list = l;
@@ -1609,11 +1608,11 @@ static void
 sensitize_im_types (EContactEditor *editor, GtkWidget *option_menu)
 {
 	GtkWidget *menu;
-	GList     *item_list, *l;
+	GList     *l;
 	gint       i;
 
 	menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (option_menu));
-	l = item_list = gtk_container_get_children (GTK_CONTAINER (menu));
+	l = gtk_container_get_children (GTK_CONTAINER (menu));
 
 	for (i = 0; i < G_N_ELEMENTS (im_service); i++) {
 		GtkWidget *widget;
@@ -2337,8 +2336,6 @@ init_simple (EContactEditor *editor)
 	gint       i;
 
 	for (i = 0; i < G_N_ELEMENTS (simple_field_map); i++) {
-		GtkWidget *widget;
-
 		widget = glade_xml_get_widget (editor->gui, simple_field_map [i].widget_name);
 		if (!widget)
 			continue;
@@ -2972,7 +2969,7 @@ e_contact_editor_close (EABEditor *editor)
 	}
 }
 
-EContactField  non_string_fields [] = {
+static const EContactField  non_string_fields [] = {
 	E_CONTACT_FULL_NAME,
 	E_CONTACT_ADDRESS,
 	E_CONTACT_ADDRESS_HOME,
@@ -3647,6 +3644,7 @@ e_contact_editor_show (EABEditor *editor)
 	gtk_widget_show (ce->app);
 }
 
+/* Is this declaration here so that libglade can reach this? */
 GtkWidget *
 e_contact_editor_create_date(gchar *name,
 			     gchar *string1, gchar *string2,

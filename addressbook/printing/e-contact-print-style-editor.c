@@ -66,10 +66,8 @@ static void
 e_contact_print_style_editor_class_init (EContactPrintStyleEditorClass *klass)
 {
   GtkObjectClass *object_class;
-  GtkVBoxClass *vbox_class;
 
   object_class = (GtkObjectClass*) klass;
-  vbox_class = (GtkVBoxClass *) klass;
 
   parent_class = gtk_type_class (gtk_vbox_get_type ());
   
@@ -137,10 +135,6 @@ e_contact_print_style_editor_new (char *filename)
 static void
 e_contact_print_style_editor_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 {
-	EContactPrintStyleEditor *e_contact_print_style_editor;
-
-	e_contact_print_style_editor = E_CONTACT_PRINT_STYLE_EDITOR (o);
-	
 	switch (arg_id){
 	default:
 		break;
@@ -150,10 +144,6 @@ e_contact_print_style_editor_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 static void
 e_contact_print_style_editor_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 {
-	EContactPrintStyleEditor *e_contact_print_style_editor;
-
-	e_contact_print_style_editor = E_CONTACT_PRINT_STYLE_EDITOR (object);
-
 	switch (arg_id) {
 	default:
 	  arg->type = GTK_TYPE_INVALID;

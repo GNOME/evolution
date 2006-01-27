@@ -208,10 +208,8 @@ static void
 eab_view_class_init (EABViewClass *klass)
 {
 	GObjectClass *object_class;
-	GtkWidgetClass *widget_class;
 
 	object_class = G_OBJECT_CLASS(klass);
-	widget_class = GTK_WIDGET_CLASS(klass);
 
 	parent_class = gtk_type_class (PARENT_TYPE);
 
@@ -1908,7 +1906,7 @@ eab_view_delete_selection(EABView *view, gboolean is_delete)
 		GList *ids = NULL;
 
 		for (l=list;l;l=g_list_next(l)) {
-			EContact *contact = l->data;
+			contact = l->data;
 
 			ids = g_list_prepend (ids, (char*)e_contact_get_const (contact, E_CONTACT_UID));
 		}
@@ -1924,7 +1922,7 @@ eab_view_delete_selection(EABView *view, gboolean is_delete)
 	}
 	else {
 		for (l=list;l;l=g_list_next(l)) {
-			EContact *contact = l->data;
+			contact = l->data;
 			/* Remove the card. */
 			/* XXX no callback specified... ugh */
 			e_book_async_remove_contact (view->book,

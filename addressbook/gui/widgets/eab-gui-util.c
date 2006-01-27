@@ -446,7 +446,7 @@ eab_select_source (const gchar *title, const gchar *message, const gchar *select
 	GtkWidget *dialog;
 	GtkWidget *ok_button;
 	GtkWidget *cancel_button;
-	GtkWidget *label;
+	/* GtkWidget *label; */
 	GtkWidget *selector;
 	GtkWidget *scrolled_window;
 	gint response;
@@ -463,7 +463,7 @@ eab_select_source (const gchar *title, const gchar *message, const gchar *select
 	ok_button = gtk_dialog_add_button (GTK_DIALOG (dialog), GTK_STOCK_OK, GTK_RESPONSE_ACCEPT);
 	gtk_widget_set_sensitive (ok_button, FALSE);
 
-	//label = gtk_label_new (message);
+	/* label = gtk_label_new (message); */
 
 	selector = e_source_selector_new (source_list);
 	e_source_selector_show_selection (E_SOURCE_SELECTOR (selector), FALSE);
@@ -480,7 +480,7 @@ eab_select_source (const gchar *title, const gchar *message, const gchar *select
 	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolled_window), GTK_SHADOW_IN);
 	gtk_container_add (GTK_CONTAINER (scrolled_window), selector);
 
-	//gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), label, FALSE, FALSE, 4);
+	/* gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), label, FALSE, FALSE, 4); */
 	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), scrolled_window, TRUE, TRUE, 4);
 
 	gtk_widget_show_all (dialog);

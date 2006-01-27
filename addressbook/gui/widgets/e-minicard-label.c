@@ -336,10 +336,6 @@ e_minicard_label_realize (GnomeCanvasItem *item)
 static void
 e_minicard_label_unrealize (GnomeCanvasItem *item)
 {
-	EMinicardLabel *e_minicard_label;
-
-	e_minicard_label = E_MINICARD_LABEL (item);
-
 	if (GNOME_CANVAS_ITEM_CLASS( parent_class )->unrealize)
 		(* GNOME_CANVAS_ITEM_CLASS( parent_class )->unrealize) (item);
 }

@@ -521,7 +521,7 @@ eabc_general_type(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, str
 	GtkTreeIter iter;
 	GSList *l;
 	GtkWidget *w, *label;
-	int i, row;
+	int i, row = 0;
 
 	if (old)
 		return old;
@@ -622,7 +622,6 @@ eabc_general_offline(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, 
 	AddressbookSourceDialog *sdialog = data;
 	GtkWidget *offline_setting;
 	const char *offline_sync;
-	int row;
 	gboolean is_local_book;
 	
 	is_local_book = g_str_has_prefix (e_source_group_peek_base_uri (sdialog->source_group), "file:");
@@ -630,7 +629,6 @@ eabc_general_offline(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, 
 	if (old) 
 		return old;
 	else {
-		row = ((GtkTable*)parent)->nrows;
 		offline_setting = gtk_check_button_new_with_label (N_("Copy book content locally for offline operation"));
 		gtk_widget_show (offline_setting);
 		gtk_container_add (GTK_CONTAINER (parent), offline_setting);

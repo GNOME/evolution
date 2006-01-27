@@ -180,15 +180,6 @@ view_contact_cb (BonoboUIComponent *uih, void *user_data, const char *path)
 }
 
 static void
-search_cb (BonoboUIComponent *uih, void *user_data, const char *path)
-{
-	AddressbookView *view = (AddressbookView *) user_data;
-	EABView *v = get_current_view (view);
-	if (v)
-		gtk_widget_show(eab_search_dialog_new(v));
-}
-
-static void
 delete_contact_cb (BonoboUIComponent *uih, void *user_data, const char *path)
 {
 	AddressbookView *view = (AddressbookView *) user_data;
@@ -1055,7 +1046,7 @@ selector_tree_drag_motion (GtkWidget *widget,
 	GtkTreeViewDropPosition pos;
 	GtkTreeModel *model;
 	GtkTreeIter iter;
-	GdkDragAction action;
+	GdkDragAction action = { 0, };
 	
 	if (!gtk_tree_view_get_dest_row_at_pos (GTK_TREE_VIEW (widget),
 						x, y, &path, &pos))

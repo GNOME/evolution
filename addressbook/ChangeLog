@@ -1,3 +1,46 @@
+2006-01-27  Kjartan Maraas  <kmaraas@gnome.org>
+
+	reviewed by: Harish Krishnaswamy <kharish@novell.com>
+
+	* gui/component/addressbook-component.c: (impl_requestCreateItem):
+	Remove unused bits.
+	* gui/component/addressbook-config.c: (eabc_general_type),
+	(eabc_general_offline): Same here.
+	* gui/component/addressbook-migrate.c: Remove unused static function.
+	* gui/component/addressbook-view.c: (selector_tree_drag_motion):
+	Remove unused static function and init uninitialized var.
+	* gui/contact-editor/e-contact-editor-address.c:
+	(fill_in_countries): Return early if setlocale() fails.
+	* gui/contact-editor/e-contact-editor.c: (file_as_get_style),
+	(extract_email), (extract_phone), (sensitize_phone_types),
+	(extract_im), (sensitize_im_types), (init_simple):
+	Mark some arrays static, remove unused variables, fix gcc warnings
+	* gui/contact-list-editor/e-contact-list-editor.c: (fill_in_info):
+	Remove unused var.
+	* gui/merging/eab-contact-compare.c: (eab_contact_compare_name):
+	Remove unused static function and unused vars.
+	* gui/search/e-addressbook-search-dialog.c:
+	(eab_search_dialog_dispose): Remove unused vars.
+	* gui/widgets/e-addressbook-model.c: (get_view): Add comment.
+	* gui/widgets/e-addressbook-view.c: (eab_view_class_init),
+	(eab_view_delete_selection): Remove unused var
+	* gui/widgets/e-addressbook-view.h: Remove extra semi-colon.
+	* gui/widgets/e-minicard-label.c: (e_minicard_label_unrealize):
+	Remove unused var.
+	* gui/widgets/e-minicard.c: (e_minicard_unrealize),
+	(e_minicard_event), (add_field), (remodel), (e_minicard_reflow):
+	Remove unused vars. s/if/ifdef in some places, use passed in parameter
+	instead of redeclaring the thing locally.
+	* gui/widgets/eab-contact-display.c: (accum_address),
+	(eab_contact_display_render_compact): s/if/ifdef.
+	* gui/widgets/eab-gui-util.c: (eab_select_source): Comment out unused var.
+	* gui/widgets/eab-popup-control.c: (eab_popup_control_cleanup): s/if/ifdef
+	* printing/e-contact-print-style-editor.c:
+	(e_contact_print_style_editor_class_init),
+	(e_contact_print_style_editor_set_arg),
+	(e_contact_print_style_editor_get_arg): Remove unused vars.
+	* util/eab-book-util.c: s/if/ifdef
+
 2006-12-7 M Victor Aloysius J <victoraloy@gmail.com>
 
        * gui/contact-editor/e-contact-editor.c (style_makes_sense): 

@@ -84,30 +84,6 @@ static gchar *name_synonyms[][2] = {
 };
 
 static gboolean
-name_fragment_match (const gchar *a, const gchar *b, gboolean strict)
-{
-	gint len;
-
-	if (!(a && b && *a && *b))
-		return FALSE;
-
-	/* If we are in 'strict' mode, b must match the beginning of a.
-	   So "Robert", "Rob" would match, but "Robert", "Robbie" wouldn't.
-
-	   If strict is FALSE, it is sufficient for the strings to share
-	   some leading characters.  In this case, "Robert" and "Robbie"
-	   would match, as would "Dave" and "Dan". */
-	
-	if (strict) {
-		len = g_utf8_strlen (b, -1);
-	} else {
-		len = MIN (g_utf8_strlen (a, -1), g_utf8_strlen (b, -1));
-	}
-
-	return !e_utf8_casefold_collate_len (a, b, len);
-}
-
-static gboolean
 name_fragment_match_with_synonyms (const gchar *a, const gchar *b, gboolean strict)
 {
 	gint i;
@@ -321,7 +297,7 @@ eab_contact_compare_name (EContact *contact1, EContact *contact2)
 {
 	EContactName *a, *b;
 	gint matches=0, possible=0;
-	gboolean given_match = FALSE, additional_match = FALSE, family_match = FALSE;
+	gboolean family_match = FALSE;
 
 	g_return_val_if_fail (E_IS_CONTACT (contact1), EAB_CONTACT_MATCH_NOT_APPLICABLE);
 	g_return_val_if_fail (E_IS_CONTACT (contact2), EAB_CONTACT_MATCH_NOT_APPLICABLE);
@@ -339,7 +315,6 @@ eab_contact_compare_name (EContact *contact1, EContact *contact2)
 		++possible;
 		if (name_fragment_match_with_synonyms (a->given, b->given, FALSE /* both inputs are complete */)) {
 			++matches;
-			given_match = TRUE;
 		}
 	}
 
@@ -347,7 +322,6 @@ eab_contact_compare_name (EContact *contact1, EContact *contact2)
 		++possible;
 		if (name_fragment_match_with_synonyms (a->additional, b->additional, FALSE /* both inputs are complete */)) {
 			++matches;
-			additional_match = TRUE;
 		}
 	}
 

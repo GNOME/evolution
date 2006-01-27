@@ -1071,13 +1071,11 @@ fill_in_info(EContactListEditor *editor)
 		EContactPhoto *photo;
 		const char *file_as;
 		gboolean show_addresses = FALSE;
-		gboolean is_evolution_list = FALSE;
 		GList *email_list;
 		GList *iter;
 
 		file_as = e_contact_get_const (editor->contact, E_CONTACT_FILE_AS);
 		email_list = e_contact_get_attributes (editor->contact, E_CONTACT_EMAIL);
-		is_evolution_list = GPOINTER_TO_INT (e_contact_get (editor->contact, E_CONTACT_IS_LIST));
 		show_addresses = GPOINTER_TO_INT (e_contact_get (editor->contact, E_CONTACT_LIST_SHOW_ADDRESSES));
 
 		gtk_editable_delete_text (GTK_EDITABLE (editor->list_name_entry), 0, -1);

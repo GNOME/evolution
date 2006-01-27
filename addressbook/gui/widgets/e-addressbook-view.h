@@ -159,6 +159,6 @@ gboolean   eab_view_can_move_to_folder  (EABView  *view);
 
 struct _EABMenuTargetSelect *eab_view_get_menu_target (EABView *view, struct _EABMenu *menu);
 
-G_END_DECLS;
+G_END_DECLS
 
 #endif /* __EAB_VIEW_H__ */
