@@ -155,9 +155,6 @@ AtkObject *
 gal_a11y_e_tree_new (GObject *widget)
 {
 	GalA11yETree *a11y;
-	ETree *tree;
-
-	tree = E_TREE (widget);
 
 	a11y = g_object_new (gal_a11y_e_tree_get_type (), NULL);
 

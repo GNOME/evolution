@@ -1002,7 +1002,6 @@ gal_a11y_e_table_item_new (ETableItem *item)
 {
 	GalA11yETableItem *a11y;
 	AtkObject *accessible;
-	int n;
 	ESelectionModel * esm;
 	AtkObject *parent;
 	const char *name;
@@ -1024,7 +1023,6 @@ gal_a11y_e_table_item_new (ETableItem *item)
 	accessible  = ATK_OBJECT(a11y);
 
 	/* Initialize cell data. */
-	n = item->cols * item->rows;
 	GET_PRIVATE (a11y)->cols = item->cols;
 	GET_PRIVATE (a11y)->rows = item->rows;
 

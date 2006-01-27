@@ -162,7 +162,6 @@ et_ref_child (AtkObject *accessible,
 			}
 		}
 	} else if (i == child_no -1) {
-        	AtkObject * accessible;
 		ETableClickToAdd * etcta;
 
 		if (et && et->use_click_to_add && et->click_to_add) {

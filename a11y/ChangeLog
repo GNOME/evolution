@@ -1,3 +1,32 @@
+2006-01-27  Kjartan Maraas  <kmaraas@gnome.org>
+
+	reviewed by: Harish Krishnaswamy <kharish@novell.com> 
+
+	* addressbook/ea-addressbook.c: Remove extra semi-colons.
+	* calendar/ea-cal-view.c: (ea_cal_view_event_changed_cb),
+	(ea_cal_view_event_added_cb), (action_interface_get_keybinding):
+	Remove unused code and variables.
+	* calendar/ea-day-view-main-item.c:
+	(table_interface_get_row_description): More removal of unused bits
+	* calendar/ea-week-view-main-item.c:
+	(ea_week_view_main_item_get_row_at_index),
+	(ea_week_view_main_item_get_column_at_index),
+	(ea_week_view_main_item_get_row_label),
+	(table_interface_get_n_columns),
+	(table_interface_get_column_description): Same again.
+	* e-table/gal-a11y-e-table-item.c: (gal_a11y_e_table_item_new):
+	And again.
+	* e-table/gal-a11y-e-table.c: (et_ref_child): Remove unused var.
+	* e-table/gal-a11y-e-tree.c: (gal_a11y_e_tree_new): Again.
+	* e-text/gal-a11y-e-text.c: (et_set_selection),
+	(et_real_initialize): Same here too.
+	* widgets/ea-calendar-item.c:
+	(table_interface_get_column_description),
+	(table_interface_get_row_description),
+	(selection_interface_is_child_selected),
+	(ea_calendar_item_get_cell_data): And here too.
+	* widgets/ea-widgets.c: More redundant semi-colons.
+
 2006-01-10  Simon Zheng  <simon.zheng@sun.com>
 
 	* widgets/ea-calendar-item.c: use e_utf8_strftime() in

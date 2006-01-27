@@ -786,7 +786,6 @@ table_interface_get_column_description (AtkTable *table, gint in_col)
 {
 	AtkGObjectAccessible *atk_gobj;
 	GObject *g_obj;
-	ECalendarItem *calitem;
 	EaCalendarItem* ea_calitem = EA_CALENDAR_ITEM (table);
 	const gchar *description = NULL;
 	EaCellTable *cell_data;
@@ -797,7 +796,6 @@ table_interface_get_column_description (AtkTable *table, gint in_col)
 	if (!g_obj)
 		return NULL;
 
-	calitem = E_CALENDAR_ITEM (g_obj);
 	n_columns = table_interface_get_n_columns (table);
 	if (in_col < 0 || in_col >= n_columns)
 		return NULL;
@@ -822,7 +820,6 @@ table_interface_get_row_description (AtkTable *table, gint row)
 {
 	AtkGObjectAccessible *atk_gobj;
 	GObject *g_obj;
-	ECalendarItem *calitem;
 	EaCalendarItem* ea_calitem = EA_CALENDAR_ITEM (table);
 	const gchar *description = NULL;
 	EaCellTable *cell_data;
@@ -833,7 +830,6 @@ table_interface_get_row_description (AtkTable *table, gint row)
 	if (!g_obj)
 		return NULL;
 
-	calitem = E_CALENDAR_ITEM (g_obj);
 	n_rows = table_interface_get_n_rows (table);
 	if (row < 0 || row >= n_rows)
 		return NULL;
@@ -972,7 +968,6 @@ selection_interface_is_child_selected (AtkSelection *selection, gint index)
 {
 	AtkGObjectAccessible *atk_gobj;
 	GObject *g_obj;
-	ECalendarItem *calitem;
 	EaCalendarItem* ea_calitem = EA_CALENDAR_ITEM (selection);
 	gint row, column, n_children;
 
@@ -981,7 +976,6 @@ selection_interface_is_child_selected (AtkSelection *selection, gint index)
 	if (!g_obj)
 		return FALSE;
 
-	calitem = E_CALENDAR_ITEM (g_obj);
 	n_children = atk_object_get_n_accessible_children (ATK_OBJECT (selection));
 	if (index < 0 || index >= n_children)
 		return FALSE;
@@ -1042,7 +1036,6 @@ ea_calendar_item_get_cell_data (EaCalendarItem *ea_calitem)
 {
 	AtkGObjectAccessible *atk_gobj;
 	GObject *g_obj;
-	ECalendarItem *calitem;
 	EaCellTable *cell_data;
 
 	g_return_val_if_fail (ea_calitem, NULL);
@@ -1051,8 +1044,6 @@ ea_calendar_item_get_cell_data (EaCalendarItem *ea_calitem)
 	g_obj = atk_gobject_accessible_get_object (atk_gobj);
 	if (!g_obj)
 		return NULL;
-
-	calitem = E_CALENDAR_ITEM (g_obj);
 
 	cell_data = g_object_get_data (G_OBJECT(ea_calitem),
 				       "ea-calendar-cell-table");

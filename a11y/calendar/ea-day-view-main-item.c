@@ -1085,8 +1085,6 @@ table_interface_get_row_description (AtkTable    *table,
 {
 	AtkGObjectAccessible *atk_gobj;
 	GObject *g_obj;
-	EDayViewMainItem *main_item;
-	EDayView *day_view;
 	EaDayViewMainItem* ea_main_item = EA_DAY_VIEW_MAIN_ITEM (table);
 	const gchar *description;
 	EaCellTable *cell_data;
@@ -1095,9 +1093,6 @@ table_interface_get_row_description (AtkTable    *table,
 	g_obj = atk_gobject_accessible_get_object (atk_gobj);
 	if (!g_obj)
 		return NULL;
-
-	main_item = E_DAY_VIEW_MAIN_ITEM (g_obj);
-	day_view = main_item->day_view;
 
 	if (row < 0 || row >= 12 * 24)
 		return NULL;

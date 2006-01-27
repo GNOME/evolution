@@ -766,14 +766,12 @@ et_set_selection (AtkText *text,
 		  gint end_offset)
 {
 	GObject *obj;
-	EText *etext;
 
 	g_return_val_if_fail (ATK_IS_GOBJECT_ACCESSIBLE (text), FALSE);
 	obj = atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE (text));
 	if (obj == NULL)
 		return FALSE;
 	g_return_val_if_fail (E_IS_TEXT (obj), FALSE);
-	etext = E_TEXT (obj);
 	if (selection_num == 0)
                 return et_add_selection (text, start_offset, end_offset);
         return FALSE;
@@ -1015,7 +1013,6 @@ static void
 et_real_initialize (AtkObject *obj,
                     gpointer  data)
 {
-	GalA11yEText *a11y;
 	EText *etext;
 
 	ATK_OBJECT_CLASS (parent_class)->initialize (obj, data);
@@ -1023,7 +1020,6 @@ et_real_initialize (AtkObject *obj,
 	g_return_if_fail (GAL_A11Y_IS_E_TEXT (obj));
 	g_return_if_fail (E_IS_TEXT (data));
 
-	a11y = GAL_A11Y_E_TEXT (obj);
 	etext = E_TEXT (data);
 
 	/* Set up signal callbacks */

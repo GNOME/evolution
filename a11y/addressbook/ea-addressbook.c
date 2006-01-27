@@ -30,9 +30,9 @@
 #include "ea-minicard-view.h"
 #include "ea-addressbook-view.h"
 
-EA_FACTORY_GOBJECT (EA_TYPE_MINICARD, ea_minicard, ea_minicard_new);
-EA_FACTORY_GOBJECT (EA_TYPE_MINICARD_VIEW, ea_minicard_view, ea_minicard_view_new);
-EA_FACTORY_GOBJECT (EA_TYPE_AB_VIEW, ea_ab_view, ea_ab_view_new);
+EA_FACTORY_GOBJECT (EA_TYPE_MINICARD, ea_minicard, ea_minicard_new)
+EA_FACTORY_GOBJECT (EA_TYPE_MINICARD_VIEW, ea_minicard_view, ea_minicard_view_new)
+EA_FACTORY_GOBJECT (EA_TYPE_AB_VIEW, ea_ab_view, ea_ab_view_new)
 
 static gboolean ea_addressbook_focus_watcher (GSignalInvocationHint *ihint,
 					      guint n_param_values,

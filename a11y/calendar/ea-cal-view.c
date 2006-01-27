@@ -191,7 +191,6 @@ ea_cal_view_event_changed_cb (ECalendarView *cal_view, ECalendarViewEvent *event
                               gpointer data)
 {
 	AtkObject *atk_obj;
-	EaCalView *ea_cal_view;
 	AtkObject *event_atk_obj = NULL;
 
 	g_return_if_fail (E_IS_CALENDAR_VIEW (cal_view));
@@ -199,7 +198,6 @@ ea_cal_view_event_changed_cb (ECalendarView *cal_view, ECalendarViewEvent *event
 	atk_obj = gtk_widget_get_accessible (GTK_WIDGET(cal_view));
 	if (!EA_IS_CAL_VIEW (atk_obj))
 		return;
-	ea_cal_view = EA_CAL_VIEW (atk_obj);
 
 	if ((E_IS_DAY_VIEW (cal_view)) && event && event->canvas_item) {
 		event_atk_obj =
@@ -230,7 +228,6 @@ ea_cal_view_event_added_cb (ECalendarView *cal_view, ECalendarViewEvent *event,
                             gpointer data)
 {
 	AtkObject *atk_obj;
-	EaCalView *ea_cal_view;
 	AtkObject *event_atk_obj = NULL;
 	gint index;
 
@@ -239,7 +236,6 @@ ea_cal_view_event_added_cb (ECalendarView *cal_view, ECalendarViewEvent *event,
 	atk_obj = gtk_widget_get_accessible (GTK_WIDGET(cal_view));
 	if (!EA_IS_CAL_VIEW (atk_obj))
 		return;
-	ea_cal_view = EA_CAL_VIEW (atk_obj);
 
 	if ((E_IS_DAY_VIEW (cal_view)) && event && event->canvas_item) {
 		event_atk_obj =
@@ -391,7 +387,6 @@ static G_CONST_RETURN gchar*
 action_interface_get_keybinding (AtkAction *action, gint index)
 {
 	GtkWidget *widget;
-	EaCalView *ea_cal_view;
 
 	widget = GTK_ACCESSIBLE (action)->widget;
 	if (widget == NULL)
@@ -403,29 +398,22 @@ action_interface_get_keybinding (AtkAction *action, gint index)
 	if (!GTK_WIDGET_IS_SENSITIVE (widget) || !GTK_WIDGET_VISIBLE (widget))
 		return FALSE;
 
-	 ea_cal_view = EA_CAL_VIEW (action);
-
 	 switch (index) {
 	 case 0:
 		 /* New Appointment */
 		 return "<Alt>fna;<Control>n";
-		 break;
 	 case 1:
 		 /* New Event */
 		 return "<Alt>fnd;<Shift><Control>d";
-		 break;
 	 case 2:
 		 /* New Meeting */
 		 return "<Alt>fne;<Shift><Control>e";
-		 break;
 	 case 3:
 		 /* Go to today */
 		 return "<Alt>vt;<Alt><Control>t";
-		 break;
 	 case 4:
 		 /* Go to date */
 		 return "<Alt>vd;<Alt><Control>g";
-		 break;
 	 default:
 		 break;
 	 }

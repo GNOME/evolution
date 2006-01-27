@@ -491,8 +491,6 @@ ea_week_view_main_item_get_row_at_index (EaWeekViewMainItem *ea_main_item,
 {
 	AtkGObjectAccessible *atk_gobj;
 	GObject *g_obj;
-	EWeekViewMainItem *main_item;
-	EWeekView *week_view;
 	gint n_children;
 
 	g_return_val_if_fail (ea_main_item, -1);
@@ -501,9 +499,6 @@ ea_week_view_main_item_get_row_at_index (EaWeekViewMainItem *ea_main_item,
 	g_obj = atk_gobject_accessible_get_object (atk_gobj);
 	if (!g_obj)
 		return -1;
-
-	main_item = E_WEEK_VIEW_MAIN_ITEM (g_obj);
-	week_view = main_item->week_view;
 
 	n_children = ea_week_view_main_item_get_n_children (ATK_OBJECT (ea_main_item));
 	if (index >= 0 && index < n_children)
@@ -517,8 +512,6 @@ ea_week_view_main_item_get_column_at_index (EaWeekViewMainItem *ea_main_item,
 {
 	AtkGObjectAccessible *atk_gobj;
 	GObject *g_obj;
-	EWeekViewMainItem *main_item;
-	EWeekView *week_view;
 	gint n_children;
 
 	g_return_val_if_fail (ea_main_item, -1);
@@ -527,9 +520,6 @@ ea_week_view_main_item_get_column_at_index (EaWeekViewMainItem *ea_main_item,
 	g_obj = atk_gobject_accessible_get_object (atk_gobj);
 	if (!g_obj)
 		return -1;
-
-	main_item = E_WEEK_VIEW_MAIN_ITEM (g_obj);
-	week_view = main_item->week_view;
 
 	n_children = ea_week_view_main_item_get_n_children (ATK_OBJECT (ea_main_item));
 	if (index >= 0 && index < n_children)
@@ -543,8 +533,6 @@ ea_week_view_main_item_get_row_label (EaWeekViewMainItem *ea_main_item,
 {
 	AtkGObjectAccessible *atk_gobj;
 	GObject *g_obj;
-	EWeekViewMainItem *main_item;
-	EWeekView *week_view;
 
 	g_return_val_if_fail (ea_main_item, 0);
 
@@ -552,9 +540,6 @@ ea_week_view_main_item_get_row_label (EaWeekViewMainItem *ea_main_item,
 	g_obj = atk_gobject_accessible_get_object (atk_gobj);
 	if (!g_obj)
 		return 0 ;
-
-	main_item = E_WEEK_VIEW_MAIN_ITEM (g_obj);
-	week_view = main_item->week_view;
 
 	return g_snprintf (buffer, buffer_size, "the %i week",
 			   row + 1);
@@ -715,17 +700,12 @@ table_interface_get_n_columns (AtkTable *table)
 {
 	AtkGObjectAccessible *atk_gobj;
 	GObject *g_obj;
-	EWeekViewMainItem *main_item;
-	EWeekView *week_view;
 	EaWeekViewMainItem* ea_main_item = EA_WEEK_VIEW_MAIN_ITEM (table);
 
 	atk_gobj = ATK_GOBJECT_ACCESSIBLE (ea_main_item);
 	g_obj = atk_gobject_accessible_get_object (atk_gobj);
 	if (!g_obj)
 		return -1;
-
-	main_item = E_WEEK_VIEW_MAIN_ITEM (g_obj);
-	week_view = main_item->week_view;
 
 	return 7;
 }
@@ -1037,8 +1017,6 @@ table_interface_get_column_description (AtkTable	  *table,
 {
 	AtkGObjectAccessible *atk_gobj;
 	GObject *g_obj;
-	EWeekViewMainItem *main_item;
-	EWeekView *week_view;
 	EaWeekViewMainItem* ea_main_item = EA_WEEK_VIEW_MAIN_ITEM (table);
 	const gchar *description;
 	EaCellTable *cell_data;
@@ -1047,9 +1025,6 @@ table_interface_get_column_description (AtkTable	  *table,
 	g_obj = atk_gobject_accessible_get_object (atk_gobj);
 	if (!g_obj)
 		return NULL;
-
-	main_item = E_WEEK_VIEW_MAIN_ITEM (g_obj);
-	week_view = main_item->week_view;
 
 	if (in_col < 0 || in_col > 6)
 		return NULL;
