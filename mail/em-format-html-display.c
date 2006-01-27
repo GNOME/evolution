@@ -80,6 +80,7 @@
 #include <camel/camel-folder.h>
 #include <camel/camel-string-utils.h>
 
+#include <misc/e-cursors.h>
 #include <e-util/e-util.h>
 #include <e-util/e-util-private.h>
 
@@ -1430,6 +1431,46 @@ efhd_image_resized(GtkWidget *w, GtkAllocation *event, struct _attach_puri *info
 	g_object_unref(pb);
 }
 
+static void
+efhd_change_cursor(GtkWidget *w, GdkEventCrossing *event, struct _attach_puri *info)
+{
+	if (info->shown && info->image) {
+		if (info->fit_width != 0) {
+			if (em_icon_stream_is_resized(info->puri.cid, info->fit_width, info->fit_height))
+			    	e_cursor_set(w->window, E_CURSOR_ZOOM_IN);
+
+		}
+	}
+}
+
+static void
+efhd_image_fit_width(GtkWidget *widget, GdkEventButton *event, struct _attach_puri *info)
+{	
+	int width;
+	
+	width = ((GtkWidget *)((EMFormatHTML *)info->puri.format)->html)->allocation.width - 12;
+
+	if (info->shown && info->image) {
+		if (info->fit_width != 0) {
+			if (em_icon_stream_is_resized(info->puri.cid, info->fit_width, info->fit_height)) {
+				if(info->fit_width != width) {
+					info->fit_width = width;
+					e_cursor_set (widget->window, E_CURSOR_ZOOM_IN);
+				} else {
+					info->fit_width = 0;
+					e_cursor_set(widget->window, E_CURSOR_ZOOM_OUT);
+				}			
+			}
+		} else {
+			info->fit_width = width;
+			e_cursor_set (widget->window, E_CURSOR_ZOOM_IN);			
+		}
+	}
+
+	gtk_image_set_from_pixbuf(info->image, em_icon_stream_get_image(info->puri.cid, info->fit_width, info->fit_height));
+}
+
+
 static gboolean
 efhd_attachment_image(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject *pobject)
 {
@@ -1474,7 +1515,9 @@ efhd_attachment_image(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObjec
 	g_signal_connect (box, "drag-data-delete", G_CALLBACK(efhd_drag_data_delete), pobject);
 
 	g_signal_connect(box, "button_press_event", G_CALLBACK(efhd_image_popup), info);
+	g_signal_connect(box, "enter-notify-event", G_CALLBACK(efhd_change_cursor), info);
 	g_signal_connect(box, "popup_menu", G_CALLBACK(efhd_attachment_popup_menu), info);
+	g_signal_connect(box, "button-press-event", G_CALLBACK(efhd_image_fit_width), info);	
 
 	return TRUE;
 }

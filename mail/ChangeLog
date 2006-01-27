@@ -1,3 +1,10 @@
+2006-01-27  Rajeev ramanathan <rajeevramanathan_2004@yahoo.co.in>
+
+	** Fixes #327000
+	
+	* em-format-html-display.c : Added code to change cursor to 
+	notify user on image fit to width
+
 2006-01-26  Oswald Rodrigues <ozzy_rodrigues@yahoo.com>
 
 	* em-popup.c: Corrected typo. changed Add to Addressbook to Add 
