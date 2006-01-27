@@ -7,8 +7,8 @@ msgid ""
 ""
 msgstr "Project-Id-Version: evolution 1.4 Gnome HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-01-25 22:03+0100\n"
-"PO-Revision-Date: 2006-01-26 16:07+1030\n"
+"POT-Creation-Date: 2006-01-27 05:53+0100\n"
+"PO-Revision-Date: 2006-01-27 18:44+1030\n"
 "Last-Translator: Clytie Siddall <clytie@riverland.net.au>\n"
 "Language-Team: Vietnamese <gnomevi-list@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -4229,11 +4229,11 @@ msgstr "Bạn đang kết nối đến một máy phục vụ Groupwise không �
 "nâng cấp trình phục vụ lên một phiên bản được hỗ trợ."
 
 #:../calendar/calendar.error.xml.h:64
-msgid "You have changed this appointment, but not yet saved them."
+msgid "You have changed this appointment, but not yet saved it."
 msgstr "Bạn đã sửa đổi cuộc hẹn này, nhưng chưa lưu lại."
 
 #:../calendar/calendar.error.xml.h:65
-msgid "You have made changes to this task, but not yet saved them."
+msgid "You have changed this task, but not yet saved it."
 msgstr "Bạn đã sửa đổi tác vụ này, nhưng chưa lưu lại."
 
 #:../calendar/calendar.error.xml.h:66
@@ -11815,7 +11815,7 @@ msgid "_Send New Message To..."
 msgstr "_Gửi thư mới cho..."
 
 #:../mail/em-popup.c:622
-msgid "_Add to Addressbook"
+msgid "_Add to Address Book"
 msgstr "Th_êm vào Sổ địa chỉ"
 
 #:../mail/em-subscribe-editor.c:615
