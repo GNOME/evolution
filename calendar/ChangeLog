@@ -1,3 +1,18 @@
+2006-01-27  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* gui/dialogs/alarm-list-dialog.c (get_widgets),
+	(alarm_list_dialog_run), (alarm_list_dialog_peek): Added a function to
+	peek parts of a dialog.
+	* gui/dialogs/alarm-list-dialog.glade: Changed the layout of the alarm
+	dialog.
+	* gui/dialogs/event-page.c (event_page_init), (clear_widgets),
+	(sensitize_widgets), (event_page_fill_widgets),
+	(event_page_fill_component), (get_widgets), (alarm_changed_cb),
+	(alarm_store_inserted_cb), (alarm_store_deleted_cb),
+	(alarm_custom_clicked_cb), (init_widgets): Added code to handle the
+	new alarm dialog layout.
+	* gui/dialogs/event-page.glade: Changed the alarm dialog layout.
+
 2006-01-23  Tino Meinen <a.t.meinen@chello.nl>
 	Fixes #325831
 	* calendar.error.xml: Corrected a grammatical error in a message

@@ -66,6 +66,8 @@ typedef struct {
 	GtkWidget *list;
 	GtkWidget *add;
 	GtkWidget *delete;
+	GtkWidget *box;
+	
 } Dialog;
 
 /* Gets the widgets from the XML file and returns TRUE if they are all available. */
@@ -78,6 +80,7 @@ get_widgets (Dialog *dialog)
 	if (!dialog->toplevel)
 		return FALSE;
 
+	dialog->box = GW ("vbox53");
 	dialog->list = GW ("list");
 	dialog->add = GW ("add"); 
 	dialog->delete = GW ("delete");
@@ -265,4 +268,45 @@ alarm_list_dialog_run (GtkWidget *parent, ECal *ecal, EAlarmList *list_store)
 	g_object_unref (dialog.xml);
 
 	return response_id == GTK_RESPONSE_OK ? TRUE : FALSE;
+}
+
+GtkWidget *
+alarm_list_dialog_peek (ECal *ecal, EAlarmList *list_store)
+{
+	Dialog *dialog;
+	int response_id;
+	GList *icon_list;
+	char *gladefile;
+	
+	dialog = (Dialog *)g_new (Dialog, 1);
+	dialog->ecal = ecal;
+	dialog->list_store = list_store;	
+
+	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
+				      "alarm-list-dialog.glade",
+				      NULL);
+	dialog->xml = glade_xml_new (gladefile, NULL, NULL);
+	g_free (gladefile);
+
+	if (!dialog->xml) {
+		g_message (G_STRLOC ": Could not load the Glade XML file!");
+		return FALSE;
+	}
+
+	if (!get_widgets (dialog)) {
+		g_object_unref(dialog->xml);
+		return FALSE;
+	}
+
+	init_widgets (dialog);
+
+	sensitize_buttons (dialog);
+	
+	g_object_unref (dialog->xml);
+
+	/* Free the other stuff when the parent really gets destroyed. */
+	g_object_set_data_full (dialog->box, "toplevel", dialog->toplevel, gtk_widget_destroy);
+	g_object_set_data_full (dialog->box, "dialog", dialog, g_free);
+
+	return dialog->box;
 }

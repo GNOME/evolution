@@ -110,10 +110,9 @@ struct _EventPagePrivate {
 	gboolean  show_time_as_busy;
 
 	GtkWidget *alarm_dialog;
-	GtkWidget *alarm;
 	GtkWidget *alarm_time;
 	GtkWidget *alarm_warning;
-	GtkWidget *alarm_custom;
+	GtkWidget *alarm_box;
 
 	GtkWidget *categories_btn;
 	GtkWidget *categories;
@@ -229,9 +228,8 @@ event_page_init (EventPage *epage)
 	priv->classification = E_CAL_COMPONENT_CLASS_NONE;
 	priv->show_time_as_busy = FALSE;
 	priv->alarm_dialog = NULL;
-	priv->alarm = NULL;
 	priv->alarm_time = NULL;
-	priv->alarm_custom = NULL;
+	priv->alarm_box = NULL;
 	priv->categories_btn = NULL;
 	priv->categories = NULL;
 	priv->sod = NULL;
@@ -323,17 +321,21 @@ static const int classification_map[] = {
 };
 
 enum {
-	ALARM_15_MINUTES,
-	ALARM_1_HOUR,
-	ALARM_1_DAY,
-	ALARM_USER_TIME
-};
-
-static const int alarm_map[] = {
+	ALARM_NONE,
 	ALARM_15_MINUTES,
 	ALARM_1_HOUR,
 	ALARM_1_DAY,
 	ALARM_USER_TIME,
+	ALARM_CUSTOM
+};
+
+static const int alarm_map[] = {
+	ALARM_NONE,
+	ALARM_15_MINUTES,
+	ALARM_1_HOUR,
+	ALARM_1_DAY,
+	ALARM_USER_TIME,
+	ALARM_CUSTOM,
 	-1
 };
 
@@ -555,8 +557,7 @@ clear_widgets (EventPage *epage)
 	set_busy_time_menu (epage, TRUE);
 
 	/* Alarm */
-	e_dialog_toggle_set (priv->alarm, FALSE);
-	e_dialog_option_menu_set (priv->alarm_time, ALARM_15_MINUTES, alarm_map);
+	e_dialog_option_menu_set (priv->alarm_time, ALARM_NONE, alarm_map);
 	
 	/* Categories */
 	e_dialog_editable_set (priv->categories, NULL);
@@ -798,24 +799,24 @@ sensitize_widgets (EventPage *epage)
 	
 	sensitize = !read_only && sens;
 
-	custom = is_custom_alarm_store (priv->alarm_list_store, priv->old_summary, priv->alarm_units, priv->alarm_interval, NULL);
-	alarm = e_dialog_toggle_get (priv->alarm);
+	alarm = e_dialog_option_menu_get (priv->alarm_time, alarm_map) != ALARM_NONE;
+	custom = is_custom_alarm_store (priv->alarm_list_store, priv->old_summary, priv->alarm_units, priv->alarm_interval, NULL) || 
+		 e_dialog_option_menu_get (priv->alarm_time, alarm_map)  == ALARM_CUSTOM ? TRUE:FALSE;
 
 	if (alarm && !priv->alarm_icon) {
-		priv->alarm_icon = create_image_event_box ("stock_bell", "This event has alarms");
+		priv->alarm_icon = create_image_event_box ("stock_bell", _("This event has alarms"));
 		gtk_box_pack_start ((GtkBox *)priv->status_icons, priv->alarm_icon, FALSE, FALSE, 3);
 	}
 	
 	gtk_entry_set_editable (GTK_ENTRY (priv->summary), sensitize);
 	gtk_entry_set_editable (GTK_ENTRY (priv->location), sensitize);
+	gtk_widget_set_sensitive (priv->alarm_box, custom);	
 	gtk_widget_set_sensitive (priv->start_time, sensitize);
 	gtk_widget_set_sensitive (priv->start_timezone, sensitize);
 	gtk_widget_set_sensitive (priv->end_time, sensitize);
 	gtk_widget_set_sensitive (priv->end_timezone, sensitize);
 	gtk_widget_set_sensitive (priv->description, sensitize);
-	gtk_widget_set_sensitive (priv->alarm, !read_only);
-	gtk_widget_set_sensitive (priv->alarm_time, !read_only && !custom && alarm);
-	gtk_widget_set_sensitive (priv->alarm_custom, alarm);
+	gtk_widget_set_sensitive (priv->alarm_time, !read_only);
 	gtk_widget_set_sensitive (priv->categories_btn, sensitize);
 	/*TODO implement the for portion of the end time selector */
 	if ( (COMP_EDITOR_PAGE(epage)->flags) & COMP_EDITOR_PAGE_NEW_ITEM ) {
@@ -1125,17 +1126,19 @@ event_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 		enable_busy_time_menu (epage, TRUE);
 
 	/* Alarms */
-	g_signal_handlers_block_matched (priv->alarm, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, epage);
+	g_signal_handlers_block_matched (priv->alarm_time, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, epage);
+	g_signal_handlers_block_matched (priv->alarm_list_store, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, epage);
+	
 	if (e_cal_component_has_alarms (comp)) {
 		GList *alarms, *l;
 		int alarm_type;
 		
-		e_dialog_toggle_set (priv->alarm, TRUE);
-
 		alarms = e_cal_component_get_alarm_uids (comp);
 		if (!is_custom_alarm_uid_list (comp, alarms, priv->old_summary, priv->alarm_units, priv->alarm_interval, &alarm_type))
 			e_dialog_option_menu_set (priv->alarm_time, alarm_type, alarm_map);
-
+		else 
+			e_dialog_option_menu_set (priv->alarm_time, ALARM_CUSTOM, alarm_map);
+			
 		for (l = alarms; l != NULL; l = l->next) {
 			ECalComponentAlarm *ca;
 			
@@ -1146,10 +1149,10 @@ event_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 
 		cal_obj_uid_list_free (alarms);
 	} else {
-		e_dialog_toggle_set (priv->alarm, FALSE);
-		e_dialog_option_menu_set (priv->alarm_time, priv->alarm_interval == -1 ? ALARM_15_MINUTES : ALARM_USER_TIME, alarm_map);
+		e_dialog_option_menu_set (priv->alarm_time, ALARM_NONE, alarm_map);
 	}
-	g_signal_handlers_unblock_matched (priv->alarm, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, epage);
+	g_signal_handlers_unblock_matched (priv->alarm_time, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, epage);
+	g_signal_handlers_unblock_matched (priv->alarm_list_store, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, epage);
 
 	/* Categories */
 	e_cal_component_get_categories (comp, &categories);
@@ -1331,8 +1334,8 @@ event_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 
 	/* Alarm */
 	e_cal_component_remove_all_alarms (comp);
-	if (e_dialog_toggle_get (priv->alarm)) {
-		if (is_custom_alarm_store (priv->alarm_list_store, priv->old_summary, priv->alarm_units, priv->alarm_interval, NULL)) {
+	if (e_dialog_option_menu_get (priv->alarm_time, alarm_map) != ALARM_NONE) {
+		if (e_dialog_option_menu_get (priv->alarm_time, alarm_map) == ALARM_CUSTOM) {
 			GtkTreeModel *model;
 			GtkTreeIter iter;
 			gboolean valid_iter;
@@ -2180,9 +2183,8 @@ get_widgets (EventPage *epage)
 		gtk_accel_group_ref (page->accel_group);
 	}
 	priv->alarm_dialog = GW ("alarm-dialog");
-	priv->alarm = GW ("alarm");
+	priv->alarm_box = GW ("custom_box");
 	priv->alarm_time = GW ("alarm-time");
-	priv->alarm_custom = GW ("alarm-custom");
 
 	priv->timezone_label = GW ("timezone-label");
 	priv->start_timezone = GW ("start-timezone");
@@ -2649,7 +2651,7 @@ alarm_changed_cb (GtkWidget *widget, gpointer data)
 	epage = EVENT_PAGE (data);
 	priv = epage->priv;
 
-	if (e_dialog_toggle_get (priv->alarm)) {
+	if (e_dialog_option_menu_get (priv->alarm_time, alarm_map) != ALARM_NONE) {
 		ECalComponentAlarm *ca;
 		ECalComponentAlarmTrigger trigger;
 		icalcomponent *icalcomp;
@@ -2667,18 +2669,22 @@ alarm_changed_cb (GtkWidget *widget, gpointer data)
 		alarm_type = e_dialog_option_menu_get (priv->alarm_time, alarm_map);
 		switch (alarm_type) {
 		case ALARM_15_MINUTES:
+			e_alarm_list_clear (priv->alarm_list_store);
 			trigger.u.rel_duration.minutes = 15;
 			break;
 			
 		case ALARM_1_HOUR:
+			e_alarm_list_clear (priv->alarm_list_store);
 			trigger.u.rel_duration.hours = 1;
 			break;
 			
 		case ALARM_1_DAY:
+			e_alarm_list_clear (priv->alarm_list_store);		
 			trigger.u.rel_duration.days = 1;
 			break;
 
 		case ALARM_USER_TIME:
+			e_alarm_list_clear (priv->alarm_list_store);			
 			switch (calendar_config_get_default_reminder_units ()) {
 			case CAL_DAYS:		
 				trigger.u.rel_duration.days = priv->alarm_interval;
@@ -2693,21 +2699,25 @@ alarm_changed_cb (GtkWidget *widget, gpointer data)
 				break;
 			}
 			break;
+		case ALARM_CUSTOM:
+			gtk_widget_set_sensitive (priv->alarm_box, TRUE);
 			
 		default:
 			break;
-		}		
-		e_cal_component_alarm_set_trigger (ca, trigger);
+		}
+		
+		if (alarm_type != ALARM_CUSTOM) {
+			e_cal_component_alarm_set_trigger (ca, trigger);
+	
+			icalcomp = e_cal_component_alarm_get_icalcomponent (ca);
+			icalprop = icalproperty_new_x ("1");
+			icalproperty_set_x_name (icalprop, "X-EVOLUTION-NEEDS-DESCRIPTION");
+			icalcomponent_add_property (icalcomp, icalprop);
 
-		icalcomp = e_cal_component_alarm_get_icalcomponent (ca);
-		icalprop = icalproperty_new_x ("1");
-		icalproperty_set_x_name (icalprop, "X-EVOLUTION-NEEDS-DESCRIPTION");
-		icalcomponent_add_property (icalcomp, icalprop);
-
-		e_alarm_list_append (priv->alarm_list_store, NULL, ca);
-
+			e_alarm_list_append (priv->alarm_list_store, NULL, ca);
+		}
 		if (!priv->alarm_icon) {
-			priv->alarm_icon = create_image_event_box ("stock_bell", "This event has alarms");
+			priv->alarm_icon = create_image_event_box ("stock_bell", _("This event has alarms"));
 			gtk_box_pack_start ((GtkBox *)priv->status_icons, priv->alarm_icon, FALSE, FALSE, 3);
 		}
 	} else {
@@ -2719,6 +2729,18 @@ alarm_changed_cb (GtkWidget *widget, gpointer data)
 	}	
 		
 	sensitize_widgets (epage);	
+}
+
+static void 
+alarm_store_inserted_cb (EAlarmList *alarm_list_store, GtkTreePath *path, GtkTreeIter *iter, gpointer data)
+{
+	field_changed_cb (NULL, data);
+}
+
+static void 
+alarm_store_deleted_cb (EAlarmList *alarm_list_store, GtkTreePath *path, gpointer data)
+{
+	field_changed_cb (NULL, data);
 }
 
 static void
@@ -2761,8 +2783,6 @@ alarm_custom_clicked_cb (GtkWidget *widget, gpointer data)
 	
 	/* If the user erases everything, uncheck the alarm toggle */
 	valid_iter = gtk_tree_model_get_iter_first (GTK_TREE_MODEL (priv->alarm_list_store), &iter);
-	if (!valid_iter)
-		e_dialog_toggle_set (priv->alarm, FALSE);
 
 	sensitize_widgets (epage);
 }
@@ -2775,7 +2795,8 @@ init_widgets (EventPage *epage)
 	GtkTextBuffer *text_buffer;
 	icaltimezone *zone;
 	char *menu_label = NULL;
-	GtkTreeSelection *selection;	
+	GtkTreeSelection *selection;
+	GtkWidget *w, *cus_label, *cus_item, *menu;
 	
 	priv = epage->priv;
 
@@ -2821,6 +2842,11 @@ init_widgets (EventPage *epage)
 			    G_CALLBACK (source_changed_cb), epage);
 	/* Alarms */
 	priv->alarm_list_store = e_alarm_list_new ();
+	g_signal_connect((GtkTreeModel *)(priv->alarm_list_store), "row-inserted",
+			    G_CALLBACK (alarm_store_inserted_cb), epage);
+	g_signal_connect((GtkTreeModel *)(priv->alarm_list_store), "row-deleted",
+			    G_CALLBACK (alarm_store_deleted_cb), epage);
+
 
 	/* Timezone changed */
 	g_signal_connect((priv->start_timezone), "changed",
@@ -2854,6 +2880,9 @@ init_widgets (EventPage *epage)
 
 	/* Alarm dialog */
 	g_signal_connect (GTK_DIALOG (priv->alarm_dialog), "response", G_CALLBACK (gtk_widget_hide), priv->alarm_dialog);
+	w = alarm_list_dialog_peek (priv->client, priv->alarm_list_store);
+	gtk_widget_reparent (w, priv->alarm_box);
+	gtk_widget_show_all (w);
 	gtk_widget_hide (priv->alarm_dialog);
 	gtk_window_set_modal (GTK_WINDOW (priv->alarm_dialog), TRUE);
 
@@ -2921,15 +2950,22 @@ init_widgets (EventPage *epage)
 		menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (priv->alarm_time));
 		gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
 	}
+
+	cus_item = gtk_menu_item_new_with_label (_("Customize"));
+	gtk_widget_show (cus_item);
+	menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (priv->alarm_time));
+	gtk_menu_shell_append (GTK_MENU_SHELL (menu), cus_item);
 	
-	g_signal_connect (priv->alarm,
-			  "toggled", G_CALLBACK (field_changed_cb),
-			  epage);
+	cus_item = gtk_menu_item_new_with_label (_("None"));
+	gtk_widget_show (cus_item);
+	menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (priv->alarm_time));
+	gtk_menu_shell_prepend (GTK_MENU_SHELL (menu), cus_item);
+	
 	g_signal_connect (priv->alarm_time, "changed",
 			  G_CALLBACK (field_changed_cb), epage);
-	g_signal_connect (priv->alarm_custom, "clicked",
-			  G_CALLBACK (alarm_custom_clicked_cb), epage);
-
+	g_signal_connect (priv->alarm_time, "changed",
+			  G_CALLBACK (alarm_changed_cb), epage);
+	
 	/* Belongs to priv->description */
 	g_signal_connect((text_buffer), "changed",
 			    G_CALLBACK (field_changed_cb), epage);
@@ -2948,10 +2984,6 @@ init_widgets (EventPage *epage)
 			    G_CALLBACK (field_changed_cb), epage);
 	g_signal_connect((priv->categories), "changed",
 			    G_CALLBACK (field_changed_cb), epage);
-
-	g_signal_connect (priv->alarm,
-			  "toggled", G_CALLBACK (alarm_changed_cb),
-			  epage);
 
 	/* Set the default timezone, so the timezone entry may be hidden. */
 	zone = calendar_config_get_icaltimezone ();
