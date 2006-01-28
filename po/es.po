@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-01-27 19:05+0100\n"
-"PO-Revision-Date: 2006-01-27 19:10+0100\n"
+"POT-Creation-Date: 2006-01-28 18:32+0100\n"
+"PO-Revision-Date: 2006-01-28 18:34+0100\n"
 "Last-Translator: Francisco Javier F. Serrador <serrador@cvs.gnome.org>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -1346,7 +1346,8 @@ msgid "_Calendar:"
 msgstr "_Calendario:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:29
-#: ../ui/evolution-event-editor.xml.h:27 ../ui/evolution-task-editor.xml.h:18
+#: ../ui/evolution-event-editor.xml.h:27 ../ui/evolution-memo-editor.xml.h:6
+#: ../ui/evolution-task-editor.xml.h:18
 msgid "_Categories"
 msgstr "_Categorías"
 
@@ -3011,7 +3012,7 @@ msgid "Car Phone"
 msgstr "Teléfono del coche"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:8
-#: ../calendar/gui/dialogs/event-page.glade.h:9
+#: ../calendar/gui/dialogs/event-page.glade.h:8
 #: ../calendar/gui/e-cal-list-view.etspec.h:1
 #: ../calendar/gui/e-calendar-table.etspec.h:3
 #: ../calendar/gui/e-memo-table.etspec.h:1
@@ -4300,38 +4301,42 @@ msgid "Would you like to save your changes to this appointment?"
 msgstr "¿Desea guardar los cambios a esta cita?"
 
 #: ../calendar/calendar.error.xml.h:56
+msgid "Would you like to save your changes to this memo?"
+msgstr "¿Desea guardar los cambios a esta nota?"
+
+#: ../calendar/calendar.error.xml.h:57
 msgid "Would you like to save your changes to this task?"
 msgstr "¿Desea guardar los cambios a esta tarea?"
 
-#: ../calendar/calendar.error.xml.h:57
+#: ../calendar/calendar.error.xml.h:58
 msgid "Would you like to send a cancelation notice for this journal entry?"
 msgstr ""
 "¿Seguro que quiere enviar una notificación de cancelación para esta entrada "
 "de diario?"
 
-#: ../calendar/calendar.error.xml.h:58
+#: ../calendar/calendar.error.xml.h:59
 msgid "Would you like to send all the participants a cancelation notice?"
 msgstr ""
 "¿Quiere enviar a todos los participantes una notificación de cancelación?"
 
-#: ../calendar/calendar.error.xml.h:59
+#: ../calendar/calendar.error.xml.h:60
 msgid "Would you like to send meeting invitations to participants?"
 msgstr "¿Quiere enviar invitaciones a la reunión a los participantes?"
 
-#: ../calendar/calendar.error.xml.h:60
+#: ../calendar/calendar.error.xml.h:61
 msgid "Would you like to send this task to participants?"
 msgstr "¿Quiere enviar esta tarea a los participantes?"
 
-#: ../calendar/calendar.error.xml.h:61
+#: ../calendar/calendar.error.xml.h:62
 msgid "Would you like to send updated meeting information to participants?"
 msgstr ""
 "¿Quiere enviar información de la reunión actualizada a los participantes?"
 
-#: ../calendar/calendar.error.xml.h:62
+#: ../calendar/calendar.error.xml.h:63
 msgid "Would you like to send updated task information to participants?"
 msgstr "¿Quiere enviar información de tareas actualizada a los participantes?"
 
-#: ../calendar/calendar.error.xml.h:63
+#: ../calendar/calendar.error.xml.h:64
 msgid ""
 "You are connecting to an unsupported GroupWise server and may encounter "
 "problems using Evolution. For best results, the server should be upgraded to "
@@ -4341,43 +4346,47 @@ msgstr ""
 "problemas usando Evolution. Para los mejores resultados el servidor debería "
 "actualizarse a una versión soportada."
 
-#: ../calendar/calendar.error.xml.h:64
+#: ../calendar/calendar.error.xml.h:65
 msgid "You have changed this appointment, but not yet saved it."
 msgstr "Ha cambiado esta cita, pero no la ha guardado aún."
 
-#: ../calendar/calendar.error.xml.h:65
+#: ../calendar/calendar.error.xml.h:66
 msgid "You have changed this task, but not yet saved it."
 msgstr "Ha realizado cambios a esta tarea, pero no la ha guardado aún."
 
-#: ../calendar/calendar.error.xml.h:66
+#: ../calendar/calendar.error.xml.h:67
+msgid "You have made changes to this memo, but not yet saved them."
+msgstr "Ha realizado cambios a esta nota, pero no los ha guardado aún."
+
+#: ../calendar/calendar.error.xml.h:68
 msgid "Your calendars will not be available until Evolution is restarted."
 msgstr "Sus calendarios no estarán disponibles hasta que reinicie Evolution."
 
-#: ../calendar/calendar.error.xml.h:67
+#: ../calendar/calendar.error.xml.h:69
 msgid "Your tasks will not be available until Evolution is restarted."
 msgstr "Sus tareas no estarán disponibles hasta que reinicie Evolution."
 
-#: ../calendar/calendar.error.xml.h:68
+#: ../calendar/calendar.error.xml.h:70
 #: ../composer/mail-composer.error.xml.h:27
 msgid "_Discard Changes"
 msgstr "_Descartar cambios"
 
-#: ../calendar/calendar.error.xml.h:69 ../ui/evolution-editor.xml.h:23
+#: ../calendar/calendar.error.xml.h:71 ../ui/evolution-editor.xml.h:23
 #: ../ui/evolution-message-composer.xml.h:53
 #: ../ui/evolution-signature-editor.xml.h:15
 msgid "_Save"
 msgstr "_Guardar"
 
-#: ../calendar/calendar.error.xml.h:70
+#: ../calendar/calendar.error.xml.h:72
 msgid "_Save Changes"
 msgstr "_Guardar cambios"
 
-#: ../calendar/calendar.error.xml.h:71
+#: ../calendar/calendar.error.xml.h:73
 #: ../composer/mail-composer.error.xml.h:31 ../mail/mail.error.xml.h:132
 msgid "_Send"
 msgstr "_Enviar"
 
-#: ../calendar/calendar.error.xml.h:72
+#: ../calendar/calendar.error.xml.h:74
 msgid "{0}."
 msgstr "{0}."
 
@@ -5269,7 +5278,7 @@ msgid "New calendar"
 msgstr "Calendario nuevo"
 
 #: ../calendar/gui/calendar-component.c:1482
-#: ../calendar/gui/dialogs/event-page.c:872
+#: ../calendar/gui/dialogs/event-page.c:873
 msgid "Cale_ndar"
 msgstr "Cale_ndario"
 
@@ -5410,7 +5419,7 @@ msgstr "minuto(s)"
 msgid "start of appointment"
 msgstr "comienzo de cita"
 
-#: ../calendar/gui/dialogs/alarm-list-dialog.c:200
+#: ../calendar/gui/dialogs/alarm-list-dialog.c:203
 msgid "Action/Trigger"
 msgstr "Acción/Disparador"
 
@@ -5529,7 +5538,7 @@ msgid "Display"
 msgstr "Mostrar"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:17
-#: ../calendar/gui/dialogs/event-editor.c:566
+#: ../calendar/gui/dialogs/event-editor.c:572
 #: ../ui/evolution-event-editor.xml.h:8
 msgid "Free/Busy"
 msgstr "Disponibilidad"
@@ -5911,7 +5920,7 @@ msgid "Show Attachment _Bar"
 msgstr "Mostrar _barra de adjuntos"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1094
-#: ../calendar/gui/dialogs/event-page.c:1895
+#: ../calendar/gui/dialogs/event-page.c:1898
 #: ../calendar/gui/dialogs/meeting-page.c:914
 #: ../calendar/gui/dialogs/task-page.c:1206
 #: ../composer/e-msg-composer-attachment-bar.c:470
@@ -6075,102 +6084,134 @@ msgstr "Delegar en:"
 msgid "Enter Delegate"
 msgstr "Introducir un delegado"
 
-#: ../calendar/gui/dialogs/event-editor.c:541
+#: ../calendar/gui/dialogs/event-editor.c:547
 msgid "Appoint_ment"
 msgstr "_Cita"
 
-#: ../calendar/gui/dialogs/event-editor.c:545
+#: ../calendar/gui/dialogs/event-editor.c:551
 #: ../ui/evolution-event-editor.xml.h:14
 msgid "Recurrence"
 msgstr "Repetición"
 
-#: ../calendar/gui/dialogs/event-page.c:878
+#: ../calendar/gui/dialogs/event-page.c:807
+#: ../calendar/gui/dialogs/event-page.c:2720
+msgid "This event has alarms"
+msgstr "Este acontecimiento tiene alarmas."
+
+#: ../calendar/gui/dialogs/event-page.c:879
 #: ../calendar/gui/dialogs/task-page.c:446
 msgid "Or_ganizer"
 msgstr "Or_ganizador"
 
-#: ../calendar/gui/dialogs/event-page.c:916
+#: ../calendar/gui/dialogs/event-page.c:917
 msgid "_Delegatees"
 msgstr "_Delegados"
 
-#: ../calendar/gui/dialogs/event-page.c:918
+#: ../calendar/gui/dialogs/event-page.c:919
 msgid "Atte_ndees"
 msgstr "_Participantes"
 
-#: ../calendar/gui/dialogs/event-page.c:1085
+#: ../calendar/gui/dialogs/event-page.c:1086
 msgid "Event with no start date"
 msgstr "Acontecimiento sin fecha de inicio"
 
-#: ../calendar/gui/dialogs/event-page.c:1088
+#: ../calendar/gui/dialogs/event-page.c:1089
 msgid "Event with no end date"
 msgstr "Acontecimiento sin fecha de finalización"
 
-#: ../calendar/gui/dialogs/event-page.c:1254
+#: ../calendar/gui/dialogs/event-page.c:1257
 #: ../calendar/gui/dialogs/task-page.c:851
 msgid "Start date is wrong"
 msgstr "La fecha de inicio está equivocada"
 
-#: ../calendar/gui/dialogs/event-page.c:1264
+#: ../calendar/gui/dialogs/event-page.c:1267
 msgid "End date is wrong"
 msgstr "La fecha de finalización  está equivocada"
 
-#: ../calendar/gui/dialogs/event-page.c:1287
+#: ../calendar/gui/dialogs/event-page.c:1290
 msgid "Start time is wrong"
 msgstr "La hora de inicio está equivocada"
 
-#: ../calendar/gui/dialogs/event-page.c:1294
+#: ../calendar/gui/dialogs/event-page.c:1297
 msgid "End time is wrong"
 msgstr "La  hora de finalización  está equivocada"
 
-#: ../calendar/gui/dialogs/event-page.c:1449
+#: ../calendar/gui/dialogs/event-page.c:1452
 #: ../calendar/gui/dialogs/meeting-page.c:469
 #: ../calendar/gui/dialogs/task-page.c:908
 msgid "The organizer selected no longer has an account."
 msgstr "El organizador seleccionado ya no tiene una cuenta."
 
-#: ../calendar/gui/dialogs/event-page.c:1455
+#: ../calendar/gui/dialogs/event-page.c:1458
 #: ../calendar/gui/dialogs/meeting-page.c:475
 #: ../calendar/gui/dialogs/task-page.c:914
 msgid "An organizer is required."
 msgstr "Se requiere un organizador."
 
-#: ../calendar/gui/dialogs/event-page.c:1470
+#: ../calendar/gui/dialogs/event-page.c:1473
 #: ../calendar/gui/dialogs/meeting-page.c:490
 #: ../calendar/gui/dialogs/task-page.c:929
 msgid "At least one attendee is required."
 msgstr "Es necesario por lo menos un participante."
 
-#: ../calendar/gui/dialogs/event-page.c:1896
+#: ../calendar/gui/dialogs/event-page.c:1899
 #: ../calendar/gui/dialogs/meeting-page.c:915
 #: ../calendar/gui/dialogs/task-page.c:1207
 msgid "_Add "
 msgstr "_Añadir"
 
-#: ../calendar/gui/dialogs/event-page.c:2625
+#: ../calendar/gui/dialogs/event-page.c:2627
 #, c-format
 msgid "Unable to open the calendar '%s'."
 msgstr "No se pudo abrir el calendario «%s»."
 
-#: ../calendar/gui/dialogs/event-page.c:2893
+#: ../calendar/gui/dialogs/event-page.c:2922
 #, c-format
 msgid "%d day before appointment"
 msgid_plural "%d days before appointment"
 msgstr[0] "%d día antes de la cita"
 msgstr[1] "%d días antes de la cita"
 
-#: ../calendar/gui/dialogs/event-page.c:2901
+#: ../calendar/gui/dialogs/event-page.c:2930
 #, c-format
 msgid "%d hour before appointment"
 msgid_plural "%d hours before appointment"
 msgstr[0] "%d hora antes de la cita"
 msgstr[1] "%d horas antes de la cita"
 
-#: ../calendar/gui/dialogs/event-page.c:2909
+#: ../calendar/gui/dialogs/event-page.c:2938
 #, c-format
 msgid "%d minute before appointement"
 msgid_plural "%d minutes before appointment"
 msgstr[0] "%d minuto antes de la cita"
 msgstr[1] "%d minutos antes de cada cita"
+
+#: ../calendar/gui/dialogs/event-page.c:2954
+msgid "Customize"
+msgstr "Personalizar"
+
+#. an empty string is the same as 'None'
+#. Put the "None" and "UTC" entries at the top of the combo's list.
+#. When "None" is selected we want the field to be cleared.
+#. Note that we don't show this here, since by default a 'None' date
+#. is not permitted.
+#: ../calendar/gui/dialogs/event-page.c:2959
+#: ../calendar/gui/dialogs/meeting-page.c:321
+#: ../calendar/gui/dialogs/meeting-page.glade.h:4
+#: ../calendar/gui/e-cal-model-tasks.c:654
+#: ../calendar/gui/e-itip-control.c:1105 ../composer/e-msg-composer.c:2275
+#: ../filter/filter-rule.c:889 ../mail/em-account-editor.c:691
+#: ../mail/em-account-editor.c:1356 ../mail/em-account-prefs.c:468
+#: ../mail/em-folder-view.c:1106 ../mail/em-junk-hook.c:78
+#: ../plugins/calendar-weather/calendar-weather.c:370
+#: ../plugins/calendar-weather/calendar-weather.c:424
+#: ../plugins/exchange-operations/exchange-delegates.glade.h:9
+#: ../plugins/itip-formatter/itip-formatter.c:1626
+#: ../widgets/e-timezone-dialog/e-timezone-dialog.c:192
+#: ../widgets/misc/e-cell-date-edit.c:249 ../widgets/misc/e-dateedit.c:475
+#: ../widgets/misc/e-dateedit.c:1514 ../widgets/misc/e-dateedit.c:1728
+msgid "None"
+msgstr "Ninguno"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:1
 msgid "1 hour before appointment"
@@ -6190,17 +6231,17 @@ msgid "Atte_ndees..."
 msgstr "_Participantes…"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:6
-msgid "C_ustomize"
-msgstr "_Personalizar"
-
-#: ../calendar/gui/dialogs/event-page.glade.h:7
-#: ../calendar/gui/dialogs/memo-page.glade.h:3
+#: ../calendar/gui/dialogs/memo-page.glade.h:2
 msgid "Ca_tegories..."
 msgstr "Ca_tegorías…"
 
-#: ../calendar/gui/dialogs/event-page.glade.h:8
+#: ../calendar/gui/dialogs/event-page.glade.h:7
 msgid "Cale_ndar:"
 msgstr "Cale_ndario:"
+
+#: ../calendar/gui/dialogs/event-page.glade.h:9
+msgid "Custom Alarm:"
+msgstr "Alarma personalizada:"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:10
 msgid "Event Description"
@@ -6221,12 +6262,12 @@ msgid "Su_mmary:"
 msgstr "Resu_men:"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:15
-msgid "_Description:"
-msgstr "_Descripción:"
+msgid "_Alarm"
+msgstr "_Alarma"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:16
-msgid "_Set alarm\t"
-msgstr "_Poner alarma\t"
+msgid "_Description:"
+msgstr "_Descripción:"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:17
 msgid "_Time:"
@@ -6249,28 +6290,6 @@ msgstr "_Delegados"
 #: ../calendar/gui/dialogs/meeting-page.c:313
 msgid "From:"
 msgstr "De:"
-
-#. an empty string is the same as 'None'
-#. Put the "None" and "UTC" entries at the top of the combo's list.
-#. When "None" is selected we want the field to be cleared.
-#. Note that we don't show this here, since by default a 'None' date
-#. is not permitted.
-#: ../calendar/gui/dialogs/meeting-page.c:321
-#: ../calendar/gui/dialogs/meeting-page.glade.h:4
-#: ../calendar/gui/e-cal-model-tasks.c:654
-#: ../calendar/gui/e-itip-control.c:1105 ../composer/e-msg-composer.c:2275
-#: ../filter/filter-rule.c:889 ../mail/em-account-editor.c:691
-#: ../mail/em-account-editor.c:1356 ../mail/em-account-prefs.c:468
-#: ../mail/em-folder-view.c:1106 ../mail/em-junk-hook.c:78
-#: ../plugins/calendar-weather/calendar-weather.c:370
-#: ../plugins/calendar-weather/calendar-weather.c:424
-#: ../plugins/exchange-operations/exchange-delegates.glade.h:9
-#: ../plugins/itip-formatter/itip-formatter.c:1626
-#: ../widgets/e-timezone-dialog/e-timezone-dialog.c:192
-#: ../widgets/misc/e-cell-date-edit.c:249 ../widgets/misc/e-dateedit.c:475
-#: ../widgets/misc/e-dateedit.c:1514 ../widgets/misc/e-dateedit.c:1728
-msgid "None"
-msgstr "Ninguno"
 
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:1
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:1
@@ -6343,47 +6362,21 @@ msgstr "Organizador"
 msgid "Organizer:"
 msgstr "Organizador:"
 
-#: ../calendar/gui/dialogs/memo-editor.c:130 ../calendar/gui/print.c:2313
+#: ../calendar/gui/dialogs/memo-editor.c:229 ../calendar/gui/print.c:2313
 msgid "Memo"
 msgstr "Nota"
 
-#: ../calendar/gui/dialogs/memo-page.c:490
+#: ../calendar/gui/dialogs/memo-page.c:551
 #, c-format
 msgid "Unable to open memos in '%s'."
 msgstr "No es posible abrir las notas en «%s»."
 
-#: ../calendar/gui/dialogs/memo-page.glade.h:2
-msgid "<span weight=\"bold\">Basics</span>"
-msgstr "<span weight=\"bold\">Básicas</span>"
-
-#: ../calendar/gui/dialogs/memo-page.glade.h:4
-msgid "Classi_fication:"
-msgstr "Clasi_ficación:"
-
-#: ../calendar/gui/dialogs/memo-page.glade.h:5
-#: ../calendar/gui/e-cal-list-view.c:257 ../calendar/gui/e-cal-model.c:325
-#: ../calendar/gui/e-calendar-table.c:368
-msgid "Confidential"
-msgstr "Confidencial"
-
-#: ../calendar/gui/dialogs/memo-page.glade.h:6
-#: ../calendar/gui/e-cal-list-view.c:256 ../calendar/gui/e-cal-model.c:323
-#: ../calendar/gui/e-calendar-table.c:367
-msgid "Private"
-msgstr "Privado"
-
-#: ../calendar/gui/dialogs/memo-page.glade.h:7
-#: ../calendar/gui/e-cal-list-view.c:255 ../calendar/gui/e-cal-model.c:314
-#: ../calendar/gui/e-cal-model.c:321 ../calendar/gui/e-calendar-table.c:366
-msgid "Public"
-msgstr "Público"
-
-#: ../calendar/gui/dialogs/memo-page.glade.h:8
+#: ../calendar/gui/dialogs/memo-page.glade.h:3
 #: ../calendar/gui/dialogs/task-page.glade.h:9
 msgid "_Group:"
 msgstr "_Grupo:"
 
-#: ../calendar/gui/dialogs/memo-page.glade.h:9
+#: ../calendar/gui/dialogs/memo-page.glade.h:4
 msgid "_Memo Content:"
 msgstr "Contenido de la _nota:"
 
@@ -6634,12 +6627,12 @@ msgstr "_Prioridad:"
 msgid "_Web Page:"
 msgstr "Página _web:"
 
-#: ../calendar/gui/dialogs/task-editor.c:419
+#: ../calendar/gui/dialogs/task-editor.c:420
 #: ../calendar/gui/tasks-component.c:1174
 msgid "_Task"
 msgstr "_Tarea"
 
-#: ../calendar/gui/dialogs/task-editor.c:423
+#: ../calendar/gui/dialogs/task-editor.c:424
 msgid "Task Details"
 msgstr "Detalles"
 
@@ -6870,6 +6863,21 @@ msgstr "Estado:"
 msgid "Priority:"
 msgstr "Prioridad:"
 
+#: ../calendar/gui/e-cal-list-view.c:255 ../calendar/gui/e-cal-model.c:314
+#: ../calendar/gui/e-cal-model.c:321 ../calendar/gui/e-calendar-table.c:366
+msgid "Public"
+msgstr "Público"
+
+#: ../calendar/gui/e-cal-list-view.c:256 ../calendar/gui/e-cal-model.c:323
+#: ../calendar/gui/e-calendar-table.c:367
+msgid "Private"
+msgstr "Privado"
+
+#: ../calendar/gui/e-cal-list-view.c:257 ../calendar/gui/e-cal-model.c:325
+#: ../calendar/gui/e-calendar-table.c:368
+msgid "Confidential"
+msgstr "Confidencial"
+
 #: ../calendar/gui/e-cal-list-view.etspec.h:2
 msgid "End Date"
 msgstr "Fecha de terminación"
@@ -6950,7 +6958,7 @@ msgstr "Asignado"
 msgid "Save As..."
 msgstr "Guardar como…"
 
-#: ../calendar/gui/e-cal-popup.c:188 ../mail/em-format-html-display.c:1866
+#: ../calendar/gui/e-cal-popup.c:188 ../mail/em-format-html-display.c:1909
 msgid "Select folder to save selected attachments..."
 msgstr "Seleccione la carpeta donde guardar los adjuntos seleccionados…"
 
@@ -11688,16 +11696,16 @@ msgid "Click to mail %s"
 msgstr "Pulse para enviar correo a %s"
 
 #. message-search popup match count string
-#: ../mail/em-format-html-display.c:493
+#: ../mail/em-format-html-display.c:494
 #, c-format
 msgid "Matches: %d"
 msgstr "Coincide con: %d"
 
-#: ../mail/em-format-html-display.c:753 ../mail/em-format-html.c:607
+#: ../mail/em-format-html-display.c:754 ../mail/em-format-html.c:607
 msgid "Unsigned"
 msgstr "No firmado"
 
-#: ../mail/em-format-html-display.c:753
+#: ../mail/em-format-html-display.c:754
 msgid ""
 "This message is not signed. There is no guarantee that this message is "
 "authentic."
@@ -11705,11 +11713,11 @@ msgstr ""
 "Este mensaje no está firmado. No hay garantía de que el mensaje sea "
 "auténtico."
 
-#: ../mail/em-format-html-display.c:754 ../mail/em-format-html.c:608
+#: ../mail/em-format-html-display.c:755 ../mail/em-format-html.c:608
 msgid "Valid signature"
 msgstr "Firma válida"
 
-#: ../mail/em-format-html-display.c:754
+#: ../mail/em-format-html-display.c:755
 msgid ""
 "This message is signed and is valid meaning that it is very likely that this "
 "message is authentic."
@@ -11717,11 +11725,11 @@ msgstr ""
 "Este mensaje está firmado y es válido, lo que significa que es muy probable "
 "que el mensaje sea auténtico."
 
-#: ../mail/em-format-html-display.c:755 ../mail/em-format-html.c:609
+#: ../mail/em-format-html-display.c:756 ../mail/em-format-html.c:609
 msgid "Invalid signature"
 msgstr "Firma no válida"
 
-#: ../mail/em-format-html-display.c:755
+#: ../mail/em-format-html-display.c:756
 msgid ""
 "The signature of this message cannot be verified, it may have been altered "
 "in transit."
@@ -11729,11 +11737,11 @@ msgstr ""
 "La firma de este mensaje no se puede verificar, pudo haber sido alterada en "
 "tránsito."
 
-#: ../mail/em-format-html-display.c:756
+#: ../mail/em-format-html-display.c:757
 msgid "Valid signature, cannot verify sender"
 msgstr "Firma válida, no se puede verificar el remitente"
 
-#: ../mail/em-format-html-display.c:756
+#: ../mail/em-format-html-display.c:757
 msgid ""
 "This message is signed with a valid signature, but the sender of the message "
 "cannot be verified."
@@ -11741,11 +11749,11 @@ msgstr ""
 "Este mensaje está firmado con una firma válida, pero el remitente del "
 "mensaje no se pudo verificar."
 
-#: ../mail/em-format-html-display.c:762 ../mail/em-format-html.c:616
+#: ../mail/em-format-html-display.c:763 ../mail/em-format-html.c:616
 msgid "Unencrypted"
 msgstr "Desencriptado"
 
-#: ../mail/em-format-html-display.c:762
+#: ../mail/em-format-html-display.c:763
 msgid ""
 "This message is not encrypted. Its content may be viewed in transit across "
 "the Internet."
@@ -11753,11 +11761,11 @@ msgstr ""
 "Este mensaje no está encriptado. Su contenido puede verse en tránsito a "
 "través de Internet."
 
-#: ../mail/em-format-html-display.c:763 ../mail/em-format-html.c:617
+#: ../mail/em-format-html-display.c:764 ../mail/em-format-html.c:617
 msgid "Encrypted, weak"
 msgstr "Encriptado, débil"
 
-#: ../mail/em-format-html-display.c:763
+#: ../mail/em-format-html-display.c:764
 msgid ""
 "This message is encrypted, but with a weak encryption algorithm. It would be "
 "difficult, but not impossible for an outsider to view the content of this "
@@ -11767,11 +11775,11 @@ msgstr ""
 "Debería ser difícil, pero no imposible para un espía ver el contenido de "
 "este mensaje empleando algo de tiempo."
 
-#: ../mail/em-format-html-display.c:764 ../mail/em-format-html.c:618
+#: ../mail/em-format-html-display.c:765 ../mail/em-format-html.c:618
 msgid "Encrypted"
 msgstr "Encriptado"
 
-#: ../mail/em-format-html-display.c:764
+#: ../mail/em-format-html-display.c:765
 msgid ""
 "This message is encrypted.  It would be difficult for an outsider to view "
 "the content of this message."
@@ -11779,11 +11787,11 @@ msgstr ""
 "Este mensaje está encriptado. Sería difícil para un espía ver el contenido "
 "de este mensaje."
 
-#: ../mail/em-format-html-display.c:765 ../mail/em-format-html.c:619
+#: ../mail/em-format-html-display.c:766 ../mail/em-format-html.c:619
 msgid "Encrypted, strong"
 msgstr "Cifrado, fuerte"
 
-#: ../mail/em-format-html-display.c:765
+#: ../mail/em-format-html-display.c:766
 msgid ""
 "This message is encrypted, with a strong encryption algorithm. It would be "
 "very difficult for an outsider to view the content of this message in a "
@@ -11793,75 +11801,75 @@ msgstr ""
 "muy difícil que un espía vea el contenido de este mensaje en empleando un "
 "tiempo razonable."
 
-#: ../mail/em-format-html-display.c:866 ../smime/gui/smime-ui.glade.h:48
+#: ../mail/em-format-html-display.c:867 ../smime/gui/smime-ui.glade.h:48
 msgid "_View Certificate"
 msgstr "_Ver certificado"
 
-#: ../mail/em-format-html-display.c:881
+#: ../mail/em-format-html-display.c:882
 msgid "This certificate is not viewable"
 msgstr "Certificado no es visible"
 
-#: ../mail/em-format-html-display.c:1169
+#: ../mail/em-format-html-display.c:1170
 msgid "Completed on %B %d, %Y, %l:%M %p"
 msgstr "Terminado el %d de %B de %Y, %l:%M %p"
 
-#: ../mail/em-format-html-display.c:1177
+#: ../mail/em-format-html-display.c:1178
 msgid "Overdue:"
 msgstr "Atrasado:"
 
-#: ../mail/em-format-html-display.c:1180
+#: ../mail/em-format-html-display.c:1181
 msgid "by %B %d, %Y, %l:%M %p"
 msgstr "antes del %d de %B de %Y, %l:%M %p"
 
-#: ../mail/em-format-html-display.c:1240
+#: ../mail/em-format-html-display.c:1241
 msgid "_View Inline"
 msgstr "_Ver incluido"
 
-#: ../mail/em-format-html-display.c:1241
+#: ../mail/em-format-html-display.c:1242
 msgid "_Hide"
 msgstr "_Ocultar"
 
-#: ../mail/em-format-html-display.c:1242
+#: ../mail/em-format-html-display.c:1243
 msgid "_Fit to Width"
 msgstr "_Ajustar al ancho"
 
-#: ../mail/em-format-html-display.c:1243
+#: ../mail/em-format-html-display.c:1244
 msgid "Show _Original Size"
 msgstr "Mostrar tamaño _original"
 
-#: ../mail/em-format-html-display.c:1620
+#: ../mail/em-format-html-display.c:1663
 msgid "Attachment Button"
 msgstr "Botón de adjunto"
 
-#: ../mail/em-format-html-display.c:1827
+#: ../mail/em-format-html-display.c:1870
 msgid "Select folder to save all attachments..."
 msgstr "Seleccione la carpeta donde guardar todos los adjuntos…"
 
-#: ../mail/em-format-html-display.c:1874
+#: ../mail/em-format-html-display.c:1917
 msgid "Save Selected..."
 msgstr "Guardar seleccionados…"
 
 #. Cant i put in the number of attachments here ?
-#: ../mail/em-format-html-display.c:1941
+#: ../mail/em-format-html-display.c:1984
 #, c-format
 msgid "%d attachme_nt"
 msgid_plural "%d attachme_nts"
 msgstr[0] "%d ad_junto"
 msgstr[1] "%d ad_juntos"
 
-#: ../mail/em-format-html-display.c:1948 ../mail/em-format-html-display.c:2024
+#: ../mail/em-format-html-display.c:1991 ../mail/em-format-html-display.c:2067
 msgid "S_ave"
 msgstr "_Guardar"
 
-#: ../mail/em-format-html-display.c:1959
+#: ../mail/em-format-html-display.c:2002
 msgid "S_ave All"
 msgstr "Guardar _todo"
 
-#: ../mail/em-format-html-display.c:2018
+#: ../mail/em-format-html-display.c:2061
 msgid "Toggle Attachment Bar"
 msgstr "Cambiar barra de adjuntos"
 
-#: ../mail/em-format-html-display.c:2020
+#: ../mail/em-format-html-display.c:2063
 msgid "No Attachment"
 msgstr "Sin adjunto"
 
@@ -17265,7 +17273,9 @@ msgstr "Iniciar en modo desconectado"
 msgid ""
 "The configuration version of Evolution, with major/minor/configuration level "
 "(for example \"2.6.0\")."
-msgstr "La versión de configuración de Evolution, con nivel de configuración mayor/menor (por ejemplo \"2.6.0\")."
+msgstr ""
+"La versión de configuración de Evolution, con nivel de configuración mayor/"
+"menor (por ejemplo \"2.6.0\")."
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:13
 msgid "The default height for the main window, in pixels."
@@ -17283,7 +17293,9 @@ msgstr "La anchura predeterminada para la barra lateral, en píxeles."
 msgid ""
 "The last upgraded configuration version of Evolution, with major/minor/"
 "configuration level (for example \"2.6.0\")."
-msgstr "La última versión de configuración de Evolution actualizada, con nivel de configuración mayor/menor (por ejemplo \"2.6.0\")."
+msgstr ""
+"La última versión de configuración de Evolution actualizada, con nivel de "
+"configuración mayor/menor (por ejemplo \"2.6.0\")."
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:17
 msgid ""
@@ -17312,7 +17324,9 @@ msgstr "Indica si la barra de herramientas debería ser visible."
 #: ../shell/apps_evolution_shell.schemas.in.in.h:21
 msgid ""
 "Whether the warning dialog in development versions of Evolution is skipped."
-msgstr "Indica si se omite el diálogo de advertencia en las versiones de desarrollo de Evolution."
+msgstr ""
+"Indica si se omite el diálogo de advertencia en las versiones de desarrollo "
+"de Evolution."
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:22
 msgid "Whether the window buttons should be visible."
@@ -18691,15 +18705,18 @@ msgstr "Alar_mas"
 msgid "All day Event"
 msgstr "Acontecimiento para todo el día"
 
-#: ../ui/evolution-event-editor.xml.h:4 ../ui/evolution-task-editor.xml.h:1
+#: ../ui/evolution-event-editor.xml.h:4 ../ui/evolution-memo-editor.xml.h:1
+#: ../ui/evolution-task-editor.xml.h:1
 msgid "Classify as Confidential"
 msgstr "Clasificar como confidencial"
 
-#: ../ui/evolution-event-editor.xml.h:5 ../ui/evolution-task-editor.xml.h:2
+#: ../ui/evolution-event-editor.xml.h:5 ../ui/evolution-memo-editor.xml.h:2
+#: ../ui/evolution-task-editor.xml.h:2
 msgid "Classify as Private"
 msgstr "Clasificar como privado"
 
-#: ../ui/evolution-event-editor.xml.h:6 ../ui/evolution-task-editor.xml.h:3
+#: ../ui/evolution-event-editor.xml.h:6 ../ui/evolution-memo-editor.xml.h:3
+#: ../ui/evolution-task-editor.xml.h:3
 msgid "Classify as public"
 msgstr "Clasificar como público"
 
@@ -18715,7 +18732,8 @@ msgstr "Opciones de envío avanzadas"
 msgid "Make this a recurring event"
 msgstr "Convertir en acontecimiento repetitivo"
 
-#: ../ui/evolution-event-editor.xml.h:11 ../ui/evolution-task-editor.xml.h:6
+#: ../ui/evolution-event-editor.xml.h:11 ../ui/evolution-memo-editor.xml.h:4
+#: ../ui/evolution-task-editor.xml.h:6
 msgid "Pu_blic"
 msgstr "Pú_blico"
 
@@ -18755,7 +18773,8 @@ msgstr "Conmuta cuando se muestra el campo «Estado»"
 msgid "Toggles whether the time zone is displayed"
 msgstr "Conmuta cuando se muestra la «Zona horaria»"
 
-#: ../ui/evolution-event-editor.xml.h:23 ../ui/evolution-task-editor.xml.h:17
+#: ../ui/evolution-event-editor.xml.h:23 ../ui/evolution-memo-editor.xml.h:5
+#: ../ui/evolution-task-editor.xml.h:17
 msgid "Toggles whether to display categories"
 msgstr "Conmuta cuando se muestran las categorías"
 
@@ -18771,11 +18790,13 @@ msgstr "Conmuta cuando se deben mostrar las horas como ocupadas"
 msgid "_All day Event"
 msgstr "Acontecimiento para _todo el día"
 
-#: ../ui/evolution-event-editor.xml.h:28 ../ui/evolution-task-editor.xml.h:19
+#: ../ui/evolution-event-editor.xml.h:28 ../ui/evolution-memo-editor.xml.h:7
+#: ../ui/evolution-task-editor.xml.h:19
 msgid "_Classification"
 msgstr "_Clasificación"
 
-#: ../ui/evolution-event-editor.xml.h:29 ../ui/evolution-task-editor.xml.h:20
+#: ../ui/evolution-event-editor.xml.h:29 ../ui/evolution-memo-editor.xml.h:8
+#: ../ui/evolution-task-editor.xml.h:20
 msgid "_Confidential"
 msgstr "_Confidencial"
 
@@ -18783,7 +18804,8 @@ msgstr "_Confidencial"
 msgid "_Free/Busy"
 msgstr "_Disponibilidad"
 
-#: ../ui/evolution-event-editor.xml.h:31 ../ui/evolution-task-editor.xml.h:21
+#: ../ui/evolution-event-editor.xml.h:31 ../ui/evolution-memo-editor.xml.h:9
+#: ../ui/evolution-task-editor.xml.h:21
 msgid "_Private"
 msgstr "_Privado"
 
@@ -21217,6 +21239,15 @@ msgstr "Contexto IM"
 msgid "Handle Popup"
 msgstr "Tirador emergente"
 
+#~ msgid "_Set alarm\t"
+#~ msgstr "_Poner alarma\t"
+
+#~ msgid "<span weight=\"bold\">Basics</span>"
+#~ msgstr "<span weight=\"bold\">Básicas</span>"
+
+#~ msgid "Classi_fication:"
+#~ msgstr "Clasi_ficación:"
+
 #~ msgid "dialog1"
 #~ msgstr "diálogo1"
 
@@ -21240,9 +21271,6 @@ msgstr "Tirador emergente"
 
 #~ msgid "_Select All"
 #~ msgstr "_Seleccionar todo"
-
-#~ msgid "_Alarms"
-#~ msgstr "_Alarmas"
 
 #~ msgid "Show Time _Zone"
 #~ msgstr "Mostrar _zona horaria"
