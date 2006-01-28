@@ -431,6 +431,7 @@ ui/evolution-mail-global.xml
 ui/evolution-mail-list.xml
 ui/evolution-mail-message.xml
 ui/evolution-mail-messagedisplay.xml
+ui/evolution-memo-editor.xml
 ui/evolution-memos.xml
 ui/evolution-message-composer.xml
 ui/evolution-signature-editor.xml
