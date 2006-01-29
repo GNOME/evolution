@@ -258,7 +258,7 @@ show_development_warning(void)
 
 	gtk_box_pack_start (GTK_BOX (vbox), label, TRUE, TRUE, 0);
 
-	dont_bother_me_again_checkbox = gtk_check_button_new_with_label (_("Don't tell me again"));
+	dont_bother_me_again_checkbox = gtk_check_button_new_with_label (_("Do not tell me again"));
 
 	alignment = gtk_alignment_new (0.0, 0.0, 0.0, 0.0);
 

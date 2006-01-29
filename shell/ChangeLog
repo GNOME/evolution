@@ -1,3 +1,8 @@
+2006-01-29  Harish Krishnaswamy  <kharish@novell.com>
+
+	* main.c: (show_development_warning):
+	 s/don't/do not/ string change. Fixes #325276.
+
 2006-01-27  Andre Klapper <a9016009@gmx.de>
 	* apps_evolution_shell.schemas.in.in: changed tow strings to add
 	missing punctuation and clarification for translators.
