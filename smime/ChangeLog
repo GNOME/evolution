@@ -1,3 +1,10 @@
+2006-01-30  Tor Lillqvist  <tml@novell.com>
+
+	* lib/e-cert-db.c (install_loadable_roots): On Win32, don't bother
+	to attempt looking in Unix paths like /usr/lib or /opt/mozilla
+	for Mozilla's nssckbi module. If necessary, add code later to look
+	up the installation path of Mozilla or Firefox from the Registry.
+
 2006-01-29  Kjartan Maraas <kmaraas@gnome.org>
 
 	* gui/cert-trust-dialog.c: (ctd_response):

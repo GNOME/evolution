@@ -267,6 +267,7 @@ install_loadable_roots (void)
 	}
 	
 	if (!RootsModule) {
+#ifndef G_OS_WIN32
 		/* grovel in various places for mozilla's built-in
 		   cert module.
 		   
@@ -298,6 +299,12 @@ install_loadable_roots (void)
 			
 			g_free (dll_path);
 		}
+#else
+		/* FIXME: Might be useful to look up if there is a
+		 * Mozilla installation on the machine and use the
+		 * nssckbi.dll from there.
+		 */
+#endif
 	}
 }
 
