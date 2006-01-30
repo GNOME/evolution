@@ -1,4 +1,5 @@
 ruledir = $(privdatadir)
+rule_DATA = addresstypes.xml
 
 INCLUDES =										\
 	-DG_LOG_DOMAIN=\"eab-widgets\"			\
@@ -98,4 +99,5 @@ etspec_DATA= e-addressbook-view.etspec
 
 EXTRA_DIST = 			\
 	$(etspec_DATA)		\
-	eab-marshal.list
+	eab-marshal.list	\
+	addresstypes.xml

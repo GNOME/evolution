@@ -95,7 +95,7 @@ struct _EABView
 	BonoboUIComponent *uic;
 
 	/* the search bar and related machinery */
-	ESearchBar  *search;
+	EFilterBar  *search;
 	gint         ecml_changed_id;
 	RuleContext *search_context;
 	FilterRule  *search_rule;

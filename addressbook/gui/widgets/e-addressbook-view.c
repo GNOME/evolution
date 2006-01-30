@@ -31,6 +31,7 @@
 #include <table/e-table-model.h>
 #include <misc/e-gui-utils.h>
 #include <widgets/menus/gal-view-factory-etable.h>
+#include <filter/rule-editor.h>
 #include <widgets/menus/gal-view-etable.h>
 #include <e-util/e-xml-utils.h>
 #include <libgnomeui/gnome-dialog-util.h>
@@ -163,7 +164,6 @@ enum {
 	ESB_EMAIL,
 	ESB_CATEGORY,
 	ESB_ANY,
-	ESB_ADVANCED
 };
 
 static ESearchBarItem addressbook_search_option_items[] = {
@@ -171,13 +171,15 @@ static ESearchBarItem addressbook_search_option_items[] = {
 	{ N_("Email begins with"), ESB_EMAIL, NULL },
 	{ N_("Category is"), ESB_CATEGORY, NULL }, /* We attach subitems below */
 	{ N_("Any field contains"), ESB_ANY, NULL },
-	{ N_("Advanced..."), ESB_ADVANCED, NULL },
 	{ NULL, -1, NULL }
 };
 
 static ESearchBarItem addressbook_search_items[] = {
-	{ N_("_Advanced..."), ESB_ADVANCED, NULL },
-	{ NULL, -1, NULL },
+	E_FILTERBAR_ADVANCED,
+	{NULL, 0, NULL},
+	E_FILTERBAR_SAVE,
+	E_FILTERBAR_EDIT,
+	{NULL, -1, NULL}
 };
 
 GType
@@ -366,11 +368,13 @@ eab_view_dispose (GObject *object)
 		gtk_widget_destroy (eav->invisible);
 		eav->invisible = NULL;
 	}
-
+	
+	/*
 	if (eav->search_context) {
 		g_object_unref (eav->search_context);
 		eav->search_context = NULL;
 	}
+	*/
 
 	if (eav->search_rule) {
 		g_object_unref (eav->search_rule);
@@ -422,6 +426,7 @@ eab_view_new (void)
 	EABView *eav = EAB_VIEW (widget);
 	FilterPart *part;
 	char *xmlfile;
+	char *userfile;
 
 	/* create our model */
 	eav->model = eab_model_new ();
@@ -446,27 +451,20 @@ eab_view_new (void)
 	eav->editable = FALSE;
 	eav->query = g_strdup (SHOW_ALL_SEARCH);
 
-	/* create our search bar */
-	eav->search = E_SEARCH_BAR (e_search_bar_new (NULL, addressbook_search_option_items));
-	e_search_bar_set_menu (eav->search, addressbook_search_items);
-	make_suboptions (eav);
-	g_signal_connect (eav->search, "query_changed",
-			  G_CALLBACK (query_changed), eav);
-	g_signal_connect (eav->search, "search_activated",
-			  G_CALLBACK (search_activated), eav);
-	g_signal_connect (eav->search, "menu_activated",
-			  G_CALLBACK (search_menu_activated), eav);
-	gtk_box_pack_start (GTK_BOX (eav), GTK_WIDGET (eav->search), FALSE, FALSE, 0);
-	gtk_widget_show (GTK_WIDGET (eav->search));
-	gtk_widget_set_sensitive (GTK_WIDGET (eav->search), FALSE);
-
 	/* create the search context */
 	eav->search_context = rule_context_new ();
 	rule_context_add_part_set (eav->search_context, "partset", filter_part_get_type (),
 				   rule_context_add_part, rule_context_next_part);
+	rule_context_add_rule_set (eav->search_context, "ruleset", filter_rule_get_type (),
+				   rule_context_add_rule, rule_context_next_rule);
+	
+	userfile = g_build_filename ( g_get_home_dir (), ".evolution/addressbook/searches.xml", NULL);
 	xmlfile = g_build_filename (SEARCH_RULE_DIR, "addresstypes.xml", NULL);
-	rule_context_load (eav->search_context, xmlfile, "");
-	g_free (xmlfile);
+	
+	g_object_set_data_full (G_OBJECT (eav->search_context), "user", userfile, g_free);
+	g_object_set_data_full (G_OBJECT (eav->search_context), "system", xmlfile, g_free);
+	
+	rule_context_load (eav->search_context, xmlfile, userfile);
 
 	eav->search_rule = filter_rule_new ();
 	part = rule_context_next_part (eav->search_context, NULL);
@@ -475,6 +473,24 @@ eab_view_new (void)
 		g_warning ("Could not load addressbook search; no parts.");
 	else
 		filter_rule_add_part (eav->search_rule, filter_part_clone (part));
+
+	eav->search = e_filter_bar_new (eav->search_context, xmlfile, userfile, NULL, eav);
+	
+	g_free (xmlfile);
+	g_free (userfile);
+
+	e_search_bar_set_menu ( (ESearchBar *) eav->search, addressbook_search_items);
+	gtk_widget_show (GTK_WIDGET (eav->search));
+	make_suboptions (eav);
+
+	g_signal_connect (eav->search, "query_changed",
+			  G_CALLBACK (query_changed), eav);
+	g_signal_connect (eav->search, "search_activated",
+			  G_CALLBACK (search_activated), eav);
+	g_signal_connect (eav->search, "menu_activated",
+			  G_CALLBACK (search_menu_activated), eav);
+
+	gtk_box_pack_start (GTK_BOX (eav), GTK_WIDGET (eav->search), FALSE, FALSE, 0);
 
 	/* create the paned window and contact display */
 	eav->paned = gtk_vpaned_new ();
@@ -1477,8 +1493,8 @@ search_activated (ESearchBar *esb, EABView *v)
 		     "item_id", &search_type,
 		     NULL);
 
-	if (search_type == ESB_ADVANCED) {
-		gtk_widget_show(eab_search_dialog_new(v));
+	if (search_type == E_FILTERBAR_ADVANCED_ID) {
+		//gtk_widget_show(eab_search_dialog_new(v));
 	}
 	else {
 		if ((search_word && strlen (search_word)) || search_type == ESB_CATEGORY) {
@@ -1534,7 +1550,7 @@ search_activated (ESearchBar *esb, EABView *v)
 static void
 search_menu_activated (ESearchBar *esb, int id, EABView *view)
 {
-	if (id == ESB_ADVANCED)
+	if (id == E_FILTERBAR_ADVANCED_ID)
 		e_search_bar_set_item_id (esb, id);
 }
 
@@ -1542,10 +1558,14 @@ static void
 query_changed (ESearchBar *esb, EABView *view)
 {
 	int search_type;
+	char *query;
 
 	search_type = e_search_bar_get_item_id(esb);
-	if (search_type == ESB_ADVANCED)
-		gtk_widget_show(eab_search_dialog_new(view));
+	if (search_type == E_FILTERBAR_ADVANCED_ID) {
+		g_object_get (esb, "query", &query, NULL);
+		g_object_set (view, "query", query, NULL);
+		g_free (query);
+	}
 }
 
 static int
@@ -1594,7 +1614,7 @@ make_suboptions (EABView *view)
 
 	qsort (subitems + 1, N, sizeof (subitems[0]), compare_subitems);
 
-	e_search_bar_set_suboption (view->search, ESB_CATEGORY, subitems);
+	e_search_bar_set_suboption ( (ESearchBar *) view->search, ESB_CATEGORY, subitems);
 
 	for (s = subitems; s->id != -1; s++) {
 		if (s->text)
@@ -1723,7 +1743,7 @@ eab_view_setup_menus (EABView *view,
 
 	/* XXX toshok - yeah this really doesn't belong here, but it
 	   needs to happen at the same time and takes the uic */
-	e_search_bar_set_ui_component (view->search, uic);
+	e_search_bar_set_ui_component ( (ESearchBar *)view->search, uic);
 }
 
 /**
