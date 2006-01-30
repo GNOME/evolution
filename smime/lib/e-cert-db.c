@@ -133,7 +133,7 @@ e_cert_db_dispose (GObject *object)
 		G_OBJECT_CLASS (parent_class)->dispose (object);
 }
 
-#if notyet
+#ifdef notyet
 PRBool
 ucs2_ascii_conversion_fn (PRBool toUnicode,
 			  unsigned char *inBuf,
@@ -210,7 +210,7 @@ initialize_nss (void)
 	SEC_PKCS12EnableCipher(PKCS12_DES_56, 1);
 	SEC_PKCS12EnableCipher(PKCS12_DES_EDE3_168, 1);
 	SEC_PKCS12SetPreferredCipher(PKCS12_DES_EDE3_168, 1);
-#if notyet
+#ifdef notyet
 	PORT_SetUCS2_ASCIIConversionFunction(ucs2_ascii_conversion_fn);
 #endif
 }
@@ -426,7 +426,7 @@ e_cert_db_find_cert_by_nickname (ECertDB *certdb,
 	}
 }
 
-#if notyet
+#ifdef notyet
 ECert*
 e_cert_db_find_cert_by_key (ECertDB *certdb,
 			    const char *db_key,
@@ -876,7 +876,7 @@ default_nickname (CERTCertificate *cert)
 	char *nickname = NULL;
 	char *tmp = NULL;
 	int count;
-	char *nickFmt=NULL, *nickFmtWithNum = NULL;
+	char *nickFmt=NULL;
 	CERTCertificate *dummycert;
 	PK11SlotInfo *slot=NULL;
 	CK_OBJECT_HANDLE keyHandle;
@@ -900,7 +900,6 @@ default_nickname (CERTCertificate *cert)
 	count = 1;
 
 	nickFmt = "%1$s's %2$s ID";
-	nickFmtWithNum = "%1$s's %2$s ID #%3$d";
 
 	nickname = PR_smprintf(nickFmt, username, caname);
 	/*
@@ -1175,7 +1174,7 @@ e_cert_db_import_pkcs12_file (ECertDB *cert_db,
 	return TRUE;
 }
 
-#if notyet
+#ifdef notyet
 gboolean
 e_cert_db_export_pkcs12_file (ECertDB *cert_db,
 			      const char *file_path,

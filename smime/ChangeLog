@@ -1,3 +1,15 @@
+2006-01-29  Kjartan Maraas <kmaraas@gnome.org>
+
+	* gui/cert-trust-dialog.c: (ctd_response):
+	* gui/certificate-viewer.c: (fill_in_general):
+	* gui/component.c:
+	* lib/e-cert-db.c: (initialize_nss), (default_nickname):
+	* lib/e-cert-db.h:
+	* lib/e-cert.c: (create_tbs_certificate_asn1_struct):
+	* lib/e-pkcs12.c: (import_from_file_helper):
+	Remove unused code. Use #ifdef instead of #if some places.
+	Add missing header.
+
 2006-01-27  Andre Klapper <a9016009@gmx.de>
 	* smime-ui.glade:
 	removed string "dialog1" from translation. Fixes bug 306118.

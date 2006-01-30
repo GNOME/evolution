@@ -1102,7 +1102,7 @@ create_tbs_certificate_asn1_struct (ECert *cert, EASN1Object **seq)
 	e_asn1_object_append_child (sequence, subitem);
 	g_object_unref (subitem);
 
-#if notyet
+#ifdef notyet
 	nsCOMPtr<nsIASN1Sequence> validitySequence = new nsNSSASN1Sequence();
 	nssComponent->GetPIPNSSBundleString(NS_LITERAL_STRING("CertDumpValidity").get(),
 					    text);

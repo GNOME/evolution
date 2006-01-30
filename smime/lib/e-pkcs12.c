@@ -285,7 +285,7 @@ import_from_file_helper (EPKCS12 *pkcs12, PK11SlotInfo *slot,
 	/* read input file and feed it to the decoder */
 	rv = input_to_decoder (dcx, path, &err);
 	if (!rv) {
-#if notyet
+#ifdef notyet
 		/* XXX we need this to check the gerror */
 		if (NS_ERROR_ABORT == rv) {
 			// inputToDecoder indicated a NSS error

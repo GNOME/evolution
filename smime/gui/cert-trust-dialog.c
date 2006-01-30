@@ -83,6 +83,7 @@ ctd_response(GtkWidget *w, guint id, CertTrustDialogData *data)
 	case GTK_RESPONSE_ACCEPT: {
 		/* just *what on earth* was chris thinking here!?!?!  copied from certificate-manager.c */
 		GtkWidget *dialog = ca_trust_dialog_show (data->cacert, FALSE);
+		/* *icert is already declared earlier in this function? */
 		CERTCertificate *icert = e_cert_get_internal_cert (data->cacert);
 
 		g_signal_stop_emission_by_name(w, "response");

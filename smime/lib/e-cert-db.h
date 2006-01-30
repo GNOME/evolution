@@ -72,7 +72,7 @@ ECert*               e_cert_db_find_cert_by_nickname (ECertDB *certdb,
 						      const char *nickname,
 						      GError **error);
 
-#if notyet
+#ifdef notyet
 ECert*               e_cert_db_find_cert_by_key      (ECertDB *certdb,
 						      const char *db_key,
 						      GError **error);
@@ -126,7 +126,7 @@ gboolean             e_cert_db_import_pkcs12_file (ECertDB *cert_db,
 						   const char *file_path,
 						   GError **error);
 
-#if notyet
+#ifdef notyet
 gboolean             e_cert_db_export_pkcs12_file (ECertDB *cert_db,
 						   const char *file_path,
 						   GList *certs,

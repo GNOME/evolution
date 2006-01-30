@@ -66,7 +66,6 @@ free_data (gpointer data, GObject *where_the_object_was)
 static void
 fill_in_general (CertificateViewerData *cvm_data, ECert *cert)
 {
-	CERTCertificate *mcert = e_cert_get_internal_cert (cert);
 	GtkWidget *label;
 	const char *text;
 	char *markup;

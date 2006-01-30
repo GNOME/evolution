@@ -25,6 +25,8 @@
 #include <config.h>
 #endif
 
+#include "component.h"
+
 #include <gtk/gtk.h>
 
 #include <libgnome/gnome-i18n.h>
