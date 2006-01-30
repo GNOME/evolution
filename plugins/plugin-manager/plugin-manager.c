@@ -32,8 +32,6 @@
 enum {
 	LABEL_NAME,
 	LABEL_AUTHOR,
-	LABEL_ID,
-	LABEL_PATH,
 	LABEL_DESCRIPTION,
 	LABEL_LAST
 };
@@ -43,8 +41,6 @@ static struct {
 } label_info[LABEL_LAST] = {
 	{ N_("Name"), },
 	{ N_("Author(s)"), },
-	{ N_("Id"), },
-	{ N_("Path"), },
 	{ N_("Description"), },
 };
 
@@ -100,8 +96,6 @@ eppm_show_plugin(Manager *m, EPlugin *ep)
 			eppm_set_label(m->items[LABEL_AUTHOR], NULL);
 		}
 
-		eppm_set_label(m->items[LABEL_ID], ep->id);
-		eppm_set_label(m->items[LABEL_PATH], ep->path);
 		eppm_set_label(m->items[LABEL_DESCRIPTION], ep->description);
 		gtk_widget_set_sensitive((GtkWidget *)m->table, TRUE);
 	} else {
@@ -222,7 +216,6 @@ org_gnome_plugin_manager_manage(void *ep, ESMenuTargetShell *t)
 	gtk_table_set_row_spacings(m->table, 6);
 	for (i=0;i<LABEL_LAST;i++) {
 		char *markup;
-
 		markup = g_strdup_printf("<span weight=\"bold\">%s</span>", _(label_info[i].label));
 		m->labels[i] = g_object_new(gtk_label_get_type(),
 					    "label", markup,
