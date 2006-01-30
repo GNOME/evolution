@@ -54,6 +54,7 @@
 #include "e-util/e-util-private.h"
 #include <libebook/e-destination.h>
 #include <libedataserverui/e-name-selector.h>
+#include <libical/icalattach.h>
 #include "../calendar-config.h"
 #include "comp-editor-util.h"
 #include "alarm-dialog.h"
@@ -180,6 +181,9 @@ static const int duration_units_map[] = {
 	-1
 };
 
+static void populate_widgets_from_alarm (Dialog *dialog);
+static void action_selection_done_cb (GtkMenuShell *menu_shell, gpointer data);
+
 /* Fills the widgets with default values */
 static void
 clear_widgets (Dialog *dialog)
@@ -206,6 +210,7 @@ alarm_to_dialog (Dialog *dialog)
 	GtkWidget *menu;
 	GList *l;
 	gboolean repeat;
+	ECalComponentAlarmAction action;
 	char *email;
 	int i;	
 
@@ -239,6 +244,41 @@ alarm_to_dialog (Dialog *dialog)
 	/* If we can repeat */
 	repeat = !e_cal_get_static_capability (dialog->ecal, CAL_STATIC_CAPABILITY_NO_ALARM_REPEAT);
 	gtk_widget_set_sensitive (dialog->repeat_toggle, repeat);
+
+	/* if we are editing a exiting alarm */
+	e_cal_component_alarm_get_action (dialog->alarm, &action);
+
+	if (action)
+		populate_widgets_from_alarm (dialog);
+}
+
+static void
+alarm_to_repeat_widgets (Dialog *dialog, ECalComponentAlarm *alarm)
+{
+	ECalComponentAlarmRepeat repeat;
+
+	e_cal_component_alarm_get_repeat (dialog->alarm, &repeat);
+
+	if ( repeat.repetitions ) {
+		e_dialog_toggle_set (dialog->repeat_toggle, TRUE);
+		e_dialog_spin_set (dialog->repeat_quantity, repeat.repetitions);
+	} else
+		return;
+
+	if ( repeat.duration.minutes ) {
+		e_dialog_option_menu_set (dialog->repeat_unit, DUR_MINUTES, duration_units_map);
+		e_dialog_spin_set (dialog->repeat_value, repeat.duration.minutes);
+	}
+
+	if ( repeat.duration.hours ) {
+		e_dialog_option_menu_set (dialog->repeat_unit, DUR_HOURS, duration_units_map);
+		e_dialog_spin_set (dialog->repeat_value, repeat.duration.hours);
+	}
+
+	if ( repeat.duration.days ) {
+		e_dialog_option_menu_set (dialog->repeat_unit, DUR_DAYS, duration_units_map);
+		e_dialog_spin_set (dialog->repeat_value, repeat.duration.days);
+	}
 }
 
 static void
@@ -293,6 +333,40 @@ aalarm_widgets_to_alarm (Dialog *dialog, ECalComponentAlarm *alarm)
 
 	e_cal_component_alarm_set_attach (alarm, attach);
 	icalattach_unref (attach);
+}
+
+/* Fills the widgets with audio alarm data */
+static void
+alarm_to_aalarm_widgets (Dialog *dialog, ECalComponentAlarm *alarm)
+{
+	const char *url;
+	icalattach *attach;
+
+	e_cal_component_alarm_get_attach (alarm, (&attach));
+	url = icalattach_get_url (attach);
+	g_free (attach);
+
+	if ( !(url && *url) )
+		return;
+
+	e_dialog_toggle_set (dialog->aalarm_sound, TRUE);
+	e_dialog_editable_set (dialog->aalarm_attach, url);
+}
+
+/* Fills the widgets with display alarm data */
+static void
+alarm_to_dalarm_widgets (Dialog *dialog, ECalComponentAlarm *alarm )
+{
+	ECalComponentText description;
+	GtkTextBuffer *text_buffer;
+
+	e_cal_component_alarm_get_description (alarm, &description);
+
+	if (!description.value) {
+		e_dialog_toggle_set (dialog->dalarm_message, TRUE);
+		text_buffer = gtk_text_view_get_buffer (dialog->dalarm_description);
+		gtk_text_buffer_set_text (text_buffer, description.value, -1);
+	}
 }
 
 /* Fills the display alarm data with the values from the widgets */
@@ -408,6 +482,27 @@ malarm_widgets_to_alarm (Dialog *dialog, ECalComponentAlarm *alarm)
 	}
 }
 
+/* Fills the widgets from procedure alarm data */
+static void
+alarm_to_palarm_widgets (Dialog *dialog, ECalComponentAlarm *alarm)
+{
+	ECalComponentText description;
+	const char *url;
+	icalattach *attach;
+
+	e_cal_component_alarm_get_attach (alarm, (&attach));
+	url = icalattach_get_url (attach);
+	g_free (attach);
+
+	if ( !(url && *url) )
+		return;
+
+	e_dialog_editable_set (dialog->palarm_program, url);
+	e_cal_component_alarm_get_description (alarm, &description);
+
+	e_dialog_editable_set (dialog->palarm_args, description.value);
+}
+
 /* Fills the procedure alarm data with the values from the widgets */
 static void
 palarm_widgets_to_alarm (Dialog *dialog, ECalComponentAlarm *alarm)
@@ -427,12 +522,12 @@ palarm_widgets_to_alarm (Dialog *dialog, ECalComponentAlarm *alarm)
 	icalattach_unref (attach);
 
 	str = e_dialog_editable_get (dialog->palarm_args);
-	if (str && *str) {
+
 		description.value = str;
 		description.altrep = NULL;
 		
 		e_cal_component_alarm_set_description (alarm, &description);
-	}
+
 	g_free (str);
 	
 	/* remove the X-EVOLUTION-NEEDS-DESCRIPTION property, so that
@@ -449,6 +544,86 @@ palarm_widgets_to_alarm (Dialog *dialog, ECalComponentAlarm *alarm)
 		}
 
 		icalprop = icalcomponent_get_next_property (icalcomp, ICAL_X_PROPERTY);
+	}
+}
+
+static void
+populate_widgets_from_alarm (Dialog *dialog)
+{
+	ECalComponentAlarmTrigger *trigger;
+	ECalComponentAlarmAction *action;
+
+	action = g_new0 (ECalComponentAlarmAction, 1);
+	e_cal_component_alarm_get_action (dialog->alarm, action);
+	g_return_if_fail ( action != NULL );
+
+	trigger = g_new0 (ECalComponentAlarmTrigger, 1);
+	e_cal_component_alarm_get_trigger (dialog->alarm, trigger);
+	g_return_if_fail ( trigger != NULL );
+
+	if ( *action == E_CAL_COMPONENT_ALARM_NONE )
+		return;
+
+	gtk_window_set_title (GTK_WINDOW (dialog->toplevel),_("Edit Alarm"));
+
+	/* Alarm Types */
+	switch ( trigger->type ) {
+ 	case E_CAL_COMPONENT_ALARM_TRIGGER_RELATIVE_START:
+		e_dialog_option_menu_set (dialog->time, E_CAL_COMPONENT_ALARM_TRIGGER_RELATIVE_START, time_map);
+		break;
+
+	case E_CAL_COMPONENT_ALARM_TRIGGER_RELATIVE_END:	
+		e_dialog_option_menu_set (dialog->time, E_CAL_COMPONENT_ALARM_TRIGGER_RELATIVE_END, time_map);
+		break;
+	}
+
+	switch ( trigger->u.rel_duration.is_neg ){
+	case 1:
+		e_dialog_option_menu_set (dialog->relative, BEFORE, relative_map);
+		break;
+
+	case 0:
+		e_dialog_option_menu_set (dialog->relative, AFTER, relative_map);
+		break;
+	}
+
+	if ( trigger->u.rel_duration.hours ) {
+		e_dialog_option_menu_set (dialog->value_units, HOURS, value_map);
+		e_dialog_spin_set (dialog->interval_value, trigger->u.rel_duration.hours);
+	}
+
+	if ( trigger->u.rel_duration.minutes ){
+		e_dialog_option_menu_set (dialog->value_units, MINUTES, value_map);
+		e_dialog_spin_set (dialog->interval_value, trigger->u.rel_duration.minutes);
+	}
+
+	if ( trigger->u.rel_duration.days ){
+		e_dialog_option_menu_set (dialog->value_units, DAYS, value_map);
+		e_dialog_spin_set (dialog->interval_value, trigger->u.rel_duration.days);
+	}
+
+	/* Repeat options */
+	alarm_to_repeat_widgets (dialog, dialog->alarm);
+
+	/* Alarm options */
+	e_dialog_option_menu_set (dialog->action, *action, action_map);
+	action_selection_done_cb (dialog->action, dialog);
+
+	switch (*action) {
+	case E_CAL_COMPONENT_ALARM_AUDIO:
+		alarm_to_aalarm_widgets (dialog, dialog->alarm);
+		break;
+
+	case E_CAL_COMPONENT_ALARM_DISPLAY:
+		alarm_to_dalarm_widgets (dialog, dialog->alarm);
+		break;
+
+	case E_CAL_COMPONENT_ALARM_EMAIL:
+		break;
+
+	case E_CAL_COMPONENT_ALARM_PROCEDURE:
+		alarm_to_palarm_widgets (dialog, dialog->alarm);
+		break;
 	}
 }
 
