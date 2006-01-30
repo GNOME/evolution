@@ -177,6 +177,7 @@ calendar/gui/memos-control.c
 calendar/gui/migration.c
 calendar/gui/misc.c
 calendar/gui/print.c
+calendar/gui/review.c
 calendar/gui/tasks-component.c
 calendar/gui/tasks-control.c
 calendar/gui/weekday-picker.c
