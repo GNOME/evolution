@@ -5,9 +5,9 @@
 	 accel="*Control*p"/>
     <cmd name="CalendarPrintPreview" _tip="Previews the calendar to be printed" pixtype="stock" pixname="gtk-print-preview"/>
 
-    <cmd name="CalendarPrev" _tip="Go back" pixtype="stock" pixname="gtk-go-back"/>
+    <cmd name="CalendarPrev" _tip="Go back" pixtype="pixbuf"/>
     <cmd name="CalendarToday" _tip="Select today" pixtype="stock" pixname="Home"/>
-    <cmd name="CalendarNext" _tip="Go forward" pixtype="stock" pixname="gtk-go-forward"/>
+    <cmd name="CalendarNext" _tip="Go forward" pixtype="pixbuf"/>
     <cmd name="CalendarGoto" _tip="Select a specific date" pixtype="stock" pixname="gtk-jump-to"/>
 
     <cmd name="ShowDayView" _tip="Show one day" pixtype="pixbuf"/>
@@ -80,9 +80,9 @@
 
     <separator f="" name="ecal2"/>
 
-    <toolitem name="Prev" verb="CalendarPrev" _label="Previous"/>
+    <toolitem name="Prev" verb="CalendarPrev" _label="Previous" pixtype="pixbuf"/> 
     <toolitem name="Today" verb="CalendarToday" _label="Today"/>
-    <toolitem name="Next" verb="CalendarNext" _label="Next"/>
+    <toolitem name="Next" verb="CalendarNext" _label="Next" pixtype="pixbuf"/>
 
     <separator f="" name="ecal3"/>
 

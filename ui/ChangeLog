@@ -1,3 +1,10 @@
+2006-01-30  Rajeev Ramanathan <rajeevramanathan_2004@yahoo.co.in>
+
+	** Fixes bug #327304
+	
+	* evolution-calendar.xml: Added pixbuf for calendar prev/next buttons
+	instead of stock icons.
+
 2006-01-18  Rajeev Ramanathan <rajeevramanathan_2004@yahoo.co.in>
 
 	** Fixes bug #328150
