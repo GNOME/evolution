@@ -65,6 +65,7 @@ typedef struct {
 
 	GtkWidget *list;
 	GtkWidget *add;
+	GtkWidget *edit;
 	GtkWidget *delete;
 	GtkWidget *box;
 	
@@ -83,12 +84,14 @@ get_widgets (Dialog *dialog)
 	dialog->box = GW ("vbox53");
 	dialog->list = GW ("list");
 	dialog->add = GW ("add"); 
+	dialog->edit = GW ("edit");
 	dialog->delete = GW ("delete");
 
 #undef GW
 
 	return (dialog->list
 		&& dialog->add
+		&& dialog->edit
 		&& dialog->delete);
 }
 
@@ -114,6 +117,7 @@ sensitize_buttons (Dialog *dialog)
 	else
 		gtk_widget_set_sensitive (dialog->add, TRUE);
 	gtk_widget_set_sensitive (dialog->delete, have_selected && !read_only);
+	gtk_widget_set_sensitive (dialog->edit, have_selected && !read_only);
 }
 
 /* Callback used for the "add reminder" button */
@@ -144,6 +148,31 @@ add_clicked_cb (GtkButton *button, gpointer data)
 	}
 
 	sensitize_buttons (dialog);
+}
+
+/* Callback used for the "edit reminder" button */
+static void
+edit_clicked_cb (GtkButton *button, gpointer data)
+{
+	Dialog *dialog = data;
+	GtkTreeSelection *selection;
+	GtkTreeIter iter;
+	GtkTreePath *path;
+	ECalComponentAlarm *alarm;
+	GtkTreeView *view;
+
+	view = GTK_TREE_VIEW (dialog->list);
+
+	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (dialog->list));
+	if (!gtk_tree_selection_get_selected (selection, NULL, &iter)) {
+		g_warning ("Could not get a selection to delete.");
+		return;
+	}
+
+	alarm = e_alarm_list_get_alarm (dialog->list_store, &iter);
+
+	if (alarm_dialog_run (dialog->toplevel, dialog->ecal, alarm))
+		gtk_tree_selection_select_iter (gtk_tree_view_get_selection (view), &iter);
 }
 
 /* Callback used for the "delete reminder" button */
@@ -211,6 +240,8 @@ init_widgets (Dialog *dialog)
 			  G_CALLBACK (add_clicked_cb), dialog);
 	g_signal_connect (dialog->delete, "clicked",
 			  G_CALLBACK (delete_clicked_cb), dialog);
+	g_signal_connect (dialog->edit, "clicked",
+			  G_CALLBACK (edit_clicked_cb), dialog);
 
 	g_signal_connect (gtk_tree_view_get_selection (GTK_TREE_VIEW (dialog->list)), "changed",
 			  G_CALLBACK (selection_changed_cb), dialog);

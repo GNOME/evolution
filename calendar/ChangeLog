@@ -1,3 +1,19 @@
+2006-01-18  Johnny Jacob  <johnnyjacob@gmail.com>
+
+	Fixes #225816
+	* gui/dialogs/alatm-list-dialog.glade : Added edit button.
+	* gui/dialogs/alarm-list-dialog.c (init_widgets), (get_widgets) : 
+	Get and connect signals for edit button.
+	(sensitize_buttons) : Handle the sesitivity of edit button.
+	(edit_clicked_cb) : Added. Handle edit button click event.
+	* gui/dialogs/alarm-dialogs.c (populate_widgets) : Added. Extract data
+	from alarm and fill in the widgets.
+	(alarm_to_repeat_widgets): Added. Alarm data to repeat widgets.
+	(alarm_to_aalarm_widgets): Added. Alarm data to audio alarm widgets.
+	(alarm_to_dalarm_widgets): Added. Alarm data to display alarm widgets.
+	(alarm_to_palarm_widgets): Added. Alarm data to procedure alarm widgets.
+	(alarm_to_dialog): call populate_widgets.
+
 2006-01-28  Rajeev ramanathan <rajeevramanathan_2004@yahoo.co.in>
 
 	** Fixes Bug #327347
