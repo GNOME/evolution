@@ -1,3 +1,8 @@
+2006-01-30  Harish Krishnaswamy  <kharish@novell.com>
+
+	* mail-config.glade: s/T_erminal/Fi_xed width/ for consistency with other
+	GNOME applications.
+
 2006-01-30  pavithran <pavithran@gmx.de>
 
 	** Fixes bug #316223
