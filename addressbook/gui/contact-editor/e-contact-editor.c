@@ -473,7 +473,6 @@ file_as_get_style (EContactEditor *editor)
 	company = gtk_entry_get_text (GTK_ENTRY (company_w));
 	filestring = g_strdup (gtk_entry_get_text (file_as));
 
-	style = -1;
 	for (i = 0; i < 6; i++) {
 		trystring = name_to_style (name, company, i);
 		if (!strcmp(trystring, filestring)) {

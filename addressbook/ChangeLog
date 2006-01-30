@@ -1,3 +1,7 @@
+2006-01-30  Elijah Newren  <newren@gmail.com>
+
+	* gui/contact-editor/e-contact-editor.c: removed an unused variable.
+
 2006-01-27  Kjartan Maraas  <kmaraas@gnome.org>
 
 	reviewed by: Harish Krishnaswamy <kharish@novell.com>
