@@ -1,3 +1,15 @@
+2006-01-30  Johnny Jacob  <johnnyjacob@gmail.com>
+ 
+ 	Fixes #328285
+ 	* gui/dialogs/memo-page.c (widget_focus_out_cb), 
+ 	(widget_focus_out_cb) : Added. Handle focus in and out
+ 	events.
+ 	(init_widgets): Connect focus in and out signals for 
+ 	memo_content .
+
+	Committed to HEAD on behalf of johnny since he does not
+	have commit rights - partha
+ 
 2006-01-18  Johnny Jacob  <johnnyjacob@gmail.com>
 
 	Fixes #225816

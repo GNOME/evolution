@@ -561,6 +561,30 @@ source_changed_cb (GtkWidget *widget, ESource *source, gpointer data)
 	}
 }
 
+/*sets the current focused widget */
+static gboolean
+widget_focus_in_cb (GtkWidget *widget, GdkEventFocus *event, gpointer data)
+{
+	MemoPage *tpage;
+	tpage = MEMO_PAGE (data);
+
+	comp_editor_page_set_focused_widget (COMP_EDITOR_PAGE (tpage), widget);
+
+	return FALSE;
+}
+
+/*unset the current focused widget */
+static gboolean
+widget_focus_out_cb (GtkWidget *widget, GdkEventFocus *event, gpointer data)
+{
+	MemoPage *tpage;
+	tpage = MEMO_PAGE (data);
+
+	comp_editor_page_unset_focused_widget (COMP_EDITOR_PAGE (tpage), widget);
+
+	return FALSE;
+}
+
 /* Hooks the widget signals */
 static gboolean
 init_widgets (MemoPage *mpage)
@@ -574,6 +598,11 @@ init_widgets (MemoPage *mpage)
 	text_buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (priv->memo_content));
 
 	gtk_text_view_set_wrap_mode (GTK_TEXT_VIEW (priv->memo_content), GTK_WRAP_WORD);
+
+	g_signal_connect(priv->memo_content, "focus-in-event",
+		G_CALLBACK (widget_focus_in_cb), tpage);
+	g_signal_connect(priv->memo_content, "focus-out-event",
+		G_CALLBACK (widget_focus_out_cb), tpage);
 
 	/* Categories button */
 	g_signal_connect((priv->categories_btn), "clicked",
