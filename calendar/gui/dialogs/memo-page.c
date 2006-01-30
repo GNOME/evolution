@@ -565,10 +565,10 @@ source_changed_cb (GtkWidget *widget, ESource *source, gpointer data)
 static gboolean
 widget_focus_in_cb (GtkWidget *widget, GdkEventFocus *event, gpointer data)
 {
-	MemoPage *tpage;
-	tpage = MEMO_PAGE (data);
+	MemoPage *mpage;
+	mpage = MEMO_PAGE (data);
 
-	comp_editor_page_set_focused_widget (COMP_EDITOR_PAGE (tpage), widget);
+	comp_editor_page_set_focused_widget (COMP_EDITOR_PAGE (mpage), widget);
 
 	return FALSE;
 }
@@ -577,10 +577,10 @@ widget_focus_in_cb (GtkWidget *widget, GdkEventFocus *event, gpointer data)
 static gboolean
 widget_focus_out_cb (GtkWidget *widget, GdkEventFocus *event, gpointer data)
 {
-	MemoPage *tpage;
-	tpage = MEMO_PAGE (data);
+	MemoPage *mpage;
+	mpage = MEMO_PAGE (data);
 
-	comp_editor_page_unset_focused_widget (COMP_EDITOR_PAGE (tpage), widget);
+	comp_editor_page_unset_focused_widget (COMP_EDITOR_PAGE (mpage), widget);
 
 	return FALSE;
 }
@@ -600,9 +600,9 @@ init_widgets (MemoPage *mpage)
 	gtk_text_view_set_wrap_mode (GTK_TEXT_VIEW (priv->memo_content), GTK_WRAP_WORD);
 
 	g_signal_connect(priv->memo_content, "focus-in-event",
-		G_CALLBACK (widget_focus_in_cb), tpage);
+		G_CALLBACK (widget_focus_in_cb), mpage);
 	g_signal_connect(priv->memo_content, "focus-out-event",
-		G_CALLBACK (widget_focus_out_cb), tpage);
+		G_CALLBACK (widget_focus_out_cb), mpage);
 
 	/* Categories button */
 	g_signal_connect((priv->categories_btn), "clicked",
