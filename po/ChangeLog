@@ -1,3 +1,9 @@
+2006-01-30  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* POTFILES.in: Remove non-existing file and add a few missing ones.
+	* nb.po: Update Norwegian bokmål translation.
+	* no.po: Same.
+
 2006-01-30  Clytie Siddall <clytie@riverland.net.au>
 
 	* vi.po: Updated Vietnamese translation.

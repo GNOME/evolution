@@ -46,6 +46,7 @@ addressbook/gui/contact-list-editor/e-contact-list-editor.etspec
 addressbook/gui/merging/eab-contact-commit-duplicate-detected.glade
 addressbook/gui/merging/eab-contact-duplicate-detected.glade
 addressbook/gui/search/e-addressbook-search-dialog.c
+addressbook/gui/widgets/addresstypes.xml
 addressbook/gui/widgets/e-addressbook-model.c
 addressbook/gui/widgets/e-addressbook-reflow-adapter.c
 addressbook/gui/widgets/e-addressbook-table-adapter.c
@@ -94,6 +95,7 @@ calendar/gui/calendar-component.c
 calendar/gui/calendar-view-factory.c
 calendar/gui/comp-editor-factory.c
 calendar/gui/control-factory.c
+calendar/gui/dialogs/alarm-dialog.c
 calendar/gui/dialogs/alarm-dialog.glade
 calendar/gui/dialogs/alarm-list-dialog.c
 calendar/gui/dialogs/alarm-list-dialog.glade
@@ -177,7 +179,6 @@ calendar/gui/memos-control.c
 calendar/gui/migration.c
 calendar/gui/misc.c
 calendar/gui/print.c
-calendar/gui/review.c
 calendar/gui/tasks-component.c
 calendar/gui/tasks-control.c
 calendar/gui/weekday-picker.c
