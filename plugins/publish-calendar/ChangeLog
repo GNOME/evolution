@@ -1,3 +1,9 @@
+2006-01-30  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #328413
+	* publish-calendar.glade: Set the text invisible for the
+	password field.
+
 2006-01-27  Kjartan Maraas <kmaraas@gnome.org>
 
 	* publish-format-fb.c: Add missing include.
