@@ -190,7 +190,7 @@ factory (BonoboGenericFactory *factory,
 		EvolutionConfigControl *control;
 
 		prefs = calendar_prefs_dialog_new ();
-		gtk_widget_show_all (prefs);
+		gtk_widget_show (prefs);
 		control = evolution_config_control_new (prefs);
 
 		return BONOBO_OBJECT (control);

@@ -1,3 +1,11 @@
+2006-01-30  Johnny Jacob <johnnyjacob@gmail.com>
+
+	Fixes #327344
+	* gui/dialogs/cal-prefs-dialog.c: (cal_prefs_dialog_create_time_edit):
+	Show date edit component.
+	* gui/main.c: (factory): changed gtk_widget_ahow_all to 
+	gtk_widget_show.
+
 2006-01-29  Rajeev ramanathan <rajeevramanathan_2004@yahoo.co.in>
 
 	** Fixes Bug #327304
