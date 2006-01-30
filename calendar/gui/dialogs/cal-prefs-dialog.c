@@ -334,7 +334,6 @@ alarms_selection_changed (ESourceSelector *selector, CalendarPrefsDialog *prefs)
 
 	/* FIXME show an error if this fails? */
 	e_source_list_sync (source_list, NULL);	
-	printf("changed\n");
 }
 
 static void
