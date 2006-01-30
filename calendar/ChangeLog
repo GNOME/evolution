@@ -1,3 +1,10 @@
+2006-01-29  Rajeev ramanathan <rajeevramanathan_2004@yahoo.co.in>
+
+	** Fixes Bug #327304
+	
+	* gui/calendar-commands.c :Next" and "Previous" buttons in toolbar for 
+	calendar and mail are made same.
+
 2006-01-28  Rajeev ramanathan <rajeevramanathan_2004@yahoo.co.in>
 
 	** Fixes bug #328510, #328885

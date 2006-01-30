@@ -621,6 +621,8 @@ static EPixmap pixmaps [] =
 	E_PIXMAP ("/Toolbar/WeekView",	      "stock_calendar-view-week",      E_ICON_SIZE_LARGE_TOOLBAR),
 	E_PIXMAP ("/Toolbar/MonthView",	      "stock_calendar-view-month",     E_ICON_SIZE_LARGE_TOOLBAR),
 	E_PIXMAP ("/Toolbar/ListView",	      "stock_calendar-view-list",      E_ICON_SIZE_LARGE_TOOLBAR),
+	E_PIXMAP ("/Toolbar/Prev",             "stock_previous",                   E_ICON_SIZE_LARGE_TOOLBAR),
+	E_PIXMAP ("/Toolbar/Next",             "stock_next",                   E_ICON_SIZE_LARGE_TOOLBAR),
 
 	E_PIXMAP_END
 };
