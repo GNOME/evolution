@@ -1,3 +1,32 @@
+Evolution 2.5.90 2006-01-30
+---------------------------
+
+What's new :
+
+Bug fixes since 2.5.5 :
+http://bugzilla.gnome.org/buglist.cgi?query_format=advanced&short_desc_type=allwordssubstr&short_desc=&classification=Desktop&product=Evolution&long_desc_type=substring&long_desc=&status_whiteboard_type=allwordssubstr&status_whiteboard=&keywords_type=allwords&keywords=&bug_status=RESOLVED&resolution=FIXED&resolution=WONTFIX&resolution=DUPLICATE&resolution=NOTABUG&resolution=NOTGNOME&resolution=INCOMPLETE&resolution=INVALID&resolution=GNOME1.x&resolution=MOVED&resolution=OBSOLETE&resolution=NOTXIMIAN&emailassigned_to1=1&emailtype1=substring&email1=&emailassigned_to2=1&emailreporter2=1&emailqa_contact2=1&emailcc2=1&emailtype2=substring&email2=&bugidtype=include&bug_id=&chfieldfrom=2006-01-17&chfieldto=Now&chfield=bug_status&chfieldvalue=RESOLVED&cmdtype=doit&order=Reuse+same+sort+as+last+time&field0-0-0=noop&type0-0-0=noop&value0-0-0=
+
+Updated Translations:
+
+        - bg (Vladimir Petkov)
+        - el (Kostas Papadimas)
+        - en_CA (Adam Weinberger)
+	- es (Francisco Javier F. Serrador)
+        - et (Ivar Smolin)
+        - fi (Ilkka Tuohela)
+        - gl (Ignacio Casal Quinteiro)
+        - gu (Ankit Patel)
+        - ko (Changwoo Ryu)
+        - nb, no (Kjartan Maraas)
+        - nl (Vincent van Adrighem)
+        - pt_BR (Evandro Fernandes Giovanini)
+	- sr, sr@Latn (Slobodan D. Sredojevic)
+        - vi (Clytie Siddall)
+        - zh_CN (Funda Wang)
+	- zh_TW, zh_HK (Chao-Hsuing Liao)
+        - POTFILES.in (Adam Weinberger)
+        - POTFILES.in (Harish)
+
 Evolution 2.5.5 2006-01-16
 --------------------------
   
