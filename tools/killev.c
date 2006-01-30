@@ -39,8 +39,8 @@ typedef struct {
 	GPtrArray *names;
 } KillevComponent;
 
-GSList *languages;
-GHashTable *components;
+static GSList *languages;
+static GHashTable *components;
 
 static gboolean
 kill_process (const char *proc_name, KillevComponent *comp)
@@ -80,7 +80,7 @@ kill_process (const char *proc_name, KillevComponent *comp)
 	system (command);
 	g_free (command);
 	return TRUE;
-};
+}
 
 static const char *patterns[] = {
 	"%s", "%.16s", "lt-%s", "lt-%.13s"

@@ -1,3 +1,11 @@
+2006-01-30  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* tools/evolution-launch-composer.c: (do_send):
+	Use g_list_delete_link() instead of g_list_remove_link()
+	+ g_list_free_1().
+	* tools/killev.c: mark a couple vars static and remove a
+	stray semi-colon.
+
 2006-01-21  Chao-Hsiung Liao  <j_h_liau@yahoo.com.tw>
 
 	* configure.in: Add "zh_HK" to ALL_LINGUAS.

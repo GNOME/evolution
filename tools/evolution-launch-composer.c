@@ -162,7 +162,6 @@ do_send (GNOME_Evolution_Composer composer_server)
 
 	while (attachments) {
 		attachment_t *attachment = attachments->data;
-		GList *temp;
 
 		attach_data = GNOME_Evolution_Composer_AttachmentData__alloc();
 		attach_data->_maximum = attach_data->_length = attachment->size;
@@ -187,9 +186,7 @@ do_send (GNOME_Evolution_Composer composer_server)
 
 		free_attachment (attachment);
 
-		temp = attachments;
-		attachments = g_list_remove_link (attachments, attachments);
-		g_list_free_1 (temp);
+		attachments = g_list_delete_link (attachments, attachments);
 	}
 
 	to_list = GNOME_Evolution_Composer_RecipientList__alloc ();
