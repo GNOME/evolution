@@ -1,3 +1,11 @@
+2006-01-28  Rajeev ramanathan <rajeevramanathan_2004@yahoo.co.in>
+
+	** Fixes Bug #327347
+
+	* calendar/gui/dialogs/cal-prefs-dialog.glade:
+	Changed W_eek starts mnemonic to Wee_k starts on and added a 
+	translation string to that.
+
 2006-01-30  Johnny Jacob <johnnyjacob@gmail.com>
 
 	Fixes #327344

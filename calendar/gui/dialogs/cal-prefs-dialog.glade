@@ -18,6 +18,7 @@
   <property name="type_hint">GDK_WINDOW_TYPE_HINT_NORMAL</property>
   <property name="gravity">GDK_GRAVITY_NORTH_WEST</property>
   <property name="focus_on_map">True</property>
+  <property name="urgency_hint">False</property>
 
   <child>
     <widget class="GtkNotebook" id="toplevel-notebook">
@@ -311,7 +312,7 @@
 		  <child>
 		    <widget class="GtkLabel" id="label12">
 		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">W_eek starts:</property>
+		      <property name="label" translatable="yes" comments="A weekday like &quot;Monday&quot; follows">Wee_k starts on:</property>
 		      <property name="use_underline">True</property>
 		      <property name="use_markup">False</property>
 		      <property name="justify">GTK_JUSTIFY_LEFT</property>
