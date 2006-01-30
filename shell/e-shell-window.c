@@ -730,6 +730,16 @@ setup_widgets (EShellWindow *window)
 				      visible ? "1" : "0",
 				      NULL);
 
+	/* Side Bar*/
+	visible = gconf_client_get_bool (gconf_client,
+				         "/apps/evolution/shell/view_defaults/sidebar_visible",
+					 NULL);
+	bonobo_ui_component_set_prop (e_shell_window_peek_bonobo_ui_component (window),
+				      "/commands/ViewSideBar",
+				      "state",
+				      visible ? "1" : "0",
+				      NULL);
+
 	/* The tool bar */
 	visible = gconf_client_get_bool (gconf_client,
 					 "/apps/evolution/shell/view_defaults/toolbar_visible",
@@ -893,6 +903,7 @@ e_shell_window_init (EShellWindow *shell_window)
 	 * requiring a specific component.
 	 */
 	priv->menu = es_menu_new("org.gnome.evolution.shell");
+
 }
 
 
@@ -941,6 +952,11 @@ e_shell_window_new (EShell *shell,
 	e_menu_activate((EMenu *)priv->menu, priv->ui_component, TRUE);
 
 	setup_widgets (window);
+
+	if(gconf_client_get_bool (gconf_client_get_default(),"/apps/evolution/shell/view_defaults/sidebar_visible",NULL))
+		gtk_widget_show (priv->sidebar);
+	else
+		gtk_widget_hide (priv->sidebar);
 
 	update_send_receive_sensitivity (window);
 	g_signal_connect_object (shell, "line_status_changed", G_CALLBACK (shell_line_status_changed_callback), window, 0);
@@ -1093,6 +1109,21 @@ e_shell_window_save_defaults (EShellWindow *window)
 				       NULL);
 		g_free (prop);
 	}
+	
+	/* SideBar visibility setting */
+	prop = bonobo_ui_component_get_prop (e_shell_window_peek_bonobo_ui_component (window),
+					     "/commands/ViewSideBar",
+					     "state",
+					     NULL);
+	if (prop) {
+		visible = prop[0] == '1';
+		gconf_client_set_bool (client,
+				       "/apps/evolution/shell/view_defaults/sidebar_visible",
+				       visible,
+				       NULL);
+		g_free (prop);
+	}
+	
 
 	g_object_unref (client);
 }

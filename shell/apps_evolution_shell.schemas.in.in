@@ -130,6 +130,18 @@
       </locale>
     </schema>
 
+     <schema>
+      <key>/schemas/apps/evolution/shell/view_defaults/sidebar_visible</key>
+      <applyto>/apps/evolution/shell/view_defaults/sidebar_visible</applyto>
+      <owner>evolution</owner>
+      <type>bool</type>
+      <default>TRUE</default>
+      <locale name="C">
+        <short>Sidebar is visible</short>
+        <long>Whether the sidebar should be visible.</long>
+      </locale>
+    </schema>
+
     <schema>
       <key>/schemas/apps/evolution/shell/view_defaults/component_id</key>
       <applyto>/apps/evolution/shell/view_defaults/component_id</applyto>

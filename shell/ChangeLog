@@ -1,3 +1,10 @@
+2006-01-26  Rajeev ramanathan <rajeevramanathan_2004@yahoo.co.in>
+
+	** Fixes Bug #257654
+	
+	* e-shell-window.c:
+	* e-shell-window-commands.c: Added code to show/hide sidebar.
+
 2006-01-29  Harish Krishnaswamy  <kharish@novell.com>
 
 	* main.c: (show_development_warning):

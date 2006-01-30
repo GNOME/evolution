@@ -922,6 +922,23 @@ view_statusbar_item_toggled_handler (BonoboUIComponent           *ui_component,
 	gconf_client_set_bool (gconf_client_get_default (),"/apps/evolution/shell/view_defaults/statusbar_visible", is_visible, NULL);
 }
 
+static void
+view_sidebar_item_toggled_handler (BonoboUIComponent           *ui_component,
+				     const char                  *path,
+				     Bonobo_UIComponent_EventType type,
+				     const char                  *state,
+				     EShellWindow                *shell_window)
+{
+	GtkWidget *side_bar = GTK_WIDGET(e_shell_window_peek_sidebar (shell_window));
+	gboolean is_visible;
+	is_visible = state[0] == '1';	
+	if(is_visible)
+		gtk_widget_show (side_bar);
+	else
+		gtk_widget_hide (side_bar);
+	gconf_client_set_bool (gconf_client_get_default (),"/apps/evolution/shell/view_defaults/sidebar_visible", is_visible, NULL);
+}
+
 /* Public API.  */
 
 void
@@ -961,6 +978,9 @@ e_shell_window_commands_setup (EShellWindow *shell_window)
 					  (gpointer)shell_window);
 	bonobo_ui_component_add_listener (uic, "ViewStatusBar",
 					  (BonoboUIListenerFn)view_statusbar_item_toggled_handler,
+					  (gpointer)shell_window);
+	bonobo_ui_component_add_listener (uic, "ViewSideBar",
+					  (BonoboUIListenerFn)view_sidebar_item_toggled_handler,
 					  (gpointer)shell_window);
 
 	e_pixmaps_update (uic, pixmaps);
