@@ -28,8 +28,11 @@
     <cmd name="ViewToolbar" _label="Tool_bar" type="toggle"
       _tip="Change the visibility of the toolbar" state="1"/>
 
-    <cmd name="ViewStatusBar" _label="_View Status Bar" type="toggle"
+    <cmd name="ViewStatusBar" _label="Status _Bar" type="toggle"
       _tip="View/Hide the Status Bar" state="1"/>
+
+    <cmd name="ViewSideBar" _label="Side _Bar" type="toggle"
+      _tip="View/Hide the Side Bar" state="1"/>
 
     <cmd name="HelpSubmitBug" _label="Submit Bug Report"
       _tip="Submit a bug report using Bug Buddy"/>
@@ -113,6 +116,7 @@
       <submenu name="Window" _label="_Window"/>
       <menuitem name="ViewToolbar" id="ViewToolbar" verb=""/>
       <menuitem name="ViewStatusBar" id="ViewStatusBar"/>
+      <menuitem name="ViewSideBar" id="ViewSideBar"/>
       <placeholder name="ViewPreview"/>
       <submenu name="Buttons" _label="_Switcher Appearance">
             <menuitem name="ViewButtonsIconText" id="ViewButtonsIconText" verb=""/>

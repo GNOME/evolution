@@ -1,5 +1,10 @@
 2006-01-30  Rajeev Ramanathan <rajeevramanathan_2004@yahoo.co.in>
 
+	* evolution.xml: Added a menu item for show/hide side bar.
+	Also changed the mnemonics for toobar.
+
+2006-01-30  Rajeev Ramanathan <rajeevramanathan_2004@yahoo.co.in>
+
 	** Fixes bug #327304
 	
 	* evolution-calendar.xml: Added pixbuf for calendar prev/next buttons
