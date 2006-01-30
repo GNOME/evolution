@@ -46,7 +46,6 @@ libevolution_addressbook_la_LIBADD =							\
 	$(top_builddir)/shell/libeshell.la						\
 	$(top_builddir)/addressbook/gui/merging/libeabbookmerging.la			\
 	$(top_builddir)/addressbook/gui/widgets/libeabwidgets.la			\
-	$(top_builddir)/addressbook/gui/search/libeaddressbooksearch.la			\
 	$(top_builddir)/filter/libfilter.la						\
 	$(top_builddir)/addressbook/util/libeabutil.la					\
 	$(top_builddir)/addressbook/gui/contact-editor/libecontacteditor.la		\
