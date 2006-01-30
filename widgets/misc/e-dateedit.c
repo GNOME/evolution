@@ -1732,9 +1732,9 @@ e_date_edit_update_date_entry		(EDateEdit	*dedit)
 		tmp_tm.tm_mday = priv->day;
 		tmp_tm.tm_isdst = -1;
 
-		/* This is a strftime() format for a short date. %m = month,
-		   %d = day of month, %Y = year (all digits). */
-		e_utf8_strftime (buffer, sizeof (buffer), _("%m/%d/%Y"), &tmp_tm);
+		/* This is a strftime() format for a short date. 
+		   %x the preferred date representation for the current locale without the time*/
+		e_utf8_strftime (buffer, sizeof (buffer), "%x", &tmp_tm);
 		gtk_entry_set_text (GTK_ENTRY (priv->date_entry), buffer);
 	}
 

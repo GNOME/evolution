@@ -1,3 +1,11 @@
+2006-01-30  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Reviewed by Harish Krishnaswamy  <kharish@novell.com>
+	
+	Fixes #250754
+	* misc/e-dateedit.c: Used %x for strftime so that the date is represented
+	according to the locale used.
+
 2006-01-16  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* table/e-tree-table-adapter.c (set_expanded_state_func),
