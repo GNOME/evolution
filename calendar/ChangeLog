@@ -1,3 +1,9 @@
+2006-01-30  Harish Krishnaswamy <kharish@novell.com>
+
+	* gui/e-week-view.c : Reverting Chakravarthi's
+	commit on Jan 17 to fix miscellaneous problems
+	manifesting in the week/month views.
+	
 2006-01-30  Johnny Jacob  <johnnyjacob@gmail.com>
 
 	* gui/dialogs/event-page.c: (sensitize_widgets),
