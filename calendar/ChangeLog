@@ -96,12 +96,6 @@
 
 2006-01-25  Chenthill Palanisamy  <pchenthill@novell.com>
 
-	Fixes #
-	* gui/e-calendar-view.c: (on_unrecur_appointment):
-	
-
-2006-01-25  Chenthill Palanisamy  <pchenthill@novell.com>
-
 	Fixes #327879
 	
 	* gui/dialogs/recurrence-page.c: (clear_widgets):
