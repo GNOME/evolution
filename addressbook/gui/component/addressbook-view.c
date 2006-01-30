@@ -59,7 +59,6 @@
 #include "addressbook.h"
 #include "addressbook-view.h"
 #include "addressbook-component.h"
-#include "addressbook/gui/search/e-addressbook-search-dialog.h"
 #include "addressbook/gui/widgets/e-addressbook-view.h"
 #include "addressbook/gui/widgets/eab-gui-util.h"
 #include "addressbook/gui/merging/eab-contact-merging.h"
