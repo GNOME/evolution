@@ -498,12 +498,9 @@ static icaltimezone *
 get_zone_from_point (ETimezoneDialog *etd,
 		     EMapPoint *point)
 {
-	ETimezoneDialogPrivate *priv;
 	icalarray *zones;
 	double longitude, latitude;
 	int i;
-
-	priv = etd->priv;
 
 	if (point == NULL)
 		return NULL;

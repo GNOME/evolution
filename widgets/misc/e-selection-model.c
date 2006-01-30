@@ -601,11 +601,9 @@ e_selection_model_key_press      (ESelectionModel *selection,
 	case GDK_Up:
 	case GDK_KP_Up:
 		return move_selection(selection, TRUE, key->state);
-		break;
 	case GDK_Down:
 	case GDK_KP_Down:
 		return move_selection(selection, FALSE, key->state);
-		break;
 	case GDK_space:
 	case GDK_KP_Space:
 		if (selection->mode != GTK_SELECTION_SINGLE) {

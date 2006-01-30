@@ -682,7 +682,6 @@ static gboolean
 table_canvas_reflow_idle (ETable *e_table)
 {
 	gdouble height, width;
-	gdouble item_height;
 	gdouble oldheight, oldwidth;
 	GtkAllocation *alloc = &(GTK_WIDGET (e_table->table_canvas)->allocation);
 
@@ -690,7 +689,6 @@ table_canvas_reflow_idle (ETable *e_table)
 		      "height", &height,
 		      "width", &width,
 		      NULL);
-	item_height = height;
 	height = MAX ((int)height, alloc->height);
 	width = MAX((int)width, alloc->width);
 	/* I have no idea why this needs to be -1, but it works. */
@@ -713,7 +711,6 @@ table_canvas_size_allocate (GtkWidget *widget, GtkAllocation *alloc,
 {
 	gdouble width;
 	gdouble height;
-	gdouble item_height;
 	GValue *val = g_new0 (GValue, 1);
 	g_value_init (val, G_TYPE_DOUBLE);
 
@@ -722,7 +719,6 @@ table_canvas_size_allocate (GtkWidget *widget, GtkAllocation *alloc,
 	g_object_get (e_table->canvas_vbox,
 		      "height", &height,
 		      NULL);
-	item_height = height;
 	height = MAX ((int)height, alloc->height);
 
 	g_object_set (e_table->canvas_vbox,
@@ -1139,9 +1135,6 @@ table_canvas_focus_event_cb (GtkWidget *widget, GdkEventFocus *event, gpointer d
 static gboolean
 canvas_vbox_event (ECanvasVbox *vbox, GdkEventKey *key, ETable *etable)
 {
-	GnomeCanvas *canvas;
-
-	canvas = GNOME_CANVAS (etable->table_canvas);
 	switch (key->keyval) {
 		case GDK_Tab:
 		case GDK_KP_Tab:
@@ -1160,9 +1153,6 @@ canvas_vbox_event (ECanvasVbox *vbox, GdkEventKey *key, ETable *etable)
 static gboolean
 click_to_add_event (ETableClickToAdd *etcta, GdkEventKey *key, ETable *etable)
 {
-	GnomeCanvas *canvas;
-
-	canvas = GNOME_CANVAS (etable->table_canvas);
 	switch (key->keyval) {
 		case GDK_Tab:
 		case GDK_KP_Tab:
@@ -2463,9 +2453,9 @@ struct _GtkDragDestInfo
   GdkDragContext    *context;	   /* Drag context */
   GtkDragSourceInfo *proxy_source; /* Set if this is a proxy drag */
   GtkSelectionData  *proxy_data;   /* Set while retrieving proxied data */
-  gboolean           dropped : 1;     /* Set after we receive a drop */
+  guint              dropped : 1;     /* Set after we receive a drop */
   guint32            proxy_drop_time; /* Timestamp for proxied drop */
-  gboolean           proxy_drop_wait : 1; /* Set if we are waiting for a
+  guint              proxy_drop_wait : 1; /* Set if we are waiting for a
 					   * status reply before sending
 					   * a proxied drop on.
 					   */
@@ -2847,9 +2837,6 @@ do_drag_motion(ETable *et,
 {
 	gboolean ret_val;
 	int row = -1, col = -1;
-	GtkWidget *widget;
-
-	widget = GTK_WIDGET (et);
 
 	e_table_get_cell_at (et, x, y, &row, &col);
 
@@ -3060,11 +3047,9 @@ e_table_class_init (ETableClass *class)
 {
 	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
-	GtkContainerClass *container_class;
 
 	object_class                    = (GObjectClass *) class;
 	widget_class                    = (GtkWidgetClass *) class;
-	container_class                 = (GtkContainerClass *) class;
 
 	parent_class                    = g_type_class_peek_parent (class);
 

@@ -1460,11 +1460,9 @@ eti_dispose (GObject *object)
 static void
 eti_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec)
 {
-	GnomeCanvasItem *item;
 	ETableItem *eti;
 	int cursor_col;
 
-	item = GNOME_CANVAS_ITEM (object);
 	eti = E_TABLE_ITEM (object);
 
 	switch (prop_id){
@@ -1546,11 +1544,9 @@ eti_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpe
 static void
 eti_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec)
 {
-	GnomeCanvasItem *item;
 	ETableItem *eti;
 	int row;
 
-	item = GNOME_CANVAS_ITEM (object);
 	eti = E_TABLE_ITEM (object);
 
 	switch (prop_id){
@@ -1674,7 +1670,7 @@ adjustment_changed (GtkAdjustment *adjustment, ETableItem *eti)
 static void
 eti_tree_unfreeze (GtkWidget *widget,  GdkEvent *event, ETableItem *eti)
 {
-	g_object_set_data (((GnomeCanvasItem *) eti)->canvas, "freeze-cursor", 0);
+	g_object_set_data (G_OBJECT (((GnomeCanvasItem *) eti)->canvas), "freeze-cursor", 0);
 }
 
 static void
@@ -1932,7 +1928,7 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width,
 	yd += height_extra;
 	
 	for (row = first_row; row < last_row; row++){
-		int xd, height;
+		int xd;
 		gboolean selected;
 		gint cursor_col, cursor_row;
 		
@@ -2401,7 +2397,6 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 		case 4:
 		case 5:
 			return FALSE;
-			break;
 			
 		}
 		break;
@@ -2485,7 +2480,6 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 		case 4:
 		case 5:
 			return FALSE;
-			break;
 			
 		}
 		break;
@@ -3216,13 +3210,11 @@ static void
 eti_cursor_change (ESelectionModel *selection, int row, int col, ETableItem *eti)
 {
 	int view_row;
-	int view_col;
 
 	if (!(GTK_OBJECT_FLAGS(eti) & GNOME_CANVAS_ITEM_REALIZED))
 		return;
 
 	view_row = model_to_view_row(eti, row);
-	view_col = model_to_view_col(eti, col);
 	
 	if (eti->old_cursor_row != -1 && view_row != eti->old_cursor_row)
 		e_table_item_redraw_row (eti, eti->old_cursor_row);

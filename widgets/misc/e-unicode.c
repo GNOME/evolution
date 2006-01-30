@@ -2012,7 +2012,6 @@ e_stripped_char (gunichar ch)
 	case G_UNICODE_COMBINING_MARK:
 		/* Ignore those */
 		return 0;
-		break;
 	default:
 		/* Convert to lowercase, fall through */
 		ch = g_unichar_tolower (ch);

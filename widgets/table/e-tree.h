@@ -289,6 +289,7 @@ void            e_tree_load_expanded_state        (ETree                *et,
 						   char                 *filename);
 int             e_tree_row_count                  (ETree                *et);
 GtkWidget      *e_tree_get_tooltip                (ETree                *et);
+void            e_tree_load_all_expanded_state (ETree *et, gboolean state);
 
 typedef enum {
 	E_TREE_FIND_NEXT_BACKWARD = 0,

@@ -53,7 +53,7 @@ static void instance_changed (GalViewInstance *instance,
 #define d(x)
 #define CURRENT_VIEW_PATH "/menu/View/ViewBegin/CurrentView"
 
-G_DEFINE_TYPE(GalViewMenus, gal_view_menus, G_TYPE_OBJECT);
+G_DEFINE_TYPE(GalViewMenus, gal_view_menus, G_TYPE_OBJECT)
 
 static void
 closure_free (void *data, void *user_data)

@@ -982,13 +982,13 @@ set_collapsed_state_func (gpointer keyp, gpointer value, gpointer data)
 	ETreePath path = keyp;
 	node_t *node = ((GNode *)value)->data;
 	ETreeTableAdapter *etta = (ETreeTableAdapter *) data;
-	xmlNode *xmlnode;
 
 	if (node->expanded != FALSE) {
 		e_tree_table_adapter_node_set_expanded(etta, path, FALSE);
 		node->expanded = FALSE;
 	}
 }
+
 void
 e_tree_table_adapter_load_all_expanded_state (ETreeTableAdapter *etta, gboolean state)
 {

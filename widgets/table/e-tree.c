@@ -713,7 +713,6 @@ static gboolean
 tree_canvas_reflow_idle (ETree *e_tree)
 {
 	gdouble height, width;
-	gdouble item_height;
 	gdouble oldheight, oldwidth;
 	GtkAllocation *alloc = &(GTK_WIDGET (e_tree->priv->table_canvas)->allocation);
 
@@ -721,7 +720,6 @@ tree_canvas_reflow_idle (ETree *e_tree)
 		      "height", &height,
 		      "width", &width,
 		      NULL);
-	item_height = height;
 	height = MAX ((int)height, alloc->height);
 	width = MAX((int)width, alloc->width);
 	/* I have no idea why this needs to be -1, but it works. */
@@ -744,7 +742,6 @@ tree_canvas_size_allocate (GtkWidget *widget, GtkAllocation *alloc,
 {
 	gdouble width;
 	gdouble height;
-	gdouble item_height;
 	GtkAdjustment *adj = GTK_LAYOUT(e_tree->priv->table_canvas)->vadjustment;
 	ETreePath path = e_tree_get_cursor (e_tree);
 	gint x, y, w, h;
@@ -756,7 +753,6 @@ tree_canvas_size_allocate (GtkWidget *widget, GtkAllocation *alloc,
 	g_object_get (e_tree->priv->item,
 		      "height", &height,
 		      NULL);
-	item_height = height;
 	height = MAX ((int)height, alloc->height);
 
 	g_object_set (e_tree->priv->item,
@@ -2205,9 +2201,9 @@ struct _GtkDragDestInfo
   GdkDragContext    *context;	   /* Drag context */
   GtkDragSourceInfo *proxy_source; /* Set if this is a proxy drag */
   GtkSelectionData  *proxy_data;   /* Set while retrieving proxied data */
-  gboolean           dropped : 1;     /* Set after we receive a drop */
+  guint              dropped : 1;     /* Set after we receive a drop */
   guint32            proxy_drop_time; /* Timestamp for proxied drop */
-  gboolean           proxy_drop_wait : 1; /* Set if we are waiting for a
+  guint              proxy_drop_wait : 1; /* Set if we are waiting for a
 					   * status reply before sending
 					   * a proxied drop on.
 					   */
@@ -2252,11 +2248,8 @@ e_tree_drag_get_data (ETree         *tree,
 		      GdkAtom         target,
 		      guint32         time)
 {
-	ETreePath path;
 	g_return_if_fail(tree != NULL);
 	g_return_if_fail(E_IS_TREE(tree));
-
-	path = e_tree_table_adapter_node_at_row(tree->priv->etta, row);
 
 	gtk_drag_get_data(GTK_WIDGET(tree),
 			  context,
@@ -2633,9 +2626,6 @@ do_drag_motion(ETree *et,
 	gboolean ret_val = FALSE;
 	int row, col;
 	ETreePath path;
-	GtkWidget *widget;
-
-	widget = GTK_WIDGET (et);
 
 	e_tree_get_cell_at (et,
 			    x,
@@ -3008,11 +2998,9 @@ e_tree_class_init (ETreeClass *class)
 {
 	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
-	GtkContainerClass *container_class;
 
 	object_class                   = (GObjectClass *) class;
 	widget_class                   = (GtkWidgetClass *) class;
-	container_class                = (GtkContainerClass *) class;
 
 	parent_class                   = g_type_class_ref (PARENT_TYPE);
 

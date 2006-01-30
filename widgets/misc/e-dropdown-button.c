@@ -137,11 +137,9 @@ static void
 e_dropdown_button_class_init (EDropdownButtonClass *klass)
 {
 	GtkObjectClass *object_class;
-	GtkWidgetClass *widget_class;
 	GtkToggleButtonClass *toggle_class;
 
 	object_class = GTK_OBJECT_CLASS (klass);
-	widget_class = GTK_WIDGET_CLASS (klass);
 	toggle_class = GTK_TOGGLE_BUTTON_CLASS (klass);
 
 	object_class->destroy = impl_destroy;

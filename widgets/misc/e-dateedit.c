@@ -715,12 +715,9 @@ e_date_edit_set_date		(EDateEdit	*dedit,
 				 gint		 month,
 				 gint		 day)
 {
-	EDateEditPrivate *priv;
 	gboolean date_changed = FALSE;
 
 	g_return_if_fail (E_IS_DATE_EDIT (dedit));
-
-	priv = dedit->priv;
 
 	date_changed = e_date_edit_set_date_internal (dedit, TRUE, FALSE,
 						      year - 1900, month - 1,
@@ -822,12 +819,9 @@ e_date_edit_set_date_and_time_of_day       (EDateEdit      *dedit,
 					    gint            hour,
 					    gint            minute)
 {
-	EDateEditPrivate *priv;
 	gboolean date_changed, time_changed;
 
 	g_return_if_fail (E_IS_DATE_EDIT (dedit));
-
-	priv = dedit->priv;
 
 	date_changed = e_date_edit_set_date_internal (dedit, TRUE, FALSE,
 						      year - 1900, month - 1, day);
@@ -1267,10 +1261,7 @@ static void
 on_date_popup_date_selected	(ECalendarItem	*calitem,
 				 EDateEdit	*dedit)
 {
-	EDateEditPrivate *priv;
 	GDate start_date, end_date;
-
-	priv = dedit->priv;
 
 	hide_date_popup (dedit);
 
@@ -1625,7 +1616,7 @@ on_date_entry_focus_out			(GtkEntry	*entry,
 					 EDateEdit	*dedit)
 {
 	struct tm tmp_tm;
-	GtkMessageDialog *msg_dialog;
+	GtkWidget *msg_dialog;
 
 	tmp_tm.tm_year = 0;
         tmp_tm.tm_mon = 0;
@@ -1643,7 +1634,7 @@ on_date_entry_focus_out			(GtkEntry	*entry,
 		gtk_widget_destroy (msg_dialog);
 		e_date_edit_get_date (dedit,&tmp_tm.tm_year,&tmp_tm.tm_mon,&tmp_tm.tm_mday);
 		e_date_edit_set_date (dedit,tmp_tm.tm_year,tmp_tm.tm_mon,tmp_tm.tm_mday);
-		gtk_widget_grab_focus (entry);		
+		gtk_widget_grab_focus (GTK_WIDGET (entry));		
 		return FALSE;
 	}
 	return FALSE;
@@ -1655,7 +1646,7 @@ on_time_entry_focus_out			(GtkEntry	*entry,
 					 GdkEventFocus  *event,
 					 EDateEdit	*dedit)
 {
-	GtkMessageDialog *msg_dialog;
+	GtkWidget *msg_dialog;
 	
 	e_date_edit_check_time_changed (dedit);
 
@@ -1668,7 +1659,7 @@ on_time_entry_focus_out			(GtkEntry	*entry,
 		gtk_dialog_run (GTK_DIALOG(msg_dialog));
 		gtk_widget_destroy (msg_dialog);
 		e_date_edit_set_time (dedit,e_date_edit_get_time(dedit));
-		gtk_widget_grab_focus (entry);
+		gtk_widget_grab_focus (GTK_WIDGET (entry));
 		return FALSE;
 	}
 	return FALSE;

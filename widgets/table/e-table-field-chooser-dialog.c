@@ -53,7 +53,7 @@ E_MAKE_TYPE (e_table_field_chooser_dialog,
 	     ETableFieldChooserDialog,
 	     e_table_field_chooser_dialog_class_init,
 	     e_table_field_chooser_dialog_init,
-	     PARENT_TYPE);
+	     PARENT_TYPE)
 
 static void
 e_table_field_chooser_dialog_class_init (ETableFieldChooserDialogClass *klass)

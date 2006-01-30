@@ -538,12 +538,6 @@ e_calendar_drag_motion (GtkWidget      *widget,
 			gint            y,
 			guint           time)
 {
-	ECalendar *cal;
-
-	g_return_val_if_fail (E_IS_CALENDAR (widget), FALSE);
-
-	cal = E_CALENDAR (widget);
-
 #if 0
 	g_print ("In e_calendar_drag_motion\n");
 #endif
@@ -557,12 +551,6 @@ e_calendar_drag_leave (GtkWidget      *widget,
 		       GdkDragContext *context,
 		       guint           time)
 {
-	ECalendar *cal;
-
-	g_return_if_fail (E_IS_CALENDAR (widget));
-
-	cal = E_CALENDAR (widget);
-
 #if 0
 	g_print ("In e_calendar_drag_leave\n");
 #endif
@@ -631,7 +619,6 @@ e_calendar_focus (GtkWidget *widget, GtkDirectionType direction)
 		return FALSE;
 	gnome_canvas_item_grab_focus (children[focused_index]);
 	if (GNOME_IS_CANVAS_WIDGET (children[focused_index])) {
-		GtkWidget *widget;
 		widget = GNOME_CANVAS_WIDGET (children[focused_index])->widget;
 		gtk_widget_grab_focus (widget);
 	}

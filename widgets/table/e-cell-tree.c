@@ -574,7 +574,7 @@ ect_max_width (ECellView *ecell_view, int model_col, int view_col)
 		ETreeModel *tree_model = e_cell_tree_get_tree_model(ecell_view->e_table_model, row);
 		ETreePath node;
 		GdkPixbuf *node_image;
-		int node_image_width = 0, node_image_height = 0;
+		int node_image_width = 0;
 		
 		int offset, subcell_offset;
 #if 0
@@ -591,7 +591,6 @@ ect_max_width (ECellView *ecell_view, int model_col, int view_col)
 
 		if (node_image) {
 			node_image_width = gdk_pixbuf_get_width (node_image);
-			node_image_height = gdk_pixbuf_get_height (node_image);
 		}
 
 		width = subcell_offset + node_image_width;

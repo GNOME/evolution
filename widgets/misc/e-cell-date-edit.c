@@ -113,7 +113,7 @@ enum {
 	ARG_UPPER_HOUR
 };
 
-G_DEFINE_TYPE (ECellDateEdit, e_cell_date_edit, E_CELL_POPUP_TYPE);
+G_DEFINE_TYPE (ECellDateEdit, e_cell_date_edit, E_CELL_POPUP_TYPE)
 
 
 static void
@@ -431,16 +431,9 @@ e_cell_date_edit_do_popup		(ECellPopup	*ecp,
 					 int             view_col)
 {
 	ECellDateEdit *ecde = E_CELL_DATE_EDIT (ecp);
-	guint32 time;
 
 	e_cell_date_edit_show_popup (ecde, row, view_col);
 	e_cell_date_edit_set_popup_values (ecde);
-
-	if (event->type == GDK_BUTTON_PRESS) {
-		time = event->button.time;
-	} else {
-		time = event->key.time;
-	}
 
 	gtk_grab_add (ecde->popup_window);
 
@@ -548,14 +541,12 @@ e_cell_date_edit_show_popup		(ECellDateEdit	*ecde,
 					 int             row,
 					 int             view_col)
 {
-	gint x, y, width, height, old_width, old_height;
+	gint x, y, width, height;
 
 	if (ecde->need_time_list_rebuild)
 		e_cell_date_edit_rebuild_time_list (ecde);
 
 	/* This code is practically copied from GtkCombo. */
-	old_width = ecde->popup_window->allocation.width;
-	old_height  = ecde->popup_window->allocation.height;
 
 	e_cell_date_edit_get_popup_pos (ecde, row, view_col, &x, &y, &height, &width);
 

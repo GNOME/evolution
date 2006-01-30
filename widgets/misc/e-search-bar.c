@@ -106,14 +106,13 @@ verb_name_from_id (int id)
 static void
 clear_search (ESearchBar *esb)
 {
-	int item_row;
 	GtkWidget *widget;
 	ESearchBarSubitem *subitems;
 
 	e_search_bar_set_text (esb, "");
 	e_search_bar_set_item_id (esb, 0);
 
-	item_row = find_id (esb->option_menu, 0, "EsbChoiceId", &widget);
+	find_id (esb->option_menu, 0, "EsbChoiceId", &widget);
 
 	subitems = g_object_get_data (G_OBJECT (widget), "EsbChoiceSubitems");
 	activate_by_subitems (esb, 0, subitems);
@@ -204,7 +203,7 @@ search_now_verb_cb (BonoboUIComponent *ui_component,
 	const char *text;
 
 	esb = E_SEARCH_BAR (data);
-	text =  gtk_entry_get_text (esb->entry);
+	text =  gtk_entry_get_text (GTK_ENTRY (esb->entry));
 
 	if (text && *text) {
 		gtk_widget_modify_base (esb->entry, GTK_STATE_NORMAL, &(style->base[GTK_STATE_SELECTED]));
@@ -274,7 +273,7 @@ static void
 entry_activated_cb (GtkWidget *widget,
 		     ESearchBar *esb)
 {
-	const char *text = gtk_entry_get_text (esb->entry);
+	const char *text = gtk_entry_get_text (GTK_ENTRY (esb->entry));
 	GtkStyle *style = gtk_widget_get_default_style ();
 
 	if (text && *text) {
@@ -476,7 +475,7 @@ static void
 activate_button_clicked_cb (GtkWidget *widget,
 			    ESearchBar *esb)
 {
-	const char *text = gtk_entry_get_text (esb->entry);
+	const char *text = gtk_entry_get_text (GTK_ENTRY (esb->entry));
 	GtkStyle *style = gtk_widget_get_default_style ();
 
 	if (text && *text) {
@@ -495,8 +494,6 @@ static void
 clear_button_clicked_cb (GtkWidget *widget,
 			 ESearchBar *esb)
 {
-	GtkStyle *style = gtk_widget_get_default_style ();
-
 	gtk_widget_modify_base (esb->entry, GTK_STATE_NORMAL, NULL);
 	gtk_widget_modify_text (esb->entry, GTK_STATE_NORMAL, NULL);
 	

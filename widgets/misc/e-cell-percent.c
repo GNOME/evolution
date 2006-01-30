@@ -40,7 +40,7 @@
 
 #include "e-cell-percent.h"
 
-G_DEFINE_TYPE (ECellPercent, e_cell_percent, E_CELL_TEXT_TYPE);
+G_DEFINE_TYPE (ECellPercent, e_cell_percent, E_CELL_TEXT_TYPE)
 
 
 static char *

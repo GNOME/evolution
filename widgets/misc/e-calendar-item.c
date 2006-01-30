@@ -459,10 +459,8 @@ e_calendar_item_destroy		(GtkObject *o)
 static void
 e_calendar_item_get_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 {
-	GnomeCanvasItem *item;
 	ECalendarItem *calitem;
 
-	item = GNOME_CANVAS_ITEM (o);
 	calitem = E_CALENDAR_ITEM (o);
 
 	switch (arg_id) {
@@ -681,14 +679,11 @@ static void
 e_calendar_item_realize		(GnomeCanvasItem *item)
 {
 	ECalendarItem *calitem;
-	GdkColormap *colormap;
 
 	if (GNOME_CANVAS_ITEM_CLASS (e_calendar_item_parent_class)->realize)
 		(* GNOME_CANVAS_ITEM_CLASS (e_calendar_item_parent_class)->realize) (item);
 
 	calitem = E_CALENDAR_ITEM (item);
-
-	colormap = gtk_widget_get_colormap (GTK_WIDGET (item->canvas));
 
 	e_calendar_item_style_set (GTK_WIDGET(item->canvas), calitem);
 }
@@ -2991,12 +2986,11 @@ e_calendar_item_ensure_days_visible	(ECalendarItem	*calitem,
 					 gboolean emission)
 {
 	gint current_end_year, current_end_month;
-	gint months_shown, months;
+	gint months_shown;
 	gint first_day_offset, days_in_month, days_in_prev_month;
 	gboolean need_update = FALSE;
 
 	months_shown = calitem->rows * calitem->cols;
-	months = (end_year - start_year) * 12 + end_month - start_month;
 
 	/* Calculate the range of months currently displayed. */
 	current_end_year = calitem->year;

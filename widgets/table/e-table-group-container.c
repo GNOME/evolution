@@ -332,10 +332,6 @@ etgc_realize (GnomeCanvasItem *item)
 static void
 etgc_unrealize (GnomeCanvasItem *item)
 {
-	ETableGroupContainer *etgc;
-
-	etgc = E_TABLE_GROUP_CONTAINER (item);
-	
 	if (GNOME_CANVAS_ITEM_CLASS (etgc_parent_class)->unrealize)
 		(* GNOME_CANVAS_ITEM_CLASS (etgc_parent_class)->unrealize) (item);
 }

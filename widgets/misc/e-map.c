@@ -375,8 +375,6 @@ static void
 e_map_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
 {
 	EMap *view;
-	EMapPrivate *priv;
-	int xofs, yofs;
 	GdkRectangle area;
 
 	g_return_if_fail (widget != NULL);
@@ -384,10 +382,6 @@ e_map_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
 	g_return_if_fail (allocation != NULL);
 
 	view = E_MAP (widget);
-	priv = view->priv;
-
-	xofs = priv->xofs;
-	yofs = priv->yofs;
 
 	/* Resize the window */
 
@@ -413,12 +407,6 @@ e_map_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
 static gint
 e_map_button_press (GtkWidget *widget, GdkEventButton *event)
 {
-	EMap *view;
-	EMapPrivate *priv;
-
-	view = E_MAP (widget);
-	priv = view->priv;
-
 	if (!GTK_WIDGET_HAS_FOCUS (widget)) gtk_widget_grab_focus (widget);
 	return TRUE;
 }
@@ -429,12 +417,6 @@ e_map_button_press (GtkWidget *widget, GdkEventButton *event)
 static gint
 e_map_button_release (GtkWidget *widget, GdkEventButton *event)
 {
-	EMap *view;
-	EMapPrivate *priv;
-
-	view = E_MAP (widget);
-	priv = view->priv;
-
 	if (event->button != 1) return FALSE;
 
 	gdk_pointer_ungrab (event->time);
@@ -447,12 +429,6 @@ e_map_button_release (GtkWidget *widget, GdkEventButton *event)
 static gint
 e_map_motion (GtkWidget *widget, GdkEventMotion *event)
 {
-	EMap *view;
-	EMapPrivate *priv;
-
-	view = E_MAP (widget);
-	priv = view->priv;
-
 	return FALSE;
 
 /*
@@ -728,7 +704,6 @@ void
 e_map_zoom_to_location (EMap *map, double longitude, double latitude)
 {
 	EMapPrivate *priv;
-	int width, height;
 
 	g_return_if_fail (map);
 	g_return_if_fail (GTK_WIDGET_REALIZED (GTK_WIDGET (map)));
@@ -737,9 +712,6 @@ e_map_zoom_to_location (EMap *map, double longitude, double latitude)
 
 	if (priv->zoom_state == E_MAP_ZOOMED_IN) e_map_zoom_out (map);
 	else if (priv->zoom_state != E_MAP_ZOOMED_OUT) return;
-
-	width = gdk_pixbuf_get_width (priv->map_render_pixbuf);
-	height = gdk_pixbuf_get_height (priv->map_render_pixbuf);
 
 	priv->zoom_state = E_MAP_ZOOMING_IN;
 	priv->zoom_target_long = longitude;
@@ -753,7 +725,6 @@ void
 e_map_zoom_out (EMap *map)
 {
 	EMapPrivate *priv;
-	int width, height;
 
 	g_return_if_fail (map);
 	g_return_if_fail (GTK_WIDGET_REALIZED (GTK_WIDGET (map)));
@@ -761,9 +732,6 @@ e_map_zoom_out (EMap *map)
 	priv = map->priv;
 
 	if (priv->zoom_state != E_MAP_ZOOMED_IN) return;
-
-	width = gdk_pixbuf_get_width (priv->map_render_pixbuf);
-	height = gdk_pixbuf_get_height (priv->map_render_pixbuf);
 
 	priv->zoom_state = E_MAP_ZOOMING_OUT;
 	zoom_do (map);
@@ -1146,15 +1114,11 @@ update_render_point (EMap *map, EMapPoint *point)
 {
 	EMapPrivate *priv;
 	GdkPixbuf *pb;
-	int width, height;
 	double px, py;
 
 	priv = map->priv;
 	pb = priv->map_render_pixbuf;
 	if (!pb) return;
-
-	width  = gdk_pixbuf_get_width (pb);
-	height = gdk_pixbuf_get_height (pb);
 
 	e_map_world_to_window (map, point->longitude, point->latitude, &px, &py);
 	px += priv->xofs;
@@ -1182,12 +1146,10 @@ update_render_point (EMap *map, EMapPoint *point)
 static void
 repaint_point (EMap *map, EMapPoint *point)
 {
-	EMapPrivate *priv;
 	GdkRectangle area;
 	double px, py;
 
 	if (!e_map_point_is_in_view (map, point)) return; 
-	priv = map->priv;
 
 	e_map_world_to_window (map, point->longitude, point->latitude, &px, &py);
 
@@ -1587,8 +1549,6 @@ zoom_in_smooth (EMap *map)
 	EMapPrivate *priv;
 	GdkWindow *window;
 	int width, height;
-	int win_width, win_height;
-	int target_width, target_height;
 	double x, y;
 
 	g_return_if_fail (map);
@@ -1603,10 +1563,6 @@ zoom_in_smooth (EMap *map)
 	window = GTK_WIDGET (map)->window;
 	width = gdk_pixbuf_get_width (priv->map_render_pixbuf);
 	height = gdk_pixbuf_get_height (priv->map_render_pixbuf);
-	win_width = GTK_WIDGET (map)->allocation.width;
-	win_height = GTK_WIDGET (map)->allocation.height;
-	target_width = win_width / 4;
-	target_height = win_height / 4;
 
 	/* Center the target point as much as possible */
   

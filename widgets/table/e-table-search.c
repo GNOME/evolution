@@ -31,7 +31,7 @@
 
 #define d(x)
 
-d(static gint depth = 0);
+d(static gint depth = 0)
 
 struct _ETableSearchPrivate {
 	guint timeout_id;

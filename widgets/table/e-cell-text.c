@@ -704,7 +704,7 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 	ECellText *ect = E_CELL_TEXT (ecell_view->ecell);
 	CellEdit *edit = text_view->edit;
 	gboolean selected;
-	GdkColor *foreground, *cursor_color;
+	GdkColor *foreground;
 	GtkWidget *canvas = GTK_WIDGET (text_view->canvas);
 	GdkRectangle clip_rect;
 	int x_origin, y_origin;
@@ -716,10 +716,8 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 			foreground = &canvas->style->fg [GTK_STATE_SELECTED];
 		else
 			foreground = &canvas->style->fg [GTK_STATE_ACTIVE];
-		cursor_color = foreground;
 	} else {
 		foreground = &canvas->style->text [GTK_STATE_NORMAL];
-		cursor_color = foreground;
 
 		if (ect->color_column != -1) {
 			char *color_spec;
@@ -1544,6 +1542,10 @@ ect_show_tooltip (ECellView *ecell_view,
 	tooltip_height = height;
 	tooltip_y = tooltip->y;
 
+	/* This looks very broken since tooltip_x is never used?!
+	 * Maybe tooltip->x is what was meant here and just get rid of
+	 * both tooltip_x and tooltip_y?
+	 */
 	switch (E_CELL_TEXT (text_view->cell_view.ecell)->justify) {
 	case GTK_JUSTIFY_CENTER:
 		tooltip_x = - tooltip_width / 2;

@@ -189,7 +189,6 @@ etog_draw (ECellView *ecell_view, GdkDrawable *drawable,
 	  int x1, int y1, int x2, int y2)
 {
 	ECellToggle *toggle = E_CELL_TOGGLE (ecell_view->ecell);
-	gboolean selected;
 	ECellToggleView *toggle_view = (ECellToggleView *) ecell_view;
 	GdkPixmap *pixmap;
 	GdkPixbuf *image;
@@ -199,8 +198,6 @@ etog_draw (ECellView *ecell_view, GdkDrawable *drawable,
 	const int value = GPOINTER_TO_INT (
 		 e_table_model_value_at (ecell_view->e_table_model, model_col, row));
 	
-	selected = flags & E_CELL_SELECTED;
-
 	if (value < 0 || value >= toggle->n_states){
 		g_warning ("Value from the table model is %d, the states we support are [0..%d)\n",
 			   value, toggle->n_states);
@@ -289,7 +286,6 @@ etog_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col,
 	default:
 		return FALSE;
 	}
-	return TRUE;
 }
 
 /*

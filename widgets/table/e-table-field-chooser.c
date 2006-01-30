@@ -55,16 +55,14 @@ E_MAKE_TYPE (e_table_field_chooser,
 	     ETableFieldChooser,
 	     e_table_field_chooser_class_init,
 	     e_table_field_chooser_init,
-	     PARENT_TYPE);
+	     PARENT_TYPE)
 
 static void
 e_table_field_chooser_class_init (ETableFieldChooserClass *klass)
 {
 	GObjectClass *object_class;
-	GtkVBoxClass *vbox_class;
 
 	object_class = (GObjectClass*) klass;
-	vbox_class = (GtkVBoxClass *) klass;
 
 	glade_init();
 

@@ -111,7 +111,6 @@ e_table_group_new (GnomeCanvasGroup *parent,
 	} else {
 		return e_table_group_leaf_new (parent, full_header, header, model, sort_info);
 	}
-	return NULL;
 }
 
 /**

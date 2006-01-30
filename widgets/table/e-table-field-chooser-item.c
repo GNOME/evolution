@@ -98,9 +98,6 @@ etfci_find_button (ETableFieldChooserItem *etfci, double loc)
 	int i;
 	int count;
 	double height = 0;
-	GtkStyle *style;
-
-	style = GTK_WIDGET (GNOME_CANVAS_ITEM (etfci)->canvas)->style;
 
 	count = e_table_header_count(etfci->combined_header);
 	for (i = 0; i < count; i++) {
@@ -158,11 +155,8 @@ etfci_reflow (GnomeCanvasItem *item, gint flags)
 	int i;
 	int count;
 	double height = 0;
-	GtkStyle *style;
 
 	etfci_rebuild_combined (etfci);
-
-	style = GTK_WIDGET (GNOME_CANVAS_ITEM (etfci)->canvas)->style;
 
 	old_height = etfci->height;
 
@@ -369,10 +363,8 @@ etfci_set_property (GObject *object, guint prop_id, const GValue *value, GParamS
 static void
 etfci_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec)
 {
-	GnomeCanvasItem *item;
 	ETableFieldChooserItem *etfci;
 
-	item = GNOME_CANVAS_ITEM (object);
 	etfci = E_TABLE_FIELD_CHOOSER_ITEM (object);
 
 	switch (prop_id){
@@ -423,12 +415,9 @@ static void
 etfci_realize (GnomeCanvasItem *item)
 {
 	ETableFieldChooserItem *etfci = E_TABLE_FIELD_CHOOSER_ITEM (item);
-	GdkWindow *window;
 
 	if (GNOME_CANVAS_ITEM_CLASS (etfci_parent_class)-> realize)
 		(*GNOME_CANVAS_ITEM_CLASS (etfci_parent_class)->realize)(item);
-
-	window = GTK_WIDGET (item->canvas)->window;
 
 	if (!etfci->font)
 		etfci_font_load (etfci);
@@ -708,4 +697,4 @@ E_MAKE_TYPE (e_table_field_chooser_item,
 	     ETableFieldChooserItem,
 	     etfci_class_init,
 	     etfci_init,
-	     PARENT_OBJECT_TYPE);
+	     PARENT_OBJECT_TYPE)

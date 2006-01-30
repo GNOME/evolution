@@ -830,13 +830,11 @@ static void
 e_reflow_realize (GnomeCanvasItem *item)
 {
 	EReflow *reflow;
-	GnomeCanvasGroup *group;
 	GtkAdjustment *adjustment;
 	int count;
 	int i;
 
 	reflow = E_REFLOW (item);
-	group = GNOME_CANVAS_GROUP (item);
 
 	if (GNOME_CANVAS_ITEM_CLASS(parent_class)->realize)
 		(* GNOME_CANVAS_ITEM_CLASS(parent_class)->realize) (item);
@@ -951,7 +949,6 @@ e_reflow_event (GnomeCanvasItem *item, GdkEvent *event)
 				}
 			}
 #endif
-			break;
 		case GDK_BUTTON_PRESS:
 			switch(event->button.button) 
 				{

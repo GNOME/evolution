@@ -147,7 +147,7 @@ e_image_chooser_class_init (EImageChooserClass *klass)
 	object_class->dispose = e_image_chooser_dispose;
 }
 
-#if UI_CHANGE_OK
+#ifdef UI_CHANGE_OK
 static void
 browse_for_image_cb (GtkWidget *button, gpointer data)
 {
@@ -168,7 +168,7 @@ e_image_chooser_init (EImageChooser *chooser)
 
 	gtk_container_add (GTK_CONTAINER (alignment), priv->image);
 
-#if UI_CHANGE_OK
+#ifdef UI_CHANGE_OK
 	priv->browse_button = gtk_button_new_with_label (_("Choose Image"));
 #endif
 
@@ -177,7 +177,7 @@ e_image_chooser_init (EImageChooser *chooser)
 	gtk_container_add (GTK_CONTAINER (priv->frame), alignment);
 	gtk_box_set_homogeneous (GTK_BOX (chooser), FALSE);
 	gtk_box_pack_start (GTK_BOX (chooser), priv->frame, TRUE, TRUE, 0);
-#if UI_CHANGE_OK
+#ifdef UI_CHANGE_OK
 	gtk_box_pack_start (GTK_BOX (chooser), priv->browse_button, FALSE, FALSE, 0);
 
 	g_signal_connect (priv->browse_button, "clicked", G_CALLBACK (browse_for_image_cb), NULL);
@@ -194,7 +194,7 @@ e_image_chooser_init (EImageChooser *chooser)
 			  "drag_data_received", G_CALLBACK (image_drag_data_received_cb), chooser);
 
 	gtk_widget_show_all (priv->frame);
-#if UI_CHANGE_OK
+#ifdef UI_CHANGE_OK
 	gtk_widget_show (priv->browse_button);
 #endif
 
@@ -414,6 +414,7 @@ image_drag_data_received_cb (GtkWidget *widget,
 		char *uri;
 		char *nl = strstr (selection_data->data, "\r\n");
 		char *buf = NULL;
+		/* Why can't we change the info parameter to a GnomeVFSFileInfo and use that? */
 		GnomeVFSFileInfo info;
 
 		if (nl)

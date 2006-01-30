@@ -338,7 +338,6 @@ ecsb_event        (ECellView        *ecv,
 		   ECellActions     *actions)
 {
 	ECellSpinButton       *ecsb;
-	ECellSpinButtonClass  *ecsb_class;
 	ECellSpinButtonView   *ecsb_view;
 	ETableItem            *eti;
 	gint                   height, width;
@@ -347,7 +346,6 @@ ecsb_event        (ECellView        *ecv,
 		
 	ecsb_view   = (ECellSpinButtonView *) ecv;
 	ecsb        = E_CELL_SPIN_BUTTON (ecsb_view->cell_view.ecell);
-	ecsb_class  = E_CELL_SPIN_BUTTON_CLASS (GTK_OBJECT_GET_CLASS (ecsb));
 	eti         = E_TABLE_ITEM (ecsb_view->cell_view.e_table_item_view);
 	
 	switch (event->type) {
@@ -469,10 +467,7 @@ ecsb_focus        (ECellView        *ecell_view,
 		   int		     y2)
 {
 	ECellClass  *klass;
-	ECellSpinButtonView   *ecsb_view;
 	
-	ecsb_view = (ECellSpinButtonView *) ecell_view;
-
 	klass = E_CELL_GET_CLASS (ecell_view->ecell);
 
 	if (klass->focus)
@@ -484,9 +479,7 @@ static void
 ecsb_unfocus      (ECellView        *ecell_view)
 {
 	ECellClass  *klass;
-	ECellSpinButtonView   *ecsb_view;
 	
-	ecsb_view = (ECellSpinButtonView *) ecell_view;
 	klass = E_CELL_GET_CLASS (ecell_view->ecell);
 
 	if (klass->unfocus)
@@ -514,12 +507,8 @@ ecsb_show_tooltip (ECellView        *ecv,
 static void 
 ecsb_dispose (GObject	*object)
 {
-	ECellSpinButton *mcsp;
-
 	g_return_if_fail (object != NULL);
 	g_return_if_fail (M_IS_CELL_SPIN_BUTTON (object));
-	
-	mcsp = E_CELL_SPIN_BUTTON (object);
 	
 	G_OBJECT_CLASS (parent_class)->dispose (object);
 }

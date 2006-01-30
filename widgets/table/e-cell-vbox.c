@@ -446,7 +446,7 @@ e_cell_vbox_init (GtkObject *object)
 	ecv->subcell_count = 0;
 }
 
-E_MAKE_TYPE(e_cell_vbox, "ECellVbox", ECellVbox, e_cell_vbox_class_init, e_cell_vbox_init, PARENT_TYPE);
+E_MAKE_TYPE(e_cell_vbox, "ECellVbox", ECellVbox, e_cell_vbox_class_init, e_cell_vbox_init, PARENT_TYPE)
 
 /**
  * e_cell_vbox_new:

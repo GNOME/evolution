@@ -186,11 +186,9 @@ static void
 impl_response (GtkDialog *dialog, int response_id)
 {
 	EMultiConfigDialog *multi_config_dialog;
-	EMultiConfigDialogPrivate *priv;
 	GError *error;
 
 	multi_config_dialog = E_MULTI_CONFIG_DIALOG (dialog);
-	priv = multi_config_dialog->priv;
 
 	error = NULL;
 

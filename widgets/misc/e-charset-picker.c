@@ -485,7 +485,7 @@ e_charset_picker_bonobo_ui_populate (BonoboUIComponent *uic, const char *path,
 	g_free (label);
 	
 	for (i = 0; i < num_charsets; i++) {
-		char *command, *label, *encoded_label;
+		char *command;
 		char *charset_name, *u;
 		
 		/* escape _'s in the charset name so that it doesn't become an underline in a GtkLabel */
@@ -542,7 +542,7 @@ e_charset_picker_bonobo_ui_populate (BonoboUIComponent *uic, const char *path,
 	}
 	
 	if (def == num_charsets) {
-		char *command, *label, *encoded_label;
+		char *command;
 		char *charset_name, *u;
 		
 		/* escape _'s in the charset name so that it doesn't become an underline in a GtkLabel */

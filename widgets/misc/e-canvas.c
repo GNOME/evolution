@@ -76,11 +76,9 @@ static void
 e_canvas_class_init (ECanvasClass *klass)
 {
 	GObjectClass *object_class;
-	GnomeCanvasClass *canvas_class;
 	GtkWidgetClass *widget_class;
 
 	object_class                       = (GObjectClass*) klass;
-	canvas_class                       = (GnomeCanvasClass *) klass;
 	widget_class                       = (GtkWidgetClass *) klass;
 
 	parent_class                       = g_type_class_ref (PARENT_TYPE);
@@ -434,9 +432,6 @@ pick_current_item (GnomeCanvas *canvas, GdkEvent *event)
 	    && (canvas->current_item != NULL)
 	    && !canvas->left_grabbed_item) {
 		GdkEvent new_event;
-		GnomeCanvasItem *item;
-
-		item = canvas->current_item;
 
 		new_event = canvas->pick_event;
 		new_event.type = GDK_LEAVE_NOTIFY;

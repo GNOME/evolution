@@ -110,7 +110,7 @@ eprog_clear (ECellProgress *progress)
 static void
 eprog_draw_border (ECellProgress *progress, guchar red, guchar green, guchar blue)
 {
-  gint i, j, w4, p4, pw4, wpb4, hp1;
+  gint i, j, w4, p4, pw4, wpb4;
 
 /*
  * some speedup
@@ -119,7 +119,6 @@ eprog_draw_border (ECellProgress *progress, guchar red, guchar green, guchar blu
   p4=progress->padding*4;
   pw4=w4*progress->padding;
   wpb4=(progress->width-progress->padding-progress->border)*4;
-  hp1=(progress->height-progress->padding-1);
 
   for (i=progress->padding*4;i<(progress->width-progress->padding)*4;i+=4){
     for (j=0;j<progress->border;j++){
@@ -172,37 +171,27 @@ eprog_draw (ECellView *ecell_view, GdkDrawable *drawable,
 	  int x1, int y1, int x2, int y2)
 {
 	ECellProgress *progress = E_CELL_PROGRESS (ecell_view->ecell);
-	gboolean selected;
-	GdkPixbuf *image;
-	int x, y, width, height;
+	int x, y;
 	
 	const int value = GPOINTER_TO_INT (
 		 e_table_model_value_at (ecell_view->e_table_model, model_col, row));
 	
-	selected = flags & E_CELL_SELECTED;
-
 	if ((value > progress->max)||(value < progress->min)){
 		g_warning ("Value from the table model is %d, the states we support are [%d..%d]\n",
 			   value, progress->min, progress->max);
 		return;
 	}
 
-	image = progress->image;
-
 	if ((x2 - x1) < progress->width){
 		x = x1;
-		width = x2 - x1;
 	} else {
 		x = x1 + ((x2 - x1) - progress->width) / 2;
-		width = progress->width;
 	}
 
 	if ((y2 - y1) < progress->height){
 		y = y1;
-		height = y2 - y1;
 	} else {
 		y = y1 + ((y2 - y1) - progress->height) / 2;
-		height = progress->height;
 	}
 
 	eprog_clear(progress);
@@ -267,7 +256,6 @@ eprog_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col
 	default:
 		return FALSE;
 	}
-	return TRUE;
 }
 
 /*
@@ -323,7 +311,7 @@ e_cell_progress_class_init (GObjectClass *object_class)
 	parent_class = g_type_class_ref (PARENT_TYPE);
 }
 
-E_MAKE_TYPE(e_cell_progress, "ECellProgress", ECellProgress, e_cell_progress_class_init, NULL, PARENT_TYPE);
+E_MAKE_TYPE(e_cell_progress, "ECellProgress", ECellProgress, e_cell_progress_class_init, NULL, PARENT_TYPE)
 
 /**
  * e_cell_progress_construct:

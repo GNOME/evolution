@@ -294,10 +294,6 @@ e_table_draw_elided_string (GdkDrawable *drawable, GdkGC *gc, GtkWidget *widget,
 		gdk_draw_layout (drawable, gc, x, y, layout);
 
 		for (i = 0; i < arrow_width; i++) {
-			int h;
-
-			h = 2 * i + 1;
-
 			gdk_draw_line (drawable, gc,
 				       x + max_width - i,
 				       y + height / 2 - i,
@@ -435,7 +431,6 @@ e_table_header_draw_button (GdkDrawable *drawable, ETableCol *ecol,
 		xpos = inner_x;
 
 		if (inner_width - pwidth > 11) {
-			int width;
 			int ypos;
 
 			pango_layout_get_pixel_size (layout, &width, NULL);

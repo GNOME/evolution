@@ -418,7 +418,6 @@ e_table_sort_info_save_to_node (ETableSortInfo *info,
 				xmlNode        *parent)
 {
 	xmlNode *grouping;
-	xmlNode *node;
 	int i;
 	const int sort_count = e_table_sort_info_sorting_get_count (info);
 	const int group_count = e_table_sort_info_grouping_get_count (info);
@@ -431,7 +430,6 @@ e_table_sort_info_save_to_node (ETableSortInfo *info,
 
 		e_xml_set_integer_prop_by_name (new_node, "column", column.column);
 		e_xml_set_bool_prop_by_name (new_node, "ascending", column.ascending);
-		node = new_node;
 	}
 
 	for (i = 0; i < sort_count; i++) {
@@ -440,7 +438,6 @@ e_table_sort_info_save_to_node (ETableSortInfo *info,
 		
 		e_xml_set_integer_prop_by_name (new_node, "column", column.column);
 		e_xml_set_bool_prop_by_name (new_node, "ascending", column.ascending);
-		node = new_node;
 	}
 
 	return grouping;

@@ -205,11 +205,9 @@ e_table_scrolled_class_init (ETableScrolledClass *class)
 {
 	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
-	GtkContainerClass *container_class;
 
 	object_class = (GObjectClass *) class;
 	widget_class = (GtkWidgetClass *) class;
-	container_class = (GtkContainerClass *) class;
 
 	parent_class = g_type_class_ref (PARENT_TYPE);
 

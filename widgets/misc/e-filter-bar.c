@@ -107,6 +107,7 @@ static void
 rule_advanced_response (GtkWidget *dialog, int response, void *data)
 {
 	EFilterBar *efb = data;
+	/* the below generates a compiler warning about incompatible pointer types */
 	ESearchBar *esb = efb;
 	FilterRule *rule;
 	
@@ -304,8 +305,6 @@ option_changed (ESearchBar *esb, void *data)
 			}
 			gtk_widget_set_sensitive (esb->entry, TRUE);
 		} else {
-			GtkStyle *style = gtk_widget_get_default_style ();
-
 			gtk_widget_modify_base (esb->entry, GTK_STATE_NORMAL, NULL);
 			gtk_widget_modify_text (esb->entry, GTK_STATE_NORMAL, NULL);
 			
@@ -411,11 +410,11 @@ build_items (ESearchBar *esb, ESearchBarItem *items, int type, int *start, GPtrA
 	
 	/* always add on the advanced menu */
 	if (type == 1) {
-		ESearchBarItem items[2] = { E_FILTERBAR_SEPARATOR, E_FILTERBAR_ADVANCED };
+		ESearchBarItem sb_items[2] = { E_FILTERBAR_SEPARATOR, E_FILTERBAR_ADVANCED };
 		ESearchBarItem dup_items[2];
 
-		dup_item_no_subitems (&dup_items[0], &items[0]);
-		dup_item_no_subitems (&dup_items[1], &items[1]);
+		dup_item_no_subitems (&dup_items[0], &sb_items[0]);
+		dup_item_no_subitems (&dup_items[1], &sb_items[1]);
 		g_array_append_vals (menu, &dup_items, 2);
 	}
 	

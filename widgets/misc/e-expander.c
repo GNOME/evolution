@@ -592,7 +592,6 @@ static GdkRectangle
 get_expander_bounds (EExpander *expander)
 {
   GtkWidget *widget;
-  GtkBin *bin;
   EExpanderPrivate *priv;
   GdkRectangle bounds;
   gint border_width;
@@ -604,7 +603,6 @@ get_expander_bounds (EExpander *expander)
   gboolean ltr;
 
   widget = GTK_WIDGET (expander);
-  bin = GTK_BIN (expander);
 
   priv = E_EXPANDER_GET_PRIVATE (expander);
 
@@ -755,9 +753,6 @@ e_expander_expose (GtkWidget      *widget,
   if (GTK_WIDGET_DRAWABLE (widget))
     {
       EExpander *expander = E_EXPANDER (widget);
-      EExpanderPrivate *priv;
-
-      priv = E_EXPANDER_GET_PRIVATE (expander);
 
       e_expander_paint (expander);
 
@@ -777,14 +772,9 @@ is_in_expander_panel (EExpander *expander,
 		      gint         y)
 {
   GtkWidget *widget;
-  GtkBin *bin;
   GdkRectangle area;
-  gint border_width;
 
   widget = GTK_WIDGET (expander);
-  bin = GTK_BIN (expander);
-
-  border_width = GTK_CONTAINER (expander)->border_width;
 
   area = get_expander_bounds (expander);
 

@@ -34,9 +34,6 @@ G_DEFINE_TYPE (EConfigPage, e_config_page, GTK_TYPE_EVENT_BOX)
 static void
 e_config_page_class_init (EConfigPageClass *class)
 {
-	GObjectClass *object_class;
-
-	object_class = G_OBJECT_CLASS (class);
 }
 
 static void

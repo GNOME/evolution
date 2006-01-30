@@ -433,7 +433,6 @@ etcta_event (GnomeCanvasItem *item, GdkEvent *e)
 			break;
 		default:
 			return FALSE;
-			break;
 		}
 		break;
 			

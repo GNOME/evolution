@@ -283,10 +283,8 @@ ecb_get_property (GObject *object,
 		  GValue *value,
 		  GParamSpec *pspec)
 {
-	GnomeCanvasItem *item;
 	ECanvasBackground *ecb;
 
-	item = GNOME_CANVAS_ITEM (object);
 	ecb = E_CANVAS_BACKGROUND (object);
 
 	switch (prop_id){

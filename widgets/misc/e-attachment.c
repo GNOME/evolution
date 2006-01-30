@@ -346,14 +346,12 @@ async_progress_update_cb (GnomeVFSAsyncHandle      *handle,
 			g_free (download_info);
 		}
 		return TRUE;
-		break;
 	}
 	case GNOME_VFS_XFER_PROGRESS_STATUS_VFSERROR:
 		gnome_vfs_async_cancel (handle);
 		g_free (download_info->file_name);
 		g_free (download_info);
 		return FALSE;
-		break;
 
 	default:
 		break;
@@ -374,6 +372,7 @@ download_to_local_path (GnomeVFSURI  *source_uri, GnomeVFSURI  *target_uri, Down
 	target_uri_list = g_list_prepend (target_uri_list, target_uri);
 
 	/* Callback info */
+	/* Maybe check the result here somewhere? */
 	result = gnome_vfs_async_xfer (&download_info->attachment->handle,                        /* handle_return   */
 				       source_uri_list,                       /* source_uri_list */
 				       target_uri_list,                       /* target_uri_list */

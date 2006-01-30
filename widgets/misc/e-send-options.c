@@ -331,12 +331,10 @@ delay_until_date_changed_cb (GtkWidget *dedit, gpointer data)
 {
 	ESendOptionsDialog *sod;
 	ESendOptionsDialogPrivate *priv;
-	ESendOptionsGeneral *gopts;
 	time_t tmp, current;
 
 	sod = data;
 	priv = sod->priv;
-	gopts = sod->data->gopts;	
 	
 	current = time (NULL);
 	tmp = e_date_edit_get_time (E_DATE_EDIT (priv->delay_until));

@@ -215,9 +215,6 @@ calculate_height_width(EAttachmentBar *bar, int *new_width, int *new_height)
         int width, height, icon_width;
         PangoFontMetrics *metrics;
         PangoContext *context;
-        GnomeIconList *icon_list;
-
-	icon_list = GNOME_ICON_LIST (bar);
 			
         context = gtk_widget_get_pango_context ((GtkWidget *) bar);
         metrics = pango_context_get_metrics (context, ((GtkWidget *) bar)->style->font_desc, pango_context_get_language (context));
@@ -426,11 +423,9 @@ update (EAttachmentBar *bar)
 static void
 update_remote_file (EAttachment *attachment, EAttachmentBar *bar)
 {
-	EAttachmentBarPrivate *priv;
 	GnomeIconList *icon_list;
 	GnomeIconTextItem *item;
 	char *msg, *base;
-	priv = bar->priv;
 
 	if (attachment->percentage == -1) {
 		update (bar);
@@ -903,12 +898,8 @@ static void
 class_init (EAttachmentBarClass *klass)
 {
 	GtkObjectClass *object_class;
-	GtkWidgetClass *widget_class;
-	GnomeIconListClass *icon_list_class;
 	
 	object_class = GTK_OBJECT_CLASS (klass);
-	widget_class = GTK_WIDGET_CLASS (klass);
-	icon_list_class = GNOME_ICON_LIST_CLASS (klass);
 	
 	parent_class = g_type_class_ref (gnome_icon_list_get_type ());
 	
