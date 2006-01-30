@@ -1,3 +1,8 @@
+2006-01-30  Tor Lillqvist  <tml@novell.com>
+
+	* gui/component/Makefile.am (libevolution_addressbook_la_LIBADD):
+	Link with libefilterbar, too.
+
 2006-01-30  Harish Krishnaswamy  <kharish@novell.com>
 
 	* gui/component/addressbook-view.c:
