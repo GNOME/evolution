@@ -1,3 +1,14 @@
+2006-01-29  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* e-corba-config-page.c: (e_corba_config_page_class_init):
+	* e-shell-folder-title-bar.c: (e_shell_folder_title_bar_construct):
+	* e-shell-window.c: (init_view):
+	* e-shell.c: (detect_version), (e_shell_construct), (e_shell_new),
+	(e_shell_attempt_upgrade), (e_shell_create_window),
+	(e_shell_save_settings):
+	* main.c: (idle_cb):
+	Remove unused code and fix format specifiers in some cases.
+
 2006-01-26  Rajeev ramanathan <rajeevramanathan_2004@yahoo.co.in>
 
 	** Fixes Bug #257654

@@ -328,7 +328,6 @@ idle_cb (void *data)
 	CORBA_Environment ev;
 	EShellConstructResult result;
 	EShellStartupLineMode startup_line_mode;
-	gboolean have_evolution_uri;
 
 #ifdef KILL_PROCESS_CMD
 	kill_old_dataserver ();
@@ -373,8 +372,6 @@ idle_cb (void *data)
 		return FALSE;
 
 	}
-
-	have_evolution_uri = FALSE;
 
 	if (shell != NULL) {
 		e_shell_create_window (shell, default_component_id, NULL);

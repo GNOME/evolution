@@ -214,7 +214,6 @@ init_view (EShellWindow *window,
 	CORBA_Environment ev;
 	int sidebar_notebook_page_num;
 	int view_notebook_page_num;
-	int statusbar_notebook_page_num;
 
 	g_assert (view->view_widget == NULL);
 	g_assert (view->sidebar_widget == NULL);
@@ -280,7 +279,6 @@ init_view (EShellWindow *window,
 
 	sidebar_notebook_page_num = gtk_notebook_page_num (GTK_NOTEBOOK (priv->sidebar_notebook), view->sidebar_widget);
 	view_notebook_page_num = gtk_notebook_page_num (GTK_NOTEBOOK (priv->view_notebook), view->view_widget);
-	statusbar_notebook_page_num = gtk_notebook_page_num (GTK_NOTEBOOK (priv->view_notebook), view->statusbar_widget);
 
 	/* Since we always add a view page and a sidebar page at the same time...  */
 	g_assert (sidebar_notebook_page_num == view_notebook_page_num);

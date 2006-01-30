@@ -86,13 +86,10 @@ static void
 e_corba_config_page_class_init (ECorbaConfigPageClass *class)
 {
 	GObjectClass *object_class;
-	EConfigPageClass *config_page_class;
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->dispose  = impl_dispose;
 	object_class->finalize = impl_finalize;
-
-	config_page_class = E_CONFIG_PAGE_CLASS (class);
 }
 
 static void

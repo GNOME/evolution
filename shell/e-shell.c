@@ -555,7 +555,7 @@ detect_version (GConfClient *gconf, int *major, int *minor, int *revision)
 	val = gconf_client_get_string(gconf, "/apps/evolution/version", NULL);	
 	if (val) {
 		/* Since 1.4.0 We've been keeping the version key in gconf */
-		sscanf(val, "%u.%u.%u", major, minor, revision);
+		sscanf(val, "%d.%d.%d", major, minor, revision);
 		g_free(val);
 	} else if (g_lstat (evolution_dir, &st) != 0 || !S_ISDIR (st.st_mode)) {
 		/* If ~/evolution does not exit or is not a directory it must be a new installation */
@@ -683,6 +683,7 @@ e_shell_construct (EShell *shell,
 		gtk_main_iteration ();	
 	
 	/* activate all the components (peek list does this implictly) */
+	/* Do we really need to assign the result of this to the list? */
 	component = e_component_registry_peek_list (shell->priv->component_registry);
 	
 	e_shell_attempt_upgrade(shell);
@@ -727,7 +728,6 @@ e_shell_new (EShellStartupLineMode startup_line_mode,
 	     EShellConstructResult *construct_result_return)
 {
 	EShell *new;
-	EShellPrivate *priv;
 	EShellConstructResult construct_result;
 
 	new = g_object_new (e_shell_get_type (), NULL);
@@ -739,8 +739,6 @@ e_shell_new (EShellStartupLineMode startup_line_mode,
 		bonobo_object_unref (BONOBO_OBJECT (new));
 		return NULL;
 	}
-
-	priv = new->priv;
 
 	*construct_result_return = E_SHELL_CONSTRUCT_RESULT_OK;
 	return new;
@@ -862,7 +860,7 @@ check_old:
 	    && S_ISDIR(st.st_mode)) {
 		int res;
 
-		last_version = g_strdup_printf("%u.%u.%u", lmajor, lminor, lrevision);
+		last_version = g_strdup_printf("%d.%d.%d", lmajor, lminor, lrevision);
 		res = e_error_run(NULL, "shell:upgrade-remove-1-4", last_version, NULL);
 		g_free(last_version);
 
@@ -889,7 +887,7 @@ check_old:
 		lrevision = crevision;
 	}
 
-	last_version = g_strdup_printf("%u.%u.%u", lmajor, lminor, lrevision);
+	last_version = g_strdup_printf("%d.%d.%d", lmajor, lminor, lrevision);
 	gconf_client_set_string (gconf_client, "/apps/evolution/last_version", last_version, NULL);
 	g_free(last_version);
 
@@ -925,14 +923,11 @@ e_shell_create_window (EShell *shell,
 		       EShellWindow *template_window)
 {
 	EShellWindow *window;
-	EShellPrivate *priv;
 
 	/* FIXME need to actually copy settings from template_window.  */
 
 	g_return_val_if_fail (shell != NULL, NULL);
 	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
-
-	priv = shell->priv;
 
 	window = E_SHELL_WINDOW (e_shell_window_new (shell, component_id));
 
@@ -1018,10 +1013,7 @@ gboolean
 e_shell_save_settings (EShell *shell)
 {
 	GConfClient *client;
-	EShellPrivate *priv;
 	gboolean is_offline;
-
-	priv = shell->priv;
 
 	is_offline = ( e_shell_get_line_status (shell) == E_SHELL_LINE_STATUS_OFFLINE );
 

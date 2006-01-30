@@ -226,7 +226,7 @@ e_history_add (EHistory *history,
 		priv->current_item->next = NULL;
 	}
 
-	g_list_append (priv->current_item, data);
+	priv->current_item = g_list_append (priv->current_item, data);
 	priv->current_item = priv->current_item->next;
 }
 
