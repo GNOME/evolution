@@ -92,7 +92,7 @@ extern struct _EMFolderTreeModel *mail_component_peek_tree_model(struct _MailCom
 typedef struct {
 	GtkWidget *label;
 	GtkWidget *entry;
-	int visible:1;
+	guint visible:1;
 } EMsgComposerHdrPair;
 
 struct _EMsgComposerHdrsPrivate {
@@ -317,8 +317,7 @@ account_removed_cb (EAccountList *accounts, EAccount *account, EMsgComposerHdrs 
 			if (hdrs->account == account)
 				hdrs->account = NULL;
 			
-			priv->from_options = g_slist_remove_link (priv->from_options, node);
-			g_slist_free_1 (node);
+			priv->from_options = g_slist_delete_link (priv->from_options, node);
 			g_object_unref (account);
 			gtk_widget_destroy (item);
 			break;
@@ -576,10 +575,7 @@ post_entry_changed_cb (GtkButton *button, EMsgComposerHdrs *hdrs)
 static EMsgComposerHdrPair 
 header_new_recipient (EMsgComposerHdrs *hdrs, const char *name, const char *tip)
 {
-	EMsgComposerHdrsPrivate *priv;
 	EMsgComposerHdrPair ret;
-	
-	priv = hdrs->priv;
 	
 	ret.label = gtk_button_new_with_mnemonic (name);
 	GTK_OBJECT_UNSET_FLAGS (ret.label, GTK_CAN_FOCUS);

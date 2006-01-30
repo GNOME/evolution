@@ -1,3 +1,16 @@
+2006-01-24  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* e-msg-composer-hdrs.c: (account_removed_cb),
+	(header_new_recipient): Use guint for 1 bit bitfield, use
+	g_slist_delete_link instead of g_slist_remove_link+g_slist_free1,
+	Remove some unused vars.
+	* e-msg-composer.c: (build_message), (set_editor_text),
+	(autosave_manager_query_load_orphans),
+	(e_msg_composer_new_with_message): Remove unused vars and rename
+	a local variable with a name clash.
+	* evolution-composer.c: (evolution_composer_init): Remove unused var
+	* listener.c: Remove stray semi colon.
+
 2006-1-13  Johnny Jacob  <johnnyjacob@gmail.com>
 
 	** Fixes bug #323127

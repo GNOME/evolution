@@ -714,8 +714,6 @@ build_message (EMsgComposer *composer, gboolean save_html_object_data)
 		e_attachment_bar_to_multipart (attachment_bar, multipart, p->charset);
 		
 		if (p->is_alternative) {
-			int i;
-			
 			for (i = camel_multipart_get_number (multipart); i > 1; i--) {
 				part = camel_multipart_get_part (multipart, i - 1);
 				camel_medium_remove_header (CAMEL_MEDIUM (part), "Content-Disposition");
@@ -733,7 +731,7 @@ build_message (EMsgComposer *composer, gboolean save_html_object_data)
 	    || p->smime_encrypt
 #endif
 		) {
-		int i, j;
+		int j;
 		const char *types[] = { CAMEL_RECIPIENT_TYPE_TO, CAMEL_RECIPIENT_TYPE_CC, CAMEL_RECIPIENT_TYPE_BCC };
 
 		recipients = g_ptr_array_new();
@@ -1253,15 +1251,12 @@ set_editor_text(EMsgComposer *composer, const char *text, ssize_t len, int set_s
 	EMsgComposerPrivate *p = composer->priv;
 	Bonobo_PersistStream persist;
 	BonoboStream *stream;
-	BonoboWidget *editor;
 	CORBA_Environment ev;
 	Bonobo_Unknown object;
 
 	g_return_if_fail (p->persist_stream_interface != CORBA_OBJECT_NIL);
 	
 	persist = p->persist_stream_interface;
-	
-	editor = BONOBO_WIDGET (p->eeditor);
 	
 	CORBA_exception_init (&ev);
 
@@ -1533,7 +1528,8 @@ autosave_manager_query_load_orphans (AutosaveManager *am, GtkWindow *parent)
 		char *filename = match->data;
 		EMsgComposer *composer;
 		
-		if (load) { 
+		if (load) {
+			/* FIXME: composer is never used */ 
 			composer = autosave_load_draft (filename);
 		} else {
 			g_unlink (filename);
@@ -4610,11 +4606,11 @@ e_msg_composer_new_with_message (CamelMimeMessage *message)
 			handle_multipart (new, multipart, 0);
 		}
 	} else {
-		ssize_t len;
+		ssize_t length;
 		char *html;
 
-		html = em_utils_part_to_html((CamelMimePart *)message, &len, NULL);
-		e_msg_composer_set_pending_body(new, html, len);
+		html = em_utils_part_to_html((CamelMimePart *)message, &length, NULL);
+		e_msg_composer_set_pending_body(new, html, length);
 	}
 	
 	/* We wait until now to set the body text because we need to ensure that

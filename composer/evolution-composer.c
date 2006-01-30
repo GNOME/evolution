@@ -319,9 +319,6 @@ evolution_composer_class_init (EvolutionComposerClass *klass)
 static void
 evolution_composer_init (EvolutionComposer *composer)
 {
-	EAccount *account;
-	
-	account = mail_config_get_default_account ();
 	composer->composer = e_msg_composer_new ();
 	composer->priv = g_malloc0(sizeof(*composer->priv));
 }

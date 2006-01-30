@@ -138,7 +138,7 @@ listener_init(EditorListener *object)
 {
 }
 
-BONOBO_TYPE_FUNC_FULL(EditorListener, GNOME_GtkHTML_Editor_Listener, BONOBO_TYPE_OBJECT, listener);
+BONOBO_TYPE_FUNC_FULL(EditorListener, GNOME_GtkHTML_Editor_Listener, BONOBO_TYPE_OBJECT, listener)
 
 EditorListener *
 listener_new (EMsgComposer *composer)
