@@ -654,7 +654,6 @@ e_text_set_property (GObject *object,
 	GdkColor color = { 0, 0, 0, 0, };
 	GdkColor *pcolor;
 	gboolean color_changed;
-	int have_pixel;
 	
 	gboolean needs_update = 0;
 	gboolean needs_reflow = 0;
@@ -663,7 +662,6 @@ e_text_set_property (GObject *object,
 	text = E_TEXT (object);
 
 	color_changed = FALSE;
-	have_pixel = FALSE;
 
 	switch (prop_id) {
 	case PROP_MODEL:
@@ -1372,7 +1370,7 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 		gdouble thisx = item->x1 - x;
 		gdouble thisy = item->y1 - y;
 		gdouble thiswidth, thisheight;
-		GtkWidget *widget = GTK_WIDGET(item->canvas);
+		widget = GTK_WIDGET(item->canvas);
 
 		g_object_get(text,
 			     "width", &thiswidth,
@@ -1399,7 +1397,6 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 		}
 	}
 	if (text->draw_button) {
-		GtkWidget *widget;
 		int xoff = item->x1 - x;
 		int yoff = item->y1 - y;
 
@@ -1892,7 +1889,7 @@ tooltip_event(GtkWidget *tooltip, GdkEvent *event, EText *text)
 }
 
 static gboolean
-tooltip_ungrab (GtkWidget *tooltip, GdkEventKey *event, EText *text)
+tooltip_ungrab (GtkWidget *tooltip, GdkEvent *event, EText *text)
 {
 	gdk_keyboard_ungrab(GDK_CURRENT_TIME);
 
@@ -1945,11 +1942,11 @@ _do_tooltip (gpointer data)
 	cut_off = FALSE;
 	for ( i = 0; i < text->num_lines; i++ ) {
 		PangoLayoutLine *line = pango_layout_get_line (text->layout, i);
-		PangoRectangle rect;
+		PangoRectangle pango_rect;
 
-		pango_layout_line_get_pixel_extents (line, &rect, NULL);
+		pango_layout_line_get_pixel_extents (line, &pango_rect, NULL);
 
-		if (rect.width > text->clip_width) {
+		if (pango_rect.width > text->clip_width) {
 			cut_off = TRUE;
 			break;
 		}
@@ -2572,7 +2569,7 @@ static void
 primary_clear_cb (GtkClipboard *clipboard,
 		  gpointer      data)
 {
-#if notyet
+#ifdef notyet
 	/* XXX */
 	gtk_editable_select_region (GTK_EDITABLE (entry), entry->current_pos, entry->current_pos);
 #endif
@@ -2969,7 +2966,6 @@ _get_position(EText *text, ETextEventProcessorCommand *command)
 
 	case E_TEP_FORWARD_LINE: {
 		int offset_into_line;
-		char *p;
 
 		offset_into_line = find_offset_into_line (text, text->selection_end, NULL);
 		if (offset_into_line == -1)
@@ -3000,7 +2996,6 @@ _get_position(EText *text, ETextEventProcessorCommand *command)
 		break;
 	}
 	case E_TEP_BACKWARD_LINE: {
-		char *p;
 		int offset_into_line = find_offset_into_line (text, text->selection_end, &p);
 
 		if (offset_into_line == -1)
@@ -3341,12 +3336,12 @@ e_text_command(ETextEventProcessor *tep, ETextEventProcessorCommand *command, gp
 		if (cur_line) {
 			int xpos, ypos;
 			double clip_width, clip_height;
-			gboolean trailing = FALSE;
+			/* gboolean trailing = FALSE; */
 			PangoRectangle pango_pos;
 
 			if (selection_index > 0 && selection_index == cur_line->start_index + cur_line->length) {
 				selection_index--;
-				trailing = TRUE;
+				/* trailing = TRUE; */
 			}
 
 			pango_layout_index_to_pos (text->layout, selection_index, &pango_pos);
