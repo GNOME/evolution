@@ -1,4 +1,14 @@
 2006-01-30  Johnny Jacob  <johnnyjacob@gmail.com>
+
+	* gui/dialogs/event-page.c: (sensitize_widgets),
+	(alarm_changed_cb):
+	* gui/dialogs/event-page.glade:
+	* gui/dialogs/task-page.c: (sensitize_widgets):
+	* gui/dialogs/task-page.glade:
+
+	Fixed the page layouts as per HIG spacing.
+
+2006-01-30  Johnny Jacob  <johnnyjacob@gmail.com>
  
  	Fixes #328285
  	* gui/dialogs/memo-page.c (widget_focus_out_cb), 

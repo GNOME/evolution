@@ -805,7 +805,7 @@ sensitize_widgets (EventPage *epage)
 
 	if (alarm && !priv->alarm_icon) {
 		priv->alarm_icon = create_image_event_box ("stock_bell", _("This event has alarms"));
-		gtk_box_pack_start ((GtkBox *)priv->status_icons, priv->alarm_icon, FALSE, FALSE, 3);
+		gtk_box_pack_start ((GtkBox *)priv->status_icons, priv->alarm_icon, FALSE, FALSE, 6);
 	}
 	
 	gtk_entry_set_editable (GTK_ENTRY (priv->summary), sensitize);
@@ -870,13 +870,13 @@ sensitize_widgets (EventPage *epage)
 		gtk_widget_hide (priv->list_box);
 		gtk_widget_hide (priv->attendee_box);
 		gtk_widget_hide (priv->organizer);
-		gtk_label_set_text_with_mnemonic ((GtkLabel *) priv->org_cal_label, _("Cale_ndar"));
+		gtk_label_set_text_with_mnemonic ((GtkLabel *) priv->org_cal_label, _("Cale_ndar:"));
 	} else {
 		gtk_widget_show (priv->calendar_label);
 		gtk_widget_show (priv->list_box);
 		gtk_widget_show (priv->attendee_box);
 		gtk_widget_show (priv->organizer);
-		gtk_label_set_text_with_mnemonic ((GtkLabel *) priv->org_cal_label, _("Or_ganizer"));		
+		gtk_label_set_text_with_mnemonic ((GtkLabel *) priv->org_cal_label, _("Or_ganizer:"));		
 	}
 	
 }
@@ -2718,7 +2718,7 @@ alarm_changed_cb (GtkWidget *widget, gpointer data)
 		}
 		if (!priv->alarm_icon) {
 			priv->alarm_icon = create_image_event_box ("stock_bell", _("This event has alarms"));
-			gtk_box_pack_start ((GtkBox *)priv->status_icons, priv->alarm_icon, FALSE, FALSE, 3);
+			gtk_box_pack_start ((GtkBox *)priv->status_icons, priv->alarm_icon, FALSE, FALSE, 6);
 		}
 	} else {
 		e_alarm_list_clear (priv->alarm_list_store);
