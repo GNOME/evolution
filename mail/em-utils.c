@@ -545,7 +545,7 @@ emu_save_parts_response (GtkWidget *filesel, int response, GSList *parts)
 			}
 			
 			file_path = g_build_filename (path, file_name, NULL);
-			if (!g_file_test(file_path, (G_FILE_TEST_EXISTS)))
+			if (!g_file_test(file_path, (G_FILE_TEST_EXISTS)) || e_error_run(NULL, E_ERROR_ASK_FILE_EXISTS_OVERWRITE, file_name, NULL) == GTK_RESPONSE_OK)			
 				mail_save_part(part, file_path, NULL, NULL);
 			else
 				g_warning ("Could not save %s. File already exists", file_path);

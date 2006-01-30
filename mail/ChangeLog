@@ -1,3 +1,10 @@
+2006-01-30  pavithran <pavithran@gmx.de>
+
+	** Fixes bug #316223
+
+	* em-utils.c: (emu_save_parts_response): Added a confirmation dialog
+	for overwriting existing file during save all.
+
 2006-01-27  Rajeev ramanathan <rajeevramanathan_2004@yahoo.co.in>
 
 	** Fixes #327000
