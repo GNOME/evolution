@@ -1,3 +1,7 @@
+2006-01-30  Lukas Novotny  <lukasnov@cvs.gnome.org>
+
+        * cs.po: Updated Czech translation.
+
 2006-01-30  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* POTFILES.in: Remove non-existing file and add a few missing ones.
