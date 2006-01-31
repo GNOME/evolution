@@ -972,8 +972,9 @@ open_alarm_dialog (TrayIconData *tray_data)
 		
 		gtk_widget_destroy (tray_icon);
 		tray_icon = NULL;
+#ifndef USE_GTK_STATUS_ICON
 		tray_image = NULL;
-		
+#endif
 		if (!alarm_notifications_dialog)
 			alarm_notifications_dialog = notified_alarms_dialog_new ();
 		
@@ -1028,8 +1029,9 @@ tray_icon_clicked_cb (GtkWidget *widget, GdkEventButton *event, gpointer user_da
 
 			gtk_widget_destroy (tray_icon);
 			tray_icon = NULL;
+#ifndef USE_GTK_STATUS_ICON
 			tray_image = NULL;
-
+#endif
 			return TRUE;
 		}
 	}

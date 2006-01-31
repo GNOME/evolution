@@ -1,3 +1,10 @@
+2006-01-31  Tor Lillqvist  <tml@novell.com>
+
+	* gui/alarm-notify/alarm-queue.c (open_alarm_dialog,
+	tray_icon_clicked_cb): Fix compilation against HEAD gtk and on
+	Win32, where we use the GtkStatusIcon API and there is no
+	tray_image variable.
+
 2006-01-31  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	* gui/dialogs/cal-prefs-dialog.c: (show_alarms_config):
