@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-01-18 13:40+0100\n"
-"PO-Revision-Date: 2006-01-21 21:56+0200\n"
+"PO-Revision-Date: 2006-01-25 22:01+0200\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -3963,22 +3963,20 @@ msgid "No filename provided."
 msgstr "Failinime ei esitatud."
 
 #: ../calendar/calendar.error.xml.h:1
-#, fuzzy
 msgid ""
 "Adding a meaningful summary to your appointment will give your recipients an "
 "idea of what your appointment is about."
 msgstr ""
-"Sõnumile mõtestatud teemarea lisamine annab sõnumi vastuvõtjatele aimu "
-"sõnumi sisu kohta."
+"Sündmusele mõtestatud kokkuvõtte lisamine annab sündmuse vastuvõtjatele aimu "
+"sündmuse sisu kohta."
 
 #: ../calendar/calendar.error.xml.h:2
-#, fuzzy
 msgid ""
 "Adding a meaningful summary to your task will give your recipients an idea "
 "of what your task is about."
 msgstr ""
-"Sõnumile mõtestatud teemarea lisamine annab sõnumi vastuvõtjatele aimu "
-"sõnumi sisu kohta."
+"Ülesandele mõtestatud kokkuvõtte lisamine annab ülesande vastuvõtjatele aimu "
+"ülesande sisu kohta."
 
 #: ../calendar/calendar.error.xml.h:3
 msgid ""
@@ -5417,9 +5415,8 @@ msgid "<span weight=\"bold\">Alerts</span>"
 msgstr "<span weight=\"bold\">Alarmid</span>"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:10
-#, fuzzy
 msgid "<span weight=\"bold\">Default Free/Busy Server</span>"
-msgstr "<span weight=\"bold\">Vaikimisi käitumine</span>"
+msgstr "<span weight=\"bold\">Vaikimisi vaba/hõivatud server</span>"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:11
 #: ../mail/mail-config.glade.h:18
@@ -5472,6 +5469,9 @@ msgid ""
 "Hours\n"
 "Days"
 msgstr ""
+"Minutid\n"
+"Tunnid\n"
+"Päevad"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:24
 #: ../calendar/gui/dialogs/recurrence-page.c:1046
@@ -5489,6 +5489,13 @@ msgid ""
 "Saturday\n"
 "Sunday"
 msgstr ""
+"Esmaspäev\n"
+"Teisipäev\n"
+"Kolmapäev\n"
+"Neljapäev\n"
+"Reede\n"
+"Laupäev\n"
+"Pühapäev"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:32
 msgid "Publishing Table"
@@ -5641,10 +5648,9 @@ msgstr ""
 "Ülesandeloendi sisu kopeerimine kohapeale tarvitamiseks võrguvabas keskkonnas"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:292
-#, fuzzy
 msgid "Copy memo list contents locally for offline operation"
 msgstr ""
-"Ülesandeloendi sisu kopeerimine kohapeale tarvitamiseks võrguvabas keskkonnas"
+"Märkmeloendi sisu kopeerimine kohapeale tarvitamiseks võrguvabas keskkonnas"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:343
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:4
@@ -13743,12 +13749,12 @@ msgid ""
 msgstr ""
 
 #: ../mail/mail.error.xml.h:7
-#, fuzzy
 msgid ""
 "A signature already exists with the name &quot;{0}&quot;. Please specify a "
 "different name."
 msgstr ""
-"Kaust nimega &quot;{1}&quot; on juba olemas. Palun kasuta teistsugust nime."
+"Signatuur nimega &quot;{1}&quot; on juba olemas. Palun kasuta teistsugust "
+"nime."
 
 #: ../mail/mail.error.xml.h:8
 msgid ""
@@ -13767,10 +13773,9 @@ msgid "Are you sure you want to delete this account?"
 msgstr "Kas sa tõesti soovid kustutada seda kontot?"
 
 #: ../mail/mail.error.xml.h:11
-#, fuzzy
 msgid ""
 "Are you sure you want to disable this account and delete all its proxies?"
-msgstr "Kas sa tõesti soovid kustutada seda kontot ja kõiki selle proksisid?"
+msgstr "Kas sa soovid keelata seda kontot ja kustutada kõik selle proksid?"
 
 #: ../mail/mail.error.xml.h:12
 msgid "Are you sure you want to open {0} messages at once?"
@@ -14044,9 +14049,8 @@ msgid "Please check your account settings and try again."
 msgstr "Palun kontrolli oma kontosätteid ja proovi uuesti."
 
 #: ../mail/mail.error.xml.h:74
-#, fuzzy
 msgid "Please enable the account or send using another account."
-msgstr "Palun kontrolli oma kontosätteid ja proovi uuesti."
+msgstr ""
 
 #: ../mail/mail.error.xml.h:75
 msgid ""
@@ -14065,9 +14069,8 @@ msgid ""
 msgstr ""
 
 #: ../mail/mail.error.xml.h:79
-#, fuzzy
 msgid "Please provide an unique name to identify this signature."
-msgstr "Sisesta nimi sellele allkirja jaoks."
+msgstr ""
 
 #: ../mail/mail.error.xml.h:80
 msgid "Please wait."
@@ -14102,9 +14105,8 @@ msgid "Send Receipt"
 msgstr ""
 
 #: ../mail/mail.error.xml.h:88
-#, fuzzy
 msgid "Signature Already Exists"
-msgstr "Sertifikaat on juba olemas."
+msgstr "Allkiri on juba olemas"
 
 #: ../mail/mail.error.xml.h:89
 msgid ""
@@ -16272,9 +16274,8 @@ msgid "Mail to task"
 msgstr "Sõnumi teisendamine ülesandeks"
 
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.xml.h:2
-#, fuzzy
 msgid "Convert the selected message to a new task"
-msgstr "Avab valitud sõnumi uues aknas"
+msgstr "Valitud sõnumi teisendamine uueks ülesandeks"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:1
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:1
@@ -16553,21 +16554,20 @@ msgid "Prints the message"
 msgstr "Sõnumi printimine"
 
 #: ../plugins/profiler/org-gnome-evolution-profiler.eplug.xml.h:1
-#, fuzzy
 msgid "Evolution Profiler"
-msgstr "Evolutioni viga"
+msgstr "Evolutioni profileerija"
 
 #: ../plugins/profiler/org-gnome-evolution-profiler.eplug.xml.h:2
 msgid "Writes a log of profiling data events."
-msgstr ""
+msgstr "Profileerimisandmete kirjutamine logisse."
 
 #: ../plugins/publish-calendar/org-gnome-publish-calendar.eplug.xml.h:1
 msgid "Allows calendars to be published to the web"
-msgstr ""
+msgstr "Plugin kalendrite veebis avalikustamiseks"
 
 #: ../plugins/publish-calendar/org-gnome-publish-calendar.eplug.xml.h:2
 msgid "Calendar Publishing"
-msgstr "Kalendri publitseerimine"
+msgstr "Kalendri avalikustamine"
 
 #: ../plugins/publish-calendar/org-gnome-publish-calendar.eplug.xml.h:3
 msgid "Locations"
@@ -16604,9 +16604,8 @@ msgid "Publishing Location"
 msgstr "Avalikustamise asukoht"
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:11
-#, fuzzy
 msgid "Publishing _Frequency:"
-msgstr "<b>Avalikustamise sagedus</b>"
+msgstr "Avalikustamise sa_gedus"
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:12
 msgid ""
@@ -16618,21 +16617,25 @@ msgid ""
 "Secure WebDAV (HTTPS)\n"
 "Custom Location"
 msgstr ""
+"SSH\n"
+"Avalik FTP\n"
+"FTP (sisselogimisega)\n"
+"Windowsi jagatud kataloog\n"
+"WebDAV (HTTP)\n"
+"Turvaline WebDAV (HTTPS)\n"
+"Kohandatud asukoht"
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:19
-#, fuzzy
 msgid "Service _type:"
-msgstr "_Serveri tüüp:"
+msgstr "_Teenuse tüüp:"
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:21
-#, fuzzy
 msgid "_File:"
-msgstr "_Fail"
+msgstr "_Fail:"
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:24
-#, fuzzy
 msgid "_Publish as:"
-msgstr "Avalikustamise tabel"
+msgstr "_Avalikustamise vorming:"
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:29
 msgid ""
@@ -16731,9 +16734,8 @@ msgid "percent Done"
 msgstr "Täitmisprotsent"
 
 #: ../plugins/save-calendar/csv-format.c:398
-#, fuzzy
 msgid "URL"
-msgstr "_URL:"
+msgstr "URL"
 
 #: ../plugins/save-calendar/csv-format.c:399
 msgid "Attendees List"
