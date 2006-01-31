@@ -1,3 +1,8 @@
+2006-01-31  Theppitak Karoonboonyanan  <thep@linux.thai.net>
+
+	* POTFILES.in: Removed a non-existing file.
+	* th.po: Updated Thai translation.
+
 2006-01-31  Vincent van Adrighem  <adrighem@gnome.org>
 
 	* nl.po: Translation updated by Tino Meinen.

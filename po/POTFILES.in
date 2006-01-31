@@ -45,7 +45,6 @@ addressbook/gui/contact-list-editor/e-contact-list-editor.c
 addressbook/gui/contact-list-editor/e-contact-list-editor.etspec
 addressbook/gui/merging/eab-contact-commit-duplicate-detected.glade
 addressbook/gui/merging/eab-contact-duplicate-detected.glade
-addressbook/gui/search/e-addressbook-search-dialog.c
 addressbook/gui/widgets/addresstypes.xml
 addressbook/gui/widgets/e-addressbook-model.c
 addressbook/gui/widgets/e-addressbook-reflow-adapter.c
