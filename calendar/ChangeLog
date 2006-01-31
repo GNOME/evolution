@@ -1,3 +1,8 @@
+2006-01-31  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	* gui/dialogs/cal-prefs-dialog.c: (show_alarms_config):
+	Show the widget.
+
 2006-01-30  Harish Krishnaswamy <kharish@novell.com>
 
 	* gui/e-week-view.c : Reverting Chakravarthi's

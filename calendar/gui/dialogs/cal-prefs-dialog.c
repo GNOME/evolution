@@ -468,6 +468,7 @@ show_alarms_config (CalendarPrefsDialog *prefs)
 	prefs->alarm_list_widget = e_source_selector_new (prefs->alarms_list);
 	atk_object_set_name (gtk_widget_get_accessible (prefs->alarm_list_widget), _("Selected Calendars for Alarms"));
 	gtk_container_add (GTK_CONTAINER (prefs->scrolled_window), prefs->alarm_list_widget);
+	gtk_widget_show (prefs->alarm_list_widget);
 	initialize_selection (prefs->alarm_list_widget, prefs->alarms_list);
 }
 
