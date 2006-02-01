@@ -1,3 +1,9 @@
+2006-02-01  Devashish Sharma  <sdevashish@novell.com>
+
+	* gui/widgets/e-minicard.c : (e_minicard_reflow) Fixed a bug which was
+	causing addressbook view by address card getting all messed up.
+	Fixes Bug #329315.
+
 2006-01-30  Tor Lillqvist  <tml@novell.com>
 
 	* gui/component/Makefile.am (libevolution_addressbook_la_LIBADD):

@@ -934,7 +934,7 @@ e_minicard_reflow( GnomeCanvasItem *item, int flags )
 		
 		for(list = e_minicard->fields; list; list = g_list_next(list)) {
 			EMinicardField *field = E_MINICARD_FIELD(list->data);
-			item = field->label;
+			GnomeCanvasItem *item = field->label;
 			g_object_get (item,
 				      "height", &text_height,
 				      NULL);
