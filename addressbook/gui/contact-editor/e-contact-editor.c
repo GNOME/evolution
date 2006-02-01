@@ -2730,10 +2730,33 @@ file_selector_deleted (GtkWidget *widget)
 }
 
 static void
+update_preview_cb (GtkFileChooser *file_chooser, gpointer data)
+{
+	GtkWidget *preview;
+	char *filename;
+	GdkPixbuf *pixbuf;
+	gboolean have_preview;
+
+	preview = GTK_WIDGET (data);
+	filename = gtk_file_chooser_get_preview_filename (file_chooser);
+
+	pixbuf = gdk_pixbuf_new_from_file_at_size (filename, 128, 128, NULL);
+	have_preview = (pixbuf != NULL);
+	g_free (filename);
+
+	gtk_image_set_from_pixbuf (GTK_IMAGE (preview), pixbuf);
+	if (pixbuf)
+		gdk_pixbuf_unref (pixbuf);
+
+	gtk_file_chooser_set_preview_widget_active (file_chooser, have_preview);
+}
+
+static void
 image_clicked (GtkWidget *button, EContactEditor *editor)
 {
 	const gchar *title = _("Please select an image for this contact");
 	const gchar *no_image = _("No image");
+	GtkImage *preview;
 
 	if (!editor->file_selector) {
 #ifdef USE_GTKFILECHOOSER
@@ -2744,6 +2767,10 @@ image_clicked (GtkWidget *button, EContactEditor *editor)
 								     GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
 								     no_image, GTK_RESPONSE_NO,
 								     NULL);
+		preview = GTK_IMAGE (gtk_image_new());
+		gtk_file_chooser_set_preview_widget ((GtkFileChooser *)editor->file_selector, GTK_WIDGET (preview));
+		g_signal_connect (editor->file_selector, "update-preview",
+				 G_CALLBACK (update_preview_cb), preview);
 		gtk_dialog_set_default_response (GTK_DIALOG (editor->file_selector), GTK_RESPONSE_ACCEPT);
 
 		gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (editor->file_selector), g_get_home_dir ());

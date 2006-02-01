@@ -1,5 +1,11 @@
 2006-02-01  Devashish Sharma  <sdevashish@novell.com>
 
+	* gui/contact-editor/e-contact-editor.c: File selector shows preview
+	of the image when choosing picture of a contact.
+	Fixes bug #300884.
+	
+2006-02-01  Devashish Sharma  <sdevashish@novell.com>
+
 	* gui/widgets/e-minicard.c : (e_minicard_reflow) Fixed a bug which was
 	causing addressbook view by address card getting all messed up.
 	Fixes Bug #329315.
