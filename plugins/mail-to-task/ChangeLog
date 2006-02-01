@@ -1,3 +1,10 @@
+2006-02-01  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	* Makefile.am: Reverting the commit made by 
+	Kjartan Maraas  <kmaraas@gnome.org> so that
+	the file org-gnome-mail-to-task.xml is include in the 
+	dist.
+
 2006-01-16  Harish Krishnaswamy  <kharish@novell.com>
 
 	* Makefile.am: Enumerate files for BUILT_SOURCES macro
