@@ -1,3 +1,8 @@
+2006-02-02  Parthasarathi Susarla <sparthasarathi@novell.com>
+	
+	* em-composer-utils.c: (em_utils_handle_receipt):
+	check if account is null before accessing it
+
 2006-01-30  Harish Krishnaswamy  <kharish@novell.com>
 
 	* mail-config.glade: s/T_erminal/Fi_xed width/ for consistency with other
