@@ -155,32 +155,119 @@ setup_server_option_menu (GladeXML *glade_xml, gchar *mail_account)
 	/* FIXME: Default to the current storage in the shell view.  */
 }
 
-static void 
-dialog_destroy (GtkWidget *dialog, gint response, gpointer data) {
-	ENameSelector *name_selector = data;
+typedef struct {
+	ExchangeAccount *account;
+	ENameSelector *name_selector;
+	GtkWidget *name_selector_widget;
+	GtkWidget *folder_name_entry;	
+}SubscriptionInfo;
 
-	if (response == GTK_RESPONSE_OK || response == GTK_RESPONSE_CANCEL) {
-		if (name_selector) {
-			g_object_unref (name_selector);
-			name_selector = NULL;
-		}
+static void
+destroy_subscription_info (SubscriptionInfo *subscription_info)
+{
+	if (subscription_info->name_selector) {
+		g_object_unref (subscription_info->name_selector);
+		subscription_info->name_selector = NULL;
+	}
+	g_free (subscription_info);
+}
+
+static void 
+subscribe_to_folder (GtkWidget *dialog, gint response, gpointer data) 
+{
+	SubscriptionInfo *subscription_info = data;
+	gchar *user_email_address = NULL, *folder_name = NULL, *path = NULL;
+	EFolder *folder = NULL;
+	EDestinationStore *destination_store;
+	GList *destinations;
+	EDestination *destination;
+	ExchangeAccountFolderResult result;
+	
+	if (response == GTK_RESPONSE_CANCEL) {
 		gtk_widget_destroy (dialog);
+		destroy_subscription_info (subscription_info);
+	}
+	else if (response == GTK_RESPONSE_OK) {
+		while (TRUE) {
+			destination_store = e_name_selector_entry_peek_destination_store (
+						E_NAME_SELECTOR_ENTRY (GTK_ENTRY (subscription_info->name_selector_widget)));
+			destinations = e_destination_store_list_destinations (destination_store);
+			if (!destinations)
+				break;
+			destination = destinations->data;
+			user_email_address = g_strdup (e_destination_get_email (destination));
+			g_list_free (destinations);
+
+			if (user_email_address != NULL && *user_email_address != '\0')
+				break;
+
+			/* It would be nice to insensitivize the OK button appropriately 
+		   	instead of doing this, but unfortunately we can't do this for the
+		   	Bonobo control.  */
+			e_error_run (GTK_WINDOW (dialog), ERROR_DOMAIN ":select-user", NULL);
+		}
+
+		folder_name = g_strdup (gtk_entry_get_text (GTK_ENTRY (subscription_info->folder_name_entry)));
+		if (user_email_address && folder_name) {
+			result = exchange_account_discover_shared_folder (subscription_info->account, 
+									  user_email_address, 
+									  folder_name, &folder);
+			g_free (folder_name);
+			switch (result) {
+				case EXCHANGE_ACCOUNT_FOLDER_OK:
+					break;
+				case EXCHANGE_ACCOUNT_FOLDER_ALREADY_EXISTS:
+					e_error_run (NULL, ERROR_DOMAIN ":folder-exists-error", NULL);
+					break;
+				case EXCHANGE_ACCOUNT_FOLDER_DOES_NOT_EXIST:
+					e_error_run (NULL, ERROR_DOMAIN ":folder-doesnt-exist-error", NULL);
+					break;
+				case EXCHANGE_ACCOUNT_FOLDER_UNKNOWN_TYPE:
+					e_error_run (NULL, ERROR_DOMAIN ":folder-unknown-type", NULL);
+					break;
+				case EXCHANGE_ACCOUNT_FOLDER_PERMISSION_DENIED:
+					e_error_run (NULL, ERROR_DOMAIN ":folder-perm-error", NULL);
+					break;
+				case EXCHANGE_ACCOUNT_FOLDER_OFFLINE:
+					e_error_run (NULL, ERROR_DOMAIN ":folder-offline-error", NULL);
+					break;
+				case EXCHANGE_ACCOUNT_FOLDER_UNSUPPORTED_OPERATION:
+					e_error_run (NULL, ERROR_DOMAIN ":folder-unsupported-error", NULL);
+					break;
+				case EXCHANGE_ACCOUNT_FOLDER_GENERIC_ERROR:
+					e_error_run (NULL, ERROR_DOMAIN ":folder-generic-error", NULL);
+					break;
+				default:
+					break;
+			}
+		}
+
+		if (!folder) {
+			g_free (user_email_address);
+			gtk_widget_destroy (dialog);
+			return;
+		}
+
+		g_object_unref (folder);
+		path = g_strdup_printf ("/%s", user_email_address);
+		exchange_account_open_folder (subscription_info->account, g_strdup_printf ("/%s", path));
+		g_free (path);
+		g_free (user_email_address);
+		gtk_widget_destroy (dialog);
+		destroy_subscription_info (subscription_info);
 	}
 }
 
 gboolean
-create_folder_subscription_dialog (gchar *mail_account, gchar *fname, gchar **user_email_address_ret, gchar **folder_name_ret)
+create_folder_subscription_dialog (ExchangeAccount *account, gchar *fname)
 {
 	ENameSelector *name_selector;
 	GladeXML *glade_xml;
 	GtkWidget *dialog;
-	GtkWidget *name_selector_widget;
-	GtkWidget *folder_name_entry;
-	char *user_email_address = NULL;
-	EDestinationStore *destination_store;
-	GList *destinations;
-	EDestination *destination;
+	SubscriptionInfo *subscription_info;
 
+	subscription_info = g_new0 (SubscriptionInfo, 1);
+	subscription_info->account = account;
 
 	glade_xml = glade_xml_new (CONNECTOR_GLADEDIR "/e-foreign-folder-dialog.glade",
 				   NULL, NULL);
@@ -191,40 +278,20 @@ create_folder_subscription_dialog (gchar *mail_account, gchar *fname, gchar **us
 	gtk_window_set_modal (GTK_WINDOW (dialog), FALSE);
 	gtk_window_set_title (GTK_WINDOW (dialog), _("Subscribe to Other User's Folder"));
 
-	name_selector_widget = setup_name_selector (glade_xml, &name_selector);
-	gtk_widget_grab_focus (name_selector_widget);
-	setup_server_option_menu (glade_xml, mail_account);
+	subscription_info->name_selector_widget = setup_name_selector (glade_xml, &name_selector);
+	subscription_info->name_selector = name_selector;
+	gtk_widget_grab_focus (subscription_info->name_selector_widget);
+	setup_server_option_menu (glade_xml, account->account_name);
 	setup_folder_name_combo (glade_xml, fname);
-	folder_name_entry = glade_xml_get_widget (glade_xml, "folder-name-entry");
+	subscription_info->folder_name_entry = glade_xml_get_widget (glade_xml, "folder-name-entry");
+	g_signal_connect (dialog, "response", G_CALLBACK (subscribe_to_folder), subscription_info);
+	gtk_widget_show (dialog);
 
 	/* Connect the callback to set the OK button insensitive when there is
 	   no text in the folder_name_entry.  Notice that we put a value there
 	   by default so the OK button is sensitive by default.  */
-	g_signal_connect (folder_name_entry, "changed",
+	g_signal_connect (subscription_info->folder_name_entry, "changed",
 			  G_CALLBACK (folder_name_entry_changed_callback), dialog);
-
-	while (TRUE) {
-		g_signal_connect (dialog, "response", G_CALLBACK(dialog_destroy), name_selector);
-		gtk_widget_show (dialog);
-		destination_store = e_name_selector_entry_peek_destination_store (E_NAME_SELECTOR_ENTRY (GTK_ENTRY (name_selector_widget)));
-		destinations = e_destination_store_list_destinations (destination_store);
-		if (!destinations)
-			return FALSE;
-		destination = destinations->data;
-		user_email_address = g_strdup (e_destination_get_email (destination));
-		g_list_free (destinations);
-
-		if (user_email_address != NULL && *user_email_address != '\0')
-			break;
-
-		/* It would be nice to insensitivize the OK button appropriately                   instead of doing this, but unfortunately we can't do this for the
-		   Bonobo control.  */
-		e_error_run (GTK_WINDOW (dialog), ERROR_DOMAIN ":select-user", NULL);
-	}
-
-	if (user_email_address)
-		*user_email_address_ret = user_email_address;
-	*folder_name_ret = g_strdup (gtk_entry_get_text (GTK_ENTRY (folder_name_entry)));
 
 	return TRUE;
 }

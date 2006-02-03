@@ -546,9 +546,6 @@ void
 org_gnome_exchange_folder_subscription (EPlugin *ep, EMMenuTargetSelect *target, gchar *fname)
 {
 	ExchangeAccount *account = NULL;
-	EFolder *folder = NULL;
-	ExchangeAccountFolderResult result;
-	gchar *user_email_address = NULL, *folder_name = NULL;
 	gint mode;
 	ExchangeConfigListenerStatus status;
 
@@ -573,45 +570,7 @@ org_gnome_exchange_folder_subscription (EPlugin *ep, EMMenuTargetSelect *target,
 		return;
 	}	
 
-	create_folder_subscription_dialog (account->account_name, fname, &user_email_address, &folder_name);
-
-	if (user_email_address && folder_name) {
-		result = exchange_account_discover_shared_folder (account, user_email_address, folder_name, &folder);
-		
-		switch (result) {
-		case EXCHANGE_ACCOUNT_FOLDER_OK:
-			break;
-		case EXCHANGE_ACCOUNT_FOLDER_ALREADY_EXISTS:
-			e_error_run (NULL, ERROR_DOMAIN ":folder-exists-error", NULL);
-			return;
-		case EXCHANGE_ACCOUNT_FOLDER_DOES_NOT_EXIST:
-			e_error_run (NULL, ERROR_DOMAIN ":folder-doesnt-exist-error", NULL);
-			return;
-		case EXCHANGE_ACCOUNT_FOLDER_UNKNOWN_TYPE:
-			e_error_run (NULL, ERROR_DOMAIN ":folder-unknown-type", NULL);
-			return;
-		case EXCHANGE_ACCOUNT_FOLDER_PERMISSION_DENIED:
-			e_error_run (NULL, ERROR_DOMAIN ":folder-perm-error", NULL);
-			return;
-		case EXCHANGE_ACCOUNT_FOLDER_OFFLINE:
-			e_error_run (NULL, ERROR_DOMAIN ":folder-offline-error", NULL);
-			return;
-		case EXCHANGE_ACCOUNT_FOLDER_UNSUPPORTED_OPERATION:
-			e_error_run (NULL, ERROR_DOMAIN ":folder-unsupported-error", NULL);
-			return;
-		case EXCHANGE_ACCOUNT_FOLDER_GENERIC_ERROR:		
-			e_error_run (NULL, ERROR_DOMAIN ":folder-generic-error", NULL);
-			return;		
-		default:
-			break;
-		}
-	}
-
-	if (!folder) {
-		return;
-	}
-
-	exchange_account_open_folder (account, g_strdup_printf ("/%s", user_email_address));
+	create_folder_subscription_dialog (account, fname);
 }
 
 void

@@ -1,3 +1,17 @@
+2006-02-03  Sushma Rai  <rsushma@novell.com>
+
+	* exchange-folder.c (org_gnome_exchange_folder_subscription): Moved
+	discovering the shared folder, opening that folder and error handling
+	out to create_folder_subscription_dialog().
+	
+	* exchange-folder-subscription.c (create_folder_subscription_dialog):
+	Pass all the data to subscirbe_to_folder() callback. 
+	(subscribe_to_folder): On pressing OK, extracting the dtails like user's
+	email id, folder name, finding the shared folder and opening that 
+	folder. 
+	(destroy_subscription_info): Cleanup function.
+	Fixes #328554.
+
 2006-01-27  Sushma Rai  <rsushma@novell.com>
 
 	* exchange-calendar.c (e_exchange_calendar_commit): Freeing uri_text 
