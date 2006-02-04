@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution-2.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-01-31 12:59+0700\n"
-"PO-Revision-Date: 2006-01-31 18:23+0700\n"
+"POT-Creation-Date: 2006-02-04 13:49+0700\n"
+"PO-Revision-Date: 2006-02-04 21:07+0700\n"
 "Last-Translator: Theppitak Karoonboonyanan <thep@linux.thai.net>\n"
 "Language-Team: Thai <L10N@opentle.org>\n"
 "MIME-Version: 1.0\n"
@@ -63,7 +63,7 @@ msgstr "มีการเตือน"
 
 #: ../a11y/calendar/ea-cal-view-event.c:238
 msgid "It has recurrences."
-msgstr ""
+msgstr "มีการเวียนซ้ำ"
 
 #: ../a11y/calendar/ea-cal-view-event.c:241
 msgid "It is a meeting."
@@ -80,11 +80,11 @@ msgstr "ปฏิทินเหตุการณ์: ไม่มีราย�
 
 #: ../a11y/calendar/ea-cal-view-event.c:268
 msgid "calendar view event"
-msgstr "ปฏิทินดูเหตุการณ์"
+msgstr "เหตุการณ์การดูปฏิทิน"
 
 #: ../a11y/calendar/ea-cal-view-event.c:485
 msgid "Grab Focus"
-msgstr ""
+msgstr "ยึดโฟกัส"
 
 #: ../a11y/calendar/ea-cal-view.c:302
 msgid "New Appointment"
@@ -245,7 +245,7 @@ msgstr "แก้ไข"
 
 #: ../a11y/e-table/gal-a11y-e-cell-text.c:613
 msgid "begin editing this cell"
-msgstr ""
+msgstr "เริ่มแก้ไขช่องนี้"
 
 #: ../a11y/e-table/gal-a11y-e-cell-toggle.c:151
 msgid "toggle"
@@ -258,19 +258,19 @@ msgstr ""
 
 #: ../a11y/e-table/gal-a11y-e-cell-tree.c:171
 msgid "expand"
-msgstr ""
+msgstr "ขยาย"
 
 #: ../a11y/e-table/gal-a11y-e-cell-tree.c:172
 msgid "expands the row in the ETree containing this cell"
-msgstr ""
+msgstr "ขยายแถวใน ETree ที่ช่องนี้อยู่"
 
 #: ../a11y/e-table/gal-a11y-e-cell-tree.c:177
 msgid "collapse"
-msgstr ""
+msgstr "ยุบ"
 
 #: ../a11y/e-table/gal-a11y-e-cell-tree.c:178
 msgid "collapses the row in the ETree containing this cell"
-msgstr ""
+msgstr "ยุบแถบใน ETree ที่ช่องนี้อยู่"
 
 #: ../a11y/e-table/gal-a11y-e-cell.c:107
 msgid "Table Cell"
@@ -332,7 +332,7 @@ msgstr "ไม่สามารถลบที่อยู่ติดต่อ
 
 #: ../addressbook/addressbook.error.xml.h:4
 msgid "Category editor not available."
-msgstr "ตัวแก้ไขหมวดใช้งานไม่ได้"
+msgstr "เครื่องมือแก้ไขหมวดใช้งานไม่ได้"
 
 #: ../addressbook/addressbook.error.xml.h:5
 msgid ""
@@ -357,6 +357,9 @@ msgid ""
 "Please use some other GroupWise mail client once, to get your GroupWise "
 "Frequent Contacts and Groupwise Personal Contacts folders."
 msgstr ""
+"ขณะนี้ Evolution สามารถเข้าใช้สมุดที่อยู่ของระบบของ GroupWise เท่านั้น "
+"กรุณาใช้โปรแกรมอ่านเมลของ GroupWise โปรแกรมอื่นครั้งหนึ่งก่อน "
+"เพื่ออ่านโฟลเดอร์ที่อยู่ติดต่อที่ใช้บ่อย และที่อยู่ติดต่อส่วนตัวจาก GroupWise"
 
 #: ../addressbook/addressbook.error.xml.h:9
 msgid "Delete address book '{0}'?"
@@ -376,7 +379,7 @@ msgstr "ตรวจสอบสิทธิ์ด้วยเซิร์ฟเ
 
 #: ../addressbook/addressbook.error.xml.h:13
 msgid "GroupWise Address book creation:"
-msgstr ""
+msgstr "การสร้างสมุดที่อยู่ของ GroupWise:"
 
 #: ../addressbook/addressbook.error.xml.h:14
 msgid "LDAP server did not respond with valid schema information."
@@ -392,7 +395,7 @@ msgstr "คุณลักษณะบางอย่างอาจจะไม
 
 #: ../addressbook/addressbook.error.xml.h:17
 msgid "The Evolution addressbook has quit unexpectedly."
-msgstr "สมุดที่อยู่ Evolution หยุดทำงานโดยไม่ได้คาดหมาย"
+msgstr "สมุดที่อยู่ Evolution หยุดทำงานกระทันหัน"
 
 #: ../addressbook/addressbook.error.xml.h:18
 msgid ""
@@ -405,9 +408,9 @@ msgid ""
 "this functionality or it may be misconfigured. Ask your administrator for "
 "supported search bases."
 msgstr ""
-"เซิร์ฟเวอร์ LDAP นี้อาจจะใช้รุ่นที่เก่ากว่า LDAP ซึ่งจะไม่สนับสนุนการทำงานนี้ "
-"หรืออาจจะมีการกำหนดค่าผิดพลาด คุณจะต้องสอบถามข้อมูลกับผู้ดูแลระบบของคุณ "
-"เพื่อให้สนับสนุนระบบจุดเริ่มต้นค้นหา"
+"เซิร์ฟเวอร์ LDAP นี้อาจจะใช้ LDAP รุ่นเก่า ซึ่งไม่สนับสนุนการทำงานนี้ "
+"หรืออาจจะมีการกำหนดค่าผิดพลาด กรุณาสอบถามผู้ดูแลระบบของคุณ "
+"เกี่ยวกับจุดเริ่มต้นค้นหาที่สนับสนุน"
 
 #: ../addressbook/addressbook.error.xml.h:20
 msgid "This address book will be removed permanently."
@@ -499,7 +502,7 @@ msgstr "{1}"
 
 #: ../addressbook/conduit/address-conduit.c:300
 msgid "Default Sync Address:"
-msgstr ""
+msgstr "ที่อยู่สำหรับ sync ปริยาย:"
 
 #: ../addressbook/conduit/address-conduit.c:1241
 #: ../addressbook/conduit/address-conduit.c:1242
@@ -521,7 +524,7 @@ msgstr "_ที่อยู่ติดต่อ"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:3
 msgid "Certificates"
-msgstr ""
+msgstr "ใบรับรอง"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:4
 msgid "Configure autocomplete here"
@@ -531,7 +534,7 @@ msgstr "กำหนดค่าเติมเต็มคำอัตโนม
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:5
 #: ../addressbook/gui/component/addressbook-view.c:1334
 #: ../calendar/gui/calendar-component.c:247 ../calendar/gui/migration.c:400
-#: ../plugins/exchange-operations/exchange-folder.c:626
+#: ../plugins/exchange-operations/exchange-folder.c:585
 msgid "Contacts"
 msgstr "ที่อยู่ติดต่อ"
 
@@ -638,7 +641,7 @@ msgstr "การปรับปรุงการตั้งค่าสมุ
 
 #: ../addressbook/gui/component/addressbook-config.c:329
 msgid "Base"
-msgstr ""
+msgstr "จุดเริ่มต้น"
 
 #: ../addressbook/gui/component/addressbook-config.c:530
 #: ../calendar/gui/dialogs/calendar-setup.c:192
@@ -682,11 +685,11 @@ msgstr "รายละเอียด"
 
 #: ../addressbook/gui/component/addressbook-config.c:992
 msgid "Searching"
-msgstr "กำลังค้นหา"
+msgstr "การค้นหา"
 
 #: ../addressbook/gui/component/addressbook-config.c:994
 msgid "Downloading"
-msgstr "กำลังดาวน์โหลด"
+msgstr "การดาวน์โหลด"
 
 #: ../addressbook/gui/component/addressbook-config.c:1200
 #: ../addressbook/gui/component/ldap-config.glade.h:13
@@ -802,7 +805,7 @@ msgstr "คุณ_สมบัติ..."
 
 #: ../addressbook/gui/component/addressbook-view.c:1345
 msgid "Contact Source Selector"
-msgstr ""
+msgstr "กล่องเลือกแหล่งที่อยู่ติดต่อ"
 
 #: ../addressbook/gui/component/addressbook.c:99
 msgid "Accessing LDAP Server anonymously"
@@ -825,21 +828,23 @@ msgstr "ความยาวเติมเต็มคำอัตโนมั
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:2
 msgid "EFolderList XML for the list of completion URIs"
-msgstr ""
+msgstr "EFolderList XML สำหรับรายการเติมเต็ม URI"
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:3
 msgid "EFolderList XML for the list of completion URIs."
-msgstr ""
+msgstr "EFolderList XML สำหรับรายการเติมเต็ม URI"
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:4
 msgid ""
 "Position of the vertical pane, between the card and list views and the "
 "preview pane, in pixels."
 msgstr ""
+"ตำแหน่งของเส้นกั้นช่องแนวดิ่ง ระหว่างช่องแสดงนามบัตรและรายการ กับช่องแสดงตัวอย่าง "
+"ในหน่วยพิกเซล"
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:5
 msgid "Show preview pane"
-msgstr "แสดง preview pane"
+msgstr "แสดงช่องแสดงตัวอย่าง"
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:6
 msgid ""
@@ -849,20 +854,20 @@ msgstr "จำนวนอักขระที่จะต้องป้อน
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:7
 msgid "URI for the folder last used in the select names dialog"
-msgstr ""
+msgstr "URI ของโฟลเดอร์ที่ใช้ล่าสุดในกล่องโต้ตอบเลือกชื่อ"
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:8
 msgid "URI for the folder last used in the select names dialog."
-msgstr ""
+msgstr "URI ของโฟลเดอร์ที่ใช้ล่าสุดในกล่องโต้ตอบเลือกชื่อ"
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:9
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:63
 msgid "Vertical pane position"
-msgstr "ตำแหน่ง Vertical pane"
+msgstr "ตำแหน่งเส้นกั้นช่องแนวดิ่ง"
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:10
 msgid "Whether to show the preview pane."
-msgstr "กำหนดว่าจะแสดง preview pane หรือไม่"
+msgstr "กำหนดว่าจะแสดงช่องแสดงตัวอย่างหรือไม่"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:1
 msgid "1"
@@ -895,11 +900,11 @@ msgstr "<b>แสดง</b>"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:8
 msgid "<b>Downloading</b>"
-msgstr "<b>กำลังดาวน์โหลด</b>"
+msgstr "<b>การดาวน์โหลด</b>"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:9
 msgid "<b>Searching</b>"
-msgstr "<b>กำลังค้นหา</b>"
+msgstr "<b>การค้นหา</b>"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:10
 msgid "<b>Server Information</b>"
@@ -920,7 +925,7 @@ msgstr "ใช้เสมอ"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:15
 msgid "Anonymously"
-msgstr ""
+msgstr "นิรนาม"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:16
 msgid "Basic"
@@ -928,7 +933,7 @@ msgstr "พื้นฐาน"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:18
 msgid "Distinguished name"
-msgstr ""
+msgstr "Distinguished name"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:19
 msgid "Email address"
@@ -954,7 +959,7 @@ msgstr "ไม่ใช้"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:25
 msgid "One"
-msgstr "หนึ่ง"
+msgstr "ระดับเดียว"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:26
 msgid "Search Filter"
@@ -978,14 +983,16 @@ msgid ""
 "search. If this is not modified, by  default search will be performed on "
 "objectclass of the type \"person\"."
 msgstr ""
+"ตัวกรองสำหรับค้นหา คือชนิดของออบเจ็กต์ที่จะหาในระหว่างการค้นหา ถ้าไม่มีการเปลี่ยนแปลง "
+"การค้นหาโดยปกติจะหา objectclass ชนิด \"person\""
 
 #: ../addressbook/gui/component/ldap-config.glade.h:31
 msgid ""
 "Selecting this option means that Evolution will only connect to your LDAP "
 "server if your LDAP server supports SSL or TLS."
 msgstr ""
-"การเลือกตัวเลือกนี้หมายความว่า Evolution จะเชื่อมต่อกับเซิร์ฟเวอร์ LDAP ของคุณเท่านั้น "
-"ถ้าเซิร์ฟเวอร์ LDAP ของคุณสนับสนุน SSL หรือ TLS"
+"การเลือกตัวเลือกนี้หมายความว่า Evolution จะเชื่อมต่อกับเซิร์ฟเวอร์ LDAP ของคุณ "
+"ก็ต่อเมื่อเซิร์ฟเวอร์ LDAP ของคุณสนับสนุน SSL หรือ TLS เท่านั้น"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:32
 msgid ""
@@ -994,9 +1001,9 @@ msgid ""
 "are behind a firewall at work, then Evolution doesn't need to use SSL/TLS "
 "because your connection is already secure."
 msgstr ""
-"การเลือกตัวเลือกนี้หมายความว่า Evolution จะพยายามใช้แต่ SSL/TLS เท่านั้น "
-"ถ้าคุณอยู่ในสภาพแวดล้อมที่ไม่ปลอดภัย ตัวอย่างเช่น ถ้าเซิร์ฟเวอร์ LDAP "
-"ของคุณอยู่หลังไฟร์วอลล์ของที่ทำงาน Evolution ก็จะไม่ต้องใช้ SSL/TLS "
+"การเลือกตัวเลือกนี้หมายความว่า Evolution จะพยายามใช้ SSL/TLS "
+"ก็ต่อเมื่อคุณอยู่ในสภาพแวดล้อมที่ไม่ปลอดภัยเท่านั้น ตัวอย่างเช่น ถ้าเซิร์ฟเวอร์ LDAP "
+"ของคุณอยู่หลังไฟร์วอลล์ที่ทำงานอยู่ Evolution ก็จะไม่ต้องใช้ SSL/TLS "
 "เพราะว่าการเชื่อมต่อของคุณอยู่ในสภาพแวดล้อมที่ปลอดภัยแล้ว"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:33
@@ -1005,8 +1012,8 @@ msgid ""
 "TLS.  This means that your connection will be insecure, and that you will be "
 "vulnerable to security exploits. "
 msgstr ""
-"การเลือกตัวเลือกนี้หมายความว่าเซิร์ฟเวอร์ของคุณจะไม่สนับสนุนทั้ง SSL หรือ TLS "
-"ซึ่งก็หมายความว่าการเชื่อมต่อของคุณจะไม่มีความปลอดภัย คุณจะเกิดจุดอ่อนที่คนอื่นเอาไปใช้ประโยชน์ได้"
+"การเลือกตัวเลือกนี้หมายความว่าเซิร์ฟเวอร์ของคุณไม่สนับสนุนทั้ง SSL หรือ TLS "
+"ซึ่งก็หมายความว่าการเชื่อมต่อของคุณจะไม่ปลอดภัย และเสี่ยงต่อการลักลอบใช้ข้อมูลได้"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:34
 msgid "Sub"
@@ -1014,7 +1021,7 @@ msgstr "ย่อย"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:35
 msgid "Supported Search Bases"
-msgstr "สนับสนุนจุดเริ่มต้นค้นหา"
+msgstr "จุดเริ่มต้นค้นหาที่สนับสนุน"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:36
 msgid ""
@@ -1022,8 +1029,8 @@ msgid ""
 "searches will begin. If you leave this blank, the search will begin at the "
 "root of the directory tree."
 msgstr ""
-"จุดเริ่มต้นค้นหาจะเป็นชื่อแยกเฉพาะจากรายการที่คุณต้องการให้การค้นหาเริ่มต้นตรงนั้น "
-"ถ้าคุณปล่อยช่องนี้ว่าง การค้นหาของคุณจะเริ่มตั้งแต่รากของสายไดเรกทอรี่"
+"จุดเริ่มต้นค้นหาจะเป็น distinguished name (DN) ของรายการที่คุณต้องการให้ใช้เป็นจุดเริ่มต้นการค้นหา "
+"ถ้าคุณปล่อยช่องนี้ว่าง การค้นหาของคุณจะเริ่มตั้งแต่รากของสารบบ"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:37
 msgid ""
@@ -1032,9 +1039,9 @@ msgid ""
 "your search base. A search scope of \"one\" will only include the entries "
 "one level beneath your base."
 msgstr ""
-"ขอบเขตการค้นหาจะกำหนดว่าคุณต้องการให้การค้นหาขยายลึกลงไปเท่าไหร่ของสายไดเรกทอรี่ "
-"ขอบเขตการค้นหา \"ย่อย\" จะรวมทุกรายการที่อยู่ใต้ฐานการค้นหาของคุณ ขอบเขตการค้นหา \"หนึ่ง"
-"\" จะรวมรายการที่อยู่ใต้จุดเริ่มต้นค้นหาของคุณหนึ่งระดับเท่านั้น"
+"ขอบเขตการค้นหาจะกำหนดว่าคุณต้องการให้การค้นหาขยายลึกลงไปเท่าไรของสารบบ "
+"ขอบเขตการค้นหา \"ย่อย\" จะรวมทุกรายการที่อยู่ใต้จุดเริ่มต้นค้นหาของคุณ ขอบเขตการค้นหา "
+"\"ระดับเดียว\" จะรวมรายการที่อยู่ใต้จุดเริ่มต้นค้นหาของคุณเพียงระดับเดียวเท่านั้น"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:38
 msgid ""
@@ -1056,8 +1063,8 @@ msgid ""
 "setting this to \"Email Address\" requires anonymous access to your ldap "
 "server."
 msgstr ""
-"นี่คือวิธีที่ Evolution จะใช้ตรวจสอบตัวตนของคุณ สังเกตว่าการตั้งค่าเป็น \"ที่อยู่อีเมล\" "
-"ต้องการการเข้าถึงเซิร์ฟเวอร์ ldap ของคุณแบบไม่ระบุชื่อ"
+"นี่คือวิธีที่ Evolution จะใช้ยืนยันตัวบุคคลของคุณ สังเกตว่าการตั้งค่าเป็น \"ที่อยู่อีเมล\" "
+"จะต้องเข้าถึงเซิร์ฟเวอร์ ldap ของคุณแบบนิรนามได้ด้วย"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:41
 msgid ""
@@ -1078,11 +1085,11 @@ msgstr ""
 
 #: ../addressbook/gui/component/ldap-config.glade.h:43
 msgid "Using distinguished name (DN)"
-msgstr ""
+msgstr "จะใช้ distinguished name (DN)"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:44
 msgid "Using email address"
-msgstr "การใช้ที่อยู่อีเมล"
+msgstr "จะใช้ที่อยู่อีเมล"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:45
 #: ../mail/em-account-editor.c:303
@@ -1099,7 +1106,7 @@ msgstr "_จำกัดการดาวน์โหลด:"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:48
 msgid "_Find Possible Search Bases"
-msgstr "_ค้นหาฐานการค้นหาที่เป็นไปได้"
+msgstr "_ค้นหาจุดเริ่มต้นค้นหาที่เป็นไปได้"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:49
 msgid "_Login method:"
@@ -1130,11 +1137,11 @@ msgstr "เ_ซิร์ฟเวอร์:"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:54
 msgid "_Timeout:"
-msgstr "เ_วลาที่จำกัด:"
+msgstr "จำกัดเ_วลา:"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:55
 msgid "_Use secure connection:"
-msgstr "ใ_ช้การเชื่อมต่อแบบปลอดภัย:"
+msgstr "ใ_ช้การเชื่อมต่อนิรภัย:"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:56
 msgid "cards"
@@ -1232,7 +1239,7 @@ msgstr "ที่อยู่ติดต่อ"
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:566
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:2402
 msgid "Contact Editor"
-msgstr "ตัวแก้ไขที่อยู่ติดต่อ"
+msgstr "เครื่องมือแก้ไขที่อยู่ติดต่อ"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:14
 msgid "Full _Name..."
@@ -1567,7 +1574,7 @@ msgstr "แคเมอรูน"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:175
 msgid "Canada"
-msgstr "แคนาดา "
+msgstr "แคนาดา"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:176
 msgid "Cape Verde"
@@ -1695,7 +1702,7 @@ msgstr "หมู่เกาะฟอร์คแลนด์"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:207
 msgid "Faroe Islands"
-msgstr "หมู่เกาะฟาโร"
+msgstr "หมู่เกาะแฟโร"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:208
 msgid "Fiji"
@@ -1711,7 +1718,7 @@ msgstr "ฝรั่งเศส"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:211
 msgid "French Guiana"
-msgstr "เฟรนช์กียานา"
+msgstr "เฟรนช์เกียนา"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:212
 msgid "French Polynesia"
@@ -1759,11 +1766,11 @@ msgstr "เกรเนดา"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:223
 msgid "Guadeloupe"
-msgstr "เกาะกัวเดอลูป"
+msgstr "กวาเดอลูป"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:224
 msgid "Guam"
-msgstr "เกาะกวม"
+msgstr "กวม"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:225
 msgid "Guatemala"
@@ -1791,7 +1798,7 @@ msgstr "เฮติ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:231
 msgid "Heard And McDonald Islands"
-msgstr "เกาะเฮิร์ด และแมกดอนัลด์"
+msgstr "เกาะเฮิร์ดและหมู่เกาะแมกดอนัลด์"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:232
 msgid "Holy See"
@@ -1843,11 +1850,11 @@ msgstr "อิสราเอล"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:244
 msgid "Italy"
-msgstr "อิตาลี "
+msgstr "อิตาลี"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:245
 msgid "Jamaica"
-msgstr "จาเมกา "
+msgstr "จาเมกา"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:246
 msgid "Japan"
@@ -1875,11 +1882,11 @@ msgstr "คิริบาส"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:252
 msgid "Korea, Democratic People's Republic Of"
-msgstr "สาธารณรัฐประชาชนเกาหลี"
+msgstr "เกาหลี, สาธารณรัฐประชาชน"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:253
 msgid "Korea, Republic Of"
-msgstr "สาธารณรัฐเกาหลี"
+msgstr "เกาหลี, สาธารณรัฐ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:254
 msgid "Kuwait"
@@ -1979,7 +1986,7 @@ msgstr "มาย็อต"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:278
 msgid "Mexico"
-msgstr "เม็กซิโก "
+msgstr "เม็กซิโก"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:279
 msgid "Micronesia"
@@ -1987,7 +1994,7 @@ msgstr "ไมโครนีเซีย"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:280
 msgid "Moldova, Republic Of"
-msgstr "สาธารณรัฐมอลโดวา"
+msgstr "มอลโดวา, สาธารณรัฐ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:281
 msgid "Monaco"
@@ -1999,7 +2006,7 @@ msgstr "มองโกเลีย"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:283
 msgid "Montserrat"
-msgstr "มอนต์เซร์แร็ต"
+msgstr "มอนต์เซอร์รัต"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:284
 msgid "Morocco"
@@ -2047,7 +2054,7 @@ msgstr "นิการากัว"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:295
 msgid "Niger"
-msgstr "ไนเจอร์ "
+msgstr "ไนเจอร์"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:296
 msgid "Nigeria"
@@ -2063,7 +2070,7 @@ msgstr "เกาะนอร์ฟอล์ก"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:299
 msgid "Northern Mariana Islands"
-msgstr "หมู่เกาะนอร์ทเทิร์นมาเรียนา"
+msgstr "หมู่เกาะนอร์เทิร์นมาเรียนา"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:300
 msgid "Norway"
@@ -2119,11 +2126,11 @@ msgstr "โปรตุเกส"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:313
 msgid "Puerto Rico"
-msgstr "เปอร์โตริโก "
+msgstr "เปอร์โตริโก"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:314
 msgid "Qatar"
-msgstr "กาตาร์ "
+msgstr "กาตาร์"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:315
 msgid "Reunion"
@@ -2143,11 +2150,11 @@ msgstr "รวันดา"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:319
 msgid "Saint Kitts And Nevis"
-msgstr "เซนต์คิตส์และเนวิส "
+msgstr "เซนต์คิตส์และเนวิส"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:320
 msgid "Saint Lucia"
-msgstr "เซนต์ลูเซีย "
+msgstr "เซนต์ลูเซีย"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:321
 msgid "Saint Vincent And The Grenadines"
@@ -2155,7 +2162,7 @@ msgstr "เซนต์วินเซนต์และเกรนาดีน
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:322
 msgid "Samoa"
-msgstr "ซามัว "
+msgstr "ซามัว"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:323
 msgid "San Marino"
@@ -2183,7 +2190,7 @@ msgstr "เซเชลส์"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:329
 msgid "Sierra Leone"
-msgstr "เซียร์ราลีโอ"
+msgstr "เซียร์ราลีโอน"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:330
 msgid "Singapore"
@@ -2267,7 +2274,7 @@ msgstr "ทาจิกิสถาน"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:350
 msgid "Tanzania, United Republic Of"
-msgstr "สหสาธารณรัฐแทนซาเนีย"
+msgstr "แทนซาเนีย, สหสาธารณรัฐ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:351
 msgid "Thailand"
@@ -2275,7 +2282,7 @@ msgstr "ไทย"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:352
 msgid "Timor-Leste"
-msgstr "ติมอร์เลสเต"
+msgstr "ติมอร์-เลสเต"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:353
 msgid "Togo"
@@ -2452,11 +2459,11 @@ msgstr "GroupWise"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:260
 msgid "Source Book"
-msgstr ""
+msgstr "สมุดต้นทาง"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:267
 msgid "Target Book"
-msgstr ""
+msgstr "สมุดปลายทาง"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:281
 msgid "Is New Contact"
@@ -2468,45 +2475,45 @@ msgstr "เขตข้อมูลที่เขียนได้"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:295
 msgid "Required Fields"
-msgstr "เขตข้อมูลที่ต้องการ"
+msgstr "เขตข้อมูลบังคับ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:309
 msgid "Changed"
-msgstr ""
+msgstr "มีการเปลี่ยนแปลง"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:561
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:2397
 #, c-format
 msgid "Contact Editor - %s"
-msgstr "ตัวแก้ไขที่อยู่ติดต่อ - %s"
+msgstr "เครื่องมือแก้ไขที่อยู่ติดต่อ - %s"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2735
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2757
 msgid "Please select an image for this contact"
 msgstr "กรุณาเลือกรูปสำหรับที่อยู่ติดต่อนี้"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2736
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2758
 msgid "No image"
 msgstr "ไม่มีรูป"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3015
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3042
 msgid ""
 "The contact data is invalid:\n"
 "\n"
 msgstr ""
-"ข้อมูลที่อยู่ติดต่อนี้ใช้ไม่ได้:\n"
+"ข้อมูลที่อยู่ติดต่อผิดพลาด:\n"
 "\n"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3067
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3094
 msgid "Invalid contact."
-msgstr "ที่อยู่ติดต่อที่ใช้ไม่ได้"
+msgstr "ที่อยู่ติดต่อผิดพลาด"
 
 #: ../addressbook/gui/contact-editor/e-contact-quick-add.c:291
 msgid "Contact Quick-Add"
-msgstr ""
+msgstr "การเพิ่มที่อยู่ติดต่ออย่างเร็ว"
 
 #: ../addressbook/gui/contact-editor/e-contact-quick-add.c:294
 msgid "_Edit Full"
-msgstr ""
+msgstr "แ_ก้ไขเต็มรูปแบบ"
 
 #: ../addressbook/gui/contact-editor/e-contact-quick-add.c:337
 msgid "_Full name"
@@ -2572,7 +2579,7 @@ msgstr "ที่อยู่แบบเต็ม"
 
 #: ../addressbook/gui/contact-editor/fulladdr.glade.h:9
 msgid "_ZIP Code:"
-msgstr "_รหัสไปรษณีย์"
+msgstr "_รหัสไปรษณีย์:"
 
 #: ../addressbook/gui/contact-editor/fullname.glade.h:2
 msgid "Dr."
@@ -2589,15 +2596,15 @@ msgstr "ชื่อเต็ม"
 
 #: ../addressbook/gui/contact-editor/fullname.glade.h:5
 msgid "I"
-msgstr ""
+msgstr "1"
 
 #: ../addressbook/gui/contact-editor/fullname.glade.h:6
 msgid "II"
-msgstr ""
+msgstr "2"
 
 #: ../addressbook/gui/contact-editor/fullname.glade.h:7
 msgid "III"
-msgstr ""
+msgstr "3"
 
 #: ../addressbook/gui/contact-editor/fullname.glade.h:8
 msgid "Jr."
@@ -2617,7 +2624,7 @@ msgstr "นาง"
 
 #: ../addressbook/gui/contact-editor/fullname.glade.h:12
 msgid "Ms."
-msgstr "นางสาว"
+msgstr "น.ส."
 
 #: ../addressbook/gui/contact-editor/fullname.glade.h:13
 msgid "Sr."
@@ -2664,12 +2671,12 @@ msgstr "\n"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:4
 msgid "Add an email to the List"
-msgstr "เพิ่มอีเมลไปที่รายชื่อ"
+msgstr "เพิ่มอีเมลในรายชื่อ"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:5
 #: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:846
 msgid "Contact List Editor"
-msgstr "ตัวแก้ไขรายชื่อที่อยู่ติดต่อ"
+msgstr "เครื่องมือแก้ไขรายชื่อที่อยู่ติดต่อ"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:6
 msgid "Insert email addresses from Address Book"
@@ -2706,7 +2713,7 @@ msgstr "_พิมพ์ที่อยู่อีเมล หรือลา�
 #: ../addressbook/gui/widgets/e-minicard-view-widget.c:107
 #: ../addressbook/gui/widgets/e-minicard-view.c:506
 msgid "Book"
-msgstr "หนังสือ"
+msgstr "สมุด"
 
 #: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:177
 msgid "Is New List"
@@ -2739,7 +2746,7 @@ msgid ""
 "exists in this folder.  Would you like to add it anyway?"
 msgstr ""
 "อีเมลหรือชื่อที่เปลี่ยนสำหรับที่อยู่ติดต่อนี้มีอยู่ในโฟลเดอร์นี้เรียบร้อยแล้ว\n"
-" คุณยังต้องการจะเพิ่มเข้าไปอีกหรือไม่?"
+"คุณยังต้องการจะเพิ่มเข้าไปอีกหรือไม่?"
 
 #: ../addressbook/gui/merging/eab-contact-duplicate-detected.glade.h:2
 msgid "New Contact:"
@@ -2747,7 +2754,7 @@ msgstr "ที่อยู่ติดต่อใหม่:"
 
 #: ../addressbook/gui/merging/eab-contact-duplicate-detected.glade.h:3
 msgid "Original Contact:"
-msgstr "ที่อยู่ติดต่อเดิม"
+msgstr "ที่อยู่ติดต่อเดิม:"
 
 #: ../addressbook/gui/merging/eab-contact-duplicate-detected.glade.h:4
 msgid ""
@@ -2755,7 +2762,7 @@ msgid ""
 "in this folder.  Would you like to add it anyway?"
 msgstr ""
 "มีชื่อหรือที่อยู่อีเมลสำหรับที่อยู่ติดต่อนี้ในโฟลเดอร์นี้เรียบร้อยแล้ว\n"
-" คุณยังต้องการจะเพิ่มเข้าไปอีกหรือไม่?"
+"คุณยังต้องการจะเพิ่มเข้าไปอีกหรือไม่?"
 
 #. We attach subitems below
 #: ../addressbook/gui/widgets/addresstypes.xml.h:1
@@ -2797,11 +2804,11 @@ msgstr[1] "ที่อยู่ติดต่อ %d รายการ"
 #: ../addressbook/gui/widgets/e-minicard-view-widget.c:114
 #: ../addressbook/gui/widgets/e-minicard-view.c:513
 msgid "Query"
-msgstr ""
+msgstr "คำค้น"
 
 #: ../addressbook/gui/widgets/e-addressbook-model.c:446
 msgid "Error getting book view"
-msgstr ""
+msgstr "เกิดข้อผิดพลาดขณะสร้างช่องแสดงสมุด"
 
 #: ../addressbook/gui/widgets/e-addressbook-reflow-adapter.c:405
 #: ../widgets/table/e-table-click-to-add.c:502
@@ -2811,7 +2818,7 @@ msgstr ""
 #: ../widgets/text/e-entry.c:1235 ../widgets/text/e-entry.c:1236
 #: ../widgets/text/e-text.c:3471 ../widgets/text/e-text.c:3472
 msgid "Model"
-msgstr ""
+msgstr "ข้อมูลโครงสร้าง"
 
 #: ../addressbook/gui/widgets/e-addressbook-table-adapter.c:103
 msgid "Error modifying card"
@@ -2819,7 +2826,7 @@ msgstr "เกิดข้อผิดพลาดขณะเปลี่ยน
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:230
 msgid "Source"
-msgstr ""
+msgstr "แหล่ง"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:244
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:11
@@ -2998,11 +3005,11 @@ msgstr "โทรสารบ้าน"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:18
 msgid "Home Phone"
-msgstr "เบอร์โทรบ้าน"
+msgstr "โทรศัพท์บ้าน"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:19
 msgid "Home Phone 2"
-msgstr "เบอร์โทรบ้าน 2"
+msgstr "โทรศัพท์บ้าน 2"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:20
 msgid "ISDN Phone"
@@ -3019,7 +3026,7 @@ msgstr "ผู้จัดการ"
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:23
 #: ../addressbook/gui/widgets/eab-contact-display.c:381
 msgid "Mobile Phone"
-msgstr "เบอร์มือถือ"
+msgstr "โทรศัพท์มือถือ"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:24
 msgid "Nickname"
@@ -3045,7 +3052,7 @@ msgstr "โทรสารอื่นๆ"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:29
 msgid "Other Phone"
-msgstr "เบอร์โทรอื่นๆ"
+msgstr "โทรศัพท์อื่นๆ"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:30
 msgid "Pager"
@@ -3131,7 +3138,7 @@ msgstr "สูง"
 #: ../addressbook/gui/widgets/e-minicard-label.c:129
 #: ../addressbook/gui/widgets/e-minicard.c:153
 msgid "Has Focus"
-msgstr ""
+msgstr "มีโฟกัส"
 
 #: ../addressbook/gui/widgets/e-minicard-label.c:136
 msgid "Field"
@@ -3139,11 +3146,11 @@ msgstr "เขตข้อมูล"
 
 #: ../addressbook/gui/widgets/e-minicard-label.c:143
 msgid "Field Name"
-msgstr "ชื่อเขตข้อมูล "
+msgstr "ชื่อเขตข้อมูล"
 
 #: ../addressbook/gui/widgets/e-minicard-label.c:150
 msgid "Text Model"
-msgstr ""
+msgstr "ข้อมูลข้อความ"
 
 #: ../addressbook/gui/widgets/e-minicard-label.c:157
 msgid "Max field name length"
@@ -3163,8 +3170,8 @@ msgid ""
 msgstr ""
 "\n"
 "\n"
-"ค้นหาที่อยู่ติดต่อ \n"
-"หรือคลิกซ้ำตรงนี้เพื่อสร้างที่อยู่ติดต่อใหม่"
+"ค้นหาที่อยู่ติดต่อ\n"
+"หรือดับเบิลคลิกตรงนี้เพื่อสร้างที่อยู่ติดต่อใหม่"
 
 #: ../addressbook/gui/widgets/e-minicard-view.c:175
 msgid ""
@@ -3178,7 +3185,7 @@ msgstr ""
 "\n"
 "ไม่มีรายการแสดงในนี้เลย\n"
 "\n"
-"คลิกซ้ำตรงนี้เพื่อสร้างที่อยู่ติดต่อใหม่"
+"ดับเบิลคลิกตรงนี้เพื่อสร้างที่อยู่ติดต่อใหม่"
 
 #: ../addressbook/gui/widgets/e-minicard-view.c:180
 msgid ""
@@ -3202,15 +3209,15 @@ msgstr ""
 
 #: ../addressbook/gui/widgets/e-minicard-view.c:499
 msgid "Adapter"
-msgstr ""
+msgstr "ตัวแปลง"
 
 #: ../addressbook/gui/widgets/e-minicard.c:161
 msgid "Selected"
-msgstr ""
+msgstr "เลือกอยู่"
 
 #: ../addressbook/gui/widgets/e-minicard.c:168
 msgid "Has Cursor"
-msgstr ""
+msgstr "มีเคอร์เซอร์"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:135
 #: ../addressbook/gui/widgets/eab-contact-display.c:198
@@ -3225,7 +3232,7 @@ msgstr "แผนที่"
 #: ../addressbook/gui/widgets/eab-contact-display.c:276
 #: ../addressbook/gui/widgets/eab-contact-display.c:545
 msgid "List Members"
-msgstr ""
+msgstr "สมาชิกในรายชื่อ"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:339
 #: ../addressbook/gui/widgets/eab-contact-display.c:341
@@ -3238,7 +3245,7 @@ msgstr "ตำแหน่ง"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:364
 msgid "Video Conferencing"
-msgstr "การประชุมทางวิดีทัศน์"
+msgstr "การประชุมทางวีดิทัศน์"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:365
 #: ../addressbook/gui/widgets/eab-contact-display.c:380
@@ -3260,7 +3267,7 @@ msgstr "WWW"
 #: ../addressbook/gui/widgets/eab-contact-display.c:378
 #: ../addressbook/gui/widgets/eab-contact-display.c:602
 msgid "Blog"
-msgstr ""
+msgstr "เว็บล็อก"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:385
 msgid "personal"
@@ -3277,18 +3284,18 @@ msgstr "โฮมเพจ"
 #. E_BOOK_ERROR_OK
 #: ../addressbook/gui/widgets/eab-gui-util.c:50
 msgid "Success"
-msgstr ""
+msgstr "สำเร็จ"
 
 #. E_BOOK_ERROR_INVALID_ARG
 #. E_BOOK_ERROR_BUSY
 #: ../addressbook/gui/widgets/eab-gui-util.c:52
 msgid "Backend busy"
-msgstr ""
+msgstr "แบ็กเอนด์ไม่ว่าง"
 
 #. E_BOOK_ERROR_REPOSITORY_OFFLINE
 #: ../addressbook/gui/widgets/eab-gui-util.c:53
 msgid "Repository offline"
-msgstr ""
+msgstr "แหล่งเก็บข้อมูลไม่ได้เชื่อมต่ออยู่"
 
 #. E_BOOK_ERROR_NO_SUCH_BOOK
 #: ../addressbook/gui/widgets/eab-gui-util.c:54
@@ -3298,7 +3305,7 @@ msgstr "ไม่มีสมุดที่อยู่"
 #. E_BOOK_ERROR_NO_SELF_CONTACT
 #: ../addressbook/gui/widgets/eab-gui-util.c:55
 msgid "No Self Contact defined"
-msgstr ""
+msgstr "ไม่ได้กำหนดที่อยู่ติดต่อของตัวผู้ใช้เอง"
 
 #. E_BOOK_ERROR_URI_NOT_LOADED
 #. E_BOOK_ERROR_URI_ALREADY_LOADED
@@ -3306,7 +3313,7 @@ msgstr ""
 #: ../addressbook/gui/widgets/eab-gui-util.c:58
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:47
 msgid "Permission denied"
-msgstr "ไม่อนุญาตการใช้สิทธิ์"
+msgstr "ไม่ได้รับอนุญาตให้ใช้"
 
 #. E_BOOK_ERROR_CONTACT_NOT_FOUND
 #: ../addressbook/gui/widgets/eab-gui-util.c:59
@@ -3347,7 +3354,7 @@ msgstr "การยืนยันตัวบุคคลล้มเหลว
 #. E_BOOK_ERROR_AUTHENTICATION_REQUIRED
 #: ../addressbook/gui/widgets/eab-gui-util.c:65
 msgid "Authentication Required"
-msgstr "ต้องการการยืนยันตัวบุคคล"
+msgstr "ต้องยืนยันตัวบุคคล"
 
 #. E_BOOK_ERROR_TLS_NOT_AVAILABLE
 #: ../addressbook/gui/widgets/eab-gui-util.c:66
@@ -3358,12 +3365,12 @@ msgstr "TLS ใช้งานไม่ได้"
 #. E_BOOK_ERROR_NO_SUCH_SOURCE
 #: ../addressbook/gui/widgets/eab-gui-util.c:68
 msgid "No such source"
-msgstr ""
+msgstr "ไม่มีแหล่งดังกล่าว"
 
 #. E_BOOK_ERROR_OFFLINE_UNAVAILABLE
 #: ../addressbook/gui/widgets/eab-gui-util.c:69
 msgid "Not available in offline mode"
-msgstr ""
+msgstr "ใช้ในโหมดออฟไลน์ไม่ได้"
 
 #. E_BOOK_ERROR_OTHER_ERROR
 #: ../addressbook/gui/widgets/eab-gui-util.c:70
@@ -3381,9 +3388,9 @@ msgid ""
 "marked for offline usage or not yet downloaded for offline usage. Please "
 "load the addressbook once in online mode to download its contents"
 msgstr ""
-"เราไม่สามารถเปิดสมุดที่อยู่นี้ได้ ซึ่งเป็นไปได้ทั้งเหตุผลว่าสมุดที่อยู่นี้ไม่ได้เลือกให้ใช้กับแบบออฟไลน์ "
-"หรือยังไม่ได้ดาวน์โหลดสำหรับใช้ออฟไลน์ กรุณาเรียกใช้งานสมุดโทรศัพท์อีกครั้งในรูปแบบออนไลน์ "
-"เพื่อที่จะดาวน์โหลดมาใช้ในแบบออฟไลน์"
+"ไม่สามารถเปิดสมุดที่อยู่นี้ได้ ซึ่งเป็นไปได้ทั้งสาเหตุว่าสมุดที่อยู่นี้ไม่ได้เลือกไว้ให้ใช้แบบออฟไลน์ "
+"หรือยังไม่ได้ดาวน์โหลดสำหรับใช้ออฟไลน์ กรุณาเรียกใช้สมุดที่อยู่อีกครั้งแบบออนไลน์ "
+"เพื่อดาวน์โหลดมาใช้ในแบบออฟไลน์"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:103
 #, c-format
@@ -3391,14 +3398,14 @@ msgid ""
 "We were unable to open this addressbook.  Please check that the path %s "
 "exists and that you have permission to access it."
 msgstr ""
-"เราไม่สามารถเปิดสมุดที่อยู่นี้ได้ กรุณาตรวจสอบว่ามีพาธ %s อยู่ หรือดูว่าคุณมีสิทธิ์ในการเข้าถึงหรือไม่"
+"ไม่สามารถเปิดสมุดที่อยู่นี้ได้ กรุณาตรวจสอบว่ามีพาธ %s อยู่ หรือดูว่าคุณมีสิทธิ์ในการเข้าถึงหรือไม่"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:112
 msgid ""
 "We were unable to open this addressbook.  This either means you have entered "
 "an incorrect URI, or the LDAP server is unreachable."
 msgstr ""
-"เราไม่สามารถเปิดสมุดที่อยู่นี้ได้ ซึ่งเป็นไปได้ว่าคุณอาจจะเข้าไปยัง URI ที่ไม่ถูกต้อง "
+"ไม่สามารถเปิดสมุดที่อยู่นี้ได้ ซึ่งเป็นไปได้ว่าคุณอาจจะป้อน URI ที่ไม่ถูกต้อง "
 "หรืออาจจะไม่สามารถเข้าไปยังเซิร์ฟเวอร์ LDAP ได้"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:117
@@ -3415,7 +3422,7 @@ msgid ""
 "We were unable to open this addressbook.  This either means you have entered "
 "an incorrect URI, or the server is unreachable."
 msgstr ""
-"เราไม่สามารถเปิดสมุดที่อยู่นี้ได้ ซึ่งเป็นไปได้ว่าคุณอาจจะเข้าไปยัง URI ที่ไม่ถูกต้อง "
+"ไม่สามารถเปิดสมุดที่อยู่นี้ได้ ซึ่งเป็นไปได้ว่าคุณอาจจะป้อน URI ที่ไม่ถูกต้อง "
 "หรืออาจจะไม่สามารถเข้าไปยังเซิร์ฟเวอร์ได้"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:147
@@ -3425,6 +3432,9 @@ msgid ""
 "Please make your search more specific or raise the result limit in\n"
 "the directory server preferences for this addressbook."
 msgstr ""
+"พบนามบัตรจำนวนมากกว่าที่กำหนดให้เซิร์ฟเวอร์คืนผลลัพธ์ หรือที่กำหนดให้\n"
+"Evolution แสดงผล กรุณาค้นหาดวยคำถามที่เฉพาะเจาะจงกว่านี้\n"
+"หรือเพิ่มขีดจำกัดในหน้าต่างปรับแต่งเซิร์ฟเวอร์สารบบสำหรับสมุดที่อยู่นี้"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:153
 msgid ""
@@ -3434,24 +3444,24 @@ msgid ""
 "preferences for this addressbook."
 msgstr ""
 "เวลาหมด คำถามนี้เกินจำกัดเวลาของเซิร์ฟเวอร์ หรือค่าที่คุณกำหนดไว้\n"
-"สำหรับสมุดที่อยู่นี้ กรุณาค้นหาดวยคำถามที่เฉพาะเจาะจงมากกว่านี้\n"
+"สำหรับสมุดที่อยู่นี้ กรุณาค้นหาดวยคำถามที่เฉพาะเจาะจงกว่านี้\n"
 "หรือเพิ่มค่าจำกัดเวลา ในหน้าต่างปรับแต่งเซิร์ฟเวอร์สารบบสำหรับสมุดที่อยู่นี้"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:159
 msgid "The backend for this addressbook was unable to parse this query."
-msgstr ""
+msgstr "แบ็กเอนด์สำหรับสมุดที่อยู่นี้ไม่สามารถแจงคำค้นนี้ได้"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:162
 msgid "The backend for this addressbook refused to perform this query."
-msgstr ""
+msgstr "แบ็กเอนด์สำหรับสมุดที่อยู่นี้ปฏิิเสธที่จะค้นคำค้นนี้"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:165
 msgid "This query did not complete successfully."
-msgstr "คำถามนี้ไม่สำเร็จสมบูรณ์"
+msgstr "คำค้นนี้ไม่สำเร็จสมบูรณ์"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:187
 msgid "Error adding list"
-msgstr "เกิดข้อผิดพลาดขณะเพิ่มรายการ"
+msgstr "เกิดข้อผิดพลาดขณะเพิ่มรายชื่อ"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:187
 #: ../addressbook/gui/widgets/eab-gui-util.c:695
@@ -3460,7 +3470,7 @@ msgstr "เกิดข้อผิดพลาดขณะเพิ่มที
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:198
 msgid "Error modifying list"
-msgstr "เกิดข้อผิดพลาดขณะเปลี่ยนแปลงรายการ"
+msgstr "เกิดข้อผิดพลาดขณะเปลี่ยนแปลงรายชื่อ"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:198
 msgid "Error modifying contact"
@@ -3468,7 +3478,7 @@ msgstr "เกิดข้อผิดพลาดขณะเปลี่ยน
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:210
 msgid "Error removing list"
-msgstr "เกิดข้อผิดพลาดขณะลบรายการ"
+msgstr "เกิดข้อผิดพลาดขณะลบรายชื่อ"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:210
 #: ../addressbook/gui/widgets/eab-gui-util.c:650
@@ -3544,7 +3554,7 @@ msgstr "คัดลอกที่อยู่ติดต่อไปยัง
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:989
 msgid "Multiple VCards"
-msgstr ""
+msgstr "VCard หลายรายการ"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:992
 #, c-format
@@ -3563,7 +3573,7 @@ msgstr "ข้อมูลที่อยู่ติดต่อของ %s"
 
 #: ../addressbook/gui/widgets/eab-popup-control.c:287
 msgid "Querying Address Book..."
-msgstr ""
+msgstr "กำลังค้นสมุดที่อยู่..."
 
 #: ../addressbook/gui/widgets/eab-vcard-control.c:139
 #, c-format
@@ -3670,27 +3680,27 @@ msgstr "8 pt. Tahoma"
 
 #: ../addressbook/printing/e-contact-print.glade.h:3
 msgid "Blank forms at end:"
-msgstr ""
+msgstr "แบบฟอร์มเปล่าต่อท้าย:"
 
 #: ../addressbook/printing/e-contact-print.glade.h:4
 msgid "Body"
-msgstr ""
+msgstr "ตัวเนื้อหา"
 
 #: ../addressbook/printing/e-contact-print.glade.h:5
 msgid "Bottom:"
-msgstr ""
+msgstr "ล่าง:"
 
 #: ../addressbook/printing/e-contact-print.glade.h:6
 msgid "Dimensions:"
-msgstr "มิติ:"
+msgstr "ขนาด:"
 
 #: ../addressbook/printing/e-contact-print.glade.h:7
 msgid "F_ont..."
-msgstr "ตัว_อักษร..."
+msgstr "แบบ_อักษร..."
 
 #: ../addressbook/printing/e-contact-print.glade.h:8
 msgid "Fonts"
-msgstr "ตัวอักษร"
+msgstr "แบบอักษร"
 
 #: ../addressbook/printing/e-contact-print.glade.h:9
 msgid "Footer:"
@@ -3716,27 +3726,27 @@ msgstr "หัวกระดาษ/ท้ายกระดาษ"
 
 #: ../addressbook/printing/e-contact-print.glade.h:13
 msgid "Headings"
-msgstr "การจัดหัวกระดาษ"
+msgstr "หัวกระดาษ"
 
 #: ../addressbook/printing/e-contact-print.glade.h:14
 msgid "Headings for each letter"
-msgstr "การจัดหัวกระดาษสำหรับจดหมายแต่ละฉบับ"
+msgstr "หัวกระดาษสำหรับจดหมายแต่ละฉบับ"
 
 #: ../addressbook/printing/e-contact-print.glade.h:15
 msgid "Height:"
-msgstr "ความสูง:"
+msgstr "สูง:"
 
 #: ../addressbook/printing/e-contact-print.glade.h:16
 msgid "Immediately follow each other"
-msgstr ""
+msgstr "เรียงติดต่อกัน"
 
 #: ../addressbook/printing/e-contact-print.glade.h:17
 msgid "Include:"
-msgstr ""
+msgstr "แสดง:"
 
 #: ../addressbook/printing/e-contact-print.glade.h:18
 msgid "Landscape"
-msgstr ""
+msgstr "แนวนอน"
 
 #: ../addressbook/printing/e-contact-print.glade.h:19
 msgid "Left:"
@@ -3744,7 +3754,7 @@ msgstr "ซ้าย:"
 
 #: ../addressbook/printing/e-contact-print.glade.h:20
 msgid "Letter tabs on side"
-msgstr ""
+msgstr "แท็บหมวดอักษรด้านข้าง"
 
 #: ../addressbook/printing/e-contact-print.glade.h:21
 msgid "Margins"
@@ -3761,7 +3771,7 @@ msgstr "ตัวเลือก"
 #: ../addressbook/printing/e-contact-print.glade.h:24
 #: ../e-util/eggtrayicon.c:120
 msgid "Orientation"
-msgstr "การหมุน"
+msgstr "แนววาง"
 
 #: ../addressbook/printing/e-contact-print.glade.h:25
 msgid "Page"
@@ -3781,15 +3791,15 @@ msgstr "แหล่งกระดาษ"
 
 #: ../addressbook/printing/e-contact-print.glade.h:29
 msgid "Portrait"
-msgstr ""
+msgstr "แนวตั้ง"
 
 #: ../addressbook/printing/e-contact-print.glade.h:30
 msgid "Preview:"
-msgstr "แสดงตัวอย่าง:"
+msgstr "ตัวอย่าง:"
 
 #: ../addressbook/printing/e-contact-print.glade.h:31
 msgid "Print using gray shading"
-msgstr "พิมพ์แบบเฉดสีเทา"
+msgstr "พิมพ์ด้วยเฉดสีเทา"
 
 #: ../addressbook/printing/e-contact-print.glade.h:32
 msgid "Reverse on even pages"
@@ -3801,7 +3811,7 @@ msgstr "ขวา:"
 
 #: ../addressbook/printing/e-contact-print.glade.h:34
 msgid "Sections:"
-msgstr ""
+msgstr "ส่วนต่างๆ:"
 
 #: ../addressbook/printing/e-contact-print.glade.h:35
 msgid "Shading"
@@ -3821,11 +3831,11 @@ msgstr "เริ่มที่หน้าใหม่"
 
 #: ../addressbook/printing/e-contact-print.glade.h:38
 msgid "Style name:"
-msgstr ""
+msgstr "ชื่อสไตล์"
 
 #: ../addressbook/printing/e-contact-print.glade.h:39
 msgid "Top:"
-msgstr ""
+msgstr "บน:"
 
 #: ../addressbook/printing/e-contact-print.glade.h:40
 #: ../calendar/gui/dialogs/calendar-setup.c:176
@@ -3838,11 +3848,11 @@ msgstr "กว้าง:"
 
 #: ../addressbook/printing/e-contact-print.glade.h:42
 msgid "_Font..."
-msgstr "_อักษร..."
+msgstr "แ_บบอักษร..."
 
 #: ../addressbook/printing/test-contact-print-style-editor.c:53
 msgid "Contact Print Style Editor Test"
-msgstr ""
+msgstr "การทดสอบเครื่องมือแก้ไขสไตล์การพิมพ์ที่อยู่ติดต่อ"
 
 #: ../addressbook/printing/test-contact-print-style-editor.c:54
 #: ../addressbook/printing/test-print.c:53
@@ -3851,15 +3861,15 @@ msgstr "Copyright (C) 2000, Ximian, Inc."
 
 #: ../addressbook/printing/test-contact-print-style-editor.c:56
 msgid "This should test the contact print style editor widget"
-msgstr ""
+msgstr "ทดสอบวิดเจ็ตแก้ไขสไตล์การพิมพ์ที่อยู่ติดต่อ"
 
 #: ../addressbook/printing/test-print.c:52
 msgid "Contact Print Test"
-msgstr ""
+msgstr "การทดสอบการพิมพ์ที่อยู่ติดต่อ"
 
 #: ../addressbook/printing/test-print.c:55
 msgid "This should test the contact print code"
-msgstr ""
+msgstr "ทดสอบการพิมพ์ที่อยู่ติดต่อ"
 
 #: ../addressbook/tools/evolution-addressbook-export-list-cards.c:667
 #: ../addressbook/tools/evolution-addressbook-export-list-cards.c:703
@@ -3927,7 +3937,7 @@ msgstr "ในโหมดปกติไม่จำเป็นต้องม
 
 #: ../addressbook/tools/evolution-addressbook-export.c:153
 msgid "Unhandled error"
-msgstr ""
+msgstr "ข้อผิดพลาดที่ไม่ได้รองรับไว้"
 
 #: ../addressbook/tools/evolution-addressbook-import.c:46
 msgid "Error loading default addressbook."
@@ -4072,7 +4082,7 @@ msgstr "กำลังดาวน์โหลด คุณต้องกา�
 
 #: ../calendar/calendar.error.xml.h:30
 msgid "Editor could not be loaded."
-msgstr ""
+msgstr "ไม่สามารถโหลดเครื่องมือแก้ไข"
 
 #: ../calendar/calendar.error.xml.h:31
 msgid ""
@@ -4156,11 +4166,11 @@ msgstr "คุณลักษณะบางอย่างอาจทำงา
 
 #: ../calendar/calendar.error.xml.h:46
 msgid "The Evolution calendar has quit unexpectedly."
-msgstr "ปฏิทิน Evolution หยุดทำงานโดยมิได้คาดหมาย"
+msgstr "ปฏิทิน Evolution หยุดทำงานกระทันหัน"
 
 #: ../calendar/calendar.error.xml.h:47
 msgid "The Evolution tasks have quit unexpectedly."
-msgstr "งาน Evolution หยุดทำงานโดยมิได้คาดหมาย"
+msgstr "งาน Evolution หยุดทำงานกระทันหัน"
 
 #: ../calendar/calendar.error.xml.h:48
 msgid "The calendar is not marked for offline usage."
@@ -4285,7 +4295,7 @@ msgstr "ป้อนรหัสผ่าน"
 
 #: ../calendar/conduits/calendar/calendar-conduit.c:255
 msgid "Split Multi-Day Events:"
-msgstr ""
+msgstr "แยกเหตุการณ์ที่กินเวลาหลายวัน:"
 
 #: ../calendar/conduits/calendar/calendar-conduit.c:1432
 #: ../calendar/conduits/calendar/calendar-conduit.c:1433
@@ -4318,12 +4328,12 @@ msgstr "ระดับความสำคัญโดยปริยาย:"
 #: ../calendar/conduits/todo/todo-conduit.c:1112
 #: ../calendar/conduits/todo/todo-conduit.c:1115
 msgid "Could not read pilot's ToDo application block"
-msgstr ""
+msgstr "ไม่สามารถอ่านบล็อคโปรแกรม ToDo ของปาล์มได้"
 
 #: ../calendar/conduits/todo/todo-conduit.c:1151
 #: ../calendar/conduits/todo/todo-conduit.c:1154
 msgid "Could not write pilot's ToDo application block"
-msgstr ""
+msgstr "ไม่สามารถเขียนบล็อคโปรแกรม ToDo ของปาล์มได้"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:1
 #: ../plugins/itip-formatter/itip-formatter.c:1968
@@ -4349,7 +4359,7 @@ msgstr "การควบคุมการกำหนดค่าปฏิท
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:6
 msgid "Evolution Calendar scheduling message viewer"
-msgstr ""
+msgstr "เครื่องมือแสดงข้อความการจัดเวลาปฏิทินของ Evolution"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:7
 msgid "Evolution Calendar/Task editor"
@@ -4383,7 +4393,7 @@ msgstr "บันทึกข้อความ"
 #: ../calendar/gui/tasks-component.c:1015 ../calendar/gui/tasks-control.c:472
 #: ../calendar/importers/icalendar-importer.c:80
 #: ../calendar/importers/icalendar-importer.c:741
-#: ../plugins/exchange-operations/exchange-folder.c:632
+#: ../plugins/exchange-operations/exchange-folder.c:591
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:384
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:591
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:12
@@ -4435,8 +4445,8 @@ msgstr "การนัดหมาย"
 
 #. Location
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:2
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1270
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1276
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1272
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1278
 #: ../calendar/gui/e-itip-control.c:1119
 #: ../plugins/itip-formatter/itip-view.c:880
 msgid "Location:"
@@ -4469,32 +4479,32 @@ msgstr "_ผัดผ่อน"
 msgid "location of appointment"
 msgstr "สถานที่นัดหมาย"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1109
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1252
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1111
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1254
 msgid "No summary available."
 msgstr "ไม่มีสรุป"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1118
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1120
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1122
 msgid "No description available."
 msgstr "ไม่มีคำอธิบายรายละเอียดอยู่"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1128
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1130
 msgid "No location information available."
 msgstr "ไม่มีข้อมูลสถานที่"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1186
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1188
 #, c-format
 msgid "You have %d alarms"
 msgstr "คุณมีการเตือน %d รายการ"
 
 #. FIXME
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1346
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1370
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1348
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1372
 msgid "Warning"
-msgstr "การเตือน"
+msgstr "คำเตือน"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1350
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1352
 msgid ""
 "Evolution does not support calendar reminders with\n"
 "email notifications yet, but this reminder was\n"
@@ -4502,9 +4512,9 @@ msgid ""
 "a normal reminder dialog box instead."
 msgstr ""
 "Evolution ยังไม่สนับสนุนการเตือนความจำปฏิทินด้วยการแจ้งเตือนอีเมล\n"
-" แต่การเตือนความจำนี้ได้กำหนดค่าให้ส่งอีเมล Evolution จะแสดงกล่องข้อความเตือนความจำปกติแทน"
+"แต่การเตือนความจำนี้ได้กำหนดค่าให้ส่งอีเมล Evolution จะแสดงกล่องข้อความเตือนความจำปกติแทน"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1376
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1378
 #, c-format
 msgid ""
 "An Evolution Calendar reminder is about to trigger. This reminder is "
@@ -4521,7 +4531,7 @@ msgstr ""
 "\n"
 "คุณแน่ใจหรือไม่ ที่จะเรียกโปรแกรมนี้?"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1390
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1392
 msgid "Do not ask me about this program again."
 msgstr "ไม่ต้องถามเกี่ยวกับโปรแกรมนี้อีกครั้ง"
 
@@ -4611,12 +4621,12 @@ msgstr "สีพื้นหลังของงานที่เลยเว
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:5
 msgid "Calendars to run alarms for"
-msgstr ""
+msgstr "ปฏิทินที่จะเรียกใช้การแจ้งเตือน"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:6
 msgid ""
 "Color to draw the Marcus Bains Line in the Time bar (empty for default)."
-msgstr "สีที่จะใช้วาด Marcus Bains Line ในแถบเวลา (ให้รายการไม่เติมสีเป็นค่าปริยาย)"
+msgstr "สีที่จะใช้วาดเส้น Marcus Bains ในแถบเวลา (ให้รายการไม่เติมสีเป็นค่าปริยาย)"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:7
 msgid "Color to draw the Marcus Bains line in the Day View."
@@ -4628,15 +4638,15 @@ msgstr "กระชับวันสุดสัปดาห์ในมุม
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:9
 msgid "Confirm expunge"
-msgstr ""
+msgstr "ยืนยันการเก็บกวาด"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:10
 msgid "Days on which the start and end of work hours should be indicated."
-msgstr ""
+msgstr "วันที่ควรระบุเวลาเริ่มและสิ้นสุดชั่วโมงทำงาน"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:11
 msgid "Default appointment reminder"
-msgstr "ตัวเตือนเวลานัดหมายโดยปริยาย"
+msgstr "การเตือนเวลานัดหมายโดยปริยาย"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:12
 msgid "Default reminder units"
@@ -4648,11 +4658,11 @@ msgstr "ค่าเตือนความจำปริยาย"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:14
 msgid "Free/busy server URLs"
-msgstr ""
+msgstr "รายชื่อ URL ของเซิร์ฟเวอร์สถานะว่าง/ไม่ว่าง"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:15
 msgid "Free/busy template URL"
-msgstr ""
+msgstr "แบบร่าง URL สถานะว่าง/ไม่ว่าง"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:16
 msgid "Hide completed tasks"
@@ -4668,7 +4678,7 @@ msgstr "ซ่อนค่าของงาน"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:19
 msgid "Horizontal pane position"
-msgstr "ตำแหน่งของ Horizontal pane"
+msgstr "ตำแหน่งของเส้นกั้นช่องแนวนอน"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:20
 msgid "Hour the workday ends on, in twenty four hour format, 0 to 23."
@@ -4688,19 +4698,19 @@ msgstr "เวลาเตือนล่าสุด"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:24
 msgid "List of server URLs for free/busy publishing."
-msgstr ""
+msgstr "รายชื่อของ URL ของเซิร์ฟเวอร์ประกาศสถานะว่าง/ไม่ว่าง"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:25
 msgid "Marcus Bains Line"
-msgstr "Marcus Bains Line"
+msgstr "เส้น Marcus Bains"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:26
 msgid "Marcus Bains Line Color - Day View"
-msgstr "สีของ Marcus Bains Line - มุมมองวัน"
+msgstr "สีของเส้น Marcus Bains - มุมมองวัน"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:27
 msgid "Marcus Bains Line Color - Time bar"
-msgstr "สีของ Marcus Bains Line - แถบเวลา"
+msgstr "สีของเส้น Marcus Bains - แถบเวลา"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:28
 msgid "Minute the workday ends on, 0 to 59."
@@ -4712,11 +4722,11 @@ msgstr "นาทีที่วันทำงานเริ่มต้น, 0
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:30
 msgid "Month view horizontal pane position"
-msgstr "ตำแหน่ง horizontal pane มุมมองเดือน"
+msgstr "ตำแหน่งของเส้นกั้นช่องแนวนอน ในมุมมองเดือน"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:31
 msgid "Month view vertical pane position"
-msgstr "ตำแหน่ง vertical pane มุมมองเดือน"
+msgstr "ตำแหน่งเส้นกั้นช่องแนวดิ่ง ในมุมมองเดือน"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:32
 msgid "Number of units for determining a default reminder."
@@ -4735,34 +4745,43 @@ msgid ""
 "Position of the horizontal pane, between the date navigator calendar and the "
 "task list when not in the month view, in pixels."
 msgstr ""
+"ตำแหน่งของเส้นกั้นช่องแนวนอน ระหว่างปฏิทินเลือกวันที่กับรายการงาน เมื่อไม่ได้อยู่ในมุมมองรายเดือน "
+"ในหน่วยพิกเซล"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:36
 msgid ""
 "Position of the horizontal pane, between the view and the date navigator "
 "calendar and task list in the month view, in pixels."
 msgstr ""
+"ตำแหน่งของเส้นกั้นช่องแนวนอน ระหว่างช่องแสดงข้อมูลกับปฏิทินเลือกวันที่ เมื่ออยู่ในมุมมองรายเดือน "
+"ในหน่วยพิกเซล"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:37
 msgid ""
 "Position of the vertical pane, between the task list and the task preview "
 "pane, in pixels."
 msgstr ""
+"ตำแหน่งของเส้นกั้นช่องแนวดิ่ง ระหว่างช่องรายการงานกับช่องแสดงตัวอย่าง ในหน่วยพิกเซล"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:38
 msgid ""
 "Position of the vertical pane, between the view and the date navigator "
 "calendar and task list in the month view, in pixels."
 msgstr ""
+"ตำแหน่งของเส้นกั้นช่องแนวดิ่ง ระหว่างช่องแสดงข้อมูลกับช่องปฏิทินเลือกวันที่ เมื่ออยู่ในมุมมองรายเดือน "
+"ในหน่วยพิกเซล"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:39
 msgid ""
 "Position of the vertical pane, between the view and the date navigator "
 "calendar and task list when not in the month view, in pixels."
 msgstr ""
+"ตำแหน่งของเส้นกั้นช่องแนวดิ่ง ระหว่างช่องแสดงข้อมูลกับช่องปฏิทินเลือกวันที่และรายการงาน "
+"เมื่ออยู่ในมุมมองรายเดือน ในหน่วยพิกเซล"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:40
 msgid "Programs that are allowed to be run by alarms."
-msgstr ""
+msgstr "โปรแกรมที่อนุญาตให้เรียกในการเตือนต่างๆ"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:41
 msgid "Show RSVP field in the event/task/meeting editor"
@@ -4791,12 +4810,12 @@ msgstr ""
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:47
 #: ../mail/evolution-mail.schemas.in.in.h:73
 msgid "Show the \"Preview\" pane"
-msgstr ""
+msgstr "แสดงช่อง \"แสดงตัวอย่าง\""
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:48
 #: ../mail/evolution-mail.schemas.in.in.h:74
 msgid "Show the \"Preview\" pane."
-msgstr ""
+msgstr "แสดงช่อง \"แสดงตัวอย่าง\""
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:49
 msgid "Show timezone field in the event/meeting editor"
@@ -4816,7 +4835,7 @@ msgstr "สีของงานที่ถึงกำหนดวันนี
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:53
 msgid "Tasks vertical pane position"
-msgstr "ตำแหน่ง vertical pane ของงาน"
+msgstr "ตำแหน่งเส้นกั้นช่องแนวดิ่ง ในมุมมองงาน"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:55
 #, no-c-format
@@ -4824,6 +4843,8 @@ msgid ""
 "The URL template to use as a free/busy data fallback, %u is replaced by the "
 "user part of the mail address and %d is replaced by the domain."
 msgstr ""
+"แบบร่าง URL ที่จะใช้เป็นข้อมูลสำรองสำหรับสถานะว่าง/ไม่ว่าง ใช้ %u แทนส่วนผู้ใช้ในที่อยู่เมล "
+"และ %d แทนโดเมน"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:56
 msgid ""
@@ -4874,7 +4895,7 @@ msgstr "กำหนดว่าจะถามยืนยันก่อนล
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:68
 msgid "Whether to ask for confirmation when expunging appointments and tasks."
-msgstr ""
+msgstr "กำหนดว่าจะถามยืนยันเมื่อจะเก็บกวาดนัดหมายและงานที่สั่งลบหรือไม่"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:69
 msgid ""
@@ -4890,7 +4911,7 @@ msgstr "กำหนดว่าจะแสดงเวลาสิ้นสุ
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:71
 msgid ""
 "Whether to draw the Marcus Bains Line (line at current time) in the calendar."
-msgstr "กำหนดว่าจะวาด Marcus Bains Line (เส้นที่ตำแหน่งเวลาปัจจุบัน) ในปฏิทินหรือไม่"
+msgstr "กำหนดว่าจะวาดเส้น Marcus Bains (เส้นที่ตำแหน่งเวลาปัจจุบัน) ในปฏิทินหรือไม่"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:72
 msgid "Whether to hide completed tasks in the tasks view."
@@ -4984,7 +5005,7 @@ msgstr "พิมพ์"
 #: ../calendar/gui/calendar-component.c:709
 #: ../calendar/gui/dialogs/calendar-setup.c:369
 #: ../calendar/gui/gnome-cal.c:2123
-#: ../plugins/exchange-operations/exchange-folder.c:620
+#: ../plugins/exchange-operations/exchange-folder.c:579
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:383
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:413
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:590
@@ -5056,7 +5077,7 @@ msgstr "ไม่มีปฏิทินที่จะใช้ได้สำ
 
 #: ../calendar/gui/calendar-component.c:1266
 msgid "Calendar Source Selector"
-msgstr ""
+msgstr "ช่องเลือกแหล่งปฏิทิน"
 
 #: ../calendar/gui/calendar-component.c:1457
 msgid "New appointment"
@@ -5660,12 +5681,12 @@ msgstr "รายการบันทึกนี้มีการเปลี
 #: ../calendar/gui/dialogs/changed-comp.c:101
 #, c-format
 msgid "%s  You have made changes. Forget those changes and update the editor?"
-msgstr "%s คุณได้แก้ไขข้อมูลบางอย่าง จะละเลยการเปลี่ยนแปลงนี้ และอัพเดตตัวแก้ไขหรือไม่?"
+msgstr "%s คุณได้แก้ไขข้อมูลบางอย่าง จะละเลยการเปลี่ยนแปลงนี้ และอัพเดตเครื่องมือแก้ไขหรือไม่?"
 
 #: ../calendar/gui/dialogs/changed-comp.c:103
 #, c-format
 msgid "%s  You have made no changes, update the editor?"
-msgstr "%s  คุณไม่ได้แก้ไขข้อมูลใดๆ จะอัพเดตตัวแก้ไขหรือไม่?"
+msgstr "%s  คุณไม่ได้แก้ไขข้อมูลใดๆ จะอัพเดตเครื่องมือแก้ไขหรือไม่?"
 
 #: ../calendar/gui/dialogs/comp-editor-page.c:515
 #, c-format
@@ -5686,11 +5707,11 @@ msgstr "เสร็จแล้ว"
 
 #: ../calendar/gui/dialogs/comp-editor-util.c:198 ../calendar/gui/print.c:2283
 msgid " (Due "
-msgstr ""
+msgstr " (กำหนดเสร็จ "
 
 #: ../calendar/gui/dialogs/comp-editor-util.c:200 ../calendar/gui/print.c:2285
 msgid "Due "
-msgstr ""
+msgstr "กำหนดเสร็จ "
 
 #: ../calendar/gui/dialogs/comp-editor.c:207 ../composer/e-msg-composer.c:2850
 #, c-format
@@ -5765,7 +5786,7 @@ msgstr "เ_พิ่มเอกสารแนบ..."
 
 #: ../calendar/gui/dialogs/comp-editor.c:1481
 msgid "Attachment Button: Press space key to toggle attachment bar"
-msgstr ""
+msgstr "ปุ่มเอกสารแนบ: กดแคร่เว้นวรรคเพื่อซ่อน/แสดงแถบเอกสารแนบ"
 
 #: ../calendar/gui/dialogs/comp-editor.c:2088
 #: ../calendar/gui/dialogs/comp-editor.c:2131
@@ -5826,7 +5847,7 @@ msgstr "ไม่สามารถใช้รุ่นปัจจุบัน
 
 #: ../calendar/gui/dialogs/copy-source-dialog.c:61
 msgid "Could not open source"
-msgstr ""
+msgstr "ไม่สามารถเปิดแหล่งได้"
 
 #: ../calendar/gui/dialogs/copy-source-dialog.c:69
 msgid "Could not open destination"
@@ -6207,7 +6228,7 @@ msgstr "กลุ่มปฏิทิน"
 
 #: ../calendar/gui/dialogs/new-calendar.glade.h:5
 msgid "Calendar Location"
-msgstr ""
+msgstr "ตำแหน่งปฏิทิน"
 
 #: ../calendar/gui/dialogs/new-calendar.glade.h:6
 msgid "Calendar Name"
@@ -6231,15 +6252,15 @@ msgstr "ชื่อรายการงาน"
 
 #: ../calendar/gui/dialogs/recur-comp.c:52
 msgid "You are modifying a recurring event. What would you like to modify?"
-msgstr ""
+msgstr "คุณกำลังเปลี่ยนแปลงเหตุการณ์เวียนซ้ำ คุณต้องการเปลี่ยนแปลงอะไร?"
 
 #: ../calendar/gui/dialogs/recur-comp.c:54
 msgid "You are delegating a recurring event. What would you like to delegate?"
-msgstr ""
+msgstr "คุณกำลังมอบฉันทะเหตุการณ์เวียนซ้ำ คุณต้องการมอบฉันทะอะไร?"
 
 #: ../calendar/gui/dialogs/recur-comp.c:58
 msgid "You are modifying a recurring task. What would you like to modify?"
-msgstr ""
+msgstr "คุณกำลังเปลี่ยนแปลงงานเวียนซ้ำ คุณต้องการเปลี่ยนแปลงอะไร?"
 
 #: ../calendar/gui/dialogs/recur-comp.c:62
 msgid ""
@@ -6264,11 +6285,11 @@ msgstr "ทุกกรณี"
 
 #: ../calendar/gui/dialogs/recurrence-page.c:499
 msgid "This appointment contains recurrences that Evolution cannot edit."
-msgstr ""
+msgstr "นัดหมายนี้มีการเวียนซ้ำที่ Evolution ไม่สามารถแก้ไขได้"
 
 #: ../calendar/gui/dialogs/recurrence-page.c:820
 msgid "Recurrence date is invalid"
-msgstr ""
+msgstr "วันที่ที่เวียนซ้ำไม่ใช่ค่าที่ใช้ได้"
 
 #: ../calendar/gui/dialogs/recurrence-page.c:931
 msgid "on"
@@ -6627,7 +6648,7 @@ msgstr "คลิกเพื่อเปิด %s"
 
 #: ../calendar/gui/e-cal-component-memo-preview.c:201
 msgid "Memo:"
-msgstr ""
+msgstr "บันทึกข้อความ:"
 
 #: ../calendar/gui/e-cal-component-memo-preview.c:234
 #: ../calendar/gui/e-cal-component-preview.c:301
@@ -10106,8 +10127,7 @@ msgstr "เขียนจดหมาย"
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)"
 "<b>"
-msgstr ""
-"<b>(ช่องเขียนจดหมายมีเนื้อหาที่ไม่ใช่ข้อความ ซึ่งไม่สามารถแก้ไขได้)</b>"
+msgstr "<b>(ช่องเขียนจดหมายมีเนื้อหาที่ไม่ใช่ข้อความ ซึ่งไม่สามารถแก้ไขได้)</b>"
 
 #: ../composer/mail-composer.error.xml.h:1
 msgid ""
@@ -11191,7 +11211,7 @@ msgstr "จดหมายร่าง"
 
 #. translators: standard local mailbox names
 #: ../mail/em-folder-tree-model.c:487 ../mail/mail-component.c:150
-#: ../plugins/exchange-operations/exchange-folder.c:638
+#: ../plugins/exchange-operations/exchange-folder.c:597
 msgid "Inbox"
 msgstr "จดหมายเข้า"
 
@@ -13767,8 +13787,9 @@ msgid ""
 "Check to make sure your password is spelled correctly. Remember that many "
 "passwords are case sensitive; your caps lock might be on."
 msgstr ""
-"กรุณาตรวจดูให้แน่ใจ ว่ารหัสผ่านของคุณสะกดถูกต้อง อย่าลืมว่ารหัสผ่านส่วนใหญ่แยกความแตกต่างระหว่าง"
-"ตัวพิมพ์ใหญ่-เล็ก บางทีปุ่มล็อคแคร่ของคุณอาจจะถูกกดค้างอยู่"
+"กรุณาตรวจดูให้แน่ใจ ว่ารหัสผ่านของคุณสะกดถูกต้อง "
+"อย่าลืมว่ารหัสผ่านส่วนใหญ่แยกความแตกต่างระหว่างตัวพิมพ์ใหญ่-เล็ก "
+"บางทีปุ่มล็อคแคร่ของคุณอาจจะถูกกดค้างอยู่"
 
 #: ../mail/mail.error.xml.h:42
 msgid "Could not save signature file."
@@ -14804,7 +14825,7 @@ msgstr "ชื่อโฟลเดอร์"
 msgid "Folder Size"
 msgstr "ขนาดของโฟลเดอร์"
 
-#: ../plugins/exchange-operations/exchange-folder-subscription.c:192
+#: ../plugins/exchange-operations/exchange-folder-subscription.c:279
 #: ../plugins/exchange-operations/org-gnome-folder-subscription.xml.h:1
 msgid "Subscribe to Other User's Folder"
 msgstr ""
