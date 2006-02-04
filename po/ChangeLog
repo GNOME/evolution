@@ -35,7 +35,6 @@
 
 	* en_CA.po: Updated Canadian English translation.
 
->>>>>>> 1.2452
 2006-01-31  Ilkka Tuohela  <hile@iki.fi>
 
 	* fi.po: Updated Finnish translation.
@@ -1699,7 +1698,6 @@
 	* POTFILES.in : Added missing exchange files.
 
 2005-07-15  Shreyas Srinivasan  <sshreyas@novell.com>
->>>>>>> 1.2099
 
 	*plugins/mail-account-disable/org-gnome-mail-account-disable.eplug.xml
 	: Add file for translation.
