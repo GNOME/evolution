@@ -1,3 +1,8 @@
+2006-02-04  Josep Puigdemont i Casamajó  <josep.puigdemont@gmail.com>
+
+	* ca.po: Updated Catalan translation by
+	Xavier Conde <xavi.conde@gmail.com> and Jordi Mas <jmas@softcatala.org>
+
 2006-02-04  Lukas Novotny  <lukasnov@cvs.gnome.org>
 
  	* cs.po: Updated Czech translation.
@@ -30,6 +35,7 @@
 
 	* en_CA.po: Updated Canadian English translation.
 
+>>>>>>> 1.2452
 2006-01-31  Ilkka Tuohela  <hile@iki.fi>
 
 	* fi.po: Updated Finnish translation.
