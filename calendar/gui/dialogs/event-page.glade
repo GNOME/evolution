@@ -1079,7 +1079,7 @@
 			  <child>
 			    <widget class="GtkMenuItem" id="1day_before_appointment1">
 			      <property name="visible">True</property>
-			      <property name="label" translatable="yes">1day before appointment</property>
+			      <property name="label" translatable="yes">1 day before appointment</property>
 			      <property name="use_underline">True</property>
 			      <signal name="activate" handler="on_1day_before_appointment1_activate" last_modification_time="Mon, 10 Oct 2005 02:55:55 GMT"/>
 			    </widget>
