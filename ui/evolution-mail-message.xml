@@ -10,15 +10,15 @@
     type="toggle" state="0" accel="F7"/>
 
     <cmd name="EditCut"
-     _tip="Cut selected message(s) to the clipboard"
+     _tip="Cut selected messages to the clipboard"
      accel="*Control*x" pixtype="stock" pixname="gtk-cut"/>
 
     <cmd name="EditCopy"
-     _tip="Copy selected message(s) to the clipboard"
+     _tip="Copy selected messages to the clipboard"
      accel="*Control*c" pixtype="stock" pixname="gtk-copy"/>
 
     <cmd name="EditPaste"
-     _tip="Paste message(s) from the clipboard"
+     _tip="Paste messages from the clipboard"
      accel="*Control*v" pixtype="stock" pixname="gtk-paste"/>
 
     <cmd name="MailNext"
@@ -33,7 +33,7 @@
      accel="*Control*bracketright"/>
 
     <cmd name="MailNextThread"
-     _tip="Display the next unread thread"/>
+     _tip="Display the next thread"/>
 
     <cmd name="MailPrevious"
      _tip="Display the previous message"
@@ -62,7 +62,7 @@
      pixtype="stock" pixname="gtk-delete"/>
 
     <cmd name="MessageFollowUpFlag"
-     _tip="Flag selected message(s) for follow-up"
+     _tip="Flag selected messages for follow-up"
      accel="*Control**Shift*G"
      pixtype="pixbuf"/>
 
@@ -81,29 +81,29 @@
      _tip="Forward the selected message quoted like a reply"/>
 
     <cmd name="MessageMarkAsRead"
-     _tip="Mark the selected message(s) as having been read"
+     _tip="Mark the selected messages as having been read"
      accel="*Control*k"
      pixtype="pixbuf"/>
 
     <cmd name="MessageMarkAsUnRead"
-     _tip="Mark the selected message(s) as not having been read"
+     _tip="Mark the selected messages as not having been read"
      accel="*Control**Shift*k"
      pixtype="pixbuf"/>
 
     <cmd name="MessageMarkAsImportant"
-     _tip="Mark the selected message(s) as important"
+     _tip="Mark the selected messages as important"
      pixtype="pixbuf"/>
 
     <cmd name="MessageMarkAsUnimportant"
-     _tip="Mark the selected message(s) as unimportant"/>
+     _tip="Mark the selected messages as unimportant"/>
 
     <cmd name="MessageMarkAsJunk"
-     _tip="Mark the selected message(s) as junk"
+     _tip="Mark the selected messages as junk"
      accel="*Control*j"
      pixtype="pixbuf"/>
 
     <cmd name="MessageMarkAsNotJunk"
-     _tip="Mark the selected message(s) as not being junk"
+     _tip="Mark the selected messages as not being junk"
      accel="*Control**Shift*j"
      pixtype="pixbuf"/>
 
@@ -117,15 +117,15 @@
      accel="*Control**Shift*m"/>
 
     <cmd name="MessageMove"
-     _tip="Move selected message(s) to another folder"
+     _tip="Move selected messages to another folder"
      accel="*Control**Shift*v"
      pixtype="pixbuf"/>
 
     <cmd name="MessageEdit"
-     _tip="Open the selected message in the composer for editing"/>
+     _tip="Open the selected messages in the composer for editing"/>
 
     <cmd name="MessageOpen"
-     _tip="Open the selected message in a new window"
+     _tip="Open the selected messages in a new window"
      accel="*Control*o"
      pixtype="pixbuf"/>
 
@@ -155,7 +155,7 @@
      pixtype="pixbuf"/>
 
     <cmd name="MessageSaveAs"
-     _tip="Save the message as a text file"
+     _tip="Save the selected messages as a text file"
      accel="*Control*s"
      pixtype="stock" pixname="gtk-save-as"/>
 
@@ -165,7 +165,7 @@
      pixtype="stock" pixname="gtk-find"/>
 
     <cmd name="MessageUndelete"
-     _tip="Un-delete the selected messages"
+     _tip="Undelete the selected messages"
      accel="*Control**Shift*d"
      pixtype="stock" pixname="gtk-undelete"/>
 
@@ -211,7 +211,7 @@
      _tip="Create a Search Folder for this subject"/>
 
     <cmd name="ViewFullHeaders"
-     _tip="Show message with all email headers"
+     _tip="Show messages with all email headers"
      type="toggle" state="0"/>
 
     <cmd name="ViewLoadImages"
@@ -219,7 +219,7 @@
      accel="*Control*i" pixtype="pixbuf"/>
 
     <cmd name="ViewNormal"
-     _tip="Show message in the normal style"
+     _tip="Show messages in the normal style"
      type="radio" group="message_display"/>
 
     <cmd name="ViewSource"
