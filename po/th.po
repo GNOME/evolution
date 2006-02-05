@@ -9,13 +9,13 @@ msgstr ""
 "Project-Id-Version: evolution-2.4\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-02-04 13:49+0700\n"
-"PO-Revision-Date: 2006-02-04 21:07+0700\n"
+"PO-Revision-Date: 2006-02-05 19:09+0700\n"
 "Last-Translator: Theppitak Karoonboonyanan <thep@linux.thai.net>\n"
 "Language-Team: Thai <L10N@opentle.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=0;"
+"Plural-Forms: nplurals=1; plural=0;"
 
 #: ../a11y/addressbook/ea-addressbook-view.c:94
 #: ../a11y/addressbook/ea-addressbook-view.c:103
@@ -67,7 +67,7 @@ msgstr "มีการเวียนซ้ำ"
 
 #: ../a11y/calendar/ea-cal-view-event.c:241
 msgid "It is a meeting."
-msgstr "มันคือการประชุม"
+msgstr "คือการประชุม"
 
 #: ../a11y/calendar/ea-cal-view-event.c:247
 #, c-format
@@ -210,7 +210,7 @@ msgstr ""
 
 #: ../a11y/calendar/ea-jump-button.c:158
 msgid "Click here, you can find more events."
-msgstr "คุณสามารถดูเหตุการณ์มากกว่านี้ คลิกที่นี่"
+msgstr "คุณสามารถดูเหตุการณ์มากกว่านี้ โดยคลิกที่นี่"
 
 #: ../a11y/calendar/ea-week-view.c:155
 #, c-format
@@ -809,12 +809,12 @@ msgstr "กล่องเลือกแหล่งที่อยู่ติ
 
 #: ../addressbook/gui/component/addressbook.c:99
 msgid "Accessing LDAP Server anonymously"
-msgstr "กำลังเข้าถึงเซิร์ฟเวอร์ LDAP แบบเป็นบุคคลนิรนาม"
+msgstr "กำลังเข้าใช้เซิร์ฟเวอร์ LDAP แบบนิรนาม"
 
 #: ../addressbook/gui/component/addressbook.c:197
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:492
 msgid "Failed to authenticate.\n"
-msgstr "การตรวจสอบสิทธิ์ล้มเหลว\n"
+msgstr "การยืนยันตัวบุคคลล้มเหลว\n"
 
 #: ../addressbook/gui/component/addressbook.c:204
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:471
@@ -2955,7 +2955,7 @@ msgstr "โทรศัพท์ที่ทำงาน 2"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:6
 msgid "Callback Phone"
-msgstr "เบอร์โทรกลับ"
+msgstr "โทรศัพท์โทรกลับ"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:7
 msgid "Car Phone"
@@ -2971,7 +2971,7 @@ msgstr "หมวด"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:9
 msgid "Company Phone"
-msgstr "เบอร์โทรบริษัท"
+msgstr "โทรศัพท์บริษัท"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:10
 #: ../addressbook/gui/widgets/eab-contact-display.c:567
@@ -3060,11 +3060,11 @@ msgstr "เพจเจอร์"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:31
 msgid "Primary Phone"
-msgstr "เบอร์โทรหลัก"
+msgstr "โทรศัพท์หลัก"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:32
 msgid "Radio"
-msgstr "วิทยุ"
+msgstr "วิทยุสื่อสาร"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:33
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:9
@@ -3090,7 +3090,7 @@ msgstr "TTYTDD"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:42
 msgid "Telex"
-msgstr "โทรสาร"
+msgstr "เทเลกซ์"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:43
 msgid "Title"
@@ -3313,7 +3313,7 @@ msgstr "ไม่ได้กำหนดที่อยู่ติดต่อ
 #: ../addressbook/gui/widgets/eab-gui-util.c:58
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:47
 msgid "Permission denied"
-msgstr "ไม่ได้รับอนุญาตให้ใช้"
+msgstr "ไม่ได้รับอนุญาต"
 
 #. E_BOOK_ERROR_CONTACT_NOT_FOUND
 #: ../addressbook/gui/widgets/eab-gui-util.c:59
@@ -5157,7 +5157,7 @@ msgstr "ไม่อนุญาตให้เปิดปฏิทิน"
 
 #: ../calendar/gui/comp-editor-factory.c:444 ../shell/e-shell.c:1271
 msgid "Unknown error"
-msgstr "ข้อผิดพลาดที่ไม่ทราบ"
+msgstr "ข้อผิดพลาดไม่ทราบสาเหตุ"
 
 #: ../calendar/gui/dialogs/alarm-dialog.c:567
 msgid "Edit Alarm"
@@ -7761,7 +7761,7 @@ msgstr "กำลังลบสิ่งที่เลือก..."
 #: ../calendar/gui/e-pub-utils.c:322
 #, c-format
 msgid "Enter the password for %s"
-msgstr "ใส่รหัสผ่านสำหรับ %s"
+msgstr "ป้อนรหัสผ่านสำหรับ %s"
 
 #: ../calendar/gui/e-tasks.c:871
 msgid "Loading tasks"
@@ -11026,7 +11026,7 @@ msgstr "ไม่ได้ปักธงไว้"
 #: ../mail/em-filter-i18n.h:35 ../mail/mail-config.glade.h:94
 #: ../ui/evolution-mail-message.xml.h:48
 msgid "Junk"
-msgstr "ขยะ"
+msgstr "เมลขยะ"
 
 #: ../mail/em-filter-i18n.h:36
 msgid "Junk Test"
@@ -12860,7 +12860,7 @@ msgstr "เสร็จแล้ว"
 
 #: ../mail/mail-config.glade.h:73
 msgid "Drafts _Folder:"
-msgstr "โ_ฟลเดอร์ฉบับร่าง:"
+msgstr "โ_ฟลเดอร์จดหมายร่าง:"
 
 #: ../mail/mail-config.glade.h:74
 #: ../plugins/publish-calendar/publish-calendar.glade.h:9
@@ -14450,7 +14450,7 @@ msgstr "องค์ประกอบพื้นฐานของปฏิท
 #: ../plugins/calendar-weather/calendar-weather.c:54
 #: ../plugins/calendar-weather/calendar-weather.c:60
 msgid "Weather: Cloudy"
-msgstr "สภาพอากาศ: เมฆปกคลุม"
+msgstr "สภาพอากาศ: เมฆเต็มท้องฟ้า"
 
 #: ../plugins/calendar-weather/calendar-weather.c:61
 msgid "Weather: Fog"
@@ -14458,7 +14458,7 @@ msgstr "สภาพอากาศ: หมอก"
 
 #: ../plugins/calendar-weather/calendar-weather.c:62
 msgid "Weather: Partly Cloudy"
-msgstr "สภาพอากาศ: เมฆบางส่วน"
+msgstr "สภาพอากาศ: ท้องฟ้ามีเมฆบางส่วน"
 
 #: ../plugins/calendar-weather/calendar-weather.c:63
 msgid "Weather: Rain"
@@ -14470,11 +14470,11 @@ msgstr "สภาพอากาศ: หิมะตก"
 
 #: ../plugins/calendar-weather/calendar-weather.c:65
 msgid "Weather: Sunny"
-msgstr "สภาพอากาศ: แดดจ้า"
+msgstr "สภาพอากาศ: ท้องฟ้าแจ่มใส"
 
 #: ../plugins/calendar-weather/calendar-weather.c:66
 msgid "Weather: Thunderstorms"
-msgstr "สภาพอากาศ: ฟ้าคะนอง"
+msgstr "สภาพอากาศ: พายุฟ้าคะนอง"
 
 #: ../plugins/calendar-weather/calendar-weather.c:267
 msgid "Select a location"
@@ -14870,7 +14870,7 @@ msgstr ""
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:301
 msgid "(Permission denied.)"
-msgstr "(ไม่อนุญาต)"
+msgstr "(ไม่ได้รับอนุญาต)"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:409
 msgid "Add User:"
@@ -15065,7 +15065,7 @@ msgstr ""
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:34
 msgid "Folder already exists"
-msgstr "โฟลเดอร์มีอยู่แล้ว"
+msgstr "มีโฟลเดอร์อยู่แล้ว"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:35
 msgid "Folder does not exist"
@@ -15303,7 +15303,7 @@ msgstr "รายการเมล_ขยะ"
 
 #: ../plugins/groupwise-features/org-gnome-compose-send-options.xml.h:1
 msgid "Add Send Options to groupwise messages"
-msgstr ""
+msgstr "เพิ่มตัวเลือกการส่งในข้อความ groupwise"
 
 #: ../plugins/groupwise-features/org-gnome-compose-send-options.xml.h:2
 #: ../ui/evolution-event-editor.xml.h:15 ../ui/evolution-task-editor.xml.h:8
@@ -15313,11 +15313,11 @@ msgstr "ตัวเลือกของการส่ง"
 
 #: ../plugins/groupwise-features/org-gnome-groupwise-features.eplug.xml.h:1
 msgid "A plugin for the features in Groupwise accounts."
-msgstr ""
+msgstr "ปลั๊กอินสำหรับการใช้งานบัญชี Groupwise"
 
 #: ../plugins/groupwise-features/org-gnome-groupwise-features.eplug.xml.h:2
 msgid "Groupwise Features"
-msgstr ""
+msgstr "การใช้งาน Groupwise"
 
 #: ../plugins/groupwise-features/process-meeting.c:49
 msgid "Accept Tentatively"
@@ -15493,7 +15493,7 @@ msgstr "_นำเข้า"
 #: ../plugins/ipod-sync/ical-format.c:137
 #: ../plugins/save-calendar/ical-format.c:137
 msgid "iCalendar format (.ics)"
-msgstr ""
+msgstr "รูปแบบ iCalendar (.ics)"
 
 #: ../plugins/ipod-sync/org-gnome-ipod-sync-evolution.eplug.xml.h:1
 msgid "Synchronize the selected task/calendar/addressbook with Apple iPod"
@@ -15683,7 +15683,7 @@ msgstr "เลือกปฏิทินที่จะค้นหาการ
 
 #: ../plugins/itip-formatter/itip-formatter.c:2031
 msgid "Conflict Search Table"
-msgstr ""
+msgstr "ตารางค้นหาการชนกัน"
 
 #. strftime format of a weekday and a date.
 #: ../plugins/itip-formatter/itip-view.c:184 ../ui/evolution-calendar.xml.h:32
@@ -16074,7 +16074,7 @@ msgstr ""
 
 #: ../plugins/mail-account-disable/mail-account-disable.c:47
 msgid "Proxy _Logout"
-msgstr ""
+msgstr "เลิกใช้_พร็อกซี"
 
 #: ../plugins/mail-account-disable/org-gnome-mail-account-disable.eplug.xml.h:1
 msgid "Allows disabling of accounts."
@@ -16087,49 +16087,49 @@ msgstr "ปิดใช้บัญชี"
 #: ../plugins/mail-remote/client.c:30
 #, c-format
 msgid "System error: %s"
-msgstr ""
+msgstr "ข้อผิดพลาดในระบบ: %s"
 
 #: ../plugins/mail-remote/client.c:32
 #, c-format
 msgid "Camel error: %s"
-msgstr ""
+msgstr "ข้อผิดพลาดใน Camel: %s"
 
 #: ../plugins/mail-remote/evolution-mail-store.c:476
 msgid "Account cannot send e-mail"
-msgstr ""
+msgstr "บัญชีไม่สามารถส่งอีิเมลได้"
 
 #: ../plugins/mail-remote/evolution-mail-store.c:605
 msgid "No store available"
-msgstr ""
+msgstr "ไม่มีแหล่งเก็บสำหรับใช้งาน"
 
 #: ../plugins/mail-remote/org-gnome-evolution-mail-remote.eplug.xml.h:1
 msgid ""
 "A plugin which implements a CORBA interface for accessing mail data remotely."
-msgstr ""
+msgstr "ปลั๊กอินซึ่งสร้างการติดต่อ CORBA สำหรับเข้าใช้ข้อมูลเมลจากเครื่องในเครือข่าย"
 
 #: ../plugins/mail-remote/org-gnome-evolution-mail-remote.eplug.xml.h:2
 msgid "Mail Remote"
-msgstr ""
+msgstr "กล่องเมลในเครือข่าย"
 
 #: ../plugins/mail-to-meeting/org-gnome-mail-to-meeting.eplug.xml.h:1
 msgid ""
 "A plugin which allows the creation of meetings from the contents of a mail "
 "message."
-msgstr ""
+msgstr "ปลั๊กอินช่วยสร้างการประชุมจากเนื้อหาข้อความในเมล"
 
 #: ../plugins/mail-to-meeting/org-gnome-mail-to-meeting.eplug.xml.h:2
 msgid "Con_vert to Meeting"
-msgstr ""
+msgstr "แ_ปลงไปเป็นการประชุม"
 
 #: ../plugins/mail-to-meeting/org-gnome-mail-to-meeting.eplug.xml.h:3
 msgid "Mail to meeting"
-msgstr ""
+msgstr "จากเมลเป็นการประชุม"
 
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml.h:1
 msgid ""
 "A plugin which allows the creation of tasks from the contents of a mail "
 "message."
-msgstr ""
+msgstr "ปลั๊กอินช่วยสร้างงานจากเนื้อหาข้อความในเมล"
 
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml.h:2
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.xml.h:1
@@ -16138,7 +16138,7 @@ msgstr "แ_ปลงไปเป็นงาน"
 
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml.h:3
 msgid "Mail to task"
-msgstr ""
+msgstr "จากเมลเป็นงาน"
 
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.xml.h:2
 msgid "Convert the selected message to a new task"
@@ -16201,24 +16201,30 @@ msgid ""
 "You should receive an answer from the mailing list shortly after the message "
 "has been sent."
 msgstr ""
+"จะส่งข้อความอีเมลไปยัง URL \"{0}\" คุณสามารถให้โปรแกรมส่งข้อความให้โดยอัตโนมัติ "
+"หรืออาจดูและแก้ไขข้อความก่อนก็ได้\n"
+"\n"
+"คุณควรได้รับคำตอบจากรายชื่อเมลในเวลาอันสั้น หลังจากที่ส่งข้อความออกไป"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:5
 msgid "Malformed header"
-msgstr ""
+msgstr "ข้อมูลส่วนหัวผิดรูปแบบ"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:6
 msgid "No e-mail action"
-msgstr ""
+msgstr "ไม่มีปฏิบัติการอีเมล"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:7
 msgid "Posting not allowed"
-msgstr ""
+msgstr "ไม่ได้รับอนุญาตให้แปะประกาศ"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:8
 msgid ""
 "Posting to this mailing list is not allowed. Possibly, this is a read-only "
 "mailing list. Contact the list owner for details."
 msgstr ""
+"คุณไม่ได้รับอนุญาตให้แปะประกาศในรายชื่อเมลนี้ บางที รายชื่อเมลนี้อาจจะอ่านได้อย่างเดียว "
+"กรุณาติดต่อผู้ดูแลเพื่อขอรายละเอียดเพิ่มเติม"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:9
 msgid "Send e-mail message to mailing list?"
@@ -16231,6 +16237,10 @@ msgid ""
 "\n"
 "Header: {0}"
 msgstr ""
+"ไม่สามารถกระทำปฏิบัติการได้ ซึ่งหมายความว่า ข้อมูลส่วนหัวสำหรับปฏิบัติการนี้ไม่มีปฏิบัติการที่ "
+"Evolution สามารถจัดการได้\n"
+"\n"
+"ส่วนหัว: {0}"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:13
 msgid ""
@@ -16238,6 +16248,9 @@ msgid ""
 "\n"
 "Header: {1}"
 msgstr ""
+"ข้อมูลส่วนหัว {0} ของข้อความนี้อยู่ในรูปแบบไม่ถูกต้อง และไม่สามารถดำเนินการได้\n"
+"\n"
+"ส่วนหัว: {1}"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:16
 msgid ""
@@ -16307,11 +16320,11 @@ msgstr "ทำเครื่องห_มายปฏิทินเพื่�
 
 #: ../plugins/mono/org-gnome-evolution-mono.eplug.xml.h:1
 msgid "A plugin which implements mono plugins."
-msgstr ""
+msgstr "ปลั๊กอินเชื่อมต่อปลั๊กอิน Mono"
 
 #: ../plugins/mono/org-gnome-evolution-mono.eplug.xml.h:2
 msgid "Mono Loader"
-msgstr ""
+msgstr "ปลั๊กอินโหลด Mono"
 
 #: ../plugins/new-mail-notify/org-gnome-new-mail-notify.eplug.xml.h:1
 msgid "Generates a D-BUS message when new mail arrives."
@@ -16319,15 +16332,15 @@ msgstr "ส่งข้อความ D-BUS เมื่อมีเมลใ�
 
 #: ../plugins/new-mail-notify/org-gnome-new-mail-notify.eplug.xml.h:2
 msgid "New Mail Notification"
-msgstr "แจ้งเมลใหม่"
+msgstr "การแจ้งเมลฉบับใหม่"
 
 #: ../plugins/new-mail-notify/org-gnome-new-mail-notify.eplug.xml.h:3
 msgid "New mail notify"
-msgstr ""
+msgstr "แจ้งเมลฉบับใหม่"
 
 #: ../plugins/plugin-manager/org-gnome-plugin-manager.eplug.xml.h:1
 msgid "A plugin for managing which plugins are enabled or disabled."
-msgstr ""
+msgstr "ปลั๊กอินสำหรับจัดการเปิด-ปิดปลั๊กอินต่างๆ"
 
 #. Setup the ui
 #: ../plugins/plugin-manager/org-gnome-plugin-manager.eplug.xml.h:2
@@ -16563,7 +16576,7 @@ msgstr "UID"
 
 #: ../plugins/save-calendar/csv-format.c:387
 msgid "Description List"
-msgstr ""
+msgstr "รายการคำบรรยาย"
 
 #: ../plugins/save-calendar/csv-format.c:388
 msgid "Categories List"
@@ -16571,15 +16584,15 @@ msgstr "รายชื่อหมวด"
 
 #: ../plugins/save-calendar/csv-format.c:389
 msgid "Comment List"
-msgstr ""
+msgstr "รายการหมายเหตุ"
 
 #: ../plugins/save-calendar/csv-format.c:391
 msgid "Created"
-msgstr ""
+msgstr "สร้าง"
 
 #: ../plugins/save-calendar/csv-format.c:392
 msgid "Contact List"
-msgstr ""
+msgstr "รายชื่อที่อยู่ติดต่อ"
 
 #: ../plugins/save-calendar/csv-format.c:393
 msgid "Start"
@@ -16587,11 +16600,11 @@ msgstr "เริ่ม"
 
 #: ../plugins/save-calendar/csv-format.c:394
 msgid "End"
-msgstr ""
+msgstr "สิ้นสุด"
 
 #: ../plugins/save-calendar/csv-format.c:396
 msgid "percent Done"
-msgstr ""
+msgstr "ร้อยละที่เสร็จ"
 
 #: ../plugins/save-calendar/csv-format.c:398
 msgid "URL"
@@ -16599,35 +16612,35 @@ msgstr "URL"
 
 #: ../plugins/save-calendar/csv-format.c:399
 msgid "Attendees List"
-msgstr ""
+msgstr "รายชื่อผู้เข้าร่วมประชุม"
 
 #: ../plugins/save-calendar/csv-format.c:401
 msgid "Modified"
-msgstr ""
+msgstr "เปลี่ยนแปลง"
 
 #: ../plugins/save-calendar/csv-format.c:552
 msgid "Advanced options for the CSV format"
-msgstr ""
+msgstr "ตัวเลือกขั้นสูลสำหรับรูปแบบ CSV"
 
 #: ../plugins/save-calendar/csv-format.c:559
 msgid "Prepend a header"
-msgstr ""
+msgstr "เติมข้อมูลส่วนหัว"
 
 #: ../plugins/save-calendar/csv-format.c:568
 msgid "Value delimiter:"
-msgstr ""
+msgstr "เครื่องหมายคั่นระหว่างค่า:"
 
 #: ../plugins/save-calendar/csv-format.c:574
 msgid "Record delimiter:"
-msgstr ""
+msgstr "เครื่องหมายคั่นระเบียน:"
 
 #: ../plugins/save-calendar/csv-format.c:580
 msgid "Encapsulate values with:"
-msgstr ""
+msgstr "ครอบค่าด้วย:"
 
 #: ../plugins/save-calendar/csv-format.c:602
 msgid "Comma separated value format (.csv)"
-msgstr ""
+msgstr "รูปแบบคั่นด้วยจุลภาค (.csv)"
 
 #: ../plugins/save-calendar/org-gnome-save-calendar.eplug.xml.h:1
 msgid "Save Selected"
@@ -16738,7 +16751,7 @@ msgstr "พยายามจัด_กระทู้ด้วยหัวข�
 
 #: ../shell/GNOME_Evolution_Shell.server.in.in.h:1
 msgid "Evolution Shell"
-msgstr ""
+msgstr "เชลล์ Evolution"
 
 #: ../shell/GNOME_Evolution_Shell.server.in.in.h:2
 msgid "Evolution Shell Config factory"
@@ -16750,15 +16763,15 @@ msgstr "ทดสอบ Evolution"
 
 #: ../shell/GNOME_Evolution_Test.server.in.in.h:2
 msgid "Evolution Test component"
-msgstr ""
+msgstr "องค์ประกอบทดสอบ Evolution"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:1
 msgid "A GNOME Print description of the current printer settings"
-msgstr ""
+msgstr "คำบรรยาย GNOME Print ของค่าตั้งเครื่องพิมพ์ปัจจุบัน"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:2
 msgid "Configuration version"
-msgstr ""
+msgstr "รุ่นของค่าตั้ง"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:3
 msgid "Default sidebar width"
@@ -16774,11 +16787,11 @@ msgstr "ความกว้างของหน้าต่างโดยป
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:6
 msgid "ID or alias of the component to be shown by default at start-up."
-msgstr ""
+msgstr "ID หรือชื่อเล่นขององค์ประกอบที่จะแสดงโดยปริยายเมื่อเริ่มโปรแกรม"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:7
 msgid "Last upgraded configuration version"
-msgstr ""
+msgstr "รุ่นล่าสุดของการปรับรุ่นค่าตั้ง"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:8
 msgid ""
@@ -16787,7 +16800,7 @@ msgstr ""
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:9
 msgid "Printer settings"
-msgstr ""
+msgstr "ค่าตั้งเครื่องพิมพ์"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:10
 msgid "Sidebar is visible"
@@ -16799,31 +16812,34 @@ msgstr "ข้ามกล่องโต้ตอบเตือนสถาน
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:12 ../shell/main.c:470
 msgid "Start in offline mode"
-msgstr ""
+msgstr "เริ่มในโหมดออฟไลน์"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:13
 msgid ""
 "The configuration version of Evolution, with major/minor/configuration level "
 "(for example \"2.6.0\")."
 msgstr ""
+"รุ่นของค่าตั้งของ Evolution ในรูปแบบ รุ่นใหญ่.รุ่นย่อย.ระดับค่าตั้ง (เช่น \"2.6.0\")"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:14
 msgid "The default height for the main window, in pixels."
-msgstr ""
+msgstr "ความสูงปริยายของหน้าต่างหลัก เป็นพิกเซล"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:15
 msgid "The default width for the main window, in pixels."
-msgstr ""
+msgstr "ความกว้างปริยายของหน้าต่างหลัก เป็นพิกเซล"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:16
 msgid "The default width for the sidebar, in pixels."
-msgstr ""
+msgstr "ความกว้างปริยายของแถบข้าง เป็นพิกเซล"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:17
 msgid ""
 "The last upgraded configuration version of Evolution, with major/minor/"
 "configuration level (for example \"2.6.0\")."
 msgstr ""
+"รุ่นล่าสุดของการปรับรุ่นค่าตั้งของ Evolution ในรูปแบบ รุ่นใหญ่.รุ่นย่อย.ระดับค่าตั้ง (เช่น "
+"\"2.6.0\")"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:18
 msgid ""
@@ -16831,6 +16847,8 @@ msgid ""
 "\"toolbar\". If \"toolbar\" is set, the style of the buttons is determined "
 "by the GNOME toolbar setting."
 msgstr ""
+"รูปแบบของปุ่มหน้าต่าง สามารถเป็น \"text\", \"icons\", \"both\" หรือ \"toolbar\" "
+"ถ้ากำหนดเป็น \"toolbar\" รูปแบบของปุ่มจะกำหนดโดยค่าตั้งแถบเครื่องมือของ GNOME"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:19
 msgid "Toolbar is visible"
@@ -16838,7 +16856,7 @@ msgstr "แสดงแถบเครื่องมือ"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:20
 msgid "Whether Evolution will start up in offline mode instead of online mode."
-msgstr ""
+msgstr "กำหนดว่า Evolution จะเริ่มทำงานในโหมดออฟไลน์แทนโหมดออนไลน์หรือไม่"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:21
 msgid "Whether the sidebar should be visible."
@@ -16855,32 +16873,32 @@ msgstr "กำหนดว่าจะข้ามกล่องโต้ตอ
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:24
 msgid "Whether the window buttons should be visible."
-msgstr ""
+msgstr "กำหนดว่าจะแสดงปุ่มต่างๆ ในหน้าต่างหรือไม่"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:25
 msgid "Window button style"
-msgstr ""
+msgstr "รูปแบบของปุ่มหน้าต่าง"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:26
 msgid "Window buttons are visible"
-msgstr ""
+msgstr "แสดงปุ่มหน้าต่าง"
 
 #: ../shell/e-active-connection-dialog.glade.h:1
 msgid "<b>Active Connections</b>"
-msgstr ""
+msgstr "<b>การเชื่อมต่อที่ทำงานอยู่</b>"
 
 #: ../shell/e-active-connection-dialog.glade.h:2
 msgid "Active Connections"
-msgstr ""
+msgstr "การเชื่อมต่อที่ทำงานอยู่"
 
 #: ../shell/e-active-connection-dialog.glade.h:3
 msgid "Click OK to close these connections and go offline"
-msgstr ""
+msgstr "คลิก \"ตกลง\" เพื่อปิดการเชื่อมต่อเหล่านี้ แล้วเปลี่ยนเป็นโหมดออฟไลน์"
 
 #: ../shell/e-shell-folder-title-bar.c:584
 #: ../shell/e-shell-folder-title-bar.c:585
 msgid "(Untitled)"
-msgstr ""
+msgstr "(ไม่มีชื่อ)"
 
 #: ../shell/e-shell-importer.c:135
 msgid "Choose the type of importer to run:"
@@ -16900,7 +16918,7 @@ msgstr ""
 
 #: ../shell/e-shell-importer.c:144
 msgid "Choose the destination for this import"
-msgstr ""
+msgstr "เลือกปลายทางของการนำเข้านี้"
 
 #: ../shell/e-shell-importer.c:150
 msgid ""
@@ -16909,6 +16927,9 @@ msgid ""
 "settings found. If you would like to\n"
 "try again, please click the \"Back\" button.\n"
 msgstr ""
+"Evolution ได้ตรวจสอบค่าตั้งต่างๆ เพื่อนำเข้าจากโปรแกรมต่อไปนี้:\n"
+"Pine, Netscape, Elm, iCalendar แต่ไม่พบค่าตั้งที่สามารถนำเข้าได้เลย\n"
+"ถ้าคุณต้องการลองใหม่อีกครั้ง กรุณาคลิกปุ่ม \"ย้อนกลับ\"\n"
 
 #: ../shell/e-shell-importer.c:285
 msgid "F_ilename:"
@@ -16936,40 +16957,40 @@ msgstr "ปรับแต่ง Evolution"
 
 #: ../shell/e-shell-utils.c:118
 msgid "No folder name specified."
-msgstr ""
+msgstr "ไม่ได้ระบุชื่อโฟลเดอร์"
 
 #: ../shell/e-shell-utils.c:125
 msgid "Folder name cannot contain the Return character."
-msgstr ""
+msgstr "ชื่อโฟลเดอร์มีอักขระ Return ไม่ได้"
 
 #: ../shell/e-shell-utils.c:131
 msgid "Folder name cannot contain the character \"/\"."
-msgstr ""
+msgstr "ชื่อโฟลเดอร์มีอักขระ \"/\" ไม่ได้"
 
 #: ../shell/e-shell-utils.c:137
 msgid "Folder name cannot contain the character \"#\"."
-msgstr ""
+msgstr "ชื่อโฟลเดอร์มีอักขระ \"#\" ไม่ได้"
 
 #: ../shell/e-shell-utils.c:143
 msgid "'.' and '..' are reserved folder names."
-msgstr ""
+msgstr "'.' และ '..' เป็นชื่อโฟลเดอร์ที่สงวนไว้"
 
 #: ../shell/e-shell-window-commands.c:71
 msgid "The GNOME Pilot tools do not appear to be installed on this system."
-msgstr ""
+msgstr "ไม่พบเครื่องมือ GNOME Pilot ติดตั้งในระบบ"
 
 #: ../shell/e-shell-window-commands.c:79
 #, c-format
 msgid "Error executing %s."
-msgstr ""
+msgstr "เกิดข้อผิดพลาดขณะเรียกใช้ %s"
 
 #: ../shell/e-shell-window-commands.c:128
 msgid "Bug buddy is not installed."
-msgstr ""
+msgstr "ไม่ได้ติดตั้งเครื่องมือรายงานบั๊ก (bug buddy)"
 
 #: ../shell/e-shell-window-commands.c:136
 msgid "Bug buddy could not be run."
-msgstr ""
+msgstr "เรียกเครื่องมือรายงานบั๊ก (bug buddy) ไม่สำเร็จ"
 
 #. The translator-credits string is for translators to list
 #. * per language credits for translation, displayed in the
@@ -17018,28 +17039,28 @@ msgstr "เปลี่ยนไปที่%s"
 
 #: ../shell/e-shell.c:633
 msgid "Uknown system error."
-msgstr ""
+msgstr "ข้อผิดพลาดไม่ทราบสาเหตุของระบบ"
 
 #: ../shell/e-shell.c:829 ../shell/e-shell.c:830
 #, c-format
 msgid "%ld KB"
-msgstr ""
+msgstr "%ld KB"
 
 #: ../shell/e-shell.c:1261 ../widgets/misc/e-cell-date-edit.c:257
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
 #: ../shell/e-shell.c:1263
 msgid "Invalid arguments"
-msgstr ""
+msgstr "อาร์กิวเมนต์ผิดพลาด"
 
 #: ../shell/e-shell.c:1265
 msgid "Cannot register on OAF"
-msgstr ""
+msgstr "ไม่สามารถลงทะเบียนกับ OAF"
 
 #: ../shell/e-shell.c:1267
 msgid "Configuration Database not found"
-msgstr ""
+msgstr "ไม่พบฐานข้อมูลค่าตั้ง"
 
 #: ../shell/e-user-creatable-items-handler.c:685
 msgid "New"
@@ -17047,15 +17068,15 @@ msgstr "สร้างใหม่"
 
 #: ../shell/evolution-test-component.c:140
 msgid "New Test"
-msgstr ""
+msgstr "การทดสอบใหม่"
 
 #: ../shell/evolution-test-component.c:141
 msgid "_Test"
-msgstr ""
+msgstr "_ทดสอบ"
 
 #: ../shell/evolution-test-component.c:142
 msgid "Create a new test item"
-msgstr ""
+msgstr "สร้างรายการทดสอบใหม่"
 
 #: ../shell/import.glade.h:1
 msgid "Click \"Import\" to begin importing the file into Evolution. "
@@ -17079,7 +17100,7 @@ msgstr "ชนิดของการนำเข้า"
 
 #: ../shell/import.glade.h:6
 msgid "Select Importers"
-msgstr ""
+msgstr "เลือกเครื่องมือนำเข้า"
 
 #: ../shell/import.glade.h:7
 msgid "Select a File"
@@ -17144,27 +17165,27 @@ msgstr "ไม่ต้องบอกฉันอีก"
 
 #: ../shell/main.c:468
 msgid "Start Evolution activating the specified component"
-msgstr ""
+msgstr "เรียก Evolution โดยเปิดใช้องค์ประกอบที่กำหนด"
 
 #: ../shell/main.c:472
 msgid "Start in online mode"
-msgstr ""
+msgstr "เริ่มทำงานในโหมดออนไลน์"
 
 #: ../shell/main.c:475
 msgid "Forcibly shut down all Evolution components"
-msgstr ""
+msgstr "บังคับปิดองค์ประกอบทั้งหมดของ Evolution"
 
 #: ../shell/main.c:479
 msgid "Forcibly re-migrate from Evolution 1.4"
-msgstr ""
+msgstr "บังคับปรับรุ่นข้อมูลใหม่จาก Evolution 1.4"
 
 #: ../shell/main.c:482
 msgid "Send the debugging output of all components to a file."
-msgstr ""
+msgstr "ส่งข้อความดีบั๊กของทุกองค์ประกอบลงแฟ้ม"
 
 #: ../shell/main.c:484
 msgid "Disable loading of any plugins."
-msgstr ""
+msgstr "ปิดการโหลดปลั๊กอินใดๆ"
 
 #: ../shell/main.c:515
 #, c-format
@@ -17172,6 +17193,8 @@ msgid ""
 "%s: --online and --offline cannot be used together.\n"
 "  Use %s --help for more information.\n"
 msgstr ""
+"%s: --online และ --offline ไม่สามารถใช้พร้อมกันได้\n"
+"  เรียก %s --help เพื่อดูข้อมูลเพิ่มเติม\n"
 
 #: ../shell/shell.error.xml.h:1
 msgid "Are you sure you want to forget all remembered passwords?"
@@ -17179,15 +17202,15 @@ msgstr "คุณแน่ใจหรือไม่ว่าต้องกา
 
 #: ../shell/shell.error.xml.h:2
 msgid "Continue"
-msgstr ""
+msgstr "ต่อไป"
 
 #: ../shell/shell.error.xml.h:3
 msgid "Delete old data from version {0}?"
-msgstr ""
+msgstr "ลบข้อมูลเก่าจากรุ่น {0} หรือไม่?"
 
 #: ../shell/shell.error.xml.h:4
 msgid "Evolution can not start."
-msgstr ""
+msgstr "Evolution เริ่มทำงานไม่สำเร็จ"
 
 #: ../shell/shell.error.xml.h:5
 msgid ""
@@ -17197,11 +17220,11 @@ msgstr "การทิ้งรหัสผ่านนี้ จะลบร�
 
 #: ../shell/shell.error.xml.h:7
 msgid "Insufficient disk space for upgrade."
-msgstr ""
+msgstr "ที่ว่างในดิสก์ไม่เพียงพอสำหรับการปรับเป็นรุ่นใหม่"
 
 #: ../shell/shell.error.xml.h:8
 msgid "Really delete old data?"
-msgstr ""
+msgstr "ลบข้อมูลเก่าจริงหรือไม่?"
 
 #: ../shell/shell.error.xml.h:9
 msgid ""
@@ -17215,6 +17238,13 @@ msgid ""
 "Once deleted, you cannot downgrade to the previous version of Evolution "
 "without manual intervention.\n"
 msgstr ""
+"เนื้อหาทั้งหมดของไดเรกทอรี &quot;evolution&quot; กำลังจะถูกลบทิ้งอย่างถาวร\n"
+"\n"
+"ขอแนะนำว่า คุณควรตรวจสอบให้แน่ใจเสียก่อน ว่าข้อมูลเมล ที่อยู่ติดต่อ และปฏิทินของคุณยังอยู่ครบทั้งหมด "
+"และ Evolution รุ่นนี้ทำงานอย่างถูกต้อง ก่อนที่จะลบข้อมูลเก่าเหล่านี้\n"
+"\n"
+"เมื่อลบแล้ว คุณจะไม่สามารถปรับรุ่นของ Evolution กลับลงมาเป็นรุ่นเก่าโดยอัตโนมัติ "
+"โดยไม่ต้องแปลงสิ่งต่างๆ ด้วยตัวเองได้อีกต่อไป\n"
 
 #: ../shell/shell.error.xml.h:15
 msgid ""
@@ -17225,10 +17255,15 @@ msgid ""
 "this data, then you may manually remove the contents of &quot;"
 "evolution&quot; at your convenience.\n"
 msgstr ""
+"Evolution รุ่นก่อนเก็บข้อมูลไว้คนละแห่ง\n"
+"\n"
+"ถ้าคุณเลือกที่จะลบข้อมูลชุดนี้ เนื้อหาทั้งหมดของไดเรกทอรี &quot;evolution&quot; "
+"จะถูกลบทิ้งอย่างถาวร ถ้าคุณเลือกที่จะเก็บข้อมูลชุดนี้ไว้ คุณยังสามารถลบไดเรกทอรี "
+"&quot;evolution&quot; ด้วยตัวเองในภายหลังได้ตามสะดวก\n"
 
 #: ../shell/shell.error.xml.h:19
 msgid "Upgrade from previous version failed: {0}"
-msgstr ""
+msgstr "การปรับรุ่นจากรุ่นก่อนไม่สำเร็จ: {0}"
 
 #: ../shell/shell.error.xml.h:20
 msgid ""
@@ -17238,6 +17273,9 @@ msgid ""
 "You will need to make more space available in your home directory before you "
 "can continue."
 msgstr ""
+"การปรับข้อมูลและค่าตั้งเป็นรุ่นใหม่ จะต้องการเนื้อที่ดิสก์ {0} แต่คุณมีเนื้อที่ว่างอยู่เพียง {1}\n"
+"\n"
+"คุณจำเป็นต้องหาเนื้อที่ว่างมากกว่านี้ในไดเรกทอรีบ้านของคุณ ก่อนที่จะดำเนินการต่อไป"
 
 #: ../shell/shell.error.xml.h:23
 msgid ""
@@ -17245,6 +17283,9 @@ msgid ""
 "\n"
 "Click help for details"
 msgstr ""
+"ค่าตั้งระบบของคุณไม่ตรงกับค่าตั้งของ Evolution\n"
+"\n"
+"คลิกวิธีใช้เพื่อดูรายละเอียด"
 
 #: ../shell/shell.error.xml.h:26
 msgid ""
@@ -17254,6 +17295,11 @@ msgid ""
 "\n"
 "Click help for details."
 msgstr ""
+"ค่าตั้งระบบของคุณไม่ตรงกับค่าตั้งของ Evolution\n"
+"\n"
+"{0}\n"
+"\n"
+"คลิกวิธีใช้เพื่อดูรายละเอียด"
 
 #: ../shell/shell.error.xml.h:31
 msgid "_Forget"
@@ -17304,50 +17350,50 @@ msgstr ""
 #: ../smime/gui/certificate-manager.c:595
 #: ../smime/gui/certificate-manager.c:603
 msgid "Select a certificate to import..."
-msgstr ""
+msgstr "เลือกใบรับรองที่จะนำเข้า"
 
 #: ../smime/gui/certificate-manager.c:267
 #: ../smime/gui/certificate-manager.c:472
 #: ../smime/gui/certificate-manager.c:690
 msgid "Certificate Name"
-msgstr ""
+msgstr "ชื่อใบรับรอง"
 
 #: ../smime/gui/certificate-manager.c:276
 #: ../smime/gui/certificate-manager.c:490
 msgid "Purposes"
-msgstr ""
+msgstr "จุดประสงค์"
 
 #: ../smime/gui/certificate-manager.c:285 ../smime/gui/smime-ui.glade.h:37
 #: ../smime/lib/e-cert.c:570
 msgid "Serial Number"
-msgstr ""
+msgstr "หมายเลขลำดับ"
 
 #: ../smime/gui/certificate-manager.c:293
 msgid "Expires"
-msgstr ""
+msgstr "หมดอายุ"
 
 #: ../smime/gui/certificate-manager.c:481
 msgid "E-Mail Address"
-msgstr ""
+msgstr "ที่อยู่อีเมล"
 
 #: ../smime/gui/certificate-viewer.c:341
 #, c-format
 msgid "Certificate Viewer: %s"
-msgstr ""
+msgstr "เครื่องมือดูใบรับรอง: %s"
 
 #: ../smime/gui/component.c:47
 #, c-format
 msgid "Enter the password for `%s'"
-msgstr ""
+msgstr "ป้อนรหัสผ่านสำหรับ `%s'"
 
 #. we're setting the password initially
 #: ../smime/gui/component.c:70
 msgid "Enter new password for certificate database"
-msgstr ""
+msgstr "ป้อนรหัสผ่านใหม่สำหรับฐานข้อมูลใบรับรอง"
 
 #: ../smime/gui/component.c:72
 msgid "Enter new password"
-msgstr ""
+msgstr "ป้อนรหัสผ่านใหม่"
 
 #. FIXME: add serial no, validity date, uses
 #: ../smime/gui/e-cert-selector.c:121
@@ -17356,6 +17402,8 @@ msgid ""
 "Issued to:\n"
 "  Subject: %s\n"
 msgstr ""
+"ออกให้กับ:\n"
+"   เรื่อง: %s\n"
 
 #: ../smime/gui/e-cert-selector.c:122
 #, c-format
@@ -17363,10 +17411,12 @@ msgid ""
 "Issued by:\n"
 "  Subject: %s\n"
 msgstr ""
+"ออกให้โดย:\n"
+"    เรื่อง: %s\n"
 
 #: ../smime/gui/e-cert-selector.c:174
 msgid "Select certificate"
-msgstr ""
+msgstr "เลือกใบรับรอง"
 
 #: ../smime/gui/smime-ui.glade.h:1
 msgid "<Not Part of Certificate>"
@@ -17729,27 +17779,27 @@ msgstr ""
 
 #: ../tools/evolution-launch-composer.c:321
 msgid "An attachment to add."
-msgstr ""
+msgstr "เอกสารแนบที่จะเพิ่ม"
 
 #: ../tools/evolution-launch-composer.c:322
 msgid "Content type of the attachment."
-msgstr ""
+msgstr "ชนิดเนื้อหาของเอกสารแนบ"
 
 #: ../tools/evolution-launch-composer.c:323
 msgid "The filename to display in the mail."
-msgstr ""
+msgstr "ชื่อแฟ้มที่จะแสดงในเมล"
 
 #: ../tools/evolution-launch-composer.c:324
 msgid "Description of the attachment."
-msgstr ""
+msgstr "คำบรรยายของเอกสารแนบ"
 
 #: ../tools/evolution-launch-composer.c:325
 msgid "Mark attachment to be shown inline by default."
-msgstr ""
+msgstr "กำหนดให้แสดงเอกสารแนบในบรรทัดโดยปริยาย"
 
 #: ../tools/evolution-launch-composer.c:326
 msgid "Default subject for the message."
-msgstr ""
+msgstr "หัวเรื่องปริยายสำหรับข้อความ"
 
 #. This most likely means that KILL_PROCESS_CMD wasn't
 #. * found, so just bail completely.
@@ -17757,12 +17807,12 @@ msgstr ""
 #: ../tools/killev.c:61
 #, c-format
 msgid "Could not execute '%s': %s\n"
-msgstr ""
+msgstr "ไม่สามารถเรียกใช้ '%s': %s\n"
 
 #: ../tools/killev.c:76
 #, c-format
 msgid "Shutting down %s (%s)\n"
-msgstr ""
+msgstr "กำลังปิด %s (%s)\n"
 
 #: ../ui/evolution-addressbook.xml.h:1
 msgid "Address _Book Properties"
@@ -17896,7 +17946,7 @@ msgstr "ส่งข้อความไปยังที่อยู่ติ
 
 #: ../ui/evolution-addressbook.xml.h:38
 msgid "Send message to contact"
-msgstr ""
+msgstr "ส่งข้อความไปยังที่อยู่ติดต่อ"
 
 #: ../ui/evolution-addressbook.xml.h:39
 msgid "Send selected contacts to another person."
@@ -19018,7 +19068,7 @@ msgstr "เข้ารหัส PGP"
 
 #: ../ui/evolution-message-composer.xml.h:15
 msgid "PGP Sign"
-msgstr ""
+msgstr "เซ็น PGP"
 
 #: ../ui/evolution-message-composer.xml.h:16
 msgid "R_equest Read Receipt"
@@ -19030,7 +19080,7 @@ msgstr "เข้ารหัส S/MIME"
 
 #: ../ui/evolution-message-composer.xml.h:18
 msgid "S/MIME Sign"
-msgstr ""
+msgstr "เซ็น S/MIME"
 
 #: ../ui/evolution-message-composer.xml.h:20
 msgid "Save As"
@@ -19087,7 +19137,7 @@ msgstr "เซ็นกำกับข้อความนี้ด้วยค
 
 #: ../ui/evolution-message-composer.xml.h:34
 msgid "Sign this message with your S/MIME Signature Certificate"
-msgstr ""
+msgstr "เซ็นกำกับข้อความนี้ด้วยใบรับรองลายเซ็น S/MIME ของคุณ"
 
 #: ../ui/evolution-message-composer.xml.h:35
 msgid "Toggles whether the BCC field is displayed"
@@ -19147,7 +19197,7 @@ msgstr "ช่อง_ที่อยู่ตอบกลับ"
 
 #: ../ui/evolution-message-composer.xml.h:54
 msgid "_Security"
-msgstr ""
+msgstr "_ระบบรักษาความปลอดภัย"
 
 #: ../ui/evolution-message-composer.xml.h:55
 msgid "_To Field"
@@ -19178,35 +19228,35 @@ msgstr "บันทึกแฟ้มปัจจุบันและปิด
 
 #: ../ui/evolution-subscribe.xml.h:1
 msgid "Add folder to your list of subscribed folders"
-msgstr ""
+msgstr "เพิ่มโฟลเดอร์ในรายชื่อโฟลเดอร์ที่บอกรับข้อมูลของคุณ"
 
 #: ../ui/evolution-subscribe.xml.h:3
 msgid "Refresh List"
-msgstr ""
+msgstr "อ่านรายชื่อใหม่"
 
 #: ../ui/evolution-subscribe.xml.h:4
 msgid "Refresh List of Folders"
-msgstr ""
+msgstr "อ่านรายชื่อโฟลเดอร์ใหม่"
 
 #: ../ui/evolution-subscribe.xml.h:5
 msgid "Remove folder from your list of subscribed folders"
-msgstr ""
+msgstr "ลบโฟลเดอร์ออกจากรายชื่อโฟลเดอร์ที่บอกรับข้อมูลของคุณ"
 
 #: ../ui/evolution-subscribe.xml.h:7
 msgid "Subscribe"
-msgstr ""
+msgstr "บอกรับ"
 
 #: ../ui/evolution-subscribe.xml.h:8
 msgid "Unsubscribe"
-msgstr ""
+msgstr "เลิกบอกรับ"
 
 #: ../ui/evolution-subscribe.xml.h:12
 msgid "_Invert Selection"
-msgstr ""
+msgstr "_กลับส่วนเลือก-ไม่เลือก"
 
 #: ../ui/evolution-task-editor.xml.h:4
 msgid "Click change / view the status details of the task"
-msgstr ""
+msgstr "คลิกเพื่อดูหรือเปลี่ยนรายละเอียดสถานะของงาน"
 
 #: ../ui/evolution-task-editor.xml.h:9
 msgid "Status Details"
@@ -19386,7 +19436,7 @@ msgstr "ส่งรายงานข้อผิดพลาดด้วยเ
 
 #: ../ui/evolution.xml.h:33
 msgid "Toggle whether we are working offline."
-msgstr ""
+msgstr "เปิด/ปิดสถานะการทำงานออฟไลน์"
 
 #: ../ui/evolution.xml.h:34
 msgid "Tool_bar"
@@ -19602,7 +19652,7 @@ msgstr "มุมมองกำหนดเอง"
 
 #: ../widgets/menus/gal-view-instance.c:588
 msgid "Save Custom View"
-msgstr "บันทึกมุมมองที่กำหนดเอง"
+msgstr "บันทึกมุมมองกำหนดเอง"
 
 #: ../widgets/menus/gal-view-instance.c:592
 #: ../widgets/menus/gal-view-menus.c:372
@@ -19615,11 +19665,11 @@ msgstr "มุมมอง_ปัจจุบัน"
 
 #: ../widgets/menus/gal-view-menus.c:359
 msgid "Save Custom View..."
-msgstr ""
+msgstr "บันทึกมุมมองกำหนดเอง..."
 
 #: ../widgets/menus/gal-view-new-dialog.c:80
 msgid "Factory"
-msgstr ""
+msgstr "โรงงาน"
 
 #: ../widgets/menus/gal-view-new-dialog.c:115
 msgid "Define New View"
@@ -19631,7 +19681,7 @@ msgstr "ชื่อของมุมมองใหม่:"
 
 #: ../widgets/menus/gal-view-new-dialog.glade.h:3
 msgid "Type of View"
-msgstr ""
+msgstr "ชนิดของมุมมอง"
 
 #: ../widgets/menus/gal-view-new-dialog.glade.h:4
 msgid "Type of view:"
@@ -19641,7 +19691,7 @@ msgstr "ชนิดของมุมมอง:"
 #. week, 'M' for 'Monday', 'T' for Tuesday etc.
 #: ../widgets/misc/e-calendar-item.c:416
 msgid "MTWTFSS"
-msgstr "MTWTFSS"
+msgstr "จอพพศสอ"
 
 #. This is a strftime() format. %B = Month name, %Y = Year.
 #: ../widgets/misc/e-calendar-item.c:1093
@@ -19864,37 +19914,38 @@ msgstr "%I:%M %p"
 
 #: ../widgets/misc/e-expander.c:181
 msgid "Expanded"
-msgstr ""
+msgstr "ขยายอยู่"
 
 #: ../widgets/misc/e-expander.c:182
 msgid "Whether or not the expander is expanded"
-msgstr ""
+msgstr "ระบุว่าวิดเจ็ตยุบ-ขยายขยายอยู่หรือไม่"
 
 #: ../widgets/misc/e-expander.c:190
 msgid "Text of the expander's label"
-msgstr ""
+msgstr "ข้อความที่ป้ายของวิดเจ็ตยุบ-ขยาย"
 
 #: ../widgets/misc/e-expander.c:197
 msgid "Use underline"
-msgstr "ใช้ขีดเส้นใต้"
+msgstr "ใช้ตัวขีดเส้นใต้"
 
 #: ../widgets/misc/e-expander.c:198
 msgid ""
 "If set, an underline in the text indicates the next character should be used "
 "for the mnemonic accelerator key"
 msgstr ""
+"ถ้าเลือก อักขระขีดเส้นใต้ในข้อความจะระบุว่าอักขระถัดไปจะใช้เป็นรหัสปุ่มลัด"
 
 #: ../widgets/misc/e-expander.c:206
 msgid "Space to put between the label and the child"
-msgstr ""
+msgstr "ช่องว่างระหว่างป้ายและวิดเจ็ต"
 
 #: ../widgets/misc/e-expander.c:215
 msgid "Label widget"
-msgstr ""
+msgstr "วิดเจ็ตป้าย"
 
 #: ../widgets/misc/e-expander.c:216
 msgid "A widget to display in place of the usual expander label"
-msgstr ""
+msgstr "วิดเจ็ตที่จะใช้แสดงผลแทนป้ายปกติของวิดเจ็ตยุบ-ขยาย"
 
 #: ../widgets/misc/e-expander.c:222 ../widgets/table/e-tree.c:3312
 msgid "Expander Size"
@@ -19948,13 +19999,15 @@ msgstr "เลือกรูปภาพ"
 
 #: ../widgets/misc/e-map.c:627
 msgid "World Map"
-msgstr ""
+msgstr "แผนที่โลก"
 
 #: ../widgets/misc/e-map.c:629
 msgid ""
 "Mouse-based interactive map widget for selecting timezone. Keyboard users "
 "should select the timezone from the below combo box instead."
 msgstr ""
+"วิดเจ็ตแผนที่แบบโต้ตอบผ่านเมาส์สำหรับเลือกเขตเวลา ผู้ใช้ที่ใช้แป้นพิมพ์ "
+"ควรเลือกเขตเวลาจากกล่องคอมโบด้านล่างแทน"
 
 #: ../widgets/misc/e-pilot-settings.c:103
 msgid "Sync with:"
@@ -20023,16 +20076,16 @@ msgstr "ค้นหา เ_ดี๋ยวนี้"
 #: ../widgets/misc/e-selection-model-array.c:546
 #: ../widgets/table/e-tree-selection-model.c:811
 msgid "Cursor Row"
-msgstr ""
+msgstr "แถวเคอร์เซอร์"
 
 #: ../widgets/misc/e-selection-model-array.c:553
 #: ../widgets/table/e-tree-selection-model.c:818
 msgid "Cursor Column"
-msgstr ""
+msgstr "คอลัมน์เคอร์เซอร์"
 
 #: ../widgets/misc/e-selection-model.c:214
 msgid "Sorter"
-msgstr ""
+msgstr "การเรียงลำดับ"
 
 #: ../widgets/misc/e-selection-model.c:221
 msgid "Selection Mode"
@@ -20056,27 +20109,27 @@ msgstr "<b>ตอบกลับ</b>"
 
 #: ../widgets/misc/e-send-options.glade.h:3
 msgid "<b>Return Notification</b>"
-msgstr ""
+msgstr "<b>การแจ้งตอบกลับ</b>"
 
 #: ../widgets/misc/e-send-options.glade.h:4
 msgid "<b>Status Tracking</b>"
-msgstr ""
+msgstr "<b>การติดตามสถานะ</b>"
 
 #: ../widgets/misc/e-send-options.glade.h:5
 msgid "A_uto-delete sent item"
-msgstr "_ลบอัตโนมัติรายการส่ง"
+msgstr "_ลบรายการส่งโดยอัตโนมัติ"
 
 #: ../widgets/misc/e-send-options.glade.h:6
 msgid "C_lassification"
-msgstr ""
+msgstr "_ประเภท"
 
 #: ../widgets/misc/e-send-options.glade.h:7
 msgid "Creat_e a sent item to track information"
-msgstr ""
+msgstr "สร้า_งรายการเมลส่งแล้วเพื่อติดตามข้อมูล"
 
 #: ../widgets/misc/e-send-options.glade.h:8
 msgid "Deli_vered and opened"
-msgstr ""
+msgstr "ถึงแ_ล้วและเปิดแล้ว"
 
 #: ../widgets/misc/e-send-options.glade.h:9
 msgid "Gene_ral Options"
@@ -20106,7 +20159,7 @@ msgstr "_ต้องการการตอบกลับ"
 
 #: ../widgets/misc/e-send-options.glade.h:18
 msgid "Sta_tus Tracking"
-msgstr ""
+msgstr "การติดตาม_สถานะ"
 
 #: ../widgets/misc/e-send-options.glade.h:19
 msgid ""
@@ -20117,7 +20170,7 @@ msgid ""
 msgstr ""
 "ไม่กำหนด\n"
 "สูง\n"
-"มาตรฐาน\n"
+"ปกติ\n"
 "ต่ำ"
 
 #: ../widgets/misc/e-send-options.glade.h:23
@@ -20150,11 +20203,11 @@ msgstr "_หน่วงการส่งข้อความ"
 
 #: ../widgets/misc/e-send-options.glade.h:30
 msgid "_Delivered"
-msgstr ""
+msgstr "_ถึงแล้ว"
 
 #: ../widgets/misc/e-send-options.glade.h:32
 msgid "_Set expiration date"
-msgstr "_ตั้งค่าวันหมดอายุ"
+msgstr "_กำหนดวันหมดอายุ"
 
 #: ../widgets/misc/e-send-options.glade.h:33
 msgid "_Until:"
@@ -20162,7 +20215,7 @@ msgstr "_จนกระทั่ง:"
 
 #: ../widgets/misc/e-send-options.glade.h:34
 msgid "_When convenient"
-msgstr ""
+msgstr "เ_มื่อสะดวก"
 
 #: ../widgets/misc/e-send-options.glade.h:35
 msgid "_When opened:"
@@ -20188,7 +20241,7 @@ msgstr ""
 
 #: ../widgets/misc/gal-categories.glade.h:3
 msgid "Item(s) belong to these _categories:"
-msgstr "สิ่งที่เลือก จัดอยู่ใน_หมวดนี้:"
+msgstr "สิ่งที่จัดอยู่ใน_หมวดนี้:"
 
 #: ../widgets/misc/gal-categories.glade.h:4
 msgid "_Available Categories:"
@@ -20212,31 +20265,31 @@ msgstr "คอลัมน์ที่เลือก"
 
 #: ../widgets/table/e-cell-pixbuf.c:404
 msgid "Focused Column"
-msgstr ""
+msgstr "คอลัมน์ที่โฟกัส"
 
 #: ../widgets/table/e-cell-pixbuf.c:411
 msgid "Unselected Column"
-msgstr ""
+msgstr "คอลัมน์ที่ไม่ได้เลือก"
 
 #: ../widgets/table/e-cell-text.c:1744
 msgid "Strikeout Column"
-msgstr ""
+msgstr "คอลัมน์ขีดฆ่า"
 
 #: ../widgets/table/e-cell-text.c:1751
 msgid "Underline Column"
-msgstr ""
+msgstr "คอลัมน์ขีดเส้นใต้"
 
 #: ../widgets/table/e-cell-text.c:1758
 msgid "Bold Column"
-msgstr ""
+msgstr "คอลัมน์ตัวหนา"
 
 #: ../widgets/table/e-cell-text.c:1765
 msgid "Color Column"
-msgstr ""
+msgstr "คอลัมน์สี"
 
 #: ../widgets/table/e-cell-text.c:1779
 msgid "BG Color Column"
-msgstr ""
+msgstr "คอลัมน์สีพื้น"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:1
 msgid "<- _Remove"
@@ -20381,12 +20434,12 @@ msgstr ""
 #: ../widgets/table/e-table-group-container.c:346
 #, c-format
 msgid "%s : %s (%d item)"
-msgstr ""
+msgstr "%s : %s (%d รายการ)"
 
 #: ../widgets/table/e-table-group-container.c:347
 #, c-format
 msgid "%s : %s (%d items)"
-msgstr ""
+msgstr "%s : %s (%d รายการ)"
 
 #: ../widgets/table/e-table-group-container.c:352
 #, c-format
