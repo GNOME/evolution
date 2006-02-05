@@ -949,7 +949,7 @@
 		      <child>
 			<widget class="GtkEntry" id="rootdn-entry">
 			  <property name="visible">True</property>
-			  <property name="tooltip" translatable="yes">The search base is the distinguished name (DN)  of the entry where your searches will begin. If you leave this blank, the search will begin at the root of the directory tree.</property>
+			  <property name="tooltip" translatable="yes">The search base is the distinguished name (DN) of the entry where your searches will begin. If you leave this blank, the search will begin at the root of the directory tree.</property>
 			  <property name="can_focus">True</property>
 			  <property name="has_focus">True</property>
 			  <property name="editable">True</property>

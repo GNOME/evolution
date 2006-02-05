@@ -1,3 +1,7 @@
+2006-02-05  Andre Klapper  <a9016009@gmx.de>
+
+	* shell.error.xml: fixing one typo. fixes #304996 partially.
+
 2006-02-05  Shreyas Srinivasan  <sshreyas@novell.com>
 
 	* e-shell-nm-glib.c: init the nm-dbus connection once. 
