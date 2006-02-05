@@ -30,6 +30,7 @@
 #include <NetworkManager/libnm_glib.h>
 #include <e-shell-window.h>
 
+static libnm_glib_ctx *nm_ctx = NULL;
 
 static void e_shell_glib_network_monitor (libnm_glib_ctx *ctx, gpointer user_data)
 {
@@ -59,17 +60,18 @@ static void e_shell_glib_network_monitor (libnm_glib_ctx *ctx, gpointer user_dat
 
 int e_shell_nm_glib_initialise (EShellWindow *window )
 {
-	libnm_glib_ctx *ctx;
 	guint id;
 
-	ctx = libnm_glib_init ();
-	if (!ctx)
+	if (!nm_ctx)
 	{
-		fprintf (stderr, "Could not initialize libnm.\n");
-		return FALSE;
+		nm_ctx = libnm_glib_init ();
+		if (!nm_ctx) {
+				fprintf (stderr, "Could not initialize libnm.\n");
+				return FALSE;
+			  }	
 	}
 
-	id = libnm_glib_register_callback (ctx, e_shell_glib_network_monitor, window, NULL);
+	id = libnm_glib_register_callback (nm_ctx, e_shell_glib_network_monitor, window, NULL);
 	
 	return TRUE;
 }
