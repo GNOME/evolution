@@ -979,7 +979,7 @@ eabc_details_limit(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, st
 static EConfigItem eabc_items[] = {
 	{ E_CONFIG_BOOK, "", },
 	{ E_CONFIG_PAGE, "00.general", N_("General") },
-	{ E_CONFIG_SECTION, "00.general/10.display", N_("Addressbook") },
+	{ E_CONFIG_SECTION, "00.general/10.display", N_("Address Book") },
 	{ E_CONFIG_ITEM, "00.general/10.display/10.name", "hbox122", eabc_general_name },
 	{ E_CONFIG_ITEM, "00.general/10.display/20.offline", NULL, eabc_general_offline },
 #ifdef HAVE_LDAP
@@ -1158,7 +1158,7 @@ addressbook_config_edit_source (GtkWidget *parent, ESource *source)
 		sdialog->source_list = e_source_list_new_for_gconf(gconf, "/apps/evolution/addressbook/sources");
 		l = e_source_list_peek_groups(sdialog->source_list);
 		if (!l) {
-			g_warning ("Addressbook source groups are missing! Check your GConf setup.");
+			g_warning ("Address Book source groups are missing! Check your GConf setup.");
 			g_free (sdialog);
 			return NULL;
 		}

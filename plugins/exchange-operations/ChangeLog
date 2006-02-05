@@ -1,3 +1,9 @@
+2006-02-05  Karsten Bräckelmann  <guenther@rudersport.de>
+
+	* exchange-user-dialog.c (e2k_user_dialog_construct): 
+	Correcting "Addressbook" to properly read "Address Book".
+	Fixes bug #326256.
+
 2006-02-03  Sushma Rai  <rsushma@novell.com>
 
 	* exchange-folder.c (org_gnome_exchange_folder_subscription): Moved

@@ -1,3 +1,9 @@
+2006-02-05  Karsten Bräckelmann  <guenther@rudersport.de>
+
+	* importers/pine-importer.c (pine_getwidget): 
+	Correcting "Addressbook" to properly read "Address Book".
+	Fixes bug #326256.
+
 2006-02-02  Parthasarathi Susarla <sparthasarathi@novell.com>
 	
 	* em-composer-utils.c: (em_utils_handle_receipt):

@@ -179,7 +179,7 @@ e2k_user_dialog_construct (E2kUserDialog *dialog,
 	gtk_box_pack_start (GTK_BOX (vbox), priv->entry, TRUE, FALSE, 0);
 	gtk_box_pack_start (GTK_BOX (hbox), vbox, TRUE, TRUE, 6);
 
-	button = gtk_button_new_with_label (_("Addressbook..."));
+	button = gtk_button_new_with_label (_("Address Book..."));
 	g_signal_connect (button, "clicked",
 			  G_CALLBACK (addressbook_clicked_cb),
 			  dialog);

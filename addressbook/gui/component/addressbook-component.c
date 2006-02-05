@@ -379,7 +379,7 @@ impl_upgradeFromVersion (PortableServer_Servant servant, short major, short mino
 		GNOME_Evolution_Component_UpgradeFailed *failedex;
 
 		failedex = GNOME_Evolution_Component_UpgradeFailed__alloc();
-		failedex->what = CORBA_string_dup(_("Failed upgrading Addressbook settings or folders."));
+		failedex->what = CORBA_string_dup(_("Failed upgrading Address Book settings or folders."));
 		failedex->why = CORBA_string_dup(err->message);
 		CORBA_exception_set(ev, CORBA_USER_EXCEPTION, ex_GNOME_Evolution_Component_UpgradeFailed, failedex);
 	}

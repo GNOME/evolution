@@ -1,3 +1,14 @@
+2006-02-05  Karsten Bräckelmann  <guenther@rudersport.de>
+
+	* gui/component/GNOME_Evolution_Addressbook.server.in.in: 
+	Correcting "Addressbook" to properly read "Address Book".
+	Fixes bug #326256.
+
+	* gui/component/addressbook-config.c (addressbook_config_edit_source): 
+	* gui/component/addressbook-component.c (impl_upgradeFromVersion): 
+	Correcting "Addressbook" to properly read "Address Book".
+	Fixes bug #326256.
+
 2006-02-05  Andre Klapper  <a9016009@gmx.de>
 
 	* gui/component/ldap-config.glade: fixing one typo.

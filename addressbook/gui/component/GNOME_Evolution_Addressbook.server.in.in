@@ -9,7 +9,7 @@
 	</oaf_attribute>
 
 	<oaf_attribute name="name" type="string"
-                       _value="Evolution Addressbook"/>
+                       _value="Evolution Address Book"/>
 
 </oaf_server>
 
@@ -28,7 +28,7 @@
 	</oaf_attribute>
 
 	<oaf_attribute name="name" type="string"
-		       _value="Evolution Addressbook card viewer"/>
+		       _value="Evolution Address Book card viewer"/>
 
 </oaf_server>
 
@@ -41,7 +41,7 @@
 	</oaf_attribute>
 
 	<oaf_attribute name="name" type="string"
-	               _value="Evolution Addressbook component"/>
+	               _value="Evolution Address Book component"/>
 
 	<oaf_attribute name="evolution:component_alias" type="string" value="contacts"/>
 
@@ -64,7 +64,7 @@
 	</oaf_attribute>
 
 	<oaf_attribute name="name" type="string"
-		       _value="Evolution Addressbook address viewer"/>
+		       _value="Evolution Address Book address viewer"/>
 
 </oaf_server>
 
@@ -78,7 +78,7 @@
 	</oaf_attribute>
 
 	<oaf_attribute name="name" type="string"
-		       _value="Evolution Addressbook address pop-up"/>
+		       _value="Evolution Address Book address pop-up"/>
 
 </oaf_server>
 
