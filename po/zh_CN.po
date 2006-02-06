@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Evolution 2.6\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-01-29 22:11+0100\n"
+"POT-Creation-Date: 2006-02-06 05:47+0100\n"
 "PO-Revision-Date: 2006-01-30 06:52+0800\n"
 "Last-Translator: Funda Wang <fundawang@linux.net.cn>\n"
 "Language-Team: zh_CN <i18n-translation@lists.linux.net.cn>\n"
@@ -277,7 +277,7 @@ msgstr "表格单元格"
 
 #: ../a11y/e-table/gal-a11y-e-table-click-to-add.c:44
 #: ../a11y/e-table/gal-a11y-e-table-click-to-add.c:119
-#: ../widgets/table/e-table-click-to-add.c:575
+#: ../widgets/table/e-table-click-to-add.c:574
 msgid "click to add"
 msgstr "单击可添加"
 
@@ -527,30 +527,30 @@ msgstr "在此配置自动补全"
 
 #. Create the contacts group
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:5
-#: ../addressbook/gui/component/addressbook-view.c:1335
+#: ../addressbook/gui/component/addressbook-view.c:1334
 #: ../calendar/gui/calendar-component.c:247 ../calendar/gui/migration.c:400
-#: ../plugins/exchange-operations/exchange-folder.c:626
+#: ../plugins/exchange-operations/exchange-folder.c:585
 msgid "Contacts"
 msgstr "联系人"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:6
-msgid "Evolution Addressbook"
+msgid "Evolution Address Book"
 msgstr "Evolution 地址簿"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:7
-msgid "Evolution Addressbook address pop-up"
+msgid "Evolution Address Book address pop-up"
 msgstr "Evolution 地址簿地址弹出框"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:8
-msgid "Evolution Addressbook address viewer"
+msgid "Evolution Address Book address viewer"
 msgstr "Evolution 地址簿地址查看器"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:9
-msgid "Evolution Addressbook card viewer"
+msgid "Evolution Address Book card viewer"
 msgstr "Evolution 地址簿名片查看器"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:10
-msgid "Evolution Addressbook component"
+msgid "Evolution Address Book component"
 msgstr "Evolution 地址簿组件"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:11
@@ -591,7 +591,7 @@ msgstr "在此计算机中"
 #: ../calendar/gui/migration.c:575 ../calendar/gui/migration.c:1083
 #: ../calendar/gui/tasks-component.c:198 ../filter/filter-label.c:123
 #: ../mail/em-migrate.c:1054 ../mail/mail-config.c:87
-#: ../mail/mail-config.glade.h:104
+#: ../mail/mail-config.glade.h:105
 msgid "Personal"
 msgstr "个人"
 
@@ -631,7 +631,7 @@ msgid "Create a new address book"
 msgstr "创建新地址簿"
 
 #: ../addressbook/gui/component/addressbook-component.c:382
-msgid "Failed upgrading Addressbook settings or folders."
+msgid "Failed upgrading Address Book settings or folders."
 msgstr "升级地址簿设置或文件夹失败。"
 
 #: ../addressbook/gui/component/addressbook-config.c:329
@@ -654,14 +654,15 @@ msgstr "将地址簿内容复制到本地以进行脱机操作"
 #: ../calendar/gui/dialogs/calendar-setup.c:368
 #: ../calendar/gui/dialogs/calendar-setup.c:379
 #: ../calendar/gui/dialogs/calendar-setup.c:390
-#: ../mail/em-folder-properties.c:217 ../mail/mail-config.glade.h:85
+#: ../mail/em-folder-properties.c:217 ../mail/mail-config.glade.h:86
 #: ../smime/gui/smime-ui.glade.h:28
 msgid "General"
 msgstr "常规"
 
 #: ../addressbook/gui/component/addressbook-config.c:982
+#: ../addressbook/gui/widgets/e-addressbook-view.c:563
 #: ../mail/importers/pine-importer.c:392
-msgid "Addressbook"
+msgid "Address Book"
 msgstr "地址簿"
 
 #: ../addressbook/gui/component/addressbook-config.c:986
@@ -751,33 +752,33 @@ msgstr ""
 "\n"
 "请稍候，Evolution 正在升迁您的 Pilot 同步数据..."
 
-#: ../addressbook/gui/component/addressbook-view.c:435
+#: ../addressbook/gui/component/addressbook-view.c:434
 #: ../mail/em-folder-utils.c:503
 #, c-format
 msgid "Rename the \"%s\" folder to:"
 msgstr "将“%s”文件夹重命名为："
 
-#: ../addressbook/gui/component/addressbook-view.c:438
+#: ../addressbook/gui/component/addressbook-view.c:437
 #: ../mail/em-folder-utils.c:505
 msgid "Rename Folder"
 msgstr "重命名文件夹"
 
-#: ../addressbook/gui/component/addressbook-view.c:443
+#: ../addressbook/gui/component/addressbook-view.c:442
 #: ../mail/em-folder-utils.c:511
 msgid "Folder names cannot contain '/'"
 msgstr "文件夹名不能含有字符“/”"
 
-#: ../addressbook/gui/component/addressbook-view.c:446
+#: ../addressbook/gui/component/addressbook-view.c:445
 msgid "A Folder with this name already exists"
 msgstr "已经存在此名称的文件夹"
 
-#: ../addressbook/gui/component/addressbook-view.c:954
+#: ../addressbook/gui/component/addressbook-view.c:953
 msgid "_New Address Book"
 msgstr "新建地址簿(_N)"
 
 #. FIXME: need to disable for undeletable folders
-#: ../addressbook/gui/component/addressbook-view.c:955
-#: ../addressbook/gui/widgets/e-addressbook-view.c:964
+#: ../addressbook/gui/component/addressbook-view.c:954
+#: ../addressbook/gui/widgets/e-addressbook-view.c:979
 #: ../calendar/gui/calendar-component.c:538
 #: ../calendar/gui/e-calendar-table.c:1196
 #: ../calendar/gui/e-calendar-view.c:1628 ../calendar/gui/e-memo-table.c:871
@@ -788,17 +789,17 @@ msgstr "新建地址簿(_N)"
 msgid "_Delete"
 msgstr "删除(_D)"
 
-#: ../addressbook/gui/component/addressbook-view.c:957
+#: ../addressbook/gui/component/addressbook-view.c:956
 msgid "Save As Vcard..."
 msgstr "另存为 Vcard..."
 
-#: ../addressbook/gui/component/addressbook-view.c:959
+#: ../addressbook/gui/component/addressbook-view.c:958
 #: ../calendar/gui/calendar-component.c:539
 #: ../calendar/gui/tasks-component.c:444
 msgid "_Properties..."
 msgstr "属性(_P)..."
 
-#: ../addressbook/gui/component/addressbook-view.c:1346
+#: ../addressbook/gui/component/addressbook-view.c:1345
 msgid "Contact Source Selector"
 msgstr "联系人源选择器"
 
@@ -1017,7 +1018,7 @@ msgstr "支持的搜索起点"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:36
 msgid ""
-"The search base is the distinguished name (DN)  of the entry where your "
+"The search base is the distinguished name (DN) of the entry where your "
 "searches will begin. If you leave this blank, the search will begin at the "
 "root of the directory tree."
 msgstr ""
@@ -1223,9 +1224,9 @@ msgid "Contact"
 msgstr "联系人"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:13
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:552
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:567
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2403
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:551
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:566
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2402
 msgid "Contact Editor"
 msgstr "联系人编辑器"
 
@@ -1402,9 +1403,9 @@ msgstr "地址"
 #: ../addressbook/gui/widgets/e-minicard-view.c:520
 #: ../addressbook/gui/widgets/e-minicard.c:175
 #: ../widgets/menus/gal-define-views-model.c:181
-#: ../widgets/table/e-cell-text.c:1770 ../widgets/text/e-entry.c:1312
-#: ../widgets/text/e-entry.c:1313 ../widgets/text/e-text.c:3612
-#: ../widgets/text/e-text.c:3613
+#: ../widgets/table/e-cell-text.c:1772 ../widgets/text/e-entry.c:1312
+#: ../widgets/text/e-entry.c:1313 ../widgets/text/e-text.c:3607
+#: ../widgets/text/e-text.c:3608
 msgid "Editable"
 msgstr "可编辑"
 
@@ -2379,7 +2380,7 @@ msgstr "津巴布韦"
 #: ../addressbook/gui/contact-editor/e-contact-editor-fullname.c:90
 #: ../plugins/exchange-operations/exchange-delegates.c:934
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:717
-#: ../plugins/plugin-manager/plugin-manager.c:44
+#: ../plugins/plugin-manager/plugin-manager.c:42
 #: ../plugins/save-attachments/save-attachments.c:369
 #: ../widgets/menus/gal-view-new-dialog.c:73
 msgid "Name"
@@ -2469,21 +2470,21 @@ msgstr "必需域"
 msgid "Changed"
 msgstr "已更改"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:562
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2398
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:561
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2397
 #, c-format
 msgid "Contact Editor - %s"
 msgstr "联系人编辑器 - %s"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2736
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2757
 msgid "Please select an image for this contact"
 msgstr "请选择此联系人的图像"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2737
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2758
 msgid "No image"
 msgstr "无图像"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3016
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3042
 msgid ""
 "The contact data is invalid:\n"
 "\n"
@@ -2491,7 +2492,7 @@ msgstr ""
 "联系人数据无效：\n"
 "\n"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3068
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3094
 msgid "Invalid contact."
 msgstr "无效的联系人。"
 
@@ -2689,7 +2690,7 @@ msgstr "输入电子邮件地址或者把联系人拖放到下面的列表(_T)�
 #: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:163
 #: ../addressbook/gui/widgets/e-addressbook-model.c:296
 #: ../addressbook/gui/widgets/e-addressbook-reflow-adapter.c:384
-#: ../addressbook/gui/widgets/e-addressbook-view.c:222
+#: ../addressbook/gui/widgets/e-addressbook-view.c:223
 #: ../addressbook/gui/widgets/e-minicard-view-widget.c:107
 #: ../addressbook/gui/widgets/e-minicard-view.c:506
 msgid "Book"
@@ -2744,11 +2745,28 @@ msgstr ""
 "此联系人的姓名或地址已经在本文件夹中存在了。\n"
 "您一定要添加吗？"
 
-#. FIXME: get the toplevel window...
-#: ../addressbook/gui/search/e-addressbook-search-dialog.c:165
-#: ../widgets/misc/e-filter-bar.c:162
-msgid "Advanced Search"
-msgstr "高级搜索"
+#. We attach subitems below
+#: ../addressbook/gui/widgets/addresstypes.xml.h:1
+#: ../addressbook/gui/widgets/e-addressbook-view.c:172
+#: ../calendar/gui/cal-search-bar.c:53
+msgid "Any field contains"
+msgstr "任何域含有"
+
+#: ../addressbook/gui/widgets/addresstypes.xml.h:2
+#: ../addressbook/gui/widgets/e-addressbook-view.c:171
+#: ../calendar/gui/cal-search-bar.c:50
+msgid "Category is"
+msgstr "类别为"
+
+#: ../addressbook/gui/widgets/addresstypes.xml.h:3
+#: ../addressbook/gui/widgets/e-addressbook-view.c:170
+msgid "Email begins with"
+msgstr "邮件以此开头"
+
+#: ../addressbook/gui/widgets/addresstypes.xml.h:4
+#: ../addressbook/gui/widgets/e-addressbook-view.c:169
+msgid "Name begins with"
+msgstr "姓名以此开头"
 
 #: ../addressbook/gui/widgets/e-addressbook-model.c:148
 msgid "No contacts"
@@ -2762,7 +2780,7 @@ msgstr[0] "%d 个联系人"
 
 #: ../addressbook/gui/widgets/e-addressbook-model.c:303
 #: ../addressbook/gui/widgets/e-addressbook-reflow-adapter.c:391
-#: ../addressbook/gui/widgets/e-addressbook-view.c:236
+#: ../addressbook/gui/widgets/e-addressbook-view.c:237
 #: ../addressbook/gui/widgets/e-minicard-view-widget.c:114
 #: ../addressbook/gui/widgets/e-minicard-view.c:513
 msgid "Query"
@@ -2773,12 +2791,12 @@ msgid "Error getting book view"
 msgstr "获取名簿视图出错"
 
 #: ../addressbook/gui/widgets/e-addressbook-reflow-adapter.c:405
-#: ../widgets/table/e-table-click-to-add.c:503
+#: ../widgets/table/e-table-click-to-add.c:502
 #: ../widgets/table/e-table-selection-model.c:311
-#: ../widgets/table/e-table.c:3344
+#: ../widgets/table/e-table.c:3329
 #: ../widgets/table/e-tree-selection-model.c:825
 #: ../widgets/text/e-entry.c:1235 ../widgets/text/e-entry.c:1236
-#: ../widgets/text/e-text.c:3476 ../widgets/text/e-text.c:3477
+#: ../widgets/text/e-text.c:3471 ../widgets/text/e-text.c:3472
 msgid "Model"
 msgstr "模型"
 
@@ -2786,38 +2804,11 @@ msgstr "模型"
 msgid "Error modifying card"
 msgstr "修改名片错误"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:170
-msgid "Name begins with"
-msgstr "姓名以此开头"
-
-#: ../addressbook/gui/widgets/e-addressbook-view.c:171
-msgid "Email begins with"
-msgstr "邮件以此开头"
-
-#: ../addressbook/gui/widgets/e-addressbook-view.c:172
-#: ../calendar/gui/cal-search-bar.c:50
-msgid "Category is"
-msgstr "类别为"
-
-#. We attach subitems below
-#: ../addressbook/gui/widgets/e-addressbook-view.c:173
-#: ../calendar/gui/cal-search-bar.c:53
-msgid "Any field contains"
-msgstr "任何域含有"
-
-#: ../addressbook/gui/widgets/e-addressbook-view.c:174
-msgid "Advanced..."
-msgstr "高级..."
-
-#: ../addressbook/gui/widgets/e-addressbook-view.c:179
-msgid "_Advanced..."
-msgstr "高级(_A)..."
-
-#: ../addressbook/gui/widgets/e-addressbook-view.c:229
+#: ../addressbook/gui/widgets/e-addressbook-view.c:230
 msgid "Source"
 msgstr "来源"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:243
+#: ../addressbook/gui/widgets/e-addressbook-view.c:244
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:11
 #: ../calendar/gui/e-calendar-table.etspec.h:13
 #: ../calendar/gui/e-meeting-list-view.c:479
@@ -2826,17 +2817,13 @@ msgstr "来源"
 msgid "Type"
 msgstr "类型"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:548
-msgid "Address Book"
-msgstr "地址簿"
-
-#: ../addressbook/gui/widgets/e-addressbook-view.c:819
-#: ../addressbook/gui/widgets/e-addressbook-view.c:2049
+#: ../addressbook/gui/widgets/e-addressbook-view.c:834
+#: ../addressbook/gui/widgets/e-addressbook-view.c:2068
 #: ../ui/evolution-addressbook.xml.h:31
 msgid "Save as VCard..."
 msgstr "另存为 VCard..."
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:942
+#: ../addressbook/gui/widgets/e-addressbook-view.c:957
 #: ../calendar/gui/dialogs/comp-editor.c:1093
 #: ../calendar/gui/e-calendar-table.c:1176
 #: ../calendar/gui/e-calendar-view.c:1606 ../calendar/gui/e-memo-table.c:854
@@ -2844,61 +2831,61 @@ msgstr "另存为 VCard..."
 msgid "_Open"
 msgstr "打开(_O)"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:944
+#: ../addressbook/gui/widgets/e-addressbook-view.c:959
 msgid "_New Contact..."
 msgstr "新建联系人(_N)..."
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:945
+#: ../addressbook/gui/widgets/e-addressbook-view.c:960
 msgid "New Contact _List..."
 msgstr "新建联系人列表(_L)..."
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:948
+#: ../addressbook/gui/widgets/e-addressbook-view.c:963
 msgid "_Save as VCard..."
 msgstr "另存为 VCard(_S)..."
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:949
+#: ../addressbook/gui/widgets/e-addressbook-view.c:964
 msgid "_Forward Contact"
 msgstr "转发联系人(_F)"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:950
+#: ../addressbook/gui/widgets/e-addressbook-view.c:965
 msgid "_Forward Contacts"
 msgstr "转发联系人(_F)"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:951
+#: ../addressbook/gui/widgets/e-addressbook-view.c:966
 msgid "Send _Message to Contact"
 msgstr "给联系人发信件(_M)"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:952
+#: ../addressbook/gui/widgets/e-addressbook-view.c:967
 msgid "Send _Message to List"
 msgstr "给列表发信件(_M)"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:953
+#: ../addressbook/gui/widgets/e-addressbook-view.c:968
 msgid "Send _Message to Contacts"
 msgstr "给联系人发信件(_M)"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:954
+#: ../addressbook/gui/widgets/e-addressbook-view.c:969
 msgid "_Print"
 msgstr "打印(_P)"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:957
+#: ../addressbook/gui/widgets/e-addressbook-view.c:972
 msgid "Cop_y to Address Book..."
 msgstr "复制到地址簿(_Y)..."
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:958
+#: ../addressbook/gui/widgets/e-addressbook-view.c:973
 msgid "Mo_ve to Address Book..."
 msgstr "移至地址簿(_V)..."
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:961
+#: ../addressbook/gui/widgets/e-addressbook-view.c:976
 #: ../ui/evolution-composer-entries.xml.h:4 ../ui/evolution-editor.xml.h:8
 msgid "Cu_t"
 msgstr "剪切(_T)"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:962
+#: ../addressbook/gui/widgets/e-addressbook-view.c:977
 #: ../calendar/gui/calendar-component.c:537
 #: ../calendar/gui/dialogs/comp-editor.c:445
 #: ../calendar/gui/e-calendar-table.c:1184
 #: ../calendar/gui/e-calendar-view.c:1613 ../calendar/gui/e-memo-table.c:862
-#: ../calendar/gui/tasks-component.c:442 ../composer/e-msg-composer.c:3102
+#: ../calendar/gui/tasks-component.c:442 ../composer/e-msg-composer.c:3098
 #: ../mail/em-folder-tree.c:979 ../mail/em-folder-view.c:1077
 #: ../mail/message-list.c:1729 ../ui/evolution-addressbook.xml.h:46
 #: ../ui/evolution-calendar.xml.h:37 ../ui/evolution-composer-entries.xml.h:13
@@ -2907,18 +2894,18 @@ msgstr "剪切(_T)"
 msgid "_Copy"
 msgstr "复制(_C)"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:963
+#: ../addressbook/gui/widgets/e-addressbook-view.c:978
 msgid "P_aste"
 msgstr "粘贴(_A)"
 
 #. All, unmatched, separator
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1582
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1601
 #: ../calendar/gui/cal-search-bar.c:346
 msgid "Any Category"
 msgstr "任何类别"
 
 #. FIXME: Allow range selection in table views, as in minicard view
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1784
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1803
 msgid "Print cards"
 msgstr "打印名片"
 
@@ -3096,31 +3083,31 @@ msgstr "网站"
 #: ../addressbook/gui/widgets/e-minicard-label.c:115
 #: ../addressbook/gui/widgets/e-minicard.c:138
 #: ../widgets/misc/e-canvas-vbox.c:96 ../widgets/misc/e-canvas-vbox.c:97
-#: ../widgets/misc/e-reflow.c:1437 ../widgets/misc/e-reflow.c:1438
-#: ../widgets/table/e-table-click-to-add.c:517
+#: ../widgets/misc/e-reflow.c:1434 ../widgets/misc/e-reflow.c:1435
+#: ../widgets/table/e-table-click-to-add.c:516
 #: ../widgets/table/e-table-col.c:98
-#: ../widgets/table/e-table-field-chooser-item.c:667
-#: ../widgets/table/e-table-group-container.c:971
-#: ../widgets/table/e-table-group-container.c:972
+#: ../widgets/table/e-table-field-chooser-item.c:656
+#: ../widgets/table/e-table-group-container.c:967
+#: ../widgets/table/e-table-group-container.c:968
 #: ../widgets/table/e-table-group-leaf.c:629
 #: ../widgets/table/e-table-group-leaf.c:630
-#: ../widgets/table/e-table-item.c:3024 ../widgets/table/e-table-item.c:3025
-#: ../widgets/text/e-text.c:3654 ../widgets/text/e-text.c:3655
+#: ../widgets/table/e-table-item.c:3018 ../widgets/table/e-table-item.c:3019
+#: ../widgets/text/e-text.c:3649 ../widgets/text/e-text.c:3650
 msgid "Width"
 msgstr "宽度"
 
 #: ../addressbook/gui/widgets/e-minicard-label.c:122
 #: ../addressbook/gui/widgets/e-minicard.c:145
 #: ../widgets/misc/e-canvas-vbox.c:108 ../widgets/misc/e-canvas-vbox.c:109
-#: ../widgets/misc/e-reflow.c:1445 ../widgets/misc/e-reflow.c:1446
-#: ../widgets/table/e-table-click-to-add.c:524
-#: ../widgets/table/e-table-field-chooser-item.c:674
-#: ../widgets/table/e-table-group-container.c:964
-#: ../widgets/table/e-table-group-container.c:965
+#: ../widgets/misc/e-reflow.c:1442 ../widgets/misc/e-reflow.c:1443
+#: ../widgets/table/e-table-click-to-add.c:523
+#: ../widgets/table/e-table-field-chooser-item.c:663
+#: ../widgets/table/e-table-group-container.c:960
+#: ../widgets/table/e-table-group-container.c:961
 #: ../widgets/table/e-table-group-leaf.c:622
 #: ../widgets/table/e-table-group-leaf.c:623
-#: ../widgets/table/e-table-item.c:3030 ../widgets/table/e-table-item.c:3031
-#: ../widgets/text/e-text.c:3662 ../widgets/text/e-text.c:3663
+#: ../widgets/table/e-table-item.c:3024 ../widgets/table/e-table-item.c:3025
+#: ../widgets/text/e-text.c:3657 ../widgets/text/e-text.c:3658
 msgid "Height"
 msgstr "高度"
 
@@ -3695,11 +3682,11 @@ msgid "Format"
 msgstr "格式"
 
 #: ../addressbook/printing/e-contact-print.glade.h:11
-#: ../widgets/table/e-table-click-to-add.c:496
+#: ../widgets/table/e-table-click-to-add.c:495
 #: ../widgets/table/e-table-field-chooser-dialog.c:91
-#: ../widgets/table/e-table-field-chooser-item.c:660
-#: ../widgets/table/e-table-field-chooser.c:93
-#: ../widgets/table/e-table-header-item.c:1831
+#: ../widgets/table/e-table-field-chooser-item.c:649
+#: ../widgets/table/e-table-field-chooser.c:91
+#: ../widgets/table/e-table-header-item.c:1825
 #: ../widgets/table/e-table-selection-model.c:318
 msgid "Header"
 msgstr "页眉"
@@ -4271,7 +4258,7 @@ msgid "{0}."
 msgstr "{0}。"
 
 #: ../calendar/common/authentication.c:49 ../calendar/gui/e-pub-utils.c:323
-#: ../smime/gui/component.c:48
+#: ../smime/gui/component.c:50
 msgid "Enter password"
 msgstr "输入密码"
 
@@ -4375,7 +4362,7 @@ msgstr "备忘"
 #: ../calendar/gui/tasks-component.c:1015 ../calendar/gui/tasks-control.c:472
 #: ../calendar/importers/icalendar-importer.c:80
 #: ../calendar/importers/icalendar-importer.c:741
-#: ../plugins/exchange-operations/exchange-folder.c:632
+#: ../plugins/exchange-operations/exchange-folder.c:591
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:384
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:591
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:12
@@ -4425,8 +4412,8 @@ msgstr "约会"
 
 #. Location
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:2
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1270
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1276
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1272
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1278
 #: ../calendar/gui/e-itip-control.c:1119
 #: ../plugins/itip-formatter/itip-view.c:880
 msgid "Location:"
@@ -4447,7 +4434,7 @@ msgstr "午睡时间(_T)："
 #: ../ui/evolution-message-composer.xml.h:46
 #: ../ui/evolution-signature-editor.xml.h:24
 #: ../ui/evolution-subscribe.xml.h:10 ../ui/evolution-tasks.xml.h:25
-#: ../ui/evolution.xml.h:37
+#: ../ui/evolution.xml.h:40
 msgid "_Edit"
 msgstr "编辑(_E)"
 
@@ -4459,32 +4446,32 @@ msgstr "午睡(_S)"
 msgid "location of appointment"
 msgstr "约会位置"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1109
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1252
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1111
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1254
 msgid "No summary available."
 msgstr "没有可用的概览。"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1118
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1120
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1122
 msgid "No description available."
 msgstr "没有描述。"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1128
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1130
 msgid "No location information available."
 msgstr "没有可用的位置信息。"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1186
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1188
 #, c-format
 msgid "You have %d alarms"
 msgstr "您有 %d 个提醒"
 
 #. FIXME
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1346
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1370
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1348
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1372
 msgid "Warning"
 msgstr "警告"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1350
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1352
 msgid ""
 "Evolution does not support calendar reminders with\n"
 "email notifications yet, but this reminder was\n"
@@ -4496,7 +4483,7 @@ msgstr ""
 "发送电子邮件。Evolution 将以\n"
 "显示普通提示会话框代替。"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1376
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1378
 #, c-format
 msgid ""
 "An Evolution Calendar reminder is about to trigger. This reminder is "
@@ -4512,7 +4499,7 @@ msgstr ""
 "\n"
 "您确信您要运行该程序吗？"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1390
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1392
 msgid "Do not ask me about this program again."
 msgstr "不要再次询问此问题。"
 
@@ -4978,7 +4965,7 @@ msgstr "打印"
 #: ../calendar/gui/calendar-component.c:709
 #: ../calendar/gui/dialogs/calendar-setup.c:369
 #: ../calendar/gui/gnome-cal.c:2123
-#: ../plugins/exchange-operations/exchange-folder.c:620
+#: ../plugins/exchange-operations/exchange-folder.c:579
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:383
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:413
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:590
@@ -5092,7 +5079,6 @@ msgid "New calendar"
 msgstr "新建日历"
 
 #: ../calendar/gui/calendar-component.c:1482
-#: ../calendar/gui/dialogs/event-page.c:873
 msgid "Cale_ndar"
 msgstr "日历(_N)"
 
@@ -5128,9 +5114,13 @@ msgstr "打开日历的方法不支持"
 msgid "Permission denied to open the calendar"
 msgstr "没有权限打开日历"
 
-#: ../calendar/gui/comp-editor-factory.c:444 ../shell/e-shell.c:1279
+#: ../calendar/gui/comp-editor-factory.c:444 ../shell/e-shell.c:1271
 msgid "Unknown error"
 msgstr "未知的错误"
+
+#: ../calendar/gui/dialogs/alarm-dialog.c:567
+msgid "Edit Alarm"
+msgstr "编辑提醒"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:1
 msgid "<b>Alarm</b>"
@@ -5233,7 +5223,7 @@ msgstr "分钟"
 msgid "start of appointment"
 msgstr "约会开始"
 
-#: ../calendar/gui/dialogs/alarm-list-dialog.c:203
+#: ../calendar/gui/dialogs/alarm-list-dialog.c:232
 msgid "Action/Trigger"
 msgstr "动作/触发器"
 
@@ -5289,7 +5279,7 @@ msgstr "文件名："
 msgid "MIME type:"
 msgstr "MIME 类型："
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.c:470
+#: ../calendar/gui/dialogs/cal-prefs-dialog.c:469
 msgid "Selected Calendars for Alarms"
 msgstr "已选择用于提醒的日历"
 
@@ -5397,7 +5387,7 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:31
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:5
-#: ../mail/mail-config.glade.h:105
+#: ../mail/mail-config.glade.h:106
 msgid "Pick a color"
 msgstr "选取一种颜色"
 
@@ -5448,7 +5438,7 @@ msgid "Thursday"
 msgstr "星期四"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:42
-#: ../calendar/gui/dialogs/event-page.glade.h:14
+#: ../calendar/gui/dialogs/event-page.glade.h:15
 msgid "Time _zone:"
 msgstr "时区(_Z)："
 
@@ -5463,76 +5453,77 @@ msgid "Tuesday"
 msgstr "星期二"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:45
-msgid "W_eek starts:"
-msgstr "一周开始(_E)："
-
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:46
 #: ../calendar/gui/dialogs/recurrence-page.c:1049
 #: ../calendar/gui/e-itip-control.c:731
 msgid "Wednesday"
 msgstr "星期三"
 
+#. A weekday like "Monday" follows
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:47
+msgid "Wee_k starts on:"
+msgstr "一周开始于(_K)："
+
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:48
 msgid "Work days:"
 msgstr "工作日："
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:48
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:49
 msgid "_12 hour (AM/PM)"
 msgstr "_12 小时(上/下午)"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:49
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:50
 msgid "_24 hour"
 msgstr "_24 小时"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:50
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:51
 msgid "_Ask for confirmation when deleting items"
 msgstr "删除项时要求确认(_A)"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:51
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:52
 msgid "_Compress weekends in month view"
 msgstr "不在月视图中显示周末(_C)"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:52
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:53
 msgid "_Day begins:"
 msgstr "一天开始(_D)："
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:53
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:54
 msgid "_Fri"
 msgstr "周五(_F)"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:54
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:55
 msgid "_Hide completed tasks after"
 msgstr "随后隐藏已完成的任务(_H)"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:55
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:56
 msgid "_Mon"
 msgstr "周一(_M)"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:56
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:57
 msgid "_Overdue tasks:"
 msgstr "延期任务(_O)："
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:57
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:58
 msgid "_Sat"
 msgstr "周六(_S)"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:58
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:59
 msgid "_Show appointment end times in week and month view"
 msgstr "在周视图和月视图中显示约会结束时间(_S)"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:59
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:60
 msgid "_Time divisions:"
 msgstr "时间分割(_T)："
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:60
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:61
 msgid "_Tue"
 msgstr "周二(_T)"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:61
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:62
 msgid "_Wed"
 msgstr "周三(_W)"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:62
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:63
 msgid "before every appointment"
 msgstr "在每次约会前"
 
@@ -5681,27 +5672,27 @@ msgstr " (预定 "
 msgid "Due "
 msgstr "预定 "
 
-#: ../calendar/gui/dialogs/comp-editor.c:207 ../composer/e-msg-composer.c:2854
+#: ../calendar/gui/dialogs/comp-editor.c:207 ../composer/e-msg-composer.c:2850
 #, c-format
 msgid "Attached message - %s"
 msgstr "附加的信件 - %s"
 
 #. translators, this count will always be >1
 #: ../calendar/gui/dialogs/comp-editor.c:212
-#: ../calendar/gui/dialogs/comp-editor.c:382 ../composer/e-msg-composer.c:2859
-#: ../composer/e-msg-composer.c:3038
+#: ../calendar/gui/dialogs/comp-editor.c:382 ../composer/e-msg-composer.c:2855
+#: ../composer/e-msg-composer.c:3034
 #, c-format
 msgid "Attached message"
 msgid_plural "%d attached messages"
 msgstr[0] "%d 封附加的信件"
 
-#: ../calendar/gui/dialogs/comp-editor.c:446 ../composer/e-msg-composer.c:3103
+#: ../calendar/gui/dialogs/comp-editor.c:446 ../composer/e-msg-composer.c:3099
 #: ../mail/em-folder-tree.c:980 ../mail/em-folder-utils.c:368
 #: ../mail/em-folder-view.c:973 ../mail/message-list.c:1730
 msgid "_Move"
 msgstr "移动(_M)"
 
-#: ../calendar/gui/dialogs/comp-editor.c:448 ../composer/e-msg-composer.c:3105
+#: ../calendar/gui/dialogs/comp-editor.c:448 ../composer/e-msg-composer.c:3101
 #: ../mail/em-folder-tree.c:982 ../mail/message-list.c:1732
 msgid "Cancel _Drag"
 msgstr "取消拖曳(_D)"
@@ -5710,7 +5701,7 @@ msgstr "取消拖曳(_D)"
 msgid "Could not update object"
 msgstr "无法更新对象"
 
-#: ../calendar/gui/dialogs/comp-editor.c:952 ../composer/e-msg-composer.c:2483
+#: ../calendar/gui/dialogs/comp-editor.c:952 ../composer/e-msg-composer.c:2479
 #, c-format
 msgid "<b>%d</b> Attachment"
 msgid_plural "<b>%d</b> Attachments"
@@ -5730,7 +5721,7 @@ msgstr "显示附件栏(_B)"
 #: ../calendar/gui/dialogs/meeting-page.c:914
 #: ../calendar/gui/dialogs/task-page.c:1206
 #: ../composer/e-msg-composer-attachment-bar.c:470
-#: ../composer/e-msg-composer.c:3601
+#: ../composer/e-msg-composer.c:3597
 #: ../plugins/groupwise-features/junk-settings.glade.h:8
 #: ../plugins/groupwise-features/properties.glade.h:14
 #: ../widgets/table/e-table-config.glade.h:18
@@ -5739,14 +5730,14 @@ msgstr "删除(_R)"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1095
 #: ../composer/e-msg-composer-attachment-bar.c:471
-#: ../composer/e-msg-composer.c:3602 ../mail/em-folder-tree.c:2058
+#: ../composer/e-msg-composer.c:3598 ../mail/em-folder-tree.c:2058
 #: ../ui/evolution-addressbook.xml.h:59 ../ui/evolution-mail-list.xml.h:33
 msgid "_Properties"
 msgstr "属性(_P)"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1097
 #: ../composer/e-msg-composer-attachment-bar.c:473
-#: ../composer/e-msg-composer.c:3604
+#: ../composer/e-msg-composer.c:3600
 msgid "_Add attachment..."
 msgstr "添加附件(_A)..."
 
@@ -5797,7 +5788,7 @@ msgstr "没有概要"
 #: ../calendar/gui/dialogs/comp-editor.c:2668
 #: ../composer/e-msg-composer-attachment-bar.c:307 ../mail/em-utils.c:156
 #: ../mail/em-utils.c:502 ../mail/em-utils.c:539
-#: ../widgets/misc/e-attachment-bar.c:342
+#: ../widgets/misc/e-attachment-bar.c:339
 msgid "attachment"
 msgstr "附件"
 
@@ -5898,10 +5889,17 @@ msgstr "再现"
 msgid "This event has alarms"
 msgstr "此事件有提醒"
 
+#: ../calendar/gui/dialogs/event-page.c:873
+#: ../calendar/gui/dialogs/event-page.glade.h:7
+msgid "Cale_ndar:"
+msgstr "日历(_N)："
+
 #: ../calendar/gui/dialogs/event-page.c:879
+#: ../calendar/gui/dialogs/event-page.glade.h:13
+#: ../calendar/gui/dialogs/meeting-page.glade.h:5
 #: ../calendar/gui/dialogs/task-page.c:446
-msgid "Or_ganizer"
-msgstr "组织者(_G)"
+msgid "Or_ganizer:"
+msgstr "组织者(_G)："
 
 #: ../calendar/gui/dialogs/event-page.c:917
 msgid "_Delegatees"
@@ -5996,7 +5994,7 @@ msgstr "自定义"
 #: ../calendar/gui/dialogs/meeting-page.c:321
 #: ../calendar/gui/dialogs/meeting-page.glade.h:4
 #: ../calendar/gui/e-cal-model-tasks.c:654
-#: ../calendar/gui/e-itip-control.c:1105 ../composer/e-msg-composer.c:2275
+#: ../calendar/gui/e-itip-control.c:1105 ../composer/e-msg-composer.c:2271
 #: ../filter/filter-rule.c:889 ../mail/em-account-editor.c:691
 #: ../mail/em-account-editor.c:1356 ../mail/em-account-prefs.c:468
 #: ../mail/em-folder-view.c:1106 ../mail/em-junk-hook.c:78
@@ -6006,21 +6004,21 @@ msgstr "自定义"
 #: ../plugins/itip-formatter/itip-formatter.c:1626
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.c:192
 #: ../widgets/misc/e-cell-date-edit.c:249 ../widgets/misc/e-dateedit.c:475
-#: ../widgets/misc/e-dateedit.c:1514 ../widgets/misc/e-dateedit.c:1728
+#: ../widgets/misc/e-dateedit.c:1505 ../widgets/misc/e-dateedit.c:1719
 msgid "None"
 msgstr "无"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:1
+msgid "1 day before appointment"
+msgstr "约会的 1 天前"
+
+#: ../calendar/gui/dialogs/event-page.glade.h:2
 msgid "1 hour before appointment"
 msgstr "约会的 1 小时前"
 
-#: ../calendar/gui/dialogs/event-page.glade.h:2
+#: ../calendar/gui/dialogs/event-page.glade.h:3
 msgid "15 minutes before appointment"
 msgstr "约会的 15 分钟前"
-
-#: ../calendar/gui/dialogs/event-page.glade.h:3
-msgid "1day before appointment"
-msgstr "约会的 1 天前"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:5
 #: ../calendar/gui/dialogs/task-page.glade.h:1
@@ -6032,39 +6030,31 @@ msgstr "出席者(_N)..."
 msgid "Ca_tegories..."
 msgstr "类别(_T)..."
 
-#: ../calendar/gui/dialogs/event-page.glade.h:7
-msgid "Cale_ndar:"
-msgstr "日历(_N)："
-
 #: ../calendar/gui/dialogs/event-page.glade.h:9
 msgid "Custom Alarm:"
 msgstr "自定义提醒："
 
 #: ../calendar/gui/dialogs/event-page.glade.h:10
+#: ../calendar/gui/dialogs/task-page.glade.h:3
+msgid "D_escription:"
+msgstr "描述(_E)："
+
+#: ../calendar/gui/dialogs/event-page.glade.h:11
 msgid "Event Description"
 msgstr "事件描述"
 
-#: ../calendar/gui/dialogs/event-page.glade.h:11
+#: ../calendar/gui/dialogs/event-page.glade.h:12
 msgid "Locat_ion:"
 msgstr "位置(_I)："
 
-#: ../calendar/gui/dialogs/event-page.glade.h:12
-#: ../calendar/gui/dialogs/meeting-page.glade.h:5
-msgid "Or_ganizer:"
-msgstr "组织者(_G)："
-
-#: ../calendar/gui/dialogs/event-page.glade.h:13
+#: ../calendar/gui/dialogs/event-page.glade.h:14
 #: ../calendar/gui/dialogs/task-page.glade.h:6
 msgid "Su_mmary:"
 msgstr "概要(_M)："
 
-#: ../calendar/gui/dialogs/event-page.glade.h:15
+#: ../calendar/gui/dialogs/event-page.glade.h:16
 msgid "_Alarm"
 msgstr "提醒(_A)"
-
-#: ../calendar/gui/dialogs/event-page.glade.h:16
-msgid "_Description:"
-msgstr "描述(_D)："
 
 #: ../calendar/gui/dialogs/event-page.glade.h:17
 msgid "_Time:"
@@ -6169,6 +6159,7 @@ msgid "Unable to open memos in '%s'."
 msgstr "无法打开“%s”中的备忘。"
 
 #: ../calendar/gui/dialogs/memo-page.glade.h:3
+#: ../calendar/gui/dialogs/task-page.c:439
 #: ../calendar/gui/dialogs/task-page.glade.h:9
 msgid "_Group:"
 msgstr "组(_G)："
@@ -6431,10 +6422,6 @@ msgstr "任务(_T)"
 msgid "Task Details"
 msgstr "任务细节"
 
-#: ../calendar/gui/dialogs/task-page.c:439
-msgid "_Group"
-msgstr "组(_G)"
-
 #: ../calendar/gui/dialogs/task-page.c:824
 msgid "Due date is wrong"
 msgstr "到期日期错误"
@@ -6447,10 +6434,6 @@ msgstr "无法打开“%s”中的任务。"
 #: ../calendar/gui/dialogs/task-page.glade.h:2
 msgid "Categor_ies..."
 msgstr "类别(_I)..."
-
-#: ../calendar/gui/dialogs/task-page.glade.h:3
-msgid "D_escription:"
-msgstr "描述(_E)："
 
 #: ../calendar/gui/dialogs/task-page.glade.h:4
 msgid "Or_ganiser:"
@@ -6730,8 +6713,8 @@ msgstr "否"
 #: ../calendar/gui/e-meeting-store.c:225 ../mail/em-utils.c:1312
 #: ../plugins/itip-formatter/itip-formatter.c:240
 #: ../plugins/itip-formatter/itip-formatter.c:1651
-#: ../plugins/plugin-manager/plugin-manager.c:72
-#: ../widgets/misc/e-attachment-bar.c:691
+#: ../plugins/plugin-manager/plugin-manager.c:68
+#: ../widgets/misc/e-attachment-bar.c:686
 #: ../widgets/misc/e-charset-picker.c:62
 msgid "Unknown"
 msgstr "未知"
@@ -6837,7 +6820,7 @@ msgstr "更新对象"
 
 #: ../calendar/gui/e-calendar-table.c:1034
 #: ../calendar/gui/e-calendar-view.c:1141 ../calendar/gui/e-memo-table.c:744
-#: ../composer/e-msg-composer.c:1354
+#: ../composer/e-msg-composer.c:1349
 msgid "Save as..."
 msgstr "另存为..."
 
@@ -7614,10 +7597,7 @@ msgstr "%Y年%m月%d日%A"
 
 #. This is a strftime() format string %m = month number,
 #. %d = month day, %Y = full year.
-#. This is a strftime() format for a short date. %m = month,
-#. %d = day of month, %Y = year (all digits).
 #: ../calendar/gui/e-meeting-time-sel-item.c:452
-#: ../widgets/misc/e-dateedit.c:1737
 msgid "%m/%d/%Y"
 msgstr "%Y-%m-%d"
 
@@ -9922,7 +9902,7 @@ msgid "%.0fG"
 msgstr "%.0fG"
 
 #: ../composer/e-msg-composer-attachment-bar.c:740
-#: ../widgets/misc/e-attachment-bar.c:995
+#: ../widgets/misc/e-attachment-bar.c:986
 msgid "Attachment Bar"
 msgstr "附件栏"
 
@@ -9931,27 +9911,27 @@ msgstr "附件栏"
 #: ../composer/e-msg-composer-attachment.c:297
 #: ../composer/e-msg-composer-attachment.c:313
 #: ../widgets/misc/e-attachment.c:238 ../widgets/misc/e-attachment.c:254
-#: ../widgets/misc/e-attachment.c:442 ../widgets/misc/e-attachment.c:458
+#: ../widgets/misc/e-attachment.c:441 ../widgets/misc/e-attachment.c:457
 #, c-format
 msgid "Cannot attach file %s: %s"
 msgstr "无法附加文件 %s：%s"
 
 #: ../composer/e-msg-composer-attachment.c:195
 #: ../composer/e-msg-composer-attachment.c:305
-#: ../widgets/misc/e-attachment.c:246 ../widgets/misc/e-attachment.c:450
+#: ../widgets/misc/e-attachment.c:246 ../widgets/misc/e-attachment.c:449
 #, c-format
 msgid "Cannot attach file %s: not a regular file"
 msgstr "无法附加文件 %s：不是普通文件"
 
-#: ../composer/e-msg-composer-hdrs.c:558
+#: ../composer/e-msg-composer-hdrs.c:557
 msgid "Posting destination"
 msgstr "投递目的"
 
-#: ../composer/e-msg-composer-hdrs.c:559
+#: ../composer/e-msg-composer-hdrs.c:558
 msgid "Choose folders to post the message to."
 msgstr "选择要将信件投递到哪个文件夹。"
 
-#: ../composer/e-msg-composer-hdrs.c:593
+#: ../composer/e-msg-composer-hdrs.c:589
 msgid "Click here for the address book"
 msgstr "单击此处以使用地址簿"
 
@@ -9962,45 +9942,45 @@ msgstr "单击此处以使用地址簿"
 #. * because that causes from_changed to be called, which
 #. * expects the reply_to fields to be initialized.
 #.
-#: ../composer/e-msg-composer-hdrs.c:623
+#: ../composer/e-msg-composer-hdrs.c:619
 msgid "_Reply-To:"
 msgstr "回复到(_R)："
 
 #.
 #. * From
 #.
-#: ../composer/e-msg-composer-hdrs.c:630
+#: ../composer/e-msg-composer-hdrs.c:626
 msgid "Fr_om:"
 msgstr "发件人(_O)："
 
 #.
 #. * Subject
 #.
-#: ../composer/e-msg-composer-hdrs.c:637
+#: ../composer/e-msg-composer-hdrs.c:633
 msgid "S_ubject:"
 msgstr "主题(_U)："
 
-#: ../composer/e-msg-composer-hdrs.c:646
+#: ../composer/e-msg-composer-hdrs.c:642
 msgid "_To:"
 msgstr "收信人(_T)："
 
-#: ../composer/e-msg-composer-hdrs.c:647
+#: ../composer/e-msg-composer-hdrs.c:643
 msgid "Enter the recipients of the message"
 msgstr "输入信件的收件人"
 
-#: ../composer/e-msg-composer-hdrs.c:650
+#: ../composer/e-msg-composer-hdrs.c:646
 msgid "_Cc:"
 msgstr "抄送(_C)："
 
-#: ../composer/e-msg-composer-hdrs.c:651
+#: ../composer/e-msg-composer-hdrs.c:647
 msgid "Enter the addresses that will receive a carbon copy of the message"
 msgstr "输入将接收该信件副本的收件人地址"
 
-#: ../composer/e-msg-composer-hdrs.c:654
+#: ../composer/e-msg-composer-hdrs.c:650
 msgid "_Bcc:"
 msgstr "暗送(_B)："
 
-#: ../composer/e-msg-composer-hdrs.c:655
+#: ../composer/e-msg-composer-hdrs.c:651
 msgid ""
 "Enter the addresses that will receive a carbon copy of the message without "
 "appearing in the recipient list of the message."
@@ -10009,15 +9989,15 @@ msgstr "输入将接收该信件副本，但不出现在收件人列表中的收
 #.
 #. * Post-To
 #.
-#: ../composer/e-msg-composer-hdrs.c:662
+#: ../composer/e-msg-composer-hdrs.c:658
 msgid "_Post To:"
 msgstr "投递到(_P)："
 
-#: ../composer/e-msg-composer-hdrs.c:667
+#: ../composer/e-msg-composer-hdrs.c:663
 msgid "Click here to select folders to post to"
 msgstr "单击此处以选择要投递到的文件夹"
 
-#: ../composer/e-msg-composer-hdrs.c:673
+#: ../composer/e-msg-composer-hdrs.c:669
 msgid "Post To:"
 msgstr "投递到："
 
@@ -10029,63 +10009,63 @@ msgstr "附件(_T)"
 msgid "Insert Attachment"
 msgstr "插入附件"
 
-#: ../composer/e-msg-composer.c:830
+#: ../composer/e-msg-composer.c:828
 msgid ""
 "Cannot sign outgoing message: No signing certificate set for this account"
 msgstr "无法对寄出的信件签名：未对此账户设置签名证书"
 
-#: ../composer/e-msg-composer.c:837
+#: ../composer/e-msg-composer.c:835
 msgid ""
 "Cannot encrypt outgoing message: No encryption certificate set for this "
 "account"
 msgstr "无法对寄出的信件加密：未对此账户设置加密证书"
 
-#: ../composer/e-msg-composer.c:1300 ../composer/e-msg-composer.c:2512
+#: ../composer/e-msg-composer.c:1295 ../composer/e-msg-composer.c:2508
 msgid "Hide _Attachment Bar"
 msgstr "隐藏附件栏(_A)"
 
-#: ../composer/e-msg-composer.c:1303 ../composer/e-msg-composer.c:2515
-#: ../composer/e-msg-composer.c:3847
+#: ../composer/e-msg-composer.c:1298 ../composer/e-msg-composer.c:2511
+#: ../composer/e-msg-composer.c:3843
 msgid "Show _Attachment Bar"
 msgstr "显示附件栏(_A)"
 
-#: ../composer/e-msg-composer.c:1335 ../composer/e-msg-composer.c:1369
+#: ../composer/e-msg-composer.c:1330 ../composer/e-msg-composer.c:1364
 #: ../plugins/mail-remote/e-corba-utils.c:135
 msgid "Unknown reason"
 msgstr "未知原因"
 
-#: ../composer/e-msg-composer.c:1407
+#: ../composer/e-msg-composer.c:1402
 msgid "Could not open file"
 msgstr "无法打开文件"
 
-#: ../composer/e-msg-composer.c:1415
+#: ../composer/e-msg-composer.c:1410
 msgid "Unable to retrieve message from editor"
 msgstr "无法从编辑器获取信件"
 
-#: ../composer/e-msg-composer.c:1693
+#: ../composer/e-msg-composer.c:1689
 msgid "Untitled Message"
 msgstr "无标题信件"
 
 #. NB: This function is never used anymore
-#: ../composer/e-msg-composer.c:1728
+#: ../composer/e-msg-composer.c:1724
 msgid "Open File"
 msgstr "打开文件"
 
-#: ../composer/e-msg-composer.c:2155 ../mail/em-account-editor.c:596
+#: ../composer/e-msg-composer.c:2151 ../mail/em-account-editor.c:596
 #: ../mail/em-account-editor.c:641 ../mail/em-account-editor.c:708
 msgid "Autogenerated"
 msgstr "自动生成的"
 
-#: ../composer/e-msg-composer.c:2258
+#: ../composer/e-msg-composer.c:2254
 msgid "Si_gnature:"
 msgstr "签名(_G)："
 
-#: ../composer/e-msg-composer.c:2526 ../composer/e-msg-composer.c:3729
-#: ../composer/e-msg-composer.c:3732
+#: ../composer/e-msg-composer.c:2522 ../composer/e-msg-composer.c:3725
+#: ../composer/e-msg-composer.c:3728
 msgid "Compose Message"
 msgstr "撰写新邮件"
 
-#: ../composer/e-msg-composer.c:4956
+#: ../composer/e-msg-composer.c:4952
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)"
 "<b>"
@@ -10223,7 +10203,7 @@ msgstr "保存信件(_S)"
 
 #: ../data/evolution.desktop.in.in.h:1
 #: ../plugins/default-mailer/org-gnome-default-mailer.error.xml.h:2
-#: ../shell/main.c:514
+#: ../shell/main.c:511
 msgid "Evolution"
 msgstr "Evolution"
 
@@ -10462,7 +10442,7 @@ msgstr "选择文件"
 
 #: ../filter/filter-label.c:121 ../mail/em-filter-i18n.h:26
 #: ../mail/em-migrate.c:1052 ../mail/mail-config.c:85
-#: ../mail/mail-config.glade.h:91
+#: ../mail/mail-config.glade.h:92
 msgid "Important"
 msgstr "重要"
 
@@ -10474,7 +10454,7 @@ msgstr "待办"
 
 #. blue
 #: ../filter/filter-label.c:125 ../mail/em-migrate.c:1056
-#: ../mail/mail-config.c:89 ../mail/mail-config.glade.h:95
+#: ../mail/mail-config.c:89 ../mail/mail-config.glade.h:96
 msgid "Later"
 msgstr "稍候"
 
@@ -10696,7 +10676,7 @@ msgid "Mail Accounts"
 msgstr "邮件账户"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:13
-#: ../mail/mail-config.glade.h:98
+#: ../mail/mail-config.glade.h:99
 msgid "Mail Preferences"
 msgstr "邮件首选项"
 
@@ -10730,11 +10710,11 @@ msgstr "选择文件夹"
 msgid "Ask for each message"
 msgstr "每封信都询问"
 
-#: ../mail/em-account-editor.c:1747 ../mail/mail-config.glade.h:90
+#: ../mail/em-account-editor.c:1747 ../mail/mail-config.glade.h:91
 msgid "Identity"
 msgstr "标识"
 
-#: ../mail/em-account-editor.c:1796 ../mail/mail-config.glade.h:117
+#: ../mail/em-account-editor.c:1796 ../mail/mail-config.glade.h:118
 msgid "Receiving Email"
 msgstr "接收电子邮件"
 
@@ -10742,7 +10722,7 @@ msgstr "接收电子邮件"
 msgid "Automatically check for _new mail every"
 msgstr "自动检查新邮件的间隔(_N)"
 
-#: ../mail/em-account-editor.c:2160 ../mail/mail-config.glade.h:129
+#: ../mail/em-account-editor.c:2160 ../mail/mail-config.glade.h:130
 msgid "Sending Email"
 msgstr "发送电子邮件"
 
@@ -10751,7 +10731,7 @@ msgid "Defaults"
 msgstr "默认"
 
 #. Security settings
-#: ../mail/em-account-editor.c:2285 ../mail/mail-config.glade.h:122
+#: ../mail/em-account-editor.c:2285 ../mail/mail-config.glade.h:123
 #: ../plugins/exchange-operations/exchange-account-setup.c:317
 msgid "Security"
 msgstr "安全"
@@ -10790,7 +10770,7 @@ msgstr "[默认]"
 
 #. g_object_set((GObject *)renderer, "activatable", TRUE, NULL);
 #: ../mail/em-account-prefs.c:512 ../mail/em-composer-prefs.c:930
-#: ../plugins/plugin-manager/plugin-manager.c:211
+#: ../plugins/plugin-manager/plugin-manager.c:205
 #: ../plugins/publish-calendar/publish-calendar.c:474
 msgid "Enabled"
 msgstr "已启用"
@@ -10972,7 +10952,7 @@ msgstr "不是"
 msgid "is not Flagged"
 msgstr "未标志"
 
-#: ../mail/em-filter-i18n.h:35 ../mail/mail-config.glade.h:93
+#: ../mail/em-filter-i18n.h:35 ../mail/mail-config.glade.h:94
 #: ../ui/evolution-mail-message.xml.h:48
 msgid "Junk"
 msgstr "垃圾"
@@ -11158,7 +11138,7 @@ msgstr "草稿"
 
 #. translators: standard local mailbox names
 #: ../mail/em-folder-tree-model.c:487 ../mail/mail-component.c:150
-#: ../plugins/exchange-operations/exchange-folder.c:638
+#: ../plugins/exchange-operations/exchange-folder.c:597
 msgid "Inbox"
 msgstr "收件箱"
 
@@ -11219,7 +11199,7 @@ msgstr "在“%s”中扫描文件夹"
 #: ../ui/evolution-editor.xml.h:24 ../ui/evolution-mail-global.xml.h:24
 #: ../ui/evolution-mail-messagedisplay.xml.h:8
 #: ../ui/evolution-message-composer.xml.h:56 ../ui/evolution-tasks.xml.h:30
-#: ../ui/evolution.xml.h:49
+#: ../ui/evolution.xml.h:52
 msgid "_View"
 msgstr "查看(_V)"
 
@@ -12836,80 +12816,84 @@ msgid "Encrypt out_going messages (by default)"
 msgstr "加密寄出的信件(默认)(_G)"
 
 #: ../mail/mail-config.glade.h:81
+msgid "Fi_xed width Font:"
+msgstr "等宽字体(_X)："
+
+#: ../mail/mail-config.glade.h:82
 msgid "Fi_xed-width:"
 msgstr "等宽(_X)："
 
-#: ../mail/mail-config.glade.h:82
+#: ../mail/mail-config.glade.h:83
 msgid "Font Properties"
 msgstr "字体属性"
 
-#: ../mail/mail-config.glade.h:83
+#: ../mail/mail-config.glade.h:84
 msgid "Format messages in _HTML"
 msgstr "用 HTML 格式化信件(_H)"
 
-#: ../mail/mail-config.glade.h:84
+#: ../mail/mail-config.glade.h:85
 msgid "Full Nam_e:"
 msgstr "全名(_E)："
 
-#: ../mail/mail-config.glade.h:86
+#: ../mail/mail-config.glade.h:87
 msgid "HTML Mail"
 msgstr "HTML 邮件"
 
-#: ../mail/mail-config.glade.h:87
+#: ../mail/mail-config.glade.h:88
 msgid "Headers"
 msgstr "信头"
 
-#: ../mail/mail-config.glade.h:88
+#: ../mail/mail-config.glade.h:89
 msgid "Highlight _quotations with"
 msgstr "突出显示引用(_Q)"
 
-#: ../mail/mail-config.glade.h:89
+#: ../mail/mail-config.glade.h:90
 msgid "I_nclude remote tests"
 msgstr "包含远程测试(_N)"
 
-#: ../mail/mail-config.glade.h:92
+#: ../mail/mail-config.glade.h:93
 msgid "Inline"
 msgstr "嵌入"
 
-#: ../mail/mail-config.glade.h:94
+#: ../mail/mail-config.glade.h:95
 msgid "Languages Table"
 msgstr "语言表"
 
-#: ../mail/mail-config.glade.h:96
+#: ../mail/mail-config.glade.h:97
 msgid "Mail Configuration"
 msgstr "邮件配置"
 
-#: ../mail/mail-config.glade.h:97
+#: ../mail/mail-config.glade.h:98
 msgid "Mail Headers Table"
 msgstr "邮件头表"
 
-#: ../mail/mail-config.glade.h:99
+#: ../mail/mail-config.glade.h:100
 msgid "Mailbox location"
 msgstr "邮件箱位置"
 
-#: ../mail/mail-config.glade.h:100
+#: ../mail/mail-config.glade.h:101
 msgid "Message Composer"
 msgstr "信件撰写器"
 
-#: ../mail/mail-config.glade.h:101
+#: ../mail/mail-config.glade.h:102
 msgid ""
 "Note: you will not be prompted for a password until you connect for the "
 "first time"
 msgstr "注意：直到您第一次连接的时候，才会询问密码。"
 
-#: ../mail/mail-config.glade.h:102
+#: ../mail/mail-config.glade.h:103
 msgid "Or_ganization:"
 msgstr "组织(_G)："
 
-#: ../mail/mail-config.glade.h:103
+#: ../mail/mail-config.glade.h:104
 msgid "PGP/GPG _Key ID:"
 msgstr "PGP/GPG 键标识(_K)："
 
-#: ../mail/mail-config.glade.h:106
+#: ../mail/mail-config.glade.h:107
 msgid "Play sound file when new mail arri_ves"
 msgstr "新邮件到达时播放声音文件(_V)"
 
-#: ../mail/mail-config.glade.h:107
+#: ../mail/mail-config.glade.h:108
 msgid ""
 "Please enter a descriptive name for this account in the space below.\n"
 "This name will be used for display purposes only."
@@ -12917,7 +12901,7 @@ msgstr ""
 "请在下面的空白处输入此账户的描述性名称。\n"
 "此名称将只在显示时使用。"
 
-#: ../mail/mail-config.glade.h:109
+#: ../mail/mail-config.glade.h:110
 msgid ""
 "Please enter information about the way you will send mail. If you are not "
 "sure, ask your system administrator or Internet Service Provider."
@@ -12925,7 +12909,7 @@ msgstr ""
 "请在下面输入您的发件服务器信息。如果您不太确定的话，请询问您的系统管理员或者"
 "互联网服务提供商ISP。"
 
-#: ../mail/mail-config.glade.h:110
+#: ../mail/mail-config.glade.h:111
 msgid ""
 "Please enter your name and email address below. The \"optional\" fields "
 "below do not need to be filled in, unless you wish to include this "
@@ -12934,113 +12918,109 @@ msgstr ""
 "请在下面输入您的姓名和电子邮件地址。下面的“可选”域不必填入，除非您想要在您发"
 "出的邮件中包含此信息。"
 
-#: ../mail/mail-config.glade.h:111
+#: ../mail/mail-config.glade.h:112
 msgid "Please select among the following options"
 msgstr "请从以下选项中选择"
 
-#: ../mail/mail-config.glade.h:112
+#: ../mail/mail-config.glade.h:113
 msgid "Pr_ompt when sending messages with only Bcc recipients defined"
 msgstr "发送只有暗送收件人的信件时提示(_O)"
 
-#: ../mail/mail-config.glade.h:113
+#: ../mail/mail-config.glade.h:114
 msgid "Quote original message"
 msgstr "引用原始信件"
 
-#: ../mail/mail-config.glade.h:114
+#: ../mail/mail-config.glade.h:115
 msgid "Quoted"
 msgstr "引用"
 
-#: ../mail/mail-config.glade.h:115
+#: ../mail/mail-config.glade.h:116
 msgid "Re_member password"
 msgstr "记住密码(_M)"
 
-#: ../mail/mail-config.glade.h:116
+#: ../mail/mail-config.glade.h:117
 msgid "Re_ply-To:"
 msgstr "回复到(_P)："
 
-#: ../mail/mail-config.glade.h:118
+#: ../mail/mail-config.glade.h:119
 msgid "Remember _password"
 msgstr "记住密码(_P)"
 
-#: ../mail/mail-config.glade.h:119
+#: ../mail/mail-config.glade.h:120
 msgid "S_elect..."
 msgstr "选择(_E)..."
 
-#: ../mail/mail-config.glade.h:120
+#: ../mail/mail-config.glade.h:121
 msgid "S_tandard Font:"
 msgstr "标准字体(_T)："
 
-#: ../mail/mail-config.glade.h:121
+#: ../mail/mail-config.glade.h:122
 msgid "Se_lect..."
 msgstr "选择(_L)..."
 
-#: ../mail/mail-config.glade.h:123
+#: ../mail/mail-config.glade.h:124
 msgid "Select HTML fixed width font"
 msgstr "选择 HTML 固定宽度字体"
 
-#: ../mail/mail-config.glade.h:124
+#: ../mail/mail-config.glade.h:125
 msgid "Select HTML fixed width font for printing"
 msgstr "选择用于打印的 HTML 固定宽度字体"
 
-#: ../mail/mail-config.glade.h:125
+#: ../mail/mail-config.glade.h:126
 msgid "Select HTML variable width font"
 msgstr "选择 HTML 变宽度字体"
 
-#: ../mail/mail-config.glade.h:126
+#: ../mail/mail-config.glade.h:127
 msgid "Select HTML variable width font for printing"
 msgstr "选择用于打印的 HTML 变宽度字体"
 
-#: ../mail/mail-config.glade.h:127
+#: ../mail/mail-config.glade.h:128
 msgid "Select sound file"
 msgstr "选择声音文件"
 
-#: ../mail/mail-config.glade.h:128
+#: ../mail/mail-config.glade.h:129
 msgid "Send message receipts:"
 msgstr "发送信件收条："
 
-#: ../mail/mail-config.glade.h:130
+#: ../mail/mail-config.glade.h:131
 msgid "Sending Mail"
 msgstr "发送邮件"
 
-#: ../mail/mail-config.glade.h:131
+#: ../mail/mail-config.glade.h:132
 msgid "Sent _Messages Folder:"
 msgstr "已发送信件文件夹(_M)："
 
-#: ../mail/mail-config.glade.h:132
+#: ../mail/mail-config.glade.h:133
 msgid "Ser_ver requires authentication"
 msgstr "服务器需要认证(_V)"
 
-#: ../mail/mail-config.glade.h:133
+#: ../mail/mail-config.glade.h:134
 msgid "Server _Type: "
 msgstr "服务器类型(_T)："
 
-#: ../mail/mail-config.glade.h:134
+#: ../mail/mail-config.glade.h:135
 msgid "Sig_ning certificate:"
 msgstr "签名证书(_N)："
 
-#: ../mail/mail-config.glade.h:135
+#: ../mail/mail-config.glade.h:136
 msgid "Signat_ure:"
 msgstr "签名(_U)："
 
-#: ../mail/mail-config.glade.h:136
+#: ../mail/mail-config.glade.h:137
 msgid "Signatures"
 msgstr "签名"
 
-#: ../mail/mail-config.glade.h:137
+#: ../mail/mail-config.glade.h:138
 msgid "Signatures Table"
 msgstr "签名表"
 
-#: ../mail/mail-config.glade.h:138
+#: ../mail/mail-config.glade.h:139
 msgid "Specify _filename:"
 msgstr "指定文件名(_F)："
 
-#: ../mail/mail-config.glade.h:139
+#: ../mail/mail-config.glade.h:140
 msgid "Spell Checking"
 msgstr "拼写检查"
-
-#: ../mail/mail-config.glade.h:140
-msgid "T_erminal Font:"
-msgstr "终端字体(_E)："
 
 #: ../mail/mail-config.glade.h:141
 msgid "T_ype: "
@@ -14787,7 +14767,7 @@ msgstr "文件夹名称"
 msgid "Folder Size"
 msgstr "文件夹大小"
 
-#: ../plugins/exchange-operations/exchange-folder-subscription.c:192
+#: ../plugins/exchange-operations/exchange-folder-subscription.c:279
 #: ../plugins/exchange-operations/org-gnome-folder-subscription.xml.h:1
 msgid "Subscribe to Other User's Folder"
 msgstr "订阅其他用户的文件夹"
@@ -14903,7 +14883,7 @@ msgid "Select User"
 msgstr "选择用户"
 
 #: ../plugins/exchange-operations/exchange-user-dialog.c:182
-msgid "Addressbook..."
+msgid "Address Book..."
 msgstr "地址簿..."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-ab-subscription.xml.h:1
@@ -15044,7 +15024,7 @@ msgid "Folder offline"
 msgstr "文件夹脱机"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:37
-#: ../shell/e-shell.c:1277
+#: ../shell/e-shell.c:1269
 msgid "Generic error"
 msgstr "常规错误"
 
@@ -15302,7 +15282,7 @@ msgid "<b>Users:</b>"
 msgstr "<b>用户数：</b>"
 
 #: ../plugins/groupwise-features/properties.glade.h:4
-#: ../widgets/table/e-table-click-to-add.c:510
+#: ../widgets/table/e-table-click-to-add.c:509
 msgid "Message"
 msgstr "消息"
 
@@ -16315,7 +16295,7 @@ msgstr "管理插件是启用还是禁用的插件。"
 
 #. Setup the ui
 #: ../plugins/plugin-manager/org-gnome-plugin-manager.eplug.xml.h:2
-#: ../plugins/plugin-manager/plugin-manager.c:186
+#: ../plugins/plugin-manager/plugin-manager.c:180
 msgid "Plugin Manager"
 msgstr "插件管理器"
 
@@ -16327,30 +16307,22 @@ msgstr "启用和禁用插件"
 msgid "_Plugins"
 msgstr "插件(_P)"
 
-#: ../plugins/plugin-manager/plugin-manager.c:45
+#: ../plugins/plugin-manager/plugin-manager.c:43
 msgid "Author(s)"
 msgstr "作者"
 
-#: ../plugins/plugin-manager/plugin-manager.c:46
-msgid "Id"
-msgstr "Id"
-
-#: ../plugins/plugin-manager/plugin-manager.c:47
-msgid "Path"
-msgstr "路径"
-
-#: ../plugins/plugin-manager/plugin-manager.c:48
+#: ../plugins/plugin-manager/plugin-manager.c:44
 #: ../widgets/table/e-table-config-no-group.glade.h:6
 #: ../widgets/table/e-table-config.glade.h:5
 msgid "Description"
 msgstr "描述"
 
-#: ../plugins/plugin-manager/plugin-manager.c:199
+#: ../plugins/plugin-manager/plugin-manager.c:193
 msgid "Note: Some changes will not take effect until restart"
 msgstr "注意：某些更改直到重新启动后才生效"
 
-#: ../plugins/plugin-manager/plugin-manager.c:208
-#: ../plugins/plugin-manager/plugin-manager.c:269
+#: ../plugins/plugin-manager/plugin-manager.c:202
+#: ../plugins/plugin-manager/plugin-manager.c:262
 msgid "Plugin"
 msgstr "插件"
 
@@ -16782,38 +16754,42 @@ msgid "Printer settings"
 msgstr "打印机设置"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:10
+msgid "Sidebar is visible"
+msgstr "侧边栏可见"
+
+#: ../shell/apps_evolution_shell.schemas.in.in.h:11
 msgid "Skip development warning dialog"
 msgstr "跳过开发警告对话框"
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:11 ../shell/main.c:473
+#: ../shell/apps_evolution_shell.schemas.in.in.h:12 ../shell/main.c:470
 msgid "Start in offline mode"
 msgstr "以脱机模式启动"
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:12
+#: ../shell/apps_evolution_shell.schemas.in.in.h:13
 msgid ""
 "The configuration version of Evolution, with major/minor/configuration level "
 "(for example \"2.6.0\")."
 msgstr "Evolution 的配置版本，带主/次/配置级别(如“2.6.0”)。"
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:13
+#: ../shell/apps_evolution_shell.schemas.in.in.h:14
 msgid "The default height for the main window, in pixels."
 msgstr "主窗口的默认高度，以像素计。"
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:14
+#: ../shell/apps_evolution_shell.schemas.in.in.h:15
 msgid "The default width for the main window, in pixels."
 msgstr "主窗口的默认宽度，以像素计。"
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:15
+#: ../shell/apps_evolution_shell.schemas.in.in.h:16
 msgid "The default width for the sidebar, in pixels."
 msgstr "侧边栏的默认宽度，以像素计。"
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:16
+#: ../shell/apps_evolution_shell.schemas.in.in.h:17
 msgid ""
 "The last upgraded configuration version of Evolution, with major/minor/"
 "configuration level (for example \"2.6.0\")."
 msgstr "上次升级的 Evolution 配置版本，带主/次/配置级别(如“2.6.0”)。"
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:17
+#: ../shell/apps_evolution_shell.schemas.in.in.h:18
 msgid ""
 "The style of the window buttons. Can be \"text\", \"icons\", \"both\", "
 "\"toolbar\". If \"toolbar\" is set, the style of the buttons is determined "
@@ -16822,32 +16798,36 @@ msgstr ""
 "窗口按钮的样式。可以是文字、图标、二者、工具栏。如果设置为工具栏，则工具栏的"
 "样式由 GNOME 设置决定。"
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:18
+#: ../shell/apps_evolution_shell.schemas.in.in.h:19
 msgid "Toolbar is visible"
 msgstr "工具栏可见"
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:19
+#: ../shell/apps_evolution_shell.schemas.in.in.h:20
 msgid "Whether Evolution will start up in offline mode instead of online mode."
 msgstr "是否以脱机模式而非联机模式启动 Evolution。"
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:20
+#: ../shell/apps_evolution_shell.schemas.in.in.h:21
+msgid "Whether the sidebar should be visible."
+msgstr "侧边栏是否可见。"
+
+#: ../shell/apps_evolution_shell.schemas.in.in.h:22
 msgid "Whether the toolbar should be visible."
 msgstr "工具栏是否可见。"
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:21
+#: ../shell/apps_evolution_shell.schemas.in.in.h:23
 msgid ""
 "Whether the warning dialog in development versions of Evolution is skipped."
 msgstr "是否跳过 Evoltuion 开发版本的警告。"
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:22
+#: ../shell/apps_evolution_shell.schemas.in.in.h:24
 msgid "Whether the window buttons should be visible."
 msgstr "窗口按钮是否可见。"
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:23
+#: ../shell/apps_evolution_shell.schemas.in.in.h:25
 msgid "Window button style"
 msgstr "窗口按钮样式"
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:24
+#: ../shell/apps_evolution_shell.schemas.in.in.h:26
 msgid "Window buttons are visible"
 msgstr "窗口按钮可见"
 
@@ -16863,8 +16843,8 @@ msgstr "当前连接"
 msgid "Click OK to close these connections and go offline"
 msgstr "单击确定关闭这些连接，并转入脱机操作"
 
-#: ../shell/e-shell-folder-title-bar.c:586
-#: ../shell/e-shell-folder-title-bar.c:587
+#: ../shell/e-shell-folder-title-bar.c:584
+#: ../shell/e-shell-folder-title-bar.c:585
 msgid "(Untitled)"
 msgstr "(无标题)"
 
@@ -16977,7 +16957,7 @@ msgstr "Groupwise 套件"
 msgid "_Work Online"
 msgstr "联机工作(_W)"
 
-#: ../shell/e-shell-window-commands.c:788 ../ui/evolution.xml.h:52
+#: ../shell/e-shell-window-commands.c:788 ../ui/evolution.xml.h:54
 msgid "_Work Offline"
 msgstr "脱机工作(_W)"
 
@@ -16985,19 +16965,19 @@ msgstr "脱机工作(_W)"
 msgid "Work Offline"
 msgstr "脱机工作"
 
-#: ../shell/e-shell-window.c:370
+#: ../shell/e-shell-window.c:368
 msgid "Evolution is currently online. Click on this button to work offline."
 msgstr "Evolution 目前联机。单击该按钮可脱机工作。"
 
-#: ../shell/e-shell-window.c:378
+#: ../shell/e-shell-window.c:376
 msgid "Evolution is in the process of going offline."
 msgstr "Evolution 正在脱机过程中。"
 
-#: ../shell/e-shell-window.c:385
+#: ../shell/e-shell-window.c:383
 msgid "Evolution is currently offline. Click on this button to work online."
 msgstr "Evolution 目前脱机。单击该按钮可联机工作。"
 
-#: ../shell/e-shell-window.c:775
+#: ../shell/e-shell-window.c:783
 #, c-format
 msgid "Switch to %s"
 msgstr "切换到 %s"
@@ -17006,24 +16986,24 @@ msgstr "切换到 %s"
 msgid "Uknown system error."
 msgstr "未知的系统错误。"
 
-#: ../shell/e-shell.c:831 ../shell/e-shell.c:832
+#: ../shell/e-shell.c:829 ../shell/e-shell.c:830
 #, c-format
 msgid "%ld KB"
 msgstr "%ld KB"
 
-#: ../shell/e-shell.c:1269 ../widgets/misc/e-cell-date-edit.c:257
+#: ../shell/e-shell.c:1261 ../widgets/misc/e-cell-date-edit.c:257
 msgid "OK"
 msgstr "确定"
 
-#: ../shell/e-shell.c:1271
+#: ../shell/e-shell.c:1263
 msgid "Invalid arguments"
 msgstr "无效参数"
 
-#: ../shell/e-shell.c:1273
+#: ../shell/e-shell.c:1265
 msgid "Cannot register on OAF"
 msgstr "无法注册到 OAF"
 
-#: ../shell/e-shell.c:1275
+#: ../shell/e-shell.c:1267
 msgid "Configuration Database not found"
 msgstr "找不到配置数据库"
 
@@ -17125,31 +17105,31 @@ msgstr ""
 msgid "Do not tell me again"
 msgstr "不要再通知我"
 
-#: ../shell/main.c:471
+#: ../shell/main.c:468
 msgid "Start Evolution activating the specified component"
 msgstr "启动 Evolution 并激活指定组件"
 
-#: ../shell/main.c:475
+#: ../shell/main.c:472
 msgid "Start in online mode"
 msgstr "以联机模式启动"
 
-#: ../shell/main.c:478
+#: ../shell/main.c:475
 msgid "Forcibly shut down all Evolution components"
 msgstr "强制关闭所有 Evolution 组件"
 
-#: ../shell/main.c:482
+#: ../shell/main.c:479
 msgid "Forcibly re-migrate from Evolution 1.4"
 msgstr "强制从 Evolution 1.4 重新升迁"
 
-#: ../shell/main.c:485
+#: ../shell/main.c:482
 msgid "Send the debugging output of all components to a file."
 msgstr "把所有成员的调试输出发送到一个文件中。"
 
-#: ../shell/main.c:487
+#: ../shell/main.c:484
 msgid "Disable loading of any plugins."
 msgstr "禁止装入任何插件。"
 
-#: ../shell/main.c:518
+#: ../shell/main.c:515
 #, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
@@ -17227,7 +17207,7 @@ msgstr "从先前版本升级失败：{0}"
 
 #: ../shell/shell.error.xml.h:20
 msgid ""
-"Upgrading your data and settings will require upto {0} of disk space, but "
+"Upgrading your data and settings will require up to {0} of disk space, but "
 "you only have {1} available.\n"
 "\n"
 "You will need to make more space available in your home directory before you "
@@ -17295,14 +17275,14 @@ msgstr ""
 "\n"
 "编辑信任设置："
 
-#: ../smime/gui/cert-trust-dialog.c:153
+#: ../smime/gui/cert-trust-dialog.c:154
 msgid ""
 "Because you trust the certificate authority that issued this certificate, "
 "then you trust the authenticity of this certificate unless otherwise "
 "indicated here"
 msgstr "由于您信任颁发此证书的机构，您就将信任此证书的权威性，除非在此声明"
 
-#: ../smime/gui/cert-trust-dialog.c:157
+#: ../smime/gui/cert-trust-dialog.c:158
 msgid ""
 "Because you do not trust the certificate authority that issued this "
 "certificate, then you do not trust the authenticity of this certificate "
@@ -17342,22 +17322,22 @@ msgstr "到期"
 msgid "E-Mail Address"
 msgstr "电子邮件地址"
 
-#: ../smime/gui/certificate-viewer.c:342
+#: ../smime/gui/certificate-viewer.c:341
 #, c-format
 msgid "Certificate Viewer: %s"
 msgstr "证书查看器：%s"
 
-#: ../smime/gui/component.c:45
+#: ../smime/gui/component.c:47
 #, c-format
 msgid "Enter the password for `%s'"
 msgstr "输入“%s”的密码"
 
 #. we're setting the password initially
-#: ../smime/gui/component.c:68
+#: ../smime/gui/component.c:70
 msgid "Enter new password for certificate database"
 msgstr "输入证书数据库的新密码"
 
-#: ../smime/gui/component.c:70
+#: ../smime/gui/component.c:72
 msgid "Enter new password"
 msgstr "输入新密码"
 
@@ -17564,7 +17544,7 @@ msgid "_Edit CA Trust"
 msgstr "编辑 CA 信任(_E)"
 
 #. XXX we shouldn't be popping up dialogs in this code.
-#: ../smime/lib/e-cert-db.c:657
+#: ../smime/lib/e-cert-db.c:664
 msgid "Certificate already exists"
 msgstr "证书已经存在"
 
@@ -17743,27 +17723,27 @@ msgstr "输入 PKCS12 文件的密码："
 msgid "Imported Certificate"
 msgstr "导入的证书"
 
-#: ../tools/evolution-launch-composer.c:324
+#: ../tools/evolution-launch-composer.c:321
 msgid "An attachment to add."
 msgstr "要添加的附件。"
 
-#: ../tools/evolution-launch-composer.c:325
+#: ../tools/evolution-launch-composer.c:322
 msgid "Content type of the attachment."
 msgstr "附件的内容类型。"
 
-#: ../tools/evolution-launch-composer.c:326
+#: ../tools/evolution-launch-composer.c:323
 msgid "The filename to display in the mail."
 msgstr "要在邮件中显示的文件名。"
 
-#: ../tools/evolution-launch-composer.c:327
+#: ../tools/evolution-launch-composer.c:324
 msgid "Description of the attachment."
 msgstr "附件描述。"
 
-#: ../tools/evolution-launch-composer.c:328
+#: ../tools/evolution-launch-composer.c:325
 msgid "Mark attachment to be shown inline by default."
 msgstr "默认让附件只能嵌入显示。"
 
-#: ../tools/evolution-launch-composer.c:329
+#: ../tools/evolution-launch-composer.c:326
 msgid "Default subject for the message."
 msgstr "信件的默认主题。"
 
@@ -17892,7 +17872,7 @@ msgstr "把选中的联系人保存为 VCard。"
 msgid "Save the contacts of the selected folder as VCard"
 msgstr "把选中文件夹中的的联系人保存为 VCard"
 
-#: ../ui/evolution-addressbook.xml.h:34 ../widgets/text/e-text.c:2712
+#: ../ui/evolution-addressbook.xml.h:34 ../widgets/text/e-text.c:2709
 msgid "Select All"
 msgstr "全选"
 
@@ -17967,7 +17947,7 @@ msgstr "将联系人移至(_M)..."
 msgid "_Move Folder Contacts To"
 msgstr "将文件夹联系人移至(_M)"
 
-#: ../ui/evolution-addressbook.xml.h:55 ../ui/evolution.xml.h:43
+#: ../ui/evolution-addressbook.xml.h:55 ../ui/evolution.xml.h:46
 msgid "_New"
 msgstr "新建(_N)"
 
@@ -18170,11 +18150,11 @@ msgstr "关闭(_C)"
 #: ../ui/evolution-editor.xml.h:18 ../ui/evolution-mail-messagedisplay.xml.h:6
 #: ../ui/evolution-message-composer.xml.h:47
 #: ../ui/evolution-signature-editor.xml.h:25
-#: ../ui/evolution-subscribe.xml.h:11 ../ui/evolution.xml.h:38
+#: ../ui/evolution-subscribe.xml.h:11 ../ui/evolution.xml.h:41
 msgid "_File"
 msgstr "文件(_F)"
 
-#: ../ui/evolution-editor.xml.h:19 ../ui/evolution.xml.h:40
+#: ../ui/evolution-editor.xml.h:19 ../ui/evolution.xml.h:43
 msgid "_Help"
 msgstr "帮助(_H)"
 
@@ -18407,12 +18387,12 @@ msgstr "折叠全部线索(_T)"
 msgid "Collapse all message threads"
 msgstr "折叠全部邮件线索"
 
-#: ../ui/evolution-mail-list.xml.h:5 ../ui/evolution-mail-message.xml.h:12
+#: ../ui/evolution-mail-list.xml.h:5
 msgid "Copy selected message(s) to the clipboard"
 msgstr "将选中信件复制到剪贴板"
 
 #. Alphabetical by name, yo
-#: ../ui/evolution-mail-list.xml.h:7 ../ui/evolution-mail-message.xml.h:23
+#: ../ui/evolution-mail-list.xml.h:7
 msgid "Cut selected message(s) to the clipboard"
 msgstr "将选中信件剪切到剪贴板"
 
@@ -18446,10 +18426,10 @@ msgid ""
 msgstr "隐藏已删除的信件而不是在上面显示一条线"
 
 #: ../ui/evolution-mail-list.xml.h:16
-msgid "Mar_k Messages as Read"
-msgstr "把信件标记为已读(_K)"
+msgid "Mar_k All Messages as Read"
+msgstr "把全部信件标记为已读(_K)"
 
-#: ../ui/evolution-mail-list.xml.h:17 ../ui/evolution-mail-message.xml.h:67
+#: ../ui/evolution-mail-list.xml.h:17
 msgid "Paste message(s) from the clipboard"
 msgstr "从剪贴板粘贴信件"
 
@@ -18551,9 +18531,13 @@ msgstr "为选中邮件的邮件列表撰写回复"
 msgid "Compose a reply to the sender of the selected message"
 msgstr "为选中信件的发件人撰写回复"
 
-#: ../ui/evolution-mail-message.xml.h:13
+#: ../ui/evolution-mail-message.xml.h:12
 msgid "Copy selected messages to another folder"
 msgstr "把选中的信件复制到其它文件夹"
+
+#: ../ui/evolution-mail-message.xml.h:13
+msgid "Copy selected messages to the clipboard"
+msgstr "将选中信件复制到剪贴板"
 
 #: ../ui/evolution-mail-message.xml.h:14
 msgid "Create R_ule"
@@ -18591,6 +18575,10 @@ msgstr "根据这封信列表创建信件过滤规则"
 msgid "Create a rule to filter messages with this subject"
 msgstr "根据此主题创建信件过滤规则"
 
+#: ../ui/evolution-mail-message.xml.h:23
+msgid "Cut selected messages to the clipboard"
+msgstr "将选中信件剪切到剪贴板"
+
 #: ../ui/evolution-mail-message.xml.h:24
 msgid "Decrease the text size"
 msgstr "减少文本大小"
@@ -18604,12 +18592,12 @@ msgid "Display the next message"
 msgstr "显示下一封信件"
 
 #: ../ui/evolution-mail-message.xml.h:28
-msgid "Display the next unread message"
-msgstr "显示下一封未读信件"
+msgid "Display the next thread"
+msgstr "显示下一条线索"
 
 #: ../ui/evolution-mail-message.xml.h:29
-msgid "Display the next unread thread"
-msgstr "显示下一封未阅读的线索"
+msgid "Display the next unread message"
+msgstr "显示下一封未读信件"
 
 #: ../ui/evolution-mail-message.xml.h:30
 msgid "Display the previous important message"
@@ -18648,8 +18636,8 @@ msgid "Filter the selected messages for junk status"
 msgstr "把选中的信件标记为垃圾邮件"
 
 #: ../ui/evolution-mail-message.xml.h:39
-msgid "Flag selected message(s) for follow-up"
-msgstr "为选中邮件做跟随标志"
+msgid "Flag selected messages for follow-up"
+msgstr "为选中信件做跟随标志"
 
 #: ../ui/evolution-mail-message.xml.h:40
 msgid "Follow _Up..."
@@ -18684,27 +18672,27 @@ msgid "Mar_k as"
 msgstr "标记为(_K)"
 
 #: ../ui/evolution-mail-message.xml.h:50
-msgid "Mark the selected message(s) as having been read"
+msgid "Mark the selected messages as having been read"
 msgstr "把选中信件标记为已读"
 
 #: ../ui/evolution-mail-message.xml.h:51
-msgid "Mark the selected message(s) as important"
+msgid "Mark the selected messages as important"
 msgstr "把选中信件标记为重要邮件"
 
 #: ../ui/evolution-mail-message.xml.h:52
-msgid "Mark the selected message(s) as junk"
+msgid "Mark the selected messages as junk"
 msgstr "把选中信件标记为垃圾邮件"
 
 #: ../ui/evolution-mail-message.xml.h:53
-msgid "Mark the selected message(s) as not being junk"
+msgid "Mark the selected messages as not being junk"
 msgstr "把选中信件标记为非垃圾邮件"
 
 #: ../ui/evolution-mail-message.xml.h:54
-msgid "Mark the selected message(s) as not having been read"
+msgid "Mark the selected messages as not having been read"
 msgstr "把选中信件标记为未读"
 
 #: ../ui/evolution-mail-message.xml.h:55
-msgid "Mark the selected message(s) as unimportant"
+msgid "Mark the selected messages as unimportant"
 msgstr "把选中信件标记为不重要邮件"
 
 #: ../ui/evolution-mail-message.xml.h:56
@@ -18712,7 +18700,7 @@ msgid "Mark the selected messages for deletion"
 msgstr "为选中信件做删除标记"
 
 #: ../ui/evolution-mail-message.xml.h:57
-msgid "Move selected message(s) to another folder"
+msgid "Move selected messages to another folder"
 msgstr "把选中的信件移至其它文件夹"
 
 #: ../ui/evolution-mail-message.xml.h:59
@@ -18736,16 +18724,20 @@ msgid "Open a window for composing a mail message"
 msgstr "打开窗口以撰写信件"
 
 #: ../ui/evolution-mail-message.xml.h:64
-msgid "Open the selected message in a new window"
+msgid "Open the selected messages in a new window"
 msgstr "在新窗口中打开选中的信件"
 
 #: ../ui/evolution-mail-message.xml.h:65
-msgid "Open the selected message in the composer for editing"
+msgid "Open the selected messages in the composer for editing"
 msgstr "在撰写器中打开选中的信件以便编辑"
 
 #: ../ui/evolution-mail-message.xml.h:66
 msgid "P_revious Unread Message"
 msgstr "上一封未读信件(_R)"
+
+#: ../ui/evolution-mail-message.xml.h:67
+msgid "Paste messages from the clipboard"
+msgstr "从剪贴板粘贴信件"
 
 #: ../ui/evolution-mail-message.xml.h:68
 msgid "Pos_t New Message to Folder"
@@ -18785,11 +18777,11 @@ msgstr "将选中信件重发(退回)给某人"
 
 #: ../ui/evolution-mail-message.xml.h:84
 msgid "Reset the text to its original size"
-msgstr "把文件重新设置为原来的大小"
+msgstr "把文本重新设置为原来的大小"
 
 #: ../ui/evolution-mail-message.xml.h:85
-msgid "Save the message as a text file"
-msgstr "把信件存为文本文件"
+msgid "Save the selected messages as a text file"
+msgstr "把选中信件另存为文本文件"
 
 #: ../ui/evolution-mail-message.xml.h:86
 msgid "Search Folder from Mailing _List..."
@@ -18828,11 +18820,11 @@ msgid "Show a blinking cursor in the body of displayed messages"
 msgstr "在显示信件的信体中显示闪烁光标"
 
 #: ../ui/evolution-mail-message.xml.h:95
-msgid "Show message in the normal style"
+msgid "Show messages in the normal style"
 msgstr "以普通样式显示信件"
 
 #: ../ui/evolution-mail-message.xml.h:96
-msgid "Show message with all email headers"
+msgid "Show messages with all email headers"
 msgstr "显示邮件时显示所有信头"
 
 #: ../ui/evolution-mail-message.xml.h:97
@@ -18840,7 +18832,7 @@ msgid "Show the raw email source of the message"
 msgstr "显示信件的原始邮件源代码"
 
 #: ../ui/evolution-mail-message.xml.h:98
-msgid "Un-delete the selected messages"
+msgid "Undelete the selected messages"
 msgstr "取消选中信件的删除"
 
 #: ../ui/evolution-mail-message.xml.h:99
@@ -19240,11 +19232,11 @@ msgid "_Status Details"
 msgstr "状态细节(_S)"
 
 #: ../ui/evolution-tasks.xml.h:3
-msgid "Copy selected task"
+msgid "Copy selected tasks"
 msgstr "复制选中的任务"
 
 #: ../ui/evolution-tasks.xml.h:5
-msgid "Cut selected task"
+msgid "Cut selected tasks"
 msgstr "剪切选中的任务"
 
 #: ../ui/evolution-tasks.xml.h:7
@@ -19264,7 +19256,7 @@ msgid "Mark selected tasks as complete"
 msgstr "把选中任务标记为完成"
 
 #: ../ui/evolution-tasks.xml.h:12
-msgid "Paste task from the clipboard"
+msgid "Paste tasks from the clipboard"
 msgstr "从剪贴板中粘贴任务"
 
 #: ../ui/evolution-tasks.xml.h:13
@@ -19376,6 +19368,14 @@ msgid "Show information about Evolution"
 msgstr "显示关于 Evolution 的信息"
 
 #: ../ui/evolution.xml.h:24
+msgid "Side _Bar"
+msgstr "侧边栏(_B)"
+
+#: ../ui/evolution.xml.h:25
+msgid "Status _Bar"
+msgstr "状态栏(_B)"
+
+#: ../ui/evolution.xml.h:26
 msgid "Submit Bug Report"
 msgstr "提交错误报告"
 
@@ -19383,75 +19383,75 @@ msgstr "提交错误报告"
 #. _label="Evolution _FAQ"/>
 #.
 #. <separator/>
-#: ../ui/evolution.xml.h:29
+#: ../ui/evolution.xml.h:31
 msgid "Submit _Bug Report"
 msgstr "提交错误报告(_B)"
 
-#: ../ui/evolution.xml.h:30
+#: ../ui/evolution.xml.h:32
 msgid "Submit a bug report using Bug Buddy"
 msgstr "用 Bug Buddy 提交错误报告"
 
-#: ../ui/evolution.xml.h:31
+#: ../ui/evolution.xml.h:33
 msgid "Toggle whether we are working offline."
 msgstr "切换是否脱机工作。"
 
-#: ../ui/evolution.xml.h:32
+#: ../ui/evolution.xml.h:34
 msgid "Tool_bar"
 msgstr "工具栏(_B)"
 
-#: ../ui/evolution.xml.h:33
+#: ../ui/evolution.xml.h:35
 msgid "Tool_bar style"
 msgstr "工具栏样式(_B)"
 
-#: ../ui/evolution.xml.h:34
+#: ../ui/evolution.xml.h:36
+msgid "View/Hide the Side Bar"
+msgstr "查看/隐藏侧边栏"
+
+#: ../ui/evolution.xml.h:37
 msgid "View/Hide the Status Bar"
 msgstr "查看/隐藏状态栏"
 
-#: ../ui/evolution.xml.h:35
+#: ../ui/evolution.xml.h:38
 msgid "_About"
 msgstr "关于(_A)"
 
-#: ../ui/evolution.xml.h:36
+#: ../ui/evolution.xml.h:39
 msgid "_Close Window"
 msgstr "关闭窗口(_C)"
 
-#: ../ui/evolution.xml.h:39
+#: ../ui/evolution.xml.h:42
 msgid "_Forget Passwords"
 msgstr "丢弃密码(_F)"
 
-#: ../ui/evolution.xml.h:41
+#: ../ui/evolution.xml.h:44
 msgid "_Hide buttons"
 msgstr "隐藏按钮(_H)"
 
-#: ../ui/evolution.xml.h:42
+#: ../ui/evolution.xml.h:45
 msgid "_Icons only"
 msgstr "只有图标(_I)"
 
-#: ../ui/evolution.xml.h:44
+#: ../ui/evolution.xml.h:47
 msgid "_Quick Reference"
 msgstr "快速首选项(_Q)"
 
-#: ../ui/evolution.xml.h:45
+#: ../ui/evolution.xml.h:48
 msgid "_Quit"
 msgstr "退出(_Q)"
 
-#: ../ui/evolution.xml.h:46
+#: ../ui/evolution.xml.h:49
 msgid "_Switcher Appearance"
 msgstr "切换器外观(_S)"
 
-#: ../ui/evolution.xml.h:47
+#: ../ui/evolution.xml.h:50
 msgid "_Synchronization Options..."
 msgstr "同步选项(_S)..."
 
-#: ../ui/evolution.xml.h:48
+#: ../ui/evolution.xml.h:51
 msgid "_Text only"
 msgstr "只有文字(_T)"
 
-#: ../ui/evolution.xml.h:50
-msgid "_View Status Bar"
-msgstr "查看状态栏(_V)"
-
-#: ../ui/evolution.xml.h:51
+#: ../ui/evolution.xml.h:53
 msgid "_Window"
 msgstr "窗口(_W)"
 
@@ -19524,7 +19524,7 @@ msgid "With _Status"
 msgstr "状态(_S)"
 
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.c:197
-#: ../widgets/e-timezone-dialog/e-timezone-dialog.c:645
+#: ../widgets/e-timezone-dialog/e-timezone-dialog.c:642
 msgid "UTC"
 msgstr "UTC"
 
@@ -19579,9 +19579,9 @@ msgid "_Edit..."
 msgstr "编辑(_E)..."
 
 #: ../widgets/menus/gal-view-factory-etable.c:39
-#: ../widgets/table/e-table-header-item.c:1845
-#: ../widgets/table/e-table-scrolled.c:224
-#: ../widgets/table/e-table-scrolled.c:225
+#: ../widgets/table/e-table-header-item.c:1839
+#: ../widgets/table/e-table-scrolled.c:222
+#: ../widgets/table/e-table-scrolled.c:223
 msgid "Table"
 msgstr "表格"
 
@@ -19651,7 +19651,7 @@ msgid "MTWTFSS"
 msgstr "一二三四五六日"
 
 #. This is a strftime() format. %B = Month name, %Y = Year.
-#: ../widgets/misc/e-calendar-item.c:1098
+#: ../widgets/misc/e-calendar-item.c:1093
 msgid "%B %Y"
 msgstr "%Y年%B"
 
@@ -19663,62 +19663,62 @@ msgstr "上一按钮"
 msgid "Month Calendar"
 msgstr "月历"
 
-#: ../widgets/misc/e-canvas-background.c:459
-#: ../widgets/misc/e-canvas-background.c:460 ../widgets/text/e-entry.c:1284
-#: ../widgets/text/e-entry.c:1285 ../widgets/text/e-text.c:3568
-#: ../widgets/text/e-text.c:3569
+#: ../widgets/misc/e-canvas-background.c:457
+#: ../widgets/misc/e-canvas-background.c:458 ../widgets/text/e-entry.c:1284
+#: ../widgets/text/e-entry.c:1285 ../widgets/text/e-text.c:3563
+#: ../widgets/text/e-text.c:3564
 msgid "Fill color"
 msgstr "填充颜色"
 
-#: ../widgets/misc/e-canvas-background.c:466
-#: ../widgets/misc/e-canvas-background.c:467
-#: ../widgets/misc/e-canvas-background.c:473
-#: ../widgets/misc/e-canvas-background.c:474 ../widgets/text/e-entry.c:1291
+#: ../widgets/misc/e-canvas-background.c:464
+#: ../widgets/misc/e-canvas-background.c:465
+#: ../widgets/misc/e-canvas-background.c:471
+#: ../widgets/misc/e-canvas-background.c:472 ../widgets/text/e-entry.c:1291
 #: ../widgets/text/e-entry.c:1292 ../widgets/text/e-entry.c:1298
-#: ../widgets/text/e-entry.c:1299 ../widgets/text/e-text.c:3575
-#: ../widgets/text/e-text.c:3576 ../widgets/text/e-text.c:3583
-#: ../widgets/text/e-text.c:3584
+#: ../widgets/text/e-entry.c:1299 ../widgets/text/e-text.c:3570
+#: ../widgets/text/e-text.c:3571 ../widgets/text/e-text.c:3578
+#: ../widgets/text/e-text.c:3579
 msgid "GDK fill color"
 msgstr "GDK 填充颜色"
 
-#: ../widgets/misc/e-canvas-background.c:480
-#: ../widgets/misc/e-canvas-background.c:481 ../widgets/text/e-entry.c:1305
-#: ../widgets/text/e-entry.c:1306 ../widgets/text/e-text.c:3590
-#: ../widgets/text/e-text.c:3591
+#: ../widgets/misc/e-canvas-background.c:478
+#: ../widgets/misc/e-canvas-background.c:479 ../widgets/text/e-entry.c:1305
+#: ../widgets/text/e-entry.c:1306 ../widgets/text/e-text.c:3585
+#: ../widgets/text/e-text.c:3586
 msgid "Fill stipple"
 msgstr "点绘填充"
 
-#: ../widgets/misc/e-canvas-background.c:487
-#: ../widgets/misc/e-canvas-background.c:488
+#: ../widgets/misc/e-canvas-background.c:485
+#: ../widgets/misc/e-canvas-background.c:486
 msgid "X1"
 msgstr "X1"
 
-#: ../widgets/misc/e-canvas-background.c:494
-#: ../widgets/misc/e-canvas-background.c:495
+#: ../widgets/misc/e-canvas-background.c:492
+#: ../widgets/misc/e-canvas-background.c:493
 msgid "X2"
 msgstr "X2"
 
-#: ../widgets/misc/e-canvas-background.c:501
-#: ../widgets/misc/e-canvas-background.c:502
+#: ../widgets/misc/e-canvas-background.c:499
+#: ../widgets/misc/e-canvas-background.c:500
 msgid "Y1"
 msgstr "Y1"
 
-#: ../widgets/misc/e-canvas-background.c:508
-#: ../widgets/misc/e-canvas-background.c:509
+#: ../widgets/misc/e-canvas-background.c:506
+#: ../widgets/misc/e-canvas-background.c:507
 msgid "Y2"
 msgstr "Y2"
 
-#: ../widgets/misc/e-canvas-vbox.c:102 ../widgets/misc/e-reflow.c:1430
-#: ../widgets/table/e-table-group-container.c:978
+#: ../widgets/misc/e-canvas-vbox.c:102 ../widgets/misc/e-reflow.c:1427
+#: ../widgets/table/e-table-group-container.c:974
 #: ../widgets/table/e-table-group-leaf.c:636
-#: ../widgets/table/e-table-item.c:3017
+#: ../widgets/table/e-table-item.c:3011
 msgid "Minimum width"
 msgstr "最小宽度"
 
-#: ../widgets/misc/e-canvas-vbox.c:103 ../widgets/misc/e-reflow.c:1431
-#: ../widgets/table/e-table-group-container.c:979
+#: ../widgets/misc/e-canvas-vbox.c:103 ../widgets/misc/e-reflow.c:1428
+#: ../widgets/table/e-table-group-container.c:975
 #: ../widgets/table/e-table-group-leaf.c:637
-#: ../widgets/table/e-table-item.c:3018
+#: ../widgets/table/e-table-item.c:3012
 msgid "Minimum Width"
 msgstr "最小宽度"
 
@@ -19731,7 +19731,7 @@ msgstr "间距"
 msgid "Now"
 msgstr "现在"
 
-#: ../widgets/misc/e-cell-date-edit.c:802
+#: ../widgets/misc/e-cell-date-edit.c:793
 #, c-format
 msgid "The time must be in the format: %s"
 msgstr "时间必须采用格式：%s"
@@ -19860,12 +19860,12 @@ msgid "Time Combo Box"
 msgstr "时间组合框"
 
 #. This is a strftime() format. %H = hour (0-23), %M = minute.
-#: ../widgets/misc/e-dateedit.c:1445 ../widgets/misc/e-dateedit.c:1772
+#: ../widgets/misc/e-dateedit.c:1436 ../widgets/misc/e-dateedit.c:1763
 msgid "%H:%M"
 msgstr "%H:%M"
 
 #. This is a strftime() format. %I = hour (1-12), %M = minute, %p = am/pm string.
-#: ../widgets/misc/e-dateedit.c:1448 ../widgets/misc/e-dateedit.c:1775
+#: ../widgets/misc/e-dateedit.c:1439 ../widgets/misc/e-dateedit.c:1766
 msgid "%I:%M %p"
 msgstr "%p%I:%M"
 
@@ -19903,11 +19903,11 @@ msgstr "标签部件"
 msgid "A widget to display in place of the usual expander label"
 msgstr "在通常扩展器标签的位置显示的部件"
 
-#: ../widgets/misc/e-expander.c:222 ../widgets/table/e-tree.c:3324
+#: ../widgets/misc/e-expander.c:222 ../widgets/table/e-tree.c:3312
 msgid "Expander Size"
 msgstr "扩展器大小"
 
-#: ../widgets/misc/e-expander.c:223 ../widgets/table/e-tree.c:3325
+#: ../widgets/misc/e-expander.c:223 ../widgets/table/e-tree.c:3313
 msgid "Size of the expander arrow"
 msgstr "扩展器箭头的大小"
 
@@ -19919,16 +19919,21 @@ msgstr "标识器间距"
 msgid "Spacing around expander arrow"
 msgstr "扩展器箭头旁边的间距"
 
-#: ../widgets/misc/e-filter-bar.c:201
+#. FIXME: get the toplevel window...
+#: ../widgets/misc/e-filter-bar.c:163
+msgid "Advanced Search"
+msgstr "高级搜索"
+
+#: ../widgets/misc/e-filter-bar.c:202
 msgid "_Searches"
 msgstr "搜索(_S)"
 
-#: ../widgets/misc/e-filter-bar.c:203
+#: ../widgets/misc/e-filter-bar.c:204
 msgid "Searches"
 msgstr "搜索"
 
 #. FIXME: get the toplevel window...
-#: ../widgets/misc/e-filter-bar.c:226
+#: ../widgets/misc/e-filter-bar.c:227
 msgid "Save Search"
 msgstr "保存搜索"
 
@@ -19948,11 +19953,11 @@ msgstr "高级搜索(_A)..."
 msgid "Choose Image"
 msgstr "选择图像"
 
-#: ../widgets/misc/e-map.c:651
+#: ../widgets/misc/e-map.c:627
 msgid "World Map"
 msgstr "世界地图"
 
-#: ../widgets/misc/e-map.c:653
+#: ../widgets/misc/e-map.c:629
 msgid ""
 "Mouse-based interactive map widget for selecting timezone. Keyboard users "
 "should select the timezone from the below combo box instead."
@@ -19972,55 +19977,55 @@ msgstr "同步私有记录："
 msgid "Sync Categories:"
 msgstr "同步类别："
 
-#: ../widgets/misc/e-reflow.c:1452 ../widgets/misc/e-reflow.c:1453
+#: ../widgets/misc/e-reflow.c:1449 ../widgets/misc/e-reflow.c:1450
 msgid "Empty message"
 msgstr "空信件"
 
-#: ../widgets/misc/e-reflow.c:1459 ../widgets/misc/e-reflow.c:1460
+#: ../widgets/misc/e-reflow.c:1456 ../widgets/misc/e-reflow.c:1457
 msgid "Reflow model"
 msgstr "回流模型"
 
-#: ../widgets/misc/e-reflow.c:1466 ../widgets/misc/e-reflow.c:1467
+#: ../widgets/misc/e-reflow.c:1463 ../widgets/misc/e-reflow.c:1464
 msgid "Column width"
 msgstr "列宽"
 
 #. To translators: This is the accessibility name of
 #. the search bar's text entry widget
-#: ../widgets/misc/e-search-bar.c:372
+#: ../widgets/misc/e-search-bar.c:371
 msgid "Search Text Entry"
 msgstr "搜索文本项"
 
-#: ../widgets/misc/e-search-bar.c:591
+#: ../widgets/misc/e-search-bar.c:588
 msgid "_Search"
 msgstr "搜索(_S)"
 
-#: ../widgets/misc/e-search-bar.c:597
+#: ../widgets/misc/e-search-bar.c:594
 msgid "_Find Now"
 msgstr "立即查找(_F)"
 
-#: ../widgets/misc/e-search-bar.c:598 ../widgets/misc/e-search-bar.c:985
+#: ../widgets/misc/e-search-bar.c:595 ../widgets/misc/e-search-bar.c:982
 msgid "_Clear"
 msgstr "清除(_C)"
 
-#: ../widgets/misc/e-search-bar.c:689
+#: ../widgets/misc/e-search-bar.c:686
 msgid "Search Type"
 msgstr "搜索类型"
 
-#: ../widgets/misc/e-search-bar.c:893
+#: ../widgets/misc/e-search-bar.c:890
 msgid "Item ID"
 msgstr "项目 ID"
 
-#: ../widgets/misc/e-search-bar.c:900
+#: ../widgets/misc/e-search-bar.c:897
 msgid "Subitem ID"
 msgstr "子项目 ID"
 
-#: ../widgets/misc/e-search-bar.c:907 ../widgets/text/e-entry.c:1249
-#: ../widgets/text/e-entry.c:1250 ../widgets/text/e-text.c:3490
-#: ../widgets/text/e-text.c:3491
+#: ../widgets/misc/e-search-bar.c:904 ../widgets/text/e-entry.c:1249
+#: ../widgets/text/e-entry.c:1250 ../widgets/text/e-text.c:3485
+#: ../widgets/text/e-text.c:3486
 msgid "Text"
 msgstr "文字"
 
-#: ../widgets/misc/e-search-bar.c:987
+#: ../widgets/misc/e-search-bar.c:984
 msgid "Find _Now"
 msgstr "立即查找(_N)"
 
@@ -20046,7 +20051,7 @@ msgstr "选择模式"
 msgid "Cursor Mode"
 msgstr "光标模式"
 
-#: ../widgets/misc/e-send-options.c:524
+#: ../widgets/misc/e-send-options.c:522
 msgid "When de_leted:"
 msgstr "删除时(_L)："
 
@@ -20222,23 +20227,23 @@ msgstr "聚焦列"
 msgid "Unselected Column"
 msgstr "未选列"
 
-#: ../widgets/table/e-cell-text.c:1742
+#: ../widgets/table/e-cell-text.c:1744
 msgid "Strikeout Column"
 msgstr "给列加删除线"
 
-#: ../widgets/table/e-cell-text.c:1749
+#: ../widgets/table/e-cell-text.c:1751
 msgid "Underline Column"
 msgstr "给列加下划线"
 
-#: ../widgets/table/e-cell-text.c:1756
+#: ../widgets/table/e-cell-text.c:1758
 msgid "Bold Column"
 msgstr "给列加粗"
 
-#: ../widgets/table/e-cell-text.c:1763
+#: ../widgets/table/e-cell-text.c:1765
 msgid "Color Column"
 msgstr "给列着色"
 
-#: ../widgets/table/e-cell-text.c:1777
+#: ../widgets/table/e-cell-text.c:1779
 msgid "BG Color Column"
 msgstr "给列着背景色"
 
@@ -20286,7 +20291,6 @@ msgid "Sh_ow these fields in order:"
 msgstr "按顺序显示这些域(_O)："
 
 #: ../widgets/table/e-table-config-no-group.glade.h:12
-#: ../widgets/table/e-table-config.c:563
 #: ../widgets/table/e-table-config.glade.h:10
 msgid "Show Fields"
 msgstr "显示域"
@@ -20345,10 +20349,6 @@ msgstr "未排序"
 msgid "No grouping"
 msgstr "未分组"
 
-#: ../widgets/table/e-table-config.c:584
-msgid "Available Fields"
-msgstr "可用域"
-
 #: ../widgets/table/e-table-config.glade.h:17
 msgid "_Group By..."
 msgstr "分组依据(_G)..."
@@ -20358,16 +20358,16 @@ msgid "_Show these fields in order:"
 msgstr "按顺序显示这些域(_S)："
 
 #: ../widgets/table/e-table-field-chooser-dialog.c:77
-#: ../widgets/table/e-table-field-chooser-item.c:646
-#: ../widgets/table/e-table-field-chooser.c:79
-#: ../widgets/table/e-table-header-item.c:1810
+#: ../widgets/table/e-table-field-chooser-item.c:635
+#: ../widgets/table/e-table-field-chooser.c:77
+#: ../widgets/table/e-table-header-item.c:1804
 msgid "DnD code"
 msgstr "拖放代码"
 
 #: ../widgets/table/e-table-field-chooser-dialog.c:84
-#: ../widgets/table/e-table-field-chooser-item.c:653
-#: ../widgets/table/e-table-field-chooser.c:86
-#: ../widgets/table/e-table-header-item.c:1824
+#: ../widgets/table/e-table-field-chooser-item.c:642
+#: ../widgets/table/e-table-field-chooser.c:84
+#: ../widgets/table/e-table-header-item.c:1818
 msgid "Full Header"
 msgstr "完整标题"
 
@@ -20385,198 +20385,198 @@ msgid ""
 "the location in which you want it to appear."
 msgstr "要在您的表格中添加列，请将其拖曳到您想要其出现的位置。"
 
-#: ../widgets/table/e-table-group-container.c:350
+#: ../widgets/table/e-table-group-container.c:346
 #, c-format
 msgid "%s : %s (%d item)"
 msgstr "%s：%s (%d 项)"
 
-#: ../widgets/table/e-table-group-container.c:351
+#: ../widgets/table/e-table-group-container.c:347
 #, c-format
 msgid "%s : %s (%d items)"
 msgstr "%s：%s (%d 项)"
 
-#: ../widgets/table/e-table-group-container.c:356
+#: ../widgets/table/e-table-group-container.c:352
 #, c-format
 msgid "%s (%d item)"
 msgstr "%s (%d 项)"
 
-#: ../widgets/table/e-table-group-container.c:357
+#: ../widgets/table/e-table-group-container.c:353
 #, c-format
 msgid "%s (%d items)"
 msgstr "%s (%d 项)"
 
-#: ../widgets/table/e-table-group-container.c:901
-#: ../widgets/table/e-table-group-container.c:902
+#: ../widgets/table/e-table-group-container.c:897
+#: ../widgets/table/e-table-group-container.c:898
 #: ../widgets/table/e-table-group-leaf.c:573
 #: ../widgets/table/e-table-group-leaf.c:574
-#: ../widgets/table/e-table-item.c:2975 ../widgets/table/e-table-item.c:2976
+#: ../widgets/table/e-table-item.c:2969 ../widgets/table/e-table-item.c:2970
 msgid "Alternating Row Colors"
 msgstr "交替行色"
 
-#: ../widgets/table/e-table-group-container.c:908
-#: ../widgets/table/e-table-group-container.c:909
+#: ../widgets/table/e-table-group-container.c:904
+#: ../widgets/table/e-table-group-container.c:905
 #: ../widgets/table/e-table-group-leaf.c:580
 #: ../widgets/table/e-table-group-leaf.c:581
-#: ../widgets/table/e-table-item.c:2982 ../widgets/table/e-table-item.c:2983
-#: ../widgets/table/e-tree.c:3277 ../widgets/table/e-tree.c:3278
+#: ../widgets/table/e-table-item.c:2976 ../widgets/table/e-table-item.c:2977
+#: ../widgets/table/e-tree.c:3265 ../widgets/table/e-tree.c:3266
 msgid "Horizontal Draw Grid"
 msgstr "水平绘制网格"
 
-#: ../widgets/table/e-table-group-container.c:915
-#: ../widgets/table/e-table-group-container.c:916
+#: ../widgets/table/e-table-group-container.c:911
+#: ../widgets/table/e-table-group-container.c:912
 #: ../widgets/table/e-table-group-leaf.c:587
 #: ../widgets/table/e-table-group-leaf.c:588
-#: ../widgets/table/e-table-item.c:2989 ../widgets/table/e-table-item.c:2990
-#: ../widgets/table/e-tree.c:3283 ../widgets/table/e-tree.c:3284
+#: ../widgets/table/e-table-item.c:2983 ../widgets/table/e-table-item.c:2984
+#: ../widgets/table/e-tree.c:3271 ../widgets/table/e-tree.c:3272
 msgid "Vertical Draw Grid"
 msgstr "垂直绘制网格"
 
-#: ../widgets/table/e-table-group-container.c:922
-#: ../widgets/table/e-table-group-container.c:923
+#: ../widgets/table/e-table-group-container.c:918
+#: ../widgets/table/e-table-group-container.c:919
 #: ../widgets/table/e-table-group-leaf.c:594
 #: ../widgets/table/e-table-group-leaf.c:595
-#: ../widgets/table/e-table-item.c:2996 ../widgets/table/e-table-item.c:2997
-#: ../widgets/table/e-tree.c:3289 ../widgets/table/e-tree.c:3290
+#: ../widgets/table/e-table-item.c:2990 ../widgets/table/e-table-item.c:2991
+#: ../widgets/table/e-tree.c:3277 ../widgets/table/e-tree.c:3278
 msgid "Draw focus"
 msgstr "绘制焦点"
 
-#: ../widgets/table/e-table-group-container.c:929
-#: ../widgets/table/e-table-group-container.c:930
+#: ../widgets/table/e-table-group-container.c:925
+#: ../widgets/table/e-table-group-container.c:926
 #: ../widgets/table/e-table-group-leaf.c:601
 #: ../widgets/table/e-table-group-leaf.c:602
-#: ../widgets/table/e-table-item.c:3003 ../widgets/table/e-table-item.c:3004
+#: ../widgets/table/e-table-item.c:2997 ../widgets/table/e-table-item.c:2998
 msgid "Cursor mode"
 msgstr "光标模式"
 
-#: ../widgets/table/e-table-group-container.c:936
-#: ../widgets/table/e-table-group-container.c:937
+#: ../widgets/table/e-table-group-container.c:932
+#: ../widgets/table/e-table-group-container.c:933
 #: ../widgets/table/e-table-group-leaf.c:615
 #: ../widgets/table/e-table-group-leaf.c:616
-#: ../widgets/table/e-table-item.c:2968 ../widgets/table/e-table-item.c:2969
+#: ../widgets/table/e-table-item.c:2962 ../widgets/table/e-table-item.c:2963
 msgid "Selection model"
 msgstr "选择模型"
 
-#: ../widgets/table/e-table-group-container.c:943
-#: ../widgets/table/e-table-group-container.c:944
+#: ../widgets/table/e-table-group-container.c:939
+#: ../widgets/table/e-table-group-container.c:940
 #: ../widgets/table/e-table-group-leaf.c:608
 #: ../widgets/table/e-table-group-leaf.c:609
-#: ../widgets/table/e-table-item.c:3010 ../widgets/table/e-table-item.c:3011
-#: ../widgets/table/e-table.c:3316 ../widgets/table/e-tree.c:3271
-#: ../widgets/table/e-tree.c:3272
+#: ../widgets/table/e-table-item.c:3004 ../widgets/table/e-table-item.c:3005
+#: ../widgets/table/e-table.c:3301 ../widgets/table/e-tree.c:3259
+#: ../widgets/table/e-tree.c:3260
 msgid "Length Threshold"
 msgstr "长度阀值"
 
-#: ../widgets/table/e-table-group-container.c:950
-#: ../widgets/table/e-table-group-container.c:951
+#: ../widgets/table/e-table-group-container.c:946
+#: ../widgets/table/e-table-group-container.c:947
 #: ../widgets/table/e-table-group-leaf.c:650
 #: ../widgets/table/e-table-group-leaf.c:651
-#: ../widgets/table/e-table-item.c:3044 ../widgets/table/e-table-item.c:3045
-#: ../widgets/table/e-table.c:3323 ../widgets/table/e-tree.c:3303
-#: ../widgets/table/e-tree.c:3304
+#: ../widgets/table/e-table-item.c:3038 ../widgets/table/e-table-item.c:3039
+#: ../widgets/table/e-table.c:3308 ../widgets/table/e-tree.c:3291
+#: ../widgets/table/e-tree.c:3292
 msgid "Uniform row height"
 msgstr "统一行高"
 
-#: ../widgets/table/e-table-group-container.c:957
-#: ../widgets/table/e-table-group-container.c:958
+#: ../widgets/table/e-table-group-container.c:953
+#: ../widgets/table/e-table-group-container.c:954
 #: ../widgets/table/e-table-group-leaf.c:643
 #: ../widgets/table/e-table-group-leaf.c:644
 msgid "Frozen"
 msgstr "冻结"
 
-#: ../widgets/table/e-table-header-item.c:1472
+#: ../widgets/table/e-table-header-item.c:1466
 msgid "Customize Current View"
 msgstr "自定义当前视图"
 
-#: ../widgets/table/e-table-header-item.c:1492
+#: ../widgets/table/e-table-header-item.c:1486
 msgid "Sort Ascending"
 msgstr "升序排序"
 
-#: ../widgets/table/e-table-header-item.c:1493
+#: ../widgets/table/e-table-header-item.c:1487
 msgid "Sort Descending"
 msgstr "降序排序"
 
-#: ../widgets/table/e-table-header-item.c:1494
+#: ../widgets/table/e-table-header-item.c:1488
 msgid "Unsort"
 msgstr "未排序"
 
-#: ../widgets/table/e-table-header-item.c:1496
+#: ../widgets/table/e-table-header-item.c:1490
 msgid "Group By This Field"
 msgstr "按该域分组"
 
-#: ../widgets/table/e-table-header-item.c:1497
+#: ../widgets/table/e-table-header-item.c:1491
 msgid "Group By Box"
 msgstr "按方框分组"
 
-#: ../widgets/table/e-table-header-item.c:1499
+#: ../widgets/table/e-table-header-item.c:1493
 msgid "Remove This Column"
 msgstr "删除该列"
 
-#: ../widgets/table/e-table-header-item.c:1500
+#: ../widgets/table/e-table-header-item.c:1494
 msgid "Add a Column..."
 msgstr "添加一列..."
 
-#: ../widgets/table/e-table-header-item.c:1502
+#: ../widgets/table/e-table-header-item.c:1496
 msgid "Alignment"
 msgstr "对齐"
 
-#: ../widgets/table/e-table-header-item.c:1503
+#: ../widgets/table/e-table-header-item.c:1497
 msgid "Best Fit"
 msgstr "最佳匹配"
 
-#: ../widgets/table/e-table-header-item.c:1504
+#: ../widgets/table/e-table-header-item.c:1498
 msgid "Format Columns..."
 msgstr "格式化列..."
 
-#: ../widgets/table/e-table-header-item.c:1506
+#: ../widgets/table/e-table-header-item.c:1500
 msgid "Customize Current View..."
 msgstr "自定义当前视图..."
 
-#: ../widgets/table/e-table-header-item.c:1817 ../widgets/text/e-entry.c:1263
+#: ../widgets/table/e-table-header-item.c:1811 ../widgets/text/e-entry.c:1263
 #: ../widgets/text/e-entry.c:1264
 msgid "Fontset"
 msgstr "字体集"
 
-#: ../widgets/table/e-table-header-item.c:1838
+#: ../widgets/table/e-table-header-item.c:1832
 #: ../widgets/table/e-table-sorter.c:175
 msgid "Sort Info"
 msgstr "排序信息"
 
-#: ../widgets/table/e-table-header-item.c:1852
-#: ../widgets/table/e-tree-scrolled.c:223
-#: ../widgets/table/e-tree-scrolled.c:224
+#: ../widgets/table/e-table-header-item.c:1846
+#: ../widgets/table/e-tree-scrolled.c:221
+#: ../widgets/table/e-tree-scrolled.c:222
 msgid "Tree"
 msgstr "树"
 
-#: ../widgets/table/e-table-item.c:2954 ../widgets/table/e-table-item.c:2955
+#: ../widgets/table/e-table-item.c:2948 ../widgets/table/e-table-item.c:2949
 msgid "Table header"
 msgstr "表头"
 
-#: ../widgets/table/e-table-item.c:2961 ../widgets/table/e-table-item.c:2962
+#: ../widgets/table/e-table-item.c:2955 ../widgets/table/e-table-item.c:2956
 msgid "Table model"
 msgstr "表格模型"
 
-#: ../widgets/table/e-table-item.c:3037 ../widgets/table/e-table-item.c:3038
+#: ../widgets/table/e-table-item.c:3031 ../widgets/table/e-table-item.c:3032
 msgid "Cursor row"
 msgstr "光标行"
 
-#: ../widgets/table/e-table.c:3330 ../widgets/table/e-tree.c:3310
-#: ../widgets/table/e-tree.c:3311
+#: ../widgets/table/e-table.c:3315 ../widgets/table/e-tree.c:3298
+#: ../widgets/table/e-tree.c:3299
 msgid "Always search"
 msgstr "总是搜索"
 
-#: ../widgets/table/e-table.c:3337
+#: ../widgets/table/e-table.c:3322
 msgid "Use click to add"
 msgstr "单击可添加"
 
-#: ../widgets/table/e-tree.c:3296 ../widgets/table/e-tree.c:3297
+#: ../widgets/table/e-tree.c:3284 ../widgets/table/e-tree.c:3285
 msgid "ETree table adapter"
 msgstr "ETree 表格适配器"
 
-#: ../widgets/table/e-tree.c:3317
+#: ../widgets/table/e-tree.c:3305
 msgid "Retro Look"
 msgstr "火箭外观"
 
-#: ../widgets/table/e-tree.c:3318
+#: ../widgets/table/e-tree.c:3306
 msgid "Draw lines and +/- expanders."
 msgstr "绘制行和 +/- 扩展柄。"
 
@@ -20593,7 +20593,7 @@ msgid "This should test the minicard canvas item"
 msgstr "这应该测试迷你卡画布项"
 
 #: ../widgets/text/e-entry.c:1242 ../widgets/text/e-entry.c:1243
-#: ../widgets/text/e-text.c:3483 ../widgets/text/e-text.c:3484
+#: ../widgets/text/e-text.c:3478 ../widgets/text/e-text.c:3479
 msgid "Event Processor"
 msgstr "事件处理器"
 
@@ -20606,57 +20606,57 @@ msgid "GDKFont"
 msgstr "GDKFont"
 
 #: ../widgets/text/e-entry.c:1277 ../widgets/text/e-entry.c:1278
-#: ../widgets/text/e-text.c:3519 ../widgets/text/e-text.c:3520
+#: ../widgets/text/e-text.c:3514 ../widgets/text/e-text.c:3515
 msgid "Justification"
 msgstr "两端对齐"
 
 #: ../widgets/text/e-entry.c:1319 ../widgets/text/e-entry.c:1320
-#: ../widgets/text/e-text.c:3619 ../widgets/text/e-text.c:3620
+#: ../widgets/text/e-text.c:3614 ../widgets/text/e-text.c:3615
 msgid "Use ellipsis"
 msgstr "使用椭圆"
 
 #: ../widgets/text/e-entry.c:1326 ../widgets/text/e-entry.c:1327
-#: ../widgets/text/e-text.c:3626 ../widgets/text/e-text.c:3627
+#: ../widgets/text/e-text.c:3621 ../widgets/text/e-text.c:3622
 msgid "Ellipsis"
 msgstr "椭圆"
 
 #: ../widgets/text/e-entry.c:1333 ../widgets/text/e-entry.c:1334
-#: ../widgets/text/e-text.c:3633 ../widgets/text/e-text.c:3634
+#: ../widgets/text/e-text.c:3628 ../widgets/text/e-text.c:3629
 msgid "Line wrap"
 msgstr "换行"
 
 #: ../widgets/text/e-entry.c:1340 ../widgets/text/e-entry.c:1341
-#: ../widgets/text/e-text.c:3640 ../widgets/text/e-text.c:3641
+#: ../widgets/text/e-text.c:3635 ../widgets/text/e-text.c:3636
 msgid "Break characters"
 msgstr "换行字符"
 
 #: ../widgets/text/e-entry.c:1347 ../widgets/text/e-entry.c:1348
-#: ../widgets/text/e-text.c:3647 ../widgets/text/e-text.c:3648
+#: ../widgets/text/e-text.c:3642 ../widgets/text/e-text.c:3643
 msgid "Max lines"
 msgstr "最多行数"
 
 #: ../widgets/text/e-entry.c:1354 ../widgets/text/e-entry.c:1355
-#: ../widgets/text/e-text.c:3676 ../widgets/text/e-text.c:3677
+#: ../widgets/text/e-text.c:3671 ../widgets/text/e-text.c:3672
 msgid "Allow newlines"
 msgstr "允许新行"
 
 #: ../widgets/text/e-entry.c:1361 ../widgets/text/e-entry.c:1362
-#: ../widgets/text/e-text.c:3669 ../widgets/text/e-text.c:3670
+#: ../widgets/text/e-text.c:3664 ../widgets/text/e-text.c:3665
 msgid "Draw borders"
 msgstr "绘制边框"
 
 #: ../widgets/text/e-entry.c:1368 ../widgets/text/e-entry.c:1369
-#: ../widgets/text/e-text.c:3683 ../widgets/text/e-text.c:3684
+#: ../widgets/text/e-text.c:3678 ../widgets/text/e-text.c:3679
 msgid "Draw background"
 msgstr "绘制背景"
 
 #: ../widgets/text/e-entry.c:1375 ../widgets/text/e-entry.c:1376
-#: ../widgets/text/e-text.c:3690 ../widgets/text/e-text.c:3691
+#: ../widgets/text/e-text.c:3685 ../widgets/text/e-text.c:3686
 msgid "Draw button"
 msgstr "绘制按钮"
 
 #: ../widgets/text/e-entry.c:1382 ../widgets/text/e-entry.c:1383
-#: ../widgets/text/e-text.c:3697 ../widgets/text/e-text.c:3698
+#: ../widgets/text/e-text.c:3692 ../widgets/text/e-text.c:3693
 msgid "Cursor position"
 msgstr "光标位置"
 
@@ -20664,59 +20664,59 @@ msgstr "光标位置"
 msgid "Emulate label resize"
 msgstr "模拟标签缩放"
 
-#: ../widgets/text/e-text.c:2724
+#: ../widgets/text/e-text.c:2721
 msgid "Input Methods"
 msgstr "输入法"
 
-#: ../widgets/text/e-text.c:3497 ../widgets/text/e-text.c:3498
+#: ../widgets/text/e-text.c:3492 ../widgets/text/e-text.c:3493
 msgid "Bold"
 msgstr "粗体"
 
-#: ../widgets/text/e-text.c:3504 ../widgets/text/e-text.c:3505
+#: ../widgets/text/e-text.c:3499 ../widgets/text/e-text.c:3500
 msgid "Strikeout"
 msgstr "删除线"
 
-#: ../widgets/text/e-text.c:3511 ../widgets/text/e-text.c:3512
+#: ../widgets/text/e-text.c:3506 ../widgets/text/e-text.c:3507
 msgid "Anchor"
 msgstr "锚点"
 
-#: ../widgets/text/e-text.c:3526 ../widgets/text/e-text.c:3527
+#: ../widgets/text/e-text.c:3521 ../widgets/text/e-text.c:3522
 msgid "Clip Width"
 msgstr "裁剪宽度"
 
-#: ../widgets/text/e-text.c:3533 ../widgets/text/e-text.c:3534
+#: ../widgets/text/e-text.c:3528 ../widgets/text/e-text.c:3529
 msgid "Clip Height"
 msgstr "裁剪高度"
 
-#: ../widgets/text/e-text.c:3540 ../widgets/text/e-text.c:3541
+#: ../widgets/text/e-text.c:3535 ../widgets/text/e-text.c:3536
 msgid "Clip"
 msgstr "裁剪"
 
-#: ../widgets/text/e-text.c:3547 ../widgets/text/e-text.c:3548
+#: ../widgets/text/e-text.c:3542 ../widgets/text/e-text.c:3543
 msgid "Fill clip rectangle"
 msgstr "填充裁剪矩形"
 
-#: ../widgets/text/e-text.c:3554 ../widgets/text/e-text.c:3555
+#: ../widgets/text/e-text.c:3549 ../widgets/text/e-text.c:3550
 msgid "X Offset"
 msgstr "水平偏移"
 
-#: ../widgets/text/e-text.c:3561 ../widgets/text/e-text.c:3562
+#: ../widgets/text/e-text.c:3556 ../widgets/text/e-text.c:3557
 msgid "Y Offset"
 msgstr "垂直偏移"
 
-#: ../widgets/text/e-text.c:3597 ../widgets/text/e-text.c:3598
+#: ../widgets/text/e-text.c:3592 ../widgets/text/e-text.c:3593
 msgid "Text width"
 msgstr "文字宽度"
 
-#: ../widgets/text/e-text.c:3604 ../widgets/text/e-text.c:3605
+#: ../widgets/text/e-text.c:3599 ../widgets/text/e-text.c:3600
 msgid "Text height"
 msgstr "文字高度"
 
-#: ../widgets/text/e-text.c:3704 ../widgets/text/e-text.c:3705
+#: ../widgets/text/e-text.c:3699 ../widgets/text/e-text.c:3700
 msgid "IM Context"
 msgstr "输入法环境"
 
-#: ../widgets/text/e-text.c:3711 ../widgets/text/e-text.c:3712
+#: ../widgets/text/e-text.c:3706 ../widgets/text/e-text.c:3707
 msgid "Handle Popup"
 msgstr "处理弹出"
 
