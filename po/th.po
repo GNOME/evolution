@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution-2.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-02-04 13:49+0700\n"
-"PO-Revision-Date: 2006-02-05 19:09+0700\n"
+"POT-Creation-Date: 2006-02-06 11:17+0700\n"
+"PO-Revision-Date: 2006-02-06 17:00+0700\n"
 "Last-Translator: Theppitak Karoonboonyanan <thep@linux.thai.net>\n"
 "Language-Team: Thai <L10N@opentle.org>\n"
 "MIME-Version: 1.0\n"
@@ -409,8 +409,7 @@ msgid ""
 "supported search bases."
 msgstr ""
 "เซิร์ฟเวอร์ LDAP นี้อาจจะใช้ LDAP รุ่นเก่า ซึ่งไม่สนับสนุนการทำงานนี้ "
-"หรืออาจจะมีการกำหนดค่าผิดพลาด กรุณาสอบถามผู้ดูแลระบบของคุณ "
-"เกี่ยวกับจุดเริ่มต้นค้นหาที่สนับสนุน"
+"หรืออาจจะมีการกำหนดค่าผิดพลาด กรุณาสอบถามผู้ดูแลระบบของคุณ เกี่ยวกับจุดเริ่มต้นค้นหาที่สนับสนุน"
 
 #: ../addressbook/addressbook.error.xml.h:20
 msgid "This address book will be removed permanently."
@@ -539,23 +538,23 @@ msgid "Contacts"
 msgstr "ที่อยู่ติดต่อ"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:6
-msgid "Evolution Addressbook"
+msgid "Evolution Address Book"
 msgstr "สมุดที่อยู่ Evolution"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:7
-msgid "Evolution Addressbook address pop-up"
+msgid "Evolution Address Book address pop-up"
 msgstr "ที่อยู่ในสมุดที่อยู่ผุดขึ้น"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:8
-msgid "Evolution Addressbook address viewer"
-msgstr "ตัวอ่านที่อยู่ในสมุดที่อยู่ของ Evolution"
+msgid "Evolution Address Book address viewer"
+msgstr "องค์ประกอบแสดงที่อยู่ในสมุดที่อยู่ของ Evolution"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:9
-msgid "Evolution Addressbook card viewer"
-msgstr "ตัวอ่านนามบัตรในสมุดที่อยู่ของ Evolution"
+msgid "Evolution Address Book card viewer"
+msgstr "องค์ประกอบแสดงนามบัตรในสมุดที่อยู่ของ Evolution"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:10
-msgid "Evolution Addressbook component"
+msgid "Evolution Address Book component"
 msgstr "องค์ประกอบสมุดที่อยู่ของ Evolution"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:11
@@ -636,8 +635,8 @@ msgid "Create a new address book"
 msgstr "สร้างสมุดที่อยู่ใหม่"
 
 #: ../addressbook/gui/component/addressbook-component.c:382
-msgid "Failed upgrading Addressbook settings or folders."
-msgstr "การปรับปรุงการตั้งค่าสมุดที่อยู่หรือโฟลเดอร์ล้มเหลว"
+msgid "Failed upgrading Address Book settings or folders."
+msgstr "การปรับรุ่นค่าตั้งหรือโฟลเดอร์สมุดที่อยู่ล้มเหลว"
 
 #: ../addressbook/gui/component/addressbook-config.c:329
 msgid "Base"
@@ -665,8 +664,9 @@ msgid "General"
 msgstr "ทั่วไป"
 
 #: ../addressbook/gui/component/addressbook-config.c:982
+#: ../addressbook/gui/widgets/e-addressbook-view.c:563
 #: ../mail/importers/pine-importer.c:392
-msgid "Addressbook"
+msgid "Address Book"
 msgstr "สมุดที่อยู่"
 
 #: ../addressbook/gui/component/addressbook-config.c:986
@@ -1025,12 +1025,13 @@ msgstr "จุดเริ่มต้นค้นหาที่สนับส
 
 #: ../addressbook/gui/component/ldap-config.glade.h:36
 msgid ""
-"The search base is the distinguished name (DN)  of the entry where your "
+"The search base is the distinguished name (DN) of the entry where your "
 "searches will begin. If you leave this blank, the search will begin at the "
 "root of the directory tree."
 msgstr ""
-"จุดเริ่มต้นค้นหาจะเป็น distinguished name (DN) ของรายการที่คุณต้องการให้ใช้เป็นจุดเริ่มต้นการค้นหา "
-"ถ้าคุณปล่อยช่องนี้ว่าง การค้นหาของคุณจะเริ่มตั้งแต่รากของสารบบ"
+"จุดเริ่มต้นค้นหาจะเป็น distinguished name (DN) "
+"ของรายการที่คุณต้องการให้ใช้เป็นจุดเริ่มต้นการค้นหา ถ้าคุณปล่อยช่องนี้ว่าง "
+"การค้นหาของคุณจะเริ่มตั้งแต่รากของสารบบ"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:37
 msgid ""
@@ -1039,9 +1040,9 @@ msgid ""
 "your search base. A search scope of \"one\" will only include the entries "
 "one level beneath your base."
 msgstr ""
-"ขอบเขตการค้นหาจะกำหนดว่าคุณต้องการให้การค้นหาขยายลึกลงไปเท่าไรของสารบบ "
-"ขอบเขตการค้นหา \"ย่อย\" จะรวมทุกรายการที่อยู่ใต้จุดเริ่มต้นค้นหาของคุณ ขอบเขตการค้นหา "
-"\"ระดับเดียว\" จะรวมรายการที่อยู่ใต้จุดเริ่มต้นค้นหาของคุณเพียงระดับเดียวเท่านั้น"
+"ขอบเขตการค้นหาจะกำหนดว่าคุณต้องการให้การค้นหาขยายลึกลงไปเท่าไรของสารบบ ขอบเขตการค้นหา "
+"\"ย่อย\" จะรวมทุกรายการที่อยู่ใต้จุดเริ่มต้นค้นหาของคุณ ขอบเขตการค้นหา \"ระดับเดียว\" "
+"จะรวมรายการที่อยู่ใต้จุดเริ่มต้นค้นหาของคุณเพียงระดับเดียวเท่านั้น"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:38
 msgid ""
@@ -2836,10 +2837,6 @@ msgstr "แหล่ง"
 #: ../calendar/gui/e-memo-table.etspec.h:5
 msgid "Type"
 msgstr "ชนิด"
-
-#: ../addressbook/gui/widgets/e-addressbook-view.c:563
-msgid "Address Book"
-msgstr "สมุดที่อยู่"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:834
 #: ../addressbook/gui/widgets/e-addressbook-view.c:2068
@@ -4760,8 +4757,7 @@ msgstr ""
 msgid ""
 "Position of the vertical pane, between the task list and the task preview "
 "pane, in pixels."
-msgstr ""
-"ตำแหน่งของเส้นกั้นช่องแนวดิ่ง ระหว่างช่องรายการงานกับช่องแสดงตัวอย่าง ในหน่วยพิกเซล"
+msgstr "ตำแหน่งของเส้นกั้นช่องแนวดิ่ง ระหว่างช่องรายการงานกับช่องแสดงตัวอย่าง ในหน่วยพิกเซล"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:38
 msgid ""
@@ -4843,8 +4839,8 @@ msgid ""
 "The URL template to use as a free/busy data fallback, %u is replaced by the "
 "user part of the mail address and %d is replaced by the domain."
 msgstr ""
-"แบบร่าง URL ที่จะใช้เป็นข้อมูลสำรองสำหรับสถานะว่าง/ไม่ว่าง ใช้ %u แทนส่วนผู้ใช้ในที่อยู่เมล "
-"และ %d แทนโดเมน"
+"แบบร่าง URL ที่จะใช้เป็นข้อมูลสำรองสำหรับสถานะว่าง/ไม่ว่าง ใช้ %u แทนส่วนผู้ใช้ในที่อยู่เมล และ %"
+"d แทนโดเมน"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:56
 msgid ""
@@ -6055,16 +6051,16 @@ msgid "None"
 msgstr "ไม่"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:1
+msgid "1 day before appointment"
+msgstr "1 วันก่อนการนัดหมาย"
+
+#: ../calendar/gui/dialogs/event-page.glade.h:2
 msgid "1 hour before appointment"
 msgstr "1 ชั่วโมงก่อนการนัดหมาย"
 
-#: ../calendar/gui/dialogs/event-page.glade.h:2
+#: ../calendar/gui/dialogs/event-page.glade.h:3
 msgid "15 minutes before appointment"
 msgstr "15 นาทีก่อนการนัดหมาย"
-
-#: ../calendar/gui/dialogs/event-page.glade.h:3
-msgid "1day before appointment"
-msgstr "1 วันก่อนการนัดหมาย"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:5
 #: ../calendar/gui/dialogs/task-page.glade.h:1
@@ -12574,7 +12570,7 @@ msgstr[1] "ยังไม่อ่าน %d"
 
 #: ../mail/mail-component.c:779
 msgid "New Mail Message"
-msgstr ""
+msgstr "ข้อความเมลใหม่"
 
 #: ../mail/mail-component.c:780
 msgid "_Mail Message"
@@ -12598,7 +12594,7 @@ msgstr "สร้างโฟลเดอร์เมลใหม่"
 
 #: ../mail/mail-component.c:933
 msgid "Failed upgrading Mail settings or folders."
-msgstr ""
+msgstr "ปรับรุ่นค่าตั้งหรือโฟลเดอร์เมลไม่สำเร็จ"
 
 #: ../mail/mail-config.glade.h:1 ../mail/mail-dialogs.glade.h:1
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:1
@@ -12937,11 +12933,11 @@ msgstr "การกำหนดค่าเมล"
 
 #: ../mail/mail-config.glade.h:98
 msgid "Mail Headers Table"
-msgstr ""
+msgstr "ตารางข้อมูลส่วนหัวของเมล"
 
 #: ../mail/mail-config.glade.h:100
 msgid "Mailbox location"
-msgstr ""
+msgstr "ตำแหน่งกล่องเมล"
 
 #: ../mail/mail-config.glade.h:101
 msgid "Message Composer"
@@ -13221,11 +13217,11 @@ msgstr "<b>แหล่งสำหรับโฟลเดอร์ค้นห
 
 #: ../mail/mail-dialogs.glade.h:3
 msgid "<span weight=\"bold\">Digital Signature</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">ลายเซ็นดิจิทัล</span>"
 
 #: ../mail/mail-dialogs.glade.h:4
 msgid "<span weight=\"bold\">Encryption</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">การเข้ารหัส</span>"
 
 #: ../mail/mail-dialogs.glade.h:5
 msgid "Case _sensitive"
@@ -13254,11 +13250,11 @@ msgstr "การบอกรับข้อมูลของโฟลเดอ
 
 #: ../mail/mail-dialogs.glade.h:12
 msgid "License Agreement"
-msgstr ""
+msgstr "ข้อตกลงสัญญาอนุญาต"
 
 #: ../mail/mail-dialogs.glade.h:13
 msgid "None Selected"
-msgstr ""
+msgstr "ไม่ได้เลือก"
 
 #: ../mail/mail-dialogs.glade.h:14
 msgid "S_erver:"
@@ -13266,7 +13262,7 @@ msgstr "เ_ซิร์ฟเวอร์:"
 
 #: ../mail/mail-dialogs.glade.h:15
 msgid "Security Information"
-msgstr ""
+msgstr "ข้อมูลระบบรักษาความปลอดภัย"
 
 #: ../mail/mail-dialogs.glade.h:17 ../mail/message-tags.glade.h:4
 msgid ""
@@ -13278,7 +13274,7 @@ msgstr ""
 
 #: ../mail/mail-dialogs.glade.h:19
 msgid "_Accept License"
-msgstr ""
+msgstr "_ยอมรับสัญญาอนุญาต"
 
 #: ../mail/mail-dialogs.glade.h:20 ../mail/message-tags.glade.h:6
 msgid "_Due By:"
@@ -13294,7 +13290,7 @@ msgstr "_บอกรับข้อมูล"
 
 #: ../mail/mail-dialogs.glade.h:23
 msgid "_Tick this to accept the license agreement"
-msgstr ""
+msgstr "_กาที่นี่เพื่อยอมรับข้อตกลงในสัญญาอนุญาต"
 
 #: ../mail/mail-dialogs.glade.h:24
 #: ../plugins/folder-unsubscribe/org-gnome-mail-folder-unsubscribe.eplug.xml.h:3
@@ -13324,7 +13320,7 @@ msgstr ""
 
 #: ../mail/mail-ops.c:104
 msgid "Filtering Folder"
-msgstr ""
+msgstr "กำลังกรองโฟลเดอร์"
 
 #: ../mail/mail-ops.c:265
 msgid "Fetching Mail"
@@ -13427,7 +13423,7 @@ msgstr "กำลังเก็บกวาดโฟลเดอร์"
 #: ../mail/mail-ops.c:1661
 #, c-format
 msgid "Emptying trash in '%s'"
-msgstr ""
+msgstr "กำลังเทขยะใน '%s' ทิ้ง"
 
 #: ../mail/mail-ops.c:1662
 msgid "Local Folders"
@@ -13458,6 +13454,8 @@ msgid ""
 "Unable to create output file: %s\n"
 " %s"
 msgstr ""
+"ไม่สามารถสร้างแฟ้มผลลัพธ์: %s\n"
+" %s"
 
 #: ../mail/mail-ops.c:2019
 #, c-format
@@ -13470,7 +13468,7 @@ msgstr ""
 
 #: ../mail/mail-ops.c:2090
 msgid "Saving attachment"
-msgstr ""
+msgstr "กำลังบันทึกเอกสารแนบ"
 
 #: ../mail/mail-ops.c:2102
 #, c-format
@@ -13478,6 +13476,8 @@ msgid ""
 "Cannot create output file: %s:\n"
 " %s"
 msgstr ""
+"ไม่สามารถสร้างแฟ้มผลลัพธ์: %s:\n"
+" %s"
 
 #: ../mail/mail-ops.c:2112
 #, c-format
@@ -13496,7 +13496,7 @@ msgstr "กำลังเชื่อมต่อใหม่ไปยัง %s
 
 #: ../mail/mail-ops.c:2378
 msgid "Checking Service"
-msgstr ""
+msgstr "กำลังตรวจสอบบริการ"
 
 #: ../mail/mail-send-recv.c:158
 msgid "Canceling..."
@@ -13505,7 +13505,7 @@ msgstr "กำลังยกเลิก..."
 #: ../mail/mail-send-recv.c:266 ../mail/mail-send-recv.c:268
 #, c-format
 msgid "<b>%s (%s)</b> : %s"
-msgstr ""
+msgstr "<b>%s (%s)</b> : %s"
 
 #: ../mail/mail-send-recv.c:270
 #, c-format
@@ -13515,7 +13515,7 @@ msgstr "<b>%s (%s)</b>"
 #: ../mail/mail-send-recv.c:274 ../mail/mail-send-recv.c:276
 #, c-format
 msgid "<b>%s</b> : %s"
-msgstr ""
+msgstr "<b>%s</b> : %s"
 
 #: ../mail/mail-send-recv.c:278
 #, c-format
@@ -13532,7 +13532,7 @@ msgstr "ยกเ_ลิกทั้งหมด"
 
 #: ../mail/mail-send-recv.c:425
 msgid "Updating..."
-msgstr ""
+msgstr "กำลังอัพเดต..."
 
 #: ../mail/mail-send-recv.c:425 ../mail/mail-send-recv.c:478
 msgid "Waiting..."
@@ -13572,7 +13572,7 @@ msgstr "ชื่อ:"
 #: ../mail/mail-tools.c:120
 #, c-format
 msgid "Could not create spool directory `%s': %s"
-msgstr ""
+msgstr "ไม่สามารถสร้างไดเรกทอรีที่เก็บพัก `%s': %s"
 
 #: ../mail/mail-tools.c:150
 #, c-format
@@ -13582,16 +13582,16 @@ msgstr ""
 #: ../mail/mail-tools.c:256
 #, c-format
 msgid "Forwarded message - %s"
-msgstr ""
+msgstr "ข้อความส่งต่อ - %s"
 
 #: ../mail/mail-tools.c:258
 msgid "Forwarded message"
-msgstr ""
+msgstr "ข้อความส่งต่อ"
 
 #: ../mail/mail-tools.c:298
 #, c-format
 msgid "Invalid folder: `%s'"
-msgstr ""
+msgstr "โฟลเดอร์ใช้ไม่ได้: `%s'"
 
 #: ../mail/mail-vfolder.c:91
 #, c-format
@@ -13717,11 +13717,11 @@ msgstr "ไม่สามารถสร้างโฟลเดอร์ &quot
 
 #: ../mail/mail.error.xml.h:25
 msgid "Cannot create temporary save directory."
-msgstr ""
+msgstr "ไม่สามารถสร้างไดเรกทอรีบันทึกชั่วคราว"
 
 #: ../mail/mail.error.xml.h:26
 msgid "Cannot create the save directory, because &quot;{1}&quot;"
-msgstr ""
+msgstr "ไม่สามารถสร้างไดเรกทอรีบันทึก เนื่องจาก &quot;{0}&quot;"
 
 #: ../mail/mail.error.xml.h:27
 msgid "Cannot delete folder &quot;{0}&quot;."
@@ -13729,7 +13729,7 @@ msgstr "ไม่สามารถลบโฟลเดอร์ &quot;{0}&quot
 
 #: ../mail/mail.error.xml.h:28
 msgid "Cannot delete system folder &quot;{0}&quot;."
-msgstr ""
+msgstr "ไม่สามารถลบโฟลเดอร์ระบบ &quot;{0}&quot;"
 
 #: ../mail/mail.error.xml.h:29
 msgid "Cannot edit Search Folder &quot;{0}&quot; as it does not exist."
@@ -13757,6 +13757,8 @@ msgid ""
 "problem. You will not be able to use this provider until you can accept its "
 "license."
 msgstr ""
+"ไม่สามารถอ่านแฟ้มสัญญาอนุญาต &quot;{0}&quot; เนื่องจากปัญหาเกี่ยวกับการติดตั้ง "
+"คุณจะไม่สามารถใช้แบ็กเอนด์นี้ได้ จนกว่าคุณจะยอมรับเงื่อนไขสัญญาอนุญาตนี้"
 
 #: ../mail/mail.error.xml.h:35
 msgid "Cannot rename &quot;{0}&quot; to &quot;{1}&quot;."
@@ -13768,19 +13770,19 @@ msgstr "ไม่สามารถเปลี่ยนชื่อหรือ
 
 #: ../mail/mail.error.xml.h:37
 msgid "Cannot save changes to account."
-msgstr ""
+msgstr "ไม่สามารถบันทึกความเปลี่ยนแปลงในบัญชี"
 
 #: ../mail/mail.error.xml.h:38
 msgid "Cannot save to directory &quot;{0}&quot;."
-msgstr ""
+msgstr "ไม่สามารถบันทึกในไดเรกทอรี &quot;{0}&quot;"
 
 #: ../mail/mail.error.xml.h:39
 msgid "Cannot save to file &quot;{0}&quot;."
-msgstr ""
+msgstr "ไม่สามารถบันทึกลงแฟ้ม &quot;{0}&quot;"
 
 #: ../mail/mail.error.xml.h:40
 msgid "Cannot set signature script &quot;{0}&quot;."
-msgstr ""
+msgstr "ไม่สามารถกำหนดสคริปต์ลายเซ็น &quot;{0}&quot;"
 
 #: ../mail/mail.error.xml.h:41
 msgid ""
@@ -14040,7 +14042,7 @@ msgstr ""
 
 #: ../mail/mail.error.xml.h:105
 msgid "The script file must exist and be executable."
-msgstr ""
+msgstr "สคริปต์ต้องมีอยู่ และต้องสามารถเรียกทำงานได้"
 
 #: ../mail/mail.error.xml.h:106
 msgid ""
@@ -14063,11 +14065,11 @@ msgstr "ไม่สามารถส่งข้อความนี้ได
 msgid ""
 "This server does not support this type of authentication and may not support "
 "authentication at all."
-msgstr ""
+msgstr "เซิร์ฟเวอร์นี้ไม่สนับสนุนการยืนยันตัวบุคคลวิธีนี้ และอาจไม่สนับสนุนการยืนยันตัวบุคคลวิธีใดเลย"
 
 #: ../mail/mail.error.xml.h:111
 msgid "This signature has been changed, but has not been saved."
-msgstr ""
+msgstr "ลายเซ็นนี้มีการเปลี่ยนแปลง แต่ยังไม่ได้บันทึก"
 
 #: ../mail/mail.error.xml.h:112
 msgid "Unable to connect to the GroupWise server."
@@ -14082,7 +14084,7 @@ msgstr ""
 
 #: ../mail/mail.error.xml.h:114
 msgid "Unable to read license file."
-msgstr ""
+msgstr "ไม่สามารถอ่านแฟ้มสัญญาอนุญาต"
 
 #: ../mail/mail.error.xml.h:115
 msgid "Use _Default"
@@ -14094,7 +14096,7 @@ msgstr "ใช้โฟลเดอร์จดหมายร่างปริ
 
 #: ../mail/mail.error.xml.h:117
 msgid "You have not filled in all of the required information."
-msgstr ""
+msgstr "คุณเติมข้อมูลบังคับไม่ครบ"
 
 #: ../mail/mail.error.xml.h:118
 msgid "You have unsent messages, do you wish to quit anyway?"
@@ -14102,7 +14104,7 @@ msgstr "คุณมีข้อความที่ยังไม่ได้
 
 #: ../mail/mail.error.xml.h:119
 msgid "You may not create two accounts with the same name."
-msgstr ""
+msgstr "คุณไม่สามารถสร้างสองบัญชีด้วยชื่อเดียวกันได้"
 
 #: ../mail/mail.error.xml.h:120
 msgid "You must name this Search Folder."
@@ -14118,18 +14120,21 @@ msgid ""
 "Either by selecting the folders individually, and/or by selecting all local "
 "folders, all remote folders, or both."
 msgstr ""
+"คุณต้องระบุโฟลเดอร์อย่างน้อยหนึ่งโฟลเดอร์เป็นแหล่ง\n"
+"อาจจะโดยเลือกเป็นรายโฟลเดอร์ และ/หรือ โดยเลือกโฟลเดอร์ในเครื่องทั้งหมด "
+"โฟลเดอร์ในเครือข่ายทั้งหมด หรือทั้งสองอย่าง"
 
 #: ../mail/mail.error.xml.h:124
 msgid "Your login to your server &quot;{0}&quot; as &quot;{0}&quot; failed."
-msgstr ""
+msgstr "การลงบันทึกเข้าใช้เซิร์ฟเวอร์ &quot;{0}&quot; ของคุณในชื่อ &quot;{0}&quot; ล้มเหลว"
 
 #: ../mail/mail.error.xml.h:125
 msgid "Your message with the subject &quot;{0}&quot; was not delivered."
-msgstr ""
+msgstr "ข้อความหัวข้อ &quot;{0}&quot; ของคุณยังไม่ได้ส่ง"
 
 #: ../mail/mail.error.xml.h:126
 msgid "_Append"
-msgstr ""
+msgstr "เ_พิ่มต่อท้าย"
 
 #: ../mail/mail.error.xml.h:127
 msgid "_Discard changes"
@@ -14145,39 +14150,39 @@ msgstr "เ_ปิดข้อความ"
 
 #: ../mail/message-list.c:1004
 msgid "Unseen"
-msgstr ""
+msgstr "ยังไม่อ่าน"
 
 #: ../mail/message-list.c:1005
 msgid "Seen"
-msgstr ""
+msgstr "อ่านแล้ว"
 
 #: ../mail/message-list.c:1006
 msgid "Answered"
-msgstr ""
+msgstr "ตอบแล้ว"
 
 #: ../mail/message-list.c:1007
 msgid "Multiple Unseen Messages"
-msgstr ""
+msgstr "ข้อความยังไม่อ่านหลายฉบับ"
 
 #: ../mail/message-list.c:1008
 msgid "Multiple Messages"
-msgstr ""
+msgstr "ข้อความหลายฉบับ"
 
 #: ../mail/message-list.c:1012
 msgid "Lowest"
-msgstr ""
+msgstr "ต่ำที่สุด"
 
 #: ../mail/message-list.c:1013
 msgid "Lower"
-msgstr ""
+msgstr "ต่ำกว่า"
 
 #: ../mail/message-list.c:1017
 msgid "Higher"
-msgstr ""
+msgstr "สูงกว่า"
 
 #: ../mail/message-list.c:1018
 msgid "Highest"
-msgstr ""
+msgstr "สูงที่สุด"
 
 #: ../mail/message-list.c:1346 ../widgets/table/e-cell-date.c:57
 msgid "?"
@@ -14208,11 +14213,11 @@ msgstr "%d %b %Ey"
 
 #: ../mail/message-list.c:2068
 msgid "Message List"
-msgstr ""
+msgstr "รายการข้อความ"
 
 #: ../mail/message-list.c:3446
 msgid "Generating message list"
-msgstr ""
+msgstr "กำลังสร้างรายการข้อความ"
 
 #: ../mail/message-list.etspec.h:3
 msgid "Due By"
@@ -14245,7 +14250,7 @@ msgstr "ขนาด"
 
 #: ../mail/message-tag-followup.c:75
 msgid "Call"
-msgstr ""
+msgstr "เรียก"
 
 #: ../mail/message-tag-followup.c:76
 msgid "Do Not Forward"
@@ -14277,7 +14282,7 @@ msgstr "ตอบกลับทั้งหมด"
 
 #: ../mail/message-tag-followup.c:84
 msgid "Review"
-msgstr ""
+msgstr "ตรวจทาน"
 
 #: ../mail/searchtypes.xml.h:1
 msgid "Body contains"
@@ -14325,56 +14330,56 @@ msgstr "ปลั๊กอินเสียงในบรรทัด"
 
 #: ../plugins/backup-restore/backup-restore.c:51
 msgid "Select name of Evolution archive"
-msgstr ""
+msgstr "เลือกชื่อของกรุข้อมูลเก่าของ Evolution"
 
 #: ../plugins/backup-restore/backup-restore.c:61
 msgid "_Restart Evolution after backup"
-msgstr ""
+msgstr "เ_ริ่ม Evolution ใหม่หลังการสำรอง"
 
 #: ../plugins/backup-restore/backup-restore.c:89
 msgid "Select Evolution archive to restore"
-msgstr ""
+msgstr "เลือกกรุข้อมูลเก่าของ Evolution ที่จะเรียกคืน"
 
 #: ../plugins/backup-restore/backup-restore.c:97
 msgid "_Restart Evolution after restore"
-msgstr ""
+msgstr "เ_ริ่ม Evolution ใหม่หลังการเรียกคืน"
 
 #: ../plugins/backup-restore/backup.c:109
 msgid "Backup Evolution directory"
-msgstr ""
+msgstr "สำรองไดเรกทอรี Evolution"
 
 #: ../plugins/backup-restore/backup.c:111
 msgid "Restore Evolution directory"
-msgstr ""
+msgstr "เรียกคืนไดเรกทอรี Evolution"
 
 #: ../plugins/backup-restore/backup.c:113
 msgid "Check Evolution archive"
-msgstr ""
+msgstr "ตรวจสอบกรุข้อมูลเก่า Evolution"
 
 #: ../plugins/backup-restore/backup.c:115
 msgid "Restart Evolution"
-msgstr ""
+msgstr "เริ่ม Evolution ใหม่"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.eplug.xml.h:1
 msgid "A plugin for backing up and restore Evolution data and settings."
-msgstr ""
+msgstr "ปลั๊กอินสำหรับสำรองและเรียกคืนข้อมูลและค่าตั้งของ Evolution"
 
 #. the path to the shared library
 #: ../plugins/backup-restore/org-gnome-backup-restore.eplug.xml.h:3
 msgid "Backup and restore plugin"
-msgstr ""
+msgstr "ปลั๊กอินสำรองและเรียกคืน"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.xml.h:1
 msgid "Backup Settings..."
-msgstr ""
+msgstr "ค่าตั้งการสำรอง..."
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.xml.h:2
 msgid "Backup and restore Evolution data and settings"
-msgstr ""
+msgstr "สำรองและเรียกคืนข้อมูลและค่าตั้งของ Evolution"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.xml.h:3
 msgid "Restore Settings..."
-msgstr ""
+msgstr "ค่าตั้งการเรียกคืน..."
 
 #: ../plugins/bbdb/bbdb.c:429
 #: ../plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:1
@@ -14570,7 +14575,7 @@ msgstr "_ชื่อผู้ใช้:"
 #. i18n: "Secure Password Authentication" is an Outlookism
 #: ../plugins/exchange-operations/exchange-account-setup.c:63
 msgid "Secure Password"
-msgstr ""
+msgstr "รหัสผ่านนิรภัย"
 
 #. i18n: "NTLM" probably doesn't translate
 #: ../plugins/exchange-operations/exchange-account-setup.c:66
@@ -14578,16 +14583,18 @@ msgid ""
 "This option will connect to the Exchange server using secure password (NTLM) "
 "authentication."
 msgstr ""
+"ตัวเลือกนี้จะเชื่อมต่อไปยังเซิร์ฟเวอร์ Exchange โดยใช้การยืนยันตัวตนด้วยรหัสผ่านนิรภัย (NTLM)"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:74
 msgid "Plaintext Password"
-msgstr ""
+msgstr "รหัสผ่านข้อความเปล่า"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:76
 msgid ""
 "This option will connect to the Exchange server using standard plaintext "
 "password authentication."
 msgstr ""
+"ตัวเลือกนี้จะเชื่อมต่อไปยังเซิร์ฟเวอร์ Exchange โดยใช้การยืนยันตัวตนด้วยรหัสผ่านข้อความเปล่า"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:257
 msgid "Out Of Office"
@@ -14624,11 +14631,11 @@ msgstr "เปลี่ยนรหัสผ่าน"
 #. Delegation Assistant
 #: ../plugins/exchange-operations/exchange-account-setup.c:335
 msgid "Manage the delegate settings for Exchange account"
-msgstr ""
+msgstr "จัดการค่าตั้งของการมอบฉันทะสำหรับบัญชี Exchange"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:337
 msgid "Delegation Assitant"
-msgstr ""
+msgstr "เครื่องมือช่วยมอบฉันทะ"
 
 #. Miscelleneous settings
 #: ../plugins/exchange-operations/exchange-account-setup.c:349
@@ -14638,7 +14645,7 @@ msgstr "เบ็ดเตล็ด"
 #. Folder Size
 #: ../plugins/exchange-operations/exchange-account-setup.c:359
 msgid "View the size of all Exchange folders"
-msgstr ""
+msgstr "ดูขนาดของโฟลเดอร์"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:361
 msgid "Folders Size"
@@ -14647,7 +14654,7 @@ msgstr "ขนาดของโฟลเดอร์"
 #: ../plugins/exchange-operations/exchange-account-setup.c:368
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.eplug.xml.h:3
 msgid "Exchange Settings"
-msgstr ""
+msgstr "ค่าตั้ง Exchange"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:609
 msgid "_OWA URL:"
@@ -14655,7 +14662,7 @@ msgstr "_OWA URL:"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:635
 msgid "A_uthenticate"
-msgstr ""
+msgstr "ยื_นยันตัวบุคคล"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:828
 msgid "Authentication Type"
@@ -14671,6 +14678,8 @@ msgid ""
 "Evolution is in offline mode. You cannot create or modify folders now.\n"
 "Please switch to online mode for such operations."
 msgstr ""
+"Evolution อยู่ในโหมดออฟไลน์ คุณไม่สามารถสร้างหรือเปลี่ยนแปลงโฟลเดอร์ได้ในขณะนี้\n"
+"กรุณาเปลี่ยนเข้าสู่โหมดออนไลน์เพื่อทำปฏิบัติการดังกล่าว"
 
 #. User entered a wrong existing
 #. * password. Prompt him again.
@@ -14679,11 +14688,11 @@ msgstr ""
 msgid ""
 "The current password does not match the existing password for your account. "
 "Please enter the correct password"
-msgstr ""
+msgstr "รหัสผ่านปัจจุบันไม่ตรงกับรหัสผ่านของบัญชีคุณ กรุณาป้อนรหัสผ่านที่ถูกต้อง"
 
 #: ../plugins/exchange-operations/exchange-change-password.c:122
 msgid "The two passwords do not match. Please re-enter the passwords."
-msgstr ""
+msgstr "รหัสผ่านทั้งสองอันไม่ตรงกัน กรุณาป้อนรหัสผ่านใหม่"
 
 #: ../plugins/exchange-operations/exchange-change-password.glade.h:3
 msgid "Confirm Password:"
@@ -14714,7 +14723,7 @@ msgstr "กำหนดเอง"
 #: ../plugins/exchange-operations/exchange-delegates-user.c:191
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:6
 msgid "Delegate Permissions"
-msgstr ""
+msgstr "สิทธิ์ของผู้รับมอบฉันทะ"
 
 #: ../plugins/exchange-operations/exchange-delegates-user.c:202
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:188
@@ -14729,42 +14738,42 @@ msgstr "มอบฉันทะให้กับ"
 #: ../plugins/exchange-operations/exchange-delegates.c:562
 #, c-format
 msgid "Remove the delegate %s?"
-msgstr ""
+msgstr "ลบการมอบฉันทะให้กับ %s หรือไม่?"
 
 #: ../plugins/exchange-operations/exchange-delegates.c:680
 msgid "Could not access Active Directory"
-msgstr ""
+msgstr "ไม่สามารถเข้าใช้ Active Directory"
 
 #: ../plugins/exchange-operations/exchange-delegates.c:692
 msgid "Could not find self in Active Directory"
-msgstr ""
+msgstr "ไม่พบตัวผู้ใช้ใน Active Directory"
 
 #: ../plugins/exchange-operations/exchange-delegates.c:705
 #, c-format
 msgid "Could not find delegate %s in Active Directory"
-msgstr ""
+msgstr "ไม่พบผู้รับมอบฉันทะ %s ใน Active Directory"
 
 #: ../plugins/exchange-operations/exchange-delegates.c:717
 #, c-format
 msgid "Could not remove delegate %s"
-msgstr "ไม่สามารถลบตัวแทน %s"
+msgstr "ไม่สามารถลบผู้รับมอบฉันทะ %s"
 
 #: ../plugins/exchange-operations/exchange-delegates.c:777
 msgid "Could not update list of delegates."
-msgstr "ไม่สามารถอัพเดตรายการตัวแทน"
+msgstr "ไม่สามารถปรับข้อมูลรายชื่อผู้รับมอบฉันทะ"
 
 #: ../plugins/exchange-operations/exchange-delegates.c:795
 #, c-format
 msgid "Could not add delegate %s"
-msgstr "ไม่สามารถเพิ่มตัวแทน %s"
+msgstr "ไม่สามารถเพิ่มผู้รับมอบฉันทะ %s"
 
 #: ../plugins/exchange-operations/exchange-delegates.c:963
 msgid "Error reading delegates list."
-msgstr "เกิดข้อผิดพลาดขณะเรียกดูรายการตัวแทน"
+msgstr "เกิดข้อผิดพลาดขณะเรียกดูรายการผู้รับมอบฉันทะ"
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:1
 msgid "Author (read, create)"
-msgstr ""
+msgstr "ผู้เขียน (อ่าน, สร้าง)"
 
 #. Translators: This is used for permissions for <user> for the folder Calendar.
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:3
@@ -14778,11 +14787,11 @@ msgstr "_ที่อยู่ติดต่อ:"
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:7
 msgid "Delegates"
-msgstr ""
+msgstr "ผู้รับมอบฉันทะ"
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:8
 msgid "Editor (read, create, edit)"
-msgstr ""
+msgstr "บรรณาธิการ (อ่าน, สร้าง, แก้ไข)"
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:10
 msgid "Permissions for"
@@ -14790,22 +14799,24 @@ msgstr "การกำหนดสิทธิ์สำหรับ"
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:11
 msgid "Reviewer (read-only)"
-msgstr ""
+msgstr "ผู้ตรวจทาน (อ่านอย่างเดียว)"
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:12
 msgid ""
 "These users will be able to send mail on your behalf\n"
 "and access your folders with the permissions you give them."
 msgstr ""
+"ผู้ใช้เหล่านี้จะสามารถส่งเมลในนามของคุณได้\n"
+"และสามารถเข้าถึงโฟลเดอร์ของคุณด้วยสิทธิ์ที่คุณกำหนด"
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:14
 msgid "_Delegate can see private items"
-msgstr ""
+msgstr "ผู้รับมอบฉันทะสามารถดูรายการ_ส่วนตัวได้"
 
 #. Translators: This is used for permissions for <user> for the folder Inbox.
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:17
 msgid "_Inbox:"
-msgstr ""
+msgstr "จดหมายเ_ข้า:"
 
 #. Translators: This is used for permissions for <user> for the folder Tasks.
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:19
@@ -14828,29 +14839,29 @@ msgstr "ขนาดของโฟลเดอร์"
 #: ../plugins/exchange-operations/exchange-folder-subscription.c:279
 #: ../plugins/exchange-operations/org-gnome-folder-subscription.xml.h:1
 msgid "Subscribe to Other User's Folder"
-msgstr ""
+msgstr "บอกรับข้อมูลจากโฟลเดอร์ผู้ใช้อื่น"
 
 #: ../plugins/exchange-operations/exchange-folder-tree.glade.h:1
 msgid "Exchange Folder Tree"
-msgstr ""
+msgstr "ลำดับชั้นโฟลเดอร์ Exchange"
 
 #: ../plugins/exchange-operations/exchange-folder.c:66
 #: ../plugins/exchange-operations/exchange-folder.c:229
 #: ../plugins/exchange-operations/exchange-folder.c:239
 msgid "Unsubscribe Folder..."
-msgstr ""
+msgstr "เลิกบอกรับข้อมูลโฟลเดอร์..."
 
 #: ../plugins/exchange-operations/exchange-folder.c:463
 #: ../plugins/exchange-operations/exchange-folder.c:523
 #, c-format
 msgid "Really unsubscribe from folder \"%s\"?"
-msgstr ""
+msgstr "เลิกบอกรับข้อมูลจากโฟลเดอร์ \"%s\" จริงหรือไม่?"
 
 #: ../plugins/exchange-operations/exchange-folder.c:475
 #: ../plugins/exchange-operations/exchange-folder.c:535
 #, c-format
 msgid "Unsubscribe from \"%s\""
-msgstr ""
+msgstr "เลิกบอกรับข้อมูลจาก \"%s\""
 
 #: ../plugins/exchange-operations/exchange-passwd-expiry.glade.h:1
 msgid "Password Expiry Warning..."
@@ -14874,7 +14885,7 @@ msgstr "(ไม่ได้รับอนุญาต)"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:409
 msgid "Add User:"
-msgstr ""
+msgstr "เพิ่มผู้ใช้:"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:409
 msgid "Add User"
@@ -14941,7 +14952,7 @@ msgid "Select User"
 msgstr "เลือกผู้ใช้"
 
 #: ../plugins/exchange-operations/exchange-user-dialog.c:182
-msgid "Addressbook..."
+msgid "Address Book..."
 msgstr "สมุดที่อยู่..."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-ab-subscription.xml.h:1
@@ -15005,7 +15016,7 @@ msgstr "ไม่สามารถเชื่อมต่อไปยังเ
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:11
 msgid "Could not determine folder permissions for delegates."
-msgstr "ไม่สามารถพิจารณาสิทธิ์ในโฟลเดอร์ของตัวแทน"
+msgstr "ไม่สามารถพิจารณาสิทธิ์ในโฟลเดอร์ของผู้รับมอบฉันทะ"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:12
 msgid "Could not find Exchange Web Storage System."
@@ -15058,10 +15069,19 @@ msgid ""
 "{0}\n"
 "  "
 msgstr ""
+"ปลั๊กอินเชื่อมต่อ Exchange ต้องการใช้ความสามารถบางอย่าง\n"
+"ของเซิร์ฟเวอร์ Exchange ซึ่งถูกปิดหรือห้ามใช้อยู่ (มักจะโดย\n"
+"ไม่เจตนา) ผู้ดูแล Exchange ของคุณจำเป็นต้องเปิดความสามารถนี้\n"
+"เพื่อที่คุณจะสามารถใช้ปลั๊กอินเชื่อมต่อ Exchange ของ Evolution ได้\n"
+"\n"
+"สำหรับข้อมูลที่จะบอกกับผู้ดูแล Exchange ของคุณ กรุณาดูที่ลิงก์ข้างล่างนี้:"
+"\n"
+"{0}\n"
+"  "
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:33
 msgid "Failed to update delegates:"
-msgstr ""
+msgstr "ไม่สามารถปรับข้อมูลการมอบฉันทะ"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:34
 msgid "Folder already exists"
@@ -15073,7 +15093,7 @@ msgstr "ไม่มีโฟลเดอร์ที่อ้าง"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:36
 msgid "Folder offline"
-msgstr ""
+msgstr "โฟลเดอร์ออฟไลน์อยู่"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:37
 #: ../shell/e-shell.c:1269
@@ -15092,15 +15112,15 @@ msgstr "กล่องเมลสำหรับ {0} ไม่อยู่ใ�
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:40
 msgid "Make sure the URL is correct and try again."
-msgstr ""
+msgstr "กรุณาตรวจสอบให้แน่ใจว่า URL ถูกต้อง แล้วลองใหม่อีกครั้ง"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:41
 msgid "Make sure the server name is spelled correctly and try again."
-msgstr ""
+msgstr "กรุณาตรวจสอบให้แน่ใจว่าคุณสะกดชื่อเซิร์ฟเวอร์ถูกต้อง แล้วลองใหม่อีกครั้ง"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:42
 msgid "Make sure the username and password are correct and try again."
-msgstr ""
+msgstr "กรุณาตรวจสอบให้แน่ใจว่าชื่อผู้ใช้และรหัสผ่านถูกต้อง แล้วลองใหม่อีกครั้ง"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:43
 msgid "No Global Catalog server configured for this account."
@@ -15140,13 +15160,15 @@ msgstr "บัญชี Exchange จะถูกลบเมื่อคุณ�
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:53
 msgid "The Exchange server is not compatible with Exchange Connector."
-msgstr ""
+msgstr "เซิร์ฟเวอร์ Exchange เข้ากันไม่ได้กับปลั๊กอินเชื่อมต่อ Exchange"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:54
 msgid ""
 "The server is running Exchange 5.5. Exchange Connector \n"
 "supports Microsoft Exchange 2000 and 2003 only."
 msgstr ""
+"เซิร์ฟเวอร์ใช้ Exchange 5.5 ในขณะที่ปลั๊กอินเชื่อมต่อ Exchange \n"
+"สนับสนุน Microsoft Exchange 2000 และ 2003 เท่านั้น"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:56
 msgid ""
@@ -15156,6 +15178,10 @@ msgid ""
 "\n"
 "Or you might have just typed your password wrong."
 msgstr ""
+"ข้อผิดพลาดนี้ อาจหมายความว่า เซิร์ฟเวอร์ของคุณต้องการให้คุณ \n"
+"ระบุชื่อโดเมนวินโดวส์ในชื่อผู้ใช้ของคุณด้วย (เช่น &quot;DOMAIN\\user&quot;)\n"
+"\n"
+"หรือคุณอาจแค่ป้อนรหัสผ่านผิดเท่านั้นเอง"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:61
 msgid "Try again with a different password."
@@ -15163,11 +15189,11 @@ msgstr "กรุณาลองตั้งรหัสผ่านใหม่
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:62
 msgid "Unable to add user to access control list:"
-msgstr ""
+msgstr "ไม่สามารถเพิ่มผู้ใช้ในรายการควบคุมการเข้าถึง:"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:63
 msgid "Unable to edit delegates."
-msgstr ""
+msgstr "ไม่สามารถแก้ไขการมอบฉันทะ"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:64
 msgid "Unknown error looking up {0}"
@@ -15191,7 +15217,7 @@ msgstr "คุณใช้โควตาสำหรับเก็บเมล
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:69
 msgid "You cannot make yourself your own delegate"
-msgstr ""
+msgstr "คุณไม่สามารถมอบฉันทะการประชุมให้ตัวเองได้"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:70
 msgid "You have exceeded your quota for storing mail on this server."
@@ -15199,62 +15225,64 @@ msgstr "คุณได้ใช้เนื้อที่เก็บเมล
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:71
 msgid "You may only configure a single Exchange account."
-msgstr ""
+msgstr "คุณกำหนดค่าบัญชี Exchange ได้เพียงบัญชีเดียวเท่านั้น"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:72
 msgid ""
 "Your current usage is: {0} KB. Try to clear up some space by deleting some "
 "mail."
-msgstr ""
+msgstr "การใช้งานของคุณขณะนี้คือ: {0} KB  กรุณาเคลียร์เนื้อที่โดยลบเมลบางส่วน"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:73
 msgid ""
 "Your current usage is: {0} KB. You will not be able to either send or "
 "receive mail now."
-msgstr ""
+msgstr "การใช้งานของคุณขณะนี้คือ: {0} KB  คุณจะไม่สามารถรับหรือส่งเมลได้"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:74
 msgid ""
 "Your current usage is: {0} KB. You will not be able to send mail until you "
 "clear up some space by deleting some mail."
 msgstr ""
+"การใช้งานของคุณขณะนี้คือ: {0} KB  คุณจะไม่สามารถส่งเมลได้ "
+"จนกว่าจะเคลียร์เนื้อที่โดยลบเมลบางส่วน"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:75
 msgid "Your password has expired."
-msgstr ""
+msgstr "รหัสผ่านของคุณหมดอายุแล้ว"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:77
 msgid "{0} cannot be added to an access control list"
-msgstr ""
+msgstr "ไม่สามารถเพิ่ม {0} ลงในรายการควบคุมการเข้าถึงได้"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:78
 msgid "{0} is already a delegate"
-msgstr ""
+msgstr "{0} เป็นผู้รับมอบฉันทะประชุมอยู่แล้ว"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:79
 msgid "{0} is already in the list"
-msgstr ""
+msgstr "{0} อยู่ในรายชื่ออยู่แล้ว"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-tasks-subscription.xml.h:1
 msgid "Subscribe to Other User's Tasks"
-msgstr ""
+msgstr "บอกรับข้อมูลงานของผู้ใช้อื่น"
 
 #: ../plugins/exchange-operations/org-gnome-folder-permissions.xml.h:1
 msgid "Check folder permissions"
-msgstr ""
+msgstr "ตรวจสอบการกำหนดสิทธิ์ของโฟลเดอร์"
 
 #: ../plugins/folder-unsubscribe/folder-unsubscribe.c:57
 #, c-format
 msgid "Unsubscribing from folder \"%s\""
-msgstr ""
+msgstr "กำลังเลิกบอกรับข้อมูลจากโฟลเดอร์ \"%s\""
 
 #: ../plugins/folder-unsubscribe/org-gnome-mail-folder-unsubscribe.eplug.xml.h:1
 msgid "Allows unsubscribing of mail folders in the folder tree context menu."
-msgstr ""
+msgstr "ช่วยเลิกบอกรับข้อมูลโฟลเดอร์เมลในเมนูบริบทที่ลำดับชั้นโฟลเดอร์"
 
 #: ../plugins/folder-unsubscribe/org-gnome-mail-folder-unsubscribe.eplug.xml.h:2
 msgid "Unsubscribe Folders"
-msgstr ""
+msgstr "เลิกบอกรับข้อมูลโฟลเดอร์"
 
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:414
 msgid "Checklist"
@@ -15262,7 +15290,7 @@ msgstr ""
 
 #: ../plugins/groupwise-account-setup/org-gnome-gw-account-setup.eplug.xml.h:1
 msgid "Groupwise Account Setup"
-msgstr ""
+msgstr "การตั้งค่าบัญชี Groupwise"
 
 #: ../plugins/groupwise-features/junk-mail-settings.c:77
 msgid "Junk Settings"
@@ -15334,31 +15362,31 @@ msgstr "ข้อความ"
 
 #: ../plugins/groupwise-features/properties.glade.h:6
 msgid "Shared Folder Notification"
-msgstr ""
+msgstr "การแจ้งเหตุโฟลเดอร์ใช้ร่วม"
 
 #: ../plugins/groupwise-features/properties.glade.h:8
 msgid "The participants will receive the following notification.\n"
-msgstr ""
+msgstr "ผู้เข้าร่วมจะได้รับการแจ้งเหตุดังนี้\n"
 
 #: ../plugins/groupwise-features/properties.glade.h:11
 msgid "_Contacts..."
-msgstr ""
+msgstr "_ที่อยู่ติดต่อ..."
 
 #: ../plugins/groupwise-features/properties.glade.h:12
 msgid "_Customize notification message"
-msgstr "ข้อความเ_ลือกเอง"
+msgstr "_กำหนดข้อความแจ้งเหตุ"
 
 #: ../plugins/groupwise-features/properties.glade.h:13
 msgid "_Not Shared"
-msgstr ""
+msgstr "ไ_ม่ให้ใช้ร่วม"
 
 #: ../plugins/groupwise-features/properties.glade.h:15
 msgid "_Shared With ..."
-msgstr ""
+msgstr "ให้ใช่_ร่วมโดย ..."
 
 #: ../plugins/groupwise-features/properties.glade.h:16
 msgid "_Sharing"
-msgstr ""
+msgstr "การใ_ช้ร่วม"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:1
 msgid "<b>Name</b>"
@@ -15378,11 +15406,11 @@ msgstr "ที่อยู่_ติดต่อ"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:7
 msgid "Modify _folders/options/rules/"
-msgstr ""
+msgstr "เปลี่ยนแปลงโ_ฟลเดอร์/ตัวเลือก/กฎ"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:8
 msgid "Read items marked _private"
-msgstr ""
+msgstr "อ่านรายการที่เป็น_ส่วนตัว"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:9
 msgid "Reminder Notes"
@@ -15390,16 +15418,16 @@ msgstr "บันทึกช่วยจำ"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:10
 msgid "Subscribe to my _alarms"
-msgstr ""
+msgstr "บอกรับข้อมูลจากประกาศแจ้งเ_ตือนของข้าพเจ้า"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:11
 msgid "Subscribe to my _notifications"
-msgstr ""
+msgstr "บอกรับข้อมูลจากการแจ้งเ_หตุของข้าพเจ้า"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:13
 #: ../ui/evolution-mail-message.xml.h:126
 msgid "_Read"
-msgstr "_อ่านแล้ว"
+msgstr "_อ่าน"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:14
 msgid "_Write"
@@ -15415,7 +15443,7 @@ msgstr "<b>ชื่อบัญชี</b>"
 
 #: ../plugins/groupwise-features/proxy-login-dialog.glade.h:2
 msgid "Proxy Login"
-msgstr "ล็อกเข้าพร็อกซี"
+msgstr "ลงบันทึกเข้าใช้พร็อกซี"
 
 #: ../plugins/groupwise-features/proxy-login.c:220
 #: ../plugins/groupwise-features/proxy-login.c:263
@@ -15427,15 +15455,15 @@ msgstr "%sป้อนรหัสผ่านสำหรับ %s (ผู้�
 
 #: ../plugins/groupwise-features/proxy-login.c:505
 msgid "_Proxy Login..."
-msgstr "ล็อกเข้า_พร็อกซี..."
+msgstr "ลงบันทึกเข้าใช้_พร็อกซี..."
 
 #: ../plugins/groupwise-features/proxy.c:698
 msgid "The Proxy tab will be available only when the account is online."
-msgstr ""
+msgstr "แท็บพร็อกซีจะใช้ได้ก็ต่อเมื่อบัญชีออนไลน์"
 
 #: ../plugins/groupwise-features/proxy.c:703
 msgid "The Proxy tab will be available only when the account is enabled."
-msgstr ""
+msgstr "แท็บพร็อกซีจะใช้ได้ก็ต่อเมื่อบัญชีเปิดใช้"
 
 #: ../plugins/groupwise-features/share-folder-common.c:318
 msgid "Users"
@@ -15447,11 +15475,11 @@ msgstr "กรุณาป้อนชื่อผู้ใช้และตั
 
 #: ../plugins/groupwise-features/share-folder-common.c:338
 msgid "New _Shared Folder..."
-msgstr ""
+msgstr "โฟลเดอร์ใ_ช้ร่วมอันใหม่..."
 
 #: ../plugins/groupwise-features/share-folder-common.c:446
 msgid "Sharing"
-msgstr ""
+msgstr "การใช้ร่วม"
 
 #: ../plugins/groupwise-features/status-track.c:242
 msgid "Track Message Status..."
@@ -15459,7 +15487,7 @@ msgstr "ติดตามสถานะข้อความ..."
 
 #: ../plugins/hula-account-setup/org-gnome-evolution-hula-account-setup.eplug.xml.h:1
 msgid "A plugin to setup hula calendar sources."
-msgstr ""
+msgstr "ปลั๊กอินตั้งค่าแหล่งปฏิทิน hula"
 
 #: ../plugins/hula-account-setup/org-gnome-evolution-hula-account-setup.eplug.xml.h:2
 msgid "Hula Account Setup"
@@ -15497,25 +15525,27 @@ msgstr "รูปแบบ iCalendar (.ics)"
 
 #: ../plugins/ipod-sync/org-gnome-ipod-sync-evolution.eplug.xml.h:1
 msgid "Synchronize the selected task/calendar/addressbook with Apple iPod"
-msgstr ""
+msgstr "ปรับข้อมูลงาน/ปฏิทิน/สมุดที่อยู่ ให้ตรงกับ Apple iPod"
 
 #: ../plugins/ipod-sync/org-gnome-ipod-sync-evolution.eplug.xml.h:2
 msgid "Synchronize to iPod"
-msgstr "Synchronize กับ iPod"
+msgstr "ปรับข้อมูลให้ตรงกับ iPod"
 
 #: ../plugins/ipod-sync/org-gnome-ipod-sync-evolution.eplug.xml.h:3
 msgid "iPod Synchronization"
-msgstr "การ Synchronize กับ iPod"
+msgstr "การปรับข้อมูลให้ตรงกับ iPod"
 
 #: ../plugins/ipod-sync/sync.c:158
 msgid "No output directory!"
-msgstr ""
+msgstr "ไม่มีไดเรกทอรีเขียนข้อมูล!"
 
 #: ../plugins/ipod-sync/sync.c:159
 msgid ""
 "The output directory was not found on iPod! Please ensure that iPod has been "
 "correctly set up and try again."
 msgstr ""
+"ไม่พบไดเรกทอรีเขียนข้อมูลใน iPod! กรุณาตรวจสอบให้แน่ใจว่าได้ตั้งค่า iPod อย่างถูกต้อง "
+"แล้วลองใหม่อีกครั้ง"
 
 #: ../plugins/ipod-sync/sync.c:174 ../plugins/ipod-sync/sync.c:202
 msgid "Could not export data!"
@@ -15535,11 +15565,11 @@ msgstr "ไม่สามารถเปิดสมุดที่อยู่
 
 #: ../plugins/ipod-sync/sync.c:291
 msgid "Could not open calendar/todo!"
-msgstr ""
+msgstr "ไม่สามารถเปิดปฏิทิน/รายการที่จะทำ!"
 
 #: ../plugins/ipod-sync/sync.c:292
 msgid "Could not open the Evolution calendar/todo list to export data."
-msgstr ""
+msgstr "ไม่สามารถเปิดปฏิทิน/รายการที่จะทำของ Evolution เพื่อส่งออกข้อมูล"
 
 #: ../plugins/itip-formatter/itip-formatter.c:275
 #: ../plugins/itip-formatter/itip-formatter.c:392
@@ -15613,34 +15643,34 @@ msgstr ""
 
 #: ../plugins/itip-formatter/itip-formatter.c:907
 msgid "Sent a cancelation notice to the delegate"
-msgstr "ส่งประกาศการยกเลิกไปยังตัวแทนแล้ว"
+msgstr "ส่งประกาศการยกเลิกไปยังผู้รับมอบฉันทะแล้ว"
 
 #: ../plugins/itip-formatter/itip-formatter.c:909
 msgid "Could not send the cancelation notice to the delegate"
-msgstr "ไม่สามารถส่งประกาศการยกเลิกไปยังตัวแทน"
+msgstr "ไม่สามารถส่งประกาศการยกเลิกไปยังผู้รับมอบฉันทะ"
 
 #: ../plugins/itip-formatter/itip-formatter.c:994
 msgid "Attendee status could not be updated because the status is invalid"
-msgstr ""
+msgstr "ไม่สามารถปรับข้อมูลสถานะผู้เข้าร่วมประชุมได้ เนื่องจากสถานะเป็นค่าที่ใช้ไม่ได้"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1021
 #, c-format
 msgid "Unable to update attendee. %s"
-msgstr ""
+msgstr "ไม่สามารถปรับข้อมูลผู้เข้าร่วม %s"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1025
 msgid "Attendee status updated"
-msgstr ""
+msgstr "ปรับข้อมูลผู้เข้าร่วมเรียบร้อยแล้ว"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1152
 msgid "The calendar attached is not valid"
-msgstr ""
+msgstr "ปฏิทินใช้การไม่ได้"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1153
 msgid ""
 "The message claims to contain a calendar, but the calendar is not a valid "
 "iCalendar."
-msgstr ""
+msgstr "ข้อความอ้างว่ามีปฏิทิน แต่ตัวปฏิทินไม่ใช่ iCalendar ที่ใช้การได้"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1187
 #: ../plugins/itip-formatter/itip-formatter.c:1202
@@ -15654,17 +15684,17 @@ msgstr "รายการในปฏิทินไม่ถูกต้อง
 msgid ""
 "The message does contain a calendar, but the calendar contains no events, "
 "tasks or free/busy information"
-msgstr ""
+msgstr "ข้อความมีปฏิทินมาด้วย แต่ตัวปฏิทินไม่มีข้อมูลเหตุการณ์ งาน หรือสถานะว่าง/ไม่ว่างใดๆ เลย"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1213
 msgid "The calendar attached contains multiple items"
-msgstr ""
+msgstr "ปฏิทินที่แนบมามีรายการหลายรายการ"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1214
 msgid ""
 "To process all of these items, the file should be saved and the calendar "
 "imported"
-msgstr ""
+msgstr "เพื่อจะดำเนินงานรายการทั้งหมด ควรบันทึกแฟ้มแล้วนำเข้าปฏิทิน"
 
 #. Delete message after acting
 #. FIXME Need a schema for this
@@ -15831,53 +15861,53 @@ msgstr "%A %e %B %Ey %l:%M:%S %p"
 #: ../plugins/itip-formatter/itip-view.c:344
 #, c-format
 msgid "<b>%s</b> through %s has published the following meeting information:"
-msgstr ""
+msgstr "<b>%s</b> ได้แจ้งผ่าน %s ประกาศข้อมูลการประชุมต่อไปนี้:"
 
 #: ../plugins/itip-formatter/itip-view.c:346
 #, c-format
 msgid "<b>%s</b> has published the following meeting information:"
-msgstr ""
+msgstr "<b>%s</b> ได้ประกาศข้อมูลการประชุมต่อไปนี้:"
 
 #: ../plugins/itip-formatter/itip-view.c:351
 #, c-format
 msgid "<b>%s</b> has delegated the following meeting to you:"
-msgstr ""
+msgstr "<b>%s</b> ได้มอบฉันทะการประชุมต่อไปนี้ให้กับคุณ:"
 
 #: ../plugins/itip-formatter/itip-view.c:354
 #, c-format
 msgid "<b>%s</b> through %s requests your presence at the following meeting:"
-msgstr ""
+msgstr "<b>%s</b> แจ้งผ่าน %s ขอให้คุณเข้าร่วมการประชุมต่อไปนี้:"
 
 #: ../plugins/itip-formatter/itip-view.c:356
 #, c-format
 msgid "<b>%s</b> requests your presence at the following meeting:"
-msgstr ""
+msgstr "<b>%s</b> ขอให้คุณเข้าร่วมการประชุมต่อไปนี้:"
 
 #: ../plugins/itip-formatter/itip-view.c:362
 #, c-format
 msgid "<b>%s</b> through %s wishes to add to an existing meeting:"
-msgstr ""
+msgstr "<b>%s</b> แจ้งผ่าน %s ขอเพิ่มเติมข้อมูลในการประชุมต่อไปนี้:"
 
 #: ../plugins/itip-formatter/itip-view.c:364
 #, c-format
 msgid "<b>%s</b> wishes to add to an existing meeting:"
-msgstr ""
+msgstr "<b>%s</b> ขอเพิ่มเติมข้อมูลในการประชุมต่อไปนี้:"
 
 #: ../plugins/itip-formatter/itip-view.c:367
 #, c-format
 msgid ""
 "<b>%s</b> wishes to receive the latest information for the following meeting:"
-msgstr ""
+msgstr "<b>%s</b> ต้องการข้อมูลล่าสุดของการประชุมต่อไปนี้:"
 
 #: ../plugins/itip-formatter/itip-view.c:370
 #, c-format
 msgid "<b>%s</b> has sent back the following meeting response:"
-msgstr ""
+msgstr "<b>%s</b> ได้ส่งคำตอบสำหรับการประชุมกลับมาดังนี้:"
 
 #: ../plugins/itip-formatter/itip-view.c:374
 #, c-format
 msgid "<b>%s</b> through %s has canceled the following meeting:"
-msgstr "<b>%s</b> ได้แจ้งผ่าน %s ขอยกเลิกการประชุมต่อไปนี้:"
+msgstr "<b>%s</b> แจ้งผ่าน %s ขอยกเลิกการประชุมต่อไปนี้:"
 
 #: ../plugins/itip-formatter/itip-view.c:376
 #, c-format
@@ -15912,7 +15942,7 @@ msgstr "<b>%s</b> ได้ประกาศงานต่อไปนี้:"
 #: ../plugins/itip-formatter/itip-view.c:419
 #, c-format
 msgid "<b>%s</b> requests the assignment of %s to the following task:"
-msgstr "<b>%s</b> ได้ร้องขอการมอบหมายงานของ %s ให้กับงานต่อไปนี้:"
+msgstr "<b>%s</b> ร้องขอการมอบหมายงานของ %s ให้กับงานต่อไปนี้:"
 
 #: ../plugins/itip-formatter/itip-view.c:422
 #, c-format
@@ -15927,7 +15957,7 @@ msgstr "<b>%s</b> ได้มอบหมายงานให้กับค�
 #: ../plugins/itip-formatter/itip-view.c:430
 #, c-format
 msgid "<b>%s</b> through %s wishes to add to an existing task:"
-msgstr "<b>%s</b> ได้แจ้งผ่าน %s ขอเพิ่มเติมข้อมูลในงานต่อไปนี้:"
+msgstr "<b>%s</b> แจ้งผ่าน %s ขอเพิ่มเติมข้อมูลในงานต่อไปนี้:"
 
 #: ../plugins/itip-formatter/itip-view.c:432
 #, c-format
@@ -15944,7 +15974,7 @@ msgstr "<b>%s</b> ต้องการข้อมูลล่าสุดข�
 #: ../plugins/itip-formatter/itip-view.c:438
 #, c-format
 msgid "<b>%s</b> has sent back the following assigned task response:"
-msgstr "<b>%s</b> ได้ส่งคำตอบกลับสำหรับงานที่มีการมอบหมายดังนี้:"
+msgstr "<b>%s</b> ได้ส่งคำตอบสำหรับงานที่มีการมอบหมายกลับมาดังนี้:"
 
 #: ../plugins/itip-formatter/itip-view.c:442
 #, c-format
@@ -16818,8 +16848,7 @@ msgstr "เริ่มในโหมดออฟไลน์"
 msgid ""
 "The configuration version of Evolution, with major/minor/configuration level "
 "(for example \"2.6.0\")."
-msgstr ""
-"รุ่นของค่าตั้งของ Evolution ในรูปแบบ รุ่นใหญ่.รุ่นย่อย.ระดับค่าตั้ง (เช่น \"2.6.0\")"
+msgstr "รุ่นของค่าตั้งของ Evolution ในรูปแบบ รุ่นใหญ่.รุ่นย่อย.ระดับค่าตั้ง (เช่น \"2.6.0\")"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:14
 msgid "The default height for the main window, in pixels."
@@ -16838,8 +16867,8 @@ msgid ""
 "The last upgraded configuration version of Evolution, with major/minor/"
 "configuration level (for example \"2.6.0\")."
 msgstr ""
-"รุ่นล่าสุดของการปรับรุ่นค่าตั้งของ Evolution ในรูปแบบ รุ่นใหญ่.รุ่นย่อย.ระดับค่าตั้ง (เช่น "
-"\"2.6.0\")"
+"รุ่นล่าสุดของการปรับรุ่นค่าตั้งของ Evolution ในรูปแบบ รุ่นใหญ่.รุ่นย่อย.ระดับค่าตั้ง (เช่น \"2.6.0"
+"\")"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:18
 msgid ""
@@ -17240,8 +17269,9 @@ msgid ""
 msgstr ""
 "เนื้อหาทั้งหมดของไดเรกทอรี &quot;evolution&quot; กำลังจะถูกลบทิ้งอย่างถาวร\n"
 "\n"
-"ขอแนะนำว่า คุณควรตรวจสอบให้แน่ใจเสียก่อน ว่าข้อมูลเมล ที่อยู่ติดต่อ และปฏิทินของคุณยังอยู่ครบทั้งหมด "
-"และ Evolution รุ่นนี้ทำงานอย่างถูกต้อง ก่อนที่จะลบข้อมูลเก่าเหล่านี้\n"
+"ขอแนะนำว่า คุณควรตรวจสอบให้แน่ใจเสียก่อน ว่าข้อมูลเมล ที่อยู่ติดต่อ "
+"และปฏิทินของคุณยังอยู่ครบทั้งหมด และ Evolution รุ่นนี้ทำงานอย่างถูกต้อง "
+"ก่อนที่จะลบข้อมูลเก่าเหล่านี้\n"
 "\n"
 "เมื่อลบแล้ว คุณจะไม่สามารถปรับรุ่นของ Evolution กลับลงมาเป็นรุ่นเก่าโดยอัตโนมัติ "
 "โดยไม่ต้องแปลงสิ่งต่างๆ ด้วยตัวเองได้อีกต่อไป\n"
@@ -17258,8 +17288,8 @@ msgstr ""
 "Evolution รุ่นก่อนเก็บข้อมูลไว้คนละแห่ง\n"
 "\n"
 "ถ้าคุณเลือกที่จะลบข้อมูลชุดนี้ เนื้อหาทั้งหมดของไดเรกทอรี &quot;evolution&quot; "
-"จะถูกลบทิ้งอย่างถาวร ถ้าคุณเลือกที่จะเก็บข้อมูลชุดนี้ไว้ คุณยังสามารถลบไดเรกทอรี "
-"&quot;evolution&quot; ด้วยตัวเองในภายหลังได้ตามสะดวก\n"
+"จะถูกลบทิ้งอย่างถาวร ถ้าคุณเลือกที่จะเก็บข้อมูลชุดนี้ไว้ คุณยังสามารถลบไดเรกทอรี &quot;"
+"evolution&quot; ด้วยตัวเองในภายหลังได้ตามสะดวก\n"
 
 #: ../shell/shell.error.xml.h:19
 msgid "Upgrade from previous version failed: {0}"
@@ -17267,7 +17297,7 @@ msgstr "การปรับรุ่นจากรุ่นก่อนไม
 
 #: ../shell/shell.error.xml.h:20
 msgid ""
-"Upgrading your data and settings will require upto {0} of disk space, but "
+"Upgrading your data and settings will require up to {0} of disk space, but "
 "you only have {1} available.\n"
 "\n"
 "You will need to make more space available in your home directory before you "
@@ -18441,12 +18471,12 @@ msgstr "ยุบ_กระทู้ทั้งหมด"
 msgid "Collapse all message threads"
 msgstr "ยุบกระทู้ข้อความทั้งหมด"
 
-#: ../ui/evolution-mail-list.xml.h:5 ../ui/evolution-mail-message.xml.h:12
+#: ../ui/evolution-mail-list.xml.h:5
 msgid "Copy selected message(s) to the clipboard"
 msgstr "คัดลอกข้อความที่เลือกเข้าคลิปบอร์ด"
 
 #. Alphabetical by name, yo
-#: ../ui/evolution-mail-list.xml.h:7 ../ui/evolution-mail-message.xml.h:23
+#: ../ui/evolution-mail-list.xml.h:7
 msgid "Cut selected message(s) to the clipboard"
 msgstr "ตัดข้อความที่เลือกเข้าคลิปบอร์ด"
 
@@ -18480,12 +18510,12 @@ msgid ""
 msgstr "ซ่อนข้อความที่ลบ แทนการแสดงด้วยการขีดฆ่า"
 
 #: ../ui/evolution-mail-list.xml.h:16
-msgid "Mar_k Messages as Read"
-msgstr "ทำเ_ครื่องหมายข้อความว่าอ่านแล้ว"
+msgid "Mar_k All Messages as Read"
+msgstr "ทำเ_ครื่องหมายทุกข้อความว่าอ่านแล้ว"
 
-#: ../ui/evolution-mail-list.xml.h:17 ../ui/evolution-mail-message.xml.h:67
+#: ../ui/evolution-mail-list.xml.h:17
 msgid "Paste message(s) from the clipboard"
-msgstr ""
+msgstr "แปะข้อความจากคลิปบอร์ด"
 
 #: ../ui/evolution-mail-list.xml.h:18
 msgid "Permanently remove all deleted messages from this folder"
@@ -18493,7 +18523,7 @@ msgstr "กวาดข้อความทั้งหมดที่สั่
 
 #: ../ui/evolution-mail-list.xml.h:19
 msgid "Permanently remove this folder"
-msgstr "ลบโฟลเดอร์นี้ถาวร"
+msgstr "ลบโฟลเดอร์นี้อย่างถาวร"
 
 #: ../ui/evolution-mail-list.xml.h:20
 msgid "Select Message _Thread"
@@ -18505,7 +18535,7 @@ msgstr "เลือกข้อความ_ทั้งหมด"
 
 #: ../ui/evolution-mail-list.xml.h:22
 msgid "Select all and only the messages that are not currently selected"
-msgstr ""
+msgstr "กลับการเลือกไปเลือกข้อความที่ไม่ได้เลือกอยู่"
 
 #: ../ui/evolution-mail-list.xml.h:23
 msgid "Select all messages in the same thread as the selected message"
@@ -18585,9 +18615,13 @@ msgstr "เขียนเมลตอบไปยังเมลลิงลิ
 msgid "Compose a reply to the sender of the selected message"
 msgstr "เขียนเมลตอบไปยังผู้ส่งข้อความที่เลือกอยู่"
 
-#: ../ui/evolution-mail-message.xml.h:13
+#: ../ui/evolution-mail-message.xml.h:12
 msgid "Copy selected messages to another folder"
 msgstr "คัดลอกข้อความที่เลือกไปยังโฟลเดอร์อื่น"
+
+#: ../ui/evolution-mail-message.xml.h:13
+msgid "Copy selected messages to the clipboard"
+msgstr "คัดลอกข้อความที่เลือกเข้าคลิปบอร์ด"
 
 #: ../ui/evolution-mail-message.xml.h:14
 msgid "Create R_ule"
@@ -18625,6 +18659,10 @@ msgstr "สร้างกฎเพื่อกรองข้อความไ
 msgid "Create a rule to filter messages with this subject"
 msgstr "สร้างกฎเพื่อกรองข้อความด้วยชื่อเรื่องนี้"
 
+#: ../ui/evolution-mail-message.xml.h:23
+msgid "Cut selected messages to the clipboard"
+msgstr "ตัดข้อความที่เลือกเข้าคลิปบอร์ด"
+
 #: ../ui/evolution-mail-message.xml.h:24
 msgid "Decrease the text size"
 msgstr "ลดขนาดอักษรข้อความ"
@@ -18638,12 +18676,12 @@ msgid "Display the next message"
 msgstr "แสดงข้อความถัดไป"
 
 #: ../ui/evolution-mail-message.xml.h:28
-msgid "Display the next unread message"
-msgstr "แสดงข้อความถัดไปที่ยังไม่อ่าน"
+msgid "Display the next thread"
+msgstr "แสดงกระทู้ถัดไป"
 
 #: ../ui/evolution-mail-message.xml.h:29
-msgid "Display the next unread thread"
-msgstr "แสดงกระทู้ถัดไปที่ยังไม่อ่าน"
+msgid "Display the next unread message"
+msgstr "แสดงข้อความถัดไปที่ยังไม่อ่าน"
 
 #: ../ui/evolution-mail-message.xml.h:30
 msgid "Display the previous important message"
@@ -18682,7 +18720,7 @@ msgid "Filter the selected messages for junk status"
 msgstr "กรองข้อความที่เลือกสำหรับสถานะเมลขยะ"
 
 #: ../ui/evolution-mail-message.xml.h:39
-msgid "Flag selected message(s) for follow-up"
+msgid "Flag selected messages for follow-up"
 msgstr "ปักธงที่ข้อความเพื่อตามกระทู้"
 
 #: ../ui/evolution-mail-message.xml.h:40
@@ -18718,27 +18756,27 @@ msgid "Mar_k as"
 msgstr "ทำเ_ครื่องหมายเป็น"
 
 #: ../ui/evolution-mail-message.xml.h:50
-msgid "Mark the selected message(s) as having been read"
+msgid "Mark the selected messages as having been read"
 msgstr "ทำเครื่องหมายข้อความที่เลือกเพื่อแสดงว่าได้อ่านแล้ว"
 
 #: ../ui/evolution-mail-message.xml.h:51
-msgid "Mark the selected message(s) as important"
+msgid "Mark the selected messages as important"
 msgstr "ทำเครื่องหมายข้อความที่เลือกว่าเป็นข้อความสำคัญ"
 
 #: ../ui/evolution-mail-message.xml.h:52
-msgid "Mark the selected message(s) as junk"
+msgid "Mark the selected messages as junk"
 msgstr "ทำเครื่องหมายข้อความที่เลือกว่าเป็นเมลขยะ"
 
 #: ../ui/evolution-mail-message.xml.h:53
-msgid "Mark the selected message(s) as not being junk"
+msgid "Mark the selected messages as not being junk"
 msgstr "ทำเครื่องหมายข้อความที่เลือกว่าไม่ใช่เมลขยะ"
 
 #: ../ui/evolution-mail-message.xml.h:54
-msgid "Mark the selected message(s) as not having been read"
+msgid "Mark the selected messages as not having been read"
 msgstr "ทำเครื่องหมายข้อความที่เลือกว่ายังไม่ได้อ่าน"
 
 #: ../ui/evolution-mail-message.xml.h:55
-msgid "Mark the selected message(s) as unimportant"
+msgid "Mark the selected messages as unimportant"
 msgstr "ทำเครื่องหมายข้อความที่เลือกว่าเป็นข้อความไม่สำคัญ"
 
 #: ../ui/evolution-mail-message.xml.h:56
@@ -18746,7 +18784,7 @@ msgid "Mark the selected messages for deletion"
 msgstr "ทำเครื่องหมายเพื่อลบข้อความที่เลือก"
 
 #: ../ui/evolution-mail-message.xml.h:57
-msgid "Move selected message(s) to another folder"
+msgid "Move selected messages to another folder"
 msgstr "ย้ายข้อความที่เลือกไปยังโฟลเดอร์อื่น"
 
 #: ../ui/evolution-mail-message.xml.h:59
@@ -18770,16 +18808,20 @@ msgid "Open a window for composing a mail message"
 msgstr "เปิดหน้าต่างสำหรับการเขียนข้อความเมล"
 
 #: ../ui/evolution-mail-message.xml.h:64
-msgid "Open the selected message in a new window"
+msgid "Open the selected messages in a new window"
 msgstr "เปิดข้อความที่เลือกในหน้าต่างใหม่"
 
 #: ../ui/evolution-mail-message.xml.h:65
-msgid "Open the selected message in the composer for editing"
-msgstr ""
+msgid "Open the selected messages in the composer for editing"
+msgstr "เปิดข้อความที่เลือกในหน้าต่างเขียนจดหมายเพื่อแก้ไข"
 
 #: ../ui/evolution-mail-message.xml.h:66
 msgid "P_revious Unread Message"
 msgstr "ข้อความที่ยังไม่ได้อ่าน_ก่อนหน้า"
+
+#: ../ui/evolution-mail-message.xml.h:67
+msgid "Paste messages from the clipboard"
+msgstr "แปะข้อความที่เลือกจากคลิปบอร์ด"
 
 #: ../ui/evolution-mail-message.xml.h:68
 msgid "Pos_t New Message to Folder"
@@ -18822,8 +18864,8 @@ msgid "Reset the text to its original size"
 msgstr "ตั้งขนาดอักษรข้อความกลับไปค่าเดิม"
 
 #: ../ui/evolution-mail-message.xml.h:85
-msgid "Save the message as a text file"
-msgstr "บันทึกข้อความลงเป็นแฟ้มข้อความ"
+msgid "Save the selected messages as a text file"
+msgstr "บันทึกข้อความที่เลือกลงเป็นแฟ้มข้อความ"
 
 #: ../ui/evolution-mail-message.xml.h:86
 msgid "Search Folder from Mailing _List..."
@@ -18862,11 +18904,11 @@ msgid "Show a blinking cursor in the body of displayed messages"
 msgstr "แสดงเคอร์เซอร์กะพริบในเนื้อความของข้อความที่แสดง"
 
 #: ../ui/evolution-mail-message.xml.h:95
-msgid "Show message in the normal style"
+msgid "Show messages in the normal style"
 msgstr "แสดงข้อความในรูปแบบปกติ"
 
 #: ../ui/evolution-mail-message.xml.h:96
-msgid "Show message with all email headers"
+msgid "Show messages with all email headers"
 msgstr "แสดงข้อความพร้อมด้วยส่วนหัวของอีเมลทั้งหมด"
 
 #: ../ui/evolution-mail-message.xml.h:97
@@ -18874,8 +18916,8 @@ msgid "Show the raw email source of the message"
 msgstr "แสดงข้อมูลดิบของอีเมลของข้อความ"
 
 #: ../ui/evolution-mail-message.xml.h:98
-msgid "Un-delete the selected messages"
-msgstr "ไม่ลบข้อความที่เลือก"
+msgid "Undelete the selected messages"
+msgstr "เรียกคืนข้อความลบแล้วที่เลือก"
 
 #: ../ui/evolution-mail-message.xml.h:99
 msgid "Uni_mportant"
@@ -19275,11 +19317,11 @@ msgid "_Status Details"
 msgstr "รายละเอียด_สถานะ"
 
 #: ../ui/evolution-tasks.xml.h:3
-msgid "Copy selected task"
+msgid "Copy selected tasks"
 msgstr "คัดลอกงานที่เลือก"
 
 #: ../ui/evolution-tasks.xml.h:5
-msgid "Cut selected task"
+msgid "Cut selected tasks"
 msgstr "ตัดงานที่เลือก"
 
 #: ../ui/evolution-tasks.xml.h:7
@@ -19299,7 +19341,7 @@ msgid "Mark selected tasks as complete"
 msgstr "ทำเครื่องหมายงานที่เลือกว่าเป็นงานที่เสร็จแล้ว"
 
 #: ../ui/evolution-tasks.xml.h:12
-msgid "Paste task from the clipboard"
+msgid "Paste tasks from the clipboard"
 msgstr "แปะงานจากคลิปบอร์ด"
 
 #: ../ui/evolution-tasks.xml.h:13
@@ -19932,8 +19974,7 @@ msgstr "ใช้ตัวขีดเส้นใต้"
 msgid ""
 "If set, an underline in the text indicates the next character should be used "
 "for the mnemonic accelerator key"
-msgstr ""
-"ถ้าเลือก อักขระขีดเส้นใต้ในข้อความจะระบุว่าอักขระถัดไปจะใช้เป็นรหัสปุ่มลัด"
+msgstr "ถ้าเลือก อักขระขีดเส้นใต้ในข้อความจะระบุว่าอักขระถัดไปจะใช้เป็นรหัสปุ่มลัด"
 
 #: ../widgets/misc/e-expander.c:206
 msgid "Space to put between the label and the child"
@@ -20765,6 +20806,9 @@ msgstr ""
 #: ../widgets/text/e-text.c:3706 ../widgets/text/e-text.c:3707
 msgid "Handle Popup"
 msgstr ""
+
+#~ msgid "Addressbook"
+#~ msgstr "สมุดที่อยู่"
 
 #~ msgid "Advanced..."
 #~ msgstr "ขั้นสูง..."
