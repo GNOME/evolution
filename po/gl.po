@@ -40,15 +40,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gl\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-02-01 16:12+0100\n"
-"PO-Revision-Date: 2006-02-01 16:15+0100\n"
+"POT-Creation-Date: 2006-02-06 11:07+0100\n"
+"PO-Revision-Date: 2006-02-06 11:15+0100\n"
 "Last-Translator: Ignacio Casal Quinteiro <nacho.resa@gmail.com>\n"
 "Language-Team: Galego <trasno@ceu.fi.udc.es>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms:  nplurals=2; plural=(n != 1);\n"
-"X-Generator: KBabel 1.11.1\n"
+"X-Generator: KBabel 1.11.2\n"
 
 #: ../a11y/addressbook/ea-addressbook-view.c:94
 #: ../a11y/addressbook/ea-addressbook-view.c:103
@@ -578,28 +578,28 @@ msgstr "Configurar autocompletado aquí"
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:5
 #: ../addressbook/gui/component/addressbook-view.c:1334
 #: ../calendar/gui/calendar-component.c:247 ../calendar/gui/migration.c:400
-#: ../plugins/exchange-operations/exchange-folder.c:626
+#: ../plugins/exchange-operations/exchange-folder.c:585
 msgid "Contacts"
 msgstr "Contactos"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:6
-msgid "Evolution Addressbook"
+msgid "Evolution Address Book"
 msgstr "Libro de Enderezos de Evolution"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:7
-msgid "Evolution Addressbook address pop-up"
+msgid "Evolution Address Book address pop-up"
 msgstr "Enderezos emerxentes no libro de enderezos de Evolution"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:8
-msgid "Evolution Addressbook address viewer"
+msgid "Evolution Address Book address viewer"
 msgstr "Visor de enderezos do Libro de Enderezos de Evolution"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:9
-msgid "Evolution Addressbook card viewer"
+msgid "Evolution Address Book card viewer"
 msgstr "Visor de tarxetas do Libro de Enderezos de Evolution"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:10
-msgid "Evolution Addressbook component"
+msgid "Evolution Address Book component"
 msgstr "Compoñente do libro de enderezos de Evolution"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:11
@@ -680,8 +680,8 @@ msgid "Create a new address book"
 msgstr "Crear un novo libro de enderezos"
 
 #: ../addressbook/gui/component/addressbook-component.c:382
-msgid "Failed upgrading Addressbook settings or folders."
-msgstr "Fallou ao actualizar a configuración do libro ou cartafoles."
+msgid "Failed upgrading Address Book settings or folders."
+msgstr "Fallou ao actualizar a configuración do Libro de enderezos ou cartafoles."
 
 #: ../addressbook/gui/component/addressbook-config.c:329
 msgid "Base"
@@ -709,8 +709,9 @@ msgid "General"
 msgstr "Xeral"
 
 #: ../addressbook/gui/component/addressbook-config.c:982
+#: ../addressbook/gui/widgets/e-addressbook-view.c:563
 #: ../mail/importers/pine-importer.c:392
-msgid "Addressbook"
+msgid "Address Book"
 msgstr "Libro de Enderezos"
 
 #: ../addressbook/gui/component/addressbook-config.c:986
@@ -967,7 +968,7 @@ msgid "Add Address Book"
 msgstr "Engadir libro de enderezos"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:14
-#: ../mail/em-account-editor.c:304 ../mail/em-account-editor.c:767
+#: ../mail/em-account-editor.c:304 ../mail/em-account-editor.c:769
 msgid "Always"
 msgstr "Sempre"
 
@@ -1000,7 +1001,7 @@ msgid "Lo_gin:"
 msgstr "_Inicio de sesión:"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:24
-#: ../mail/em-account-editor.c:302 ../mail/em-account-editor.c:766
+#: ../mail/em-account-editor.c:302 ../mail/em-account-editor.c:768
 msgid "Never"
 msgstr "Nunca"
 
@@ -1074,7 +1075,7 @@ msgstr "Bases de busca soportadas"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:36
 msgid ""
-"The search base is the distinguished name (DN)  of the entry where your "
+"The search base is the distinguished name (DN) of the entry where your "
 "searches will begin. If you leave this blank, the search will begin at the "
 "root of the directory tree."
 msgstr ""
@@ -1208,7 +1209,7 @@ msgstr "tarxetas"
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:14
 #: ../calendar/gui/dialogs/event-page.glade.h:20 ../calendar/gui/misc.c:111
 #: ../calendar/gui/misc.c:113 ../filter/filter.glade.h:16
-#: ../mail/em-account-editor.c:1987
+#: ../mail/em-account-editor.c:1989
 #: ../plugins/calendar-http/calendar-http.c:286
 #: ../plugins/calendar-weather/calendar-weather.c:563
 msgid "minutes"
@@ -2443,7 +2444,7 @@ msgstr "Cimbabue"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-fullname.c:90
 #: ../plugins/exchange-operations/exchange-delegates.c:934
-#: ../plugins/exchange-operations/exchange-permissions-dialog.c:717
+#: ../plugins/exchange-operations/exchange-permissions-dialog.c:721
 #: ../plugins/plugin-manager/plugin-manager.c:42
 #: ../plugins/save-attachments/save-attachments.c:369
 #: ../widgets/menus/gal-view-new-dialog.c:73
@@ -2890,10 +2891,6 @@ msgstr "Fonte"
 msgid "Type"
 msgstr "Tipo"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:563
-msgid "Address Book"
-msgstr "Libro de Enderezos"
-
 #: ../addressbook/gui/widgets/e-addressbook-view.c:834
 #: ../addressbook/gui/widgets/e-addressbook-view.c:2068
 #: ../ui/evolution-addressbook.xml.h:31
@@ -3123,7 +3120,7 @@ msgstr "Radio"
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:9
 #: ../calendar/gui/e-meeting-list-view.c:490
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:9
-#: ../plugins/exchange-operations/exchange-permissions-dialog.c:721
+#: ../plugins/exchange-operations/exchange-permissions-dialog.c:725
 msgid "Role"
 msgstr "Papel"
 
@@ -4479,7 +4476,7 @@ msgstr "Notas"
 #: ../calendar/gui/tasks-component.c:1015 ../calendar/gui/tasks-control.c:472
 #: ../calendar/importers/icalendar-importer.c:80
 #: ../calendar/importers/icalendar-importer.c:741
-#: ../plugins/exchange-operations/exchange-folder.c:632
+#: ../plugins/exchange-operations/exchange-folder.c:591
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:384
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:591
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:12
@@ -5111,7 +5108,7 @@ msgstr "Imprimir"
 #: ../calendar/gui/calendar-component.c:709
 #: ../calendar/gui/dialogs/calendar-setup.c:369
 #: ../calendar/gui/gnome-cal.c:2123
-#: ../plugins/exchange-operations/exchange-folder.c:620
+#: ../plugins/exchange-operations/exchange-folder.c:579
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:383
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:413
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:590
@@ -6149,8 +6146,8 @@ msgstr "Personalizar"
 #: ../calendar/gui/dialogs/meeting-page.glade.h:4
 #: ../calendar/gui/e-cal-model-tasks.c:654
 #: ../calendar/gui/e-itip-control.c:1105 ../composer/e-msg-composer.c:2271
-#: ../filter/filter-rule.c:889 ../mail/em-account-editor.c:691
-#: ../mail/em-account-editor.c:1356 ../mail/em-account-prefs.c:468
+#: ../filter/filter-rule.c:889 ../mail/em-account-editor.c:693
+#: ../mail/em-account-editor.c:1358 ../mail/em-account-prefs.c:468
 #: ../mail/em-folder-view.c:1106 ../mail/em-junk-hook.c:78
 #: ../plugins/calendar-weather/calendar-weather.c:370
 #: ../plugins/calendar-weather/calendar-weather.c:424
@@ -6163,16 +6160,16 @@ msgid "None"
 msgstr "Nada"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:1
+msgid "1 day before appointment"
+msgstr "1 día antes da cita"
+
+#: ../calendar/gui/dialogs/event-page.glade.h:2
 msgid "1 hour before appointment"
 msgstr "1 hora antes da cita"
 
-#: ../calendar/gui/dialogs/event-page.glade.h:2
+#: ../calendar/gui/dialogs/event-page.glade.h:3
 msgid "15 minutes before appointment"
 msgstr "15 minutos antes da cita"
-
-#: ../calendar/gui/dialogs/event-page.glade.h:3
-msgid "1day before appointment"
-msgstr "1 día antes da cita"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:5
 #: ../calendar/gui/dialogs/task-page.glade.h:1
@@ -10235,8 +10232,8 @@ msgstr "Mensaxe sen título"
 msgid "Open File"
 msgstr "Abrir ficheiro"
 
-#: ../composer/e-msg-composer.c:2151 ../mail/em-account-editor.c:596
-#: ../mail/em-account-editor.c:641 ../mail/em-account-editor.c:708
+#: ../composer/e-msg-composer.c:2151 ../mail/em-account-editor.c:598
+#: ../mail/em-account-editor.c:643 ../mail/em-account-editor.c:710
 msgid "Autogenerated"
 msgstr "Auto-xenerado"
 
@@ -10914,55 +10911,55 @@ msgstr ""
 "para %s amosado abaixo\n"
 "e marque a caixiña para aceptalo.\n"
 
-#: ../mail/em-account-editor.c:472 ../mail/em-filter-folder-element.c:237
+#: ../mail/em-account-editor.c:474 ../mail/em-filter-folder-element.c:237
 #: ../mail/em-vfolder-rule.c:496
 msgid "Select Folder"
 msgstr "Seleccionar Cartafol"
 
-#: ../mail/em-account-editor.c:768
+#: ../mail/em-account-editor.c:770
 msgid "Ask for each message"
 msgstr "Preguntar por cada mensaxe"
 
-#: ../mail/em-account-editor.c:1747 ../mail/mail-config.glade.h:91
+#: ../mail/em-account-editor.c:1749 ../mail/mail-config.glade.h:91
 msgid "Identity"
 msgstr "Identidade"
 
-#: ../mail/em-account-editor.c:1796 ../mail/mail-config.glade.h:118
+#: ../mail/em-account-editor.c:1798 ../mail/mail-config.glade.h:118
 msgid "Receiving Email"
 msgstr "Recepción de Correo"
 
-#: ../mail/em-account-editor.c:1979
+#: ../mail/em-account-editor.c:1981
 msgid "Automatically check for _new mail every"
 msgstr "Comprobar automaticamente se hai correo _novo cada"
 
-#: ../mail/em-account-editor.c:2160 ../mail/mail-config.glade.h:130
+#: ../mail/em-account-editor.c:2162 ../mail/mail-config.glade.h:130
 msgid "Sending Email"
 msgstr "Enviando Correo"
 
-#: ../mail/em-account-editor.c:2219 ../mail/mail-config.glade.h:68
+#: ../mail/em-account-editor.c:2221 ../mail/mail-config.glade.h:68
 msgid "Defaults"
 msgstr "Predeterminados"
 
 #. Security settings
-#: ../mail/em-account-editor.c:2285 ../mail/mail-config.glade.h:123
+#: ../mail/em-account-editor.c:2287 ../mail/mail-config.glade.h:123
 #: ../plugins/exchange-operations/exchange-account-setup.c:317
 msgid "Security"
 msgstr "Seguranza"
 
 #. Most sections for this is auto-generated fromt the camel config
-#: ../mail/em-account-editor.c:2322 ../mail/em-account-editor.c:2413
+#: ../mail/em-account-editor.c:2324 ../mail/em-account-editor.c:2415
 msgid "Receiving Options"
 msgstr "Opcións de Recepción"
 
-#: ../mail/em-account-editor.c:2323 ../mail/em-account-editor.c:2414
+#: ../mail/em-account-editor.c:2325 ../mail/em-account-editor.c:2416
 msgid "Checking for New Mail"
 msgstr "Comprobando o novo correo"
 
-#: ../mail/em-account-editor.c:2753 ../mail/mail-config.glade.h:34
+#: ../mail/em-account-editor.c:2755 ../mail/mail-config.glade.h:34
 msgid "Account Editor"
 msgstr "Editor de contas"
 
-#: ../mail/em-account-editor.c:2753 ../mail/mail-config.glade.h:80
+#: ../mail/em-account-editor.c:2755 ../mail/mail-config.glade.h:80
 msgid "Evolution Account Assistant"
 msgstr "Asistente de Contas de Evolution"
 
@@ -11353,7 +11350,7 @@ msgstr "Borradores"
 
 #. translators: standard local mailbox names
 #: ../mail/em-folder-tree-model.c:487 ../mail/mail-component.c:150
-#: ../plugins/exchange-operations/exchange-folder.c:638
+#: ../plugins/exchange-operations/exchange-folder.c:597
 msgid "Inbox"
 msgstr "Entrada"
 
@@ -14978,7 +14975,7 @@ msgid "Your password will expire in the next %d days"
 msgstr "O seu contrasinal expirará nos seguintes %d días"
 
 #: ../plugins/exchange-operations/exchange-delegates-user.c:144
-#: ../plugins/exchange-operations/exchange-permissions-dialog.c:576
+#: ../plugins/exchange-operations/exchange-permissions-dialog.c:580
 msgid "Custom"
 msgstr "Personalizar"
 
@@ -15098,7 +15095,7 @@ msgstr "Nome do cartafol"
 msgid "Folder Size"
 msgstr "Tamaño do cartafol"
 
-#: ../plugins/exchange-operations/exchange-folder-subscription.c:192
+#: ../plugins/exchange-operations/exchange-folder-subscription.c:279
 #: ../plugins/exchange-operations/org-gnome-folder-subscription.xml.h:1
 msgid "Subscribe to Other User's Folder"
 msgstr "Subscribirse ao cartafol doutro usuario"
@@ -15141,15 +15138,15 @@ msgstr "_Cambiar Contrasinal"
 msgid "ok_button"
 msgstr "Botón_ok"
 
-#: ../plugins/exchange-operations/exchange-permissions-dialog.c:301
+#: ../plugins/exchange-operations/exchange-permissions-dialog.c:305
 msgid "(Permission denied.)"
 msgstr "(Permiso denegado.)"
 
-#: ../plugins/exchange-operations/exchange-permissions-dialog.c:409
+#: ../plugins/exchange-operations/exchange-permissions-dialog.c:413
 msgid "Add User:"
 msgstr "Engadir usuario:"
 
-#: ../plugins/exchange-operations/exchange-permissions-dialog.c:409
+#: ../plugins/exchange-operations/exchange-permissions-dialog.c:413
 msgid "Add User"
 msgstr "Engadir Usuario"
 
@@ -15214,7 +15211,7 @@ msgid "Select User"
 msgstr "Seleccionar usuario"
 
 #: ../plugins/exchange-operations/exchange-user-dialog.c:182
-msgid "Addressbook..."
+msgid "Address Book..."
 msgstr "Libro de Enderezos..."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-ab-subscription.xml.h:1
@@ -17615,16 +17612,16 @@ msgstr "A actualización desde a versión anterior fallou: {0}"
 
 #: ../shell/shell.error.xml.h:20
 msgid ""
-"Upgrading your data and settings will require upto {0} of disk space, but "
+"Upgrading your data and settings will require up to {0} of disk space, but "
 "you only have {1} available.\n"
 "\n"
 "You will need to make more space available in your home directory before you "
 "can continue."
 msgstr ""
-"A actualización de seus datos e configuración requerirá ata {0} de espazo en "
+"A actualización dos seus datos e configuración requerirá ata {0} de espazo en "
 "disco, pero só ten {1} dispoñibles.\n"
 "\n"
-"Necesitará facer máis espazo libre no seu cartafol persoal antes de que "
+"Necesitará facer máis espazo dispoñible no seu cartafol persoal antes de que "
 "poida continuar."
 
 #: ../shell/shell.error.xml.h:23
@@ -18809,12 +18806,12 @@ msgstr "Agrupar por _fíos"
 msgid "Collapse all message threads"
 msgstr "Contrae todas as mensaxes"
 
-#: ../ui/evolution-mail-list.xml.h:5 ../ui/evolution-mail-message.xml.h:12
+#: ../ui/evolution-mail-list.xml.h:5
 msgid "Copy selected message(s) to the clipboard"
 msgstr "Copiar a(s) mensaxe(s) seleccionada(s) ao portarretallos"
 
 #. Alphabetical by name, yo
-#: ../ui/evolution-mail-list.xml.h:7 ../ui/evolution-mail-message.xml.h:23
+#: ../ui/evolution-mail-list.xml.h:7
 msgid "Cut selected message(s) to the clipboard"
 msgstr "Cotar a(s) mensaxe(s) seleccionada(s) ao portarretallos"
 
@@ -18847,10 +18844,10 @@ msgid "Hide deleted messages rather than displaying them with a line through the
 msgstr "Ocutar as mensaxes eliminadas no canto de amosalas cunha liña que as atravese"
 
 #: ../ui/evolution-mail-list.xml.h:16
-msgid "Mar_k Messages as Read"
-msgstr "Marcar men_saxes como lidas"
+msgid "Mar_k All Messages as Read"
+msgstr "Ma_rcar mensaxes como lidas"
 
-#: ../ui/evolution-mail-list.xml.h:17 ../ui/evolution-mail-message.xml.h:67
+#: ../ui/evolution-mail-list.xml.h:17
 msgid "Paste message(s) from the clipboard"
 msgstr "Pegar a(s) mensaxe(s) desde o portarretallos"
 
@@ -18952,9 +18949,13 @@ msgstr "Compoñer unha resposta á lista de correo da mensaxe seleccionada"
 msgid "Compose a reply to the sender of the selected message"
 msgstr "Redactar unha resposta para o autor da mensaxe seleccionada"
 
-#: ../ui/evolution-mail-message.xml.h:13
+#: ../ui/evolution-mail-message.xml.h:12
 msgid "Copy selected messages to another folder"
 msgstr "Copiar as mensaxes seleccionadas a outro cartafol"
+
+#: ../ui/evolution-mail-message.xml.h:13
+msgid "Copy selected messages to the clipboard"
+msgstr "Copiar as mensaxes seleccionadas ao portarretallos"
 
 #: ../ui/evolution-mail-message.xml.h:14
 msgid "Create R_ule"
@@ -18992,6 +18993,10 @@ msgstr "Crear unha regra para filtrar mensaxes a esta lista de correo"
 msgid "Create a rule to filter messages with this subject"
 msgstr "Crear unha regra para filtrar mensaxes con este asunto"
 
+#: ../ui/evolution-mail-message.xml.h:23
+msgid "Cut selected messages to the clipboard"
+msgstr "Cotar as mensaxes seleccionadas ao portarretallos"
+
 #: ../ui/evolution-mail-message.xml.h:24
 msgid "Decrease the text size"
 msgstr "Reduce o tamaño do texto"
@@ -19005,12 +19010,12 @@ msgid "Display the next message"
 msgstr "Amosa-la seguinte mensaxe"
 
 #: ../ui/evolution-mail-message.xml.h:28
-msgid "Display the next unread message"
-msgstr "Amosa-la seguinte mensaxe sen ler"
+msgid "Display the next thread"
+msgstr "Amosar o seguinte fío"
 
 #: ../ui/evolution-mail-message.xml.h:29
-msgid "Display the next unread thread"
-msgstr "Amosar o seguinte fío sen ler"
+msgid "Display the next unread message"
+msgstr "Amosa-la seguinte mensaxe sen ler"
 
 #: ../ui/evolution-mail-message.xml.h:30
 msgid "Display the previous important message"
@@ -19049,8 +19054,8 @@ msgid "Filter the selected messages for junk status"
 msgstr "Filtrar as mensaxes seleccionadas polo estado de spam"
 
 #: ../ui/evolution-mail-message.xml.h:39
-msgid "Flag selected message(s) for follow-up"
-msgstr "Marca-la(s) mensaxe(s) seleccionada(s) para seguemento"
+msgid "Flag selected messages for follow-up"
+msgstr "Marca-las mensaxes seleccionadas para seguemento"
 
 #: ../ui/evolution-mail-message.xml.h:40
 msgid "Follow _Up..."
@@ -19085,36 +19090,36 @@ msgid "Mar_k as"
 msgstr "Mar_car como"
 
 #: ../ui/evolution-mail-message.xml.h:50
-msgid "Mark the selected message(s) as having been read"
-msgstr "Marcar a(s) mensaxe(s) seleccionada(s) como se foran lidas"
+msgid "Mark the selected messages as having been read"
+msgstr "Marca-las mensaxes seleccionadas coma se foran lidas"
 
 #: ../ui/evolution-mail-message.xml.h:51
-msgid "Mark the selected message(s) as important"
-msgstr "Marcar a(s) mensaxe(s) seleccionada(s) coma importante"
+msgid "Mark the selected messages as important"
+msgstr "Marca-las mensaxes seleccionadas coma importantes"
 
 #: ../ui/evolution-mail-message.xml.h:52
-msgid "Mark the selected message(s) as junk"
-msgstr "Marcar a(s) mensaxe(s) seleccionada(s) coma spam"
+msgid "Mark the selected messages as junk"
+msgstr "Marca-las mensaxes seleccionadas coma spam"
 
 #: ../ui/evolution-mail-message.xml.h:53
-msgid "Mark the selected message(s) as not being junk"
-msgstr "Marcar a(s) mensaxe(s) seleccionada(s) coma non spam"
+msgid "Mark the selected messages as not being junk"
+msgstr "Marca-las mensaxes seleccionadas coma non spam"
 
 #: ../ui/evolution-mail-message.xml.h:54
-msgid "Mark the selected message(s) as not having been read"
-msgstr "Marcar a(s) mensaxe(s) seleccionada(s) como se non foran lidas"
+msgid "Mark the selected messages as not having been read"
+msgstr "Marca-las mensaxes seleccionadas como se non foran lidas"
 
 #: ../ui/evolution-mail-message.xml.h:55
-msgid "Mark the selected message(s) as unimportant"
-msgstr "Marcar a(s) mensaxe(s) seleccionada(s) coma non importantes"
+msgid "Mark the selected messages as unimportant"
+msgstr "Marca-las mensaxes seleccionadas coma non importantes"
 
 #: ../ui/evolution-mail-message.xml.h:56
 msgid "Mark the selected messages for deletion"
 msgstr "Marcar as mensaxes seleccionadas para borralas"
 
 #: ../ui/evolution-mail-message.xml.h:57
-msgid "Move selected message(s) to another folder"
-msgstr "Mover a(s) mensaxe(s) seleccionada(s) a outro cartafol"
+msgid "Move selected messages to another folder"
+msgstr "Mover as mensaxes seleccionadas a outro cartafol"
 
 #: ../ui/evolution-mail-message.xml.h:59
 msgid "Next _Important Message"
@@ -19137,16 +19142,20 @@ msgid "Open a window for composing a mail message"
 msgstr "Abrir unha fiestra para compoñer unha mensaxe de correo"
 
 #: ../ui/evolution-mail-message.xml.h:64
-msgid "Open the selected message in a new window"
-msgstr "Abrir a mensaxe seleccionada nunha nova fiestra"
+msgid "Open the selected messages in a new window"
+msgstr "Abrir as mensaxes seleccionadas nunha nova fiestra"
 
 #: ../ui/evolution-mail-message.xml.h:65
-msgid "Open the selected message in the composer for editing"
-msgstr "Abri-la mensaxe seleccionada no compositor para editala"
+msgid "Open the selected messages in the composer for editing"
+msgstr "Abri-las mensaxes seleccionadas no compositor para editalas"
 
 #: ../ui/evolution-mail-message.xml.h:66
 msgid "P_revious Unread Message"
 msgstr "_Anterior Mensaxe Sen Ler"
+
+#: ../ui/evolution-mail-message.xml.h:67
+msgid "Paste messages from the clipboard"
+msgstr "Pegar as mensaxes desde o portarretallos"
 
 #: ../ui/evolution-mail-message.xml.h:68
 msgid "Pos_t New Message to Folder"
@@ -19189,8 +19198,8 @@ msgid "Reset the text to its original size"
 msgstr "Restablecer o texto a seu tamaño orixinal"
 
 #: ../ui/evolution-mail-message.xml.h:85
-msgid "Save the message as a text file"
-msgstr "Gardar a mensaxe coma un ficheiro de texto"
+msgid "Save the selected messages as a text file"
+msgstr "Garda-las mensaxes coma un ficheiro de texto"
 
 #: ../ui/evolution-mail-message.xml.h:86
 msgid "Search Folder from Mailing _List..."
@@ -19229,19 +19238,19 @@ msgid "Show a blinking cursor in the body of displayed messages"
 msgstr "Amosa un cursor palpabrexante no corpo das mensaxes amosadas"
 
 #: ../ui/evolution-mail-message.xml.h:95
-msgid "Show message in the normal style"
-msgstr "Amosa-la mensaxe no estilo normal"
+msgid "Show messages in the normal style"
+msgstr "Amosa-las mensaxes no estilo normal"
 
 #: ../ui/evolution-mail-message.xml.h:96
-msgid "Show message with all email headers"
-msgstr "Amosa-la mensaxe con tódalas cabeceiras"
+msgid "Show messages with all email headers"
+msgstr "Amosa-las mensaxes con tódalas cabeceiras"
 
 #: ../ui/evolution-mail-message.xml.h:97
 msgid "Show the raw email source of the message"
 msgstr "Amosa-lo código fonte sen procesar da mensaxe"
 
 #: ../ui/evolution-mail-message.xml.h:98
-msgid "Un-delete the selected messages"
+msgid "Undelete the selected messages"
 msgstr "Recuperar as mensaxes seleccionadas"
 
 #: ../ui/evolution-mail-message.xml.h:99
@@ -19641,12 +19650,12 @@ msgid "_Status Details"
 msgstr "Detalles do e_stado"
 
 #: ../ui/evolution-tasks.xml.h:3
-msgid "Copy selected task"
-msgstr "Copia-la tarefa seleccionada"
+msgid "Copy selected tasks"
+msgstr "Copia-las tarefas seleccionadas"
 
 #: ../ui/evolution-tasks.xml.h:5
-msgid "Cut selected task"
-msgstr "Corta-la tarefa seleccionada"
+msgid "Cut selected tasks"
+msgstr "Corta-las tarefas seleccionadas"
 
 #: ../ui/evolution-tasks.xml.h:7
 msgid "Delete completed tasks"
@@ -19665,8 +19674,8 @@ msgid "Mark selected tasks as complete"
 msgstr "Marca-las Tarefas seleccionadas como Completas"
 
 #: ../ui/evolution-tasks.xml.h:12
-msgid "Paste task from the clipboard"
-msgstr "Pegar a tarefa dende o portarretallos"
+msgid "Paste tasks from the clipboard"
+msgstr "Pegar as tarefas desde o portarretallos"
 
 #: ../ui/evolution-tasks.xml.h:13
 msgid "Previews the list of tasks to be printed"
