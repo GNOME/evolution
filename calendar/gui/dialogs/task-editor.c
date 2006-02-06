@@ -426,6 +426,7 @@ task_editor_construct (TaskEditor *te, ECal *client)
 							  	"gtk-close", GTK_RESPONSE_CLOSE,
 							  	NULL);
 	g_signal_connect (priv->task_details_window, "response", G_CALLBACK(gtk_widget_hide), NULL);
+	g_signal_connect (priv->task_details_window, "delete-event", G_CALLBACK(gtk_widget_hide), NULL);
 	
 	priv->task_details_page = task_details_page_new ();
 	g_object_ref (priv->task_details_page);

@@ -956,10 +956,12 @@ attachment_bar_changed_cb (EAttachmentBar *bar,
 		g_free (num_text);
 
 		gtk_widget_show (editor->priv->attachment_expander_icon);
+		e_expander_set_expanded(E_EXPANDER(editor->priv->attachment_expander),TRUE);
 		
 	} else {
 		gtk_label_set_text (GTK_LABEL (editor->priv->attachment_expander_num), "");
 		gtk_widget_hide (editor->priv->attachment_expander_icon);
+		e_expander_set_expanded(E_EXPANDER(editor->priv->attachment_expander),FALSE);
 	}
 	
 	

@@ -1,3 +1,18 @@
+2006-01-31  Oswald Rodrigues <ozzy_rodrigues@yahoo.com>
+
+	** Fixes #328515
+	
+	* gui/dialogs/comp-editor.c (attachment_bar_changed_cb):Changed Attachment 
+	bar behaivour to expand when attachment is present and collapse when no 
+	attachment is present.
+	
+2006-02-03  Johnny Jacob  <johnnyjacob@gmail.com>
+	
+	** Fixes bug #329775
+	
+	* gui/dialogs/task-editor.c (task_editor_construct): Handle
+	delete-event signal for task_details_window.
+
 2006-02-05  Karsten Bräckelmann  <guenther@rudersport.de>
 
 	* gui/dialogs/event-page.glade: Correct typo, fixes bug #329748.
