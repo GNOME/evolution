@@ -75,6 +75,7 @@
 #include <camel/camel-search-private.h>
 
 #include "e-util/e-dialog-utils.h"
+#include "e-util/e-error.h"
 #include "e-util/e-util-private.h"
 #include "em-utils.h"
 #include "em-composer-utils.h"
@@ -727,13 +728,15 @@ emfb_mark_all_read(BonoboUIComponent *uid, void *data, const char *path)
 
 	if (emfv->folder == NULL)
 		return;
-
-	uids = message_list_get_uids(emfv->list);
-	camel_folder_freeze(emfv->folder);
-	for (i=0;i<uids->len;i++)
-		camel_folder_set_message_flags(emfv->folder, uids->pdata[i], CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN);
-	camel_folder_thaw(emfv->folder);
-	message_list_free_uids(emfv->list, uids);
+	
+	if( e_error_run ((GtkWidget *)emfv,"mail:ask-mark-all-read",NULL) == GTK_RESPONSE_YES){
+		uids = message_list_get_uids(emfv->list);
+		camel_folder_freeze(emfv->folder);
+		for (i=0;i<uids->len;i++)
+			camel_folder_set_message_flags(emfv->folder, uids->pdata[i], CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN);
+		camel_folder_thaw(emfv->folder);
+		message_list_free_uids(emfv->list, uids);
+	}
 }
 
 static void

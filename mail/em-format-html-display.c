@@ -1914,7 +1914,7 @@ efhd_bar_save_selected(EPopup *ep, EPopupItem *item, void *data)
 
 static EPopupItem efhd_bar_menu_items[] = {
 	{ E_POPUP_BAR, "05.display", },
-	{ E_POPUP_ITEM, "05.display.01", N_("Save Selected..."), efhd_bar_save_selected, NULL, NULL, EM_POPUP_ATTACHMENTS_MULTIPLE},
+	{ E_POPUP_ITEM, "05.display.01", N_("_Save Selected..."), efhd_bar_save_selected, NULL, NULL, EM_POPUP_ATTACHMENTS_MULTIPLE},
 };
 
 static gboolean

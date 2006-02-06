@@ -82,11 +82,11 @@
 
 /* Note, the first element of each MailConfigLabel must NOT be translated */
 MailConfigLabel label_defaults[5] = {
-	{ "important", N_("Important"), "#ff0000" },  /* red */
-	{ "work",      N_("Work"),      "#ff8c00" },  /* orange */
-	{ "personal",  N_("Personal"),  "#008b00" },  /* forest green */
-	{ "todo",      N_("To Do"),     "#0000ff" },  /* blue */
-	{ "later",     N_("Later"),     "#8b008b" }   /* magenta */
+	{ "important", N_("I_mportant"), "#ff0000" },  /* red */
+	{ "work",      N_("_Work"),      "#ff8c00" },  /* orange */
+	{ "personal",  N_("_Personal"),  "#008b00" },  /* forest green */
+	{ "todo",      N_("_To Do"),     "#0000ff" },  /* blue */
+	{ "later",     N_("_Later"),     "#8b008b" }   /* magenta */
 };
 
 typedef struct {
@@ -170,7 +170,7 @@ config_cache_labels (void)
 			
 			*colour++ = '\0';
 			label->tag = g_strdup(label_defaults[num].tag);
-			label->name = g_strdup (buf);
+			label->name = g_strdup (_(buf));
 			label->colour = g_strdup (colour);
 			
 			n = g_slist_alloc ();

@@ -1,3 +1,21 @@
+2006-02-06  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fixes bug #328651
+	
+	* em-folder-view.c:
+	* em-format-html-display.c:
+	* evolution-mail.schemas.in.in:
+	* mail-config.c: (config_cache_labels):
+
+2006-01-27  Rajeev ramanathan <rajeevramanathan_2004@yahoo.co.in>
+	
+	** Fixes bug #325786
+
+	* em-folder-browser.c: Added code to display a prompt before marking All 
+	messages as Read.
+	* mail-error.xml: Added a new error message for marking all message as
+	read.
+
 2006-02-06  Veerapuram Varadhan <vvaradhan@novell.com>
 
 	** Fixes #326147
