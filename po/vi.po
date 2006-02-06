@@ -7,8 +7,8 @@ msgid ""
 ""
 msgstr "Project-Id-Version: evolution 1.4 Gnome HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-02-01 05:44+0100\n"
-"PO-Revision-Date: 2006-02-01 16:35+1030\n"
+"POT-Creation-Date: 2006-02-05 22:09+0100\n"
+"PO-Revision-Date: 2006-02-06 14:46+1030\n"
 "Last-Translator: Clytie Siddall <clytie@riverland.net.au>\n"
 "Language-Team: Vietnamese <gnomevi-list@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -532,7 +532,7 @@ msgstr "Cấu hình tự động gỡ xong ở đây"
 #:../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:5
 #:../addressbook/gui/component/addressbook-view.c:1334
 #:../calendar/gui/calendar-component.c:247 ../calendar/gui/migration.c:400
-#:../plugins/exchange-operations/exchange-folder.c:626
+#:../plugins/exchange-operations/exchange-folder.c:585
 msgid "Contacts"
 msgstr "Liên lạc"
 
@@ -1017,10 +1017,10 @@ msgstr "Cơ sở tìm được hỗ trợ"
 
 #:../addressbook/gui/component/ldap-config.glade.h:36
 msgid ""
-"The search base is the distinguished name (DN)  of the entry where your "
+"The search base is the distinguished name (DN) of the entry where your "
 "searches will begin. If you leave this blank, the search will begin at the "
 "root of the directory tree."
-msgstr "Cơ sở tìm là tên phân biệt (TP) của mục, chỗ bắt đầu tìm kiếm. Nếu bạn bỏ "
+msgstr "Cơ sở tìm là tên phân biệt (TP) của mục nhập nơi bắt đầu tìm kiếm. Nếu bạn bỏ "
 "trống chỗ này, tìm kiếm sẽ được bắt đầu từ gốc cây thư mục."
 
 #:../addressbook/gui/component/ldap-config.glade.h:37
@@ -2475,22 +2475,22 @@ msgstr "Đã đổi"
 msgid "Contact Editor - %s"
 msgstr "Bộ sửa liên lạc — %s"
 
-#:../addressbook/gui/contact-editor/e-contact-editor.c:2735
+#:../addressbook/gui/contact-editor/e-contact-editor.c:2757
 msgid "Please select an image for this contact"
 msgstr "Hãy chọn ảnh cho liên lạc này"
 
-#:../addressbook/gui/contact-editor/e-contact-editor.c:2736
+#:../addressbook/gui/contact-editor/e-contact-editor.c:2758
 msgid "No image"
 msgstr "Không ảnh"
 
-#:../addressbook/gui/contact-editor/e-contact-editor.c:3015
+#:../addressbook/gui/contact-editor/e-contact-editor.c:3042
 msgid ""
 "The contact data is invalid:\n"
 "\n"
 msgstr "Dữ liệu liên lạc không hợp lệ:\n"
 "\n"
 
-#:../addressbook/gui/contact-editor/e-contact-editor.c:3067
+#:../addressbook/gui/contact-editor/e-contact-editor.c:3094
 msgid "Invalid contact."
 msgstr "Liên lạc không hợp lệ."
 
@@ -4372,7 +4372,7 @@ msgstr "Ghi nhớ"
 #:../calendar/gui/tasks-component.c:1015 ../calendar/gui/tasks-control.c:472
 #:../calendar/importers/icalendar-importer.c:80
 #:../calendar/importers/icalendar-importer.c:741
-#:../plugins/exchange-operations/exchange-folder.c:632
+#:../plugins/exchange-operations/exchange-folder.c:591
 #:../plugins/groupwise-account-setup/camel-gw-listener.c:384
 #:../plugins/groupwise-account-setup/camel-gw-listener.c:591
 #:../plugins/groupwise-features/proxy-add-dialog.glade.h:12
@@ -4982,7 +4982,7 @@ msgstr "In"
 #:../calendar/gui/calendar-component.c:709
 #:../calendar/gui/dialogs/calendar-setup.c:369
 #:../calendar/gui/gnome-cal.c:2123
-#:../plugins/exchange-operations/exchange-folder.c:620
+#:../plugins/exchange-operations/exchange-folder.c:579
 #:../plugins/groupwise-account-setup/camel-gw-listener.c:383
 #:../plugins/groupwise-account-setup/camel-gw-listener.c:413
 #:../plugins/groupwise-account-setup/camel-gw-listener.c:590
@@ -11166,7 +11166,7 @@ msgstr "Nháp"
 
 #.translators: standard local mailbox names
 #:../mail/em-folder-tree-model.c:487 ../mail/mail-component.c:150
-#:../plugins/exchange-operations/exchange-folder.c:638
+#:../plugins/exchange-operations/exchange-folder.c:597
 msgid "Inbox"
 msgstr "Hộp Đến"
 
@@ -14808,7 +14808,7 @@ msgstr "Tên thư mục:"
 msgid "Folder Size"
 msgstr "Cỡ thư mục"
 
-#:../plugins/exchange-operations/exchange-folder-subscription.c:192
+#:../plugins/exchange-operations/exchange-folder-subscription.c:279
 #:../plugins/exchange-operations/org-gnome-folder-subscription.xml.h:1
 msgid "Subscribe to Other User's Folder"
 msgstr "Đăng ký với thư mục của người dùng khác"
@@ -17272,7 +17272,7 @@ msgstr "Việc nâng cấp từ phiên bản trước bị lỗi: {0}"
 
 #:../shell/shell.error.xml.h:20
 msgid ""
-"Upgrading your data and settings will require upto {0} of disk space, but "
+"Upgrading your data and settings will require up to {0} of disk space, but "
 "you only have {1} available.\n"
 "\n"
 "You will need to make more space available in your home directory before you "
@@ -17280,8 +17280,8 @@ msgid ""
 msgstr "Nâng cấp các dữ liệu và thiết lập của bạn sẽ cần thiết đến {0} sức chứa trên "
 "đĩa, nhưng mà hiện thời bạn chỉ có {1} sẵn sàng.\n"
 "\n"
-"Như thế thì bạn sẽ phải giải phóng thêm chỗ trống trong thư mục chinh của "
-"bạn trước khi có thể tiếp tục."
+"Như thế thì bạn sẽ phải giải phóng thêm chỗ rỗng trong thư mục chinh của "
+"mình trước khi có thể tiếp tục lại."
 
 #:../shell/shell.error.xml.h:23
 msgid ""
@@ -18490,8 +18490,8 @@ msgid ""
 msgstr "Ẩn các thư đã xoá bỏ thay vì hiển thị chúng dạng gạch đè"
 
 #:../ui/evolution-mail-list.xml.h:16
-msgid "Mar_k Messages as Read"
-msgstr "Đánh dấu thư Đã đọ_c"
+msgid "Mar_k All Messages as Read"
+msgstr "Đánh dấu mọi thư Đã đọ_c"
 
 #:../ui/evolution-mail-list.xml.h:17 ../ui/evolution-mail-message.xml.h:67
 msgid "Paste message(s) from the clipboard"
