@@ -205,7 +205,7 @@ typedef struct _EMAccountEditorPrivate {
 
 static void emae_refresh_authtype(EMAccountEditor *emae, EMAccountEditorService *service);
 static void em_account_editor_construct(EMAccountEditor *emae, EAccount *account, em_account_editor_t type, char *id);
-
+static void emae_account_folder_changed(EMFolderSelectionButton *folder, EMAccountEditor *emae);
 static GtkVBoxClass *emae_parent;
 
 static void
@@ -458,9 +458,11 @@ default_folders_clicked (GtkButton *button, gpointer user_data)
 	
 	uri = mail_component_get_folder_uri(NULL, MAIL_COMPONENT_FOLDER_DRAFTS);
 	em_folder_selection_button_set_selection((EMFolderSelectionButton *)emae->priv->drafts_folder_button, uri);
+	emae_account_folder_changed((EMFolderSelectionButton *)emae->priv->drafts_folder_button, emae);
 
 	uri = mail_component_get_folder_uri(NULL, MAIL_COMPONENT_FOLDER_SENT);
 	em_folder_selection_button_set_selection((EMFolderSelectionButton *)emae->priv->sent_folder_button, uri);
+	emae_account_folder_changed((EMFolderSelectionButton *)emae->priv->sent_folder_button, emae);
 }
 
 /* custom widget factories */

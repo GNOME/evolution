@@ -1,3 +1,9 @@
+2006-02-06  Veerapuram Varadhan <vvaradhan@novell.com>
+
+	** Fixes #326147
+	* em-account-editor.c: (em_account-editor.c): Modify e_source to
+	reflect to the reverted changes.
+	
 2006-02-05  Karsten Bräckelmann  <guenther@rudersport.de>
 
 	* importers/pine-importer.c (pine_getwidget): 
