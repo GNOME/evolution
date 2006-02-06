@@ -397,8 +397,10 @@ e_exchange_calendar_commit (EPlugin *epl, EConfigTarget *target)
 	e_source_set_relative_uri (source, ruri);
 	e_source_set_property (source, "username", username);
 	e_source_set_property (source, "auth-domain", "Exchange");
-	if (authtype)
-		 e_source_set_property (source, "auth-type", authtype);
+	if (authtype) {
+		e_source_set_property (source, "auth-type", authtype);
+		g_free (authtype);
+	}
 	e_source_set_property (source, "auth", "1");
 	
 	if (!calendar_src_exists) {

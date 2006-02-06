@@ -1,8 +1,28 @@
+2006-02-06  Sushma Rai  <rsushma@novell.com>
+
+	* exchange-permissions-dialog.c (exchange_permissions_dialog_new): 
+	Initializing nresults to zero and freeing E2kResult.
+
+	* exchange-calendar.c (e_exchange_calendar_commit): Freeing authtype.
+
+	* exchange-contacts.c (e_exchange_contacts_commit): Similar.
+	Fixes #329251.
+
 2006-02-05  Karsten Bräckelmann  <guenther@rudersport.de>
 
 	* exchange-user-dialog.c (e2k_user_dialog_construct): 
 	Correcting "Addressbook" to properly read "Address Book".
 	Fixes bug #326256.
+
+2006-02-03  Sushma Rai  <rsushma@novell.com>
+
+	* exchange-permissions-dialog.c (exchange_permissions_dialog_new): 
+	Freeing E2kResult.
+
+	* exchange-calendar.c (e_exchange_calendar_commit): Freeing authtype.
+
+	* exchange-contacts.c (e_exchange_contacts_commit): similar. 
+	See #329251.
 
 2006-02-03  Sushma Rai  <rsushma@novell.com>
 

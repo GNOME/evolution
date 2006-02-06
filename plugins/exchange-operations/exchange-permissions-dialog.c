@@ -169,7 +169,7 @@ exchange_permissions_dialog_new (ExchangeAccount *account,
 	char *title;
 	E2kHTTPStatus status;
 	E2kResult *results;
-	int nresults;
+	int nresults = 0;
 	xmlNode *xml_form;
 	GByteArray *binary_form;
 
@@ -229,6 +229,8 @@ exchange_permissions_dialog_new (ExchangeAccount *account,
 	lose:
 		e_error_run (GTK_WINDOW (parent), ERROR_DOMAIN ":perm-read-error", NULL);
 		gtk_widget_destroy (GTK_WIDGET (dialog));
+		if (nresults)
+			e2k_results_free (results, nresults);
 		return;
 	}
 
@@ -245,6 +247,8 @@ exchange_permissions_dialog_new (ExchangeAccount *account,
 
 	setup_user_list (dialog);
 	gtk_widget_show (GTK_WIDGET (dialog));
+	if (nresults)
+		e2k_results_free (results, nresults);
 }
 
 static void
