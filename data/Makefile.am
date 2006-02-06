@@ -2,7 +2,7 @@ desktopdir = $(datadir)/applications
 desktop_in_in_file = evolution.desktop.in.in
 desktop_file = $(desktop_in_in_file:.desktop.in.in=.desktop)
 %.desktop.in: %.desktop.in.in
-	sed -e "s|\@BASE_VERSION\@|$(BASE_VERSION)|" $< > $@
+	sed -e "s|\@BASE_VERSION\@|$(BASE_VERSION)|" -e "s|\@DATASERVER_EXEC_VERSION\@|$(DATASERVER_EXEC_VERSION)|" $< > $@
 
 @INTLTOOL_DESKTOP_RULE@
 

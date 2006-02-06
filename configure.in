@@ -1288,6 +1288,9 @@ dnl -- evolution-data-server IDL and version
 AC_DEFINE(DATASERVER_API_VERSION, "1.2", evolution-data-server API version)
 AC_DEFINE_UNQUOTED(DATASERVER_VERSION, "`pkg-config --modversion evolution-data-server-1.2`", evolution-data-server version)
 
+DATASERVER_EXEC_VERSION=`pkg-config --variable=execversion evolution-data-server-1.2`
+AC_SUBST(DATASERVER_EXEC_VERSION)
+
 AC_MSG_CHECKING(for evolution-data-server IDL)
 DATASERVER_IDL=`pkg-config --variable=idldir evolution-data-server-1.2`/Evolution-DataServer.idl
 if test -f "$DATASERVER_IDL"; then

@@ -9,5 +9,5 @@ Type=Application
 Categories=GNOME;Application;Office;X-Red-Hat-Base;
 StartupNotify=true
 X-GNOME-Bugzilla-Product=Evolution
-X-GNOME-Bugzilla-OtherBinaries=evolution-data-server-1.4;evolution-exchange-storage;evolution-alarm-notify;
+X-GNOME-Bugzilla-OtherBinaries=evolution-data-server-@DATASERVER_EXEC_VERSION@;evolution-exchange-storage;evolution-alarm-notify;
 

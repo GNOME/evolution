@@ -1,3 +1,10 @@
+2006-02-06  Harish Krishnaswamy  <kharish@novell.com>
+
+	* configure.in, data/Makefile.am,
+	data/evolution.desktop.in.in: Remove hard-coded 
+	EDS version number. Read it from 
+	evolution-data-server.pc instead.
+
 2006-01-30  Harish Krishnaswamy  <kharish@novell.com>
 
 	* configure.in, NEWS: Release updates, version bump.
