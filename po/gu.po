@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD.gu\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-02-01 05:44+0100\n"
-"PO-Revision-Date: 2006-02-01 12:19+0530\n"
+"POT-Creation-Date: 2006-02-05 22:09+0100\n"
+"PO-Revision-Date: 2006-02-06 08:02+0530\n"
 "Last-Translator: Ankit Patel <ankit644@yahoo.com>\n"
 "Language-Team: Gujarati <indianoss-gujarati@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -13,6 +13,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.9.1\n"
 "Plural-Forms: nplurals=2; plural=(n!=1);\n\n"
+"\n"
 "\n"
 "\n"
 "\n"
@@ -554,7 +555,7 @@ msgstr "આપોઆપ સંપૂર્ણ અંહિ રુપરેખા
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:5
 #: ../addressbook/gui/component/addressbook-view.c:1334
 #: ../calendar/gui/calendar-component.c:247 ../calendar/gui/migration.c:400
-#: ../plugins/exchange-operations/exchange-folder.c:626
+#: ../plugins/exchange-operations/exchange-folder.c:585
 msgid "Contacts"
 msgstr "સંપર્કો"
 
@@ -1042,12 +1043,10 @@ msgstr "આધારભૂત શોધના આધારો"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:36
 msgid ""
-"The search base is the distinguished name (DN)  of the entry where your "
+"The search base is the distinguished name (DN) of the entry where your "
 "searches will begin. If you leave this blank, the search will begin at the "
 "root of the directory tree."
-msgstr ""
-"જ્યાં તમારી શોધો શરુ થાય ત્યાં પ્રવેશ માટે શોધનો આધાર અે અલગ તારવેલ નામ (DN) છે. જો તમે "
-"આને ખાલી છોડી દો તો શોધ રુટ ડિરેક્ટરીથી શરુ કરશે."
+msgstr "શોધ આધાર એ પ્રવેશનું વિસ્તૃત નામ (DN) છે કે જ્યાં તમારી શોધો શરૂ થશે. જો તમે આને ખાલી છોડી મૂકો, તો શોધ ડિરેક્ટરી વૃક્ષના મૂળથી શરૂ થશે."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:37
 msgid ""
@@ -2505,15 +2504,15 @@ msgstr "બદલાયેલ"
 msgid "Contact Editor - %s"
 msgstr "સંપર્ક સંપાદક - %s"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2735
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2757
 msgid "Please select an image for this contact"
 msgstr "મહેરબાની કરીને આ સંપર્ક માટે ચિત્ર પસંદ કરો"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2736
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2758
 msgid "No image"
 msgstr "કોઈ ચિત્ર નથી"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3015
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3042
 msgid ""
 "The contact data is invalid:\n"
 "\n"
@@ -2521,7 +2520,7 @@ msgstr ""
 "સંપર્ક માહિતી અયોગ્ય છે:\n"
 "\n"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3067
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3094
 msgid "Invalid contact."
 msgstr "અયોગ્ય સંપર્ક."
 
@@ -4411,7 +4410,7 @@ msgstr "મેમો"
 #: ../calendar/gui/tasks-component.c:1015 ../calendar/gui/tasks-control.c:472
 #: ../calendar/importers/icalendar-importer.c:80
 #: ../calendar/importers/icalendar-importer.c:741
-#: ../plugins/exchange-operations/exchange-folder.c:632
+#: ../plugins/exchange-operations/exchange-folder.c:591
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:384
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:591
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:12
@@ -5025,7 +5024,7 @@ msgstr "છાપો"
 #: ../calendar/gui/calendar-component.c:709
 #: ../calendar/gui/dialogs/calendar-setup.c:369
 #: ../calendar/gui/gnome-cal.c:2123
-#: ../plugins/exchange-operations/exchange-folder.c:620
+#: ../plugins/exchange-operations/exchange-folder.c:579
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:383
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:413
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:590
@@ -11235,7 +11234,7 @@ msgstr "ડ્રાફ્ટો"
 
 #. translators: standard local mailbox names
 #: ../mail/em-folder-tree-model.c:487 ../mail/mail-component.c:150
-#: ../plugins/exchange-operations/exchange-folder.c:638
+#: ../plugins/exchange-operations/exchange-folder.c:597
 msgid "Inbox"
 msgstr "ઈનબોક્સ"
 
@@ -14911,7 +14910,7 @@ msgstr "ફોલ્ડર નામ"
 msgid "Folder Size"
 msgstr "ફોલ્ડર માપ"
 
-#: ../plugins/exchange-operations/exchange-folder-subscription.c:192
+#: ../plugins/exchange-operations/exchange-folder-subscription.c:279
 #: ../plugins/exchange-operations/org-gnome-folder-subscription.xml.h:1
 msgid "Subscribe to Other User's Folder"
 msgstr "અન્ય વપરાશકર્તાઓના ફોલ્ડરમાં ઉમેદવારી નોંધાવો"
@@ -17389,16 +17388,15 @@ msgstr "પહેલાંની આવૃત્તિમાંથી સુધ�
 
 #: ../shell/shell.error.xml.h:20
 msgid ""
-"Upgrading your data and settings will require upto {0} of disk space, but "
+"Upgrading your data and settings will require up to {0} of disk space, but "
 "you only have {1} available.\n"
 "\n"
 "You will need to make more space available in your home directory before you "
 "can continue."
 msgstr ""
-"તમારી માહિતી અને સુયોજનો સુધારવાનું ડિસ્કની જગ્યાની {0} જરુરી છે, પરંતુ તમારી પાસે માત્ર "
-"{1} ઉપલબ્ધ છે.\n"
+"તમારી માહિતી અને સુયોજનોને સુધારવા માટે ડિસ્ક જગ્યાની {0} જગ્યા જરૂરી છે, પરંતુ તમારી પાસે માત્ર {1} ઉપલબ્ધ હશે.\n"
 "\n"
-"તમને તમારી ગર ડિરેક્ટરીમાં વધુ ઉપલબ્ધ જગ્યા બનાવવાની જરુર છે તમે ચાલુ રાખો એ પહેલાં."
+"તમે ચાલુ રાખો તે પહેલાં તમને તમારી ઘર ડિરેક્ટરીમાં વધુ જગ્યા ઉપલબ્ધ કરાવવાની જરૂર રહેશે."
 
 #: ../shell/shell.error.xml.h:23
 msgid ""
@@ -18613,8 +18611,8 @@ msgid "Hide deleted messages rather than displaying them with a line through the
 msgstr "કાઢી નંખાયેલ સંદેશાઓને પ્રદર્શિત કરવાને બદલે છુપાવો"
 
 #: ../ui/evolution-mail-list.xml.h:16
-msgid "Mar_k Messages as Read"
-msgstr "સંદેશાઓને વંચાઈ ગયો એમ ચિહ્નિત કરો (_k)"
+msgid "Mar_k All Messages as Read"
+msgstr "બધા સંદેશાઓને વાંચ્યા એમ ચિહ્નિત કરો (_k)"
 
 #: ../ui/evolution-mail-list.xml.h:17 ../ui/evolution-mail-message.xml.h:67
 msgid "Paste message(s) from the clipboard"
