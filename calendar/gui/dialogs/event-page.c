@@ -2880,6 +2880,7 @@ init_widgets (EventPage *epage)
 
 	/* Alarm dialog */
 	g_signal_connect (GTK_DIALOG (priv->alarm_dialog), "response", G_CALLBACK (gtk_widget_hide), priv->alarm_dialog);
+	g_signal_connect (GTK_DIALOG (priv->alarm_dialog), "delete-event", G_CALLBACK (gtk_widget_hide), priv->alarm_dialog);
 	w = alarm_list_dialog_peek (priv->client, priv->alarm_list_store);
 	gtk_widget_reparent (w, priv->alarm_box);
 	gtk_widget_show_all (w);

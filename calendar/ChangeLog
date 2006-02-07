@@ -1,3 +1,10 @@
+2006-01-31  Johnny Jacob  <johnnyjacob@gmail.com>
+
+	** Fixes #327723
+	
+	* gui/dialogs/event-page.c (init_widgets): Handle the
+	delete-event for alarm dialog.
+
 2006-01-31  Oswald Rodrigues <ozzy_rodrigues@yahoo.com>
 
 	** Fixes #328515
