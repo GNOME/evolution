@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-02-01 05:44+0100\n"
-"PO-Revision-Date: 2006-02-03 18:47+0200\n"
+"PO-Revision-Date: 2006-02-07 20:59+0200\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -4108,12 +4108,11 @@ msgstr ""
 "neil ülesandele nõusolekut anda."
 
 #: ../calendar/calendar.error.xml.h:32
-#, fuzzy
 msgid ""
 "Email invitations will be sent to all participants and allow them to reply."
 msgstr ""
 "E-posti teel edastatud kutsed saadetakse kõikidele osalejatele, see lubab "
-"neil oma osalemisest teada anda."
+"osalejatel neile vastata."
 
 #: ../calendar/calendar.error.xml.h:33
 msgid "Error loading calendar"
@@ -4128,30 +4127,27 @@ msgid "Error loading task list"
 msgstr "Viga ülesandeloendi laadimisel"
 
 #: ../calendar/calendar.error.xml.h:36
-#, fuzzy
 msgid ""
 "If you do not send a cancelation notice, the other participants may not know "
 "the journal has been deleted."
 msgstr ""
-"Kui sa ei saada katkestamisteadet, siis ülejäänud osalised võivad selle "
+"Kui sa ei saada tühistamisteadet, siis ülejäänud osalised võivad selle "
 "päeviku kustutamisest mitte teada saada."
 
 #: ../calendar/calendar.error.xml.h:37
-#, fuzzy
 msgid ""
 "If you do not send a cancelation notice, the other participants may not know "
 "the meeting is canceled."
 msgstr ""
-"Kui sa ei saada katkestamisteadet, siis ülejäänud osalised võivad "
-"katkestamisest mitte teada saada."
+"Kui sa ei saada tühistamisteadet, siis ülejäänud osalised võivad kohtumise "
+"tühistamisest mitte teada saada."
 
 #: ../calendar/calendar.error.xml.h:38
-#, fuzzy
 msgid ""
 "If you do not send a cancelation notice, the other participants may not know "
 "the task has been deleted."
 msgstr ""
-"Kui sa ei saada kustutamisteadet, siis ülejäänud osalised võivad selle "
+"Kui sa ei saada tühistamisteadet, siis ülejäänud osalised võivad selle "
 "ülesande kustutamisest mitte teada saada."
 
 #: ../calendar/calendar.error.xml.h:39
@@ -4245,15 +4241,13 @@ msgid "Would you like to save your changes to this task?"
 msgstr "Kas soovid selle ülesande muudatusi salvestada?"
 
 #: ../calendar/calendar.error.xml.h:58
-#, fuzzy
 msgid "Would you like to send a cancelation notice for this journal entry?"
 msgstr ""
-"Kas soovid teisi osalejaid selle päevikukirje katkestamisest teavitada?"
+"Kas soovid teisi osalejaid selle päevikukirje tühistamisest teavitada?"
 
 #: ../calendar/calendar.error.xml.h:59
-#, fuzzy
 msgid "Would you like to send all the participants a cancelation notice?"
-msgstr "Kas soovid teisi osalejaid katkestamisest teavitada?"
+msgstr "Kas soovid teistele osalejatele saata tühistamisteate?"
 
 #: ../calendar/calendar.error.xml.h:60
 msgid "Would you like to send meeting invitations to participants?"
@@ -4765,9 +4759,8 @@ msgid "Month view vertical pane position"
 msgstr "Kuuvaate püstpaani asukoht"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:32
-#, fuzzy
 msgid "Number of units for determining a default reminder."
-msgstr "Vaikimisi meeldetuletaja ühikute arv."
+msgstr "Meeldetuletaja vaikimisi ühikute arv."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:33
 msgid "Number of units for determining when to hide tasks."
@@ -14118,11 +14111,10 @@ msgstr ""
 "Seda sõnumit pole võimalik saata kuna sa pole määranud ühtegi sõnumi saajat"
 
 #: ../mail/mail.error.xml.h:109
-#, fuzzy
 msgid ""
 "This message cannot be sent because you have not specified any recipients"
 msgstr ""
-"Seda sõnumit pole võimalik saata kuna sa pole määranud ühtegi sõnumi saajat"
+"Seda sõnumit pole võimalik saata kuna sa pole määranud ühtegi adressaati"
 
 #: ../mail/mail.error.xml.h:110
 msgid ""
@@ -18534,16 +18526,15 @@ msgstr "Valitud sõnumi(te) lõikelauale tõstmine"
 
 #: ../ui/evolution-mail-list.xml.h:8
 msgid "E_xpand All Threads"
-msgstr ""
+msgstr "A_va kõik lõimed"
 
 #: ../ui/evolution-mail-list.xml.h:9
 msgid "E_xpunge"
 msgstr "_Tühjenda"
 
 #: ../ui/evolution-mail-list.xml.h:10
-#, fuzzy
 msgid "Expand all message threads"
-msgstr "Kõigi sõnumite loetuksmärkimine"
+msgstr "Kõigi sõnumilõimede avamine"
 
 #: ../ui/evolution-mail-list.xml.h:12
 msgid "Hide S_elected Messages"
@@ -18971,9 +18962,8 @@ msgid "Zoom _Out"
 msgstr "_Vähenda"
 
 #: ../ui/evolution-mail-message.xml.h:101
-#, fuzzy
 msgid "_Attached"
-msgstr "Manusta"
+msgstr ""
 
 #: ../ui/evolution-mail-message.xml.h:102
 msgid "_Caret Mode"
@@ -20046,7 +20036,7 @@ msgstr "Indikaatorivahe"
 
 #: ../widgets/misc/e-expander.c:232
 msgid "Spacing around expander arrow"
-msgstr ""
+msgstr "Ruum laiendaja noole ümber"
 
 #. FIXME: get the toplevel window...
 #: ../widgets/misc/e-filter-bar.c:163
@@ -20693,7 +20683,7 @@ msgstr ""
 
 #: ../widgets/table/e-table.c:3322
 msgid "Use click to add"
-msgstr ""
+msgstr "Klõpsa lisamiseks"
 
 #: ../widgets/table/e-tree.c:3284 ../widgets/table/e-tree.c:3285
 msgid "ETree table adapter"
@@ -20871,24 +20861,6 @@ msgstr ""
 #~ msgid "Add address to existing contact \"%s\""
 #~ msgstr "Lisa aadress olemasolevale kontaktile \"%s\""
 
-#~ msgid "Merge E-Mail Address"
-#~ msgstr "Ühenda e-posti aadressid"
-
-#~ msgid "<b>Calendars</b>"
-#~ msgstr "<b>Kalendrid</b>"
-
-#~ msgid "Preferences"
-#~ msgstr "Eelistused"
-
-#~ msgid "<b>Publishing</b>"
-#~ msgstr "<b>Avaldamine</b>"
-
-#~ msgid "Publishing Table"
-#~ msgstr "Avaldamise tabel"
-
-#~ msgid "_Add URL"
-#~ msgstr "_URL-i lisamine"
-
 #~ msgid "Or_ganizer"
 #~ msgstr "Ko_rraldaja"
 
@@ -20955,33 +20927,6 @@ msgstr ""
 #~ msgid "Sa junk-plugin"
 #~ msgstr "SA rämpspostiplugin"
 
-#~ msgid "C"
-#~ msgstr "C"
-
-#~ msgid "CN"
-#~ msgstr "CN"
-
-#~ msgid "OU"
-#~ msgstr "OU"
-
-#~ msgid "O"
-#~ msgstr "O"
-
-#~ msgid "L"
-#~ msgstr "L"
-
-#~ msgid "DN"
-#~ msgstr "DN"
-
-#~ msgid "DC"
-#~ msgstr "DC"
-
-#~ msgid "ST"
-#~ msgstr "ST"
-
-#~ msgid "E"
-#~ msgstr "Ida"
-
 #~ msgid "Dismiss"
 #~ msgstr "Katkesta"
 
@@ -21001,27 +20946,6 @@ msgstr ""
 
 #~ msgid "Remove"
 #~ msgstr "Eemalda"
-
-#~ msgid "Don't Remove"
-#~ msgstr "Ära eemalda"
-
-#~ msgid "05 minutes"
-#~ msgstr "05 minutit"
-
-#~ msgid "10 minutes"
-#~ msgstr "10 minutit"
-
-#~ msgid "15 minutes"
-#~ msgstr "15 minutit"
-
-#~ msgid "30 minutes"
-#~ msgstr "30 minutit"
-
-#~ msgid "60 minutes"
-#~ msgstr "60 minutit"
-
-#~ msgid "<b>Alerts</b>"
-#~ msgstr "<b>Alarmid</b>"
 
 #~ msgid "<b>Default Free/Busy Server</b>"
 #~ msgstr "<b>Vaikimisi vaba/hõivatud server</b>"
@@ -21149,9 +21073,6 @@ msgstr ""
 #~ msgid "<b>Send Options</b>"
 #~ msgstr "<b>Saatmise valikud</b>"
 
-#~ msgid "Ala_rm"
-#~ msgstr "Ala_rmid"
-
 #~ msgid "This appointment has customized alarms"
 #~ msgstr "Sellel sündmusel on kohandatud alarmid"
 
@@ -21176,6 +21097,3 @@ msgstr ""
 
 #~ msgid "_Preview Pane"
 #~ msgstr "_Eelvaatepaan"
-
-#~ msgid "Evolution _FAQ"
-#~ msgstr "Evolutioni _KKK"
