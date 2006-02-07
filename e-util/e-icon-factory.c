@@ -201,6 +201,7 @@ e_icon_factory_init (void)
 		return;
 	
 	icon_theme = gnome_icon_theme_new ();
+	gnome_icon_theme_set_allow_svg (icon_theme, TRUE);
 	name_to_icon = g_hash_table_new (g_str_hash, g_str_equal);
 	g_signal_connect (G_OBJECT (icon_theme), "changed", G_CALLBACK (icon_theme_changed_cb), NULL);
 	

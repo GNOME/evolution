@@ -1,3 +1,8 @@
+2006-02-07  Benjamin Berg  <benjamin@sipsolutions.net>
+	* e-gui-utils.c:
+	* e-icon-factory.c:
+	accept SVGs for stock icons. Fixes bug 304417.
+
 2006-01-11  Harry Lu  <harry.lu@sun.com>
 
 	* e-marshal.list: removed.

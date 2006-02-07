@@ -107,6 +107,7 @@ e_icon_for_mime_type (const char *mime_type, int size_hint)
 	
 	if (!icon_theme)
 		icon_theme = gnome_icon_theme_new ();
+	gnome_icon_theme_set_allow_svg (icon_theme, TRUE);
 	
 	icon_name = gnome_icon_lookup (icon_theme, NULL, NULL, NULL, NULL,
 				       mime_type, 0, NULL);
