@@ -1,6 +1,7 @@
 [Desktop Entry]
 Encoding=UTF-8
 _Name=Evolution
+_GenericName=Groupware Suite
 _Comment=The Evolution Groupware Suite
 Exec=evolution-@BASE_VERSION@
 Icon=evolution

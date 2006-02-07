@@ -1,3 +1,7 @@
+2006-02-07  Andre Klapper <a9016009@gmx.de>
+	* data/evolution.desktop.in.in: added a _GenericName
+	value. Fixes bug 329744.
+
 2006-02-06  Harish Krishnaswamy  <kharish@novell.com>
 
 	* configure.in, data/Makefile.am,
