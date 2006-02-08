@@ -428,7 +428,7 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingStore *em
 			  0, 1, 3, 4, GTK_FILL, 0, 0, 0);
 	gtk_widget_show (hbox);
 
-	mts->add_attendees_button = e_button_new_with_stock_icon (_("Con_tacts..."), "gtk-jump-to");
+	mts->add_attendees_button = e_button_new_with_stock_icon (_("A_ttendees..."), "gtk-jump-to");
 	gtk_box_pack_start (GTK_BOX (hbox), mts->add_attendees_button, TRUE, TRUE, 6);
 	gtk_widget_show (mts->add_attendees_button);
 	g_signal_connect (mts->add_attendees_button, "clicked",
