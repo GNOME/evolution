@@ -1,3 +1,7 @@
+2006-02-08  Karsten Bräckelmann  <guenther@rudersport.de>
+
+	* mail.error.xml: Fix typo and correct phrasing. Fixes bug #330387.
+
 2006-01-09  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* em-account-editor.h: s/int/guint/g for 1-bit bitfield.
