@@ -271,14 +271,14 @@ rule_from_message (FilterRule *rule, RuleContext *context, CamelMimeMessage *msg
 	if (flags & AUTO_FROM) {
 		const CamelInternetAddress *from;
 		int i;
-		const char *name, *addr;
+		const char *name, *address;
 		char *namestr;
 		
 		from = camel_mime_message_get_from (msg);
-		for (i = 0; from && camel_internet_address_get (from, i, &name, &addr); i++) {
-			rule_add_sender(context, rule, addr);
+		for (i = 0; from && camel_internet_address_get (from, i, &name, &address); i++) {
+			rule_add_sender(context, rule, address);
 			if (name == NULL || name[0] == '\0')
-				name = addr;
+				name = address;
 			namestr = g_strdup_printf(_("Mail from %s"), name);
 			filter_rule_set_name (rule, namestr);
 			g_free (namestr);

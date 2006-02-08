@@ -1041,13 +1041,10 @@ void
 em_utils_redirect_message (CamelMimeMessage *message)
 {
 	EMsgComposer *composer;
-	CamelDataWrapper *wrapper;
 	
 	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (message));
 	
 	composer = redirect_get_composer (message);
-	
-	wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (message));
 	
 	gtk_widget_show (GTK_WIDGET (composer));
 	e_msg_composer_unset_changed (composer);

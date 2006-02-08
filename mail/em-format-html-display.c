@@ -51,6 +51,7 @@
 #include <gtk/gtkarrow.h>
 #include <gtk/gtklabel.h>
 #include <gtk/gtkentry.h>
+#include <gtk/gtkscrolledwindow.h>
 #include <gtk/gtktogglebutton.h>
 #include <gtk/gtktable.h>
 #include <gtk/gtkmenu.h>
@@ -189,6 +190,7 @@ static void efhd_format_source(EMFormat *, CamelStream *, CamelMimePart *);
 static void efhd_format_attachment(EMFormat *, CamelStream *, CamelMimePart *, const char *, const EMFormatHandler *);
 static void efhd_format_secure(EMFormat *emf, CamelStream *stream, CamelMimePart *part, CamelCipherValidity *valid);
 static void efhd_complete(EMFormat *);
+gboolean efhd_mnemonic_show_bar (GtkWidget *widget, gboolean focus, GtkWidget *efhd);
 
 static gboolean efhd_bonobo_object(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject *pobject);
 static gboolean efhd_use_component(const char *mime_type);
@@ -2033,7 +2035,7 @@ efhd_bar_scroll_event(GtkWidget *w, GdkEventScroll *event, EMFormatHTMLDisplay *
 gboolean 
 efhd_mnemonic_show_bar (GtkWidget *widget, gboolean focus, GtkWidget *efhd)
 {
-	attachment_bar_arrow_clicked (NULL, efhd);
+	attachment_bar_arrow_clicked (NULL, (EMFormatHTMLDisplay *)efhd);
 
 	return TRUE;
 }
@@ -2048,7 +2050,7 @@ efhd_add_bar(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject *pobjec
 
 	priv->attachment_bar = e_attachment_bar_new(NULL);
 	scroll = gtk_scrolled_window_new (NULL, NULL);
-	gtk_scrolled_window_set_policy (scroll, GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scroll), GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
 	((EAttachmentBar *)priv->attachment_bar)->expand = TRUE;
 	
 	priv->forward = gtk_arrow_new(GTK_ARROW_RIGHT, GTK_SHADOW_NONE);
@@ -2061,7 +2063,7 @@ efhd_add_bar(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject *pobjec
 	atk_object_set_name (gtk_widget_get_accessible (priv->arrow), _("Toggle Attachment Bar"));
 
 	priv->label = gtk_label_new(_("No Attachment"));
-	gtk_label_set_mnemonic_widget (priv->label, priv->arrow);
+	gtk_label_set_mnemonic_widget (GTK_LABEL (priv->label), priv->arrow);
 	save = gtk_button_new();
 	image = gtk_image_new_from_stock ("gtk-save", GTK_ICON_SIZE_BUTTON);
 	txt = gtk_label_new_with_mnemonic(_("S_ave"));
@@ -2078,7 +2080,7 @@ efhd_add_bar(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject *pobjec
 	gtk_box_pack_start ((GtkBox *)hbox2, save, FALSE, FALSE, 2);
 
 	priv->attachment_box = scroll;
-	gtk_scrolled_window_set_shadow_type (scroll, GTK_SHADOW_IN);
+	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scroll), GTK_SHADOW_IN);
 	gtk_container_add ((GtkContainer *)priv->attachment_box, priv->attachment_bar);
 
 	gtk_widget_get_size_request(priv->attachment_bar, &width, &height);

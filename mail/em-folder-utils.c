@@ -513,14 +513,14 @@ em_folder_utils_rename_folder (CamelFolder *folder)
 		} else {
 			CamelFolderInfo *fi;
 			CamelException ex;
-			char *path, *p;
+			char *path, *tmp;
 			
 			if (base_len > 0) {
 				path = g_malloc (base_len + strlen (new_name) + 2);
 				memcpy (path, folder->full_name, base_len);
-				p = path + base_len;
-				*p++ = '/';
-				strcpy (p, new_name);
+				tmp = path + base_len;
+				*tmp++ = '/';
+				strcpy (tmp, new_name);
 			} else {
 				path = g_strdup (new_name);
 			}

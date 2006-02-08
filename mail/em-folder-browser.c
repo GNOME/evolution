@@ -1014,7 +1014,7 @@ emfb_etree_unfreeze (GtkWidget *widget, GdkEvent *event, EMFolderView *emfv)
 
 	ETableItem *item = e_tree_get_item (emfv->list->tree);
 
-	g_object_set_data (((GnomeCanvasItem *) item)->canvas, "freeze-cursor", 0);
+	g_object_set_data (G_OBJECT (((GnomeCanvasItem *) item)->canvas), "freeze-cursor", 0);
 }
 
 

@@ -114,7 +114,7 @@ struct _EMSubscribe {
 	/* working variables at runtime */
 	int selected_count;
 	int selected_subscribed_count;
-	gboolean subscribed_state:1; /* for setting the selection*/
+	guint subscribed_state:1; /* for setting the selection*/
 };
 
 typedef struct _EMSubscribeNode EMSubscribeNode;

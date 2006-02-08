@@ -57,8 +57,8 @@ typedef struct _EMMailerPrefsHeader EMMailerPrefsHeader;
 
 struct _EMMailerPrefsHeader {
 	char *name;
-	int enabled:1;
-	int is_default:1;
+	guint enabled:1;
+	guint is_default:1;
 };
 
 struct _EMMailerPrefs {

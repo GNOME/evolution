@@ -690,7 +690,7 @@ idle_async_event(void *mm)
 	return FALSE;
 }
 
-struct _mail_msg_op async_event_op = {
+static struct _mail_msg_op async_event_op = {
 	NULL,
 	do_async_event,
 	NULL,
@@ -832,7 +832,7 @@ do_call(struct _mail_msg *mm)
 	}
 }
 
-struct _mail_msg_op mail_call_op = {
+static struct _mail_msg_op mail_call_op = {
 	NULL,
 	do_call,
 	NULL,
@@ -882,7 +882,7 @@ static void do_set_busy(struct _mail_msg *mm)
 	set_stop(busy_state > 0);
 }
 
-struct _mail_msg_op set_busy_op = {
+static struct _mail_msg_op set_busy_op = {
 	NULL,
 	do_set_busy,
 	NULL,
@@ -1015,7 +1015,7 @@ do_op_status_free (struct _mail_msg *mm)
 	g_free (m->what);
 }
 
-struct _mail_msg_op op_status_op = {
+static struct _mail_msg_op op_status_op = {
 	NULL,
 	do_op_status,
 	NULL,

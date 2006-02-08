@@ -91,8 +91,8 @@ struct _EMFolderTreePrivate {
 	gboolean (*excluded_func)(EMFolderTree *emft, GtkTreeModel *model, GtkTreeIter *iter, void *data);
 	void *excluded_data;
 
-	int do_multiselect:1;	/* multiple select mode */
-	int cursor_set:1;	/* set to TRUE means we or something
+	guint do_multiselect:1;	/* multiple select mode */
+	guint cursor_set:1;	/* set to TRUE means we or something
 				 * else has set the cursor, otherwise
 				 * we need to set it when we set the
 				 * selection */
@@ -1155,15 +1155,15 @@ emft_drop_target(EMFolderTree *emft, GdkDragContext *context, GtkTreePath *path)
 	/* Check for special sources, and vfolder stuff */
 	if (src_uri) {
 		CamelURL *url;
-		char *path;
+		char *url_path;
 		
 		/* FIXME: this is a total hack, but i think all we can do at present */
 		/* Check for dragging from special folders which can't be moved/copied */
 		url = camel_url_new(src_uri, NULL);
-		path = url->fragment?url->fragment:url->path;
-		if (path && path[0]) {
+		url_path = url->fragment?url->fragment:url->path;
+		if (url_path && url_path[0]) {
 			/* don't allow moving any of the the local special folders */
-			if (sstore == local && is_special_local_folder (path)) {
+			if (sstore == local && is_special_local_folder (url_path)) {
 				GdkAtom xfolder;
 				
 				camel_url_free (url);
@@ -1184,16 +1184,16 @@ emft_drop_target(EMFolderTree *emft, GdkDragContext *context, GtkTreePath *path)
 			}
 			
 			/* don't allow copying/moving of the UNMATCHED vfolder */
-			if (!strcmp (url->protocol, "vfolder") && !strcmp (path, CAMEL_UNMATCHED_NAME)) {
+			if (!strcmp (url->protocol, "vfolder") && !strcmp (url_path, CAMEL_UNMATCHED_NAME)) {
 				camel_url_free (url);
 				goto done;
 			}
 			
 			/* don't allow copying/moving of any vTrash/vJunk folder nor maildir 'inbox' */
-			if (strcmp(path, CAMEL_VTRASH_NAME) == 0
-			    || strcmp(path, CAMEL_VJUNK_NAME) == 0
+			if (strcmp(url_path, CAMEL_VTRASH_NAME) == 0
+			    || strcmp(url_path, CAMEL_VJUNK_NAME) == 0
 			    /* Dont allow drag from maildir 'inbox' */
-			    || strcmp(path, ".") == 0) {
+			    || strcmp(url_path, ".") == 0) {
 				camel_url_free(url);
 				goto done;
 			}

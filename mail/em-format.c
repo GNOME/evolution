@@ -1219,7 +1219,8 @@ emf_multipart_alternative(EMFormat *emf, CamelStream *stream, CamelMimePart *par
 	/* as per rfc, find the last part we know how to display */
 	nparts = camel_multipart_get_number(mp);
 	for (i = 0; i < nparts; i++) {
-		CamelMimePart *part = camel_multipart_get_part(mp, i);
+		/* is it correct to use the passed in *part here? */
+		part = camel_multipart_get_part(mp, i);
 		CamelContentType *type = camel_mime_part_get_content_type (part);
 		char *mime_type = camel_content_type_simple (type);
 		

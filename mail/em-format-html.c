@@ -825,6 +825,7 @@ static void
 efh_text_html(EMFormatHTML *efh, CamelStream *stream, CamelMimePart *part, EMFormatHandler *info)
 {
 	const char *location;
+	/* This is set but never used for anything */
 	EMFormatPURI *puri;
 	char *cid = NULL;
 
@@ -1029,6 +1030,7 @@ efh_multipart_related(EMFormat *emf, CamelStream *stream, CamelMimePart *part, c
 	CamelContentType *content_type;
 	const char *start;
 	int i, nparts, partidlen, displayid = 0;
+	/* puri is set but never used */
 	EMFormatPURI *puri;
 	struct _EMFormatHTMLJob *job;
 

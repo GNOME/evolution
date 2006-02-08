@@ -1045,7 +1045,7 @@ static e_gconf_map_list_t gconf_remap_list[] = {
 	{ 0 },
 };
 
-struct {
+static struct {
 	char *label;
 	char *colour;
 } label_default[5] = {
@@ -1633,7 +1633,7 @@ em_migrate_folder(EMMigrateSession *session, const char *dirname, const char *fu
 		size_t slen, dlen;
 		FILE *fp;
 		char *p;
-		int i, mode;
+		int mode;
 		
 		g_string_printf (src, "%s/%s", uri + 5, name);
 		mbox_build_filename (dest, ((CamelService *)session->store)->url->path, full_name);

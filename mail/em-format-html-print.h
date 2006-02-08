@@ -22,7 +22,7 @@ struct _EMFormatHTMLPrint {
 	struct _GnomePrintConfig *config;
 	struct _EMFormatHTML *source; /* used for print_message */
 
-	int preview:1;
+	guint preview:1;
 };
 
 struct _EMFormatHTMLPrintClass {

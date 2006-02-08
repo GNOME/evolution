@@ -113,7 +113,7 @@ struct _store_info {
 	void *done_data;
 
 	int ref_count:31;
-	int removed:1;
+	guint removed:1;
 };
 
 struct _MailComponentPrivate {

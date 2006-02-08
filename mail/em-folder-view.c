@@ -144,8 +144,8 @@ struct _EMFolderViewPrivate {
 	guint seen_id;
 	guint setting_notify_id;
 	guint selected_id;
-	int nomarkseen:1;
-	int destroyed:1;
+	guint nomarkseen:1;
+	guint destroyed:1;
 
 	GtkWidget *invisible;
 	char *selection_uri;

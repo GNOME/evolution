@@ -177,7 +177,7 @@ struct _EMailAddress {
 typedef struct _EMailAddress EMailAddress;
 #endif /* SMART_ADDRESS_COMPARE */
 
-G_DEFINE_TYPE (MessageList, message_list, E_TREE_SCROLLED_TYPE);
+G_DEFINE_TYPE (MessageList, message_list, E_TREE_SCROLLED_TYPE)
 
 static void on_cursor_activated_cmd (ETree *tree, int row, ETreePath path, gpointer user_data);
 static void on_selection_changed_cmd(ETree *tree, MessageList *ml);
@@ -641,10 +641,6 @@ message_list_select_uid (MessageList *message_list, const char *uid)
 	
 	node = g_hash_table_lookup (message_list->uid_nodemap, uid);
 	if (node) {
-		CamelMessageInfo *info;
-
-		info = get_message_info (message_list, node);
-
 		/* This will emit a changed signal that we'll pick up */
 		e_tree_set_cursor (message_list->tree, node);
 	} else {
@@ -1042,7 +1038,7 @@ ml_value_to_string (ETreeModel *etm, int col, const void *value, void *data)
 	case COL_DELETED:
 	case COL_UNREAD:
 	case COL_FOLLOWUP_FLAG_STATUS:
-		return g_strdup_printf ("%d", GPOINTER_TO_UINT(value));
+		return g_strdup_printf ("%u", GPOINTER_TO_UINT(value));
 		
 	case COL_SENT:
 	case COL_RECEIVED:
@@ -1168,7 +1164,6 @@ ml_tree_value_at (ETreeModel *etm, ETreePath path, int col, void *model_data)
 			return GINT_TO_POINTER (1);
 		else
 			return GINT_TO_POINTER (0);
-		break;
 	case COL_FLAGGED:
 		return GINT_TO_POINTER ((camel_message_info_flags(msg_info) & CAMEL_MESSAGE_FLAGGED) != 0);
 	case COL_SCORE: {
@@ -2196,8 +2191,6 @@ find_next_undeleted (MessageList *ml)
 	vrow ++;
 
 	while (vrow < last) {
-		CamelMessageInfo *info;
-
 		node = e_tree_node_at_row (et, vrow);
 		info = get_message_info (ml, node);
 		if (info && (camel_message_info_flags(info) & check) == 0) {
@@ -2223,7 +2216,9 @@ build_tree (MessageList *ml, CamelFolderThread *thread, CamelFolderChangeInfo *c
 {
 	int row = 0;
 	ETreeModel *etm = ml->model;
+#ifndef BROKEN_ETREE
 	ETreePath *top;
+#endif
 	char *saveuid = NULL;
 #ifdef BROKEN_ETREE
 	GPtrArray *selected;
@@ -2250,8 +2245,8 @@ build_tree (MessageList *ml, CamelFolderThread *thread, CamelFolderChangeInfo *c
 	if (ml->cursor_uid)
 		saveuid = find_next_undeleted(ml);
 
-	top = e_tree_model_node_get_first_child(etm, ml->tree_root);
 #ifndef BROKEN_ETREE
+	top = e_tree_model_node_get_first_child(etm, ml->tree_root);
 	if (top == NULL || changes == NULL) {
 #else
 		selected = message_list_get_selected(ml);
@@ -2550,7 +2545,6 @@ static void
 build_flat (MessageList *ml, GPtrArray *summary, CamelFolderChangeInfo *changes)
 {
 	ETreeModel *etm = ml->model;
-	ETreePath node;
 	char *saveuid = NULL;
 	int i;
 #ifdef BROKEN_ETREE
@@ -2577,6 +2571,7 @@ build_flat (MessageList *ml, GPtrArray *summary, CamelFolderChangeInfo *changes)
 		e_tree_memory_freeze(E_TREE_MEMORY(etm));
 		clear_tree (ml);
 		for (i = 0; i < summary->len; i++) {
+			ETreePath node;
 			CamelMessageInfo *info = summary->pdata[i];
 
 			node = e_tree_memory_node_insert(E_TREE_MEMORY(etm), ml->tree_root, -1, info);
@@ -2592,7 +2587,7 @@ build_flat (MessageList *ml, GPtrArray *summary, CamelFolderChangeInfo *changes)
 #endif
 
 	if (saveuid) {
-		ETreePath *node = g_hash_table_lookup(ml->uid_nodemap, saveuid);
+		ETreePath node = g_hash_table_lookup(ml->uid_nodemap, saveuid);
 		if (node == NULL) {
 			g_free (ml->cursor_uid);
 			ml->cursor_uid = NULL;

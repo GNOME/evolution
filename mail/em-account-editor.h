@@ -55,7 +55,7 @@ struct _EMAccountEditor {
 	struct _EAccount *account; /* working account, must instant apply to this */
 	struct _EAccount *original; /* original account, not changed unless commit is invoked */
 
-	int do_signature:1;	/* allow editing signature */
+	guint do_signature:1;	/* allow editing signature */
 };
 
 struct _EMAccountEditorClass {

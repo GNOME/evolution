@@ -55,7 +55,7 @@ static void em_vfolder_rule_init(EMVFolderRule *vr);
 static void em_vfolder_rule_finalise(GObject *obj);
 
 /* DO NOT internationalise these strings */
-const char *with_names[] = {
+static const char *with_names[] = {
 	"specific",
 	"local",
 	"remote_active",

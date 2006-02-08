@@ -214,6 +214,9 @@ void	       message_list_hide_uids (MessageList *ml, GPtrArray *uids);
 void	       message_list_hide_clear (MessageList *ml);
 
 void	       message_list_set_threaded (MessageList *ml, gboolean threaded);
+void           message_list_set_threaded_expand_all (MessageList *ml);
+void           message_list_set_threaded_collapse_all (MessageList *ml);
+
 void	       message_list_set_hidedeleted (MessageList *ml, gboolean hidedeleted);
 void	       message_list_set_search (MessageList *ml, const char *search);
 

@@ -163,12 +163,11 @@ static guint32
 decode_status(const char *status)
 {
 	const char *p;
-	char c;
 	guint32 flags = 0;
 	int i;
 
 	p = status;
-	while ((c = *p++)) {
+	while ((*p++)) {
 		for (i=0;i<sizeof(status_flags)/sizeof(status_flags[0]);i++)
 			if (status_flags[i].tag == *p)
 				flags |= status_flags[i].flag;
@@ -357,7 +356,7 @@ struct _import_folders_data {
 	MailImporterSpecial *special_folders;
 	CamelOperation *cancel;
 
-	int elmfmt:1;
+	guint elmfmt:1;
 };
 
 static void

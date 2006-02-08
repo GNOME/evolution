@@ -136,44 +136,6 @@ em_utils_prompt_user(GtkWindow *parent, const char *promptkey, const char *tag, 
 	return button == GTK_RESPONSE_YES;
 }
 
- 
-char *
-em_utils_temp_save_attachments (GSList *attachments)
-{
-        char *path = NULL;
-        GSList *selected;
-	
-	path = e_mkdtemp("evolution-attachments-XXXXXX");
-
-                for ( selected = attachments; selected != NULL; selected = selected->next) {
-                        const char *file_name;
-			char *safe_name = NULL;
-                       char *file_path;
-                        CamelMimePart *part = (CamelMimePart *)((EAttachment *)selected->data)->body;
-
-                        file_name = camel_mime_part_get_filename(part);
-                        if (file_name == NULL) {
-                                file_name = _("attachment");
-                        } else {
-				safe_name = g_strdup(file_name);
-				e_filename_make_safe(safe_name);
-				file_name = safe_name;
-			}
-			
-			file_path = g_build_filename (path, file_name, NULL);
-
-			if (!g_file_test(file_path, (G_FILE_TEST_EXISTS)))
-				mail_save_part(part, file_path, NULL, NULL);
-			else
-				g_warning ("Could not save %s. File already exists", file_path);
-
-			g_free (file_path);
-			g_free (safe_name);
-               }
-
-	return path;
-}
-
 /**
  * em_utils_uids_copy:
  * @uids: array of uids

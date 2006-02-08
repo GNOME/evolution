@@ -340,14 +340,11 @@ free_folder_info(struct _folder_info *mfi)
 static void
 update_1folder(struct _folder_info *mfi, int new, CamelFolderInfo *info)
 {
-	struct _store_info *si;
 	struct _folder_update *up;
 	CamelFolder *folder;
 	int unread = -1;
 	int deleted;
 	
-	si  = mfi->store_info;
-
 	folder = mfi->folder;
 	if (folder) {
 		d(printf("update 1 folder '%s'\n", folder->full_name));
@@ -758,7 +755,7 @@ struct _update_data {
 	struct _update_data *prev;
 	
 	int id;			/* id for cancellation */
-	int cancel:1;		/* also tells us we're cancelled */
+	guint cancel:1;		/* also tells us we're cancelled */
 
 	void (*done)(CamelStore *store, CamelFolderInfo *info, void *data);
 	void *data;

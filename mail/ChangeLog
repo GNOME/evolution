@@ -1,3 +1,33 @@
+2006-01-09  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* em-account-editor.h: s/int/guint/g for 1-bit bitfield.
+	* em-composer-utils.c: (em_utils_redirect_message): Remove cruft
+	* em-folder-tree.c: (emft_drop_target): use guint for 1-bit bitfield
+	and rename a variable with a name clash.
+	* em-folder-utils.c: (em_folder_utils_rename_folder): Rename var to
+	avoid name clashes.
+	* em-folder-view.c: guint for 1-bit bitfields.
+	* em-folder-view.h: Same as above.
+	* em-format-html-print.h: Again.
+	* em-format-html.c: (efh_text_html), (efh_multipart_related): Add comments
+	* em-format.c: (emf_multipart_alternative): Add comment about using var that
+	is passed in rather than a local variable.
+	* em-inline-filter.c: (emif_scan): Remove unused var. Mark code static.
+	* em-mailer-prefs.h: guint for 1-bit bitfields.
+	* em-migrate.c: (em_migrate_folder): mark a struct static. remove unused var
+	* em-subscribe-editor.c: guint for 1-bit bitfield
+	* em-utils.c: remove unused function
+	* em-vfolder-rule.c: mark array static
+	* importers/mail-importer.c: (decode_status): Remove unused code. Use guint
+	for 1-bit bitfield.
+	* mail-autofilter.c: (rule_from_message): rename a variable
+	* mail-component.c: guint for 1-bit bitfield
+	* mail-folder-cache.c: (update_1folder): remove unused code
+	* mail-mt.c: mark some structs static
+	* message-list.c: (message_list_select_uid), (ml_value_to_string),
+	(ml_tree_value_at), (find_next_undeleted), (build_tree),
+	(build_flat): Remove unused code and fix some format specifiers.
+
 2006-02-08  Rajeev ramanathan <rajeevramanathan_2004@yahoo.co.in>
 
 	**Fixes #329586

@@ -104,7 +104,8 @@ enum {
 	EMIF_PGPSIGNED,
 	EMIF_PGPENCRYPTED,
 };
-const struct {
+
+static const struct {
 	const char *name;
 	CamelTransferEncoding type;
 	int plain:1;
@@ -249,7 +250,7 @@ emif_scan(CamelMimeFilter *f, char *in, size_t len, int final)
 				data_start = inptr;
 				emif->state = EMIF_PLAIN;
 			} else {
-				int len, linelen;
+				int linelen;
 
 				/* check the length byte matches the data, if not, output what we have and re-scan this line */
 				len = ((start[0] - ' ') & 077);
