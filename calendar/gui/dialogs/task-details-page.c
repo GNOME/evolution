@@ -96,7 +96,7 @@ static gboolean task_details_page_fill_widgets (CompEditorPage *page, ECalCompon
 static gboolean task_details_page_fill_component (CompEditorPage *page, ECalComponent *comp);
 static gboolean task_details_page_fill_timezones (CompEditorPage *page, GHashTable *timezones);
 
-G_DEFINE_TYPE (TaskDetailsPage, task_details_page, TYPE_COMP_EDITOR_PAGE);
+G_DEFINE_TYPE (TaskDetailsPage, task_details_page, TYPE_COMP_EDITOR_PAGE)
 
 /* Class initialization function for the task page */
 static void
@@ -458,12 +458,7 @@ task_details_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 static gboolean
 task_details_page_fill_timezones (CompEditorPage *page, GHashTable *timezones)
 {
-	TaskDetailsPage *tdpage;
-	TaskDetailsPagePrivate *priv;
 	icaltimezone *zone;
-
-	tdpage = TASK_DETAILS_PAGE (page);
-	priv = tdpage->priv;
 
 	/* add UTC timezone, which is the one used for the DATE-COMPLETED property */
 	zone = icaltimezone_get_utc_timezone ();
@@ -537,12 +532,9 @@ get_widgets (TaskDetailsPage *tdpage)
 static void
 complete_date_changed (TaskDetailsPage *tdpage, time_t ctime, gboolean complete)
 {
-	TaskDetailsPagePrivate *priv;
 	CompEditorPageDates dates = {NULL, NULL, NULL, NULL};
 	icaltimezone *zone;
 	struct icaltimetype completed_tt = icaltime_null_time();
-
-	priv = tdpage->priv;
 
 	/* Get the current time in UTC. */
 	zone = icaltimezone_get_utc_timezone ();

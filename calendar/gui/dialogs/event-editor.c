@@ -66,7 +66,7 @@ static void model_row_change_insert_cb (GtkTreeModel *model, GtkTreePath *path, 
 static void model_row_delete_cb (GtkTreeModel *model, GtkTreePath *path, gpointer data);
 
 
-G_DEFINE_TYPE (EventEditor, event_editor, TYPE_COMP_EDITOR);
+G_DEFINE_TYPE (EventEditor, event_editor, TYPE_COMP_EDITOR)
 
 /* Class initialization function for the event editor */
 static void

@@ -105,7 +105,7 @@ static void meeting_page_focus_main_widget (CompEditorPage *page);
 static gboolean meeting_page_fill_widgets (CompEditorPage *page, ECalComponent *comp);
 static gboolean meeting_page_fill_component (CompEditorPage *page, ECalComponent *comp);
 static void attendee_added_cb (EMeetingListView *emlv, EMeetingAttendee *attendee, gpointer user_data);
-G_DEFINE_TYPE (MeetingPage, meeting_page, TYPE_COMP_EDITOR_PAGE);
+G_DEFINE_TYPE (MeetingPage, meeting_page, TYPE_COMP_EDITOR_PAGE)
 
 /* Class initialization function for the task page */
 static void
@@ -738,18 +738,6 @@ remove_attendee (MeetingPage *mpage, EMeetingAttendee *ia)
 }
 
 static void
-remove_attendee_at_row (MeetingPage *mpage, int row) 
-{
-	MeetingPagePrivate *priv;
-	EMeetingAttendee *ia;
-	
-	priv = mpage->priv;
-
-	ia = e_meeting_store_find_attendee_at_row (priv->model, row);
-	remove_attendee (mpage, ia);
-}
-
-static void
 remove_clicked_cb (GtkButton *btn, MeetingPage *mpage)
 {
 	MeetingPagePrivate *priv;
@@ -801,7 +789,7 @@ remove_clicked_cb (GtkButton *btn, MeetingPage *mpage)
 		gtk_tree_selection_select_iter (selection, &iter);
 	}
 	
-	g_list_foreach (paths, gtk_tree_path_free, NULL);
+	g_list_foreach (paths, (GFunc)gtk_tree_path_free, NULL);
 	g_list_free (paths);
 }
 
@@ -896,9 +884,6 @@ static void
 popup_delete_cb (EPopup *ep, EPopupItem *pitem, void *data)
 {
 	MeetingPage *mpage = data;
-	MeetingPagePrivate *priv;
-	
-	priv = mpage->priv;
 
 	remove_clicked_cb (NULL, mpage);
 }
@@ -952,7 +937,7 @@ button_press_event (GtkWidget *widget, GdkEventButton *event, MeetingPage *mpage
 			g_free (address);
 
 			if (ia) {
-				selection = gtk_tree_view_get_selection (priv->list_view);
+				selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (priv->list_view));
 				gtk_tree_selection_unselect_all (selection);
 				gtk_tree_selection_select_path (selection, path);
 		
@@ -1005,9 +990,6 @@ static gboolean
 list_key_press (EMeetingListView *list_view, GdkEventKey *event, MeetingPage *mpage)
 {
 	if (event->keyval == GDK_Delete) {
-		MeetingPagePrivate *priv;
-	
-		priv = mpage->priv;
 		remove_clicked_cb (NULL, mpage);
 
 		return TRUE;
@@ -1109,7 +1091,7 @@ meeting_page_construct (MeetingPage *mpage, EMeetingStore *ems,
 	priv->model = ems;
 
 	priv->list_view = e_meeting_list_view_new (priv->model); 
-	selection = gtk_tree_view_get_selection (priv->list_view);
+	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (priv->list_view));
 	gtk_tree_selection_set_mode (selection, GTK_SELECTION_MULTIPLE);
 	
 	g_signal_connect (G_OBJECT (priv->list_view), "button_press_event", G_CALLBACK (button_press_event), mpage);
@@ -1131,7 +1113,7 @@ meeting_page_construct (MeetingPage *mpage, EMeetingStore *ems,
 
 	g_signal_connect_after (G_OBJECT (mpage), "client_changed",
 				G_CALLBACK (client_changed_cb), NULL);
-	g_signal_connect (priv->list_view, "key_press_event", list_key_press, mpage);
+	g_signal_connect (priv->list_view, "key_press_event", G_CALLBACK (list_key_press), mpage);
 
 	return mpage;
 }

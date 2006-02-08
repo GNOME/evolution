@@ -61,8 +61,7 @@ pop_alarm (void)
 	ar = alarms->data;
 
 	l = alarms;
-	alarms = g_list_remove_link (alarms, l);
-	g_list_free_1 (l);
+	alarms = g_list_delete_link (alarms, l);
 
 	g_free (ar);
 }
@@ -246,8 +245,7 @@ alarm_remove (gpointer alarm)
 		ar = &ar_copy;
 		pop_alarm (); /* This will free the original AlarmRecord; that's why we copy it */
 	} else {
-		alarms = g_list_remove_link (alarms, l);
-		g_list_free_1 (l);
+		alarms = g_list_delete_link (alarms, l);
 	}
 
 	/* Reset the timeout */

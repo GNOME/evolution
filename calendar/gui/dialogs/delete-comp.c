@@ -61,7 +61,7 @@ delete_component_dialog (ECalComponent *comp,
 			 int n_comps, ECalComponentVType vtype,
 			 GtkWidget *widget)
 {
-	const char *stock_icon, *id;
+	const char *id;
 	char *arg0 = NULL;
 	int response;
 	
@@ -91,7 +91,6 @@ delete_component_dialog (ECalComponent *comp,
 		
 		switch (vtype) {
 		case E_CAL_COMPONENT_EVENT:
-			stock_icon = "stock_calendar";
 			if (arg0)
 				id = "calendar:prompt-delete-titled-appointment";
 			else
@@ -99,7 +98,6 @@ delete_component_dialog (ECalComponent *comp,
 			break;
 
 		case E_CAL_COMPONENT_TODO:
-			stock_icon = "stock_todo";
 			if (arg0)
 				id = "calendar:prompt-delete-named-task";
 			else
@@ -107,7 +105,6 @@ delete_component_dialog (ECalComponent *comp,
 			break;
 
 		case E_CAL_COMPONENT_JOURNAL:
-			stock_icon = "stock_calendar";
 			if (arg0)
 				id = "calendar:prompt-delete-named-journal";
 			else

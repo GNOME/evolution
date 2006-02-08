@@ -146,7 +146,7 @@ static gboolean task_page_fill_timezones (CompEditorPage *page, GHashTable *time
 static void task_page_set_summary (CompEditorPage *page, const char *summary);
 static void task_page_set_dates (CompEditorPage *page, CompEditorPageDates *dates);
 
-G_DEFINE_TYPE (TaskPage, task_page, TYPE_COMP_EDITOR_PAGE);
+G_DEFINE_TYPE (TaskPage, task_page, TYPE_COMP_EDITOR_PAGE)
 
 /* Class initialization function for the task page */
 static void
@@ -382,7 +382,7 @@ task_page_set_classification (TaskPage *page, ECalComponentClassification class)
 static void
 sensitize_widgets (TaskPage *tpage)
 {
-	gboolean read_only, sens, sensitize;
+	gboolean read_only, sens = FALSE, sensitize;
 	TaskPagePrivate *priv;
 	
 	priv = tpage->priv;
@@ -706,6 +706,7 @@ task_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 
 			a = get_current_account (tpage);
 			if (a != NULL) {
+				/* Reuse *page declared further up? */
 				CompEditorPage *page = (CompEditorPage *) tpage;
 				priv->ia = e_meeting_store_add_attendee_with_defaults (priv->model);
 				g_object_ref (priv->ia);
@@ -981,13 +982,11 @@ add_clicked_cb (GtkButton *btn, TaskPage *page)
 	e_meeting_list_view_edit (page->priv->list_view, attendee);
 }
 
-edit_clicked_cb (GtkButton *btn, TaskPage *tpage)
+void edit_clicked_cb (GtkButton *btn, TaskPage *tpage)
 {
 	TaskPagePrivate *priv;
-	EMeetingAttendee *attendee;
 	GtkTreePath *path = NULL;
 	GtkTreeViewColumn *focus_col;
-	gint row = 0;
 
 	priv = tpage->priv;
 
@@ -1188,9 +1187,6 @@ static void
 popup_delete_cb (EPopup *ep, EPopupItem *pitem, void *data)
 {
 	TaskPage *page = data;
-	TaskPagePrivate *priv;
-	
-	priv = page->priv;
 
 	remove_clicked_cb (NULL, page);
 }
@@ -1297,9 +1293,7 @@ static gboolean
 list_key_press (EMeetingListView *list_view, GdkEventKey *event, TaskPage *page)
 {
 	if (event->keyval == GDK_Delete) {
-		TaskPagePrivate *priv;
 	
-		priv = page->priv;
 		remove_clicked_cb (NULL, page);
 
 		return TRUE;

@@ -290,8 +290,7 @@ remove_queued_alarm (CompQueuedAlarms *cqa, gpointer alarm_id,
 	if (!l)
 		return;
 
-	cqa->queued_alarms = g_slist_remove_link (cqa->queued_alarms, l);
-	g_slist_free_1 (l);
+	cqa->queued_alarms = g_slist_delete_link (cqa->queued_alarms, l);
 
 	if (remove_alarm) {
 		cqa->expecting_update = TRUE;
@@ -981,12 +980,9 @@ open_alarm_dialog (TrayIconData *tray_data)
 		if (alarm_notifications_dialog) {
 
 			GtkTreeSelection *selection = NULL;
-			GtkTreeModel *model = NULL;
 			
 			selection = gtk_tree_view_get_selection (
 				GTK_TREE_VIEW (alarm_notifications_dialog->treeview));
-			model = gtk_tree_view_get_model (
-				GTK_TREE_VIEW(alarm_notifications_dialog->treeview));
 		
 			tray_data->iter = add_alarm_to_notified_alarms_dialog (
 								   alarm_notifications_dialog,

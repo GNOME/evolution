@@ -420,7 +420,7 @@ static void
 show_task_list_config (CalendarPrefsDialog *prefs)
 {
 	CalUnits units;
-	gboolean hide_completed_tasks;
+	gboolean hide_completed_tasks = FALSE;
 
 	set_color_picker (prefs->tasks_due_today_color, calendar_config_get_tasks_due_today_color ());
 	set_color_picker (prefs->tasks_overdue_color, calendar_config_get_tasks_overdue_color ());

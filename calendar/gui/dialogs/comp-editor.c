@@ -152,7 +152,7 @@ static void obj_modified_cb (ECal *client, GList *objs, gpointer data);
 static void obj_removed_cb (ECal *client, GList *uids, gpointer data);
 static gboolean open_attachment (EAttachmentBar *bar, CompEditor *editor);
 
-G_DEFINE_TYPE (CompEditor, comp_editor, BONOBO_TYPE_WINDOW);
+G_DEFINE_TYPE (CompEditor, comp_editor, BONOBO_TYPE_WINDOW)
 
 enum {
 	DND_TYPE_MESSAGE_RFC822,
@@ -533,13 +533,11 @@ comp_editor_class_init (CompEditorClass *klass)
 {
 	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
-	GObjectClass *gobject_class;
 	int i;
 
 	for (i=0;i<sizeof(drag_info)/sizeof(drag_info[0]);i++)
 		drag_info[i].atom = gdk_atom_intern(drag_info[i].target, FALSE);
 
-	gobject_class = G_OBJECT_CLASS(klass);
 	object_class = G_OBJECT_CLASS (klass);
 	widget_class = GTK_WIDGET_CLASS (klass);
 
@@ -609,10 +607,6 @@ listen_for_changes (CompEditor *editor)
 static void
 commit_all_fields (CompEditor *editor)
 {
-	CompEditorPrivate *priv;
-
-	priv = editor->priv;
-
 	gtk_window_set_focus (GTK_WINDOW (editor), NULL);
 }
 
@@ -927,9 +921,6 @@ static int
 delete_event_cb (GtkWidget *widget, GdkEvent *event, gpointer data)
 {
 	CompEditor *editor = COMP_EDITOR (data);
-	CompEditorPrivate *priv;
-	
-	priv = editor->priv;
 
 	commit_all_fields (editor);
 	
@@ -1213,9 +1204,6 @@ key_press_event(GtkWidget *widget, GdkEventKey *event)
 static gint
 editor_key_press_event(GtkWidget *widget, GdkEventKey *event, CompEditor *editor)
 {
-        CompEditor *Editor = COMP_EDITOR (widget);
-	EAttachmentBar *bar = E_ATTACHMENT_BAR (Editor->priv->attachment_bar);
-
         if (event->keyval == GDK_Escape) {
 		commit_all_fields (editor);
 		
@@ -1236,7 +1224,7 @@ menu_file_save_cb (BonoboUIComponent *uic,
 	CompEditor *editor = (CompEditor *) data;
 	CompEditorPrivate *priv = editor->priv;
 	ECalComponentText text;
-	gboolean delegated;
+	gboolean delegated = FALSE;
 	ECalComponent *comp;
 
 	if (e_attachment_bar_get_download_count (E_ATTACHMENT_BAR (editor->priv->attachment_bar)) ){
@@ -1282,9 +1270,6 @@ menu_file_close_cb (BonoboUIComponent *uic,
 		   const char *path)
 {
 	CompEditor *editor = (CompEditor *) data;
-	ECalComponent *comp;
-	ECalComponentText text;
-	CompEditorPrivate *priv = editor->priv;
 	
 	commit_all_fields (editor);
 
@@ -1898,7 +1883,7 @@ comp_editor_append_page (CompEditor *editor,
 {
 	CompEditorPrivate *priv;
 	GtkWidget *page_widget;
-	GtkWidget *label_widget;
+	GtkWidget *label_widget = NULL;
 	gboolean is_first_page;
 
 	g_return_if_fail (editor != NULL);
@@ -2175,10 +2160,8 @@ make_icon_from_comp (ECalComponent *comp)
 	switch (type) {
 	case E_CAL_COMPONENT_EVENT:
 		return "stock_new-appointment";
-		break;
 	case E_CAL_COMPONENT_TODO:
 		return "stock_task";
-		break;
 	default:
 		return "stock_calendar";
 	}
@@ -2704,12 +2687,8 @@ raise_and_focus (GtkWidget *widget)
 void
 comp_editor_focus (CompEditor *editor)
 {
-	CompEditorPrivate *priv;
-
 	g_return_if_fail (editor != NULL);
 	g_return_if_fail (IS_COMP_EDITOR (editor));
-
-	priv = editor->priv;
 
 	gtk_widget_show (GTK_WIDGET (editor));
 	raise_and_focus (GTK_WIDGET (editor));
@@ -2770,9 +2749,6 @@ static void
 needs_send_cb (GtkObject *obj, gpointer data)
 {
 	CompEditor *editor = COMP_EDITOR (data);
-	CompEditorPrivate *priv;
-
-	priv = editor->priv;
 
 	comp_editor_set_needs_send (editor, TRUE);
 }

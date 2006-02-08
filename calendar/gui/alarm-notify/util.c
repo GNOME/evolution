@@ -55,7 +55,7 @@ calculate_time (time_t start, time_t end)
 	char *str;
 
 	if (difference < 60) {/* Can't be zero */
-		str = g_strdup_printf (_("(%d seconds)"), difference);
+		str = g_strdup_printf (_("(%ld seconds)"), difference);
 	} else if (difference > 60 && difference < 3600) { /* It will be x minutes y seconds*/
 		int minutes, seconds;
 		minutes = difference / 60;

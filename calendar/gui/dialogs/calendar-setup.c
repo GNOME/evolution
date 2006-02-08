@@ -195,6 +195,7 @@ eccp_get_source_type (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidg
 		cell = gtk_cell_renderer_text_new ();
 		store = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_POINTER);
 		for (l = sdialog->menu_source_groups; l; l = g_slist_next (l)) {
+			/* Reuse previously defined *group here? */
 			ESourceGroup *group = l->data;
 
 			gtk_list_store_append (store, &iter);
@@ -273,7 +274,7 @@ static GtkWidget *
 eccp_general_offline (EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, struct _GtkWidget *old, void *data)
 {
 	CalendarSourceDialog *sdialog = data;
-	GtkWidget *offline_setting;
+	GtkWidget *offline_setting = NULL;
 	const char *offline_sync;
 	int row;
 	gboolean is_local = g_str_has_prefix (e_source_group_peek_base_uri (sdialog->source_group), "file:");

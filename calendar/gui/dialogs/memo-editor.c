@@ -50,14 +50,7 @@ static void memo_editor_edit_comp (CompEditor *editor, ECalComponent *comp);
 static gboolean memo_editor_send_comp (CompEditor *editor, ECalComponentItipMethod method);
 static void memo_editor_finalize (GObject *object);
 
-static void refresh_memo_cmd (GtkWidget *widget, gpointer data);
-static void cancel_memo_cmd (GtkWidget *widget, gpointer data);
-static void forward_cmd (GtkWidget *widget, gpointer data);
-
-static void model_row_change_insert_cb (GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, gpointer data);
-static void model_row_delete_cb (GtkTreeModel *model, GtkTreePath *path, gpointer data);
-
-G_DEFINE_TYPE (MemoEditor, memo_editor, TYPE_COMP_EDITOR);
+G_DEFINE_TYPE (MemoEditor, memo_editor, TYPE_COMP_EDITOR)
 
 
 
@@ -90,9 +83,6 @@ memo_editor_class_init (MemoEditorClass *klass)
 static void
 init_widgets (MemoEditor *me)
 {
-	MemoEditorPrivate *priv;
-
-	priv = me->priv;
 }
 
 static void
@@ -244,12 +234,6 @@ memo_editor_construct (MemoEditor *me, ECal *client)
 static void
 memo_editor_set_e_cal (CompEditor *editor, ECal *client)
 {
-	MemoEditor *me;
-	MemoEditorPrivate *priv;
-
-	me = MEMO_EDITOR (editor);
-	priv = me->priv;
-
 	if (COMP_EDITOR_CLASS (memo_editor_parent_class)->set_e_cal)
 		COMP_EDITOR_CLASS (memo_editor_parent_class)->set_e_cal (editor, client);
 }
@@ -257,33 +241,13 @@ memo_editor_set_e_cal (CompEditor *editor, ECal *client)
 static void
 memo_editor_edit_comp (CompEditor *editor, ECalComponent *comp)
 {
-	MemoEditor *me;
-	MemoEditorPrivate *priv;
-	ECalComponentOrganizer organizer;
-	ECal *client;
-	
-	me = MEMO_EDITOR (editor);
-	priv = me->priv;
-
-	priv->updating = TRUE;
-
 	if (COMP_EDITOR_CLASS (memo_editor_parent_class)->edit_comp)
 		COMP_EDITOR_CLASS (memo_editor_parent_class)->edit_comp (editor, comp);
-
-	client = comp_editor_get_e_cal (COMP_EDITOR (editor));
-
-	priv->updating = FALSE;
 }
 
 static gboolean
 memo_editor_send_comp (CompEditor *editor, ECalComponentItipMethod method)
 {
-	MemoEditor *me = MEMO_EDITOR (editor);
-	MemoEditorPrivate *priv;
-	ECalComponent *comp = NULL;
-
-	priv = me->priv;
-
 	if (COMP_EDITOR_CLASS (memo_editor_parent_class)->send_comp)
 		return COMP_EDITOR_CLASS (memo_editor_parent_class)->send_comp (editor, method);
 
@@ -333,54 +297,3 @@ memo_editor_new (ECal *client)
 	return memo_editor_construct (me, client);
 }
 
-static void
-refresh_memo_cmd (GtkWidget *widget, gpointer data)
-{
-	MemoEditor *me = MEMO_EDITOR (data);
-
-	comp_editor_send_comp (COMP_EDITOR (me), E_CAL_COMPONENT_METHOD_REFRESH);
-}
-
-static void
-cancel_memo_cmd (GtkWidget *widget, gpointer data)
-{
-	MemoEditor *me = MEMO_EDITOR (data);
-	ECalComponent *comp;
-	
-	comp = comp_editor_get_current_comp (COMP_EDITOR (me));
-	if (cancel_component_dialog ((GtkWindow *) me,
-				     comp_editor_get_e_cal (COMP_EDITOR (me)), comp, FALSE)) {
-		comp_editor_send_comp (COMP_EDITOR (me), E_CAL_COMPONENT_METHOD_CANCEL);
-		comp_editor_delete_comp (COMP_EDITOR (me));
-	}
-}
-
-static void
-forward_cmd (GtkWidget *widget, gpointer data)
-{
-	MemoEditor *me = MEMO_EDITOR (data);
-	
-	if (comp_editor_save_comp (COMP_EDITOR (me), TRUE))
-		comp_editor_send_comp (COMP_EDITOR (me), E_CAL_COMPONENT_METHOD_PUBLISH);
-}
-
-static void
-model_changed (MemoEditor *me)
-{
-	if (!me->priv->updating) {
-		comp_editor_set_changed (COMP_EDITOR (me), TRUE);
-		comp_editor_set_needs_send (COMP_EDITOR (me), TRUE);
-	}	
-}
-
-static void
-model_row_change_insert_cb (GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, gpointer data)
-{
-	model_changed (MEMO_EDITOR (data));
-}
-
-static void
-model_row_delete_cb (GtkTreeModel *model, GtkTreePath *path, gpointer data)
-{
-	model_changed (MEMO_EDITOR (data));
-}

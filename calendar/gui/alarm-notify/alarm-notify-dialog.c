@@ -351,7 +351,8 @@ add_alarm_to_notified_alarms_dialog (AlarmNotificationsDialog *na, time_t trigge
 	AlarmFuncInfo *funcinfo = NULL;
 	gchar *to_display = NULL, *start, *end, *str_time;
 	icaltimezone *current_zone;
-	
+
+	/* Iter is not yet defined but still we return it in all the g_return_val_if_fail() calls? */
 	g_return_val_if_fail (trigger != -1, iter);
 
 	/* Only VEVENTs or VTODOs can have alarms */

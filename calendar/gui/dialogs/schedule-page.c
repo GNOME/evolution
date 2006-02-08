@@ -79,7 +79,7 @@ static void schedule_page_set_dates (CompEditorPage *page, CompEditorPageDates *
 
 static void times_changed_cb (GtkWidget *widget, gpointer data);
 
-G_DEFINE_TYPE (SchedulePage, schedule_page, TYPE_COMP_EDITOR_PAGE);
+G_DEFINE_TYPE (SchedulePage, schedule_page, TYPE_COMP_EDITOR_PAGE)
 
 /* Class initialization function for the schedule page */
 static void
@@ -275,9 +275,6 @@ update_time (SchedulePage *spage, ECalComponentDateTime *start_date, ECalCompone
 static void
 clear_widgets (SchedulePage *spage)
 {
-	SchedulePagePrivate *priv;
-	
-	priv = spage->priv;
 }
 
 /* fill_widgets handler for the schedule page */
@@ -321,12 +318,6 @@ schedule_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 static gboolean
 schedule_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 {
-	SchedulePage *spage;
-	SchedulePagePrivate *priv;
-	
-	spage = SCHEDULE_PAGE (page);
-	priv = spage->priv;
-
 	return TRUE;
 }
 

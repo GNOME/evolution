@@ -191,9 +191,9 @@ comp_editor_select_file_attachments (CompEditor *editor, gboolean *showinline_p)
 	
 	if (selection) {
 #ifdef USE_GTKFILECHOOSER
-		GSList *files, *l, *n;
+		GSList *l, *n;
 		
-		if ((l = files = gtk_file_chooser_get_filenames (GTK_FILE_CHOOSER (selection)))) {
+		if ((l = gtk_file_chooser_get_filenames (GTK_FILE_CHOOSER (selection)))) {
 			list = g_ptr_array_new ();
 			
 			while (l) {

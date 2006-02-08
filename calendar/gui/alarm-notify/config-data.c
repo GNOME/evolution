@@ -162,7 +162,7 @@ config_data_replace_string_list (const char *key,
 
 			g_free (tmp->data);
 			tmp->data = g_strdup ((gchar *) new);
-
+			/* Should this be checked somewhere? */
 			state = gconf_client_set_list (conf_client,
 					       key,
 					       GCONF_VALUE_STRING,

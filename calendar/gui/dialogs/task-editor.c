@@ -63,7 +63,7 @@ static void task_editor_finalize (GObject *object);
 static void model_row_change_insert_cb (GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, gpointer data);
 static void model_row_delete_cb (GtkTreeModel *model, GtkTreePath *path, gpointer data);
 
-G_DEFINE_TYPE (TaskEditor, task_editor, TYPE_COMP_EDITOR);
+G_DEFINE_TYPE (TaskEditor, task_editor, TYPE_COMP_EDITOR)
 
 /* Class initialization function for the event editor */
 static void

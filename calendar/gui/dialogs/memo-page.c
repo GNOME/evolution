@@ -88,7 +88,7 @@ static void memo_page_focus_main_widget (CompEditorPage *page);
 static gboolean memo_page_fill_widgets (CompEditorPage *page, ECalComponent *comp);
 static gboolean memo_page_fill_component (CompEditorPage *page, ECalComponent *comp);
 
-G_DEFINE_TYPE (MemoPage, memo_page, TYPE_COMP_EDITOR_PAGE);
+G_DEFINE_TYPE (MemoPage, memo_page, TYPE_COMP_EDITOR_PAGE)
 
 
 

@@ -1053,8 +1053,8 @@ event_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 
 				if (!priv->user_org) {
 					list = g_list_append (list, string);
-					gtk_combo_set_popdown_strings (GTK_COMBO (priv->organizer), list);
-					gtk_entry_set_editable (GTK_COMBO (priv->organizer)->entry, FALSE);
+					gtk_combo_set_popdown_strings (GTK_ENTRY (priv->organizer)->entry, list);
+					gtk_entry_set_editable (GTK_ENTRY (priv->organizer), FALSE);
 				}
 
 				g_free (string);
@@ -1066,6 +1066,7 @@ event_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 
 			a = get_current_account (epage);
 			if (a != NULL) {
+				/* Reuse earlier declared *page, or rename this to avoid confusion? */
 				CompEditorPage *page = (CompEditorPage *) epage;
 				priv->ia = e_meeting_store_add_attendee_with_defaults (priv->model);
 				g_object_ref (priv->ia);
@@ -1132,7 +1133,7 @@ event_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 	g_signal_handlers_block_matched (priv->alarm_list_store, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, epage);
 	
 	if (e_cal_component_has_alarms (comp)) {
-		GList *alarms, *l;
+		GList *alarms, *list;
 		int alarm_type;
 		
 		alarms = e_cal_component_get_alarm_uids (comp);
@@ -1141,10 +1142,10 @@ event_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 		else 
 			e_dialog_option_menu_set (priv->alarm_time, ALARM_CUSTOM, alarm_map);
 			
-		for (l = alarms; l != NULL; l = l->next) {
+		for (list = alarms; list != NULL; list = list->next) {
 			ECalComponentAlarm *ca;
 			
-			ca = e_cal_component_get_alarm (comp, l->data);
+			ca = e_cal_component_get_alarm (comp, list->data);
 			e_alarm_list_append (priv->alarm_list_store, NULL, ca);			
 			e_cal_component_alarm_free (ca);
 		}
@@ -1661,7 +1662,6 @@ static void
 edit_clicked_cb (GtkButton *btn, EventPage *epage)
 {
 	EventPagePrivate *priv;
-	EMeetingAttendee *attendee;
 	GtkTreePath *path = NULL;
 	GtkTreeViewColumn *focus_col;
 	gint row = 0;
@@ -1882,10 +1882,7 @@ static void
 popup_delete_cb (EPopup *ep, EPopupItem *pitem, void *data)
 {
 	EventPage *epage = data;
-	EventPagePrivate *priv;
 	
-	priv = epage->priv;
-
 	remove_clicked_cb (NULL, epage);
 }
 
@@ -1990,9 +1987,7 @@ static gboolean
 list_key_press (EMeetingListView *list_view, GdkEventKey *event, EventPage *epage)
 {
 	if (event->keyval == GDK_Delete) {
-		EventPagePrivate *priv;
 	
-		priv = epage->priv;
 		remove_clicked_cb (NULL, epage);
 
 		return TRUE;

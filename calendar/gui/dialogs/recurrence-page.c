@@ -211,7 +211,7 @@ static void field_changed (RecurrencePage *apage);
 static void make_ending_count_special (RecurrencePage *rpage);
 static void make_ending_special (RecurrencePage *rpage);
 
-G_DEFINE_TYPE (RecurrencePage, recurrence_page, TYPE_COMP_EDITOR_PAGE);
+G_DEFINE_TYPE (RecurrencePage, recurrence_page, TYPE_COMP_EDITOR_PAGE)
 
 /* Class initialization function for the recurrence page */
 static void
@@ -406,17 +406,12 @@ append_exception (RecurrencePage *rpage, ECalComponentDateTime *datetime)
 static void
 fill_exception_widgets (RecurrencePage *rpage, ECalComponent *comp)
 {
-	RecurrencePagePrivate *priv;
 	GSList *list, *l;
-	gboolean added = FALSE;
 
-	priv = rpage->priv;
 	e_cal_component_get_exdate_list (comp, &list);
 
 	for (l = list; l; l = l->next) {
 		ECalComponentDateTime *cdt;
-
-		added = TRUE;
 
 		cdt = l->data;
 		append_exception (rpage, cdt);
@@ -2104,12 +2099,10 @@ static void
 exception_add_cb (GtkWidget *widget, gpointer data)
 {
 	RecurrencePage *rpage;
-	RecurrencePagePrivate *priv;
 	GtkWidget *dialog, *date_edit;
 	gboolean date_set;
 	
 	rpage = RECURRENCE_PAGE (data);
-	priv = rpage->priv;
 
 	dialog = create_exception_dialog (rpage, "Add exception", &date_edit);
 	

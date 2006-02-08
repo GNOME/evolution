@@ -60,7 +60,7 @@ static gboolean get_widgets			(EDelegateDialog *edd);
 static void addressbook_clicked_cb              (GtkWidget *widget, gpointer data);
 static void addressbook_response_cb             (GtkWidget *widget, gint response, gpointer data);
 
-G_DEFINE_TYPE (EDelegateDialog, e_delegate_dialog, G_TYPE_OBJECT);
+G_DEFINE_TYPE (EDelegateDialog, e_delegate_dialog, G_TYPE_OBJECT)
 
 /* Class initialization function for the event editor */
 static void
