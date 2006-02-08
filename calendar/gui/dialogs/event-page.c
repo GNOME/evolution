@@ -827,6 +827,8 @@ sensitize_widgets (EventPage *epage)
         } else 
 		gtk_option_menu_set_history (GTK_OPTION_MENU (priv->end_time_selector), 1);
 
+	gtk_widget_set_sensitive (priv->hour_selector, sensitize);
+	gtk_widget_set_sensitive (priv->minute_selector, sensitize);
 
 	gtk_entry_set_editable (GTK_ENTRY (priv->categories), sensitize);
 
