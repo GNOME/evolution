@@ -98,7 +98,7 @@ load_icon (const char *icon_key, const char *icon_name, int size, int scale)
 	if (!filename || !(unscaled = gdk_pixbuf_new_from_file (filename, NULL))) {
 		if (scale) {
 			const char *dent;
-			int width, height;
+			int width;
 			GDir *dir;
 			char *x;
 			
@@ -114,7 +114,7 @@ load_icon (const char *icon_key, const char *icon_name, int size, int scale)
 				if (((width = strtol (dent, &x, 10)) < size) || *x != 'x')
 					continue;
 				
-				if (((height = strtol (x + 1, &x, 10)) != width) || *x != '\0')
+				if (((strtol (x + 1, &x, 10)) != width) || *x != '\0')
 					continue;
 				
 				/* if the icon exists in this directory, we can [use/scale] it */

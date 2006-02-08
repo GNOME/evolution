@@ -118,6 +118,7 @@ ep_finalise(GObject *o)
 		/* free item activate callback data */
 		inode = mnode->items;
 		while (inode) {
+			/* This was declared as _menu_node above already */
 			struct _item_node *nnode = inode->link;
 
 			g_free(inode);

@@ -135,8 +135,6 @@ e_profile_event_emit(const char *id, const char *uid, guint32 flags)
 }
 #else
 #undef e_profile_event_emit
-void e_profile_event_emit(const char *id, const char *uid, guint32 flags);
-
 void
 e_profile_event_emit(const char *id, const char *uid, guint32 flags)
 {

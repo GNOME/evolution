@@ -52,7 +52,7 @@ struct _EPlugin {
 	GSList *hooks;
 	GSList *authors;	/* EPluginAuthor structures */
 
-	int enabled:1;
+	guint enabled:1;
 };
 
 /**

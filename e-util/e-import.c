@@ -69,18 +69,12 @@ static void
 ep_init(GObject *o)
 {
 	/*EImport *emp = (EImport *)o;*/
-	struct _EImportPrivate *p;
-
-	p = _PRIVATE(o);
 }
 
 static void
 ep_finalise(GObject *o)
 {
 	EImport *emp = (EImport *)o;
-	struct _EImportPrivate *p;
-
-	p = _PRIVATE(emp);
 
 	d(printf("finalising EImport %p\n", o));
 

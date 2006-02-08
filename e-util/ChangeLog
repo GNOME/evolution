@@ -1,3 +1,16 @@
+2006-02-08  Kjartan Maraas <kmaraas@gnome.org>
+
+	* e-config.c: Use guint for 1-bit bitfield.
+	* e-icon-factory.c: (load_icon): Remove unused var
+	* e-import.c: (ep_init), (ep_finalise): Remove unused vars
+	* e-plugin.c: (e_plugin_register_type): Rename a var
+	* e-plugin.h: guint for 1-bit bitfield
+	* e-popup.c: (ep_finalise): Add comment.
+	* e-profile-event.c: Remove unused prototype
+	* e-text-event-processor-emacs-like.c: 
+	(e_text_event_processor_emacs_like_event): Add comment about
+	a compiler warning from the Intel compiler.
+
 2006-02-07  Benjamin Berg  <benjamin@sipsolutions.net>
 	* e-gui-utils.c:
 	* e-icon-factory.c:

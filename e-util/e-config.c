@@ -77,7 +77,7 @@ struct _widget_node {
 	struct _GtkWidget *widget; /* widget created by the factory, if any */
 	struct _GtkWidget *frame; /* if created by us */
 
-	int empty:1;		/* set if empty (i.e. hidden) */
+	guint empty:1;		/* set if empty (i.e. hidden) */
 };
 
 struct _check_node {

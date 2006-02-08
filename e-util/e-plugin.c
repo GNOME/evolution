@@ -557,12 +557,12 @@ e_plugin_register_type(GType type)
 
 			for (l=pdoc->plugins;l;l=g_slist_next(l)) {
 				xmlNodePtr root = l->data;
-				char *type;
+				char *prop_type;
 
-				type = xmlGetProp(root, "type");
-				if (!strcmp(type, klass->type))
+				prop_type = xmlGetProp(root, "type");
+				if (!strcmp((char *)type, klass->type))
 					add = g_slist_append(add, l->data);
-				xmlFree(type);
+				xmlFree(prop_type);
 			}
 
 			for (l=add;l;l=g_slist_next(l)) {
