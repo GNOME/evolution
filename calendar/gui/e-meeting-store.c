@@ -159,8 +159,6 @@ role_to_text (icalparameter_role role)
 	default:
 		return _("Unknown");
 	}
-
-	return NULL;
 }
 
 static gboolean
@@ -224,8 +222,6 @@ partstat_to_text (icalparameter_partstat partstat)
 	default:
 		return _("Unknown");
 	}
-
-	return NULL;
 }
 
 static GtkTreeModelFlags
@@ -516,41 +512,6 @@ e_meeting_store_set_value (EMeetingStore *store, int row, int col, const gchar *
 		e_meeting_attendee_set_language (attendee, g_strdup (val));
 		break;
 	}
-}
-
-static gboolean
-is_cell_editable (EMeetingStore *etm, int col, int row)
-{
-	EMeetingStore *store;
-	EMeetingStorePrivate *priv;
-	EMeetingAttendee *attendee;
-	EMeetingAttendeeEditLevel level;
-	
-	store = E_MEETING_STORE (etm);	
-	priv = store->priv;
-	
-	if (col == E_MEETING_STORE_DELTO_COL
-	    || col == E_MEETING_STORE_DELFROM_COL)
-		return FALSE;
-	
-	if (row == -1)
-		return TRUE;
-	if (row >= priv->attendees->len)
-		return TRUE;
-	
-	attendee = g_ptr_array_index (priv->attendees, row);
-	level = e_meeting_attendee_get_edit_level (attendee);
-
-	switch (level) {
-	case E_MEETING_ATTENDEE_EDIT_FULL:
-		return TRUE;
-	case E_MEETING_ATTENDEE_EDIT_STATUS:
-		return col == E_MEETING_STORE_STATUS_COL;
-	case E_MEETING_ATTENDEE_EDIT_NONE:
-		return FALSE;
-	}
-
-	return TRUE;
 }
 
 static void

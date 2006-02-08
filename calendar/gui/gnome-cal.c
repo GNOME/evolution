@@ -233,7 +233,7 @@ static void update_query (GnomeCalendar *gcal);
 
 static void update_todo_view (GnomeCalendar *gcal);
 
-G_DEFINE_TYPE (GnomeCalendar, gnome_calendar, GTK_TYPE_VBOX);
+G_DEFINE_TYPE (GnomeCalendar, gnome_calendar, GTK_TYPE_VBOX)
 
 /* Class initialization function for the gnome calendar */
 static void
@@ -504,10 +504,8 @@ static void
 dn_e_cal_view_objects_modified_cb (ECalView *query, GList *objects, gpointer data)
 {
 	GnomeCalendar *gcal;
-	GnomeCalendarPrivate *priv;
 
 	gcal = GNOME_CALENDAR (data);
-	priv = gcal->priv;
 
 	/* We have to retag the whole thing: an event may change dates
 	 * and the tag_calendar_by_comp() below would not know how to
@@ -532,10 +530,6 @@ dn_e_cal_view_objects_removed_cb (ECalView *query, GList *ids, gpointer data)
 static void
 dn_e_cal_view_done_cb (ECalView *query, ECalendarStatus status, gpointer data)
 {
-	GnomeCalendar *gcal;
-
-	gcal = GNOME_CALENDAR (data);
-
 	/* FIXME Better error reporting */
 	if (status != E_CALENDAR_STATUS_OK)
 		g_warning (G_STRLOC ": Query did not successfully complete");
@@ -1030,11 +1024,9 @@ static void
 table_selection_change_cb (ETable *etable, gpointer data)
 {
 	GnomeCalendar *gcal;
-	int n_selected;
 
 	gcal = GNOME_CALENDAR (data);
 
-	n_selected = e_table_selected_count (etable);
 	gtk_signal_emit (GTK_OBJECT (gcal), gnome_calendar_signals[TASKPAD_SELECTION_CHANGED]);
 }
 
@@ -1882,10 +1874,6 @@ gnome_calendar_dayjump (GnomeCalendar *gcal, time_t time)
 static void
 focus_current_view (GnomeCalendar *gcal)
 {
-	GnomeCalendarPrivate *priv;
-
-	priv = gcal->priv;
-
 	gtk_widget_grab_focus (gnome_calendar_get_current_view_widget (gcal));
 }
 
@@ -2560,12 +2548,10 @@ static void
 backend_error_cb (ECal *client, const char *message, gpointer data)
 {
 	GnomeCalendar *gcal;
-	GnomeCalendarPrivate *priv;
 	char *errmsg;
 	char *uristr;
 
 	gcal = GNOME_CALENDAR (data);
-	priv = gcal->priv;
 
 	uristr = get_uri_without_password (e_cal_get_uri (client));
 	errmsg = g_strdup_printf (_("Error on %s:\n %s"), uristr, message);
@@ -2914,10 +2900,6 @@ gnome_calendar_set_selected_time_range (GnomeCalendar *gcal,
 					time_t	       start_time,
 					time_t	       end_time)
 {
-	GnomeCalendarPrivate *priv;
-
-	priv = gcal->priv;
-
 	update_view_times (gcal, start_time);
 	gnome_calendar_update_date_navigator (gcal);
 	gnome_calendar_notify_dates_shown_changed (gcal);
@@ -3000,10 +2982,6 @@ gnome_calendar_get_current_time_range (GnomeCalendar *gcal,
 				       time_t	 *start_time,
 				       time_t	 *end_time)
 {
-	GnomeCalendarPrivate *priv;
-
-	priv = gcal->priv;
-
 	e_calendar_view_get_selected_time_range (E_CALENDAR_VIEW (gnome_calendar_get_current_view_widget (gcal)),
 					    start_time, end_time);
 }
@@ -3016,12 +2994,9 @@ gnome_calendar_get_visible_time_range (GnomeCalendar *gcal,
 				       time_t	 *start_time,
 				       time_t	 *end_time)
 {
-	GnomeCalendarPrivate *priv;
 	gboolean retval = FALSE;
 
 	g_return_val_if_fail (GNOME_IS_CALENDAR (gcal), FALSE);
-
-	priv = gcal->priv;
 
 	retval = e_calendar_view_get_visible_time_range (E_CALENDAR_VIEW (gnome_calendar_get_current_view_widget (gcal)),
 						    start_time, end_time);
@@ -3408,13 +3383,10 @@ gnome_calendar_delete_selection		(GnomeCalendar  *gcal)
 void
 gnome_calendar_delete_selected_occurrence (GnomeCalendar *gcal)
 {
-	GnomeCalendarPrivate *priv;
 	FocusLocation location;
 	GtkWidget *view;
 
 	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
-
-	priv = gcal->priv;
 
 	location = get_focus_location (gcal);
 

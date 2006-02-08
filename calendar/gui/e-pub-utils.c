@@ -136,7 +136,7 @@ e_pub_uri_to_xml (EPublishUri *uri)
 static gboolean 
 is_publish_time (EPublishUri *uri) {
 	icaltimezone *utc;
-	struct icaltimetype current_itt, adjust_itt;
+	struct icaltimetype current_itt;
 
 	utc = icaltimezone_get_utc_timezone ();
 	current_itt = icaltime_current_time_with_zone (utc);		
@@ -191,7 +191,7 @@ e_pub_publish (gboolean publish) {
 	uri_config_list = calendar_config_get_free_busy ();
 
 	for (l = uri_config_list; l != NULL; l = l->next) {
-		GSList *p =NULL, *q;
+		GSList *p = NULL, *q;
 		EPublishUri *uri;
 		ECalComponent *clone = NULL;
 		gboolean cloned = FALSE;
@@ -206,7 +206,7 @@ e_pub_publish (gboolean publish) {
 		e_pub_uri_from_xml (uri, xml);
 	
 		/*FIXME this is just a hack to avoid publishing again and again 
-		  ,we need to make the last publish time a seperate key */
+		  we need to make the last publish time a seperate key */
 		if (updated_last_pub_time) {
 			updated_last_pub_time = FALSE;
 			return;
@@ -284,10 +284,10 @@ e_pub_publish (gboolean publish) {
 				if (e_cal_get_free_busy ((ECal *) client, users,
 							 start, end, 
 							 &comp_list, &error)) {
-					GList *l;
-	
-					for (l = comp_list; l; l = l->next) {
-						ECalComponent *comp = E_CAL_COMPONENT (l->data);
+					GList *list;
+
+					for (list = comp_list; list; list = list->next) {
+						ECalComponent *comp = E_CAL_COMPONENT (list->data);
 					
 						cloned = itip_publish_begin (comp, (ECal *) client, cloned, &clone);
 						g_object_unref (comp);

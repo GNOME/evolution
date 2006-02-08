@@ -113,16 +113,14 @@ static GdkPixbuf* icon_pixbufs[E_CALENDAR_MODEL_NUM_ICONS] = { 0 };
 
 static GdkAtom clipboard_atom = GDK_NONE;
 
-G_DEFINE_TYPE (ECalendarTable, e_calendar_table, GTK_TYPE_TABLE);
+G_DEFINE_TYPE (ECalendarTable, e_calendar_table, GTK_TYPE_TABLE)
 
 static void
 e_calendar_table_class_init (ECalendarTableClass *class)
 {
 	GtkObjectClass *object_class;
-	GtkWidgetClass *widget_class;
 
 	object_class = (GtkObjectClass *) class;
-	widget_class = (GtkWidgetClass *) class;
 
 	/* Method override */
 	object_class->destroy		= e_calendar_table_destroy;

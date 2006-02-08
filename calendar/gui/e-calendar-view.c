@@ -39,6 +39,7 @@
 #include <gtk/gtkwindow.h>
 #include <libgnome/gnome-i18n.h>
 #include <libedataserver/e-time-utils.h>
+#include <e-util/e-error.h>
 #include <e-util/e-dialog-utils.h>
 #include <e-util/e-icon-factory.h>
 #include "e-calendar-marshal.h"
@@ -115,16 +116,14 @@ enum {
 
 static guint e_calendar_view_signals[LAST_SIGNAL] = { 0 };
 
-G_DEFINE_TYPE (ECalendarView, e_calendar_view, GTK_TYPE_TABLE);
+G_DEFINE_TYPE (ECalendarView, e_calendar_view, GTK_TYPE_TABLE)
 
 static void
 e_calendar_view_set_property (GObject *object, guint property_id, const GValue *value, GParamSpec *pspec)
 {
 	ECalendarView *cal_view;
-	ECalendarViewPrivate *priv;
 
 	cal_view = E_CALENDAR_VIEW (object);
-	priv = cal_view->priv;
 	
 	switch (property_id) {
 	case PROP_MODEL:
@@ -140,10 +139,8 @@ static void
 e_calendar_view_get_property (GObject *object, guint property_id, GValue *value, GParamSpec *pspec)
 {
 	ECalendarView *cal_view;
-	ECalendarViewPrivate *priv;
 
 	cal_view = E_CALENDAR_VIEW (object);
-	priv = cal_view->priv;
 
 	switch (property_id) {
 	case PROP_MODEL:
@@ -275,7 +272,7 @@ e_calendar_view_add_event (ECalendarView *cal_view, ECal *client, time_t dtstart
 {
 	ECalComponent *comp;
 	struct icaltimetype itime, old_dtstart, old_dtend;
-	time_t tt_start, tt_end, new_dtstart;
+	time_t tt_start, tt_end, new_dtstart = 0;
 	struct icaldurationtype ic_dur, ic_oneday;
 	char *uid;
 	gint start_offset, end_offset;
@@ -1375,7 +1372,7 @@ on_delegate (EPopup *ep, EPopupItem *pitem, void *data)
 {
 	ECalendarView *cal_view = data;
 	GList *selected;
-	guint32 flags;
+	guint32 flags = 0;
 	icalcomponent *clone;
 
 	selected = e_calendar_view_get_selected_events (cal_view);
@@ -1856,13 +1853,10 @@ object_created_cb (CompEditor *ce, ECalendarView *cal_view)
 static void
 open_event_with_flags (ECalendarView *cal_view, ECal *client, icalcomponent *icalcomp, guint32 flags)
 {
-	ECalendarViewPrivate *priv;
 	CompEditor *ce;
 	const char *uid;
 	ECalComponent *comp;
 
-
-	priv = cal_view->priv;
 
 	uid = icalcomponent_get_uid (icalcomp);
 
@@ -1944,14 +1938,14 @@ e_calendar_view_modify_and_send (ECalComponent *comp,
 static gboolean
 tooltip_grab (GtkWidget *tooltip, GdkEventKey *event, ECalendarView *view)
 {
-	GtkWidget *widget = (GtkWidget *) g_object_get_data (view, "tooltip-window");
+	GtkWidget *widget = (GtkWidget *) g_object_get_data (G_OBJECT (view), "tooltip-window");
 
 	if (!widget)
-		return;
+		return TRUE;
 
 	gdk_keyboard_ungrab(GDK_CURRENT_TIME);
 	gtk_widget_destroy (widget);
-	g_object_set_data (view, "tooltip-window", NULL);
+	g_object_set_data (G_OBJECT (view), "tooltip-window", NULL);
 	
 	return FALSE;
 }
@@ -1992,7 +1986,7 @@ e_calendar_view_get_tooltips (ECalendarViewEventData *data)
 	time_t t_start, t_end;
 	ECalendarViewEvent *pevent;
 	GtkStyle *style = gtk_widget_get_default_style ();
-	GtkWidget *widget = (GtkWidget *) g_object_get_data (data->cal_view, "tooltip-window");
+	GtkWidget *widget = (GtkWidget *) g_object_get_data (G_OBJECT (data->cal_view), "tooltip-window");
 	ECalComponent *newcomp = e_cal_component_new ();
 	icaltimezone *zone;	
 
@@ -2036,7 +2030,6 @@ e_calendar_view_get_tooltips (ECalendarViewEventData *data)
 	e_cal_component_get_organizer (newcomp, &organiser);
 	if (organiser.cn) {
 		char *ptr ; 
-		GtkWidget *hbox = gtk_hbox_new (FALSE, 0);
 		ptr = strchr(organiser.value, ':');
 		
 		if (ptr) {
@@ -2116,7 +2109,7 @@ e_calendar_view_get_tooltips (ECalendarViewEventData *data)
 	g_signal_connect (pevent->tooltip, "key-press-event", G_CALLBACK (tooltip_grab), data->cal_view);
 	pevent->timeout = -1;
 
-	g_object_set_data (data->cal_view, "tooltip-window", pevent->tooltip);
+	g_object_set_data (G_OBJECT (data->cal_view), "tooltip-window", pevent->tooltip);
 	g_object_unref (newcomp);
 	g_free (data);
 

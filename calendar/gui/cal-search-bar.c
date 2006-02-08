@@ -77,7 +77,7 @@ enum {
 
 static guint cal_search_bar_signals[LAST_SIGNAL] = { 0 };
 
-G_DEFINE_TYPE (CalSearchBar, cal_search_bar, E_SEARCH_BAR_TYPE);
+G_DEFINE_TYPE (CalSearchBar, cal_search_bar, E_SEARCH_BAR_TYPE)
 
 /* Class initialization function for the calendar search bar */
 static void
@@ -268,11 +268,8 @@ notify_category_is (CalSearchBar *cal_search)
 static void
 regen_query (CalSearchBar *cal_search)
 {
-	CalSearchBarPrivate *priv;
 	int id;
 	const char *category;
-
-	priv = cal_search->priv;
 
 	/* Fetch the data from the ESearchBar's entry widgets */
 

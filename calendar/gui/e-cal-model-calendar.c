@@ -49,7 +49,7 @@ static char *ecmc_value_to_string (ETableModel *etm, int col, const void *value)
 static void ecmc_fill_component_from_model (ECalModel *model, ECalModelComponent *comp_data,
 					    ETableModel *source_model, gint row);
 
-G_DEFINE_TYPE (ECalModelCalendar, e_cal_model_calendar, E_TYPE_CAL_MODEL);
+G_DEFINE_TYPE (ECalModelCalendar, e_cal_model_calendar, E_TYPE_CAL_MODEL)
 
 static void
 e_cal_model_calendar_class_init (ECalModelCalendarClass *klass)
@@ -193,12 +193,9 @@ static void *
 ecmc_value_at (ETableModel *etm, int col, int row)
 {
 	ECalModelComponent *comp_data;
-	ECalModelCalendarPrivate *priv;
 	ECalModelCalendar *model = (ECalModelCalendar *) etm;
 
 	g_return_val_if_fail (E_IS_CAL_MODEL_CALENDAR (model), NULL);
-
-	priv = model->priv;
 
 	g_return_val_if_fail (col >= 0 && col < E_CAL_MODEL_CALENDAR_FIELD_LAST, NULL);
 	g_return_val_if_fail (row >= 0 && row < e_table_model_row_count (etm), NULL);

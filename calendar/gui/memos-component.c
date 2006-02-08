@@ -903,11 +903,8 @@ static gboolean
 create_new_memo (MemosComponent *memo_component, gboolean is_assigned, MemosComponentView *component_view)
 {
 	ECal *ecal;
-	MemosComponentPrivate *priv;
 	ECalComponent *comp;
 	MemoEditor *editor;
-	
-	priv = memo_component->priv;
 	
 	ecal = setup_create_ecal (memo_component, component_view);
 	if (!ecal)
@@ -1179,9 +1176,6 @@ impl_requestCreateItem (PortableServer_Servant servant,
 			CORBA_Environment *ev)
 {
 	MemosComponent *memos_component = MEMOS_COMPONENT (bonobo_object_from_servant (servant));
-	MemosComponentPrivate *priv;
-	
-	priv = memos_component->priv;	
 	
 	if (strcmp (item_type_name, CREATE_MEMO_ID) == 0) {
 		if (!create_new_memo (memos_component, FALSE, NULL))

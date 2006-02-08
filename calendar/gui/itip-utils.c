@@ -620,7 +620,7 @@ comp_subject (ECalComponentItipMethod method, ECalComponent *comp)
 	GSList *alist, *l;
 	CORBA_char *subject;
 	char *sender;
-	ECalComponentAttendee *a;
+	ECalComponentAttendee *a = NULL;
 
 	e_cal_component_get_summary (comp, &caltext);
 	if (caltext.value != NULL)	
@@ -1443,8 +1443,6 @@ reply_to_calendar_comp (ECalComponentItipMethod method, ECalComponent *send_comp
 	
 		e_cal_component_get_dtstart (comp, &dtstart);
 		if (dtstart.value) {
-			struct tm *tm_time;
-		
 			start_zone = icaltimezone_get_builtin_timezone_from_tzid (dtstart.tzid);
 			if (!start_zone) {
 				if (!e_cal_get_timezone (client, dtstart.tzid, &start_zone, NULL))
@@ -1679,7 +1677,7 @@ comp_fb_normalize (icalcomponent *icomp)
 	}
 	
 	return iclone;
-
+	/* this will never be reached */
 	g_object_unref (iclone);
 	return NULL;
 }

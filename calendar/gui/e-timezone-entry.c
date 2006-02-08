@@ -77,7 +77,7 @@ static void e_timezone_entry_set_entry  (ETimezoneEntry *tentry);
 
 static guint timezone_entry_signals[LAST_SIGNAL] = { 0 };
 
-G_DEFINE_TYPE (ETimezoneEntry, e_timezone_entry, GTK_TYPE_HBOX);
+G_DEFINE_TYPE (ETimezoneEntry, e_timezone_entry, GTK_TYPE_HBOX)
 
 static void
 e_timezone_entry_class_init		(ETimezoneEntryClass	*class)
@@ -164,12 +164,10 @@ static void
 e_timezone_entry_destroy		(GtkObject	*object)
 {
 	ETimezoneEntry *tentry;
-	ETimezoneEntryPrivate *priv;
 
 	g_return_if_fail (E_IS_TIMEZONE_ENTRY (object));
 
 	tentry = E_TIMEZONE_ENTRY (object);
-	priv = tentry->priv;
 
 	g_free (tentry->priv);
 	tentry->priv = NULL;

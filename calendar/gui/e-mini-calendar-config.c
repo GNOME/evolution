@@ -35,16 +35,14 @@ enum props {
 	PROP_CALENDAR
 };
 
-G_DEFINE_TYPE (EMiniCalendarConfig, e_mini_calendar_config, G_TYPE_OBJECT);
+G_DEFINE_TYPE (EMiniCalendarConfig, e_mini_calendar_config, G_TYPE_OBJECT)
 
 static void
 e_mini_calendar_config_set_property (GObject *object, guint property_id, const GValue *value, GParamSpec *pspec)
 {
 	EMiniCalendarConfig *mini_config;
-	EMiniCalendarConfigPrivate *priv;
 
 	mini_config = E_MINI_CALENDAR_CONFIG (object);
-	priv = mini_config->priv;
 	
 	switch (property_id) {
 	case PROP_CALENDAR:
@@ -60,10 +58,8 @@ static void
 e_mini_calendar_config_get_property (GObject *object, guint property_id, GValue *value, GParamSpec *pspec)
 {
 	EMiniCalendarConfig *mini_config;
-	EMiniCalendarConfigPrivate *priv;
 
 	mini_config = E_MINI_CALENDAR_CONFIG (object);
-	priv = mini_config->priv;
 	
 	switch (property_id) {
 	case PROP_CALENDAR:
@@ -79,10 +75,7 @@ static void
 e_mini_calendar_config_dispose (GObject *object)
 {
 	EMiniCalendarConfig *mini_config = E_MINI_CALENDAR_CONFIG (object);
-	EMiniCalendarConfigPrivate *priv;
 	
-	priv = mini_config->priv;
-
 	e_mini_calendar_config_set_calendar (mini_config, NULL);
 	
 	if (G_OBJECT_CLASS (e_mini_calendar_config_parent_class)->dispose)

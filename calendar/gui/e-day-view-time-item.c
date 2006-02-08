@@ -103,7 +103,7 @@ enum {
 	ARG_DAY_VIEW
 };
 
-G_DEFINE_TYPE (EDayViewTimeItem, e_day_view_time_item, GNOME_TYPE_CANVAS_ITEM);
+G_DEFINE_TYPE (EDayViewTimeItem, e_day_view_time_item, GNOME_TYPE_CANVAS_ITEM)
 
 static void
 e_day_view_time_item_class_init (EDayViewTimeItemClass *class)
@@ -138,10 +138,8 @@ e_day_view_time_item_init (EDayViewTimeItem *dvtmitem)
 static void
 e_day_view_time_item_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 {
-	GnomeCanvasItem *item;
 	EDayViewTimeItem *dvtmitem;
 
-	item = GNOME_CANVAS_ITEM (o);
 	dvtmitem = E_DAY_VIEW_TIME_ITEM (o);
 	
 	switch (arg_id){
@@ -180,15 +178,12 @@ e_day_view_time_item_get_column_width (EDayViewTimeItem *dvtmitem)
 	gint digit, large_digit_width, max_large_digit_width = 0;
 	gint max_suffix_width, max_minute_or_suffix_width;
 	gint column_width_default, column_width_60_min_rows;
-	PangoContext *context;
 
 	day_view = dvtmitem->day_view;
 	g_return_val_if_fail (day_view != NULL, 0);
 
 	style = gtk_widget_get_style (GTK_WIDGET (day_view));
 	g_return_val_if_fail (style != NULL, 0);
-
-	context = gtk_widget_get_pango_context (GTK_WIDGET (day_view));
 
 	/* Find the maximum width a digit can have. FIXME: We could use pango's
 	 * approximation function, but I worry it won't be precise enough. Also

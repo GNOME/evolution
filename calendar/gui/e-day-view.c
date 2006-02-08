@@ -54,6 +54,7 @@
 #include <e-util/e-dialog-utils.h>
 
 #include <libecal/e-cal-time-util.h>
+#include <libedataserver/e-data-server-util.h>
 #include "dialogs/delete-comp.h"
 #include "dialogs/delete-error.h"
 #include "dialogs/send-comp.h"
@@ -359,8 +360,6 @@ static void e_day_view_start_auto_scroll (EDayView *day_view,
 					  gboolean scroll_up);
 static gboolean e_day_view_auto_scroll_handler (gpointer data);
 
-static EDayViewEvent* e_day_view_get_popup_menu_event (EDayView *day_view);
-
 static gboolean e_day_view_on_top_canvas_drag_motion (GtkWidget      *widget,
 						      GdkDragContext *context,
 						      gint            x,
@@ -417,10 +416,6 @@ static void e_day_view_on_main_canvas_drag_data_received (GtkWidget      *widget
 							  guint           time,
 							  EDayView	 *day_view);
 
-static gboolean e_day_view_update_event_cb (EDayView *day_view,
-					    gint day,
-					    gint event_num,
-					    gpointer data);
 static gboolean e_day_view_remove_event_cb (EDayView *day_view,
 					    gint day,
 					    gint event_num,
@@ -439,7 +434,7 @@ static void e_day_view_queue_layout (EDayView *day_view);
 static void e_day_view_cancel_layout (EDayView *day_view);
 static gboolean e_day_view_layout_timeout_cb (gpointer data);
 
-G_DEFINE_TYPE (EDayView, e_day_view, E_TYPE_CALENDAR_VIEW);
+G_DEFINE_TYPE (EDayView, e_day_view, E_TYPE_CALENDAR_VIEW)
 
 static void
 e_day_view_class_init (EDayViewClass *class)
@@ -526,6 +521,7 @@ process_component (EDayView *day_view, ECalModelComponent *comp_data)
 		rid = e_cal_component_get_recurid_as_string (comp);
 	else
 		rid = NULL;
+	/* rid is never used below here, why? */
 
 	/* Add the object */
 	add_event_data.day_view = day_view;
@@ -1198,7 +1194,7 @@ e_day_view_style_set (GtkWidget *widget,
 {
 	EDayView *day_view;
 	gint top_rows, top_canvas_height;
-	gint hour, max_large_hour_width;
+	gint hour;
 	gint minute, max_minute_width, i;
 	gint month, day, width;
 	gint longest_month_width, longest_abbreviated_month_width;
@@ -1344,7 +1340,6 @@ e_day_view_style_set (GtkWidget *widget,
 
 	/* Calculate the widths of all the time strings necessary. */
 	day_view->max_small_hour_width = 0;
-	max_large_hour_width = 0;
 	for (hour = 0; hour < 24; hour++) {
 		g_snprintf (buffer, sizeof (buffer), "%02i", hour);
 		pango_layout_set_text (layout, buffer, -1);
@@ -1445,7 +1440,6 @@ e_day_view_recalc_cell_sizes	(EDayView	*day_view)
 	gint day, max_width;
 	struct tm date_tm;
 	char buffer[128];
-	PangoFontDescription *font_desc;
 	PangoContext *pango_context;
 	PangoLayout *layout;
 	gint pango_width;
@@ -1453,7 +1447,6 @@ e_day_view_recalc_cell_sizes	(EDayView	*day_view)
 	g_return_if_fail (((GtkWidget*)day_view)->style != NULL);
 
 	/* Set up Pango prerequisites */
-	font_desc = gtk_widget_get_style (GTK_WIDGET (day_view))->font_desc;
 	pango_context = gtk_widget_get_pango_context (GTK_WIDGET (day_view));
 	layout = pango_layout_new (pango_context);
 
@@ -1575,46 +1568,6 @@ e_day_view_focus_out (GtkWidget *widget, GdkEventFocus *event)
 	return FALSE;
 }
 
-static gboolean
-e_day_view_update_event_cb (EDayView *day_view,
-			    gint day,
-			    gint event_num,
-			    gpointer data)
-{
-	EDayViewEvent *event;
-	ECalModelComponent *comp_data;
-
-	comp_data = data;
-#if 0
-	g_print ("In e_day_view_update_event_cb day:%i event_num:%i\n",
-		 day, event_num);
-#endif
-	if (day == E_DAY_VIEW_LONG_EVENT) {
-		event = &g_array_index (day_view->long_events, EDayViewEvent,
-					event_num);
-	} else {
-		event = &g_array_index (day_view->events[day], EDayViewEvent,
-					event_num);
-	}
-
-	e_cal_model_free_component_data (event->comp_data);
-	event->comp_data = e_cal_model_copy_component_data (comp_data);
-
-	if (day == E_DAY_VIEW_LONG_EVENT) {
-		e_day_view_update_long_event_label (day_view, event_num);
-		e_day_view_reshape_long_event (day_view, event_num);
-	} else {
-		e_day_view_update_event_label (day_view, day, event_num);
-		e_day_view_reshape_day_event (day_view, day, event_num);
-	}
-
-	g_signal_emit_by_name (G_OBJECT(day_view),
-			       "event_changed", event);
-
-	return TRUE;
-}
-
-
 /* This calls a given function for each event instance (in both views).
    If the callback returns FALSE the iteration is stopped.
    Note that it is safe for the callback to remove the event (since we
@@ -1624,6 +1577,7 @@ e_day_view_foreach_event		(EDayView	*day_view,
 					 EDayViewForeachEventCallback callback,
 					 gpointer	 data)
 {
+	/* event is never used after being set in the for loop below, why? */
 	EDayViewEvent *event;
 	gint day, event_num;
 
@@ -1747,6 +1701,7 @@ e_day_view_remove_event_cb (EDayView *day_view,
 	return TRUE;
 }
 
+#if 0
 /*  Checks if the users participation status is Needs action and shows the summary as bold text*/
 static void
 set_text_as_bold (EDayViewEvent *event)
@@ -1780,6 +1735,7 @@ set_text_as_bold (EDayViewEvent *event)
 	g_object_unref (comp);
 	g_free (address);
 }
+#endif
 
 /* This updates the text shown for an event. If the event start or end do not
    lie on a row boundary, the time is displayed before the summary. */
@@ -2969,7 +2925,7 @@ e_day_view_on_time_canvas_scroll (GtkWidget      *widget,
 
 	if (tool_window) {
 		gtk_widget_destroy (tool_window);
-		g_object_set_data (day_view, "tooltip-window", NULL);
+		g_object_set_data (G_OBJECT (day_view), "tooltip-window", NULL);
 	}
 	
 	switch (scroll->direction) {
@@ -3223,11 +3179,10 @@ e_day_view_on_event_click (EDayView *day_view,
 static void
 e_day_view_reshape_resize_long_event_rect_item (EDayView *day_view)
 {
-	gint day, event_num, start_day, end_day;
+	gint event_num, start_day, end_day;
 	gint item_x, item_y, item_w, item_h;
 	gdouble x1, y1, x2, y2;
 
-	day = day_view->resize_event_day;
 	event_num = day_view->resize_event_num;
 
 	/* If we're not resizing an event, or the event is not shown,
@@ -3424,23 +3379,6 @@ e_day_view_on_event_right_click (EDayView *day_view,
 	e_day_view_show_popup_menu (day_view, (GdkEvent*)bevent,
 				    day, event_num);
 }
-
-static EDayViewEvent*
-e_day_view_get_popup_menu_event (EDayView *day_view)
-{
-	if (day_view->popup_event_num == -1)
-		return NULL;
-
-	if (day_view->popup_event_day == E_DAY_VIEW_LONG_EVENT)
-		return &g_array_index (day_view->long_events,
-				       EDayViewEvent,
-				       day_view->popup_event_num);
-	else
-		return &g_array_index (day_view->events[day_view->popup_event_day],
-				       EDayViewEvent,
-				       day_view->popup_event_num);
-}
-
 
 static gboolean
 e_day_view_on_top_canvas_button_release (GtkWidget *widget,
@@ -3832,6 +3770,7 @@ static void
 e_day_view_update_long_event_resize (EDayView *day_view,
 				     gint day)
 {
+	/* event is never used here either, what's up? */
 	EDayViewEvent *event;
 	gint event_num;
 	gboolean need_reshape = FALSE;
@@ -3872,6 +3811,7 @@ static void
 e_day_view_update_resize (EDayView *day_view,
 			  gint row)
 {
+	/* Same thing again? */
 	EDayViewEvent *event;
 	gint day, event_num;
 	gboolean need_reshape = FALSE;
@@ -4390,7 +4330,6 @@ e_day_view_reshape_long_event (EDayView *day_view,
 	gint min_text_x, max_text_w, text_width, line_len;
 	gchar *text, *end_of_line;
 	gboolean show_icons = TRUE, use_max_width = FALSE;
-	PangoFontDescription *font_desc;
 	PangoContext *pango_context;
 	PangoLayout *layout;
 
@@ -4421,7 +4360,6 @@ e_day_view_reshape_long_event (EDayView *day_view,
 	e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
 
 	/* Set up Pango prerequisites */
-	font_desc = gtk_widget_get_style (GTK_WIDGET (day_view))->font_desc;
 	pango_context = gtk_widget_get_pango_context (GTK_WIDGET (day_view));
 	layout = pango_layout_new (pango_context);
 
@@ -4478,8 +4416,8 @@ e_day_view_reshape_long_event (EDayView *day_view,
 					       "fill_color_gdk", &widget->style->text[GTK_STATE_NORMAL],
 					       "im_context", E_CANVAS (day_view->top_canvas)->im_context,
 					       NULL);
-		g_object_set_data (event->canvas_item, "event-num", GINT_TO_POINTER (event_num));
-		g_object_set_data (event->canvas_item, "event-day", GINT_TO_POINTER (E_DAY_VIEW_LONG_EVENT));
+		g_object_set_data (G_OBJECT (event->canvas_item), "event-num", GINT_TO_POINTER (event_num));
+		g_object_set_data (G_OBJECT (event->canvas_item), "event-day", GINT_TO_POINTER (E_DAY_VIEW_LONG_EVENT));
 		g_signal_connect (event->canvas_item, "event",
 				  G_CALLBACK (e_day_view_on_text_item_event), day_view);
 		g_signal_emit_by_name (G_OBJECT(day_view),
@@ -4661,8 +4599,8 @@ e_day_view_reshape_day_event (EDayView *day_view,
 						       "fill_color_gdk", &widget->style->text[GTK_STATE_NORMAL],
 						       "im_context", E_CANVAS (day_view->main_canvas)->im_context,
 						       NULL);
-			g_object_set_data (event->canvas_item, "event-num", GINT_TO_POINTER (event_num));
-			g_object_set_data (event->canvas_item, "event-day", GINT_TO_POINTER (day));
+			g_object_set_data (G_OBJECT (event->canvas_item), "event-num", GINT_TO_POINTER (event_num));
+			g_object_set_data (G_OBJECT (event->canvas_item), "event-day", GINT_TO_POINTER (day));
 			g_signal_connect (event->canvas_item, "event",
 					  G_CALLBACK (e_day_view_on_text_item_event), day_view);
 			g_signal_emit_by_name (G_OBJECT(day_view),
@@ -5076,6 +5014,7 @@ e_day_view_change_duration_to_start_of_work_day (EDayView *day_view)
 	if (day_view->selection_in_top_canvas)
 		return;
 	else {
+		/* These are never used after being set? */
 		gint work_start_row,work_end_row,selection_start_row,selection_end_row;
 		
 		work_start_row =
@@ -5809,7 +5748,7 @@ tooltip_destroy (EDayView *day_view, GnomeCanvasItem *item)
 
 	pevent = tooltip_get_view_event (day_view, day, event_num);
 	if (pevent) {
-		if (pevent->tooltip && g_object_get_data (day_view, "tooltip-window")) {
+		if (pevent->tooltip && g_object_get_data (G_OBJECT (day_view), "tooltip-window")) {
 			gtk_widget_destroy (pevent->tooltip);
 			pevent->tooltip = NULL;
 		}
@@ -5819,7 +5758,7 @@ tooltip_destroy (EDayView *day_view, GnomeCanvasItem *item)
 			pevent->timeout = -1;
 		}
 
-		g_object_set_data (day_view, "tooltip-window", NULL);		
+		g_object_set_data (G_OBJECT (day_view), "tooltip-window", NULL);		
 	}
 }
 
@@ -5924,8 +5863,8 @@ e_day_view_on_text_item_event (GnomeCanvasItem *item,
 				return FALSE;
 
 			pevent = tooltip_get_view_event (day_view, day, event_num);
-			g_object_set_data (item, "event-num", GINT_TO_POINTER (event_num));
-			g_object_set_data (item, "event-day", GINT_TO_POINTER (day));
+			g_object_set_data (G_OBJECT (item), "event-num", GINT_TO_POINTER (event_num));
+			g_object_set_data (G_OBJECT (item), "event-day", GINT_TO_POINTER (day));
 
 			data = g_malloc (sizeof (ECalendarViewEventData));
 			pevent->x = ((GdkEventCrossing *)event)->x_root;
@@ -5953,7 +5892,7 @@ e_day_view_on_text_item_event (GnomeCanvasItem *item,
 						
 			pevent->x = ((GdkEventMotion *)event)->x_root;
 			pevent->y = ((GdkEventMotion *)event)->y_root;
-			pevent->tooltip = (GtkWidget *)g_object_get_data (day_view, "tooltip-window");
+			pevent->tooltip = (GtkWidget *)g_object_get_data (G_OBJECT (day_view), "tooltip-window");
 			
 			if (pevent->tooltip) {
 				gtk_window_move ((GtkWindow *)pevent->tooltip, ((int)((GdkEventMotion *)event)->x_root)+16, ((int)((GdkEventMotion *)event)->y_root) +16);
@@ -6229,7 +6168,6 @@ e_day_view_on_editing_stopped (EDayView *day_view,
 			       GnomeCanvasItem *item)
 {
 	gint day, event_num;
-	gboolean editing_long_event = FALSE;
 	EDayViewEvent *event;
 	gchar *text = NULL;
 	ECalComponentText summary;
@@ -6253,7 +6191,6 @@ e_day_view_on_editing_stopped (EDayView *day_view,
 		return;
 
 	if (day == E_DAY_VIEW_LONG_EVENT) {
-		editing_long_event = TRUE;
 		event = &g_array_index (day_view->long_events, EDayViewEvent,
 					event_num);
 	} else {

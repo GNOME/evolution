@@ -43,7 +43,7 @@ typedef struct _ECompEditorRegistryForeachData ECompEditorRegistryForeachData;
 
 static void editor_destroy_cb (gpointer data, GObject *where_object_was);
 
-G_DEFINE_TYPE (ECompEditorRegistry, e_comp_editor_registry, G_TYPE_OBJECT);
+G_DEFINE_TYPE (ECompEditorRegistry, e_comp_editor_registry, G_TYPE_OBJECT)
 
 static void
 registry_data_free (gpointer data)

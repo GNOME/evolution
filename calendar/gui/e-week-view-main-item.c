@@ -30,6 +30,7 @@
 #include <config.h>
 #endif
 
+#include <string.h>
 #include <glib.h>
 #include <libgnome/gnome-i18n.h>
 #include "e-week-view-main-item.h"
@@ -69,7 +70,7 @@ enum {
 	ARG_WEEK_VIEW
 };
 
-G_DEFINE_TYPE (EWeekViewMainItem, e_week_view_main_item, GNOME_TYPE_CANVAS_ITEM);
+G_DEFINE_TYPE (EWeekViewMainItem, e_week_view_main_item, GNOME_TYPE_CANVAS_ITEM)
 
 static void
 e_week_view_main_item_class_init (EWeekViewMainItemClass *class)
@@ -106,10 +107,8 @@ e_week_view_main_item_init (EWeekViewMainItem *wvmitem)
 static void
 e_week_view_main_item_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 {
-	GnomeCanvasItem *item;
 	EWeekViewMainItem *wvmitem;
 
-	item = GNOME_CANVAS_ITEM (o);
 	wvmitem = E_WEEK_VIEW_MAIN_ITEM (o);
 	
 	switch (arg_id){

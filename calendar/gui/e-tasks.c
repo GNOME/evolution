@@ -306,14 +306,11 @@ static void
 process_completed_tasks (ETasks *tasks, gboolean config_changed)
 {
 	ETasksPrivate *priv;
-	ECalModel *model;
 
 	g_return_if_fail (tasks != NULL);
 	g_return_if_fail (E_IS_TASKS (tasks));
 
 	priv = tasks->priv;
-
-	model = e_calendar_table_get_model (E_CALENDAR_TABLE (priv->tasks_view));
 
 	e_calendar_table_process_completed_tasks (e_tasks_get_calendar_table (tasks), priv->clients_list, config_changed);
 }
@@ -812,12 +809,10 @@ static void
 backend_error_cb (ECal *client, const char *message, gpointer data)
 {
 	ETasks *tasks;
-	ETasksPrivate *priv;
 	char *errmsg;
 	char *urinopwd;
 
 	tasks = E_TASKS (data);
-	priv = tasks->priv;
 
 	urinopwd = get_uri_without_password (e_cal_get_uri (client));
 	errmsg = g_strdup_printf (_("Error on %s:\n %s"), urinopwd, message);

@@ -38,6 +38,7 @@
 
 #include "control-factory.h"
 
+/* Are these supposed to be global or static? */
 CORBA_Environment ev;
 CORBA_ORB orb;
 

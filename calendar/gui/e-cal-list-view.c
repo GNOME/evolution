@@ -89,7 +89,7 @@ static gboolean  e_cal_list_view_on_table_right_click   (GtkWidget *table, gint 
 							 GdkEvent *event, gpointer data);
 static void e_cal_list_view_cursor_change_cb (ETable *etable, gint row, gpointer data);
 
-G_DEFINE_TYPE (ECalListView, e_cal_list_view, E_TYPE_CALENDAR_VIEW);
+G_DEFINE_TYPE (ECalListView, e_cal_list_view, E_TYPE_CALENDAR_VIEW)
 
 static void
 e_cal_list_view_class_init (ECalListViewClass *class)

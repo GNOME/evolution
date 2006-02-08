@@ -113,15 +113,13 @@ static void url_requested_cb (GtkHTML *html, const gchar *url, GtkHTMLStream *ha
 static gboolean object_requested_cb (GtkHTML *html, GtkHTMLEmbedded *eb, gpointer data);
 static void ok_clicked_cb (GtkWidget *widget, gpointer data);
 
-G_DEFINE_TYPE (EItipControl, e_itip_control, GTK_TYPE_VBOX);
+G_DEFINE_TYPE (EItipControl, e_itip_control, GTK_TYPE_VBOX)
 
 static void
 e_itip_control_class_init (EItipControlClass *klass)
 {
-	GObjectClass *object_class;
 	GtkObjectClass *gtkobject_class;
 	
-	object_class = G_OBJECT_CLASS (klass);
 	gtkobject_class = GTK_OBJECT_CLASS (klass);
 	
 	gtkobject_class->destroy = e_itip_control_destroy;
@@ -276,7 +274,6 @@ find_cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
 	if (fd->count == 0) {
 		if (fd->show_selector && !priv->current_ecal && priv->vbox) {
 			GtkWidget *esom;
-			ESource *source = NULL;
 			char *uid;
 
 			switch (priv->type) {
@@ -353,7 +350,7 @@ find_server (EItipControl *itip, ECalComponent *comp, gboolean show_selector)
 				fd->show_selector = show_selector;
 			}
 			fd->count++;
-
+			/* Check this return too? */
 			ecal = start_calendar_server (itip, source, priv->type, find_cal_opened_cb, fd);				
 		}		
 	}
@@ -846,14 +843,11 @@ static void
 set_date_label (EItipControl *itip, GtkHTML *html, GtkHTMLStream *html_stream,
 		ECalComponent *comp)
 {
-	EItipControlPrivate *priv;
 	ECalComponentDateTime datetime;
 	static char buffer[1024];
 	gchar *str;
 	gboolean wrote = FALSE, task_completed = FALSE;
 	ECalComponentVType type;
-
-	priv = itip->priv;
 
 	type = e_cal_component_get_vtype (comp);
 
@@ -1988,35 +1982,6 @@ update_attendee_status (EItipControl *itip)
 }
 
 static void
-remove_item (EItipControl *itip)
-{
-	EItipControlPrivate *priv;
-	const char *uid;
-	GtkWidget *dialog;
-	GError *error = NULL;
-	
-	priv = itip->priv;
-
-	/* FIXME Is this check necessary? */
-	if (!priv->current_ecal)
-		return;
-	
-	e_cal_component_get_uid (priv->comp, &uid);
-	if (e_cal_component_has_recurrences (priv->comp))
-		e_cal_remove_object_with_mod (priv->current_ecal, uid, NULL, CALOBJ_MOD_ALL, &error);
-	else
-		e_cal_remove_object (priv->current_ecal, uid, &error);
-	if (!error || error->code == E_CALENDAR_STATUS_OBJECT_NOT_FOUND) {
-		dialog = gnome_ok_dialog (_("Removal Complete"));
-		gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
-	} else {
-		delete_error_dialog (error, e_cal_component_get_vtype (priv->comp));
-	}
-	
-	g_clear_error (&error);
-}
-
-static void
 send_item (EItipControl *itip)
 {
 	EItipControlPrivate *priv;
@@ -2470,7 +2435,6 @@ ok_clicked_cb (GtkWidget *widget, gpointer data)
 
 	if (priv->rsvp && status) {
 		ECalComponent *comp = NULL;
-		ECalComponentVType vtype;
 		icalcomponent *ical_comp;
 		icalproperty *prop;
 		icalvalue *value;
@@ -2480,7 +2444,6 @@ ok_clicked_cb (GtkWidget *widget, gpointer data)
 		comp = e_cal_component_clone (priv->comp);
 		if (comp == NULL)
 			return;
-		vtype = e_cal_component_get_vtype (comp);
 		
 		if (priv->my_address == NULL)
 			find_my_address (itip, priv->ical_comp, NULL);

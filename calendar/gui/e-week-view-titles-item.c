@@ -59,7 +59,7 @@ enum {
 	ARG_WEEK_VIEW
 };
 
-G_DEFINE_TYPE (EWeekViewTitlesItem, e_week_view_titles_item, GNOME_TYPE_CANVAS_ITEM);
+G_DEFINE_TYPE (EWeekViewTitlesItem, e_week_view_titles_item, GNOME_TYPE_CANVAS_ITEM)
 
 static void
 e_week_view_titles_item_class_init (EWeekViewTitlesItemClass *class)
@@ -93,10 +93,8 @@ e_week_view_titles_item_init (EWeekViewTitlesItem *wvtitem)
 static void
 e_week_view_titles_item_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 {
-	GnomeCanvasItem *item;
 	EWeekViewTitlesItem *wvtitem;
 
-	item = GNOME_CANVAS_ITEM (o);
 	wvtitem = E_WEEK_VIEW_TITLES_ITEM (o);
 	
 	switch (arg_id){
@@ -139,7 +137,7 @@ e_week_view_titles_item_draw (GnomeCanvasItem  *canvas_item,
 	EWeekViewTitlesItem *wvtitem;
 	EWeekView *week_view;
 	GtkStyle *style;
-	GdkGC *fg_gc, *bg_gc, *light_gc, *dark_gc;
+	GdkGC *fg_gc, *light_gc, *dark_gc;
 	gint canvas_width, canvas_height, col_width, col, date_width, date_x;
 	gchar buffer[128], *date_format;
 	GDate date;
@@ -159,7 +157,6 @@ e_week_view_titles_item_draw (GnomeCanvasItem  *canvas_item,
 
 	style = gtk_widget_get_style (GTK_WIDGET (week_view));
 	fg_gc = style->fg_gc[GTK_STATE_NORMAL];
-	bg_gc = style->bg_gc[GTK_STATE_NORMAL];
 	light_gc = style->light_gc[GTK_STATE_NORMAL];
 	dark_gc = style->dark_gc[GTK_STATE_NORMAL];
 	canvas_width = GTK_WIDGET (canvas_item->canvas)->allocation.width;

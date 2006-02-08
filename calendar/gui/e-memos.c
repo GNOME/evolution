@@ -120,7 +120,7 @@ static const int num_list_drag_types = sizeof (list_drag_types) / sizeof (list_d
 
 static guint e_memos_signals[LAST_SIGNAL] = { 0 };
 
-G_DEFINE_TYPE (EMemos, e_memos, GTK_TYPE_TABLE);
+G_DEFINE_TYPE (EMemos, e_memos, GTK_TYPE_TABLE)
 
 /* Callback used when the cursor changes in the table */
 static void
@@ -272,8 +272,6 @@ update_view (EMemos *memos)
 {
 	EMemosPrivate *priv;
 	ECalModel *model;
-	char *real_sexp = NULL;
-	char *new_sexp = NULL;
 	
 	priv = memos->priv;
 
@@ -717,12 +715,10 @@ static void
 backend_error_cb (ECal *client, const char *message, gpointer data)
 {
 	EMemos *memos;
-	EMemosPrivate *priv;
 	char *errmsg;
 	char *urinopwd;
 
 	memos = E_MEMOS (data);
-	priv = memos->priv;
 
 	urinopwd = get_uri_without_password (e_cal_get_uri (client));
 	errmsg = g_strdup_printf (_("Error on %s:\n %s"), urinopwd, message);
@@ -854,10 +850,6 @@ typedef void (*open_func) (ECal *, ECalendarStatus, EMemos *);
 static gboolean
 open_ecal (EMemos *memos, ECal *cal, gboolean only_if_exists, open_func of)
 {
-	EMemosPrivate *priv;
-
-	priv = memos->priv;
-	
 	set_status_message (memos, _("Opening memos at %s"), e_cal_get_uri (cal));
 
 	g_signal_connect (G_OBJECT (cal), "cal_opened", G_CALLBACK (of), memos);

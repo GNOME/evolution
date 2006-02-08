@@ -436,10 +436,7 @@ get_alarm_string (ECalComponentAlarm *alarm)
 {
 	ECalComponentAlarmAction action;
 	ECalComponentAlarmTrigger trigger;
-	char string[256];
 	char *base, *str = NULL, *dur;
-
-	string [0] = '\0';
 
 	e_cal_component_alarm_get_action (alarm, &action);
 	e_cal_component_alarm_get_trigger (alarm, &trigger);

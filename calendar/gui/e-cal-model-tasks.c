@@ -52,7 +52,7 @@ static const char *ecmt_get_color_for_component (ECalModel *model, ECalModelComp
 static void ecmt_fill_component_from_model (ECalModel *model, ECalModelComponent *comp_data,
 					    ETableModel *source_model, gint row);
 
-G_DEFINE_TYPE (ECalModelTasks, e_cal_model_tasks, E_TYPE_CAL_MODEL);
+G_DEFINE_TYPE (ECalModelTasks, e_cal_model_tasks, E_TYPE_CAL_MODEL)
 
 static void
 e_cal_model_tasks_class_init (ECalModelTasksClass *klass)
@@ -443,8 +443,6 @@ get_due_status (ECalModelTasks *model, ECalModelComponent *comp_data)
 					return E_CAL_MODEL_TASKS_DUE_FUTURE;
 		}
 	}
-
-	return E_CAL_MODEL_TASKS_DUE_NEVER;
 }
 
 static gboolean
@@ -466,13 +464,10 @@ is_overdue (ECalModelTasks *model, ECalModelComponent *comp_data)
 static void *
 ecmt_value_at (ETableModel *etm, int col, int row)
 {
-	ECalModelTasksPrivate *priv;
 	ECalModelComponent *comp_data;
 	ECalModelTasks *model = (ECalModelTasks *) etm;
 
 	g_return_val_if_fail (E_IS_CAL_MODEL_TASKS (model), NULL);
-
-	priv = model->priv;
 
 	g_return_val_if_fail (col >= 0 && col < E_CAL_MODEL_TASKS_FIELD_LAST, NULL);
 	g_return_val_if_fail (row >= 0 && row < e_table_model_row_count (etm), NULL);
@@ -783,13 +778,10 @@ set_url (ECalModelComponent *comp_data, const char *value)
 static void
 ecmt_set_value_at (ETableModel *etm, int col, int row, const void *value)
 {
-	ECalModelTasksPrivate *priv;
 	ECalModelComponent *comp_data;
 	ECalModelTasks *model = (ECalModelTasks *) etm;
 
 	g_return_if_fail (E_IS_CAL_MODEL_TASKS (model));
-
-	priv = model->priv;
 
 	g_return_if_fail (col >= 0 && col < E_CAL_MODEL_TASKS_FIELD_LAST);
 	g_return_if_fail (row >= 0 && row < e_table_model_row_count (etm));
@@ -841,12 +833,9 @@ ecmt_set_value_at (ETableModel *etm, int col, int row, const void *value)
 static gboolean
 ecmt_is_cell_editable (ETableModel *etm, int col, int row)
 {
-	ECalModelTasksPrivate *priv;
 	ECalModelTasks *model = (ECalModelTasks *) etm;
 
 	g_return_val_if_fail (E_IS_CAL_MODEL_TASKS (model), FALSE);
-
-	priv = model->priv;
 
 	g_return_val_if_fail (col >= 0 && col < E_CAL_MODEL_TASKS_FIELD_LAST, FALSE);
 	g_return_val_if_fail (row >= -1 || (row >= 0 && row < e_table_model_row_count (etm)), FALSE);
@@ -964,13 +953,10 @@ ecmt_initialize_value (ETableModel *etm, int col)
 static gboolean
 ecmt_value_is_empty (ETableModel *etm, int col, const void *value)
 {
-	ECalModelTasksPrivate *priv;
 	ECalModelTasks *model = (ECalModelTasks *) etm;
 
 	g_return_val_if_fail (E_IS_CAL_MODEL_TASKS (model), TRUE);
 	g_return_val_if_fail (col >= 0 && col < E_CAL_MODEL_TASKS_FIELD_LAST, TRUE);
-
-	priv = model->priv;
 
 	if (col < E_CAL_MODEL_FIELD_LAST)
 		return E_TABLE_MODEL_CLASS (e_cal_model_tasks_parent_class)->value_is_empty (etm, col, value);
@@ -1096,13 +1082,10 @@ e_cal_model_tasks_new (void)
 void
 e_cal_model_tasks_mark_task_complete (ECalModelTasks *model, gint model_row)
 {
-	ECalModelTasksPrivate *priv;
 	ECalModelComponent *comp_data;
 
 	g_return_if_fail (E_IS_CAL_MODEL_TASKS (model));
 	g_return_if_fail (model_row >= 0 && model_row < e_table_model_row_count (E_TABLE_MODEL (model)));
-
-	priv = model->priv;
 
 	comp_data = e_cal_model_get_component_at (E_CAL_MODEL (model), model_row);
 	if (comp_data) {
@@ -1121,14 +1104,12 @@ void
 e_cal_model_tasks_update_due_tasks (ECalModelTasks *model)
 {
 	gint row, row_count;
-	ECalModelTasksPrivate *priv;
 	ECalModelComponent *comp_data;
 	ECalModelTasksDueStatus status;
 
 	g_return_if_fail (E_IS_CAL_MODEL_TASKS (model));
 
 	row_count = e_table_model_row_count (E_TABLE_MODEL (model));
-	priv = model->priv;
 
 	for (row = 0; row < row_count; row++)
 	{

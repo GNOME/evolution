@@ -109,17 +109,15 @@ static GdkPixbuf* icon_pixbufs[E_MEMO_MODEL_NUM_ICONS] = { 0 };
 
 static GdkAtom clipboard_atom = GDK_NONE;
 
-G_DEFINE_TYPE (EMemoTable, e_memo_table, GTK_TYPE_TABLE);
+G_DEFINE_TYPE (EMemoTable, e_memo_table, GTK_TYPE_TABLE)
 
 
 static void
 e_memo_table_class_init (EMemoTableClass *klass)
 {
 	GtkObjectClass *object_class;
-	GtkWidgetClass *widget_class;
 
 	object_class = (GtkObjectClass *) klass;
-	widget_class = (GtkWidgetClass *) klass;
 
 	/* Method override */
 	object_class->destroy		= e_memo_table_destroy;
@@ -147,7 +145,7 @@ e_memo_table_class_init (EMemoTableClass *klass)
  * Also, this assumes it is passed pointers to ECalComponents, but I think it
  * may just be passed pointers to the 2 cell values.
  */
-/*
+#if 0
 static gint
 task_compare_cb (gconstpointer a, gconstpointer b)
 {
@@ -168,7 +166,7 @@ task_compare_cb (gconstpointer a, gconstpointer b)
 		int v;
 
 		/* FIXME: TIMEZONES. But currently we have no way to get the
-		   ECal, so we can't get the timezone. *
+		   ECal, so we can't get the timezone. */
 		v = icaltime_compare (*due_a.value, *due_b.value);
 
 		if (v == 0)
@@ -193,7 +191,7 @@ task_compare_cb (gconstpointer a, gconstpointer b)
 
 	return retval;
 }
-*/
+#endif
 
 static void
 row_appended_cb (ECalModel *model, EMemoTable *memo_table) 

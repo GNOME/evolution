@@ -95,7 +95,7 @@ enum {
 	ARG_SPAN_NUM
 };
 
-G_DEFINE_TYPE (EWeekViewEventItem, e_week_view_event_item, GNOME_TYPE_CANVAS_ITEM);
+G_DEFINE_TYPE (EWeekViewEventItem, e_week_view_event_item, GNOME_TYPE_CANVAS_ITEM)
 
 static void
 e_week_view_event_item_class_init (EWeekViewEventItemClass *class)
@@ -219,7 +219,6 @@ e_week_view_event_item_draw (GnomeCanvasItem  *canvas_item,
 	EWeekView *week_view;
 	EWeekViewEvent *event;
 	EWeekViewEventSpan *span;
-	GtkStyle *style;
 	GdkGC *gc;
 	gint x1, y1, x2, y2, time_x, time_y;
 	gint icon_x, icon_y, time_width, min_end_time_x, max_icon_x;
@@ -253,7 +252,6 @@ e_week_view_event_item_draw (GnomeCanvasItem  *canvas_item,
 	span = &g_array_index (week_view->spans, EWeekViewEventSpan,
 			       event->spans_index + wveitem->span_num);
 
-	style = GTK_WIDGET (week_view)->style;
 	gc = week_view->main_gc;
 
 	x1 = canvas_item->x1 - x;
@@ -591,7 +589,6 @@ e_week_view_event_item_draw_icons (EWeekViewEventItem *wveitem,
 {
 	EWeekView *week_view;
 	EWeekViewEvent *event;
-	EWeekViewEventSpan *span;
 	ECalComponent *comp;
 	GdkGC *gc;
 	gint num_icons = 0, icon_x_inc;
@@ -603,8 +600,6 @@ e_week_view_event_item_draw_icons (EWeekViewEventItem *wveitem,
 
 	event = &g_array_index (week_view->events, EWeekViewEvent,
 				wveitem->event_num);
-	span = &g_array_index (week_view->spans, EWeekViewEventSpan,
-			       event->spans_index + wveitem->span_num);
 	comp = e_cal_component_new ();
 	e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
 

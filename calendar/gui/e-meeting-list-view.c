@@ -42,6 +42,7 @@
 #include <libedataserverui/e-name-selector.h>
 #include "calendar-config.h"
 #include "e-meeting-list-view.h"
+#include "itip-utils.h"
 #include <misc/e-cell-renderer-combo.h>
 #include <libebook/e-destination.h>
 #include "e-select-names-renderer.h"
@@ -77,7 +78,7 @@ static icalparameter_role roles[] = {ICAL_ROLE_CHAIR,
 				     ICAL_ROLE_NONPARTICIPANT,
 				     ICAL_ROLE_NONE};
 
-G_DEFINE_TYPE (EMeetingListView, e_meeting_list_view, GTK_TYPE_TREE_VIEW);
+G_DEFINE_TYPE (EMeetingListView, e_meeting_list_view, GTK_TYPE_TREE_VIEW)
 
 static void
 e_meeting_list_view_finalize (GObject *obj)
@@ -285,7 +286,7 @@ e_meeting_list_view_remove_attendee_from_name_selector (EMeetingListView *view, 
 
 		if (e_destination_is_evolution_list (des)) {
 			GList *l, *dl;
-	
+
 			dl = e_destination_list_get_dests (des);
 
 			for (l = dl; l; l = l->next) {
@@ -668,7 +669,7 @@ process_section (EMeetingListView *view, GList *destinations, icalparameter_role
 	priv = view->priv;
 	for (l = destinations; l; l = g_list_next (l)) {
 		EDestination *destination = l->data, *des = NULL;
-		const GList *list_dests, *l;
+		const GList *list_dests = NULL, *l;
 		GList card_dest;
 
 		if (e_destination_is_evolution_list (destination)) {
@@ -777,7 +778,7 @@ process_section (EMeetingListView *view, GList *destinations, icalparameter_role
 					g_slist_free (*la);
 					*la = NULL;
 				} else
-					*la = g_slist_remove_link (*la, g_slist_find_custom (*la, attendee, g_strcasecmp));
+					*la = g_slist_remove_link (*la, g_slist_find_custom (*la, attendee, (GCompareFunc)g_strcasecmp));
 			}
 		}
 
@@ -808,7 +809,7 @@ name_selector_dialog_close_cb (ENameSelectorDialog *dialog, gint response, gpoin
 	GSList 		  *la = NULL, *l;
 
 	name_selector_model = e_name_selector_peek_model (view->priv->name_selector);
-	store = E_MEETING_STORE (gtk_tree_view_get_model (view));
+	store = E_MEETING_STORE (gtk_tree_view_get_model (GTK_TREE_VIEW (view)));
 	attendees = e_meeting_store_get_attendees (store);
 	
 	/* get all the email ids of the attendees */
@@ -855,7 +856,6 @@ e_meeting_list_view_invite_others_dialog (EMeetingListView *view)
 void 
 e_meeting_list_view_set_editable (EMeetingListView *lview, gboolean set)
 {
-	GtkCellRenderer *renderer;
 	EMeetingListViewPrivate *priv;
 
 	priv = lview->priv;
@@ -865,10 +865,3 @@ e_meeting_list_view_set_editable (EMeetingListView *lview, gboolean set)
 	g_hash_table_foreach (priv->renderers, change_edit_cols_for_organizer, GINT_TO_POINTER (edit_level));
 }
 
-static void   
-set_editable (gpointer key, gpointer value, gpointer user_data)
-{
-       GtkCellRenderer *renderer = (GtkCellRenderer *) value;
-       guint edit_level = GPOINTER_TO_INT (user_data); 
-       g_object_set (G_OBJECT (renderer), "editable", GINT_TO_POINTER (edit_level), NULL);
-}

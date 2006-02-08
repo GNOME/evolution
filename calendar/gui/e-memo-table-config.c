@@ -30,7 +30,7 @@ struct _EMemoTableConfigPrivate {
 	GList *notifications;
 };
 
-G_DEFINE_TYPE (EMemoTableConfig, e_memo_table_config, G_TYPE_OBJECT);
+G_DEFINE_TYPE (EMemoTableConfig, e_memo_table_config, G_TYPE_OBJECT)
 
 /* Property IDs */
 enum props {
@@ -42,10 +42,8 @@ static void
 e_memo_table_config_set_property (GObject *object, guint property_id, const GValue *value, GParamSpec *pspec)
 {
 	EMemoTableConfig *table_config;
-	EMemoTableConfigPrivate *priv;
 
 	table_config = E_MEMO_TABLE_CONFIG (object);
-	priv = table_config->priv;
 	
 	switch (property_id) {
 	case PROP_TABLE:
@@ -61,10 +59,8 @@ static void
 e_memo_table_config_get_property (GObject *object, guint property_id, GValue *value, GParamSpec *pspec)
 {
 	EMemoTableConfig *table_config;
-	EMemoTableConfigPrivate *priv;
 
 	table_config = E_MEMO_TABLE_CONFIG (object);
-	priv = table_config->priv;
 	
 	switch (property_id) {
 	case PROP_TABLE:
@@ -80,9 +76,6 @@ static void
 e_memo_table_config_dispose (GObject *object)
 {
 	EMemoTableConfig *table_config = E_MEMO_TABLE_CONFIG (object);
-	EMemoTableConfigPrivate *priv;
-	
-	priv = table_config->priv;
 
 	e_memo_table_config_set_table (table_config, NULL);
 	

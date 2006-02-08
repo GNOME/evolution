@@ -36,16 +36,14 @@ enum props {
 	PROP_VIEW,
 };
 
-G_DEFINE_TYPE (ECalListViewConfig, e_cal_list_view_config, G_TYPE_OBJECT);
+G_DEFINE_TYPE (ECalListViewConfig, e_cal_list_view_config, G_TYPE_OBJECT)
 
 static void
 e_cal_list_view_config_set_property (GObject *object, guint property_id, const GValue *value, GParamSpec *pspec)
 {
 	ECalListViewConfig *view_config;
-	ECalListViewConfigPrivate *priv;
 
 	view_config = E_CAL_LIST_VIEW_CONFIG (object);
-	priv = view_config->priv;
 	
 	switch (property_id) {
 	case PROP_VIEW:
@@ -61,10 +59,8 @@ static void
 e_cal_list_view_config_get_property (GObject *object, guint property_id, GValue *value, GParamSpec *pspec)
 {
 	ECalListViewConfig *view_config;
-	ECalListViewConfigPrivate *priv;
 
 	view_config = E_CAL_LIST_VIEW_CONFIG (object);
-	priv = view_config->priv;
 	
 	switch (property_id) {
 	case PROP_VIEW:
@@ -80,10 +76,7 @@ static void
 e_cal_list_view_config_dispose (GObject *object)
 {
 	ECalListViewConfig *view_config = E_CAL_LIST_VIEW_CONFIG (object);
-	ECalListViewConfigPrivate *priv;
 	
-	priv = view_config->priv;
-
 	e_cal_list_view_config_set_view (view_config, NULL);
 	
 	if (G_OBJECT_CLASS (e_cal_list_view_config_parent_class)->dispose)

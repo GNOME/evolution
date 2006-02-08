@@ -1,3 +1,164 @@
+2006-01-09  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* gui/alarm-notify/alarm-notify-dialog.c:
+	(add_alarm_to_notified_alarms_dialog):
+	* gui/alarm-notify/alarm-queue.c: (remove_queued_alarm),
+	(open_alarm_dialog), (menu_item_toggle_callback), (populate):
+	* gui/alarm-notify/alarm.c: (pop_alarm), (alarm_remove):
+	* gui/alarm-notify/config-data.c:
+	(config_data_replace_string_list):
+	* gui/cal-search-bar.c: (regen_query):
+	* gui/calendar-view-factory.c:
+	* gui/calendar-view.c:
+	* gui/comp-editor-factory.c: (edit_existing),
+	(resolve_pending_requests), (impl_editExisting), (impl_editNew):
+	* gui/control-factory.c:
+	* gui/dialogs/cal-attachment-select-file.c:
+	(comp_editor_select_file_attachments):
+	* gui/dialogs/calendar-setup.c: (eccp_get_source_type):
+	* gui/dialogs/comp-editor.c: (comp_editor_class_init),
+	(commit_all_fields), (delete_event_cb), (editor_key_press_event),
+	(menu_file_save_cb), (menu_file_close_cb), (make_icon_from_comp),
+	(comp_editor_focus), (needs_send_cb):
+	* gui/dialogs/delete-comp.c: (delete_component_dialog):
+	* gui/dialogs/e-delegate-dialog.c:
+	* gui/dialogs/event-editor.c:
+	* gui/dialogs/event-page.c: (event_page_fill_widgets),
+	(popup_delete_cb), (list_key_press):
+	* gui/dialogs/meeting-page.c: (remove_clicked_cb),
+	(popup_delete_cb), (button_press_event), (list_key_press),
+	(meeting_page_construct):
+	* gui/dialogs/memo-editor.c: (init_widgets),
+	(memo_editor_set_e_cal), (memo_editor_edit_comp),
+	(memo_editor_send_comp):
+	* gui/dialogs/memo-page.c:
+	* gui/dialogs/recurrence-page.c: (fill_exception_widgets),
+	(exception_add_cb):
+	* gui/dialogs/schedule-page.c: (clear_widgets),
+	(schedule_page_fill_component):
+	* gui/dialogs/task-details-page.c:
+	(task_details_page_fill_timezones), (complete_date_changed):
+	* gui/dialogs/task-editor.c:
+	* gui/dialogs/task-page.c: (task_page_fill_widgets),
+	(popup_delete_cb), (list_key_press):
+	* gui/e-alarm-list.c: (get_alarm_string):
+	* gui/e-cal-component-memo-preview.c: (write_html):
+	* gui/e-cal-component-preview.c: (write_html):
+	* gui/e-cal-list-view-config.c:
+	(e_cal_list_view_config_set_property),
+	(e_cal_list_view_config_get_property),
+	(e_cal_list_view_config_dispose):
+	* gui/e-cal-list-view.c:
+	* gui/e-cal-model-calendar.c: (ecmc_value_at):
+	* gui/e-cal-model-memos.c: (ecmm_value_at):
+	* gui/e-cal-model-tasks.c: (get_due_status), (ecmt_value_at),
+	(ecmt_set_value_at), (ecmt_is_cell_editable),
+	(ecmt_value_is_empty), (e_cal_model_tasks_mark_task_complete),
+	(e_cal_model_tasks_update_due_tasks):
+	* gui/e-cal-model.c: (get_classification),
+	(ecm_get_color_for_component), (e_cal_model_set_default_client),
+	(e_cal_view_objects_modified_cb), (e_cal_model_add_client),
+	(e_cal_model_remove_client), (e_cal_model_set_instance_times):
+	* gui/e-cal-popup.c: (ecalp_part_popup_saveas):
+	* gui/e-calendar-table-config.c:
+	(e_calendar_table_config_set_property),
+	(e_calendar_table_config_get_property),
+	(e_calendar_table_config_dispose):
+	* gui/e-calendar-table.c: (e_calendar_table_class_init):
+	* gui/e-calendar-table.h:
+	* gui/e-calendar-view.c: (e_calendar_view_set_property),
+	(e_calendar_view_get_property), (open_event_with_flags),
+	(e_calendar_view_get_tooltips):
+	* gui/e-cell-date-edit-config.c:
+	(e_cell_date_edit_config_set_property),
+	(e_cell_date_edit_config_get_property),
+	(e_cell_date_edit_config_dispose):
+	* gui/e-cell-date-edit-text.c:
+	* gui/e-comp-editor-registry.c:
+	* gui/e-date-edit-config.c: (e_date_edit_config_set_property),
+	(e_date_edit_config_get_property), (e_date_edit_config_dispose):
+	* gui/e-day-view-config.c: (e_day_view_config_set_property),
+	(e_day_view_config_get_property), (e_day_view_config_dispose):
+	* gui/e-day-view-main-item.c: (e_day_view_main_item_set_arg),
+	(e_day_view_main_item_draw_day_event),
+	(e_day_view_main_item_event):
+	* gui/e-day-view-time-item.c: (e_day_view_time_item_set_arg),
+	(e_day_view_time_item_get_column_width):
+	* gui/e-day-view-top-item.c: (e_day_view_top_item_set_arg),
+	(e_day_view_top_item_draw_long_event),
+	(e_day_view_top_item_draw_triangle), (e_day_view_top_item_event):
+	* gui/e-day-view.c: (process_component), (e_day_view_style_set),
+	(e_day_view_recalc_cell_sizes), (e_day_view_foreach_event),
+	(e_day_view_reshape_resize_long_event_rect_item),
+	(e_day_view_update_long_event_resize), (e_day_view_update_resize),
+	(e_day_view_reshape_long_event), (e_day_view_reshape_day_event),
+	(e_day_view_change_duration_to_start_of_work_day),
+	(tooltip_destroy), (e_day_view_on_text_item_event),
+	(e_day_view_on_editing_stopped):
+	* gui/e-itip-control.c: (e_itip_control_class_init),
+	(find_cal_opened_cb), (find_server), (set_date_label),
+	(ok_clicked_cb):
+	* gui/e-meeting-attendee.c:
+	* gui/e-meeting-list-view.c:
+	(e_meeting_list_view_remove_attendee_from_name_selector):
+	* gui/e-meeting-store.c: (role_to_text), (partstat_to_text),
+	(e_meeting_store_set_value):
+	* gui/e-meeting-time-sel-item.c:
+	(e_meeting_time_selector_item_set_arg),
+	(e_meeting_time_selector_item_paint_all_attendees_busy_periods):
+	* gui/e-meeting-time-sel.c: (e_meeting_time_selector_construct),
+	(e_meeting_time_selector_recalc_date_format):
+	* gui/e-memo-table-config.c: (e_memo_table_config_set_property),
+	(e_memo_table_config_get_property), (e_memo_table_config_dispose):
+	* gui/e-memo-table.c: (e_memo_table_class_init), (task_compare_cb):
+	* gui/e-memos.c: (update_view), (backend_error_cb), (open_ecal):
+	* gui/e-mini-calendar-config.c:
+	(e_mini_calendar_config_set_property),
+	(e_mini_calendar_config_get_property),
+	(e_mini_calendar_config_dispose):
+	* gui/e-pub-utils.c: (is_publish_time), (e_pub_publish):
+	* gui/e-tasks.c: (process_completed_tasks), (backend_error_cb):
+	* gui/e-timezone-entry.c: (e_timezone_entry_destroy):
+	* gui/e-week-view-config.c: (e_week_view_config_set_property),
+	(e_week_view_config_get_property), (e_week_view_config_dispose):
+	* gui/e-week-view-event-item.c: (e_week_view_event_item_draw),
+	(e_week_view_event_item_draw_icons):
+	* gui/e-week-view-main-item.c: (e_week_view_main_item_set_arg):
+	* gui/e-week-view-titles-item.c: (e_week_view_titles_item_set_arg),
+	(e_week_view_titles_item_draw):
+	* gui/e-week-view.c: (process_component), (tooltip_destroy),
+	(tooltip_event_cb), (e_week_view_reshape_event_span),
+	(e_week_view_on_text_item_event), (e_week_view_event_move),
+	(e_week_view_on_editing_stopped), (e_week_view_do_key_press):
+	* gui/gnome-cal.c: (dn_e_cal_view_objects_modified_cb),
+	(dn_e_cal_view_done_cb), (table_selection_change_cb),
+	(gnome_calendar_goto), (focus_current_view), (backend_error_cb),
+	(gnome_calendar_set_selected_time_range),
+	(gnome_calendar_get_current_time_range),
+	(gnome_calendar_get_visible_time_range),
+	(gnome_calendar_delete_selected_occurrence):
+	* gui/goto.c: (goto_dialog):
+	* gui/itip-utils.c: (comp_fb_normalize):
+	* gui/memos-component.c: (create_new_memo),
+	(impl_requestCreateItem):
+	* gui/migration.c: (migrate_memos):
+	* gui/print.c: (print_month_small), (print_day_details),
+	(print_todo_details), (print_comp_item):
+	* gui/tasks-component.c: (create_new_todo),
+	(impl_requestCreateItem):
+	* gui/weekday-picker.c: Cleanups:
+	- remove unused vars
+	- remove extraneous semi-colons
+	- add some comments where assignments were done without using
+	  the results later
+	- remove break; statements after return foo;
+	- add casts in some places to be more type correct
+	- rename variables with name clashes
+	- s/if/ifdef in some cases
+	- mark some code static
+	- remove some unused functions
+	- use guint for 1-bit bitfields
+
 2006-02-01  Johnny Jacob  <johnnyjacob@gmail.com>
 
 	** Fixes #326997

@@ -108,7 +108,7 @@ enum {
 
 static guint signals[LAST_SIGNAL] = { 0 };
 
-G_DEFINE_TYPE (ECalModel, e_cal_model, E_TABLE_MODEL_TYPE);
+G_DEFINE_TYPE (ECalModel, e_cal_model, E_TABLE_MODEL_TYPE)
 
 static void
 e_cal_model_class_init (ECalModelClass *klass)
@@ -326,8 +326,6 @@ get_classification (ECalModelComponent *comp_data)
 	default:
 		return _("Unknown");
 	}
-
-	return _("Unknown");
 }
 
 static const char *
@@ -944,7 +942,6 @@ ecm_get_color_for_component (ECalModel *model, ECalModelComponent *comp_data)
 {
 	ESource *source;
 	guint32 source_color;
-	ECalModelPrivate *priv;
 	gint i, first_empty = 0;
 	static AssignedColorData assigned_colors[] = {
 		{ "#BECEDD", NULL }, /* 190 206 221     Blue */
@@ -961,8 +958,6 @@ ecm_get_color_for_component (ECalModel *model, ECalModelComponent *comp_data)
 
 	g_return_val_if_fail (E_IS_CAL_MODEL (model), NULL);
 
-	priv = model->priv;
-             
 	source = e_cal_get_source (comp_data->client);
 	if (e_source_get_color (source, &source_color)) {
 		g_free (comp_data->color);
@@ -1168,8 +1163,6 @@ e_cal_model_set_default_client (ECalModel *model, ECal *client)
 	priv = model->priv;
 
 	if (priv->default_client) {
-		ECalModelClient *client_data;
-		
 		client_data = find_client_data (model, priv->default_client);
 		g_assert (client_data);
 
@@ -1415,11 +1408,7 @@ e_cal_view_objects_added_cb (ECalView *query, GList *objects, gpointer user_data
 static void
 e_cal_view_objects_modified_cb (ECalView *query, GList *objects, gpointer user_data)
 {
-	ECalModelPrivate *priv;
 	ECalModel *model = (ECalModel *) user_data;
-	GList *l;
-	
-	priv = model->priv;
 
 	/* now re-add all objects */
 	e_cal_view_objects_added_cb (query, objects, model);
@@ -1601,14 +1590,11 @@ add_new_client (ECalModel *model, ECal *client, gboolean do_query)
 void
 e_cal_model_add_client (ECalModel *model, ECal *client)
 {
-	ECalModelPrivate *priv;
 	ECalModelClient *client_data;
-	
+
 	g_return_if_fail (E_IS_CAL_MODEL (model));
 	g_return_if_fail (E_IS_CAL (client));
-
-	priv = model->priv;
-
+	/* Check this return value or drop the assignment? */
 	client_data = add_new_client (model, client, TRUE);	
 }
 
@@ -1667,13 +1653,10 @@ remove_client (ECalModel *model, ECalModelClient *client_data)
 void
 e_cal_model_remove_client (ECalModel *model, ECal *client)
 {
-	ECalModelPrivate *priv;
 	ECalModelClient *client_data;
 	
 	g_return_if_fail (E_IS_CAL_MODEL (model));
 	g_return_if_fail (E_IS_CAL (client));
-
-	priv = model->priv;
 
 	client_data = find_client_data (model, client);
 	if (client_data)
@@ -2102,9 +2085,8 @@ e_cal_model_get_object_array (ECalModel *model)
 void
 e_cal_model_set_instance_times (ECalModelComponent *comp_data, icaltimezone *zone)
 {
-	struct icaltimetype recur_time, start_time, end_time;
+	struct icaltimetype start_time, end_time;
 
-	recur_time = icalcomponent_get_recurrenceid (comp_data->icalcomp);
 	start_time = icalcomponent_get_dtstart (comp_data->icalcomp);
 	end_time = icalcomponent_get_dtend (comp_data->icalcomp);
 

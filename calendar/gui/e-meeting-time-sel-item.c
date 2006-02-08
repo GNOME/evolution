@@ -100,7 +100,7 @@ enum {
 	ARG_MEETING_TIME_SELECTOR
 };
 
-G_DEFINE_TYPE (EMeetingTimeSelectorItem, e_meeting_time_selector_item, GNOME_TYPE_CANVAS_ITEM);
+G_DEFINE_TYPE (EMeetingTimeSelectorItem, e_meeting_time_selector_item, GNOME_TYPE_CANVAS_ITEM)
 
 static void
 e_meeting_time_selector_item_class_init (EMeetingTimeSelectorItemClass *mts_item_class)
@@ -174,10 +174,8 @@ e_meeting_time_selector_item_destroy (GtkObject *object)
 static void
 e_meeting_time_selector_item_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 {
-	GnomeCanvasItem *item;
 	EMeetingTimeSelectorItem *mts_item;
 
-	item = GNOME_CANVAS_ITEM (o);
 	mts_item = E_MEETING_TIME_SELECTOR_ITEM (o);
 	
 	switch (arg_id){
@@ -510,6 +508,7 @@ e_meeting_time_selector_item_paint_all_attendees_busy_periods (EMeetingTimeSelec
 	/* Get the first visible busy periods for all the attendees. */
 	first_periods = g_new (gint, e_meeting_store_count_actual_attendees (mts->model));
 	for (row = 0; row < e_meeting_store_count_actual_attendees (mts->model); row++) {
+		/* This is never used */
 		ia = e_meeting_store_find_attendee_at_row (mts->model, row);
 		first_periods[row] = e_meeting_time_selector_item_find_first_busy_period (mts_item, date, row);
 	}

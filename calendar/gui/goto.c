@@ -200,7 +200,6 @@ goto_dialog_init_widgets (GoToDialog *dlg)
 void
 goto_dialog (GnomeCalendar *gcal)
 {
-	GtkWidget *menu;
 	time_t start_time;
 	struct icaltimetype tt;
 	int b;
@@ -237,7 +236,6 @@ goto_dialog (GnomeCalendar *gcal)
 	dlg->month_val = tt.month - 1;
 	dlg->day_val = tt.day;
 
-	menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (dlg->month));
 	gtk_option_menu_set_history (GTK_OPTION_MENU (dlg->month), dlg->month_val);
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (dlg->year), dlg->year_val);
 	

@@ -46,7 +46,7 @@ static void calendar_view_set_title (GalView *view, const char *title);
 static const char *calendar_view_get_type_code (GalView *view);
 static GalView *calendar_view_clone (GalView *view);
 
-G_DEFINE_TYPE (CalendarView, calendar_view, GAL_VIEW_TYPE);
+G_DEFINE_TYPE (CalendarView, calendar_view, GAL_VIEW_TYPE)
 
 /* Class initialization function for the calendar view */
 static void

@@ -909,12 +909,9 @@ static gboolean
 create_new_todo (TasksComponent *task_component, gboolean is_assigned, TasksComponentView *component_view)
 {
 	ECal *ecal;
-	TasksComponentPrivate *priv;
 	ECalComponent *comp;
 	TaskEditor *editor;
 	guint32 flags = 0;	
-	
-	priv = task_component->priv;
 	
 	ecal = setup_create_ecal (task_component, component_view);
 	if (!ecal)
@@ -1202,9 +1199,6 @@ impl_requestCreateItem (PortableServer_Servant servant,
 			CORBA_Environment *ev)
 {
 	TasksComponent *tasks_component = TASKS_COMPONENT (bonobo_object_from_servant (servant));
-	TasksComponentPrivate *priv;
-	
-	priv = tasks_component->priv;	
 	
 	if (strcmp (item_type_name, CREATE_TASK_ID) == 0) {
 		if (!create_new_todo (tasks_component, FALSE, NULL))

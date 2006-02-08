@@ -81,7 +81,7 @@ enum {
 	ARG_DAY_VIEW
 };
 
-G_DEFINE_TYPE (EDayViewMainItem, e_day_view_main_item, GNOME_TYPE_CANVAS_ITEM);
+G_DEFINE_TYPE (EDayViewMainItem, e_day_view_main_item, GNOME_TYPE_CANVAS_ITEM)
 
 static void
 e_day_view_main_item_class_init (EDayViewMainItemClass *class)
@@ -119,10 +119,8 @@ e_day_view_main_item_init (EDayViewMainItem *dvtitem)
 static void
 e_day_view_main_item_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 {
-	GnomeCanvasItem *item;
 	EDayViewMainItem *dvmitem;
 
-	item = GNOME_CANVAS_ITEM (o);
 	dvmitem = E_DAY_VIEW_MAIN_ITEM (o);
 	
 	switch (arg_id){
@@ -500,7 +498,6 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 	EDayView *day_view;
 	EDayViewEvent *event;
 	gint item_x, item_y, item_w, item_h, bar_y1, bar_y2;
-	GtkStyle *style;
 	GdkGC *gc;
 	GdkColor bg_color;
 	ECalComponent *comp;
@@ -518,8 +515,6 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 	if (day_view->drag_event_day == day
 	    && day_view->drag_event_num == event_num)
 		return;
-
-	style = GTK_WIDGET (day_view)->style;
 
 	gc = day_view->main_gc;
 
@@ -841,10 +836,6 @@ e_day_view_main_item_point (GnomeCanvasItem *item, double x, double y,
 static gint
 e_day_view_main_item_event (GnomeCanvasItem *item, GdkEvent *event)
 {
-	EDayViewMainItem *dvtitem;
-
-	dvtitem = E_DAY_VIEW_MAIN_ITEM (item);
-
 	switch (event->type) {
 	case GDK_BUTTON_PRESS:
 

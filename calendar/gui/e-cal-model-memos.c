@@ -51,7 +51,7 @@ static char *ecmm_value_to_string (ETableModel *etm, int col, const void *value)
 static void ecmm_fill_component_from_model (ECalModel *model, ECalModelComponent *comp_data,
 					    ETableModel *source_model, gint row);
 
-G_DEFINE_TYPE (ECalModelMemos, e_cal_model_memos, E_TYPE_CAL_MODEL);
+G_DEFINE_TYPE (ECalModelMemos, e_cal_model_memos, E_TYPE_CAL_MODEL)
 
 static void
 e_cal_model_memos_class_init (ECalModelMemosClass *klass)
@@ -115,12 +115,9 @@ static void *
 ecmm_value_at (ETableModel *etm, int col, int row)
 {
 	ECalModelComponent *comp_data;
-	ECalModelMemosPrivate *priv;
 	ECalModelMemos *model = (ECalModelMemos *) etm;
 
 	g_return_val_if_fail (E_IS_CAL_MODEL_MEMOS (model), NULL);
-
-	priv = model->priv;
 
 	g_return_val_if_fail (col >= 0 && col < E_CAL_MODEL_MEMOS_FIELD_LAST, NULL);
 	g_return_val_if_fail (row >= 0 && row < e_table_model_row_count (etm), NULL);

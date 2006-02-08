@@ -78,7 +78,7 @@ static void colorize_items (WeekdayPicker *wp);
 
 static guint wp_signals[LAST_SIGNAL];
 
-G_DEFINE_TYPE (WeekdayPicker, weekday_picker, GNOME_TYPE_CANVAS);
+G_DEFINE_TYPE (WeekdayPicker, weekday_picker, GNOME_TYPE_CANVAS)
 
 /* Class initialization function for the weekday picker */
 static void

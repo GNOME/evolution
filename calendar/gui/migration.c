@@ -1125,7 +1125,7 @@ migrate_memos (MemosComponent *component, int major, int minor, int revision, st
 
 	e_source_list_sync (memos_component_peek_source_list (component), NULL);
 	retval = TRUE;
-fail:
+
 	if (on_this_computer)
 		g_object_unref (on_this_computer);
 	if (on_the_web)

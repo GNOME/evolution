@@ -44,7 +44,7 @@
 
 #include "e-cell-date-edit-text.h"
 
-G_DEFINE_TYPE (ECellDateEditText, e_cell_date_edit_text, E_CELL_TEXT_TYPE);
+G_DEFINE_TYPE (ECellDateEditText, e_cell_date_edit_text, E_CELL_TEXT_TYPE)
 
 void
 e_cell_date_edit_text_set_timezone (ECellDateEditText *ecd,

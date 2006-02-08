@@ -36,16 +36,14 @@ enum props {
 	PROP_VIEW,
 };
 
-G_DEFINE_TYPE (EDayViewConfig, e_day_view_config, G_TYPE_OBJECT);
+G_DEFINE_TYPE (EDayViewConfig, e_day_view_config, G_TYPE_OBJECT)
 
 static void
 e_day_view_config_set_property (GObject *object, guint property_id, const GValue *value, GParamSpec *pspec)
 {
 	EDayViewConfig *view_config;
-	EDayViewConfigPrivate *priv;
 
 	view_config = E_DAY_VIEW_CONFIG (object);
-	priv = view_config->priv;
 	
 	switch (property_id) {
 	case PROP_VIEW:
@@ -61,10 +59,8 @@ static void
 e_day_view_config_get_property (GObject *object, guint property_id, GValue *value, GParamSpec *pspec)
 {
 	EDayViewConfig *view_config;
-	EDayViewConfigPrivate *priv;
 
 	view_config = E_DAY_VIEW_CONFIG (object);
-	priv = view_config->priv;
 	
 	switch (property_id) {
 	case PROP_VIEW:
@@ -80,9 +76,6 @@ static void
 e_day_view_config_dispose (GObject *object)
 {
 	EDayViewConfig *view_config = E_DAY_VIEW_CONFIG (object);
-	EDayViewConfigPrivate *priv;
-	
-	priv = view_config->priv;
 
 	e_day_view_config_set_view (view_config, NULL);
 	

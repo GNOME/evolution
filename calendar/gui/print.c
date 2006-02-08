@@ -560,7 +560,6 @@ print_month_small (GnomePrintContext *pc, GnomeCalendar *gcal, time_t month,
 		   int bordertitle)
 {
 	icaltimezone *zone = calendar_config_get_icaltimezone ();
-	ECal *client;
 	GnomeFont *font, *font_bold, *font_normal;
 	time_t now, next;
 	int x, y;
@@ -589,8 +588,6 @@ print_month_small (GnomePrintContext *pc, GnomeCalendar *gcal, time_t month,
 
 	top -= header_size;
 
-	client = gnome_calendar_get_default_client (gcal);
-
 	col_width = (right - left) / 7;
 
 	/* The top row with the day abbreviations gets an extra bit of
@@ -605,6 +602,7 @@ print_month_small (GnomePrintContext *pc, GnomeCalendar *gcal, time_t month,
 	   twice as high as they are wide, but we need to fit two characters
 	   into each cell, so we don't want to go over col_width. */
 	max_font_size = col_width * 0.65;
+	/* Why calculate this if we're not using it? */
 
 	font_size = row_height;
 
@@ -1189,7 +1187,6 @@ print_day_details (GnomePrintContext *pc, GnomeCalendar *gcal, time_t whence,
 
 	/* Also print events outside of work hours */
 	if (pdi.events[0]->len > 0) {
-		icaltimezone *zone = calendar_config_get_icaltimezone ();
 		struct icaltimetype tt;
 
 		event = &g_array_index (pdi.events[0], EDayViewEvent, 0);		
@@ -1809,7 +1806,6 @@ print_todo_details (GnomePrintContext *pc, GnomeCalendar *gcal,
 		    time_t start, time_t end,
 		    double left, double right, double top, double bottom)
 {
-	ECal *client;
 	GnomeFont *font_summary;
 	double y, yend, x, xend;
 	struct icaltimetype *tt;
@@ -1823,7 +1819,6 @@ print_todo_details (GnomePrintContext *pc, GnomeCalendar *gcal,
 	task_pad = gnome_calendar_get_task_pad (gcal);
 	table = e_calendar_table_get_table (task_pad);
 	model = e_calendar_table_get_model (task_pad);
-	client = e_cal_model_get_default_client (model);
 
 	font_summary = get_font_for_size (10, GNOME_FONT_BOOK, FALSE);
 
@@ -2381,28 +2376,28 @@ print_comp_item (GnomePrintContext *pc, ECalComponent *comp, ECal *client,
 			}
 
 			if (status_string) {
-				char *text = g_strdup_printf (_("Status: %s"),
+				char *status_text = g_strdup_printf (_("Status: %s"),
 							      status_string);
-				top = bound_text (pc, font, text,
+				top = bound_text (pc, font, status_text,
 						  left, right, top, bottom, 0);
 				top += gnome_font_get_size (font) - 6;
-				g_free (text);
+				g_free (status_text);
 			}
 		}
 
 		/* Priority */
 		e_cal_component_get_priority (comp, &priority);
 		if (priority && *priority >= 0) {
-			char *priority_string, *text;
+			char *priority_string, *pri_text;
 
 			priority_string = e_cal_util_priority_to_string (*priority);
 			e_cal_component_free_priority (priority);
 
-			text = g_strdup_printf (_("Priority: %s"), priority_string);
-			top = bound_text (pc, font, text,
+			pri_text = g_strdup_printf (_("Priority: %s"), priority_string);
+			top = bound_text (pc, font, pri_text,
 					  left, right, top, bottom, 0);
 			top += gnome_font_get_size (font) - 6;
-			g_free (text);
+			g_free (pri_text);
 		}
 
 		/* Percent Complete */

@@ -38,16 +38,14 @@ enum props {
 	PROP_TABLE
 };
 
-G_DEFINE_TYPE (ECalendarTableConfig, e_calendar_table_config, G_TYPE_OBJECT);
+G_DEFINE_TYPE (ECalendarTableConfig, e_calendar_table_config, G_TYPE_OBJECT)
 
 static void
 e_calendar_table_config_set_property (GObject *object, guint property_id, const GValue *value, GParamSpec *pspec)
 {
 	ECalendarTableConfig *table_config;
-	ECalendarTableConfigPrivate *priv;
 
 	table_config = E_CALENDAR_TABLE_CONFIG (object);
-	priv = table_config->priv;
 	
 	switch (property_id) {
 	case PROP_TABLE:
@@ -63,10 +61,8 @@ static void
 e_calendar_table_config_get_property (GObject *object, guint property_id, GValue *value, GParamSpec *pspec)
 {
 	ECalendarTableConfig *table_config;
-	ECalendarTableConfigPrivate *priv;
 
 	table_config = E_CALENDAR_TABLE_CONFIG (object);
-	priv = table_config->priv;
 	
 	switch (property_id) {
 	case PROP_TABLE:
@@ -82,10 +78,7 @@ static void
 e_calendar_table_config_dispose (GObject *object)
 {
 	ECalendarTableConfig *table_config = E_CALENDAR_TABLE_CONFIG (object);
-	ECalendarTableConfigPrivate *priv;
 	
-	priv = table_config->priv;
-
 	e_calendar_table_config_set_table (table_config, NULL);
 	
 	if (G_OBJECT_CLASS (e_calendar_table_config_parent_class)->dispose)

@@ -38,16 +38,14 @@ enum props {
 	PROP_CELL,
 };
 
-G_DEFINE_TYPE (ECellDateEditConfig, e_cell_date_edit_config, G_TYPE_OBJECT);
+G_DEFINE_TYPE (ECellDateEditConfig, e_cell_date_edit_config, G_TYPE_OBJECT)
 
 static void
 e_cell_date_edit_config_set_property (GObject *object, guint property_id, const GValue *value, GParamSpec *pspec)
 {
 	ECellDateEditConfig *view_config;
-	ECellDateEditConfigPrivate *priv;
 
 	view_config = E_CELL_DATE_EDIT_CONFIG (object);
-	priv = view_config->priv;
 	
 	switch (property_id) {
 	case PROP_CELL:
@@ -63,10 +61,8 @@ static void
 e_cell_date_edit_config_get_property (GObject *object, guint property_id, GValue *value, GParamSpec *pspec)
 {
 	ECellDateEditConfig *view_config;
-	ECellDateEditConfigPrivate *priv;
 
 	view_config = E_CELL_DATE_EDIT_CONFIG (object);
-	priv = view_config->priv;
 	
 	switch (property_id) {
 	case PROP_CELL:
@@ -82,10 +78,7 @@ static void
 e_cell_date_edit_config_dispose (GObject *object)
 {
 	ECellDateEditConfig *view_config = E_CELL_DATE_EDIT_CONFIG (object);
-	ECellDateEditConfigPrivate *priv;
 	
-	priv = view_config->priv;
-
 	e_cell_date_edit_config_set_cell (view_config, NULL);
 	
 	if (G_OBJECT_CLASS (e_cell_date_edit_config_parent_class)->dispose)

@@ -33,6 +33,7 @@
 #include <libgnome/gnome-i18n.h>
 #include "e-util/e-categories-config.h"
 #include <libecal/e-cal-time-util.h>
+#include <libedataserver/e-data-server-util.h>
 #include "e-day-view-top-item.h"
 
 static void e_day_view_top_item_set_arg		(GtkObject	 *o,
@@ -78,7 +79,7 @@ enum {
 	ARG_DAY_VIEW
 };
 
-G_DEFINE_TYPE (EDayViewTopItem, e_day_view_top_item, GNOME_TYPE_CANVAS_ITEM);
+G_DEFINE_TYPE (EDayViewTopItem, e_day_view_top_item, GNOME_TYPE_CANVAS_ITEM)
 
 static void
 e_day_view_top_item_class_init (EDayViewTopItemClass *class)
@@ -113,10 +114,8 @@ e_day_view_top_item_init (EDayViewTopItem *dvtitem)
 static void
 e_day_view_top_item_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 {
-	GnomeCanvasItem *item;
 	EDayViewTopItem *dvtitem;
 
-	item = GNOME_CANVAS_ITEM (o);
 	dvtitem = E_DAY_VIEW_TOP_ITEM (o);
 	
 	switch (arg_id){
@@ -307,7 +306,7 @@ e_day_view_top_item_draw_long_event (EDayViewTopItem *dvtitem,
 	EDayView *day_view;
 	EDayViewEvent *event;
 	GtkStyle *style;
-	GdkGC *gc, *fg_gc, *bg_gc;
+	GdkGC *gc, *fg_gc;
 	gint start_day, end_day;
 	gint item_x, item_y, item_w, item_h;
 	gint text_x, icon_x, icon_y, icon_x_inc;
@@ -342,7 +341,6 @@ e_day_view_top_item_draw_long_event (EDayViewTopItem *dvtitem,
 	style = gtk_widget_get_style (GTK_WIDGET (day_view));
 	gc = day_view->main_gc;
 	fg_gc = style->fg_gc[GTK_STATE_NORMAL];
-	bg_gc = style->bg_gc[GTK_STATE_NORMAL];
 	comp = e_cal_component_new ();
 	e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
 
@@ -606,7 +604,6 @@ e_day_view_top_item_draw_triangle (EDayViewTopItem *dvtitem,
 {
 	EDayView *day_view;
 	EDayViewEvent *event;
-	GtkStyle *style;
 	GdkGC *gc;
 	GdkColor bg_color;
 	GdkPoint points[3];
@@ -614,7 +611,6 @@ e_day_view_top_item_draw_triangle (EDayViewTopItem *dvtitem,
 
 	day_view = dvtitem->day_view;
 
-	style = GTK_WIDGET (day_view)->style;
 	gc = day_view->main_gc;
 
 	points[0].x = x;
@@ -671,10 +667,6 @@ e_day_view_top_item_point (GnomeCanvasItem *item, double x, double y,
 static gint
 e_day_view_top_item_event (GnomeCanvasItem *item, GdkEvent *event)
 {
-	EDayViewTopItem *dvtitem;
-
-	dvtitem = E_DAY_VIEW_TOP_ITEM (item);
-
 	switch (event->type) {
 	case GDK_BUTTON_PRESS:
 

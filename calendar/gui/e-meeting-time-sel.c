@@ -210,7 +210,7 @@ static void row_deleted_cb (GtkTreeModel *model, GtkTreePath *path, gpointer dat
 static void free_busy_template_changed_cb (GConfClient *client, guint cnxn_id,
 					   GConfEntry *entry, gpointer user_data);
 
-G_DEFINE_TYPE (EMeetingTimeSelector, e_meeting_time_selector, GTK_TYPE_TABLE);
+G_DEFINE_TYPE (EMeetingTimeSelector, e_meeting_time_selector, GTK_TYPE_TABLE)
 
 static void
 e_meeting_time_selector_class_init (EMeetingTimeSelectorClass * klass)
@@ -267,11 +267,9 @@ e_meeting_time_selector_init (EMeetingTimeSelector * mts)
 void
 e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingStore *ems)
 {
-	char *filename;
 	GtkWidget *hbox, *vbox, *separator, *label, *table, *sw;
 	GtkWidget *alignment, *child_hbox, *arrow, *menuitem;
 	GSList *group;
-	GdkVisual *visual;
 	GdkColormap *colormap;
 	guint accel_key;
 	time_t meeting_start_time;
@@ -319,8 +317,6 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingStore *em
 
 
 	/* build the etable */
-	filename = g_build_filename (calendar_component_peek_config_directory (calendar_component_peek ()),
-				     "config", "et-header-meeting-time-sel", NULL);
 	mts->model = ems;
 
 	if (mts->model)
@@ -654,7 +650,6 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingStore *em
 	gtk_table_set_row_spacing (GTK_TABLE (mts), 4, 12);
 
 	/* Allocate the colors. */
-	visual = gtk_widget_get_visual (GTK_WIDGET (mts));
 	colormap = gtk_widget_get_colormap (GTK_WIDGET (mts));
 	e_meeting_time_selector_alloc_named_color (mts, "gray75", &mts->bg_color);
 	e_meeting_time_selector_alloc_named_color (mts, "gray50", &mts->all_attendees_bg_color);
@@ -2051,12 +2046,10 @@ e_meeting_time_selector_recalc_date_format (EMeetingTimeSelector *mts)
 	gint max_date_width, longest_weekday_width, longest_month_width, width;
 	gint day, longest_weekday, month, longest_month;
 	gchar buffer[128];
-	PangoFontDescription *font_desc;
 	PangoContext *pango_context;
 	PangoLayout *layout;
 
 	/* Set up Pango prerequisites */
-	font_desc = gtk_widget_get_style (GTK_WIDGET (mts))->font_desc;
 	pango_context = gtk_widget_get_pango_context (GTK_WIDGET (mts));
 	layout = pango_layout_new (pango_context);
 

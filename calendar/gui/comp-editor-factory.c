@@ -111,7 +111,7 @@ static BonoboObjectClass *parent_class = NULL;
 BONOBO_TYPE_FUNC_FULL (CompEditorFactory,
 		       GNOME_Evolution_Calendar_CompEditorFactory,
 		       BONOBO_OBJECT_TYPE,
-		       comp_editor_factory);
+		       comp_editor_factory)
 
 /* Class initialization function for the component editor factory */
 static void
@@ -245,7 +245,7 @@ edit_existing (OpenClient *oc, const char *uid)
 	icalcomponent *icalcomp;
 	CompEditor *editor;
 	ECalComponentVType vtype;
-	CompEditorFlags flags;
+	CompEditorFlags flags = { 0, };
 
 	g_assert (oc->open);
 
@@ -353,13 +353,8 @@ edit_new (OpenClient *oc, const GNOME_Evolution_Calendar_CompEditorFactory_CompE
 static void
 resolve_pending_requests (OpenClient *oc)
 {
-	CompEditorFactory *factory;
-	CompEditorFactoryPrivate *priv;
 	GSList *l;
 	icaltimezone *zone;
-
-	factory = oc->factory;
-	priv = factory->priv;
 
 	if (!oc->pending)
 		return;
@@ -554,13 +549,11 @@ impl_editExisting (PortableServer_Servant servant,
 		   CORBA_Environment *ev)
 {
 	CompEditorFactory *factory;
-	CompEditorFactoryPrivate *priv;
 	OpenClient *oc;
 	CompEditor *editor;
 	ECalSourceType source_type;
 	
 	factory = COMP_EDITOR_FACTORY (bonobo_object_from_servant (servant));
-	priv = factory->priv;
 
 	switch (corba_type) {
 	case GNOME_Evolution_Calendar_CompEditorFactory_EDITOR_MODE_TODO:
@@ -611,12 +604,10 @@ impl_editNew (PortableServer_Servant servant,
 	      CORBA_Environment *ev)
 {
 	CompEditorFactory *factory;
-	CompEditorFactoryPrivate *priv;
 	OpenClient *oc;
 	ECalSourceType source_type;
 	
 	factory = COMP_EDITOR_FACTORY (bonobo_object_from_servant (servant));
-	priv = factory->priv;
 
 	switch (corba_type) {
 	case GNOME_Evolution_Calendar_CompEditorFactory_EDITOR_MODE_TODO:

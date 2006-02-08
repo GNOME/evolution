@@ -45,7 +45,7 @@ struct _ECalComponentMemoPreviewPrivate {
 	icaltimezone *zone;
 };
 
-G_DEFINE_TYPE (ECalComponentMemoPreview, e_cal_component_memo_preview, GTK_TYPE_TABLE);
+G_DEFINE_TYPE (ECalComponentMemoPreview, e_cal_component_memo_preview, GTK_TYPE_TABLE)
 
 
 static void
@@ -100,47 +100,12 @@ url_requested_cb (GtkHTML *html, const char *url, GtkHTMLStream *stream, gpointe
 	}
 }
 
-/* Converts a time_t to a string, relative to the specified timezone */
-static char *
-timet_to_str_with_zone (ECalComponentDateTime *dt, ECal *ecal, icaltimezone *default_zone)
-{
-	struct icaltimetype itt;
-	icaltimezone *zone;
-        struct tm tm;
-        char buf[256];                                                                                              
-
-	if (dt->tzid) {
-		/* If we can't find the zone, we'll guess its "local" */
-		if (!e_cal_get_timezone (ecal, dt->tzid, &zone, NULL))
-			zone = NULL;
-	} else if (dt->value->is_utc) {
-		zone = icaltimezone_get_utc_timezone ();
-	} else {
-		zone = NULL;
-	}
-	
-	
-	itt = *dt->value;
-	if (zone)
-		icaltimezone_convert_time (&itt, zone, default_zone);
-        tm = icaltimetype_to_tm (&itt);
-                                                                                              
-        e_time_format_date_and_time (&tm, calendar_config_get_24_hour_format (),
-                                     FALSE, FALSE, buf, sizeof (buf));
-
-	return g_locale_to_utf8 (buf, -1, NULL, NULL, NULL);
-}
-
 static void
 write_html (GtkHTMLStream *stream, ECal *ecal, ECalComponent *comp, icaltimezone *default_zone)
 {
 	ECalComponentText text;
-	ECalComponentDateTime dt;
 	gchar *str;
 	GSList *l;
-	icalproperty_status status;
-	const char *location;
-	int *priority_value;
 	gboolean one_added = FALSE;
 
 	g_return_if_fail (E_IS_CAL_COMPONENT (comp));
@@ -152,7 +117,7 @@ write_html (GtkHTMLStream *stream, ECal *ecal, ECalComponent *comp, icaltimezone
 	e_cal_component_get_categories_list (comp, &l);
 	if (l) {
 		GSList *node;
-		GString *str = g_string_new ("");
+		GString *string = g_string_new ("");
 		
 		
 		gtk_html_stream_printf(stream, "<H3>Categories: ");
@@ -170,16 +135,16 @@ write_html (GtkHTMLStream *stream, ECal *ecal, ECalComponent *comp, icaltimezone
 			}
 			else{
 				if(one_added == FALSE){
-					g_string_append_printf (str, "%s", (const char *) node->data);
+					g_string_append_printf (string, "%s", (const char *) node->data);
 					one_added = TRUE;
 				}
 				else{
-					g_string_append_printf (str, ", %s", (const char *) node->data);
+					g_string_append_printf (string, ", %s", (const char *) node->data);
 				}
 			}
 		}
 		
-		gtk_html_stream_printf(stream, str->str);
+		gtk_html_stream_printf(stream, string->str);
 		
 		gtk_html_stream_printf(stream, "</H3>");
 
@@ -204,23 +169,23 @@ write_html (GtkHTMLStream *stream, ECal *ecal, ECalComponent *comp, icaltimezone
 
 		for (node = l; node != NULL; node = node->next) {
 			gint i, j;
-			GString *str = g_string_new ("");
+			GString *string = g_string_new ("");
 
 			text = * (ECalComponentText *) node->data;
 			for (i = 0, j=0; i < strlen (text.value ? text.value : 0); i++, j++) {
 				if (text.value[i] == '\n'){
-					str = g_string_append (str, "<BR>");
+					string = g_string_append (string, "<BR>");
 				}
 				else if (text.value[i] == '<')
-					str = g_string_append (str, "&lt;");
+					string = g_string_append (string, "&lt;");
 				else if (text.value[i] == '>')
-					str = g_string_append (str, "&gt;");
+					string = g_string_append (string, "&gt;");
 				else
-					str = g_string_append_c (str, text.value[i]);
+					string = g_string_append_c (string, text.value[i]);
 			}
 
-			gtk_html_stream_printf (stream, str->str);
-			g_string_free (str, TRUE);
+			gtk_html_stream_printf (stream, string->str);
+			g_string_free (string, TRUE);
 		}
 
 		gtk_html_stream_printf (stream, "</TD></TR>");

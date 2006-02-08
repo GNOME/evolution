@@ -157,7 +157,8 @@ ecalp_part_popup_saveas(EPopup *ep, EPopupItem *item, void *data)
 {
 	EPopupTarget *t = ep->target;
 	CamelMimePart *part = NULL;
-	char *file, *filename, *mfilename = NULL;
+	char *file, *mfilename = NULL;
+	const char *filename;
 
 	part = ((EAttachment *) ((ECalPopupTargetAttachments *) t)->attachments->data)->body;
 	filename = camel_mime_part_get_filename (part);

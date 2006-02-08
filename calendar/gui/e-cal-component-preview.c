@@ -44,7 +44,7 @@ struct _ECalComponentPreviewPrivate {
 	icaltimezone *zone;
 };
 
-G_DEFINE_TYPE (ECalComponentPreview, e_cal_component_preview, GTK_TYPE_TABLE);
+G_DEFINE_TYPE (ECalComponentPreview, e_cal_component_preview, GTK_TYPE_TABLE)
 
 static void
 on_link_clicked (GtkHTML *html, const char *url, gpointer data)
@@ -272,22 +272,22 @@ write_html (GtkHTMLStream *stream, ECal *ecal, ECalComponent *comp, icaltimezone
 
 		for (node = l; node != NULL; node = node->next) {
 			gint i;
-			GString *str = g_string_new ("");;
+			GString *string = g_string_new ("");;
 
 			text = * (ECalComponentText *) node->data;
 			for (i = 0; i < strlen (text.value ? text.value : 0); i++) {
 				if (text.value[i] == '\n')
-					str = g_string_append (str, "<BR>");
+					string = g_string_append (string, "<BR>");
 				else if (text.value[i] == '<')
-					str = g_string_append (str, "&lt;");
+					string = g_string_append (string, "&lt;");
 				else if (text.value[i] == '>')
-					str = g_string_append (str, "&gt;");
+					string = g_string_append (string, "&gt;");
 				else
-					str = g_string_append_c (str, text.value[i]);
+					string = g_string_append_c (string, text.value[i]);
 			}
 
-			gtk_html_stream_printf (stream, "%s", str->str);
-			g_string_free (str, TRUE);
+			gtk_html_stream_printf (stream, "%s", string->str);
+			g_string_free (string, TRUE);
 		}
 
 		gtk_html_stream_printf (stream, "</TD></TR>");

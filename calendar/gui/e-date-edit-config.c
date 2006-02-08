@@ -35,16 +35,14 @@ enum props {
 	PROP_EDIT,
 };
 
-G_DEFINE_TYPE (EDateEditConfig, e_date_edit_config, G_TYPE_OBJECT);
+G_DEFINE_TYPE (EDateEditConfig, e_date_edit_config, G_TYPE_OBJECT)
 
 static void
 e_date_edit_config_set_property (GObject *object, guint property_id, const GValue *value, GParamSpec *pspec)
 {
 	EDateEditConfig *edit_config;
-	EDateEditConfigPrivate *priv;
 
 	edit_config = E_DATE_EDIT_CONFIG (object);
-	priv = edit_config->priv;
 	
 	switch (property_id) {
 	case PROP_EDIT:
@@ -60,10 +58,8 @@ static void
 e_date_edit_config_get_property (GObject *object, guint property_id, GValue *value, GParamSpec *pspec)
 {
 	EDateEditConfig *edit_config;
-	EDateEditConfigPrivate *priv;
 
 	edit_config = E_DATE_EDIT_CONFIG (object);
-	priv = edit_config->priv;
 	
 	switch (property_id) {
 	case PROP_EDIT:
@@ -79,10 +75,7 @@ static void
 e_date_edit_config_dispose (GObject *object)
 {
 	EDateEditConfig *edit_config = E_DATE_EDIT_CONFIG (object);
-	EDateEditConfigPrivate *priv;
 	
-	priv = edit_config->priv;
-
 	e_date_edit_config_set_edit (edit_config, NULL);
 	
 	if (G_OBJECT_CLASS (e_date_edit_config_parent_class)->dispose)

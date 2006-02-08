@@ -69,7 +69,7 @@ static guint signals[LAST_SIGNAL];
 
 static void e_meeting_attendee_finalize	(GObject *obj);
 
-G_DEFINE_TYPE (EMeetingAttendee, e_meeting_attendee, G_TYPE_OBJECT);
+G_DEFINE_TYPE (EMeetingAttendee, e_meeting_attendee, G_TYPE_OBJECT)
 
 static void
 e_meeting_attendee_class_init (EMeetingAttendeeClass *klass)
