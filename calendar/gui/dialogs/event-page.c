@@ -815,7 +815,7 @@ sensitize_widgets (EventPage *epage)
 	gtk_widget_set_sensitive (priv->start_timezone, sensitize);
 	gtk_widget_set_sensitive (priv->end_time, sensitize);
 	gtk_widget_set_sensitive (priv->end_timezone, sensitize);
-	gtk_widget_set_sensitive (priv->description, sensitize);
+	gtk_text_view_set_editable (GTK_TEXT_VIEW (priv->description), sensitize);
 	gtk_widget_set_sensitive (priv->alarm_time, !read_only);
 	gtk_widget_set_sensitive (priv->categories_btn, sensitize);
 	/*TODO implement the for portion of the end time selector */
