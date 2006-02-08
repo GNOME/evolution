@@ -78,6 +78,10 @@ refresh_folder_tree (EMFolderTreeModel *model, CamelStore *store)
 
 	uri = camel_url_to_string (((CamelService *) store)->url, CAMEL_URL_HIDE_ALL);
 	account = mail_config_get_account_by_source_url (uri);
+	if (!account){
+		return;
+	}
+
 	uri = account->source->url;
 	em_folder_tree_model_remove_store (model, store);
 

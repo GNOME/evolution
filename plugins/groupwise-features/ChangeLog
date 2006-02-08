@@ -1,3 +1,9 @@
+2006-02-08  Parthasarathi Susarla <sparthasarathi@novell.com>
+	
+	** See bug 326348
+	* share-folder-common.c:(refresh_folder_tree)
+	check if its a valid accoune before creating folder
+
 2006-01-27  Andre Klapper <a9016009@gmx.de>
 	* proxy-listing.glade:
 	removed string "dialog1" from translation. Fixes bug 306118.
