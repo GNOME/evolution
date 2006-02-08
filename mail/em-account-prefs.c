@@ -567,9 +567,6 @@ em_account_prefs_construct (EMAccountPrefs *prefs)
 	widget = glade_xml_get_widget (gui, "etableMailAccounts");
 	
 	prefs->table = (GtkTreeView *) g_object_get_data ((GObject *) widget, "table");
-	g_signal_connect (gtk_tree_view_get_selection (prefs->table),
-			  "changed", G_CALLBACK (account_cursor_change), prefs);
-	g_signal_connect (prefs->table, "row-activated", G_CALLBACK (account_double_click), prefs);
 	
 	renderer = g_object_get_data ((GObject *) widget, "renderer");
 	g_signal_connect (renderer, "toggled", G_CALLBACK (account_able_toggled), prefs);
@@ -591,7 +588,11 @@ em_account_prefs_construct (EMAccountPrefs *prefs)
 	prefs->mail_able = GTK_BUTTON (glade_xml_get_widget (gui, "cmdAccountAble"));
 	g_signal_connect (prefs->mail_able, "clicked", G_CALLBACK (account_able_clicked), prefs);
 
-	account_cursor_change(gtk_tree_view_get_selection(prefs->table), prefs);
+	g_signal_connect (gtk_tree_view_get_selection (prefs->table),
+			  "changed", G_CALLBACK (account_cursor_change), prefs);
+	g_signal_connect (prefs->table, "row-activated", G_CALLBACK (account_double_click), prefs);
+
+ 	account_cursor_change(gtk_tree_view_get_selection(prefs->table), prefs);
 }
 
 GtkWidget *
