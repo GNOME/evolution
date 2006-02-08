@@ -37,9 +37,6 @@
 
 static int enable_undo = 0;
 
-void rule_editor_add_undo (RuleEditor *re, int type, FilterRule *rule, int rank, int newrank);
-void rule_editor_play_undo (RuleEditor *re);
-
 #define d(x)
 
 static void set_source (RuleEditor *re, const char *source);
@@ -227,6 +224,95 @@ editor_destroy (RuleEditor *re, GObject *deadbeef)
 	
 	gtk_widget_set_sensitive (GTK_WIDGET (re), TRUE);
 	rule_editor_set_sensitive (re);
+}
+
+static void
+rule_editor_add_undo (RuleEditor *re, int type, FilterRule *rule, int rank, int newrank)
+{
+        RuleEditorUndo *undo;
+
+        if (!re->undo_active && enable_undo) {
+                undo = g_malloc0 (sizeof (*undo));
+                undo->rule = rule;
+                undo->type = type;
+                undo->rank = rank;
+                undo->newrank = newrank;
+
+                undo->next = re->undo_log;
+                re->undo_log = undo;
+        } else {
+                g_object_unref (rule);
+        }
+}
+
+static void
+rule_editor_play_undo (RuleEditor *re)
+{
+	RuleEditorUndo *undo, *next;
+	FilterRule *rule;
+	
+	re->undo_active = TRUE;
+	undo = re->undo_log;
+	re->undo_log = NULL;
+	while (undo) {
+		next = undo->next;
+		switch (undo->type) {
+		case RULE_EDITOR_LOG_EDIT:
+			d(printf ("Undoing edit on rule '%s'\n", undo->rule->name));
+			rule = rule_context_find_rank_rule (re->context, undo->rank, undo->rule->source);
+			if (rule) {
+				d(printf (" name was '%s'\n", rule->name));
+				filter_rule_copy (rule, undo->rule);
+				d(printf (" name is '%s'\n", rule->name));
+			} else {
+				g_warning ("Could not find the right rule to undo against?");
+			}
+			break;
+		case RULE_EDITOR_LOG_ADD:
+			d(printf ("Undoing add on rule '%s'\n", undo->rule->name));
+			rule = rule_context_find_rank_rule (re->context, undo->rank, undo->rule->source);
+			if (rule)
+				rule_context_remove_rule (re->context, rule);
+			break;
+		case RULE_EDITOR_LOG_REMOVE:
+			d(printf ("Undoing remove on rule '%s'\n", undo->rule->name));
+			g_object_ref (undo->rule);
+			rule_context_add_rule (re->context, undo->rule);
+			rule_context_rank_rule (re->context, undo->rule, re->source, undo->rank);
+			break;
+		case RULE_EDITOR_LOG_RANK:
+			rule = rule_context_find_rank_rule (re->context, undo->newrank, undo->rule->source);
+			if (rule)
+				rule_context_rank_rule (re->context, rule, re->source, undo->rank);
+			break;
+		}
+		
+		g_object_unref (undo->rule);
+		g_free (undo);
+		undo = next;
+	}
+	re->undo_active = FALSE;
+}
+
+static void
+editor_response (GtkWidget *dialog, int button, RuleEditor *re)
+{
+	if (button == GTK_RESPONSE_CANCEL) {
+		if (enable_undo)
+			rule_editor_play_undo (re);
+		else {
+			RuleEditorUndo *undo, *next;
+			
+			undo = re->undo_log;
+			re->undo_log = 0;
+			while (undo) {
+				next = undo->next;
+				g_object_unref (undo->rule);
+				g_free (undo);
+				undo = next;
+			}
+		}
+	}
 }
 
 static void
@@ -619,95 +705,6 @@ set_source (RuleEditor *re, const char *source)
 	re->source = g_strdup (source);
 	re->current = NULL;
 	rule_editor_set_sensitive (re);
-}
-
-void
-rule_editor_add_undo (RuleEditor *re, int type, FilterRule *rule, int rank, int newrank)
-{
-	RuleEditorUndo *undo;
-	
-	if (!re->undo_active && enable_undo) {
-		undo = g_malloc0 (sizeof (*undo));
-		undo->rule = rule;
-		undo->type = type;
-		undo->rank = rank;
-		undo->newrank = newrank;
-		
-		undo->next = re->undo_log;
-		re->undo_log = undo;
-	} else {
-		g_object_unref (rule);
-	}
-}
-
-void
-rule_editor_play_undo (RuleEditor *re)
-{
-	RuleEditorUndo *undo, *next;
-	FilterRule *rule;
-	
-	re->undo_active = TRUE;
-	undo = re->undo_log;
-	re->undo_log = NULL;
-	while (undo) {
-		next = undo->next;
-		switch (undo->type) {
-		case RULE_EDITOR_LOG_EDIT:
-			d(printf ("Undoing edit on rule '%s'\n", undo->rule->name));
-			rule = rule_context_find_rank_rule (re->context, undo->rank, undo->rule->source);
-			if (rule) {
-				d(printf (" name was '%s'\n", rule->name));
-				filter_rule_copy (rule, undo->rule);
-				d(printf (" name is '%s'\n", rule->name));
-			} else {
-				g_warning ("Could not find the right rule to undo against?");
-			}
-			break;
-		case RULE_EDITOR_LOG_ADD:
-			d(printf ("Undoing add on rule '%s'\n", undo->rule->name));
-			rule = rule_context_find_rank_rule (re->context, undo->rank, undo->rule->source);
-			if (rule)
-				rule_context_remove_rule (re->context, rule);
-			break;
-		case RULE_EDITOR_LOG_REMOVE:
-			d(printf ("Undoing remove on rule '%s'\n", undo->rule->name));
-			g_object_ref (undo->rule);
-			rule_context_add_rule (re->context, undo->rule);
-			rule_context_rank_rule (re->context, undo->rule, re->source, undo->rank);
-			break;
-		case RULE_EDITOR_LOG_RANK:
-			rule = rule_context_find_rank_rule (re->context, undo->newrank, undo->rule->source);
-			if (rule)
-				rule_context_rank_rule (re->context, rule, re->source, undo->rank);
-			break;
-		}
-		
-		g_object_unref (undo->rule);
-		g_free (undo);
-		undo = next;
-	}
-	re->undo_active = FALSE;
-}
-
-static void
-editor_response (GtkWidget *dialog, int button, RuleEditor *re)
-{
-	if (button == GTK_RESPONSE_CANCEL) {
-		if (enable_undo)
-			rule_editor_play_undo (re);
-		else {
-			RuleEditorUndo *undo, *next;
-			
-			undo = re->undo_log;
-			re->undo_log = 0;
-			while (undo) {
-				next = undo->next;
-				g_object_unref (undo->rule);
-				g_free (undo);
-				undo = next;
-			}
-		}
-	}
 }
 
 GtkWidget *rule_editor_treeview_new (char *widget_name, char *string1, char *string2,

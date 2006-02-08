@@ -48,7 +48,6 @@ static void filter_element_init	(FilterElement *fe);
 static void filter_element_finalise (GObject *obj);
 
 static GObjectClass *parent_class = NULL;
-static GHashTable *fe_table;
 
 GType
 filter_element_get_type (void)
@@ -67,7 +66,6 @@ filter_element_get_type (void)
 			0,    /* n_preallocs */
 			(GInstanceInitFunc) filter_element_init,
 		};
-		fe_table = g_hash_table_new(g_str_hash, g_str_equal);
 		type = g_type_register_static (G_TYPE_OBJECT, "FilterElement", &info, 0);
 	}
 	

@@ -1,3 +1,10 @@
+2006-01-27  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* filter-element.c: (filter_element_get_type): Remove unused code
+	* rule-editor.c: (rule_editor_add_undo), (rule_editor_play_undo),
+	(editor_response), (set_source): Move around some code to avoid
+	unneccesary prototypes.
+
 2006-01-25  Not Zed  <NotZed@Ximian.com>
 
 	 * filter-rule.[ch]: Added new thread-matching mode 'single' for
