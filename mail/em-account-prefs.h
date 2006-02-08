@@ -70,6 +70,7 @@ struct _EMAccountPrefs {
 	GtkButton *mail_able;
 	
 	guint destroyed : 1;
+	guint changed : 1;
 };
 
 struct _EMAccountPrefsClass {

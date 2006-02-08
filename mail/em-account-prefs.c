@@ -396,6 +396,8 @@ account_cursor_change (GtkTreeSelection *selection, EMAccountPrefs *prefs)
 	GtkTreeIter iter;
  	const char *url = NULL;
 	int state;
+	EAccount *default_account;
+	default_account = mail_config_get_default_account ();
 
 	state = gconf_client_key_is_writable(mail_config_get_gconf_client(), "/apps/evolution/mail/accounts", NULL);
 	if (state) {
@@ -419,7 +421,12 @@ account_cursor_change (GtkTreeSelection *selection, EMAccountPrefs *prefs)
 		gtk_widget_set_sensitive (GTK_WIDGET (prefs->mail_edit), !mail_config_has_proxies(account));
 
 	gtk_widget_set_sensitive (GTK_WIDGET (prefs->mail_delete), state);
-	gtk_widget_set_sensitive (GTK_WIDGET (prefs->mail_default), state);
+
+	if(account == default_account)
+		gtk_widget_set_sensitive (GTK_WIDGET (prefs->mail_default), FALSE);
+	else
+		gtk_widget_set_sensitive (GTK_WIDGET (prefs->mail_default), state);
+
 	gtk_widget_set_sensitive (GTK_WIDGET (prefs->mail_able), state);
 }
 
@@ -474,9 +481,8 @@ mail_accounts_load (EMAccountPrefs *prefs)
 				camel_url_free (url);
 		
 			/* select the first row by default */
-			if (row == 0)
+			if (row == 0 && !prefs->changed)
 				gtk_tree_selection_select_iter (selection, &iter);					                       
-									
 			row++;
 		}
 		
@@ -570,9 +576,11 @@ em_account_prefs_construct (EMAccountPrefs *prefs)
 	
 	renderer = g_object_get_data ((GObject *) widget, "renderer");
 	g_signal_connect (renderer, "toggled", G_CALLBACK (account_able_toggled), prefs);
-	
+
+	prefs->changed = FALSE;
 	mail_accounts_load (prefs);
-	
+	prefs->changed = TRUE;
+
 	prefs->mail_add = GTK_BUTTON (glade_xml_get_widget (gui, "cmdAccountAdd"));
 	g_signal_connect (prefs->mail_add, "clicked", G_CALLBACK (account_add_clicked), prefs);
 	

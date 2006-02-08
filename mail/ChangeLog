@@ -1,3 +1,14 @@
+2006-02-08  Rajeev ramanathan <rajeevramanathan_2004@yahoo.co.in>
+
+	**Fixes #329586
+
+	* em-account-prefs.c:
+	* em-account-prefs.h: Changed the ODD behavior of Default button by 
+	checking whether an account is default or not and disabling the button
+	when default account is in focus.
+
+	Committing to head on behalf of rajeev
+	
 2006-02-08  Claudio Saavedra  <csaavedra@alumnos.utalca.cl>
 
 	* em-account-prefs.c: (em_account_prefs_construct): Reordering
