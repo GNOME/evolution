@@ -1,3 +1,9 @@
+2006-01-09  Rajeev ramanathan <rajeevramanathan_2004@yahoo.co.in>
+
+	Fixes #329768
+	* gui/dialogs/comp-editor.c: (key_press_event): Corrected problem with 
+	casting EAttachmentBar.
+
 2006-02-09  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #330465

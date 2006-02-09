@@ -1190,10 +1190,8 @@ button_press_event (GtkWidget *widget, GdkEventButton *event)
 static gint
 key_press_event(GtkWidget *widget, GdkEventKey *event)
 {
-        CompEditor *Editor = COMP_EDITOR (widget);
-	EAttachmentBar *bar = E_ATTACHMENT_BAR (Editor->priv->attachment_bar);
-
-        if (event->keyval == GDK_Delete) {
+	EAttachmentBar *bar = (EAttachmentBar *)widget;
+	if (event->keyval == GDK_Delete) {
                 e_attachment_bar_remove_selected (bar);
                 return TRUE;
         }
