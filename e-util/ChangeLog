@@ -1,3 +1,8 @@
+2006-02-09  Harish Krishnaswamy  <kharish@novell.com>
+
+	* e-bconf-map.c: Upstreaming Olaf Hering's patch
+	to use signed chars. 
+
 2006-02-08  Kjartan Maraas <kmaraas@gnome.org>
 
 	* e-config.c: Use guint for 1-bit bitfield.
