@@ -1,3 +1,9 @@
+2006-02-08  Tor Lillqvist  <tml@novell.com>
+
+	* gui/dialogs/task-editor.c (task_editor_init): Construct the
+	pathname to the xml file at run-time to avoid using compile-time
+	paths on Windows.
+
 2006-01-09  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* gui/alarm-notify/alarm-notify-dialog.c:

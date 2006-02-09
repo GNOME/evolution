@@ -32,6 +32,7 @@
 #include <libgnome/gnome-i18n.h>
 
 #include <e-util/e-icon-factory.h>
+#include <e-util/e-util-private.h>
 #include <evolution-shell-component-utils.h>
 
 #include "task-page.h"
@@ -309,6 +310,7 @@ task_editor_init (TaskEditor *te)
 	TaskEditorPrivate *priv;
 	CompEditor *editor = COMP_EDITOR(te);
 	gboolean status;
+	char *xmlfile;
 	
 	priv = g_new0 (TaskEditorPrivate, 1);
 	te->priv = priv;
@@ -322,9 +324,13 @@ task_editor_init (TaskEditor *te)
 
 	bonobo_ui_component_add_verb_list_with_data (editor->uic, verbs, te);
 
+	xmlfile = g_build_filename (EVOLUTION_UIDIR,
+				    "evolution-task-editor.xml",
+				    NULL);
 	bonobo_ui_util_set_ui (editor->uic, PREFIX,
-			       EVOLUTION_UIDIR "/evolution-task-editor.xml",
+			       xmlfile,
 			       "evolution-task-editor", NULL);
+	g_free (xmlfile);
 
 	/* Show hide the status fields */
 	status = calendar_config_get_show_status ();
