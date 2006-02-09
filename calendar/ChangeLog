@@ -1,3 +1,10 @@
+2006-02-09  Harish Krishnaswamy  <kharish@novell.com>
+
+	* gui/e-cal-model.c: (e_cal_view_objects_added_cb):
+	Pass the client along with the id for search to handle 
+	cases where the same backend source has multiple clients 
+	in the view. Remove the FIXME.
+
 2006-01-09  Rajeev ramanathan <rajeevramanathan_2004@yahoo.co.in>
 
 	Fixes #329768

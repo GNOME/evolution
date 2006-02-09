@@ -1237,7 +1237,6 @@ find_client_data (ECalModel *model, ECal *client)
 	return NULL;
 }
 
-/* FIXME how do we prevent the same UID is different calendars? */
 static ECalModelComponent *
 search_by_id_and_client (ECalModelPrivate *priv, ECal *client, const ECalComponentId *id)
 {
@@ -1358,12 +1357,13 @@ e_cal_view_objects_added_cb (ECalView *query, GList *objects, gpointer user_data
 		ECalModelComponent *comp_data;
 		ECalComponentId *id;
 		ECalComponent *comp = e_cal_component_new ();
+		ECal *client = e_cal_view_get_client (query);
 
 		e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (l->data));
 		id = e_cal_component_get_id (comp);
 
 		/* remove the components if they are already present and re-add them */
-		while ((comp_data = search_by_id_and_client (priv, NULL,
+		while ((comp_data = search_by_id_and_client (priv, client,
 							      id))) {
 			int pos;
 
