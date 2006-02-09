@@ -1,3 +1,9 @@
+2006-02-09  Johnny Jacob  <johnnyjacob@gmail.com>
+
+	Fixes #330521
+	* gui/dialogs/alarm-dialog.c: (alarm_to_aalarm_widgets), 
+	(alarm_to_palarm_widgets): use icalattach_unref. 
+
 2006-02-09  Harish Krishnaswamy  <kharish@novell.com>
 
 	* gui/e-cal-model.c: (e_cal_view_objects_added_cb):

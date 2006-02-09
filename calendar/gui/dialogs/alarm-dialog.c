@@ -344,7 +344,7 @@ alarm_to_aalarm_widgets (Dialog *dialog, ECalComponentAlarm *alarm)
 
 	e_cal_component_alarm_get_attach (alarm, (&attach));
 	url = icalattach_get_url (attach);
-	g_free (attach);
+	icalattach_unref (attach);
 
 	if ( !(url && *url) )
 		return;
@@ -492,7 +492,7 @@ alarm_to_palarm_widgets (Dialog *dialog, ECalComponentAlarm *alarm)
 
 	e_cal_component_alarm_get_attach (alarm, (&attach));
 	url = icalattach_get_url (attach);
-	g_free (attach);
+	icalattach_unref (attach);
 
 	if ( !(url && *url) )
 		return;
