@@ -1,3 +1,9 @@
+2006-02-09  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #330465
+	* gui/dialogs/event-page.c: (event_page_fill_widgets): Fixes the build
+	break.
+
 2006-02-08  Tor Lillqvist  <tml@novell.com>
 
 	* gui/dialogs/task-editor.c (task_editor_init): Construct the

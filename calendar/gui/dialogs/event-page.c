@@ -1053,8 +1053,8 @@ event_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 
 				if (!priv->user_org) {
 					list = g_list_append (list, string);
-					gtk_combo_set_popdown_strings (GTK_ENTRY (priv->organizer)->entry, list);
-					gtk_entry_set_editable (GTK_ENTRY (priv->organizer), FALSE);
+					gtk_combo_set_popdown_strings (GTK_COMBO (priv->organizer), list);
+					gtk_entry_set_editable (GTK_ENTRY (GTK_COMBO (priv->organizer)->entry), FALSE);
 				}
 
 				g_free (string);
