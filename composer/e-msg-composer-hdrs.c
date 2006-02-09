@@ -1446,61 +1446,44 @@ destination_list_to_destv (GList *destinations)
 	return destv;
 }
 
-EDestination **
-e_msg_composer_hdrs_get_to (EMsgComposerHdrs *hdrs)
+static EDestination **
+e_msg_composer_hdrs_get_internal (EMsgComposerHdrs *hdrs, ENameSelectorEntry *entry)
 {
 	EDestinationStore *destination_store;
 	GList *destinations;
 	EDestination **destv = NULL;
 	
-	g_return_val_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs), NULL);
-
-	destination_store = e_name_selector_entry_peek_destination_store (E_NAME_SELECTOR_ENTRY (
-		 hdrs->priv->to.entry));
+	destination_store = e_name_selector_entry_peek_destination_store (entry);
 	destinations = e_destination_store_list_destinations (destination_store);
 
 	destv = destination_list_to_destv (destinations);
 
 	g_list_free (destinations);
 	return destv;
+}
+
+EDestination **
+e_msg_composer_hdrs_get_to (EMsgComposerHdrs *hdrs)
+{
+	g_return_val_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs), NULL);
+
+	e_msg_composer_hdrs_get_internal (hdrs, E_NAME_SELECTOR_ENTRY (hdrs->priv->to.entry));
 }
 
 EDestination **
 e_msg_composer_hdrs_get_cc (EMsgComposerHdrs *hdrs)
 {
-	EDestinationStore *destination_store;
-	GList *destinations;
-	EDestination **destv = NULL;
-	
 	g_return_val_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs), NULL);
 
-	destination_store = e_name_selector_entry_peek_destination_store (E_NAME_SELECTOR_ENTRY (
-		 hdrs->priv->cc.entry));
-	destinations = e_destination_store_list_destinations (destination_store);
-
-	destv = destination_list_to_destv (destinations);
-
-	g_list_free (destinations);
-	return destv;
+	e_msg_composer_hdrs_get_internal (hdrs, E_NAME_SELECTOR_ENTRY (hdrs->priv->cc.entry));
 }
 
 EDestination **
 e_msg_composer_hdrs_get_bcc (EMsgComposerHdrs *hdrs)
 {
-	EDestinationStore *destination_store;
-	GList *destinations;
-	EDestination **destv = NULL;
-	
 	g_return_val_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs), NULL);
 
-	destination_store = e_name_selector_entry_peek_destination_store (E_NAME_SELECTOR_ENTRY (
-		 hdrs->priv->bcc.entry));
-	destinations = e_destination_store_list_destinations (destination_store);
-
-	destv = destination_list_to_destv (destinations);
-
-	g_list_free (destinations);
-	return destv;
+	e_msg_composer_hdrs_get_internal (hdrs, E_NAME_SELECTOR_ENTRY (hdrs->priv->bcc.entry));
 }
 
 EDestination **

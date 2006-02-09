@@ -1,3 +1,9 @@
+2006-02-09  Frederic Crozat  <fcrozat@mandriva.com>
+
+	* e-msg-composer-hdrs.c: (e_msg_composer_hdrs_get_internal),
+	(e_msg_composer_hdrs_get_to), (e_msg_composer_hdrs_get_cc),
+	(e_msg_composer_hdrs_get_bcc): Factorize some code.
+
 2006-02-07  Andre Klapper <a9016009@gmx.de>
 	* mail-composer.error.xml: fixing a patch to again fix 325276.
 
