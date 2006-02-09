@@ -1,3 +1,8 @@
+2006-02-09  Sushma Rai  <rsushma@novell.com>
+
+	* em-mailer-prefs.c (em_mailer_prefs_construct): Freeing font value 
+	string. See #309316.
+
 2006-02-08  Karsten Bräckelmann  <guenther@rudersport.de>
 
 	* mail.error.xml: Fix typo and correct phrasing. Fixes bug #330387.

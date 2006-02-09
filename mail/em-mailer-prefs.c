@@ -819,6 +819,7 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs)
 	font = gconf_client_get_string (prefs->gconf, "/apps/evolution/mail/display/fonts/monospace", NULL);
 	prefs->font_fixed = GNOME_FONT_PICKER (glade_xml_get_widget (gui, "FontFixed"));
 	gnome_font_picker_set_font_name (prefs->font_fixed, font);
+	g_free (font);
 	g_object_set_data ((GObject *) prefs->font_fixed, "key", "/apps/evolution/mail/display/fonts/monospace");
 	g_signal_connect (prefs->font_fixed, "font-set", G_CALLBACK (font_changed), prefs);
 	if (!gconf_client_key_is_writable (prefs->gconf, "/apps/evolution/mail/display/fonts/monospace", NULL))
