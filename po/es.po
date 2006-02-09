@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-02-08 18:15+0100\n"
-"PO-Revision-Date: 2006-02-08 18:18+0100\n"
+"POT-Creation-Date: 2006-02-09 16:22+0100\n"
+"PO-Revision-Date: 2006-02-09 16:27+0100\n"
 "Last-Translator: Francisco Javier F. Serrador <serrador@cvs.gnome.org>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -5905,7 +5905,7 @@ msgid "Hide Attachment _Bar"
 msgstr "Ocultar _barra de adjuntos"
 
 #: ../calendar/gui/dialogs/comp-editor.c:978
-#: ../calendar/gui/dialogs/comp-editor.c:1444
+#: ../calendar/gui/dialogs/comp-editor.c:1442
 msgid "Show Attachment _Bar"
 msgstr "Mostrar _barra de adjuntos"
 
@@ -5934,67 +5934,67 @@ msgstr "_Propiedades"
 msgid "_Add attachment..."
 msgstr "_Añadir adjunto…"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1468
+#: ../calendar/gui/dialogs/comp-editor.c:1466
 msgid "Attachment Button: Press space key to toggle attachment bar"
 msgstr ""
 "Botón de adjuntos: Pulse la tecla de espacio para cambiar la barra de "
 "adjuntos"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2075
-#: ../calendar/gui/dialogs/comp-editor.c:2118
+#: ../calendar/gui/dialogs/comp-editor.c:2073
+#: ../calendar/gui/dialogs/comp-editor.c:2116
 msgid "Edit Appointment"
 msgstr "Editar cita"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2081
-#: ../calendar/gui/dialogs/comp-editor.c:2124
+#: ../calendar/gui/dialogs/comp-editor.c:2079
+#: ../calendar/gui/dialogs/comp-editor.c:2122
 #, c-format
 msgid "Meeting - %s"
 msgstr "Reunión - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2083
-#: ../calendar/gui/dialogs/comp-editor.c:2126
+#: ../calendar/gui/dialogs/comp-editor.c:2081
+#: ../calendar/gui/dialogs/comp-editor.c:2124
 #, c-format
 msgid "Appointment - %s"
 msgstr "Cita - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2087
-#: ../calendar/gui/dialogs/comp-editor.c:2130
+#: ../calendar/gui/dialogs/comp-editor.c:2085
+#: ../calendar/gui/dialogs/comp-editor.c:2128
 #, c-format
 msgid "Assigned Task - %s"
 msgstr "Tarea asignada - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2089
-#: ../calendar/gui/dialogs/comp-editor.c:2132
+#: ../calendar/gui/dialogs/comp-editor.c:2087
+#: ../calendar/gui/dialogs/comp-editor.c:2130
 #, c-format
 msgid "Task - %s"
 msgstr "Tarea - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2092
-#: ../calendar/gui/dialogs/comp-editor.c:2135
+#: ../calendar/gui/dialogs/comp-editor.c:2090
+#: ../calendar/gui/dialogs/comp-editor.c:2133
 #, c-format
 msgid "Journal entry - %s"
 msgstr "Entrada del diario - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2103
-#: ../calendar/gui/dialogs/comp-editor.c:2145
+#: ../calendar/gui/dialogs/comp-editor.c:2101
+#: ../calendar/gui/dialogs/comp-editor.c:2143
 msgid "No summary"
 msgstr "Sin resumen"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2653
+#: ../calendar/gui/dialogs/comp-editor.c:2651
 #: ../composer/e-msg-composer-attachment-bar.c:307 ../mail/em-utils.c:464
 #: ../mail/em-utils.c:501 ../widgets/misc/e-attachment-bar.c:339
 msgid "attachment"
 msgstr "adjunto"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2742
-#: ../calendar/gui/dialogs/comp-editor.c:2796
-#: ../calendar/gui/dialogs/comp-editor.c:2820
+#: ../calendar/gui/dialogs/comp-editor.c:2740
+#: ../calendar/gui/dialogs/comp-editor.c:2794
+#: ../calendar/gui/dialogs/comp-editor.c:2818
 msgid "Changes made to this item may be discarded if an update arrives"
 msgstr ""
 "Los cambios efectuados a este elemento pueden descartarse si llega una "
 "actualización por correo"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2844
+#: ../calendar/gui/dialogs/comp-editor.c:2842
 msgid "Unable to use current version!"
 msgstr "Imposible usar la versión actual."
 
@@ -6616,12 +6616,12 @@ msgstr "_Prioridad:"
 msgid "_Web Page:"
 msgstr "Página _web:"
 
-#: ../calendar/gui/dialogs/task-editor.c:420
+#: ../calendar/gui/dialogs/task-editor.c:426
 #: ../calendar/gui/tasks-component.c:1171
 msgid "_Task"
 msgstr "_Tarea"
 
-#: ../calendar/gui/dialogs/task-editor.c:424
+#: ../calendar/gui/dialogs/task-editor.c:430
 msgid "Task Details"
 msgstr "Detalles"
 
@@ -11938,7 +11938,7 @@ msgstr "Cco"
 
 #. pseudo-header
 #: ../mail/em-format-html.c:1588 ../mail/em-format-quote.c:322
-#: ../mail/em-mailer-prefs.c:1000
+#: ../mail/em-mailer-prefs.c:1001
 msgid "Mailer"
 msgstr "Transporte"
 
@@ -14139,7 +14139,7 @@ msgid "Do you want the operation to be performed in the subfolders?"
 msgstr "¿Desea realizar esta operación en las subcarpetas?"
 
 #: ../mail/mail.error.xml.h:49
-msgid "Do you want to mark all the message as read?"
+msgid "Do you want to mark all messages as read?"
 msgstr "¿Quiere marcar todos los mensajes como leídos?"
 
 #: ../mail/mail.error.xml.h:50
@@ -14426,7 +14426,7 @@ msgstr "Esta firma ha cambiado, pero no ha sido guardada."
 
 #: ../mail/mail.error.xml.h:113
 msgid ""
-"This will mark all the messages as read in the selected folder and its "
+"This will mark all messages as read in the selected folder and its "
 "subfolders."
 msgstr ""
 "Esto marcará todos los mensajes como leídos en la carpeta seleccionada y sus "
