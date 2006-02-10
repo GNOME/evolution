@@ -1,3 +1,10 @@
+2006-02-12  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #329570
+	* gui/e-calendar-view.c: (on_unrecur_appointment):
+	Just remove the instances pass the rid. The exception
+	date will be set in the backend.
+
 2006-02-09  Johnny Jacob  <johnnyjacob@gmail.com>
 
 	Fixes #330521
