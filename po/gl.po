@@ -40,8 +40,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gl\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-02-09 10:45+0100\n"
-"PO-Revision-Date: 2006-02-09 10:47+0100\n"
+"POT-Creation-Date: 2006-02-10 21:02+0100\n"
+"PO-Revision-Date: 2006-02-10 21:04+0100\n"
 "Last-Translator: Ignacio Casal Quinteiro <nacho.resa@gmail.com>\n"
 "Language-Team: Galego <trasno@ceu.fi.udc.es>\n"
 "MIME-Version: 1.0\n"
@@ -831,7 +831,7 @@ msgstr "_Novo Libro de Enderezos"
 #: ../addressbook/gui/widgets/e-addressbook-view.c:979
 #: ../calendar/gui/calendar-component.c:538
 #: ../calendar/gui/e-calendar-table.c:1194
-#: ../calendar/gui/e-calendar-view.c:1625 ../calendar/gui/e-memo-table.c:869
+#: ../calendar/gui/e-calendar-view.c:1617 ../calendar/gui/e-memo-table.c:869
 #: ../calendar/gui/tasks-component.c:443 ../mail/em-folder-tree.c:2054
 #: ../mail/em-folder-view.c:1091 ../ui/evolution-addressbook.xml.h:49
 #: ../ui/evolution-calendar.xml.h:38 ../ui/evolution-mail-list.xml.h:30
@@ -2714,7 +2714,7 @@ msgstr "Servizo M_I:"
 #: ../addressbook/gui/contact-editor/im.glade.h:5
 #: ../plugins/calendar-weather/calendar-weather.c:409
 #: ../plugins/exchange-operations/exchange-calendar.c:234
-#: ../plugins/exchange-operations/exchange-contacts.c:216
+#: ../plugins/exchange-operations/exchange-contacts.c:222
 msgid "_Location:"
 msgstr "_Ubicación:"
 
@@ -2899,7 +2899,7 @@ msgstr "Gardar como VCard..."
 #: ../addressbook/gui/widgets/e-addressbook-view.c:957
 #: ../calendar/gui/dialogs/comp-editor.c:1086
 #: ../calendar/gui/e-calendar-table.c:1174
-#: ../calendar/gui/e-calendar-view.c:1603 ../calendar/gui/e-memo-table.c:852
+#: ../calendar/gui/e-calendar-view.c:1595 ../calendar/gui/e-memo-table.c:852
 #: ../ui/evolution-addressbook.xml.h:56
 msgid "_Open"
 msgstr "_Abrir"
@@ -2957,7 +2957,7 @@ msgstr "Cor_tar"
 #: ../calendar/gui/calendar-component.c:537
 #: ../calendar/gui/dialogs/comp-editor.c:445
 #: ../calendar/gui/e-calendar-table.c:1182
-#: ../calendar/gui/e-calendar-view.c:1610 ../calendar/gui/e-memo-table.c:860
+#: ../calendar/gui/e-calendar-view.c:1602 ../calendar/gui/e-memo-table.c:860
 #: ../calendar/gui/tasks-component.c:442 ../composer/e-msg-composer.c:3098
 #: ../mail/em-folder-tree.c:979 ../mail/em-folder-view.c:1077
 #: ../mail/message-list.c:1724 ../ui/evolution-addressbook.xml.h:46
@@ -3876,7 +3876,7 @@ msgstr "Sombreado"
 #: ../addressbook/printing/e-contact-print.glade.h:36
 #: ../plugins/exchange-operations/exchange-account-setup.c:955
 #: ../plugins/exchange-operations/exchange-calendar.c:224
-#: ../plugins/exchange-operations/exchange-contacts.c:199
+#: ../plugins/exchange-operations/exchange-contacts.c:205
 msgid "Size:"
 msgstr "Tamaño:"
 
@@ -5378,7 +5378,7 @@ msgstr "Enga_dir"
 #: ../calendar/gui/dialogs/alarm-list-dialog.glade.h:2
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:14
 #: ../calendar/gui/dialogs/event-page.glade.h:4
-#: ../ui/evolution-event-editor.xml.h:2
+#: ../ui/evolution-event-editor.xml.h:1
 msgid "Alarms"
 msgstr "Alarmas"
 
@@ -6893,7 +6893,7 @@ msgid "untitled_image.%s"
 msgstr "imaxe_sen-título.%s"
 
 #: ../calendar/gui/e-cal-popup.c:272 ../calendar/gui/e-calendar-table.c:1176
-#: ../calendar/gui/e-calendar-view.c:1604 ../calendar/gui/e-memo-table.c:854
+#: ../calendar/gui/e-calendar-view.c:1596 ../calendar/gui/e-memo-table.c:854
 #: ../mail/em-folder-view.c:1087 ../mail/em-popup.c:554 ../mail/em-popup.c:565
 msgid "_Save As..."
 msgstr "Gardar _Como..."
@@ -6981,8 +6981,8 @@ msgid "Open _Web Page"
 msgstr "Abrir páxina _web"
 
 #: ../calendar/gui/e-calendar-table.c:1177
-#: ../calendar/gui/e-calendar-view.c:1589
-#: ../calendar/gui/e-calendar-view.c:1605 ../calendar/gui/e-memo-table.c:855
+#: ../calendar/gui/e-calendar-view.c:1581
+#: ../calendar/gui/e-calendar-view.c:1597 ../calendar/gui/e-memo-table.c:855
 #: ../mail/em-folder-view.c:1088
 #: ../plugins/print-message/org-gnome-print-message.xml.h:3
 #: ../ui/evolution-addressbook.xml.h:58 ../ui/evolution-calendar.xml.h:42
@@ -6992,15 +6992,15 @@ msgid "_Print..."
 msgstr "_Imprimir..."
 
 #: ../calendar/gui/e-calendar-table.c:1181
-#: ../calendar/gui/e-calendar-view.c:1609 ../calendar/gui/e-memo-table.c:859
+#: ../calendar/gui/e-calendar-view.c:1601 ../calendar/gui/e-memo-table.c:859
 #: ../ui/evolution-addressbook.xml.h:2 ../ui/evolution-calendar.xml.h:1
 #: ../ui/evolution-memos.xml.h:1 ../ui/evolution-tasks.xml.h:1
 msgid "C_ut"
 msgstr "Co_rtar"
 
 #: ../calendar/gui/e-calendar-table.c:1183
-#: ../calendar/gui/e-calendar-view.c:1592
-#: ../calendar/gui/e-calendar-view.c:1611 ../calendar/gui/e-memo-table.c:861
+#: ../calendar/gui/e-calendar-view.c:1584
+#: ../calendar/gui/e-calendar-view.c:1603 ../calendar/gui/e-memo-table.c:861
 #: ../ui/evolution-addressbook.xml.h:57 ../ui/evolution-calendar.xml.h:41
 #: ../ui/evolution-composer-entries.xml.h:15 ../ui/evolution-editor.xml.h:22
 #: ../ui/evolution-memos.xml.h:19 ../ui/evolution-tasks.xml.h:28
@@ -7071,97 +7071,97 @@ msgstr "Movendo elementos"
 msgid "Copying items"
 msgstr "Copiando elementos"
 
-#: ../calendar/gui/e-calendar-view.c:1583
+#: ../calendar/gui/e-calendar-view.c:1575
 msgid "New _Appointment..."
 msgstr "Nova _Cita..."
 
-#: ../calendar/gui/e-calendar-view.c:1584
+#: ../calendar/gui/e-calendar-view.c:1576
 msgid "New All Day _Event"
 msgstr "Novo _Evento de Día Completo"
 
-#: ../calendar/gui/e-calendar-view.c:1585
+#: ../calendar/gui/e-calendar-view.c:1577
 msgid "New _Meeting"
 msgstr "Nova _xuntanza"
 
-#: ../calendar/gui/e-calendar-view.c:1586
+#: ../calendar/gui/e-calendar-view.c:1578
 msgid "New _Task"
 msgstr "Nova _Tarefa"
 
 #. FIXME: hook in this somehow
-#: ../calendar/gui/e-calendar-view.c:1596
+#: ../calendar/gui/e-calendar-view.c:1588
 msgid "_Current View"
 msgstr "_Vista Actual"
 
-#: ../calendar/gui/e-calendar-view.c:1598
+#: ../calendar/gui/e-calendar-view.c:1590
 msgid "Select T_oday"
 msgstr "Seleccionar _hoxe"
 
-#: ../calendar/gui/e-calendar-view.c:1599
+#: ../calendar/gui/e-calendar-view.c:1591
 msgid "_Select Date..."
 msgstr "_Seleccionar data..."
 
-#: ../calendar/gui/e-calendar-view.c:1615
+#: ../calendar/gui/e-calendar-view.c:1607
 msgid "Cop_y to Calendar..."
 msgstr "Cop_iar a un calendario..."
 
-#: ../calendar/gui/e-calendar-view.c:1616
+#: ../calendar/gui/e-calendar-view.c:1608
 msgid "Mo_ve to Calendar..."
 msgstr "Mo_ver ao calendario..."
 
-#: ../calendar/gui/e-calendar-view.c:1617
+#: ../calendar/gui/e-calendar-view.c:1609
 msgid "_Delegate Meeting..."
 msgstr "_Delegar Xuntanza..."
 
-#: ../calendar/gui/e-calendar-view.c:1618
+#: ../calendar/gui/e-calendar-view.c:1610
 msgid "_Schedule Meeting..."
 msgstr "_Concertar Xuntanza..."
 
-#: ../calendar/gui/e-calendar-view.c:1619
+#: ../calendar/gui/e-calendar-view.c:1611
 msgid "_Forward as iCalendar..."
 msgstr "_Remitir como iCalendar..."
 
-#: ../calendar/gui/e-calendar-view.c:1620
+#: ../calendar/gui/e-calendar-view.c:1612
 msgid "_Reply"
 msgstr "_Responder"
 
-#: ../calendar/gui/e-calendar-view.c:1621 ../mail/em-folder-view.c:1082
+#: ../calendar/gui/e-calendar-view.c:1613 ../mail/em-folder-view.c:1082
 #: ../mail/em-popup.c:559 ../mail/em-popup.c:570
 #: ../ui/evolution-mail-message.xml.h:82
 msgid "Reply to _All"
 msgstr "Responder a _Todos"
 
-#: ../calendar/gui/e-calendar-view.c:1626
+#: ../calendar/gui/e-calendar-view.c:1618
 msgid "Make this Occurrence _Movable"
 msgstr "Facer esta Ocorrencia _Movible"
 
-#: ../calendar/gui/e-calendar-view.c:1627
+#: ../calendar/gui/e-calendar-view.c:1619
 msgid "Delete this _Occurrence"
 msgstr "Borrar esta _Ocorrencia"
 
-#: ../calendar/gui/e-calendar-view.c:1628
+#: ../calendar/gui/e-calendar-view.c:1620
 msgid "Delete _All Occurrences"
 msgstr "Borrar _Tódalas Ocorrencias"
 
 #. To Translators: It will display "Organiser: NameOfTheUser <email@ofuser.com>"
-#: ../calendar/gui/e-calendar-view.c:2038
+#: ../calendar/gui/e-calendar-view.c:2030
 #, c-format
 msgid "Organizer: %s <%s>"
 msgstr "Organizador: %s <%s>"
 
 #. With SunOne accouts, there may be no ':' in organiser.value
-#: ../calendar/gui/e-calendar-view.c:2042
+#: ../calendar/gui/e-calendar-view.c:2034
 #, c-format
 msgid "Organizer: %s"
 msgstr "Organizador: %s"
 
 #. To Translators: It will display "Location: PlaceOfTheMeeting"
-#: ../calendar/gui/e-calendar-view.c:2057 ../calendar/gui/print.c:2336
+#: ../calendar/gui/e-calendar-view.c:2049 ../calendar/gui/print.c:2336
 #, c-format
 msgid "Location: %s"
 msgstr "Localización: %s"
 
 #. To Translators: It will display "Time: ActualStartDateAndTime (DurationOfTheMeeting)"
-#: ../calendar/gui/e-calendar-view.c:2088
+#: ../calendar/gui/e-calendar-view.c:2080
 #, c-format
 msgid "Time: %s %s"
 msgstr "Hora: %s %s"
@@ -14974,7 +14974,7 @@ msgid "Ch_eck for Supported Types"
 msgstr "_Comprobar tipos soportados"
 
 #: ../plugins/exchange-operations/exchange-calendar.c:192
-#: ../plugins/exchange-operations/exchange-contacts.c:164
+#: ../plugins/exchange-operations/exchange-contacts.c:165
 msgid ""
 "Evolution is in offline mode. You cannot create or modify folders now.\n"
 "Please switch to online mode for such operations."
@@ -18626,13 +18626,13 @@ msgstr "_Inserir"
 msgid "_Options"
 msgstr "_Opcións"
 
-#: ../ui/evolution-event-editor.xml.h:1
-msgid "Alar_ms"
-msgstr "Alar_mas"
+#: ../ui/evolution-event-editor.xml.h:2
+msgid "All Day Event"
+msgstr "Evento para todo o día"
 
 #: ../ui/evolution-event-editor.xml.h:3
-msgid "All day Event"
-msgstr "Evento para todo o día"
+msgid "All _Day Event"
+msgstr "Evento para todo o _día"
 
 #: ../ui/evolution-event-editor.xml.h:4 ../ui/evolution-memo-editor.xml.h:1
 #: ../ui/evolution-task-editor.xml.h:1
@@ -18675,8 +18675,8 @@ msgid "R_ole Field"
 msgstr "Campo _rol"
 
 #: ../ui/evolution-event-editor.xml.h:16
-msgid "Show time as b_usy"
-msgstr "Amosar hora como _ocupada"
+msgid "Show time as _busy"
+msgstr "Amosar hora coma _ocupada"
 
 #: ../ui/evolution-event-editor.xml.h:17 ../ui/evolution-task-editor.xml.h:11
 msgid "Time _Zone"
@@ -18708,7 +18708,7 @@ msgid "Toggles whether to display categories"
 msgstr "Conmuta cando se amosan as categorías"
 
 #: ../ui/evolution-event-editor.xml.h:24
-msgid "Toggles whether to have All day Event"
+msgid "Toggles whether to have All Day Event"
 msgstr "Conmuta cando se ten un Evento para todo o día"
 
 #: ../ui/evolution-event-editor.xml.h:25
@@ -18716,8 +18716,8 @@ msgid "Toggles whether to show time as busy"
 msgstr "Conmuta cando se deben amosar as horas como ocupadas"
 
 #: ../ui/evolution-event-editor.xml.h:26
-msgid "_All day Event"
-msgstr "Evento de día comp_leto"
+msgid "_Alarms"
+msgstr "_Alarmas"
 
 #: ../ui/evolution-event-editor.xml.h:28 ../ui/evolution-memo-editor.xml.h:7
 #: ../ui/evolution-task-editor.xml.h:19
