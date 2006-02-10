@@ -20,12 +20,12 @@
 		_tip="Toggles whether the time zone is displayed"
 		type="toggle" state="0" pixtype="pixbuf"/>	
 	
-		<cmd name="ActionShowTimeBusy" _label="Show time as b_usy"
+		<cmd name="ActionShowTimeBusy" _label="Show time as _busy"
 		_tip="Toggles whether to show time as busy"
 		type="toggle" state="0"/>	
 	
-		<cmd name="ActionAllDayEvent" _label="_All day Event"
-		_tip="Toggles whether to have All day Event"
+		<cmd name="ActionAllDayEvent" _label="All _Day Event"
+		_tip="Toggles whether to have All Day Event"
 		type="toggle" state="0" pixtype="pixbuf"/>	
 
 		<cmd name="ViewCategories" _label="_Categories"
@@ -41,13 +41,16 @@
     		<cmd name="ActionClassConfidential" _label="_Confidential" 
 		type="radio" group="class" _tip="Classify as Confidential"/>
 
-		<cmd name="ActionRecurrence" _label="Recurrence"
+		<cmd name="ActionRecurrence" _label="_Recurrence"
 		_tip="Make this a recurring event" pixtype="pixbuf"/>
-		<cmd name="ActionFreeBusy" _label="Free/Busy"
+
+		<cmd name="ActionFreeBusy" _label="_Free/Busy"
 		_tip="Query free / busy information for the attendees" pixtype="pixbuf"/>
+
 		<cmd name="InsertSendOptions" _label="Send Options"
 		_tip="Insert advanced send options"/>
-		<cmd name="ActionAlarm" _label="Alarms"
+
+		<cmd name="ActionAlarm" _label="_Alarms"
 		_tip="Click here to set or unset alarms for this event" />
 	</commands>
 	
@@ -68,9 +71,9 @@
 	    <menuitem name="InsertSendOptions" verb="" _label="Send Options"/>	    
     </submenu>
     <submenu name="Options">
-	    <menuitem name="ActionAlarm" verb="" _label="Alar_ms" pixtype="pixbuf"/>
-	    <menuitem name="ActionShowTimeBusy" verb="" _label="Show time as b_usy"/>
-	    <menuitem name="ActionAllDayEvent" verb="" _label="_All day Event"/>
+	    <menuitem name="ActionAlarm" verb="" _label="_Alarms" pixtype="pixbuf"/>
+	    <menuitem name="ActionShowTimeBusy" verb="" _label="Show time as _busy"/>
+	    <menuitem name="ActionAllDayEvent" verb="" _label="All _Day Event"/>
 	    <submenu name="Classification" _label="_Classification">
 		    <menuitem name="ActionClassPublic" id="ActionClassPublic" verb=""/>
 		    <menuitem name="ActionClassPrivate" id="ActionClassPrivate" verb=""/>
@@ -83,7 +86,7 @@
 
   <dockitem name="Toolbar">
 	  <toolitem name="ActionAlarm" verb="" _label="Alarms" pixtype="pixbuf" />
-	  <toolitem name="ActionAllDayEvent" verb="" _label="All day Event" pixtype="pixbuf"/>
+	  <toolitem name="ActionAllDayEvent" verb="" _label="All Day Event" pixtype="pixbuf"/>
 	  <toolitem name="ActionRecurrence" verb="" _label="Recurrence" pixtype="pixbuf"/>	
 	  <toolitem name="ActionFreeBusy" verb="" _label="Free/Busy" pixtype="pixbuf"/>	  	  	  
   </dockitem>
