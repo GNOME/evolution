@@ -1,5 +1,13 @@
 2006-02-10  Sushma Rai  <rsushma@novell.com>
 
+	* exchange-contacts.c (e_exchange_contacts_pcontacts): Checking if the
+	folder selected is GAL folder and in case of GAL folder, returning
+	after checking for offline status.
+	(e_exchange_contacts_check): Handling GAL folder also.
+	Fixes #329623 and #329624
+
+2006-02-10  Sushma Rai  <rsushma@novell.com>
+
 	* exchange-contacts.c (e_exchange_contacts_commit): Freeing uri_text.
 	See #329251.
 

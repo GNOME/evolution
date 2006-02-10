@@ -115,7 +115,7 @@ e_exchange_contacts_pcontacts_on_change (GtkTreeView *treeview, ESource *source)
 
 	g_free (ruri);
 	g_free (es_ruri);
-} 
+}
 
 GtkWidget *
 e_exchange_contacts_pcontacts (EPlugin *epl, EConfigHookItemFactoryData *data)
@@ -128,19 +128,17 @@ e_exchange_contacts_pcontacts (EPlugin *epl, EConfigHookItemFactoryData *data)
 	GPtrArray *conlist;
 	gchar *ruri, *account_name, *uri_text;
 	ExchangeAccount *account;
-
 	int i;
 	char *folder_size, *abook_name;
 	const char *rel_uri;
 	const char *uid;
-
 	EABConfigTargetSource *t = (EABConfigTargetSource *) data->target;
 	ESource *source = t->source;
 	GtkWidget *lbl_offline_msg, *vb_offline_msg;
 	char *offline_msg;
 	gint offline_status;
+	gboolean gal_folder = FALSE;
 	
-
 	if (data->old) {
 		gtk_widget_destroy (vb_pcontacts);
 	}
@@ -150,6 +148,9 @@ e_exchange_contacts_pcontacts (EPlugin *epl, EConfigHookItemFactoryData *data)
 		if (g_ascii_strncasecmp (uri_text, "gal", 3)) {
 			g_free (uri_text);
 			return NULL;
+		}
+		else {
+			gal_folder = TRUE;
 		}
 	}
 
@@ -172,6 +173,9 @@ e_exchange_contacts_pcontacts (EPlugin *epl, EConfigHookItemFactoryData *data)
 		return vb_offline_msg;		
 	}
 
+	if (gal_folder)
+		return NULL;
+
 	rel_uri = e_source_peek_relative_uri (source);
 	uid = e_source_peek_uid (source);
 	if (rel_uri && uid && (strcmp (rel_uri, uid))) {
@@ -180,6 +184,7 @@ e_exchange_contacts_pcontacts (EPlugin *epl, EConfigHookItemFactoryData *data)
 		contacts_old_src_uri = g_strdup (rel_uri);
 	}
 	else {
+		/* new folder */
 		contacts_src_exists = FALSE;
 		e_source_set_relative_uri (source, ""); /* FIXME: Nasty hack */
 	}
@@ -187,6 +192,7 @@ e_exchange_contacts_pcontacts (EPlugin *epl, EConfigHookItemFactoryData *data)
 	account = exchange_operations_get_exchange_account ();
 	account_name = account->account_name;
 	hbx_size = NULL;
+
 	if (contacts_src_exists) {
 		abook_name = (char*)e_source_peek_name (source);
 		model = exchange_account_folder_size_get_model (account);
@@ -245,7 +251,7 @@ e_exchange_contacts_pcontacts (EPlugin *epl, EConfigHookItemFactoryData *data)
 
 	gtk_box_pack_start (GTK_BOX (vb_pcontacts), scrw_pcontacts, FALSE, FALSE, 0);
 	gtk_widget_show_all (vb_pcontacts);
-	
+
 	if (contacts_src_exists) {
 		gchar *uri_prefix, *sruri, *tmpruri;
 		int prefix_len;
@@ -261,7 +267,7 @@ e_exchange_contacts_pcontacts (EPlugin *epl, EConfigHookItemFactoryData *data)
 		else {
 			sruri = NULL;
 		}
-		
+
 		selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (tv_pcontacts));
 		exchange_operations_cta_select_node_from_tree (ts_pcontacts, 
 							       NULL, 
@@ -273,7 +279,7 @@ e_exchange_contacts_pcontacts (EPlugin *epl, EConfigHookItemFactoryData *data)
 		g_free (uri_prefix);
 		g_free (sruri);
 	}
-	
+
 	g_ptr_array_free (conlist, TRUE);  
 	return vb_pcontacts;
 }
@@ -293,12 +299,15 @@ e_exchange_contacts_check (EPlugin *epl, EConfigHookPageCheckData *data)
 	base_uri = e_source_group_peek_base_uri (group);
 	exchange_config_listener_get_offline_status (exchange_global_config_listener, 
 								    &offline_status);
-	if (base_uri && !strncmp (base_uri, "exchange", 8)) {
-		if (offline_status == OFFLINE_MODE)
-			return FALSE;
-		if (rel_uri && !strlen (rel_uri)) {
-			return FALSE;
-		}		
+	if (base_uri) { 
+		if (!g_ascii_strncasecmp (base_uri, "exchange", 8) || 
+		    !g_ascii_strncasecmp (base_uri, "gal", 3)) {
+			if (offline_status == OFFLINE_MODE)
+				return FALSE;
+			if (rel_uri && !strlen (rel_uri)) {
+				return FALSE;
+			}
+		}
 	}
 
 	return TRUE;
@@ -309,7 +318,7 @@ e_exchange_contacts_commit (EPlugin *epl, EConfigTarget *target)
 {
 	EABConfigTargetSource *t = (EABConfigTargetSource *) target;
 	ESource *source = t->source;
-	gchar *uri_text, *gname, *gruri, *ruri, *path, *path_prefix, *oldpath=NULL;
+	gchar *uri_text, *gname, *gruri, *ruri = NULL, *path = NULL, *path_prefix, *oldpath=NULL;
 	gchar *username, *authtype;
 	int prefix_len;
 	ExchangeAccount *account;
@@ -318,6 +327,7 @@ e_exchange_contacts_commit (EPlugin *epl, EConfigTarget *target)
 		
 	uri_text = e_source_get_uri (source);
 	if (uri_text && strncmp (uri_text, "exchange", 8)) {
+		/* here no need of checking for gal */
 		g_free (uri_text);
 		return ;
 	}	
@@ -386,7 +396,6 @@ e_exchange_contacts_commit (EPlugin *epl, EConfigTarget *target)
 		/* Nothing happened specific to exchange; just return */
 		goto done;
 	}
-
 	switch (result) {
 	case EXCHANGE_ACCOUNT_FOLDER_ALREADY_EXISTS:
 		e_error_run (NULL, ERROR_DOMAIN ":folder-exists-error", NULL);
