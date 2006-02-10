@@ -130,7 +130,7 @@ e_timezone_entry_init		(ETimezoneEntry	*tentry)
 	gtk_widget_show (priv->button);
 	a11y = gtk_widget_get_accessible (priv->button);
 	if (a11y != NULL) {
-		atk_object_set_name (a11y, _("Timezone Button"));
+		atk_object_set_name (a11y, _("Select Timezone"));
 	}
 
 	gtk_image = e_icon_factory_get_image ("stock_timezone", E_ICON_SIZE_BUTTON);

@@ -1,3 +1,9 @@
+2006-02-10  Karsten Bräckelmann  <guenther@rudersport.de>
+
+	* gui/e-timezone-entry.c (e_timezone_entry_init): Correct the a11y
+	string for the Timezone button to not include its role and to be
+	more descriptive, fixes bug #330712.
+
 2006-02-12  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #329570
