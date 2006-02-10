@@ -1,3 +1,10 @@
+2006-02-11  Karsten Bräckelmann  <guenther@rudersport.de>
+
+	* gui/dialogs/comp-editor.c (setup_widgets): 
+	* gui/e-memo-table.c (e_memo_table_init): 
+	* gui/e-calendar-table.c (e_calendar_table_init): 
+	Change a11y names and add description. Fixes part of bug #330723.
+
 2006-02-10  Karsten Bräckelmann  <guenther@rudersport.de>
 
 	* gui/e-timezone-entry.c (e_timezone_entry_init): Correct the a11y

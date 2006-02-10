@@ -1,3 +1,10 @@
+2006-02-11  Karsten Bräckelmann  <guenther@rudersport.de>
+
+	* message-list.c (message_list_construct): 
+	* em-format-html-display.c (efhd_attachment_button, efhd_add_bar): 
+	* em-account-prefs.c (em_account_prefs_treeview_new): 
+	Change a11y names. Fixes part of bug #330723.
+
 2006-02-10  Karsten Bräckelmann  <guenther@rudersport.de>
 
 	* em-utils.c (em_utils_edit_filters): Fix Filters dialog window

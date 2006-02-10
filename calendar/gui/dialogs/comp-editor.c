@@ -1463,7 +1463,8 @@ setup_widgets (CompEditor *editor)
 
 	priv->attachment_expander = e_expander_new ("");
 	e_expander_set_label_widget (E_EXPANDER (priv->attachment_expander), expander_hbox);
-	atk_object_set_name (gtk_widget_get_accessible (priv->attachment_expander), _("Attachment Button: Press space key to toggle attachment bar"));
+	atk_object_set_name (gtk_widget_get_accessible (priv->attachment_expander), _("Show Attachments"));
+	atk_object_set_description (gtk_widget_get_accessible (priv->attachment_expander), _("Press space key to toggle attachment bar"));
 	gtk_container_add (GTK_CONTAINER (priv->attachment_expander), priv->attachment_scrolled_window);
 
 	gtk_box_pack_start (GTK_BOX (vbox), priv->attachment_expander, FALSE, FALSE, GNOME_PAD_SMALL);

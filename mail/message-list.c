@@ -2060,7 +2060,7 @@ message_list_construct (MessageList *message_list)
 
 	if (atk_get_root() != NULL) {
 		a11y = gtk_widget_get_accessible((GtkWidget *)message_list->tree);
-		atk_object_set_name(a11y, _("Message List"));
+		atk_object_set_name(a11y, _("Messages"));
 	}
 
 	g_signal_connect((message_list->tree), "cursor_activated",

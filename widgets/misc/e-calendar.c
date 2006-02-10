@@ -174,7 +174,7 @@ e_calendar_init (ECalendar *cal)
 						"widget", button,
 						NULL);
 	a11y = gtk_widget_get_accessible (button);
-	atk_object_set_name (a11y, _("Previous Button"));
+	atk_object_set_name (a11y, _("Previous"));
 
 	button = gtk_button_new ();
 	gtk_button_set_relief (GTK_BUTTON (button), GTK_RELIEF_NONE);
@@ -198,7 +198,7 @@ e_calendar_init (ECalendar *cal)
 						"widget", button,
 						NULL);
 	a11y = gtk_widget_get_accessible (button);
-	atk_object_set_name (a11y, _("Previous Button"));
+	atk_object_set_name (a11y, _("Previous"));
 
 	cal->min_rows = 1;
 	cal->min_cols = 1;

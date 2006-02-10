@@ -1,3 +1,11 @@
+2006-02-11  Karsten Bräckelmann  <guenther@rudersport.de>
+
+	* e-search-bar.c (activate_by_subitems): 
+	* e-dateedit.c (e_date_edit_new, create_children) 
+	(create_children, create_children): 
+	* e-calendar.c (e_calendar_init): 
+	Change a11y names. Fixes part of bug #330723.
+
 2006-01-16  Nancy Cai <nancy.cai@sun.com>
 
 	** Fixes bug #326649

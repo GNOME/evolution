@@ -318,7 +318,7 @@ e_date_edit_new			(void)
 
 	dedit = g_object_new (E_TYPE_DATE_EDIT, NULL);
 	a11y = gtk_widget_get_accessible (GTK_WIDGET (dedit));
-	atk_object_set_name (a11y, _("Date and Time Entry"));
+	atk_object_set_name (a11y, _("Date and Time"));
 
 	return GTK_WIDGET (dedit);
 }
@@ -338,7 +338,7 @@ create_children			(EDateEdit	*dedit)
 	priv->date_entry  = gtk_entry_new ();
 	a11y = gtk_widget_get_accessible (priv->date_entry);
 	atk_object_set_description (a11y, _("Text entry to input date"));
-	atk_object_set_name (a11y, _("Text Date Entry"));
+	atk_object_set_name (a11y, _("Date"));
 	gtk_box_pack_start (GTK_BOX (dedit), priv->date_entry, FALSE, TRUE, 0);
 	gtk_widget_set_size_request (priv->date_entry, 100, -1);
 	
@@ -360,7 +360,7 @@ create_children			(EDateEdit	*dedit)
 			    FALSE, FALSE, 0);
 	a11y = gtk_widget_get_accessible (priv->date_button);
 	atk_object_set_description (a11y, _("Click this button to show a calendar"));
-	atk_object_set_name (a11y, _("Date Button"));
+	atk_object_set_name (a11y, _("Date"));
 
 	arrow = gtk_arrow_new (GTK_ARROW_DOWN, GTK_SHADOW_NONE);
 	gtk_container_add (GTK_CONTAINER (priv->date_button), arrow);
@@ -382,7 +382,7 @@ create_children			(EDateEdit	*dedit)
 	rebuild_time_popup (dedit);
 	a11y = gtk_widget_get_accessible (priv->time_combo);
 	atk_object_set_description (a11y, _("Combo box to select time"));
-	atk_object_set_name (a11y, _("Time Combo Box"));
+	atk_object_set_name (a11y, _("Time"));
 
 	g_signal_connect (GTK_COMBO (priv->time_combo)->entry,
 			  "key_press_event",

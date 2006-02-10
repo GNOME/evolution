@@ -522,7 +522,7 @@ e_calendar_table_init (ECalendarTable *cal_table)
 
 	a11y = gtk_widget_get_accessible ((GtkWidget *)e_table);
 	if (a11y)
-		atk_object_set_name (a11y, _("Task Table"));
+		atk_object_set_name (a11y, _("Tasks"));
 }
 
 

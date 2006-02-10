@@ -1662,7 +1662,7 @@ efhd_attachment_button(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObje
 	gtk_container_add((GtkContainer *)button, gtk_arrow_new(GTK_ARROW_DOWN, GTK_SHADOW_NONE));
 
 	a11y = gtk_widget_get_accessible (button);
-	atk_object_set_name (a11y, _("Attachment Button"));
+	atk_object_set_name (a11y, _("Attachment"));
 
 	g_signal_connect(button, "button_press_event", G_CALLBACK(efhd_attachment_popup), info);
 	g_signal_connect(button, "popup_menu", G_CALLBACK(efhd_attachment_popup_menu), info);
@@ -2060,7 +2060,7 @@ efhd_add_bar(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject *pobjec
 	gtk_box_pack_start ((GtkBox *)hbox3, priv->down, FALSE, FALSE, 0);
 	priv->arrow = (GtkWidget *)gtk_tool_button_new(hbox3, NULL);
 	g_signal_connect (priv->arrow, "mnemonic_activate", G_CALLBACK (efhd_mnemonic_show_bar), efh);
-	atk_object_set_name (gtk_widget_get_accessible (priv->arrow), _("Toggle Attachment Bar"));
+	atk_object_set_name (gtk_widget_get_accessible (priv->arrow), _("Show Attachments"));
 
 	priv->label = gtk_label_new(_("No Attachment"));
 	gtk_label_set_mnemonic_widget (GTK_LABEL (priv->label), priv->arrow);
