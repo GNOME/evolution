@@ -1,3 +1,8 @@
+2006-02-10  Karsten Bräckelmann  <guenther@rudersport.de>
+
+	* em-utils.c (em_utils_edit_filters): Fix Filters dialog window
+	title to be HIG compliant. Fixes bug #330650.
+
 2006-02-09  Sushma Rai  <rsushma@novell.com>
 
 	* em-mailer-prefs.c (em_mailer_prefs_construct): Freeing font value 

@@ -316,7 +316,7 @@ em_utils_edit_filters (GtkWidget *parent)
 	if (parent != NULL)
 		e_dialog_set_transient_for ((GtkWindow *) filter_editor, parent);
 	
-	gtk_window_set_title (GTK_WINDOW (filter_editor), _("Filters"));
+	gtk_window_set_title (GTK_WINDOW (filter_editor), _("Message Filters"));
 	g_object_set_data_full ((GObject *) filter_editor, "context", fc, (GtkDestroyNotify) g_object_unref);
 	g_signal_connect (filter_editor, "response", G_CALLBACK (em_filter_editor_response), NULL);
 	gtk_widget_show (GTK_WIDGET (filter_editor));
