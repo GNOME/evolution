@@ -417,5 +417,6 @@ done:
 	g_free (path);
 	g_free (oldpath);
 	g_free (contacts_old_src_uri);
+	g_free (uri_text);
 	contacts_old_src_uri = NULL;
 }

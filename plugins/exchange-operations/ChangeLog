@@ -1,3 +1,8 @@
+2006-02-10  Sushma Rai  <rsushma@novell.com>
+
+	* exchange-contacts.c (e_exchange_contacts_commit): Freeing uri_text.
+	See #329251.
+
 2006-02-06  Sushma Rai  <rsushma@novell.com>
 
 	* exchange-permissions-dialog.c (exchange_permissions_dialog_new): 
@@ -6,7 +11,7 @@
 	* exchange-calendar.c (e_exchange_calendar_commit): Freeing authtype.
 
 	* exchange-contacts.c (e_exchange_contacts_commit): Similar.
-	Fixes #329251.
+	See #329251.
 
 2006-02-05  Karsten Bräckelmann  <guenther@rudersport.de>
 
