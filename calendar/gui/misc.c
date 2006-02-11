@@ -108,6 +108,7 @@ calculate_time (time_t start, time_t end)
 		minutes = difference / 60;
 		seconds = difference % 60;
 		if (seconds)
+		/* TRANSLATORS: here, "second" is the time division (like "minute"), not the ordinal number (like "third") */
 			str = g_strdup_printf (_("(%d %s %d %s)"), minutes, ngettext(_("minute"), _("minutes"), minutes), seconds, ngettext(_("second"), _("seconds"), seconds));
 		else 
 			str = g_strdup_printf (_("(%d %s)"), minutes, ngettext(_("minute"), _("minutes"), minutes));

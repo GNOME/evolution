@@ -1,3 +1,10 @@
+2006-02-11  Andre Klapper  <a9016009@gmx.de>
+	* gui/dialogs/recurrence-page.c:
+	* gui/alarm-notify/util.c:
+	* gui/misc.c:
+	adding translator comments to "second" strings to distinguish
+	ordinal numbers and time divisions. Fixes bug 328988.
+
 2006-02-11  Karsten Bräckelmann  <guenther@rudersport.de>
 
 	* gui/dialogs/comp-editor.c (setup_widgets): 

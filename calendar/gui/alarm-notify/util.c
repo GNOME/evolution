@@ -61,6 +61,7 @@ calculate_time (time_t start, time_t end)
 		minutes = difference / 60;
 		seconds = difference % 60;
 		if (seconds)
+		/* TRANSLATORS: here, "second" is the time division (like "minute"), not the ordinal number (like "third") */
 			str = g_strdup_printf (_("(%d %s %d %s)"), minutes, ngettext(_("minute"), _("minutes"), minutes), seconds, ngettext(_("second"), _("seconds"), seconds));
 		else
 			str = g_strdup_printf (_("(%d %s)"), minutes, ngettext(_("minute"), _("minutes"), minutes));
@@ -81,7 +82,7 @@ calculate_time (time_t start, time_t end)
 			s_hours = g_strdup_printf (ngettext(_("%u hour"),_("%u hours"), hours), hours);
 
 		if (s_minutes && s_seconds)
-                         str = g_strconcat ("(", s_hours, s_minutes, s_seconds, ")", NULL);
+                        str = g_strconcat ("(", s_hours, s_minutes, s_seconds, ")", NULL);
 		else if (s_minutes)
 			str = g_strconcat ("(", s_hours, s_minutes, ")", NULL);
 		else if (s_seconds)

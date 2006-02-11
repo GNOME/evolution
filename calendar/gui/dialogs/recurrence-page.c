@@ -984,6 +984,7 @@ make_recur_month_num_menu (int month_index)
 {
 	static const char *options[] = {
 		N_("first"),
+		/* TRANSLATORS: here, "second" is the ordinal number (like "third"), not the time division (like "minute") */
 		N_("second"),
 		N_("third"),
 		N_("fourth"),
