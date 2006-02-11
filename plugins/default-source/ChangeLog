@@ -1,3 +1,7 @@
+2006-02-11  Andre Klapper <a9016009@gmx.de>
+
+	* default-source.c: adding mnemonic. Fixes bug 328151.
+
 2005-12-25  Funda Wang  <fundawang@linux.net.cn>
 
 	* Makefile.am: Mark this plugin as translatable (bug#301149).
