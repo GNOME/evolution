@@ -40,8 +40,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gl\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-02-10 21:02+0100\n"
-"PO-Revision-Date: 2006-02-10 21:04+0100\n"
+"POT-Creation-Date: 2006-02-11 16:21+0100\n"
+"PO-Revision-Date: 2006-02-11 16:23+0100\n"
 "Last-Translator: Ignacio Casal Quinteiro <nacho.resa@gmail.com>\n"
 "Language-Team: Galego <trasno@ceu.fi.udc.es>\n"
 "MIME-Version: 1.0\n"
@@ -4464,14 +4464,15 @@ msgid "Memo_s"
 msgstr "Nota_s"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:12
-#: ../calendar/gui/e-memos.c:1084 ../calendar/gui/memos-component.c:530
-#: ../calendar/gui/memos-component.c:997 ../calendar/gui/memos-control.c:340
+#: ../calendar/gui/e-memo-table.c:274 ../calendar/gui/e-memos.c:1084
+#: ../calendar/gui/memos-component.c:530 ../calendar/gui/memos-component.c:997
+#: ../calendar/gui/memos-control.c:340
 msgid "Memos"
 msgstr "Notas"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:13
-#: ../calendar/gui/e-tasks.c:1329 ../calendar/gui/print.c:1828
-#: ../calendar/gui/tasks-component.c:521
+#: ../calendar/gui/e-calendar-table.c:525 ../calendar/gui/e-tasks.c:1329
+#: ../calendar/gui/print.c:1828 ../calendar/gui/tasks-component.c:521
 #: ../calendar/gui/tasks-component.c:1012 ../calendar/gui/tasks-control.c:472
 #: ../calendar/importers/icalendar-importer.c:80
 #: ../calendar/importers/icalendar-importer.c:741
@@ -5887,64 +5888,69 @@ msgid "_Add attachment..."
 msgstr "_Engadir anexo..."
 
 #: ../calendar/gui/dialogs/comp-editor.c:1466
-msgid "Attachment Button: Press space key to toggle attachment bar"
-msgstr "Botón de adxuntos: Prema a tecla de espazo para cambiar a barra de adxuntos"
+#: ../mail/em-format-html-display.c:2063
+msgid "Show Attachments"
+msgstr "Amosar adxuntos"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2073
-#: ../calendar/gui/dialogs/comp-editor.c:2116
+#: ../calendar/gui/dialogs/comp-editor.c:1467
+msgid "Press space key to toggle attachment bar"
+msgstr "Prema a tecla de espazo para cambiar a barra de adxuntos"
+
+#: ../calendar/gui/dialogs/comp-editor.c:2074
+#: ../calendar/gui/dialogs/comp-editor.c:2117
 msgid "Edit Appointment"
 msgstr "Editar Cita"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2079
-#: ../calendar/gui/dialogs/comp-editor.c:2122
+#: ../calendar/gui/dialogs/comp-editor.c:2080
+#: ../calendar/gui/dialogs/comp-editor.c:2123
 #, c-format
 msgid "Meeting - %s"
 msgstr "Xuntanza - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2081
-#: ../calendar/gui/dialogs/comp-editor.c:2124
+#: ../calendar/gui/dialogs/comp-editor.c:2082
+#: ../calendar/gui/dialogs/comp-editor.c:2125
 #, c-format
 msgid "Appointment - %s"
 msgstr "Cita - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2085
-#: ../calendar/gui/dialogs/comp-editor.c:2128
+#: ../calendar/gui/dialogs/comp-editor.c:2086
+#: ../calendar/gui/dialogs/comp-editor.c:2129
 #, c-format
 msgid "Assigned Task - %s"
 msgstr "Tarefa asignada - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2087
-#: ../calendar/gui/dialogs/comp-editor.c:2130
+#: ../calendar/gui/dialogs/comp-editor.c:2088
+#: ../calendar/gui/dialogs/comp-editor.c:2131
 #, c-format
 msgid "Task - %s"
 msgstr "Tarefa - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2090
-#: ../calendar/gui/dialogs/comp-editor.c:2133
+#: ../calendar/gui/dialogs/comp-editor.c:2091
+#: ../calendar/gui/dialogs/comp-editor.c:2134
 #, c-format
 msgid "Journal entry - %s"
 msgstr "Entrada de diario - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2101
-#: ../calendar/gui/dialogs/comp-editor.c:2143
+#: ../calendar/gui/dialogs/comp-editor.c:2102
+#: ../calendar/gui/dialogs/comp-editor.c:2144
 msgid "No summary"
 msgstr "Sen resumo"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2651
+#: ../calendar/gui/dialogs/comp-editor.c:2652
 #: ../composer/e-msg-composer-attachment-bar.c:307 ../mail/em-utils.c:464
 #: ../mail/em-utils.c:501 ../widgets/misc/e-attachment-bar.c:339
 msgid "attachment"
 msgstr "anexo"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2740
-#: ../calendar/gui/dialogs/comp-editor.c:2794
-#: ../calendar/gui/dialogs/comp-editor.c:2818
+#: ../calendar/gui/dialogs/comp-editor.c:2741
+#: ../calendar/gui/dialogs/comp-editor.c:2795
+#: ../calendar/gui/dialogs/comp-editor.c:2819
 msgid "Changes made to this item may be discarded if an update arrives"
 msgstr ""
 "Os trocos efectuados a este elemento poden descartarse se chega unha "
 "actualización por correo"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2842
+#: ../calendar/gui/dialogs/comp-editor.c:2843
 msgid "Unable to use current version!"
 msgstr "Imposible usar a versión actual!"
 
@@ -6956,10 +6962,6 @@ msgstr "90%"
 msgid "100%"
 msgstr "100%"
 
-#: ../calendar/gui/e-calendar-table.c:525
-msgid "Task Table"
-msgstr "Táboa de tarefas"
-
 #: ../calendar/gui/e-calendar-table.c:703
 #: ../calendar/gui/e-calendar-view.c:675 ../calendar/gui/e-memo-table.c:433
 msgid "Deleting selected objects"
@@ -7828,10 +7830,6 @@ msgstr "Hora de _comezo:"
 msgid "_End time:"
 msgstr "Hora de _finalización:"
 
-#: ../calendar/gui/e-memo-table.c:274
-msgid "Memo Table"
-msgstr "Táboa de notas"
-
 #: ../calendar/gui/e-memo-table.c:870
 msgid "_Delete Selected Memos"
 msgstr "_Borra-las notas seleccionadas"
@@ -7890,8 +7888,8 @@ msgid "Expunging"
 msgstr "Compactando"
 
 #: ../calendar/gui/e-timezone-entry.c:133
-msgid "Timezone Button"
-msgstr "Botón de Fuso horario "
+msgid "Select Timezone"
+msgstr "Seleccionar Fuso Horario"
 
 #. strftime format %d = day of month, %B = full
 #. month name. You can change the order but don't
@@ -10883,6 +10881,7 @@ msgid "Mail"
 msgstr "Correo"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:12
+#: ../mail/em-account-prefs.c:531
 msgid "Mail Accounts"
 msgstr "Contas de correo"
 
@@ -10994,10 +10993,6 @@ msgstr "Nome da Conta"
 #: ../mail/em-account-prefs.c:526
 msgid "Protocol"
 msgstr "Protocolo"
-
-#: ../mail/em-account-prefs.c:531
-msgid "Mail Accounts Table"
-msgstr "Táboa de contas de correo"
 
 #: ../mail/em-composer-prefs.c:311 ../mail/em-composer-prefs.c:437
 #: ../mail/mail-config.c:967
@@ -11756,9 +11751,10 @@ msgstr "_Axustar ao ancho"
 msgid "Show _Original Size"
 msgstr "Amosar tamaño _orixinal"
 
-#: ../mail/em-format-html-display.c:1665
-msgid "Attachment Button"
-msgstr "Botón de adxunto"
+#: ../mail/em-format-html-display.c:1665 ../mail/mail-config.glade.h:45
+#: ../mail/message-list.etspec.h:1
+msgid "Attachment"
+msgstr "Adxunto"
 
 #: ../mail/em-format-html-display.c:1872
 msgid "Select folder to save all attachments..."
@@ -11783,10 +11779,6 @@ msgstr "G_ardar"
 #: ../mail/em-format-html-display.c:2004
 msgid "S_ave All"
 msgstr "G_ardar todo"
-
-#: ../mail/em-format-html-display.c:2063
-msgid "Toggle Attachment Bar"
-msgstr "Cambiar a barra de adxuntos"
 
 #: ../mail/em-format-html-display.c:2065
 msgid "No Attachment"
@@ -11884,7 +11876,8 @@ msgstr "<I> (%R %Z)</I>"
 
 #: ../mail/em-format-html.c:1628 ../mail/em-format-quote.c:329
 #: ../mail/em-format.c:850 ../mail/em-mailer-prefs.c:91
-#: ../mail/message-list.etspec.h:2
+#: ../mail/message-list.etspec.h:2 ../widgets/misc/e-dateedit.c:341
+#: ../widgets/misc/e-dateedit.c:363
 msgid "Date"
 msgstr "Data"
 
@@ -12045,8 +12038,8 @@ msgid "Do not show this message again."
 msgstr "Non amosar esta mensaxe outra vez."
 
 #: ../mail/em-utils.c:319
-msgid "Filters"
-msgstr "Filtros"
+msgid "Message Filters"
+msgstr "Filtros de mensaxe"
 
 #: ../mail/em-utils.c:462 ../mail/em-utils.c:499
 msgid "message"
@@ -12978,10 +12971,6 @@ msgstr "Sempre cifrarme a _mín mesmo cando envíe correo cifrado"
 #: ../mail/mail-config.glade.h:44
 msgid "Attach original message"
 msgstr "Adxuntar mensaxe orixinal"
-
-#: ../mail/mail-config.glade.h:45 ../mail/message-list.etspec.h:1
-msgid "Attachment"
-msgstr "Adxunto"
 
 #: ../mail/mail-config.glade.h:46
 msgid "Automatically insert _smiley images"
@@ -14502,8 +14491,8 @@ msgid "%b %d %Y"
 msgstr "%d de %B de %Y"
 
 #: ../mail/message-list.c:2063
-msgid "Message List"
-msgstr "Lista de mensaxes"
+msgid "Messages"
+msgstr "Mensaxes"
 
 #: ../mail/message-list.c:3441
 msgid "Generating message list"
@@ -16040,8 +16029,8 @@ msgid "Select the calendars to search for meeting conflicts"
 msgstr "Seleccione os calendarios nos que buscar conflictos entre xuntanzas"
 
 #: ../plugins/itip-formatter/itip-formatter.c:2031
-msgid "Conflict Search Table"
-msgstr "Táboa de buscas e conflictos"
+msgid "Conflict Search"
+msgstr "Procurar conflicto"
 
 #. strftime format of a weekday and a date.
 #: ../plugins/itip-formatter/itip-view.c:184 ../ui/evolution-calendar.xml.h:32
@@ -18472,6 +18461,7 @@ msgid "Previews the calendar to be printed"
 msgstr "Previsualiza a axenda que se vai imprimir"
 
 #: ../ui/evolution-calendar.xml.h:17 ../ui/evolution-mail-message.xml.h:74
+#: ../widgets/misc/e-calendar.c:177 ../widgets/misc/e-calendar.c:201
 msgid "Previous"
 msgstr "Anterior"
 
@@ -20117,10 +20107,6 @@ msgstr "LMMXVSD"
 msgid "%B %Y"
 msgstr "%B de %Y"
 
-#: ../widgets/misc/e-calendar.c:177 ../widgets/misc/e-calendar.c:201
-msgid "Previous Button"
-msgstr "Botón anterior"
-
 #: ../widgets/misc/e-calendar.c:226
 msgid "Month Calendar"
 msgstr "Calendario mensual"
@@ -20294,32 +20280,24 @@ msgid "..."
 msgstr "..."
 
 #: ../widgets/misc/e-dateedit.c:321
-msgid "Date and Time Entry"
-msgstr "Entrada para a Data e Hora"
+msgid "Date and Time"
+msgstr "Data e Hora"
 
 #: ../widgets/misc/e-dateedit.c:340
 msgid "Text entry to input date"
 msgstr "Entrada de texto para introducir a data"
 
-#: ../widgets/misc/e-dateedit.c:341
-msgid "Text Date Entry"
-msgstr "Entrada de texto para a data"
-
 #: ../widgets/misc/e-dateedit.c:362
 msgid "Click this button to show a calendar"
 msgstr "Prema este botón para amosar un calendario"
-
-#: ../widgets/misc/e-dateedit.c:363
-msgid "Date Button"
-msgstr "Botón de data"
 
 #: ../widgets/misc/e-dateedit.c:384
 msgid "Combo box to select time"
 msgstr "Caixa combo para seleccionar a hora"
 
 #: ../widgets/misc/e-dateedit.c:385
-msgid "Time Combo Box"
-msgstr "Caixa combo da hora"
+msgid "Time"
+msgstr "Hora"
 
 #. This is a strftime() format. %H = hour (0-23), %M = minute.
 #: ../widgets/misc/e-dateedit.c:1436 ../widgets/misc/e-dateedit.c:1763
@@ -20457,8 +20435,8 @@ msgstr "Anchura de columna"
 #. To translators: This is the accessibility name of
 #. the search bar's text entry widget
 #: ../widgets/misc/e-search-bar.c:371
-msgid "Search Text Entry"
-msgstr "Entrada de busca de texto"
+msgid "Search"
+msgstr "Procurar"
 
 #: ../widgets/misc/e-search-bar.c:588
 msgid "_Search"
