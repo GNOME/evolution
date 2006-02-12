@@ -1044,19 +1044,19 @@ make_recur_month_num_menu (int month_index)
 	 * the month to setup an appointment recurrence. The entire string is for example: This appointment recurs/Every [x] month(s) 
 	 * on the [Other date] [1st to 10th] [7th] [forever]' (dropdown menu options are in [square brackets]).
 	 */
-	item = make_recur_month_num_submenu ("1st to 10th", 0, 10);
+	item = make_recur_month_num_submenu (_("1st to 10th"), 0, 10);
 	gtk_menu_shell_append(GTK_MENU_SHELL(submenu), item);
 	/* TRANSLATORS: This is a submenu option string to split the date range into three submenus to choose the exact day of 
 	 * the month to setup an appointment recurrence. The entire string is for example: This appointment recurs/Every [x] month(s) 
 	 * on the [Other date] [11th to 20th] [17th] [forever]' (dropdown menu options are in [square brackets]).
 	 */
-	item = make_recur_month_num_submenu ("11th to 20th", 10, 20);
+	item = make_recur_month_num_submenu (_("11th to 20th"), 10, 20);
 	gtk_menu_shell_append(GTK_MENU_SHELL(submenu), item);
 	/* TRANSLATORS: This is a submenu option string to split the date range into three submenus to choose the exact day of 
 	 * the month to setup an appointment recurrence. The entire string is for example: This appointment recurs/Every [x] month(s) 
 	 * on the [Other date] [21th to 31th] [27th] [forever]' (dropdown menu options are in [square brackets]).
 	 */
-	item = make_recur_month_num_submenu ("21st to 31st", 20, 31);
+	item = make_recur_month_num_submenu (_("21st to 31st"), 20, 31);
 	gtk_menu_shell_append(GTK_MENU_SHELL(submenu), item);
 
 	gtk_menu_item_set_submenu (GTK_MENU_ITEM (submenu_item), submenu);

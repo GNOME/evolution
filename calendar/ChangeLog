@@ -1,3 +1,8 @@
+2006-02-12  Karsten Bräckelmann  <guenther@rudersport.de>
+
+	* gui/dialogs/recurrence-page.c (make_recur_month_num_menu): 
+	Marked strings for translation. Fixes bug #330863.
+
 2006-02-12  Andre Klapper  <a9016009@gmx.de>
 
 	* gui/dialogs/recurrence-page.glade:
