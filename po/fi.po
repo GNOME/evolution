@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-02-10 07:57+0200\n"
-"PO-Revision-Date: 2006-02-10 08:00+0200\n"
+"POT-Creation-Date: 2006-02-12 09:24+0200\n"
+"PO-Revision-Date: 2006-02-12 09:30+0200\n"
 "Last-Translator: Ilkka Tuohela <hile@iki.fi>\n"
 "Language-Team: Finnish <gnome-fi-laatu@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -797,7 +797,7 @@ msgstr "_Uusi osoitekirja"
 #: ../addressbook/gui/widgets/e-addressbook-view.c:979
 #: ../calendar/gui/calendar-component.c:538
 #: ../calendar/gui/e-calendar-table.c:1194
-#: ../calendar/gui/e-calendar-view.c:1625 ../calendar/gui/e-memo-table.c:869
+#: ../calendar/gui/e-calendar-view.c:1617 ../calendar/gui/e-memo-table.c:869
 #: ../calendar/gui/tasks-component.c:443 ../mail/em-folder-tree.c:2054
 #: ../mail/em-folder-view.c:1091 ../ui/evolution-addressbook.xml.h:49
 #: ../ui/evolution-calendar.xml.h:38 ../ui/evolution-mail-list.xml.h:30
@@ -1170,12 +1170,12 @@ msgstr "kortteja"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:57
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:8
-#: ../calendar/gui/alarm-notify/util.c:64
-#: ../calendar/gui/alarm-notify/util.c:66
+#: ../calendar/gui/alarm-notify/util.c:65
+#: ../calendar/gui/alarm-notify/util.c:67
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:26
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:14
-#: ../calendar/gui/dialogs/event-page.glade.h:20 ../calendar/gui/misc.c:111
-#: ../calendar/gui/misc.c:113 ../filter/filter.glade.h:16
+#: ../calendar/gui/dialogs/event-page.glade.h:20 ../calendar/gui/misc.c:112
+#: ../calendar/gui/misc.c:114 ../filter/filter.glade.h:16
 #: ../mail/em-account-editor.c:1989
 #: ../plugins/calendar-http/calendar-http.c:286
 #: ../plugins/calendar-weather/calendar-weather.c:563
@@ -2682,7 +2682,7 @@ msgstr "_Pikaviestipalvelu:"
 #: ../addressbook/gui/contact-editor/im.glade.h:5
 #: ../plugins/calendar-weather/calendar-weather.c:409
 #: ../plugins/exchange-operations/exchange-calendar.c:234
-#: ../plugins/exchange-operations/exchange-contacts.c:216
+#: ../plugins/exchange-operations/exchange-contacts.c:222
 msgid "_Location:"
 msgstr "_Sijainti:"
 
@@ -2867,7 +2867,7 @@ msgstr "Tallenna VCardina..."
 #: ../addressbook/gui/widgets/e-addressbook-view.c:957
 #: ../calendar/gui/dialogs/comp-editor.c:1086
 #: ../calendar/gui/e-calendar-table.c:1174
-#: ../calendar/gui/e-calendar-view.c:1603 ../calendar/gui/e-memo-table.c:852
+#: ../calendar/gui/e-calendar-view.c:1595 ../calendar/gui/e-memo-table.c:852
 #: ../ui/evolution-addressbook.xml.h:56
 msgid "_Open"
 msgstr "_Avaa"
@@ -2925,7 +2925,7 @@ msgstr "_Leikkaa"
 #: ../calendar/gui/calendar-component.c:537
 #: ../calendar/gui/dialogs/comp-editor.c:445
 #: ../calendar/gui/e-calendar-table.c:1182
-#: ../calendar/gui/e-calendar-view.c:1610 ../calendar/gui/e-memo-table.c:860
+#: ../calendar/gui/e-calendar-view.c:1602 ../calendar/gui/e-memo-table.c:860
 #: ../calendar/gui/tasks-component.c:442 ../composer/e-msg-composer.c:3098
 #: ../mail/em-folder-tree.c:979 ../mail/em-folder-view.c:1077
 #: ../mail/message-list.c:1724 ../ui/evolution-addressbook.xml.h:46
@@ -3842,7 +3842,7 @@ msgstr "Varjostus"
 #: ../addressbook/printing/e-contact-print.glade.h:36
 #: ../plugins/exchange-operations/exchange-account-setup.c:955
 #: ../plugins/exchange-operations/exchange-calendar.c:224
-#: ../plugins/exchange-operations/exchange-contacts.c:199
+#: ../plugins/exchange-operations/exchange-contacts.c:205
 msgid "Size:"
 msgstr "Koko:"
 
@@ -4437,14 +4437,15 @@ msgid "Memo_s"
 msgstr "Mui_stilaput"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:12
-#: ../calendar/gui/e-memos.c:1084 ../calendar/gui/memos-component.c:530
-#: ../calendar/gui/memos-component.c:997 ../calendar/gui/memos-control.c:340
+#: ../calendar/gui/e-memo-table.c:274 ../calendar/gui/e-memos.c:1084
+#: ../calendar/gui/memos-component.c:530 ../calendar/gui/memos-component.c:997
+#: ../calendar/gui/memos-control.c:340
 msgid "Memos"
 msgstr "Muistilaput"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:13
-#: ../calendar/gui/e-tasks.c:1329 ../calendar/gui/print.c:1828
-#: ../calendar/gui/tasks-component.c:521
+#: ../calendar/gui/e-calendar-table.c:525 ../calendar/gui/e-tasks.c:1329
+#: ../calendar/gui/print.c:1828 ../calendar/gui/tasks-component.c:521
 #: ../calendar/gui/tasks-component.c:1012 ../calendar/gui/tasks-control.c:472
 #: ../calendar/importers/icalendar-importer.c:80
 #: ../calendar/importers/icalendar-importer.c:741
@@ -4469,9 +4470,9 @@ msgid "Evolution Calendar alarm notification service"
 msgstr "Evolutionin kalenterin hälytyspalvelu"
 
 #: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:115
-#: ../calendar/gui/alarm-notify/util.c:64
-#: ../calendar/gui/alarm-notify/util.c:66 ../calendar/gui/misc.c:111
-#: ../calendar/gui/misc.c:113
+#: ../calendar/gui/alarm-notify/util.c:65
+#: ../calendar/gui/alarm-notify/util.c:67 ../calendar/gui/misc.c:112
+#: ../calendar/gui/misc.c:114
 msgid "minute"
 msgid_plural "minutes"
 msgstr[0] "minuutti"
@@ -4512,7 +4513,7 @@ msgid "Snooze _time:"
 msgstr "Torkkumisaika:"
 
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:4
-#: ../calendar/gui/dialogs/recurrence-page.glade.h:6
+#: ../calendar/gui/dialogs/recurrence-page.glade.h:10
 #: ../filter/filter.glade.h:11 ../mail/mail-config.glade.h:159
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:15
 #: ../plugins/publish-calendar/publish-calendar.glade.h:20
@@ -4610,52 +4611,58 @@ msgstr "epäkelpo aika"
 msgid "(%ld seconds)"
 msgstr "(%ld sekuntia)"
 
-#: ../calendar/gui/alarm-notify/util.c:64 ../calendar/gui/misc.c:111
+#. TRANSLATORS: here, "second" is the time division (like "minute"), not the ordinal number (like "third")
+#: ../calendar/gui/alarm-notify/util.c:65 ../calendar/gui/misc.c:112
 #, c-format
 msgid "(%d %s %d %s)"
 msgstr "(%d %s %d %s)"
 
-#: ../calendar/gui/alarm-notify/util.c:64
-#: ../calendar/gui/dialogs/recurrence-page.c:987 ../calendar/gui/misc.c:111
+#. TRANSLATORS: here, "second" is the ordinal number (like "third"), not the time division (like "minute")
+#. * Entire string is for example: This appointment recurs/Every [x] month(s) on the [second] [Monday] [forever]'
+#. * (dropdown menu options are in [square brackets]). This means that after 'second', either the string 'day' or
+#. * the name of a week day (like 'Monday' or 'Friday') always follow.
+#.
+#: ../calendar/gui/alarm-notify/util.c:65
+#: ../calendar/gui/dialogs/recurrence-page.c:998 ../calendar/gui/misc.c:112
 msgid "second"
 msgstr "sekunti"
 
-#: ../calendar/gui/alarm-notify/util.c:64 ../calendar/gui/misc.c:111
-#: ../filter/filter.glade.h:18 ../mail/mail-config.glade.h:177
+#: ../calendar/gui/alarm-notify/util.c:65 ../calendar/gui/misc.c:112
+#: ../filter/filter.glade.h:18 ../mail/mail-config.glade.h:178
 msgid "seconds"
 msgstr "sekuntia"
 
-#: ../calendar/gui/alarm-notify/util.c:66 ../calendar/gui/misc.c:113
+#: ../calendar/gui/alarm-notify/util.c:67 ../calendar/gui/misc.c:114
 #, c-format
 msgid "(%d %s)"
 msgstr "(%d %s)"
 
-#: ../calendar/gui/alarm-notify/util.c:77 ../calendar/gui/misc.c:124
+#: ../calendar/gui/alarm-notify/util.c:78 ../calendar/gui/misc.c:125
 #, c-format
 msgid " %u second"
 msgstr "%u sekunti"
 
-#: ../calendar/gui/alarm-notify/util.c:77 ../calendar/gui/misc.c:124
+#: ../calendar/gui/alarm-notify/util.c:78 ../calendar/gui/misc.c:125
 #, c-format
 msgid " %u seconds"
 msgstr "%u sekuntia"
 
-#: ../calendar/gui/alarm-notify/util.c:79 ../calendar/gui/misc.c:126
+#: ../calendar/gui/alarm-notify/util.c:80 ../calendar/gui/misc.c:127
 #, c-format
 msgid " %u minute"
 msgstr "%u minuutti"
 
-#: ../calendar/gui/alarm-notify/util.c:79 ../calendar/gui/misc.c:126
+#: ../calendar/gui/alarm-notify/util.c:80 ../calendar/gui/misc.c:127
 #, c-format
 msgid " %u minutes"
 msgstr "%u minuuttia"
 
-#: ../calendar/gui/alarm-notify/util.c:81 ../calendar/gui/misc.c:128
+#: ../calendar/gui/alarm-notify/util.c:82 ../calendar/gui/misc.c:129
 #, c-format
 msgid "%u hour"
 msgstr "%u tunti"
 
-#: ../calendar/gui/alarm-notify/util.c:81 ../calendar/gui/misc.c:128
+#: ../calendar/gui/alarm-notify/util.c:82 ../calendar/gui/misc.c:129
 #, c-format
 msgid "%u hours"
 msgstr "%u tuntia"
@@ -5308,8 +5315,10 @@ msgstr "jälkeen"
 msgid "before"
 msgstr "ennen"
 
+#. TRANSLATORS: Entire string is for example:
+#. 'This appointment recurs/Every[x][day(s)][for][1]occurrences' (dropdown menu options are in [square brackets])
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:19
-#: ../calendar/gui/dialogs/recurrence-page.glade.h:7
+#: ../calendar/gui/dialogs/recurrence-page.glade.h:13
 msgid "day(s)"
 msgstr "päivä(ä)"
 
@@ -5457,7 +5466,7 @@ msgid "Free/Busy"
 msgstr "Vapaa/Varattu"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:18
-#: ../calendar/gui/dialogs/recurrence-page.c:1046
+#: ../calendar/gui/dialogs/recurrence-page.c:1084
 #: ../calendar/gui/e-itip-control.c:730
 msgid "Friday"
 msgstr "Perjantai"
@@ -5473,7 +5482,7 @@ msgstr ""
 "päivää"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:23
-#: ../calendar/gui/dialogs/recurrence-page.c:1042
+#: ../calendar/gui/dialogs/recurrence-page.c:1080
 #: ../calendar/gui/e-itip-control.c:726
 msgid "Monday"
 msgstr "Maanantai"
@@ -5507,7 +5516,7 @@ msgid "S_un"
 msgstr "_Su"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:33
-#: ../calendar/gui/dialogs/recurrence-page.c:1047
+#: ../calendar/gui/dialogs/recurrence-page.c:1085
 #: ../calendar/gui/e-itip-control.c:731
 msgid "Saturday"
 msgstr "Lauantai"
@@ -5525,7 +5534,7 @@ msgid "Show week _numbers in date navigator"
 msgstr "Näytä _viikkonumerot"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:37
-#: ../calendar/gui/dialogs/recurrence-page.c:1048
+#: ../calendar/gui/dialogs/recurrence-page.c:1086
 #: ../calendar/gui/e-itip-control.c:725
 msgid "Sunday"
 msgstr "Sunnuntai"
@@ -5543,7 +5552,7 @@ msgid "Template:"
 msgstr "Pohja:"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:41
-#: ../calendar/gui/dialogs/recurrence-page.c:1045
+#: ../calendar/gui/dialogs/recurrence-page.c:1083
 #: ../calendar/gui/e-itip-control.c:729
 msgid "Thursday"
 msgstr "Torstai"
@@ -5558,13 +5567,13 @@ msgid "Time format:"
 msgstr "Ajan muoto:"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:44
-#: ../calendar/gui/dialogs/recurrence-page.c:1043
+#: ../calendar/gui/dialogs/recurrence-page.c:1081
 #: ../calendar/gui/e-itip-control.c:727
 msgid "Tuesday"
 msgstr "Tiistai"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:45
-#: ../calendar/gui/dialogs/recurrence-page.c:1044
+#: ../calendar/gui/dialogs/recurrence-page.c:1082
 #: ../calendar/gui/e-itip-control.c:728
 msgid "Wednesday"
 msgstr "Keskiviikko"
@@ -5855,62 +5864,67 @@ msgid "_Add attachment..."
 msgstr "_Lisää liite..."
 
 #: ../calendar/gui/dialogs/comp-editor.c:1466
-msgid "Attachment Button: Press space key to toggle attachment bar"
-msgstr "Liitepainike: Näytä ja piilota liitepalkki välilyönnillä"
+#: ../mail/em-format-html-display.c:2063
+msgid "Show Attachments"
+msgstr "Näytä liitteet"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2073
-#: ../calendar/gui/dialogs/comp-editor.c:2116
+#: ../calendar/gui/dialogs/comp-editor.c:1467
+msgid "Press space key to toggle attachment bar"
+msgstr "Näytä tai piilota liitepalkki välilyönnillä"
+
+#: ../calendar/gui/dialogs/comp-editor.c:2074
+#: ../calendar/gui/dialogs/comp-editor.c:2117
 msgid "Edit Appointment"
 msgstr "Muokkaa tapaamista"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2079
-#: ../calendar/gui/dialogs/comp-editor.c:2122
+#: ../calendar/gui/dialogs/comp-editor.c:2080
+#: ../calendar/gui/dialogs/comp-editor.c:2123
 #, c-format
 msgid "Meeting - %s"
 msgstr "Kokous - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2081
-#: ../calendar/gui/dialogs/comp-editor.c:2124
+#: ../calendar/gui/dialogs/comp-editor.c:2082
+#: ../calendar/gui/dialogs/comp-editor.c:2125
 #, c-format
 msgid "Appointment - %s"
 msgstr "Tapaaminen - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2085
-#: ../calendar/gui/dialogs/comp-editor.c:2128
+#: ../calendar/gui/dialogs/comp-editor.c:2086
+#: ../calendar/gui/dialogs/comp-editor.c:2129
 #, c-format
 msgid "Assigned Task - %s"
 msgstr "Tehtävänanto - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2087
-#: ../calendar/gui/dialogs/comp-editor.c:2130
+#: ../calendar/gui/dialogs/comp-editor.c:2088
+#: ../calendar/gui/dialogs/comp-editor.c:2131
 #, c-format
 msgid "Task - %s"
 msgstr "Tehtävä - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2090
-#: ../calendar/gui/dialogs/comp-editor.c:2133
+#: ../calendar/gui/dialogs/comp-editor.c:2091
+#: ../calendar/gui/dialogs/comp-editor.c:2134
 #, c-format
 msgid "Journal entry - %s"
 msgstr "Päiväkirjamerkintä - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2101
-#: ../calendar/gui/dialogs/comp-editor.c:2143
+#: ../calendar/gui/dialogs/comp-editor.c:2102
+#: ../calendar/gui/dialogs/comp-editor.c:2144
 msgid "No summary"
 msgstr "Ei kuvausta"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2651
+#: ../calendar/gui/dialogs/comp-editor.c:2652
 #: ../composer/e-msg-composer-attachment-bar.c:307 ../mail/em-utils.c:464
 #: ../mail/em-utils.c:501 ../widgets/misc/e-attachment-bar.c:339
 msgid "attachment"
 msgstr "liite"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2740
-#: ../calendar/gui/dialogs/comp-editor.c:2794
-#: ../calendar/gui/dialogs/comp-editor.c:2818
+#: ../calendar/gui/dialogs/comp-editor.c:2741
+#: ../calendar/gui/dialogs/comp-editor.c:2795
+#: ../calendar/gui/dialogs/comp-editor.c:2819
 msgid "Changes made to this item may be discarded if an update arrives"
 msgstr "Tähän kohtaan tehdyt muutokset voidaan hylätä, jos päivitys saapuu"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2842
+#: ../calendar/gui/dialogs/comp-editor.c:2843
 msgid "Unable to use current version!"
 msgstr "Nykyistä versiota ei voida käyttää!"
 
@@ -6176,13 +6190,17 @@ msgstr "_Hälytys"
 msgid "_Time:"
 msgstr "_Aika:"
 
+#. TRANSLATORS: Entire string is for example:
+#. 'This appointment recurs/Every[x][day(s)][for][1]occurrences' (dropdown menu options are in [square brackets])
 #: ../calendar/gui/dialogs/event-page.glade.h:18
-#: ../calendar/gui/dialogs/recurrence-page.glade.h:8
+#: ../calendar/gui/dialogs/recurrence-page.glade.h:16
 msgid "for"
 msgstr "kertaa"
 
+#. TRANSLATORS: Entire string is for example:
+#. 'This appointment recurs/Every[x][day(s)][until][2006/01/01]' (dropdown menu options are in [square brackets])
 #: ../calendar/gui/dialogs/event-page.glade.h:21
-#: ../calendar/gui/dialogs/recurrence-page.glade.h:11
+#: ../calendar/gui/dialogs/recurrence-page.glade.h:25
 msgid "until"
 msgstr "kunnes"
 
@@ -6362,43 +6380,66 @@ msgstr ""
 msgid "Recurrence date is invalid"
 msgstr "Toistuvuuden päiväys on virheellinen"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:926
+#. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] week(s) on [Wednesday] [forever]'
+#. * (dropdown menu options are in [square brackets]). This means that after the 'on', name of a week day always follows.
+#: ../calendar/gui/dialogs/recurrence-page.c:928
 msgid "on"
 msgstr " "
 
-#: ../calendar/gui/dialogs/recurrence-page.c:986
+#. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [first] [Monday] [forever]'
+#. * (dropdown menu options are in [square brackets]). This means that after 'first', either the string 'day' or
+#. * the name of a week day (like 'Monday' or 'Friday') always follow.
+#.
+#: ../calendar/gui/dialogs/recurrence-page.c:992
 msgid "first"
 msgstr "ensimmäinen"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:988
+#. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [third] [Monday] [forever]'
+#. * (dropdown menu options are in [square brackets]). This means that after 'third', either the string 'day' or
+#. * the name of a week day (like 'Monday' or 'Friday') always follow.
+#.
+#: ../calendar/gui/dialogs/recurrence-page.c:1003
 msgid "third"
 msgstr "kolmas"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:989
+#. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [fourth] [Monday] [forever]'
+#. * (dropdown menu options are in [square brackets]). This means that after 'fourth', either the string 'day' or
+#. * the name of a week day (like 'Monday' or 'Friday') always follow.
+#.
+#: ../calendar/gui/dialogs/recurrence-page.c:1008
 msgid "fourth"
 msgstr "neljäs"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:990
+#. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [last] [Monday] [forever]'
+#. * (dropdown menu options are in [square brackets]). This means that after 'last', either the string 'day' or
+#. * the name of a week day (like 'Monday' or 'Friday') always follow.
+#.
+#: ../calendar/gui/dialogs/recurrence-page.c:1013
 msgid "last"
 msgstr "viimeinen"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1013
+#. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [Other date] [11th to 20th] [17th] [forever]'
+#. * (dropdown menu options are in [square brackets]).
+#: ../calendar/gui/dialogs/recurrence-page.c:1039
 msgid "Other Date"
 msgstr "Toinen päiväys"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1041
+#: ../calendar/gui/dialogs/recurrence-page.c:1079
 msgid "day"
 msgstr "päivä"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1178
+#. TRANSLATORS: Entire string is for example: 'This appointment recurs/Every [x] month(s) on the [second] [Tuesday] [forever]'
+#. * (dropdown menu options are in [square brackets])."
+#.
+#: ../calendar/gui/dialogs/recurrence-page.c:1219
 msgid "on the"
 msgstr "  "
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1367
+#: ../calendar/gui/dialogs/recurrence-page.c:1408
 msgid "occurrences"
 msgstr "tapahtumiskerrat"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:2336
+#: ../calendar/gui/dialogs/recurrence-page.c:2377
 msgid "Date/Time"
 msgstr "Päiväys/Aika"
 
@@ -6415,27 +6456,37 @@ msgstr "<b>Esikatselu</b>"
 msgid "<b>Recurrence</b>"
 msgstr "<b>Toistuvuus</b>"
 
-#: ../calendar/gui/dialogs/recurrence-page.glade.h:4
+#. TRANSLATORS: Entire string is for example:
+#. 'This appointment recurs/Every[x][day(s)][for][1]occurrences' (dropdown menu options are in [square brackets])
+#: ../calendar/gui/dialogs/recurrence-page.glade.h:6
 msgid "Every"
 msgstr "Joka"
 
-#: ../calendar/gui/dialogs/recurrence-page.glade.h:5
+#. TRANSLATORS: Entire string is for example:
+#. 'This appointment recurs/Every[x][day(s)][for][1]occurrences' (dropdown menu options are in [square brackets])
+#: ../calendar/gui/dialogs/recurrence-page.glade.h:9
 msgid "This appointment rec_urs"
 msgstr "Tapaaminen _toistuu"
 
-#: ../calendar/gui/dialogs/recurrence-page.glade.h:9
+#. TRANSLATORS: Entire string is for example:
+#. 'This appointment recurs/Every[x][day(s)][forever]' (dropdown menu options are in [square brackets])
+#: ../calendar/gui/dialogs/recurrence-page.glade.h:19
 msgid "forever"
 msgstr "ikuisesti"
 
-#: ../calendar/gui/dialogs/recurrence-page.glade.h:10
+#. TRANSLATORS: Entire string is for example:
+#. 'This appointment recurs/Every[x][month(s)][for][1]occurrences' (dropdown menu options are in [square brackets])
+#: ../calendar/gui/dialogs/recurrence-page.glade.h:22
 msgid "month(s)"
 msgstr "kuukautta"
 
-#: ../calendar/gui/dialogs/recurrence-page.glade.h:12
+#. TRANSLATORS: Entire string is for example:
+#. 'This appointment recurs/Every[x][week(s)][for][1]occurrences' (dropdown menu options are in [square brackets])
+#: ../calendar/gui/dialogs/recurrence-page.glade.h:28
 msgid "week(s)"
 msgstr "viikko(a)"
 
-#: ../calendar/gui/dialogs/recurrence-page.glade.h:13
+#: ../calendar/gui/dialogs/recurrence-page.glade.h:29
 msgid "year(s)"
 msgstr "vuotta"
 
@@ -6862,7 +6913,7 @@ msgid "untitled_image.%s"
 msgstr "nimetön_kuva.%s"
 
 #: ../calendar/gui/e-cal-popup.c:272 ../calendar/gui/e-calendar-table.c:1176
-#: ../calendar/gui/e-calendar-view.c:1604 ../calendar/gui/e-memo-table.c:854
+#: ../calendar/gui/e-calendar-view.c:1596 ../calendar/gui/e-memo-table.c:854
 #: ../mail/em-folder-view.c:1087 ../mail/em-popup.c:554 ../mail/em-popup.c:565
 msgid "_Save As..."
 msgstr "Tallenna _nimellä..."
@@ -6925,10 +6976,6 @@ msgstr "90%"
 msgid "100%"
 msgstr "100%"
 
-#: ../calendar/gui/e-calendar-table.c:525
-msgid "Task Table"
-msgstr "Tehtävätaulukko"
-
 #: ../calendar/gui/e-calendar-table.c:703
 #: ../calendar/gui/e-calendar-view.c:675 ../calendar/gui/e-memo-table.c:433
 msgid "Deleting selected objects"
@@ -6950,8 +6997,8 @@ msgid "Open _Web Page"
 msgstr "_Avaa www-sivu"
 
 #: ../calendar/gui/e-calendar-table.c:1177
-#: ../calendar/gui/e-calendar-view.c:1589
-#: ../calendar/gui/e-calendar-view.c:1605 ../calendar/gui/e-memo-table.c:855
+#: ../calendar/gui/e-calendar-view.c:1581
+#: ../calendar/gui/e-calendar-view.c:1597 ../calendar/gui/e-memo-table.c:855
 #: ../mail/em-folder-view.c:1088
 #: ../plugins/print-message/org-gnome-print-message.xml.h:3
 #: ../ui/evolution-addressbook.xml.h:58 ../ui/evolution-calendar.xml.h:42
@@ -6961,15 +7008,15 @@ msgid "_Print..."
 msgstr "T_ulosta..."
 
 #: ../calendar/gui/e-calendar-table.c:1181
-#: ../calendar/gui/e-calendar-view.c:1609 ../calendar/gui/e-memo-table.c:859
+#: ../calendar/gui/e-calendar-view.c:1601 ../calendar/gui/e-memo-table.c:859
 #: ../ui/evolution-addressbook.xml.h:2 ../ui/evolution-calendar.xml.h:1
 #: ../ui/evolution-memos.xml.h:1 ../ui/evolution-tasks.xml.h:1
 msgid "C_ut"
 msgstr "L_eikkaa"
 
 #: ../calendar/gui/e-calendar-table.c:1183
-#: ../calendar/gui/e-calendar-view.c:1592
-#: ../calendar/gui/e-calendar-view.c:1611 ../calendar/gui/e-memo-table.c:861
+#: ../calendar/gui/e-calendar-view.c:1584
+#: ../calendar/gui/e-calendar-view.c:1603 ../calendar/gui/e-memo-table.c:861
 #: ../ui/evolution-addressbook.xml.h:57 ../ui/evolution-calendar.xml.h:41
 #: ../ui/evolution-composer-entries.xml.h:15 ../ui/evolution-editor.xml.h:22
 #: ../ui/evolution-memos.xml.h:19 ../ui/evolution-tasks.xml.h:28
@@ -7040,97 +7087,97 @@ msgstr "Siirretään kohteita"
 msgid "Copying items"
 msgstr "Kopioidaan kohteita"
 
-#: ../calendar/gui/e-calendar-view.c:1583
+#: ../calendar/gui/e-calendar-view.c:1575
 msgid "New _Appointment..."
 msgstr "Uusi t_apaaminen..."
 
-#: ../calendar/gui/e-calendar-view.c:1584
+#: ../calendar/gui/e-calendar-view.c:1576
 msgid "New All Day _Event"
 msgstr "Uusi koko pä_ivän tapahtuma"
 
-#: ../calendar/gui/e-calendar-view.c:1585
+#: ../calendar/gui/e-calendar-view.c:1577
 msgid "New _Meeting"
 msgstr "Uusi _kokous"
 
-#: ../calendar/gui/e-calendar-view.c:1586
+#: ../calendar/gui/e-calendar-view.c:1578
 msgid "New _Task"
 msgstr "Uusi _tehtävä"
 
 #. FIXME: hook in this somehow
-#: ../calendar/gui/e-calendar-view.c:1596
+#: ../calendar/gui/e-calendar-view.c:1588
 msgid "_Current View"
 msgstr "_Nykyinen näkymä"
 
-#: ../calendar/gui/e-calendar-view.c:1598
+#: ../calendar/gui/e-calendar-view.c:1590
 msgid "Select T_oday"
 msgstr "Valitse _tämä päivä"
 
-#: ../calendar/gui/e-calendar-view.c:1599
+#: ../calendar/gui/e-calendar-view.c:1591
 msgid "_Select Date..."
 msgstr "_Valitse päiväys..."
 
-#: ../calendar/gui/e-calendar-view.c:1615
+#: ../calendar/gui/e-calendar-view.c:1607
 msgid "Cop_y to Calendar..."
 msgstr "_Kopioi kalenteriin..."
 
-#: ../calendar/gui/e-calendar-view.c:1616
+#: ../calendar/gui/e-calendar-view.c:1608
 msgid "Mo_ve to Calendar..."
 msgstr "_Siirrä kalenteriin..."
 
-#: ../calendar/gui/e-calendar-view.c:1617
+#: ../calendar/gui/e-calendar-view.c:1609
 msgid "_Delegate Meeting..."
 msgstr "_Delegoi kokous..."
 
-#: ../calendar/gui/e-calendar-view.c:1618
+#: ../calendar/gui/e-calendar-view.c:1610
 msgid "_Schedule Meeting..."
 msgstr "_Järjestä kokous..."
 
-#: ../calendar/gui/e-calendar-view.c:1619
+#: ../calendar/gui/e-calendar-view.c:1611
 msgid "_Forward as iCalendar..."
 msgstr "_Välitä iCalendar-muodossa..."
 
-#: ../calendar/gui/e-calendar-view.c:1620
+#: ../calendar/gui/e-calendar-view.c:1612
 msgid "_Reply"
 msgstr "_Vastaa"
 
-#: ../calendar/gui/e-calendar-view.c:1621 ../mail/em-folder-view.c:1082
+#: ../calendar/gui/e-calendar-view.c:1613 ../mail/em-folder-view.c:1082
 #: ../mail/em-popup.c:559 ../mail/em-popup.c:570
 #: ../ui/evolution-mail-message.xml.h:82
 msgid "Reply to _All"
 msgstr "Vastaa k_aikille"
 
-#: ../calendar/gui/e-calendar-view.c:1626
+#: ../calendar/gui/e-calendar-view.c:1618
 msgid "Make this Occurrence _Movable"
 msgstr "Muuta tämä kerta _siirrettäväksi"
 
-#: ../calendar/gui/e-calendar-view.c:1627
+#: ../calendar/gui/e-calendar-view.c:1619
 msgid "Delete this _Occurrence"
 msgstr "Poista tämä _tapahtumakerta"
 
-#: ../calendar/gui/e-calendar-view.c:1628
+#: ../calendar/gui/e-calendar-view.c:1620
 msgid "Delete _All Occurrences"
 msgstr "Poista _kaikki tapahtumakerrat"
 
 #. To Translators: It will display "Organiser: NameOfTheUser <email@ofuser.com>"
-#: ../calendar/gui/e-calendar-view.c:2038
+#: ../calendar/gui/e-calendar-view.c:2030
 #, c-format
 msgid "Organizer: %s <%s>"
 msgstr "Järjestäjä: %s <%s>"
 
 #. With SunOne accouts, there may be no ':' in organiser.value
-#: ../calendar/gui/e-calendar-view.c:2042
+#: ../calendar/gui/e-calendar-view.c:2034
 #, c-format
 msgid "Organizer: %s"
 msgstr "Järjestäjä: %s"
 
 #. To Translators: It will display "Location: PlaceOfTheMeeting"
-#: ../calendar/gui/e-calendar-view.c:2057 ../calendar/gui/print.c:2336
+#: ../calendar/gui/e-calendar-view.c:2049 ../calendar/gui/print.c:2336
 #, c-format
 msgid "Location: %s"
 msgstr "Sijainti: %s"
 
 #. To Translators: It will display "Time: ActualStartDateAndTime (DurationOfTheMeeting)"
-#: ../calendar/gui/e-calendar-view.c:2088
+#: ../calendar/gui/e-calendar-view.c:2080
 #, c-format
 msgid "Time: %s %s"
 msgstr "Aika: %s %s"
@@ -7790,10 +7837,6 @@ msgstr "_Alkamisaika:"
 msgid "_End time:"
 msgstr "_Loppumisaika:"
 
-#: ../calendar/gui/e-memo-table.c:274
-msgid "Memo Table"
-msgstr "Muistilapputaulu"
-
 #: ../calendar/gui/e-memo-table.c:870
 msgid "_Delete Selected Memos"
 msgstr "_Poista valitut muistilaput"
@@ -7852,8 +7895,8 @@ msgid "Expunging"
 msgstr "Poistetaan poistettuja"
 
 #: ../calendar/gui/e-timezone-entry.c:133
-msgid "Timezone Button"
-msgstr "Aikavyöhykepainike"
+msgid "Select Timezone"
+msgstr "Valitse aikavyöhyke"
 
 #. strftime format %d = day of month, %B = full
 #. month name. You can change the order but don't
@@ -10860,6 +10903,7 @@ msgid "Mail"
 msgstr "Sähköposti"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:12
+#: ../mail/em-account-prefs.c:531
 msgid "Mail Accounts"
 msgstr "Sähköpostitilit"
 
@@ -10971,10 +11015,6 @@ msgstr "Tilin nimi"
 #: ../mail/em-account-prefs.c:526
 msgid "Protocol"
 msgstr "Protokolla"
-
-#: ../mail/em-account-prefs.c:531
-msgid "Mail Accounts Table"
-msgstr "Sähköpostitilit"
 
 #: ../mail/em-composer-prefs.c:311 ../mail/em-composer-prefs.c:437
 #: ../mail/mail-config.c:967
@@ -11734,9 +11774,10 @@ msgstr "Sovita _leveyteen"
 msgid "Show _Original Size"
 msgstr "Näytä alkuperäinen k_oko"
 
-#: ../mail/em-format-html-display.c:1665
-msgid "Attachment Button"
-msgstr "Liitepainike"
+#: ../mail/em-format-html-display.c:1665 ../mail/mail-config.glade.h:45
+#: ../mail/message-list.etspec.h:1
+msgid "Attachment"
+msgstr "Liite"
 
 #: ../mail/em-format-html-display.c:1872
 msgid "Select folder to save all attachments..."
@@ -11761,10 +11802,6 @@ msgstr "T_allenna"
 #: ../mail/em-format-html-display.c:2004
 msgid "S_ave All"
 msgstr "Tallenna _kaikki"
-
-#: ../mail/em-format-html-display.c:2063
-msgid "Toggle Attachment Bar"
-msgstr "Näytä tai piilota liitepalkki"
 
 #: ../mail/em-format-html-display.c:2065
 msgid "No Attachment"
@@ -11863,7 +11900,8 @@ msgstr "<I> (%R %Z)</I>"
 
 #: ../mail/em-format-html.c:1628 ../mail/em-format-quote.c:329
 #: ../mail/em-format.c:850 ../mail/em-mailer-prefs.c:91
-#: ../mail/message-list.etspec.h:2
+#: ../mail/message-list.etspec.h:2 ../widgets/misc/e-dateedit.c:341
+#: ../widgets/misc/e-dateedit.c:363
 msgid "Date"
 msgstr "Päiväys"
 
@@ -12024,8 +12062,8 @@ msgid "Do not show this message again."
 msgstr "Älä näytä tätä viestiä uudestaan."
 
 #: ../mail/em-utils.c:319
-msgid "Filters"
-msgstr "Suodattimet"
+msgid "Message Filters"
+msgstr "Viestisuodattimet"
 
 #: ../mail/em-utils.c:462 ../mail/em-utils.c:499
 msgid "message"
@@ -12959,10 +12997,6 @@ msgstr "Salaa _aina myös itselle lähetettäessä salattua sähköpostia"
 msgid "Attach original message"
 msgstr "Liitä alkuperäinen viesti"
 
-#: ../mail/mail-config.glade.h:45 ../mail/message-list.etspec.h:1
-msgid "Attachment"
-msgstr "Liite"
-
 #: ../mail/mail-config.glade.h:46
 msgid "Automatically insert _smiley images"
 msgstr "Lisää _hymiöt kuvina automaattisesti"
@@ -13401,23 +13435,24 @@ msgstr "_Vastaustyyli:"
 msgid "_Script:"
 msgstr "_Komentotiedosto:"
 
-#: ../mail/mail-config.glade.h:172
-msgid "_Show animated images"
-msgstr "_Näytä animoidut kuvat"
-
+#. If enabled, show animation; if disabled, only display a static image without any animation
 #: ../mail/mail-config.glade.h:173
+msgid "_Show image animations"
+msgstr "Näytä kuvien animaatiot"
+
+#: ../mail/mail-config.glade.h:174
 msgid "_Use Secure Connection:"
 msgstr "_Käytä salattua yhteyttä:"
 
-#: ../mail/mail-config.glade.h:174
+#: ../mail/mail-config.glade.h:175
 msgid "_Use the same fonts as other applications"
 msgstr "Käytä samoja _kirjasimia kuin muut ohjelmat"
 
-#: ../mail/mail-config.glade.h:175
+#: ../mail/mail-config.glade.h:176
 msgid "color"
 msgstr " "
 
-#: ../mail/mail-config.glade.h:176
+#: ../mail/mail-config.glade.h:177
 msgid "description"
 msgstr "kuvaus"
 
@@ -14480,8 +14515,8 @@ msgid "%b %d %Y"
 msgstr "%b %d %Y"
 
 #: ../mail/message-list.c:2063
-msgid "Message List"
-msgstr "_Viestilista"
+msgid "Messages"
+msgstr "Viestit"
 
 #: ../mail/message-list.c:3441
 msgid "Generating message list"
@@ -14815,8 +14850,8 @@ msgstr "Haluatko käyttää Evolutionia oletuksena sähköpostin käsittelyyn?"
 
 #: ../plugins/default-source/default-source.c:82
 #: ../plugins/default-source/default-source.c:109
-msgid "Mark as default folder"
-msgstr "Merkitse oletuskansioksi"
+msgid "Mark as _default folder"
+msgstr "Merkitse _oletuskansioksi"
 
 #: ../plugins/default-source/org-gnome-default-source.eplug.xml.h:1
 msgid "Default Sources"
@@ -14946,7 +14981,7 @@ msgid "Ch_eck for Supported Types"
 msgstr "Tar_kista tuetut tyypit"
 
 #: ../plugins/exchange-operations/exchange-calendar.c:192
-#: ../plugins/exchange-operations/exchange-contacts.c:164
+#: ../plugins/exchange-operations/exchange-contacts.c:165
 msgid ""
 "Evolution is in offline mode. You cannot create or modify folders now.\n"
 "Please switch to online mode for such operations."
@@ -16013,8 +16048,8 @@ msgid "Select the calendars to search for meeting conflicts"
 msgstr "Valitse kalenterit, joista etsitään päällekkäisiä kokouksia"
 
 #: ../plugins/itip-formatter/itip-formatter.c:2031
-msgid "Conflict Search Table"
-msgstr "Ristiriitaisuuksien hakutaulukko"
+msgid "Conflict Search"
+msgstr "Ristiriitaisuuksien haku"
 
 #. strftime format of a weekday and a date.
 #: ../plugins/itip-formatter/itip-view.c:184 ../ui/evolution-calendar.xml.h:32
@@ -18439,6 +18474,7 @@ msgid "Previews the calendar to be printed"
 msgstr "Esikatselee tulostettavaa kalenteria"
 
 #: ../ui/evolution-calendar.xml.h:17 ../ui/evolution-mail-message.xml.h:74
+#: ../widgets/misc/e-calendar.c:177 ../widgets/misc/e-calendar.c:201
 msgid "Previous"
 msgstr "Edellinen"
 
@@ -20087,10 +20123,6 @@ msgstr "MTKTPLS"
 msgid "%B %Y"
 msgstr "%B %Y"
 
-#: ../widgets/misc/e-calendar.c:177 ../widgets/misc/e-calendar.c:201
-msgid "Previous Button"
-msgstr "Edellinen painike"
-
 #: ../widgets/misc/e-calendar.c:226
 msgid "Month Calendar"
 msgstr "Kuukausikalenteri"
@@ -20264,32 +20296,24 @@ msgid "..."
 msgstr "..."
 
 #: ../widgets/misc/e-dateedit.c:321
-msgid "Date and Time Entry"
-msgstr "Päiväyksen ja Ajan kenttä"
+msgid "Date and Time"
+msgstr "Päiväys ja aika"
 
 #: ../widgets/misc/e-dateedit.c:340
 msgid "Text entry to input date"
 msgstr "Tekstikenttä päiväyksen syöttöön"
 
-#: ../widgets/misc/e-dateedit.c:341
-msgid "Text Date Entry"
-msgstr "Tekstikentää päiväykselle"
-
 #: ../widgets/misc/e-dateedit.c:362
 msgid "Click this button to show a calendar"
 msgstr "Paina tästä näyttääksesi kalenterin"
-
-#: ../widgets/misc/e-dateedit.c:363
-msgid "Date Button"
-msgstr "Päiväyspainike"
 
 #: ../widgets/misc/e-dateedit.c:384
 msgid "Combo box to select time"
 msgstr "Yhdistelmävalitsin ajan valitsemiseen"
 
 #: ../widgets/misc/e-dateedit.c:385
-msgid "Time Combo Box"
-msgstr "Ajan yhdistelmävalitsin"
+msgid "Time"
+msgstr "Aika"
 
 #. This is a strftime() format. %H = hour (0-23), %M = minute.
 #: ../widgets/misc/e-dateedit.c:1436 ../widgets/misc/e-dateedit.c:1763
@@ -20426,8 +20450,8 @@ msgstr "Sarakkeen leveys"
 #. To translators: This is the accessibility name of
 #. the search bar's text entry widget
 #: ../widgets/misc/e-search-bar.c:371
-msgid "Search Text Entry"
-msgstr "Haettava teksti"
+msgid "Search"
+msgstr "Etsi"
 
 #: ../widgets/misc/e-search-bar.c:588
 msgid "_Search"
@@ -21155,6 +21179,48 @@ msgstr "IM-konteksti"
 #: ../widgets/text/e-text.c:3706 ../widgets/text/e-text.c:3707
 msgid "Handle Popup"
 msgstr "Kahvan ponnahdusikkuna"
+
+#~ msgid "Task Table"
+#~ msgstr "Tehtävätaulukko"
+
+#~ msgid "Memo Table"
+#~ msgstr "Muistilapputaulu"
+
+#~ msgid "Timezone Button"
+#~ msgstr "Aikavyöhykepainike"
+
+#~ msgid "Mail Accounts Table"
+#~ msgstr "Sähköpostitilit"
+
+#~ msgid "Attachment Button"
+#~ msgstr "Liitepainike"
+
+#~ msgid "Toggle Attachment Bar"
+#~ msgstr "Näytä tai piilota liitepalkki"
+
+#~ msgid "Filters"
+#~ msgstr "Suodattimet"
+
+#~ msgid "_Show animated images"
+#~ msgstr "_Näytä animoidut kuvat"
+
+#~ msgid "Message List"
+#~ msgstr "_Viestilista"
+
+#~ msgid "Previous Button"
+#~ msgstr "Edellinen painike"
+
+#~ msgid "Text Date Entry"
+#~ msgstr "Tekstikentää päiväykselle"
+
+#~ msgid "Date Button"
+#~ msgstr "Päiväyspainike"
+
+#~ msgid "Time Combo Box"
+#~ msgstr "Ajan yhdistelmävalitsin"
+
+#~ msgid "Search Text Entry"
+#~ msgstr "Haettava teksti"
 
 #~ msgid "Removal Complete"
 #~ msgstr "Poisto valmis"
