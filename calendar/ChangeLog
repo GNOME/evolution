@@ -1,3 +1,7 @@
+2006-02-13  Karsten Bräckelmann  <guenther@rudersport.de>
+
+	* calendar.error.xml: Added mnemonics. Fixes bug #330933.
+
 2006-02-12  Karsten Bräckelmann  <guenther@rudersport.de>
 
 	* gui/dialogs/recurrence-page.c (make_recur_month_num_menu): 

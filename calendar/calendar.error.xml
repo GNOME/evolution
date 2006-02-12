@@ -4,8 +4,8 @@
  <error id="prompt-cancel-meeting" type="question" defult="GTK_RESPONSE_YES">
   <_primary>Would you like to send all the participants a cancelation notice?</_primary>
   <_secondary>If you do not send a cancelation notice, the other participants may not know the meeting is canceled.</_secondary>
-  <button _label="Do not Send" response="GTK_RESPONSE_NO"/>
-  <button _label="Send Notice" response="GTK_RESPONSE_YES"/>
+  <button _label="Do _not Send" response="GTK_RESPONSE_NO"/>
+  <button _label="_Send Notice" response="GTK_RESPONSE_YES"/>
  </error>
 
  <error id="prompt-delete-meeting" type="question" defult="GTK_RESPONSE_NO">
@@ -18,8 +18,8 @@
  <error id="prompt-cancel-task" type="question" defult="GTK_RESPONSE_YES">
   <_primary>Would you like to send all the participants a cancelation notice?</_primary>
   <_secondary>If you do not send a cancelation notice, the other participants may not know the task has been deleted.</_secondary>
-  <button _label="Do not Send" response="GTK_RESPONSE_NO"/>
-  <button _label="Send Notice" response="GTK_RESPONSE_YES"/>
+  <button _label="Do _not Send" response="GTK_RESPONSE_NO"/>
+  <button _label="_Send Notice" response="GTK_RESPONSE_YES"/>
  </error>
 
  <error id="prompt-delete-task" type="question" defult="GTK_RESPONSE_NO">
@@ -32,8 +32,8 @@
  <error id="prompt-cancel-journal" type="question" defult="GTK_RESPONSE_YES">
   <_primary>Would you like to send a cancelation notice for this journal entry?</_primary>
   <_secondary>If you do not send a cancelation notice, the other participants may not know the journal has been deleted.</_secondary>
-  <button _label="Do not Send" response="GTK_RESPONSE_NO"/>
-  <button _label="Send Notice" response="GTK_RESPONSE_YES"/>
+  <button _label="Do _not Send" response="GTK_RESPONSE_NO"/>
+  <button _label="_Send Notice" response="GTK_RESPONSE_YES"/>
  </error>
 
  <error id="prompt-delete-journal" type="question" defult="GTK_RESPONSE_NO">
@@ -136,22 +136,22 @@
  <error id="prompt-meeting-invite" type="question" default="GTK_RESPONSE_YES">
   <_primary>Would you like to send meeting invitations to participants?</_primary>
   <_secondary>Email invitations will be sent to all participants and allow them to reply.</_secondary>
-  <button _label="Do not Send" response="GTK_RESPONSE_NO"/>
-  <button _label="Send" response="GTK_RESPONSE_YES"/>
+  <button _label="Do _not Send" response="GTK_RESPONSE_NO"/>
+  <button _label="_Send" response="GTK_RESPONSE_YES"/>
  </error>
 
  <error id="prompt-send-updated-meeting-info" type="question" default="GTK_RESPONSE_YES">
   <_primary>Would you like to send updated meeting information to participants?</_primary>
   <_secondary>Sending updated information allows other participants to keep their calendars up to date.</_secondary>
-  <button _label="Do not Send" response="GTK_RESPONSE_NO"/>
-  <button _label="Send" response="GTK_RESPONSE_YES"/>
+  <button _label="Do _not Send" response="GTK_RESPONSE_NO"/>
+  <button _label="_Send" response="GTK_RESPONSE_YES"/>
  </error>
 
  <error id="prompt-send-task" type="question" default="GTK_RESPONSE_YES">
   <_primary>Would you like to send this task to participants?</_primary>
   <_secondary>Email invitations will be sent to all participants and allow them to accept this task.</_secondary>
-  <button _label="Do not Send" response="GTK_RESPONSE_NO"/>
-  <button _label="Send" response="GTK_RESPONSE_YES"/>
+  <button _label="Do _not Send" response="GTK_RESPONSE_NO"/>
+  <button _label="_Send" response="GTK_RESPONSE_YES"/>
  </error>
 
  <error id="ask-send-task-pending-download" type="question" default="GTK_RESPONSE_YES">
@@ -171,8 +171,8 @@
  <error id="prompt-send-updated-task-info" type="question" default="GTK_RESPONSE_YES">
   <_primary>Would you like to send updated task information to participants?</_primary>
   <_secondary>Sending updated information allows other participants to keep their task lists up to date.</_secondary>
-  <button _label="Do not Send" response="GTK_RESPONSE_NO"/>
-  <button _label="Send" response="GTK_RESPONSE_YES"/>
+  <button _label="Do _not Send" response="GTK_RESPONSE_NO"/>
+  <button _label="_Send" response="GTK_RESPONSE_YES"/>
  </error>
 
  <error id="tasks-crashed" type="error">
