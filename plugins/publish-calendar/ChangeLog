@@ -1,3 +1,8 @@
+2006-02-12  Karsten Bräckelmann  <guenther@rudersport.de>
+
+	* publish-calendar.glade: Change mnemonic for Port.
+	Fixes bug #329757.
+
 2006-01-30  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #328413
