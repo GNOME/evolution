@@ -1,3 +1,8 @@
+2006-02-13  Karsten Bräckelmann  <guenther@rudersport.de>
+
+	* org-gnome-select-one-source.eplug.xml: 
+	Fix mnemonics to be consistent. Fixes bug #330934.
+
 2005-12-12  Harish Krishnaswamy  <kharish@novell.com>
 
 	* Makefile.am: Fix make-clean issues.
