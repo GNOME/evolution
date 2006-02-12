@@ -40,8 +40,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gl\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-02-11 16:21+0100\n"
-"PO-Revision-Date: 2006-02-11 16:23+0100\n"
+"POT-Creation-Date: 2006-02-12 10:45+0100\n"
+"PO-Revision-Date: 2006-02-12 10:46+0100\n"
 "Last-Translator: Ignacio Casal Quinteiro <nacho.resa@gmail.com>\n"
 "Language-Team: Galego <trasno@ceu.fi.udc.es>\n"
 "MIME-Version: 1.0\n"
@@ -1202,12 +1202,12 @@ msgstr "tarxetas"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:57
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:8
-#: ../calendar/gui/alarm-notify/util.c:64
-#: ../calendar/gui/alarm-notify/util.c:66
+#: ../calendar/gui/alarm-notify/util.c:65
+#: ../calendar/gui/alarm-notify/util.c:67
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:26
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:14
-#: ../calendar/gui/dialogs/event-page.glade.h:20 ../calendar/gui/misc.c:111
-#: ../calendar/gui/misc.c:113 ../filter/filter.glade.h:16
+#: ../calendar/gui/dialogs/event-page.glade.h:20 ../calendar/gui/misc.c:112
+#: ../calendar/gui/misc.c:114 ../filter/filter.glade.h:16
 #: ../mail/em-account-editor.c:1989
 #: ../plugins/calendar-http/calendar-http.c:286
 #: ../plugins/calendar-weather/calendar-weather.c:563
@@ -4497,9 +4497,9 @@ msgid "Evolution Calendar alarm notification service"
 msgstr "Servizo de notificación por alarma do Calendario de Evolution"
 
 #: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:115
-#: ../calendar/gui/alarm-notify/util.c:64
-#: ../calendar/gui/alarm-notify/util.c:66 ../calendar/gui/misc.c:111
-#: ../calendar/gui/misc.c:113
+#: ../calendar/gui/alarm-notify/util.c:65
+#: ../calendar/gui/alarm-notify/util.c:67 ../calendar/gui/misc.c:112
+#: ../calendar/gui/misc.c:114
 msgid "minute"
 msgid_plural "minutes"
 msgstr[0] "minuto"
@@ -4540,7 +4540,7 @@ msgid "Snooze _time:"
 msgstr "_Pospoñer o aviso:"
 
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:4
-#: ../calendar/gui/dialogs/recurrence-page.glade.h:6
+#: ../calendar/gui/dialogs/recurrence-page.glade.h:10
 #: ../filter/filter.glade.h:11 ../mail/mail-config.glade.h:159
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:15
 #: ../plugins/publish-calendar/publish-calendar.glade.h:20
@@ -4638,52 +4638,58 @@ msgstr "hora inválida"
 msgid "(%ld seconds)"
 msgstr "(%ld segundos)"
 
-#: ../calendar/gui/alarm-notify/util.c:64 ../calendar/gui/misc.c:111
+#. TRANSLATORS: here, "second" is the time division (like "minute"), not the ordinal number (like "third")
+#: ../calendar/gui/alarm-notify/util.c:65 ../calendar/gui/misc.c:112
 #, c-format
 msgid "(%d %s %d %s)"
 msgstr "(%d %s %d %s)"
 
-#: ../calendar/gui/alarm-notify/util.c:64
-#: ../calendar/gui/dialogs/recurrence-page.c:987 ../calendar/gui/misc.c:111
+#. TRANSLATORS: here, "second" is the ordinal number (like "third"), not the time division (like "minute")
+#. * Entire string is for example: This appointment recurs/Every [x] month(s) on the [second] [Monday] [forever]'
+#. * (dropdown menu options are in [square brackets]). This means that after 'second', either the string 'day' or
+#. * the name of a week day (like 'Monday' or 'Friday') always follow.
+#.
+#: ../calendar/gui/alarm-notify/util.c:65
+#: ../calendar/gui/dialogs/recurrence-page.c:998 ../calendar/gui/misc.c:112
 msgid "second"
 msgstr "segundo"
 
-#: ../calendar/gui/alarm-notify/util.c:64 ../calendar/gui/misc.c:111
-#: ../filter/filter.glade.h:18 ../mail/mail-config.glade.h:177
+#: ../calendar/gui/alarm-notify/util.c:65 ../calendar/gui/misc.c:112
+#: ../filter/filter.glade.h:18 ../mail/mail-config.glade.h:178
 msgid "seconds"
 msgstr "segundos"
 
-#: ../calendar/gui/alarm-notify/util.c:66 ../calendar/gui/misc.c:113
+#: ../calendar/gui/alarm-notify/util.c:67 ../calendar/gui/misc.c:114
 #, c-format
 msgid "(%d %s)"
 msgstr "(%d %s)"
 
-#: ../calendar/gui/alarm-notify/util.c:77 ../calendar/gui/misc.c:124
+#: ../calendar/gui/alarm-notify/util.c:78 ../calendar/gui/misc.c:125
 #, c-format
 msgid " %u second"
 msgstr " %u segundo"
 
-#: ../calendar/gui/alarm-notify/util.c:77 ../calendar/gui/misc.c:124
+#: ../calendar/gui/alarm-notify/util.c:78 ../calendar/gui/misc.c:125
 #, c-format
 msgid " %u seconds"
 msgstr "%u segundos"
 
-#: ../calendar/gui/alarm-notify/util.c:79 ../calendar/gui/misc.c:126
+#: ../calendar/gui/alarm-notify/util.c:80 ../calendar/gui/misc.c:127
 #, c-format
 msgid " %u minute"
 msgstr "%u minuto"
 
-#: ../calendar/gui/alarm-notify/util.c:79 ../calendar/gui/misc.c:126
+#: ../calendar/gui/alarm-notify/util.c:80 ../calendar/gui/misc.c:127
 #, c-format
 msgid " %u minutes"
 msgstr "%u minutos"
 
-#: ../calendar/gui/alarm-notify/util.c:81 ../calendar/gui/misc.c:128
+#: ../calendar/gui/alarm-notify/util.c:82 ../calendar/gui/misc.c:129
 #, c-format
 msgid "%u hour"
 msgstr "%u hora"
 
-#: ../calendar/gui/alarm-notify/util.c:81 ../calendar/gui/misc.c:128
+#: ../calendar/gui/alarm-notify/util.c:82 ../calendar/gui/misc.c:129
 #, c-format
 msgid "%u hours"
 msgstr "%u horas"
@@ -5343,8 +5349,10 @@ msgstr "despois"
 msgid "before"
 msgstr "antes"
 
+#. TRANSLATORS: Entire string is for example:
+#. 'This appointment recurs/Every[x][day(s)][for][1]occurrences' (dropdown menu options are in [square brackets])
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:19
-#: ../calendar/gui/dialogs/recurrence-page.glade.h:7
+#: ../calendar/gui/dialogs/recurrence-page.glade.h:13
 msgid "day(s)"
 msgstr "día(s)"
 
@@ -5490,7 +5498,7 @@ msgid "Free/Busy"
 msgstr "Dispoñibilidade"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:18
-#: ../calendar/gui/dialogs/recurrence-page.c:1046
+#: ../calendar/gui/dialogs/recurrence-page.c:1084
 #: ../calendar/gui/e-itip-control.c:730
 msgid "Friday"
 msgstr "Venres"
@@ -5506,7 +5514,7 @@ msgstr ""
 "Días"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:23
-#: ../calendar/gui/dialogs/recurrence-page.c:1042
+#: ../calendar/gui/dialogs/recurrence-page.c:1080
 #: ../calendar/gui/e-itip-control.c:726
 msgid "Monday"
 msgstr "Luns"
@@ -5540,7 +5548,7 @@ msgid "S_un"
 msgstr "_Dom"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:33
-#: ../calendar/gui/dialogs/recurrence-page.c:1047
+#: ../calendar/gui/dialogs/recurrence-page.c:1085
 #: ../calendar/gui/e-itip-control.c:731
 msgid "Saturday"
 msgstr "Sábado"
@@ -5558,7 +5566,7 @@ msgid "Show week _numbers in date navigator"
 msgstr "Amosa-los _números das semanas no navegador de datas"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:37
-#: ../calendar/gui/dialogs/recurrence-page.c:1048
+#: ../calendar/gui/dialogs/recurrence-page.c:1086
 #: ../calendar/gui/e-itip-control.c:725
 msgid "Sunday"
 msgstr "Domingo"
@@ -5576,7 +5584,7 @@ msgid "Template:"
 msgstr "Modelo:"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:41
-#: ../calendar/gui/dialogs/recurrence-page.c:1045
+#: ../calendar/gui/dialogs/recurrence-page.c:1083
 #: ../calendar/gui/e-itip-control.c:729
 msgid "Thursday"
 msgstr "Xoves"
@@ -5591,13 +5599,13 @@ msgid "Time format:"
 msgstr "Formato da hora:"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:44
-#: ../calendar/gui/dialogs/recurrence-page.c:1043
+#: ../calendar/gui/dialogs/recurrence-page.c:1081
 #: ../calendar/gui/e-itip-control.c:727
 msgid "Tuesday"
 msgstr "Martes"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:45
-#: ../calendar/gui/dialogs/recurrence-page.c:1044
+#: ../calendar/gui/dialogs/recurrence-page.c:1082
 #: ../calendar/gui/e-itip-control.c:728
 msgid "Wednesday"
 msgstr "Mércores"
@@ -6215,13 +6223,17 @@ msgstr "_Alarma"
 msgid "_Time:"
 msgstr "_Hora:"
 
+#. TRANSLATORS: Entire string is for example:
+#. 'This appointment recurs/Every[x][day(s)][for][1]occurrences' (dropdown menu options are in [square brackets])
 #: ../calendar/gui/dialogs/event-page.glade.h:18
-#: ../calendar/gui/dialogs/recurrence-page.glade.h:8
+#: ../calendar/gui/dialogs/recurrence-page.glade.h:16
 msgid "for"
 msgstr "para"
 
+#. TRANSLATORS: Entire string is for example:
+#. 'This appointment recurs/Every[x][day(s)][until][2006/01/01]' (dropdown menu options are in [square brackets])
 #: ../calendar/gui/dialogs/event-page.glade.h:21
-#: ../calendar/gui/dialogs/recurrence-page.glade.h:11
+#: ../calendar/gui/dialogs/recurrence-page.glade.h:25
 msgid "until"
 msgstr "ata"
 
@@ -6399,43 +6411,66 @@ msgstr "Esta cita contén recorrencias que Evolution non pode editar."
 msgid "Recurrence date is invalid"
 msgstr "A data de repetición está equivocada"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:926
+#. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] week(s) on [Wednesday] [forever]'
+#. * (dropdown menu options are in [square brackets]). This means that after the 'on', name of a week day always follows.
+#: ../calendar/gui/dialogs/recurrence-page.c:928
 msgid "on"
 msgstr "en"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:986
+#. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [first] [Monday] [forever]'
+#. * (dropdown menu options are in [square brackets]). This means that after 'first', either the string 'day' or
+#. * the name of a week day (like 'Monday' or 'Friday') always follow.
+#.
+#: ../calendar/gui/dialogs/recurrence-page.c:992
 msgid "first"
 msgstr "primeiro"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:988
+#. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [third] [Monday] [forever]'
+#. * (dropdown menu options are in [square brackets]). This means that after 'third', either the string 'day' or
+#. * the name of a week day (like 'Monday' or 'Friday') always follow.
+#.
+#: ../calendar/gui/dialogs/recurrence-page.c:1003
 msgid "third"
 msgstr "terceiro"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:989
+#. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [fourth] [Monday] [forever]'
+#. * (dropdown menu options are in [square brackets]). This means that after 'fourth', either the string 'day' or
+#. * the name of a week day (like 'Monday' or 'Friday') always follow.
+#.
+#: ../calendar/gui/dialogs/recurrence-page.c:1008
 msgid "fourth"
 msgstr "cuarto"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:990
+#. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [last] [Monday] [forever]'
+#. * (dropdown menu options are in [square brackets]). This means that after 'last', either the string 'day' or
+#. * the name of a week day (like 'Monday' or 'Friday') always follow.
+#.
+#: ../calendar/gui/dialogs/recurrence-page.c:1013
 msgid "last"
 msgstr "último"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1013
+#. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [Other date] [11th to 20th] [17th] [forever]'
+#. * (dropdown menu options are in [square brackets]).
+#: ../calendar/gui/dialogs/recurrence-page.c:1039
 msgid "Other Date"
 msgstr "Outra data"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1041
+#: ../calendar/gui/dialogs/recurrence-page.c:1079
 msgid "day"
 msgstr "día"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1178
+#. TRANSLATORS: Entire string is for example: 'This appointment recurs/Every [x] month(s) on the [second] [Tuesday] [forever]'
+#. * (dropdown menu options are in [square brackets])."
+#.
+#: ../calendar/gui/dialogs/recurrence-page.c:1219
 msgid "on the"
 msgstr "no"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1367
+#: ../calendar/gui/dialogs/recurrence-page.c:1408
 msgid "occurrences"
 msgstr "ocorrencias"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:2336
+#: ../calendar/gui/dialogs/recurrence-page.c:2377
 msgid "Date/Time"
 msgstr "Data/Hora"
 
@@ -6452,27 +6487,37 @@ msgstr "<b>Previsualizar</b>"
 msgid "<b>Recurrence</b>"
 msgstr "<b>Recorrencia</b>"
 
-#: ../calendar/gui/dialogs/recurrence-page.glade.h:4
+#. TRANSLATORS: Entire string is for example:
+#. 'This appointment recurs/Every[x][day(s)][for][1]occurrences' (dropdown menu options are in [square brackets])
+#: ../calendar/gui/dialogs/recurrence-page.glade.h:6
 msgid "Every"
 msgstr "Cada"
 
-#: ../calendar/gui/dialogs/recurrence-page.glade.h:5
+#. TRANSLATORS: Entire string is for example:
+#. 'This appointment recurs/Every[x][day(s)][for][1]occurrences' (dropdown menu options are in [square brackets])
+#: ../calendar/gui/dialogs/recurrence-page.glade.h:9
 msgid "This appointment rec_urs"
 msgstr "Esta cita _repítese"
 
-#: ../calendar/gui/dialogs/recurrence-page.glade.h:9
+#. TRANSLATORS: Entire string is for example:
+#. 'This appointment recurs/Every[x][day(s)][forever]' (dropdown menu options are in [square brackets])
+#: ../calendar/gui/dialogs/recurrence-page.glade.h:19
 msgid "forever"
 msgstr "para sempre"
 
-#: ../calendar/gui/dialogs/recurrence-page.glade.h:10
+#. TRANSLATORS: Entire string is for example:
+#. 'This appointment recurs/Every[x][month(s)][for][1]occurrences' (dropdown menu options are in [square brackets])
+#: ../calendar/gui/dialogs/recurrence-page.glade.h:22
 msgid "month(s)"
 msgstr "mes(es)"
 
-#: ../calendar/gui/dialogs/recurrence-page.glade.h:12
+#. TRANSLATORS: Entire string is for example:
+#. 'This appointment recurs/Every[x][week(s)][for][1]occurrences' (dropdown menu options are in [square brackets])
+#: ../calendar/gui/dialogs/recurrence-page.glade.h:28
 msgid "week(s)"
 msgstr "semana(s)"
 
-#: ../calendar/gui/dialogs/recurrence-page.glade.h:13
+#: ../calendar/gui/dialogs/recurrence-page.glade.h:29
 msgid "year(s)"
 msgstr "ano(s)"
 
@@ -13406,23 +13451,24 @@ msgstr "Estilo da _resposta:"
 msgid "_Script:"
 msgstr "_Script:"
 
-#: ../mail/mail-config.glade.h:172
-msgid "_Show animated images"
-msgstr "_Amosar imaxes animadas"
-
+#. If enabled, show animation; if disabled, only display a static image without any animation
 #: ../mail/mail-config.glade.h:173
+msgid "_Show image animations"
+msgstr "_Amosar animacións de imaxes"
+
+#: ../mail/mail-config.glade.h:174
 msgid "_Use Secure Connection:"
 msgstr "_Usar conexión segura:"
 
-#: ../mail/mail-config.glade.h:174
+#: ../mail/mail-config.glade.h:175
 msgid "_Use the same fonts as other applications"
 msgstr "_Usar as mesmas fontes que noutras aplicacións"
 
-#: ../mail/mail-config.glade.h:175
+#: ../mail/mail-config.glade.h:176
 msgid "color"
 msgstr "cor"
 
-#: ../mail/mail-config.glade.h:176
+#: ../mail/mail-config.glade.h:177
 msgid "description"
 msgstr "descrición"
 
@@ -14829,8 +14875,8 @@ msgstr "Quere que Evolution sexa seu cliente de correo predeterminado?"
 
 #: ../plugins/default-source/default-source.c:82
 #: ../plugins/default-source/default-source.c:109
-msgid "Mark as default folder"
-msgstr "Marcar como cartafol predeterminado"
+msgid "Mark as _default folder"
+msgstr "Marcar coma cartafol _predeterminado"
 
 #: ../plugins/default-source/org-gnome-default-source.eplug.xml.h:1
 msgid "Default Sources"
