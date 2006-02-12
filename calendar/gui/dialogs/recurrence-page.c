@@ -923,6 +923,8 @@ make_weekly_special (RecurrencePage *rpage)
 	hbox = gtk_hbox_new (FALSE, 2);
 	gtk_container_add (GTK_CONTAINER (priv->special), hbox);
 
+	/* TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] week(s) on [Wednesday] [forever]'
+	 * (dropdown menu options are in [square brackets]). This means that after the 'on', name of a week day always follows. */
 	label = gtk_label_new (_("on"));
 	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 6);
 
@@ -983,11 +985,31 @@ static GtkWidget *
 make_recur_month_num_menu (int month_index)
 {
 	static const char *options[] = {
+		/* TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [first] [Monday] [forever]'
+		 * (dropdown menu options are in [square brackets]). This means that after 'first', either the string 'day' or 
+		 * the name of a week day (like 'Monday' or 'Friday') always follow.
+		 */
 		N_("first"),
-		/* TRANSLATORS: here, "second" is the ordinal number (like "third"), not the time division (like "minute") */
+		/* TRANSLATORS: here, "second" is the ordinal number (like "third"), not the time division (like "minute")
+		 * Entire string is for example: This appointment recurs/Every [x] month(s) on the [second] [Monday] [forever]'
+		 * (dropdown menu options are in [square brackets]). This means that after 'second', either the string 'day' or 
+		 * the name of a week day (like 'Monday' or 'Friday') always follow.
+		 */
 		N_("second"),
+		/* TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [third] [Monday] [forever]'
+		 * (dropdown menu options are in [square brackets]). This means that after 'third', either the string 'day' or 
+		 * the name of a week day (like 'Monday' or 'Friday') always follow.
+		 */
 		N_("third"),
+		/* TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [fourth] [Monday] [forever]'
+		 * (dropdown menu options are in [square brackets]). This means that after 'fourth', either the string 'day' or 
+		 * the name of a week day (like 'Monday' or 'Friday') always follow.
+		 */
 		N_("fourth"),
+		/* TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [last] [Monday] [forever]'
+		 * (dropdown menu options are in [square brackets]). This means that after 'last', either the string 'day' or 
+		 * the name of a week day (like 'Monday' or 'Friday') always follow.
+		 */
 		N_("last")
 	};
 
@@ -1011,14 +1033,29 @@ make_recur_month_num_menu (int month_index)
 
 	/* Other Submenu */
 	submenu = gtk_menu_new ();
+
+	/* TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [Other date] [11th to 20th] [17th] [forever]'
+	 * (dropdown menu options are in [square brackets]). */
 	submenu_item = gtk_menu_item_new_with_label (_("Other Date"));
 	gtk_menu_shell_append(GTK_MENU_SHELL(menu), submenu_item);
 	gtk_widget_show (submenu_item);
 
+	/* TRANSLATORS: This is a submenu option string to split the date range into three submenus to choose the exact day of 
+	 * the month to setup an appointment recurrence. The entire string is for example: This appointment recurs/Every [x] month(s) 
+	 * on the [Other date] [1st to 10th] [7th] [forever]' (dropdown menu options are in [square brackets]).
+	 */
 	item = make_recur_month_num_submenu ("1st to 10th", 0, 10);
 	gtk_menu_shell_append(GTK_MENU_SHELL(submenu), item);
+	/* TRANSLATORS: This is a submenu option string to split the date range into three submenus to choose the exact day of 
+	 * the month to setup an appointment recurrence. The entire string is for example: This appointment recurs/Every [x] month(s) 
+	 * on the [Other date] [11th to 20th] [17th] [forever]' (dropdown menu options are in [square brackets]).
+	 */
 	item = make_recur_month_num_submenu ("11th to 20th", 10, 20);
 	gtk_menu_shell_append(GTK_MENU_SHELL(submenu), item);
+	/* TRANSLATORS: This is a submenu option string to split the date range into three submenus to choose the exact day of 
+	 * the month to setup an appointment recurrence. The entire string is for example: This appointment recurs/Every [x] month(s) 
+	 * on the [Other date] [21th to 31th] [27th] [forever]' (dropdown menu options are in [square brackets]).
+	 */
 	item = make_recur_month_num_submenu ("21st to 31st", 20, 31);
 	gtk_menu_shell_append(GTK_MENU_SHELL(submenu), item);
 
@@ -1176,6 +1213,9 @@ make_monthly_special (RecurrencePage *rpage)
 	hbox = gtk_hbox_new (FALSE, 2);
 	gtk_container_add (GTK_CONTAINER (priv->special), hbox);
 
+	/* TRANSLATORS: Entire string is for example: 'This appointment recurs/Every [x] month(s) on the [second] [Tuesday] [forever]' 
+	 * (dropdown menu options are in [square brackets])."
+	 */
 	label = gtk_label_new (_("on the"));
 	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 6);
 

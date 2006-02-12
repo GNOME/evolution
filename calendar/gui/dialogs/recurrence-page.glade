@@ -4,7 +4,7 @@
 <glade-interface>
 
 <widget class="GtkWindow" id="recurrence-toplevel">
-  <property name="title" translatable="yes">window1</property>
+  <property name="title" translatable="no">window1</property>
   <property name="type">GTK_WINDOW_TOPLEVEL</property>
   <property name="window_position">GTK_WIN_POS_NONE</property>
   <property name="modal">False</property>
@@ -81,7 +81,8 @@
 		<widget class="GtkCheckButton" id="recurs">
 		  <property name="visible">True</property>
 		  <property name="can_focus">True</property>
-		  <property name="label" translatable="yes">This appointment rec_urs</property>
+		  <property name="label" translatable="yes" comments="TRANSLATORS: Entire string is for example:
+		  'This appointment recurs/Every[x][day(s)][for][1]occurrences' (dropdown menu options are in [square brackets])">This appointment rec_urs</property>
 		  <property name="use_underline">True</property>
 		  <property name="relief">GTK_RELIEF_NORMAL</property>
 		  <property name="focus_on_click">True</property>
@@ -111,7 +112,8 @@
 		      <child>
 			<widget class="GtkLabel" id="label68">
 			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">Every</property>
+			  <property name="label" translatable="yes" comments="TRANSLATORS: Entire string is for example:
+		  'This appointment recurs/Every[x][day(s)][for][1]occurrences' (dropdown menu options are in [square brackets])">Every</property>
 			  <property name="use_underline">False</property>
 			  <property name="use_markup">False</property>
 			  <property name="justify">GTK_JUSTIFY_CENTER</property>
@@ -161,7 +163,8 @@
 			      <child>
 				<widget class="GtkMenuItem" id="convertwidget2">
 				  <property name="visible">True</property>
-				  <property name="label" translatable="yes">day(s)</property>
+				  <property name="label" translatable="yes" comments="TRANSLATORS: Entire string is for example:
+		  'This appointment recurs/Every[x][day(s)][for][1]occurrences' (dropdown menu options are in [square brackets])">day(s)</property>
 				  <property name="use_underline">True</property>
 				</widget>
 			      </child>
@@ -169,7 +172,8 @@
 			      <child>
 				<widget class="GtkMenuItem" id="convertwidget3">
 				  <property name="visible">True</property>
-				  <property name="label" translatable="yes">week(s)</property>
+				  <property name="label" translatable="yes" comments="TRANSLATORS: Entire string is for example:
+		  'This appointment recurs/Every[x][week(s)][for][1]occurrences' (dropdown menu options are in [square brackets])">week(s)</property>
 				  <property name="use_underline">True</property>
 				</widget>
 			      </child>
@@ -177,14 +181,16 @@
 			      <child>
 				<widget class="GtkMenuItem" id="convertwidget4">
 				  <property name="visible">True</property>
-				  <property name="label" translatable="yes">month(s)</property>
+				  <property name="label" translatable="yes" comments="TRANSLATORS: Entire string is for example:
+		  'This appointment recurs/Every[x][month(s)][for][1]occurrences' (dropdown menu options are in [square brackets])">month(s)</property>
 				  <property name="use_underline">True</property>
 				</widget>
 			      </child>
 
 			      <child>
 				<widget class="GtkMenuItem" id="convertwidget5">
-				  <property name="visible">True</property>
+				  <property name="visible" comments="TRANSLATORS: Entire string is for example:
+		  'This appointment recurs/Every[x][year(s)][for][1]occurrences' (dropdown menu options are in [square brackets])">True</property>
 				  <property name="label" translatable="yes">year(s)</property>
 				  <property name="use_underline">True</property>
 				</widget>
@@ -235,7 +241,8 @@
 			      <child>
 				<widget class="GtkMenuItem" id="convertwidget7">
 				  <property name="visible">True</property>
-				  <property name="label" translatable="yes">for</property>
+				  <property name="label" translatable="yes" comments="TRANSLATORS: Entire string is for example:
+		  'This appointment recurs/Every[x][day(s)][for][1]occurrences' (dropdown menu options are in [square brackets])">for</property>
 				  <property name="use_underline">True</property>
 				</widget>
 			      </child>
@@ -243,7 +250,8 @@
 			      <child>
 				<widget class="GtkMenuItem" id="convertwidget8">
 				  <property name="visible">True</property>
-				  <property name="label" translatable="yes">until</property>
+				  <property name="label" translatable="yes" comments="TRANSLATORS: Entire string is for example:
+		  'This appointment recurs/Every[x][day(s)][until][2006/01/01]' (dropdown menu options are in [square brackets])">until</property>
 				  <property name="use_underline">True</property>
 				</widget>
 			      </child>
@@ -251,7 +259,8 @@
 			      <child>
 				<widget class="GtkMenuItem" id="convertwidget9">
 				  <property name="visible">True</property>
-				  <property name="label" translatable="yes">forever</property>
+				  <property name="label" translatable="yes" comments="TRANSLATORS: Entire string is for example:
+		  'This appointment recurs/Every[x][day(s)][forever]' (dropdown menu options are in [square brackets])">forever</property>
 				  <property name="use_underline">True</property>
 				</widget>
 			      </child>

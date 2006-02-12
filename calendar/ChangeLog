@@ -1,3 +1,10 @@
+2006-02-12  Andre Klapper  <a9016009@gmx.de>
+
+	* gui/dialogs/recurrence-page.glade:
+	* gui/dialogs/recurrence-page.c:	
+	added translator comments for some occurrences of heavy sentence 
+	splitting. Hopefully fixes bug 329695.
+
 2006-02-11  Andre Klapper  <a9016009@gmx.de>
 	* gui/dialogs/recurrence-page.c:
 	* gui/alarm-notify/util.c:
