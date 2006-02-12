@@ -1961,6 +1961,7 @@ itip_formatter_page_factory (EPlugin *ep, EConfigHookItemFactoryData *hook_data)
 	GtkWidget *ess;
 	GtkWidget *scrolledwin;
 	ESourceList *source_list;
+	gchar *str;
 	
 	/* Create a new notebook page */
 	page = gtk_vbox_new (FALSE, 0);
@@ -1974,7 +1975,9 @@ itip_formatter_page_factory (EPlugin *ep, EConfigHookItemFactoryData *hook_data)
 
 	/* "General" */
 	frame_label = gtk_label_new ("");
-	gtk_label_set_markup (GTK_LABEL (frame_label), _("<span weight=\"bold\">General</span>"));
+	str = g_strdup_printf ("<span weight=\"bold\">%s</span>", _("General"));
+	gtk_label_set_markup (GTK_LABEL (frame_label), str);
+	g_free (str);
 	GTK_MISC (frame_label)->xalign = 0.0;
 	gtk_box_pack_start (GTK_BOX (frame), frame_label, FALSE, FALSE, 0);
 
@@ -1998,7 +2001,9 @@ itip_formatter_page_factory (EPlugin *ep, EConfigHookItemFactoryData *hook_data)
 	gtk_box_pack_start (GTK_BOX (page), frame, TRUE, TRUE, 24);
 
 	frame_label = gtk_label_new ("");
-	gtk_label_set_markup (GTK_LABEL (frame_label), _("<span weight=\"bold\">Conflict Search</span>"));
+	str = g_strdup_printf ("<span weight=\"bold\">%s</span>", _("Conflict Search"));
+	gtk_label_set_markup (GTK_LABEL (frame_label), str);
+	gfree (str);
 	GTK_MISC (frame_label)->xalign = 0.0;
 	gtk_box_pack_start (GTK_BOX (frame), frame_label, FALSE, FALSE, 0);
 

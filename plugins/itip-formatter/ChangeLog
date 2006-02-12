@@ -1,3 +1,9 @@
+2006-02-12  Karsten Bräckelmann  <guenther@rudersport.de>
+
+	* itip-formatter.c (itip_formatter_page_factory):
+	Removing unnecessary markup in translateable string.
+	Fixes part of bug #272789.
+
 2006-02-11  Karsten Bräckelmann  <guenther@rudersport.de>
 
 	* itip-formatter.c (itip_formatter_page_factory): 

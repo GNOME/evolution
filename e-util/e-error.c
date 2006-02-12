@@ -411,6 +411,7 @@ e_error_newv(GtkWindow *parent, const char *tag, const char *arg0, va_list ap)
 	GString *out;
 	GPtrArray *args;
 	GtkDialog *dialog;
+	gchar *str;
 
 	if (error_table == NULL)
 		ee_load_tables();
@@ -439,7 +440,9 @@ e_error_newv(GtkWindow *parent, const char *tag, const char *arg0, va_list ap)
 	     || (table = g_hash_table_lookup(error_table, domain)) == NULL
 	     || (e = g_hash_table_lookup(table->errors, id)) == NULL) {
 		/* setup a dummy error */
-		tmp = g_strdup_printf(_("<span weight=\"bold\">Internal error, unknown error '%s' requested</span>"), tag);
+		str = g_strdup_printf(_("Internal error, unknown error '%s' requested"), tag);
+		tmp = g_strdup_printf("<span weight=\"bold\">%s</span>", str);
+		g_free(str);
 		w = gtk_label_new(NULL);
 		gtk_label_set_selectable((GtkLabel *)w, TRUE);
 		gtk_label_set_line_wrap((GtkLabel *)w, TRUE);

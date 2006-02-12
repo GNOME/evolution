@@ -1,3 +1,9 @@
+2006-02-12  Karsten Bräckelmann  <guenther@rudersport.de>
+
+	* bbdb.c (bbdb_page_factory): 
+	Removing unnecessary markup in translateable string.
+	Fixes part of bug #272789.
+
 2006-01-23  Devashish Sharma <sdevashish@novell.com>
 
 	* bbdb.c :

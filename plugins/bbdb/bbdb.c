@@ -418,6 +418,7 @@ bbdb_page_factory (EPlugin *ep, EConfigHookItemFactoryData *hook_data)
 	GtkWidget *label;
 	GtkWidget *gaim_label;
 	GtkWidget *button;
+	gchar *str;
 
 	/* A structure to pass some stuff around */
 	stuff = g_new0 (struct bbdb_stuff, 1);
@@ -435,7 +436,9 @@ bbdb_page_factory (EPlugin *ep, EConfigHookItemFactoryData *hook_data)
 
 	/* "Automatic Contacts" */
 	frame_label = gtk_label_new ("");
-	gtk_label_set_markup (GTK_LABEL (frame_label), _("<span weight=\"bold\">Automatic Contacts</span>"));
+	str = g_strdup_printf ("<span weight=\"bold\">%s</span>", _("Automatic Contacts"));
+	gtk_label_set_markup (GTK_LABEL (frame_label), str);
+	gfree (str);
 	GTK_MISC (frame_label)->xalign = 0.0;
 	gtk_box_pack_start (GTK_BOX (frame), frame_label, FALSE, FALSE, 0);
 	
@@ -469,7 +472,9 @@ bbdb_page_factory (EPlugin *ep, EConfigHookItemFactoryData *hook_data)
 	gtk_box_pack_start (GTK_BOX (page), frame, TRUE, TRUE, 24);
 
 	frame_label = gtk_label_new ("");
-	gtk_label_set_markup (GTK_LABEL (frame_label), _("<span weight=\"bold\">Instant Messaging Contacts</span>"));
+	str = g_strdup_printf ("<span weight=\"bold\">%s</span>", _("Instant Messaging Contacts"));
+	gtk_label_set_markup (GTK_LABEL (frame_label), str);
+	gfree (str);
 	GTK_MISC (frame_label)->xalign = 0.0;
 	gtk_box_pack_start (GTK_BOX (frame), frame_label, FALSE, FALSE, 0);
 
