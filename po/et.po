@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Evolution 2.4\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-01-07 04:22+0100\n"
-"PO-Revision-Date: 2006-01-25 22:01+0200\n"
+"PO-Revision-Date: 2006-02-13 09:38+0200\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -511,7 +511,7 @@ msgstr "Aadressiraamatut ei õnnestunud laadida"
 #: ../addressbook/conduit/address-conduit.c:1252
 #: ../addressbook/conduit/address-conduit.c:1255
 msgid "Could not read pilot's Address application block"
-msgstr "Pilot'i aadressirakenduse blokki ei suudetud lugeda"
+msgstr "Pilot'i aadressirakenduse blokki pole võimalik lugeda"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:1
 msgid "Autocompletion"
@@ -4203,7 +4203,7 @@ msgstr "Andmeserverit pole võimalik käivitada (evolution-data-server)"
 #: ../calendar/conduits/calendar/calendar-conduit.c:1486
 #: ../calendar/conduits/calendar/calendar-conduit.c:1489
 msgid "Could not read pilot's Calendar application block"
-msgstr "Pilot'i kalendrirakenduse blokki ei suudetud lugeda"
+msgstr "Pilot'i kalendrirakenduse blokki pole võimalik lugeda"
 
 #: ../calendar/conduits/todo/todo-conduit.c:234
 msgid "Default Priority:"
@@ -4212,7 +4212,7 @@ msgstr "Vaikimisi tähtsus:"
 #: ../calendar/conduits/todo/todo-conduit.c:959
 #: ../calendar/conduits/todo/todo-conduit.c:962
 msgid "Could not read pilot's ToDo application block"
-msgstr "Pilot'i ülesanderakenduse blokki ei suudetud lugeda"
+msgstr "Pilot'i ülesanderakenduse blokki pole võimalik lugeda"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:1
 msgid "Calendar and Tasks"
@@ -6482,7 +6482,7 @@ msgstr "%s tundmatule trigeri tüübile"
 #: ../calendar/gui/e-cal-component-preview.c:70 ../mail/em-folder-view.c:2703
 #, c-format
 msgid "Click to open %s"
-msgstr "Klõpsa, et avada aadressi %s"
+msgstr "Klõpsa %s avamiseks"
 
 #: ../calendar/gui/e-cal-component-preview.c:155 ../filter/filter-rule.c:796
 msgid "Untitled"
@@ -15092,7 +15092,7 @@ msgstr "_Proksi sisselogimine..."
 
 #: ../plugins/groupwise-features/proxy.c:680
 msgid "The Proxy tab will be available only when the account is enabled."
-msgstr ""
+msgstr "Proksi sakk on saadaval ainult juhul, kui konto on lubatud."
 
 #: ../plugins/groupwise-features/share-folder-common.c:318
 msgid "Users"
@@ -15100,7 +15100,7 @@ msgstr "Kasutajad"
 
 #: ../plugins/groupwise-features/share-folder-common.c:319
 msgid "Enter the users and set permissions"
-msgstr ""
+msgstr "Sisesta kasutajad ja määra õigused"
 
 #: ../plugins/groupwise-features/share-folder-common.c:338
 msgid "New _Shared Folder..."
@@ -15162,7 +15162,7 @@ msgstr ""
 #: ../plugins/itip-formatter/itip-formatter.c:791
 #, c-format
 msgid "Sent to calendar '%s' as accepted"
-msgstr "Saada kalender '%s' kui aktsepteeritud"
+msgstr "Saadetud kalendrisse '%s' kui aktsepteeritud"
 
 #: ../plugins/itip-formatter/itip-formatter.c:795
 #, c-format
@@ -15172,7 +15172,7 @@ msgstr ""
 #: ../plugins/itip-formatter/itip-formatter.c:800
 #, c-format
 msgid "Sent to calendar '%s' as declined"
-msgstr "Saada kalender '%s' kui keeldutud"
+msgstr "Saadetud kalendrisse '%s' kui keeldutud"
 
 #: ../plugins/itip-formatter/itip-formatter.c:805
 #, c-format
@@ -15182,7 +15182,7 @@ msgstr "Saada kalender '%s' kui tühistatud"
 #: ../plugins/itip-formatter/itip-formatter.c:898
 #, c-format
 msgid "Organizer has removed the delegate %s "
-msgstr "Organiseerija eemaldas delegaadi %s"
+msgstr "Korraldaja eemaldas delegaadi %s"
 
 #: ../plugins/itip-formatter/itip-formatter.c:905
 msgid "Sent a cancellation notice to the delegate"
@@ -15253,12 +15253,12 @@ msgstr ""
 
 #: ../plugins/itip-formatter/itip-formatter.c:2001
 msgid "<span weight=\"bold\">Conflict Search</span>"
-msgstr "<span weight=\"bold\">Konfliktide otsing</span>"
+msgstr "<span weight=\"bold\">Vastuolude otsing</span>"
 
 #. Source selector
 #: ../plugins/itip-formatter/itip-formatter.c:2014
 msgid "Select the calendars to search for meeting conflicts"
-msgstr "Vali kalendrid, millest tuleb koosolekute konflikte otsida"
+msgstr "Vali kalendrid, millest tuleb koosolekute vastuolusid otsida"
 
 #: ../plugins/itip-formatter/itip-formatter.c:2031
 msgid "Conflict Search Table"
@@ -16484,7 +16484,7 @@ msgstr "Siirdu aut_onoomsesse olekusse"
 
 #: ../shell/e-shell-window-commands.c:800
 msgid "Work Offline"
-msgstr "Siirdu autonoomsesse olekusse"
+msgstr "Siirdumine autonoomsesse olekusse"
 
 #: ../shell/e-shell-window.c:343
 msgid "Evolution is currently online.  Click on this button to work offline."
@@ -16612,7 +16612,7 @@ msgid ""
 "Thanks\n"
 "The Evolution Team\n"
 msgstr ""
-"Täname\n"
+"Täname,\n"
 "Evolutioni meeskond\n"
 
 #: ../shell/main.c:261
@@ -17352,7 +17352,7 @@ msgstr "Valitud kontaktide printimine"
 
 #: ../ui/evolution-addressbook.xml.h:20
 msgid "Save selected contacts as a VCard."
-msgstr "Salvesta valitud kontaktid VKaardina."
+msgstr "Valitud kontaktide salvestamine VKaardina."
 
 #: ../ui/evolution-addressbook.xml.h:21 ../widgets/text/e-text.c:2684
 msgid "Select All"
@@ -17364,11 +17364,11 @@ msgstr "Vali kõik kontaktid"
 
 #: ../ui/evolution-addressbook.xml.h:23
 msgid "Send a message to the selected contacts."
-msgstr "Saada sõnum valitud kontaktidele."
+msgstr "Sõnumi saatmine valitud kontaktidele."
 
 #: ../ui/evolution-addressbook.xml.h:24
 msgid "Send message to contact"
-msgstr "Saada kontaktile sõnum"
+msgstr "Kontaktile sõnumi saatmine"
 
 #: ../ui/evolution-addressbook.xml.h:25
 msgid "Send selected contacts to another person."
@@ -17376,7 +17376,7 @@ msgstr "Valitud kontaktide saatmine teisele isikule."
 
 #: ../ui/evolution-addressbook.xml.h:26
 msgid "Show contact preview window"
-msgstr "Kuva kontakt eelvaateaknas"
+msgstr "Kontakti kuvamine eelvaateaknas"
 
 #: ../ui/evolution-addressbook.xml.h:27
 msgid "Stop"
@@ -17384,11 +17384,11 @@ msgstr "Peata"
 
 #: ../ui/evolution-addressbook.xml.h:28
 msgid "Stop Loading"
-msgstr "Peatab laadimise"
+msgstr "Laadimise peatamine"
 
 #: ../ui/evolution-addressbook.xml.h:29
 msgid "View the current contact"
-msgstr "Kuva käesolev kontakt"
+msgstr "Käesolev kontakti vaatamine"
 
 #: ../ui/evolution-addressbook.xml.h:30 ../ui/evolution-calendar.xml.h:38
 #: ../ui/evolution-tasks.xml.h:19
@@ -17533,7 +17533,7 @@ msgstr "_Ava sündmus"
 
 #: ../ui/evolution-composer-entries.xml.h:1
 msgid "Copy selected text to the clipboard"
-msgstr ";ärgitud teksti lõikelauale kopeerimine"
+msgstr "Märgitud teksti kopeerimine lõikelauale"
 
 #: ../ui/evolution-composer-entries.xml.h:2
 msgid "Cu_t"
@@ -17553,7 +17553,7 @@ msgstr "Vali _kõik"
 
 #: ../ui/evolution-composer-entries.xml.h:6
 msgid "Select all text"
-msgstr "Vali kogu tekst"
+msgstr "Kogu teksti valimine"
 
 #: ../ui/evolution-executive-summary.xml.h:1
 msgid "Customize My Evolution"
@@ -17611,7 +17611,7 @@ msgstr "Kaustade _otsimine"
 
 #: ../ui/evolution-mail-global.xml.h:15
 msgid "Show message preview window"
-msgstr "Näitab sõnumi eelvaate akent"
+msgstr "Sõnumi eelvaateakna näitamine"
 
 #: ../ui/evolution-mail-global.xml.h:16
 msgid "Subscribe or unsubscribe to folders on remote servers"
@@ -17936,7 +17936,7 @@ msgstr "Valitud sõnumi(te) märkimine vähetähtsaks"
 
 #: ../ui/evolution-mail-message.xml.h:56
 msgid "Mark the selected messages for deletion"
-msgstr "Valitud sõnumi(te) märkimine kustutatuks"
+msgstr "Valitud sõnumite märkimine kustutatuks"
 
 #: ../ui/evolution-mail-message.xml.h:57
 msgid "Message Source"
@@ -17968,7 +17968,7 @@ msgstr "Ei ole rämps"
 
 #: ../ui/evolution-mail-message.xml.h:65
 msgid "Open a window for composing a mail message"
-msgstr "Avab sõnumi koostamiseks uue akna"
+msgstr "Sõnumi koostamiseks uue akna avamine"
 
 #: ../ui/evolution-mail-message.xml.h:66
 msgid "Open the selected message in a new window"
@@ -18060,7 +18060,7 @@ msgstr "Lehekülje sätted aktiivse printeri jaoks"
 
 #: ../ui/evolution-mail-message.xml.h:95
 msgid "Show a blinking cursor in the body of displayed messages"
-msgstr "Näitab kuvatava sõnumi sisus vilkuvat kursorit"
+msgstr "Kuvatava sõnumi sisus vilkuva kursori näitamine"
 
 #: ../ui/evolution-mail-message.xml.h:96
 msgid "Show message in the normal style"
@@ -18072,7 +18072,7 @@ msgstr "Näitab sõnumit koos kõigi päistega"
 
 #: ../ui/evolution-mail-message.xml.h:98
 msgid "Show the raw email source of the message"
-msgstr "Näitab sõnumit töötlemata kujul"
+msgstr "Sõnumit näitamine töötlemata kujul"
 
 #: ../ui/evolution-mail-message.xml.h:99
 msgid "Un-delete the selected messages"
@@ -18287,7 +18287,7 @@ msgstr "Käesoleva faili salvestamine teise kausta"
 #: ../ui/evolution-message-composer.xml.h:29
 #: ../ui/evolution-signature-editor.xml.h:22
 msgid "Send the mail in HTML format"
-msgstr "Saada sõnum HTML formaadis"
+msgstr "Sõnumi saatmine HTML-vormingus"
 
 #: ../ui/evolution-message-composer.xml.h:30
 msgid "Send this message"
@@ -18455,11 +18455,11 @@ msgstr "Prinditavate kontaktide eelvaatlemine"
 
 #: ../ui/evolution-tasks.xml.h:16
 msgid "Print the list of tasks"
-msgstr "Ülesannete nimekirja printimine"
+msgstr "Ülesannete loendi printimine"
 
 #: ../ui/evolution-tasks.xml.h:18
 msgid "View the selected task"
-msgstr "Vaata valitud ülesannet"
+msgstr "Valitud ülesande vaatamine"
 
 #: ../ui/evolution-tasks.xml.h:25
 msgid "_Open Task"
@@ -18532,7 +18532,7 @@ msgstr "_Eelistused"
 
 #: ../ui/evolution.xml.h:19
 msgid "Send / Receive"
-msgstr "Saada / võta vastu"
+msgstr "Saatmine ja vastuvõtmine"
 
 #: ../ui/evolution.xml.h:20
 msgid "Send queued items and retrieve new items"
@@ -18544,7 +18544,7 @@ msgstr "Seab Pilot'i seadeid"
 
 #: ../ui/evolution.xml.h:22
 msgid "Show information about Evolution"
-msgstr "Näitab teavet Evolutioni kohta"
+msgstr "Evolutioni kohta teabe näitamine"
 
 #: ../ui/evolution.xml.h:23
 msgid "Submit Bug Report"
@@ -19060,7 +19060,7 @@ msgstr "Indikaatorivahe"
 
 #: ../widgets/misc/e-expander.c:232
 msgid "Spacing around expander arrow"
-msgstr ""
+msgstr "Ruum laiendaja noole ümber"
 
 #: ../widgets/misc/e-filter-bar.c:195
 msgid "_Searches"
@@ -19706,7 +19706,7 @@ msgstr ""
 
 #: ../widgets/table/e-table.c:3337
 msgid "Use click to add"
-msgstr ""
+msgstr "Klõpsa lisamiseks"
 
 #: ../widgets/table/e-tree.c:3290 ../widgets/table/e-tree.c:3291
 msgid "ETree table adapter"
