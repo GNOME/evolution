@@ -1,3 +1,9 @@
+2006-02-13  Andre Klapper  <a9016009@gmx.de>
+ 
+	* ldap-config.glade: Fix the Security options to finally be 
+	descriptive, rather than obscuring. Identical to the changes in
+	mail/em-account-editor.c to fix the UI part of bug #321797.
+
 2006-02-05  Karsten Bräckelmann  <guenther@rudersport.de>
 
 	* gui/component/GNOME_Evolution_Addressbook.server.in.in: 

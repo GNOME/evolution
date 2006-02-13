@@ -364,8 +364,8 @@
 				      <child>
 					<widget class="GtkMenuItem" id="convertwidget42">
 					  <property name="visible">True</property>
-					  <property name="tooltip" translatable="yes">Selecting this option means that Evolution will only connect to your LDAP server if your LDAP server supports SSL or TLS.</property>
-					  <property name="label" translatable="yes">Always</property>
+					  <property name="tooltip" translatable="yes">Selecting this option means that Evolution will only connect to your LDAP server if your LDAP server supports SSL.</property>
+					  <property name="label" translatable="yes">SSL encryption</property>
 					  <property name="use_underline">True</property>
 					</widget>
 				      </child>
@@ -373,8 +373,8 @@
 				      <child>
 					<widget class="GtkMenuItem" id="convertwidget43">
 					  <property name="visible">True</property>
-					  <property name="tooltip" translatable="yes">Selecting this option means that Evolution will only try to use SSL/TLS if you are in a insecure environment. For example, if you and your LDAP server are behind a firewall at work, then Evolution doesn't need to use SSL/TLS because your connection is already secure.</property>
-					  <property name="label" translatable="yes">Whenever Possible</property>
+					  <property name="tooltip" translatable="yes">Selecting this option means that Evolution will only connect to your LDAP server if your LDAP server supports TLS.</property>
+					  <property name="label" translatable="yes">TLS encryption</property>
 					  <property name="use_underline">True</property>
 					</widget>
 				      </child>
@@ -382,8 +382,8 @@
 				      <child>
 					<widget class="GtkMenuItem" id="convertwidget44">
 					  <property name="visible">True</property>
-					  <property name="tooltip" translatable="yes">Selecting this option means that your server does not support either SSL or TLS.  This means that your connection will be insecure, and that you will be vulnerable to security exploits. </property>
-					  <property name="label" translatable="yes">Never</property>
+					  <property name="tooltip" translatable="yes">Selecting this option means that your server does not support either SSL or TLS. This means that your connection will be insecure, and that you will be vulnerable to security exploits.</property>
+					  <property name="label" translatable="yes">No encryption</property>
 					  <property name="use_underline">True</property>
 					</widget>
 				      </child>

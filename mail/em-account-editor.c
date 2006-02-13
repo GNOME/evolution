@@ -299,9 +299,17 @@ static struct {
 	char *label;
 	char *value;
 } ssl_options[] = {
-	{ N_("Never"), "never" },
-	{ N_("Whenever Possible"), "when-possible" },
-	{ N_("Always"), "always" }
+	/* Translators: This string is a "Use secure connection" option for
+	   the Mailer. It will not use an encrypted connection. */
+	{ N_("No encryption"), "never" },
+	/* Translators: This string is a "Use secure connection" option for
+	   the Mailer. TLS (Transport Layer Security) is commonly known by
+	   this abbreviation. */
+	{ N_("TLS encryption"), "when-possible" },
+	/* Translators: This string is a "Use secure connection" option for
+	   the Mailer. SSL (Secure Sockets Layer) is commonly known by this
+	   abbreviation. */
+	{ N_("SSL encryption"), "always" }
 };
 
 #define num_ssl_options (sizeof (ssl_options) / sizeof (ssl_options[0]))

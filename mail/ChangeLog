@@ -1,3 +1,9 @@
+2006-02-13  Karsten Bräckelmann  <guenther@rudersport.de>
+ 
+	* em-account-editor.c: Fix the Account Editor / Security option to
+	finally be descriptive, rather than obscuring. Fixes the UI part
+	of bug #321797.
+
 2006-02-13  Rohini S  <srohini@novell.com>
 
 	** Fixes bug #221270.
