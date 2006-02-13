@@ -1,3 +1,7 @@
+2006-02-13  Andre Klapper <a9016009@gmx.de>
+
+	* mail-mt.c: uncommenting a string. Fixes bug 271734.
+
 2006-02-13  Sushma Rai  <rsushma@novell.com>
 
 	* mail/em-account-editor.c (emae_option_checkspin)
