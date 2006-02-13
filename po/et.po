@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-02-11 06:04+0100\n"
-"PO-Revision-Date: 2006-02-11 22:07+0200\n"
+"PO-Revision-Date: 2006-02-13 09:38+0200\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -642,9 +642,8 @@ msgid "Create a new address book"
 msgstr "Uue aadressiraamatu loomine"
 
 #: ../addressbook/gui/component/addressbook-component.c:382
-#, fuzzy
 msgid "Failed upgrading Address Book settings or folders."
-msgstr "Tõrge aadressiraamatu kataloogide või seadistuste uuendamisel."
+msgstr "Tõrge aadressiraamatu seadistuste või kataloogide uuendamisel."
 
 #: ../addressbook/gui/component/addressbook-config.c:329
 msgid "Base"
@@ -5813,13 +5812,12 @@ msgstr "_Lisa manus..."
 
 #: ../calendar/gui/dialogs/comp-editor.c:1466
 #: ../mail/em-format-html-display.c:2063
-#, fuzzy
 msgid "Show Attachments"
-msgstr "Näita manuseri_ba"
+msgstr "Näita manuseid"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1467
 msgid "Press space key to toggle attachment bar"
-msgstr ""
+msgstr "Vajuta tühikut manuseriba sisse-/väljalülitamiseks"
 
 #: ../calendar/gui/dialogs/comp-editor.c:2074
 #: ../calendar/gui/dialogs/comp-editor.c:2117
@@ -7693,7 +7691,6 @@ msgid "No Information"
 msgstr "Andmed puuduvad"
 
 #: ../calendar/gui/e-meeting-time-sel.c:427
-#, fuzzy
 msgid "A_ttendees..."
 msgstr "_Osalejad..."
 
@@ -10287,7 +10284,6 @@ msgid "You need to configure an account before you can compose mail."
 msgstr "Enne sõnumite koostamist tuleb sul seadistada postikonto."
 
 #: ../composer/mail-composer.error.xml.h:28
-#, fuzzy
 msgid "_Do not Recover"
 msgstr "Ära _taasta"
 
@@ -11657,9 +11653,8 @@ msgid "Select folder to save all attachments..."
 msgstr "Kõikide manuste salvestamiseks kataloogi valimine..."
 
 #: ../mail/em-format-html-display.c:1919
-#, fuzzy
 msgid "_Save Selected..."
-msgstr "Valitu salvestamine..."
+msgstr "_Salvesta valitud..."
 
 #. Cant i put in the number of attachments here ?
 #: ../mail/em-format-html-display.c:1986
@@ -11933,9 +11928,8 @@ msgid "Do not show this message again."
 msgstr "Seda teadet enam uuesti mitte näidata."
 
 #: ../mail/em-utils.c:319
-#, fuzzy
 msgid "Message Filters"
-msgstr "Sõnumif_iltrid"
+msgstr "Sõnumifiltrid"
 
 #: ../mail/em-utils.c:462 ../mail/em-utils.c:499
 msgid "message"
@@ -14497,7 +14491,6 @@ msgid "Synchronize with _buddy list now"
 msgstr ""
 
 #: ../plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:2
-#, fuzzy
 msgid ""
 "Automatically fills your addressbook with names and email addresses as you "
 "reply to messages. Also fills in IM contact information from your buddy "
@@ -15693,9 +15686,9 @@ msgid "Unable to send item to calendar '%s'.  %s"
 msgstr ""
 
 #: ../plugins/itip-formatter/itip-formatter.c:793
-#, fuzzy, c-format
+#, c-format
 msgid "Sent to calendar '%s' as accepted"
-msgstr "Saada kalender '%s' kui aktsepteeritud"
+msgstr "Saadetud kalendrisse '%s' kui aktsepteeritud"
 
 #: ../plugins/itip-formatter/itip-formatter.c:797
 #, c-format
@@ -15703,14 +15696,14 @@ msgid "Sent to calendar '%s' as tentative"
 msgstr ""
 
 #: ../plugins/itip-formatter/itip-formatter.c:802
-#, fuzzy, c-format
+#, c-format
 msgid "Sent to calendar '%s' as declined"
-msgstr "Saada kalender '%s' kui keeldutud"
+msgstr "Saadetud kalendrisse '%s' kui keeldutud"
 
 #: ../plugins/itip-formatter/itip-formatter.c:807
-#, fuzzy, c-format
+#, c-format
 msgid "Sent to calendar '%s' as canceled"
-msgstr "Saada kalender '%s' kui tühistatud"
+msgstr "Saadetud kalendrisse '%s' kui tühistatud"
 
 #: ../plugins/itip-formatter/itip-formatter.c:900
 #, c-format
@@ -15718,9 +15711,8 @@ msgid "Organizer has removed the delegate %s "
 msgstr "Korraldaja eemaldas delegaadi %s"
 
 #: ../plugins/itip-formatter/itip-formatter.c:907
-#, fuzzy
 msgid "Sent a cancelation notice to the delegate"
-msgstr "Tühistusteadet pole võimalik delegaadile saata"
+msgstr "Delegaadile saadeti tühistusteade"
 
 #: ../plugins/itip-formatter/itip-formatter.c:909
 msgid "Could not send the cancelation notice to the delegate"
@@ -15989,12 +15981,12 @@ msgid "<b>%s</b> has sent back the following meeting response:"
 msgstr ""
 
 #: ../plugins/itip-formatter/itip-view.c:374
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> through %s has canceled the following meeting:"
 msgstr "<b>%s</b> tühistas %s kaudu järgneva koosoleku:"
 
 #: ../plugins/itip-formatter/itip-view.c:376
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> has canceled the following meeting."
 msgstr "<b>%s</b> tühistas järgneva koosoleku."
 
@@ -16061,12 +16053,12 @@ msgid "<b>%s</b> has sent back the following assigned task response:"
 msgstr "<b>%s</b> saatis järgneva määratud ülesande vastuse tagasi:"
 
 #: ../plugins/itip-formatter/itip-view.c:442
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> through %s has canceled the following assigned task:"
 msgstr "<b>%s</b> tühistas %s kaudu järgneva määratud ülesande:"
 
 #: ../plugins/itip-formatter/itip-view.c:444
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> has canceled the following assigned task:"
 msgstr "<b>%s</b> tühistas järgneva määratud ülesande:"
 
@@ -16403,9 +16395,8 @@ msgid "Mark All Read"
 msgstr "Kõigi loetuksmärkimine"
 
 #: ../plugins/mark-all-read/org-gnome-mark-all-read.eplug.xml.h:2
-#, fuzzy
 msgid "Mark me_ssages as read"
-msgstr "Kõigi sõnumite loetuksmärkimine"
+msgstr "Märgi sõnumid _loetuks"
 
 #: ../plugins/mark-all-read/org-gnome-mark-all-read.eplug.xml.h:3
 msgid "Used for marking all the messages under a folder as read"
@@ -16485,15 +16476,12 @@ msgid "Plugin"
 msgstr "Plugin"
 
 #: ../plugins/prefer-plain/org-gnome-prefer-plain.eplug.xml.h:1
-#, fuzzy
 msgid ""
 "A test plugin which demonstrates a formatter plugin which lets you choose to "
 "disable HTML messages.\n"
 "\n"
 "This plugin is unsupported demonstration code only.\n"
 msgstr ""
-"Testplugin asjade lõikelauale kopeerimise hüpikmenüü plugina "
-"demonstreeriseks."
 
 #. but then we also need to create our own section frame
 #: ../plugins/prefer-plain/org-gnome-prefer-plain.eplug.xml.h:6
@@ -18039,11 +18027,11 @@ msgstr "Vali kõik kontaktid"
 
 #: ../ui/evolution-addressbook.xml.h:37
 msgid "Send a message to the selected contacts."
-msgstr "Saada sõnum valitud kontaktidele."
+msgstr "Sõnumi saatmine valitud kontaktidele."
 
 #: ../ui/evolution-addressbook.xml.h:38
 msgid "Send message to contact"
-msgstr "Saada kontaktile sõnum"
+msgstr "Kontaktile sõnumi saatmine"
 
 #: ../ui/evolution-addressbook.xml.h:39
 msgid "Send selected contacts to another person."
@@ -18051,12 +18039,11 @@ msgstr "Valitud kontaktide saatmine teisele isikule."
 
 #: ../ui/evolution-addressbook.xml.h:40
 msgid "Show contact preview window"
-msgstr "Kuva kontakt eelvaateaknas"
+msgstr "Kontakti kuvamine eelvaateaknas"
 
 #: ../ui/evolution-addressbook.xml.h:41
-#, fuzzy
 msgid "St_op"
-msgstr "Peata"
+msgstr "_Peata"
 
 #: ../ui/evolution-addressbook.xml.h:42
 msgid "Stop"
@@ -18064,11 +18051,11 @@ msgstr "Peata"
 
 #: ../ui/evolution-addressbook.xml.h:43
 msgid "Stop Loading"
-msgstr "Peatab laadimise"
+msgstr "Laadimise peatamine"
 
 #: ../ui/evolution-addressbook.xml.h:44
 msgid "View the current contact"
-msgstr "Kuva käesolev kontakt"
+msgstr "Käesolev kontakti vaatamine"
 
 #: ../ui/evolution-addressbook.xml.h:45 ../ui/evolution-calendar.xml.h:36
 #: ../ui/evolution-tasks.xml.h:21
@@ -18795,7 +18782,7 @@ msgstr "Valitud sõnumitest rämpsu filtreerimine"
 #: ../ui/evolution-mail-message.xml.h:39
 #, fuzzy
 msgid "Flag selected messages for follow-up"
-msgstr "Valitud sõnumi(te) märkimine jälgimiseks"
+msgstr "Valitud sõnumite märkimine jälgimiseks"
 
 #: ../ui/evolution-mail-message.xml.h:40
 msgid "Follow _Up..."
@@ -18832,41 +18819,35 @@ msgstr "Märgi _kui"
 #: ../ui/evolution-mail-message.xml.h:50
 #, fuzzy
 msgid "Mark the selected messages as having been read"
-msgstr "Valitud sõnumi(te) märkimine loetuks"
+msgstr "Valitud sõnumite märkimine loetuks"
 
 #: ../ui/evolution-mail-message.xml.h:51
-#, fuzzy
 msgid "Mark the selected messages as important"
-msgstr "Valitud sõnumi(te) märkimine tähtsaks"
+msgstr "Valitud sõnumite märkimine tähtsaks"
 
 #: ../ui/evolution-mail-message.xml.h:52
-#, fuzzy
 msgid "Mark the selected messages as junk"
-msgstr "Valitud sõnumi(te) märkimine rämpsuks"
+msgstr "Valitud sõnumite märkimine rämpsuks"
 
 #: ../ui/evolution-mail-message.xml.h:53
-#, fuzzy
 msgid "Mark the selected messages as not being junk"
-msgstr "Valitud sõnumi(te) märkimine mitterämpsuks"
+msgstr "Valitud sõnumite märkimine mitterämpsuks"
 
 #: ../ui/evolution-mail-message.xml.h:54
-#, fuzzy
 msgid "Mark the selected messages as not having been read"
-msgstr "Valitud sõnumi(te) märkimine lugemata sõnumi(te)ks"
+msgstr "Valitud sõnumite märkimine lugemata sõnumiteks"
 
 #: ../ui/evolution-mail-message.xml.h:55
-#, fuzzy
 msgid "Mark the selected messages as unimportant"
-msgstr "Valitud sõnumi(te) märkimine vähetähtsaks"
+msgstr "Valitud sõnumite märkimine vähetähtsaks"
 
 #: ../ui/evolution-mail-message.xml.h:56
 msgid "Mark the selected messages for deletion"
-msgstr "Valitud sõnumi(te) märkimine kustutatuks"
+msgstr "Valitud sõnumite märkimine kustutatuks"
 
 #: ../ui/evolution-mail-message.xml.h:57
-#, fuzzy
 msgid "Move selected messages to another folder"
-msgstr "Valitud sõnumi(te) teise kausta tõstmine"
+msgstr "Valitud sõnumite teise kausta tõstmine"
 
 #: ../ui/evolution-mail-message.xml.h:59
 msgid "Next _Important Message"
@@ -18886,26 +18867,23 @@ msgstr "Ei ole rämps"
 
 #: ../ui/evolution-mail-message.xml.h:63
 msgid "Open a window for composing a mail message"
-msgstr "Avab sõnumi koostamiseks uue akna"
+msgstr "Sõnumi koostamiseks uue akna avamine"
 
 #: ../ui/evolution-mail-message.xml.h:64
-#, fuzzy
 msgid "Open the selected messages in a new window"
-msgstr "Avab valitud sõnumi uues aknas"
+msgstr "Valitud sõnumi avamine uues aknas"
 
 #: ../ui/evolution-mail-message.xml.h:65
-#, fuzzy
 msgid "Open the selected messages in the composer for editing"
-msgstr "Avab valitud sõnumi sõnumiredaktoris"
+msgstr "Valitud sõnumi avamine sõnumiredaktoris"
 
 #: ../ui/evolution-mail-message.xml.h:66
 msgid "P_revious Unread Message"
 msgstr "_Eelmine lugemata kiri"
 
 #: ../ui/evolution-mail-message.xml.h:67
-#, fuzzy
 msgid "Paste messages from the clipboard"
-msgstr "Asetab sõnumid lõikepuhvrist"
+msgstr "Sõnumite asetamine lõikepuhvrist"
 
 #: ../ui/evolution-mail-message.xml.h:68
 msgid "Pos_t New Message to Folder"
@@ -19247,7 +19225,7 @@ msgstr "Käesoleva faili salvestamine teise kausta"
 #: ../ui/evolution-message-composer.xml.h:30
 #: ../ui/evolution-signature-editor.xml.h:23
 msgid "Send the mail in HTML format"
-msgstr "Saada sõnum HTML formaadis"
+msgstr "Sõnumi saatmine HTML-vormingus"
 
 #: ../ui/evolution-message-composer.xml.h:31
 msgid "Send this message"
@@ -19438,7 +19416,7 @@ msgstr "Ülesannete loendi printimine"
 
 #: ../ui/evolution-tasks.xml.h:18
 msgid "Show task preview window"
-msgstr "Kuva ülesanne eelvaateaknas"
+msgstr "Ülesande kuvamine eelvaateaknas"
 
 #: ../ui/evolution-tasks.xml.h:19
 msgid "Task _Preview"
@@ -19519,7 +19497,7 @@ msgstr "_Eelistused"
 
 #: ../ui/evolution.xml.h:19
 msgid "Send / Receive"
-msgstr "Saada / võta vastu"
+msgstr "Saatmine ja vastuvõtmine"
 
 #: ../ui/evolution.xml.h:20
 msgid "Send / _Receive"
