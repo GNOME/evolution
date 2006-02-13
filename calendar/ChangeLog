@@ -1,3 +1,10 @@
+2006-02-13  Harish Krishnaswamy  <kharish@novell.com>
+
+	* gui/dialogs/task-page.c: (sensitize_widgets):
+	sensitize should be initialized to TRUE since it is
+	being ANDed to compute sens.
+	Fixes #330957 and #330958.
+
 2006-02-13  Karsten Bräckelmann  <guenther@rudersport.de>
 
 	* calendar.error.xml: Added mnemonics. Fixes bug #330933.

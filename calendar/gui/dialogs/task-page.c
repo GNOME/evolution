@@ -382,7 +382,7 @@ task_page_set_classification (TaskPage *page, ECalComponentClassification class)
 static void
 sensitize_widgets (TaskPage *tpage)
 {
-	gboolean read_only, sens = FALSE, sensitize;
+	gboolean read_only, sens = TRUE, sensitize;
 	TaskPagePrivate *priv;
 	
 	priv = tpage->priv;
