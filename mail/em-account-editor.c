@@ -1939,7 +1939,8 @@ emae_option_checkspin(EMAccountEditorService *service, CamelURL *url, const char
 		enable = (on == 'y');
 
 	hbox = gtk_hbox_new(FALSE, 0);
-	check = g_object_new(gtk_check_button_get_type(), "label", pre, "active", enable, NULL);
+	check = g_object_new(gtk_check_button_get_type(), "label", pre, "use_underline", TRUE, "active", enable, NULL);
+
 	spin = gtk_spin_button_new((GtkAdjustment *)gtk_adjustment_new(def, min, max, 1, 1, 1), 1, 0);
 	if (post)
 		label = gtk_label_new(post);
@@ -2070,7 +2071,7 @@ section:
 				emae_account_toggle_widget(emae, (GtkToggleButton *)w, E_ACCOUNT_SOURCE_KEEP_ON_SERVER);
 			break;
 		case CAMEL_PROVIDER_CONF_ENTRY:
-			l = g_object_new(gtk_label_get_type(), "label", entries[i].text, "xalign", 0.0, NULL);
+			l = g_object_new(gtk_label_get_type(), "label", entries[i].text, "xalign", 0.0, "use_underline", TRUE, NULL);
 			gtk_widget_show(l);
 			w = emae_option_entry(service, url, entries[i].name, entries[i].value);
 			gtk_table_attach((GtkTable *)parent, l, 0, 1, row, row+1, GTK_FILL, 0, 0, 0);

@@ -1,3 +1,9 @@
+2006-02-13  Sushma Rai  <rsushma@novell.com>
+
+	* mail/em-account-editor.c (emae_option_checkspin)
+	(emae_receive_options_extra_item): Creating the widget with 
+	"use_underline" property. Fixes #330504.
+
 2006-02-11  Andre Klapper <a9016009@gmx.de>
 
 	* mail-config.glade: changed string and added translator comments.
