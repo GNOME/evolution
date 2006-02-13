@@ -1,3 +1,8 @@
+2006-02-13  Karsten Bräckelmann  <guenther@rudersport.de>
+
+	* evolution-calendar.xml: Add mnemonics. Fixes bug #330936.
+	Fix uppercase usage to be HIG compliant for tooltips.
+
 2006-02-10  Karsten Bräckelmann  <guenther@rudersport.de>
 
 	* evolution-event-editor.xml: Fix some mnemonics and HIG compliant
