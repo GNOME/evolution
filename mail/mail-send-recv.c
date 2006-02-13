@@ -263,19 +263,19 @@ format_url(const char *internal_url, const char *account_name)
 	url = camel_url_new(internal_url, NULL);
 	if (account_name) {
 		if (url->host && *url->host)
-			pretty_url = g_strdup_printf(_("<b>%s (%s)</b> : %s"), account_name, url->protocol, url->host);
+			pretty_url = g_strdup_printf("<b>%s (%s)</b>: %s", account_name, url->protocol, url->host);
 		else if (url->path)
-			pretty_url = g_strdup_printf(_("<b>%s (%s)</b> : %s"), account_name, url->protocol, url->path);
+			pretty_url = g_strdup_printf("<b>%s (%s)</b>: %s", account_name, url->protocol, url->path);
 		else 
-			pretty_url = g_strdup_printf(_("<b>%s (%s)</b>"), account_name, url->protocol);
+			pretty_url = g_strdup_printf("<b>%s (%s)</b>", account_name, url->protocol);
 	}
 	else {
 		if (url->host && *url->host)
-			pretty_url = g_strdup_printf(_("<b>%s</b> : %s"), url->protocol, url->host);
+			pretty_url = g_strdup_printf("<b>%s</b>: %s", url->protocol, url->host);
 		else if (url->path)
-			pretty_url = g_strdup_printf(_("<b>%s</b> : %s"), url->protocol, url->path);
+			pretty_url = g_strdup_printf("<b>%s</b>: %s", url->protocol, url->path);
 		else 
-			pretty_url = g_strdup_printf(_("<b>%s</b>"), url->protocol);
+			pretty_url = g_strdup_printf("<b>%s</b>", url->protocol);
 	}
 	camel_url_free(url);
 

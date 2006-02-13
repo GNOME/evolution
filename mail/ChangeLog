@@ -1,3 +1,11 @@
+2006-02-13  Rohini S  <srohini@novell.com>
+
+	** Fixes bug #221270.
+
+	* mail-send-recv.c: (build_dialog):
+	Removed white space before : when displaying account information in 
+	Send/Receive dialog.
+
 2006-02-13  Andre Klapper <a9016009@gmx.de>
 
 	* mail-mt.c: uncommenting a string. Fixes bug 271734.
