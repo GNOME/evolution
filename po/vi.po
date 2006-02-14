@@ -7,8 +7,8 @@ msgid ""
 ""
 msgstr "Project-Id-Version: evolution 1.4 Gnome HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-02-11 06:04+0100\n"
-"PO-Revision-Date: 2006-02-11 17:46+1030\n"
+"POT-Creation-Date: 2006-02-14 06:04+0100\n"
+"PO-Revision-Date: 2006-02-14 19:05+1030\n"
 "Last-Translator: Clytie Siddall <clytie@riverland.net.au>\n"
 "Language-Team: Vietnamese <gnomevi-list@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -362,7 +362,7 @@ msgstr "Hiện thời bạn có thể truy cập chỉ Sổ Địa Chỉ hệ th
 
 #:../addressbook/addressbook.error.xml.h:9
 msgid "Delete address book '{0}'?"
-msgstr "Xóa bỏ sổ địa chỉ « {0} » không?"
+msgstr "Xoá bỏ sổ địa chỉ « {0} » không?"
 
 #:../addressbook/addressbook.error.xml.h:10
 msgid "Error loading addressbook."
@@ -657,6 +657,7 @@ msgstr "Sao chép nội dung sổ về máy để phục vụ các thao tác ngo
 #:../calendar/gui/dialogs/calendar-setup.c:380
 #:../calendar/gui/dialogs/calendar-setup.c:391
 #:../mail/em-folder-properties.c:217 ../mail/mail-config.glade.h:86
+#:../plugins/itip-formatter/itip-formatter.c:1978
 #:../smime/gui/smime-ui.glade.h:28
 msgid "General"
 msgstr "Chung"
@@ -747,7 +748,7 @@ msgid ""
 "\n"
 "Please be patient while Evolution migrates your Pilot Sync data..."
 msgstr "Các tập tin bản ghi thay đổi và bản đồ đều của Evolution Palm Sync (trình "
-"đồng bộ hóa máy tính cầm tay chạy hệ thống Palm) đã thay.\n"
+"đồng bộ hoá máy tính cầm tay chạy hệ thống Palm) đã thay.\n"
 "\n"
 "Hãy kiên nhẫn trong khi Evolution chuyển đổi dữ liệu Pilot Sync..."
 
@@ -783,10 +784,10 @@ msgstr "Sổ địa chỉ _mới"
 #:../calendar/gui/e-calendar-view.c:1617 ../calendar/gui/e-memo-table.c:869
 #:../calendar/gui/tasks-component.c:443 ../mail/em-folder-tree.c:2054
 #:../mail/em-folder-view.c:1091 ../ui/evolution-addressbook.xml.h:49
-#:../ui/evolution-calendar.xml.h:38 ../ui/evolution-mail-list.xml.h:30
+#:../ui/evolution-calendar.xml.h:40 ../ui/evolution-mail-list.xml.h:30
 #:../ui/evolution-memos.xml.h:16 ../ui/evolution-tasks.xml.h:24
 msgid "_Delete"
-msgstr "_Xóa bỏ"
+msgstr "_Xoá bỏ"
 
 #:../addressbook/gui/component/addressbook-view.c:956
 msgid "Save As Vcard..."
@@ -915,7 +916,7 @@ msgid "Add Address Book"
 msgstr "Thêm Sổ địa chỉ"
 
 #:../addressbook/gui/component/ldap-config.glade.h:14
-#:../mail/em-account-editor.c:304 ../mail/em-account-editor.c:769
+#:../mail/em-account-editor.c:777
 msgid "Always"
 msgstr "Luôn luôn"
 
@@ -949,31 +950,46 @@ msgid "Lo_gin:"
 msgstr "Đăng _nhập:"
 
 #:../addressbook/gui/component/ldap-config.glade.h:24
-#:../mail/em-account-editor.c:302 ../mail/em-account-editor.c:768
+#:../mail/em-account-editor.c:776
 msgid "Never"
 msgstr "Không bao giờ"
 
+#.Translators: This string is a "Use secure connection" option for
+#.the Mailer. It will not use an encrypted connection.
 #:../addressbook/gui/component/ldap-config.glade.h:25
+#:../mail/em-account-editor.c:304
+msgid "No encryption"
+msgstr "Không mật mã"
+
+#:../addressbook/gui/component/ldap-config.glade.h:26
 msgid "One"
 msgstr "Một"
 
-#:../addressbook/gui/component/ldap-config.glade.h:26
+#.Translators: This string is a "Use secure connection" option for
+#.the Mailer. SSL (Secure Sockets Layer) is commonly known by this
+#.abbreviation.
+#:../addressbook/gui/component/ldap-config.glade.h:27
+#:../mail/em-account-editor.c:312
+msgid "SSL encryption"
+msgstr "Mật mã SSL"
+
+#:../addressbook/gui/component/ldap-config.glade.h:28
 msgid "Search Filter"
 msgstr "Bộ lọc tìm kiếm"
 
-#:../addressbook/gui/component/ldap-config.glade.h:27
+#:../addressbook/gui/component/ldap-config.glade.h:29
 msgid "Search _base:"
 msgstr "_Cơ sở tìm:"
 
-#:../addressbook/gui/component/ldap-config.glade.h:28
+#:../addressbook/gui/component/ldap-config.glade.h:30
 msgid "Search _filter:"
 msgstr "Bộ _lọc tìm:"
 
-#:../addressbook/gui/component/ldap-config.glade.h:29
+#:../addressbook/gui/component/ldap-config.glade.h:31
 msgid "Search filter"
 msgstr "Bộ lọc tìm"
 
-#:../addressbook/gui/component/ldap-config.glade.h:30
+#:../addressbook/gui/component/ldap-config.glade.h:32
 msgid ""
 "Search filter is the type of the objects searched for, while performing the "
 "search. If this is not modified, by  default search will be performed on "
@@ -981,41 +997,45 @@ msgid ""
 msgstr "Bộ lọc tìm kiếm là kiểu đối tượng cần tìm kiếm. Nếu nó chưa được sửa đổi, "
 "mặc định là hạng đối tượng kiểu « person » (người) sẽ được tìm kiếm."
 
-#:../addressbook/gui/component/ldap-config.glade.h:31
-msgid ""
-"Selecting this option means that Evolution will only connect to your LDAP "
-"server if your LDAP server supports SSL or TLS."
-msgstr "Chọn tùy chọn này nghĩa là Evolution sẽ chỉ kết nối tới máy phục vụ LDAP của "
-"bạn nếu máy phục vụ LDAP ấy hỗ trợ SSL hoặc TLS."
-
-#:../addressbook/gui/component/ldap-config.glade.h:32
-msgid ""
-"Selecting this option means that Evolution will only try to use SSL/TLS if "
-"you are in a insecure environment. For example, if you and your LDAP server "
-"are behind a firewall at work, then Evolution doesn't need to use SSL/TLS "
-"because your connection is already secure."
-msgstr "Chọn tùy chọn này nghĩa là Evolution sẽ chỉ thử dùng SSL/TLS nếu bạn trong "
-"môi trường bất an. Ví dụ, nếu bạn và máy phục vụ LDAP của bạn nằm sau tường "
-"lửa tại chỗ làm, thì Evolution sẽ không cần dùng SSL/TLS vì kết nối đã đủ đã "
-"an toàn."
-
 #:../addressbook/gui/component/ldap-config.glade.h:33
 msgid ""
-"Selecting this option means that your server does not support either SSL or "
-"TLS.  This means that your connection will be insecure, and that you will be "
-"vulnerable to security exploits. "
-msgstr "Chọn tùy chọn này nghĩa là máy phục vụ của bạn không hỗ trợ cả SSL lẫn TLS. "
-"Điều này nghĩa là kết nối của bạn không an toàn, có thể bị lỗ hổng bảo mật."
+"Selecting this option means that Evolution will only connect to your LDAP "
+"server if your LDAP server supports SSL."
+msgstr "Chọn tùy chọn này nghĩa là Evolution sẽ chỉ kết nối tới máy phục vụ LDAP của "
+"bạn nếu máy phục vụ LDAP ấy hỗ trợ SSL."
 
 #:../addressbook/gui/component/ldap-config.glade.h:34
+msgid ""
+"Selecting this option means that Evolution will only connect to your LDAP "
+"server if your LDAP server supports TLS."
+msgstr "Chọn tùy chọn này nghĩa là Evolution sẽ chỉ kết nối tới máy phục vụ LDAP của "
+"bạn nếu máy phục vụ LDAP ấy hỗ trợ TLS."
+
+#:../addressbook/gui/component/ldap-config.glade.h:35
+msgid ""
+"Selecting this option means that your server does not support either SSL or "
+"TLS. This means that your connection will be insecure, and that you will be "
+"vulnerable to security exploits."
+msgstr "Chọn tùy chọn này nghĩa là máy phục vụ của bạn không hỗ trợ SSL, cũng không hỗ trợ TLS. "
+"Như thế thì kết nối của bạn không an toàn, có thể bị lỗ hổng bảo mật."
+
+#:../addressbook/gui/component/ldap-config.glade.h:36
 msgid "Sub"
 msgstr "Con"
 
-#:../addressbook/gui/component/ldap-config.glade.h:35
+#:../addressbook/gui/component/ldap-config.glade.h:37
 msgid "Supported Search Bases"
 msgstr "Cơ sở tìm được hỗ trợ"
 
-#:../addressbook/gui/component/ldap-config.glade.h:36
+#.Translators: This string is a "Use secure connection" option for
+#.the Mailer. TLS (Transport Layer Security) is commonly known by
+#.this abbreviation.
+#:../addressbook/gui/component/ldap-config.glade.h:38
+#:../mail/em-account-editor.c:308
+msgid "TLS encryption"
+msgstr "Mật mã TLS"
+
+#:../addressbook/gui/component/ldap-config.glade.h:39
 msgid ""
 "The search base is the distinguished name (DN) of the entry where your "
 "searches will begin. If you leave this blank, the search will begin at the "
@@ -1023,7 +1043,7 @@ msgid ""
 msgstr "Cơ sở tìm là tên phân biệt (TP) của mục nhập nơi bắt đầu tìm kiếm. Nếu bạn "
 "bỏ trống chỗ này, tìm kiếm sẽ được bắt đầu từ gốc cây thư mục."
 
-#:../addressbook/gui/component/ldap-config.glade.h:37
+#:../addressbook/gui/component/ldap-config.glade.h:40
 msgid ""
 "The search scope defines how deep you would like the search to extend down "
 "the directory tree. A search scope of \"sub\" will include all entries below "
@@ -1033,20 +1053,20 @@ msgstr "Phạm vi tìm cho biết độ sâu tìm kiếm đi xuống trong cây 
 "kiếm «con» sẽ bao gồm mọi mục dưới cơ sở tìm. Phạm vi tìm kiếm «một» sẽ chỉ "
 "tìm những mục nằm một mức độ dưới trong cơ sở tìm thôi."
 
-#:../addressbook/gui/component/ldap-config.glade.h:38
+#:../addressbook/gui/component/ldap-config.glade.h:41
 msgid ""
 "This is the full name of your ldap server. For example, \"ldap.mycompany.com"
 "\"."
 msgstr "Đây là tên đầy đủ của máy phục vụ LDAP. Ví dụ:\n"
 "ldap.côngtytôi.com.vn"
 
-#:../addressbook/gui/component/ldap-config.glade.h:39
+#:../addressbook/gui/component/ldap-config.glade.h:42
 msgid ""
 "This is the maximum number of entries to download. Setting this number to be "
 "too large will slow down your address book."
 msgstr "Đây là số mục tải về tối đa. Dùng số quá lớn sẽ làm chậm sổ địa chỉ."
 
-#:../addressbook/gui/component/ldap-config.glade.h:40
+#:../addressbook/gui/component/ldap-config.glade.h:43
 msgid ""
 "This is the method Evolution will use to authenticate you.  Note that "
 "setting this to \"Email Address\" requires anonymous access to your ldap "
@@ -1054,14 +1074,14 @@ msgid ""
 msgstr "Đây là cách Evolution dùng để xác thực bạn. Chú ý rằng đặt cái này là\n"
 "« Địa chỉ thư » yêu cầu truy cập vô danh tới máy phục vụ LDAP. "
 
-#:../addressbook/gui/component/ldap-config.glade.h:41
+#:../addressbook/gui/component/ldap-config.glade.h:44
 msgid ""
 "This is the name for this server that will appear in your Evolution folder "
 "list. It is for display purposes only. "
 msgstr "Đây là tên máy phục vụ xuất hiện trong danh sách thư mục Evolution. Chỉ được "
 "dùng với mục đích hiển thị thôi."
 
-#:../addressbook/gui/component/ldap-config.glade.h:42
+#:../addressbook/gui/component/ldap-config.glade.h:45
 msgid ""
 "This is the port on the LDAP server that Evolution will try to connect to. A "
 "list of standard ports has been provided. Ask your system administrator what "
@@ -1070,36 +1090,35 @@ msgstr "Đây là số hiệu cổng của máy phục vụ LDAP mà Evolution s
 "Một danh sách các cổng chuẩn đã được cung cấp. Hãy hỏi quản trị hệ thống của "
 "bạn để biết dùng cổng nào."
 
-#:../addressbook/gui/component/ldap-config.glade.h:43
+#:../addressbook/gui/component/ldap-config.glade.h:46
 msgid "Using distinguished name (DN)"
 msgstr "Dùng tên phân biệt (TP)"
 
-#:../addressbook/gui/component/ldap-config.glade.h:44
+#:../addressbook/gui/component/ldap-config.glade.h:47
 msgid "Using email address"
 msgstr "Dùng địa chỉ thư"
 
-#:../addressbook/gui/component/ldap-config.glade.h:45
-#:../mail/em-account-editor.c:303
+#:../addressbook/gui/component/ldap-config.glade.h:48
 msgid "Whenever Possible"
 msgstr "Khi nào có thể"
 
-#:../addressbook/gui/component/ldap-config.glade.h:46
+#:../addressbook/gui/component/ldap-config.glade.h:49
 msgid "_Add Address Book"
 msgstr "Th_êm Sổ địa chỉ"
 
-#:../addressbook/gui/component/ldap-config.glade.h:47
+#:../addressbook/gui/component/ldap-config.glade.h:50
 msgid "_Download limit:"
 msgstr "_Ngưỡng tải về:"
 
-#:../addressbook/gui/component/ldap-config.glade.h:48
+#:../addressbook/gui/component/ldap-config.glade.h:51
 msgid "_Find Possible Search Bases"
 msgstr "_Tìm mọi cơ sở tìm có thể"
 
-#:../addressbook/gui/component/ldap-config.glade.h:49
+#:../addressbook/gui/component/ldap-config.glade.h:52
 msgid "_Login method:"
 msgstr "Cách đăng _nhập:"
 
-#:../addressbook/gui/component/ldap-config.glade.h:50
+#:../addressbook/gui/component/ldap-config.glade.h:53
 #:../calendar/gui/dialogs/calendar-setup.c:245
 #:../calendar/gui/dialogs/calendar-setup.glade.h:8
 #:../mail/mail-config.glade.h:164
@@ -1107,42 +1126,41 @@ msgstr "Cách đăng _nhập:"
 msgid "_Name:"
 msgstr "T_ên:"
 
-#:../addressbook/gui/component/ldap-config.glade.h:51
-#:../plugins/publish-calendar/publish-calendar.glade.h:23
+#:../addressbook/gui/component/ldap-config.glade.h:54
 msgid "_Port:"
 msgstr "_Cổng:"
 
-#:../addressbook/gui/component/ldap-config.glade.h:52
+#:../addressbook/gui/component/ldap-config.glade.h:55
 msgid "_Search scope:"
 msgstr "_Phạm vi tìm:"
 
-#:../addressbook/gui/component/ldap-config.glade.h:53
+#:../addressbook/gui/component/ldap-config.glade.h:56
 #:../mail/mail-config.glade.h:171
 #:../plugins/publish-calendar/publish-calendar.glade.h:26
 msgid "_Server:"
 msgstr "_Máy phục vụ:"
 
-#:../addressbook/gui/component/ldap-config.glade.h:54
+#:../addressbook/gui/component/ldap-config.glade.h:57
 msgid "_Timeout:"
 msgstr "_Thời hạn:"
 
-#:../addressbook/gui/component/ldap-config.glade.h:55
+#:../addressbook/gui/component/ldap-config.glade.h:58
 msgid "_Use secure connection:"
 msgstr "Dùng kết nối _bảo mật:"
 
-#:../addressbook/gui/component/ldap-config.glade.h:56
+#:../addressbook/gui/component/ldap-config.glade.h:59
 msgid "cards"
 msgstr "thẻ"
 
-#:../addressbook/gui/component/ldap-config.glade.h:57
+#:../addressbook/gui/component/ldap-config.glade.h:60
 #:../calendar/gui/alarm-notify/alarm-notify.glade.h:8
-#:../calendar/gui/alarm-notify/util.c:64
-#:../calendar/gui/alarm-notify/util.c:66
+#:../calendar/gui/alarm-notify/util.c:65
+#:../calendar/gui/alarm-notify/util.c:67
 #:../calendar/gui/dialogs/alarm-dialog.glade.h:26
 #:../calendar/gui/dialogs/calendar-setup.glade.h:14
-#:../calendar/gui/dialogs/event-page.glade.h:20 ../calendar/gui/misc.c:111
-#:../calendar/gui/misc.c:113 ../filter/filter.glade.h:16
-#:../mail/em-account-editor.c:1989
+#:../calendar/gui/dialogs/event-page.glade.h:20 ../calendar/gui/misc.c:112
+#:../calendar/gui/misc.c:114 ../filter/filter.glade.h:16
+#:../mail/em-account-editor.c:1998
 #:../plugins/calendar-http/calendar-http.c:286
 #:../plugins/calendar-weather/calendar-weather.c:563
 msgid "minutes"
@@ -2888,7 +2906,7 @@ msgstr "Cắ_t"
 #:../calendar/gui/tasks-component.c:442 ../composer/e-msg-composer.c:3098
 #:../mail/em-folder-tree.c:979 ../mail/em-folder-view.c:1077
 #:../mail/message-list.c:1724 ../ui/evolution-addressbook.xml.h:46
-#:../ui/evolution-calendar.xml.h:37 ../ui/evolution-composer-entries.xml.h:13
+#:../ui/evolution-calendar.xml.h:39 ../ui/evolution-composer-entries.xml.h:13
 #:../ui/evolution-editor.xml.h:16 ../ui/evolution-mail-message.xml.h:104
 #:../ui/evolution-memos.xml.h:15 ../ui/evolution-tasks.xml.h:23
 msgid "_Copy"
@@ -3936,82 +3954,82 @@ msgstr "Việc thêm một Tóm tắt có nghĩa vào tác vụ bạn sẽ cho n
 msgid ""
 "All information in these journal entries will be deleted and can not be "
 "restored."
-msgstr "Mọi thông tin của những mục nhật ký này sẽ bị xóa bỏ hoàn toàn."
+msgstr "Mọi thông tin của những mục nhật ký này sẽ bị xoá bỏ hoàn toàn."
 
 #:../calendar/calendar.error.xml.h:4
 msgid ""
 "All information in this journal will be deleted and can not be restored."
-msgstr "Mọi thông tin của nhật ký này sẽ bị xóa bỏ hoàn toàn."
+msgstr "Mọi thông tin của nhật ký này sẽ bị xoá bỏ hoàn toàn."
 
 #:../calendar/calendar.error.xml.h:5
 msgid ""
 "All information on these appointments will be deleted and can not be "
 "restored."
-msgstr "Mọi thông tin của những cuộc hẹn này sẽ bị xóa bỏ hoàn toàn."
+msgstr "Mọi thông tin của những cuộc hẹn này sẽ bị xoá bỏ hoàn toàn."
 
 #:../calendar/calendar.error.xml.h:6
 msgid "All information on these tasks will be deleted and can not be restored."
-msgstr "Mọi thông tin của những tác vụ này sẽ bị xóa bỏ hoàn toàn."
+msgstr "Mọi thông tin của những tác vụ này sẽ bị xoá bỏ hoàn toàn."
 
 #:../calendar/calendar.error.xml.h:7
 msgid ""
 "All information on this appointment will be deleted and can not be restored."
-msgstr "Mọi thông tin của cuộc hẹn này sẽ bị xóa bỏ hoàn toàn."
+msgstr "Mọi thông tin của cuộc hẹn này sẽ bị xoá bỏ hoàn toàn."
 
 #:../calendar/calendar.error.xml.h:8
 msgid ""
 "All information on this journal entry will be deleted and can not be "
 "restored."
-msgstr "Mọi thông tin của mục nhật ký này sẽ bị xóa bỏ hoàn toàn."
+msgstr "Mọi thông tin của mục nhật ký này sẽ bị xoá bỏ hoàn toàn."
 
 #:../calendar/calendar.error.xml.h:9
 msgid ""
 "All information on this meeting will be deleted and can not be restored."
-msgstr "Mọi thông tin của cuộc họp này sẽ bị xóa bỏ hoàn toàn."
+msgstr "Mọi thông tin của cuộc họp này sẽ bị xoá bỏ hoàn toàn."
 
 #:../calendar/calendar.error.xml.h:10
 msgid "All information on this task will be deleted and can not be restored."
-msgstr "Mọi thông tin của tác vụ này sẽ bị xóa bỏ hoàn toàn."
+msgstr "Mọi thông tin của tác vụ này sẽ bị xoá bỏ hoàn toàn."
 
 #:../calendar/calendar.error.xml.h:11
 msgid "Are you sure you want to delete the '{0}' task?"
-msgstr "Bạn có chắc muốn xóa bỏ tác vụ « {0} » không?"
+msgstr "Bạn có chắc muốn xoá bỏ tác vụ « {0} » không?"
 
 #:../calendar/calendar.error.xml.h:12
 msgid "Are you sure you want to delete the appointment titled '{0}'?"
-msgstr "Bạn có chắc muốn xóa bỏ cuộc hẹn tên « {0} » không?"
+msgstr "Bạn có chắc muốn xoá bỏ cuộc hẹn tên « {0} » không?"
 
 #:../calendar/calendar.error.xml.h:13
 msgid "Are you sure you want to delete the journal entry '{0}'?"
-msgstr "Bạn có chắc muốn xóa bỏ mục nhật ký « {0} » không?"
+msgstr "Bạn có chắc muốn xoá bỏ mục nhật ký « {0} » không?"
 
 #:../calendar/calendar.error.xml.h:14
 msgid "Are you sure you want to delete these {0} appointments?"
-msgstr "Bạn có chắc muốn xóa bỏ các {0} cuộc hẹn này không?"
+msgstr "Bạn có chắc muốn xoá bỏ các {0} cuộc hẹn này không?"
 
 #:../calendar/calendar.error.xml.h:15
 msgid "Are you sure you want to delete these {0} journal entries?"
-msgstr "Bạn có chắc muốn xóa bỏ {0} mục nhật ký này không?"
+msgstr "Bạn có chắc muốn xoá bỏ {0} mục nhật ký này không?"
 
 #:../calendar/calendar.error.xml.h:16
 msgid "Are you sure you want to delete these {0} tasks?"
-msgstr "Bạn có chắc muốn xóa bỏ các {0} tác vụ này không?"
+msgstr "Bạn có chắc muốn xoá bỏ các {0} tác vụ này không?"
 
 #:../calendar/calendar.error.xml.h:17
 msgid "Are you sure you want to delete this appointment?"
-msgstr "Bạn có chắc muốn xóa bỏ cuộc hẹn này không?"
+msgstr "Bạn có chắc muốn xoá bỏ cuộc hẹn này không?"
 
 #:../calendar/calendar.error.xml.h:18
 msgid "Are you sure you want to delete this journal entry?"
-msgstr "Bạn có chắc muốn xóa bỏ mục nhật ký này không?"
+msgstr "Bạn có chắc muốn xoá bỏ mục nhật ký này không?"
 
 #:../calendar/calendar.error.xml.h:19
 msgid "Are you sure you want to delete this meeting?"
-msgstr "Bạn có chắc muốn xóa bỏ cuộc họp này không?"
+msgstr "Bạn có chắc muốn xoá bỏ cuộc họp này không?"
 
 #:../calendar/calendar.error.xml.h:20
 msgid "Are you sure you want to delete this task?"
-msgstr "Bạn có chắc muốn xóa bỏ tác vụ này không?"
+msgstr "Bạn có chắc muốn xoá bỏ tác vụ này không?"
 
 #:../calendar/calendar.error.xml.h:21
 msgid "Are you sure you want to send the appointment without a summary?"
@@ -4038,8 +4056,8 @@ msgid "Delete task list '{0}'?"
 msgstr "Xoá bỏ danh sách tác vụ « {0} » không?"
 
 #:../calendar/calendar.error.xml.h:27
-msgid "Do not Send"
-msgstr "Đừng gửi"
+msgid "Do _not Send"
+msgstr "Đừ_ng gởi"
 
 #:../calendar/calendar.error.xml.h:28
 msgid "Download in progress. Do you want to save the appointment?"
@@ -4082,7 +4100,7 @@ msgid ""
 "If you do not send a cancelation notice, the other participants may not know "
 "the journal has been deleted."
 msgstr "Nếu bạn không gửi thông báo hủy bỏ, những người dự khác có thể sẽ không biết "
-"nhật ký đã được xóa bỏ."
+"nhật ký đã được xoá bỏ."
 
 #:../calendar/calendar.error.xml.h:37
 msgid ""
@@ -4096,121 +4114,112 @@ msgid ""
 "If you do not send a cancelation notice, the other participants may not know "
 "the task has been deleted."
 msgstr "Nếu bạn không gửi thông báo hủy bỏ, những người dự khác có thể sẽ không biết "
-"tác vụ đã được xóa bỏ."
+"tác vụ đã được xoá bỏ."
 
 #:../calendar/calendar.error.xml.h:39
-#:../ui/evolution-message-composer.xml.h:29
-msgid "Send"
-msgstr "Gửi"
-
-#:../calendar/calendar.error.xml.h:40
-msgid "Send Notice"
-msgstr "Gửi thông báo"
-
-#:../calendar/calendar.error.xml.h:41
 msgid ""
 "Sending updated information allows other participants to keep their "
 "calendars up to date."
 msgstr "Gửi thông tin cập nhật cho phép những người dự khác cập nhật lại lịch của họ."
 
-#:../calendar/calendar.error.xml.h:42
+#:../calendar/calendar.error.xml.h:40
 msgid ""
 "Sending updated information allows other participants to keep their task "
 "lists up to date."
 msgstr "Gửi thông tin cập nhật cho phép những người dự khác cập nhật danh sách tác "
 "vụ của họ."
 
-#:../calendar/calendar.error.xml.h:43
+#:../calendar/calendar.error.xml.h:41
 msgid ""
 "Some attachments are being downloaded. Saving the appointment would result "
 "in the loss of these attachments."
 msgstr "Hiện thời đang tải về một số đính kèm. Khi lưu cuộc hẹn này, sẽ cũng mất các "
 "đính kèm này."
 
-#:../calendar/calendar.error.xml.h:44
+#:../calendar/calendar.error.xml.h:42
 msgid ""
 "Some attachments are being downloaded. Saving the task would result in the "
 "loss of these attachments."
 msgstr "Hiện thời đang tải về một số đính kèm. Khi lưu tác vụ này, sẽ cũng mất các "
 "đính kèm này."
 
-#:../calendar/calendar.error.xml.h:45
+#:../calendar/calendar.error.xml.h:43
 msgid "Some features may not work properly with your current server."
 msgstr "Có lẽ một số tính năng sẽ không hoạt động với máy phục vụ hiện thời của bạn."
 
-#:../calendar/calendar.error.xml.h:46
+#:../calendar/calendar.error.xml.h:44
 msgid "The Evolution calendar has quit unexpectedly."
 msgstr "Lịch Evolution đã thoát bất ngờ."
 
-#:../calendar/calendar.error.xml.h:47
+#:../calendar/calendar.error.xml.h:45
 msgid "The Evolution tasks have quit unexpectedly."
 msgstr "Tác vụ Evolution đã thoát bất ngờ."
 
-#:../calendar/calendar.error.xml.h:48
+#:../calendar/calendar.error.xml.h:46
 msgid "The calendar is not marked for offline usage."
 msgstr "Chưa đánh dấu lịch này để sử dụng khi ngoại tuyến."
 
-#:../calendar/calendar.error.xml.h:49
+#:../calendar/calendar.error.xml.h:47
 msgid "The calendar you have selected is read-only"
 msgstr "Bạn đã chọn một lịch chỉ đọc"
 
-#:../calendar/calendar.error.xml.h:50
+#:../calendar/calendar.error.xml.h:48
 msgid "The memo list is not marked for offline usage"
 msgstr "Chưa đánh dấu danh sách ghi nhớ này để sử dụng khi ngoại tuyến."
 
-#:../calendar/calendar.error.xml.h:51
+#:../calendar/calendar.error.xml.h:49
 msgid "The task list is not marked for offline usage."
 msgstr "Chưa đánh dấu danh sách tác vụ này để sử dụng khi ngoại tuyến."
 
-#:../calendar/calendar.error.xml.h:52
+#:../calendar/calendar.error.xml.h:50
 msgid "This calendar will be removed permanently."
-msgstr "Lịch này sẽ bị xóa bỏ hoàn toàn."
+msgstr "Lịch này sẽ bị xoá bỏ hoàn toàn."
+
+#:../calendar/calendar.error.xml.h:51
+msgid "This memo list will be removed permanently."
+msgstr "Danh sách ghi nhớ này sẽ bị xoá bỏ hoàn toàn."
+
+#:../calendar/calendar.error.xml.h:52
+msgid "This task list will be removed permanently."
+msgstr "Danh sách tác vụ này sẽ bị xoá bỏ hoàn toàn."
 
 #:../calendar/calendar.error.xml.h:53
-msgid "This memo list will be removed permanently."
-msgstr "Danh sách ghi nhớ này sẽ bị xóa bỏ hoàn toàn."
-
-#:../calendar/calendar.error.xml.h:54
-msgid "This task list will be removed permanently."
-msgstr "Danh sách tác vụ này sẽ bị xóa bỏ hoàn toàn."
-
-#:../calendar/calendar.error.xml.h:55
 msgid "Would you like to save your changes to this appointment?"
 msgstr "Bạn có muốn lưu các thay đổi của cuộc hẹn này không?"
 
-#:../calendar/calendar.error.xml.h:56
+#:../calendar/calendar.error.xml.h:54
 msgid "Would you like to save your changes to this memo?"
 msgstr "Bạn có muốn lưu các thay đổi của ghi nhớ này không?"
 
-#:../calendar/calendar.error.xml.h:57
+#:../calendar/calendar.error.xml.h:55
 msgid "Would you like to save your changes to this task?"
 msgstr "Bạn có muốn lưu các thay đổi của tác vụ này không?"
 
-#:../calendar/calendar.error.xml.h:58
+#:../calendar/calendar.error.xml.h:56
 msgid "Would you like to send a cancelation notice for this journal entry?"
 msgstr "Bạn có muốn gửi thông báo hủy bỏ về mục nhật ký này không?"
 
-#:../calendar/calendar.error.xml.h:59
+#:../calendar/calendar.error.xml.h:57
 msgid "Would you like to send all the participants a cancelation notice?"
 msgstr "Bạn có muốn gửi cho mọi người dự một thông báo hủy bỏ không?"
 
-#:../calendar/calendar.error.xml.h:60
+#:../calendar/calendar.error.xml.h:58
 msgid "Would you like to send meeting invitations to participants?"
 msgstr "Bạn có muốn gửi lời mời họp đến những người dự không?"
 
-#:../calendar/calendar.error.xml.h:61
+#:../calendar/calendar.error.xml.h:59
 msgid "Would you like to send this task to participants?"
 msgstr "Bạn có muốn gửi tác vụ này cho những người dự không?"
 
-#:../calendar/calendar.error.xml.h:62
+#:../calendar/calendar.error.xml.h:60
 msgid "Would you like to send updated meeting information to participants?"
 msgstr "Bạn có muốn gửi thông tin cuộc họp đã cập nhật cho những người dự không?"
 
-#:../calendar/calendar.error.xml.h:63
+#:../calendar/calendar.error.xml.h:61
 msgid "Would you like to send updated task information to participants?"
 msgstr "Bạn có muốn gửi thông tin tác vụ cập nhật cho những người dự không?"
 
-#:../calendar/calendar.error.xml.h:64
+#:../calendar/calendar.error.xml.h:62
 msgid ""
 "You are connecting to an unsupported GroupWise server and may encounter "
 "problems using Evolution. For best results, the server should be upgraded to "
@@ -4219,47 +4228,51 @@ msgstr "Bạn đang kết nối đến một máy phục vụ Groupwise không �
 "sẽ gặp khó khăn sử dụng trình Evolution. Để được kết quả tốt nhất, bạn nên "
 "nâng cấp trình phục vụ lên một phiên bản được hỗ trợ."
 
-#:../calendar/calendar.error.xml.h:65
+#:../calendar/calendar.error.xml.h:63
 msgid "You have changed this appointment, but not yet saved it."
 msgstr "Bạn đã sửa đổi cuộc hẹn này, nhưng chưa lưu lại."
 
-#:../calendar/calendar.error.xml.h:66
+#:../calendar/calendar.error.xml.h:64
 msgid "You have changed this task, but not yet saved it."
 msgstr "Bạn đã sửa đổi tác vụ này, nhưng chưa lưu lại."
 
-#:../calendar/calendar.error.xml.h:67
+#:../calendar/calendar.error.xml.h:65
 msgid "You have made changes to this memo, but not yet saved them."
 msgstr "Bạn đã sửa đổi ghi nhớ này, nhưng chưa lưu lại."
 
-#:../calendar/calendar.error.xml.h:68
+#:../calendar/calendar.error.xml.h:66
 msgid "Your calendars will not be available until Evolution is restarted."
 msgstr "Các lịch của bạn sẽ không sẵn sàng cho đến khi bạn khởi động lại Evolution."
 
-#:../calendar/calendar.error.xml.h:69
+#:../calendar/calendar.error.xml.h:67
 msgid "Your tasks will not be available until Evolution is restarted."
 msgstr "Các tác vụ của bạn sẽ không sẵn sàng cho đến khi bạn khởi động lại Evolution."
 
-#:../calendar/calendar.error.xml.h:70
+#:../calendar/calendar.error.xml.h:68
 #:../composer/mail-composer.error.xml.h:27
 msgid "_Discard Changes"
 msgstr "_Hủy thay đổi"
 
-#:../calendar/calendar.error.xml.h:71 ../ui/evolution-editor.xml.h:23
+#:../calendar/calendar.error.xml.h:69 ../ui/evolution-editor.xml.h:23
 #:../ui/evolution-message-composer.xml.h:53
 msgid "_Save"
 msgstr "_Lưu"
 
-#:../calendar/calendar.error.xml.h:72
+#:../calendar/calendar.error.xml.h:70
 msgid "_Save Changes"
 msgstr "_Lưu thay đổi"
 
-#:../calendar/calendar.error.xml.h:73
+#:../calendar/calendar.error.xml.h:71
 #:../composer/mail-composer.error.xml.h:31 ../mail/mail.error.xml.h:134
 msgid "_Send"
 msgstr "_Gửi"
 
+#:../calendar/calendar.error.xml.h:72
+msgid "_Send Notice"
+msgstr "_Gởi thông báo"
+
 # Variable: do not translate/ biến: đừng dịch
-#:../calendar/calendar.error.xml.h:74
+#:../calendar/calendar.error.xml.h:73
 msgid "{0}."
 msgstr "{0}."
 
@@ -4311,7 +4324,7 @@ msgid "Could not write pilot's ToDo application block"
 msgstr "Không thể ghi khối ứng dụng ToDo (cần làm) của pilot."
 
 #:../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:1
-#:../plugins/itip-formatter/itip-formatter.c:1968
+#:../plugins/itip-formatter/itip-formatter.c:1969
 msgid "Calendar and Tasks"
 msgstr "Tác vụ và Lịch"
 
@@ -4390,9 +4403,9 @@ msgid "Evolution Calendar alarm notification service"
 msgstr "Dịch vụ báo động lịch Evolution"
 
 #:../calendar/gui/alarm-notify/alarm-notify-dialog.c:115
-#:../calendar/gui/alarm-notify/util.c:64
-#:../calendar/gui/alarm-notify/util.c:66 ../calendar/gui/misc.c:111
-#:../calendar/gui/misc.c:113
+#:../calendar/gui/alarm-notify/util.c:65
+#:../calendar/gui/alarm-notify/util.c:67 ../calendar/gui/misc.c:112
+#:../calendar/gui/misc.c:114
 msgid "minute"
 msgid_plural "minutes"
 msgstr[0] "phút"
@@ -4431,11 +4444,11 @@ msgid "Snooze _time:"
 msgstr "Thời gian _ngủ:"
 
 #:../calendar/gui/alarm-notify/alarm-notify.glade.h:4
-#:../calendar/gui/dialogs/recurrence-page.glade.h:6
+#:../calendar/gui/dialogs/recurrence-page.glade.h:10
 #:../filter/filter.glade.h:11 ../mail/mail-config.glade.h:159
 #:../plugins/exchange-operations/exchange-delegates.glade.h:15
-#:../plugins/publish-calendar/publish-calendar.glade.h:20
-#:../ui/evolution-addressbook.xml.h:51 ../ui/evolution-calendar.xml.h:39
+#:../plugins/publish-calendar/publish-calendar.glade.h:21
+#:../ui/evolution-addressbook.xml.h:51 ../ui/evolution-calendar.xml.h:41
 #:../ui/evolution-composer-entries.xml.h:14 ../ui/evolution-editor.xml.h:17
 #:../ui/evolution-mail-messagedisplay.xml.h:5 ../ui/evolution-memos.xml.h:17
 #:../ui/evolution-message-composer.xml.h:46
@@ -4527,52 +4540,58 @@ msgstr "Thời gian không hợp lệ"
 msgid "(%ld seconds)"
 msgstr "(%ld giây)"
 
-#:../calendar/gui/alarm-notify/util.c:64 ../calendar/gui/misc.c:111
+#.TRANSLATORS: here, "second" is the time division (like "minute"), not the ordinal number (like "third")
+#:../calendar/gui/alarm-notify/util.c:65 ../calendar/gui/misc.c:112
 #,c-format
 msgid "(%d %s %d %s)"
 msgstr "(%d %s %d %s)"
 
-#:../calendar/gui/alarm-notify/util.c:64
-#:../calendar/gui/dialogs/recurrence-page.c:987 ../calendar/gui/misc.c:111
+#.TRANSLATORS: here, "second" is the ordinal number (like "third"), not the time division (like "minute")
+#.* Entire string is for example: This appointment recurs/Every [x] month(s) on the [second] [Monday] [forever]'
+#.* (dropdown menu options are in [square brackets]). This means that after 'second', either the string 'day' or
+#.* the name of a week day (like 'Monday' or 'Friday') always follow.
+#.
+#:../calendar/gui/alarm-notify/util.c:65
+#:../calendar/gui/dialogs/recurrence-page.c:998 ../calendar/gui/misc.c:112
 msgid "second"
 msgstr "giây"
 
-#:../calendar/gui/alarm-notify/util.c:64 ../calendar/gui/misc.c:111
-#:../filter/filter.glade.h:18 ../mail/mail-config.glade.h:177
+#:../calendar/gui/alarm-notify/util.c:65 ../calendar/gui/misc.c:112
+#:../filter/filter.glade.h:18 ../mail/mail-config.glade.h:178
 msgid "seconds"
 msgstr "giây"
 
-#:../calendar/gui/alarm-notify/util.c:66 ../calendar/gui/misc.c:113
+#:../calendar/gui/alarm-notify/util.c:67 ../calendar/gui/misc.c:114
 #,c-format
 msgid "(%d %s)"
 msgstr "(%d %s)"
 
-#:../calendar/gui/alarm-notify/util.c:77 ../calendar/gui/misc.c:124
+#:../calendar/gui/alarm-notify/util.c:78 ../calendar/gui/misc.c:125
 #,c-format
 msgid " %u second"
 msgstr " %u giây"
 
-#:../calendar/gui/alarm-notify/util.c:77 ../calendar/gui/misc.c:124
+#:../calendar/gui/alarm-notify/util.c:78 ../calendar/gui/misc.c:125
 #,c-format
 msgid " %u seconds"
 msgstr " %u giây"
 
-#:../calendar/gui/alarm-notify/util.c:79 ../calendar/gui/misc.c:126
+#:../calendar/gui/alarm-notify/util.c:80 ../calendar/gui/misc.c:127
 #,c-format
 msgid " %u minute"
 msgstr " %u phút"
 
-#:../calendar/gui/alarm-notify/util.c:79 ../calendar/gui/misc.c:126
+#:../calendar/gui/alarm-notify/util.c:80 ../calendar/gui/misc.c:127
 #,c-format
 msgid " %u minutes"
 msgstr " %u phút"
 
-#:../calendar/gui/alarm-notify/util.c:81 ../calendar/gui/misc.c:128
+#:../calendar/gui/alarm-notify/util.c:82 ../calendar/gui/misc.c:129
 #,c-format
 msgid "%u hour"
 msgstr "%u giờ"
 
-#:../calendar/gui/alarm-notify/util.c:81 ../calendar/gui/misc.c:128
+#:../calendar/gui/alarm-notify/util.c:82 ../calendar/gui/misc.c:129
 #,c-format
 msgid "%u hours"
 msgstr "%u giờ"
@@ -4583,7 +4602,7 @@ msgstr "Chương trình báo động"
 
 #:../calendar/gui/apps_evolution_calendar.schemas.in.in.h:2
 msgid "Ask for confirmation when deleting items"
-msgstr "Hỏi xác thực khi xóa bỏ mục"
+msgstr "Hỏi xác thực khi xoá bỏ mục"
 
 #:../calendar/gui/apps_evolution_calendar.schemas.in.in.h:3
 msgid "Background color of tasks that are due today, in \"#rrggbb\" format."
@@ -4612,7 +4631,7 @@ msgstr "Nén các ngày cuối tuần trong khung xem tháng"
 
 #:../calendar/gui/apps_evolution_calendar.schemas.in.in.h:9
 msgid "Confirm expunge"
-msgstr "Xác nhận khi xóa hẳn"
+msgstr "Xác nhận khi xoá hẳn"
 
 #:../calendar/gui/apps_evolution_calendar.schemas.in.in.h:10
 msgid "Days on which the start and end of work hours should be indicated."
@@ -4862,11 +4881,11 @@ msgstr "Có nên dùng khay thông báo để hiển thị báo động hay khô
 
 #:../calendar/gui/apps_evolution_calendar.schemas.in.in.h:67
 msgid "Whether to ask for confirmation when deleting an appointment or task."
-msgstr "Có nên hỏi xác nhận khi xóa bỏ cuộc hẹn hay tác vụ hay không."
+msgstr "Có nên hỏi xác nhận khi xoá bỏ cuộc hẹn hay tác vụ hay không."
 
 #:../calendar/gui/apps_evolution_calendar.schemas.in.in.h:68
 msgid "Whether to ask for confirmation when expunging appointments and tasks."
-msgstr "Có nên hỏi xác nhận khi xóa hắn cuộc hẹn và tác vụ hay không."
+msgstr "Có nên hỏi xác nhận khi xoá hắn cuộc hẹn và tác vụ hay không."
 
 #:../calendar/gui/apps_evolution_calendar.schemas.in.in.h:69
 msgid ""
@@ -4969,7 +4988,7 @@ msgid "Unmatched"
 msgstr "Không khớp"
 
 #:../calendar/gui/calendar-commands.c:119 ../calendar/gui/print.c:2509
-#:../ui/evolution-addressbook.xml.h:26 ../ui/evolution-calendar.xml.h:18
+#:../ui/evolution-addressbook.xml.h:26 ../ui/evolution-calendar.xml.h:20
 #:../ui/evolution-mail-message.xml.h:75 ../ui/evolution-memos.xml.h:11
 #:../ui/evolution-tasks.xml.h:14
 msgid "Print"
@@ -4994,7 +5013,7 @@ msgid ""
 "This operation will permanently erase all events older than the selected "
 "amount of time. If you continue, you will not be able to recover these "
 "events."
-msgstr "Thao tác này sẽ xóa bỏ hoàn toàn mọi sự kiện trước khoảng thời gian được "
+msgstr "Thao tác này sẽ xoá bỏ hoàn toàn mọi sự kiện trước khoảng thời gian được "
 "chọn. Nếu bạn tiếp tục thì sẽ không thể phục hồi những tác vụ này."
 
 #:../calendar/gui/calendar-commands.c:354
@@ -5212,8 +5231,10 @@ msgstr "sau"
 msgid "before"
 msgstr "trước"
 
+#.TRANSLATORS: Entire string is for example:
+#.'This appointment recurs/Every[x][day(s)][for][1]occurrences' (dropdown menu options are in [square brackets])
 #:../calendar/gui/dialogs/alarm-dialog.glade.h:19
-#:../calendar/gui/dialogs/recurrence-page.glade.h:7
+#:../calendar/gui/dialogs/recurrence-page.glade.h:13
 msgid "day(s)"
 msgstr "ngày"
 
@@ -5328,7 +5349,6 @@ msgstr "<span weight=\"bold\">Máy phục vụ Rảnh/Bận Mặc định</span>
 
 #:../calendar/gui/dialogs/cal-prefs-dialog.glade.h:10
 #:../mail/mail-config.glade.h:18
-#:../plugins/itip-formatter/itip-formatter.c:1977
 #:../plugins/publish-calendar/publish-calendar.glade.h:1
 msgid "<span weight=\"bold\">General</span>"
 msgstr "<span weight=\"bold\">Chung</span>"
@@ -5360,7 +5380,7 @@ msgid "Free/Busy"
 msgstr "Rảnh/Bận"
 
 #:../calendar/gui/dialogs/cal-prefs-dialog.glade.h:18
-#:../calendar/gui/dialogs/recurrence-page.c:1046
+#:../calendar/gui/dialogs/recurrence-page.c:1084
 #:../calendar/gui/e-itip-control.c:730
 msgid "Friday"
 msgstr "Thứ Sáu"
@@ -5375,7 +5395,7 @@ msgstr "Phút\n"
 "Ngày"
 
 #:../calendar/gui/dialogs/cal-prefs-dialog.glade.h:23
-#:../calendar/gui/dialogs/recurrence-page.c:1042
+#:../calendar/gui/dialogs/recurrence-page.c:1080
 #:../calendar/gui/e-itip-control.c:726
 msgid "Monday"
 msgstr "Thứ Hai"
@@ -5408,7 +5428,7 @@ msgid "S_un"
 msgstr "_CN"
 
 #:../calendar/gui/dialogs/cal-prefs-dialog.glade.h:33
-#:../calendar/gui/dialogs/recurrence-page.c:1047
+#:../calendar/gui/dialogs/recurrence-page.c:1085
 #:../calendar/gui/e-itip-control.c:731
 msgid "Saturday"
 msgstr "Thứ Bảy"
@@ -5426,7 +5446,7 @@ msgid "Show week _numbers in date navigator"
 msgstr "Hiện _số thứ tự tuần trong bộ duyệt ngày"
 
 #:../calendar/gui/dialogs/cal-prefs-dialog.glade.h:37
-#:../calendar/gui/dialogs/recurrence-page.c:1048
+#:../calendar/gui/dialogs/recurrence-page.c:1086
 #:../calendar/gui/e-itip-control.c:725
 msgid "Sunday"
 msgstr "Chủ Nhật"
@@ -5444,7 +5464,7 @@ msgid "Template:"
 msgstr "Mẫu:"
 
 #:../calendar/gui/dialogs/cal-prefs-dialog.glade.h:41
-#:../calendar/gui/dialogs/recurrence-page.c:1045
+#:../calendar/gui/dialogs/recurrence-page.c:1083
 #:../calendar/gui/e-itip-control.c:729
 msgid "Thursday"
 msgstr "Thứ Năm"
@@ -5459,13 +5479,13 @@ msgid "Time format:"
 msgstr "Dạng thức giờ:"
 
 #:../calendar/gui/dialogs/cal-prefs-dialog.glade.h:44
-#:../calendar/gui/dialogs/recurrence-page.c:1043
+#:../calendar/gui/dialogs/recurrence-page.c:1081
 #:../calendar/gui/e-itip-control.c:727
 msgid "Tuesday"
 msgstr "Thứ Ba"
 
 #:../calendar/gui/dialogs/cal-prefs-dialog.glade.h:45
-#:../calendar/gui/dialogs/recurrence-page.c:1044
+#:../calendar/gui/dialogs/recurrence-page.c:1082
 #:../calendar/gui/e-itip-control.c:728
 msgid "Wednesday"
 msgstr "Thứ Tư"
@@ -5489,7 +5509,7 @@ msgstr "_24 giờ"
 
 #:../calendar/gui/dialogs/cal-prefs-dialog.glade.h:51
 msgid "_Ask for confirmation when deleting items"
-msgstr "_Hỏi xác thực khi xóa bỏ mục"
+msgstr "_Hỏi xác thực khi xoá bỏ mục"
 
 #:../calendar/gui/dialogs/cal-prefs-dialog.glade.h:52
 msgid "_Compress weekends in month view"
@@ -5618,15 +5638,15 @@ msgstr "tuần"
 
 #:../calendar/gui/dialogs/changed-comp.c:60
 msgid "This event has been deleted."
-msgstr "Sự kiện này bị xóa bỏ."
+msgstr "Sự kiện này bị xoá bỏ."
 
 #:../calendar/gui/dialogs/changed-comp.c:64
 msgid "This task has been deleted."
-msgstr "Tác vụ này bị xóa bỏ."
+msgstr "Tác vụ này bị xoá bỏ."
 
 #:../calendar/gui/dialogs/changed-comp.c:68
 msgid "This journal entry has been deleted."
-msgstr "Mục nhật ký này bị xóa bỏ."
+msgstr "Mục nhật ký này bị xoá bỏ."
 
 #:../calendar/gui/dialogs/changed-comp.c:77
 #,c-format
@@ -5665,7 +5685,7 @@ msgstr "%s  Bạn chưa thay đổi gì, còn cập nhật bộ sửa không?"
 #:../calendar/gui/dialogs/comp-editor-page.c:515
 #,c-format
 msgid "Validation error: %s"
-msgstr "Lỗi hợp lệ hóa: %s"
+msgstr "Lỗi hợp lệ hoá: %s"
 
 #:../calendar/gui/dialogs/comp-editor-util.c:187 ../calendar/gui/print.c:2267
 msgid " to "
@@ -5835,51 +5855,51 @@ msgstr "Đích chỉ cho phép đọc thôi."
 
 #:../calendar/gui/dialogs/delete-error.c:54
 msgid "The event could not be deleted due to a corba error"
-msgstr "Không thể xóa bỏ sự kiện này vi găp lỗi kiểu CORBA."
+msgstr "Không thể xoá bỏ sự kiện này vi găp lỗi kiểu CORBA."
 
 #:../calendar/gui/dialogs/delete-error.c:57
 msgid "The task could not be deleted due to a corba error"
-msgstr "Không thể xóa bỏ cộng việc này vi găp lỗi kiểu CORBA."
+msgstr "Không thể xoá bỏ cộng việc này vi găp lỗi kiểu CORBA."
 
 #:../calendar/gui/dialogs/delete-error.c:60
 msgid "The journal entry could not be deleted due to a corba error"
-msgstr "Không thể xóa bỏ mục nhật ký này vi găp lỗi kiểu CORBA."
+msgstr "Không thể xoá bỏ mục nhật ký này vi găp lỗi kiểu CORBA."
 
 #:../calendar/gui/dialogs/delete-error.c:63
 msgid "The item could not be deleted due to a corba error"
-msgstr "Không thể xóa bỏ mục này vi găp lỗi kiểu CORBA."
+msgstr "Không thể xoá bỏ mục này vi găp lỗi kiểu CORBA."
 
 #:../calendar/gui/dialogs/delete-error.c:70
 msgid "The event could not be deleted because permission was denied"
-msgstr "Không thể xóa bỏ sự kiện vì không đủ quyền."
+msgstr "Không thể xoá bỏ sự kiện vì không đủ quyền."
 
 #:../calendar/gui/dialogs/delete-error.c:73
 msgid "The task could not be deleted because permission was denied"
-msgstr "Không thể xóa bỏ tác vụ vì không đủ quyền."
+msgstr "Không thể xoá bỏ tác vụ vì không đủ quyền."
 
 #:../calendar/gui/dialogs/delete-error.c:76
 msgid "The journal entry could not be deleted because permission was denied"
-msgstr "Không thể xóa bỏ mục nhật ký vì không đủ quyền."
+msgstr "Không thể xoá bỏ mục nhật ký vì không đủ quyền."
 
 #:../calendar/gui/dialogs/delete-error.c:79
 msgid "The item could not be deleted because permission was denied"
-msgstr "Không thể xóa bỏ mục vì không đủ quyền."
+msgstr "Không thể xoá bỏ mục vì không đủ quyền."
 
 #:../calendar/gui/dialogs/delete-error.c:86
 msgid "The event could not be deleted due to an error"
-msgstr "Không thể xóa bỏ sự kiện vì gặp lỗi."
+msgstr "Không thể xoá bỏ sự kiện vì gặp lỗi."
 
 #:../calendar/gui/dialogs/delete-error.c:89
 msgid "The task could not be deleted due to an error"
-msgstr "Không thể xóa bỏ tác vụ vì gặp lỗi."
+msgstr "Không thể xoá bỏ tác vụ vì gặp lỗi."
 
 #:../calendar/gui/dialogs/delete-error.c:92
 msgid "The journal entry could not be deleted due to an error"
-msgstr "Không thể xóa bỏ mục nhật ký vì gặp lỗi."
+msgstr "Không thể xoá bỏ mục nhật ký vì gặp lỗi."
 
 #:../calendar/gui/dialogs/delete-error.c:95
 msgid "The item could not be deleted due to an error"
-msgstr "Không thể xóa bỏ mục vì gặp lỗi."
+msgstr "Không thể xoá bỏ mục vì gặp lỗi."
 
 #:../calendar/gui/dialogs/e-delegate-dialog.glade.h:1
 msgid "Contacts..."
@@ -6014,8 +6034,8 @@ msgstr "Tùy chỉnh"
 #:../calendar/gui/dialogs/meeting-page.glade.h:4
 #:../calendar/gui/e-cal-model-tasks.c:649
 #:../calendar/gui/e-itip-control.c:1099 ../composer/e-msg-composer.c:2271
-#:../filter/filter-rule.c:889 ../mail/em-account-editor.c:693
-#:../mail/em-account-editor.c:1358 ../mail/em-account-prefs.c:475
+#:../filter/filter-rule.c:889 ../mail/em-account-editor.c:701
+#:../mail/em-account-editor.c:1366 ../mail/em-account-prefs.c:475
 #:../mail/em-junk-hook.c:78
 #:../plugins/calendar-weather/calendar-weather.c:370
 #:../plugins/calendar-weather/calendar-weather.c:424
@@ -6079,13 +6099,17 @@ msgstr "_Báo động"
 msgid "_Time:"
 msgstr "_Giờ :"
 
+#.TRANSLATORS: Entire string is for example:
+#.'This appointment recurs/Every[x][day(s)][for][1]occurrences' (dropdown menu options are in [square brackets])
 #:../calendar/gui/dialogs/event-page.glade.h:18
-#:../calendar/gui/dialogs/recurrence-page.glade.h:8
+#:../calendar/gui/dialogs/recurrence-page.glade.h:16
 msgid "for"
 msgstr "trong"
 
+#.TRANSLATORS: Entire string is for example:
+#.'This appointment recurs/Every[x][day(s)][until][2006/01/01]' (dropdown menu options are in [square brackets])
 #:../calendar/gui/dialogs/event-page.glade.h:21
-#:../calendar/gui/dialogs/recurrence-page.glade.h:11
+#:../calendar/gui/dialogs/recurrence-page.glade.h:25
 msgid "until"
 msgstr "tới khi"
 
@@ -6264,43 +6288,90 @@ msgstr "Cuộc hẹn chứa nhiều lần lặp lại mà Evolution không thể
 msgid "Recurrence date is invalid"
 msgstr "Ngày lặp không hợp lệ"
 
-#:../calendar/gui/dialogs/recurrence-page.c:926
+#.TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] week(s) on [Wednesday] [forever]'
+#.* (dropdown menu options are in [square brackets]). This means that after the 'on', name of a week day always follows.
+#:../calendar/gui/dialogs/recurrence-page.c:928
 msgid "on"
 msgstr "vào"
 
-#:../calendar/gui/dialogs/recurrence-page.c:986
+#.TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [first] [Monday] [forever]'
+#.* (dropdown menu options are in [square brackets]). This means that after 'first', either the string 'day' or
+#.* the name of a week day (like 'Monday' or 'Friday') always follow.
+#.
+#:../calendar/gui/dialogs/recurrence-page.c:992
 msgid "first"
 msgstr "thứ nhắt"
 
-#:../calendar/gui/dialogs/recurrence-page.c:988
+#.TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [third] [Monday] [forever]'
+#.* (dropdown menu options are in [square brackets]). This means that after 'third', either the string 'day' or
+#.* the name of a week day (like 'Monday' or 'Friday') always follow.
+#.
+#:../calendar/gui/dialogs/recurrence-page.c:1003
 msgid "third"
 msgstr "thứ ba"
 
-#:../calendar/gui/dialogs/recurrence-page.c:989
+#.TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [fourth] [Monday] [forever]'
+#.* (dropdown menu options are in [square brackets]). This means that after 'fourth', either the string 'day' or
+#.* the name of a week day (like 'Monday' or 'Friday') always follow.
+#.
+#:../calendar/gui/dialogs/recurrence-page.c:1008
 msgid "fourth"
 msgstr "thứ tư"
 
-#:../calendar/gui/dialogs/recurrence-page.c:990
+#.TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [last] [Monday] [forever]'
+#.* (dropdown menu options are in [square brackets]). This means that after 'last', either the string 'day' or
+#.* the name of a week day (like 'Monday' or 'Friday') always follow.
+#.
+#:../calendar/gui/dialogs/recurrence-page.c:1013
 msgid "last"
 msgstr "cuối cùng"
 
-#:../calendar/gui/dialogs/recurrence-page.c:1013
+#.TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [Other date] [11th to 20th] [17th] [forever]'
+#.* (dropdown menu options are in [square brackets]).
+#:../calendar/gui/dialogs/recurrence-page.c:1039
 msgid "Other Date"
 msgstr "Ngày khác"
 
-#:../calendar/gui/dialogs/recurrence-page.c:1041
+#.TRANSLATORS: This is a submenu option string to split the date range into three submenus to choose the exact day of
+#.* the month to setup an appointment recurrence. The entire string is for example: This appointment recurs/Every [x] month(s)
+#.* on the [Other date] [1st to 10th] [7th] [forever]' (dropdown menu options are in [square brackets]).
+#.
+#:../calendar/gui/dialogs/recurrence-page.c:1047
+msgid "1st to 10th"
+msgstr "ngày mồng 1 đến 10"
+
+#.TRANSLATORS: This is a submenu option string to split the date range into three submenus to choose the exact day of
+#.* the month to setup an appointment recurrence. The entire string is for example: This appointment recurs/Every [x] month(s)
+#.* on the [Other date] [11th to 20th] [17th] [forever]' (dropdown menu options are in [square brackets]).
+#.
+#:../calendar/gui/dialogs/recurrence-page.c:1053
+msgid "11th to 20th"
+msgstr "ngày 11 đến 20"
+
+#.TRANSLATORS: This is a submenu option string to split the date range into three submenus to choose the exact day of
+#.* the month to setup an appointment recurrence. The entire string is for example: This appointment recurs/Every [x] month(s)
+#.* on the [Other date] [21th to 31th] [27th] [forever]' (dropdown menu options are in [square brackets]).
+#.
+#:../calendar/gui/dialogs/recurrence-page.c:1059
+msgid "21st to 31st"
+msgstr "ngày 21 đến 31"
+
+#:../calendar/gui/dialogs/recurrence-page.c:1079
 msgid "day"
 msgstr "ngày"
 
-#:../calendar/gui/dialogs/recurrence-page.c:1178
+#.TRANSLATORS: Entire string is for example: 'This appointment recurs/Every [x] month(s) on the [second] [Tuesday] [forever]'
+#.* (dropdown menu options are in [square brackets])."
+#.
+#:../calendar/gui/dialogs/recurrence-page.c:1219
 msgid "on the"
 msgstr "vào"
 
-#:../calendar/gui/dialogs/recurrence-page.c:1367
+#:../calendar/gui/dialogs/recurrence-page.c:1408
 msgid "occurrences"
 msgstr "lần"
 
-#:../calendar/gui/dialogs/recurrence-page.c:2336
+#:../calendar/gui/dialogs/recurrence-page.c:2377
 msgid "Date/Time"
 msgstr "Ngày/Giờ"
 
@@ -6317,27 +6388,37 @@ msgstr "<b>Xem thử</b>"
 msgid "<b>Recurrence</b>"
 msgstr "<b>Định kỳ</b>"
 
-#:../calendar/gui/dialogs/recurrence-page.glade.h:4
+#.TRANSLATORS: Entire string is for example:
+#.'This appointment recurs/Every[x][day(s)][for][1]occurrences' (dropdown menu options are in [square brackets])
+#:../calendar/gui/dialogs/recurrence-page.glade.h:6
 msgid "Every"
 msgstr "Mỗi"
 
-#:../calendar/gui/dialogs/recurrence-page.glade.h:5
+#.TRANSLATORS: Entire string is for example:
+#.'This appointment recurs/Every[x][day(s)][for][1]occurrences' (dropdown menu options are in [square brackets])
+#:../calendar/gui/dialogs/recurrence-page.glade.h:9
 msgid "This appointment rec_urs"
 msgstr "Cuộc hẹn này _lặp lại"
 
-#:../calendar/gui/dialogs/recurrence-page.glade.h:9
+#.TRANSLATORS: Entire string is for example:
+#.'This appointment recurs/Every[x][day(s)][forever]' (dropdown menu options are in [square brackets])
+#:../calendar/gui/dialogs/recurrence-page.glade.h:19
 msgid "forever"
 msgstr "mãi mãi"
 
-#:../calendar/gui/dialogs/recurrence-page.glade.h:10
+#.TRANSLATORS: Entire string is for example:
+#.'This appointment recurs/Every[x][month(s)][for][1]occurrences' (dropdown menu options are in [square brackets])
+#:../calendar/gui/dialogs/recurrence-page.glade.h:22
 msgid "month(s)"
 msgstr "tháng"
 
-#:../calendar/gui/dialogs/recurrence-page.glade.h:12
+#.TRANSLATORS: Entire string is for example:
+#.'This appointment recurs/Every[x][week(s)][for][1]occurrences' (dropdown menu options are in [square brackets])
+#:../calendar/gui/dialogs/recurrence-page.glade.h:28
 msgid "week(s)"
 msgstr "tuần"
 
-#:../calendar/gui/dialogs/recurrence-page.glade.h:13
+#:../calendar/gui/dialogs/recurrence-page.glade.h:29
 msgid "year(s)"
 msgstr "năm"
 
@@ -6495,7 +6576,7 @@ msgid "_Manual"
 msgstr "_Thủ công"
 
 #:../calendar/gui/dialogs/url-editor-dialog.glade.h:9
-#:../plugins/publish-calendar/publish-calendar.glade.h:22
+#:../plugins/publish-calendar/publish-calendar.glade.h:23
 msgid "_Password:"
 msgstr "_Mật khẩu :"
 
@@ -6732,7 +6813,7 @@ msgstr "Không"
 #:../plugins/itip-formatter/itip-formatter.c:1651
 #:../plugins/plugin-manager/plugin-manager.c:68
 #:../widgets/misc/e-attachment-bar.c:686
-#:../widgets/misc/e-charset-picker.c:62
+#:../widgets/misc/e-charset-picker.c:63
 msgid "Unknown"
 msgstr "Không biết"
 
@@ -6825,7 +6906,7 @@ msgstr "100%"
 #:../calendar/gui/e-calendar-table.c:703
 #:../calendar/gui/e-calendar-view.c:675 ../calendar/gui/e-memo-table.c:433
 msgid "Deleting selected objects"
-msgstr "Đang xóa bỏ các đối tượng đã chọn..."
+msgstr "Đang xoá bỏ các đối tượng đã chọn..."
 
 #:../calendar/gui/e-calendar-table.c:882
 #:../calendar/gui/e-calendar-view.c:803 ../calendar/gui/e-memo-table.c:610
@@ -6847,7 +6928,7 @@ msgstr "Mở trang _Mạng"
 #:../calendar/gui/e-calendar-view.c:1597 ../calendar/gui/e-memo-table.c:855
 #:../mail/em-folder-view.c:1088
 #:../plugins/print-message/org-gnome-print-message.xml.h:3
-#:../ui/evolution-addressbook.xml.h:58 ../ui/evolution-calendar.xml.h:42
+#:../ui/evolution-addressbook.xml.h:58 ../ui/evolution-calendar.xml.h:44
 #:../ui/evolution-mail-message.xml.h:124 ../ui/evolution-memos.xml.h:20
 #:../ui/evolution-tasks.xml.h:29
 msgid "_Print..."
@@ -6863,7 +6944,7 @@ msgstr "Cắ_t"
 #:../calendar/gui/e-calendar-table.c:1183
 #:../calendar/gui/e-calendar-view.c:1584
 #:../calendar/gui/e-calendar-view.c:1603 ../calendar/gui/e-memo-table.c:861
-#:../ui/evolution-addressbook.xml.h:57 ../ui/evolution-calendar.xml.h:41
+#:../ui/evolution-addressbook.xml.h:57 ../ui/evolution-calendar.xml.h:43
 #:../ui/evolution-composer-entries.xml.h:15 ../ui/evolution-editor.xml.h:22
 #:../ui/evolution-memos.xml.h:19 ../ui/evolution-tasks.xml.h:28
 msgid "_Paste"
@@ -6888,7 +6969,7 @@ msgstr "Đánh _dấu các tác vụ đã chọn là hoàn tất"
 
 #:../calendar/gui/e-calendar-table.c:1195
 msgid "_Delete Selected Tasks"
-msgstr "_Xóa bỏ các tác vụ đã chọn"
+msgstr "_Xoá bỏ các tác vụ đã chọn"
 
 #:../calendar/gui/e-calendar-table.c:1428
 #:../calendar/gui/e-calendar-table.etspec.h:4
@@ -6996,13 +7077,13 @@ msgstr "Trả lời _mọi người"
 msgid "Make this Occurrence _Movable"
 msgstr "Cho phép di chuyển _lần này"
 
-#:../calendar/gui/e-calendar-view.c:1619
+#:../calendar/gui/e-calendar-view.c:1619 ../ui/evolution-calendar.xml.h:9
 msgid "Delete this _Occurrence"
-msgstr "_Xóa bỏ lần này"
+msgstr "_Xoá bỏ lần này"
 
 #:../calendar/gui/e-calendar-view.c:1620
 msgid "Delete _All Occurrences"
-msgstr "Xóa bỏ _mọi lần"
+msgstr "Xoá bỏ _mọi lần"
 
 #.To Translators: It will display "Organiser: NameOfTheUser <email@ofuser.com>"
 #:../calendar/gui/e-calendar-view.c:2030
@@ -7680,7 +7761,7 @@ msgstr "Thời điểm _cuối:"
 
 #:../calendar/gui/e-memo-table.c:870
 msgid "_Delete Selected Memos"
-msgstr "Xóa bỏ các ghi nhớ đã chọn"
+msgstr "Xoá bỏ các ghi nhớ đã chọn"
 
 #:../calendar/gui/e-memo-table.c:993 ../calendar/gui/e-memo-table.etspec.h:2
 msgid "Click to add a memo"
@@ -7710,7 +7791,7 @@ msgstr "Đang mở ghi nhớ tại %s..."
 
 #:../calendar/gui/e-memos.c:1026 ../calendar/gui/e-tasks.c:1221
 msgid "Deleting selected objects..."
-msgstr "Đang xóa bỏ các đối tượng đã chọn..."
+msgstr "Đang xoá bỏ các đối tượng đã chọn..."
 
 #:../calendar/gui/e-pub-utils.c:322
 #,c-format
@@ -7732,7 +7813,7 @@ msgstr "Đang hoàn tất tác vụ..."
 
 #:../calendar/gui/e-tasks.c:1248
 msgid "Expunging"
-msgstr "Đang xóa hẳn..."
+msgstr "Đang xoá hẳn..."
 
 #:../calendar/gui/e-timezone-entry.c:133
 msgid "Select Timezone"
@@ -8312,10 +8393,10 @@ msgid ""
 "continue, you will not be able to recover these tasks.\n"
 "\n"
 "Really erase these tasks?"
-msgstr "Thao tác này sẽ xóa bỏ hoàn toàn mọi tác vụ được đánh dấu đã hoàn tất. Nếu "
+msgstr "Thao tác này sẽ xoá bỏ hoàn toàn mọi tác vụ được đánh dấu đã hoàn tất. Nếu "
 "bạn tiếp tục, bạn sẽ không thể phục hồi những tác vụ này.\n"
 "\n"
-"Bạn có thật sự muốn xóa bỏ những tác vụ này sao?"
+"Bạn có thật sự muốn xoá bỏ những tác vụ này sao?"
 
 #:../calendar/gui/tasks-control.c:438
 msgid "Do not ask me again."
@@ -10035,7 +10116,7 @@ msgstr "Không thể ký tên thư gửi đi: chưa lập chứng nhận chữ k
 msgid ""
 "Cannot encrypt outgoing message: No encryption certificate set for this "
 "account"
-msgstr "Không thể mật mã hóa thư gửi đi: chưa lập chứng nhận mật mã cho tài khoản "
+msgstr "Không thể mật mã hoá thư gửi đi: chưa lập chứng nhận mật mã cho tài khoản "
 "này."
 
 #:../composer/e-msg-composer.c:1295 ../composer/e-msg-composer.c:2508
@@ -10069,8 +10150,8 @@ msgstr "Thư không tên"
 msgid "Open File"
 msgstr "Mở tập tin"
 
-#:../composer/e-msg-composer.c:2151 ../mail/em-account-editor.c:598
-#:../mail/em-account-editor.c:643 ../mail/em-account-editor.c:710
+#:../composer/e-msg-composer.c:2151 ../mail/em-account-editor.c:606
+#:../mail/em-account-editor.c:651 ../mail/em-account-editor.c:718
 msgid "Autogenerated"
 msgstr "Tự động phát sinh"
 
@@ -10105,7 +10186,7 @@ msgstr "Mọi tài khoản đã được gỡ bỏ."
 msgid ""
 "Are you sure you want to discard the message, titled '{0}', you are "
 "composing?"
-msgstr "Bạn có chắc muốn xóa bỏ thư tên « {0} » mà bạn đang soạn không?"
+msgstr "Bạn có chắc muốn xoá bỏ thư tên « {0} » mà bạn đang soạn không?"
 
 #:../composer/mail-composer.error.xml.h:4
 msgid "Because &quot;{0}&quot;, you may need to select different mail options."
@@ -10121,7 +10202,7 @@ msgid ""
 "Closing this composer window will discard the message permanently, unless "
 "you choose to save the message in your Drafts folder. This will allow you to "
 "continue the message at a later date."
-msgstr "Đóng cửa sổ soạn này thì sẽ xóa bỏ thư ấy hoàn toàn, trừ bạn chọn lưu thư ấy "
+msgstr "Đóng cửa sổ soạn này thì sẽ xoá bỏ thư ấy hoàn toàn, trừ bạn chọn lưu thư ấy "
 "vào thư mục Nháp. Làm như thế sẽ cho phép bạn tiếp tục thư ấy lần sau."
 
 #:../composer/mail-composer.error.xml.h:7
@@ -10234,8 +10315,8 @@ msgid "Groupware Suite"
 msgstr "Bộ phần mềm nhóm (Groupware)"
 
 #:../data/evolution.desktop.in.in.h:3
-msgid "The Evolution Groupware Suite"
-msgstr "Bộ phần mềm nhóm Evolution"
+msgid "The Evolution PIM and Email Client"
+msgstr "Ứng dụng thư điện tử và quản lý thông tin cá nhân Evolution"
 
 #:../data/evolution.keys.in.in.h:1
 msgid "address card"
@@ -10371,11 +10452,10 @@ msgid "Evolution Query"
 msgstr "Truy vấn Evolution"
 
 #.setup a dummy error
-#:../e-util/e-error.c:442
+#:../e-util/e-error.c:443
 #,c-format
-msgid ""
-"<span weight=\"bold\">Internal error, unknown error '%s' requested</span>"
-msgstr "<span weight=\"bold\">Lỗi nội tại, lỗi lạ « %s » được yêu cầu</span>"
+msgid "Internal error, unknown error '%s' requested"
+msgstr "Lỗi nội bộ : yêu cầu lỗi không rõ « %s »."
 
 #:../e-util/e-system.error.xml.h:2
 msgid "Cannot open file &quot;{0}&quot;."
@@ -10711,12 +10791,12 @@ msgstr "Tùy thích thư"
 msgid "_Mail"
 msgstr "_Thư tín"
 
-#:../mail/em-account-editor.c:395
+#:../mail/em-account-editor.c:403
 #,c-format
 msgid "%s License Agreement"
 msgstr "Điều kiện quyền phép của %s"
 
-#:../mail/em-account-editor.c:402
+#:../mail/em-account-editor.c:410
 #,c-format
 msgid ""
 "\n"
@@ -10728,55 +10808,55 @@ msgstr "\n"
 "cho %s bên dưới, và đánh dấu\n"
 "trong hộp chọn để chấp nhận các điều kiện ấy.\n"
 
-#:../mail/em-account-editor.c:474 ../mail/em-filter-folder-element.c:237
+#:../mail/em-account-editor.c:482 ../mail/em-filter-folder-element.c:237
 #:../mail/em-vfolder-rule.c:496
 msgid "Select Folder"
 msgstr "Chọn thư mục"
 
-#:../mail/em-account-editor.c:770
+#:../mail/em-account-editor.c:778
 msgid "Ask for each message"
 msgstr "Hỏi cho mỗi thư"
 
-#:../mail/em-account-editor.c:1749 ../mail/mail-config.glade.h:91
+#:../mail/em-account-editor.c:1757 ../mail/mail-config.glade.h:91
 msgid "Identity"
 msgstr "Nhân dạng"
 
-#:../mail/em-account-editor.c:1798 ../mail/mail-config.glade.h:118
+#:../mail/em-account-editor.c:1806 ../mail/mail-config.glade.h:118
 msgid "Receiving Email"
 msgstr "Nhận Thư"
 
-#:../mail/em-account-editor.c:1981
+#:../mail/em-account-editor.c:1990
 msgid "Automatically check for _new mail every"
 msgstr "Tự động kiểm tra thư _mới mỗi"
 
-#:../mail/em-account-editor.c:2162 ../mail/mail-config.glade.h:130
+#:../mail/em-account-editor.c:2171 ../mail/mail-config.glade.h:130
 msgid "Sending Email"
 msgstr "Gửi Thư"
 
-#:../mail/em-account-editor.c:2221 ../mail/mail-config.glade.h:68
+#:../mail/em-account-editor.c:2230 ../mail/mail-config.glade.h:68
 msgid "Defaults"
 msgstr "Mặc định"
 
 #.Security settings
-#:../mail/em-account-editor.c:2287 ../mail/mail-config.glade.h:123
+#:../mail/em-account-editor.c:2296 ../mail/mail-config.glade.h:123
 #:../plugins/exchange-operations/exchange-account-setup.c:317
 msgid "Security"
 msgstr "Bảo mật"
 
 #.Most sections for this is auto-generated fromt the camel config
-#:../mail/em-account-editor.c:2324 ../mail/em-account-editor.c:2415
+#:../mail/em-account-editor.c:2333 ../mail/em-account-editor.c:2424
 msgid "Receiving Options"
 msgstr "Tùy chọn Nhận"
 
-#:../mail/em-account-editor.c:2325 ../mail/em-account-editor.c:2416
+#:../mail/em-account-editor.c:2334 ../mail/em-account-editor.c:2425
 msgid "Checking for New Mail"
 msgstr "Kiểm tra tìm Thư Mới"
 
-#:../mail/em-account-editor.c:2755 ../mail/mail-config.glade.h:34
+#:../mail/em-account-editor.c:2764 ../mail/mail-config.glade.h:34
 msgid "Account Editor"
 msgstr "Bộ sửa tài khoản"
 
-#:../mail/em-account-editor.c:2755 ../mail/mail-config.glade.h:80
+#:../mail/em-account-editor.c:2764 ../mail/mail-config.glade.h:80
 msgid "Evolution Account Assistant"
 msgstr "Phụ tá tài khoản Evolution"
 
@@ -10888,7 +10968,7 @@ msgstr "Ngày gửi"
 
 #:../mail/em-filter-i18n.h:12
 msgid "Deleted"
-msgstr "Đã xóa bỏ"
+msgstr "Đã xoá bỏ"
 
 #:../mail/em-filter-i18n.h:13
 msgid "does not contain"
@@ -11297,7 +11377,7 @@ msgstr "_Hiệu chỉnh dạng thư mới..."
 
 #:../mail/em-folder-view.c:1092
 msgid "U_ndelete"
-msgstr "_Hủy xóa bỏ"
+msgstr "_Hủy xoá bỏ"
 
 #:../mail/em-folder-view.c:1093
 msgid "_Move to Folder..."
@@ -12105,7 +12185,7 @@ msgstr "Nhắc khi có chủ đề rỗng"
 
 #:../mail/evolution-mail.schemas.in.in.h:56
 msgid "Prompt the user when he or she tries to expunge a folder."
-msgstr "Nhắc người dùng khi họ cố xóa hẳn thư mục."
+msgstr "Nhắc người dùng khi họ cố xoá hẳn thư mục."
 
 #:../mail/evolution-mail.schemas.in.in.h:57
 msgid ""
@@ -12114,7 +12194,7 @@ msgstr "Nhắc người dùng khi họ cố gửi thư chưa có Chủ đề."
 
 #:../mail/evolution-mail.schemas.in.in.h:58
 msgid "Prompt when user expunges"
-msgstr "Nhắc khi người dùng xóa hẳn"
+msgstr "Nhắc khi người dùng xoá hẳn"
 
 #:../mail/evolution-mail.schemas.in.in.h:59
 msgid "Prompt when user only fills Bcc"
@@ -12169,11 +12249,11 @@ msgstr "Hiện ảnh đã hoạt cảnh kiểu hoạt cảnh."
 
 #:../mail/evolution-mail.schemas.in.in.h:71
 msgid "Show deleted messages (with a strike-through) in the message-list."
-msgstr "Hiển thị mọi thư bị xóa bỏ (kiểu gạch xuyên qua) trong danh sách các thư."
+msgstr "Hiển thị mọi thư bị xoá bỏ (kiểu gạch xuyên qua) trong danh sách các thư."
 
 #:../mail/evolution-mail.schemas.in.in.h:72
 msgid "Show deleted messages in the message-list"
-msgstr "Hiển thị thư bị xóa bỏ trong danh sách các thư."
+msgstr "Hiển thị thư bị xoá bỏ trong danh sách các thư."
 
 #:../mail/evolution-mail.schemas.in.in.h:75
 msgid "Sound file to play when new mail arrives."
@@ -12217,7 +12297,7 @@ msgid ""
 "and whether they are to be displayed. The format of the XML structure is &lt;"
 "header enabled&gt; - set enabled if the header is to be displayed in the "
 "mail view."
-msgstr "Khóa này nên chứa danh sách các cấu trúc XML ghi rõ dòng đầu tự chọn, và nếu "
+msgstr "Khoá này nên chứa danh sách các cấu trúc XML ghi rõ dòng đầu tự chọn, và nếu "
 "sẽ hiển thị chúng. Dang thức của cấu trúc XML là:\n"
 "&lt;header enabled&gt;\n"
 "(lập đã bật dòng đầu, nếu sẽ hiển thị dòng đầu ấy trong khung xem thư)."
@@ -12489,7 +12569,7 @@ msgstr "Thêm quy tắc lọc"
 #,c-format
 msgid "%d deleted"
 msgid_plural "%d deleted"
-msgstr[0] "%d bị xóa bỏ"
+msgstr[0] "%d bị xoá bỏ"
 
 #:../mail/mail-component.c:523
 #,c-format
@@ -12631,7 +12711,7 @@ msgstr "<span weight=\"bold\">Hành vi Mặc định</span>"
 
 #:../mail/mail-config.glade.h:15
 msgid "<span weight=\"bold\">Delete Mail</span>"
-msgstr "<span weight=\"bold\">Xóa bỏ Thư</span>"
+msgstr "<span weight=\"bold\">Xoá bỏ Thư</span>"
 
 #:../mail/mail-config.glade.h:16
 msgid "<span weight=\"bold\">Displayed Mail _Headers</span>"
@@ -12732,7 +12812,7 @@ msgstr "Luôn _Bí mật Chép Cho (Bcc) tới:"
 
 #:../mail/mail-config.glade.h:42
 msgid "Always _trust keys in my keyring when encrypting"
-msgstr "Luôn _tin khóa trong dây khóa tôi khi mật mã hóa"
+msgstr "Luôn _tin khoá trong dây khoá tôi khi mật mã hoá"
 
 #:../mail/mail-config.glade.h:43
 msgid "Always encrypt to _myself when sending encrypted mail"
@@ -12780,7 +12860,7 @@ msgstr "Kiểm tra nếu thư đã gửi đến là thư Rác"
 
 #:../mail/mail-config.glade.h:55
 msgid "Cle_ar"
-msgstr "_Xóa"
+msgstr "_Xoá"
 
 #:../mail/mail-config.glade.h:56
 msgid "Clea_r"
@@ -12796,7 +12876,7 @@ msgstr "Màu sắc"
 
 #:../mail/mail-config.glade.h:59
 msgid "Confirm _when expunging a folder"
-msgstr "_Xác nhận khi xóa hẳn thư mục"
+msgstr "_Xác nhận khi xoá hẳn thư mục"
 
 #:../mail/mail-config.glade.h:60
 msgid ""
@@ -13167,23 +13247,24 @@ msgstr "Kiểu dáng t_rả lời:"
 msgid "_Script:"
 msgstr "Tập _lệnh:"
 
-#:../mail/mail-config.glade.h:172
-msgid "_Show animated images"
-msgstr "_Hiện hoạt cảnh"
-
+#.If enabled, show animation; if disabled, only display a static image without any animation
 #:../mail/mail-config.glade.h:173
+msgid "_Show image animations"
+msgstr "_Hiện hoạt cảnh ảnh"
+
+#:../mail/mail-config.glade.h:174
 msgid "_Use Secure Connection:"
 msgstr "Dùng kết nối _bảo mật:"
 
-#:../mail/mail-config.glade.h:174
+#:../mail/mail-config.glade.h:175
 msgid "_Use the same fonts as other applications"
 msgstr "_Dùng cùng những phông chữ với các ứng dụng khác"
 
-#:../mail/mail-config.glade.h:175
+#:../mail/mail-config.glade.h:176
 msgid "color"
 msgstr "màu"
 
-#:../mail/mail-config.glade.h:176
+#:../mail/mail-config.glade.h:177
 msgid "description"
 msgstr "mô tả"
 
@@ -13379,7 +13460,7 @@ msgstr "Đang cất giữ thư mục %s..."
 #:../mail/mail-ops.c:1521
 #,c-format
 msgid "Expunging and storing account '%s'"
-msgstr "Đang xóa hẳn và cất giữ tài khoản %s..."
+msgstr "Đang xoá hẳn và cất giữ tài khoản %s..."
 
 #:../mail/mail-ops.c:1522
 #,c-format
@@ -13392,7 +13473,7 @@ msgstr "Đang cập nhật thư mục..."
 
 #:../mail/mail-ops.c:1613 ../mail/mail-ops.c:1664
 msgid "Expunging folder"
-msgstr "Đang xóa hẳn thư mục..."
+msgstr "Đang xoá hẳn thư mục..."
 
 #:../mail/mail-ops.c:1661
 #,c-format
@@ -13470,30 +13551,6 @@ msgstr "Đang kiểm tra dịch vụ..."
 #:../mail/mail-send-recv.c:158
 msgid "Canceling..."
 msgstr "Đang thôi..."
-
-# Variable: don't translate / Biến: đừng dịch
-#:../mail/mail-send-recv.c:266 ../mail/mail-send-recv.c:268
-#,c-format
-msgid "<b>%s (%s)</b> : %s"
-msgstr "<b>%s (%s)</b> : %s"
-
-# Variable: don't translate / Biến: đừng dịch
-#:../mail/mail-send-recv.c:270
-#,c-format
-msgid "<b>%s (%s)</b>"
-msgstr "<b>%s (%s)</b>"
-
-# Variable: don't translate / Biến: đừng dịch
-#:../mail/mail-send-recv.c:274 ../mail/mail-send-recv.c:276
-#,c-format
-msgid "<b>%s</b> : %s"
-msgstr "<b>%s</b> : %s"
-
-# Variable: don't translate / Biến: đừng dịch
-#:../mail/mail-send-recv.c:278
-#,c-format
-msgid "<b>%s</b>"
-msgstr "<b>%s</b>"
 
 #:../mail/mail-send-recv.c:329
 msgid "Send & Receive Mail"
@@ -13625,16 +13682,16 @@ msgstr "Thêm một Chủ đề có nghĩa vào thư bạn sẽ cho người nh�
 
 #:../mail/mail.error.xml.h:9
 msgid "Are you sure you want to delete this account and all its proxies?"
-msgstr "Bạn có chắc muốn xóa bỏ tài khoản này và các ủy nhiệm của nó không?"
+msgstr "Bạn có chắc muốn xoá bỏ tài khoản này và các ủy nhiệm của nó không?"
 
 #:../mail/mail.error.xml.h:10
 msgid "Are you sure you want to delete this account?"
-msgstr "Bạn có muốn xóa bỏ tài khoản này không?"
+msgstr "Bạn có muốn xoá bỏ tài khoản này không?"
 
 #:../mail/mail.error.xml.h:11
 msgid ""
 "Are you sure you want to disable this account and delete all its proxies?"
-msgstr "Bạn có chắc muốn tắt tài khoản này và xóa bỏ các ủy nhiệm của nó không?"
+msgstr "Bạn có chắc muốn tắt tài khoản này và xoá bỏ các ủy nhiệm của nó không?"
 
 #:../mail/mail.error.xml.h:12
 msgid "Are you sure you want to open {0} messages at once?"
@@ -13644,13 +13701,13 @@ msgstr "Bạn có chắc muốn mở cả {0} thư cùng lúc không?"
 msgid ""
 "Are you sure you want to permanently remove all the deleted messages in all "
 "folders?"
-msgstr "Bạn có chắc muốn gỡ bỏ hoàn toàn mọi thư đã xóa bỏ trong mọi thư mục không?"
+msgstr "Bạn có chắc muốn gỡ bỏ hoàn toàn mọi thư đã xoá bỏ trong mọi thư mục không?"
 
 #:../mail/mail.error.xml.h:14
 msgid ""
 "Are you sure you want to permanently remove all the deleted messages in "
 "folder &quot;{0}&quot;?"
-msgstr "Bạn có chắc muốn xoá bỏ hoàn toàn mọi thư đã xóa bỏ trong thư mục « {0} » "
+msgstr "Bạn có chắc muốn xoá bỏ hoàn toàn mọi thư đã xoá bỏ trong thư mục « {0} » "
 "không?"
 
 #:../mail/mail.error.xml.h:15
@@ -13699,11 +13756,11 @@ msgstr "Không thể tạo thư mục lưu, vì « {1} »."
 
 #:../mail/mail.error.xml.h:27
 msgid "Cannot delete folder &quot;{0}&quot;."
-msgstr "Không thể xóa bỏ thư mục « {0} »."
+msgstr "Không thể xoá bỏ thư mục « {0} »."
 
 #:../mail/mail.error.xml.h:28
 msgid "Cannot delete system folder &quot;{0}&quot;."
-msgstr "Không thể xóa bỏ thư mục hệ thống « {0} »."
+msgstr "Không thể xoá bỏ thư mục hệ thống « {0} »."
 
 #:../mail/mail.error.xml.h:29
 msgid "Cannot edit Search Folder &quot;{0}&quot; as it does not exist."
@@ -13774,7 +13831,7 @@ msgstr "Xoá bỏ « {0} » không?"
 
 #:../mail/mail.error.xml.h:44
 msgid "Delete account?"
-msgstr "Xóa bỏ tài khoản không?"
+msgstr "Xoá bỏ tài khoản không?"
 
 #:../mail/mail.error.xml.h:45
 msgid "Discard changes?"
@@ -13782,7 +13839,7 @@ msgstr "Hủy các thay đổi không?"
 
 #:../mail/mail.error.xml.h:46
 msgid "Do not delete"
-msgstr "Đừng xóa bỏ"
+msgstr "Đừng xoá bỏ"
 
 #:../mail/mail.error.xml.h:47
 msgid "Do not disable"
@@ -13832,23 +13889,23 @@ msgstr "Nếu bạn tiếp tục, bạn sẽ không thể phục hồi những t
 msgid ""
 "If you delete the folder, all of its contents and its subfolders contents "
 "will be deleted permanently."
-msgstr "Nếu bạn xóa bỏ thư mục này, mọi nội dung của nó và mọi nội dung của thư mục "
-"con của nó sẽ bị xóa bỏ hoàn toàn."
+msgstr "Nếu bạn xoá bỏ thư mục này, mọi nội dung của nó và mọi nội dung của thư mục "
+"con của nó sẽ bị xoá bỏ hoàn toàn."
 
 #:../mail/mail.error.xml.h:59
 msgid "If you proceed, all proxy accounts will be deleted permanently."
-msgstr "Nếu bạn tiếp tục, mọi tài khoản ủy nhiệm sẽ bị xóa bỏ hoàn toàn."
+msgstr "Nếu bạn tiếp tục, mọi tài khoản ủy nhiệm sẽ bị xoá bỏ hoàn toàn."
 
 #:../mail/mail.error.xml.h:60
 msgid ""
 "If you proceed, the account information and\n"
 "all proxy information will be deleted permanently."
-msgstr "Nếu bạn tiếp tục, thông tin tài khoản và các thông tin ủy nhiệm sẽ bị xóa bỏ "
+msgstr "Nếu bạn tiếp tục, thông tin tài khoản và các thông tin ủy nhiệm sẽ bị xoá bỏ "
 "hoàn toàn."
 
 #:../mail/mail.error.xml.h:62
 msgid "If you proceed, the account information will be deleted permanently."
-msgstr "Nếu bạn tiếp tục, thông tin tài khoản sẽ bị xóa bỏ hoàn toàn."
+msgstr "Nếu bạn tiếp tục, thông tin tài khoản sẽ bị xoá bỏ hoàn toàn."
 
 #:../mail/mail.error.xml.h:63
 msgid ""
@@ -13953,7 +14010,7 @@ msgstr "Thông báo đã đọc được yêu cầu."
 
 #:../mail/mail.error.xml.h:86
 msgid "Really delete folder &quot;{0}&quot; and all of its subfolders?"
-msgstr "Bạn thật sự muốn xóa bỏ thư mục « {0} » và mọi thư mục con của nó không?"
+msgstr "Bạn thật sự muốn xoá bỏ thư mục « {0} » và mọi thư mục con của nó không?"
 
 #:../mail/mail.error.xml.h:87
 msgid "Search Folders automatically updated."
@@ -13972,7 +14029,7 @@ msgid ""
 "System folders are required for Ximian Evolution to function correctly and "
 "cannot be renamed, moved, or deleted."
 msgstr "Các thư mục hệ thống có cần thiết để trình Ximian Evolution hoạt động cho "
-"đúng nên không thể thay đổi tên, di chuyển hay xóa bỏ chúng."
+"đúng nên không thể thay đổi tên, di chuyển hay xoá bỏ chúng."
 
 #:../mail/mail.error.xml.h:91
 msgid ""
@@ -14140,7 +14197,7 @@ msgstr "_Hủy các thay đổi"
 
 #:../mail/mail.error.xml.h:131
 msgid "_Expunge"
-msgstr "_Xóa hẳn"
+msgstr "_Xoá hẳn"
 
 #:../mail/mail.error.xml.h:132
 msgid "_Open Messages"
@@ -14378,36 +14435,32 @@ msgstr "Lưu trữ và phục hồi các dữ liệu và thiết lập đều c�
 msgid "Restore Settings..."
 msgstr "Phục hồi thiết lập..."
 
-#:../plugins/bbdb/bbdb.c:429
+#:../plugins/bbdb/bbdb.c:430 ../plugins/bbdb/bbdb.c:439
 #:../plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:1
 msgid "Automatic Contacts"
 msgstr "Liên lạc Tự động"
 
-#:../plugins/bbdb/bbdb.c:438
-msgid "<span weight=\"bold\">Automatic Contacts</span>"
-msgstr "<span weight=\"bold\">Liên lạc Tự động</span>"
-
 #.Enable BBDB checkbox
-#:../plugins/bbdb/bbdb.c:451
+#:../plugins/bbdb/bbdb.c:454
 msgid ""
 "_Automatically create entries in the addressbook when responding to mail"
 msgstr "_Tự động tạo mục nhập trong sổ địa chỉ khi trả lời thư"
 
-#:../plugins/bbdb/bbdb.c:472
-msgid "<span weight=\"bold\">Instant Messaging Contacts</span>"
-msgstr "<span weight=\"bold\">Liên lạc tin nhắn tức khắc</span>"
+#:../plugins/bbdb/bbdb.c:475
+msgid "Instant Messaging Contacts"
+msgstr "Liên lạc Tin nhắn tức khắc"
 
 #.Enable Gaim Checkbox
-#:../plugins/bbdb/bbdb.c:485
+#:../plugins/bbdb/bbdb.c:490
 msgid ""
 "Periodically synchronize contact information and images from gaim buddy list"
-msgstr "Đồng bộ hóa theo định kỷ các thông tin liên lạc và ảnh đều từ danh sách "
+msgstr "Đồng bộ hoá theo định kỷ các thông tin liên lạc và ảnh đều từ danh sách "
 "người bạn Gaim"
 
 #.Synchronize now button.
-#:../plugins/bbdb/bbdb.c:502
+#:../plugins/bbdb/bbdb.c:507
 msgid "Synchronize with _buddy list now"
-msgstr "Đồng bộ hóa với danh sách người _bạn ngay bây giờ"
+msgstr "Đồng bộ hoá với danh sách người _bạn ngay bây giờ"
 
 #:../plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:2
 msgid ""
@@ -14544,8 +14597,8 @@ msgstr "Bạn có muốn đặt Evolution là ứng dụng khách thư điện t
 
 #:../plugins/default-source/default-source.c:82
 #:../plugins/default-source/default-source.c:109
-msgid "Mark as default folder"
-msgstr "Đánh dấu là thư mục mặc định"
+msgid "Mark as _default folder"
+msgstr "Đánh dấu là thư mục _mặc định"
 
 #:../plugins/default-source/org-gnome-default-source.eplug.xml.h:1
 msgid "Default Sources"
@@ -14595,7 +14648,7 @@ msgid ""
 "This option will connect to the Exchange server using standard plaintext "
 "password authentication."
 msgstr "Tùy chọn này sẽ kết nối tới máy phục vụ Exchannge dùng cách xác thực mật "
-"khẩu chữ thô (không mã hóa)."
+"khẩu chữ thô (không mã hoá)."
 
 #:../plugins/exchange-operations/exchange-account-setup.c:257
 msgid "Out Of Office"
@@ -14899,7 +14952,7 @@ msgstr "<b>Quyền hạn</b>"
 
 #:../plugins/exchange-operations/exchange-permissions-dialog.glade.h:3
 msgid "Cannot Delete"
-msgstr "Không thể xóa bỏ"
+msgstr "Không thể xoá bỏ"
 
 #:../plugins/exchange-operations/exchange-permissions-dialog.glade.h:4
 msgid "Cannot Edit"
@@ -14915,11 +14968,11 @@ msgstr "Tạo thư mục con"
 
 #:../plugins/exchange-operations/exchange-permissions-dialog.glade.h:7
 msgid "Delete Any Items"
-msgstr "Xóa bỏ mọi mục"
+msgstr "Xoá bỏ mọi mục"
 
 #:../plugins/exchange-operations/exchange-permissions-dialog.glade.h:8
 msgid "Delete Own Items"
-msgstr "Xóa bỏ mục mình"
+msgstr "Xoá bỏ mục mình"
 
 #:../plugins/exchange-operations/exchange-permissions-dialog.glade.h:9
 msgid "Edit Any Items"
@@ -15158,7 +15211,7 @@ msgstr "Máy phục vụ đã từ chối mật khẩu vì quá yếu."
 
 #:../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:51
 msgid "The Exchange account will be disabled when you quit Evolution"
-msgstr "Tài khoản Exchange sẽ bị vô hiệu hóa khi bạn thoát trình Evolution."
+msgstr "Tài khoản Exchange sẽ bị vô hiệu hoá khi bạn thoát trình Evolution."
 
 #:../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:52
 msgid "The Exchange account will be removed when you quit Evolution"
@@ -15237,7 +15290,7 @@ msgid ""
 "Your current usage is: {0} KB. Try to clear up some space by deleting some "
 "mail."
 msgstr "Hiện thời bạn đang sử dụng chỗ: {0}KB. Hãy cố giải phóng thêm chỗ trống bằng "
-"cách xóa bỏ một số thư."
+"cách xoá bỏ một số thư."
 
 #:../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:73
 msgid ""
@@ -15251,7 +15304,7 @@ msgid ""
 "Your current usage is: {0} KB. You will not be able to send mail until you "
 "clear up some space by deleting some mail."
 msgstr "Hiện thời bạn đang sử dụng chỗ: {0}KB. Bạn sẽ không thể gởi thư đến khi bạn "
-"giải phóng thêm chỗ trống bằng cách xóa bỏ một số thư."
+"giải phóng thêm chỗ trống bằng cách xoá bỏ một số thư."
 
 #:../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:75
 msgid "Your password has expired."
@@ -15531,7 +15584,7 @@ msgstr "Tập tin iCalendar (.ics)"
 
 #:../plugins/ipod-sync/org-gnome-ipod-sync-evolution.eplug.xml.h:1
 msgid "Synchronize the selected task/calendar/addressbook with Apple iPod"
-msgstr "Đồng bộ hóa sổ địa chỉ/lịch/tác vụ đã chọn với Apple iPod"
+msgstr "Đồng bộ hoá sổ địa chỉ/lịch/tác vụ đã chọn với Apple iPod"
 
 #:../plugins/ipod-sync/org-gnome-ipod-sync-evolution.eplug.xml.h:2
 msgid "Synchronize to iPod"
@@ -15705,25 +15758,22 @@ msgstr "Để xử lý mọi mục này thì nên lưu tập tin này và nhập
 
 #.Delete message after acting
 #.FIXME Need a schema for this
-#:../plugins/itip-formatter/itip-formatter.c:1991
+#:../plugins/itip-formatter/itip-formatter.c:1994
 msgid "_Delete message after acting"
-msgstr "_Xóa bỏ thư sau hành động"
+msgstr "_Xoá bỏ thư sau hành động"
 
-#:../plugins/itip-formatter/itip-formatter.c:2001
-msgid "<span weight=\"bold\">Conflict Search</span>"
-msgstr "<span weight=\"bold\">Tìm kiếm Xung đột</span>"
-
-#.Source selector
-#:../plugins/itip-formatter/itip-formatter.c:2014
-msgid "Select the calendars to search for meeting conflicts"
-msgstr "Chọn những lịch cần tìm kiệm cuộc họp có xung đột với nhau"
-
-#:../plugins/itip-formatter/itip-formatter.c:2031
+#:../plugins/itip-formatter/itip-formatter.c:2004
+#:../plugins/itip-formatter/itip-formatter.c:2036
 msgid "Conflict Search"
 msgstr "Tìm kiếm Xung đột"
 
+#.Source selector
+#:../plugins/itip-formatter/itip-formatter.c:2019
+msgid "Select the calendars to search for meeting conflicts"
+msgstr "Chọn những lịch cần tìm kiệm cuộc họp có xung đột với nhau"
+
 #.strftime format of a weekday and a date.
-#:../plugins/itip-formatter/itip-view.c:184 ../ui/evolution-calendar.xml.h:32
+#:../plugins/itip-formatter/itip-view.c:184 ../ui/evolution-calendar.xml.h:34
 #:../widgets/misc/e-cell-date-edit.c:241 ../widgets/misc/e-dateedit.c:467
 msgid "Today"
 msgstr "Hôm nay"
@@ -16452,7 +16502,7 @@ msgid "Gives an option to print mail from composer"
 msgstr "Cung cấp tùy chọn để in thư từ bộ soạn"
 
 #:../plugins/print-message/org-gnome-print-message.xml.h:1
-#:../ui/evolution-addressbook.xml.h:27 ../ui/evolution-calendar.xml.h:19
+#:../ui/evolution-addressbook.xml.h:27 ../ui/evolution-calendar.xml.h:21
 #:../ui/evolution-mail-message.xml.h:76 ../ui/evolution-memos.xml.h:12
 #:../ui/evolution-tasks.xml.h:15
 msgid "Print Pre_view"
@@ -16508,14 +16558,18 @@ msgstr "Hàng ngày\n"
 "Tự chọn (qua trình đơn Hành động)"
 
 #:../plugins/publish-calendar/publish-calendar.glade.h:10
+msgid "P_ort:"
+msgstr "_Cổng:"
+
+#:../plugins/publish-calendar/publish-calendar.glade.h:11
 msgid "Publishing Location"
 msgstr "Địa điểm Xuất bản"
 
-#:../plugins/publish-calendar/publish-calendar.glade.h:11
+#:../plugins/publish-calendar/publish-calendar.glade.h:12
 msgid "Publishing _Frequency:"
 msgstr "_Tần số Xuất bản:"
 
-#:../plugins/publish-calendar/publish-calendar.glade.h:12
+#:../plugins/publish-calendar/publish-calendar.glade.h:13
 msgid ""
 "SSH\n"
 "Public FTP\n"
@@ -16532,11 +16586,11 @@ msgstr "SSH\n"
 "WebDAV bảo mật (HTTPS)\n"
 "Địa điểm tự chọn"
 
-#:../plugins/publish-calendar/publish-calendar.glade.h:19
+#:../plugins/publish-calendar/publish-calendar.glade.h:20
 msgid "Service _type:"
 msgstr "_Kiểu dịch vụ :"
 
-#:../plugins/publish-calendar/publish-calendar.glade.h:21
+#:../plugins/publish-calendar/publish-calendar.glade.h:22
 msgid "_File:"
 msgstr "_Tập tin"
 
@@ -16681,12 +16735,12 @@ msgid "Save Selected"
 msgstr "Lưu điều chọn"
 
 #:../plugins/save-calendar/org-gnome-save-calendar.eplug.xml.h:2
-msgid "Save to _Disk"
-msgstr "Lưu vào _đĩa"
-
-#:../plugins/save-calendar/org-gnome-save-calendar.eplug.xml.h:3
 msgid "Saves selected calendar or tasks list to disk."
 msgstr "Lưu các lịch hay tác vụ đều đã chọn vào đĩa."
+
+#:../plugins/save-calendar/org-gnome-save-calendar.eplug.xml.h:3
+msgid "_Save to Disk"
+msgstr "Lưu vào _đĩa"
 
 #.
 #.* Translator: the %FT%T is the thirth argument for a strftime function.
@@ -16715,12 +16769,12 @@ msgid "Selects a single calendar or task source for viewing."
 msgstr "Chọn chỉ một lịch hay nguồn tác vụ riêng lẻ để xem thôi."
 
 #:../plugins/select-one-source/org-gnome-select-one-source.eplug.xml.h:3
-msgid "_Show only this Calendar"
-msgstr "_Hiện chỉ Lịch này"
+msgid "Show _only this Calendar"
+msgstr "Hiện chỉ Lịch _này"
 
 #:../plugins/select-one-source/org-gnome-select-one-source.eplug.xml.h:4
-msgid "_Show only this Task List"
-msgstr "_Hiện chỉ Danh sách Tác vụ này"
+msgid "Show _only this Task List"
+msgstr "Hiện chỉ Danh sách Tác _vụ này"
 
 #:../plugins/startup-wizard/org-gnome-evolution-startup-wizard.eplug.xml.h:1
 msgid "A plugin that handles the Startup wizard."
@@ -17035,7 +17089,7 @@ msgstr "Không thể chạy trình Bug buddy."
 #.* about box
 #:../shell/e-shell-window-commands.c:530
 msgid "translator-credits"
-msgstr "Nhóm Việt hóa Gnome <gnomevi-list@lists.sourceforge.net>"
+msgstr "Nhóm Việt hoá Gnome <gnomevi-list@lists.sourceforge.net>"
 
 #:../shell/e-shell-window-commands.c:775
 msgid "_Work Online"
@@ -17196,7 +17250,7 @@ msgstr "Đừng nói điều này lần nữa"
 
 #:../shell/main.c:468
 msgid "Start Evolution activating the specified component"
-msgstr "Báo trình Evolution hoạt hóa thành phần đã ghi rõ"
+msgstr "Báo trình Evolution hoạt hoá thành phần đã ghi rõ"
 
 #:../shell/main.c:472
 msgid "Start in online mode"
@@ -17237,7 +17291,7 @@ msgstr "Tiếp"
 
 #:../shell/shell.error.xml.h:3
 msgid "Delete old data from version {0}?"
-msgstr "Xóa bỏ dữ liệu cũ từ phiên bản {0} không?"
+msgstr "Xoá bỏ dữ liệu cũ từ phiên bản {0} không?"
 
 #:../shell/shell.error.xml.h:4
 msgid "Evolution can not start."
@@ -17247,7 +17301,7 @@ msgstr "Evolution không thể khởi chạy."
 msgid ""
 "Forgetting your passwords will clear all remembered passwords. You will be "
 "reprompted next time they are needed."
-msgstr "Quên đi các mật khẩu đã nhớ sẽ xóa hết mật khẩu đã nhớ. Như vậy bạn sẽ lại "
+msgstr "Quên đi các mật khẩu đã nhớ sẽ xoá hết mật khẩu đã nhớ. Như vậy bạn sẽ lại "
 "được nhắc gõ mật khẩu lần sau cần thiết."
 
 #:../shell/shell.error.xml.h:7
@@ -17256,7 +17310,7 @@ msgstr "Không có đủ chỗ trên đĩa để nâng cấp."
 
 #:../shell/shell.error.xml.h:8
 msgid "Really delete old data?"
-msgstr "Bạn thật sự muốn xóa bỏ dữ liệu cũ không?"
+msgstr "Bạn thật sự muốn xoá bỏ dữ liệu cũ không?"
 
 #:../shell/shell.error.xml.h:9
 msgid ""
@@ -17272,10 +17326,10 @@ msgid ""
 msgstr "Sắp gỡ bỏ hoàn toàn mọi nội dung của thư mục « evolution ».\n"
 "\n"
 "Có đề nghị là bạn tự kiểm chứng có tất cả dữ liệu thư, liên lạc và lịch "
-"trong phiên bản mới, mà hoặt động cho đúng, trước khi xóa bỏ dữ liệu cũ "
+"trong phiên bản mới, mà hoặt động cho đúng, trước khi xoá bỏ dữ liệu cũ "
 "này.\n"
 "\n"
-"Một khi đã xóa bỏ nó, không thể hạ cấp xuống phiên bản trước nếu không có "
+"Một khi đã xoá bỏ nó, không thể hạ cấp xuống phiên bản trước nếu không có "
 "khả năng đặc biệt cấp cao.\n"
 
 #:../shell/shell.error.xml.h:15
@@ -17648,7 +17702,7 @@ msgstr "Ký nhận"
 
 #:../smime/lib/e-cert.c:426
 msgid "Encrypt"
-msgstr "Mật mã hóa"
+msgstr "Mật mã hoá"
 
 #:../smime/lib/e-cert.c:531
 msgid "Version"
@@ -17684,7 +17738,7 @@ msgstr "Mật mã RSA PKCS #1"
 
 #:../smime/lib/e-cert.c:670
 msgid "Certificate Key Usage"
-msgstr "Cách dùng khóa chứng nhận"
+msgstr "Cách dùng khoá chứng nhận"
 
 #:../smime/lib/e-cert.c:673
 msgid "Netscape Certificate Type"
@@ -17692,7 +17746,7 @@ msgstr "Kiểu chứng nhận Netscape"
 
 #:../smime/lib/e-cert.c:676
 msgid "Certificate Authority Key Identifier"
-msgstr "Bộ nhận diện khóa nhà cầm quyền chứng nhận"
+msgstr "Bộ nhận diện khoá nhà cầm quyền chứng nhận"
 
 #:../smime/lib/e-cert.c:688
 #,c-format
@@ -17709,15 +17763,15 @@ msgstr "Tham số thuật toán"
 
 #:../smime/lib/e-cert.c:769
 msgid "Subject Public Key Info"
-msgstr "Thông tin khóa công nhà nhận"
+msgstr "Thông tin khoá công nhà nhận"
 
 #:../smime/lib/e-cert.c:774
 msgid "Subject Public Key Algorithm"
-msgstr "Thuật toán khóa công nhà nhận"
+msgstr "Thuật toán khoá công nhà nhận"
 
 #:../smime/lib/e-cert.c:789
 msgid "Subject's Public Key"
-msgstr "Khóa công nhà nhận"
+msgstr "Khoá công nhà nhận"
 
 #:../smime/lib/e-cert.c:810 ../smime/lib/e-cert.c:859
 msgid "Error: Unable to process extension"
@@ -17745,15 +17799,15 @@ msgstr "Không từ chối"
 
 #:../smime/lib/e-cert.c:875
 msgid "Key Encipherment"
-msgstr "Mật mã hóa khóa"
+msgstr "Mật mã hoá khoá"
 
 #:../smime/lib/e-cert.c:879
 msgid "Data Encipherment"
-msgstr "Mật mã hóa dữ liệu"
+msgstr "Mật mã hoá dữ liệu"
 
 #:../smime/lib/e-cert.c:883
 msgid "Key Agreement"
-msgstr "Chấp thuận khóa"
+msgstr "Chấp thuận khoá"
 
 #:../smime/lib/e-cert.c:887
 msgid "Certificate Signer"
@@ -17898,7 +17952,7 @@ msgstr "Cắt vùng chọn"
 
 #:../ui/evolution-addressbook.xml.h:14
 msgid "Del_ete Address Book"
-msgstr "_Xóa bỏ Sổ địa chỉ"
+msgstr "_Xoá bỏ Sổ địa chỉ"
 
 #:../ui/evolution-addressbook.xml.h:16
 msgid "Delete selected contacts"
@@ -17934,7 +17988,7 @@ msgstr "Chuyển sang thư mục..."
 msgid "Paste"
 msgstr "Dán"
 
-#:../ui/evolution-addressbook.xml.h:24 ../ui/evolution-calendar.xml.h:15
+#:../ui/evolution-addressbook.xml.h:24 ../ui/evolution-calendar.xml.h:17
 msgid "Paste the clipboard"
 msgstr "Dán bảng tạm"
 
@@ -18008,7 +18062,7 @@ msgstr "Ngưng tải"
 msgid "View the current contact"
 msgstr "Xem liên lạc hiện thời"
 
-#:../ui/evolution-addressbook.xml.h:45 ../ui/evolution-calendar.xml.h:36
+#:../ui/evolution-addressbook.xml.h:45 ../ui/evolution-calendar.xml.h:38
 #:../ui/evolution-tasks.xml.h:21
 msgid "_Actions"
 msgstr "_Hành động"
@@ -18023,7 +18077,7 @@ msgstr "_Chép Liên lạc Thư mục vào..."
 
 #:../ui/evolution-addressbook.xml.h:50
 msgid "_Delete Contact"
-msgstr "_Xóa bỏ Liên lạc"
+msgstr "_Xoá bỏ Liên lạc"
 
 #:../ui/evolution-addressbook.xml.h:52
 msgid "_Forward Contact..."
@@ -18062,111 +18116,115 @@ msgid "Day"
 msgstr "Ngày"
 
 #:../ui/evolution-calendar.xml.h:6
-msgid "Delete All Occurrences"
-msgstr "Xóa bỏ mọi lần"
+msgid "Delete _all Occurrences"
+msgstr "Xoá bỏ _mọi lần"
 
 #:../ui/evolution-calendar.xml.h:7
+msgid "Delete all occurrences"
+msgstr "Xoá bỏ mọi lần"
+
+#:../ui/evolution-calendar.xml.h:8
 msgid "Delete the appointment"
 msgstr "Xoá bỏ cuộc hẹn"
 
-#:../ui/evolution-calendar.xml.h:8
-msgid "Delete this Occurrence"
-msgstr "Xóa bỏ lần này"
+#:../ui/evolution-calendar.xml.h:10
+msgid "Delete this occurrence"
+msgstr "Xoá bỏ lần này"
 
-#:../ui/evolution-calendar.xml.h:9
+#:../ui/evolution-calendar.xml.h:11
 msgid "Go To"
 msgstr "Đi tới"
 
-#:../ui/evolution-calendar.xml.h:10
+#:../ui/evolution-calendar.xml.h:12
 msgid "Go back"
 msgstr "Lùi lại"
 
-#:../ui/evolution-calendar.xml.h:11
+#:../ui/evolution-calendar.xml.h:13
 msgid "Go forward"
 msgstr "Đi tiếp"
 
-#:../ui/evolution-calendar.xml.h:12
+#:../ui/evolution-calendar.xml.h:14
 msgid "List"
 msgstr "Danh sách"
 
-#:../ui/evolution-calendar.xml.h:13
+#:../ui/evolution-calendar.xml.h:15
 msgid "Month"
 msgstr "Tháng"
 
-#:../ui/evolution-calendar.xml.h:14 ../ui/evolution-mail-message.xml.h:58
+#:../ui/evolution-calendar.xml.h:16 ../ui/evolution-mail-message.xml.h:58
 msgid "Next"
 msgstr "Kế"
 
-#:../ui/evolution-calendar.xml.h:16
+#:../ui/evolution-calendar.xml.h:18
 msgid "Previews the calendar to be printed"
 msgstr "Xem thử lịch cần in"
 
-#:../ui/evolution-calendar.xml.h:17 ../ui/evolution-mail-message.xml.h:74
+#:../ui/evolution-calendar.xml.h:19 ../ui/evolution-mail-message.xml.h:74
 #:../widgets/misc/e-calendar.c:177 ../widgets/misc/e-calendar.c:201
 msgid "Previous"
 msgstr "Lùi"
 
-#:../ui/evolution-calendar.xml.h:20
+#:../ui/evolution-calendar.xml.h:22
 msgid "Print this calendar"
 msgstr "In lịch này"
 
-#:../ui/evolution-calendar.xml.h:21 ../ui/evolution-tasks.xml.h:17
+#:../ui/evolution-calendar.xml.h:23 ../ui/evolution-tasks.xml.h:17
 msgid "Purg_e"
 msgstr "_Tẩy"
 
-#:../ui/evolution-calendar.xml.h:22
+#:../ui/evolution-calendar.xml.h:24
 msgid "Purge old appointments and meetings"
 msgstr "Tẩy các cuộc hẹn và cuộc họp cũ"
 
-#:../ui/evolution-calendar.xml.h:23
+#:../ui/evolution-calendar.xml.h:25
 msgid "Select _Date"
 msgstr "Chọn _ngày"
 
-#:../ui/evolution-calendar.xml.h:24
+#:../ui/evolution-calendar.xml.h:26
 msgid "Select _Today"
 msgstr "Chọn h_ôm nay"
 
-#:../ui/evolution-calendar.xml.h:25
+#:../ui/evolution-calendar.xml.h:27
 msgid "Select a specific date"
 msgstr "Chọn ngày xác định"
 
-#:../ui/evolution-calendar.xml.h:26
+#:../ui/evolution-calendar.xml.h:28
 msgid "Select today"
 msgstr "Chọn hôm nay"
 
-#:../ui/evolution-calendar.xml.h:27
+#:../ui/evolution-calendar.xml.h:29
 msgid "Show as list"
 msgstr "Xem dạng danh sách"
 
-#:../ui/evolution-calendar.xml.h:28
+#:../ui/evolution-calendar.xml.h:30
 msgid "Show one day"
 msgstr "Xem một ngày"
 
-#:../ui/evolution-calendar.xml.h:29
+#:../ui/evolution-calendar.xml.h:31
 msgid "Show one month"
 msgstr "Xem một tháng"
 
-#:../ui/evolution-calendar.xml.h:30
+#:../ui/evolution-calendar.xml.h:32
 msgid "Show one week"
 msgstr "Xem một tuần"
 
-#:../ui/evolution-calendar.xml.h:31
+#:../ui/evolution-calendar.xml.h:33
 msgid "Show the working week"
 msgstr "Xem tuần làm việc"
 
-#:../ui/evolution-calendar.xml.h:33
+#:../ui/evolution-calendar.xml.h:35
 msgid "View the current appointment"
 msgstr "Xem cuộc hẹn hiện thời"
 
-#:../ui/evolution-calendar.xml.h:34
+#:../ui/evolution-calendar.xml.h:36
 msgid "Week"
 msgstr "Tuần"
 
-#:../ui/evolution-calendar.xml.h:35
+#:../ui/evolution-calendar.xml.h:37
 msgid "Work Week"
 msgstr "Tuần làm việc"
 
-#:../ui/evolution-calendar.xml.h:40
+#:../ui/evolution-calendar.xml.h:42
 msgid "_Open Appointment"
 msgstr "Mở _Cuộc hẹn"
 
@@ -18425,7 +18483,7 @@ msgstr "Chuyển thư mục đã chọn vào thư mục khác"
 #.Alphabetical by name, yo
 #:../ui/evolution-mail-global.xml.h:12
 msgid "Permanently remove all deleted messages from all folders"
-msgstr "Gỡ bỏ hoàn toàn mọi thư đã xóa bỏ ra mọi thư mục"
+msgstr "Gỡ bỏ hoàn toàn mọi thư đã xoá bỏ ra mọi thư mục"
 
 #:../ui/evolution-mail-global.xml.h:13
 msgid "Search F_olders"
@@ -18493,7 +18551,7 @@ msgstr "_Dãn ra Mọi Nhánh"
 
 #:../ui/evolution-mail-list.xml.h:9
 msgid "E_xpunge"
-msgstr "_Xóa hẳn"
+msgstr "_Xoá hẳn"
 
 #:../ui/evolution-mail-list.xml.h:10
 msgid "Expand all message threads"
@@ -18788,7 +18846,7 @@ msgstr "Đánh dấu Không Quan Trọng các thư đã chọn"
 
 #:../ui/evolution-mail-message.xml.h:56
 msgid "Mark the selected messages for deletion"
-msgstr "Đánh dấu các thư đã chọn cần xóa bỏ"
+msgstr "Đánh dấu các thư đã chọn cần xoá bỏ"
 
 #:../ui/evolution-mail-message.xml.h:57
 msgid "Move selected messages to another folder"
@@ -19012,7 +19070,7 @@ msgstr "_Lưu thư..."
 
 #:../ui/evolution-mail-message.xml.h:129
 msgid "_Undelete Message"
-msgstr "_Hủy xóa bỏ thư"
+msgstr "_Hủy xoá bỏ thư"
 
 #:../ui/evolution-mail-message.xml.h:130
 msgid "_Unread"
@@ -19082,11 +19140,11 @@ msgstr "Xoá bỏ toàn thư trừ chữ ký"
 
 #:../ui/evolution-message-composer.xml.h:6
 msgid "Encrypt this message with PGP"
-msgstr "Mật mã hóa thư này bằng PGP"
+msgstr "Mật mã hoá thư này bằng PGP"
 
 #:../ui/evolution-message-composer.xml.h:7
 msgid "Encrypt this message with your S/MIME Encryption Certificate"
-msgstr "Mật mã hoá thư này bằng Chứng nhận Mật mã hóa S/MIME của bạn"
+msgstr "Mật mã hoá thư này bằng Chứng nhận Mật mã hoá S/MIME của bạn"
 
 #:../ui/evolution-message-composer.xml.h:8
 #:../ui/evolution-signature-editor.xml.h:14
@@ -19166,6 +19224,10 @@ msgstr "Lưu tập tin hiện thời với tên khác"
 msgid "Save the message in a specified folder"
 msgstr "Lưu thư vào thư mục xác định"
 
+#:../ui/evolution-message-composer.xml.h:29
+msgid "Send"
+msgstr "Gửi"
+
 #:../ui/evolution-message-composer.xml.h:30
 #:../ui/evolution-signature-editor.xml.h:23
 msgid "Send the mail in HTML format"
@@ -19237,7 +19299,7 @@ msgstr "Trường _Post-To (Gửi cho nhóm tin tức)"
 
 #:../ui/evolution-message-composer.xml.h:51
 msgid "_Prioritize Message"
-msgstr "_Ưu tiên hóa thư"
+msgstr "_Ưu tiên hoá thư"
 
 #:../ui/evolution-message-composer.xml.h:52
 msgid "_Reply-To Field"
@@ -19826,90 +19888,94 @@ msgstr "Thời gian phải theo dạng thức: %s"
 msgid "The percent value must be between 0 and 100, inclusive"
 msgstr "Giá trị phần trăm phải nằm giữa 0 và 100, kể cả hai số đó"
 
-#:../widgets/misc/e-charset-picker.c:63
+#:../widgets/misc/e-charset-picker.c:64
 msgid "Baltic"
 msgstr "Ban-tích"
 
-#:../widgets/misc/e-charset-picker.c:64
+#:../widgets/misc/e-charset-picker.c:65
 msgid "Central European"
 msgstr "Trung Âu"
 
-#:../widgets/misc/e-charset-picker.c:65
+#:../widgets/misc/e-charset-picker.c:66
 msgid "Chinese"
 msgstr "Trung Quốc"
 
-#:../widgets/misc/e-charset-picker.c:66
+#:../widgets/misc/e-charset-picker.c:67
 msgid "Cyrillic"
 msgstr "Ki-rin"
 
-#:../widgets/misc/e-charset-picker.c:67
+#:../widgets/misc/e-charset-picker.c:68
 msgid "Greek"
 msgstr "Hy-lạp"
 
-#:../widgets/misc/e-charset-picker.c:68
+#:../widgets/misc/e-charset-picker.c:69
 msgid "Hebrew"
 msgstr "Do Thái"
 
-#:../widgets/misc/e-charset-picker.c:69
+#:../widgets/misc/e-charset-picker.c:70
 msgid "Japanese"
 msgstr "Nhật Bản"
 
-#:../widgets/misc/e-charset-picker.c:70
+#:../widgets/misc/e-charset-picker.c:71
 msgid "Korean"
 msgstr "Hàn Quốc"
 
-#:../widgets/misc/e-charset-picker.c:71
+#:../widgets/misc/e-charset-picker.c:72
+msgid "Thai"
+msgstr "Thái"
+
+#:../widgets/misc/e-charset-picker.c:73
 msgid "Turkish"
 msgstr "Thổ-nhĩ-kỳ"
 
-#:../widgets/misc/e-charset-picker.c:72
+#:../widgets/misc/e-charset-picker.c:74
 msgid "Unicode"
 msgstr "Unicode"
 
-#:../widgets/misc/e-charset-picker.c:73
+#:../widgets/misc/e-charset-picker.c:75
 msgid "Western European"
 msgstr "Tây Âu"
 
-#:../widgets/misc/e-charset-picker.c:74
+#:../widgets/misc/e-charset-picker.c:76
 msgid "Western European, New"
 msgstr "Tây Âu, Mới"
 
-#:../widgets/misc/e-charset-picker.c:91 ../widgets/misc/e-charset-picker.c:92
-#:../widgets/misc/e-charset-picker.c:93
+#:../widgets/misc/e-charset-picker.c:93 ../widgets/misc/e-charset-picker.c:94
+#:../widgets/misc/e-charset-picker.c:95
 msgid "Traditional"
 msgstr "Truyền thống"
 
-#:../widgets/misc/e-charset-picker.c:94 ../widgets/misc/e-charset-picker.c:95
 #:../widgets/misc/e-charset-picker.c:96 ../widgets/misc/e-charset-picker.c:97
+#:../widgets/misc/e-charset-picker.c:98 ../widgets/misc/e-charset-picker.c:99
 msgid "Simplified"
 msgstr "Đơn giản"
 
-#:../widgets/misc/e-charset-picker.c:100
+#:../widgets/misc/e-charset-picker.c:102
 msgid "Ukrainian"
 msgstr "U-cợ-rainh"
 
-#:../widgets/misc/e-charset-picker.c:103
+#:../widgets/misc/e-charset-picker.c:105
 msgid "Visual"
 msgstr "Trực quan"
 
-#:../widgets/misc/e-charset-picker.c:171
+#:../widgets/misc/e-charset-picker.c:174
 #,c-format
 msgid "Unknown character set: %s"
 msgstr "Bộ ký tự lạ: %s"
 
-#:../widgets/misc/e-charset-picker.c:216
+#:../widgets/misc/e-charset-picker.c:219
 msgid "Character Encoding"
 msgstr "Bộ ký tự"
 
-#:../widgets/misc/e-charset-picker.c:231
+#:../widgets/misc/e-charset-picker.c:234
 msgid "Enter the character set to use"
 msgstr "Hãy gõ bộ ký tự cần dùng"
 
-#:../widgets/misc/e-charset-picker.c:338
+#:../widgets/misc/e-charset-picker.c:341
 msgid "Other..."
 msgstr "Khác..."
 
-#:../widgets/misc/e-charset-picker.c:479
+#:../widgets/misc/e-charset-picker.c:482
 msgid "Ch_aracter Encoding"
 msgstr "Bộ _ký tự"
 
@@ -20082,7 +20148,7 @@ msgstr "Tìm n_gay"
 
 #:../widgets/misc/e-search-bar.c:595 ../widgets/misc/e-search-bar.c:982
 msgid "_Clear"
-msgstr "_Xóa"
+msgstr "_Xoá"
 
 #:../widgets/misc/e-search-bar.c:686
 msgid "Search Type"
@@ -20130,7 +20196,7 @@ msgstr "Chế độ con trỏ"
 
 #:../widgets/misc/e-send-options.c:522
 msgid "When de_leted:"
-msgstr "Khi đã _xóa bỏ :"
+msgstr "Khi đã _xoá bỏ :"
 
 #:../widgets/misc/e-send-options.glade.h:1
 msgid "<b>Delivery Options</b>"
@@ -20150,7 +20216,7 @@ msgstr "<b>Theo dõi Trạng thái</b>"
 
 #:../widgets/misc/e-send-options.glade.h:5
 msgid "A_uto-delete sent item"
-msgstr "_Tự động xóa bỏ mục đã gửi"
+msgstr "_Tự động xoá bỏ mục đã gửi"
 
 #:../widgets/misc/e-send-options.glade.h:6
 msgid "C_lassification"
@@ -20339,7 +20405,7 @@ msgstr "Tăng dần"
 #:../widgets/table/e-table-config-no-group.glade.h:4
 #:../widgets/table/e-table-config.glade.h:3
 msgid "Clear All"
-msgstr "Xóa hết"
+msgstr "Xoá hết"
 
 #:../widgets/table/e-table-config-no-group.glade.h:5
 #:../widgets/table/e-table-config.glade.h:4
@@ -20750,7 +20816,7 @@ msgstr "Đậm"
 
 #:../widgets/text/e-text.c:3499 ../widgets/text/e-text.c:3500
 msgid "Strikeout"
-msgstr "Gạch xóa"
+msgstr "Gạch xoá"
 
 #:../widgets/text/e-text.c:3506 ../widgets/text/e-text.c:3507
 msgid "Anchor"
