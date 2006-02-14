@@ -2004,7 +2004,7 @@ e_calendar_view_get_tooltips (ECalendarViewEventData *data)
 		return FALSE;
 	}
 
-	tmp = g_strdup_printf ("<b>%s</b>", str);
+	tmp = g_markup_printf_escaped ("<b>%s</b>", str);
 	label = gtk_label_new (NULL);
 	gtk_label_set_line_wrap ((GtkLabel *)label, TRUE);
 	gtk_label_set_markup ((GtkLabel *)label, tmp);
@@ -2034,6 +2034,7 @@ e_calendar_view_get_tooltips (ECalendarViewEventData *data)
 			tmp = g_strdup_printf (_("Organizer: %s"), organiser.cn);
 
 		label = gtk_label_new (tmp);
+		hbox = gtk_hbox_new (FALSE, 0);
 		gtk_box_pack_start ((GtkBox *)hbox, label, FALSE, FALSE, 0);
 		ebox = gtk_event_box_new ();
 		gtk_container_add ((GtkContainer *)ebox, hbox);
