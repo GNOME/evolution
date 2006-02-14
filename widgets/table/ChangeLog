@@ -1,3 +1,10 @@
+2006-02-14  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fixes bug #328283
+
+	* e-table-item.c: (eti_tree_unfreeze): Added the return value for 
+	scroll-event handler which causes a crash
+
 2006-01-27  Andre Klapper <a9016009@gmx.de>
 	* e-table-config-no-group.glade:
 	* e-table-config.glade:

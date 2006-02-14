@@ -1667,10 +1667,13 @@ adjustment_changed (GtkAdjustment *adjustment, ETableItem *eti)
 	eti_check_cursor_on_screen (eti);
 }
 
-static void
+static gboolean
 eti_tree_unfreeze (GtkWidget *widget,  GdkEvent *event, ETableItem *eti)
 {
-	g_object_set_data (G_OBJECT (((GnomeCanvasItem *) eti)->canvas), "freeze-cursor", 0);
+	if (((GnomeCanvasItem *) eti)->canvas)
+		g_object_set_data (G_OBJECT (((GnomeCanvasItem *) eti)->canvas), "freeze-cursor", 0);
+
+	return FALSE;
 }
 
 static void
