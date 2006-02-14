@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-02-11 06:04+0100\n"
-"PO-Revision-Date: 2006-02-13 09:38+0200\n"
+"PO-Revision-Date: 2006-02-13 20:25+0200\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -4446,18 +4446,6 @@ msgid_plural "minutes"
 msgstr[0] "minut"
 msgstr[1] "minutit"
 
-#: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:130
-#: ../calendar/gui/alarm-notify/alarm-notify.glade.h:6
-#: ../calendar/gui/dialogs/alarm-dialog.glade.h:24
-#: ../calendar/gui/dialogs/calendar-setup.glade.h:13
-#: ../calendar/gui/dialogs/event-page.glade.h:19 ../filter/filter.glade.h:15
-#: ../plugins/calendar-http/calendar-http.c:287
-#: ../plugins/calendar-weather/calendar-weather.c:564
-msgid "hours"
-msgid_plural "hours"
-msgstr[0] "tundi"
-msgstr[1] "tundi"
-
 #: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:270
 msgid "Start time"
 msgstr "Algusaeg"
@@ -4646,7 +4634,7 @@ msgstr "Tähtaja ületanud ülesannete värv, \"#rrggbb\" vorgmingus."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:5
 msgid "Calendars to run alarms for"
-msgstr ""
+msgstr "Kalendrid, mille jaoks alarme käivitada"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:6
 msgid ""
@@ -4798,11 +4786,11 @@ msgstr ""
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:40
 msgid "Programs that are allowed to be run by alarms."
-msgstr ""
+msgstr "Programmid, mida on lubatud alarmide poolt käivitada."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:41
 msgid "Show RSVP field in the event/task/meeting editor"
-msgstr ""
+msgstr "RSVP välja kuvamine sündmuste/ülesannete/koosolekute redaktoris"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:42
 msgid "Show Role field in the event/task/meeting editor"
@@ -4818,11 +4806,11 @@ msgstr ""
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:45
 msgid "Show display alarms in notification tray"
-msgstr ""
+msgstr "Alarmide kuvamine teavitussalves"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:46
 msgid "Show status field in the event/task/meeting editor"
-msgstr ""
+msgstr "Olekuvälja näitamine sündmuste/ülesannete/koosolekute redaktoris"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:47
 #: ../mail/evolution-mail.schemas.in.in.h:73
@@ -4836,11 +4824,11 @@ msgstr "\"Eelvaatlus\" paani kuvamine."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:49
 msgid "Show timezone field in the event/meeting editor"
-msgstr ""
+msgstr "Ajavööndi välja näitamine sündmuste/koosolekute redaktoris"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:50
 msgid "Show type field in the event/task/meeting editor"
-msgstr ""
+msgstr "Liigivälja näitamine sündmuste/koosolekute redaktoris"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:51
 msgid "Show week numbers in date navigator"
@@ -4902,7 +4890,7 @@ msgstr "Nädalapäev, millal nädal algab, pühapäevast (0) esmaspäevani (6)."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:66
 msgid "Whether or not to use the notification tray for display alarms."
-msgstr ""
+msgstr "Kas teavitussalve kasutatakse alarmide kuvamiseks või mitte."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:67
 msgid "Whether to ask for confirmation when deleting an appointment or task."
@@ -4937,24 +4925,20 @@ msgid "Whether to set a default reminder for appointments."
 msgstr "Kas sündmustele seatakse vaikimisi meeldetuletaja."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:74
-#, fuzzy
 msgid "Whether to show RSVP field in the event/task/meeting editor"
-msgstr "Kas nädalate numbreid näidatakse kuupäevasirvijas."
+msgstr "Kas RSVP välja näidatakse sündmuste/ülesannete/koosolekute redaktoris"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:75
-#, fuzzy
 msgid "Whether to show categories field in the event/meeting editor"
-msgstr "Kas nädalate numbreid näidatakse kuupäevasirvijas."
+msgstr "Kas kategooriate välja näidatakse sündmuste/koosolekute redaktoris."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:76
-#, fuzzy
 msgid "Whether to show role field in the event/task/meeting editor"
-msgstr "Kas nädalate numbreid näidatakse kuupäevasirvijas."
+msgstr "Kas rollivälja näidatakse sündmuste/ülesannete/koosolekute redaktoris."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:77
-#, fuzzy
 msgid "Whether to show status field in the event/task/meeting editor"
-msgstr "Kas nädalate numbreid näidatakse kuupäevasirvijas."
+msgstr "Kas olekuvälja näidatakse sündmuste/ülesannete/koosolekute redaktoris."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:78
 msgid ""
@@ -4962,14 +4946,12 @@ msgid ""
 msgstr "Kas kellaaegu kuvatakse 24-tunnises või EL/PL vormingus."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:79
-#, fuzzy
 msgid "Whether to show timezone field in the event/meeting editor"
-msgstr "Kas nädalate numbreid näidatakse kuupäevasirvijas."
+msgstr "Kas ajavööndi välja näidatakse sündmuste/koosolekute redaktoris."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:80
-#, fuzzy
 msgid "Whether to show type field in the event/task/meeting editor"
-msgstr "Kas nädalate numbreid näidatakse kuupäevasirvijas."
+msgstr "Liigivälja näitamine sündmuste/ülesannete/koosolekute redaktoris"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:81
 msgid "Whether to show week numbers in the date navigator."
@@ -5353,6 +5335,11 @@ msgid ""
 "10 minutes\n"
 "05 minutes"
 msgstr ""
+"60 minutit\n"
+"30 minutit\n"
+"15 minutit\n"
+"10 minutit\n"
+"05 minutit"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:7
 #, no-c-format
@@ -5365,7 +5352,7 @@ msgstr ""
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:8
 #: ../mail/mail-config.glade.h:9
 msgid "<span weight=\"bold\">Alerts</span>"
-msgstr "<span weight=\"bold\">Alarmid</span>"
+msgstr "<span weight=\"bold\">Hoiatused</span>"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:9
 msgid "<span weight=\"bold\">Default Free/Busy Server</span>"
@@ -5461,9 +5448,8 @@ msgid "Saturday"
 msgstr "Laupäev"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:34
-#, fuzzy
 msgid "Select the calendars for alarm notification"
-msgstr "Vali kalendrid, millest tuleb koosolekute vastuolusid otsida"
+msgstr ""
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:35
 msgid "Sh_ow a reminder"
@@ -5568,7 +5554,6 @@ msgid "_Sat"
 msgstr "_L"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:59
-#, fuzzy
 msgid "_Show appointment end times in week and month view"
 msgstr "_Sündmuste lõpuaegade näitamine nädala ja kuu vaadetel"
 
@@ -6162,7 +6147,7 @@ msgstr "Osaleja"
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:2
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:2
 msgid "Click here to add an attendee"
-msgstr "Osavõtja lisamiseks vajuta siia"
+msgstr "Osaleja lisamiseks vajuta siia"
 
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:3
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:3
@@ -7474,17 +7459,17 @@ msgstr "See vastus pole praeguselt osalejalt. Kas lisame ta osalejaks?"
 
 #: ../calendar/gui/e-itip-control.c:1954
 msgid "Attendee status could not be updated because of an invalid status!\n"
-msgstr "Osavõtja olekut ei ole võimailk uuendada, kuna selle olek on vigane!\n"
+msgstr "Osaleja olekut pole võimailk uuendada, kuna selle olek on vigane!\n"
 
 #: ../calendar/gui/e-itip-control.c:1971
 msgid "Attendee status updated\n"
-msgstr "Osavõtja olek värskendatud\n"
+msgstr "Osaleja olek värskendatud\n"
 
 #: ../calendar/gui/e-itip-control.c:1974
 #: ../plugins/itip-formatter/itip-formatter.c:1029
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr ""
-"Osavõtja olekut ei olnud võimailk uuendada, kuna objekti pole enam olemas"
+"Osaleja olekut ei olnud võimailk uuendada, kuna objekti pole enam olemas"
 
 #: ../calendar/gui/e-itip-control.c:1998 ../calendar/gui/e-itip-control.c:2046
 msgid "Item sent!\n"
@@ -7654,7 +7639,7 @@ msgstr "Delegeeritud"
 #. The extra space is just a hack to occupy more space for Attendee
 #: ../calendar/gui/e-meeting-list-view.c:464
 msgid "Attendee                          "
-msgstr ""
+msgstr "Osaleja                           "
 
 #: ../calendar/gui/e-meeting-store.c:197 ../calendar/gui/e-meeting-store.c:220
 msgid "In Process"
@@ -7912,7 +7897,7 @@ msgstr "Korraldaja peab olema määrtud."
 
 #: ../calendar/gui/itip-utils.c:448
 msgid "At least one attendee is necessary"
-msgstr "Vaja on vähemalt ühte osavõtjat"
+msgstr "Vaja on vähemalt ühte osalejat"
 
 #: ../calendar/gui/itip-utils.c:631 ../calendar/gui/itip-utils.c:757
 msgid "Event information"
@@ -12318,11 +12303,11 @@ msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.in.h:85
 msgid "Thread the message list."
-msgstr ""
+msgstr "Sõnumiloendi lõimedesse paigutamine."
 
 #: ../mail/evolution-mail.schemas.in.in.h:86
 msgid "Thread the message-list"
-msgstr ""
+msgstr "Paiguta sõnumiloend lõimedesse"
 
 #: ../mail/evolution-mail.schemas.in.in.h:87
 msgid "Thread the message-list based on Subject"
@@ -13572,7 +13557,7 @@ msgstr "Tühistamine..."
 #: ../mail/mail-send-recv.c:266 ../mail/mail-send-recv.c:268
 #, c-format
 msgid "<b>%s (%s)</b> : %s"
-msgstr ""
+msgstr "<b>%s (%s)</b> : %s"
 
 #: ../mail/mail-send-recv.c:270
 #, c-format
@@ -14121,12 +14106,11 @@ msgid ""
 msgstr ""
 
 #: ../mail/mail.error.xml.h:109
-#, fuzzy
 msgid ""
 "This message cannot be sent because the account you chose to send with is "
 "not enabled"
 msgstr ""
-"Seda sõnumit pole võimalik saata kuna sa pole määranud ühtegi sõnumi saajat"
+"Seda sõnumit pole võimalik saata kuna adressaadi konto pole lubatud"
 
 #: ../mail/mail.error.xml.h:110
 msgid ""
@@ -14147,11 +14131,12 @@ msgid "This signature has been changed, but has not been saved."
 msgstr "Seda allkirja on muudetud, kuid seda ei ole salvestatud."
 
 #: ../mail/mail.error.xml.h:113
-#, fuzzy
 msgid ""
 "This will mark all messages as read in the selected folder and its "
 "subfolders."
-msgstr "Kõigi valitud kataloogis olevate sõnumite loetuksmärkimine"
+msgstr ""
+"Kõigi valitud kataloogis ja selle alamkataloogides olevate sõnumite "
+"loetuksmärkimine"
 
 #: ../mail/mail.error.xml.h:114
 msgid "Unable to connect to the GroupWise server."
@@ -14480,10 +14465,10 @@ msgstr "<span weight=\"bold\">Kiirsuhtluse kontaktid</span>"
 
 #. Enable Gaim Checkbox
 #: ../plugins/bbdb/bbdb.c:485
-#, fuzzy
 msgid ""
 "Periodically synchronize contact information and images from gaim buddy list"
-msgstr "Kontaktandmete _perioodiline sünkroniseerimine välksõnumivahendiga"
+msgstr ""
+"Kontaktandmete ja piltide perioodiline sünkroniseerimine gaim'i sõbraloendiga"
 
 #. Synchronize now button.
 #: ../plugins/bbdb/bbdb.c:502
@@ -14506,7 +14491,7 @@ msgstr "BBDB"
 
 #: ../plugins/caldav/caldav-source.c:64 ../plugins/caldav/caldav-source.c:68
 msgid "CalDAV"
-msgstr ""
+msgstr "CalDAV"
 
 #: ../plugins/caldav/caldav-source.c:269
 msgid "Use _SSL"
@@ -14667,6 +14652,8 @@ msgid ""
 "This option will connect to the Exchange server using secure password (NTLM) "
 "authentication."
 msgstr ""
+"See valik loob ühenduse Exchange serveriga kasutades turvalist parooliga "
+"(NTLM) autentimist."
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:74
 msgid "Plaintext Password"
@@ -14715,7 +14702,7 @@ msgstr "Parooli muutmine"
 #. Delegation Assistant
 #: ../plugins/exchange-operations/exchange-account-setup.c:335
 msgid "Manage the delegate settings for Exchange account"
-msgstr ""
+msgstr "Exchange konto delegaatide sätete haldamine"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:337
 msgid "Delegation Assitant"
@@ -14945,7 +14932,7 @@ msgstr "\"%s\" tellimusest loobumine"
 
 #: ../plugins/exchange-operations/exchange-passwd-expiry.glade.h:1
 msgid "Password Expiry Warning..."
-msgstr ""
+msgstr "Parooliaegumise hoiatus..."
 
 #: ../plugins/exchange-operations/exchange-passwd-expiry.glade.h:2
 msgid "Your password will expire in 7 days..."
@@ -15048,10 +15035,11 @@ msgid ""
 "A plugin that handles a collection of Exchange account specific operations "
 "and features."
 msgstr ""
+"Plugin, mis käsitleb Exchange konto spetsiifilisi toiminguid ja võimalusi."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.eplug.xml.h:2
 msgid "Exchange Operations"
-msgstr "Exchange sätted"
+msgstr "Exchange toimingud"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:1
 msgid "Cannot change password due to configuration problems."
@@ -15066,6 +15054,8 @@ msgid ""
 "Changes to Exchange account configuration will take place after you quit and "
 "restart Evolution."
 msgstr ""
+"Exchange konto sätete muudatused rakenduvad peale Evolutioni sulgemist ja "
+"taaskäivitamist."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:4
 msgid "Could not authenticate to server."
@@ -15081,6 +15071,8 @@ msgid ""
 "an unknown error occurred. Check the URL, \n"
 "username, and password, and try again."
 msgstr ""
+"Tundmatu vea tõttu pole Exchange kontot võimalik seadistada. Kontrolli "
+"URL-i, kasutajanime ning parooli ja proovi uuesti."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:9
 msgid "Could not connect to Exchange server."
@@ -15221,11 +15213,11 @@ msgstr "Server lükkas parooli tagasi kuna see on liiga nõrk."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:51
 msgid "The Exchange account will be disabled when you quit Evolution"
-msgstr ""
+msgstr "Exchange konto keelatakse, kui sa sulged Evolutioni"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:52
 msgid "The Exchange account will be removed when you quit Evolution"
-msgstr ""
+msgstr "Exchange konto eemaldatakse, kui sa sulged Evolutioni"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:53
 msgid "The Exchange server is not compatible with Exchange Connector."
@@ -15290,7 +15282,7 @@ msgstr ""
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:71
 msgid "You may only configure a single Exchange account."
-msgstr ""
+msgstr "Sul on võimalik seadistada üksikut Exchange kontot."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:72
 msgid ""
@@ -15348,7 +15340,7 @@ msgstr "Kausta \"%s\" tellimusest loobumine"
 
 #: ../plugins/folder-unsubscribe/org-gnome-mail-folder-unsubscribe.eplug.xml.h:1
 msgid "Allows unsubscribing of mail folders in the folder tree context menu."
-msgstr ""
+msgstr "Sõnumikaustade tellimise lubamine kaustapuu kontekstimenüüst."
 
 #: ../plugins/folder-unsubscribe/org-gnome-mail-folder-unsubscribe.eplug.xml.h:2
 msgid "Unsubscribe Folders"
@@ -15557,7 +15549,7 @@ msgstr "Jälgi sõnumi olekut..."
 
 #: ../plugins/hula-account-setup/org-gnome-evolution-hula-account-setup.eplug.xml.h:1
 msgid "A plugin to setup hula calendar sources."
-msgstr ""
+msgstr "Plugin hula kalendriallikate seadistamiseks."
 
 #: ../plugins/hula-account-setup/org-gnome-evolution-hula-account-setup.eplug.xml.h:2
 msgid "Hula Account Setup"
@@ -15720,7 +15712,7 @@ msgstr "Delegaadile pole võimalik tühistusteadet saata"
 
 #: ../plugins/itip-formatter/itip-formatter.c:994
 msgid "Attendee status could not be updated because the status is invalid"
-msgstr "Osavõtja olekut ei ole võimailk uuendada, kuna selle olek on vigane"
+msgstr "Osaleja olekut pole võimalik uuendada, kuna selle olek on vigane"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1021
 #, c-format
@@ -15729,20 +15721,19 @@ msgstr "Osalejat pole võimalik uuendada. %s"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1025
 msgid "Attendee status updated"
-msgstr "Osavõtja olek uuendatud"
+msgstr "Osaleja olek uuendatud"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1152
 msgid "The calendar attached is not valid"
 msgstr "Manuses olev kalender on vigane"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1153
-#, fuzzy
 msgid ""
 "The message claims to contain a calendar, but the calendar is not a valid "
 "iCalendar."
 msgstr ""
-"Sõnum sisaldab kalendrit, kuid kalender ei sisalda sündmusi, ülesandeid ega "
-"vaba/hõivatud andmeid"
+"Sõnum sisaldab kalendrit, kuid kalender see kalender pole korrektses "
+"iCalendar vormingus."
 
 #: ../plugins/itip-formatter/itip-formatter.c:1187
 #: ../plugins/itip-formatter/itip-formatter.c:1202
@@ -16771,11 +16762,11 @@ msgstr "Sihtfaili valimine"
 
 #: ../plugins/select-one-source/org-gnome-select-one-source.eplug.xml.h:1
 msgid "Select one source"
-msgstr ""
+msgstr "Ühe allika valimine"
 
 #: ../plugins/select-one-source/org-gnome-select-one-source.eplug.xml.h:2
 msgid "Selects a single calendar or task source for viewing."
-msgstr ""
+msgstr "Ühe kalendri või ülesandeallika vaatamiseks valimine."
 
 #: ../plugins/select-one-source/org-gnome-select-one-source.eplug.xml.h:3
 msgid "_Show only this Calendar"
@@ -17325,7 +17316,6 @@ msgid ""
 msgstr ""
 
 #: ../shell/shell.error.xml.h:15
-#, fuzzy
 msgid ""
 "The previous version of evolution stored its data in a different location.\n"
 "\n"
@@ -17346,7 +17336,6 @@ msgid "Upgrade from previous version failed: {0}"
 msgstr "Tõrge eelmisest versioonist uuendamisel: {0}"
 
 #: ../shell/shell.error.xml.h:20
-#, fuzzy
 msgid ""
 "Upgrading your data and settings will require up to {0} of disk space, but "
 "you only have {1} available.\n"
@@ -18335,7 +18324,7 @@ msgstr "Klõpsa siia, et seada või eemaldada selle sündmuse alarme"
 
 #: ../ui/evolution-event-editor.xml.h:9 ../ui/evolution-task-editor.xml.h:5
 msgid "Insert advanced send options"
-msgstr ""
+msgstr "Laiendatud saatmisvalikute lisamine"
 
 #: ../ui/evolution-event-editor.xml.h:10
 msgid "Make this a recurring event"
@@ -18388,9 +18377,8 @@ msgid "Toggles whether to display categories"
 msgstr "Kategooriavälja kuvamise sisse- ja väljalülitamine"
 
 #: ../ui/evolution-event-editor.xml.h:24
-#, fuzzy
 msgid "Toggles whether to have All Day Event"
-msgstr "Kogu päeva sündmuse välja kuvamise sisse- ja väljalülitamine"
+msgstr ""
 
 #: ../ui/evolution-event-editor.xml.h:25
 msgid "Toggles whether to show time as busy"
@@ -18567,9 +18555,8 @@ msgid ""
 msgstr ""
 
 #: ../ui/evolution-mail-list.xml.h:16
-#, fuzzy
 msgid "Mar_k All Messages as Read"
-msgstr "_Märgi sõnumid loetuks"
+msgstr "Märgi sõnumid _loetuks"
 
 #: ../ui/evolution-mail-list.xml.h:17
 msgid "Paste message(s) from the clipboard"
@@ -18780,7 +18767,6 @@ msgid "Filter the selected messages for junk status"
 msgstr "Valitud sõnumitest rämpsu filtreerimine"
 
 #: ../ui/evolution-mail-message.xml.h:39
-#, fuzzy
 msgid "Flag selected messages for follow-up"
 msgstr "Valitud sõnumite märkimine jälgimiseks"
 
@@ -18817,7 +18803,6 @@ msgid "Mar_k as"
 msgstr "Märgi _kui"
 
 #: ../ui/evolution-mail-message.xml.h:50
-#, fuzzy
 msgid "Mark the selected messages as having been read"
 msgstr "Valitud sõnumite märkimine loetuks"
 
@@ -18926,7 +18911,6 @@ msgid "Reset the text to its original size"
 msgstr "Taastab teksti algse suuruse"
 
 #: ../ui/evolution-mail-message.xml.h:85
-#, fuzzy
 msgid "Save the selected messages as a text file"
 msgstr "Sõnumi salvestamine tekstifaili"
 
@@ -18992,7 +18976,7 @@ msgstr "_Vähenda"
 
 #: ../ui/evolution-mail-message.xml.h:101
 msgid "_Attached"
-msgstr ""
+msgstr "_Manustatud"
 
 #: ../ui/evolution-mail-message.xml.h:102
 msgid "_Caret Mode"
@@ -19233,7 +19217,7 @@ msgstr "Selle sõnumi saatmine"
 
 #: ../ui/evolution-message-composer.xml.h:32
 msgid "Set the message priority to high"
-msgstr ""
+msgstr "Sõnumi tähtsuse seadmine kõrgeks"
 
 #: ../ui/evolution-message-composer.xml.h:33
 msgid "Sign this message with your PGP key"
@@ -20377,7 +20361,7 @@ msgstr "Värviline veerg"
 
 #: ../widgets/table/e-cell-text.c:1779
 msgid "BG Color Column"
-msgstr ""
+msgstr "Taustavärviga veerg"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:1
 msgid "<- _Remove"
@@ -20708,7 +20692,7 @@ msgstr ""
 
 #: ../widgets/table/e-tree.c:3305
 msgid "Retro Look"
-msgstr ""
+msgstr "Retrovälimus"
 
 #: ../widgets/table/e-tree.c:3306
 msgid "Draw lines and +/- expanders."
@@ -20729,7 +20713,7 @@ msgstr ""
 #: ../widgets/text/e-entry.c:1242 ../widgets/text/e-entry.c:1243
 #: ../widgets/text/e-text.c:3478 ../widgets/text/e-text.c:3479
 msgid "Event Processor"
-msgstr ""
+msgstr "Sündmusteprotsessor"
 
 #: ../widgets/text/e-entry.c:1256 ../widgets/text/e-entry.c:1257
 msgid "Font"
@@ -20935,9 +20919,6 @@ msgstr ""
 #~ msgid "_Description:"
 #~ msgstr "_Kirjeldus:"
 
-#~ msgid "_Set alarm\t"
-#~ msgstr "_Määra alarm\t"
-
 #~ msgid "<b>Dele_gatees</b>"
 #~ msgstr "<b>Dele_gaadid</b>"
 
@@ -20997,20 +20978,6 @@ msgstr ""
 
 #~ msgid "Dismiss All"
 #~ msgstr "Tühista kõik"
-
-#~ msgid ""
-#~ "Alarm on %s\n"
-#~ "%s\n"
-#~ "Starting at %s\n"
-#~ "Ending at %s"
-#~ msgstr ""
-#~ "Alarm: %s\n"
-#~ "%s\n"
-#~ "Algus: %s\n"
-#~ "Lõpp: %s"
-
-#~ msgid "Remove"
-#~ msgstr "Eemalda"
 
 #~ msgid "<b>Default Free/Busy Server</b>"
 #~ msgstr "<b>Vaikimisi vaba/hõivatud server</b>"
@@ -21090,20 +21057,11 @@ msgstr ""
 #~ msgid "_Rule name:"
 #~ msgstr "_Reegli nimi:"
 
-#~ msgid "If"
-#~ msgstr "Kui"
-
 #~ msgid "Execute actions"
 #~ msgstr "Tegevused täidetakse juhul, kui"
 
 #~ msgid "Execute Command..."
 #~ msgstr "Käsu käivitamine..."
-
-#~ msgid "Exchange Connector access error."
-#~ msgstr "Exchange Connector'ile ligipääsu viga."
-
-#~ msgid "Url"
-#~ msgstr "Url"
 
 #~ msgid "Delete this occurrence"
 #~ msgstr "Kustuta seekordne sündmus"
