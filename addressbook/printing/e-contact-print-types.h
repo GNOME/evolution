@@ -24,6 +24,7 @@
 
 #include <glib.h>
 #include <libgnomeprint/gnome-font.h>
+#include <libgnomeprint/gnome-print-pango.h>
 
 typedef struct _EContactPrintStyle EContactPrintStyle;
 typedef enum _EContactPrintType EContactPrintType;
@@ -43,8 +44,8 @@ struct _EContactPrintStyle
 	guint blank_forms;
 	gboolean letter_tabs;
 	gboolean letter_headings;
-	GnomeFont *headings_font;
-	GnomeFont *body_font;
+	PangoFontDescription *headings_font;
+	PangoFontDescription *body_font;
 	gboolean print_using_grey;
 	gint paper_type;
 	gdouble paper_width;
@@ -58,11 +59,11 @@ struct _EContactPrintStyle
 	gdouble page_width;
 	gdouble page_height;
 	gboolean orientation_portrait;
-	GnomeFont *header_font;
+	PangoFontDescription *header_font;
 	gchar *left_header;
 	gchar *center_header;
 	gchar *right_header;
-	GnomeFont *footer_font;
+	PangoFontDescription *footer_font;
 	gchar *left_footer;
 	gchar *center_footer;
 	gchar *right_footer;

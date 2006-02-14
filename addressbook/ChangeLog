@@ -1,3 +1,9 @@
+2006-02-14  Devashish Sharma  <sdevashish@novell.com>
+
+	* e-contact-print.c : Use of pango for text handling when 
+	printing address book.
+	See Bug #269430.
+
 2006-02-13  Andre Klapper  <a9016009@gmx.de>
  
 	* ldap-config.glade: Fix the Security options to finally be 

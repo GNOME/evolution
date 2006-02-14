@@ -62,6 +62,7 @@ struct _EContactPrintContext
 {
 	GnomePrintContext *pc;
 	GnomePrintJob     *master;
+	PangoLayout *pl;
 	gdouble x;
 	gdouble y;
 	gint column;
@@ -69,8 +70,9 @@ struct _EContactPrintContext
 	gboolean first_section;
 	gchar first_char_on_page;
 	gchar last_char_on_page;
-	GnomeFont *letter_heading_font;
-	GnomeFont *letter_tab_font;
+
+	PangoFontDescription *letter_heading_font;
+	PangoFontDescription *letter_tab_font;
 	char *character;
 	gboolean first_contact;
 
@@ -82,222 +84,111 @@ struct _EContactPrintContext
 	GList *contacts;
 };
 
-static gint
-e_contact_divide_text(GnomePrintContext *pc, GnomeFont *font, double width, const gchar *text, GList **return_val /* Of type char[] */)
+static double
+get_font_height (PangoFontDescription *font)
 {
-	if ( width == -1 || gnome_font_get_width_utf8(font, text) <= width ) {
-		if ( return_val ) {
-			*return_val = g_list_append(*return_val, g_strdup(text));
-		}
-		return 1;
-	} else {
-#if 1
-		int i, l;
-		double x = 0;
-		int lastend = 0;
-		int linestart = 0;
-		int firstword = 1;
-		int linecount = 0;
-		l = strlen(text);
-		for ( i = 0; i < l; i++ ) {
-			if ( text[i] == ' ' ) {
-				if ( (!firstword) && x + gnome_font_get_width_utf8_sized(font, text + lastend, i - lastend) > width ) {
-					if (return_val) {
-						*return_val = g_list_append(*return_val, g_strndup(text + linestart, lastend - linestart));
-					}
-					x = gnome_font_get_width_utf8(font, "    ");
-					linestart = lastend + 1;
-					x += gnome_font_get_width_utf8_sized(font, text + linestart, i - linestart);
-					lastend = i;
-					linecount ++;
-				} else {
-					x += gnome_font_get_width_utf8_sized(font, text + lastend, i - lastend);
-					lastend = i;
-				}
-				firstword = 0;
-			} else if ( text[i] == '\n' ) {
-				if ( (!firstword) && x + gnome_font_get_width_utf8_sized(font, text + lastend, i - lastend) > width ) {
-					if (return_val) {
-						*return_val = g_list_append(*return_val, g_strndup(text + linestart, lastend - linestart));
-					}
-					linestart = lastend + 1;
-					lastend = i;
-					linecount ++;
-				}
-				if (return_val) {
-					*return_val = g_list_append(*return_val, g_strndup(text + linestart, i - linestart));
-				}
-				linestart = i + 1;
-				lastend = i + 1;
-				linecount ++;
-				x = gnome_font_get_width_utf8(font, "    ");
+	return (double)pango_font_description_get_size (font)/(double)PANGO_SCALE;
+}
 
-				firstword = 1;
-			}
-		}
-		if ( (!firstword) && x + gnome_font_get_width_utf8_sized(font, text + lastend, i - lastend) > width ) {
-			if (return_val) {
-				*return_val = g_list_append(*return_val, g_strndup(text + linestart, lastend - linestart));
-			}
-			linestart = lastend + 1;
-			lastend = i;
-			linecount ++;
-		}
-		if (return_val) {
-			*return_val = g_list_append(*return_val, g_strndup(text + linestart, i - linestart));
-		}
-		linecount ++;
-		return(linecount);
-#else
-		HnjBreak *breaks;
-		gint *result;
-		gint *is;
-		gint n_breaks = 0, n_actual_breaks = 0;
-		gint i;
-		gint l;
-		gchar *hyphenation;
-		double x = - gnome_font_get_width_utf8(font, "    ") * SCALE;
-		HnjParams hnjparams;
+static double
+get_font_width (EContactPrintContext *context, PangoFontDescription *font, const char *text)
+{
+	int width;
+	int height;
 
-		hnjparams.set_width = width * SCALE + x;
-		hnjparams.max_neg_space = 0;
-		hnjparams.tab_width = 0;
+	g_return_val_if_fail (font, 0.0);
+	g_return_val_if_fail (text, 0.0);
 
-		l = strlen(text);
-	
-		/* find possible line breaks. */
-		for (i = 0; i < l; i++) {
-			if (text[i] == '-')
-				n_breaks++;
-			else if (text[i] == ' ')
-				n_breaks++;
-#if 0
- 			else if (hyphenation[i] & 1)
-				n_breaks++;
-#endif
-		}
+	g_assert (context->pl);
+	pango_layout_set_font_description (context->pl, font);
+	pango_layout_set_text (context->pl, text, -1);
+	pango_layout_set_width (context->pl, -1);
+	pango_layout_set_indent (context->pl, 0);
 
-		breaks = g_new( HnjBreak, n_breaks + 1 );
-		result = g_new( gint, n_breaks + 1 );
-		is = g_new( gint, n_breaks + 1 );
-		n_breaks = 0;
-		/* find possible line breaks. */
-	
-		for (i = 0; i < l; i++) {
-			if ( text[i] == '-' ) {
-				x += gnome_font_get_width(font, text[i]) * SCALE;
-				breaks[n_breaks].x0 = x;
-				breaks[n_breaks].x1 = x;
-				breaks[n_breaks].penalty = HYPHEN_PENALTY;
-				breaks[n_breaks].flags = HNJ_JUST_FLAG_ISHYPHEN;
-				is[n_breaks] = i + 1;
-				n_breaks++;
-			} else if ( text[i] == ' ' ) {
-				breaks[ n_breaks ].x0 = x;
-				x += gnome_font_get_width(font, text[i]) * SCALE;
-				breaks[ n_breaks ].x1 = x;
-				breaks[ n_breaks ].penalty = 0;
-				breaks[ n_breaks ].flags = HNJ_JUST_FLAG_ISSPACE;
-				is[ n_breaks ] = i + 1;
-				n_breaks++;
-#if 0
-			} else if (word->hyphenation[i] & 1) {
-				breaks[n_breaks].x0 = x + gnome_font_get_width(font, '-') * SCALE;
-				breaks[n_breaks].x1 = x;
-				breaks[n_breaks].penalty = HYPHEN_PENALTY;
-				breaks[n_breaks].flags = HNJ_JUST_FLAG_ISHYPHEN;
-				is[n_breaks] = i + 1;
-				n_breaks++;
-#endif
-			} else
-				x += gnome_font_get_width(font, text[i]) * SCALE;
+	pango_layout_get_size (context->pl,
+			       &width,
+			       &height);
 
-		}
-		is[n_breaks] = i;
-		breaks[n_breaks].flags = 0;
-		n_breaks++;
+	return (double)width/(double)PANGO_SCALE;
+}
 
-		/* Calculate optimal line breaks. */
-		n_actual_breaks = hnj_hs_just (breaks, n_breaks,
-					       &hnjparams, result);
+static PangoFontDescription*
+find_font (const char *name, double height)
+{
+	PangoFontDescription *desc = pango_font_description_new ();
+	pango_font_description_set_family (desc, name);	
+	pango_font_description_set_size (desc, height * PANGO_SCALE);	
 
-		if ( return_val ) {
-			gchar *next_val;
-			if ( breaks[result[0]].flags == HNJ_JUST_FLAG_ISHYPHEN && text[is[result[0]]] != '-' ) {
-				next_val = g_new(gchar, is[result[0]] + 2);
-				strncpy(next_val, text, is[result[0]]);
-				next_val[is[result[0]]] = 0;
-				strcat(next_val, "-");
-			} else {
-				next_val = g_new(gchar, is[result[0]] + 1);
-				strncpy(next_val, text, is[result[0]]);
-				next_val[is[result[0]]] = 0;
-			}
-			*return_val = g_list_append(*return_val, next_val);
-			
-			for ( i = 1; i < n_actual_breaks; i++ ) {
-				if ( (breaks[result[i]].flags & HNJ_JUST_FLAG_ISHYPHEN) && (text[is[result[i]]] != '-') ) {
-					next_val = g_new(gchar, is[result[i]] - is[result[i - 1]] + 2);
-					strncpy(next_val, text + is[result[i - 1]], is[result[i]] - is[result[i - 1]]);
-					next_val[is[result[i]] - is[result[i - 1]]] = 0;
-					strcat(next_val, "-");
-				} else {
-					next_val = g_new(gchar, is[result[i]] - is[result[i - 1]] + 1);
-					strncpy(next_val, text + is[result[i - 1]], is[result[i]] - is[result[i - 1]]);
-					next_val[is[result[i]] - is[result[i - 1]]] = 0;
-				}
-				*return_val = g_list_append(*return_val, next_val);
-			}
-		}
-		
-		g_free (breaks);
-		g_free (result);
-		g_free (is);
-		return n_actual_breaks;
-#endif
+	return desc;
+}
+
+static PangoFontDescription*
+find_closest_font_from_weight_slant (const guchar *family, GnomeFontWeight weight, gboolean italic, gdouble size)
+{
+	PangoFontDescription *desc = pango_font_description_new ();
+	pango_font_description_set_family (desc, family);	
+
+	/* GnomePrintWeight and PangoWeight values should be interchangeable: */
+	pango_font_description_set_weight (desc, (PangoWeight)weight);
+
+	if (italic) {
+		pango_font_description_set_style (desc, PANGO_STYLE_ITALIC);
 	}
+	pango_font_description_set_size (desc, size * PANGO_SCALE);
+
+	return desc;
 }
 
 static void
-e_contact_output(GnomePrintContext *pc, GnomeFont *font, double x, double y, double width, const gchar *text)
+e_contact_output(EContactPrintContext *ctxt, PangoFontDescription *font, double x, double y, double width, const gchar *text)
 {
-	GList *list = NULL, *list_start;
-	int first_line = 1;
-	gnome_print_gsave(pc);
-	gnome_print_setfont(pc, font);
-	e_contact_divide_text(pc, font, width, text, &list);
-	for ( list_start = list; list; list = g_list_next(list)) {
-		y -= gnome_font_get_ascender(font);
-		gnome_print_moveto(pc, x, y);
-		gnome_print_show(pc, (char *)list->data);
-		y -= gnome_font_get_descender(font);
-		y -= .2 * gnome_font_get_size (font);
-		if ( first_line ) {
-			x += gnome_font_get_width_utf8(font, "    ");
-			first_line = 0;
-		}
-	}
-	g_list_foreach( list_start, (GFunc) g_free, NULL );
-	g_list_free( list_start );
-	gnome_print_grestore(pc);
+	gnome_print_gsave(ctxt->pc);
+
+	/* Preserve the indentation behaviour of the old e_contact_divide_text function: */
+	double indent;
+	if ( width == -1 || get_font_width(ctxt, font, text) <= width ) {
+		indent = 0.0;
+	} else {
+		indent = get_font_width (ctxt, font, "    ");	
+	} 	
+
+	g_assert (ctxt->pl);
+	pango_layout_set_font_description (ctxt->pl, font);
+	pango_layout_set_text (ctxt->pl, text, -1);
+	pango_layout_set_width (ctxt->pl, width*PANGO_SCALE);
+	pango_layout_set_indent (ctxt->pl, indent*PANGO_SCALE);
+
+	gnome_print_moveto(ctxt->pc, x, y);
+	gnome_print_pango_layout (ctxt->pc, ctxt->pl);
+	gnome_print_grestore(ctxt->pc);
 }
 
 static gdouble
-e_contact_text_height(GnomePrintContext *pc, GnomeFont *font, double width, const gchar *text)
+e_contact_text_height(EContactPrintContext *ctxt, PangoFontDescription *font, double width, const gchar *text)
 {
-	int line_count = e_contact_divide_text(pc, font, width, text, NULL);
-	return line_count * (gnome_font_get_ascender(font) + gnome_font_get_descender(font)) +
-		(line_count - 1) * .2 * gnome_font_get_size (font);
+	gint w, h;
+
+	g_assert (ctxt->pl);
+	pango_layout_set_font_description (ctxt->pl, font);
+	pango_layout_set_text (ctxt->pl, text, -1);
+	pango_layout_set_width (ctxt->pl, width*PANGO_SCALE);
+	pango_layout_set_indent (ctxt->pl, 0);
+
+	pango_layout_get_size (ctxt->pl,
+			       &w,
+			       &h);
+
+	return (double)h/(double)PANGO_SCALE;
 }
 
 #if 0
 static void
-e_contact_output_and_advance(EContactPrintContext *ctxt, GnomeFont *font, double x, double width, gchar *text)
+e_contact_output_and_advance(EContactPrintContext *ctxt, PangoFontDescription *font, double x, double width, gchar *text)
 {
-	ctxt->y -= .1 * gnome_font_get_size (font);
+	ctxt->y -= .1 * get_font_height (font);
 	e_contact_output(ctxt->pc, font, x, ctxt->y, width, text);
 	ctxt->y -= e_contact_text_height(ctxt->pc, font, width, text);
-	ctxt->y -= .1 * gnome_font_get_size (font);
+	ctxt->y -= .1 * get_font_height (font);
 }
 #endif
 
@@ -325,7 +216,7 @@ e_contact_rectangle(GnomePrintContext *pc,
 static double
 e_contact_get_letter_tab_width (EContactPrintContext *ctxt)
 {
-	return gnome_font_get_width_utf8(ctxt->letter_tab_font, "123") + 4 + 18;
+	return get_font_width(ctxt, ctxt->letter_tab_font, "123") + 4 + 18;
 }
 
 static double
@@ -355,41 +246,37 @@ e_contact_print_letter_tab (EContactPrintContext *ctxt)
 		if ( character >= ctxt->first_char_on_page && character <= ctxt->last_char_on_page ) {
 			e_contact_rectangle( ctxt->pc, x + 1, y - 1, x + tab_width - 1, y - (tab_height - 1), 0, 0, 0 );
 			gnome_print_setrgbcolor( ctxt->pc, 1, 1, 1 );
-			e_contact_output( ctxt->pc, ctxt->letter_tab_font, x + tab_width / 2 - gnome_font_get_width_utf8(ctxt->letter_tab_font, string) / 2, y - (tab_height - font_size) / 2, -1, string );
+			e_contact_output( ctxt, ctxt->letter_tab_font, x + tab_width / 2 - get_font_width(ctxt, ctxt->letter_tab_font, string) / 2, y - (tab_height - font_size) / 2, -1, string );
 		} else {
 			gnome_print_setrgbcolor( ctxt->pc, 0, 0, 0 );
-			e_contact_output( ctxt->pc, ctxt->letter_tab_font, x + tab_width / 2 - gnome_font_get_width_utf8(ctxt->letter_tab_font, string) / 2, y - (tab_height - font_size) / 2, -1, string );
+			e_contact_output( ctxt, ctxt->letter_tab_font, x + tab_width / 2 - get_font_width(ctxt, ctxt->letter_tab_font, string) / 2, y - (tab_height - font_size) / 2, -1, string );
 		}
 		y -= tab_height;
 	}
 	gnome_print_grestore( ctxt->pc );
-	return gnome_font_get_width_utf8(ctxt->style->body_font, "123") + gnome_font_get_size (ctxt->style->body_font) / 5;
+	return get_font_width(ctxt, ctxt->style->body_font, "123") + get_font_height (ctxt->style->body_font) / 5;
 }
 
 static double
 e_contact_get_letter_heading_height (EContactPrintContext *ctxt)
 {
-	gdouble ascender, descender;
-	ascender = gnome_font_get_ascender(ctxt->letter_heading_font);
-	descender = gnome_font_get_descender(ctxt->letter_heading_font);
-	return ascender + descender + 9;
+	return get_font_height (ctxt->letter_heading_font);
 }
 
 static void
 e_contact_print_letter_heading (EContactPrintContext *ctxt, gchar *character)
 {
-	gdouble ascender, descender;
+	gdouble height;
 	gdouble width;
 
-	width = gnome_font_get_width_utf8(ctxt->letter_heading_font, "m") * 1.7;
-	ascender = gnome_font_get_ascender(ctxt->letter_heading_font);
-	descender = gnome_font_get_descender(ctxt->letter_heading_font);
+	width = get_font_width(ctxt, ctxt->letter_heading_font, "m") * 1.7;
+	height = get_font_height (ctxt->letter_heading_font);
 	gnome_print_gsave( ctxt->pc );
-	e_contact_rectangle( ctxt->pc, ctxt->x, ctxt->y, ctxt->x + width, ctxt->y - (ascender + descender + 6), 0, 0, 0);
+	e_contact_rectangle( ctxt->pc, ctxt->x, ctxt->y, ctxt->x + width, ctxt->y - (height + 6), 0, 0, 0);
 	gnome_print_setrgbcolor(ctxt->pc, 1, 1, 1);
 	ctxt->y -= 4;
-	e_contact_output(ctxt->pc, ctxt->letter_heading_font, ctxt->x + (width - gnome_font_get_width_utf8(ctxt->letter_heading_font, character))/ 2, ctxt->y, -1, character);
-	ctxt->y -= ascender + descender;
+	e_contact_output(ctxt, ctxt->letter_heading_font, ctxt->x + (width - get_font_width(ctxt, ctxt->letter_heading_font, character))/ 2, ctxt->y, -1, character);
+	ctxt->y -= height;
 	ctxt->y -= 2;
 	ctxt->y -= 3;
 	gnome_print_grestore( ctxt->pc );
@@ -422,31 +309,31 @@ e_contact_get_contact_size(EContact *contact, EContactPrintContext *ctxt)
 		page_width -= e_contact_get_letter_tab_width(ctxt);
 	column_width = (page_width + 18) / ctxt->style->num_columns - 18;
 
-	height += gnome_font_get_size (ctxt->style->headings_font) * .2;
+	height += get_font_height (ctxt->style->headings_font) * .2;
 
-	height += gnome_font_get_size (ctxt->style->headings_font) * .2;
+	height += get_font_height (ctxt->style->headings_font) * .2;
 
 	file_as = e_contact_get_const (contact, E_CONTACT_FILE_AS);
 
-	height += e_contact_text_height(ctxt->pc, ctxt->style->headings_font, column_width - 4, file_as);
+	height += e_contact_text_height(ctxt, ctxt->style->headings_font, column_width - 4, file_as);
 
-	height += gnome_font_get_size (ctxt->style->headings_font) * .2;
+	height += get_font_height (ctxt->style->headings_font) * .2;
 
-	height += gnome_font_get_size (ctxt->style->headings_font) * .2;
+	height += get_font_height (ctxt->style->headings_font) * .2;
 	
 	for(field = E_CONTACT_FILE_AS; field != E_CONTACT_LAST_SIMPLE_STRING; field++) {
 		char *string;
 		string = e_contact_get(contact, field);
 		if (string && *string) {
 			double xoff = 0;
-			xoff += gnome_font_get_width_utf8(ctxt->style->body_font, e_contact_pretty_name (field));
-			xoff += gnome_font_get_width_utf8(ctxt->style->body_font, ":  ");
-			height += e_contact_text_height(ctxt->pc, ctxt->style->body_font, column_width - xoff, string);
-			height += .2 * gnome_font_get_size (ctxt->style->body_font);
+			xoff += get_font_width(ctxt, ctxt->style->body_font, e_contact_pretty_name (field));
+			xoff += get_font_width(ctxt, ctxt->style->body_font, ":  ");
+			height += e_contact_text_height(ctxt, ctxt->style->body_font, column_width - xoff, string);
+			height += .2 * get_font_height (ctxt->style->body_font);
 		}
 		g_free(string);
 	}
-	height += gnome_font_get_size (ctxt->style->headings_font) * .4;
+	height += get_font_height (ctxt->style->headings_font) * .4;
 
 	/* g_message ("%s %g", e_card_simple_get (simple, E_CARD_SIMPLE_FIELD_FILE_AS), height); */
 	return height;
@@ -467,18 +354,18 @@ e_contact_print_contact (EContact *contact, EContactPrintContext *ctxt)
 
 	gnome_print_gsave(ctxt->pc);
 
-	ctxt->y -= gnome_font_get_size (ctxt->style->headings_font) * .2;
-	ctxt->y -= gnome_font_get_size (ctxt->style->headings_font) * .2;
+	ctxt->y -= get_font_height (ctxt->style->headings_font) * .2;
+	ctxt->y -= get_font_height (ctxt->style->headings_font) * .2;
 
 	file_as = e_contact_get (contact, E_CONTACT_FILE_AS);
 	if (ctxt->style->print_using_grey)
-		e_contact_rectangle(ctxt->pc, ctxt->x, ctxt->y + gnome_font_get_size (ctxt->style->headings_font) * .3, ctxt->x + column_width, ctxt->y - e_contact_text_height(ctxt->pc, ctxt->style->headings_font, column_width - 4, file_as) - gnome_font_get_size (ctxt->style->headings_font) * .3, .85, .85, .85);
-	e_contact_output(ctxt->pc, ctxt->style->headings_font, ctxt->x + 2, ctxt->y, column_width - 4, file_as);
-	ctxt->y -= e_contact_text_height(ctxt->pc, ctxt->style->headings_font, column_width - 4, file_as);
+		e_contact_rectangle(ctxt->pc, ctxt->x, ctxt->y + get_font_height (ctxt->style->headings_font) * .3, ctxt->x + column_width, ctxt->y - e_contact_text_height(ctxt, ctxt->style->headings_font, column_width - 4, file_as) - get_font_height (ctxt->style->headings_font) * .3, .85, .85, .85);
+	e_contact_output(ctxt, ctxt->style->headings_font, ctxt->x + 2, ctxt->y, column_width - 4, file_as);
+	ctxt->y -= e_contact_text_height(ctxt, ctxt->style->headings_font, column_width - 4, file_as);
 	g_free (file_as);
 
-	ctxt->y -= gnome_font_get_size (ctxt->style->headings_font) * .2;
-	ctxt->y -= gnome_font_get_size (ctxt->style->headings_font) * .2;
+	ctxt->y -= get_font_height (ctxt->style->headings_font) * .2;
+	ctxt->y -= get_font_height (ctxt->style->headings_font) * .2;
 	
 	for(field = E_CONTACT_FILE_AS; field != E_CONTACT_LAST_SIMPLE_STRING; field++) {
 		char *string;
@@ -486,18 +373,18 @@ e_contact_print_contact (EContact *contact, EContactPrintContext *ctxt)
 
 		if (string && *string) {
 			double xoff = 0;
-			e_contact_output(ctxt->pc, ctxt->style->body_font, ctxt->x + xoff, ctxt->y, -1, e_contact_pretty_name (field));
-			xoff += gnome_font_get_width_utf8(ctxt->style->body_font, e_contact_pretty_name (field));
-			e_contact_output(ctxt->pc, ctxt->style->body_font, ctxt->x + xoff, ctxt->y, -1, ":  ");
-			xoff += gnome_font_get_width_utf8(ctxt->style->body_font, ":  ");
-			e_contact_output(ctxt->pc, ctxt->style->body_font, ctxt->x + xoff, ctxt->y, column_width - xoff, string);
-			ctxt->y -= e_contact_text_height(ctxt->pc, ctxt->style->body_font, column_width - xoff, string);
-			ctxt->y -= .2 * gnome_font_get_size (ctxt->style->body_font);
+			e_contact_output(ctxt, ctxt->style->body_font, ctxt->x + xoff, ctxt->y, -1, e_contact_pretty_name (field));
+			xoff += get_font_width(ctxt, ctxt->style->body_font, e_contact_pretty_name (field));
+			e_contact_output(ctxt, ctxt->style->body_font, ctxt->x + xoff, ctxt->y, -1, ":  ");
+			xoff += get_font_width(ctxt, ctxt->style->body_font, ":  ");
+			e_contact_output(ctxt, ctxt->style->body_font, ctxt->x + xoff, ctxt->y, column_width - xoff, string);
+			ctxt->y -= e_contact_text_height(ctxt, ctxt->style->body_font, column_width - xoff, string);
+			ctxt->y -= .2 * get_font_height (ctxt->style->body_font);
 		}
 		g_free(string);
 	}
 	
-	ctxt->y -= gnome_font_get_size (ctxt->style->headings_font) * .4;
+	ctxt->y -= get_font_height (ctxt->style->headings_font) * .4;
 	gnome_print_grestore(ctxt->pc);
 }
 
@@ -587,6 +474,7 @@ complete_sequence(EBookView *book_view, EBookViewStatus status, EContactPrintCon
 		gnome_print_job_print(ctxt->master);
 	}
 	g_object_unref(ctxt->pc);
+	g_object_unref(ctxt->pl);
 	g_object_unref(ctxt->master);
 	if (ctxt->book)
 		g_object_unref(ctxt->book);
@@ -594,12 +482,12 @@ complete_sequence(EBookView *book_view, EBookViewStatus status, EContactPrintCon
 		e_book_query_unref (ctxt->query);
 	g_list_foreach(ctxt->contacts, (GFunc) g_object_unref, NULL);
 	g_list_free(ctxt->contacts);
-	g_object_unref(ctxt->style->headings_font);
-	g_object_unref(ctxt->style->body_font);
-	g_object_unref(ctxt->style->header_font);
-	g_object_unref(ctxt->style->footer_font);
-	g_object_unref(ctxt->letter_heading_font);
-	g_object_unref(ctxt->letter_tab_font);
+	pango_font_description_free(ctxt->style->headings_font);
+	pango_font_description_free(ctxt->style->body_font);
+	pango_font_description_free(ctxt->style->header_font);
+	pango_font_description_free(ctxt->style->footer_font);
+	pango_font_description_free(ctxt->letter_heading_font);
+	pango_font_description_free(ctxt->letter_tab_font);
 	g_free(ctxt->style);
 	g_free(ctxt);
 }
@@ -710,12 +598,12 @@ static double get_float( char *data )
 		return 0;
 }
 
-static void get_font( char *data, GnomeFont **variable )
+static void get_font( char *data, PangoFontDescription **variable )
 {
 	if ( data ) {
-		GnomeFont *font = gnome_font_find_from_full_name( data );
+		PangoFontDescription *font = pango_font_description_from_string ( data );
 		if ( font ) {
-			g_object_unref(*variable);
+			pango_font_description_free(*variable);
 			*variable = font;
 		}
 	}
@@ -737,8 +625,8 @@ e_contact_build_style(EContactPrintStyle *style, GnomePrintConfig *config)
 	style->letter_tabs = TRUE;
 	style->letter_headings = FALSE;
 
-	style->headings_font = gnome_font_find_closest_from_weight_slant ("Sans", GNOME_FONT_BOLD, FALSE, 8);
-	style->body_font = gnome_font_find_closest_from_weight_slant ("Sans", GNOME_FONT_BOOK, FALSE, 6);
+	style->headings_font = find_closest_font_from_weight_slant ("Sans", GNOME_FONT_BOLD, FALSE, 8);
+	style->body_font = find_closest_font_from_weight_slant ("Sans", GNOME_FONT_BOOK, FALSE, 6);
 
 	style->print_using_grey = TRUE;
 	style->paper_type = 0;
@@ -762,13 +650,13 @@ e_contact_build_style(EContactPrintStyle *style, GnomePrintConfig *config)
 #endif
 	style->orientation_portrait = FALSE;
 
-	style->header_font = gnome_font_find_closest_from_weight_slant ("Sans", GNOME_FONT_BOOK, FALSE, 6);
+	style->header_font = find_closest_font_from_weight_slant ("Sans", GNOME_FONT_BOOK, FALSE, 6);
 
 	style->left_header = g_strdup("");
 	style->center_header = g_strdup("");
 	style->right_header = g_strdup("");
 
-	style->footer_font = gnome_font_find_closest_from_weight_slant ("Sans", GNOME_FONT_BOOK, FALSE, 6);
+	style->footer_font = find_closest_font_from_weight_slant ("Sans", GNOME_FONT_BOOK, FALSE, 6);
 
 	style->left_footer = g_strdup("");
 	style->center_footer = g_strdup("");
@@ -927,10 +815,11 @@ e_contact_print_response(GtkWidget *dialog, gint response_id, gpointer data)
 		ctxt->type = GNOME_PRINT_DIALOG_RESPONSE_PRINT;
 
 		font_size = 72 * ctxt->style->page_height / 27.0 / 2.0;
-		ctxt->letter_heading_font = gnome_font_find (gnome_font_get_name(ctxt->style->headings_font), gnome_font_get_size (ctxt->style->headings_font) * 1.5);
-		ctxt->letter_tab_font = gnome_font_find (gnome_font_get_name(ctxt->style->headings_font), font_size);
+		ctxt->letter_heading_font = find_font (pango_font_description_get_family(ctxt->style->headings_font), get_font_height(ctxt->style->headings_font)*1.5);
+		ctxt->letter_tab_font = find_font (pango_font_description_get_family(ctxt->style->headings_font), font_size);
 	
 		ctxt->pc = pc;
+		ctxt->pl = gnome_print_pango_create_layout (pc);
 #warning FIXME gnome_print_multipage_new_from_sizes
 #if 0
 		ctxt->pc = GNOME_PRINT_CONTEXT(gnome_print_multipage_new_from_sizes(pc, 
@@ -973,10 +862,11 @@ e_contact_print_response(GtkWidget *dialog, gint response_id, gpointer data)
 		ctxt->type = GNOME_PRINT_DIALOG_RESPONSE_PREVIEW;
 
 		font_size = 72 * ctxt->style->page_height / 27.0 / 2.0;
-		ctxt->letter_heading_font = gnome_font_find (gnome_font_get_name(ctxt->style->headings_font), gnome_font_get_size (ctxt->style->headings_font) * 1.5);
-		ctxt->letter_tab_font = gnome_font_find (gnome_font_get_name(ctxt->style->headings_font), font_size);
+		ctxt->letter_heading_font = find_font (pango_font_description_get_family(ctxt->style->headings_font), get_font_height (ctxt->style->headings_font) * 1.5);
+		ctxt->letter_tab_font = find_font (pango_font_description_get_family(ctxt->style->headings_font), font_size);
 		
 		ctxt->pc = pc;
+		ctxt->pl = gnome_print_pango_create_layout (pc);
 #warning FIXME gnome_print_multipage_new_from_sizes
 #if 0
 		ctxt->pc = GNOME_PRINT_CONTEXT(gnome_print_multipage_new_from_sizes(pc, 
@@ -1089,10 +979,11 @@ e_contact_print_preview(EBook *book, char *query, GList *list)
 	ctxt->type = GNOME_PRINT_DIALOG_RESPONSE_PREVIEW;
 
 	font_size = 72 * ctxt->style->page_height / 27.0 / 2.0;
-	ctxt->letter_heading_font = gnome_font_find (gnome_font_get_name(ctxt->style->headings_font), gnome_font_get_size (ctxt->style->headings_font) * 1.5);
-	ctxt->letter_tab_font = gnome_font_find (gnome_font_get_name(ctxt->style->headings_font), font_size);
+	ctxt->letter_heading_font = find_font (pango_font_description_get_family(ctxt->style->headings_font), get_font_height (ctxt->style->headings_font) * 1.5);
+	ctxt->letter_tab_font = find_font (pango_font_description_get_family(ctxt->style->headings_font), font_size);
 
-		ctxt->pc = pc;
+	ctxt->pc = pc;
+	ctxt->pl = gnome_print_pango_create_layout (pc);
 #warning FIXME gnome_print_multipage_new_from_sizes
 #if 0
 	ctxt->pc = GNOME_PRINT_CONTEXT(gnome_print_multipage_new_from_sizes(pc, 
