@@ -1,3 +1,8 @@
+2006-02-14  Veerapuram Varadhan <vvaradhan@novell.com>
+
+	* itip-formatter.c (itip_formatter_page_factory): A typo fix from
+	gfree to g_free.
+	
 2006-02-12  Karsten Bräckelmann  <guenther@rudersport.de>
 
 	* itip-formatter.c (itip_formatter_page_factory):
