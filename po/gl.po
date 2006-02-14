@@ -40,8 +40,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gl\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-02-13 10:20+0100\n"
-"PO-Revision-Date: 2006-02-13 10:26+0100\n"
+"POT-Creation-Date: 2006-02-14 13:46+0100\n"
+"PO-Revision-Date: 2006-02-14 13:48+0100\n"
 "Last-Translator: Ignacio Casal Quinteiro <nacho.resa@gmail.com>\n"
 "Language-Team: Galego <trasno@ceu.fi.udc.es>\n"
 "MIME-Version: 1.0\n"
@@ -968,7 +968,7 @@ msgid "Add Address Book"
 msgstr "Engadir libro de enderezos"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:14
-#: ../mail/em-account-editor.c:304 ../mail/em-account-editor.c:769
+#: ../mail/em-account-editor.c:777
 msgid "Always"
 msgstr "Sempre"
 
@@ -1001,31 +1001,46 @@ msgid "Lo_gin:"
 msgstr "_Inicio de sesión:"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:24
-#: ../mail/em-account-editor.c:302 ../mail/em-account-editor.c:768
+#: ../mail/em-account-editor.c:776
 msgid "Never"
 msgstr "Nunca"
 
+#. Translators: This string is a "Use secure connection" option for
+#. the Mailer. It will not use an encrypted connection.
 #: ../addressbook/gui/component/ldap-config.glade.h:25
+#: ../mail/em-account-editor.c:304
+msgid "No encryption"
+msgstr "Sen cifrado"
+
+#: ../addressbook/gui/component/ldap-config.glade.h:26
 msgid "One"
 msgstr "Un"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:26
+#. Translators: This string is a "Use secure connection" option for
+#. the Mailer. SSL (Secure Sockets Layer) is commonly known by this
+#. abbreviation.
+#: ../addressbook/gui/component/ldap-config.glade.h:27
+#: ../mail/em-account-editor.c:312
+msgid "SSL encryption"
+msgstr "Cifrado SSL"
+
+#: ../addressbook/gui/component/ldap-config.glade.h:28
 msgid "Search Filter"
 msgstr "Filtro de busca"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:27
+#: ../addressbook/gui/component/ldap-config.glade.h:29
 msgid "Search _base:"
 msgstr "_Base de busca:"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:28
+#: ../addressbook/gui/component/ldap-config.glade.h:30
 msgid "Search _filter:"
 msgstr "_Filtro de busca:"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:29
+#: ../addressbook/gui/component/ldap-config.glade.h:31
 msgid "Search filter"
 msgstr "Filtro de busca"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:30
+#: ../addressbook/gui/component/ldap-config.glade.h:32
 msgid ""
 "Search filter is the type of the objects searched for, while performing the "
 "search. If this is not modified, by  default search will be performed on "
@@ -1035,45 +1050,49 @@ msgstr ""
 "Se isto non se modifica, a busca por omisión realizarase sobre a clase de "
 "obxectos de tipo \"person\"."
 
-#: ../addressbook/gui/component/ldap-config.glade.h:31
-msgid ""
-"Selecting this option means that Evolution will only connect to your LDAP "
-"server if your LDAP server supports SSL or TLS."
-msgstr ""
-"Seleccionar esta opción significa que Evolution só conectará co seu servidor "
-"LDAP se seu servidor LDAP soporta SSL ou TLS."
-
-#: ../addressbook/gui/component/ldap-config.glade.h:32
-msgid ""
-"Selecting this option means that Evolution will only try to use SSL/TLS if "
-"you are in a insecure environment. For example, if you and your LDAP server "
-"are behind a firewall at work, then Evolution doesn't need to use SSL/TLS "
-"because your connection is already secure."
-msgstr ""
-"Seleccionar esta opción significa que Evolution só tentará usar SSL/TLS se "
-"está nun entorno inseguro. Por exemplo, se vostede e seu servidor LDAP están "
-"tras un cortafogos no traballo, entón Evolution non necesita usar SSL/TLS "
-"porque súa conexión xa é segura."
-
 #: ../addressbook/gui/component/ldap-config.glade.h:33
 msgid ""
+"Selecting this option means that Evolution will only connect to your LDAP "
+"server if your LDAP server supports SSL."
+msgstr ""
+"Seleccionar esta opción significa que Evolution só conectará co seu servidor "
+"LDAP se o seu servidor LDAP soporta SSL."
+
+#: ../addressbook/gui/component/ldap-config.glade.h:34
+msgid ""
+"Selecting this option means that Evolution will only connect to your LDAP "
+"server if your LDAP server supports TLS."
+msgstr ""
+"Seleccionar esta opción significa que Evolution só conectará co seu servidor "
+"LDAP se o seu servidor LDAP soporta TLS."
+
+#: ../addressbook/gui/component/ldap-config.glade.h:35
+msgid ""
 "Selecting this option means that your server does not support either SSL or "
-"TLS.  This means that your connection will be insecure, and that you will be "
-"vulnerable to security exploits. "
+"TLS. This means that your connection will be insecure, and that you will be "
+"vulnerable to security exploits."
 msgstr ""
 "Seleccionar esta opción significa que seu servidor non soporta nin SSL nin "
 "TLS. Isto significa que súa conexión será insegura e que vostede será "
-"vulnerabel a fallos de seguranza."
+"vulnerábel a fallos de seguranza."
 
-#: ../addressbook/gui/component/ldap-config.glade.h:34
+#: ../addressbook/gui/component/ldap-config.glade.h:36
 msgid "Sub"
 msgstr "Sub"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:35
+#: ../addressbook/gui/component/ldap-config.glade.h:37
 msgid "Supported Search Bases"
 msgstr "Bases de busca soportadas"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:36
+#. Translators: This string is a "Use secure connection" option for
+#. the Mailer. TLS (Transport Layer Security) is commonly known by
+#. this abbreviation.
+#: ../addressbook/gui/component/ldap-config.glade.h:38
+#: ../mail/em-account-editor.c:308
+msgid "TLS encryption"
+msgstr "Cifrado TLS"
+
+#: ../addressbook/gui/component/ldap-config.glade.h:39
 msgid ""
 "The search base is the distinguished name (DN) of the entry where your "
 "searches will begin. If you leave this blank, the search will begin at the "
@@ -1083,7 +1102,7 @@ msgstr ""
 "comezarán. Se deixa isto en branco, a busca comerzará na raíz da árbore de "
 "directorios."
 
-#: ../addressbook/gui/component/ldap-config.glade.h:37
+#: ../addressbook/gui/component/ldap-config.glade.h:40
 msgid ""
 "The search scope defines how deep you would like the search to extend down "
 "the directory tree. A search scope of \"sub\" will include all entries below "
@@ -1095,13 +1114,13 @@ msgstr ""
 "todas as entradas por debaixo da súa base de busca. Un ámbito \"un\" só "
 "incluirá as entradas un nivel baixo a súa base."
 
-#: ../addressbook/gui/component/ldap-config.glade.h:38
+#: ../addressbook/gui/component/ldap-config.glade.h:41
 msgid ""
 "This is the full name of your ldap server. For example, \"ldap.mycompany.com"
 "\"."
 msgstr "Este é o nome completo do servidor LDAP. Por exemplo, \"ldap.mycompany.com\"."
 
-#: ../addressbook/gui/component/ldap-config.glade.h:39
+#: ../addressbook/gui/component/ldap-config.glade.h:42
 msgid ""
 "This is the maximum number of entries to download. Setting this number to be "
 "too large will slow down your address book."
@@ -1109,7 +1128,7 @@ msgstr ""
 "Este é o máximo número de entradas para descargar. Se pon este número "
 "demasiado alto ralentizará seu libro de enderezos."
 
-#: ../addressbook/gui/component/ldap-config.glade.h:40
+#: ../addressbook/gui/component/ldap-config.glade.h:43
 msgid ""
 "This is the method Evolution will use to authenticate you.  Note that "
 "setting this to \"Email Address\" requires anonymous access to your ldap "
@@ -1119,7 +1138,7 @@ msgstr ""
 "que establecer isto a \"Enderezo de correo\" require acceso anónimo a seu "
 "servidor LDAP."
 
-#: ../addressbook/gui/component/ldap-config.glade.h:41
+#: ../addressbook/gui/component/ldap-config.glade.h:44
 msgid ""
 "This is the name for this server that will appear in your Evolution folder "
 "list. It is for display purposes only. "
@@ -1127,7 +1146,7 @@ msgstr ""
 "Este é o nome que identificará este servidor na lista de cartafoles de "
 "Evolution. É só para poder amosalo en pantalla."
 
-#: ../addressbook/gui/component/ldap-config.glade.h:42
+#: ../addressbook/gui/component/ldap-config.glade.h:45
 msgid ""
 "This is the port on the LDAP server that Evolution will try to connect to. A "
 "list of standard ports has been provided. Ask your system administrator what "
@@ -1137,36 +1156,35 @@ msgstr ""
 "Proporcionouse unha lista de portos estándar. Pregunte a seu administrador "
 "do sistema qué porto debería especificar."
 
-#: ../addressbook/gui/component/ldap-config.glade.h:43
+#: ../addressbook/gui/component/ldap-config.glade.h:46
 msgid "Using distinguished name (DN)"
 msgstr "Usando nome distintivo (DN)"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:44
+#: ../addressbook/gui/component/ldap-config.glade.h:47
 msgid "Using email address"
 msgstr "Usando enderezo de correo"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:45
-#: ../mail/em-account-editor.c:303
+#: ../addressbook/gui/component/ldap-config.glade.h:48
 msgid "Whenever Possible"
 msgstr "Cando sexa posible"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:46
+#: ../addressbook/gui/component/ldap-config.glade.h:49
 msgid "_Add Address Book"
 msgstr "_Engadir Libro de Enderezos"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:47
+#: ../addressbook/gui/component/ldap-config.glade.h:50
 msgid "_Download limit:"
 msgstr "Límite de _descarga:"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:48
+#: ../addressbook/gui/component/ldap-config.glade.h:51
 msgid "_Find Possible Search Bases"
 msgstr "_Procurar bases de busca posibles"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:49
+#: ../addressbook/gui/component/ldap-config.glade.h:52
 msgid "_Login method:"
 msgstr "Método de _inicio de sesión:"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:50
+#: ../addressbook/gui/component/ldap-config.glade.h:53
 #: ../calendar/gui/dialogs/calendar-setup.c:245
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:8
 #: ../mail/mail-config.glade.h:164
@@ -1174,33 +1192,33 @@ msgstr "Método de _inicio de sesión:"
 msgid "_Name:"
 msgstr "_Nome:"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:51
+#: ../addressbook/gui/component/ldap-config.glade.h:54
 msgid "_Port:"
 msgstr "_Porto:"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:52
+#: ../addressbook/gui/component/ldap-config.glade.h:55
 msgid "_Search scope:"
 msgstr "Ámbito da bu_sca:"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:53
+#: ../addressbook/gui/component/ldap-config.glade.h:56
 #: ../mail/mail-config.glade.h:171
 #: ../plugins/publish-calendar/publish-calendar.glade.h:26
 msgid "_Server:"
 msgstr "_Servidor:"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:54
+#: ../addressbook/gui/component/ldap-config.glade.h:57
 msgid "_Timeout:"
 msgstr "_Tempo de expiración:"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:55
+#: ../addressbook/gui/component/ldap-config.glade.h:58
 msgid "_Use secure connection:"
 msgstr "_Usar conexión segura:"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:56
+#: ../addressbook/gui/component/ldap-config.glade.h:59
 msgid "cards"
 msgstr "tarxetas"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:57
+#: ../addressbook/gui/component/ldap-config.glade.h:60
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:8
 #: ../calendar/gui/alarm-notify/util.c:65
 #: ../calendar/gui/alarm-notify/util.c:67
@@ -1208,7 +1226,7 @@ msgstr "tarxetas"
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:14
 #: ../calendar/gui/dialogs/event-page.glade.h:20 ../calendar/gui/misc.c:112
 #: ../calendar/gui/misc.c:114 ../filter/filter.glade.h:16
-#: ../mail/em-account-editor.c:1989
+#: ../mail/em-account-editor.c:1998
 #: ../plugins/calendar-http/calendar-http.c:286
 #: ../plugins/calendar-weather/calendar-weather.c:563
 msgid "minutes"
@@ -3164,7 +3182,7 @@ msgstr "Sitio Web"
 #: ../widgets/table/e-table-group-container.c:968
 #: ../widgets/table/e-table-group-leaf.c:629
 #: ../widgets/table/e-table-group-leaf.c:630
-#: ../widgets/table/e-table-item.c:3018 ../widgets/table/e-table-item.c:3019
+#: ../widgets/table/e-table-item.c:3021 ../widgets/table/e-table-item.c:3022
 #: ../widgets/text/e-text.c:3649 ../widgets/text/e-text.c:3650
 msgid "Width"
 msgstr "Anchura"
@@ -3179,7 +3197,7 @@ msgstr "Anchura"
 #: ../widgets/table/e-table-group-container.c:961
 #: ../widgets/table/e-table-group-leaf.c:622
 #: ../widgets/table/e-table-group-leaf.c:623
-#: ../widgets/table/e-table-item.c:3024 ../widgets/table/e-table-item.c:3025
+#: ../widgets/table/e-table-item.c:3027 ../widgets/table/e-table-item.c:3028
 #: ../widgets/text/e-text.c:3657 ../widgets/text/e-text.c:3658
 msgid "Height"
 msgstr "Altura"
@@ -3716,12 +3734,12 @@ msgstr "Importador de VCard de Evolution"
 msgid "Print envelope"
 msgstr "Imprimir sobre"
 
-#: ../addressbook/printing/e-contact-print.c:1033
+#: ../addressbook/printing/e-contact-print.c:923
 msgid "Print contacts"
 msgstr "Imprimi-los contactos"
 
-#: ../addressbook/printing/e-contact-print.c:1124
-#: ../addressbook/printing/e-contact-print.c:1152
+#: ../addressbook/printing/e-contact-print.c:1015
+#: ../addressbook/printing/e-contact-print.c:1043
 msgid "Print contact"
 msgstr "Imprimir contacto"
 
@@ -6152,8 +6170,8 @@ msgstr "Personalizar"
 #: ../calendar/gui/dialogs/meeting-page.glade.h:4
 #: ../calendar/gui/e-cal-model-tasks.c:649
 #: ../calendar/gui/e-itip-control.c:1099 ../composer/e-msg-composer.c:2271
-#: ../filter/filter-rule.c:889 ../mail/em-account-editor.c:693
-#: ../mail/em-account-editor.c:1358 ../mail/em-account-prefs.c:475
+#: ../filter/filter-rule.c:889 ../mail/em-account-editor.c:701
+#: ../mail/em-account-editor.c:1366 ../mail/em-account-prefs.c:475
 #: ../mail/em-junk-hook.c:78
 #: ../plugins/calendar-weather/calendar-weather.c:370
 #: ../plugins/calendar-weather/calendar-weather.c:424
@@ -6936,7 +6954,7 @@ msgstr "Non"
 #: ../plugins/itip-formatter/itip-formatter.c:1651
 #: ../plugins/plugin-manager/plugin-manager.c:68
 #: ../widgets/misc/e-attachment-bar.c:686
-#: ../widgets/misc/e-charset-picker.c:62
+#: ../widgets/misc/e-charset-picker.c:63
 msgid "Unknown"
 msgstr "Descoñecido"
 
@@ -7220,13 +7238,13 @@ msgid "Organizer: %s"
 msgstr "Organizador: %s"
 
 #. To Translators: It will display "Location: PlaceOfTheMeeting"
-#: ../calendar/gui/e-calendar-view.c:2049 ../calendar/gui/print.c:2336
+#: ../calendar/gui/e-calendar-view.c:2050 ../calendar/gui/print.c:2336
 #, c-format
 msgid "Location: %s"
 msgstr "Localización: %s"
 
 #. To Translators: It will display "Time: ActualStartDateAndTime (DurationOfTheMeeting)"
-#: ../calendar/gui/e-calendar-view.c:2080
+#: ../calendar/gui/e-calendar-view.c:2081
 #, c-format
 msgid "Time: %s %s"
 msgstr "Hora: %s %s"
@@ -10292,8 +10310,8 @@ msgstr "Mensaxe sen título"
 msgid "Open File"
 msgstr "Abrir ficheiro"
 
-#: ../composer/e-msg-composer.c:2151 ../mail/em-account-editor.c:598
-#: ../mail/em-account-editor.c:643 ../mail/em-account-editor.c:710
+#: ../composer/e-msg-composer.c:2151 ../mail/em-account-editor.c:606
+#: ../mail/em-account-editor.c:651 ../mail/em-account-editor.c:718
 msgid "Autogenerated"
 msgstr "Auto-xenerado"
 
@@ -10461,8 +10479,8 @@ msgid "Groupware Suite"
 msgstr "Suite de traballo en grupo"
 
 #: ../data/evolution.desktop.in.in.h:3
-msgid "The Evolution Groupware Suite"
-msgstr "A suite de traballo en grupo Evolution"
+msgid "The Evolution PIM and Email Client"
+msgstr "O cliente de correo e PIM de Evolution"
 
 #: ../data/evolution.keys.in.in.h:1
 msgid "address card"
@@ -10955,12 +10973,12 @@ msgstr "Preferencias de correo"
 msgid "_Mail"
 msgstr "_Correo"
 
-#: ../mail/em-account-editor.c:395
+#: ../mail/em-account-editor.c:403
 #, c-format
 msgid "%s License Agreement"
 msgstr "Acordo de licencia %s"
 
-#: ../mail/em-account-editor.c:402
+#: ../mail/em-account-editor.c:410
 #, c-format
 msgid ""
 "\n"
@@ -10973,55 +10991,55 @@ msgstr ""
 "para %s amosado abaixo\n"
 "e marque a caixiña para aceptalo.\n"
 
-#: ../mail/em-account-editor.c:474 ../mail/em-filter-folder-element.c:237
+#: ../mail/em-account-editor.c:482 ../mail/em-filter-folder-element.c:237
 #: ../mail/em-vfolder-rule.c:496
 msgid "Select Folder"
 msgstr "Seleccionar Cartafol"
 
-#: ../mail/em-account-editor.c:770
+#: ../mail/em-account-editor.c:778
 msgid "Ask for each message"
 msgstr "Preguntar por cada mensaxe"
 
-#: ../mail/em-account-editor.c:1749 ../mail/mail-config.glade.h:91
+#: ../mail/em-account-editor.c:1757 ../mail/mail-config.glade.h:91
 msgid "Identity"
 msgstr "Identidade"
 
-#: ../mail/em-account-editor.c:1798 ../mail/mail-config.glade.h:118
+#: ../mail/em-account-editor.c:1806 ../mail/mail-config.glade.h:118
 msgid "Receiving Email"
 msgstr "Recepción de Correo"
 
-#: ../mail/em-account-editor.c:1981
+#: ../mail/em-account-editor.c:1990
 msgid "Automatically check for _new mail every"
 msgstr "Comprobar automaticamente se hai correo _novo cada"
 
-#: ../mail/em-account-editor.c:2162 ../mail/mail-config.glade.h:130
+#: ../mail/em-account-editor.c:2171 ../mail/mail-config.glade.h:130
 msgid "Sending Email"
 msgstr "Enviando Correo"
 
-#: ../mail/em-account-editor.c:2221 ../mail/mail-config.glade.h:68
+#: ../mail/em-account-editor.c:2230 ../mail/mail-config.glade.h:68
 msgid "Defaults"
 msgstr "Predeterminados"
 
 #. Security settings
-#: ../mail/em-account-editor.c:2287 ../mail/mail-config.glade.h:123
+#: ../mail/em-account-editor.c:2296 ../mail/mail-config.glade.h:123
 #: ../plugins/exchange-operations/exchange-account-setup.c:317
 msgid "Security"
 msgstr "Seguranza"
 
 #. Most sections for this is auto-generated fromt the camel config
-#: ../mail/em-account-editor.c:2324 ../mail/em-account-editor.c:2415
+#: ../mail/em-account-editor.c:2333 ../mail/em-account-editor.c:2424
 msgid "Receiving Options"
 msgstr "Opcións de Recepción"
 
-#: ../mail/em-account-editor.c:2325 ../mail/em-account-editor.c:2416
+#: ../mail/em-account-editor.c:2334 ../mail/em-account-editor.c:2425
 msgid "Checking for New Mail"
 msgstr "Comprobando o novo correo"
 
-#: ../mail/em-account-editor.c:2755 ../mail/mail-config.glade.h:34
+#: ../mail/em-account-editor.c:2764 ../mail/mail-config.glade.h:34
 msgid "Account Editor"
 msgstr "Editor de contas"
 
-#: ../mail/em-account-editor.c:2755 ../mail/mail-config.glade.h:80
+#: ../mail/em-account-editor.c:2764 ../mail/mail-config.glade.h:80
 msgid "Evolution Account Assistant"
 msgstr "Asistente de Contas de Evolution"
 
@@ -13778,26 +13796,6 @@ msgstr "Comprobando Servizo"
 #: ../mail/mail-send-recv.c:158
 msgid "Canceling..."
 msgstr "Cancelando..."
-
-#: ../mail/mail-send-recv.c:266 ../mail/mail-send-recv.c:268
-#, c-format
-msgid "<b>%s (%s)</b> : %s"
-msgstr "<b>%s (%s)</b> : %s"
-
-#: ../mail/mail-send-recv.c:270
-#, c-format
-msgid "<b>%s (%s)</b>"
-msgstr "<b>%s (%s)</b>"
-
-#: ../mail/mail-send-recv.c:274 ../mail/mail-send-recv.c:276
-#, c-format
-msgid "<b>%s</b> : %s"
-msgstr "<b>%s</b> : %s"
-
-#: ../mail/mail-send-recv.c:278
-#, c-format
-msgid "<b>%s</b>"
-msgstr "<b>%s</b>"
 
 #: ../mail/mail-send-recv.c:329
 msgid "Send & Receive Mail"
@@ -20226,14 +20224,14 @@ msgstr "Y2"
 #: ../widgets/misc/e-canvas-vbox.c:102 ../widgets/misc/e-reflow.c:1427
 #: ../widgets/table/e-table-group-container.c:974
 #: ../widgets/table/e-table-group-leaf.c:636
-#: ../widgets/table/e-table-item.c:3011
+#: ../widgets/table/e-table-item.c:3014
 msgid "Minimum width"
 msgstr "Ancho mínimo"
 
 #: ../widgets/misc/e-canvas-vbox.c:103 ../widgets/misc/e-reflow.c:1428
 #: ../widgets/table/e-table-group-container.c:975
 #: ../widgets/table/e-table-group-leaf.c:637
-#: ../widgets/table/e-table-item.c:3012
+#: ../widgets/table/e-table-item.c:3015
 msgid "Minimum Width"
 msgstr "Ancho mínimo"
 
@@ -20255,90 +20253,94 @@ msgstr "A data ten que ser introducida no formato: %s"
 msgid "The percent value must be between 0 and 100, inclusive"
 msgstr "A porcentaxe ten que ser un valor entre 0 e 100, inclusive"
 
-#: ../widgets/misc/e-charset-picker.c:63
+#: ../widgets/misc/e-charset-picker.c:64
 msgid "Baltic"
 msgstr "Báltico"
 
-#: ../widgets/misc/e-charset-picker.c:64
+#: ../widgets/misc/e-charset-picker.c:65
 msgid "Central European"
 msgstr "Europeo Central"
 
-#: ../widgets/misc/e-charset-picker.c:65
+#: ../widgets/misc/e-charset-picker.c:66
 msgid "Chinese"
 msgstr "Chinés"
 
-#: ../widgets/misc/e-charset-picker.c:66
+#: ../widgets/misc/e-charset-picker.c:67
 msgid "Cyrillic"
 msgstr "Cirílico"
 
-#: ../widgets/misc/e-charset-picker.c:67
+#: ../widgets/misc/e-charset-picker.c:68
 msgid "Greek"
 msgstr "Grego"
 
-#: ../widgets/misc/e-charset-picker.c:68
+#: ../widgets/misc/e-charset-picker.c:69
 msgid "Hebrew"
 msgstr "Hebreo"
 
-#: ../widgets/misc/e-charset-picker.c:69
+#: ../widgets/misc/e-charset-picker.c:70
 msgid "Japanese"
 msgstr "Xaponés"
 
-#: ../widgets/misc/e-charset-picker.c:70
+#: ../widgets/misc/e-charset-picker.c:71
 msgid "Korean"
 msgstr "Coreano"
 
-#: ../widgets/misc/e-charset-picker.c:71
+#: ../widgets/misc/e-charset-picker.c:72
+msgid "Thai"
+msgstr "Thai"
+
+#: ../widgets/misc/e-charset-picker.c:73
 msgid "Turkish"
 msgstr "Turco"
 
-#: ../widgets/misc/e-charset-picker.c:72
+#: ../widgets/misc/e-charset-picker.c:74
 msgid "Unicode"
 msgstr "Unicode"
 
-#: ../widgets/misc/e-charset-picker.c:73
+#: ../widgets/misc/e-charset-picker.c:75
 msgid "Western European"
 msgstr "Europeo Occidental"
 
-#: ../widgets/misc/e-charset-picker.c:74
+#: ../widgets/misc/e-charset-picker.c:76
 msgid "Western European, New"
 msgstr "Europeo Occidental, Novo"
 
-#: ../widgets/misc/e-charset-picker.c:91 ../widgets/misc/e-charset-picker.c:92
-#: ../widgets/misc/e-charset-picker.c:93
+#: ../widgets/misc/e-charset-picker.c:93 ../widgets/misc/e-charset-picker.c:94
+#: ../widgets/misc/e-charset-picker.c:95
 msgid "Traditional"
 msgstr "Tradicional"
 
-#: ../widgets/misc/e-charset-picker.c:94 ../widgets/misc/e-charset-picker.c:95
 #: ../widgets/misc/e-charset-picker.c:96 ../widgets/misc/e-charset-picker.c:97
+#: ../widgets/misc/e-charset-picker.c:98 ../widgets/misc/e-charset-picker.c:99
 msgid "Simplified"
 msgstr "Simplificado"
 
-#: ../widgets/misc/e-charset-picker.c:100
+#: ../widgets/misc/e-charset-picker.c:102
 msgid "Ukrainian"
 msgstr "Ucraniano"
 
-#: ../widgets/misc/e-charset-picker.c:103
+#: ../widgets/misc/e-charset-picker.c:105
 msgid "Visual"
 msgstr "Visual"
 
-#: ../widgets/misc/e-charset-picker.c:171
+#: ../widgets/misc/e-charset-picker.c:174
 #, c-format
 msgid "Unknown character set: %s"
 msgstr "Xogo de caracteres descoñecido: %s"
 
-#: ../widgets/misc/e-charset-picker.c:216
+#: ../widgets/misc/e-charset-picker.c:219
 msgid "Character Encoding"
 msgstr "Codificación dos Caracteres"
 
-#: ../widgets/misc/e-charset-picker.c:231
+#: ../widgets/misc/e-charset-picker.c:234
 msgid "Enter the character set to use"
 msgstr "Introduza o conxunto de caracteres a usar"
 
-#: ../widgets/misc/e-charset-picker.c:338
+#: ../widgets/misc/e-charset-picker.c:341
 msgid "Other..."
 msgstr "Outro..."
 
-#: ../widgets/misc/e-charset-picker.c:479
+#: ../widgets/misc/e-charset-picker.c:482
 msgid "Ch_aracter Encoding"
 msgstr "Codificación dos Car_acteres"
 
@@ -20921,7 +20923,7 @@ msgstr "%s (%d elementos)"
 #: ../widgets/table/e-table-group-container.c:898
 #: ../widgets/table/e-table-group-leaf.c:573
 #: ../widgets/table/e-table-group-leaf.c:574
-#: ../widgets/table/e-table-item.c:2969 ../widgets/table/e-table-item.c:2970
+#: ../widgets/table/e-table-item.c:2972 ../widgets/table/e-table-item.c:2973
 msgid "Alternating Row Colors"
 msgstr "Alternar cores das ringleiras"
 
@@ -20929,7 +20931,7 @@ msgstr "Alternar cores das ringleiras"
 #: ../widgets/table/e-table-group-container.c:905
 #: ../widgets/table/e-table-group-leaf.c:580
 #: ../widgets/table/e-table-group-leaf.c:581
-#: ../widgets/table/e-table-item.c:2976 ../widgets/table/e-table-item.c:2977
+#: ../widgets/table/e-table-item.c:2979 ../widgets/table/e-table-item.c:2980
 #: ../widgets/table/e-tree.c:3265 ../widgets/table/e-tree.c:3266
 msgid "Horizontal Draw Grid"
 msgstr "Debuxar enreixado horizontal"
@@ -20938,7 +20940,7 @@ msgstr "Debuxar enreixado horizontal"
 #: ../widgets/table/e-table-group-container.c:912
 #: ../widgets/table/e-table-group-leaf.c:587
 #: ../widgets/table/e-table-group-leaf.c:588
-#: ../widgets/table/e-table-item.c:2983 ../widgets/table/e-table-item.c:2984
+#: ../widgets/table/e-table-item.c:2986 ../widgets/table/e-table-item.c:2987
 #: ../widgets/table/e-tree.c:3271 ../widgets/table/e-tree.c:3272
 msgid "Vertical Draw Grid"
 msgstr "Debuxar enreixado vertical"
@@ -20947,7 +20949,7 @@ msgstr "Debuxar enreixado vertical"
 #: ../widgets/table/e-table-group-container.c:919
 #: ../widgets/table/e-table-group-leaf.c:594
 #: ../widgets/table/e-table-group-leaf.c:595
-#: ../widgets/table/e-table-item.c:2990 ../widgets/table/e-table-item.c:2991
+#: ../widgets/table/e-table-item.c:2993 ../widgets/table/e-table-item.c:2994
 #: ../widgets/table/e-tree.c:3277 ../widgets/table/e-tree.c:3278
 msgid "Draw focus"
 msgstr "Debuxar foco"
@@ -20956,7 +20958,7 @@ msgstr "Debuxar foco"
 #: ../widgets/table/e-table-group-container.c:926
 #: ../widgets/table/e-table-group-leaf.c:601
 #: ../widgets/table/e-table-group-leaf.c:602
-#: ../widgets/table/e-table-item.c:2997 ../widgets/table/e-table-item.c:2998
+#: ../widgets/table/e-table-item.c:3000 ../widgets/table/e-table-item.c:3001
 msgid "Cursor mode"
 msgstr "Modo do cursor"
 
@@ -20964,7 +20966,7 @@ msgstr "Modo do cursor"
 #: ../widgets/table/e-table-group-container.c:933
 #: ../widgets/table/e-table-group-leaf.c:615
 #: ../widgets/table/e-table-group-leaf.c:616
-#: ../widgets/table/e-table-item.c:2962 ../widgets/table/e-table-item.c:2963
+#: ../widgets/table/e-table-item.c:2965 ../widgets/table/e-table-item.c:2966
 msgid "Selection model"
 msgstr "Modelo de selección"
 
@@ -20972,7 +20974,7 @@ msgstr "Modelo de selección"
 #: ../widgets/table/e-table-group-container.c:940
 #: ../widgets/table/e-table-group-leaf.c:608
 #: ../widgets/table/e-table-group-leaf.c:609
-#: ../widgets/table/e-table-item.c:3004 ../widgets/table/e-table-item.c:3005
+#: ../widgets/table/e-table-item.c:3007 ../widgets/table/e-table-item.c:3008
 #: ../widgets/table/e-table.c:3301 ../widgets/table/e-tree.c:3259
 #: ../widgets/table/e-tree.c:3260
 msgid "Length Threshold"
@@ -20982,7 +20984,7 @@ msgstr "Umbral de lonxitude"
 #: ../widgets/table/e-table-group-container.c:947
 #: ../widgets/table/e-table-group-leaf.c:650
 #: ../widgets/table/e-table-group-leaf.c:651
-#: ../widgets/table/e-table-item.c:3038 ../widgets/table/e-table-item.c:3039
+#: ../widgets/table/e-table-item.c:3041 ../widgets/table/e-table-item.c:3042
 #: ../widgets/table/e-table.c:3308 ../widgets/table/e-tree.c:3291
 #: ../widgets/table/e-tree.c:3292
 msgid "Uniform row height"
@@ -21059,15 +21061,15 @@ msgstr "Ordenar información"
 msgid "Tree"
 msgstr "Árbore"
 
-#: ../widgets/table/e-table-item.c:2948 ../widgets/table/e-table-item.c:2949
+#: ../widgets/table/e-table-item.c:2951 ../widgets/table/e-table-item.c:2952
 msgid "Table header"
 msgstr "Cabeceira da táboa"
 
-#: ../widgets/table/e-table-item.c:2955 ../widgets/table/e-table-item.c:2956
+#: ../widgets/table/e-table-item.c:2958 ../widgets/table/e-table-item.c:2959
 msgid "Table model"
 msgstr "Modelo da táboa"
 
-#: ../widgets/table/e-table-item.c:3031 ../widgets/table/e-table-item.c:3032
+#: ../widgets/table/e-table-item.c:3034 ../widgets/table/e-table-item.c:3035
 msgid "Cursor row"
 msgstr "Ringleira do cursor"
 
