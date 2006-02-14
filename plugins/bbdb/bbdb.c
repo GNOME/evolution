@@ -438,7 +438,7 @@ bbdb_page_factory (EPlugin *ep, EConfigHookItemFactoryData *hook_data)
 	frame_label = gtk_label_new ("");
 	str = g_strdup_printf ("<span weight=\"bold\">%s</span>", _("Automatic Contacts"));
 	gtk_label_set_markup (GTK_LABEL (frame_label), str);
-	gfree (str);
+	g_free (str);
 	GTK_MISC (frame_label)->xalign = 0.0;
 	gtk_box_pack_start (GTK_BOX (frame), frame_label, FALSE, FALSE, 0);
 	
