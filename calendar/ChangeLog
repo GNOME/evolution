@@ -1,5 +1,12 @@
 2006-02-14  Rajeev ramanathan <rajeevramanathan_2004@yahoo.co.in>
 
+	**Fixes #330374
+
+	* gui/tasks-control.c: (tasks_control_complete_cmd): Added code
+	to disable Edit->Mark as complete for completed events.
+
+2006-02-14  Rajeev ramanathan <rajeevramanathan_2004@yahoo.co.in>
+
 	**Fixes #326477
 
 	* gui/dialogs/task-page.glade: Changed size of the new task popup 

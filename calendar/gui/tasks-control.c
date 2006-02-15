@@ -413,6 +413,9 @@ tasks_control_complete_cmd		(BonoboUIComponent	*uic,
 {
 	ETasks *tasks;
 
+	bonobo_ui_component_set_prop (uic, "/commands/TasksMarkComplete", "sensitive",
+					      "0",
+					      NULL);
 	tasks = E_TASKS (data);
 	e_tasks_complete_selected (tasks);
 }
