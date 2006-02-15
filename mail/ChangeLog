@@ -1,3 +1,12 @@
+2006-02-15  Shi Pu <shi.pu@sun.com>
+
+	See bug ** 325967
+	
+	* em-account-editor.c: (emae_service_url_changed):
+	When username entry value of "Sending Email" page/tab is 
+	not empty, check combo box of authmech, to pick up the authmech
+	information.
+
 2006-02-13  Karsten Bräckelmann  <guenther@rudersport.de>
  
 	* em-account-editor.c: Fix the Account Editor / Security option to
