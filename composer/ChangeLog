@@ -1,3 +1,9 @@
+2006-02-16  Tor Lillqvist  <tml@novell.com>
+
+	* e-msg-composer-hdrs.c (e_msg_composer_hdrs_get_to)
+	(e_msg_composer_hdrs_get_cc, e_msg_composer_hdrs_get_bcc): Return
+	a value... Why are blatant errors like this just warnings in gcc?
+
 2006-02-09  Frederic Crozat  <fcrozat@mandriva.com>
 
 	* e-msg-composer-hdrs.c: (e_msg_composer_hdrs_get_internal),

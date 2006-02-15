@@ -1467,7 +1467,7 @@ e_msg_composer_hdrs_get_to (EMsgComposerHdrs *hdrs)
 {
 	g_return_val_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs), NULL);
 
-	e_msg_composer_hdrs_get_internal (hdrs, E_NAME_SELECTOR_ENTRY (hdrs->priv->to.entry));
+	return e_msg_composer_hdrs_get_internal (hdrs, E_NAME_SELECTOR_ENTRY (hdrs->priv->to.entry));
 }
 
 EDestination **
@@ -1475,7 +1475,7 @@ e_msg_composer_hdrs_get_cc (EMsgComposerHdrs *hdrs)
 {
 	g_return_val_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs), NULL);
 
-	e_msg_composer_hdrs_get_internal (hdrs, E_NAME_SELECTOR_ENTRY (hdrs->priv->cc.entry));
+	return e_msg_composer_hdrs_get_internal (hdrs, E_NAME_SELECTOR_ENTRY (hdrs->priv->cc.entry));
 }
 
 EDestination **
@@ -1483,7 +1483,7 @@ e_msg_composer_hdrs_get_bcc (EMsgComposerHdrs *hdrs)
 {
 	g_return_val_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs), NULL);
 
-	e_msg_composer_hdrs_get_internal (hdrs, E_NAME_SELECTOR_ENTRY (hdrs->priv->bcc.entry));
+	return e_msg_composer_hdrs_get_internal (hdrs, E_NAME_SELECTOR_ENTRY (hdrs->priv->bcc.entry));
 }
 
 EDestination **
