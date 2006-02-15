@@ -1,3 +1,8 @@
+2006-02-15  Parthasarathi Susarla <sparthasarathi@novell.com>
+	
+	* mail-mt.c: (do_op_status):
+	need to show the stauts message
+
 2006-02-15  Shi Pu <shi.pu@sun.com>
 
 	See bug ** 325967
