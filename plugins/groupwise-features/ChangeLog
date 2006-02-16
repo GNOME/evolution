@@ -1,3 +1,8 @@
+2006-02-16  Shreyas Srinivasan  <sshreyas@novell.com>
+
+	* proxy.c: Initialize connection only when the proxy tab is 
+	clicked. 
+	
 2006-02-08  Parthasarathi Susarla <sparthasarathi@novell.com>
 	
 	** See bug 326348

@@ -202,6 +202,7 @@ proxy_dialog_init (GObject *object)
 
 	prd->priv = priv;
 
+	prd->cnc = NULL;
 	priv->tab_dialog = NULL;	
 	priv->xml = NULL;
 	priv->xml_tab = NULL;
@@ -689,8 +690,6 @@ org_gnome_proxy (EPlugin *epl, EConfigHookItemFactoryData *data)
 			g_signal_connect (removeProxy, "clicked", G_CALLBACK(proxy_remove_account), account);
 			g_signal_connect (editProxy, "clicked", G_CALLBACK(proxy_edit_account), account);
 			
-			prd->cnc = proxy_get_cnc(account);
-			
 			priv->proxy_list = NULL;
 		} else if (account->enabled){
 			GtkWidget *label;
@@ -737,6 +736,9 @@ proxy_page_changed_cb (GtkNotebook *notebook, GtkNotebookPage *page, int num, EA
 
 	if (!prd || !prd->priv)
 		return TRUE;
+
+	if (!prd->cnc)
+		prd->cnc = proxy_get_cnc(account);	
 	
 	priv = prd->priv;
 
