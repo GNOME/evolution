@@ -1,3 +1,10 @@
+2006-02-16  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fixes bug #331215
+	
+	* em-folder-browser.c: (emfb_activate): Uncommented the code to set
+	the preview pane position.
+
 2006-02-15  Parthasarathi Susarla <sparthasarathi@novell.com>
 	
 	* mail-mt.c: (do_op_status):

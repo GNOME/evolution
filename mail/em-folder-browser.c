@@ -1158,6 +1158,7 @@ emfb_activate(EMFolderView *emfv, BonoboUIComponent *uic, int act)
 		GConfClient *gconf;
 		gboolean state;
 		char *sstate;
+		EMFolderBrowser *emfb = (EMFolderBrowser *) emfv;
 
 		gconf = mail_config_get_gconf_client ();
 
@@ -1167,7 +1168,6 @@ emfb_activate(EMFolderView *emfv, BonoboUIComponent *uic, int act)
 		bonobo_ui_component_add_verb_list_with_data(uic, emfb_verbs, emfv);
 		e_pixmaps_update(uic, emfb_pixmaps);
 
-#if 0
 		/* FIXME: finish */
 		/* (Pre)view pane size (do this first because it affects the
 	           preview settings - see folder_browser_set_message_preview()
@@ -1175,7 +1175,6 @@ emfb_activate(EMFolderView *emfv, BonoboUIComponent *uic, int act)
 		g_signal_handler_block(emfb->vpane, emfb->priv->vpane_resize_id);
 		gtk_paned_set_position((GtkPaned *)emfb->vpane, gconf_client_get_int (gconf, "/apps/evolution/mail/display/paned_size", NULL));
 		g_signal_handler_unblock(emfb->vpane, emfb->priv->vpane_resize_id);
-#endif
 		
 		/* (Pre)view toggle */
 		if (emfv->folder
