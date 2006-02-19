@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution-2.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-02-17 11:58+0700\n"
-"PO-Revision-Date: 2006-02-17 12:04+0700\n"
+"POT-Creation-Date: 2006-02-19 21:25+0700\n"
+"PO-Revision-Date: 2006-02-19 23:22+0700\n"
 "Last-Translator: Theppitak Karoonboonyanan <thep@linux.thai.net>\n"
 "Language-Team: Thai <L10N@opentle.org>\n"
 "MIME-Version: 1.0\n"
@@ -13391,7 +13391,7 @@ msgstr "รวมโฟลเดอร์ในเครื่องทั้ง
 #: ../mail/mail-folder-cache.c:858
 #, c-format
 msgid "Pinging %s"
-msgstr ""
+msgstr "กำลัง ping %s"
 
 #: ../mail/mail-ops.c:104
 msgid "Filtering Folder"
@@ -14081,6 +14081,11 @@ msgid ""
 "    &quot;{1}&quot;\n"
 "And have been updated."
 msgstr ""
+"โฟลเดอร์ค้นหาต่อไปนี้:\n"
+"{0}\n"
+"ใช้โฟลเดอร์ต่อไปนี้ ซึ่งถูกลบไปแล้ว:\n"
+"    &quot;{1}&quot;\n"
+"และได้ปรับข้อมูลใหม่แล้ว"
 
 #: ../mail/mail.error.xml.h:99
 msgid ""
@@ -14090,6 +14095,11 @@ msgid ""
 "    &quot;{1}&quot;\n"
 "And have been updated."
 msgstr ""
+"กฎการกรองต่อไปนี้:\n"
+"{0}\n"
+"ใช้โฟลเดอร์ต่อไปนี้ ซึ่งถูกลบไปแล้ว:\n"
+"    &quot;{1}&quot;\n"
+"และได้ปรับข้อมูลใหม่แล้ว"
 
 #: ../mail/mail.error.xml.h:104
 msgid ""
@@ -14098,6 +14108,10 @@ msgid ""
 "The message is stored in the Outbox folder. Check the message for errors and "
 "resend."
 msgstr ""
+"ได้ส่งข้อความผ่าน &quot;sendmail&quot; ซึ่งเป็นโปรแกรมภายนอกแล้ว ปรากฏว่า sendmail "
+"รายงานข้อผิดพลาดดังนี้: สถานะ 67: ไม่ได้ส่งเมล\n"
+"ข้อความดังกล่าวถูกเก็บไว้ที่กล่องจดหมายออก กรุณาตรวจสอบข้อผิดพลาดได้ในข้อความดังกล่าว "
+"แล้วลองส่งใหม่"
 
 #: ../mail/mail.error.xml.h:106
 msgid "The script file must exist and be executable."
@@ -14108,6 +14122,8 @@ msgid ""
 "This folder may have been added implicitly,\n"
 "go to the Search Folder editor to add it explicitly, if required."
 msgstr ""
+"โฟลเดอร์ดังกล่าวอาจถูกเพิ่มเข้ามาโดยนัย\n"
+"กรุณาไปที่เครื่องมือแก้ไขโฟลเดอร์ค้นหาเพื่อเพิ่มโฟลเดอร์ดังกล่าวอย่างชัดแจ้ง หากต้องการ"
 
 #: ../mail/mail.error.xml.h:109
 msgid ""
@@ -15082,7 +15098,7 @@ msgstr "ไม่สามารถพิจารณาสิทธิ์ใน
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:12
 msgid "Could not find Exchange Web Storage System."
-msgstr ""
+msgstr "ไม่พบระบบแหล่งเก็บในเว็บของ Exchange"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:13
 msgid "Could not locate server {0}."
@@ -15166,6 +15182,7 @@ msgid ""
 "If OWA is running on a different path, you must specify that in the account "
 "configuration dialog."
 msgstr ""
+"ถ้า OWA กำลังทำงานในพาธอื่น คุณต้องระบุพาธดังกล่าวในกล่องโต้ตอบตั้งค่าบัญชี"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:39
 msgid "Mailbox for {0} is not on this server."
@@ -15508,7 +15525,7 @@ msgstr "ลงบันทึกเข้าใช้พร็อกซี"
 
 #: ../plugins/groupwise-features/proxy-login.c:220
 #: ../plugins/groupwise-features/proxy-login.c:263
-#: ../plugins/groupwise-features/proxy.c:502
+#: ../plugins/groupwise-features/proxy.c:503
 #: ../plugins/groupwise-features/send-options.c:83
 #, c-format
 msgid "%sEnter password for %s (user %s)"
@@ -15518,11 +15535,11 @@ msgstr "%sป้อนรหัสผ่านสำหรับ %s (ผู้�
 msgid "_Proxy Login..."
 msgstr "ลงบันทึกเข้าใช้_พร็อกซี..."
 
-#: ../plugins/groupwise-features/proxy.c:698
+#: ../plugins/groupwise-features/proxy.c:697
 msgid "The Proxy tab will be available only when the account is online."
 msgstr "แท็บพร็อกซีจะใช้ได้ก็ต่อเมื่อบัญชีออนไลน์"
 
-#: ../plugins/groupwise-features/proxy.c:703
+#: ../plugins/groupwise-features/proxy.c:702
 msgid "The Proxy tab will be available only when the account is enabled."
 msgstr "แท็บพร็อกซีจะใช้ได้ก็ต่อเมื่อบัญชีเปิดใช้"
 
@@ -16131,34 +16148,36 @@ msgstr "หมายเหตุ:"
 
 #: ../plugins/itip-formatter/itip-view.c:977
 msgid "Send u_pdates to attendees"
-msgstr ""
+msgstr "ส่งการ_ปรับข้อมูลไปยังผู้ร่วมประชุม"
 
 #: ../plugins/itip-formatter/itip-view.c:986
 msgid "A_pply to all instances"
-msgstr ""
+msgstr "ใช้กับ_ทุกรอบที่เวียนซ้ำ"
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.eplug.xml.h:1
 msgid "Displays text/calendar parts in messages."
-msgstr ""
+msgstr "แสดงส่วนข้อมูล text/calendar ในข้อความ"
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.eplug.xml.h:2
 msgid "Itip Formatter"
-msgstr ""
+msgstr "ปลั๊กอินจัดแสดง Itip"
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:1
 msgid ""
 "&quot;{0}&quot; has delegated the meeting. Do you want to add the delegate "
 "&quot;{1}&quot; ?"
 msgstr ""
+"&quot;{0}&quot; ได้มอบฉันทะการประชุม คุณต้องการเพิ่มผู้รับมอบฉันทะ &quot;{1}&quot; "
+"หรือไม่?"
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:3
 msgid "This meeting has been delegated"
-msgstr ""
+msgstr "การประชุมนี้มีการมอบฉันทะ"
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:4
 msgid ""
 "This response is not from a current attendee. Add the sender as an attendee?"
-msgstr ""
+msgstr "คำตอบนี้ไม่ได้มาจากผู้ร่วมประชุมปัจจุบัน  จะเพิ่มผู้ส่งเข้าเป็นผู้ร่วมประชุมหรือไม่?"
 
 #: ../plugins/mail-account-disable/mail-account-disable.c:47
 msgid "Proxy _Logout"
@@ -16766,11 +16785,11 @@ msgstr "เลือกแฟ้มปลายทาง"
 
 #: ../plugins/select-one-source/org-gnome-select-one-source.eplug.xml.h:1
 msgid "Select one source"
-msgstr ""
+msgstr "เลือกแหล่งเดียว"
 
 #: ../plugins/select-one-source/org-gnome-select-one-source.eplug.xml.h:2
 msgid "Selects a single calendar or task source for viewing."
-msgstr ""
+msgstr "เลือกแหล่งปฏิทินหรืองานเพียงแหล่งเดียวเพื่อดู"
 
 #: ../plugins/select-one-source/org-gnome-select-one-source.eplug.xml.h:3
 msgid "Show _only this Calendar"
@@ -16847,7 +16866,7 @@ msgstr "เชลล์ Evolution"
 
 #: ../shell/GNOME_Evolution_Shell.server.in.in.h:2
 msgid "Evolution Shell Config factory"
-msgstr ""
+msgstr "โรงงานตั้งค่าเชลล์ Evolution"
 
 #: ../shell/GNOME_Evolution_Test.server.in.in.h:1
 msgid "Evolution Test"
@@ -17700,27 +17719,27 @@ msgstr "%d/%m/%Ey"
 #. x509 certificate usage types
 #: ../smime/lib/e-cert.c:425
 msgid "Sign"
-msgstr ""
+msgstr "เซ็นกำกับ"
 
 #: ../smime/lib/e-cert.c:426
 msgid "Encrypt"
-msgstr ""
+msgstr "เข้ารหัสลับ"
 
 #: ../smime/lib/e-cert.c:531
 msgid "Version"
-msgstr ""
+msgstr "รุ่น"
 
 #: ../smime/lib/e-cert.c:546
 msgid "Version 1"
-msgstr ""
+msgstr "รุ่นที่ 1"
 
 #: ../smime/lib/e-cert.c:549
 msgid "Version 2"
-msgstr ""
+msgstr "รุ่นที่ 2"
 
 #: ../smime/lib/e-cert.c:552
 msgid "Version 3"
-msgstr ""
+msgstr "รุ่นที่ 3"
 
 #: ../smime/lib/e-cert.c:634
 msgid "PKCS #1 MD2 With RSA Encryption"
@@ -17834,7 +17853,7 @@ msgstr ""
 #: ../smime/lib/e-cert.c:1036
 #, c-format
 msgid "%s = %s"
-msgstr ""
+msgstr "%s = %s"
 
 #: ../smime/lib/e-cert.c:1092 ../smime/lib/e-cert.c:1212
 msgid "Certificate Signature Algorithm"
@@ -17858,7 +17877,7 @@ msgstr ""
 
 #: ../smime/lib/e-pkcs12.c:266
 msgid "PKCS12 File Password"
-msgstr ""
+msgstr "รหัสผ่านสำหรับแฟ้ม PKCS12"
 
 #: ../smime/lib/e-pkcs12.c:266
 msgid "Enter password for PKCS12 file:"
@@ -17866,7 +17885,7 @@ msgstr "ป้อนรหัสผ่านสำหรับแฟ้ม PKCS1
 
 #: ../smime/lib/e-pkcs12.c:365
 msgid "Imported Certificate"
-msgstr ""
+msgstr "ใบรับรองที่นำเข้า"
 
 #: ../tools/evolution-launch-composer.c:321
 msgid "An attachment to add."
@@ -18438,11 +18457,11 @@ msgstr "การเ_วียนซ้ำ"
 
 #: ../ui/evolution-event-editor.xml.h:34 ../ui/evolution-task-editor.xml.h:25
 msgid "_Status Field"
-msgstr ""
+msgstr "ช่องข้อมูล_สถานะ"
 
 #: ../ui/evolution-event-editor.xml.h:35 ../ui/evolution-task-editor.xml.h:26
 msgid "_Type Field"
-msgstr ""
+msgstr "ช่องข้อมูล_ชนิด"
 
 #: ../ui/evolution-mail-global.xml.h:2
 msgid "Cancel the current mail operation"
@@ -18799,11 +18818,11 @@ msgstr "บังคับให้โหลดรูปภาพในเมล
 
 #: ../ui/evolution-mail-message.xml.h:43
 msgid "Forward the selected message in the body of a new message"
-msgstr ""
+msgstr "ส่งต่อข้อความที่เลือกโดยเป็นเนื้อหาในข้อความที่ส่ง"
 
 #: ../ui/evolution-mail-message.xml.h:44
 msgid "Forward the selected message quoted like a reply"
-msgstr ""
+msgstr "ส่งต่อข้อความที่เลือกโดยอ้างคำพูดเหมือนการตอบ"
 
 #: ../ui/evolution-mail-message.xml.h:45
 msgid "Forward the selected message to someone"
@@ -18811,7 +18830,7 @@ msgstr "ส่งต่อข้อความที่เลือกไปย
 
 #: ../ui/evolution-mail-message.xml.h:46
 msgid "Forward the selected message to someone as an attachment"
-msgstr ""
+msgstr "ส่งต่อข้อความที่เลือกไปยังผู้อื่นเป็นเอกสารแนบ"
 
 #: ../ui/evolution-mail-message.xml.h:47
 msgid "Increase the text size"
@@ -19014,9 +19033,8 @@ msgid "_Find in Message..."
 msgstr "_ค้นหาในข้อความ..."
 
 #: ../ui/evolution-mail-message.xml.h:109
-#, fuzzy
 msgid "_Flag Completed"
-msgstr "เสร็จแล้ว"
+msgstr "_ปักธงว่าเสร็จแล้ว"
 
 #: ../ui/evolution-mail-message.xml.h:111
 msgid "_Go To"
@@ -19876,7 +19894,7 @@ msgstr "ความกว้างต่ำสุด"
 #: ../widgets/misc/e-canvas-vbox.c:114 ../widgets/misc/e-canvas-vbox.c:115
 #: ../widgets/misc/e-expander.c:205
 msgid "Spacing"
-msgstr ""
+msgstr "การเว้นช่องว่าง"
 
 #: ../widgets/misc/e-cell-date-edit.c:233 ../widgets/misc/e-dateedit.c:461
 msgid "Now"
@@ -20509,14 +20527,14 @@ msgstr "แ_สดงเขตข้อมูลต่อไปนี้ตา�
 #: ../widgets/table/e-table-field-chooser.c:77
 #: ../widgets/table/e-table-header-item.c:1804
 msgid "DnD code"
-msgstr ""
+msgstr "รหัส DnD"
 
 #: ../widgets/table/e-table-field-chooser-dialog.c:84
 #: ../widgets/table/e-table-field-chooser-item.c:642
 #: ../widgets/table/e-table-field-chooser.c:84
 #: ../widgets/table/e-table-header-item.c:1818
 msgid "Full Header"
-msgstr ""
+msgstr "ข้อมูลส่วนหัวเต็ม"
 
 #: ../widgets/table/e-table-field-chooser-dialog.c:126
 msgid "Add a column..."
@@ -20524,7 +20542,7 @@ msgstr "เพิ่มคอลัมน์..."
 
 #: ../widgets/table/e-table-field-chooser.glade.h:1
 msgid "Field Chooser"
-msgstr ""
+msgstr "เครื่องมือเลือกช่องข้อมูล"
 
 #: ../widgets/table/e-table-field-chooser.glade.h:2
 msgid ""
@@ -20560,7 +20578,7 @@ msgstr "%s (%d รายการ)"
 #: ../widgets/table/e-table-group-leaf.c:574
 #: ../widgets/table/e-table-item.c:2972 ../widgets/table/e-table-item.c:2973
 msgid "Alternating Row Colors"
-msgstr ""
+msgstr "สลับสีของแถว"
 
 #: ../widgets/table/e-table-group-container.c:904
 #: ../widgets/table/e-table-group-container.c:905
@@ -20569,7 +20587,7 @@ msgstr ""
 #: ../widgets/table/e-table-item.c:2979 ../widgets/table/e-table-item.c:2980
 #: ../widgets/table/e-tree.c:3265 ../widgets/table/e-tree.c:3266
 msgid "Horizontal Draw Grid"
-msgstr ""
+msgstr "ตีเส้นตารางแนวนอน"
 
 #: ../widgets/table/e-table-group-container.c:911
 #: ../widgets/table/e-table-group-container.c:912
@@ -20578,7 +20596,7 @@ msgstr ""
 #: ../widgets/table/e-table-item.c:2986 ../widgets/table/e-table-item.c:2987
 #: ../widgets/table/e-tree.c:3271 ../widgets/table/e-tree.c:3272
 msgid "Vertical Draw Grid"
-msgstr ""
+msgstr "ตีเส้นตารางแนวตั้ง"
 
 #: ../widgets/table/e-table-group-container.c:918
 #: ../widgets/table/e-table-group-container.c:919
@@ -20587,7 +20605,7 @@ msgstr ""
 #: ../widgets/table/e-table-item.c:2993 ../widgets/table/e-table-item.c:2994
 #: ../widgets/table/e-tree.c:3277 ../widgets/table/e-tree.c:3278
 msgid "Draw focus"
-msgstr ""
+msgstr "วาดโฟกัส"
 
 #: ../widgets/table/e-table-group-container.c:925
 #: ../widgets/table/e-table-group-container.c:926
@@ -20595,7 +20613,7 @@ msgstr ""
 #: ../widgets/table/e-table-group-leaf.c:602
 #: ../widgets/table/e-table-item.c:3000 ../widgets/table/e-table-item.c:3001
 msgid "Cursor mode"
-msgstr ""
+msgstr "โหมดของเคอร์เซอร์"
 
 #: ../widgets/table/e-table-group-container.c:932
 #: ../widgets/table/e-table-group-container.c:933
@@ -20603,7 +20621,7 @@ msgstr ""
 #: ../widgets/table/e-table-group-leaf.c:616
 #: ../widgets/table/e-table-item.c:2965 ../widgets/table/e-table-item.c:2966
 msgid "Selection model"
-msgstr ""
+msgstr "วิธีการเลือก"
 
 #: ../widgets/table/e-table-group-container.c:939
 #: ../widgets/table/e-table-group-container.c:940
@@ -20613,7 +20631,7 @@ msgstr ""
 #: ../widgets/table/e-table.c:3301 ../widgets/table/e-tree.c:3259
 #: ../widgets/table/e-tree.c:3260
 msgid "Length Threshold"
-msgstr ""
+msgstr "ขีดเริ่มของความยาว"
 
 #: ../widgets/table/e-table-group-container.c:946
 #: ../widgets/table/e-table-group-container.c:947
@@ -20623,14 +20641,14 @@ msgstr ""
 #: ../widgets/table/e-table.c:3308 ../widgets/table/e-tree.c:3291
 #: ../widgets/table/e-tree.c:3292
 msgid "Uniform row height"
-msgstr ""
+msgstr "ความสูงเท่ากันทุกแถว"
 
 #: ../widgets/table/e-table-group-container.c:953
 #: ../widgets/table/e-table-group-container.c:954
 #: ../widgets/table/e-table-group-leaf.c:643
 #: ../widgets/table/e-table-group-leaf.c:644
 msgid "Frozen"
-msgstr ""
+msgstr "แช่แข็ง"
 
 #: ../widgets/table/e-table-header-item.c:1466
 msgid "Customize Current View"
@@ -20674,7 +20692,7 @@ msgstr "ปรับความกว้างพอดี"
 
 #: ../widgets/table/e-table-header-item.c:1498
 msgid "Format Columns..."
-msgstr ""
+msgstr "จัดรูปแบบคอลัมน์"
 
 #: ../widgets/table/e-table-header-item.c:1500
 msgid "Customize Current View..."
@@ -20683,35 +20701,35 @@ msgstr "ปรับแต่งมุมมองปัจจุบัน..."
 #: ../widgets/table/e-table-header-item.c:1811 ../widgets/text/e-entry.c:1263
 #: ../widgets/text/e-entry.c:1264
 msgid "Fontset"
-msgstr ""
+msgstr "ชุดแบบอักษร"
 
 #: ../widgets/table/e-table-header-item.c:1832
 #: ../widgets/table/e-table-sorter.c:175
 msgid "Sort Info"
-msgstr ""
+msgstr "ข้อมูลของการเรียงลำดับ"
 
 #: ../widgets/table/e-table-header-item.c:1846
 #: ../widgets/table/e-tree-scrolled.c:221
 #: ../widgets/table/e-tree-scrolled.c:222
 msgid "Tree"
-msgstr ""
+msgstr "ต้นไม้"
 
 #: ../widgets/table/e-table-item.c:2951 ../widgets/table/e-table-item.c:2952
 msgid "Table header"
-msgstr ""
+msgstr "หัวตาราง"
 
 #: ../widgets/table/e-table-item.c:2958 ../widgets/table/e-table-item.c:2959
 msgid "Table model"
-msgstr ""
+msgstr "แบบจำลองข้อมูลตาราง"
 
 #: ../widgets/table/e-table-item.c:3034 ../widgets/table/e-table-item.c:3035
 msgid "Cursor row"
-msgstr ""
+msgstr "แถวของเคอร์เซอร์"
 
 #: ../widgets/table/e-table.c:3315 ../widgets/table/e-tree.c:3298
 #: ../widgets/table/e-tree.c:3299
 msgid "Always search"
-msgstr ""
+msgstr "ค้นหาเสมอ"
 
 #: ../widgets/table/e-table.c:3322
 msgid "Use click to add"
