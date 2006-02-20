@@ -529,6 +529,10 @@ main (int argc, char **argv)
 		exit (0);
 	}
 
+#ifdef G_OS_WIN32
+	gtk_rc_parse_string ("gtk-fallback-icon-theme = \"gnome\"");
+#endif
+
 #if DEVELOPMENT
 	if (force_migrate) {
 		destroy_config ();

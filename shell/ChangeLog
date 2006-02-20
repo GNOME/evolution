@@ -5,6 +5,9 @@
 	running (blocked in g_poll()). Sigh, the linc2 code is a
 	mystery. Why this is necessary I have no idea.
 
+	* main.c (main): On Win32, set the gtk-fallback-icon-theme to
+	"gnome".
+
 2006-02-07  Andre Klapper  <a9016009@gmx.de>
 
 	* e-shell-window-commands.c: changing year from 2005 to 2006.
