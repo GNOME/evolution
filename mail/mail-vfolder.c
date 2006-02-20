@@ -1189,9 +1189,11 @@ mail_vfolder_shutdown (void)
 {
 	shutdown = 1;
 
-	g_hash_table_foreach (vfolder_hash, vfolder_foreach_cb, NULL);
-	g_hash_table_destroy (vfolder_hash);
-	vfolder_hash = NULL;
+	if (vfolder_hash) {
+		g_hash_table_foreach (vfolder_hash, vfolder_foreach_cb, NULL);
+		g_hash_table_destroy (vfolder_hash);
+		vfolder_hash = NULL;
+	}
 
 	if (vfolder_store) {
 		camel_object_unref (vfolder_store);
