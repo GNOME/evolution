@@ -1,3 +1,10 @@
+2006-02-21  Tor Lillqvist  <tml@novell.com>
+
+	* main.c (main): On Win32, finally call link_shutdown() (from
+	ORBit2/linc2), otherwise we hang with the link_io_thread still
+	running (blocked in g_poll()). Sigh, the linc2 code is a
+	mystery. Why this is necessary I have no idea.
+
 2006-02-07  Andre Klapper  <a9016009@gmx.de>
 
 	* e-shell-window-commands.c: changing year from 2005 to 2006.

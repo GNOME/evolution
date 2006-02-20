@@ -463,6 +463,9 @@ setup_segv_redirect (void)
 int
 main (int argc, char **argv)
 {
+#ifdef G_OS_WIN32
+	extern void link_shutdown (void);
+#endif
 	struct poptOption options[] = {
 		{ "component", 'c', POPT_ARG_STRING, &default_component_id, 0,
 		  N_("Start Evolution activating the specified component"), NULL },
@@ -606,6 +609,8 @@ main (int argc, char **argv)
 	g_object_unref (program);
 	gnome_sound_shutdown ();
 	e_cursors_shutdown ();
-	
+#ifdef G_OS_WIN32
+	link_shutdown ();
+#endif
 	return 0;
 }
