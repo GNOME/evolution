@@ -731,14 +731,22 @@ proxy_page_changed_cb (GtkNotebook *notebook, GtkNotebookPage *page, int num, EA
 {
 	proxyDialog *prd;
 	proxyDialogPrivate *priv;
+	gpointer val;
+	gint pg_num;
 
 	prd = g_object_get_data ((GObject *) account, "prd");
 
 	if (!prd || !prd->priv)
 		return TRUE;
 
+       val = g_object_get_data ((GObject *) account, "proxy_tab_num");
 
-	if (g_object_get_data ((GObject *) account, "proxy_tab_num") && account->enabled) {
+       if (!val)
+               return FALSE;
+
+       pg_num = GPOINTER_TO_INT (val);
+
+	if ((pg_num == num) && account->enabled) {
 		if (!prd->cnc)
 			prd->cnc = proxy_get_cnc(account);	
 		 priv = prd->priv;
@@ -747,6 +755,7 @@ proxy_page_changed_cb (GtkNotebook *notebook, GtkNotebookPage *page, int num, EA
 				return FALSE;
 		proxy_update_tree_view (account);	
 	}
+
 	return FALSE;
 }
 

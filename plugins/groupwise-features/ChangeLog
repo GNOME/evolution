@@ -1,7 +1,7 @@
-2006-02-16  Shreyas Srinivasan  <sshreyas@novell.com>
+2006-02-21  Shreyas Srinivasan  <sshreyas@novell.com>
 
 	* proxy.c: Fix more brokenness. doh check if its the proxy
-	page.
+	page. Need whack on the head for sucky reckless commit. 
 
 2006-02-16  Shreyas Srinivasan  <sshreyas@novell.com>
 
