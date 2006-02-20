@@ -1,3 +1,7 @@
+2006-02-21  Arangel Angov  <ufo@linux.net.mk>
+
+	* configure.in: Added "mk" to ALL_LINGUAS.
+	
 2006-02-13  Harish Krishnaswamy  <kharish@novell.com>
 
 	* NEWS, configure.in: Release updates, version bump.
