@@ -1,9 +1,10 @@
 2006-02-21  Tor Lillqvist  <tml@novell.com>
 
 	* main.c (main): On Win32, finally call link_shutdown() (from
-	ORBit2/linc2), otherwise we hang with the link_io_thread still
-	running (blocked in g_poll()). Sigh, the linc2 code is a
-	mystery. Why this is necessary I have no idea.
+	ORBit2/linc2), otherwise if we have used any other component than
+	mail, we will hang with the link_io_thread still running (blocked
+	in g_poll()). Sigh, the linc2 code is a mystery. Why this is
+	necessary I have no idea.
 
 	* main.c (main): On Win32, set the gtk-fallback-icon-theme to
 	"gnome".
