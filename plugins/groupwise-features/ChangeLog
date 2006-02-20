@@ -1,5 +1,10 @@
 2006-02-16  Shreyas Srinivasan  <sshreyas@novell.com>
 
+	* proxy.c: Fix more brokenness. doh check if its the proxy
+	page.
+
+2006-02-16  Shreyas Srinivasan  <sshreyas@novell.com>
+
 	* proxy.c: Initialize connection only when the proxy tab is 
 	clicked. 
 	

@@ -737,12 +737,12 @@ proxy_page_changed_cb (GtkNotebook *notebook, GtkNotebookPage *page, int num, EA
 	if (!prd || !prd->priv)
 		return TRUE;
 
-	if (!prd->cnc)
-		prd->cnc = proxy_get_cnc(account);	
-	
-	priv = prd->priv;
 
 	if (g_object_get_data ((GObject *) account, "proxy_tab_num") && account->enabled) {
+		if (!prd->cnc)
+			prd->cnc = proxy_get_cnc(account);	
+		 priv = prd->priv;
+
 		if (e_gw_connection_get_proxy_access_list(prd->cnc, &priv->proxy_list)!= E_GW_CONNECTION_STATUS_OK) 
 				return FALSE;
 		proxy_update_tree_view (account);	
