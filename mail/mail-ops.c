@@ -2083,6 +2083,7 @@ struct _save_part_msg {
 	char *path;
 	void (*done)(CamelMimePart *part, char *path, int saved, void *data);
 	void *data;
+	gboolean readonly;
 };
 
 static char *save_part_desc(struct _mail_msg *mm, int done)
@@ -2097,7 +2098,14 @@ save_part_save (struct _mail_msg *mm)
 	CamelDataWrapper *content;
 	CamelStream *stream;
 	
-	if (!(stream = camel_stream_fs_new_with_name (m->path, O_WRONLY | O_CREAT | O_TRUNC, 0666))) {
+	if(!m->readonly){
+		if (!(stream = camel_stream_fs_new_with_name (m->path, O_WRONLY | O_CREAT | O_TRUNC, 0666))) {
+			camel_exception_setv (&mm->ex, CAMEL_EXCEPTION_SYSTEM,
+					      _("Cannot create output file: %s:\n %s"),
+					      m->path, g_strerror (errno));
+			return;
+		}
+	} else if (!(stream = camel_stream_fs_new_with_name (m->path, O_WRONLY | O_CREAT | O_TRUNC, 0444))) {
 		camel_exception_setv (&mm->ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("Cannot create output file: %s:\n %s"),
 				      m->path, g_strerror (errno));
@@ -2128,7 +2136,6 @@ static void
 save_part_free (struct _mail_msg *mm)
 {
 	struct _save_part_msg *m = (struct _save_part_msg *)mm;
-
 	camel_object_unref (m->part);
 	g_free (m->path);
 }
@@ -2142,17 +2149,17 @@ static struct _mail_msg_op save_part_op = {
 
 int
 mail_save_part (CamelMimePart *part, const char *path,
-		void (*done)(CamelMimePart *part, char *path, int saved, void *data), void *data)
+		void (*done)(CamelMimePart *part, char *path, int saved, void *data), void *data, gboolean readonly)
 {
 	struct _save_part_msg *m;
 	int id;
-	
 	m = mail_msg_new (&save_part_op, NULL, sizeof (*m));
 	m->part = part;
 	camel_object_ref (part);
 	m->path = g_strdup (path);
 	m->data = data;
 	m->done = done;
+	m->readonly = readonly;
 	
 	id = m->msg.seq;
 	e_thread_put (mail_thread_new, (EMsg *)m);

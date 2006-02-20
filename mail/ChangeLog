@@ -1,4 +1,12 @@
-2006-02-20  Parthasarathi Susarla <sparthasarathi@novell.com>
+2006-02-20  Srinivasa Ragavan <sragavan@novell.com>
+
+	** Fixes bug #322160 and committed for PRSuman.
+
+	* em-utils.c: Added code to pass a variable to overwrite/ro mode.
+	* mail-ops.[ch]: Added code to take care of overwrite and set the file
+	mode.
+
+t2006-02-20  Parthasarathi Susarla <sparthasarathi@novell.com>
 	
 	** Fixes bug 33139
 

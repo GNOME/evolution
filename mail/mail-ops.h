@@ -123,7 +123,7 @@ int mail_save_messages (CamelFolder *folder, GPtrArray *uids, const char *path,
 
 int mail_save_part (CamelMimePart *part, const char *path,
 		    void (*done)(CamelMimePart *part, char *path, int saved, void *data),
-		    void *data);
+		    void *data, gboolean readonly);
 
 /* yeah so this is messy, but it does a lot, maybe i can consolidate all user_data's to be the one */
 void mail_send_queue (CamelFolder *queue, const char *destination,

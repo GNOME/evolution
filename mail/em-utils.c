@@ -433,7 +433,7 @@ emu_save_part_response(GtkWidget *filesel, int response, CamelMimePart *part)
 
 		emu_update_save_path(path, FALSE);
 		/* FIXME: popup error if it fails? */
-		mail_save_part(part, path, NULL, NULL);
+		mail_save_part(part, path, NULL, NULL, FALSE);
 	}
 
 	gtk_widget_destroy((GtkWidget *)filesel);
@@ -508,7 +508,7 @@ emu_save_parts_response (GtkWidget *filesel, int response, GSList *parts)
 			
 			file_path = g_build_filename (path, file_name, NULL);
 			if (!g_file_test(file_path, (G_FILE_TEST_EXISTS)) || e_error_run(NULL, E_ERROR_ASK_FILE_EXISTS_OVERWRITE, file_name, NULL) == GTK_RESPONSE_OK)			
-				mail_save_part(part, file_path, NULL, NULL);
+				mail_save_part(part, file_path, NULL, NULL, FALSE);
 			else
 				g_warning ("Could not save %s. File already exists", file_path);
 
@@ -576,7 +576,7 @@ em_utils_save_part_to_file(GtkWidget *parent, const char *filename, CamelMimePar
 	}
 	
 	/* FIXME: This doesn't handle default charsets */
-	mail_msg_wait(mail_save_part(part, filename, emu_save_part_done, &done));
+	mail_msg_wait(mail_save_part(part, filename, emu_save_part_done, &done, FALSE));
 	
 	return done;
 }
@@ -1281,10 +1281,10 @@ em_utils_temp_save_part(GtkWidget *parent, CamelMimePart *part)
 	path = g_build_filename(tmpdir, filename, NULL);
 	g_free(tmpdir);
 	g_free(mfilename);
-
+		
 	/* FIXME: This doesn't handle default charsets */
-	mail_msg_wait(mail_save_part(part, path, emu_save_part_done, &done));
-
+	mail_msg_wait(mail_save_part(part, path, emu_save_part_done, &done, TRUE));
+        
 	if (!done) {
 		/* mail_save_part should popup an error box automagically */
 		g_free(path);
