@@ -93,11 +93,12 @@ void org_gnome_evolution_import_ics_attachments (EPlugin *ep, EMPopupTargetAttac
 {
 	GSList *menus = NULL;
 	icalcomponent_kind kind;
-	int len;
+	int len = 0;
 	int i = 0;
 
 	len = g_slist_length(t->attachments);
-	if (!camel_content_type_is(((CamelDataWrapper *) ((EAttachment *) t->attachments->data)->body)->mime_type, "text", "calendar") || len >1)
+	
+	if (len !=1 || !camel_content_type_is(((CamelDataWrapper *) ((EAttachment *) t->attachments->data)->body)->mime_type, "text", "calendar"))
 		return;
 	
 		kind = get_menu_type (t);

@@ -1,3 +1,12 @@
+2006-02-21  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	reviewed by Veerapuram Varadhan	 <vvaradhan@novell.com>
+
+	Fixes a crash
+	* icsimporter.c: (org_gnome_evolution_import_ics_attachments):
+	If the number of attachments selected is not equal to one, just return;
+	
+
 2006-01-22  Harish Krishnaswamy  <kharish@novell.com>
 
 	* icsimporter.c (get_menu_type), (dialog_response_cb),
