@@ -1,3 +1,10 @@
+2006-02-22  Irene.Huang <Irene.Huang@sun.com>
+
+	Fixes bug #328252
+
+	* Makefile.am: Add $(EVOLUTION_CALENDAR_LIBS)
+	to liborg_gnome_evolution_caldav_la_LIBADD.
+
 2006-01-16  Harish Krishnaswamy <kharish@novell.com>
 
 	* Makefile.am : Integrate with eplugin make 
