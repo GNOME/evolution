@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-02-16 06:14+0100\n"
-"PO-Revision-Date: 2006-02-17 19:32+0200\n"
+"PO-Revision-Date: 2006-02-22 09:42+0200\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -4686,7 +4686,7 @@ msgstr "Kinnituse küsimine enne puhastamist"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:10
 msgid "Days on which the start and end of work hours should be indicated."
-msgstr ""
+msgstr "Päevad, millel töötundide algust ja lõppu tuleb näidata."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:11
 msgid "Default appointment reminder"
@@ -4789,31 +4789,39 @@ msgid ""
 "Position of the horizontal pane, between the date navigator calendar and the "
 "task list when not in the month view, in pixels."
 msgstr ""
+"Rõhtpaani asukoht pikslites - kuupäevanavigeerimise kalendri ja ülesannete "
+"loendi vahel, kui ei olda kuuvaates."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:36
 msgid ""
 "Position of the horizontal pane, between the view and the date navigator "
 "calendar and task list in the month view, in pixels."
 msgstr ""
+"Rõhtpaani asukoht pikslites - vaate ning kuupäevanavigeerimise kalendri ja "
+"ülesannete loendi vahel, kui oldakse kuuvaates."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:37
 msgid ""
 "Position of the vertical pane, between the task list and the task preview "
 "pane, in pixels."
 msgstr ""
-"Vertikaalpaani asukoht pikslites ülesande- ja ülesande eelvaatepaanide vahel."
+"Rõhtpaani asukoht pikslites - ülesande- ja ülesande eelvaatepaanide vahel."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:38
 msgid ""
 "Position of the vertical pane, between the view and the date navigator "
 "calendar and task list in the month view, in pixels."
 msgstr ""
+"Püstpaani asukoht pikslites - vaate ning kuupäevanavigeerimise kalendri ja "
+"ülesannete loendi vahel, kui oldakse kuuvaates."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:39
 msgid ""
 "Position of the vertical pane, between the view and the date navigator "
 "calendar and task list when not in the month view, in pixels."
 msgstr ""
+"Püstpaani asukoht pikslites - vaate ning kuupäevanavigeerimise kalendri ja "
+"ülesannete loendi vahel, kui ei olda kuuvaates."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:40
 msgid "Programs that are allowed to be run by alarms."
@@ -4825,7 +4833,7 @@ msgstr "RSVP välja kuvamine sündmuste/ülesannete/koosolekute redaktoris"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:42
 msgid "Show Role field in the event/task/meeting editor"
-msgstr ""
+msgstr "Rollivälja näitamine sündmuste/ülesannete/koosolekute redaktoris"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:43
 msgid "Show appointment end times in week and month views"
@@ -4833,7 +4841,7 @@ msgstr "Sündmuste lõpuaegade näitamine nädala ja kuu vaadetel"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:44
 msgid "Show categories field in the event/meeting/task editor"
-msgstr ""
+msgstr "Kategooriavälja näitamine sündmuste/ülesannete/koosolekute redaktoris"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:45
 msgid "Show display alarms in notification tray"
@@ -4892,7 +4900,7 @@ msgstr "Ajajaotised:"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:58
 msgid "Time the last alarm ran, in time_t."
-msgstr ""
+msgstr "Viimase alarmi töötamise aeg, time_t ühikuga."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:59
 msgid "Timezone"
@@ -4905,11 +4913,14 @@ msgstr "Kahekümneneljatunnine ajavorming"
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:61
 msgid "Units for a default reminder, \"minutes\", \"hours\" or \"days\"."
 msgstr ""
+"Vaikimisi meeldetuletaja ühikud, \"minutid\", \"tunnid\" või \"päevad\"."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:62
 msgid ""
 "Units for determining when to hide tasks, \"minutes\", \"hours\" or \"days\"."
 msgstr ""
+"Ühikud määramaks, millal ülesandeid peita, \"minutid\", \"tunnid\" või "
+"\"päevad\"."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:64
 msgid "Week start"
@@ -10703,15 +10714,15 @@ msgstr "Faili &quot;{0}&quot; pole olemas või pole see tavaline fail."
 
 #: ../filter/filter.error.xml.h:4
 msgid "Missing date."
-msgstr "Puuduv kuupäev."
+msgstr "Kuupäev on puudu."
 
 #: ../filter/filter.error.xml.h:5
 msgid "Missing file name."
-msgstr "Puuduv faili nimi."
+msgstr "Failinimi on puudu."
 
 #: ../filter/filter.error.xml.h:6 ../mail/mail.error.xml.h:71
 msgid "Missing name."
-msgstr "Puuduv nimi."
+msgstr "Nimi on puudu."
 
 #: ../filter/filter.error.xml.h:7
 msgid "Name &quot;{0}&quot; already used."
@@ -11931,17 +11942,17 @@ msgstr "Olemasolevaid postkaste asukohas '%s' pole võimalik läbi vaadata: %s"
 #: ../mail/em-migrate.c:2063
 #, c-format
 msgid "Unable to open old POP keep-on-server data `%s': %s"
-msgstr ""
+msgstr "Vana POP `%s' hoia-serveris andmeid pole võimalik avada: %s"
 
 #: ../mail/em-migrate.c:2077
 #, c-format
 msgid "Unable to create POP3 keep-on-server data directory `%s': %s"
-msgstr ""
+msgstr "POP3 hoia-serveris andmekataloogi `%s' pole võimalik luua: %s"
 
 #: ../mail/em-migrate.c:2106
 #, c-format
 msgid "Unable to copy POP3 keep-on-server data `%s': %s"
-msgstr ""
+msgstr "POP3 hoia-serveris `%s' andmeid pole võimalik kopeerida: %s"
 
 #: ../mail/em-migrate.c:2577 ../mail/em-migrate.c:2589
 #, c-format
@@ -11958,6 +11969,8 @@ msgid ""
 "Unable to read settings from previous Evolution install, `evolution/config."
 "xmldb' does not exist or is corrupt."
 msgstr ""
+"Eelmisest Evolutioni paigaldusest pole võimalik sätteid lugeda, "
+"`evolution/configxmldb' pole olemas või on see rikutud."
 
 #: ../mail/em-popup.c:557 ../mail/em-popup.c:568
 msgid "_Reply to sender"
@@ -12256,11 +12269,12 @@ msgstr "Sõnumi kuvamise laad (\"tavaline\", \"kõik päised\", \"lähtekood\")"
 
 #: ../mail/evolution-mail.schemas.in.in.h:51
 msgid "Minimum days between emptying the trash on exit"
-msgstr ""
+msgstr "Vähim arv päevi prügikasti tühjendamiste vahel töö lõpetamisel"
 
 #: ../mail/evolution-mail.schemas.in.in.h:52
 msgid "Minimum time between emptying the trash on exit, in days."
 msgstr ""
+"Vähim arv päevi prügikasti tühjendamiste vahel programmi töö lõpetamisel."
 
 #: ../mail/evolution-mail.schemas.in.in.h:53
 msgid "New Mail Notify sound file"
@@ -12324,7 +12338,7 @@ msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.in.h:66
 msgid "Run junk test on incoming mail"
-msgstr ""
+msgstr "Rämpspostikontrollitestide rakendamine sissetulevatele sõnumitele"
 
 #: ../mail/evolution-mail.schemas.in.in.h:67
 msgid "Send HTML mail by default"
@@ -13092,6 +13106,7 @@ msgid ""
 "Note: you will not be prompted for a password until you connect for the "
 "first time"
 msgstr ""
+"Märkus: parooli ei küsita enne kui esimesel ühendumisel"
 
 #: ../mail/mail-config.glade.h:103
 msgid "Or_ganization:"
@@ -13110,6 +13125,8 @@ msgid ""
 "Please enter a descriptive name for this account in the space below.\n"
 "This name will be used for display purposes only."
 msgstr ""
+"Palun siselda seda kontot kirjeldav nimi allolevasse kasti.\n"
+"Seda nime kasutatakse ainult kuvamiseks."
 
 #: ../mail/mail-config.glade.h:110
 msgid ""
@@ -13132,7 +13149,7 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:112
 msgid "Please select among the following options"
-msgstr ""
+msgstr "Palun vali järgnevate valikute vahel"
 
 #: ../mail/mail-config.glade.h:113
 msgid "Pr_ompt when sending messages with only Bcc recipients defined"
@@ -13245,6 +13262,8 @@ msgid ""
 "The list of languages here reflects only the languages for which you have a "
 "dictionary installed."
 msgstr ""
+"Siinolev keelteloend kajastab ainult keeli, millede jaoks on sõnastik "
+"paigaldatud."
 
 #: ../mail/mail-config.glade.h:143
 msgid ""
@@ -15343,6 +15362,8 @@ msgstr "Toetamata toiming"
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:68
 msgid "You are nearing your quota available for storing mail on this server."
 msgstr ""
+"Sa oled lähedal mahupiirangu ületamisele, mis sulle selles serveris e-posti "
+"hoidmiseks ette on nähtud."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:69
 msgid "You cannot make yourself your own delegate"
@@ -15351,6 +15372,8 @@ msgstr "Ennast pole enda delegaadiks võimalik teha"
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:70
 msgid "You have exceeded your quota for storing mail on this server."
 msgstr ""
+"Sa oled ületanud mahupiirangu, mis sulle selles serveris e-posti hoidmiseks "
+"ette on nähtud."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:71
 msgid "You may only configure a single Exchange account."
