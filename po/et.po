@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-02-16 06:14+0100\n"
-"PO-Revision-Date: 2006-02-22 09:42+0200\n"
+"PO-Revision-Date: 2006-02-22 12:24+0200\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -248,11 +248,11 @@ msgstr ""
 
 #: ../a11y/e-table/gal-a11y-e-cell-text.c:612
 msgid "edit"
-msgstr ""
+msgstr "redigeerimine"
 
 #: ../a11y/e-table/gal-a11y-e-cell-text.c:613
 msgid "begin editing this cell"
-msgstr ""
+msgstr "selle välja redigeerimise alustamine"
 
 #: ../a11y/e-table/gal-a11y-e-cell-toggle.c:151
 msgid "toggle"
@@ -846,6 +846,8 @@ msgid ""
 "Position of the vertical pane, between the card and list views and the "
 "preview pane, in pixels."
 msgstr ""
+"Püstpaani asukoht pikslites - kaartide ja loendivaadete ning eelvaatepaani "
+"vahel."
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:5
 msgid "Show preview pane"
@@ -3922,6 +3924,7 @@ msgstr "Eksportimine asünkroonses režiimis"
 msgid ""
 "The number of cards in one output file in asychronous mode, default size 100."
 msgstr ""
+"Asünkroonses režiimis ühes väljundfailis olevate kaartide arv, vaikimisi 100."
 
 #: ../addressbook/tools/evolution-addressbook-export.c:63
 msgid "NUMBER"
@@ -4185,12 +4188,16 @@ msgid ""
 "Some attachments are being downloaded. Saving the appointment would result "
 "in the loss of these attachments."
 msgstr ""
+"Mõned manused on hetkel allalaadimisel. Sündmuse salvestamine võib tähendada "
+"nende manuste kaotsiminekut."
 
 #: ../calendar/calendar.error.xml.h:42
 msgid ""
 "Some attachments are being downloaded. Saving the task would result in the "
 "loss of these attachments."
 msgstr ""
+"Mõned manused on hetkel allalaadimisel. Ülesande salvestamine võib tähendada "
+"nende manuste kaotsiminekut."
 
 #: ../calendar/calendar.error.xml.h:43
 msgid "Some features may not work properly with your current server."
@@ -4210,7 +4217,7 @@ msgstr "Kalender pole märgitud autonoomses režiimis kasutamiseks."
 
 #: ../calendar/calendar.error.xml.h:47
 msgid "The calendar you have selected is read-only"
-msgstr ""
+msgstr "Sinu valitud kalender on kirjutuskaitsega"
 
 #: ../calendar/calendar.error.xml.h:48
 msgid "The memo list is not marked for offline usage"
@@ -4947,6 +4954,8 @@ msgid ""
 "Whether to compress weekends in the month view, which puts Saturday and "
 "Sunday in the space of one weekday."
 msgstr ""
+"Kas nädalalõpud tuleb kuuvaates kokku suruda, selle tulemusena kuvatakse "
+"nädalalõppu ühe päeva suurusena."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:70
 msgid "Whether to display the end time of events in the week and month views."
@@ -6328,7 +6337,7 @@ msgstr "Sa muudad korduvat ülesannet. Mida sa täpsemalt soovid muuta?"
 #: ../calendar/gui/dialogs/recur-comp.c:62
 msgid ""
 "You are modifying a recurring journal entry. What would you like to modify?"
-msgstr ""
+msgstr "Sa muudad korduvat päevikukirjet. Mida sa täpsemalt soovid muuta?"
 
 #: ../calendar/gui/dialogs/recur-comp.c:90
 msgid "This Instance Only"
@@ -10335,6 +10344,8 @@ msgid ""
 "Evolution quit unexpectedly while you were composing a new message. "
 "Recovering the message will allow you to continue where you left off."
 msgstr ""
+"Evolution lõpetas ootamatult ajal, mil Sa koostasid uut sõnumit. Sõnumi "
+"taastamine võimaldab sul jätkata sealt, kus sa pooleli jäid."
 
 #: ../composer/mail-composer.error.xml.h:17
 msgid "The file `{0}' is not a regular file and cannot be sent in a message."
@@ -12192,7 +12203,7 @@ msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.in.h:34
 msgid "List of custom headers and whether they are enabled."
-msgstr ""
+msgstr "Kohandatud päiste ja nende lubamise tingimuste loend."
 
 #: ../mail/evolution-mail.schemas.in.in.h:35
 msgid ""
@@ -12202,11 +12213,11 @@ msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.in.h:36
 msgid "List of mime types to check for bonobo component viewers"
-msgstr ""
+msgstr "Mime-tüüpide loend bonobo komponendivaaturi kontrolliks"
 
 #: ../mail/evolution-mail.schemas.in.in.h:37
 msgid "List of protocol names whose license has been accepted."
-msgstr ""
+msgstr "Aktsepteeritava litsentsiga protokollide nimede loend."
 
 #: ../mail/evolution-mail.schemas.in.in.h:38
 msgid "Load images for HTML messages over http"
@@ -20883,7 +20894,7 @@ msgstr "Tausta joonistamine"
 #: ../widgets/text/e-entry.c:1375 ../widgets/text/e-entry.c:1376
 #: ../widgets/text/e-text.c:3685 ../widgets/text/e-text.c:3686
 msgid "Draw button"
-msgstr ""
+msgstr "Nupu joonistamine"
 
 #: ../widgets/text/e-entry.c:1382 ../widgets/text/e-entry.c:1383
 #: ../widgets/text/e-text.c:3692 ../widgets/text/e-text.c:3693
@@ -20892,7 +20903,7 @@ msgstr "Kursori asukoht"
 
 #: ../widgets/text/e-entry.c:1389 ../widgets/text/e-entry.c:1390
 msgid "Emulate label resize"
-msgstr ""
+msgstr "Sildi suuruse muutmise emuleerimine"
 
 #: ../widgets/text/e-text.c:2721
 msgid "Input Methods"
@@ -20944,7 +20955,7 @@ msgstr "Teksti kõrgus"
 
 #: ../widgets/text/e-text.c:3699 ../widgets/text/e-text.c:3700
 msgid "IM Context"
-msgstr ""
+msgstr "Välksõnumikontekst"
 
 #: ../widgets/text/e-text.c:3706 ../widgets/text/e-text.c:3707
 msgid "Handle Popup"
