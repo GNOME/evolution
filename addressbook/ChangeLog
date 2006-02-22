@@ -1,3 +1,9 @@
+2006-02-22  Simon Zheng <simon.zheng@sun.com>
+
+	Fix for 331993.
+
+	* printing/medbook.ecps: Add "Regular" to the font name.
+
 2006-02-14  Devashish Sharma  <sdevashish@novell.com>
 
 	* e-contact-print.c : Use of pango for text handling when 
