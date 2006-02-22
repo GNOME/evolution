@@ -1758,7 +1758,6 @@ eab_view_discard_menus (EABView *view)
 {
 	g_return_if_fail (view != NULL);
 	g_return_if_fail (E_IS_ADDRESSBOOK_VIEW (view));
-	g_return_if_fail (view->view_instance);
 
 	if (view->view_menus) {
 		gal_view_menus_unmerge (view->view_menus, NULL);
