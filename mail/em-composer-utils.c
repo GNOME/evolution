@@ -56,6 +56,16 @@
 #include <camel/camel-nntp-address.h>
 #include <camel/camel-vee-folder.h>
 
+#ifdef G_OS_WIN32
+/* Undef the similar macro from pthread.h, it doesn't check if
+ * gmtime() returns NULL.
+ */
+#undef gmtime_r
+
+/* The gmtime() in Microsoft's C library is MT-safe */
+#define gmtime_r(tp,tmp) (gmtime(tp)?(*(tmp)=*gmtime(tp),(tmp)):0)
+#endif
+
 static EAccount * guess_account (CamelMimeMessage *message, CamelFolder *folder);
 
 struct emcs_t {
@@ -1716,15 +1726,22 @@ attribution_format (const char *format, CamelMimeMessage *message)
 	str = g_string_new ("");
 	
 	date = camel_mime_message_get_date (message, &tzone);
+
+	if (date == CAMEL_MESSAGE_DATE_CURRENT) {
+		/* The message has no Date: header, look at Received: */
+		date = camel_mime_message_get_date_received (message, &tzone);
+	}
+	if (date == CAMEL_MESSAGE_DATE_CURRENT) {
+		/* That didn't work either, use current time */
+		time (&date);
+		tzone = 0;
+	}
+	
 	/* Convert to UTC */
 	date += (tzone / 100) * 60 * 60;
 	date += (tzone % 100) * 60;
 	
-#ifdef HAVE_GMTIME_R
 	gmtime_r (&date, &tm);
-#else
-	memcpy (&tm, gmtime (&date), sizeof (struct tm));
-#endif
 	
 	start = inptr = format;
 	while (*inptr != '\0') {

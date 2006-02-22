@@ -1,3 +1,12 @@
+2006-02-21  Tor Lillqvist  <tml@novell.com>
+
+	* em-composer-utils.c: Use the same Win32 macro for gmtime_r()
+	that guards against gmtime() returning NULL as elsewhere. gmtime()
+	is thread-safe on Win32.
+	(attribution_format): Check if camel returns
+	CAMEL_MESSAGE_DATE_CURRENT for Date:, try the date from Received:
+	then. If that doesn't work either, use current date.
+
 2006-02-20  Srinivasa Ragavan <sragavan@novell.com>
 
 	** Fixes bug #322160 and committed for PRSuman.
