@@ -1,5 +1,10 @@
 2006-02-23  Devashish Sharma <sdevashish@novell.com>
 
+	* gui/contact-editor/e-contact-editor.c (update_preview_cb) :
+	Fixes Bug #332123 - crash while trying to add an image to a contact
+
+2006-02-23  Devashish Sharma <sdevashish@novell.com>
+
 	* gui/component/addressbook-component.c (impl_requestCreateItem) :
 	New Contact should create contact on selected Addressbook.
 	Fixes Bug # 326788 and 326721.

@@ -2739,6 +2739,8 @@ update_preview_cb (GtkFileChooser *file_chooser, gpointer data)
 
 	preview = GTK_WIDGET (data);
 	filename = gtk_file_chooser_get_preview_filename (file_chooser);
+	if (filename == NULL)
+		return;
 
 	pixbuf = gdk_pixbuf_new_from_file_at_size (filename, 128, 128, NULL);
 	have_preview = (pixbuf != NULL);
