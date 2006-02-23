@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-02-21 15:56+0100\n"
-"PO-Revision-Date: 2006-02-21 14:03+0200\n"
+"PO-Revision-Date: 2006-02-23 14:03+0200\n"
 "Last-Translator: Xavier Conde Rueda <xavi.conde@gmail.com>\n"
 "Language-Team: Catalan <tradgnome@softcatala.org>\n"
 "MIME-Version: 1.0\n"
@@ -33,7 +33,7 @@ msgstr "llibreta d'adreces de l'Evolution"
 #: ../a11y/addressbook/ea-minicard-view.c:34
 #: ../addressbook/gui/component/addressbook-component.c:226
 msgid "New Contact"
-msgstr "Nou contacte"
+msgstr "Contacte nou"
 
 # fitxer: addressbook.gui.component.ca.po
 #: ../a11y/addressbook/ea-minicard-view.c:35
@@ -22354,7 +22354,7 @@ msgstr "_Fitxer"
 # fitxer: ui.evolution.xml.h.ca.po
 #: ../ui/evolution-editor.xml.h:19 ../ui/evolution.xml.h:40
 msgid "_Help"
-msgstr "_Ajuda"
+msgstr "A_juda"
 
 # fitxer: ui.evolution-message-composer.xml.h.ca.po
 #: ../ui/evolution-editor.xml.h:20
@@ -22644,9 +22644,9 @@ msgstr "Canvia les propietats de la carpeta"
 
 # gal/e-table/e-table-header-item.c:1469
 #: ../ui/evolution-mail-list.xml.h:3
-#, fuzzy
+#
 msgid "Collapse All _Threads"
-msgstr "Agrupa per _fils"
+msgstr "Col·lapsa tots els _fils"
 
 # fitxer: ui.evolution-mail-list.xml.h.ca.po
 #: ../ui/evolution-mail-list.xml.h:4
@@ -22666,7 +22666,7 @@ msgstr "Retalla els missatges al porta-retalls"
 
 #: ../ui/evolution-mail-list.xml.h:7
 msgid "E_xpand All Threads"
-msgstr ""
+msgstr "E_xpandeix tots els fils"
 
 # fitxer: ui.evolution-mail-list.xml.h.ca.po
 #: ../ui/evolution-mail-list.xml.h:8
@@ -22776,7 +22776,7 @@ msgstr "Llista de missatges amb fils"
 
 # gal/e-table/e-table-header-item.c:1469
 #: ../ui/evolution-mail-list.xml.h:31
-#, fuzzy
+#
 msgid "_Group By Threads"
 msgstr "Agrupa per _fils"
 
@@ -23901,13 +23901,13 @@ msgstr "Mostra informació quant a l'Evolution"
 
 #: ../ui/evolution.xml.h:25
 msgid "Side _Bar"
-msgstr ""
+msgstr "Barra _lateral"
 
 # fitxer: calendar.ca.po.4
 #
 #: ../ui/evolution.xml.h:26
 msgid "Status _Bar"
-msgstr "_Visualitza la barra d'estat"
+msgstr "Barra d'estat"
 
 # fitxer: ui.evolution.xml.h.ca.po
 #: ../ui/evolution.xml.h:27
@@ -23940,7 +23940,7 @@ msgstr "Estil de la _barra d'eines"
 #
 #: ../ui/evolution.xml.h:33
 msgid "View/Hide the Side Bar"
-msgstr "Mostra/amaga la barra d'estat"
+msgstr "Mostra/amaga la barra lateral"
 
 #: ../ui/evolution.xml.h:34
 msgid "View/Hide the Status Bar"
