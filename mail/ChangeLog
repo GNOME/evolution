@@ -1,3 +1,11 @@
+2006-02-21  Veerapuram Varadhan <vvaradhan@novell.com>
+
+       ** Fixes bug #329733
+
+       * em-folder-properties.c (emfp_dialog_got_folder): Fetch both
+       VISIBLE and DELETED count from the folder and adjust it according
+       before showing it in the properties dialog w.r.t user preferences.
+       
 2006-02-21  Tor Lillqvist  <tml@novell.com>
 
 	* em-composer-utils.c: Use the same Win32 macro for gmtime_r()

@@ -38,7 +38,11 @@
 #include <gtk/gtktogglebutton.h>
 #include <gtk/gtkvbox.h>
 
+#include <gconf/gconf-client.h>
+
+#include <camel/camel-store.h>
 #include <camel/camel-folder.h>
+#include <camel/camel-vtrash-folder.h>
 #include <camel/camel-vee-folder.h>
 #include <libgnome/gnome-i18n.h>
 
@@ -49,6 +53,7 @@
 #include "mail-ops.h"
 #include "mail-mt.h"
 #include "mail-vfolder.h"
+#include "mail-config.h"
 
 struct _prop_data {
 	void *object;
@@ -226,23 +231,45 @@ emfp_dialog_got_folder (char *uri, CamelFolder *folder, void *data)
 	GtkWidget *dialog, *w;
 	struct _prop_data *prop_data;
 	GSList *l;
-	gint32 count, i;
+	gint32 count, i,deleted;
 	EMConfig *ec;
 	EMConfigTargetFolder *target;
 	CamelArgGetV *arggetv;
 	CamelArgV *argv;
+	gboolean hide_deleted;
+	GConfClient *gconf;
+	CamelStore *store;
 
 	if (folder == NULL)
 		return;
+
+	store = folder->parent_store;
 
 	prop_data = g_malloc0 (sizeof (*prop_data));
 	prop_data->object = folder;
 	camel_object_ref (folder);
 
+	/*
+	  Get number of VISIBLE and DELETED messages, instead of TOTAL messages.  VISIBLE+DELETED 
+	   gives the correct count that matches the label below the Send & Receive button
+	*/
 	camel_object_get (folder, NULL, CAMEL_FOLDER_PROPERTIES, &prop_data->properties, CAMEL_FOLDER_NAME, &prop_data->name,
-			  CAMEL_FOLDER_TOTAL, &prop_data->total, CAMEL_FOLDER_UNREAD, &prop_data->unread, NULL);
+			  CAMEL_FOLDER_VISIBLE, &prop_data->total, CAMEL_FOLDER_UNREAD, &prop_data->unread, CAMEL_FOLDER_DELETED, &deleted, NULL);
+	
+	gconf = mail_config_get_gconf_client ();
+	hide_deleted = !gconf_client_get_bool(gconf, "/apps/evolution/mail/display/show_deleted", NULL);
 
-	if (folder->parent_store == mail_component_peek_local_store(NULL)
+	/* 
+	   Do the calculation only for those accounts that support VTRASHes
+	 */
+	if (store->flags & CAMEL_STORE_VTRASH) {
+		if (CAMEL_IS_VTRASH_FOLDER(folder))
+			prop_data->total += deleted;
+		else if (!hide_deleted && deleted > 0)
+			prop_data->total += deleted;
+	}
+
+	if (store == mail_component_peek_local_store(NULL)
 	    && (!strcmp(prop_data->name, "Drafts")
 		|| !strcmp(prop_data->name, "Inbox")
 		|| !strcmp(prop_data->name, "Outbox")
