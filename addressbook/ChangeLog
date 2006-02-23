@@ -1,3 +1,9 @@
+2006-02-23  Devashish Sharma <sdevashish@novell.com>
+
+	* gui/component/addressbook-component.c (impl_requestCreateItem) :
+	New Contact should create contact on selected Addressbook.
+	Fixes Bug # 326788 and 326721.
+
 2006-02-22  Simon Zheng <simon.zheng@sun.com>
 
 	Fix for 331993.

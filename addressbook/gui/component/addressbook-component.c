@@ -283,6 +283,9 @@ impl_requestCreateItem (PortableServer_Servant servant,
 			CORBA_Environment *ev)
 {
 	EBook *book;
+	GConfClient *gconf_client;	
+	ESourceList *source_list;
+	char *uid;
 
 	if (!item_type_name ||
 	    (strcmp (item_type_name, "address_book") &&
@@ -297,7 +300,28 @@ impl_requestCreateItem (PortableServer_Servant servant,
 		return;
 	}
 
-	book = e_book_new_default_addressbook (NULL);
+	gconf_client = gconf_client_get_default();
+	uid = gconf_client_get_string (gconf_client, "/apps/evolution/addressbook/display/primary_addressbook",
+			NULL);
+	g_object_unref (gconf_client);
+	if (!e_book_get_addressbooks (&source_list, NULL)) {
+		g_warning ("Could not get addressbook source list from GConf!");
+		return;
+	}
+	if (uid) {
+		ESource *source = e_source_list_peek_source_by_uid(source_list, uid);
+		if (source) {
+			book = e_book_new (source, NULL);
+		}
+		else {
+			book = e_book_new_default_addressbook (NULL);
+		}
+		g_free (uid);
+	}
+	else {
+		book = e_book_new_default_addressbook (NULL);
+	}
+
 	e_book_async_open (book, FALSE, book_loaded_cb, g_strdup (item_type_name));
 }
 
