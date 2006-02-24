@@ -1,3 +1,10 @@
+2006-02-24  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fixes bug #322789
+	
+	* e-image-chooser.c: (set_image_from_data): Added code to get the
+	pixbuf after closing the loaded.
+
 2006-02-13  Andre Klapper  <a9016009@gmx.de>
 
 	* e-charset-picker.c: adding thai support.
