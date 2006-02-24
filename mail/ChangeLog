@@ -1,3 +1,10 @@
+2006-02-24  Sankar P  <psankar@novell.com>
+	
+	* em-account-editor.c: (emae_check_complete)
+	(emae_identity_page): Added code to handle the case if the 
+	account is marked as default.
+	Fixes #332034
+
 2006-02-21  Veerapuram Varadhan <vvaradhan@novell.com>
 
        ** Fixes bug #329733
