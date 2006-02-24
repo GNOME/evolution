@@ -1,3 +1,12 @@
+2006-02-24  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fixes bug #332408
+	
+	* e-table-config.c: (e_table_proxy_etable_shown_new),
+	(e_table_proxy_etable_available_new): Reverting the patch that fixes
+	some compiler warning. The function is referred from the glade file,
+	which was removed.
+
 2006-02-14  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fixes bug #328283

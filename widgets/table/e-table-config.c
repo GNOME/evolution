@@ -539,6 +539,53 @@ create_global_store (ETableConfig *config)
 	}
 }
 
+char *spec = "<ETableSpecification gettext-domain=\"" E_I18N_DOMAIN "\" no-headers=\"true\" cursor-mode=\"line\" " 	 
+" draw-grid=\"false\" draw-focus=\"true\" selection-mode=\"browse\">" 	 
+"<ETableColumn model_col= \"0\" _title=\"Name\" minimum_width=\"30\" resizable=\"true\" cell=\"string\" compare=\"string\"/>" 	 
+"<ETableState> <column source=\"0\"/>" 	 
+"<grouping/>" 	 
+"</ETableState>" 	 
+"</ETableSpecification>"; 	 
+  	 
+GtkWidget *e_table_proxy_etable_shown_new (void); 	 
+  	 
+GtkWidget * 	 
+e_table_proxy_etable_shown_new (void) 	 
+{ 	 
+	ETableModel *model = NULL; 	 
+	GtkWidget *widget; 	 
+	ETableScrolled *ets; 	 
+  	 
+	model = e_table_subset_variable_new (global_store); 	 
+  	 
+	widget = e_table_scrolled_new (model, NULL, spec, NULL); 	 
+	ets = E_TABLE_SCROLLED (widget); 	 
+	atk_object_set_name (gtk_widget_get_accessible ((GtkWidget *)ets->table), _("Show Fields")); 	 
+  	 
+	return widget; 	 
+} 	 
+  	 
+GtkWidget *e_table_proxy_etable_available_new (void); 	 
+  	 
+GtkWidget * 	 
+e_table_proxy_etable_available_new (void) 	 
+{ 	 
+	ETableModel *model; 	 
+	GtkWidget *widget; 	 
+	ETableScrolled *ets; 	 
+  	 
+	model = e_table_without_new (global_store, 	 
+				     NULL, NULL, NULL, NULL, NULL, NULL, NULL); 	 
+  	 
+	e_table_without_show_all (E_TABLE_WITHOUT (model)); 	 
+  	 
+	widget = e_table_scrolled_new (model, NULL, spec, NULL); 	 
+	ets = E_TABLE_SCROLLED (widget); 	 
+	atk_object_set_name (gtk_widget_get_accessible ((GtkWidget *)ets->table), _("Available Fields")); 	 
+  	 
+	return widget; 	 
+}
+
 static void
 config_button_fields (GtkWidget *widget, ETableConfig *config)
 {
