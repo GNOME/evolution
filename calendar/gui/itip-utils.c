@@ -723,12 +723,9 @@ comp_content_type (ECalComponent *comp, ECalComponentItipMethod method)
 {
 	char tmp[256];	
 	
-	if (method == E_CAL_COMPONENT_METHOD_REPLY) {
-		sprintf (tmp, "text/plain");
-	} else
-		sprintf (tmp, "text/calendar; name=\"%s\"; charset=utf-8; METHOD=%s",
-			 e_cal_component_get_vtype (comp) == E_CAL_COMPONENT_FREEBUSY ?
-			 "freebusy.ifb" : "calendar.ics", itip_methods[method]);
+	sprintf (tmp, "text/calendar; name=\"%s\"; charset=utf-8; METHOD=%s",
+		 e_cal_component_get_vtype (comp) == E_CAL_COMPONENT_FREEBUSY ?
+		 "freebusy.ifb" : "calendar.ics", itip_methods[method]);
 
 	return CORBA_string_dup (tmp);
 
@@ -1182,7 +1179,7 @@ itip_send_comp (ECalComponentItipMethod method, ECalComponent *send_comp,
 		goto cleanup;
 
 	/* Recipients */
-	to_list = comp_to_list (method, comp, users, TRUE);
+	to_list = comp_to_list (method, comp, users, FALSE);
 	if (method != E_CAL_COMPONENT_METHOD_PUBLISH) {
 		if (to_list == NULL || to_list->_length == 0) {
 			/* We sent them all via the server */
@@ -1336,6 +1333,7 @@ reply_to_calendar_comp (ECalComponentItipMethod method, ECalComponent *send_comp
 	GNOME_Evolution_Composer_RecipientList *cc_list = NULL;
 	GNOME_Evolution_Composer_RecipientList *bcc_list = NULL;
 	CORBA_char *subject = NULL, *content_type = NULL;
+	char tmp [256];
 	CORBA_char *from = NULL;
 	char *ical_string;
 	CORBA_Environment ev;
@@ -1388,7 +1386,8 @@ reply_to_calendar_comp (ECalComponentItipMethod method, ECalComponent *send_comp
 
 
 	/* Content type */
-	content_type = comp_content_type (comp, method);
+	sprintf (tmp, "text/plain");
+	content_type = CORBA_string_dup (tmp);
 
 	top_level = comp_toplevel_with_zones (method, comp, client, zones);
 	ical_string = icalcomponent_as_ical_string (top_level);

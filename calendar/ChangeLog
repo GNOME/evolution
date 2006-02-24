@@ -1,3 +1,11 @@
+2006-02-23  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #330677
+	* gui/itip-utils.c: 
+	(comp_content_type): Removed the content setting as text/plain.
+	(itip_send_comp): Changed the reply all to FALSE.
+	(reply_to_calendar_comp): Set the content type as text/plain.
+
 2006-02-15  Rajeev ramanathan <rajeevramanathan_2004@yahoo.co.in>
 
 	* gui/dialogs/memo-page.glade: Changed the layout spacing of memo 
