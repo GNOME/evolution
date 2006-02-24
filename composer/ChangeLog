@@ -1,3 +1,11 @@
+2006-02-16  Rohini S  <srohini@novell.com>
+
+	** Fixes bug #324742
+
+	* e-msg-composer.c (drop_action) (attachment_guess_mime_type):
+	Modified to add images in plain text mode and other files in both 
+	html and plain text mode as attachment during DnD. 
+
 2006-02-16  Tor Lillqvist  <tml@novell.com>
 
 	* e-msg-composer-hdrs.c (e_msg_composer_hdrs_get_to)

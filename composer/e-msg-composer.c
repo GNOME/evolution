@@ -2884,10 +2884,30 @@ e_msg_composer_get_remote_download_count (EMsgComposer *composer)
 				(E_ATTACHMENT_BAR (p->attachment_bar));
 }
 
+static char *
+attachment_guess_mime_type (const char *file_name)
+{
+	GnomeVFSFileInfo *info;
+	GnomeVFSResult result;
+	char *type = NULL;
+
+	info = gnome_vfs_file_info_new ();
+	result = gnome_vfs_get_file_info (file_name, info,
+					  GNOME_VFS_FILE_INFO_GET_MIME_TYPE |
+					  GNOME_VFS_FILE_INFO_FORCE_SLOW_MIME_TYPE |
+					  GNOME_VFS_FILE_INFO_FOLLOW_LINKS);
+	if (result == GNOME_VFS_OK)
+		type = g_strdup (gnome_vfs_file_info_get_mime_type (info));
+
+	gnome_vfs_file_info_unref (info);
+
+	return type;
+}
+
 static void
 drop_action(EMsgComposer *composer, GdkDragContext *context, guint32 action, GtkSelectionData *selection, guint info, guint time)
 {
-	char *tmp, *str, **urls;
+	char *tmp, *str, **urls, *type;
 	CamelMimePart *mime_part;
 	CamelStream *stream;
 	CamelURL *url;
@@ -2939,12 +2959,14 @@ drop_action(EMsgComposer *composer, GdkDragContext *context, guint32 action, Gtk
 					continue;
 				}
 
-				if (!g_ascii_strcasecmp (url->protocol, "file"))
-					e_attachment_bar_attach
-						(E_ATTACHMENT_BAR (p->attachment_bar),
-					 	url->path,
-						"attachment");
-				else	{
+				if (!g_ascii_strcasecmp (url->protocol, "file")) {
+						type=attachment_guess_mime_type (str);
+						if (strncmp (type, "image", 5) || (!p->send_html && !strncmp (type, "image", 5)))
+							e_attachment_bar_attach
+							(E_ATTACHMENT_BAR (p->attachment_bar),
+						 	url->path,
+							"attachment");
+				} else	{
 					e_attachment_bar_attach_remote_file 
 						(E_ATTACHMENT_BAR (p->attachment_bar),
 						str);
