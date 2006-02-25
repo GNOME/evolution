@@ -91,6 +91,8 @@ e_exchange_contacts_get_contacts (void)
 	}
 
 	g_free (uri_prefix);
+	if (folder_array)
+		g_ptr_array_free (folder_array, TRUE);
 	return contacts_list;
 }
 

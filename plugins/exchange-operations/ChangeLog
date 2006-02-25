@@ -1,3 +1,11 @@
+2006-02-25  Sushma Rai  <rsushma@novell.com>
+
+	* exchange-contacts.c (e_exchange_contacts_get_contacts): Freeing 
+	folder array.
+
+	* exchange-calendar.c (e_exchange_calendar_get_calendars): Similar.
+	See #329251.
+
 2006-02-18  Irene Huang <Irene.Huang@sun.com>
 
 	Fixes bug #331635

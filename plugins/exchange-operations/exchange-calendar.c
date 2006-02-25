@@ -105,6 +105,8 @@ e_exchange_calendar_get_calendars (ECalSourceType ftype)
 		}
 	}
 
+	if (folder_array)
+		g_ptr_array_free (folder_array, TRUE);
 	g_free (uri_prefix);
 	g_free (tstring);
 	return calendar_list;
