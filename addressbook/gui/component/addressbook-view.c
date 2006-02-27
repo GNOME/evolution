@@ -1186,7 +1186,7 @@ selector_tree_drag_data_received (GtkWidget *widget,
 		g_message (G_STRLOC ":Couldn't create EBook.");
 		return FALSE;
 	}
-	e_book_open (target_book, TRUE, NULL);
+	e_book_open (target_book, FALSE, NULL);
 
 	eab_book_and_contact_list_from_string (data->data, &source_book, &contactlist);
 
