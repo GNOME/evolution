@@ -922,6 +922,7 @@ efhd_xpkcs7mime_validity_clicked(GtkWidget *button, EMFormatHTMLPObject *pobject
 		w = gtk_label_new(po->valid->sign.description);
 		gtk_misc_set_alignment((GtkMisc *)w, 0.0, 0.5);
 		gtk_label_set_line_wrap((GtkLabel *)w, FALSE);
+		gtk_label_set_selectable((GtkLabel *)w, TRUE);
 		gtk_box_pack_start((GtkBox *)vbox, w, TRUE, TRUE, 6);
 	}
 
@@ -939,6 +940,7 @@ efhd_xpkcs7mime_validity_clicked(GtkWidget *button, EMFormatHTMLPObject *pobject
 		w = gtk_label_new(po->valid->encrypt.description);
 		gtk_misc_set_alignment((GtkMisc *)w, 0.0, 0.5);
 		gtk_label_set_line_wrap((GtkLabel *)w, FALSE);
+		gtk_label_set_selectable((GtkLabel *)w, TRUE);
 		gtk_box_pack_start((GtkBox *)vbox, w, TRUE, TRUE, 6);
 	}
 

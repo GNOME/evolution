@@ -1,3 +1,10 @@
+2006-02-27  Jeffrey Stedfast  <fejj@novell.com>
+
+	* em-format-html-display.c (efhd_xpkcs7mime_validity_clicked):
+	Make the verify/decrypt gpg diagnostic text selectable in the
+	security dialog that comes up when you click the button in a
+	message. Fixes bug #268414.
+
 2006-02-24  Sankar P  <psankar@novell.com>
 	
 	* em-account-editor.c: (emae_check_complete)
