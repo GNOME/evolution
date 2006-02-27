@@ -68,24 +68,24 @@ void
 org_gnome_exchange_calendar_permissions (EPlugin *ep, ECalPopupTargetSource *target)
 {
 	GSList *menus = NULL;
-	int i = 0;
+	int i = 0, mode;
 	static int first =0;
 	ExchangeAccount *account = NULL;
 	ESource *source = NULL;
 	gchar *uri = NULL;
 
-	account = exchange_operations_get_exchange_account ();
-
-	if (!account)
-		return;
-
 	source = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (target->selector));
 	uri = (gchar *) e_source_get_uri (source);
-
 	if (uri && ! g_strrstr (uri, "exchange://"))	{
 		return;
 	}
 
+	account = exchange_operations_get_exchange_account ();
+	if (!account)
+		return;
+	exchange_account_is_offline (account, &mode);
+	if (mode == OFFLINE_MODE)
+		return;
 	if (!exchange_account_get_folder (account, uri))
 		return;
 
@@ -109,21 +109,22 @@ void
 org_gnome_exchange_addressbook_permissions (EPlugin *ep, EABPopupTargetSource *target)
 {
 	GSList *menus = NULL;
-	int i = 0;
+	int i = 0, mode;
 	static int first =0;
 	ExchangeAccount *account = NULL;
 	ESource *source = NULL;
 	gchar *uri = NULL;
 
-	account = exchange_operations_get_exchange_account ();
-
-	if (!account)
-		return;
-
 	source = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (target->selector));
 	uri = (gchar *) e_source_get_uri (source);
-
 	if (!g_strrstr (uri, "exchange://"))
+		return;
+
+	account = exchange_operations_get_exchange_account ();
+	if (!account)
+		return;
+	exchange_account_is_offline (account, &mode);
+	if (mode == OFFLINE_MODE)
 		return;
 
 	if (!exchange_account_get_folder (account, uri))
@@ -147,7 +148,7 @@ void
 org_gnome_exchange_folder_permissions (EPlugin *ep, EMPopupTargetFolder *target)
 {
 	GSList *menus = NULL;
-	int i = 0;
+	int i = 0, mode;
 	static int first =0;
 	gchar *path = NULL;
 	ExchangeAccount *account = NULL;
@@ -156,7 +157,10 @@ org_gnome_exchange_folder_permissions (EPlugin *ep, EMPopupTargetFolder *target)
 		return;
 
 	account = exchange_operations_get_exchange_account ();
-	if (!account)
+	if (!account )
+		return;
+	exchange_account_is_offline (account, &mode);
+	if (mode == OFFLINE_MODE)
 		return;
 
 	path = target->uri + strlen ("exchange://") + strlen (account->account_filename);
@@ -201,10 +205,16 @@ org_gnome_exchange_menu_folder_permissions (EPlugin *ep, EMMenuTargetSelect *tar
 	ExchangeAccount *account = NULL;
 	EFolder *folder = NULL;
 	gchar *path = NULL;
+	int mode;
+
+	if (!g_str_has_prefix (target->uri, "exchange://"))
+		return;
 
 	account = exchange_operations_get_exchange_account ();
-
 	if (!account)
+		return;
+	exchange_account_is_offline (account, &mode);
+	if (mode == OFFLINE_MODE)
 		return;
 
 	path = target->uri + strlen ("exchange://") + strlen (account->account_filename);
@@ -221,23 +231,27 @@ org_gnome_exchange_menu_cal_permissions (EPlugin *ep, ECalMenuTargetSelect *targ
 	ECalModel *model = NULL;
 	ECal *ecal = NULL;
 	gchar *uri = NULL;
+	int mode;
 
-	account = exchange_operations_get_exchange_account ();
-
-	if (!account || !target)
+	if (!target)
 		return;
-
 	if (target->model)
 		model = E_CAL_MODEL (target->model);
 
 	ecal = e_cal_model_get_default_client (model);
 	uri = (gchar *) e_cal_get_uri (ecal);
-
 	if (!uri)
 		return;
 	else	
 		if (!g_str_has_prefix (uri, "exchange://"))
 			return;
+
+	account = exchange_operations_get_exchange_account ();
+	if (!account)
+		return;
+	exchange_account_is_offline (account, &mode);
+	if (mode == OFFLINE_MODE)
+		return;
 
 	folder = exchange_account_get_folder (account, uri);
 	exchange_permissions_dialog_new (account, folder, NULL);
@@ -251,27 +265,29 @@ org_gnome_exchange_menu_tasks_permissions (EPlugin *ep, ECalMenuTargetSelect *ta
 	ECalModel *model = NULL;
 	ECal *ecal = NULL;
 	gchar *uri = NULL;
+	int mode;
 
-	account = exchange_operations_get_exchange_account ();
-
-	if (!account || !target)
+	if (!target)
 		return;
-
 	if (target->model)
 		model = E_CAL_MODEL (target->model);
 
 	ecal = e_cal_model_get_default_client (model);
 	uri = (gchar *) e_cal_get_uri (ecal);
-
 	if (!uri)
 		return;
 	else	
 		if (!g_str_has_prefix (uri, "exchange://"))
 			return;
+	account = exchange_operations_get_exchange_account ();
+	if (!account)
+		return;
+	exchange_account_is_offline (account, &mode);
+	if (mode == OFFLINE_MODE)
+		return;
 
 	folder = exchange_account_get_folder (account, uri);
 	exchange_permissions_dialog_new (account, folder, NULL);
-
 }
 
 void
@@ -281,22 +297,26 @@ org_gnome_exchange_menu_ab_permissions (EPlugin *ep, EABMenuTargetSelect *target
 	EFolder *folder = NULL;
 	EBook *ebook = NULL;
 	gchar *uri = NULL;
+	int mode;
 
-	account = exchange_operations_get_exchange_account ();
-
-	if (!target || !account)
+	if (!target)
 		return;
-
 	if (target->book)
 		ebook = E_BOOK (target->book);
 
 	uri = (gchar *) e_book_get_uri (ebook);
-
 	if (!uri)
 		return;
 	else	
 		if (!g_str_has_prefix (uri, "exchange://"))
 			return;
+
+	account = exchange_operations_get_exchange_account ();
+	if (!account)
+		return;
+	exchange_account_is_offline (account, &mode);
+	if (mode == OFFLINE_MODE)
+		return;
 
 	folder = exchange_account_get_folder (account, uri);
 	exchange_permissions_dialog_new (account, folder, NULL);

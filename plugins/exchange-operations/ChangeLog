@@ -1,5 +1,20 @@
 2006-02-27  Sushma Rai  <rsushma@novell.com>
 
+	* exchange-folder-permission.c 
+	(org_gnome_exchange_calendar_permissions): Trying to get the exchange
+	account only if one tries to see the folder permissions for the 
+	exchange account. Also, not showing the folder permissions dialog if 
+	the account is in offline mode.
+	(org_gnome_exchange_addressbook_permissions): Similar.
+	(org_gnome_exchange_folder_permissions): similar.
+	(org_gnome_exchange_menu_folder_permissions): Similar.
+	(org_gnome_exchange_menu_cal_permissions): Similar.
+	(org_gnome_exchange_menu_tasks_permissions): Similar.
+	(org_gnome_exchange_menu_ab_permissions): Similar.
+	See #332514.
+
+2006-02-27  Sushma Rai  <rsushma@novell.com>
+
 	* exchange-config-listener.c (add_defaults_for_account): Not trying to
 	set autocompletion folders here, which is done somewhere else.
 	(account_added): Invoking add_defaults_for_account() always on 
