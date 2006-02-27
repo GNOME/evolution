@@ -1,4 +1,7 @@
 2006-02-27  Andre Klapper  <a9016009@gmx.de>
+ 	* quickref/C/quickref.tex: Fixing a typo and pdf.
+
+2006-02-27  Andre Klapper  <a9016009@gmx.de>
  	* quickref/C/quickref.tex: Updating quickref and pdf.
  	Fixes bug 316797.
 
