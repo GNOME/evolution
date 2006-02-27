@@ -1,3 +1,7 @@
+2006-02-27  Andre Klapper  <a9016009@gmx.de>
+ 	* quickref/C/quickref.tex: Updating quickref and pdf.
+ 	Fixes bug 316797.
+
 2006-01-19  Andre Klapper <a9016009@gmx.de>
 
 	* C/evolution-C.omf: changing start menu category and description.
