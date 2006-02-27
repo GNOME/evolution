@@ -8,7 +8,7 @@
 	account.
 	(set_special_mail_folder): Fomring the URIs for sent items and drafts 
 	folders, by removing the ";" from the physical URIs.
-	Fixes #324693.
+	Fixes #324693, #324694.
 
 2006-02-25  Sushma Rai  <rsushma@novell.com>
 
