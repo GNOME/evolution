@@ -29,8 +29,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-02-11 12:32+0000\n"
-"PO-Revision-Date: 2006-02-11 12:34+0000\n"
+"POT-Creation-Date: 2006-02-27 09:07+0000\n"
+"PO-Revision-Date: 2006-02-26 15:19-0000\n"
 "Last-Translator: Rhys Jones <rhys@sucs.org>\n"
 "Language-Team: Cymraeg <gnome-cy@pengwyn.linux.org.uk>\n"
 "MIME-Version: 1.0\n"
@@ -669,7 +669,7 @@ msgstr "_Llyfr Cyfeiriadau"
 msgid "Create a new address book"
 msgstr "Creu llyfr cyfeiriadau newydd"
 
-#: ../addressbook/gui/component/addressbook-component.c:382
+#: ../addressbook/gui/component/addressbook-component.c:406
 msgid "Failed upgrading Address Book settings or folders."
 msgstr "Methu wrth uwchraddio plygellau neu osodiadau'r Llyfr Cyfeiriadau."
 
@@ -693,7 +693,8 @@ msgstr "Copïwch gynnwys y llyfr yn lleol er mwyn ei ddefnyddio all-lein"
 #: ../calendar/gui/dialogs/calendar-setup.c:369
 #: ../calendar/gui/dialogs/calendar-setup.c:380
 #: ../calendar/gui/dialogs/calendar-setup.c:391
-#: ../mail/em-folder-properties.c:217 ../mail/mail-config.glade.h:86
+#: ../mail/em-folder-properties.c:222 ../mail/mail-config.glade.h:86
+#: ../plugins/itip-formatter/itip-formatter.c:1978
 #: ../smime/gui/smime-ui.glade.h:28
 msgid "General"
 msgstr "Cyffredinol"
@@ -824,7 +825,7 @@ msgstr "Llyfr Cyfeiriadau _Newydd"
 #: ../calendar/gui/e-calendar-view.c:1617 ../calendar/gui/e-memo-table.c:869
 #: ../calendar/gui/tasks-component.c:443 ../mail/em-folder-tree.c:2054
 #: ../mail/em-folder-view.c:1091 ../ui/evolution-addressbook.xml.h:49
-#: ../ui/evolution-calendar.xml.h:38 ../ui/evolution-mail-list.xml.h:30
+#: ../ui/evolution-calendar.xml.h:40 ../ui/evolution-mail-list.xml.h:30
 #: ../ui/evolution-memos.xml.h:16 ../ui/evolution-tasks.xml.h:24
 msgid "_Delete"
 msgstr "_Dileu"
@@ -955,7 +956,7 @@ msgid "Add Address Book"
 msgstr "Ychwanegu Llyfr Cyfeiriadau"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:14
-#: ../mail/em-account-editor.c:304 ../mail/em-account-editor.c:769
+#: ../mail/em-account-editor.c:777
 msgid "Always"
 msgstr "Bob tro"
 
@@ -991,31 +992,46 @@ msgid "Lo_gin:"
 msgstr "_Mewngofnod:"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:24
-#: ../mail/em-account-editor.c:302 ../mail/em-account-editor.c:768
+#: ../mail/em-account-editor.c:776
 msgid "Never"
 msgstr "Byth"
 
+#. Translators: This string is a "Use secure connection" option for
+#. the Mailer. It will not use an encrypted connection.
 #: ../addressbook/gui/component/ldap-config.glade.h:25
+#: ../mail/em-account-editor.c:304
+msgid "No encryption"
+msgstr "Dim amgryptio"
+
+#: ../addressbook/gui/component/ldap-config.glade.h:26
 msgid "One"
 msgstr "Un"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:26
+#. Translators: This string is a "Use secure connection" option for
+#. the Mailer. SSL (Secure Sockets Layer) is commonly known by this
+#. abbreviation.
+#: ../addressbook/gui/component/ldap-config.glade.h:27
+#: ../mail/em-account-editor.c:312
+msgid "SSL encryption"
+msgstr "Amgryptio SSL"
+
+#: ../addressbook/gui/component/ldap-config.glade.h:28
 msgid "Search Filter"
 msgstr "Hidlydd Chwilio"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:27
+#: ../addressbook/gui/component/ldap-config.glade.h:29
 msgid "Search _base:"
 msgstr "_Sail chwilio:"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:28
+#: ../addressbook/gui/component/ldap-config.glade.h:30
 msgid "Search _filter:"
 msgstr "Hidlydd _chwilio:"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:29
+#: ../addressbook/gui/component/ldap-config.glade.h:31
 msgid "Search filter"
 msgstr "Hidlydd chwilio"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:30
+#: ../addressbook/gui/component/ldap-config.glade.h:32
 msgid ""
 "Search filter is the type of the objects searched for, while performing the "
 "search. If this is not modified, by  default search will be performed on "
@@ -1025,45 +1041,49 @@ msgstr ""
 "amdanynt. Os na chaiff hwn ei newid, y rhagosodiad yw chwilio am wrthrychau "
 "o'r dosbarth \"person\"."
 
-#: ../addressbook/gui/component/ldap-config.glade.h:31
-msgid ""
-"Selecting this option means that Evolution will only connect to your LDAP "
-"server if your LDAP server supports SSL or TLS."
-msgstr ""
-"Mae dewis yr opsiwn hwn yn golygu na fydd Evolution yn cysylltu â'ch "
-"gweinydd LDAP oni bai ei fod yn cynnal SSL neu TLS."
-
-#: ../addressbook/gui/component/ldap-config.glade.h:32
-msgid ""
-"Selecting this option means that Evolution will only try to use SSL/TLS if "
-"you are in a insecure environment. For example, if you and your LDAP server "
-"are behind a firewall at work, then Evolution doesn't need to use SSL/TLS "
-"because your connection is already secure."
-msgstr ""
-"Mae dewis yr opsiwn hwn yn golygu na fydd Evolution yn ceisio defnyddio SSL/"
-"TLS oni bai eich bod mewn amgylchedd anniogel. Er enghraifft, os ydych chi "
-"a'ch gweinydd LDAP y tu ôl i fur tân yn y gwaith, does dim angen i Evolution "
-"ddefnyddio SSL/TLS gan fod eich cysylltiad yn ddiogel yn barod."
-
 #: ../addressbook/gui/component/ldap-config.glade.h:33
 msgid ""
+"Selecting this option means that Evolution will only connect to your LDAP "
+"server if your LDAP server supports SSL."
+msgstr ""
+"Mae dewis yr opsiwn hwn yn golygu na fydd Evolution yn cysylltu â'ch "
+"gweinydd LDAP oni bai ei fod yn cynnal SSL."
+
+#: ../addressbook/gui/component/ldap-config.glade.h:34
+msgid ""
+"Selecting this option means that Evolution will only connect to your LDAP "
+"server if your LDAP server supports TLS."
+msgstr ""
+"Mae dewis yr opsiwn hwn yn golygu na fydd Evolution yn cysylltu â'ch "
+"gweinydd LDAP oni bai ei fod yn cynnal TLS."
+
+#: ../addressbook/gui/component/ldap-config.glade.h:35
+msgid ""
 "Selecting this option means that your server does not support either SSL or "
-"TLS.  This means that your connection will be insecure, and that you will be "
-"vulnerable to security exploits. "
+"TLS. This means that your connection will be insecure, and that you will be "
+"vulnerable to security exploits."
 msgstr ""
 "Mae dewis yr opsiwn hwn yn golygu nad yw eich gweinydd yn cynnal SSL na TLS. "
 "Bydd eich cysylltiad, felly, yn anniogel, a byddwch yn agored i ymosodiadau "
 "diogelwch."
 
-#: ../addressbook/gui/component/ldap-config.glade.h:34
+#: ../addressbook/gui/component/ldap-config.glade.h:36
 msgid "Sub"
 msgstr "Is"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:35
+#: ../addressbook/gui/component/ldap-config.glade.h:37
 msgid "Supported Search Bases"
 msgstr "Bonion Chwilio a Gynhelir"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:36
+#. Translators: This string is a "Use secure connection" option for
+#. the Mailer. TLS (Transport Layer Security) is commonly known by
+#. this abbreviation.
+#: ../addressbook/gui/component/ldap-config.glade.h:38
+#: ../mail/em-account-editor.c:308
+msgid "TLS encryption"
+msgstr "Amgryptio TLS"
+
+#: ../addressbook/gui/component/ldap-config.glade.h:39
 msgid ""
 "The search base is the distinguished name (DN) of the entry where your "
 "searches will begin. If you leave this blank, the search will begin at the "
@@ -1073,7 +1093,7 @@ msgstr ""
 "eich chwilota'n cychwyn. Os gadewch hwn yn wag, bydd y chwilota'n cychwyn ar "
 "wraidd eich coeden cyfeiriaduron."
 
-#: ../addressbook/gui/component/ldap-config.glade.h:37
+#: ../addressbook/gui/component/ldap-config.glade.h:40
 msgid ""
 "The search scope defines how deep you would like the search to extend down "
 "the directory tree. A search scope of \"sub\" will include all entries below "
@@ -1085,14 +1105,14 @@ msgstr ""
 "cofnod islaw'ch bôn chwilio. Mae cwmpas chwilio o \"one\" ond yn cynnwys y "
 "cofnodion un lefel islaw'ch bôn."
 
-#: ../addressbook/gui/component/ldap-config.glade.h:38
+#: ../addressbook/gui/component/ldap-config.glade.h:41
 msgid ""
 "This is the full name of your ldap server. For example, \"ldap.mycompany.com"
 "\"."
 msgstr ""
 "Dyma enw llawn eich gweinydd LDAP. Er enghraifft, \"ldap.fynghwmni.com\""
 
-#: ../addressbook/gui/component/ldap-config.glade.h:39
+#: ../addressbook/gui/component/ldap-config.glade.h:42
 msgid ""
 "This is the maximum number of entries to download. Setting this number to be "
 "too large will slow down your address book."
@@ -1100,7 +1120,7 @@ msgstr ""
 "Dyma uchafswm nifer y cofnodion i'w llwytho i lawr. Gall ei osod yn rhy "
 "uchel beri i'ch llyfr cyfeiriadau arafu."
 
-#: ../addressbook/gui/component/ldap-config.glade.h:40
+#: ../addressbook/gui/component/ldap-config.glade.h:43
 msgid ""
 "This is the method Evolution will use to authenticate you.  Note that "
 "setting this to \"Email Address\" requires anonymous access to your ldap "
@@ -1110,7 +1130,7 @@ msgstr ""
 "rhaid cael mynediad dienw i'ch gweinydd ldap os am osod hwn fel \"Cyfeiriad "
 "E-bost\"."
 
-#: ../addressbook/gui/component/ldap-config.glade.h:41
+#: ../addressbook/gui/component/ldap-config.glade.h:44
 msgid ""
 "This is the name for this server that will appear in your Evolution folder "
 "list. It is for display purposes only. "
@@ -1118,7 +1138,7 @@ msgstr ""
 "Dyma enw'r gweinydd fydd yn ymddangos yn eich rhestr plygellau Evolution. "
 "Mae hwn at bwrpas dangos ar y sgrin yn unig."
 
-#: ../addressbook/gui/component/ldap-config.glade.h:42
+#: ../addressbook/gui/component/ldap-config.glade.h:45
 msgid ""
 "This is the port on the LDAP server that Evolution will try to connect to. A "
 "list of standard ports has been provided. Ask your system administrator what "
@@ -1128,36 +1148,35 @@ msgstr ""
 "Mae rhestr o byrth safonol wedi ei ddarparu. Gofynnwch i'ch gweinyddwr "
 "systemau pa borth ddylech chi ei benodi."
 
-#: ../addressbook/gui/component/ldap-config.glade.h:43
+#: ../addressbook/gui/component/ldap-config.glade.h:46
 msgid "Using distinguished name (DN)"
 msgstr "Yn defnyddio enw unigryw (distinguished name: DN)"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:44
+#: ../addressbook/gui/component/ldap-config.glade.h:47
 msgid "Using email address"
 msgstr "Defnyddio cyfeiriad e-bost"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:45
-#: ../mail/em-account-editor.c:303
+#: ../addressbook/gui/component/ldap-config.glade.h:48
 msgid "Whenever Possible"
 msgstr "Pob Amser Bosib"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:46
+#: ../addressbook/gui/component/ldap-config.glade.h:49
 msgid "_Add Address Book"
 msgstr "_Ychwanegu Llyfr Cyfeiriadau"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:47
+#: ../addressbook/gui/component/ldap-config.glade.h:50
 msgid "_Download limit:"
 msgstr "Cyfwng _llwytho i lawr:"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:48
+#: ../addressbook/gui/component/ldap-config.glade.h:51
 msgid "_Find Possible Search Bases"
 msgstr "_Canfod Seiliau Chwilio Posib"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:49
+#: ../addressbook/gui/component/ldap-config.glade.h:52
 msgid "_Login method:"
 msgstr "Dull _mewngofnodi:"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:50
+#: ../addressbook/gui/component/ldap-config.glade.h:53
 #: ../calendar/gui/dialogs/calendar-setup.c:245
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:8
 #: ../mail/mail-config.glade.h:164
@@ -1165,42 +1184,41 @@ msgstr "Dull _mewngofnodi:"
 msgid "_Name:"
 msgstr "_Enw:"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:51
-#: ../plugins/publish-calendar/publish-calendar.glade.h:23
+#: ../addressbook/gui/component/ldap-config.glade.h:54
 msgid "_Port:"
 msgstr "_Porth:"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:52
+#: ../addressbook/gui/component/ldap-config.glade.h:55
 msgid "_Search scope:"
 msgstr "Cwmpas _chwilio:"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:53
+#: ../addressbook/gui/component/ldap-config.glade.h:56
 #: ../mail/mail-config.glade.h:171
 #: ../plugins/publish-calendar/publish-calendar.glade.h:26
 msgid "_Server:"
 msgstr "_Gwasanaethwr:"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:54
+#: ../addressbook/gui/component/ldap-config.glade.h:57
 msgid "_Timeout:"
 msgstr "_Goramser:"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:55
+#: ../addressbook/gui/component/ldap-config.glade.h:58
 msgid "_Use secure connection:"
 msgstr "_Defnyddio cysylltiad diogel:"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:56
+#: ../addressbook/gui/component/ldap-config.glade.h:59
 msgid "cards"
 msgstr "cardiau"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:57
+#: ../addressbook/gui/component/ldap-config.glade.h:60
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:8
-#: ../calendar/gui/alarm-notify/util.c:64
-#: ../calendar/gui/alarm-notify/util.c:66
+#: ../calendar/gui/alarm-notify/util.c:65
+#: ../calendar/gui/alarm-notify/util.c:67
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:26
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:14
-#: ../calendar/gui/dialogs/event-page.glade.h:20 ../calendar/gui/misc.c:111
-#: ../calendar/gui/misc.c:113 ../filter/filter.glade.h:16
-#: ../mail/em-account-editor.c:1989
+#: ../calendar/gui/dialogs/event-page.glade.h:20 ../calendar/gui/misc.c:112
+#: ../calendar/gui/misc.c:114 ../filter/filter.glade.h:16
+#: ../mail/em-account-editor.c:2021
 #: ../plugins/calendar-http/calendar-http.c:286
 #: ../plugins/calendar-weather/calendar-weather.c:563
 msgid "minutes"
@@ -1213,7 +1231,6 @@ msgstr "munudau"
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:3
 #: ../calendar/gui/dialogs/cal-attachment.glade.h:1
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:1
-#: ../calendar/gui/dialogs/memo-page.glade.h:1
 #: ../calendar/gui/dialogs/new-calendar.glade.h:1
 #: ../calendar/gui/dialogs/new-task-list.glade.h:1
 #: ../calendar/gui/dialogs/url-editor-dialog.glade.h:1
@@ -2533,15 +2550,15 @@ msgstr "Newidiwyd"
 msgid "Contact Editor - %s"
 msgstr "Golygydd Cysylltiadau - %s"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2757
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2759
 msgid "Please select an image for this contact"
 msgstr "Dewiswch ddelwedd ar gyfer y cyswllt hwn"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2758
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2760
 msgid "No image"
 msgstr "Dim delwedd"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3042
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3044
 msgid ""
 "The contact data is invalid:\n"
 "\n"
@@ -2549,7 +2566,7 @@ msgstr ""
 "Mae'r data cyswllt yn annilys:\n"
 "\n"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3094
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3096
 msgid "Invalid contact."
 msgstr "Cyswllt annilys."
 
@@ -2706,8 +2723,8 @@ msgstr "Gwasanaeth _Negeseuo Cyflym:"
 
 #: ../addressbook/gui/contact-editor/im.glade.h:5
 #: ../plugins/calendar-weather/calendar-weather.c:409
-#: ../plugins/exchange-operations/exchange-calendar.c:234
-#: ../plugins/exchange-operations/exchange-contacts.c:222
+#: ../plugins/exchange-operations/exchange-calendar.c:236
+#: ../plugins/exchange-operations/exchange-contacts.c:224
 msgid "_Location:"
 msgstr "_Lleoliad:"
 
@@ -2885,7 +2902,7 @@ msgid "Type"
 msgstr "Math"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:834
-#: ../addressbook/gui/widgets/e-addressbook-view.c:2068
+#: ../addressbook/gui/widgets/e-addressbook-view.c:2067
 #: ../ui/evolution-addressbook.xml.h:31
 msgid "Save as VCard..."
 msgstr "Cadw fel VCard..."
@@ -2952,10 +2969,10 @@ msgstr "_Torri"
 #: ../calendar/gui/dialogs/comp-editor.c:445
 #: ../calendar/gui/e-calendar-table.c:1182
 #: ../calendar/gui/e-calendar-view.c:1602 ../calendar/gui/e-memo-table.c:860
-#: ../calendar/gui/tasks-component.c:442 ../composer/e-msg-composer.c:3098
+#: ../calendar/gui/tasks-component.c:442 ../composer/e-msg-composer.c:3120
 #: ../mail/em-folder-tree.c:979 ../mail/em-folder-view.c:1077
 #: ../mail/message-list.c:1724 ../ui/evolution-addressbook.xml.h:46
-#: ../ui/evolution-calendar.xml.h:37 ../ui/evolution-composer-entries.xml.h:13
+#: ../ui/evolution-calendar.xml.h:39 ../ui/evolution-composer-entries.xml.h:13
 #: ../ui/evolution-editor.xml.h:16 ../ui/evolution-mail-message.xml.h:103
 #: ../ui/evolution-memos.xml.h:15 ../ui/evolution-tasks.xml.h:23
 msgid "_Copy"
@@ -2972,7 +2989,7 @@ msgid "Any Category"
 msgstr "Unrhyw Gategori"
 
 #. FIXME: Allow range selection in table views, as in minicard view
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1803
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1802
 msgid "Print cards"
 msgstr "Argraffu cardiau"
 
@@ -3158,7 +3175,7 @@ msgstr "Safle Gwe"
 #: ../widgets/table/e-table-group-container.c:968
 #: ../widgets/table/e-table-group-leaf.c:629
 #: ../widgets/table/e-table-group-leaf.c:630
-#: ../widgets/table/e-table-item.c:3018 ../widgets/table/e-table-item.c:3019
+#: ../widgets/table/e-table-item.c:3021 ../widgets/table/e-table-item.c:3022
 #: ../widgets/text/e-text.c:3649 ../widgets/text/e-text.c:3650
 msgid "Width"
 msgstr "Lled"
@@ -3173,7 +3190,7 @@ msgstr "Lled"
 #: ../widgets/table/e-table-group-container.c:961
 #: ../widgets/table/e-table-group-leaf.c:622
 #: ../widgets/table/e-table-group-leaf.c:623
-#: ../widgets/table/e-table-item.c:3024 ../widgets/table/e-table-item.c:3025
+#: ../widgets/table/e-table-item.c:3027 ../widgets/table/e-table-item.c:3028
 #: ../widgets/text/e-text.c:3657 ../widgets/text/e-text.c:3658
 msgid "Height"
 msgstr "Uchder"
@@ -3716,12 +3733,12 @@ msgstr "Mewnforiwr VCard Evolution"
 msgid "Print envelope"
 msgstr "Argraffu amlen"
 
-#: ../addressbook/printing/e-contact-print.c:1033
+#: ../addressbook/printing/e-contact-print.c:923
 msgid "Print contacts"
 msgstr "Argraffu cysylltiadau"
 
-#: ../addressbook/printing/e-contact-print.c:1124
-#: ../addressbook/printing/e-contact-print.c:1152
+#: ../addressbook/printing/e-contact-print.c:1015
+#: ../addressbook/printing/e-contact-print.c:1043
 msgid "Print contact"
 msgstr "Argraffu cyswllt"
 
@@ -3880,8 +3897,8 @@ msgstr "Graddliwio"
 #. FIXME: Take care of i18n
 #: ../addressbook/printing/e-contact-print.glade.h:36
 #: ../plugins/exchange-operations/exchange-account-setup.c:955
-#: ../plugins/exchange-operations/exchange-calendar.c:224
-#: ../plugins/exchange-operations/exchange-contacts.c:205
+#: ../plugins/exchange-operations/exchange-calendar.c:226
+#: ../plugins/exchange-operations/exchange-contacts.c:207
 msgid "Size:"
 msgstr "Maint:"
 
@@ -4150,8 +4167,8 @@ msgid "Delete task list '{0}'?"
 msgstr "Dileu'r rhestr dasgau '{0}'?"
 
 #: ../calendar/calendar.error.xml.h:27
-msgid "Do not Send"
-msgstr "Peidio â Danfon"
+msgid "Do _not Send"
+msgstr "Peidio â _Danfon"
 
 #: ../calendar/calendar.error.xml.h:28
 msgid "Download in progress. Do you want to save the appointment?"
@@ -4217,15 +4234,6 @@ msgstr ""
 "gwybod fod y dasg wedi ei chanslo."
 
 #: ../calendar/calendar.error.xml.h:39
-#: ../ui/evolution-message-composer.xml.h:29
-msgid "Send"
-msgstr "Anfon"
-
-#: ../calendar/calendar.error.xml.h:40
-msgid "Send Notice"
-msgstr "Danfon Hysbys"
-
-#: ../calendar/calendar.error.xml.h:41
 msgid ""
 "Sending updated information allows other participants to keep their "
 "calendars up to date."
@@ -4233,7 +4241,7 @@ msgstr ""
 "Mae anfon gwybodaeth wedi'i ddiweddaru yn gadael i gyfranwyr eraill gadw eu "
 "calendrau'n gyfredol."
 
-#: ../calendar/calendar.error.xml.h:42
+#: ../calendar/calendar.error.xml.h:40
 msgid ""
 "Sending updated information allows other participants to keep their task "
 "lists up to date."
@@ -4241,7 +4249,7 @@ msgstr ""
 "Mae anfon gwybodaeth wedi'i ddiweddaru yn gadael i eraill gadw eu rhestr "
 "tasgau'n gyfredol."
 
-#: ../calendar/calendar.error.xml.h:43
+#: ../calendar/calendar.error.xml.h:41
 msgid ""
 "Some attachments are being downloaded. Saving the appointment would result "
 "in the loss of these attachments."
@@ -4249,7 +4257,7 @@ msgstr ""
 "Mae rhai atodiadau'n cael eu llwytho i lawr. Bydd cadw'r apwyntiad nawr yn "
 "golygu colli'r atodiadau hynny."
 
-#: ../calendar/calendar.error.xml.h:44
+#: ../calendar/calendar.error.xml.h:42
 msgid ""
 "Some attachments are being downloaded. Saving the task would result in the "
 "loss of these attachments."
@@ -4257,89 +4265,89 @@ msgstr ""
 "Mae rhai atodiadau'n cael eu llwytho i lawr. Bydd cadw'r dasg nawr yn golygu "
 "colli'r atodiadau hynny."
 
-#: ../calendar/calendar.error.xml.h:45
+#: ../calendar/calendar.error.xml.h:43
 msgid "Some features may not work properly with your current server."
 msgstr ""
 "Efallai na fydd rhai nodweddion yn gweithio'n gywir gyda'ch gweinydd "
 "presennol."
 
-#: ../calendar/calendar.error.xml.h:46
+#: ../calendar/calendar.error.xml.h:44
 msgid "The Evolution calendar has quit unexpectedly."
 msgstr "Mae'r calendr Evolution wedi terfynu'n annisgwyl"
 
-#: ../calendar/calendar.error.xml.h:47
+#: ../calendar/calendar.error.xml.h:45
 msgid "The Evolution tasks have quit unexpectedly."
 msgstr "Mae'r tasgau Evolution wedi terfynu'n annisgwyl"
 
-#: ../calendar/calendar.error.xml.h:48
+#: ../calendar/calendar.error.xml.h:46
 msgid "The calendar is not marked for offline usage."
 msgstr "Calendr heb ei farcio ar gyfer defnydd all-lein."
 
-#: ../calendar/calendar.error.xml.h:49
+#: ../calendar/calendar.error.xml.h:47
 msgid "The calendar you have selected is read-only"
 msgstr "Calendr darllen-yn-unig yw'r un rydych chi wedi ei ddewis"
 
-#: ../calendar/calendar.error.xml.h:50
+#: ../calendar/calendar.error.xml.h:48
 msgid "The memo list is not marked for offline usage"
 msgstr "Rhestr femos heb ei marcio ar gyfer defnydd all-lein."
 
-#: ../calendar/calendar.error.xml.h:51
+#: ../calendar/calendar.error.xml.h:49
 msgid "The task list is not marked for offline usage."
 msgstr "Rhestr dasgau heb ei marcio ar gyfer defnydd all-lein."
 
-#: ../calendar/calendar.error.xml.h:52
+#: ../calendar/calendar.error.xml.h:50
 msgid "This calendar will be removed permanently."
 msgstr "Bydd y calendr yn cael ei ddileu'n barhaol."
 
-#: ../calendar/calendar.error.xml.h:53
+#: ../calendar/calendar.error.xml.h:51
 msgid "This memo list will be removed permanently."
 msgstr "Bydd y rhestr femos yn cael ei dileu'n barhaol."
 
-#: ../calendar/calendar.error.xml.h:54
+#: ../calendar/calendar.error.xml.h:52
 msgid "This task list will be removed permanently."
 msgstr "Bydd y rhestr dasgau'n cael ei dileu'n barhaol."
 
-#: ../calendar/calendar.error.xml.h:55
+#: ../calendar/calendar.error.xml.h:53
 msgid "Would you like to save your changes to this appointment?"
 msgstr "Ydych chi am gadw'r newidiadau i'r apwyntiad hwn?"
 
-#: ../calendar/calendar.error.xml.h:56
+#: ../calendar/calendar.error.xml.h:54
 msgid "Would you like to save your changes to this memo?"
 msgstr "Ydych chi am gadw'r newidiadau i'r memo hwn?"
 
-#: ../calendar/calendar.error.xml.h:57
+#: ../calendar/calendar.error.xml.h:55
 msgid "Would you like to save your changes to this task?"
 msgstr "Ydych chi am gadw'r newidiadau i'r dasg hon?"
 
-#: ../calendar/calendar.error.xml.h:58
+#: ../calendar/calendar.error.xml.h:56
 msgid "Would you like to send a cancelation notice for this journal entry?"
 msgstr "Ydych chi am anfon neges ganslo ynglŷn â'r cofnod dyddlyfr hwn?"
 
-#: ../calendar/calendar.error.xml.h:59
+#: ../calendar/calendar.error.xml.h:57
 msgid "Would you like to send all the participants a cancelation notice?"
 msgstr "Ydych chi am anfon neges ganslo at yr holl gyfranwyr?"
 
-#: ../calendar/calendar.error.xml.h:60
+#: ../calendar/calendar.error.xml.h:58
 msgid "Would you like to send meeting invitations to participants?"
 msgstr "Ydych chi am anfon gwahoddiadau cyfarfod at gyfranwyr?"
 
-#: ../calendar/calendar.error.xml.h:61
+#: ../calendar/calendar.error.xml.h:59
 msgid "Would you like to send this task to participants?"
 msgstr "Ydych chi am anfon y dasg hon at bob cyfrannwr?"
 
-#: ../calendar/calendar.error.xml.h:62
+#: ../calendar/calendar.error.xml.h:60
 msgid "Would you like to send updated meeting information to participants?"
 msgstr ""
 "Ydych chi am anfon y wybodaeth ddiweddaraf ynglŷn â'r cyfarfod at y "
 "cyfranwyr?"
 
-#: ../calendar/calendar.error.xml.h:63
+#: ../calendar/calendar.error.xml.h:61
 msgid "Would you like to send updated task information to participants?"
 msgstr ""
 "Ydych chi am anfon gwybodaeth wedi'i ddiweddaru ynglŷn â'r dasg at y "
 "cyfranwyr?"
 
-#: ../calendar/calendar.error.xml.h:64
+#: ../calendar/calendar.error.xml.h:62
 msgid ""
 "You are connecting to an unsupported GroupWise server and may encounter "
 "problems using Evolution. For best results, the server should be upgraded to "
@@ -4349,47 +4357,51 @@ msgstr ""
 "chi broblemau gyda Evolution. Dylid uwchraddio'r gweinydd at fersiwn sydd "
 "wedi ei gynnal, i gael y canlyniadau gorau."
 
-#: ../calendar/calendar.error.xml.h:65
+#: ../calendar/calendar.error.xml.h:63
 msgid "You have changed this appointment, but not yet saved it."
 msgstr "Rydych chi wedi gwneud newidiadau i'r apwyntiad hwn, ond heb eu cadw."
 
-#: ../calendar/calendar.error.xml.h:66
+#: ../calendar/calendar.error.xml.h:64
 msgid "You have changed this task, but not yet saved it."
 msgstr "Rydych chi wedi gwneud newidiadau i'r dasg hon, ond heb eu cadw."
 
-#: ../calendar/calendar.error.xml.h:67
+#: ../calendar/calendar.error.xml.h:65
 msgid "You have made changes to this memo, but not yet saved them."
 msgstr "Rydych chi wedi gwneud newidiadau i'r memo hwn, ond heb eu cadw."
 
-#: ../calendar/calendar.error.xml.h:68
+#: ../calendar/calendar.error.xml.h:66
 msgid "Your calendars will not be available until Evolution is restarted."
 msgstr "Ni fydd eich calendrau ar gael tan mae Evolution wedi ei ailgychwyn."
 
-#: ../calendar/calendar.error.xml.h:69
+#: ../calendar/calendar.error.xml.h:67
 msgid "Your tasks will not be available until Evolution is restarted."
 msgstr "Ni fydd eich tasgau ar gael tan mae Evolution wedi ei ailgychwyn."
 
-#: ../calendar/calendar.error.xml.h:70
+#: ../calendar/calendar.error.xml.h:68
 #: ../composer/mail-composer.error.xml.h:27
 msgid "_Discard Changes"
 msgstr "_Hepgor Newidiadau"
 
-#: ../calendar/calendar.error.xml.h:71 ../ui/evolution-editor.xml.h:23
+#: ../calendar/calendar.error.xml.h:69 ../ui/evolution-editor.xml.h:23
 #: ../ui/evolution-message-composer.xml.h:53
 #: ../ui/evolution-signature-editor.xml.h:15
 msgid "_Save"
 msgstr "_Cadw"
 
-#: ../calendar/calendar.error.xml.h:72
+#: ../calendar/calendar.error.xml.h:70
 msgid "_Save Changes"
 msgstr "_Cadw Newidiadau"
 
-#: ../calendar/calendar.error.xml.h:73
+#: ../calendar/calendar.error.xml.h:71
 #: ../composer/mail-composer.error.xml.h:31 ../mail/mail.error.xml.h:134
 msgid "_Send"
 msgstr "_Anfon"
 
-#: ../calendar/calendar.error.xml.h:74
+#: ../calendar/calendar.error.xml.h:72
+msgid "_Send Notice"
+msgstr "Danfon _Hysbys"
+
+#: ../calendar/calendar.error.xml.h:73
 msgid "{0}."
 msgstr "{0}."
 
@@ -4441,7 +4453,7 @@ msgid "Could not write pilot's ToDo application block"
 msgstr "Methu ysgrifennu bloc rhaglen ToDo y peilot"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:1
-#: ../plugins/itip-formatter/itip-formatter.c:1968
+#: ../plugins/itip-formatter/itip-formatter.c:1969
 msgid "Calendar and Tasks"
 msgstr "Calendr a Thasgau"
 
@@ -4496,7 +4508,7 @@ msgstr "Memos"
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:13
 #: ../calendar/gui/e-calendar-table.c:525 ../calendar/gui/e-tasks.c:1329
 #: ../calendar/gui/print.c:1828 ../calendar/gui/tasks-component.c:521
-#: ../calendar/gui/tasks-component.c:1012 ../calendar/gui/tasks-control.c:472
+#: ../calendar/gui/tasks-component.c:1012 ../calendar/gui/tasks-control.c:475
 #: ../calendar/importers/icalendar-importer.c:80
 #: ../calendar/importers/icalendar-importer.c:741
 #: ../plugins/exchange-operations/exchange-folder.c:591
@@ -4520,9 +4532,9 @@ msgid "Evolution Calendar alarm notification service"
 msgstr "Gwasanaeth hysbysu larymau Calendr Evolution"
 
 #: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:115
-#: ../calendar/gui/alarm-notify/util.c:64
-#: ../calendar/gui/alarm-notify/util.c:66 ../calendar/gui/misc.c:111
-#: ../calendar/gui/misc.c:113
+#: ../calendar/gui/alarm-notify/util.c:65
+#: ../calendar/gui/alarm-notify/util.c:67 ../calendar/gui/misc.c:112
+#: ../calendar/gui/misc.c:114
 msgid "minute"
 msgid_plural "minutes"
 msgstr[0] "funud"
@@ -4565,11 +4577,11 @@ msgid "Snooze _time:"
 msgstr "Amser _hepian:"
 
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:4
-#: ../calendar/gui/dialogs/recurrence-page.glade.h:6
+#: ../calendar/gui/dialogs/recurrence-page.glade.h:10
 #: ../filter/filter.glade.h:11 ../mail/mail-config.glade.h:159
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:15
-#: ../plugins/publish-calendar/publish-calendar.glade.h:20
-#: ../ui/evolution-addressbook.xml.h:51 ../ui/evolution-calendar.xml.h:39
+#: ../plugins/publish-calendar/publish-calendar.glade.h:21
+#: ../ui/evolution-addressbook.xml.h:51 ../ui/evolution-calendar.xml.h:41
 #: ../ui/evolution-composer-entries.xml.h:14 ../ui/evolution-editor.xml.h:17
 #: ../ui/evolution-mail-messagedisplay.xml.h:5 ../ui/evolution-memos.xml.h:17
 #: ../ui/evolution-message-composer.xml.h:46
@@ -4663,52 +4675,58 @@ msgstr "amser annilys"
 msgid "(%ld seconds)"
 msgstr "(%ld eiliad)"
 
-#: ../calendar/gui/alarm-notify/util.c:64 ../calendar/gui/misc.c:111
+#. TRANSLATORS: here, "second" is the time division (like "minute"), not the ordinal number (like "third")
+#: ../calendar/gui/alarm-notify/util.c:65 ../calendar/gui/misc.c:112
 #, c-format
 msgid "(%d %s %d %s)"
 msgstr "(%d %s %d %s)"
 
-#: ../calendar/gui/alarm-notify/util.c:64
-#: ../calendar/gui/dialogs/recurrence-page.c:987 ../calendar/gui/misc.c:111
+#. TRANSLATORS: here, "second" is the ordinal number (like "third"), not the time division (like "minute")
+#. * Entire string is for example: This appointment recurs/Every [x] month(s) on the [second] [Monday] [forever]'
+#. * (dropdown menu options are in [square brackets]). This means that after 'second', either the string 'day' or
+#. * the name of a week day (like 'Monday' or 'Friday') always follow.
+#.
+#: ../calendar/gui/alarm-notify/util.c:65
+#: ../calendar/gui/dialogs/recurrence-page.c:998 ../calendar/gui/misc.c:112
 msgid "second"
 msgstr "ail"
 
-#: ../calendar/gui/alarm-notify/util.c:64 ../calendar/gui/misc.c:111
-#: ../filter/filter.glade.h:18 ../mail/mail-config.glade.h:177
+#: ../calendar/gui/alarm-notify/util.c:65 ../calendar/gui/misc.c:112
+#: ../filter/filter.glade.h:18 ../mail/mail-config.glade.h:178
 msgid "seconds"
 msgstr "eiliadau"
 
-#: ../calendar/gui/alarm-notify/util.c:66 ../calendar/gui/misc.c:113
+#: ../calendar/gui/alarm-notify/util.c:67 ../calendar/gui/misc.c:114
 #, c-format
 msgid "(%d %s)"
 msgstr "(%d %s)"
 
-#: ../calendar/gui/alarm-notify/util.c:77 ../calendar/gui/misc.c:124
+#: ../calendar/gui/alarm-notify/util.c:78 ../calendar/gui/misc.c:125
 #, c-format
 msgid " %u second"
 msgstr " %u eiliad"
 
-#: ../calendar/gui/alarm-notify/util.c:77 ../calendar/gui/misc.c:124
+#: ../calendar/gui/alarm-notify/util.c:78 ../calendar/gui/misc.c:125
 #, c-format
 msgid " %u seconds"
 msgstr " %u eiliad"
 
-#: ../calendar/gui/alarm-notify/util.c:79 ../calendar/gui/misc.c:126
+#: ../calendar/gui/alarm-notify/util.c:80 ../calendar/gui/misc.c:127
 #, c-format
 msgid " %u minute"
 msgstr " %u funud"
 
-#: ../calendar/gui/alarm-notify/util.c:79 ../calendar/gui/misc.c:126
+#: ../calendar/gui/alarm-notify/util.c:80 ../calendar/gui/misc.c:127
 #, c-format
 msgid " %u minutes"
 msgstr " %u munud"
 
-#: ../calendar/gui/alarm-notify/util.c:81 ../calendar/gui/misc.c:128
+#: ../calendar/gui/alarm-notify/util.c:82 ../calendar/gui/misc.c:129
 #, c-format
 msgid "%u hour"
 msgstr "%u awr"
 
-#: ../calendar/gui/alarm-notify/util.c:81 ../calendar/gui/misc.c:128
+#: ../calendar/gui/alarm-notify/util.c:82 ../calendar/gui/misc.c:129
 #, c-format
 msgid "%u hours"
 msgstr "%u awr"
@@ -5126,7 +5144,7 @@ msgid "Unmatched"
 msgstr "Heb gydweddu"
 
 #: ../calendar/gui/calendar-commands.c:119 ../calendar/gui/print.c:2509
-#: ../ui/evolution-addressbook.xml.h:26 ../ui/evolution-calendar.xml.h:18
+#: ../ui/evolution-addressbook.xml.h:26 ../ui/evolution-calendar.xml.h:20
 #: ../ui/evolution-mail-message.xml.h:74 ../ui/evolution-memos.xml.h:11
 #: ../ui/evolution-tasks.xml.h:14
 msgid "Print"
@@ -5370,8 +5388,10 @@ msgstr "wedi"
 msgid "before"
 msgstr "cyn"
 
+#. TRANSLATORS: Entire string is for example:
+#. 'This appointment recurs/Every[x][day(s)][for][1]occurrences' (dropdown menu options are in [square brackets])
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:19
-#: ../calendar/gui/dialogs/recurrence-page.glade.h:7
+#: ../calendar/gui/dialogs/recurrence-page.glade.h:13
 msgid "day(s)"
 msgstr "dydd(iau)"
 
@@ -5488,7 +5508,6 @@ msgstr "<span weight=\"bold\">Gweinydd Statws Rhydd/Prysur Rhagosodedig</span>"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:10
 #: ../mail/mail-config.glade.h:18
-#: ../plugins/itip-formatter/itip-formatter.c:1977
 #: ../plugins/publish-calendar/publish-calendar.glade.h:1
 msgid "<span weight=\"bold\">General</span>"
 msgstr "<span weight=\"bold\">Cyffredinol</span>"
@@ -5520,7 +5539,7 @@ msgid "Free/Busy"
 msgstr "Rhydd/Prysur"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:18
-#: ../calendar/gui/dialogs/recurrence-page.c:1046
+#: ../calendar/gui/dialogs/recurrence-page.c:1084
 #: ../calendar/gui/e-itip-control.c:730
 msgid "Friday"
 msgstr "Dydd Gwener"
@@ -5536,7 +5555,7 @@ msgstr ""
 "Diwrnodau"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:23
-#: ../calendar/gui/dialogs/recurrence-page.c:1042
+#: ../calendar/gui/dialogs/recurrence-page.c:1080
 #: ../calendar/gui/e-itip-control.c:726
 msgid "Monday"
 msgstr "Dydd Llun"
@@ -5570,7 +5589,7 @@ msgid "S_un"
 msgstr "S_ul"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:33
-#: ../calendar/gui/dialogs/recurrence-page.c:1047
+#: ../calendar/gui/dialogs/recurrence-page.c:1085
 #: ../calendar/gui/e-itip-control.c:731
 msgid "Saturday"
 msgstr "Dydd Sadwrn"
@@ -5588,7 +5607,7 @@ msgid "Show week _numbers in date navigator"
 msgstr "Dangos rhifau _wythnos yn y llywiwr dyddiadau"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:37
-#: ../calendar/gui/dialogs/recurrence-page.c:1048
+#: ../calendar/gui/dialogs/recurrence-page.c:1086
 #: ../calendar/gui/e-itip-control.c:725
 msgid "Sunday"
 msgstr "Dydd Sul"
@@ -5606,7 +5625,7 @@ msgid "Template:"
 msgstr "Templed:"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:41
-#: ../calendar/gui/dialogs/recurrence-page.c:1045
+#: ../calendar/gui/dialogs/recurrence-page.c:1083
 #: ../calendar/gui/e-itip-control.c:729
 msgid "Thursday"
 msgstr "Dydd Iau"
@@ -5621,13 +5640,13 @@ msgid "Time format:"
 msgstr "Fformat amser:"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:44
-#: ../calendar/gui/dialogs/recurrence-page.c:1043
+#: ../calendar/gui/dialogs/recurrence-page.c:1081
 #: ../calendar/gui/e-itip-control.c:727
 msgid "Tuesday"
 msgstr "Dydd Mawrth"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:45
-#: ../calendar/gui/dialogs/recurrence-page.c:1044
+#: ../calendar/gui/dialogs/recurrence-page.c:1082
 #: ../calendar/gui/e-itip-control.c:728
 msgid "Wednesday"
 msgstr "Dydd Mercher"
@@ -5861,7 +5880,7 @@ msgstr "Neges wedi'i hatodi - %s"
 #. translators, this count will always be >1
 #: ../calendar/gui/dialogs/comp-editor.c:212
 #: ../calendar/gui/dialogs/comp-editor.c:382 ../composer/e-msg-composer.c:2855
-#: ../composer/e-msg-composer.c:3034
+#: ../composer/e-msg-composer.c:3056
 #, c-format
 msgid "Attached message"
 msgid_plural "%d attached messages"
@@ -5869,13 +5888,13 @@ msgstr[0] "Neges wedi'i hatodi"
 msgstr[1] "%d neges wedi'u hatodi"
 msgstr[2] "%d neges wedi'u hatodi"
 
-#: ../calendar/gui/dialogs/comp-editor.c:446 ../composer/e-msg-composer.c:3099
+#: ../calendar/gui/dialogs/comp-editor.c:446 ../composer/e-msg-composer.c:3121
 #: ../mail/em-folder-tree.c:980 ../mail/em-folder-utils.c:368
 #: ../mail/em-folder-view.c:973 ../mail/message-list.c:1725
 msgid "_Move"
 msgstr "_Symud"
 
-#: ../calendar/gui/dialogs/comp-editor.c:448 ../composer/e-msg-composer.c:3101
+#: ../calendar/gui/dialogs/comp-editor.c:448 ../composer/e-msg-composer.c:3123
 #: ../mail/em-folder-tree.c:982 ../mail/message-list.c:1727
 msgid "Cancel _Drag"
 msgstr "Diddymu _Llusgo"
@@ -5906,7 +5925,7 @@ msgstr "_Dangos y Bar Atodiadau"
 #: ../calendar/gui/dialogs/meeting-page.c:899
 #: ../calendar/gui/dialogs/task-page.c:1202
 #: ../composer/e-msg-composer-attachment-bar.c:470
-#: ../composer/e-msg-composer.c:3597
+#: ../composer/e-msg-composer.c:3619
 #: ../plugins/groupwise-features/junk-settings.glade.h:8
 #: ../plugins/groupwise-features/properties.glade.h:14
 #: ../widgets/table/e-table-config.glade.h:18
@@ -5915,14 +5934,14 @@ msgstr "_Tynnu"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1088
 #: ../composer/e-msg-composer-attachment-bar.c:471
-#: ../composer/e-msg-composer.c:3598 ../mail/em-folder-tree.c:2058
+#: ../composer/e-msg-composer.c:3620 ../mail/em-folder-tree.c:2058
 #: ../ui/evolution-addressbook.xml.h:59 ../ui/evolution-mail-list.xml.h:33
 msgid "_Properties"
 msgstr "_Priodweddau"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1090
 #: ../composer/e-msg-composer-attachment-bar.c:473
-#: ../composer/e-msg-composer.c:3600
+#: ../composer/e-msg-composer.c:3622
 msgid "_Add attachment..."
 msgstr "Ychwanegu _atodiad..."
 
@@ -6192,8 +6211,8 @@ msgstr "Addasu"
 #: ../calendar/gui/dialogs/meeting-page.glade.h:4
 #: ../calendar/gui/e-cal-model-tasks.c:649
 #: ../calendar/gui/e-itip-control.c:1099 ../composer/e-msg-composer.c:2271
-#: ../filter/filter-rule.c:889 ../mail/em-account-editor.c:693
-#: ../mail/em-account-editor.c:1358 ../mail/em-account-prefs.c:475
+#: ../filter/filter-rule.c:889 ../mail/em-account-editor.c:701
+#: ../mail/em-account-editor.c:1388 ../mail/em-account-prefs.c:475
 #: ../mail/em-junk-hook.c:78
 #: ../plugins/calendar-weather/calendar-weather.c:370
 #: ../plugins/calendar-weather/calendar-weather.c:424
@@ -6223,7 +6242,7 @@ msgid "Atte_ndees..."
 msgstr "_Mynychwyr..."
 
 #: ../calendar/gui/dialogs/event-page.glade.h:6
-#: ../calendar/gui/dialogs/memo-page.glade.h:2
+#: ../calendar/gui/dialogs/memo-page.glade.h:1
 msgid "Ca_tegories..."
 msgstr "_Categorïau..."
 
@@ -6257,13 +6276,17 @@ msgstr "_Larwm"
 msgid "_Time:"
 msgstr "_Amser:"
 
+#. TRANSLATORS: Entire string is for example:
+#. 'This appointment recurs/Every[x][day(s)][for][1]occurrences' (dropdown menu options are in [square brackets])
 #: ../calendar/gui/dialogs/event-page.glade.h:18
-#: ../calendar/gui/dialogs/recurrence-page.glade.h:8
+#: ../calendar/gui/dialogs/recurrence-page.glade.h:16
 msgid "for"
 msgstr "ar gyfer"
 
+#. TRANSLATORS: Entire string is for example:
+#. 'This appointment recurs/Every[x][day(s)][until][2006/01/01]' (dropdown menu options are in [square brackets])
 #: ../calendar/gui/dialogs/event-page.glade.h:21
-#: ../calendar/gui/dialogs/recurrence-page.glade.h:11
+#: ../calendar/gui/dialogs/recurrence-page.glade.h:25
 msgid "until"
 msgstr "hyd"
 
@@ -6355,13 +6378,13 @@ msgstr "Memo"
 msgid "Unable to open memos in '%s'."
 msgstr "Methu agor memos o fewn '%s'."
 
-#: ../calendar/gui/dialogs/memo-page.glade.h:3
+#: ../calendar/gui/dialogs/memo-page.glade.h:2
 #: ../calendar/gui/dialogs/task-page.c:439
 #: ../calendar/gui/dialogs/task-page.glade.h:9
 msgid "_Group:"
 msgstr "_Grŵp"
 
-#: ../calendar/gui/dialogs/memo-page.glade.h:4
+#: ../calendar/gui/dialogs/memo-page.glade.h:3
 msgid "_Memo Content:"
 msgstr "Cynnwys _Memos:"
 
@@ -6447,43 +6470,90 @@ msgstr ""
 msgid "Recurrence date is invalid"
 msgstr "Dyddiad ail-ddigwydd yn annilys"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:926
+#. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] week(s) on [Wednesday] [forever]'
+#. * (dropdown menu options are in [square brackets]). This means that after the 'on', name of a week day always follows.
+#: ../calendar/gui/dialogs/recurrence-page.c:928
 msgid "on"
 msgstr "ar"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:986
+#. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [first] [Monday] [forever]'
+#. * (dropdown menu options are in [square brackets]). This means that after 'first', either the string 'day' or
+#. * the name of a week day (like 'Monday' or 'Friday') always follow.
+#.
+#: ../calendar/gui/dialogs/recurrence-page.c:992
 msgid "first"
 msgstr "cyntaf"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:988
+#. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [third] [Monday] [forever]'
+#. * (dropdown menu options are in [square brackets]). This means that after 'third', either the string 'day' or
+#. * the name of a week day (like 'Monday' or 'Friday') always follow.
+#.
+#: ../calendar/gui/dialogs/recurrence-page.c:1003
 msgid "third"
 msgstr "trydydd"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:989
+#. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [fourth] [Monday] [forever]'
+#. * (dropdown menu options are in [square brackets]). This means that after 'fourth', either the string 'day' or
+#. * the name of a week day (like 'Monday' or 'Friday') always follow.
+#.
+#: ../calendar/gui/dialogs/recurrence-page.c:1008
 msgid "fourth"
 msgstr "pedwerydd"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:990
+#. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [last] [Monday] [forever]'
+#. * (dropdown menu options are in [square brackets]). This means that after 'last', either the string 'day' or
+#. * the name of a week day (like 'Monday' or 'Friday') always follow.
+#.
+#: ../calendar/gui/dialogs/recurrence-page.c:1013
 msgid "last"
 msgstr "olaf"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1013
+#. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [Other date] [11th to 20th] [17th] [forever]'
+#. * (dropdown menu options are in [square brackets]).
+#: ../calendar/gui/dialogs/recurrence-page.c:1039
 msgid "Other Date"
 msgstr "Dyddiad Arall"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1041
+#. TRANSLATORS: This is a submenu option string to split the date range into three submenus to choose the exact day of
+#. * the month to setup an appointment recurrence. The entire string is for example: This appointment recurs/Every [x] month(s)
+#. * on the [Other date] [1st to 10th] [7th] [forever]' (dropdown menu options are in [square brackets]).
+#.
+#: ../calendar/gui/dialogs/recurrence-page.c:1047
+msgid "1st to 10th"
+msgstr "1af hyd 10fed"
+
+#. TRANSLATORS: This is a submenu option string to split the date range into three submenus to choose the exact day of
+#. * the month to setup an appointment recurrence. The entire string is for example: This appointment recurs/Every [x] month(s)
+#. * on the [Other date] [11th to 20th] [17th] [forever]' (dropdown menu options are in [square brackets]).
+#.
+#: ../calendar/gui/dialogs/recurrence-page.c:1053
+msgid "11th to 20th"
+msgstr "11eg hyd 20fed"
+
+#. TRANSLATORS: This is a submenu option string to split the date range into three submenus to choose the exact day of
+#. * the month to setup an appointment recurrence. The entire string is for example: This appointment recurs/Every [x] month(s)
+#. * on the [Other date] [21th to 31th] [27th] [forever]' (dropdown menu options are in [square brackets]).
+#.
+#: ../calendar/gui/dialogs/recurrence-page.c:1059
+msgid "21st to 31st"
+msgstr "21ain hyd 31ain"
+
+#: ../calendar/gui/dialogs/recurrence-page.c:1079
 msgid "day"
 msgstr "dydd"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1178
+#. TRANSLATORS: Entire string is for example: 'This appointment recurs/Every [x] month(s) on the [second] [Tuesday] [forever]'
+#. * (dropdown menu options are in [square brackets])."
+#.
+#: ../calendar/gui/dialogs/recurrence-page.c:1219
 msgid "on the"
 msgstr "ar y"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1367
+#: ../calendar/gui/dialogs/recurrence-page.c:1408
 msgid "occurrences"
 msgstr "digwyddiadau"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:2336
+#: ../calendar/gui/dialogs/recurrence-page.c:2377
 msgid "Date/Time"
 msgstr "Dyddiad ac Amser"
 
@@ -6500,27 +6570,37 @@ msgstr "<b>Rhagolwg</b>"
 msgid "<b>Recurrence</b>"
 msgstr "<b>Ail-ddigwyddiad</b>"
 
-#: ../calendar/gui/dialogs/recurrence-page.glade.h:4
+#. TRANSLATORS: Entire string is for example:
+#. 'This appointment recurs/Every[x][day(s)][for][1]occurrences' (dropdown menu options are in [square brackets])
+#: ../calendar/gui/dialogs/recurrence-page.glade.h:6
 msgid "Every"
 msgstr "Pob"
 
-#: ../calendar/gui/dialogs/recurrence-page.glade.h:5
+#. TRANSLATORS: Entire string is for example:
+#. 'This appointment recurs/Every[x][day(s)][for][1]occurrences' (dropdown menu options are in [square brackets])
+#: ../calendar/gui/dialogs/recurrence-page.glade.h:9
 msgid "This appointment rec_urs"
 msgstr "Mae'r apwyntiad yn _ail-ddigwydd"
 
-#: ../calendar/gui/dialogs/recurrence-page.glade.h:9
+#. TRANSLATORS: Entire string is for example:
+#. 'This appointment recurs/Every[x][day(s)][forever]' (dropdown menu options are in [square brackets])
+#: ../calendar/gui/dialogs/recurrence-page.glade.h:19
 msgid "forever"
 msgstr "am byth"
 
-#: ../calendar/gui/dialogs/recurrence-page.glade.h:10
+#. TRANSLATORS: Entire string is for example:
+#. 'This appointment recurs/Every[x][month(s)][for][1]occurrences' (dropdown menu options are in [square brackets])
+#: ../calendar/gui/dialogs/recurrence-page.glade.h:22
 msgid "month(s)"
 msgstr "mis(oedd)"
 
-#: ../calendar/gui/dialogs/recurrence-page.glade.h:12
+#. TRANSLATORS: Entire string is for example:
+#. 'This appointment recurs/Every[x][week(s)][for][1]occurrences' (dropdown menu options are in [square brackets])
+#: ../calendar/gui/dialogs/recurrence-page.glade.h:28
 msgid "week(s)"
 msgstr "wythnos(au)"
 
-#: ../calendar/gui/dialogs/recurrence-page.glade.h:13
+#: ../calendar/gui/dialogs/recurrence-page.glade.h:29
 msgid "year(s)"
 msgstr "blwyddyn/blynyddoedd"
 
@@ -6678,7 +6758,7 @@ msgid "_Manual"
 msgstr "_Â llaw"
 
 #: ../calendar/gui/dialogs/url-editor-dialog.glade.h:9
-#: ../plugins/publish-calendar/publish-calendar.glade.h:22
+#: ../plugins/publish-calendar/publish-calendar.glade.h:23
 msgid "_Password:"
 msgstr "_Cyfrinair:"
 
@@ -6928,7 +7008,7 @@ msgstr "Nage"
 #: ../plugins/itip-formatter/itip-formatter.c:1651
 #: ../plugins/plugin-manager/plugin-manager.c:68
 #: ../widgets/misc/e-attachment-bar.c:686
-#: ../widgets/misc/e-charset-picker.c:62
+#: ../widgets/misc/e-charset-picker.c:63
 msgid "Unknown"
 msgstr "Anhysbys"
 
@@ -7042,7 +7122,7 @@ msgstr "Agor Tudalen _Gwe"
 #: ../calendar/gui/e-calendar-view.c:1597 ../calendar/gui/e-memo-table.c:855
 #: ../mail/em-folder-view.c:1088
 #: ../plugins/print-message/org-gnome-print-message.xml.h:3
-#: ../ui/evolution-addressbook.xml.h:58 ../ui/evolution-calendar.xml.h:42
+#: ../ui/evolution-addressbook.xml.h:58 ../ui/evolution-calendar.xml.h:44
 #: ../ui/evolution-mail-message.xml.h:123 ../ui/evolution-memos.xml.h:20
 #: ../ui/evolution-tasks.xml.h:29
 msgid "_Print..."
@@ -7058,7 +7138,7 @@ msgstr "_Torri"
 #: ../calendar/gui/e-calendar-table.c:1183
 #: ../calendar/gui/e-calendar-view.c:1584
 #: ../calendar/gui/e-calendar-view.c:1603 ../calendar/gui/e-memo-table.c:861
-#: ../ui/evolution-addressbook.xml.h:57 ../ui/evolution-calendar.xml.h:41
+#: ../ui/evolution-addressbook.xml.h:57 ../ui/evolution-calendar.xml.h:43
 #: ../ui/evolution-composer-entries.xml.h:15 ../ui/evolution-editor.xml.h:22
 #: ../ui/evolution-memos.xml.h:19 ../ui/evolution-tasks.xml.h:28
 msgid "_Paste"
@@ -7191,7 +7271,7 @@ msgstr "Ateb i _Bawb"
 msgid "Make this Occurrence _Movable"
 msgstr "Galluogi _symud y digwyddiad hwn"
 
-#: ../calendar/gui/e-calendar-view.c:1619
+#: ../calendar/gui/e-calendar-view.c:1619 ../ui/evolution-calendar.xml.h:9
 msgid "Delete this _Occurrence"
 msgstr "Dileu _digwyddiad hyn"
 
@@ -7212,13 +7292,13 @@ msgid "Organizer: %s"
 msgstr "Trefnydd: %s"
 
 #. To Translators: It will display "Location: PlaceOfTheMeeting"
-#: ../calendar/gui/e-calendar-view.c:2049 ../calendar/gui/print.c:2336
+#: ../calendar/gui/e-calendar-view.c:2050 ../calendar/gui/print.c:2336
 #, c-format
 msgid "Location: %s"
 msgstr "Lleoliad: %s"
 
 #. To Translators: It will display "Time: ActualStartDateAndTime (DurationOfTheMeeting)"
-#: ../calendar/gui/e-calendar-view.c:2080
+#: ../calendar/gui/e-calendar-view.c:2081
 #, c-format
 msgid "Time: %s %s"
 msgstr "Amser: %s %s"
@@ -8054,19 +8134,19 @@ msgstr "Rhaid gosod trefnydd."
 msgid "At least one attendee is necessary"
 msgstr "Rhaid bod un neu fwy o fynychwyr"
 
-#: ../calendar/gui/itip-utils.c:631 ../calendar/gui/itip-utils.c:757
+#: ../calendar/gui/itip-utils.c:631 ../calendar/gui/itip-utils.c:754
 msgid "Event information"
 msgstr "Gwybodaeth digwyddiad"
 
-#: ../calendar/gui/itip-utils.c:633 ../calendar/gui/itip-utils.c:759
+#: ../calendar/gui/itip-utils.c:633 ../calendar/gui/itip-utils.c:756
 msgid "Task information"
 msgstr "Gwybodaeth Tasg"
 
-#: ../calendar/gui/itip-utils.c:635 ../calendar/gui/itip-utils.c:761
+#: ../calendar/gui/itip-utils.c:635 ../calendar/gui/itip-utils.c:758
 msgid "Journal information"
 msgstr "Gwybodaeth dyddlyfr"
 
-#: ../calendar/gui/itip-utils.c:637 ../calendar/gui/itip-utils.c:779
+#: ../calendar/gui/itip-utils.c:637 ../calendar/gui/itip-utils.c:776
 msgid "Free/Busy information"
 msgstr "Gwybodaeth statws Rhydd/Prysur"
 
@@ -8086,16 +8166,16 @@ msgstr "Adnewyddu"
 msgid "Counter-proposal"
 msgstr "Gwrthgynnig"
 
-#: ../calendar/gui/itip-utils.c:775
+#: ../calendar/gui/itip-utils.c:772
 #, c-format
 msgid "Free/Busy information (%s to %s)"
 msgstr "Gwybodaeth statws Rhydd/Prysur (%s i %s)"
 
-#: ../calendar/gui/itip-utils.c:785
+#: ../calendar/gui/itip-utils.c:782
 msgid "iCalendar information"
 msgstr "Gwybodaeth iCalendr"
 
-#: ../calendar/gui/itip-utils.c:940
+#: ../calendar/gui/itip-utils.c:937
 msgid "You must be an attendee of the event."
 msgstr "Rhaid i chi fod yn mynychu'r digwyddiad."
 
@@ -8527,7 +8607,7 @@ msgstr "Rhestr _dasgau"
 msgid "Create a new task list"
 msgstr "Creu rhestr dasgau newydd"
 
-#: ../calendar/gui/tasks-control.c:435
+#: ../calendar/gui/tasks-control.c:438
 msgid ""
 "This operation will permanently erase all tasks marked as completed. If you "
 "continue, you will not be able to recover these tasks.\n"
@@ -8539,11 +8619,11 @@ msgstr ""
 "\n"
 "Dileu'r tasgau yma go iawn?"
 
-#: ../calendar/gui/tasks-control.c:438
+#: ../calendar/gui/tasks-control.c:441
 msgid "Do not ask me again."
 msgstr "Peidiwch â gofyn eto"
 
-#: ../calendar/gui/tasks-control.c:472
+#: ../calendar/gui/tasks-control.c:475
 msgid "Print Tasks"
 msgstr "Argraffu Tasgau"
 
@@ -10267,7 +10347,7 @@ msgid "Hide _Attachment Bar"
 msgstr "Cuddio'r Bar _Atodiadau"
 
 #: ../composer/e-msg-composer.c:1298 ../composer/e-msg-composer.c:2511
-#: ../composer/e-msg-composer.c:3843
+#: ../composer/e-msg-composer.c:3865
 msgid "Show _Attachment Bar"
 msgstr "Dangos y Bar _Atodiadau"
 
@@ -10293,8 +10373,8 @@ msgstr "Neges Di-deitl"
 msgid "Open File"
 msgstr "Agor Ffeil"
 
-#: ../composer/e-msg-composer.c:2151 ../mail/em-account-editor.c:598
-#: ../mail/em-account-editor.c:643 ../mail/em-account-editor.c:710
+#: ../composer/e-msg-composer.c:2151 ../mail/em-account-editor.c:606
+#: ../mail/em-account-editor.c:651 ../mail/em-account-editor.c:718
 msgid "Autogenerated"
 msgstr "Awtogynhyrchwyd"
 
@@ -10302,12 +10382,12 @@ msgstr "Awtogynhyrchwyd"
 msgid "Si_gnature:"
 msgstr "_Llofnod:"
 
-#: ../composer/e-msg-composer.c:2522 ../composer/e-msg-composer.c:3725
-#: ../composer/e-msg-composer.c:3728
+#: ../composer/e-msg-composer.c:2522 ../composer/e-msg-composer.c:3747
+#: ../composer/e-msg-composer.c:3750
 msgid "Compose Message"
 msgstr "Cyfansoddi'r Neges"
 
-#: ../composer/e-msg-composer.c:4952
+#: ../composer/e-msg-composer.c:4974
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)"
 "<b>"
@@ -10459,7 +10539,7 @@ msgstr "C_adw'r Neges"
 
 #: ../data/evolution.desktop.in.in.h:1
 #: ../plugins/default-mailer/org-gnome-default-mailer.error.xml.h:2
-#: ../shell/main.c:511
+#: ../shell/main.c:514
 msgid "Evolution"
 msgstr "Evolution"
 
@@ -10468,8 +10548,8 @@ msgid "Groupware Suite"
 msgstr "Cyfres Meddalwedd Grŵp"
 
 #: ../data/evolution.desktop.in.in.h:3
-msgid "The Evolution Groupware Suite"
-msgstr "Cyfres Meddalwedd Grŵp Evolution"
+msgid "The Evolution PIM and Email Client"
+msgstr "Evolution, Cleient Ebost a Threfnydd Gwybodaeth Personol"
 
 #: ../data/evolution.keys.in.in.h:1
 msgid "address card"
@@ -10615,12 +10695,10 @@ msgid "Evolution Query"
 msgstr "Ymholiad Evolution"
 
 #. setup a dummy error
-#: ../e-util/e-error.c:442
+#: ../e-util/e-error.c:443
 #, c-format
-msgid ""
-"<span weight=\"bold\">Internal error, unknown error '%s' requested</span>"
-msgstr ""
-"<span weight=\"bold\">Gwall mewnol: gwall anhysbys '%s' wedi ei geisio</span>"
+msgid "Internal error, unknown error '%s' requested"
+msgstr "Gwall mewnol: gwall anhysbys '%s' wedi ei geisio"
 
 #: ../e-util/e-system.error.xml.h:2
 msgid "Cannot open file &quot;{0}&quot;."
@@ -10977,12 +11055,12 @@ msgstr "Hoffiannau Ebost"
 msgid "_Mail"
 msgstr "_Ebost"
 
-#: ../mail/em-account-editor.c:395
+#: ../mail/em-account-editor.c:403
 #, c-format
 msgid "%s License Agreement"
 msgstr "Cytundeb Trwydded %s"
 
-#: ../mail/em-account-editor.c:402
+#: ../mail/em-account-editor.c:410
 #, c-format
 msgid ""
 "\n"
@@ -10995,55 +11073,55 @@ msgstr ""
 "ar gyfer %s a ddangosir isod\n"
 "a thicio'r blwch i'w dderbyn\n"
 
-#: ../mail/em-account-editor.c:474 ../mail/em-filter-folder-element.c:237
+#: ../mail/em-account-editor.c:482 ../mail/em-filter-folder-element.c:237
 #: ../mail/em-vfolder-rule.c:496
 msgid "Select Folder"
 msgstr "Dewiswch Blygell"
 
-#: ../mail/em-account-editor.c:770
+#: ../mail/em-account-editor.c:778
 msgid "Ask for each message"
 msgstr "Gofyn am bob neges"
 
-#: ../mail/em-account-editor.c:1749 ../mail/mail-config.glade.h:91
+#: ../mail/em-account-editor.c:1780 ../mail/mail-config.glade.h:91
 msgid "Identity"
 msgstr "Hunaniaeth"
 
-#: ../mail/em-account-editor.c:1798 ../mail/mail-config.glade.h:118
+#: ../mail/em-account-editor.c:1829 ../mail/mail-config.glade.h:118
 msgid "Receiving Email"
 msgstr "Derbyn Ebost"
 
-#: ../mail/em-account-editor.c:1981
+#: ../mail/em-account-editor.c:2013
 msgid "Automatically check for _new mail every"
 msgstr "Gwirio'n awtomatig am _e-bost newydd bob"
 
-#: ../mail/em-account-editor.c:2162 ../mail/mail-config.glade.h:130
+#: ../mail/em-account-editor.c:2194 ../mail/mail-config.glade.h:130
 msgid "Sending Email"
 msgstr "Anfon E-bost"
 
-#: ../mail/em-account-editor.c:2221 ../mail/mail-config.glade.h:68
+#: ../mail/em-account-editor.c:2253 ../mail/mail-config.glade.h:68
 msgid "Defaults"
 msgstr "Rhagosodiadau"
 
 #. Security settings
-#: ../mail/em-account-editor.c:2287 ../mail/mail-config.glade.h:123
+#: ../mail/em-account-editor.c:2319 ../mail/mail-config.glade.h:123
 #: ../plugins/exchange-operations/exchange-account-setup.c:317
 msgid "Security"
 msgstr "Diogelwch"
 
 #. Most sections for this is auto-generated fromt the camel config
-#: ../mail/em-account-editor.c:2324 ../mail/em-account-editor.c:2415
+#: ../mail/em-account-editor.c:2356 ../mail/em-account-editor.c:2447
 msgid "Receiving Options"
 msgstr "Gosodiadau Derbyn"
 
-#: ../mail/em-account-editor.c:2325 ../mail/em-account-editor.c:2416
+#: ../mail/em-account-editor.c:2357 ../mail/em-account-editor.c:2448
 msgid "Checking for New Mail"
 msgstr "Chwilio am Ebost Newydd"
 
-#: ../mail/em-account-editor.c:2755 ../mail/mail-config.glade.h:34
+#: ../mail/em-account-editor.c:2795 ../mail/mail-config.glade.h:34
 msgid "Account Editor"
 msgstr "Golygydd Cyfrifon"
 
-#: ../mail/em-account-editor.c:2755 ../mail/mail-config.glade.h:80
+#: ../mail/em-account-editor.c:2795 ../mail/mail-config.glade.h:80
 msgid "Evolution Account Assistant"
 msgstr "Cynorthwyydd Cyfrifon Evolution"
 
@@ -11094,18 +11172,18 @@ msgstr "Ychwanegu sgript llofnod"
 msgid "Signature(s)"
 msgstr "Llofnod(ion)"
 
-#: ../mail/em-composer-utils.c:863 ../mail/em-format-quote.c:389
+#: ../mail/em-composer-utils.c:873 ../mail/em-format-quote.c:389
 msgid "-------- Forwarded Message --------"
 msgstr "-------- Neges Yrrwyd Ymlaen --------"
 
-#: ../mail/em-composer-utils.c:1655
+#: ../mail/em-composer-utils.c:1665
 msgid "an unknown sender"
 msgstr "danfonwr anhysbys"
 
 #. Note to translators: this is the attribution string used when quoting messages.
 #. * each ${Variable} gets replaced with a value. To see a full list of available
 #. * variables, see em-composer-utils.c:1514
-#: ../mail/em-composer-utils.c:1702
+#: ../mail/em-composer-utils.c:1712
 msgid ""
 "On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} "
 "${TimeZone}, ${Sender} wrote:"
@@ -11383,7 +11461,7 @@ msgstr "Creu _Plygell Chwilio o'r Chwiliad..."
 
 #. TODO: can this be done in a loop?
 #. to be on the safe side, ngettext is used here, see e.g. comment #3 at bug 272567
-#: ../mail/em-folder-properties.c:145
+#: ../mail/em-folder-properties.c:150
 msgid "Total messages:"
 msgid_plural "Total messages:"
 msgstr[0] "Cyfanswm neges:"
@@ -11391,14 +11469,14 @@ msgstr[1] "Cyfanswm negeseuon:"
 msgstr[2] "Cyfanswm negeseuon:"
 
 #. to be on the safe side, ngettext is used here, see e.g. comment #3 at bug 272567
-#: ../mail/em-folder-properties.c:158
+#: ../mail/em-folder-properties.c:163
 msgid "Unread messages:"
 msgid_plural "Unread messages:"
 msgstr[0] "Neges heb ei darllen:"
 msgstr[1] "Negeseuon heb eu darllen:"
 msgstr[2] "Negeseuon heb eu darllen:"
 
-#: ../mail/em-folder-properties.c:289
+#: ../mail/em-folder-properties.c:316
 #: ../plugins/groupwise-features/properties.glade.h:3
 msgid "Folder Properties"
 msgstr "Priodweddau Plygell"
@@ -13515,23 +13593,24 @@ msgstr "_Arddull ateb:"
 msgid "_Script:"
 msgstr "_Sgript:"
 
-#: ../mail/mail-config.glade.h:172
-msgid "_Show animated images"
-msgstr "_Dangos delweddau animeiddiedig"
-
+#. If enabled, show animation; if disabled, only display a static image without any animation
 #: ../mail/mail-config.glade.h:173
+msgid "_Show image animations"
+msgstr "_Dangos delweddau wedi'u hanimeiddio"
+
+#: ../mail/mail-config.glade.h:174
 msgid "_Use Secure Connection:"
 msgstr "_Defnyddio cysylltiad diogel:"
 
-#: ../mail/mail-config.glade.h:174
+#: ../mail/mail-config.glade.h:175
 msgid "_Use the same fonts as other applications"
 msgstr "_Defnyddio'r un ffontiau â rhaglenni eraill"
 
-#: ../mail/mail-config.glade.h:175
+#: ../mail/mail-config.glade.h:176
 msgid "color"
 msgstr "lliw"
 
-#: ../mail/mail-config.glade.h:176
+#: ../mail/mail-config.glade.h:177
 msgid "description"
 msgstr "disgrifiad"
 
@@ -13795,11 +13874,11 @@ msgstr ""
 "Gwall wrth gadw'r negeseuon i: %s:\n"
 " %s"
 
-#: ../mail/mail-ops.c:2090
+#: ../mail/mail-ops.c:2091
 msgid "Saving attachment"
 msgstr "Cadw'r atodiad"
 
-#: ../mail/mail-ops.c:2102
+#: ../mail/mail-ops.c:2104 ../mail/mail-ops.c:2110
 #, c-format
 msgid ""
 "Cannot create output file: %s:\n"
@@ -13808,48 +13887,28 @@ msgstr ""
 "Methu creu ffeil allbwn: %s\n"
 " %s"
 
-#: ../mail/mail-ops.c:2112
+#: ../mail/mail-ops.c:2120
 #, c-format
 msgid "Could not write data: %s"
 msgstr "Methu ysgrifennu data: %s"
 
-#: ../mail/mail-ops.c:2262
+#: ../mail/mail-ops.c:2269
 #, c-format
 msgid "Disconnecting from %s"
 msgstr "Datgysylltu o %s"
 
-#: ../mail/mail-ops.c:2262
+#: ../mail/mail-ops.c:2269
 #, c-format
 msgid "Reconnecting to %s"
 msgstr "Ail-gysylltu â %s"
 
-#: ../mail/mail-ops.c:2378
+#: ../mail/mail-ops.c:2385
 msgid "Checking Service"
 msgstr "Gwirio Gwasanaeth"
 
 #: ../mail/mail-send-recv.c:158
 msgid "Canceling..."
 msgstr "Diddymu..."
-
-#: ../mail/mail-send-recv.c:266 ../mail/mail-send-recv.c:268
-#, c-format
-msgid "<b>%s (%s)</b> : %s"
-msgstr "<b>%s (%s)</b> : %s"
-
-#: ../mail/mail-send-recv.c:270
-#, c-format
-msgid "<b>%s (%s)</b>"
-msgstr "<b>%s (%s)</b>"
-
-#: ../mail/mail-send-recv.c:274 ../mail/mail-send-recv.c:276
-#, c-format
-msgid "<b>%s</b> : %s"
-msgstr "<b>%s</b> : %s"
-
-#: ../mail/mail-send-recv.c:278
-#, c-format
-msgid "<b>%s</b>"
-msgstr "<b>%s</b>"
 
 #: ../mail/mail-send-recv.c:329
 msgid "Send & Receive Mail"
@@ -13872,7 +13931,7 @@ msgid "Checking for new mail"
 msgstr "Chwilio am Ebost Newydd"
 
 #: ../mail/mail-session.c:204
-#: ../plugins/exchange-operations/exchange-config-listener.c:681
+#: ../plugins/exchange-operations/exchange-config-listener.c:710
 #, c-format
 msgid "Enter Password for %s"
 msgstr "Rhowch Gyfrinair am %s"
@@ -14767,28 +14826,24 @@ msgstr "Creu copi wrth gefn, ac adfer data a gosodiadau Evolution"
 msgid "Restore Settings..."
 msgstr "Adfer Gosodiadau..."
 
-#: ../plugins/bbdb/bbdb.c:429
+#: ../plugins/bbdb/bbdb.c:430 ../plugins/bbdb/bbdb.c:439
 #: ../plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:1
 msgid "Automatic Contacts"
 msgstr "Cysylltiadau Awtomatig"
 
-#: ../plugins/bbdb/bbdb.c:438
-msgid "<span weight=\"bold\">Automatic Contacts</span>"
-msgstr "<span weight=\"bold\">Cysylltiadau Awtomatig</span>"
-
 #. Enable BBDB checkbox
-#: ../plugins/bbdb/bbdb.c:451
+#: ../plugins/bbdb/bbdb.c:454
 msgid ""
 "_Automatically create entries in the addressbook when responding to mail"
 msgstr ""
 "_Creu cofnodion yn awtomatig yn y llyfr cyfeiriadau wrth ymateb i e-bost"
 
-#: ../plugins/bbdb/bbdb.c:472
-msgid "<span weight=\"bold\">Instant Messaging Contacts</span>"
-msgstr "<span weight=\"bold\">Cysylltiadau Awtomatig Negesu Chwim</span>"
+#: ../plugins/bbdb/bbdb.c:475
+msgid "Instant Messaging Contacts"
+msgstr "Cysylltiadau Negesu Sydyn"
 
 #. Enable Gaim Checkbox
-#: ../plugins/bbdb/bbdb.c:485
+#: ../plugins/bbdb/bbdb.c:490
 msgid ""
 "Periodically synchronize contact information and images from gaim buddy list"
 msgstr ""
@@ -14796,7 +14851,7 @@ msgstr ""
 "ffrindiau gaim"
 
 #. Synchronize now button.
-#: ../plugins/bbdb/bbdb.c:502
+#: ../plugins/bbdb/bbdb.c:507
 msgid "Synchronize with _buddy list now"
 msgstr "Cysoni gyda'r _rhestr ffrindiau nawr"
 
@@ -14936,8 +14991,8 @@ msgstr "Ydych chi am i Evolution fod yn rhaglen e-bost ragosodedig i chi?"
 
 #: ../plugins/default-source/default-source.c:82
 #: ../plugins/default-source/default-source.c:109
-msgid "Mark as default folder"
-msgstr "Marcio yn blygell ragosodedig"
+msgid "Mark as _default folder"
+msgstr "Marcio yn _blygell ragosodedig"
 
 #: ../plugins/default-source/org-gnome-default-source.eplug.xml.h:1
 msgid "Default Sources"
@@ -15069,8 +15124,8 @@ msgstr "Math Dilysiant"
 msgid "Ch_eck for Supported Types"
 msgstr "_Gwirio am Fathau wedi Cynnal"
 
-#: ../plugins/exchange-operations/exchange-calendar.c:192
-#: ../plugins/exchange-operations/exchange-contacts.c:165
+#: ../plugins/exchange-operations/exchange-calendar.c:194
+#: ../plugins/exchange-operations/exchange-contacts.c:167
 msgid ""
 "Evolution is in offline mode. You cannot create or modify folders now.\n"
 "Please switch to online mode for such operations."
@@ -15110,7 +15165,7 @@ msgstr "Cyfrinair Newydd:"
 msgid "Your current password has expired. Please change your password now."
 msgstr "Mae'ch cyfrinair wedi dod i ben. Newidiwch eich cyfrinair nawr."
 
-#: ../plugins/exchange-operations/exchange-config-listener.c:633
+#: ../plugins/exchange-operations/exchange-config-listener.c:662
 #, c-format
 msgid "Your password will expire in the next %d days"
 msgstr "Mae'ch cyfrinair yn dod i ben o fewn %d dydd"
@@ -15867,7 +15922,7 @@ msgstr "Mewngofnodi Dirprwy"
 
 #: ../plugins/groupwise-features/proxy-login.c:220
 #: ../plugins/groupwise-features/proxy-login.c:263
-#: ../plugins/groupwise-features/proxy.c:502
+#: ../plugins/groupwise-features/proxy.c:503
 #: ../plugins/groupwise-features/send-options.c:83
 #, c-format
 msgid "%sEnter password for %s (user %s)"
@@ -15877,11 +15932,11 @@ msgstr "%sRhowch gyfrinair am %s (defnyddiwr %s)"
 msgid "_Proxy Login..."
 msgstr "_Mewngofnodi Dirprwy..."
 
-#: ../plugins/groupwise-features/proxy.c:698
+#: ../plugins/groupwise-features/proxy.c:697
 msgid "The Proxy tab will be available only when the account is online."
 msgstr "Fydd y tab Dirprwy ddim ond ar gael wedi i'r cyfrif gael ei alluogi."
 
-#: ../plugins/groupwise-features/proxy.c:703
+#: ../plugins/groupwise-features/proxy.c:702
 msgid "The Proxy tab will be available only when the account is enabled."
 msgstr "Fydd y tab Dirprwy ddim ond ar gael wedi i'r cyfrif gael ei alluogi."
 
@@ -15921,19 +15976,19 @@ msgstr "_Mewnforio i'r Calendr"
 msgid "_Import to Tasks"
 msgstr "_Mewnforio i'r Tasgau"
 
-#: ../plugins/import-ics-attachments/icsimporter.c:197
+#: ../plugins/import-ics-attachments/icsimporter.c:198
 msgid "Import ICS"
 msgstr "Mewnforio ICS"
 
-#: ../plugins/import-ics-attachments/icsimporter.c:225
+#: ../plugins/import-ics-attachments/icsimporter.c:226
 msgid "Select Task List"
 msgstr "Dewis Rhestr Dasgau"
 
-#: ../plugins/import-ics-attachments/icsimporter.c:229
+#: ../plugins/import-ics-attachments/icsimporter.c:230
 msgid "Select Calendar"
 msgstr "Dewis Calendr"
 
-#: ../plugins/import-ics-attachments/icsimporter.c:260
+#: ../plugins/import-ics-attachments/icsimporter.c:261
 #: ../shell/e-shell-importer.c:703
 msgid "_Import"
 msgstr "_Mewnforio"
@@ -16123,25 +16178,22 @@ msgstr "I brosesu'r holl eitemau, dylid cadw'r ffeil a mewnforio'r calendr"
 
 #. Delete message after acting
 #. FIXME Need a schema for this
-#: ../plugins/itip-formatter/itip-formatter.c:1991
+#: ../plugins/itip-formatter/itip-formatter.c:1994
 msgid "_Delete message after acting"
 msgstr "_Dileu'r neges ar ôl gweithredu"
 
-#: ../plugins/itip-formatter/itip-formatter.c:2001
-msgid "<span weight=\"bold\">Conflict Search</span>"
-msgstr "<span weight=\"bold\">Chwilio am Wrthdaro</span>"
-
-#. Source selector
-#: ../plugins/itip-formatter/itip-formatter.c:2014
-msgid "Select the calendars to search for meeting conflicts"
-msgstr "Dewis y calendrau i'w chwilio ar gyfer cyfarfodydd sy'n gwrthdaro"
-
-#: ../plugins/itip-formatter/itip-formatter.c:2031
+#: ../plugins/itip-formatter/itip-formatter.c:2004
+#: ../plugins/itip-formatter/itip-formatter.c:2036
 msgid "Conflict Search"
 msgstr "Chwilio am Wrthdaro"
 
+#. Source selector
+#: ../plugins/itip-formatter/itip-formatter.c:2019
+msgid "Select the calendars to search for meeting conflicts"
+msgstr "Dewis y calendrau i'w chwilio ar gyfer cyfarfodydd sy'n gwrthdaro"
+
 #. strftime format of a weekday and a date.
-#: ../plugins/itip-formatter/itip-view.c:184 ../ui/evolution-calendar.xml.h:32
+#: ../plugins/itip-formatter/itip-view.c:184 ../ui/evolution-calendar.xml.h:34
 #: ../widgets/misc/e-cell-date-edit.c:241 ../widgets/misc/e-dateedit.c:467
 msgid "Today"
 msgstr "Heddiw"
@@ -16889,7 +16941,7 @@ msgid "Gives an option to print mail from composer"
 msgstr "Rhoi'r opsiwn i argraffu e-bost o fewn y cyfansoddwr"
 
 #: ../plugins/print-message/org-gnome-print-message.xml.h:1
-#: ../ui/evolution-addressbook.xml.h:27 ../ui/evolution-calendar.xml.h:19
+#: ../ui/evolution-addressbook.xml.h:27 ../ui/evolution-calendar.xml.h:21
 #: ../ui/evolution-mail-message.xml.h:75 ../ui/evolution-memos.xml.h:12
 #: ../ui/evolution-tasks.xml.h:15
 msgid "Print Pre_view"
@@ -16946,14 +16998,18 @@ msgstr ""
 "Â llaw (drwy'r ddewislen Gweithredoedd)"
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:10
+msgid "P_ort:"
+msgstr "_Porth:"
+
+#: ../plugins/publish-calendar/publish-calendar.glade.h:11
 msgid "Publishing Location"
 msgstr "Lleoliad Cyhoeddi"
 
-#: ../plugins/publish-calendar/publish-calendar.glade.h:11
+#: ../plugins/publish-calendar/publish-calendar.glade.h:12
 msgid "Publishing _Frequency:"
 msgstr "_Amlder Cyhoeddi:"
 
-#: ../plugins/publish-calendar/publish-calendar.glade.h:12
+#: ../plugins/publish-calendar/publish-calendar.glade.h:13
 msgid ""
 "SSH\n"
 "Public FTP\n"
@@ -16971,11 +17027,11 @@ msgstr ""
 "WebDAV diogel (HTTPS)\n"
 "Lleoliad Addasedig"
 
-#: ../plugins/publish-calendar/publish-calendar.glade.h:19
+#: ../plugins/publish-calendar/publish-calendar.glade.h:20
 msgid "Service _type:"
 msgstr "_Math o wasanaeth:"
 
-#: ../plugins/publish-calendar/publish-calendar.glade.h:21
+#: ../plugins/publish-calendar/publish-calendar.glade.h:22
 msgid "_File:"
 msgstr "_Ffeil:"
 
@@ -17122,12 +17178,12 @@ msgid "Save Selected"
 msgstr "Cadw'r Rhai wedi'u Dewis"
 
 #: ../plugins/save-calendar/org-gnome-save-calendar.eplug.xml.h:2
-msgid "Save to _Disk"
-msgstr "Cadw i'r _Ddisg"
-
-#: ../plugins/save-calendar/org-gnome-save-calendar.eplug.xml.h:3
 msgid "Saves selected calendar or tasks list to disk."
 msgstr "Cadw'r calendr neu'r rhestr dasgau sydd wedi dewis at y ddisg."
+
+#: ../plugins/save-calendar/org-gnome-save-calendar.eplug.xml.h:3
+msgid "_Save to Disk"
+msgstr "Cadw i'r _Ddisg"
 
 #.
 #. * Translator: the %FT%T is the thirth argument for a strftime function.
@@ -17156,11 +17212,11 @@ msgid "Selects a single calendar or task source for viewing."
 msgstr "Dewis un calendr neu ffynhonnell dasgau er mwyn ei weld."
 
 #: ../plugins/select-one-source/org-gnome-select-one-source.eplug.xml.h:3
-msgid "_Show only this Calendar"
+msgid "Show _only this Calendar"
 msgstr "_Dangos y Calendr hwn yn unig"
 
 #: ../plugins/select-one-source/org-gnome-select-one-source.eplug.xml.h:4
-msgid "_Show only this Task List"
+msgid "Show _only this Task List"
 msgstr "_Dangos y Rhestr Dasgau hon yn unig"
 
 #: ../plugins/startup-wizard/org-gnome-evolution-startup-wizard.eplug.xml.h:1
@@ -17289,7 +17345,7 @@ msgstr "Bar ochr yn weladwy"
 msgid "Skip development warning dialog"
 msgstr "Hepgor deialog rhybudd datblygiad"
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:12 ../shell/main.c:470
+#: ../shell/apps_evolution_shell.schemas.in.in.h:12 ../shell/main.c:473
 msgid "Start in offline mode"
 msgstr "Dechreuwch ym modd all-lein"
 
@@ -17648,31 +17704,31 @@ msgstr ""
 msgid "Do not tell me again"
 msgstr "Peidiwch â dweud wrthyf eto"
 
-#: ../shell/main.c:468
+#: ../shell/main.c:471
 msgid "Start Evolution activating the specified component"
 msgstr "Dechrau Evolution gan ymgychwyn y gydran benodol"
 
-#: ../shell/main.c:472
+#: ../shell/main.c:475
 msgid "Start in online mode"
 msgstr "Dechreuwch ym modd ar-lein"
 
-#: ../shell/main.c:475
+#: ../shell/main.c:478
 msgid "Forcibly shut down all Evolution components"
 msgstr "Gorfodi pob cydran Evolution i gau i lawr"
 
-#: ../shell/main.c:479
+#: ../shell/main.c:482
 msgid "Forcibly re-migrate from Evolution 1.4"
 msgstr "Gorfodi ail-fudo o Evolution 1.4"
 
-#: ../shell/main.c:482
+#: ../shell/main.c:485
 msgid "Send the debugging output of all components to a file."
 msgstr "Anfon allbwn datnamu bob cydran at ffeil."
 
-#: ../shell/main.c:484
+#: ../shell/main.c:487
 msgid "Disable loading of any plugins."
 msgstr "Analluogi llwytho unrhyw ategyn."
 
-#: ../shell/main.c:515
+#: ../shell/main.c:518
 #, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
@@ -18403,7 +18459,7 @@ msgstr "Symud i Blygell..."
 msgid "Paste"
 msgstr "Gludo"
 
-#: ../ui/evolution-addressbook.xml.h:24 ../ui/evolution-calendar.xml.h:15
+#: ../ui/evolution-addressbook.xml.h:24 ../ui/evolution-calendar.xml.h:17
 msgid "Paste the clipboard"
 msgstr "Gludo'r gludfwrdd"
 
@@ -18477,7 +18533,7 @@ msgstr "Atal Llwytho"
 msgid "View the current contact"
 msgstr "Dangoswch y cyswllt cyfredol"
 
-#: ../ui/evolution-addressbook.xml.h:45 ../ui/evolution-calendar.xml.h:36
+#: ../ui/evolution-addressbook.xml.h:45 ../ui/evolution-calendar.xml.h:38
 #: ../ui/evolution-mail-list.xml.h:29 ../ui/evolution-tasks.xml.h:21
 msgid "_Actions"
 msgstr "_Gweithredoedd"
@@ -18531,111 +18587,115 @@ msgid "Day"
 msgstr "Dydd"
 
 #: ../ui/evolution-calendar.xml.h:6
-msgid "Delete All Occurrences"
-msgstr "Dileu'r digwyddiadau i gyd"
+msgid "Delete _all Occurrences"
+msgstr "Dileu _Pob achlysur"
 
 #: ../ui/evolution-calendar.xml.h:7
+msgid "Delete all occurrences"
+msgstr "Dileu'r achlysuron i gyd"
+
+#: ../ui/evolution-calendar.xml.h:8
 msgid "Delete the appointment"
 msgstr "Dileu apwyntiad"
 
-#: ../ui/evolution-calendar.xml.h:8
-msgid "Delete this Occurrence"
-msgstr "Dileu'r Digwyddiad yma"
+#: ../ui/evolution-calendar.xml.h:10
+msgid "Delete this occurrence"
+msgstr "Dileu'r digwyddiad yma"
 
-#: ../ui/evolution-calendar.xml.h:9
+#: ../ui/evolution-calendar.xml.h:11
 msgid "Go To"
 msgstr "Mynd I"
 
-#: ../ui/evolution-calendar.xml.h:10
+#: ../ui/evolution-calendar.xml.h:12
 msgid "Go back"
 msgstr "Yn ôl"
 
-#: ../ui/evolution-calendar.xml.h:11
+#: ../ui/evolution-calendar.xml.h:13
 msgid "Go forward"
 msgstr "Ymlaen"
 
-#: ../ui/evolution-calendar.xml.h:12
+#: ../ui/evolution-calendar.xml.h:14
 msgid "List"
 msgstr "Rhestr"
 
-#: ../ui/evolution-calendar.xml.h:13
+#: ../ui/evolution-calendar.xml.h:15
 msgid "Month"
 msgstr "Mis"
 
-#: ../ui/evolution-calendar.xml.h:14 ../ui/evolution-mail-message.xml.h:57
+#: ../ui/evolution-calendar.xml.h:16 ../ui/evolution-mail-message.xml.h:57
 msgid "Next"
 msgstr "Nesaf"
 
-#: ../ui/evolution-calendar.xml.h:16
+#: ../ui/evolution-calendar.xml.h:18
 msgid "Previews the calendar to be printed"
 msgstr "Rhagolygu'r calendr i'w argraffu"
 
-#: ../ui/evolution-calendar.xml.h:17 ../ui/evolution-mail-message.xml.h:73
+#: ../ui/evolution-calendar.xml.h:19 ../ui/evolution-mail-message.xml.h:73
 #: ../widgets/misc/e-calendar.c:177 ../widgets/misc/e-calendar.c:201
 msgid "Previous"
 msgstr "Blaenorol"
 
-#: ../ui/evolution-calendar.xml.h:20
+#: ../ui/evolution-calendar.xml.h:22
 msgid "Print this calendar"
 msgstr "Argraffu'r calendr yma"
 
-#: ../ui/evolution-calendar.xml.h:21 ../ui/evolution-tasks.xml.h:17
+#: ../ui/evolution-calendar.xml.h:23 ../ui/evolution-tasks.xml.h:17
 msgid "Purg_e"
 msgstr "_Gwaredu"
 
-#: ../ui/evolution-calendar.xml.h:22
+#: ../ui/evolution-calendar.xml.h:24
 msgid "Purge old appointments and meetings"
 msgstr "Gwaredu hen apwyntiadau a chyfarfodydd"
 
-#: ../ui/evolution-calendar.xml.h:23
+#: ../ui/evolution-calendar.xml.h:25
 msgid "Select _Date"
 msgstr "Dewiswch _Ddyddiad"
 
-#: ../ui/evolution-calendar.xml.h:24
+#: ../ui/evolution-calendar.xml.h:26
 msgid "Select _Today"
 msgstr "Dewis _Heddiw"
 
-#: ../ui/evolution-calendar.xml.h:25
+#: ../ui/evolution-calendar.xml.h:27
 msgid "Select a specific date"
 msgstr "Dewiswch ddyddiad penodol"
 
-#: ../ui/evolution-calendar.xml.h:26
+#: ../ui/evolution-calendar.xml.h:28
 msgid "Select today"
 msgstr "Dewis heddiw"
 
-#: ../ui/evolution-calendar.xml.h:27
+#: ../ui/evolution-calendar.xml.h:29
 msgid "Show as list"
 msgstr "Dangos fel rhestr"
 
-#: ../ui/evolution-calendar.xml.h:28
+#: ../ui/evolution-calendar.xml.h:30
 msgid "Show one day"
 msgstr "Dangos un diwrnod"
 
-#: ../ui/evolution-calendar.xml.h:29
+#: ../ui/evolution-calendar.xml.h:31
 msgid "Show one month"
 msgstr "Dangos un mis"
 
-#: ../ui/evolution-calendar.xml.h:30
+#: ../ui/evolution-calendar.xml.h:32
 msgid "Show one week"
 msgstr "Dangos un wythnos"
 
-#: ../ui/evolution-calendar.xml.h:31
+#: ../ui/evolution-calendar.xml.h:33
 msgid "Show the working week"
 msgstr "Dangos yr wythnos gweithio"
 
-#: ../ui/evolution-calendar.xml.h:33
+#: ../ui/evolution-calendar.xml.h:35
 msgid "View the current appointment"
 msgstr "Gweld yr apwyntiad cyfredol"
 
-#: ../ui/evolution-calendar.xml.h:34
+#: ../ui/evolution-calendar.xml.h:36
 msgid "Week"
 msgstr "Wythnos"
 
-#: ../ui/evolution-calendar.xml.h:35
+#: ../ui/evolution-calendar.xml.h:37
 msgid "Work Week"
 msgstr "Wythnos Waith"
 
-#: ../ui/evolution-calendar.xml.h:40
+#: ../ui/evolution-calendar.xml.h:42
 msgid "_Open Appointment"
 msgstr "_Agor Apwyntiad"
 
@@ -19635,6 +19695,10 @@ msgstr "Cadw'r ffeil bresennol gydag enw gwahanol"
 msgid "Save the message in a specified folder"
 msgstr "Cadw'r neges mewn plygell benodol"
 
+#: ../ui/evolution-message-composer.xml.h:29
+msgid "Send"
+msgstr "Anfon"
+
 #: ../ui/evolution-message-composer.xml.h:30
 #: ../ui/evolution-signature-editor.xml.h:12
 msgid "Send the mail in HTML format"
@@ -20269,14 +20333,14 @@ msgstr "Y2"
 #: ../widgets/misc/e-canvas-vbox.c:102 ../widgets/misc/e-reflow.c:1427
 #: ../widgets/table/e-table-group-container.c:974
 #: ../widgets/table/e-table-group-leaf.c:636
-#: ../widgets/table/e-table-item.c:3011
+#: ../widgets/table/e-table-item.c:3014
 msgid "Minimum width"
 msgstr "Lleiafswm lled"
 
 #: ../widgets/misc/e-canvas-vbox.c:103 ../widgets/misc/e-reflow.c:1428
 #: ../widgets/table/e-table-group-container.c:975
 #: ../widgets/table/e-table-group-leaf.c:637
-#: ../widgets/table/e-table-item.c:3012
+#: ../widgets/table/e-table-item.c:3015
 msgid "Minimum Width"
 msgstr "Lleiafswm Lled"
 
@@ -20298,90 +20362,94 @@ msgstr "Rhaid i'r amser fod yn y fformat: %s"
 msgid "The percent value must be between 0 and 100, inclusive"
 msgstr "Rhaid i'r canran fod rhwng 0 a 100, yn gynwysedig."
 
-#: ../widgets/misc/e-charset-picker.c:63
+#: ../widgets/misc/e-charset-picker.c:64
 msgid "Baltic"
 msgstr "Balteg"
 
-#: ../widgets/misc/e-charset-picker.c:64
+#: ../widgets/misc/e-charset-picker.c:65
 msgid "Central European"
 msgstr "Canol Ewrop"
 
-#: ../widgets/misc/e-charset-picker.c:65
+#: ../widgets/misc/e-charset-picker.c:66
 msgid "Chinese"
 msgstr "Tseinëeg"
 
-#: ../widgets/misc/e-charset-picker.c:66
+#: ../widgets/misc/e-charset-picker.c:67
 msgid "Cyrillic"
 msgstr "Syrilig"
 
-#: ../widgets/misc/e-charset-picker.c:67
+#: ../widgets/misc/e-charset-picker.c:68
 msgid "Greek"
 msgstr "Groeg"
 
-#: ../widgets/misc/e-charset-picker.c:68
+#: ../widgets/misc/e-charset-picker.c:69
 msgid "Hebrew"
 msgstr "Hebraeg"
 
-#: ../widgets/misc/e-charset-picker.c:69
+#: ../widgets/misc/e-charset-picker.c:70
 msgid "Japanese"
 msgstr "Japaneg"
 
-#: ../widgets/misc/e-charset-picker.c:70
+#: ../widgets/misc/e-charset-picker.c:71
 msgid "Korean"
 msgstr "Corëeg"
 
-#: ../widgets/misc/e-charset-picker.c:71
+#: ../widgets/misc/e-charset-picker.c:72
+msgid "Thai"
+msgstr "Thai"
+
+#: ../widgets/misc/e-charset-picker.c:73
 msgid "Turkish"
 msgstr "Tyrceg"
 
-#: ../widgets/misc/e-charset-picker.c:72
+#: ../widgets/misc/e-charset-picker.c:74
 msgid "Unicode"
 msgstr "Unicode"
 
-#: ../widgets/misc/e-charset-picker.c:73
+#: ../widgets/misc/e-charset-picker.c:75
 msgid "Western European"
 msgstr "Gorllewin Ewrop"
 
-#: ../widgets/misc/e-charset-picker.c:74
+#: ../widgets/misc/e-charset-picker.c:76
 msgid "Western European, New"
 msgstr "Gorllewin Ewrop, Newydd"
 
-#: ../widgets/misc/e-charset-picker.c:91 ../widgets/misc/e-charset-picker.c:92
-#: ../widgets/misc/e-charset-picker.c:93
+#: ../widgets/misc/e-charset-picker.c:93 ../widgets/misc/e-charset-picker.c:94
+#: ../widgets/misc/e-charset-picker.c:95
 msgid "Traditional"
 msgstr "Traddodiadol"
 
-#: ../widgets/misc/e-charset-picker.c:94 ../widgets/misc/e-charset-picker.c:95
 #: ../widgets/misc/e-charset-picker.c:96 ../widgets/misc/e-charset-picker.c:97
+#: ../widgets/misc/e-charset-picker.c:98 ../widgets/misc/e-charset-picker.c:99
 msgid "Simplified"
 msgstr "Symledig"
 
-#: ../widgets/misc/e-charset-picker.c:100
+#: ../widgets/misc/e-charset-picker.c:102
 msgid "Ukrainian"
 msgstr "Wcraneg"
 
-#: ../widgets/misc/e-charset-picker.c:103
+#: ../widgets/misc/e-charset-picker.c:105
 msgid "Visual"
 msgstr "Gweledol"
 
-#: ../widgets/misc/e-charset-picker.c:171
+#: ../widgets/misc/e-charset-picker.c:174
 #, c-format
 msgid "Unknown character set: %s"
 msgstr "Set nodau anhysbys: %s"
 
-#: ../widgets/misc/e-charset-picker.c:216
+#: ../widgets/misc/e-charset-picker.c:219
 msgid "Character Encoding"
 msgstr "Amgodiad Nodau "
 
-#: ../widgets/misc/e-charset-picker.c:231
+#: ../widgets/misc/e-charset-picker.c:234
 msgid "Enter the character set to use"
 msgstr "Rhowch y set nodau i'w defnyddio"
 
-#: ../widgets/misc/e-charset-picker.c:338
+#: ../widgets/misc/e-charset-picker.c:341
 msgid "Other..."
 msgstr "Arall..."
 
-#: ../widgets/misc/e-charset-picker.c:479
+#: ../widgets/misc/e-charset-picker.c:482
 msgid "Ch_aracter Encoding"
 msgstr "Amgodiad _Nodau "
 
@@ -20844,6 +20912,7 @@ msgid "Sh_ow these fields in order:"
 msgstr "_Dangos y meysydd yma yn y drefn:"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:12
+#: ../widgets/table/e-table-config.c:563
 #: ../widgets/table/e-table-config.glade.h:10
 msgid "Show Fields"
 msgstr "Dangos Meysydd"
@@ -20901,6 +20970,10 @@ msgstr "Heb eu trefnu"
 #: ../widgets/table/e-table-config.c:355
 msgid "No grouping"
 msgstr "Dim dosbarthiad"
+
+#: ../widgets/table/e-table-config.c:584
+msgid "Available Fields"
+msgstr "Meysydd ar Gael"
 
 #: ../widgets/table/e-table-config.glade.h:17
 msgid "_Group By..."
@@ -20964,7 +21037,7 @@ msgstr "%s (%d eitem)"
 #: ../widgets/table/e-table-group-container.c:898
 #: ../widgets/table/e-table-group-leaf.c:573
 #: ../widgets/table/e-table-group-leaf.c:574
-#: ../widgets/table/e-table-item.c:2969 ../widgets/table/e-table-item.c:2970
+#: ../widgets/table/e-table-item.c:2972 ../widgets/table/e-table-item.c:2973
 msgid "Alternating Row Colors"
 msgstr "Lliwiau Bob yn Ail Res"
 
@@ -20972,7 +21045,7 @@ msgstr "Lliwiau Bob yn Ail Res"
 #: ../widgets/table/e-table-group-container.c:905
 #: ../widgets/table/e-table-group-leaf.c:580
 #: ../widgets/table/e-table-group-leaf.c:581
-#: ../widgets/table/e-table-item.c:2976 ../widgets/table/e-table-item.c:2977
+#: ../widgets/table/e-table-item.c:2979 ../widgets/table/e-table-item.c:2980
 #: ../widgets/table/e-tree.c:3265 ../widgets/table/e-tree.c:3266
 msgid "Horizontal Draw Grid"
 msgstr "Grid Tynnu Llorweddol"
@@ -20981,7 +21054,7 @@ msgstr "Grid Tynnu Llorweddol"
 #: ../widgets/table/e-table-group-container.c:912
 #: ../widgets/table/e-table-group-leaf.c:587
 #: ../widgets/table/e-table-group-leaf.c:588
-#: ../widgets/table/e-table-item.c:2983 ../widgets/table/e-table-item.c:2984
+#: ../widgets/table/e-table-item.c:2986 ../widgets/table/e-table-item.c:2987
 #: ../widgets/table/e-tree.c:3271 ../widgets/table/e-tree.c:3272
 msgid "Vertical Draw Grid"
 msgstr "Grid Tynnu Fertigol"
@@ -20990,7 +21063,7 @@ msgstr "Grid Tynnu Fertigol"
 #: ../widgets/table/e-table-group-container.c:919
 #: ../widgets/table/e-table-group-leaf.c:594
 #: ../widgets/table/e-table-group-leaf.c:595
-#: ../widgets/table/e-table-item.c:2990 ../widgets/table/e-table-item.c:2991
+#: ../widgets/table/e-table-item.c:2993 ../widgets/table/e-table-item.c:2994
 #: ../widgets/table/e-tree.c:3277 ../widgets/table/e-tree.c:3278
 msgid "Draw focus"
 msgstr "Ffocws tynnu"
@@ -20999,7 +21072,7 @@ msgstr "Ffocws tynnu"
 #: ../widgets/table/e-table-group-container.c:926
 #: ../widgets/table/e-table-group-leaf.c:601
 #: ../widgets/table/e-table-group-leaf.c:602
-#: ../widgets/table/e-table-item.c:2997 ../widgets/table/e-table-item.c:2998
+#: ../widgets/table/e-table-item.c:3000 ../widgets/table/e-table-item.c:3001
 msgid "Cursor mode"
 msgstr "Modd cyrchwr"
 
@@ -21007,7 +21080,7 @@ msgstr "Modd cyrchwr"
 #: ../widgets/table/e-table-group-container.c:933
 #: ../widgets/table/e-table-group-leaf.c:615
 #: ../widgets/table/e-table-group-leaf.c:616
-#: ../widgets/table/e-table-item.c:2962 ../widgets/table/e-table-item.c:2963
+#: ../widgets/table/e-table-item.c:2965 ../widgets/table/e-table-item.c:2966
 msgid "Selection model"
 msgstr "Model Dewis"
 
@@ -21015,7 +21088,7 @@ msgstr "Model Dewis"
 #: ../widgets/table/e-table-group-container.c:940
 #: ../widgets/table/e-table-group-leaf.c:608
 #: ../widgets/table/e-table-group-leaf.c:609
-#: ../widgets/table/e-table-item.c:3004 ../widgets/table/e-table-item.c:3005
+#: ../widgets/table/e-table-item.c:3007 ../widgets/table/e-table-item.c:3008
 #: ../widgets/table/e-table.c:3301 ../widgets/table/e-tree.c:3259
 #: ../widgets/table/e-tree.c:3260
 msgid "Length Threshold"
@@ -21025,7 +21098,7 @@ msgstr "Trothwy Hyd"
 #: ../widgets/table/e-table-group-container.c:947
 #: ../widgets/table/e-table-group-leaf.c:650
 #: ../widgets/table/e-table-group-leaf.c:651
-#: ../widgets/table/e-table-item.c:3038 ../widgets/table/e-table-item.c:3039
+#: ../widgets/table/e-table-item.c:3041 ../widgets/table/e-table-item.c:3042
 #: ../widgets/table/e-table.c:3308 ../widgets/table/e-tree.c:3291
 #: ../widgets/table/e-tree.c:3292
 msgid "Uniform row height"
@@ -21102,15 +21175,15 @@ msgstr "Manylion Trefnu"
 msgid "Tree"
 msgstr "Coeden"
 
-#: ../widgets/table/e-table-item.c:2948 ../widgets/table/e-table-item.c:2949
+#: ../widgets/table/e-table-item.c:2951 ../widgets/table/e-table-item.c:2952
 msgid "Table header"
 msgstr "Pennyn Tabl"
 
-#: ../widgets/table/e-table-item.c:2955 ../widgets/table/e-table-item.c:2956
+#: ../widgets/table/e-table-item.c:2958 ../widgets/table/e-table-item.c:2959
 msgid "Table model"
 msgstr "Model Tabl"
 
-#: ../widgets/table/e-table-item.c:3031 ../widgets/table/e-table-item.c:3032
+#: ../widgets/table/e-table-item.c:3034 ../widgets/table/e-table-item.c:3035
 msgid "Cursor row"
 msgstr "Rhes Gyrchwr"
 
@@ -21274,6 +21347,48 @@ msgstr "Cyd-destun IM"
 #: ../widgets/text/e-text.c:3706 ../widgets/text/e-text.c:3707
 msgid "Handle Popup"
 msgstr "Deliwr Naidlen"
+
+#~ msgid ""
+#~ "Selecting this option means that Evolution will only try to use SSL/TLS "
+#~ "if you are in a insecure environment. For example, if you and your LDAP "
+#~ "server are behind a firewall at work, then Evolution doesn't need to use "
+#~ "SSL/TLS because your connection is already secure."
+#~ msgstr ""
+#~ "Mae dewis yr opsiwn hwn yn golygu na fydd Evolution yn ceisio defnyddio "
+#~ "SSL/TLS oni bai eich bod mewn amgylchedd anniogel. Er enghraifft, os "
+#~ "ydych chi a'ch gweinydd LDAP y tu ôl i fur tân yn y gwaith, does dim "
+#~ "angen i Evolution ddefnyddio SSL/TLS gan fod eich cysylltiad yn ddiogel "
+#~ "yn barod."
+
+#~ msgid "The Evolution Groupware Suite"
+#~ msgstr "Cyfres Meddalwedd Grŵp Evolution"
+
+#~ msgid "_Show animated images"
+#~ msgstr "_Dangos delweddau animeiddiedig"
+
+#~ msgid "<b>%s (%s)</b> : %s"
+#~ msgstr "<b>%s (%s)</b> : %s"
+
+#~ msgid "<b>%s (%s)</b>"
+#~ msgstr "<b>%s (%s)</b>"
+
+#~ msgid "<b>%s</b> : %s"
+#~ msgstr "<b>%s</b> : %s"
+
+#~ msgid "<b>%s</b>"
+#~ msgstr "<b>%s</b>"
+
+#~ msgid "<span weight=\"bold\">Automatic Contacts</span>"
+#~ msgstr "<span weight=\"bold\">Cysylltiadau Awtomatig</span>"
+
+#~ msgid "<span weight=\"bold\">Instant Messaging Contacts</span>"
+#~ msgstr "<span weight=\"bold\">Cysylltiadau Awtomatig Negesu Chwim</span>"
+
+#~ msgid "<span weight=\"bold\">Conflict Search</span>"
+#~ msgstr "<span weight=\"bold\">Chwilio am Wrthdaro</span>"
+
+#~ msgid "Delete this Occurrence"
+#~ msgstr "Dileu'r Digwyddiad yma"
 
 #~ msgid "Task Table"
 #~ msgstr "Tabl Tasgau"
@@ -21485,9 +21600,6 @@ msgstr "Deliwr Naidlen"
 #~ msgid "Assignment"
 #~ msgstr "Neilltuad"
 
-#~ msgid "Task Description"
-#~ msgstr "Disgrifiad Tasg"
-
 #~ msgid "_Publish Free/Busy Information"
 #~ msgstr "_Cyhoeddi Statws Rhydd/Prysur"
 
@@ -21630,9 +21742,6 @@ msgstr "Deliwr Naidlen"
 #~ msgid "_Select All"
 #~ msgstr "_Dewis Popeth"
 
-#~ msgid "Delete this occurrence"
-#~ msgstr "Dileu'r digwyddiad yma"
-
 #~ msgid "Customize My Evolution"
 #~ msgstr "Addasu Fy Evolution"
 
@@ -21644,9 +21753,6 @@ msgstr "Deliwr Naidlen"
 
 #~ msgid "_Send / Receive"
 #~ msgstr "_Anfon / Derbyn"
-
-#~ msgid "Available Fields"
-#~ msgstr "Meysydd ar Gael"
 
 #~ msgid "Always Search"
 #~ msgstr "Chwilio o Hyd"
