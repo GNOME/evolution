@@ -535,7 +535,7 @@ msgstr "K_ontaktuak"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:3
 msgid "Certificates"
-msgstr "Ziurtagiria:"
+msgstr "Ziurtagiriak"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:4
 msgid "Configure autocomplete here"
