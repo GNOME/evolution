@@ -1,5 +1,9 @@
 2006-02-27  Sushma Rai  <rsushma@novell.com>
 
+	* exchange-calendar.c (e_exchange_calendar_pcalendar): fixed a typo.
+
+2006-02-27  Sushma Rai  <rsushma@novell.com>
+
 	* exchange-contacts.c (e_exchange_contacts_pcontacts): Check for NULL
 	account.
 

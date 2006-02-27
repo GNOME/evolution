@@ -213,7 +213,7 @@ e_exchange_calendar_pcalendar (EPlugin *epl, EConfigHookItemFactoryData *data)
 	account = exchange_operations_get_exchange_account ();
 	if (!account) {
 		g_free (calendar_old_source_uri);
-		retrun NULL;
+		return NULL;
 	}
 	account_name = account->account_name;
 
