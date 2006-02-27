@@ -192,6 +192,10 @@ e_exchange_contacts_pcontacts (EPlugin *epl, EConfigHookItemFactoryData *data)
 	}
 
 	account = exchange_operations_get_exchange_account ();
+	if (!account) {
+		g_free (contacts_old_src_uri);
+		return NULL;
+	}
 	account_name = account->account_name;
 	hbx_size = NULL;
 

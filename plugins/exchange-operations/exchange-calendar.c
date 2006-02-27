@@ -159,7 +159,6 @@ e_exchange_calendar_pcalendar (EPlugin *epl, EConfigHookItemFactoryData *data)
 	char *offline_msg;
 	GtkWidget *lbl_offline_msg;
 
-
 	if (!hidden)
 		hidden = gtk_label_new ("");
 
@@ -212,6 +211,10 @@ e_exchange_calendar_pcalendar (EPlugin *epl, EConfigHookItemFactoryData *data)
 	
 	/* REVIEW: Should this handle be freed? - Attn: surf */
 	account = exchange_operations_get_exchange_account ();
+	if (!account) {
+		g_free (calendar_old_source_uri);
+		retrun NULL;
+	}
 	account_name = account->account_name;
 
 	if (calendar_src_exists) {

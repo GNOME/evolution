@@ -1,5 +1,13 @@
 2006-02-27  Sushma Rai  <rsushma@novell.com>
 
+	* exchange-contacts.c (e_exchange_contacts_pcontacts): Check for NULL
+	account.
+
+	* exchange-calendar.c (e_exchange_calendar_pcalendar): Similar.
+	Fixes #332185.
+
+2006-02-27  Sushma Rai  <rsushma@novell.com>
+
 	* exchange-folder-permission.c 
 	(org_gnome_exchange_calendar_permissions): Trying to get the exchange
 	account only if one tries to see the folder permissions for the 
