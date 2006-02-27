@@ -47,7 +47,7 @@ org_gnome_default_mailer_check_default (EPlugin *ep, ESEventTargetUpgrade *targe
 	is_key = gconf_client_get(client, GCONF_KEY_CHECKDEFAULT, NULL);
 	if(!is_key)
 		gconf_client_set_bool(client, GCONF_KEY_CHECKDEFAULT, TRUE, NULL);
-	g_free(is_key);
+	gconf_value_free (is_key);
 	
 	/* Check whether we're supposed to check whether or not we are the default mailer */
 	if(gconf_client_get_bool(client, GCONF_KEY_CHECKDEFAULT, NULL)) { 

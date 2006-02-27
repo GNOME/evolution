@@ -1,3 +1,8 @@
+2006-02-27  Srinivasa Ragavan <sragavan@novell.com>
+
+	* default-mailer.c (org_gnome_default_mailer_check_default): Used 
+	gconf_value_free to free a GConfValue instead of a g_free.
+
 2005-12-12  Harish Krishnaswamy  <kharish@novell.com>
 
 	* Makefile.am: Fix make-clean issues. 
