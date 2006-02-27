@@ -1,3 +1,15 @@
+2006-02-27  Sushma Rai  <rsushma@novell.com>
+
+	* exchange-config-listener.c (add_defaults_for_account): Not trying to
+	set autocompletion folders here, which is done somewhere else.
+	(account_added): Invoking add_defaults_for_account() always on 
+	"connected" signal, not only if the account is marked as default 
+	folder, as we need to set them even if the account is not an default
+	account.
+	(set_special_mail_folder): Fomring the URIs for sent items and drafts 
+	folders, by removing the ";" from the physical URIs.
+	Fixes #324693.
+
 2006-02-25  Sushma Rai  <rsushma@novell.com>
 
 	* exchange-contacts.c (e_exchange_contacts_get_contacts): Freeing 

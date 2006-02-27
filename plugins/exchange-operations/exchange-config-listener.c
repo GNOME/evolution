@@ -91,8 +91,10 @@ static void account_changed (EAccountList *account_listener,
 			     EAccount     *account);
 static void account_removed (EAccountList *account_listener,
 			     EAccount     *account);
+#if LDEAD
 static void exchange_add_autocompletion_folders (GConfClient *gc_client, 
 						 ExchangeAccount *account);
+#endif
 static gboolean exchange_camel_urls_is_equal (const gchar *url1, 
 					      const gchar *url2);
 static void remove_selected_non_offline_esources (ExchangeAccount *account, 
@@ -194,16 +196,31 @@ standard_folder (ExchangeAccount *account, const char *folder_type)
 
 static void
 set_special_mail_folder (ExchangeAccount *account, const char *folder_type,
-			 char **physical_uri)
+			 char **folder_uri)
 {
 	EFolder *folder;
+	const char *physical_uri;
+	char *url_string, *path;
+	CamelURL *camel_url;
+	int uri_len;
 
 	folder = standard_folder (account, folder_type);
 	if (!folder)
 		return;
+	physical_uri = e_folder_get_physical_uri (folder);
 
-	g_free (*physical_uri);
-	*physical_uri = g_strdup (e_folder_get_physical_uri (folder));
+	/* remove ; form the uri */
+	camel_url = camel_url_new (physical_uri, NULL);
+	url_string = camel_url_to_string (camel_url, CAMEL_URL_HIDE_ALL);
+	camel_url_free (camel_url);
+	/* sample physical uri: exchange://pnayak;auth=NTLM@164.99.168.136/;personal/Drafts */
+	/* sample url_string: exchange://pnayak;auth=NTLM@164.99.168.136/ */
+	/* sample path:  personal/Drafts */
+	uri_len = strlen (url_string) + 1;
+	path = g_build_filename (physical_uri + uri_len, NULL); 
+	*folder_uri = g_strconcat (url_string, path, NULL);
+	g_free (path);
+	g_free (url_string);
 }
 
 static void
@@ -212,16 +229,28 @@ add_defaults_for_account (ExchangeConfigListener *config_listener,
 			  ExchangeAccount *account)
 {
 	EAccount *eaccount;
+	gboolean save = FALSE;
 
+#if LDEAD
 	exchange_add_autocompletion_folders (config_listener->priv->gconf, account);
+#endif
 
+	/* FIXME: set exchange account's sent items and drafts folders, by default */
 	eaccount = config_listener->priv->configured_account;
-	set_special_mail_folder (account, "drafts",
-				 &eaccount->drafts_folder_uri);
-	set_special_mail_folder (account, "sentitems",
-				 &eaccount->sent_folder_uri);
-	e_account_list_change (E_ACCOUNT_LIST (config_listener), eaccount);
-	e_account_list_save (E_ACCOUNT_LIST (config_listener));
+	if (!e_account_get_string (eaccount, E_ACCOUNT_DRAFTS_FOLDER_URI)) {
+		set_special_mail_folder (account, "drafts",
+				 	 &eaccount->drafts_folder_uri);
+		save = TRUE;
+	}
+	if (!e_account_get_string (eaccount, E_ACCOUNT_SENT_FOLDER_URI)) {
+		set_special_mail_folder (account, "sentitems",
+				 	 &eaccount->sent_folder_uri);
+		save = TRUE;
+	}
+	if (save) {
+		e_account_list_change (E_ACCOUNT_LIST (config_listener), eaccount);
+		e_account_list_save (E_ACCOUNT_LIST (config_listener));
+	}
 }
 
 
@@ -804,12 +833,10 @@ account_added (EAccountList *account_list, EAccount *account)
 	g_free (config_listener->priv->configured_name);
 	config_listener->priv->configured_name = g_strdup (account->name);
 
-	if (account == e_account_list_get_default (account_list)) {
-		g_signal_connect_swapped (config_listener->priv->exchange_account,
-					  "connected",
-					  G_CALLBACK (add_defaults_for_account),
-					  config_listener);
-	}
+	g_signal_connect_swapped (config_listener->priv->exchange_account,
+				  "connected",
+				  G_CALLBACK (add_defaults_for_account),
+				  config_listener);
 
 	g_signal_emit (config_listener, signals[EXCHANGE_ACCOUNT_CREATED], 0,
 		       exchange_account);
@@ -1172,6 +1199,7 @@ exchange_config_listener_modify_esource_group_name (ExchangeConfigListener *excl
 	g_object_unref (a_source_list);
 }
 
+#if LDEAD
 /**
  * exchange_add_autocompletion_folders:
  * 
@@ -1217,6 +1245,7 @@ exchange_add_autocompletion_folders (GConfClient *gc_client, ExchangeAccount *ac
 
 	g_object_unref (sl);
 }
+#endif
 
 
 /**
