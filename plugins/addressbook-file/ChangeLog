@@ -1,3 +1,7 @@
+2006-02-28  Christian Kellner  <gicmo@gnome.org>
+
+	* addressbook-file.c: fixing a leak.
+
 2005-12-25  Funda Wang  <fundawang@linux.net.cn>
 
 	* Makefile.am: Mark this plugin as translatable (bug#301149).

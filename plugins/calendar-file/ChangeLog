@@ -1,3 +1,7 @@
+2006-02-28  Christian Kellner  <gicmo@gnome.org>
+
+	* calendar-file.c: fixing a leak.
+
 2005-08-23  Not Zed  <NotZed@Ximian.com>
 
 	* calendar-file.c (e_calendar_file_dummy): fix relative_uri type.
