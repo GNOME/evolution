@@ -1,3 +1,9 @@
+2006-02-28  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #332726
+	* gui/dialogs/recur-comp.c: (recur_component_dialog): Dont
+	remove the recurrence id, the backend would remove it.							     
+
 2006-02-23  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #330677
