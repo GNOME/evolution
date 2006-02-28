@@ -177,6 +177,8 @@ do_adjustment (gpointer user_data)
 	adj = gtk_layout_get_hadjustment (GTK_LAYOUT (GNOME_CANVAS_ITEM (reflow)->canvas));
 	value = adj->value;
 
+	if ((!reflow->items) || (!reflow->items[row]))
+		return TRUE;
 	min_value = reflow->items[row]->x2 - adj->page_size;
 	max_value = reflow->items[row]->x1;
 

@@ -1,3 +1,10 @@
+2006-02-28  Devashish Sharma  <sdevashish@novell.com>
+
+	* e-reflow.c :(do_adjustment): Check and see if reflow->items 
+	and reflow->items[row] are NULL or not.
+	Fixes Bug # 331998.
+	Patch submitted by Irene Huang <Irene.Huang@sun.com>
+
 2006-02-24  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fixes bug #322789
