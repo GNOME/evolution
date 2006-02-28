@@ -1,5 +1,11 @@
 2006-02-27  Devashish Sharma <sdevashish@novell.com>
 
+	* gui/contact-editor/e-contact-editor.c: Fix for Bug #332498: orphaned
+	category editor crashes Evo.
+	Close the category editor when the contact editor is closed.
+
+2006-02-27  Devashish Sharma <sdevashish@novell.com>
+
 	* gui/component/addressbook-view.c (selector_tree_drag_data_received) :
 	Fix for Bug 322689: Cant copy contact to addressbook if addressbook 
 	just created.

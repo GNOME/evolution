@@ -2622,7 +2622,7 @@ response (GtkDialog *dialog, int response, EContactEditor *editor)
 		else
 			e_contact_set (editor->contact, E_CONTACT_CATEGORIES, (char *)categories);
 	}
-	gtk_widget_destroy(GTK_WIDGET(dialog));
+	gtk_widget_hide(GTK_WIDGET(dialog));
 }
 
 static gboolean
@@ -2633,6 +2633,15 @@ categories_key_press_event( GtkWidget *widget, GdkEventKey *event, EContactEdito
 		return TRUE;
 	}
 	return FALSE;
+}
+
+static gint
+editor_delete_event_cb (GtkWidget *widget, GdkEvent *event, gpointer data)
+{
+	if (widget)
+		if (GTK_IS_WIDGET (widget))
+			gtk_widget_destroy(widget);
+	return TRUE;
 }
 
 static void
@@ -2656,7 +2665,11 @@ categories_clicked (GtkWidget *button, EContactEditor *editor)
 	g_signal_connect (GTK_WIDGET (dialog), "key-press-event", G_CALLBACK (categories_key_press_event), editor);
 
 	g_signal_connect(dialog, "response",
-			G_CALLBACK (response), editor);	
+			G_CALLBACK (response), editor);
+	
+	/* Close the category dialog if the editor is closed*/
+	g_signal_connect_swapped (EAB_EDITOR (editor), "editor_closed",
+			    G_CALLBACK (editor_delete_event_cb), GTK_WIDGET (dialog));
 	
 	gtk_widget_show(GTK_WIDGET(dialog));
 	g_free (categories);
@@ -3137,7 +3150,7 @@ static gint
 app_delete_event_cb (GtkWidget *widget, GdkEvent *event, gpointer data)
 {
 	EContactEditor *ce;
-
+	
 	ce = E_CONTACT_EDITOR (data);
 
 	/* if we're saving, don't allow the dialog to close */
