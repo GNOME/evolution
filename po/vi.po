@@ -7,8 +7,8 @@ msgid ""
 ""
 msgstr "Project-Id-Version: evolution 1.4 Gnome HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-02-14 06:04+0100\n"
-"PO-Revision-Date: 2006-02-14 19:05+1030\n"
+"POT-Creation-Date: 2006-02-28 05:33+0100\n"
+"PO-Revision-Date: 2006-02-28 16:19+1030\n"
 "Last-Translator: Clytie Siddall <clytie@riverland.net.au>\n"
 "Language-Team: Vietnamese <gnomevi-list@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -632,7 +632,7 @@ msgstr "_Sổ địa chỉ"
 msgid "Create a new address book"
 msgstr "Tạo sổ địa chỉ mới"
 
-#:../addressbook/gui/component/addressbook-component.c:382
+#:../addressbook/gui/component/addressbook-component.c:406
 msgid "Failed upgrading Address Book settings or folders."
 msgstr "Việc nâng cấp thiết lập Sổ địa chỉ hoặc thư mục bị lỗi."
 
@@ -656,7 +656,7 @@ msgstr "Sao chép nội dung sổ về máy để phục vụ các thao tác ngo
 #:../calendar/gui/dialogs/calendar-setup.c:369
 #:../calendar/gui/dialogs/calendar-setup.c:380
 #:../calendar/gui/dialogs/calendar-setup.c:391
-#:../mail/em-folder-properties.c:217 ../mail/mail-config.glade.h:86
+#:../mail/em-folder-properties.c:222 ../mail/mail-config.glade.h:86
 #:../plugins/itip-formatter/itip-formatter.c:1978
 #:../smime/gui/smime-ui.glade.h:28
 msgid "General"
@@ -1016,8 +1016,9 @@ msgid ""
 "Selecting this option means that your server does not support either SSL or "
 "TLS. This means that your connection will be insecure, and that you will be "
 "vulnerable to security exploits."
-msgstr "Chọn tùy chọn này nghĩa là máy phục vụ của bạn không hỗ trợ SSL, cũng không hỗ trợ TLS. "
-"Như thế thì kết nối của bạn không an toàn, có thể bị lỗ hổng bảo mật."
+msgstr "Chọn tùy chọn này nghĩa là máy phục vụ của bạn không hỗ trợ SSL, cũng không "
+"hỗ trợ TLS. Như thế thì kết nối của bạn không an toàn, có thể bị lỗ hổng bảo "
+"mật."
 
 #:../addressbook/gui/component/ldap-config.glade.h:36
 msgid "Sub"
@@ -1160,7 +1161,7 @@ msgstr "thẻ"
 #:../calendar/gui/dialogs/calendar-setup.glade.h:14
 #:../calendar/gui/dialogs/event-page.glade.h:20 ../calendar/gui/misc.c:112
 #:../calendar/gui/misc.c:114 ../filter/filter.glade.h:16
-#:../mail/em-account-editor.c:1998
+#:../mail/em-account-editor.c:2021
 #:../plugins/calendar-http/calendar-http.c:286
 #:../plugins/calendar-weather/calendar-weather.c:563
 msgid "minutes"
@@ -1173,7 +1174,6 @@ msgstr "phút"
 #:../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:3
 #:../calendar/gui/dialogs/cal-attachment.glade.h:1
 #:../calendar/gui/dialogs/calendar-setup.glade.h:1
-#:../calendar/gui/dialogs/memo-page.glade.h:1
 #:../calendar/gui/dialogs/new-calendar.glade.h:1
 #:../calendar/gui/dialogs/new-task-list.glade.h:1
 #:../calendar/gui/dialogs/url-editor-dialog.glade.h:1
@@ -2493,22 +2493,22 @@ msgstr "Đã đổi"
 msgid "Contact Editor - %s"
 msgstr "Bộ sửa liên lạc — %s"
 
-#:../addressbook/gui/contact-editor/e-contact-editor.c:2757
+#:../addressbook/gui/contact-editor/e-contact-editor.c:2759
 msgid "Please select an image for this contact"
 msgstr "Hãy chọn ảnh cho liên lạc này"
 
-#:../addressbook/gui/contact-editor/e-contact-editor.c:2758
+#:../addressbook/gui/contact-editor/e-contact-editor.c:2760
 msgid "No image"
 msgstr "Không ảnh"
 
-#:../addressbook/gui/contact-editor/e-contact-editor.c:3042
+#:../addressbook/gui/contact-editor/e-contact-editor.c:3044
 msgid ""
 "The contact data is invalid:\n"
 "\n"
 msgstr "Dữ liệu liên lạc không hợp lệ:\n"
 "\n"
 
-#:../addressbook/gui/contact-editor/e-contact-editor.c:3094
+#:../addressbook/gui/contact-editor/e-contact-editor.c:3096
 msgid "Invalid contact."
 msgstr "Liên lạc không hợp lệ."
 
@@ -2661,8 +2661,8 @@ msgstr "Dịch vụ t_in nhắn:"
 
 #:../addressbook/gui/contact-editor/im.glade.h:5
 #:../plugins/calendar-weather/calendar-weather.c:409
-#:../plugins/exchange-operations/exchange-calendar.c:234
-#:../plugins/exchange-operations/exchange-contacts.c:222
+#:../plugins/exchange-operations/exchange-calendar.c:239
+#:../plugins/exchange-operations/exchange-contacts.c:228
 msgid "_Location:"
 msgstr "_Địa điểm:"
 
@@ -2836,7 +2836,7 @@ msgid "Type"
 msgstr "Kiểu"
 
 #:../addressbook/gui/widgets/e-addressbook-view.c:834
-#:../addressbook/gui/widgets/e-addressbook-view.c:2068
+#:../addressbook/gui/widgets/e-addressbook-view.c:2067
 #:../ui/evolution-addressbook.xml.h:31
 msgid "Save as VCard..."
 msgstr "Lưu dạng vCard..."
@@ -2903,7 +2903,7 @@ msgstr "Cắ_t"
 #:../calendar/gui/dialogs/comp-editor.c:445
 #:../calendar/gui/e-calendar-table.c:1182
 #:../calendar/gui/e-calendar-view.c:1602 ../calendar/gui/e-memo-table.c:860
-#:../calendar/gui/tasks-component.c:442 ../composer/e-msg-composer.c:3098
+#:../calendar/gui/tasks-component.c:442 ../composer/e-msg-composer.c:3120
 #:../mail/em-folder-tree.c:979 ../mail/em-folder-view.c:1077
 #:../mail/message-list.c:1724 ../ui/evolution-addressbook.xml.h:46
 #:../ui/evolution-calendar.xml.h:39 ../ui/evolution-composer-entries.xml.h:13
@@ -2923,7 +2923,7 @@ msgid "Any Category"
 msgstr "Loại nào"
 
 #.FIXME: Allow range selection in table views, as in minicard view
-#:../addressbook/gui/widgets/e-addressbook-view.c:1803
+#:../addressbook/gui/widgets/e-addressbook-view.c:1802
 msgid "Print cards"
 msgstr "In các thẻ"
 
@@ -3109,7 +3109,7 @@ msgstr "Chỗ Mạng"
 #:../widgets/table/e-table-group-container.c:968
 #:../widgets/table/e-table-group-leaf.c:629
 #:../widgets/table/e-table-group-leaf.c:630
-#:../widgets/table/e-table-item.c:3018 ../widgets/table/e-table-item.c:3019
+#:../widgets/table/e-table-item.c:3021 ../widgets/table/e-table-item.c:3022
 #:../widgets/text/e-text.c:3649 ../widgets/text/e-text.c:3650
 msgid "Width"
 msgstr "Rộng"
@@ -3124,7 +3124,7 @@ msgstr "Rộng"
 #:../widgets/table/e-table-group-container.c:961
 #:../widgets/table/e-table-group-leaf.c:622
 #:../widgets/table/e-table-group-leaf.c:623
-#:../widgets/table/e-table-item.c:3024 ../widgets/table/e-table-item.c:3025
+#:../widgets/table/e-table-item.c:3027 ../widgets/table/e-table-item.c:3028
 #:../widgets/text/e-text.c:3657 ../widgets/text/e-text.c:3658
 msgid "Height"
 msgstr "Cao"
@@ -3642,12 +3642,12 @@ msgstr "Bộ nhập vCard Evolution"
 msgid "Print envelope"
 msgstr "In phong bì"
 
-#:../addressbook/printing/e-contact-print.c:1033
+#:../addressbook/printing/e-contact-print.c:923
 msgid "Print contacts"
 msgstr "In các liên lạc"
 
-#:../addressbook/printing/e-contact-print.c:1124
-#:../addressbook/printing/e-contact-print.c:1152
+#:../addressbook/printing/e-contact-print.c:1015
+#:../addressbook/printing/e-contact-print.c:1043
 msgid "Print contact"
 msgstr "In liên lạc"
 
@@ -3801,8 +3801,8 @@ msgstr "Bóng"
 #.FIXME: Take care of i18n
 #:../addressbook/printing/e-contact-print.glade.h:36
 #:../plugins/exchange-operations/exchange-account-setup.c:955
-#:../plugins/exchange-operations/exchange-calendar.c:224
-#:../plugins/exchange-operations/exchange-contacts.c:205
+#:../plugins/exchange-operations/exchange-calendar.c:229
+#:../plugins/exchange-operations/exchange-contacts.c:211
 msgid "Size:"
 msgstr "Cỡ :"
 
@@ -4379,7 +4379,7 @@ msgstr "Ghi nhớ"
 #:../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:13
 #:../calendar/gui/e-calendar-table.c:525 ../calendar/gui/e-tasks.c:1329
 #:../calendar/gui/print.c:1828 ../calendar/gui/tasks-component.c:521
-#:../calendar/gui/tasks-component.c:1012 ../calendar/gui/tasks-control.c:472
+#:../calendar/gui/tasks-component.c:1012 ../calendar/gui/tasks-control.c:475
 #:../calendar/importers/icalendar-importer.c:80
 #:../calendar/importers/icalendar-importer.c:741
 #:../plugins/exchange-operations/exchange-folder.c:591
@@ -5715,19 +5715,19 @@ msgstr "Thư đính kèm - %s"
 #.translators, this count will always be >1
 #:../calendar/gui/dialogs/comp-editor.c:212
 #:../calendar/gui/dialogs/comp-editor.c:382 ../composer/e-msg-composer.c:2855
-#:../composer/e-msg-composer.c:3034
+#:../composer/e-msg-composer.c:3056
 #,c-format
 msgid "Attached message"
 msgid_plural "%d attached messages"
 msgstr[0] "%d thư đính kèm"
 
-#:../calendar/gui/dialogs/comp-editor.c:446 ../composer/e-msg-composer.c:3099
+#:../calendar/gui/dialogs/comp-editor.c:446 ../composer/e-msg-composer.c:3121
 #:../mail/em-folder-tree.c:980 ../mail/em-folder-utils.c:368
 #:../mail/em-folder-view.c:973 ../mail/message-list.c:1725
 msgid "_Move"
 msgstr "_Di chuyển"
 
-#:../calendar/gui/dialogs/comp-editor.c:448 ../composer/e-msg-composer.c:3101
+#:../calendar/gui/dialogs/comp-editor.c:448 ../composer/e-msg-composer.c:3123
 #:../mail/em-folder-tree.c:982 ../mail/message-list.c:1727
 msgid "Cancel _Drag"
 msgstr "Thôi _kéo"
@@ -5756,7 +5756,7 @@ msgstr "Hiện thanh đính _kèm"
 #:../calendar/gui/dialogs/meeting-page.c:899
 #:../calendar/gui/dialogs/task-page.c:1202
 #:../composer/e-msg-composer-attachment-bar.c:470
-#:../composer/e-msg-composer.c:3597
+#:../composer/e-msg-composer.c:3619
 #:../plugins/groupwise-features/junk-settings.glade.h:8
 #:../plugins/groupwise-features/properties.glade.h:14
 #:../widgets/table/e-table-config.glade.h:18
@@ -5765,19 +5765,19 @@ msgstr "_Gỡ bỏ"
 
 #:../calendar/gui/dialogs/comp-editor.c:1088
 #:../composer/e-msg-composer-attachment-bar.c:471
-#:../composer/e-msg-composer.c:3598 ../mail/em-folder-tree.c:2058
+#:../composer/e-msg-composer.c:3620 ../mail/em-folder-tree.c:2058
 #:../ui/evolution-addressbook.xml.h:59 ../ui/evolution-mail-list.xml.h:33
 msgid "_Properties"
 msgstr "Th_uộc tính"
 
 #:../calendar/gui/dialogs/comp-editor.c:1090
 #:../composer/e-msg-composer-attachment-bar.c:473
-#:../composer/e-msg-composer.c:3600
+#:../composer/e-msg-composer.c:3622
 msgid "_Add attachment..."
 msgstr "Th_êm đính kèm..."
 
 #:../calendar/gui/dialogs/comp-editor.c:1466
-#:../mail/em-format-html-display.c:2063
+#:../mail/em-format-html-display.c:2065
 msgid "Show Attachments"
 msgstr "Hiện các đính kèm"
 
@@ -6035,7 +6035,7 @@ msgstr "Tùy chỉnh"
 #:../calendar/gui/e-cal-model-tasks.c:649
 #:../calendar/gui/e-itip-control.c:1099 ../composer/e-msg-composer.c:2271
 #:../filter/filter-rule.c:889 ../mail/em-account-editor.c:701
-#:../mail/em-account-editor.c:1366 ../mail/em-account-prefs.c:475
+#:../mail/em-account-editor.c:1388 ../mail/em-account-prefs.c:475
 #:../mail/em-junk-hook.c:78
 #:../plugins/calendar-weather/calendar-weather.c:370
 #:../plugins/calendar-weather/calendar-weather.c:424
@@ -6065,7 +6065,7 @@ msgid "Atte_ndees..."
 msgstr "Người _dự..."
 
 #:../calendar/gui/dialogs/event-page.glade.h:6
-#:../calendar/gui/dialogs/memo-page.glade.h:2
+#:../calendar/gui/dialogs/memo-page.glade.h:1
 msgid "Ca_tegories..."
 msgstr "_Loại.."
 
@@ -6201,13 +6201,13 @@ msgstr "Ghi nhớ"
 msgid "Unable to open memos in '%s'."
 msgstr "Không thể mở ghi nhớ trong « %s »."
 
-#:../calendar/gui/dialogs/memo-page.glade.h:3
+#:../calendar/gui/dialogs/memo-page.glade.h:2
 #:../calendar/gui/dialogs/task-page.c:439
 #:../calendar/gui/dialogs/task-page.glade.h:9
 msgid "_Group:"
 msgstr "_Nhóm:"
 
-#:../calendar/gui/dialogs/memo-page.glade.h:4
+#:../calendar/gui/dialogs/memo-page.glade.h:3
 msgid "_Memo Content:"
 msgstr "Nội dung ghi _nhớ :"
 
@@ -6829,7 +6829,7 @@ msgstr "Đã gán"
 msgid "Save As..."
 msgstr "Lưu dạng..."
 
-#:../calendar/gui/e-cal-popup.c:189 ../mail/em-format-html-display.c:1911
+#:../calendar/gui/e-cal-popup.c:189 ../mail/em-format-html-display.c:1913
 msgid "Select folder to save selected attachments..."
 msgstr "Chọn thư mục nơi cần lưu những đính kèm đã chọn..."
 
@@ -7098,13 +7098,13 @@ msgid "Organizer: %s"
 msgstr "Tổ chức: %s"
 
 #.To Translators: It will display "Location: PlaceOfTheMeeting"
-#:../calendar/gui/e-calendar-view.c:2049 ../calendar/gui/print.c:2336
+#:../calendar/gui/e-calendar-view.c:2050 ../calendar/gui/print.c:2336
 #,c-format
 msgid "Location: %s"
 msgstr "Địa điểm: %s"
 
 #.To Translators: It will display "Time: ActualStartDateAndTime (DurationOfTheMeeting)"
-#:../calendar/gui/e-calendar-view.c:2080
+#:../calendar/gui/e-calendar-view.c:2081
 #,c-format
 msgid "Time: %s %s"
 msgstr "Giờ: %s %s"
@@ -7926,19 +7926,19 @@ msgstr "Phải chọn một bộ tổ chức."
 msgid "At least one attendee is necessary"
 msgstr "Cần ít nhất một người dự."
 
-#:../calendar/gui/itip-utils.c:631 ../calendar/gui/itip-utils.c:757
+#:../calendar/gui/itip-utils.c:631 ../calendar/gui/itip-utils.c:754
 msgid "Event information"
 msgstr "Thông tin sự kiện"
 
-#:../calendar/gui/itip-utils.c:633 ../calendar/gui/itip-utils.c:759
+#:../calendar/gui/itip-utils.c:633 ../calendar/gui/itip-utils.c:756
 msgid "Task information"
 msgstr "Thông tin tác vụ"
 
-#:../calendar/gui/itip-utils.c:635 ../calendar/gui/itip-utils.c:761
+#:../calendar/gui/itip-utils.c:635 ../calendar/gui/itip-utils.c:758
 msgid "Journal information"
 msgstr "Thông tin nhật ký"
 
-#:../calendar/gui/itip-utils.c:637 ../calendar/gui/itip-utils.c:779
+#:../calendar/gui/itip-utils.c:637 ../calendar/gui/itip-utils.c:776
 msgid "Free/Busy information"
 msgstr "Thông tin rảnh/bận"
 
@@ -7958,16 +7958,16 @@ msgstr "Làm tươi"
 msgid "Counter-proposal"
 msgstr "Phản đề nghị"
 
-#:../calendar/gui/itip-utils.c:775
+#:../calendar/gui/itip-utils.c:772
 #,c-format
 msgid "Free/Busy information (%s to %s)"
 msgstr "Thông tin Rảnh/Bận (%s đến %s)"
 
-#:../calendar/gui/itip-utils.c:785
+#:../calendar/gui/itip-utils.c:782
 msgid "iCalendar information"
 msgstr "Thông tin iCalendar"
 
-#:../calendar/gui/itip-utils.c:940
+#:../calendar/gui/itip-utils.c:937
 msgid "You must be an attendee of the event."
 msgstr "Bạn phải là người dự sự kiện ấy."
 
@@ -8387,7 +8387,7 @@ msgstr "_Danh sách tác vụ"
 msgid "Create a new task list"
 msgstr "Tạo danh sách tác vụ mới"
 
-#:../calendar/gui/tasks-control.c:435
+#:../calendar/gui/tasks-control.c:438
 msgid ""
 "This operation will permanently erase all tasks marked as completed. If you "
 "continue, you will not be able to recover these tasks.\n"
@@ -8398,11 +8398,11 @@ msgstr "Thao tác này sẽ xoá bỏ hoàn toàn mọi tác vụ được đán
 "\n"
 "Bạn có thật sự muốn xoá bỏ những tác vụ này sao?"
 
-#:../calendar/gui/tasks-control.c:438
+#:../calendar/gui/tasks-control.c:441
 msgid "Do not ask me again."
 msgstr "Đừng hỏi tôi lần nữa."
 
-#:../calendar/gui/tasks-control.c:472
+#:../calendar/gui/tasks-control.c:475
 msgid "Print Tasks"
 msgstr "In tác vụ"
 
@@ -10124,7 +10124,7 @@ msgid "Hide _Attachment Bar"
 msgstr "Ẩn thanh đính _kèm"
 
 #:../composer/e-msg-composer.c:1298 ../composer/e-msg-composer.c:2511
-#:../composer/e-msg-composer.c:3843
+#:../composer/e-msg-composer.c:3865
 msgid "Show _Attachment Bar"
 msgstr "Hiện thanh đính _kèm"
 
@@ -10159,12 +10159,12 @@ msgstr "Tự động phát sinh"
 msgid "Si_gnature:"
 msgstr "Chữ _ký:"
 
-#:../composer/e-msg-composer.c:2522 ../composer/e-msg-composer.c:3725
-#:../composer/e-msg-composer.c:3728
+#:../composer/e-msg-composer.c:2522 ../composer/e-msg-composer.c:3747
+#:../composer/e-msg-composer.c:3750
 msgid "Compose Message"
 msgstr "Viết thư"
 
-#:../composer/e-msg-composer.c:4952
+#:../composer/e-msg-composer.c:4974
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)"
 "<b>"
@@ -10306,7 +10306,7 @@ msgstr "_Lưu thư"
 # Name: do not translate/ tên: đừng dịch
 #:../data/evolution.desktop.in.in.h:1
 #:../plugins/default-mailer/org-gnome-default-mailer.error.xml.h:2
-#:../shell/main.c:511
+#:../shell/main.c:514
 msgid "Evolution"
 msgstr "Evolution"
 
@@ -10817,46 +10817,46 @@ msgstr "Chọn thư mục"
 msgid "Ask for each message"
 msgstr "Hỏi cho mỗi thư"
 
-#:../mail/em-account-editor.c:1757 ../mail/mail-config.glade.h:91
+#:../mail/em-account-editor.c:1780 ../mail/mail-config.glade.h:91
 msgid "Identity"
 msgstr "Nhân dạng"
 
-#:../mail/em-account-editor.c:1806 ../mail/mail-config.glade.h:118
+#:../mail/em-account-editor.c:1829 ../mail/mail-config.glade.h:118
 msgid "Receiving Email"
 msgstr "Nhận Thư"
 
-#:../mail/em-account-editor.c:1990
+#:../mail/em-account-editor.c:2013
 msgid "Automatically check for _new mail every"
 msgstr "Tự động kiểm tra thư _mới mỗi"
 
-#:../mail/em-account-editor.c:2171 ../mail/mail-config.glade.h:130
+#:../mail/em-account-editor.c:2194 ../mail/mail-config.glade.h:130
 msgid "Sending Email"
 msgstr "Gửi Thư"
 
-#:../mail/em-account-editor.c:2230 ../mail/mail-config.glade.h:68
+#:../mail/em-account-editor.c:2253 ../mail/mail-config.glade.h:68
 msgid "Defaults"
 msgstr "Mặc định"
 
 #.Security settings
-#:../mail/em-account-editor.c:2296 ../mail/mail-config.glade.h:123
+#:../mail/em-account-editor.c:2319 ../mail/mail-config.glade.h:123
 #:../plugins/exchange-operations/exchange-account-setup.c:317
 msgid "Security"
 msgstr "Bảo mật"
 
 #.Most sections for this is auto-generated fromt the camel config
-#:../mail/em-account-editor.c:2333 ../mail/em-account-editor.c:2424
+#:../mail/em-account-editor.c:2356 ../mail/em-account-editor.c:2447
 msgid "Receiving Options"
 msgstr "Tùy chọn Nhận"
 
-#:../mail/em-account-editor.c:2334 ../mail/em-account-editor.c:2425
+#:../mail/em-account-editor.c:2357 ../mail/em-account-editor.c:2448
 msgid "Checking for New Mail"
 msgstr "Kiểm tra tìm Thư Mới"
 
-#:../mail/em-account-editor.c:2764 ../mail/mail-config.glade.h:34
+#:../mail/em-account-editor.c:2795 ../mail/mail-config.glade.h:34
 msgid "Account Editor"
 msgstr "Bộ sửa tài khoản"
 
-#:../mail/em-account-editor.c:2764 ../mail/mail-config.glade.h:80
+#:../mail/em-account-editor.c:2795 ../mail/mail-config.glade.h:80
 msgid "Evolution Account Assistant"
 msgstr "Phụ tá tài khoản Evolution"
 
@@ -10907,18 +10907,18 @@ msgstr "Thêm tập lệnh chữ ký"
 msgid "Signature(s)"
 msgstr "Chữ ký"
 
-#:../mail/em-composer-utils.c:863 ../mail/em-format-quote.c:389
+#:../mail/em-composer-utils.c:873 ../mail/em-format-quote.c:389
 msgid "-------- Forwarded Message --------"
 msgstr "━━━Thư đã chuyển tiếp━━━"
 
-#:../mail/em-composer-utils.c:1655
+#:../mail/em-composer-utils.c:1665
 msgid "an unknown sender"
 msgstr "người gửi lạ"
 
 #.Note to translators: this is the attribution string used when quoting messages.
 #.* each ${Variable} gets replaced with a value. To see a full list of available
 #.* variables, see em-composer-utils.c:1514
-#:../mail/em-composer-utils.c:1702
+#:../mail/em-composer-utils.c:1712
 msgid ""
 "On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} "
 "${TimeZone}, ${Sender} wrote:"
@@ -11195,18 +11195,18 @@ msgstr "Tạo thư mục tìm kiếm từ kết quả tìm kiếm..."
 
 #.TODO: can this be done in a loop?
 #.to be on the safe side, ngettext is used here, see e.g. comment #3 at bug 272567
-#:../mail/em-folder-properties.c:145
+#:../mail/em-folder-properties.c:150
 msgid "Total messages:"
 msgid_plural "Total messages:"
 msgstr[0] "Tổng số thư :"
 
 #.to be on the safe side, ngettext is used here, see e.g. comment #3 at bug 272567
-#:../mail/em-folder-properties.c:158
+#:../mail/em-folder-properties.c:163
 msgid "Unread messages:"
 msgid_plural "Unread messages:"
 msgstr[0] "Thư chưa đọc:"
 
-#:../mail/em-folder-properties.c:289
+#:../mail/em-folder-properties.c:316
 #:../plugins/groupwise-features/properties.glade.h:3
 msgid "Folder Properties"
 msgstr "Thuộc tính thư mục"
@@ -11602,63 +11602,63 @@ msgstr "_Xem Chứng nhận"
 msgid "This certificate is not viewable"
 msgstr "Chứng nhận này không có khả năng xem"
 
-#:../mail/em-format-html-display.c:1172
+#:../mail/em-format-html-display.c:1174
 msgid "Completed on %B %d, %Y, %l:%M %p"
 msgstr "Hoàn tất vào %d %B, %Y, %l:%M %p"
 
-#:../mail/em-format-html-display.c:1180
+#:../mail/em-format-html-display.c:1182
 msgid "Overdue:"
 msgstr "Quá hạn:"
 
-#:../mail/em-format-html-display.c:1183
+#:../mail/em-format-html-display.c:1185
 msgid "by %B %d, %Y, %l:%M %p"
 msgstr "trước %d %B, %Y, %l:%M %p"
 
-#:../mail/em-format-html-display.c:1243
+#:../mail/em-format-html-display.c:1245
 msgid "_View Inline"
 msgstr "_Xem trực tiếp"
 
-#:../mail/em-format-html-display.c:1244
+#:../mail/em-format-html-display.c:1246
 msgid "_Hide"
 msgstr "Ẩ_n"
 
-#:../mail/em-format-html-display.c:1245
+#:../mail/em-format-html-display.c:1247
 msgid "_Fit to Width"
 msgstr "_Vừa khít độ rộng"
 
-#:../mail/em-format-html-display.c:1246
+#:../mail/em-format-html-display.c:1248
 msgid "Show _Original Size"
 msgstr "Hiển thị kích cỡ _gốc"
 
-#:../mail/em-format-html-display.c:1665 ../mail/mail-config.glade.h:45
+#:../mail/em-format-html-display.c:1667 ../mail/mail-config.glade.h:45
 #:../mail/message-list.etspec.h:1
 msgid "Attachment"
 msgstr "Đính kèm"
 
-#:../mail/em-format-html-display.c:1872
+#:../mail/em-format-html-display.c:1874
 msgid "Select folder to save all attachments..."
 msgstr "Chọn thư mục nơi cần lưu mọi đính kèm..."
 
-#:../mail/em-format-html-display.c:1919
+#:../mail/em-format-html-display.c:1921
 msgid "_Save Selected..."
 msgstr "_Lưu các điều chọn..."
 
 #.Cant i put in the number of attachments here ?
-#:../mail/em-format-html-display.c:1986
+#:../mail/em-format-html-display.c:1988
 #,c-format
 msgid "%d attachme_nt"
 msgid_plural "%d attachme_nts"
 msgstr[0] "%d đính kèm"
 
-#:../mail/em-format-html-display.c:1993 ../mail/em-format-html-display.c:2069
+#:../mail/em-format-html-display.c:1995 ../mail/em-format-html-display.c:2071
 msgid "S_ave"
 msgstr "_Lưu"
 
-#:../mail/em-format-html-display.c:2004
+#:../mail/em-format-html-display.c:2006
 msgid "S_ave All"
 msgstr "L_ưu hết"
 
-#:../mail/em-format-html-display.c:2065
+#:../mail/em-format-html-display.c:2067
 msgid "No Attachment"
 msgstr "Không có đính kèm"
 
@@ -13517,11 +13517,11 @@ msgid ""
 msgstr "Gặp lỗi khi lưu thư vào: %s:\n"
 " %s"
 
-#:../mail/mail-ops.c:2090
+#:../mail/mail-ops.c:2091
 msgid "Saving attachment"
 msgstr "Đang lưu đính kèm..."
 
-#:../mail/mail-ops.c:2102
+#:../mail/mail-ops.c:2104 ../mail/mail-ops.c:2110
 #,c-format
 msgid ""
 "Cannot create output file: %s:\n"
@@ -13529,22 +13529,22 @@ msgid ""
 msgstr "Không thể tạo tập tin xuất: %s:\n"
 " %s"
 
-#:../mail/mail-ops.c:2112
+#:../mail/mail-ops.c:2120
 #,c-format
 msgid "Could not write data: %s"
 msgstr "Không thể ghi dữ liệu : %s"
 
-#:../mail/mail-ops.c:2262
+#:../mail/mail-ops.c:2269
 #,c-format
 msgid "Disconnecting from %s"
 msgstr "Đang ngắt kết nối từ %s..."
 
-#:../mail/mail-ops.c:2262
+#:../mail/mail-ops.c:2269
 #,c-format
 msgid "Reconnecting to %s"
 msgstr "Đang tái kết nối tới %s..."
 
-#:../mail/mail-ops.c:2378
+#:../mail/mail-ops.c:2385
 msgid "Checking Service"
 msgstr "Đang kiểm tra dịch vụ..."
 
@@ -13573,7 +13573,7 @@ msgid "Checking for new mail"
 msgstr "Đang kiểm tra tìm thư mới..."
 
 #:../mail/mail-session.c:204
-#:../plugins/exchange-operations/exchange-config-listener.c:681
+#:../plugins/exchange-operations/exchange-config-listener.c:710
 #,c-format
 msgid "Enter Password for %s"
 msgstr "Hãy gõ mật khẩu cho %s"
@@ -14725,8 +14725,8 @@ msgstr "Kiểu xác thực"
 msgid "Ch_eck for Supported Types"
 msgstr "_Kiểm tra kiểu được hỗ trợ"
 
-#:../plugins/exchange-operations/exchange-calendar.c:192
-#:../plugins/exchange-operations/exchange-contacts.c:165
+#:../plugins/exchange-operations/exchange-calendar.c:193
+#:../plugins/exchange-operations/exchange-contacts.c:167
 msgid ""
 "Evolution is in offline mode. You cannot create or modify folders now.\n"
 "Please switch to online mode for such operations."
@@ -14765,7 +14765,7 @@ msgid "Your current password has expired. Please change your password now."
 msgstr "Mật khẩu hiện thời của bạn đã hết hạn. Hãy thay đổi mật khẩu bạn ngay bây "
 "giờ."
 
-#:../plugins/exchange-operations/exchange-config-listener.c:633
+#:../plugins/exchange-operations/exchange-config-listener.c:662
 #,c-format
 msgid "Your password will expire in the next %d days"
 msgstr "Mật khẩu bạn sẽ hết hạn dùng trong vòng %d ngày"
@@ -15506,7 +15506,7 @@ msgstr "Đăng nhập ủy nhiệm"
 
 #:../plugins/groupwise-features/proxy-login.c:220
 #:../plugins/groupwise-features/proxy-login.c:263
-#:../plugins/groupwise-features/proxy.c:502
+#:../plugins/groupwise-features/proxy.c:503
 #:../plugins/groupwise-features/send-options.c:83
 #,c-format
 msgid "%sEnter password for %s (user %s)"
@@ -15516,11 +15516,11 @@ msgstr "%sGõ mật khẩu cho %s (người dùng %s)"
 msgid "_Proxy Login..."
 msgstr "Đăng nhập ủ_y nhiệm..."
 
-#:../plugins/groupwise-features/proxy.c:698
+#:../plugins/groupwise-features/proxy.c:697
 msgid "The Proxy tab will be available only when the account is online."
 msgstr "Có thể sử dụng Thanh Ủy nhiệm chỉ khi tài khoản trực tuyến."
 
-#:../plugins/groupwise-features/proxy.c:703
+#:../plugins/groupwise-features/proxy.c:702
 msgid "The Proxy tab will be available only when the account is enabled."
 msgstr "Có thể sử dụng Thanh Ủy nhiệm chỉ khi tài khoản đã bật."
 
@@ -15560,19 +15560,19 @@ msgstr "_Nhập vào Lịch"
 msgid "_Import to Tasks"
 msgstr "_Nhập vào Tác vụ"
 
-#:../plugins/import-ics-attachments/icsimporter.c:197
+#:../plugins/import-ics-attachments/icsimporter.c:198
 msgid "Import ICS"
 msgstr "Nhập ICS"
 
-#:../plugins/import-ics-attachments/icsimporter.c:225
+#:../plugins/import-ics-attachments/icsimporter.c:226
 msgid "Select Task List"
 msgstr "Chọn Danh sách Tác vụ"
 
-#:../plugins/import-ics-attachments/icsimporter.c:229
+#:../plugins/import-ics-attachments/icsimporter.c:230
 msgid "Select Calendar"
 msgstr "Chọn Lịch"
 
-#:../plugins/import-ics-attachments/icsimporter.c:260
+#:../plugins/import-ics-attachments/icsimporter.c:261
 #:../shell/e-shell-importer.c:703
 msgid "_Import"
 msgstr "_Nhập"
@@ -16899,7 +16899,7 @@ msgstr "Hiện khung lề"
 msgid "Skip development warning dialog"
 msgstr "Bỏ qua hộp thoại cảnh báo phát triển"
 
-#:../shell/apps_evolution_shell.schemas.in.in.h:12 ../shell/main.c:470
+#:../shell/apps_evolution_shell.schemas.in.in.h:12 ../shell/main.c:473
 msgid "Start in offline mode"
 msgstr "Khởi chạy trong chế độ ngoại tuyến"
 
@@ -17248,31 +17248,31 @@ msgstr "Xin cám ơn\n"
 msgid "Do not tell me again"
 msgstr "Đừng nói điều này lần nữa"
 
-#:../shell/main.c:468
+#:../shell/main.c:471
 msgid "Start Evolution activating the specified component"
 msgstr "Báo trình Evolution hoạt hoá thành phần đã ghi rõ"
 
-#:../shell/main.c:472
+#:../shell/main.c:475
 msgid "Start in online mode"
 msgstr "Khởi chạy trong chế độ trực tuyến"
 
-#:../shell/main.c:475
+#:../shell/main.c:478
 msgid "Forcibly shut down all Evolution components"
 msgstr "Buộc kết thức mọi thành phần Evolution"
 
-#:../shell/main.c:479
+#:../shell/main.c:482
 msgid "Forcibly re-migrate from Evolution 1.4"
 msgstr "Buộc tái nâng cấp từ Evolution 1.4"
 
-#:../shell/main.c:482
+#:../shell/main.c:485
 msgid "Send the debugging output of all components to a file."
 msgstr "Gửi thông tin gỡ lỗi của mọi thành phần vào tập tin."
 
-#:../shell/main.c:484
+#:../shell/main.c:487
 msgid "Disable loading of any plugins."
 msgstr "Tắt tải bộ cầm phít nào."
 
-#:../shell/main.c:515
+#:../shell/main.c:518
 #,c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
@@ -19859,14 +19859,14 @@ msgstr "Y2"
 #:../widgets/misc/e-canvas-vbox.c:102 ../widgets/misc/e-reflow.c:1427
 #:../widgets/table/e-table-group-container.c:974
 #:../widgets/table/e-table-group-leaf.c:636
-#:../widgets/table/e-table-item.c:3011
+#:../widgets/table/e-table-item.c:3014
 msgid "Minimum width"
 msgstr "Rộng tối thiểu"
 
 #:../widgets/misc/e-canvas-vbox.c:103 ../widgets/misc/e-reflow.c:1428
 #:../widgets/table/e-table-group-container.c:975
 #:../widgets/table/e-table-group-leaf.c:637
-#:../widgets/table/e-table-item.c:3012
+#:../widgets/table/e-table-item.c:3015
 msgid "Minimum Width"
 msgstr "Rộng tối thiểu"
 
@@ -20432,6 +20432,7 @@ msgid "Sh_ow these fields in order:"
 msgstr "_Hiển thị những trường này theo thứ tự :"
 
 #:../widgets/table/e-table-config-no-group.glade.h:12
+#:../widgets/table/e-table-config.c:563
 #:../widgets/table/e-table-config.glade.h:10
 msgid "Show Fields"
 msgstr "Hiện trường"
@@ -20489,6 +20490,10 @@ msgstr "Chưa sắp xếp"
 #:../widgets/table/e-table-config.c:355
 msgid "No grouping"
 msgstr "Chưa nhóm lại"
+
+#:../widgets/table/e-table-config.c:584
+msgid "Available Fields"
+msgstr "Trường có sẵn"
 
 #:../widgets/table/e-table-config.glade.h:17
 msgid "_Group By..."
@@ -20551,7 +20556,7 @@ msgstr "%s (%d mục)"
 #:../widgets/table/e-table-group-container.c:898
 #:../widgets/table/e-table-group-leaf.c:573
 #:../widgets/table/e-table-group-leaf.c:574
-#:../widgets/table/e-table-item.c:2969 ../widgets/table/e-table-item.c:2970
+#:../widgets/table/e-table-item.c:2972 ../widgets/table/e-table-item.c:2973
 msgid "Alternating Row Colors"
 msgstr "Các màu hàng xen kẽ"
 
@@ -20559,7 +20564,7 @@ msgstr "Các màu hàng xen kẽ"
 #:../widgets/table/e-table-group-container.c:905
 #:../widgets/table/e-table-group-leaf.c:580
 #:../widgets/table/e-table-group-leaf.c:581
-#:../widgets/table/e-table-item.c:2976 ../widgets/table/e-table-item.c:2977
+#:../widgets/table/e-table-item.c:2979 ../widgets/table/e-table-item.c:2980
 #:../widgets/table/e-tree.c:3265 ../widgets/table/e-tree.c:3266
 msgid "Horizontal Draw Grid"
 msgstr "Lưới vẽ ngang"
@@ -20568,7 +20573,7 @@ msgstr "Lưới vẽ ngang"
 #:../widgets/table/e-table-group-container.c:912
 #:../widgets/table/e-table-group-leaf.c:587
 #:../widgets/table/e-table-group-leaf.c:588
-#:../widgets/table/e-table-item.c:2983 ../widgets/table/e-table-item.c:2984
+#:../widgets/table/e-table-item.c:2986 ../widgets/table/e-table-item.c:2987
 #:../widgets/table/e-tree.c:3271 ../widgets/table/e-tree.c:3272
 msgid "Vertical Draw Grid"
 msgstr "Lưới vẽ dọc"
@@ -20577,7 +20582,7 @@ msgstr "Lưới vẽ dọc"
 #:../widgets/table/e-table-group-container.c:919
 #:../widgets/table/e-table-group-leaf.c:594
 #:../widgets/table/e-table-group-leaf.c:595
-#:../widgets/table/e-table-item.c:2990 ../widgets/table/e-table-item.c:2991
+#:../widgets/table/e-table-item.c:2993 ../widgets/table/e-table-item.c:2994
 #:../widgets/table/e-tree.c:3277 ../widgets/table/e-tree.c:3278
 msgid "Draw focus"
 msgstr "Tiêu điểm vẽ"
@@ -20586,7 +20591,7 @@ msgstr "Tiêu điểm vẽ"
 #:../widgets/table/e-table-group-container.c:926
 #:../widgets/table/e-table-group-leaf.c:601
 #:../widgets/table/e-table-group-leaf.c:602
-#:../widgets/table/e-table-item.c:2997 ../widgets/table/e-table-item.c:2998
+#:../widgets/table/e-table-item.c:3000 ../widgets/table/e-table-item.c:3001
 msgid "Cursor mode"
 msgstr "Chế độ con trỏ"
 
@@ -20594,7 +20599,7 @@ msgstr "Chế độ con trỏ"
 #:../widgets/table/e-table-group-container.c:933
 #:../widgets/table/e-table-group-leaf.c:615
 #:../widgets/table/e-table-group-leaf.c:616
-#:../widgets/table/e-table-item.c:2962 ../widgets/table/e-table-item.c:2963
+#:../widgets/table/e-table-item.c:2965 ../widgets/table/e-table-item.c:2966
 msgid "Selection model"
 msgstr "Mô hình lựa chọn"
 
@@ -20602,7 +20607,7 @@ msgstr "Mô hình lựa chọn"
 #:../widgets/table/e-table-group-container.c:940
 #:../widgets/table/e-table-group-leaf.c:608
 #:../widgets/table/e-table-group-leaf.c:609
-#:../widgets/table/e-table-item.c:3004 ../widgets/table/e-table-item.c:3005
+#:../widgets/table/e-table-item.c:3007 ../widgets/table/e-table-item.c:3008
 #:../widgets/table/e-table.c:3301 ../widgets/table/e-tree.c:3259
 #:../widgets/table/e-tree.c:3260
 msgid "Length Threshold"
@@ -20612,7 +20617,7 @@ msgstr "Ngưỡng dài"
 #:../widgets/table/e-table-group-container.c:947
 #:../widgets/table/e-table-group-leaf.c:650
 #:../widgets/table/e-table-group-leaf.c:651
-#:../widgets/table/e-table-item.c:3038 ../widgets/table/e-table-item.c:3039
+#:../widgets/table/e-table-item.c:3041 ../widgets/table/e-table-item.c:3042
 #:../widgets/table/e-table.c:3308 ../widgets/table/e-tree.c:3291
 #:../widgets/table/e-tree.c:3292
 msgid "Uniform row height"
@@ -20689,15 +20694,15 @@ msgstr "Sắp xếp thông tin"
 msgid "Tree"
 msgstr "Cây"
 
-#:../widgets/table/e-table-item.c:2948 ../widgets/table/e-table-item.c:2949
+#:../widgets/table/e-table-item.c:2951 ../widgets/table/e-table-item.c:2952
 msgid "Table header"
 msgstr "Phần đầu bảng"
 
-#:../widgets/table/e-table-item.c:2955 ../widgets/table/e-table-item.c:2956
+#:../widgets/table/e-table-item.c:2958 ../widgets/table/e-table-item.c:2959
 msgid "Table model"
 msgstr "Mô hình bảng"
 
-#:../widgets/table/e-table-item.c:3031 ../widgets/table/e-table-item.c:3032
+#:../widgets/table/e-table-item.c:3034 ../widgets/table/e-table-item.c:3035
 msgid "Cursor row"
 msgstr "Hàng con trỏ"
 
