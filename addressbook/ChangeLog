@@ -1,3 +1,8 @@
+2006-02-28  Devashish Sharma <sdevashish@novell.com>
+
+	* gui/contact-editor/e-contact-editor.c (extract_simple_field): Fix for Bug 
+	#332811 crash adding an image to a contact.
+	
 2006-02-27  Devashish Sharma <sdevashish@novell.com>
 
 	* gui/contact-editor/e-contact-editor.c: Fix for Bug #332498: orphaned

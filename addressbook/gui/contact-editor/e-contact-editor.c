@@ -2269,7 +2269,7 @@ extract_simple_field (EContactEditor *editor, GtkWidget *widget, gint field_id)
 				height = gdk_pixbuf_get_height (pixbuf);
 				width = gdk_pixbuf_get_width (pixbuf);
 		
-				if ((height > 96 || width > 96) && e_error_run (GTK_WINDOW (editor), "addressbook:prompt-resize", NULL) == GTK_RESPONSE_YES) {
+				if ((height > 96 || width > 96) && e_error_run (GTK_WINDOW (editor->app), "addressbook:prompt-resize", NULL) == GTK_RESPONSE_YES) {
 
 					if ( width > height) {
 						height = height * 96 / width;
