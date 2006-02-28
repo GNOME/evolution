@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-02-25 23:02+0900\n"
-"PO-Revision-Date: 2006-02-25 22:55+0900\n"
+"POT-Creation-Date: 2006-03-01 00:05+0900\n"
+"PO-Revision-Date: 2006-03-01 00:02+0900\n"
 "Last-Translator: Takeshi AIHANA <aihana@gnome.gr.jp>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
 "MIME-Version: 1.0\n"
@@ -2518,15 +2518,15 @@ msgstr "変更済"
 msgid "Contact Editor - %s"
 msgstr "連絡先エディタ - %s"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2759
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2772
 msgid "Please select an image for this contact"
 msgstr "この連絡先の画像を選択して下さい"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2760
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2773
 msgid "No image"
 msgstr "画像なし"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3044
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3057
 msgid ""
 "The contact data is invalid:\n"
 "\n"
@@ -2534,7 +2534,7 @@ msgstr ""
 "連絡先データが間違っています:\n"
 "\n"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3096
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3109
 msgid "Invalid contact."
 msgstr "連絡先が正しくありません。"
 
@@ -2691,8 +2691,8 @@ msgstr "IM サービス(_I):"
 
 #: ../addressbook/gui/contact-editor/im.glade.h:5
 #: ../plugins/calendar-weather/calendar-weather.c:409
-#: ../plugins/exchange-operations/exchange-calendar.c:236
-#: ../plugins/exchange-operations/exchange-contacts.c:224
+#: ../plugins/exchange-operations/exchange-calendar.c:239
+#: ../plugins/exchange-operations/exchange-contacts.c:228
 msgid "_Location:"
 msgstr "場所(_L):"
 
@@ -3135,7 +3135,7 @@ msgstr "ウェブ・サイト"
 #: ../addressbook/gui/widgets/e-minicard-label.c:115
 #: ../addressbook/gui/widgets/e-minicard.c:138
 #: ../widgets/misc/e-canvas-vbox.c:96 ../widgets/misc/e-canvas-vbox.c:97
-#: ../widgets/misc/e-reflow.c:1434 ../widgets/misc/e-reflow.c:1435
+#: ../widgets/misc/e-reflow.c:1436 ../widgets/misc/e-reflow.c:1437
 #: ../widgets/table/e-table-click-to-add.c:516
 #: ../widgets/table/e-table-col.c:98
 #: ../widgets/table/e-table-field-chooser-item.c:656
@@ -3151,7 +3151,7 @@ msgstr "幅"
 #: ../addressbook/gui/widgets/e-minicard-label.c:122
 #: ../addressbook/gui/widgets/e-minicard.c:145
 #: ../widgets/misc/e-canvas-vbox.c:108 ../widgets/misc/e-canvas-vbox.c:109
-#: ../widgets/misc/e-reflow.c:1442 ../widgets/misc/e-reflow.c:1443
+#: ../widgets/misc/e-reflow.c:1444 ../widgets/misc/e-reflow.c:1445
 #: ../widgets/table/e-table-click-to-add.c:523
 #: ../widgets/table/e-table-field-chooser-item.c:663
 #: ../widgets/table/e-table-group-container.c:960
@@ -3854,8 +3854,8 @@ msgstr "シェーディング"
 #. FIXME: Take care of i18n
 #: ../addressbook/printing/e-contact-print.glade.h:36
 #: ../plugins/exchange-operations/exchange-account-setup.c:955
-#: ../plugins/exchange-operations/exchange-calendar.c:226
-#: ../plugins/exchange-operations/exchange-contacts.c:207
+#: ../plugins/exchange-operations/exchange-calendar.c:229
+#: ../plugins/exchange-operations/exchange-contacts.c:211
 msgid "Size:"
 msgstr "サイズ:"
 
@@ -4106,7 +4106,7 @@ msgstr "カレンダ '{0}' を削除しますか？"
 
 #: ../calendar/calendar.error.xml.h:25
 msgid "Delete memo list '{0}'?"
-msgstr "このメモ一覧 '{0}' を削除しますか？"
+msgstr "このメモの一覧 '{0}' を削除しますか？"
 
 #: ../calendar/calendar.error.xml.h:26
 msgid "Delete task list '{0}'?"
@@ -4148,7 +4148,7 @@ msgstr "カレンダを読み込む際にエラー"
 
 #: ../calendar/calendar.error.xml.h:34
 msgid "Error loading memo list"
-msgstr "メモ一覧を読み込む際にエラー"
+msgstr "メモの一覧を読み込む際にエラー"
 
 #: ../calendar/calendar.error.xml.h:35
 msgid "Error loading task list"
@@ -4232,7 +4232,7 @@ msgstr "選択したカレンダは読み込み専用です"
 
 #: ../calendar/calendar.error.xml.h:48
 msgid "The memo list is not marked for offline usage"
-msgstr "メモ一覧がオフライン使用になっていません。"
+msgstr "メモの一覧がオフライン使用になっていません。"
 
 #: ../calendar/calendar.error.xml.h:49
 msgid "The task list is not marked for offline usage."
@@ -4244,7 +4244,7 @@ msgstr "このカレンダは完全に削除されます。"
 
 #: ../calendar/calendar.error.xml.h:51
 msgid "This memo list will be removed permanently."
-msgstr "このメモ一覧は完全に削除されます。"
+msgstr "このメモの一覧は完全に削除されます。"
 
 #: ../calendar/calendar.error.xml.h:52
 msgid "This task list will be removed permanently."
@@ -5655,7 +5655,7 @@ msgstr "オフライン操作用にタスク一覧の内容をローカルへコ
 
 #: ../calendar/gui/dialogs/calendar-setup.c:293
 msgid "Copy memo list contents locally for offline operation"
-msgstr "オフライン操作用にメモ一覧の内容をローカルへコピーする"
+msgstr "オフライン操作用にメモの一覧の内容をローカルへコピーする"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:344
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:4
@@ -5668,7 +5668,7 @@ msgstr "タスク一覧"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:392
 msgid "Memos List"
-msgstr "メモ一覧"
+msgstr "メモの一覧"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:461
 msgid "Calendar Properties"
@@ -5685,7 +5685,7 @@ msgstr "タスク一覧のプロパティ"
 #: ../calendar/gui/dialogs/calendar-setup.c:595
 #: ../calendar/gui/memos-component.c:450
 msgid "New Memo List"
-msgstr "新しいメモ一覧"
+msgstr "新しいメモの一覧"
 
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:2
 msgid "Add Calendar"
@@ -5862,7 +5862,7 @@ msgid "_Add attachment..."
 msgstr "添付ファイルの追加(_A)..."
 
 #: ../calendar/gui/dialogs/comp-editor.c:1466
-#: ../mail/em-format-html-display.c:2063
+#: ../mail/em-format-html-display.c:2065
 msgid "Show Attachments"
 msgstr "添付ファイルの表示"
 
@@ -6923,7 +6923,7 @@ msgstr "割当て済み"
 msgid "Save As..."
 msgstr "別名で保存..."
 
-#: ../calendar/gui/e-cal-popup.c:189 ../mail/em-format-html-display.c:1911
+#: ../calendar/gui/e-cal-popup.c:189 ../mail/em-format-html-display.c:1913
 msgid "Select folder to save selected attachments..."
 msgstr "選択した添付ファイルを保存するフォルダの選択..."
 
@@ -8111,7 +8111,7 @@ msgstr "メモの移行に失敗しました。"
 #: ../calendar/gui/memos-component.c:871
 #, c-format
 msgid "Unable to open the memo list '%s' for creating events and meetings"
-msgstr "イベントと会議の作成に必要なメモ一覧 '%s' を開けません"
+msgstr "イベントと会議の作成に必要なメモの一覧 '%s' を開けません"
 
 #: ../calendar/gui/memos-component.c:884
 msgid "There is no calendar available for creating memos"
@@ -8135,15 +8135,15 @@ msgstr "新しいメモを作成します"
 
 #: ../calendar/gui/memos-component.c:1163
 msgid "New memo list"
-msgstr "新しいメモ一覧"
+msgstr "新しいメモの一覧"
 
 #: ../calendar/gui/memos-component.c:1164
 msgid "Memo l_ist"
-msgstr "メモ一覧(_I)"
+msgstr "メモの一覧(_I)"
 
 #: ../calendar/gui/memos-component.c:1165
 msgid "Create a new memo list"
-msgstr "新しいメモ一覧を作成します"
+msgstr "新しいメモの一覧を作成します"
 
 #: ../calendar/gui/memos-control.c:340
 msgid "Print Memos"
@@ -11753,64 +11753,64 @@ msgstr "証明書の表示(_V)"
 msgid "This certificate is not viewable"
 msgstr "この証明書は表示可能な形式ではありません"
 
-#: ../mail/em-format-html-display.c:1172
+#: ../mail/em-format-html-display.c:1174
 msgid "Completed on %B %d, %Y, %l:%M %p"
 msgstr "%Y年%B%e日 %p%l:%M に完了"
 
-#: ../mail/em-format-html-display.c:1180
+#: ../mail/em-format-html-display.c:1182
 msgid "Overdue:"
 msgstr "期限切れ:"
 
-#: ../mail/em-format-html-display.c:1183
+#: ../mail/em-format-html-display.c:1185
 msgid "by %B %d, %Y, %l:%M %p"
 msgstr "%Y年%B%e日 %p%l:%M まで"
 
-#: ../mail/em-format-html-display.c:1243
+#: ../mail/em-format-html-display.c:1245
 msgid "_View Inline"
 msgstr "インライン表示(_V)"
 
-#: ../mail/em-format-html-display.c:1244
+#: ../mail/em-format-html-display.c:1246
 msgid "_Hide"
 msgstr "隠す(_H)"
 
-#: ../mail/em-format-html-display.c:1245
+#: ../mail/em-format-html-display.c:1247
 msgid "_Fit to Width"
 msgstr "幅を合わせる(_F)"
 
-#: ../mail/em-format-html-display.c:1246
+#: ../mail/em-format-html-display.c:1248
 msgid "Show _Original Size"
 msgstr "通常のサイズ(_O)"
 
-#: ../mail/em-format-html-display.c:1665 ../mail/mail-config.glade.h:45
+#: ../mail/em-format-html-display.c:1667 ../mail/mail-config.glade.h:45
 #: ../mail/message-list.etspec.h:1
 msgid "Attachment"
 msgstr "ファイルの添付"
 
-#: ../mail/em-format-html-display.c:1872
+#: ../mail/em-format-html-display.c:1874
 msgid "Select folder to save all attachments..."
 msgstr "添付ファイルを全て保存するフォルダの選択..."
 
-#: ../mail/em-format-html-display.c:1919
+#: ../mail/em-format-html-display.c:1921
 msgid "_Save Selected..."
 msgstr "選択範囲の保存(_S)..."
 
 #. Cant i put in the number of attachments here ?
-#: ../mail/em-format-html-display.c:1986
+#: ../mail/em-format-html-display.c:1988
 #, c-format
 msgid "%d attachme_nt"
 msgid_plural "%d attachme_nts"
 msgstr[0] "%d個の添付ファイル"
 msgstr[1] "%d個の添付ファイル"
 
-#: ../mail/em-format-html-display.c:1993 ../mail/em-format-html-display.c:2069
+#: ../mail/em-format-html-display.c:1995 ../mail/em-format-html-display.c:2071
 msgid "S_ave"
 msgstr "保存する(_A)"
 
-#: ../mail/em-format-html-display.c:2004
+#: ../mail/em-format-html-display.c:2006
 msgid "S_ave All"
 msgstr "全て保存する(_A)"
 
-#: ../mail/em-format-html-display.c:2065
+#: ../mail/em-format-html-display.c:2067
 msgid "No Attachment"
 msgstr "添付ファイルなし"
 
@@ -13763,7 +13763,7 @@ msgid "Checking for new mail"
 msgstr "新着メールのチェック中"
 
 #: ../mail/mail-session.c:204
-#: ../plugins/exchange-operations/exchange-config-listener.c:681
+#: ../plugins/exchange-operations/exchange-config-listener.c:710
 #, c-format
 msgid "Enter Password for %s"
 msgstr "%s のパスワードを入力して下さい"
@@ -14953,7 +14953,7 @@ msgstr "認証の種類"
 msgid "Ch_eck for Supported Types"
 msgstr "サポートしているかチェックする(_E)"
 
-#: ../plugins/exchange-operations/exchange-calendar.c:194
+#: ../plugins/exchange-operations/exchange-calendar.c:193
 #: ../plugins/exchange-operations/exchange-contacts.c:167
 msgid ""
 "Evolution is in offline mode. You cannot create or modify folders now.\n"
@@ -14993,7 +14993,7 @@ msgstr "新しいパスワード:"
 msgid "Your current password has expired. Please change your password now."
 msgstr "お使いのパスワードは期限切れです。今すぐパスワードを変更して下さい。"
 
-#: ../plugins/exchange-operations/exchange-config-listener.c:633
+#: ../plugins/exchange-operations/exchange-config-listener.c:662
 #, c-format
 msgid "Your password will expire in the next %d days"
 msgstr "お使いのパスワードはあと %d日で期限切れになります"
@@ -17515,7 +17515,7 @@ msgid ""
 "eagerly await your contributions!\n"
 msgstr ""
 "やぁ。\n"
-"わざわざ Evolution グループウェア・スウィート\n"
+"わざわざ Evolution グループウェア・スウィートの\n"
 "【プレビュー版】をダウンロードしてくれてありがとう。\n"
 "\n"
 "残念ながら、このバージョンはまだ完成していません。\n"
@@ -17524,7 +17524,7 @@ msgstr ""
 "\n"
 "もし安定版の Evolution を使いたいとお考えなら\n"
 "このバージョンをアンインストールして、\n"
-"バージョン %s のインストールを強くお勧めます。\n"
+"【バージョン %s】のインストールを強くお勧めます。\n"
 "\n"
 "バグを発見した場合は、bugzilla.gnome.org まで報告して下さい。\n"
 "この製品は無保証であり、いかなる個人的な怒りにも対応できません。\n"
@@ -19413,11 +19413,11 @@ msgstr "クリップボードからメモを貼り付けます"
 
 #: ../ui/evolution-memos.xml.h:10
 msgid "Previews the list of memos to be printed"
-msgstr "メモ一覧の印刷プレビューを表示します"
+msgstr "メモの一覧の印刷プレビューを表示します"
 
 #: ../ui/evolution-memos.xml.h:13
 msgid "Print the list of memos"
-msgstr "メモ一覧を印刷します"
+msgstr "メモの一覧を印刷します"
 
 #: ../ui/evolution-memos.xml.h:14
 msgid "View the selected memo"
@@ -20165,14 +20165,14 @@ msgstr "Y1"
 msgid "Y2"
 msgstr "Y2"
 
-#: ../widgets/misc/e-canvas-vbox.c:102 ../widgets/misc/e-reflow.c:1427
+#: ../widgets/misc/e-canvas-vbox.c:102 ../widgets/misc/e-reflow.c:1429
 #: ../widgets/table/e-table-group-container.c:974
 #: ../widgets/table/e-table-group-leaf.c:636
 #: ../widgets/table/e-table-item.c:3014
 msgid "Minimum width"
 msgstr "最小の幅"
 
-#: ../widgets/misc/e-canvas-vbox.c:103 ../widgets/misc/e-reflow.c:1428
+#: ../widgets/misc/e-canvas-vbox.c:103 ../widgets/misc/e-reflow.c:1430
 #: ../widgets/table/e-table-group-container.c:975
 #: ../widgets/table/e-table-group-leaf.c:637
 #: ../widgets/table/e-table-item.c:3015
@@ -20432,15 +20432,15 @@ msgstr "同期するプライベートレコード:"
 msgid "Sync Categories:"
 msgstr "カテゴリの同期:"
 
-#: ../widgets/misc/e-reflow.c:1449 ../widgets/misc/e-reflow.c:1450
+#: ../widgets/misc/e-reflow.c:1451 ../widgets/misc/e-reflow.c:1452
 msgid "Empty message"
 msgstr "空のメッセージ"
 
-#: ../widgets/misc/e-reflow.c:1456 ../widgets/misc/e-reflow.c:1457
+#: ../widgets/misc/e-reflow.c:1458 ../widgets/misc/e-reflow.c:1459
 msgid "Reflow model"
 msgstr "Reflow model"
 
-#: ../widgets/misc/e-reflow.c:1463 ../widgets/misc/e-reflow.c:1464
+#: ../widgets/misc/e-reflow.c:1465 ../widgets/misc/e-reflow.c:1466
 msgid "Column width"
 msgstr "カラムの幅"
 
