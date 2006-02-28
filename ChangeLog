@@ -1,3 +1,7 @@
+2006-02-28  Andre Klapper  <a9016009@gmx.de>
+
+	* configure.in: added "ta" to ALL_LINGUAS
+
 2006-02-28  Rajesh Ranjan  <rranjan@redhat.com>
 
 	* configure.in: Added "hi" to ALL_LINGUAS
