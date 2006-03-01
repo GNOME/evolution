@@ -1,3 +1,12 @@
+2006-03-01  Simon Zheng  <simon.zheng@sun.com>
+
+	** Fixes bug #331400
+
+	* e-cell-text.c: (ect_print_height): Table item height is decided 
+	by the max cell height in item. And cell-text is just one of cells.
+	As done by ect_print(), to leave some margin for text, 2 for footer,
+	2 for header, actual print height should be 16 + 4. 
+
 2006-02-24  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fixes bug #332408

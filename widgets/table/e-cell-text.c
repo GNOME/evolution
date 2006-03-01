@@ -1370,7 +1370,12 @@ ect_print_height (ECellView *ecell_view, GnomePrintContext *context,
 		  int model_col, int view_col, int row,
 		  double width)
 {
-	return 16;
+	/* 
+	 * Font size is 16 by default. To leave some margin for cell 
+	 * text area, 2 for footer, 2 for header, actual print height 
+	 * should be 16 + 4.
+`	 */
+	return 16 + 4;
 }
 
 static int
