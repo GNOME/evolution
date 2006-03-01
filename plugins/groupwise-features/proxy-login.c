@@ -193,7 +193,7 @@ proxy_get_password (EAccount *account, char **user_name, char **password)
 {
 	char *uri, *failed_auth, *key, *prompt;
 	CamelURL *url;
-	const char *poa_address, *use_ssl, *soap_port;
+	const char *poa_address, *use_ssl = NULL, *soap_port;
 
 	url = camel_url_new (account->source->url, NULL);
 	if (url == NULL) 
@@ -210,7 +210,7 @@ proxy_get_password (EAccount *account, char **user_name, char **password)
 
 	key =  g_strdup_printf ("groupwise://%s@%s/", url->user, poa_address); 
 	
-	if (!g_str_equal (use_ssl, "never"))
+	if (use_ssl && !g_str_equal (use_ssl, "never"))
 		uri = g_strdup_printf ("https://%s:%s/soap", poa_address, soap_port);
 	else 
 		uri = g_strdup_printf ("http://%s:%s/soap", poa_address, soap_port);
@@ -237,7 +237,7 @@ proxy_login_get_cnc (EAccount *account)
 	CamelURL *url;
 	url = camel_url_new (account->source->url, NULL);
 	char *uri = NULL, *failed_auth = NULL, *key = NULL, *prompt = NULL, *password = NULL;
-	const char *use_ssl, *soap_port;
+	const char *use_ssl = NULL, *soap_port;
 	gboolean remember;
 	
 	url = camel_url_new (account->source->url, NULL);
@@ -252,7 +252,7 @@ proxy_login_get_cnc (EAccount *account)
 	use_ssl = camel_url_get_param (url, "use_ssl");
 
 	key =  g_strdup_printf ("groupwise://%s@%s/", url->user, url->host); 
-	if (!g_str_equal (use_ssl, "never"))
+	if (use_ssl && !g_str_equal (use_ssl, "never"))
 		uri = g_strdup_printf ("https://%s:%s/soap", url->host, soap_port);
 	else 
 		uri = g_strdup_printf ("http://%s:%s/soap", url->host, soap_port);

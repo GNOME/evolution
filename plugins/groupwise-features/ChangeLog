@@ -1,3 +1,10 @@
+2006-03-01  Sankar P  <psankar@novell.com>
+
+	* proxy-login.c: (proxy_get_password) 
+	(proxy_login_get_cnc):
+	Takes care of non SSL accounts too.
+	Fixes #332948
+
 2006-02-21  Shreyas Srinivasan  <sshreyas@novell.com>
 
 	* proxy.c: Fix more brokenness. doh check if its the proxy
