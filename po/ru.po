@@ -1,4 +1,4 @@
-# translation of evolution.HEAD.ru.po to Russian
+# translation of evolution.HEAD.po to Russian
 # Copyright (C) 2000,2002,2003, 2004, 2005, 2006 Free Software Foundation, Inc.
 #
 # Valek Filippov <frob@df.ru>, 2000.
@@ -7,12 +7,12 @@
 # Michael Yakhontov <mvy@asplinux.ru>, 2003, 2005.
 msgid ""
 msgstr ""
-"Project-Id-Version: evolution\n"
+"Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-02-16 10:24+0200\n"
-"PO-Revision-Date: 2006-02-16 19:37+0200\n"
-"Last-Translator: Leonid Kanter <leon@asplinux.ru>\n"
-"Language-Team:  <gnome-cyr@gnome.org>\n"
+"POT-Creation-Date: 2006-02-27 13:40+0100\n"
+"PO-Revision-Date: 2006-03-01 17:40+0200\n"
+"Last-Translator: Leonid Kanter\n"
+"Language-Team: Russian <gnome-cyr@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -642,7 +642,7 @@ msgstr "Адресная _книга"
 msgid "Create a new address book"
 msgstr "Создать новую адресную книгу"
 
-#: ../addressbook/gui/component/addressbook-component.c:382
+#: ../addressbook/gui/component/addressbook-component.c:406
 msgid "Failed upgrading Address Book settings or folders."
 msgstr "Ошибка обновления параметров или папок Адресной книги."
 
@@ -666,7 +666,7 @@ msgstr "Скопировать книгу локально для автоном
 #: ../calendar/gui/dialogs/calendar-setup.c:369
 #: ../calendar/gui/dialogs/calendar-setup.c:380
 #: ../calendar/gui/dialogs/calendar-setup.c:391
-#: ../mail/em-folder-properties.c:217 ../mail/mail-config.glade.h:86
+#: ../mail/em-folder-properties.c:222 ../mail/mail-config.glade.h:86
 #: ../plugins/itip-formatter/itip-formatter.c:1978
 #: ../smime/gui/smime-ui.glade.h:28
 msgid "General"
@@ -1008,7 +1008,7 @@ msgid ""
 "Search filter is the type of the objects searched for, while performing the "
 "search. If this is not modified, by  default search will be performed on "
 "objectclass of the type \"person\"."
-msgstr ""
+msgstr "Фильтр поиска - это тип объекта, который должен быть найден. Если не изменять, по умолчанию будет произведен поиск объекта типа \"person\"."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:33
 msgid ""
@@ -1031,7 +1031,9 @@ msgid ""
 "Selecting this option means that your server does not support either SSL or "
 "TLS. This means that your connection will be insecure, and that you will be "
 "vulnerable to security exploits."
-msgstr "Выбор этой опции означает, что ваш сервер не поддерживает ни SSL, ни TLS . Это означает, что ваше соединение с сервером будет уязвимым для атак. "
+msgstr ""
+"Выбор этой опции означает, что ваш сервер не поддерживает ни SSL, ни TLS . "
+"Это означает, что ваше соединение с сервером будет уязвимым для атак. "
 
 #: ../addressbook/gui/component/ldap-config.glade.h:36
 msgid "Sub"
@@ -1056,7 +1058,8 @@ msgid ""
 "root of the directory tree."
 msgstr ""
 "База поиска является известным именем записи (DN - distinguished name), "
-"откуда начнется ваш поиск. Если вы оставите это поле пустым, то поиск начнется с корня дерева каталогов."
+"откуда начнется ваш поиск. Если вы оставите это поле пустым, то поиск "
+"начнется с корня дерева каталогов."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:40
 msgid ""
@@ -1182,7 +1185,7 @@ msgstr "карточек"
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:14
 #: ../calendar/gui/dialogs/event-page.glade.h:20 ../calendar/gui/misc.c:112
 #: ../calendar/gui/misc.c:114 ../filter/filter.glade.h:16
-#: ../mail/em-account-editor.c:2020
+#: ../mail/em-account-editor.c:2021
 #: ../plugins/calendar-http/calendar-http.c:286
 #: ../plugins/calendar-weather/calendar-weather.c:563
 msgid "minutes"
@@ -2513,15 +2516,15 @@ msgstr "Изменено"
 msgid "Contact Editor - %s"
 msgstr "Редактор контактов - %s"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2757
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2759
 msgid "Please select an image for this contact"
 msgstr "Выберите изображение для этого контакта"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2758
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2760
 msgid "No image"
 msgstr "Нет изображения"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3042
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3044
 msgid ""
 "The contact data is invalid:\n"
 "\n"
@@ -2529,7 +2532,7 @@ msgstr ""
 "Данные контакта неверны:\n"
 "\n"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3094
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3096
 msgid "Invalid contact."
 msgstr "Неверный контакт."
 
@@ -2686,8 +2689,8 @@ msgstr "Служба сообщений:"
 
 #: ../addressbook/gui/contact-editor/im.glade.h:5
 #: ../plugins/calendar-weather/calendar-weather.c:409
-#: ../plugins/exchange-operations/exchange-calendar.c:234
-#: ../plugins/exchange-operations/exchange-contacts.c:222
+#: ../plugins/exchange-operations/exchange-calendar.c:239
+#: ../plugins/exchange-operations/exchange-contacts.c:228
 msgid "_Location:"
 msgstr "_Расположение:"
 
@@ -2865,7 +2868,7 @@ msgid "Type"
 msgstr "Тип"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:834
-#: ../addressbook/gui/widgets/e-addressbook-view.c:2068
+#: ../addressbook/gui/widgets/e-addressbook-view.c:2067
 #: ../ui/evolution-addressbook.xml.h:31
 msgid "Save as VCard..."
 msgstr "Сохранить как VCard..."
@@ -2932,7 +2935,7 @@ msgstr "_Вырезать"
 #: ../calendar/gui/dialogs/comp-editor.c:445
 #: ../calendar/gui/e-calendar-table.c:1182
 #: ../calendar/gui/e-calendar-view.c:1602 ../calendar/gui/e-memo-table.c:860
-#: ../calendar/gui/tasks-component.c:442 ../composer/e-msg-composer.c:3098
+#: ../calendar/gui/tasks-component.c:442 ../composer/e-msg-composer.c:3120
 #: ../mail/em-folder-tree.c:979 ../mail/em-folder-view.c:1077
 #: ../mail/message-list.c:1724 ../ui/evolution-addressbook.xml.h:46
 #: ../ui/evolution-calendar.xml.h:39 ../ui/evolution-composer-entries.xml.h:13
@@ -2952,7 +2955,7 @@ msgid "Any Category"
 msgstr "Любая категория"
 
 #. FIXME: Allow range selection in table views, as in minicard view
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1803
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1802
 msgid "Print cards"
 msgstr "Напечатать карточки"
 
@@ -3856,8 +3859,8 @@ msgstr "С тенью"
 #. FIXME: Take care of i18n
 #: ../addressbook/printing/e-contact-print.glade.h:36
 #: ../plugins/exchange-operations/exchange-account-setup.c:955
-#: ../plugins/exchange-operations/exchange-calendar.c:224
-#: ../plugins/exchange-operations/exchange-contacts.c:205
+#: ../plugins/exchange-operations/exchange-calendar.c:229
+#: ../plugins/exchange-operations/exchange-contacts.c:211
 msgid "Size:"
 msgstr "Размер:"
 
@@ -5789,7 +5792,7 @@ msgstr "Вложенное сообщение - %s"
 #. translators, this count will always be >1
 #: ../calendar/gui/dialogs/comp-editor.c:212
 #: ../calendar/gui/dialogs/comp-editor.c:382 ../composer/e-msg-composer.c:2855
-#: ../composer/e-msg-composer.c:3034
+#: ../composer/e-msg-composer.c:3056
 #, c-format
 msgid "Attached message"
 msgid_plural "%d attached messages"
@@ -5797,13 +5800,13 @@ msgstr[0] "%d вложенное сообщение"
 msgstr[1] "%d вложенных сообщения"
 msgstr[2] "%d вложенных сообщений"
 
-#: ../calendar/gui/dialogs/comp-editor.c:446 ../composer/e-msg-composer.c:3099
+#: ../calendar/gui/dialogs/comp-editor.c:446 ../composer/e-msg-composer.c:3121
 #: ../mail/em-folder-tree.c:980 ../mail/em-folder-utils.c:368
 #: ../mail/em-folder-view.c:973 ../mail/message-list.c:1725
 msgid "_Move"
 msgstr "Пере_местить"
 
-#: ../calendar/gui/dialogs/comp-editor.c:448 ../composer/e-msg-composer.c:3101
+#: ../calendar/gui/dialogs/comp-editor.c:448 ../composer/e-msg-composer.c:3123
 #: ../mail/em-folder-tree.c:982 ../mail/message-list.c:1727
 msgid "Cancel _Drag"
 msgstr "Отменить _перенос"
@@ -5834,7 +5837,7 @@ msgstr "Показать _панель вложений"
 #: ../calendar/gui/dialogs/meeting-page.c:899
 #: ../calendar/gui/dialogs/task-page.c:1202
 #: ../composer/e-msg-composer-attachment-bar.c:470
-#: ../composer/e-msg-composer.c:3597
+#: ../composer/e-msg-composer.c:3619
 #: ../plugins/groupwise-features/junk-settings.glade.h:8
 #: ../plugins/groupwise-features/properties.glade.h:14
 #: ../widgets/table/e-table-config.glade.h:18
@@ -5843,14 +5846,14 @@ msgstr "_Удалить"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1088
 #: ../composer/e-msg-composer-attachment-bar.c:471
-#: ../composer/e-msg-composer.c:3598 ../mail/em-folder-tree.c:2058
+#: ../composer/e-msg-composer.c:3620 ../mail/em-folder-tree.c:2058
 #: ../ui/evolution-addressbook.xml.h:59 ../ui/evolution-mail-list.xml.h:33
 msgid "_Properties"
 msgstr "_Свойства"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1090
 #: ../composer/e-msg-composer-attachment-bar.c:473
-#: ../composer/e-msg-composer.c:3600
+#: ../composer/e-msg-composer.c:3622
 msgid "_Add attachment..."
 msgstr "_Добавить вложение..."
 
@@ -8034,19 +8037,19 @@ msgstr "Организатор должен быть назначен."
 msgid "At least one attendee is necessary"
 msgstr "Необходим как минимум один участник"
 
-#: ../calendar/gui/itip-utils.c:631 ../calendar/gui/itip-utils.c:757
+#: ../calendar/gui/itip-utils.c:631 ../calendar/gui/itip-utils.c:754
 msgid "Event information"
 msgstr "Информация о событии"
 
-#: ../calendar/gui/itip-utils.c:633 ../calendar/gui/itip-utils.c:759
+#: ../calendar/gui/itip-utils.c:633 ../calendar/gui/itip-utils.c:756
 msgid "Task information"
 msgstr "Информация о задаче"
 
-#: ../calendar/gui/itip-utils.c:635 ../calendar/gui/itip-utils.c:761
+#: ../calendar/gui/itip-utils.c:635 ../calendar/gui/itip-utils.c:758
 msgid "Journal information"
 msgstr "Информация дневника"
 
-#: ../calendar/gui/itip-utils.c:637 ../calendar/gui/itip-utils.c:779
+#: ../calendar/gui/itip-utils.c:637 ../calendar/gui/itip-utils.c:776
 msgid "Free/Busy information"
 msgstr "Информация о занятости"
 
@@ -8066,16 +8069,16 @@ msgstr "Обновить"
 msgid "Counter-proposal"
 msgstr "Контр-предложение"
 
-#: ../calendar/gui/itip-utils.c:775
+#: ../calendar/gui/itip-utils.c:772
 #, c-format
 msgid "Free/Busy information (%s to %s)"
 msgstr "Информация о занятости (%s в %s)"
 
-#: ../calendar/gui/itip-utils.c:785
+#: ../calendar/gui/itip-utils.c:782
 msgid "iCalendar information"
 msgstr "Информация iCalendar"
 
-#: ../calendar/gui/itip-utils.c:940
+#: ../calendar/gui/itip-utils.c:937
 msgid "You must be an attendee of the event."
 msgstr "Вы должны быть участником события."
 
@@ -10242,7 +10245,7 @@ msgid "Hide _Attachment Bar"
 msgstr "Скрыть панель _вложений"
 
 #: ../composer/e-msg-composer.c:1298 ../composer/e-msg-composer.c:2511
-#: ../composer/e-msg-composer.c:3843
+#: ../composer/e-msg-composer.c:3865
 msgid "Show _Attachment Bar"
 msgstr "Показать панель _вложений"
 
@@ -10277,12 +10280,12 @@ msgstr "Создана автоматически"
 msgid "Si_gnature:"
 msgstr "По_дпись:"
 
-#: ../composer/e-msg-composer.c:2522 ../composer/e-msg-composer.c:3725
-#: ../composer/e-msg-composer.c:3728
+#: ../composer/e-msg-composer.c:2522 ../composer/e-msg-composer.c:3747
+#: ../composer/e-msg-composer.c:3750
 msgid "Compose Message"
 msgstr "Новое сообщение"
 
-#: ../composer/e-msg-composer.c:4952
+#: ../composer/e-msg-composer.c:4974
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)"
 "<b>"
@@ -10433,7 +10436,7 @@ msgstr "_Сохранить сообщение"
 
 #: ../data/evolution.desktop.in.in.h:1
 #: ../plugins/default-mailer/org-gnome-default-mailer.error.xml.h:2
-#: ../shell/main.c:511
+#: ../shell/main.c:514
 msgid "Evolution"
 msgstr "Evolution"
 
@@ -10970,46 +10973,46 @@ msgstr "Выбрать папку"
 msgid "Ask for each message"
 msgstr "Запрашивать для каждого сообщения"
 
-#: ../mail/em-account-editor.c:1779 ../mail/mail-config.glade.h:91
+#: ../mail/em-account-editor.c:1780 ../mail/mail-config.glade.h:91
 msgid "Identity"
 msgstr "Подлинность"
 
-#: ../mail/em-account-editor.c:1828 ../mail/mail-config.glade.h:118
+#: ../mail/em-account-editor.c:1829 ../mail/mail-config.glade.h:118
 msgid "Receiving Email"
 msgstr "Получение почты"
 
-#: ../mail/em-account-editor.c:2012
+#: ../mail/em-account-editor.c:2013
 msgid "Automatically check for _new mail every"
 msgstr "Автоматически проверять _новую почту каждые"
 
-#: ../mail/em-account-editor.c:2193 ../mail/mail-config.glade.h:130
+#: ../mail/em-account-editor.c:2194 ../mail/mail-config.glade.h:130
 msgid "Sending Email"
 msgstr "Отправка эл.почты"
 
-#: ../mail/em-account-editor.c:2252 ../mail/mail-config.glade.h:68
+#: ../mail/em-account-editor.c:2253 ../mail/mail-config.glade.h:68
 msgid "Defaults"
 msgstr "По умолчанию"
 
 #. Security settings
-#: ../mail/em-account-editor.c:2318 ../mail/mail-config.glade.h:123
+#: ../mail/em-account-editor.c:2319 ../mail/mail-config.glade.h:123
 #: ../plugins/exchange-operations/exchange-account-setup.c:317
 msgid "Security"
 msgstr "Безопасность"
 
 #. Most sections for this is auto-generated fromt the camel config
-#: ../mail/em-account-editor.c:2355 ../mail/em-account-editor.c:2446
+#: ../mail/em-account-editor.c:2356 ../mail/em-account-editor.c:2447
 msgid "Receiving Options"
 msgstr "Параметры получения"
 
-#: ../mail/em-account-editor.c:2356 ../mail/em-account-editor.c:2447
+#: ../mail/em-account-editor.c:2357 ../mail/em-account-editor.c:2448
 msgid "Checking for New Mail"
 msgstr "Проверка новой почты"
 
-#: ../mail/em-account-editor.c:2786 ../mail/mail-config.glade.h:34
+#: ../mail/em-account-editor.c:2795 ../mail/mail-config.glade.h:34
 msgid "Account Editor"
 msgstr "Редактор учетных записей"
 
-#: ../mail/em-account-editor.c:2786 ../mail/mail-config.glade.h:80
+#: ../mail/em-account-editor.c:2795 ../mail/mail-config.glade.h:80
 msgid "Evolution Account Assistant"
 msgstr "Помощник по учетным записям Evolution"
 
@@ -11060,18 +11063,18 @@ msgstr "Добавить скрипт подписи"
 msgid "Signature(s)"
 msgstr "Подпись(и)"
 
-#: ../mail/em-composer-utils.c:863 ../mail/em-format-quote.c:389
+#: ../mail/em-composer-utils.c:873 ../mail/em-format-quote.c:389
 msgid "-------- Forwarded Message --------"
 msgstr "-------- Пересланное сообщение --------"
 
-#: ../mail/em-composer-utils.c:1655
+#: ../mail/em-composer-utils.c:1665
 msgid "an unknown sender"
 msgstr "неизвестный отправитель"
 
 #. Note to translators: this is the attribution string used when quoting messages.
 #. * each ${Variable} gets replaced with a value. To see a full list of available
 #. * variables, see em-composer-utils.c:1514
-#: ../mail/em-composer-utils.c:1702
+#: ../mail/em-composer-utils.c:1712
 msgid ""
 "On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} "
 "${TimeZone}, ${Sender} wrote:"
@@ -11349,7 +11352,7 @@ msgstr "Со_здать папку по результатам поиска..."
 
 #. TODO: can this be done in a loop?
 #. to be on the safe side, ngettext is used here, see e.g. comment #3 at bug 272567
-#: ../mail/em-folder-properties.c:145
+#: ../mail/em-folder-properties.c:150
 msgid "Total messages:"
 msgid_plural "Total messages:"
 msgstr[0] "Всего сообщений:"
@@ -11357,14 +11360,14 @@ msgstr[1] "Всего сообщений:"
 msgstr[2] "Всего сообщений:"
 
 #. to be on the safe side, ngettext is used here, see e.g. comment #3 at bug 272567
-#: ../mail/em-folder-properties.c:158
+#: ../mail/em-folder-properties.c:163
 msgid "Unread messages:"
 msgid_plural "Unread messages:"
 msgstr[0] "Непрочитанных сообщений:"
 msgstr[1] "Непрочитанных сообщений:"
 msgstr[2] "Непрочитанных сообщений:"
 
-#: ../mail/em-folder-properties.c:289
+#: ../mail/em-folder-properties.c:316
 #: ../plugins/groupwise-features/properties.glade.h:3
 msgid "Folder Properties"
 msgstr "Свойства папки"
@@ -13744,11 +13747,11 @@ msgstr ""
 "Ошибка сохранения сообщений в: %s:\n"
 " %s"
 
-#: ../mail/mail-ops.c:2090
+#: ../mail/mail-ops.c:2091
 msgid "Saving attachment"
 msgstr "Сохранение вложения"
 
-#: ../mail/mail-ops.c:2102
+#: ../mail/mail-ops.c:2104 ../mail/mail-ops.c:2110
 #, c-format
 msgid ""
 "Cannot create output file: %s:\n"
@@ -13757,22 +13760,22 @@ msgstr ""
 "Не удается создать файл вывода: %s\n"
 " %s"
 
-#: ../mail/mail-ops.c:2112
+#: ../mail/mail-ops.c:2120
 #, c-format
 msgid "Could not write data: %s"
 msgstr "Не удается записать данные: %s"
 
-#: ../mail/mail-ops.c:2262
+#: ../mail/mail-ops.c:2269
 #, c-format
 msgid "Disconnecting from %s"
 msgstr "Отключение от %s"
 
-#: ../mail/mail-ops.c:2262
+#: ../mail/mail-ops.c:2269
 #, c-format
 msgid "Reconnecting to %s"
 msgstr "Переподключение к %s"
 
-#: ../mail/mail-ops.c:2378
+#: ../mail/mail-ops.c:2385
 msgid "Checking Service"
 msgstr "Проверка сервиса"
 
@@ -13801,7 +13804,7 @@ msgid "Checking for new mail"
 msgstr "Проверка новой почты"
 
 #: ../mail/mail-session.c:204
-#: ../plugins/exchange-operations/exchange-config-listener.c:681
+#: ../plugins/exchange-operations/exchange-config-listener.c:710
 #, c-format
 msgid "Enter Password for %s"
 msgstr "Введите пароль для %s"
@@ -13894,7 +13897,9 @@ msgstr ""
 msgid ""
 "A read receipt notification has been requested for &quot;{1}&quot;. Send the "
 "receipt notification to {0}?"
-msgstr "Было запрошено уведомление о прочтении для &quot;{1}&quot;. Отправить уведомление к {0}?"
+msgstr ""
+"Было запрошено уведомление о прочтении для &quot;{1}&quot;. Отправить "
+"уведомление к {0}?"
 
 #: ../mail/mail.error.xml.h:7
 msgid ""
@@ -14376,7 +14381,9 @@ msgstr "Подпись была изменена, но не была сохра�
 msgid ""
 "This will mark all messages as read in the selected folder and its "
 "subfolders."
-msgstr "Все сообщения в выделенной папке и всех её подпапках будут помечены как прочитанные."
+msgstr ""
+"Все сообщения в выделенной папке и всех её подпапках будут помечены как "
+"прочитанные."
 
 #: ../mail/mail.error.xml.h:114
 msgid "Unable to connect to the GroupWise server."
@@ -14861,7 +14868,9 @@ msgstr "Источники по умолчанию"
 msgid ""
 "Provides functionallity for marking a calendar or addressbook as the default "
 "one."
-msgstr "Предоставляет функциональность для установки календарей или адресных книг как используемых по умолчанию."
+msgstr ""
+"Предоставляет функциональность для установки календарей или адресных книг "
+"как используемых по умолчанию."
 
 #: ../plugins/exchange-operations/e-foreign-folder-dialog.glade.h:1
 msgid "Open Other User's Folder"
@@ -14981,8 +14990,8 @@ msgstr "Тип аутентификации"
 msgid "Ch_eck for Supported Types"
 msgstr "Пров_ерить поддерживаемые типы"
 
-#: ../plugins/exchange-operations/exchange-calendar.c:192
-#: ../plugins/exchange-operations/exchange-contacts.c:165
+#: ../plugins/exchange-operations/exchange-calendar.c:193
+#: ../plugins/exchange-operations/exchange-contacts.c:167
 msgid ""
 "Evolution is in offline mode. You cannot create or modify folders now.\n"
 "Please switch to online mode for such operations."
@@ -15022,7 +15031,7 @@ msgstr "Новый пароль:"
 msgid "Your current password has expired. Please change your password now."
 msgstr "Срок действия вашего текущего пароля истёк. Измените пароль."
 
-#: ../plugins/exchange-operations/exchange-config-listener.c:633
+#: ../plugins/exchange-operations/exchange-config-listener.c:662
 #, c-format
 msgid "Your password will expire in the next %d days"
 msgstr "Срок действия вашего пароля истекает через %d дней"
@@ -15280,7 +15289,9 @@ msgstr "Подписка на календарь другого пользова
 msgid ""
 "A plugin that handles a collection of Exchange account specific operations "
 "and features."
-msgstr "Модуль, который обрабатывает коллекцию особых для Exchange действий и функций."
+msgstr ""
+"Модуль, который обрабатывает коллекцию особых для Exchange действий и "
+"функций."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.eplug.xml.h:2
 msgid "Exchange Operations"
@@ -15771,7 +15782,7 @@ msgstr "Учетная запись прокси"
 
 #: ../plugins/groupwise-features/proxy-login.c:220
 #: ../plugins/groupwise-features/proxy-login.c:263
-#: ../plugins/groupwise-features/proxy.c:502
+#: ../plugins/groupwise-features/proxy.c:503
 #: ../plugins/groupwise-features/send-options.c:83
 #, c-format
 msgid "%sEnter password for %s (user %s)"
@@ -15781,13 +15792,13 @@ msgstr "%sВведите пароль для %s (пользователь %s)"
 msgid "_Proxy Login..."
 msgstr "Учетная запись _прокси..."
 
-#: ../plugins/groupwise-features/proxy.c:698
+#: ../plugins/groupwise-features/proxy.c:697
 msgid "The Proxy tab will be available only when the account is online."
 msgstr ""
 "Вкладка \"Прокси\" будет доступна только в том случае, когда учетная запись "
 "включена."
 
-#: ../plugins/groupwise-features/proxy.c:703
+#: ../plugins/groupwise-features/proxy.c:702
 msgid "The Proxy tab will be available only when the account is enabled."
 msgstr ""
 "Вкладка \"Прокси\" будет доступна только в том случае, когда учетная запись "
@@ -15829,19 +15840,19 @@ msgstr "_Импортировать в календарь"
 msgid "_Import to Tasks"
 msgstr "_Импортировать в задачи"
 
-#: ../plugins/import-ics-attachments/icsimporter.c:197
+#: ../plugins/import-ics-attachments/icsimporter.c:198
 msgid "Import ICS"
 msgstr "Импорт ICS"
 
-#: ../plugins/import-ics-attachments/icsimporter.c:225
+#: ../plugins/import-ics-attachments/icsimporter.c:226
 msgid "Select Task List"
 msgstr "Выберите список задач"
 
-#: ../plugins/import-ics-attachments/icsimporter.c:229
+#: ../plugins/import-ics-attachments/icsimporter.c:230
 msgid "Select Calendar"
 msgstr "Выберите календарь"
 
-#: ../plugins/import-ics-attachments/icsimporter.c:260
+#: ../plugins/import-ics-attachments/icsimporter.c:261
 #: ../shell/e-shell-importer.c:703
 msgid "_Import"
 msgstr "_Импорт"
@@ -16359,17 +16370,15 @@ msgid "_Decline"
 msgstr "_Отклонить"
 
 #: ../plugins/itip-formatter/itip-view.c:714
-#, fuzzy
 msgid "_Tentative all"
-msgstr "Экспериментальный"
+msgstr "_Неопределенные все"
 
 #: ../plugins/itip-formatter/itip-view.c:714
 #: ../plugins/itip-formatter/itip-view.c:719
 #: ../plugins/itip-formatter/itip-view.c:735
 #: ../plugins/itip-formatter/itip-view.c:740
-#, fuzzy
 msgid "_Tentative"
-msgstr "Экспериментальный"
+msgstr "_Неопределеное"
 
 #: ../plugins/itip-formatter/itip-view.c:715
 msgid "_Accept all"
@@ -16906,7 +16915,9 @@ msgstr "Spamassassin (встроенный)"
 msgid ""
 "Filters junk messages using Spamassassin. This plugin requires Spamassassin "
 "to be installed."
-msgstr "Фильтрует нежелательные сообщения при помощи Spamasassin. Для этого модуля требуется, чтобы Spamassassin был установлен."
+msgstr ""
+"Фильтрует нежелательные сообщения при помощи Spamasassin. Для этого модуля "
+"требуется, чтобы Spamassassin был установлен."
 
 #: ../plugins/sa-junk-plugin/org-gnome-sa-junk-plugin.eplug.xml.h:2
 msgid "Spamassassin junk plugin"
@@ -17195,7 +17206,7 @@ msgstr "Боковая панель видима"
 msgid "Skip development warning dialog"
 msgstr "Пропускать диалог предупреждения о тестовой версии"
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:12 ../shell/main.c:470
+#: ../shell/apps_evolution_shell.schemas.in.in.h:12 ../shell/main.c:473
 msgid "Start in offline mode"
 msgstr "Запуск в автономном режиме"
 
@@ -17203,7 +17214,9 @@ msgstr "Запуск в автономном режиме"
 msgid ""
 "The configuration version of Evolution, with major/minor/configuration level "
 "(for example \"2.6.0\")."
-msgstr "Версия конфигурации Evolution, с уровнями major/minor/configuration (например, \"2.6.0\")."
+msgstr ""
+"Версия конфигурации Evolution, с уровнями major/minor/configuration "
+"(например, \"2.6.0\")."
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:14
 msgid "The default height for the main window, in pixels."
@@ -17407,7 +17420,9 @@ msgstr "Перейти в режим работы вне сети"
 
 #: ../shell/e-shell-window.c:368
 msgid "Evolution is currently online. Click on this button to work offline."
-msgstr "Evolution сейчас в сетевом режиме работы. Нажмите на эту кнопку для перехода в автономный режим."
+msgstr ""
+"Evolution сейчас в сетевом режиме работы. Нажмите на эту кнопку для перехода "
+"в автономный режим."
 
 #: ../shell/e-shell-window.c:376
 msgid "Evolution is in the process of going offline."
@@ -17415,7 +17430,9 @@ msgstr "Evolution находится в процессе перехода в а�
 
 #: ../shell/e-shell-window.c:383
 msgid "Evolution is currently offline. Click on this button to work online."
-msgstr "Evolution сейчас работает в автономном режиме. Нажмите на эту кнопку для перехода в режим работы в сети."
+msgstr ""
+"Evolution сейчас работает в автономном режиме. Нажмите на эту кнопку для "
+"перехода в режим работы в сети."
 
 #: ../shell/e-shell-window.c:783
 #, c-format
@@ -17550,31 +17567,31 @@ msgstr ""
 msgid "Do not tell me again"
 msgstr "Не напоминать больше"
 
-#: ../shell/main.c:468
+#: ../shell/main.c:471
 msgid "Start Evolution activating the specified component"
 msgstr "Запуск Evolution с активированием указанного компонента"
 
-#: ../shell/main.c:472
+#: ../shell/main.c:475
 msgid "Start in online mode"
 msgstr "Запуск в режиме подключения к интернету"
 
-#: ../shell/main.c:475
+#: ../shell/main.c:478
 msgid "Forcibly shut down all Evolution components"
 msgstr "Принудительное завершение работы всех компонентов Evolution"
 
-#: ../shell/main.c:479
+#: ../shell/main.c:482
 msgid "Forcibly re-migrate from Evolution 1.4"
 msgstr "Принудительная повторная миграция с Evolution 1.4"
 
-#: ../shell/main.c:482
+#: ../shell/main.c:485
 msgid "Send the debugging output of all components to a file."
 msgstr "Записывать отладочный вывод всех компонентов в файл."
 
-#: ../shell/main.c:484
+#: ../shell/main.c:487
 msgid "Disable loading of any plugins."
 msgstr "Запретить загрузку любых модулей."
 
-#: ../shell/main.c:515
+#: ../shell/main.c:518
 #, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
@@ -17667,7 +17684,8 @@ msgstr ""
 "Для обновления ваших данных и параметров может потребоваться до {0} "
 "дискового пространства, но у вас доступно всего {1}.\n"
 "\n"
-"Перед продолжением необходимо освободить больше места в вашем домашнем каталоге."
+"Перед продолжением необходимо освободить больше места в вашем домашнем "
+"каталоге."
 
 #: ../shell/shell.error.xml.h:23
 msgid ""
@@ -18668,9 +18686,8 @@ msgstr "Сделать это событие повторяющимся"
 
 #: ../ui/evolution-event-editor.xml.h:11 ../ui/evolution-memo-editor.xml.h:4
 #: ../ui/evolution-task-editor.xml.h:6
-#, fuzzy
 msgid "Pu_blic"
-msgstr "Общее"
+msgstr "Пу_бличное"
 
 #: ../ui/evolution-event-editor.xml.h:12
 msgid "Query free / busy information for the attendees"
@@ -18715,7 +18732,7 @@ msgstr "Переключает отображение поля \"Кому\""
 
 #: ../ui/evolution-event-editor.xml.h:24
 msgid "Toggles whether to have All Day Event"
-msgstr ""
+msgstr "Переключает, является ли событие событием на весь день"
 
 #: ../ui/evolution-event-editor.xml.h:25
 msgid "Toggles whether to show time as busy"
@@ -20757,6 +20774,7 @@ msgid "Sh_ow these fields in order:"
 msgstr "_Отображать эти поля в порядке:"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:12
+#: ../widgets/table/e-table-config.c:563
 #: ../widgets/table/e-table-config.glade.h:10
 msgid "Show Fields"
 msgstr "Отображать поля"
@@ -20814,6 +20832,10 @@ msgstr "Без сортировки"
 #: ../widgets/table/e-table-config.c:355
 msgid "No grouping"
 msgstr "Без группирования"
+
+#: ../widgets/table/e-table-config.c:584
+msgid "Available Fields"
+msgstr "Доступные поля"
 
 #: ../widgets/table/e-table-config.glade.h:17
 msgid "_Group By..."
