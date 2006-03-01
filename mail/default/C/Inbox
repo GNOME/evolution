@@ -1,19 +1,19 @@
-From evolution@novell.com Tue Sep 25 07:45:12 2001
+From evolution@novell.com Wed Mar 15 12:00:00 2006
 Return-Path: <evolution@novell.com>
 Received: from pop.novell.com (IDENT:mail@localhost [127.0.0.1]) by
-	pop.novell.com (8.9.3/8.9.3) with ESMTP id HAA20680; Tue, 25 Sep 2001
+	pop.novell.com (8.9.3/8.9.3) with ESMTP id HAA20680; Wed, 15 Mar 2006
 	07:45:12 -0400
 Received: from smtp.novell.com (smtp.novell.com [141.154.95.10]) by
 	pop.novell.com (8.9.3/8.9.3) with ESMTP id HAA20659 for
-	<evolution@novell.com>; Tue, 25 Sep 2001 07:45:10 -0400
-Received: (qmail 5610 invoked from network); 25 Sep 2001 11:45:02 -0000
+	<evolution@novell.com>; Wed, 15 Mar 2006 07:45:10 -0400
+Received: (qmail 5610 invoked from network); 15 Mar 2006 12:00:00 -0000
 Received: from smtp.novell.com (HELO localhost) (141.154.95.10) by
-	pop.novell.com with SMTP; 25 Sep 2001 11:45:02 -0000
+	pop.novell.com with SMTP; 15 Mar 2006 12:00:00 -0000
 From: "The Evolution Team" <evolution@novell.com>
 To: Evolution Users <evolution@novell.com>
 Content-Type: multipart/related; type="multipart/alternative"; boundary="=-t4dRE6cqcdSBHOrMdTQ1"
-X-Mailer: Evolution/1.1.99 (Preview Release)
-Date: 7 September 2005 14:45:00 +0300
+X-Mailer: Evolution 2.6.0
+Date: 15 March 2006 12:00:00 +0000
 Message-Id: <1001418302.27070.20.camel@spectrolite>
 Mime-Version: 1.0
 Subject: Welcome to Evolution!
@@ -41,37 +41,39 @@ for managing your communications and personal information.
 Getting Started
 
 	On the left of the Evolution window is the side bar, with
-	shortcuts to all your mail folders.  Below that, you'll find
-	buttons for your calendars, contacts, tasks, mail.
+	shortcuts to all your mail folders. Below that, you will find
+	buttons for your calendars, contacts, tasks, mail and memos.
 
 	For a complete guide to Evolution, select "Table of
 	Contents" from the "Help" menu, or press the F1 key. 
 
 New Features
 
-	Evolution 2.4 has 
-
-	# A new menu layout (more HIG compliant)
-	# Inline-pgp signature/encryption support 
-	# Performance enhancements on IMAP and for GroupWise backend
-	# Support for Delegation of Meetings (Calendar)
-	# Support for GroupWise Proxy accounts 
-	# Thunderbird-compatible storage of labels on IMAP
-	# Auto-fit Image attachments
-	# Extended EPlugin support
-	# Importers as EPlugin
-	# Display Marcus Baines Line (Calendar)
-
-	and more than a thousand bug fixes.
+	Evolution 2.6 has
+	
+	# a new Memo Component
+	# a new Look for the Event/Task/Meeting Editor
+	# Calendar Publishing support
+	# CalDAV support
+	# Network Manager support
+	# HULA connectivity support
+	# Improved GroupWise support
+	# Improved Event Recurrence support
+	# Calendar Tooltips
+	# CSV/tab importers for Mozilla, Outlook and Evolution formats
+	# Contact list support for LDAP addressbooks
+	# Support for saving Advanced Searches for Address books
+	# Support for Prioritizing messages in the composer
+	# Lots of bug fixes and lots of other User Interface Improvements
 
 Bug Reporting
 
-	Bugs should be reported to http://bugzilla.gnome.org
+	Bugs should be reported to http://bugzilla.gnome.org.
 
 More Information
 
 	You can subscribe to the Evolution users mailing list at
-	http://mail.gnome.org/mailman/listinfo/evolution-list	
+	http://mail.gnome.org/mailman/listinfo/evolution-list.
 
 	Information on the Evolution project is available at
 	http://www.gnome.org/projects/evolution.
@@ -91,7 +93,8 @@ Content-Type: text/html; charset=utf-8
   <META HTTP-EQUIV="Content-Type" CONTENT="text/html; CHARSET=UTF-8">
   <META NAME="GENERATOR" CONTENT="GtkHTML/0.13.99">
 </HEAD>
-<BODY BGCOLOR="#f8fcf8"><TABLE BACKGROUND="cid:1001417869.27019.4.camel@spectrolite" CELLSPACING="0" CELLPADDING="0" WIDTH="100%">
+<BODY BGCOLOR="#f8fcf8">
+<TABLE BACKGROUND="cid:1001417869.27019.4.camel@spectrolite" CELLSPACING="0" CELLPADDING="0" WIDTH="100%">
 <TR>
 <TD ALIGN="left" VALIGN="top">
 <IMG SRC="cid:1001417869.27019.5.camel@spectrolite" ALIGN="top" BORDER="0" WIDTH="8" HEIGHT="8"></TD>
@@ -147,36 +150,40 @@ Content-Type: text/html; charset=utf-8
 
 <blockquote>
 	On the left of the Evolution window is the side bar, with
-	shortcuts to all your mail folders.  Below that, you'll find
-	buttons for your calendars, contacts, tasks, mail.
+	shortcuts to all your mail folders. Below that, you will find
+	buttons for your calendars, contacts, tasks, mail and memos.
 <br><br>
     For a complete guide to using Evolution, select <b>Table of
     Contents</b> in the <b>Help</b> menu, or press the <b>F1</b> key.
-
+<br><br>
 </blockquote>
 
 <h2>New Features</h2>
 <blockquote>
-	Evolution 2.4 has 
-	<br><br>
+	Evolution 2.6 has 
 	<ul>
-	<li> A new menu layout (more HIG compliant)</li><br>
-	<li> Inline-pgp signature/encryption support </li><br>
-	<li> Performance enhancements on IMAP and for GroupWise backend</li><br>
-	<li> Support for Delegation of Meetings (Calendar)</li><br>
-	<li> Support for GroupWise Proxy accounts </li><br>
-	<li> Thunderbird-compatible storage of labels on IMAP</li><br>
-	<li> Auto-fit Image attachments</li><br>
-	<li> Extended EPlugin support</li><br>
-	<li> Importers as EPlugin</li><br>
-	<li> Display Marcus Baines Line (Calendar)</li><br>
+	<li>A new Memo component</li>
+	<li>A new Look for the Event/Task/Meeting Editor</li>
+	<li>Calendar Publishing support</li>
+	<li>CalDAV support</li>
+	<li>Network Manager support</li>
+	<li>HULA connectivity support</li>
+	<li>Improved GroupWise support</li>
+	<li>Improved Event Recurrence support</li>
+	<li>Calendar Tooltips</li>
+	<li>CSV Importers for Mozilla, Outlook and Evolution formats</li>
+	<li>Contact List support for LDAP Address Books</li>
+	<li>Support for Saving Advanced Searches for Address Books</li>
+	<li>Support for Prioritizing messages in the Composer</li>
+	<li>Lots of bug fixes and lots of other User Interface improvements</li>
 	</ul>
-	and more than a thousand bug fixes.
+<br>
 </blockquote>
 
 <h2>Bug Reporting</h2>
 <blockquote>
-	Bugs should be reported to <a href="http://bugzilla.gnome.org">http://bugzilla.gnome.org</a>
+	Bugs should be reported to <a href="http://bugzilla.gnome.org">http://bugzilla.gnome.org</a>.
+<br><br>
 </blockquote> 
 
 <h2>More Information</h2>
@@ -188,8 +195,12 @@ Content-Type: text/html; charset=utf-8
 
 	Information on the Evolution project is available at
 	<a href="http://www.gnome.org/projects/evolution">http://www.gnome.org/projects/evolution</a>.
- </blockquote>
-
+	<!--
+	You can find a list of answers to Frequently Asked Questions (FAQ) at
+	<a href="http://go-evolution.org/FAQ">http://go-evolution.org/FAQ</a>.
+	-->
+<br><br>	
+</blockquote>
 
 Yours Sincerely,<br>
 The Evolution Team<br>
