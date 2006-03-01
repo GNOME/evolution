@@ -670,6 +670,7 @@ em_utils_compose_new_message_with_mailto (const char *url, const char *fromuri)
 	e_msg_composer_drop_editor_undo (composer);
 	
 	gtk_widget_show ((GtkWidget *) composer);
+	gdk_window_raise (((GtkWidget *) composer)->window);
 }
 
 /**

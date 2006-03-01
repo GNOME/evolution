@@ -1,3 +1,11 @@
+2006-02-28  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fixes bug #332832
+	
+	* em-composer-utils.c: (em_utils_compose_new_message_with_mailto):
+	Added code to raise the window when a composer is created due to
+	mailto: uri
+
 2006-03-01  Andre Klapper  <a9016009@gmx.de>
 
 	* default/C/Inbox: Update the Welcome mail.
