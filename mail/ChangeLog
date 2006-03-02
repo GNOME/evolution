@@ -1,3 +1,8 @@
+2006-03-02  Ilkka Tuohela  <hile@iki.fi>
+
+	* fi.po: Updated Finnish inbox to actually use 2.6 example,
+	         not the old one...
+
 2006-03-01  Ilkka Tuohela  <hile@iki.fi>
 
 	* default/Makefile.am: added "fi" to SUBDIRS
