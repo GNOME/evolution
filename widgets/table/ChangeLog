@@ -1,3 +1,10 @@
+2006-03-02  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fixes bug #328283
+
+	* e-table-item.c: (eti_tree_unfreeze): Use the right widget to
+	unfreeze the tree.
+
 2006-03-01  Simon Zheng  <simon.zheng@sun.com>
 
 	** Fixes bug #331400
