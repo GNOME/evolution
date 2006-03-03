@@ -1,3 +1,9 @@
+2006-03-03  Andre Klapper  <a9016009@gmx.de>
+
+	* configure.in,
+	* mail/default/Makefile.am:
+	added support for macedonian (mk) welcome message
+
 2006-03-03  Elijah Newren  <newren@gmail.com>
 
 	* configure.in: added mail/default/lt/Makefile
