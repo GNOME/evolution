@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution-2.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-02-19 21:25+0700\n"
-"PO-Revision-Date: 2006-02-19 23:22+0700\n"
+"POT-Creation-Date: 2006-03-03 15:39+0700\n"
+"PO-Revision-Date: 2006-03-03 15:43+0700\n"
 "Last-Translator: Theppitak Karoonboonyanan <thep@linux.thai.net>\n"
 "Language-Team: Thai <L10N@opentle.org>\n"
 "MIME-Version: 1.0\n"
@@ -633,7 +633,7 @@ msgstr "_สมุดที่อยู่"
 msgid "Create a new address book"
 msgstr "สร้างสมุดที่อยู่ใหม่"
 
-#: ../addressbook/gui/component/addressbook-component.c:382
+#: ../addressbook/gui/component/addressbook-component.c:406
 msgid "Failed upgrading Address Book settings or folders."
 msgstr "การปรับรุ่นค่าตั้งหรือโฟลเดอร์สมุดที่อยู่ล้มเหลว"
 
@@ -657,7 +657,7 @@ msgstr "คัดลอกเนื้อหาสมุดที่อยู่
 #: ../calendar/gui/dialogs/calendar-setup.c:369
 #: ../calendar/gui/dialogs/calendar-setup.c:380
 #: ../calendar/gui/dialogs/calendar-setup.c:391
-#: ../mail/em-folder-properties.c:217 ../mail/mail-config.glade.h:86
+#: ../mail/em-folder-properties.c:222 ../mail/mail-config.glade.h:86
 #: ../plugins/itip-formatter/itip-formatter.c:1978
 #: ../smime/gui/smime-ui.glade.h:28
 msgid "General"
@@ -1170,7 +1170,7 @@ msgstr "นามบัตร"
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:26
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:14
 #: ../calendar/gui/dialogs/event-page.glade.h:20 ../filter/filter.glade.h:16
-#: ../mail/em-account-editor.c:2020
+#: ../mail/em-account-editor.c:2021
 #: ../plugins/calendar-http/calendar-http.c:286
 #: ../plugins/calendar-weather/calendar-weather.c:563
 msgid "minutes"
@@ -1428,7 +1428,7 @@ msgstr "ที่อยู่"
 #: ../addressbook/gui/widgets/e-minicard-view.c:520
 #: ../addressbook/gui/widgets/e-minicard.c:175
 #: ../widgets/menus/gal-define-views-model.c:181
-#: ../widgets/table/e-cell-text.c:1772 ../widgets/text/e-entry.c:1312
+#: ../widgets/table/e-cell-text.c:1777 ../widgets/text/e-entry.c:1312
 #: ../widgets/text/e-entry.c:1313 ../widgets/text/e-text.c:3607
 #: ../widgets/text/e-text.c:3608
 msgid "Editable"
@@ -2501,15 +2501,15 @@ msgstr "มีการเปลี่ยนแปลง"
 msgid "Contact Editor - %s"
 msgstr "เครื่องมือแก้ไขที่อยู่ติดต่อ - %s"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2757
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2772
 msgid "Please select an image for this contact"
 msgstr "กรุณาเลือกรูปสำหรับที่อยู่ติดต่อนี้"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2758
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2773
 msgid "No image"
 msgstr "ไม่มีรูป"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3042
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3057
 msgid ""
 "The contact data is invalid:\n"
 "\n"
@@ -2517,7 +2517,7 @@ msgstr ""
 "ข้อมูลที่อยู่ติดต่อผิดพลาด:\n"
 "\n"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3094
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3109
 msgid "Invalid contact."
 msgstr "ที่อยู่ติดต่อผิดพลาด"
 
@@ -2674,8 +2674,8 @@ msgstr "_บริการ IM:"
 
 #: ../addressbook/gui/contact-editor/im.glade.h:5
 #: ../plugins/calendar-weather/calendar-weather.c:409
-#: ../plugins/exchange-operations/exchange-calendar.c:234
-#: ../plugins/exchange-operations/exchange-contacts.c:222
+#: ../plugins/exchange-operations/exchange-calendar.c:239
+#: ../plugins/exchange-operations/exchange-contacts.c:228
 msgid "_Location:"
 msgstr "สถาน_ที่:"
 
@@ -2852,7 +2852,7 @@ msgid "Type"
 msgstr "ชนิด"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:834
-#: ../addressbook/gui/widgets/e-addressbook-view.c:2068
+#: ../addressbook/gui/widgets/e-addressbook-view.c:2067
 #: ../ui/evolution-addressbook.xml.h:31
 msgid "Save as VCard..."
 msgstr "บันทึกเป็น VCard..."
@@ -2919,7 +2919,7 @@ msgstr "_ตัด"
 #: ../calendar/gui/dialogs/comp-editor.c:445
 #: ../calendar/gui/e-calendar-table.c:1182
 #: ../calendar/gui/e-calendar-view.c:1602 ../calendar/gui/e-memo-table.c:860
-#: ../calendar/gui/tasks-component.c:442 ../composer/e-msg-composer.c:3098
+#: ../calendar/gui/tasks-component.c:442 ../composer/e-msg-composer.c:3120
 #: ../mail/em-folder-tree.c:979 ../mail/em-folder-view.c:1077
 #: ../mail/message-list.c:1724 ../ui/evolution-addressbook.xml.h:46
 #: ../ui/evolution-calendar.xml.h:39 ../ui/evolution-composer-entries.xml.h:13
@@ -2939,7 +2939,7 @@ msgid "Any Category"
 msgstr "หมวดใดก็ได้"
 
 #. FIXME: Allow range selection in table views, as in minicard view
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1803
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1802
 msgid "Print cards"
 msgstr "พิมพ์นามบัตร"
 
@@ -3117,7 +3117,7 @@ msgstr "เว็บไซต์"
 #: ../addressbook/gui/widgets/e-minicard-label.c:115
 #: ../addressbook/gui/widgets/e-minicard.c:138
 #: ../widgets/misc/e-canvas-vbox.c:96 ../widgets/misc/e-canvas-vbox.c:97
-#: ../widgets/misc/e-reflow.c:1434 ../widgets/misc/e-reflow.c:1435
+#: ../widgets/misc/e-reflow.c:1436 ../widgets/misc/e-reflow.c:1437
 #: ../widgets/table/e-table-click-to-add.c:516
 #: ../widgets/table/e-table-col.c:98
 #: ../widgets/table/e-table-field-chooser-item.c:656
@@ -3125,7 +3125,7 @@ msgstr "เว็บไซต์"
 #: ../widgets/table/e-table-group-container.c:968
 #: ../widgets/table/e-table-group-leaf.c:629
 #: ../widgets/table/e-table-group-leaf.c:630
-#: ../widgets/table/e-table-item.c:3021 ../widgets/table/e-table-item.c:3022
+#: ../widgets/table/e-table-item.c:3022 ../widgets/table/e-table-item.c:3023
 #: ../widgets/text/e-text.c:3649 ../widgets/text/e-text.c:3650
 msgid "Width"
 msgstr "กว้าง"
@@ -3133,14 +3133,14 @@ msgstr "กว้าง"
 #: ../addressbook/gui/widgets/e-minicard-label.c:122
 #: ../addressbook/gui/widgets/e-minicard.c:145
 #: ../widgets/misc/e-canvas-vbox.c:108 ../widgets/misc/e-canvas-vbox.c:109
-#: ../widgets/misc/e-reflow.c:1442 ../widgets/misc/e-reflow.c:1443
+#: ../widgets/misc/e-reflow.c:1444 ../widgets/misc/e-reflow.c:1445
 #: ../widgets/table/e-table-click-to-add.c:523
 #: ../widgets/table/e-table-field-chooser-item.c:663
 #: ../widgets/table/e-table-group-container.c:960
 #: ../widgets/table/e-table-group-container.c:961
 #: ../widgets/table/e-table-group-leaf.c:622
 #: ../widgets/table/e-table-group-leaf.c:623
-#: ../widgets/table/e-table-item.c:3027 ../widgets/table/e-table-item.c:3028
+#: ../widgets/table/e-table-item.c:3028 ../widgets/table/e-table-item.c:3029
 #: ../widgets/text/e-text.c:3657 ../widgets/text/e-text.c:3658
 msgid "Height"
 msgstr "สูง"
@@ -3830,8 +3830,8 @@ msgstr "การแรเงา"
 #. FIXME: Take care of i18n
 #: ../addressbook/printing/e-contact-print.glade.h:36
 #: ../plugins/exchange-operations/exchange-account-setup.c:955
-#: ../plugins/exchange-operations/exchange-calendar.c:224
-#: ../plugins/exchange-operations/exchange-contacts.c:205
+#: ../plugins/exchange-operations/exchange-calendar.c:229
+#: ../plugins/exchange-operations/exchange-contacts.c:211
 msgid "Size:"
 msgstr "ขนาด:"
 
@@ -4551,8 +4551,8 @@ msgid "invalid time"
 msgstr "เวลาไม่ถูกต้อง"
 
 #. Translator: Entire string is like "Pop up an alert %d hours before start of appointment"
-#: ../calendar/gui/alarm-notify/util.c:63 ../calendar/gui/e-alarm-list.c:408
-#: ../calendar/gui/misc.c:110
+#: ../calendar/gui/alarm-notify/util.c:66 ../calendar/gui/e-alarm-list.c:408
+#: ../calendar/gui/misc.c:113
 #, c-format
 msgid "%d hour"
 msgid_plural "%d hours"
@@ -4560,8 +4560,8 @@ msgstr[0] "%d ชั่วโมง"
 msgstr[1] "%d ชั่วโมง"
 
 #. Translator: Entire string is like "Pop up an alert %d minutes before start of appointment"
-#: ../calendar/gui/alarm-notify/util.c:69 ../calendar/gui/e-alarm-list.c:414
-#: ../calendar/gui/misc.c:116
+#: ../calendar/gui/alarm-notify/util.c:72 ../calendar/gui/e-alarm-list.c:414
+#: ../calendar/gui/misc.c:119
 #, c-format
 msgid "%d minute"
 msgid_plural "%d minutes"
@@ -4571,8 +4571,8 @@ msgstr[1] "%d นาที"
 #. TRANSLATORS: here, "second" is the time division (like "minute"), not the ordinal number (like "third")
 #. Translator: Entire string is like "Pop up an alert %d seconds before start of appointment"
 #. TRANSLATORS: here, "second" is the time division (like "minute"), not the ordinal number (like "third")
-#: ../calendar/gui/alarm-notify/util.c:72 ../calendar/gui/e-alarm-list.c:420
-#: ../calendar/gui/misc.c:119
+#: ../calendar/gui/alarm-notify/util.c:76 ../calendar/gui/e-alarm-list.c:420
+#: ../calendar/gui/misc.c:123
 #, c-format
 msgid "%d second"
 msgid_plural "%d seconds"
@@ -5699,20 +5699,20 @@ msgstr "ข้อความที่แนบมา - %s"
 #. translators, this count will always be >1
 #: ../calendar/gui/dialogs/comp-editor.c:212
 #: ../calendar/gui/dialogs/comp-editor.c:382 ../composer/e-msg-composer.c:2855
-#: ../composer/e-msg-composer.c:3034
+#: ../composer/e-msg-composer.c:3056
 #, c-format
 msgid "Attached message"
 msgid_plural "%d attached messages"
 msgstr[0] "ข้อความที่แนบมา"
 msgstr[1] "ข้อความที่แนบมา %d ข้อความ"
 
-#: ../calendar/gui/dialogs/comp-editor.c:446 ../composer/e-msg-composer.c:3099
+#: ../calendar/gui/dialogs/comp-editor.c:446 ../composer/e-msg-composer.c:3121
 #: ../mail/em-folder-tree.c:980 ../mail/em-folder-utils.c:368
 #: ../mail/em-folder-view.c:973 ../mail/message-list.c:1725
 msgid "_Move"
 msgstr "_ย้าย"
 
-#: ../calendar/gui/dialogs/comp-editor.c:448 ../composer/e-msg-composer.c:3101
+#: ../calendar/gui/dialogs/comp-editor.c:448 ../composer/e-msg-composer.c:3123
 #: ../mail/em-folder-tree.c:982 ../mail/message-list.c:1727
 msgid "Cancel _Drag"
 msgstr "ยกเลิกการ_ลาก"
@@ -5742,7 +5742,7 @@ msgstr "แสดงแ_ถบเอกสารแนบ"
 #: ../calendar/gui/dialogs/meeting-page.c:899
 #: ../calendar/gui/dialogs/task-page.c:1202
 #: ../composer/e-msg-composer-attachment-bar.c:470
-#: ../composer/e-msg-composer.c:3597
+#: ../composer/e-msg-composer.c:3619
 #: ../plugins/groupwise-features/junk-settings.glade.h:8
 #: ../plugins/groupwise-features/properties.glade.h:14
 #: ../widgets/table/e-table-config.glade.h:18
@@ -5751,19 +5751,19 @@ msgstr "_ลบ"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1088
 #: ../composer/e-msg-composer-attachment-bar.c:471
-#: ../composer/e-msg-composer.c:3598 ../mail/em-folder-tree.c:2058
+#: ../composer/e-msg-composer.c:3620 ../mail/em-folder-tree.c:2058
 #: ../ui/evolution-addressbook.xml.h:59 ../ui/evolution-mail-list.xml.h:33
 msgid "_Properties"
 msgstr "_คุณสมบัติ"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1090
 #: ../composer/e-msg-composer-attachment-bar.c:473
-#: ../composer/e-msg-composer.c:3600
+#: ../composer/e-msg-composer.c:3622
 msgid "_Add attachment..."
 msgstr "เ_พิ่มเอกสารแนบ..."
 
 #: ../calendar/gui/dialogs/comp-editor.c:1466
-#: ../mail/em-format-html-display.c:2063
+#: ../mail/em-format-html-display.c:2065
 msgid "Show Attachments"
 msgstr "แสดงเอกสารแนบ"
 
@@ -6288,7 +6288,7 @@ msgstr "ใน"
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
 #: ../calendar/gui/dialogs/recurrence-page.c:992
-msgid "ordinal|first"
+msgid "first"
 msgstr "วันแรก"
 
 #. TRANSLATORS: here, "second" is the ordinal number (like "third"), not the time division (like "minute")
@@ -6297,7 +6297,7 @@ msgstr "วันแรก"
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
 #: ../calendar/gui/dialogs/recurrence-page.c:998
-msgid "ordinal|second"
+msgid "second"
 msgstr "วันที่สอง"
 
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [third] [Monday] [forever]'
@@ -6305,7 +6305,7 @@ msgstr "วันที่สอง"
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
 #: ../calendar/gui/dialogs/recurrence-page.c:1003
-msgid "ordinal|third"
+msgid "third"
 msgstr "วันที่สาม"
 
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [fourth] [Monday] [forever]'
@@ -6313,7 +6313,7 @@ msgstr "วันที่สาม"
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
 #: ../calendar/gui/dialogs/recurrence-page.c:1008
-msgid "ordinal|fourth"
+msgid "fourth"
 msgstr "วันที่สี่"
 
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [last] [Monday] [forever]'
@@ -6321,8 +6321,8 @@ msgstr "วันที่สี่"
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
 #: ../calendar/gui/dialogs/recurrence-page.c:1013
-msgid "ordinal|last"
-msgstr "วันที่สุดท้าย"
+msgid "last"
+msgstr "วันสุดท้าย"
 
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [Other date] [11th to 20th] [17th] [forever]'
 #. * (dropdown menu options are in [square brackets]).
@@ -6809,7 +6809,7 @@ msgstr "มอบหมาย"
 msgid "Save As..."
 msgstr "บันทึกเป็น..."
 
-#: ../calendar/gui/e-cal-popup.c:189 ../mail/em-format-html-display.c:1911
+#: ../calendar/gui/e-cal-popup.c:189 ../mail/em-format-html-display.c:1913
 msgid "Select folder to save selected attachments..."
 msgstr "เลือกโฟลเดอร์ที่จะบันทึกเอกสารแนบที่เลือก..."
 
@@ -7909,19 +7909,19 @@ msgstr "ต้องกำหนดผู้ประสานงานด้ว
 msgid "At least one attendee is necessary"
 msgstr "ต้องมีผู้เข้าร่วมประชุมอย่างน้อยหนึ่งคน"
 
-#: ../calendar/gui/itip-utils.c:631 ../calendar/gui/itip-utils.c:757
+#: ../calendar/gui/itip-utils.c:631 ../calendar/gui/itip-utils.c:754
 msgid "Event information"
 msgstr "ข้อมูลเหตุการณ์"
 
-#: ../calendar/gui/itip-utils.c:633 ../calendar/gui/itip-utils.c:759
+#: ../calendar/gui/itip-utils.c:633 ../calendar/gui/itip-utils.c:756
 msgid "Task information"
 msgstr "ข้อมูลงาน"
 
-#: ../calendar/gui/itip-utils.c:635 ../calendar/gui/itip-utils.c:761
+#: ../calendar/gui/itip-utils.c:635 ../calendar/gui/itip-utils.c:758
 msgid "Journal information"
 msgstr "ข้อมูลบันทึก"
 
-#: ../calendar/gui/itip-utils.c:637 ../calendar/gui/itip-utils.c:779
+#: ../calendar/gui/itip-utils.c:637 ../calendar/gui/itip-utils.c:776
 msgid "Free/Busy information"
 msgstr "ข้อมูล ว่าง/ไม่ว่าง"
 
@@ -7941,16 +7941,16 @@ msgstr "ปรับแสดง"
 msgid "Counter-proposal"
 msgstr "เสนอแย้ง"
 
-#: ../calendar/gui/itip-utils.c:775
+#: ../calendar/gui/itip-utils.c:772
 #, c-format
 msgid "Free/Busy information (%s to %s)"
 msgstr "ข้อมูล ว่าง/ไม่ว่าง (%s ไปยัง %s)"
 
-#: ../calendar/gui/itip-utils.c:785
+#: ../calendar/gui/itip-utils.c:782
 msgid "iCalendar information"
 msgstr "ข้อมูล iCalendar"
 
-#: ../calendar/gui/itip-utils.c:940
+#: ../calendar/gui/itip-utils.c:937
 msgid "You must be an attendee of the event."
 msgstr "คุณต้องเป็นผู้เข้าร่วมในเหตุการณ์"
 
@@ -10101,7 +10101,7 @@ msgid "Hide _Attachment Bar"
 msgstr "ซ่อนแ_ถบเอกสารแนบ"
 
 #: ../composer/e-msg-composer.c:1298 ../composer/e-msg-composer.c:2511
-#: ../composer/e-msg-composer.c:3843
+#: ../composer/e-msg-composer.c:3865
 msgid "Show _Attachment Bar"
 msgstr "แสดงแ_ถบเอกสารแนบ"
 
@@ -10136,12 +10136,12 @@ msgstr "สร้างโดยอัตโนมัติ"
 msgid "Si_gnature:"
 msgstr "ลายเ_ซ็น:"
 
-#: ../composer/e-msg-composer.c:2522 ../composer/e-msg-composer.c:3725
-#: ../composer/e-msg-composer.c:3728
+#: ../composer/e-msg-composer.c:2522 ../composer/e-msg-composer.c:3747
+#: ../composer/e-msg-composer.c:3750
 msgid "Compose Message"
 msgstr "เขียนจดหมาย"
 
-#: ../composer/e-msg-composer.c:4952
+#: ../composer/e-msg-composer.c:4974
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)"
 "<b>"
@@ -10285,7 +10285,7 @@ msgstr "_บันทึกข้อความ"
 
 #: ../data/evolution.desktop.in.in.h:1
 #: ../plugins/default-mailer/org-gnome-default-mailer.error.xml.h:2
-#: ../shell/main.c:511
+#: ../shell/main.c:514
 msgid "Evolution"
 msgstr "Evolution"
 
@@ -10813,46 +10813,46 @@ msgstr "เลือกโฟลเดอร์"
 msgid "Ask for each message"
 msgstr "ถามสำหรับแต่ละข้อความ"
 
-#: ../mail/em-account-editor.c:1779 ../mail/mail-config.glade.h:91
+#: ../mail/em-account-editor.c:1780 ../mail/mail-config.glade.h:91
 msgid "Identity"
 msgstr "ข้อมูลบุคคล"
 
-#: ../mail/em-account-editor.c:1828 ../mail/mail-config.glade.h:118
+#: ../mail/em-account-editor.c:1829 ../mail/mail-config.glade.h:118
 msgid "Receiving Email"
 msgstr "การรับอีเมล"
 
-#: ../mail/em-account-editor.c:2012
+#: ../mail/em-account-editor.c:2013
 msgid "Automatically check for _new mail every"
 msgstr "_ตรวจเมลใหม่อัตโนมัติทุก ๆ"
 
-#: ../mail/em-account-editor.c:2193 ../mail/mail-config.glade.h:130
+#: ../mail/em-account-editor.c:2194 ../mail/mail-config.glade.h:130
 msgid "Sending Email"
-msgstr "กำลังส่งอีเมล"
+msgstr "การส่งอีเมล"
 
-#: ../mail/em-account-editor.c:2252 ../mail/mail-config.glade.h:68
+#: ../mail/em-account-editor.c:2253 ../mail/mail-config.glade.h:68
 msgid "Defaults"
 msgstr "ค่าปกติ"
 
 #. Security settings
-#: ../mail/em-account-editor.c:2318 ../mail/mail-config.glade.h:123
+#: ../mail/em-account-editor.c:2319 ../mail/mail-config.glade.h:123
 #: ../plugins/exchange-operations/exchange-account-setup.c:317
 msgid "Security"
 msgstr "การรักษาความปลอดภัย"
 
 #. Most sections for this is auto-generated fromt the camel config
-#: ../mail/em-account-editor.c:2355 ../mail/em-account-editor.c:2446
+#: ../mail/em-account-editor.c:2356 ../mail/em-account-editor.c:2447
 msgid "Receiving Options"
 msgstr "ตัวเลือกการรับเมล"
 
-#: ../mail/em-account-editor.c:2356 ../mail/em-account-editor.c:2447
+#: ../mail/em-account-editor.c:2357 ../mail/em-account-editor.c:2448
 msgid "Checking for New Mail"
 msgstr "การตรวจสอบเมลใหม่"
 
-#: ../mail/em-account-editor.c:2786 ../mail/mail-config.glade.h:34
+#: ../mail/em-account-editor.c:2795 ../mail/mail-config.glade.h:34
 msgid "Account Editor"
 msgstr "หน้าต่างแก้ไขบัญชี"
 
-#: ../mail/em-account-editor.c:2786 ../mail/mail-config.glade.h:80
+#: ../mail/em-account-editor.c:2795 ../mail/mail-config.glade.h:80
 msgid "Evolution Account Assistant"
 msgstr "เครื่องมือช่วยตั้งค่าบัญชี Evolution"
 
@@ -10903,18 +10903,18 @@ msgstr "เพิ่มสคริปต์สำหรับลายเซ็
 msgid "Signature(s)"
 msgstr "ลายเซ็น"
 
-#: ../mail/em-composer-utils.c:863 ../mail/em-format-quote.c:389
+#: ../mail/em-composer-utils.c:874 ../mail/em-format-quote.c:389
 msgid "-------- Forwarded Message --------"
 msgstr "-------- ข้อความส่งต่อ --------"
 
-#: ../mail/em-composer-utils.c:1655
+#: ../mail/em-composer-utils.c:1666
 msgid "an unknown sender"
 msgstr "ผู้ส่งที่ไม่รู้จัก"
 
 #. Note to translators: this is the attribution string used when quoting messages.
 #. * each ${Variable} gets replaced with a value. To see a full list of available
 #. * variables, see em-composer-utils.c:1514
-#: ../mail/em-composer-utils.c:1702
+#: ../mail/em-composer-utils.c:1713
 msgid ""
 "On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} "
 "${TimeZone}, ${Sender} wrote:"
@@ -11192,20 +11192,20 @@ msgstr "_สร้างโฟลเดอร์ค้นหาจากกา�
 
 #. TODO: can this be done in a loop?
 #. to be on the safe side, ngettext is used here, see e.g. comment #3 at bug 272567
-#: ../mail/em-folder-properties.c:145
+#: ../mail/em-folder-properties.c:150
 msgid "Total messages:"
 msgid_plural "Total messages:"
 msgstr[0] "ข้อความทั้งหมด:"
 msgstr[1] "ข้อความทั้งหมด:"
 
 #. to be on the safe side, ngettext is used here, see e.g. comment #3 at bug 272567
-#: ../mail/em-folder-properties.c:158
+#: ../mail/em-folder-properties.c:163
 msgid "Unread messages:"
 msgid_plural "Unread messages:"
 msgstr[0] "ข้อความที่ยังไม่ได้อ่าน:"
 msgstr[1] "ข้อความที่ยังไม่ได้อ่าน:"
 
-#: ../mail/em-folder-properties.c:289
+#: ../mail/em-folder-properties.c:316
 #: ../plugins/groupwise-features/properties.glade.h:3
 msgid "Folder Properties"
 msgstr "คุณสมบัติโฟลเดอร์"
@@ -11601,64 +11601,64 @@ msgstr "_ดูใบรับรอง"
 msgid "This certificate is not viewable"
 msgstr "ใบรับรองนี้เปิดดูไม่ได้"
 
-#: ../mail/em-format-html-display.c:1172
+#: ../mail/em-format-html-display.c:1174
 msgid "Completed on %B %d, %Y, %l:%M %p"
 msgstr "เสร็จเมื่อ %d %B %Ey %H:%M"
 
-#: ../mail/em-format-html-display.c:1180
+#: ../mail/em-format-html-display.c:1182
 msgid "Overdue:"
 msgstr "เลยกำหนด:"
 
-#: ../mail/em-format-html-display.c:1183
+#: ../mail/em-format-html-display.c:1185
 msgid "by %B %d, %Y, %l:%M %p"
 msgstr "ภายใน %d %B %Ey %H:%M"
 
-#: ../mail/em-format-html-display.c:1243
+#: ../mail/em-format-html-display.c:1245
 msgid "_View Inline"
 msgstr "แ_สดงในบรรทัด"
 
-#: ../mail/em-format-html-display.c:1244
+#: ../mail/em-format-html-display.c:1246
 msgid "_Hide"
 msgstr "_ซ่อน"
 
-#: ../mail/em-format-html-display.c:1245
+#: ../mail/em-format-html-display.c:1247
 msgid "_Fit to Width"
 msgstr "_พอดีความกว้าง"
 
-#: ../mail/em-format-html-display.c:1246
+#: ../mail/em-format-html-display.c:1248
 msgid "Show _Original Size"
 msgstr "แสดงขนาด_จริง"
 
-#: ../mail/em-format-html-display.c:1665 ../mail/mail-config.glade.h:45
+#: ../mail/em-format-html-display.c:1667 ../mail/mail-config.glade.h:45
 #: ../mail/message-list.etspec.h:1
 msgid "Attachment"
 msgstr "เอกสารแนบ"
 
-#: ../mail/em-format-html-display.c:1872
+#: ../mail/em-format-html-display.c:1874
 msgid "Select folder to save all attachments..."
 msgstr "เลือกโฟลเดอร์ที่จะบันทึกเอกสารแนบทั้งหมด..."
 
-#: ../mail/em-format-html-display.c:1919
+#: ../mail/em-format-html-display.c:1921
 msgid "_Save Selected..."
 msgstr "_บันทึกรายการที่เลือก..."
 
 #. Cant i put in the number of attachments here ?
-#: ../mail/em-format-html-display.c:1986
+#: ../mail/em-format-html-display.c:1988
 #, c-format
 msgid "%d attachme_nt"
 msgid_plural "%d attachme_nts"
 msgstr[0] "เอกสารแ_นบ %d ฉบับ"
 msgstr[1] "เอกสารแ_นบ %d ฉบับ"
 
-#: ../mail/em-format-html-display.c:1993 ../mail/em-format-html-display.c:2069
+#: ../mail/em-format-html-display.c:1995 ../mail/em-format-html-display.c:2071
 msgid "S_ave"
 msgstr "_บันทึก"
 
-#: ../mail/em-format-html-display.c:2004
+#: ../mail/em-format-html-display.c:2006
 msgid "S_ave All"
 msgstr "บันทึกทั้งห_มด"
 
-#: ../mail/em-format-html-display.c:2065
+#: ../mail/em-format-html-display.c:2067
 msgid "No Attachment"
 msgstr "ไม่มีเอกสารแนบ"
 
@@ -13126,7 +13126,7 @@ msgstr "ส่งการแจ้งรับข้อความ:"
 
 #: ../mail/mail-config.glade.h:131
 msgid "Sending Mail"
-msgstr "กำลังส่งเมล"
+msgstr "การส่งเมล"
 
 #: ../mail/mail-config.glade.h:132
 msgid "Sent _Messages Folder:"
@@ -13541,11 +13541,11 @@ msgstr ""
 "เกิดข้อผิดพลาดขณะบันทึกข้อความไปยัง: %s:\n"
 " %s"
 
-#: ../mail/mail-ops.c:2090
+#: ../mail/mail-ops.c:2091
 msgid "Saving attachment"
 msgstr "กำลังบันทึกเอกสารแนบ"
 
-#: ../mail/mail-ops.c:2102
+#: ../mail/mail-ops.c:2104 ../mail/mail-ops.c:2110
 #, c-format
 msgid ""
 "Cannot create output file: %s:\n"
@@ -13554,22 +13554,22 @@ msgstr ""
 "ไม่สามารถสร้างแฟ้มผลลัพธ์: %s:\n"
 " %s"
 
-#: ../mail/mail-ops.c:2112
+#: ../mail/mail-ops.c:2120
 #, c-format
 msgid "Could not write data: %s"
 msgstr "ไม่สามารถเขียนข้อมูล: %s"
 
-#: ../mail/mail-ops.c:2262
+#: ../mail/mail-ops.c:2269
 #, c-format
 msgid "Disconnecting from %s"
 msgstr "กำลังตัดการเชื่อมต่อจาก %s"
 
-#: ../mail/mail-ops.c:2262
+#: ../mail/mail-ops.c:2269
 #, c-format
 msgid "Reconnecting to %s"
 msgstr "กำลังเชื่อมต่อใหม่ไปยัง %s"
 
-#: ../mail/mail-ops.c:2378
+#: ../mail/mail-ops.c:2385
 msgid "Checking Service"
 msgstr "กำลังตรวจสอบบริการ"
 
@@ -13598,7 +13598,7 @@ msgid "Checking for new mail"
 msgstr "กำลังตรวจสอบเมลใหม่"
 
 #: ../mail/mail-session.c:204
-#: ../plugins/exchange-operations/exchange-config-listener.c:681
+#: ../plugins/exchange-operations/exchange-config-listener.c:710
 #, c-format
 msgid "Enter Password for %s"
 msgstr "ป้อนรหัสผ่านสำหรับ %s"
@@ -14750,8 +14750,8 @@ msgstr "ชนิดของการยืนยันตัวบุคคล
 msgid "Ch_eck for Supported Types"
 msgstr "_ตรวจสอบชนิดที่สนับสนุน"
 
-#: ../plugins/exchange-operations/exchange-calendar.c:192
-#: ../plugins/exchange-operations/exchange-contacts.c:165
+#: ../plugins/exchange-operations/exchange-calendar.c:193
+#: ../plugins/exchange-operations/exchange-contacts.c:167
 msgid ""
 "Evolution is in offline mode. You cannot create or modify folders now.\n"
 "Please switch to online mode for such operations."
@@ -14788,7 +14788,7 @@ msgstr "รหัสผ่านใหม่:"
 msgid "Your current password has expired. Please change your password now."
 msgstr "รหัสผ่านของคุณได้หมดอายุลงแล้ว กรุณาเปลี่ยนรหัสผ่านทันที"
 
-#: ../plugins/exchange-operations/exchange-config-listener.c:633
+#: ../plugins/exchange-operations/exchange-config-listener.c:662
 #, c-format
 msgid "Your password will expire in the next %d days"
 msgstr "รหัสผ่านของคุณจะหมดอายุลงในอีก %d วัน"
@@ -15181,8 +15181,7 @@ msgstr "ข้อผิดพลาดทั่วไป"
 msgid ""
 "If OWA is running on a different path, you must specify that in the account "
 "configuration dialog."
-msgstr ""
-"ถ้า OWA กำลังทำงานในพาธอื่น คุณต้องระบุพาธดังกล่าวในกล่องโต้ตอบตั้งค่าบัญชี"
+msgstr "ถ้า OWA กำลังทำงานในพาธอื่น คุณต้องระบุพาธดังกล่าวในกล่องโต้ตอบตั้งค่าบัญชี"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:39
 msgid "Mailbox for {0} is not on this server."
@@ -15579,19 +15578,19 @@ msgstr "นำเ_ข้าไปยังปฏิทิน"
 msgid "_Import to Tasks"
 msgstr "นำเ_ข้าไปยังงาน"
 
-#: ../plugins/import-ics-attachments/icsimporter.c:197
+#: ../plugins/import-ics-attachments/icsimporter.c:198
 msgid "Import ICS"
 msgstr "นำเข้า ICS"
 
-#: ../plugins/import-ics-attachments/icsimporter.c:225
+#: ../plugins/import-ics-attachments/icsimporter.c:226
 msgid "Select Task List"
 msgstr "เลือกรายการงาน"
 
-#: ../plugins/import-ics-attachments/icsimporter.c:229
+#: ../plugins/import-ics-attachments/icsimporter.c:230
 msgid "Select Calendar"
 msgstr "เลือกปฏิทิน"
 
-#: ../plugins/import-ics-attachments/icsimporter.c:260
+#: ../plugins/import-ics-attachments/icsimporter.c:261
 #: ../shell/e-shell-importer.c:703
 msgid "_Import"
 msgstr "_นำเข้า"
@@ -16921,7 +16920,7 @@ msgstr "แสดงแถบข้าง"
 msgid "Skip development warning dialog"
 msgstr "ข้ามกล่องโต้ตอบเตือนสถานะกำลังพัฒนา"
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:12 ../shell/main.c:470
+#: ../shell/apps_evolution_shell.schemas.in.in.h:12 ../shell/main.c:473
 msgid "Start in offline mode"
 msgstr "เริ่มในโหมดออฟไลน์"
 
@@ -17269,31 +17268,31 @@ msgstr ""
 msgid "Do not tell me again"
 msgstr "ไม่ต้องบอกฉันอีก"
 
-#: ../shell/main.c:468
+#: ../shell/main.c:471
 msgid "Start Evolution activating the specified component"
 msgstr "เรียก Evolution โดยเปิดใช้องค์ประกอบที่กำหนด"
 
-#: ../shell/main.c:472
+#: ../shell/main.c:475
 msgid "Start in online mode"
 msgstr "เริ่มทำงานในโหมดออนไลน์"
 
-#: ../shell/main.c:475
+#: ../shell/main.c:478
 msgid "Forcibly shut down all Evolution components"
 msgstr "บังคับปิดองค์ประกอบทั้งหมดของ Evolution"
 
-#: ../shell/main.c:479
+#: ../shell/main.c:482
 msgid "Forcibly re-migrate from Evolution 1.4"
 msgstr "บังคับปรับรุ่นข้อมูลใหม่จาก Evolution 1.4"
 
-#: ../shell/main.c:482
+#: ../shell/main.c:485
 msgid "Send the debugging output of all components to a file."
 msgstr "ส่งข้อความดีบั๊กของทุกองค์ประกอบลงแฟ้ม"
 
-#: ../shell/main.c:484
+#: ../shell/main.c:487
 msgid "Disable loading of any plugins."
 msgstr "ปิดการโหลดปลั๊กอินใดๆ"
 
-#: ../shell/main.c:515
+#: ../shell/main.c:518
 #, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
@@ -19877,17 +19876,17 @@ msgstr "Y1"
 msgid "Y2"
 msgstr "Y2"
 
-#: ../widgets/misc/e-canvas-vbox.c:102 ../widgets/misc/e-reflow.c:1427
+#: ../widgets/misc/e-canvas-vbox.c:102 ../widgets/misc/e-reflow.c:1429
 #: ../widgets/table/e-table-group-container.c:974
 #: ../widgets/table/e-table-group-leaf.c:636
-#: ../widgets/table/e-table-item.c:3014
+#: ../widgets/table/e-table-item.c:3015
 msgid "Minimum width"
 msgstr "ความกว้างต่ำสุด"
 
-#: ../widgets/misc/e-canvas-vbox.c:103 ../widgets/misc/e-reflow.c:1428
+#: ../widgets/misc/e-canvas-vbox.c:103 ../widgets/misc/e-reflow.c:1430
 #: ../widgets/table/e-table-group-container.c:975
 #: ../widgets/table/e-table-group-leaf.c:637
-#: ../widgets/table/e-table-item.c:3015
+#: ../widgets/table/e-table-item.c:3016
 msgid "Minimum Width"
 msgstr "ความกว้างต่ำสุด"
 
@@ -20142,15 +20141,15 @@ msgstr ""
 msgid "Sync Categories:"
 msgstr ""
 
-#: ../widgets/misc/e-reflow.c:1449 ../widgets/misc/e-reflow.c:1450
+#: ../widgets/misc/e-reflow.c:1451 ../widgets/misc/e-reflow.c:1452
 msgid "Empty message"
 msgstr "ข้อความว่างเปล่า"
 
-#: ../widgets/misc/e-reflow.c:1456 ../widgets/misc/e-reflow.c:1457
+#: ../widgets/misc/e-reflow.c:1458 ../widgets/misc/e-reflow.c:1459
 msgid "Reflow model"
 msgstr ""
 
-#: ../widgets/misc/e-reflow.c:1463 ../widgets/misc/e-reflow.c:1464
+#: ../widgets/misc/e-reflow.c:1465 ../widgets/misc/e-reflow.c:1466
 msgid "Column width"
 msgstr "ความกว้างคอลัมน์"
 
@@ -20392,23 +20391,23 @@ msgstr "คอลัมน์ที่โฟกัส"
 msgid "Unselected Column"
 msgstr "คอลัมน์ที่ไม่ได้เลือก"
 
-#: ../widgets/table/e-cell-text.c:1744
+#: ../widgets/table/e-cell-text.c:1749
 msgid "Strikeout Column"
 msgstr "คอลัมน์ขีดฆ่า"
 
-#: ../widgets/table/e-cell-text.c:1751
+#: ../widgets/table/e-cell-text.c:1756
 msgid "Underline Column"
 msgstr "คอลัมน์ขีดเส้นใต้"
 
-#: ../widgets/table/e-cell-text.c:1758
+#: ../widgets/table/e-cell-text.c:1763
 msgid "Bold Column"
 msgstr "คอลัมน์ตัวหนา"
 
-#: ../widgets/table/e-cell-text.c:1765
+#: ../widgets/table/e-cell-text.c:1770
 msgid "Color Column"
 msgstr "คอลัมน์สี"
 
-#: ../widgets/table/e-cell-text.c:1779
+#: ../widgets/table/e-cell-text.c:1784
 msgid "BG Color Column"
 msgstr "คอลัมน์สีพื้น"
 
@@ -20456,6 +20455,7 @@ msgid "Sh_ow these fields in order:"
 msgstr ""
 
 #: ../widgets/table/e-table-config-no-group.glade.h:12
+#: ../widgets/table/e-table-config.c:563
 #: ../widgets/table/e-table-config.glade.h:10
 msgid "Show Fields"
 msgstr "แสดงเขตข้อมูล"
@@ -20513,6 +20513,10 @@ msgstr "ไม่เรียง"
 #: ../widgets/table/e-table-config.c:355
 msgid "No grouping"
 msgstr "ไม่จัดกลุ่ม"
+
+#: ../widgets/table/e-table-config.c:584
+msgid "Available Fields"
+msgstr "เขตข้อมูลที่มี"
 
 #: ../widgets/table/e-table-config.glade.h:17
 msgid "_Group By..."
@@ -20576,7 +20580,7 @@ msgstr "%s (%d รายการ)"
 #: ../widgets/table/e-table-group-container.c:898
 #: ../widgets/table/e-table-group-leaf.c:573
 #: ../widgets/table/e-table-group-leaf.c:574
-#: ../widgets/table/e-table-item.c:2972 ../widgets/table/e-table-item.c:2973
+#: ../widgets/table/e-table-item.c:2973 ../widgets/table/e-table-item.c:2974
 msgid "Alternating Row Colors"
 msgstr "สลับสีของแถว"
 
@@ -20584,7 +20588,7 @@ msgstr "สลับสีของแถว"
 #: ../widgets/table/e-table-group-container.c:905
 #: ../widgets/table/e-table-group-leaf.c:580
 #: ../widgets/table/e-table-group-leaf.c:581
-#: ../widgets/table/e-table-item.c:2979 ../widgets/table/e-table-item.c:2980
+#: ../widgets/table/e-table-item.c:2980 ../widgets/table/e-table-item.c:2981
 #: ../widgets/table/e-tree.c:3265 ../widgets/table/e-tree.c:3266
 msgid "Horizontal Draw Grid"
 msgstr "ตีเส้นตารางแนวนอน"
@@ -20593,7 +20597,7 @@ msgstr "ตีเส้นตารางแนวนอน"
 #: ../widgets/table/e-table-group-container.c:912
 #: ../widgets/table/e-table-group-leaf.c:587
 #: ../widgets/table/e-table-group-leaf.c:588
-#: ../widgets/table/e-table-item.c:2986 ../widgets/table/e-table-item.c:2987
+#: ../widgets/table/e-table-item.c:2987 ../widgets/table/e-table-item.c:2988
 #: ../widgets/table/e-tree.c:3271 ../widgets/table/e-tree.c:3272
 msgid "Vertical Draw Grid"
 msgstr "ตีเส้นตารางแนวตั้ง"
@@ -20602,7 +20606,7 @@ msgstr "ตีเส้นตารางแนวตั้ง"
 #: ../widgets/table/e-table-group-container.c:919
 #: ../widgets/table/e-table-group-leaf.c:594
 #: ../widgets/table/e-table-group-leaf.c:595
-#: ../widgets/table/e-table-item.c:2993 ../widgets/table/e-table-item.c:2994
+#: ../widgets/table/e-table-item.c:2994 ../widgets/table/e-table-item.c:2995
 #: ../widgets/table/e-tree.c:3277 ../widgets/table/e-tree.c:3278
 msgid "Draw focus"
 msgstr "วาดโฟกัส"
@@ -20611,7 +20615,7 @@ msgstr "วาดโฟกัส"
 #: ../widgets/table/e-table-group-container.c:926
 #: ../widgets/table/e-table-group-leaf.c:601
 #: ../widgets/table/e-table-group-leaf.c:602
-#: ../widgets/table/e-table-item.c:3000 ../widgets/table/e-table-item.c:3001
+#: ../widgets/table/e-table-item.c:3001 ../widgets/table/e-table-item.c:3002
 msgid "Cursor mode"
 msgstr "โหมดของเคอร์เซอร์"
 
@@ -20619,7 +20623,7 @@ msgstr "โหมดของเคอร์เซอร์"
 #: ../widgets/table/e-table-group-container.c:933
 #: ../widgets/table/e-table-group-leaf.c:615
 #: ../widgets/table/e-table-group-leaf.c:616
-#: ../widgets/table/e-table-item.c:2965 ../widgets/table/e-table-item.c:2966
+#: ../widgets/table/e-table-item.c:2966 ../widgets/table/e-table-item.c:2967
 msgid "Selection model"
 msgstr "วิธีการเลือก"
 
@@ -20627,7 +20631,7 @@ msgstr "วิธีการเลือก"
 #: ../widgets/table/e-table-group-container.c:940
 #: ../widgets/table/e-table-group-leaf.c:608
 #: ../widgets/table/e-table-group-leaf.c:609
-#: ../widgets/table/e-table-item.c:3007 ../widgets/table/e-table-item.c:3008
+#: ../widgets/table/e-table-item.c:3008 ../widgets/table/e-table-item.c:3009
 #: ../widgets/table/e-table.c:3301 ../widgets/table/e-tree.c:3259
 #: ../widgets/table/e-tree.c:3260
 msgid "Length Threshold"
@@ -20637,7 +20641,7 @@ msgstr "ขีดเริ่มของความยาว"
 #: ../widgets/table/e-table-group-container.c:947
 #: ../widgets/table/e-table-group-leaf.c:650
 #: ../widgets/table/e-table-group-leaf.c:651
-#: ../widgets/table/e-table-item.c:3041 ../widgets/table/e-table-item.c:3042
+#: ../widgets/table/e-table-item.c:3042 ../widgets/table/e-table-item.c:3043
 #: ../widgets/table/e-table.c:3308 ../widgets/table/e-tree.c:3291
 #: ../widgets/table/e-tree.c:3292
 msgid "Uniform row height"
@@ -20714,15 +20718,15 @@ msgstr "ข้อมูลของการเรียงลำดับ"
 msgid "Tree"
 msgstr "ต้นไม้"
 
-#: ../widgets/table/e-table-item.c:2951 ../widgets/table/e-table-item.c:2952
+#: ../widgets/table/e-table-item.c:2952 ../widgets/table/e-table-item.c:2953
 msgid "Table header"
 msgstr "หัวตาราง"
 
-#: ../widgets/table/e-table-item.c:2958 ../widgets/table/e-table-item.c:2959
+#: ../widgets/table/e-table-item.c:2959 ../widgets/table/e-table-item.c:2960
 msgid "Table model"
 msgstr "แบบจำลองข้อมูลตาราง"
 
-#: ../widgets/table/e-table-item.c:3034 ../widgets/table/e-table-item.c:3035
+#: ../widgets/table/e-table-item.c:3035 ../widgets/table/e-table-item.c:3036
 msgid "Cursor row"
 msgstr "แถวของเคอร์เซอร์"
 
@@ -20887,6 +20891,21 @@ msgstr ""
 msgid "Handle Popup"
 msgstr ""
 
+#~ msgid "ordinal|first"
+#~ msgstr "วันแรก"
+
+#~ msgid "ordinal|second"
+#~ msgstr "วันที่สอง"
+
+#~ msgid "ordinal|third"
+#~ msgstr "วันที่สาม"
+
+#~ msgid "ordinal|fourth"
+#~ msgstr "วันที่สี่"
+
+#~ msgid "ordinal|last"
+#~ msgstr "วันที่สุดท้าย"
+
 #~ msgid ""
 #~ "Selecting this option means that Evolution will only try to use SSL/TLS "
 #~ "if you are in a insecure environment. For example, if you and your LDAP "
@@ -20919,11 +20938,6 @@ msgstr ""
 #~ msgid "(%d %s %d %s)"
 #~ msgstr "(%d %s %d %s)"
 
-#~ msgid "second"
-#~ msgid_plural "seconds"
-#~ msgstr[0] "วินาที"
-#~ msgstr[1] "วินาที"
-
 #~ msgid "(%d %s)"
 #~ msgstr "(%d %s)"
 
@@ -20955,18 +20969,6 @@ msgstr ""
 
 #~ msgid "<b>%s</b>"
 #~ msgstr "<b>%s</b>"
-
-#~ msgid "first"
-#~ msgstr "วันแรก"
-
-#~ msgid "third"
-#~ msgstr "วันที่สาม"
-
-#~ msgid "fourth"
-#~ msgstr "วันที่สี่"
-
-#~ msgid "last"
-#~ msgstr "วันสุดท้าย"
 
 #~ msgid "time|second"
 #~ msgstr "วินาที"
