@@ -1,3 +1,12 @@
+2006-02-17  Johnny Jacob  <johnnyjacob@gmail.com>
+
+	Fixes #312423, #329749
+	* gui/dialogs/event-page.c: (sensitize_widgets): Enable/Disable
+	based on read_only status.
+	(alarm_store_changed_cb): Added. Changed signal handler for alarm list.
+	* gui/dialogs/alamm-list-dialog.c: (edit_clicked_cb): Emit changed 
+	signal for alarm list.
+
 2006-02-28  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #332726

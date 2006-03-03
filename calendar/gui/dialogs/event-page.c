@@ -808,16 +808,16 @@ sensitize_widgets (EventPage *epage)
 		gtk_box_pack_start ((GtkBox *)priv->status_icons, priv->alarm_icon, FALSE, FALSE, 6);
 	}
 	
-	gtk_entry_set_editable (GTK_ENTRY (priv->summary), sensitize);
+	gtk_entry_set_editable (GTK_ENTRY (priv->summary), !read_only);
 	gtk_entry_set_editable (GTK_ENTRY (priv->location), sensitize);
 	gtk_widget_set_sensitive (priv->alarm_box, custom);	
 	gtk_widget_set_sensitive (priv->start_time, sensitize);
 	gtk_widget_set_sensitive (priv->start_timezone, sensitize);
 	gtk_widget_set_sensitive (priv->end_time, sensitize);
 	gtk_widget_set_sensitive (priv->end_timezone, sensitize);
-	gtk_text_view_set_editable (GTK_TEXT_VIEW (priv->description), sensitize);
+	gtk_text_view_set_editable (GTK_TEXT_VIEW (priv->description), !read_only);
 	gtk_widget_set_sensitive (priv->alarm_time, !read_only);
-	gtk_widget_set_sensitive (priv->categories_btn, sensitize);
+	gtk_widget_set_sensitive (priv->categories_btn, !read_only);
 	/*TODO implement the for portion of the end time selector */
 	if ( (COMP_EDITOR_PAGE(epage)->flags) & COMP_EDITOR_PAGE_NEW_ITEM ) {
 		if (priv->all_day_event)
@@ -830,7 +830,7 @@ sensitize_widgets (EventPage *epage)
 	gtk_widget_set_sensitive (priv->hour_selector, sensitize);
 	gtk_widget_set_sensitive (priv->minute_selector, sensitize);
 
-	gtk_entry_set_editable (GTK_ENTRY (priv->categories), sensitize);
+	gtk_entry_set_editable (GTK_ENTRY (priv->categories), !read_only);
 
 	if (delegate) {
 		gtk_widget_set_sensitive (priv->source_selector, FALSE);
@@ -846,11 +846,9 @@ sensitize_widgets (EventPage *epage)
 
 	bonobo_ui_component_set_prop (priv->uic, "/commands/InsertAttachments", "sensitive", sensitize ? "1" : "0"
 			, NULL);
-	bonobo_ui_component_set_prop (priv->uic, "/commands/ViewTimeZone", "sensitive", sensitize ? "1" : "0"
-			, NULL);
 	bonobo_ui_component_set_prop (priv->uic, "/commands/ActionAllDayEvent", "sensitive", sensitize ? "1" : "0"
 			, NULL);
-	bonobo_ui_component_set_prop (priv->uic, "/commands/ActionRecurrence", "sensitive", sensitize ? "1" : "0"
+	bonobo_ui_component_set_prop (priv->uic, "/commands/ActionRecurrence", "sensitive", !read_only ? "1" : "0"
 			, NULL);
 	bonobo_ui_component_set_prop (priv->uic, "/commands/ActionShowTimeBusy", "sensitive", !read_only ? "1" : "0"
 			, NULL);
@@ -862,10 +860,11 @@ sensitize_widgets (EventPage *epage)
 			, NULL);
 	bonobo_ui_component_set_prop (priv->uic, "/commands/ActionClassConfidential", "sensitive",
 		       	sensitize ? "1" : "0", NULL);
-	bonobo_ui_component_set_prop (priv->uic, "/commands/ViewCategories", "sensitive", sensitize ? "1" : "0"
-			, NULL);
 	bonobo_ui_component_set_prop (priv->uic, "/commands/InsertSendOptions", "sensitive", sensitize ? "1" : "0"
 			, NULL);
+	bonobo_ui_component_set_prop (priv->uic, "/commands/ViewCategories", "sensitive", "1", NULL);
+	bonobo_ui_component_set_prop (priv->uic, "/commands/ViewTimeZone", "sensitive", "1", NULL);
+
 
 	if (!priv->is_meeting) {
 		gtk_widget_hide (priv->calendar_label);
@@ -2740,6 +2739,12 @@ alarm_store_deleted_cb (EAlarmList *alarm_list_store, GtkTreePath *path, gpointe
 	field_changed_cb (NULL, data);
 }
 
+static void 
+alarm_store_changed_cb (EAlarmList *alarm_list_store, GtkTreePath *path, GtkTreeIter *iter, gpointer data)
+{
+	field_changed_cb (NULL, data);
+}
+
 static void
 alarm_custom_clicked_cb (GtkWidget *widget, gpointer data)
 {
@@ -2843,7 +2848,8 @@ init_widgets (EventPage *epage)
 			    G_CALLBACK (alarm_store_inserted_cb), epage);
 	g_signal_connect((GtkTreeModel *)(priv->alarm_list_store), "row-deleted",
 			    G_CALLBACK (alarm_store_deleted_cb), epage);
-
+	g_signal_connect((GtkTreeModel *)(priv->alarm_list_store), "row-changed",
+ 			    G_CALLBACK (alarm_store_changed_cb), epage);
 
 	/* Timezone changed */
 	g_signal_connect((priv->start_timezone), "changed",

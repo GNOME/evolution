@@ -170,9 +170,12 @@ edit_clicked_cb (GtkButton *button, gpointer data)
 	}
 
 	alarm = e_alarm_list_get_alarm (dialog->list_store, &iter);
+	path = gtk_tree_model_get_path (GTK_TREE_MODEL (dialog->list_store), &iter);
 
-	if (alarm_dialog_run (dialog->toplevel, dialog->ecal, alarm))
+	if (alarm_dialog_run (dialog->toplevel, dialog->ecal, alarm)) {
 		gtk_tree_selection_select_iter (gtk_tree_view_get_selection (view), &iter);
+		gtk_tree_model_row_changed (GTK_TREE_MODEL (dialog->list_store), path, &iter);
+	}
 }
 
 /* Callback used for the "delete reminder" button */
