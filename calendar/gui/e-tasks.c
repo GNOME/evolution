@@ -377,6 +377,21 @@ view_done_cb (ECalModel *model, ECalendarStatus status, ECalSourceType type, ETa
 }
 
 static void
+config_preview_state_changed_cb (GConfClient *client, guint id, GConfEntry *entry, gpointer data)
+{
+	gboolean state;
+	GConfValue *value;
+	ETasks *tasks = (ETasks *)data;
+
+	g_return_if_fail (gconf_entry_get_key (entry) != NULL);
+	g_return_if_fail ((value = gconf_entry_get_value (entry)) != NULL);
+
+	state = gconf_value_get_bool (value);
+	e_tasks_show_preview (tasks, state);
+	bonobo_ui_component_set_prop (E_SEARCH_BAR (tasks->priv->search_bar)->ui_component, "/commands/ViewPreview", "state", state ? "1" : "0", NULL);
+}
+
+static void
 setup_config (ETasks *tasks)
 {
 	ETasksPrivate *priv;
@@ -401,6 +416,9 @@ setup_config (ETasks *tasks)
 	not = calendar_config_add_notification_hide_completed_tasks_value (config_hide_completed_tasks_changed_cb, 
 							      tasks);
 	priv->notifications = g_list_prepend (priv->notifications, GUINT_TO_POINTER (not));	
+
+	not = calendar_config_add_notification_preview_state (config_preview_state_changed_cb, tasks);
+	priv->notifications = g_list_prepend (priv->notifications, GUINT_TO_POINTER (not));
 }
 
 static void

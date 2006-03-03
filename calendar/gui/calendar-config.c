@@ -658,6 +658,16 @@ calendar_config_set_preview_state		(gboolean state)
 	gconf_client_set_bool (config, CALENDAR_CONFIG_TASK_PREVIEW, state, NULL);
 }
 
+guint
+calendar_config_add_notification_preview_state (GConfClientNotifyFunc func, gpointer data)
+{
+	guint id;
+
+	id = gconf_client_notify_add (config, CALENDAR_CONFIG_TASK_PREVIEW, func, data, NULL, NULL);
+
+	return id;
+}
+
 gint
 calendar_config_get_month_hpane_pos	(void)
 {

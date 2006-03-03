@@ -1,3 +1,12 @@
+2006-03-03  Sam Yang  <sam.yang@sun.com>
+
+	Fixes #324560
+	* gui/calendar-config.[ch]:
+	(calendar_config_add_notification_preview_state): Request 
+	notification of changes to show_task_preview.
+	* gui/e-tasks.c: (config_preview_state_changed_cb): Callback function.
+	(setup_config): Send notification request and store connection ID.
+
 2006-02-17  Johnny Jacob  <johnnyjacob@gmail.com>
 
 	Fixes #312423, #329749
