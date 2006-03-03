@@ -1,3 +1,8 @@
+2006-03-03  Žygimantas Beručka  <zygis@gnome.org>
+
+	* default/Makefile.am: Added Lithuanian to SUBDIRS.
+	* default/lt/*: Added Lithuanian translation for default mailbox.
+
 2006-03-02  Ilkka Tuohela  <hile@iki.fi>
 
 	* fi.po: Updated Finnish inbox to actually use 2.6 example,
@@ -89,7 +94,7 @@ t2006-02-20  Parthasarathi Susarla <sparthasarathi@novell.com>
 	not empty, check combo box of authmech, to pick up the authmech
 	information.
 
-2006-02-13  Karsten Br�ckelmann  <guenther@rudersport.de>
+2006-02-13  Karsten Bräckelmann  <guenther@rudersport.de>
  
 	* em-account-editor.c: Fix the Account Editor / Security option to
 	finally be descriptive, rather than obscuring. Fixes the UI part
@@ -118,14 +123,14 @@ t2006-02-20  Parthasarathi Susarla <sparthasarathi@novell.com>
 	* mail-config.glade: changed string and added translator comments.
 	Fixes bug 256907.
 
-2006-02-11  Karsten Bräckelmann  <guenther@rudersport.de>
+2006-02-11  Karsten BrÃ€ckelmann  <guenther@rudersport.de>
 
 	* message-list.c (message_list_construct): 
 	* em-format-html-display.c (efhd_attachment_button, efhd_add_bar): 
 	* em-account-prefs.c (em_account_prefs_treeview_new): 
 	Change a11y names. Fixes part of bug #330723.
 
-2006-02-10  Karsten Bräckelmann  <guenther@rudersport.de>
+2006-02-10  Karsten BrÃ€ckelmann  <guenther@rudersport.de>
 
 	* em-utils.c (em_utils_edit_filters): Fix Filters dialog window
 	title to be HIG compliant. Fixes bug #330650.
@@ -135,7 +140,7 @@ t2006-02-20  Parthasarathi Susarla <sparthasarathi@novell.com>
 	* em-mailer-prefs.c (em_mailer_prefs_construct): Freeing font value 
 	string. See #309316.
 
-2006-02-08  Karsten Bräckelmann  <guenther@rudersport.de>
+2006-02-08  Karsten BrÃ€ckelmann  <guenther@rudersport.de>
 
 	* mail.error.xml: Fix typo and correct phrasing. Fixes bug #330387.
 
@@ -212,7 +217,7 @@ t2006-02-20  Parthasarathi Susarla <sparthasarathi@novell.com>
 	* em-account-editor.c: (em_account-editor.c): Modify e_source to
 	reflect to the reverted changes.
 	
-2006-02-05  Karsten Bräckelmann  <guenther@rudersport.de>
+2006-02-05  Karsten BrÃ€ckelmann  <guenther@rudersport.de>
 
 	* importers/pine-importer.c (pine_getwidget): 
 	Correcting "Addressbook" to properly read "Address Book".
@@ -671,7 +676,7 @@ t2006-02-20  Parthasarathi Susarla <sparthasarathi@novell.com>
 	* em-folder-view.c: (emfv_setting_notify):
 	Respond to the change of /apps/evolution/mail/display/show_deleted and thread_list in gconf.
 
-2005-12-12  Karsten Bräckelmann  <guenther@rudersport.de>
+2005-12-12  Karsten BrÃ€ckelmann  <guenther@rudersport.de>
 
 	* em-folder-view.c: Mail Context Menu re-ordered correctly,
 	fixes bug #323140.
@@ -2683,7 +2688,7 @@ t2006-02-20  Parthasarathi Susarla <sparthasarathi@novell.com>
 	(emfb_folder_changed, emfb_gui_folder_changed): if a select_uid is
 	set, and the message is now available, then select it.
 
-2004-11-28	S.Çağlar Onur <caglar@uludag.org.tr>
+2004-11-28	S.ÃaÄlar Onur <caglar@uludag.org.tr>
 
 	** See bug #69446.
 
@@ -3285,7 +3290,7 @@ t2006-02-20  Parthasarathi Susarla <sparthasarathi@novell.com>
 	* em-folder-tree-model.c (em_folder_tree_model_get_selected):
 	Return NULL not FALSE on error.
 
-2004-06-08  Karsten Bräckelmann  <guenther@rudersport.de>
+2004-06-08  Karsten BrÃ€ckelmann  <guenther@rudersport.de>
 
 	* em-format-html-display.c (smime_encrypt_table[4]): minor typo,
 	uppercase 'the' corrected.
@@ -5687,7 +5692,7 @@ t2006-02-20  Parthasarathi Susarla <sparthasarathi@novell.com>
 
 	Original patch from Martyn Russell
 	
-2004-03-24  Danilo Šegan  <dsegan@gmx.net>
+2004-03-24  Danilo Å egan  <dsegan@gmx.net>
 
 	* mail-ops.c (get_messages_desc): Use ngettext for handling plural
 	forms (fixes bug #53464).
