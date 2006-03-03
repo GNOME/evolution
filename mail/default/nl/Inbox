@@ -1,27 +1,27 @@
-From evolution@ximian.com Tue Sep 25 07:45:12 2001
-Return-Path: <evolution@ximian.com>
-Received: from pop.ximian.com (IDENT:mail@localhost [127.0.0.1]) by
-	pop.ximian.com (8.9.3/8.9.3) with ESMTP id HAA20680; Tue, 25 Sep 2001
+From evolution@novell.com Wed Mar 15 12:00:00 2006
+Return-Path: <evolution@novell.com>
+Received: from pop.novell.com (IDENT:mail@localhost [127.0.0.1]) by
+	pop.novell.com (8.9.3/8.9.3) with ESMTP id HAA20680; Wed, 15 Mar 2006
 	07:45:12 -0400
-Received: from smtp.ximian.com (smtp.ximian.com [141.154.95.10]) by
-	pop.ximian.com (8.9.3/8.9.3) with ESMTP id HAA20659 for
-	<evolution@ximian.com>; Tue, 25 Sep 2001 07:45:10 -0400
-Received: (qmail 5610 invoked from network); 25 Sep 2001 11:45:02 -0000
-Received: from smtp.ximian.com (HELO localhost) (141.154.95.10) by
-	pop.ximian.com with SMTP; 25 Sep 2001 11:45:02 -0000
-From: "Het Evolution-team" <evolution@ximian.com>
-To: Evolution gebruikers <evolution@ximian.com>
+Received: from smtp.novell.com (smtp.novell.com [141.154.95.10]) by
+	pop.novell.com (8.9.3/8.9.3) with ESMTP id HAA20659 for
+	<evolution@novell.com>; Wed, 15 Mar 2006 07:45:10 -0400
+Received: (qmail 5610 invoked from network); 15 Mar 2006 12:00:00 -0000
+Received: from smtp.novell.com (HELO localhost) (141.154.95.10) by
+	pop.novell.com with SMTP; 15 Mar 2006 12:00:00 -0000
+From: "The Evolution Team" <evolution@novell.com>
+To: Evolution Users <evolution@novell.com>
 Content-Type: multipart/related; type="multipart/alternative"; boundary="=-t4dRE6cqcdSBHOrMdTQ1"
-X-Mailer: Evolution/2.0
-Date: 25 June 2002 14:45:00 +0300
+X-Mailer: Evolution 2.6.0
+Date: 15 March 2006 12:00:00 +0000
 Message-Id: <1001418302.27070.20.camel@spectrolite>
 Mime-Version: 1.0
 Subject: Welkom bij Evolution!
-Sender: evolution@ximian.com
-Errors-To: evolution@ximian.com
+Sender: evolution@novell.com
+Errors-To: evolution@novell.com
 X-Mailman-Version: 1.1
 Status:   
-X-Evolution-Source: pop://rupert@pop.ximian.com/inbox
+X-Evolution-Source: pop://rupert@pop.novell.com/inbox
 X-Evolution: 00000ddd-0030
 
 
@@ -34,47 +34,54 @@ Content-Type: text/plain
 Content-Transfer-Encoding: 7bit
 
 
-Het Evolution-team verwelkomt u met trots bij Evolution, een compleet systeem
-voor beheer van uw communicatie en persoonlijke informatie.
+Het Evolution-team heeft het genoegen u deze nieuwe versie van Evolution te presenteren; het programma waarmee u uw e-mail en persoonlijke informatie kunt beheren.
 
 
-Aan de slag
+Korte uitleg
 
-	Aan de linkerkant van het venster ziet u de koppelingen naar
-	al uw postmappen. Daaronder ziet u knoppen voor uw
-	agenda's, contacten, taken en post.
+	Aan de linkerkant van het Evolution-venster ziet u de zijbalk met
+	de snelkoppelingen naar al uw e-mailmappen. Daaronder ziet u knoppen 
+	voor uw agenda's, contacten, taken, e-mail en memo's.
 
-	Voor het complete handboek van Evolution kunt u "Inhoud"
-	aanklikken in het menu "Hulp", of op F1 drukken.
+	Voor een meer uitgebreide uitleg over het gebruik van Evolution
+	selecteert u "Inhoudsopgave" uit het menu "Hulp", of drukt 
+	u op de F1 toets. 
 
-Nieuwe mogelijkheden
+Nieuwe functies
 
-	Evolution 2.0 geeft u de mogelijkheid om gebruik te maken
-	van Novell Groupwise servers (6.5.3 of nieuwer) en
-	Exchange servers (2000/2003). Ook is er de mogelijkheid
-	tot filteren van troep en andere ongewenste post, S/MIME
-	beveiliging, verbeterde off-line IMAP, lezen van NNTP (nieuws),
-	webkalenders, meerlagige agenda's en nieuwe API's voor
-	ontwikkelaars om deze te benaderen vanuit andere programma's.
+	Evolution 2.6 heeft
+	
+	# een nieuwe component voor memo's
+	# een nieuw uiterlijk voor de gebeurtenissen/Taken/bijeenkomst editor
+	# de mogelijkheid agenda's te publiceren
+	# ondersteuning voor CalDAV
+	# ondersteuning voor Network Manager
+	# ondersteuning voor HULA verbindingen
+	# verbeterde ondersteuning voor GroupWise
+	# verbeterde ondersteuning voor herhalende gebeurtenissen
+	# Agenda tooltips
+	# csv/tab import voor Mozilla, Outlook en Evolution formaten
+	# ondersteuning voor contactenlijsten van LDAP adresboeken
+	# ondersteuning voor het opslaan van geavanceerde zoekopdrachten voor adresboeken
+	# de mogelijkheid om bij het opstellen, een prioriteit aan een bericht mee te geven
+	# veel minder fouten en heel veel verbeteringen in de bediening van het programma
 
-Melden van problemen
+Fouten rapporten
 
-	Alle problemen aangaande de software moeten in het Engels
-	gemeld worden op http://bugzilla.ximian.com
+	Fouten moeten gerapporteerd worden op http://bugzilla.gnome.org.
 
 Meer informatie
 
-	U kunt lid worden van de discussielijst van Evolution-
-	gebruikers op 
-	http://lists.ximian.com/mailman/listinfo/evolution.
+	U kunt u abonneren op de (engelstalige) gebruikerslijst van Evolution op
+	http://mail.gnome.org/mailman/listinfo/evolution-list.
 
-	Informatie over het Evolution-project is beschikbaar op
+	Informatie over het Evolution project is beschikbaar op
 	http://www.gnome.org/projects/evolution.
 
 
 Hoogachtend,
-Het Evolution-team
-evolution@ximian.com
+Het Evolution Team
+evolution@novell.com
 
 
 --=-2gZ1roA/HoYrlRDVGyiM
@@ -86,7 +93,8 @@ Content-Type: text/html; charset=utf-8
   <META HTTP-EQUIV="Content-Type" CONTENT="text/html; CHARSET=UTF-8">
   <META NAME="GENERATOR" CONTENT="GtkHTML/0.13.99">
 </HEAD>
-<BODY BGCOLOR="#f8fcf8"><TABLE BACKGROUND="cid:1001417869.27019.4.camel@spectrolite" CELLSPACING="0" CELLPADDING="0" WIDTH="100%">
+<BODY BGCOLOR="#f8fcf8">
+<TABLE BACKGROUND="cid:1001417869.27019.4.camel@spectrolite" CELLSPACING="0" CELLPADDING="0" WIDTH="100%">
 <TR>
 <TD ALIGN="left" VALIGN="top">
 <IMG SRC="cid:1001417869.27019.5.camel@spectrolite" ALIGN="top" BORDER="0" WIDTH="8" HEIGHT="8"></TD>
@@ -111,7 +119,7 @@ Content-Type: text/html; charset=utf-8
 <TD>
 </TD>
 <TD>
-<FONT COLOR="#f8fcf8"><FONT SIZE="4"><B>Het Evolution-team</FONT></B></FONT SIZE="4"><FONT COLOR="#f8fcf8"><FONT SIZE="4"> verwelkomt u met trots bij </FONT></FONT SIZE="4"><FONT COLOR="#f8fcf8"><FONT SIZE="4"><B>Evolution</FONT></B></FONT SIZE="4"><FONT COLOR="#f8fcf8"><FONT SIZE="4">, een compleet systeem voor beheer van uw communicatie en persoonlijke informatie.</FONT></FONT SIZE="4"></TD>
+<FONT COLOR="#f8fcf8"><FONT SIZE="4"><B>Het Evolution-team</FONT></B></FONT SIZE="4"><FONT COLOR="#f8fcf8"><FONT SIZE="4"> heeft het genoegen u deze nieuwe versie van </FONT></FONT SIZE="4"><FONT COLOR="#f8fcf8"><FONT SIZE="4"><B>Evolution</FONT></B></FONT SIZE="4"><FONT COLOR="#f8fcf8"><FONT SIZE="4"> te presenteren; het programma waarmee u uw e-mail en persoonlijke informatie kunt beheren.</FONT></FONT SIZE="4"></TD>
 <TD>
 </TD>
 <TD>
@@ -138,49 +146,66 @@ Content-Type: text/html; charset=utf-8
 </TD>
 </TR>
 </TABLE>
-<h2>Aan de slag</h2>
+<h2>Korte uitleg</h2>
 
 <blockquote>
-    Aan de linkerkant van het venster ziet u de koppelingen naar
-    al uw postmappen. Daaronder ziet u knoppen voor uw
-    agenda's, contacten, taken en post.
+	Aan de linkerkant van het Evolution-venster ziet u de zijbalk met
+	de snelkoppelingen naar al uw e-mailmappen. Daaronder ziet u knoppen 
+	voor uw agenda's, contacten, taken, e-mail en memo's.
 <br><br>
-    Voor het complete handboek van Evolution kunt u <b>Inhoud</b>
-    aanklikken in het menu <b>Hulp</b>, of op <b>F1</b> drukken.
+    Voor een meer uitgebreide uitleg over het gebruik van Evolution
+    selecteert u <b>Inhoudsopgave</b> uit het menu <b>Hulp</b>, of drukt 
+	u op de <b>F1</b> toets.
+<br><br>
 </blockquote>
 
-<h2>Nieuwe mogelijkheden</h2>
+<h2>Nieuwe functies</h2>
 <blockquote>
-	Evolution 2.0 geeft u de mogelijkheid om gebruik te maken
-	van Novell Groupwise servers (6.5.3 of nieuwer) en
-	Exchange servers (2000/2003). Ook is er de mogelijkheid
-	tot filteren van troep en andere ongewenste post, S/MIME
-	beveiliging, verbeterde off-line IMAP, lezen van NNTP (nieuws),
-	webkalenders, meerlagige agenda's en nieuwe API's voor
-	ontwikkelaars om deze te benaderen vanuit andere programma's.
+	Evolution 2.6 heeft 
+	<ul>
+	<li>een nieuwe component voor memo's</li>
+	<li>een nieuw uiterlijk voor de gebeurtenissen/Taken/bijeenkomst editor</li>
+	<li>de mogelijkheid agenda's te publiceren</li>
+	<li>ondersteuning voor CalDAV</li>
+	<li>ondersteuning voor Network Manager</li>
+	<li>ondersteuning voor HULA verbindingen</li>
+	<li>verbeterde ondersteuning voor GroupWise</li>
+	<li>verbeterde ondersteuning voor herhalende gebeurtenissen</li>
+	<li>Agenda tooltips</li>
+	<li>csv/tab import voor Mozilla, Outlook en Evolution formaten</li>
+	<li>ondersteuning voor contactenlijsten van LDAP adresboeken</li>
+	<li>ondersteuning voor het opslaan van geavanceerde zoekopdrachten voor adresboeken</li>
+	<li>de mogelijkheid om bij het opstellen, een prioriteit aan een bericht mee te geven</li>
+	<li>veel minder fouten en heel veel verbeteringen in de bediening van het programma</li>
+	</ul>
+<br>
 </blockquote>
 
-<h2>Melden van problemen</h2>
+<h2>Fouten rapporteren</h2>
 <blockquote>
-	Alle problemen aangaande de software moeten in het Engels
-	gemeld worden op <a href="http://bugzilla.ximian.com">http://bugzilla.ximian.com</a>
+	Fouten moeten gerapporteerd worden op <a href="http://bugzilla.gnome.org">http://bugzilla.gnome.org</a>.
+<br><br>
 </blockquote> 
 
 <h2>Meer informatie</h2>
 
 <blockquote>
-	U kunt lid worden van de discussielijst van Evolution-
-	gebruikers op 
-	<a href="http://lists.ximian.com/mailman/listinfo/evolution">http://lists.ximian.com/mailman/listinfo/evolution</a>.
+	U kunt u abonneren op de (engelstalige) gebruikerslijst van Evolution op
+	<a
+	href="http://lists.gnome.org/mailman/listinfo/evolution">http://lists.gnome.org/mailman/listinfo/evolution</a>.
 
-	Informatie over het Evolution-project is beschikbaar op
+	Informatie over het Evolution project is beschikbaar op
 	<a href="http://www.gnome.org/projects/evolution">http://www.gnome.org/projects/evolution</a>.
- </blockquote>
-
+	<!--
+	U vindt a lijst met antwoorden op veelgestelde vragen op (een zogenaamde FAQ) op
+	<a href="http://go-evolution.org/FAQ">http://go-evolution.org/FAQ</a>.
+	-->
+<br><br>	
+</blockquote>
 
 Hoogachtend,<br>
-Het Evolution-team<br>
-<a href="mailto:evolution@ximian.com">evolution@ximian.com</a>
+Het Evolution Team<br>
+<a href="mailto:evolution@novell.com">evolution@novell.com</a>
 
 </BODY>
 </HTML>
