@@ -1,3 +1,8 @@
+2006-02-09  Rajeev ramanathan <rajeevramanathan_2004@yahoo.co.in>
+
+	Fixes #328389
+	* publish-calendar.c: Disabled Enabled button for Enabled Url.
+
 2006-02-12  Karsten Bräckelmann  <guenther@rudersport.de>
 
 	* publish-calendar.glade: Change mnemonic for Port.

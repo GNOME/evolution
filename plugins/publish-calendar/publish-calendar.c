@@ -273,6 +273,12 @@ url_list_enable_toggled (GtkCellRendererToggle *renderer,
 		gtk_tree_model_get (model, &iter, URL_LIST_URL_COLUMN, &url, -1);
 
 		url->enabled = !url->enabled;
+
+		if(url->enabled)
+			gtk_widget_set_sensitive (ui->url_enable, FALSE);
+		else
+			gtk_widget_set_sensitive (ui->url_enable, TRUE);
+
 		gtk_list_store_set (GTK_LIST_STORE (model), &iter, URL_LIST_ENABLED_COLUMN, url->enabled, -1);
 	}
 
@@ -284,11 +290,18 @@ selection_changed (GtkTreeSelection *selection, PublishUIData *ui)
 {
 	GtkTreeModel *model;
 	GtkTreeIter iter;
+	EPublishUri *url = NULL;
 
 	if (gtk_tree_selection_get_selected (selection, &model, &iter)) {
+		gtk_tree_model_get (model, &iter, URL_LIST_URL_COLUMN, &url, -1);
 		gtk_widget_set_sensitive (ui->url_edit, TRUE);
 		gtk_widget_set_sensitive (ui->url_remove, TRUE);
-		gtk_widget_set_sensitive (ui->url_enable, TRUE);
+
+		if(url->enabled)
+			gtk_widget_set_sensitive (ui->url_enable, FALSE);
+		else
+			gtk_widget_set_sensitive (ui->url_enable, TRUE);
+
 	} else {
 		gtk_widget_set_sensitive (ui->url_edit, FALSE);
 		gtk_widget_set_sensitive (ui->url_remove, FALSE);
@@ -427,7 +440,13 @@ url_enable_clicked (GtkButton *button, PublishUIData *ui)
 	if (gtk_tree_selection_get_selected (selection, &model, &iter)) {
 		gtk_tree_model_get (model, &iter, URL_LIST_URL_COLUMN, &url, -1);
 		url->enabled = !url->enabled;
-		gtk_list_store_set (GTK_LIST_STORE (model), &iter, URL_LIST_URL_COLUMN, url->enabled, -1);
+
+		if(url->enabled)
+			gtk_widget_set_sensitive (ui->url_enable, FALSE);
+		else
+			gtk_widget_set_sensitive (ui->url_enable, TRUE);
+
+		gtk_list_store_set (GTK_LIST_STORE (model), &iter, URL_LIST_ENABLED_COLUMN, url->enabled, -1);
 		gtk_tree_selection_select_iter (selection, &iter);
 		url_list_changed (ui);
 	}
