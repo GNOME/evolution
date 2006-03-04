@@ -728,6 +728,8 @@ calendar_config_add_notification_tasks_selected (GConfClientNotifyFunc func, gpo
 char *
 calendar_config_get_primary_tasks (void)
 {
+	calendar_config_init ();
+
 	return gconf_client_get_string (config, CALENDAR_CONFIG_PRIMARY_TASKS, NULL);
 }
 
@@ -790,6 +792,8 @@ calendar_config_add_notification_memos_selected (GConfClientNotifyFunc func, gpo
 char *
 calendar_config_get_primary_memos (void)
 {
+	calendar_config_init ();
+
 	return gconf_client_get_string (config, CALENDAR_CONFIG_PRIMARY_MEMOS, NULL);
 }
 

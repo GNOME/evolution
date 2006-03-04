@@ -1,3 +1,10 @@
+2006-03-04  Jeff Cai <jeff.cai@sun.com>
+
+	Fixes #333234
+	* gui/calendar-config.c: (calendar_config_get_primary_tasks),
+	(calendar_config_get_primary_memos):
+	Initialize calendar to ensure gconf_client is valid.
+
 2006-03-04  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #331089
