@@ -92,7 +92,7 @@ set_description (ECalComponent *comp, CamelMimeMessage *message)
 	camel_object_unref (mem);
 
 	/* convert to UTF-8 string */
-	if (str && content->mime_type->params->value)
+	if (str && content->mime_type->params && content->mime_type->params->value)
 	{
 		convert_str = g_convert (str, strlen (str), 
 					 "UTF-8", content->mime_type->params->value,
@@ -221,7 +221,7 @@ convert_to_task (GPtrArray *uid_array, struct _CamelFolder *folder)
 			GThread *thread = NULL;
 			GError *error = NULL;
 			
-			client = e_cal_new (source, E_CAL_SOURCE_TYPE_TODO);
+			client = auth_new_cal_from_source (source, E_CAL_SOURCE_TYPE_TODO);
 			if (!client) {
 				char *uri = e_source_get_uri (source);
 				

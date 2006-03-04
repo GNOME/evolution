@@ -1,3 +1,12 @@
+2006-03-04  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #330974
+	* mail-to-task.c: 
+	(set_description): Check if the params are present,
+	before accessing the value. Fixes a crash.
+	(convert_to_task): Set the authentication function
+	while creating the ECal.
+
 2006-02-01  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	* Makefile.am: Reverting the commit made by 
