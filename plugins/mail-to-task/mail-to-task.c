@@ -25,6 +25,7 @@
 #include <camel/camel-stream-mem.h>
 #include "mail/em-menu.h"
 #include "mail/em-popup.h"
+#include <calendar/common/authentication.h>
 
 typedef struct {
 	ECal *client;
