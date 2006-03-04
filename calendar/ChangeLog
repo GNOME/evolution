@@ -1,3 +1,17 @@
+2006-03-04  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #331089
+	* gui/dialogs/event-page.c: (sensitize_widgets):
+	Let the recurrence button in tool bar remain
+	active always.
+
+2006-03-03  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #330448
+	* gui/e-meeting-list-view.c: (attendee_edited_cb): Remove
+	attendees from the e-name-selector when its removed from
+	meeting list view.	
+
 2006-03-03  Sam Yang  <sam.yang@sun.com>
 
 	Fixes #324560

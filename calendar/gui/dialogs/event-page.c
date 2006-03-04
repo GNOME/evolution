@@ -848,8 +848,6 @@ sensitize_widgets (EventPage *epage)
 			, NULL);
 	bonobo_ui_component_set_prop (priv->uic, "/commands/ActionAllDayEvent", "sensitive", sensitize ? "1" : "0"
 			, NULL);
-	bonobo_ui_component_set_prop (priv->uic, "/commands/ActionRecurrence", "sensitive", !read_only ? "1" : "0"
-			, NULL);
 	bonobo_ui_component_set_prop (priv->uic, "/commands/ActionShowTimeBusy", "sensitive", !read_only ? "1" : "0"
 			, NULL);
 	bonobo_ui_component_set_prop (priv->uic, "/commands/ActionAlarm", "sensitive", !read_only ? "1" : "0"
