@@ -33,20 +33,20 @@ Content-Type: multipart/alternative; boundary="=-2gZ1roA/HoYrlRDVGyiM"
 Content-Type: text/plain
 Content-Transfer-Encoding: 7bit
 
-Evolution-tiimi toivottaa sinut tervetulleeksi käyttämään evolutionia. 
+Evolution-tiimi toivottaa sinut tervetulleeksi käyttämään Evolutionia. 
 Evolution on sovellus, jolla hallitset sähköpostisi ja muut henkilö-
 kohtaiset tietosi.
 
 Ohjeita uusille käyttäjille
 
-    Evolution-ikkunan vasemmassa reunassa on sivupalkissa lista, josta 
+    Evolution-ikkunan vasemman reunan sivupalkissa on lista, josta 
     löydät kaikki sähköpostikansiosi. Tämän listan alla on ryhmä
     painikkeita, joista voit vaihtaa näkymää sähköpostin, kalenterin, 
     yhteystietojen, tehtävien ja muistilappujen välillä.
 
-    Voit lukea lisätietoja evolutionin ohjeesta valitsemalla "Sisältö"
-    valikosta "Ohje" tai painamalla F1-näppäintä. Valitettavasti tätä
-    ohjetta ei vielä kuitenkaan ole suomennettu.
+    Voit lukea Evolutionin ohjekirjaa valitsemalla \"Ohje\"-valikosta
+    kohta "Sisältö" valikosta tai painamalla F1-näppäintä. Valitettavasti 
+    tätä ohjetta ei vielä kuitenkaan ole suomennettu.
 
 Uusia ominaisuuksia
 
@@ -120,7 +120,7 @@ Content-Type: text/html; charset=utf-8
   <td>
      <font color="#f8fcf8" size="4">
         <b>Evolution-tiimi</b> toivottaa sinut tervetulleeksi käyttämään 
-        evolutionia.  Evolution on sovellus, jolla hallitset sähköpostisi 
+        Evolutionia.  Evolution on sovellus, jolla hallitset sähköpostisi 
         ja muut henkilökohtaiset tietosi.
      </font>
   </td>
@@ -149,16 +149,16 @@ Content-Type: text/html; charset=utf-8
 <h2> Ohjeita uusille käyttäjille </h2>
 
 <blockquote>
-    Evolution-ikkunan vasemmassa reunassa on sivupalkissa lista, josta 
+    Evolution-ikkunan vasemman reunan sivupalkissa on lista, josta 
     löydät kaikki sähköpostikansiosi. Tämän listan alla on ryhmä
     painikkeita, joista voit vaihtaa näkymää sähköpostin, kalenterin, 
     yhteystietojen, tehtävien ja muistilappujen välillä.
 
     <br /><br />
 
-    Voit lukea lisätietoja evolutionin ohjeesta valitsemalla "Sisältö"
-    valikosta "Ohje" tai painamalla F1-näppäintä. Valitettavasti tätä
-    ohjetta ei vielä kuitenkaan ole suomennettu.
+    Voit lukea Evolutionin ohjekirjaa valitsemalla \"Ohje\"-valikosta
+    kohta "Sisältö" valikosta tai painamalla F1-näppäintä. Valitettavasti 
+    tätä ohjetta ei vielä kuitenkaan ole suomennettu.
 
 </blockquote>
 
