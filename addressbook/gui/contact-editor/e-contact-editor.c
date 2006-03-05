@@ -2746,24 +2746,25 @@ static void
 update_preview_cb (GtkFileChooser *file_chooser, gpointer data)
 {
 	GtkWidget *preview;
-	char *filename;
+	char *filename = NULL;
 	GdkPixbuf *pixbuf;
-	gboolean have_preview;
 
+	gtk_file_chooser_set_preview_widget_active (file_chooser, TRUE);
 	preview = GTK_WIDGET (data);
 	filename = gtk_file_chooser_get_preview_filename (file_chooser);
-	if (filename == NULL)
+	if (filename == NULL) 
 		return;
 
 	pixbuf = gdk_pixbuf_new_from_file_at_size (filename, 128, 128, NULL);
-	have_preview = (pixbuf != NULL);
+	if (!pixbuf) {
+		filename = e_icon_factory_get_icon_filename ("stock_person",E_ICON_SIZE_DIALOG);
+		pixbuf = gdk_pixbuf_new_from_file_at_size (filename, 128, 128, NULL);
+	}
 	g_free (filename);
 
 	gtk_image_set_from_pixbuf (GTK_IMAGE (preview), pixbuf);
 	if (pixbuf)
 		gdk_pixbuf_unref (pixbuf);
-
-	gtk_file_chooser_set_preview_widget_active (file_chooser, have_preview);
 }
 
 static void
