@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution-2.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-03-03 15:39+0700\n"
-"PO-Revision-Date: 2006-03-03 15:43+0700\n"
+"POT-Creation-Date: 2006-03-05 09:42+0700\n"
+"PO-Revision-Date: 2006-03-05 10:22+0700\n"
 "Last-Translator: Theppitak Karoonboonyanan <thep@linux.thai.net>\n"
 "Language-Team: Thai <L10N@opentle.org>\n"
 "MIME-Version: 1.0\n"
@@ -974,7 +974,7 @@ msgstr "ระดับเดียว"
 #: ../addressbook/gui/component/ldap-config.glade.h:27
 #: ../mail/em-account-editor.c:312
 msgid "SSL encryption"
-msgstr "การเข้ารหัสลับด้วย SSL"
+msgstr "เข้ารหัสลับด้วย SSL"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:28
 msgid "Search Filter"
@@ -1040,7 +1040,7 @@ msgstr "จุดเริ่มต้นค้นหาที่สนับส
 #: ../addressbook/gui/component/ldap-config.glade.h:38
 #: ../mail/em-account-editor.c:308
 msgid "TLS encryption"
-msgstr "การเข้ารหัสลับด้วย TLS"
+msgstr "เข้ารหัสลับด้วย TLS"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:39
 msgid ""
@@ -2437,7 +2437,7 @@ msgstr "บริการ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:128
 #: ../calendar/gui/e-cal-list-view.etspec.h:3
-#: ../plugins/publish-calendar/publish-calendar.c:478
+#: ../plugins/publish-calendar/publish-calendar.c:497
 #: ../plugins/save-calendar/csv-format.c:400
 msgid "Location"
 msgstr "สถานที่"
@@ -4394,7 +4394,7 @@ msgid "Memos"
 msgstr "บันทึกข้อความ"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:13
-#: ../calendar/gui/e-calendar-table.c:525 ../calendar/gui/e-tasks.c:1329
+#: ../calendar/gui/e-calendar-table.c:525 ../calendar/gui/e-tasks.c:1347
 #: ../calendar/gui/print.c:1828 ../calendar/gui/tasks-component.c:521
 #: ../calendar/gui/tasks-component.c:1012 ../calendar/gui/tasks-control.c:475
 #: ../calendar/importers/icalendar-importer.c:80
@@ -5243,7 +5243,7 @@ msgstr "นาที"
 msgid "start of appointment"
 msgstr "เริ่มการนัดหมาย"
 
-#: ../calendar/gui/dialogs/alarm-list-dialog.c:232
+#: ../calendar/gui/dialogs/alarm-list-dialog.c:235
 msgid "Action/Trigger"
 msgstr "ปฏิบัติการ/การเรียกโปรแกรม"
 
@@ -5738,7 +5738,7 @@ msgid "Show Attachment _Bar"
 msgstr "แสดงแ_ถบเอกสารแนบ"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1087
-#: ../calendar/gui/dialogs/event-page.c:1897
+#: ../calendar/gui/dialogs/event-page.c:1894
 #: ../calendar/gui/dialogs/meeting-page.c:899
 #: ../calendar/gui/dialogs/task-page.c:1202
 #: ../composer/e-msg-composer-attachment-bar.c:470
@@ -5910,106 +5910,106 @@ msgid "Recurrence"
 msgstr "การเวียนซ้ำ"
 
 #: ../calendar/gui/dialogs/event-page.c:807
-#: ../calendar/gui/dialogs/event-page.c:2717
+#: ../calendar/gui/dialogs/event-page.c:2714
 msgid "This event has alarms"
 msgstr "เหตุการณ์นี้มีการแจ้งเตือน"
 
-#: ../calendar/gui/dialogs/event-page.c:875
+#: ../calendar/gui/dialogs/event-page.c:872
 #: ../calendar/gui/dialogs/event-page.glade.h:7
 msgid "Cale_ndar:"
 msgstr "_ปฏิทิน:"
 
-#: ../calendar/gui/dialogs/event-page.c:881
+#: ../calendar/gui/dialogs/event-page.c:878
 #: ../calendar/gui/dialogs/event-page.glade.h:13
 #: ../calendar/gui/dialogs/meeting-page.glade.h:5
 #: ../calendar/gui/dialogs/task-page.c:446
 msgid "Or_ganizer:"
 msgstr "ผู้_ประสานงาน:"
 
-#: ../calendar/gui/dialogs/event-page.c:919
+#: ../calendar/gui/dialogs/event-page.c:916
 msgid "_Delegatees"
 msgstr "ผู้_รับฉันทะ"
 
-#: ../calendar/gui/dialogs/event-page.c:921
+#: ../calendar/gui/dialogs/event-page.c:918
 msgid "Atte_ndees"
 msgstr "ผู้เ_ข้าประชุม"
 
-#: ../calendar/gui/dialogs/event-page.c:1089
+#: ../calendar/gui/dialogs/event-page.c:1086
 msgid "Event with no start date"
 msgstr "เหตุการณ์ที่ไม่บอกวันเริ่มต้น"
 
-#: ../calendar/gui/dialogs/event-page.c:1092
+#: ../calendar/gui/dialogs/event-page.c:1089
 msgid "Event with no end date"
 msgstr "เหตุการณ์ที่ไม่บอกวันสิ้นสุด"
 
-#: ../calendar/gui/dialogs/event-page.c:1260
+#: ../calendar/gui/dialogs/event-page.c:1257
 #: ../calendar/gui/dialogs/task-page.c:852
 msgid "Start date is wrong"
 msgstr "วันเริ่มต้นไม่ถูกต้อง"
 
-#: ../calendar/gui/dialogs/event-page.c:1270
+#: ../calendar/gui/dialogs/event-page.c:1267
 msgid "End date is wrong"
 msgstr "วันสิ้นสุดไม่ถูกต้อง"
 
-#: ../calendar/gui/dialogs/event-page.c:1293
+#: ../calendar/gui/dialogs/event-page.c:1290
 msgid "Start time is wrong"
 msgstr "เวลาเริ่มต้นไม่ถูกต้อง"
 
-#: ../calendar/gui/dialogs/event-page.c:1300
+#: ../calendar/gui/dialogs/event-page.c:1297
 msgid "End time is wrong"
 msgstr "เวลาสิ้นสุดไม่ถูกต้อง"
 
-#: ../calendar/gui/dialogs/event-page.c:1455
+#: ../calendar/gui/dialogs/event-page.c:1452
 #: ../calendar/gui/dialogs/meeting-page.c:469
 #: ../calendar/gui/dialogs/task-page.c:909
 msgid "The organizer selected no longer has an account."
 msgstr "ผู้ประสานงานที่เลือกไม่มีบัญชีผู้ใช้อีกแล้ว"
 
-#: ../calendar/gui/dialogs/event-page.c:1461
+#: ../calendar/gui/dialogs/event-page.c:1458
 #: ../calendar/gui/dialogs/meeting-page.c:475
 #: ../calendar/gui/dialogs/task-page.c:915
 msgid "An organizer is required."
 msgstr "ต้องมีผู้ประสานงานด้วย"
 
-#: ../calendar/gui/dialogs/event-page.c:1476
+#: ../calendar/gui/dialogs/event-page.c:1473
 #: ../calendar/gui/dialogs/meeting-page.c:490
 #: ../calendar/gui/dialogs/task-page.c:930
 msgid "At least one attendee is required."
 msgstr "ต้องการผู้เข้าประชุมอย่างน้อยหนึ่งคน"
 
-#: ../calendar/gui/dialogs/event-page.c:1898
+#: ../calendar/gui/dialogs/event-page.c:1895
 #: ../calendar/gui/dialogs/meeting-page.c:900
 #: ../calendar/gui/dialogs/task-page.c:1203
 msgid "_Add "
 msgstr "เ_พิ่ม"
 
-#: ../calendar/gui/dialogs/event-page.c:2624
+#: ../calendar/gui/dialogs/event-page.c:2621
 #, c-format
 msgid "Unable to open the calendar '%s'."
 msgstr "ไม่สามารถเปิดปฏิทิน '%s'"
 
-#: ../calendar/gui/dialogs/event-page.c:2920
+#: ../calendar/gui/dialogs/event-page.c:2924
 #, c-format
 msgid "%d day before appointment"
 msgid_plural "%d days before appointment"
 msgstr[0] "%d วันก่อนการนัดหมาย"
 msgstr[1] "%d วันก่อนการนัดหมาย"
 
-#: ../calendar/gui/dialogs/event-page.c:2928
+#: ../calendar/gui/dialogs/event-page.c:2932
 #, c-format
 msgid "%d hour before appointment"
 msgid_plural "%d hours before appointment"
 msgstr[0] "%d ชั่วโมงก่อนการนัดหมาย"
 msgstr[1] "%d ชั่วโมงก่อนการนัดหมาย"
 
-#: ../calendar/gui/dialogs/event-page.c:2936
+#: ../calendar/gui/dialogs/event-page.c:2940
 #, c-format
 msgid "%d minute before appointement"
 msgid_plural "%d minutes before appointment"
 msgstr[0] "%d นาทีก่อนการนัดหมาย"
 msgstr[1] "%d นาทีก่อนการนัดหมาย"
 
-#: ../calendar/gui/dialogs/event-page.c:2952
+#: ../calendar/gui/dialogs/event-page.c:2956
 msgid "Customize"
 msgstr "ปรับแต่ง"
 
@@ -6018,7 +6018,7 @@ msgstr "ปรับแต่ง"
 #. When "None" is selected we want the field to be cleared.
 #. Note that we don't show this here, since by default a 'None' date
 #. is not permitted.
-#: ../calendar/gui/dialogs/event-page.c:2957
+#: ../calendar/gui/dialogs/event-page.c:2961
 #: ../calendar/gui/dialogs/meeting-page.c:321
 #: ../calendar/gui/dialogs/meeting-page.glade.h:4
 #: ../calendar/gui/e-cal-model-tasks.c:649
@@ -7753,7 +7753,7 @@ msgstr "คลิกเพื่อเพิ่มบันทึกข้อค
 msgid "Memo sort"
 msgstr "การเรียงบันทึกข้อความ"
 
-#: ../calendar/gui/e-memos.c:724 ../calendar/gui/e-tasks.c:818
+#: ../calendar/gui/e-memos.c:724 ../calendar/gui/e-tasks.c:836
 #: ../calendar/gui/gnome-cal.c:2557
 #, c-format
 msgid ""
@@ -7772,7 +7772,7 @@ msgstr "กำลังโหลดบันทึกข้อความ"
 msgid "Opening memos at %s"
 msgstr "กำลังเปิดบันทึกข้อความที่ %s"
 
-#: ../calendar/gui/e-memos.c:1026 ../calendar/gui/e-tasks.c:1221
+#: ../calendar/gui/e-memos.c:1026 ../calendar/gui/e-tasks.c:1239
 msgid "Deleting selected objects..."
 msgstr "กำลังลบสิ่งที่เลือก..."
 
@@ -7781,20 +7781,20 @@ msgstr "กำลังลบสิ่งที่เลือก..."
 msgid "Enter the password for %s"
 msgstr "ป้อนรหัสผ่านสำหรับ %s"
 
-#: ../calendar/gui/e-tasks.c:866
+#: ../calendar/gui/e-tasks.c:884
 msgid "Loading tasks"
 msgstr "กำลังโหลดงาน"
 
-#: ../calendar/gui/e-tasks.c:953
+#: ../calendar/gui/e-tasks.c:971
 #, c-format
 msgid "Opening tasks at %s"
 msgstr "กำลังเปิดงานที่ %s"
 
-#: ../calendar/gui/e-tasks.c:1198
+#: ../calendar/gui/e-tasks.c:1216
 msgid "Completing tasks..."
 msgstr "กำลังจบงาน..."
 
-#: ../calendar/gui/e-tasks.c:1248
+#: ../calendar/gui/e-tasks.c:1266
 msgid "Expunging"
 msgstr "กำลังเก็บกวาด"
 
@@ -10874,7 +10874,7 @@ msgstr "[บัญชีหลัก]"
 #. g_object_set((GObject *)renderer, "activatable", TRUE, NULL);
 #: ../mail/em-account-prefs.c:518 ../mail/em-composer-prefs.c:930
 #: ../plugins/plugin-manager/plugin-manager.c:205
-#: ../plugins/publish-calendar/publish-calendar.c:474
+#: ../plugins/publish-calendar/publish-calendar.c:493
 msgid "Enabled"
 msgstr "เปิดใช้งาน"
 
@@ -12543,7 +12543,7 @@ msgstr "กำลังนำเข้าข้อมูล Pine"
 
 #: ../mail/importers/pine-importer.c:433
 msgid "Evolution Pine importer"
-msgstr "ข้อมูลเข้าจาก Pine"
+msgstr "เครื่องมือนำเข้าข้อมูล Pine"
 
 #: ../mail/importers/pine-importer.c:434
 msgid "Import mail from Pine."
@@ -16556,7 +16556,7 @@ msgstr "ตำแหน่ง"
 msgid "_Publish Calendar Information"
 msgstr "ข้อมูลการแปะ_ประกาศปฏิทิน"
 
-#: ../plugins/publish-calendar/publish-calendar.c:386
+#: ../plugins/publish-calendar/publish-calendar.c:399
 msgid "Are you sure you want to remove this URL?"
 msgstr "คุณแน่ใจหรือไม่ว่า ต้องการลบ URL นี้?"
 
