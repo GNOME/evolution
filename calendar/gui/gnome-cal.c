@@ -3096,7 +3096,7 @@ gnome_calendar_on_date_navigator_selection_changed (ECalendarItem *calitem, Gnom
 		/* FIXME Gross hack so that the view times are updated properly */
 		priv->range_selected = TRUE;
 
-		if (priv->current_view_type == GNOME_CAL_MONTH_VIEW) {
+		if (priv->current_view_type != GNOME_CAL_LIST_VIEW) {
 			e_week_view_set_weeks_shown (E_WEEK_VIEW (priv->month_view),
 					     (new_days_shown + 6) / 7);
 			view_type = GNOME_CAL_MONTH_VIEW;

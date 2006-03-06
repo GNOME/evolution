@@ -1,3 +1,10 @@
+2006-03-06  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #329353	
+	* gui/gnome-cal.c:
+	(gnome_calendar_on_date_navigator_selection_changed): If the previous
+	selection is not list view, set the view as month view.
+
 2006-03-04  Jeff Cai <jeff.cai@sun.com>
 
 	Fixes #333234
