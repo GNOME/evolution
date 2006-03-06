@@ -9,6 +9,7 @@ INCLUDES = 								\
 	-I$(top_srcdir)/widgets/misc					\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"				\
 	-DEVOLUTION_UIDIR=\""$(evolutionuidir)"\"			\
+	-DEVOLUTION_ICONSDIR=\""$(imagesdir)"\"				\
 	-DPREFIX=\""$(prefix)"\"					\
 	$(EVOLUTION_CALENDAR_CFLAGS)
 

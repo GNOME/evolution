@@ -1,3 +1,9 @@
+2006-03-06  Veerapuram Varadhan  <vvaradhan@novell.com>
+
+	**Fixes #321832
+	* gui/dialogs/event-editor.c: Pickup the right-icon for f/b.
+	* gui/dialgos/Makefile.am: Define EVOLUTION_ICONSDIR to pickup f/b icon.
+	
 2006-03-06  Simon Zheng  <simon.zheng@sun.com>
 
 	Fixes bug #332140

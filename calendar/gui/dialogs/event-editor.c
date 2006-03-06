@@ -391,7 +391,7 @@ static EPixmap pixmaps[] = {
 	E_PIXMAP ("/Toolbar/ViewTimeZone", "stock_timezone", E_ICON_SIZE_LARGE_TOOLBAR),	
 	E_PIXMAP ("/Toolbar/ActionRecurrence", "stock_task-recurring", E_ICON_SIZE_LARGE_TOOLBAR),	
 	E_PIXMAP ("/commands/ActionRecurrence", "stock_task-recurring", E_ICON_SIZE_LARGE_TOOLBAR),		
-	E_PIXMAP ("/Toolbar/ActionFreeBusy", "stock_task-recurring", E_ICON_SIZE_LARGE_TOOLBAR),			
+	E_PIXMAP ("/Toolbar/ActionFreeBusy", EVOLUTION_ICONSDIR"/query-free-busy.png", E_ICON_SIZE_LARGE_TOOLBAR),			
 	E_PIXMAP_END
 };
 
