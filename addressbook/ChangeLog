@@ -1,5 +1,10 @@
 2006-03-06  Devashish Sharma <sdevashish@novell.com>
 
+	* gui/contact-editor/e-contact-editor.c (fill_in_address_textview):
+	Fix for Bug 332915.
+
+2006-03-06  Devashish Sharma <sdevashish@novell.com>
+
 	* importers/evolution-ldif-importer.c (ldif_import):
 	* importers/evolution-csv-importers.c (csv_import) :
 	* importers/evolution-vcard-importer.c (vcard_import) :

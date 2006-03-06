@@ -1749,7 +1749,7 @@ fill_in_address_textview (EContactEditor *editor, gint record, EContactAddress *
 	gtk_text_buffer_set_text (text_buffer, address->street ? address->street : "", -1);
 
 	gtk_text_buffer_get_end_iter (text_buffer, &iter_end);
-	if (address->ext) {
+	if (address->ext && *address->ext) {
 		gtk_text_buffer_insert (text_buffer, &iter_end, "\n", -1);
 		gtk_text_buffer_insert (text_buffer, &iter_end, address->ext, -1);
 	} else {
