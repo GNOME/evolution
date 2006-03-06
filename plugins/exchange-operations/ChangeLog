@@ -1,5 +1,10 @@
 2006-02-27  Sushma Rai  <rsushma@novell.com>
 
+	* exchange-config-listener.c (account_removed): Not unrefing the 
+	account passed to the signal handler. Fixes #332129.
+
+2006-02-27  Sushma Rai  <rsushma@novell.com>
+
 	* exchange-calendar.c (e_exchange_calendar_pcalendar): fixed a typo.
 
 2006-02-27  Sushma Rai  <rsushma@novell.com>

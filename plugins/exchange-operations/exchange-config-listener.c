@@ -1044,9 +1044,6 @@ account_removed (EAccountList *account_list, EAccount *account)
 			       signals[EXCHANGE_ACCOUNT_REMOVED], 0,
 			       priv->exchange_account);
 
-		g_object_unref (priv->exchange_account);
-		priv->exchange_account = NULL;
-
 		priv->configured_account = NULL;
 		g_free (priv->configured_uri);
 		priv->configured_uri = NULL;
