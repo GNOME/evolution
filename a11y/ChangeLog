@@ -1,3 +1,11 @@
+2006-03-06  Harry Lu <harry.lu@sun.com>
+
+	Fix for 331550.
+
+	* calendar/ea-day-view.c: (ea_day_view_get_name): check the visibility of gcal
+	before trying to get label.
+	* calendar/ea-week-view.c: (ea_week_view_get_name): ditto.
+
 2006-01-27  Kjartan Maraas  <kmaraas@gnome.org>
 
 	reviewed by: Harish Krishnaswamy <kharish@novell.com> 
