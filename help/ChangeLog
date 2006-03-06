@@ -1,3 +1,9 @@
+2206-03-06  Srinivasa Ragavan <sragavan@novell.com>
+
+	* C/figures/Screenshot-Evolution -mailer-Preferences.png:
+	* C/figures/Screenshot-Free-Busy.png: Added two new images for the 2.6
+	documentation.
+
 2006-03-06  Srinivasa Ragavan <sragavan@novell.com>
 
 	* C/evolution.xml: Updating the doc for 2.6.
