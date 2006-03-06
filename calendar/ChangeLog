@@ -1,5 +1,12 @@
 2006-03-06  Chenthill Palanisamy  <pchenthill@novell.com>
 
+	Fixes #330448
+	* gui/e-meeting-list-view.c: (attendee_edited_cb): Remove
+	attendees from the e-name-selector when its removed from
+	meeting list view.
+
+2006-03-06  Chenthill Palanisamy  <pchenthill@novell.com>
+
 	Fixes #329353	
 	* gui/gnome-cal.c:
 	(gnome_calendar_on_date_navigator_selection_changed): If the previous

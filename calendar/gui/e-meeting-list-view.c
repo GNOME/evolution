@@ -349,6 +349,8 @@ attendee_edited_cb (GtkCellRenderer *renderer, const gchar *path, GList *address
 
 		if (existing_attendee) {
 			removed = TRUE;
+			e_meeting_list_view_remove_attendee_from_name_selector (E_MEETING_LIST_VIEW (view),
+						existing_attendee);
 			e_meeting_store_remove_attendee (model, existing_attendee);
 		}
 		
@@ -359,6 +361,8 @@ attendee_edited_cb (GtkCellRenderer *renderer, const gchar *path, GList *address
 		if (!((name && *name) || (email && *email)) || ((e_meeting_store_find_attendee (model, email, &existing_row) != NULL) && existing_row != row)){
 			if (existing_attendee) {
 				removed = TRUE;
+				e_meeting_list_view_remove_attendee_from_name_selector (E_MEETING_LIST_VIEW (view),
+						existing_attendee);
 				e_meeting_store_remove_attendee (model, existing_attendee);
 			}
 		} else {
@@ -385,6 +389,8 @@ attendee_edited_cb (GtkCellRenderer *renderer, const gchar *path, GList *address
 				return;
 
 			 removed = TRUE;
+			e_meeting_list_view_remove_attendee_from_name_selector (E_MEETING_LIST_VIEW (view),
+						existing_attendee);
 			e_meeting_store_remove_attendee (model, existing_attendee);
 		}
 	}
