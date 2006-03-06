@@ -146,10 +146,12 @@ paint (EComboButton *combo_button,
 		       GTK_WIDGET_STATE (widget), shadow_type,
 		       area, widget, "button",
 		       x, y, separator_x, height);
-	gtk_paint_box (widget->style, widget->window,
-		       GTK_WIDGET_STATE (widget), shadow_type,
-		       area, widget, "button",
-		       separator_x, y, width - separator_x, height);
+
+	if (width - separator_x > 0)
+		gtk_paint_box (widget->style, widget->window,
+			       GTK_WIDGET_STATE (widget), shadow_type,
+			       area, widget, "button",
+			       separator_x, y, width - separator_x, height);
 
 	if (GTK_WIDGET_HAS_FOCUS (widget)) {
 		if (interior_focus) {

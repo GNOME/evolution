@@ -1,3 +1,9 @@
+2006-03-06  Jeff Cai  <jeff.cai@sun.com>
+
+	** Fixes for 333235
+	* e-combo-button.c: (paint): If width of a widget is 0, 
+	don't draw it.
+
 2006-02-28  Devashish Sharma  <sdevashish@novell.com>
 
 	* e-reflow.c :(do_adjustment): Check and see if reflow->items 
