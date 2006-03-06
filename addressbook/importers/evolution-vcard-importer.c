@@ -481,13 +481,6 @@ vcard_import(EImport *ei, EImportTarget *target, EImportImporter *im)
 		return;
 	}
 	
-	if (!e_book_is_writable (book)) {
-		g_message (G_STRLOC ":Book is readonly.");
-		e_import_complete(ei, target);
-		g_object_unref(book);
-		return;	
-	}
-
 	if (!g_file_get_contents (filename, &contents, NULL, NULL)) {
 		g_message (G_STRLOC ":Couldn't read file.");
 		g_free (filename);
@@ -503,7 +496,7 @@ vcard_import(EImport *ei, EImportTarget *target, EImportImporter *im)
 	gci->target = target;
 	gci->book = book;
 
-	e_book_open (gci->book, TRUE, NULL);
+	e_book_open (gci->book, FALSE, NULL);
 
 	if (encoding == VCARD_ENCODING_UTF16) {
 		gchar *tmp;

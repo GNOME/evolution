@@ -1,3 +1,12 @@
+2006-03-06  Devashish Sharma <sdevashish@novell.com>
+
+	* importers/evolution-ldif-importer.c (ldif_import):
+	* importers/evolution-csv-importers.c (csv_import) :
+	* importers/evolution-vcard-importer.c (vcard_import) :
+	Fix for Bug 332136: Evolution fails to import contacts from a file into
+	an addressbook if the addressbook is never opened.
+	Patch by Xiurong Simon Zheng.
+
 2006-03-05  Devashish Sharma <sdevashish@novell.com>
 
 	* gui/widgets/e-addressbook-view.etspec : Fix for bug 268458.

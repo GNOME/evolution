@@ -758,7 +758,7 @@ csv_import (EImport *ei, EImportTarget *target, EImportImporter *im)
 	gci->size = ftell(file);
 	fseek(file, 0, SEEK_SET);
 
-	e_book_open(gci->book, TRUE, NULL);
+	e_book_open(gci->book, FALSE, NULL);
        	
 	gci->idle_id = g_idle_add (csv_import_contacts, gci);
 }
