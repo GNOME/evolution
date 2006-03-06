@@ -1085,6 +1085,7 @@ exchange_config_listener_get_offline_status (ExchangeConfigListener *excl,
 	else
 		*mode = ONLINE_MODE;
 
+	gconf_value_free (value);
 	return status;
 
 }	

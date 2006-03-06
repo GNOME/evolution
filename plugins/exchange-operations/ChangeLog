@@ -1,4 +1,10 @@
-2006-02-27  Sushma Rai  <rsushma@novell.com>
+2006-03-06  Sushma Rai  <rsushma@novell.com>
+
+	* exchange-config-listener.c 
+	(exchange_config_listener_get_offline_status): Freeing GConfValue.
+	See #329251.
+
+2006-03-06  Sushma Rai  <rsushma@novell.com>
 
 	* exchange-config-listener.c (account_removed): Not unrefing the 
 	account passed to the signal handler. Fixes #332129.
