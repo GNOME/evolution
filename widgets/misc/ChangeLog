@@ -1,3 +1,10 @@
+2006-03-06  Simon Zheng  <simon.zheng@sun.com>
+
+	Fixes bug #332140
+	* e-attachment-bar.c: (temp_save_part):
+	Changed to transfer filenames from utf-8 to glib encoding 
+	before really saving files.
+
 2006-03-06  Jeff Cai  <jeff.cai@sun.com>
 
 	** Fixes for 333235

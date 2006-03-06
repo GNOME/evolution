@@ -671,7 +671,7 @@ static char *
 temp_save_part(CamelMimePart *part)
 {
 	const char *filename;
-	char *tmpdir, *path, *mfilename = NULL;
+	char *tmpdir, *path, *mfilename = NULL, *utf8_mfilename = NULL;
 	CamelStream *stream;
 	CamelDataWrapper *wrapper;
 
@@ -685,9 +685,11 @@ temp_save_part(CamelMimePart *part)
 		/* This is the default filename used for temporary file creation */
 		filename = _("Unknown");
 	} else {
-		mfilename = g_strdup(filename);
-		e_filename_make_safe(mfilename);
-		filename = mfilename;
+		utf8_mfilename = g_strdup (filename);
+		e_filename_make_safe (utf8_mfilename);
+		mfilename = g_filename_from_utf8 ((const char *) utf8_mfilename, -1, NULL, NULL, NULL);
+		g_free (utf8_mfilename);
+		filename = (const char *) mfilename;
 	}
 
 	path = g_build_filename(tmpdir, filename, NULL);
