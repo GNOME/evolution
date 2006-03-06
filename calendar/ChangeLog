@@ -1,3 +1,11 @@
+2006-03-06  Theppitak Karoonboonyanan  <thep@linux.thai.net>
+
+	** Fixes bug #328988
+	
+	* gui/alarm-notify/util.c: (calculate_time):
+	* gui/misc.c: (calculate_time): Added code to simplify the function
+	calculate_time and made strings translatable.
+
 2006-03-06  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #330448

@@ -53,47 +53,35 @@ calculate_time (time_t start, time_t end)
 {
 	time_t difference = end - start;
 	char *str;
+	int   hours, minutes;
+	char *times[4];
+	char *joined;
+	int   i;
 
-	if (difference < 60) {/* Can't be zero */
-		str = g_strdup_printf (_("(%ld seconds)"), difference);
-	} else if (difference > 60 && difference < 3600) { /* It will be x minutes y seconds*/
-		int minutes, seconds;
-		minutes = difference / 60;
-		seconds = difference % 60;
-		if (seconds)
-		/* TRANSLATORS: here, "second" is the time division (like "minute"), not the ordinal number (like "third") */
-			str = g_strdup_printf (_("(%d %s %d %s)"), minutes, ngettext(_("minute"), _("minutes"), minutes), seconds, ngettext(_("second"), _("seconds"), seconds));
-		else
-			str = g_strdup_printf (_("(%d %s)"), minutes, ngettext(_("minute"), _("minutes"), minutes));
-	} else {
-		guint hours, minutes, seconds;
-		char *s_hours = NULL, *s_minutes = NULL, *s_seconds = NULL;
-		
+        i = 0;
+	if (difference >= 3600) {
 		hours = difference / 3600;
-		minutes = (difference % 3600)/60;
-		seconds = difference % 60;
+		difference %= 3600;
 
-		
-		if (seconds)
-			s_seconds = g_strdup_printf (ngettext(_(" %u second"), _(" %u seconds"), seconds), seconds);
-		if (minutes)
-			s_minutes = g_strdup_printf (ngettext(_(" %u minute"), _(" %u minutes"), minutes), minutes);
-		if (hours)
-			s_hours = g_strdup_printf (ngettext(_("%u hour"),_("%u hours"), hours), hours);
+		times[i++] = g_strdup_printf (ngettext("%d hour", "%d hours", hours), hours);
+	}
+	if (difference >= 60) {
+		minutes = difference / 60;
+		difference %= 60;
 
-		if (s_minutes && s_seconds)
-                        str = g_strconcat ("(", s_hours, s_minutes, s_seconds, ")", NULL);
-		else if (s_minutes)
-			str = g_strconcat ("(", s_hours, s_minutes, ")", NULL);
-		else if (s_seconds)
-			str = g_strconcat ("(", s_hours, s_seconds, ")", NULL);
-		else
-			str = g_strconcat ("(", s_hours, ")", NULL);
-
-		g_free (s_hours);
-		g_free (s_minutes);
-		g_free (s_seconds);
+		times[i++] = g_strdup_printf (ngettext("%d minute", "%d minutes", minutes), minutes);
+	}
+	if (i == 0 || difference != 0) {
+		/* TRANSLATORS: here, "second" is the time division (like "minute"), not the ordinal number (like "third") */
+		times[i++] = g_strdup_printf (ngettext("%d second", "%d seconds", difference), (int)difference);
 	}
 
-	return g_strchug(str);
+	times[i] = NULL;
+	joined = g_strjoinv (" ", times);
+	str = g_strconcat ("(", joined, ")", NULL);
+	while (i > 0)
+		g_free (times[--i]);
+	g_free (joined);
+
+	return str;
 }
