@@ -1259,7 +1259,7 @@ char *
 em_utils_temp_save_part(GtkWidget *parent, CamelMimePart *part)
 {
 	const char *filename;
-	char *tmpdir, *path, *mfilename = NULL;
+	char *tmpdir, *path, *utf8_mfilename = NULL, *mfilename = NULL;
 	int done;
 
 	tmpdir = e_mkdtemp("evolution-tmp-XXXXXX");
@@ -1273,9 +1273,11 @@ em_utils_temp_save_part(GtkWidget *parent, CamelMimePart *part)
 		/* This is the default filename used for temporary file creation */
 		filename = _("Unknown");
 	} else {
-		mfilename = g_strdup(filename);
-		e_filename_make_safe(mfilename);
-		filename = mfilename;
+		utf8_mfilename = g_strdup (filename);
+		e_filename_make_safe (utf8_mfilename);
+		mfilename = g_filename_from_utf8 ((const char *) utf8_mfilename, -1, NULL, NULL, NULL);
+		g_free (utf8_mfilename);
+		filename = (const char *) mfilename;
 	}
 
 	path = g_build_filename(tmpdir, filename, NULL);

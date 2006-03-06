@@ -1,3 +1,10 @@
+2006-03-06  Simon Zheng  <simon.zheng@sun.com>
+
+	Fixes bug #332140
+	* em-utils.c: (em_utils_temp_save_part):
+	Transfer filenames from utf-8 to glib encoding before really
+	saving files.
+
 2006-03-03  Andre Klapper  <a9016009@gmx.de>
 
 	* configure.in,
