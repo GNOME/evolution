@@ -2297,7 +2297,6 @@ set_attachment_list (CompEditor *editor, GSList *attach_list)
 			camel_data_wrapper_construct_from_stream (wrapper, stream);
 			camel_data_wrapper_set_mime_type (wrapper, "application/octet-stream");
 		}
-		g_free (file_name);
 
 		camel_object_unref (stream);
 		
@@ -2307,12 +2306,13 @@ set_attachment_list (CompEditor *editor, GSList *attach_list)
 	
 		camel_mime_part_set_disposition (part, "attachment");
 
-		char *ptr = strstr (attach_filename, comp_uid);
+		char *ptr = strstr (file_name, comp_uid);
 		if (ptr) {
 			ptr += strlen(comp_uid);
 			if (*ptr++ == '-')
 				camel_mime_part_set_filename (part, ptr); 
 		}
+		g_free (file_name);
 
 		e_attachment_bar_attach_mime_part ((EAttachmentBar *) editor->priv->attachment_bar, part);
 		e_expander_set_expanded (E_EXPANDER (editor->priv->attachment_expander), TRUE);

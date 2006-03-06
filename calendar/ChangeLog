@@ -1,3 +1,10 @@
+2006-03-06  Simon Zheng  <simon.zheng@sun.com>
+
+	Fixes #311482
+	* gui/dialogs/comp-editor.c: (set_attachment_list): As uri is 
+	encaped ASCII-encoded, it can't be recognized when setting 
+	mime part. Use filename instead of uri.
+
 2006-03-06  Theppitak Karoonboonyanan  <thep@linux.thai.net>
 
 	** Fixes bug #328988
