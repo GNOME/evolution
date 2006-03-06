@@ -634,7 +634,7 @@ get_attachment_list (CompEditor *editor)
 		CamelDataWrapper *wrapper;
 		CamelStream *stream;
 		char *attach_file_url;
-		char *safe_fname;
+		char *safe_fname, *utf8_safe_fname;
 		char *filename;
 	
 		wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (p->data));
@@ -642,7 +642,9 @@ get_attachment_list (CompEditor *editor)
 		/* Extract the content from the stream and write it down
 		 * as a mime part file into the directory denoting the
 		 * calendar source */
-		safe_fname = camel_file_util_safe_filename(camel_mime_part_get_filename ((CamelMimePart *)p->data));
+		utf8_safe_fname = camel_file_util_safe_filename (camel_mime_part_get_filename ((CamelMimePart *) p->data));
+		safe_fname = g_filename_from_utf8 ((const char *) utf8_safe_fname, -1, NULL, NULL, NULL);
+		g_free (utf8_safe_fname);
 
 		filename = g_strdup_printf ("%s-%s", comp_uid, safe_fname);
 

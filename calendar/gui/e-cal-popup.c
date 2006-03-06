@@ -91,7 +91,7 @@ static char *
 temp_save_part(CamelMimePart *part, char *path, gboolean file)
 {
 	const char *filename;
-	char *tmpdir, *mfilename = NULL;
+	char *tmpdir, *utf8_mfilename = NULL, *mfilename = NULL;
 	CamelStream *stream;
 	CamelDataWrapper *wrapper;
 
@@ -106,9 +106,11 @@ temp_save_part(CamelMimePart *part, char *path, gboolean file)
 			/* This is the default filename used for temporary file creation */
 			filename = _("Unknown");
 		} else {
-			mfilename = g_strdup(filename);
-			e_filename_make_safe(mfilename);
-			filename = mfilename;
+			utf8_mfilename = g_strdup (filename);
+			e_filename_make_safe (utf8_mfilename);
+			mfilename = g_filename_from_utf8 ((const char *) utf8_mfilename, -1, NULL, NULL, NULL);
+			g_free (utf8_mfilename);
+			filename = (const char *) mfilename;
 		}
 
 		path = g_build_filename(tmpdir, filename, NULL);
@@ -121,9 +123,11 @@ temp_save_part(CamelMimePart *part, char *path, gboolean file)
 			/* This is the default filename used for temporary file creation */
 			filename = _("Unknown");
 		} else {
-			mfilename = g_strdup(filename);
-			e_filename_make_safe(mfilename);
-			filename = mfilename;
+			utf8_mfilename = g_strdup (filename);
+			e_filename_make_safe (utf8_mfilename);
+			mfilename = g_filename_from_utf8 ((const char *)utf8_mfilename, -1, NULL, NULL, NULL);
+			g_free (utf8_mfilename);
+			filename = (const char *) mfilename;
 		}
 		
 		path = g_build_filename(tmpdir, filename, NULL);

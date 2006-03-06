@@ -1,5 +1,13 @@
 2006-03-06  Simon Zheng  <simon.zheng@sun.com>
 
+	Fixes bug #332140
+	* gui/dialogs/comp-editor.c: (get_attachment_list):
+	* gui/e-cal-popup.c: (temp_save_part):
+	Transfer filenames from utf-8 to glib encoding before really
+	saving files.
+
+2006-03-06  Simon Zheng  <simon.zheng@sun.com>
+
 	Fixes #311482
 	* gui/dialogs/comp-editor.c: (set_attachment_list): As uri is 
 	encaped ASCII-encoded, it can't be recognized when setting 
