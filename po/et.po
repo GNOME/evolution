@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-02-16 06:14+0100\n"
-"PO-Revision-Date: 2006-02-22 12:24+0200\n"
+"PO-Revision-Date: 2006-03-07 15:29+0200\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -10175,7 +10175,9 @@ msgstr "_Pimekoopia:"
 msgid ""
 "Enter the addresses that will receive a carbon copy of the message without "
 "appearing in the recipient list of the message."
-msgstr "Sisesta aadressid, millele saadetakse sõnumi pimekoopiad."
+msgstr ""
+"Sisesta aadressid, millele saadetakse sõnumi koopiad nii, et aadresse sõnumi "
+"saajate hulgas ei paista."
 
 #.
 #. * Post-To
@@ -10485,23 +10487,23 @@ msgstr ""
 
 #: ../designs/read_receipts/read.glade.h:6
 msgid "Always send back a read receipt"
-msgstr ""
+msgstr "Lugemiskinnitus saadetakse alati tagasi"
 
 #: ../designs/read_receipts/read.glade.h:7
 msgid "Ask me if I want to send back a read receipt"
-msgstr ""
+msgstr "Lugemiskinnituse kohta küsitakse kasutajalt"
 
 #: ../designs/read_receipts/read.glade.h:8
 msgid "Never send back a read receipt"
-msgstr ""
+msgstr "Lugemiskinnitust ei saadeta kunagi"
 
 #: ../designs/read_receipts/read.glade.h:9
 msgid "Read Receipts"
-msgstr ""
+msgstr "Lugemiskinnitus"
 
 #: ../designs/read_receipts/read.glade.h:10
 msgid "Request a read receipt for all messages I send"
-msgstr ""
+msgstr "Lugemiskinnitust küsitakse iga väljasaadetud sõnumi kohta"
 
 #: ../designs/read_receipts/read.glade.h:11
 msgid "Unless the message is sent to a mailing list, and not to me personally"
@@ -10512,6 +10514,7 @@ msgid ""
 "When you receive an email with a read receipt request, what should Evolution "
 "do?"
 msgstr ""
+"Mida peab Evolution tegema kui vastuvõetud sõnum nõuab lugemiskinnitust?"
 
 #: ../e-util/e-dialog-utils.c:281
 msgid ""
@@ -11893,7 +11896,7 @@ msgstr "MIME sõnumit pole võimalik analüüsida. Kuvatakse lähtekoodina."
 
 #: ../mail/em-format.c:1279
 msgid "Unsupported encryption type for multipart/encrypted"
-msgstr ""
+msgstr "Toetamata krüpteering multipart/encrypted tüübile"
 
 #: ../mail/em-format.c:1446
 msgid "Unsupported signature format"
@@ -13785,6 +13788,10 @@ msgid ""
 "You can choose to ignore this folder, overwrite or append its contents, or "
 "quit.\n"
 msgstr ""
+"Asukohas &quot;{1}&quot; on täidetud kaust juba olemas.\n"
+"\n"
+"Sa võid seda kausta eirata, üle kirjutada, selle sisule lisada või toimingu "
+"lõpetada.\n"
 
 #: ../mail/mail.error.xml.h:6
 msgid ""
@@ -13921,6 +13928,9 @@ msgid ""
 "problem. You will not be able to use this provider until you can accept its "
 "license."
 msgstr ""
+"Litsentsifaili &quot;{0}&quot; pole võimalik lugeda, ilmselt on tegemist "
+"paigaldusprobleemiga. Sul pole seda tagajat võimalik enne "
+"litsentsitingimustega nõustumist pruukida."
 
 #: ../mail/mail.error.xml.h:35
 msgid "Cannot rename &quot;{0}&quot; to &quot;{1}&quot;."
@@ -14114,10 +14124,14 @@ msgid ""
 "{0}\n"
 "Send anyway?"
 msgstr ""
+"Palun veendu, et järgnevad adressaadid soovivad ja suudavad HTML sõnumeid "
+"vastu võtta:\n"
+"{0}\n"
+"Kas saata?"
 
 #: ../mail/mail.error.xml.h:80
 msgid "Please provide an unique name to identify this signature."
-msgstr ""
+msgstr "Palun sisesta selle signatuuri identifitseerimiseks unikaalne nimi."
 
 #: ../mail/mail.error.xml.h:81
 msgid "Please wait."
@@ -14137,7 +14151,7 @@ msgstr "Serverilt autentimismehhanismide loendi küsimine."
 
 #: ../mail/mail.error.xml.h:85
 msgid "Read receipt requested."
-msgstr ""
+msgstr "Küsitakse lugemiskinnitust."
 
 #: ../mail/mail.error.xml.h:86
 msgid "Really delete folder &quot;{0}&quot; and all of its subfolders?"
@@ -14181,6 +14195,11 @@ msgid ""
 "    &quot;{1}&quot;\n"
 "And have been updated."
 msgstr ""
+"Järgnevad otsikaustad:\n"
+"{0}\n"
+"Kasutavad nüüdseks eemaldatatud kausta:\n"
+"    &quot;{1}&quot;\n"
+"Otsikaustad on nüüd uuendatud."
 
 #: ../mail/mail.error.xml.h:99
 msgid ""
@@ -14190,6 +14209,11 @@ msgid ""
 "    &quot;{1}&quot;\n"
 "And have been updated."
 msgstr ""
+"Järgnevad filtreerimisreeglid:\n"
+"{0}\n"
+"Kasutavad nüüdseks eemaldatatud kausta:\n"
+"    &quot;{1}&quot;\n"
+"Reeglid on nüüd uuendatud."
 
 #: ../mail/mail.error.xml.h:104
 msgid ""
