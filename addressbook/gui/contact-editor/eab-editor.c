@@ -319,7 +319,7 @@ eab_editor_confirm_delete (GtkWindow *parent, gboolean plural, gboolean is_list,
 	if (is_list) {
 		/* contact list(s) */
 		if (!plural)
-			msg = g_strdup_printf (_("Are you sure you want\nto delete contact list (%s) ?"), 
+			msg = g_strdup_printf (_("Are you sure you want\nto delete contact list (%s)?"), 
 						name);
 		else
 			msg = g_strdup (_("Are you sure you want\nto delete these contact lists?"));
@@ -327,7 +327,7 @@ eab_editor_confirm_delete (GtkWindow *parent, gboolean plural, gboolean is_list,
 	else {
 		/* contact(s) */ 
 		if (!plural)
-			msg = g_strdup_printf (_("Are you sure you want\nto delete contact (%s) ?"),
+			msg = g_strdup_printf (_("Are you sure you want\nto delete contact (%s)?"),
 						name);
 		else
 			msg = g_strdup (_("Are you sure you want\nto delete these contacts?"));
