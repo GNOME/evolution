@@ -1,11 +1,6 @@
-2006-03-10  Vladimer Sichinava  <vlsichinava@gmail.com>
+2006-03-10  Frank Arnold  <farnold@cvs.gnome.org>
 
-	* ka.po: Updated Georgian translation by 
-	  Alexander Didebulidze <didebuli@in.tum.de>.
-
-2006-03-10  Mugurel Tudor  <mugurelu@gnome.ro>
-
-	* ro.po: Updated Romanian translation
+	* de.po: Replaced wrong spaces caused by copy/paste inside gtranslator.
 
 2006-03-09  Francisco Javier F. Serrador  <serrador@cvs.gnome.org>
 
@@ -13,7 +8,7 @@
 
 2006-03-08  Daniel Nylander <po@danielnylander.se>
 
-        * sv.po: Updated Swedish translation.
+	* sv.po: Updated Swedish translation.
 
 2006-03-08  Laurent Dhima  <laurenti@alblinux.net>
 
@@ -21,7 +16,7 @@
 
 2006-03-06  Rajesh Ranjan <rranjan@redhat.com>
 
-        * hi.po: Updated Hindi Translation.
+	* hi.po: Updated Hindi Translation.
 
 2006-03-07  Priit Laes  <amd@store20.com>
 
@@ -29,7 +24,7 @@
 
 2006-03-06  Maxim Dziumanenko <mvd@mylinux.ua>
 
-        * uk.po: Updated Ukrainian translation.
+	* uk.po: Updated Ukrainian translation.
 
 2006-03-06  Leonid Kanter <leon@asplinux.ru>
 
@@ -58,7 +53,7 @@
 
 2006-03-03  Lukas Novotny  <lukasnov@cvs.gnome.org>
 
- 	* cs.po: Updated Czech translation.
+	* cs.po: Updated Czech translation.
 
 2006-03-03  Žygimantas Beručka  <zygis@gnome.org>
 
