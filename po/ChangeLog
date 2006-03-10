@@ -1,3 +1,7 @@
+2006-03-10  Frank Arnold  <farnold@cvs.gnome.org>
+
+	* de.po: Replaced wrong spaces caused by copy/paste inside gtranslator.
+
 2006-03-10  Vladimer Sichinava  <vlsichinava@gmail.com>
 
 	* ka.po: Updated Georgian translation by 
@@ -13,7 +17,7 @@
 
 2006-03-08  Daniel Nylander <po@danielnylander.se>
 
-        * sv.po: Updated Swedish translation.
+	* sv.po: Updated Swedish translation.
 
 2006-03-08  Laurent Dhima  <laurenti@alblinux.net>
 
