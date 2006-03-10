@@ -2,6 +2,7 @@
 # Copyright © 2005 Canonical Ltd, and Rosetta Contributors 2005
 # This file is distributed under the same license as the evolution package.
 # Alexander Didebulidze <didebuli@in.tum.de>, 2005, 2006.
+
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
