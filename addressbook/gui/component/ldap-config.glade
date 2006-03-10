@@ -441,7 +441,7 @@
 				    <widget class="GtkListItem" id="listitem16">
 				      <property name="visible">True</property>
 				      <property name="can_focus">True</property>
-				      <property name="label" translatable="yes">389</property>
+				      <property name="label">389</property>
 				    </widget>
 				  </child>
 
@@ -449,7 +449,7 @@
 				    <widget class="GtkListItem" id="listitem17">
 				      <property name="visible">True</property>
 				      <property name="can_focus">True</property>
-				      <property name="label" translatable="yes">636</property>
+				      <property name="label">636</property>
 				    </widget>
 				  </child>
 
@@ -457,7 +457,7 @@
 				    <widget class="GtkListItem" id="listitem18">
 				      <property name="visible">True</property>
 				      <property name="can_focus">True</property>
-				      <property name="label" translatable="yes">3268</property>
+				      <property name="label">3268</property>
 				    </widget>
 				  </child>
 				</widget>

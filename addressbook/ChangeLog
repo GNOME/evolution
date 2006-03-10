@@ -1,5 +1,10 @@
 2006-03-10  Devashish Sharma  <sdevashish@novell.com>
 
+	* gui/component/ldap-config.glade : ldap port numbers
+	were marked for translation. Fixes 331020.
+
+2006-03-10  Devashish Sharma  <sdevashish@novell.com>
+
 	Fix for bug #333855
 	* gui/contact-editor/e-contact-editor.c (full_name_response),
 	(full_name_key_press_event), (full_name_editor_delete_event_cb),
