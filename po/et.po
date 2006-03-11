@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-02-16 06:14+0100\n"
-"PO-Revision-Date: 2006-03-07 15:29+0200\n"
+"PO-Revision-Date: 2006-03-10 22:01+0200\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -209,7 +209,7 @@ msgstr "otsinguriba"
 
 #: ../a11y/calendar/ea-gnome-calendar.c:291
 msgid "evolution calendar search bar"
-msgstr "Evolutioni kalendri otsinguriba"
+msgstr "evolutioni kalendri otsinguriba"
 
 #: ../a11y/calendar/ea-jump-button.c:149
 msgid "Jump button"
@@ -4513,7 +4513,7 @@ msgstr "_Edasilükkamise aeg:"
 #: ../ui/evolution-subscribe.xml.h:10 ../ui/evolution-tasks.xml.h:25
 #: ../ui/evolution.xml.h:40
 msgid "_Edit"
-msgstr "_Redigeeri"
+msgstr "_Redigeerimine"
 
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:5
 msgid "_Snooze"
@@ -7206,7 +7206,7 @@ msgid ""
 "\n"
 "%s"
 msgstr ""
-"Kuupäev peab olema sisestatud formaadis: \n"
+"Kuupäev peab olema sisestatud järnevas vormingus: \n"
 "\n"
 "%s"
 
@@ -10838,10 +10838,11 @@ msgstr "Sõnumikoostaja eelistused"
 msgid ""
 "Configure mail preferences, including security and message display, here"
 msgstr ""
+"Sõnumieelistuste seadistamine - kaasa arvatud turvalisus ka sõnumite kuvamine"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:3
 msgid "Configure spell-checking, signatures, and the message composer here"
-msgstr ""
+msgstr "Õigekirjakontrolli "
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:4
 msgid "Configure your email accounts here"
@@ -11896,7 +11897,7 @@ msgstr "MIME sõnumit pole võimalik analüüsida. Kuvatakse lähtekoodina."
 
 #: ../mail/em-format.c:1279
 msgid "Unsupported encryption type for multipart/encrypted"
-msgstr "Toetamata krüpteering multipart/encrypted tüübile"
+msgstr "Toetamata krüptimistüüp multipart/encrypted sõnumile"
 
 #: ../mail/em-format.c:1446
 msgid "Unsupported signature format"
@@ -12124,7 +12125,7 @@ msgstr "Tellimisdialoogi vaikimisi kõrgus"
 
 #: ../mail/evolution-mail.schemas.in.in.h:16
 msgid "Default reply style"
-msgstr "Vaikimisi vastamise laad"
+msgstr "Vastamise vaikimisi laad"
 
 #: ../mail/evolution-mail.schemas.in.in.h:17
 msgid "Default width of the Composer Window"
@@ -12141,6 +12142,7 @@ msgstr "Tellimisdialoogi vaikimisi laius"
 #: ../mail/evolution-mail.schemas.in.in.h:20
 msgid "Draw spelling error indicators on words as you type."
 msgstr ""
+"Õigekirjakontrolli poolt tuvastatud vigade esiletõstmine tippimise ajal."
 
 #: ../mail/evolution-mail.schemas.in.in.h:21
 msgid "Empty Trash folders on exit"
@@ -12188,7 +12190,7 @@ msgstr "Viimane kord kui prügikasti tühjendati"
 
 #: ../mail/evolution-mail.schemas.in.in.h:30
 msgid "List of Labels and their associated colors"
-msgstr ""
+msgstr "Siltide ja nende värvuste loend"
 
 #: ../mail/evolution-mail.schemas.in.in.h:31
 msgid "List of accepted licenses"
@@ -12203,6 +12205,8 @@ msgid ""
 "List of accounts known to the mail component of Evolution. The list contains "
 "strings naming subdirectories relative to /apps/evolution/mail/accounts."
 msgstr ""
+"Evolutioni sõnumikomponendile teadaolevate kontode loend. Sisaldab "
+"alamkataloogide nimesid kataloogi /apps/evolution/mail/accounts suhtes."
 
 #: ../mail/evolution-mail.schemas.in.in.h:34
 msgid "List of custom headers and whether they are enabled."
@@ -12213,6 +12217,9 @@ msgid ""
 "List of labels known to the mail component of Evolution. The list contains "
 "strings containing name:color where color uses the HTML hex encoding."
 msgstr ""
+"Evolutioni sõnumikomponendile teadaolevate siltide loend. Sisaldab "
+"nimi:värvus vorminus sõnumeid, kus värvus on kirjeldatud HTML-ile sarnaselt "
+"kuueteistkümnendsüsteemis."
 
 #: ../mail/evolution-mail.schemas.in.in.h:36
 msgid "List of mime types to check for bonobo component viewers"
@@ -12356,11 +12363,11 @@ msgstr "Rämpspostikontrollitestide rakendamine sissetulevatele sõnumitele"
 
 #: ../mail/evolution-mail.schemas.in.in.h:67
 msgid "Send HTML mail by default"
-msgstr "Vaikimisi kirjade saatmine HTML formaadis"
+msgstr "Sõnumite vaikimisi saatmine HTML formaadis"
 
 #: ../mail/evolution-mail.schemas.in.in.h:68
 msgid "Send HTML mail by default."
-msgstr "Vaikimisi kirjade saatmine HTML formaadis."
+msgstr "Sõnumite vaikimisi saatmine HTML formaadis."
 
 #: ../mail/evolution-mail.schemas.in.in.h:69
 msgid "Show Animations"
@@ -12380,7 +12387,7 @@ msgstr "Kustutatud sõnumite näitamine sõnumiteloendis"
 
 #: ../mail/evolution-mail.schemas.in.in.h:75
 msgid "Sound file to play when new mail arrives."
-msgstr "Helifail, mida mängitakse uute kirjade saabumisel."
+msgstr "Helifail, mida mängitakse uute sõnumite saabumisel."
 
 #: ../mail/evolution-mail.schemas.in.in.h:76
 msgid "Specifies the type of New Mail Notification the user wishes to use."
@@ -12968,7 +12975,7 @@ msgstr "Õigekirja kon_trollimine sisestamise ajal"
 
 #: ../mail/mail-config.glade.h:54
 msgid "Checks incoming mail messages to be Junk"
-msgstr "Sissetulevate kirjade seest rämpsu kontrollimine"
+msgstr "Sissetulevate sõnumite seest rämpsu kontrollimine"
 
 #: ../mail/mail-config.glade.h:55
 msgid "Cle_ar"
@@ -17002,11 +17009,11 @@ msgstr "Külgpaani vaikimisi laius"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:4
 msgid "Default window height"
-msgstr "Vaikimisi akna kõrgus"
+msgstr "Akna vaikimisi kõrgus"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:5
 msgid "Default window width"
-msgstr "Vaikimisi akna laius."
+msgstr "Akna vaikimisi laius."
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:6
 msgid "ID or alias of the component to be shown by default at start-up."
@@ -17014,7 +17021,7 @@ msgstr ""
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:7
 msgid "Last upgraded configuration version"
-msgstr ""
+msgstr "Viimati uuendatud seadistuste versioon"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:8
 msgid ""
@@ -18008,7 +18015,7 @@ msgstr ""
 
 #: ../tools/evolution-launch-composer.c:326
 msgid "Default subject for the message."
-msgstr "Vaikimisi sõnumi teema."
+msgstr "Sõnumi vaikimisi teema."
 
 #. This most likely means that KILL_PROCESS_CMD wasn't
 #. * found, so just bail completely.
@@ -18564,7 +18571,7 @@ msgstr "_Tüübiväli"
 
 #: ../ui/evolution-mail-global.xml.h:2
 msgid "Cancel the current mail operation"
-msgstr "Katkestab käimasoleva sõnumioperatsiooni"
+msgstr "Käimasoleva sõnumioperatsiooni katkestamine"
 
 #: ../ui/evolution-mail-global.xml.h:3
 msgid "Copy the selected folder into another folder"
@@ -19668,7 +19675,7 @@ msgstr "Saada veateade kasutades Bug Buddy't"
 
 #: ../ui/evolution.xml.h:33
 msgid "Toggle whether we are working offline."
-msgstr "Autonoomse reziimi sisse- või väljalülitamine"
+msgstr "Autonoomse režiimi sisse- või väljalülitamine"
 
 #: ../ui/evolution.xml.h:34
 msgid "Tool_bar"
@@ -20984,322 +20991,3 @@ msgstr "Välksõnumikontekst"
 #: ../widgets/text/e-text.c:3706 ../widgets/text/e-text.c:3707
 msgid "Handle Popup"
 msgstr ""
-
-#~ msgid ""
-#~ "Selecting this option means that Evolution will only try to use SSL/TLS "
-#~ "if you are in a insecure environment. For example, if you and your LDAP "
-#~ "server are behind a firewall at work, then Evolution doesn't need to use "
-#~ "SSL/TLS because your connection is already secure."
-#~ msgstr ""
-#~ "See valik tähendab seda, et Evolution üritab kasutada SSL/TLS protokolli "
-#~ "ainult siis kui sa oled ebaturvalises keskkonnas. Näiteks kui sina ja "
-#~ "sinu LDAP server asuvad mõlemad tulemüüriga kaitstud võrgus, siis "
-#~ "Evolution ei pea kasutama SSL/TLS protokolli, kuna sinu ühendus on juba "
-#~ "turvaline."
-
-#~ msgid "The Evolution Groupware Suite"
-#~ msgstr "Evolution grupitarkvarakomplekt"
-
-#~ msgid "_Show animated images"
-#~ msgstr "A_nimeeritud piltide kuvamine"
-
-#~ msgid "<b>%s (%s)</b> : %s"
-#~ msgstr "<b>%s (%s)</b> : %s"
-
-#~ msgid "<b>%s (%s)</b>"
-#~ msgstr "<b>%s (%s)</b>"
-
-#~ msgid "<b>%s</b> : %s"
-#~ msgstr "<b>%s</b> : %s"
-
-#~ msgid "<b>%s</b>"
-#~ msgstr "<b>%s</b>"
-
-#~ msgid "<span weight=\"bold\">Automatic Contacts</span>"
-#~ msgstr "<span weight=\"bold\">Automaatsed kontaktid</span>"
-
-#~ msgid "<span weight=\"bold\">Instant Messaging Contacts</span>"
-#~ msgstr "<span weight=\"bold\">Kiirsuhtluse kontaktid</span>"
-
-#~ msgid "<span weight=\"bold\">Conflict Search</span>"
-#~ msgstr "<span weight=\"bold\">Vastuolude otsing</span>"
-
-#~ msgid "Delete this Occurrence"
-#~ msgstr "Seekordse sündmuse kustutamine"
-
-#~ msgid "Addressbook"
-#~ msgstr "Aadressiraamat"
-
-#~ msgid "Task Table"
-#~ msgstr "Ülesannete tabel"
-
-#~ msgid "Removal Complete"
-#~ msgstr "Eemaldamine lõpetatud"
-
-#~ msgid "Con_tacts..."
-#~ msgstr "_Kontaktid..."
-
-#~ msgid "Memo Table"
-#~ msgstr "Märkmetabel"
-
-#~ msgid "Timezone Button"
-#~ msgstr "Ajavööndi nupp"
-
-#~ msgid "Mail Accounts Table"
-#~ msgstr "Postikontode tabel"
-
-#~ msgid "Attachment Button"
-#~ msgstr "Manuse nupp"
-
-#~ msgid "Toggle Attachment Bar"
-#~ msgstr "Manuseriba sisse- ja väljalülitamine"
-
-#~ msgid "Filters"
-#~ msgstr "Filtrid"
-
-#~ msgid "Message List"
-#~ msgstr "Sõnumiloend"
-
-#~ msgid "Alar_ms"
-#~ msgstr "Alar_mid"
-
-#~ msgid "_All day Event"
-#~ msgstr "Kestab kogu _päeva"
-
-#~ msgid "Previous Button"
-#~ msgstr "Eelmine nupp"
-
-#~ msgid "Text Date Entry"
-#~ msgstr "Tekstiline kuupäeva väli"
-
-#~ msgid "Date Button"
-#~ msgstr "Kuupäeva nupp"
-
-#~ msgid "Time Combo Box"
-#~ msgstr "Aja valikukast"
-
-#~ msgid "Advanced..."
-#~ msgstr "Edasijõudnutele..."
-
-#~ msgid "_Advanced..."
-#~ msgstr "_Edasijõudnutele..."
-
-#~ msgid "Select target addressbook."
-#~ msgstr "Vali sihtaadressiraamat."
-
-#~ msgid "(none)"
-#~ msgstr "(puudub)"
-
-#~ msgid "Primary Email"
-#~ msgstr "Peamine e-post"
-
-#~ msgid "Select an Action"
-#~ msgstr "Vali tegevus"
-
-#~ msgid "Create a new contact \"%s\""
-#~ msgstr "Uue kontakti \"%s\" loomine"
-
-#~ msgid "Add address to existing contact \"%s\""
-#~ msgstr "Lisa aadress olemasolevale kontaktile \"%s\""
-
-#~ msgid "Or_ganizer"
-#~ msgstr "Ko_rraldaja"
-
-#~ msgid "_Description:"
-#~ msgstr "_Kirjeldus:"
-
-#~ msgid "<b>Dele_gatees</b>"
-#~ msgstr "<b>Dele_gaadid</b>"
-
-#~ msgid "<b>From:</b>"
-#~ msgstr "<b>Saatja:</b>"
-
-#~ msgid "Classi_fication:"
-#~ msgstr "_Liigitamine"
-
-#~ msgid "_Group"
-#~ msgstr "_Grupp"
-
-#~ msgid "T_erminal Font:"
-#~ msgstr "T_erminali kirjatüüp"
-
-#~ msgid "dialog1"
-#~ msgstr "dialog1"
-
-#~ msgid "Id"
-#~ msgstr "Id"
-
-#~ msgid "Path"
-#~ msgstr "Rada"
-
-#~ msgid "Evolution Settings"
-#~ msgstr "Evolutioni sätted"
-
-#~ msgid "_Select All"
-#~ msgstr "Vali _kõik"
-
-#~ msgid "Show Time _Zone"
-#~ msgstr "Näita _ajavööndit"
-
-#~ msgid "_About Evolution..."
-#~ msgstr "_Evolutionist lähemalt..."
-
-#~ msgid "Available Fields"
-#~ msgstr "Saadaolevad väljad"
-
-#~ msgid "_Attachment Bar"
-#~ msgstr "_Manuseriba"
-
-#~ msgid "Server: %s, Type: %s"
-#~ msgstr "Server: %s, tüüp: %s"
-
-#~ msgid "Path: %s, Type: %s"
-#~ msgstr "Kataloog: %s, tüüp: %s"
-
-#~ msgid "Type: %s"
-#~ msgstr "Tüüp: %s  "
-
-#~ msgid "Sa junk-plugin"
-#~ msgstr "SA rämpspostiplugin"
-
-#~ msgid "Dismiss"
-#~ msgstr "Katkesta"
-
-#~ msgid "Dismiss All"
-#~ msgstr "Tühista kõik"
-
-#~ msgid "<b>Default Free/Busy Server</b>"
-#~ msgstr "<b>Vaikimisi vaba/hõivatud server</b>"
-
-#~ msgid "<b>General</b>"
-#~ msgstr "<b>Üldine</b>"
-
-#~ msgid "<b>Task List</b>"
-#~ msgstr "<b>Ülesandeloend</b>"
-
-#~ msgid "<b>Time</b>"
-#~ msgstr "<b>Aeg</b>"
-
-#~ msgid "<b>Work Week</b>"
-#~ msgstr "<b>Töönädal</b>"
-
-#~ msgid "Calendar and Tasks Settings"
-#~ msgstr "Kalendri ja ülesannete sätted"
-
-#~ msgid "Color for overdue tasks"
-#~ msgstr "Tähtaja ületanud ülesannete värvus"
-
-#~ msgid "Color for tasks due today"
-#~ msgstr "Tänase tähtajaga ülesannete värvus"
-
-#~ msgid "Days"
-#~ msgstr "Päev(a)"
-
-#~ msgid "Hours"
-#~ msgstr "Tund(i)"
-
-#~ msgid "Minutes"
-#~ msgstr "Minut(it)"
-
-#~ msgid "_Publish Free/Busy Information"
-#~ msgstr "_Avalikusta vaba/hõivatud andmed"
-
-#~ msgid "%a %m/%d/%Y %I:%M %p"
-#~ msgstr "%a, %d.%m.%Y %I:%M:%S %p"
-
-#~ msgid "%a %m/%d/%Y %H:%M"
-#~ msgstr "%a, %d.%m.%Y %H:%M:%S"
-
-#~ msgid "%a %m/%d/%Y %I %p"
-#~ msgstr "%a, %d.%m.%Y %I:%M:%S %p"
-
-#~ msgid "%a %m/%d/%Y %H"
-#~ msgstr "%a, %d.%m.%Y"
-
-#~ msgid "%m/%d/%Y %I:%M:%S %p"
-#~ msgstr "%a, %d.%m.%Y %I:%M:%S %p"
-
-#~ msgid "%m/%d/%Y %H:%M:%S"
-#~ msgstr "%a, %d.%m.%Y %H:%M:%S"
-
-#~ msgid "%m/%d/%Y %I:%M %p"
-#~ msgstr "%a, %d.%m.%Y %I:%M:%S %p"
-
-#~ msgid "%m/%d/%Y %H:%M"
-#~ msgstr "%a, %d.%m.%Y %H:%M:%S"
-
-#~ msgid "%m/%d/%Y %I %p"
-#~ msgstr "%a, %d.%m.%Y %I:%M:%S %p"
-
-#~ msgid "%m/%d/%Y %H"
-#~ msgstr "%d.%m.%Y"
-
-#~ msgid "%I:%M:%S %p"
-#~ msgstr "%I:%M:%S %p"
-
-#~ msgid "%H:%M:%S"
-#~ msgstr "%H:%M:%S"
-
-#~ msgid "%I %p"
-#~ msgstr "%I %p"
-
-#~ msgid "_Rule name:"
-#~ msgstr "_Reegli nimi:"
-
-#~ msgid "Execute actions"
-#~ msgstr "Tegevused täidetakse juhul, kui"
-
-#~ msgid "Execute Command..."
-#~ msgstr "Käsu käivitamine..."
-
-#~ msgid "Publish Free/Busy information for this calendar"
-#~ msgstr "Selle kalendri vaba/hõivatud teabe avalikustamine"
-
-#~ msgid "Customize My Evolution"
-#~ msgstr "Minu Evolutioni kohandamine"
-
-#~ msgid "Move"
-#~ msgstr "Tõsta"
-
-#~ msgid "_Send / Receive"
-#~ msgstr "_Saada / võta vastu"
-
-#~ msgid "Search Editor"
-#~ msgstr "Otsinguredaktor"
-
-#~ msgid "description of appointment"
-#~ msgstr "sündmuse kirjeldus"
-
-#~ msgid "Schedulin_g"
-#~ msgstr "_Plaanimine"
-
-#~ msgid "In_vitations"
-#~ msgstr "_Kutsed"
-
-#~ msgid "<b>Date and Time</b>"
-#~ msgstr "<b>Kuupäev ja kellaaeg</b>"
-
-#~ msgid "<b>Send Options</b>"
-#~ msgstr "<b>Saatmise valikud</b>"
-
-#~ msgid "This appointment has customized alarms"
-#~ msgstr "Sellel sündmusel on kohandatud alarmid"
-
-#~ msgid "Meetings and Tasks"
-#~ msgstr "Koosolekud ja ülesanded"
-
-#~ msgid ""
-#~ "The suggested filename extension of this filetype (%s) is unused in the "
-#~ "chosen filename. Do you want to continue?"
-#~ msgstr ""
-#~ "Selle failitüübi (%s) jaoks soovitatud failinime laiendit pole kasutatud. "
-#~ "Kas sa soovid jätkata?"
-
-#~ msgid "_Attachment Bar (drop attachments here)"
-#~ msgstr "_Manuseriba (tõsta manused siia)"
-
-#~ msgid "_Delegate To..."
-#~ msgstr "_Delegeerida..."
-
-#~ msgid "_Preview Pane"
-#~ msgstr "_Eelvaatepaan"
