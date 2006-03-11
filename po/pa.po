@@ -1,30 +1,27 @@
-# translation of evolution.HEAD.po to Punjabi
-# translation of pa2.po to Punjabi
-# translation of evolution.po to Punjabi
-# translation of evolution.HEAD.pa.po to Punjabi
-# translation of pa.po to Punjabi
+# translation of evolution.gnome-2-14.po to Punjabi
 # Copyright (C) 2004 THE evolution'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the evolution package.
+#
 # Punjab Linux Technology <punjablinux@netscape.net>, 2004.
 # Amanpreet Singh Alam <aalam@redhat.com>, 2004.
 # Amanpreet Singh Alam <amanpreetalam@yahoo.com>, 2005, 2006.
 # Amanpreet Singh Brar <amanpreetsinghalam@redhat.com>, 2005.
 # Amanpreet Singh Brar <amanpreetalam@yahoo.com>, 2005.
 # Amanpreet Singh Brar Alamwalia <apbrar@gmail.com>, 2006.
-#
+# A S Alam <apbrar@gmail.com>, 2006.
 msgid ""
 msgstr ""
-"Project-Id-Version: evolution.HEAD\n"
+"Project-Id-Version: evolution.gnome-2-14\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-02-24 06:07+0100\n"
-"PO-Revision-Date: 2006-02-25 12:41+0530\n"
-"Last-Translator: Amanpreet Singh Alam <amanpreetalam@yahoo.com>\n"
+"POT-Creation-Date: 2006-03-11 06:27+0100\n"
+"PO-Revision-Date: 2006-03-11 18:18+0530\n"
+"Last-Translator: A S Alam <apbrar@gmail.com>\n"
 "Language-Team: Punjabi <fedora-trans-pa@redhat.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.9.1\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: KBabel 1.11.1\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
 "\n"
 "\n"
 "\n"
@@ -123,32 +120,32 @@ msgstr "ਮਿਤੀ ਤੇ ਜਾਓ"
 msgid "a table to view and select the current time range"
 msgstr "ਮੌਜੂਦਾ ਸਮੇਂ ਸੀਮਾ ਵੇਖਣ ਅਤੇ ਚੁਣਨ ਲਈ ਸਾਰਣੀ"
 
-#: ../a11y/calendar/ea-day-view.c:146 ../a11y/calendar/ea-week-view.c:148
+#: ../a11y/calendar/ea-day-view.c:149 ../a11y/calendar/ea-week-view.c:151
 #, c-format
 msgid "It has %d event."
 msgid_plural "It has %d events."
 msgstr[0] "ਇਸ ਵਿੱਚ %d ਘਟਨਾ ਹੈ"
 msgstr[1] "ਇਸ ਵਿੱਚ %d ਘਟਨਾਵਾਂ ਹਨ।"
 
-#: ../a11y/calendar/ea-day-view.c:148 ../a11y/calendar/ea-week-view.c:150
+#: ../a11y/calendar/ea-day-view.c:151 ../a11y/calendar/ea-week-view.c:153
 msgid "It has no events."
 msgstr "ਇਸ ਵਿੱਚ ਕੋਈ ਘਟਨਾ ਨਹੀਂ ਹੈ।"
 
-#: ../a11y/calendar/ea-day-view.c:152
+#: ../a11y/calendar/ea-day-view.c:155
 #, c-format
 msgid "Work Week View: %s. %s"
 msgstr "ਕੰਮ ਹਫਤਾ ਦਰਿਸ਼: %s. %s"
 
-#: ../a11y/calendar/ea-day-view.c:155
+#: ../a11y/calendar/ea-day-view.c:158
 #, c-format
 msgid "Day View: %s. %s"
 msgstr "ਦਿਨ ਝਲਕ: %s. %s"
 
-#: ../a11y/calendar/ea-day-view.c:186
+#: ../a11y/calendar/ea-day-view.c:189
 msgid "calendar view for a work week"
 msgstr "ਕੰਮ ਹਫਤੇ ਲਈ ਕੈਲੰਡਰ ਦਿੱਖ"
 
-#: ../a11y/calendar/ea-day-view.c:188
+#: ../a11y/calendar/ea-day-view.c:191
 msgid "calendar view for one or more days"
 msgstr "ਇੱਕ ਜਾਂ ਵਧੇਰੇ ਦਿਨਾਂ ਲ਼ਈ ਕੈਲੰਡਰ ਦਿੱਖ"
 
@@ -224,21 +221,21 @@ msgstr "ਜੰਪ ਬਟਨ"
 msgid "Click here, you can find more events."
 msgstr "ਹੋਰ ਘਟਨਾਵਾਂ ਵੇਖਣ ਲ਼ਈ ਇਸ ਨੂੰ ਦਬਾਓ।"
 
-#: ../a11y/calendar/ea-week-view.c:155
+#: ../a11y/calendar/ea-week-view.c:158
 #, c-format
 msgid "Month View: %s. %s"
 msgstr "ਮਹੀਨਾ ਝਲਕ: %s. %s"
 
-#: ../a11y/calendar/ea-week-view.c:159
+#: ../a11y/calendar/ea-week-view.c:162
 #, c-format
 msgid "Week View: %s. %s"
 msgstr "ਹਫਤਾ ਝਲਕ: %s. %s"
 
-#: ../a11y/calendar/ea-week-view.c:190
+#: ../a11y/calendar/ea-week-view.c:193
 msgid "calendar view for a month"
 msgstr "ਮਹੀਨੇ ਦੀ ਕੈਲੰਡਰ ਦਿੱਖ"
 
-#: ../a11y/calendar/ea-week-view.c:192
+#: ../a11y/calendar/ea-week-view.c:195
 msgid "calendar view for one or more weeks"
 msgstr "ਇੱਕ ਜਾਂ ਵਧੇਰੇ ਹਫਤਿਆਂ ਲ਼ਈ ਕੈਲੰਡਰ ਦਰਿਸ਼"
 
@@ -1029,8 +1026,8 @@ msgid ""
 "Selecting this option means that Evolution will only connect to your LDAP "
 "server if your LDAP server supports SSL."
 msgstr ""
-"ਇਹ ਚੋਣ ਕਰਨ ਦਾ ਅਰਥ ਹੈ ਕਿ ਈਵੇਲੂਸ਼ਨ ਤੁਹਾਡੇ LDAP ਸਰਵਰ ਨਾਲ ਤਾਂ ਜੁੜੇਗਾ, ਜੇਕਰ ਤੁਹਾਡਾ LDAP "
-"ਸਰਵਰ SSL ਲਈ ਸਹਾਇਕ ਹੋਇਆ।"
+"ਇਹ ਚੋਣ ਕਰਨ ਦਾ ਅਰਥ ਹੈ ਕਿ ਈਵੇਲੂਸ਼ਨ ਤੁਹਾਡੇ LDAP ਸਰਵਰ ਨਾਲ ਤਾਂ ਜੁੜੇਗਾ, ਜੇਕਰ ਤੁਹਾਡਾ LDAP ਸਰਵਰ "
+"SSL ਲਈ ਸਹਾਇਕ ਹੋਇਆ।"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:34
 msgid ""
@@ -1189,13 +1186,10 @@ msgstr "ਕਾਰਡ"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:60
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:8
-#: ../calendar/gui/alarm-notify/util.c:65
-#: ../calendar/gui/alarm-notify/util.c:67
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:26
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:14
-#: ../calendar/gui/dialogs/event-page.glade.h:20 ../calendar/gui/misc.c:112
-#: ../calendar/gui/misc.c:114 ../filter/filter.glade.h:16
-#: ../mail/em-account-editor.c:2020
+#: ../calendar/gui/dialogs/event-page.glade.h:20 ../filter/filter.glade.h:16
+#: ../mail/em-account-editor.c:2021
 #: ../plugins/calendar-http/calendar-http.c:286
 #: ../plugins/calendar-weather/calendar-weather.c:563
 msgid "minutes"
@@ -1453,7 +1447,7 @@ msgstr "ਸਿਰਨਾਵਾਂ"
 #: ../addressbook/gui/widgets/e-minicard-view.c:520
 #: ../addressbook/gui/widgets/e-minicard.c:175
 #: ../widgets/menus/gal-define-views-model.c:181
-#: ../widgets/table/e-cell-text.c:1772 ../widgets/text/e-entry.c:1312
+#: ../widgets/table/e-cell-text.c:1777 ../widgets/text/e-entry.c:1312
 #: ../widgets/text/e-entry.c:1313 ../widgets/text/e-text.c:3607
 #: ../widgets/text/e-text.c:3608
 msgid "Editable"
@@ -2462,7 +2456,7 @@ msgstr "ਸੇਵਾ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:128
 #: ../calendar/gui/e-cal-list-view.etspec.h:3
-#: ../plugins/publish-calendar/publish-calendar.c:478
+#: ../plugins/publish-calendar/publish-calendar.c:497
 #: ../plugins/save-calendar/csv-format.c:400
 msgid "Location"
 msgstr "ਟਿਕਾਣਾ"
@@ -2526,15 +2520,15 @@ msgstr "ਤਬਦੀਲ"
 msgid "Contact Editor - %s"
 msgstr "ਸਬੰਧ ਸੰਪਾਦਕ - %s"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2759
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2773
 msgid "Please select an image for this contact"
 msgstr "ਇਸ ਸੰਪਰਕ ਲਈ ਚਿੱਤਰ ਚੁਣੋ"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2760
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2774
 msgid "No image"
 msgstr "ਕੋਈ ਚਿੱਤਰ ਨਹੀਂ"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3044
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3058
 msgid ""
 "The contact data is invalid:\n"
 "\n"
@@ -2542,7 +2536,7 @@ msgstr ""
 "ਸੰਪਰਕ ਡਾਟਾ ਗਲਤ ਹੈ:\n"
 "\n"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3096
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3110
 msgid "Invalid contact."
 msgstr "ਗਲਤ ਸੰਬੰਧ"
 
@@ -2699,8 +2693,8 @@ msgstr "_IM ਸੇਵਾ:"
 
 #: ../addressbook/gui/contact-editor/im.glade.h:5
 #: ../plugins/calendar-weather/calendar-weather.c:409
-#: ../plugins/exchange-operations/exchange-calendar.c:234
-#: ../plugins/exchange-operations/exchange-contacts.c:222
+#: ../plugins/exchange-operations/exchange-calendar.c:239
+#: ../plugins/exchange-operations/exchange-contacts.c:228
 msgid "_Location:"
 msgstr "ਟਿਕਾਣਾ(_L):"
 
@@ -2870,7 +2864,7 @@ msgstr "ਸਰੋਤ"
 #: ../addressbook/gui/widgets/e-addressbook-view.c:244
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:11
 #: ../calendar/gui/e-calendar-table.etspec.h:13
-#: ../calendar/gui/e-meeting-list-view.c:480
+#: ../calendar/gui/e-meeting-list-view.c:486
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:11
 #: ../calendar/gui/e-memo-table.etspec.h:5
 msgid "Type"
@@ -2883,7 +2877,7 @@ msgid "Save as VCard..."
 msgstr "VCard ਇਸਤਰਾਂ ਸੰਭਾਲੋ..."
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:957
-#: ../calendar/gui/dialogs/comp-editor.c:1086
+#: ../calendar/gui/dialogs/comp-editor.c:1088
 #: ../calendar/gui/e-calendar-table.c:1174
 #: ../calendar/gui/e-calendar-view.c:1595 ../calendar/gui/e-memo-table.c:852
 #: ../ui/evolution-addressbook.xml.h:56
@@ -2944,7 +2938,7 @@ msgstr "ਕੱਟੋ(_t)"
 #: ../calendar/gui/dialogs/comp-editor.c:445
 #: ../calendar/gui/e-calendar-table.c:1182
 #: ../calendar/gui/e-calendar-view.c:1602 ../calendar/gui/e-memo-table.c:860
-#: ../calendar/gui/tasks-component.c:442 ../composer/e-msg-composer.c:3098
+#: ../calendar/gui/tasks-component.c:442 ../composer/e-msg-composer.c:3120
 #: ../mail/em-folder-tree.c:979 ../mail/em-folder-view.c:1077
 #: ../mail/message-list.c:1724 ../ui/evolution-addressbook.xml.h:46
 #: ../ui/evolution-calendar.xml.h:39 ../ui/evolution-composer-entries.xml.h:13
@@ -3103,7 +3097,7 @@ msgstr "ਰੇਡੀਓ"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:33
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:9
-#: ../calendar/gui/e-meeting-list-view.c:491
+#: ../calendar/gui/e-meeting-list-view.c:497
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:9
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:725
 msgid "Role"
@@ -3142,7 +3136,7 @@ msgstr "ਵੈਬ ਸਾਇਟ"
 #: ../addressbook/gui/widgets/e-minicard-label.c:115
 #: ../addressbook/gui/widgets/e-minicard.c:138
 #: ../widgets/misc/e-canvas-vbox.c:96 ../widgets/misc/e-canvas-vbox.c:97
-#: ../widgets/misc/e-reflow.c:1434 ../widgets/misc/e-reflow.c:1435
+#: ../widgets/misc/e-reflow.c:1436 ../widgets/misc/e-reflow.c:1437
 #: ../widgets/table/e-table-click-to-add.c:516
 #: ../widgets/table/e-table-col.c:98
 #: ../widgets/table/e-table-field-chooser-item.c:656
@@ -3150,7 +3144,7 @@ msgstr "ਵੈਬ ਸਾਇਟ"
 #: ../widgets/table/e-table-group-container.c:968
 #: ../widgets/table/e-table-group-leaf.c:629
 #: ../widgets/table/e-table-group-leaf.c:630
-#: ../widgets/table/e-table-item.c:3021 ../widgets/table/e-table-item.c:3022
+#: ../widgets/table/e-table-item.c:3022 ../widgets/table/e-table-item.c:3023
 #: ../widgets/text/e-text.c:3649 ../widgets/text/e-text.c:3650
 msgid "Width"
 msgstr "ਚੌਡ਼ਾਈ"
@@ -3158,14 +3152,14 @@ msgstr "ਚੌਡ਼ਾਈ"
 #: ../addressbook/gui/widgets/e-minicard-label.c:122
 #: ../addressbook/gui/widgets/e-minicard.c:145
 #: ../widgets/misc/e-canvas-vbox.c:108 ../widgets/misc/e-canvas-vbox.c:109
-#: ../widgets/misc/e-reflow.c:1442 ../widgets/misc/e-reflow.c:1443
+#: ../widgets/misc/e-reflow.c:1444 ../widgets/misc/e-reflow.c:1445
 #: ../widgets/table/e-table-click-to-add.c:523
 #: ../widgets/table/e-table-field-chooser-item.c:663
 #: ../widgets/table/e-table-group-container.c:960
 #: ../widgets/table/e-table-group-container.c:961
 #: ../widgets/table/e-table-group-leaf.c:622
 #: ../widgets/table/e-table-group-leaf.c:623
-#: ../widgets/table/e-table-item.c:3027 ../widgets/table/e-table-item.c:3028
+#: ../widgets/table/e-table-item.c:3028 ../widgets/table/e-table-item.c:3029
 #: ../widgets/text/e-text.c:3657 ../widgets/text/e-text.c:3658
 msgid "Height"
 msgstr "ਉਚਾਈ"
@@ -3680,19 +3674,19 @@ msgstr "ਈਵੇਲੂਸ਼ਨ CSV ਅਤੇ ਟੈਬ ਆਯਾਤਕਾਰ"
 msgid "Importing ..."
 msgstr "ਅਯਾਤ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ ..."
 
-#: ../addressbook/importers/evolution-ldif-importer.c:761
+#: ../addressbook/importers/evolution-ldif-importer.c:754
 msgid "LDAP Data Interchange Format (.ldif)"
 msgstr "LDAP ਡਾਟਾ ਅੰਤਰ ਤਬਦੀਲੀ ਫਾਰਮੈਟ (.ldif)"
 
-#: ../addressbook/importers/evolution-ldif-importer.c:762
+#: ../addressbook/importers/evolution-ldif-importer.c:755
 msgid "Evolution LDIF importer"
 msgstr "ਈਵੇਲੂਸ਼ਨ LDIF ਆਯਾਤਕਾਰ"
 
-#: ../addressbook/importers/evolution-vcard-importer.c:554
+#: ../addressbook/importers/evolution-vcard-importer.c:547
 msgid "VCard (.vcf, .gcrd)"
 msgstr "VCard (.vcf, .gcrd)"
 
-#: ../addressbook/importers/evolution-vcard-importer.c:555
+#: ../addressbook/importers/evolution-vcard-importer.c:548
 msgid "Evolution VCard Importer"
 msgstr "ਈਵੇਲੂਸ਼ਨ VCard ਆਯਾਤਕਾਰ"
 
@@ -3860,8 +3854,8 @@ msgstr "ਛਾਂ"
 #. FIXME: Take care of i18n
 #: ../addressbook/printing/e-contact-print.glade.h:36
 #: ../plugins/exchange-operations/exchange-account-setup.c:955
-#: ../plugins/exchange-operations/exchange-calendar.c:224
-#: ../plugins/exchange-operations/exchange-contacts.c:205
+#: ../plugins/exchange-operations/exchange-calendar.c:229
+#: ../plugins/exchange-operations/exchange-contacts.c:211
 msgid "Size:"
 msgstr "ਅਕਾਰ:"
 
@@ -4154,8 +4148,8 @@ msgid ""
 "If you do not send a cancelation notice, the other participants may not know "
 "the journal has been deleted."
 msgstr ""
-"ਜੇਕਰ ਤੁਸੀਂ ਰੱਦ ਕਰਨ ਦਾ ਨੋਟਿਸ ਨਾ ਭੇਜਿਆ ਤਾਂ ਹੋਰ ਭਾਗ ਲੈਣ ਵਾਲਿਆਂ ਨੂੰ ਪਤਾ ਨਹੀਂ ਲੱਗੇਗਾ ਕਿ "
-"ਜਰਨਲ ਹਟਾ ਦਿੱਤਾ ਗਿਆ ਹੈ।"
+"ਜੇਕਰ ਤੁਸੀਂ ਰੱਦ ਕਰਨ ਦਾ ਨੋਟਿਸ ਨਾ ਭੇਜਿਆ ਤਾਂ ਹੋਰ ਭਾਗ ਲੈਣ ਵਾਲਿਆਂ ਨੂੰ ਪਤਾ ਨਹੀਂ ਲੱਗੇਗਾ ਕਿ ਜਰਨਲ ਹਟਾ "
+"ਦਿੱਤਾ ਗਿਆ ਹੈ।"
 
 #: ../calendar/calendar.error.xml.h:37
 msgid ""
@@ -4170,8 +4164,8 @@ msgid ""
 "If you do not send a cancelation notice, the other participants may not know "
 "the task has been deleted."
 msgstr ""
-"ਜੇਕਰ ਤੁਸੀਂ ਰੱਦ ਕਰਨ ਦਾ ਨੋਟਿਸ ਨਾ ਭੇਜਿਆ ਤਾਂ ਭਾਗ ਲੈਣ ਵਾਲਿਆਂ ਨੂੰ ਪਤਾ ਨਹੀਂ ਲੱਗੇਗਾ ਕਿ ਕੰਮ ਨੂੰ "
-"ਹਟਾ ਦਿੱਤਾ ਗਿਆ ਹੈ।"
+"ਜੇਕਰ ਤੁਸੀਂ ਰੱਦ ਕਰਨ ਦਾ ਨੋਟਿਸ ਨਾ ਭੇਜਿਆ ਤਾਂ ਭਾਗ ਲੈਣ ਵਾਲਿਆਂ ਨੂੰ ਪਤਾ ਨਹੀਂ ਲੱਗੇਗਾ ਕਿ ਕੰਮ ਨੂੰ ਹਟਾ "
+"ਦਿੱਤਾ ਗਿਆ ਹੈ।"
 
 #: ../calendar/calendar.error.xml.h:39
 msgid ""
@@ -4434,7 +4428,7 @@ msgid "Memos"
 msgstr "ਮੀਮੋ"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:13
-#: ../calendar/gui/e-calendar-table.c:525 ../calendar/gui/e-tasks.c:1329
+#: ../calendar/gui/e-calendar-table.c:525 ../calendar/gui/e-tasks.c:1347
 #: ../calendar/gui/print.c:1828 ../calendar/gui/tasks-component.c:521
 #: ../calendar/gui/tasks-component.c:1012 ../calendar/gui/tasks-control.c:475
 #: ../calendar/importers/icalendar-importer.c:80
@@ -4460,9 +4454,6 @@ msgid "Evolution Calendar alarm notification service"
 msgstr "ਈਵੇਲੂਸ਼ਨ ਕੈਲੰਡਰ ਚੇਤਾਵਨੀ ਟਿੱਪਣੀ ਸੇਵਾ"
 
 #: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:115
-#: ../calendar/gui/alarm-notify/util.c:65
-#: ../calendar/gui/alarm-notify/util.c:67 ../calendar/gui/misc.c:112
-#: ../calendar/gui/misc.c:114
 msgid "minute"
 msgid_plural "minutes"
 msgstr[0] "ਮਿੰਟ"
@@ -4594,70 +4585,34 @@ msgstr "ਚੇਤਾਵਨੀ ਟਿੱਪਣੀ ਸੇਵਾ ਫੈਕਟਰੀ
 msgid "invalid time"
 msgstr "ਗਲਤ ਸਮਾਂ"
 
-#. Can't be zero
-#: ../calendar/gui/alarm-notify/util.c:58
+#. Translator: Entire string is like "Pop up an alert %d hours before start of appointment"
+#: ../calendar/gui/alarm-notify/util.c:66 ../calendar/gui/e-alarm-list.c:408
+#: ../calendar/gui/misc.c:113
 #, c-format
-msgid "(%ld seconds)"
-msgstr "(%ld ਸਕਿੰਟ)"
+msgid "%d hour"
+msgid_plural "%d hours"
+msgstr[0] "%d ਘੰਟਾ"
+msgstr[1] "%d ਘੰਟੇ"
+
+#. Translator: Entire string is like "Pop up an alert %d minutes before start of appointment"
+#: ../calendar/gui/alarm-notify/util.c:72 ../calendar/gui/e-alarm-list.c:414
+#: ../calendar/gui/misc.c:119
+#, c-format
+msgid "%d minute"
+msgid_plural "%d minutes"
+msgstr[0] "%d ਮਿੰਟ"
+msgstr[1] "%d ਮਿੰਟ"
 
 #. TRANSLATORS: here, "second" is the time division (like "minute"), not the ordinal number (like "third")
-#: ../calendar/gui/alarm-notify/util.c:65 ../calendar/gui/misc.c:112
+#. Translator: Entire string is like "Pop up an alert %d seconds before start of appointment"
+#. TRANSLATORS: here, "second" is the time division (like "minute"), not the ordinal number (like "third")
+#: ../calendar/gui/alarm-notify/util.c:76 ../calendar/gui/e-alarm-list.c:420
+#: ../calendar/gui/misc.c:123
 #, c-format
-msgid "(%d %s %d %s)"
-msgstr "(%d %s %d %s)"
-
-#. TRANSLATORS: here, "second" is the ordinal number (like "third"), not the time division (like "minute")
-#. * Entire string is for example: This appointment recurs/Every [x] month(s) on the [second] [Monday] [forever]'
-#. * (dropdown menu options are in [square brackets]). This means that after 'second', either the string 'day' or
-#. * the name of a week day (like 'Monday' or 'Friday') always follow.
-#.
-#: ../calendar/gui/alarm-notify/util.c:65
-#: ../calendar/gui/dialogs/recurrence-page.c:998 ../calendar/gui/misc.c:112
-msgid "second"
-msgstr "ਦੂਜਾ"
-
-#: ../calendar/gui/alarm-notify/util.c:65 ../calendar/gui/misc.c:112
-#: ../filter/filter.glade.h:18 ../mail/mail-config.glade.h:178
-msgid "seconds"
-msgstr "ਸਕਿੰਟ"
-
-#  strftime format %d = day of month, %B = full
-#  month name. You can change the order but don't
-#  change the specifiers or add anything.
-#: ../calendar/gui/alarm-notify/util.c:67 ../calendar/gui/misc.c:114
-#, c-format
-msgid "(%d %s)"
-msgstr "(%d %s)"
-
-#: ../calendar/gui/alarm-notify/util.c:78 ../calendar/gui/misc.c:125
-#, c-format
-msgid " %u second"
-msgstr " %u ਸਕਿੰਟ"
-
-#: ../calendar/gui/alarm-notify/util.c:78 ../calendar/gui/misc.c:125
-#, c-format
-msgid " %u seconds"
-msgstr " %u ਸਕਿੰਟ"
-
-#: ../calendar/gui/alarm-notify/util.c:80 ../calendar/gui/misc.c:127
-#, c-format
-msgid " %u minute"
-msgstr " %u ਮਿੰਟ"
-
-#: ../calendar/gui/alarm-notify/util.c:80 ../calendar/gui/misc.c:127
-#, c-format
-msgid " %u minutes"
-msgstr " %u ਮਿੰਟ"
-
-#: ../calendar/gui/alarm-notify/util.c:82 ../calendar/gui/misc.c:129
-#, c-format
-msgid "%u hour"
-msgstr " %u ਘੰਟਾ"
-
-#: ../calendar/gui/alarm-notify/util.c:82 ../calendar/gui/misc.c:129
-#, c-format
-msgid "%u hours"
-msgstr " %u ਘੰਟੇ"
+msgid "%d second"
+msgid_plural "%d seconds"
+msgstr[0] "%d ਸਕਿੰਟ"
+msgstr[1] "%d ਸਕਿੰਟ"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:1
 msgid "Alarm programs"
@@ -4897,8 +4852,8 @@ msgid ""
 "The URL template to use as a free/busy data fallback, %u is replaced by the "
 "user part of the mail address and %d is replaced by the domain."
 msgstr ""
-"ਵੇਹਲਾ/ਰੁਝਿਆ ਵਾਂਗ ਵਰਤਣ ਲ਼ਈ URL ਨਮੂਨਾ ਡਾਟਾ, %u ਨੂੰ ਪੱਤਰ ਸਿਰਨਾਵੇਂ ਦੇ ਉਪਭੋਗੀ ਖੇਤਰ ਅਤੇ %d ਨੂੰ "
-"ਡੋਮੇਨ ਨਾਲ ਤਬਦੀਲ ਕਰ ਦਿੱਤਾ ਜਾਵੇਗਾ।"
+"ਵੇਹਲਾ/ਰੁਝਿਆ ਵਾਂਗ ਵਰਤਣ ਲ਼ਈ URL ਨਮੂਨਾ ਡਾਟਾ, %u ਨੂੰ ਪੱਤਰ ਸਿਰਨਾਵੇਂ ਦੇ ਉਪਭੋਗੀ ਖੇਤਰ ਅਤੇ %d ਨੂੰ ਡੋਮੇਨ "
+"ਨਾਲ ਤਬਦੀਲ ਕਰ ਦਿੱਤਾ ਜਾਵੇਗਾ।"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:56
 msgid ""
@@ -5320,7 +5275,7 @@ msgstr "ਮਿੰਟ"
 msgid "start of appointment"
 msgstr "ਰੁਝੇਵੇਂ ਨਾਲ ਸ਼ੁਰੂ ਕਰੋ"
 
-#: ../calendar/gui/dialogs/alarm-list-dialog.c:232
+#: ../calendar/gui/dialogs/alarm-list-dialog.c:235
 msgid "Action/Trigger"
 msgstr "ਕਾਰਵਾਈ/ਤਬਦੀਲ"
 
@@ -5775,131 +5730,131 @@ msgstr "ਨੱਥੀ ਸੁਨੇਹਾ - %s"
 #. translators, this count will always be >1
 #: ../calendar/gui/dialogs/comp-editor.c:212
 #: ../calendar/gui/dialogs/comp-editor.c:382 ../composer/e-msg-composer.c:2855
-#: ../composer/e-msg-composer.c:3034
+#: ../composer/e-msg-composer.c:3056
 #, c-format
 msgid "Attached message"
 msgid_plural "%d attached messages"
 msgstr[0] "ਸ਼ਾਮਿਲ ਸੁਨੇਹਾ"
 msgstr[1] "%d ਨੱਥੀ ਸੁਨੇਹੇ"
 
-#: ../calendar/gui/dialogs/comp-editor.c:446 ../composer/e-msg-composer.c:3099
+#: ../calendar/gui/dialogs/comp-editor.c:446 ../composer/e-msg-composer.c:3121
 #: ../mail/em-folder-tree.c:980 ../mail/em-folder-utils.c:368
 #: ../mail/em-folder-view.c:973 ../mail/message-list.c:1725
 msgid "_Move"
 msgstr "ਭੇਜੋ(_M)"
 
-#: ../calendar/gui/dialogs/comp-editor.c:448 ../composer/e-msg-composer.c:3101
+#: ../calendar/gui/dialogs/comp-editor.c:448 ../composer/e-msg-composer.c:3123
 #: ../mail/em-folder-tree.c:982 ../mail/message-list.c:1727
 msgid "Cancel _Drag"
 msgstr "ਚੁੱਕਣਾ ਰੱਦ(_D)"
 
-#: ../calendar/gui/dialogs/comp-editor.c:800
+#: ../calendar/gui/dialogs/comp-editor.c:802
 msgid "Could not update object"
 msgstr "ਇਕਾਈ ਅੱਪਡੇਟ ਨਹੀਂ ਹੋ ਸਕਦੀ ਹੈ"
 
-#: ../calendar/gui/dialogs/comp-editor.c:943 ../composer/e-msg-composer.c:2479
+#: ../calendar/gui/dialogs/comp-editor.c:945 ../composer/e-msg-composer.c:2479
 #, c-format
 msgid "<b>%d</b> Attachment"
 msgid_plural "<b>%d</b> Attachments"
 msgstr[0] "<b>%d</b> ਨੱਥੀ"
 msgstr[1] "<b>%d</b> ਨੱਥੀ"
 
-#: ../calendar/gui/dialogs/comp-editor.c:975
+#: ../calendar/gui/dialogs/comp-editor.c:977
 msgid "Hide Attachment _Bar"
 msgstr "ਨੱਥੀ ਪੱਟੀ ਓਹਲੇ(_B)"
 
-#: ../calendar/gui/dialogs/comp-editor.c:978
-#: ../calendar/gui/dialogs/comp-editor.c:1442
+#: ../calendar/gui/dialogs/comp-editor.c:980
+#: ../calendar/gui/dialogs/comp-editor.c:1444
 msgid "Show Attachment _Bar"
 msgstr "ਨੱਥੀ ਪੱਟੀ ਵੇਖਾਓ(_B)"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1087
-#: ../calendar/gui/dialogs/event-page.c:1897
+#: ../calendar/gui/dialogs/comp-editor.c:1089
+#: ../calendar/gui/dialogs/event-page.c:1894
 #: ../calendar/gui/dialogs/meeting-page.c:899
 #: ../calendar/gui/dialogs/task-page.c:1202
 #: ../composer/e-msg-composer-attachment-bar.c:470
-#: ../composer/e-msg-composer.c:3597
+#: ../composer/e-msg-composer.c:3619
 #: ../plugins/groupwise-features/junk-settings.glade.h:8
 #: ../plugins/groupwise-features/properties.glade.h:14
 #: ../widgets/table/e-table-config.glade.h:18
 msgid "_Remove"
 msgstr "ਹਟਾਓ(_R)"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1088
+#: ../calendar/gui/dialogs/comp-editor.c:1090
 #: ../composer/e-msg-composer-attachment-bar.c:471
-#: ../composer/e-msg-composer.c:3598 ../mail/em-folder-tree.c:2058
+#: ../composer/e-msg-composer.c:3620 ../mail/em-folder-tree.c:2058
 #: ../ui/evolution-addressbook.xml.h:59 ../ui/evolution-mail-list.xml.h:33
 msgid "_Properties"
 msgstr "ਵਿਸ਼ੇਸਤਾ(_P)"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1090
+#: ../calendar/gui/dialogs/comp-editor.c:1092
 #: ../composer/e-msg-composer-attachment-bar.c:473
-#: ../composer/e-msg-composer.c:3600
+#: ../composer/e-msg-composer.c:3622
 msgid "_Add attachment..."
 msgstr "ਨੱਥੀ ਸ਼ਾਮਿਲ(_A)..."
 
-#: ../calendar/gui/dialogs/comp-editor.c:1466
-#: ../mail/em-format-html-display.c:2063
+#: ../calendar/gui/dialogs/comp-editor.c:1468
+#: ../mail/em-format-html-display.c:2065
 msgid "Show Attachments"
 msgstr "ਨੱਥੀ ਵੇਖਾਓ"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1467
+#: ../calendar/gui/dialogs/comp-editor.c:1469
 msgid "Press space key to toggle attachment bar"
 msgstr "ਨੱਥੀ ਪੱਟੀ ਨੂੰ ਬਦਲਣ ਲਈ ਸਪੇਸ ਸਵਿੱਚ ਦਬਾਓ"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2074
-#: ../calendar/gui/dialogs/comp-editor.c:2117
+#: ../calendar/gui/dialogs/comp-editor.c:2076
+#: ../calendar/gui/dialogs/comp-editor.c:2119
 msgid "Edit Appointment"
 msgstr "ਰੁਝੇਵਾਂ ਸੋਧ"
-
-#: ../calendar/gui/dialogs/comp-editor.c:2080
-#: ../calendar/gui/dialogs/comp-editor.c:2123
-#, c-format
-msgid "Meeting - %s"
-msgstr "ਮੀਟਿੰਗ - %s"
 
 #: ../calendar/gui/dialogs/comp-editor.c:2082
 #: ../calendar/gui/dialogs/comp-editor.c:2125
 #, c-format
+msgid "Meeting - %s"
+msgstr "ਮੀਟਿੰਗ - %s"
+
+#: ../calendar/gui/dialogs/comp-editor.c:2084
+#: ../calendar/gui/dialogs/comp-editor.c:2127
+#, c-format
 msgid "Appointment - %s"
 msgstr "ਰੁਝੇਵਾਂ - %s"
-
-#: ../calendar/gui/dialogs/comp-editor.c:2086
-#: ../calendar/gui/dialogs/comp-editor.c:2129
-#, c-format
-msgid "Assigned Task - %s"
-msgstr "ਮਿਲੇ ਕੰਮ - %s"
 
 #: ../calendar/gui/dialogs/comp-editor.c:2088
 #: ../calendar/gui/dialogs/comp-editor.c:2131
 #, c-format
+msgid "Assigned Task - %s"
+msgstr "ਮਿਲੇ ਕੰਮ - %s"
+
+#: ../calendar/gui/dialogs/comp-editor.c:2090
+#: ../calendar/gui/dialogs/comp-editor.c:2133
+#, c-format
 msgid "Task - %s"
 msgstr "ਕੰਮ - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2091
-#: ../calendar/gui/dialogs/comp-editor.c:2134
+#: ../calendar/gui/dialogs/comp-editor.c:2093
+#: ../calendar/gui/dialogs/comp-editor.c:2136
 #, c-format
 msgid "Journal entry - %s"
 msgstr "ਜਰਨਲ ਇੰਦਰਾਜ਼ - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2102
-#: ../calendar/gui/dialogs/comp-editor.c:2144
+#: ../calendar/gui/dialogs/comp-editor.c:2104
+#: ../calendar/gui/dialogs/comp-editor.c:2146
 msgid "No summary"
 msgstr "ਸੰਖੇਪ ਨਹੀਂ"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2652
+#: ../calendar/gui/dialogs/comp-editor.c:2654
 #: ../composer/e-msg-composer-attachment-bar.c:307 ../mail/em-utils.c:464
 #: ../mail/em-utils.c:501 ../widgets/misc/e-attachment-bar.c:339
 msgid "attachment"
 msgstr "ਨੱਥੀ"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2741
-#: ../calendar/gui/dialogs/comp-editor.c:2795
-#: ../calendar/gui/dialogs/comp-editor.c:2819
+#: ../calendar/gui/dialogs/comp-editor.c:2743
+#: ../calendar/gui/dialogs/comp-editor.c:2797
+#: ../calendar/gui/dialogs/comp-editor.c:2821
 msgid "Changes made to this item may be discarded if an update arrives"
 msgstr "ਜੇਕਰ ਅੱਪਡੇਟ ਕੀਤਾ ਇਸ ਇਕਾਈ ਵਿੱਚ ਕੀਤੀਆਂ ਤਬਦੀਲੀਆਂ ਰੱਦ ਕਰ ਦਿੱਤੀਆਂ ਜਾਣਗੀਆਂ"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2843
+#: ../calendar/gui/dialogs/comp-editor.c:2845
 msgid "Unable to use current version!"
 msgstr "ਮੌਜੂਦਾ ਵਰਜਨ ਵਰਤਣ ਵਿੱਚ ਅਸਫਲ!"
 
@@ -5986,106 +5941,106 @@ msgid "Recurrence"
 msgstr "ਦੁਹਰਾਓ"
 
 #: ../calendar/gui/dialogs/event-page.c:807
-#: ../calendar/gui/dialogs/event-page.c:2717
+#: ../calendar/gui/dialogs/event-page.c:2714
 msgid "This event has alarms"
 msgstr "ਇਹ ਘਟਨਾ ਲਈ ਅਲਾਰਮ ਹੈ"
 
-#: ../calendar/gui/dialogs/event-page.c:875
+#: ../calendar/gui/dialogs/event-page.c:872
 #: ../calendar/gui/dialogs/event-page.glade.h:7
 msgid "Cale_ndar:"
 msgstr "ਕੈਲੰਡਰ(_n):"
 
-#: ../calendar/gui/dialogs/event-page.c:881
+#: ../calendar/gui/dialogs/event-page.c:878
 #: ../calendar/gui/dialogs/event-page.glade.h:13
 #: ../calendar/gui/dialogs/meeting-page.glade.h:5
 #: ../calendar/gui/dialogs/task-page.c:446
 msgid "Or_ganizer:"
 msgstr "ਪ੍ਰਬੰਧਕ(_O):"
 
-#: ../calendar/gui/dialogs/event-page.c:919
+#: ../calendar/gui/dialogs/event-page.c:916
 msgid "_Delegatees"
 msgstr "ਪ੍ਰਤੀਨਿਧ(_D)"
 
-#: ../calendar/gui/dialogs/event-page.c:921
+#: ../calendar/gui/dialogs/event-page.c:918
 msgid "Atte_ndees"
 msgstr "ਦਰਸ਼ਕ(_N)"
 
-#: ../calendar/gui/dialogs/event-page.c:1089
+#: ../calendar/gui/dialogs/event-page.c:1086
 msgid "Event with no start date"
 msgstr "ਬਿਨਾਂ ਸ਼ੁਰੂਆਤ ਮਿਤੀ ਨਾਲ ਘਟਨਾ"
 
-#: ../calendar/gui/dialogs/event-page.c:1092
+#: ../calendar/gui/dialogs/event-page.c:1089
 msgid "Event with no end date"
 msgstr "ਬਿਨਾਂ ਅੰਤ ਮਿਤੀ ਨਾਲ ਘਟਨਾ"
 
-#: ../calendar/gui/dialogs/event-page.c:1260
+#: ../calendar/gui/dialogs/event-page.c:1257
 #: ../calendar/gui/dialogs/task-page.c:852
 msgid "Start date is wrong"
 msgstr "ਸ਼ੁਰੂਆਤੀ ਮਿਤੀ ਗਲਤ ਹੈ"
 
-#: ../calendar/gui/dialogs/event-page.c:1270
+#: ../calendar/gui/dialogs/event-page.c:1267
 msgid "End date is wrong"
 msgstr "ਸਮਾਪਤੀ ਮਿਤੀ ਗਲਤ ਹੈ"
 
-#: ../calendar/gui/dialogs/event-page.c:1293
+#: ../calendar/gui/dialogs/event-page.c:1290
 msgid "Start time is wrong"
 msgstr "ਸ਼ੁਰੂਆਤੀ ਸਮਾਂ ਗਲਤ ਹੈ"
 
-#: ../calendar/gui/dialogs/event-page.c:1300
+#: ../calendar/gui/dialogs/event-page.c:1297
 msgid "End time is wrong"
 msgstr "ਸਮਾਪਤੀ ਸਮਾਂ ਗਲਤ ਹੈ"
 
-#: ../calendar/gui/dialogs/event-page.c:1455
+#: ../calendar/gui/dialogs/event-page.c:1452
 #: ../calendar/gui/dialogs/meeting-page.c:469
 #: ../calendar/gui/dialogs/task-page.c:909
 msgid "The organizer selected no longer has an account."
 msgstr "ਚੁਣੇ ਪ੍ਰਬੰਧਕ ਦਾ ਖਾਤਾ ਨਹੀਂ ਰਿਹਾ ਹੈ।"
 
-#: ../calendar/gui/dialogs/event-page.c:1461
+#: ../calendar/gui/dialogs/event-page.c:1458
 #: ../calendar/gui/dialogs/meeting-page.c:475
 #: ../calendar/gui/dialogs/task-page.c:915
 msgid "An organizer is required."
 msgstr "ਇੱਕ ਪ੍ਰਬੰਧਕ ਲੋੜੀਦਾ ਹੈ।"
 
-#: ../calendar/gui/dialogs/event-page.c:1476
+#: ../calendar/gui/dialogs/event-page.c:1473
 #: ../calendar/gui/dialogs/meeting-page.c:490
 #: ../calendar/gui/dialogs/task-page.c:930
 msgid "At least one attendee is required."
 msgstr "ਇੱਕ ਦਰਸ਼ਕ ਤਾਂ ਲੋੜੀਦਾ ਹੈ।"
 
-#: ../calendar/gui/dialogs/event-page.c:1898
+#: ../calendar/gui/dialogs/event-page.c:1895
 #: ../calendar/gui/dialogs/meeting-page.c:900
 #: ../calendar/gui/dialogs/task-page.c:1203
 msgid "_Add "
 msgstr "ਸ਼ਾਮਿਲ(_A) "
 
-#: ../calendar/gui/dialogs/event-page.c:2624
+#: ../calendar/gui/dialogs/event-page.c:2621
 #, c-format
 msgid "Unable to open the calendar '%s'."
 msgstr "'%s' ਕੈਲੰਡਰ ਖੋਲਣ ਵਿੱਚ ਅਸਫਲ"
 
-#: ../calendar/gui/dialogs/event-page.c:2920
+#: ../calendar/gui/dialogs/event-page.c:2924
 #, c-format
 msgid "%d day before appointment"
 msgid_plural "%d days before appointment"
 msgstr[0] "ਰੁਝੇਵੇਂ ਤੋਂ ਪਹਿਲਾਂ %d ਦਿਨ"
 msgstr[1] "ਰੁਝੇਵੇਂ ਤੋਂ ਪਹਿਲਾਂ %d ਦਿਨ"
 
-#: ../calendar/gui/dialogs/event-page.c:2928
+#: ../calendar/gui/dialogs/event-page.c:2932
 #, c-format
 msgid "%d hour before appointment"
 msgid_plural "%d hours before appointment"
 msgstr[0] "ਰੁਝੇਵੇਂ ਤੋਂ ਪਹਿਲਾਂ %d ਘੰਟਾ"
 msgstr[1] "ਰੁਝੇਵੇਂ ਤੋਂ ਪਹਿਲਾਂ %d ਘੰਟੇ"
 
-#: ../calendar/gui/dialogs/event-page.c:2936
+#: ../calendar/gui/dialogs/event-page.c:2940
 #, c-format
 msgid "%d minute before appointement"
 msgid_plural "%d minutes before appointment"
 msgstr[0] "ਰੁਝੇਵੇਂ ਤੋਂ ਪਹਿਲਾਂ %d ਮਿੰਟ"
 msgstr[1] "ਰੁਝੇਵੇਂ ਤੋਂ ਪਹਿਲਾਂ %d ਮਿੰਟ"
 
-#: ../calendar/gui/dialogs/event-page.c:2952
+#: ../calendar/gui/dialogs/event-page.c:2956
 msgid "Customize"
 msgstr "ਪਸੰਦ"
 
@@ -6094,7 +6049,7 @@ msgstr "ਪਸੰਦ"
 #. When "None" is selected we want the field to be cleared.
 #. Note that we don't show this here, since by default a 'None' date
 #. is not permitted.
-#: ../calendar/gui/dialogs/event-page.c:2957
+#: ../calendar/gui/dialogs/event-page.c:2961
 #: ../calendar/gui/dialogs/meeting-page.c:321
 #: ../calendar/gui/dialogs/meeting-page.glade.h:4
 #: ../calendar/gui/e-cal-model-tasks.c:649
@@ -6224,14 +6179,14 @@ msgstr "ਮੈਂਬਰ"
 
 #. To translators: RSVP means "please reply"
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:8
-#: ../calendar/gui/e-meeting-list-view.c:503
+#: ../calendar/gui/e-meeting-list-view.c:509
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:8
 msgid "RSVP"
 msgstr "RSVP"
 
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:10
 #: ../calendar/gui/e-calendar-table.etspec.h:10
-#: ../calendar/gui/e-meeting-list-view.c:514
+#: ../calendar/gui/e-meeting-list-view.c:520
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:10 ../mail/em-filter-i18n.h:63
 #: ../mail/message-list.etspec.h:12
 msgid "Status"
@@ -6366,6 +6321,15 @@ msgstr "ਚਾਲੂ"
 #: ../calendar/gui/dialogs/recurrence-page.c:992
 msgid "first"
 msgstr "ਪਹਿਲਾਂ"
+
+#. TRANSLATORS: here, "second" is the ordinal number (like "third"), not the time division (like "minute")
+#. * Entire string is for example: This appointment recurs/Every [x] month(s) on the [second] [Monday] [forever]'
+#. * (dropdown menu options are in [square brackets]). This means that after 'second', either the string 'day' or
+#. * the name of a week day (like 'Monday' or 'Friday') always follow.
+#.
+#: ../calendar/gui/dialogs/recurrence-page.c:998
+msgid "second"
+msgstr "ਦੂਜਾ"
 
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [third] [Monday] [forever]'
 #. * (dropdown menu options are in [square brackets]). This means that after 'third', either the string 'day' or
@@ -6675,30 +6639,6 @@ msgid_plural "%d weeks"
 msgstr[0] "%d ਹਫਤਾ"
 msgstr[1] "%d ਹਫਤਾ"
 
-#. Translator: Entire string is like "Pop up an alert %d hours before start of appointment"
-#: ../calendar/gui/e-alarm-list.c:408
-#, c-format
-msgid "%d hour"
-msgid_plural "%d hours"
-msgstr[0] "%d ਘੰਟਾ"
-msgstr[1] "%d ਘੰਟੇ"
-
-#. Translator: Entire string is like "Pop up an alert %d minutes before start of appointment"
-#: ../calendar/gui/e-alarm-list.c:414
-#, c-format
-msgid "%d minute"
-msgid_plural "%d minutes"
-msgstr[0] "%d ਮਿੰਟ"
-msgstr[1] "%d ਮਿੰਟ"
-
-#. Translator: Entire string is like "Pop up an alert %d seconds before start of appointment"
-#: ../calendar/gui/e-alarm-list.c:420
-#, c-format
-msgid "%d second"
-msgid_plural "%d seconds"
-msgstr[0] "%d ਸਕਿੰਟ"
-msgstr[1] "%d ਸਕਿੰਟ"
-
 #: ../calendar/gui/e-alarm-list.c:464
 msgid "Unknown action to be performed"
 msgstr "ਅਣਪਛਾਤੀ ਕਾਰਵਾਈ ਕਰਨ ਲਈ ਹੈ"
@@ -6874,7 +6814,7 @@ msgstr "ਨਹੀ"
 
 #. This is the default filename used for temporary file creation
 #: ../calendar/gui/e-cal-model.c:327 ../calendar/gui/e-cal-popup.c:107
-#: ../calendar/gui/e-cal-popup.c:122 ../calendar/gui/e-cal-popup.c:167
+#: ../calendar/gui/e-cal-popup.c:124 ../calendar/gui/e-cal-popup.c:171
 #: ../calendar/gui/e-itip-control.c:1144 ../calendar/gui/e-itip-control.c:1285
 #: ../calendar/gui/e-meeting-list-view.c:169
 #: ../calendar/gui/e-meeting-list-view.c:183
@@ -6896,35 +6836,35 @@ msgstr "ਆਵਿਰਤੀ"
 msgid "Assigned"
 msgstr "ਜਾਰੀ ਕੀਤੇ"
 
-#: ../calendar/gui/e-cal-popup.c:173 ../mail/em-popup.c:412
+#: ../calendar/gui/e-cal-popup.c:177 ../mail/em-popup.c:412
 msgid "Save As..."
 msgstr "ਇਸਤਰਾਂ ਸੰਭਾਲੋ..."
 
-#: ../calendar/gui/e-cal-popup.c:189 ../mail/em-format-html-display.c:1911
+#: ../calendar/gui/e-cal-popup.c:193 ../mail/em-format-html-display.c:1913
 msgid "Select folder to save selected attachments..."
 msgstr "ਨੱਥੀ ਸੰਭਾਲਣ ਲਈ ਫੋਲਡਰ ਚੁਣੋ..."
 
-#: ../calendar/gui/e-cal-popup.c:218 ../mail/em-popup.c:437
+#: ../calendar/gui/e-cal-popup.c:222 ../mail/em-popup.c:437
 #, c-format
 msgid "untitled_image.%s"
 msgstr "ਬਿਨਾਂ ਸਿਰਲੇਖ ਚਿੱਤਰ %s"
 
-#: ../calendar/gui/e-cal-popup.c:272 ../calendar/gui/e-calendar-table.c:1176
+#: ../calendar/gui/e-cal-popup.c:276 ../calendar/gui/e-calendar-table.c:1176
 #: ../calendar/gui/e-calendar-view.c:1596 ../calendar/gui/e-memo-table.c:854
 #: ../mail/em-folder-view.c:1087 ../mail/em-popup.c:554 ../mail/em-popup.c:565
 msgid "_Save As..."
 msgstr "ਇਸ ਤਰਾਂ ਸੰਭਾਲੋ(_S)..."
 
-#: ../calendar/gui/e-cal-popup.c:273 ../mail/em-popup.c:555
+#: ../calendar/gui/e-cal-popup.c:277 ../mail/em-popup.c:555
 #: ../mail/em-popup.c:566
 msgid "Set as _Background"
 msgstr "ਪਿੱਠਭੂਮੀ ਬਣਾਉ(_B)"
 
-#: ../calendar/gui/e-cal-popup.c:274
+#: ../calendar/gui/e-cal-popup.c:278
 msgid "_Save Selected"
 msgstr "ਚੁਣੇ ਸੰਭਾਲੋ(_S)"
 
-#: ../calendar/gui/e-cal-popup.c:396 ../mail/em-popup.c:775
+#: ../calendar/gui/e-cal-popup.c:400 ../mail/em-popup.c:775
 #, c-format
 msgid "Open in %s..."
 msgstr "%s ਨਾਲ ਖੋਲਿਆ ਜਾ ਰਿਹਾ ਹੈ..."
@@ -7739,7 +7679,7 @@ msgid "Delegated"
 msgstr "ਪ੍ਰਤੀਨਿਧੀ"
 
 #. The extra space is just a hack to occupy more space for Attendee
-#: ../calendar/gui/e-meeting-list-view.c:464
+#: ../calendar/gui/e-meeting-list-view.c:470
 msgid "Attendee                          "
 msgstr "ਦਰਸ਼ਕ                          "
 
@@ -7845,7 +7785,7 @@ msgstr "ਇੱਕ ਮੀਮੋ ਸ਼ਾਮਿਲ ਕਰਨ ਲਈ ਦਬਾਓ"
 msgid "Memo sort"
 msgstr "ਮੀਮੋ ਕ੍ਰਮਬੱਧ"
 
-#: ../calendar/gui/e-memos.c:724 ../calendar/gui/e-tasks.c:818
+#: ../calendar/gui/e-memos.c:724 ../calendar/gui/e-tasks.c:836
 #: ../calendar/gui/gnome-cal.c:2557
 #, c-format
 msgid ""
@@ -7864,7 +7804,7 @@ msgstr "ਮੀਮੋ ਲੋਡ ਕਰ ਰਿਹਾ ਹੈ"
 msgid "Opening memos at %s"
 msgstr "%s ਉੱਤੇ ਮੀਮੋ ਖੋਲ ਰਿਹਾ ਹੈ"
 
-#: ../calendar/gui/e-memos.c:1026 ../calendar/gui/e-tasks.c:1221
+#: ../calendar/gui/e-memos.c:1026 ../calendar/gui/e-tasks.c:1239
 msgid "Deleting selected objects..."
 msgstr "ਚੁਣੀਆਂ ਇਕਾਈਆਂ ਹਟਾਈਆਂ ਜਾ ਰਹੀਆਂ ਹਨ..."
 
@@ -7873,20 +7813,20 @@ msgstr "ਚੁਣੀਆਂ ਇਕਾਈਆਂ ਹਟਾਈਆਂ ਜਾ ਰਹ�
 msgid "Enter the password for %s"
 msgstr "%s ਲਈ ਗੁਪਤ-ਕੋਡ ਭਰੋ"
 
-#: ../calendar/gui/e-tasks.c:866
+#: ../calendar/gui/e-tasks.c:884
 msgid "Loading tasks"
 msgstr "ਕੰਮ ਲੋਡ ਕਰ ਰਿਹਾ ਹੈ"
 
-#: ../calendar/gui/e-tasks.c:953
+#: ../calendar/gui/e-tasks.c:971
 #, c-format
 msgid "Opening tasks at %s"
 msgstr "%s ਤੇ ਕੰਮ ਖੋਲ ਰਿਹਾ ਹੈ"
 
-#: ../calendar/gui/e-tasks.c:1198
+#: ../calendar/gui/e-tasks.c:1216
 msgid "Completing tasks..."
 msgstr "ਕੰਮ ਪੂਰੇ ਕਰ ਰਿਹਾ ਹੈ..."
 
-#: ../calendar/gui/e-tasks.c:1248
+#: ../calendar/gui/e-tasks.c:1266
 msgid "Expunging"
 msgstr "ਨਿਕਾਲਾ"
 
@@ -8167,12 +8107,6 @@ msgstr "ਕੈਲੰਡਰ `%s' ਨੂੰ ਤਬਦੀਲ ਕਰਨ ਵਿੱਚ
 #, c-format
 msgid "Unable to migrate tasks `%s'"
 msgstr "ਕੰਮ `%s' ਭੇਜਣ ਵਿੱਚ ਅਸਫਲ"
-
-#. Can't be zero
-#: ../calendar/gui/misc.c:105
-#, c-format
-msgid "(%d seconds)"
-msgstr "(%d ਸਕਿੰਟ)"
 
 #: ../calendar/gui/print.c:493
 msgid "1st"
@@ -10086,7 +10020,7 @@ msgid "%.0fG"
 msgstr "%.0f ਗੈਗਾ"
 
 #: ../composer/e-msg-composer-attachment-bar.c:740
-#: ../widgets/misc/e-attachment-bar.c:986
+#: ../widgets/misc/e-attachment-bar.c:988
 msgid "Attachment Bar"
 msgstr "ਨੱਥੀ ਪੱਟੀ"
 
@@ -10211,7 +10145,7 @@ msgid "Hide _Attachment Bar"
 msgstr "ਨੱਥੀ ਪੱਟੀ ਓਹਲੇ(_A)"
 
 #: ../composer/e-msg-composer.c:1298 ../composer/e-msg-composer.c:2511
-#: ../composer/e-msg-composer.c:3843
+#: ../composer/e-msg-composer.c:3865
 msgid "Show _Attachment Bar"
 msgstr "ਨੱਥੀ ਪੱਟੀ ਵੇਖਾਓ(_A)"
 
@@ -10246,12 +10180,12 @@ msgstr "ਸਵੈ-ਨਿਰਮਤ"
 msgid "Si_gnature:"
 msgstr "ਦਸਤਖਤ(_g):"
 
-#: ../composer/e-msg-composer.c:2522 ../composer/e-msg-composer.c:3725
-#: ../composer/e-msg-composer.c:3728
+#: ../composer/e-msg-composer.c:2522 ../composer/e-msg-composer.c:3747
+#: ../composer/e-msg-composer.c:3750
 msgid "Compose Message"
 msgstr "ਸੁਨੇਹਾ ਲਿਖੋ"
 
-#: ../composer/e-msg-composer.c:4952
+#: ../composer/e-msg-composer.c:4974
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)"
 "<b>"
@@ -10822,6 +10756,10 @@ msgstr "ਪਹਿਲਾਂ"
 msgid "months"
 msgstr "ਮਹੀਨੇ"
 
+#: ../filter/filter.glade.h:18 ../mail/mail-config.glade.h:178
+msgid "seconds"
+msgstr "ਸਕਿੰਟ"
+
 #: ../filter/filter.glade.h:19
 msgid "the current time"
 msgstr "ਮੌਜੂਦਾ ਸਮਾਂ"
@@ -10936,46 +10874,46 @@ msgstr "ਫੋਲਡਰ ਚੁਣੋ"
 msgid "Ask for each message"
 msgstr "ਹਰ ਸੁਨੇਹੇ ਲਈ ਪੁੱਛੋ"
 
-#: ../mail/em-account-editor.c:1779 ../mail/mail-config.glade.h:91
+#: ../mail/em-account-editor.c:1780 ../mail/mail-config.glade.h:91
 msgid "Identity"
 msgstr "ਪਛਾਣ"
 
-#: ../mail/em-account-editor.c:1828 ../mail/mail-config.glade.h:118
+#: ../mail/em-account-editor.c:1829 ../mail/mail-config.glade.h:118
 msgid "Receiving Email"
 msgstr "ਈ-ਪੱਤਰ ਪ੍ਰਾਪਤ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ"
 
-#: ../mail/em-account-editor.c:2012
+#: ../mail/em-account-editor.c:2013
 msgid "Automatically check for _new mail every"
 msgstr "ਇੰਨੇ ਅੰਤਰਾਲ ਬਾਅਦ ਪੱਤਰ ਦੀ ਜਾਂਚ ਕਰੋ(_n)"
 
-#: ../mail/em-account-editor.c:2193 ../mail/mail-config.glade.h:130
+#: ../mail/em-account-editor.c:2194 ../mail/mail-config.glade.h:130
 msgid "Sending Email"
 msgstr "ਈ-ਪੱਤਰ ਭੇਜਿਆ ਜਾ ਰਿਹਾ ਹੈ"
 
-#: ../mail/em-account-editor.c:2252 ../mail/mail-config.glade.h:68
+#: ../mail/em-account-editor.c:2253 ../mail/mail-config.glade.h:68
 msgid "Defaults"
 msgstr "ਮੂਲ"
 
 #. Security settings
-#: ../mail/em-account-editor.c:2318 ../mail/mail-config.glade.h:123
+#: ../mail/em-account-editor.c:2319 ../mail/mail-config.glade.h:123
 #: ../plugins/exchange-operations/exchange-account-setup.c:317
 msgid "Security"
 msgstr "ਸੁਰੱਖਿਆ"
 
 #. Most sections for this is auto-generated fromt the camel config
-#: ../mail/em-account-editor.c:2355 ../mail/em-account-editor.c:2446
+#: ../mail/em-account-editor.c:2356 ../mail/em-account-editor.c:2447
 msgid "Receiving Options"
 msgstr "ਪ੍ਰਾਪਤੀ ਚੋਣ"
 
-#: ../mail/em-account-editor.c:2356 ../mail/em-account-editor.c:2447
+#: ../mail/em-account-editor.c:2357 ../mail/em-account-editor.c:2448
 msgid "Checking for New Mail"
 msgstr "ਨਵਾਂ ਪੱਤਰ ਲਈ ਜਾਂਚ ਜਾਰੀ"
 
-#: ../mail/em-account-editor.c:2786 ../mail/mail-config.glade.h:34
+#: ../mail/em-account-editor.c:2795 ../mail/mail-config.glade.h:34
 msgid "Account Editor"
 msgstr "ਖਾਤਾ ਸੰਪਾਦਕ"
 
-#: ../mail/em-account-editor.c:2786 ../mail/mail-config.glade.h:80
+#: ../mail/em-account-editor.c:2795 ../mail/mail-config.glade.h:80
 msgid "Evolution Account Assistant"
 msgstr "ਈਵੇਲੂਸ਼ਨ ਖਾਤਾ ਸਹਾਇਕ"
 
@@ -10997,7 +10935,7 @@ msgstr "[ਮੂਲ]"
 #. g_object_set((GObject *)renderer, "activatable", TRUE, NULL);
 #: ../mail/em-account-prefs.c:518 ../mail/em-composer-prefs.c:930
 #: ../plugins/plugin-manager/plugin-manager.c:205
-#: ../plugins/publish-calendar/publish-calendar.c:474
+#: ../plugins/publish-calendar/publish-calendar.c:493
 msgid "Enabled"
 msgstr "ਯੋਗ ਕੀਤਾ"
 
@@ -11026,18 +10964,18 @@ msgstr "ਇੱਕ ਦਸਤਖਤੀ ਸਕਰਿਪਟ ਸ਼ਾਮਿਲ"
 msgid "Signature(s)"
 msgstr "ਦਸਤਖਤ"
 
-#: ../mail/em-composer-utils.c:873 ../mail/em-format-quote.c:389
+#: ../mail/em-composer-utils.c:874 ../mail/em-format-quote.c:389
 msgid "-------- Forwarded Message --------"
 msgstr "-------- ਅੱਗੇ ਭੇਜੇ ਸੁਨੇਹੇ --------"
 
-#: ../mail/em-composer-utils.c:1665
+#: ../mail/em-composer-utils.c:1666
 msgid "an unknown sender"
 msgstr "ਅਣਜਾਣਾ ਭੇਜਣ ਵਾਲਾ"
 
 #. Note to translators: this is the attribution string used when quoting messages.
 #. * each ${Variable} gets replaced with a value. To see a full list of available
 #. * variables, see em-composer-utils.c:1514
-#: ../mail/em-composer-utils.c:1712
+#: ../mail/em-composer-utils.c:1713
 msgid ""
 "On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} "
 "${TimeZone}, ${Sender} wrote:"
@@ -11695,8 +11633,8 @@ msgid ""
 "difficult, but not impossible for an outsider to view the content of this "
 "message in a practical amount of time."
 msgstr ""
-"ਇਹ ਸੁਨੇਹੇ ਇਕ੍ਰਿਪਟਡ ਹੈ ਅਤੇ ਇਸ ਲਈ ਹਲਕਾ ਐਲੋਗ੍ਰਿਥਮ ਵਰਤਿਆ ਗਿਆ ਹੈ। ਇਸ ਸੁਨੇਹੇ ਨੂੰ "
-"ਇੱਕ ਸੰਭਵ ਸਮੇਂ ਵਿੱਚ ਕਿਸੇ ਵੀ ਬਾਹਰੀ ਵਿਅਕਤੀ ਵਲੋਂ ਖੋਲਣ ਔਖਾ ਤਾਂ ਹੈ, ਪਰ ਅਸੰਭਵ ਨਹੀਂ ਹੈ।"
+"ਇਹ ਸੁਨੇਹੇ ਇਕ੍ਰਿਪਟਡ ਹੈ ਅਤੇ ਇਸ ਲਈ ਹਲਕਾ ਐਲੋਗ੍ਰਿਥਮ ਵਰਤਿਆ ਗਿਆ ਹੈ। ਇਸ ਸੁਨੇਹੇ ਨੂੰ ਇੱਕ ਸੰਭਵ ਸਮੇਂ ਵਿੱਚ "
+"ਕਿਸੇ ਵੀ ਬਾਹਰੀ ਵਿਅਕਤੀ ਵਲੋਂ ਖੋਲਣ ਔਖਾ ਤਾਂ ਹੈ, ਪਰ ਅਸੰਭਵ ਨਹੀਂ ਹੈ।"
 
 #: ../mail/em-format-html-display.c:767 ../mail/em-format-html.c:618
 msgid "Encrypted"
@@ -11718,8 +11656,8 @@ msgid ""
 "very difficult for an outsider to view the content of this message in a "
 "practical amount of time."
 msgstr ""
-"ਇਹ ਸੁਨੇਹੇ ਇਕਰਿਪਟਡ ਹੈ ਅਤੇ ਇਸ ਲਈ ਸਖਤ ਐਲੋਗ੍ਰਿਥਮ ਵਰਤਿਆ ਗਿਆ ਹੈ। ਇਸ ਸੁਨੇਹੇ ਦੇ ਭਾਗਾਂ ਨੂੰ "
-"ਇੱਕ ਸੰਭਵ ਸਮੇਂ ਵਿੱਚ ਕਿਸੇ ਵੀ ਬਾਹਰੀ ਵਿਅਕਤੀ ਵਲੋਂ ਵੇਖਣਾ ਔਖਾ ਹੈ।"
+"ਇਹ ਸੁਨੇਹੇ ਇਕਰਿਪਟਡ ਹੈ ਅਤੇ ਇਸ ਲਈ ਸਖਤ ਐਲੋਗ੍ਰਿਥਮ ਵਰਤਿਆ ਗਿਆ ਹੈ। ਇਸ ਸੁਨੇਹੇ ਦੇ ਭਾਗਾਂ ਨੂੰ ਇੱਕ ਸੰਭਵ ਸਮੇਂ "
+"ਵਿੱਚ ਕਿਸੇ ਵੀ ਬਾਹਰੀ ਵਿਅਕਤੀ ਵਲੋਂ ਵੇਖਣਾ ਔਖਾ ਹੈ।"
 
 #: ../mail/em-format-html-display.c:869 ../smime/gui/smime-ui.glade.h:48
 msgid "_View Certificate"
@@ -11729,64 +11667,64 @@ msgstr "ਸਰਟੀਫਿਕੇਟ ਵੇਖੋ(_V)"
 msgid "This certificate is not viewable"
 msgstr "ਇਹ ਸਰਟੀਫਿਕੇਟ ਵੇਖਣਯੋਗ ਨਹੀਂ ਹੈ"
 
-#: ../mail/em-format-html-display.c:1172
+#: ../mail/em-format-html-display.c:1174
 msgid "Completed on %B %d, %Y, %l:%M %p"
 msgstr "%B %d, %Y, %l:%M %p ਤੇ ਸਮਾਪਤ"
 
-#: ../mail/em-format-html-display.c:1180
+#: ../mail/em-format-html-display.c:1182
 msgid "Overdue:"
 msgstr "ਮਿਆਦ ਪੁੱਗੇ:"
 
-#: ../mail/em-format-html-display.c:1183
+#: ../mail/em-format-html-display.c:1185
 msgid "by %B %d, %Y, %l:%M %p"
 msgstr "ਵੱਲੋਂ %B %d, %Y, %l:%M %p"
 
-#: ../mail/em-format-html-display.c:1243
+#: ../mail/em-format-html-display.c:1245
 msgid "_View Inline"
 msgstr "ਕਤਾਰ ਵਿੱਚ ਦਰਿਸ਼(_V)"
 
-#: ../mail/em-format-html-display.c:1244
+#: ../mail/em-format-html-display.c:1246
 msgid "_Hide"
 msgstr "ਓਹਲੇ(_H)"
 
-#: ../mail/em-format-html-display.c:1245
+#: ../mail/em-format-html-display.c:1247
 msgid "_Fit to Width"
 msgstr "ਚੌੜਾਈ ਦੇ ਫਿੱਟ(_F)"
 
-#: ../mail/em-format-html-display.c:1246
+#: ../mail/em-format-html-display.c:1248
 msgid "Show _Original Size"
 msgstr "ਅਸਲੀ ਅਕਾਰ ਵੇਖਾਓ(_O)"
 
-#: ../mail/em-format-html-display.c:1665 ../mail/mail-config.glade.h:45
+#: ../mail/em-format-html-display.c:1667 ../mail/mail-config.glade.h:45
 #: ../mail/message-list.etspec.h:1
 msgid "Attachment"
 msgstr "ਨੱਥੀ"
 
-#: ../mail/em-format-html-display.c:1872
+#: ../mail/em-format-html-display.c:1874
 msgid "Select folder to save all attachments..."
 msgstr "ਸਭ ਨੱਥੀਆਂ ਨੂੰ ਫੋਲਡਰ 'ਚ ਸੰਭਾਲੋ"
 
-#: ../mail/em-format-html-display.c:1919
+#: ../mail/em-format-html-display.c:1921
 msgid "_Save Selected..."
 msgstr "ਚੁਣੇ ਸੰਭਾਲੋ(_S)..."
 
 #. Cant i put in the number of attachments here ?
-#: ../mail/em-format-html-display.c:1986
+#: ../mail/em-format-html-display.c:1988
 #, c-format
 msgid "%d attachme_nt"
 msgid_plural "%d attachme_nts"
 msgstr[0] "%d ਨੱਥੀ"
 msgstr[1] "%d ਨੱਥੀ"
 
-#: ../mail/em-format-html-display.c:1993 ../mail/em-format-html-display.c:2069
+#: ../mail/em-format-html-display.c:1995 ../mail/em-format-html-display.c:2071
 msgid "S_ave"
 msgstr "ਸੰਭਾਲੋ(_a)"
 
-#: ../mail/em-format-html-display.c:2004
+#: ../mail/em-format-html-display.c:2006
 msgid "S_ave All"
 msgstr "ਸਭ ਸੰਭਾਲੋ(_a)"
 
-#: ../mail/em-format-html-display.c:2065
+#: ../mail/em-format-html-display.c:2067
 msgid "No Attachment"
 msgstr "ਕੋਈ ਨੱਥੀ ਨਹੀਂ"
 
@@ -11995,8 +11933,8 @@ msgid ""
 "Unable to read settings from previous Evolution install, `evolution/config."
 "xmldb' does not exist or is corrupt."
 msgstr ""
-"ਪੁਰਾਣੀ ਈਵੇਲੂਸ਼ਨ ਦੇ ਸਥਾਪਨ ਪੜਨ ਤੋਂ ਅਸਫਲ, `evolution/config.xmldb' ਮੌਜੂਦ ਨਹੀਂ ਹੈ ਜਾਂ "
-"ਨਿਕਾਰਾ ਹੋ ਗਈ ਹੈ।"
+"ਪੁਰਾਣੀ ਈਵੇਲੂਸ਼ਨ ਦੇ ਸਥਾਪਨ ਪੜਨ ਤੋਂ ਅਸਫਲ, `evolution/config.xmldb' ਮੌਜੂਦ ਨਹੀਂ ਹੈ ਜਾਂ ਨਿਕਾਰਾ "
+"ਹੋ ਗਈ ਹੈ।"
 
 #: ../mail/em-popup.c:557 ../mail/em-popup.c:568
 msgid "_Reply to sender"
@@ -13735,7 +13673,7 @@ msgid "Checking for new mail"
 msgstr "ਨਵਾਂ ਪੱਤਰ ਲਈ ਜਾਂਚ ਜਾਰੀ"
 
 #: ../mail/mail-session.c:204
-#: ../plugins/exchange-operations/exchange-config-listener.c:681
+#: ../plugins/exchange-operations/exchange-config-listener.c:710
 #, c-format
 msgid "Enter Password for %s"
 msgstr "%s ਲਈ ਗੁਪਤ-ਕੋਡ ਭਰੋ"
@@ -13831,9 +13769,7 @@ msgstr ""
 msgid ""
 "A read receipt notification has been requested for &quot;{1}&quot;. Send the "
 "receipt notification to {0}?"
-msgstr ""
-"&quot;{1}&quot; ਲਈ ਪੜਨ ਰਸੀਦ ਸੂਚਨਾ ਦੀ ਮੰਗ ਕੀਤੀ ਗਈ ਹੈ। ਕੀ {0} ਨੂੰ ਰਸੀਦ ਸੂਚਨਾ "
-"ਭੇਜਣੀ ਹੈ?"
+msgstr "&quot;{1}&quot; ਲਈ ਪੜਨ ਰਸੀਦ ਸੂਚਨਾ ਦੀ ਮੰਗ ਕੀਤੀ ਗਈ ਹੈ। ਕੀ {0} ਨੂੰ ਰਸੀਦ ਸੂਚਨਾ ਭੇਜਣੀ ਹੈ?"
 
 #  mail:no-rename-folder-exists secondary
 #  mail:vfolder-notunique secondary
@@ -13958,8 +13894,8 @@ msgid ""
 "problem. You will not be able to use this provider until you can accept its "
 "license."
 msgstr ""
-"ਲਾਈਸੈਂਸ ਫਾਇਲ &quot;{0}&quot; ਨੂੰ ਪੜਿਆ ਨਹੀਂ ਜਾ ਸਕਦਾ ਹੈ, ਕਿਉਕਿ ਇੰਸਟਾਲੇਸ਼ਨ ਸਮੱਸਿਆ ਹੈ। "
-"ਤੁਸੀਂ ਇਹ ਉਪਲੱਬਧ ਕਰਤਾ ਨੂੰ ਵਰਤਣ ਦੇ ਤੱਦ ਤੱਕ ਯੋਗ ਨਹੀਂ ਹੋ ਸਕਦੇ, ਜਦ ਤੱਕ ਲਾਈਸੈਂਸ ਨਾਲ ਸਹਿਮਤ ਨਹੀਂ ਹੁੰਦੇ।"
+"ਲਾਈਸੈਂਸ ਫਾਇਲ &quot;{0}&quot; ਨੂੰ ਪੜਿਆ ਨਹੀਂ ਜਾ ਸਕਦਾ ਹੈ, ਕਿਉਕਿ ਇੰਸਟਾਲੇਸ਼ਨ ਸਮੱਸਿਆ ਹੈ। ਤੁਸੀਂ "
+"ਇਹ ਉਪਲੱਬਧ ਕਰਤਾ ਨੂੰ ਵਰਤਣ ਦੇ ਤੱਦ ਤੱਕ ਯੋਗ ਨਹੀਂ ਹੋ ਸਕਦੇ, ਜਦ ਤੱਕ ਲਾਈਸੈਂਸ ਨਾਲ ਸਹਿਮਤ ਨਹੀਂ ਹੁੰਦੇ।"
 
 #: ../mail/mail.error.xml.h:35
 msgid "Cannot rename &quot;{0}&quot; to &quot;{1}&quot;."
@@ -14264,7 +14200,8 @@ msgid ""
 msgstr ""
 "ਇਹ ਸੁਨੇਹਾ ਬਾਹਰੀ ਕਾਰਜ &quot;sendmail &quot; ਕਾਰਜ ਰਾਹੀ ਭੇਜਿਆ ਜਾ ਰਿਹਾ ਸੀ। Sendmail "
 "ਨੇ ਹੇਠ ਲਿਖੀ ਗਲਤੀ ਦਿੱਤੀ ਹੈ: ਹਾਲਤ 67: ਸੁਨੇਹਾ ਭੇਜਿਆ ਨਹੀਂ ਜਾ ਸਕਦਾ ਹੈ।\n"
-"ਇਹ ਸੁਨੇਹਾ ਬਾਹਰੀ-ਬਕਸਾ (Outbox) ਫੋਲਡਰ ਵਿੱਚ ਸੰਭਾਲਿਆ ਗਿਆ ਹੈ। ਸੁਨੇਹੇ ਵਿੱਚ ਗਲਤੀਆਂ ਦੀ ਜਾਂਚ ਕਰੋ ਅਤੇ ਮੁੜ ਭੇਜੋ।"
+"ਇਹ ਸੁਨੇਹਾ ਬਾਹਰੀ-ਬਕਸਾ (Outbox) ਫੋਲਡਰ ਵਿੱਚ ਸੰਭਾਲਿਆ ਗਿਆ ਹੈ। ਸੁਨੇਹੇ ਵਿੱਚ ਗਲਤੀਆਂ ਦੀ ਜਾਂਚ ਕਰੋ "
+"ਅਤੇ ਮੁੜ ਭੇਜੋ।"
 
 #  mail:signature-notscript secondary
 #: ../mail/mail.error.xml.h:106
@@ -14305,9 +14242,7 @@ msgstr "ਇਹ ਦਸਤਖਤ ਤਬਦੀਲ ਹੋ ਗਏ ਹਨ, ਪਰ ਸ�
 msgid ""
 "This will mark all messages as read in the selected folder and its "
 "subfolders."
-msgstr ""
-"ਇਸ ਨਾਲ ਚੁਣੇ ਫੋਲਡਰ ਅਤੇ ਉਸ ਦੇ ਅਧੀਨ-ਫੋਲਡਰ ਵਿੱਚ ਸਭ ਸੁਨੇਹੇ ਪੜ੍ਹੇ ਬਣਾ ਦਿੱਤੇ "
-"ਜਾਣਗੇ।"
+msgstr "ਇਸ ਨਾਲ ਚੁਣੇ ਫੋਲਡਰ ਅਤੇ ਉਸ ਦੇ ਅਧੀਨ-ਫੋਲਡਰ ਵਿੱਚ ਸਭ ਸੁਨੇਹੇ ਪੜ੍ਹੇ ਬਣਾ ਦਿੱਤੇ ਜਾਣਗੇ।"
 
 #: ../mail/mail.error.xml.h:114
 msgid "Unable to connect to the GroupWise server."
@@ -14318,8 +14253,8 @@ msgid ""
 "Unable to open the drafts folder for this account. Use the system drafts "
 "folder instead?"
 msgstr ""
-"ਇਸ ਖਾਤੇ ਲਈ ਡਰਾਫਟ ਫੋਲਡਰ ਖੋਲਿਆ ਨਹੀਂ ਜਾ ਸਕਿਆ ਹੈ। ਕੀ ਇਸ ਦੀ ਬਜਾਏ ਸਿਸਟਮ "
-"ਡਰਾਫਟ ਫੋਲਡਰ ਵਰਤਿਆ ਜਾਵੇ?"
+"ਇਸ ਖਾਤੇ ਲਈ ਡਰਾਫਟ ਫੋਲਡਰ ਖੋਲਿਆ ਨਹੀਂ ਜਾ ਸਕਿਆ ਹੈ। ਕੀ ਇਸ ਦੀ ਬਜਾਏ ਸਿਸਟਮ ਡਰਾਫਟ ਫੋਲਡਰ "
+"ਵਰਤਿਆ ਜਾਵੇ?"
 
 #: ../mail/mail.error.xml.h:116
 msgid "Unable to read license file."
@@ -14904,8 +14839,8 @@ msgstr "ਪ੍ਰਮਾਣਕਿਤਾ ਕਿਸਮ"
 msgid "Ch_eck for Supported Types"
 msgstr "ਸਹਾਇਕ ਕਿਸਮ ਲਈ ਜਾਂਚ(_e)"
 
-#: ../plugins/exchange-operations/exchange-calendar.c:192
-#: ../plugins/exchange-operations/exchange-contacts.c:165
+#: ../plugins/exchange-operations/exchange-calendar.c:193
+#: ../plugins/exchange-operations/exchange-contacts.c:167
 msgid ""
 "Evolution is in offline mode. You cannot create or modify folders now.\n"
 "Please switch to online mode for such operations."
@@ -14944,7 +14879,7 @@ msgstr "ਨਵਾਂ ਗੁਪਤ-ਕੋਡ:"
 msgid "Your current password has expired. Please change your password now."
 msgstr "ਤੁਹਾਡੇ ਮੌਜੂਦਾ ਗੁਪਤ-ਕੋਡ ਦੀ ਮਿਆਦ ਖਤਮ ਹੋ ਗਈ ਹੈ। ਕਿਰਪਾ ਕਰਕੇ ਆਪਣਾ ਗੁਪਤ-ਕੋਡ ਹੁਣੇ ਬਦਲੋ।"
 
-#: ../plugins/exchange-operations/exchange-config-listener.c:633
+#: ../plugins/exchange-operations/exchange-config-listener.c:662
 #, c-format
 msgid "Your password will expire in the next %d days"
 msgstr "ਤੁਹਾਡੇ ਗੁਪਤ-ਕੋਡ ਦੀ ਮਿਆਦ ਅਗਲੇ %d ਦਿਨਾਂ 'ਚ ਖਤਮ ਹੋਵੇਗੀ"
@@ -16653,8 +16588,8 @@ msgid ""
 "\n"
 "This plugin is unsupported demonstration code only.\n"
 msgstr ""
-"ਇੱਕ ਜਾਂਚ ਪਲੱਗ-ਇਨ, ਜੋ ਕਿ ਤੁਹਾਨੂੰ ਇੱਕ ਫਾਰਮੈਟ ਪਲੱਗ-ਇਨ ਦਾ ਕੰਮ ਵਿਖਾਉਦੀ ਹੈ, ਜੋ ਕਿ ਤੁਹਾਨੂੰ HTML ਪੱਤਰਾਂ "
-"ਨੂੰ ਅਯੋਗ ਕਰਨ ਲਈ ਸਹਾਇਕ ਹੈ।\n"
+"ਇੱਕ ਜਾਂਚ ਪਲੱਗ-ਇਨ, ਜੋ ਕਿ ਤੁਹਾਨੂੰ ਇੱਕ ਫਾਰਮੈਟ ਪਲੱਗ-ਇਨ ਦਾ ਕੰਮ ਵਿਖਾਉਦੀ ਹੈ, ਜੋ ਕਿ ਤੁਹਾਨੂੰ HTML "
+"ਪੱਤਰਾਂ ਨੂੰ ਅਯੋਗ ਕਰਨ ਲਈ ਸਹਾਇਕ ਹੈ।\n"
 "\n"
 "ਇਹ ਪਲੱਗ-ਇਨ ਸਿਰਫ਼ ਨਾ-ਸਹਾਇਕ ਝਲਕ ਕੋਡ ਹੀ ਹੈ।\n"
 
@@ -16722,7 +16657,7 @@ msgstr "ਟਿਕਾਣੇ"
 msgid "_Publish Calendar Information"
 msgstr "ਕੈਲੰਡਰ ਜਾਣਕਾਰੀ ਪਰਕਾਸ਼ਤ(_P)"
 
-#: ../plugins/publish-calendar/publish-calendar.c:386
+#: ../plugins/publish-calendar/publish-calendar.c:399
 msgid "Are you sure you want to remove this URL?"
 msgstr "ਕੀ ਤੁਸੀਂ URL ਨੂੰ ਹਟਾਉਣ ਲਈ ਸਹਿਮਤ ਹੋ?"
 
@@ -17114,8 +17049,8 @@ msgid ""
 "The last upgraded configuration version of Evolution, with major/minor/"
 "configuration level (for example \"2.6.0\")."
 msgstr ""
-"ਈਵੂਲੇਸ਼ਨ ਦਾ ਆਖਰੀ ਅੱਪਗਰੇਡ ਕੀਤਾ ਸੰਰਚਨਾ ਵਰਜਨ, ਵੱਧ/ਘੱਟ/ਸੰਰਚਨਾ ਪੱਧਰ ਨਾਲ "
-"(ਉਦਾਹਰਨ ਲਈ \"2.6.0\")"
+"ਈਵੂਲੇਸ਼ਨ ਦਾ ਆਖਰੀ ਅੱਪਗਰੇਡ ਕੀਤਾ ਸੰਰਚਨਾ ਵਰਜਨ, ਵੱਧ/ਘੱਟ/ਸੰਰਚਨਾ ਪੱਧਰ ਨਾਲ (ਉਦਾਹਰਨ ਲਈ \"2.6.0"
+"\")"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:18
 msgid ""
@@ -17274,8 +17209,8 @@ msgstr "ਬੱਗ-ਬੱਡੀ ਨੂੰ ਚਲਾਇਆ ਨਹੀਂ ਜਾ ਸ
 #: ../shell/e-shell-window-commands.c:530
 msgid "translator-credits"
 msgstr ""
-"ਅਮਨਪ੍ਰੀਤ ਸਿੰਘ ਆਲਮ (amanpreetalam@yahoo.com)\n"
-"ਪੰਜਾਬ ਲੀਨਕਸ ਤਕਨਾਲੋਜੀ (http://punlinux.sf.net)"
+"ਅਮਨਪਰੀਤ ਸਿੰਘ ਆਲਮ\n"
+"(aalam@redhat.com)"
 
 #: ../shell/e-shell-window-commands.c:775
 msgid "_Work Online"
@@ -17283,7 +17218,7 @@ msgstr "ਆਨਲਾਇਨ(_W)"
 
 #: ../shell/e-shell-window-commands.c:788 ../ui/evolution.xml.h:54
 msgid "_Work Offline"
-msgstr "ਆਫਲਾਇਨ(_W)"
+msgstr "ਆਫ਼ਲਾਇਨ(_W)"
 
 #: ../shell/e-shell-window-commands.c:801
 msgid "Work Offline"
@@ -17308,7 +17243,7 @@ msgstr "%s ਲਈ ਤਬਦੀਲ"
 
 #: ../shell/e-shell.c:633
 msgid "Uknown system error."
-msgstr "ਅਣਪਛਾਤੀ ਸਿਸਟਮ ਗਲਤੀ।"
+msgstr "ਅਣਜਾਣੀ ਸਿਸਟਮ ਗਲਤੀ।"
 
 #: ../shell/e-shell.c:829 ../shell/e-shell.c:830
 #, c-format
@@ -17406,7 +17341,7 @@ msgid ""
 "eagerly await your contributions!\n"
 msgstr ""
 "ਮਿੱਤਰ, ਈਵੇਲੂਸ਼ਨ ਸਮੂਹ ਉਤਾਪਦ ਦੇ ਇਸ ਪਹਿਲਾਂ ਜਾਰੀ ਵਰਜਨ ਨੂੰ ਡਾਊਨ ਲੋਡ ਕਰਨ\n"
-"ਧੰਨਵਾਦ।\n"
+"ਧੰਨਵਾਦ ਹੈ।\n"
 "\n"
 "ਈਵੇਲੂਸ਼ਨ ਦਾ ਇਹ ਵਰਜਨ ਸੰਪੂਰਨ ਨਹੀਂ ਹੈ, ਇਸ ਨੂੰ ਬਣਾ ਤਾਂ ਦਿੱਤਾ ਗਿਆ ਹੈ, ਪਰ\n"
 "ਇਸ ਦੇ ਕਈ ਫੀਚਰ ਤਾਂ ਸਮਾਪਤ ਨਹੀਂ ਹੋਏ ਜਾਂ ਠੀਕ ਤਰਾਂ ਕੰਮ ਨਹੀਂ ਕਰਦੇ ਹਨ।\n"
@@ -17415,11 +17350,11 @@ msgstr ""
 "ਵਰਜਨ ਹਟਾਉਣਾ ਪਵੇਗਾ ਅਤੇ ਇਸ ਦੀ ਬਜਾਏ %s ਵਰਜਨ ਇੰਸਟਾਲ ਕਰੋ।\n"
 "\n"
 "ਜੇਕਰ ਤੁਸੀਂ ਬੱਗ ਲੱਭ ਲਿਆ, ਤਾਂ ਕਿਰਪਾ ਕਰਕੇ ਇਸ ਦੀ ਸੂਚਨਾ bugzilla.gnome.com\n"
-"ਤੇ ਦਿਓ। ਇਹ ਉਤਾਪਦ ਬਿਨਾਂ ਕਿਸੇ ਵਾਰੰਟੀ ਦੇ ਹੈ ਅਤੇ ਕਿਸੇ ਦੇ ਗੁੱਸੇ ਲਈ ਜਿੰਮਵਾਰ\n"
+"ਤੇ ਦਿਓ। ਇਹ ਉਤਾਪਦ ਬਿਨਾਂ ਕਿਸੇ ਵਾਰੰਟੀ ਦੇ ਹੈ ਅਤੇ ਕਿਸੇ ਦੇ ਗੁੱਸੇ ਲਈ ਜਿੰਮੇਵਾਰ\n"
 "ਨਹੀਂ ਹੈ।\n"
 "\n"
 "ਸਾਨੂੰ ਉਮੀਦ ਹੈ ਮਿੱਤਰ ਤੂੰ ਸਾਡੀ ਮੇਹਨਤ ਦਾ ਆਨੰਦ ਮਾਣੇਗਾ ਅਤੇ ਅਸੀਂ ਤੇਰੇ ਇਸ ਸਹਿਯੋਗ ਦਾ\n"
-"ਤਹਿ ਦਿਲੋਂ ਧੰਨਵਾਦ ਕਰਦੇ ਹਾਂ\n"
+"ਤਹਿ ਦਿਲੋਂ ਧੰਨਵਾਦ ਕਰਦੇ ਹਾਂ।\n"
 
 #: ../shell/main.c:254
 msgid ""
@@ -17472,11 +17407,11 @@ msgstr "ਕੀ ਤੁਸੀਂ ਸਭ ਯਾਦ ਰੱਖੇ ਹੋਏ ਗੁਪ
 
 #: ../shell/shell.error.xml.h:2
 msgid "Continue"
-msgstr "ਜਾਰੀ"
+msgstr "ਜਾਰੀ ਰੱਖੋ"
 
 #: ../shell/shell.error.xml.h:3
 msgid "Delete old data from version {0}?"
-msgstr "ਵਰਜਨ {0} ਦਾ ਪੁਰਾਣਾ ਡਾਟਾ ਹਟਾਓ?"
+msgstr "ਕੀ ਵਰਜਨ {0} ਦਾ ਪੁਰਾਣਾ ਡਾਟਾ ਹਟਾਓਣਾ ਹੈ?"
 
 #: ../shell/shell.error.xml.h:4
 msgid "Evolution can not start."
@@ -17517,8 +17452,8 @@ msgstr ""
 "ਇਹ ਸਲਾਹ ਦਿੱਤੀ ਜਾਦੀ ਹੈ ਕਿ ਤੁਸੀਂ ਆਪਣੇ ਪੱਤਰ, ਸੰਪਰਕ ਤੇ ਕੈਲੰਡਰ ਡਾਟਾ, ਜੋ ਵੀ ਮੌਜੂਦ ਹੈ, ਦੀ ਖੁਦ ਜਾਂਚ "
 "ਕਰ ਲਵੋ ਅਤੇ ਇਹ ਵੀ ਕੇ ਈਵੇਲੂਸ਼ਨ ਇਸ ਪੁਰਾਣੇ ਡਾਟਾ ਨਾਲ ਪਹਿਲਾਂ ਠੀਕ ਕੰਮ ਕਰਦਾ ਸੀ।\n"
 "\n"
-"ਇੱਕ ਵਾਰ ਹਟਾਉਣ ਬਾਅਦ ਤੁਸੀਂ ਈਵੇਲੂਸ਼ਨ ਦੇ ਪੁਰਾਣੇ ਵਰਜਨ ਨੂੰ ਵਾਪਿਸ ਨਹੀਂ ਲਿਆ ਸਕਦੇ ਹੋ, "
-"ਜਦੋਂ ਤੱਕ ਤੁਸੀਂ ਖੁਦ ਨਾ ਵਰਤੋਂ।\n"
+"ਇੱਕ ਵਾਰ ਹਟਾਉਣ ਬਾਅਦ ਤੁਸੀਂ ਈਵੇਲੂਸ਼ਨ ਦੇ ਪੁਰਾਣੇ ਵਰਜਨ ਨੂੰ ਵਾਪਿਸ ਨਹੀਂ ਲਿਆ ਸਕਦੇ ਹੋ, ਜਦੋਂ ਤੱਕ ਤੁਸੀਂ ਖੁਦ "
+"ਨਾ ਵਰਤੋਂ।\n"
 
 #: ../shell/shell.error.xml.h:15
 msgid ""
@@ -17531,9 +17466,9 @@ msgid ""
 msgstr ""
 "ਈਵੇਲੂਸ਼ਨ ਦੇ ਪੁਰਾਣੇ ਵਰਜਨ ਨੇ ਡਾਟਾ ਕਿਸੇ ਵੱਖਰੇ ਟਿਕਾਣੇ ਉੱਤੇ ਸੰਭਾਲਿਆ ਸੀ।\n"
 "\n"
-"ਜੇਕਰ ਤੁਸੀਂ ਇਹ ਡਾਟਾ ਹਟਾਉਣ ਲਈ ਚੁਣਿਆ ਤਾਂ &quot;evolution&quot; ਡਾਇਰੈਕਟਰੀ "
-"ਨੂੰ ਹਮੇਸ਼ਾ ਲਈ ਹਟਾ ਦਿੱਤਾ ਜਾਵੇਗਾ। ਜੇਕਰ ਤੁਸੀਂ ਇਸ ਡਾਟਾ ਨੂੰ ਰੱਖਣ ਲਈ ਚੁਣਿਆ, ਤਾਂ "
-"ਤੁਸੀਂ ਆਪਣੀ ਜਿੰਮੇਵਾਰੀ ਉੱਤੇ &quot;evolution&quot;ਦੇ ਭਾਗ ਹਟਾ ਸਕਦੇ ਹੋ।\n"
+"ਜੇਕਰ ਤੁਸੀਂ ਇਹ ਡਾਟਾ ਹਟਾਉਣ ਲਈ ਚੁਣਿਆ ਤਾਂ &quot;evolution&quot; ਡਾਇਰੈਕਟਰੀ ਨੂੰ ਹਮੇਸ਼ਾ ਲਈ "
+"ਹਟਾ ਦਿੱਤਾ ਜਾਵੇਗਾ। ਜੇਕਰ ਤੁਸੀਂ ਇਸ ਡਾਟਾ ਨੂੰ ਰੱਖਣ ਲਈ ਚੁਣਿਆ, ਤਾਂ ਤੁਸੀਂ ਆਪਣੀ ਜਿੰਮੇਵਾਰੀ ਉੱਤੇ &quot;"
+"evolution&quot;ਦੇ ਭਾਗ ਹਟਾ ਸਕਦੇ ਹੋ।\n"
 
 #: ../shell/shell.error.xml.h:19
 msgid "Upgrade from previous version failed: {0}"
@@ -17547,8 +17482,8 @@ msgid ""
 "You will need to make more space available in your home directory before you "
 "can continue."
 msgstr ""
-"ਤੁਹਾਡੇ ਡਾਟਾ ਅਤੇ ਸਥਾਪਨ ਦੇ ਅੱਪਡੇਟ ਨੂੰ {0} ਡਿਸਕ ਥਾਂ ਦੀ ਲੋੜ ਹੈ, ਪਰ ਤੁਹਾਡੇ ਕੋਲ ਸਿਰਫ਼ "
-"{1} ਉਪਲੱਬਧ ਹੈ।\n"
+"ਤੁਹਾਡੇ ਡਾਟਾ ਅਤੇ ਸਥਾਪਨ ਦੇ ਅੱਪਡੇਟ ਨੂੰ {0} ਡਿਸਕ ਥਾਂ ਦੀ ਲੋੜ ਹੈ, ਪਰ ਤੁਹਾਡੇ ਕੋਲ ਸਿਰਫ਼ {1} ਉਪਲੱਬਧ "
+"ਹੈ।\n"
 "\n"
 "ਤੁਹਾਨੂੰ ਜਾਰੀ ਰੱਖਣ ਲਈ ਆਪਣੀ ਘਰ ਡਾਇਰੈਕਟਰੀ ਵਿੱਚ ਹੋਰ ਥਾਂ ਬਣਾਉਣ ਦੀ ਲੋੜ ਹੈ।"
 
@@ -20054,17 +19989,17 @@ msgstr "Y1"
 msgid "Y2"
 msgstr "Y2"
 
-#: ../widgets/misc/e-canvas-vbox.c:102 ../widgets/misc/e-reflow.c:1427
+#: ../widgets/misc/e-canvas-vbox.c:102 ../widgets/misc/e-reflow.c:1429
 #: ../widgets/table/e-table-group-container.c:974
 #: ../widgets/table/e-table-group-leaf.c:636
-#: ../widgets/table/e-table-item.c:3014
+#: ../widgets/table/e-table-item.c:3015
 msgid "Minimum width"
 msgstr "ਨਿਊਨਤਮ ਚੌੜਾਈ"
 
-#: ../widgets/misc/e-canvas-vbox.c:103 ../widgets/misc/e-reflow.c:1428
+#: ../widgets/misc/e-canvas-vbox.c:103 ../widgets/misc/e-reflow.c:1430
 #: ../widgets/table/e-table-group-container.c:975
 #: ../widgets/table/e-table-group-leaf.c:637
-#: ../widgets/table/e-table-item.c:3015
+#: ../widgets/table/e-table-item.c:3016
 msgid "Minimum Width"
 msgstr "ਨਿਊਨਤਮ ਚੌੜਾਈ"
 
@@ -20319,15 +20254,15 @@ msgstr "ਨਿੱਜੀ ਰਿਕਾਰਡ ਸਮਕਾਲੀ:"
 msgid "Sync Categories:"
 msgstr "ਵਰਗ ਸਮਕਾਲੀ:"
 
-#: ../widgets/misc/e-reflow.c:1449 ../widgets/misc/e-reflow.c:1450
+#: ../widgets/misc/e-reflow.c:1451 ../widgets/misc/e-reflow.c:1452
 msgid "Empty message"
 msgstr "ਖਾਲੀ ਸੁਨੇਹਾ"
 
-#: ../widgets/misc/e-reflow.c:1456 ../widgets/misc/e-reflow.c:1457
+#: ../widgets/misc/e-reflow.c:1458 ../widgets/misc/e-reflow.c:1459
 msgid "Reflow model"
 msgstr "ਮੁੜ-ਵਹਾ ਮਾਡਲ"
 
-#: ../widgets/misc/e-reflow.c:1463 ../widgets/misc/e-reflow.c:1464
+#: ../widgets/misc/e-reflow.c:1465 ../widgets/misc/e-reflow.c:1466
 msgid "Column width"
 msgstr "ਕਾਲਮ ਚੌੜਾਈ"
 
@@ -20569,23 +20504,23 @@ msgstr "ਕੇਂਦਰਿਤ ਕਾਲਮ"
 msgid "Unselected Column"
 msgstr "ਨਾ-ਚੁਣਿਆ ਕਾਲਮ"
 
-#: ../widgets/table/e-cell-text.c:1744
+#: ../widgets/table/e-cell-text.c:1749
 msgid "Strikeout Column"
 msgstr "ਕਾਲਮ ਵਿੰਨੋ"
 
-#: ../widgets/table/e-cell-text.c:1751
+#: ../widgets/table/e-cell-text.c:1756
 msgid "Underline Column"
 msgstr "ਕਾਲਮ ਹੇਠ ਰੇਖਾ"
 
-#: ../widgets/table/e-cell-text.c:1758
+#: ../widgets/table/e-cell-text.c:1763
 msgid "Bold Column"
 msgstr "ਗੂੜਾ ਕਾਲਮ"
 
-#: ../widgets/table/e-cell-text.c:1765
+#: ../widgets/table/e-cell-text.c:1770
 msgid "Color Column"
 msgstr "ਕਾਲਮ ਰੰਗ"
 
-#: ../widgets/table/e-cell-text.c:1779
+#: ../widgets/table/e-cell-text.c:1784
 msgid "BG Color Column"
 msgstr "BG ਰੰਗ ਕਾਲਮ"
 
@@ -20633,6 +20568,7 @@ msgid "Sh_ow these fields in order:"
 msgstr "ਇਹ ਫੋਲਡਰ ਕਰਮ ਵਿੱਚ ਵੇਖਾਓ(_o):"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:12
+#: ../widgets/table/e-table-config.c:563
 #: ../widgets/table/e-table-config.glade.h:10
 msgid "Show Fields"
 msgstr "ਖੇਤਰ ਵੇਖਾਓ"
@@ -20690,6 +20626,10 @@ msgstr "ਨਾ ਕ੍ਰਮਬੱਧ"
 #: ../widgets/table/e-table-config.c:355
 msgid "No grouping"
 msgstr "ਨਾ ਵਰਗੀਕ੍ਰਿਤ"
+
+#: ../widgets/table/e-table-config.c:584
+msgid "Available Fields"
+msgstr "ਉਪਲੱਬਧ ਖੇਤਰ"
 
 #: ../widgets/table/e-table-config.glade.h:17
 msgid "_Group By..."
@@ -20753,7 +20693,7 @@ msgstr "%s (%d ਇਕਾਈਆਂ)"
 #: ../widgets/table/e-table-group-container.c:898
 #: ../widgets/table/e-table-group-leaf.c:573
 #: ../widgets/table/e-table-group-leaf.c:574
-#: ../widgets/table/e-table-item.c:2972 ../widgets/table/e-table-item.c:2973
+#: ../widgets/table/e-table-item.c:2973 ../widgets/table/e-table-item.c:2974
 msgid "Alternating Row Colors"
 msgstr "ਬਦਲਵਾਂ ਕਤਾਰ ਰੰਗ"
 
@@ -20761,7 +20701,7 @@ msgstr "ਬਦਲਵਾਂ ਕਤਾਰ ਰੰਗ"
 #: ../widgets/table/e-table-group-container.c:905
 #: ../widgets/table/e-table-group-leaf.c:580
 #: ../widgets/table/e-table-group-leaf.c:581
-#: ../widgets/table/e-table-item.c:2979 ../widgets/table/e-table-item.c:2980
+#: ../widgets/table/e-table-item.c:2980 ../widgets/table/e-table-item.c:2981
 #: ../widgets/table/e-tree.c:3265 ../widgets/table/e-tree.c:3266
 msgid "Horizontal Draw Grid"
 msgstr "ਖਿਤਿਜੀ ਗਰਿੱਡ ਬਣਾਓ"
@@ -20770,7 +20710,7 @@ msgstr "ਖਿਤਿਜੀ ਗਰਿੱਡ ਬਣਾਓ"
 #: ../widgets/table/e-table-group-container.c:912
 #: ../widgets/table/e-table-group-leaf.c:587
 #: ../widgets/table/e-table-group-leaf.c:588
-#: ../widgets/table/e-table-item.c:2986 ../widgets/table/e-table-item.c:2987
+#: ../widgets/table/e-table-item.c:2987 ../widgets/table/e-table-item.c:2988
 #: ../widgets/table/e-tree.c:3271 ../widgets/table/e-tree.c:3272
 msgid "Vertical Draw Grid"
 msgstr "ਲੰਬਕਾਰੀ ਗਰਿੱਡ ਬਣਾਓ"
@@ -20779,7 +20719,7 @@ msgstr "ਲੰਬਕਾਰੀ ਗਰਿੱਡ ਬਣਾਓ"
 #: ../widgets/table/e-table-group-container.c:919
 #: ../widgets/table/e-table-group-leaf.c:594
 #: ../widgets/table/e-table-group-leaf.c:595
-#: ../widgets/table/e-table-item.c:2993 ../widgets/table/e-table-item.c:2994
+#: ../widgets/table/e-table-item.c:2994 ../widgets/table/e-table-item.c:2995
 #: ../widgets/table/e-tree.c:3277 ../widgets/table/e-tree.c:3278
 msgid "Draw focus"
 msgstr "ਕੇਂਦਰ ਬਣਾਓ"
@@ -20788,7 +20728,7 @@ msgstr "ਕੇਂਦਰ ਬਣਾਓ"
 #: ../widgets/table/e-table-group-container.c:926
 #: ../widgets/table/e-table-group-leaf.c:601
 #: ../widgets/table/e-table-group-leaf.c:602
-#: ../widgets/table/e-table-item.c:3000 ../widgets/table/e-table-item.c:3001
+#: ../widgets/table/e-table-item.c:3001 ../widgets/table/e-table-item.c:3002
 msgid "Cursor mode"
 msgstr "ਕਰਸਰ ਢੰਗ"
 
@@ -20796,7 +20736,7 @@ msgstr "ਕਰਸਰ ਢੰਗ"
 #: ../widgets/table/e-table-group-container.c:933
 #: ../widgets/table/e-table-group-leaf.c:615
 #: ../widgets/table/e-table-group-leaf.c:616
-#: ../widgets/table/e-table-item.c:2965 ../widgets/table/e-table-item.c:2966
+#: ../widgets/table/e-table-item.c:2966 ../widgets/table/e-table-item.c:2967
 msgid "Selection model"
 msgstr "ਚੋਣ ਨਮੂਨਾ"
 
@@ -20804,7 +20744,7 @@ msgstr "ਚੋਣ ਨਮੂਨਾ"
 #: ../widgets/table/e-table-group-container.c:940
 #: ../widgets/table/e-table-group-leaf.c:608
 #: ../widgets/table/e-table-group-leaf.c:609
-#: ../widgets/table/e-table-item.c:3007 ../widgets/table/e-table-item.c:3008
+#: ../widgets/table/e-table-item.c:3008 ../widgets/table/e-table-item.c:3009
 #: ../widgets/table/e-table.c:3301 ../widgets/table/e-tree.c:3259
 #: ../widgets/table/e-tree.c:3260
 msgid "Length Threshold"
@@ -20814,7 +20754,7 @@ msgstr "ਮੁੱਢਲੀ ਲੰਬਾਈ"
 #: ../widgets/table/e-table-group-container.c:947
 #: ../widgets/table/e-table-group-leaf.c:650
 #: ../widgets/table/e-table-group-leaf.c:651
-#: ../widgets/table/e-table-item.c:3041 ../widgets/table/e-table-item.c:3042
+#: ../widgets/table/e-table-item.c:3042 ../widgets/table/e-table-item.c:3043
 #: ../widgets/table/e-table.c:3308 ../widgets/table/e-tree.c:3291
 #: ../widgets/table/e-tree.c:3292
 msgid "Uniform row height"
@@ -20891,15 +20831,15 @@ msgstr "ਕਰਮਬੱਧ ਜਾਣਕਾਰੀ"
 msgid "Tree"
 msgstr "ਲੜੀ"
 
-#: ../widgets/table/e-table-item.c:2951 ../widgets/table/e-table-item.c:2952
+#: ../widgets/table/e-table-item.c:2952 ../widgets/table/e-table-item.c:2953
 msgid "Table header"
 msgstr "ਸਾਰਣੀ ਸਿਰਲੇਖ"
 
-#: ../widgets/table/e-table-item.c:2958 ../widgets/table/e-table-item.c:2959
+#: ../widgets/table/e-table-item.c:2959 ../widgets/table/e-table-item.c:2960
 msgid "Table model"
 msgstr "ਸਾਰਣੀ ਮਾਡਲ"
 
-#: ../widgets/table/e-table-item.c:3034 ../widgets/table/e-table-item.c:3035
+#: ../widgets/table/e-table-item.c:3035 ../widgets/table/e-table-item.c:3036
 msgid "Cursor row"
 msgstr "ਕਰਸਰ ਕਤਾਰ"
 
