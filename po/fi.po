@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-02-23 17:08+0200\n"
-"PO-Revision-Date: 2006-02-23 17:18+0200\n"
+"PO-Revision-Date: 2006-03-11 19:03+0200\n"
 "Last-Translator: Ilkka Tuohela <hile@iki.fi>\n"
 "Language-Team: Finnish <gnome-fi-laatu@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -3497,7 +3497,7 @@ msgstr "Osoitekirjan taustajärjestelmä ei suostunut suorittamaan tätä kysely
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:165
 msgid "This query did not complete successfully."
-msgstr "Tämä kysely ei valmistunut menestyksellisesti."
+msgstr "Kyselyä ei voitu suorittaa onnistuneesti."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:187
 msgid "Error adding list"
