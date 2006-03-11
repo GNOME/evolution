@@ -1,27 +1,27 @@
-From evolution@ximian.com Wed Mar 09 12:15:00 2005
-Return-Path: <evolution@ximian.com>
-Received: from pop.ximian.com (IDENT:mail@localhost [127.0.0.1]) by
-	pop.ximian.com (8.9.3/8.9.3) with ESMTP id HAA20680; Wed, 09 Mar 2005
-	12:15:00 +0100
-Received: from smtp.ximian.com (smtp.ximian.com [141.154.95.10]) by
-	pop.ximian.com (8.9.3/8.9.3) with ESMTP id HAA20659 for
-	<evolution@ximian.com>; Wed, 09 Mar 2005 12:15:00 +0100
-Received: (qmail 5610 invoked from network); 09 Mar 2005 12:15:00 +0100
-Received: from smtp.ximian.com (HELO localhost) (141.154.95.10) by
-	pop.ximian.com with SMTP; 09 Mar 2005 12:15:00 +0100
-From: "Das Evolution-Team" <evolution@ximian.com>
-To: Anwender von Evolution <evolution@ximian.com>
+From evolution@novell.com Wed Mar 15 12:00:00 2006
+Return-Path: <evolution@novell.com>
+Received: from pop.novell.com (IDENT:mail@localhost [127.0.0.1]) by
+	pop.novell.com (8.9.3/8.9.3) with ESMTP id HAA20680; Wed, 15 Mar 2006
+	07:45:12 -0400
+Received: from smtp.novell.com (smtp.novell.com [141.154.95.10]) by
+	pop.novell.com (8.9.3/8.9.3) with ESMTP id HAA20659 for
+	<evolution@novell.com>; Wed, 15 Mar 2006 07:45:10 -0400
+Received: (qmail 5610 invoked from network); 15 Mar 2006 12:00:00 -0000
+Received: from smtp.novell.com (HELO localhost) (141.154.95.10) by
+	pop.novell.com with SMTP; 15 Mar 2006 12:00:00 -0000
+From: "The Evolution Team" <evolution@novell.com>
+To: Evolution Users <evolution@novell.com>
 Content-Type: multipart/related; type="multipart/alternative"; boundary="=-t4dRE6cqcdSBHOrMdTQ1"
-X-Mailer: Evolution 2.1.5
-Date: 09 March 2005 12:15:00 +0100
+X-Mailer: Evolution 2.6.0
+Date: 15 March 2006 12:00:00 +0000
 Message-Id: <1001418302.27070.20.camel@spectrolite>
 Mime-Version: 1.0
 Subject: Willkommen bei Evolution!
-Sender: evolution@ximian.com
-Errors-To: evolution@ximian.com
+Sender: evolution@novell.com
+Errors-To: evolution@novell.com
 X-Mailman-Version: 1.1
 Status:   
-X-Evolution-Source: pop://rupert@pop.ximian.com/inbox
+X-Evolution-Source: pop://rupert@pop.novell.com/inbox
 X-Evolution: 00000ddd-0030
 
 
@@ -43,30 +43,45 @@ Erste Schritte
 	Auf der linken Seite des Evolution-Fensters befindet sich die
 	Seitenleiste. Sie enthält Verknüpfungen zu jedem Ihrer
 	E-Mail-Ordner. Darunter befinden sich Knöpfe für Kalender,
-	Kontakte, Aufgaben sowie für E-Mails. 
+	Kontakte, Aufgaben, E-Mails sowie für Notizen.
 
 	Um eine ausführliche Anleitung für Evolution zu erhalten, wählen
-	Sie bitte den Punkt »Inhalt« aus dem Hilfe-Menü oder drücken 
-	Sie die F1-Taste. 
+	Sie bitte den Punkt »Inhalt« aus dem Hilfe-Menü oder drücken
+	Sie die F1-Taste.
+
 
 Neue Funktionen
 
-	Evolution 2.0 ermöglicht Verbindungen zu Novell GroupWise-Servern 
-	(6.5.3 oder neuer) und unterstützt Exchange 2000/2003. Weitere neue
-	Funktionen beinhalten die Filterung unerwünschter Nachrichten,
-	S/MIME Sicherheit, verbessertes Offline-IMAP, Unterstützung für 
-	NNTP (News), Web-Kalenderanzeige, überlagerte Kalender sowie neue
-	Entwickler-APIs für den Zugriff auf Kontakte, Kalender und Aufgaben.  
+	Evolution 2.6 bietet
+
+	* Eine neue Notiz-Komponente
+	* Ein neues Aussehen der Editoren für Besprechungen,
+	  Aufgaben und Ereignisse
+	* Unterstützung zur Veröffentlichung von Kalendern
+	* CalDAV-Unterstützung
+	* Unterstützung der Anwendung »NetworkManager«
+	* Verbindungsmöglichkeit zu HULA
+	* Verbesserte GroupWise-Unterstützung
+	* Verbesserte Unterstützung von wiederkehrenden Ereignissen
+	* Kalender-Tooltips
+	* CSV/Tab-Importierung für Mozilla-, Outlook- und Evolution-Formate
+	* Kontaktlistenunterstützung für LDAP-Adressbücher
+	* Speicherung von komplexen Suchen innerhalb von Adressbüchern
+	* Priorisierung von Nachrichten im Bearbeitungsfenster
+	* Viele behobene Fehler und eine Menge anderer Verbesserungen
+	  der Benutzerschnittstelle
+
 
 Fehlerberichte
 
 	Falls Sie einen Fehler entdecken, erstellen Sie bitte einen 
-	Fehlerbericht unter http://bugzilla.ximian.com
+	Fehlerbericht unter http://bugzilla.gnome.org
+
 
 Weitere Informationen
 
 	Die Mailingliste für Anwender von Evolution können Sie abonnieren
-	unter http://lists.ximian.com/mailman/listinfo/evolution
+	unter http://mail.gnome.org/mailman/listinfo/evolution-list.
 
 	Informationen über das Projekt Evolution erhalten Sie unter
 	http://www.gnome.org/projects/evolution.
@@ -74,7 +89,7 @@ Weitere Informationen
 
 Mit freundlichen Grüßen,
 Das Evolution-Team
-evolution@ximian.com
+evolution@novell.com
 
 
 --=-2gZ1roA/HoYrlRDVGyiM
@@ -86,7 +101,8 @@ Content-Type: text/html; charset=utf-8
   <META HTTP-EQUIV="Content-Type" CONTENT="text/html; CHARSET=UTF-8">
   <META NAME="GENERATOR" CONTENT="GtkHTML/0.13.99">
 </HEAD>
-<BODY BGCOLOR="#f8fcf8"><TABLE BACKGROUND="cid:1001417869.27019.4.camel@spectrolite" CELLSPACING="0" CELLPADDING="0" WIDTH="100%">
+<BODY BGCOLOR="#f8fcf8">
+<TABLE BACKGROUND="cid:1001417869.27019.4.camel@spectrolite" CELLSPACING="0" CELLPADDING="0" WIDTH="100%">
 <TR>
 <TD ALIGN="left" VALIGN="top">
 <IMG SRC="cid:1001417869.27019.5.camel@spectrolite" ALIGN="top" BORDER="0" WIDTH="8" HEIGHT="8"></TD>
@@ -144,44 +160,67 @@ Content-Type: text/html; charset=utf-8
 	Auf der linken Seite des Evolution-Fensters befindet sich die
 	Seitenleiste. Sie enthält Verknüpfungen zu jedem Ihrer
 	E-Mail-Ordner. Darunter befinden sich Knöpfe für Kalender,
-	Kontakte, Aufgaben sowie für E-Mails. 
+	Kontakte, Aufgaben, E-Mails sowie für Notizen.
 <br><br>
 	Um eine ausführliche Anleitung für Evolution zu erhalten, wählen
-	Sie bitte den Punkt <b>Inhalt</b> aus dem <b>Hilfe</b>-Menü oder drücken 
-	Sie die <b>F1</b>-Taste. 
-
+	Sie bitte den Punkt <b>Inhalt</b> aus dem <b>Hilfe</b>-Menü oder
+	drücken Sie die <b>F1</b>-Taste.
+<br><br>
 </blockquote>
 
 <h2>Neue Funktionen</h2>
 <blockquote>
-	Evolution 2.0 ermöglicht Verbindungen zu Novell GroupWise-Servern 
-	(6.5.3 oder neuer) und unterstützt Exchange 2000/2003. Weitere neue
-	Funktionen beinhalten die Filterung unerwünschter Nachrichten,
-	S/MIME Sicherheit, verbessertes Offline-IMAP, Unterstützung für 
-	NNTP (News), Web-Kalenderanzeige, überlagerte Kalender sowie neue
-	Entwickler-APIs für den Zugriff auf Kontakte, Kalender und Aufgaben.  
+	Evolution 2.6 bietet
+	<ul>
+	<li>Eine neue Notiz-Komponente</li>
+	<li>Ein neues Aussehen der Editoren für Besprechungen, Aufgaben und
+	    Ereignisse</li>
+	<li>Unterstützung zur Veröffentlichung von Kalendern</li>
+	<li>CalDAV-Unterstützung</li>
+	<li>Unterstützung der Anwendung »NetworkManager«</li>
+	<li>Verbindungsmöglichkeit zu HULA</li>
+	<li>Verbesserte GroupWise-Unterstützung</li>
+	<li>Verbesserte Unterstützung von wiederkehrenden Ereignissen</li>
+	<li>Kalender-Tooltips</li>
+	<li>CSV/Tab-Importierung für Mozilla-, Outlook- und
+	    Evolution-Formate</li>
+	<li>Kontaktlistenunterstützung für LDAP-Adressbücher</li>
+	<li>Speicherung von komplexen Suchen innerhalb von Adressbüchern</li>
+	<li>Priorisierung von Nachrichten im Bearbeitungsfenster</li>
+	<li>Viele behobene Fehler und eine Menge anderer Verbesserungen der
+	    Benutzerschnittstelle</li>
+	</ul>
+<br>
 </blockquote>
 
 <h2>Fehlerberichte</h2>
 <blockquote>
-	Falls Sie einen Fehler entdecken, erstellen Sie bitte einen 
-	Fehlerbericht unter <a href="http://bugzilla.ximian.com">http://bugzilla.ximian.com</a>
+	Falls Sie einen Fehler entdecken, erstellen Sie bitte einen
+	Fehlerbericht unter
+	<a href="http://bugzilla.gnome.org">http://bugzilla.gnome.org</a>.
+<br><br>
 </blockquote> 
 
 <h2>Weitere Informationen</h2>
 
 <blockquote>
-	Die Mailingliste für Anwender von Evolution können Sie abonnieren
-	unter <a href="http://lists.ximian.com/mailman/listinfo/evolution">http://lists.ximian.com/mailman/listinfo/evolution</a>.
-<br><br>
+	Die Mailingliste für Anwender von Evolution können Sie abonnieren unter
+	<a href="http://lists.gnome.org/mailman/listinfo/evolution"
+	>http://lists.gnome.org/mailman/listinfo/evolution</a>.
+
 	Informationen über das Projekt Evolution erhalten Sie unter
-	<a href="http://www.gnome.org/projects/evolution">http://www.gnome.org/projects/evolution</a>.
+	<a href="http://www.gnome.org/projects/evolution"
+	>http://www.gnome.org/projects/evolution</a>.
+	<!--
+	Eine Liste von häufig gestellten Fragen (FAQ) ist verfügbar unter
+	<a href="http://go-evolution.org/FAQ">http://go-evolution.org/FAQ</a>.
+	-->
+<br><br>	
 </blockquote>
 
-<br>
 Mit freundlichen Grüßen,<br>
 Das Evolution-Team<br>
-<a href="mailto:evolution@ximian.com">evolution@ximian.com</a>
+<a href="mailto:evolution@novell.com">evolution@novell.com</a>
 
 </BODY>
 </HTML>
