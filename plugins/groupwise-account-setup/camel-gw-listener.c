@@ -423,8 +423,8 @@ get_addressbook_names_from_server (char *source_url)
   	char *key;
         EGwConnection *cnc;	
 	char *password;
-	GList *book_list;
-	int status;
+	GList *book_list = NULL;
+	int status, count = 0;
 	const char *soap_port;
 	CamelURL *url;
 	gboolean remember;
@@ -448,18 +448,18 @@ get_addressbook_names_from_server (char *source_url)
         if (!soap_port || strlen (soap_port) == 0)
                 soap_port = "7191";
 	use_ssl = camel_url_get_param (url, "use_ssl");
-	if (!use_ssl)
-		use_ssl = "";
 
 	key =  g_strdup_printf ("groupwise://%s@%s/", url->user, poa_address); 
 	
-	if (!g_str_equal (use_ssl, "never"))
+	if (use_ssl && g_str_equal (use_ssl, "always"))
 		uri = g_strdup_printf ("https://%s:%s/soap", poa_address, soap_port);
 	else 
 		uri = g_strdup_printf ("http://%s:%s/soap", poa_address, soap_port);
 	
 	cnc = NULL;
+
 	do {
+		count ++;
 		/*we have to uncache the password before prompting again*/
 		if (failed_auth) {
 			e_passwords_forget_password ("Groupwise", key);
@@ -480,27 +480,27 @@ get_addressbook_names_from_server (char *source_url)
 			if (!password) 
 				break;
 		}
-		cnc = e_gw_connection_new (uri, url->user, password);
-		if (!E_IS_GW_CONNECTION(cnc) && use_ssl && g_str_equal (use_ssl, "when-possible")) {
-			char *http_uri = g_strconcat ("http://", uri + 8, NULL);
-			cnc = e_gw_connection_new (http_uri, url->user, password);
-			g_free (http_uri);
-		}
 
+		cnc = e_gw_connection_new (uri, url->user, password);
 		g_free (password);
+		if (!E_IS_GW_CONNECTION(cnc)) {
+			if (count == 3)
+				break;
+		}
 
 		failed_auth = _("Failed to authenticate.\n");
 		flags |= E_PASSWORDS_REPROMPT;
 	} while (cnc == NULL);
+
+	g_free (key);
 	
 	if (E_IS_GW_CONNECTION(cnc))  {
 		book_list = NULL;	
 		status = e_gw_connection_get_address_book_list (cnc, &book_list);
 		if (status == E_GW_CONNECTION_STATUS_OK)
 			return book_list;
-	    
-		       
 	}
+
 	/*FIXME: This error message should be relocated to addressbook and should reflect 
 	 * that it actually failed to get the addressbooks*/
 	e_error_run (NULL, "mail:gw-accountsetup-error", poa_address, NULL);
@@ -671,7 +671,7 @@ add_addressbook_sources (EAccount *account)
 		g_object_unref (source);
 	}
 	e_source_list_add_group (list, group, -1);
-      	e_source_list_sync (list, NULL);	
+	e_source_list_sync (list, NULL);
 	g_object_unref (group);
 	g_object_unref (list);
 	g_object_unref (client);
@@ -936,7 +936,8 @@ account_changed (EAccountList *account_listener, EAccount *account)
 
 		if ((old_poa_address && strcmp (old_poa_address, new_poa_address))
 		   ||  (old_soap_port && strcmp (old_soap_port, new_soap_port)) 
-		   ||  strcmp (old_url->user, new_url->user) 
+		   ||  strcmp (old_url->user, new_url->user)
+	           || (!old_use_ssl) 
 		   || strcmp (old_use_ssl, new_use_ssl)) {
 			
 			account_removed (account_listener, account);
