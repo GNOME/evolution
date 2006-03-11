@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-02-16 06:14+0100\n"
-"PO-Revision-Date: 2006-03-07 15:29+0200\n"
+"PO-Revision-Date: 2006-03-10 22:01+0200\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -209,7 +209,7 @@ msgstr "otsinguriba"
 
 #: ../a11y/calendar/ea-gnome-calendar.c:291
 msgid "evolution calendar search bar"
-msgstr "Evolutioni kalendri otsinguriba"
+msgstr "evolutioni kalendri otsinguriba"
 
 #: ../a11y/calendar/ea-jump-button.c:149
 msgid "Jump button"
@@ -4513,7 +4513,7 @@ msgstr "_Edasilükkamise aeg:"
 #: ../ui/evolution-subscribe.xml.h:10 ../ui/evolution-tasks.xml.h:25
 #: ../ui/evolution.xml.h:40
 msgid "_Edit"
-msgstr "_Redigeeri"
+msgstr "_Redigeerimine"
 
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:5
 msgid "_Snooze"
@@ -7206,7 +7206,7 @@ msgid ""
 "\n"
 "%s"
 msgstr ""
-"Kuupäev peab olema sisestatud formaadis: \n"
+"Kuupäev peab olema sisestatud järnevas vormingus: \n"
 "\n"
 "%s"
 
@@ -10838,10 +10838,11 @@ msgstr "Sõnumikoostaja eelistused"
 msgid ""
 "Configure mail preferences, including security and message display, here"
 msgstr ""
+"Sõnumieelistuste seadistamine - kaasa arvatud turvalisus ka sõnumite kuvamine"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:3
 msgid "Configure spell-checking, signatures, and the message composer here"
-msgstr ""
+msgstr "Õigekirjakontrolli "
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:4
 msgid "Configure your email accounts here"
@@ -11896,7 +11897,7 @@ msgstr "MIME sõnumit pole võimalik analüüsida. Kuvatakse lähtekoodina."
 
 #: ../mail/em-format.c:1279
 msgid "Unsupported encryption type for multipart/encrypted"
-msgstr "Toetamata krüpteering multipart/encrypted tüübile"
+msgstr "Toetamata krüptimistüüp multipart/encrypted sõnumile"
 
 #: ../mail/em-format.c:1446
 msgid "Unsupported signature format"
@@ -12124,7 +12125,7 @@ msgstr "Tellimisdialoogi vaikimisi kõrgus"
 
 #: ../mail/evolution-mail.schemas.in.in.h:16
 msgid "Default reply style"
-msgstr "Vaikimisi vastamise laad"
+msgstr "Vastamise vaikimisi laad"
 
 #: ../mail/evolution-mail.schemas.in.in.h:17
 msgid "Default width of the Composer Window"
@@ -12141,6 +12142,7 @@ msgstr "Tellimisdialoogi vaikimisi laius"
 #: ../mail/evolution-mail.schemas.in.in.h:20
 msgid "Draw spelling error indicators on words as you type."
 msgstr ""
+"Õigekirjakontrolli poolt tuvastatud vigade esiletõstmine tippimise ajal."
 
 #: ../mail/evolution-mail.schemas.in.in.h:21
 msgid "Empty Trash folders on exit"
@@ -12188,7 +12190,7 @@ msgstr "Viimane kord kui prügikasti tühjendati"
 
 #: ../mail/evolution-mail.schemas.in.in.h:30
 msgid "List of Labels and their associated colors"
-msgstr ""
+msgstr "Siltide ja nende värvuste loend"
 
 #: ../mail/evolution-mail.schemas.in.in.h:31
 msgid "List of accepted licenses"
@@ -12203,6 +12205,8 @@ msgid ""
 "List of accounts known to the mail component of Evolution. The list contains "
 "strings naming subdirectories relative to /apps/evolution/mail/accounts."
 msgstr ""
+"Evolutioni sõnumikomponendile teadaolevate kontode loend. Sisaldab "
+"alamkataloogide nimesid kataloogi /apps/evolution/mail/accounts suhtes."
 
 #: ../mail/evolution-mail.schemas.in.in.h:34
 msgid "List of custom headers and whether they are enabled."
@@ -12213,6 +12217,9 @@ msgid ""
 "List of labels known to the mail component of Evolution. The list contains "
 "strings containing name:color where color uses the HTML hex encoding."
 msgstr ""
+"Evolutioni sõnumikomponendile teadaolevate siltide loend. Sisaldab "
+"nimi:värvus vorminus sõnumeid, kus värvus on kirjeldatud HTML-ile sarnaselt "
+"kuueteistkümnendsüsteemis."
 
 #: ../mail/evolution-mail.schemas.in.in.h:36
 msgid "List of mime types to check for bonobo component viewers"
@@ -12356,11 +12363,11 @@ msgstr "Rämpspostikontrollitestide rakendamine sissetulevatele sõnumitele"
 
 #: ../mail/evolution-mail.schemas.in.in.h:67
 msgid "Send HTML mail by default"
-msgstr "Vaikimisi kirjade saatmine HTML formaadis"
+msgstr "Sõnumite vaikimisi saatmine HTML formaadis"
 
 #: ../mail/evolution-mail.schemas.in.in.h:68
 msgid "Send HTML mail by default."
-msgstr "Vaikimisi kirjade saatmine HTML formaadis."
+msgstr "Sõnumite vaikimisi saatmine HTML formaadis."
 
 #: ../mail/evolution-mail.schemas.in.in.h:69
 msgid "Show Animations"
@@ -12380,7 +12387,7 @@ msgstr "Kustutatud sõnumite näitamine sõnumiteloendis"
 
 #: ../mail/evolution-mail.schemas.in.in.h:75
 msgid "Sound file to play when new mail arrives."
-msgstr "Helifail, mida mängitakse uute kirjade saabumisel."
+msgstr "Helifail, mida mängitakse uute sõnumite saabumisel."
 
 #: ../mail/evolution-mail.schemas.in.in.h:76
 msgid "Specifies the type of New Mail Notification the user wishes to use."
@@ -12968,7 +12975,7 @@ msgstr "Õigekirja kon_trollimine sisestamise ajal"
 
 #: ../mail/mail-config.glade.h:54
 msgid "Checks incoming mail messages to be Junk"
-msgstr "Sissetulevate kirjade seest rämpsu kontrollimine"
+msgstr "Sissetulevate sõnumite seest rämpsu kontrollimine"
 
 #: ../mail/mail-config.glade.h:55
 msgid "Cle_ar"
@@ -17002,11 +17009,11 @@ msgstr "Külgpaani vaikimisi laius"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:4
 msgid "Default window height"
-msgstr "Vaikimisi akna kõrgus"
+msgstr "Akna vaikimisi kõrgus"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:5
 msgid "Default window width"
-msgstr "Vaikimisi akna laius."
+msgstr "Akna vaikimisi laius."
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:6
 msgid "ID or alias of the component to be shown by default at start-up."
@@ -17014,7 +17021,7 @@ msgstr ""
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:7
 msgid "Last upgraded configuration version"
-msgstr ""
+msgstr "Viimati uuendatud seadistuste versioon"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:8
 msgid ""
@@ -18008,7 +18015,7 @@ msgstr ""
 
 #: ../tools/evolution-launch-composer.c:326
 msgid "Default subject for the message."
-msgstr "Vaikimisi sõnumi teema."
+msgstr "Sõnumi vaikimisi teema."
 
 #. This most likely means that KILL_PROCESS_CMD wasn't
 #. * found, so just bail completely.
@@ -18564,7 +18571,7 @@ msgstr "_Tüübiväli"
 
 #: ../ui/evolution-mail-global.xml.h:2
 msgid "Cancel the current mail operation"
-msgstr "Katkestab käimasoleva sõnumioperatsiooni"
+msgstr "Käimasoleva sõnumioperatsiooni katkestamine"
 
 #: ../ui/evolution-mail-global.xml.h:3
 msgid "Copy the selected folder into another folder"
@@ -19668,7 +19675,7 @@ msgstr "Saada veateade kasutades Bug Buddy't"
 
 #: ../ui/evolution.xml.h:33
 msgid "Toggle whether we are working offline."
-msgstr "Autonoomse reziimi sisse- või väljalülitamine"
+msgstr "Autonoomse režiimi sisse- või väljalülitamine"
 
 #: ../ui/evolution.xml.h:34
 msgid "Tool_bar"
