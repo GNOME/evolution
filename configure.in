@@ -1691,6 +1691,7 @@ mail/default/Makefile
 mail/default/C/Makefile
 mail/default/de/Makefile
 mail/default/fi/Makefile
+mail/default/fr/Makefile
 mail/default/lt/Makefile
 mail/default/mk/Makefile
 mail/default/zh_CN/Makefile
