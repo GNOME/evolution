@@ -1,3 +1,7 @@
+2006-03-12  Vladimer Sichinava  <alinux@siena.linux.it>
+
+	* configure.in: Added "ka" Georgian
+
 2006-03-12  Benoît Dejean  <benoit@placenet.org>
 
 	* configure.in:
