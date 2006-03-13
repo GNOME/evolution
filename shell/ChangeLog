@@ -1,3 +1,7 @@
+2006-03-13  Harish Krishnaswamy  <kharish@novell.com>
+
+	* e-shell-window-commands.c: Update credits.
+
 2006-02-21  Tor Lillqvist  <tml@novell.com>
 
 	* main.c (main): On Win32, finally call link_shutdown() (from
