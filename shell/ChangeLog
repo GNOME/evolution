@@ -1,5 +1,11 @@
 2006-03-13  Harish Krishnaswamy  <kharish@novell.com>
 
+	* main.c: (kill_dataserver): add evolution-data-server-1.4
+	to the list of old dataserver instances.
+
+
+2006-03-13  Harish Krishnaswamy  <kharish@novell.com>
+
 	* e-shell-window-commands.c: Update credits.
 
 2006-02-21  Tor Lillqvist  <tml@novell.com>
