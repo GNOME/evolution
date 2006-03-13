@@ -1,15 +1,32 @@
+2006-03-13  Laurent Dhima  <laurenti@alblinux.net>
+
+	* sq.po: Updated Albanian translation.
+
+2006-03-12  Benoît Dejean  <benoit@placenet.org>
+
+	* fr.po: Updated French translation.
+
+2006-03-12  Miloslav Trmac  <mitr@volny.cz>
+
+	* cs.po: Updated Czech translation by Petr Tomeš.
+
+2006-03-12  Jordi Mallach  <jordi@sindominio.net>
+
+	* ca.po:Updated Catalan translation by
+	Gil Forcada <gilforcada@guifi.net>.
+
 2006-03-11  Priit Laes  <amd@store20.com>
 
 	* et.po: Translation updated by Ivar Smolin.
 
 2006-03-11  Ilkka Tuohela  <hile@iki.fi>
 
-	* fi.po: Updated Finnish translation
+	* fi.po: Updated Finnish translation.
 
-2006-03-11  Jordi Mallach  <jordi@sindominio.net>
+2006-03-10  Guilherme de S. Pastore  <gpastore@gnome.org>
 
-	* ca.po: Updated Catalan translation by
-	Gil Forcada <gilforcada@guifi.net>.
+	* pt_BR.po: Updated Brazilian Portuguese translation from Leandro
+	  A. F. Pereira <leandro@linuxmag.com.br>.
 
 2006-03-10  Duarte Loreto <happyguy_pt@hotmail.com>
 
@@ -20,18 +37,17 @@
 	* bg.po: Updated Bulgarian translation by
 	Rostislav Raykov <zbrox@i-space.org>
 
-2006-03-10  Frank Arnold  <farnold@cvs.gnome.org>
+2006-03-10  Luca Ferretti  <elle.uca@libero.it>
 
-	* de.po: Replaced wrong spaces caused by copy/paste inside gtranslator.
-
-2006-03-10  Vladimer Sichinava  <vlsichinava@gmail.com>
-
-	* ka.po: Updated Georgian translation by 
-	  Alexander Didebulidze <didebuli@in.tum.de>.
+	* it.po: Updated Italian translation.
 
 2006-03-10  Mugurel Tudor  <mugurelu@gnome.ro>
 
 	* ro.po: Updated Romanian translation
+
+2006-03-10  Frank Arnold  <farnold@cvs.gnome.org>
+
+	* de.po: Replaced wrong spaces caused by copy/paste inside gtranslator.
 
 2006-03-09  Francisco Javier F. Serrador  <serrador@cvs.gnome.org>
 
@@ -47,7 +63,7 @@
 
 2006-03-06  Rajesh Ranjan <rranjan@redhat.com>
 
-        * hi.po: Updated Hindi Translation.
+	* hi.po: Updated Hindi Translation.
 
 2006-03-07  Priit Laes  <amd@store20.com>
 
@@ -55,7 +71,7 @@
 
 2006-03-06  Maxim Dziumanenko <mvd@mylinux.ua>
 
-        * uk.po: Updated Ukrainian translation.
+	* uk.po: Updated Ukrainian translation.
 
 2006-03-06  Leonid Kanter <leon@asplinux.ru>
 
@@ -84,7 +100,7 @@
 
 2006-03-03  Lukas Novotny  <lukasnov@cvs.gnome.org>
 
- 	* cs.po: Updated Czech translation.
+	* cs.po: Updated Czech translation.
 
 2006-03-03  Žygimantas Beručka  <zygis@gnome.org>
 

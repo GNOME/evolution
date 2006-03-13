@@ -1,10 +1,20 @@
+2006-03-13  Harish Krishnaswamy  <kharish@novell.com>
+
+	* NEWS, configure.in : Release updates and version bump.
+	--------------------------
+	Release : Evolution 2.6.0
+	--------------------------
+	
+	* data/Makefile.am: Delink the version from the desktop file
+	to enable smoother upgrades.
+
 2006-03-12  Benoît Dejean  <benoit@placenet.org>
 
 	* configure.in:
 	* mail/default/Makefile.am:
 	* mail/default/fr/Inbox:
 	* mail/default/fr/Makefile.am: Added French welcome message.
-	
+
 2006-03-03  Andre Klapper  <a9016009@gmx.de>
 
 	* configure.in,

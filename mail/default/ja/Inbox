@@ -1,29 +1,28 @@
-From evolution@ximian.com Tue Sep 25 07:45:12 2001
-Return-Path: <evolution@ximian.com>
-Received: from pop.ximian.com (IDENT:mail@localhost [127.0.0.1]) by
-	pop.ximian.com (8.9.3/8.9.3) with ESMTP id HAA20680; Tue, 25 Sep 2001
+From evolution@novell.com Wed Mar 15 12:00:00 2006
+Return-Path: <evolution@novell.com>
+Received: from pop.novell.com (IDENT:mail@localhost [127.0.0.1]) by
+	pop.novell.com (8.9.3/8.9.3) with ESMTP id HAA20680; Wed, 15 Mar 2006
 	07:45:12 -0400
-Received: from smtp.ximian.com (smtp.ximian.com [141.154.95.10]) by
-	pop.ximian.com (8.9.3/8.9.3) with ESMTP id HAA20659 for
-	<evolution@ximian.com>; Tue, 25 Sep 2001 07:45:10 -0400
-Received: (qmail 5610 invoked from network); 25 Sep 2001 11:45:02 -0000
-Received: from smtp.ximian.com (HELO localhost) (141.154.95.10) by
-	pop.ximian.com with SMTP; 25 Sep 2001 11:45:02 -0000
-From: "The Evolution Team" <evolution@ximian.com>
-To: Evolution Users <evolution@ximian.com>
+Received: from smtp.novell.com (smtp.novell.com [141.154.95.10]) by
+	pop.novell.com (8.9.3/8.9.3) with ESMTP id HAA20659 for
+	<evolution@novell.com>; Wed, 15 Mar 2006 07:45:10 -0400
+Received: (qmail 5610 invoked from network); 15 Mar 2006 12:00:00 -0000
+Received: from smtp.novell.com (HELO localhost) (141.154.95.10) by
+	pop.novell.com with SMTP; 15 Mar 2006 12:00:00 -0000
+From: "Evolution =?ISO-2022-JP?B?GyRCMytILyVBITwlYBsoQg==?=" <evolution@novell.com>
+To: Evolution =?ISO-2022-JP?B?GyRCJWYhPCU2TU0bKEI=?= <evolution@novell.com>
 Content-Type: multipart/related; type="multipart/alternative"; boundary="=-t4dRE6cqcdSBHOrMdTQ1"
-X-Mailer: Evolution/1.1.99 (Preview Release)
-Date: 25 June 2002 14:45:00 +0300
+X-Mailer: Evolution 2.6.0
+Date: 15 March 2006 12:00:00 +0000
 Message-Id: <1001418302.27070.20.camel@spectrolite>
 Mime-Version: 1.0
 Content-Type: Text/Plain; charset=iso-2022-jp
-Content-Transfer-Encoding: 7bit
 Subject: Evolution =?ISO-2022-JP?B?GyRCJFgkaCQmJDMkPRsoQiE=?=
-Sender: evolution@ximian.com
-Errors-To: evolution@ximian.com
+Sender: evolution@novell.com
+Errors-To: evolution@novell.com
 X-Mailman-Version: 1.1
 Status:   
-X-Evolution-Source: pop://rupert@pop.ximian.com/inbox
+X-Evolution-Source: pop://rupert@pop.novell.com/inbox
 X-Evolution: 00000ddd-0030
 
 
@@ -36,47 +35,49 @@ Content-Type: text/plain; charset=iso-2022-jp
 Content-Transfer-Encoding: 7bit
 
 
-
-Evolution $B3+H/%A!<%`$O!"$"$J$?$,%a!<%k$d8D?M>pJs$r4IM}$9$k(B
-Evolution $B%7%9%F%`$rF3F~$7$F$/$l$?$3$H$r$H$F$b8w1I$K;W$$$^$9!#(B
+Evolution $B3+H/%A!<%`$O!"$"$J$?$K%a!<%k$d8D?M>pJs$r$^$H$a$F4IM}$G$-$k(B Evolution $B%7%9%F%`$r>R2p$9$k$3$H$,$G$-$F!"$H$F$b8w1I$K;W$$$^$9!#(B
 
 
-$B$O$8$a$K(B
+$B$O$8$a$F$_$h$&(B
 
-        Evolution $B$N%&%#%s%I%&:8B&$K$O!"$"$J$?$N$9$Y$F$N%a!<%k(B
-	$B%U%)%k%@$X$N%7%g!<%H%+%C%H$r4^$`%5%$%I%P!<$,$"$j$^$9!#(B
-	$B$=$N2<$NJ}$K$O%+%l%s%@!<$d%3%s%?%/%H!"%?%9%/!"%a!<%k(B
-	$B%\%?%s$,$"$j$^$9!#(B
+	Evolution $B%&%#%s%I%&$N:8B&$K$O!"A4$F$N%a!<%k!&%U%)%k%@$KAGAa$/%"%/%;%9$G$-$k%5%$%I%P!<$,$"$j$^$9!#$=$N2<$K$O!"%+%l%s%@$dO"Mm@h!"%?%9%/!"%a!<%k!"$=$7$F%a%bD"$rI=<($9$k%\%?%s$,$"$j$^$9!#(B
 
-        $B40A4$J(B Evolution $B%,%$%I$r8f4uK>$J$i!"(B"$B%X%k%W(B"$B%a%K%e!<$+$i(B
-        "$BL\<!(B"$B$rA*Br$9$k$+!"(BF1 $B%-!<$r2!$7$F2<$5$$!#(B
+	"$B%X%k%W(B" $B%a%K%e!<$N(B "$BL\<!(B" $B$r%/%j%C%/$9$k$+!"$^$?$O(B [F1] $B%-!<$r2!$9$H!"(BEvolution $B$N%f!<%6!&%,%$%I$,I=<($5$l$^$9!#(B
 
-$B?75,5!G=(B
+$B?7$7$$5!G=(B
 
-        Evolution 2.0 $B$G$O?7$?$K(B Novell GroupWise $B%5!<%P!<(B (6.5.3
-        $B0J>e(B)$B$H(B Exchange 2000/2003 $B$X$N@\B3%5%]!<%H$,DI2C$5$l$^$7$?!#(B
-        $BB>$K?75,5!G=$H$7$F!"LBOG%a!<%k%U%#%k%?!"(BS/MIME $B%;%-%e%j%F%#!"(B
-	IMAP $B$N%*%U%i%$%s%5%]!<%H$N8~>e!"(BNNTP (news) $B$N%5%]!<%H!"(B
-	$B%&%'%V%+%l%s%@!<I=<(!"J#?t$N%+%l%s%@!<$N=E$M9g$o$;!"$=$7$F(B
-	$B%3%s%?%/%H!"%+%l%s%@!<!"%?%9%/%G!<%?$K%"%/%;%9$9$k$?$a$N(B
-	$B?7$7$$3+H/<T8~$1(B API $B$r4^$s$G$$$^$9!#(B
+	Evolution $B%P!<%8%g%s(B 2.6 $B$K$O<!$N$h$&$J5!G=$,$"$j$^$9(B:
+	
+	# $B%a%b$r5-O?$9$k%3%s%]!<%M%s%H$rDI2C$7$^$7$?(B
+	# $B%$%Y%s%H(B/$B%?%9%/(B/$B2q5D$NJT=8%@%$%"%m%0$NI=<($r:~?7$7$^$7$?(B
+	# $B%+%l%s%@>pJs$r30It$K8x3+$G$-$^$9(B
+	# CalDAV $B$r%5%]!<%H$7$^$7$?(B
+	# Network Manager $B$r%5%]!<%H$7$^$7$?(B
+	# HULA $B$r%5%]!<%H$7$^$7$?(B ($B@\B3$N$_(B)
+	# GroupWise $B$N5!G=$r2~A1$7$^$7$?(B
+	# $B7+$jJV$7H/@8$9$k%$%Y%s%H$N5!G=$r2~A1$7$^$7$?(B
+	# $B%+%l%s%@>e$N%$%Y%s%H$K%D!<%k%A%C%W$rI=<($G$-$k$h$&$K$J$j$^$7$?(B
+    # Mozilla$B!"(BOutlook$B!"$=$7$F(B Evolution $B%U%)!<%^%C%H$KBP1~$7$?(B CSV/tab $B$r<h$j9~$a$^$9(B
+    # $BO"Mm@h0lMw$G$O(B LDAP $B7A<0$N%"%I%l%9D"$r%5%]!<%H$7$^$7$?(B
+   	# $B%"%I%l%9D"$G$O3HD%8!:w$N7k2L$rJ]B8$G$-$k$h$&$K$J$j$^$7$?(B
+	# $B%a!<%k:n@.$G$O!"%a%C%;!<%8$KM%@h=g0L$rIU$1$k$3$H$,$G$-$k$h$&$K$J$j$^$7$?(B
+	# $B%P%0$r$?$/$5$s=$@5$7!"%f!<%6!&%$%s%?%U%'!<%9$r$5$i$K2~A1$7$^$7$?(B
 
-$BIT6q9g$NJs9p(B
+$B%P%0$NJs9p(B
 
-        $BIT6q9g$O(B http://bugzilla.ximian.com $B$^$G8fJs9p2<$5$$!#(B
+	Evolution $B$NIT6q9g$O(B http://bugzilla.gnome.org $B$^$GJs9p2<$5$$!#(B
 
-$B$b$C$H>\$7$/(B
+$B$5$i$K>\:Y$J>pJs(B
 
-	Evolution $B%f!<%6!<8~$1%a!<%j%s%0%j%9%H$K;22C$9$k$3$H$,(B
-	$B$G$-$^$9(B:
-	http://lists.ximian.com/mailman/listinfo/evolution
+    http://mail.gnome.org/mailman/listinfo/evolution-list
+    $B$G(B Evolution $B$N%f!<%68~$1%a!<%j%s%0%j%9%H$r9VFI$G$-$^$9!#(B
 
-	Evolution $B%W%m%8%'%/%H$N>pJs$K$D$$$F$O(B
-        http://www.gnome.org/projects/evolution $B$X!#(B
+    Evolution $B%W%m%8%'%/%H$K$D$$$F$O(B http://www.gnome.org/projects/evolution $B$r$4Mw2<$5$$!#(B
 
 
-$B7I6q!"(B
+$B7I6q(B
 Evolution $B3+H/%A!<%`(B
+evolution@novell.com
 
 
 
@@ -90,7 +91,8 @@ Content-Type: text/html; charset=utf-8
   <META HTTP-EQUIV="Content-Type" CONTENT="text/html; CHARSET=UTF-8">
   <META NAME="GENERATOR" CONTENT="GtkHTML/0.13.99">
 </HEAD>
-<BODY BGCOLOR="#f8fcf8"><TABLE BACKGROUND="cid:1001417869.27019.4.camel@spectrolite" CELLSPACING="0" CELLPADDING="0" WIDTH="100%">
+<BODY BGCOLOR="#f8fcf8">
+<TABLE BACKGROUND="cid:1001417869.27019.4.camel@spectrolite" CELLSPACING="0" CELLPADDING="0" WIDTH="100%">
 <TR>
 <TD ALIGN="left" VALIGN="top">
 <IMG SRC="cid:1001417869.27019.5.camel@spectrolite" ALIGN="top" BORDER="0" WIDTH="8" HEIGHT="8"></TD>
@@ -115,11 +117,7 @@ Content-Type: text/html; charset=utf-8
 <TD>
 </TD>
 <TD>
-<FONT COLOR="#f8fcf8"><FONT SIZE="4"><B>Evolution 開発チーム</FONT></B></FONT SIZE="4">
-<FONT COLOR="#f8fcf8"><FONT SIZE="4">は、あなたがメールや個人情報を管理する</FONT></FONT SIZE="4">
-<FONT COLOR="#f8fcf8"><FONT SIZE="4"><B>Evolution</FONT></B></FONT SIZE="4">
-<FONT COLOR="#f8fcf8"><FONT SIZE="4">システムを導入してくれたことをとても光栄に思います。</FONT></FONT SIZE="4">
-</TD>
+<FONT COLOR="#f8fcf8"><FONT SIZE="4"><B>Evolution 開発チーム</FONT></B></FONT SIZE="4"><FONT COLOR="#f8fcf8"><FONT SIZE="4">は、あなたにメールや個人情報をまとめて管理できる </FONT></FONT SIZE="4"><FONT COLOR="#f8fcf8"><FONT SIZE="4"><B>Evolution システム</FONT></B></FONT SIZE="4"><FONT COLOR="#f8fcf8"><FONT SIZE="4">を紹介することができて、とても光栄に思います。</FONT></FONT SIZE="4"></TD>
 <TD>
 </TD>
 <TD>
@@ -146,55 +144,65 @@ Content-Type: text/html; charset=utf-8
 </TD>
 </TR>
 </TABLE>
-<h2>はじめに</h2>
+<h2>はじめてみよう</h2>
 
 <blockquote>
-	Evolution のウィンドウ左側には、あなたのすべてのメール
-	フォルダへのショートカットを含むサイドバーがあります。
-	その下の方にはカレンダーやコンタクト、タスク、メール
-	ボタンがあります。
+	Evolution ウィンドウの左側には、全てのメール・フォルダに素早くアクセスできるサイドバーがあります。その下には、カレンダや連絡先、タスク、メール、そしてメモ帳を表示するボタンがあります。
 <br><br>
-        完全な Evolution ガイドを御希望なら、<b>ヘルプ</b>メニューから
-        <b>目次</b>を選択するか、<b>F1</b> キーを押して下さい。
+    <b>ヘルプ</b>メニューの<b>目次</b>をクリックするか、または <b>[F1]</b> キーを押すと、Evolution のユーザ・ガイドが表示されます。
+<br><br>
 </blockquote>
 
-<h2>新規機能</h2>
+<h2>新しい機能</h2>
 <blockquote>
-        Evolution 2.0 では新たに Novell GroupWise サーバー (6.5.3
-        以上)と Exchange 2000/2003 への接続サポートが追加されました。
-        他に新規機能として、迷惑メールフィルタ、S/MIME セキュリティ、
-	IMAP のオフラインサポートの向上、NNTP (news) のサポート、
-	ウェブカレンダー表示、複数のカレンダーの重ね合わせ、そして
-	コンタクト、カレンダー、タスクデータにアクセスするための
-	新しい開発者向け API を含んでいます。
+	Evolution バージョン 2.6 には次のような機能があります: 
+	<ul>
+	<li>メモを記録するコンポーネントを追加しました</li>
+	<li>イベント/タスク/会議の編集ダイアログの表示を刷新しました</li>
+	<li>カレンダ情報を外部に公開できます</li>
+	<li>CalDAV をサポートしました</li>
+	<li>Network Manager をサポートしました</li>
+	<li>HULA をサポートしました (接続のみ)</li>
+	<li>GroupWise の機能を改善しました</li>
+	<li>繰り返し発生するイベントの機能を改善しました</li>
+	<li>カレンダ上のイベントにツールチップを表示できるようになりました</li>
+	<li>Mozilla、Outlook、そして Evolution フォーマットに対応した CSV/tab を取り込めます</li>
+	<li>連絡先一覧では LDAP 形式のアドレス帳をサポートしました</li>
+	<li>アドレス帳では拡張検索の結果を保存できるようになりました</li>
+	<li>メール作成では、メッセージに優先順位を付けることができるようになりました</li>
+	<li>バグをたくさん修正し、ユーザ・インタフェースをさらに改善しました</li>
+	</ul>
+<br>
 </blockquote>
 
-<h2>不具合の報告</h2>
+<h2>バグの報告</h2>
 <blockquote>
-        不具合は <a href="http://bugzilla.ximian.com">http://bugzilla.ximian.com</a> まで御報告下さい。
+	Evolution の不具合は <a href="http://bugzilla.gnome.org">http://bugzilla.gnome.org</a> まで報告して下さい。
+<br><br>
 </blockquote> 
 
-<h2>もっと詳しく</h2>
+<h2>さらに詳細な情報</h2>
 
 <blockquote>
-	Evolution ユーザー向けメーリングリストに参加することが
-	できます:
-	<a href="http://lists.ximian.com/mailman/listinfo/evolution">http://lists.ximian.com/mailman/listinfo/evolution</a>.
+	<a
+	href="http://lists.gnome.org/mailman/listinfo/evolution">http://lists.gnome.org/mailman/listinfo/evolution</a> で Evolution のユーザ向けメーリングリストを講読できます。
 
-	Evolution プロジェクトの情報については
-	<a href="http://www.gnome.org/projects/evolution">http://www.gnome.org/projects/evolution</a> へ。
- </blockquote>
+	Evolution プロジェクトについては <a href="http://www.gnome.org/projects/evolution">http://www.gnome.org/projects/evolution</a> をご覧下さい。
+	<!--
+	You can find a list of answers to Frequently Asked Questions (FAQ) at
+	<a href="http://go-evolution.org/FAQ">http://go-evolution.org/FAQ</a>.
+	-->
+<br><br>	
+</blockquote>
 
-
-敬具、<br>
+敬具<br>
 Evolution 開発チーム<br>
-<a href="mailto:evolution@ximian.com">evolution@ximian.com</a>
+<a href="mailto:evolution@novell.com">evolution@novell.com</a>
 
 </BODY>
 </HTML>
 
 --=-2gZ1roA/HoYrlRDVGyiM--
-
 
 --=-t4dRE6cqcdSBHOrMdTQ1
 Content-Type: image/png

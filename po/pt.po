@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 2.14\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-03-10 23:24+0000\n"
-"PO-Revision-Date: 2006-03-10 23:30+0000\n"
+"POT-Creation-Date: 2006-03-10 23:36+0000\n"
+"PO-Revision-Date: 2006-03-10 23:40+0000\n"
 "Last-Translator: Duarte Loreto <happyguy_pt@hotmail.com>\n"
 "Language-Team: Portuguese <gnome_pt@yahoogroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -2526,15 +2526,15 @@ msgstr "Alterado"
 msgid "Contact Editor - %s"
 msgstr "Editor de Contactos - %s"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2775
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2773
 msgid "Please select an image for this contact"
 msgstr "Seleccione uma imagem para este contacto"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2776
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2774
 msgid "No image"
 msgstr "Sem imagem"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3060
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3058
 msgid ""
 "The contact data is invalid:\n"
 "\n"
@@ -2542,7 +2542,7 @@ msgstr ""
 "Os dados do contacto são inválidos:\n"
 "\n"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3112
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3110
 msgid "Invalid contact."
 msgstr "Contacto inválido."
 
@@ -2570,7 +2570,7 @@ msgstr "_Seleccione o Livro de Endereços"
 #, c-format
 msgid ""
 "Are you sure you want\n"
-"to delete contact list (%s)?"
+"to delete contact list (%s) ?"
 msgstr ""
 "Tem a certeza de que deseja\n"
 "apagar a lista de contactos (%s)?"
@@ -2587,7 +2587,7 @@ msgstr ""
 #, c-format
 msgid ""
 "Are you sure you want\n"
-"to delete contact (%s)?"
+"to delete contact (%s) ?"
 msgstr ""
 "Tem a certeza de que deseja\n"
 "apagar este contacto (%s)?"
@@ -16472,7 +16472,7 @@ msgstr "Formatador Itip"
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:1
 msgid ""
 "&quot;{0}&quot; has delegated the meeting. Do you want to add the delegate "
-"&quot;{1}&quot;?"
+"&quot;{1}&quot; ?"
 msgstr ""
 "&quot;{0}&quot; delegou a reunião. Deseja adicionar o delegado &quot;{1}"
 "&quot;?"

@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-03-10 18:01+0200\n"
-"PO-Revision-Date: 2006-03-10 18:01+0200\n"
+"POT-Creation-Date: 2006-03-10 17:26+0200\n"
+"PO-Revision-Date: 2006-03-10 17:26+0200\n"
 "Last-Translator: Alexander Shopov <ash@contact.bg>\n"
 "Language-Team: Bulgarian <dict@fsa-bg.org>\n"
 "MIME-Version: 1.0\n"
@@ -2524,15 +2524,15 @@ msgstr "Променени"
 msgid "Contact Editor - %s"
 msgstr "Редактор на контакти - %s"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2775
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2773
 msgid "Please select an image for this contact"
 msgstr "Изберете изображение за този контакт"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2776
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2774
 msgid "No image"
 msgstr "Няма изображение"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3060
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3058
 msgid ""
 "The contact data is invalid:\n"
 "\n"
@@ -2540,7 +2540,7 @@ msgstr ""
 "Информацията на контакта е невалидна:\n"
 "\n"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3112
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3110
 msgid "Invalid contact."
 msgstr "Невалиден контакт."
 
@@ -2568,7 +2568,7 @@ msgstr "Избор на адрес_ник"
 #, c-format
 msgid ""
 "Are you sure you want\n"
-"to delete contact list (%s)?"
+"to delete contact list (%s) ?"
 msgstr ""
 "Сигурни ли сте, че искате да\n"
 "изтриете списъка с контакти (%s)?"
@@ -2585,7 +2585,7 @@ msgstr ""
 #, c-format
 msgid ""
 "Are you sure you want\n"
-"to delete contact (%s)?"
+"to delete contact (%s) ?"
 msgstr ""
 "Сигурни ли сте, че искате да\n"
 "изтриете контакта (%s)?"
@@ -16438,8 +16438,8 @@ msgstr "Вносители, тип Itip"
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:1
 msgid ""
 "&quot;{0}&quot; has delegated the meeting. Do you want to add the delegate "
-"&quot;{1}&quot;?"
-msgstr "„{0}“ е делегирал събранието. Искате ли да добавите делегата „{1}“?"
+"&quot;{1}&quot; ?"
+msgstr "„{0}“ е делегирал събранието. Искате ли да добавите делегата „{1}“ ?"
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:3
 msgid "This meeting has been delegated"

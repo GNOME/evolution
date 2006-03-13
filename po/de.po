@@ -17,8 +17,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-03-10 08:42+0100\n"
-"PO-Revision-Date: 2006-03-10 08:34+0100\n"
+"POT-Creation-Date: 2006-03-10 08:29+0100\n"
+"PO-Revision-Date: 2006-03-10 08:21+0100\n"
 "Last-Translator: Frank Arnold <frank@scirocco-5v-turbo.de>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -2543,15 +2543,15 @@ msgstr "Geändert"
 msgid "Contact Editor - %s"
 msgstr "Kontakteditor - %s"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2775
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2773
 msgid "Please select an image for this contact"
 msgstr "Bitte wählen Sie ein Bild für diesen Kontakt"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2776
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2774
 msgid "No image"
 msgstr "Kein Bild"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3060
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3058
 msgid ""
 "The contact data is invalid:\n"
 "\n"
@@ -2559,7 +2559,7 @@ msgstr ""
 "Die Kontaktdaten sind ungültig:\n"
 "\n"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3112
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3110
 msgid "Invalid contact."
 msgstr "Kontakt ungültig."
 
@@ -2587,7 +2587,7 @@ msgstr "Adressbuch aus_wählen"
 #, c-format
 msgid ""
 "Are you sure you want\n"
-"to delete contact list (%s)?"
+"to delete contact list (%s) ?"
 msgstr ""
 "Sind Sie sicher, dass Sie\n"
 "diese Kontaktliste löschen wollen (%s)?"
@@ -2604,7 +2604,7 @@ msgstr ""
 #, c-format
 msgid ""
 "Are you sure you want\n"
-"to delete contact (%s)?"
+"to delete contact (%s) ?"
 msgstr ""
 "Sind Sie sicher, dass Sie\n"
 "diesen Kontakt löschen wollen (%s)?"
@@ -16628,7 +16628,7 @@ msgstr "Itip-Formatierung"
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:1
 msgid ""
 "&quot;{0}&quot; has delegated the meeting. Do you want to add the delegate "
-"&quot;{1}&quot;?"
+"&quot;{1}&quot; ?"
 msgstr ""
 "»{0}« hat die Besprechung delegiert. Möchten Sie den Delegaten »{1}« "
 "hinzufügen?"
