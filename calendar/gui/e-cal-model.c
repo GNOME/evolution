@@ -2099,8 +2099,10 @@ e_cal_model_set_instance_times (ECalModelComponent *comp_data, icaltimezone *zon
 		icalcomponent_set_dtend (comp_data->icalcomp, end_time);
 	}
 
+	if (start_time.zone)
+		zone = start_time.zone;
+	
 	comp_data->instance_start = icaltime_as_timet_with_zone (start_time, zone);
 
-	comp_data->instance_end = comp_data->instance_start +
-		(icaltime_as_timet_with_zone (end_time, zone) - icaltime_as_timet_with_zone (start_time, zone));
+	comp_data->instance_end = icaltime_as_timet_with_zone (end_time, zone);
 }
