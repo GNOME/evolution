@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: evolution.gnome-2-14\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-03-10 06:12+0100\n"
-"PO-Revision-Date: 2006-03-14 23:43+0100\n"
+"PO-Revision-Date: 2006-03-15 00:00+0100\n"
 "Last-Translator: Vladimer Sichinava <alinux@siena.linux.it>\n"
 "Language-Team: Georgian <gnome@inet.ge>\n"
 "MIME-Version: 1.0\n"
@@ -520,9 +520,8 @@ msgid "_Add"
 msgstr "_დამატება"
 
 #: ../addressbook/addressbook.error.xml.h:34
-#, fuzzy
 msgid "_Discard"
-msgstr "უარყოფა"
+msgstr "_უარყოფა"
 
 #: ../addressbook/addressbook.error.xml.h:35
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:76
