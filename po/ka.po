@@ -1,27 +1,26 @@
 # translation of evolution.po to Georgian
 # Copyright © 2005 Canonical Ltd, and Rosetta Contributors 2005
 # This file is distributed under the same license as the evolution package.
+#
 # Alexander Didebulidze <didebuli@in.tum.de>, 2005, 2006.
-
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-03-03 06:04+0100\n"
-"PO-Revision-Date: 2006-03-08 22:04+0100\n"
+"POT-Creation-Date: 2006-03-10 06:12+0100\n"
+"PO-Revision-Date: 2006-03-14 14:53+0100\n"
 "Last-Translator: Alexander Didebulidze <didebuli@in.tum.de>\n"
 "Language-Team: Georgian <gnome@inet.ge>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=1; plural=0\n"
-"X-Generator: KBabel 1.11.2\n"
+"Plural-Forms: nplurals=1; plural=0"
 
 #: ../a11y/addressbook/ea-addressbook-view.c:94
 #: ../a11y/addressbook/ea-addressbook-view.c:103
 #: ../a11y/addressbook/ea-minicard-view.c:169
 msgid "evolution addressbook"
-msgstr "evolution მისამართების გწიგნაკი"
+msgstr "ევოლუშენ მისამართების წიგნაკი"
 
 #: ../a11y/addressbook/ea-minicard-view.c:34
 #: ../addressbook/gui/component/addressbook-component.c:226
@@ -36,8 +35,7 @@ msgstr "ახალი კონტაქტების სია"
 #: ../a11y/addressbook/ea-minicard-view.c:152
 #, c-format
 msgid "current addressbook folder has %d card"
-msgid_plural "current addressbook folder has %d cards"
-msgstr[0] ""
+msgstr ""
 
 #: ../a11y/addressbook/ea-minicard.c:31
 #: ../ui/evolution-message-composer.xml.h:12
@@ -111,31 +109,30 @@ msgstr "წადი თარიღზე"
 msgid "a table to view and select the current time range"
 msgstr ""
 
-#: ../a11y/calendar/ea-day-view.c:146 ../a11y/calendar/ea-week-view.c:148
+#: ../a11y/calendar/ea-day-view.c:149 ../a11y/calendar/ea-week-view.c:151
 #, c-format
 msgid "It has %d event."
-msgid_plural "It has %d events."
-msgstr[0] ""
+msgstr ""
 
-#: ../a11y/calendar/ea-day-view.c:148 ../a11y/calendar/ea-week-view.c:150
+#: ../a11y/calendar/ea-day-view.c:151 ../a11y/calendar/ea-week-view.c:153
 msgid "It has no events."
 msgstr ""
 
-#: ../a11y/calendar/ea-day-view.c:152
+#: ../a11y/calendar/ea-day-view.c:155
 #, c-format
 msgid "Work Week View: %s. %s"
 msgstr "სამუშაო კვირის ხედი: %s. %s"
 
-#: ../a11y/calendar/ea-day-view.c:155
+#: ../a11y/calendar/ea-day-view.c:158
 #, c-format
 msgid "Day View: %s. %s"
 msgstr "დღის ხედი: %s. %s"
 
-#: ../a11y/calendar/ea-day-view.c:186
+#: ../a11y/calendar/ea-day-view.c:189
 msgid "calendar view for a work week"
 msgstr ""
 
-#: ../a11y/calendar/ea-day-view.c:188
+#: ../a11y/calendar/ea-day-view.c:191
 msgid "calendar view for one or more days"
 msgstr ""
 
@@ -211,21 +208,21 @@ msgstr "გადახტომის ღილაკი"
 msgid "Click here, you can find more events."
 msgstr ""
 
-#: ../a11y/calendar/ea-week-view.c:155
+#: ../a11y/calendar/ea-week-view.c:158
 #, c-format
 msgid "Month View: %s. %s"
 msgstr "თვის ხედი: %s. %s"
 
-#: ../a11y/calendar/ea-week-view.c:159
+#: ../a11y/calendar/ea-week-view.c:162
 #, c-format
 msgid "Week View: %s. %s"
 msgstr "კვირის ხედი: %s. %s"
 
-#: ../a11y/calendar/ea-week-view.c:190
+#: ../a11y/calendar/ea-week-view.c:193
 msgid "calendar view for a month"
 msgstr ""
 
-#: ../a11y/calendar/ea-week-view.c:192
+#: ../a11y/calendar/ea-week-view.c:195
 msgid "calendar view for one or more weeks"
 msgstr ""
 
@@ -393,7 +390,8 @@ msgid "The Evolution addressbook has quit unexpectedly."
 msgstr ""
 
 #: ../addressbook/addressbook.error.xml.h:18
-msgid "The image you have selected is large. Do you want to resize and store it?"
+msgid ""
+"The image you have selected is large. Do you want to resize and store it?"
 msgstr ""
 
 #: ../addressbook/addressbook.error.xml.h:19
@@ -461,7 +459,8 @@ msgid ""
 msgstr ""
 
 #: ../addressbook/addressbook.error.xml.h:32
-msgid "Your contacts for {0} will not be available until Evolution is restarted."
+msgid ""
+"Your contacts for {0} will not be available until Evolution is restarted."
 msgstr ""
 
 #: ../addressbook/addressbook.error.xml.h:33 ../mail/em-vfolder-rule.c:496
@@ -753,9 +752,8 @@ msgstr "გადაარქვი -სკენ:"
 
 #: ../addressbook/gui/component/addressbook-view.c:437
 #: ../mail/em-folder-utils.c:505
-#, fuzzy
 msgid "Rename Folder"
-msgstr "გადაარქვი საქაღალდე"
+msgstr "საქაღალდეს გადარქმევა"
 
 #: ../addressbook/gui/component/addressbook-view.c:442
 #: ../mail/em-folder-utils.c:511
@@ -794,9 +792,8 @@ msgstr "შენახვა."
 #: ../addressbook/gui/component/addressbook-view.c:958
 #: ../calendar/gui/calendar-component.c:539
 #: ../calendar/gui/tasks-component.c:444
-#, fuzzy
 msgid "_Properties..."
-msgstr "პარამეტრები."
+msgstr "_პარამეტრები..."
 
 #: ../addressbook/gui/component/addressbook-view.c:1345
 #, fuzzy
@@ -944,7 +941,8 @@ msgstr "Email მისამართი"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:20
 #, fuzzy
-msgid "Evolution will use this email address to authenticate you with the server."
+msgid ""
+"Evolution will use this email address to authenticate you with the server."
 msgstr "Evolution -სკენ."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:21
@@ -1174,12 +1172,9 @@ msgstr ""
 
 #: ../addressbook/gui/component/ldap-config.glade.h:60
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:8
-#: ../calendar/gui/alarm-notify/util.c:65
-#: ../calendar/gui/alarm-notify/util.c:67
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:26
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:14
-#: ../calendar/gui/dialogs/event-page.glade.h:20 ../calendar/gui/misc.c:112
-#: ../calendar/gui/misc.c:114 ../filter/filter.glade.h:16
+#: ../calendar/gui/dialogs/event-page.glade.h:20 ../filter/filter.glade.h:16
 #: ../mail/em-account-editor.c:2021
 #: ../plugins/calendar-http/calendar-http.c:286
 #: ../plugins/calendar-weather/calendar-weather.c:563
@@ -1365,23 +1360,20 @@ msgid "_Free/Busy:"
 msgstr "_თავისუფალი/დაკავებული:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:36
-#, fuzzy
 msgid "_Home Page:"
-msgstr "სახლი გვერდი:"
+msgstr "_პირადი ვებ გვერდი:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:37
-#, fuzzy
 msgid "_Manager:"
-msgstr "მმართველი:"
+msgstr "_მენეჯერი:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:38
 msgid "_Notes:"
 msgstr "_შენიშვნები:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:39
-#, fuzzy
 msgid "_Office:"
-msgstr "ოფისი:"
+msgstr "_ოფისი:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:40
 #: ../addressbook/gui/contact-editor/fulladdr.glade.h:7
@@ -1398,13 +1390,11 @@ msgstr ""
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:43
 #: ../addressbook/gui/contact-editor/fulladdr.glade.h:8
-#, fuzzy
 msgid "_State/Province:"
-msgstr "მდგომარეობა:"
+msgstr "_ქვეყანა/პროვინცია:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:44
 #: ../addressbook/gui/contact-editor/fullname.glade.h:18
-#, fuzzy
 msgid "_Title:"
 msgstr "_სათაური:"
 
@@ -2469,7 +2459,7 @@ msgstr "სერვისი"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:128
 #: ../calendar/gui/e-cal-list-view.etspec.h:3
-#: ../plugins/publish-calendar/publish-calendar.c:478
+#: ../plugins/publish-calendar/publish-calendar.c:497
 #: ../plugins/save-calendar/csv-format.c:400
 msgid "Location"
 msgstr "ადგილმდებარეობა"
@@ -2534,23 +2524,23 @@ msgstr ""
 msgid "Contact Editor - %s"
 msgstr "კონტაქტი რედაქტორი"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2772
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2773
 msgid "Please select an image for this contact"
 msgstr ""
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2773
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2774
 #, fuzzy
 msgid "No image"
 msgstr "არა"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3057
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3058
 #, fuzzy
 msgid ""
 "The contact data is invalid:\n"
 "\n"
 msgstr "n n"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3109
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3110
 #, fuzzy
 msgid "Invalid contact."
 msgstr "არასწორი."
@@ -2561,9 +2551,8 @@ msgid "Contact Quick-Add"
 msgstr "კონტაქტი დამატება"
 
 #: ../addressbook/gui/contact-editor/e-contact-quick-add.c:294
-#, fuzzy
 msgid "_Edit Full"
-msgstr "რედაქტირება სრული"
+msgstr "სრული _რედაქტირება"
 
 #: ../addressbook/gui/contact-editor/e-contact-quick-add.c:337
 #, fuzzy
@@ -2571,9 +2560,8 @@ msgid "_Full name"
 msgstr "სრული"
 
 #: ../addressbook/gui/contact-editor/e-contact-quick-add.c:347
-#, fuzzy
 msgid "E-_mail"
-msgstr "E"
+msgstr "ელ-_ფოსტა"
 
 #: ../addressbook/gui/contact-editor/e-contact-quick-add.c:357
 #, fuzzy
@@ -2627,7 +2615,6 @@ msgid "_ZIP Code:"
 msgstr ""
 
 #: ../addressbook/gui/contact-editor/fullname.glade.h:2
-#, fuzzy
 msgid "Dr."
 msgstr "დრ."
 
@@ -2653,7 +2640,6 @@ msgid "III"
 msgstr "III"
 
 #: ../addressbook/gui/contact-editor/fullname.glade.h:8
-#, fuzzy
 msgid "Jr."
 msgstr "უმც."
 
@@ -2856,8 +2842,7 @@ msgstr ""
 #: ../addressbook/gui/widgets/e-addressbook-model.c:151
 #, c-format
 msgid "%d contact"
-msgid_plural "%d contacts"
-msgstr[0] ""
+msgstr ""
 
 #: ../addressbook/gui/widgets/e-addressbook-model.c:303
 #: ../addressbook/gui/widgets/e-addressbook-reflow-adapter.c:391
@@ -2894,7 +2879,7 @@ msgstr ""
 #: ../addressbook/gui/widgets/e-addressbook-view.c:244
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:11
 #: ../calendar/gui/e-calendar-table.etspec.h:13
-#: ../calendar/gui/e-meeting-list-view.c:480
+#: ../calendar/gui/e-meeting-list-view.c:486
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:11
 #: ../calendar/gui/e-memo-table.etspec.h:5
 msgid "Type"
@@ -2908,7 +2893,7 @@ msgid "Save as VCard..."
 msgstr "შენახვა."
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:957
-#: ../calendar/gui/dialogs/comp-editor.c:1086
+#: ../calendar/gui/dialogs/comp-editor.c:1088
 #: ../calendar/gui/e-calendar-table.c:1174
 #: ../calendar/gui/e-calendar-view.c:1595 ../calendar/gui/e-memo-table.c:852
 #: ../ui/evolution-addressbook.xml.h:56
@@ -2916,9 +2901,8 @@ msgid "_Open"
 msgstr "_გახსნა"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:959
-#, fuzzy
 msgid "_New Contact..."
-msgstr "ახალი კონტაქტი."
+msgstr "ახალი _კონტაქტი..."
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:960
 #, fuzzy
@@ -2989,16 +2973,14 @@ msgid "_Copy"
 msgstr "_დააკოპირე"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:978
-#, fuzzy
 msgid "P_aste"
-msgstr "ჩასმა"
+msgstr "ჩ_ასმა"
 
 #. All, unmatched, separator
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1601
 #: ../calendar/gui/cal-search-bar.c:343
-#, fuzzy
 msgid "Any Category"
-msgstr "კატეგორია"
+msgstr "ნებისმიერი კატეგორია"
 
 #. FIXME: Allow range selection in table views, as in minicard view
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1802
@@ -3069,9 +3051,8 @@ msgid "Family Name"
 msgstr "გვარი"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:14
-#, fuzzy
 msgid "File As"
-msgstr "ფაილი"
+msgstr "ფაილი როგორც"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:16
 #, fuzzy
@@ -3099,9 +3080,8 @@ msgid "Journal"
 msgstr ""
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:22
-#, fuzzy
 msgid "Manager"
-msgstr "მმართველი"
+msgstr "მენეჯერი"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:23
 #: ../addressbook/gui/widgets/eab-contact-display.c:381
@@ -3118,7 +3098,6 @@ msgid "Note"
 msgstr "შენიშვნა"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:26
-#, fuzzy
 msgid "Office"
 msgstr "ოფისი"
 
@@ -3149,7 +3128,7 @@ msgstr ""
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:33
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:9
-#: ../calendar/gui/e-meeting-list-view.c:491
+#: ../calendar/gui/e-meeting-list-view.c:497
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:9
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:725
 msgid "Role"
@@ -3174,7 +3153,6 @@ msgid "Telex"
 msgstr ""
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:43
-#, fuzzy
 msgid "Title"
 msgstr "სათაური"
 
@@ -3287,7 +3265,6 @@ msgid "Adapter"
 msgstr ""
 
 #: ../addressbook/gui/widgets/e-minicard.c:161
-#, fuzzy
 msgid "Selected"
 msgstr "მონიშნულია"
 
@@ -3308,9 +3285,8 @@ msgstr ""
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:276
 #: ../addressbook/gui/widgets/eab-contact-display.c:545
-#, fuzzy
 msgid "List Members"
-msgstr "სია წევრები"
+msgstr "წევრების სია"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:339
 #: ../addressbook/gui/widgets/eab-contact-display.c:341
@@ -3318,7 +3294,6 @@ msgid "E-mail"
 msgstr ""
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:363
-#, fuzzy
 msgid "Position"
 msgstr "თანამდებობა"
 
@@ -3353,7 +3328,6 @@ msgid "personal"
 msgstr ""
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:563
-#, fuzzy
 msgid "Job Title"
 msgstr "პროფესია"
 
@@ -3424,9 +3398,8 @@ msgstr "პროტოკოლი"
 #: ../calendar/gui/e-cal-model-tasks.c:349
 #: ../calendar/gui/e-cal-model-tasks.c:657
 #: ../calendar/gui/e-calendar-table.c:462 ../calendar/gui/print.c:2372
-#, fuzzy
 msgid "Canceled"
-msgstr "გაუქმებულია"
+msgstr "გაუქმებული"
 
 #. E_BOOK_ERROR_COULD_NOT_CANCEL
 #: ../addressbook/gui/widgets/eab-gui-util.c:63
@@ -3505,7 +3478,9 @@ msgid ""
 "This version of Evolution does not have LDAP support compiled in to it.  If "
 "you want to use LDAP in Evolution, you must install an LDAP-enabled "
 "Evolution package."
-msgstr "ვერსია Evolution LDAP სუპორტი -სკენ -სკენ LDAP Evolution LDAP ჩართული Evolution."
+msgstr ""
+"ვერსია Evolution LDAP სუპორტი -სკენ -სკენ LDAP Evolution LDAP ჩართული "
+"Evolution."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:124
 #, fuzzy
@@ -3583,10 +3558,9 @@ msgstr "შეცდომა"
 msgid ""
 "Opening %d contact will open %d new window as well.\n"
 "Do you really want to display this contact?"
-msgid_plural ""
 "Opening %d contacts will open %d new windows as well.\n"
 "Do you really want to display all of these contacts?"
-msgstr[0] "-სკენ?"
+msgstr "-სკენ?"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:321
 #, c-format
@@ -3606,8 +3580,7 @@ msgstr "გადაწერა"
 #: ../addressbook/gui/widgets/eab-gui-util.c:370
 #: ../addressbook/gui/widgets/eab-gui-util.c:373
 msgid "contact"
-msgid_plural "contacts"
-msgstr[0] ""
+msgstr ""
 
 #. This is a filename. Translators take note.
 #: ../addressbook/gui/widgets/eab-gui-util.c:420
@@ -3669,8 +3642,7 @@ msgstr "მისამართი."
 #: ../addressbook/gui/widgets/eab-vcard-control.c:139
 #, c-format
 msgid "There is one other contact."
-msgid_plural "There are %d other contacts."
-msgstr[0] ""
+msgstr ""
 
 #: ../addressbook/gui/widgets/eab-vcard-control.c:223
 #: ../addressbook/gui/widgets/eab-vcard-control.c:272
@@ -3737,21 +3709,21 @@ msgstr ""
 msgid "Importing ..."
 msgstr ""
 
-#: ../addressbook/importers/evolution-ldif-importer.c:761
+#: ../addressbook/importers/evolution-ldif-importer.c:754
 #, fuzzy
 msgid "LDAP Data Interchange Format (.ldif)"
 msgstr "LDAP მონაცემი ფორმატი"
 
-#: ../addressbook/importers/evolution-ldif-importer.c:762
+#: ../addressbook/importers/evolution-ldif-importer.c:755
 #, fuzzy
 msgid "Evolution LDIF importer"
 msgstr "Evolution"
 
-#: ../addressbook/importers/evolution-vcard-importer.c:554
+#: ../addressbook/importers/evolution-vcard-importer.c:547
 msgid "VCard (.vcf, .gcrd)"
 msgstr ""
 
-#: ../addressbook/importers/evolution-vcard-importer.c:555
+#: ../addressbook/importers/evolution-vcard-importer.c:548
 #, fuzzy
 msgid "Evolution VCard Importer"
 msgstr "Evolution"
@@ -3811,7 +3783,6 @@ msgid "Footer:"
 msgstr ""
 
 #: ../addressbook/printing/e-contact-print.glade.h:10
-#, fuzzy
 msgid "Format"
 msgstr "ფორმატი"
 
@@ -3851,7 +3822,6 @@ msgid "Include:"
 msgstr ""
 
 #: ../addressbook/printing/e-contact-print.glade.h:18
-#, fuzzy
 msgid "Landscape"
 msgstr "პეიზაჟი"
 
@@ -4030,7 +4000,8 @@ msgstr "ექსპორტი"
 
 #: ../addressbook/tools/evolution-addressbook-export.c:63
 #, fuzzy
-msgid "The number of cards in one output file in asychronous mode, default size 100."
+msgid ""
+"The number of cards in one output file in asychronous mode, default size 100."
 msgstr "რიცხვი ნაგულისხმევი სიდიდე."
 
 #: ../addressbook/tools/evolution-addressbook-export.c:63
@@ -4039,7 +4010,8 @@ msgstr ""
 
 #: ../addressbook/tools/evolution-addressbook-export.c:91
 #, fuzzy
-msgid "Command line arguments error, please use --help option to see the usage."
+msgid ""
+"Command line arguments error, please use --help option to see the usage."
 msgstr "ბრძანება ხაზი შეცდომა -სკენ."
 
 #: ../addressbook/tools/evolution-addressbook-export.c:105
@@ -4094,7 +4066,8 @@ msgid ""
 msgstr ""
 
 #: ../calendar/calendar.error.xml.h:4
-msgid "All information in this journal will be deleted and can not be restored."
+msgid ""
+"All information in this journal will be deleted and can not be restored."
 msgstr ""
 
 #: ../calendar/calendar.error.xml.h:5
@@ -4108,7 +4081,8 @@ msgid "All information on these tasks will be deleted and can not be restored."
 msgstr ""
 
 #: ../calendar/calendar.error.xml.h:7
-msgid "All information on this appointment will be deleted and can not be restored."
+msgid ""
+"All information on this appointment will be deleted and can not be restored."
 msgstr ""
 
 #: ../calendar/calendar.error.xml.h:8
@@ -4118,7 +4092,8 @@ msgid ""
 msgstr ""
 
 #: ../calendar/calendar.error.xml.h:9
-msgid "All information on this meeting will be deleted and can not be restored."
+msgid ""
+"All information on this meeting will be deleted and can not be restored."
 msgstr ""
 
 #: ../calendar/calendar.error.xml.h:10
@@ -4217,7 +4192,8 @@ msgstr "Email -სკენ და -სკენ მიღება."
 
 #: ../calendar/calendar.error.xml.h:32
 #, fuzzy
-msgid "Email invitations will be sent to all participants and allow them to reply."
+msgid ""
+"Email invitations will be sent to all participants and allow them to reply."
 msgstr "Email -სკენ და -სკენ."
 
 #: ../calendar/calendar.error.xml.h:33
@@ -4408,7 +4384,6 @@ msgid "_Save"
 msgstr "_შენახვა"
 
 #: ../calendar/calendar.error.xml.h:70
-#, fuzzy
 msgid "_Save Changes"
 msgstr "ცვლილებების _შენახვა"
 
@@ -4544,7 +4519,7 @@ msgid "Memos"
 msgstr "წევრები"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:13
-#: ../calendar/gui/e-calendar-table.c:525 ../calendar/gui/e-tasks.c:1329
+#: ../calendar/gui/e-calendar-table.c:525 ../calendar/gui/e-tasks.c:1347
 #: ../calendar/gui/print.c:1828 ../calendar/gui/tasks-component.c:521
 #: ../calendar/gui/tasks-component.c:1012 ../calendar/gui/tasks-control.c:475
 #: ../calendar/importers/icalendar-importer.c:80
@@ -4553,7 +4528,6 @@ msgstr "წევრები"
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:384
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:591
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:12
-#, fuzzy
 msgid "Tasks"
 msgstr "დავალებანი"
 
@@ -4571,9 +4545,6 @@ msgid "Evolution Calendar alarm notification service"
 msgstr ""
 
 #: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:115
-#: ../calendar/gui/alarm-notify/util.c:65
-#: ../calendar/gui/alarm-notify/util.c:67 ../calendar/gui/misc.c:112
-#: ../calendar/gui/misc.c:114
 msgid "minute"
 msgid_plural "minutes"
 msgstr[0] "წუთი"
@@ -4591,9 +4562,8 @@ msgstr[0] "საათი"
 msgstr[1] "საათი"
 
 #: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:270
-#, fuzzy
 msgid "Start time"
-msgstr "გაშვება"
+msgstr "დაწყების დრო"
 
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:1
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:4
@@ -4606,7 +4576,6 @@ msgstr "შეხვედრები"
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1274
 #: ../calendar/gui/e-itip-control.c:1113
 #: ../plugins/itip-formatter/itip-view.c:880
-#, fuzzy
 msgid "Location:"
 msgstr "მდებარეობა:"
 
@@ -4703,67 +4672,31 @@ msgstr ""
 msgid "invalid time"
 msgstr ""
 
-#. Can't be zero
-#: ../calendar/gui/alarm-notify/util.c:58
-#, fuzzy, c-format
-msgid "(%ld seconds)"
-msgstr "წამი"
+#. Translator: Entire string is like "Pop up an alert %d hours before start of appointment"
+#: ../calendar/gui/alarm-notify/util.c:66 ../calendar/gui/e-alarm-list.c:408
+#: ../calendar/gui/misc.c:113
+#, c-format
+msgid "%d hour"
+msgid_plural "%d hours"
+msgstr[0] "%d საათი"
+
+#. Translator: Entire string is like "Pop up an alert %d minutes before start of appointment"
+#: ../calendar/gui/alarm-notify/util.c:72 ../calendar/gui/e-alarm-list.c:414
+#: ../calendar/gui/misc.c:119
+#, c-format
+msgid "%d minute"
+msgid_plural "%d minutes"
+msgstr[0] "%d წუთი"
 
 #. TRANSLATORS: here, "second" is the time division (like "minute"), not the ordinal number (like "third")
-#: ../calendar/gui/alarm-notify/util.c:65 ../calendar/gui/misc.c:112
+#. Translator: Entire string is like "Pop up an alert %d seconds before start of appointment"
+#. TRANSLATORS: here, "second" is the time division (like "minute"), not the ordinal number (like "third")
+#: ../calendar/gui/alarm-notify/util.c:76 ../calendar/gui/e-alarm-list.c:420
+#: ../calendar/gui/misc.c:123
 #, c-format
-msgid "(%d %s %d %s)"
-msgstr "(%d·%s·%d·%s)"
-
-#. TRANSLATORS: here, "second" is the ordinal number (like "third"), not the time division (like "minute")
-#. * Entire string is for example: This appointment recurs/Every [x] month(s) on the [second] [Monday] [forever]'
-#. * (dropdown menu options are in [square brackets]). This means that after 'second', either the string 'day' or
-#. * the name of a week day (like 'Monday' or 'Friday') always follow.
-#.
-#: ../calendar/gui/alarm-notify/util.c:65
-#: ../calendar/gui/dialogs/recurrence-page.c:998 ../calendar/gui/misc.c:112
-msgid "second"
-msgstr "წამი"
-
-#: ../calendar/gui/alarm-notify/util.c:65 ../calendar/gui/misc.c:112
-#: ../filter/filter.glade.h:18 ../mail/mail-config.glade.h:178
-msgid "seconds"
-msgstr "წამი"
-
-#: ../calendar/gui/alarm-notify/util.c:67 ../calendar/gui/misc.c:114
-#, c-format
-msgid "(%d %s)"
-msgstr "(%d·%s)"
-
-#: ../calendar/gui/alarm-notify/util.c:78 ../calendar/gui/misc.c:125
-#, c-format
-msgid " %u second"
-msgstr " %u წამი"
-
-#: ../calendar/gui/alarm-notify/util.c:78 ../calendar/gui/misc.c:125
-#, c-format
-msgid " %u seconds"
-msgstr " %u წამი"
-
-#: ../calendar/gui/alarm-notify/util.c:80 ../calendar/gui/misc.c:127
-#, c-format
-msgid " %u minute"
-msgstr " %u წუთი"
-
-#: ../calendar/gui/alarm-notify/util.c:80 ../calendar/gui/misc.c:127
-#, c-format
-msgid " %u minutes"
-msgstr " %u წუთი"
-
-#: ../calendar/gui/alarm-notify/util.c:82 ../calendar/gui/misc.c:129
-#, c-format
-msgid "%u hour"
-msgstr "%u საათი"
-
-#: ../calendar/gui/alarm-notify/util.c:82 ../calendar/gui/misc.c:129
-#, c-format
-msgid "%u hours"
-msgstr "%u საათი"
+msgid "%d second"
+msgid_plural "%d seconds"
+msgstr[0] "%d წამი"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:1
 msgid "Alarm programs"
@@ -4791,7 +4724,8 @@ msgstr "კალენდრები -სკენ"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:6
 #, fuzzy
-msgid "Color to draw the Marcus Bains Line in the Time bar (empty for default)."
+msgid ""
+"Color to draw the Marcus Bains Line in the Time bar (empty for default)."
 msgstr "ფერი -სკენ სტრიქონი დრო ნაგულისხმევი."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:7
@@ -5066,7 +5000,8 @@ msgstr "ერთეული a ნაგულისხმევი წუთ�
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:62
 #, fuzzy
-msgid "Units for determining when to hide tasks, \"minutes\", \"hours\" or \"days\"."
+msgid ""
+"Units for determining when to hide tasks, \"minutes\", \"hours\" or \"days\"."
 msgstr "ერთეული -სკენ წუთი საათი დღე."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:64
@@ -5106,7 +5041,8 @@ msgid "Whether to display the end time of events in the week and month views."
 msgstr "-სკენ და."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:71
-msgid "Whether to draw the Marcus Bains Line (line at current time) in the calendar."
+msgid ""
+"Whether to draw the Marcus Bains Line (line at current time) in the calendar."
 msgstr ""
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:72
@@ -5136,7 +5072,8 @@ msgid "Whether to show status field in the event/task/meeting editor"
 msgstr ""
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:78
-msgid "Whether to show times in twenty four hour format instead of using am/pm."
+msgid ""
+"Whether to show times in twenty four hour format instead of using am/pm."
 msgstr ""
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:79
@@ -5348,9 +5285,8 @@ msgid "Create a new calendar"
 msgstr "შექმენი ახალი კალენდარი"
 
 #: ../calendar/gui/calendar-view-factory.c:109
-#, fuzzy
 msgid "Day View"
-msgstr "დღე ხედი"
+msgstr "დღის ხედი"
 
 #: ../calendar/gui/calendar-view-factory.c:112
 #, fuzzy
@@ -5363,9 +5299,8 @@ msgid "Week View"
 msgstr "ხედი"
 
 #: ../calendar/gui/calendar-view-factory.c:118
-#, fuzzy
 msgid "Month View"
-msgstr "თვე ხედი"
+msgstr "თვის ხედი"
 
 #: ../calendar/gui/comp-editor-factory.c:415
 #, fuzzy
@@ -5439,7 +5374,6 @@ msgid "Run a program"
 msgstr "გაშვება a პროგრამა"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:11
-#, fuzzy
 msgid "Send To:"
 msgstr "გაგზავნა ვის:"
 
@@ -5500,15 +5434,14 @@ msgstr "წუთი"
 msgid "start of appointment"
 msgstr ""
 
-#: ../calendar/gui/dialogs/alarm-list-dialog.c:232
+#: ../calendar/gui/dialogs/alarm-list-dialog.c:235
 #, fuzzy
 msgid "Action/Trigger"
 msgstr "მოქმედება"
 
 #: ../calendar/gui/dialogs/alarm-list-dialog.glade.h:1
-#, fuzzy
 msgid "A_dd"
-msgstr "A"
+msgstr "და_მატება"
 
 #: ../calendar/gui/dialogs/alarm-list-dialog.glade.h:2
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:14
@@ -5579,7 +5512,8 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:7
 #, fuzzy, no-c-format
-msgid "<i>%u and %d will be replaced by user and domain from the email address.</i>"
+msgid ""
+"<i>%u and %d will be replaced by user and domain from the email address.</i>"
 msgstr "<i> u და და</i>"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:8
@@ -5590,7 +5524,8 @@ msgstr "<span weight=\"bold\">გაფრთხილებანი</span>"
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:9
 #, fuzzy
 msgid "<span weight=\"bold\">Default Free/Busy Server</span>"
-msgstr "<span weight=\"bold\"> ნაგულისხმევი თავისუფალი დაკავებული სერვერი</span>"
+msgstr ""
+"<span weight=\"bold\"> ნაგულისხმევი თავისუფალი დაკავებული სერვერი</span>"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:10
 #: ../mail/mail-config.glade.h:18
@@ -5618,7 +5553,6 @@ msgid "Day _ends:"
 msgstr "დღე _მთავრდება:"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:16
-#, fuzzy
 msgid "Display"
 msgstr "დისპლეი"
 
@@ -5671,9 +5605,8 @@ msgstr ""
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:31
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:5
 #: ../mail/mail-config.glade.h:106
-#, fuzzy
 msgid "Pick a color"
-msgstr "აირჩიე ფერი"
+msgstr "ფერის ამორჩევა"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:32
 msgid "S_un"
@@ -5713,7 +5646,6 @@ msgid "T_hu"
 msgstr ""
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:40
-#, fuzzy
 msgid "Template:"
 msgstr "შაბლონი:"
 
@@ -5880,9 +5812,8 @@ msgid "Add Task List"
 msgstr "დამატება სია"
 
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:6
-#, fuzzy
 msgid "_Add Calendar"
-msgstr "დამატება კალენდარი"
+msgstr "კალენდარის _დამატება"
 
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:7
 #, fuzzy
@@ -5987,8 +5918,7 @@ msgstr ""
 #: ../composer/e-msg-composer.c:3056
 #, c-format
 msgid "Attached message"
-msgid_plural "%d attached messages"
-msgstr[0] ""
+msgstr ""
 
 #: ../calendar/gui/dialogs/comp-editor.c:446 ../composer/e-msg-composer.c:3121
 #: ../mail/em-folder-tree.c:980 ../mail/em-folder-utils.c:368
@@ -6003,29 +5933,28 @@ msgstr "_გადატანა"
 msgid "Cancel _Drag"
 msgstr "გაუქმება გადათრევა"
 
-#: ../calendar/gui/dialogs/comp-editor.c:800
+#: ../calendar/gui/dialogs/comp-editor.c:802
 msgid "Could not update object"
 msgstr ""
 
-#: ../calendar/gui/dialogs/comp-editor.c:943 ../composer/e-msg-composer.c:2479
+#: ../calendar/gui/dialogs/comp-editor.c:945 ../composer/e-msg-composer.c:2479
 #, c-format
 msgid "<b>%d</b> Attachment"
-msgid_plural "<b>%d</b> Attachments"
-msgstr[0] ""
+msgstr ""
 
-#: ../calendar/gui/dialogs/comp-editor.c:975
+#: ../calendar/gui/dialogs/comp-editor.c:977
 #, fuzzy
 msgid "Hide Attachment _Bar"
 msgstr "არა"
 
-#: ../calendar/gui/dialogs/comp-editor.c:978
-#: ../calendar/gui/dialogs/comp-editor.c:1442
+#: ../calendar/gui/dialogs/comp-editor.c:980
+#: ../calendar/gui/dialogs/comp-editor.c:1444
 #, fuzzy
 msgid "Show Attachment _Bar"
 msgstr "ანახე"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1087
-#: ../calendar/gui/dialogs/event-page.c:1897
+#: ../calendar/gui/dialogs/comp-editor.c:1089
+#: ../calendar/gui/dialogs/event-page.c:1894
 #: ../calendar/gui/dialogs/meeting-page.c:899
 #: ../calendar/gui/dialogs/task-page.c:1202
 #: ../composer/e-msg-composer-attachment-bar.c:470
@@ -6036,84 +5965,84 @@ msgstr "ანახე"
 msgid "_Remove"
 msgstr "_წაშლა"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1088
+#: ../calendar/gui/dialogs/comp-editor.c:1090
 #: ../composer/e-msg-composer-attachment-bar.c:471
 #: ../composer/e-msg-composer.c:3620 ../mail/em-folder-tree.c:2058
 #: ../ui/evolution-addressbook.xml.h:59 ../ui/evolution-mail-list.xml.h:33
 msgid "_Properties"
 msgstr "_პარამეტრები"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1090
+#: ../calendar/gui/dialogs/comp-editor.c:1092
 #: ../composer/e-msg-composer-attachment-bar.c:473
 #: ../composer/e-msg-composer.c:3622
 #, fuzzy
 msgid "_Add attachment..."
 msgstr "დამატება."
 
-#: ../calendar/gui/dialogs/comp-editor.c:1466
+#: ../calendar/gui/dialogs/comp-editor.c:1468
 #: ../mail/em-format-html-display.c:2065
 #, fuzzy
 msgid "Show Attachments"
 msgstr "ანახე"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1467
+#: ../calendar/gui/dialogs/comp-editor.c:1469
 msgid "Press space key to toggle attachment bar"
 msgstr ""
 
-#: ../calendar/gui/dialogs/comp-editor.c:2074
-#: ../calendar/gui/dialogs/comp-editor.c:2117
+#: ../calendar/gui/dialogs/comp-editor.c:2076
+#: ../calendar/gui/dialogs/comp-editor.c:2119
 #, fuzzy
 msgid "Edit Appointment"
 msgstr "რედაქტირება"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2080
-#: ../calendar/gui/dialogs/comp-editor.c:2123
+#: ../calendar/gui/dialogs/comp-editor.c:2082
+#: ../calendar/gui/dialogs/comp-editor.c:2125
 #, c-format
 msgid "Meeting - %s"
 msgstr ""
 
-#: ../calendar/gui/dialogs/comp-editor.c:2082
-#: ../calendar/gui/dialogs/comp-editor.c:2125
+#: ../calendar/gui/dialogs/comp-editor.c:2084
+#: ../calendar/gui/dialogs/comp-editor.c:2127
 #, c-format
 msgid "Appointment - %s"
 msgstr ""
 
-#: ../calendar/gui/dialogs/comp-editor.c:2086
-#: ../calendar/gui/dialogs/comp-editor.c:2129
+#: ../calendar/gui/dialogs/comp-editor.c:2088
+#: ../calendar/gui/dialogs/comp-editor.c:2131
 #, fuzzy, c-format
 msgid "Assigned Task - %s"
 msgstr "ამოცანა"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2088
-#: ../calendar/gui/dialogs/comp-editor.c:2131
+#: ../calendar/gui/dialogs/comp-editor.c:2090
+#: ../calendar/gui/dialogs/comp-editor.c:2133
 #, fuzzy, c-format
 msgid "Task - %s"
 msgstr "ამოცანა"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2091
-#: ../calendar/gui/dialogs/comp-editor.c:2134
+#: ../calendar/gui/dialogs/comp-editor.c:2093
+#: ../calendar/gui/dialogs/comp-editor.c:2136
 #, c-format
 msgid "Journal entry - %s"
 msgstr ""
 
-#: ../calendar/gui/dialogs/comp-editor.c:2102
-#: ../calendar/gui/dialogs/comp-editor.c:2144
+#: ../calendar/gui/dialogs/comp-editor.c:2104
+#: ../calendar/gui/dialogs/comp-editor.c:2146
 msgid "No summary"
 msgstr ""
 
-#: ../calendar/gui/dialogs/comp-editor.c:2652
+#: ../calendar/gui/dialogs/comp-editor.c:2654
 #: ../composer/e-msg-composer-attachment-bar.c:307 ../mail/em-utils.c:464
 #: ../mail/em-utils.c:501 ../widgets/misc/e-attachment-bar.c:339
 msgid "attachment"
 msgstr ""
 
-#: ../calendar/gui/dialogs/comp-editor.c:2741
-#: ../calendar/gui/dialogs/comp-editor.c:2795
-#: ../calendar/gui/dialogs/comp-editor.c:2819
+#: ../calendar/gui/dialogs/comp-editor.c:2743
+#: ../calendar/gui/dialogs/comp-editor.c:2797
+#: ../calendar/gui/dialogs/comp-editor.c:2821
 msgid "Changes made to this item may be discarded if an update arrives"
 msgstr ""
 
-#: ../calendar/gui/dialogs/comp-editor.c:2843
+#: ../calendar/gui/dialogs/comp-editor.c:2845
 msgid "Unable to use current version!"
 msgstr ""
 
@@ -6202,110 +6131,107 @@ msgid "Recurrence"
 msgstr ""
 
 #: ../calendar/gui/dialogs/event-page.c:807
-#: ../calendar/gui/dialogs/event-page.c:2717
+#: ../calendar/gui/dialogs/event-page.c:2714
 msgid "This event has alarms"
 msgstr ""
 
-#: ../calendar/gui/dialogs/event-page.c:875
+#: ../calendar/gui/dialogs/event-page.c:872
 #: ../calendar/gui/dialogs/event-page.glade.h:7
 msgid "Cale_ndar:"
 msgstr "კალე_ნდარი:"
 
-#: ../calendar/gui/dialogs/event-page.c:881
+#: ../calendar/gui/dialogs/event-page.c:878
 #: ../calendar/gui/dialogs/event-page.glade.h:13
 #: ../calendar/gui/dialogs/meeting-page.glade.h:5
 #: ../calendar/gui/dialogs/task-page.c:446
 msgid "Or_ganizer:"
 msgstr ""
 
-#: ../calendar/gui/dialogs/event-page.c:919
+#: ../calendar/gui/dialogs/event-page.c:916
 #, fuzzy
 msgid "_Delegatees"
 msgstr "_წაშალე"
 
-#: ../calendar/gui/dialogs/event-page.c:921
+#: ../calendar/gui/dialogs/event-page.c:918
 #, fuzzy
 msgid "Atte_ndees"
 msgstr "სია"
 
-#: ../calendar/gui/dialogs/event-page.c:1089
+#: ../calendar/gui/dialogs/event-page.c:1086
 #, fuzzy
 msgid "Event with no start date"
 msgstr "შემთხვევა არა თარიღი"
 
-#: ../calendar/gui/dialogs/event-page.c:1092
+#: ../calendar/gui/dialogs/event-page.c:1089
 #, fuzzy
 msgid "Event with no end date"
 msgstr "შემთხვევა არა თარიღი"
 
-#: ../calendar/gui/dialogs/event-page.c:1260
+#: ../calendar/gui/dialogs/event-page.c:1257
 #: ../calendar/gui/dialogs/task-page.c:852
 #, fuzzy
 msgid "Start date is wrong"
 msgstr "გაშვება თარიღი"
 
-#: ../calendar/gui/dialogs/event-page.c:1270
+#: ../calendar/gui/dialogs/event-page.c:1267
 #, fuzzy
 msgid "End date is wrong"
 msgstr "ბოლოში თარიღი"
 
-#: ../calendar/gui/dialogs/event-page.c:1293
+#: ../calendar/gui/dialogs/event-page.c:1290
 msgid "Start time is wrong"
 msgstr ""
 
-#: ../calendar/gui/dialogs/event-page.c:1300
+#: ../calendar/gui/dialogs/event-page.c:1297
 msgid "End time is wrong"
 msgstr ""
 
-#: ../calendar/gui/dialogs/event-page.c:1455
+#: ../calendar/gui/dialogs/event-page.c:1452
 #: ../calendar/gui/dialogs/meeting-page.c:469
 #: ../calendar/gui/dialogs/task-page.c:909
 #, fuzzy
 msgid "The organizer selected no longer has an account."
 msgstr "არა."
 
-#: ../calendar/gui/dialogs/event-page.c:1461
+#: ../calendar/gui/dialogs/event-page.c:1458
 #: ../calendar/gui/dialogs/meeting-page.c:475
 #: ../calendar/gui/dialogs/task-page.c:915
 msgid "An organizer is required."
 msgstr ""
 
-#: ../calendar/gui/dialogs/event-page.c:1476
+#: ../calendar/gui/dialogs/event-page.c:1473
 #: ../calendar/gui/dialogs/meeting-page.c:490
 #: ../calendar/gui/dialogs/task-page.c:930
 msgid "At least one attendee is required."
 msgstr ""
 
-#: ../calendar/gui/dialogs/event-page.c:1898
+#: ../calendar/gui/dialogs/event-page.c:1895
 #: ../calendar/gui/dialogs/meeting-page.c:900
 #: ../calendar/gui/dialogs/task-page.c:1203
 msgid "_Add "
 msgstr "_დამატება"
 
-#: ../calendar/gui/dialogs/event-page.c:2624
+#: ../calendar/gui/dialogs/event-page.c:2621
 #, c-format
 msgid "Unable to open the calendar '%s'."
 msgstr ""
 
-#: ../calendar/gui/dialogs/event-page.c:2920
+#: ../calendar/gui/dialogs/event-page.c:2924
 #, c-format
 msgid "%d day before appointment"
-msgid_plural "%d days before appointment"
-msgstr[0] ""
+msgstr ""
 
-#: ../calendar/gui/dialogs/event-page.c:2928
+#: ../calendar/gui/dialogs/event-page.c:2932
 #, c-format
 msgid "%d hour before appointment"
-msgid_plural "%d hours before appointment"
-msgstr[0] ""
+msgstr ""
 
-#: ../calendar/gui/dialogs/event-page.c:2936
+#: ../calendar/gui/dialogs/event-page.c:2940
 #, c-format
 msgid "%d minute before appointement"
-msgid_plural "%d minutes before appointment"
-msgstr[0] ""
+msgstr ""
 
-#: ../calendar/gui/dialogs/event-page.c:2952
+#: ../calendar/gui/dialogs/event-page.c:2956
 #, fuzzy
 msgid "Customize"
 msgstr "გამართვა"
@@ -6315,7 +6241,7 @@ msgstr "გამართვა"
 #. When "None" is selected we want the field to be cleared.
 #. Note that we don't show this here, since by default a 'None' date
 #. is not permitted.
-#: ../calendar/gui/dialogs/event-page.c:2957
+#: ../calendar/gui/dialogs/event-page.c:2961
 #: ../calendar/gui/dialogs/meeting-page.c:321
 #: ../calendar/gui/dialogs/meeting-page.glade.h:4
 #: ../calendar/gui/e-cal-model-tasks.c:649
@@ -6330,7 +6256,6 @@ msgstr "გამართვა"
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.c:192
 #: ../widgets/misc/e-cell-date-edit.c:249 ../widgets/misc/e-dateedit.c:475
 #: ../widgets/misc/e-dateedit.c:1505 ../widgets/misc/e-dateedit.c:1719
-#, fuzzy
 msgid "None"
 msgstr "არა"
 
@@ -6388,9 +6313,8 @@ msgid "_Alarm"
 msgstr ""
 
 #: ../calendar/gui/dialogs/event-page.glade.h:17
-#, fuzzy
 msgid "_Time:"
-msgstr "დრო:"
+msgstr "_დრო:"
 
 #. TRANSLATORS: Entire string is for example:
 #. 'This appointment recurs/Every[x][day(s)][for][1]occurrences' (dropdown menu options are in [square brackets])
@@ -6455,14 +6379,14 @@ msgstr ""
 
 #. To translators: RSVP means "please reply"
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:8
-#: ../calendar/gui/e-meeting-list-view.c:503
+#: ../calendar/gui/e-meeting-list-view.c:509
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:8
 msgid "RSVP"
 msgstr ""
 
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:10
 #: ../calendar/gui/e-calendar-table.etspec.h:10
-#: ../calendar/gui/e-meeting-list-view.c:514
+#: ../calendar/gui/e-meeting-list-view.c:520
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:10 ../mail/em-filter-i18n.h:63
 #: ../mail/message-list.etspec.h:12
 msgid "Status"
@@ -6478,9 +6402,8 @@ msgid "C_hange Organizer"
 msgstr "C"
 
 #: ../calendar/gui/dialogs/meeting-page.glade.h:3
-#, fuzzy
 msgid "Co_ntacts..."
-msgstr "კონტაქტებ:"
+msgstr "კო_ნტაქტები..."
 
 #: ../calendar/gui/dialogs/meeting-page.glade.h:6
 msgid "Organizer"
@@ -6570,7 +6493,8 @@ msgid "You are modifying a recurring task. What would you like to modify?"
 msgstr ""
 
 #: ../calendar/gui/dialogs/recur-comp.c:62
-msgid "You are modifying a recurring journal entry. What would you like to modify?"
+msgid ""
+"You are modifying a recurring journal entry. What would you like to modify?"
 msgstr ""
 
 #: ../calendar/gui/dialogs/recur-comp.c:90
@@ -6613,6 +6537,15 @@ msgstr ""
 #: ../calendar/gui/dialogs/recurrence-page.c:992
 msgid "first"
 msgstr ""
+
+#. TRANSLATORS: here, "second" is the ordinal number (like "third"), not the time division (like "minute")
+#. * Entire string is for example: This appointment recurs/Every [x] month(s) on the [second] [Monday] [forever]'
+#. * (dropdown menu options are in [square brackets]). This means that after 'second', either the string 'day' or
+#. * the name of a week day (like 'Monday' or 'Friday') always follow.
+#.
+#: ../calendar/gui/dialogs/recurrence-page.c:998
+msgid "second"
+msgstr "წამი"
 
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [third] [Monday] [forever]'
 #. * (dropdown menu options are in [square brackets]). This means that after 'third', either the string 'day' or
@@ -6832,9 +6765,8 @@ msgstr "_ვებ გვერდი:"
 
 #: ../calendar/gui/dialogs/task-editor.c:426
 #: ../calendar/gui/tasks-component.c:1171
-#, fuzzy
 msgid "_Task"
-msgstr "ამოცანა"
+msgstr "_ამოცანა"
 
 #: ../calendar/gui/dialogs/task-editor.c:430
 #, fuzzy
@@ -6867,9 +6799,8 @@ msgid "Sta_rt date:"
 msgstr "თარიღი:"
 
 #: ../calendar/gui/dialogs/task-page.glade.h:7
-#, fuzzy
 msgid "Time zone:"
-msgstr "დრო:"
+msgstr "დროის სარტყელი:"
 
 #: ../calendar/gui/dialogs/task-page.glade.h:8
 #, fuzzy
@@ -6901,9 +6832,8 @@ msgid "_Daily"
 msgstr ""
 
 #: ../calendar/gui/dialogs/url-editor-dialog.glade.h:8
-#, fuzzy
 msgid "_Manual"
-msgstr "ხელით"
+msgstr "_მანუალური"
 
 #: ../calendar/gui/dialogs/url-editor-dialog.glade.h:9
 #: ../plugins/publish-calendar/publish-calendar.glade.h:23
@@ -6931,38 +6861,12 @@ msgstr ""
 msgid "%d day"
 msgid_plural "%d days"
 msgstr[0] "%d დღე"
-msgstr[1] ""
 
 #. Translator: Entire string is like "Pop up an alert %d weeks before start of appointment"
 #: ../calendar/gui/e-alarm-list.c:402
 #, c-format
 msgid "%d week"
-msgid_plural "%d weeks"
-msgstr[0] ""
-
-#. Translator: Entire string is like "Pop up an alert %d hours before start of appointment"
-#: ../calendar/gui/e-alarm-list.c:408
-#, fuzzy, c-format
-msgid "%d hour"
-msgid_plural "%d hours"
-msgstr[0] "%d საათი"
-msgstr[1] ""
-
-#. Translator: Entire string is like "Pop up an alert %d minutes before start of appointment"
-#: ../calendar/gui/e-alarm-list.c:414
-#, fuzzy, c-format
-msgid "%d minute"
-msgid_plural "%d minutes"
-msgstr[0] "%d წუთი"
-msgstr[1] ""
-
-#. Translator: Entire string is like "Pop up an alert %d seconds before start of appointment"
-#: ../calendar/gui/e-alarm-list.c:420
-#, fuzzy, c-format
-msgid "%d second"
-msgid_plural "%d seconds"
-msgstr[0] "%d წამი"
-msgstr[1] ""
+msgstr ""
 
 #: ../calendar/gui/e-alarm-list.c:464
 #, fuzzy
@@ -7083,7 +6987,6 @@ msgstr "საზოგადო"
 
 #: ../calendar/gui/e-cal-list-view.c:256 ../calendar/gui/e-cal-model.c:323
 #: ../calendar/gui/e-calendar-table.c:365
-#, fuzzy
 msgid "Private"
 msgstr "პრივატი"
 
@@ -7098,15 +7001,13 @@ msgid "End Date"
 msgstr "ბოლოში თარიღი"
 
 #: ../calendar/gui/e-cal-list-view.etspec.h:4
-#, fuzzy
 msgid "Start Date"
-msgstr "გაშვება თარიღი"
+msgstr "გაშვების თარიღი"
 
 #: ../calendar/gui/e-cal-list-view.etspec.h:5
 #: ../calendar/gui/e-calendar-table.etspec.h:11
 #: ../calendar/gui/e-memo-table.etspec.h:4 ../mail/mail-dialogs.glade.h:16
 #: ../plugins/save-calendar/csv-format.c:386
-#, fuzzy
 msgid "Summary"
 msgstr "ჯამური"
 
@@ -7146,7 +7047,7 @@ msgstr "არა"
 
 #. This is the default filename used for temporary file creation
 #: ../calendar/gui/e-cal-model.c:327 ../calendar/gui/e-cal-popup.c:107
-#: ../calendar/gui/e-cal-popup.c:122 ../calendar/gui/e-cal-popup.c:167
+#: ../calendar/gui/e-cal-popup.c:124 ../calendar/gui/e-cal-popup.c:171
 #: ../calendar/gui/e-itip-control.c:1144 ../calendar/gui/e-itip-control.c:1285
 #: ../calendar/gui/e-meeting-list-view.c:169
 #: ../calendar/gui/e-meeting-list-view.c:183
@@ -7168,39 +7069,38 @@ msgstr ""
 msgid "Assigned"
 msgstr ""
 
-#: ../calendar/gui/e-cal-popup.c:173 ../mail/em-popup.c:412
+#: ../calendar/gui/e-cal-popup.c:177 ../mail/em-popup.c:412
 msgid "Save As..."
 msgstr "შენახვა როგორც..."
 
-#: ../calendar/gui/e-cal-popup.c:189 ../mail/em-format-html-display.c:1913
+#: ../calendar/gui/e-cal-popup.c:193 ../mail/em-format-html-display.c:1913
 #, fuzzy
 msgid "Select folder to save selected attachments..."
 msgstr "-სკენ."
 
-#: ../calendar/gui/e-cal-popup.c:218 ../mail/em-popup.c:437
+#: ../calendar/gui/e-cal-popup.c:222 ../mail/em-popup.c:437
 #, fuzzy, c-format
 msgid "untitled_image.%s"
 msgstr "უსახელო "
 
-#: ../calendar/gui/e-cal-popup.c:272 ../calendar/gui/e-calendar-table.c:1176
+#: ../calendar/gui/e-cal-popup.c:276 ../calendar/gui/e-calendar-table.c:1176
 #: ../calendar/gui/e-calendar-view.c:1596 ../calendar/gui/e-memo-table.c:854
 #: ../mail/em-folder-view.c:1087 ../mail/em-popup.c:554 ../mail/em-popup.c:565
-#, fuzzy
 msgid "_Save As..."
-msgstr "შენახვა."
+msgstr "_შენახვა როგორც..."
 
-#: ../calendar/gui/e-cal-popup.c:273 ../mail/em-popup.c:555
+#: ../calendar/gui/e-cal-popup.c:277 ../mail/em-popup.c:555
 #: ../mail/em-popup.c:566
 #, fuzzy
 msgid "Set as _Background"
 msgstr "დააყენე როგორც ფონი"
 
-#: ../calendar/gui/e-cal-popup.c:274
+#: ../calendar/gui/e-cal-popup.c:278
 #, fuzzy
 msgid "_Save Selected"
 msgstr "შენახვა"
 
-#: ../calendar/gui/e-cal-popup.c:396 ../mail/em-popup.c:775
+#: ../calendar/gui/e-cal-popup.c:400 ../mail/em-popup.c:775
 #, fuzzy, c-format
 msgid "Open in %s..."
 msgstr "გახსენი."
@@ -7402,9 +7302,8 @@ msgid "Select T_oday"
 msgstr "დღეს"
 
 #: ../calendar/gui/e-calendar-view.c:1591
-#, fuzzy
 msgid "_Select Date..."
-msgstr "თარიღი."
+msgstr "_თარიღის ამორჩევა..."
 
 #: ../calendar/gui/e-calendar-view.c:1607
 #, fuzzy
@@ -7430,9 +7329,8 @@ msgid "_Forward as iCalendar..."
 msgstr "წინ."
 
 #: ../calendar/gui/e-calendar-view.c:1612
-#, fuzzy
 msgid "_Reply"
-msgstr "პასუხი"
+msgstr "_პასუხი"
 
 #: ../calendar/gui/e-calendar-view.c:1613 ../mail/em-folder-view.c:1082
 #: ../mail/em-popup.c:559 ../mail/em-popup.c:570
@@ -7544,14 +7442,12 @@ msgstr[1] "ყოველი მე-%d-ე დღე"
 #: ../calendar/gui/e-itip-control.c:775
 #, c-format
 msgid "Every week"
-msgid_plural "Every %d weeks"
-msgstr[0] ""
+msgstr ""
 
 #: ../calendar/gui/e-itip-control.c:777
 #, c-format
 msgid "Every week on "
-msgid_plural "Every %d weeks on "
-msgstr[0] ""
+msgstr ""
 
 #: ../calendar/gui/e-itip-control.c:785
 msgid " and "
@@ -7570,21 +7466,18 @@ msgstr ""
 #: ../calendar/gui/e-itip-control.c:812
 #, c-format
 msgid "every month"
-msgid_plural "every %d months"
-msgstr[0] ""
+msgstr ""
 
 #: ../calendar/gui/e-itip-control.c:816
 #, c-format
 msgid "Every year"
-msgid_plural "Every %d years"
-msgstr[0] ""
+msgstr ""
 
 #: ../calendar/gui/e-itip-control.c:827
 #, fuzzy, c-format
 msgid "a total of %d time"
 msgid_plural " a total of %d times"
 msgstr[0] "a"
-msgstr[1] ""
 
 #: ../calendar/gui/e-itip-control.c:836
 msgid ", ending on "
@@ -7658,7 +7551,8 @@ msgid ""
 msgstr ""
 
 #: ../calendar/gui/e-itip-control.c:1226
-msgid "The task has been canceled, however it could not be found in your task lists"
+msgid ""
+"The task has been canceled, however it could not be found in your task lists"
 msgstr ""
 
 #: ../calendar/gui/e-itip-control.c:1305
@@ -8070,7 +7964,7 @@ msgid "Delegated"
 msgstr ""
 
 #. The extra space is just a hack to occupy more space for Attendee
-#: ../calendar/gui/e-meeting-list-view.c:464
+#: ../calendar/gui/e-meeting-list-view.c:470
 msgid "Attendee                          "
 msgstr ""
 
@@ -8189,7 +8083,7 @@ msgstr "-სკენ a"
 msgid "Memo sort"
 msgstr ""
 
-#: ../calendar/gui/e-memos.c:724 ../calendar/gui/e-tasks.c:818
+#: ../calendar/gui/e-memos.c:724 ../calendar/gui/e-tasks.c:836
 #: ../calendar/gui/gnome-cal.c:2557
 #, c-format
 msgid ""
@@ -8207,7 +8101,7 @@ msgstr "გადატანის პროცესში"
 msgid "Opening memos at %s"
 msgstr "გახსნა %s"
 
-#: ../calendar/gui/e-memos.c:1026 ../calendar/gui/e-tasks.c:1221
+#: ../calendar/gui/e-memos.c:1026 ../calendar/gui/e-tasks.c:1239
 msgid "Deleting selected objects..."
 msgstr ""
 
@@ -8216,20 +8110,20 @@ msgstr ""
 msgid "Enter the password for %s"
 msgstr ""
 
-#: ../calendar/gui/e-tasks.c:866
+#: ../calendar/gui/e-tasks.c:884
 msgid "Loading tasks"
 msgstr ""
 
-#: ../calendar/gui/e-tasks.c:953
+#: ../calendar/gui/e-tasks.c:971
 #, c-format
 msgid "Opening tasks at %s"
 msgstr ""
 
-#: ../calendar/gui/e-tasks.c:1198
+#: ../calendar/gui/e-tasks.c:1216
 msgid "Completing tasks..."
 msgstr ""
 
-#: ../calendar/gui/e-tasks.c:1248
+#: ../calendar/gui/e-tasks.c:1266
 msgid "Expunging"
 msgstr ""
 
@@ -8328,9 +8222,8 @@ msgid "October"
 msgstr "ოქტომბერი"
 
 #: ../calendar/gui/goto-dialog.glade.h:12
-#, fuzzy
 msgid "Select Date"
-msgstr "თარიღი"
+msgstr "თარიღის ამორჩევა"
 
 #: ../calendar/gui/goto-dialog.glade.h:13
 msgid "September"
@@ -8428,8 +8321,7 @@ msgstr[1] "%d წუთი"
 #: ../mail/mail-component.c:560
 #, c-format
 msgid ", %d selected"
-msgid_plural ", %d selected"
-msgstr[0] ""
+msgstr ""
 
 #: ../calendar/gui/memos-component.c:575
 #, fuzzy
@@ -8457,7 +8349,6 @@ msgid "New memo"
 msgstr "ახალი"
 
 #: ../calendar/gui/memos-component.c:1156
-#, fuzzy
 msgid "_Memo"
 msgstr "_წაშლა"
 
@@ -8519,12 +8410,6 @@ msgstr ""
 #, c-format
 msgid "Unable to migrate tasks `%s'"
 msgstr ""
-
-#. Can't be zero
-#: ../calendar/gui/misc.c:105
-#, fuzzy, c-format
-msgid "(%d seconds)"
-msgstr "წამი"
 
 #: ../calendar/gui/print.c:493
 msgid "1st"
@@ -8720,14 +8605,13 @@ msgid "Appointment"
 msgstr ""
 
 #: ../calendar/gui/print.c:2306
-#, fuzzy
 msgid "Task"
 msgstr "ამოცანა"
 
 #: ../calendar/gui/print.c:2328
-#, fuzzy, c-format
+#, c-format
 msgid "Summary: %s"
-msgstr "ჯამური"
+msgstr "ჯამური: %s"
 
 #: ../calendar/gui/print.c:2379
 #, c-format
@@ -8777,8 +8661,7 @@ msgstr "ახალი სია"
 #: ../calendar/gui/tasks-component.c:517
 #, c-format
 msgid "%d task"
-msgid_plural "%d tasks"
-msgstr[0] ""
+msgstr ""
 
 #: ../calendar/gui/tasks-component.c:566
 #, fuzzy
@@ -8831,9 +8714,8 @@ msgid "New task list"
 msgstr "ახალი"
 
 #: ../calendar/gui/tasks-component.c:1187
-#, fuzzy
 msgid "Task l_ist"
-msgstr "ამოცანა"
+msgstr "ამოცანათა ს_ია"
 
 #: ../calendar/gui/tasks-component.c:1188
 #, fuzzy
@@ -8908,7 +8790,6 @@ msgstr "Evolution კალენდარი"
 #. * Don't include in any C files.
 #.
 #: ../calendar/zones.h:7
-#, fuzzy
 msgid "Africa/Abidjan"
 msgstr "აფრიკა/აბიჯანი"
 
@@ -8917,7 +8798,6 @@ msgid "Africa/Accra"
 msgstr "აფრიკა/აკრა"
 
 #: ../calendar/zones.h:9
-#, fuzzy
 msgid "Africa/Addis_Ababa"
 msgstr "აფრიკა/ადის-აბება"
 
@@ -8934,7 +8814,6 @@ msgid "Africa/Bamako"
 msgstr "აფრიკა/ბამაკო"
 
 #: ../calendar/zones.h:13
-#, fuzzy
 msgid "Africa/Bangui"
 msgstr "აფრიკა/ბანგი"
 
@@ -8947,7 +8826,6 @@ msgid "Africa/Bissau"
 msgstr "აფრიკა/ბისაუ"
 
 #: ../calendar/zones.h:16
-#, fuzzy
 msgid "Africa/Blantyre"
 msgstr "აფრიკა/ბლანტირი"
 
@@ -8980,7 +8858,6 @@ msgid "Africa/Dakar"
 msgstr "აფრიკა/დაკარი"
 
 #: ../calendar/zones.h:24
-#, fuzzy
 msgid "Africa/Dar_es_Salaam"
 msgstr "აფრიკა/დარ_ეს_სალამი"
 
@@ -8993,7 +8870,6 @@ msgid "Africa/Douala"
 msgstr "აფრიკა/დუალა"
 
 #: ../calendar/zones.h:27
-#, fuzzy
 msgid "Africa/El_Aaiun"
 msgstr "აფრიკა/ელ_აიუნი"
 
@@ -9015,9 +8891,8 @@ msgid "Africa/Johannesburg"
 msgstr "აფრიკა/იოჰანესბურგი"
 
 #: ../calendar/zones.h:32
-#, fuzzy
 msgid "Africa/Kampala"
-msgstr "აფრიკა/კამპარა"
+msgstr "აფრიკა/კამპალა"
 
 #: ../calendar/zones.h:33
 #, fuzzy
@@ -9029,7 +8904,6 @@ msgid "Africa/Kigali"
 msgstr "აფრიკა/კიგალი"
 
 #: ../calendar/zones.h:35
-#, fuzzy
 msgid "Africa/Kinshasa"
 msgstr "აფრიკა/კინშასა"
 
@@ -9038,7 +8912,6 @@ msgid "Africa/Lagos"
 msgstr "აფრიკა/ლაგოსი"
 
 #: ../calendar/zones.h:37
-#, fuzzy
 msgid "Africa/Libreville"
 msgstr "აფრიკა/ლიბრევილი"
 
@@ -9051,7 +8924,6 @@ msgid "Africa/Luanda"
 msgstr "აფრიკა/ლუანდა"
 
 #: ../calendar/zones.h:40
-#, fuzzy
 msgid "Africa/Lubumbashi"
 msgstr "აფრიკა/ლუბუმბაში"
 
@@ -9072,7 +8944,6 @@ msgid "Africa/Maseru"
 msgstr "აფრიკა/მასერუ"
 
 #: ../calendar/zones.h:45
-#, fuzzy
 msgid "Africa/Mbabane"
 msgstr "აფრიკა/მაბაბანე"
 
@@ -9096,7 +8967,6 @@ msgid "Africa/Ndjamena"
 msgstr "აფრიკა/ნჯამენა"
 
 #: ../calendar/zones.h:50
-#, fuzzy
 msgid "Africa/Niamey"
 msgstr "აფრიკა/ნიამეი"
 
@@ -9133,7 +9003,6 @@ msgid "Africa/Tunis"
 msgstr "აფრიკა/ტუნისი"
 
 #: ../calendar/zones.h:58
-#, fuzzy
 msgid "Africa/Windhoek"
 msgstr "აფრიკა/ვინდუკი"
 
@@ -9142,22 +9011,18 @@ msgid "America/Adak"
 msgstr "ამერიკა/ადაკი"
 
 #: ../calendar/zones.h:60
-#, fuzzy
 msgid "America/Anchorage"
 msgstr "ამერიკა/ანკორიჯი"
 
 #: ../calendar/zones.h:61
-#, fuzzy
 msgid "America/Anguilla"
 msgstr "ამერიკა/ანგილა"
 
 #: ../calendar/zones.h:62
-#, fuzzy
 msgid "America/Antigua"
 msgstr "ამერიკა/ანტიგა"
 
 #: ../calendar/zones.h:63
-#, fuzzy
 msgid "America/Araguaina"
 msgstr "ამერიკა/არაგვიანა"
 
@@ -9166,7 +9031,6 @@ msgid "America/Aruba"
 msgstr "ამერიკა/არუბა"
 
 #: ../calendar/zones.h:65
-#, fuzzy
 msgid "America/Asuncion"
 msgstr "ამერიკა/ასუნსიონი"
 
@@ -9183,7 +9047,6 @@ msgid "America/Belize"
 msgstr "ამერიკა/ბელიზი"
 
 #: ../calendar/zones.h:69
-#, fuzzy
 msgid "America/Boa_Vista"
 msgstr "ამერიკა/ბოა_ვიშტა"
 
@@ -9192,7 +9055,6 @@ msgid "America/Bogota"
 msgstr "ამერიკა/ბოგოტა"
 
 #: ../calendar/zones.h:71
-#, fuzzy
 msgid "America/Boise"
 msgstr "ამერიკა/ბოისე"
 
@@ -9206,7 +9068,6 @@ msgid "America/Cambridge_Bay"
 msgstr "ამერიკა/კემბრიჯ-ბეი"
 
 #: ../calendar/zones.h:74
-#, fuzzy
 msgid "America/Cancun"
 msgstr "ამერიკა/კანკუნი"
 
@@ -9234,12 +9095,10 @@ msgid "America/Chicago"
 msgstr "ამერიკა/ჩიკაგო"
 
 #: ../calendar/zones.h:80
-#, fuzzy
 msgid "America/Chihuahua"
 msgstr "ამერიკა/ჩიხუახუა"
 
 #: ../calendar/zones.h:81
-#, fuzzy
 msgid "America/Cordoba"
 msgstr "ამერიკა/კორდობა"
 
@@ -9248,27 +9107,22 @@ msgid "America/Costa_Rica"
 msgstr "ამერიკა/კოსტა_რიკა"
 
 #: ../calendar/zones.h:83
-#, fuzzy
 msgid "America/Cuiaba"
 msgstr "ამერიკა/კუიაბა"
 
 #: ../calendar/zones.h:84
-#, fuzzy
 msgid "America/Curacao"
 msgstr "ამერიკა/კიურასაო"
 
 #: ../calendar/zones.h:85
-#, fuzzy
 msgid "America/Danmarkshavn"
 msgstr "ამერიკა/დენმარკშავნი"
 
 #: ../calendar/zones.h:86
-#, fuzzy
 msgid "America/Dawson"
 msgstr "ამერიკა/დოუსონი"
 
 #: ../calendar/zones.h:87
-#, fuzzy
 msgid "America/Dawson_Creek"
 msgstr "ამერიკა/დოუსონ_კრიკი"
 
@@ -9281,22 +9135,18 @@ msgid "America/Detroit"
 msgstr "ამერიკა/დეტროიტი"
 
 #: ../calendar/zones.h:90
-#, fuzzy
 msgid "America/Dominica"
 msgstr "ამერიკა/დომინიკა"
 
 #: ../calendar/zones.h:91
-#, fuzzy
 msgid "America/Edmonton"
 msgstr "ამერიკა/ედმონტონი"
 
 #: ../calendar/zones.h:92
-#, fuzzy
 msgid "America/Eirunepe"
 msgstr "ამერიკა/ეირუნეპა"
 
 #: ../calendar/zones.h:93
-#, fuzzy
 msgid "America/El_Salvador"
 msgstr "ამერიკა/ელ_სალვადორი"
 
@@ -9316,12 +9166,10 @@ msgid "America/Godthab"
 msgstr "ამერიკა/გოდსაბი"
 
 #: ../calendar/zones.h:97
-#, fuzzy
 msgid "America/Goose_Bay"
 msgstr "ამერიკა/გოს_-ბაი"
 
 #: ../calendar/zones.h:98
-#, fuzzy
 msgid "America/Grand_Turk"
 msgstr "ამერიკა/გრანდ-ტურკი"
 
@@ -9338,12 +9186,10 @@ msgid "America/Guatemala"
 msgstr "ამერიკა/გვატემალა"
 
 #: ../calendar/zones.h:102
-#, fuzzy
 msgid "America/Guayaquil"
 msgstr "ამერიკა/გუაიაკილი"
 
 #: ../calendar/zones.h:103
-#, fuzzy
 msgid "America/Guyana"
 msgstr "ამერიკა/გუიანა"
 
@@ -9357,7 +9203,6 @@ msgid "America/Havana"
 msgstr "ამერიკა/ჰავანა"
 
 #: ../calendar/zones.h:106
-#, fuzzy
 msgid "America/Hermosillo"
 msgstr "ამერიკა/ჰერმოსილო"
 
@@ -9371,12 +9216,10 @@ msgid "America/Indiana/Knox"
 msgstr "ამერიკა/ინდიანა/ნოკსი"
 
 #: ../calendar/zones.h:109
-#, fuzzy
 msgid "America/Indiana/Marengo"
 msgstr "ამერიკა/ინდიანა/მარენგო"
 
 #: ../calendar/zones.h:110
-#, fuzzy
 msgid "America/Indiana/Vevay"
 msgstr "ამერიკა/ინდიანა/ვევაი"
 
@@ -9385,17 +9228,14 @@ msgid "America/Indianapolis"
 msgstr "ამერიკა/ინდიანაპოლისი"
 
 #: ../calendar/zones.h:112
-#, fuzzy
 msgid "America/Inuvik"
 msgstr "ამერიკა/ინუიკი"
 
 #: ../calendar/zones.h:113
-#, fuzzy
 msgid "America/Iqaluit"
 msgstr "ამერიკა/იქალუიტი"
 
 #: ../calendar/zones.h:114
-#, fuzzy
 msgid "America/Jamaica"
 msgstr "ამერიკა/იამაიკა"
 
@@ -9405,12 +9245,10 @@ msgid "America/Jujuy"
 msgstr "ამერიკა/იუიუი"
 
 #: ../calendar/zones.h:116
-#, fuzzy
 msgid "America/Juneau"
 msgstr "ამერიკა/იუნო"
 
 #: ../calendar/zones.h:117
-#, fuzzy
 msgid "America/Kentucky/Louisville"
 msgstr "ამერიკა/კენტუკი/ლუიზვილი"
 
@@ -9444,27 +9282,22 @@ msgid "America/Maceio"
 msgstr "ამერიკა/მასეიო"
 
 #: ../calendar/zones.h:124
-#, fuzzy
 msgid "America/Managua"
 msgstr "ამერიკა/მანაგუა"
 
 #: ../calendar/zones.h:125
-#, fuzzy
 msgid "America/Manaus"
 msgstr "ამერიკა/მანაუსი"
 
 #: ../calendar/zones.h:126
-#, fuzzy
 msgid "America/Martinique"
 msgstr "ამერიკა/მარტინიკე"
 
 #: ../calendar/zones.h:127
-#, fuzzy
 msgid "America/Mazatlan"
 msgstr "ამერიკა/მაზატლანი"
 
 #: ../calendar/zones.h:128
-#, fuzzy
 msgid "America/Mendoza"
 msgstr "ამერიკა/მენდოზა"
 
@@ -9474,27 +9307,22 @@ msgid "America/Menominee"
 msgstr "ამერიკა/მენომინე"
 
 #: ../calendar/zones.h:130
-#, fuzzy
 msgid "America/Merida"
 msgstr "ამერიკა/მერიდა"
 
 #: ../calendar/zones.h:131
-#, fuzzy
 msgid "America/Mexico_City"
-msgstr "ამერიკა/მეხიკო"
+msgstr "ამერიკა/მეხიკო _სითი"
 
 #: ../calendar/zones.h:132
-#, fuzzy
 msgid "America/Miquelon"
 msgstr "ამერიკა/მიქელონი"
 
 #: ../calendar/zones.h:133
-#, fuzzy
 msgid "America/Monterrey"
 msgstr "ამერიკა/მონტერეი"
 
 #: ../calendar/zones.h:134
-#, fuzzy
 msgid "America/Montevideo"
 msgstr "ამერიკა/მონტევიდეო"
 
@@ -9503,12 +9331,10 @@ msgid "America/Montreal"
 msgstr "ამერიკა/მონრეალი"
 
 #: ../calendar/zones.h:136
-#, fuzzy
 msgid "America/Montserrat"
 msgstr "ამერიკა/მონტსერატი"
 
 #: ../calendar/zones.h:137
-#, fuzzy
 msgid "America/Nassau"
 msgstr "ამერიკა/ნასაუ"
 
@@ -9518,7 +9344,6 @@ msgid "America/New_York"
 msgstr "ამერიკა/ნიუ_იორკი"
 
 #: ../calendar/zones.h:139
-#, fuzzy
 msgid "America/Nipigon"
 msgstr "ამერიკა/ნიპიგონი"
 
@@ -9527,12 +9352,10 @@ msgid "America/Nome"
 msgstr "ამერიკა/ნომე"
 
 #: ../calendar/zones.h:141
-#, fuzzy
 msgid "America/Noronha"
 msgstr "ამერიკა/ნორონჰა"
 
 #: ../calendar/zones.h:142
-#, fuzzy
 msgid "America/North_Dakota/Center"
 msgstr "ამერიკა/ჩრდ_დაკოტა/ცენტრი"
 
@@ -9541,12 +9364,10 @@ msgid "America/Panama"
 msgstr "ამერიკა/პანამა"
 
 #: ../calendar/zones.h:144
-#, fuzzy
 msgid "America/Pangnirtung"
 msgstr "ამერიკა/პანგრინტუნი"
 
 #: ../calendar/zones.h:145
-#, fuzzy
 msgid "America/Paramaribo"
 msgstr "ამერიკა/პარამარიბო"
 
@@ -9556,22 +9377,18 @@ msgid "America/Phoenix"
 msgstr "ამერიკა/ფენიქსი"
 
 #: ../calendar/zones.h:147
-#, fuzzy
 msgid "America/Port-au-Prince"
 msgstr "ამერიკა/პორტ-ო-პრინსი"
 
 #: ../calendar/zones.h:148
-#, fuzzy
 msgid "America/Port_of_Spain"
 msgstr "ამერიკა/სპეინ_პორტი"
 
 #: ../calendar/zones.h:149
-#, fuzzy
 msgid "America/Porto_Velho"
 msgstr "ამერიკა/პორტო_ველჰო"
 
 #: ../calendar/zones.h:150
-#, fuzzy
 msgid "America/Puerto_Rico"
 msgstr "ამერიკა/პუერტო_რიკო"
 
@@ -9581,17 +9398,14 @@ msgid "America/Rainy_River"
 msgstr "ამერიკა/რეინი_რივერი"
 
 #: ../calendar/zones.h:152
-#, fuzzy
 msgid "America/Rankin_Inlet"
 msgstr "ამერიკა/რანკინ_ინლეტი"
 
 #: ../calendar/zones.h:153
-#, fuzzy
 msgid "America/Recife"
 msgstr "ამერიკა/რესიფე"
 
 #: ../calendar/zones.h:154
-#, fuzzy
 msgid "America/Regina"
 msgstr "ამერიკა/რეჯინა"
 
@@ -9601,27 +9415,22 @@ msgid "America/Rio_Branco"
 msgstr "ამერიკა/რიო_ბრანკო"
 
 #: ../calendar/zones.h:156
-#, fuzzy
 msgid "America/Rosario"
 msgstr "ამერიკა/როსარიო"
 
 #: ../calendar/zones.h:157
-#, fuzzy
 msgid "America/Santiago"
 msgstr "ამერიკა/სანტიაგო"
 
 #: ../calendar/zones.h:158
-#, fuzzy
 msgid "America/Santo_Domingo"
 msgstr "ამერიკა/სანტო_დომინგო"
 
 #: ../calendar/zones.h:159
-#, fuzzy
 msgid "America/Sao_Paulo"
 msgstr "ამერიკა/სანპაულო"
 
 #: ../calendar/zones.h:160
-#, fuzzy
 msgid "America/Scoresbysund"
 msgstr "ამერიკა/სკორესბისუნდი"
 
@@ -9636,12 +9445,10 @@ msgid "America/St_Johns"
 msgstr "ამერიკა/სენტ_ჯონსი"
 
 #: ../calendar/zones.h:163
-#, fuzzy
 msgid "America/St_Kitts"
 msgstr "ამერიკა/სენტ_კიდსი"
 
 #: ../calendar/zones.h:164
-#, fuzzy
 msgid "America/St_Lucia"
 msgstr "ამერიკა/სენტ_ლუისი"
 
@@ -9661,7 +9468,6 @@ msgid "America/Swift_Current"
 msgstr "ამერიკა/სვიფტ_ქარენთი"
 
 #: ../calendar/zones.h:168
-#, fuzzy
 msgid "America/Tegucigalpa"
 msgstr "ამერიკა/ტეგუსიგალპა"
 
@@ -9675,12 +9481,10 @@ msgid "America/Thunder_Bay"
 msgstr "ამერიკა/სანდერ_ბეი"
 
 #: ../calendar/zones.h:171
-#, fuzzy
 msgid "America/Tijuana"
 msgstr "ამერიკა/ტიხუანა"
 
 #: ../calendar/zones.h:172
-#, fuzzy
 msgid "America/Tortola"
 msgstr "ამერიკა/ტორტოლა"
 
@@ -9700,7 +9504,6 @@ msgid "America/Winnipeg"
 msgstr "ამერიკა/ვინიპეგი"
 
 #: ../calendar/zones.h:176
-#, fuzzy
 msgid "America/Yakutat"
 msgstr "ამერიკა/იაკუტა"
 
@@ -9710,7 +9513,6 @@ msgid "America/Yellowknife"
 msgstr "ამერიკა/იელოკნფტი"
 
 #: ../calendar/zones.h:178
-#, fuzzy
 msgid "Antarctica/Casey"
 msgstr "ანტარქტიდა/კეისი"
 
@@ -9719,12 +9521,10 @@ msgid "Antarctica/Davis"
 msgstr "ანტარქტიდა/დეივისი"
 
 #: ../calendar/zones.h:180
-#, fuzzy
 msgid "Antarctica/DumontDUrville"
-msgstr "ანტარქტიდა/დუმონტდურვილე"
+msgstr "ანტარქტიდა/დუმონტდურვილი"
 
 #: ../calendar/zones.h:181
-#, fuzzy
 msgid "Antarctica/Mawson"
 msgstr "ანტარქტიდა/მოუსონი"
 
@@ -9734,7 +9534,6 @@ msgid "Antarctica/McMurdo"
 msgstr "ანტარქტიდა/მაკმურდო"
 
 #: ../calendar/zones.h:183
-#, fuzzy
 msgid "Antarctica/Palmer"
 msgstr "ანტარქტიდა/პალმერი"
 
@@ -9744,17 +9543,14 @@ msgid "Antarctica/South_Pole"
 msgstr "ანტარქტიდა/სამხრეთ_პოლუსი"
 
 #: ../calendar/zones.h:185
-#, fuzzy
 msgid "Antarctica/Syowa"
 msgstr "ანტარქტიდა/სიოვა"
 
 #: ../calendar/zones.h:186
-#, fuzzy
 msgid "Antarctica/Vostok"
 msgstr "ანტარქტიდა/ვოსტოკი"
 
 #: ../calendar/zones.h:187
-#, fuzzy
 msgid "Arctic/Longyearbyen"
 msgstr "აცტეკი/ლონგიერბიენი"
 
@@ -9763,27 +9559,22 @@ msgid "Asia/Aden"
 msgstr "აზია/ადენი"
 
 #: ../calendar/zones.h:189
-#, fuzzy
 msgid "Asia/Almaty"
 msgstr "აზია/ალმაატა"
 
 #: ../calendar/zones.h:190
-#, fuzzy
 msgid "Asia/Amman"
 msgstr "აზია/ამანი"
 
 #: ../calendar/zones.h:191
-#, fuzzy
 msgid "Asia/Anadyr"
-msgstr "აზია/ანადირ"
+msgstr "აზია/ანადირი"
 
 #: ../calendar/zones.h:192
-#, fuzzy
 msgid "Asia/Aqtau"
 msgstr "აზია/აქტაუ"
 
 #: ../calendar/zones.h:193
-#, fuzzy
 msgid "Asia/Aqtobe"
 msgstr "აზია/აქტობა"
 
@@ -9796,7 +9587,6 @@ msgid "Asia/Baghdad"
 msgstr "აზია/ბაღდადი"
 
 #: ../calendar/zones.h:196
-#, fuzzy
 msgid "Asia/Bahrain"
 msgstr "აზია/ბაჰრეინი"
 
@@ -9817,7 +9607,6 @@ msgid "Asia/Bishkek"
 msgstr "აზია/ბიშკეკი"
 
 #: ../calendar/zones.h:201
-#, fuzzy
 msgid "Asia/Brunei"
 msgstr "აზია/ბრუნეი"
 
@@ -9826,12 +9615,10 @@ msgid "Asia/Calcutta"
 msgstr "აზია/კალკუტა"
 
 #: ../calendar/zones.h:203
-#, fuzzy
 msgid "Asia/Choibalsan"
 msgstr "აზია/ჩოიბალსანი"
 
 #: ../calendar/zones.h:204
-#, fuzzy
 msgid "Asia/Chongqing"
 msgstr "აზია/ჩუცინი"
 
@@ -9840,12 +9627,10 @@ msgid "Asia/Colombo"
 msgstr "აზია/კოლომბო"
 
 #: ../calendar/zones.h:206
-#, fuzzy
 msgid "Asia/Damascus"
 msgstr "აზია/დამასკო"
 
 #: ../calendar/zones.h:207
-#, fuzzy
 msgid "Asia/Dhaka"
 msgstr "აზია/დაკა"
 
@@ -9862,12 +9647,10 @@ msgid "Asia/Dushanbe"
 msgstr "აზია/დუშანბე"
 
 #: ../calendar/zones.h:211
-#, fuzzy
 msgid "Asia/Gaza"
 msgstr "აზია/ღაზა"
 
 #: ../calendar/zones.h:212
-#, fuzzy
 msgid "Asia/Harbin"
 msgstr "აზია/ჰარბინი"
 
@@ -9876,7 +9659,6 @@ msgid "Asia/Hong_Kong"
 msgstr "აზია/ჰონგ_კონგი"
 
 #: ../calendar/zones.h:214
-#, fuzzy
 msgid "Asia/Hovd"
 msgstr "აზია/ჰოვდი"
 
@@ -9893,7 +9675,6 @@ msgid "Asia/Jakarta"
 msgstr "აზია/ჯაკარტა"
 
 #: ../calendar/zones.h:218
-#, fuzzy
 msgid "Asia/Jayapura"
 msgstr "აზია/ჯაიაპურა"
 
@@ -9910,17 +9691,14 @@ msgid "Asia/Kamchatka"
 msgstr "აზია/კამჩატკა"
 
 #: ../calendar/zones.h:222
-#, fuzzy
 msgid "Asia/Karachi"
 msgstr "აზია/კარაჩი"
 
 #: ../calendar/zones.h:223
-#, fuzzy
 msgid "Asia/Kashgar"
 msgstr "აზია/ყაშგარი"
 
 #: ../calendar/zones.h:224
-#, fuzzy
 msgid "Asia/Katmandu"
 msgstr "აზია/კატმანდუ"
 
@@ -9930,12 +9708,10 @@ msgid "Asia/Krasnoyarsk"
 msgstr "აზია/კრასნოიარსკი"
 
 #: ../calendar/zones.h:226
-#, fuzzy
 msgid "Asia/Kuala_Lumpur"
 msgstr "აზია/კუალა_ლიმპური"
 
 #: ../calendar/zones.h:227
-#, fuzzy
 msgid "Asia/Kuching"
 msgstr "აზია/კუჩინი"
 
@@ -9965,7 +9741,6 @@ msgid "Asia/Manila"
 msgstr "აზია/მანილა"
 
 #: ../calendar/zones.h:234
-#, fuzzy
 msgid "Asia/Muscat"
 msgstr "აზია/მუსკატი"
 
@@ -9991,7 +9766,6 @@ msgid "Asia/Phnom_Penh"
 msgstr "აზია/პნომპენი"
 
 #: ../calendar/zones.h:240
-#, fuzzy
 msgid "Asia/Pontianak"
 msgstr "აზია/პონტიანაკი"
 
@@ -10001,9 +9775,8 @@ msgid "Asia/Pyongyang"
 msgstr "აზია/პიონგიანგი"
 
 #: ../calendar/zones.h:242
-#, fuzzy
 msgid "Asia/Qatar"
-msgstr "აზია/კატარი"
+msgstr "აზია/ქატარი"
 
 #: ../calendar/zones.h:243
 #, fuzzy
@@ -10034,7 +9807,6 @@ msgid "Asia/Samarkand"
 msgstr "აზია/სამარყანდი"
 
 #: ../calendar/zones.h:249
-#, fuzzy
 msgid "Asia/Seoul"
 msgstr "აზია/სეული"
 
@@ -10083,7 +9855,6 @@ msgid "Asia/Ulaanbaatar"
 msgstr "აზია/ულანბატორი"
 
 #: ../calendar/zones.h:260
-#, fuzzy
 msgid "Asia/Urumqi"
 msgstr "აზია/ურუმქი"
 
@@ -10110,7 +9881,6 @@ msgid "Asia/Yerevan"
 msgstr "აზია/ერევანი"
 
 #: ../calendar/zones.h:266
-#, fuzzy
 msgid "Atlantic/Azores"
 msgstr "ატლანტიკა/აზორები"
 
@@ -10120,17 +9890,14 @@ msgid "Atlantic/Bermuda"
 msgstr "ატლანტიკა/ბერმუდი"
 
 #: ../calendar/zones.h:268
-#, fuzzy
 msgid "Atlantic/Canary"
 msgstr "ატლანტიკა/კანარი"
 
 #: ../calendar/zones.h:269
-#, fuzzy
 msgid "Atlantic/Cape_Verde"
-msgstr "ატლანტიკა/კაპე-ვერდე"
+msgstr "ატლანტიკა/მწვანე-კონცხი"
 
 #: ../calendar/zones.h:270
-#, fuzzy
 msgid "Atlantic/Faeroe"
 msgstr "ატლანტიკა/ფარერები"
 
@@ -10158,7 +9925,6 @@ msgid "Atlantic/St_Helena"
 msgstr "ატლანტიკა/წმ.ელენე"
 
 #: ../calendar/zones.h:276
-#, fuzzy
 msgid "Atlantic/Stanley"
 msgstr "ატლანტიკა/სტენლი"
 
@@ -10173,12 +9939,10 @@ msgid "Australia/Brisbane"
 msgstr "ავსტრალია/ბრისბენი"
 
 #: ../calendar/zones.h:279
-#, fuzzy
 msgid "Australia/Broken_Hill"
 msgstr "ავსტრალია/ბროკენ-ჰილი"
 
 #: ../calendar/zones.h:280
-#, fuzzy
 msgid "Australia/Darwin"
 msgstr "ავსტრალია/დარვინი"
 
@@ -10193,7 +9957,6 @@ msgid "Australia/Lindeman"
 msgstr "ავსტრალია/ლინდემანი"
 
 #: ../calendar/zones.h:283
-#, fuzzy
 msgid "Australia/Lord_Howe"
 msgstr "ავსტრალია/ლორდ-ჰოვე"
 
@@ -10224,7 +9987,6 @@ msgid "Europe/Athens"
 msgstr "ევრობა/ათენი"
 
 #: ../calendar/zones.h:290
-#, fuzzy
 msgid "Europe/Belfast"
 msgstr "ევროპა/ბელფასტი"
 
@@ -10253,7 +10015,6 @@ msgid "Europe/Budapest"
 msgstr "ევროპა/ბუდაპეშტი"
 
 #: ../calendar/zones.h:297
-#, fuzzy
 msgid "Europe/Chisinau"
 msgstr "ევროპა/ნიკოსია"
 
@@ -10290,7 +10051,6 @@ msgid "Europe/Lisbon"
 msgstr "ევროპა/ლისაბონი"
 
 #: ../calendar/zones.h:306
-#, fuzzy
 msgid "Europe/Ljubljana"
 msgstr "ევროპა/ლიუბლიანა"
 
@@ -10359,12 +10119,10 @@ msgid "Europe/Sarajevo"
 msgstr "ევროპა/სარაევო"
 
 #: ../calendar/zones.h:323
-#, fuzzy
 msgid "Europe/Simferopol"
 msgstr "ევროპა/სიმფეროპოლი"
 
 #: ../calendar/zones.h:324
-#, fuzzy
 msgid "Europe/Skopje"
 msgstr "ევროპა/სკოპლე"
 
@@ -10381,7 +10139,6 @@ msgid "Europe/Tallinn"
 msgstr "ევროპა/ტალინი"
 
 #: ../calendar/zones.h:328
-#, fuzzy
 msgid "Europe/Tirane"
 msgstr "ევროპა/ტირანე"
 
@@ -10391,7 +10148,6 @@ msgid "Europe/Uzhgorod"
 msgstr "ევროპა/უჟგოროდი"
 
 #: ../calendar/zones.h:330
-#, fuzzy
 msgid "Europe/Vaduz"
 msgstr "ევროპა/ვადუცი"
 
@@ -10404,7 +10160,6 @@ msgid "Europe/Vienna"
 msgstr "ევროპა/ვენა"
 
 #: ../calendar/zones.h:333
-#, fuzzy
 msgid "Europe/Vilnius"
 msgstr "ევროპა/ვილნიუსი"
 
@@ -10413,7 +10168,6 @@ msgid "Europe/Warsaw"
 msgstr "ევროპა/ვარშავა"
 
 #: ../calendar/zones.h:335
-#, fuzzy
 msgid "Europe/Zagreb"
 msgstr "ევროპა/ზაგრები"
 
@@ -10430,7 +10184,6 @@ msgid "Indian/Antananarivo"
 msgstr ""
 
 #: ../calendar/zones.h:339
-#, fuzzy
 msgid "Indian/Chagos"
 msgstr "ინდოეთის ოკიანე/ჩაგოსი"
 
@@ -10439,7 +10192,6 @@ msgid "Indian/Christmas"
 msgstr ""
 
 #: ../calendar/zones.h:341
-#, fuzzy
 msgid "Indian/Cocos"
 msgstr "ინდოეთის ოკიანე/ქოქოსი"
 
@@ -10454,12 +10206,10 @@ msgid "Indian/Kerguelen"
 msgstr "ინდოეთის ოკიანე/კერგუელენი"
 
 #: ../calendar/zones.h:344
-#, fuzzy
 msgid "Indian/Mahe"
 msgstr "ინდოეთის ოკიანე/მაჰე"
 
 #: ../calendar/zones.h:345
-#, fuzzy
 msgid "Indian/Maldives"
 msgstr "ინდოეთის ოკიანე/მალდივები"
 
@@ -10469,17 +10219,14 @@ msgid "Indian/Mauritius"
 msgstr "ინდოეთის ოკიანე/მაურიციუსი"
 
 #: ../calendar/zones.h:347
-#, fuzzy
 msgid "Indian/Mayotte"
 msgstr "ინდოეთის ოკიანე/მაიოტტა"
 
 #: ../calendar/zones.h:348
-#, fuzzy
 msgid "Indian/Reunion"
 msgstr "ინდოეთის ოკიანე/რეუნიონი"
 
 #: ../calendar/zones.h:349
-#, fuzzy
 msgid "Pacific/Apia"
 msgstr "წყნარი ოკეანე/აპია"
 
@@ -10489,7 +10236,6 @@ msgid "Pacific/Auckland"
 msgstr "წყნარი ოკეანე/ოკლენდი"
 
 #: ../calendar/zones.h:351
-#, fuzzy
 msgid "Pacific/Chatham"
 msgstr "წყნარი ოკეანე/ჩათამი"
 
@@ -10504,7 +10250,6 @@ msgid "Pacific/Efate"
 msgstr "წყნარი ოკეანე/ეფატე"
 
 #: ../calendar/zones.h:354
-#, fuzzy
 msgid "Pacific/Enderbury"
 msgstr "წყნარი ოკეანე/ენდერბარი"
 
@@ -10518,7 +10263,6 @@ msgid "Pacific/Fiji"
 msgstr "წყნარი ოკეანე/ფიჯი"
 
 #: ../calendar/zones.h:357
-#, fuzzy
 msgid "Pacific/Funafuti"
 msgstr "წყნარი ოკეანე/ფუნაფუტი"
 
@@ -10527,12 +10271,10 @@ msgid "Pacific/Galapagos"
 msgstr "წყნარი ოკეანე/გალაპაგოსი"
 
 #: ../calendar/zones.h:359
-#, fuzzy
 msgid "Pacific/Gambier"
 msgstr "წყნარი ოკეანე/გამბიერი"
 
 #: ../calendar/zones.h:360
-#, fuzzy
 msgid "Pacific/Guadalcanal"
 msgstr "წყნარი ოკეანე/გუადალკანალი"
 
@@ -10541,7 +10283,6 @@ msgid "Pacific/Guam"
 msgstr "წყნარი ოკეანე/გუამი"
 
 #: ../calendar/zones.h:362
-#, fuzzy
 msgid "Pacific/Honolulu"
 msgstr "წყნარი ოკეანე/ჰონოლულუ"
 
@@ -10551,7 +10292,6 @@ msgid "Pacific/Johnston"
 msgstr "წყნარი ოკეანე/ჯონსტონი"
 
 #: ../calendar/zones.h:364
-#, fuzzy
 msgid "Pacific/Kiritimati"
 msgstr "წყნარი ოკეანე/კირიტიმატი"
 
@@ -10561,7 +10301,6 @@ msgid "Pacific/Kosrae"
 msgstr "წყნარი ოკეანე/კოსრე"
 
 #: ../calendar/zones.h:366
-#, fuzzy
 msgid "Pacific/Kwajalein"
 msgstr "წყნარი ოკეანე/კაჯალეინ"
 
@@ -10571,7 +10310,6 @@ msgid "Pacific/Majuro"
 msgstr "წყნარი ოკეანე/მაჯურო"
 
 #: ../calendar/zones.h:368
-#, fuzzy
 msgid "Pacific/Marquesas"
 msgstr "წყნარი ოკეანე/მარკიზები"
 
@@ -10581,7 +10319,6 @@ msgid "Pacific/Midway"
 msgstr "წყნარი ოკეანე/მიდვეი"
 
 #: ../calendar/zones.h:370
-#, fuzzy
 msgid "Pacific/Nauru"
 msgstr "წყნარი ოკეანე/ნაურუ"
 
@@ -10591,12 +10328,10 @@ msgid "Pacific/Niue"
 msgstr "წყნარი ოკეანე/ნიუე"
 
 #: ../calendar/zones.h:372
-#, fuzzy
 msgid "Pacific/Norfolk"
 msgstr "წყნარი ოკეანე/ნორფოლკი"
 
 #: ../calendar/zones.h:373
-#, fuzzy
 msgid "Pacific/Noumea"
 msgstr "წყნარი ოკეანე/ნოუმეა"
 
@@ -10611,7 +10346,6 @@ msgid "Pacific/Palau"
 msgstr "წყნარი ოკეანე/პალა"
 
 #: ../calendar/zones.h:376
-#, fuzzy
 msgid "Pacific/Pitcairn"
 msgstr "წყნარი ოკეანე/პიტკერნი"
 
@@ -10626,7 +10360,6 @@ msgid "Pacific/Port_Moresby"
 msgstr "წყნარი ოკეანე/პორტ_მორესბი"
 
 #: ../calendar/zones.h:379
-#, fuzzy
 msgid "Pacific/Rarotonga"
 msgstr "წყნარი ოკეანე/რაროტონგა"
 
@@ -10636,12 +10369,10 @@ msgid "Pacific/Saipan"
 msgstr "წყნარი ოკეანე/საიპანი"
 
 #: ../calendar/zones.h:381
-#, fuzzy
 msgid "Pacific/Tahiti"
 msgstr "წყნარი ოკეანე/ტაიტი"
 
 #: ../calendar/zones.h:382
-#, fuzzy
 msgid "Pacific/Tarawa"
 msgstr "წყნარი ოკეანე/ტარავა"
 
@@ -10656,9 +10387,8 @@ msgid "Pacific/Truk"
 msgstr "წყნარი ოკეანე/ტრუკი"
 
 #: ../calendar/zones.h:385
-#, fuzzy
 msgid "Pacific/Wake"
-msgstr "წყნარი ოკეანე/ვაკე"
+msgstr "წყნარი ოკეანე/ვეიქი"
 
 #: ../calendar/zones.h:386
 #, fuzzy
@@ -10689,7 +10419,7 @@ msgid "%.0fG"
 msgstr "%.0fG"
 
 #: ../composer/e-msg-composer-attachment-bar.c:740
-#: ../widgets/misc/e-attachment-bar.c:986
+#: ../widgets/misc/e-attachment-bar.c:988
 msgid "Attachment Bar"
 msgstr ""
 
@@ -10731,9 +10461,8 @@ msgstr ""
 #. * expects the reply_to fields to be initialized.
 #.
 #: ../composer/e-msg-composer-hdrs.c:619
-#, fuzzy
 msgid "_Reply-To:"
-msgstr "პასუხი ვის:"
+msgstr "პ_ასუხი ვის:"
 
 #.
 #. * From
@@ -10807,7 +10536,8 @@ msgid "Insert Attachment"
 msgstr "არა"
 
 #: ../composer/e-msg-composer.c:828
-msgid "Cannot sign outgoing message: No signing certificate set for this account"
+msgid ""
+"Cannot sign outgoing message: No signing certificate set for this account"
 msgstr ""
 
 #: ../composer/e-msg-composer.c:835
@@ -11421,6 +11151,10 @@ msgstr ""
 msgid "months"
 msgstr "თვე"
 
+#: ../filter/filter.glade.h:18 ../mail/mail-config.glade.h:178
+msgid "seconds"
+msgstr "წამი"
+
 #: ../filter/filter.glade.h:19
 msgid "the current time"
 msgstr ""
@@ -11453,7 +11187,8 @@ msgid "Composer Preferences"
 msgstr "პარამეტრები"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:2
-msgid "Configure mail preferences, including security and message display, here"
+msgid ""
+"Configure mail preferences, including security and message display, here"
 msgstr ""
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:3
@@ -11609,7 +11344,7 @@ msgstr "ნაგულისხმევი"
 #. g_object_set((GObject *)renderer, "activatable", TRUE, NULL);
 #: ../mail/em-account-prefs.c:518 ../mail/em-composer-prefs.c:930
 #: ../plugins/plugin-manager/plugin-manager.c:205
-#: ../plugins/publish-calendar/publish-calendar.c:474
+#: ../plugins/publish-calendar/publish-calendar.c:493
 msgid "Enabled"
 msgstr "აქტიური"
 
@@ -11957,7 +11692,6 @@ msgstr "C ძებნა საქაღალდე ვისგან ძე�
 msgid "Total messages:"
 msgid_plural "Total messages:"
 msgstr[0] "სულ:"
-msgstr[1] ""
 
 #. to be on the safe side, ngettext is used here, see e.g. comment #3 at bug 272567
 #: ../mail/em-folder-properties.c:163
@@ -13045,7 +12779,8 @@ msgid "Prompt the user when he or she tries to expunge a folder."
 msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.in.h:57
-msgid "Prompt the user when he or she tries to send a message without a Subject."
+msgid ""
+"Prompt the user when he or she tries to send a message without a Subject."
 msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.in.h:58
@@ -13449,38 +13184,32 @@ msgstr[0] "%d წაშლილია"
 #: ../mail/mail-component.c:523
 #, c-format
 msgid "%d junk"
-msgid_plural "%d junk"
-msgstr[0] ""
+msgstr ""
 
 #: ../mail/mail-component.c:546
 #, c-format
 msgid "%d draft"
-msgid_plural "%d drafts"
-msgstr[0] ""
+msgstr ""
 
 #: ../mail/mail-component.c:548
 #, c-format
 msgid "%d sent"
-msgid_plural "%d sent"
-msgstr[0] ""
+msgstr ""
 
 #: ../mail/mail-component.c:550
 #, c-format
 msgid "%d unsent"
-msgid_plural "%d unsent"
-msgstr[0] ""
+msgstr ""
 
 #: ../mail/mail-component.c:554
 #, c-format
 msgid "%d total"
-msgid_plural "%d total"
-msgstr[0] ""
+msgstr ""
 
 #: ../mail/mail-component.c:556
 #, c-format
 msgid ", %d unread"
-msgid_plural ", %d unread"
-msgstr[0] ""
+msgstr ""
 
 #: ../mail/mail-component.c:779
 #, fuzzy
@@ -14435,14 +14164,12 @@ msgstr ""
 #: ../mail/mail-ops.c:1855
 #, c-format
 msgid "Retrieving %d message"
-msgid_plural "Retrieving %d messages"
-msgstr[0] ""
+msgstr ""
 
 #: ../mail/mail-ops.c:1941
 #, c-format
 msgid "Saving %d message"
-msgid_plural "Saving %d messsages"
-msgstr[0] ""
+msgstr ""
 
 #: ../mail/mail-ops.c:1991
 #, c-format
@@ -14596,7 +14323,8 @@ msgstr "ახალი ძებნა საქაღალდე"
 
 #: ../mail/mail.error.xml.h:1
 #, fuzzy
-msgid "A folder named &quot;{1}&quot; already exists. Please use a different name."
+msgid ""
+"A folder named &quot;{1}&quot; already exists. Please use a different name."
 msgstr "A&quot;&quot; a."
 
 #: ../mail/mail.error.xml.h:2
@@ -14641,7 +14369,8 @@ msgstr "-სკენ?"
 
 #: ../mail/mail.error.xml.h:11
 #, fuzzy
-msgid "Are you sure you want to disable this account and delete all its proxies?"
+msgid ""
+"Are you sure you want to disable this account and delete all its proxies?"
 msgstr "-სკენ და?"
 
 #: ../mail/mail.error.xml.h:12
@@ -15067,7 +14796,8 @@ msgid ""
 msgstr ""
 
 #: ../mail/mail.error.xml.h:110
-msgid "This message cannot be sent because you have not specified any recipients"
+msgid ""
+"This message cannot be sent because you have not specified any recipients"
 msgstr ""
 
 #: ../mail/mail.error.xml.h:111
@@ -15431,7 +15161,8 @@ msgstr "ავტომატური"
 
 #. Enable BBDB checkbox
 #: ../plugins/bbdb/bbdb.c:454
-msgid "_Automatically create entries in the addressbook when responding to mail"
+msgid ""
+"_Automatically create entries in the addressbook when responding to mail"
 msgstr ""
 
 #: ../plugins/bbdb/bbdb.c:475
@@ -15441,7 +15172,8 @@ msgstr "გაგზავნა შეტყობინება -სკენ
 
 #. Enable Gaim Checkbox
 #: ../plugins/bbdb/bbdb.c:490
-msgid "Periodically synchronize contact information and images from gaim buddy list"
+msgid ""
+"Periodically synchronize contact information and images from gaim buddy list"
 msgstr ""
 
 #. Synchronize now button.
@@ -15563,7 +15295,8 @@ msgid "Check whether Evolution is the default mailer"
 msgstr ""
 
 #: ../plugins/default-mailer/apps-evolution-mail-prompts-checkdefault.schemas.in.in.h:2
-msgid "Every time Evolution starts, check whether or not it is the default mailer."
+msgid ""
+"Every time Evolution starts, check whether or not it is the default mailer."
 msgstr ""
 
 #: ../plugins/default-mailer/org-gnome-default-mailer.eplug.xml.h:1
@@ -16931,7 +16664,8 @@ msgstr ""
 
 #: ../plugins/itip-formatter/itip-view.c:367
 #, c-format
-msgid "<b>%s</b> wishes to receive the latest information for the following meeting:"
+msgid ""
+"<b>%s</b> wishes to receive the latest information for the following meeting:"
 msgstr ""
 
 #: ../plugins/itip-formatter/itip-view.c:370
@@ -17134,7 +16868,8 @@ msgid "This meeting has been delegated"
 msgstr ""
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:4
-msgid "This response is not from a current attendee. Add the sender as an attendee?"
+msgid ""
+"This response is not from a current attendee. Add the sender as an attendee?"
 msgstr ""
 
 #: ../plugins/mail-account-disable/mail-account-disable.c:47
@@ -17168,7 +16903,8 @@ msgid "No store available"
 msgstr ""
 
 #: ../plugins/mail-remote/org-gnome-evolution-mail-remote.eplug.xml.h:1
-msgid "A plugin which implements a CORBA interface for accessing mail data remotely."
+msgid ""
+"A plugin which implements a CORBA interface for accessing mail data remotely."
 msgstr ""
 
 #: ../plugins/mail-remote/org-gnome-evolution-mail-remote.eplug.xml.h:2
@@ -17509,7 +17245,7 @@ msgstr "ადგილმდებარეობა"
 msgid "_Publish Calendar Information"
 msgstr "კალენდარი ინფორმაცია"
 
-#: ../plugins/publish-calendar/publish-calendar.c:386
+#: ../plugins/publish-calendar/publish-calendar.c:399
 #, fuzzy
 msgid "Are you sure you want to remove this URL?"
 msgstr "-სკენ URL?"
@@ -17854,7 +17590,8 @@ msgid "Last upgraded configuration version"
 msgstr ""
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:8
-msgid "List of paths for the folders to be synchronized to disk for offline usage"
+msgid ""
+"List of paths for the folders to be synchronized to disk for offline usage"
 msgstr ""
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:9
@@ -17921,7 +17658,8 @@ msgid "Whether the toolbar should be visible."
 msgstr ""
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:23
-msgid "Whether the warning dialog in development versions of Evolution is skipped."
+msgid ""
+"Whether the warning dialog in development versions of Evolution is skipped."
 msgstr ""
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:24
@@ -18592,7 +18330,8 @@ msgid "You have certificates from these organizations that identify you:"
 msgstr ""
 
 #: ../smime/gui/smime-ui.glade.h:44
-msgid "You have certificates on file that identify these certificate authorities:"
+msgid ""
+"You have certificates on file that identify these certificate authorities:"
 msgstr ""
 
 #: ../smime/gui/smime-ui.glade.h:45
@@ -19558,7 +19297,8 @@ msgid "Hide _Read Messages"
 msgstr ""
 
 #: ../ui/evolution-mail-list.xml.h:15
-msgid "Hide deleted messages rather than displaying them with a line through them"
+msgid ""
+"Hide deleted messages rather than displaying them with a line through them"
 msgstr ""
 
 #: ../ui/evolution-mail-list.xml.h:16
@@ -22061,6 +21801,34 @@ msgid ""
 msgstr ""
 
 #, fuzzy
+msgid "(%ld seconds)"
+msgstr "წამი"
+
+msgid "(%d %s %d %s)"
+msgstr "(%d·%s·%d·%s)"
+
+msgid "(%d %s)"
+msgstr "(%d·%s)"
+
+msgid " %u second"
+msgstr " %u წამი"
+
+msgid " %u seconds"
+msgstr " %u წამი"
+
+msgid " %u minute"
+msgstr " %u წუთი"
+
+msgid " %u minutes"
+msgstr " %u წუთი"
+
+msgid "%u hour"
+msgstr "%u საათი"
+
+msgid "%u hours"
+msgstr "%u საათი"
+
+#, fuzzy
 msgid "Task Table"
 msgstr "ამოცანა"
 
@@ -22071,6 +21839,10 @@ msgstr "ამოცანა"
 #, fuzzy
 msgid "Timezone Button"
 msgstr "დროის ზონა ღილაკი"
+
+#, fuzzy
+msgid "(%d seconds)"
+msgstr "წამი"
 
 #, fuzzy
 msgid "The Evolution Groupware Suite"

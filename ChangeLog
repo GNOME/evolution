@@ -1,3 +1,7 @@
+2006-03-14  Vladimer Sichinava  <alinux@siena.linux.it>
+
+        * configure.in: Added "ka" Georgian tu ALL_LINGUAS
+	
 2006-03-13  Harish Krishnaswamy  <kharish@novell.com>
 
 	* NEWS, configure.in : Release updates and version bump.
