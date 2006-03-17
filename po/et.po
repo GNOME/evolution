@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-02-16 06:14+0100\n"
-"PO-Revision-Date: 2006-03-10 22:01+0200\n"
+"PO-Revision-Date: 2006-03-17 13:23+0200\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -17232,7 +17232,7 @@ msgstr ""
 "Ilmar Kerm <ikerm@hot.ee>, 2001.\n"
 "Ivar Smolin <okul@linux.ee>, 2002, 2003, 2005, 2006.\n"
 "Kaarel Jõgi <kaarel@gg.ee>, 2002.\n"
-"Priit Laes <amd@store20.com>, 2003, 2004, 2005."
+"Priit Laes <amd@store20.com>, 2003-2005."
 
 #: ../shell/e-shell-window-commands.c:775
 msgid "_Work Online"
@@ -17265,7 +17265,7 @@ msgstr ""
 #: ../shell/e-shell-window.c:783
 #, c-format
 msgid "Switch to %s"
-msgstr "Ümberlülitumine %s peale"
+msgstr "Ümberlülitumine vaatele \"%s\""
 
 #: ../shell/e-shell.c:633
 msgid "Uknown system error."
@@ -18396,7 +18396,7 @@ msgstr "Käesoleva akna sulgemiseks klõpsa siia"
 
 #: ../ui/evolution-editor.xml.h:4
 msgid "Click here to save the current window"
-msgstr "Käesoleva akna salvestamiseks klõpsa siia"
+msgstr "Käesoleva akna sisu salvestamiseks klõpsa siia"
 
 #: ../ui/evolution-editor.xml.h:5
 msgid "Click here to view help available"
@@ -18621,7 +18621,7 @@ msgstr "Sõnumi eelvaateakna näitamine"
 
 #: ../ui/evolution-mail-global.xml.h:15
 msgid "Subscribe or unsubscribe to folders on remote servers"
-msgstr ""
+msgstr "Kaugserveris olevate kaustade tellimine või tellimusest loobumine"
 
 #: ../ui/evolution-mail-global.xml.h:16
 msgid "_Copy Folder To..."
@@ -18726,15 +18726,15 @@ msgstr "Vali _kõik sõnumid"
 
 #: ../ui/evolution-mail-list.xml.h:22
 msgid "Select all and only the messages that are not currently selected"
-msgstr "Valib kõik sõnumid, mis hetkel ei ole valitud"
+msgstr "Kõibi hetkel valimata sõnumite valimine"
 
 #: ../ui/evolution-mail-list.xml.h:23
 msgid "Select all messages in the same thread as the selected message"
-msgstr "Valib kõik valitud sõnumiga samas jutulõngas olevad sõnumid"
+msgstr "Valitud sõnumiga samas lõimes olevate sõnumite valimine"
 
 #: ../ui/evolution-mail-list.xml.h:24
 msgid "Select all visible messages"
-msgstr "Valib kõik peitmata sõnumid"
+msgstr "Kõigi peitmata sõnumite valimine"
 
 #: ../ui/evolution-mail-list.xml.h:25
 msgid "Sh_ow Hidden Messages"
@@ -19574,7 +19574,7 @@ msgstr "Evolutioni sätete muutmine"
 
 #: ../ui/evolution.xml.h:3
 msgid "Change the visibility of the toolbar"
-msgstr "Muuda tööriistariba nähtavalolekut"
+msgstr "Tööriistariba näitamine/peitmine"
 
 #: ../ui/evolution.xml.h:5
 msgid "Create a new window displaying this folder"
@@ -19607,7 +19607,7 @@ msgstr ""
 
 #: ../ui/evolution.xml.h:12
 msgid "Hide window buttons"
-msgstr "Peida akna nupud"
+msgstr "Akna nuppude peitmine"
 
 #: ../ui/evolution.xml.h:13
 msgid "I_mport..."
@@ -19643,7 +19643,7 @@ msgstr "Järjekorras olevate sõnumite ärasaatmine ja uute vastuvõtmine"
 
 #: ../ui/evolution.xml.h:22
 msgid "Set up Pilot configuration"
-msgstr "Seab Pilot'i seadeid"
+msgstr "Pilot'i sätete määramine"
 
 #: ../ui/evolution.xml.h:23
 msgid "Show information about Evolution"
@@ -19671,7 +19671,7 @@ msgstr "Saada _veateade"
 
 #: ../ui/evolution.xml.h:32
 msgid "Submit a bug report using Bug Buddy"
-msgstr "Saada veateade kasutades Bug Buddy't"
+msgstr "Veateate saatmine Bug Buddy abil"
 
 #: ../ui/evolution.xml.h:33
 msgid "Toggle whether we are working offline."
@@ -19920,11 +19920,11 @@ msgstr "Uue vaate nimi:"
 
 #: ../widgets/menus/gal-view-new-dialog.glade.h:3
 msgid "Type of View"
-msgstr "Vaate tüüp"
+msgstr "Vaate liik"
 
 #: ../widgets/menus/gal-view-new-dialog.glade.h:4
 msgid "Type of view:"
-msgstr "Vaate tüüp:"
+msgstr "Vaate liik:"
 
 #. Translators: These are the first characters of each day of the
 #. week, 'M' for 'Monday', 'T' for Tuesday etc.
