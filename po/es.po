@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-03-08 23:38+0100\n"
-"PO-Revision-Date: 2006-03-09 00:09+0100\n"
+"POT-Creation-Date: 2006-03-18 01:50+0100\n"
+"PO-Revision-Date: 2006-03-18 02:16+0100\n"
 "Last-Translator: Francisco Javier F. Serrador <serrador@cvs.gnome.org>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -835,7 +835,7 @@ msgid "Accessing LDAP Server anonymously"
 msgstr "Accediendo al servidor LDAP anónimamente"
 
 #: ../addressbook/gui/component/addressbook.c:197
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:492
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:491
 msgid "Failed to authenticate.\n"
 msgstr "Falló al autenticar.\n"
 
@@ -2536,15 +2536,15 @@ msgstr "Modificados"
 msgid "Contact Editor - %s"
 msgstr "Editor de contactos - %s"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2773
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2775
 msgid "Please select an image for this contact"
 msgstr "Seleccione una imagen para este contacto"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2774
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2776
 msgid "No image"
 msgstr "Sin imagen"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3058
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3060
 msgid ""
 "The contact data is invalid:\n"
 "\n"
@@ -2552,7 +2552,7 @@ msgstr ""
 "Los datos del contacto son inválidos:\n"
 "\n"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3110
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3112
 msgid "Invalid contact."
 msgstr "Contacto inválido."
 
@@ -2580,27 +2580,27 @@ msgstr "_Seleccione la libreta de direcciones"
 #, c-format
 msgid ""
 "Are you sure you want\n"
-"to delete contact list (%s) ?"
+"to delete contact list (%s)?"
 msgstr ""
-"¿Seguro que quiere\n"
-"borrar la lista de contactos (%s)?"
+"¿Seguro que quiere borrar\n"
+"la lista de contactos (%s)?"
 
 #: ../addressbook/gui/contact-editor/eab-editor.c:325
 msgid ""
 "Are you sure you want\n"
 "to delete these contact lists?"
 msgstr ""
-"¿Seguro que quiere\n"
-"borrar estas listas de contactos?"
+"¿Seguro que quiere borrar\n"
+"estas listas de contactos?"
 
 #: ../addressbook/gui/contact-editor/eab-editor.c:330
 #, c-format
 msgid ""
 "Are you sure you want\n"
-"to delete contact (%s) ?"
+"to delete contact (%s)?"
 msgstr ""
-"¿Seguro que quiere\n"
-"borrar el contacto (%s)?"
+"¿Seguro que quiere borrar\n"
+"el contacto (%s)?"
 
 #: ../addressbook/gui/contact-editor/eab-editor.c:333
 msgid ""
@@ -7142,7 +7142,7 @@ msgstr "_Seleccionar fecha…"
 
 #: ../calendar/gui/e-calendar-view.c:1607
 msgid "Cop_y to Calendar..."
-msgstr "Cop_ia al calendario…"
+msgstr "Cop_iar al calendario…"
 
 #: ../calendar/gui/e-calendar-view.c:1608
 msgid "Mo_ve to Calendar..."
@@ -7198,7 +7198,7 @@ msgstr "Organizador: %s"
 #: ../calendar/gui/e-calendar-view.c:2050 ../calendar/gui/print.c:2336
 #, c-format
 msgid "Location: %s"
-msgstr "Lugar: %s"
+msgstr "Lugar: %si"
 
 #. To Translators: It will display "Time: ActualStartDateAndTime (DurationOfTheMeeting)"
 #: ../calendar/gui/e-calendar-view.c:2081
@@ -7234,7 +7234,7 @@ msgstr ""
 #: ../calendar/gui/e-day-view-time-item.c:552
 #, c-format
 msgid "%02i minute divisions"
-msgstr "%02i divisiones por minuto"
+msgstr "divisiones de %02i minutos"
 
 #. strftime format %A = full weekday name, %d = day of month,
 #. %B = full month name. Don't use any other specifiers.
@@ -7281,8 +7281,8 @@ msgstr[1] "Cada %d semanas"
 #, c-format
 msgid "Every week on "
 msgid_plural "Every %d weeks on "
-msgstr[0] "Cada semana en"
-msgstr[1] "Cada %d semanas el"
+msgstr[0] "Cada semana el "
+msgstr[1] "Cada %d semanas el "
 
 #: ../calendar/gui/e-itip-control.c:785
 msgid " and "
@@ -7296,7 +7296,7 @@ msgstr "El %s día de "
 #: ../calendar/gui/e-itip-control.c:805
 #, c-format
 msgid "The %s %s of "
-msgstr "El %s %s de"
+msgstr "El %s %s de "
 
 #: ../calendar/gui/e-itip-control.c:812
 #, c-format
@@ -7334,7 +7334,7 @@ msgstr "Termina"
 #: ../calendar/gui/e-itip-control.c:904
 #: ../plugins/save-calendar/csv-format.c:395
 msgid "Due"
-msgstr "Vence "
+msgstr "Vence"
 
 #: ../calendar/gui/e-itip-control.c:944 ../calendar/gui/e-itip-control.c:1001
 msgid "iCalendar Information"
@@ -10231,8 +10231,8 @@ msgid ""
 "Cannot encrypt outgoing message: No encryption certificate set for this "
 "account"
 msgstr ""
-"No se puede encriptar el mensaje saliente: no hay establecido un certificado de "
-"encriptado para esta cuenta"
+"No se puede encriptar el mensaje saliente: no hay establecido un certificado "
+"de encriptado para esta cuenta"
 
 #: ../composer/e-msg-composer.c:1295 ../composer/e-msg-composer.c:2508
 msgid "Hide _Attachment Bar"
@@ -16413,10 +16413,8 @@ msgstr "Formateador iTip"
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:1
 msgid ""
 "&quot;{0}&quot; has delegated the meeting. Do you want to add the delegate "
-"&quot;{1}&quot; ?"
-msgstr ""
-"&quot;{0}&quot; ha delegado la reunión. Quiere añadir al delegado &quot;{1}"
-"&quot; ?"
+"&quot;{1}&quot;?"
+msgstr "&quot;{0}&quot; ha delegado la reunión. ¿Quiere añadir al delegado &quot;{1}&quot; ?"
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:3
 msgid "This meeting has been delegated"
@@ -16459,7 +16457,7 @@ msgstr "No hay almacén disponible"
 #: ../plugins/mail-remote/org-gnome-evolution-mail-remote.eplug.xml.h:1
 msgid "A plugin which implements a CORBA interface for accessing mail data remotely."
 msgstr ""
-"Un complemento que implementa un interfaz Corba para acceder a los datos de "
+"Un complemento que implementa un interfaz CORBA para acceder a los datos de "
 "correo de forma remota."
 
 #: ../plugins/mail-remote/org-gnome-evolution-mail-remote.eplug.xml.h:2
