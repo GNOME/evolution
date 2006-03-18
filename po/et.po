@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-02-16 06:14+0100\n"
-"PO-Revision-Date: 2006-03-17 13:23+0200\n"
+"PO-Revision-Date: 2006-03-18 16:01+0200\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -10671,7 +10671,7 @@ msgstr "_Otsingubaas:"
 
 #: ../filter/filter-rule.c:827
 msgid "Find items that meet the following criteria"
-msgstr ""
+msgstr "Järgnevale kriteeriumile vastavate kirjete leidmine"
 
 #: ../filter/filter-rule.c:866
 msgid "If all criteria are met"
@@ -11335,7 +11335,7 @@ msgstr "Otsikaustad"
 #. UNMATCHED is always last
 #: ../mail/em-folder-tree-model.c:209 ../mail/em-folder-tree-model.c:211
 msgid "UNMATCHED"
-msgstr ""
+msgstr "MITTEVASTAV"
 
 #: ../mail/em-folder-tree-model.c:484 ../mail/mail-component.c:151
 msgid "Drafts"
@@ -15318,7 +15318,7 @@ msgstr "Veendu, et kasutajanimi ja parool on õiged ning proovi uuesti."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:43
 msgid "No Global Catalog server configured for this account."
-msgstr ""
+msgstr "Selle konto jaoks pole globaalset kataloogiserverit seadistatud."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:44
 msgid "No mailbox for user {0} on {1}."
@@ -15812,7 +15812,7 @@ msgstr "Kirjet pole võimalik analüüsida"
 #: ../plugins/itip-formatter/itip-formatter.c:782
 #, c-format
 msgid "Unable to send item to calendar '%s'.  %s"
-msgstr ""
+msgstr "Kirjet pole võimalik kalendrisse '%s' saata. %s"
 
 #: ../plugins/itip-formatter/itip-formatter.c:793
 #, c-format
@@ -15822,7 +15822,7 @@ msgstr "Saadetud kalendrisse '%s' kui aktsepteeritud"
 #: ../plugins/itip-formatter/itip-formatter.c:797
 #, c-format
 msgid "Sent to calendar '%s' as tentative"
-msgstr ""
+msgstr "Saadetud kalendrisse '%s' kui katseline"
 
 #: ../plugins/itip-formatter/itip-formatter.c:802
 #, c-format
@@ -15897,6 +15897,8 @@ msgid ""
 "To process all of these items, the file should be saved and the calendar "
 "imported"
 msgstr ""
+"Kõikide nende kirjete töötlemiseks peab fail olema salvestatud ja kalender "
+"imporditud"
 
 #. Delete message after acting
 #. FIXME Need a schema for this
@@ -16339,10 +16341,11 @@ msgstr "Puudub salvestusmeedia"
 msgid ""
 "A plugin which implements a CORBA interface for accessing mail data remotely."
 msgstr ""
+"Plugin, mis teostab CORBA liidese sõnumite andmete kaugligipääsuks."
 
 #: ../plugins/mail-remote/org-gnome-evolution-mail-remote.eplug.xml.h:2
 msgid "Mail Remote"
-msgstr ""
+msgstr "Kaugpost"
 
 #: ../plugins/mail-to-meeting/org-gnome-mail-to-meeting.eplug.xml.h:1
 msgid ""
