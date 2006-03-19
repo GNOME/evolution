@@ -9,7 +9,7 @@
 # Alessio Dessi <alessio.dessi@libero.it>, 2003
 # Monica Badia <Monica.Badia@Sun.COM>, 2003
 # Craig Jeffares <cjeffares@novell.com>, 2004.
-# Luca Ferretti <elle.uca@infinito.it>, 2003-2005.
+# Luca Ferretti <elle.uca@infinito.it>, 2003-2006.
 #
 # Convenzioni adottate:
 #
@@ -30,8 +30,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-03-10 16:24+0100\n"
-"PO-Revision-Date: 2006-03-10 16:25+0100\n"
+"POT-Creation-Date: 2006-03-11 17:00+0100\n"
+"PO-Revision-Date: 2006-03-19 15:18+0100\n"
 "Last-Translator: Luca Ferretti <elle.uca@infinito.it>\n"
 "Language-Team: Italian <tp@lists.linux.it>\n"
 "MIME-Version: 1.0\n"
@@ -7332,9 +7332,9 @@ msgstr ""
 #. * a day is displayed in 24 "60 minute divisions" or 48 "30 minute divisions"
 #.
 #: ../calendar/gui/e-day-view-time-item.c:552
-#, fuzzy, c-format
+#, c-format
 msgid "%02i minute divisions"
-msgstr "%02i divisioni per minuto"
+msgstr "divisioni da %02i minuti"
 
 #. strftime format %A = full weekday name, %d = day of month,
 #. %B = full month name. Don't use any other specifiers.
@@ -10832,7 +10832,7 @@ msgstr "Nome della ric_erca:"
 
 #: ../filter/filter-rule.c:827
 msgid "Find items that meet the following criteria"
-msgstr "Trova elementi che soddisfano i seguenti criteri"
+msgstr "Trova gli elementi che soddisfano i seguenti criteri"
 
 #: ../filter/filter-rule.c:866
 msgid "If all criteria are met"
@@ -10864,7 +10864,7 @@ msgstr "Nessuna risposta o genitore"
 
 #: ../filter/filter-rule.c:891
 msgid "Include threads"
-msgstr "Includere le discussioni"
+msgstr "Includi discussioni"
 
 #: ../filter/filter-rule.c:986 ../filter/filter.glade.h:3
 #: ../mail/em-utils.c:311
@@ -11290,9 +11290,11 @@ msgstr "esiste"
 msgid "Expression"
 msgstr "Espressione"
 
+# For Follow Up --> da completare
+#
 #: ../mail/em-filter-i18n.h:25
 msgid "Follow Up"
-msgstr "Segue"
+msgstr "Da completare"
 
 #: ../mail/em-filter-i18n.h:27
 msgid "is"
@@ -11308,7 +11310,7 @@ msgstr "è prima di"
 
 #: ../mail/em-filter-i18n.h:30
 msgid "is Flagged"
-msgstr "è con segnalazione"
+msgstr "è contrassegnato"
 
 #: ../mail/em-filter-i18n.h:31
 msgid "is greater than"
@@ -11324,7 +11326,7 @@ msgstr "non è"
 
 #: ../mail/em-filter-i18n.h:34
 msgid "is not Flagged"
-msgstr "è senza segnalazione"
+msgstr "non è contrassegnato"
 
 #: ../mail/em-filter-i18n.h:35 ../mail/mail-config.glade.h:94
 #: ../ui/evolution-mail-message.xml.h:48
@@ -11454,7 +11456,7 @@ msgstr "Oggetto"
 
 #: ../mail/em-filter-i18n.h:66
 msgid "Unset Status"
-msgstr "Stato non impostato"
+msgstr "Azzera stato"
 
 #. and now for the action area
 #: ../mail/em-filter-rule.c:488
@@ -11686,9 +11688,8 @@ msgid "Mark as _Not Junk"
 msgstr "Contrassenga come atten_dibile"
 
 #: ../mail/em-folder-view.c:1103
-#, fuzzy
 msgid "Mark for Follo_w Up..."
-msgstr "Contrassengal come seg_ue..."
+msgstr "Contrassenga per com_pletamento..."
 
 #: ../mail/em-folder-view.c:1105
 msgid "_Label"
@@ -11700,11 +11701,11 @@ msgstr "_Nessuno"
 
 #: ../mail/em-folder-view.c:1111
 msgid "Fla_g Completed"
-msgstr "Fla_g completata"
+msgstr "_Contrassegna come completato"
 
 #: ../mail/em-folder-view.c:1112
 msgid "Cl_ear Flag"
-msgstr "Pu_lisci flag"
+msgstr "Pu_lisci contrassegno"
 
 #: ../mail/em-folder-view.c:1115
 msgid "Crea_te Rule From Message"
@@ -13002,7 +13003,6 @@ msgid "<b>SSL is not supported in this build of Evolution</b>"
 msgstr "<b>SSL non è supportato in questa compilazione di Evolution</b>"
 
 #: ../mail/mail-config.glade.h:5
-#, fuzzy
 msgid "<b>Sig_natures</b>"
 msgstr "<b>Si_gle</b>"
 
@@ -13639,7 +13639,7 @@ msgstr "Trova nel messaggio"
 #: ../mail/mail-dialogs.glade.h:10 ../mail/message-tag-followup.c:297
 #: ../mail/message-tags.glade.h:3
 msgid "Flag to Follow Up"
-msgstr "Segnalazione che segue"
+msgstr "Contrassegna per completamento"
 
 #: ../mail/mail-dialogs.glade.h:11
 msgid "Folder Subscriptions"
@@ -13666,8 +13666,8 @@ msgid ""
 "The messages you have selected for follow up are listed below.\n"
 "Please select a follow up action from the \"Flag\" menu."
 msgstr ""
-"I messaggi selezionati come seguenti sono elencati sotto.\n"
-"Selezionare un'azione seguente dal menu \"Segnalazioni\"."
+"I messaggi selezionati per il completamento sono elencati sotto.\n"
+"Selezionare un'azione di completamento dal menu \"Contrassegno\"."
 
 #: ../mail/mail-dialogs.glade.h:19
 msgid "_Accept License"
@@ -13679,7 +13679,7 @@ msgstr "Sca_de il:"
 
 #: ../mail/mail-dialogs.glade.h:21 ../mail/message-tags.glade.h:7
 msgid "_Flag:"
-msgstr "_Segnalazione:"
+msgstr "C_ontrassegno:"
 
 #: ../mail/mail-dialogs.glade.h:22
 msgid "_Subscribe"
@@ -14672,15 +14672,15 @@ msgstr "Scadenza"
 
 #: ../mail/message-list.etspec.h:4
 msgid "Flag Status"
-msgstr "Segnalazione di stato"
+msgstr "Stato contrassegno"
 
 #: ../mail/message-list.etspec.h:5
 msgid "Flagged"
-msgstr "Con segnalazione"
+msgstr "Contrassegnato"
 
 #: ../mail/message-list.etspec.h:6
 msgid "Follow Up Flag"
-msgstr "Segnalazione che segue"
+msgstr "Contrassegno da completare"
 
 #: ../mail/message-list.etspec.h:8
 msgid "Original Location"
@@ -14706,7 +14706,7 @@ msgstr "Non inoltrare"
 
 #: ../mail/message-tag-followup.c:77
 msgid "Follow-Up"
-msgstr "Segue"
+msgstr "Da completare"
 
 #: ../mail/message-tag-followup.c:78
 msgid "For Your Information"
@@ -16526,6 +16526,9 @@ msgstr "<b>%s</b> ha declinato il seguente compito assegnato:"
 msgid "_Open Calendar"
 msgstr "_Apri calendario"
 
+# Exchange/Outlook: Accepted --> Accettato
+#
+# LF
 #. FIXME Is this really the right button?
 #: ../plugins/itip-formatter/itip-view.c:710
 #: ../plugins/itip-formatter/itip-view.c:715
@@ -16535,27 +16538,33 @@ msgstr "_Apri calendario"
 msgid "_Accept"
 msgstr "_Accetta"
 
+# Exchage/Outlook: Declined --> Rifiutato
+#
+# LF
 #: ../plugins/itip-formatter/itip-view.c:713
 msgid "_Decline all"
-msgstr "_Declina tutti"
+msgstr "_Rifiuta tutti"
 
 #: ../plugins/itip-formatter/itip-view.c:713
 #: ../plugins/itip-formatter/itip-view.c:718
 #: ../plugins/itip-formatter/itip-view.c:734
 #: ../plugins/itip-formatter/itip-view.c:739
 msgid "_Decline"
-msgstr "_Declina"
+msgstr "_Rifiuta"
 
+# Exchange/Outlook: Tentative --> Provvisorio
+#
+# LF
 #: ../plugins/itip-formatter/itip-view.c:714
 msgid "_Tentative all"
-msgstr ""
+msgstr "_Provvisori tutti"
 
 #: ../plugins/itip-formatter/itip-view.c:714
 #: ../plugins/itip-formatter/itip-view.c:719
 #: ../plugins/itip-formatter/itip-view.c:735
 #: ../plugins/itip-formatter/itip-view.c:740
 msgid "_Tentative"
-msgstr ""
+msgstr "_Provvisorio"
 
 #: ../plugins/itip-formatter/itip-view.c:715
 msgid "_Accept all"
@@ -17294,7 +17303,6 @@ msgstr "Assistente di configurazione di Evolution"
 msgid "Welcome"
 msgstr "Benvenuti"
 
-# Novell Translation
 #: ../plugins/startup-wizard/startup-wizard.c:89
 msgid ""
 "Welcome to Evolution. The next few screens will allow Evolution to connect "
@@ -17302,9 +17310,7 @@ msgid ""
 "\n"
 "Please click the \"Forward\" button to continue. "
 msgstr ""
-"Benvenuti a Evolution. Le schermate successive consentono di connettere "
-"Evolution al proprio conto e-mail e di importare file da altre "
-"applicazioni. \n"
+"Benvenuti in Evolution. Le schermate successive consentono di connettere Evolution ai propri account email e di importare file da altre applicazioni. \n"
 "\n"
 "Fare clic sul pulsante \"Avanti\" per continuare. "
 
@@ -19143,14 +19149,12 @@ msgid "Change the properties of this folder"
 msgstr "Cambia le proprietà di questa cartella"
 
 #: ../ui/evolution-mail-list.xml.h:3
-#, fuzzy
 msgid "Collapse All _Threads"
-msgstr "Raggruppa per _discussione"
+msgstr "Comprimi ogni _discussione"
 
 #: ../ui/evolution-mail-list.xml.h:4
-#, fuzzy
 msgid "Collapse all message threads"
-msgstr "Segna tutti i messaggi come letti"
+msgstr "Comprime tutti i messaggi nelle discussioni"
 
 #: ../ui/evolution-mail-list.xml.h:5
 msgid "Copy selected message(s) to the clipboard"
@@ -19163,7 +19167,7 @@ msgstr "Taglia i messaggi selezionati negli appunti"
 
 #: ../ui/evolution-mail-list.xml.h:8
 msgid "E_xpand All Threads"
-msgstr "E_spandi tutte discussioni"
+msgstr "E_spandi ogni discussione"
 
 #: ../ui/evolution-mail-list.xml.h:9
 msgid "E_xpunge"
@@ -19171,7 +19175,7 @@ msgstr "Ri_pulisci"
 
 #: ../ui/evolution-mail-list.xml.h:10
 msgid "Expand all message threads"
-msgstr "Espande tutti i messaggi in discussioni"
+msgstr "Espande tutti i messaggi nelle discussioni"
 
 #: ../ui/evolution-mail-list.xml.h:12
 msgid "Hide S_elected Messages"
@@ -19255,7 +19259,7 @@ msgstr "Raggruppa per _discussione"
 #: ../ui/evolution-mail-list.xml.h:32 ../ui/evolution-mail-message.xml.h:116
 #: ../ui/evolution-mail-messagedisplay.xml.h:7
 msgid "_Message"
-msgstr "_Messaggio"
+msgstr "Me_ssaggio"
 
 #: ../ui/evolution-mail-message.xml.h:1
 msgid "A_dd Sender to Address Book"
@@ -19403,13 +19407,12 @@ msgid "Filter the selected messages for junk status"
 msgstr "Filtra i messaggi selezionati per lo stato indesiderato"
 
 #: ../ui/evolution-mail-message.xml.h:39
-#, fuzzy
 msgid "Flag selected messages for follow-up"
-msgstr "Segnala messaggi selezionati come seguenti"
+msgstr "Contrassegna i messaggi selezionati per il completamento"
 
 #: ../ui/evolution-mail-message.xml.h:40
 msgid "Follow _Up..."
-msgstr "Se_gue..."
+msgstr "Com_pletamento..."
 
 #: ../ui/evolution-mail-message.xml.h:41
 msgid "Force images in HTML mail to be loaded"
@@ -19611,19 +19614,18 @@ msgstr "Non _importante"
 msgid "Zoom _Out"
 msgstr "Rid_uci ingrandimento"
 
+# Messaggio: Inoltra come -> Allegato | In linea | Citato
 #: ../ui/evolution-mail-message.xml.h:101
-#, fuzzy
 msgid "_Attached"
-msgstr "Allega"
+msgstr "_Allegato"
 
 #: ../ui/evolution-mail-message.xml.h:102
 msgid "_Caret Mode"
-msgstr "_Modalità visualizzazione cursore"
+msgstr "M_odalità con cursore"
 
 #: ../ui/evolution-mail-message.xml.h:103
-#, fuzzy
 msgid "_Clear Flag"
-msgstr "Pu_lisci flag"
+msgstr "Pu_lisci contrassegno"
 
 #: ../ui/evolution-mail-message.xml.h:106
 msgid "_Delete Message"
@@ -19634,9 +19636,8 @@ msgid "_Find in Message..."
 msgstr "Tr_ova nel messaggio..."
 
 #: ../ui/evolution-mail-message.xml.h:109
-#, fuzzy
 msgid "_Flag Completed"
-msgstr "Fla_g completata"
+msgstr "Contrassegna come co_mpletato"
 
 #: ../ui/evolution-mail-message.xml.h:111
 msgid "_Go To"
@@ -20193,7 +20194,7 @@ msgstr "Mostra/Nasconde la barra di stato"
 
 #: ../ui/evolution.xml.h:38
 msgid "_About"
-msgstr "I_nfomazioni"
+msgstr "I_nformazioni"
 
 #: ../ui/evolution.xml.h:39
 msgid "_Close Window"
@@ -20285,7 +20286,7 @@ msgstr "Per _oggetto"
 
 #: ../views/mail/galview.xml.h:5
 msgid "By _Follow Up Flag"
-msgstr "Per segnato come _seguente"
+msgstr "Per contrassegno di com_pletamento"
 
 #: ../views/mail/galview.xml.h:6
 msgid "_Messages"
@@ -20760,8 +20761,9 @@ msgid "Empty message"
 msgstr "Messaggio vuoto"
 
 #: ../widgets/misc/e-reflow.c:1458 ../widgets/misc/e-reflow.c:1459
+#, fuzzy
 msgid "Reflow model"
-msgstr ""
+msgstr "Modello di reflow"
 
 #: ../widgets/misc/e-reflow.c:1465 ../widgets/misc/e-reflow.c:1466
 msgid "Column width"
@@ -21514,211 +21516,3 @@ msgstr "Contesto IM"
 #: ../widgets/text/e-text.c:3706 ../widgets/text/e-text.c:3707
 msgid "Handle Popup"
 msgstr "Gestisci popup"
-
-#~ msgid "(%ld seconds)"
-#~ msgstr "(%ld secondi)"
-
-#~ msgid "(%d %s %d %s)"
-#~ msgstr "(%d %s %d %s)"
-
-#~ msgid "(%d %s)"
-#~ msgstr "(%d %s)"
-
-#~ msgid " %u second"
-#~ msgstr " %u secondo"
-
-#~ msgid " %u seconds"
-#~ msgstr " %u secondi"
-
-#~ msgid " %u minute"
-#~ msgstr " %u minuto"
-
-#~ msgid " %u minutes"
-#~ msgstr " %u minuti"
-
-#~ msgid "%u hour"
-#~ msgstr "%u ora"
-
-#~ msgid "%u hours"
-#~ msgstr "%u ore"
-
-#~ msgid "(%d seconds)"
-#~ msgstr "(%d secondi)"
-
-#~ msgid "Addressbook"
-#~ msgstr "Rubrica"
-
-#~ msgid ""
-#~ "Selecting this option means that Evolution will only try to use SSL/TLS "
-#~ "if you are in a insecure environment. For example, if you and your LDAP "
-#~ "server are behind a firewall at work, then Evolution doesn't need to use "
-#~ "SSL/TLS because your connection is already secure."
-#~ msgstr ""
-#~ "Selezionando quest'opzione, Evolution tenterà di utilizzare SSL/TLS "
-#~ "solamente se ci si trova in un ambiente insicuro. Per esempio se si è, "
-#~ "insieme al server LDAP, dietro ad un firewall funzionante, Evolution non "
-#~ "necessita di utilizzare SSL/TLS dato che la connessione è già sicura."
-
-#~ msgid "Task Table"
-#~ msgstr "Tabella compiti"
-
-#~ msgid "Removal Complete"
-#~ msgstr "Rimozione completata"
-
-#~ msgid "Con_tacts..."
-#~ msgstr "Con_tatti..."
-
-#~ msgid "Memo Table"
-#~ msgstr "Tabella memo"
-
-#~ msgid "Timezone Button"
-#~ msgstr "Pulsante fuso orario"
-
-#~ msgid "The Evolution Groupware Suite"
-#~ msgstr "La suite Evolution per il groupware"
-
-#~ msgid "Mail Accounts Table"
-#~ msgstr "Tabella account di posta"
-
-#~ msgid "Attachment Button"
-#~ msgstr "Pulsante allegati"
-
-#~ msgid "Toggle Attachment Bar"
-#~ msgstr "Commuta barra allegati"
-
-#~ msgid "Filters"
-#~ msgstr "Filtri"
-
-#~ msgid "_Show animated images"
-#~ msgstr "Mostrare i_mmagini animate"
-
-#~ msgid "<b>%s (%s)</b> : %s"
-#~ msgstr "<b>%s (%s)</b> : %s"
-
-#~ msgid "<b>%s (%s)</b>"
-#~ msgstr "<b>%s (%s)</b>"
-
-#~ msgid "<b>%s</b> : %s"
-#~ msgstr "<b>%s</b> : %s"
-
-#~ msgid "<b>%s</b>"
-#~ msgstr "<b>%s</b>"
-
-#~ msgid "Message List"
-#~ msgstr "Elenco messaggi"
-
-#~ msgid "<span weight=\"bold\">Automatic Contacts</span>"
-#~ msgstr "<span weight=\"bold\">Contatti automatici</span>"
-
-#~ msgid "<span weight=\"bold\">Instant Messaging Contacts</span>"
-#~ msgstr "<span weight=\"bold\">Contatti di messaggistica istantanea</span>"
-
-#~ msgid "<span weight=\"bold\">Conflict Search</span>"
-#~ msgstr "<span weight=\"bold\">Ricerca conflitti</span>"
-
-#~ msgid "_All day Event"
-#~ msgstr "_Evento intera giornata"
-
-#~ msgid "Previous Button"
-#~ msgstr "Pulsante precedente"
-
-#~ msgid "Text Date Entry"
-#~ msgstr "Inserimento testo data"
-
-#~ msgid "Date Button"
-#~ msgstr "Pulsante data"
-
-#~ msgid "Time Combo Box"
-#~ msgstr "Casella combinata orario"
-
-#~ msgid "Search Text Entry"
-#~ msgstr "Inserimento testo da cercare"
-
-#~ msgid "Advanced..."
-#~ msgstr "Avanzata..."
-
-#~ msgid "Select target addressbook."
-#~ msgstr "Seleziona rubrica di destinazione."
-
-#~ msgid "(none)"
-#~ msgstr "(nessuna)"
-
-#~ msgid "Primary Email"
-#~ msgstr "Email principale"
-
-#~ msgid "Select an Action"
-#~ msgstr "Seleziona un'azione"
-
-#~ msgid "Create a new contact \"%s\""
-#~ msgstr "Crea un nuovo contatto «%s»"
-
-#~ msgid "Add address to existing contact \"%s\""
-#~ msgstr "Aggiungi indirizzo al contatto esistente «%s»"
-
-#~ msgid "Merge E-Mail Address"
-#~ msgstr "Unisci indirizzi email"
-
-#~ msgid "<b>Calendars</b>"
-#~ msgstr "<b>Calendari</b>"
-
-#~ msgid "Preferences"
-#~ msgstr "Preferenze"
-
-#~ msgid "_Configure Alarms"
-#~ msgstr "_Configura allarmi"
-
-#~ msgid "<b>Publishing</b>"
-#~ msgstr "<b>Pubblicazione</b>"
-
-#~ msgid "Publishing Table"
-#~ msgstr "Tabella di pubblicazione"
-
-#~ msgid "_Add URL"
-#~ msgstr "_Aggiungi URL"
-
-# Novell Translation
-#~ msgid "Or_ganizer"
-#~ msgstr "Or_ganizzatore"
-
-#~ msgid "_Description:"
-#~ msgstr "_Descrizione:"
-
-#~ msgid "<b>Dele_gatees</b>"
-#~ msgstr "<b>Dele_gati</b>"
-
-#~ msgid "<b>From:</b>"
-#~ msgstr "<b>Da:</b>"
-
-#~ msgid "<span weight=\"bold\">Basics</span>"
-#~ msgstr "<span weight=\"bold\">Base</span>"
-
-#~ msgid "Classi_fication:"
-#~ msgstr "Classi_ficazione:"
-
-#~ msgid "_Group"
-#~ msgstr "_Gruppo"
-
-#~ msgid "T_erminal Font:"
-#~ msgstr "Carattere del t_erminale:"
-
-#~ msgid "dialog1"
-#~ msgstr "dialogo1"
-
-#~ msgid "Id"
-#~ msgstr "ID"
-
-#~ msgid "Path"
-#~ msgstr "Percorso"
-
-# Novell Translation
-#~ msgid "Evolution Settings"
-#~ msgstr "Impostazioni di Evolution"
-
-#~ msgid "_Select All"
-#~ msgstr "_Seleziona tutto"
-
-#~ msgid "Show Time _Zone"
-#~ msgstr "Mostra _fuso orario"
-
-#~ msgid "_About Evolution..."
-#~ msgstr "I_nformazioni su Evolution..."
