@@ -94,7 +94,7 @@ get_selector(struct _EMsgComposer *composer, const char *title, guint32 flags)
 		gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (selection), path);
 	
         if (flags & SELECTOR_SHOW_INLINE) {
-		showinline = gtk_check_button_new_with_label (_("Suggest automatic display of attachment"));
+		showinline = gtk_check_button_new_with_mnemonic (_("_Suggest automatic display of attachment"));
 		gtk_widget_show (showinline);
 		gtk_file_chooser_set_extra_widget (GTK_FILE_CHOOSER (selection), showinline);
 		g_object_set_data((GObject *)selection, "show-inline", showinline);
@@ -114,7 +114,7 @@ get_selector(struct _EMsgComposer *composer, const char *title, guint32 flags)
 	}
 	
         if (flags & SELECTOR_SHOW_INLINE) {
-		showinline = gtk_check_button_new_with_label (_("Suggest automatic display of attachment"));
+		showinline = gtk_check_button_new_with_mnemonic (_("_Suggest automatic display of attachment"));
 		gtk_widget_show (showinline);
 		gtk_box_pack_end (GTK_BOX (GTK_FILE_SELECTION (selection)->main_vbox), showinline, FALSE, FALSE, 4);
 		g_object_set_data((GObject *)selection, "show-inline", showinline);

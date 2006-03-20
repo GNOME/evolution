@@ -1,3 +1,12 @@
+2006-03-20  Boby Wang <boby.wang@sun.com>
+
+	** Fix for bug #268584
+	
+	* e-msg-composer-attachment.glade:
+	* e-msg-composer-select-file.c: (get_selector):
+	set the accelerate key for "Suggest Suggest automatic display of
+	attachment"
+
 2006-02-16  Rohini S  <srohini@novell.com>
 
 	** Fixes bug #324742
