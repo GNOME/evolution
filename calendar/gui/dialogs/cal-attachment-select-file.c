@@ -93,7 +93,7 @@ run_selector(CompEditor *editor, const char *title, guint32 flags, gboolean *sho
 		gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (selection), path);
 	
         if (showinline_p) {
-		showinline = gtk_check_button_new_with_label (_("Suggest automatic display of attachment"));
+		showinline = gtk_check_button_new_with_mnemonic (_("_Suggest automatic display of attachment"));
 		gtk_widget_show (showinline);
 		gtk_file_chooser_set_extra_widget (GTK_FILE_CHOOSER (selection), showinline);
         }
@@ -112,7 +112,7 @@ run_selector(CompEditor *editor, const char *title, guint32 flags, gboolean *sho
 	}
 	
 	if (showinline_p) {
-		showinline = gtk_check_button_new_with_label (_("Suggest automatic display of attachment"));
+		showinline = gtk_check_button_new_with_mnemonic (_("_Suggest automatic display of attachment"));
 		gtk_widget_show (showinline);
 		gtk_box_pack_end (GTK_BOX (GTK_FILE_SELECTION (selection)->main_vbox), showinline, FALSE, FALSE, 4);
 	}
