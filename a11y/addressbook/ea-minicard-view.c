@@ -141,21 +141,32 @@ ea_minicard_view_get_name (AtkObject *accessible)
 {
 	EReflow *reflow;
 	gchar *string;
-	
+	EMinicardView *card_view;
+	EBook *book = NULL;
+	const gchar *source_name;
+
 	g_return_val_if_fail (EA_IS_MINICARD_VIEW (accessible), NULL);
 
 	reflow = E_REFLOW(atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE (accessible)));
 
 	if (!reflow)
 		return NULL;
-
-	string = g_strdup_printf (ngettext ("current addressbook folder has %d card", 
-				   "current addressbook folder has %d cards", 
-				   reflow->count), reflow->count);
 	
+	/* Get the current name of minicard view*/
+	card_view = E_MINICARD_VIEW (reflow);
+	g_object_get (card_view->adapter, "book", &book, NULL);
+	g_assert (E_IS_BOOK (book));
+	source_name = e_source_peek_name (e_book_get_source (book));
+	if (!source_name)
+		source_name="";
+
+	string = g_strdup_printf (ngettext ("current address book folder %s has %d card",
+	                          "current address book folder %s has %d cards",
+	                          reflow->count), source_name, reflow->count);
 
 	ATK_OBJECT_CLASS (parent_class)->set_name (accessible, string);
 	g_free (string);
+	g_object_unref(book);
 	return accessible->name;
 }
 

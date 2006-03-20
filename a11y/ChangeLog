@@ -1,3 +1,9 @@
+2006-03-20  Boby Wang <boby.wang@sun.com>
+	Fix for #319308
+
+	* addressbook/ea-minicard-view.c: (ea_minicard_view_get_name):
+	add the folder name to the name of current minicard view
+
 2006-03-06  Harry Lu <harry.lu@sun.com>
 
 	Fix for 331550.
