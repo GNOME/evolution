@@ -500,6 +500,7 @@ emfv_setup_view_instance(EMFolderView *emfv)
 	gboolean outgoing;
 	char *id;
 	static GalViewCollection *collection = NULL;
+	CamelFolderInfo *fi = NULL;
 
 	g_assert(emfv->folder);
 	g_assert(emfv->folder_uri);
@@ -558,8 +559,12 @@ emfv_setup_view_instance(EMFolderView *emfv)
 	id = mail_config_folder_to_safe_url (emfv->folder);
 	p->view_instance = gal_view_instance_new (collection, id);
 	g_free (id);
-	
-	if (outgoing)
+
+	fi = camel_store_get_folder_info (emfv->folder->parent_store,
+					  emfv->folder->full_name,
+					  CAMEL_STORE_FOLDER_INFO_FAST,
+					  NULL);	
+	if (outgoing || (fi && (fi->flags & CAMEL_FOLDER_TYPE_SENT)))
 		gal_view_instance_set_default_view(p->view_instance, "As_Sent_Folder");
 	
 	gal_view_instance_load(p->view_instance);

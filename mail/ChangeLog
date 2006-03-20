@@ -1,3 +1,8 @@
+2006-03-20  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* em-folder-view.c: (emfv_setup_view_instance): Added code to set the
+	mail view column for sent folder. 
+
 2006-03-12  Frank Arnold  <farnold@cvs.gnome.org>
 
 	* default/de/Inbox: Updated German translation of default inbox.
