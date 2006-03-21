@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-02-16 06:14+0100\n"
-"PO-Revision-Date: 2006-03-18 16:01+0200\n"
+"PO-Revision-Date: 2006-03-21 14:01+0200\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -265,19 +265,19 @@ msgstr ""
 
 #: ../a11y/e-table/gal-a11y-e-cell-tree.c:171
 msgid "expand"
-msgstr ""
+msgstr "ava"
 
 #: ../a11y/e-table/gal-a11y-e-cell-tree.c:172
 msgid "expands the row in the ETree containing this cell"
-msgstr ""
+msgstr "ETree rea, mid seda välja sisaldab, avamine"
 
 #: ../a11y/e-table/gal-a11y-e-cell-tree.c:177
 msgid "collapse"
-msgstr ""
+msgstr "ahenda"
 
 #: ../a11y/e-table/gal-a11y-e-cell-tree.c:178
 msgid "collapses the row in the ETree containing this cell"
-msgstr ""
+msgstr "ETree rea, mid seda välja sisaldab, ahendamine"
 
 #: ../a11y/e-table/gal-a11y-e-cell.c:107
 msgid "Table Cell"
@@ -4513,7 +4513,7 @@ msgstr "_Edasilükkamise aeg:"
 #: ../ui/evolution-subscribe.xml.h:10 ../ui/evolution-tasks.xml.h:25
 #: ../ui/evolution.xml.h:40
 msgid "_Edit"
-msgstr "_Redigeerimine"
+msgstr "_Redaktor"
 
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:5
 msgid "_Snooze"
@@ -5455,9 +5455,9 @@ msgid ""
 "Hours\n"
 "Days"
 msgstr ""
-"Minutid\n"
-"Tunnid\n"
-"Päevad"
+"minutit\n"
+"tundi\n"
+"päeva"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:23
 #: ../calendar/gui/dialogs/recurrence-page.c:1080
@@ -5579,7 +5579,7 @@ msgstr "K_irjete kustutamisel küsitakse nõusolekut"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:52
 msgid "_Compress weekends in month view"
-msgstr "_Nädalalõpud kuvatakse kokkusurutud vormis"
+msgstr "_Nädalalõppe kuvatakse kokkusurutud vormis"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:53
 msgid "_Day begins:"
@@ -5591,7 +5591,7 @@ msgstr "_R"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:55
 msgid "_Hide completed tasks after"
-msgstr "_Peida lõpetatud ülesanded pärast"
+msgstr "Lõpetatud ülesanded _peidetakse pärast"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:56
 msgid "_Mon"
@@ -5607,7 +5607,7 @@ msgstr "_L"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:59
 msgid "_Show appointment end times in week and month view"
-msgstr "_Sündmuste lõpuaegade näitamine nädala ja kuu vaadetel"
+msgstr "Nädala ja kuu vaadetel näidatakse _sündmuste lõpuaegu"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:60
 msgid "_Time divisions:"
@@ -10699,7 +10699,7 @@ msgstr "Vastused ja eelnenud"
 
 #: ../filter/filter-rule.c:889
 msgid "No reply or parent"
-msgstr ""
+msgstr "Ilma vastuse või eelnevata"
 
 #: ../filter/filter-rule.c:891
 msgid "Include threads"
@@ -11159,7 +11159,7 @@ msgstr "ei ole tähistatud"
 #: ../mail/em-filter-i18n.h:35 ../mail/mail-config.glade.h:94
 #: ../ui/evolution-mail-message.xml.h:48
 msgid "Junk"
-msgstr "Rämpspost"
+msgstr "Rämps"
 
 #: ../mail/em-filter-i18n.h:36
 msgid "Junk Test"
@@ -11423,7 +11423,7 @@ msgstr "_Tõsta..."
 #. FIXME: need to disable for nochildren folders
 #: ../mail/em-folder-tree.c:2052
 msgid "_New Folder..."
-msgstr "_Uus kataloog..."
+msgstr "_Uus kaust..."
 
 #: ../mail/em-folder-tree.c:2055 ../ui/evolution-mail-list.xml.h:34
 msgid "_Rename..."
@@ -11713,7 +11713,7 @@ msgstr ""
 
 #: ../mail/em-format-html-display.c:869 ../smime/gui/smime-ui.glade.h:48
 msgid "_View Certificate"
-msgstr "_Sertifikaadi kuvamine"
+msgstr "_Vaata sertifikaati"
 
 #: ../mail/em-format-html-display.c:884
 msgid "This certificate is not viewable"
@@ -12822,7 +12822,7 @@ msgstr "<span weight=\"bold\">Sõnumite koostamine</span>"
 
 #: ../mail/mail-config.glade.h:13
 msgid "<span weight=\"bold\">Configuration</span>"
-msgstr "<span weight=\"bold\">Seadistused</span>"
+msgstr "<span weight=\"bold\">Sätted</span>"
 
 #: ../mail/mail-config.glade.h:14
 msgid "<span weight=\"bold\">Default Behavior</span>"
@@ -12939,7 +12939,7 @@ msgstr "Krüptitud sõnumi saatmisel krüptida alati ka _enda jaoks"
 
 #: ../mail/mail-config.glade.h:44
 msgid "Attach original message"
-msgstr "Algupärase sõnumi manustamine"
+msgstr "Algupärane sõnum manustatakse"
 
 #: ../mail/mail-config.glade.h:46
 msgid "Automatically insert _smiley images"
@@ -13180,7 +13180,7 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:114
 msgid "Quote original message"
-msgstr "Algupärase sõnumi tsiteerimine"
+msgstr "Tsiteeritakse algupärast sõnumit"
 
 #: ../mail/mail-config.glade.h:115
 msgid "Quoted"
@@ -13188,7 +13188,7 @@ msgstr "Tsitaadina"
 
 #: ../mail/mail-config.glade.h:116
 msgid "Re_member password"
-msgstr "_Parooli meeldejätmine"
+msgstr "_Parool jäetakse meelde"
 
 #: ../mail/mail-config.glade.h:117
 msgid "Re_ply-To:"
@@ -13248,7 +13248,7 @@ msgstr "Server vajab _autentimist"
 
 #: ../mail/mail-config.glade.h:134
 msgid "Server _Type: "
-msgstr "_Serveri tüüp:"
+msgstr "Serveri l_iik:"
 
 #: ../mail/mail-config.glade.h:135
 msgid "Sig_ning certificate:"
@@ -13276,7 +13276,7 @@ msgstr "Õigekirja kontrollimine"
 
 #: ../mail/mail-config.glade.h:141
 msgid "T_ype: "
-msgstr "_Tüüp:"
+msgstr "Lii_k:"
 
 #: ../mail/mail-config.glade.h:142
 msgid ""
@@ -13300,7 +13300,7 @@ msgid ""
 "Type the name by which you would like to refer to this account.\n"
 "For example: \"Work\" or \"Personal\""
 msgstr ""
-"Sisesta nimi, millega sa soovid seda kontot kutsuda.\n"
+"Sisesta nimi, millega sa soovid sellele kontole viidata.\n"
 "Näiteks: \"Isiklik\" või \"Tööasjad\""
 
 #: ../mail/mail-config.glade.h:149 ../plugins/caldav/caldav-source.c:282
@@ -13339,7 +13339,7 @@ msgstr "Koosolekupäringuid ei _signeerita (Outlookiga ühilduvuse tarbeks)"
 
 #: ../mail/mail-config.glade.h:160
 msgid "_Forward style:"
-msgstr "_Edastamise stiil:"
+msgstr "_Edastamise laad:"
 
 #: ../mail/mail-config.glade.h:161
 msgid "_Load images in mail from contacts"
@@ -13368,7 +13368,7 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:168
 msgid "_Prompt when sending messages with an empty subject line"
-msgstr "Täpsustus, kui püütakse saata sõnumit ilma _teemata"
+msgstr "Täpsustus, kui püütakse saata ilma _teemata sõnumit"
 
 #: ../mail/mail-config.glade.h:169
 msgid "_Reply style:"
@@ -17781,19 +17781,20 @@ msgstr "Usalda selle sertifikaadi autentsust"
 
 #: ../smime/gui/smime-ui.glade.h:39
 msgid "Trust this CA to identify email users."
-msgstr "Usalda seda sertifitseerimiskeskust e-post kasutajate tuvastamisel"
+msgstr "Seda sertifitseerimiskeskust usaldatakse e-post kasutajate tuvastamisel"
 
 #: ../smime/gui/smime-ui.glade.h:40
 msgid "Trust this CA to identify software developers."
-msgstr "Usalda seda sertifitseerimiskeskust tarkvaraarendajate tuvastamisel"
+msgstr ""
+"Seda sertifitseerimiskeskust usaldatakse tarkvaraarendajate tuvastamisel"
 
 #: ../smime/gui/smime-ui.glade.h:41
 msgid "Trust this CA to identify web sites."
-msgstr "Usalda seda sertifitseerimiskeskust veebisaitide tuvastamisel"
+msgstr "Seda sertifitseerimiskeskust usaldatakse veebisaitide tuvastamisel"
 
 #: ../smime/gui/smime-ui.glade.h:42
 msgid "View"
-msgstr "Vaade"
+msgstr "Vaata"
 
 #: ../smime/gui/smime-ui.glade.h:43
 msgid "You have certificates from these organizations that identify you:"
@@ -18659,11 +18660,11 @@ msgstr "Kausta omaduste muutmine"
 
 #: ../ui/evolution-mail-list.xml.h:3
 msgid "Collapse All _Threads"
-msgstr ""
+msgstr "A_henda kõik _lõimed"
 
 #: ../ui/evolution-mail-list.xml.h:4
 msgid "Collapse all message threads"
-msgstr ""
+msgstr "Kõigi sõnumilõimede ahendamine"
 
 #: ../ui/evolution-mail-list.xml.h:5
 msgid "Copy selected message(s) to the clipboard"
@@ -18925,7 +18926,7 @@ msgstr "_Jälgi..."
 
 #: ../ui/evolution-mail-message.xml.h:41
 msgid "Force images in HTML mail to be loaded"
-msgstr "Laeb HTML-vormingus sõnumi pildid"
+msgstr "HTML-vormingus sõnumi piltide laadimine"
 
 #: ../ui/evolution-mail-message.xml.h:43
 msgid "Forward the selected message in the body of a new message"
@@ -18997,7 +18998,7 @@ msgstr "Järgmine _lugemata sõnum"
 
 #: ../ui/evolution-mail-message.xml.h:62
 msgid "Not Junk"
-msgstr "Ei ole rämps"
+msgstr "Pole rämps"
 
 #: ../ui/evolution-mail-message.xml.h:63
 msgid "Open a window for composing a mail message"
