@@ -1,3 +1,11 @@
+2006-03-21  Simon Zheng  <simon.zheng@sun.com>
+
+	Fixed bug #326571
+	* em-utils.c (em_filename_make_safe), (emu_get_save_filesel),
+	(emu_save_parts_response):
+	Add em_filename_make_safe(), and use it to allow filenames
+	contain more valid characters when saving attachments.
+
 2006-03-20  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* em-folder-view.c: (emfv_setup_view_instance): Added code to set the
