@@ -1208,12 +1208,13 @@ em_utils_selection_set_urilist(GtkSelectionData *data, CamelFolder *folder, GPtr
 	g_free(file);
 	
 	fd = g_open(tmpfile, O_WRONLY | O_CREAT | O_EXCL | O_BINARY, 0666);
-	g_free(tmpfile);
 	if (fd == -1) {
+		g_free(tmpfile);
 		return;
 	}
 
 	uri = g_filename_to_uri(tmpfile, NULL, NULL);
+	g_free(tmpfile);
 	fstream = camel_stream_fs_new_with_fd(fd);
 	if (fstream) {
 		if (em_utils_write_messages_to_stream(folder, uids, fstream) == 0) {
