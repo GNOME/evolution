@@ -1359,7 +1359,12 @@ e_cal_view_objects_added_cb (ECalView *query, GList *objects, gpointer user_data
 		ECalComponent *comp = e_cal_component_new ();
 		ECal *client = e_cal_view_get_client (query);
 
-		e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (l->data));
+		/* This will fail for alarm or VCalendar component */
+		if (!e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (l->data))) {
+			g_object_unref (comp);
+			continue;
+		}
+
 		id = e_cal_component_get_id (comp);
 
 		/* remove the components if they are already present and re-add them */
