@@ -1,3 +1,8 @@
+2006-02-26  Rakesh k.g <rakeysh_kg@yahoo.com>
+
+	* evolution-editor.xml: Insert menu changed its mnemonic.
+	Fixes bug #331975.
+
 2006-02-13  Karsten Bräckelmann  <guenther@rudersport.de>
 
 	* evolution-calendar.xml: Add mnemonics. Fixes bug #330936.

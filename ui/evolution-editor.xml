@@ -37,7 +37,7 @@
     <submenu name="View" _label="_View">
     </submenu>
 
-    <submenu name="Insert" _label="_Insert">
+    <submenu name="Insert" _label="I_nsert">
       <placeholder name="Attachments">
 	      <menuitem name="InsertAttachments" verb="" _label="_Attachment..." pixtype="pixbuf"/>
       </placeholder>
