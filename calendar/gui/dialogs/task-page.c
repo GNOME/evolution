@@ -97,8 +97,6 @@ struct _TaskPagePrivate {
 	GtkWidget *categories;
 
 	GtkWidget *source_selector;
-	GtkWidget *sendoptions_frame;
-	GtkWidget *sendoptions_button;
 
 	/* Meeting related items */
 	GtkWidget *list_box;
@@ -191,8 +189,6 @@ task_page_init (TaskPage *tpage)
 	priv->classification = E_CAL_COMPONENT_CLASS_NONE;
 	priv->categories_btn = NULL;
 	priv->categories = NULL;
-	priv->sendoptions_frame = NULL;
-	priv->sendoptions_button = NULL;
 	priv->sendoptions_shown = FALSE;
 	priv->sod = NULL;
 
@@ -401,7 +397,6 @@ sensitize_widgets (TaskPage *tpage)
 	gtk_widget_set_sensitive (priv->timezone, !read_only);
 	gtk_widget_set_sensitive (priv->description, !read_only);
 	gtk_widget_set_sensitive (priv->categories_btn, !read_only);
-	gtk_widget_set_sensitive (priv->sendoptions_button, !read_only);
 	gtk_entry_set_editable (GTK_ENTRY (priv->categories), !read_only);
 
 	gtk_widget_set_sensitive (priv->organizer, !read_only);

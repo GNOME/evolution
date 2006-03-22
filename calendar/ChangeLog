@@ -1,4 +1,10 @@
-2006-03-07  Harry Lu  <harry.lu@sun.com>
+2006-03-22  Harry Lu  <harry.lu@sun.com>
+
+	Fix for 333697
+	* gui/dialogs/task-page.c: (task_page_init), (sensitize_widgets):
+	remove two useless widgets: sendoptions_frame and sendoptions_button.
+
+2006-03-22  Harry Lu  <harry.lu@sun.com>
 
 	Fix for 333706
 
