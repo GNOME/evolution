@@ -1,3 +1,8 @@
+2006-03-22  Patrick Ohly  <patrick.ohly@intel.com>
+
+	* em-utils.c (em_utils_selection_set_urilist):
+	Fixed premature memory free. Fixes bug #335203.
+
 2006-03-21  Simon Zheng  <simon.zheng@sun.com>
 
 	Fixed bug #326571
