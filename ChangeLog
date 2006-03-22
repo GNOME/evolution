@@ -1,3 +1,7 @@
+2006-03-22  Tommi Vainikainen  <thv@iki.fi>
+
+	* configure.in (ALL_LINGUAS): Added Dzongkha (dz).
+
 2006-03-22  Tor Lillqvist  <tml@novell.com>
 
 	* evolution-zip.in: The evolution.keys and evolution.mime files
