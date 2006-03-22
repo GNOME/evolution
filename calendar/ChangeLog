@@ -1,3 +1,10 @@
+2006-03-22  Harry Lu  <harry.lu@sun.com>
+
+	Fix for 333706
+
+	* gui/dialogs/alarm-dialog.c: (alarm_to_dalarm_widgets): call
+	set_text only when description.value is not NULL.
+
 2006-03-09  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #334003

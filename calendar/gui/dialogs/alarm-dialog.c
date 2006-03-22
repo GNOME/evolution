@@ -362,7 +362,7 @@ alarm_to_dalarm_widgets (Dialog *dialog, ECalComponentAlarm *alarm )
 
 	e_cal_component_alarm_get_description (alarm, &description);
 
-	if (!description.value) {
+	if (description.value) {
 		e_dialog_toggle_set (dialog->dalarm_message, TRUE);
 		text_buffer = gtk_text_view_get_buffer (dialog->dalarm_description);
 		gtk_text_buffer_set_text (text_buffer, description.value, -1);
