@@ -335,7 +335,7 @@ attendee_edited_cb (GtkCellRenderer *renderer, const gchar *path, GList *address
 				continue;
 			
 			attendee = e_meeting_store_add_attendee_with_defaults (model);
-			e_meeting_attendee_set_address (attendee, g_strdup (l->data));
+			e_meeting_attendee_set_address (attendee, g_strdup_printf ("MAILTO:%s", l->data));
 			e_meeting_attendee_set_cn (attendee, g_strdup (m->data));
 			if (existing_attendee) {
 				/* FIXME Should we copy anything else? */
@@ -375,7 +375,7 @@ attendee_edited_cb (GtkCellRenderer *renderer, const gchar *path, GList *address
 			value_edited (view, E_MEETING_STORE_ADDRESS_COL, path, email);
 			value_edited (view, E_MEETING_STORE_CN_COL, path, name);
 
-			e_meeting_attendee_set_address (attendee, g_strdup (email));
+			e_meeting_attendee_set_address (attendee, g_strdup_printf ("MAILTO:%s", email));
 			e_meeting_attendee_set_cn (attendee, g_strdup (name));
 			e_meeting_attendee_set_role (attendee, ICAL_ROLE_REQPARTICIPANT);
 			e_meeting_list_view_add_attendee_to_name_selector (E_MEETING_LIST_VIEW (view), attendee);

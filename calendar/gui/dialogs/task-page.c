@@ -712,6 +712,7 @@ task_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 					e_meeting_attendee_set_status (priv->ia, ICAL_PARTSTAT_NEEDSACTION);
 				else
 					e_meeting_attendee_set_status (priv->ia, ICAL_PARTSTAT_ACCEPTED);
+				e_meeting_list_view_add_attendee_to_name_selector (E_MEETING_LIST_VIEW (priv->list_view), priv->ia);
 			}
 		}
 	}
