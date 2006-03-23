@@ -1,5 +1,14 @@
 2006-03-22  Chenthill Palanisamy  <pchenthill@novell.com>
 
+	Fixes #329502
+	* gui/e-meeting-list-view.c: (attendee_edited_cb):
+	Include MAILTO: with the email id while adding
+	it to the list view.
+	* gui/dialogs/task-page.c: (task_page_fill_widgets):
+	add the organizer to the name selector dialog.
+	
+2006-03-22  Chenthill Palanisamy  <pchenthill@novell.com>
+
 	Fixes #330842
 	* gui/e-cal-model.c: 
 	(e_cal_view_objects_added_cb): Check if the icalcomp
