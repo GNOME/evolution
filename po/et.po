@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-02-16 06:14+0100\n"
-"PO-Revision-Date: 2006-03-21 14:01+0200\n"
+"PO-Revision-Date: 2006-03-22 23:09+0200\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -835,11 +835,11 @@ msgstr "Automaatlõpetuse pikkus"
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:2
 msgid "EFolderList XML for the list of completion URIs"
-msgstr ""
+msgstr "EFolderList XML automaatlõpetuste URI-de jaoks"
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:3
 msgid "EFolderList XML for the list of completion URIs."
-msgstr ""
+msgstr "EFolderList XML automaatlõpetuste URI-de jaoks."
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:4
 msgid ""
@@ -4900,6 +4900,8 @@ msgid ""
 "The default timezone to use for dates and times in the calendar, as an "
 "untranslated Olsen timezone database location like \"America/New York\"."
 msgstr ""
+"Vaikimisi ajavöönd kalendris märgitud päevadele ja aegadele - tõlkimata "
+"asukohastring Olseni ajavööndite andmebaasist, näiteks \"Europe/Tallinn\"."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:57
 msgid "Time divisions"
@@ -4920,14 +4922,15 @@ msgstr "Kahekümneneljatunnine ajavorming"
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:61
 msgid "Units for a default reminder, \"minutes\", \"hours\" or \"days\"."
 msgstr ""
-"Vaikimisi meeldetuletaja ühikud, \"minutid\", \"tunnid\" või \"päevad\"."
+"Vaikimisi meeldetuletaja ühikud, \"minutes\" (minutid), \"hours\" (tunnid) "
+"või \"days\" (päevad)."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:62
 msgid ""
 "Units for determining when to hide tasks, \"minutes\", \"hours\" or \"days\"."
 msgstr ""
-"Ühikud määramaks, millal ülesandeid peita, \"minutid\", \"tunnid\" või "
-"\"päevad\"."
+"Ühikud määramaks, millal ülesandeid peita, \"minutes\" (minutid), \"hours\" "
+"(tunnid) või \"days\" (päevad)."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:64
 msgid "Week start"
@@ -5006,7 +5009,7 @@ msgstr "Liigivälja näitamine sündmuste/ülesannete/koosolekute redaktoris"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:81
 msgid "Whether to show week numbers in the date navigator."
-msgstr "Kas nädalate numbreid näidatakse kuupäevasirvijas."
+msgstr "Kas kuupäevasirvijas näidatakse nädalate numbreid."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:82
 msgid "Work days"
@@ -10184,7 +10187,7 @@ msgstr ""
 #.
 #: ../composer/e-msg-composer-hdrs.c:658
 msgid "_Post To:"
-msgstr "_Postita kellele:"
+msgstr "_Postita kuhu:"
 
 #: ../composer/e-msg-composer-hdrs.c:663
 msgid "Click here to select folders to post to"
@@ -10192,7 +10195,7 @@ msgstr "Klõpsa siia, et valida kaustad kuhu postitada"
 
 #: ../composer/e-msg-composer-hdrs.c:669
 msgid "Post To:"
-msgstr "Postita kellele:"
+msgstr "Postita kuhu:"
 
 #: ../composer/e-msg-composer-select-file.c:82
 msgid "A_ttach"
@@ -12077,19 +12080,19 @@ msgstr "Otsi sissetuleva posti seest rämpsu"
 
 #: ../mail/evolution-mail.schemas.in.in.h:4
 msgid "Citation highlight color"
-msgstr "Tsiteeringu esiletoomise värv"
+msgstr "Tsitaatide esiletoomise värvus"
 
 #: ../mail/evolution-mail.schemas.in.in.h:5
 msgid "Citation highlight color."
-msgstr "Tsiteeringu esiletoomise värv."
+msgstr "Tsitaatide esiletoomise värvus."
 
 #: ../mail/evolution-mail.schemas.in.in.h:6
 msgid "Composer Window default height"
-msgstr "Sõnumiredaktori akna vaikimisi kõrgus"
+msgstr "Redaktoriakna vaikimisi kõrgus"
 
 #: ../mail/evolution-mail.schemas.in.in.h:7
 msgid "Composer Window default width"
-msgstr "Sõnumiredaktori akna vaikimisi laius"
+msgstr "Redaktoriakna vaikimisi laius"
 
 #: ../mail/evolution-mail.schemas.in.in.h:8
 msgid "Default charset in which to compose messages"
@@ -12146,11 +12149,11 @@ msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.in.h:21
 msgid "Empty Trash folders on exit"
-msgstr "Programmi sulgemisel tühjendatakse prügikaustad"
+msgstr "Prügikaustade tühjendamine programmi sulgemisel"
 
 #: ../mail/evolution-mail.schemas.in.in.h:22
 msgid "Empty all Trash folders when exiting Evolution."
-msgstr "_Väljumisel tühjendatakse kõik prügikaustad."
+msgstr "Evolutionist väljumisel kõigi prügikaustade tühjendamine."
 
 #: ../mail/evolution-mail.schemas.in.in.h:23
 msgid "Enable caret mode, so that you can see a cursor when reading mail."
@@ -12174,8 +12177,8 @@ msgid ""
 "If a user tries to open 10 or more messages at one time, ask the user if "
 "they really want to do it."
 msgstr ""
-"Kui kasutaja üritab avada rohkem kui 10 sõnumit ühel ajal, küsi temalt kas "
-"ta tõesti soovib seda teha."
+"Korraga kümne või enama sõnumi avamise korral kasutaja käest kinnituse "
+"küsimine"
 
 #: ../mail/evolution-mail.schemas.in.in.h:28
 msgid ""
@@ -12183,6 +12186,10 @@ msgid ""
 "any mime-types appearing in this list which map to a bonobo-component viewer "
 "in GNOME's mime-type database may be used for displaying content."
 msgstr ""
+"Kui Evolutionil pole konkreetse mime-tüübi jaoks sisseehitatud vaaturit, "
+"siis iga selles nimekirjas olev mime tüüp seotakse GNOME mime-tüüpide "
+"andmebaasis kirjeldatud bonobo-vaaturkomponendiga ja seda vaaturit "
+"kasutatakse sisu kuvamiseks."
 
 #: ../mail/evolution-mail.schemas.in.in.h:29
 msgid "Last time empty trash was run"
@@ -12240,9 +12247,9 @@ msgid ""
 "load images off the net"
 msgstr ""
 "HTML sõnumite piltide laadimine üle http(s) protokolli. Võimalikud väärtused "
-"on: 0 - Pilte ei laadita mitte kunagi võrgust maha 1 - Pildid laaditakse "
+"on: 0 - Pilte ei laadita mitte kunagi võrgust alla 1 - Pildid laaditakse "
 "ainult kontaktide hulgast tulnud sõnumite puhul 2 - Pildid laaditakse alati "
-"võrgust maha"
+"võrgust alla"
 
 #: ../mail/evolution-mail.schemas.in.in.h:40
 msgid "Log filter actions"
@@ -12262,19 +12269,19 @@ msgstr "Filtrite tegevuse logimise logifail."
 
 #: ../mail/evolution-mail.schemas.in.in.h:44
 msgid "Mark as Seen after specified timeout"
-msgstr "Märgi Nähtud staatusega peale määratud taimauti"
+msgstr "Sõnumi nähtuks märkimine peale määratud ajapiirangu ületamist"
 
 #: ../mail/evolution-mail.schemas.in.in.h:45
 msgid "Mark as Seen after specified timeout."
-msgstr "Märgi Nähtud staatusega peale määratud taimauti."
+msgstr "Sõnumi nähtuks märkimine peale määratud ajapiirangu ületamist."
 
 #: ../mail/evolution-mail.schemas.in.in.h:46
 msgid "Mark citations in the message \"Preview\""
-msgstr ""
+msgstr "Tsitaatide märkimine sõnumi eelvaates"
 
 #: ../mail/evolution-mail.schemas.in.in.h:47
 msgid "Mark citations in the message \"Preview\"."
-msgstr ""
+msgstr "Tsitaatide märkimine sõnumi eelvaates."
 
 #: ../mail/evolution-mail.schemas.in.in.h:48
 msgid "Message Window default height"
@@ -12307,16 +12314,16 @@ msgstr "Uuest sõnumist teatamise tüüp"
 
 #: ../mail/evolution-mail.schemas.in.in.h:55
 msgid "Prompt on empty subject"
-msgstr "Tühja teema korral küsi kinnitust"
+msgstr "Kinnituse küsimine tühja teema korral"
 
 #: ../mail/evolution-mail.schemas.in.in.h:56
 msgid "Prompt the user when he or she tries to expunge a folder."
-msgstr "Viipa kasutajale, kui ta proovib kausta puhastada."
+msgstr "Kausta puhastamisel kasutaja käest kinnituse küsimine."
 
 #: ../mail/evolution-mail.schemas.in.in.h:57
 msgid ""
 "Prompt the user when he or she tries to send a message without a Subject."
-msgstr "Viipa kasutajale, kui ta proovib saata sõnumit ilma Teemata."
+msgstr "Teemata sõnumi saatmisel kasutaja käest kinnituse küsimine."
 
 #: ../mail/evolution-mail.schemas.in.in.h:58
 msgid "Prompt when user expunges"
@@ -12324,20 +12331,21 @@ msgstr "Kinnituse küsimine puhastamise korral"
 
 #: ../mail/evolution-mail.schemas.in.in.h:59
 msgid "Prompt when user only fills Bcc"
-msgstr "Kinnituse küsimine, kui kasutaja määrab ainult pimekoopia"
+msgstr "Ainult pimekoopiaga saatmisel kasutaja käest kinnituse küsimine"
 
 #: ../mail/evolution-mail.schemas.in.in.h:60
 msgid "Prompt when user tries to open 10 or more messages at once"
 msgstr ""
-"Kinnituse küsimine, kui korraga püütakse saata kümmet või enamat sõnumit"
+"Korraga kümne või enama sõnumi saatmise korral kasutaja käest kinnituse "
+"küsimine"
 
 #: ../mail/evolution-mail.schemas.in.in.h:61
 msgid ""
 "Prompt when user tries to send HTML mail to recipients that may not want to "
 "receive HTML mail."
 msgstr ""
-"Täpsustus, kui püütakse saata HTML sõnumit isikule, kes ei soovi HTML sisuga "
-"sõnumeid vastu võtta."
+"Kinnituse küsimine, kui püütakse saata HTML sõnumit isikule, kes ei soovi "
+"HTML sisuga sõnumeid vastu võtta."
 
 #: ../mail/evolution-mail.schemas.in.in.h:62
 msgid "Prompt when user tries to send a message with no To or Cc recipients."
@@ -12351,11 +12359,11 @@ msgstr "Kinnituse küsimine soovimatu HTML saatmise korral"
 
 #: ../mail/evolution-mail.schemas.in.in.h:64
 msgid "Recognize links in text and replace them."
-msgstr ""
+msgstr "Tekstis olevate viitade äratundmine ja asendamine."
 
 #: ../mail/evolution-mail.schemas.in.in.h:65
 msgid "Recognize smileys in text and replace them with images."
-msgstr ""
+msgstr "Tekstis olevate emotikonide äratundmine ja piltidega asendamine."
 
 #: ../mail/evolution-mail.schemas.in.in.h:66
 msgid "Run junk test on incoming mail"
@@ -12363,11 +12371,11 @@ msgstr "Rämpspostikontrollitestide rakendamine sissetulevatele sõnumitele"
 
 #: ../mail/evolution-mail.schemas.in.in.h:67
 msgid "Send HTML mail by default"
-msgstr "Sõnumite vaikimisi saatmine HTML formaadis"
+msgstr "Sõnumite vaikimisi HTML-vormingus saatmine"
 
 #: ../mail/evolution-mail.schemas.in.in.h:68
 msgid "Send HTML mail by default."
-msgstr "Sõnumite vaikimisi saatmine HTML formaadis."
+msgstr "Sõnumite vaikimisi HTML-vormingus saatmine."
 
 #: ../mail/evolution-mail.schemas.in.in.h:69
 msgid "Show Animations"
@@ -12387,11 +12395,11 @@ msgstr "Kustutatud sõnumite näitamine sõnumiteloendis"
 
 #: ../mail/evolution-mail.schemas.in.in.h:75
 msgid "Sound file to play when new mail arrives."
-msgstr "Helifail, mida mängitakse uute sõnumite saabumisel."
+msgstr "Helifail, mida esitatakse uute sõnumite saabumisel."
 
 #: ../mail/evolution-mail.schemas.in.in.h:76
 msgid "Specifies the type of New Mail Notification the user wishes to use."
-msgstr ""
+msgstr "Kasutaja poolt valitud uuest sõnumist teavitamise tüüp."
 
 #: ../mail/evolution-mail.schemas.in.in.h:77
 msgid "Spell check inline"
@@ -12411,7 +12419,7 @@ msgstr "Terminali kirjatüüp"
 
 #: ../mail/evolution-mail.schemas.in.in.h:81
 msgid "The last time empty trash was run, in days since the epoch."
-msgstr ""
+msgstr "Viimane prügikasti tühjendamise aeg päevades alates epohhi algusest."
 
 #: ../mail/evolution-mail.schemas.in.in.h:82
 msgid "The terminal font for mail display"
@@ -12428,18 +12436,22 @@ msgid ""
 "header enabled&gt; - set enabled if the header is to be displayed in the "
 "mail view."
 msgstr ""
+"See võti peaks sisaldama XML-struktuuride nimekirja, mis kirjeldavad "
+"kohandatud päiseid ja nende kuvamise tingimusi. XML-struktuuri vorming on "
+"&lt;header enabled&gt; - kui seda päiserida tuleks kuvada, siis on "
+"\"enabled\" määratud."
 
 #: ../mail/evolution-mail.schemas.in.in.h:85
 msgid "Thread the message list."
-msgstr "Sõnumiloendi lõimedesse paigutamine."
+msgstr "Sõnumiloendi paigutamine lõimedesse."
 
 #: ../mail/evolution-mail.schemas.in.in.h:86
 msgid "Thread the message-list"
-msgstr "Paiguta sõnumiloend lõimedesse"
+msgstr "Sõnumiloendi paigutamine lõimedesse"
 
 #: ../mail/evolution-mail.schemas.in.in.h:87
 msgid "Thread the message-list based on Subject"
-msgstr ""
+msgstr "Sõnumiloendi paigutamine lõimedesse Teema alusel"
 
 #: ../mail/evolution-mail.schemas.in.in.h:88
 msgid "Timeout for marking message as Seen"
@@ -12483,49 +12495,52 @@ msgstr "Muutuva laiusega kirjatüüp"
 
 #: ../mail/evolution-mail.schemas.in.in.h:98
 msgid "View/Bcc menu item is checked"
-msgstr "Vaade/Bcc menüüelement on valitud"
+msgstr "Vaade/Pimekoopia menüükirje on märgitud"
 
 #: ../mail/evolution-mail.schemas.in.in.h:99
 msgid "View/Bcc menu item is checked."
-msgstr "Vaade/Pimekoopia menüüelement on valitud."
+msgstr "Vaade/Pimekoopia menüükirje on märgitud."
 
 #: ../mail/evolution-mail.schemas.in.in.h:100
 msgid "View/Cc menu item is checked"
-msgstr "Vaade/Pimekoopia menüüelement on valitud."
+msgstr "Vaade/Koopia menüükirje on märgitud"
 
 #: ../mail/evolution-mail.schemas.in.in.h:101
 msgid "View/Cc menu item is checked."
-msgstr "Vaade/Koopia menüüelement on valitud."
+msgstr "Vaade/Koopia menüükirje on märgitud."
 
 #: ../mail/evolution-mail.schemas.in.in.h:102
 msgid "View/From menu item is checked"
-msgstr "Vaade/Kellelt menüüelement on valitud"
+msgstr "Vaade/Kellelt menüükirje on märgitud"
 
 #: ../mail/evolution-mail.schemas.in.in.h:103
 msgid "View/From menu item is checked."
-msgstr "Vaade/Kellelt menüüelement on valitud."
+msgstr "Vaade/Kellelt menüükirje on märgitud."
 
 #: ../mail/evolution-mail.schemas.in.in.h:104
 msgid "View/PostTo menu item is checked"
-msgstr ""
+msgstr "Vaade/Postita-kuhu menüükirje on märgitud"
 
 #: ../mail/evolution-mail.schemas.in.in.h:105
 msgid "View/PostTo menu item is checked."
-msgstr ""
+msgstr "Vaade/Postita-kuhu menüükirje on märgitud."
 
 #: ../mail/evolution-mail.schemas.in.in.h:106
 msgid "View/ReplyTo menu item is checked"
-msgstr ""
+msgstr "Vaade/Vasta-kellele menüükirje on märgitud"
 
 #: ../mail/evolution-mail.schemas.in.in.h:107
 msgid "View/ReplyTo menu item is checked."
-msgstr ""
+msgstr "Vaade/Vasta-kellele menüükirje on märgitud."
 
 #: ../mail/evolution-mail.schemas.in.in.h:108
 msgid ""
 "Whether or not to fall back on threading by subjects when the messages do "
 "not contain In-Reply-To or References headers."
 msgstr ""
+"Kas sõnumite lõimedesse paigutamisel kasutatakse varuvariandina teemaridade "
+"järgi paigutamist - seda juhul, kui sõnumite päised ei sisalda In-Reply-To "
+"või References ridu."
 
 #: ../mail/importers/elm-importer.c:192
 msgid "Importing Elm data"
@@ -13092,7 +13107,7 @@ msgstr "Päised"
 
 #: ../mail/mail-config.glade.h:89
 msgid "Highlight _quotations with"
-msgstr "_Tsiteeringuid rõhutatakse"
+msgstr "_Tsitaate rõhutatakse"
 
 #: ../mail/mail-config.glade.h:90
 msgid "I_nclude remote tests"
@@ -13139,7 +13154,7 @@ msgstr "PGP/GPG _võtme ID:"
 
 #: ../mail/mail-config.glade.h:107
 msgid "Play sound file when new mail arri_ves"
-msgstr "_Uue sõnumi saabumisel mängitakse helifaili"
+msgstr "_Uue sõnumi saabumisel esitatakse helifaili"
 
 #: ../mail/mail-config.glade.h:108
 msgid ""
@@ -13175,8 +13190,8 @@ msgstr "Palun vali järgnevate valikute vahel"
 #: ../mail/mail-config.glade.h:113
 msgid "Pr_ompt when sending messages with only Bcc recipients defined"
 msgstr ""
-"_Täpsustus, kui püütakse saata sõnumit, millel on kirjeldatud ainult "
-"pimekoopia adressaadid"
+"Kinni_tuse küsimine ainult pimekoopias olevate adressaatidega varustatud "
+"sõnumi saatmise puhul"
 
 #: ../mail/mail-config.glade.h:114
 msgid "Quote original message"
@@ -13364,11 +13379,11 @@ msgstr "_Rada:"
 #: ../mail/mail-config.glade.h:167
 msgid "_Prompt when sending HTML messages to contacts that do not want them"
 msgstr ""
-"Täpsustus, kui _püütakse saata HTML sõnumit kontakti(de)le, kes seda ei soovi"
+"_Kinnituse küsimine HTML-sõnumi saatmisel kontakti(de)le, kes seda ei soovi"
 
 #: ../mail/mail-config.glade.h:168
 msgid "_Prompt when sending messages with an empty subject line"
-msgstr "Täpsustus, kui püütakse saata ilma _teemata sõnumit"
+msgstr "Kinnituse küsimine ilma _teemata sõnumi saatmise korral"
 
 #: ../mail/mail-config.glade.h:169
 msgid "_Reply style:"
@@ -17000,7 +17015,7 @@ msgstr "Evolutioni testkomponent"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:1
 msgid "A GNOME Print description of the current printer settings"
-msgstr ""
+msgstr "GNOME printimiskirjeldus käesoleva printeri sätetega"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:2
 msgid "Configuration version"
@@ -17030,10 +17045,11 @@ msgstr "Viimati uuendatud seadistuste versioon"
 msgid ""
 "List of paths for the folders to be synchronized to disk for offline usage"
 msgstr ""
+"Autonoomses režiimis kettale sünkroniseeritavate kaustade radade loend"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:9
 msgid "Printer settings"
-msgstr "Printeri sätted..."
+msgstr "Printeri sätted"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:10
 msgid "Sidebar is visible"
@@ -19407,7 +19423,7 @@ msgstr ""
 
 #: ../ui/evolution-message-composer.xml.h:42
 msgid "_Bcc Field"
-msgstr "_Salakoopia (Bcc) väli"
+msgstr "_Pimekoopia (Bcc) väli"
 
 #: ../ui/evolution-message-composer.xml.h:43
 msgid "_Cc Field"
@@ -19427,7 +19443,7 @@ msgstr "_Ava..."
 
 #: ../ui/evolution-message-composer.xml.h:50
 msgid "_Post-To Field"
-msgstr "_Saada-kellele väli"
+msgstr "_Postita-kuhu väli"
 
 #: ../ui/evolution-message-composer.xml.h:51
 msgid "_Prioritize Message"
