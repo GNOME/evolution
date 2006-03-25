@@ -1,3 +1,10 @@
+2006-03-25  Rajeev ramanathan <rajeevramanathan_2004@yahoo.co.in>
+
+	**Fixes #329585
+	*mail-config.glade: Changed Remove button to Delete button
+	*mail.error.xml: Changed current Layout DELETE  [Do not delete]
+	to   [Do not delete]  DELETE
+
 2006-03-22  Patrick Ohly  <patrick.ohly@intel.com>
 
 	* em-utils.c (em_utils_selection_set_urilist):
