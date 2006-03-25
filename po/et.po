@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-02-16 06:14+0100\n"
-"PO-Revision-Date: 2006-03-22 23:09+0200\n"
+"PO-Revision-Date: 2006-03-23 22:17+0200\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -438,6 +438,8 @@ msgid ""
 "This addressbook server might be unreachable or the server name may be "
 "misspelled or your network connection could be down."
 msgstr ""
+"See aadressiraamatu server võib olla kättesaamatu, serveri nimi võib olla "
+"valesti sisestatud või pole võrguühendus hetkel toimiv."
 
 #: ../addressbook/addressbook.error.xml.h:24
 msgid "This server does not support LDAPv3 schema information."
@@ -7445,7 +7447,7 @@ msgstr "Koosoleku tühistamine"
 #: ../calendar/gui/e-itip-control.c:1470
 #, c-format
 msgid "<b>%s</b> has sent an unintelligible message."
-msgstr ""
+msgstr "<b>%s</b> saatis arusaamatu sõnumi."
 
 #: ../calendar/gui/e-itip-control.c:1354
 msgid "Bad Meeting Message"
@@ -12622,6 +12624,10 @@ msgid ""
 "feature, which is not supported in Evolution.\n"
 "These filters will be dropped."
 msgstr ""
+"Mõned sinu Netscape e-posti filtrid kasutavad\n"
+"\"Eira lõime\" või \"Jälgi lõime\" funktsionaalsust,\n"
+"mis pole paraku Evolutioni poolt toetatud. Need\n"
+"filtrid visatakse minema."
 
 #: ../mail/importers/netscape-importer.c:704
 msgid ""
@@ -14906,10 +14912,12 @@ msgid ""
 "The current password does not match the existing password for your account. "
 "Please enter the correct password"
 msgstr ""
+"Käesolev parool ei vasta sinu konto olemasolevale paroolile. Palun sisesta "
+"õige parool"
 
 #: ../plugins/exchange-operations/exchange-change-password.c:122
 msgid "The two passwords do not match. Please re-enter the passwords."
-msgstr ""
+msgstr "Kaks parooli ei ole vastavuses. Palin sisesta paroolid uuesti."
 
 #: ../plugins/exchange-operations/exchange-change-password.glade.h:3
 msgid "Confirm Password:"
@@ -15891,7 +15899,7 @@ msgstr ""
 #: ../plugins/itip-formatter/itip-formatter.c:1202
 #: ../plugins/itip-formatter/itip-formatter.c:1278
 msgid "The item in the calendar is not valid"
-msgstr ""
+msgstr "Kalendris olev kirje on vigane"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1188
 #: ../plugins/itip-formatter/itip-formatter.c:1203
@@ -17035,7 +17043,7 @@ msgstr "Akna vaikimisi laius."
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:6
 msgid "ID or alias of the component to be shown by default at start-up."
-msgstr ""
+msgstr "Käivitamisel vaikimisi näidatava komponendi ID või alias."
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:7
 msgid "Last upgraded configuration version"
@@ -17068,6 +17076,8 @@ msgid ""
 "The configuration version of Evolution, with major/minor/configuration level "
 "(for example \"2.6.0\")."
 msgstr ""
+"Evolutioni viimati uuendatud seadistuste versioon kujul major/minor/"
+"configuration (näiteks \"2.6.0\")."
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:14
 msgid "The default height for the main window, in pixels."
@@ -17086,6 +17096,9 @@ msgid ""
 "The last upgraded configuration version of Evolution, with major/minor/"
 "configuration level (for example \"2.6.0\")."
 msgstr ""
+"Evolutioni viimati uuendatud seadistuste versioon kujul major/minor/"
+"configuration, kus major on peamine versioon, minor alamversioon ja "
+"configuration seadistuste versioon (näiteks \"2.6.0\")."
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:18
 msgid ""
@@ -17093,6 +17106,9 @@ msgid ""
 "\"toolbar\". If \"toolbar\" is set, the style of the buttons is determined "
 "by the GNOME toolbar setting."
 msgstr ""
+"Aknanuppude laad. Võimalikud väärtused on \"text\" tekstinuppude, \"icons\" "
+"ikoonide, \"both\" nii tekstinuppude kui ikoonide jaoks ja \"toolbar\" "
+"juhuks, kui nuppude laad tuletatakse GNOME tööriistariba sätetest."
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:19
 msgid "Toolbar is visible"
