@@ -1,3 +1,9 @@
+2006-03-28  Harry Lu  <harry.lu@sun.com>
+
+	Fix for 333693.
+	* gui/calendar-component.c: (update_task_selection): need to see if
+	source is NULL to avoid a CRITICAL warning.
+
 2006-03-23  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #329502
