@@ -289,7 +289,7 @@ oge_caldav  (EPlugin                    *epl,
 
 	user = gtk_entry_new ();
 	gtk_widget_show (user);
-	gtk_entry_set_text (GTK_ENTRY (user), username);
+	gtk_entry_set_text (GTK_ENTRY (user), username ? username : "");
 	gtk_table_attach (GTK_TABLE (parent), user,
 			  1, 2, row + 2, row + 3,
 			  GTK_EXPAND | GTK_FILL, 0, 0, 0);
