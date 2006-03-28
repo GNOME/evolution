@@ -562,7 +562,7 @@ emfv_setup_view_instance(EMFolderView *emfv)
 
 	fi = camel_store_get_folder_info (emfv->folder->parent_store,
 					  emfv->folder->full_name,
-					  CAMEL_STORE_FOLDER_INFO_FAST,
+					  CAMEL_STORE_FOLDER_INFO_SUBSCRIBED,
 					  NULL);	
 	if (outgoing || (fi && (fi->flags & CAMEL_FOLDER_TYPE_SENT)))
 		gal_view_instance_set_default_view(p->view_instance, "As_Sent_Folder");
