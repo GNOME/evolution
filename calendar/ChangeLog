@@ -1,3 +1,11 @@
+2006-03-28  Jeff Cai  <jeff.cai@sun.com> 
+	
+	Fixes #333877
+	* gui/e-meeting-list-view.c: (row_activated_cb):
+	Use gtk_tree_selection_get_selected_rows instead of 
+	gtk_tree_selection_get_selected to get selected rows from
+	a multi-row selection.
+
 2006-03-28  Harry Lu  <harry.lu@sun.com>
 
 	Fix for 333693.
