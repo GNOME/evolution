@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-02-16 06:14+0100\n"
-"PO-Revision-Date: 2006-03-23 22:17+0200\n"
+"PO-Revision-Date: 2006-03-27 12:07+0300\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -3306,7 +3306,7 @@ msgstr "Õnnestus"
 #. E_BOOK_ERROR_BUSY
 #: ../addressbook/gui/widgets/eab-gui-util.c:52
 msgid "Backend busy"
-msgstr ""
+msgstr "Taustaprogramm on hõivatud"
 
 #. E_BOOK_ERROR_REPOSITORY_OFFLINE
 #: ../addressbook/gui/widgets/eab-gui-util.c:53
@@ -3463,10 +3463,11 @@ msgstr ""
 #: ../addressbook/gui/widgets/eab-gui-util.c:159
 msgid "The backend for this addressbook was unable to parse this query."
 msgstr ""
+"Selle aadressiraamatu taustaprogrammil pole võimalik seda päringut parsida."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:162
 msgid "The backend for this addressbook refused to perform this query."
-msgstr ""
+msgstr "Selle aadressiraamatu taustaprogramm keeldus päringut parsimast."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:165
 msgid "This query did not complete successfully."
