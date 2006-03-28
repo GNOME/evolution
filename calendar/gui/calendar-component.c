@@ -416,7 +416,7 @@ update_task_selection (CalendarComponentView *component_view)
 		ESource *source;
 
 		source = e_source_list_peek_source_by_uid (component_view->task_source_list, uid);
-		if (!gnome_calendar_add_source (component_view->calendar, E_CAL_SOURCE_TYPE_TODO, source))
+		if (source && !gnome_calendar_add_source (component_view->calendar, E_CAL_SOURCE_TYPE_TODO, source))
 			/* FIXME do something */;
 	}
 
