@@ -573,14 +573,16 @@ row_activated_cb (GtkTreeSelection *selection, EMeetingListView *view)
        gint  edit_level;
        GtkTreeModel *model; 
        GtkTreePath *path = NULL;
+       GList *paths=NULL;
 
        priv = view->priv;
                
 
-       if (gtk_tree_selection_get_selected (selection, &model, &iter)) {
-               path = gtk_tree_model_get_path  (model, &iter);
-       }
-       
+       if (!(paths = gtk_tree_selection_get_selected_rows (selection, &model))) 
+               return;
+       if (g_list_length (paths) > 1)
+               return;
+       path = g_list_nth_data (paths, 0);
        if (!path)
 	       return;
        
