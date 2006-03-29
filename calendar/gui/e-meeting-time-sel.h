@@ -126,11 +126,13 @@ struct _EMeetingTimeSelector
 	/* The canvas displaying the dates, times, and the summary
 	   'All Attendees' free/busy display. */
 	GtkWidget *display_top;
+	GnomeCanvasItem *item_top;
 
 	/* The canvas containing the free/busy displays of individual
 	   attendees. This is separate from display_top since it also scrolls
 	   vertically. */
 	GtkWidget *display_main;
+	GnomeCanvasItem *item_main;
 
 	/* The 'Add attendees from addressbook' button */
 	GtkWidget *add_attendees_button;
@@ -258,6 +260,8 @@ struct _EMeetingTimeSelector
 
 	/* The notification function id for Free/Busy refreshes */
 	gboolean fb_refresh_not;
+
+	GdkCursorType last_cursor_set;
 };
 
 

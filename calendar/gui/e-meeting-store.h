@@ -106,6 +106,7 @@ void e_meeting_store_refresh_busy_periods (EMeetingStore *im,
 					   EMeetingStoreRefreshCallback call_back,
 					   gpointer data);
 
+guint e_meeting_store_get_num_queries (EMeetingStore *store);
 
 G_END_DECLS
 

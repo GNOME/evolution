@@ -59,6 +59,7 @@
 
 #include <misc/e-dateedit.h>
 #include <e-util/e-gui-utils.h>
+#include <e-util/e-cursor.h>
 
 #include "calendar-component.h"
 #include "calendar-config.h"
@@ -390,13 +391,13 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingStore *em
 	gtk_widget_show (mts->vscrollbar);
 
 	/* Create the item in the top canvas. */
-	gnome_canvas_item_new (GNOME_CANVAS_GROUP (GNOME_CANVAS (mts->display_top)->root),
+	mts->item_top = gnome_canvas_item_new (GNOME_CANVAS_GROUP (GNOME_CANVAS (mts->display_top)->root),
 			       e_meeting_time_selector_item_get_type (),
 			       "EMeetingTimeSelectorItem::meeting_time_selector", mts,
 			       NULL);
 
 	/* Create the item in the main canvas. */
-	gnome_canvas_item_new (GNOME_CANVAS_GROUP (GNOME_CANVAS (mts->display_main)->root),
+	mts->item_main = gnome_canvas_item_new (GNOME_CANVAS_GROUP (GNOME_CANVAS (mts->display_main)->root),
 			       e_meeting_time_selector_item_get_type (),
 			       "EMeetingTimeSelectorItem::meeting_time_selector", mts,
 			       NULL);
@@ -1202,6 +1203,13 @@ e_meeting_time_selector_refresh_cb (gpointer data)
 {
 	EMeetingTimeSelector *mts = data;
 
+	if (e_meeting_store_get_num_queries (mts->model) == 0) {
+		e_cursor_set ((GtkWidget *)mts, E_CURSOR_NORMAL);
+		mts->last_cursor_set = GDK_LEFT_PTR;
+		e_meeting_time_selector_item_set_normal_cursor (E_MEETING_TIME_SELECTOR_ITEM (mts->item_top));
+		e_meeting_time_selector_item_set_normal_cursor (E_MEETING_TIME_SELECTOR_ITEM (mts->item_main));
+	}
+			
 	if (mts->display_top != NULL)
 		gtk_widget_queue_draw (mts->display_top);
 	if (mts->display_main != NULL)
@@ -1223,6 +1231,11 @@ e_meeting_time_selector_refresh_free_busy (EMeetingTimeSelector *mts, int row, g
 	g_date_add_days (&end.date, E_MEETING_TIME_SELECTOR_FB_DAYS_AFTER);
 	end.hour = 0;
 	end.minute = 0;	
+
+	/*  set the cursor to Busy, We need to reset it to normal once the free busy
+	    queries are complete */
+	e_cursor_set ((GtkWidget *)mts, E_CURSOR_BUSY);
+	mts->last_cursor_set = GDK_WATCH;
 
 	/* Ref ourselves in case we are called back after destruction,
 	 * we can do this because we will get a call back even after

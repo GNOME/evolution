@@ -1,3 +1,25 @@
+2006-03-29  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #160357 [b.n.c]
+	* gui/e-meeting-store.c: 
+	(ems_init): Initialize the num queries.
+	(freebusy_async): maintain the num queries count.
+	(refresh_busy_periods): Set the store to FreeBusy data.
+	* gui/e-meeting-store.[ch]: 
+	(e_meeting_store_get_num_queries): Get the number of freebusy
+	queries currently going on.
+	* gui/e-meeting-time-sel-item.c:
+	(e_meeting_time_selector_item_init): Added a busy cursor.
+	(e_meeting_time_selector_item_destroy):
+	* gui/e-meeting-time-sel-item.h: Added a busy cursor and a function
+	to reset the normal cursor.
+	* gui/e-meeting-time-sel.c: 
+	* gui/e-meeting-time-sel.h:
+	(e_meeting_time_selector_construct): Get the main and top canvas items.
+	(e_meeting_time_selector_refresh_cb): Set the normal cursor checking the number
+	of FreeBusy queries.
+	(e_meeting_time_selector_refresh_free_busy):Set the Busy cursor.
+
 2006-03-28  Jeff Cai  <jeff.cai@sun.com> 
 	
 	Fixes #333877

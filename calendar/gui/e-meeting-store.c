@@ -60,6 +60,7 @@ struct _EMeetingStorePrivate {
 
 	guint callback_idle_id;
 	guint num_threads;
+	guint num_queries;
 	GAsyncQueue *async_queue;
 };
 
@@ -610,6 +611,8 @@ ems_init (EMeetingStore *store)
 	priv->mutex = g_mutex_new ();
 
 	priv->async_queue = g_async_queue_new ();
+
+	priv->num_queries = 0;
 
 	start_addressbook_server (store);
 }
@@ -1177,6 +1180,7 @@ typedef struct {
 	char *email;
 	EMeetingAttendee *attendee;
 	EMeetingStoreQueueData *qdata;
+	EMeetingStore *store;
 } FreeBusyAsyncData;
 
 #define USER_SUB   "%u"
@@ -1189,12 +1193,15 @@ freebusy_async (gpointer data)
 	EMeetingAttendee *attendee = fbd->attendee;
 	gchar *default_fb_uri;
 	static GStaticMutex mutex = G_STATIC_MUTEX_INIT;
+	EMeetingStorePrivate *priv = fbd->store->priv;
 
 	if (fbd->client) {
 		/* FIXME this a work around for getting all th free busy information for the users 
 		 we should be able to get free busy asynchronously */
 		g_static_mutex_lock (&mutex);		
+		priv->num_queries++;
 		e_cal_get_free_busy (fbd->client, fbd->users, fbd->startt, fbd->endt, &(fbd->fb_data), NULL);
+		priv->num_queries--;
 		g_static_mutex_unlock (&mutex);		
 
 		g_list_foreach (fbd->users, (GFunc)g_free, NULL);
@@ -1234,9 +1241,11 @@ freebusy_async (gpointer data)
 		g_free (default_fb_uri);
 		default_fb_uri = replace_string (tmp_fb_uri, DOMAIN_SUB, split_email[1]);
 
+		priv->num_queries++;
 		gnome_vfs_async_open (&handle, default_fb_uri, GNOME_VFS_OPEN_READ, 
 				      GNOME_VFS_PRIORITY_DEFAULT, start_async_read, 
 				      fbd->qdata);
+		priv->num_queries--;
 		
 		g_free (tmp_fb_uri);
 		g_strfreev (split_email);
@@ -1300,6 +1309,7 @@ refresh_busy_periods (gpointer data)
 	fbd->fb_data = NULL;	
 	fbd->qdata = qdata;
 	fbd->fb_uri = priv->fb_uri;
+	fbd->store = store;
 	fbd->email = g_strdup (itip_strip_mailto (e_meeting_attendee_get_address (attendee)));
 
 	/* Check the server for free busy data */	
@@ -1502,4 +1512,12 @@ e_meeting_store_refresh_busy_periods (EMeetingStore *store,
 	g_return_if_fail (E_IS_MEETING_STORE (store));
 
 	refresh_queue_add (store, row, start, end, call_back, data);
+}
+
+guint
+e_meeting_store_get_num_queries (EMeetingStore *store)
+{
+	g_return_if_fail (E_IS_MEETING_STORE (store));
+
+	return store->priv->num_queries;
 }
