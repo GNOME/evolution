@@ -141,6 +141,7 @@ e_meeting_time_selector_item_init (EMeetingTimeSelectorItem *mts_item)
 	/* Create the cursors. */
 	mts_item->normal_cursor = gdk_cursor_new (GDK_LEFT_PTR);
 	mts_item->resize_cursor = gdk_cursor_new (GDK_SB_H_DOUBLE_ARROW);
+	mts_item->busy_cursor = gdk_cursor_new (GDK_WATCH);
 	mts_item->last_cursor_set = NULL;
 
 	item->x1 = 0;
@@ -165,7 +166,11 @@ e_meeting_time_selector_item_destroy (GtkObject *object)
 		gdk_cursor_destroy (mts_item->resize_cursor);
 		mts_item->resize_cursor = NULL;
 	}
-	
+	if (mts_item->busy_cursor) {
+		gdk_cursor_destroy (mts_item->busy_cursor);
+		mts_item->busy_cursor = NULL;
+	}
+
 	if (GTK_OBJECT_CLASS (e_meeting_time_selector_item_parent_class)->destroy)
 		(*GTK_OBJECT_CLASS (e_meeting_time_selector_item_parent_class)->destroy)(object);
 }
@@ -916,10 +921,13 @@ e_meeting_time_selector_item_motion_notify (EMeetingTimeSelectorItem *mts_item,
 								   x, y);
 
 	/* Determine which cursor should be used. */
-	if (position == E_MEETING_TIME_SELECTOR_POS_NONE)
-		cursor = mts_item->normal_cursor;
-	else
+	if (position != E_MEETING_TIME_SELECTOR_POS_NONE)
 		cursor = mts_item->resize_cursor;
+	/* If the Main window shows busy cursor show the same */
+	else if (mts_item->mts->last_cursor_set == GDK_WATCH)
+		cursor = mts_item->busy_cursor;
+	else
+		cursor = mts_item->normal_cursor;
 
 	/* Only set the cursor if it is different to the last one we set. */
 	if (mts_item->last_cursor_set != cursor) {
@@ -987,4 +995,12 @@ e_meeting_time_selector_item_calculate_busy_range (EMeetingTimeSelector *mts,
 	*end_x = e_meeting_time_selector_calculate_time_position (mts, &busy_periods_end) - x;
 
 	return TRUE;
+}
+
+void 
+e_meeting_time_selector_item_set_normal_cursor (EMeetingTimeSelectorItem *mts_item)
+{
+	g_return_if_fail (IS_E_MEETING_TIME_SELECTOR_ITEM (mts_item));
+
+	gdk_window_set_cursor (GTK_WIDGET (GNOME_CANVAS_ITEM (mts_item)->canvas)->window, mts_item->normal_cursor);
 }

@@ -58,9 +58,10 @@ struct _EMeetingTimeSelectorItem
 	GdkGC *main_gc;
 	GdkGC *stipple_gc;
 
-	/* The normal & resize cursors. */
+	/* The normal, resize & busy cursors . */
 	GdkCursor *normal_cursor;
 	GdkCursor *resize_cursor;
+	GdkCursor *busy_cursor;
 
 	/* This remembers the last cursor set on the window. */
 	GdkCursor *last_cursor_set;
@@ -73,6 +74,7 @@ struct _EMeetingTimeSelectorItemClass
 };
 
 GtkType e_meeting_time_selector_item_get_type (void);
+void e_meeting_time_selector_item_set_normal_cursor (EMeetingTimeSelectorItem *mts_item);
 
 
 #endif /* _E_MEETING_TIME_SELECTOR_ITEM_H_ */
