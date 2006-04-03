@@ -859,10 +859,60 @@ e_calendar_view_paste_clipboard (ECalendarView *cal_view)
 }
 
 static void
+add_retract_data (ECalComponent *comp, const char *retract_comment, CalObjModType mod)
+{
+	icalcomponent *icalcomp = NULL;
+	icalproperty *icalprop = NULL;
+
+	icalcomp = e_cal_component_get_icalcomponent (comp);
+	if (retract_comment && *retract_comment)
+		icalprop = icalproperty_new_x (retract_comment);
+	else
+		icalprop = icalproperty_new_x ("0");
+	icalproperty_set_x_name (icalprop, "X-EVOLUTION-RETRACT-COMMENT");
+	icalcomponent_add_property (icalcomp, icalprop);
+
+	if (mod == CALOBJ_MOD_ALL) 
+		icalprop = icalproperty_new_x ("All");
+	else
+		icalprop = icalproperty_new_x ("This");
+	icalproperty_set_x_name (icalprop, "X-EVOLUTION-RECUR-MOD");
+	icalcomponent_add_property (icalcomp, icalprop);
+}
+
+static gboolean 
+check_for_retract (ECalComponent *comp, ECal *client)
+{
+	ECalComponentOrganizer org;
+	char *email = NULL;
+	const char *strip = NULL;
+	gboolean ret_val = FALSE;
+
+	if (!(e_cal_component_has_attendees (comp) && 
+				e_cal_get_save_schedules (client)))
+		return ret_val;
+
+	e_cal_component_get_organizer (comp, &org);
+	strip = itip_strip_mailto (org.value);
+	
+	if (e_cal_get_cal_address (client, &email, NULL) && !g_ascii_strcasecmp (email, strip)) {
+		ret_val = TRUE;
+	}
+
+	if (!ret_val)
+		ret_val = e_account_list_find(itip_addresses_get(), E_ACCOUNT_FIND_ID_ADDRESS, strip) != NULL;
+
+	g_free (email);
+	return ret_val;
+}
+
+static void
 delete_event (ECalendarView *cal_view, ECalendarViewEvent *event)
 {
 	ECalComponent *comp;
 	ECalComponentVType vtype;
+	gboolean  delete = FALSE;
+	GError *error = NULL;
 
 	comp = e_cal_component_new ();
 	e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
@@ -872,9 +922,39 @@ delete_event (ECalendarView *cal_view, ECalendarViewEvent *event)
 	if (!e_cal_get_static_capability (event->comp_data->client, CAL_STATIC_CAPABILITY_RECURRENCES_NO_MASTER))
 		e_cal_component_set_recurid (comp, NULL);
 
-	if (delete_component_dialog (comp, FALSE, 1, vtype, GTK_WIDGET (cal_view))) {
+	if (check_for_retract (comp, event->comp_data->client)) {
+		char *retract_comment = NULL;
+		gboolean retract = FALSE;
+
+		retract = prompt_retract_dialog (comp, &retract_comment, GTK_WIDGET (cal_view));
+		if (retract) {
+			GList *users = NULL;
+			icalcomponent *icalcomp = NULL, *mod_comp = NULL;
+
+			add_retract_data (comp, retract_comment, CALOBJ_MOD_ALL);
+			icalcomp = e_cal_component_get_icalcomponent (comp);
+			icalcomponent_set_method (icalcomp, ICAL_METHOD_CANCEL);
+			if (!e_cal_send_objects (event->comp_data->client, icalcomp, &users, 
+						&mod_comp, &error))	{
+				delete_error_dialog (error, E_CAL_COMPONENT_EVENT);
+				g_clear_error (&error);
+				error = NULL;
+			} else {
+
+				if (mod_comp)
+					icalcomponent_free (mod_comp);
+
+				if (users) {
+					g_list_foreach (users, (GFunc) g_free, NULL);
+					g_list_free (users);
+				}
+			}
+		}
+	} else 
+		delete = delete_component_dialog (comp, FALSE, 1, vtype, GTK_WIDGET (cal_view));
+
+	if (delete) {
 		const char *uid;
-		GError *error = NULL;
 		
 		if (itip_organizer_is_user (comp, event->comp_data->client) 
 		    && cancel_component_dialog ((GtkWindow *) gtk_widget_get_toplevel (GTK_WIDGET (cal_view)),
@@ -888,13 +968,13 @@ delete_event (ECalendarView *cal_view, ECalendarViewEvent *event)
 			g_object_unref (comp);
 			return;
 		}
-
+		
 		if (e_cal_util_component_is_instance (event->comp_data->icalcomp) || e_cal_util_component_has_recurrences (event->comp_data->icalcomp))
 			e_cal_remove_object_with_mod (event->comp_data->client, uid, 
 				e_cal_component_get_recurid_as_string (comp), CALOBJ_MOD_ALL, &error);
 		else
 			e_cal_remove_object (event->comp_data->client, uid, &error);
-		
+
 		delete_error_dialog (error, E_CAL_COMPONENT_EVENT);
 		g_clear_error (&error);
 	}
@@ -944,18 +1024,49 @@ e_calendar_view_delete_selected_occurrence (ECalendarView *cal_view)
 	GList *selected;
 	ECalComponent *comp;
 	ECalendarViewEvent *event;
+	ECalComponentVType vtype;
+	gboolean  delete = FALSE;
+	GError *error = NULL;
 		
 	selected = e_calendar_view_get_selected_events (cal_view);
 	if (!selected)
 		return;
-	
 	event = (ECalendarViewEvent *) selected->data;
 	comp = e_cal_component_new ();
 	e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
+	vtype = e_cal_component_get_vtype (comp);
 
-	if (delete_component_dialog (comp, FALSE, 1, e_cal_component_get_vtype (comp), GTK_WIDGET (cal_view))) {
+	if (check_for_retract (comp, event->comp_data->client)) {
+		char *retract_comment = NULL;
+		gboolean retract = FALSE;
+
+		retract = prompt_retract_dialog (comp, &retract_comment, GTK_WIDGET (cal_view));
+		if (retract) {
+			GList *users = NULL;
+			icalcomponent *icalcomp = NULL, *mod_comp = NULL;
+
+			add_retract_data (comp, retract_comment, CALOBJ_MOD_THIS);
+			icalcomp = e_cal_component_get_icalcomponent (comp);
+			icalcomponent_set_method (icalcomp, ICAL_METHOD_CANCEL);
+			if (!e_cal_send_objects (event->comp_data->client, icalcomp, &users, 
+						&mod_comp, &error))	{
+				delete_error_dialog (error, E_CAL_COMPONENT_EVENT);
+				g_clear_error (&error);
+				error = NULL;
+			} else {
+				if (mod_comp)
+					icalcomponent_free (mod_comp);
+				if (users) {
+					g_list_foreach (users, (GFunc) g_free, NULL);
+					g_list_free (users);
+				}
+			}
+		}
+	} else 
+		delete = delete_component_dialog (comp, FALSE, 1, vtype, GTK_WIDGET (cal_view));
+
+	if (delete) {
 		const char *uid, *rid = NULL;
-		GError *error = NULL;
 		ECalComponentDateTime dt;
 		icaltimezone *zone = NULL;
 		gboolean is_instance = FALSE;
@@ -1011,7 +1122,7 @@ e_calendar_view_delete_selected_occurrence (ECalendarView *cal_view)
 			e_cal_modify_object (event->comp_data->client, event->comp_data->icalcomp, CALOBJ_MOD_THIS,
 				       	&error);
 		}
-
+	
 		delete_error_dialog (error, E_CAL_COMPONENT_EVENT);
 		g_clear_error (&error);
 	}

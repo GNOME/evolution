@@ -1,3 +1,15 @@
+2006-04-03  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #158107
+	* gui/dialogs/delete-comp.c: (delete_component_dialog),
+	(cb_toggled_cb), (prompt_retract_dialog):
+	* gui/dialogs/delete-comp.h:
+	* gui/e-calendar-table.c: (add_retract_data), (check_for_retract),
+	(e_calendar_table_delete_selected):
+	* gui/e-calendar-view.c: (add_retract_data), (check_for_retract),
+	(delete_event), (e_calendar_view_delete_selected_occurrence): Added
+	retract support.
+
 2006-03-29  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #160357 [b.n.c]

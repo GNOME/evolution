@@ -24,6 +24,7 @@
 
 #include <glib.h>
 #include <gtk/gtkstock.h>
+#include <gtk/gtk.h>
 #include <gtk/gtkmessagedialog.h>
 #include <libgnome/gnome-i18n.h>
 #include <e-util/e-icon-factory.h>
@@ -154,4 +155,94 @@ delete_component_dialog (ECalComponent *comp,
 	g_free (arg0);
 	
 	return response == GTK_RESPONSE_YES;
+}
+
+static void
+cb_toggled_cb (GtkWidget *toggle, gpointer data)
+{
+	gboolean active = FALSE;
+	GtkWidget *entry = (GtkWidget *) data;
+
+	active = GTK_TOGGLE_BUTTON (toggle)->active;
+	gtk_widget_set_sensitive (entry, active);
+}
+
+gboolean 
+prompt_retract_dialog (ECalComponent *comp, char **retract_text, GtkWidget *parent)
+{
+	char *message = NULL;
+	ECalComponentVType type = E_CAL_COMPONENT_NO_TYPE;
+	GtkMessageDialog *dialog = NULL;
+	GtkWidget *cb, *label, *entry, *vbox, *sw, *frame;
+	gboolean ret_val = FALSE;
+	
+	type = e_cal_component_get_vtype (comp);
+
+	switch (type) {
+		case E_CAL_COMPONENT_EVENT:
+			message = g_strdup_printf (_("Are you sure you want to delete this meeting?"));
+			break;
+		case E_CAL_COMPONENT_TODO:
+			message = g_strdup_printf (_("Are you sure you want to delete this task?"));
+			break;
+		case E_CAL_COMPONENT_JOURNAL:
+			message = g_strdup_printf (_("Are you sure you want to delete this journal entry?"));
+			break;
+		default:
+			g_message ("Retract: Unsupported object type \n");
+			return FALSE;
+	}
+
+	dialog = (GtkMessageDialog *) gtk_message_dialog_new_with_markup 
+		((GtkWindow *) gtk_widget_get_toplevel (parent), GTK_DIALOG_MODAL, 
+		 GTK_MESSAGE_QUESTION, GTK_BUTTONS_OK_CANCEL, "<b>%s</b>", message);
+	g_free (message);
+
+	gtk_window_set_resizable (GTK_WINDOW (dialog), TRUE);
+	
+	gtk_box_set_spacing ((GtkBox *) (GTK_DIALOG (dialog)->vbox), 12);
+	vbox = GTK_CONTAINER (GTK_DIALOG (dialog)->vbox);
+
+	cb = gtk_check_button_new_with_mnemonic (_("_Delete this item from all other recipient's mailboxes?"));
+	gtk_container_add (GTK_CONTAINER (vbox), cb);
+
+	label = gtk_label_new_with_mnemonic ("_Retract comment");
+	
+	frame = gtk_frame_new (NULL);
+	gtk_frame_set_label_widget ((GtkFrame *) frame, label);
+	gtk_frame_set_label_align ((GtkFrame *) frame, 0, 0);
+	gtk_container_add (GTK_CONTAINER (vbox), frame);
+	gtk_frame_set_shadow_type ((GtkFrame *)frame, GTK_SHADOW_NONE);
+
+	sw = gtk_scrolled_window_new (NULL, NULL);
+	gtk_scrolled_window_set_policy ((GtkScrolledWindow *)sw, GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+		
+	entry = gtk_text_view_new ();
+	gtk_scrolled_window_add_with_viewport ((GtkScrolledWindow *)sw, entry);
+	gtk_label_set_mnemonic_widget ((GtkLabel *)label, entry);
+	gtk_container_add (GTK_CONTAINER (frame), sw);
+
+	g_signal_connect ((GtkToggleButton *)cb, "toggled", G_CALLBACK (cb_toggled_cb), entry);
+
+	gtk_widget_show_all ((GtkWidget *)dialog);
+
+	ret_val = (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK);
+
+	if (ret_val) {
+		if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (cb))) {
+			GtkTextIter text_iter_start, text_iter_end;
+			GtkTextBuffer *text_buffer;
+
+			text_buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (entry));
+			gtk_text_buffer_get_start_iter (text_buffer, &text_iter_start);
+			gtk_text_buffer_get_end_iter   (text_buffer, &text_iter_end);
+
+			*retract_text = gtk_text_buffer_get_text (text_buffer, &text_iter_start, 
+					&text_iter_end, FALSE);
+		}
+	}
+
+	gtk_widget_destroy ((GtkWidget *) dialog);
+
+	return ret_val;
 }

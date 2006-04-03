@@ -716,6 +716,46 @@ delete_selected_components (ECalendarTable *cal_table)
 
 	g_slist_free (objs);
 }
+static void
+add_retract_data (ECalComponent *comp, const char *retract_comment)
+{
+	icalcomponent *icalcomp = NULL;
+	icalproperty *icalprop = NULL;
+
+	icalcomp = e_cal_component_get_icalcomponent (comp);
+	if (retract_comment && *retract_comment)
+		icalprop = icalproperty_new_x (retract_comment);
+	else
+		icalprop = icalproperty_new_x ("0");
+	icalproperty_set_x_name (icalprop, "X-EVOLUTION-RETRACT-COMMENT");
+	icalcomponent_add_property (icalcomp, icalprop);
+}
+
+static gboolean 
+check_for_retract (ECalComponent *comp, ECal *client)
+{
+	ECalComponentOrganizer org;
+	char *email = NULL;
+	const char *strip = NULL;
+	gboolean ret_val = FALSE;
+
+	if (!(e_cal_component_has_attendees (comp) && 
+				e_cal_get_save_schedules (client)))
+		return ret_val;
+
+	e_cal_component_get_organizer (comp, &org);
+	strip = itip_strip_mailto (org.value);
+	
+	if (e_cal_get_cal_address (client, &email, NULL) && !g_ascii_strcasecmp (email, strip)) {
+		ret_val = TRUE;
+	}
+
+	if (!ret_val)
+		ret_val = e_account_list_find(itip_addresses_get(), E_ACCOUNT_FIND_ID_ADDRESS, strip) != NULL;
+
+	g_free (email);
+	return ret_val;
+}
 
 /**
  * e_calendar_table_delete_selected:
@@ -730,6 +770,8 @@ e_calendar_table_delete_selected (ECalendarTable *cal_table)
 	int n_selected;
 	ECalModelComponent *comp_data;
 	ECalComponent *comp = NULL;
+	gboolean  delete = FALSE;
+	GError *error = NULL;
 
 	g_return_if_fail (cal_table != NULL);
 	g_return_if_fail (E_IS_CALENDAR_TABLE (cal_table));
@@ -752,8 +794,40 @@ e_calendar_table_delete_selected (ECalendarTable *cal_table)
 		e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (comp_data->icalcomp));
 	}
 	
-	if (delete_component_dialog (comp, FALSE, n_selected, E_CAL_COMPONENT_TODO,
-				     GTK_WIDGET (cal_table)))
+	if ((n_selected == 1) && comp && check_for_retract (comp, comp_data->client)) {
+		char *retract_comment = NULL;
+		gboolean retract = FALSE;
+
+		retract = prompt_retract_dialog (comp, &retract_comment, GTK_WIDGET (cal_table));
+		if (retract) {
+			GList *users = NULL;
+			icalcomponent *icalcomp = NULL, *mod_comp = NULL;
+
+			add_retract_data (comp, retract_comment);
+			icalcomp = e_cal_component_get_icalcomponent (comp);
+			icalcomponent_set_method (icalcomp, ICAL_METHOD_CANCEL);
+			if (!e_cal_send_objects (comp_data->client, icalcomp, &users, 
+						&mod_comp, &error))	{
+				delete_error_dialog (error, E_CAL_COMPONENT_TODO);
+				g_clear_error (&error);
+				error = NULL;
+			} else {
+
+				if (mod_comp)
+					icalcomponent_free (mod_comp);
+
+				if (users) {
+					g_list_foreach (users, (GFunc) g_free, NULL);
+					g_list_free (users);
+				}
+			}
+
+		}
+	} else {
+		delete = delete_component_dialog (comp, FALSE, 1, E_CAL_COMPONENT_TODO, GTK_WIDGET (cal_table));
+	}
+
+	if (delete)
 		delete_selected_components (cal_table);
 
 	/* free memory */
