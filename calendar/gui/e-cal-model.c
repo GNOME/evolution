@@ -1373,6 +1373,7 @@ e_cal_view_objects_added_cb (ECalView *query, GList *objects, gpointer user_data
 			int pos;
 
 			pos = get_position_in_array (priv->objects, comp_data);
+			e_table_model_pre_change (E_TABLE_MODEL (model));
 			e_table_model_row_deleted (E_TABLE_MODEL (model), pos);
 
  			if (g_ptr_array_remove (priv->objects, comp_data))
