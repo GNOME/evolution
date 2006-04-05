@@ -2710,7 +2710,8 @@ mail_folder_hide_by_flag (CamelFolder *folder, MessageList *ml, CamelFolderChang
 			camel_folder_change_info_add_uid (newchanges, oldchanges->uid_changed->pdata[i]);
 		else
 			camel_folder_change_info_change_uid (newchanges, oldchanges->uid_changed->pdata[i]);
-		camel_folder_free_message_info (folder, info);
+		if (info)
+			camel_folder_free_message_info (folder, info);
 	}
 
 	if (newchanges->uid_added->len > 0 || newchanges->uid_removed->len > 0) {
