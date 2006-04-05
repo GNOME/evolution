@@ -383,7 +383,7 @@ best_encoding (GByteArray *buf, const char *charset)
 	} while (status == (size_t) -1 && errno == E2BIG);
 	e_iconv_close (cd);
 	
-	if (status == (size_t) -1)
+	if (status == (size_t) -1 || status > 0)
 		return -1;
 	
 	if (count == 0)

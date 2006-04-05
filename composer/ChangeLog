@@ -1,3 +1,11 @@
+2006-04-05  Simon Zheng  <simon.zheng@sun.com>
+
+	** Fixes bug #333213
+	* e-msg-composer.c: (best_encoding): According to POSIX.1 
+	specfication, if iconv() encounting non-identical characters, it 
+	returns the number of non-identical conversation performed. i.e.
+	returning positive value means exception as well as -1.
+
 2006-02-16  Rohini S  <srohini@novell.com>
 
 	** Fixes bug #324742
