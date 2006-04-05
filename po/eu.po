@@ -6194,7 +6194,7 @@ msgstr "Hitzordua baino egun 1 lehenago"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:3
 msgid "15 minutes before appointment"
-msgstr "Hitzordua baino 15 minunut lehenago"
+msgstr "Hitzordua baino 15 minutu lehenago"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:5
 #: ../calendar/gui/dialogs/task-page.glade.h:1
