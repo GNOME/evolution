@@ -1,3 +1,10 @@
+2006-04-05  Simon Zheng  <simon.zheng@sun.com>
+
+	Fixes bug #333704
+	* gui/dialogs/comp-editor-util.c: (comp_editor_strip_categories):
+	Because the passing text is in UTF-8 encoding, it should be traversed
+	by utf-8 char order rather than one by one byte.
+
 2006-04-04  Irene Huang <Irene.Huang@sun.com>
 
        	Fixes bug 335214

@@ -303,12 +303,12 @@ comp_editor_strip_categories (const char *categories)
 	start = end = NULL;
 	new_p = new_categories;
 
-	for (p = categories; *p; p++) {
-		int c;
+	for (p = categories; *p; p = g_utf8_next_char (p)) {
+		gunichar c;
 
-		c = *p;
+		c = g_utf8_get_char (p);
 
-		if (isspace (c))
+		if (g_unichar_isspace (c))
 			continue;
 		else if (c == ',') {
 			int len;
@@ -329,7 +329,7 @@ comp_editor_strip_categories (const char *categories)
 				start = p;
 				end = p;
 			} else
-				end = p;
+				end = g_utf8_next_char(p) - 1;	
 		}
 	}
 
