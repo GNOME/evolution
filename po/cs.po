@@ -10,16 +10,16 @@
 # 
 msgid ""
 msgstr ""
-"Project-Id-Version: evolution 2.5.90\n"
+"Project-Id-Version: evolution VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-03-11 05:34+0100\n"
-"PO-Revision-Date: 2006-03-03 23:14+0100\n"
-"Last-Translator: Petr Tomeš <ptomes@gmail.com>\n"
+"POT-Creation-Date: 2006-03-31 13:26+0200\n"
+"PO-Revision-Date: 2006-04-05 20:54+0200\n"
+"Last-Translator: Lukas Novotny <lukasnov@cvs.gnome.org>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms:  nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"Plural-Forms:  nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;"
 
 #: ../a11y/addressbook/ea-addressbook-view.c:94
 #: ../a11y/addressbook/ea-addressbook-view.c:103
@@ -400,8 +400,7 @@ msgstr "Verze serveru"
 
 #: ../addressbook/addressbook.error.xml.h:16
 msgid "Some features may not work properly with your current server"
-msgstr ""
-"Některé funkce možná nebudou pracovat správně s vaším aktuálním serverem"
+msgstr "Některé funkce možná nebudou pracovat správně s vaším aktuálním serverem"
 
 #: ../addressbook/addressbook.error.xml.h:17
 msgid "The Evolution addressbook has quit unexpectedly."
@@ -794,9 +793,8 @@ msgid "A Folder with this name already exists"
 msgstr "Složka s tímto názvem již existuje"
 
 #: ../addressbook/gui/component/addressbook-view.c:953
-#, fuzzy
 msgid "_New Address Book"
-msgstr "Nový adresář"
+msgstr "_Nový adresář"
 
 #. FIXME: need to disable for undeletable folders
 #: ../addressbook/gui/component/addressbook-view.c:954
@@ -818,9 +816,8 @@ msgstr "Uložit jako Vcard..."
 #: ../addressbook/gui/component/addressbook-view.c:958
 #: ../calendar/gui/calendar-component.c:539
 #: ../calendar/gui/tasks-component.c:444
-#, fuzzy
 msgid "_Properties..."
-msgstr "Vlastnosti..."
+msgstr "_Vlastnosti..."
 
 #: ../addressbook/gui/component/addressbook-view.c:1345
 msgid "Contact Source Selector"
@@ -1007,7 +1004,6 @@ msgid "Search _base:"
 msgstr "Základ _vyhledávání:"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:30
-#, fuzzy
 msgid "Search _filter:"
 msgstr "_Filtr·hledání:"
 
@@ -1021,27 +1017,27 @@ msgid ""
 "search. If this is not modified, by  default search will be performed on "
 "objectclass of the type \"person\"."
 msgstr ""
+"Vyhledávací filtr jsou typy objektů pro vyhledávání. Nejsou-li tyto objekty "
+"upravovány, vyhledávání bude prováděno s pomocí výchozí·typu "
+"objectclass \"person\"."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:33
-#, fuzzy
 msgid ""
 "Selecting this option means that Evolution will only connect to your LDAP "
 "server if your LDAP server supports SSL."
 msgstr ""
 "Po výběru této volby se Evolution k serveru LDAP připojí pouze tehdy, pokud "
-"LDAP server podporuje SSL nebo TLS."
+"LDAP server podporuje SSL."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:34
-#, fuzzy
 msgid ""
 "Selecting this option means that Evolution will only connect to your LDAP "
 "server if your LDAP server supports TLS."
 msgstr ""
 "Po výběru této volby se Evolution k serveru LDAP připojí pouze tehdy, pokud "
-"LDAP server podporuje SSL nebo TLS."
+"LDAP server podporuje TLS."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:35
-#, fuzzy
 msgid ""
 "Selecting this option means that your server does not support either SSL or "
 "TLS. This means that your connection will be insecure, and that you will be "
@@ -1049,7 +1045,7 @@ msgid ""
 msgstr ""
 "Výběr této volby znamená, že váš server nepodporuje SSL ani TLS. To znamená, "
 "že vaše spojení nebude zabezpečené a můžete se stát terčem bezpečnostního "
-"útoku. "
+"útoku."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:36
 msgid "Sub"
@@ -2559,19 +2555,16 @@ msgid "_Edit Full"
 msgstr "_Upravit celé"
 
 #: ../addressbook/gui/contact-editor/e-contact-quick-add.c:337
-#, fuzzy
 msgid "_Full name"
-msgstr "_Celé jméno:"
+msgstr "Celé _jméno"
 
 #: ../addressbook/gui/contact-editor/e-contact-quick-add.c:347
-#, fuzzy
 msgid "E-_mail"
 msgstr "_E-mail"
 
 #: ../addressbook/gui/contact-editor/e-contact-quick-add.c:357
-#, fuzzy
 msgid "_Select Address Book"
-msgstr "Nový adresář"
+msgstr "Vybrat nový adre_sář"
 
 #: ../addressbook/gui/contact-editor/eab-editor.c:322
 #, c-format
@@ -2899,48 +2892,40 @@ msgid "_Open"
 msgstr "_Otevřít"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:959
-#, fuzzy
 msgid "_New Contact..."
-msgstr "Nový kontakt..."
+msgstr "_Nový kontakt..."
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:960
-#, fuzzy
 msgid "New Contact _List..."
-msgstr "Nový seznam kontaktů..."
+msgstr "Nový _seznam kontaktů..."
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:963
 msgid "_Save as VCard..."
 msgstr "_Uložit jako VCard..."
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:964
-#, fuzzy
 msgid "_Forward Contact"
-msgstr "Přeposlat kontakt"
+msgstr "_Přeposlat kontakt"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:965
-#, fuzzy
 msgid "_Forward Contacts"
-msgstr "Přeposlat kontakty"
+msgstr "_Přeposlat kontakty"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:966
-#, fuzzy
 msgid "Send _Message to Contact"
 msgstr "Poslat kontaktu zprávu"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:967
-#, fuzzy
 msgid "Send _Message to List"
 msgstr "Poslat seznamu _zprávu"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:968
-#, fuzzy
 msgid "Send _Message to Contacts"
 msgstr "Poslat kontaktům _zprávu"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:969
-#, fuzzy
 msgid "_Print"
-msgstr "Tisknout"
+msgstr "_Tisknout"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:972
 msgid "Cop_y to Address Book..."
@@ -3553,11 +3538,9 @@ msgid_plural ""
 msgstr[0] ""
 "Otevření %d kontaktu otevře také %d nové okno.\n"
 "Opravdu chcete zobrazit všechny tyto kontakty?"
-msgstr[1] ""
-"Otevření %d kontaktů otevře také %d nová okna.\n"
+msgstr[1] "Otevření %d kontaktů otevře také %d nová okna.\n"
 "Opravdu chcete zobrazit všechny tyto kontakty?"
-msgstr[2] ""
-"Otevření %d kontaktů otevře také %d nových oken.\n"
+msgstr[2] "Otevření %d kontaktů otevře také %d nových oken.\n"
 "Opravdu chcete zobrazit všechny tyto kontakty?"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:321
@@ -3591,9 +3574,8 @@ msgid "card.vcf"
 msgstr "card.vcf"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:457
-#, fuzzy
 msgid "Select Address Book"
-msgstr "Nový adresář"
+msgstr "Vybrat adresář"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:596
 msgid "list"
@@ -3674,34 +3656,28 @@ msgid "Importing..."
 msgstr "Importuji..."
 
 #: ../addressbook/importers/evolution-csv-importer.c:826
-#, fuzzy
 msgid "Outlook CSV or Tab (.csv, .tab)"
-msgstr "Outlook·CSV·nebo·tabelátor·(.csv,·.tab)"
+msgstr "Outlook·CSV·nebo·Tab·(.csv,·.tab)"
 
 #: ../addressbook/importers/evolution-csv-importer.c:827
-#, fuzzy
 msgid "Outlook CSV and Tab Importer"
-msgstr "Importér Evolution z VCard"
+msgstr "Importér Outlook·CSV·a·Tab"
 
 #: ../addressbook/importers/evolution-csv-importer.c:835
-#, fuzzy
 msgid "Mozilla CSV or Tab (.csv, .tab)"
-msgstr "Mozilla·CSV·nebo·tabelátor·(.csv,·.tab)"
+msgstr "Mozilla·CSV·nebo·Tab·(.csv,·.tab)"
 
 #: ../addressbook/importers/evolution-csv-importer.c:836
-#, fuzzy
 msgid "Mozilla CSV and Tab Importer"
-msgstr "Importér Mozilla·CSV·a·Tabelátor"
+msgstr "Importér Mozilla·CSV·a·Tab"
 
 #: ../addressbook/importers/evolution-csv-importer.c:844
-#, fuzzy
 msgid "Evolution CSV or Tab (.csv, .tab)"
-msgstr "Evolution·CSV·nebo·Tabelátor·(.csv,·.tab)"
+msgstr "Evolution·CSV·nebo·Tab·(.csv,·.tab)"
 
 #: ../addressbook/importers/evolution-csv-importer.c:845
-#, fuzzy
 msgid "Evolution CSV and Tab Importer"
-msgstr "Importér Evolution CVS a Tabelátoru"
+msgstr "Importér Evolution CVS a Tab"
 
 #: ../addressbook/importers/evolution-ldif-importer.c:583
 #: ../addressbook/importers/evolution-vcard-importer.c:250
@@ -4159,9 +4135,8 @@ msgid "Delete task list '{0}'?"
 msgstr "Odstranit seznam úkolů '{0}'?"
 
 #: ../calendar/calendar.error.xml.h:27
-#, fuzzy
 msgid "Do _not Send"
-msgstr "Neodesílat"
+msgstr "_Neodesílat"
 
 #: ../calendar/calendar.error.xml.h:28
 msgid "Download in progress. Do you want to save the appointment?"
@@ -4256,13 +4231,12 @@ msgid ""
 "Some attachments are being downloaded. Saving the task would result in the "
 "loss of these attachments."
 msgstr ""
-" Stahuje se několik příloh. Uložení úkolu způsobí, že bude úkol uložen bez "
-"těchto příloh "
+"Stahuje·se·několik·příloh.·Uložení·události·způsobí,·že·bude·událost·"
+"uložena·bez·těchto·příloh"
 
 #: ../calendar/calendar.error.xml.h:43
 msgid "Some features may not work properly with your current server."
-msgstr ""
-"Některé funkce možná nebudou pracovat správně s vaším aktuálním serverem."
+msgstr "Některé funkce možná nebudou pracovat správně s vaším aktuálním serverem."
 
 #: ../calendar/calendar.error.xml.h:44
 msgid "The Evolution calendar has quit unexpectedly."
@@ -4387,9 +4361,8 @@ msgid "_Send"
 msgstr "_Odeslat"
 
 #: ../calendar/calendar.error.xml.h:72
-#, fuzzy
 msgid "_Send Notice"
-msgstr "Poslat oznámení"
+msgstr "Po_slat oznámení"
 
 #: ../calendar/calendar.error.xml.h:73
 msgid "{0}."
@@ -5157,7 +5130,6 @@ msgid "Weather"
 msgstr "Počasí"
 
 #: ../calendar/gui/calendar-component.c:536
-#, fuzzy
 msgid "_New Calendar"
 msgstr "_Nový kalendář"
 
@@ -5859,14 +5831,13 @@ msgstr "Skrýt lištu _příloh"
 
 #: ../calendar/gui/dialogs/comp-editor.c:980
 #: ../calendar/gui/dialogs/comp-editor.c:1444
-#, fuzzy
 msgid "Show Attachment _Bar"
-msgstr "Lišta příloh"
+msgstr "_Zobrazit lištu příloh"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1089
 #: ../calendar/gui/dialogs/event-page.c:1894
 #: ../calendar/gui/dialogs/meeting-page.c:899
-#: ../calendar/gui/dialogs/task-page.c:1202
+#: ../calendar/gui/dialogs/task-page.c:1198
 #: ../composer/e-msg-composer-attachment-bar.c:470
 #: ../composer/e-msg-composer.c:3619
 #: ../plugins/groupwise-features/junk-settings.glade.h:8
@@ -5894,9 +5865,8 @@ msgid "Show Attachments"
 msgstr "Zobrazit přílohy"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1469
-#, fuzzy
 msgid "Press space key to toggle attachment bar"
-msgstr "Tlačítko přílohy: Přepněte lištu příloh stisknutím mezery"
+msgstr "Přepne lištu příloh stisknutím klávesy mezery"
 
 #: ../calendar/gui/dialogs/comp-editor.c:2076
 #: ../calendar/gui/dialogs/comp-editor.c:2119
@@ -5939,8 +5909,8 @@ msgid "No summary"
 msgstr "Není shrnutí"
 
 #: ../calendar/gui/dialogs/comp-editor.c:2654
-#: ../composer/e-msg-composer-attachment-bar.c:307 ../mail/em-utils.c:464
-#: ../mail/em-utils.c:501 ../widgets/misc/e-attachment-bar.c:339
+#: ../composer/e-msg-composer-attachment-bar.c:307 ../mail/em-utils.c:498
+#: ../mail/em-utils.c:535 ../widgets/misc/e-attachment-bar.c:339
 msgid "attachment"
 msgstr "příloha"
 
@@ -6029,9 +5999,8 @@ msgid "Enter Delegate"
 msgstr "Zapsat postoupení"
 
 #: ../calendar/gui/dialogs/event-editor.c:547
-#, fuzzy
 msgid "Appoint_ment"
-msgstr "Událost"
+msgstr "_Událost"
 
 #: ../calendar/gui/dialogs/event-editor.c:551
 #: ../ui/evolution-event-editor.xml.h:14
@@ -6051,19 +6020,17 @@ msgstr "_Kalendář:"
 #: ../calendar/gui/dialogs/event-page.c:878
 #: ../calendar/gui/dialogs/event-page.glade.h:13
 #: ../calendar/gui/dialogs/meeting-page.glade.h:5
-#: ../calendar/gui/dialogs/task-page.c:446
+#: ../calendar/gui/dialogs/task-page.c:441
 msgid "Or_ganizer:"
 msgstr "_Organizátor:"
 
 #: ../calendar/gui/dialogs/event-page.c:916
-#, fuzzy
 msgid "_Delegatees"
-msgstr "Delegáti"
+msgstr "_Delegáti"
 
 #: ../calendar/gui/dialogs/event-page.c:918
-#, fuzzy
 msgid "Atte_ndees"
-msgstr "Účastníci"
+msgstr "Úča_stníci"
 
 #: ../calendar/gui/dialogs/event-page.c:1086
 msgid "Event with no start date"
@@ -6074,7 +6041,7 @@ msgid "Event with no end date"
 msgstr "Událost bez konečného data"
 
 #: ../calendar/gui/dialogs/event-page.c:1257
-#: ../calendar/gui/dialogs/task-page.c:852
+#: ../calendar/gui/dialogs/task-page.c:848
 msgid "Start date is wrong"
 msgstr "Počáteční datum je chybné"
 
@@ -6092,25 +6059,25 @@ msgstr "Konečný čas je chybný"
 
 #: ../calendar/gui/dialogs/event-page.c:1452
 #: ../calendar/gui/dialogs/meeting-page.c:469
-#: ../calendar/gui/dialogs/task-page.c:909
+#: ../calendar/gui/dialogs/task-page.c:905
 msgid "The organizer selected no longer has an account."
 msgstr "Vybraný organizátor už nemá účet."
 
 #: ../calendar/gui/dialogs/event-page.c:1458
 #: ../calendar/gui/dialogs/meeting-page.c:475
-#: ../calendar/gui/dialogs/task-page.c:915
+#: ../calendar/gui/dialogs/task-page.c:911
 msgid "An organizer is required."
 msgstr "Je požadován organizátor."
 
 #: ../calendar/gui/dialogs/event-page.c:1473
 #: ../calendar/gui/dialogs/meeting-page.c:490
-#: ../calendar/gui/dialogs/task-page.c:930
+#: ../calendar/gui/dialogs/task-page.c:926
 msgid "At least one attendee is required."
 msgstr "Je požadován alespoň jeden účastník."
 
 #: ../calendar/gui/dialogs/event-page.c:1895
 #: ../calendar/gui/dialogs/meeting-page.c:900
-#: ../calendar/gui/dialogs/task-page.c:1203
+#: ../calendar/gui/dialogs/task-page.c:1199
 msgid "_Add "
 msgstr "Př_idat "
 
@@ -6237,9 +6204,8 @@ msgid "until"
 msgstr "až do"
 
 #: ../calendar/gui/dialogs/meeting-page.c:307
-#, fuzzy
 msgid "Dele_gatees"
-msgstr "Delegáti"
+msgstr "Dele_gáti"
 
 #: ../calendar/gui/dialogs/meeting-page.c:313
 msgid "From:"
@@ -6304,9 +6270,8 @@ msgid "C_hange Organizer"
 msgstr "_Změnit organizátora"
 
 #: ../calendar/gui/dialogs/meeting-page.glade.h:3
-#, fuzzy
 msgid "Co_ntacts..."
-msgstr "Kontakty..."
+msgstr "Ko_ntakty..."
 
 #: ../calendar/gui/dialogs/meeting-page.glade.h:6
 msgid "Organizer"
@@ -6327,7 +6292,7 @@ msgid "Unable to open memos in '%s'."
 msgstr "Nemohu otevřít poznámky v '%s'."
 
 #: ../calendar/gui/dialogs/memo-page.glade.h:2
-#: ../calendar/gui/dialogs/task-page.c:439
+#: ../calendar/gui/dialogs/task-page.c:434
 #: ../calendar/gui/dialogs/task-page.glade.h:9
 msgid "_Group:"
 msgstr "_Skupina:"
@@ -6657,11 +6622,11 @@ msgstr "_Úkol"
 msgid "Task Details"
 msgstr "Podrobnosti úkolů"
 
-#: ../calendar/gui/dialogs/task-page.c:825
+#: ../calendar/gui/dialogs/task-page.c:821
 msgid "Due date is wrong"
 msgstr "Datum splnění je chybné"
 
-#: ../calendar/gui/dialogs/task-page.c:1653
+#: ../calendar/gui/dialogs/task-page.c:1649
 #, c-format
 msgid "Unable to open tasks in '%s'."
 msgstr "Nemohu otevřít úkoly v '%s'."
@@ -6927,7 +6892,7 @@ msgstr "Ne"
 #: ../calendar/gui/e-meeting-list-view.c:169
 #: ../calendar/gui/e-meeting-list-view.c:183
 #: ../calendar/gui/e-meeting-store.c:125 ../calendar/gui/e-meeting-store.c:160
-#: ../calendar/gui/e-meeting-store.c:223 ../mail/em-utils.c:1274
+#: ../calendar/gui/e-meeting-store.c:223 ../mail/em-utils.c:1309
 #: ../plugins/itip-formatter/itip-formatter.c:240
 #: ../plugins/itip-formatter/itip-formatter.c:1651
 #: ../plugins/plugin-manager/plugin-manager.c:68
@@ -6969,9 +6934,8 @@ msgid "Set as _Background"
 msgstr "Nastavit jako _pozadí"
 
 #: ../calendar/gui/e-cal-popup.c:278
-#, fuzzy
 msgid "_Save Selected"
-msgstr "Uložit vybrané"
+msgstr "_Uložit vybrané"
 
 #: ../calendar/gui/e-cal-popup.c:400 ../mail/em-popup.c:775
 #, c-format
@@ -7183,9 +7147,8 @@ msgid "_Forward as iCalendar..."
 msgstr "_Odeslat jako iCalendar..."
 
 #: ../calendar/gui/e-calendar-view.c:1612
-#, fuzzy
 msgid "_Reply"
-msgstr "Odpovědět"
+msgstr "_Odpovědět"
 
 #: ../calendar/gui/e-calendar-view.c:1613 ../mail/em-folder-view.c:1082
 #: ../mail/em-popup.c:559 ../mail/em-popup.c:570
@@ -7837,9 +7800,8 @@ msgid "No Information"
 msgstr "Žádné informace"
 
 #: ../calendar/gui/e-meeting-time-sel.c:427
-#, fuzzy
 msgid "A_ttendees..."
-msgstr "Účastníci"
+msgstr "Úča_stníci..."
 
 #: ../calendar/gui/e-meeting-time-sel.c:444
 msgid "O_ptions"
@@ -7894,7 +7856,6 @@ msgid "_End time:"
 msgstr "_Konec:"
 
 #: ../calendar/gui/e-memo-table.c:870
-#, fuzzy
 msgid "_Delete Selected Memos"
 msgstr "_Odstranit vybrané poznámky"
 
@@ -7952,7 +7913,6 @@ msgid "Expunging"
 msgstr "Čistím"
 
 #: ../calendar/gui/e-timezone-entry.c:133
-#, fuzzy
 msgid "Select Timezone"
 msgstr "Vybrat časové pásmo"
 
@@ -7968,14 +7928,12 @@ msgid "Updating query"
 msgstr "Aktualizuji dotaz"
 
 #: ../calendar/gui/gnome-cal.c:2234
-#, fuzzy
 msgid "_Custom View"
-msgstr "Vlastní zobrazení"
+msgstr "_Vlastní zobrazení"
 
 #: ../calendar/gui/gnome-cal.c:2235
-#, fuzzy
 msgid "_Save Custom View"
-msgstr "Uložit vlastní zobrazení"
+msgstr "Uložit vla_stní zobrazení"
 
 #: ../calendar/gui/gnome-cal.c:2240
 msgid "_Define Views..."
@@ -8467,9 +8425,8 @@ msgid "Print Item"
 msgstr "Tisknout položku"
 
 #: ../calendar/gui/tasks-component.c:441
-#, fuzzy
 msgid "_New Task List"
-msgstr "Nový seznam úkolů"
+msgstr "_Nový seznam úkolů"
 
 #: ../calendar/gui/tasks-component.c:517
 #, c-format
@@ -10264,9 +10221,8 @@ msgstr ""
 "certifikát"
 
 #: ../composer/e-msg-composer.c:1295 ../composer/e-msg-composer.c:2508
-#, fuzzy
 msgid "Hide _Attachment Bar"
-msgstr "Lišta _příloh"
+msgstr "Skrýt lištu _příloh"
 
 #: ../composer/e-msg-composer.c:1298 ../composer/e-msg-composer.c:2511
 #: ../composer/e-msg-composer.c:3865
@@ -10442,14 +10398,12 @@ msgid "You need to configure an account before you can compose mail."
 msgstr "Než budete moci psát zprávu, musíte nastavit účet."
 
 #: ../composer/mail-composer.error.xml.h:28
-#, fuzzy
 msgid "_Do not Recover"
-msgstr "Neobnovovat"
+msgstr "_Neobnovovat"
 
 #: ../composer/mail-composer.error.xml.h:29
-#, fuzzy
 msgid "_Recover"
-msgstr "Obnovit"
+msgstr "_Obnovit"
 
 #: ../composer/mail-composer.error.xml.h:30
 msgid "_Save Message"
@@ -10457,11 +10411,11 @@ msgstr "_Uložit zprávu"
 
 #: ../data/evolution.desktop.in.in.h:1
 #: ../plugins/default-mailer/org-gnome-default-mailer.error.xml.h:2
-#: ../shell/main.c:514
+#: ../shell/main.c:515
 msgid "Evolution"
 msgstr "Evolution"
 
-#: ../data/evolution.desktop.in.in.h:2 ../shell/e-shell-window-commands.c:544
+#: ../data/evolution.desktop.in.in.h:2 ../shell/e-shell-window-commands.c:575
 msgid "Groupware Suite"
 msgstr "Sada groupware"
 
@@ -10737,7 +10691,6 @@ msgid "Test"
 msgstr "Test"
 
 #: ../filter/filter-rule.c:799
-#, fuzzy
 msgid "_Search name:"
 msgstr "_Najít jméno:"
 
@@ -10772,7 +10725,7 @@ msgstr "Odpovědi a rodiče"
 #: ../filter/filter-rule.c:889
 #, fuzzy
 msgid "No reply or parent"
-msgstr "Neodpovědět nebo rodič"
+msgstr "Neodpovídá nebo rodič"
 
 #: ../filter/filter-rule.c:891
 msgid "Include threads"
@@ -11590,12 +11543,10 @@ msgid "_Mark as Unimportant"
 msgstr "Označit jako ne_důležité"
 
 #: ../mail/em-folder-view.c:1101
-#, fuzzy
 msgid "Mark as _Junk"
-msgstr "Označit jako _nevyžádaná"
+msgstr "Označit jako n_evyžádaná"
 
 #: ../mail/em-folder-view.c:1102
-#, fuzzy
 msgid "Mark as _Not Junk"
 msgstr "Označit že není _nevyžádaná"
 
@@ -11604,14 +11555,12 @@ msgid "Mark for Follo_w Up..."
 msgstr "Označit pro follo_w up..."
 
 #: ../mail/em-folder-view.c:1105
-#, fuzzy
 msgid "_Label"
-msgstr "Štítek"
+msgstr "Š_títek"
 
 #: ../mail/em-folder-view.c:1106
-#, fuzzy
 msgid "_None"
-msgstr "žádný"
+msgstr "Žá_dný"
 
 #: ../mail/em-folder-view.c:1111
 msgid "Fla_g Completed"
@@ -11839,28 +11788,25 @@ msgid "Select folder to save all attachments..."
 msgstr "Zvolte adresář, kam uložit všechny přílohy..."
 
 #: ../mail/em-format-html-display.c:1921
-#, fuzzy
 msgid "_Save Selected..."
-msgstr "Uložit vybrané..."
+msgstr "Uložit _vybrané..."
 
 #. Cant i put in the number of attachments here ?
 #: ../mail/em-format-html-display.c:1988
-#, fuzzy, c-format
+#, c-format
 msgid "%d attachme_nt"
 msgid_plural "%d attachme_nts"
-msgstr[0] "%d příloha"
-msgstr[1] "%d přílohy"
-msgstr[2] "%d příloh"
+msgstr[0] "%d přílo_ha"
+msgstr[1] "%d přílo_hy"
+msgstr[2] "%d přílo_h"
 
 #: ../mail/em-format-html-display.c:1995 ../mail/em-format-html-display.c:2071
-#, fuzzy
 msgid "S_ave"
-msgstr "Uložit"
+msgstr "_Uložit"
 
 #: ../mail/em-format-html-display.c:2006
-#, fuzzy
 msgid "S_ave All"
-msgstr "Uložit vše"
+msgstr "Uložit _vše"
 
 #: ../mail/em-format-html-display.c:2067
 msgid "No Attachment"
@@ -12123,20 +12069,20 @@ msgstr "Příště tuto zprávu nezobrazovat."
 msgid "Message Filters"
 msgstr "Filtry zpráv"
 
-#: ../mail/em-utils.c:462 ../mail/em-utils.c:499
+#: ../mail/em-utils.c:496 ../mail/em-utils.c:533
 msgid "message"
 msgstr "zpráva"
 
-#: ../mail/em-utils.c:634
+#: ../mail/em-utils.c:668
 msgid "Save Message..."
 msgstr "Uložit zprávu..."
 
-#: ../mail/em-utils.c:683
+#: ../mail/em-utils.c:717
 msgid "Add address"
 msgstr "Přidat adresu"
 
 #. Drop filename for messages from a mailbox
-#: ../mail/em-utils.c:1167
+#: ../mail/em-utils.c:1201
 #, c-format
 msgid "Messages from %s"
 msgstr "Zprávy z %s"
@@ -12872,33 +12818,28 @@ msgid "Failed upgrading Mail settings or folders."
 msgstr "Nemohu aktualizovat nastavení nebo složky pošty."
 
 #: ../mail/mail-config.c:85
-#, fuzzy
 msgid "I_mportant"
-msgstr "Důležité"
+msgstr "Dů_ležité"
 
 #. red
 #: ../mail/mail-config.c:86
-#, fuzzy
 msgid "_Work"
-msgstr "Pracovní"
+msgstr "_Pracovní"
 
 #. orange
 #: ../mail/mail-config.c:87
-#, fuzzy
 msgid "_Personal"
-msgstr "Osobní"
+msgstr "_Osobní"
 
 #. forest green
 #: ../mail/mail-config.c:88
-#, fuzzy
 msgid "_To Do"
-msgstr "Udělat"
+msgstr "_Zpracovávané"
 
 #. blue
 #: ../mail/mail-config.c:89
-#, fuzzy
 msgid "_Later"
-msgstr "Později"
+msgstr "Po_zději"
 
 #: ../mail/mail-config.glade.h:1 ../mail/mail-dialogs.glade.h:1
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:1
@@ -12915,9 +12856,8 @@ msgid "<b>SSL is not supported in this build of Evolution</b>"
 msgstr "<b>Toto sestavení evolution nepodporuje SSL</b>"
 
 #: ../mail/mail-config.glade.h:5
-#, fuzzy
 msgid "<b>Sig_natures</b>"
-msgstr "<b>_Podpisy</b>"
+msgstr "<b>Po_dpisy</b>"
 
 #: ../mail/mail-config.glade.h:6
 msgid "<b>_Languages</b>"
@@ -13065,7 +13005,6 @@ msgid "Attach original message"
 msgstr "Přiložit původní zprávu"
 
 #: ../mail/mail-config.glade.h:46
-#, fuzzy
 msgid "Automatically insert _smiley images"
 msgstr "_Automaticky vkládat smajlíky"
 
@@ -13203,7 +13142,6 @@ msgid "Format messages in _HTML"
 msgstr "Psát zprávy ve formátu _HTML"
 
 #: ../mail/mail-config.glade.h:85
-#, fuzzy
 msgid "Full Nam_e:"
 msgstr "_Celé jméno:"
 
@@ -13458,7 +13396,6 @@ msgid "_Do not notify me when new mail arrives"
 msgstr "_Neupozorňovat, když přijde nová pošta"
 
 #: ../mail/mail-config.glade.h:158
-#, fuzzy
 msgid "_Do not sign meeting requests (for Outlook compatibility)"
 msgstr "Nepodepisovat požadavky na _schůzku (pro kompatibilitu s Outlookem)"
 
@@ -13506,9 +13443,8 @@ msgstr "_Skript:"
 
 #. If enabled, show animation; if disabled, only display a static image without any animation
 #: ../mail/mail-config.glade.h:173
-#, fuzzy
 msgid "_Show image animations"
-msgstr "Zobrazovat animace"
+msgstr "_Zobrazovat animace obrázku"
 
 #: ../mail/mail-config.glade.h:174
 msgid "_Use Secure Connection:"
@@ -13539,7 +13475,6 @@ msgid "<span weight=\"bold\">Encryption</span>"
 msgstr "<span weight=\"bold\">Šifrování</span>"
 
 #: ../mail/mail-dialogs.glade.h:5
-#, fuzzy
 msgid "Case _sensitive"
 msgstr "_Rozlišovat velikost písmen"
 
@@ -14248,7 +14183,7 @@ msgstr "Zkontrolujte prosím vaše nastavení účtu a zkuste to znovu."
 #: ../mail/mail.error.xml.h:75
 #, fuzzy
 msgid "Please enable the account or send using another account."
-msgstr "Zkontrolujte prosím vaše nastavení účtu a zkuste to znovu."
+msgstr "Povolte prosím účet nebo pošlete jiný účet pro použití."
 
 #: ../mail/mail.error.xml.h:76
 msgid ""
@@ -14776,7 +14711,6 @@ msgid "CalDAV"
 msgstr "CalDAV"
 
 #: ../plugins/caldav/caldav-source.c:269
-#, fuzzy
 msgid "Use _SSL"
 msgstr "Použít·_SSL"
 
@@ -14789,9 +14723,8 @@ msgid "Provides core functionality for local calendars."
 msgstr "Poskytuje základní funkce místních kalendářů."
 
 #: ../plugins/calendar-http/calendar-http.c:339
-#, fuzzy
 msgid "_Secure connection"
-msgstr "Používat za_bezpečené připojení:"
+msgstr "Za_bezpečené připojení"
 
 #: ../plugins/calendar-http/org-gnome-calendar-http.eplug.xml.h:1
 msgid "HTTP Calendars"
@@ -14895,20 +14828,19 @@ msgstr "Chcete, aby Evolution byl váš implicitní klient pošty?"
 
 #: ../plugins/default-source/default-source.c:82
 #: ../plugins/default-source/default-source.c:109
-#, fuzzy
 msgid "Mark as _default folder"
-msgstr "Označit jako implicitní složku"
+msgstr "Označit jako _implicitní složku"
 
 #: ../plugins/default-source/org-gnome-default-source.eplug.xml.h:1
 msgid "Default Sources"
 msgstr "Implicitní zdroje"
 
 #: ../plugins/default-source/org-gnome-default-source.eplug.xml.h:2
-#, fuzzy
 msgid ""
 "Provides functionallity for marking a calendar or addressbook as the default "
 "one."
-msgstr "Poskytuje základní funkce pro kalendáře počasí."
+msgstr ""
+"Poskytuje funkce pro označení kalendáře nebo adresáře jako implicitní."
 
 #: ../plugins/exchange-operations/e-foreign-folder-dialog.glade.h:1
 msgid "Open Other User's Folder"
@@ -15013,7 +14945,6 @@ msgid "Exchange Settings"
 msgstr "Nastavení Exchange"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:609
-#, fuzzy
 msgid "_OWA URL:"
 msgstr "URL _OWA:"
 
@@ -15233,14 +15164,12 @@ msgid "Your password will expire in 7 days..."
 msgstr "Platnost vašeho hesla vyprší za 7 dní..."
 
 #: ../plugins/exchange-operations/exchange-passwd-expiry.glade.h:3
-#, fuzzy
 msgid "_Change Password"
-msgstr "Změnit heslo"
+msgstr "_Změnit heslo"
 
 #: ../plugins/exchange-operations/exchange-passwd-expiry.glade.h:4
-#, fuzzy
 msgid "ok_button"
-msgstr "Kombinované tlačítko"
+msgstr "ok_tlačítko"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:305
 msgid "(Permission denied.)"
@@ -15334,9 +15263,8 @@ msgstr ""
 "Zásuvný modul, jenž zpracuje kolekci činností a funkcí pro Exchange účet."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.eplug.xml.h:2
-#, fuzzy
 msgid "Exchange Operations"
-msgstr "Nastavení Exchange"
+msgstr "Činnosti pro Exchange"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:1
 msgid "Cannot change password due to configuration problems."
@@ -15748,7 +15676,6 @@ msgid "_Contacts..."
 msgstr "_Kontakty..."
 
 #: ../plugins/groupwise-features/properties.glade.h:12
-#, fuzzy
 msgid "_Customize notification message"
 msgstr "_Upravit zprávu upozornění"
 
@@ -15870,14 +15797,12 @@ msgid "Hula Account Setup"
 msgstr "Nastavení účtu Hula"
 
 #: ../plugins/import-ics-attachments/icsimporter.c:83
-#, fuzzy
 msgid "_Import to Calendar"
-msgstr "Kalendář měsíce"
+msgstr "_Import do kalendáře"
 
 #: ../plugins/import-ics-attachments/icsimporter.c:88
-#, fuzzy
 msgid "_Import to Tasks"
-msgstr "P_řevést na úkol"
+msgstr "_Import do úkolů"
 
 #: ../plugins/import-ics-attachments/icsimporter.c:198
 msgid "Import ICS"
@@ -15888,9 +15813,8 @@ msgid "Select Task List"
 msgstr "Vyberte seznam úkolů"
 
 #: ../plugins/import-ics-attachments/icsimporter.c:230
-#, fuzzy
 msgid "Select Calendar"
-msgstr "Nový kalendář"
+msgstr "Vybrat kalendář"
 
 #: ../plugins/import-ics-attachments/icsimporter.c:261
 #: ../shell/e-shell-importer.c:703
@@ -15915,9 +15839,8 @@ msgid "iPod Synchronization"
 msgstr "iPod synchronizace"
 
 #: ../plugins/ipod-sync/sync.c:158
-#, fuzzy
 msgid "No output directory!"
-msgstr "Obnovit adresář Evolution"
+msgstr "Bez výstupní složky!"
 
 #: ../plugins/ipod-sync/sync.c:159
 msgid ""
@@ -16419,7 +16342,6 @@ msgstr "_Předběžně všechno"
 #: ../plugins/itip-formatter/itip-view.c:719
 #: ../plugins/itip-formatter/itip-view.c:735
 #: ../plugins/itip-formatter/itip-view.c:740
-#, fuzzy
 msgid "_Tentative"
 msgstr "_Předběžné"
 
@@ -16855,7 +16777,7 @@ msgstr "Vytiskne zprávu"
 #: ../plugins/profiler/org-gnome-evolution-profiler.eplug.xml.h:1
 #, fuzzy
 msgid "Evolution Profiler"
-msgstr "Chyba Evolution"
+msgstr "Profilér Evolution"
 
 #: ../plugins/profiler/org-gnome-evolution-profiler.eplug.xml.h:2
 msgid "Writes a log of profiling data events."
@@ -16882,9 +16804,8 @@ msgid "Are you sure you want to remove this URL?"
 msgstr "Opravdu chcete odstranit toto URL?"
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:2
-#, fuzzy
 msgid "<span weight=\"bold\">Location</span>"
-msgstr "<span weight=\"bold\">Možnosti</span>"
+msgstr "<span weight=\"bold\">Umístění</span>"
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:4
 msgid "<span weight=\"bold\">Sources</span>"
@@ -16901,18 +16822,16 @@ msgstr ""
 "Ručně·(přes·nabídku Akce)"
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:10
-#, fuzzy
 msgid "P_ort:"
-msgstr "_Port:"
+msgstr "P_ort:"
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:11
 msgid "Publishing Location"
 msgstr "Umístění zveřejňování"
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:12
-#, fuzzy
 msgid "Publishing _Frequency:"
-msgstr "Frekvence zveřejňování"
+msgstr "_Frekvence zveřejňování:"
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:13
 msgid ""
@@ -16933,19 +16852,16 @@ msgstr ""
 "Vlastní·umístění"
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:20
-#, fuzzy
 msgid "Service _type:"
-msgstr "_Typ serveru: "
+msgstr "_Typ serveru:"
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:22
-#, fuzzy
 msgid "_File:"
 msgstr "_Soubor:"
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:24
-#, fuzzy
 msgid "_Publish as:"
-msgstr "Zveřejnit jako:"
+msgstr "_Zveřejnit jako:"
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:28
 msgid ""
@@ -17090,7 +17006,6 @@ msgid "Saves selected calendar or tasks list to disk."
 msgstr "Uloží vybraný kalendář nebo senzam úkolů na disk."
 
 #: ../plugins/save-calendar/org-gnome-save-calendar.eplug.xml.h:3
-#, fuzzy
 msgid "_Save to Disk"
 msgstr "Uložit na _disk"
 
@@ -17121,12 +17036,10 @@ msgid "Selects a single calendar or task source for viewing."
 msgstr "Zvolte jeden kalendář nebo zdroj úkolů pro zobrazení."
 
 #: ../plugins/select-one-source/org-gnome-select-one-source.eplug.xml.h:3
-#, fuzzy
 msgid "Show _only this Calendar"
 msgstr "_Zobrazovat jen tento kalendář"
 
 #: ../plugins/select-one-source/org-gnome-select-one-source.eplug.xml.h:4
-#, fuzzy
 msgid "Show _only this Task List"
 msgstr "_Zobrazit jen tento seznam úkolů"
 
@@ -17256,7 +17169,7 @@ msgstr "Boční panel je viditelný"
 msgid "Skip development warning dialog"
 msgstr "Přeskakovat dialog varování o vývoji"
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:12 ../shell/main.c:473
+#: ../shell/apps_evolution_shell.schemas.in.in.h:12 ../shell/main.c:474
 msgid "Start in offline mode"
 msgstr "Spustit v režimu off-line"
 
@@ -17445,7 +17358,7 @@ msgstr "Nemohu spustit bug buddy."
 #. The translator-credits string is for translators to list
 #. * per language credits for translation, displayed in the
 #. * about box
-#: ../shell/e-shell-window-commands.c:530
+#: ../shell/e-shell-window-commands.c:561
 msgid "translator-credits"
 msgstr ""
 "Radka Doulíková <doulikova@centrum.cz>\n"
@@ -17453,15 +17366,15 @@ msgstr ""
 "Miloslav Trmač <mitr@volny.cz>\n"
 "Lukáš Novotný <lukasnov@cvs.gnome.org>"
 
-#: ../shell/e-shell-window-commands.c:775
+#: ../shell/e-shell-window-commands.c:806
 msgid "_Work Online"
 msgstr "Pracovat _on-line"
 
-#: ../shell/e-shell-window-commands.c:788 ../ui/evolution.xml.h:54
+#: ../shell/e-shell-window-commands.c:819 ../ui/evolution.xml.h:54
 msgid "_Work Offline"
 msgstr "_Pracovat při odpojení"
 
-#: ../shell/e-shell-window-commands.c:801
+#: ../shell/e-shell-window-commands.c:832
 msgid "Work Offline"
 msgstr "Pracovat při odpojení"
 
@@ -17566,7 +17479,7 @@ msgstr ""
 "externího souboru do Evolution."
 
 #. Preview/Alpha/Beta version warning message
-#: ../shell/main.c:230
+#: ../shell/main.c:231
 #, no-c-format
 msgid ""
 "Hi.  Thanks for taking the time to download this preview release\n"
@@ -17601,7 +17514,7 @@ msgstr ""
 "Doufáme, že si užijete výsledků naší tvrdé práce a nedočkavě čekáme\n"
 "na vaše přispění!\n"
 
-#: ../shell/main.c:254
+#: ../shell/main.c:255
 msgid ""
 "Thanks\n"
 "The Evolution Team\n"
@@ -17609,35 +17522,35 @@ msgstr ""
 "Děkujeme\n"
 "Tým Evolution\n"
 
-#: ../shell/main.c:261
+#: ../shell/main.c:262
 msgid "Do not tell me again"
 msgstr "Příště mě neupozorňovat"
 
-#: ../shell/main.c:471
+#: ../shell/main.c:472
 msgid "Start Evolution activating the specified component"
 msgstr "Spustit Evolution a aktivovat určenou komponentu"
 
-#: ../shell/main.c:475
+#: ../shell/main.c:476
 msgid "Start in online mode"
 msgstr "Spustit v režimu on-line"
 
-#: ../shell/main.c:478
+#: ../shell/main.c:479
 msgid "Forcibly shut down all Evolution components"
 msgstr "Vynuceně ukončit všechny komponenty Evolution"
 
-#: ../shell/main.c:482
+#: ../shell/main.c:483
 msgid "Forcibly re-migrate from Evolution 1.4"
 msgstr "Vynuceně znovu převést z Evolution 1.4"
 
-#: ../shell/main.c:485
+#: ../shell/main.c:486
 msgid "Send the debugging output of all components to a file."
 msgstr "Poslat ladící výstup ze všech komponent do souboru."
 
-#: ../shell/main.c:487
+#: ../shell/main.c:488
 msgid "Disable loading of any plugins."
 msgstr "Zakázat načítání všech zásuvných modulů."
 
-#: ../shell/main.c:518
+#: ../shell/main.c:519
 #, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
@@ -18452,9 +18365,8 @@ msgid "_Copy Contact to..."
 msgstr "_Kopírovat kontakt do..."
 
 #: ../ui/evolution-addressbook.xml.h:48
-#, fuzzy
 msgid "_Copy Folder Contacts To"
-msgstr "_Kopírovat složku do..."
+msgstr "_Kopírovat složku kontaktů do"
 
 #: ../ui/evolution-addressbook.xml.h:50
 msgid "_Delete Contact"
@@ -18469,27 +18381,24 @@ msgid "_Move Contact to..."
 msgstr "Př_esunout kontakt do..."
 
 #: ../ui/evolution-addressbook.xml.h:54
-#, fuzzy
 msgid "_Move Folder Contacts To"
-msgstr "Pře_sunout složku do..."
+msgstr "_Přesunout složku kontaktů do..."
 
 #: ../ui/evolution-addressbook.xml.h:55 ../ui/evolution.xml.h:46
 msgid "_New"
 msgstr "_Nový"
 
 #: ../ui/evolution-addressbook.xml.h:60
-#, fuzzy
 msgid "_Rename"
-msgstr "_Přejmenovat..."
+msgstr "_Přejmenovat"
 
 #: ../ui/evolution-addressbook.xml.h:61
 msgid "_Save Contact as VCard..."
 msgstr "_Uložit jako VCard..."
 
 #: ../ui/evolution-addressbook.xml.h:62
-#, fuzzy
 msgid "_Save Folder Contacts As VCard"
-msgstr "Uložit vybrané kontakty jako VCard."
+msgstr "Uložit _složku kontaktů jako VCard"
 
 #: ../ui/evolution-addressbook.xml.h:63
 msgid "_Send Message to Contact..."
@@ -18500,7 +18409,6 @@ msgid "Day"
 msgstr "den"
 
 #: ../ui/evolution-calendar.xml.h:6
-#, fuzzy
 msgid "Delete _all Occurrences"
 msgstr "Odstranit _všechny výskyty"
 
@@ -18646,9 +18554,8 @@ msgid "Attach"
 msgstr "Příloha"
 
 #: ../ui/evolution-editor.xml.h:2
-#, fuzzy
 msgid "Click here to attach a file"
-msgstr "Kliknutím zde vyberete složku"
+msgstr "Kliknutím zde vyberete soubor pro přílohu"
 
 #: ../ui/evolution-editor.xml.h:3
 msgid "Click here to close the current window"
@@ -18733,9 +18640,8 @@ msgid "Insert advanced send options"
 msgstr "Vložit pokročilé možnosti odesílání"
 
 #: ../ui/evolution-event-editor.xml.h:10
-#, fuzzy
 msgid "Make this a recurring event"
-msgstr "Opakovat tuto událost"
+msgstr "Vytvoří opakující se událost"
 
 #: ../ui/evolution-event-editor.xml.h:11 ../ui/evolution-memo-editor.xml.h:4
 #: ../ui/evolution-task-editor.xml.h:6
@@ -18743,16 +18649,14 @@ msgid "Pu_blic"
 msgstr "Veř_ejné"
 
 #: ../ui/evolution-event-editor.xml.h:12
-#, fuzzy
 msgid "Query free / busy information for the attendees"
-msgstr "Zveřejnit informace o volném/obsazeném čase pro tento kalendář"
+msgstr "Informace o volném/obsazeném čase pro tuto schůzku"
 
 #: ../ui/evolution-event-editor.xml.h:13 ../ui/evolution-task-editor.xml.h:7
 msgid "R_ole Field"
 msgstr "Sloupce Funkce"
 
 #: ../ui/evolution-event-editor.xml.h:16
-#, fuzzy
 msgid "Show time as _busy"
 msgstr "Zobrazovat čas jako _obsazený"
 
@@ -18964,9 +18868,8 @@ msgid ""
 msgstr "Skrýt odstraněné zprávy místo zobrazování přeškrtnutě"
 
 #: ../ui/evolution-mail-list.xml.h:16
-#, fuzzy
 msgid "Mar_k All Messages as Read"
-msgstr "Označit _zprávy jako přečtené"
+msgstr "Označit všechny _zprávy jako přečtené"
 
 #: ../ui/evolution-mail-list.xml.h:17
 msgid "Paste message(s) from the clipboard"
@@ -19051,9 +18954,8 @@ msgid "Apply filter rules to the selected messages"
 msgstr "Použít pravidla filtru na vybrané zprávy"
 
 #: ../ui/evolution-mail-message.xml.h:7
-#, fuzzy
 msgid "Check for _Junk"
-msgstr "Kontrolovat _nevyžádanou poštu"
+msgstr "Kontrolovat nev_yžádanou poštu"
 
 #: ../ui/evolution-mail-message.xml.h:8
 msgid "Compose _New Message"
@@ -19320,9 +19222,8 @@ msgid "Reset the text to its original size"
 msgstr "Obnovit text v jeho původní velikosti"
 
 #: ../ui/evolution-mail-message.xml.h:85
-#, fuzzy
 msgid "Save the selected messages as a text file"
-msgstr "Uložit tuto zprávu jako textový soubor"
+msgstr "Uložit vybrané zprávy jako textový soubor"
 
 #: ../ui/evolution-mail-message.xml.h:86
 msgid "Search Folder from Mailing _List..."
@@ -19361,12 +19262,10 @@ msgid "Show a blinking cursor in the body of displayed messages"
 msgstr "Zobrazovat blikající kurzor v těle zobrazovaných zpráv"
 
 #: ../ui/evolution-mail-message.xml.h:95
-#, fuzzy
 msgid "Show messages in the normal style"
 msgstr "Zobrazovat zprávu v normálním stylu"
 
 #: ../ui/evolution-mail-message.xml.h:96
-#, fuzzy
 msgid "Show messages with all email headers"
 msgstr "Zobrazovat zprávu se všemi hlavičkami e-mailu"
 
@@ -19423,9 +19322,8 @@ msgid "_Inline"
 msgstr "_Vložené"
 
 #: ../ui/evolution-mail-message.xml.h:114
-#, fuzzy
 msgid "_Junk"
-msgstr "_Nevyžádaná pošta"
+msgstr "Ne_vyžádaná pošta"
 
 #: ../ui/evolution-mail-message.xml.h:115
 msgid "_Load Images"
@@ -19556,7 +19454,6 @@ msgstr "_HTML"
 
 #: ../ui/evolution-message-composer.xml.h:11
 #: ../ui/evolution-signature-editor.xml.h:16
-#, fuzzy
 msgid "I_nsert"
 msgstr "_Vložit"
 
@@ -19694,9 +19591,8 @@ msgid "_Post-To Field"
 msgstr "_Poslat-komu"
 
 #: ../ui/evolution-message-composer.xml.h:51
-#, fuzzy
 msgid "_Prioritize Message"
-msgstr "Důležitost zprávy"
+msgstr "_Důležitost zprávy"
 
 #: ../ui/evolution-message-composer.xml.h:52
 msgid "_Reply-To Field"
@@ -19774,14 +19670,12 @@ msgid "Time Zone"
 msgstr "Časové pásmo"
 
 #: ../ui/evolution-task-editor.xml.h:23
-#, fuzzy
 msgid "_Send Options"
-msgstr "Možnosti odesílání"
+msgstr "Možno_sti odesílání"
 
 #: ../ui/evolution-task-editor.xml.h:24
-#, fuzzy
 msgid "_Status Details"
-msgstr "Podrobnosti·o·_stavu"
+msgstr "Podrobno_sti·o·úkolu"
 
 #: ../ui/evolution-tasks.xml.h:3
 msgid "Copy selected tasks"
@@ -19824,7 +19718,6 @@ msgid "Show task preview window"
 msgstr "Zobrazit okno s náhledem úkolu"
 
 #: ../ui/evolution-tasks.xml.h:19
-#, fuzzy
 msgid "Task _Preview"
 msgstr "_Náhled zprávy"
 
@@ -19884,7 +19777,6 @@ msgid "Hide window buttons"
 msgstr "Skrýt tlačítka okna"
 
 #: ../ui/evolution.xml.h:13
-#, fuzzy
 msgid "I_mport..."
 msgstr "_Importovat..."
 
@@ -20327,7 +20219,6 @@ msgid "Korean"
 msgstr "Korejské"
 
 #: ../widgets/misc/e-charset-picker.c:72
-#, fuzzy
 msgid "Thai"
 msgstr "Thajština"
 
@@ -20545,9 +20436,8 @@ msgstr "Šířka sloupce"
 #. To translators: This is the accessibility name of
 #. the search bar's text entry widget
 #: ../widgets/misc/e-search-bar.c:371
-#, fuzzy
 msgid "Search"
-msgstr "_Hledat"
+msgstr "Hledat"
 
 #: ../widgets/misc/e-search-bar.c:588
 msgid "_Search"
