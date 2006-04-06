@@ -470,6 +470,19 @@ schedule_page_new (EMeetingStore *ems)
 	return spage;
 }
 
+void
+schedule_page_set_name_selector (SchedulePage *spage, ENameSelector *name_selector)
+{
+	SchedulePagePrivate *priv;
+
+	g_return_if_fail (spage != NULL);
+	g_return_if_fail (IS_SCHEDULE_PAGE (spage));
+	
+	priv = spage->priv;
+
+	e_meeting_list_view_set_name_selector (priv->sel->list_view, name_selector);
+}
+
 static void
 times_changed_cb (GtkWidget *widget, gpointer data)
 {

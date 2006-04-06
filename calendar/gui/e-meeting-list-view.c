@@ -873,3 +873,35 @@ e_meeting_list_view_set_editable (EMeetingListView *lview, gboolean set)
 	g_hash_table_foreach (priv->renderers, change_edit_cols_for_organizer, GINT_TO_POINTER (edit_level));
 }
 
+ENameSelector * 
+e_meeting_list_view_get_name_selector (EMeetingListView *lview) 
+{
+	EMeetingListViewPrivate *priv;
+	
+	g_return_val_if_fail (lview != NULL, NULL);
+	g_return_val_if_fail (E_IS_MEETING_LIST_VIEW (lview), NULL);
+
+	priv = lview->priv;
+
+	return priv->name_selector;	
+}
+
+void
+e_meeting_list_view_set_name_selector (EMeetingListView *lview, ENameSelector *name_selector)
+{
+	EMeetingListViewPrivate *priv;
+	
+	g_return_if_fail (lview != NULL);
+	g_return_if_fail (E_IS_MEETING_LIST_VIEW (lview));
+
+	priv = lview->priv;
+
+	if (priv->name_selector) {
+		g_object_unref (priv->name_selector);
+		priv->name_selector = NULL;
+	}
+	
+	priv->name_selector = g_object_ref (name_selector);
+}
+
+

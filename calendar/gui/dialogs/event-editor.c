@@ -360,7 +360,7 @@ menu_action_freebusy_cmd (BonoboUIComponent *uic,
 		   	 const char *path)
 {
 	EventEditor *ee = (EventEditor *) data;
-	
+
 	gtk_widget_show (ee->priv->sched_window);
 }
 
@@ -569,10 +569,12 @@ event_editor_construct (EventEditor *ee, ECal *client)
 
 		comp_editor_set_group_item (COMP_EDITOR (ee), TRUE);
 		if ((flags & COMP_EDITOR_USER_ORG) || (flags & COMP_EDITOR_DELEGATE)|| (flags & COMP_EDITOR_NEW_ITEM)) {
+			ENameSelector *name_selector;
+
 			priv->sched_window = gtk_dialog_new_with_buttons (_("Free/Busy"),
-									  (GtkWindow *) ee, GTK_DIALOG_MODAL,
-									  "gtk-close", GTK_RESPONSE_CLOSE,
-							  		  NULL);
+					                                  (GtkWindow *) ee, GTK_DIALOG_MODAL,
+				   					  "gtk-close", GTK_RESPONSE_CLOSE,
+									  NULL);
 			priv->sched_page = schedule_page_new (priv->model);
 			g_object_ref (priv->sched_page);
 			gtk_object_sink (GTK_OBJECT (priv->sched_page));
@@ -582,8 +584,11 @@ event_editor_construct (EventEditor *ee, ECal *client)
 
 			g_signal_connect (priv->sched_window, "response", G_CALLBACK(gtk_widget_hide), NULL);
 			g_signal_connect ((GtkWidget *) priv->sched_window, "delete-event", G_CALLBACK(window_delete_event), NULL);
+			name_selector = event_page_get_name_selector (priv->event_page);
+			schedule_page_set_name_selector (priv->sched_page, name_selector);
 			comp_editor_append_page (COMP_EDITOR (ee), COMP_EDITOR_PAGE (priv->sched_page), NULL, FALSE);
-	} else
+
+		} else	
 			bonobo_ui_component_set_prop (editor->uic, "/commands/ActionFreeBusy", "hidden", "1", NULL);
 		
 		event_page_set_meeting (priv->event_page, TRUE);

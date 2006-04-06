@@ -77,6 +77,7 @@ void event_page_set_view_role (EventPage *epage, gboolean state);
 void event_page_set_view_status (EventPage *epage, gboolean state);
 void event_page_set_view_type (EventPage *epage, gboolean state);
 void event_page_set_view_rvsp (EventPage *epage, gboolean state);
+ENameSelector *event_page_get_name_selector (EventPage *epage);
 
 
 

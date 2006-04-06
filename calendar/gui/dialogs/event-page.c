@@ -3207,3 +3207,16 @@ event_page_get_cancel_comp (EventPage *page)
 	
 	return e_cal_component_clone (priv->comp);
 }
+
+ENameSelector *
+event_page_get_name_selector (EventPage *epage)
+{
+	EventPagePrivate *priv;
+
+	g_return_val_if_fail (epage != NULL, NULL);
+	g_return_val_if_fail (IS_EVENT_PAGE (epage), NULL);
+
+	priv = epage->priv;
+
+	return e_meeting_list_view_get_name_selector (priv->list_view);
+}
