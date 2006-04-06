@@ -205,7 +205,7 @@ cal_comp_util_compare_event_timezones (ECalComponent *comp,
 gboolean
 cal_comp_is_on_server (ECalComponent *comp, ECal *client)
 {
-	const char *uid;
+	const char *uid, *rid;
 	icalcomponent *icalcomp;
 	GError *error = NULL;
 
@@ -221,8 +221,9 @@ cal_comp_is_on_server (ECalComponent *comp, ECal *client)
 	 * the user.
 	 */
 	e_cal_component_get_uid (comp, &uid);
+	rid = e_cal_component_get_recurid_as_string (comp);
 
-	if (e_cal_get_object (client, uid, NULL, &icalcomp, &error)) {
+	if (e_cal_get_object (client, uid, rid, &icalcomp, &error)) {
 		icalcomponent_free (icalcomp);
 
 		return TRUE;
