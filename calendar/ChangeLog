@@ -1,5 +1,22 @@
 2006-04-05  Chenthill Palanisamy  <pchenthill@novell.com>
 
+	Fixes #328808
+	* gui/dialogs/event-editor.c: 
+	(event_editor_construct): Set the name selector dialog present in the schedule page
+	in event page also.
+	* gui/dialogs/event-page.[ch] 
+	(event_page_get_name_selector): Gets the name selector from the meeting list
+	view.
+	* gui/dialogs/schedule-page.[ch]
+	(schedule_page_set_name_selector): Sets the name selector to the meeting
+	list view.
+	* gui/e-meeting-list-view.[ch]:
+	(e_meeting_list_view_get_name_selector),
+	(e_meeting_list_view_set_name_selector): Functions to get and set the name
+	selector.
+
+2006-04-05  Chenthill Palanisamy  <pchenthill@novell.com>
+
 	Fixes #162005
 	* gui/comp-util.c: (cal_comp_is_on_server): Pass the recurrence
 	id to find if the object is on the server.
