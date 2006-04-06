@@ -3607,8 +3607,7 @@ e_day_view_on_main_canvas_motion (GtkWidget *widget,
 
 		event = &g_array_index (day_view->events[day_view->pressed_event_day], EDayViewEvent, day_view->pressed_event_num);
 
-		if (!e_cal_util_component_has_recurrences (event->comp_data->icalcomp)
-		    && (abs (canvas_x - day_view->drag_event_x)
+		if ((abs (canvas_x - day_view->drag_event_x)
 			> E_DAY_VIEW_DRAG_START_OFFSET
 			|| abs (canvas_y - day_view->drag_event_y)
 			> E_DAY_VIEW_DRAG_START_OFFSET)) {
@@ -3634,8 +3633,7 @@ e_day_view_on_main_canvas_motion (GtkWidget *widget,
 	} else {
 		cursor = day_view->normal_cursor;
 
-		/* Recurring events can't be resized. */
-		if (event && !e_cal_util_component_has_recurrences (event->comp_data->icalcomp)) {
+		if (event) {
 			switch (pos) {
 			case E_CALENDAR_VIEW_POS_LEFT_EDGE:
 				cursor = day_view->move_cursor;

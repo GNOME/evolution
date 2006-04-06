@@ -1,5 +1,10 @@
 2006-04-05  Chenthill Palanisamy  <pchenthill@novell.com>
 
+	* gui/e-day-view.c: (e_day_view_on_main_canvas_motion):
+	Enable drag and drop of recurring appointments.
+
+2006-04-05  Chenthill Palanisamy  <pchenthill@novell.com>
+
 	Fixes #328808
 	* gui/dialogs/event-editor.c: 
 	(event_editor_construct): Set the name selector dialog present in the schedule page
