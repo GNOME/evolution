@@ -269,7 +269,7 @@ void exchange_operations_update_child_esources (ESource *source, const gchar *ol
 	for (tsource = sources; tsource != NULL; tsource = tsource->next) {
 		gchar *ruri;
 		ruri = (gchar*) e_source_peek_relative_uri (tsource->data);
-		if (g_strrstr (ruri, old_path)) {
+		if (ruri && g_strrstr (ruri, old_path)) {
 			/* This ESource points to one of the child folders */
 			gchar **tmpv, *truri;
 			/* A nasty search and replace */

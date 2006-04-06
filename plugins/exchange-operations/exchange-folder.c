@@ -271,6 +271,7 @@ org_gnome_exchange_check_address_book_subscribed (EPlugin *ep, EABPopupTargetSou
 
 	uri = e_source_get_uri (source);
 	path = g_strdup (uri + strlen ("exchange://") + strlen (account->account_filename) + strlen ("/;"));
+	g_free (uri);
 	sub_folder = strchr (path, '@');
 
 	if (!sub_folder) {
