@@ -1,3 +1,11 @@
+2006-03-29  Li Yuan <li.yuan@sun.com>
+
+	Fix for bug #336454
+	* gui/component/addressbook-view.c:
+	(source_selector_key_press_event_callback):
+	we should return false if it is not a del event to make gtktreeview
+	deal the rest of keys.
+
 2006-03-10  Devashish Sharma  <sdevashish@novell.com>
 
 	* gui/component/ldap-config.glade : ldap port numbers
