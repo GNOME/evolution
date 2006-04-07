@@ -1,17 +1,10 @@
-2006-03-10  Devashish Sharma  <sdevashish@novell.com>
+2006-03-29  Li Yuan <li.yuan@sun.com>
 
-	* gui/component/ldap-config.glade : ldap port numbers
-	were marked for translation. Fixes 331020.
-
-2006-03-10  Devashish Sharma  <sdevashish@novell.com>
-
-	Fix for bug #333855
-	* gui/contact-editor/e-contact-editor.c (full_name_response),
-	(full_name_key_press_event), (full_name_editor_delete_event_cb),
-	(full_name_clicked):
-	The fullname dialog should be non-modal as well as categories dialog.
-	Patch by Simon Zheng <simon.zheng@sun.com>. Made some changes to the 
-	patch and committed.
+	Fix for bug #336454
+	* gui/component/addressbook-view.c:
+	(source_selector_key_press_event_callback):
+	we should return false if it is not a del event to make gtktreeview
+	deal the rest of keys.
 
 2006-03-06  Devashish Sharma <sdevashish@novell.com>
 
