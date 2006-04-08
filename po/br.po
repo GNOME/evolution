@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Evolution 2-14\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-04-08 00:31+0200\n"
+"POT-Creation-Date: 2006-04-08 11:20+0200\n"
 "PO-Revision-Date: 2006-04-07 16:46+0200\n"
 "Last-Translator: Jérémy Ar Floc'h <jeremy.lefloch@gmail.com>\n"
 "Language-Team: GNOME Breton team <jeremy.lefloch@gmail.com>\n"
@@ -1385,127 +1385,127 @@ msgstr ""
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:137
 msgid "United States"
-msgstr ""
+msgstr "Stadoù Unanet"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:138
 msgid "Afghanistan"
-msgstr ""
+msgstr "Afganistan"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:139
 msgid "Albania"
-msgstr ""
+msgstr "Albani"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:140
 msgid "Algeria"
-msgstr ""
+msgstr "Aljeri"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:141
 msgid "American Samoa"
-msgstr ""
+msgstr "Samoa (SU)"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:142
 msgid "Andorra"
-msgstr ""
+msgstr "Andorre"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:143
 msgid "Angola"
-msgstr ""
+msgstr "Angola"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:144
 msgid "Anguilla"
-msgstr ""
+msgstr "Anguilla"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:145
 msgid "Antarctica"
-msgstr ""
+msgstr "Antartik"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:146
 msgid "Antigua And Barbuda"
-msgstr ""
+msgstr "Antigua ha Barbuda"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:147
 msgid "Argentina"
-msgstr ""
+msgstr "Arc'hantin"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:148
 msgid "Armenia"
-msgstr ""
+msgstr "Armeni"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:149
 msgid "Aruba"
-msgstr ""
+msgstr "Aruba"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:150
 msgid "Australia"
-msgstr ""
+msgstr "Aostralia"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:151
 msgid "Austria"
-msgstr ""
+msgstr "Aotrich"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:152
 msgid "Azerbaijan"
-msgstr ""
+msgstr "Azerbaijan"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:153
 msgid "Bahamas"
-msgstr ""
+msgstr "Bahamas"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:154
 msgid "Bahrain"
-msgstr ""
+msgstr "Bahrain"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:155
 msgid "Bangladesh"
-msgstr ""
+msgstr "Bangladesh"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:156
 msgid "Barbados"
-msgstr ""
+msgstr "Barbados"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:157
 msgid "Belarus"
-msgstr ""
+msgstr "Belarus"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:158
 msgid "Belgium"
-msgstr ""
+msgstr "Beljik"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:159
 msgid "Belize"
-msgstr ""
+msgstr "Belize"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:160
 msgid "Benin"
-msgstr ""
+msgstr "Benin"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:161
 msgid "Bermuda"
-msgstr ""
+msgstr "Bermuda"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:162
 msgid "Bhutan"
-msgstr ""
+msgstr "Bhutan"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:163
 msgid "Bolivia"
-msgstr ""
+msgstr "Bolivi"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:164
 msgid "Bosnia And Herzegowina"
-msgstr ""
+msgstr "Bosnie Herzegovine"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:165
 msgid "Botswana"
-msgstr ""
+msgstr "Botswana"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:166
 msgid "Bouvet Island"
-msgstr ""
+msgstr "Enez Bouvet"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:167
 msgid "Brazil"
-msgstr ""
+msgstr "Brezil"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:168
 msgid "British Indian Ocean Territory"
@@ -1513,39 +1513,39 @@ msgstr ""
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:169
 msgid "Brunei Darussalam"
-msgstr ""
+msgstr "runei Darussalam"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:170
 msgid "Bulgaria"
-msgstr ""
+msgstr "Bulgari"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:171
 msgid "Burkina Faso"
-msgstr ""
+msgstr "Burkina Faso"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:172
 msgid "Burundi"
-msgstr ""
+msgstr "Burundi"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:173
 msgid "Cambodia"
-msgstr ""
+msgstr "Kambodj"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:174
 msgid "Cameroon"
-msgstr ""
+msgstr "Kameroun"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:175
 msgid "Canada"
-msgstr ""
+msgstr "Kanada"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:176
 msgid "Cape Verde"
-msgstr ""
+msgstr "Kap Gwer"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:177
 msgid "Cayman Islands"
-msgstr ""
+msgstr "Inizi Cayman"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:178
 msgid "Central African Republic"
@@ -1553,19 +1553,19 @@ msgstr ""
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:179
 msgid "Chad"
-msgstr ""
+msgstr "Tchad"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:180
 msgid "Chile"
-msgstr ""
+msgstr "Chili"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:181
 msgid "China"
-msgstr ""
+msgstr "Sina"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:182
 msgid "Christmas Island"
-msgstr ""
+msgstr "Enez Nedeleg"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:183
 msgid "Cocos (Keeling) Islands"
@@ -1573,15 +1573,15 @@ msgstr ""
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:184
 msgid "Colombia"
-msgstr ""
+msgstr "Kolombi"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:185
 msgid "Comoros"
-msgstr ""
+msgstr "Comoros"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:186
 msgid "Congo"
-msgstr ""
+msgstr "Kongo"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:187
 msgid "Congo, The Democratic Republic Of The"
@@ -1589,59 +1589,59 @@ msgstr ""
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:188
 msgid "Cook Islands"
-msgstr ""
+msgstr "Inizi Cook"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:189
 msgid "Costa Rica"
-msgstr ""
+msgstr "Costa Rica"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:190
 msgid "Cote d'Ivoire"
-msgstr ""
+msgstr "Cote d'Ivoire"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:191
 msgid "Croatia"
-msgstr ""
+msgstr "Croitia"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:192
 msgid "Cuba"
-msgstr ""
+msgstr "Cuba"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:193
 msgid "Cyprus"
-msgstr ""
+msgstr "Cyprus"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:194
 msgid "Czech Republic"
-msgstr ""
+msgstr "Republik tchek"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:195
 msgid "Denmark"
-msgstr ""
+msgstr "Danmark"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:196
 msgid "Djibouti"
-msgstr ""
+msgstr "Djibouti"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:197
 msgid "Dominica"
-msgstr ""
+msgstr "Dominik"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:198
 msgid "Dominican Republic"
-msgstr ""
+msgstr "Republik dominikan"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:199
 msgid "Ecuador"
-msgstr ""
+msgstr "Kehider"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:200
 msgid "Egypt"
-msgstr ""
+msgstr "Ejipt"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:201
 msgid "El Salvador"
-msgstr ""
+msgstr "Salvador"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:202
 msgid "Equatorial Guinea"
@@ -1649,43 +1649,43 @@ msgstr ""
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:203
 msgid "Eritrea"
-msgstr ""
+msgstr "Eritrea"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:204
 msgid "Estonia"
-msgstr ""
+msgstr "Estoni"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:205
 msgid "Ethiopia"
-msgstr ""
+msgstr "Ethiopi"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:206
 msgid "Falkland Islands"
-msgstr ""
+msgstr "Inizi Falklands"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:207
 msgid "Faroe Islands"
-msgstr ""
+msgstr "Inizi Faroe"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:208
 msgid "Fiji"
-msgstr ""
+msgstr "Fiji"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:209
 msgid "Finland"
-msgstr ""
+msgstr "Finlan"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:210
 msgid "France"
-msgstr ""
+msgstr "Bro-C'hall"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:211
 msgid "French Guiana"
-msgstr ""
+msgstr "Guine Gallaoued"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:212
 msgid "French Polynesia"
-msgstr ""
+msgstr "Polinesi Gallaoued"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:213
 msgid "French Southern Territories"
@@ -1693,155 +1693,155 @@ msgstr ""
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:214
 msgid "Gabon"
-msgstr ""
+msgstr "Gabon"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:215
 msgid "Gambia"
-msgstr ""
+msgstr "Gambi"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:216
 msgid "Georgia"
-msgstr ""
+msgstr "Jeorji"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:217
 msgid "Germany"
-msgstr ""
+msgstr "Alamagn"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:218
 msgid "Ghana"
-msgstr ""
+msgstr "Ghana"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:219
 msgid "Gibraltar"
-msgstr ""
+msgstr "Gibraltar"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:220
 msgid "Greece"
-msgstr ""
+msgstr "Gres"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:221
 msgid "Greenland"
-msgstr ""
+msgstr "Greenland"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:222
 msgid "Grenada"
-msgstr ""
+msgstr "Grenad"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:223
 msgid "Guadeloupe"
-msgstr ""
+msgstr "Gwadeloup"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:224
 msgid "Guam"
-msgstr ""
+msgstr "Guam"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:225
 msgid "Guatemala"
-msgstr ""
+msgstr "Guatemala"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:226
 msgid "Guernsey"
-msgstr ""
+msgstr "Guernsey"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:227
 msgid "Guinea"
-msgstr ""
+msgstr "Guine"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:228
 msgid "Guinea-bissau"
-msgstr ""
+msgstr "Guine-bissau"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:229
 msgid "Guyana"
-msgstr ""
+msgstr "Gwiana"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:230
 msgid "Haiti"
-msgstr ""
+msgstr "Haiti"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:231
 msgid "Heard And McDonald Islands"
-msgstr ""
+msgstr "Inizi Head ha McDonald"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:232
 msgid "Holy See"
-msgstr ""
+msgstr "Vatikan"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:233
 msgid "Honduras"
-msgstr ""
+msgstr "Honduras"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:234
 msgid "Hong Kong"
-msgstr ""
+msgstr "Hong Kong"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:235
 msgid "Hungary"
-msgstr ""
+msgstr "Hongri"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:236
 msgid "Iceland"
-msgstr ""
+msgstr "Island"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:237
 msgid "India"
-msgstr ""
+msgstr "Indez"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:238
 msgid "Indonesia"
-msgstr ""
+msgstr "Indonezi"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:239
 msgid "Iran"
-msgstr ""
+msgstr "Iran"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:240
 msgid "Iraq"
-msgstr ""
+msgstr "Irak"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:241
 msgid "Ireland"
-msgstr ""
+msgstr "Iwerzhon"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:242
 msgid "Isle of Man"
-msgstr ""
+msgstr "Enez Man"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:243
 msgid "Israel"
-msgstr ""
+msgstr "Israel"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:244
 msgid "Italy"
-msgstr ""
+msgstr "Itali"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:245
 msgid "Jamaica"
-msgstr ""
+msgstr "Jamaik"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:246
 msgid "Japan"
-msgstr ""
+msgstr "Japon"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:247
 msgid "Jersey"
-msgstr ""
+msgstr "Jersey"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:248
 msgid "Jordan"
-msgstr ""
+msgstr "Jordan"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:249
 msgid "Kazakhstan"
-msgstr ""
+msgstr "Kazakhstan"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:250
 msgid "Kenya"
-msgstr ""
+msgstr "Kenya"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:251
 msgid "Kiribati"
-msgstr ""
+msgstr "Kiribati"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:252
 msgid "Korea, Democratic People's Republic Of"
@@ -1849,187 +1849,187 @@ msgstr ""
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:253
 msgid "Korea, Republic Of"
-msgstr ""
+msgstr "Kore, Republik Ar"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:254
 msgid "Kuwait"
-msgstr ""
+msgstr "Kowait"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:255
 msgid "Kyrgyzstan"
-msgstr ""
+msgstr "Kyrgyzstan"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:256
 msgid "Laos"
-msgstr ""
+msgstr "Laos"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:257
 msgid "Latvia"
-msgstr ""
+msgstr "Letoni"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:258
 msgid "Lebanon"
-msgstr ""
+msgstr "Liban"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:259
 msgid "Lesotho"
-msgstr ""
+msgstr "Lesotho"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:260
 msgid "Liberia"
-msgstr ""
+msgstr "Liberia"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:261
 msgid "Libya"
-msgstr ""
+msgstr "Libi"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:262
 msgid "Liechtenstein"
-msgstr ""
+msgstr "Liechtenstein"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:263
 msgid "Lithuania"
-msgstr ""
+msgstr "Lithuani"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:264
 msgid "Luxembourg"
-msgstr ""
+msgstr "Luksembourg"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:265
 msgid "Macao"
-msgstr ""
+msgstr "Macao"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:266
 msgid "Macedonia"
-msgstr ""
+msgstr "Makedonia"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:267
 msgid "Madagascar"
-msgstr ""
+msgstr "Madagascar"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:268
 msgid "Malawi"
-msgstr ""
+msgstr "Malawi"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:269
 msgid "Malaysia"
-msgstr ""
+msgstr "Malezia"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:270
 msgid "Maldives"
-msgstr ""
+msgstr "Maldives"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:271
 msgid "Mali"
-msgstr ""
+msgstr "Mali"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:272
 msgid "Malta"
-msgstr ""
+msgstr "Malt"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:273
 msgid "Marshall Islands"
-msgstr ""
+msgstr "Inizi Marshall"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:274
 msgid "Martinique"
-msgstr ""
+msgstr "Martinik"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:275
 msgid "Mauritania"
-msgstr ""
+msgstr "MAOURITANI"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:276
 msgid "Mauritius"
-msgstr ""
+msgstr "Maoris"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:277
 msgid "Mayotte"
-msgstr ""
+msgstr "Mayotte"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:278
 msgid "Mexico"
-msgstr ""
+msgstr "Meksik"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:279
 msgid "Micronesia"
-msgstr ""
+msgstr "Mikronesi"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:280
 msgid "Moldova, Republic Of"
-msgstr ""
+msgstr "Moldavi, Republik Ar"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:281
 msgid "Monaco"
-msgstr ""
+msgstr "Monaco"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:282
 msgid "Mongolia"
-msgstr ""
+msgstr "Mongoli"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:283
 msgid "Montserrat"
-msgstr ""
+msgstr "Montserrat"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:284
 msgid "Morocco"
-msgstr ""
+msgstr "Marok"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:285
 msgid "Mozambique"
-msgstr ""
+msgstr "Mozambik"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:286
 msgid "Myanmar"
-msgstr ""
+msgstr "Myanmar"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:287
 msgid "Namibia"
-msgstr ""
+msgstr "Namibi"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:288
 msgid "Nauru"
-msgstr ""
+msgstr "Nauru"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:289
 msgid "Nepal"
-msgstr ""
+msgstr "Nepal"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:290
 msgid "Netherlands"
-msgstr ""
+msgstr "Izelvroioù"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:291
 msgid "Netherlands Antilles"
-msgstr ""
+msgstr "Antilh Izelvroioù"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:292
 msgid "New Caledonia"
-msgstr ""
+msgstr "Kaledoni nevez"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:293
 msgid "New Zealand"
-msgstr ""
+msgstr "Zeland nevez"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:294
 msgid "Nicaragua"
-msgstr ""
+msgstr "Nicaragua"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:295
 msgid "Niger"
-msgstr ""
+msgstr "Niger"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:296
 msgid "Nigeria"
-msgstr ""
+msgstr "Nigeria"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:297
 msgid "Niue"
-msgstr ""
+msgstr "Niue"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:298
 msgid "Norfolk Island"
-msgstr ""
+msgstr "Enez Norfolk"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:299
 msgid "Northern Mariana Islands"
@@ -2037,19 +2037,19 @@ msgstr ""
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:300
 msgid "Norway"
-msgstr ""
+msgstr "Norway"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:301
 msgid "Oman"
-msgstr ""
+msgstr "Oman"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:302
 msgid "Pakistan"
-msgstr ""
+msgstr "Pakistan"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:303
 msgid "Palau"
-msgstr ""
+msgstr "Palau"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:304
 msgid "Palestinian Territory"
@@ -2057,7 +2057,7 @@ msgstr ""
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:305
 msgid "Panama"
-msgstr ""
+msgstr "Panama"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:306
 msgid "Papua New Guinea"
@@ -2065,51 +2065,51 @@ msgstr ""
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:307
 msgid "Paraguay"
-msgstr ""
+msgstr "Paraguay"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:308
 msgid "Peru"
-msgstr ""
+msgstr "Perou"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:309
 msgid "Philippines"
-msgstr ""
+msgstr "Filipin"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:310
 msgid "Pitcairn"
-msgstr ""
+msgstr "Pitcairn"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:311
 msgid "Poland"
-msgstr ""
+msgstr "Pologn"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:312
 msgid "Portugal"
-msgstr ""
+msgstr "Portugal"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:313
 msgid "Puerto Rico"
-msgstr ""
+msgstr "Puerto Rico"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:314
 msgid "Qatar"
-msgstr ""
+msgstr "Qatar"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:315
 msgid "Reunion"
-msgstr ""
+msgstr "Reunion"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:316
 msgid "Romania"
-msgstr ""
+msgstr "Romani"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:317
 msgid "Russian Federation"
-msgstr ""
+msgstr "Rusi"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:318
 msgid "Rwanda"
-msgstr ""
+msgstr "Rwanda"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:319
 msgid "Saint Kitts And Nevis"
@@ -2125,11 +2125,11 @@ msgstr ""
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:322
 msgid "Samoa"
-msgstr ""
+msgstr "Samoa"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:323
 msgid "San Marino"
-msgstr ""
+msgstr "San Marino"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:324
 msgid "Sao Tome And Principe"
@@ -2141,7 +2141,7 @@ msgstr ""
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:326
 msgid "Senegal"
-msgstr ""
+msgstr "Senegal"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:327
 msgid "Serbia And Montenegro"
@@ -2149,31 +2149,31 @@ msgstr ""
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:328
 msgid "Seychelles"
-msgstr ""
+msgstr "Seychelles"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:329
 msgid "Sierra Leone"
-msgstr ""
+msgstr "Sierra Leone"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:330
 msgid "Singapore"
-msgstr ""
+msgstr "Singapour"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:331
 msgid "Slovakia"
-msgstr ""
+msgstr "Slovaki"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:332
 msgid "Slovenia"
-msgstr ""
+msgstr "Sloveni"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:333
 msgid "Solomon Islands"
-msgstr ""
+msgstr "Inizi Solomon"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:334
 msgid "Somalia"
-msgstr ""
+msgstr "Somali"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:335
 msgid "South Africa"
@@ -2185,55 +2185,55 @@ msgstr ""
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:337
 msgid "Spain"
-msgstr ""
+msgstr "Spagn"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:338
 msgid "Sri Lanka"
-msgstr ""
+msgstr "Sri Lanka"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:339
 msgid "St. Helena"
-msgstr ""
+msgstr "St. Elen"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:340
 msgid "St. Pierre And Miquelon"
-msgstr ""
+msgstr "St. Pierre ha Miquelon"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:341
 msgid "Sudan"
-msgstr ""
+msgstr "Soudan"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:342
 msgid "Suriname"
-msgstr ""
+msgstr "Surinam"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:343
 msgid "Svalbard And Jan Mayen Islands"
-msgstr ""
+msgstr "Inizi Svalbard ha Jan Mayen"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:344
 msgid "Swaziland"
-msgstr ""
+msgstr "Swaziland"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:345
 msgid "Sweden"
-msgstr ""
+msgstr "Sued"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:346
 msgid "Switzerland"
-msgstr ""
+msgstr "Suis"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:347
 msgid "Syria"
-msgstr ""
+msgstr "Siri"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:348
 msgid "Taiwan"
-msgstr ""
+msgstr "Taiwan"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:349
 msgid "Tajikistan"
-msgstr ""
+msgstr "Tajikistan"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:350
 msgid "Tanzania, United Republic Of"
@@ -2241,7 +2241,7 @@ msgstr ""
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:351
 msgid "Thailand"
-msgstr ""
+msgstr "Thailand"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:352
 msgid "Timor-Leste"
@@ -2249,31 +2249,31 @@ msgstr ""
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:353
 msgid "Togo"
-msgstr ""
+msgstr "Togo"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:354
 msgid "Tokelau"
-msgstr ""
+msgstr "Tokelau"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:355
 msgid "Tonga"
-msgstr ""
+msgstr "Tonga"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:356
 msgid "Trinidad And Tobago"
-msgstr ""
+msgstr "Trinidad ha Tobago"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:357
 msgid "Tunisia"
-msgstr ""
+msgstr "Tunizi"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:358
 msgid "Turkey"
-msgstr ""
+msgstr "Turki"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:359
 msgid "Turkmenistan"
-msgstr ""
+msgstr "Turkmenistan"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:360
 msgid "Turks And Caicos Islands"
@@ -2281,15 +2281,15 @@ msgstr ""
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:361
 msgid "Tuvalu"
-msgstr ""
+msgstr "Tuvalu"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:362
 msgid "Uganda"
-msgstr ""
+msgstr "Uganda"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:363
 msgid "Ukraine"
-msgstr ""
+msgstr "Ukraine"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:364
 msgid "United Arab Emirates"
@@ -2305,51 +2305,51 @@ msgstr ""
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:367
 msgid "Uruguay"
-msgstr ""
+msgstr "Uruguay"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:368
 msgid "Uzbekistan"
-msgstr ""
+msgstr "Uzbekistan"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:369
 msgid "Vanuatu"
-msgstr ""
+msgstr "Vanuatu"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:370
 msgid "Venezuela"
-msgstr ""
+msgstr "Venezuela"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:371
 msgid "Viet Nam"
-msgstr ""
+msgstr "Vietnam"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:372
 msgid "Virgin Islands, British"
-msgstr ""
+msgstr "Inizi Virgin, Saoz"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:373
 msgid "Virgin Islands, U.S."
-msgstr ""
+msgstr "Inizi Virgin, S.U"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:374
 msgid "Wallis And Futuna Islands"
-msgstr ""
+msgstr "Inizi Wallis ha Futuna"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:375
 msgid "Western Sahara"
-msgstr ""
+msgstr "Sahara kornog"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:376
 msgid "Yemen"
-msgstr ""
+msgstr "Yemen"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:377
 msgid "Zambia"
-msgstr ""
+msgstr "Zambi"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:378
 msgid "Zimbabwe"
-msgstr ""
+msgstr "Zimbabwe"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-fullname.c:90
 #: ../plugins/exchange-operations/exchange-delegates.c:934
@@ -2516,7 +2516,7 @@ msgstr ""
 
 #: ../addressbook/gui/contact-editor/fulladdr.glade.h:2
 msgid "Address _2:"
-msgstr ""
+msgstr "Chomlec'h 2 :"
 
 #: ../addressbook/gui/contact-editor/fulladdr.glade.h:3
 msgid "Ci_ty:"
@@ -2771,7 +2771,7 @@ msgstr ""
 
 #: ../addressbook/gui/widgets/e-addressbook-table-adapter.c:103
 msgid "Error modifying card"
-msgstr ""
+msgstr "Fazi o kemmañ ar gartenn"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:230
 msgid "Source"
@@ -2934,7 +2934,7 @@ msgstr "Postel 3"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:13
 msgid "Family Name"
-msgstr ""
+msgstr "Anv-familh"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:14
 msgid "File As"
@@ -2971,11 +2971,11 @@ msgstr ""
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:23
 #: ../addressbook/gui/widgets/eab-contact-display.c:381
 msgid "Mobile Phone"
-msgstr ""
+msgstr "Pellgomzer hezoug"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:24
 msgid "Nickname"
-msgstr ""
+msgstr "Lesanv"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:25
 #: ../addressbook/gui/widgets/eab-contact-display.c:392
@@ -2997,7 +2997,7 @@ msgstr ""
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:29
 msgid "Other Phone"
-msgstr ""
+msgstr "Pellgomzer all"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:30
 msgid "Pager"
@@ -3031,11 +3031,11 @@ msgstr ""
 #. different and established translation for this in your language.
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:41
 msgid "TTYTDD"
-msgstr ""
+msgstr "TTYTDD"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:42
 msgid "Telex"
-msgstr ""
+msgstr "Telex"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:43
 msgid "Title"
