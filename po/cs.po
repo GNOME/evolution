@@ -12,14 +12,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-03-31 13:26+0200\n"
+"POT-Creation-Date: 2006-04-08 12:37+0200\n"
 "PO-Revision-Date: 2006-04-05 20:54+0200\n"
 "Last-Translator: Lukas Novotny <lukasnov@cvs.gnome.org>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms:  nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;"
+"Plural-Forms:  nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
 #: ../a11y/addressbook/ea-addressbook-view.c:94
 #: ../a11y/addressbook/ea-addressbook-view.c:103
@@ -400,7 +400,8 @@ msgstr "Verze serveru"
 
 #: ../addressbook/addressbook.error.xml.h:16
 msgid "Some features may not work properly with your current server"
-msgstr "Některé funkce možná nebudou pracovat správně s vaším aktuálním serverem"
+msgstr ""
+"Některé funkce možná nebudou pracovat správně s vaším aktuálním serverem"
 
 #: ../addressbook/addressbook.error.xml.h:17
 msgid "The Evolution addressbook has quit unexpectedly."
@@ -546,7 +547,7 @@ msgstr "Zde nastavte automatické dokončování"
 
 #. Create the contacts group
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:5
-#: ../addressbook/gui/component/addressbook-view.c:1334
+#: ../addressbook/gui/component/addressbook-view.c:1335
 #: ../calendar/gui/calendar-component.c:247 ../calendar/gui/migration.c:400
 #: ../plugins/exchange-operations/exchange-folder.c:585
 msgid "Contacts"
@@ -819,7 +820,7 @@ msgstr "Uložit jako Vcard..."
 msgid "_Properties..."
 msgstr "_Vlastnosti..."
 
-#: ../addressbook/gui/component/addressbook-view.c:1345
+#: ../addressbook/gui/component/addressbook-view.c:1346
 msgid "Contact Source Selector"
 msgstr "Výběr zdroje kontaktů"
 
@@ -1018,8 +1019,8 @@ msgid ""
 "objectclass of the type \"person\"."
 msgstr ""
 "Vyhledávací filtr jsou typy objektů pro vyhledávání. Nejsou-li tyto objekty "
-"upravovány, vyhledávání bude prováděno s pomocí výchozí·typu "
-"objectclass \"person\"."
+"upravovány, vyhledávání bude prováděno s pomocí výchozí·typu objectclass "
+"\"person\"."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:33
 msgid ""
@@ -3538,9 +3539,11 @@ msgid_plural ""
 msgstr[0] ""
 "Otevření %d kontaktu otevře také %d nové okno.\n"
 "Opravdu chcete zobrazit všechny tyto kontakty?"
-msgstr[1] "Otevření %d kontaktů otevře také %d nová okna.\n"
+msgstr[1] ""
+"Otevření %d kontaktů otevře také %d nová okna.\n"
 "Opravdu chcete zobrazit všechny tyto kontakty?"
-msgstr[2] "Otevření %d kontaktů otevře také %d nových oken.\n"
+msgstr[2] ""
+"Otevření %d kontaktů otevře také %d nových oken.\n"
 "Opravdu chcete zobrazit všechny tyto kontakty?"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:321
@@ -4231,12 +4234,13 @@ msgid ""
 "Some attachments are being downloaded. Saving the task would result in the "
 "loss of these attachments."
 msgstr ""
-"Stahuje·se·několik·příloh.·Uložení·události·způsobí,·že·bude·událost·"
-"uložena·bez·těchto·příloh"
+"Stahuje·se·několik·příloh.·Uložení·události·způsobí,"
+"·že·bude·událost·uložena·bez·těchto·příloh"
 
 #: ../calendar/calendar.error.xml.h:43
 msgid "Some features may not work properly with your current server."
-msgstr "Některé funkce možná nebudou pracovat správně s vaším aktuálním serverem."
+msgstr ""
+"Některé funkce možná nebudou pracovat správně s vaším aktuálním serverem."
 
 #: ../calendar/calendar.error.xml.h:44
 msgid "The Evolution calendar has quit unexpectedly."
@@ -5454,7 +5458,7 @@ msgid "Display"
 msgstr "Zobrazení"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:17
-#: ../calendar/gui/dialogs/event-editor.c:572
+#: ../calendar/gui/dialogs/event-editor.c:574
 #: ../ui/evolution-event-editor.xml.h:8
 msgid "Free/Busy"
 msgstr "Volno/obsazeno"
@@ -14499,7 +14503,7 @@ msgstr "%d %b %Y"
 msgid "Messages"
 msgstr "Zprávy"
 
-#: ../mail/message-list.c:3441
+#: ../mail/message-list.c:3442
 msgid "Generating message list"
 msgstr "Generuji seznam zpráv"
 
@@ -14839,8 +14843,7 @@ msgstr "Implicitní zdroje"
 msgid ""
 "Provides functionallity for marking a calendar or addressbook as the default "
 "one."
-msgstr ""
-"Poskytuje funkce pro označení kalendáře nebo adresáře jako implicitní."
+msgstr "Poskytuje funkce pro označení kalendáře nebo adresáře jako implicitní."
 
 #: ../plugins/exchange-operations/e-foreign-folder-dialog.glade.h:1
 msgid "Open Other User's Folder"
