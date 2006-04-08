@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution-2.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-03-05 09:42+0700\n"
-"PO-Revision-Date: 2006-03-05 10:22+0700\n"
+"POT-Creation-Date: 2006-04-08 12:18+0700\n"
+"PO-Revision-Date: 2006-04-08 12:24+0700\n"
 "Last-Translator: Theppitak Karoonboonyanan <thep@linux.thai.net>\n"
 "Language-Team: Thai <L10N@opentle.org>\n"
 "MIME-Version: 1.0\n"
@@ -19,7 +19,7 @@ msgstr ""
 
 #: ../a11y/addressbook/ea-addressbook-view.c:94
 #: ../a11y/addressbook/ea-addressbook-view.c:103
-#: ../a11y/addressbook/ea-minicard-view.c:169
+#: ../a11y/addressbook/ea-minicard-view.c:180
 msgid "evolution addressbook"
 msgstr "สมุดที่อยู่ evolution"
 
@@ -33,12 +33,12 @@ msgstr "ที่อยู่ติดต่อใหม่"
 msgid "New Contact List"
 msgstr "รายชื่อที่อยู่ติดต่อใหม่"
 
-#: ../a11y/addressbook/ea-minicard-view.c:152
+#: ../a11y/addressbook/ea-minicard-view.c:163
 #, c-format
-msgid "current addressbook folder has %d card"
-msgid_plural "current addressbook folder has %d cards"
-msgstr[0] "โฟลเดอร์สมุดที่อยู่ปัจจุบันมีนามบัตร %d ใบ"
-msgstr[1] "โฟลเดอร์สมุดที่อยู่ปัจจุบันมีนามบัตร %d ใบ"
+msgid "current address book folder %s has %d card"
+msgid_plural "current address book folder %s has %d cards"
+msgstr[0] "โฟลเดอร์สมุดที่อยู่ %s มีนามบัตร %d ใบ"
+msgstr[1] "โฟลเดอร์สมุดที่อยู่ %s มีนามบัตร %d ใบ"
 
 #: ../a11y/addressbook/ea-minicard.c:31
 #: ../ui/evolution-message-composer.xml.h:12
@@ -111,32 +111,32 @@ msgstr "ไปยังวันที่"
 msgid "a table to view and select the current time range"
 msgstr "ตารางเพื่อดูและเลือกช่วงระยะเวลา ณ ปัจจุบัน"
 
-#: ../a11y/calendar/ea-day-view.c:146 ../a11y/calendar/ea-week-view.c:148
+#: ../a11y/calendar/ea-day-view.c:149 ../a11y/calendar/ea-week-view.c:151
 #, c-format
 msgid "It has %d event."
 msgid_plural "It has %d events."
 msgstr[0] "มี %d เหตุการณ์"
 msgstr[1] "มี %d เหตุการณ์"
 
-#: ../a11y/calendar/ea-day-view.c:148 ../a11y/calendar/ea-week-view.c:150
+#: ../a11y/calendar/ea-day-view.c:151 ../a11y/calendar/ea-week-view.c:153
 msgid "It has no events."
 msgstr "ไม่มีเหตุการณ์"
 
-#: ../a11y/calendar/ea-day-view.c:152
+#: ../a11y/calendar/ea-day-view.c:155
 #, c-format
 msgid "Work Week View: %s. %s"
 msgstr "รายสัปดาห์ทำงาน: %s. %s"
 
-#: ../a11y/calendar/ea-day-view.c:155
+#: ../a11y/calendar/ea-day-view.c:158
 #, c-format
 msgid "Day View: %s. %s"
 msgstr "รายวัน: %s. %s"
 
-#: ../a11y/calendar/ea-day-view.c:186
+#: ../a11y/calendar/ea-day-view.c:189
 msgid "calendar view for a work week"
 msgstr "มุมมองสำหรับหนึ่งสัปดาห์ทำงาน"
 
-#: ../a11y/calendar/ea-day-view.c:188
+#: ../a11y/calendar/ea-day-view.c:191
 msgid "calendar view for one or more days"
 msgstr "มุมมองปฏิทินสำหรับวันเดียวหรือหลายวัน"
 
@@ -212,21 +212,21 @@ msgstr ""
 msgid "Click here, you can find more events."
 msgstr "คุณสามารถดูเหตุการณ์มากกว่านี้ โดยคลิกที่นี่"
 
-#: ../a11y/calendar/ea-week-view.c:155
+#: ../a11y/calendar/ea-week-view.c:158
 #, c-format
 msgid "Month View: %s. %s"
 msgstr "รายเดือน: %s. %s"
 
-#: ../a11y/calendar/ea-week-view.c:159
+#: ../a11y/calendar/ea-week-view.c:162
 #, c-format
 msgid "Week View: %s. %s"
 msgstr "รายสัปดาห์: %s. %s"
 
-#: ../a11y/calendar/ea-week-view.c:190
+#: ../a11y/calendar/ea-week-view.c:193
 msgid "calendar view for a month"
 msgstr "ปฏิทินสำหรับหนึ่งเดือน"
 
-#: ../a11y/calendar/ea-week-view.c:192
+#: ../a11y/calendar/ea-week-view.c:195
 msgid "calendar view for one or more weeks"
 msgstr "ปฏิทินดูภายใน 1 สัปดาห์ หรือมากกว่า"
 
@@ -531,9 +531,9 @@ msgstr "กำหนดค่าเติมเต็มคำอัตโนม
 
 #. Create the contacts group
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:5
-#: ../addressbook/gui/component/addressbook-view.c:1334
+#: ../addressbook/gui/component/addressbook-view.c:1335
 #: ../calendar/gui/calendar-component.c:247 ../calendar/gui/migration.c:400
-#: ../plugins/exchange-operations/exchange-folder.c:585
+#: ../plugins/exchange-operations/exchange-folder.c:586
 msgid "Contacts"
 msgstr "ที่อยู่ติดต่อ"
 
@@ -784,10 +784,10 @@ msgstr "สมุดที่อยู่ใ_หม่"
 #: ../addressbook/gui/component/addressbook-view.c:954
 #: ../addressbook/gui/widgets/e-addressbook-view.c:979
 #: ../calendar/gui/calendar-component.c:538
-#: ../calendar/gui/e-calendar-table.c:1194
-#: ../calendar/gui/e-calendar-view.c:1617 ../calendar/gui/e-memo-table.c:869
+#: ../calendar/gui/e-calendar-table.c:1268
+#: ../calendar/gui/e-calendar-view.c:1728 ../calendar/gui/e-memo-table.c:869
 #: ../calendar/gui/tasks-component.c:443 ../mail/em-folder-tree.c:2054
-#: ../mail/em-folder-view.c:1091 ../ui/evolution-addressbook.xml.h:49
+#: ../mail/em-folder-view.c:1096 ../ui/evolution-addressbook.xml.h:49
 #: ../ui/evolution-calendar.xml.h:40 ../ui/evolution-mail-list.xml.h:30
 #: ../ui/evolution-memos.xml.h:16 ../ui/evolution-tasks.xml.h:24
 msgid "_Delete"
@@ -803,7 +803,7 @@ msgstr "บันทึกเป็น VCard..."
 msgid "_Properties..."
 msgstr "คุณ_สมบัติ..."
 
-#: ../addressbook/gui/component/addressbook-view.c:1345
+#: ../addressbook/gui/component/addressbook-view.c:1346
 msgid "Contact Source Selector"
 msgstr "กล่องเลือกแหล่งที่อยู่ติดต่อ"
 
@@ -812,7 +812,7 @@ msgid "Accessing LDAP Server anonymously"
 msgstr "กำลังเข้าใช้เซิร์ฟเวอร์ LDAP แบบนิรนาม"
 
 #: ../addressbook/gui/component/addressbook.c:197
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:492
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:491
 msgid "Failed to authenticate.\n"
 msgstr "การยืนยันตัวบุคคลล้มเหลว\n"
 
@@ -946,7 +946,7 @@ msgstr "Evolution จะใช้ที่อยู่อีเมลนี้�
 
 #: ../addressbook/gui/component/ldap-config.glade.h:21
 msgid "Find Possible Search Bases"
-msgstr "ค้นหาจุดเริ่มต้นค้นหาที่เป็นไปได้"
+msgstr "หาจุดเริ่มต้นค้นหาที่เป็นไปได้"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:23
 msgid "Lo_gin:"
@@ -1125,7 +1125,7 @@ msgstr "_จำกัดการดาวน์โหลด:"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:51
 msgid "_Find Possible Search Bases"
-msgstr "_ค้นหาจุดเริ่มต้นค้นหาที่เป็นไปได้"
+msgstr "_หาจุดเริ่มต้นค้นหาที่เป็นไปได้"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:52
 msgid "_Login method:"
@@ -1186,7 +1186,6 @@ msgstr "นาที"
 #: ../calendar/gui/dialogs/new-calendar.glade.h:1
 #: ../calendar/gui/dialogs/new-task-list.glade.h:1
 #: ../calendar/gui/dialogs/url-editor-dialog.glade.h:1
-#: ../composer/e-msg-composer-attachment.glade.h:1
 #: ../mail/message-tags.glade.h:1
 #: ../plugins/exchange-operations/exchange-change-password.glade.h:1
 #: ../plugins/groupwise-features/properties.glade.h:1
@@ -2501,15 +2500,15 @@ msgstr "มีการเปลี่ยนแปลง"
 msgid "Contact Editor - %s"
 msgstr "เครื่องมือแก้ไขที่อยู่ติดต่อ - %s"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2772
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2775
 msgid "Please select an image for this contact"
 msgstr "กรุณาเลือกรูปสำหรับที่อยู่ติดต่อนี้"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2773
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2776
 msgid "No image"
 msgstr "ไม่มีรูป"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3057
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3060
 msgid ""
 "The contact data is invalid:\n"
 "\n"
@@ -2517,7 +2516,7 @@ msgstr ""
 "ข้อมูลที่อยู่ติดต่อผิดพลาด:\n"
 "\n"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3109
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3112
 msgid "Invalid contact."
 msgstr "ที่อยู่ติดต่อผิดพลาด"
 
@@ -2545,7 +2544,7 @@ msgstr "เ_ลือกสมุดที่อยู่"
 #, c-format
 msgid ""
 "Are you sure you want\n"
-"to delete contact list (%s) ?"
+"to delete contact list (%s)?"
 msgstr ""
 "คุณแน่ใจหรือไม่ว่า\n"
 "จะลบรายชื่อที่อยู่ติดต่อ (%s)?"
@@ -2562,7 +2561,7 @@ msgstr ""
 #, c-format
 msgid ""
 "Are you sure you want\n"
-"to delete contact (%s) ?"
+"to delete contact (%s)?"
 msgstr ""
 "คุณแน่ใจหรือไม่ว่า\n"
 "จะลบที่อยู่ติดต่อ (%s)?"
@@ -2674,8 +2673,8 @@ msgstr "_บริการ IM:"
 
 #: ../addressbook/gui/contact-editor/im.glade.h:5
 #: ../plugins/calendar-weather/calendar-weather.c:409
-#: ../plugins/exchange-operations/exchange-calendar.c:239
-#: ../plugins/exchange-operations/exchange-contacts.c:228
+#: ../plugins/exchange-operations/exchange-calendar.c:238
+#: ../plugins/exchange-operations/exchange-contacts.c:230
 msgid "_Location:"
 msgstr "สถาน_ที่:"
 
@@ -2845,7 +2844,7 @@ msgstr "แหล่ง"
 #: ../addressbook/gui/widgets/e-addressbook-view.c:244
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:11
 #: ../calendar/gui/e-calendar-table.etspec.h:13
-#: ../calendar/gui/e-meeting-list-view.c:480
+#: ../calendar/gui/e-meeting-list-view.c:486
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:11
 #: ../calendar/gui/e-memo-table.etspec.h:5
 msgid "Type"
@@ -2858,9 +2857,9 @@ msgid "Save as VCard..."
 msgstr "บันทึกเป็น VCard..."
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:957
-#: ../calendar/gui/dialogs/comp-editor.c:1086
-#: ../calendar/gui/e-calendar-table.c:1174
-#: ../calendar/gui/e-calendar-view.c:1595 ../calendar/gui/e-memo-table.c:852
+#: ../calendar/gui/dialogs/comp-editor.c:1088
+#: ../calendar/gui/e-calendar-table.c:1248
+#: ../calendar/gui/e-calendar-view.c:1706 ../calendar/gui/e-memo-table.c:852
 #: ../ui/evolution-addressbook.xml.h:56
 msgid "_Open"
 msgstr "เ_ปิด"
@@ -2917,13 +2916,13 @@ msgstr "_ตัด"
 #: ../addressbook/gui/widgets/e-addressbook-view.c:977
 #: ../calendar/gui/calendar-component.c:537
 #: ../calendar/gui/dialogs/comp-editor.c:445
-#: ../calendar/gui/e-calendar-table.c:1182
-#: ../calendar/gui/e-calendar-view.c:1602 ../calendar/gui/e-memo-table.c:860
+#: ../calendar/gui/e-calendar-table.c:1256
+#: ../calendar/gui/e-calendar-view.c:1713 ../calendar/gui/e-memo-table.c:860
 #: ../calendar/gui/tasks-component.c:442 ../composer/e-msg-composer.c:3120
-#: ../mail/em-folder-tree.c:979 ../mail/em-folder-view.c:1077
+#: ../mail/em-folder-tree.c:979 ../mail/em-folder-view.c:1082
 #: ../mail/message-list.c:1724 ../ui/evolution-addressbook.xml.h:46
 #: ../ui/evolution-calendar.xml.h:39 ../ui/evolution-composer-entries.xml.h:13
-#: ../ui/evolution-editor.xml.h:16 ../ui/evolution-mail-message.xml.h:104
+#: ../ui/evolution-editor.xml.h:17 ../ui/evolution-mail-message.xml.h:104
 #: ../ui/evolution-memos.xml.h:15 ../ui/evolution-tasks.xml.h:23
 msgid "_Copy"
 msgstr "_คัดลอก"
@@ -3078,7 +3077,7 @@ msgstr "วิทยุสื่อสาร"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:33
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:9
-#: ../calendar/gui/e-meeting-list-view.c:491
+#: ../calendar/gui/e-meeting-list-view.c:497
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:9
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:725
 msgid "Role"
@@ -3443,7 +3442,7 @@ msgid ""
 "the directory server preferences for this addressbook."
 msgstr ""
 "พบนามบัตรจำนวนมากกว่าที่กำหนดให้เซิร์ฟเวอร์คืนผลลัพธ์ หรือที่กำหนดให้\n"
-"Evolution แสดงผล กรุณาค้นหาดวยคำถามที่เฉพาะเจาะจงกว่านี้\n"
+"Evolution แสดงผล กรุณาค้นหาดวยคำค้นที่เฉพาะเจาะจงกว่านี้\n"
 "หรือเพิ่มขีดจำกัดในหน้าต่างปรับแต่งเซิร์ฟเวอร์สารบบสำหรับสมุดที่อยู่นี้"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:153
@@ -3454,7 +3453,7 @@ msgid ""
 "preferences for this addressbook."
 msgstr ""
 "เวลาหมด คำถามนี้เกินจำกัดเวลาของเซิร์ฟเวอร์ หรือค่าที่คุณกำหนดไว้\n"
-"สำหรับสมุดที่อยู่นี้ กรุณาค้นหาดวยคำถามที่เฉพาะเจาะจงกว่านี้\n"
+"สำหรับสมุดที่อยู่นี้ กรุณาค้นหาดวยคำค้นที่เฉพาะเจาะจงกว่านี้\n"
 "หรือเพิ่มค่าจำกัดเวลา ในหน้าต่างปรับแต่งเซิร์ฟเวอร์สารบบสำหรับสมุดที่อยู่นี้"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:159
@@ -3650,19 +3649,19 @@ msgstr "เครื่องมือนำเข้า Evolution CSV และ
 msgid "Importing ..."
 msgstr "กำลังนำเข้า..."
 
-#: ../addressbook/importers/evolution-ldif-importer.c:761
+#: ../addressbook/importers/evolution-ldif-importer.c:754
 msgid "LDAP Data Interchange Format (.ldif)"
 msgstr "LDAP Data Interchange Format (.ldif)"
 
-#: ../addressbook/importers/evolution-ldif-importer.c:762
+#: ../addressbook/importers/evolution-ldif-importer.c:755
 msgid "Evolution LDIF importer"
 msgstr "เครื่องมือนำเข้า Evolution LDIF"
 
-#: ../addressbook/importers/evolution-vcard-importer.c:554
+#: ../addressbook/importers/evolution-vcard-importer.c:547
 msgid "VCard (.vcf, .gcrd)"
 msgstr "VCard (.vcf, .gcrd)"
 
-#: ../addressbook/importers/evolution-vcard-importer.c:555
+#: ../addressbook/importers/evolution-vcard-importer.c:548
 msgid "Evolution VCard Importer"
 msgstr "เครื่องมือนำเข้า Evolution VCard"
 
@@ -3830,8 +3829,8 @@ msgstr "การแรเงา"
 #. FIXME: Take care of i18n
 #: ../addressbook/printing/e-contact-print.glade.h:36
 #: ../plugins/exchange-operations/exchange-account-setup.c:955
-#: ../plugins/exchange-operations/exchange-calendar.c:229
-#: ../plugins/exchange-operations/exchange-contacts.c:211
+#: ../plugins/exchange-operations/exchange-calendar.c:227
+#: ../plugins/exchange-operations/exchange-contacts.c:213
 msgid "Size:"
 msgstr "ขนาด:"
 
@@ -3965,7 +3964,7 @@ msgstr "ไม่มีชื่อแฟ้มอยู่"
 msgid ""
 "Adding a meaningful summary to your appointment will give your recipients an "
 "idea of what your appointment is about."
-msgstr "การเพิ่มสรุปใจความสำคัญของการนัดหมาย จะช่วยให้ผู้รับเข้าใจเกี่ยวกับการนัดหมายของคุณ"
+msgstr "การเพิ่มสรุปใจความสำคัญของนัดหมาย จะช่วยให้ผู้รับเข้าใจเกี่ยวกับการนัดหมายของคุณ"
 
 #: ../calendar/calendar.error.xml.h:2
 msgid ""
@@ -3988,31 +3987,31 @@ msgstr "ข้อมูลทั้งหมดในบันทึกนี้
 msgid ""
 "All information on these appointments will be deleted and can not be "
 "restored."
-msgstr "ข้อมูลทั้งหมดของการนัดหมายเหล่านี้จะถูกลบไป และไม่สามารถนำกลับมาได้อีก"
+msgstr "ข้อมูลทั้งหมดของนัดหมายเหล่านี้จะถูกลบทิ้งไป และไม่สามารถนำกลับมาได้อีก"
 
 #: ../calendar/calendar.error.xml.h:6
 msgid "All information on these tasks will be deleted and can not be restored."
-msgstr "ข้อมูลทั้งหมดของงานเหล่านี้จะถูกลบไป และไม่สามารถนำกลับมาได้อีก"
+msgstr "ข้อมูลทั้งหมดของงานเหล่านี้จะถูกลบทิ้งไป และไม่สามารถนำกลับมาได้อีก"
 
 #: ../calendar/calendar.error.xml.h:7
 msgid ""
 "All information on this appointment will be deleted and can not be restored."
-msgstr "ข้อมูลทั้งหมดของการนัดหมายนี้จะถูกลบไป และไม่สามารถนำกลับมาได้อีก"
+msgstr "ข้อมูลทั้งหมดของนัดหมายนี้จะถูกลบทิ้งไป และไม่สามารถนำกลับมาได้อีก"
 
 #: ../calendar/calendar.error.xml.h:8
 msgid ""
 "All information on this journal entry will be deleted and can not be "
 "restored."
-msgstr "ข้อมูลทั้งหมดในรายการบันทึกนี้จะถูกลบไป และไม่สามารถนำกลับมาได้อีก"
+msgstr "ข้อมูลทั้งหมดในรายการบันทึกนี้จะถูกลบทิ้งไป และไม่สามารถนำกลับมาได้อีก"
 
 #: ../calendar/calendar.error.xml.h:9
 msgid ""
 "All information on this meeting will be deleted and can not be restored."
-msgstr "ข้อมูลทั้งหมดของการประชุมนี้จะถูกลบไป และไม่สามารถนำกลับมาได้อีก"
+msgstr "ข้อมูลทั้งหมดของการประชุมนี้จะถูกลบทิ้งไป และไม่สามารถนำกลับมาได้อีก"
 
 #: ../calendar/calendar.error.xml.h:10
 msgid "All information on this task will be deleted and can not be restored."
-msgstr "ข้อมูลทั้งหมดของงานนี้จะถูกลบไป และไม่สามารถนำกลับมาได้อีก"
+msgstr "ข้อมูลทั้งหมดของงานนี้จะถูกลบทิ้งไป และไม่สามารถนำกลับมาได้อีก"
 
 #: ../calendar/calendar.error.xml.h:11
 msgid "Are you sure you want to delete the '{0}' task?"
@@ -4020,7 +4019,7 @@ msgstr "คุณแน่ใจหรือไม่ว่าต้องกา
 
 #: ../calendar/calendar.error.xml.h:12
 msgid "Are you sure you want to delete the appointment titled '{0}'?"
-msgstr "คุณแน่ใจหรือไม่ว่าจะลบการนัดหมายเรื่อง '{0}'?"
+msgstr "คุณแน่ใจหรือไม่ว่าจะลบนัดหมายเรื่อง '{0}'?"
 
 #: ../calendar/calendar.error.xml.h:13
 msgid "Are you sure you want to delete the journal entry '{0}'?"
@@ -4028,7 +4027,7 @@ msgstr "คุณแน่ใจหรือไม่ว่าต้องกา
 
 #: ../calendar/calendar.error.xml.h:14
 msgid "Are you sure you want to delete these {0} appointments?"
-msgstr "คุณแน่ใจหรือไม่ว่าต้องการลบการนัดหมาย {0} เหล่านี้?"
+msgstr "คุณแน่ใจหรือไม่ว่าต้องการลบนัดหมาย {0} เหล่านี้?"
 
 #: ../calendar/calendar.error.xml.h:15
 msgid "Are you sure you want to delete these {0} journal entries?"
@@ -4040,23 +4039,26 @@ msgstr "คุณแน่ใจหรือไม่ว่าต้องกา
 
 #: ../calendar/calendar.error.xml.h:17
 msgid "Are you sure you want to delete this appointment?"
-msgstr "คุณแน่ใจหรือไม่ว่าต้องการลบการนัดหมายนี้?"
+msgstr "คุณแน่ใจหรือไม่ว่าต้องการลบนัดหมายนี้?"
 
 #: ../calendar/calendar.error.xml.h:18
+#: ../calendar/gui/dialogs/delete-comp.c:189
 msgid "Are you sure you want to delete this journal entry?"
 msgstr "คุณแน่ใจหรือไม่ว่าต้องการลบรายการบันทึกนี้?"
 
 #: ../calendar/calendar.error.xml.h:19
+#: ../calendar/gui/dialogs/delete-comp.c:183
 msgid "Are you sure you want to delete this meeting?"
 msgstr "คุณแน่ใจหรือไม่ว่าต้องการลบการประชุมนี้?"
 
 #: ../calendar/calendar.error.xml.h:20
+#: ../calendar/gui/dialogs/delete-comp.c:186
 msgid "Are you sure you want to delete this task?"
 msgstr "คุณแน่ใจหรือไม่ว่าต้องการลบงานนี้?"
 
 #: ../calendar/calendar.error.xml.h:21
 msgid "Are you sure you want to send the appointment without a summary?"
-msgstr "คุณแน่ใจหรือไม่ว่าต้องการส่งการนัดหมายโดยไม่ต้องมีสรุป?"
+msgstr "คุณแน่ใจหรือไม่ว่าต้องการส่งนัดหมายโดยไม่ต้องมีสรุป?"
 
 #: ../calendar/calendar.error.xml.h:22
 msgid "Are you sure you want to send the task without a summary?"
@@ -4072,7 +4074,7 @@ msgstr "ลบปฏิทิน '{0}' หรือไม่?"
 
 #: ../calendar/calendar.error.xml.h:25
 msgid "Delete memo list '{0}'?"
-msgstr "ลบรายการบันทึกข้อความ '{0}' หรือไม่?"
+msgstr "ลบรายการบันทึกช่วยจำ '{0}' หรือไม่?"
 
 #: ../calendar/calendar.error.xml.h:26
 msgid "Delete task list '{0}'?"
@@ -4084,7 +4086,7 @@ msgstr "ไ_ม่ส่ง"
 
 #: ../calendar/calendar.error.xml.h:28
 msgid "Download in progress. Do you want to save the appointment?"
-msgstr "กำลังดาวน์โหลด คุณต้องการบันทึกการนัดหมายหรือไม่?"
+msgstr "กำลังดาวน์โหลด คุณต้องการบันทึกนัดหมายหรือไม่?"
 
 #: ../calendar/calendar.error.xml.h:29
 msgid "Download in progress. Do you want to save the task?"
@@ -4111,7 +4113,7 @@ msgstr "เกิดข้อผิดพลาดขณะเรียกดู
 
 #: ../calendar/calendar.error.xml.h:34
 msgid "Error loading memo list"
-msgstr "เกิดข้อผิดพลาดขณะเรียกดูรายการบันทึกข้อความ"
+msgstr "เกิดข้อผิดพลาดขณะเรียกดูรายการบันทึกช่วยจำ"
 
 #: ../calendar/calendar.error.xml.h:35
 msgid "Error loading task list"
@@ -4183,7 +4185,7 @@ msgstr "ปฏิทินที่คุณเลือกไว้สามา
 
 #: ../calendar/calendar.error.xml.h:48
 msgid "The memo list is not marked for offline usage"
-msgstr "ไม่ได้ทำเครื่องหมายที่รายการบันทึกข้อความเพื่อการใช้งานแบบออฟไลน์"
+msgstr "ไม่ได้ทำเครื่องหมายที่รายการบันทึกช่วยจำเพื่อการใช้งานแบบออฟไลน์"
 
 #: ../calendar/calendar.error.xml.h:49
 msgid "The task list is not marked for offline usage."
@@ -4195,7 +4197,7 @@ msgstr "ปฏิทินจะถูกลบออกอย่างถาว
 
 #: ../calendar/calendar.error.xml.h:51
 msgid "This memo list will be removed permanently."
-msgstr "บันทึกข้อความนี้จะถูกลบออกอย่างถาวร"
+msgstr "บันทึกช่วยจำนี้จะถูกลบออกอย่างถาวร"
 
 #: ../calendar/calendar.error.xml.h:52
 msgid "This task list will be removed permanently."
@@ -4203,11 +4205,11 @@ msgstr "งานจะถูกลบออกอย่างถาวร"
 
 #: ../calendar/calendar.error.xml.h:53
 msgid "Would you like to save your changes to this appointment?"
-msgstr "คุณต้องการบันทึกการเปลี่ยนแปลงการนัดหมายนี้หรือไม่?"
+msgstr "คุณต้องการบันทึกการเปลี่ยนแปลงนัดหมายนี้หรือไม่?"
 
 #: ../calendar/calendar.error.xml.h:54
 msgid "Would you like to save your changes to this memo?"
-msgstr "คุณต้องการบันทึกการเปลี่ยนแปลงของคุณในบันทึกข้อความนี้หรือไม่?"
+msgstr "คุณต้องการบันทึกการเปลี่ยนแปลงของคุณในบันทึกช่วยจำนี้หรือไม่?"
 
 #: ../calendar/calendar.error.xml.h:55
 msgid "Would you like to save your changes to this task?"
@@ -4248,7 +4250,7 @@ msgstr ""
 
 #: ../calendar/calendar.error.xml.h:63
 msgid "You have changed this appointment, but not yet saved it."
-msgstr "คุณได้เปลี่ยนแปลงการนัดหมายนี้ แต่ยังไม่ได้บันทึก"
+msgstr "คุณได้เปลี่ยนแปลงนัดหมายนี้ แต่ยังไม่ได้บันทึก"
 
 #: ../calendar/calendar.error.xml.h:64
 msgid "You have changed this task, but not yet saved it."
@@ -4319,12 +4321,12 @@ msgstr "ไม่สามารถอ่านบล็อคโปรแกร
 #: ../calendar/conduits/memo/memo-conduit.c:937
 #: ../calendar/conduits/memo/memo-conduit.c:940
 msgid "Could not read pilot's Memo application block"
-msgstr "ไม่สามารถอ่านบล็อคโปรแกรมบันทึกข้อความของ pilot ได้"
+msgstr "ไม่สามารถอ่านบล็อคโปรแกรมบันทึกช่วยจำของ pilot ได้"
 
 #: ../calendar/conduits/memo/memo-conduit.c:976
 #: ../calendar/conduits/memo/memo-conduit.c:979
 msgid "Could not write pilot's Memo application block"
-msgstr "ไม่สามารถเขียนบล็อคโปรแกรมบันทึกข้อความของ pilot ได้"
+msgstr "ไม่สามารถเขียนบล็อคโปรแกรมบันทึกช่วยจำของ pilot ได้"
 
 #: ../calendar/conduits/todo/todo-conduit.c:239
 msgid "Default Priority:"
@@ -4376,7 +4378,7 @@ msgstr "องค์ประกอบปฏิทินของ Evolution"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:9
 msgid "Evolution's Memos component"
-msgstr "องค์ประกอบบันทึกข้อความของ Evolution"
+msgstr "องค์ประกอบบันทึกช่วยจำของ Evolution"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:10
 msgid "Evolution's Tasks component"
@@ -4384,14 +4386,14 @@ msgstr "องค์ประกอบงานของ Evolution"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:11
 msgid "Memo_s"
-msgstr "บันทึก_ข้อความ"
+msgstr "บันทึก_ช่วยจำ"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:12
 #: ../calendar/gui/e-memo-table.c:274 ../calendar/gui/e-memos.c:1084
 #: ../calendar/gui/memos-component.c:530 ../calendar/gui/memos-component.c:997
 #: ../calendar/gui/memos-control.c:340
 msgid "Memos"
-msgstr "บันทึกข้อความ"
+msgstr "บันทึกช่วยจำ"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:13
 #: ../calendar/gui/e-calendar-table.c:525 ../calendar/gui/e-tasks.c:1347
@@ -4399,7 +4401,7 @@ msgstr "บันทึกข้อความ"
 #: ../calendar/gui/tasks-component.c:1012 ../calendar/gui/tasks-control.c:475
 #: ../calendar/importers/icalendar-importer.c:80
 #: ../calendar/importers/icalendar-importer.c:741
-#: ../plugins/exchange-operations/exchange-folder.c:591
+#: ../plugins/exchange-operations/exchange-folder.c:592
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:384
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:591
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:12
@@ -4444,7 +4446,7 @@ msgstr "เวลาเริ่ม"
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:1
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:4
 msgid "Appointments"
-msgstr "การนัดหมาย"
+msgstr "นัดหมาย"
 
 #. Location
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:2
@@ -4465,7 +4467,7 @@ msgstr "ช่วงเ_วลาผัดผ่อน:"
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:15
 #: ../plugins/publish-calendar/publish-calendar.glade.h:21
 #: ../ui/evolution-addressbook.xml.h:51 ../ui/evolution-calendar.xml.h:41
-#: ../ui/evolution-composer-entries.xml.h:14 ../ui/evolution-editor.xml.h:17
+#: ../ui/evolution-composer-entries.xml.h:14 ../ui/evolution-editor.xml.h:18
 #: ../ui/evolution-mail-messagedisplay.xml.h:5 ../ui/evolution-memos.xml.h:17
 #: ../ui/evolution-message-composer.xml.h:46
 #: ../ui/evolution-signature-editor.xml.h:24
@@ -4768,7 +4770,7 @@ msgstr "แสดงช่องข้อมูลบทบาทในเคร
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:43
 msgid "Show appointment end times in week and month views"
-msgstr "แสดงเวลาสิ้นสุดการนัดหมายในมุมมองสัปดาห์และเดือน"
+msgstr "แสดงเวลาสิ้นสุดนัดหมายในมุมมองสัปดาห์และเดือน"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:44
 msgid "Show categories field in the event/meeting/task editor"
@@ -4868,7 +4870,7 @@ msgstr ""
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:67
 msgid "Whether to ask for confirmation when deleting an appointment or task."
-msgstr "กำหนดว่าจะถามยืนยันก่อนลบการนัดหมายหรืองานหรือไม่"
+msgstr "กำหนดว่าจะถามยืนยันก่อนลบนัดหมายหรืองานหรือไม่"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:68
 msgid "Whether to ask for confirmation when expunging appointments and tasks."
@@ -4896,7 +4898,7 @@ msgstr "กำหนดว่าจะซ่อนงานที่เสร็
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:73
 msgid "Whether to set a default reminder for appointments."
-msgstr "กำหนดว่าจะตั้งค่าเตือนความจำปริยายสำหรับการนัดหมายหรือไม่"
+msgstr "กำหนดว่าจะตั้งค่าเตือนความจำปริยายสำหรับนัดหมายหรือไม่"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:74
 msgid "Whether to show RSVP field in the event/task/meeting editor"
@@ -4982,7 +4984,7 @@ msgstr "พิมพ์"
 #: ../calendar/gui/calendar-component.c:709
 #: ../calendar/gui/dialogs/calendar-setup.c:370
 #: ../calendar/gui/gnome-cal.c:2111
-#: ../plugins/exchange-operations/exchange-folder.c:579
+#: ../plugins/exchange-operations/exchange-folder.c:580
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:383
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:413
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:590
@@ -5058,15 +5060,15 @@ msgstr "ช่องเลือกแหล่งปฏิทิน"
 
 #: ../calendar/gui/calendar-component.c:1457
 msgid "New appointment"
-msgstr "การนัดหมายใหม่"
+msgstr "นัดหมายใหม่"
 
 #: ../calendar/gui/calendar-component.c:1458
 msgid "_Appointment"
-msgstr "การ_นัดหมาย"
+msgstr "_นัดหมาย"
 
 #: ../calendar/gui/calendar-component.c:1459
 msgid "Create a new appointment"
-msgstr "สร้างการนัดหมายใหม่"
+msgstr "สร้างนัดหมายใหม่"
 
 #: ../calendar/gui/calendar-component.c:1465
 msgid "New meeting"
@@ -5082,11 +5084,11 @@ msgstr "สร้างการขอการประชุมใหม่"
 
 #: ../calendar/gui/calendar-component.c:1473
 msgid "New all day appointment"
-msgstr "การประชุมตลอดทั้งวันใหม่"
+msgstr "นัดหมายตลอดทั้งวันใหม่"
 
 #: ../calendar/gui/calendar-component.c:1474
 msgid "All Day A_ppointment"
-msgstr "การประชุม_ตลอดทั้งวัน"
+msgstr "นัดหมาย_ตลอดทั้งวัน"
 
 #: ../calendar/gui/calendar-component.c:1475
 msgid "Create a new all-day appointment"
@@ -5225,7 +5227,7 @@ msgstr "วัน"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:21
 msgid "end of appointment"
-msgstr "สิ้นสุดการนัดหมาย"
+msgstr "สิ้นสุดนัดหมาย"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:22
 msgid "extra times every"
@@ -5241,7 +5243,7 @@ msgstr "นาที"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:27
 msgid "start of appointment"
-msgstr "เริ่มการนัดหมาย"
+msgstr "เริ่มนัดหมาย"
 
 #: ../calendar/gui/dialogs/alarm-list-dialog.c:235
 msgid "Action/Trigger"
@@ -5261,11 +5263,10 @@ msgstr "การเตือน"
 #: ../calendar/gui/dialogs/cal-attachment-select-file.c:96
 #: ../calendar/gui/dialogs/cal-attachment-select-file.c:115
 #: ../calendar/gui/dialogs/cal-attachment.glade.h:6
-#: ../composer/e-msg-composer-attachment.glade.h:6
+#: ../composer/e-msg-composer-attachment.glade.h:5
 #: ../composer/e-msg-composer-select-file.c:97
 #: ../composer/e-msg-composer-select-file.c:117
-#: ../widgets/misc/e-attachment.glade.h:6
-msgid "Suggest automatic display of attachment"
+msgid "_Suggest automatic display of attachment"
 msgstr ""
 
 #: ../calendar/gui/dialogs/cal-attachment-select-file.c:190
@@ -5273,7 +5274,7 @@ msgid "Attach file(s)"
 msgstr "แนบแฟ้ม"
 
 #: ../calendar/gui/dialogs/cal-attachment.glade.h:2
-#: ../composer/e-msg-composer-attachment.glade.h:2
+#: ../composer/e-msg-composer-attachment.glade.h:1
 #: ../widgets/misc/e-attachment.glade.h:2
 msgid "Attachment Properties"
 msgstr "คุณสมบัติเอกสารแนบ"
@@ -5282,19 +5283,19 @@ msgstr "คุณสมบัติเอกสารแนบ"
 #: ../calendar/gui/e-cal-component-preview.c:269
 #: ../calendar/gui/e-itip-control.c:1159
 #: ../calendar/gui/e-itip-control.glade.h:6
-#: ../composer/e-msg-composer-attachment.glade.h:3
+#: ../composer/e-msg-composer-attachment.glade.h:2
 #: ../mail/mail-config.glade.h:69 ../widgets/misc/e-attachment.glade.h:3
 msgid "Description:"
 msgstr "คำอธิบาย:"
 
 #: ../calendar/gui/dialogs/cal-attachment.glade.h:4
-#: ../composer/e-msg-composer-attachment.glade.h:4
+#: ../composer/e-msg-composer-attachment.glade.h:3
 #: ../widgets/misc/e-attachment.glade.h:4
 msgid "File name:"
 msgstr "ชื่อแฟ้ม:"
 
 #: ../calendar/gui/dialogs/cal-attachment.glade.h:5
-#: ../composer/e-msg-composer-attachment.glade.h:5
+#: ../composer/e-msg-composer-attachment.glade.h:4
 #: ../widgets/misc/e-attachment.glade.h:5
 msgid "MIME type:"
 msgstr "ชนิด MIME:"
@@ -5359,7 +5360,7 @@ msgid "Display"
 msgstr "แสดง"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:17
-#: ../calendar/gui/dialogs/event-editor.c:572
+#: ../calendar/gui/dialogs/event-editor.c:574
 #: ../ui/evolution-event-editor.xml.h:8
 msgid "Free/Busy"
 msgstr "ว่าง/ไม่ว่าง"
@@ -5528,7 +5529,7 @@ msgstr "_ส."
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:59
 msgid "_Show appointment end times in week and month view"
-msgstr "แ_สดงเวลาสิ้นสุดการนัดหมายในมุมมองสัปดาห์และเดือน"
+msgstr "แ_สดงเวลาสิ้นสุดนัดหมายในมุมมองสัปดาห์และเดือน"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:60
 msgid "_Time divisions:"
@@ -5544,7 +5545,7 @@ msgstr "_พ."
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:63
 msgid "before every appointment"
-msgstr "ก่อนการนัดหมายทุกครั้ง"
+msgstr "ก่อนนัดหมายทุกครั้ง"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:288
 msgid "Copy calendar contents locally for offline operation"
@@ -5556,7 +5557,7 @@ msgstr "คัดลอกเนื้อหารายการงานไว
 
 #: ../calendar/gui/dialogs/calendar-setup.c:293
 msgid "Copy memo list contents locally for offline operation"
-msgstr "คัดลอกเนื้อหารายการบันทึกข้อความไว้ที่เครื่องเพื่อการทำงานแบบออฟไลน์"
+msgstr "คัดลอกเนื้อหารายการบันทึกช่วยจำไว้ที่เครื่องเพื่อการทำงานแบบออฟไลน์"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:344
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:4
@@ -5569,7 +5570,7 @@ msgstr "รายการงาน"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:392
 msgid "Memos List"
-msgstr "รายการบันทึกข้อความ"
+msgstr "รายการบันทึกช่วยจำ"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:461
 msgid "Calendar Properties"
@@ -5586,7 +5587,7 @@ msgstr "คุณสมบัติรายการงาน"
 #: ../calendar/gui/dialogs/calendar-setup.c:595
 #: ../calendar/gui/memos-component.c:450
 msgid "New Memo List"
-msgstr "รายการบันทึกข้อความใหม่"
+msgstr "รายการบันทึกช่วยจำใหม่"
 
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:2
 msgid "Add Calendar"
@@ -5708,7 +5709,7 @@ msgstr[1] "ข้อความที่แนบมา %d ข้อควา�
 
 #: ../calendar/gui/dialogs/comp-editor.c:446 ../composer/e-msg-composer.c:3121
 #: ../mail/em-folder-tree.c:980 ../mail/em-folder-utils.c:368
-#: ../mail/em-folder-view.c:973 ../mail/message-list.c:1725
+#: ../mail/em-folder-view.c:978 ../mail/message-list.c:1725
 msgid "_Move"
 msgstr "_ย้าย"
 
@@ -5717,30 +5718,30 @@ msgstr "_ย้าย"
 msgid "Cancel _Drag"
 msgstr "ยกเลิกการ_ลาก"
 
-#: ../calendar/gui/dialogs/comp-editor.c:800
+#: ../calendar/gui/dialogs/comp-editor.c:802
 msgid "Could not update object"
 msgstr ""
 
-#: ../calendar/gui/dialogs/comp-editor.c:943 ../composer/e-msg-composer.c:2479
+#: ../calendar/gui/dialogs/comp-editor.c:945 ../composer/e-msg-composer.c:2479
 #, c-format
 msgid "<b>%d</b> Attachment"
 msgid_plural "<b>%d</b> Attachments"
 msgstr[0] "เอกสารแนบ <b>%d</b> ฉบับ"
 msgstr[1] "เอกสารแนบ <b>%d</b> ฉบับ"
 
-#: ../calendar/gui/dialogs/comp-editor.c:975
+#: ../calendar/gui/dialogs/comp-editor.c:977
 msgid "Hide Attachment _Bar"
 msgstr "ซ่อนแ_ถบเอกสารแนบ"
 
-#: ../calendar/gui/dialogs/comp-editor.c:978
-#: ../calendar/gui/dialogs/comp-editor.c:1442
+#: ../calendar/gui/dialogs/comp-editor.c:980
+#: ../calendar/gui/dialogs/comp-editor.c:1444
 msgid "Show Attachment _Bar"
 msgstr "แสดงแ_ถบเอกสารแนบ"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1087
+#: ../calendar/gui/dialogs/comp-editor.c:1089
 #: ../calendar/gui/dialogs/event-page.c:1894
 #: ../calendar/gui/dialogs/meeting-page.c:899
-#: ../calendar/gui/dialogs/task-page.c:1202
+#: ../calendar/gui/dialogs/task-page.c:1198
 #: ../composer/e-msg-composer-attachment-bar.c:470
 #: ../composer/e-msg-composer.c:3619
 #: ../plugins/groupwise-features/junk-settings.glade.h:8
@@ -5749,81 +5750,81 @@ msgstr "แสดงแ_ถบเอกสารแนบ"
 msgid "_Remove"
 msgstr "_ลบ"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1088
+#: ../calendar/gui/dialogs/comp-editor.c:1090
 #: ../composer/e-msg-composer-attachment-bar.c:471
 #: ../composer/e-msg-composer.c:3620 ../mail/em-folder-tree.c:2058
 #: ../ui/evolution-addressbook.xml.h:59 ../ui/evolution-mail-list.xml.h:33
 msgid "_Properties"
 msgstr "_คุณสมบัติ"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1090
+#: ../calendar/gui/dialogs/comp-editor.c:1092
 #: ../composer/e-msg-composer-attachment-bar.c:473
 #: ../composer/e-msg-composer.c:3622
 msgid "_Add attachment..."
 msgstr "เ_พิ่มเอกสารแนบ..."
 
-#: ../calendar/gui/dialogs/comp-editor.c:1466
+#: ../calendar/gui/dialogs/comp-editor.c:1468
 #: ../mail/em-format-html-display.c:2065
 msgid "Show Attachments"
 msgstr "แสดงเอกสารแนบ"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1467
+#: ../calendar/gui/dialogs/comp-editor.c:1469
 msgid "Press space key to toggle attachment bar"
 msgstr "กดแคร่เว้นวรรคเพื่อซ่อน/แสดงแถบเอกสารแนบ"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2074
-#: ../calendar/gui/dialogs/comp-editor.c:2117
+#: ../calendar/gui/dialogs/comp-editor.c:2076
+#: ../calendar/gui/dialogs/comp-editor.c:2119
 msgid "Edit Appointment"
-msgstr "แก้ไขการนัดหมาย"
-
-#: ../calendar/gui/dialogs/comp-editor.c:2080
-#: ../calendar/gui/dialogs/comp-editor.c:2123
-#, c-format
-msgid "Meeting - %s"
-msgstr "การประชุม - %s"
+msgstr "แก้ไขนัดหมาย"
 
 #: ../calendar/gui/dialogs/comp-editor.c:2082
 #: ../calendar/gui/dialogs/comp-editor.c:2125
 #, c-format
-msgid "Appointment - %s"
-msgstr "การนัดหมาย - %s"
+msgid "Meeting - %s"
+msgstr "การประชุม - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2086
-#: ../calendar/gui/dialogs/comp-editor.c:2129
+#: ../calendar/gui/dialogs/comp-editor.c:2084
+#: ../calendar/gui/dialogs/comp-editor.c:2127
 #, c-format
-msgid "Assigned Task - %s"
-msgstr "งานที่ได้รับมอบหมาย - %s"
+msgid "Appointment - %s"
+msgstr "นัดหมาย - %s"
 
 #: ../calendar/gui/dialogs/comp-editor.c:2088
 #: ../calendar/gui/dialogs/comp-editor.c:2131
 #, c-format
+msgid "Assigned Task - %s"
+msgstr "งานที่ได้รับมอบหมาย - %s"
+
+#: ../calendar/gui/dialogs/comp-editor.c:2090
+#: ../calendar/gui/dialogs/comp-editor.c:2133
+#, c-format
 msgid "Task - %s"
 msgstr "งาน - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2091
-#: ../calendar/gui/dialogs/comp-editor.c:2134
+#: ../calendar/gui/dialogs/comp-editor.c:2093
+#: ../calendar/gui/dialogs/comp-editor.c:2136
 #, c-format
 msgid "Journal entry - %s"
 msgstr "รายการบันทึก - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2102
-#: ../calendar/gui/dialogs/comp-editor.c:2144
+#: ../calendar/gui/dialogs/comp-editor.c:2104
+#: ../calendar/gui/dialogs/comp-editor.c:2146
 msgid "No summary"
 msgstr "ไม่มีสรุป"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2652
-#: ../composer/e-msg-composer-attachment-bar.c:307 ../mail/em-utils.c:464
-#: ../mail/em-utils.c:501 ../widgets/misc/e-attachment-bar.c:339
+#: ../calendar/gui/dialogs/comp-editor.c:2654
+#: ../composer/e-msg-composer-attachment-bar.c:307 ../mail/em-utils.c:498
+#: ../mail/em-utils.c:535 ../widgets/misc/e-attachment-bar.c:339
 msgid "attachment"
 msgstr "เอกสารแนบ"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2741
-#: ../calendar/gui/dialogs/comp-editor.c:2795
-#: ../calendar/gui/dialogs/comp-editor.c:2819
+#: ../calendar/gui/dialogs/comp-editor.c:2743
+#: ../calendar/gui/dialogs/comp-editor.c:2797
+#: ../calendar/gui/dialogs/comp-editor.c:2821
 msgid "Changes made to this item may be discarded if an update arrives"
 msgstr "ความเปลี่ยนแปลงในรายการนี้อาจถูกละเลยถ้ามีการปรับข้อมูลเข้ามา"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2843
+#: ../calendar/gui/dialogs/comp-editor.c:2845
 msgid "Unable to use current version!"
 msgstr "ไม่สามารถใช้รุ่นปัจจุบัน"
 
@@ -5838,6 +5839,10 @@ msgstr "ไม่สามารถเปิดที่ปลายทาง"
 #: ../calendar/gui/dialogs/copy-source-dialog.c:78
 msgid "Destination is read only"
 msgstr "ที่ปลายทางใช้อ่านได้เท่านั้น"
+
+#: ../calendar/gui/dialogs/delete-comp.c:206
+msgid "_Delete this item from all other recipient's mailboxes?"
+msgstr ""
 
 #: ../calendar/gui/dialogs/delete-error.c:54
 msgid "The event could not be deleted due to a corba error"
@@ -5902,7 +5907,7 @@ msgstr "ป้อนผู้รับมอบฉันทะ"
 
 #: ../calendar/gui/dialogs/event-editor.c:547
 msgid "Appoint_ment"
-msgstr "การ_นัดหมาย"
+msgstr "_นัดหมาย"
 
 #: ../calendar/gui/dialogs/event-editor.c:551
 #: ../ui/evolution-event-editor.xml.h:14
@@ -5922,7 +5927,7 @@ msgstr "_ปฏิทิน:"
 #: ../calendar/gui/dialogs/event-page.c:878
 #: ../calendar/gui/dialogs/event-page.glade.h:13
 #: ../calendar/gui/dialogs/meeting-page.glade.h:5
-#: ../calendar/gui/dialogs/task-page.c:446
+#: ../calendar/gui/dialogs/task-page.c:441
 msgid "Or_ganizer:"
 msgstr "ผู้_ประสานงาน:"
 
@@ -5943,7 +5948,7 @@ msgid "Event with no end date"
 msgstr "เหตุการณ์ที่ไม่บอกวันสิ้นสุด"
 
 #: ../calendar/gui/dialogs/event-page.c:1257
-#: ../calendar/gui/dialogs/task-page.c:852
+#: ../calendar/gui/dialogs/task-page.c:848
 msgid "Start date is wrong"
 msgstr "วันเริ่มต้นไม่ถูกต้อง"
 
@@ -5961,25 +5966,25 @@ msgstr "เวลาสิ้นสุดไม่ถูกต้อง"
 
 #: ../calendar/gui/dialogs/event-page.c:1452
 #: ../calendar/gui/dialogs/meeting-page.c:469
-#: ../calendar/gui/dialogs/task-page.c:909
+#: ../calendar/gui/dialogs/task-page.c:905
 msgid "The organizer selected no longer has an account."
 msgstr "ผู้ประสานงานที่เลือกไม่มีบัญชีผู้ใช้อีกแล้ว"
 
 #: ../calendar/gui/dialogs/event-page.c:1458
 #: ../calendar/gui/dialogs/meeting-page.c:475
-#: ../calendar/gui/dialogs/task-page.c:915
+#: ../calendar/gui/dialogs/task-page.c:911
 msgid "An organizer is required."
 msgstr "ต้องมีผู้ประสานงานด้วย"
 
 #: ../calendar/gui/dialogs/event-page.c:1473
 #: ../calendar/gui/dialogs/meeting-page.c:490
-#: ../calendar/gui/dialogs/task-page.c:930
+#: ../calendar/gui/dialogs/task-page.c:926
 msgid "At least one attendee is required."
 msgstr "ต้องการผู้เข้าประชุมอย่างน้อยหนึ่งคน"
 
 #: ../calendar/gui/dialogs/event-page.c:1895
 #: ../calendar/gui/dialogs/meeting-page.c:900
-#: ../calendar/gui/dialogs/task-page.c:1203
+#: ../calendar/gui/dialogs/task-page.c:1199
 msgid "_Add "
 msgstr "เ_พิ่ม"
 
@@ -5992,22 +5997,22 @@ msgstr "ไม่สามารถเปิดปฏิทิน '%s'"
 #, c-format
 msgid "%d day before appointment"
 msgid_plural "%d days before appointment"
-msgstr[0] "%d วันก่อนการนัดหมาย"
-msgstr[1] "%d วันก่อนการนัดหมาย"
+msgstr[0] "%d วันก่อนนัดหมาย"
+msgstr[1] "%d วันก่อนนัดหมาย"
 
 #: ../calendar/gui/dialogs/event-page.c:2932
 #, c-format
 msgid "%d hour before appointment"
 msgid_plural "%d hours before appointment"
-msgstr[0] "%d ชั่วโมงก่อนการนัดหมาย"
-msgstr[1] "%d ชั่วโมงก่อนการนัดหมาย"
+msgstr[0] "%d ชั่วโมงก่อนนัดหมาย"
+msgstr[1] "%d ชั่วโมงก่อนนัดหมาย"
 
 #: ../calendar/gui/dialogs/event-page.c:2940
 #, c-format
 msgid "%d minute before appointement"
 msgid_plural "%d minutes before appointment"
-msgstr[0] "%d นาทีก่อนการนัดหมาย"
-msgstr[1] "%d นาทีก่อนการนัดหมาย"
+msgstr[0] "%d นาทีก่อนนัดหมาย"
+msgstr[1] "%d นาทีก่อนนัดหมาย"
 
 #: ../calendar/gui/dialogs/event-page.c:2956
 msgid "Customize"
@@ -6038,15 +6043,15 @@ msgstr "ไม่"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:1
 msgid "1 day before appointment"
-msgstr "1 วันก่อนการนัดหมาย"
+msgstr "1 วันก่อนนัดหมาย"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:2
 msgid "1 hour before appointment"
-msgstr "1 ชั่วโมงก่อนการนัดหมาย"
+msgstr "1 ชั่วโมงก่อนนัดหมาย"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:3
 msgid "15 minutes before appointment"
-msgstr "15 นาทีก่อนการนัดหมาย"
+msgstr "15 นาทีก่อนนัดหมาย"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:5
 #: ../calendar/gui/dialogs/task-page.glade.h:1
@@ -6147,14 +6152,14 @@ msgstr "สมาชิก"
 
 #. To translators: RSVP means "please reply"
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:8
-#: ../calendar/gui/e-meeting-list-view.c:503
+#: ../calendar/gui/e-meeting-list-view.c:509
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:8
 msgid "RSVP"
 msgstr "RSVP"
 
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:10
 #: ../calendar/gui/e-calendar-table.etspec.h:10
-#: ../calendar/gui/e-meeting-list-view.c:514
+#: ../calendar/gui/e-meeting-list-view.c:520
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:10 ../mail/em-filter-i18n.h:63
 #: ../mail/message-list.etspec.h:12
 msgid "Status"
@@ -6183,15 +6188,15 @@ msgstr "ผู้ประสานงาน:"
 
 #: ../calendar/gui/dialogs/memo-editor.c:219 ../calendar/gui/print.c:2308
 msgid "Memo"
-msgstr "บันทึกข้อความ"
+msgstr "บันทึกช่วยจำ"
 
 #: ../calendar/gui/dialogs/memo-page.c:551
 #, c-format
 msgid "Unable to open memos in '%s'."
-msgstr "ไม่สามารถเปิดบันทึกข้อความใน '%s'"
+msgstr "ไม่สามารถเปิดบันทึกช่วยจำใน '%s'"
 
 #: ../calendar/gui/dialogs/memo-page.glade.h:2
-#: ../calendar/gui/dialogs/task-page.c:439
+#: ../calendar/gui/dialogs/task-page.c:434
 #: ../calendar/gui/dialogs/task-page.glade.h:9
 msgid "_Group:"
 msgstr "_กลุ่ม:"
@@ -6396,7 +6401,7 @@ msgstr "ทุกๆ "
 #. 'This appointment recurs/Every[x][day(s)][for][1]occurrences' (dropdown menu options are in [square brackets])
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:9
 msgid "This appointment rec_urs"
-msgstr "การนัดหมายนี้เ_วียนซ้ำเป็นรอบๆ"
+msgstr "นัดหมายนี้เ_วียนซ้ำเป็นรอบๆ"
 
 #. TRANSLATORS: Entire string is for example:
 #. 'This appointment recurs/Every[x][day(s)][forever]' (dropdown menu options are in [square brackets])
@@ -6444,7 +6449,7 @@ msgstr "<span weight=\"bold\">สถานภาพ</span>"
 #: ../calendar/gui/e-cal-model-tasks.c:347
 #: ../calendar/gui/e-cal-model-tasks.c:655
 #: ../calendar/gui/e-calendar-table.c:461 ../calendar/gui/e-itip-control.c:891
-#: ../calendar/gui/e-meeting-store.c:195 ../calendar/gui/e-meeting-store.c:218
+#: ../calendar/gui/e-meeting-store.c:196 ../calendar/gui/e-meeting-store.c:219
 #: ../calendar/gui/print.c:2369 ../plugins/save-calendar/csv-format.c:390
 msgid "Completed"
 msgstr "เสร็จแล้ว"
@@ -6520,11 +6525,11 @@ msgstr "_งาน"
 msgid "Task Details"
 msgstr "รายละเอียดงาน"
 
-#: ../calendar/gui/dialogs/task-page.c:825
+#: ../calendar/gui/dialogs/task-page.c:821
 msgid "Due date is wrong"
 msgstr "วันกำหนดเสร็จงานไม่ถูกต้อง"
 
-#: ../calendar/gui/dialogs/task-page.c:1653
+#: ../calendar/gui/dialogs/task-page.c:1649
 #, c-format
 msgid "Unable to open tasks in '%s'."
 msgstr "ไม่สามารถเปิดงานใน '%s'"
@@ -6638,21 +6643,21 @@ msgstr "%s ที่การเริ่มต้นนัดหมาย"
 #: ../calendar/gui/e-alarm-list.c:501
 #, c-format
 msgid "%s %s before the end of the appointment"
-msgstr "%s %s ก่อนการสิ้นสุดการนัดหมาย"
+msgstr "%s %s ก่อนการสิ้นสุดนัดหมาย"
 
 #. Translator: The first %s refers to the base, which would be actions like
 #. * "Play a Sound". Second %s refers to the duration string e.g:"15 minutes"
 #: ../calendar/gui/e-alarm-list.c:506
 #, c-format
 msgid "%s %s after the end of the appointment"
-msgstr "%s %s หลังการสิ้นสุดการนัดหมาย"
+msgstr "%s %s หลังการสิ้นสุดนัดหมาย"
 
 #. Translator: The %s refers to the base, which would be actions like
 #. * "Play a sound"
 #: ../calendar/gui/e-alarm-list.c:513
 #, c-format
 msgid "%s at the end of the appointment"
-msgstr "%s ที่การสิ้นสุดการนัดหมาย"
+msgstr "%s ที่การสิ้นสุดนัดหมาย"
 
 #. Translator: The first %s refers to the base, which would be actions like
 #. * "Play a Sound". Second %s is an absolute time, e.g. "10:00AM"
@@ -6669,14 +6674,14 @@ msgid "%s for an unknown trigger type"
 msgstr "%s สำหรับสำหรับการทำงานตามกำหนดเวลาที่ไม่ทราบชนิด"
 
 #: ../calendar/gui/e-cal-component-memo-preview.c:72
-#: ../calendar/gui/e-cal-component-preview.c:70 ../mail/em-folder-view.c:2823
+#: ../calendar/gui/e-cal-component-preview.c:70 ../mail/em-folder-view.c:2828
 #, c-format
 msgid "Click to open %s"
 msgstr "คลิกเพื่อเปิด %s"
 
 #: ../calendar/gui/e-cal-component-memo-preview.c:166
 msgid "Memo:"
-msgstr "บันทึกข้อความ:"
+msgstr "บันทึกช่วยจำ:"
 
 #: ../calendar/gui/e-cal-component-memo-preview.c:199
 #: ../calendar/gui/e-cal-component-preview.c:301
@@ -6752,7 +6757,7 @@ msgstr "ว่าง"
 
 #: ../calendar/gui/e-cal-model-calendar.c:186
 #: ../calendar/gui/e-calendar-table.c:439
-#: ../calendar/gui/e-meeting-time-sel.c:411
+#: ../calendar/gui/e-meeting-time-sel.c:412
 msgid "Busy"
 msgstr "ไม่ว่าง"
 
@@ -6768,27 +6773,27 @@ msgstr ""
 
 #: ../calendar/gui/e-cal-model-tasks.c:1005 ../calendar/gui/e-cal-model.c:924
 #: ../calendar/gui/e-meeting-list-view.c:193
-#: ../calendar/gui/e-meeting-store.c:167 ../calendar/gui/e-meeting-store.c:177
-#: ../calendar/gui/e-meeting-store.c:770
+#: ../calendar/gui/e-meeting-store.c:168 ../calendar/gui/e-meeting-store.c:178
+#: ../calendar/gui/e-meeting-store.c:773
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:5
 msgid "Yes"
 msgstr "ตกลง"
 
 #: ../calendar/gui/e-cal-model-tasks.c:1005 ../calendar/gui/e-cal-model.c:924
 #: ../calendar/gui/e-meeting-list-view.c:194
-#: ../calendar/gui/e-meeting-store.c:179
+#: ../calendar/gui/e-meeting-store.c:180
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:2
 msgid "No"
 msgstr "ไม่ตกลง"
 
 #. This is the default filename used for temporary file creation
 #: ../calendar/gui/e-cal-model.c:327 ../calendar/gui/e-cal-popup.c:107
-#: ../calendar/gui/e-cal-popup.c:122 ../calendar/gui/e-cal-popup.c:167
+#: ../calendar/gui/e-cal-popup.c:124 ../calendar/gui/e-cal-popup.c:171
 #: ../calendar/gui/e-itip-control.c:1144 ../calendar/gui/e-itip-control.c:1285
 #: ../calendar/gui/e-meeting-list-view.c:169
 #: ../calendar/gui/e-meeting-list-view.c:183
-#: ../calendar/gui/e-meeting-store.c:125 ../calendar/gui/e-meeting-store.c:160
-#: ../calendar/gui/e-meeting-store.c:223 ../mail/em-utils.c:1274
+#: ../calendar/gui/e-meeting-store.c:126 ../calendar/gui/e-meeting-store.c:161
+#: ../calendar/gui/e-meeting-store.c:224 ../mail/em-utils.c:1309
 #: ../plugins/itip-formatter/itip-formatter.c:240
 #: ../plugins/itip-formatter/itip-formatter.c:1651
 #: ../plugins/plugin-manager/plugin-manager.c:68
@@ -6805,35 +6810,35 @@ msgstr "เวียนซ้ำ"
 msgid "Assigned"
 msgstr "มอบหมาย"
 
-#: ../calendar/gui/e-cal-popup.c:173 ../mail/em-popup.c:412
+#: ../calendar/gui/e-cal-popup.c:177 ../mail/em-popup.c:412
 msgid "Save As..."
 msgstr "บันทึกเป็น..."
 
-#: ../calendar/gui/e-cal-popup.c:189 ../mail/em-format-html-display.c:1913
+#: ../calendar/gui/e-cal-popup.c:193 ../mail/em-format-html-display.c:1913
 msgid "Select folder to save selected attachments..."
 msgstr "เลือกโฟลเดอร์ที่จะบันทึกเอกสารแนบที่เลือก..."
 
-#: ../calendar/gui/e-cal-popup.c:218 ../mail/em-popup.c:437
+#: ../calendar/gui/e-cal-popup.c:222 ../mail/em-popup.c:437
 #, c-format
 msgid "untitled_image.%s"
 msgstr "untitled_image.%s"
 
-#: ../calendar/gui/e-cal-popup.c:272 ../calendar/gui/e-calendar-table.c:1176
-#: ../calendar/gui/e-calendar-view.c:1596 ../calendar/gui/e-memo-table.c:854
-#: ../mail/em-folder-view.c:1087 ../mail/em-popup.c:554 ../mail/em-popup.c:565
+#: ../calendar/gui/e-cal-popup.c:276 ../calendar/gui/e-calendar-table.c:1250
+#: ../calendar/gui/e-calendar-view.c:1707 ../calendar/gui/e-memo-table.c:854
+#: ../mail/em-folder-view.c:1092 ../mail/em-popup.c:554 ../mail/em-popup.c:565
 msgid "_Save As..."
 msgstr "_บันทึกเป็น..."
 
-#: ../calendar/gui/e-cal-popup.c:273 ../mail/em-popup.c:555
+#: ../calendar/gui/e-cal-popup.c:277 ../mail/em-popup.c:555
 #: ../mail/em-popup.c:566
 msgid "Set as _Background"
 msgstr "ตั้งเป็น_พื้นหลัง"
 
-#: ../calendar/gui/e-cal-popup.c:274
+#: ../calendar/gui/e-cal-popup.c:278
 msgid "_Save Selected"
 msgstr "_บันทึกสิ่งที่เลือก"
 
-#: ../calendar/gui/e-cal-popup.c:396 ../mail/em-popup.c:775
+#: ../calendar/gui/e-cal-popup.c:400 ../mail/em-popup.c:775
 #, c-format
 msgid "Open in %s..."
 msgstr "เปิดใน %s..."
@@ -6887,25 +6892,25 @@ msgstr "100%"
 msgid "Deleting selected objects"
 msgstr "กำลังลบวัตถุที่เลือก"
 
-#: ../calendar/gui/e-calendar-table.c:882
+#: ../calendar/gui/e-calendar-table.c:956
 #: ../calendar/gui/e-calendar-view.c:803 ../calendar/gui/e-memo-table.c:610
 msgid "Updating objects"
 msgstr ""
 
-#: ../calendar/gui/e-calendar-table.c:1032
-#: ../calendar/gui/e-calendar-view.c:1138 ../calendar/gui/e-memo-table.c:742
+#: ../calendar/gui/e-calendar-table.c:1106
+#: ../calendar/gui/e-calendar-view.c:1249 ../calendar/gui/e-memo-table.c:742
 #: ../composer/e-msg-composer.c:1349
 msgid "Save as..."
 msgstr "บันทึกเป็น..."
 
-#: ../calendar/gui/e-calendar-table.c:1175 ../calendar/gui/e-memo-table.c:853
+#: ../calendar/gui/e-calendar-table.c:1249 ../calendar/gui/e-memo-table.c:853
 msgid "Open _Web Page"
 msgstr "เปิด_เว็บเพจ"
 
-#: ../calendar/gui/e-calendar-table.c:1177
-#: ../calendar/gui/e-calendar-view.c:1581
-#: ../calendar/gui/e-calendar-view.c:1597 ../calendar/gui/e-memo-table.c:855
-#: ../mail/em-folder-view.c:1088
+#: ../calendar/gui/e-calendar-table.c:1251
+#: ../calendar/gui/e-calendar-view.c:1692
+#: ../calendar/gui/e-calendar-view.c:1708 ../calendar/gui/e-memo-table.c:855
+#: ../mail/em-folder-view.c:1093
 #: ../plugins/print-message/org-gnome-print-message.xml.h:3
 #: ../ui/evolution-addressbook.xml.h:58 ../ui/evolution-calendar.xml.h:44
 #: ../ui/evolution-mail-message.xml.h:124 ../ui/evolution-memos.xml.h:20
@@ -6913,44 +6918,44 @@ msgstr "เปิด_เว็บเพจ"
 msgid "_Print..."
 msgstr "_พิมพ์..."
 
-#: ../calendar/gui/e-calendar-table.c:1181
-#: ../calendar/gui/e-calendar-view.c:1601 ../calendar/gui/e-memo-table.c:859
+#: ../calendar/gui/e-calendar-table.c:1255
+#: ../calendar/gui/e-calendar-view.c:1712 ../calendar/gui/e-memo-table.c:859
 #: ../ui/evolution-addressbook.xml.h:2 ../ui/evolution-calendar.xml.h:1
 #: ../ui/evolution-memos.xml.h:1 ../ui/evolution-tasks.xml.h:1
 msgid "C_ut"
 msgstr "_ตัด"
 
-#: ../calendar/gui/e-calendar-table.c:1183
-#: ../calendar/gui/e-calendar-view.c:1584
-#: ../calendar/gui/e-calendar-view.c:1603 ../calendar/gui/e-memo-table.c:861
+#: ../calendar/gui/e-calendar-table.c:1257
+#: ../calendar/gui/e-calendar-view.c:1695
+#: ../calendar/gui/e-calendar-view.c:1714 ../calendar/gui/e-memo-table.c:861
 #: ../ui/evolution-addressbook.xml.h:57 ../ui/evolution-calendar.xml.h:43
 #: ../ui/evolution-composer-entries.xml.h:15 ../ui/evolution-editor.xml.h:22
 #: ../ui/evolution-memos.xml.h:19 ../ui/evolution-tasks.xml.h:28
 msgid "_Paste"
 msgstr "แ_ปะ"
 
-#: ../calendar/gui/e-calendar-table.c:1187 ../ui/evolution-tasks.xml.h:22
+#: ../calendar/gui/e-calendar-table.c:1261 ../ui/evolution-tasks.xml.h:22
 msgid "_Assign Task"
 msgstr "_มอบหมายงาน"
 
-#: ../calendar/gui/e-calendar-table.c:1188 ../calendar/gui/e-memo-table.c:865
+#: ../calendar/gui/e-calendar-table.c:1262 ../calendar/gui/e-memo-table.c:865
 #: ../ui/evolution-tasks.xml.h:26
 msgid "_Forward as iCalendar"
 msgstr "ส่ง_ต่อเป็น iCalendar"
 
-#: ../calendar/gui/e-calendar-table.c:1189
+#: ../calendar/gui/e-calendar-table.c:1263
 msgid "_Mark as Complete"
 msgstr "_ทำเครื่องหมายว่าเสร็จแล้ว"
 
-#: ../calendar/gui/e-calendar-table.c:1190
+#: ../calendar/gui/e-calendar-table.c:1264
 msgid "_Mark Selected Tasks as Complete"
 msgstr "_ทำเครื่องหมายงานที่เลือกว่าเสร็จแล้ว"
 
-#: ../calendar/gui/e-calendar-table.c:1195
+#: ../calendar/gui/e-calendar-table.c:1269
 msgid "_Delete Selected Tasks"
 msgstr "ลบ_งานที่เลือก"
 
-#: ../calendar/gui/e-calendar-table.c:1428
+#: ../calendar/gui/e-calendar-table.c:1502
 #: ../calendar/gui/e-calendar-table.etspec.h:4
 msgid "Click to add a task"
 msgstr "คลิกเพื่อเพิ่มงาน"
@@ -6985,105 +6990,105 @@ msgstr "วันเริ่มต้น"
 msgid "Task sort"
 msgstr "ลำดับงาน"
 
-#: ../calendar/gui/e-calendar-view.c:1264
+#: ../calendar/gui/e-calendar-view.c:1375
 msgid "Moving items"
 msgstr "กำลังลบรายการ"
 
-#: ../calendar/gui/e-calendar-view.c:1266
+#: ../calendar/gui/e-calendar-view.c:1377
 msgid "Copying items"
 msgstr "กำลังคัดลอกรายการ"
 
-#: ../calendar/gui/e-calendar-view.c:1575
+#: ../calendar/gui/e-calendar-view.c:1686
 msgid "New _Appointment..."
-msgstr "การนัดหมายใ_หม่"
+msgstr "นัดหมายใ_หม่"
 
-#: ../calendar/gui/e-calendar-view.c:1576
+#: ../calendar/gui/e-calendar-view.c:1687
 msgid "New All Day _Event"
 msgstr "เหตุการณ์ทั้งวันใหม่"
 
-#: ../calendar/gui/e-calendar-view.c:1577
+#: ../calendar/gui/e-calendar-view.c:1688
 msgid "New _Meeting"
 msgstr "การประชุมใ_หม่"
 
-#: ../calendar/gui/e-calendar-view.c:1578
+#: ../calendar/gui/e-calendar-view.c:1689
 msgid "New _Task"
 msgstr "งานใ_หม่"
 
 #. FIXME: hook in this somehow
-#: ../calendar/gui/e-calendar-view.c:1588
+#: ../calendar/gui/e-calendar-view.c:1699
 msgid "_Current View"
 msgstr "_มุมมองปัจจุบัน"
 
-#: ../calendar/gui/e-calendar-view.c:1590
+#: ../calendar/gui/e-calendar-view.c:1701
 msgid "Select T_oday"
 msgstr "เลือก_วันนี้"
 
-#: ../calendar/gui/e-calendar-view.c:1591
+#: ../calendar/gui/e-calendar-view.c:1702
 msgid "_Select Date..."
 msgstr "เ_ลือกวัน..."
 
-#: ../calendar/gui/e-calendar-view.c:1607
+#: ../calendar/gui/e-calendar-view.c:1718
 msgid "Cop_y to Calendar..."
 msgstr "_คัดลอกไปยังปฏิทิน..."
 
-#: ../calendar/gui/e-calendar-view.c:1608
+#: ../calendar/gui/e-calendar-view.c:1719
 msgid "Mo_ve to Calendar..."
 msgstr "_ย้ายไปยังปฏิทิน..."
 
-#: ../calendar/gui/e-calendar-view.c:1609
+#: ../calendar/gui/e-calendar-view.c:1720
 msgid "_Delegate Meeting..."
 msgstr "มอบหมายประชุมแ_ทน..."
 
-#: ../calendar/gui/e-calendar-view.c:1610
+#: ../calendar/gui/e-calendar-view.c:1721
 msgid "_Schedule Meeting..."
 msgstr "_จัดเวลาประชุม..."
 
-#: ../calendar/gui/e-calendar-view.c:1611
+#: ../calendar/gui/e-calendar-view.c:1722
 msgid "_Forward as iCalendar..."
 msgstr "ส่ง_ต่อเป็น iCalendar..."
 
-#: ../calendar/gui/e-calendar-view.c:1612
+#: ../calendar/gui/e-calendar-view.c:1723
 msgid "_Reply"
 msgstr "_ตอบกลับ"
 
-#: ../calendar/gui/e-calendar-view.c:1613 ../mail/em-folder-view.c:1082
+#: ../calendar/gui/e-calendar-view.c:1724 ../mail/em-folder-view.c:1087
 #: ../mail/em-popup.c:559 ../mail/em-popup.c:570
 #: ../ui/evolution-mail-message.xml.h:82
 msgid "Reply to _All"
 msgstr "ตอบกลับทั้งห_มด"
 
-#: ../calendar/gui/e-calendar-view.c:1618
+#: ../calendar/gui/e-calendar-view.c:1729
 msgid "Make this Occurrence _Movable"
 msgstr "ให้เหตุการณ์นี้เ_คลื่อนย้ายได้"
 
-#: ../calendar/gui/e-calendar-view.c:1619 ../ui/evolution-calendar.xml.h:9
+#: ../calendar/gui/e-calendar-view.c:1730 ../ui/evolution-calendar.xml.h:9
 msgid "Delete this _Occurrence"
 msgstr "_ลบเหตุการณ์นี้"
 
-#: ../calendar/gui/e-calendar-view.c:1620
+#: ../calendar/gui/e-calendar-view.c:1731
 msgid "Delete _All Occurrences"
 msgstr "ลบ_ทุกเหตุการณ์"
 
 #. To Translators: It will display "Organiser: NameOfTheUser <email@ofuser.com>"
-#: ../calendar/gui/e-calendar-view.c:2030
+#: ../calendar/gui/e-calendar-view.c:2141
 #, c-format
 msgid "Organizer: %s <%s>"
 msgstr "ผู้ประสานงาน: %s <%s>"
 
 #. With SunOne accouts, there may be no ':' in organiser.value
-#: ../calendar/gui/e-calendar-view.c:2034
+#: ../calendar/gui/e-calendar-view.c:2145
 #, c-format
 msgid "Organizer: %s"
 msgstr "ผู้ประสานงาน: %s"
 
 #. To Translators: It will display "Location: PlaceOfTheMeeting"
-#: ../calendar/gui/e-calendar-view.c:2050 ../calendar/gui/print.c:2336
+#: ../calendar/gui/e-calendar-view.c:2161 ../calendar/gui/print.c:2336
 #, c-format
 msgid "Location: %s"
 msgstr "สถานที่: %s"
 
 #. To Translators: It will display "Time: ActualStartDateAndTime (DurationOfTheMeeting)"
-#: ../calendar/gui/e-calendar-view.c:2081
+#: ../calendar/gui/e-calendar-view.c:2192
 #, c-format
 msgid "Time: %s %s"
 msgstr "เวลา: %s %s"
@@ -7245,7 +7250,7 @@ msgstr "<br> กรุณาดูข้อมูลข้างล่างน�
 
 #: ../calendar/gui/e-itip-control.c:1132
 #: ../calendar/gui/e-meeting-list-view.c:205
-#: ../calendar/gui/e-meeting-store.c:187 ../calendar/gui/e-meeting-store.c:210
+#: ../calendar/gui/e-meeting-store.c:188 ../calendar/gui/e-meeting-store.c:211
 #: ../calendar/gui/itip-utils.c:669
 #: ../plugins/itip-formatter/itip-formatter.c:1639
 msgid "Accepted"
@@ -7258,7 +7263,7 @@ msgstr "อาจตอบรับ"
 
 #: ../calendar/gui/e-itip-control.c:1140
 #: ../calendar/gui/e-meeting-list-view.c:206
-#: ../calendar/gui/e-meeting-store.c:189 ../calendar/gui/e-meeting-store.c:212
+#: ../calendar/gui/e-meeting-store.c:190 ../calendar/gui/e-meeting-store.c:213
 #: ../calendar/gui/itip-utils.c:675 ../calendar/gui/itip-utils.c:704
 #: ../plugins/itip-formatter/itip-formatter.c:1645
 msgid "Declined"
@@ -7584,81 +7589,81 @@ msgid "Resources"
 msgstr "ทรัพยากร"
 
 #: ../calendar/gui/e-meeting-list-view.c:165
-#: ../calendar/gui/e-meeting-store.c:100 ../calendar/gui/e-meeting-store.c:117
-#: ../calendar/gui/e-meeting-store.c:764
+#: ../calendar/gui/e-meeting-store.c:101 ../calendar/gui/e-meeting-store.c:118
+#: ../calendar/gui/e-meeting-store.c:767
 msgid "Individual"
 msgstr "ส่วนบุคคล"
 
 #: ../calendar/gui/e-meeting-list-view.c:166
-#: ../calendar/gui/e-meeting-store.c:102 ../calendar/gui/e-meeting-store.c:119
+#: ../calendar/gui/e-meeting-store.c:103 ../calendar/gui/e-meeting-store.c:120
 #: ../widgets/table/e-table-config-no-group.glade.h:7
 #: ../widgets/table/e-table-config.glade.h:6
 msgid "Group"
 msgstr "กลุ่ม"
 
 #: ../calendar/gui/e-meeting-list-view.c:167
-#: ../calendar/gui/e-meeting-store.c:104 ../calendar/gui/e-meeting-store.c:121
+#: ../calendar/gui/e-meeting-store.c:105 ../calendar/gui/e-meeting-store.c:122
 msgid "Resource"
 msgstr "ทรัพยากร"
 
 #: ../calendar/gui/e-meeting-list-view.c:168
-#: ../calendar/gui/e-meeting-store.c:106 ../calendar/gui/e-meeting-store.c:123
+#: ../calendar/gui/e-meeting-store.c:107 ../calendar/gui/e-meeting-store.c:124
 msgid "Room"
 msgstr "ห้อง"
 
 #: ../calendar/gui/e-meeting-list-view.c:179
-#: ../calendar/gui/e-meeting-store.c:135 ../calendar/gui/e-meeting-store.c:152
+#: ../calendar/gui/e-meeting-store.c:136 ../calendar/gui/e-meeting-store.c:153
 msgid "Chair"
 msgstr "ประธาน"
 
 #: ../calendar/gui/e-meeting-list-view.c:180
-#: ../calendar/gui/e-meeting-store.c:137 ../calendar/gui/e-meeting-store.c:154
-#: ../calendar/gui/e-meeting-store.c:767
+#: ../calendar/gui/e-meeting-store.c:138 ../calendar/gui/e-meeting-store.c:155
+#: ../calendar/gui/e-meeting-store.c:770
 msgid "Required Participant"
 msgstr "ผู้ร่วมประชุมที่ต้องเข้า"
 
 #: ../calendar/gui/e-meeting-list-view.c:181
-#: ../calendar/gui/e-meeting-store.c:139 ../calendar/gui/e-meeting-store.c:156
+#: ../calendar/gui/e-meeting-store.c:140 ../calendar/gui/e-meeting-store.c:157
 msgid "Optional Participant"
 msgstr "ผู้ร่วมประชุมเสริม"
 
 #: ../calendar/gui/e-meeting-list-view.c:182
-#: ../calendar/gui/e-meeting-store.c:141 ../calendar/gui/e-meeting-store.c:158
+#: ../calendar/gui/e-meeting-store.c:142 ../calendar/gui/e-meeting-store.c:159
 msgid "Non-Participant"
 msgstr "ไม่ใช่ผู้ร่วมประชุม"
 
 #: ../calendar/gui/e-meeting-list-view.c:204
-#: ../calendar/gui/e-meeting-store.c:185 ../calendar/gui/e-meeting-store.c:208
-#: ../calendar/gui/e-meeting-store.c:777
+#: ../calendar/gui/e-meeting-store.c:186 ../calendar/gui/e-meeting-store.c:209
+#: ../calendar/gui/e-meeting-store.c:780
 msgid "Needs Action"
 msgstr "ต้องดำเนินการ"
 
 #: ../calendar/gui/e-meeting-list-view.c:207
-#: ../calendar/gui/e-meeting-store.c:191 ../calendar/gui/e-meeting-store.c:214
-#: ../calendar/gui/e-meeting-time-sel.c:410
+#: ../calendar/gui/e-meeting-store.c:192 ../calendar/gui/e-meeting-store.c:215
+#: ../calendar/gui/e-meeting-time-sel.c:411
 msgid "Tentative"
 msgstr "ไม่แน่"
 
 #: ../calendar/gui/e-meeting-list-view.c:208
-#: ../calendar/gui/e-meeting-store.c:193 ../calendar/gui/e-meeting-store.c:216
+#: ../calendar/gui/e-meeting-store.c:194 ../calendar/gui/e-meeting-store.c:217
 #: ../calendar/gui/itip-utils.c:678
 #: ../plugins/itip-formatter/itip-formatter.c:1648
 msgid "Delegated"
 msgstr "ส่งผู้แทนเข้าประชุม"
 
 #. The extra space is just a hack to occupy more space for Attendee
-#: ../calendar/gui/e-meeting-list-view.c:464
+#: ../calendar/gui/e-meeting-list-view.c:470
 msgid "Attendee                          "
 msgstr "ผู้เข้าร่วม                           "
 
-#: ../calendar/gui/e-meeting-store.c:197 ../calendar/gui/e-meeting-store.c:220
+#: ../calendar/gui/e-meeting-store.c:198 ../calendar/gui/e-meeting-store.c:221
 msgid "In Process"
 msgstr "กำลังดำเนินการ"
 
 #. This is a strftime() format string %A = full weekday name,
 #. %B = full month name, %d = month day, %Y = full year.
-#: ../calendar/gui/e-meeting-time-sel-item.c:442
-#: ../calendar/gui/e-meeting-time-sel.c:2098
+#: ../calendar/gui/e-meeting-time-sel-item.c:447
+#: ../calendar/gui/e-meeting-time-sel.c:2111
 msgid "%A, %B %d, %Y"
 msgstr "%A %d %B %Ey"
 
@@ -7666,92 +7671,92 @@ msgstr "%A %d %B %Ey"
 #. name, %m = month number, %d = month day, %Y = full year.
 #. This is a strftime() format string %a = abbreviated weekday name,
 #. %m = month number, %d = month day, %Y = full year.
-#: ../calendar/gui/e-meeting-time-sel-item.c:446
-#: ../calendar/gui/e-meeting-time-sel.c:2131
+#: ../calendar/gui/e-meeting-time-sel-item.c:451
+#: ../calendar/gui/e-meeting-time-sel.c:2144
 msgid "%a %m/%d/%Y"
 msgstr "%a %d/%m/%Ey"
 
 #. This is a strftime() format string %m = month number,
 #. %d = month day, %Y = full year.
-#: ../calendar/gui/e-meeting-time-sel-item.c:450
+#: ../calendar/gui/e-meeting-time-sel-item.c:455
 msgid "%m/%d/%Y"
 msgstr "%d/%m/%Ey"
 
-#: ../calendar/gui/e-meeting-time-sel.c:412 ../designs/OOA/ooa.glade.h:11
+#: ../calendar/gui/e-meeting-time-sel.c:413 ../designs/OOA/ooa.glade.h:11
 msgid "Out of Office"
 msgstr "ไม่อยู่ที่ทำงาน"
 
-#: ../calendar/gui/e-meeting-time-sel.c:413
+#: ../calendar/gui/e-meeting-time-sel.c:414
 msgid "No Information"
 msgstr "ไม่มีข้อมูล"
 
-#: ../calendar/gui/e-meeting-time-sel.c:427
+#: ../calendar/gui/e-meeting-time-sel.c:428
 msgid "A_ttendees..."
 msgstr "ผู้เ_ข้าประชุม..."
 
-#: ../calendar/gui/e-meeting-time-sel.c:444
+#: ../calendar/gui/e-meeting-time-sel.c:445
 msgid "O_ptions"
 msgstr "_ตัวเลือก"
 
-#: ../calendar/gui/e-meeting-time-sel.c:461
+#: ../calendar/gui/e-meeting-time-sel.c:462
 msgid "Show _only working hours"
 msgstr "แสดง_ชั่วโมงทำการเท่านั้น"
 
-#: ../calendar/gui/e-meeting-time-sel.c:471
+#: ../calendar/gui/e-meeting-time-sel.c:472
 msgid "Show _zoomed out"
 msgstr "แสดงภาพขยาย_ออก"
 
-#: ../calendar/gui/e-meeting-time-sel.c:486
+#: ../calendar/gui/e-meeting-time-sel.c:487
 msgid "_Update free/busy"
 msgstr "_ปรับปรุงข้อมูล ว่าง/ไม่ว่าง "
 
-#: ../calendar/gui/e-meeting-time-sel.c:501
+#: ../calendar/gui/e-meeting-time-sel.c:502
 msgid "_<<"
 msgstr "_<<"
 
-#: ../calendar/gui/e-meeting-time-sel.c:519
+#: ../calendar/gui/e-meeting-time-sel.c:520
 msgid "_Autopick"
 msgstr "เลือก_อัตโนมัติ"
 
-#: ../calendar/gui/e-meeting-time-sel.c:534
+#: ../calendar/gui/e-meeting-time-sel.c:535
 msgid ">_>"
 msgstr ">_>"
 
-#: ../calendar/gui/e-meeting-time-sel.c:551
+#: ../calendar/gui/e-meeting-time-sel.c:552
 msgid "_All people and resources"
 msgstr "_ทุกคน ทุกทรัพยากร"
 
-#: ../calendar/gui/e-meeting-time-sel.c:560
+#: ../calendar/gui/e-meeting-time-sel.c:561
 msgid "All _people and one resource"
 msgstr "ทุก_คน และทรัพยากรชิ้นใดชิ้นหนึ่ง"
 
-#: ../calendar/gui/e-meeting-time-sel.c:569
+#: ../calendar/gui/e-meeting-time-sel.c:570
 msgid "_Required people"
 msgstr "ผู้เข้าประชุมห_ลัก"
 
-#: ../calendar/gui/e-meeting-time-sel.c:578
+#: ../calendar/gui/e-meeting-time-sel.c:579
 msgid "Required people and _one resource"
 msgstr "ผู้เข้าประชุมหลัก และ_ทรัพยากรชิ้นใดชิ้นหนึ่ง"
 
-#: ../calendar/gui/e-meeting-time-sel.c:614
+#: ../calendar/gui/e-meeting-time-sel.c:615
 msgid "_Start time:"
 msgstr "เวลาเ_ริ่มต้น:"
 
-#: ../calendar/gui/e-meeting-time-sel.c:641
+#: ../calendar/gui/e-meeting-time-sel.c:642
 msgid "_End time:"
 msgstr "เวลา_สิ้นสุด:"
 
 #: ../calendar/gui/e-memo-table.c:870
 msgid "_Delete Selected Memos"
-msgstr "ลบบันทึก_ข้อความที่เลือก"
+msgstr "ลบบันทึก_ช่วยจำที่เลือก"
 
 #: ../calendar/gui/e-memo-table.c:993 ../calendar/gui/e-memo-table.etspec.h:2
 msgid "Click to add a memo"
-msgstr "คลิกเพื่อเพิ่มบันทึกข้อความ"
+msgstr "คลิกเพื่อเพิ่มบันทึกช่วยจำ"
 
 #: ../calendar/gui/e-memo-table.etspec.h:3
 msgid "Memo sort"
-msgstr "การเรียงบันทึกข้อความ"
+msgstr "การเรียงบันทึกช่วยจำ"
 
 #: ../calendar/gui/e-memos.c:724 ../calendar/gui/e-tasks.c:836
 #: ../calendar/gui/gnome-cal.c:2557
@@ -7765,12 +7770,12 @@ msgstr ""
 
 #: ../calendar/gui/e-memos.c:772
 msgid "Loading memos"
-msgstr "กำลังโหลดบันทึกข้อความ"
+msgstr "กำลังโหลดบันทึกช่วยจำ"
 
 #: ../calendar/gui/e-memos.c:853
 #, c-format
 msgid "Opening memos at %s"
-msgstr "กำลังเปิดบันทึกข้อความที่ %s"
+msgstr "กำลังเปิดบันทึกช่วยจำที่ %s"
 
 #: ../calendar/gui/e-memos.c:1026 ../calendar/gui/e-tasks.c:1239
 msgid "Deleting selected objects..."
@@ -7975,8 +7980,8 @@ msgstr "คุณสมบัติ..."
 #, c-format
 msgid "%d memo"
 msgid_plural "%d memos"
-msgstr[0] "บันทึกข้อความ %d รายการ"
-msgstr[1] "บันทึกข้อความ %d รายการ"
+msgstr[0] "บันทึกช่วยจำ %d รายการ"
+msgstr[1] "บันทึกช่วยจำ %d รายการ"
 
 #: ../calendar/gui/memos-component.c:528 ../calendar/gui/tasks-component.c:519
 #: ../mail/mail-component.c:560
@@ -7988,48 +7993,48 @@ msgstr[1] " เลือกอยู่ %d รายการ"
 
 #: ../calendar/gui/memos-component.c:575
 msgid "Failed upgrading memos."
-msgstr "การปรับปรุงรุ่นบันทึกข้อความล้มเหลว"
+msgstr "การปรับปรุงรุ่นบันทึกช่วยจำล้มเหลว"
 
 #: ../calendar/gui/memos-component.c:871
 #, c-format
 msgid "Unable to open the memo list '%s' for creating events and meetings"
-msgstr "ไม่สามารถเปิดรายการบันทึกข้อความ '%s' สำหรับการสร้างเหตุการณ์และการประชุม"
+msgstr "ไม่สามารถเปิดรายการบันทึกช่วยจำ '%s' สำหรับการสร้างเหตุการณ์และการประชุม"
 
 #: ../calendar/gui/memos-component.c:884
 msgid "There is no calendar available for creating memos"
-msgstr "ไม่มีปฏิทินที่ใช้ได้สำหรับการสร้างบันทึกข้อความ"
+msgstr "ไม่มีปฏิทินที่ใช้ได้สำหรับการสร้างบันทึกช่วยจำ"
 
 #: ../calendar/gui/memos-component.c:972
 msgid "Memo Source Selector"
-msgstr "เครื่องมือเลือกแหล่งบันทึกข้อความ"
+msgstr "เครื่องมือเลือกแหล่งบันทึกช่วยจำ"
 
 #: ../calendar/gui/memos-component.c:1155
 msgid "New memo"
-msgstr "บันทึกข้อความใหม่"
+msgstr "บันทึกช่วยจำใหม่"
 
 #: ../calendar/gui/memos-component.c:1156
 msgid "_Memo"
-msgstr "บันทึก_ข้อความ"
+msgstr "บันทึก_ช่วยจำ"
 
 #: ../calendar/gui/memos-component.c:1157
 msgid "Create a new memo"
-msgstr "สร้างบันทึกข้อความใหม่"
+msgstr "สร้างบันทึกช่วยจำใหม่"
 
 #: ../calendar/gui/memos-component.c:1163
 msgid "New memo list"
-msgstr "รายการบันทึกข้อความใหม่"
+msgstr "รายการบันทึกช่วยจำใหม่"
 
 #: ../calendar/gui/memos-component.c:1164
 msgid "Memo l_ist"
-msgstr "_รายการบันทึกข้อความ"
+msgstr "_รายการบันทึกช่วยจำ"
 
 #: ../calendar/gui/memos-component.c:1165
 msgid "Create a new memo list"
-msgstr "สร้างรายการบันทึกข้อความใหม่"
+msgstr "สร้างรายการบันทึกช่วยจำใหม่"
 
 #: ../calendar/gui/memos-control.c:340
 msgid "Print Memos"
-msgstr "พิมพ์บันทึกข้อความ"
+msgstr "พิมพ์บันทึกช่วยจำ"
 
 #: ../calendar/gui/migration.c:162
 msgid ""
@@ -8258,7 +8263,7 @@ msgstr "ปีที่เลือก (%Ey)"
 
 #: ../calendar/gui/print.c:2304
 msgid "Appointment"
-msgstr "การนัดหมาย"
+msgstr "นัดหมาย"
 
 #: ../calendar/gui/print.c:2306
 msgid "Task"
@@ -8394,7 +8399,7 @@ msgstr "อจอพพศส"
 
 #: ../calendar/importers/icalendar-importer.c:79
 msgid "Appointments and Meetings"
-msgstr "การนัดหมายและการประชุม"
+msgstr "นัดหมายและการประชุม"
 
 #: ../calendar/importers/icalendar-importer.c:337
 #: ../calendar/importers/icalendar-importer.c:620
@@ -9978,7 +9983,7 @@ msgid "%.0fG"
 msgstr "%.0fG"
 
 #: ../composer/e-msg-composer-attachment-bar.c:740
-#: ../widgets/misc/e-attachment-bar.c:986
+#: ../widgets/misc/e-attachment-bar.c:988
 msgid "Attachment Bar"
 msgstr "แถบเอกสารแนบ"
 
@@ -10763,7 +10768,7 @@ msgstr "เครื่องมือควบคุมการตั้งค
 msgid "Evolution Mail preferences control"
 msgstr "เครื่องมือควบคุมการปรับแต่งเมลของ Evolution"
 
-#: ../mail/GNOME_Evolution_Mail.server.in.in.h:11 ../mail/em-folder-view.c:517
+#: ../mail/GNOME_Evolution_Mail.server.in.in.h:11 ../mail/em-folder-view.c:518
 #: ../mail/importers/elm-importer.c:341
 #: ../mail/importers/netscape-importer.c:1903
 #: ../mail/importers/pine-importer.c:387 ../mail/mail-component.c:578
@@ -11238,7 +11243,7 @@ msgstr "จดหมายร่าง"
 
 #. translators: standard local mailbox names
 #: ../mail/em-folder-tree-model.c:487 ../mail/mail-component.c:150
-#: ../plugins/exchange-operations/exchange-folder.c:597
+#: ../plugins/exchange-operations/exchange-folder.c:598
 msgid "Inbox"
 msgstr "จดหมายเข้า"
 
@@ -11333,13 +11338,13 @@ msgstr "เ_ทขยะ"
 msgid "Copying `%s' to `%s'"
 msgstr "กำลังคัดลอก `%s' ไปยัง `%s'"
 
-#: ../mail/em-folder-utils.c:368 ../mail/em-folder-view.c:973
-#: ../mail/em-folder-view.c:988 ../mail/importers/evolution-mbox-importer.c:86
+#: ../mail/em-folder-utils.c:368 ../mail/em-folder-view.c:978
+#: ../mail/em-folder-view.c:993 ../mail/importers/evolution-mbox-importer.c:86
 #: ../mail/importers/evolution-outlook-importer.c:139
 msgid "Select folder"
 msgstr "เลือกโฟลเดอร์"
 
-#: ../mail/em-folder-utils.c:368 ../mail/em-folder-view.c:988
+#: ../mail/em-folder-utils.c:368 ../mail/em-folder-view.c:993
 msgid "C_opy"
 msgstr "_คัดลอก"
 
@@ -11361,143 +11366,143 @@ msgstr "สร้างโฟลเดอร์"
 msgid "Specify where to create the folder:"
 msgstr "ระบุที่ที่จะสร้างโฟลเดอร์"
 
-#: ../mail/em-folder-view.c:1081 ../ui/evolution-mail-message.xml.h:127
+#: ../mail/em-folder-view.c:1086 ../ui/evolution-mail-message.xml.h:127
 msgid "_Reply to Sender"
 msgstr "_ตอบกลับผู้ส่ง"
 
-#: ../mail/em-folder-view.c:1083 ../mail/em-popup.c:561 ../mail/em-popup.c:572
+#: ../mail/em-folder-view.c:1088 ../mail/em-popup.c:561 ../mail/em-popup.c:572
 #: ../ui/evolution-mail-message.xml.h:110
 msgid "_Forward"
 msgstr "ส่ง_ต่อ"
 
-#: ../mail/em-folder-view.c:1086 ../ui/evolution-mail-message.xml.h:107
+#: ../mail/em-folder-view.c:1091 ../ui/evolution-mail-message.xml.h:107
 msgid "_Edit as New Message..."
 msgstr "แ_ก้ไขเป็นข้อความใหม่..."
 
-#: ../mail/em-folder-view.c:1092
+#: ../mail/em-folder-view.c:1097
 msgid "U_ndelete"
 msgstr "ไ_ม่ลบ"
 
-#: ../mail/em-folder-view.c:1093
+#: ../mail/em-folder-view.c:1098
 msgid "_Move to Folder..."
 msgstr "_ย้ายไปยังโฟลเดอร์..."
 
-#: ../mail/em-folder-view.c:1094
+#: ../mail/em-folder-view.c:1099
 msgid "_Copy to Folder..."
 msgstr "_คัดลอกไปยังโฟลเดอร์..."
 
-#: ../mail/em-folder-view.c:1097
+#: ../mail/em-folder-view.c:1102
 msgid "Mar_k as Read"
 msgstr "ทำเครื่องหมาย_อ่านแล้ว"
 
-#: ../mail/em-folder-view.c:1098
+#: ../mail/em-folder-view.c:1103
 msgid "Mark as _Unread"
 msgstr "ทำเครื่องหมายว่า_ยังไม่อ่าน"
 
-#: ../mail/em-folder-view.c:1099
+#: ../mail/em-folder-view.c:1104
 msgid "Mark as _Important"
 msgstr "ทำเครื่องหมายว่า_สำคัญ"
 
-#: ../mail/em-folder-view.c:1100
+#: ../mail/em-folder-view.c:1105
 msgid "_Mark as Unimportant"
 msgstr "ทำเครื่องหมายว่าไ_ม่สำคัญ"
 
-#: ../mail/em-folder-view.c:1101
+#: ../mail/em-folder-view.c:1106
 msgid "Mark as _Junk"
 msgstr "ทำเครื่องหมายเป็นเมล_ขยะ"
 
-#: ../mail/em-folder-view.c:1102
+#: ../mail/em-folder-view.c:1107
 msgid "Mark as _Not Junk"
 msgstr "ทำเครื่องหมายว่าไม่ใช่เม_ลขยะ"
 
-#: ../mail/em-folder-view.c:1103
+#: ../mail/em-folder-view.c:1108
 msgid "Mark for Follo_w Up..."
 msgstr "ทำเครื่องหมายว่าจะ_ตอบกระทู้..."
 
-#: ../mail/em-folder-view.c:1105
+#: ../mail/em-folder-view.c:1110
 msgid "_Label"
 msgstr "ติด_ป้าย"
 
-#: ../mail/em-folder-view.c:1106
+#: ../mail/em-folder-view.c:1111
 msgid "_None"
 msgstr "ไ_ม่ทำอะไร"
 
-#: ../mail/em-folder-view.c:1111
+#: ../mail/em-folder-view.c:1116
 msgid "Fla_g Completed"
 msgstr "ปักธ_งว่าเสร็จแล้ว"
 
-#: ../mail/em-folder-view.c:1112
+#: ../mail/em-folder-view.c:1117
 msgid "Cl_ear Flag"
 msgstr "ล้_างธง"
 
-#: ../mail/em-folder-view.c:1115
+#: ../mail/em-folder-view.c:1120
 msgid "Crea_te Rule From Message"
 msgstr "สร้าง_กฎจากข้อความ"
 
-#: ../mail/em-folder-view.c:1116
+#: ../mail/em-folder-view.c:1121
 msgid "Search Folder from _Subject"
 msgstr "สร้างโฟลเดอร์ค้นหาจากชื่อเ_รื่อง..."
 
-#: ../mail/em-folder-view.c:1117
+#: ../mail/em-folder-view.c:1122
 msgid "Search Folder from Se_nder"
 msgstr "สร้างโฟลเดอร์ค้นหาจากชื่อผู้_ส่ง"
 
-#: ../mail/em-folder-view.c:1118
+#: ../mail/em-folder-view.c:1123
 msgid "Search Folder from _Recipients"
 msgstr "สร้างโฟลเดอร์ค้นหาจากชื่อผู้_รับ"
 
-#: ../mail/em-folder-view.c:1119
+#: ../mail/em-folder-view.c:1124
 msgid "Search Folder from Mailing _List"
 msgstr "สร้างโฟลเดอร์ค้นหาจากเ_มลลิงลิสต์"
 
-#: ../mail/em-folder-view.c:1123
+#: ../mail/em-folder-view.c:1128
 msgid "Filter on Sub_ject"
 msgstr "กรองที่ชื่อเ_รื่อง"
 
-#: ../mail/em-folder-view.c:1124
+#: ../mail/em-folder-view.c:1129
 msgid "Filter on Sen_der"
 msgstr "กรองที่ชื่อผู้_ส่ง"
 
-#: ../mail/em-folder-view.c:1125
+#: ../mail/em-folder-view.c:1130
 msgid "Filter on Re_cipients"
 msgstr "กรองที่ชื่อผู้_รับ"
 
-#: ../mail/em-folder-view.c:1126
+#: ../mail/em-folder-view.c:1131
 msgid "Filter on _Mailing List"
 msgstr "กรองที่เ_มลลิงลิสต์"
 
 #. default charset used in mail view
-#: ../mail/em-folder-view.c:1968 ../mail/em-folder-view.c:2012
+#: ../mail/em-folder-view.c:1973 ../mail/em-folder-view.c:2017
 msgid "Default"
 msgstr "ปริยาย"
 
-#: ../mail/em-folder-view.c:2111
+#: ../mail/em-folder-view.c:2116
 #: ../plugins/print-message/org-gnome-print-message.eplug.xml.h:2
 #: ../plugins/print-message/print-message.c:87
 msgid "Print Message"
 msgstr "พิมพ์ข้อความ"
 
-#: ../mail/em-folder-view.c:2267
+#: ../mail/em-folder-view.c:2272
 msgid "Unable to retrieve message"
 msgstr "ดึงข้อความไม่สำเร็จ"
 
-#: ../mail/em-folder-view.c:2460
+#: ../mail/em-folder-view.c:2465
 msgid "_Copy Link Location"
 msgstr "คัด_ลอกที่อยู่ลิงก์"
 
-#: ../mail/em-folder-view.c:2462
+#: ../mail/em-folder-view.c:2467
 msgid "Create _Search Folder"
 msgstr "สร้างโฟลเดอร์_ค้นหา"
 
-#: ../mail/em-folder-view.c:2463
+#: ../mail/em-folder-view.c:2468
 msgid "_From this Address"
 msgstr "_จากที่อยู่นี้"
 
-#: ../mail/em-folder-view.c:2464
+#: ../mail/em-folder-view.c:2469
 msgid "_To this Address"
 msgstr "ไ_ปที่อยู่นี้"
 
-#: ../mail/em-folder-view.c:2818
+#: ../mail/em-folder-view.c:2823
 #, c-format
 msgid "Click to mail %s"
 msgstr "คลิกเพื่อส่งเมลไปยัง %s"
@@ -11918,20 +11923,20 @@ msgstr "ไม่ต้องแสดงข้อความนี้อีก
 msgid "Message Filters"
 msgstr "ตัวกรองข้อความ"
 
-#: ../mail/em-utils.c:462 ../mail/em-utils.c:499
+#: ../mail/em-utils.c:496 ../mail/em-utils.c:533
 msgid "message"
 msgstr "ข้อความ"
 
-#: ../mail/em-utils.c:634
+#: ../mail/em-utils.c:668
 msgid "Save Message..."
 msgstr "บันทึกข้อความ..."
 
-#: ../mail/em-utils.c:683
+#: ../mail/em-utils.c:717
 msgid "Add address"
 msgstr "เพิ่มที่อยู่"
 
 #. Drop filename for messages from a mailbox
-#: ../mail/em-utils.c:1167
+#: ../mail/em-utils.c:1201
 #, c-format
 msgid "Messages from %s"
 msgstr "ข้อความจาก %s"
@@ -13308,11 +13313,11 @@ msgstr "เ_สร็จแล้ว"
 
 #: ../mail/mail-dialogs.glade.h:8
 msgid "F_ind:"
-msgstr "_ค้นหา:"
+msgstr "_หา:"
 
 #: ../mail/mail-dialogs.glade.h:9
 msgid "Find in Message"
-msgstr "ค้นหาในข้อความ"
+msgstr "หาในข้อความ"
 
 #: ../mail/mail-dialogs.glade.h:10 ../mail/message-tag-followup.c:297
 #: ../mail/message-tags.glade.h:3
@@ -14297,7 +14302,7 @@ msgstr "%d %b %Ey"
 msgid "Messages"
 msgstr "ข้อความ"
 
-#: ../mail/message-list.c:3441
+#: ../mail/message-list.c:3442
 msgid "Generating message list"
 msgstr "กำลังสร้างรายการข้อความ"
 
@@ -14750,7 +14755,7 @@ msgstr "ชนิดของการยืนยันตัวบุคคล
 msgid "Ch_eck for Supported Types"
 msgstr "_ตรวจสอบชนิดที่สนับสนุน"
 
-#: ../plugins/exchange-operations/exchange-calendar.c:193
+#: ../plugins/exchange-operations/exchange-calendar.c:191
 #: ../plugins/exchange-operations/exchange-contacts.c:167
 msgid ""
 "Evolution is in offline mode. You cannot create or modify folders now.\n"
@@ -14929,14 +14934,14 @@ msgstr "ลำดับชั้นโฟลเดอร์ Exchange"
 msgid "Unsubscribe Folder..."
 msgstr "เลิกบอกรับข้อมูลโฟลเดอร์..."
 
-#: ../plugins/exchange-operations/exchange-folder.c:463
-#: ../plugins/exchange-operations/exchange-folder.c:523
+#: ../plugins/exchange-operations/exchange-folder.c:464
+#: ../plugins/exchange-operations/exchange-folder.c:524
 #, c-format
 msgid "Really unsubscribe from folder \"%s\"?"
 msgstr "เลิกบอกรับข้อมูลจากโฟลเดอร์ \"%s\" จริงหรือไม่?"
 
-#: ../plugins/exchange-operations/exchange-folder.c:475
-#: ../plugins/exchange-operations/exchange-folder.c:535
+#: ../plugins/exchange-operations/exchange-folder.c:476
+#: ../plugins/exchange-operations/exchange-folder.c:536
 #, c-format
 msgid "Unsubscribe from \"%s\""
 msgstr "เลิกบอกรับข้อมูลจาก \"%s\""
@@ -16164,7 +16169,7 @@ msgstr "ปลั๊กอินจัดแสดง Itip"
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:1
 msgid ""
 "&quot;{0}&quot; has delegated the meeting. Do you want to add the delegate "
-"&quot;{1}&quot; ?"
+"&quot;{1}&quot;?"
 msgstr ""
 "&quot;{0}&quot; ได้มอบฉันทะการประชุม คุณต้องการเพิ่มผู้รับมอบฉันทะ &quot;{1}&quot; "
 "หรือไม่?"
@@ -16668,7 +16673,7 @@ msgid "MIME Type"
 msgstr "ชนิด MIME"
 
 #: ../plugins/save-attachments/save-attachments.c:366
-#: ../ui/evolution-editor.xml.h:11 ../ui/evolution-message-composer.xml.h:19
+#: ../ui/evolution-editor.xml.h:12 ../ui/evolution-message-composer.xml.h:19
 msgid "Save"
 msgstr "บันทึก"
 
@@ -18040,7 +18045,7 @@ msgid "Select All"
 msgstr "เลือกทั้งหมด"
 
 #: ../ui/evolution-addressbook.xml.h:35
-#: ../ui/evolution-composer-entries.xml.h:11 ../ui/evolution-editor.xml.h:12
+#: ../ui/evolution-composer-entries.xml.h:11 ../ui/evolution-editor.xml.h:13
 #: ../ui/evolution-subscribe.xml.h:6
 msgid "Select _All"
 msgstr "เลือกทั้ง_หมด"
@@ -18267,11 +18272,11 @@ msgstr "ตัดส่วนที่เลือกเข้าคลิปบ
 msgid "Paste from clipboard"
 msgstr "แปะจากคลิปบอร์ด"
 
-#: ../ui/evolution-composer-entries.xml.h:10 ../ui/evolution-editor.xml.h:10
+#: ../ui/evolution-composer-entries.xml.h:10 ../ui/evolution-editor.xml.h:11
 msgid "Paste text from the clipboard"
 msgstr "แปะข้อความจากคลิปบอร์ด"
 
-#: ../ui/evolution-composer-entries.xml.h:12 ../ui/evolution-editor.xml.h:13
+#: ../ui/evolution-composer-entries.xml.h:12 ../ui/evolution-editor.xml.h:14
 msgid "Select all text"
 msgstr "เลือกเนื้อความทั้งหมด"
 
@@ -18306,29 +18311,30 @@ msgstr "คลิกที่นี่เพื่อดูวิธีใช้
 msgid "Close"
 msgstr "ปิด"
 
-#: ../ui/evolution-editor.xml.h:14 ../ui/evolution-message-composer.xml.h:41
+#: ../ui/evolution-editor.xml.h:10 ../ui/evolution-message-composer.xml.h:11
+#: ../ui/evolution-signature-editor.xml.h:16
+msgid "I_nsert"
+msgstr "แ_ทรก"
+
+#: ../ui/evolution-editor.xml.h:15 ../ui/evolution-message-composer.xml.h:41
 msgid "_Attachment..."
 msgstr "การแ_นบแฟ้ม..."
 
-#: ../ui/evolution-editor.xml.h:15 ../ui/evolution-mail-messagedisplay.xml.h:4
+#: ../ui/evolution-editor.xml.h:16 ../ui/evolution-mail-messagedisplay.xml.h:4
 #: ../ui/evolution-message-composer.xml.h:44 ../ui/evolution-subscribe.xml.h:9
 msgid "_Close"
 msgstr "ปิ_ด"
 
-#: ../ui/evolution-editor.xml.h:18 ../ui/evolution-mail-messagedisplay.xml.h:6
+#: ../ui/evolution-editor.xml.h:19 ../ui/evolution-mail-messagedisplay.xml.h:6
 #: ../ui/evolution-message-composer.xml.h:47
 #: ../ui/evolution-signature-editor.xml.h:25
 #: ../ui/evolution-subscribe.xml.h:11 ../ui/evolution.xml.h:41
 msgid "_File"
 msgstr "แ_ฟ้ม"
 
-#: ../ui/evolution-editor.xml.h:19 ../ui/evolution.xml.h:43
+#: ../ui/evolution-editor.xml.h:20 ../ui/evolution.xml.h:43
 msgid "_Help"
 msgstr "_วิธีใช้"
-
-#: ../ui/evolution-editor.xml.h:20
-msgid "_Insert"
-msgstr "แ_ทรก"
 
 #: ../ui/evolution-editor.xml.h:21
 msgid "_Options"
@@ -19029,7 +19035,7 @@ msgstr "_ลบข้อความ"
 
 #: ../ui/evolution-mail-message.xml.h:108
 msgid "_Find in Message..."
-msgstr "_ค้นหาในข้อความ..."
+msgstr "_หาในข้อความ..."
 
 #: ../ui/evolution-mail-message.xml.h:109
 msgid "_Flag Completed"
@@ -19117,27 +19123,27 @@ msgstr "ตัดบันทึกข้อความที่เลือก
 
 #: ../ui/evolution-memos.xml.h:7
 msgid "Delete selected memos"
-msgstr "ลบบันทึกข้อความที่เลือก"
+msgstr "ลบบันทึกช่วยจำที่เลือก"
 
 #: ../ui/evolution-memos.xml.h:9
 msgid "Paste memo from the clipboard"
-msgstr "แปะข้อความที่เลือกจากคลิปบอร์ด"
+msgstr "แปะบันทึกช่วยจำจากคลิปบอร์ด"
 
 #: ../ui/evolution-memos.xml.h:10
 msgid "Previews the list of memos to be printed"
-msgstr "แสดงตัวอย่างรายการบันทึกข้อความก่อนพิมพ์"
+msgstr "แสดงตัวอย่างรายการบันทึกช่วยจำก่อนพิมพ์"
 
 #: ../ui/evolution-memos.xml.h:13
 msgid "Print the list of memos"
-msgstr "พิมพ์รายการบันทึกข้อความ"
+msgstr "พิมพ์รายการบันทึกช่วยจำ"
 
 #: ../ui/evolution-memos.xml.h:14
 msgid "View the selected memo"
-msgstr "ดูบันทึกข้อความที่เลือก"
+msgstr "ดูบันทึกช่วยจำที่เลือก"
 
 #: ../ui/evolution-memos.xml.h:18
 msgid "_Open Memo"
-msgstr "เ_ปิดบันทึกข้อความ"
+msgstr "เ_ปิดบันทึกช่วยจำ"
 
 #: ../ui/evolution-message-composer.xml.h:2
 msgid "Attach a file"
@@ -19177,11 +19183,6 @@ msgstr "รับการแจ้งเมื่อข้อความขอ
 #: ../ui/evolution-message-composer.xml.h:10
 msgid "HT_ML"
 msgstr "HT_ML"
-
-#: ../ui/evolution-message-composer.xml.h:11
-#: ../ui/evolution-signature-editor.xml.h:16
-msgid "I_nsert"
-msgstr "แ_ทรก"
 
 #: ../ui/evolution-message-composer.xml.h:13
 msgid "Open a file"
@@ -19685,7 +19686,7 @@ msgstr "_ข้อความ"
 
 #: ../views/memos/galview.xml.h:1
 msgid "_Memos"
-msgstr "_บันทึกข้อความ"
+msgstr "_บันทึกช่วยจำ"
 
 #: ../views/tasks/galview.xml.h:1
 msgid "With _Due Date"
@@ -19815,6 +19816,10 @@ msgstr "ชนิดของมุมมอง"
 #: ../widgets/menus/gal-view-new-dialog.glade.h:4
 msgid "Type of view:"
 msgstr "ชนิดของมุมมอง:"
+
+#: ../widgets/misc/e-attachment.glade.h:6
+msgid "Suggest automatic display of attachment"
+msgstr ""
 
 #. Translators: These are the first characters of each day of the
 #. week, 'M' for 'Monday', 'T' for Tuesday etc.
@@ -20165,7 +20170,7 @@ msgstr "_ค้นหา"
 
 #: ../widgets/misc/e-search-bar.c:594
 msgid "_Find Now"
-msgstr "_ค้นหาเดี๋ยวนี้"
+msgstr "_หาเดี๋ยวนี้"
 
 #: ../widgets/misc/e-search-bar.c:595 ../widgets/misc/e-search-bar.c:982
 msgid "_Clear"
@@ -20191,7 +20196,7 @@ msgstr "ข้อความ"
 
 #: ../widgets/misc/e-search-bar.c:984
 msgid "Find _Now"
-msgstr "ค้นหา เ_ดี๋ยวนี้"
+msgstr "หาเ_ดี๋ยวนี้"
 
 #: ../widgets/misc/e-selection-model-array.c:546
 #: ../widgets/table/e-tree-selection-model.c:811
@@ -20890,6 +20895,9 @@ msgstr ""
 #: ../widgets/text/e-text.c:3706 ../widgets/text/e-text.c:3707
 msgid "Handle Popup"
 msgstr ""
+
+#~ msgid "_Insert"
+#~ msgstr "แ_ทรก"
 
 #~ msgid "ordinal|first"
 #~ msgstr "วันแรก"
