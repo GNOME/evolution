@@ -1,19 +1,19 @@
 # Czech translation.
 # Copyright (C) 2002,2003 Free Software Foundation, Inc.
-# Copyright (C) 2004, 2005 Miloslav Trmac <mitr@volny.cz>
+# Copyright (C) 2004, 2005, 2006 Miloslav Trmac <mitr@volny.cz>
 # Copyright (C) 2006 Lukas Novotny <lukasnov@cvs.gnome.org>
 # Radka Doulíková <doulikova@centrum.cz>, 2002.
 # Michal Bukovjan <bukm@centrum.cz>, 2003
-# Miloslav Trmac <mitr@volny.cz>, 2004, 2005.
+# Miloslav Trmac <mitr@volny.cz>, 2004, 2005, 2006.
 # Lukas Novotny <lukasnov@cvs.gnome.org>, 2006.
 # Petr Tomeš <ptomes@gmail.com>, 2006.
-# 
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-04-08 12:37+0200\n"
-"PO-Revision-Date: 2006-04-05 20:54+0200\n"
+"PO-Revision-Date: 2006-04-08 16:56+0200\n"
 "Last-Translator: Lukas Novotny <lukasnov@cvs.gnome.org>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -4220,22 +4220,16 @@ msgstr ""
 "své seznamy úkolů aktuální."
 
 #: ../calendar/calendar.error.xml.h:41
-#, fuzzy
 msgid ""
 "Some attachments are being downloaded. Saving the appointment would result "
 "in the loss of these attachments."
-msgstr ""
-" Stahuje se několik příloh. Uložení události způsobí, že bude událost "
-"uložena bez těchto příloh "
+msgstr "Stahuje se několik příloh. Uložení události způsobí, že se tyto přílohy ztratí."
 
 #: ../calendar/calendar.error.xml.h:42
-#, fuzzy
 msgid ""
 "Some attachments are being downloaded. Saving the task would result in the "
 "loss of these attachments."
-msgstr ""
-"Stahuje·se·několik·příloh.·Uložení·události·způsobí,"
-"·že·bude·událost·uložena·bez·těchto·příloh"
+msgstr "Stahuje se několik příloh. Uložení události způsobí, že se tyto přílohy ztratí."
 
 #: ../calendar/calendar.error.xml.h:43
 msgid "Some features may not work properly with your current server."
@@ -10727,9 +10721,8 @@ msgid "Replies and parents"
 msgstr "Odpovědi a rodiče"
 
 #: ../filter/filter-rule.c:889
-#, fuzzy
 msgid "No reply or parent"
-msgstr "Neodpovídá nebo rodič"
+msgstr "Bez odpovědi nebo rodič"
 
 #: ../filter/filter-rule.c:891
 msgid "Include threads"
@@ -14185,9 +14178,8 @@ msgid "Please check your account settings and try again."
 msgstr "Zkontrolujte prosím vaše nastavení účtu a zkuste to znovu."
 
 #: ../mail/mail.error.xml.h:75
-#, fuzzy
 msgid "Please enable the account or send using another account."
-msgstr "Povolte prosím účet nebo pošlete jiný účet pro použití."
+msgstr "Povolte prosím účet nebo odešlete pomocí jiného účtu."
 
 #: ../mail/mail.error.xml.h:76
 msgid ""
@@ -16778,9 +16770,8 @@ msgid "Prints the message"
 msgstr "Vytiskne zprávu"
 
 #: ../plugins/profiler/org-gnome-evolution-profiler.eplug.xml.h:1
-#, fuzzy
 msgid "Evolution Profiler"
-msgstr "Profilér Evolution"
+msgstr "Profiler Evolution"
 
 #: ../plugins/profiler/org-gnome-evolution-profiler.eplug.xml.h:2
 msgid "Writes a log of profiling data events."
@@ -21242,10 +21233,6 @@ msgstr "Obsloužit kontextovou nabídku"
 #~ msgid "Attachment Button"
 #~ msgstr "Tlačítko přílohy"
 
-#, fuzzy
-#~ msgid "Toggle Attachment Bar"
-#~ msgstr "Přepne lištu příloh"
-
 #~ msgid "Filters"
 #~ msgstr "Filtry"
 
@@ -21257,9 +21244,6 @@ msgstr "Obsloužit kontextovou nabídku"
 
 #~ msgid "<b>%s</b> : %s"
 #~ msgstr "<b>%s</b>·:·%s"
-
-#~ msgid "<b>%s</b>"
-#~ msgstr "<b>%s</b>"
 
 #~ msgid "Message List"
 #~ msgstr "Seznam zpráv"
@@ -21275,14 +21259,6 @@ msgstr "Obsloužit kontextovou nabídku"
 
 #~ msgid "Delete this Occurrence"
 #~ msgstr "Odstranit tento výskyt"
-
-#, fuzzy
-#~ msgid "Alar_ms"
-#~ msgstr "Alarmy"
-
-#, fuzzy
-#~ msgid "_All day Event"
-#~ msgstr "_Celodenní událost"
 
 #~ msgid "Previous Button"
 #~ msgstr "Tlačítko Předchozí"
