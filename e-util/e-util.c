@@ -679,6 +679,24 @@ e_sort (void             *base,
 #endif
 }
 
+#ifdef G_OS_WIN32
+static void
+fix_percent_l(const char **fmt, char **newfmt)
+{
+	/* %l is not implemented in the Microsoft C library. Use %I
+	 * instead. Don't bother that we get a leading zero instead of
+	 * leading blank for hours 0..9.
+	 */
+	if (strstr(*fmt, "%l")!=NULL) {
+		char *p;
+		*newfmt=g_strdup(*fmt);
+		p=strstr(*newfmt, "%l");
+		p[1]='I';
+		*fmt=*newfmt;
+	}
+}
+#endif
+
 /**
  * Function to do a last minute fixup of the AM/PM stuff if the locale
  * and gettext haven't done it right. Most English speaking countries
@@ -703,9 +721,15 @@ size_t e_strftime_fix_am_pm(char *s, size_t max, const char *fmt, const struct t
 	char *sp;
 	char *ffmt;
 	size_t ret;
+#ifdef G_OS_WIN32
+	char *newfmt=NULL;
+#endif
 
 	if (strstr(fmt, "%p")==NULL && strstr(fmt, "%P")==NULL) {
 		/* No AM/PM involved - can use the fmt string directly */
+#ifdef G_OS_WIN32
+		fix_percent_l(&fmt, &newfmt);
+#endif
 		ret=e_strftime(s, max, fmt, tm);
 	} else {
 		/* Get the AM/PM symbol from the locale */
@@ -716,6 +740,9 @@ size_t e_strftime_fix_am_pm(char *s, size_t max, const char *fmt, const struct t
 			 * AM/PM have been defined in the locale
 			 * so we can use the fmt string directly
 			 **/
+#ifdef G_OS_WIN32
+			fix_percent_l(&fmt, &newfmt);
+#endif
 			ret=e_strftime(s, max, fmt, tm);
 		} else {
 			/**
@@ -737,6 +764,9 @@ size_t e_strftime_fix_am_pm(char *s, size_t max, const char *fmt, const struct t
 			g_free(ffmt);
 		}
 	}
+#ifdef G_OS_WIN32
+	g_free(newfmt);
+#endif
 	return(ret);
 }
 
