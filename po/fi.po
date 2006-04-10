@@ -2588,7 +2588,7 @@ msgid ""
 "to delete contact (%s) ?"
 msgstr ""
 "Haluatko varmasti\n"
-"poistaa nämä yhteystiedon (%s)?"
+"poistaa yhteystiedon (%s)?"
 
 #: ../addressbook/gui/contact-editor/eab-editor.c:333
 msgid ""
