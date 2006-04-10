@@ -50,14 +50,14 @@ gboolean contacts_src_exists = FALSE;
 gchar *contacts_old_src_uri = NULL;
 
 
-GPtrArray *e_exchange_contacts_get_contacts (void);
+static GPtrArray *e_exchange_contacts_get_contacts (void);
 void e_exchange_contacts_pcontacts_on_change (GtkTreeView *treeview, ESource *source);
 GtkWidget *e_exchange_contacts_pcontacts (EPlugin *epl, EConfigHookItemFactoryData *data);
 gboolean e_exchange_contacts_check (EPlugin *epl, EConfigHookPageCheckData *data);
 void e_exchange_contacts_commit (EPlugin *epl, EConfigTarget *target);
 
 /* FIXME: Reconsider the prototype of this function */
-GPtrArray *
+static GPtrArray *
 e_exchange_contacts_get_contacts (void) 
 {
 	ExchangeAccount *account;
@@ -84,8 +84,8 @@ e_exchange_contacts_get_contacts (void)
 		if (!strcmp (type, "contacts")) {
 			tmp = (gchar*) e_folder_get_physical_uri (folder);
 			if (g_str_has_prefix (tmp, uri_prefix)) {
-				ruri = g_strdup (tmp+prefix_len); /* ATTN: Should not free this explicitly */
-				g_ptr_array_add (contacts_list, (gpointer)ruri);
+				ruri = g_strdup (tmp+prefix_len);
+				g_ptr_array_add (contacts_list, ruri);
 			}
 		}
 	}
@@ -104,7 +104,7 @@ e_exchange_contacts_pcontacts_on_change (GtkTreeView *treeview, ESource *source)
 	GtkTreeIter       iter;
 	ExchangeAccount *account;
 	gchar *es_ruri;
-	
+
 	account = exchange_operations_get_exchange_account ();
 
 	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(treeview));
@@ -140,7 +140,7 @@ e_exchange_contacts_pcontacts (EPlugin *epl, EConfigHookItemFactoryData *data)
 	char *offline_msg;
 	gint offline_status;
 	gboolean gal_folder = FALSE;
-	
+
 	if (data->old) {
 		gtk_widget_destroy (vb_pcontacts);
 	}
@@ -175,8 +175,10 @@ e_exchange_contacts_pcontacts (EPlugin *epl, EConfigHookItemFactoryData *data)
 		return vb_offline_msg;		
 	}
 
-	if (gal_folder)
+	if (gal_folder) {
+		contacts_src_exists = TRUE;
 		return NULL;
+	}
 
 	rel_uri = e_source_peek_relative_uri (source);
 	uid = e_source_peek_uid (source);
@@ -306,14 +308,82 @@ e_exchange_contacts_check (EPlugin *epl, EConfigHookPageCheckData *data)
 	exchange_config_listener_get_offline_status (exchange_global_config_listener, 
 								    &offline_status);
 	if (base_uri) { 
-		if (!g_ascii_strncasecmp (base_uri, "exchange", 8) || 
-		    !g_ascii_strncasecmp (base_uri, "gal", 3)) {
+		if (!g_ascii_strncasecmp (base_uri, "exchange", 8)) { 
 			if (offline_status == OFFLINE_MODE)
 				return FALSE;
 			if (rel_uri && !strlen (rel_uri)) {
 				return FALSE;
 			}
 		}
+		else
+			 return FALSE;
+	}
+	else {
+		return FALSE;
+	}
+
+	if (!contacts_src_exists) {
+		return TRUE;
+	}
+
+	ExchangeAccount *account;
+	account = exchange_operations_get_exchange_account ();
+
+	if (!rel_uri) {
+		GConfClient *client;
+		ESourceList *source_list = NULL;
+		ESourceGroup *source_group = NULL;
+		GSList *groups;
+		ESource *source;
+		
+		/* GAL folder */
+		client = gconf_client_get_default ();
+		source_list = e_source_list_new_for_gconf ( client, CONF_KEY_CONTACTS);
+		g_object_unref (client);
+		groups = e_source_list_peek_groups (source_list);
+
+		if ((source_group = e_source_list_peek_group_by_name (source_list,
+                                        account->account_name))) {
+			source =  e_source_group_peek_source_by_name (source_group, e_source_peek_name (t->source));
+			if (e_source_group_peek_source_by_name (source_group, 
+							e_source_peek_name (t->source))) {
+				/* not a rename of GAL */
+				g_object_unref (source_list);
+				return TRUE;
+			}
+			else {
+				g_object_unref (source_list);
+				return FALSE; 
+			}
+		}
+		else {
+			g_object_unref (source_list);
+			return FALSE;
+		}
+	}
+	else {
+		EUri *euri;
+		int uri_len;
+		gchar *uri_text, *uri_string, *path, *folder_name;
+
+		uri_text = e_source_get_uri (t->source);
+		euri = e_uri_new (uri_text);
+		uri_string = e_uri_to_string (euri, FALSE);
+		e_uri_free (euri);
+		uri_len = strlen (uri_string) + 1;
+		g_free (uri_string);
+		path = g_build_filename ("/", uri_text + uri_len, NULL);
+		g_free (uri_text);
+		folder_name = g_strdup (g_strrstr (path, "/") +1);
+		g_free (path);
+
+		if (strcmp (folder_name, e_source_peek_name (t->source)) && 
+		    exchange_account_get_standard_uri (account, folder_name)) {
+			/* rename of standard folder */
+			g_free (folder_name);
+			return FALSE;
+		}
+		g_free (folder_name);
 	}
 
 	return TRUE;
@@ -335,7 +405,7 @@ e_exchange_contacts_commit (EPlugin *epl, EConfigTarget *target)
 	if (uri_text && strncmp (uri_text, "exchange", 8)) {
 		/* here no need of checking for gal */
 		g_free (uri_text);
-		return ;
+		return;
 	}	
 
 	exchange_config_listener_get_offline_status (exchange_global_config_listener, 
@@ -357,7 +427,7 @@ e_exchange_contacts_commit (EPlugin *epl, EConfigTarget *target)
 	gruri = (gchar*) e_source_peek_relative_uri (source);
 
 	if (contacts_src_exists) {
-		gchar *tmpruri, *uri_string;
+		gchar *tmpruri, *uri_string, *temp_path, *prefix;
 		EUri *euri;
 		int uri_len;
 
@@ -367,36 +437,43 @@ e_exchange_contacts_commit (EPlugin *epl, EConfigTarget *target)
 	
 		uri_len = strlen (uri_string) + 1;	
 		tmpruri = g_strdup (uri_string + strlen ("exchange://"));
-		ruri = g_strconcat (tmpruri, uri_text + uri_len, NULL);
-		path = g_build_filename ("/", uri_text + uri_len, NULL);
+		temp_path = g_build_filename ("/", uri_text + uri_len, NULL);
+		prefix	= g_strndup (temp_path, strlen (temp_path) - strlen (g_strrstr (temp_path, "/"))); 
+		g_free (temp_path);
+		path = g_build_filename (prefix, "/", gname, NULL);
+		ruri = g_strconcat (tmpruri, ";", path+1, NULL);
 		oldpath = g_build_filename ("/", contacts_old_src_uri + prefix_len, NULL);
+		g_free (prefix);
 		g_free (uri_string);
 		g_free (tmpruri);
 	}
 	else {
+		/* new folder */
 		ruri = g_strconcat (gruri, "/", gname, NULL);
 		path = g_build_filename ("/", ruri+prefix_len, NULL);
 	}
-
-	e_source_set_relative_uri (source, ruri);
-	e_source_set_property (source, "username", username);
-	e_source_set_property (source, "auth-domain", "Exchange");
-	if (authtype) {
-		e_source_set_property (source, "auth-type", authtype);
-		g_free (authtype);
-	}
-	e_source_set_property (source, "auth", "plain/password");
 
 	if (!contacts_src_exists) {
 		/* Create the new folder */
 		result = exchange_account_create_folder (account, path, "contacts");
 	}
-	else if (gruri && strcmp (gruri, contacts_old_src_uri) && strcmp (path, oldpath)) {
+	else if (gruri && strcmp (path, oldpath )) {
 		/* Rename the folder */
 		result = exchange_account_xfer_folder (account, oldpath, path, TRUE);
-		exchange_operations_update_child_esources (source, 
-							   contacts_old_src_uri, 
-							   ruri);
+		if (result == EXCHANGE_ACCOUNT_FOLDER_OK) {
+			e_source_set_name (source, gname);
+			e_source_set_relative_uri (source, ruri);
+			e_source_set_property (source, "username", username);
+			e_source_set_property (source, "auth-domain", "Exchange");
+			if (authtype) {
+				e_source_set_property (source, "auth-type", authtype);
+				g_free (authtype);
+			}
+			e_source_set_property (source, "auth", "plain/password");
+			exchange_operations_update_child_esources (source, 
+								   contacts_old_src_uri, 
+								   ruri);
+		}
 	}
 	else {
 		/* Nothing happened specific to exchange; just return */

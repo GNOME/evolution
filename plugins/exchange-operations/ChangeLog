@@ -1,3 +1,30 @@
+2006-03-10  Sushma Rai  <rsushma@novell.com>
+
+	* exchange-operations.c (exchange_operations_update_child_esources):
+	Checking for ruri NULL.
+
+	* exchange-folder.c (org_gnome_exchange_check_address_book_subscribed):
+	Freeing uri.
+
+	* exchange-contacts.c (e_exchange_contacts_get_contacts): Defined as
+	static.
+	(e_exchange_contacts_pcontacts): Setting contacts_src_exists for GAL
+	folder.
+	(e_exchange_contacts_check): Checking for new folder creation and also
+	not allowing rename of GAL and Contacts folders.
+	(e_exchange_contacts_commit): Corrected the way relative URI was being
+	constructed during rename operation. Handling the return value of the
+	rename operation.
+
+	* exchange-calendar.c (e_exchange_calendar_get_calendars): Defined as a
+	static function.
+	(e_exchange_calendar_check): Not allowing the rename of standard
+	calendar and tasks folders.
+	(e_exchange_calendar_commit): Corrected the way relative URI was being
+	formed during rename operation. Also, handling the return value of the
+	rename folder operation.
+	Fixes #310433.
+
 2006-03-06  Sushma Rai  <rsushma@novell.com>
 
 	* exchange-config-listener.c 

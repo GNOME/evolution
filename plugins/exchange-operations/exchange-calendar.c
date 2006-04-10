@@ -47,20 +47,19 @@ enum {
 gboolean calendar_src_exists = FALSE;
 gchar *calendar_old_source_uri = NULL;
 
-GPtrArray *e_exchange_calendar_get_calendars (ECalSourceType ftype);
+static GPtrArray *e_exchange_calendar_get_calendars (ECalSourceType ftype);
 void e_exchange_calendar_pcalendar_on_change (GtkTreeView *treeview, ESource *source);
 GtkWidget *e_exchange_calendar_pcalendar (EPlugin *epl, EConfigHookItemFactoryData *data);
 gboolean e_exchange_calendar_check (EPlugin *epl, EConfigHookPageCheckData *data);
 void e_exchange_calendar_commit (EPlugin *epl, EConfigTarget *target);
 
 /* FIXME: Reconsider the prototype of this function */
-GPtrArray *
+static GPtrArray *
 e_exchange_calendar_get_calendars (ECalSourceType ftype) 
 {
 	ExchangeAccount *account;
 	GPtrArray *folder_array;
 	GPtrArray *calendar_list;
-
 	EFolder *folder;
 	int i, prefix_len;
 	gchar *type;
@@ -98,9 +97,8 @@ e_exchange_calendar_get_calendars (ECalSourceType ftype)
 		if (!strcmp (type, tstring)) {
 			tmp = (gchar *)e_folder_get_physical_uri (folder);
 			if (g_str_has_prefix (tmp, uri_prefix)) {
-				ruri = g_strdup (tmp+prefix_len); /* ATTN: Shouldn't free this explictly */
-				printf ("adding ruri : %s\n", ruri);
-				g_ptr_array_add (calendar_list, (gpointer)ruri);
+				ruri = g_strdup (tmp+prefix_len);
+				g_ptr_array_add (calendar_list, ruri);
 			}
 		}
 	}
@@ -120,7 +118,7 @@ e_exchange_calendar_pcalendar_on_change (GtkTreeView *treeview, ESource *source)
 	GtkTreeIter       iter;
 	ExchangeAccount *account;
 	gchar *es_ruri, *ruri;
-	
+
 	account = exchange_operations_get_exchange_account ();
 
 	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(treeview));
@@ -236,6 +234,7 @@ e_exchange_calendar_pcalendar (EPlugin *epl, EConfigHookItemFactoryData *data)
 		gtk_table_attach (GTK_TABLE (parent), lbl_size_val, 1, 3, row, row+1, GTK_FILL|GTK_EXPAND, 0, 0, 0);
 		g_free (folder_size);
 	}
+
 	lbl_pcalendar = gtk_label_new_with_mnemonic (_("_Location:"));
 	gtk_widget_show (lbl_pcalendar);
 	gtk_misc_set_alignment (GTK_MISC (lbl_pcalendar), 0.0, 0.5);
@@ -314,10 +313,39 @@ e_exchange_calendar_check (EPlugin *epl, EConfigHookPageCheckData *data)
 	if (base_uri && !strncmp (base_uri, "exchange", 8)) {
 		if (offline_status == OFFLINE_MODE)
 			return FALSE;
-		if (rel_uri && !strlen (rel_uri)) {
+		if (rel_uri && !strlen (rel_uri))
 			return FALSE;
-		}
 	}
+
+	if (!calendar_src_exists) {
+		/* new folder */
+                return TRUE;
+        }
+
+	ExchangeAccount *account;
+	EUri *euri;
+	int uri_len;
+	gchar *uri_text, *uri_string, *path, *folder_name;
+
+	account = exchange_operations_get_exchange_account ();
+	uri_text = e_source_get_uri (t->source);
+	euri = e_uri_new (uri_text);
+	uri_string = e_uri_to_string (euri, FALSE);
+	e_uri_free (euri);
+	uri_len = strlen (uri_string) + 1;
+	g_free (uri_string);
+	path = g_build_filename ("/", uri_text + uri_len, NULL);
+	g_free (uri_text);
+	folder_name = g_strdup (g_strrstr (path, "/") +1);
+	g_free (path);
+
+	if (strcmp (folder_name, e_source_peek_name (t->source)) &&
+	    exchange_account_get_standard_uri (account, folder_name)) {
+		/* rename of standard folder */
+		g_free (folder_name);
+		return FALSE;
+	}
+	g_free (folder_name);
 
 	return TRUE;
 }
@@ -372,7 +400,7 @@ e_exchange_calendar_commit (EPlugin *epl, EConfigTarget *target)
 	gruri = (gchar*) e_source_peek_relative_uri (source);
 	
 	if (calendar_src_exists) {
-		gchar *tmpruri, *uri_string;
+		gchar *tmpruri, *uri_string, *temp_path, *prefix;
 		EUri *euri;
 		int uri_len;
 
@@ -389,35 +417,43 @@ e_exchange_calendar_commit (EPlugin *epl, EConfigTarget *target)
 		
 		uri_len = strlen (uri_string) + 1;
 		tmpruri = g_strdup (uri_string + strlen ("exchange://"));
-		ruri = g_strconcat (tmpruri, uri_text + uri_len, NULL);
-		path = g_build_filename ("/", uri_text + uri_len, NULL);
+		temp_path = g_build_filename ("/", uri_text + uri_len, NULL);
+		prefix  = g_strndup (temp_path, strlen (temp_path) - strlen (g_strrstr (temp_path, "/")));
+		g_free (temp_path);
+		path = g_build_filename (prefix, "/", gname, NULL);
+		ruri = g_strconcat (tmpruri, ";", path+1, NULL);
 		oldpath = g_build_filename ("/", calendar_old_source_uri + prefix_len, NULL);
+		g_free (prefix);
 		g_free (uri_string);
 		g_free (tmpruri);
 	}
 	else {
+		/* new folder */
 		ruri = g_strconcat (gruri, "/", gname, NULL);
 		path = g_build_filename ("/", ruri+prefix_len, NULL);
 	}
-	e_source_set_relative_uri (source, ruri);
-	e_source_set_property (source, "username", username);
-	e_source_set_property (source, "auth-domain", "Exchange");
-	if (authtype) {
-		e_source_set_property (source, "auth-type", authtype);
-		g_free (authtype);
-	}
-	e_source_set_property (source, "auth", "1");
 	
 	if (!calendar_src_exists) {
 		/* Create the new folder */
 		result = exchange_account_create_folder (account, path, ftype);
 	}
-	else if (gruri && strcmp (gruri, calendar_old_source_uri) && strcmp (path, oldpath)) {
+	else if (gruri && strcmp (path, oldpath)) {
 		/* Rename the folder */
 		result = exchange_account_xfer_folder (account, oldpath, path, TRUE);
-		exchange_operations_update_child_esources (source, 
+		if (result == EXCHANGE_ACCOUNT_FOLDER_OK) {
+			e_source_set_name (source, gname);
+			e_source_set_relative_uri (source, ruri);
+			e_source_set_property (source, "username", username);
+			e_source_set_property (source, "auth-domain", "Exchange");
+			if (authtype) {
+				e_source_set_property (source, "auth-type", authtype);
+				g_free (authtype);
+			}
+			e_source_set_property (source, "auth", "1");
+			exchange_operations_update_child_esources (source, 
 							   calendar_old_source_uri, 
 							   ruri);
+		}
 	}
 	else {
 		/* Nothing happened specific to exchange; just return */
