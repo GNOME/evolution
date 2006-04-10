@@ -1,3 +1,16 @@
+2006-04-07  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #163039
+	* gui/e-meeting-store.c: (ems_finalize), (ems_init),
+	(process_callbacks), (refresh_busy_periods): Removed the
+	async queue, updated the gui via the callback function in a
+	idle loop as and when we receive the free busy information.
+	(e_meeting_store_get_num_queries): Fixed a warning.
+	* gui/e-meeting-store.h:
+	* gui/e-meeting-time-sel.c: 
+	(e_meeting_time_selector_refresh_cb): Changed the return type of 
+	the function to return a boolean variable.
+
 2006-04-05  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #328808

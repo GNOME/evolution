@@ -1198,7 +1198,7 @@ e_meeting_time_selector_set_zoomed_out (EMeetingTimeSelector *mts,
 	gtk_widget_queue_draw (mts->display_main);
 }
 
-static void
+static gboolean 
 e_meeting_time_selector_refresh_cb (gpointer data) 
 {
 	EMeetingTimeSelector *mts = data;
@@ -1216,6 +1216,8 @@ e_meeting_time_selector_refresh_cb (gpointer data)
 		gtk_widget_queue_draw (mts->display_main);
 
 	gtk_object_unref (GTK_OBJECT (mts));
+
+	return FALSE;
 }
 
 static void
