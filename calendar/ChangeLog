@@ -1,4 +1,4 @@
-2006-04-07  Chenthill Palanisamy  <pchenthill@novell.com>
+2006-04-10  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #163039
 	* gui/e-meeting-store.c: (ems_finalize), (ems_init),
