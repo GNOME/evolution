@@ -1,3 +1,9 @@
+2006-04-10  Roozbeh Pournader  <roozbeh@farsiweb.info>
+
+	* fa.po: Remove "%OC" from translations, as it only works with
+	  Sharif Linux's modified glibc (reported by Kaveh Mousavi, patch by
+	  Elnaz Sarbar).
+
 2006-04-08  Miloslav Trmac  <mitr@volny.cz>
 
 	* cs.po: Updated Czech translation by Lukas Novotny.
