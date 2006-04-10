@@ -1,3 +1,11 @@
+2006-04-10  Harish Krishnaswamy <kharish@novell.com>
+
+	--------------------------
+	Release : Evolution 2.6.1
+	--------------------------
+
+	* NEWS, configure.in: Release updates and version bump.
+
 2006-04-08  Jérémy Ar Floc'h  <jeremy.lefloch@gmail.com>
 
 	* configure.in (ALL_LINGUAS): Added Breton (br).
