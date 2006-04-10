@@ -1678,7 +1678,8 @@ ethi_event (GnomeCanvasItem *item, GdkEvent *e)
 				ethi->maybe_drag = TRUE;
 				is_pointer_on_division (ethi, x, &start, &col);
 				ethi->selected_col = col;
-				e_canvas_item_grab_focus (item, TRUE);
+				if (GTK_WIDGET_CAN_FOCUS (GTK_WIDGET (item->canvas)))
+					e_canvas_item_grab_focus (item, TRUE);
 			} else if (e->button.button == 3){
 				ethi_header_context_menu (ethi, &e->button);
 			} else
