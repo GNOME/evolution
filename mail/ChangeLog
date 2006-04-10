@@ -10,19 +10,6 @@
 	* message-list.c: (mail_folder_hide_by_flag):
 	If CamelMessageInfo is null, don't free it.
 
-2006-03-29  Parthasarathi Susarla <sparthasarathi@novell.com>
-	
-	* em-folder-view.c:(smfv_setup_view_instance): use the
-	flags CAMEL_STORE_FOLDER_INFO_SUBSCRIBED instead of 
-	CAMEL_STORE_FOLDER_INFO_FAST when getting folder info
-
-2006-03-25  Rajeev ramanathan <rajeevramanathan_2004@yahoo.co.in>
-
-	**Fixes #329585
-	*mail-config.glade: Changed Remove button to Delete button
-	*mail.error.xml: Changed current Layout DELETE  [Do not delete]
-	to   [Do not delete]  DELETE
-
 2006-03-22  Patrick Ohly  <patrick.ohly@intel.com>
 
 	* em-utils.c (em_utils_selection_set_urilist):
@@ -30,20 +17,16 @@
 
 2006-03-21  Simon Zheng  <simon.zheng@sun.com>
 
-	Fixed bug #326571
+	Fixes bug #326571
 	* em-utils.c (em_filename_make_safe), (emu_get_save_filesel),
 	(emu_save_parts_response):
 	Add em_filename_make_safe(), and use it to allow filenames
-	contain more valid characters when saving attachments.
+	contain more valid characters when saving attachment.
 
-2006-03-20  Srinivasa Ragavan  <sragavan@novell.com>
+2006-03-12  Takeshi AIHANA <takeshi.aihana@gmail.com>
 
-	* em-folder-view.c: (emfv_setup_view_instance): Added code to set the
-	mail view column for sent folder. 
-
-2006-03-12  Frank Arnold  <farnold@cvs.gnome.org>
-
-	* default/de/Inbox: Updated German translation of default inbox.
+	* default/ja/Inbox:
+	  Updated Japanese translation.
 
 2006-03-06  Simon Zheng  <simon.zheng@sun.com>
 

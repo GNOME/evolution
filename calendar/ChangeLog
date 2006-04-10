@@ -1,4 +1,4 @@
-2006-04-10  Chenthill Palanisamy  <pchenthill@novell.com>
+2006-04-07  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #163039
 	* gui/e-meeting-store.c: (ems_finalize), (ems_init),
@@ -10,6 +10,11 @@
 	* gui/e-meeting-time-sel.c: 
 	(e_meeting_time_selector_refresh_cb): Changed the return type of 
 	the function to return a boolean variable.
+
+2006-04-05  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	* gui/e-day-view.c: (e_day_view_on_main_canvas_motion):
+	Enable drag and drop of recurring appointments.
 
 2006-04-05  Chenthill Palanisamy  <pchenthill@novell.com>
 
@@ -28,12 +33,7 @@
 	(e_meeting_list_view_set_name_selector): Functions to get and set the name
 	selector.
 
-2006-04-06  Chenthill Palanisamy  <pchenthill@novell.com>
-
-	* gui/e-day-view.c: (e_day_view_on_main_canvas_motion):
-	Enable drag and drop of recurring appointments.
-
-2006-04-06  Chenthill Palanisamy  <pchenthill@novell.com>
+2006-04-05  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #162005
 	* gui/comp-util.c: (cal_comp_is_on_server): Pass the recurrence
@@ -46,47 +46,13 @@
 	Because the passing text is in UTF-8 encoding, it should be traversed
 	by utf-8 char order rather than one by one byte.
 
-2006-04-04  Irene Huang <Irene.Huang@sun.com>
+2006-03-20  Irene Huang <Irene.Huang@sun.com>
 
-       	Fixes bug 335214
+        Fixes bug 335214
 
 	* gui/e-cal-model.c: (e_cal_view_objects_added_cb):
         Call e_table_model_pre_change (E_TABLE_MODEL (model)); before
-       	deleting row.
-
-2006-04-03  Chenthill Palanisamy  <pchenthill@novell.com>
-
-	Fixes #158107
-	* gui/dialogs/delete-comp.c: (delete_component_dialog),
-	(cb_toggled_cb), (prompt_retract_dialog):
-	* gui/dialogs/delete-comp.h:
-	* gui/e-calendar-table.c: (add_retract_data), (check_for_retract),
-	(e_calendar_table_delete_selected):
-	* gui/e-calendar-view.c: (add_retract_data), (check_for_retract),
-	(delete_event), (e_calendar_view_delete_selected_occurrence): Added
-	retract support.
-
-2006-03-29  Chenthill Palanisamy  <pchenthill@novell.com>
-
-	Fixes #160357 [b.n.c]
-	* gui/e-meeting-store.c: 
-	(ems_init): Initialize the num queries.
-	(freebusy_async): maintain the num queries count.
-	(refresh_busy_periods): Set the store to FreeBusy data.
-	* gui/e-meeting-store.[ch]: 
-	(e_meeting_store_get_num_queries): Get the number of freebusy
-	queries currently going on.
-	* gui/e-meeting-time-sel-item.c:
-	(e_meeting_time_selector_item_init): Added a busy cursor.
-	(e_meeting_time_selector_item_destroy):
-	* gui/e-meeting-time-sel-item.h: Added a busy cursor and a function
-	to reset the normal cursor.
-	* gui/e-meeting-time-sel.c: 
-	* gui/e-meeting-time-sel.h:
-	(e_meeting_time_selector_construct): Get the main and top canvas items.
-	(e_meeting_time_selector_refresh_cb): Set the normal cursor checking the number
-	of FreeBusy queries.
-	(e_meeting_time_selector_refresh_free_busy):Set the Busy cursor.
+        deleting row.
 
 2006-03-28  Jeff Cai  <jeff.cai@sun.com> 
 	
@@ -102,7 +68,7 @@
 	* gui/calendar-component.c: (update_task_selection): need to see if
 	source is NULL to avoid a CRITICAL warning.
 
-2006-03-23  Chenthill Palanisamy  <pchenthill@novell.com>
+2006-03-22  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #329502
 	* gui/e-meeting-list-view.c: (attendee_edited_cb):
@@ -130,15 +96,6 @@
 
 	* gui/dialogs/alarm-dialog.c: (alarm_to_dalarm_widgets): call
 	set_text only when description.value is not NULL.
-
-2006-03-20  Boby Wang <boby.wang@sun.com>
-
-	** Fix for bug #268584
-
-	* gui/dialogs/cal-attachment-select-file.c: (run_selector):
-	* gui/dialogs/cal-attachment.glade:
-	set the accelerate key for "Suggest Suggest automatic display of
-	attachment"
 
 2006-03-09  Chenthill Palanisamy  <pchenthill@novell.com>
 
@@ -12878,4 +12835,3 @@
 
 	* gui/e-tasks.c (e_tasks_delete_completed): no need to do the
 	expunge asyn
-

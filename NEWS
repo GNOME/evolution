@@ -1,3 +1,35 @@
+Evolution 2.6.1 2006-04-10 
+---------------------------
+
+Bug fixes since last release :
+http://go-evolution.org/Evo2.6.1#Evolution
+
+Evolution 2.6.0 2006-03-13 
+---------------------------
+
+What is new since Evolution 2.4 ?
+---------------------------------
+
+	- a new Memo Component
+	- a new Look for the Event/Task/Meeting Editor
+	- Calendar Publishing support
+	- CalDAV support
+	- Network Manager support
+	- HULA connectivity support
+	- Improved GroupWise support
+	- Improved Event Recurrence support
+	- Calendar Tooltips
+	- CSV/tab importers for Mozilla, Outlook and Evolution formats
+	- Contact list support for LDAP addressbooks
+	- Support for saving Advanced Searches for Address books
+	- Support for Prioritizing messages in the composer
+	- Lots of bug fixes and lots of other User Interface Improvements
+	- Updated Translations
+
+Bug fixes since last release :
+http://go-evolution.org/Evo2.6.0#Evolution
+
+
 Evolution 2.5.92 2006-02-27
 ---------------------------
 

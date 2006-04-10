@@ -1,15 +1,39 @@
-2006-03-27  Parthasarathi Susarla <sparthasarathi@novell.com>
-	
-	* MAINTAINERS: Changing the maintainers file to reflect
-	the current mail maintainers.
+2006-04-10  Harish Krishnaswamy <kharish@novell.com>
+
+	--------------------------
+	Release : Evolution 2.6.1
+	--------------------------
+
+	* NEWS, configure.in: Release updates and version bump.
+
+2006-04-08  Jérémy Ar Floc'h  <jeremy.lefloch@gmail.com>
+
+	* configure.in (ALL_LINGUAS): Added Breton (br).
 
 2006-03-22  Tommi Vainikainen  <thv@iki.fi>
 
 	* configure.in (ALL_LINGUAS): Added Dzongkha (dz).
 
-2006-03-12  Vladimer Sichinava  <alinux@siena.linux.it>
+2006-03-22  Tor Lillqvist  <tml@novell.com>
 
-	* configure.in: Added "ka" Georgian
+	* evolution-zip.in: The evolution.keys and evolution.mime files
+	don't have any version number in their name. I doubt these files
+	actually get used on Win32, though, so prolly silly to put them in
+	the zip file.
+
+2006-03-14  Vladimer Sichinava  <alinux@siena.linux.it>
+
+        * configure.in: Added "ka" Georgian tu ALL_LINGUAS
+	
+2006-03-13  Harish Krishnaswamy  <kharish@novell.com>
+
+	* NEWS, configure.in : Release updates and version bump.
+	--------------------------
+	Release : Evolution 2.6.0
+	--------------------------
+	
+	* data/Makefile.am: Delink the version from the desktop file
+	to enable smoother upgrades.
 
 2006-03-12  Benoît Dejean  <benoit@placenet.org>
 
@@ -17,7 +41,7 @@
 	* mail/default/Makefile.am:
 	* mail/default/fr/Inbox:
 	* mail/default/fr/Makefile.am: Added French welcome message.
-	
+
 2006-03-03  Andre Klapper  <a9016009@gmx.de>
 
 	* configure.in,
