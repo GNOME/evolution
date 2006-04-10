@@ -1,3 +1,10 @@
+2006-03-28  Li Yuan  <li.yuan@sun.com>
+
+	**Fixes bug #335618
+	* e-selection-model-array.c: (e_selection_model_array_delete_rows):
+	If the row being deleted is the last one, we should change the 
+	selection_start_row.
+
 2006-03-06  Simon Zheng  <simon.zheng@sun.com>
 
 	Fixes bug #332140

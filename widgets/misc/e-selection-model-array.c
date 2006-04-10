@@ -68,6 +68,7 @@ e_selection_model_array_delete_rows(ESelectionModelArray *esma, int row, int cou
 
 		if (esma->cursor_row >= e_bit_array_bit_count (esma->eba)) {
 			esma->cursor_row = e_bit_array_bit_count (esma->eba) - 1;
+			esma->selection_start_row--;
 		} else if (esma->cursor_row < 0) {
 			esma->cursor_row = -1;
 		}
