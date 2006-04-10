@@ -1,3 +1,10 @@
+2006-03-27  Tor Lillqvist  <tml@novell.com>
+
+	* e-util.c (fix_percent_l): [Win32] Instead of %l (which is a GNU
+	extension not implemented in the Microsoft C library) use %I.
+	Fixes #336055.
+	(e_strftime_fix_am_pm): Call fix_percent_l() when necessary.
+
 2006-02-12  Karsten Bräckelmann  <guenther@rudersport.de>
 
 	* e-error.c (e_error_newv): 
