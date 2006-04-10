@@ -23,6 +23,8 @@
 #include <glib/gi18n.h>
 
 #include "exchange-operations.h"
+#include <e-folder-exchange.h>
+#include <exchange-hierarchy.h>
 #include <e-util/e-error.h>
 
 ExchangeConfigListener *exchange_global_config_listener=NULL;
@@ -280,4 +282,21 @@ void exchange_operations_update_child_esources (ESource *source, const gchar *ol
 			g_free (truri);	
 		}
 	}
+}
+
+gboolean
+is_exchange_personal_folder (ExchangeAccount *account, char *uri)
+{
+	ExchangeHierarchy *hier;
+	EFolder *folder;
+
+	folder = exchange_account_get_folder (account, uri);
+	if (folder) {
+		hier = e_folder_exchange_get_hierarchy (folder);
+		if (hier->type != EXCHANGE_HIERARCHY_PERSONAL)
+			return FALSE;
+		else
+			return TRUE;
+	}
+	return FALSE;
 }

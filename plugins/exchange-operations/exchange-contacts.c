@@ -139,13 +139,13 @@ e_exchange_contacts_pcontacts (EPlugin *epl, EConfigHookItemFactoryData *data)
 	GtkWidget *lbl_offline_msg, *vb_offline_msg;
 	char *offline_msg;
 	gint offline_status;
-	gboolean gal_folder = FALSE;
+	gboolean gal_folder = FALSE, is_personal;
 
 	if (data->old) {
 		gtk_widget_destroy (vb_pcontacts);
 	}
 
-        uri_text = e_source_get_uri (source);
+	uri_text = e_source_get_uri (source);
 	if (uri_text && g_ascii_strncasecmp (uri_text, "exchange", 8)) {
 		if (g_ascii_strncasecmp (uri_text, "gal", 3)) {
 			g_free (uri_text);
@@ -155,8 +155,6 @@ e_exchange_contacts_pcontacts (EPlugin *epl, EConfigHookItemFactoryData *data)
 			gal_folder = TRUE;
 		}
 	}
-
-	g_free (uri_text);
 
 	exchange_config_listener_get_offline_status (exchange_global_config_listener, 
 								    &offline_status);
@@ -172,11 +170,13 @@ e_exchange_contacts_pcontacts (EPlugin *epl, EConfigHookItemFactoryData *data)
 		g_free (offline_msg);
 		gtk_box_pack_start (GTK_BOX (vb_offline_msg), lbl_offline_msg, FALSE, FALSE, 0);
 		gtk_widget_show_all (vb_offline_msg);
+		g_free (uri_text);
 		return vb_offline_msg;		
 	}
 
 	if (gal_folder) {
 		contacts_src_exists = TRUE;
+		g_free (uri_text);
 		return NULL;
 	}
 
@@ -196,12 +196,16 @@ e_exchange_contacts_pcontacts (EPlugin *epl, EConfigHookItemFactoryData *data)
 	account = exchange_operations_get_exchange_account ();
 	if (!account) {
 		g_free (contacts_old_src_uri);
+		g_free (uri_text);
 		return NULL;
 	}
 	account_name = account->account_name;
 	hbx_size = NULL;
 
-	if (contacts_src_exists) {
+	is_personal = is_exchange_personal_folder (account, uri_text);
+	g_free (uri_text);
+
+	if (contacts_src_exists && is_personal ) {
 		abook_name = (char*)e_source_peek_name (source);
 		model = exchange_account_folder_size_get_model (account);
 		if (model)
@@ -365,11 +369,15 @@ e_exchange_contacts_check (EPlugin *epl, EConfigHookPageCheckData *data)
 		EUri *euri;
 		int uri_len;
 		gchar *uri_text, *uri_string, *path, *folder_name;
+		gboolean is_personal;
 
 		uri_text = e_source_get_uri (t->source);
 		euri = e_uri_new (uri_text);
 		uri_string = e_uri_to_string (euri, FALSE);
 		e_uri_free (euri);
+
+		is_personal = is_exchange_personal_folder (account, uri_text);
+
 		uri_len = strlen (uri_string) + 1;
 		g_free (uri_string);
 		path = g_build_filename ("/", uri_text + uri_len, NULL);
@@ -377,15 +385,17 @@ e_exchange_contacts_check (EPlugin *epl, EConfigHookPageCheckData *data)
 		folder_name = g_strdup (g_strrstr (path, "/") +1);
 		g_free (path);
 
-		if (strcmp (folder_name, e_source_peek_name (t->source)) && 
-		    exchange_account_get_standard_uri (account, folder_name)) {
-			/* rename of standard folder */
+		if (strcmp (folder_name, e_source_peek_name (t->source))) { 
+			/* rename */
+			if (exchange_account_get_standard_uri (account, folder_name) || 
+			    !is_personal) {
+				/* rename of standard/non-personal folder */
+				g_free (folder_name);
+				return FALSE;
+			}
 			g_free (folder_name);
-			return FALSE;
 		}
-		g_free (folder_name);
 	}
-
 	return TRUE;
 }
 
@@ -416,6 +426,9 @@ e_exchange_contacts_commit (EPlugin *epl, EConfigTarget *target)
 	}
 
 	account = exchange_operations_get_exchange_account ();
+	if (!is_exchange_personal_folder (account, uri_text))
+		return;
+
 	username = exchange_account_get_username (account);
 	authtype = exchange_account_get_authtype (account);
 

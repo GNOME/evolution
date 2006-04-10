@@ -1,5 +1,20 @@
 2006-03-10  Sushma Rai  <rsushma@novell.com>
 
+	* exchange-operations.[ch] (is_exchange_personal_folder): Added new to
+	check if a folder is a personal folder or not.
+
+	* exchange-contacts.c (e_exchange_contacts_pcontacts): Printing the
+	folder size only for the personal folders, in properties window.
+	(e_exchange_contacts_check): Returning FALSE in case of rename of
+	non-personal folders.
+	(e_exchange_contacts_commit): Renaming only the personal folders.
+
+	* exchange-calendar.c (e_exchange_calendar_pcalendar)
+	(e_exchange_calendar_check)(e_exchange_calendar_commit): Similar.
+	Fixes #328813 and #315522.
+
+2006-03-10  Sushma Rai  <rsushma@novell.com>
+
 	* exchange-operations.c (exchange_operations_update_child_esources):
 	Checking for ruri NULL.
 

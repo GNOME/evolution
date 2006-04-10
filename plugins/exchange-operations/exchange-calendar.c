@@ -156,6 +156,7 @@ e_exchange_calendar_pcalendar (EPlugin *epl, EConfigHookItemFactoryData *data)
 	gint offline_status;
 	char *offline_msg;
 	GtkWidget *lbl_offline_msg;
+	gboolean is_personal;
 
 	if (!hidden)
 		hidden = gtk_label_new ("");
@@ -177,7 +178,6 @@ e_exchange_calendar_pcalendar (EPlugin *epl, EConfigHookItemFactoryData *data)
 	}
 
 	e_uri_free (uri);
-	g_free (uri_text);
 
 	parent = data->parent;
 	row = ((GtkTable*)parent)->nrows;
@@ -194,6 +194,7 @@ e_exchange_calendar_pcalendar (EPlugin *epl, EConfigHookItemFactoryData *data)
 		g_free (offline_msg);
 		gtk_widget_show (lbl_offline_msg);
 		gtk_table_attach (GTK_TABLE (parent), lbl_offline_msg, 0, 2, row, row+1, GTK_FILL|GTK_EXPAND, 0, 0, 0);
+		g_free (uri_text);
 		return lbl_offline_msg;		
 	}
 
@@ -211,11 +212,14 @@ e_exchange_calendar_pcalendar (EPlugin *epl, EConfigHookItemFactoryData *data)
 	account = exchange_operations_get_exchange_account ();
 	if (!account) {
 		g_free (calendar_old_source_uri);
+		g_free (uri_text);
 		return NULL;
 	}
 	account_name = account->account_name;
+	is_personal = is_exchange_personal_folder (account, uri_text);
+	g_free (uri_text);
 
-	if (calendar_src_exists) {
+	if (calendar_src_exists && is_personal) {
 		cal_name = (gchar*) e_source_peek_name (source);
 		model = exchange_account_folder_size_get_model (account);
 		if (model)
@@ -326,12 +330,16 @@ e_exchange_calendar_check (EPlugin *epl, EConfigHookPageCheckData *data)
 	EUri *euri;
 	int uri_len;
 	gchar *uri_text, *uri_string, *path, *folder_name;
+	gboolean is_personal;
 
 	account = exchange_operations_get_exchange_account ();
 	uri_text = e_source_get_uri (t->source);
 	euri = e_uri_new (uri_text);
 	uri_string = e_uri_to_string (euri, FALSE);
 	e_uri_free (euri);
+
+	is_personal = is_exchange_personal_folder (account, uri_text);
+
 	uri_len = strlen (uri_string) + 1;
 	g_free (uri_string);
 	path = g_build_filename ("/", uri_text + uri_len, NULL);
@@ -339,11 +347,14 @@ e_exchange_calendar_check (EPlugin *epl, EConfigHookPageCheckData *data)
 	folder_name = g_strdup (g_strrstr (path, "/") +1);
 	g_free (path);
 
-	if (strcmp (folder_name, e_source_peek_name (t->source)) &&
-	    exchange_account_get_standard_uri (account, folder_name)) {
-		/* rename of standard folder */
-		g_free (folder_name);
-		return FALSE;
+	if (strcmp (folder_name, e_source_peek_name (t->source))) {
+		/* rename */
+		if (exchange_account_get_standard_uri (account, folder_name) ||
+		    !is_personal) {
+			/* rename of standard/non-personal folder */
+			g_free (folder_name);
+			return FALSE;
+		}
 	}
 	g_free (folder_name);
 
@@ -376,6 +387,9 @@ e_exchange_calendar_commit (EPlugin *epl, EConfigTarget *target)
 	}
 
 	account = exchange_operations_get_exchange_account ();
+	if (!is_exchange_personal_folder (account, uri_text))
+		return;
+
 	username = exchange_account_get_username (account);
 	authtype = exchange_account_get_authtype (account);
 

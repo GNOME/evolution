@@ -51,6 +51,8 @@ void exchange_operations_report_error (ExchangeAccount *account, ExchangeAccount
 
 void exchange_operations_update_child_esources (ESource *source, const gchar *old_path, const gchar *new_path);
 
+gboolean is_exchange_personal_folder (ExchangeAccount *account, char *uri);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
