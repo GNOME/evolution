@@ -58,9 +58,7 @@ struct _EMeetingStorePrivate {
 	GMutex *mutex;
 	guint refresh_idle_id;
 
-	guint callback_idle_id;
 	guint num_threads;
-	GAsyncQueue *async_queue;
 };
 
 #define BUF_SIZE 1024
@@ -565,15 +563,10 @@ ems_finalize (GObject *obj)
  	if (priv->refresh_idle_id)
  		g_source_remove (priv->refresh_idle_id);
 
- 	if (priv->callback_idle_id)
- 		g_source_remove (priv->callback_idle_id);
-
 	g_free (priv->fb_uri);
 
 	g_mutex_free (priv->mutex);
 
-	g_async_queue_unref (priv->async_queue);
- 		
 	g_free (priv);
 
 	if (G_OBJECT_CLASS (parent_class)->finalize)
@@ -608,8 +601,6 @@ ems_init (EMeetingStore *store)
 	priv->refresh_data = g_hash_table_new (g_str_hash, g_str_equal);
 
 	priv->mutex = g_mutex_new ();
-
-	priv->async_queue = g_async_queue_new ();
 
 	start_addressbook_server (store);
 }
@@ -944,38 +935,6 @@ find_zone (icalproperty *ip, icalcomponent *tz_top_level)
 	return NULL;
 }
 
-typedef struct {
-	EMeetingStoreRefreshCallback call_back;
-	gpointer *data;
-} QueueCbData;
-
-/* Process the callbacks in the main thread. Avoids widget redrawing issues. */
-static gboolean
-process_callbacks_main_thread (void *data)
-{
-	EMeetingStore *store = data;
-	EMeetingStorePrivate *priv;
-	QueueCbData *aqueue_data;
-	gboolean threads_done = FALSE;
-
-	priv = store->priv;
-
-	g_mutex_lock (priv->mutex);
-	if (priv->num_threads == 0) {
-		threads_done = TRUE;
-		priv->callback_idle_id = 0;
-	}
-	g_mutex_unlock (priv->mutex);
-
-	while ((aqueue_data = g_async_queue_try_pop (priv->async_queue)) != NULL) {
-		aqueue_data->call_back (aqueue_data->data);
-
-		g_free (aqueue_data);
-	}
-
-		return !threads_done;
-}
-
 static void
 process_callbacks (EMeetingStoreQueueData *qdata) 
 {
@@ -985,12 +944,13 @@ process_callbacks (EMeetingStoreQueueData *qdata)
 	store = qdata->store;
 
 	for (i = 0; i < qdata->call_backs->len; i++) {
-		QueueCbData *aqueue_data = g_new0 (QueueCbData, 1);
+		EMeetingStoreRefreshCallback call_back;
+		gpointer *data = NULL;
 
-		aqueue_data->call_back = g_ptr_array_index (qdata->call_backs, i);
-		aqueue_data->data = g_ptr_array_index (qdata->data, i);
-
-		g_async_queue_push (store->priv->async_queue, aqueue_data);
+		call_back = g_ptr_array_index (qdata->call_backs, i);
+		data = g_ptr_array_index (qdata->data, i);
+		
+		g_idle_add ((GSourceFunc) call_back, data);
 	}
 
 	g_mutex_lock (store->priv->mutex);
@@ -998,7 +958,6 @@ process_callbacks (EMeetingStoreQueueData *qdata)
 	g_mutex_unlock (store->priv->mutex);
 
 	refresh_queue_remove (qdata->store, qdata->attendee);
-	g_async_queue_unref (store->priv->async_queue);
 	g_object_unref (store);
 }
 
@@ -1328,7 +1287,6 @@ refresh_busy_periods (gpointer data)
 	}
 
 
-	g_async_queue_ref (priv->async_queue);
 
 	g_mutex_lock (store->priv->mutex);
 	store->priv->num_threads++;
@@ -1342,17 +1300,14 @@ refresh_busy_periods (gpointer data)
 		g_free (fbd->email);
 		priv->refresh_idle_id = 0;
 
-		g_async_queue_unref (priv->async_queue);
 
 		g_mutex_lock (store->priv->mutex);
 		store->priv->num_threads--;
 		g_mutex_unlock (store->priv->mutex);
 
 		return FALSE;
-	} else if (priv->callback_idle_id == 0) {
-		priv->callback_idle_id = g_idle_add (process_callbacks_main_thread, 
-						     store);
 	}
+
 	return TRUE;
 }
 		

@@ -65,7 +65,7 @@ struct _EMeetingStoreClass {
 	GtkListStoreClass parent_class;
 };
 
-typedef void	(* EMeetingStoreRefreshCallback) (gpointer data);
+typedef gboolean (* EMeetingStoreRefreshCallback) (gpointer data);
 
 GType    e_meeting_store_get_type (void);
 GObject *e_meeting_store_new      (void);
