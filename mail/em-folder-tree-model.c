@@ -898,7 +898,8 @@ em_folder_tree_model_remove_folders (EMFolderTreeModel *model, struct _EMFolderT
 		gtk_tree_row_reference_free (row);
 	}
 	
-	em_folder_tree_model_remove_uri (model, uri);
+	if (uri)
+		em_folder_tree_model_remove_uri (model, uri);
 	
 	gtk_tree_store_remove ((GtkTreeStore *) model, toplevel);
 	
