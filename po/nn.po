@@ -20282,7 +20282,7 @@ msgstr "..."
 
 #: ../widgets/misc/e-dateedit.c:321
 msgid "Date and Time"
-msgstr "Dato og tids"
+msgstr "Dato og tid"
 
 #: ../widgets/misc/e-dateedit.c:340
 msgid "Text entry to input date"
