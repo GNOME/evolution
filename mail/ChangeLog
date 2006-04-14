@@ -1,45 +1,50 @@
 2006-04-10  Jeff Cai <jeff.cai@sun.com>
 
 	** Fixes 333243
-	* em-folder-tree-model.c: (em_folder_tree_model_remove_folders):
+
+	* em-folder-tree-model.c (em_folder_tree_model_remove_folders):
 	For null uri, don't need remove it.
 
 2006-04-05  Jeff Cai  <jeff.cai@sun.com>
 
 	Fixes bug #333987
-	* message-list.c: (mail_folder_hide_by_flag):
+	
+	* message-list.c (mail_folder_hide_by_flag):
 	If CamelMessageInfo is null, don't free it.
 
 2006-03-29  Parthasarathi Susarla <sparthasarathi@novell.com>
 	
-	* em-folder-view.c:(smfv_setup_view_instance): use the
-	flags CAMEL_STORE_FOLDER_INFO_SUBSCRIBED instead of 
+	* em-folder-view.c (smfv_setup_view_instance): use the flags
+	CAMEL_STORE_FOLDER_INFO_SUBSCRIBED instead of
 	CAMEL_STORE_FOLDER_INFO_FAST when getting folder info
 
 2006-03-25  Rajeev ramanathan <rajeevramanathan_2004@yahoo.co.in>
 
 	**Fixes #329585
-	*mail-config.glade: Changed Remove button to Delete button
-	*mail.error.xml: Changed current Layout DELETE  [Do not delete]
-	to   [Do not delete]  DELETE
+
+	* mail-config.glade: Changed Remove button to Delete button
+
+	* mail.error.xml: Changed current Layout DELETE [Do not delete] to
+	[Do not delete] DELETE
 
 2006-03-22  Patrick Ohly  <patrick.ohly@intel.com>
 
-	* em-utils.c (em_utils_selection_set_urilist):
-	Fixed premature memory free. Fixes bug #335203.
+	* em-utils.c (em_utils_selection_set_urilist): Fixed premature
+	memory free. Fixes bug #335203.
 
 2006-03-21  Simon Zheng  <simon.zheng@sun.com>
 
 	Fixed bug #326571
-	* em-utils.c (em_filename_make_safe), (emu_get_save_filesel),
-	(emu_save_parts_response):
-	Add em_filename_make_safe(), and use it to allow filenames
-	contain more valid characters when saving attachments.
+
+	* em-utils.c (em_filename_make_safe, emu_get_save_filesel):
+	(emu_save_parts_response): Add em_filename_make_safe(), and use it
+	to allow filenames contain more valid characters when saving
+	attachments.
 
 2006-03-20  Srinivasa Ragavan  <sragavan@novell.com>
 
-	* em-folder-view.c: (emfv_setup_view_instance): Added code to set the
-	mail view column for sent folder. 
+	* em-folder-view.c (emfv_setup_view_instance): Added code to set
+	the mail view column for sent folder.
 
 2006-03-12  Frank Arnold  <farnold@cvs.gnome.org>
 
@@ -48,20 +53,20 @@
 2006-03-06  Simon Zheng  <simon.zheng@sun.com>
 
 	Fixes bug #332140
-	* em-utils.c: (em_utils_temp_save_part):
-	Transfer filenames from utf-8 to glib encoding before really
-	saving files.
+
+	* em-utils.c (em_utils_temp_save_part): Transfer filenames from
+	utf-8 to glib encoding before really saving files.
 
 2006-03-03  Andre Klapper  <a9016009@gmx.de>
 
-	* configure.in,
-	* mail/default/Makefile.am:
-	added support for macedonian (mk) welcome message
+	* configure.in:
+
+	* mail/default/Makefile.am: added support for macedonian (mk)
+	welcome message
 
 2006-03-03  Vincent van Adrighem  <adrighem@gnome.org>
 
 	* default/nl/Inbox: Tino Meinen updated the Dutch welcome message.
-
 
 2006-03-03  Žygimantas Beručka  <zygis@gnome.org>
 
@@ -70,8 +75,8 @@
 
 2006-03-02  Ilkka Tuohela  <hile@iki.fi>
 
-	* fi.po: Updated Finnish inbox to actually use 2.6 example,
-	         not the old one...
+	* fi.po: Updated Finnish inbox to actually use 2.6 example, not
+	the old one...
 
 2006-03-01  Ilkka Tuohela  <hile@iki.fi>
 
@@ -81,8 +86,8 @@
 2006-02-28  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fixes bug #332832
-	
-	* em-composer-utils.c: (em_utils_compose_new_message_with_mailto):
+
+	* em-composer-utils.c (em_utils_compose_new_message_with_mailto):
 	Added code to raise the window when a composer is created due to
 	mailto: uri
 
@@ -99,18 +104,17 @@
 
 2006-02-24  Sankar P  <psankar@novell.com>
 	
-	* em-account-editor.c: (emae_check_complete)
-	(emae_identity_page): Added code to handle the case if the 
-	account is marked as default.
+	* em-account-editor.c (emae_check_complete, emae_identity_page):
+	Added code to handle the case if the account is marked as default.
 	Fixes #332034
 
 2006-02-21  Veerapuram Varadhan <vvaradhan@novell.com>
 
-       ** Fixes bug #329733
+	** Fixes bug #329733
 
-       * em-folder-properties.c (emfp_dialog_got_folder): Fetch both
-       VISIBLE and DELETED count from the folder and adjust it according
-       before showing it in the properties dialog w.r.t user preferences.
+	* em-folder-properties.c (emfp_dialog_got_folder): Fetch both
+	VISIBLE and DELETED count from the folder and adjust it according
+	before showing it in the properties dialog w.r.t user preferences.
        
 2006-02-21  Tor Lillqvist  <tml@novell.com>
 
@@ -126,6 +130,7 @@
 	** Fixes bug #322160 and committed for PRSuman.
 
 	* em-utils.c: Added code to pass a variable to overwrite/ro mode.
+
 	* mail-ops.[ch]: Added code to take care of overwrite and set the file
 	mode.
 
@@ -146,18 +151,16 @@ t2006-02-20  Parthasarathi Susarla <sparthasarathi@novell.com>
 	the preview pane position.
 
 2006-02-15  Parthasarathi Susarla <sparthasarathi@novell.com>
-	
-	* mail-mt.c: (do_op_status):
-	need to show the stauts message
+
+	* mail-mt.c (do_op_status): need to show the stauts message
 
 2006-02-15  Shi Pu <shi.pu@sun.com>
 
 	See bug ** 325967
 	
-	* em-account-editor.c: (emae_service_url_changed):
-	When username entry value of "Sending Email" page/tab is 
-	not empty, check combo box of authmech, to pick up the authmech
-	information.
+	* em-account-editor.c (emae_service_url_changed): When username
+	entry value of "Sending Email" page/tab is not empty, check combo
+	box of authmech, to pick up the authmech information.
 
 2006-02-13  Karsten Bräckelmann  <guenther@rudersport.de>
  
@@ -169,9 +172,8 @@ t2006-02-20  Parthasarathi Susarla <sparthasarathi@novell.com>
 
 	** Fixes bug #221270.
 
-	* mail-send-recv.c: (build_dialog):
-	Removed white space before : when displaying account information in 
-	Send/Receive dialog.
+	* mail-send-recv.c (build_dialog): Removed white space before :
+	when displaying account information in Send/Receive dialog.
 
 2006-02-13  Andre Klapper <a9016009@gmx.de>
 
@@ -244,15 +246,16 @@ t2006-02-20  Parthasarathi Susarla <sparthasarathi@novell.com>
 	**Fixes #329586
 
 	* em-account-prefs.c:
-	* em-account-prefs.h: Changed the ODD behavior of Default button by 
-	checking whether an account is default or not and disabling the button
-	when default account is in focus.
+
+	* em-account-prefs.h: Changed the ODD behavior of Default button
+	by checking whether an account is default or not and disabling the
+	button when default account is in focus.
 
 	Committing to head on behalf of rajeev
 	
 2006-02-08  Claudio Saavedra  <csaavedra@alumnos.utalca.cl>
 
-	* em-account-prefs.c: (em_account_prefs_construct): Reordering
+	* em-account-prefs.c (em_account_prefs_construct): Reordering
 	construction of dialog to prevent critical warnings (#328325).
 
 2006-02-07  Andre Klapper <a9016009@gmx.de>
@@ -265,33 +268,34 @@ t2006-02-20  Parthasarathi Susarla <sparthasarathi@novell.com>
 	* em-folder-view.c:
 	* em-format-html-display.c:
 	* evolution-mail.schemas.in.in:
-	* mail-config.c: (config_cache_labels):
+	* mail-config.c (config_cache_labels):
 
 2006-01-27  Rajeev ramanathan <rajeevramanathan_2004@yahoo.co.in>
 	
 	** Fixes bug #325786
 
-	* em-folder-browser.c: Added code to display a prompt before marking All 
-	messages as Read.
-	* mail-error.xml: Added a new error message for marking all message as
-	read.
+	* em-folder-browser.c: Added code to display a prompt before
+	marking All messages as Read.
+
+	* mail-error.xml: Added a new error message for marking all
+	message as read.
 
 2006-02-06  Veerapuram Varadhan <vvaradhan@novell.com>
 
 	** Fixes #326147
+
 	* em-account-editor.c: (em_account-editor.c): Modify e_source to
 	reflect to the reverted changes.
 	
 2006-02-05  Karsten BrÃ€ckelmann  <guenther@rudersport.de>
 
-	* importers/pine-importer.c (pine_getwidget): 
-	Correcting "Addressbook" to properly read "Address Book".
-	Fixes bug #326256.
+	* importers/pine-importer.c (pine_getwidget): Correcting
+	"Addressbook" to properly read "Address Book".  Fixes bug #326256.
 
 2006-02-02  Parthasarathi Susarla <sparthasarathi@novell.com>
 	
-	* em-composer-utils.c: (em_utils_handle_receipt):
-	check if account is null before accessing it
+	* em-composer-utils.c (em_utils_handle_receipt): check if account
+	is null before accessing it
 
 2006-01-30  Harish Krishnaswamy  <kharish@novell.com>
 
@@ -302,15 +306,15 @@ t2006-02-20  Parthasarathi Susarla <sparthasarathi@novell.com>
 
 	** Fixes bug #316223
 
-	* em-utils.c: (emu_save_parts_response): Added a confirmation dialog
-	for overwriting existing file during save all.
+	* em-utils.c (emu_save_parts_response): Added a confirmation
+	dialog for overwriting existing file during save all.
 
 2006-01-27  Rajeev ramanathan <rajeevramanathan_2004@yahoo.co.in>
 
 	** Fixes #327000
-	
-	* em-format-html-display.c : Added code to change cursor to 
-	notify user on image fit to width
+
+	* em-format-html-display.c: Added code to change cursor to notify
+	user on image fit to width
 
 2006-01-26  Oswald Rodrigues <ozzy_rodrigues@yahoo.com>
 
@@ -331,42 +335,41 @@ t2006-02-20  Parthasarathi Susarla <sparthasarathi@novell.com>
 	
 	** Fixes #326649
 
-	* em-account-prefs.c: (mail_accounts_load):select the first row
+	* em-account-prefs.c (mail_accounts_load): select the first row
 
 2006-01-23  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* em-format-html-display.c (efhd_attachment_bar_refresh),
-	(efhd_mnemonic_show_bar), (efhd_add_bar): Added Mnemonics for Save /
-	Save All and for show/hide attachment bar.
+	(efhd_mnemonic_show_bar), (efhd_add_bar): Added Mnemonics for Save
+	/ Save All and for show/hide attachment bar.
 
 2006-01-19  Ranjan Somani  <sranjan@novell.com>
 
- 	** Fixes #318785
+	** Fixes #318785
+
+	* mail-config.glade: Resizing of Default n Enable button
  
-         * mail-config.glade: Resizing of Default n Enable button 
-	 
-	 committing on behalf of Ranjan -partha
+	committing on behalf of Ranjan -partha
 	 
 2006-01-19  Parthasarathi Susarla <sparthasarathi@novell.com>
 	
 	** See bug 324327
 
-	* em-composer-utils.c: (em_utils_handle_receipt):
-	account can be null. Not necessary to send receipt when 
-	account is not enabled
+	* em-composer-utils.c (em_utils_handle_receipt): account can be
+	null. Not necessary to send receipt when account is not enabled
 
 2006-01-16  Harish Krishnaswamy  <kharish@novell.com>
 
-	* mail-component.c: (impl__get_userCreatableItems):
-	remove shortcut keys (UI Hackfest -
-	See http://go-evolution.org/Shortcut_Keys_Review).
+	* mail-component.c (impl__get_userCreatableItems): remove shortcut
+	keys (UI Hackfest - See
+	http://go-evolution.org/Shortcut_Keys_Review).
 
 2006-01-16  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fixes bug #326877
 
-	* em-folder-view.c: (emfv_enable_menus): Reverting the patch to hide
-	junk/not junk toolbuttons in disabled state.
+	* em-folder-view.c (emfv_enable_menus): Reverting the patch to
+	hide junk/not junk toolbuttons in disabled state.
 
 2006-01-16  Srinivasa Ragavan  <sragavan@novell.com>
 
@@ -389,12 +392,12 @@ t2006-02-20  Parthasarathi Susarla <sparthasarathi@novell.com>
 
 	** Fixes bug #221270.
 
-	* mail-send-recv.c: (format_url), (build_dialog):
-	Changed to display account name in Send/Receive dialog.
+	* mail-send-recv.c (format_url, build_dialog): Changed to display
+	account name in Send/Receive dialog.
 
 2006-01-16  Srinivasa Ragavan  <sragavan@novell.com>
 
-	* em-format-html-display.c: (em_format_html_display_new): Changed
+	* em-format-html-display.c (em_format_html_display_new): Changed
 	event to scroll_event in rajeev's patch.
 
 2006-01-12  Rohini S  <srohini@novell.com>
@@ -403,23 +406,24 @@ t2006-02-20  Parthasarathi Susarla <sparthasarathi@novell.com>
 
 	* mail-dialogs.glade: Interchange of label and checkbox 
 	positions in Find message dialog
-	* em-format-html-display.c: (efhd_update_matches),
-	(em_format_html_display_search):
-	Hide Matches Label on dialog open and Show Matches Label when
-	required. Fixes bug 246257.
+
+	* em-format-html-display.c (efhd_update_matches),
+	(em_format_html_display_search): Hide Matches Label on dialog open
+	and Show Matches Label when required. Fixes bug 246257.
 
 2006-01-16  Srinivasa Ragavan  <sragavan@novell.com>
 	
 	** Fixes bug #239929 (Committing Rajeev's patch)
-	
-	* em-format-html-display.c: (efhd_scroll_event),
-	(em_format_html_display_new):Adds handler to zoom-in/out on control
-	scroll.
+
+	* em-format-html-display.c (efhd_scroll_event),
+	(em_format_html_display_new): Adds handler to zoom-in/out on
+	control scroll.
 	
 2006-01-13  Srinivasa Ragavan  <sragavan@novell.com>
 
-	* em-folder-browser.c: (emfb_etree_unfreeze), (emfb_list_built):
-	* message-list.c: (message_list_setup_etree):
+	* em-folder-browser.c (emfb_etree_unfreeze, emfb_list_built):
+
+	* message-list.c (message_list_setup_etree):
 
 	Fixes the scroll issue with the message list.
 
@@ -432,23 +436,23 @@ t2006-02-20  Parthasarathi Susarla <sparthasarathi@novell.com>
 2006-01-10  Simon Zheng  <simon.zheng@sun.com>
 
 	* em-composer-utils.c:
-	* em-folder-tree-model.c: (em_folder_tree_model_save_state):
+	* em-folder-tree-model.c (em_folder_tree_model_save_state):
 	* em-format-html.c:
-	* em-migrate.c: (cp_r), (em_migrate_folder),
+	* em-migrate.c (cp_r, em_migrate_folder),
 	(em_migrate_pop_uid_caches_1_4),
 	(em_migrate_folder_expand_state_1_4),
 	(em_migrate_folder_view_settings_1_4), 
 	(em_migrate_imap_cmeta_1_4),
-	(em_migrate_1_4), (emm_setup_initial), 
+	(em_migrate_1_4, emm_setup_initial), 
 	(em_migrate):
 	* em-popup.c:
-	* em-utils.c: (em_utils_save_part_to_file):
-	* mail-component.c: (mail_component_init):
+	* em-utils.c (em_utils_save_part_to_file):
+	* mail-component.c (mail_component_init):
 	* mail-config.c:
 	* mail-folder-cache.c:
 	* mail-mt.c:
 	* mail-ops.c:
-	* mail-tools.c: (mail_tool_get_local_movemail_path):
+	* mail-tools.c (mail_tool_get_local_movemail_path):
 	Use e_util_mkdir_hier() instead of e_mkdir_hier().
 
         Use e_util_strstrcase() instead of e_strstrcasea().
@@ -466,11 +470,13 @@ t2006-02-20  Parthasarathi Susarla <sparthasarathi@novell.com>
         evolution/e-util/e-util.c.
 
 2006-01-06  Andre Klapper <a9016009@gmx.de>
+
 	* evolution/mail/mail-ops.c:
+
 	* evolution/mail/mail-send-recv.c:
-	* evolution/mail/mail-session.c:
-	changing "cancelled" (British English)
-	to "canceled" (American English). Fixes bug 325334.
+
+	* evolution/mail/mail-session.c: changing "cancelled" (British
+	English) to "canceled" (American English). Fixes bug 325334.
 
 2006-01-06  Simon Zheng <simon.zheng@sun.com>
 
@@ -497,9 +503,9 @@ t2006-02-20  Parthasarathi Susarla <sparthasarathi@novell.com>
 
 2006-01-04  Parthasarathi Susarla <sparthasarathi@novell.com>
 	
-	* em-composer-utils.c:
-	(em_utils_composer_send_cb): Use the composer window as the 
-	parent window while showing the error message.
+	* em-composer-utils.c (em_utils_composer_send_cb): Use the
+	composer window as the parent window while showing the error
+	message.
 
 2006-01-02  Shreyas Srinivasan  <sshreyas@novell.com>
 
@@ -508,20 +514,18 @@ t2006-02-20  Parthasarathi Susarla <sparthasarathi@novell.com>
 	
 2006-01-02  Harish Krishnaswamy  <kharish@novell.com>
 
-	* em-folder-view.c: (emfv_setting_notify):
-	Remove the first check in the previous commit.
-	This is redundant as it is always guaranteed
-	that the component has been activated at this point.
+	* em-folder-view.c (emfv_setting_notify): Remove the first check
+	in the previous commit.  This is redundant as it is always
+	guaranteed that the component has been activated at this point.
 	And when not, it ought to crash :-).
 
 2006-01-02  Harish Krishnaswamy  <kharish@novell.com>
 
 	reviewed by: Parthasarathi <sparthasarathi@novell.com>
 
-	* em-folder-view.c: (emfv_setting_notify):
-	Set the properties on the bonobo component only if
-	it already has been activated. Fixes #325375 (critical
-	warning crasher).
+	* em-folder-view.c (emfv_setting_notify): Set the properties on
+	the bonobo component only if it already has been activated. Fixes
+	#325375 (critical warning crasher).
 
 2006-01-01  Changwoo Ryu  <cwryu@debian.org>
 
@@ -535,19 +539,18 @@ t2006-02-20  Parthasarathi Susarla <sparthasarathi@novell.com>
 
 
 	* em-utils.c (em_utils_prompt_user),
-	mail-config.glade, mail.error.xml :
+	mail-config.glade, mail.error.xml:
 	s/don't/do not/ string changes. Fixes #325276.
 
 2005-12-30  Andre Klapper <a9016009@gmx.de>
 
-	* mail.error.xml:  Fixing several typos and harmonizing
+	* mail.error.xml: Fixing several typos and harmonizing
 	  capital/small letters. Partially fixes bug 306117.
 
 2005-12-30  Andre Klapper <a9016009@gmx.de>
 
-	* mail-session.c:
-	  changing "canceled" to "cancelled" to stay consistant to the rest.
-	  Fixes bug 325116.
+	* mail-session.c: changing "canceled" to "cancelled" to stay
+	  consistant to the rest.  Fixes bug 325116.
 
 2005-12-30  Andre Klapper <a9016009@gmx.de>
 
@@ -579,11 +582,12 @@ t2006-02-20  Parthasarathi Susarla <sparthasarathi@novell.com>
 	** Fixes bug #228040, #324677
 
 	* em-folder-view.c (emfv_popup_flag_completed),
-	(emfv_popup_flag_clear), (emfv_enable_menus): Added menus for complete
-	and clear. Also added code to refresh preview on setting flags. Also
-	added code to hide junk/not-junk menu depending on their sensitivity.
-	
-	* em-utils.c: (tag_editor_response), (em_utils_flag_for_followup):
+	(emfv_popup_flag_clear, emfv_enable_menus): Added menus for
+	complete and clear. Also added code to refresh preview on setting
+	flags. Also added code to hide junk/not-junk menu depending on
+	their sensitivity.
+
+	* em-utils.c (tag_editor_response, em_utils_flag_for_followup):
 	Added code to refresh preview.
 	
 2005-12-22  Shreyas Srinivasan  <sshreyas@novell.com>
@@ -603,43 +607,47 @@ t2006-02-20  Parthasarathi Susarla <sparthasarathi@novell.com>
 
 2005-12-21  Not Zed  <NotZed@Ximian.com>
  
- 	* mail-component.c (impl_createView, view_changed_cb): api updates.
+	* mail-component.c (impl_createView, view_changed_cb): api
+	updates.
  
 2004-12-21  Not Zed  <NotZed@Ximian.com>
- 
- 	** See bug #60354.
- 
- 	* mail-component.c (view_changed_cb): set the shell window title
- 	as well.
- 	(impl_createView): renamed from createControls, just return a
- 	EComponentView instead.
-	
+
+	** See bug #60354.
+
+	* mail-component.c (view_changed_cb): set the shell window title
+	as well.
+	(impl_createView): renamed from createControls, just return a
+	EComponentView instead.
+
 	Committed on behalf of notzed - partha
 
 2005-12-21  Jeff Cai <jeff.cai@sun.com>
 
 	** See bug 324473
-	* em-account-editor.c: (em_account_editor_construct):
-	delete reference to account editor to make sure be destroyed 
-	when it is closed.
+
+	* em-account-editor.c (em_account_editor_construct): delete
+	reference to account editor to make sure be destroyed when it is
+	closed.
 
 2005-12-21  Sam Yang  <sam.yang@sun.com>
 
 	Fixes #324670
-	* em-folder-view.c: (emfv_setting_notify): Respond to the change 
-	of mail/display/paned_size in gconf. 
+
+	* em-folder-view.c (emfv_setting_notify): Respond to the change of
+	mail/display/paned_size in gconf.
 
 2005-12-20  Veerapuram Varadhan  <vvaradhan@novell.com>
 
 	Fixes #246256
+
 	* mail-dialogs.glade: Change "Case _Sensitive" to "Case _sensitive".
 	
 2005-12-20  Boby Wang <Boby.Wang@sun.com> 
 
 	** See bug 324319
-	* em-format-html-display.c: (efhd_add_bar):
-	Add the accessible name of arrow button, and the attachment
-	bar can be opened by gok.
+
+	* em-format-html-display.c (efhd_add_bar): Add the accessible name
+	of arrow button, and the attachment bar can be opened by gok.
 
 2005-12-20  Parthasarathi Susarla <sparthasarathi@novell.com>
 	
@@ -738,8 +746,9 @@ t2006-02-20  Parthasarathi Susarla <sparthasarathi@novell.com>
 
 	** Fixes bug #323867.
 
-	* em-folder-view.c: (emfv_setting_notify):
-	Respond to the change of /apps/evolution/mail/display/show_deleted and thread_list in gconf.
+	* em-folder-view.c (emfv_setting_notify): Respond to the change of
+	/apps/evolution/mail/display/show_deleted and thread_list in
+	gconf.
 
 2005-12-12  Karsten BrÃ€ckelmann  <guenther@rudersport.de>
 
@@ -754,9 +763,8 @@ t2006-02-20  Parthasarathi Susarla <sparthasarathi@novell.com>
 
 	See bug ** 323253
 
-	* mail-send-recv.c: (format_url):
-	If url->host is NULL or it is emtpy,
-	don't print it out in send & receive dialog.
+	* mail-send-recv.c (format_url): If url->host is NULL or it is
+	emtpy, don't print it out in send & receive dialog.
 
 2005-11-28  Jeffrey Stedfast  <fejj@novell.com>
 
@@ -767,9 +775,9 @@ t2006-02-20  Parthasarathi Susarla <sparthasarathi@novell.com>
 2005-11-28  Sam Yang  <sam.yang@sun.com>
 
 	** See bug #322414
-	* em-folder-view.c: (emfv_setting_notify):
-	Respond to the change of /apps/evolution/mail/display/show_preview 
-	in gconf.
+
+	* em-folder-view.c (emfv_setting_notify): Respond to the change of
+	/apps/evolution/mail/display/show_preview in gconf.
 
 2005-11-25  Tor Lillqvist  <tml@novell.com>
 
@@ -783,10 +791,11 @@ t2006-02-20  Parthasarathi Susarla <sparthasarathi@novell.com>
 2005-11-23  Parthasarathi Susarla <sparthasarathi@novell.com>
 	
 	** See bug #315987
-	* em-composer-utils.c:
-	(em_utils_composer_send_cb): Send only if account is enabled
-	(em_utils_composer_save_draft_cb): Save message to server
-	folder only if the account is enabled, else save it locally
+
+	* em-composer-utils.c (em_utils_composer_send_cb): Send only if
+	account is enabled
+	(em_utils_composer_save_draft_cb): Save message to server folder
+	only if the account is enabled, else save it locally
 	(generate_account_hash): Add default account into the account hash
 	only if the account none of the account is enabled.
 	(guess_account): use only enabled account
@@ -796,28 +805,29 @@ t2006-02-20  Parthasarathi Susarla <sparthasarathi@novell.com>
 2005-11-11  Boby Wang <boby.wang@sun.com>
 
 	** See bug 321214.
-	* mail-config.glade:
-	Focus on the Tools-> Settings-> Composer Preferences -> Forward
-	Style and Reply Style comboboxes.Comboboxes are named after
-	their current settings. Now the names were corrected.
+
+	* mail-config.glade: Focus on the Tools-> Settings-> Composer
+	Preferences -> Forward Style and Reply Style comboboxes.Comboboxes
+	are named after their current settings. Now the names were
+	corrected.
 
 2005-10-26  Vivek Jain <jvivek@novell.com>
 	
 	**See #313096
-	
-	* em-junk-hook.c: (emjh_construct)
-	load the plugin only if it is enabled.
+
+	* em-junk-hook.c (emjh_construct) load the plugin only if it is
+	enabled.
 
 2005-10-22  Parthasarathi Susarla <sparthasarathi@novell.com>
-	
-	* mail-config.c: (mail_config_get_default_account):
-	Return valid transport, only if the account is enabled.
+
+	* mail-config.c (mail_config_get_default_account): Return valid
+	transport, only if the account is enabled.
 
 2005-10-22  Parthasarathi Susarla <sparthasarathi@novell.com>
-	
-	* em-composer-utils.c: (create_new_composer):
-	If the account corresponding to the fromuri is not enabled.
-	Then load the preferred account from the composer.
+
+	* em-composer-utils.c (create_new_composer): If the account
+	corresponding to the fromuri is not enabled.  Then load the
+	preferred account from the composer.
 
 2005-10-21  Jeff Cai <jeff.cai@sun.com>
 
@@ -826,42 +836,41 @@ t2006-02-20  Parthasarathi Susarla <sparthasarathi@novell.com>
 
 2005-10-21  Jeff Cai <jeff.cai@sun.com>
 
-	* mail/em-folder-view.h : Change the declaration of flag 
-	'preview_active' from one bit of int to one bit of guint 
-	because it will be -1 on linux if being declared one bit of int.
+	* mail/em-folder-view.h: Change the declaration of flag
+	'preview_active' from one bit of int to one bit of guint because
+	it will be -1 on linux if being declared one bit of int.
 
 2005-10-19  Philip Van Hoof <pvanhoof@gnome.org>
 	
 	** See bug 318611
 
-	mail/em-composer-utils.c,
-	data hiding
+	* mail/em-composer-utils.c: data hiding
 
 2005-10-19  Harish Krishnaswamy <kharish@novell.com>
 
-	* em-format-html-display.h : Include e-attachment-bar.h
-	relative to the top dir, so it stops borking the print-message
-	plugin.
+	* em-format-html-display.h: Include e-attachment-bar.h relative to
+	the top dir, so it stops borking the print-message plugin.
 
 2005-10-18  Srinivasa Ragavan <sragavan@novell.com>
 
-	* em-folder-browser.c (emfb_focus_search) (emfb_tools_vfolders): Make '/' to 
-	focus on search bar entry. Fixes bug #268027
+	* em-folder-browser.c (emfb_focus_search, emfb_tools_vfolders):
+	Make '/' to focus on search bar entry. Fixes bug #268027
 
 	* em-folder-view.c (emfv_enable_menus): Set the target widget.
 
-	* em-format-html-display.[ch] (em_format_html_display_get_bar): Added a
-	function to get the attachment bar.
+	* em-format-html-display.[ch] (em_format_html_display_get_bar):
+	Added a function to get the attachment bar.
 
-	* em-utils.c (em_utils_temp_save_attachments): Added function to save
-	parts of the attachments.
+	* em-utils.c (em_utils_temp_save_attachments): Added function to
+	save parts of the attachments.
 
 2005-10-03  Srinivasa Ragavan <sragavan@novell.com>
 
-	* em-folder-view.c (emfv_ena) (emfv_popup_items): Mark visible with
-	  junk flags as well.
-	* em-popup.[ch] (em_popup_target_new_select): Set the flags
-	  for junk respectively.
+	* em-folder-view.c (emfv_ena) (emfv_popup_items): Mark visible
+	  with junk flags as well.
+
+	* em-popup.[ch] (em_popup_target_new_select): Set the flags for
+	  junk respectively.
 	
 2005-10-18  Sankar P  <psankar@novell.com>
 	
@@ -870,18 +879,24 @@ t2006-02-20  Parthasarathi Susarla <sparthasarathi@novell.com>
 		-- Delete on Del key
 		-- Edit on Dbl.Click
 	- Prevents adding duplicate and NULL signatures
-	
-	* mail-signature-editor.c (menu_file_save_cb) (mail_signature_editor)
-	(sig_name_changed) (menu_file_save_close_cb) (delete_event_cb) (do_exit):
-		Modified the functions for handling the above scenarios.
-	* mail.error.xml:
-		Added error strings for duplicate and NULL signatures.
-	* em-composer-prefs.c (em_composer_prefs_construct) (sig_delete_cb) (sig_add_cb):
-		Modified the functions so as to handle the keyboard accelarators
-	and to grab focus to the list on deletion/insertion of signatures.	
-	* em-composer-prefs.c (signature_key_press)(sig_tree_event_cb):
-		Added new functions to handle the 
-	keypress events on the signatures list tree.
+
+	* mail-signature-editor.c (menu_file_save_cb:
+	(mail_signature_editor, sig_name_changed):
+	(menu_file_save_close_cb, delete_event_cb):
+	(do_exit): Modified the functions for handling the above
+	scenarios.
+
+	* mail.error.xml: Added error strings for duplicate and NULL
+	signatures.
+
+	* em-composer-prefs.c (em_composer_prefs_construct):
+	(sig_delete_cb, sig_add_cb): Modified the functions so as to
+	handle the keyboard accelarators and to grab focus to the list on
+	deletion/insertion of signatures.
+
+	* em-composer-prefs.c (signature_key_press, sig_tree_event_cb):
+	Added new functions to handle the keypress events on the
+	signatures list tree.
 
 	Fixes #269749
 	
@@ -889,20 +904,23 @@ t2006-02-20  Parthasarathi Susarla <sparthasarathi@novell.com>
 	
 	** See bug 317284
 	
-	* em-mailer-prefs.c: (emmp_header_add_header):
-	Check if its a valid header and only then add it
+	* em-mailer-prefs.c (emmp_header_add_header): Check if its a valid
+	header and only then add it
 	
 2005-09-28  Tor Lillqvist  <tml@novell.com>
 
-	* em-composer-utils.c (reply_get_composer, get_reply_list,
-	post_reply_to_message)
-	* em-folder-view.c (emfv_format_link_clicked)
+	* em-composer-utils.c (reply_get_composer, get_reply_list):
+	(post_reply_to_message):
+
+	* em-folder-view.c (emfv_format_link_clicked):
+
 	* importers/netscape-importer.c (netscape_get_boolean): Use
 	g_ascii_str(n)casecmp() instead of str(n)casecmp(). We are
 	comparing to literal ASCII strings in these cases, so just
 	casefolding ASCII is enough. Also better for portability.
 
 	* em-format-html-display.c
+
 	* message-list.c: Define localtime_r() for Win32 using localtime()
 	(which is thread-safe in Microsoft's C library).
 
@@ -911,16 +929,16 @@ t2006-02-20  Parthasarathi Susarla <sparthasarathi@novell.com>
 2005-09-28  Parthasarathi Susarla <sparthasarathi@novell.com>
 	
 	See bug ** 317329
-	* em-vfolder-rule.c: (em_vfolder_rule_add_source):
-	Do not add a NULL uri.
+
+	* em-vfolder-rule.c (em_vfolder_rule_add_source): Do not add a
+	NULL uri.
 
 2005-09-26  S.Antony Vincent Pandian <santony@gmail.com>
 
 	Fixes #208647
 
-	* em-folder-tree.c : Have added a menu item Empty 
-	Trash in the folder tree's context menu and also
-	added its callback.
+	* em-folder-tree.c: Have added a menu item Empty Trash in the
+	folder tree's context menu and also added its callback.
 
 2005-09-22  Carsten Guenther <carsten.guenther@scalix.com>
 
@@ -933,15 +951,15 @@ t2006-02-20  Parthasarathi Susarla <sparthasarathi@novell.com>
 
 2005-09-21  Sankar P  <psankar@novell.com>
 
-	* em-account-editor.c (emae_defaults_page):
-	Added code to enable the sent folder button for accounts with
-	"None" set as the Receiving Server type. 
-	Fixes #315506
+	* em-account-editor.c (emae_defaults_page): Added code to enable
+	the sent folder button for accounts with "None" set as the
+	Receiving Server type.  Fixes #315506
 
 2005-09-15  Sankar P  <psankar@novell.com>
 
 	* em-folder-tree-model.c (em_folder_tree_model_set_folder_info):
-	* em-folder-tree.c (render_pixbuf): Added enum and the code to 
+
+	* em-folder-tree.c (render_pixbuf): Added enum and the code to
 	change the icon for sent items folder. Fixes #257321
 	
 2005-09-02  Harish Krishnaswamy  <kharish@novell.com>
@@ -1057,20 +1075,18 @@ t2006-02-20  Parthasarathi Susarla <sparthasarathi@novell.com>
 	
 2005-08-15  Christian Kellner  <gicmo@gnome.org>
 
-	* mail-send-recv.c: (get_folders): Honour the check_all
-	flag for the scalix provider.
-	Fixes bug #313582.
+	* mail-send-recv.c (get_folders): Honour the check_all flag for
+	the scalix provider.  Fixes bug #313582.
 
 2005-08-14  Rodney Dawes  <dobey@novell.com>
 
-	* em-folder-view.c (emfv_popup_items): Fix two mnemonic conflicts in
-	the context menus for the mailer
+	* em-folder-view.c (emfv_popup_items): Fix two mnemonic conflicts
+	in the context menus for the mailer
 
 2005-08-12  Vivek Jain <jvivek@novell.com>
 
-	* em-account-editor.c : (emae_check_complete)
-	first prepare the page and then validate
-	**Fixes #273842
+	* em-account-editor.c (emae_check_complete): first prepare the
+	page and then validate **Fixes #273842
 
 2005-08-11  Not Zed  <NotZed@Ximian.com>
 
@@ -1081,22 +1097,23 @@ t2006-02-20  Parthasarathi Susarla <sparthasarathi@novell.com>
 
 2005-08-11  Vivek Jain <jvivek@novell.com>
 	
-	* em-folder-tree-model.c: (account_changed)
-	check if the account is enabled, before adding the store
+	* em-folder-tree-model.c (account_changed): check if the account
+	is enabled, before adding the store
+
 	** Fixes #313057
 	
 2005-08-11  Parthasarathi Susarla <sparthasarathi@novell.com>
 
-	* em-folder-view.c
-	(emfv_enable_menus): return the target in any case.
-	It will be an empty target and not NULL.
-	Fixes bug ** 312420
+	* em-folder-view.c (emfv_enable_menus): return the target in any
+	case.  It will be an empty target and not NULL.
+
+	Fixes bug 312420
 
 2005-08-11  Srinivasa Ragavan <sragavan@novell.com>
 
-	* em-format-html-display.c (efhd_attachment_bar_refresh) (efhd_bar_resize)
-	(efhd_add_bar): Fix to hide the attachment bar when no attachments and to 
-	resize when the window is resized.
+	* em-format-html-display.c (efhd_attachment_bar_refresh):
+	(efhd_bar_resize, efhd_add_bar): Fix to hide the attachment bar
+	when no attachments and to resize when the window is resized.
 
 2005-08-10  Not Zed  <NotZed@Ximian.com>
 
@@ -1152,9 +1169,9 @@ t2006-02-20  Parthasarathi Susarla <sparthasarathi@novell.com>
 	signature listener if we've already added it.
 
 2005-08-08  Vivek Jain <jvivek@novell.com>
-	
-	* em-format.c: (emf_multipart_appledouble):
-	check part before using it, else dump source
+
+	* em-format.c (emf_multipart_appledouble): check part before using
+	it, else dump source
 
 2005-08-05  Not Zed  <NotZed@Ximian.com>
 
@@ -1183,7 +1200,7 @@ t2006-02-20  Parthasarathi Susarla <sparthasarathi@novell.com>
 	
 2005-08-05  David Malcolm  <dmalcolm@redhat.com>
 
-	* em-account-editor.c:  (emae_option_checkspin) initialize local 
+	* em-account-editor.c (emae_option_checkspin): initialize local
 	variable "label".
 
 2005-08-04  Not Zed  <NotZed@Ximian.com>
@@ -1220,8 +1237,8 @@ t2006-02-20  Parthasarathi Susarla <sparthasarathi@novell.com>
 
 2005-08-05 Srinivasa Ragavan <sragavan@novell.com>
 
-	* em-format-html-display.c (efhd_init) (efhd_complete) (efhd_message_add_bar):
-	Fixes the bug #312410. 
+	* em-format-html-display.c (efhd_init, efhd_complete):
+	(efhd_message_add_bar): Fixes the bug #312410.
 	
 2005-08-04  Srinivasa Ragavan <sragavan@novell.com>
 
@@ -1240,9 +1257,9 @@ t2006-02-20  Parthasarathi Susarla <sparthasarathi@novell.com>
 
 2005-07-29  Arunprakash <arunp@novell.com>
 
-	* mail/em-folder-utils.c (em_folder_utils_delete_folder) : Allocated
-	a new string to be used for the error dialog response to avoid
-	multiple frees.
+	* mail/em-folder-utils.c (em_folder_utils_delete_folder):
+	Allocated a new string to be used for the error dialog response to
+	avoid multiple frees.
 
 2005-08-01  Shakti Sen <shprasad@novell.com>
 
@@ -1253,9 +1270,9 @@ t2006-02-20  Parthasarathi Susarla <sparthasarathi@novell.com>
 
 2005-08-02  Srinivasa Ragavan <sragavan@novell.com>
 
-	* em-utils.c: (emu_get_save_filesel) (emu_save_part_response) 
-	(emu_save_messages_response) Fixed a bug where the last path is not
-	preserved well.
+	* em-utils.c (emu_get_save_filesel, emu_save_part_response):
+	(emu_save_messages_response): Fixed a bug where the last path is
+	not preserved well.
 
 2005-08-01  Not Zed  <NotZed@Ximian.com>
 
@@ -1305,20 +1322,21 @@ t2006-02-20  Parthasarathi Susarla <sparthasarathi@novell.com>
 
 2005-07-25  Srinivasa Ragavan <sragavan@novell.com>
 
-	* em-format-html-display.c: (efhd_init) (efhd_finalise) ()
-	(efhd_attachment_image) (efhd_attachment_button) (efhd_format_attachment)
-	Added code to create a attachment bar.
-	
-	* em-format-html.c: (efh_format_message) Added code to add bar
-	at the beginning of the message.
-	
-	* em-popup.[ch]: (em_popup_target_new_attachments) (emp_part_popup_set_background) 
-	(emp_standard_menu_factory) Added code to handle the popup menu inside the attachment
-	bar.
-	
-	* em-utils.[ch]: (em_utils_edit_filters) (emu_get_save_filesel) 
-	(em_utils_save_part) (em_utils_save_messages) Added code to handle save selected and
-	save all options of the attachment bar.
+	* em-format-html-display.c (efhd_init, efhd_finalise):
+	(efhd_attachment_image, efhd_attachment_button):
+	(efhd_format_attachment): Added code to create a attachment bar.
+
+	* em-format-html.c (efh_format_message) Added code to add bar at
+	the beginning of the message.
+
+	* em-popup.[ch] (em_popup_target_new_attachments)
+	(emp_part_popup_set_background)
+	(emp_standard_menu_factory): Added code to handle the popup menu
+	inside the attachment bar.
+
+	* em-utils.[ch] (em_utils_edit_filters, emu_get_save_filesel)
+	(em_utils_save_part, em_utils_save_messages): Added code to handle
+	save selected and save all options of the attachment bar.
 
 2005-07-21  Not Zed  <NotZed@Ximian.com>
 
@@ -1385,21 +1403,24 @@ t2006-02-20  Parthasarathi Susarla <sparthasarathi@novell.com>
 
 2005-07-19  Srinivasa Ragavan <sragavan@novell.com>
 
-	* em-folder-tree.c: (emft_popup_move) calling the wrong api to
+	* em-folder-tree.c (emft_popup_move): calling the wrong api to
 	move a folder. Infact it was copying for move.
 
 2005-07-14  Vivek Jain <jvivek@novell.com>
 
-	* em-composer-utils.c : included missing header
-	file camel-multipart.h
+	* em-composer-utils.c: included missing header file
+	camel-multipart.h
+
 	**Fixes #310330
 
 2005-07-13  Kjartan Maraas  <kmaraas@gnome.org>
 
-	* em-mailer-prefs.c: (em_mailer_prefs_construct): Free font name
-	* mail-config.c: (config_write_style): Free font name and name
-	  of citation color.
-	* message-list.c: (regen_list_regened), (regen_list_free): Free
+	* em-mailer-prefs.c (em_mailer_prefs_construct): Free font name
+
+	* mail-config.c (config_write_style): Free font name and name of
+	  citation color.
+
+	* message-list.c (regen_list_regened, regen_list_free): Free
 	  search string. Thanks to Michael Zucchi for walking me through
 	  this one. My brain wasn't running on all it's cylinders...
 
@@ -1407,24 +1428,32 @@ t2006-02-20  Parthasarathi Susarla <sparthasarathi@novell.com>
 
 	* mail-config.[ch]: Add new functions to remove proxy accounts and
 	proxies created by the account.
+
 	* mail-compnent.c: Remove proxy accounts at startup
+
 	* mail.error.xml: Add warnings for proxy disable and removal of a
 	proxy when its parents are removed.
+
 	* em-account-prefs.c: Add checks not to display proxies and
 	handling of parent removal/ disabling.
 	
 2005-07-06  Vivek Jain <jvivek@novell.com>
-	
-	* em-junk-filter.c : moved to plugins/sa-junk-plugin
-	* em-junk-filter.h :removed
+
+	* em-junk-filter.c: moved to plugins/sa-junk-plugin
+
+	* em-junk-filter.h: removed
+
 	* em-junk.plugin.[ch]: removed
-	* em-junk-hook.[ch] : added new files to have a new hook
-	* Makefile.am :updated to removed/add these files.
-	* mail-session.c: (mail_session_init): 
-	assign NULL to junk_plugin, remove included file
-	"em-junk-filter.h"
-	* mail-component-factory.c : (make_factory)
-	register type for EMJunkHook
+
+	* em-junk-hook.[ch]: added new files to have a new hook
+
+	* Makefile.am: updated to removed/add these files.
+
+	* mail-session.c (mail_session_init): assign NULL to junk_plugin,
+	remove included file "em-junk-filter.h"
+
+	* mail-component-factory.c (make_factory): register type for
+	EMJunkHook
 
 2005-07-05  Not Zed  <NotZed@Ximian.com>
 
@@ -1454,7 +1483,7 @@ t2006-02-20  Parthasarathi Susarla <sparthasarathi@novell.com>
 
 2005-07-04  Veerapuram Varadhan <vvaradhan@novell.com>
 
-	* mail-component.c: (handleuri_got_folder): Added "forward"
+	* mail-component.c (handleuri_got_folder): Added "forward"
 	command-line option.
 	
 2005-07-06  Not Zed  <NotZed@Ximian.com>
@@ -1478,13 +1507,14 @@ t2006-02-20  Parthasarathi Susarla <sparthasarathi@novell.com>
 
 	* Makefile.am: Removed importer link.
 
-2005-06-24	Matt Brown	<matt@mattb.net.nz>
+2005-06-24  Matt Brown  <matt@mattb.net.nz>
 
-	* em-inline-filter.c: implement extraction of inline signed/encrypted pgp
-	parts and package them into x-inlinepgp-signed/x-inline-pgp-encrypted
-	parts.
-	* em-format-html.c: Formatters to verify/decrypt and then display the
-	parts generated by the inline filter.
+	* em-inline-filter.c: implement extraction of inline
+	signed/encrypted pgp parts and package them into
+	x-inlinepgp-signed/x-inline-pgp-encrypted parts.
+
+	* em-format-html.c: Formatters to verify/decrypt and then display
+	the parts generated by the inline filter.
 
 2005-06-25  Not Zed  <NotZed@Ximian.com>
 
@@ -3480,8 +3510,8 @@ t2006-02-20  Parthasarathi Susarla <sparthasarathi@novell.com>
 
 2004-07-13  Dan Winship  <danw@novell.com>
 
-	* em-utils.c (em_utils_selection_set_urilist,
-	em_utils_temp_save_part): free return value from e_mkdtemp
+	* em-utils.c (em_utils_selection_set_urilist):
+	(em_utils_temp_save_part): free return value from e_mkdtemp
 
 2004-07-09  Not Zed  <NotZed@Ximian.com>
 
