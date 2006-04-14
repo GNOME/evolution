@@ -16018,7 +16018,7 @@ msgstr "_Slett meldinga etter handling"
 #: ../plugins/itip-formatter/itip-formatter.c:2004
 #: ../plugins/itip-formatter/itip-formatter.c:2036
 msgid "Conflict Search"
-msgstr "Søkekonflikt"
+msgstr "Konfliktsøk"
 
 #. Source selector
 #: ../plugins/itip-formatter/itip-formatter.c:2019
