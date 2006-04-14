@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nn\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-04-14 12:52+0200\n"
+"POT-Creation-Date: 2006-04-14 17:38+0200\n"
 "PO-Revision-Date: 2006-04-14 12:50+0200\n"
 "Last-Translator: Åsmund Skjæveland <aasmunds@fys.uio.no>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
@@ -11148,11 +11148,11 @@ msgstr "sluttar med"
 
 #: ../mail/em-filter-i18n.h:22
 msgid "Exist"
-msgstr "Eksisterar"
+msgstr "Finst"
 
 #: ../mail/em-filter-i18n.h:23
 msgid "exists"
-msgstr "eksisterar"
+msgstr "finst"
 
 #: ../mail/em-filter-i18n.h:24
 msgid "Expression"
