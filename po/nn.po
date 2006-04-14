@@ -1,4 +1,4 @@
-# translation of nn.po to Norwegian Nynorsk
+	# translation of nn.po to Norwegian Nynorsk
 # translation of evolution.HEAD.nn.po to Norwegian Nynorsk
 # translation of evolution.HEAD.po to Norwegian Nynorsk
 # Norwegian (Nynorsk) translation of Evolution
@@ -11120,11 +11120,11 @@ msgstr "sluttar med"
 
 #: ../mail/em-filter-i18n.h:22
 msgid "Exist"
-msgstr "Eksisterar"
+msgstr "Finst"
 
 #: ../mail/em-filter-i18n.h:23
 msgid "exists"
-msgstr "eksisterar"
+msgstr "finst"
 
 #: ../mail/em-filter-i18n.h:24
 msgid "Expression"
