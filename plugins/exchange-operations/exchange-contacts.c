@@ -311,19 +311,14 @@ e_exchange_contacts_check (EPlugin *epl, EConfigHookPageCheckData *data)
 	base_uri = e_source_group_peek_base_uri (group);
 	exchange_config_listener_get_offline_status (exchange_global_config_listener, 
 								    &offline_status);
-	if (base_uri) { 
-		if (!g_ascii_strncasecmp (base_uri, "exchange", 8)) { 
-			if (offline_status == OFFLINE_MODE)
-				return FALSE;
-			if (rel_uri && !strlen (rel_uri)) {
-				return FALSE;
-			}
-		}
-		else
-			 return FALSE;
+	if (base_uri && !g_ascii_strncasecmp (base_uri, "exchange", 8)) {
+		if (offline_status == OFFLINE_MODE)
+			return FALSE;
+		if (rel_uri && !strlen (rel_uri))
+			return FALSE;
 	}
 	else {
-		return FALSE;
+		return TRUE;
 	}
 
 	if (!contacts_src_exists) {

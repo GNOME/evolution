@@ -320,6 +320,9 @@ e_exchange_calendar_check (EPlugin *epl, EConfigHookPageCheckData *data)
 		if (rel_uri && !strlen (rel_uri))
 			return FALSE;
 	}
+	else {
+		return TRUE;
+	}
 
 	if (!calendar_src_exists) {
 		/* new folder */
