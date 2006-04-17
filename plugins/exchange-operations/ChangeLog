@@ -1,3 +1,11 @@
+2006-04-17  Sushma Rai  <rsushma@novell.com>
+
+	* exchange-contacts.c (e_exchange_contacts_check): Return TRUE in case
+	of non-exchange accounts.
+
+	* exchange-calendar.c (e_exchange_calendar_check): Similar. 
+	Fixes #338198.
+
 2006-04-10  Sushma Rai  <rsushma@novell.com>
 
 	* exchange-operations.[ch] (is_exchange_personal_folder): Added new to
