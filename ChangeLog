@@ -1,3 +1,7 @@
+2006-04-17  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* configure.in: Remove obsolete entry for no_NO.
+
 2006-03-27  Parthasarathi Susarla <sparthasarathi@novell.com>
 	
 	* MAINTAINERS: Changing the maintainers file to reflect

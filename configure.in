@@ -82,7 +82,7 @@ AC_SUBST(HAVE_JW)
 dnl I18N stuff
 AC_PROG_INTLTOOL([0.30])
 
-ALL_LINGUAS="am ar az be bg bn bs ca cs cy da de dz el en_AU en_CA en_GB es et eu fa fi fr ga gl gu he hi hr hu id is it ja ka ko ku lt lv mn mk ms nb ne nl nn no pa pl pt pt_BR ro ru rw sk sl sq sr sr@Latn sv ta te th tr uk vi wa xh zh_CN zh_HK zh_TW"
+ALL_LINGUAS="am ar az be bg bn bs ca cs cy da de dz el en_AU en_CA en_GB es et eu fa fi fr ga gl gu he hi hr hu id is it ja ka ko ku lt lv mn mk ms nb ne nl nn pa pl pt pt_BR ro ru rw sk sl sq sr sr@Latn sv ta te th tr uk vi wa xh zh_CN zh_HK zh_TW"
 AM_GLIB_GNU_GETTEXT
 
 GETTEXT_PACKAGE=evolution-$BASE_VERSION
@@ -755,7 +755,7 @@ dnl If the user specifies --with-foo or --enable-nss=static, then we have to do 
 				AC_DEFINE(ENABLE_SMIME,1,[Define if SMIME should be enabled])
 				msg_smime="yes (Mozilla NSS)"
 			fi				    
-			mozilla_nspr="mozilla-nspr"
+			mozilla_nspr="nspr"
 			mozilla_nss="mozilla-nss"
 			AC_DEFINE(HAVE_NSS,1,[Define if you have NSS])
 			AC_DEFINE(HAVE_SSL,1,[Define if you have a supported SSL library])
