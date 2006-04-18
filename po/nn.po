@@ -1,4 +1,4 @@
-	# translation of nn.po to Norwegian Nynorsk
+# translation of nn.po to Norwegian Nynorsk
 # translation of evolution.HEAD.nn.po to Norwegian Nynorsk
 # translation of evolution.HEAD.po to Norwegian Nynorsk
 # Norwegian (Nynorsk) translation of Evolution
