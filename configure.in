@@ -1757,7 +1757,6 @@ echo "
 fi
 
 echo "
-	Mail Directory:   $system_mail_dir, $system_mail_perm
 	LDAP support:     $msg_ldap
 	HAL:		  $HAVE_HAL"
 if test "$msg_nntp" = "yes"; then
