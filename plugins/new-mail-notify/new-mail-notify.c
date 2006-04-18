@@ -35,24 +35,24 @@
 #define DBUS_PATH "/org/gnome/evolution/mail/newmail"
 #define DBUS_INTERFACE "org.gnome.evolution.mail.dbus.Signal"
 
+int e_plugin_lib_enable (EPluginLib *ep, int enable);
 void org_gnome_new_mail_notify (EPlugin *ep, EMEventTargetFolder *t);
 void org_gnome_message_reading_notify (EPlugin *ep, EMEventTargetMessage *t);
 
-static DBusConnection *bus;
+static gboolean init_dbus (void);
+
+static DBusConnection *bus = NULL;
+static gboolean enabled = FALSE;
 
 static void
-send_dbus_message (const char *message_name, const char *data)
+send_dbus_message (const char *name, const char *data)
 {
 	DBusMessage *message;
-
+	
 	/* Create a new message on the DBUS_INTERFACE */
-	message = dbus_message_new_signal (DBUS_PATH,
-					   DBUS_INTERFACE,
-					   message_name);
-
-	if (message == NULL) 
+	if (!(message = dbus_message_new_signal (DBUS_PATH, DBUS_INTERFACE, name)))
 		return;
-
+	
 	/* Appends the data as an argument to the message */
 	dbus_message_append_args (message,
 #if DBUS_VERSION >= 310
@@ -63,10 +63,8 @@ send_dbus_message (const char *message_name, const char *data)
 				  DBUS_TYPE_INVALID);
 
 	/* Sends the message */
-	dbus_connection_send (bus,
-			      message,
-			      NULL);
-
+	dbus_connection_send (bus, message, NULL);
+	
 	/* Frees the message */
 	dbus_message_unref (message);
 }
@@ -74,39 +72,86 @@ send_dbus_message (const char *message_name, const char *data)
 void
 org_gnome_message_reading_notify (EPlugin *ep, EMEventTargetMessage *t)
 {
-	send_dbus_message ("MessageReading", t->folder->name);
+	if (bus != NULL)
+		send_dbus_message ("MessageReading", t->folder->name);
 }
 
 void
 org_gnome_new_mail_notify (EPlugin *ep, EMEventTargetFolder *t)
 {
-	send_dbus_message ("Newmail", t->uri);
+	if (bus != NULL)
+		send_dbus_message ("Newmail", t->uri);
 }
 
-int e_plugin_lib_enable (EPluginLib *ep, int enable);
+
+static gboolean
+reinit_dbus (gpointer user_data)
+{
+	if (!enabled || init_dbus ())
+		return FALSE;
+	
+	/* keep trying to re-establish dbus connection */
+	
+	return TRUE;
+}
+
+static DBusHandlerResult
+filter_function (DBusConnection *connection, DBusMessage *message, void *user_data)
+{
+	if (dbus_message_is_signal (message, DBUS_INTERFACE_LOCAL, "Disconnected") &&
+	    strcmp (dbus_message_get_path (message), DBUS_PATH_LOCAL) == 0) {
+		dbus_connection_unref (bus);
+		bus = NULL;
+		
+		g_timeout_add (3000, reinit_dbus, NULL);
+		
+		return DBUS_HANDLER_RESULT_HANDLED;
+	}
+	
+	return DBUS_HANDLER_RESULT_NOT_YET_HANDLED;
+}
+
+static gboolean
+init_dbus (void)
+{
+	DBusError error;
+	
+	if (bus != NULL)
+		return TRUE;
+	
+	dbus_error_init (&error);
+	if (!(bus = dbus_bus_get (DBUS_BUS_SESSION, &error))) {
+		g_warning ("could not get system bus: %s\n", error.message);
+		dbus_error_free (&error);
+		return FALSE;
+	}
+	
+	dbus_connection_setup_with_g_main (bus, NULL);
+	dbus_connection_set_exit_on_disconnect (bus, FALSE);
+	
+	dbus_connection_add_filter (bus, filter_function, NULL, NULL);
+	
+	return TRUE;
+}
+
 
 int
 e_plugin_lib_enable (EPluginLib *ep, int enable)
 {
 	if (enable) {
-		DBusError      error;
-
-		dbus_error_init (&error);
-		bus = dbus_bus_get (DBUS_BUS_SESSION, &error);
-		if (!bus) {
-			g_warning("Failed to connect to the D-BUS daemon: %s\n", error.message);
-
-			/* Could not determine address of the D-BUS session bus */
-			/* Plugin will be disabled */
-			dbus_error_free (&error);
+		if (!init_dbus ())
 			return -1;
+		
+		enabled = TRUE;
+	} else {
+		if (bus != NULL) {
+			dbus_connection_unref (bus);
+			bus = NULL;
 		}
-
-		/* Set up this connection to work in a GLib event loop  */
-		dbus_connection_setup_with_g_main (bus, NULL);
+		
+		enabled = FALSE;
 	}
-	/* else unref the bus if set? */
-
+	
 	return 0;
 }
 
