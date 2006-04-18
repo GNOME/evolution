@@ -1,3 +1,13 @@
+2006-04-18  Jeffrey Stedfast  <fejj@novell.com>
+
+	* new-mail-notify.c (org_gnome_message_reading_notify): Don't try
+	and send a dbus message if the bus is down.
+	(org_gnome_new_mail_notify): Same.
+	(init_dbus): New function to init the dbus connection and setup
+	handlers for when the bus gets unexpectedly disconnected.
+	(e_plugin_lib_enable): When the plugin gets disabled, unref the
+	dbus connection and reset it back to NULL.
+
 2005-08-23  Not Zed  <NotZed@Ximian.com>
 
 	* new-mail-notify.c: forward-define e_plugin_lib_enable, remove
