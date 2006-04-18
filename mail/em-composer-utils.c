@@ -1121,7 +1121,7 @@ em_utils_handle_receipt (CamelFolder *folder, const char *uid, CamelMimeMessage 
 		return;
 	}
 
-	if ( (addr = camel_medium_get_header((CamelMedium *)msg, "Disposition-Notification-To")) == NULL) {
+	if ((addr = camel_medium_get_header((CamelMedium *)msg, "Disposition-Notification-To")) == NULL) {
 		camel_message_info_free(info);
 		return;
 	}
@@ -1139,9 +1139,8 @@ em_utils_handle_receipt (CamelFolder *folder, const char *uid, CamelMimeMessage 
 			addr++;
 	}
 	
-	if (account && account->receipt_policy == E_ACCOUNT_RECEIPT_ALWAYS
-	    || (account->receipt_policy == E_ACCOUNT_RECEIPT_ASK
-		&& e_error_run (NULL, "mail:ask-receipt", addr, camel_mime_message_get_subject(msg)) == GTK_RESPONSE_YES))
+	if (account && (account->receipt_policy == E_ACCOUNT_RECEIPT_ALWAYS || account->receipt_policy == E_ACCOUNT_RECEIPT_ASK)
+	    && e_error_run (NULL, "mail:ask-receipt", addr, camel_mime_message_get_subject(msg)) == GTK_RESPONSE_YES)
 		em_utils_send_receipt(folder, msg);
 }
 

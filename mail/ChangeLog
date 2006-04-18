@@ -1,3 +1,14 @@
+2006-04-18  Jeffrey Stedfast  <fejj@novell.com>
+
+	* mail.error.xml: Removed error id "camel-exception" as it was a
+	bogus error.
+
+2006-04-14  Jeffrey Stedfast  <fejj@novell.com>
+
+	* em-composer-utils.c (em_utils_handle_receipt): Fixed up the if
+	conditional so that 'account' wasn't ever dereferenced when
+	NULL. Fixes bug #324327.
+
 2006-04-10  Jeff Cai <jeff.cai@sun.com>
 
 	** Fixes 333243
