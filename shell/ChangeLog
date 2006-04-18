@@ -1,8 +1,13 @@
+2006-04-18  Jeffrey Stedfast  <fejj@novell.com>
+
+	* e-shell-nm.c (e_shell_network_monitor): Intercept the
+	Disconnected signal and setup a timeout to try and reconnect when
+	the dbus daemon comes back up.
+
 2006-03-13  Harish Krishnaswamy  <kharish@novell.com>
 
-	* main.c: (kill_dataserver): add evolution-data-server-1.4
+	* main.c (kill_dataserver): add evolution-data-server-1.4
 	to the list of old dataserver instances.
-
 
 2006-03-13  Harish Krishnaswamy  <kharish@novell.com>
 
