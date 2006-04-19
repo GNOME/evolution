@@ -1,3 +1,16 @@
+2006-04-19  Sushma Rai  <rsushma@novell.com>
+
+	* exchange-contacts.c (e_exchange_contacts_commit): Setting the
+	e-source properties on both successful creation and rename of a folder.
+	
+	* exchange-calendar.c (e_exchange_calendar_commit): Similar.
+	Fixes #338876 and #328578.
+
+2006-04-19  Sushma Rai  <rsushma@novell.com>
+
+	* exchange-account-setup.c (owa_authenticate_user): Changed the 
+	function signature. Fixes #329371.
+
 2006-04-17  Sushma Rai  <rsushma@novell.com>
 
 	* exchange-contacts.c (e_exchange_contacts_check): Return TRUE in case

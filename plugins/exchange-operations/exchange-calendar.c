@@ -376,6 +376,7 @@ e_exchange_calendar_commit (EPlugin *epl, EConfigTarget *target)
 	ExchangeAccountFolderResult result;
 	ExchangeConfigListenerStatus status;
 	gint offline_status;
+	gboolean rename = FALSE;
 
 	uri_text = e_source_get_uri (source);
 	if (uri_text && strncmp (uri_text, "exchange", 8)) {
@@ -412,7 +413,6 @@ e_exchange_calendar_commit (EPlugin *epl, EConfigTarget *target)
 		ftype = g_strdup ("mail");
 	}
 	
-
 	gname = (gchar*) e_source_peek_name (source);
 	gruri = (gchar*) e_source_peek_relative_uri (source);
 	
@@ -456,7 +456,16 @@ e_exchange_calendar_commit (EPlugin *epl, EConfigTarget *target)
 	}
 	else if (gruri && strcmp (path, oldpath)) {
 		/* Rename the folder */
+		rename = TRUE;
 		result = exchange_account_xfer_folder (account, oldpath, path, TRUE);
+	}
+	else {
+		/* Nothing happened specific to exchange; just return */
+		goto done;
+	}
+
+	switch (result) {
+	case EXCHANGE_ACCOUNT_FOLDER_OK:
 		if (result == EXCHANGE_ACCOUNT_FOLDER_OK) {
 			e_source_set_name (source, gname);
 			e_source_set_relative_uri (source, ruri);
@@ -467,17 +476,13 @@ e_exchange_calendar_commit (EPlugin *epl, EConfigTarget *target)
 				g_free (authtype);
 			}
 			e_source_set_property (source, "auth", "1");
-			exchange_operations_update_child_esources (source, 
+			if (rename) {
+				exchange_operations_update_child_esources (source, 
 							   calendar_old_source_uri, 
 							   ruri);
+			}
 		}
-	}
-	else {
-		/* Nothing happened specific to exchange; just return */
-		goto done;
-	}
-
-	switch (result) {
+		break;
 	case EXCHANGE_ACCOUNT_FOLDER_ALREADY_EXISTS:
 		e_error_run (NULL, ERROR_DOMAIN ":folder-exists-error", NULL);
 		break;

@@ -109,6 +109,7 @@ e_exchange_contacts_pcontacts_on_change (GtkTreeView *treeview, ESource *source)
 
 	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(treeview));
 	gtk_tree_selection_get_selected(selection, &model, &iter);
+
 	gchar *ruri;
 	
 	gtk_tree_model_get (model, &iter, CONTACTSRURI_COL, &ruri, -1);
@@ -405,6 +406,7 @@ e_exchange_contacts_commit (EPlugin *epl, EConfigTarget *target)
 	ExchangeAccount *account;
 	ExchangeAccountFolderResult result;
 	gint offline_status;
+	gboolean rename = FALSE;
 		
 	uri_text = e_source_get_uri (source);
 	if (uri_text && strncmp (uri_text, "exchange", 8)) {
@@ -467,27 +469,30 @@ e_exchange_contacts_commit (EPlugin *epl, EConfigTarget *target)
 	}
 	else if (gruri && strcmp (path, oldpath )) {
 		/* Rename the folder */
+		rename = TRUE;
 		result = exchange_account_xfer_folder (account, oldpath, path, TRUE);
-		if (result == EXCHANGE_ACCOUNT_FOLDER_OK) {
-			e_source_set_name (source, gname);
-			e_source_set_relative_uri (source, ruri);
-			e_source_set_property (source, "username", username);
-			e_source_set_property (source, "auth-domain", "Exchange");
-			if (authtype) {
-				e_source_set_property (source, "auth-type", authtype);
-				g_free (authtype);
-			}
-			e_source_set_property (source, "auth", "plain/password");
-			exchange_operations_update_child_esources (source, 
-								   contacts_old_src_uri, 
-								   ruri);
-		}
 	}
 	else {
 		/* Nothing happened specific to exchange; just return */
 		goto done;
 	}
 	switch (result) {
+	case EXCHANGE_ACCOUNT_FOLDER_OK:
+		e_source_set_name (source, gname);
+		e_source_set_relative_uri (source, ruri);
+		e_source_set_property (source, "username", username);
+		e_source_set_property (source, "auth-domain", "Exchange");
+		if (authtype) {
+			e_source_set_property (source, "auth-type", authtype);
+			g_free (authtype);
+		}
+		e_source_set_property (source, "auth", "plain/password");
+		if (rename) {
+			exchange_operations_update_child_esources (source,
+							contacts_old_src_uri,
+							ruri);
+		}
+		break;
 	case EXCHANGE_ACCOUNT_FOLDER_ALREADY_EXISTS:
 		e_error_run (NULL, ERROR_DOMAIN ":folder-exists-error", NULL);
 		break;
