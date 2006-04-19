@@ -206,6 +206,9 @@ add_esource (const char *conf_key, const char *group_name,  const char *source_n
 	e_source_set_property (source, "auth-domain", "Groupwise");
 	e_source_set_property (source, "use_ssl", use_ssl);
 	e_source_set_property (source, "offline_sync", offline_sync ? "1" : "0" );
+
+
+	e_source_set_color (source, 0xEEBC60);
 	e_source_group_add_source (group, source, -1);
 	e_source_list_sync (source_list, NULL);
 
