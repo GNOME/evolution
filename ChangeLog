@@ -1,3 +1,7 @@
+2006-04-19  Philip Van Hoof  <pvanhoof@gnome.org>
+
+	* shell/main.c: Replaced popt with GOption API
+
 2006-04-17  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* configure.in: Remove obsolete entry for no_NO.
