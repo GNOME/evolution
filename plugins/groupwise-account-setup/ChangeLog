@@ -1,3 +1,9 @@
+2006-04-19  Harish Krishnaswamy  <kharish@novell.com>
+
+	* camel-gw-listener.c: (add_esource):
+	Add default color to the GW source created.
+	Fixes #167102 (bugzilla.novell.com).
+ 
 2006-03-11  Sushma Rai  <rsushma@novell.com>
 
 	* camel-gw-listener.c (get_addressbook_names_from_server): If use_ssl
