@@ -1,3 +1,7 @@
+2006-04-20  Josep Puigdemont Casamajó  <josep.puigdemont@gmail.com>
+
+	* ca.po: Updated Catalan translation.
+
 2006-04-19  Ilkka Tuohela  <hile@iki.fi>
 
 	* fi.po: Updated Finnish translation.
@@ -8,11 +12,11 @@
 
 2006-04-19  Ankit Patel  <ankit644@yahoo.com>
 
-        * gu.po: Updated Gujarati Translation.
+	* gu.po: Updated Gujarati Translation.
 
 2006-04-19  Ankit Patel  <ankit644@yahoo.com>
 
-        * gu.po: Updated Gujarati Translation.
+	* gu.po: Updated Gujarati Translation.
 
 2006-04-14  Åsmund Skjæveland  <aasmunds@fys.uio.no>
 
@@ -54,7 +58,7 @@
 
 2006-04-05  Lukas Novotny  <lukasnov@cvs.gnome.org>
 
- 	* cs.po: Updated Czech translation.
+	* cs.po: Updated Czech translation.
 
 2006-04-05  Inaki Larranaga  <dooteo@euskalgnu.org>
 
@@ -100,7 +104,7 @@
 
 2006-03-14  Vladimer Sichinavai  <alinux@siena.linux.it>
 
-        * ka.po: Added Georgian translation.
+	* ka.po: Added Georgian translation.
 	
 2006-03-13  Jordi Mallach  <jordi@sindominio.net>
 
