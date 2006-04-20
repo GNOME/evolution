@@ -1,3 +1,14 @@
+2006-04-20  Jeffrey Stedfast  <fejj@novell.com>
+
+	Fix for bug #339052
+
+	* em-inline-filter.c (emif_add_part): Preserve all Content-Type
+	params so that they may be restored later.
+
+	* em-format.c (emf_inlinepgp_signed): Restore the original part's
+	Content-Type params otherwise we lose valuable information such as
+	charset or format=flowed or various other things.
+
 2006-04-18  Jeffrey Stedfast  <fejj@novell.com>
 
 	* mail.error.xml: Removed error id "camel-exception" as it was a
