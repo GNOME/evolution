@@ -106,31 +106,34 @@ enum {
 };
 
 static const struct {
-	const char *name;
-	CamelTransferEncoding type;
+	const char *type;
+	const char *subtype;
+	CamelTransferEncoding encoding;
 	int plain:1;
 } emif_types[] = {
-	{ "text/plain", CAMEL_TRANSFER_ENCODING_DEFAULT, 1, },
-	{ "application/octet-stream", CAMEL_TRANSFER_ENCODING_UUENCODE, },
-	{ "application/mac-binhex40", CAMEL_TRANSFER_ENCODING_7BIT, },
-	{ "application/postscript", CAMEL_TRANSFER_ENCODING_7BIT, },
-	{ "application/x-inlinepgp-signed", CAMEL_TRANSFER_ENCODING_DEFAULT, },
-	{ "application/x-inlinepgp-encrypted", CAMEL_TRANSFER_ENCODING_DEFAULT, },	
+	{ "text",        "plain",                 CAMEL_TRANSFER_ENCODING_DEFAULT,  1, },
+	{ "application", "octet-stream",          CAMEL_TRANSFER_ENCODING_UUENCODE, 0, },
+	{ "application", "mac-binhex40",          CAMEL_TRANSFER_ENCODING_7BIT,     0, },
+	{ "application", "postscript",            CAMEL_TRANSFER_ENCODING_7BIT,     0, },
+	{ "application", "x-inlinepgp-signed",    CAMEL_TRANSFER_ENCODING_DEFAULT,  0, },
+	{ "application", "x-inlinepgp-encrypted", CAMEL_TRANSFER_ENCODING_DEFAULT,  0, },
 };
 
 static void
 emif_add_part(EMInlineFilter *emif, const char *data, int len)
 {
-	CamelTransferEncoding type;
-	CamelStream *mem;
+	CamelTransferEncoding encoding;
+	CamelContentType *content_type;
 	CamelDataWrapper *dw;
-	CamelMimePart *part;
 	const char *mimetype;
-
+	CamelMimePart *part;
+	CamelStream *mem;
+	char *type;
+	
 	if (emif->state == EMIF_PLAIN || emif->state == EMIF_PGPSIGNED || emif->state == EMIF_PGPENCRYPTED)
-		type = emif->base_encoding;
+		encoding = emif->base_encoding;
 	else
-		type = emif_types[emif->state].type;
+		encoding = emif_types[emif->state].encoding;
 
 	g_byte_array_append(emif->data, data, len);
 	/* check the part will actually have content */
@@ -139,19 +142,33 @@ emif_add_part(EMInlineFilter *emif, const char *data, int len)
 	}
 	mem = camel_stream_mem_new_with_byte_array(emif->data);
 	emif->data = g_byte_array_new();
-
+	
 	dw = camel_data_wrapper_new();
 	camel_data_wrapper_construct_from_stream(dw, mem);
 	camel_object_unref(mem);
-	if (emif_types[emif->state].plain && emif->base_type)
-		camel_data_wrapper_set_mime_type_field(dw, emif->base_type);
-	else
-		camel_data_wrapper_set_mime_type(dw, emif_types[emif->state].name);
-	dw->encoding = type;
-
+	
+	if (emif_types[emif->state].plain && emif->base_type) {
+		camel_content_type_ref (emif->base_type);
+		content_type = emif->base_type;
+	} else {
+		/* we want to preserve all params */
+		type = camel_content_type_format (emif->base_type);
+		content_type = camel_content_type_decode (type);
+		g_free (type);
+		
+		g_free (content_type->type);
+		g_free (content_type->subtype);
+		content_type->type = g_strdup (emif_types[emif->state].type);
+		content_type->subtype = g_strdup (emif_types[emif->state].subtype);
+	}
+	
+	camel_data_wrapper_set_mime_type_field (dw, content_type);
+	camel_content_type_unref (content_type);
+	dw->encoding = encoding;
+	
 	part = camel_mime_part_new();
 	camel_medium_set_content_object((CamelMedium *)part, dw);
-	camel_mime_part_set_encoding(part, type);
+	camel_mime_part_set_encoding(part, encoding);
 	camel_object_unref(dw);
 
 	if (emif->filename)

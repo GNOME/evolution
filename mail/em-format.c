@@ -1501,15 +1501,17 @@ emf_message_deliverystatus(EMFormat *emf, CamelStream *stream, CamelMimePart *pa
 static void
 emf_inlinepgp_signed(EMFormat *emf, CamelStream *stream, CamelMimePart *ipart, EMFormatHandler *info)
 {
+	CamelStreamFilter *filtered_stream;
+	CamelMimeFilterPgp *pgp_filter;
+	CamelContentType *content_type;
 	CamelCipherContext *cipher;
 	CamelCipherValidity *valid;
-	CamelException *ex;
-	CamelMimePart *opart=NULL;
-	CamelStreamFilter *filtered_stream;
-	CamelStream *ostream;
 	CamelDataWrapper *dw;
-	CamelMimeFilterPgp *pgp_filter;
-
+	CamelMimePart *opart;
+	CamelStream *ostream;
+	CamelException *ex;
+	char *type;
+	
 	ex = camel_exception_new();
 	cipher = camel_gpg_context_new(emf->session);
 	/* Verify the signature of the message */
@@ -1528,7 +1530,7 @@ emf_inlinepgp_signed(EMFormat *emf, CamelStream *stream, CamelMimePart *ipart, E
 	/* Setup output stream */
 	ostream = camel_stream_mem_new();
 	filtered_stream = camel_stream_filter_new_with_stream(ostream);
-
+	
 	/* Add PGP header / footer filter */
 	pgp_filter = (CamelMimeFilterPgp *)camel_mime_filter_pgp_new();
 	camel_stream_filter_add(filtered_stream, (CamelMimeFilter *)pgp_filter);
@@ -1540,17 +1542,30 @@ emf_inlinepgp_signed(EMFormat *emf, CamelStream *stream, CamelMimePart *ipart, E
 	camel_stream_flush((CamelStream *)filtered_stream);
 	camel_object_unref(filtered_stream);
 	
-	/* Extract new part and display it as text/plain */ 
-	dw = camel_data_wrapper_new();
-	camel_data_wrapper_construct_from_stream(dw, ostream);
-	camel_data_wrapper_set_mime_type(dw, "text/plain");
-	opart = camel_mime_part_new();
-	camel_medium_set_content_object((CamelMedium *)opart, dw);
-	camel_mime_part_set_content_type(opart, "text/plain");
+	/* Create a new text/plain MIME part containing the signed content preserving the original part's Content-Type params */
+	content_type = camel_mime_part_get_content_type (ipart);
+	type = camel_content_type_format (content_type);
+	content_type = camel_content_type_decode (type);
+	g_free (type);
+	
+	g_free (content_type->type);
+	content_type->type = g_strdup ("text");
+	g_free (content_type->subtype);
+	content_type->subtype = g_strdup ("plain");
+	type = camel_content_type_format (content_type);
+	camel_content_type_unref (content_type);
+	
+	dw = camel_data_wrapper_new ();
+	camel_data_wrapper_construct_from_stream (dw, ostream);
+	camel_data_wrapper_set_mime_type (dw, type);
+	
+	opart = camel_mime_part_new ();
+	camel_medium_set_content_object ((CamelMedium *) opart, dw);
+	camel_data_wrapper_set_mime_type_field ((CamelDataWrapper *) opart, dw->mime_type);
 	
 	/* Pass it off to the real formatter */	
 	em_format_format_secure(emf, stream, opart, valid);
-
+	
 	/* Clean Up */
 	camel_object_unref(dw);
 	camel_object_unref(opart);
