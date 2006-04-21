@@ -818,6 +818,7 @@ e_contact_print_response(GtkWidget *dialog, gint response_id, gpointer data)
 			g_object_ref(contact);
 			complete_sequence(NULL, E_BOOK_VIEW_STATUS_OK, ctxt);
 		}
+		gtk_widget_destroy (dialog);
 		break;
 	case GNOME_PRINT_DIALOG_RESPONSE_CANCEL:
 		if (uses_book)
