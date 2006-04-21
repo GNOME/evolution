@@ -1,3 +1,15 @@
+2006-02-16  Johnny Jacob  <johnnyjacob@gmail.com>
+
+	** Fixes #330955
+
+	* gui/e-memo-table.etspec : Change the column from summary to 
+	description.
+	* gui/e-cal-model.c : (ecm_duplicate_value) : Dup value for
+	description also.
+	(e_cal_model_create_component_with_defaults) : create a memo
+	component with defaults.
+	* gui/e-cal-model-memos.c : (ecmm_is_cell_editable).
+
 2006-04-10  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #163039

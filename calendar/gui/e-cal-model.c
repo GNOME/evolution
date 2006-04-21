@@ -780,6 +780,7 @@ ecm_duplicate_value (ETableModel *etm, int col, const void *value)
 	switch (col) {
 	case E_CAL_MODEL_FIELD_CATEGORIES :
 	case E_CAL_MODEL_FIELD_CLASSIFICATION :
+	case E_CAL_MODEL_FIELD_DESCRIPTION :
 	case E_CAL_MODEL_FIELD_SUMMARY :
 		return g_strdup (value);
 	case E_CAL_MODEL_FIELD_HAS_ALARMS :
@@ -1831,6 +1832,9 @@ e_cal_model_create_component_with_defaults (ECalModel *model)
 		break;
 	case ICAL_VTODO_COMPONENT :
 		comp = cal_comp_task_new_with_defaults (client);
+		break;
+	case ICAL_VJOURNAL_COMPONENT :
+	        comp = cal_comp_memo_new_with_defaults (client);
 		break;
 	default:
 		return NULL;
