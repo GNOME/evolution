@@ -44,6 +44,11 @@ struct _AlarmNotifyPrivate {
         GMutex *mutex;
 };
 
+EThread *alarm_operation_thread;	/* for operations that can (or should) be queued */
+EMsgPort *alarm_reply_port;
+static GIOChannel *alarm_reply_channel;
+
+#define d(x) x
 
 
 static void alarm_notify_class_init (AlarmNotifyClass *klass);
@@ -82,7 +87,7 @@ process_removal_in_hash (gpointer key, gpointer value, gpointer data)
 	ProcessRemovalsData *prd = data;
 	GSList *groups, *sources, *p, *q;
 	gboolean found = FALSE;
-
+	
 	/* search the list of selected calendars */
 	groups = e_source_list_peek_groups (prd->source_list);
 	for (p = groups; p != NULL; p = p->next) {
@@ -120,8 +125,9 @@ list_changed_cb (ESourceList *source_list, gpointer data)
 	ProcessRemovalsData prd;
 	GList *l;
 	int i;
+
+	g_signal_handlers_block_by_func(source_list, list_changed_cb, data);
 	
-	printf("LIST CHANGED\n");
 	priv = an->priv;
 
 	/* Figure out the source type */
@@ -150,7 +156,7 @@ list_changed_cb (ESourceList *source_list, gpointer data)
 			
 			uri = e_source_get_uri (source);
 			if (!g_hash_table_lookup (priv->uri_client_hash[source_type], uri)) {
-				g_message ("Adding %s", uri);
+				d (printf("%s:%d (list_changed_cb) - Adding Calendar %s\n", __FILE__, __LINE__, uri));				
 				alarm_notify_add_calendar (an, source_type, source, FALSE);
 			}
 			g_free (uri);
@@ -164,10 +170,12 @@ list_changed_cb (ESourceList *source_list, gpointer data)
 	g_hash_table_foreach (priv->uri_client_hash[source_type], (GHFunc) process_removal_in_hash, &prd);
 
 	for (l = prd.removals; l; l = l->next) {
-		g_message ("Removing %s", (char *)l->data);
+		d (printf("%s:%d (list_changed_cb) - Removing Calendar %s\n", __FILE__, __LINE__, l->data));		
 		alarm_notify_remove_calendar (an, source_type, l->data);
 	}
 	g_list_free (prd.removals);
+	g_signal_handlers_unblock_by_func(source_list, list_changed_cb, data);
+	
 }
 
 ESourceList *
@@ -175,6 +183,7 @@ alarm_notify_get_selected_calendars (AlarmNotify *an)
 {
 	return an->priv->selected_calendars;
 }
+
 static void
 load_calendars (AlarmNotify *an, ECalSourceType source_type)
 {
@@ -185,7 +194,7 @@ load_calendars (AlarmNotify *an, ECalSourceType source_type)
 	priv = an->priv;
 	
 	if (!e_cal_get_sources (&source_list, source_type, NULL)) {
-		g_message (G_STRLOC ": Could not get the list of sources to load");
+		d (printf("%s:%d (load_calendars) - Cannont get sources\n ", __FILE__, __LINE__));
 		priv->source_lists[source_type] = NULL;
 
 		return;
@@ -205,7 +214,7 @@ load_calendars (AlarmNotify *an, ECalSourceType source_type)
 				continue;
 			
 			uri = e_source_get_uri (source);
-			g_message ("Loading %s", uri);
+			d (printf("%s:%d (load_calendars) - Loading Calendar %s \n", __FILE__, __LINE__, uri));			
 			alarm_notify_add_calendar (an, source_type, source, FALSE);
 			g_free (uri);
 			
@@ -216,20 +225,6 @@ load_calendars (AlarmNotify *an, ECalSourceType source_type)
 	priv->source_lists[source_type] = source_list;
 }
 
-static gboolean
-load_calendars_cb (gpointer data)
-{
-	int i;
-	AlarmNotify *an =  ALARM_NOTIFY (data);
-	
-	for (i = 0; i < E_CAL_SOURCE_TYPE_LAST; i++) {
-		if (an->priv->source_lists[i])
-			list_changed_cb (an->priv->source_lists[i], an);
-	}
-	
-	return FALSE;
-	
-}
 /* Object initialization function for the alarm notify system */
 static void
 alarm_notify_init (AlarmNotify *an, AlarmNotifyClass *klass)
@@ -242,7 +237,8 @@ alarm_notify_init (AlarmNotify *an, AlarmNotifyClass *klass)
 	priv->mutex = g_mutex_new ();
 	priv->selected_calendars = config_data_get_calendars ("/apps/evolution/calendar/sources");
 
-
+	d (printf("%s:%d (alarm_notify_init) - Initing Alarm Notify\n", __FILE__, __LINE__));
+	
 	for (i = 0; i < E_CAL_SOURCE_TYPE_LAST; i++)
 		priv->uri_client_hash[i] = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_object_unref);
 
@@ -250,7 +246,6 @@ alarm_notify_init (AlarmNotify *an, AlarmNotifyClass *klass)
 
 	for (i = 0; i < E_CAL_SOURCE_TYPE_LAST; i++)
 		load_calendars (an, i);
-	g_timeout_add (60000, (GSourceFunc)load_calendars_cb, an);
 }
 
 static void
@@ -258,6 +253,7 @@ dequeue_client (gpointer key, gpointer value, gpointer user_data)
 {
 	ECal *client = value;
 
+	d (printf("%s:%d (dequeue_client) - Removing client %d\n ", __FILE__, __LINE__, client));
 	alarm_queue_remove_client (client);
 }
 
@@ -271,7 +267,9 @@ alarm_notify_finalize (GObject *object)
 	
 	g_return_if_fail (object != NULL);
 	g_return_if_fail (IS_ALARM_NOTIFY (object));
-
+	
+	d (printf("%s:%d (alarm_notify_finalize) - Finalize \n ", __FILE__, __LINE__));
+	
 	an = ALARM_NOTIFY (object);
 	priv = an->priv;
 
@@ -285,11 +283,71 @@ alarm_notify_finalize (GObject *object)
 	g_mutex_free (priv->mutex);
 	g_free (priv);
 
+	e_thread_destroy(alarm_operation_thread);
+	g_io_channel_unref(alarm_reply_channel);
+	e_msgport_destroy(alarm_reply_port);
 	if (G_OBJECT_CLASS (parent_class)->finalize)
 		(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
 
 
+
+static guint
+alarm_channel_setup(EMsgPort **port, GIOChannel **channel, GIOFunc func)
+{
+	GSource *source;
+	guint id;
+
+	d (printf("%s:%d (alarm_channel_setup) - Channel Setup\n ", __FILE__, __LINE__));
+	*port = e_msgport_new();
+#ifndef G_OS_WIN32
+	*channel = g_io_channel_unix_new(e_msgport_fd(*port));
+#else
+	*channel = g_io_channel_win32_new_socket(e_msgport_fd(*port));
+#endif
+	source = g_io_create_watch(*channel, G_IO_IN);
+	g_source_set_callback(source, (GSourceFunc)func, *port, NULL);
+	g_source_set_can_recurse(source, FALSE);
+	id = g_source_attach(source, NULL);
+	g_source_unref(source);
+
+	return id;
+}
+
+static void
+alarm_msg_destroy(EThread *e, EMsg *msg, void *data)
+{
+	AlarmMsg *m = (AlarmMsg *)msg;
+
+	/* Free the private */
+	g_free (m->data); /* Mostly it is a structure allocated as a carrier*/
+	g_free (m);
+}
+
+static gboolean
+alarm_msgport_replied(GIOChannel *source, GIOCondition cond, void *d)
+{
+	EMsgPort *port = (EMsgPort *)d;
+	AlarmMsg *m;
+
+	while (( m = (AlarmMsg *)e_msgport_get(port))) {
+		d (printf("%s:%d (alarm_msgport_replied) - %p: Replied to GUI thread\n", __FILE__, __LINE__, m));
+		alarm_msg_destroy(NULL, m, NULL);
+	}
+
+	return TRUE;
+}
+
+static void
+alarm_msg_received(EThread *e, EMsg *msg, void *data)
+{
+	AlarmMsg *m = (AlarmMsg *)msg;
+	
+	d(printf("%s:%d (alarm_msg_received) - %p: Received at thread %" G_GINT64_MODIFIER "x\n", __FILE__, __LINE__, m, e_util_pthread_id(pthread_self())));	
+	if (m->receive_msg) {
+		m->receive_msg (e, m, data);
+	}
+}
 
 /**
  * alarm_notify_new:
@@ -304,9 +362,20 @@ alarm_notify_new (void)
 {
 	AlarmNotify *an;
 	
+	d (printf("%s:%d (alarm_notify_new) - Alarm Notify New \n ", __FILE__, __LINE__));
+
+	/* Create a thread for alarm queue operation*/	
+	alarm_channel_setup(&alarm_reply_port, &alarm_reply_channel, alarm_msgport_replied);
+
+	alarm_operation_thread = e_thread_new(E_THREAD_QUEUE);
+	e_thread_set_msg_destroy(alarm_operation_thread, alarm_msg_destroy, 0);
+	e_thread_set_msg_received(alarm_operation_thread, alarm_msg_received, 0);
+	e_thread_set_reply_port(alarm_operation_thread, alarm_reply_port);
+
 	an = g_object_new (TYPE_ALARM_NOTIFY,
 			   "poa", bonobo_poa_get_threaded (ORBIT_THREAD_HINT_PER_REQUEST, NULL),
 			   NULL);
+	
 	return an;
 }
 
@@ -317,7 +386,9 @@ cal_opened_cb (ECal *client, ECalendarStatus status, gpointer user_data)
 	AlarmNotify *an = ALARM_NOTIFY (user_data);
 
 	priv = an->priv;
-
+	
+	d (printf("%s:%d (cal_opened_cb) - Calendar Status %d\n", __FILE__, __LINE__, status==E_CALENDAR_STATUS_OK));
+	
 	if (status == E_CALENDAR_STATUS_OK)
 		alarm_queue_add_client (client);
 	else {
@@ -379,6 +450,7 @@ alarm_notify_add_calendar (AlarmNotify *an, ECalSourceType source_type,  ESource
 	client = auth_new_cal_from_source (source, source_type);
 
 	if (client) {
+		d (printf("%s:%d (alarm_notify_add_calendar) - Calendar Open Async... %d\n", __FILE__, __LINE__, client));	
 		g_hash_table_insert (priv->uri_client_hash[source_type], g_strdup (str_uri), client);
 		g_signal_connect (G_OBJECT (client), "cal_opened", G_CALLBACK (cal_opened_cb), an);
 		e_cal_open_async (client, FALSE);
@@ -398,6 +470,7 @@ alarm_notify_remove_calendar (AlarmNotify *an, ECalSourceType source_type, const
 
 	client = g_hash_table_lookup (priv->uri_client_hash[source_type], str_uri);
 	if (client) {
+		d (printf("%s:%d (alarm_notify_remove_calendar) - Removing Client %d\n", __FILE__, __LINE__, client));
 		alarm_queue_remove_client (client);
 		g_hash_table_remove (priv->uri_client_hash[source_type], str_uri);
 	}

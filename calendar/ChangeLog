@@ -1,3 +1,39 @@
+2006-04-22  Srinivasa Ragavan  <sragavan@novell.com>
+
+	Rewrite of Alarm daemon with EThread to make it thread safe. It also
+	fixes a lot of random crashes.
+
+	* gui/alarm-notify/alarm-notify.c: (process_removal_in_hash),
+	(list_changed_cb), (load_calendars), (alarm_notify_init),
+	(dequeue_client), (alarm_notify_finalize), (alarm_channel_setup),
+	(alarm_msg_destroy), (alarm_msgport_replied), (alarm_msg_received),
+	(alarm_notify_new), (cal_opened_cb), (alarm_notify_add_calendar),
+	(alarm_notify_remove_calendar):
+	* gui/alarm-notify/alarm-notify.h:
+	* gui/alarm-notify/alarm-queue.c: (queue_midnight_refresh),
+	(add_client_alarms_cb), (midnight_refresh_async),
+	(midnight_refresh_cb), (remove_queued_alarm), (alarm_trigger_cb),
+	(add_component_alarms), (load_alarms), (load_alarms_for_today),
+	(cal_opened_cb), (remove_alarms), (remove_comp), (duplicate_ical),
+	(duplicate_ecal), (query_objects_changed_async),
+	(query_objects_changed_cb), (query_objects_removed_async),
+	(query_objects_removed_cb), (create_snooze), (edit_component),
+	(on_dialog_objs_removed_async), (on_dialog_objs_removed_cb),
+	(tray_list_remove_cqa_async), (tray_list_remove_cqa),
+	(tray_list_remove_async), (tray_list_remove_icons),
+	(tray_list_remove_data_async), (tray_list_remove_data),
+	(notify_dialog_cb), (open_alarm_dialog), (tray_icon_clicked_cb),
+	(tray_list_add_async), (tray_list_add_new), (display_notification),
+	(popup_notification), (audio_notification), (mail_notification),
+	(procedure_notification_dialog), (procedure_notification),
+	(check_midnight_refresh), (alarm_queue_init),
+	(free_client_alarms_cb), (alarm_queue_done), (compare_ids),
+	(hash_ids), (alarm_queue_add_async), (alarm_queue_add_client),
+	(remove_cqa), (remove_comp_by_id), (remove_client_alarms),
+	(alarm_queue_remove_async), (alarm_queue_remove_client),
+	(update_cqa), (update_qa):
+	* gui/alarm-notify/alarm.c: (alarm_remove):
+
 2006-02-16  Johnny Jacob  <johnnyjacob@gmail.com>
 
 	** Fixes #330955

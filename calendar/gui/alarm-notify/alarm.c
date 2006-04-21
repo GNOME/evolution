@@ -249,9 +249,6 @@ alarm_remove (gpointer alarm)
 	}
 
 	/* Reset the timeout */
-
-	g_assert (timeout_id != 0);
-
 	if (!alarms) {
 		g_source_remove (timeout_id);
 		timeout_id = 0;
