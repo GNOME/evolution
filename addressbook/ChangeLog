@@ -1,5 +1,19 @@
 2006-04-21  Devashish Sharma  <sdevashish@novell.com>
 
+	Fix for Bug 333869.
+	* printing/e-contact-print-types.h: Remove member letter_tabs in
+	struct _EContactPrintStyle.
+	* printing/e-contact-print.c (e_contact_start_new_page),
+	(e_contact_get_contact_size), (e_contact_print_contact),
+	(e_contact_start_new_column), (complete_sequence),
+	(e_contact_build_style), (e_contact_print_response),
+	(e_contact_print_preview):
+	To be consistent with minicard view, remove functions and data structure 
+	associated with letter tab printing.
+	Patch by Simon Zheng <simon.zheng@sun.com>.
+
+2006-04-21  Devashish Sharma  <sdevashish@novell.com>
+
 	Fix for Bug 336713
 	* gui/merging/eab-contact-merging.c: (cancelit): After selecting 
 	"cancel duplicate" when pasting contacts, can't remove those

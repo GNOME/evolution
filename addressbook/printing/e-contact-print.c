@@ -68,11 +68,8 @@ struct _EContactPrintContext
 	gint column;
 	EContactPrintStyle *style;
 	gboolean first_section;
-	gchar first_char_on_page;
-	gchar last_char_on_page;
 
 	PangoFontDescription *letter_heading_font;
-	PangoFontDescription *letter_tab_font;
 	char *character;
 	gboolean first_contact;
 
@@ -214,50 +211,6 @@ e_contact_rectangle(GnomePrintContext *pc,
 }
 
 static double
-e_contact_get_letter_tab_width (EContactPrintContext *ctxt)
-{
-	return get_font_width(ctxt, ctxt->letter_tab_font, "123") + 4 + 18;
-}
-
-static double
-e_contact_print_letter_tab (EContactPrintContext *ctxt)
-{
-	unsigned char character;
-	gdouble x, y;
-	gdouble page_width = 72 * (ctxt->style->page_width - ctxt->style->left_margin - ctxt->style->right_margin);
-	gdouble tab_height, tab_width;
-	gdouble font_size;
-	tab_height = 72 * (ctxt->style->page_height - ctxt->style->top_margin - ctxt->style->bottom_margin) / 27.0;
-	font_size = tab_height / 2;
-	tab_width = e_contact_get_letter_tab_width(ctxt) - 18;
-	x = page_width + 72 * (ctxt->style->left_margin) - tab_width;
-	y = 72 * (ctxt->style->page_height - ctxt->style->top_margin);
-
-
-	gnome_print_gsave( ctxt->pc );
-	if ( ctxt->style->print_using_grey )
-		e_contact_rectangle( ctxt->pc, x, 72 * (ctxt->style->page_height - ctxt->style->top_margin), x + tab_width, ctxt->style->bottom_margin * 72, .85, .85, .85 );
-	for ( character = 'A' - 1; character <= 'Z'; character ++ ) {
-		char string[] = "123";
-		if ( character >= 'A' ) {
-			string[0] = tolower(character);
-			string[1] = 0;
-		}
-		if ( character >= ctxt->first_char_on_page && character <= ctxt->last_char_on_page ) {
-			e_contact_rectangle( ctxt->pc, x + 1, y - 1, x + tab_width - 1, y - (tab_height - 1), 0, 0, 0 );
-			gnome_print_setrgbcolor( ctxt->pc, 1, 1, 1 );
-			e_contact_output( ctxt, ctxt->letter_tab_font, x + tab_width / 2 - get_font_width(ctxt, ctxt->letter_tab_font, string) / 2, y - (tab_height - font_size) / 2, -1, string );
-		} else {
-			gnome_print_setrgbcolor( ctxt->pc, 0, 0, 0 );
-			e_contact_output( ctxt, ctxt->letter_tab_font, x + tab_width / 2 - get_font_width(ctxt, ctxt->letter_tab_font, string) / 2, y - (tab_height - font_size) / 2, -1, string );
-		}
-		y -= tab_height;
-	}
-	gnome_print_grestore( ctxt->pc );
-	return get_font_width(ctxt, ctxt->style->body_font, "123") + get_font_height (ctxt->style->body_font) / 5;
-}
-
-static double
 e_contact_get_letter_heading_height (EContactPrintContext *ctxt)
 {
 	return get_font_height (ctxt->letter_heading_font);
@@ -288,13 +241,9 @@ e_contact_start_new_page(EContactPrintContext *ctxt)
 	ctxt->x = ctxt->style->left_margin * 72;
 	ctxt->y = (ctxt->style->page_height - ctxt->style->top_margin) * 72;
 	ctxt->column = 0;
-	if ( ctxt->style->letter_tabs )
-		e_contact_print_letter_tab(ctxt);
 	gnome_print_showpage(ctxt->pc);
 
 	gnome_print_beginpage (ctxt->pc, NULL);
-
-	ctxt->first_char_on_page = ctxt->last_char_on_page + 1;
 }
 
 static double
@@ -305,8 +254,6 @@ e_contact_get_contact_size(EContact *contact, EContactPrintContext *ctxt)
 	gdouble column_width;
 	const char *file_as;
 	gint field;
-	if ( ctxt->style->letter_tabs )
-		page_width -= e_contact_get_letter_tab_width(ctxt);
 	column_width = (page_width + 18) / ctxt->style->num_columns - 18;
 
 	height += get_font_height (ctxt->style->headings_font) * .2;
@@ -348,8 +295,6 @@ e_contact_print_contact (EContact *contact, EContactPrintContext *ctxt)
 	char *file_as;
 	int field;
 
-	if ( ctxt->style->letter_tabs )
-		page_width -= e_contact_get_letter_tab_width(ctxt);
 	column_width = (page_width + 18) / ctxt->style->num_columns - 18;
 
 	gnome_print_gsave(ctxt->pc);
@@ -393,8 +338,6 @@ e_contact_start_new_column (EContactPrintContext *ctxt)
 {
 	gdouble page_width  = 72 * (ctxt->style->page_width - ctxt->style->left_margin - ctxt->style->right_margin);
 	gdouble column_offset;
-	if ( ctxt->style->letter_tabs ) 
-		page_width -= e_contact_get_letter_tab_width(ctxt);
 	column_offset = (page_width + 18) / ctxt->style->num_columns;
 	ctxt->column ++;
 	if (ctxt->column >= ctxt->style->num_columns) {
@@ -416,11 +359,7 @@ complete_sequence(EBookView *book_view, EBookViewStatus status, EContactPrintCon
 	ctxt->character = NULL;
 	ctxt->y = (ctxt->style->page_height - ctxt->style->top_margin) * 72;
 	ctxt->x = (ctxt->style->left_margin) * 72;
-	if ( ctxt->style->letter_tabs ) 
-		page_width -= e_contact_get_letter_tab_width(ctxt);
 	
-	ctxt->first_char_on_page = 'A' - 1;
-
 	gnome_print_beginpage (ctxt->pc, NULL);
 
 	for(; contacts; contacts = contacts->next) {
@@ -451,15 +390,9 @@ complete_sequence(EBookView *book_view, EBookViewStatus status, EContactPrintCon
 				e_contact_print_letter_heading(ctxt, ctxt->character);
 		}
 		g_free (letter_str);
-		ctxt->last_char_on_page = file_as ? toupper (*file_as) : ' ';
-		if ( ctxt->last_char_on_page < ctxt->first_char_on_page )
-			ctxt->first_char_on_page = ctxt->last_char_on_page;
 		e_contact_print_contact(contact, ctxt);
 		ctxt->first_contact = FALSE;
 	}
-	ctxt->last_char_on_page = 'Z';
-	if ( ctxt->style->letter_tabs )
-		e_contact_print_letter_tab(ctxt);
 	gnome_print_showpage(ctxt->pc);
 	gnome_print_context_close(ctxt->pc);
 	gnome_print_job_close(ctxt->master);
@@ -487,7 +420,6 @@ complete_sequence(EBookView *book_view, EBookViewStatus status, EContactPrintCon
 	pango_font_description_free(ctxt->style->header_font);
 	pango_font_description_free(ctxt->style->footer_font);
 	pango_font_description_free(ctxt->letter_heading_font);
-	pango_font_description_free(ctxt->letter_tab_font);
 	g_free(ctxt->style);
 	g_free(ctxt);
 }
@@ -622,7 +554,6 @@ e_contact_build_style(EContactPrintStyle *style, GnomePrintConfig *config)
 	style->sections_start_new_page = TRUE;
 	style->num_columns = 2;
 	style->blank_forms = 2;
-	style->letter_tabs = TRUE;
 	style->letter_headings = FALSE;
 
 	style->headings_font = find_closest_font_from_weight_slant ("Sans", GNOME_FONT_BOLD, FALSE, 8);
@@ -686,8 +617,6 @@ e_contact_build_style(EContactPrintStyle *style, GnomePrintConfig *config)
 				style->num_columns = get_integer(data);
 			} else if ( !strcmp( node->name, "blank_forms" ) ) {
 				style->blank_forms = get_integer(data);
-			} else if ( !strcmp( node->name, "letter_tabs" ) ) {
-				style->letter_tabs = get_bool(data);
 			} else if ( !strcmp( node->name, "letter_headings" ) ) {
 				style->letter_headings = get_bool(data);
 			} else if ( !strcmp( node->name, "headings_font" ) ) {
@@ -811,13 +740,11 @@ e_contact_print_response(GtkWidget *dialog, gint response_id, gpointer data)
 		ctxt->style = style;
 		ctxt->master = master;
 		ctxt->first_section = TRUE;
-		ctxt->first_char_on_page = 'A' - 1;
 		ctxt->type = GNOME_PRINT_DIALOG_RESPONSE_PRINT;
 
 		font_size = 72 * ctxt->style->page_height / 27.0 / 2.0;
 		ctxt->letter_heading_font = find_font (pango_font_description_get_family(ctxt->style->headings_font), get_font_height(ctxt->style->headings_font)*1.5);
-		ctxt->letter_tab_font = find_font (pango_font_description_get_family(ctxt->style->headings_font), font_size);
-	
+			
 		ctxt->pc = pc;
 		ctxt->pl = gnome_print_pango_create_layout (pc);
 #warning FIXME gnome_print_multipage_new_from_sizes
@@ -858,12 +785,10 @@ e_contact_print_response(GtkWidget *dialog, gint response_id, gpointer data)
 		ctxt->style = style;
 		ctxt->master = master;
 		ctxt->first_section = TRUE;
-		ctxt->first_char_on_page = 'A' - 1;
 		ctxt->type = GNOME_PRINT_DIALOG_RESPONSE_PREVIEW;
 
 		font_size = 72 * ctxt->style->page_height / 27.0 / 2.0;
 		ctxt->letter_heading_font = find_font (pango_font_description_get_family(ctxt->style->headings_font), get_font_height (ctxt->style->headings_font) * 1.5);
-		ctxt->letter_tab_font = find_font (pango_font_description_get_family(ctxt->style->headings_font), font_size);
 		
 		ctxt->pc = pc;
 		ctxt->pl = gnome_print_pango_create_layout (pc);
@@ -975,13 +900,11 @@ e_contact_print_preview(EBook *book, char *query, GList *list)
 	ctxt->style = style;
 	ctxt->master = master;
 	ctxt->first_section = TRUE;
-	ctxt->first_char_on_page = 'A' - 1;
 	ctxt->type = GNOME_PRINT_DIALOG_RESPONSE_PREVIEW;
 
 	font_size = 72 * ctxt->style->page_height / 27.0 / 2.0;
 	ctxt->letter_heading_font = find_font (pango_font_description_get_family(ctxt->style->headings_font), get_font_height (ctxt->style->headings_font) * 1.5);
-	ctxt->letter_tab_font = find_font (pango_font_description_get_family(ctxt->style->headings_font), font_size);
-
+	
 	ctxt->pc = pc;
 	ctxt->pl = gnome_print_pango_create_layout (pc);
 #warning FIXME gnome_print_multipage_new_from_sizes

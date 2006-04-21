@@ -42,7 +42,6 @@ struct _EContactPrintStyle
 	gboolean sections_start_new_page;
 	guint num_columns;
 	guint blank_forms;
-	gboolean letter_tabs;
 	gboolean letter_headings;
 	PangoFontDescription *headings_font;
 	PangoFontDescription *body_font;
