@@ -2554,7 +2554,7 @@ tooltip_event_cb (GnomeCanvasItem *item,
 			pevent->tooltip = (GtkWidget *)g_object_get_data (G_OBJECT (view), "tooltip-window");
 			
 			if (pevent->tooltip) {
-				gtk_window_move ((GtkWindow *)pevent->tooltip, ((int)((GdkEventMotion *)event)->x_root)+16, ((int)((GdkEventMotion *)event)->y_root) +16);
+				e_calendar_view_move_tip (pevent->tooltip, pevent->x+16, pevent->y+16);				
 			}
 
 			return TRUE;
@@ -3125,9 +3125,9 @@ e_week_view_on_text_item_event (GnomeCanvasItem *item,
 		pevent->y = ((GdkEventMotion *)gdkevent)->y_root;
 		pevent->tooltip = (GtkWidget *)g_object_get_data (G_OBJECT (week_view), "tooltip-window");
 		
-		if (pevent->tooltip)
-			gtk_window_move ((GtkWindow *)pevent->tooltip, ((int)((GdkEventMotion *)gdkevent)->x_root)+16, ((int)((GdkEventMotion *)gdkevent)->y_root) +16);
-
+		if (pevent->tooltip) {
+			e_calendar_view_move_tip (pevent->tooltip, pevent->x+16, pevent->y+16);			
+		}
 		return TRUE;		
 	case GDK_FOCUS_CHANGE:
 		if (gdkevent->focus_change.in) {

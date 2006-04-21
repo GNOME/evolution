@@ -5893,7 +5893,7 @@ e_day_view_on_text_item_event (GnomeCanvasItem *item,
 			pevent->tooltip = (GtkWidget *)g_object_get_data (G_OBJECT (day_view), "tooltip-window");
 			
 			if (pevent->tooltip) {
-				gtk_window_move ((GtkWindow *)pevent->tooltip, ((int)((GdkEventMotion *)event)->x_root)+16, ((int)((GdkEventMotion *)event)->y_root) +16);
+				e_calendar_view_move_tip (pevent->tooltip, pevent->x+16, pevent->y+16);
 			}
 
 			return TRUE;

@@ -2068,6 +2068,44 @@ get_label (struct icaltimetype *tt)
         return g_strdup (buffer);
 }
 
+void 
+e_calendar_view_move_tip (GtkWidget *widget, int x, int y)
+{
+  GtkRequisition requisition;
+  gint w, h;
+  GdkScreen *screen;
+  GdkScreen *pointer_screen;
+  gint monitor_num, px, py;
+  GdkRectangle monitor;	
+
+  screen = gtk_widget_get_screen (widget);
+
+  gtk_widget_size_request (widget, &requisition);
+  w = requisition.width;
+  h = requisition.height;
+
+  gdk_display_get_pointer (gdk_screen_get_display (screen),
+                           &pointer_screen, &px, &py, NULL);
+  if (pointer_screen != screen) 
+    {
+      px = x;
+      py = y;
+    }
+  monitor_num = gdk_screen_get_monitor_at_point (screen, px, py);
+  gdk_screen_get_monitor_geometry (screen, monitor_num, &monitor);
+
+  if ((x + w) > monitor.x + monitor.width)
+    x -= (x + w) - (monitor.x + monitor.width);
+  else if (x < monitor.x)
+    x = monitor.x;
+
+  if ((y + h + widget->allocation.height + 4) > monitor.y + monitor.height)
+    y = y - h - 36;
+
+  gtk_window_move (GTK_WINDOW (widget), x, y);
+  gtk_widget_show (widget); 
+}
+
 /* 
  * It is expected to show the tooltips in this below format
  *
@@ -2209,6 +2247,9 @@ e_calendar_view_get_tooltips (ECalendarViewEventData *data)
 	gtk_container_add ((GtkContainer *)pevent->tooltip, frame);
 			
 	gtk_widget_show_all (pevent->tooltip);	
+
+	e_calendar_view_move_tip (pevent->tooltip, pevent->x +16, pevent->y+16);
+
 	gdk_keyboard_grab (pevent->tooltip->window, FALSE, GDK_CURRENT_TIME);
 	g_signal_connect (pevent->tooltip, "key-press-event", G_CALLBACK (tooltip_grab), data->cal_view);
 	pevent->timeout = -1;
