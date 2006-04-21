@@ -10212,7 +10212,7 @@ msgstr "_Прикрепяне"
 
 #: ../composer/e-msg-composer-select-file.c:239
 msgid "Insert Attachment"
-msgstr "Прикрепяне на файл"
+msgstr "При_крепяне на файл"
 
 #: ../composer/e-msg-composer.c:828
 msgid ""
