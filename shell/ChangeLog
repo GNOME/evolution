@@ -1,3 +1,10 @@
+2006-04-21  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fixes bug #329731
+
+	* apps_evolution_shell.schemas.in.in: Added schema to maintain the
+	visibility of status bar.
+
 2006-04-18  Jeffrey Stedfast  <fejj@novell.com>
 
 	* e-shell-nm.c (e_shell_network_monitor): Intercept the

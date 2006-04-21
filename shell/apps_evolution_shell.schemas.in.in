@@ -141,7 +141,19 @@
         <long>Whether the sidebar should be visible.</long>
       </locale>
     </schema>
-
+    
+     <schema>
+      <key>/schemas/apps/evolution/shell/view_defaults/statusbar_visible</key>
+      <applyto>/apps/evolution/shell/view_defaults/statusbar_visible</applyto>
+      <owner>evolution</owner>
+      <type>bool</type>
+      <default>TRUE</default>
+      <locale name="C">
+        <short>Statusbar is visible</short>
+        <long>Whether the status bar should be visible.</long>
+      </locale>
+    </schema>
+    
     <schema>
       <key>/schemas/apps/evolution/shell/view_defaults/component_id</key>
       <applyto>/apps/evolution/shell/view_defaults/component_id</applyto>
