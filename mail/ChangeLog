@@ -1,3 +1,10 @@
+2006-04-21  Sankar P  <psankar@novell.com>
+
+	* mail-mt.c: (do_op_status):
+	Fix the cryptic hexa-status-bar-message.
+	The problem still lies somewhere. But dont show 
+	something weird to the user.
+	
 2006-04-20  Jeffrey Stedfast  <fejj@novell.com>
 
 	Fix for bug #339052

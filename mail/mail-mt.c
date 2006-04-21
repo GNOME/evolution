@@ -978,8 +978,8 @@ static void do_op_status(struct _mail_msg *mm)
 				what = msg->ops->describe_msg (msg, FALSE);
 			/* uncommenting because message is not very useful for a user, see bug 271734*/
 			else {
-				what = g_strdup_printf("Working %p", msg);
-			}
+				what = g_strdup("");
+			} 
 			
 
 			data->activity_id = e_activity_handler_operation_started (activity_handler, "evolution-mail", progress_icon, what, TRUE);
