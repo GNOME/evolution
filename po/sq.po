@@ -1,16 +1,15 @@
 # Përkthimi i mesazheve të evolution në shqip
 # This file is distributed under the same license as the evolution package.
 #
-#
 # Laurent Dhima <laurenti@alblinux.net>, 2003, 2004, 2005, 2006.
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution gnome-2-14\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-03-11 13:43+0100\n"
-"PO-Revision-Date: 2006-03-13 12:39+0100\n"
+"POT-Creation-Date: 2006-04-21 04:29+0200\n"
+"PO-Revision-Date: 2006-04-21 09:39+0200\n"
 "Last-Translator: Laurent Dhima <laurenti@alblinux.net>\n"
-"Language-Team: Albanian <gnome-albanian-perkthyesit@lists.sourceforge.net>\n"
+"Language-Team: albanian <gnome-albanian-perkthyesit@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -539,9 +538,9 @@ msgstr "Konfiguro këtu plotësimin automatik"
 
 #. Create the contacts group
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:5
-#: ../addressbook/gui/component/addressbook-view.c:1334
+#: ../addressbook/gui/component/addressbook-view.c:1335
 #: ../calendar/gui/calendar-component.c:247 ../calendar/gui/migration.c:400
-#: ../plugins/exchange-operations/exchange-folder.c:585
+#: ../plugins/exchange-operations/exchange-folder.c:586
 msgid "Contacts"
 msgstr "Kontakte"
 
@@ -813,7 +812,7 @@ msgstr "Ruaj si VCard..."
 msgid "_Properties..."
 msgstr "_Pronësitë..."
 
-#: ../addressbook/gui/component/addressbook-view.c:1345
+#: ../addressbook/gui/component/addressbook-view.c:1346
 msgid "Contact Source Selector"
 msgstr "Zgjedhësi i origjinës së kontakteve"
 
@@ -822,12 +821,12 @@ msgid "Accessing LDAP Server anonymously"
 msgstr "Hyrje anonime tek server-i LDAP"
 
 #: ../addressbook/gui/component/addressbook.c:197
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:492
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:495
 msgid "Failed to authenticate.\n"
 msgstr "Autentifikimi dështoi.\n"
 
 #: ../addressbook/gui/component/addressbook.c:204
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:471
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:474
 #, c-format
 msgid "Enter password for %s (user %s)"
 msgstr "Shkruaj fjalëkalimin për %s (përdoruesi %s)"
@@ -2694,8 +2693,8 @@ msgstr "Shërbimi _IM:"
 
 #: ../addressbook/gui/contact-editor/im.glade.h:5
 #: ../plugins/calendar-weather/calendar-weather.c:409
-#: ../plugins/exchange-operations/exchange-calendar.c:239
-#: ../plugins/exchange-operations/exchange-contacts.c:228
+#: ../plugins/exchange-operations/exchange-calendar.c:242
+#: ../plugins/exchange-operations/exchange-contacts.c:235
 msgid "_Location:"
 msgstr "_Pozicioni:"
 
@@ -3755,7 +3754,7 @@ msgstr "Formati"
 #: ../widgets/table/e-table-field-chooser-dialog.c:91
 #: ../widgets/table/e-table-field-chooser-item.c:649
 #: ../widgets/table/e-table-field-chooser.c:91
-#: ../widgets/table/e-table-header-item.c:1825
+#: ../widgets/table/e-table-header-item.c:1826
 #: ../widgets/table/e-table-selection-model.c:318
 msgid "Header"
 msgstr "Kreu i faqes"
@@ -3860,8 +3859,8 @@ msgstr "Hija"
 #. FIXME: Take care of i18n
 #: ../addressbook/printing/e-contact-print.glade.h:36
 #: ../plugins/exchange-operations/exchange-account-setup.c:955
-#: ../plugins/exchange-operations/exchange-calendar.c:229
-#: ../plugins/exchange-operations/exchange-contacts.c:211
+#: ../plugins/exchange-operations/exchange-calendar.c:231
+#: ../plugins/exchange-operations/exchange-contacts.c:218
 msgid "Size:"
 msgstr "Madhësia:"
 
@@ -4348,7 +4347,7 @@ msgid "_Save Changes"
 msgstr "_Ruaj ndryshimet"
 
 #: ../calendar/calendar.error.xml.h:71
-#: ../composer/mail-composer.error.xml.h:31 ../mail/mail.error.xml.h:134
+#: ../composer/mail-composer.error.xml.h:31 ../mail/mail.error.xml.h:130
 msgid "_Send"
 msgstr "_Dërgo"
 
@@ -4466,9 +4465,9 @@ msgstr "Përkujtesa"
 #: ../calendar/gui/tasks-component.c:1012 ../calendar/gui/tasks-control.c:475
 #: ../calendar/importers/icalendar-importer.c:80
 #: ../calendar/importers/icalendar-importer.c:741
-#: ../plugins/exchange-operations/exchange-folder.c:591
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:384
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:591
+#: ../plugins/exchange-operations/exchange-folder.c:592
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:387
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:594
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:12
 msgid "Tasks"
 msgstr "Aktivitete"
@@ -5076,10 +5075,10 @@ msgstr "Printo"
 #: ../calendar/gui/calendar-component.c:709
 #: ../calendar/gui/dialogs/calendar-setup.c:370
 #: ../calendar/gui/gnome-cal.c:2111
-#: ../plugins/exchange-operations/exchange-folder.c:579
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:383
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:413
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:590
+#: ../plugins/exchange-operations/exchange-folder.c:580
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:386
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:416
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:593
 #: ../plugins/hula-account-setup/camel-hula-listener.c:379
 #: ../plugins/hula-account-setup/camel-hula-listener.c:408
 #: ../plugins/publish-calendar/publish-calendar.glade.h:5
@@ -5455,7 +5454,7 @@ msgid "Display"
 msgstr "Shfaq"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:17
-#: ../calendar/gui/dialogs/event-editor.c:572
+#: ../calendar/gui/dialogs/event-editor.c:574
 #: ../ui/evolution-event-editor.xml.h:8
 msgid "Free/Busy"
 msgstr "I lirë/zënë"
@@ -5838,7 +5837,7 @@ msgstr "Shfaq _shtyllën e bashkangjitjes"
 #: ../calendar/gui/dialogs/comp-editor.c:1089
 #: ../calendar/gui/dialogs/event-page.c:1894
 #: ../calendar/gui/dialogs/meeting-page.c:899
-#: ../calendar/gui/dialogs/task-page.c:1202
+#: ../calendar/gui/dialogs/task-page.c:1198
 #: ../composer/e-msg-composer-attachment-bar.c:470
 #: ../composer/e-msg-composer.c:3619
 #: ../plugins/groupwise-features/junk-settings.glade.h:8
@@ -5910,8 +5909,8 @@ msgid "No summary"
 msgstr "Asnjë përmbledhje"
 
 #: ../calendar/gui/dialogs/comp-editor.c:2654
-#: ../composer/e-msg-composer-attachment-bar.c:307 ../mail/em-utils.c:464
-#: ../mail/em-utils.c:501 ../widgets/misc/e-attachment-bar.c:339
+#: ../composer/e-msg-composer-attachment-bar.c:307 ../mail/em-utils.c:498
+#: ../mail/em-utils.c:535 ../widgets/misc/e-attachment-bar.c:339
 msgid "attachment"
 msgstr "bashkangjitur"
 
@@ -6022,7 +6021,7 @@ msgstr "Kale_ndari:"
 #: ../calendar/gui/dialogs/event-page.c:878
 #: ../calendar/gui/dialogs/event-page.glade.h:13
 #: ../calendar/gui/dialogs/meeting-page.glade.h:5
-#: ../calendar/gui/dialogs/task-page.c:446
+#: ../calendar/gui/dialogs/task-page.c:441
 msgid "Or_ganizer:"
 msgstr "Or_ganizuesi:"
 
@@ -6043,7 +6042,7 @@ msgid "Event with no end date"
 msgstr "Ngjarje pa datë përfundimi"
 
 #: ../calendar/gui/dialogs/event-page.c:1257
-#: ../calendar/gui/dialogs/task-page.c:852
+#: ../calendar/gui/dialogs/task-page.c:848
 msgid "Start date is wrong"
 msgstr "Data e fillimit është e gabuar"
 
@@ -6061,25 +6060,25 @@ msgstr "Ora e përfundimit është e gabuar"
 
 #: ../calendar/gui/dialogs/event-page.c:1452
 #: ../calendar/gui/dialogs/meeting-page.c:469
-#: ../calendar/gui/dialogs/task-page.c:909
+#: ../calendar/gui/dialogs/task-page.c:905
 msgid "The organizer selected no longer has an account."
 msgstr "Organizuesi i zgjedhur nuk ka më një llogari."
 
 #: ../calendar/gui/dialogs/event-page.c:1458
 #: ../calendar/gui/dialogs/meeting-page.c:475
-#: ../calendar/gui/dialogs/task-page.c:915
+#: ../calendar/gui/dialogs/task-page.c:911
 msgid "An organizer is required."
 msgstr "Nevoitet një organizues."
 
 #: ../calendar/gui/dialogs/event-page.c:1473
 #: ../calendar/gui/dialogs/meeting-page.c:490
-#: ../calendar/gui/dialogs/task-page.c:930
+#: ../calendar/gui/dialogs/task-page.c:926
 msgid "At least one attendee is required."
 msgstr "Nevoitet të paktën një pjesmarrës."
 
 #: ../calendar/gui/dialogs/event-page.c:1895
 #: ../calendar/gui/dialogs/meeting-page.c:900
-#: ../calendar/gui/dialogs/task-page.c:1203
+#: ../calendar/gui/dialogs/task-page.c:1199
 msgid "_Add "
 msgstr "_Shto "
 
@@ -6291,7 +6290,7 @@ msgid "Unable to open memos in '%s'."
 msgstr "E pamundur hapja e përkujtesave tek '%s'."
 
 #: ../calendar/gui/dialogs/memo-page.glade.h:2
-#: ../calendar/gui/dialogs/task-page.c:439
+#: ../calendar/gui/dialogs/task-page.c:434
 #: ../calendar/gui/dialogs/task-page.glade.h:9
 msgid "_Group:"
 msgstr "_Grupi:"
@@ -6543,7 +6542,7 @@ msgstr "<span weight=\"bold\">Gjendja</span>"
 #: ../calendar/gui/e-cal-model-tasks.c:347
 #: ../calendar/gui/e-cal-model-tasks.c:655
 #: ../calendar/gui/e-calendar-table.c:461 ../calendar/gui/e-itip-control.c:891
-#: ../calendar/gui/e-meeting-store.c:195 ../calendar/gui/e-meeting-store.c:218
+#: ../calendar/gui/e-meeting-store.c:193 ../calendar/gui/e-meeting-store.c:216
 #: ../calendar/gui/print.c:2369 ../plugins/save-calendar/csv-format.c:390
 msgid "Completed"
 msgstr "U plotësua"
@@ -6619,11 +6618,11 @@ msgstr "_Aktivitet"
 msgid "Task Details"
 msgstr "Detajet e aktivitetit"
 
-#: ../calendar/gui/dialogs/task-page.c:825
+#: ../calendar/gui/dialogs/task-page.c:821
 msgid "Due date is wrong"
 msgstr "Data e duhur është e gabuar"
 
-#: ../calendar/gui/dialogs/task-page.c:1653
+#: ../calendar/gui/dialogs/task-page.c:1649
 #, c-format
 msgid "Unable to open tasks in '%s'."
 msgstr "E pamundur hapja e aktiviteteve tek '%s'."
@@ -6867,15 +6866,15 @@ msgstr ""
 
 #: ../calendar/gui/e-cal-model-tasks.c:1005 ../calendar/gui/e-cal-model.c:924
 #: ../calendar/gui/e-meeting-list-view.c:193
-#: ../calendar/gui/e-meeting-store.c:167 ../calendar/gui/e-meeting-store.c:177
-#: ../calendar/gui/e-meeting-store.c:770
+#: ../calendar/gui/e-meeting-store.c:165 ../calendar/gui/e-meeting-store.c:175
+#: ../calendar/gui/e-meeting-store.c:761
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:5
 msgid "Yes"
 msgstr "Po"
 
 #: ../calendar/gui/e-cal-model-tasks.c:1005 ../calendar/gui/e-cal-model.c:924
 #: ../calendar/gui/e-meeting-list-view.c:194
-#: ../calendar/gui/e-meeting-store.c:179
+#: ../calendar/gui/e-meeting-store.c:177
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:2
 msgid "No"
 msgstr "Jo"
@@ -6886,8 +6885,8 @@ msgstr "Jo"
 #: ../calendar/gui/e-itip-control.c:1144 ../calendar/gui/e-itip-control.c:1285
 #: ../calendar/gui/e-meeting-list-view.c:169
 #: ../calendar/gui/e-meeting-list-view.c:183
-#: ../calendar/gui/e-meeting-store.c:125 ../calendar/gui/e-meeting-store.c:160
-#: ../calendar/gui/e-meeting-store.c:223 ../mail/em-utils.c:1274
+#: ../calendar/gui/e-meeting-store.c:123 ../calendar/gui/e-meeting-store.c:158
+#: ../calendar/gui/e-meeting-store.c:221 ../mail/em-utils.c:1309
 #: ../plugins/itip-formatter/itip-formatter.c:240
 #: ../plugins/itip-formatter/itip-formatter.c:1651
 #: ../plugins/plugin-manager/plugin-manager.c:68
@@ -7346,7 +7345,7 @@ msgstr ""
 
 #: ../calendar/gui/e-itip-control.c:1132
 #: ../calendar/gui/e-meeting-list-view.c:205
-#: ../calendar/gui/e-meeting-store.c:187 ../calendar/gui/e-meeting-store.c:210
+#: ../calendar/gui/e-meeting-store.c:185 ../calendar/gui/e-meeting-store.c:208
 #: ../calendar/gui/itip-utils.c:669
 #: ../plugins/itip-formatter/itip-formatter.c:1639
 msgid "Accepted"
@@ -7359,7 +7358,7 @@ msgstr "U pranua me përpjekje"
 
 #: ../calendar/gui/e-itip-control.c:1140
 #: ../calendar/gui/e-meeting-list-view.c:206
-#: ../calendar/gui/e-meeting-store.c:189 ../calendar/gui/e-meeting-store.c:212
+#: ../calendar/gui/e-meeting-store.c:187 ../calendar/gui/e-meeting-store.c:210
 #: ../calendar/gui/itip-utils.c:675 ../calendar/gui/itip-utils.c:704
 #: ../plugins/itip-formatter/itip-formatter.c:1645
 msgid "Declined"
@@ -7688,63 +7687,63 @@ msgid "Resources"
 msgstr "Gjëndja"
 
 #: ../calendar/gui/e-meeting-list-view.c:165
-#: ../calendar/gui/e-meeting-store.c:100 ../calendar/gui/e-meeting-store.c:117
-#: ../calendar/gui/e-meeting-store.c:764
+#: ../calendar/gui/e-meeting-store.c:98 ../calendar/gui/e-meeting-store.c:115
+#: ../calendar/gui/e-meeting-store.c:755
 msgid "Individual"
 msgstr "Vetjake"
 
 #: ../calendar/gui/e-meeting-list-view.c:166
-#: ../calendar/gui/e-meeting-store.c:102 ../calendar/gui/e-meeting-store.c:119
+#: ../calendar/gui/e-meeting-store.c:100 ../calendar/gui/e-meeting-store.c:117
 #: ../widgets/table/e-table-config-no-group.glade.h:7
 #: ../widgets/table/e-table-config.glade.h:6
 msgid "Group"
 msgstr "Grupi"
 
 #: ../calendar/gui/e-meeting-list-view.c:167
-#: ../calendar/gui/e-meeting-store.c:104 ../calendar/gui/e-meeting-store.c:121
+#: ../calendar/gui/e-meeting-store.c:102 ../calendar/gui/e-meeting-store.c:119
 msgid "Resource"
 msgstr "Burimi"
 
 #: ../calendar/gui/e-meeting-list-view.c:168
-#: ../calendar/gui/e-meeting-store.c:106 ../calendar/gui/e-meeting-store.c:123
+#: ../calendar/gui/e-meeting-store.c:104 ../calendar/gui/e-meeting-store.c:121
 msgid "Room"
 msgstr "Dhoma"
 
 #: ../calendar/gui/e-meeting-list-view.c:179
-#: ../calendar/gui/e-meeting-store.c:135 ../calendar/gui/e-meeting-store.c:152
+#: ../calendar/gui/e-meeting-store.c:133 ../calendar/gui/e-meeting-store.c:150
 msgid "Chair"
 msgstr "Moderues"
 
 #: ../calendar/gui/e-meeting-list-view.c:180
-#: ../calendar/gui/e-meeting-store.c:137 ../calendar/gui/e-meeting-store.c:154
-#: ../calendar/gui/e-meeting-store.c:767
+#: ../calendar/gui/e-meeting-store.c:135 ../calendar/gui/e-meeting-store.c:152
+#: ../calendar/gui/e-meeting-store.c:758
 msgid "Required Participant"
 msgstr "Pjesmarrësi i kërkuar"
 
 #: ../calendar/gui/e-meeting-list-view.c:181
-#: ../calendar/gui/e-meeting-store.c:139 ../calendar/gui/e-meeting-store.c:156
+#: ../calendar/gui/e-meeting-store.c:137 ../calendar/gui/e-meeting-store.c:154
 msgid "Optional Participant"
 msgstr "Pjesmarrës shtesë"
 
 #: ../calendar/gui/e-meeting-list-view.c:182
-#: ../calendar/gui/e-meeting-store.c:141 ../calendar/gui/e-meeting-store.c:158
+#: ../calendar/gui/e-meeting-store.c:139 ../calendar/gui/e-meeting-store.c:156
 msgid "Non-Participant"
 msgstr "Jo pjesmarrës"
 
 #: ../calendar/gui/e-meeting-list-view.c:204
-#: ../calendar/gui/e-meeting-store.c:185 ../calendar/gui/e-meeting-store.c:208
-#: ../calendar/gui/e-meeting-store.c:777
+#: ../calendar/gui/e-meeting-store.c:183 ../calendar/gui/e-meeting-store.c:206
+#: ../calendar/gui/e-meeting-store.c:768
 msgid "Needs Action"
 msgstr "Kërkon veprim"
 
 #: ../calendar/gui/e-meeting-list-view.c:207
-#: ../calendar/gui/e-meeting-store.c:191 ../calendar/gui/e-meeting-store.c:214
+#: ../calendar/gui/e-meeting-store.c:189 ../calendar/gui/e-meeting-store.c:212
 #: ../calendar/gui/e-meeting-time-sel.c:410
 msgid "Tentative"
 msgstr "Përpjekje"
 
 #: ../calendar/gui/e-meeting-list-view.c:208
-#: ../calendar/gui/e-meeting-store.c:193 ../calendar/gui/e-meeting-store.c:216
+#: ../calendar/gui/e-meeting-store.c:191 ../calendar/gui/e-meeting-store.c:214
 #: ../calendar/gui/itip-utils.c:678
 #: ../plugins/itip-formatter/itip-formatter.c:1648
 msgid "Delegated"
@@ -7755,14 +7754,14 @@ msgstr "Deleguar"
 msgid "Attendee                          "
 msgstr "Pjesmarrës                          "
 
-#: ../calendar/gui/e-meeting-store.c:197 ../calendar/gui/e-meeting-store.c:220
+#: ../calendar/gui/e-meeting-store.c:195 ../calendar/gui/e-meeting-store.c:218
 msgid "In Process"
 msgstr "Në proçes"
 
 #. This is a strftime() format string %A = full weekday name,
 #. %B = full month name, %d = month day, %Y = full year.
 #: ../calendar/gui/e-meeting-time-sel-item.c:442
-#: ../calendar/gui/e-meeting-time-sel.c:2098
+#: ../calendar/gui/e-meeting-time-sel.c:2100
 msgid "%A, %B %d, %Y"
 msgstr "%A, %B %d, %Y"
 
@@ -7771,7 +7770,7 @@ msgstr "%A, %B %d, %Y"
 #. This is a strftime() format string %a = abbreviated weekday name,
 #. %m = month number, %d = month day, %Y = full year.
 #: ../calendar/gui/e-meeting-time-sel-item.c:446
-#: ../calendar/gui/e-meeting-time-sel.c:2131
+#: ../calendar/gui/e-meeting-time-sel.c:2133
 msgid "%a %m/%d/%Y"
 msgstr "%a %m/%d/%Y"
 
@@ -10292,7 +10291,7 @@ msgstr ""
 "tjera mail."
 
 #: ../composer/mail-composer.error.xml.h:5 ../e-util/e-system.error.xml.h:1
-#: ../mail/mail.error.xml.h:19
+#: ../mail/mail.error.xml.h:18
 msgid "Because &quot;{1}&quot;."
 msgstr "Për arsye &quot;{1}&quot;."
 
@@ -10410,11 +10409,11 @@ msgstr "_Ruaj mesazhin"
 
 #: ../data/evolution.desktop.in.in.h:1
 #: ../plugins/default-mailer/org-gnome-default-mailer.error.xml.h:2
-#: ../shell/main.c:514
+#: ../shell/main.c:515
 msgid "Evolution"
 msgstr "Evolution"
 
-#: ../data/evolution.desktop.in.in.h:2 ../shell/e-shell-window-commands.c:544
+#: ../data/evolution.desktop.in.in.h:2 ../shell/e-shell-window-commands.c:575
 msgid "Groupware Suite"
 msgstr "Suite Groupware"
 
@@ -10582,7 +10581,7 @@ msgstr "Dëshiron t'a mbishkruash?"
 msgid "File exists &quot;{0}&quot;."
 msgstr "File ekziston &quot;{0}&quot;."
 
-#: ../e-util/e-system.error.xml.h:7 ../mail/mail.error.xml.h:133
+#: ../e-util/e-system.error.xml.h:7 ../mail/mail.error.xml.h:129
 msgid "_Overwrite"
 msgstr "_Mbishkruaj"
 
@@ -10750,7 +10749,7 @@ msgstr "Mungon data."
 msgid "Missing file name."
 msgstr "Mungon emri i file."
 
-#: ../filter/filter.error.xml.h:6 ../mail/mail.error.xml.h:71
+#: ../filter/filter.error.xml.h:6 ../mail/mail.error.xml.h:70
 msgid "Missing name."
 msgstr "Mungon emri."
 
@@ -11036,14 +11035,14 @@ msgstr "Firma(t)"
 msgid "-------- Forwarded Message --------"
 msgstr "-------- Mesazhi i Përcjellë --------"
 
-#: ../mail/em-composer-utils.c:1666
+#: ../mail/em-composer-utils.c:1665
 msgid "an unknown sender"
 msgstr "një dërgues i panjohur"
 
 #. Note to translators: this is the attribution string used when quoting messages.
 #. * each ${Variable} gets replaced with a value. To see a full list of available
 #. * variables, see em-composer-utils.c:1514
-#: ../mail/em-composer-utils.c:1713
+#: ../mail/em-composer-utils.c:1712
 msgid ""
 "On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} "
 "${TimeZone}, ${Sender} wrote:"
@@ -11367,7 +11366,7 @@ msgstr "Kopje e keqe"
 
 #. translators: standard local mailbox names
 #: ../mail/em-folder-tree-model.c:487 ../mail/mail-component.c:150
-#: ../plugins/exchange-operations/exchange-folder.c:597
+#: ../plugins/exchange-operations/exchange-folder.c:598
 msgid "Inbox"
 msgstr "Në ardhje"
 
@@ -11453,7 +11452,7 @@ msgstr "Kartelë e _Re..."
 msgid "_Rename..."
 msgstr "_Riemërto..."
 
-#: ../mail/em-folder-tree.c:2060 ../mail/mail.error.xml.h:130
+#: ../mail/em-folder-tree.c:2060 ../mail/mail.error.xml.h:126
 msgid "_Empty Trash"
 msgstr "_Zbraz Koshin"
 
@@ -11911,7 +11910,7 @@ msgstr "GrupeLajmesh"
 msgid "%s attachment"
 msgstr "%s bashkangjitur"
 
-#: ../mail/em-format.c:1141 ../mail/em-format.c:1289 ../mail/em-format.c:1576
+#: ../mail/em-format.c:1141 ../mail/em-format.c:1289 ../mail/em-format.c:1591
 msgid "Could not parse S/MIME message: Unknown error"
 msgstr "I pamundur analizimi i mesazhit S/MIME: Gabim i panjohur"
 
@@ -11927,11 +11926,11 @@ msgstr "Lloj i pasuportuar kriptimi për multipart/encrypted"
 msgid "Unsupported signature format"
 msgstr "Format firme i pasuportuar"
 
-#: ../mail/em-format.c:1454 ../mail/em-format.c:1518
+#: ../mail/em-format.c:1454 ../mail/em-format.c:1520
 msgid "Error verifying signature"
 msgstr "Gabim gjatë kontrollit të firmës"
 
-#: ../mail/em-format.c:1454 ../mail/em-format.c:1518
+#: ../mail/em-format.c:1454 ../mail/em-format.c:1520
 msgid "Unknown error verifying signature"
 msgstr "Gabim i panjohur gjatë verifikimit të firmës"
 
@@ -12063,20 +12062,20 @@ msgstr "Mos shfaq më këtë mesazh."
 msgid "Message Filters"
 msgstr "Filtrat e mesazheve"
 
-#: ../mail/em-utils.c:462 ../mail/em-utils.c:499
+#: ../mail/em-utils.c:496 ../mail/em-utils.c:533
 msgid "message"
 msgstr "mesazh"
 
-#: ../mail/em-utils.c:634
+#: ../mail/em-utils.c:668
 msgid "Save Message..."
 msgstr "Ruaj mesazhin..."
 
-#: ../mail/em-utils.c:683
+#: ../mail/em-utils.c:717
 msgid "Add address"
 msgstr "Shto adresën"
 
 #. Drop filename for messages from a mailbox
-#: ../mail/em-utils.c:1167
+#: ../mail/em-utils.c:1201
 #, c-format
 msgid "Messages from %s"
 msgstr "Mesazhet nga %s"
@@ -13850,14 +13849,14 @@ msgid ""
 "A non-empty folder at &quot;{1}&quot; already exists.\n"
 "\n"
 "You can choose to ignore this folder, overwrite or append its contents, or "
-"quit.\n"
+"quit."
 msgstr ""
-"Një kartelë jo bosh tek &quot;{1}&quot; ekziston.\n"
+"Një kartelë jo bosh tek &quot;{1}&quot; ekziston rregullisht.\n"
 "\n"
 "Mund të vendosni t'a shpërfillni këtë kartelë, mbishkruani apo shtoni "
-"përmbajtjen e saj, ose të dilni.\n"
+"përmbajtjen e saj, ose të dilni."
 
-#: ../mail/mail.error.xml.h:6
+#: ../mail/mail.error.xml.h:5
 msgid ""
 "A read receipt notification has been requested for &quot;{1}&quot;. Send the "
 "receipt notification to {0}?"
@@ -13865,7 +13864,7 @@ msgstr ""
 "Një ricevutë leximi është kërkuar për &quot;{1}&quot;. Dërgon njoftimin për "
 "ricevutë tek {0}?"
 
-#: ../mail/mail.error.xml.h:7
+#: ../mail/mail.error.xml.h:6
 msgid ""
 "A signature already exists with the name &quot;{0}&quot;. Please specify a "
 "different name."
@@ -13873,7 +13872,7 @@ msgstr ""
 "Një firmë me emrin &quot;{0}&quot; ekziston. Ju lutem zgjidhni një emër "
 "tjetër."
 
-#: ../mail/mail.error.xml.h:8
+#: ../mail/mail.error.xml.h:7
 msgid ""
 "Adding a meaningful Subject line to your messages will give your recipients "
 "an idea of what your mail is about."
@@ -13881,27 +13880,27 @@ msgstr ""
 "Duke shtuar një frazë të qartë tek rreshti i subjektit i mesazheve tuaj u "
 "jipni një ide marrësve mbi përmbajtjen e mesazhit tuaj."
 
-#: ../mail/mail.error.xml.h:9
+#: ../mail/mail.error.xml.h:8
 msgid "Are you sure you want to delete this account and all its proxies?"
 msgstr ""
 "Jeni i sigurt që dëshironi të eleminoni këtë llogari dhe të gjithë proxies e "
 "saj?"
 
-#: ../mail/mail.error.xml.h:10
+#: ../mail/mail.error.xml.h:9
 msgid "Are you sure you want to delete this account?"
 msgstr "Jeni i sigurt që dëshironi të eleminoni këtë llogari?"
 
-#: ../mail/mail.error.xml.h:11
+#: ../mail/mail.error.xml.h:10
 msgid "Are you sure you want to disable this account and delete all its proxies?"
 msgstr ""
 "Jeni i sigurt që dëshironi të ç'aktivoni këtë llogari dhe fshini të gjithë "
 "proxies e saj?"
 
-#: ../mail/mail.error.xml.h:12
+#: ../mail/mail.error.xml.h:11
 msgid "Are you sure you want to open {0} messages at once?"
 msgstr "Jeni i sigurt që dëshironi të hapni {0} mesazhe njëkohësisht?"
 
-#: ../mail/mail.error.xml.h:13
+#: ../mail/mail.error.xml.h:12
 msgid ""
 "Are you sure you want to permanently remove all the deleted messages in all "
 "folders?"
@@ -13909,7 +13908,7 @@ msgstr ""
 "Jeni i sigurt që dëshironi të eleminoni përgjithmonë të gjithë mesazhet e "
 "fshirë në të gjitha kartelat?"
 
-#: ../mail/mail.error.xml.h:14
+#: ../mail/mail.error.xml.h:13
 msgid ""
 "Are you sure you want to permanently remove all the deleted messages in "
 "folder &quot;{0}&quot;?"
@@ -13917,81 +13916,81 @@ msgstr ""
 "Jeni i sigurt që dëshironi të eleminoni përgjithmonë të gjithë mesazhet e "
 "fshirë tek kartela &quot;{0}&quot;?"
 
-#: ../mail/mail.error.xml.h:15
+#: ../mail/mail.error.xml.h:14
 msgid "Are you sure you want to send a message in HTML format?"
 msgstr "Jeni i sigurt që dëshironi të dërgoni një mesazh në formatin HTML?"
 
-#: ../mail/mail.error.xml.h:16
+#: ../mail/mail.error.xml.h:15
 msgid "Are you sure you want to send a message with only BCC recipients?"
 msgstr "Jeni i sigurt që dëshironi të dërgoni një mesazh vetëm me marrësit BCC?"
 
-#: ../mail/mail.error.xml.h:17
+#: ../mail/mail.error.xml.h:16
 msgid "Are you sure you want to send a message without a subject?"
 msgstr "Jeni i sigurt që dëshironi të dërgoni një mesazh pa subjekt?"
 
-#: ../mail/mail.error.xml.h:18
+#: ../mail/mail.error.xml.h:17
 msgid "Because &quot;{0}&quot;."
 msgstr "Sepse &quot;{0}&quot;."
 
-#: ../mail/mail.error.xml.h:20
+#: ../mail/mail.error.xml.h:19
 msgid "Because &quot;{2}&quot;."
 msgstr "Sepse &quot;{2}&quot;."
 
-#: ../mail/mail.error.xml.h:21
+#: ../mail/mail.error.xml.h:20
 msgid "Blank Signature"
 msgstr "Firmë bosh"
 
-#: ../mail/mail.error.xml.h:22
+#: ../mail/mail.error.xml.h:21
 msgid "Cannot add Search Folder &quot;{0}&quot;."
 msgstr "I pamundur shtimi i kartelës së kërkimit &quot;{0}&quot;."
 
-#: ../mail/mail.error.xml.h:23
+#: ../mail/mail.error.xml.h:22
 msgid "Cannot copy folder &quot;{0}&quot; to &quot;{1}&quot;."
 msgstr "I pamundur kopjimi i kartelës &quot;{o}&quot; tek &quot;{1}&quot;."
 
-#: ../mail/mail.error.xml.h:24
+#: ../mail/mail.error.xml.h:23
 msgid "Cannot create folder &quot;{0}&quot;."
 msgstr "I pamundur krijimi i kartelës &quot;{0}&quot;."
 
-#: ../mail/mail.error.xml.h:25
+#: ../mail/mail.error.xml.h:24
 msgid "Cannot create temporary save directory."
 msgstr "I pamundur krijimi i directory për ruajtjen e përkohshme."
 
-#: ../mail/mail.error.xml.h:26
+#: ../mail/mail.error.xml.h:25
 msgid "Cannot create the save directory, because &quot;{1}&quot;"
 msgstr "I pamundur krijimi i directory për ruajtje, sepse &quot;{1}&quot;"
 
-#: ../mail/mail.error.xml.h:27
+#: ../mail/mail.error.xml.h:26
 msgid "Cannot delete folder &quot;{0}&quot;."
 msgstr "I pamundur eleminimi i kartelës &quot;{0}&quot;."
 
-#: ../mail/mail.error.xml.h:28
+#: ../mail/mail.error.xml.h:27
 msgid "Cannot delete system folder &quot;{0}&quot;."
 msgstr "E pamundur fshirja e kartelës së sistemit &quot;{0}&quot;."
 
-#: ../mail/mail.error.xml.h:29
+#: ../mail/mail.error.xml.h:28
 msgid "Cannot edit Search Folder &quot;{0}&quot; as it does not exist."
 msgstr ""
 "I pamundur ndryshimi i kartelës së kërkimit &quot;{0}&quot; m.q.s. nuk "
 "ekziston."
 
-#: ../mail/mail.error.xml.h:30
+#: ../mail/mail.error.xml.h:29
 msgid "Cannot move folder &quot;{0}&quot; to &quot;{1}&quot;."
 msgstr "E pamundur lëvizja e kartelës &quot;{0}&quot; në &quot;{1}&quot;."
 
-#: ../mail/mail.error.xml.h:31
+#: ../mail/mail.error.xml.h:30
 msgid "Cannot open source &quot;{1}&quot;"
 msgstr "E pamundur hapja e burimit &quot;{1}&quot;"
 
-#: ../mail/mail.error.xml.h:32
+#: ../mail/mail.error.xml.h:31
 msgid "Cannot open source &quot;{2}&quot;."
 msgstr "E pamundur hapja e burimit &quot;{2}&quot;."
 
-#: ../mail/mail.error.xml.h:33
+#: ../mail/mail.error.xml.h:32
 msgid "Cannot open target &quot;{2}&quot;."
 msgstr "E pamundur hapja e objektivit &quot;{2}&quot;."
 
-#: ../mail/mail.error.xml.h:34
+#: ../mail/mail.error.xml.h:33
 msgid ""
 "Cannot read the license file &quot;{0}&quot;, due to an installation "
 "problem. You will not be able to use this provider until you can accept its "
@@ -14001,31 +14000,31 @@ msgstr ""
 "problemi instalimi.  Nuk do të jeni në gjendje të përdorni këtë provider "
 "derisa të pranoni liçencën e tij."
 
-#: ../mail/mail.error.xml.h:35
+#: ../mail/mail.error.xml.h:34
 msgid "Cannot rename &quot;{0}&quot; to &quot;{1}&quot;."
 msgstr "I pamundur riemërtimi i &quot;{0}&quot; në &quot;{1}&quot;."
 
-#: ../mail/mail.error.xml.h:36
+#: ../mail/mail.error.xml.h:35
 msgid "Cannot rename or move system folder &quot;{0}&quot;."
 msgstr "I pamundur riemërtimi apo lëvizja e kartelës së sistemit &quot;{0}&quot;."
 
-#: ../mail/mail.error.xml.h:37
+#: ../mail/mail.error.xml.h:36
 msgid "Cannot save changes to account."
 msgstr "E pamundur ruajtja e ndryshimeve në llogari."
 
-#: ../mail/mail.error.xml.h:38
+#: ../mail/mail.error.xml.h:37
 msgid "Cannot save to directory &quot;{0}&quot;."
 msgstr "E pamundur ruajtja tek directory &quot;{0}&quot;."
 
-#: ../mail/mail.error.xml.h:39
+#: ../mail/mail.error.xml.h:38
 msgid "Cannot save to file &quot;{0}&quot;."
 msgstr "E pamundur ruajtja tek file &quot;{0}&quot;."
 
-#: ../mail/mail.error.xml.h:40
+#: ../mail/mail.error.xml.h:39
 msgid "Cannot set signature script &quot;{0}&quot;."
 msgstr "I pamundur caktimi i skriptit të firmës &quot;{0}&quot;."
 
-#: ../mail/mail.error.xml.h:41
+#: ../mail/mail.error.xml.h:40
 msgid ""
 "Check to make sure your password is spelled correctly. Remember that many "
 "passwords are case sensitive; your caps lock might be on."
@@ -14034,71 +14033,71 @@ msgstr ""
 "fjalëkalimet gërmat e mëdha ndikojnë; mund të keni shtypur pulsantin e "
 "shkrimit me gërma të mëdha."
 
-#: ../mail/mail.error.xml.h:42
+#: ../mail/mail.error.xml.h:41
 msgid "Could not save signature file."
 msgstr "E pamundur ruajtja e file të firmës."
 
-#: ../mail/mail.error.xml.h:43
+#: ../mail/mail.error.xml.h:42
 msgid "Delete &quot;{0}&quot;?"
 msgstr "Eleminoj &quot;{0}&quot;?"
 
-#: ../mail/mail.error.xml.h:44
+#: ../mail/mail.error.xml.h:43
 msgid "Delete account?"
 msgstr "Eleminon llogarinë?"
 
-#: ../mail/mail.error.xml.h:45
+#: ../mail/mail.error.xml.h:44
 msgid "Discard changes?"
 msgstr "Anullon ndryshimet?"
 
-#: ../mail/mail.error.xml.h:46
+#: ../mail/mail.error.xml.h:45
 msgid "Do not delete"
 msgstr "Mos elemino"
 
-#: ../mail/mail.error.xml.h:47
+#: ../mail/mail.error.xml.h:46
 msgid "Do not disable"
 msgstr "Mos ç'aktivo"
 
-#: ../mail/mail.error.xml.h:48
+#: ../mail/mail.error.xml.h:47
 msgid "Do you want the operation to be performed in the subfolders?"
 msgstr "Dëshiron që operacioni të zbatohet tek nënkartelat?"
 
-#: ../mail/mail.error.xml.h:49
+#: ../mail/mail.error.xml.h:48
 msgid "Do you want to mark all messages as read?"
 msgstr "Dëshiron të shënosh të gjithë mesazhet si të lexuar?"
 
-#: ../mail/mail.error.xml.h:50
+#: ../mail/mail.error.xml.h:49
 msgid "Do you wish to save your changes?"
 msgstr "Dëshiron të ruash ndryshimet e kryera?"
 
-#: ../mail/mail.error.xml.h:51
+#: ../mail/mail.error.xml.h:50
 msgid "Enter password."
 msgstr "Shkruaj fjalëkalimin."
 
-#: ../mail/mail.error.xml.h:52
+#: ../mail/mail.error.xml.h:51
 msgid "Error loading filter definitions."
 msgstr "Gabim gjatë ngarkimit përcaktimeve të filtrit."
 
-#: ../mail/mail.error.xml.h:53
+#: ../mail/mail.error.xml.h:52
 msgid "Error while performing operation."
 msgstr "Gabim gjatë kryerjes së operacionit."
 
-#: ../mail/mail.error.xml.h:54
+#: ../mail/mail.error.xml.h:53
 msgid "Error while {0}."
 msgstr "Gabim kur {0}."
 
-#: ../mail/mail.error.xml.h:55
+#: ../mail/mail.error.xml.h:54
 msgid "File exists but cannot overwrite it."
 msgstr "File ekziston por nuk mund të mbishkruhet."
 
-#: ../mail/mail.error.xml.h:56
+#: ../mail/mail.error.xml.h:55
 msgid "File exists but is not a regular file."
 msgstr "File ekziston por nuk është një file i rregullt."
 
-#: ../mail/mail.error.xml.h:57
+#: ../mail/mail.error.xml.h:56
 msgid "If you continue, you will not be able to recover these messages."
 msgstr "Nëse vazhdoni, nuk do të jeni në gjendje të rekuperoni këto mesazhe."
 
-#: ../mail/mail.error.xml.h:58
+#: ../mail/mail.error.xml.h:57
 msgid ""
 "If you delete the folder, all of its contents and its subfolders contents "
 "will be deleted permanently."
@@ -14106,11 +14105,11 @@ msgstr ""
 "Nëse eleminon kartelën, përmbajtja e saj dhe të nënkartelave të saj do të "
 "fshihen përgjithmonë."
 
-#: ../mail/mail.error.xml.h:59
+#: ../mail/mail.error.xml.h:58
 msgid "If you proceed, all proxy accounts will be deleted permanently."
 msgstr "Nëse vazhdoni, të gjithë llogaritë e proxy do të fshihen përgjithmonë."
 
-#: ../mail/mail.error.xml.h:60
+#: ../mail/mail.error.xml.h:59
 msgid ""
 "If you proceed, the account information and\n"
 "all proxy information will be deleted permanently."
@@ -14118,11 +14117,11 @@ msgstr ""
 "Nëse vazhdoni, informacionet e llogarisë dhe\n"
 "të gjitha informacionet e proxy do të fshihen përgjithmonë."
 
-#: ../mail/mail.error.xml.h:62
+#: ../mail/mail.error.xml.h:61
 msgid "If you proceed, the account information will be deleted permanently."
 msgstr "Nëse vazhdoni, informacionet e llogarisë do të fshihen përgjithmonë."
 
-#: ../mail/mail.error.xml.h:63
+#: ../mail/mail.error.xml.h:62
 msgid ""
 "If you quit, these messages will not be sent until Evolution is started "
 "again."
@@ -14130,19 +14129,19 @@ msgstr ""
 "Nëse dilni, këto mesazhe nuk do të dërgohenpara se Evolution të niset "
 "përsëri."
 
-#: ../mail/mail.error.xml.h:64
+#: ../mail/mail.error.xml.h:63
 msgid "Ignore"
 msgstr "Shpërfill"
 
-#: ../mail/mail.error.xml.h:65
+#: ../mail/mail.error.xml.h:64
 msgid "Invalid authentication"
 msgstr "Autentifikim i pavlefshëm"
 
-#: ../mail/mail.error.xml.h:66
+#: ../mail/mail.error.xml.h:65
 msgid "Mail filters automatically updated."
 msgstr "Filtrat e mesazheve u rifreskuan automatikisht."
 
-#: ../mail/mail.error.xml.h:67
+#: ../mail/mail.error.xml.h:66
 msgid ""
 "Many email systems add an Apparently-To header to messages that only have "
 "BCC recipients. This header, if added, will list all of your recipients to "
@@ -14154,35 +14153,35 @@ msgstr ""
 "rreshtohen në mesazh. Për të shmangur këtë duhet shtuar të paktën një marrës "
 "Për: ose CC."
 
-#: ../mail/mail.error.xml.h:68
+#: ../mail/mail.error.xml.h:67
 msgid "Mark all messages as read"
 msgstr "Shëno si të lexuar të gjithë mesazhet"
 
-#: ../mail/mail.error.xml.h:69
+#: ../mail/mail.error.xml.h:68
 msgid "Mark all messages as read in the selected folder"
 msgstr "Shëno si të lexuar të gjithë mesazhet tek kartela e zgjedhur"
 
-#: ../mail/mail.error.xml.h:70
+#: ../mail/mail.error.xml.h:69
 msgid "Missing folder."
 msgstr "Kartela mungon."
 
-#: ../mail/mail.error.xml.h:72
+#: ../mail/mail.error.xml.h:71
 msgid "No sources selected."
 msgstr "Nuk është zgjedhur burimi."
 
-#: ../mail/mail.error.xml.h:73
+#: ../mail/mail.error.xml.h:72
 msgid "Opening too many messages at once may take a long time."
 msgstr "Hapja e shumë mesazheve njëkohësisht mund të marrë një kohë tepër të gjatë."
 
-#: ../mail/mail.error.xml.h:74
+#: ../mail/mail.error.xml.h:73
 msgid "Please check your account settings and try again."
 msgstr "Kontrollo rregullimet e llogarisë suaj dhe riprovo."
 
-#: ../mail/mail.error.xml.h:75
+#: ../mail/mail.error.xml.h:74
 msgid "Please enable the account or send using another account."
 msgstr "Aktivo llogarinë ose dërgo duke përdorur një llogari tjetër."
 
-#: ../mail/mail.error.xml.h:76
+#: ../mail/mail.error.xml.h:75
 msgid ""
 "Please enter a valid email address in the To: field. You can search for "
 "email addresses by clicking on the To: button next to the entry box."
@@ -14191,7 +14190,7 @@ msgstr ""
 "kërkoni për adresat email duke klikuar tek butoni Për: në vazhdim tek kutia "
 "e zërave."
 
-#: ../mail/mail.error.xml.h:77
+#: ../mail/mail.error.xml.h:76
 msgid ""
 "Please make sure the following recipients are willing and able to receive "
 "HTML email:\n"
@@ -14203,49 +14202,49 @@ msgstr ""
 "{0}\n"
 "Dërgoj sidoqoftë?"
 
-#: ../mail/mail.error.xml.h:80
+#: ../mail/mail.error.xml.h:79
 msgid "Please provide an unique name to identify this signature."
 msgstr "Shkruaj një emër të papërdorur për të identifikuar këtë firmë."
 
-#: ../mail/mail.error.xml.h:81
+#: ../mail/mail.error.xml.h:80
 msgid "Please wait."
 msgstr "Ju lutem prisni."
 
-#: ../mail/mail.error.xml.h:82
+#: ../mail/mail.error.xml.h:81
 msgid "Problem migrating old mail folder &quot;{0}&quot;."
 msgstr "Problem gjatë migrimit të kartelës së vjetër së postës &quot;{0}&quot;."
 
-#: ../mail/mail.error.xml.h:83
+#: ../mail/mail.error.xml.h:82
 msgid "Querying server"
 msgstr "Duke pyetur serverin"
 
-#: ../mail/mail.error.xml.h:84
+#: ../mail/mail.error.xml.h:83
 msgid "Querying server for a list of supported authentication mechanisms."
 msgstr "Duke pyetur serverin për listën me mekanizmat e suportuar të autentifikimit."
 
-#: ../mail/mail.error.xml.h:85
+#: ../mail/mail.error.xml.h:84
 msgid "Read receipt requested."
 msgstr "Kërkohet ricevutë leximi."
 
-#: ../mail/mail.error.xml.h:86
+#: ../mail/mail.error.xml.h:85
 msgid "Really delete folder &quot;{0}&quot; and all of its subfolders?"
 msgstr ""
 "Me të vërtetë eleminon kartelën &quot;{0}&quot; me të gjitha nënkartelat e "
 "saj?"
 
-#: ../mail/mail.error.xml.h:87
+#: ../mail/mail.error.xml.h:86
 msgid "Search Folders automatically updated."
 msgstr "Kartela e kërkimit u përditësua automatikisht."
 
-#: ../mail/mail.error.xml.h:88
+#: ../mail/mail.error.xml.h:87
 msgid "Send Receipt"
 msgstr "Dërgo ricevutë"
 
-#: ../mail/mail.error.xml.h:89
+#: ../mail/mail.error.xml.h:88
 msgid "Signature Already Exists"
 msgstr "Firma ekziston"
 
-#: ../mail/mail.error.xml.h:90
+#: ../mail/mail.error.xml.h:89
 msgid ""
 "System folders are required for Ximian Evolution to function correctly and "
 "cannot be renamed, moved, or deleted."
@@ -14253,7 +14252,7 @@ msgstr ""
 "Kartelat e sistemit nevoiten që Ximian Evolution të funksionojë si duhet dhe "
 "ato nuk mund të riemërtohen, lëvizen, apo eleminohen."
 
-#: ../mail/mail.error.xml.h:91
+#: ../mail/mail.error.xml.h:90
 msgid ""
 "The contact list you are sending to is configured to hide list recipients.\n"
 "\n"
@@ -14270,7 +14269,7 @@ msgstr ""
 "rreshtohen në mesazh. Për të shmangur këtë duhet shtuar të paktën një marrës "
 "Për: ose CC. "
 
-#: ../mail/mail.error.xml.h:94
+#: ../mail/mail.error.xml.h:93
 msgid ""
 "The following Search Folder(s):\n"
 "{0}\n"
@@ -14284,7 +14283,7 @@ msgstr ""
 "    &quot;{1}&quot;\n"
 "Dhe u përditësua."
 
-#: ../mail/mail.error.xml.h:99
+#: ../mail/mail.error.xml.h:98
 msgid ""
 "The following filter rule(s):\n"
 "{0}\n"
@@ -14298,23 +14297,11 @@ msgstr ""
 "    &quot;{1}&quot;\n"
 "Dhe u përditësuan."
 
-#: ../mail/mail.error.xml.h:104
-msgid ""
-"The message was sent via the &quot;sendmail&quot; external application. "
-"Sendmail reports the following error: status 67: mail not sent.\n"
-"The message is stored in the Outbox folder. Check the message for errors and "
-"resend."
-msgstr ""
-"Mesazhi është dërguar me anë të programit të jashtëm &quot;sendmail&quot;.  "
-"Sendmail njoftoi gabimin në vazhdim: status 67: mesazhi nuk u dërgua.\n"
-"Mesazhi është magazinuar në kartelën NëDalje.  Kontrollo mesazhin për gabime "
-"dhe rinise."
-
-#: ../mail/mail.error.xml.h:106
+#: ../mail/mail.error.xml.h:103
 msgid "The script file must exist and be executable."
 msgstr "File me script duhet të ekzistojë dhe duhet të jetë i ekzekutueshëm."
 
-#: ../mail/mail.error.xml.h:107
+#: ../mail/mail.error.xml.h:104
 msgid ""
 "This folder may have been added implicitly,\n"
 "go to the Search Folder editor to add it explicitly, if required."
@@ -14323,7 +14310,7 @@ msgstr ""
 "shko tek editori i kartelave të kërkimit për t'a shtuar si duhet, nëse ka "
 "nevojë."
 
-#: ../mail/mail.error.xml.h:109
+#: ../mail/mail.error.xml.h:106
 msgid ""
 "This message cannot be sent because the account you chose to send with is "
 "not enabled"
@@ -14331,11 +14318,11 @@ msgstr ""
 "Ky mesazh nuk mund të dërgohet pasi profili me të cilin dëshironi ta dërgoni "
 "nuk është aktivuar"
 
-#: ../mail/mail.error.xml.h:110
+#: ../mail/mail.error.xml.h:107
 msgid "This message cannot be sent because you have not specified any recipients"
 msgstr "Ky mesazh nuk mund të dërgohet pasi nuk keni specifikuar asnjë marrës"
 
-#: ../mail/mail.error.xml.h:111
+#: ../mail/mail.error.xml.h:108
 msgid ""
 "This server does not support this type of authentication and may not support "
 "authentication at all."
@@ -14343,11 +14330,11 @@ msgstr ""
 "Ky server nuk suporton këtë lloj autentifikimi dhe ka mundësi të mos "
 "suportojë fare autentifikimet."
 
-#: ../mail/mail.error.xml.h:112
+#: ../mail/mail.error.xml.h:109
 msgid "This signature has been changed, but has not been saved."
 msgstr "Firma është ndryshuar, por nuk është ruajtur."
 
-#: ../mail/mail.error.xml.h:113
+#: ../mail/mail.error.xml.h:110
 msgid ""
 "This will mark all messages as read in the selected folder and its "
 "subfolders."
@@ -14355,11 +14342,11 @@ msgstr ""
 "Të gjithë mesazhet tek kartela e zgjedhur dhe nën-kartelat e saj do të "
 "shënohen si të lexuar."
 
-#: ../mail/mail.error.xml.h:114
+#: ../mail/mail.error.xml.h:111
 msgid "Unable to connect to the GroupWise server."
 msgstr "E pamundur lidhja me serverin GroupWise."
 
-#: ../mail/mail.error.xml.h:115
+#: ../mail/mail.error.xml.h:112
 msgid ""
 "Unable to open the drafts folder for this account. Use the system drafts "
 "folder instead?"
@@ -14367,39 +14354,39 @@ msgstr ""
 "E pamundur hapja e kartelës së kopjeve për këtë profil. Dëshironi të "
 "përdorni kartelën e kopjeve të sistemit?"
 
-#: ../mail/mail.error.xml.h:116
+#: ../mail/mail.error.xml.h:113
 msgid "Unable to read license file."
 msgstr "I pamundur leximi i file të liçencës."
 
-#: ../mail/mail.error.xml.h:117
+#: ../mail/mail.error.xml.h:114
 msgid "Use _Default"
 msgstr "Përdor të _Prezgjedhurin"
 
-#: ../mail/mail.error.xml.h:118
+#: ../mail/mail.error.xml.h:115
 msgid "Use default drafts folder?"
 msgstr "Përdor kartelën e prezgjedhur të kopjeve?"
 
-#: ../mail/mail.error.xml.h:119
+#: ../mail/mail.error.xml.h:116
 msgid "You have not filled in all of the required information."
 msgstr "Nuk keni plotësuar të gjitha informacionet e kërkuara."
 
-#: ../mail/mail.error.xml.h:120
+#: ../mail/mail.error.xml.h:117
 msgid "You have unsent messages, do you wish to quit anyway?"
 msgstr "Keni akoma mesazhe të padërguar, dëshironi të dilni sidoqoftë?"
 
-#: ../mail/mail.error.xml.h:121
+#: ../mail/mail.error.xml.h:118
 msgid "You may not create two accounts with the same name."
 msgstr "Nuk mund të krijohen dy llogari me të njëjtin emër."
 
-#: ../mail/mail.error.xml.h:122
+#: ../mail/mail.error.xml.h:119
 msgid "You must name this Search Folder."
 msgstr "Duhet t'i jepni një emër kësaj Kartele kërkimi."
 
-#: ../mail/mail.error.xml.h:123
+#: ../mail/mail.error.xml.h:120
 msgid "You must specify a folder."
 msgstr "Ju duhet të përcaktoni një kartelë."
 
-#: ../mail/mail.error.xml.h:124
+#: ../mail/mail.error.xml.h:121
 msgid ""
 "You must specify at least one folder as a source.\n"
 "Either by selecting the folders individually, and/or by selecting all local "
@@ -14409,27 +14396,23 @@ msgstr ""
 "Mund të zgjidhni kartelat një nga një, dhe/ose duke zgjedhurtë gjitha "
 "kartelat lokale, të gjitha kartelat remote, ose së bashku."
 
-#: ../mail/mail.error.xml.h:126
+#: ../mail/mail.error.xml.h:123
 msgid "Your login to your server &quot;{0}&quot; as &quot;{0}&quot; failed."
 msgstr "Futja në serverin tuaj &quot;{0}&quot; si &quot;{0}&quot; dështoi."
 
-#: ../mail/mail.error.xml.h:127
-msgid "Your message with the subject &quot;{0}&quot; was not delivered."
-msgstr "Mesazhi juaj me subjekt &quot;{0}&quot; nuk u dërgua."
-
-#: ../mail/mail.error.xml.h:128
+#: ../mail/mail.error.xml.h:124
 msgid "_Append"
 msgstr "_Shto (në fund)"
 
-#: ../mail/mail.error.xml.h:129
+#: ../mail/mail.error.xml.h:125
 msgid "_Discard changes"
 msgstr "_Anullo ndryshimet"
 
-#: ../mail/mail.error.xml.h:131
+#: ../mail/mail.error.xml.h:127
 msgid "_Expunge"
 msgstr "_Pastro"
 
-#: ../mail/mail.error.xml.h:132
+#: ../mail/mail.error.xml.h:128
 msgid "_Open Messages"
 msgstr "_Hap mesazhet"
 
@@ -14500,7 +14483,7 @@ msgstr "%b %d %Y"
 msgid "Messages"
 msgstr "Mesazhet"
 
-#: ../mail/message-list.c:3441
+#: ../mail/message-list.c:3442
 msgid "Generating message list"
 msgstr "Duke krijuar listën e mesazheve"
 
@@ -14960,13 +14943,14 @@ msgstr "Lloji i autentikimit"
 msgid "Ch_eck for Supported Types"
 msgstr "Kontrollo për lloj_et suportuar"
 
-#: ../plugins/exchange-operations/exchange-calendar.c:193
-#: ../plugins/exchange-operations/exchange-contacts.c:167
+#: ../plugins/exchange-operations/exchange-calendar.c:191
+#: ../plugins/exchange-operations/exchange-contacts.c:166
 msgid ""
 "Evolution is in offline mode. You cannot create or modify folders now.\n"
 "Please switch to online mode for such operations."
 msgstr ""
-"Evolution ndodhet në modalitetin jashtë linje. Tani nuk mund të krijosh apo ndryshosh kartelat.\n"
+"Evolution ndodhet në modalitetin jashtë linje. Tani nuk mund të krijosh apo "
+"ndryshosh kartelat.\n"
 "Për të kryer këto lloj veprimesh, kalo në modalitetin në linjë."
 
 #. User entered a wrong existing
@@ -15144,14 +15128,14 @@ msgstr "Degëzimi i kartelës Exchange"
 msgid "Unsubscribe Folder..."
 msgstr "Ç'regjistro kartelën..."
 
-#: ../plugins/exchange-operations/exchange-folder.c:463
-#: ../plugins/exchange-operations/exchange-folder.c:523
+#: ../plugins/exchange-operations/exchange-folder.c:464
+#: ../plugins/exchange-operations/exchange-folder.c:524
 #, c-format
 msgid "Really unsubscribe from folder \"%s\"?"
 msgstr "Me të vërtetë ç'regjistrohesh nga kartela \"%s\"?"
 
-#: ../plugins/exchange-operations/exchange-folder.c:475
-#: ../plugins/exchange-operations/exchange-folder.c:535
+#: ../plugins/exchange-operations/exchange-folder.c:476
+#: ../plugins/exchange-operations/exchange-folder.c:536
 #, c-format
 msgid "Unsubscribe from \"%s\""
 msgstr "Ç'regjistrohu nga \"%s\""
@@ -15261,8 +15245,8 @@ msgid ""
 "A plugin that handles a collection of Exchange account specific operations "
 "and features."
 msgstr ""
-"Një plugin që trajton veprime specifike dhe funksione të një koleksioni profilesh "
-"Exchange."
+"Një plugin që trajton veprime specifike dhe funksione të një koleksioni "
+"profilesh Exchange."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.eplug.xml.h:2
 msgid "Exchange Operations"
@@ -15555,8 +15539,8 @@ msgid ""
 "Your current usage is: {0} KB. You will not be able to send mail until you "
 "clear up some space by deleting some mail."
 msgstr ""
-"Përdorimi aktual është : {0} KB. Nuk do të jesh në gjendje të dërgosh mesazhe "
-"po nuk lirove pak hapësirë duke fshirë disa mesazhe të vjetër."
+"Përdorimi aktual është : {0} KB. Nuk do të jesh në gjendje të dërgosh "
+"mesazhe po nuk lirove pak hapësirë duke fshirë disa mesazhe të vjetër."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:75
 msgid "Your password has expired."
@@ -15597,7 +15581,7 @@ msgstr ""
 msgid "Unsubscribe Folders"
 msgstr "Ç'regjistro kartelat"
 
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:414
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:417
 msgid "Checklist"
 msgstr "Lista zgjedhjes"
 
@@ -15857,8 +15841,8 @@ msgid ""
 "The output directory was not found on iPod! Please ensure that iPod has been "
 "correctly set up and try again."
 msgstr ""
-"Directory e daljes nuk u gjet në iPod! Sigurohu që iPod është konfiguruar si duhet "
-"dhe provo përsëri."
+"Directory e daljes nuk u gjet në iPod! Sigurohu që iPod është konfiguruar si "
+"duhet dhe provo përsëri."
 
 #: ../plugins/ipod-sync/sync.c:174 ../plugins/ipod-sync/sync.c:202
 msgid "Could not export data!"
@@ -15882,7 +15866,9 @@ msgstr "E pamundur hapja e kalendarit/listës me gjërat për tu bërë!"
 
 #: ../plugins/ipod-sync/sync.c:292
 msgid "Could not open the Evolution calendar/todo list to export data."
-msgstr "E pamundur hapja e kalendarit/listës me gjërat për tu bërë për të eksportuar të dhënat."
+msgstr ""
+"E pamundur hapja e kalendarit/listës me gjërat për tu bërë për të eksportuar "
+"të dhënat."
 
 #: ../plugins/itip-formatter/itip-formatter.c:275
 #: ../plugins/itip-formatter/itip-formatter.c:392
@@ -15986,8 +15972,8 @@ msgid ""
 "The message claims to contain a calendar, but the calendar is not a valid "
 "iCalendar."
 msgstr ""
-"Mesazhi reklamon praninë e një kalendari, por kalendari nuk është një iCalendar i "
-"vlefshëm."
+"Mesazhi reklamon praninë e një kalendari, por kalendari nuk është një "
+"iCalendar i vlefshëm."
 
 #: ../plugins/itip-formatter/itip-formatter.c:1187
 #: ../plugins/itip-formatter/itip-formatter.c:1202
@@ -17185,7 +17171,7 @@ msgstr "Paneli anësor është i dukshëm"
 msgid "Skip development warning dialog"
 msgstr "Kapërce dialogun e paralajmërimit të versionit në zhvillim"
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:12 ../shell/main.c:473
+#: ../shell/apps_evolution_shell.schemas.in.in.h:12 ../shell/main.c:474
 msgid "Start in offline mode"
 msgstr "Fillo në modalitetin jashtë linje"
 
@@ -17214,8 +17200,8 @@ msgid ""
 "The last upgraded configuration version of Evolution, with major/minor/"
 "configuration level (for example \"2.6.0\")."
 msgstr ""
-"Versioni i fundit i përditsuar i konfigurimit të Evolution, me nivelet e konfigurimit "
-"major/minor/ (për shembull \"2.6.0\")."
+"Versioni i fundit i përditsuar i konfigurimit të Evolution, me nivelet e "
+"konfigurimit major/minor/ (për shembull \"2.6.0\")."
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:18
 msgid ""
@@ -17378,25 +17364,27 @@ msgstr "Bug buddy nuk mund të vihet në funksionim."
 #. The translator-credits string is for translators to list
 #. * per language credits for translation, displayed in the
 #. * about box
-#: ../shell/e-shell-window-commands.c:530
+#: ../shell/e-shell-window-commands.c:561
 msgid "translator-credits"
 msgstr "Laurent Dhima <laurenti@alblinux.net>"
 
-#: ../shell/e-shell-window-commands.c:775
+#: ../shell/e-shell-window-commands.c:806
 msgid "_Work Online"
 msgstr "_Puno në linjë"
 
-#: ../shell/e-shell-window-commands.c:788 ../ui/evolution.xml.h:54
+#: ../shell/e-shell-window-commands.c:819 ../ui/evolution.xml.h:54
 msgid "_Work Offline"
 msgstr "_Puno Jashtë Linje"
 
-#: ../shell/e-shell-window-commands.c:801
+#: ../shell/e-shell-window-commands.c:832
 msgid "Work Offline"
 msgstr "Puno në linjë"
 
 #: ../shell/e-shell-window.c:368
 msgid "Evolution is currently online. Click on this button to work offline."
-msgstr "Evolution aktualisht është në linjë.  Kliko tek ky buton për të punuar jashtë linje."
+msgstr ""
+"Evolution aktualisht është në linjë.  Kliko tek ky buton për të punuar "
+"jashtë linje."
 
 #: ../shell/e-shell-window.c:376
 msgid "Evolution is in the process of going offline."
@@ -17404,7 +17392,9 @@ msgstr "Evolution është në procesin e daljes jashtë linje."
 
 #: ../shell/e-shell-window.c:383
 msgid "Evolution is currently offline. Click on this button to work online."
-msgstr "Evolution aktualisht është jashtë linje.  Kliko tek ky buton për të punuar në linjë."
+msgstr ""
+"Evolution aktualisht është jashtë linje.  Kliko tek ky buton për të punuar "
+"në linjë."
 
 #: ../shell/e-shell-window.c:783
 #, c-format
@@ -17491,7 +17481,7 @@ msgstr ""
 "të files së jashtëm nën Evolution."
 
 #. Preview/Alpha/Beta version warning message
-#: ../shell/main.c:230
+#: ../shell/main.c:231
 #, no-c-format
 msgid ""
 "Hi.  Thanks for taking the time to download this preview release\n"
@@ -17517,18 +17507,18 @@ msgstr ""
 "përfundimit, por disa nga karakteristikat janë akoma të paplota\n"
 "apo nuk funksionojnë si duhet.\n"
 "\n"
-"Nëse dëshironi një version stabël të Evolution, do t'ju duhet të "
-"çinstaloni\n"
+"Nëse dëshironi një version stabël të Evolution, do t'ju duhet të çinstaloni\n"
 "këtë version dhe të instaloni versionin %s në vend të tij.\n"
 "\n"
-"Nëse ndeshni në difekte, jeni të lutur t'i raportoni tek bugzilla.gnome.org.\n"
+"Nëse ndeshni në difekte, jeni të lutur t'i raportoni tek bugzilla.gnome."
+"org.\n"
 "Ky version vjen pa garanci dhe nuk është menduar për\n"
 "persona që nxehen shpejt.\n"
 "\n"
 "Shpresojmë t'ju pëlqejë rezultati i punës sonë të vështirë, dhe\n"
 "ne presim me dëshirë kontributin tuaj!\n"
 
-#: ../shell/main.c:254
+#: ../shell/main.c:255
 msgid ""
 "Thanks\n"
 "The Evolution Team\n"
@@ -17536,35 +17526,35 @@ msgstr ""
 "Ju faleminderit\n"
 "The Evolution Team\n"
 
-#: ../shell/main.c:261
+#: ../shell/main.c:262
 msgid "Do not tell me again"
 msgstr "Mos ma përsërit më"
 
-#: ../shell/main.c:471
+#: ../shell/main.c:472
 msgid "Start Evolution activating the specified component"
 msgstr "Fillo Evolution duke aktivuar komponentin e specifikuar"
 
-#: ../shell/main.c:475
+#: ../shell/main.c:476
 msgid "Start in online mode"
 msgstr "Fillo në modalitetin në linjë"
 
-#: ../shell/main.c:478
+#: ../shell/main.c:479
 msgid "Forcibly shut down all Evolution components"
 msgstr "Detyro përfundimin e të gjithë komponentëve të Evolution"
 
-#: ../shell/main.c:482
+#: ../shell/main.c:483
 msgid "Forcibly re-migrate from Evolution 1.4"
 msgstr "Detyro ri-emigrimin nga Evolution 1.4"
 
-#: ../shell/main.c:485
+#: ../shell/main.c:486
 msgid "Send the debugging output of all components to a file."
 msgstr "Dërgo rezultatin e debug të të gjithë komponuesve në një file."
 
-#: ../shell/main.c:487
+#: ../shell/main.c:488
 msgid "Disable loading of any plugins."
 msgstr "Ç'aktivo ngarkimin e çfarëdo plugin."
 
-#: ../shell/main.c:518
+#: ../shell/main.c:519
 #, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
@@ -20045,7 +20035,7 @@ msgid "_Edit..."
 msgstr "_Ndrysho..."
 
 #: ../widgets/menus/gal-view-factory-etable.c:39
-#: ../widgets/table/e-table-header-item.c:1839
+#: ../widgets/table/e-table-header-item.c:1840
 #: ../widgets/table/e-table-scrolled.c:222
 #: ../widgets/table/e-table-scrolled.c:223
 msgid "Table"
@@ -20492,12 +20482,12 @@ msgstr "Teksti"
 msgid "Find _Now"
 msgstr "Gjej _Tani"
 
-#: ../widgets/misc/e-selection-model-array.c:546
+#: ../widgets/misc/e-selection-model-array.c:547
 #: ../widgets/table/e-tree-selection-model.c:811
 msgid "Cursor Row"
 msgstr "Rreshti kursorit"
 
-#: ../widgets/misc/e-selection-model-array.c:553
+#: ../widgets/misc/e-selection-model-array.c:554
 #: ../widgets/table/e-tree-selection-model.c:818
 msgid "Cursor Column"
 msgstr "Kollona kursorit"
@@ -20828,14 +20818,14 @@ msgstr "_Shfaq këto fusha duke i renditur:"
 #: ../widgets/table/e-table-field-chooser-dialog.c:77
 #: ../widgets/table/e-table-field-chooser-item.c:635
 #: ../widgets/table/e-table-field-chooser.c:77
-#: ../widgets/table/e-table-header-item.c:1804
+#: ../widgets/table/e-table-header-item.c:1805
 msgid "DnD code"
 msgstr "Kod DnD"
 
 #: ../widgets/table/e-table-field-chooser-dialog.c:84
 #: ../widgets/table/e-table-field-chooser-item.c:642
 #: ../widgets/table/e-table-field-chooser.c:84
-#: ../widgets/table/e-table-header-item.c:1818
+#: ../widgets/table/e-table-header-item.c:1819
 msgid "Full Header"
 msgstr "Titulli i plotë"
 
@@ -21001,17 +20991,17 @@ msgstr "Formato kollonat..."
 msgid "Customize Current View..."
 msgstr "Personalizo paraqitjen aktuale..."
 
-#: ../widgets/table/e-table-header-item.c:1811 ../widgets/text/e-entry.c:1263
+#: ../widgets/table/e-table-header-item.c:1812 ../widgets/text/e-entry.c:1263
 #: ../widgets/text/e-entry.c:1264
 msgid "Fontset"
 msgstr "Gërmat"
 
-#: ../widgets/table/e-table-header-item.c:1832
+#: ../widgets/table/e-table-header-item.c:1833
 #: ../widgets/table/e-table-sorter.c:175
 msgid "Sort Info"
 msgstr "Rendit informacionin"
 
-#: ../widgets/table/e-table-header-item.c:1846
+#: ../widgets/table/e-table-header-item.c:1847
 #: ../widgets/table/e-tree-scrolled.c:221
 #: ../widgets/table/e-tree-scrolled.c:222
 msgid "Tree"
