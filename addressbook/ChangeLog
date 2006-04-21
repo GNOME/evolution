@@ -1,3 +1,10 @@
+2006-04-21  simon.zheng  <simon.zheng@sun.com>
+
+	Fix for Bug 336713
+        * gui/merging/eab-contact-merging.c: (cancelit): After selecting
+        "cancel duplicate" when pasting contacts, can't remove those
+        EContactMergingLookup. Make finished_lookup() available.
+
 2006-03-29  Li Yuan <li.yuan@sun.com>
 
 	Fix for bug #336454

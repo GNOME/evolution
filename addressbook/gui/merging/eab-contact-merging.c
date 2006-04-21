@@ -124,11 +124,9 @@ static void
 cancelit (EContactMergingLookup *lookup)
 {
 	if (lookup->op == E_CONTACT_MERGING_ADD) {
-		if (lookup->id_cb)
-			final_id_cb (lookup->book, E_BOOK_ERROR_CANCELLED, NULL, lookup);
+		final_id_cb (lookup->book, E_BOOK_ERROR_CANCELLED, NULL, lookup);
 	} else if (lookup->op == E_CONTACT_MERGING_COMMIT) {
-		if (lookup->cb)
-			final_cb (lookup->book, E_BOOK_ERROR_CANCELLED, lookup);
+		final_cb (lookup->book, E_BOOK_ERROR_CANCELLED, lookup);
 	}
 }
 
