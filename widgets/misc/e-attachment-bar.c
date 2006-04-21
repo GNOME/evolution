@@ -233,6 +233,66 @@ calculate_height_width(EAttachmentBar *bar, int *new_width, int *new_height)
 	return;
 }
 
+void
+e_attachment_bar_create_attachment_cache (EAttachment *attachment)
+{
+
+	CamelContentType *content_type;
+
+	content_type = camel_mime_part_get_content_type (attachment->body);
+
+	if (camel_content_type_is(content_type, "image", "*")) {
+		CamelDataWrapper *wrapper;
+		CamelStreamMem *mstream;
+		GdkPixbufLoader *loader;
+		gboolean error = TRUE;
+		GdkPixbuf *pixbuf;
+		
+		wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (attachment->body));
+		mstream = (CamelStreamMem *) camel_stream_mem_new ();
+			
+		camel_data_wrapper_decode_to_stream (wrapper, (CamelStream *) mstream);
+			
+		/* Stream image into pixbuf loader */
+		loader = gdk_pixbuf_loader_new ();
+		error = !gdk_pixbuf_loader_write (loader, mstream->buffer->data, mstream->buffer->len, NULL);
+		gdk_pixbuf_loader_close (loader, NULL);
+			
+		if (!error) {
+			int ratio, width, height;
+			
+			/* Shrink pixbuf */
+			pixbuf = gdk_pixbuf_loader_get_pixbuf (loader);
+			width = gdk_pixbuf_get_width (pixbuf);
+			height = gdk_pixbuf_get_height (pixbuf);
+			if (width >= height) {
+				if (width > 48) {
+					ratio = width / 48;
+					width = 48;
+					height = height / ratio;
+				}
+			} else {
+				if (height > 48) {
+					ratio = height / 48;
+					height = 48;
+					width = width / ratio;
+				}
+			}
+			
+			attachment->pixbuf_cache = gdk_pixbuf_scale_simple (pixbuf, width,height,GDK_INTERP_BILINEAR);
+			pixbuf = attachment->pixbuf_cache;
+			g_object_ref(pixbuf);
+		} else {
+			attachment->pixbuf_cache = NULL;
+			g_warning ("GdkPixbufLoader Error");
+		}
+			
+		/* Destroy everything */
+		g_object_unref (loader);
+		camel_object_unref (mstream);
+	}
+}
+
 static void
 update (EAttachmentBar *bar)
 {

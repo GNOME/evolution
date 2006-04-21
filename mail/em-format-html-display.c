@@ -166,6 +166,9 @@ struct _attach_puri {
 	CamelStream *output;
 	unsigned int shown:1;
 
+	/* Attachment */
+	EAttachment *attachment;
+	
 	/* image stuff */
 	int fit_width;
 	int fit_height;
@@ -1552,7 +1555,7 @@ efhd_attachment_button(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObje
 	if (efhd->priv->attachment_bar) {
 		file = camel_mime_part_get_filename(info->puri.part);
 
-		new = e_attachment_new_from_mime_part (info->puri.part);
+		new = info->attachment;
 
 		if (!file) {
 			file = "attachment.dat";
@@ -2141,6 +2144,8 @@ efhd_format_attachment(EMFormat *emf, CamelStream *stream, CamelMimePart *part, 
 	info->handle = handle;
 	info->shown = em_format_is_inline(emf, info->puri.part_id, info->puri.part, handle);
 	info->snoop_mime_type = emf->snoop_mime_type;
+	info->attachment = e_attachment_new_from_mime_part (info->puri.part);
+	e_attachment_bar_create_attachment_cache (info->attachment);
 
 	if (emf->valid) {
 		info->sign = emf->valid->sign.status;

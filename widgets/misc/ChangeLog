@@ -1,3 +1,9 @@
+2006-04-22  Srinivasa Ragavan  <sragavan@novell.com>
+
+
+	* e-attachment-bar.c: (e_attachment_bar_create_attachment_cache):
+	Added a new function that creates a attachment with a image cache.
+
 2006-03-28  Li Yuan  <li.yuan@sun.com>
 
 	**Fixes bug #335618
