@@ -1508,7 +1508,6 @@ event_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 			set_attendees (comp, e_meeting_store_get_attendees (priv->model));
 	}
 
-	
 	return TRUE;
 }
 
@@ -1856,7 +1855,8 @@ attendee_added_cb (EMeetingListView *emlv, EMeetingAttendee *ia, gpointer user_d
 			   delegator = e_meeting_store_find_attendee (priv->model, delegator_id, NULL);
 			   e_meeting_attendee_set_delto (delegator, 
 					   g_strdup (e_meeting_attendee_get_address (ia)));
-
+	
+			   e_meeting_attendee_set_delfrom (ia, g_strdup_printf ("MAILTO:%s", delegator_id));
 			   gtk_widget_set_sensitive (priv->invite, FALSE);
 			   gtk_widget_set_sensitive (priv->add, FALSE);
 			   gtk_widget_set_sensitive (priv->edit, FALSE);
@@ -3184,7 +3184,7 @@ set_attendees (ECalComponent *comp, const GPtrArray *attendees)
 	comp_attendees = g_slist_reverse (comp_attendees);
 	
 	e_cal_component_set_attendee_list (comp, comp_attendees);
-	
+
 	for (l = comp_attendees; l != NULL; l = l->next)
 		g_free (l->data);	
 	g_slist_free (comp_attendees);
