@@ -461,7 +461,7 @@ owa_authenticate_user(GtkWidget *button, EConfig *config)
 		exchange_params->is_ntlm = TRUE;
 	else
 		exchange_params->is_ntlm = FALSE;
-	valid =  e2k_validate_user (owa_url, url->user, exchange_params, 
+	valid =  e2k_validate_user (owa_url, &url->user, exchange_params, 
 						&remember_password, &result);
 
 	if (!valid)
