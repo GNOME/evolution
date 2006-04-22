@@ -1,3 +1,9 @@
+2006-04-22  Harish Krishnaswamy  <kharish@novell.com>
+
+	* gui/dialogs/event-page.c (attendee_added_cb):
+	Add the delfrom property to the delegatee. Fixes
+	#165714 (bugzilla.novell.com)
+
 2006-04-07  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #163039
