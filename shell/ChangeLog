@@ -1,5 +1,10 @@
 2006-04-24  Harish Krishnaswamy  <kharish@novell.com>
 
+	* main.c: (kill_dataserver): add eds-1.4 and eds-1.6
+	to the list of old instances.
+
+2006-04-24  Harish Krishnaswamy  <kharish@novell.com>
+
 	* e-shell-window-commands.c: Update credits for
 	the previous development series.
 
