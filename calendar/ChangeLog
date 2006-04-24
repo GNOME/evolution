@@ -1,6 +1,6 @@
 2006-04-24  Chenthill Palanisamy  <pchenthill@novell.com>
 
-	Fixes #153180
+	Fixes #323409
 	* gui/calendar-component.c: (setup_create_ecal): Reset the ecal to NULL.
 	* gui/e-calendar-view.c: 
 	(e_calendar_view_new_appointment_for): If the default client does not
