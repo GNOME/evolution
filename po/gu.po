@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD.gu\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-04-18 05:43+0200\n"
-"PO-Revision-Date: 2006-04-18 10:05+0530\n"
+"POT-Creation-Date: 2006-04-24 05:40+0200\n"
+"PO-Revision-Date: 2006-04-24 10:27+0530\n"
 "Last-Translator: Ankit Patel <ankit644@yahoo.com>\n"
 "Language-Team: Gujarati <indianoss-gujarati@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -13,6 +13,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.9.1\n"
 "Plural-Forms: nplurals=2; plural=(n!=1);\n\n"
+"\n"
 "\n"
 "\n"
 "\n"
@@ -839,12 +840,12 @@ msgid "Accessing LDAP Server anonymously"
 msgstr "અજાણી રીતે LDAP સર્વર વાપરી રહ્યા છીએ"
 
 #: ../addressbook/gui/component/addressbook.c:197
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:491
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:494
 msgid "Failed to authenticate.\n"
 msgstr "સત્તાધિકરણ કરવામાં નિષ્ફળ.\n"
 
 #: ../addressbook/gui/component/addressbook.c:204
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:471
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:474
 #, c-format
 msgid "Enter password for %s (user %s)"
 msgstr "%s (વપરાશકર્તા %s) માટે પાસવર્ડ દાખલ કરો"
@@ -2699,7 +2700,7 @@ msgstr "_IM સેવા:"
 #: ../addressbook/gui/contact-editor/im.glade.h:5
 #: ../plugins/calendar-weather/calendar-weather.c:409
 #: ../plugins/exchange-operations/exchange-calendar.c:242
-#: ../plugins/exchange-operations/exchange-contacts.c:234
+#: ../plugins/exchange-operations/exchange-contacts.c:235
 msgid "_Location:"
 msgstr "જગ્યા (_L):"
 
@@ -3699,12 +3700,12 @@ msgstr "ઈવોલ્યુશન VCard આયાત કરનાર"
 msgid "Print envelope"
 msgstr "કવર છાપો"
 
-#: ../addressbook/printing/e-contact-print.c:923
+#: ../addressbook/printing/e-contact-print.c:849
 msgid "Print contacts"
 msgstr "સંપર્કો છાપો"
 
-#: ../addressbook/printing/e-contact-print.c:1015
-#: ../addressbook/printing/e-contact-print.c:1043
+#: ../addressbook/printing/e-contact-print.c:939
+#: ../addressbook/printing/e-contact-print.c:967
 msgid "Print contact"
 msgstr "સંપર્ક છાપો"
 
@@ -3859,7 +3860,7 @@ msgstr "છાયા"
 #: ../addressbook/printing/e-contact-print.glade.h:36
 #: ../plugins/exchange-operations/exchange-account-setup.c:955
 #: ../plugins/exchange-operations/exchange-calendar.c:231
-#: ../plugins/exchange-operations/exchange-contacts.c:217
+#: ../plugins/exchange-operations/exchange-contacts.c:218
 msgid "Size:"
 msgstr "માપ:"
 
@@ -4308,7 +4309,7 @@ msgid "_Save Changes"
 msgstr "ફેરફારો સંગ્રહો (_S)"
 
 #: ../calendar/calendar.error.xml.h:71
-#: ../composer/mail-composer.error.xml.h:31 ../mail/mail.error.xml.h:134
+#: ../composer/mail-composer.error.xml.h:31 ../mail/mail.error.xml.h:130
 msgid "_Send"
 msgstr "મોકલો (_S)"
 
@@ -4427,8 +4428,8 @@ msgstr "મેમો"
 #: ../calendar/importers/icalendar-importer.c:80
 #: ../calendar/importers/icalendar-importer.c:741
 #: ../plugins/exchange-operations/exchange-folder.c:592
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:384
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:591
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:387
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:594
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:12
 msgid "Tasks"
 msgstr "બાબતો"
@@ -4475,8 +4476,8 @@ msgstr "મુલાકાતો"
 
 #. Location
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:2
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1268
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1274
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1609
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1615
 #: ../calendar/gui/e-itip-control.c:1113
 #: ../plugins/itip-formatter/itip-view.c:880
 msgid "Location:"
@@ -4509,32 +4510,31 @@ msgstr "પુનરાવર્તન (_S)"
 msgid "location of appointment"
 msgstr "મુલાકાતનું સ્થાન"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1107
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1250
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1445
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1591
 msgid "No summary available."
 msgstr "કોઈ સાર ઉપલબ્ધ નથી."
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1116
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1118
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1454
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1456
 msgid "No description available."
 msgstr "કોઈ વર્ણન ઉપલબ્ધ નથી."
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1126
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1464
 msgid "No location information available."
 msgstr "કોઈ જગ્યા જાણકારી ઉપલબ્ધ નથી."
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1184
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1523
 #, c-format
 msgid "You have %d alarms"
 msgstr "તમારી પાસે %d એલાર્મો છે"
 
-#. FIXME
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1344
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1368
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1689
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1715
 msgid "Warning"
 msgstr "ચેતવણી"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1348
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1693
 msgid ""
 "Evolution does not support calendar reminders with\n"
 "email notifications yet, but this reminder was\n"
@@ -4546,7 +4546,7 @@ msgstr ""
 "ઈ-મેઈલ મોકલવા સાથે રુપરેખાંકિત થયો નથી. ઈવોલ્યુશન\n"
 "સામાન્ય રીમાઈન્ડર સાથે સંવાદ બોક્સ પ્રદર્શિત થશે."
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1374
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1721
 #, c-format
 msgid ""
 "An Evolution Calendar reminder is about to trigger. This reminder is "
@@ -4563,7 +4563,7 @@ msgstr ""
 "\n"
 "શું તમે ખરેખર આ કાર્યક્રમ ચલાવવા માંગો છો?"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1388
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1735
 msgid "Do not ask me about this program again."
 msgstr "મને આ કાર્યક્રમ વિશે ફરીથી પૂછશો નહિં."
 
@@ -5011,9 +5011,9 @@ msgstr "છાપો"
 #: ../calendar/gui/dialogs/calendar-setup.c:370
 #: ../calendar/gui/gnome-cal.c:2111
 #: ../plugins/exchange-operations/exchange-folder.c:580
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:383
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:413
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:590
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:386
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:416
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:593
 #: ../plugins/hula-account-setup/camel-hula-listener.c:379
 #: ../plugins/hula-account-setup/camel-hula-listener.c:408
 #: ../plugins/publish-calendar/publish-calendar.glade.h:5
@@ -5788,7 +5788,7 @@ msgid "_Add attachment..."
 msgstr "જોડાણ ઉમેરો (_A)..."
 
 #: ../calendar/gui/dialogs/comp-editor.c:1468
-#: ../mail/em-format-html-display.c:2065
+#: ../mail/em-format-html-display.c:2068
 msgid "Show Attachments"
 msgstr "જોડાણો બતાવો"
 
@@ -5838,7 +5838,7 @@ msgstr "કોઈ સાર નથી"
 
 #: ../calendar/gui/dialogs/comp-editor.c:2654
 #: ../composer/e-msg-composer-attachment-bar.c:307 ../mail/em-utils.c:498
-#: ../mail/em-utils.c:535 ../widgets/misc/e-attachment-bar.c:339
+#: ../mail/em-utils.c:535 ../widgets/misc/e-attachment-bar.c:399
 msgid "attachment"
 msgstr "જોડાણ"
 
@@ -6500,7 +6500,7 @@ msgstr "નીચું"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:8
 #: ../calendar/gui/e-cal-component-preview.c:252
-#: ../calendar/gui/e-cal-model.c:918 ../calendar/gui/e-calendar-table.c:387
+#: ../calendar/gui/e-cal-model.c:919 ../calendar/gui/e-calendar-table.c:387
 #: ../mail/message-list.c:1011
 msgid "Normal"
 msgstr "સામાન્ય"
@@ -6794,7 +6794,7 @@ msgstr ""
 "\n"
 "45.436845,125.862501"
 
-#: ../calendar/gui/e-cal-model-tasks.c:1005 ../calendar/gui/e-cal-model.c:924
+#: ../calendar/gui/e-cal-model-tasks.c:1005 ../calendar/gui/e-cal-model.c:925
 #: ../calendar/gui/e-meeting-list-view.c:193
 #: ../calendar/gui/e-meeting-store.c:166 ../calendar/gui/e-meeting-store.c:176
 #: ../calendar/gui/e-meeting-store.c:764
@@ -6802,7 +6802,7 @@ msgstr ""
 msgid "Yes"
 msgstr "હા"
 
-#: ../calendar/gui/e-cal-model-tasks.c:1005 ../calendar/gui/e-cal-model.c:924
+#: ../calendar/gui/e-cal-model-tasks.c:1005 ../calendar/gui/e-cal-model.c:925
 #: ../calendar/gui/e-meeting-list-view.c:194
 #: ../calendar/gui/e-meeting-store.c:178
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:2
@@ -6820,16 +6820,16 @@ msgstr "ના"
 #: ../plugins/itip-formatter/itip-formatter.c:240
 #: ../plugins/itip-formatter/itip-formatter.c:1651
 #: ../plugins/plugin-manager/plugin-manager.c:68
-#: ../widgets/misc/e-attachment-bar.c:686
+#: ../widgets/misc/e-attachment-bar.c:746
 #: ../widgets/misc/e-charset-picker.c:63
 msgid "Unknown"
 msgstr "અજ્ઞાત"
 
-#: ../calendar/gui/e-cal-model.c:920
+#: ../calendar/gui/e-cal-model.c:921
 msgid "Recurring"
 msgstr "વળતર"
 
-#: ../calendar/gui/e-cal-model.c:922
+#: ../calendar/gui/e-cal-model.c:923
 msgid "Assigned"
 msgstr "સોંપેલ"
 
@@ -6837,7 +6837,7 @@ msgstr "સોંપેલ"
 msgid "Save As..."
 msgstr "આ રીતે સંગ્રહો..."
 
-#: ../calendar/gui/e-cal-popup.c:193 ../mail/em-format-html-display.c:1913
+#: ../calendar/gui/e-cal-popup.c:193 ../mail/em-format-html-display.c:1916
 msgid "Select folder to save selected attachments..."
 msgstr "પસંદિત જોડાણો સંગ્રહવા માટે ફોલ્ડર પસંદ કરો..."
 
@@ -7093,25 +7093,25 @@ msgid "Delete _All Occurrences"
 msgstr "બધા વારાઓ કાઢી નાંખો (_A)"
 
 #. To Translators: It will display "Organiser: NameOfTheUser <email@ofuser.com>"
-#: ../calendar/gui/e-calendar-view.c:2141
+#: ../calendar/gui/e-calendar-view.c:2179
 #, c-format
 msgid "Organizer: %s <%s>"
 msgstr "આયોજક: %s <%s>"
 
 #. With SunOne accouts, there may be no ':' in organiser.value
-#: ../calendar/gui/e-calendar-view.c:2145
+#: ../calendar/gui/e-calendar-view.c:2183
 #, c-format
 msgid "Organizer: %s"
 msgstr "આયોજક: %s"
 
 #. To Translators: It will display "Location: PlaceOfTheMeeting"
-#: ../calendar/gui/e-calendar-view.c:2161 ../calendar/gui/print.c:2336
+#: ../calendar/gui/e-calendar-view.c:2199 ../calendar/gui/print.c:2336
 #, c-format
 msgid "Location: %s"
 msgstr "સ્થળ: %s"
 
 #. To Translators: It will display "Time: ActualStartDateAndTime (DurationOfTheMeeting)"
-#: ../calendar/gui/e-calendar-view.c:2192
+#: ../calendar/gui/e-calendar-view.c:2230
 #, c-format
 msgid "Time: %s %s"
 msgstr "સમય: %s %s"
@@ -10005,7 +10005,7 @@ msgid "%.0fG"
 msgstr "%.0fG"
 
 #: ../composer/e-msg-composer-attachment-bar.c:740
-#: ../widgets/misc/e-attachment-bar.c:988
+#: ../widgets/misc/e-attachment-bar.c:1048
 msgid "Attachment Bar"
 msgstr "જોડાણ પટ્ટી"
 
@@ -10196,7 +10196,7 @@ msgid "Because &quot;{0}&quot;, you may need to select different mail options."
 msgstr "કારણ &quot;{0}&quot;, તમારે અલગ મેઈલ વિકલ્પો પસંદ કરવાની જરુર છે."
 
 #: ../composer/mail-composer.error.xml.h:5 ../e-util/e-system.error.xml.h:1
-#: ../mail/mail.error.xml.h:19
+#: ../mail/mail.error.xml.h:18
 msgid "Because &quot;{1}&quot;."
 msgstr "કારણ કે &quot;{1}&quot;."
 
@@ -10311,7 +10311,7 @@ msgstr "સંદેશો સંગ્રહો (_S)"
 
 #: ../data/evolution.desktop.in.in.h:1
 #: ../plugins/default-mailer/org-gnome-default-mailer.error.xml.h:2
-#: ../shell/main.c:514
+#: ../shell/main.c:520
 msgid "Evolution"
 msgstr "ઈવોલ્યુશન"
 
@@ -10481,7 +10481,7 @@ msgstr "શું તમે તેના પર ફરીથી લખવા મ
 msgid "File exists &quot;{0}&quot;."
 msgstr "ફાઈલ હાજર છે &quot;{0}&quot;."
 
-#: ../e-util/e-system.error.xml.h:7 ../mail/mail.error.xml.h:133
+#: ../e-util/e-system.error.xml.h:7 ../mail/mail.error.xml.h:129
 msgid "_Overwrite"
 msgstr "ની ઉપર ફરીથી લખવું (_O)"
 
@@ -10649,7 +10649,7 @@ msgstr "ખોવાયેલ તારીખ."
 msgid "Missing file name."
 msgstr "ફાઈલ નામ ખોવાયેલ છે."
 
-#: ../filter/filter.error.xml.h:6 ../mail/mail.error.xml.h:71
+#: ../filter/filter.error.xml.h:6 ../mail/mail.error.xml.h:70
 msgid "Missing name."
 msgstr "નામ ખોવાયું છે."
 
@@ -10933,14 +10933,14 @@ msgstr "સહીઓ"
 msgid "-------- Forwarded Message --------"
 msgstr "-------- સંદેશો આગળ ધપાવો --------"
 
-#: ../mail/em-composer-utils.c:1666
+#: ../mail/em-composer-utils.c:1665
 msgid "an unknown sender"
 msgstr "એક અજ્ઞાત મોકલનાર"
 
 #. Note to translators: this is the attribution string used when quoting messages.
 #. * each ${Variable} gets replaced with a value. To see a full list of available
 #. * variables, see em-composer-utils.c:1514
-#: ../mail/em-composer-utils.c:1713
+#: ../mail/em-composer-utils.c:1712
 msgid ""
 "On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} "
 "${TimeZone}, ${Sender} wrote:"
@@ -11350,7 +11350,7 @@ msgstr "નવું ફોલ્ડર (_N)..."
 msgid "_Rename..."
 msgstr "નામ બદલો (_R)..."
 
-#: ../mail/em-folder-tree.c:2060 ../mail/mail.error.xml.h:130
+#: ../mail/em-folder-tree.c:2060 ../mail/mail.error.xml.h:126
 msgid "_Empty Trash"
 msgstr "કચરાપેટી ખાલી કરો (_E)"
 
@@ -11529,66 +11529,66 @@ msgid "Click to mail %s"
 msgstr "મેઈલ %s કરવા માટે ક્લિક કરો"
 
 #. message-search popup match count string
-#: ../mail/em-format-html-display.c:496
+#: ../mail/em-format-html-display.c:499
 #, c-format
 msgid "Matches: %d"
 msgstr "બંધબેસતા: %d"
 
-#: ../mail/em-format-html-display.c:756 ../mail/em-format-html.c:607
+#: ../mail/em-format-html-display.c:759 ../mail/em-format-html.c:607
 msgid "Unsigned"
 msgstr "સહી કરેલ નથી"
 
-#: ../mail/em-format-html-display.c:756
+#: ../mail/em-format-html-display.c:759
 msgid ""
 "This message is not signed. There is no guarantee that this message is "
 "authentic."
 msgstr "સંદેશો સહી કરેલ નથી. સંદેશો યોગ્ય હોય એની કોઈ ગેરંટી નથી."
 
-#: ../mail/em-format-html-display.c:757 ../mail/em-format-html.c:608
+#: ../mail/em-format-html-display.c:760 ../mail/em-format-html.c:608
 msgid "Valid signature"
 msgstr "માન્ય સહી"
 
-#: ../mail/em-format-html-display.c:757
+#: ../mail/em-format-html-display.c:760
 msgid ""
 "This message is signed and is valid meaning that it is very likely that this "
 "message is authentic."
 msgstr "આ સંદેશો સહી થયેલ છે અને એ માન્ય છે એટલે કે એ ખૂબ જરુરી છે કે આ સંદેશો વ્યવસ્થિત છે."
 
-#: ../mail/em-format-html-display.c:758 ../mail/em-format-html.c:609
+#: ../mail/em-format-html-display.c:761 ../mail/em-format-html.c:609
 msgid "Invalid signature"
 msgstr "અયોગ્ય સહી"
 
-#: ../mail/em-format-html-display.c:758
+#: ../mail/em-format-html-display.c:761
 msgid ""
 "The signature of this message cannot be verified, it may have been altered "
 "in transit."
 msgstr "આ સંદેશાની આ સહી ચકાસાયેલ નથી, તે પરિવહન દરમ્યાન બદલી દેવાયેલ છે."
 
-#: ../mail/em-format-html-display.c:759
+#: ../mail/em-format-html-display.c:762
 msgid "Valid signature, cannot verify sender"
 msgstr "માન્ય સહી, મોકલનારને ચકાસી શકતા નથી"
 
-#: ../mail/em-format-html-display.c:759
+#: ../mail/em-format-html-display.c:762
 msgid ""
 "This message is signed with a valid signature, but the sender of the message "
 "cannot be verified."
 msgstr "આ સંદેશો માન્ય સહી સાથે સહી કરાયેલ છે, પરંતુ સંદેશાનો મોકલનાર ચકાસી શકાતો નથી."
 
-#: ../mail/em-format-html-display.c:765 ../mail/em-format-html.c:616
+#: ../mail/em-format-html-display.c:768 ../mail/em-format-html.c:616
 msgid "Unencrypted"
 msgstr "એનક્રિપ્ટ થયેલ નથી"
 
-#: ../mail/em-format-html-display.c:765
+#: ../mail/em-format-html-display.c:768
 msgid ""
 "This message is not encrypted. Its content may be viewed in transit across "
 "the Internet."
 msgstr "સંદેશો એનક્રિપ્ટ થયેલ નથી. તેના સમાવિષ્ટો ઈન્ટરનેટ પર પરિવહન દરમ્યાન દેખાઈ શકે છે."
 
-#: ../mail/em-format-html-display.c:766 ../mail/em-format-html.c:617
+#: ../mail/em-format-html-display.c:769 ../mail/em-format-html.c:617
 msgid "Encrypted, weak"
 msgstr "એનક્રિપ્ટ થયેલ, નબળુ"
 
-#: ../mail/em-format-html-display.c:766
+#: ../mail/em-format-html-display.c:769
 msgid ""
 "This message is encrypted, but with a weak encryption algorithm. It would be "
 "difficult, but not impossible for an outsider to view the content of this "
@@ -11597,21 +11597,21 @@ msgstr ""
 "આ સંદેશો એનક્રિપ્ટ થયેલ છે, પરંતુ નબળા એનક્રિપ્શન અલગોરિધમ સાથે. તે મુશ્કેલ હશે, પરંતુ એ "
 "બહારના વ્યક્તિ માટે પ્રાયોગિક સમય દરમ્યાન સંદેશાના સમાવિષ્ટો જોવાનું અશક્ય નથી."
 
-#: ../mail/em-format-html-display.c:767 ../mail/em-format-html.c:618
+#: ../mail/em-format-html-display.c:770 ../mail/em-format-html.c:618
 msgid "Encrypted"
 msgstr "એનક્રિપ્ટ થયેલ"
 
-#: ../mail/em-format-html-display.c:767
+#: ../mail/em-format-html-display.c:770
 msgid ""
 "This message is encrypted.  It would be difficult for an outsider to view "
 "the content of this message."
 msgstr "સંદેશો એનક્રિપ્ટ થયેલ છે. બહારની વ્યક્તિ માટે આ સંદેશાના સમાવિષ્ટોને જોવાનું મુશ્કેલ થઈ જશે."
 
-#: ../mail/em-format-html-display.c:768 ../mail/em-format-html.c:619
+#: ../mail/em-format-html-display.c:771 ../mail/em-format-html.c:619
 msgid "Encrypted, strong"
 msgstr "એનક્રિપ્ટ થયેલ, મજબૂત"
 
-#: ../mail/em-format-html-display.c:768
+#: ../mail/em-format-html-display.c:771
 msgid ""
 "This message is encrypted, with a strong encryption algorithm. It would be "
 "very difficult for an outsider to view the content of this message in a "
@@ -11620,72 +11620,72 @@ msgstr ""
 "આ સંદેશો એનક્રિપ્ટ થયેલ છે, મજબૂત એનક્રિપ્શન અલગોરિધમ સાથે. બહારની વ્યક્તિ માટે પ્રાયોગિક "
 "સમય દરમ્યાન આ સંદેશાના સમાવિષ્ટોને જોવાનું મુશ્કેલ થઈ જશે."
 
-#: ../mail/em-format-html-display.c:869 ../smime/gui/smime-ui.glade.h:48
+#: ../mail/em-format-html-display.c:872 ../smime/gui/smime-ui.glade.h:48
 msgid "_View Certificate"
 msgstr "પ્રમાણપત્ર જુઓ (_V)"
 
-#: ../mail/em-format-html-display.c:884
+#: ../mail/em-format-html-display.c:887
 msgid "This certificate is not viewable"
 msgstr "આ પ્રમાણપત્ર જોઈ શકાય એમ નથી"
 
-#: ../mail/em-format-html-display.c:1174
+#: ../mail/em-format-html-display.c:1177
 msgid "Completed on %B %d, %Y, %l:%M %p"
 msgstr "%B %d, %Y, %l:%M %p પૂર્ણ થઈ જશે"
 
-#: ../mail/em-format-html-display.c:1182
+#: ../mail/em-format-html-display.c:1185
 msgid "Overdue:"
 msgstr "ઈચ્છિત સમયે નહિં થયેલ કાર્ય:"
 
-#: ../mail/em-format-html-display.c:1185
+#: ../mail/em-format-html-display.c:1188
 msgid "by %B %d, %Y, %l:%M %p"
 msgstr "%B %d, %Y, %l:%M %p દ્વારા"
 
-#: ../mail/em-format-html-display.c:1245
+#: ../mail/em-format-html-display.c:1248
 msgid "_View Inline"
 msgstr "લીટીમાં જુઓ (_V)"
 
-#: ../mail/em-format-html-display.c:1246
+#: ../mail/em-format-html-display.c:1249
 msgid "_Hide"
 msgstr "છુપાવો (_H)"
 
-#: ../mail/em-format-html-display.c:1247
+#: ../mail/em-format-html-display.c:1250
 msgid "_Fit to Width"
 msgstr "પહોળાઈમાં બંધબેસાડો (_F)"
 
-#: ../mail/em-format-html-display.c:1248
+#: ../mail/em-format-html-display.c:1251
 msgid "Show _Original Size"
 msgstr "મૂળ માપ બતાવો (_O)"
 
-#: ../mail/em-format-html-display.c:1667 ../mail/mail-config.glade.h:45
+#: ../mail/em-format-html-display.c:1670 ../mail/mail-config.glade.h:45
 #: ../mail/message-list.etspec.h:1
 msgid "Attachment"
 msgstr "જોડાણ"
 
-#: ../mail/em-format-html-display.c:1874
+#: ../mail/em-format-html-display.c:1877
 msgid "Select folder to save all attachments..."
 msgstr "બધા જોડાણ સંગ્રહવા માટે ફોલ્ડર પસંદ કરો..."
 
-#: ../mail/em-format-html-display.c:1921
+#: ../mail/em-format-html-display.c:1924
 msgid "_Save Selected..."
 msgstr "પસંદિત સંગ્રહો (_S)..."
 
 #. Cant i put in the number of attachments here ?
-#: ../mail/em-format-html-display.c:1988
+#: ../mail/em-format-html-display.c:1991
 #, c-format
 msgid "%d attachme_nt"
 msgid_plural "%d attachme_nts"
 msgstr[0] "%d જોડાણ (_n)"
 msgstr[1] "%d જોડાણો (_n)"
 
-#: ../mail/em-format-html-display.c:1995 ../mail/em-format-html-display.c:2071
+#: ../mail/em-format-html-display.c:1998 ../mail/em-format-html-display.c:2074
 msgid "S_ave"
 msgstr "સંગ્રહો (_a)"
 
-#: ../mail/em-format-html-display.c:2006
+#: ../mail/em-format-html-display.c:2009
 msgid "S_ave All"
 msgstr "બધું સંગ્રહો (_a)"
 
-#: ../mail/em-format-html-display.c:2067
+#: ../mail/em-format-html-display.c:2070
 msgid "No Attachment"
 msgstr "કોઈ જોડાણ નથી"
 
@@ -11796,7 +11796,7 @@ msgstr "સમાચાર જૂથો"
 msgid "%s attachment"
 msgstr "%s જોડાણ"
 
-#: ../mail/em-format.c:1141 ../mail/em-format.c:1289 ../mail/em-format.c:1576
+#: ../mail/em-format.c:1141 ../mail/em-format.c:1289 ../mail/em-format.c:1591
 msgid "Could not parse S/MIME message: Unknown error"
 msgstr "S/MIME સંદેશાનું પદચ્છેદ કરી શક્યા નહિં: અજ્ઞાત ભૂલ"
 
@@ -11812,11 +11812,11 @@ msgstr "multipart/encrypted માટે આધારભૂત નહિં એ�
 msgid "Unsupported signature format"
 msgstr "સહીનું બંધારણ આધારભૂત નથી"
 
-#: ../mail/em-format.c:1454 ../mail/em-format.c:1518
+#: ../mail/em-format.c:1454 ../mail/em-format.c:1520
 msgid "Error verifying signature"
 msgstr "સહી ચકાસણીમાં ભૂલ"
 
-#: ../mail/em-format.c:1454 ../mail/em-format.c:1518
+#: ../mail/em-format.c:1454 ../mail/em-format.c:1520
 msgid "Unknown error verifying signature"
 msgstr "સહી ચકાસણી કરતી વખતે અજ્ઞાત ભૂલ"
 
@@ -13715,26 +13715,25 @@ msgid ""
 "A non-empty folder at &quot;{1}&quot; already exists.\n"
 "\n"
 "You can choose to ignore this folder, overwrite or append its contents, or "
-"quit.\n"
+"quit."
 msgstr ""
 "&quot;{1}&quot; જગ્યાએ ખાલી નહિં હોય એવું ફોલ્ડર હાજર છે.\n"
 "\n"
-"તમે આ ફોલ્ડરને અવગણવા માટે પસંદ કરી શકો છો, તેના સમાવષ્ટો પર ફરીથી લખવા માંગો છો "
-"અથવા તેમાં ઉમેરવા માંગો છો, અથવા બહાર નીકળવા માંગો છો.\n"
+"તમે આ ફોલ્ડરને અવગણવા માટે પસંદ કરી શકો છો, તેના સમાવષ્ટો પર ફરીથી લખી શકો છો અથવા તેમાં ઉમેરી શકો છો, અથવા બહાર નીકળી શકો છો."
 
-#: ../mail/mail.error.xml.h:6
+#: ../mail/mail.error.xml.h:5
 msgid ""
 "A read receipt notification has been requested for &quot;{1}&quot;. Send the "
 "receipt notification to {0}?"
 msgstr "વાંચન રસીદ સૂચને &quot;{1}&quot; માટે અરજી કરી છે.  શું {0} ને રસીદ સૂચન મોકલવું છે?"
 
-#: ../mail/mail.error.xml.h:7
+#: ../mail/mail.error.xml.h:6
 msgid ""
 "A signature already exists with the name &quot;{0}&quot;. Please specify a "
 "different name."
 msgstr "&quot;{0}&quot; નામવાળી સહી પહેલાથી જ હાજર છે. મહેરબાની કરીને અલગ નામ સ્પષ્ટ કરો."
 
-#: ../mail/mail.error.xml.h:8
+#: ../mail/mail.error.xml.h:7
 msgid ""
 "Adding a meaningful Subject line to your messages will give your recipients "
 "an idea of what your mail is about."
@@ -13742,29 +13741,29 @@ msgstr ""
 "અર્થવાળો વિષય તમારા સંદેશાને આપવાથી તમારા મેળવનારાઓને તમારો મેઈલ શેના વિશે છે તેની સમજ "
 "આપે છે."
 
-#: ../mail/mail.error.xml.h:9
+#: ../mail/mail.error.xml.h:8
 msgid "Are you sure you want to delete this account and all its proxies?"
 msgstr "શું તમે ખરેખર આ ખાતું અને તેના બધા પ્રોક્સીઓ કાઢી નાંખવા માંગો છો?"
 
-#: ../mail/mail.error.xml.h:10
+#: ../mail/mail.error.xml.h:9
 msgid "Are you sure you want to delete this account?"
 msgstr "શું તમે ખરેખર આ ખાતું કાઢી નાંખવા માંગો છો?"
 
-#: ../mail/mail.error.xml.h:11
+#: ../mail/mail.error.xml.h:10
 msgid "Are you sure you want to disable this account and delete all its proxies?"
 msgstr "શું તમે ખરેખર આ ખાતું નિષ્ક્રિય કરવા માંગો છો અને તેના બધા પ્રોક્સીઓ કાઢી નાંખવા માંગો છો?"
 
-#: ../mail/mail.error.xml.h:12
+#: ../mail/mail.error.xml.h:11
 msgid "Are you sure you want to open {0} messages at once?"
 msgstr "શું તમે ખરેખર {0} સંદેશાઓ એકસાથે ખોલવા માંગો છો?"
 
-#: ../mail/mail.error.xml.h:13
+#: ../mail/mail.error.xml.h:12
 msgid ""
 "Are you sure you want to permanently remove all the deleted messages in all "
 "folders?"
 msgstr "શું તમે બધા કાઢી નંખાયેલા સંદેશાઓને બધા ફોલ્ડરોમાંથી કાયમી રીતે દૂર કરવા માંગો છો?"
 
-#: ../mail/mail.error.xml.h:14
+#: ../mail/mail.error.xml.h:13
 msgid ""
 "Are you sure you want to permanently remove all the deleted messages in "
 "folder &quot;{0}&quot;?"
@@ -13772,79 +13771,79 @@ msgstr ""
 "શું તમે ચોક્કસ છો તમે કાયમ માટે તમારા &quot;{0}&quot; ફોલ્ડરમાંના સંદેશાને દૂર કરવા માંગો "
 "છો?"
 
-#: ../mail/mail.error.xml.h:15
+#: ../mail/mail.error.xml.h:14
 msgid "Are you sure you want to send a message in HTML format?"
 msgstr "શું તમે ખરેખર સંદેશાને HTML બંધારણમાં મોકલવા માંગો છો?"
 
-#: ../mail/mail.error.xml.h:16
+#: ../mail/mail.error.xml.h:15
 msgid "Are you sure you want to send a message with only BCC recipients?"
 msgstr "શું તમે ચોક્કસ છો કે તમે માત્ર ખબર વિના આને પણ મેળવનારા સાથે જ સંદેશો મોકલવા માંગો છો?"
 
-#: ../mail/mail.error.xml.h:17
+#: ../mail/mail.error.xml.h:16
 msgid "Are you sure you want to send a message without a subject?"
 msgstr "શું તમે ચોક્કસ છો કે તમે સંદેશાને વિષય વિના મોકલવા માંગો છો?"
 
-#: ../mail/mail.error.xml.h:18
+#: ../mail/mail.error.xml.h:17
 msgid "Because &quot;{0}&quot;."
 msgstr "&quot;{0}&quot; ના કારણે."
 
-#: ../mail/mail.error.xml.h:20
+#: ../mail/mail.error.xml.h:19
 msgid "Because &quot;{2}&quot;."
 msgstr "&quot;{2}&quot; ના કારણે."
 
-#: ../mail/mail.error.xml.h:21
+#: ../mail/mail.error.xml.h:20
 msgid "Blank Signature"
 msgstr "કોરી સહી"
 
-#: ../mail/mail.error.xml.h:22
+#: ../mail/mail.error.xml.h:21
 msgid "Cannot add Search Folder &quot;{0}&quot;."
 msgstr "શોધ ફોલ્ડર &quot;{0}&quot; ઉમેરી શકતા નથી."
 
-#: ../mail/mail.error.xml.h:23
+#: ../mail/mail.error.xml.h:22
 msgid "Cannot copy folder &quot;{0}&quot; to &quot;{1}&quot;."
 msgstr "ફોલ્ડર &quot;{0}&quot; ને &quot;{1}&quot; માં નકલ કરી શકતા નથી."
 
-#: ../mail/mail.error.xml.h:24
+#: ../mail/mail.error.xml.h:23
 msgid "Cannot create folder &quot;{0}&quot;."
 msgstr "ફોલ્ડર &quot;{0}&quot; બનાવી શકતા નથી."
 
-#: ../mail/mail.error.xml.h:25
+#: ../mail/mail.error.xml.h:24
 msgid "Cannot create temporary save directory."
 msgstr "કામચલાઉ સંગ્રહ ડિરેક્ટરી બનાવી શકતા નથી."
 
-#: ../mail/mail.error.xml.h:26
+#: ../mail/mail.error.xml.h:25
 msgid "Cannot create the save directory, because &quot;{1}&quot;"
 msgstr "સંગ્રહ ડિરેક્ટરી બનાવી શકતા નથી, &quot;{1}&quot; ના કારણે"
 
-#: ../mail/mail.error.xml.h:27
+#: ../mail/mail.error.xml.h:26
 msgid "Cannot delete folder &quot;{0}&quot;."
 msgstr "ફોલ્ડર &quot;{0}&quot; કાઢી શકતા નથી."
 
-#: ../mail/mail.error.xml.h:28
+#: ../mail/mail.error.xml.h:27
 msgid "Cannot delete system folder &quot;{0}&quot;."
 msgstr "સિસ્ટમ ફોલ્ડર &quot;{0}&quot; કાઢી શકતા નથી."
 
-#: ../mail/mail.error.xml.h:29
+#: ../mail/mail.error.xml.h:28
 msgid "Cannot edit Search Folder &quot;{0}&quot; as it does not exist."
 msgstr "શોધ ફોલ્ડર &quot;{0}&quot; માં ફેરફાર કરી શકતા નથી કારણ કે તે અસ્તિત્વમાં નથી."
 
-#: ../mail/mail.error.xml.h:30
+#: ../mail/mail.error.xml.h:29
 msgid "Cannot move folder &quot;{0}&quot; to &quot;{1}&quot;."
 msgstr "ફોલ્ડર &quot;{0}&quot; ને &quot;{1}&quot; માં ખસેડી શકતા નથી."
 
-#: ../mail/mail.error.xml.h:31
+#: ../mail/mail.error.xml.h:30
 msgid "Cannot open source &quot;{1}&quot;"
 msgstr "&quot;{1}&quot; ને ઓપન સોર્સ કરી શકતા નથી"
 
-#: ../mail/mail.error.xml.h:32
+#: ../mail/mail.error.xml.h:31
 msgid "Cannot open source &quot;{2}&quot;."
 msgstr "&quot;{2}&quot; ને ઓપન સોર્સ કરી શકતા નથી."
 
-#: ../mail/mail.error.xml.h:33
+#: ../mail/mail.error.xml.h:32
 msgid "Cannot open target &quot;{2}&quot;."
 msgstr "લક્ષ્ય &quot;{2}&quot; ખોલી શકતા નથી."
 
-#: ../mail/mail.error.xml.h:34
+#: ../mail/mail.error.xml.h:33
 msgid ""
 "Cannot read the license file &quot;{0}&quot;, due to an installation "
 "problem. You will not be able to use this provider until you can accept its "
@@ -13853,31 +13852,31 @@ msgstr ""
 "લાઈસન્સ ફાઈલ &quot;{0}&quot; વાંચી શકતા નથી, સ્થાપન સમસ્યાને કારણે.  જ્યાં સુધી તમે આ "
 "વિક્રેતાનું લાઈસન્સ સ્વીકારો નહિં ત્યાં સુધી તમે એને વાપરવા સમર્થ નથી."
 
-#: ../mail/mail.error.xml.h:35
+#: ../mail/mail.error.xml.h:34
 msgid "Cannot rename &quot;{0}&quot; to &quot;{1}&quot;."
 msgstr "&quot;{0}&quot; નું નામ &quot;{1}&quot; બદલી શકતા નથી."
 
-#: ../mail/mail.error.xml.h:36
+#: ../mail/mail.error.xml.h:35
 msgid "Cannot rename or move system folder &quot;{0}&quot;."
 msgstr "સિસ્ટમ ફોલ્ડર &quot;{0}&quot; નું નામ બદલી શકાતું નથી અથવા કાઢી શકાતું નથી."
 
-#: ../mail/mail.error.xml.h:37
+#: ../mail/mail.error.xml.h:36
 msgid "Cannot save changes to account."
 msgstr "ખાતામાં બદલાવો સંગ્રહી શકાતા નથી."
 
-#: ../mail/mail.error.xml.h:38
+#: ../mail/mail.error.xml.h:37
 msgid "Cannot save to directory &quot;{0}&quot;."
 msgstr "ડિરેક્ટરી &quot;{0}&quot; માં સંગ્રહી શકાતું નથી."
 
-#: ../mail/mail.error.xml.h:39
+#: ../mail/mail.error.xml.h:38
 msgid "Cannot save to file &quot;{0}&quot;."
 msgstr "ફાઈલ &quot;{0}&quot; માં સંગ્રહી શકાતું નથી."
 
-#: ../mail/mail.error.xml.h:40
+#: ../mail/mail.error.xml.h:39
 msgid "Cannot set signature script &quot;{0}&quot;."
 msgstr "સહી સ્ક્રિપ્ટ &quot;{0}&quot; સુયોજિત કરી શકતા નથી."
 
-#: ../mail/mail.error.xml.h:41
+#: ../mail/mail.error.xml.h:40
 msgid ""
 "Check to make sure your password is spelled correctly. Remember that many "
 "passwords are case sensitive; your caps lock might be on."
@@ -13885,71 +13884,71 @@ msgstr ""
 "તમારો પાસવર્ડ યોગ્ય રીતે લખાયેલો છે કે તે ચકાસવા માટે ખાતરી કરો. યાદ રાખો કે ઘણા "
 "પાસવર્ડો કેસ પ્રત્યે સંવેદનશીલ હોય છે; તમારી કેપ્સ લોક કી કદાચ ચાલુ હશે."
 
-#: ../mail/mail.error.xml.h:42
+#: ../mail/mail.error.xml.h:41
 msgid "Could not save signature file."
 msgstr "સહીની ફાઈલ સંગ્રહી શક્યા નહિં."
 
-#: ../mail/mail.error.xml.h:43
+#: ../mail/mail.error.xml.h:42
 msgid "Delete &quot;{0}&quot;?"
 msgstr "શું &quot;{0}&quot; કાઢી નાંખવું છે?"
 
-#: ../mail/mail.error.xml.h:44
+#: ../mail/mail.error.xml.h:43
 msgid "Delete account?"
 msgstr "ખાતું કાઢી નાંખવું છે?"
 
-#: ../mail/mail.error.xml.h:45
+#: ../mail/mail.error.xml.h:44
 msgid "Discard changes?"
 msgstr "શું ફેરફારો અવગણવા માંગો છો?"
 
-#: ../mail/mail.error.xml.h:46
+#: ../mail/mail.error.xml.h:45
 msgid "Do not delete"
 msgstr "કાઢો નંહિ"
 
-#: ../mail/mail.error.xml.h:47
+#: ../mail/mail.error.xml.h:46
 msgid "Do not disable"
 msgstr "નિષ્ક્રિય કરશો નંહિ"
 
-#: ../mail/mail.error.xml.h:48
+#: ../mail/mail.error.xml.h:47
 msgid "Do you want the operation to be performed in the subfolders?"
 msgstr "શું પ્રક્રિયાને ઉપફોલ્ડરોમાં થાય એ રીતે કરવા માંગો છો?"
 
-#: ../mail/mail.error.xml.h:49
+#: ../mail/mail.error.xml.h:48
 msgid "Do you want to mark all messages as read?"
 msgstr "શું તમે બધા સંદેશાઓને વંચાયેલ એમ ચિહ્નિત કરવા માંગો છો?"
 
-#: ../mail/mail.error.xml.h:50
+#: ../mail/mail.error.xml.h:49
 msgid "Do you wish to save your changes?"
 msgstr "શું તમે તમારા બદલાવો સંગ્રહવા માંગો છો?"
 
-#: ../mail/mail.error.xml.h:51
+#: ../mail/mail.error.xml.h:50
 msgid "Enter password."
 msgstr "પાસવર્ડ દાખલ કરો."
 
-#: ../mail/mail.error.xml.h:52
+#: ../mail/mail.error.xml.h:51
 msgid "Error loading filter definitions."
 msgstr "ગાળક વ્યાખ્યાઓ લાવતી વખતે ભૂલ આવી."
 
-#: ../mail/mail.error.xml.h:53
+#: ../mail/mail.error.xml.h:52
 msgid "Error while performing operation."
 msgstr "પ્રક્રિયા કરવામાં ભૂલ આવી હતી."
 
-#: ../mail/mail.error.xml.h:54
+#: ../mail/mail.error.xml.h:53
 msgid "Error while {0}."
 msgstr "{0} વખતે ભૂલ આવી."
 
-#: ../mail/mail.error.xml.h:55
+#: ../mail/mail.error.xml.h:54
 msgid "File exists but cannot overwrite it."
 msgstr "ફાઈલ હાજર છે પરંતુ તેના પર ફરીથી લખી શકતા નથી."
 
-#: ../mail/mail.error.xml.h:56
+#: ../mail/mail.error.xml.h:55
 msgid "File exists but is not a regular file."
 msgstr "ફાઈલ હાજર છે, પરંતુ તે નિયમિત ફાઈલ નથી."
 
-#: ../mail/mail.error.xml.h:57
+#: ../mail/mail.error.xml.h:56
 msgid "If you continue, you will not be able to recover these messages."
 msgstr "જો તમે ચાલુ રાખો, તો તમે આ સંદેશાઓને પાછા મેળવવા માટે સમર્થ નહિં હોય."
 
-#: ../mail/mail.error.xml.h:58
+#: ../mail/mail.error.xml.h:57
 msgid ""
 "If you delete the folder, all of its contents and its subfolders contents "
 "will be deleted permanently."
@@ -13957,11 +13956,11 @@ msgstr ""
 "જો તમે ફોલ્ડર કાઢી નાંખો, તો તેના બધા સમાવિષ્ટો અને તેના ઉપફોલ્ડરના સમાવિષ્ટો કાયમી "
 "રીતે કાઢી નંખાશે."
 
-#: ../mail/mail.error.xml.h:59
+#: ../mail/mail.error.xml.h:58
 msgid "If you proceed, all proxy accounts will be deleted permanently."
 msgstr "જો તમે પ્રક્રિયા કરો, તો તમારા બધા ખાતાઓ કાયમીપણે કાઢી નંખાશે."
 
-#: ../mail/mail.error.xml.h:60
+#: ../mail/mail.error.xml.h:59
 msgid ""
 "If you proceed, the account information and\n"
 "all proxy information will be deleted permanently."
@@ -13969,29 +13968,29 @@ msgstr ""
 "જો તમે પ્રક્રિયા કરો, તો ખાતાની જાણકારી અને\n"
 "બધી પ્રોક્સી જાણકારી કાયમ માટે કાઢી નંખાશે."
 
-#: ../mail/mail.error.xml.h:62
+#: ../mail/mail.error.xml.h:61
 msgid "If you proceed, the account information will be deleted permanently."
 msgstr "જો તમે પ્રક્રિયા કરો, તો ખાતાની જાણકારી કાયમી રીતે કાઢી નંખાશે."
 
-#: ../mail/mail.error.xml.h:63
+#: ../mail/mail.error.xml.h:62
 msgid ""
 "If you quit, these messages will not be sent until Evolution is started "
 "again."
 msgstr "જો તમે બહાર નીકળો, આ સંદેશાઓ જ્યાં સુધી ઈવોલ્યુશન શરુ થાય નહિં ત્યાં સુધી મોકલાશે નહિં."
 
-#: ../mail/mail.error.xml.h:64
+#: ../mail/mail.error.xml.h:63
 msgid "Ignore"
 msgstr "અવગણો"
 
-#: ../mail/mail.error.xml.h:65
+#: ../mail/mail.error.xml.h:64
 msgid "Invalid authentication"
 msgstr "અયોગ્ય સત્તાધિકરણ"
 
-#: ../mail/mail.error.xml.h:66
+#: ../mail/mail.error.xml.h:65
 msgid "Mail filters automatically updated."
 msgstr "મેઈલ ગાળકો આપોઆપ સુધારાઈ ગયા."
 
-#: ../mail/mail.error.xml.h:67
+#: ../mail/mail.error.xml.h:66
 msgid ""
 "Many email systems add an Apparently-To header to messages that only have "
 "BCC recipients. This header, if added, will list all of your recipients to "
@@ -14002,35 +14001,35 @@ msgstr ""
 "હેડર હોય. જો આ હેડર ઉમેરાશે, તો તે તમારા સંદેશા મેળવનરા બધાનેે યાદીત કરે છે. આની અવગણના "
 "કરવા માટે, તમારે ઓછામાં ઓછું એક પ્રતિ અથવા આને પણ હેડર દાખલ કરી દેવું જોઈએ."
 
-#: ../mail/mail.error.xml.h:68
+#: ../mail/mail.error.xml.h:67
 msgid "Mark all messages as read"
 msgstr "બધા સંદેશાઓને વંચાયેલ એમ ચિહ્નિત કરો"
 
-#: ../mail/mail.error.xml.h:69
+#: ../mail/mail.error.xml.h:68
 msgid "Mark all messages as read in the selected folder"
 msgstr "બધા સંદેશાઓને પસંદિત ફોલ્ડરમાં વંચાયેલ એમ ચિહ્નિત કરો"
 
-#: ../mail/mail.error.xml.h:70
+#: ../mail/mail.error.xml.h:69
 msgid "Missing folder."
 msgstr "ખોવાયેલ ફોલ્ડર."
 
-#: ../mail/mail.error.xml.h:72
+#: ../mail/mail.error.xml.h:71
 msgid "No sources selected."
 msgstr "કોઈ સ્રોતો પસંદ થયેલ નથી."
 
-#: ../mail/mail.error.xml.h:73
+#: ../mail/mail.error.xml.h:72
 msgid "Opening too many messages at once may take a long time."
 msgstr "એક જ સમયે ઘણા સંદેશાઓ ખોલવાનું ખૂબ લાંબો સમય લે છે."
 
-#: ../mail/mail.error.xml.h:74
+#: ../mail/mail.error.xml.h:73
 msgid "Please check your account settings and try again."
 msgstr "મહેરબાની કરીને તમારા ખાતા સુયોજનો ચકાસો અને ફરીથી પ્રયત્ન કરો."
 
-#: ../mail/mail.error.xml.h:75
+#: ../mail/mail.error.xml.h:74
 msgid "Please enable the account or send using another account."
 msgstr "મહેરબાની કરીને ખાતું સક્રિય કરો અથવા અન્ય ખાતા મારફતે મોકલો."
 
-#: ../mail/mail.error.xml.h:76
+#: ../mail/mail.error.xml.h:75
 msgid ""
 "Please enter a valid email address in the To: field. You can search for "
 "email addresses by clicking on the To: button next to the entry box."
@@ -14038,7 +14037,7 @@ msgstr ""
 "મહેરબાની કરીને માન્ય ઈ-મેઈલ સરનામું પ્રતિ ક્ષેત્રમાં દાખલ કરો. તમે પ્રતિ પર ક્લિક કરીને ઈ-"
 "મેઈલ સરનામું શોધી શકો છો કે જે પ્રવેશ બોક્સ પછી તરતનું બટન છે."
 
-#: ../mail/mail.error.xml.h:77
+#: ../mail/mail.error.xml.h:76
 msgid ""
 "Please make sure the following recipients are willing and able to receive "
 "HTML email:\n"
@@ -14049,47 +14048,47 @@ msgstr ""
 "{0}\n"
 "કોઈ પણ રીતે મોકલવું છે?"
 
-#: ../mail/mail.error.xml.h:80
+#: ../mail/mail.error.xml.h:79
 msgid "Please provide an unique name to identify this signature."
 msgstr "આ સહી ઓળખવા માટે મહેરબાની કરીને અનન્ય નામ પૂરું પાડો."
 
-#: ../mail/mail.error.xml.h:81
+#: ../mail/mail.error.xml.h:80
 msgid "Please wait."
 msgstr "મહેરબાની કરીને રાહ જુઓ."
 
-#: ../mail/mail.error.xml.h:82
+#: ../mail/mail.error.xml.h:81
 msgid "Problem migrating old mail folder &quot;{0}&quot;."
 msgstr "જૂના મેઈલ ફોલ્ડર &quot;{0}&quot; ને ખસેડવામાં સમસ્યા છે."
 
-#: ../mail/mail.error.xml.h:83
+#: ../mail/mail.error.xml.h:82
 msgid "Querying server"
 msgstr "સર્વરને પૂછી રહ્યા છીએ"
 
-#: ../mail/mail.error.xml.h:84
+#: ../mail/mail.error.xml.h:83
 msgid "Querying server for a list of supported authentication mechanisms."
 msgstr "આધારભૂત સત્તાધિકરણ પદ્ધતિઓની યાદી માટે સર્વરને પૂછી રહ્યા છીએ."
 
-#: ../mail/mail.error.xml.h:85
+#: ../mail/mail.error.xml.h:84
 msgid "Read receipt requested."
 msgstr "વાંચન રસીદની અરજી થઈ."
 
-#: ../mail/mail.error.xml.h:86
+#: ../mail/mail.error.xml.h:85
 msgid "Really delete folder &quot;{0}&quot; and all of its subfolders?"
 msgstr "શું ખરેખર ફોલ્ડર &quot;{0}&quot; અને તેની બધી ઉપડિરેક્ટરીઓ કાઢી નાંખવી છે?"
 
-#: ../mail/mail.error.xml.h:87
+#: ../mail/mail.error.xml.h:86
 msgid "Search Folders automatically updated."
 msgstr "શોધ ફોલ્ડરો આપોઆપ સુધારાઈ ગયા."
 
-#: ../mail/mail.error.xml.h:88
+#: ../mail/mail.error.xml.h:87
 msgid "Send Receipt"
 msgstr "મોકલાયેલની રસીદ"
 
-#: ../mail/mail.error.xml.h:89
+#: ../mail/mail.error.xml.h:88
 msgid "Signature Already Exists"
 msgstr "સહી પહેલાથી જ હાજર છે"
 
-#: ../mail/mail.error.xml.h:90
+#: ../mail/mail.error.xml.h:89
 msgid ""
 "System folders are required for Ximian Evolution to function correctly and "
 "cannot be renamed, moved, or deleted."
@@ -14097,7 +14096,7 @@ msgstr ""
 "સિસ્ટમ ફોલ્ડરોને Ximian ઈવોલ્યુશન ને યોગ્ય રીતે કામ કરવાની જરુર છે અને તેનું નામ બદલી શકાતું "
 "નથી, ખસેડી શકાતી નથી, અથવા કાઢી શકાતું નથી."
 
-#: ../mail/mail.error.xml.h:91
+#: ../mail/mail.error.xml.h:90
 msgid ""
 "The contact list you are sending to is configured to hide list recipients.\n"
 "\n"
@@ -14112,7 +14111,7 @@ msgstr ""
 "હેડર હોય. જો આ હેડર ઉમેરાશે, તો તે તમારા સંદેશા મેળવનરા બધાનેે યાદીત કરે છે. આની અવગણના "
 "કરવા માટે, તમારે ઓછામાં ઓછું એક પ્રતિ અથવા આને પણ હેડર દાખલ કરી દેવું જોઈએ. "
 
-#: ../mail/mail.error.xml.h:94
+#: ../mail/mail.error.xml.h:93
 msgid ""
 "The following Search Folder(s):\n"
 "{0}\n"
@@ -14126,7 +14125,7 @@ msgstr ""
 "    &quot;{1}&quot;\n"
 "અને હવે સુધારાઈ ગયેલ છે."
 
-#: ../mail/mail.error.xml.h:99
+#: ../mail/mail.error.xml.h:98
 msgid ""
 "The following filter rule(s):\n"
 "{0}\n"
@@ -14140,22 +14139,11 @@ msgstr ""
 "    &quot;{1}&quot;\n"
 "અને હવે સુધારાઈ ગયેલ છે."
 
-#: ../mail/mail.error.xml.h:104
-msgid ""
-"The message was sent via the &quot;sendmail&quot; external application. "
-"Sendmail reports the following error: status 67: mail not sent.\n"
-"The message is stored in the Outbox folder. Check the message for errors and "
-"resend."
-msgstr ""
-"બાહ્ય કાર્યક્રમ &quot;sendmail&quot; દ્વારા મોકલાયેલ સંદેશો પહોંચી ગયો. Sendmail "
-"નીચેની ભૂલોનો અહેવાલ આપે છે: સ્થિતિ ૬૭: મેઈલ મોકલાયો નથી.\n"
-"સંદેશો આઉટબોક્સ ફોલ્ડરમાં સંગ્રહાયેલો છે. સંદેશાને ભૂલો અને ફરીથી મોકલવા માટે ચકાસો."
-
-#: ../mail/mail.error.xml.h:106
+#: ../mail/mail.error.xml.h:103
 msgid "The script file must exist and be executable."
 msgstr "સ્ક્રિપ્ટ ફાઈલ હાજર હોવી જ જોઈએ અને તે ચલાવી શકાય તેવી હોવી જોઈએ."
 
-#: ../mail/mail.error.xml.h:107
+#: ../mail/mail.error.xml.h:104
 msgid ""
 "This folder may have been added implicitly,\n"
 "go to the Search Folder editor to add it explicitly, if required."
@@ -14163,17 +14151,17 @@ msgstr ""
 "આ ફોલ્ડર કદાચ ઉમેરાઈ ગયેલ છે,\n"
 "શોધ ફોલ્ડર સંપાદકમાં તેને બાહ્ય રીતે ઉમેરવા માટે જાઓ, જો જરૂરી હોય."
 
-#: ../mail/mail.error.xml.h:109
+#: ../mail/mail.error.xml.h:106
 msgid ""
 "This message cannot be sent because the account you chose to send with is "
 "not enabled"
 msgstr "સંદેશો મોકલી શકાતો નથી કારણ કે સાથે મોકલવા માટેનું ખાતું પસંદ કરો તે સક્રિય કરેલ નથી"
 
-#: ../mail/mail.error.xml.h:110
+#: ../mail/mail.error.xml.h:107
 msgid "This message cannot be sent because you have not specified any recipients"
 msgstr "આ સંદેશો મોકલી શકાતો નથી કારણ કે તમે કોઈ મેળવનારો સ્પષ્ટ કર્યો નથી"
 
-#: ../mail/mail.error.xml.h:111
+#: ../mail/mail.error.xml.h:108
 msgid ""
 "This server does not support this type of authentication and may not support "
 "authentication at all."
@@ -14181,21 +14169,21 @@ msgstr ""
 "આ સર્વર આ પ્રકારના સત્તાધિકરણને આધાર આપતું નથી અને તે કદાચ બધાનું સત્તાધિકરણને આધાર આપતું "
 "નથી."
 
-#: ../mail/mail.error.xml.h:112
+#: ../mail/mail.error.xml.h:109
 msgid "This signature has been changed, but has not been saved."
 msgstr "સહી બદલાઈ ગયેલ છે, પરંતુ તે સંગ્રહાયેલ નથી."
 
-#: ../mail/mail.error.xml.h:113
+#: ../mail/mail.error.xml.h:110
 msgid ""
 "This will mark all messages as read in the selected folder and its "
 "subfolders."
 msgstr "આ બધા સંદેશાઓને પસંદિત ફોલ્ડર અને તેના ઉપફોલ્ડરોમાં વંચાયેલ એમ ચિહ્નિત કરશે."
 
-#: ../mail/mail.error.xml.h:114
+#: ../mail/mail.error.xml.h:111
 msgid "Unable to connect to the GroupWise server."
 msgstr "GroupWise સર્વર સાથે જોડાવામાં અસમર્થ."
 
-#: ../mail/mail.error.xml.h:115
+#: ../mail/mail.error.xml.h:112
 msgid ""
 "Unable to open the drafts folder for this account. Use the system drafts "
 "folder instead?"
@@ -14203,39 +14191,39 @@ msgstr ""
 "આ ખાતા માટે ડ્રાફ્ટ ફોલ્ડર ખોલવા સમર્થ નથી. સિસ્ટમ ડ્રાફ્ટ ફોલ્ડરો જ તેની જગ્યાએ વાપરવા "
 "છે?"
 
-#: ../mail/mail.error.xml.h:116
+#: ../mail/mail.error.xml.h:113
 msgid "Unable to read license file."
 msgstr "લાઈસન્સ ફાઈલ વાંચવામાં અસમર્થ."
 
-#: ../mail/mail.error.xml.h:117
+#: ../mail/mail.error.xml.h:114
 msgid "Use _Default"
 msgstr "મૂળભુત વાપરો (_D)"
 
-#: ../mail/mail.error.xml.h:118
+#: ../mail/mail.error.xml.h:115
 msgid "Use default drafts folder?"
 msgstr "શું મૂળભુત ડ્રાફ્ટ ફોલ્ડર વાપરવું છે?"
 
-#: ../mail/mail.error.xml.h:119
+#: ../mail/mail.error.xml.h:116
 msgid "You have not filled in all of the required information."
 msgstr "તમે બધી જરુરી જાણકારી ભરી નથી."
 
-#: ../mail/mail.error.xml.h:120
+#: ../mail/mail.error.xml.h:117
 msgid "You have unsent messages, do you wish to quit anyway?"
 msgstr "તમે સંદેશાઓ સુયોજિત કર્યા નથી, શું તમે કોઈપણ રીતે ચાલુ રાખવા માંગો છો?"
 
-#: ../mail/mail.error.xml.h:121
+#: ../mail/mail.error.xml.h:118
 msgid "You may not create two accounts with the same name."
 msgstr "તમે એક જ નામથી બે ખાતાઓ બનાવી શકશો નહિં."
 
-#: ../mail/mail.error.xml.h:122
+#: ../mail/mail.error.xml.h:119
 msgid "You must name this Search Folder."
 msgstr "તમારે આ શોધ ફોલ્ડરને નામ આપવું જ જોઈએ."
 
-#: ../mail/mail.error.xml.h:123
+#: ../mail/mail.error.xml.h:120
 msgid "You must specify a folder."
 msgstr "તમારે ફોલ્ડર સ્પષ્ટ કરવું જ પડશે."
 
-#: ../mail/mail.error.xml.h:124
+#: ../mail/mail.error.xml.h:121
 msgid ""
 "You must specify at least one folder as a source.\n"
 "Either by selecting the folders individually, and/or by selecting all local "
@@ -14245,27 +14233,23 @@ msgstr ""
 "ક્યાં તો ફોલ્ડરોને વ્યક્તિગત રીતે પસંદ કરીને, અને/અથવા બધા સ્થાનિક ફોલ્ડરો, બધા દૂરસ્થ "
 "ફોલ્ડરો, અથવા બંને પસંદ કરીને."
 
-#: ../mail/mail.error.xml.h:126
+#: ../mail/mail.error.xml.h:123
 msgid "Your login to your server &quot;{0}&quot; as &quot;{0}&quot; failed."
 msgstr "તમારા સર્વર પરનો તમારો પ્રવેશ &quot;{0}&quot; નો &quot;{0}&quot; તરીકે નિષ્ફળ."
 
-#: ../mail/mail.error.xml.h:127
-msgid "Your message with the subject &quot;{0}&quot; was not delivered."
-msgstr "તમારો &quot;{0}&quot; વિષયવાળો સંદેશો પહોંચ્યો નથી."
-
-#: ../mail/mail.error.xml.h:128
+#: ../mail/mail.error.xml.h:124
 msgid "_Append"
 msgstr "ઉમેરો (_A)"
 
-#: ../mail/mail.error.xml.h:129
+#: ../mail/mail.error.xml.h:125
 msgid "_Discard changes"
 msgstr "બદલાવો અવગણો (_D)"
 
-#: ../mail/mail.error.xml.h:131
+#: ../mail/mail.error.xml.h:127
 msgid "_Expunge"
 msgstr "સંપૂર્ણપણે કાઢી નાંખો (_E)"
 
-#: ../mail/mail.error.xml.h:132
+#: ../mail/mail.error.xml.h:128
 msgid "_Open Messages"
 msgstr "સંદેશાઓ ખોલો (_O)"
 
@@ -14786,7 +14770,7 @@ msgid "Ch_eck for Supported Types"
 msgstr "આધારભૂત પ્રકારો માટે ચકાસો (_e)"
 
 #: ../plugins/exchange-operations/exchange-calendar.c:191
-#: ../plugins/exchange-operations/exchange-contacts.c:165
+#: ../plugins/exchange-operations/exchange-contacts.c:166
 msgid ""
 "Evolution is in offline mode. You cannot create or modify folders now.\n"
 "Please switch to online mode for such operations."
@@ -15412,7 +15396,7 @@ msgstr "ફોલ્ડર વૃક્ષ સંદર્ભ મેનુમા
 msgid "Unsubscribe Folders"
 msgstr "ફોલ્ડરોમાંથી ઉમેદવારી દૂર કરો"
 
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:414
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:417
 msgid "Checklist"
 msgstr "ચકાસણી યાદી"
 
@@ -15647,7 +15631,7 @@ msgid "_Import"
 msgstr "આયાત (_I)"
 
 #: ../plugins/ipod-sync/ical-format.c:137
-#: ../plugins/save-calendar/ical-format.c:137
+#: ../plugins/save-calendar/ical-format.c:149
 msgid "iCalendar format (.ics)"
 msgstr "iCalendar બંધારણ (.ics)"
 
@@ -16217,7 +16201,9 @@ msgstr "Itip ફોર્મેટર"
 msgid ""
 "&quot;{0}&quot; has delegated the meeting. Do you want to add the delegate "
 "&quot;{1}&quot;?"
-msgstr "&quot;{0}&quot; એ મંત્રણા આયોજિત કરી હતી. શું તમે &quot;{1}&quot; પ્રતિનીધિ ઉમેરવા માંગો છો?"
+msgstr ""
+"&quot;{0}&quot; એ મંત્રણા આયોજિત કરી હતી. શું તમે &quot;{1}&quot; પ્રતિનીધિ ઉમેરવા "
+"માંગો છો?"
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:3
 msgid "This meeting has been delegated"
@@ -16972,29 +16958,33 @@ msgstr "બાજુપટ્ટી દૃશ્યમાન છે"
 msgid "Skip development warning dialog"
 msgstr "વિકાસ ચેતવણી સંવાદ અવગણો"
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:12 ../shell/main.c:473
+#: ../shell/apps_evolution_shell.schemas.in.in.h:12 ../shell/main.c:468
 msgid "Start in offline mode"
 msgstr "ઓફલાઈન સ્થિતિમાં શરુ કરો"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:13
+msgid "Statusbar is visible"
+msgstr "પરિસ્થિતિદર્શક પટ્ટી દૃશ્યમાન છે"
+
+#: ../shell/apps_evolution_shell.schemas.in.in.h:14
 msgid ""
 "The configuration version of Evolution, with major/minor/configuration level "
 "(for example \"2.6.0\")."
 msgstr "ઈવોલ્યુશનની રૂપરેખાંકિત આવૃત્તિ, મુખ્ય/ગૌણ/રૂપરેખાંકન સ્તર સાથે (ઉદાહરણ તરીકે \"2.6.0\")."
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:14
+#: ../shell/apps_evolution_shell.schemas.in.in.h:15
 msgid "The default height for the main window, in pixels."
 msgstr "મુખ્ય વિન્ડો માટે મૂળભુત ઊંચાઈ, પિક્સેલોમાં."
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:15
+#: ../shell/apps_evolution_shell.schemas.in.in.h:16
 msgid "The default width for the main window, in pixels."
 msgstr "મુખ્ય વિન્ડો માટે મૂળભુત પહોળાઈ, પિક્સેલોમાં."
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:16
+#: ../shell/apps_evolution_shell.schemas.in.in.h:17
 msgid "The default width for the sidebar, in pixels."
 msgstr "બાજુની પટ્ટી માટે મૂળભુત પહોળાઈ, પિક્સેલોમાં."
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:17
+#: ../shell/apps_evolution_shell.schemas.in.in.h:18
 msgid ""
 "The last upgraded configuration version of Evolution, with major/minor/"
 "configuration level (for example \"2.6.0\")."
@@ -17002,7 +16992,7 @@ msgstr ""
 "ઈવોલ્યુશનની છેલ્લી સુધારાયેલ રૂપરેખાંકિત આવૃત્તિ, મુખ્ય/ગૌણ/ રૂપરેખાંકન સ્તરો સાથે (ઉદાહરણ "
 "તરીકે \"2.6.0\")."
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:18
+#: ../shell/apps_evolution_shell.schemas.in.in.h:19
 msgid ""
 "The style of the window buttons. Can be \"text\", \"icons\", \"both\", "
 "\"toolbar\". If \"toolbar\" is set, the style of the buttons is determined "
@@ -17012,35 +17002,39 @@ msgstr ""
 "\"સાધનપટ્ટી\" સુયોજિત હોય, તો જીનોમ સાધનપટ્ટી સુયોજનો દ્વારા બટનોની શૈલી નક્કી થાય "
 "છે."
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:19
+#: ../shell/apps_evolution_shell.schemas.in.in.h:20
 msgid "Toolbar is visible"
 msgstr "સાધનપટ્ટી દ્રશ્યમાન છે"
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:20
+#: ../shell/apps_evolution_shell.schemas.in.in.h:21
 msgid "Whether Evolution will start up in offline mode instead of online mode."
 msgstr "શું ઈવોલ્યશન ઓનલાઈન સ્થિતિની જગ્યાઓ ઓફલાઈન સ્થિતિમાં શરૂ થશે."
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:21
+#: ../shell/apps_evolution_shell.schemas.in.in.h:22
 msgid "Whether the sidebar should be visible."
 msgstr "શું બાજુપટ્ટી દૃશ્યમાન હોવી જોઈએ."
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:22
+#: ../shell/apps_evolution_shell.schemas.in.in.h:23
+msgid "Whether the status bar should be visible."
+msgstr "શું પરિસ્થિતિદર્શક પટ્ટી દૃશ્યમાન હોવી જોઈએ."
+
+#: ../shell/apps_evolution_shell.schemas.in.in.h:24
 msgid "Whether the toolbar should be visible."
 msgstr "શું સાધનપટ્ટી દ્રશ્યમાન થશે."
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:23
+#: ../shell/apps_evolution_shell.schemas.in.in.h:25
 msgid "Whether the warning dialog in development versions of Evolution is skipped."
 msgstr "શું ઈવોલ્યુશનની વિકાસ આવૃત્તિઓમાંનો ચેતવણી સંવાદ અવગણાયેલ છે."
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:24
+#: ../shell/apps_evolution_shell.schemas.in.in.h:26
 msgid "Whether the window buttons should be visible."
 msgstr "શું વિન્ડો બટનો દેખાવા જોઈએ."
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:25
+#: ../shell/apps_evolution_shell.schemas.in.in.h:27
 msgid "Window button style"
 msgstr "વિન્ડો બટન શૈલી"
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:26
+#: ../shell/apps_evolution_shell.schemas.in.in.h:28
 msgid "Window buttons are visible"
 msgstr "વિન્ડો બટનો દ્રશ્યમાન છે"
 
@@ -17272,7 +17266,7 @@ msgstr ""
 "કેવી રીતે આયાત કરવી તે પ્રક્રિયાનું માર્ગદર્શન આપવામાં આવેલ છે."
 
 #. Preview/Alpha/Beta version warning message
-#: ../shell/main.c:230
+#: ../shell/main.c:231
 #, no-c-format
 msgid ""
 "Hi.  Thanks for taking the time to download this preview release\n"
@@ -17307,7 +17301,7 @@ msgstr ""
 "અમે એવી આશા રાખીએ છીએ કે તમે અમારી સખ્ત મહેનતના પરિણામને માણી રહ્યા હશો,\n"
 "અને અમે તમારા ફાળાની આતુરતાથી રાહ જોઈ રહ્યા છીએ!\n"
 
-#: ../shell/main.c:254
+#: ../shell/main.c:255
 msgid ""
 "Thanks\n"
 "The Evolution Team\n"
@@ -17315,35 +17309,39 @@ msgstr ""
 "આભાર\n"
 "ઈવોલ્યુશન ટુકડી\n"
 
-#: ../shell/main.c:261
+#: ../shell/main.c:262
 msgid "Do not tell me again"
 msgstr "મને ફરી વાર કહો નહિં"
 
-#: ../shell/main.c:471
+#: ../shell/main.c:466
 msgid "Start Evolution activating the specified component"
 msgstr "સ્પષ્ટ કરેલ કમ્પોનન્ટ ક્રિયાશીલ કરવા માટે ઈવોલ્યુશન શરુ કરો"
 
-#: ../shell/main.c:475
+#: ../shell/main.c:470
 msgid "Start in online mode"
 msgstr "ઓનલાઈન સ્થિતિમાં શરુ કરો"
 
-#: ../shell/main.c:478
+#: ../shell/main.c:473
 msgid "Forcibly shut down all Evolution components"
 msgstr "ઈવોલ્યુશનના બધા કમ્પોનન્ટો દબાણપૂર્વક બંધ કરી દો"
 
-#: ../shell/main.c:482
+#: ../shell/main.c:477
 msgid "Forcibly re-migrate from Evolution 1.4"
 msgstr "ઈવોલ્યુશન ૧.૪ માંથી દબાણપૂર્વક ફેરવો"
 
-#: ../shell/main.c:485
+#: ../shell/main.c:480
 msgid "Send the debugging output of all components to a file."
 msgstr "ફાઈલના બધા કમ્પોનન્ટો માટે ભૂલ શોધવા માટેનું આઉટપુટ મોકલો."
 
-#: ../shell/main.c:487
+#: ../shell/main.c:482
 msgid "Disable loading of any plugins."
 msgstr "કોઈપણ પ્લગઈનો લાવવાનું નિષ્ક્રિય કરો."
 
-#: ../shell/main.c:518
+#: ../shell/main.c:513
+msgid "- The Evolution PIM and Email Client"
+msgstr "- ઈવોલ્યુશન PIM અને ઈમેઈલ ક્લાઈન્ટ"
+
+#: ../shell/main.c:524
 #, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
