@@ -1,3 +1,11 @@
+2006-04-24  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #153180
+	* gui/calendar-component.c: (setup_create_ecal): Reset the ecal to NULL.
+	* gui/e-calendar-view.c: 
+	(e_calendar_view_new_appointment_for): If the default client does not
+	exist do not open the dialog.
+	
 2006-04-22  Harish Krishnaswamy  <kharish@novell.com>
 
 	* gui/dialogs/event-page.c (attendee_added_cb):
