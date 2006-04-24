@@ -178,6 +178,7 @@ e_day_view_time_item_get_column_width (EDayViewTimeItem *dvtmitem)
 	gint digit, large_digit_width, max_large_digit_width = 0;
 	gint max_suffix_width, max_minute_or_suffix_width;
 	gint column_width_default, column_width_60_min_rows;
+	cairo_t *cr;
 
 	day_view = dvtmitem->day_view;
 	g_return_val_if_fail (day_view != NULL, 0);
@@ -198,6 +199,7 @@ e_day_view_time_item_get_column_width (EDayViewTimeItem *dvtmitem)
 		layout = gtk_widget_create_pango_layout (GTK_WIDGET (day_view), digit_str);
 		pango_layout_set_font_description (layout, day_view->large_font_desc);
 		pango_layout_get_pixel_size (layout, &large_digit_width, NULL);
+
 		g_object_unref (layout);
 
 		max_large_digit_width = MAX (max_large_digit_width,
@@ -228,7 +230,6 @@ e_day_view_time_item_get_column_width (EDayViewTimeItem *dvtmitem)
 
 	dvtmitem->column_width = MAX (column_width_default,
 				      column_width_60_min_rows);
-
 	return dvtmitem->column_width;
 }
 
@@ -248,7 +249,6 @@ e_day_view_time_item_draw (GnomeCanvasItem *canvas_item,
 	EDayView *day_view;
 	EDayViewTimeItem *dvtmitem;
 	GtkStyle *style;
-	GdkGC *gc, *fg_gc, *dark_gc;
 	gchar buffer[64], *suffix;
 	gint hour, display_hour, minute, row;
 	gint row_y, start_y, large_hour_y_offset, small_font_y_offset;
@@ -260,6 +260,10 @@ e_day_view_time_item_draw (GnomeCanvasItem *canvas_item,
 	PangoContext *context;
 	PangoFontDescription *small_font_desc;
 	PangoFontMetrics *large_font_metrics, *small_font_metrics;
+	cairo_t *cr;
+	GdkColor fg, dark;
+
+	cr = gdk_cairo_create (drawable);
 
 	dvtmitem = E_DAY_VIEW_TIME_ITEM (canvas_item);
 	day_view = dvtmitem->day_view;
@@ -274,9 +278,8 @@ e_day_view_time_item_draw (GnomeCanvasItem *canvas_item,
 	small_font_metrics = pango_context_get_metrics (context, small_font_desc,
 							pango_context_get_language (context));
 
-	gc = day_view->main_gc;
-	fg_gc = style->fg_gc[GTK_STATE_NORMAL];
-	dark_gc = style->dark_gc[GTK_STATE_NORMAL];
+	fg = style->fg[GTK_STATE_NORMAL];
+	dark = style->dark[GTK_STATE_NORMAL];
 
 	/* The start and end of the long horizontal line between hours. */
 	long_line_x1 = E_DVTMI_TIME_GRID_X_PAD - x;
@@ -334,22 +337,25 @@ e_day_view_time_item_draw (GnomeCanvasItem *canvas_item,
 		int marcus_bains_y;
 		GdkColor mb_color;
 		
-		gdk_gc_set_foreground (gc, &day_view->colors[E_DAY_VIEW_COLOR_MARCUS_BAINS_LINE]);
+		cairo_save (cr);
+		gdk_cairo_set_source_color (cr, &day_view->colors[E_DAY_VIEW_COLOR_MARCUS_BAINS_LINE]);
 
 		if (day_view->marcus_bains_time_bar_color && gdk_color_parse (day_view->marcus_bains_time_bar_color, &mb_color)) {
 			GdkColormap *colormap;
 			
 			colormap = gtk_widget_get_colormap (GTK_WIDGET (day_view));
 			if (gdk_colormap_alloc_color (colormap, &mb_color, TRUE, TRUE)) {
-				gdk_gc_set_foreground (gc, &mb_color);
+				gdk_cairo_set_source_color (cr, &mb_color);
 			}
 		}
 
 		time_now = icaltime_current_time_with_zone (e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
 		marcus_bains_y = (time_now.hour * 60 + time_now.minute) * day_view->row_height / day_view->mins_per_row - y;
-		gdk_draw_line (drawable, gc,
-				long_line_x1, marcus_bains_y,
-				long_line_x2, marcus_bains_y);
+		cairo_set_line_width (cr, 1.5);
+		cairo_move_to (cr, long_line_x1, marcus_bains_y);
+		cairo_line_to (cr, long_line_x2, marcus_bains_y);
+		cairo_stroke (cr);
+		cairo_restore (cr);
 	}
 
 	/* Step through each row, drawing the times and the horizontal lines
@@ -376,9 +382,14 @@ e_day_view_time_item_draw (GnomeCanvasItem *canvas_item,
 			/* 60 minute intervals - draw a long horizontal line
 			   between hours and display as one long string,
 			   e.g. "14:00" or "2 pm". */
-			gdk_draw_line (drawable, dark_gc,
-				       long_line_x1, row_y,
-				       long_line_x2, row_y);
+			cairo_save (cr);
+			gdk_cairo_set_source_color (cr, &dark);
+			cairo_save (cr);
+			cairo_set_line_width (cr, 0.7);
+			cairo_move_to (cr, long_line_x1, row_y);
+			cairo_line_to (cr, long_line_x2, row_y);
+			cairo_stroke (cr);
+			cairo_restore (cr);
 
 			if (e_calendar_view_get_use_24_hour_format (E_CALENDAR_VIEW (day_view))) {
 				g_snprintf (buffer, sizeof (buffer), "%i:%02i",
@@ -388,12 +399,16 @@ e_day_view_time_item_draw (GnomeCanvasItem *canvas_item,
 					    display_hour, suffix);
 			}
 
-			layout = gtk_widget_create_pango_layout (GTK_WIDGET (day_view), buffer);
+			cairo_save (cr);
+			gdk_cairo_set_source_color (cr, &fg);
+			layout = pango_cairo_create_layout (cr);
+			pango_layout_set_text (layout, buffer, -1);
 			pango_layout_get_pixel_size (layout, &minute_width, NULL);
-			gdk_draw_layout (drawable, fg_gc,
-					 minute_x2 - minute_width,
-					 row_y + small_font_y_offset,
-					 layout);
+			cairo_translate (cr, minute_x2 - minute_width, row_y + small_font_y_offset);	
+			pango_cairo_update_layout (cr, layout);
+			pango_cairo_show_layout (cr, layout);
+			cairo_restore (cr);
+
 			g_object_unref (layout);
 		} else {
 			/* 5/10/15/30 minute intervals. */
@@ -402,27 +417,40 @@ e_day_view_time_item_draw (GnomeCanvasItem *canvas_item,
 				/* On the hour - draw a long horizontal line
 				   before the hour and display the hour in the
 				   large font. */
-				gdk_draw_line (drawable, dark_gc,
-					       long_line_x1, row_y,
-					       long_line_x2, row_y);
 
+				cairo_save (cr);
+				gdk_cairo_set_source_color (cr, &dark);
 				g_snprintf (buffer, sizeof (buffer), "%i",
 					    display_hour);
 
-				layout = gtk_widget_create_pango_layout (GTK_WIDGET (day_view), buffer);
+				cairo_set_line_width (cr, 0.7);
+				cairo_move_to (cr, long_line_x1, row_y);
+				cairo_line_to (cr, long_line_x2, row_y);
+				cairo_stroke (cr);
+				cairo_restore (cr);
+
+				cairo_save (cr);
+				gdk_cairo_set_source_color (cr, &fg);
+				layout = pango_cairo_create_layout (cr);
+				pango_layout_set_text (layout, buffer, -1);
 				pango_layout_set_font_description (layout, day_view->large_font_desc);
 				pango_layout_get_pixel_size (layout, &hour_width, NULL);
-				gdk_draw_layout (drawable, fg_gc,
-						 large_hour_x2 - hour_width,
-						 row_y + large_hour_y_offset,
-						 layout);
+				cairo_translate (cr, large_hour_x2 - hour_width, row_y + large_hour_y_offset);
+				pango_cairo_update_layout (cr, layout);
+				pango_cairo_show_layout (cr, layout);
+				cairo_restore (cr);
+
 				g_object_unref (layout);
 			} else {
 				/* Within the hour - draw a short line before
 				   the time. */
-				gdk_draw_line (drawable, dark_gc,
-					       short_line_x1, row_y,
-					       long_line_x2, row_y);
+				cairo_save (cr);
+				gdk_cairo_set_source_color (cr, &dark);
+				cairo_set_line_width (cr, 0.7);
+				cairo_move_to (cr, short_line_x1, row_y);
+				cairo_line_to (cr, long_line_x2, row_y);
+				cairo_stroke (cr);
+				cairo_restore (cr);
 			}
 
 			/* Normally we display the minute in each
@@ -439,12 +467,17 @@ e_day_view_time_item_draw (GnomeCanvasItem *canvas_item,
 						    "%02i", minute);
 				}
 
-				layout = gtk_widget_create_pango_layout (GTK_WIDGET (day_view), buffer);
+				cairo_save (cr);
+				gdk_cairo_set_source_color (cr, &fg);
+				layout = pango_cairo_create_layout (cr);
+				pango_layout_set_text (layout, buffer, -1);
+				pango_layout_set_font_description (layout, day_view->small_font_desc);
 				pango_layout_get_pixel_size (layout, &minute_width, NULL);
-				gdk_draw_layout (drawable, fg_gc,
-						 minute_x2 - minute_width,
-						 row_y + small_font_y_offset,
-						 layout);
+				cairo_translate (cr, minute_x2 - minute_width, row_y + small_font_y_offset);
+				pango_cairo_update_layout (cr, layout);
+				pango_cairo_show_layout (cr, layout);
+				cairo_restore (cr);
+
 				g_object_unref (layout);
 			}
 		}
@@ -455,6 +488,7 @@ e_day_view_time_item_draw (GnomeCanvasItem *canvas_item,
 
 	pango_font_metrics_unref (large_font_metrics);
 	pango_font_metrics_unref (small_font_metrics);
+	cairo_destroy (cr);
 }
 
 

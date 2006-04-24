@@ -34,6 +34,7 @@
 #include "e-util/e-categories-config.h"
 #include <libecal/e-cal-time-util.h>
 #include <libedataserver/e-data-server-util.h>
+#include "e-calendar-view.h"
 #include "e-day-view-top-item.h"
 
 static void e_day_view_top_item_set_arg		(GtkObject	 *o,
@@ -164,6 +165,8 @@ e_day_view_top_item_draw (GnomeCanvasItem *canvas_item,
 	gint canvas_width, canvas_height, left_edge, day, date_width, date_x;
 	gint item_height, event_num;
 	PangoLayout *layout;
+	cairo_t *cr;
+	GdkColor fg, bg, light, dark;
 
 #if 0
 	g_print ("In e_day_view_top_item_draw %i,%i %ix%i\n",
@@ -172,6 +175,8 @@ e_day_view_top_item_draw (GnomeCanvasItem *canvas_item,
 	dvtitem = E_DAY_VIEW_TOP_ITEM (canvas_item);
 	day_view = dvtitem->day_view;
 	g_return_if_fail (day_view != NULL);
+
+	cr = gdk_cairo_create (drawable);
 
 	style = gtk_widget_get_style (GTK_WIDGET (day_view));
 	gc = day_view->main_gc;
@@ -184,32 +189,47 @@ e_day_view_top_item_draw (GnomeCanvasItem *canvas_item,
 	left_edge = 0;
 	item_height = day_view->top_row_height - E_DAY_VIEW_TOP_CANVAS_Y_GAP;
 
+	fg = style->fg[GTK_STATE_NORMAL];
+	bg = style->bg[GTK_STATE_NORMAL];
+	light = style->light[GTK_STATE_NORMAL];
+	dark = style->dark[GTK_STATE_NORMAL];
+
 	/* Draw the shadow around the dates. */
-	gdk_draw_line (drawable, light_gc,
-		       left_edge - x, 1 - y,
-		       canvas_width - 2 - x, 1 - y);
-	gdk_draw_line (drawable, light_gc,
-		       left_edge - x, 2 - y,
-		       left_edge - x, item_height - 2 - y);
-	gdk_draw_line (drawable, dark_gc,
-		       left_edge - x, item_height - 1 - y,
-		       canvas_width - 1 - x, item_height - 1 - y);
-	gdk_draw_line (drawable, dark_gc,
-		       canvas_width - 1 - x, 1 - y,
-		       canvas_width - 1 - x, item_height - 1 - y);
+	cairo_save (cr);
+	gdk_cairo_set_source_color (cr, &light);
+	cairo_move_to (cr, left_edge - x, 1 - y);
+	cairo_line_to (cr, canvas_width - 2 - x, 1 - y);
+	cairo_move_to (cr, left_edge - x, 2 - y);
+	cairo_line_to (cr, left_edge - x, item_height - 2 - y);
+	cairo_stroke (cr);
+	cairo_restore (cr);
+
+	cairo_save (cr);
+	gdk_cairo_set_source_color (cr, &dark);
+	cairo_move_to (cr, left_edge - x, item_height - 1 - y);
+	cairo_line_to (cr, canvas_width - 1 - x, item_height - 1 - y);
+	cairo_move_to (cr, canvas_width - 1 - x, 1 - y);
+	cairo_line_to (cr, canvas_width - 1 - x, item_height - 1 - y);
+	cairo_stroke (cr);
+	cairo_restore (cr);
 
 	/* Draw the background for the dates. */
-	gdk_draw_rectangle (drawable, bg_gc, TRUE,
-			    left_edge + 2 - x, 2 - y,
+	cairo_save (cr);
+	gdk_cairo_set_source_color (cr, &bg);
+	cairo_rectangle (cr, left_edge + 2 - x, 2 - y,
 			    canvas_width - left_edge - 3,
 			    item_height - 3);
+	cairo_fill (cr);
+	cairo_restore (cr);
 
 	/* Clear the main area background. */
-	gdk_gc_set_foreground (gc, &day_view->colors[E_DAY_VIEW_COLOR_BG_TOP_CANVAS]);
-	gdk_draw_rectangle (drawable, gc, TRUE,
-			    left_edge - x, item_height - y,
+	cairo_save (cr);
+	gdk_cairo_set_source_color (cr, &day_view->colors[E_DAY_VIEW_COLOR_BG_TOP_CANVAS]);
+	cairo_rectangle (cr, left_edge - x, item_height - y,
 			    canvas_width - left_edge,
 			    canvas_height - item_height);
+	cairo_fill (cr);
+	cairo_restore (cr);
 
 	/* Draw the selection background. */
 	if (GTK_WIDGET_HAS_FOCUS (day_view)
@@ -227,10 +247,12 @@ e_day_view_top_item_draw (GnomeCanvasItem *canvas_item,
 			rect_w = day_view->day_offsets[end_col + 1] - rect_x;
 			rect_h = canvas_height - 1 - rect_y;
 
-			gdk_gc_set_foreground (gc, &day_view->colors[E_DAY_VIEW_COLOR_BG_TOP_CANVAS_SELECTED]);
-			gdk_draw_rectangle (drawable, gc, TRUE,
-					    rect_x - x, rect_y - y,
+			cairo_save (cr);
+			gdk_cairo_set_source_color (cr, &day_view->colors[E_DAY_VIEW_COLOR_BG_TOP_CANVAS_SELECTED]);
+			cairo_rectangle (cr, rect_x - x, rect_y - y,
 					    rect_w, rect_h);
+			cairo_fill (cr);
+			cairo_restore (cr);
 		}
 	}
 
@@ -243,6 +265,7 @@ e_day_view_top_item_draw (GnomeCanvasItem *canvas_item,
 		clip_rect.y = 2 - y;
 		clip_rect.width = day_view->day_widths[day];
 		clip_rect.height = item_height - 2;
+	
 		gdk_gc_set_clip_rectangle (fg_gc, &clip_rect);
 
 		layout = gtk_widget_create_pango_layout (GTK_WIDGET (day_view), buffer);
@@ -259,27 +282,32 @@ e_day_view_top_item_draw (GnomeCanvasItem *canvas_item,
 
 		/* Draw the lines down the left and right of the date cols. */
 		if (day != 0) {
-			gdk_draw_line (drawable, light_gc,
-				       day_view->day_offsets[day] - x,
-				       4 - y,
-				       day_view->day_offsets[day] - x,
+			cairo_save (cr);
+			gdk_cairo_set_source_color (cr, &light);
+			cairo_move_to (cr, day_view->day_offsets[day] - x,
+				       4 - y);
+			cairo_line_to (cr, day_view->day_offsets[day] - x,
 				       item_height - 4 - y);
-
-			gdk_draw_line (drawable, dark_gc,
-				       day_view->day_offsets[day] - 1 - x,
-				       4 - y,
-				       day_view->day_offsets[day] - 1 - x,
+			cairo_stroke (cr);
+			gdk_cairo_set_source_color (cr, &dark);
+			cairo_move_to (cr, day_view->day_offsets[day] - 1 - x,
+				       4 - y);
+			cairo_line_to (cr, day_view->day_offsets[day] - 1 - x,
 				       item_height - 4 - y);
+			cairo_stroke (cr);
+			cairo_restore (cr);
 		}
 
 		/* Draw the lines between each column. */
 		if (day != 0) {
-			gdk_gc_set_foreground (gc, &day_view->colors[E_DAY_VIEW_COLOR_BG_TOP_CANVAS_GRID]);
-			gdk_draw_line (drawable, gc,
-				       day_view->day_offsets[day] - x,
-				       item_height - y,
-				       day_view->day_offsets[day] - x,
+			cairo_save (cr);
+			gdk_cairo_set_source_color (cr, &day_view->colors[E_DAY_VIEW_COLOR_BG_TOP_CANVAS_GRID]);
+			cairo_move_to (cr, day_view->day_offsets[day] - x,
+				       item_height - y);
+			cairo_line_to (cr, day_view->day_offsets[day] - x,
 				       canvas_height - y);
+			cairo_stroke (cr);
+			cairo_restore (cr);
 		}
 	}
 
@@ -290,8 +318,8 @@ e_day_view_top_item_draw (GnomeCanvasItem *canvas_item,
 						     drawable,
 						     x, y, width, height);
 	}
+	cairo_destroy (cr);
 }
-
 
 /* This draws one event in the top canvas. */
 static void
@@ -320,8 +348,20 @@ e_day_view_top_item_draw_long_event (EDayViewTopItem *dvtitem,
 	GSList *categories_list, *elem;
 	PangoLayout *layout;
 	GdkColor bg_color;
+	cairo_t *cr;
+	cairo_pattern_t *pat;
+	guint16 red, green, blue;
+	GdkColor fg;
+	gdouble cc = 65535.0;
+	gfloat alpha;
+	gdouble x0, y0, rect_height, rect_width, radius;
 
 	day_view = dvtitem->day_view;
+	cr = gdk_cairo_create (drawable);
+
+	alpha = gconf_client_get_float (gconf_client_get_default (),
+				         "/apps/evolution/calendar/display/events_transparency",
+					 NULL);
 
 	/* If the event is currently being dragged, don't draw it. It will
 	   be drawn in the special drag items. */
@@ -341,34 +381,102 @@ e_day_view_top_item_draw_long_event (EDayViewTopItem *dvtitem,
 	style = gtk_widget_get_style (GTK_WIDGET (day_view));
 	gc = day_view->main_gc;
 	fg_gc = style->fg_gc[GTK_STATE_NORMAL];
+	fg = style->fg[GTK_STATE_NORMAL];
 	comp = e_cal_component_new ();
 	e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
 
 	/* Draw the lines across the top & bottom of the entire event. */
-	gdk_gc_set_foreground (gc, &day_view->colors[E_DAY_VIEW_COLOR_LONG_EVENT_BORDER]);
-	gdk_draw_line (drawable, gc,
-		       item_x - x, item_y - y,
-		       item_x + item_w - 1 - x, item_y - y);
-	gdk_draw_line (drawable, gc,
-		       item_x - x, item_y + item_h - 1 - y,
-		       item_x + item_w - 1 - x, item_y + item_h - 1 - y);
+	cairo_save (cr);
+	gdk_cairo_set_source_color (cr, &day_view->colors[E_DAY_VIEW_COLOR_LONG_EVENT_BORDER]);
+	cairo_move_to (cr, item_x - x, item_y + item_h - 1 - y);
+	cairo_line_to (cr, item_x + item_w - 1 - x, item_y - y);
+	cairo_move_to (cr, item_x - x, item_y + item_h - 1 - y);
+	cairo_line_to (cr, item_x + item_w - 1 - x, item_y + item_h - 1 - y);
+	cairo_stroke (cr);
+	cairo_restore (cr);
 
-	/* Fill it in. */
 	if (gdk_color_parse (e_cal_model_get_color_for_component (e_calendar_view_get_model (E_CALENDAR_VIEW (day_view)),
 								  event->comp_data),
 			     &bg_color)) {
 		GdkColormap *colormap;
 
 		colormap = gtk_widget_get_colormap (GTK_WIDGET (day_view));
-		if (gdk_colormap_alloc_color (colormap, &bg_color, TRUE, TRUE))
-			gdk_gc_set_foreground (gc, &bg_color);
-		else
-			gdk_gc_set_foreground (gc, &day_view->colors[E_DAY_VIEW_COLOR_LONG_EVENT_BACKGROUND]);
-	} else
-		gdk_gc_set_foreground (gc, &day_view->colors[E_DAY_VIEW_COLOR_LONG_EVENT_BACKGROUND]);
-	gdk_draw_rectangle (drawable, gc, TRUE,
-			    item_x - x, item_y + 1 - y,
-			    item_w, item_h - 2);
+		if (gdk_colormap_alloc_color (colormap, &bg_color, TRUE, TRUE)){
+			red = bg_color.red;
+			green = bg_color.green;
+			blue = bg_color.blue;
+		} else {
+			red = day_view->colors[E_DAY_VIEW_COLOR_LONG_EVENT_BACKGROUND].red;
+			green = day_view->colors[E_DAY_VIEW_COLOR_LONG_EVENT_BACKGROUND].green;
+			blue = day_view->colors[E_DAY_VIEW_COLOR_LONG_EVENT_BACKGROUND].blue;
+		}
+	} else {
+		red = day_view->colors[E_DAY_VIEW_COLOR_LONG_EVENT_BACKGROUND].red;
+		green = day_view->colors[E_DAY_VIEW_COLOR_LONG_EVENT_BACKGROUND].green;
+		blue = day_view->colors[E_DAY_VIEW_COLOR_LONG_EVENT_BACKGROUND].blue;
+	}
+
+	/* Fill the background with white to play with transparency */
+	cairo_save (cr);
+	x0	   = item_x - x + 2; 
+	y0	   = item_y + 1 - y;
+	rect_width  = item_w - 5;
+	rect_height = item_h - 2;
+
+	radius = 12;
+
+	draw_curved_rectangle (cr, x0, y0, rect_width, rect_height, radius);
+
+	cairo_set_source_rgba (cr, 1, 1, 1, alpha);
+	cairo_fill_preserve (cr);
+
+	cairo_restore (cr);
+
+	/* Draw the border around the event */
+
+	cairo_save (cr);
+	x0	   = item_x - x + 2; 
+	y0	   = item_y + 1 - y;
+	rect_width  = item_w - 5;
+	rect_height = item_h - 2;
+
+	radius = 12;
+
+	draw_curved_rectangle (cr, x0, y0, rect_width, rect_height, radius);
+
+	cairo_set_source_rgba (cr, 1, 1, 1, alpha);
+	cairo_fill_preserve (cr);
+
+	cairo_set_source_rgb (cr, red/cc, green/cc, blue/cc);
+	cairo_set_line_width (cr, 1.0);
+	cairo_stroke (cr);
+	cairo_restore (cr);
+
+	/* Fill in with gradient */
+
+	cairo_save (cr);
+
+	x0	   = item_x - x + 3.75; 
+	y0	   = item_y + 2.75 - y;
+	rect_width  = item_w - 8.5;
+	rect_height = item_h - 5.5;
+
+	radius = 6; 	
+
+	draw_curved_rectangle (cr, x0, y0, rect_width, rect_height, radius);
+	
+	pat = cairo_pattern_create_linear (item_x - x, item_y + 1 - y,
+					item_x - x , item_y - y + item_h - 1);
+	cairo_pattern_add_color_stop_rgba (pat, 1, red/cc, green/cc, blue/cc, 0.8);
+	cairo_pattern_add_color_stop_rgba (pat, 0, red/cc, green/cc, blue/cc, 0.4);
+	cairo_set_source (cr, pat);
+	cairo_fill_preserve (cr);
+	cairo_pattern_destroy (pat);
+
+	cairo_set_source_rgba (cr, red/cc, green/cc, blue/cc, 0);
+	cairo_set_line_width (cr, 0.5);
+	cairo_stroke (cr);
+	cairo_restore (cr);
 
 	/* When resizing we don't draw the triangles.*/
 	draw_start_triangle = TRUE;
@@ -392,10 +500,12 @@ e_day_view_top_item_draw_long_event (EDayViewTopItem *dvtitem,
 						   -E_DAY_VIEW_BAR_WIDTH,
 						   item_h, event_num);
 	} else {
-		gdk_gc_set_foreground (gc, &day_view->colors[E_DAY_VIEW_COLOR_LONG_EVENT_BORDER]);
-		gdk_draw_line (drawable, gc,
-			       item_x - x, item_y - y,
-			       item_x - x, item_y + item_h - 1 - y);
+		cairo_save (cr);
+		gdk_cairo_set_source_color (cr, &day_view->colors[E_DAY_VIEW_COLOR_LONG_EVENT_BORDER]);
+		cairo_move_to (cr, item_x - x, item_y - y);
+		cairo_line_to (cr, item_x - x, item_y + item_h - 1 - y);
+		cairo_stroke (cr);
+		cairo_restore (cr);
 	}
 
 	/* Similar for the event end. */
@@ -407,12 +517,12 @@ e_day_view_top_item_draw_long_event (EDayViewTopItem *dvtitem,
 						   E_DAY_VIEW_BAR_WIDTH,
 						   item_h, event_num);
 	} else {
-		gdk_gc_set_foreground (gc, &day_view->colors[E_DAY_VIEW_COLOR_LONG_EVENT_BORDER]);
-		gdk_draw_line (drawable, gc,
-			       item_x + item_w - 1 - x,
-			       item_y - y,
-			       item_x + item_w - 1 - x,
-			       item_y + item_h - 1 - y);
+		cairo_save (cr);
+		gdk_cairo_set_source_color (cr, &day_view->colors[E_DAY_VIEW_COLOR_LONG_EVENT_BORDER]);
+		cairo_move_to (cr, item_x + item_w - 1 - x, item_y - y);
+		cairo_line_to (cr, item_x + item_w - 1 - x, item_y + item_h - 1 - y);
+		cairo_stroke (cr);
+		cairo_restore (cr);
 	}
 
 	/* If we are editing the event we don't show the icons or the start
@@ -521,41 +631,32 @@ e_day_view_top_item_draw_long_event (EDayViewTopItem *dvtitem,
 		+ E_DAY_VIEW_ICON_Y_PAD - y;
 
 	if (icon_x <= max_icon_x && (e_cal_component_has_recurrences (comp) || e_cal_component_is_instance (comp))) {
-		gdk_gc_set_clip_mask (gc, NULL);
-		gdk_draw_pixbuf (drawable, gc,
-				 day_view->recurrence_icon,
-				 0, 0, icon_x, icon_y,
-				 E_DAY_VIEW_ICON_WIDTH,
-				 E_DAY_VIEW_ICON_HEIGHT,
-				 GDK_RGB_DITHER_NORMAL,
-				 0, 0);
+		cairo_save (cr);
+		gdk_cairo_set_source_pixbuf (cr, day_view->recurrence_icon, icon_x, icon_y);
+		cairo_paint (cr);
+		cairo_restore (cr);
+	
 		icon_x -= icon_x_inc;
 	}
 
 	if (icon_x <= max_icon_x && e_cal_component_has_attachments (comp)) {
-		gdk_gc_set_clip_mask (gc, NULL);
-		gdk_draw_pixbuf (drawable, gc,
-				 day_view->attach_icon,
-				 0, 0, icon_x, icon_y,
-				 E_DAY_VIEW_ICON_WIDTH,
-				 E_DAY_VIEW_ICON_HEIGHT,
-				 GDK_RGB_DITHER_NORMAL,
-				 0, 0);
+		cairo_save (cr);
+		gdk_cairo_set_source_pixbuf (cr, day_view->attach_icon, icon_x, icon_y);
+		cairo_paint (cr);
+		cairo_restore (cr);
+	
 		icon_x -= icon_x_inc;
 	}
 	if (icon_x <= max_icon_x && e_cal_component_has_alarms (comp)) {
-		gdk_gc_set_clip_mask (gc, NULL);
-		gdk_draw_pixbuf (drawable, gc,
-				 day_view->reminder_icon,
-				 0, 0, icon_x, icon_y,
-				 E_DAY_VIEW_ICON_WIDTH,
-				 E_DAY_VIEW_ICON_HEIGHT,
-				 GDK_RGB_DITHER_NORMAL,
-				 0, 0);
+		cairo_save (cr);
+		gdk_cairo_set_source_pixbuf (cr, day_view->reminder_icon, icon_x, icon_y);
+		cairo_paint (cr);
+		cairo_restore (cr);
+	
 		icon_x -= icon_x_inc;
 	}
 
-	/* draw categories icons */
+	/* draw categories icons */ /* categories alone - yet to be cairo - ified */
 	e_cal_component_get_categories_list (comp, &categories_list);
 	for (elem = categories_list; elem; elem = elem->next) {
 		char *category;
@@ -586,7 +687,7 @@ e_day_view_top_item_draw_long_event (EDayViewTopItem *dvtitem,
 
 	e_cal_component_free_categories_list (categories_list);
 	g_object_unref (comp);
-
+	cairo_destroy (cr);
 	gdk_gc_set_clip_mask (gc, NULL);
 }
 
@@ -608,6 +709,9 @@ e_day_view_top_item_draw_triangle (EDayViewTopItem *dvtitem,
 	GdkColor bg_color;
 	GdkPoint points[3];
 	gint c1, c2;
+	cairo_t *cr;
+
+	cr = gdk_cairo_create (drawable);
 
 	day_view = dvtitem->day_view;
 
@@ -628,7 +732,7 @@ e_day_view_top_item_draw_triangle (EDayViewTopItem *dvtitem,
 
 	event = &g_array_index (day_view->long_events, EDayViewEvent,
 				event_num);
-
+	cairo_save (cr);
 	/* Fill it in. */
 	if (gdk_color_parse (e_cal_model_get_color_for_component (e_calendar_view_get_model (E_CALENDAR_VIEW (day_view)),
 								  event->comp_data),
@@ -636,18 +740,32 @@ e_day_view_top_item_draw_triangle (EDayViewTopItem *dvtitem,
 		GdkColormap *colormap;
 
 		colormap = gtk_widget_get_colormap (GTK_WIDGET (day_view));
-		if (gdk_colormap_alloc_color (colormap, &bg_color, TRUE, TRUE))
-			gdk_gc_set_foreground (gc, &bg_color);
-		else
-			gdk_gc_set_foreground (gc, &day_view->colors[E_DAY_VIEW_COLOR_LONG_EVENT_BACKGROUND]);
-	} else
-		gdk_gc_set_foreground (gc, &day_view->colors[E_DAY_VIEW_COLOR_LONG_EVENT_BACKGROUND]);
+		if (gdk_colormap_alloc_color (colormap, &bg_color, TRUE, TRUE)) {
+			gdk_cairo_set_source_color (cr, &bg_color);
+		} else {
+			gdk_cairo_set_source_color (cr, &day_view->colors[E_DAY_VIEW_COLOR_LONG_EVENT_BACKGROUND]);
+		} 
+	} else {
+		gdk_cairo_set_source_color (cr, &day_view->colors[E_DAY_VIEW_COLOR_LONG_EVENT_BACKGROUND]);
+	}
 
-	gdk_draw_polygon (drawable, gc, TRUE, points, 3);
+	cairo_move_to (cr, points[0].x, points[0].y);
+	cairo_line_to (cr, points[1].x, points[1].y);
+	cairo_line_to (cr, points[2].x, points[2].y);
+	cairo_line_to (cr, points[0].x, points[0].y);
+	cairo_fill (cr);
+	cairo_restore (cr);
 
-	gdk_gc_set_foreground (gc, &day_view->colors[E_DAY_VIEW_COLOR_LONG_EVENT_BORDER]);
-	gdk_draw_line (drawable, gc, x, y, x + w, c1);
-	gdk_draw_line (drawable, gc, x, y + h - 1, x + w, c2);
+	cairo_save (cr);
+	gdk_cairo_set_source_color (cr, &day_view->colors[E_DAY_VIEW_COLOR_LONG_EVENT_BORDER]);
+	cairo_move_to (cr, x, y);
+	cairo_line_to (cr, x + w, c1);
+	cairo_move_to (cr, x, y + h - 1);
+	cairo_line_to (cr, x + w, c2);
+	cairo_stroke (cr);
+	cairo_restore (cr);
+
+	cairo_destroy (cr);
 }
 
 

@@ -1,3 +1,33 @@
+2006-04-24  Srinivasa Ragavan  <sragavan@novell.com>
+
+	Cairo support for Calendar (Rajeev Ramanathan)
+	
+	* gui/apps_evolution_calendar.schemas.in.in: Added key for
+	transparency control.
+	* gui/e-calendar-view.c: (draw_curved_rectangle): A common code for
+	drawing curved rectangles
+	* gui/e-day-view-main-item.c: (e_day_view_main_item_draw),
+	(e_day_view_main_item_draw_events_in_vbars),
+	(e_day_view_main_item_draw_long_events_in_vbars),
+	(e_day_view_main_item_draw_day_event): Used cairo to draw day view events.
+	* gui/e-day-view-time-item.c: 
+	(e_day_view_time_item_get_column_width),
+	(e_day_view_time_item_draw): Used cairo to draw day view time items.
+	* gui/e-day-view-top-item.c: (e_day_view_top_item_draw),
+	(e_day_view_top_item_draw_long_event),
+	(e_day_view_top_item_draw_triangle): Used cairo to draw day view long events.
+	* gui/e-day-view.c: (e_day_view_init), (e_day_view_destroy),
+	(e_day_view_style_set),
+	(e_day_view_reshape_main_canvas_resize_bars),
+	(e_day_view_get_num_events_selected): Used cairo to draw day controls.
+	* gui/e-day-view.h: Added a new font size variable
+	* gui/e-week-view-event-item.c: (e_week_view_event_item_draw),
+	(e_week_view_draw_time), (e_week_view_event_item_draw_icons),
+	(e_week_view_event_item_draw_triangle): Used cairo to draw week view
+	controls.
+	* gui/e-week-view-main-item.c: (e_week_view_main_item_draw_day): Used 
+	cairo to draw week view events.
+
 2006-04-24  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #332409

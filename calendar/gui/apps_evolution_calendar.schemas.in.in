@@ -317,6 +317,18 @@
       </locale>
     </schema>
 
+    <schema>
+      <key>/schemas/apps/evolution/calendar/display/events_transparency</key>
+      <applyto>/apps/evolution/calendar/display/events_transparency</applyto>
+      <owner>evolution-calendar</owner>
+      <type>float</type>
+      <default>1.0</default>
+      <locale name="C">
+        <short>Event Transparency</short>
+        <long>Transparency of the events in calendar views (A value between 0 and 10, opaque by default).</long>
+      </locale>
+    </schema>
+
     <!-- Tasks -->
 
     <schema>

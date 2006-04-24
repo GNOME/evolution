@@ -325,6 +325,7 @@ struct _EDayView
 	/* The large font used to display the hours. I don't think we need a
 	   fontset since we only display numbers. */
 	PangoFontDescription *large_font_desc;
+	PangoFontDescription *small_font_desc;
 
 	/* The GC used for painting in different colors. */
 	GdkGC *main_gc;

@@ -1,5 +1,4 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-
 /*
  * Authors :
  *  Damon Chaplin <damon@ximian.com>
@@ -78,6 +77,7 @@
 #define E_DAY_VIEW_DATE_X_PAD	4
 
 #define E_DAY_VIEW_LARGE_FONT_PTSIZE 18
+#define E_DAY_VIEW_SMALL_FONT_PTSIZE 10
 
 /* The offset from the top/bottom of the canvas before auto-scrolling starts.*/
 #define E_DAY_VIEW_AUTO_SCROLL_OFFSET	16
@@ -739,6 +739,7 @@ e_day_view_init (EDayView *day_view)
 	day_view->auto_scroll_timeout_id = 0;
 
 	day_view->large_font_desc = NULL;
+	day_view->small_font_desc = NULL;
 
 	/* String to use in 12-hour time format for times in the morning. */
 	day_view->am_string = _("am");
@@ -893,7 +894,7 @@ e_day_view_init (EDayView *day_view)
 
 	day_view->drag_rect_item =
 		gnome_canvas_item_new (canvas_group,
-				       gnome_canvas_rect_get_type (),
+				       gnome_canvas_rect_get_type (),				       
 				       "width_pixels", 1,
 				       NULL);
 	gnome_canvas_item_hide (day_view->drag_rect_item);
@@ -1031,6 +1032,11 @@ e_day_view_destroy (GtkObject *object)
 	if (day_view->large_font_desc) {
 		pango_font_description_free (day_view->large_font_desc);
 		day_view->large_font_desc = NULL;
+	}
+
+	if (day_view->small_font_desc) {
+		pango_font_description_free (day_view->small_font_desc);
+		day_view->small_font_desc = NULL;
 	}
 
 	if (day_view->normal_cursor) {
@@ -1254,6 +1260,14 @@ e_day_view_style_set (GtkWidget *widget,
 	day_view->large_font_desc = pango_font_description_copy (font_desc);
 	pango_font_description_set_size (day_view->large_font_desc,
 					 E_DAY_VIEW_LARGE_FONT_PTSIZE * PANGO_SCALE);
+	
+	/* Create the small fonts. */
+	if (day_view->small_font_desc != NULL)
+		pango_font_description_free (day_view->small_font_desc);
+
+	day_view->small_font_desc = pango_font_description_copy (font_desc);
+	pango_font_description_set_size (day_view->small_font_desc,
+					 E_DAY_VIEW_SMALL_FONT_PTSIZE * PANGO_SCALE);
 
 	/* Recalculate the height of each row based on the font size. */
 	day_view->row_height =
@@ -4671,6 +4685,7 @@ e_day_view_reshape_main_canvas_resize_bars (EDayView *day_view)
 			       "x2", x + w - 1,
 			       "y2", y + h + E_DAY_VIEW_BAR_HEIGHT - 1,
 			       NULL);
+
 	gnome_canvas_item_show (day_view->main_canvas_bottom_resize_bar_item);
 }
 
@@ -7788,5 +7803,3 @@ e_day_view_get_num_events_selected (EDayView *day_view)
 
 	return (day_view->editing_event_day != -1) ? 1 : 0;
 }
-
-

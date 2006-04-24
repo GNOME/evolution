@@ -210,6 +210,7 @@ e_week_view_main_item_draw_day (EWeekViewMainItem *wvmitem,
 	PangoFontMetrics *font_metrics;
 	PangoLayout *layout;
 	gboolean today = FALSE;
+	cairo_t *cr;
 
 #if 0
 	g_print ("Drawing Day:%i at %i,%i\n", day, x, y);
@@ -217,6 +218,7 @@ e_week_view_main_item_draw_day (EWeekViewMainItem *wvmitem,
 	week_view = wvmitem->week_view;
 	style = gtk_widget_get_style (GTK_WIDGET (week_view));
 	gc = week_view->main_gc;
+	cr = gdk_cairo_create (drawable);
 
 	/* Set up Pango prerequisites */
 	font_desc = style->font_desc;
@@ -238,13 +240,16 @@ e_week_view_main_item_draw_day (EWeekViewMainItem *wvmitem,
 	   month starts (defaults are white for odd - January, March, ... and
 	   light gray for even). In the week view the background is always the
 	   same color, the color used for the odd months in the month view. */
-	if (week_view->multi_week_view && (month % 2 == 0))
+	if (week_view->multi_week_view && (month % 2 == 0)) 
 		bg_color = &week_view->colors[E_WEEK_VIEW_COLOR_EVEN_MONTHS];
-	else
+	else 
 		bg_color = &week_view->colors[E_WEEK_VIEW_COLOR_ODD_MONTHS];
 
-	gdk_gc_set_foreground (gc, bg_color);
-	gdk_draw_rectangle (drawable, gc, TRUE, x, y, width, height);
+	cairo_save (cr);
+	gdk_cairo_set_source_color (cr, bg_color);
+	cairo_rectangle (cr, x, y, width, height);
+	cairo_fill (cr);
+	cairo_restore (cr);
 
 	/* Draw the lines on the right and bottom of the cell. The canvas is
 	   sized so that the lines on the right & bottom edges will be off the
@@ -252,37 +257,44 @@ e_week_view_main_item_draw_day (EWeekViewMainItem *wvmitem,
 	right_edge = x + width - 1;
 	bottom_edge = y + height - 1;
 
-	gdk_gc_set_foreground (gc, &week_view->colors[E_WEEK_VIEW_COLOR_GRID]);
-	gdk_draw_line (drawable, gc,
-		       right_edge, y, right_edge, bottom_edge);
-	gdk_draw_line (drawable, gc,
-		       x, bottom_edge, right_edge, bottom_edge);
+	cairo_save (cr);
+	gdk_cairo_set_source_color (cr,  &week_view->colors[E_WEEK_VIEW_COLOR_GRID]);
+	cairo_set_line_width (cr, 0.7);
+	cairo_move_to (cr, right_edge, y);
+	cairo_line_to (cr, right_edge, bottom_edge);
+	cairo_move_to (cr, x, bottom_edge);
+	cairo_line_to (cr, right_edge, bottom_edge);
+	cairo_stroke (cr);
+	cairo_restore (cr);
 
 	/* If the day is selected, draw the blue background. */
+	cairo_save (cr);
 	selected = TRUE;
 	if (week_view->selection_start_day == -1
 	    || week_view->selection_start_day > day
 	    || week_view->selection_end_day < day)
 		selected = FALSE;
 	if (selected) {
-		if (GTK_WIDGET_HAS_FOCUS (week_view))
-			gdk_gc_set_foreground (gc, &week_view->colors[E_WEEK_VIEW_COLOR_SELECTED]);
-		else
-			gdk_gc_set_foreground (gc, &week_view->colors[E_WEEK_VIEW_COLOR_SELECTED_UNFOCUSSED]);
+		if (GTK_WIDGET_HAS_FOCUS (week_view)) {
+			gdk_cairo_set_source_color (cr, &week_view->colors[E_WEEK_VIEW_COLOR_SELECTED]);
+		} else {
+			gdk_cairo_set_source_color (cr, &week_view->colors[E_WEEK_VIEW_COLOR_SELECTED]);
+		}
 
-		if (week_view->multi_week_view) {
-			gdk_draw_rectangle (drawable, gc, TRUE,
-					    x + 2, y + 1,
+		if (week_view->multi_week_view) { 
+			cairo_rectangle (cr, x + 2, y + 1,
 					    width - 5,
 					    E_WEEK_VIEW_DATE_T_PAD - 1 +
-					    PANGO_PIXELS (pango_font_metrics_get_ascent (font_metrics)) +
-					    PANGO_PIXELS (pango_font_metrics_get_descent (font_metrics)));
+				PANGO_PIXELS (pango_font_metrics_get_ascent (font_metrics)) +
+				PANGO_PIXELS (pango_font_metrics_get_descent (font_metrics)));
+			cairo_fill (cr);
 		} else {
-			gdk_draw_rectangle (drawable, gc, TRUE,
-					    x + 2, y + 1,
-					    width - 5, line_y - y);
+			cairo_rectangle (cr, x + 2, y + 1,
+				    width - 5, line_y - y);
+			cairo_fill (cr);
 		}
-	}
+	}	
+	cairo_restore (cr);	
 	
 	/* Display the date in the top of the cell.
 	   In the week view, display the long format "10 January" in all cells,
@@ -335,8 +347,9 @@ e_week_view_main_item_draw_day (EWeekViewMainItem *wvmitem,
 			format_string = _("%d %b");
 	}
 
+	cairo_save (cr);
 	if (selected) {
-		gdk_gc_set_foreground (gc, &week_view->colors[E_WEEK_VIEW_COLOR_DATES_SELECTED]);
+		gdk_cairo_set_source_color (cr, &week_view->colors[E_WEEK_VIEW_COLOR_DATES_SELECTED]);
 	} else if (week_view->multi_week_view) {
 		struct icaltimetype tt;
 
@@ -346,45 +359,58 @@ e_week_view_main_item_draw_day (EWeekViewMainItem *wvmitem,
 		if (g_date_year (date) == tt.year 
 		    && g_date_month (date) == tt.month
 		    && g_date_day (date) == tt.day) {
-			gdk_gc_set_foreground (gc, &week_view->colors[E_WEEK_VIEW_COLOR_TODAY]);
+			gdk_cairo_set_source_color (cr, &week_view->colors[E_WEEK_VIEW_COLOR_TODAY]);
 			today = TRUE;
 		}
-		else
-			gdk_gc_set_foreground (gc, &week_view->colors[E_WEEK_VIEW_COLOR_DATES]);
+		else {
+			gdk_cairo_set_source_color (cr, &week_view->colors[E_WEEK_VIEW_COLOR_DATES]);
+
+			}
 	} else {
-		gdk_gc_set_foreground (gc, &week_view->colors[E_WEEK_VIEW_COLOR_DATES]);
+		gdk_cairo_set_source_color (cr, &week_view->colors[E_WEEK_VIEW_COLOR_DATES]);
 	}
 
 	if (today) {
 		g_date_strftime (buffer, sizeof (buffer),
 				 format_string ? format_string : "<b>%d</b>", date);
-		layout = gtk_widget_create_pango_layout (GTK_WIDGET (week_view), buffer);
+		pango_cairo_update_context (cr, pango_context);
+		layout = pango_cairo_create_layout (cr);
+		pango_font_description_set_size (font_desc, 10 * PANGO_SCALE);
+		pango_layout_set_font_description (layout, font_desc);
+		pango_layout_set_text (layout, buffer, -1);
 		pango_layout_set_markup (layout, buffer, strlen(buffer));	
 	} else {
 		g_date_strftime (buffer, sizeof (buffer),
 				 format_string ? format_string : "%d", date);
-		layout = gtk_widget_create_pango_layout (GTK_WIDGET (week_view), buffer);	
+		pango_cairo_update_context (cr, pango_context);
+		layout = pango_cairo_create_layout (cr);
+		pango_font_description_set_size (font_desc, 10 * PANGO_SCALE);	
+		pango_layout_set_font_description (layout, font_desc);
+		pango_layout_set_text (layout, buffer, -1);
 	}
 
 	pango_layout_get_pixel_size (layout, &date_width, NULL);
 	date_x = x + width - date_width - E_WEEK_VIEW_DATE_R_PAD;
 	date_x = MAX (date_x, x + 1);
 
-	gdk_draw_layout (drawable, gc,
-			 date_x,
-			 y + E_WEEK_VIEW_DATE_T_PAD,
-			 layout);
+	cairo_translate (cr, date_x, y + E_WEEK_VIEW_DATE_T_PAD);
+	pango_cairo_update_layout (cr, layout);
+	pango_cairo_show_layout (cr, layout);
+	cairo_restore (cr);
 	g_object_unref (layout);
 
 	/* Draw the line under the date. */
 	if (!week_view->multi_week_view) {
-		gdk_gc_set_foreground (gc, &week_view->colors[E_WEEK_VIEW_COLOR_GRID]);
-		gdk_draw_line (drawable, gc,
-			       x + E_WEEK_VIEW_DATE_LINE_L_PAD, line_y,
-			       right_edge, line_y);
+		cairo_save (cr);
+		gdk_cairo_set_source_color (cr, &week_view->colors[E_WEEK_VIEW_COLOR_GRID]);
+		cairo_set_line_width (cr, 0.7);
+		cairo_move_to (cr, x + E_WEEK_VIEW_DATE_LINE_L_PAD, line_y);
+		cairo_line_to (cr, right_edge, line_y);
+		cairo_stroke (cr);
+		cairo_restore (cr);
 	}
-
 	pango_font_metrics_unref (font_metrics);
+	cairo_destroy (cr);
 }
 
 

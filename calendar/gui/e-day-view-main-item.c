@@ -35,9 +35,11 @@
 #include "e-day-view-layout.h"
 #include "e-day-view-main-item.h"
 #include "ea-calendar.h"
+#include "e-calendar-view.h"
 #include <libecal/e-cal-time-util.h>
+#include <e-calendar-view.h>
 
-static void e_day_view_main_item_set_arg (GtkObject *o, GtkArg *arg,
+static void e_day_view_main_item_set_arg (GtkObject *o, GtkArg *arg ,
 					  guint arg_id);
 static void e_day_view_main_item_update (GnomeCanvasItem *item,
 					 double *affine,
@@ -167,7 +169,9 @@ e_day_view_main_item_draw (GnomeCanvasItem *canvas_item, GdkDrawable *drawable,
 	gint start_row, end_row, rect_x, rect_y, rect_width, rect_height;
 	struct icaltimetype day_start_tt;
 	gint weekday;
+	cairo_t *cr;
 
+	cr = gdk_cairo_create (drawable);
 #if 0
 	g_print ("In e_day_view_main_item_draw %i,%i %ix%i\n",
 		 x, y, width, height);
@@ -179,8 +183,8 @@ e_day_view_main_item_draw (GnomeCanvasItem *canvas_item, GdkDrawable *drawable,
 	style = gtk_widget_get_style (GTK_WIDGET (day_view));
 
 	/* Paint the background colors. */
-	gc = day_view->main_gc;
 	work_day_start_y = e_day_view_convert_time_to_position (day_view, day_view->work_day_start_hour, day_view->work_day_start_minute) - y;
+	gc = day_view->main_gc;
 	work_day_end_y = e_day_view_convert_time_to_position (day_view, day_view->work_day_end_hour, day_view->work_day_end_minute) - y;
 
 	for (day = 0; day < day_view->days_shown; day++) {
@@ -194,23 +198,37 @@ e_day_view_main_item_draw (GnomeCanvasItem *canvas_item, GdkDrawable *drawable,
 		day_w = day_view->day_widths[day];
 
 		if (work_day) {
-			gdk_gc_set_foreground (gc, &day_view->colors[E_DAY_VIEW_COLOR_BG_NOT_WORKING]);
-			gdk_draw_rectangle (drawable, gc, TRUE,
-					    day_x, 0 - y,
-					    day_w, work_day_start_y - (0 - y));
-			gdk_gc_set_foreground (gc, &day_view->colors[E_DAY_VIEW_COLOR_BG_WORKING]);
-			gdk_draw_rectangle (drawable, gc, TRUE,
-					    day_x, work_day_start_y,
-					    day_w, work_day_end_y - work_day_start_y);
-			gdk_gc_set_foreground (gc, &day_view->colors[E_DAY_VIEW_COLOR_BG_NOT_WORKING]);
-			gdk_draw_rectangle (drawable, gc, TRUE,
-					    day_x, work_day_end_y,
-					    day_w, height - work_day_end_y);
+			cairo_save (cr);
+			gdk_cairo_set_source_color (cr, &day_view->colors[E_DAY_VIEW_COLOR_BG_NOT_WORKING]);
+			
+			cairo_rectangle (cr, day_x, 0 - y, day_w, 
+					work_day_start_y - (0 - y));
+			cairo_fill (cr);
+			cairo_restore (cr);
+
+			cairo_save (cr);
+			gdk_cairo_set_source_color (cr, &day_view->colors[E_DAY_VIEW_COLOR_BG_WORKING]);
+			
+			cairo_rectangle (cr, day_x, work_day_start_y, day_w, 
+					work_day_end_y - work_day_start_y);
+			cairo_fill (cr);
+			cairo_restore (cr);
+
+			cairo_save (cr);
+			gdk_cairo_set_source_color (cr, &day_view->colors[E_DAY_VIEW_COLOR_BG_NOT_WORKING]);
+			
+			cairo_rectangle (cr, day_x, work_day_end_y, day_w, 
+					height - work_day_end_y);
+			cairo_fill (cr);
+			cairo_restore (cr);
+
 		} else {
-			gdk_gc_set_foreground (gc, &day_view->colors[E_DAY_VIEW_COLOR_BG_NOT_WORKING]);
-			gdk_draw_rectangle (drawable, gc, TRUE,
-					    day_x, 0,
-					    day_w, height);
+			cairo_save (cr);
+			gdk_cairo_set_source_color (cr, &day_view->colors[E_DAY_VIEW_COLOR_BG_NOT_WORKING]);
+
+			cairo_rectangle (cr, day_x, 0, day_w, height);
+			cairo_fill (cr);
+			cairo_restore (cr);
 		}
 	}
 
@@ -236,13 +254,23 @@ e_day_view_main_item_draw (GnomeCanvasItem *canvas_item, GdkDrawable *drawable,
 			rect_y = start_row * day_view->row_height - y;
 			rect_height = (end_row - start_row + 1) * day_view->row_height;
 
-			if (GTK_WIDGET_HAS_FOCUS(day_view))
-				gdk_gc_set_foreground (gc, &day_view->colors[E_DAY_VIEW_COLOR_BG_SELECTED]);
-			else
-				gdk_gc_set_foreground (gc, &day_view->colors[E_DAY_VIEW_COLOR_BG_SELECTED_UNFOCUSSED]);
-			gdk_draw_rectangle (drawable, gc, TRUE,
-					    rect_x, rect_y,
-					    rect_width, rect_height);
+			if (GTK_WIDGET_HAS_FOCUS(day_view)) {
+				cairo_save (cr);
+				gdk_cairo_set_source_color (cr, 
+					&day_view->colors[E_DAY_VIEW_COLOR_BG_SELECTED]);
+				cairo_rectangle (cr, rect_x, rect_y, rect_width, 
+						rect_height);
+				cairo_fill (cr);
+				cairo_restore (cr);
+			} else {
+				cairo_save (cr);
+				gdk_cairo_set_source_color (cr, 
+					&day_view->colors[E_DAY_VIEW_COLOR_BG_SELECTED_UNFOCUSSED]);
+				cairo_rectangle (cr, rect_x, rect_y, rect_width, 
+					rect_height);
+				cairo_fill (cr);
+				cairo_restore (cr);
+			}
 		}
 	}
 
@@ -250,14 +278,21 @@ e_day_view_main_item_draw (GnomeCanvasItem *canvas_item, GdkDrawable *drawable,
 	grid_x1 = day_view->day_offsets[0] - x;
 	grid_x2 = day_view->day_offsets[day_view->days_shown] - x;
 
-	gdk_gc_set_foreground (gc, &day_view->colors[E_DAY_VIEW_COLOR_BG_GRID]);
+	cairo_save(cr);
+	gdk_cairo_set_source_color (cr, 
+		&day_view->colors[E_DAY_VIEW_COLOR_BG_GRID]);
+	
 	for (row = 0, row_y = 0 - y;
 	     row < day_view->rows && row_y < height;
 	     row++, row_y += day_view->row_height) {
-		if (row_y >= 0 && row_y < height)
-			gdk_draw_line (drawable, gc,
-				       grid_x1, row_y, grid_x2, row_y);
+		if (row_y >= 0 && row_y < height) {
+			cairo_set_line_width (cr, 0.7);
+			cairo_move_to (cr, grid_x1, row_y);
+			cairo_line_to (cr, grid_x2, row_y);
+			cairo_stroke (cr);
+		}
 	}
+	cairo_restore (cr);
 
 	/* Draw the vertical bars down the left of each column. */
 	grid_y1 = 0;
@@ -269,15 +304,30 @@ e_day_view_main_item_draw (GnomeCanvasItem *canvas_item, GdkDrawable *drawable,
 		if (grid_x1 >= width || grid_x1 + E_DAY_VIEW_BAR_WIDTH <= 0)
 			continue;
 
-		gdk_draw_line (drawable, style->black_gc,
-			       grid_x1, grid_y1,
-			       grid_x1, grid_y2);
-		gdk_draw_line (drawable, style->black_gc,
-			       grid_x1 + E_DAY_VIEW_BAR_WIDTH - 1, grid_y1,
-			       grid_x1 + E_DAY_VIEW_BAR_WIDTH - 1, grid_y2);
-		gdk_draw_rectangle (drawable, style->white_gc, TRUE,
-			       grid_x1 + 1, grid_y1,
+		cairo_save (cr);
+
+		gdk_cairo_set_source_color (cr, 
+		&day_view->colors[E_DAY_VIEW_COLOR_BG_GRID]);
+		cairo_move_to (cr, grid_x1, grid_y1);
+		cairo_line_to (cr, grid_x1, grid_y2);
+		cairo_stroke (cr);
+		
+		gdk_cairo_set_source_color (cr, 
+		&day_view->colors[E_DAY_VIEW_COLOR_BG_GRID]);
+
+		cairo_move_to (cr, grid_x1 + E_DAY_VIEW_BAR_WIDTH - 1, grid_y1);
+		cairo_line_to (cr, grid_x1 + E_DAY_VIEW_BAR_WIDTH - 1, grid_y2);
+		cairo_stroke (cr);
+			
+		cairo_set_source_rgb (cr, 1, 1, 1);
+
+		cairo_rectangle (cr, grid_x1 + 1, grid_y1,
 			       E_DAY_VIEW_BAR_WIDTH - 2, grid_y2 - grid_y1);
+	
+		cairo_fill (cr);
+		
+		cairo_restore (cr);
+
 
 		/* Fill in the bars when the user is busy. */
 		e_day_view_main_item_draw_events_in_vbars (dvmitem, drawable,
@@ -306,15 +356,16 @@ e_day_view_main_item_draw (GnomeCanvasItem *canvas_item, GdkDrawable *drawable,
 		int marcus_bains_y;
 		GdkColor mb_color;
 
-		gdk_gc_set_foreground (gc, &day_view->colors[E_DAY_VIEW_COLOR_MARCUS_BAINS_LINE]);
+		cairo_save (cr);
+		gdk_cairo_set_source_color (cr, 
+				&day_view->colors[E_DAY_VIEW_COLOR_MARCUS_BAINS_LINE]);
 
 		if (day_view->marcus_bains_day_view_color && gdk_color_parse (day_view->marcus_bains_day_view_color, &mb_color)) {
 			GdkColormap *colormap;
 			
 			colormap = gtk_widget_get_colormap (GTK_WIDGET (day_view));
-			if (gdk_colormap_alloc_color (colormap, &mb_color, TRUE, TRUE)) {
-				gdk_gc_set_foreground (gc, &mb_color);
-			}
+			if (gdk_colormap_alloc_color (colormap, &mb_color, TRUE, TRUE))
+				gdk_cairo_set_source_color (cr, &mb_color);
 		}
 
 		zone = e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view));
@@ -330,12 +381,15 @@ e_day_view_main_item_draw (GnomeCanvasItem *canvas_item, GdkDrawable *drawable,
 				grid_x1 = day_view->day_offsets[day] - x + E_DAY_VIEW_BAR_WIDTH;
 				grid_x2 = day_view->day_offsets[day + 1] - x - 1;
 				marcus_bains_y = (time_now.hour * 60 + time_now.minute) * day_view->row_height / day_view->mins_per_row - y;
-				gdk_draw_line (drawable, gc, grid_x1, marcus_bains_y, grid_x2, marcus_bains_y);
+				cairo_set_line_width (cr, 1.5);
+				cairo_move_to (cr, grid_x1, marcus_bains_y);
+				cairo_line_to (cr, grid_x2, marcus_bains_y);
+				cairo_stroke (cr);
 			}
 		}
+		cairo_restore (cr);
 	}
-
-
+	cairo_destroy (cr);	
 }
 
 
@@ -348,14 +402,19 @@ e_day_view_main_item_draw_events_in_vbars (EDayViewMainItem *dvmitem,
 {
 	EDayView *day_view;
 	EDayViewEvent *event;
-	GdkGC *gc;
 	gint grid_x, event_num, bar_y, bar_h;
 	ECalComponentTransparency transparency;
-
+	cairo_t *cr;
+	GdkColor bg_color;
 	day_view = dvmitem->day_view;
 
-	gc = day_view->main_gc;
-	gdk_gc_set_foreground (gc, &day_view->colors[E_DAY_VIEW_COLOR_EVENT_VBAR]);
+	cr = gdk_cairo_create (drawable);
+	cairo_save (cr);
+//	gdk_cairo_set_source_color (cr, 
+//			&day_view->colors[E_DAY_VIEW_COLOR_EVENT_VBAR]);
+			
+	gdk_cairo_set_source_color (cr, 
+			&day_view->colors[E_DAY_VIEW_COLOR_EVENT_BACKGROUND]);
 
 	grid_x = day_view->day_offsets[day] + 1 - x;
 
@@ -366,6 +425,17 @@ e_day_view_main_item_draw_events_in_vbars (EDayViewMainItem *dvmitem,
 
 		event = &g_array_index (day_view->events[day], EDayViewEvent,
 					event_num);
+		if (gdk_color_parse (e_cal_model_get_color_for_component (e_calendar_view_get_model (E_CALENDAR_VIEW (day_view)), event->comp_data),
+				     &bg_color)) {
+			GdkColormap *colormap;
+
+			colormap = gtk_widget_get_colormap (GTK_WIDGET (day_view));
+			if (gdk_colormap_alloc_color (colormap, &bg_color, TRUE, TRUE)) {
+				gdk_cairo_set_source_color (cr, 
+					&bg_color);
+				}
+		}
+
 
 		comp = e_cal_component_new ();
 		e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
@@ -388,12 +458,15 @@ e_day_view_main_item_draw_events_in_vbars (EDayViewMainItem *dvmitem,
 		if (bar_y >= height || bar_y + bar_h <= 0)
 			continue;
 
-		gdk_draw_rectangle (drawable, gc, TRUE,
-				    grid_x, bar_y,
-				    E_DAY_VIEW_BAR_WIDTH - 2, bar_h);
+		cairo_rectangle (cr, grid_x, bar_y,
+			       E_DAY_VIEW_BAR_WIDTH - 2, bar_h);
+	
+		cairo_fill (cr);
 
 		g_object_unref (comp);
 	}
+	cairo_restore (cr);
+	cairo_destroy (cr);
 }
 
 
@@ -406,13 +479,17 @@ e_day_view_main_item_draw_long_events_in_vbars (EDayViewMainItem *dvmitem,
 	EDayView *day_view;
 	EDayViewEvent *event;
 	gint event_num, start_day, end_day, day, bar_y1, bar_y2, grid_x;
-	GdkGC *gc;
 	ECalComponentTransparency transparency;
+	cairo_t *cr;
+	GdkColor *bg_color;
 
 	day_view = dvmitem->day_view;
 
-	gc = day_view->main_gc;
-	gdk_gc_set_foreground (gc, &day_view->colors[E_DAY_VIEW_COLOR_EVENT_VBAR]);
+	cr = gdk_cairo_create (drawable);
+	cairo_save (cr);
+
+	gdk_cairo_set_source_color (cr, 
+			&day_view->colors[E_DAY_VIEW_COLOR_EVENT_BACKGROUND]);
 
 	for (event_num = 0; event_num < day_view->long_events->len;
 	     event_num++) {
@@ -420,6 +497,16 @@ e_day_view_main_item_draw_long_events_in_vbars (EDayViewMainItem *dvmitem,
 
 		event = &g_array_index (day_view->long_events, EDayViewEvent,
 					event_num);
+		if (gdk_color_parse (e_cal_model_get_color_for_component (e_calendar_view_get_model (E_CALENDAR_VIEW (day_view)), event->comp_data),
+				     &bg_color)) {
+		GdkColormap *colormap;
+
+		colormap = gtk_widget_get_colormap (GTK_WIDGET (day_view));
+		if (gdk_colormap_alloc_color (colormap, &bg_color, TRUE, TRUE)) {
+			gdk_cairo_set_source_color (cr, 
+				&bg_color);
+			}
+		}
 
 		comp = e_cal_component_new ();
 		e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
@@ -456,16 +543,16 @@ e_day_view_main_item_draw_long_events_in_vbars (EDayViewMainItem *dvmitem,
 			}
 
 			if (bar_y1 < height && bar_y2 > 0 && bar_y2 > bar_y1) {
-				gdk_draw_rectangle (drawable, gc, TRUE,
-						    grid_x, bar_y1,
-						    E_DAY_VIEW_BAR_WIDTH - 2,
-						    bar_y2 - bar_y1);
+				cairo_rectangle (cr, grid_x, bar_y1,
+					       E_DAY_VIEW_BAR_WIDTH - 2, bar_y2 - bar_y1);
+	
+				cairo_fill (cr);
 			}
 		}
-
-
 		g_object_unref (comp);
 	}
+	cairo_restore (cr);
+	cairo_destroy (cr);
 }
 
 
@@ -488,7 +575,6 @@ e_day_view_main_item_draw_day_events (EDayViewMainItem *dvmitem,
 	}
 }
 
-
 static void
 e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 				     GdkDrawable *drawable,
@@ -507,16 +593,30 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 	gboolean draw_attach_icon;
 	GSList *categories_list, *elem;
 	ECalComponentTransparency transparency;
-
+	cairo_t *cr;
+	cairo_pattern_t *pat;
+	guint16 red, green, blue;
+	gint i;
+	gdouble radius, x0, y0, rect_height, rect_width;
+	gfloat alpha;
+	gdouble cc = 65535.0;
 	day_view = dvmitem->day_view;
+
+	cr = gdk_cairo_create (drawable);
+	gdk_cairo_set_source_color (cr, 
+			&day_view->colors[E_DAY_VIEW_COLOR_EVENT_VBAR]);
+
+	gc = day_view->main_gc;
+
+	alpha = gconf_client_get_float (gconf_client_get_default (),
+				         "/apps/evolution/calendar/display/events_transparency",
+					 NULL);
 
 	/* If the event is currently being dragged, don't draw it. It will
 	   be drawn in the special drag items. */
 	if (day_view->drag_event_day == day
 	    && day_view->drag_event_num == event_num)
 		return;
-
-	gc = day_view->main_gc;
 
 	/* Get the position of the event. If it is not shown skip it.*/
 	if (!e_day_view_get_event_position (day_view, day, event_num,
@@ -533,40 +633,108 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 	/* Fill in the event background. Note that for events in the first
 	   column of the day, we might not want to paint over the vertical bar,
 	   since that is used for multiple events. But then you can't see
-	   where the event in the first column finishes. */
+	   where the event in the first column finishes. The border is drawn
+           along with the event using cairo*/
 
-	gdk_gc_set_foreground (gc, &day_view->colors[E_DAY_VIEW_COLOR_EVENT_BACKGROUND]);
+	red = day_view->colors[E_DAY_VIEW_COLOR_EVENT_BACKGROUND].red;
+	green = day_view->colors[E_DAY_VIEW_COLOR_EVENT_BACKGROUND].green;
+	blue = day_view->colors[E_DAY_VIEW_COLOR_EVENT_BACKGROUND].blue;
 
 	if (gdk_color_parse (e_cal_model_get_color_for_component (e_calendar_view_get_model (E_CALENDAR_VIEW (day_view)), event->comp_data),
 			     &bg_color)) {
 		GdkColormap *colormap;
 
 		colormap = gtk_widget_get_colormap (GTK_WIDGET (day_view));
-		if (gdk_colormap_alloc_color (colormap, &bg_color, TRUE, TRUE))
-			gdk_gc_set_foreground (gc, &bg_color);
+		if (gdk_colormap_alloc_color (colormap, &bg_color, TRUE, TRUE)) {
+			red = bg_color.red;
+			green = bg_color.green;
+			blue = bg_color.blue;
+			}
 	}
 
-#if 1
-	if (event->start_row_or_col == 0)
-		gdk_draw_rectangle (drawable, gc, TRUE,
-				    item_x + E_DAY_VIEW_BAR_WIDTH, item_y + 1,
-				    MAX (item_w - E_DAY_VIEW_BAR_WIDTH - 1, 0),
-				    item_h - 2);
-	else
-#endif
-		gdk_draw_rectangle (drawable, gc, TRUE,
-				    item_x + 1, item_y + 1,
-				    MAX (item_w - 2, 0), item_h - 2);
+	/* Draw the background of the event with white to play with transparency */
+	cairo_save (cr);
 
-	gdk_gc_set_foreground (gc, &day_view->colors[E_DAY_VIEW_COLOR_EVENT_VBAR]);
+	x0	   = item_x + E_DAY_VIEW_BAR_WIDTH; 
+	y0	   = item_y + 1;
+	rect_width  = MAX (item_w - E_DAY_VIEW_BAR_WIDTH - 1, 0);
+	rect_height = item_h - 2.;
 
+	radius = 16; 	
+
+	draw_curved_rectangle (cr, x0, y0, rect_width, rect_height, radius);
+
+	cairo_set_source_rgba (cr, 1, 1, 1, alpha);
+	cairo_fill (cr);
+
+	cairo_restore (cr);
+
+	/* second inner border */
+	cairo_save (cr);
+
+	x0	   = item_x + E_DAY_VIEW_BAR_WIDTH + 1.;
+	y0	   = item_y + 2.;
+	rect_width  = item_w - E_DAY_VIEW_BAR_WIDTH - 3.;
+	rect_height = item_h - 4.;
+	
+	radius = 12;
+	
+	draw_curved_rectangle (cr, x0, y0, rect_width, rect_height, radius);
+	cairo_set_source_rgba (cr, red/cc, green/cc, blue/cc, 0);
+	cairo_set_line_width (cr, 0.6);
+	cairo_stroke (cr);
+	cairo_restore (cr);
+
+	/* Here we draw the border in event color */
+	cairo_save (cr);
+
+	x0	   = item_x + E_DAY_VIEW_BAR_WIDTH; 
+	y0	   = item_y + 1.;
+	rect_width  = MAX (item_w - E_DAY_VIEW_BAR_WIDTH - 1., 0);
+	rect_height = item_h - 2.;
+
+	radius = 16; 	
+
+	draw_curved_rectangle (cr, x0, y0, rect_width,rect_height, radius);
+	cairo_set_line_width (cr, 1.0);
+	cairo_set_source_rgb (cr, red/cc, green/cc, blue/cc);
+	cairo_stroke (cr);
+	cairo_restore (cr);
+
+	/* Fill in the Event */
+
+	cairo_save (cr);
+
+	x0	   = item_x + E_DAY_VIEW_BAR_WIDTH + 1.5;
+	y0	   = item_y + 2.5;
+	rect_width  = item_w - E_DAY_VIEW_BAR_WIDTH - 4.;
+	rect_height = item_h - 5.;
+
+	radius = 14; 	
+	
+	draw_curved_rectangle (cr, x0, y0, rect_width, rect_height, radius);
+
+	pat = cairo_pattern_create_linear (item_x + E_DAY_VIEW_BAR_WIDTH + 2.5, item_y + 3.5,
+						item_x + E_DAY_VIEW_BAR_WIDTH + 2.5, item_y + item_h - 4);
+	cairo_pattern_add_color_stop_rgba (pat, 1, red/cc, green/cc, blue/cc, 0.8);
+	cairo_pattern_add_color_stop_rgba (pat, 0, red/cc, green/cc, blue/cc, 0.4);
+	cairo_set_source (cr, pat);
+	cairo_fill (cr);
+	cairo_pattern_destroy (pat);
+	cairo_restore (cr);
+	
 	/* Draw the right edge of the vertical bar. */
-	gdk_gc_set_foreground (gc, &day_view->colors[E_DAY_VIEW_COLOR_EVENT_BORDER]);
-	gdk_draw_line (drawable, gc,
-		       item_x + E_DAY_VIEW_BAR_WIDTH - 1,
-		       item_y + 1,
-		       item_x + E_DAY_VIEW_BAR_WIDTH - 1,
-		       item_y + item_h - 2);
+	cairo_save (cr);
+	gdk_cairo_set_source_color (cr, 
+			&day_view->colors[E_DAY_VIEW_COLOR_BG_GRID]);
+	cairo_set_line_width (cr, 0.7);
+	cairo_move_to (cr, item_x + E_DAY_VIEW_BAR_WIDTH - 1, item_y + 1);
+	cairo_line_to (cr, item_x + E_DAY_VIEW_BAR_WIDTH - 1, item_y + item_h - 2);
+	cairo_stroke (cr);
+	cairo_restore (cr);
+
+	gdk_cairo_set_source_color (cr, 
+			&day_view->colors[E_DAY_VIEW_COLOR_EVENT_VBAR]);
 
 	/* Draw the vertical colored bar showing when the appointment
 	   begins & ends. */
@@ -589,36 +757,53 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 	/* Only fill it in if the event isn't TRANSPARENT. */
 	e_cal_component_get_transparency (comp, &transparency);
 	if (transparency != E_CAL_COMPONENT_TRANSP_TRANSPARENT) {
-		gdk_gc_set_foreground (gc, &day_view->colors[E_DAY_VIEW_COLOR_EVENT_VBAR]);
-		gdk_draw_rectangle (drawable, gc, TRUE,
-				    item_x + 1, bar_y1,
-				    E_DAY_VIEW_BAR_WIDTH - 2, bar_y2 - bar_y1);
+		cairo_save (cr);
+		pat = cairo_pattern_create_linear (item_x + E_DAY_VIEW_BAR_WIDTH, item_y + 1,
+						item_x + E_DAY_VIEW_BAR_WIDTH, item_y + item_h - 1);
+		cairo_pattern_add_color_stop_rgba (pat, 1, red/cc, green/cc, blue/cc, 0.7);
+		cairo_pattern_add_color_stop_rgba (pat, 0.5, red/cc, green/cc, blue/cc, 0.7);
+		cairo_pattern_add_color_stop_rgba (pat, 0, red/cc, green/cc, blue/cc, 0.2);
+
+		cairo_rectangle (cr, item_x + 1, bar_y1,
+			       E_DAY_VIEW_BAR_WIDTH - 2, bar_y2 - bar_y1);
+
+		cairo_set_source (cr, pat);
+		cairo_fill (cr);
+		cairo_pattern_destroy (pat);
+		cairo_restore (cr);
+
+		/* This is for achieving the white stripes in vbar across event color */
+		for (i = 0; i <= (bar_y2 - bar_y1) ; i+=4) {
+			cairo_set_source_rgb (cr, 1, 1, 1);
+			cairo_set_line_width (cr, 0.3);
+			cairo_move_to (cr, item_x + 1, bar_y1 + i);
+			cairo_line_to (cr, item_x + E_DAY_VIEW_BAR_WIDTH - 1, bar_y1 + i);
+			cairo_stroke (cr);
+		}
 	}
 
-	/* Draw the box around the entire event. Do this after drawing
-	   the colored bar so we don't have to worry about being 1
-	   pixel out. */
-	gdk_gc_set_foreground (gc, &day_view->colors[E_DAY_VIEW_COLOR_EVENT_BORDER]);
-	gdk_draw_rectangle (drawable, gc, FALSE,
-			    item_x, item_y, MAX (item_w - 1, 0), item_h - 1);
-	gdk_gc_set_foreground (gc, &day_view->colors[E_DAY_VIEW_COLOR_EVENT_VBAR]);
+	gdk_cairo_set_source_color (cr, 
+			&day_view->colors[E_DAY_VIEW_COLOR_EVENT_VBAR]);
 
 #if 0
 	/* Draw the horizontal bars above and beneath the event if it
 	   is currently being edited. */
 	if (day_view->editing_event_day == day
 	    && day_view->editing_event_num == event_num) {
-		gdk_draw_rectangle (drawable, gc, TRUE,
-				    item_x,
-				    item_y - E_DAY_VIEW_BAR_HEIGHT,
-				    item_w,
-				    E_DAY_VIEW_BAR_HEIGHT);
-		gdk_draw_rectangle (drawable, gc, TRUE,
-				    item_x, item_y + item_h,
-				    item_w, E_DAY_VIEW_BAR_HEIGHT);
+		cairo_save (cr);
+		cairo_rectangle (cr, item_x, item_y - E_DAY_VIEW_BAR_HEIGHT,
+			       item_w, E_DAY_VIEW_BAR_HEIGHT);
+		cairo_fill (cr);
+		cairo_restore (cr);
+
+		cairo_save (cr);
+		cairo_rectangle (cr, item_x, item_y + item_h,
+			       item_w, E_DAY_VIEW_BAR_HEIGHT);
+		cairo_fill (cr);
+		cairo_restore (cr);
 	}
 #endif
-
+	
 	/* Draw the reminder & recurrence icons, if needed. */
 	num_icons = 0;
 	draw_reminder_icon = FALSE;
@@ -684,16 +869,11 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 			max_icon_h = item_y + item_h - icon_y
 				- E_DAY_VIEW_EVENT_BORDER_HEIGHT;
 
-			gdk_gc_set_clip_mask (gc, NULL);
-			gdk_draw_pixbuf (drawable, gc,
-					 day_view->reminder_icon,
-					 0, 0, icon_x, icon_y,
-					 MIN (E_DAY_VIEW_ICON_WIDTH,
-					      max_icon_w),
-					 MIN (E_DAY_VIEW_ICON_HEIGHT,
-					      max_icon_h),
-					 GDK_RGB_DITHER_NORMAL,
-					 0, 0);
+			cairo_save (cr);
+			gdk_cairo_set_source_pixbuf (cr, day_view->reminder_icon, icon_x, icon_y);
+			cairo_paint (cr);
+			cairo_restore (cr);
+
 			icon_x += icon_x_inc;
 			icon_y += icon_y_inc;
 		}
@@ -703,17 +883,12 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 				- E_DAY_VIEW_EVENT_BORDER_WIDTH;
 			max_icon_h = item_y + item_h - icon_y
 				- E_DAY_VIEW_EVENT_BORDER_HEIGHT;
-
-			gdk_gc_set_clip_mask (gc, NULL);
-			gdk_draw_pixbuf (drawable, gc,
-					 day_view->recurrence_icon,
-					 0, 0, icon_x, icon_y,
-					 MIN (E_DAY_VIEW_ICON_WIDTH,
-					      max_icon_w),
-					 MIN (E_DAY_VIEW_ICON_HEIGHT,
-					      max_icon_h),
-					 GDK_RGB_DITHER_NORMAL,
-					 0, 0);
+			
+			cairo_save (cr);
+			gdk_cairo_set_source_pixbuf (cr, day_view->recurrence_icon, icon_x, icon_y);
+			cairo_paint (cr);
+			cairo_restore (cr);
+	
 			icon_x += icon_x_inc;
 			icon_y += icon_y_inc;
 		}
@@ -723,16 +898,10 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 			max_icon_h = item_y + item_h - icon_y
 				- E_DAY_VIEW_EVENT_BORDER_HEIGHT;
 
-			gdk_gc_set_clip_mask (gc, NULL);
-			gdk_draw_pixbuf (drawable, gc,
-					 day_view->attach_icon,
-					 0, 0, icon_x, icon_y,
-					 MIN (E_DAY_VIEW_ICON_WIDTH,
-					      max_icon_w),
-					 MIN (E_DAY_VIEW_ICON_HEIGHT,
-					      max_icon_h),
-					 GDK_RGB_DITHER_NORMAL,
-					 0, 0);
+			cairo_save (cr);
+			gdk_cairo_set_source_pixbuf (cr, day_view->attach_icon, icon_x, icon_y);
+			cairo_paint (cr);
+			cairo_restore (cr);
 			icon_x += icon_x_inc;
 			icon_y += icon_y_inc;
 		}
@@ -742,16 +911,11 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 			max_icon_h = item_y + item_h - icon_y
 				- E_DAY_VIEW_EVENT_BORDER_HEIGHT;
 
-			gdk_gc_set_clip_mask (gc, NULL);
-			gdk_draw_pixbuf (drawable, gc,
-					 day_view->timezone_icon,
-					 0, 0, icon_x, icon_y,
-					 MIN (E_DAY_VIEW_ICON_WIDTH,
-					      max_icon_w),
-					 MIN (E_DAY_VIEW_ICON_HEIGHT,
-					      max_icon_h),
-					 GDK_RGB_DITHER_NORMAL,
-					 0, 0);
+			cairo_save (cr);
+			gdk_cairo_set_source_pixbuf (cr, day_view->timezone_icon, icon_x, icon_y);
+			cairo_paint (cr);
+			cairo_restore (cr);
+			
 			icon_x += icon_x_inc;
 			icon_y += icon_y_inc;
 		}
@@ -763,16 +927,11 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 			max_icon_h = item_y + item_h - icon_y
 				- E_DAY_VIEW_EVENT_BORDER_HEIGHT;
 
-			gdk_gc_set_clip_mask (gc, NULL);
-			gdk_draw_pixbuf (drawable, gc,
-					 day_view->meeting_icon,
-					 0, 0, icon_x, icon_y,
-					 MIN (E_DAY_VIEW_ICON_WIDTH,
-					      max_icon_w),
-					 MIN (E_DAY_VIEW_ICON_HEIGHT,
-					      max_icon_h),
-					 GDK_RGB_DITHER_NORMAL,
-					 0, 0);
+			cairo_save (cr);
+			gdk_cairo_set_source_pixbuf (cr, day_view->meeting_icon, icon_x, icon_y);
+			cairo_paint (cr);
+			cairo_restore (cr);
+	
 			icon_x += icon_x_inc;
 			icon_y += icon_y_inc;
 		}
@@ -817,6 +976,7 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 	/* free memory */
 	e_cal_component_free_categories_list (categories_list);
 	g_object_unref (comp);
+	cairo_destroy (cr);
 }
 
 
