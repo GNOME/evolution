@@ -1,3 +1,8 @@
+2006-04-24  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* mail-session.c: (get_password): Ask passphrase if the user is
+	supposed to enter the same.
+
 2006-04-22  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* em-format-html-display.c: (efhd_attachment_button),

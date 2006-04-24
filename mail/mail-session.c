@@ -200,11 +200,17 @@ get_password (CamelSession *session, CamelService *service, const char *domain,
 
 			remember = config_service?config_service->save_passwd:FALSE;
 
-			if (account)
-				title = g_strdup_printf (_("Enter Password for %s"), account->name);
-			else
-				title = g_strdup (_("Enter Password"));
-
+			if (flags & CAMEL_SESSION_PASSPHRASE) {
+				if (account)
+					title = g_strdup_printf (_("Enter Passphrase for %s"), account->name);
+				else
+					title = g_strdup (_("Enter Passphrase"));
+			} else {
+				if (account)
+					title = g_strdup_printf (_("Enter Password for %s"), account->name);
+				else
+					title = g_strdup (_("Enter Password"));				
+			}
 			if ((flags & CAMEL_SESSION_PASSWORD_STATIC) != 0)
 				eflags = E_PASSWORDS_REMEMBER_NEVER;
 			else if (config_service == NULL)
@@ -217,6 +223,9 @@ get_password (CamelSession *session, CamelService *service, const char *domain,
 
 			if (flags & CAMEL_SESSION_PASSWORD_SECRET)
 				eflags |= E_PASSWORDS_SECRET;
+
+			if (flags & CAMEL_SESSION_PASSPHRASE)
+				eflags |= E_PASSWORDS_PASSPHRASE;
 
 			/* HACK: breaks abstraction ...
 			   e_account_writable doesn't use the eaccount, it also uses the same writable key for
