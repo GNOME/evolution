@@ -1,3 +1,11 @@
+2006-04-24  Rajeev ramanathan <rajeevramanathan_2004@yahoo.co.in>
+
+	reviewed by: Harish Krishnaswamy <kharish@novell.com> 
+
+	*  e-table/gal-a11y-e-cell-text.c: (ect_check)
+	Fixes the corrupted reference to cell_view->ecell
+	Fix for #330728, #332727.
+
 2006-03-20  Boby Wang <boby.wang@sun.com>
 	Fix for #319308
 
