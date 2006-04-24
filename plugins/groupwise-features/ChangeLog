@@ -1,3 +1,8 @@
+2006-04-24  Sankar P  <psankar@novell.com>
+
+	* org-gnome-proxy-login-errors.xml:
+	Changed the ; in the end to a . in an error message
+
 2006-03-01  Sankar P  <psankar@novell.com>
 
 	* proxy-login.c: (proxy_get_password) 
