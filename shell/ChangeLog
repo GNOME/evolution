@@ -1,3 +1,10 @@
+2006-04-06  Alejandro Andres <fuzzy.alej@gmail.com>
+
+	* e-shell-view.c
+	* e-shell-window.c
+
+	Fixes #337258. Now Evolution is shown at the end of the title bar.
+
 2006-04-21  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fixes bug #329731

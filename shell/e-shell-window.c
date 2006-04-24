@@ -324,7 +324,7 @@ switch_view (EShellWindow *window, ComponentView *component_view)
 	}
 
 	if (component_view->title == NULL) {
-		title = g_strdup_printf ("Evolution - %s", info->button_label);
+		title = g_strdup_printf ("%s - Evolution", info->button_label);
 		gtk_window_set_title (GTK_WINDOW (window), title);
 		g_free (title);
 	} else

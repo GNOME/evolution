@@ -43,7 +43,7 @@ static void
 impl_ShellView_setTitle(PortableServer_Servant _servant, const CORBA_char *id, const CORBA_char * title, CORBA_Environment * ev)
 {
 	EShellView *esw = (EShellView *)bonobo_object_from_servant(_servant);
-	char *tmp = g_strdup_printf("Evolution - %s", title);
+	char *tmp = g_strdup_printf("%s - Evolution", title);
 
 	e_shell_window_set_title(esw->window, id, tmp);
 	g_free(tmp);
