@@ -1843,7 +1843,7 @@ e_calendar_view_new_appointment_for (ECalendarView *cal_view,
 
 	default_client = e_cal_model_get_default_client (priv->model);
 
-	if (default_client && e_cal_get_load_state (default_client) != E_CAL_LOAD_LOADED) {
+	if (!default_client || e_cal_get_load_state (default_client) != E_CAL_LOAD_LOADED) {
 		g_warning ("Default client not loaded \n");
 		return;
 	}
@@ -1906,7 +1906,7 @@ e_calendar_view_new_appointment_for (ECalendarView *cal_view,
 		flags |= COMP_EDITOR_USER_ORG;
 	}
 	
-	open_event_with_flags (cal_view, e_cal_model_get_default_client (priv->model),
+	open_event_with_flags (cal_view, default_client,
 			icalcomp, flags);
 
 	g_object_unref (comp);
