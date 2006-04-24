@@ -1,3 +1,9 @@
+2006-04-24  Srinivasa Ragavan  <sragavan@novell.com>
+
+	Used Cairo to draw the Tag Calendar. (Rajeev)
+	* e-calendar-item.c: (e_calendar_item_draw),
+	(e_calendar_item_draw_month), (e_calendar_item_draw_day_numbers):
+
 2006-04-22  Srinivasa Ragavan  <sragavan@novell.com>
 
 
