@@ -1,3 +1,12 @@
+2006-04-24  Srinivasa Ragavan  <sragavan@novell.com>
+
+	Adding support for ENameSelectorList in composer. It is a enhanced
+	version of Name Selector, which provides a list view to the entry
+	data.
+	* e-msg-composer-hdrs.c: (create_addressbook_entry),
+	(header_new_recipient), (attach_couple): Added ENameSelectorList to
+	composer.
+
 2006-04-05  Simon Zheng  <simon.zheng@sun.com>
 
 	** Fixes bug #333213

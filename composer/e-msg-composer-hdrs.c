@@ -38,6 +38,7 @@
 #include <libgnome/gnome-i18n.h>
 #include <libedataserverui/e-name-selector.h>
 #include <libedataserverui/e-name-selector-entry.h>
+#include <libedataserverui/e-name-selector-list.h>
 
 #include "Composer.h"
 
@@ -55,6 +56,7 @@
 #include <text/e-entry.h>
 
 #include "e-util/e-error.h"
+#include "e-util/e-icon-factory.h"
 
 #include <camel/camel.h>
 #include <camel/camel-store.h>
@@ -476,7 +478,7 @@ create_addressbook_entry (EMsgComposerHdrs *hdrs, const char *name)
 	name_selector_model = e_name_selector_peek_model (priv->name_selector);
 	e_name_selector_model_add_section (name_selector_model, name, name, NULL);
 
-	name_selector_entry = e_name_selector_peek_section_entry (priv->name_selector, name);
+	name_selector_entry = (ENameSelectorEntry *)e_name_selector_peek_section_list (priv->name_selector, name);
 	g_signal_connect (name_selector_entry, "changed",
 			  G_CALLBACK (addressbook_entry_changed), hdrs);
 
@@ -576,7 +578,8 @@ static EMsgComposerHdrPair
 header_new_recipient (EMsgComposerHdrs *hdrs, const char *name, const char *tip)
 {
 	EMsgComposerHdrPair ret;
-	
+	GtkWidget *pixmap;
+
 	ret.label = gtk_button_new_with_mnemonic (name);
 	GTK_OBJECT_UNSET_FLAGS (ret.label, GTK_CAN_FOCUS);
 	g_signal_connect_data (ret.label, "clicked",
@@ -680,10 +683,18 @@ attach_couple (EMsgComposerHdrs *hdrs, EMsgComposerHdrPair *pair, int line)
 			  line, line + 1,
 			  GTK_FILL, GTK_FILL, 3, 3);
 	
-	gtk_table_attach (GTK_TABLE (hdrs),
-			  pair->entry, 1, 2,
-			  line, line + 1,
-			  GTK_FILL | GTK_EXPAND, 0, 3, 3);
+	if (line == LINE_TO || line == LINE_CC || line == LINE_BCC) {
+		gtk_table_attach (GTK_TABLE (hdrs),
+				  pair->entry, 1, 2,
+				  line, line + 1,
+				  GTK_FILL | GTK_EXPAND, 0, 3, 3);
+	}
+	else {
+		gtk_table_attach (GTK_TABLE (hdrs),
+				  pair->entry, 1, 2,
+				  line, line + 1,
+				  GTK_FILL | GTK_EXPAND, 0, 3, 3);
+	}
 }
 
 static void
