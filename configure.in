@@ -97,6 +97,8 @@ AM_DISABLE_STATIC
 AC_LIBTOOL_WIN32_DLL
 AM_PROG_LIBTOOL
 
+PKG_PROG_PKG_CONFIG
+
 dnl Win32
 AC_MSG_CHECKING([for Win32])
 case "$host" in
@@ -713,20 +715,6 @@ AC_ARG_ENABLE(nss, [  --enable-nss=[yes,no,static]        Attempt to use Mozilla
 AC_ARG_ENABLE(smime, [ --enable-smime=[yes,no]            Attempt to use Mozilla libnss for SMIME support (this requires --enable-nss)],
 	enable_smime="$enableval", enable_smime="yes")
 
-dnl ***********************************************************************************************************
-dnl OpenSSL is no longer available. DO NOT USE IT!!! The OpenSSL camel code is known to have security problems, 
-dnl it doesn't work, it doesn't build, it is never tested, and to top it all off, it is not GPL compatable.
-dnl ***********************************************************************************************************
-dnl
-dnl AC_ARG_ENABLE(openssl, [  --enable-openssl=[no,yes]        Attempt to use OpenSSL for SSL support.],
-dnl 	enable_openssl="$enableval", enable_openssl="no")
-dnl 
-dnl if test "x${enable_openssl}" = "xyes"; then
-dnl User wants to override nss with OpenSSL
-dnl 	enable_nss="no"
-dnl 	AC_MSG_WARN([OpenSSL enabled, disabling NSS.])
-dnl fi
-
 AC_ARG_WITH(nspr-includes, [  --with-nspr-includes=PREFIX	Location of Mozilla nspr4 includes.],
 	with_nspr_includes="$withval")
 
@@ -741,36 +729,55 @@ AC_ARG_WITH(nss-libs, [  --with-nss-libs=PREFIX         	Location of Mozilla nss
 
 if test "x${enable_nss}" = "xyes" || test "x${enable_nss}" = "xstatic"; then
 	if test -n "${with_nspr_includes}" || test -n "${with_nspr_libs}" || test -n "${with_nss_includes}" || test -n "${with_nss_libs}" || test "x${enable_nss}" = "xstatic"; then
-dnl If the user specifies --with-foo or --enable-nss=static, then we have to do this manually
 		check_manually="yes"
 	else
 		check_manually="no"
 	fi
 	
-	if test "x${check_manually}" = "xno" && `$PKG_CONFIG --exists mozilla-nss`; then
-		PKG_CHECK_MODULES(NSS, mozilla-nss, have_nss="yes")
-		if test "x${have_nss}" = "xyes"; then
+	if test "x${check_manually}" = "xno"; then
+		AC_MSG_CHECKING(Mozilla NSPR pkg-config module name)
+		mozilla_nspr_pcs="nspr mozilla-nspr firefox-nspr"
+		for pc in $mozilla_nspr_pcs; do
+			if $PKG_CONFIG --exists $pc; then
+				AC_MSG_RESULT($pc)
+				mozilla_nspr=$pc
+				break;
+			fi
+		done
+		
+		AC_MSG_CHECKING(Mozilla NSS pkg-config module name)
+		mozilla_nss_pcs="nss mozilla-nss firefox-nss"
+		for pc in $mozilla_nss_pcs; do
+			if $PKG_CONFIG --exists $pc; then
+				AC_MSG_RESULT($pc)
+				mozilla_nss=$pc
+				break;
+			fi
+		done
+		
+		if test -n "$mozilla_nspr" -a -n "$mozilla_nss"; then
 			msg_ssl="yes (Mozilla NSS)"
 			if test "x$enable_smime" = "xyes"; then
 				AC_DEFINE(ENABLE_SMIME,1,[Define if SMIME should be enabled])
 				msg_smime="yes (Mozilla NSS)"
-			fi				    
-			mozilla_nspr="mozilla-nspr"
-			mozilla_nss="mozilla-nss"
+			fi
+			mozilla_nspr="nspr"
+			mozilla_nss="nss"
 			AC_DEFINE(HAVE_NSS,1,[Define if you have NSS])
 			AC_DEFINE(HAVE_SSL,1,[Define if you have a supported SSL library])
-			AC_DEFINE_UNQUOTED(MOZILLA_NSS_LIB_DIR,"`$PKG_CONFIG --variable=libdir mozilla-nss`",[Define to the full path of mozilla nss library])
+			AC_DEFINE_UNQUOTED(MOZILLA_NSS_LIB_DIR,"`$PKG_CONFIG --variable=libdir $mozilla_nss`",[Define to the full path of mozilla nss library])
 			MANUAL_NSPR_CFLAGS=""
 			MANUAL_NSPR_LIBS=""
 			MANUAL_NSS_CFLAGS=""
 			MANUAL_NSS_LIBS=""
 		else
 			check_manually="yes"
+			mozilla_nspr=""
+			mozilla_nss=""
 		fi
 	fi
 	
 	if test "x${check_manually}" = "xyes"; then
-		mozilla_nss=""
 		have_nspr_includes="no"
 		if test "x${with_nspr_includes}" != "xno"; then
 			CPPFLAGS_save="$CPPFLAGS"
