@@ -5167,7 +5167,7 @@ Accepting and Replying to a Meeting Request</title>
   <glossentry id="regular-expression">
    <glossterm>regular expression</glossterm>
    <glossdef>
-    <para>A regular expression (regex) is a way of describing a string of text using metacharacters or wildcard symbols. For example, the statement fly.*so[au]p means any phrase beginning with &ldquo;fly&rdquo; and ending in &ldquo;oup&rdquo; or &ldquo;soap&rdquo;. If you searched for that expression, you&apos;d find both &ldquo;fly in my soup&rdquo; and &ldquo;fly in my soap.&rdquo; For more information, enter <command>man grep</command> from the command line.</para>
+    <para>A regular expression (regex) is a way of describing a string of text using metacharacters or wildcard symbols. For example, the statement fly.*so[au]p means any phrase beginning with &ldquo;fly&rdquo; and ending in &ldquo;soup&rdquo; or &ldquo;soap&rdquo;. If you searched for that expression, you&apos;d find both &ldquo;fly in my soup&rdquo; and &ldquo;fly in my soap.&rdquo; For more information, enter <command>man grep</command> from the command line.</para>
    </glossdef>
   </glossentry>
   <glossentry id="script">
@@ -5185,7 +5185,7 @@ Accepting and Replying to a Meeting Request</title>
   <glossentry id="vfolder">
    <glossterm>search folder</glossterm>
    <glossdef>
-    <para>An e-mail organization tool. Search folders allow you to create a folder that contains the results of a complex search. search folder contents are updated dynamically.</para>
+    <para>An e-mail organization tool. Search folders allow you to create a folder that contains the results of a complex search. Search folder contents are updated dynamically.</para>
    </glossdef>
   </glossentry>
   <glossentry id="search-scope">
@@ -5233,7 +5233,7 @@ Accepting and Replying to a Meeting Request</title>
   <glossentry id="vcard">
    <glossterm>vCard</glossterm>
    <glossdef>
-    <para>A file format for the exchange of contact information. When you get an address card attached to an e-mail, it&apos;s probably in vCard format. Contrast with <varname>search folder</varname>.</para>
+    <para>A file format for the exchange of contact information. When you get an address card attached to an e-mail, it&apos;s probably in vCard format.</para>
    </glossdef>
   </glossentry>
  </glossary>
