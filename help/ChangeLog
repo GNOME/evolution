@@ -1,3 +1,7 @@
+2006-04-25  Andre Klapper  <a9016009@gmx.de>
+
+ 	* C/evolution.xml: fixing 3 bugs. Fixes bug 339094.
+
 2006-03-22  Andre Klapper  <a9016009@gmx.de>
 
  	* C/evolution.xml: Updating the doc for 2.6 and fixing bugs which went
