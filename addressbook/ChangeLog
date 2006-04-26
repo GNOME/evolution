@@ -1,3 +1,9 @@
+2006-04-26  Srinivasa Ragavan  <sragavan@novell.com>
+	
+	** Patch from PR Suman to add icons missing in menu items.
+
+	* gui/component/addressbook-view.c: Added icons for forward and send.
+
 2006-02-18  M Victor Aloysius J <victoraloy@gmail.com>
 
 	** Fixes bug #317512

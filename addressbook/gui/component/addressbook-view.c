@@ -622,7 +622,10 @@ static EPixmap pixmaps [] = {
 	E_PIXMAP ("/menu/EditPlaceholder/Edit/ContactsCopy", "stock_copy", E_ICON_SIZE_MENU),
 	E_PIXMAP ("/menu/EditPlaceholder/Edit/ContactsPaste", "stock_paste", E_ICON_SIZE_MENU),
 	E_PIXMAP ("/menu/EditPlaceholder/Edit/ContactDelete", "stock_delete", E_ICON_SIZE_MENU),
-
+	
+	E_PIXMAP ("/menu/ActionsPlaceholder/Actions/ContactsSendContactToOther", "stock_mail-forward", E_ICON_SIZE_MENU),	
+	E_PIXMAP ("/menu/ActionsPlaceholder/Actions/ContactsSendMessageToContact", "stock_mail-send", E_ICON_SIZE_MENU),
+	
 	E_PIXMAP ("/Toolbar/ContactsPrint", "stock_print", E_ICON_SIZE_LARGE_TOOLBAR),
 	E_PIXMAP ("/Toolbar/ContactDelete", "stock_delete", E_ICON_SIZE_LARGE_TOOLBAR),
 	
@@ -630,7 +633,7 @@ static EPixmap pixmaps [] = {
 	E_PIXMAP ("/menu/FolderPlaceholder/Folder/FolderMove", "stock_folder-move", E_ICON_SIZE_MENU),
 	E_PIXMAP ("/menu/FolderPlaceholder/Folder/ChangeFolderProperties", "stock_folder-properties", E_ICON_SIZE_MENU),
 	E_PIXMAP ("/menu/FolderPlaceholder/Folder/FolderSave", "stock_save-as", E_ICON_SIZE_MENU),
-
+	
 	E_PIXMAP_END
 };
 
