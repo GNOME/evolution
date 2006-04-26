@@ -285,12 +285,11 @@ eccp_general_offline (EConfig *ec, EConfigItem *item, struct _GtkWidget *parent,
 		row = ((GtkTable*)parent)->nrows;
 
 		if (sdialog->source_type == E_CAL_SOURCE_TYPE_EVENT)	
-			offline_setting = gtk_check_button_new_with_label (_("Copy calendar contents locally for offline operation"));
+			offline_setting = gtk_check_button_new_with_mnemonic (_("Cop_y calendar contents locally for offline operation"));
 		else if (sdialog->source_type == E_CAL_SOURCE_TYPE_TODO)	
-
-			offline_setting = gtk_check_button_new_with_label (_("Copy task list contents locally for offline operation"));
+			offline_setting = gtk_check_button_new_with_mnemonic (_("Cop_y task list contents locally for offline operation"));
 		else if(sdialog->source_type == E_CAL_SOURCE_TYPE_JOURNAL)
-			offline_setting = gtk_check_button_new_with_label(_("Copy memo list contents locally for offline operation"));
+			offline_setting = gtk_check_button_new_with_mnemonic (_("Cop_y memo list contents locally for offline operation"));
 
 		gtk_widget_show (offline_setting);
 		g_signal_connect (offline_setting, "toggled", G_CALLBACK (offline_status_changed_cb), sdialog);

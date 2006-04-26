@@ -1,4 +1,10 @@
 2006-04-26  Srinivasa Ragavan  <sragavan@novell.com>
+	
+	** Fixes bug #328194
+
+	* gui/dialogs/calendar-setup.c: Added mnemonics.
+
+2006-04-26  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #331510 from Victor
 	
