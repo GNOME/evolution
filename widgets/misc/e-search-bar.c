@@ -550,6 +550,7 @@ static void
 append_xml_menu_item (GString *xml,
 		      const char *name,
 		      const char *label,
+		      const char *stock,
 		      const char *verb,
 		      const char *accelerator)
 {
@@ -562,6 +563,8 @@ append_xml_menu_item (GString *xml,
 	
 	if (accelerator != NULL)
 		g_string_append_printf (xml, " accel=\"%s\"", accelerator);
+	if (stock != NULL)
+		g_string_append_printf (xml, " pixtype=\"stock\" pixname=\"%s\"", stock);
 	
 	g_string_append (xml, "/>");
 }
@@ -591,8 +594,8 @@ setup_bonobo_menus (ESearchBar *esb)
 	
 	g_string_append (xml, "<placeholder name=\"SearchBar\">");
 	
-	append_xml_menu_item (xml, "FindNow", _("_Find Now"), "ESearchBar:FindNow", NULL);
-	append_xml_menu_item (xml, "Clear", _("_Clear"), "ESearchBar:Clear", "*Control**Shift*q");
+	append_xml_menu_item (xml, "FindNow", _("_Find Now"), "gtk-find", "ESearchBar:FindNow", NULL);
+	append_xml_menu_item (xml, "Clear", _("_Clear"), "gtk-clear", "ESearchBar:Clear", "*Control**Shift*q");
 	
 	for (p = esb->menu_items; p != NULL; p = p->next) {
 		const ESearchBarItem *item;
@@ -605,7 +608,7 @@ setup_bonobo_menus (ESearchBar *esb)
 		if (item->text == NULL)
 			g_string_append (xml, "<separator/>");
 		else
-			append_xml_menu_item (xml, verb_name, item->text, verb_name, NULL);
+			append_xml_menu_item (xml, verb_name, item->text, NULL, verb_name, NULL);
 		
 		g_free (verb_name);
 	}
