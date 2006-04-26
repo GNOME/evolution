@@ -1,3 +1,13 @@
+2006-02-18  M Victor Aloysius J <victoraloy@gmail.com>
+
+	** Fixes bug #317512
+	
+	* gui/eab-contact-editot.c:
+	* gui/eab-popup.h:
+	* gui/eab-popup.c:
+	Hyperlinked email-addresses and websites in preview pane support right 
+	click mouse options. 
+
 2006-04-21  Simon Zheng  <simon.zheng@sun.com>
 
 	Fix for bug #337604

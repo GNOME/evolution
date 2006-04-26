@@ -46,6 +46,7 @@ typedef struct _EABPopupClass EABPopupClass;
  **/
 enum _eab_popup_target_t {
 	EAB_POPUP_TARGET_SELECT,
+        EAB_POPUP_TARGET_URI,
 	EAB_POPUP_TARGET_SOURCE,
 	EAB_POPUP_TARGET_SELECT_NAMES,
 };
@@ -69,6 +70,11 @@ enum _eab_popup_target_select_t {
 	EAB_POPUP_CONTACT = 1<<6,
 };
 
+enum _eab_popup_target_uri_t {
+	EAB_POPUP_URI_HTTP = 1<<0,
+	EAB_POPUP_URI_MAILTO = 1<<1,
+	EAB_POPUP_URI_NOT_MAILTO = 1<<2,
+};
 /**
  * enum _eab_popup_target_source_t - EABPopupTargetSource qualifiers.
  * 
@@ -85,7 +91,7 @@ enum _eab_popup_target_source_t {
 typedef struct _EABPopupTargetSelect EABPopupTargetSelect;
 typedef struct _EABPopupTargetSource EABPopupTargetSource;
 typedef struct _EABPopupTargetSelectNames EABPopupTargetSelectNames;
-
+typedef struct _EABPopupTargetURI EABPopupTargetURI;
 /**
  * struct _EABPopupTargetSelect - A list of address cards.
  * 
@@ -101,6 +107,12 @@ struct _EABPopupTargetSelect {
 
 	struct _EBook *book;
 	GPtrArray *cards;
+};
+
+
+struct _EABPopupTargetURI {
+	EPopupTarget target;
+	char *uri;
 };
 
 /**
@@ -156,6 +168,7 @@ GType eab_popup_get_type(void);
 EABPopup *eab_popup_new(const char *menuid);
 
 EABPopupTargetSelect *eab_popup_target_new_select(EABPopup *eabp, struct _EBook *book, int readonly, GPtrArray *cards);
+EABPopupTargetURI *eab_popup_target_new_uri(EABPopup *emp, const char *uri);
 EABPopupTargetSource *eab_popup_target_new_source(EABPopup *eabp, struct _ESourceSelector *selector);
 
 #ifdef ADAPTED_TO_E_NAME_SELECTOR

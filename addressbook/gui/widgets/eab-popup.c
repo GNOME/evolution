@@ -60,6 +60,11 @@ eabp_target_free(EPopup *ep, EPopupTarget *t)
 		g_object_unref(s->book);
 
 		break; }
+        case EAB_POPUP_TARGET_URI: {
+		EABPopupTargetURI *s = (EABPopupTargetURI *)t;
+
+		g_free(s->uri);
+		break; }
 	case EAB_POPUP_TARGET_SOURCE: {
 		EABPopupTargetSource *s = (EABPopupTargetSource *)t;
 
@@ -129,6 +134,32 @@ EABPopup *eab_popup_new(const char *menuid)
  * 
  * Return value: 
  **/
+
+
+EABPopupTargetURI *
+eab_popup_target_new_uri(EABPopup *emp, const char *uri)
+{
+	EABPopupTargetURI *t = e_popup_target_new(&emp->popup, EAB_POPUP_TARGET_URI, sizeof(*t));
+	guint32 mask = ~0;
+
+	t->uri = g_strdup(uri);
+
+	if (g_ascii_strncasecmp(uri, "http:", 5) == 0
+	    || g_ascii_strncasecmp(uri, "https:", 6) == 0)
+		mask &= ~EAB_POPUP_URI_HTTP;
+	if (g_ascii_strncasecmp(uri, "internal-mailto:", 16) == 0)
+		mask &= ~EAB_POPUP_URI_MAILTO;
+	else
+		mask &= ~EAB_POPUP_URI_NOT_MAILTO;
+
+	t->target.mask = mask;
+
+	return t;
+}
+
+
+
+
 EABPopupTargetSelect *
 eab_popup_target_new_select(EABPopup *eabp, struct _EBook *book, int readonly, GPtrArray *cards)
 {
@@ -276,12 +307,20 @@ static const EPopupHookTargetMask eabph_source_masks[] = {
 	{ 0 }
 };
 
+static const EPopupHookTargetMask eabph_uri_masks[] = {
+	{ "http", EAB_POPUP_URI_HTTP },
+	{ "internal-mailto", EAB_POPUP_URI_MAILTO },
+	{ "notmailto", EAB_POPUP_URI_NOT_MAILTO },
+	{ 0 }
+};
+
 static const EPopupHookTargetMask eabph_select_names_masks[] = {
 	{ 0 }
 };
 
 static const EPopupHookTargetMap eabph_targets[] = {
 	{ "select", EAB_POPUP_TARGET_SELECT, eabph_select_masks },
+        { "uri", EAB_POPUP_TARGET_URI, eabph_uri_masks },
 	{ "source", EAB_POPUP_TARGET_SOURCE, eabph_source_masks },
 	{ "select-names", EAB_POPUP_TARGET_SELECT_NAMES, eabph_select_names_masks },
 	{ 0 }

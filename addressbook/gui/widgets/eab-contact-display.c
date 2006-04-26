@@ -25,6 +25,7 @@
 #endif
 
 #include "eab-contact-display.h"
+#include "eab-popup.h"
 
 #include "eab-gui-util.h"
 #include "e-util/e-html-utils.h"
@@ -42,6 +43,9 @@
 
 struct _EABContactDisplayPrivate {
 	EContact *contact;
+
+        GtkWidget *invisible;
+	char *selection_uri;
 };
 
 
@@ -60,6 +64,157 @@ struct _EABContactDisplayPrivate {
 #define VIDEOCONF_ICON    "stock_video-conferencing"
 
 #define MAX_COMPACT_IMAGE_DIMENSION 48
+
+static void
+eab_uri_popup_link_open(EPopup *ep, EPopupItem *item, void *data)
+{
+	EABPopupTargetURI *t = (EABPopupTargetURI *)ep->target;
+	GError *err = NULL;
+		
+	gnome_url_show(t->uri, &err);
+	if (err) {
+		g_warning("gnome_url_show: %s", err->message);
+		g_error_free(err);
+	}
+}
+
+static void
+eab_uri_popup_email_address_copy(EPopup *ep, EPopupItem *item, void *data)
+{
+	EABContactDisplay *display = data;
+	struct _EABContactDisplayPrivate *p = display->priv;
+        EABPopupTargetURI *t = (EABPopupTargetURI *)ep->target;
+        const char *url;
+        char *html=NULL; 
+        int i=0; 
+        GList *email_list, *l;
+	url = t->uri; 
+        int email_num = atoi (url + strlen ("internal-mailto:"));
+	
+	email_list = e_contact_get (p->contact, E_CONTACT_EMAIL);
+	for (l = email_list; l; l=l->next) {
+		if(i==email_num)
+			html = e_text_to_html (l->data, 0);
+	i++;
+        }
+
+       	g_free(p->selection_uri);
+	p->selection_uri = g_strdup(html);  
+	g_free (html);
+			
+	gtk_selection_owner_set(p->invisible, GDK_SELECTION_PRIMARY, gtk_get_current_event_time());
+	gtk_selection_owner_set(p->invisible, GDK_SELECTION_CLIPBOARD, gtk_get_current_event_time());
+}
+
+static void
+eab_uri_popup_link_copy(EPopup *ep, EPopupItem *pitem, void *data)
+{
+	EABContactDisplay *display = data;
+	struct _EABContactDisplayPrivate *p = display->priv;
+
+	g_free(p->selection_uri);
+	p->selection_uri = g_strdup(pitem->user_data);
+
+	gtk_selection_owner_set(p->invisible, GDK_SELECTION_PRIMARY, gtk_get_current_event_time());
+	gtk_selection_owner_set(p->invisible, GDK_SELECTION_CLIPBOARD, gtk_get_current_event_time());
+}
+
+static void
+eab_uri_popup_address_send(EPopup *ep, EPopupItem *item, void *data)
+{
+         EABPopupTargetURI *t = (EABPopupTargetURI *)ep->target;
+         const char *url;
+         EABContactDisplay *display = data;
+  	 struct _EABContactDisplayPrivate *p = display->priv;
+ 
+         url = t->uri; 
+	 int mail_num = atoi (url + strlen ("internal-mailto:"));
+         
+         if (mail_num == -1)
+         return; 
+         
+         eab_send_contact (p->contact, mail_num, EAB_DISPOSITION_AS_TO);
+
+}
+
+static void
+eab_selection_get(GtkWidget *widget, GtkSelectionData *data, guint info, guint time_stamp, EABContactDisplay *display)
+{
+	struct _EABContactDisplayPrivate *p = display->priv;
+
+	if (p->selection_uri == NULL)
+		return;
+
+	gtk_selection_data_set(data, data->target, 8, p->selection_uri, strlen(p->selection_uri));
+}
+
+static void
+eab_selection_clear_event(GtkWidget *widget, GdkEventSelection *event, EABContactDisplay *display)
+{
+#if 0 
+	struct _EABContactDisplayPrivate *p = display->priv;
+
+	g_free(p->selection_uri);
+	p->selection_uri = NULL;
+#endif
+}
+
+static EPopupItem eab_uri_popups[] = {
+	{ E_POPUP_ITEM, "05.open", N_("_Open Link in Browser"), eab_uri_popup_link_open, NULL, NULL, EAB_POPUP_URI_NOT_MAILTO },
+        { E_POPUP_ITEM, "10.copy", N_("_Copy Link Location"), eab_uri_popup_link_copy, NULL, NULL, EAB_POPUP_URI_NOT_MAILTO },
+        { E_POPUP_ITEM, "15.send", N_("_Send New Message To ..."), eab_uri_popup_address_send, NULL, NULL, EAB_POPUP_URI_MAILTO}, 
+	{ E_POPUP_ITEM, "20.copy", N_("Copy _Email Address"), eab_uri_popup_email_address_copy, NULL, "gtk-copy", EAB_POPUP_URI_MAILTO},
+        };
+
+
+static void
+eab_uri_popup_free(EPopup *ep, GSList *list, void *data)
+{
+	while (list){
+		GSList *n = list->next;
+		struct _EPopupItem *item = list->data;
+
+		g_free(item->user_data);
+		item->user_data = NULL;
+		g_slist_free_1(list);
+
+		list = n;
+         	}
+}
+
+static int
+eab_uri_popup_event(EABContactDisplay *display, GdkEvent *event, const char *uri)
+{
+	EABPopup *emp;
+	EABPopupTargetURI *t ;
+	GtkMenu *menu;
+  
+        
+      	        emp = eab_popup_new("org.gnome.evolution.addressbook.contactdisplay.popup");
+	
+		GSList *menus = NULL;
+		int i;
+		
+                t = eab_popup_target_new_uri(emp, uri);
+	        t->target.widget = (GtkWidget *)display;
+
+		for (i=0;i<sizeof(eab_uri_popups)/sizeof(eab_uri_popups[0]);i++) {
+			eab_uri_popups[i].user_data = g_strdup(t->uri);
+			menus = g_slist_prepend(menus, &eab_uri_popups[i]);
+		}
+		e_popup_add_items((EPopup *)emp, menus, NULL, eab_uri_popup_free, display);
+	
+
+        menu = e_popup_create_menu_once((EPopup *)emp,(EPopupTarget*)t, 0);
+	
+        if (event == NULL) {
+		gtk_menu_popup(menu, NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
+	} else {
+		gtk_menu_popup(menu, NULL, NULL, NULL, NULL, event->button.button, event->button.time);
+	}
+
+	return TRUE;
+}
 
 static void
 on_url_requested (GtkHTML *html, const char *url, GtkHTMLStream *handle,
@@ -106,7 +261,7 @@ on_link_clicked (GtkHTML *html, const char *url, EABContactDisplay *display)
 
 		if (mail_num == -1)
 			return;
-
+ 
 		eab_send_contact (display->priv->contact, mail_num, EAB_DISPOSITION_AS_TO);
 
 		return;
@@ -624,6 +779,26 @@ eab_contact_display_render (EABContactDisplay *display, EContact *contact,
 	}
 }
 
+static int
+eab_html_press_event (GtkWidget *widget, GdkEvent *event,EABContactDisplay *display)
+{
+	char *uri;
+	gboolean res = FALSE;
+	
+
+	if (event->button.button!= 3 )
+		return FALSE;
+        
+       	uri = gtk_html_get_url_at (GTK_HTML (widget), event->button.x, event->button.y);
+	if (uri){
+		eab_uri_popup_event(display,event,uri);
+               	}
+
+         g_free(uri);
+
+	return res;
+}
+
 GtkWidget*
 eab_contact_display_new (void)
 {
@@ -631,7 +806,8 @@ eab_contact_display_new (void)
 
 	display = g_object_new (EAB_TYPE_CONTACT_DISPLAY, NULL);
 	
-	display->priv = g_new0 (EABContactDisplayPrivate, 1);
+	struct _EABContactDisplayPrivate *p;
+	p=display->priv = g_new0 (EABContactDisplayPrivate, 1);
 
 	gtk_html_set_default_content_type (GTK_HTML (display), "text/html; charset=utf-8");
 	
@@ -643,6 +819,15 @@ eab_contact_display_new (void)
 	g_signal_connect (display, "link_clicked",
 			  G_CALLBACK (on_link_clicked),
 			  display);
+        g_signal_connect(display, "button_press_event", 
+                          G_CALLBACK(eab_html_press_event),
+                           display);
+        p->invisible = gtk_invisible_new();
+	g_signal_connect(p->invisible, "selection_get", G_CALLBACK(eab_selection_get), display);
+	g_signal_connect(p->invisible, "selection_clear_event", G_CALLBACK(eab_selection_clear_event), display);
+	gtk_selection_add_target(p->invisible, GDK_SELECTION_PRIMARY, GDK_SELECTION_TYPE_STRING, 0);
+	gtk_selection_add_target(p->invisible, GDK_SELECTION_CLIPBOARD, GDK_SELECTION_TYPE_STRING, 1);
+	
 #if 0
 	g_signal_connect (display, "object_requested",
 			  G_CALLBACK (on_object_requested),
@@ -662,7 +847,6 @@ eab_contact_display_new (void)
 	return GTK_WIDGET (display);
 }
 
-
 static void
 eab_contact_display_init (GObject *object)
 {
