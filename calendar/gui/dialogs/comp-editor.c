@@ -1390,6 +1390,7 @@ static BonoboUIVerb verbs [] = {
 
 static EPixmap pixmaps[] = {
 	E_PIXMAP ("/Toolbar/InsertAttachments", "stock_attach", E_ICON_SIZE_LARGE_TOOLBAR),
+	E_PIXMAP ("/menu/Insert/Attachments/InsertAttachments", "stock_attach", E_ICON_SIZE_MENU),
 
 	E_PIXMAP_END
 };

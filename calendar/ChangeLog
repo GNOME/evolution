@@ -1,4 +1,11 @@
 2006-04-26  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Patch from PR Suman to add icons missing in menu items.
+
+	* gui/dialogs/comp-editor.c: Added Attach icon to menu.
+	* gui/dialogs/event-editor.c: Added free/busy and recurrence icons.
+
+2006-04-26  Srinivasa Ragavan  <sragavan@novell.com>
 	
 	Cairo Updates from Rajeev. Now it draws a solid border around the
 	event.
