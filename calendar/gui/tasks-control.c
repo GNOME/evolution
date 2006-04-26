@@ -45,6 +45,7 @@
 #include <bonobo/bonobo-ui-util.h>
 #include <e-util/e-dialog-utils.h>
 #include <e-util/e-print.h>
+#include "e-util/e-icon-factory.h"
 #include <e-util/e-util-private.h>
 #include "dialogs/cal-prefs-dialog.h"
 #include "calendar-config.h"
@@ -255,6 +256,11 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_VERB_END
 };
 
+static EPixmap pixmaps [] = {
+	E_PIXMAP ("/menu/ActionsPlaceholder/Actions/TasksForward", "stock_mail-forward", E_ICON_SIZE_MENU),
+	
+	E_PIXMAP_END
+};
 void
 tasks_control_activate (BonoboControl *control, ETasks *tasks)
 {
@@ -288,6 +294,8 @@ tasks_control_activate (BonoboControl *control, ETasks *tasks)
 			       NULL);
 	g_free (xmlfile);
 
+	e_pixmaps_update (uic, pixmaps);	
+		
 	e_tasks_setup_view_menus (tasks, uic);
 
 	/* Signals from the tasks widget; also sensitize the menu items as appropriate */

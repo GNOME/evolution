@@ -387,11 +387,14 @@ static BonoboUIVerb verbs [] = {
 
 static EPixmap pixmaps[] = {
 	E_PIXMAP ("/Toolbar/ActionAlarm", "stock_alarm", E_ICON_SIZE_LARGE_TOOLBAR),
+	E_PIXMAP ("/menu/Options/ActionAlarm", "stock_alarm", E_ICON_SIZE_MENU),
 	E_PIXMAP ("/Toolbar/ActionAllDayEvent", "stock_new-24h-appointment", E_ICON_SIZE_LARGE_TOOLBAR),
 	E_PIXMAP ("/Toolbar/ViewTimeZone", "stock_timezone", E_ICON_SIZE_LARGE_TOOLBAR),	
 	E_PIXMAP ("/Toolbar/ActionRecurrence", "stock_task-recurring", E_ICON_SIZE_LARGE_TOOLBAR),	
+	E_PIXMAP ("/menu/Options/ActionRecurrence", "stock_task-recurring", E_ICON_SIZE_MENU),
 	E_PIXMAP ("/commands/ActionRecurrence", "stock_task-recurring", E_ICON_SIZE_LARGE_TOOLBAR),		
-	E_PIXMAP ("/Toolbar/ActionFreeBusy", EVOLUTION_ICONSDIR"/query-free-busy.png", E_ICON_SIZE_LARGE_TOOLBAR),			
+	E_PIXMAP ("/Toolbar/ActionFreeBusy", EVOLUTION_ICONSDIR"/query-free-busy.png", E_ICON_SIZE_LARGE_TOOLBAR),
+	E_PIXMAP ("/menu/Options/ActionFreeBusy", EVOLUTION_ICONSDIR"/query-free-busy.png", E_ICON_SIZE_MENU),			
 	E_PIXMAP_END
 };
 
