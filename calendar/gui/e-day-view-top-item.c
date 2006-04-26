@@ -385,16 +385,6 @@ e_day_view_top_item_draw_long_event (EDayViewTopItem *dvtitem,
 	comp = e_cal_component_new ();
 	e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
 
-	/* Draw the lines across the top & bottom of the entire event. */
-	cairo_save (cr);
-	gdk_cairo_set_source_color (cr, &day_view->colors[E_DAY_VIEW_COLOR_LONG_EVENT_BORDER]);
-	cairo_move_to (cr, item_x - x, item_y + item_h - 1 - y);
-	cairo_line_to (cr, item_x + item_w - 1 - x, item_y - y);
-	cairo_move_to (cr, item_x - x, item_y + item_h - 1 - y);
-	cairo_line_to (cr, item_x + item_w - 1 - x, item_y + item_h - 1 - y);
-	cairo_stroke (cr);
-	cairo_restore (cr);
-
 	if (gdk_color_parse (e_cal_model_get_color_for_component (e_calendar_view_get_model (E_CALENDAR_VIEW (day_view)),
 								  event->comp_data),
 			     &bg_color)) {
@@ -418,9 +408,9 @@ e_day_view_top_item_draw_long_event (EDayViewTopItem *dvtitem,
 
 	/* Fill the background with white to play with transparency */
 	cairo_save (cr);
-	x0	   = item_x - x + 2; 
+	x0	   = item_x - x + 4; 
 	y0	   = item_y + 1 - y;
-	rect_width  = item_w - 5;
+	rect_width  = item_w - 8;
 	rect_height = item_h - 2;
 
 	radius = 12;
@@ -435,20 +425,17 @@ e_day_view_top_item_draw_long_event (EDayViewTopItem *dvtitem,
 	/* Draw the border around the event */
 
 	cairo_save (cr);
-	x0	   = item_x - x + 2; 
+	x0	   = item_x - x + 4; 
 	y0	   = item_y + 1 - y;
-	rect_width  = item_w - 5;
+	rect_width  = item_w - 8;
 	rect_height = item_h - 2;
 
 	radius = 12;
 
 	draw_curved_rectangle (cr, x0, y0, rect_width, rect_height, radius);
 
-	cairo_set_source_rgba (cr, 1, 1, 1, alpha);
-	cairo_fill_preserve (cr);
-
 	cairo_set_source_rgb (cr, red/cc, green/cc, blue/cc);
-	cairo_set_line_width (cr, 1.0);
+	cairo_set_line_width (cr, 1.5);
 	cairo_stroke (cr);
 	cairo_restore (cr);
 
@@ -456,17 +443,17 @@ e_day_view_top_item_draw_long_event (EDayViewTopItem *dvtitem,
 
 	cairo_save (cr);
 
-	x0	   = item_x - x + 3.75; 
-	y0	   = item_y + 2.75 - y;
-	rect_width  = item_w - 8.5;
-	rect_height = item_h - 5.5;
+	x0	   = item_x - x + 5.5; 
+	y0	   = item_y + 2.5 - y;
+	rect_width  = item_w - 11;
+	rect_height = item_h - 5;
 
-	radius = 6; 	
+	radius = 10; 	
 
 	draw_curved_rectangle (cr, x0, y0, rect_width, rect_height, radius);
 	
-	pat = cairo_pattern_create_linear (item_x - x, item_y + 1 - y,
-					item_x - x , item_y - y + item_h - 1);
+	pat = cairo_pattern_create_linear (item_x - x + 5.5, item_y + 2.5 - y,
+					item_x - x + 5, item_y - y + item_h + 7.5);
 	cairo_pattern_add_color_stop_rgba (pat, 1, red/cc, green/cc, blue/cc, 0.8);
 	cairo_pattern_add_color_stop_rgba (pat, 0, red/cc, green/cc, blue/cc, 0.4);
 	cairo_set_source (cr, pat);
@@ -491,38 +478,23 @@ e_day_view_top_item_draw_long_event (EDayViewTopItem *dvtitem,
 			draw_end_triangle = FALSE;
 	}
 
-	/* If the event starts before the first day shown, draw a triangle,
-	   else just draw a vertical line down the left. */
+	/* If the event starts before the first day shown, draw a triangle */
 	if (draw_start_triangle
 	    && event->start < day_view->day_starts[start_day]) {
 		e_day_view_top_item_draw_triangle (dvtitem, drawable,
-						   item_x - x, item_y - y,
+						   item_x - x + 4, item_y - y,
 						   -E_DAY_VIEW_BAR_WIDTH,
 						   item_h, event_num);
-	} else {
-		cairo_save (cr);
-		gdk_cairo_set_source_color (cr, &day_view->colors[E_DAY_VIEW_COLOR_LONG_EVENT_BORDER]);
-		cairo_move_to (cr, item_x - x, item_y - y);
-		cairo_line_to (cr, item_x - x, item_y + item_h - 1 - y);
-		cairo_stroke (cr);
-		cairo_restore (cr);
 	}
 
 	/* Similar for the event end. */
 	if (draw_end_triangle
 	    && event->end > day_view->day_starts[end_day + 1]) {
 		e_day_view_top_item_draw_triangle (dvtitem, drawable,
-						   item_x + item_w - 1 - x,
+						   item_x + item_w - 4 - x,
 						   item_y - y,
 						   E_DAY_VIEW_BAR_WIDTH,
 						   item_h, event_num);
-	} else {
-		cairo_save (cr);
-		gdk_cairo_set_source_color (cr, &day_view->colors[E_DAY_VIEW_COLOR_LONG_EVENT_BORDER]);
-		cairo_move_to (cr, item_x + item_w - 1 - x, item_y - y);
-		cairo_line_to (cr, item_x + item_w - 1 - x, item_y + item_h - 1 - y);
-		cairo_stroke (cr);
-		cairo_restore (cr);
 	}
 
 	/* If we are editing the event we don't show the icons or the start
@@ -656,7 +628,7 @@ e_day_view_top_item_draw_long_event (EDayViewTopItem *dvtitem,
 		icon_x -= icon_x_inc;
 	}
 
-	/* draw categories icons */ /* categories alone - yet to be cairo - ified */
+	/* draw categories icons */ 
 	e_cal_component_get_categories_list (comp, &categories_list);
 	for (elem = categories_list; elem; elem = elem->next) {
 		char *category;

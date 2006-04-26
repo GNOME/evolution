@@ -655,10 +655,10 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 	/* Draw the background of the event with white to play with transparency */
 	cairo_save (cr);
 
-	x0	   = item_x + E_DAY_VIEW_BAR_WIDTH; 
-	y0	   = item_y + 1;
-	rect_width  = MAX (item_w - E_DAY_VIEW_BAR_WIDTH - 1, 0);
-	rect_height = item_h - 2.;
+	x0	   = item_x + E_DAY_VIEW_BAR_WIDTH + 1; 
+	y0	   = item_y + 2;
+	rect_width  = MAX (item_w - E_DAY_VIEW_BAR_WIDTH - 3, 0);
+	rect_height = item_h - 4.;
 
 	radius = 16; 	
 
@@ -667,22 +667,6 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 	cairo_set_source_rgba (cr, 1, 1, 1, alpha);
 	cairo_fill (cr);
 
-	cairo_restore (cr);
-
-	/* second inner border */
-	cairo_save (cr);
-
-	x0	   = item_x + E_DAY_VIEW_BAR_WIDTH + 1.;
-	y0	   = item_y + 2.;
-	rect_width  = item_w - E_DAY_VIEW_BAR_WIDTH - 3.;
-	rect_height = item_h - 4.;
-	
-	radius = 12;
-	
-	draw_curved_rectangle (cr, x0, y0, rect_width, rect_height, radius);
-	cairo_set_source_rgba (cr, red/cc, green/cc, blue/cc, 0);
-	cairo_set_line_width (cr, 0.6);
-	cairo_stroke (cr);
 	cairo_restore (cr);
 
 	/* Here we draw the border in event color */
@@ -696,7 +680,7 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 	radius = 16; 	
 
 	draw_curved_rectangle (cr, x0, y0, rect_width,rect_height, radius);
-	cairo_set_line_width (cr, 1.0);
+	cairo_set_line_width (cr, 2.);
 	cairo_set_source_rgb (cr, red/cc, green/cc, blue/cc);
 	cairo_stroke (cr);
 	cairo_restore (cr);
@@ -705,22 +689,26 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 
 	cairo_save (cr);
 
-	x0	   = item_x + E_DAY_VIEW_BAR_WIDTH + 1.5;
-	y0	   = item_y + 2.5;
-	rect_width  = item_w - E_DAY_VIEW_BAR_WIDTH - 4.;
-	rect_height = item_h - 5.;
+	x0	   = item_x + E_DAY_VIEW_BAR_WIDTH + 1.75;
+	y0	   = item_y + 2.75;
+	rect_width  = item_w - E_DAY_VIEW_BAR_WIDTH - 4.5;
+	rect_height = item_h - 5.5;
 
 	radius = 14; 	
 	
 	draw_curved_rectangle (cr, x0, y0, rect_width, rect_height, radius);
 
-	pat = cairo_pattern_create_linear (item_x + E_DAY_VIEW_BAR_WIDTH + 2.5, item_y + 3.5,
-						item_x + E_DAY_VIEW_BAR_WIDTH + 2.5, item_y + item_h - 4);
+	pat = cairo_pattern_create_linear (item_x + E_DAY_VIEW_BAR_WIDTH + 1.75, item_y + 2.75,
+						item_x + E_DAY_VIEW_BAR_WIDTH + 1.75, item_y + item_h - 2.75);
 	cairo_pattern_add_color_stop_rgba (pat, 1, red/cc, green/cc, blue/cc, 0.8);
 	cairo_pattern_add_color_stop_rgba (pat, 0, red/cc, green/cc, blue/cc, 0.4);
 	cairo_set_source (cr, pat);
-	cairo_fill (cr);
+	cairo_fill_preserve (cr);
 	cairo_pattern_destroy (pat);
+
+	cairo_set_source_rgba (cr, red/cc, green/cc, blue/cc, 0.2);
+	cairo_set_line_width (cr, 0.5);
+	cairo_stroke (cr);
 	cairo_restore (cr);
 	
 	/* Draw the right edge of the vertical bar. */

@@ -326,7 +326,7 @@ e_week_view_event_item_draw (GnomeCanvasItem  *canvas_item,
 
 		draw_curved_rectangle (cr, cx0, cy0, rect_width, rect_height, radius);
 
-		cairo_set_line_width (cr, 1.0);
+		cairo_set_line_width (cr, 2.0);
 		cairo_set_source_rgb (cr, red/cc, green/cc, blue/cc);
 		cairo_stroke (cr);
 		cairo_restore (cr);
@@ -335,12 +335,12 @@ e_week_view_event_item_draw (GnomeCanvasItem  *canvas_item,
 
 		cairo_save (cr);
 
-		cx0	   = rect_x + 2; 
+		cx0	   = rect_x + 1.5; 
 		cy0	   = y1 + 2.75;
-		rect_width  = rect_w - 3.5;
+		rect_width  = rect_w - 3.;
 		rect_height = y2 - y1 - 4.5;
 
-		radius = 6; 	
+		radius = 8; 	
 
 		draw_curved_rectangle (cr, cx0, cy0, rect_width, rect_height, radius);
 
@@ -349,8 +349,12 @@ e_week_view_event_item_draw (GnomeCanvasItem  *canvas_item,
 		cairo_pattern_add_color_stop_rgba (pat, 1, red/cc, green/cc, blue/cc, 0.8);
 		cairo_pattern_add_color_stop_rgba (pat, 0, red/cc, green/cc, blue/cc, 0.4);
 		cairo_set_source (cr, pat);
-		cairo_fill (cr);
+		cairo_fill_preserve (cr);
 		cairo_pattern_destroy (pat);
+
+		cairo_set_source_rgba (cr, red/cc, green/cc, blue/cc, 0.2);
+		cairo_set_line_width (cr, 0.5);
+		cairo_stroke (cr);
 		cairo_restore (cr);
 
 		/* Draw the start and end times, as required. */
@@ -456,7 +460,7 @@ e_week_view_event_item_draw (GnomeCanvasItem  *canvas_item,
 
 		draw_curved_rectangle (cr, cx0, cy0, rect_width, rect_height, radius);
 
-		cairo_set_line_width (cr, 1.0);
+		cairo_set_line_width (cr, 2.0);
 		cairo_set_source_rgb (cr, red/cc, green/cc, blue/cc);
 		cairo_stroke (cr);
 		cairo_restore (cr);
@@ -464,30 +468,28 @@ e_week_view_event_item_draw (GnomeCanvasItem  *canvas_item,
 		/* Here we fill it in the event*/
 
 		cairo_save (cr);
-		cx0	   = rect_x + 2; 
+
+		cx0	   = rect_x + 1.5; 
 		cy0	   = y1 + 2.75;
-		rect_width  = rect_w - 3.5;
+		rect_width  = rect_w - 3.;
 		rect_height = y2 - y1 - 4.5;
 
-		radius = 6; 	
+		radius = 8; 	
 
 		draw_curved_rectangle (cr, cx0, cy0, rect_width, rect_height, radius);
 
-		pat = cairo_pattern_create_linear (rect_x + 1, y1 + 1,
-						rect_x + 1, y2);
+		pat = cairo_pattern_create_linear (rect_x + 2, y1 + 1,
+						rect_x + 2, y2 - 7.25);
 		cairo_pattern_add_color_stop_rgba (pat, 1, red/cc, green/cc, blue/cc, 0.8);
 		cairo_pattern_add_color_stop_rgba (pat, 0, red/cc, green/cc, blue/cc, 0.4);
 		cairo_set_source (cr, pat);
 		cairo_fill_preserve (cr);
 		cairo_pattern_destroy (pat);
-		cairo_restore (cr);
 
-		gdk_cairo_set_source_color (cr, &week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BORDER]);
-		rect_x2 = rect_x + rect_w - 1;
-		cairo_move_to (cr, rect_x, y1);
-		cairo_line_to (cr, rect_x2, y1);
-		cairo_move_to (cr, rect_x, y2);
-		cairo_line_to (cr, rect_x2, y2);
+		cairo_set_source_rgba (cr, red/cc, green/cc, blue/cc, 0.2);
+		cairo_set_line_width (cr, 0.5);
+		cairo_stroke (cr);
+		cairo_restore (cr);
 
 		if (draw_start_triangle) {
 			e_week_view_event_item_draw_triangle (wveitem, drawable, x1 + E_WEEK_VIEW_EVENT_L_PAD + 2, y1, -3, y2 - y1 + 1);

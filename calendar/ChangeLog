@@ -1,3 +1,13 @@
+2006-04-26  Srinivasa Ragavan  <sragavan@novell.com>
+	
+	Cairo Updates from Rajeev. Now it draws a solid border around the
+	event.
+
+	* gui/e-day-view-main-item.c:
+	(e_day_view_main_item_draw_day_event):
+	* gui/e-day-view-top-item.c: (e_day_view_top_item_draw_long_event):
+	* gui/e-week-view-event-item.c: (e_week_view_event_item_draw):
+
 2006-04-24  Srinivasa Ragavan  <sragavan@novell.com>
 
 	Cairo support for Calendar (Rajeev Ramanathan)
