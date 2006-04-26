@@ -1,5 +1,15 @@
 2006-04-26  Srinivasa Ragavan  <sragavan@novell.com>
 
+	** Patch from Victor for adding a Sender header to message list.
+
+	* message-list.c: (ml_duplicate_value), (ml_free_value),
+	(ml_initialize_value), (ml_value_is_empty), (ml_value_to_string),
+	(ml_tree_value_at): Handled the new column header.
+	* message-list.etspec: Added a new column header to spec.
+	* message-list.h: Added a new column
+
+2006-04-26  Srinivasa Ragavan  <sragavan@novell.com>
+
 	* em-folder-view.c: (emfv_setup_view_instance): Comparing the
 	FolderInfo flags right, to make Mailbox to show From header in message
 	list for groupwise servers.

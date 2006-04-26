@@ -55,7 +55,8 @@ enum {
 	COL_FOLLOWUP_FLAG_STATUS,
 	COL_FOLLOWUP_FLAG,
 	COL_FOLLOWUP_DUE_BY,
-	COL_LOCATION,		/* vfolder location? */
+	COL_LOCATION,	        /* vfolder location? */
+	COL_SENDER,
 	
 	/* normalised strings */
 	COL_FROM_NORM,

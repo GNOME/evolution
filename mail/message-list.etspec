@@ -27,6 +27,8 @@
 
   <ETableColumn model_col="13" _title="Original Location" expansion="0.2" minimum_width="32" resizable="true" cell="render_text" compare="string"/>
 
+  <ETableColumn model_col="14" compare_col="17" _title="Sender" expansion="1.0" minimum_width="32" resizable="true" cell="render_text" compare="address_compare" search="string" priority="10"/>
+
   <ETableState>
     <column source="0"/> <column source="3"/> <column source="1"/>
     <column source="4"/> <column source="5" expansion="1.60"/> <column source="6" expansion="0.40"/>
