@@ -270,6 +270,22 @@ e_text_event_processor_emacs_like_event (ETextEventProcessor *tep, ETextEventPro
 				/* gtk_toggle_insert(text) -- IMPLEMENT -- FIXME */
 				}
 				break;
+			case GDK_F16:
+				command.action = E_TEP_COPY;
+				command.position = E_TEP_SELECTION;
+				break;
+			case GDK_F18:
+				command.action = E_TEP_PASTE;
+				command.position = E_TEP_SELECTION;
+				break;
+			case GDK_F20:
+				command.action = E_TEP_COPY;
+				command.position = E_TEP_SELECTION;
+				g_signal_emit_by_name (tep, "command", &command);
+				
+				command.action = E_TEP_DELETE;
+				command.position = E_TEP_SELECTION;
+				break;
 			case GDK_Delete:
 			case GDK_KP_Delete:
 				if (key.state & GDK_CONTROL_MASK){
