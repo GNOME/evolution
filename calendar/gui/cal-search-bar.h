@@ -49,6 +49,7 @@ enum {
 #define CAL_SEARCH_ALL (0xff)
 #define CAL_SEARCH_CALENDAR_DEFAULT (0x37)
 #define CAL_SEARCH_TASKS_DEFAULT    (0x27)
+#define CAL_SEARCH_MEMOS_DEFAULT    (0x25)
 
 typedef struct {
 	ESearchBar search_bar;

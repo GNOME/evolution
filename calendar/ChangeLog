@@ -1,5 +1,12 @@
 2006-04-26  Srinivasa Ragavan  <sragavan@novell.com>
 
+	** Fix for bug #331510 from Victor
+	
+	* gui/cal-search-bar.h: Added a new flag for Memo Search
+	* gui/e-memos.c: (setup_widgets): Initiate memo search.
+
+2006-04-26  Srinivasa Ragavan  <sragavan@novell.com>
+
 	** Patch from PR Suman to add icons missing in menu items.
 
 	* gui/tasks-control.c: (tasks_control_activate): Added icon for

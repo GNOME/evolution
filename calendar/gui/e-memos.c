@@ -425,7 +425,7 @@ setup_widgets (EMemos *memos)
 
 	priv = memos->priv;
 
-	priv->search_bar = cal_search_bar_new (CAL_SEARCH_TASKS_DEFAULT);
+	priv->search_bar = cal_search_bar_new (CAL_SEARCH_MEMOS_DEFAULT);
 	g_signal_connect (priv->search_bar, "sexp_changed",
 			  G_CALLBACK (search_bar_sexp_changed_cb), memos);
 	g_signal_connect (priv->search_bar, "category_changed",
