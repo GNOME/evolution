@@ -170,6 +170,20 @@
     <!-- Display Settings -->
 
     <schema>
+      <key>/schemas/apps/evolution/mail/display/side_bar_search</key>
+      <applyto>/apps/evolution/mail/display/side_bar_search</applyto>
+      <owner>evolution-mail</owner>
+      <type>bool</type>
+      <default>true</default>
+      <locale name="C">
+         <short>Enable or disable type ahead search feature</short>
+         <long>
+           Enable side bar search feature so that you can start interactive searching by typing in the text. Use is that you can easily find a folder in that side bar by just typing the folder name and the selection jumps automatically to that folder.
+         </long>
+      </locale>
+    </schema>
+
+    <schema>
       <key>/schemas/apps/evolution/mail/display/mark_citations</key>
       <applyto>/apps/evolution/mail/display/mark_citations</applyto>
       <owner>evolution-mail</owner>

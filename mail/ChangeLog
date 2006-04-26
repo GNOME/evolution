@@ -1,3 +1,13 @@
+2006-04-26  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fixes bug #323402
+	
+	* em-folder-tree.c: (folder_tree_new): Code for Ellipsizing folder
+	tree. (Patch from Vincent Noel)
+	* em-migrate.c: Adding side_bar_search to 
+	* evolution-mail.schemas.in.in: Adding a schema for enabling/disabling
+	side bar search. (Patch from Rakesh)
+
 2006-04-24  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* mail-session.c: (get_password): Ask passphrase if the user is
