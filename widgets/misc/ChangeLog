@@ -1,4 +1,9 @@
 2006-04-26  Srinivasa Ragavan  <sragavan@novell.com>
+	
+	* e-search-bar.c: (add_button), (e_search_bar_construct): Adding icons
+	for find and clear buttons. (Patch from PR Suman)
+
+2006-04-26  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Patch from charu_jayaprakasam@yahoo.com fixes bug #335861
 	

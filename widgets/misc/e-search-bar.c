@@ -48,7 +48,7 @@
 
 #include "e-search-bar.h"
 #include "e-util/e-util-marshal.h"
-
+#include "e-util/e-icon-factory.h"
 
 enum {
 	QUERY_CHANGED,
@@ -733,11 +733,13 @@ set_option (ESearchBar *esb, ESearchBarItem *items)
 static GtkWidget *
 add_button (ESearchBar *esb,
 	    const char *text,
+	    const char *stock, 
 	    GCallback callback)
 {
 	GtkWidget *label;
 	GtkWidget *holder;
 	GtkWidget *button;
+	GtkWidget *image;
 
 	label = gtk_label_new_with_mnemonic (text);
 	gtk_misc_set_padding (GTK_MISC (label), 2, 0);
@@ -746,7 +748,9 @@ add_button (ESearchBar *esb,
 	/* See the comment in `put_in_spacer_widget()' to understand
 	   why we have to do this.  */
 	
-	button = gtk_button_new ();
+	image = gtk_image_new_from_stock (stock, GTK_ICON_SIZE_BUTTON);
+	button = gtk_button_new_from_stock (text);
+	gtk_button_set_image (button, image);
 	gtk_widget_show (button);
 	gtk_container_add (GTK_CONTAINER (button), label);
 	
@@ -973,15 +977,16 @@ e_search_bar_construct (ESearchBar *search_bar,
 			ESearchBarItem *menu_items,
 			ESearchBarItem *option_items)
 {
+	GtkWidget *image;
 	g_return_if_fail (search_bar != NULL);
 	g_return_if_fail (E_IS_SEARCH_BAR (search_bar));
 	g_return_if_fail (option_items != NULL);
 
 	gtk_box_set_spacing (GTK_BOX (search_bar), 1);
 
-	search_bar->clear_button    = add_button (search_bar, _("_Clear"),
+	search_bar->clear_button    = add_button (search_bar, _("_Clear"), "gtk-clear",
 						  G_CALLBACK (clear_button_clicked_cb));
-	search_bar->activate_button = add_button (search_bar, _("Find No_w"),
+	search_bar->activate_button = add_button (search_bar, _("Find No_w"), "gtk-find",
 						  G_CALLBACK (activate_button_clicked_cb));
 
 	e_search_bar_set_menu (search_bar, menu_items);
