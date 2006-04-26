@@ -1,3 +1,12 @@
+2006-03-09  Sam Yang  <sam.yang@sun.com>
+
+	** Fixes #333971
+	
+	* e-msg-composer.c: (e_msg_composer_insert_paragraph_after): 
+	Remove text-default-color command that resets customized text color
+	to default, so stops composer color combo from receiving signal to 
+	refresh color preview when inserting a new line.	
+
 2006-04-24  Srinivasa Ragavan  <sragavan@novell.com>
 
 	Adding support for ENameSelectorList in composer. It is a enhanced

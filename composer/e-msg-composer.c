@@ -6260,7 +6260,6 @@ e_msg_composer_insert_paragraph_after (EMsgComposer *composer)
 	if (!p->in_signature_insert) {
 	      CORBA_char *orig, *signature;
 	      /* FIXME check for insert-paragraph command */
-	      GNOME_GtkHTML_Editor_Engine_runCommand (p->eeditor_engine, "text-default-color", &ev);
 	      GNOME_GtkHTML_Editor_Engine_runCommand (p->eeditor_engine, "italic-off", &ev);
 	
 	      orig = GNOME_GtkHTML_Editor_Engine_getParagraphData (p->eeditor_engine, "orig", &ev);
