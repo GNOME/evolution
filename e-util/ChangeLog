@@ -1,3 +1,10 @@
+2006-04-26  Li Yuan <li.yuan@sun.com>
+
+	* e-text-event-processor-emacs-like.c:
+	(e_text_event_processor_emacs_like_event):
+	Handle SUN Type 6 keyboard's copy, paste and cut key.
+	Fix #271661.
+
 2006-03-27  Tor Lillqvist  <tml@novell.com>
 
 	* e-util.c (fix_percent_l): [Win32] Instead of %l (which is a GNU
