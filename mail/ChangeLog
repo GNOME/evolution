@@ -1,5 +1,11 @@
 2006-04-26  Srinivasa Ragavan  <sragavan@novell.com>
 
+	* em-folder-view.c: (emfv_setup_view_instance): Comparing the
+	FolderInfo flags right, to make Mailbox to show From header in message
+	list for groupwise servers.
+
+2006-04-26  Srinivasa Ragavan  <sragavan@novell.com>
+
 	** Fixes bug #323402
 	
 	* em-folder-tree.c: (folder_tree_new): Code for Ellipsizing folder
