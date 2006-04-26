@@ -98,8 +98,8 @@
 
 			<separator f="" name="emailcomposer1"/>
 
-			<menuitem name="FileSave" verb="" _label="_Save"/>
-			<menuitem name="FileSaveAs" verb="" _label="Save _As..."/>
+			<menuitem name="FileSave" verb="" _label="_Save" pixtype="stock" pixname="gtk-save"/>
+			<menuitem name="FileSaveAs" verb="" _label="Save _As..." pixtype="stock" pixname="gtk-save-as"/>
                         <menuitem name="FileSaveDraft" verb="" _label="Save _Draft"/>
 			<placeholder name="Print" delimit="top"/>
 

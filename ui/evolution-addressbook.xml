@@ -139,10 +139,10 @@
     <placeholder name="ActionsPlaceholder">
       <submenu name="Actions" _label="_Actions">
 	<menuitem name="ContactsSendContactToOther"
-		  _label="_Forward Contact..." verb=""/>
+		  _label="_Forward Contact..." verb="" pixtype="pixbuf"/>
 
 	<menuitem name="ContactsSendMessageToContact"
-		  _label="_Send Message to Contact..." verb=""/>
+		  _label="_Send Message to Contact..." verb="" pixtype="pixbuf"/>
 	<menuitem name="ContactActionStop" verb="ContactStop" _label="St_op"/>
 
 	<separator f="" name="eadbk5"/>

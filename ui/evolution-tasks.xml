@@ -59,7 +59,7 @@
     <submenu name="Actions" _label="_Actions">
 	<menuitem name="TasksPurge" verb=""/>
 	<menuitem name="TasksAssign" verb=""/>
-	<menuitem name="TasksForward" verb=""/>
+	<menuitem name="TasksForward" verb="" pixtype="pixbuf"/>
     </submenu>
     </placeholder>
 

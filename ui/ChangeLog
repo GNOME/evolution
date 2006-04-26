@@ -1,3 +1,13 @@
+2006-04-26  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Committing patch from PR Suman for adding missing icons to menus.
+
+	* evolution-addressbook.xml:
+	* evolution-event-editor.xml:
+	* evolution-mail-message.xml:
+	* evolution-message-composer.xml:
+	* evolution-tasks.xml:
+
 2006-02-26  Rakesh k.g <rakeysh_kg@yahoo.com>
 
 	* evolution-editor.xml: Insert menu changed its mnemonic.
