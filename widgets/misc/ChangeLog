@@ -1,3 +1,10 @@
+2006-04-26  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Patch from charu_jayaprakasam@yahoo.com fixes bug #335861
+	
+	* e-search-bar.c: (e_search_bar_construct): Change the mnemonics for
+	Find Now button.
+
 2006-04-24  Srinivasa Ragavan  <sragavan@novell.com>
 
 	Used Cairo to draw the Tag Calendar. (Rajeev)
