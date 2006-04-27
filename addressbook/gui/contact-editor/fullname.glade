@@ -80,6 +80,9 @@
 	      <property name="case_sensitive">False</property>
 	      <property name="enable_arrow_keys">True</property>
 	      <property name="enable_arrows_always">False</property>
+	      <accessibility>
+		<atkrelation target="label-title" type="labelled-by"/>
+	      </accessibility>
 
 	      <child internal-child="entry">
 		<widget class="GtkEntry" id="entry-title">
@@ -273,6 +276,9 @@
 	      <property name="case_sensitive">False</property>
 	      <property name="enable_arrow_keys">True</property>
 	      <property name="enable_arrows_always">False</property>
+	      <accessibility>
+		<atkrelation target="label-suffix" type="labelled-by"/>
+	      </accessibility>
 
 	      <child internal-child="entry">
 		<widget class="GtkEntry" id="entry-suffix">

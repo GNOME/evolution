@@ -1,3 +1,10 @@
+2006-04-27  Boby Wang <boby.wang@sun.com>
+
+	** Fix for bug # 336470
+
+	* gui/contact-editor/fullname.glade:
+	Add labelled-by relationship to gtkcombo.
+
 2006-04-26  Srinivasa Ragavan  <sragavan@novell.com>
 	
 	** Patch from PR Suman to add icons missing in menu items.
