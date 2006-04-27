@@ -1,3 +1,14 @@
+2006-04-27  Rodney Dawes  <dobey@novell.com>
+
+	* evolution-mail-global.xml: Don't set gtk-delete as the stock icon
+	for Empty Trash
+
+	* evolution-mail-message.xml: Set the MessageDelete icon as a pixbuf
+	from the code
+	Don't set an icon for MessageUndelete
+
+	Fixes #339626
+	
 2006-04-26  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Committing patch from PR Suman for adding missing icons to menus.

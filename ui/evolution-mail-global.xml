@@ -45,7 +45,7 @@
 
     <submenu name="File">
       <placeholder name="EmptyTrashPlaceholder">
-      <menuitem name="EmptyTrash" verb="" _label="Empty _Trash" pixtype="stock" pixname="gtk-delete"/>
+      <menuitem name="EmptyTrash" verb="" _label="Empty _Trash"/>
       </placeholder>
     </submenu>
 

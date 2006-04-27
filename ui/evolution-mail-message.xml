@@ -59,7 +59,7 @@
     <cmd name="MessageDelete"
      _tip="Mark the selected messages for deletion"
      accel="*Control*d"
-     pixtype="stock" pixname="gtk-delete"/>
+     pixtype="pixbuf"/>
 
     <cmd name="MessageFollowUpFlag"
      _tip="Flag selected messages for follow-up"
@@ -166,8 +166,7 @@
 
     <cmd name="MessageUndelete"
      _tip="Undelete the selected messages"
-     accel="*Control**Shift*d"
-     pixtype="stock" pixname="gtk-undelete"/>
+     accel="*Control**Shift*d"/>
 
     <cmd name="PrintMessage"
      _tip="Print this message"
@@ -421,7 +420,7 @@
 
       <toolitem name="MessageDelete" verb=""
        _label="Delete"
-       pixtype="stock" pixname="gtk-delete"/>
+       pixtype="pixbuf"/>
 
       <toolitem name="MessageMarkAsJunk" verb=""
        _label="Junk"
