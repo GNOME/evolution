@@ -1,3 +1,7 @@
+2006-04-27  Andre Klapper  <a9016009@gmx.de>
+
+	* main.c: update last stable version number from 2.4.2.1 to 2.6.1
+
 2006-04-24  Harish Krishnaswamy  <kharish@novell.com>
 
 	* main.c: (kill_dataserver): add eds-1.4 and eds-1.6
