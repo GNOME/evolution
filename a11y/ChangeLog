@@ -1,3 +1,13 @@
+2006-04-27  Boby Wang <boby.wang@sun.com>
+
+	Fix for #332821
+
+	* widgets/Makefile.am:
+	* widgets/ea-expander.[ch]:
+	Add two new files to implement the accessibility of EExpander.
+	* widgets/ea-widgets.[ch]:(e_expander_a11y_init):
+	Implement the accessibility of EExpander.
+
 2006-04-24  Rajeev ramanathan <rajeevramanathan_2004@yahoo.co.in>
 
 	reviewed by: Harish Krishnaswamy <kharish@novell.com> 

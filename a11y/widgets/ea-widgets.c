@@ -26,10 +26,12 @@
 #include "ea-factory.h"
 #include "widgets/ea-calendar-item.h"
 #include "widgets/ea-combo-button.h"
+#include "widgets/ea-expander.h"
 #include "ea-widgets.h"
 
 EA_FACTORY_GOBJECT (EA_TYPE_CALENDAR_ITEM, ea_calendar_item, ea_calendar_item_new)
 EA_FACTORY (EA_TYPE_COMBO_BUTTON, ea_combo_button, ea_combo_button_new)
+EA_FACTORY (EA_TYPE_EXPANDER, ea_expander, ea_expander_new)
 
 void e_calendar_item_a11y_init (void)
 {
@@ -39,4 +41,9 @@ void e_calendar_item_a11y_init (void)
 void e_combo_button_a11y_init (void)
 {
     EA_SET_FACTORY (e_combo_button_get_type (), ea_combo_button);
+}
+
+void e_expander_a11y_init (void)
+{
+     EA_SET_FACTORY (e_expander_get_type (), ea_expander);
 }
