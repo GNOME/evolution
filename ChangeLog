@@ -1,3 +1,8 @@
+2006-04-27  Tor Lillqvist  <tml@novell.com>
+
+	* win32/libemiscwidgets.def: Add e_expander_get_type which now is
+	needed when linking libevolution-widgets-a11y.
+
 2006-04-25  Jeffrey Stedfast  <fejj@novell.com>
 
 	* configure.in: Figure out auto-magically what the mozilla-nss

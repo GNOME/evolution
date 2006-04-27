@@ -27,6 +27,7 @@ EXPORTS
 	e_combo_button_get_type
 	e_combo_button_popup_menu
 	e_cursor_get
+	e_expander_get_type
 	e_hsv_tweak
 	e_map_add_point
 	e_map_get_closest_point
