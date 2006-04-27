@@ -481,7 +481,7 @@ e_day_view_main_item_draw_long_events_in_vbars (EDayViewMainItem *dvmitem,
 	gint event_num, start_day, end_day, day, bar_y1, bar_y2, grid_x;
 	ECalComponentTransparency transparency;
 	cairo_t *cr;
-	GdkColor *bg_color;
+	GdkColor bg_color;
 
 	day_view = dvmitem->day_view;
 
@@ -499,12 +499,11 @@ e_day_view_main_item_draw_long_events_in_vbars (EDayViewMainItem *dvmitem,
 					event_num);
 		if (gdk_color_parse (e_cal_model_get_color_for_component (e_calendar_view_get_model (E_CALENDAR_VIEW (day_view)), event->comp_data),
 				     &bg_color)) {
-		GdkColormap *colormap;
+			GdkColormap *colormap;
 
-		colormap = gtk_widget_get_colormap (GTK_WIDGET (day_view));
-		if (gdk_colormap_alloc_color (colormap, &bg_color, TRUE, TRUE)) {
-			gdk_cairo_set_source_color (cr, 
-				&bg_color);
+			colormap = gtk_widget_get_colormap (GTK_WIDGET (day_view));
+			if (gdk_colormap_alloc_color (colormap, &bg_color, TRUE, TRUE)) {
+				gdk_cairo_set_source_color (cr, &bg_color);
 			}
 		}
 
