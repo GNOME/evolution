@@ -1,3 +1,10 @@
+2006-04-27  Boby Wang <boby.wang@sun.com>
+
+	** Fixes bug #339138
+
+	* e-calendar.c: (e_calendar_init):
+	Correct the button's accessible name.
+
 2006-04-27  Boby Wang  <boby.wang@sun.com>
 
 	** Fixes bug #332821
