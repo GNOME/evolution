@@ -1,3 +1,9 @@
+2006-04-27  Boby Wang  <boby.wang@sun.com>
+
+	** Fixes bug #332821
+	* e-expander.c: (e_expander_class_init):
+	Implement the accessibility of EExpander.
+
 2006-04-26  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* e-search-bar.c: (append_xml_menu_item), (setup_bonobo_menus): Added

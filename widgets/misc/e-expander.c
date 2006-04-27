@@ -24,6 +24,7 @@
 #include <config.h>
 
 #include "e-expander.h"
+#include "ea-widgets.h"
 
 #include <gtk/gtklabel.h>
 #include <gtk/gtkcontainer.h>
@@ -243,6 +244,8 @@ e_expander_class_init (EExpanderClass *klass)
 		  NULL, NULL,
 		  g_cclosure_marshal_VOID__VOID,
 		  G_TYPE_NONE, 0);
+
+  e_expander_a11y_init();
 }
 
 static void
