@@ -1094,7 +1094,7 @@ static EPopupItem emfv_popup_items[] = {
 
 	{ E_POPUP_BAR, "40.emfv", NULL, NULL, NULL, NULL },
 	{ E_POPUP_ITEM, "40.emfv.00", N_("_Delete"), emfv_popup_delete, NULL, "stock_delete", EM_POPUP_SELECT_DELETE|EM_FOLDER_VIEW_SELECT_LISTONLY },
-	{ E_POPUP_ITEM, "40.emfv.01", N_("U_ndelete"), emfv_popup_undelete, NULL, "stock_undelete", EM_POPUP_SELECT_UNDELETE|EM_FOLDER_VIEW_SELECT_LISTONLY },
+	{ E_POPUP_ITEM, "40.emfv.01", N_("U_ndelete"), emfv_popup_undelete, NULL, NULL, EM_POPUP_SELECT_UNDELETE|EM_FOLDER_VIEW_SELECT_LISTONLY },
 	{ E_POPUP_ITEM, "40.emfv.02", N_("_Move to Folder..."), emfv_popup_move, NULL, "stock_mail-move", EM_POPUP_SELECT_MANY|EM_FOLDER_VIEW_SELECT_LISTONLY },
 	{ E_POPUP_ITEM, "40.emfv.03", N_("_Copy to Folder..."), emfv_popup_copy, NULL, "stock_mail-copy", EM_POPUP_SELECT_MANY|EM_FOLDER_VIEW_SELECT_LISTONLY },
 
@@ -1752,8 +1752,7 @@ static EPixmap emfv_message_pixmaps[] = {
 
 	E_PIXMAP ("/commands/PrintMessage", "stock_print", E_ICON_SIZE_MENU),
 	E_PIXMAP ("/commands/PrintPreviewMessage", "stock_print-preview", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/MessageDelete", "stock_delete", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/MessageUndelete", "stock_undelete", E_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/MessageDelete", "gnome-fs-trash-empty", E_ICON_SIZE_MENU),
 	E_PIXMAP ("/commands/MessageCopy", "stock_mail-copy", E_ICON_SIZE_MENU),
 	E_PIXMAP ("/commands/MessageMove", "stock_mail-move", E_ICON_SIZE_MENU),
 	E_PIXMAP ("/commands/MessageReplyAll", "stock_mail-reply-to-all", E_ICON_SIZE_MENU),

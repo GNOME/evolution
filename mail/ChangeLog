@@ -1,3 +1,14 @@
+2006-04-27  Rodney Dawes  <dobey@novell.com>
+
+	* em-folder-tree.c (render_pixbuf): Use gnome-fs-trash-empty rather
+	than stock_delete for the Trash folder icon
+
+	* em-folder-view.c (emfv_popup_items[]): Don't set an icon for Undelete
+	(emfv_message_pixmaps[]): Don't set an icon for Undelete and set the
+	icon for deleting a message to gnome-fs-trash-empty, not stock_delete
+
+	Fixes #339626
+
 2006-04-26  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Patch from Victor for adding a Sender header to message list.
