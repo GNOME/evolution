@@ -1,3 +1,14 @@
+2006-04-27  Rodney Dawes  <dobey@novell.com>
+
+	* evolution-mail-global.xml: Don't set gtk-delete as the stock icon
+	for Empty Trash
+
+	* evolution-mail-message.xml: Set the MessageDelete icon as a pixbuf
+	from the code
+	Don't set an icon for MessageUndelete
+
+	Fixes #339626
+
 2006-02-13  Karsten Bräckelmann  <guenther@rudersport.de>
 
 	* evolution-calendar.xml: Add mnemonics. Fixes bug #330936.
