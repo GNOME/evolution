@@ -45,6 +45,7 @@ typedef struct _EaCalViewEventClass              EaCalViewEventClass;
 struct _EaCalViewEvent
 {
 	AtkGObjectAccessible parent;
+	AtkStateSet *state_set;
 };
 
 GType ea_cal_view_event_get_type (void);

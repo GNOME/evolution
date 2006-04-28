@@ -26,7 +26,7 @@
 #ifndef __EA_WEEK_VIEW_H__
 #define __EA_WEEK_VIEW_H__
 
-#include <gtk/gtkaccessible.h>
+#include "ea-cal-view.h"
 #include "e-week-view.h"
 
 #ifdef __cplusplus
@@ -45,14 +45,14 @@ typedef struct _EaWeekViewClass              EaWeekViewClass;
 
 struct _EaWeekView
 {
-	GtkAccessible parent;
+	EaCalView parent;
 };
 
 GType ea_week_view_get_type (void);
 
 struct _EaWeekViewClass
 {
-	GtkAccessibleClass parent_class;
+	EaCalViewClass parent_class;
 };
 
 AtkObject*     ea_week_view_new         (GtkWidget       *widget);

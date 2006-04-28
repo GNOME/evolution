@@ -98,7 +98,7 @@ gnome_calendar_a11y_init (void)
 void
 e_cal_view_a11y_init (void)
 {
-	EA_SET_FACTORY (e_cal_view_get_type(), ea_cal_view);
+	EA_SET_FACTORY (e_calendar_view_get_type(), ea_cal_view);
 }
 
 void

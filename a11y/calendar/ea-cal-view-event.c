@@ -31,11 +31,14 @@
 #include <libgnome/gnome-i18n.h>
 
 static void ea_cal_view_event_class_init (EaCalViewEventClass *klass);
+static void ea_cal_view_event_init (EaCalViewEvent *a11y);
 
+static void ea_cal_view_event_dispose (GObject *object);
 static G_CONST_RETURN gchar* ea_cal_view_event_get_name (AtkObject *accessible);
 static G_CONST_RETURN gchar* ea_cal_view_event_get_description (AtkObject *accessible);
 static AtkObject* ea_cal_view_event_get_parent (AtkObject *accessible);
 static gint ea_cal_view_event_get_index_in_parent (AtkObject *accessible);
+static AtkStateSet *ea_cal_view_event_ref_state_set (AtkObject *accessible);
 
 /* component interface */
 static void atk_component_interface_init (AtkComponentIface *iface);
@@ -75,7 +78,7 @@ ea_cal_view_event_get_type (void)
 			NULL, /* class data */
 			sizeof (EaCalViewEvent), /* instance size */
 			0, /* nb preallocs */
-			(GInstanceInitFunc) NULL, /* instance init */
+			(GInstanceInitFunc) ea_cal_view_event_init, /* instance init */
 			NULL /* value table */
 		};
 
@@ -123,19 +126,33 @@ static void
 ea_cal_view_event_class_init (EaCalViewEventClass *klass)
 {
 	AtkObjectClass *class = ATK_OBJECT_CLASS (klass);
-#ifdef ACC_DEBUG
 	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
+#ifdef ACC_DEBUG
 	gobject_class->finalize = ea_cal_view_finalize;
 #endif
 
 	parent_class = g_type_class_peek_parent (klass);
 
+        gobject_class->dispose = ea_cal_view_event_dispose;
 
 	class->get_name = ea_cal_view_event_get_name;
 	class->get_description = ea_cal_view_event_get_description;
 	class->get_parent = ea_cal_view_event_get_parent;
 	class->get_index_in_parent = ea_cal_view_event_get_index_in_parent;
+	class->ref_state_set = ea_cal_view_event_ref_state_set;
 
+}
+
+static void
+ea_cal_view_event_init (EaCalViewEvent *a11y)
+{
+        a11y->state_set = atk_state_set_new ();
+        atk_state_set_add_state (a11y->state_set, ATK_STATE_TRANSIENT);
+        atk_state_set_add_state (a11y->state_set, ATK_STATE_ENABLED);
+        atk_state_set_add_state (a11y->state_set, ATK_STATE_SENSITIVE);
+        atk_state_set_add_state (a11y->state_set, ATK_STATE_SELECTABLE);
+        atk_state_set_add_state (a11y->state_set, ATK_STATE_SHOWING);
+        atk_state_set_add_state (a11y->state_set, ATK_STATE_FOCUSABLE);
 }
 
 #ifdef ACC_DEBUG
@@ -208,6 +225,20 @@ ea_cal_view_event_new (GObject *obj)
 	g_object_set_data (obj, "accessible-object", atk_obj);
 
 	return atk_obj;
+}
+
+static void
+ea_cal_view_event_dispose (GObject *object)
+{
+        EaCalViewEvent *a11y = EA_CAL_VIEW_EVENT (object);
+
+        if (a11y->state_set) {
+                g_object_unref (a11y->state_set);
+                a11y->state_set = NULL;
+        }
+
+        if (G_OBJECT_CLASS(parent_class)->dispose)
+                G_OBJECT_CLASS(parent_class)->dispose (object);
 }
 
 static G_CONST_RETURN gchar*
@@ -363,6 +394,18 @@ ea_cal_view_event_get_index_in_parent (AtkObject *accessible)
 		return -1;
 	}
 	return -1;
+}
+
+static AtkStateSet *
+ea_cal_view_event_ref_state_set (AtkObject *accessible)
+{
+        EaCalViewEvent *atk_event = EA_CAL_VIEW_EVENT (accessible);
+
+        g_return_val_if_fail (atk_event->state_set, NULL);
+
+        g_object_ref (atk_event->state_set);
+
+        return atk_event->state_set;
 }
 
 /* Atk Component Interface */

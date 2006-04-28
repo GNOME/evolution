@@ -72,7 +72,7 @@ ea_day_view_get_type (void)
 		 */
 
 		factory = atk_registry_get_factory (atk_get_default_registry (),
-						    e_cal_view_get_type());
+						    e_calendar_view_get_type());
 		derived_atk_type = atk_object_factory_get_accessible_type (factory);
 		g_type_query (derived_atk_type, &query);
 
