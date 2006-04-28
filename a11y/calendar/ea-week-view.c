@@ -24,7 +24,6 @@
  */
 
 #include "ea-week-view.h"
-#include "ea-cal-view.h"
 #include "ea-cal-view-event.h"
 #include "ea-calendar-helpers.h"
 #include "ea-gnome-calendar.h"

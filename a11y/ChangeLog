@@ -1,10 +1,29 @@
 2006-04-28  Boby Wang <boby.wang@sun.com>
 
+	Fix for #339136
+
+	* calendar/ea-cal-view-event.c: (ea_cal_view_event_get_type),
+	(ea_cal_view_event_class_init), (ea_cal_view_event_init),
+	(ea_cal_view_event_dispose),
+	(ea_cal_view_event_get_index_in_parent),
+	(ea_cal_view_event_ref_state_set):
+	add necessary AtkStateSet to EaCalViewEvent.
+	* calendar/ea-cal-view-event.h:
+	add necessary AtkStateSet to EaCalViewEvent.
+	* calendar/ea-calendar.c: (e_cal_view_a11y_init):
+	replace e_cal_view_get_type with e_calendar_view_get_type
+	* calendar/ea-day-view.c: (ea_day_view_get_type):
+	replace e_cal_view_get_type with e_calendar_view_get_type
+	* calendar/ea-week-view.c:
+	* calendar/ea-week-view.h:
+	change the base class of EaWeekView from GtkAccessible to EaCalView
+
+2006-04-28  Boby Wang <boby.wang@sun.com>
+
 	Fix for # 333725
 
 	* ea-factory.h: Disable accessible code when accessibility is not enabled
 	* gal-a11y-factory.h: Remove some unused code
-
 
 2006-04-27  Boby Wang <boby.wang@sun.com>
 
