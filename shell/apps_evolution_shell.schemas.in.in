@@ -95,6 +95,30 @@
     </schema>
 
     <schema>
+      <key>/schemas/apps/evolution/shell/view_defaults/maximized</key>
+      <applyto>/apps/evolution/shell/view_defaults/maximized</applyto>
+      <owner>evolution</owner>
+      <type>bool</type>
+      <default>TRUE</default>
+      <locale name="C">
+        <short>Default window state</short>
+        <long>Whether or not the window should be maximized.</long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/apps/evolution/shell/view_defaults/maximized</key>
+      <applyto>/apps/evolution/shell/view_defaults/maximized</applyto>
+      <owner>evolution</owner>
+      <type>bool</type>
+      <default>TRUE</default>
+      <locale name="C">
+        <short>Default window state</short>
+        <long>Whether or not the window should be maximized.</long>
+      </locale>
+    </schema>
+
+    <schema>
       <key>/schemas/apps/evolution/shell/view_defaults/buttons_visible</key>
       <applyto>/apps/evolution/shell/view_defaults/buttons_visible</applyto>
       <owner>evolution</owner>
