@@ -1,3 +1,12 @@
+2006-04-28  Sven Herzberg  <herzi@gnome-de.org>
+
+	reviewed by: Srinivasa Ragavan
+
+	* shell/apps_evolution_shell.schemas.in.in: added boolean key for the
+	maximized state of the window
+	* shell/e-shell-window.c: added window state saving and updated window
+	size saving to work as expected (fixes bug 243962)
+
 2006-04-27  Tor Lillqvist  <tml@novell.com>
 
 	* win32/libemiscwidgets.def: Add e_expander_get_type which now is
