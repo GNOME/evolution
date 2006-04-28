@@ -86,9 +86,4 @@ type_as_function ## _factory_get_type (void)					\
   return t;									\
 }
 
-#define GAL_A11Y_WIDGET_SET_FACTORY(widget_type, type_as_function)			\
-	atk_registry_set_factory_type (atk_get_default_registry (),		\
-				       widget_type,				\
-				       type_as_function ## _factory_get_type ())
-
 #endif /* _GAL_A11Y_FACTORY_H__ */

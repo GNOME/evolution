@@ -106,8 +106,12 @@ type_as_function ## _factory_get_type (void)					\
         EA_FACTORY_PARTB(type, type_as_function, opt_create_accessible)
 
 #define EA_SET_FACTORY(obj_type, type_as_function)		         	\
-	atk_registry_set_factory_type (atk_get_default_registry (),		\
-				       obj_type,				\
-				       type_as_function ## _factory_get_type ())
+{                                                                               \
+        if (atk_get_root ()) {                                                  \
+                atk_registry_set_factory_type (atk_get_default_registry (),     \
+                                      obj_type,                                 \
+                                      type_as_function ## _factory_get_type ());\
+        }                                                                       \
+}
 
 #endif /* _EA_FACTORY_H__ */
