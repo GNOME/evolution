@@ -3901,7 +3901,7 @@ msgstr "tõrge raamatu avamisel"
 
 #: ../addressbook/tools/evolution-addressbook-export.c:56
 msgid "Specify the output file instead of standard output"
-msgstr "Määra standardväljundi asemel väljundfail"
+msgstr "Standardväljundi asemele väljundfaili määramine"
 
 #: ../addressbook/tools/evolution-addressbook-export.c:57
 msgid "OUTPUTFILE"
