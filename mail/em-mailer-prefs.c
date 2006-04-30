@@ -37,7 +37,7 @@
 
 #include <libgnomeui/gnome-color-picker.h>
 #include <libgnomeui/gnome-font-picker.h>
-#include <libgnomeui/gnome-file-entry.h>
+#include <gtk/gtkfilechooserbutton.h>
 
 #include <glade/glade.h>
 
@@ -662,10 +662,8 @@ static void
 notify_sound_changed (GtkWidget *widget, EMMailerPrefs *prefs)
 {
 	const char *filename;
-	GtkWidget *entry;
-	
-	entry = gnome_file_entry_gtk_entry (GNOME_FILE_ENTRY (prefs->notify_sound_file));
-	filename = gtk_entry_get_text (GTK_ENTRY (entry));
+
+	filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (prefs->notify_sound_file));
 	gconf_client_set_string (prefs->gconf, "/apps/evolution/mail/notify/sound", filename, NULL);
 }
 
@@ -806,10 +804,10 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs)
 	if (locked)
 		gtk_widget_set_sensitive ((GtkWidget *) prefs->notify_play_sound, FALSE);
 	
-	prefs->notify_sound_file = GNOME_FILE_ENTRY (glade_xml_get_widget (gui, "fileNotifyPlaySound"));
+	prefs->notify_sound_file = GTK_FILE_CHOOSER_BUTTON (glade_xml_get_widget (gui, "fileNotifyPlaySoundButton"));
 	buf = gconf_client_get_string (prefs->gconf, "/apps/evolution/mail/notify/sound", NULL);
-	gtk_entry_set_text (GTK_ENTRY (gnome_file_entry_gtk_entry (prefs->notify_sound_file)), buf ? buf : "");
-	g_signal_connect (gnome_file_entry_gtk_entry (prefs->notify_sound_file), "changed",
+	gtk_file_chooser_set_filename (GTK_FILE_CHOOSER_BUTTON (prefs->notify_sound_file), buf ? buf : "");
+	g_signal_connect (GTK_FILE_CHOOSER_BUTTON (prefs->notify_sound_file), "selection-changed",
 			  G_CALLBACK (notify_sound_changed), prefs);
 	if (!gconf_client_key_is_writable (prefs->gconf, "/apps/evolution/mail/notify/sound", NULL))
 		gtk_widget_set_sensitive ((GtkWidget *) prefs->notify_sound_file, FALSE);

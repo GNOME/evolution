@@ -1341,34 +1341,21 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 			      </child>
 
 			      <child>
-				<widget class="GnomeFileEntry" id="source_path_entry">
+				<widget class="GtkFileChooserButton" id="source_path_entry">
 				  <property name="visible">True</property>
-				  <property name="max_saved">10</property>
-				  <property name="browse_dialog_title" translatable="yes">Mailbox location</property>
-				  <property name="directory_entry">False</property>
-				  <property name="modal">False</property>
-				  <property name="use_filechooser">True</property>
-				  <property name="filechooser_action">GTK_FILE_CHOOSER_ACTION_OPEN</property>
-
-				  <child internal-child="entry">
-				    <widget class="GtkEntry" id="source_path">
-				      <property name="visible">True</property>
-				      <property name="can_focus">True</property>
-				      <property name="editable">True</property>
-				      <property name="visibility">True</property>
-				      <property name="max_length">0</property>
-				      <property name="text" translatable="yes"></property>
-				      <property name="has_frame">True</property>
-				      <property name="invisible_char">*</property>
-				      <property name="activates_default">False</property>
-				    </widget>
-				  </child>
+				  <property name="title" translatable="yes">Mailbox location</property>
+				  <property name="action">GTK_FILE_CHOOSER_ACTION_OPEN</property>
+				  <property name="local_only">True</property>
+				  <property name="show_hidden">False</property>
+				  <property name="do_overwrite_confirmation">False</property>
+				  <property name="width_chars">-1</property>
 				</widget>
 				<packing>
 				  <property name="left_attach">1</property>
 				  <property name="right_attach">2</property>
 				  <property name="top_attach">2</property>
 				  <property name="bottom_attach">3</property>
+				  <property name="x_options">fill</property>
 				  <property name="y_options"></property>
 				</packing>
 			      </child>
@@ -5475,7 +5462,7 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 				  <property name="yalign">0.5</property>
 				  <property name="xpad">0</property>
 				  <property name="ypad">0</property>
-				  <property name="mnemonic_widget">txtNotifyPlaySound</property>
+				  <property name="mnemonic_widget">fileNotifyPlaySoundButton</property>
 				  <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
 				  <property name="width_chars">-1</property>
 				  <property name="single_line_mode">False</property>
@@ -5489,28 +5476,14 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 			      </child>
 
 			      <child>
-				<widget class="GnomeFileEntry" id="fileNotifyPlaySound">
+				<widget class="GtkFileChooserButton" id="fileNotifyPlaySoundButton">
 				  <property name="visible">True</property>
-				  <property name="max_saved">10</property>
-				  <property name="browse_dialog_title" translatable="yes">Select sound file</property>
-				  <property name="directory_entry">False</property>
-				  <property name="modal">False</property>
-				  <property name="use_filechooser">True</property>
-				  <property name="filechooser_action">GTK_FILE_CHOOSER_ACTION_OPEN</property>
-
-				  <child internal-child="entry">
-				    <widget class="GtkEntry" id="txtNotifyPlaySound">
-				      <property name="visible">True</property>
-				      <property name="can_focus">True</property>
-				      <property name="editable">True</property>
-				      <property name="visibility">True</property>
-				      <property name="max_length">0</property>
-				      <property name="text" translatable="yes"></property>
-				      <property name="has_frame">True</property>
-				      <property name="invisible_char">*</property>
-				      <property name="activates_default">False</property>
-				    </widget>
-				  </child>
+				  <property name="title" translatable="yes">Select sound file</property>
+				  <property name="action">GTK_FILE_CHOOSER_ACTION_OPEN</property>
+				  <property name="local_only">False</property>
+				  <property name="show_hidden">False</property>
+				  <property name="do_overwrite_confirmation">False</property>
+				  <property name="width_chars">-1</property>
 				</widget>
 				<packing>
 				  <property name="padding">0</property>
@@ -8746,7 +8719,7 @@ for display purposes only. </property>
 		      <property name="yalign">0.5</property>
 		      <property name="xpad">0</property>
 		      <property name="ypad">0</property>
-		      <property name="mnemonic_widget">combo-entry2</property>
+		      <property name="mnemonic_widget">filechooserbutton_add_script</property>
 		      <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
 		      <property name="width_chars">-1</property>
 		      <property name="single_line_mode">False</property>
@@ -8784,34 +8757,21 @@ for display purposes only. </property>
 		  </child>
 
 		  <child>
-		    <widget class="GnomeFileEntry" id="fileentry_add_script_script">
+		    <widget class="GtkFileChooserButton" id="filechooserbutton_add_script">
+		      <property name="title" translatable="yes"></property>
 		      <property name="visible">True</property>
-		      <property name="history_id">evolution_script_signature</property>
-		      <property name="max_saved">10</property>
-		      <property name="directory_entry">False</property>
-		      <property name="modal">False</property>
-		      <property name="use_filechooser">True</property>
-		      <property name="filechooser_action">GTK_FILE_CHOOSER_ACTION_OPEN</property>
-
-		      <child internal-child="entry">
-			<widget class="GtkEntry" id="combo-entry2">
-			  <property name="visible">True</property>
-			  <property name="can_focus">True</property>
-			  <property name="editable">True</property>
-			  <property name="visibility">True</property>
-			  <property name="max_length">0</property>
-			  <property name="text" translatable="yes"></property>
-			  <property name="has_frame">True</property>
-			  <property name="invisible_char">*</property>
-			  <property name="activates_default">False</property>
-			</widget>
-		      </child>
+		      <property name="action">GTK_FILE_CHOOSER_ACTION_OPEN</property>
+		      <property name="local_only">True</property>
+		      <property name="show_hidden">False</property>
+		      <property name="do_overwrite_confirmation">False</property>
+		      <property name="width_chars">-1</property>
 		    </widget>
 		    <packing>
 		      <property name="left_attach">1</property>
 		      <property name="right_attach">2</property>
 		      <property name="top_attach">1</property>
 		      <property name="bottom_attach">2</property>
+		      <property name="x_options">fill</property>
 		      <property name="y_options"></property>
 		    </packing>
 		  </child>

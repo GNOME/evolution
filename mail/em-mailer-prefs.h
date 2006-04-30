@@ -38,7 +38,7 @@ struct _GdkPixbuf;
 struct _GtkWidget;
 struct _GladeXML;
 struct _GnomeColorPicker;
-struct _GnomeFileEntry;
+struct _GtkFileChooserbutton;
 struct _GnomeFontPicker;
 struct _GConfClient;
 struct _GtkButton;
@@ -87,7 +87,7 @@ struct _EMMailerPrefs {
 	struct _GtkToggleButton *notify_not;
 	struct _GtkToggleButton *notify_beep;
 	struct _GtkToggleButton *notify_play_sound;
-	struct _GnomeFileEntry *notify_sound_file;
+	struct _GtkFileChooserButton *notify_sound_file;
 	
 	/* HTML Mail tab */
 	struct _GnomeFontPicker *font_variable;

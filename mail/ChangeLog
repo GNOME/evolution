@@ -1,3 +1,14 @@
+2006-04-30  Shi Pu <shi.pu@sun.com>
+ 
+        ** Fixes bug #323853
+ 
+        * em-composer-prefs.c: (sig_edit_cb), (sig_add_script_response):
+        * em-mailer-prefs.c: (notify_sound_changed),
+        (em_mailer_prefs_construct):
+        * em-mailer-prefs.h:
+        * mail-config.glade:
+        Replace GnomeFileEntry by GtkFileChooserButton.
+ 
 2006-04-27  Rodney Dawes  <dobey@novell.com>
 
 	* em-folder-tree.c (render_pixbuf): Use gnome-fs-trash-empty rather
