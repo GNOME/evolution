@@ -1,3 +1,11 @@
+2006-02-28  Shi Pu <shi.pu@sun.com>
+
+	** Fixes #323853
+
+	* save-attachments.c: (save_response), (entry_changed),
+	(save_got_message):
+	replace GnomeFileEntry by GtkFileChooserButton.
+
 2005-12-17  Tor Lillqvist  <tml@novell.com>
 
 	* save-attachments.c (entry_changed): Use GLib API to manipulate
