@@ -31,7 +31,7 @@
 #include <gtk/gtk.h>
 
 #include <libgnome/gnome-i18n.h>
-#include <libgnomeui/gnome-file-entry.h>
+#include <gtk/gtkfilechooserbutton.h>
 
 #include <libedataserver/e-sexp.h>
 
@@ -269,13 +269,16 @@ xml_decode (FilterElement *fe, xmlNodePtr node)
 }
 
 static void
-entry_changed (GtkEntry *entry, FilterElement *fe)
+filename_changed (GtkWidget *widget, FilterElement *fe)
 {
 	FilterFile *file = (FilterFile *) fe;
 	const char *new;
 	
-	new = gtk_entry_get_text (entry);
-	
+#ifdef USE_GTKFILECHOOSER
+	new = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (widget));
+#else
+	new = gtk_entry_get_text (GTK_ENTRY (widget));
+#endif
 	g_free (file->path);
 	file->path = g_strdup (new);
 }
@@ -284,19 +287,26 @@ static GtkWidget *
 get_widget (FilterElement *fe)
 {
 	FilterFile *file = (FilterFile *) fe;
-	GtkWidget *fileentry, *entry;
+	GtkWidget *filewidget, *entry;
+
+#ifdef USE_GTKFILECHOOSER
+	filewidget = (GtkWidget *) gtk_file_chooser_button_new (_("Choose a file"), GTK_FILE_CHOOSER_ACTION_OPEN);
+	g_object_set (G_OBJECT (filewidget), "use_filechooser", TRUE, NULL);
+	gtk_file_chooser_set_filename (GTK_FILE_CHOOSER (filewidget), file->path);
+	g_signal_connect (GTK_FILE_CHOOSER_BUTTON (filewidget), "selection-changed", 
+			G_CALLBACK (filename_changed), fe);
+#else
+	filewidget = gnome_file_entry_new (NULL, _("Choose a file"));
+	g_object_set (G_OBJECT (filewidget), "use_filechooser", TRUE, NULL);
+	gnome_file_entry_set_default_path (GNOME_FILE_ENTRY (filewidget), file->path);
+	gnome_file_entry_set_modal (GNOME_FILE_ENTRY (filewidget), TRUE);
 	
-	fileentry = gnome_file_entry_new (NULL, _("Choose a file"));
-	g_object_set (G_OBJECT (fileentry), "use_filechooser", TRUE, NULL);
-	gnome_file_entry_set_default_path (GNOME_FILE_ENTRY (fileentry), file->path);
-	gnome_file_entry_set_modal (GNOME_FILE_ENTRY (fileentry), TRUE);
-	
-	entry = gnome_file_entry_gtk_entry (GNOME_FILE_ENTRY (fileentry));
+	entry = gnome_file_entry_gtk_entry (GNOME_FILE_ENTRY (filewidget));
 	gtk_entry_set_text (GTK_ENTRY (entry), file->path);
 	
-	g_signal_connect (entry, "changed", G_CALLBACK (entry_changed), fe);
-	
-	return fileentry;
+	g_signal_connect (entry, "changed", G_CALLBACK (filename_changed), fe);
+#endif	
+	return filewidget;
 }
 
 static void
