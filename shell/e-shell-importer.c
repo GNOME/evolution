@@ -40,6 +40,8 @@
 #include <libgnomeui/gnome-druid-page-standard.h>
 #include <libgnomeui/gnome-file-entry.h>
 
+#include <gtk/gtkfilechooserbutton.h>
+
 #include "misc/e-gui-utils.h"
 
 #include "e-util/e-dialog-utils.h"
@@ -177,7 +179,7 @@ create_help (const char *name)
 /* Importing functions */
 
 static void
-filename_changed (GtkEntry *entry,
+filename_changed (GtkWidget *widget,
 		  ImportData *data)
 {
 	ImportDialogFilePage *page;
@@ -186,7 +188,11 @@ filename_changed (GtkEntry *entry,
 
 	page = data->filepage;
 
-	filename = gtk_entry_get_text (entry);
+#ifdef USE_GTKFILECHOOSER
+	filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (widget));
+#else
+	filename = gtk_entry_get_text ((GtkEntry *) gnome_file_entry_get_entry ((GnomeFileEntry *)widget));
+#endif
 
 	fileok = filename && filename[0] && g_file_test(filename, G_FILE_TEST_IS_REGULAR);
 	if (fileok) {
@@ -239,7 +245,7 @@ item_selected (GtkWidget *item,
 	       ImportData *data)
 {
 	data->filepage->importer = g_object_get_data((GObject *)item, "importer");
-	filename_changed((GtkEntry *)gnome_file_entry_gtk_entry((GnomeFileEntry *)data->filepage->filename), data);
+	filename_changed(data->filepage->filename, data);
 }
 
 #if 0
@@ -287,11 +293,16 @@ importer_file_page_new (ImportData *data)
 			  GTK_FILL, 0, 0, 0);
 	gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);
 
+#ifdef USE_GTKFILECHOOSER
+	page->filename = gtk_file_chooser_button_new (_("Select a file"), GTK_FILE_CHOOSER_ACTION_OPEN);
+	g_signal_connect (GTK_FILE_CHOOSER_BUTTON (page->filename), "selection-changed", G_CALLBACK (filename_changed), data);
+#else
 	page->filename = gnome_file_entry_new ("Evolution_Importer_FileName", _("Select a file"));
 	g_object_set (G_OBJECT (page->filename), "use_filechooser", TRUE, NULL);
 	entry = gnome_file_entry_gtk_entry((GnomeFileEntry *)page->filename);
 	g_signal_connect (entry, "changed", G_CALLBACK (filename_changed), data);
 	gtk_entry_set_activates_default (GTK_ENTRY (entry), TRUE);
+#endif
 
 	gtk_table_attach (GTK_TABLE (table), page->filename, 1, 2, 
 			  row, row + 1, GTK_EXPAND | GTK_FILL, 0, 0, 0);
@@ -546,7 +557,7 @@ prepare_file_page (GnomeDruidPage *dpage,
 	ImportDialogFilePage *page = data->filepage;
 
 	if (page->target != NULL) {
-		filename_changed((GtkEntry *)gnome_file_entry_gtk_entry((GnomeFileEntry *)data->filepage->filename), data);
+		filename_changed(data->filepage->filename, data);
 		return FALSE;
 	}
 
@@ -571,7 +582,7 @@ prepare_file_page (GnomeDruidPage *dpage,
 	data->filepage->menu = menu;
 	gtk_option_menu_set_menu((GtkOptionMenu *)data->filepage->filetype, menu);
 
-	filename_changed((GtkEntry *)gnome_file_entry_gtk_entry((GnomeFileEntry *)data->filepage->filename), data);
+	filename_changed(data->filepage->filename, data);
 
 	return FALSE;
 }

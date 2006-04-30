@@ -1,3 +1,12 @@
+2006-04-30  Nancy Cai <nancy.cai@sun.com>
+ 
+        Fixes #323853
+ 
+        * e-shell-importer.c: (filename_changed), (item_selected),
+        (importer_file_page_new), (prepare_file_page):
+        replacing GnomeFileEntry by GtkFileButton, which can import task files
+        with none UTF-8 filenames.
+ 
 2006-04-27  Andre Klapper  <a9016009@gmx.de>
 
 	* main.c: update last stable version number from 2.4.2.1 to 2.6.1
