@@ -12,14 +12,14 @@
 # meeting = sammanträde
 # event = evenemang
 #
-# $Id: sv.po,v 1.218.2.1 2006/04/23 09:14:59 dnylande Exp $
+# $Id: sv.po,v 1.218.2.2 2006/05/01 08:22:19 dnylande Exp $
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-04-23 04:27+0200\n"
-"PO-Revision-Date: 2006-04-23 11:10+0100\n"
+"POT-Creation-Date: 2006-05-01 04:39+0200\n"
+"PO-Revision-Date: 2006-05-01 10:14+0100\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
@@ -67,32 +67,32 @@ msgstr "Kontakt: "
 msgid "evolution minicard"
 msgstr "evolution-minikort"
 
-#: ../a11y/calendar/ea-cal-view-event.c:235
+#: ../a11y/calendar/ea-cal-view-event.c:266
 msgid "It has alarms."
 msgstr "Det har alarm."
 
-#: ../a11y/calendar/ea-cal-view-event.c:238
+#: ../a11y/calendar/ea-cal-view-event.c:269
 msgid "It has recurrences."
 msgstr "Det har upprepningar."
 
-#: ../a11y/calendar/ea-cal-view-event.c:241
+#: ../a11y/calendar/ea-cal-view-event.c:272
 msgid "It is a meeting."
 msgstr "Det är ett sammanträde."
 
-#: ../a11y/calendar/ea-cal-view-event.c:247
+#: ../a11y/calendar/ea-cal-view-event.c:278
 #, c-format
 msgid "Calendar Event: Summary is %s."
 msgstr "Kalenderevenemang: Sammanfattningen är %s."
 
-#: ../a11y/calendar/ea-cal-view-event.c:249
+#: ../a11y/calendar/ea-cal-view-event.c:280
 msgid "Calendar Event: It has no summary."
 msgstr "Kalenderevenemang: Det har ingen sammanfattning."
 
-#: ../a11y/calendar/ea-cal-view-event.c:268
+#: ../a11y/calendar/ea-cal-view-event.c:299
 msgid "calendar view event"
 msgstr "kalendervisningshändelse"
 
-#: ../a11y/calendar/ea-cal-view-event.c:485
+#: ../a11y/calendar/ea-cal-view-event.c:528
 msgid "Grab Focus"
 msgstr "Tag fokus"
 
@@ -122,7 +122,7 @@ msgid "a table to view and select the current time range"
 msgstr "en tabell för att visa och välja den aktuella tidsperioden"
 
 #: ../a11y/calendar/ea-day-view.c:149
-#: ../a11y/calendar/ea-week-view.c:151
+#: ../a11y/calendar/ea-week-view.c:150
 #, c-format
 msgid "It has %d event."
 msgid_plural "It has %d events."
@@ -130,7 +130,7 @@ msgstr[0] "Det har %d evenemang."
 msgstr[1] "Det har %d evenemang."
 
 #: ../a11y/calendar/ea-day-view.c:151
-#: ../a11y/calendar/ea-week-view.c:153
+#: ../a11y/calendar/ea-week-view.c:152
 msgid "It has no events."
 msgstr "Det har inga evenemang."
 
@@ -226,21 +226,21 @@ msgstr "Hoppaknapp"
 msgid "Click here, you can find more events."
 msgstr "Klicka här, du kan hitta fler evenemang."
 
-#: ../a11y/calendar/ea-week-view.c:158
+#: ../a11y/calendar/ea-week-view.c:157
 #, c-format
 msgid "Month View: %s. %s"
 msgstr "Månadsvy: %s. %s"
 
-#: ../a11y/calendar/ea-week-view.c:162
+#: ../a11y/calendar/ea-week-view.c:161
 #, c-format
 msgid "Week View: %s. %s"
 msgstr "Veckovy: %s. %s"
 
-#: ../a11y/calendar/ea-week-view.c:193
+#: ../a11y/calendar/ea-week-view.c:192
 msgid "calendar view for a month"
 msgstr "kalendervy för en månad"
 
-#: ../a11y/calendar/ea-week-view.c:195
+#: ../a11y/calendar/ea-week-view.c:194
 msgid "calendar view for one or more weeks"
 msgstr "kalendervy för en eller flera veckor"
 
@@ -6649,7 +6649,7 @@ msgstr "%s för en okänd triggertyp"
 
 #: ../calendar/gui/e-cal-component-memo-preview.c:72
 #: ../calendar/gui/e-cal-component-preview.c:70
-#: ../mail/em-folder-view.c:2823
+#: ../mail/em-folder-view.c:2822
 #, c-format
 msgid "Click to open %s"
 msgstr "Klicka för att öppna %s"
@@ -11589,38 +11589,38 @@ msgid "Filter on _Mailing List"
 msgstr "Filtrera på sä_ndlista"
 
 #. default charset used in mail view
-#: ../mail/em-folder-view.c:1968
-#: ../mail/em-folder-view.c:2012
+#: ../mail/em-folder-view.c:1967
+#: ../mail/em-folder-view.c:2011
 msgid "Default"
 msgstr "Standard"
 
-#: ../mail/em-folder-view.c:2111
+#: ../mail/em-folder-view.c:2110
 #: ../plugins/print-message/org-gnome-print-message.eplug.xml.h:2
 #: ../plugins/print-message/print-message.c:87
 msgid "Print Message"
 msgstr "Skriv ut meddelande"
 
-#: ../mail/em-folder-view.c:2267
+#: ../mail/em-folder-view.c:2266
 msgid "Unable to retrieve message"
 msgstr "Kan inte hämta meddelande"
 
-#: ../mail/em-folder-view.c:2460
+#: ../mail/em-folder-view.c:2459
 msgid "_Copy Link Location"
 msgstr "_Kopiera länkplats"
 
-#: ../mail/em-folder-view.c:2462
+#: ../mail/em-folder-view.c:2461
 msgid "Create _Search Folder"
 msgstr "Skapa ny _sökmapp"
 
-#: ../mail/em-folder-view.c:2463
+#: ../mail/em-folder-view.c:2462
 msgid "_From this Address"
 msgstr "_Från denna adress"
 
-#: ../mail/em-folder-view.c:2464
+#: ../mail/em-folder-view.c:2463
 msgid "_To this Address"
 msgstr "_Till denna adress"
 
-#: ../mail/em-folder-view.c:2818
+#: ../mail/em-folder-view.c:2817
 #, c-format
 msgid "Click to mail %s"
 msgstr "Klicka för att skicka e-post till %s"
@@ -16871,91 +16871,99 @@ msgid "Default window height"
 msgstr "Standardfönsterhöjd"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:5
+msgid "Default window state"
+msgstr "Standardfönstertillstånd"
+
+#: ../shell/apps_evolution_shell.schemas.in.in.h:6
 msgid "Default window width"
 msgstr "Standardfönsterbredd"
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:6
+#: ../shell/apps_evolution_shell.schemas.in.in.h:7
 msgid "ID or alias of the component to be shown by default at start-up."
 msgstr "Id eller alias för den komponent som ska visas som standard vid uppstart."
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:7
+#: ../shell/apps_evolution_shell.schemas.in.in.h:8
 msgid "Last upgraded configuration version"
 msgstr "Senast uppgraderad konfigurationsversion"
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:8
+#: ../shell/apps_evolution_shell.schemas.in.in.h:9
 msgid "List of paths for the folders to be synchronized to disk for offline usage"
 msgstr "Lista med sökvägar till de mappar som ska synkroniseras till disk vid frånkopplad användning"
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:9
+#: ../shell/apps_evolution_shell.schemas.in.in.h:10
 msgid "Printer settings"
 msgstr "Skrivarinställningar"
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:10
+#: ../shell/apps_evolution_shell.schemas.in.in.h:11
 msgid "Sidebar is visible"
 msgstr "Sidoraden är synlig"
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:11
+#: ../shell/apps_evolution_shell.schemas.in.in.h:12
 msgid "Skip development warning dialog"
 msgstr "Hoppa över varningsdialogen för utveckling"
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:12
+#: ../shell/apps_evolution_shell.schemas.in.in.h:13
 #: ../shell/main.c:474
 msgid "Start in offline mode"
 msgstr "Starta i frånkopplat läge"
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:13
+#: ../shell/apps_evolution_shell.schemas.in.in.h:14
 msgid "The configuration version of Evolution, with major/minor/configuration level (for example \"2.6.0\")."
 msgstr "Evolutions konfigurationsversion, med överordnad/underordnad/konfigurationsnivå (till exempel \"2.6.0\")."
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:14
+#: ../shell/apps_evolution_shell.schemas.in.in.h:15
 msgid "The default height for the main window, in pixels."
 msgstr "Standardhöjd för huvudfönstret, i bildpunkter."
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:15
+#: ../shell/apps_evolution_shell.schemas.in.in.h:16
 msgid "The default width for the main window, in pixels."
 msgstr "Standardbredd för huvudfönstret, i bildpunkter."
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:16
+#: ../shell/apps_evolution_shell.schemas.in.in.h:17
 msgid "The default width for the sidebar, in pixels."
 msgstr "Standardbredd för sidopanelen, i bildpunkter."
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:17
+#: ../shell/apps_evolution_shell.schemas.in.in.h:18
 msgid "The last upgraded configuration version of Evolution, with major/minor/configuration level (for example \"2.6.0\")."
 msgstr "Den senast uppgraderade konfigurationsversionen för Evolution, med överordnad/underordnad/konfigurationsnivå (till exempel \"2.6.0\")."
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:18
+#: ../shell/apps_evolution_shell.schemas.in.in.h:19
 msgid "The style of the window buttons. Can be \"text\", \"icons\", \"both\", \"toolbar\". If \"toolbar\" is set, the style of the buttons is determined by the GNOME toolbar setting."
 msgstr "Stilen på fönsterknapparna. Kan vara \"text\", \"icons\" (ikoner), \"both\" (både och), \"toolbar\" (verktygsrad). Om \"toolbar\" är angivet kommer stilen på knapparna att avgöras utifrån verktygsradsinställningen i GNOME."
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:19
+#: ../shell/apps_evolution_shell.schemas.in.in.h:20
 msgid "Toolbar is visible"
 msgstr "Verktygsraden är synlig"
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:20
+#: ../shell/apps_evolution_shell.schemas.in.in.h:21
 msgid "Whether Evolution will start up in offline mode instead of online mode."
 msgstr "Huruvida Evolution kommer att starta i frånkopplat läge istället för anslutet läge."
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:21
+#: ../shell/apps_evolution_shell.schemas.in.in.h:22
+msgid "Whether or not the window should be maximized."
+msgstr "Huruvida fönstret ska vara maximerat eller inte."
+
+#: ../shell/apps_evolution_shell.schemas.in.in.h:23
 msgid "Whether the sidebar should be visible."
 msgstr "Huruvida sidoraden ska vara synlig."
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:22
+#: ../shell/apps_evolution_shell.schemas.in.in.h:24
 msgid "Whether the toolbar should be visible."
 msgstr "Huruvida verktygsraden ska vara synlig."
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:23
+#: ../shell/apps_evolution_shell.schemas.in.in.h:25
 msgid "Whether the warning dialog in development versions of Evolution is skipped."
 msgstr "Huruvida varningsdialogen i utvecklingsversioner av Evolution hoppas över."
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:24
+#: ../shell/apps_evolution_shell.schemas.in.in.h:26
 msgid "Whether the window buttons should be visible."
 msgstr "Huruvida fönsterknapparna ska vara synliga."
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:25
+#: ../shell/apps_evolution_shell.schemas.in.in.h:27
 msgid "Window button style"
 msgstr "Stil på fönsterknappar"
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:26
+#: ../shell/apps_evolution_shell.schemas.in.in.h:28
 msgid "Window buttons are visible"
 msgstr "Fönsterknapparna är synliga"
 
@@ -17094,19 +17102,19 @@ msgstr "A_rbeta frånkopplad"
 msgid "Work Offline"
 msgstr "Arbeta frånkopplad"
 
-#: ../shell/e-shell-window.c:368
+#: ../shell/e-shell-window.c:371
 msgid "Evolution is currently online. Click on this button to work offline."
 msgstr "Evolution är just nu ansluten. Klicka på denna knapp för att arbeta frånkopplad."
 
-#: ../shell/e-shell-window.c:376
+#: ../shell/e-shell-window.c:379
 msgid "Evolution is in the process of going offline."
 msgstr "Evolution håller på att koppla från."
 
-#: ../shell/e-shell-window.c:383
+#: ../shell/e-shell-window.c:386
 msgid "Evolution is currently offline. Click on this button to work online."
 msgstr "Evolution är just nu frånkopplad. Klicka på denna knapp för att arbeta ansluten."
 
-#: ../shell/e-shell-window.c:783
+#: ../shell/e-shell-window.c:786
 #, c-format
 msgid "Switch to %s"
 msgstr "Växla till %s"
