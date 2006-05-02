@@ -1,3 +1,8 @@
+2006-05-02  Kjartan Maraas  <kmaraas@gnome.org>
+
+	configure.in: Fix compilation with modern openldap releases.
+	Partially fixes bug #325957. Patch from Sushuma Rai.
+
 2006-04-28  Sven Herzberg  <herzi@gnome-de.org>
 
 	reviewed by: Srinivasa Ragavan
