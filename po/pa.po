@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.gnome-2-14\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-04-23 04:27+0200\n"
-"PO-Revision-Date: 2006-04-23 12:13+0530\n"
+"POT-Creation-Date: 2006-05-02 12:40+0200\n"
+"PO-Revision-Date: 2006-05-02 23:34+0530\n"
 "Last-Translator: A S Alam <apbrar@gmail.com>\n"
 "Language-Team: Punjabi <fedora-trans-pa@redhat.com>\n"
 "MIME-Version: 1.0\n"
@@ -66,32 +66,32 @@ msgstr "ਸੰਪਰਕ:  "
 msgid "evolution minicard"
 msgstr "ਈਵੇਲੂਸ਼ਨ ਛੋਟਾ-ਕਾਰਡ"
 
-#: ../a11y/calendar/ea-cal-view-event.c:235
+#: ../a11y/calendar/ea-cal-view-event.c:266
 msgid "It has alarms."
 msgstr "ਇਸ ਲਈ ਅਲਾਰਮ ਹੈ।"
 
-#: ../a11y/calendar/ea-cal-view-event.c:238
+#: ../a11y/calendar/ea-cal-view-event.c:269
 msgid "It has recurrences."
 msgstr "ਇਹ ਮੌਜੂਦਗੀ ਹਟਾਓ।"
 
-#: ../a11y/calendar/ea-cal-view-event.c:241
+#: ../a11y/calendar/ea-cal-view-event.c:272
 msgid "It is a meeting."
 msgstr "ਅੱਜ ਮੀਟਿੰਗ ਹੈ।"
 
-#: ../a11y/calendar/ea-cal-view-event.c:247
+#: ../a11y/calendar/ea-cal-view-event.c:278
 #, c-format
 msgid "Calendar Event: Summary is %s."
 msgstr "ਕੈਲੰਡਰ ਘਟਨਾਵਾਂ: %s ਸੰਖੇਪ ਹੈ।"
 
-#: ../a11y/calendar/ea-cal-view-event.c:249
+#: ../a11y/calendar/ea-cal-view-event.c:280
 msgid "Calendar Event: It has no summary."
 msgstr "ਕੈਲੰਡਰ ਘਟਨਾਵਾਂ: ਕੋਈ ਜਾਣਕਾਰੀ ਨਹੀਂ ਹੈ।"
 
-#: ../a11y/calendar/ea-cal-view-event.c:268
+#: ../a11y/calendar/ea-cal-view-event.c:299
 msgid "calendar view event"
 msgstr "ਕੈਲੰਡਰ ਵੇਖਣ ਘਟਨਾ"
 
-#: ../a11y/calendar/ea-cal-view-event.c:485
+#: ../a11y/calendar/ea-cal-view-event.c:528
 msgid "Grab Focus"
 msgstr "ਕੇਂਦਰਿਤ ਹੋਵੇ"
 
@@ -120,14 +120,14 @@ msgstr "ਮਿਤੀ ਤੇ ਜਾਓ"
 msgid "a table to view and select the current time range"
 msgstr "ਮੌਜੂਦਾ ਸਮੇਂ ਸੀਮਾ ਵੇਖਣ ਅਤੇ ਚੁਣਨ ਲਈ ਸਾਰਣੀ"
 
-#: ../a11y/calendar/ea-day-view.c:149 ../a11y/calendar/ea-week-view.c:151
+#: ../a11y/calendar/ea-day-view.c:149 ../a11y/calendar/ea-week-view.c:150
 #, c-format
 msgid "It has %d event."
 msgid_plural "It has %d events."
 msgstr[0] "ਇਸ ਵਿੱਚ %d ਘਟਨਾ ਹੈ"
 msgstr[1] "ਇਸ ਵਿੱਚ %d ਘਟਨਾਵਾਂ ਹਨ।"
 
-#: ../a11y/calendar/ea-day-view.c:151 ../a11y/calendar/ea-week-view.c:153
+#: ../a11y/calendar/ea-day-view.c:151 ../a11y/calendar/ea-week-view.c:152
 msgid "It has no events."
 msgstr "ਇਸ ਵਿੱਚ ਕੋਈ ਘਟਨਾ ਨਹੀਂ ਹੈ।"
 
@@ -221,21 +221,21 @@ msgstr "ਜੰਪ ਬਟਨ"
 msgid "Click here, you can find more events."
 msgstr "ਹੋਰ ਘਟਨਾਵਾਂ ਵੇਖਣ ਲ਼ਈ ਇਸ ਨੂੰ ਦਬਾਓ।"
 
-#: ../a11y/calendar/ea-week-view.c:158
+#: ../a11y/calendar/ea-week-view.c:157
 #, c-format
 msgid "Month View: %s. %s"
 msgstr "ਮਹੀਨਾ ਝਲਕ: %s. %s"
 
-#: ../a11y/calendar/ea-week-view.c:162
+#: ../a11y/calendar/ea-week-view.c:161
 #, c-format
 msgid "Week View: %s. %s"
 msgstr "ਹਫਤਾ ਝਲਕ: %s. %s"
 
-#: ../a11y/calendar/ea-week-view.c:193
+#: ../a11y/calendar/ea-week-view.c:192
 msgid "calendar view for a month"
 msgstr "ਮਹੀਨੇ ਦੀ ਕੈਲੰਡਰ ਦਿੱਖ"
 
-#: ../a11y/calendar/ea-week-view.c:195
+#: ../a11y/calendar/ea-week-view.c:194
 msgid "calendar view for one or more weeks"
 msgstr "ਇੱਕ ਜਾਂ ਵਧੇਰੇ ਹਫਤਿਆਂ ਲ਼ਈ ਕੈਲੰਡਰ ਦਰਿਸ਼"
 
@@ -6700,7 +6700,7 @@ msgid "%s for an unknown trigger type"
 msgstr "ਅਣਪਛਾਤੀ ਤਬਦੀਲੀ ਕਿਸਮ ਲਈ  %s"
 
 #: ../calendar/gui/e-cal-component-memo-preview.c:72
-#: ../calendar/gui/e-cal-component-preview.c:70 ../mail/em-folder-view.c:2823
+#: ../calendar/gui/e-cal-component-preview.c:70 ../mail/em-folder-view.c:2822
 #, c-format
 msgid "Click to open %s"
 msgstr "%s ਖੋਲਣ ਲਈ ਕਲਿੱਕ ਕਰੋ"
@@ -11531,37 +11531,37 @@ msgstr "ਸੁਨੇਹਾ ਸੂਚੀ ਤੇ ਫਿਲਟਰ ਲਗਾਓ(_M)"
 
 #  default charset used in mail view
 #. default charset used in mail view
-#: ../mail/em-folder-view.c:1968 ../mail/em-folder-view.c:2012
+#: ../mail/em-folder-view.c:1967 ../mail/em-folder-view.c:2011
 msgid "Default"
 msgstr "ਮੂਲ"
 
-#: ../mail/em-folder-view.c:2111
+#: ../mail/em-folder-view.c:2110
 #: ../plugins/print-message/org-gnome-print-message.eplug.xml.h:2
 #: ../plugins/print-message/print-message.c:87
 msgid "Print Message"
 msgstr "ਸੁਨੇਹਾ ਛਾਪੋ"
 
-#: ../mail/em-folder-view.c:2267
+#: ../mail/em-folder-view.c:2266
 msgid "Unable to retrieve message"
 msgstr "ਸੁਨੇਹਾ ਪ੍ਰਾਪਤ ਕਰਨ ਲਈ ਅਸਫਲ"
 
-#: ../mail/em-folder-view.c:2460
+#: ../mail/em-folder-view.c:2459
 msgid "_Copy Link Location"
 msgstr "ਸਬੰਧ ਟਿਕਾਣੇ ਦੀ ਨਕਲ(_C)"
 
-#: ../mail/em-folder-view.c:2462
+#: ../mail/em-folder-view.c:2461
 msgid "Create _Search Folder"
 msgstr "ਖੋਜ ਫੋਲਡਰ ਬਣਾਓ(_S)"
 
-#: ../mail/em-folder-view.c:2463
+#: ../mail/em-folder-view.c:2462
 msgid "_From this Address"
 msgstr "ਇਸ ਸਿਰਨਾਵੇਂ ਤੋਂ(_F)"
 
-#: ../mail/em-folder-view.c:2464
+#: ../mail/em-folder-view.c:2463
 msgid "_To this Address"
 msgstr "ਇਸ ਸਿਰਨਾਵੇਂ ਲਈ(_T)"
 
-#: ../mail/em-folder-view.c:2818
+#: ../mail/em-folder-view.c:2817
 #, c-format
 msgid "Click to mail %s"
 msgstr "ਪੱਤਰ %s ਲਈ ਦਬਾਓ"
@@ -16979,56 +16979,60 @@ msgid "Default window height"
 msgstr "ਮੂਲ ਝਰੋਖਾ ਉਚਾਈ"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:5
+msgid "Default window state"
+msgstr "ਮੂਲ ਝਰੋਖਾ ਹਾਲਤ"
+
+#: ../shell/apps_evolution_shell.schemas.in.in.h:6
 msgid "Default window width"
 msgstr "ਮੂਲ ਝਰੋਖਾ ਚੌੜਾਈ"
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:6
+#: ../shell/apps_evolution_shell.schemas.in.in.h:7
 msgid "ID or alias of the component to be shown by default at start-up."
 msgstr "ਭਾਗ ਦਾ ID ਜਾਂ ਉਪਨਾਂ ਨੂੰ ਸ਼ੁਰੂਆਤ ਤੇ ਵੇਖਿਆ ਜਾਇਆ ਕਰੇਗਾ।"
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:7
+#: ../shell/apps_evolution_shell.schemas.in.in.h:8
 msgid "Last upgraded configuration version"
 msgstr "ਆਖਰੀ ਨਵੀਨ ਸੰਰਚਨਾ ਵਰਜਨ"
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:8
+#: ../shell/apps_evolution_shell.schemas.in.in.h:9
 msgid "List of paths for the folders to be synchronized to disk for offline usage"
 msgstr "ਫੋਲਡਰ, ਜੋ ਕਿ ਆਫਲ਼ਾਇਨ ਲਈ ਸਮਕਾਲੀ ਕਰਨੇ ਹਨ, ਦੇ ਰਸਤੇ ਦੀ ਸੂਚੀ"
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:9
+#: ../shell/apps_evolution_shell.schemas.in.in.h:10
 msgid "Printer settings"
 msgstr "ਪ੍ਰਿੰਟਰ ਸਥਾਪਨ..."
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:10
+#: ../shell/apps_evolution_shell.schemas.in.in.h:11
 msgid "Sidebar is visible"
 msgstr "ਬਾਹੀ ਵੇਖਾਈ ਦਿੰਦੀ ਹੈ"
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:11
+#: ../shell/apps_evolution_shell.schemas.in.in.h:12
 msgid "Skip development warning dialog"
 msgstr "ਵਿਕਾਸ ਚੇਤਾਵਨੀ ਪੁੱਛਗਿੱਛ ਵਾਰਤਾਲਾਪ ਛੱਡੋ"
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:12 ../shell/main.c:474
+#: ../shell/apps_evolution_shell.schemas.in.in.h:13 ../shell/main.c:474
 msgid "Start in offline mode"
 msgstr "ਆਫਲਾਇਨ ਮੋਡ ਵਿੱਚ ਸ਼ੁਰੂ"
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:13
+#: ../shell/apps_evolution_shell.schemas.in.in.h:14
 msgid ""
 "The configuration version of Evolution, with major/minor/configuration level "
 "(for example \"2.6.0\")."
 msgstr "ਈਵੂਲੇਸ਼ਨ ਦਾ ਸੰਰਚਨਾ ਵਰਜਨ, ਵੱਧ/ਘੱਟ/ਸੰਰਚਨਾ ਪੱਧਰ ਨਾਲ (ਉਦਾਹਰਨ ਲਈ \"2.6.0\")"
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:14
+#: ../shell/apps_evolution_shell.schemas.in.in.h:15
 msgid "The default height for the main window, in pixels."
 msgstr "ਸੁਨੇਹਾ ਝਰੋਖਾ ਦੀ ਮੂਲ ਉਚਾਈ, ਪਿਕਸਲ ਵਿੱਚ ਹੈ।"
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:15
+#: ../shell/apps_evolution_shell.schemas.in.in.h:16
 msgid "The default width for the main window, in pixels."
 msgstr "ਸੁਨੇਹਾ ਝਰੋਖੇ ਦੀ ਮੂਲ ਚੌੜਾਈ, ਪਿਕਸਲ ਵਿੱਚ ਹੈ।"
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:16
+#: ../shell/apps_evolution_shell.schemas.in.in.h:17
 msgid "The default width for the sidebar, in pixels."
 msgstr "ਬਾਹੀ ਦੀ ਮੂਲ ਚੌੜਾਈ, ਪਿਕਸਲ ਵਿੱਚ ਹੈ।"
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:17
+#: ../shell/apps_evolution_shell.schemas.in.in.h:18
 msgid ""
 "The last upgraded configuration version of Evolution, with major/minor/"
 "configuration level (for example \"2.6.0\")."
@@ -17036,7 +17040,7 @@ msgstr ""
 "ਈਵੂਲੇਸ਼ਨ ਦਾ ਆਖਰੀ ਅੱਪਗਰੇਡ ਕੀਤਾ ਸੰਰਚਨਾ ਵਰਜਨ, ਵੱਧ/ਘੱਟ/ਸੰਰਚਨਾ ਪੱਧਰ ਨਾਲ (ਉਦਾਹਰਨ ਲਈ \"2.6.0"
 "\")"
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:18
+#: ../shell/apps_evolution_shell.schemas.in.in.h:19
 msgid ""
 "The style of the window buttons. Can be \"text\", \"icons\", \"both\", "
 "\"toolbar\". If \"toolbar\" is set, the style of the buttons is determined "
@@ -17045,35 +17049,39 @@ msgstr ""
 "ਝਰੋਖਾ ਬਟਨਾਂ ਦੀ ਸ਼ੈਲੀ ਹੈ। \"ਪਾਠ\", \"ਆਈਕਾਨ\", \"ਦੋਵੇਂ\", \"ਸੰਦ-ਪੱਟੀ\" ਸੰਭਵ ਹੈ। ਜੇ \"ਸੰਦ-ਪੱਟੀ"
 "\" ਨੂੰ ਚੁਣਿਆ ਗਿਆ ਤਾਂ, ਗਨੋਮ ਸੰਦ-ਪੱਟੀ ਸਥਾਪਨ ਰਾਹੀਂ ਹੀ ਬਟਨਾਂ ਦੀ ਸ਼ੈਲੀ ਨਿਰਧਾਰਿਤ ਕੀਤੀ ਜਾਵੇਗੀ।"
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:19
+#: ../shell/apps_evolution_shell.schemas.in.in.h:20
 msgid "Toolbar is visible"
 msgstr "ਸੰਦਪੱਟੀ ਉਪਲੱਬਧ ਹੈ"
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:20
+#: ../shell/apps_evolution_shell.schemas.in.in.h:21
 msgid "Whether Evolution will start up in offline mode instead of online mode."
 msgstr "ਕੀ ਈਵੇਲੂਸ਼ਨ ਆਫਲਾਇਨ ਢੰਗ ਨਾਲ ਸ਼ੁਰੂ ਕੀਤਾ ਜਾਵੇਗਾ, ਨਾਕਿ ਆਨਲਾਇਨ।"
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:21
+#: ../shell/apps_evolution_shell.schemas.in.in.h:22
+msgid "Whether or not the window should be maximized."
+msgstr "ਕੀ ਝਰੋਖਾ ਅਧਿਕਤਮ ਹੋਵੇ ਜਾਂ ਨਾ।"
+
+#: ../shell/apps_evolution_shell.schemas.in.in.h:23
 msgid "Whether the sidebar should be visible."
 msgstr "ਕੀ ਬਾਹੀ ਵੇਖਾਈ ਦੇਣੀ ਚਾਹੀਦੀ ਹੈ।"
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:22
+#: ../shell/apps_evolution_shell.schemas.in.in.h:24
 msgid "Whether the toolbar should be visible."
 msgstr "ਕੀ ਸੰਦ ਪੱਟੀ ਉਪਲੱਬਧ ਹੋਵੇ।"
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:23
+#: ../shell/apps_evolution_shell.schemas.in.in.h:25
 msgid "Whether the warning dialog in development versions of Evolution is skipped."
 msgstr "ਕੀ ਈਵੇਲੂਸ਼ਨ ਦੀ ਵਿਕਾਸ ਵਰਜਨ ਵਾਰਤਾਲਾਪ ਨੂੰ ਵੇਖਾਇਆ ਨਾ ਜਾਵੇ।"
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:24
+#: ../shell/apps_evolution_shell.schemas.in.in.h:26
 msgid "Whether the window buttons should be visible."
 msgstr "ਕੀ ਝਰੋਖਾ ਬਟਨ ਵੇਖਾਈ ਦੇਣ।"
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:25
+#: ../shell/apps_evolution_shell.schemas.in.in.h:27
 msgid "Window button style"
 msgstr "ਝਰੋਖਾ ਬਟਨ ਸ਼ੈਲੀ"
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:26
+#: ../shell/apps_evolution_shell.schemas.in.in.h:28
 msgid "Window buttons are visible"
 msgstr "ਝਰੋਖਾ ਬਟਨ ਦਿੱਖ ਹਨ।"
 
@@ -17208,19 +17216,19 @@ msgstr "ਆਫ਼ਲਾਇਨ(_W)"
 msgid "Work Offline"
 msgstr "ਆਫਲਾਇਨ"
 
-#: ../shell/e-shell-window.c:368
+#: ../shell/e-shell-window.c:371
 msgid "Evolution is currently online. Click on this button to work offline."
 msgstr "ਈਵੇਲੂਸ਼ਨ ਇਸ ਸਮੇਂ ਆਨਲਾਇਨ ਹੈ। ਇਸ ਬਟਨ ਨੂੰ ਆਫਲਾਇਨ ਹੋਣ ਲਈ ਦਬਾਓ।"
 
-#: ../shell/e-shell-window.c:376
+#: ../shell/e-shell-window.c:379
 msgid "Evolution is in the process of going offline."
 msgstr "ਈਵੇਲੂਸ਼ਨ ਆਫਲਾਇਨ ਹੋਣ ਦੀ ਕਾਰਵਾਈ ਅਧੀਨ ਹੈ।"
 
-#: ../shell/e-shell-window.c:383
+#: ../shell/e-shell-window.c:386
 msgid "Evolution is currently offline. Click on this button to work online."
 msgstr "ਈਵੇਲੂਸ਼ਨ ਇਸ ਸਮੇਂ ਆਫਲਾਇਨ ਹੈ। ਇਸ ਬਟਨ ਨੂੰ ਆਨਲਾਇਨ ਜਾਣ ਲਈ ਵਰਤੋਂ।"
 
-#: ../shell/e-shell-window.c:783
+#: ../shell/e-shell-window.c:786
 #, c-format
 msgid "Switch to %s"
 msgstr "%s ਲਈ ਤਬਦੀਲ"
