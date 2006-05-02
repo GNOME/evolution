@@ -1,3 +1,11 @@
+2006-05-02  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Committing change pointed by Li Yuan <Li.Yuan@Sun.COM>	
+	
+	* gui/e-calendar-table.c: (e_calendar_table_delete_selected): Corrected
+	argument passed to delete_component_dialog while deleting multiple
+	tasks.	
+
 2006-04-27  Tor Lillqvist  <tml@novell.com>
 
 	* gui/e-day-view-main-item.c

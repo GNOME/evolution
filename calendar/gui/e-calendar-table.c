@@ -824,7 +824,7 @@ e_calendar_table_delete_selected (ECalendarTable *cal_table)
 
 		}
 	} else {
-		delete = delete_component_dialog (comp, FALSE, 1, E_CAL_COMPONENT_TODO, GTK_WIDGET (cal_table));
+		delete = delete_component_dialog (comp, FALSE, n_selected, E_CAL_COMPONENT_TODO, GTK_WIDGET (cal_table));
 	}
 
 	if (delete)
