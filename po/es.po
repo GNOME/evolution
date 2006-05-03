@@ -1,5 +1,4 @@
-# translation of es.po to Spanish
-# Translation of Evolution to Spanish language
+# translation of Evolution to Spanish
 # Copyright © 2000-2002, 2006 Free Software Foundation, Inc.
 # This file is distributed under the same license as the evolution package.
 # Carlos Perelló Marín <carlos@gnome-db.org>, 2000-2001.
@@ -11,10 +10,10 @@
 # Francisco Javier F. Serrador <serrador@cvs.gnome.org>, 2003, 2004, 2005, 2006.
 msgid ""
 msgstr ""
-"Project-Id-Version: es\n"
+"Project-Id-Version: evolution.gnome-2-14\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-05-01 20:20+0200\n"
-"PO-Revision-Date: 2006-05-01 22:20+0200\n"
+"PO-Revision-Date: 2006-05-03 21:57+0200\n"
 "Last-Translator: Francisco Javier F. Serrador <serrador@cvs.gnome.org>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -161,7 +160,6 @@ msgstr "%A, %e de %b de %Y"
 #: ../calendar/gui/calendar-component.c:664
 #: ../calendar/gui/e-day-view-top-item.c:711 ../calendar/gui/e-day-view.c:1503
 #: ../calendar/gui/e-week-view-main-item.c:321
-#, fuzzy
 msgid "%a %d %b"
 msgstr "%a, %e de %b"
 
@@ -194,7 +192,6 @@ msgstr "%e de %B de %Y"
 #: ../calendar/gui/calendar-component.c:690
 #: ../calendar/gui/e-day-view-top-item.c:715 ../calendar/gui/e-day-view.c:1519
 #: ../calendar/gui/e-week-view-main-item.c:335
-#, fuzzy
 msgid "%d %b"
 msgstr "%e de %b"
 
@@ -7933,7 +7930,6 @@ msgstr "Seleccione la zona horaria"
 #. month name. You can change the order but don't
 #. change the specifiers or add anything.
 #: ../calendar/gui/e-week-view-main-item.c:329 ../calendar/gui/print.c:1509
-#, fuzzy
 msgid "%d %B"
 msgstr "%e de %B"
 
