@@ -767,6 +767,36 @@ get_digit_width (PangoLayout *layout)
 	return max_digit_width;
 }
 
+static GdkColor
+e_week_view_get_text_color (EWeekView *week_view, EWeekViewEvent *event, GtkWidget *widget)
+{
+	GdkColor color, bg_color;
+	guint16 red, green, blue; 
+	gdouble	cc = 65535.0;
+	
+	red = week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BACKGROUND].red;
+       	green = week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BACKGROUND].green;
+       	blue = week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BACKGROUND].blue;
+
+	if (gdk_color_parse (e_cal_model_get_color_for_component (e_calendar_view_get_model (E_CALENDAR_VIEW (week_view)), event->comp_data),
+       	     &bg_color)) {
+                GdkColormap *colormap;
+       		colormap = gtk_widget_get_colormap (GTK_WIDGET (week_view));
+	        if (gdk_colormap_alloc_color (colormap, &bg_color, TRUE, TRUE)) {
+       		        red = bg_color.red;
+			green = bg_color.green;
+	                blue = bg_color.blue;
+                }
+       	}
+
+	if ((red/cc > 0.7) || (green/cc > 0.7) || (blue/cc > 0.7 ))
+		color = widget->style->text[GTK_STATE_NORMAL];
+	else
+		color = widget->style->text[GTK_STATE_ACTIVE];
+
+	return color;
+}
+
 static void
 e_week_view_style_set (GtkWidget *widget,
 		       GtkStyle  *previous_style)
@@ -2675,8 +2705,12 @@ e_week_view_reshape_event_span (EWeekView *week_view,
 	if (!span->text_item) {
 		ECalComponentText cal_text;
 		GtkWidget *widget;
+		GdkColor color;
 
 		widget = (GtkWidget *)week_view;
+
+		color = e_week_view_get_text_color (week_view, event, widget);
+		
 		e_cal_component_get_summary (comp, &cal_text);
 		span->text_item =
 			gnome_canvas_item_new (GNOME_CANVAS_GROUP (GNOME_CANVAS (week_view->main_canvas)->root),
@@ -2687,7 +2721,7 @@ e_week_view_reshape_event_span (EWeekView *week_view,
 					       "editable", TRUE,
 					       "text", cal_text.value ? cal_text.value : "",
 					       "use_ellipsis", TRUE,
-					       "fill_color_gdk", &widget->style->text[GTK_STATE_NORMAL],
+					       "fill_color_gdk", &color,
 					       "im_context", E_CANVAS (week_view->main_canvas)->im_context,
 					       NULL);
 		

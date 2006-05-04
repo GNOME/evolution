@@ -237,7 +237,229 @@ e_day_view_time_item_get_column_width (EDayViewTimeItem *dvtmitem)
 /*
  * DRAWING ROUTINES - functions to paint the canvas item.
  */
+#ifndef ENABLE_CAIRO
+static void
+e_day_view_time_item_draw (GnomeCanvasItem *canvas_item,
+			   GdkDrawable	   *drawable,
+			   int		    x,
+			   int		    y,
+			   int		    width,
+			   int		    height)
+{
+	EDayView *day_view;
+	EDayViewTimeItem *dvtmitem;
+	GtkStyle *style;
+	GdkGC *gc, *fg_gc, *dark_gc;
+	gchar buffer[64], *suffix;
+	gint hour, display_hour, minute, row;
+	gint row_y, start_y, large_hour_y_offset, small_font_y_offset;
+	gint long_line_x1, long_line_x2, short_line_x1;
+	gint large_hour_x2, minute_x2;
+	gint hour_width, minute_width, suffix_width;
+	gint max_suffix_width, max_minute_or_suffix_width;
+	PangoLayout *layout;
+	PangoContext *context;
+	PangoFontDescription *small_font_desc;
+	PangoFontMetrics *large_font_metrics, *small_font_metrics;
 
+	dvtmitem = E_DAY_VIEW_TIME_ITEM (canvas_item);
+	day_view = dvtmitem->day_view;
+	g_return_if_fail (day_view != NULL);
+
+	style = gtk_widget_get_style (GTK_WIDGET (day_view));
+	small_font_desc = style->font_desc;
+
+	context = gtk_widget_get_pango_context (GTK_WIDGET (day_view));
+	large_font_metrics = pango_context_get_metrics (context, day_view->large_font_desc,
+							pango_context_get_language (context));
+	small_font_metrics = pango_context_get_metrics (context, small_font_desc,
+							pango_context_get_language (context));
+
+	gc = day_view->main_gc;
+	fg_gc = style->fg_gc[GTK_STATE_NORMAL];
+	dark_gc = style->dark_gc[GTK_STATE_NORMAL];
+
+	/* The start and end of the long horizontal line between hours. */
+	long_line_x1 = E_DVTMI_TIME_GRID_X_PAD - x;
+	long_line_x2 = dvtmitem->column_width - E_DVTMI_TIME_GRID_X_PAD - x;
+
+	if (day_view->mins_per_row == 60) {
+		/* The right edge of the complete time string in 60-min
+		   divisions, e.g. "14:00" or "2 pm". */
+		minute_x2 = long_line_x2 - E_DVTMI_60_MIN_X_PAD;
+
+		/* These aren't used for 60-minute divisions, but we initialize
+		   them to keep gcc happy. */
+		short_line_x1 = 0;
+		large_hour_x2 = 0;
+	} else {
+		max_suffix_width = MAX (day_view->am_string_width,
+					day_view->pm_string_width);
+
+		max_minute_or_suffix_width = MAX (max_suffix_width,
+						  day_view->max_minute_width);
+
+		/* The start of the short horizontal line between the periods
+		   within each hour. */
+		short_line_x1 = long_line_x2 - E_DVTMI_MIN_X_PAD * 2
+			- max_minute_or_suffix_width;
+
+		/* The right edge of the large hour string. */
+		large_hour_x2 = short_line_x1 - E_DVTMI_HOUR_R_PAD;
+
+		/* The right edge of the minute part of the time. */
+		minute_x2 = long_line_x2 - E_DVTMI_MIN_X_PAD;
+	}
+
+	/* Start with the first hour & minute shown in the EDayView. */
+	hour = day_view->first_hour_shown;
+	minute = day_view->first_minute_shown;
+
+	/* The offset of the large hour string from the top of the row. */
+	large_hour_y_offset = E_DVTMI_LARGE_HOUR_Y_PAD;
+
+	/* The offset of the small time/minute string from top of row. */
+	small_font_y_offset = E_DVTMI_SMALL_FONT_Y_PAD;
+
+	/* Calculate the minimum y position of the first row we need to draw.
+	   This is normally one row height above the 0 position, but if we
+	   are using the large font we may have to go back a bit further. */
+	start_y = 0 - MAX (day_view->row_height,
+			   (pango_font_metrics_get_ascent (large_font_metrics) +
+			    pango_font_metrics_get_descent (large_font_metrics)) / PANGO_SCALE +
+			   E_DVTMI_LARGE_HOUR_Y_PAD);
+
+	/* Draw the Marcus Bains Line first, so it appears under other elements. */
+	if (e_day_view_get_show_marcus_bains (day_view)) {
+		struct icaltimetype time_now;
+		int marcus_bains_y;
+		GdkColor mb_color;
+		
+		gdk_gc_set_foreground (gc, &day_view->colors[E_DAY_VIEW_COLOR_MARCUS_BAINS_LINE]);
+
+		if (day_view->marcus_bains_time_bar_color && gdk_color_parse (day_view->marcus_bains_time_bar_color, &mb_color)) {
+			GdkColormap *colormap;
+			
+			colormap = gtk_widget_get_colormap (GTK_WIDGET (day_view));
+			if (gdk_colormap_alloc_color (colormap, &mb_color, TRUE, TRUE)) {
+				gdk_gc_set_foreground (gc, &mb_color);
+			}
+		}
+
+		time_now = icaltime_current_time_with_zone (e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
+		marcus_bains_y = (time_now.hour * 60 + time_now.minute) * day_view->row_height / day_view->mins_per_row - y;
+		gdk_draw_line (drawable, gc,
+				long_line_x1, marcus_bains_y,
+				long_line_x2, marcus_bains_y);
+	}
+
+	/* Step through each row, drawing the times and the horizontal lines
+	   between them. */
+	for (row = 0, row_y = 0 - y;
+	     row < day_view->rows && row_y < height;
+	     row++, row_y += day_view->row_height) {
+
+		/* If the row is above the first row we want to draw just
+		   increment the time and skip to the next row. */
+		if (row_y < start_y) {
+			e_day_view_time_item_increment_time (&hour, &minute,
+							     day_view->mins_per_row);
+			continue;
+		}
+
+		/* Calculate the actual hour number to display. For 12-hour
+		   format we convert 0-23 to 12-11am/12-11pm. */
+		e_day_view_convert_time_to_display (day_view, hour,
+						    &display_hour,
+						    &suffix, &suffix_width);
+
+		if (day_view->mins_per_row == 60) {
+			/* 60 minute intervals - draw a long horizontal line
+			   between hours and display as one long string,
+			   e.g. "14:00" or "2 pm". */
+			gdk_draw_line (drawable, dark_gc,
+				       long_line_x1, row_y,
+				       long_line_x2, row_y);
+
+			if (e_calendar_view_get_use_24_hour_format (E_CALENDAR_VIEW (day_view))) {
+				g_snprintf (buffer, sizeof (buffer), "%i:%02i",
+					    display_hour, minute);
+			} else {
+				g_snprintf (buffer, sizeof (buffer), "%i %s",
+					    display_hour, suffix);
+			}
+
+			layout = gtk_widget_create_pango_layout (GTK_WIDGET (day_view), buffer);
+			pango_layout_get_pixel_size (layout, &minute_width, NULL);
+			gdk_draw_layout (drawable, fg_gc,
+					 minute_x2 - minute_width,
+					 row_y + small_font_y_offset,
+					 layout);
+			g_object_unref (layout);
+		} else {
+			/* 5/10/15/30 minute intervals. */
+
+			if (minute == 0) {
+				/* On the hour - draw a long horizontal line
+				   before the hour and display the hour in the
+				   large font. */
+				gdk_draw_line (drawable, dark_gc,
+					       long_line_x1, row_y,
+					       long_line_x2, row_y);
+
+				g_snprintf (buffer, sizeof (buffer), "%i",
+					    display_hour);
+
+				layout = gtk_widget_create_pango_layout (GTK_WIDGET (day_view), buffer);
+				pango_layout_set_font_description (layout, day_view->large_font_desc);
+				pango_layout_get_pixel_size (layout, &hour_width, NULL);
+				gdk_draw_layout (drawable, fg_gc,
+						 large_hour_x2 - hour_width,
+						 row_y + large_hour_y_offset,
+						 layout);
+				g_object_unref (layout);
+			} else {
+				/* Within the hour - draw a short line before
+				   the time. */
+				gdk_draw_line (drawable, dark_gc,
+					       short_line_x1, row_y,
+					       long_line_x2, row_y);
+			}
+
+			/* Normally we display the minute in each
+			   interval, but when using 30-minute intervals
+			   we don't display the '30'. */
+			if (day_view->mins_per_row != 30 || minute != 30) {
+				/* In 12-hour format we display 'am' or 'pm'
+				   instead of '00'. */
+				if (minute == 0
+				    && !e_calendar_view_get_use_24_hour_format (E_CALENDAR_VIEW (day_view))) {
+					strcpy (buffer, suffix);
+				} else {
+					g_snprintf (buffer, sizeof (buffer),
+						    "%02i", minute);
+				}
+
+				layout = gtk_widget_create_pango_layout (GTK_WIDGET (day_view), buffer);
+				pango_layout_get_pixel_size (layout, &minute_width, NULL);
+				gdk_draw_layout (drawable, fg_gc,
+						 minute_x2 - minute_width,
+						 row_y + small_font_y_offset,
+						 layout);
+				g_object_unref (layout);
+			}
+		}
+
+		e_day_view_time_item_increment_time (&hour, &minute,
+						     day_view->mins_per_row);
+	}
+
+	pango_font_metrics_unref (large_font_metrics);
+	pango_font_metrics_unref (small_font_metrics);
+}
+#endif
+
+#ifdef ENABLE_CAIRO
 static void
 e_day_view_time_item_draw (GnomeCanvasItem *canvas_item,
 			   GdkDrawable	   *drawable,
@@ -490,7 +712,7 @@ e_day_view_time_item_draw (GnomeCanvasItem *canvas_item,
 	pango_font_metrics_unref (small_font_metrics);
 	cairo_destroy (cr);
 }
-
+#endif
 
 /* Increment the time by the 5/10/15/30/60 minute interval.
    Note that mins_per_row is never > 60, so we never have to

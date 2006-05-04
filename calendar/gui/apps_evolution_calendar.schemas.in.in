@@ -329,6 +329,18 @@
       </locale>
     </schema>
 
+     <schema>
+      <key>/schemas/apps/evolution/calendar/display/events_gradient</key>
+      <applyto>/apps/evolution/calendar/display/events_gradient</applyto>
+      <owner>evolution-calendar</owner>
+      <type>bool</type>
+      <default>true</default>
+      <locale name="C">
+        <short>Event Gradient</short>
+        <long>Gradient of the events in calendar views.</long>
+      </locale>
+    </schema>
+
     <!-- Tasks -->
 
     <schema>

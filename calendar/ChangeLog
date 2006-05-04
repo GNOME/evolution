@@ -1,3 +1,32 @@
+2006-05-04  Rajeev Ramanathan <rajeevramanathan_2004@yahoo.co.in>
+	
+	Commited few pending cairo stuff. This adds a macro ENABLE_CAIRO to
+	disable cairo for slow performing machines. Also added a patch to
+	disable gradient and select foreground color based on the back ground
+	color.
+	
+	* gui/apps_evolution_calendar.schemas.in.in:
+	* gui/e-calendar-view.c:
+	* gui/e-calendar-view.h:
+	* gui/e-day-view-main-item.c: (e_day_view_main_item_draw),
+	(e_day_view_main_item_draw_events_in_vbars),
+	(e_day_view_main_item_draw_long_events_in_vbars),
+	(e_day_view_main_item_draw_day_events),
+	(e_day_view_main_item_draw_day_event):
+	* gui/e-day-view-time-item.c: (e_day_view_time_item_draw):
+	* gui/e-day-view-top-item.c: (e_day_view_top_item_draw),
+	(e_day_view_top_item_draw_long_event),
+	(e_day_view_top_item_draw_triangle):
+	* gui/e-day-view.c: (e_day_view_get_text_color),
+	(e_day_view_style_set), (e_day_view_reshape_long_event),
+	(e_day_view_reshape_day_event):
+	* gui/e-week-view-event-item.c: (e_week_view_event_item_draw),
+	(e_week_view_draw_time), (e_week_view_event_item_draw_icons),
+	(e_week_view_event_item_draw_triangle):
+	* gui/e-week-view-main-item.c: (e_week_view_main_item_draw_day):
+	* gui/e-week-view.c: (e_week_view_get_text_color),
+	(e_week_view_reshape_event_span):
+
 2006-05-04  Harish Krishnaswamy  <kharish@novell.com>
 
 	* gui/dialogs/event-page.glade: Set mnemonic to

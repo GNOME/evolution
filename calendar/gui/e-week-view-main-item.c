@@ -139,7 +139,6 @@ e_week_view_main_item_update (GnomeCanvasItem *item,
 /*
  * DRAWING ROUTINES - functions to paint the canvas item.
  */
-
 static void
 e_week_view_main_item_draw (GnomeCanvasItem  *canvas_item,
 			    GdkDrawable      *drawable,
@@ -185,8 +184,209 @@ e_week_view_main_item_draw (GnomeCanvasItem  *canvas_item,
 		g_date_add_days (&date, 1);
 	}
 }
+#ifndef ENABLE_CAIRO
+static void
+e_week_view_main_item_draw_day (EWeekViewMainItem *wvmitem,
+				gint		   day,
+				GDate		  *date,
+				GdkDrawable       *drawable,
+				gint		   x,
+				gint		   y,
+				gint		   width,
+				gint		   height)
+{
+	EWeekView *week_view;
+	GtkStyle *style;
+	GdkGC *gc;
+	gint right_edge, bottom_edge, date_width, date_x, line_y;
+	gboolean show_day_name, show_month_name, selected;
+	gchar buffer[128], *format_string;
+	gint month, day_of_month, max_width;
+	GdkColor *bg_color;
+	PangoFontDescription *font_desc;
+	PangoContext *pango_context;
+	PangoFontMetrics *font_metrics;
+	PangoLayout *layout;
+	gboolean today = FALSE;
 
+#if 0
+	g_print ("Drawing Day:%i at %i,%i\n", day, x, y);
+#endif
+	week_view = wvmitem->week_view;
+	style = gtk_widget_get_style (GTK_WIDGET (week_view));
+	gc = week_view->main_gc;
 
+	/* Set up Pango prerequisites */
+	font_desc = style->font_desc;
+	pango_context = gtk_widget_get_pango_context (GTK_WIDGET (week_view));
+	font_metrics = pango_context_get_metrics (pango_context, font_desc,
+						  pango_context_get_language (pango_context));
+
+	g_return_if_fail (gc != NULL);
+
+	month = g_date_month (date);
+	day_of_month = g_date_day (date);
+	line_y = y + E_WEEK_VIEW_DATE_T_PAD +
+		PANGO_PIXELS (pango_font_metrics_get_ascent (font_metrics)) +
+		PANGO_PIXELS (pango_font_metrics_get_descent (font_metrics)) +
+		E_WEEK_VIEW_DATE_LINE_T_PAD;
+
+	/* Draw the background of the day. In the month view odd months are
+	   one color and even months another, so you can easily see when each
+	   month starts (defaults are white for odd - January, March, ... and
+	   light gray for even). In the week view the background is always the
+	   same color, the color used for the odd months in the month view. */
+	if (week_view->multi_week_view && (month % 2 == 0))
+		bg_color = &week_view->colors[E_WEEK_VIEW_COLOR_EVEN_MONTHS];
+	else
+		bg_color = &week_view->colors[E_WEEK_VIEW_COLOR_ODD_MONTHS];
+
+	gdk_gc_set_foreground (gc, bg_color);
+	gdk_draw_rectangle (drawable, gc, TRUE, x, y, width, height);
+
+	/* Draw the lines on the right and bottom of the cell. The canvas is
+	   sized so that the lines on the right & bottom edges will be off the
+	   edge of the canvas, so we don't have to worry about them. */
+	right_edge = x + width - 1;
+	bottom_edge = y + height - 1;
+
+	gdk_gc_set_foreground (gc, &week_view->colors[E_WEEK_VIEW_COLOR_GRID]);
+	gdk_draw_line (drawable, gc,
+		       right_edge, y, right_edge, bottom_edge);
+	gdk_draw_line (drawable, gc,
+		       x, bottom_edge, right_edge, bottom_edge);
+
+	/* If the day is selected, draw the blue background. */
+	selected = TRUE;
+	if (week_view->selection_start_day == -1
+	    || week_view->selection_start_day > day
+	    || week_view->selection_end_day < day)
+		selected = FALSE;
+	if (selected) {
+		if (GTK_WIDGET_HAS_FOCUS (week_view))
+			gdk_gc_set_foreground (gc, &week_view->colors[E_WEEK_VIEW_COLOR_SELECTED]);
+		else
+			gdk_gc_set_foreground (gc, &week_view->colors[E_WEEK_VIEW_COLOR_SELECTED_UNFOCUSSED]);
+
+		if (week_view->multi_week_view) {
+			gdk_draw_rectangle (drawable, gc, TRUE,
+					    x + 2, y + 1,
+					    width - 5,
+					    E_WEEK_VIEW_DATE_T_PAD - 1 +
+					    PANGO_PIXELS (pango_font_metrics_get_ascent (font_metrics)) +
+					    PANGO_PIXELS (pango_font_metrics_get_descent (font_metrics)));
+		} else {
+			gdk_draw_rectangle (drawable, gc, TRUE,
+					    x + 2, y + 1,
+					    width - 5, line_y - y);
+		}
+	}
+	
+	/* Display the date in the top of the cell.
+	   In the week view, display the long format "10 January" in all cells,
+	   or abbreviate it to "10 Jan" or "10" if that doesn't fit.
+	   In the month view, only use the long format for the first cell and
+	   the 1st of each month, otherwise use "10". */
+	show_day_name = FALSE;
+	show_month_name = FALSE;
+	if (!week_view->multi_week_view) {
+		show_day_name = TRUE;
+		show_month_name = TRUE;
+	} else if (day == 0 || day_of_month == 1) {
+		show_month_name = TRUE;
+	}
+
+	/* Now find the longest form of the date that will fit. */
+	max_width = width - 4;
+	format_string = NULL;
+	if (show_day_name) {
+		if (week_view->max_day_width + week_view->digit_width * 2
+		    + week_view->space_width * 2
+		    + week_view->month_widths[month - 1] < max_width)
+			/* strftime format %A = full weekday name, %d = day of
+			   month, %B = full month name. You can change the
+			   order but don't change the specifiers or add
+			   anything. */
+			format_string = _("%A %d %B");
+		else if (week_view->max_abbr_day_width
+			 + week_view->digit_width * 2
+			 + week_view->space_width * 2
+			 + week_view->abbr_month_widths[month - 1] < max_width)
+			/* strftime format %a = abbreviated weekday name,
+			   %d = day of month, %b = abbreviated month name.
+			   You can change the order but don't change the
+			   specifiers or add anything. */
+			format_string = _("%a %d %b");
+	}
+	if (!format_string && show_month_name) {
+		if (week_view->digit_width * 2 + week_view->space_width
+		    + week_view->month_widths[month - 1] < max_width)
+			/* strftime format %d = day of month, %B = full
+			   month name. You can change the order but don't
+			   change the specifiers or add anything. */
+			format_string = _("%d %B");
+		else if (week_view->digit_width * 2 + week_view->space_width
+		    + week_view->abbr_month_widths[month - 1] < max_width)
+			/* strftime format %d = day of month, %b = abbreviated
+			   month name. You can change the order but don't
+			   change the specifiers or add anything. */
+			format_string = _("%d %b");
+	}
+
+	if (selected) {
+		gdk_gc_set_foreground (gc, &week_view->colors[E_WEEK_VIEW_COLOR_DATES_SELECTED]);
+	} else if (week_view->multi_week_view) {
+		struct icaltimetype tt;
+
+		/* Check if we are drawing today */		
+		tt = icaltime_from_timet_with_zone (time (NULL), FALSE,
+						    e_calendar_view_get_timezone (E_CALENDAR_VIEW (week_view)));
+		if (g_date_year (date) == tt.year 
+		    && g_date_month (date) == tt.month
+		    && g_date_day (date) == tt.day) {
+			gdk_gc_set_foreground (gc, &week_view->colors[E_WEEK_VIEW_COLOR_TODAY]);
+			today = TRUE;
+		}
+		else
+			gdk_gc_set_foreground (gc, &week_view->colors[E_WEEK_VIEW_COLOR_DATES]);
+	} else {
+		gdk_gc_set_foreground (gc, &week_view->colors[E_WEEK_VIEW_COLOR_DATES]);
+	}
+
+	if (today) {
+		g_date_strftime (buffer, sizeof (buffer),
+				 format_string ? format_string : "<b>%d</b>", date);
+		layout = gtk_widget_create_pango_layout (GTK_WIDGET (week_view), buffer);
+		pango_layout_set_markup (layout, buffer, strlen(buffer));	
+	} else {
+		g_date_strftime (buffer, sizeof (buffer),
+				 format_string ? format_string : "%d", date);
+		layout = gtk_widget_create_pango_layout (GTK_WIDGET (week_view), buffer);	
+	}
+
+	pango_layout_get_pixel_size (layout, &date_width, NULL);
+	date_x = x + width - date_width - E_WEEK_VIEW_DATE_R_PAD;
+	date_x = MAX (date_x, x + 1);
+
+	gdk_draw_layout (drawable, gc,
+			 date_x,
+			 y + E_WEEK_VIEW_DATE_T_PAD,
+			 layout);
+	g_object_unref (layout);
+
+	/* Draw the line under the date. */
+	if (!week_view->multi_week_view) {
+		gdk_gc_set_foreground (gc, &week_view->colors[E_WEEK_VIEW_COLOR_GRID]);
+		gdk_draw_line (drawable, gc,
+			       x + E_WEEK_VIEW_DATE_LINE_L_PAD, line_y,
+			       right_edge, line_y);
+	}
+
+	pango_font_metrics_unref (font_metrics);
+}
+#endif
+
+#ifdef ENABLE_CAIRO
 static void
 e_week_view_main_item_draw_day (EWeekViewMainItem *wvmitem,
 				gint		   day,
@@ -412,9 +612,7 @@ e_week_view_main_item_draw_day (EWeekViewMainItem *wvmitem,
 	pango_font_metrics_unref (font_metrics);
 	cairo_destroy (cr);
 }
-
-
-
+#endif
 
 /* This is supposed to return the nearest item the the point and the distance.
    Since we are the only item we just return ourself and 0 for the distance.

@@ -1193,6 +1193,35 @@ e_day_view_unrealize (GtkWidget *widget)
 		(*GTK_WIDGET_CLASS (e_day_view_parent_class)->unrealize)(widget);
 }
 
+static GdkColor
+e_day_view_get_text_color (EDayView *day_view, EDayViewEvent *event, GtkWidget *widget)
+{
+	GdkColor color, bg_color;
+	guint16 red, green, blue; 
+	gdouble	cc = 65535.0;
+	
+	red = day_view->colors[E_DAY_VIEW_COLOR_EVENT_BACKGROUND].red;
+       	green = day_view->colors[E_DAY_VIEW_COLOR_EVENT_BACKGROUND].green;
+       	blue = day_view->colors[E_DAY_VIEW_COLOR_EVENT_BACKGROUND].blue;
+
+	if (gdk_color_parse (e_cal_model_get_color_for_component (e_calendar_view_get_model (E_CALENDAR_VIEW (day_view)), event->comp_data),
+       	     &bg_color)) {
+                GdkColormap *colormap;
+       		colormap = gtk_widget_get_colormap (GTK_WIDGET (day_view));
+	        if (gdk_colormap_alloc_color (colormap, &bg_color, TRUE, TRUE)) {
+       		        red = bg_color.red;
+			green = bg_color.green;
+	                blue = bg_color.blue;
+                }
+       	}
+
+	if ((red/cc > 0.7) || (green/cc > 0.7) || (blue/cc > 0.7 ))
+		color = widget->style->text[GTK_STATE_NORMAL];
+	else
+		color = widget->style->text[GTK_STATE_ACTIVE];
+
+	return color;
+}
 
 static void
 e_day_view_style_set (GtkWidget *widget,
@@ -1214,6 +1243,7 @@ e_day_view_style_set (GtkWidget *widget,
 	PangoLayout *layout;
 	gint week_day, event_num;
 	EDayViewEvent *event;
+	GdkColor color;
 
 	if (GTK_WIDGET_CLASS (e_day_view_parent_class)->style_set)
 		(*GTK_WIDGET_CLASS (e_day_view_parent_class)->style_set)(widget, previous_style);
@@ -1224,18 +1254,22 @@ e_day_view_style_set (GtkWidget *widget,
 	for (week_day = 0; week_day < E_DAY_VIEW_MAX_DAYS; week_day++){
 		for (event_num = 0; event_num < day_view->events[week_day]->len; event_num++) {
 			event = &g_array_index (day_view->events[week_day], EDayViewEvent, event_num);
-			if (event->canvas_item)
+			if (event->canvas_item) {
+				color = e_day_view_get_text_color (day_view, event, widget);
 				gnome_canvas_item_set (event->canvas_item,
-						"fill_color_gdk", &widget->style->text[GTK_STATE_NORMAL],
+						"fill_color_gdk", &color,
 						NULL);
+			}
 		}
 	}
 	for (event_num = 0; event_num < day_view->long_events->len; event_num++) {
 		event = &g_array_index (day_view->long_events, EDayViewEvent, event_num);
-		if (event->canvas_item)
+		if (event->canvas_item) {
+			color = e_day_view_get_text_color (day_view, event, widget);
 			gnome_canvas_item_set (event->canvas_item,
-					"fill_color_gdk", &widget->style->text[GTK_STATE_NORMAL],
+					"fill_color_gdk", &color,
 					NULL);
+		}
 	}
 	gnome_canvas_item_set (day_view->main_canvas_top_resize_bar_item,
 			"fill_color_gdk", &day_view->colors[E_DAY_VIEW_COLOR_EVENT_VBAR],
@@ -4395,6 +4429,7 @@ e_day_view_reshape_long_event (EDayView *day_view,
 			num_icons++;
 		if (event->different_timezone)
 			num_icons++;
+
 		if (e_cal_component_has_organizer (comp))
 			num_icons++;
 		if (e_cal_component_has_attachments (comp))
@@ -4414,8 +4449,12 @@ e_day_view_reshape_long_event (EDayView *day_view,
 
 	if (!event->canvas_item) {
 		GtkWidget *widget;
+		GdkColor color;
 
 		widget = (GtkWidget *)day_view;
+
+		color = e_day_view_get_text_color (day_view, event, widget);
+
 		event->canvas_item =
 			gnome_canvas_item_new (GNOME_CANVAS_GROUP (GNOME_CANVAS (day_view->top_canvas)->root),
 					       e_text_get_type (),
@@ -4425,7 +4464,7 @@ e_day_view_reshape_long_event (EDayView *day_view,
 					       "editable", TRUE,
 					       "use_ellipsis", TRUE,
 					       "draw_background", FALSE,
-					       "fill_color_gdk", &widget->style->text[GTK_STATE_NORMAL],
+					       "fill_color_gdk", &color,
 					       "im_context", E_CANVAS (day_view->top_canvas)->im_context,
 					       NULL);
 		g_object_set_data (G_OBJECT (event->canvas_item), "event-num", GINT_TO_POINTER (event_num));
@@ -4597,8 +4636,12 @@ e_day_view_reshape_day_event (EDayView *day_view,
 
 		if (!event->canvas_item) {
 			GtkWidget *widget;
+			GdkColor color;
 
 			widget = (GtkWidget *)day_view;
+
+			color = e_day_view_get_text_color (day_view, event, widget);
+
 			event->canvas_item =
 				gnome_canvas_item_new (GNOME_CANVAS_GROUP (GNOME_CANVAS (day_view->main_canvas)->root),
 						       e_text_get_type (),
@@ -4608,7 +4651,7 @@ e_day_view_reshape_day_event (EDayView *day_view,
 						       "clip", TRUE,
 						       "use_ellipsis", TRUE,
 						       "draw_background", FALSE,
-						       "fill_color_gdk", &widget->style->text[GTK_STATE_NORMAL],
+						       "fill_color_gdk", &color,
 						       "im_context", E_CANVAS (day_view->main_canvas)->im_context,
 						       NULL);
 			g_object_set_data (G_OBJECT (event->canvas_item), "event-num", GINT_TO_POINTER (event_num));

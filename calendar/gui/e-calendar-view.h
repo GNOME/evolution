@@ -29,6 +29,8 @@
 #include "e-cal-model.h"
 #include "gnome-cal.h"
 
+#define ENABLE_CAIRO
+
 G_BEGIN_DECLS
 
 /*

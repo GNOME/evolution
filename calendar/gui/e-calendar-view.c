@@ -2261,6 +2261,7 @@ e_calendar_view_get_tooltips (ECalendarViewEventData *data)
 	return FALSE;
 }
 	
+#ifdef ENABLE_CAIRO
 void
 draw_curved_rectangle (cairo_t *cr, double x0, double y0,
 			double rect_width, double rect_height,
@@ -2310,3 +2311,4 @@ draw_curved_rectangle (cairo_t *cr, double x0, double y0,
 	}
 	cairo_close_path (cr);
 }
+#endif
