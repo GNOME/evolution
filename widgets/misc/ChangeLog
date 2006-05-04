@@ -1,3 +1,13 @@
+2006-05-04  Rajeev Ramanathan  <rajeevramanathan_2004@yahoo.co.in>
+
+	Added patch to enable build without cairo using ENABLE_CAIRO macro.
+	Also it fixes a bold issue, where entire evolution appears with bold
+	text.
+
+	* e-calendar-item.c: (e_calendar_item_draw),
+	(e_calendar_item_draw_month), (e_calendar_item_draw_day_numbers),
+	(layout_set_day_text):
+
 2006-04-27  Boby Wang <boby.wang@sun.com>
 
 	** Fixes bug #339138
