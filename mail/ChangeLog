@@ -1,13 +1,11 @@
 2006-04-30  Shi Pu <shi.pu@sun.com>
  
-        ** Fixes bug #323853
- 
-        * em-composer-prefs.c: (sig_edit_cb), (sig_add_script_response):
-        * em-mailer-prefs.c: (notify_sound_changed),
-        (em_mailer_prefs_construct):
-        * em-mailer-prefs.h:
-        * mail-config.glade:
-        Replace GnomeFileEntry by GtkFileChooserButton.
+	** Fixes bug #323853
+
+	* em-composer-prefs.c (sig_edit_cb, sig_add_script_response):
+	* em-mailer-prefs.c (notify_sound_changed, em_mailer_prefs_construct):
+	* em-mailer-prefs.h:
+	* mail-config.glade: Replace GnomeFileEntry by GtkFileChooserButton.
  
 2006-04-27  Rodney Dawes  <dobey@novell.com>
 
@@ -24,45 +22,49 @@
 
 	** Patch from Victor for adding a Sender header to message list.
 
-	* message-list.c: (ml_duplicate_value), (ml_free_value),
-	(ml_initialize_value), (ml_value_is_empty), (ml_value_to_string),
+	* message-list.c (ml_duplicate_value, ml_free_value),
+	(ml_initialize_value, ml_value_is_empty, ml_value_to_string),
 	(ml_tree_value_at): Handled the new column header.
+
 	* message-list.etspec: Added a new column header to spec.
+
 	* message-list.h: Added a new column
 
 2006-04-26  Srinivasa Ragavan  <sragavan@novell.com>
 
-	* em-folder-view.c: (emfv_setup_view_instance): Comparing the
-	FolderInfo flags right, to make Mailbox to show From header in message
-	list for groupwise servers.
+	* em-folder-view.c (emfv_setup_view_instance): Comparing the
+	FolderInfo flags right, to make Mailbox to show From header in
+	message list for groupwise servers.
 
 2006-04-26  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fixes bug #323402
-	
-	* em-folder-tree.c: (folder_tree_new): Code for Ellipsizing folder
+
+	* em-folder-tree.c (folder_tree_new): Code for Ellipsizing folder
 	tree. (Patch from Vincent Noel)
+
 	* em-migrate.c: Adding side_bar_search to 
+
 	* evolution-mail.schemas.in.in: Adding a schema for enabling/disabling
 	side bar search. (Patch from Rakesh)
 
 2006-04-24  Srinivasa Ragavan  <sragavan@novell.com>
 
-	* mail-session.c: (get_password): Ask passphrase if the user is
+	* mail-session.c (get_password): Ask passphrase if the user is
 	supposed to enter the same.
 
 2006-04-22  Srinivasa Ragavan  <sragavan@novell.com>
 
-	* em-format-html-display.c: (efhd_attachment_button),
-	(efhd_format_attachment): Added code to create image cache of image
-	attachment in the ethread instead of main thread to avoid gui lockup.
+	* em-format-html-display.c (efhd_attachment_button),
+	(efhd_format_attachment): Added code to create image cache of
+	image attachment in the ethread instead of main thread to avoid
+	gui lockup.
 
 2006-04-21  Sankar P  <psankar@novell.com>
 
-	* mail-mt.c: (do_op_status):
-	Fix the cryptic hexa-status-bar-message.
-	The problem still lies somewhere. But dont show 
-	something weird to the user.
+	* mail-mt.c (do_op_status): Fix the cryptic
+	hexa-status-bar-message.  The problem still lies somewhere. But
+	dont show something weird to the user.
 	
 2006-04-20  Jeffrey Stedfast  <fejj@novell.com>
 
@@ -543,19 +545,19 @@ t2006-02-20  Parthasarathi Susarla <sparthasarathi@novell.com>
 	* mail-tools.c (mail_tool_get_local_movemail_path):
 	Use e_util_mkdir_hier() instead of e_mkdir_hier().
 
-        Use e_util_strstrcase() instead of e_strstrcasea().
+	Use e_util_strstrcase() instead of e_strstrcasea().
     
-        use e_strftime() in evolution-data-server/
-        libedataserver/e-data-server-util.c instead of the copy in 
-        evolution/e-util/e-util.c.
+	use e_strftime() in evolution-data-server/
+	libedataserver/e-data-server-util.c instead of the copy in 
+	evolution/e-util/e-util.c.
  
- 	use e_filename_make_safe() in evolution-data-server/
-        libedataserver/e-data-server-util.c instead of the copy in 
-        evolution/e-util/e-util.c.
-        
-        use e_utf8_strftime() in evolution-data-server/
-        libedataserver/e-data-server-util.c instead of the copy in 
-        evolution/e-util/e-util.c.
+	use e_filename_make_safe() in evolution-data-server/
+	libedataserver/e-data-server-util.c instead of the copy in 
+	evolution/e-util/e-util.c.
+	
+	use e_utf8_strftime() in evolution-data-server/
+	libedataserver/e-data-server-util.c instead of the copy in 
+	evolution/e-util/e-util.c.
 
 2006-01-06  Andre Klapper <a9016009@gmx.de>
 
@@ -653,7 +655,7 @@ t2006-02-20  Parthasarathi Susarla <sparthasarathi@novell.com>
 2005-12-22  Andre Klapper <a9016009@gmx.de>
 
 	* mail-config.glade: changed one duplicated mnemonic.
-          Fixes bug 313801.
+	  Fixes bug 313801.
 
 2005-12-20  Andre Klapper <a9016009@gmx.de>
 
@@ -663,7 +665,7 @@ t2006-02-20  Parthasarathi Susarla <sparthasarathi@novell.com>
 2005-12-19  Andre Klapper <a9016009@gmx.de>
 
 	* mail-config.glade: changed 3 HIG-violating mnemonics.
-          Fixes bug 256913.
+	  Fixes bug 256913.
 
 2005-12-23  Srinivasa Ragavan  <sragavan@novell.com>
 
@@ -7017,9 +7019,9 @@ t2006-02-20  Parthasarathi Susarla <sparthasarathi@novell.com>
 
 2004-02-01  Bill Zhu <bill.zhu@sun.com>
 
-        Fixes for bug #53530
+	Fixes for bug #53530
 
-        * em-utils.c (em_utils_redirect_message): Removed the duplicate 
+	* em-utils.c (em_utils_redirect_message): Removed the duplicate 
 	adding of attachments
 
 2004-01-30  Jeffrey Stedfast  <fejj@ximian.com>
@@ -7521,7 +7523,7 @@ t2006-02-20  Parthasarathi Susarla <sparthasarathi@novell.com>
 	(config_write_style): use MAIL_CONFIG_RC_DIR
 	(mail_config_init): ditto
 
-        * see http://bugzilla.ximian.com/show_bug.cgi?id=52969
+	see http://bugzilla.ximian.com/show_bug.cgi?id=52969
 
 2004-01-19  Not Zed  <NotZed@Ximian.com>
 
