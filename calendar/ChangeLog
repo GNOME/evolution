@@ -1,3 +1,8 @@
+2006-05-04  Harish Krishnaswamy  <kharish@novell.com>
+
+	* gui/dialogs/event-page.glade: Set mnemonic to
+	L instead of the conflicting 'i'. Fixes #334056.
+
 2006-05-04  Chenthill Palanisamy  <pchenthill novell com>
 
 	Fixes #333689
