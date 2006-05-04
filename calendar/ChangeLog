@@ -1,3 +1,10 @@
+2006-05-04  Chenthill Palanisamy  <pchenthill novell com>
+
+	Fixes #333689
+	* gui/dialogs/event-page.c
+	(init_widgets): Check if the units is -1 before
+	adding the menu item.
+
 2006-04-24  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #323409

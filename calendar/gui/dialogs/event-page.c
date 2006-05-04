@@ -2920,7 +2920,7 @@ init_widgets (EventPage *epage)
 	
 	switch (priv->alarm_units) {
 	case CAL_DAYS:
-		if (priv->alarm_interval != 1) {
+		if (priv->alarm_interval != -1) {
 			menu_label = g_strdup_printf (ngettext("%d day before appointment", "%d days before appointment", priv->alarm_interval), priv->alarm_interval);
 		} else {
 			priv->alarm_interval = -1;
@@ -2928,7 +2928,7 @@ init_widgets (EventPage *epage)
 		break;
 		
 	case CAL_HOURS:
-		if (priv->alarm_interval != 1) {
+		if (priv->alarm_interval != -1) {
 			menu_label = g_strdup_printf (ngettext("%d hour before appointment", "%d hours before appointment", priv->alarm_interval), priv->alarm_interval);
 		} else {
 			priv->alarm_interval = -1;
@@ -2936,7 +2936,7 @@ init_widgets (EventPage *epage)
 		break;
 		
 	case CAL_MINUTES:
-		if (priv->alarm_interval != 15) {
+		if (priv->alarm_interval != -1) {
 			menu_label = g_strdup_printf (ngettext("%d minute before appointement", "%d minutes before appointment", priv->alarm_interval), priv->alarm_interval);
 		} else {
 			priv->alarm_interval = -1;
