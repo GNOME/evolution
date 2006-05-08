@@ -74,11 +74,12 @@ destination_save_addressbook  (EPlugin *ep, EABPopupTargetSource *target)
 	GnomeVFSHandle *handle;
 	char *mount = ipod_get_mount();
 
+	primary_source = e_source_selector_peek_primary_selection (target->selector);
+	
 	/* use g_file api here to build path*/
-	dest_uri = g_strdup_printf("%s/%s/%s", mount, "Contacts", "evolution.vcf");
+	dest_uri = g_strdup_printf("%s/%s/Evolution-Addressbook-%s.vcf", mount, "Contacts", e_source_peek_name (primary_source));
 	g_free (mount);
 	
-	primary_source = e_source_selector_peek_primary_selection (target->selector);
 	uri = e_source_get_uri (primary_source);
 	
 	book = e_book_new_from_uri (uri, NULL);
@@ -141,12 +142,15 @@ destination_save_cal (EPlugin *ep, ECalPopupTargetSource *target, ECalSourceType
 {
 	FormatHandler *handler = NULL;
 	char *mount = ipod_get_mount();
-	char *dest_uri = NULL;
+	char *dest_uri = NULL, *path;
+	ESource *primary_source = e_source_selector_peek_primary_selection (target->selector);
 
 	/* The available formathandlers */
 	handler= ical_format_handler_new ();
 
-	dest_uri = g_strdup_printf("%s/%s/%s", mount, "Calendars", (type==E_CAL_SOURCE_TYPE_EVENT)? "evolution-calendar.ics":"evolution-todo.ics");
+	path = g_strdup_printf((type==E_CAL_SOURCE_TYPE_EVENT)? "Evolution-Calendar-%s" : "Evolution-Tasks-%s", e_source_peek_name (primary_source));
+	dest_uri = g_strdup_printf("%s/%s/%s.ics", mount, "Calendars", path);
+	g_free (path);
 
 	handler->save (handler, ep, target, type, dest_uri);
 
@@ -161,7 +165,7 @@ void
 org_gnome_sync_calendar (EPlugin *ep, ECalPopupTargetSource *target)
 {
 	if (!ipod_check_status(FALSE))
-			return;
+		return;
 
 	destination_save_cal (ep, target, E_CAL_SOURCE_TYPE_EVENT);
 }
@@ -170,7 +174,7 @@ void
 org_gnome_sync_tasks (EPlugin *ep, ECalPopupTargetSource *target)
 {
 	if (!ipod_check_status(FALSE))
-			return;
+		return;
 	
 	destination_save_cal (ep, target, E_CAL_SOURCE_TYPE_TODO);
 }
@@ -180,7 +184,7 @@ void
 org_gnome_sync_addressbook (EPlugin *ep, EABPopupTargetSource *target)
 {
 	if (!ipod_check_status(FALSE))
-			return;
+		return;
 
 	destination_save_addressbook (ep, target);
 }

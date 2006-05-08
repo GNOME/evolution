@@ -1,3 +1,10 @@
+2006-05-08  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* ipod-sync.c: (destination_save_addressbook),
+	(destination_save_cal), (org_gnome_sync_calendar),
+	(org_gnome_sync_tasks), (org_gnome_sync_addressbook): Added support
+	for multiple addressbook/calendar/task support for iPod.
+
 2005-10-18  Srinivasa Ragavan <sragavan@novell.com>
 
 	* Created the iPod sync plugin. It based on Justin Wakes bounty
