@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.gnome-2-14\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-05-01 20:20+0200\n"
-"PO-Revision-Date: 2006-05-03 21:57+0200\n"
+"POT-Creation-Date: 2006-05-08 22:24+0200\n"
+"PO-Revision-Date: 2006-05-08 22:24+0200\n"
 "Last-Translator: Francisco Javier F. Serrador <serrador@cvs.gnome.org>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -6209,7 +6209,7 @@ msgstr "_Hora:"
 #: ../calendar/gui/dialogs/event-page.glade.h:18
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:16
 msgid "for"
-msgstr "para"
+msgstr "durante"
 
 #. TRANSLATORS: Entire string is for example:
 #. 'This appointment recurs/Every[x][day(s)][until][2006/01/01]' (dropdown menu options are in [square brackets])
