@@ -1,3 +1,9 @@
+2006-05-04  Jeffrey Stedfast  <fejj@novell.com>
+
+	* mail-component.c (mail_component_remove_store): Ref the store
+	before removing the store from our hash and cache. Should fix
+	Novell bug #166987.
+
 2006-04-27  Rodney Dawes  <dobey@novell.com>
 
 	* em-folder-tree.c (render_pixbuf): Use gnome-fs-trash-empty rather

@@ -1231,6 +1231,7 @@ mail_component_remove_store (MailComponent *component, CamelStore *store)
 	if (!(si = g_hash_table_lookup (priv->store_hash, store)))
 		return;
 	
+	camel_object_ref (store);
 	g_hash_table_remove (priv->store_hash, store);
 	si->removed = 1;
 	store_info_unref(si);
@@ -1240,8 +1241,7 @@ mail_component_remove_store (MailComponent *component, CamelStore *store)
 	mail_note_store_remove (store);
 	
 	em_folder_tree_model_remove_store (priv->model, store);
-
-	camel_object_ref(store);
+	
 	mail_async_event_emit (priv->async_event, MAIL_ASYNC_THREAD, (MailAsyncFunc) store_disconnect, store, NULL, NULL);
 }
 
