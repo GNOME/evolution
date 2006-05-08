@@ -543,6 +543,9 @@ table_is_row_selected (AtkTable *table, gint row)
 	ETableItem *item;
 	GalA11yETableItemPrivate *priv = GET_PRIVATE (table);
 
+	if (row < 0)
+		return FALSE;
+
 	if (atk_state_set_contains_state (priv->state_set, ATK_STATE_DEFUNCT))
 		return FALSE;
 
