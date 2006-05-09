@@ -1,3 +1,9 @@
+2006-05-09  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* configure.in: Patch from Brian Pepple to achieve
+	GNOME Goal for po/LINGUAS. Closes bug #337965.
+	* po/LINGUAS: New file.
+
 2006-05-02  Kjartan Maraas  <kmaraas@gnome.org>
 
 	configure.in: Fix compilation with modern openldap releases.
