@@ -464,8 +464,9 @@ owa_authenticate_user(GtkWidget *button, EConfig *config)
 	valid =  e2k_validate_user (owa_url, url->user, exchange_params, 
 						&remember_password, &result);
 
-	if (!valid)
+	if (!valid && result != E2K_AUTOCONFIG_CANCELLED)
 		print_error (owa_url, result);
+
 	camel_url_set_host (url, valid ? exchange_params->host : "");
 
 	if (valid) {
