@@ -1,5 +1,11 @@
 2006-05-10  Sushma Rai  <rsushma@novell.com>
 
+	* exchange-account-setup.c 
+	(org_gnome_exchange_show_folder_size_factory): Not showing the worng 
+	folder size 0 KB in offline mode. See #339266.
+
+2006-05-10  Sushma Rai  <rsushma@novell.com>
+
 	* exchange-account-setup.c (owa_authenticate_user): Display error 
 	message only in case of authentication failure and not on cancelling
 	authentication operation. Fixes #332131
