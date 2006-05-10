@@ -1,4 +1,12 @@
 2006-05-10  Sushma Rai  <rsushma@novell.com>
+	
+	* exchange-config-listener.c (account_changed): Using the HIGified
+	notification message. 
+
+	* org-gnome-exchange-operations.error.xml: Similar,
+	Fixes #302825.
+
+2006-05-10  Sushma Rai  <rsushma@novell.com>
 
 	* exchange-account-setup.c (owa_authenticate_user): Display error
 	message only in case of authentication failure and not on cancelling

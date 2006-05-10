@@ -6,8 +6,8 @@
  </error>
 
  <error id="apply-restart" type="info">
-  <_primary>Please restart Evolution</_primary>
-  <_secondary>Changes to Exchange account configuration will take place after you quit and restart Evolution.</_secondary>
+  <_primary>Please restart Evolution for changes to take effect</_primary>
+  <_secondary>Changes to options for Exchange account "{0}" will only take effect after restarting Evolution.</_secondary>
  </error>
 
  <error id="remove-quit" type="info">

@@ -1012,7 +1012,8 @@ account_changed (EAccountList *account_list, EAccount *account)
 	}
 	
 	/* Nope. Let the user know we're ignoring him. */
-	e_error_run (NULL, "org-gnome-exchange-operations:apply-restart", NULL);
+	e_error_run (NULL, "org-gnome-exchange-operations:apply-restart", 
+		     priv->configured_name, NULL);
 
 	/* But note the new URI so if he changes something else, we
 	 * only warn again if he changes again.
