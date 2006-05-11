@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD.gu\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-05-05 05:50+0200\n"
-"PO-Revision-Date: 2006-05-05 11:10+0530\n"
+"POT-Creation-Date: 2006-05-11 06:03+0200\n"
+"PO-Revision-Date: 2006-05-11 12:18+0530\n"
 "Last-Translator: Ankit Patel <ankit644@yahoo.com>\n"
 "Language-Team: Gujarati <indianoss-gujarati@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -13,6 +13,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.9.1\n"
 "Plural-Forms: nplurals=2; plural=(n!=1);\n\n"
+"\n"
 "\n"
 "\n"
 "\n"
@@ -3883,7 +3884,7 @@ msgstr "છાયા"
 
 #. FIXME: Take care of i18n
 #: ../addressbook/printing/e-contact-print.glade.h:36
-#: ../plugins/exchange-operations/exchange-account-setup.c:955
+#: ../plugins/exchange-operations/exchange-account-setup.c:956
 #: ../plugins/exchange-operations/exchange-calendar.c:231
 #: ../plugins/exchange-operations/exchange-contacts.c:218
 msgid "Size:"
@@ -14808,19 +14809,19 @@ msgstr "ફોલ્ડરોનું માપ"
 msgid "Exchange Settings"
 msgstr "એક્સચેન્જ સુયોજનો"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:609
+#: ../plugins/exchange-operations/exchange-account-setup.c:610
 msgid "_OWA URL:"
 msgstr "_OWA URL:"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:635
+#: ../plugins/exchange-operations/exchange-account-setup.c:636
 msgid "A_uthenticate"
 msgstr "સત્તાધિકરણ કરો (_u)"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:828
+#: ../plugins/exchange-operations/exchange-account-setup.c:829
 msgid "Authentication Type"
 msgstr "સત્તાધિકરણ પ્રકાર"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:842
+#: ../plugins/exchange-operations/exchange-account-setup.c:843
 msgid "Ch_eck for Supported Types"
 msgstr "આધારભૂત પ્રકારો માટે ચકાસો (_e)"
 
@@ -15139,11 +15140,9 @@ msgstr "ફોલ્ડરો દર્શાવી શકતા નથી."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:3
 msgid ""
-"Changes to Exchange account configuration will take place after you quit and "
-"restart Evolution."
-msgstr ""
-"એક્સચેન્જ ખાતા રૂપરેખાંકનમાં બદલે છે જે તમે ઈવોલ્યુશનમાંથી બહાર નીકળો અને તેને ફરીથી શરૂ કરો "
-"ત્યારે થશે."
+"Changes to options for Exchange account \"{0}\" will only take effect after "
+"restarting Evolution."
+msgstr "ફેરબદલી ખાતા \"{0}\" માટેના વિકલ્પોમાં ફેરફારો માત્ર ઈવોલ્યુશન પુનઃશરૂ કર્યા પછી જ અસર આપશે."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:4
 msgid "Could not authenticate to server."
@@ -15301,8 +15300,8 @@ msgid "Password successfully changed."
 msgstr "પાસવર્ડ સફળતાપૂર્વક બદલાઈ ગયો."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:48
-msgid "Please restart Evolution"
-msgstr "મહેરબાની કરીને ઈવોલ્યુશન પુનઃશરૂ કરો"
+msgid "Please restart Evolution for changes to take effect"
+msgstr "ફેરફારોની અસર જોવા માટે મહેરબાની કરીને ઈવોલ્યુશન પુનઃશરૂ કરો"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:49
 msgid "Please select a user."
