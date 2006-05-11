@@ -1,3 +1,12 @@
+2006-04-20  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes the events appearing in different timezone appear in
+	right time slot. Partially fixes #332911
+	* gui/e-cal-model.c: (e_cal_model_set_instance_times):
+	* gui/e-calendar-view.c: (get_label),
+	(e_calendar_view_get_tooltips): Get the timezone from the backend
+	using the tzid if its not present in the icalcomponent.
+
 2006-05-04  Rajeev Ramanathan <rajeevramanathan_2004@yahoo.co.in>
 	
 	Commited few pending cairo stuff. This adds a macro ENABLE_CAIRO to
