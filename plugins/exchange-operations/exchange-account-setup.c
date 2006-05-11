@@ -134,7 +134,7 @@ btn_chpass_clicked (GtkButton *button, gpointer data)
 		/* "Cacel" button was hit */
 		return;
 	}
-	g_print ("Current password is \"%s\"\n", old_password);
+	//g_print ("Current password is \"%s\"\n", old_password);
  	result = exchange_account_set_password (account, old_password, new_password);
 	if (result != EXCHANGE_ACCOUNT_CONNECT_SUCCESS)
 		exchange_operations_report_error (account, result);
