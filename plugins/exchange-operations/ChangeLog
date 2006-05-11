@@ -1,3 +1,8 @@
+2006-05-11  Sankar P  <psankar@novell.com>
+
+	* exchange-account-setup.c: (btn_chpass_clicked):
+	Do not print the password in the terminal.
+	
 2006-05-10  Sushma Rai  <rsushma@novell.com>
 	
 	* exchange-config-listener.c (account_changed): Using the HIGified
