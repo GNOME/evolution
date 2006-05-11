@@ -1943,12 +1943,12 @@ tooltip_grab (GtkWidget *tooltip, GdkEventKey *event, ECalendarView *view)
 }
 
 static char *
-get_label (struct icaltimetype *tt)
+get_label (struct icaltimetype *tt, icaltimezone *f_zone, icaltimezone *t_zone)
 {
         char buffer[1000];
         struct tm tmp_tm;
 
-	tmp_tm = icaltimetype_to_tm (tt);
+	tmp_tm = icaltimetype_to_tm_with_zone (tt, f_zone, t_zone);
         e_time_format_date_and_time (&tmp_tm,
                                      calendar_config_get_24_hour_format (),
                                      FALSE, FALSE,
@@ -1980,13 +1980,16 @@ e_calendar_view_get_tooltips (ECalendarViewEventData *data)
 	GtkStyle *style = gtk_widget_get_default_style ();
 	GtkWidget *widget = (GtkWidget *) g_object_get_data (G_OBJECT (data->cal_view), "tooltip-window");
 	ECalComponent *newcomp = e_cal_component_new ();
-	icaltimezone *zone;	
+	icaltimezone *zone, *default_zone;	
+	ECal *client = NULL;
 
 	/* Delete any stray tooltip if left */
 	if (widget)
 		gtk_widget_destroy (widget);
 
 	pevent = data->get_view_event (data->cal_view, data->day, data->event_num);
+	client = pevent->comp_data->client;
+	default_zone = e_calendar_view_get_timezone  (data->cal_view);
 
 	clone_comp = icalcomponent_new_clone (pevent->comp_data->icalcomp);
 	if (!e_cal_component_set_icalcomponent (newcomp, clone_comp))
@@ -2062,19 +2065,19 @@ e_calendar_view_get_tooltips (ECalendarViewEventData *data)
 			
 	if (dtstart.tzid) {
 		zone = icalcomponent_get_timezone (e_cal_component_get_icalcomponent (newcomp), dtstart.tzid);
+		if (!zone) 
+			e_cal_get_timezone (client, dtstart.tzid, &zone, NULL);
+
+		if (!zone)
+			zone = default_zone;
+		
 	} else {
 		zone = NULL;
 	}
 	t_start = icaltime_as_timet_with_zone (*dtstart.value, zone);
-		
-	if (dtend.tzid) {
-		zone = icalcomponent_get_timezone (e_cal_component_get_icalcomponent (newcomp), dtend.tzid);
-	} else {
-		zone = NULL;
-	}
 	t_end = icaltime_as_timet_with_zone (*dtend.value, zone);
 		
-	tmp1 = get_label(dtstart.value);
+	tmp1 = get_label(dtstart.value, zone, default_zone);
 	tmp = calculate_time (t_start, t_end);
 	
 	/* To Translators: It will display "Time: ActualStartDateAndTime (DurationOfTheMeeting)"*/
