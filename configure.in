@@ -770,8 +770,6 @@ if test "x${enable_nss}" = "xyes" || test "x${enable_nss}" = "xstatic"; then
 				AC_DEFINE(ENABLE_SMIME,1,[Define if SMIME should be enabled])
 				msg_smime="yes (Mozilla NSS)"
 			fi
-			mozilla_nspr="nspr"
-			mozilla_nss="nss"
 			AC_DEFINE(HAVE_NSS,1,[Define if you have NSS])
 			AC_DEFINE(HAVE_SSL,1,[Define if you have a supported SSL library])
 			AC_DEFINE_UNQUOTED(MOZILLA_NSS_LIB_DIR,"`$PKG_CONFIG --variable=libdir $mozilla_nss`",[Define to the full path of mozilla nss library])
