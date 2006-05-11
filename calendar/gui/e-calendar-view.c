@@ -2136,9 +2136,9 @@ e_calendar_view_get_tooltips (ECalendarViewEventData *data)
 	if (widget)
 		gtk_widget_destroy (widget);
 
-	client = pevent->comp_data->client;
 	default_zone = e_calendar_view_get_timezone  (data->cal_view);
 	pevent = data->get_view_event (data->cal_view, data->day, data->event_num);
+	client = pevent->comp_data->client;
 
 	clone_comp = icalcomponent_new_clone (pevent->comp_data->icalcomp);
 	if (!e_cal_component_set_icalcomponent (newcomp, clone_comp))
