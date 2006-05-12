@@ -1,3 +1,9 @@
+2006-05-12  simon.zheng  <simon.zheng@sun.com>
+
+	Fix for Bug 341521
+	* gui/contact-editor/contact-editor.glade: Change the label
+	name of categories button.
+
 2006-04-27  Boby Wang <boby.wang@sun.com>
 
 	** Fix for bug # 336470
