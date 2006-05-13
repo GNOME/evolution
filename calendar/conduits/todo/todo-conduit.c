@@ -1027,12 +1027,6 @@ pre_sync (GnomePilotConduit *conduit,
 
 	ctxt->dbi = dbi;	
 	ctxt->client = NULL;
-	
-	if (start_calendar_server (ctxt) != 0) {
-		WARN(_("Could not start evolution-data-server"));
-		gnome_pilot_conduit_error (conduit, _("Could not start evolution-data-server"));
-		return -1;
-	}
 
 	/* Get the timezone */
 	ctxt->timezone = get_default_timezone ();
@@ -1040,6 +1034,12 @@ pre_sync (GnomePilotConduit *conduit,
 		return -1;
 	LOG (g_message ( "  Using timezone: %s", icaltimezone_get_tzid (ctxt->timezone) ));
 
+	if (start_calendar_server (ctxt) != 0) {
+		WARN(_("Could not start evolution-data-server"));
+		gnome_pilot_conduit_error (conduit, _("Could not start evolution-data-server"));
+		return -1;
+	}
+	
 	/* Get the default component */
 	if (!e_cal_get_default_object (ctxt->client, &icalcomp, NULL))
 		return -1;

@@ -1,3 +1,9 @@
+2006-05-13  Harish Krishnaswamy  <kharish@novell.com>
+
+	Patch suggested by Yu-Hui Liu
+	* conduits/todo/todo-conduit.c: (pre_sync):
+	Check for timezone before passing the context.
+
 2006-04-20  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes the events appearing in different timezone appear in
