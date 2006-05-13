@@ -1,3 +1,9 @@
+2006-05-13  Harish Krishnaswamy  <kharish@novell.com>
+
+	patch submitted by: Hiroyuki Ikezoe
+
+	* ipod.c: Remove compiler warning. Fixes 341606.
+
 2006-05-08  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* ipod-sync.c: (destination_save_addressbook),

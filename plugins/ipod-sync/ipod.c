@@ -10,6 +10,7 @@
 #include "config.h"
 #include "evolution-ipod-sync.h"
 #include <unistd.h>
+#include <string.h>
 
 /**
  * Ensure that HAL is running before we try to use it.
