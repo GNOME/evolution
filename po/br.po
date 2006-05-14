@@ -6,9 +6,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Evolution 2-14\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-04-27 09:00-0500\n"
-"PO-Revision-Date: 2006-04-08 20:30+0100\n"
-"Last-Translator: Jérémy Ar Floc'h <jeremy.lefloch@gmail.com>\n"
+"POT-Creation-Date: 2006-05-14 02:39-0500\n"
+"PO-Revision-Date: 2006-05-13 14:07+0000\n"
+"Last-Translator: tangi.bzh <tangidan@yahoo.fr>\n"
 "Language-Team: GNOME Breton team <jeremy.lefloch@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -45,44 +45,44 @@ msgstr "Digeriñ"
 
 #: ../a11y/addressbook/ea-minicard.c:141
 msgid "Contact List: "
-msgstr "Roll an darempredoù"
+msgstr "Roll an darempredoù "
 
 #: ../a11y/addressbook/ea-minicard.c:142
 msgid "Contact: "
-msgstr "Darempred:"
+msgstr "Darempred: "
 
 #: ../a11y/addressbook/ea-minicard.c:168
 msgid "evolution minicard"
 msgstr "Kartenn vihan Evolution"
 
-#: ../a11y/calendar/ea-cal-view-event.c:235
+#: ../a11y/calendar/ea-cal-view-event.c:266
 msgid "It has alarms."
 msgstr "Alarmoù en deus."
 
-#: ../a11y/calendar/ea-cal-view-event.c:238
+#: ../a11y/calendar/ea-cal-view-event.c:269
 msgid "It has recurrences."
 msgstr "Adwezhioù en deus."
 
-#: ../a11y/calendar/ea-cal-view-event.c:241
+#: ../a11y/calendar/ea-cal-view-event.c:272
 msgid "It is a meeting."
 msgstr "Un emvod eo."
 
-#: ../a11y/calendar/ea-cal-view-event.c:247
+#: ../a11y/calendar/ea-cal-view-event.c:278
 #, c-format
 msgid "Calendar Event: Summary is %s."
-msgstr "Degouezh deiziadur: ar berrskrid 'zo %s."
+msgstr "Degouezh deiziadurel: ar berrskrid 'zo %s."
 
-#: ../a11y/calendar/ea-cal-view-event.c:249
+#: ../a11y/calendar/ea-cal-view-event.c:280
 msgid "Calendar Event: It has no summary."
-msgstr "Degouezh deiziadur: n'eus ket berrskrid."
+msgstr "Degouezh deiziadurel: n'eus ket berrskrid."
 
-#: ../a11y/calendar/ea-cal-view-event.c:268
+#: ../a11y/calendar/ea-cal-view-event.c:299
 msgid "calendar view event"
 msgstr "Sell degouezhioù an deiziadur"
 
-#: ../a11y/calendar/ea-cal-view-event.c:485
+#: ../a11y/calendar/ea-cal-view-event.c:528
 msgid "Grab Focus"
-msgstr "Tapout ar Focus"
+msgstr "Tapout ar Fokus"
 
 #: ../a11y/calendar/ea-cal-view.c:302
 msgid "New Appointment"
@@ -90,7 +90,7 @@ msgstr "Emgav nevez"
 
 #: ../a11y/calendar/ea-cal-view.c:303
 msgid "New All Day Event"
-msgstr "Degouezh nevez devezh a-bezh"
+msgstr "Degouezh nevez un devezh a-bezh"
 
 #: ../a11y/calendar/ea-cal-view.c:304
 msgid "New Meeting"
@@ -98,7 +98,7 @@ msgstr "Emvod nevez"
 
 #: ../a11y/calendar/ea-cal-view.c:305
 msgid "Go to Today"
-msgstr "Mont da hiziv"
+msgstr "Mont d'an deiz a hiziv"
 
 #: ../a11y/calendar/ea-cal-view.c:306
 msgid "Go to Date"
@@ -107,28 +107,28 @@ msgstr "Mont d'an deiziad"
 #: ../a11y/calendar/ea-day-view-main-item.c:299
 #: ../a11y/calendar/ea-week-view-main-item.c:301
 msgid "a table to view and select the current time range"
-msgstr ""
+msgstr "un daolenn 'benn diskouez pe dibab stumm an eur"
 
-#: ../a11y/calendar/ea-day-view.c:149 ../a11y/calendar/ea-week-view.c:151
+#: ../a11y/calendar/ea-day-view.c:149 ../a11y/calendar/ea-week-view.c:150
 #, c-format
 msgid "It has %d event."
 msgid_plural "It has %d events."
 msgstr[0] "%d degouezh en deus."
 msgstr[1] "%d degouezh en deus."
 
-#: ../a11y/calendar/ea-day-view.c:151 ../a11y/calendar/ea-week-view.c:153
+#: ../a11y/calendar/ea-day-view.c:151 ../a11y/calendar/ea-week-view.c:152
 msgid "It has no events."
-msgstr "N'en deus ket degouezhioù."
+msgstr "N'en deus degouezhioù ebet."
 
 #: ../a11y/calendar/ea-day-view.c:155
 #, c-format
 msgid "Work Week View: %s. %s"
-msgstr "Sell sizhuniek labour: %s. %s"
+msgstr "Sell labour sizhuniek: %s. %s"
 
 #: ../a11y/calendar/ea-day-view.c:158
 #, c-format
 msgid "Day View: %s. %s"
-msgstr "Sell pemdeziek: %s. %s"
+msgstr "Sell bemdeziek: %s. %s"
 
 #: ../a11y/calendar/ea-day-view.c:189
 msgid "calendar view for a work week"
@@ -136,7 +136,7 @@ msgstr "Sell an deiziadur evit ur sizhunvezh labour"
 
 #: ../a11y/calendar/ea-day-view.c:191
 msgid "calendar view for one or more days"
-msgstr "Sell an deiziadur evit unan pe muioc'h deizioù"
+msgstr "Sell an deiziadur evit unan pe meur a zeiz"
 
 #: ../a11y/calendar/ea-gnome-calendar.c:187
 #: ../calendar/gui/calendar-component.c:661
@@ -200,7 +200,7 @@ msgstr "Barrenn enklask"
 
 #: ../a11y/calendar/ea-gnome-calendar.c:291
 msgid "evolution calendar search bar"
-msgstr "Barrenn enklask an deiziadur Evolution"
+msgstr "Barrenn enklask deiziadur Evolution"
 
 #: ../a11y/calendar/ea-jump-button.c:149
 msgid "Jump button"
@@ -208,25 +208,25 @@ msgstr "Nozelenn sailh"
 
 #: ../a11y/calendar/ea-jump-button.c:158
 msgid "Click here, you can find more events."
-msgstr "Klikit amañ, e c'hallez kavout muioc'h degouezhioù."
+msgstr "En ur glikañ amañ, e c'hallez kavout muioc'h a zegouezhioù."
 
-#: ../a11y/calendar/ea-week-view.c:158
+#: ../a11y/calendar/ea-week-view.c:157
 #, c-format
 msgid "Month View: %s. %s"
 msgstr "Sell mizieg: %s. %s"
 
-#: ../a11y/calendar/ea-week-view.c:162
+#: ../a11y/calendar/ea-week-view.c:161
 #, c-format
 msgid "Week View: %s. %s"
 msgstr "Sell sizhunieg: %s. %s"
 
-#: ../a11y/calendar/ea-week-view.c:193
+#: ../a11y/calendar/ea-week-view.c:192
 msgid "calendar view for a month"
 msgstr "Sell an deiziadur evit ur mizvezh"
 
-#: ../a11y/calendar/ea-week-view.c:195
+#: ../a11y/calendar/ea-week-view.c:194
 msgid "calendar view for one or more weeks"
-msgstr "Sell an deiziadur evit unan pe muioc'h sizhunioù"
+msgstr "Sell an deiziadur evit unan pe muioc'h a sizhunioù"
 
 #: ../a11y/e-table/gal-a11y-e-cell-popup.c:124
 msgid "popup"
@@ -272,7 +272,7 @@ msgstr ""
 
 #: ../a11y/e-table/gal-a11y-e-cell.c:107
 msgid "Table Cell"
-msgstr ""
+msgstr "Kell an daolenn"
 
 #: ../a11y/e-table/gal-a11y-e-table-click-to-add.c:44
 #: ../a11y/e-table/gal-a11y-e-table-click-to-add.c:119
@@ -296,7 +296,7 @@ msgstr "%d %B %Y"
 #: ../a11y/widgets/ea-calendar-item.c:304
 #, c-format
 msgid "Calendar: from %s to %s"
-msgstr "Deiziadur: eus %s da %s"
+msgstr "Deiziadur: eus %s beteg %s"
 
 #: ../a11y/widgets/ea-calendar-item.c:339
 msgid "evolution calendar item"
@@ -312,7 +312,7 @@ msgstr "Implij an dibab dre-ziouer"
 
 #: ../a11y/widgets/ea-combo-button.c:52
 msgid "Popup Menu"
-msgstr "Meuziad trumm"
+msgstr "Meuziad prenistri trumm"
 
 #: ../addressbook/addressbook.error.xml.h:1
 msgid ""
@@ -320,7 +320,7 @@ msgid ""
 "with the same address anyway?"
 msgstr ""
 "Un darempred a zo anezhañ dija gant ar chomlec'h-mañ. C'hoant az pefe "
-"ouzhpenn ur gartenn nevez gant ar memes chomlec'h memestra?"
+"ouzhpennañ ur gartenn nevez gant ar memes chomlec'h memestra?"
 
 #: ../addressbook/addressbook.error.xml.h:2
 msgid "Address '{0}' already exists."
@@ -340,14 +340,17 @@ msgid ""
 "a supported login method. Remember that many passwords are case sensitive; "
 "your caps lock might be on."
 msgstr ""
+"Gwiriekait hag eñ eo bet distaget mad ho ker-kuzh hag emaoc'h oc'h implijout "
+"un doare mad d'en em lugañ. Dalc'hit sonj o deus ar gerioù-kuzh doujans deus "
+"stummoù al lizherennoù; marteze emañ ho 'caps lock' lakaet war implij."
 
 #: ../addressbook/addressbook.error.xml.h:6
 msgid "Could not get schema information for LDAP server."
-msgstr ""
+msgstr "Dic'houest da gaout keloù war stumm an tres evit ar sevijer LDAP."
 
 #: ../addressbook/addressbook.error.xml.h:7
 msgid "Could not remove addressbook."
-msgstr "Ne oa ket tu da zilemel ar c'harned chomlec'h."
+msgstr "N'eus ket tu dilemel ar c'harned chomlec'h."
 
 #: ../addressbook/addressbook.error.xml.h:8
 msgid ""
@@ -366,11 +369,11 @@ msgstr "Fazi o kargañ ar c'harned chomlec'h."
 
 #: ../addressbook/addressbook.error.xml.h:11
 msgid "Error saving {0} to {1}: {2}"
-msgstr "Fazi o warediñ {0} war-du {1}: {2}"
+msgstr "Fazi o wareziñ {0} war-du {1}: {2}"
 
 #: ../addressbook/addressbook.error.xml.h:12
 msgid "Failed to authenticate with LDAP server."
-msgstr ""
+msgstr "Fazi oc'h en em kinnig da servijer LDAP."
 
 #: ../addressbook/addressbook.error.xml.h:13
 msgid "GroupWise Address book creation:"
@@ -378,24 +381,26 @@ msgstr ""
 
 #: ../addressbook/addressbook.error.xml.h:14
 msgid "LDAP server did not respond with valid schema information."
-msgstr ""
+msgstr "Ne respont ket LDAP gant keloù ur stumm-tres mad."
 
 #: ../addressbook/addressbook.error.xml.h:15
 msgid "Server Version"
-msgstr ""
+msgstr "Aozerezh ar servijer"
 
 #: ../addressbook/addressbook.error.xml.h:16
 msgid "Some features may not work properly with your current server"
-msgstr ""
+msgstr "Marteze ne 'z' a ket traoù 'zo en dro gant stad a vremañ ho servijer"
 
 #: ../addressbook/addressbook.error.xml.h:17
 msgid "The Evolution addressbook has quit unexpectedly."
-msgstr ""
+msgstr "Kuitaet en deus karned chomlec'h Evolution hep abeg."
 
 #: ../addressbook/addressbook.error.xml.h:18
 msgid ""
 "The image you have selected is large. Do you want to resize and store it?"
 msgstr ""
+"Bras a walc'h eo ar skeudenn ho peus dibabet. Daoust ha c'hoant 'pefe "
+"adventañ ha gwareziñ anezhi?"
 
 #: ../addressbook/addressbook.error.xml.h:19
 msgid ""
@@ -403,14 +408,17 @@ msgid ""
 "this functionality or it may be misconfigured. Ask your administrator for "
 "supported search bases."
 msgstr ""
+"Sur walc'h e implij ar servijer LDAP se un aozerezh LDAP kozhoc'h n'eo ket "
+"evit gouzañv seurt urzhioù pe n'eo ket bet stummet mad. Goulennit digant ho "
+"aozer-sistem 'benn kaout an urzhioù diazez asantet."
 
 #: ../addressbook/addressbook.error.xml.h:20
 msgid "This address book will be removed permanently."
-msgstr ""
+msgstr "Skarzhet 'vo ar c'harned-chomlec'h se da viken."
 
 #: ../addressbook/addressbook.error.xml.h:21
 msgid "This addressbook could not be opened."
-msgstr ""
+msgstr "Ne c'hell ket ar c'harned-chomlec'h se bezañ digoret."
 
 #: ../addressbook/addressbook.error.xml.h:22
 msgid "This addressbook server does not have any suggested search bases."
@@ -425,28 +433,32 @@ msgstr ""
 #: ../addressbook/addressbook.error.xml.h:24
 msgid "This server does not support LDAPv3 schema information."
 msgstr ""
+"N'eo ket ar c'harned-chomlec'h se 'vit gouzañv keloù stumm-tres LDAPv3."
 
 #: ../addressbook/addressbook.error.xml.h:25
 msgid "Unable to open addressbook"
-msgstr ""
+msgstr "Dic'houest da zigeriñ ar c'harned-chomlec'h"
 
 #: ../addressbook/addressbook.error.xml.h:26
 msgid "Unable to perform search."
-msgstr ""
+msgstr "Dic'houest da gas an enklask da benn."
 
 #: ../addressbook/addressbook.error.xml.h:27
 msgid "Unable to save {0}."
-msgstr ""
+msgstr "Dic'houest da wareziñ {0}."
 
 #: ../addressbook/addressbook.error.xml.h:28
 msgid "Would you like to save your changes?"
-msgstr ""
+msgstr "C'hoant 'pefe gwareziñ ar cheñchamantoù?"
 
 #: ../addressbook/addressbook.error.xml.h:29
 msgid ""
 "You are attempting to move a contact from one addressbook to another but it "
 "cannot be removed from the source. Do you want to save a copy instead?"
 msgstr ""
+"Klask a reoc'h dilec'hiañ un darempred deus ur c'harned-chomlec'h beteg un "
+"all met ne c'hell ket bezañ skarzhet deus ar c'harned a orin. C'hoant 'pefe "
+"gwareziñ un eilskouer dioutañ?"
 
 #: ../addressbook/addressbook.error.xml.h:30
 msgid ""
@@ -460,22 +472,25 @@ msgid ""
 "You have made modifications to this contact. Do you want to save these "
 "changes?"
 msgstr ""
+"Kemmet eo bet an darempred se. C'hoant 'pefe gwareziñ ar cheñchamantoù?"
 
 #: ../addressbook/addressbook.error.xml.h:32
 msgid ""
 "Your contacts for {0} will not be available until Evolution is restarted."
 msgstr ""
+"Ne vo ket tu deoc'h kaout darempredoù {0} araog bezañ digoret Evolution en "
+"dro."
 
 #: ../addressbook/addressbook.error.xml.h:33 ../mail/em-vfolder-rule.c:496
 #: ../plugins/groupwise-features/junk-settings.glade.h:4
 #: ../plugins/groupwise-features/properties.glade.h:10
 #: ../widgets/table/e-table-config.glade.h:15
 msgid "_Add"
-msgstr "Ouzhpennañ"
+msgstr "_Ouzhpennañ"
 
 #: ../addressbook/addressbook.error.xml.h:34
 msgid "_Discard"
-msgstr ""
+msgstr "_Nullañ"
 
 #: ../addressbook/addressbook.error.xml.h:35
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:76
@@ -488,17 +503,17 @@ msgstr "{1}"
 
 #: ../addressbook/conduit/address-conduit.c:300
 msgid "Default Sync Address:"
-msgstr ""
+msgstr "Chomlec'h kenlusk a ziouer:"
 
 #: ../addressbook/conduit/address-conduit.c:1241
 #: ../addressbook/conduit/address-conduit.c:1242
 msgid "Could not load addressbook"
-msgstr ""
+msgstr "Dic'houest da gargañ ar c'harned-chomlec'h"
 
 #: ../addressbook/conduit/address-conduit.c:1310
 #: ../addressbook/conduit/address-conduit.c:1313
 msgid "Could not read pilot's Address application block"
-msgstr ""
+msgstr "Dic'houest da lenn blok blenier poellad ar chomlec'hioù"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:1
 msgid "Autocompletion"
@@ -506,11 +521,11 @@ msgstr ""
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:2
 msgid "C_ontacts"
-msgstr "Darempredoù"
+msgstr "D_arempredoù"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:3
 msgid "Certificates"
-msgstr ""
+msgstr "Testennioù"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:4
 msgid "Configure autocomplete here"
@@ -526,7 +541,7 @@ msgstr "Darempredoù"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:6
 msgid "Evolution Address Book"
-msgstr ""
+msgstr "Karned-chomlec'h Evolution"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:7
 msgid "Evolution Address Book address pop-up"
@@ -3729,7 +3744,7 @@ msgstr ""
 
 #. FIXME: Take care of i18n
 #: ../addressbook/printing/e-contact-print.glade.h:36
-#: ../plugins/exchange-operations/exchange-account-setup.c:955
+#: ../plugins/exchange-operations/exchange-account-setup.c:962
 #: ../plugins/exchange-operations/exchange-calendar.c:231
 #: ../plugins/exchange-operations/exchange-contacts.c:218
 msgid "Size:"
@@ -3850,8 +3865,9 @@ msgid "Unhandled error"
 msgstr ""
 
 #: ../addressbook/tools/evolution-addressbook-import.c:46
+#, fuzzy
 msgid "Error loading default addressbook."
-msgstr ""
+msgstr "Fazi o kargañ ar c'harned chomlec'h."
 
 #: ../addressbook/tools/evolution-addressbook-import.c:67
 msgid "Input File"
@@ -5854,7 +5870,7 @@ msgstr ""
 #: ../calendar/gui/dialogs/meeting-page.c:900
 #: ../calendar/gui/dialogs/task-page.c:1199
 msgid "_Add "
-msgstr "Ouzhpennañ"
+msgstr "Ouzhpennañ "
 
 #: ../calendar/gui/dialogs/event-page.c:2621
 #, c-format
@@ -6082,8 +6098,9 @@ msgid "Add New Calendar"
 msgstr "Ouzhpennañ un deiziadur nevez"
 
 #: ../calendar/gui/dialogs/new-calendar.glade.h:4
+#, fuzzy
 msgid "Calendar Group"
-msgstr ""
+msgstr "Deiziadur"
 
 #: ../calendar/gui/dialogs/new-calendar.glade.h:5
 msgid "Calendar Location"
@@ -6102,8 +6119,9 @@ msgid "Add New Task List"
 msgstr "Ouzhpennañ ur roll an traoù d'ober nevez"
 
 #: ../calendar/gui/dialogs/new-task-list.glade.h:4
+#, fuzzy
 msgid "Task List Group"
-msgstr ""
+msgstr "Perzhioù ar roll an traoù d'ober"
 
 #: ../calendar/gui/dialogs/new-task-list.glade.h:5
 msgid "Task List Name"
@@ -6423,28 +6441,32 @@ msgid "_Due date:"
 msgstr ""
 
 #: ../calendar/gui/dialogs/url-editor-dialog.glade.h:3
+#, fuzzy
 msgid "<b>Free/Busy C_alendars</b>"
-msgstr ""
+msgstr "<b>Neuziadoù an deiziadur</b>"
 
 #: ../calendar/gui/dialogs/url-editor-dialog.glade.h:4
 msgid "<b>Publishing Frequency</b>"
 msgstr ""
 
 #: ../calendar/gui/dialogs/url-editor-dialog.glade.h:5
+#, fuzzy
 msgid "<b>Publishing _Location</b>"
-msgstr ""
+msgstr "<b>Neuziadoù an deiziadur</b>"
 
 #: ../calendar/gui/dialogs/url-editor-dialog.glade.h:6
 msgid "Free/Busy Publishing Settings"
 msgstr ""
 
 #: ../calendar/gui/dialogs/url-editor-dialog.glade.h:7
+#, fuzzy
 msgid "_Daily"
-msgstr ""
+msgstr "Postel"
 
 #: ../calendar/gui/dialogs/url-editor-dialog.glade.h:8
+#, fuzzy
 msgid "_Manual"
-msgstr ""
+msgstr "Postel"
 
 #: ../calendar/gui/dialogs/url-editor-dialog.glade.h:9
 #: ../plugins/publish-calendar/publish-calendar.glade.h:23
@@ -6542,7 +6564,7 @@ msgid "%s for an unknown trigger type"
 msgstr ""
 
 #: ../calendar/gui/e-cal-component-memo-preview.c:72
-#: ../calendar/gui/e-cal-component-preview.c:70 ../mail/em-folder-view.c:2823
+#: ../calendar/gui/e-cal-component-preview.c:70 ../mail/em-folder-view.c:2822
 #, c-format
 msgid "Click to open %s"
 msgstr "Klikit evit digeriñ %s"
@@ -6935,25 +6957,25 @@ msgid "Delete _All Occurrences"
 msgstr ""
 
 #. To Translators: It will display "Organiser: NameOfTheUser <email@ofuser.com>"
-#: ../calendar/gui/e-calendar-view.c:2030
+#: ../calendar/gui/e-calendar-view.c:2033
 #, c-format
 msgid "Organizer: %s <%s>"
 msgstr ""
 
 #. With SunOne accouts, there may be no ':' in organiser.value
-#: ../calendar/gui/e-calendar-view.c:2034
+#: ../calendar/gui/e-calendar-view.c:2037
 #, c-format
 msgid "Organizer: %s"
 msgstr ""
 
 #. To Translators: It will display "Location: PlaceOfTheMeeting"
-#: ../calendar/gui/e-calendar-view.c:2050 ../calendar/gui/print.c:2336
+#: ../calendar/gui/e-calendar-view.c:2053 ../calendar/gui/print.c:2336
 #, c-format
 msgid "Location: %s"
 msgstr "Lec'hiadur : %s"
 
 #. To Translators: It will display "Time: ActualStartDateAndTime (DurationOfTheMeeting)"
-#: ../calendar/gui/e-calendar-view.c:2081
+#: ../calendar/gui/e-calendar-view.c:2084
 #, c-format
 msgid "Time: %s %s"
 msgstr ""
@@ -7643,9 +7665,9 @@ msgid "Deleting selected objects..."
 msgstr ""
 
 #: ../calendar/gui/e-pub-utils.c:322
-#, c-format
+#, fuzzy, c-format
 msgid "Enter the password for %s"
-msgstr ""
+msgstr "Roit ho ger-kuzh evit %s"
 
 #: ../calendar/gui/e-tasks.c:884
 msgid "Loading tasks"
@@ -8156,7 +8178,7 @@ msgstr "Rummadoù: %s"
 
 #: ../calendar/gui/print.c:2445
 msgid "Contacts: "
-msgstr "Darempredoù :"
+msgstr "Darempredoù : "
 
 #: ../calendar/gui/print.c:2585 ../calendar/gui/print.c:2673
 #: ../calendar/gui/print.c:2799 ../mail/em-format-html-print.c:178
@@ -10161,8 +10183,9 @@ msgid "<b>Out of Office Message:</b>"
 msgstr ""
 
 #: ../designs/OOA/ooa.glade.h:5
+#, fuzzy
 msgid "<b>Status:</b>"
-msgstr ""
+msgstr "<b>Implijerion :</b>"
 
 #: ../designs/OOA/ooa.glade.h:6
 msgid ""
@@ -10193,7 +10216,7 @@ msgstr ""
 
 #: ../designs/read_receipts/read.glade.h:1
 msgid "      "
-msgstr ""
+msgstr "      "
 
 #: ../designs/read_receipts/read.glade.h:2
 msgid "<b>Receiving Email</b>"
@@ -11290,37 +11313,37 @@ msgid "Filter on _Mailing List"
 msgstr ""
 
 #. default charset used in mail view
-#: ../mail/em-folder-view.c:1968 ../mail/em-folder-view.c:2012
+#: ../mail/em-folder-view.c:1967 ../mail/em-folder-view.c:2011
 msgid "Default"
 msgstr "Dre ziouer"
 
-#: ../mail/em-folder-view.c:2111
+#: ../mail/em-folder-view.c:2110
 #: ../plugins/print-message/org-gnome-print-message.eplug.xml.h:2
 #: ../plugins/print-message/print-message.c:87
 msgid "Print Message"
 msgstr "Moulañ ar gemennadenn"
 
-#: ../mail/em-folder-view.c:2267
+#: ../mail/em-folder-view.c:2266
 msgid "Unable to retrieve message"
 msgstr ""
 
-#: ../mail/em-folder-view.c:2460
+#: ../mail/em-folder-view.c:2459
 msgid "_Copy Link Location"
 msgstr ""
 
-#: ../mail/em-folder-view.c:2462
+#: ../mail/em-folder-view.c:2461
 msgid "Create _Search Folder"
 msgstr ""
 
-#: ../mail/em-folder-view.c:2463
+#: ../mail/em-folder-view.c:2462
 msgid "_From this Address"
 msgstr ""
 
-#: ../mail/em-folder-view.c:2464
+#: ../mail/em-folder-view.c:2463
 msgid "_To this Address"
 msgstr ""
 
-#: ../mail/em-folder-view.c:2818
+#: ../mail/em-folder-view.c:2817
 #, c-format
 msgid "Click to mail %s"
 msgstr ""
@@ -12307,8 +12330,9 @@ msgid "Settings"
 msgstr "Neuziadoù"
 
 #: ../mail/importers/netscape-importer.c:1913
+#, fuzzy
 msgid "Mail Filters"
-msgstr ""
+msgstr "Postel da %s"
 
 #: ../mail/importers/netscape-importer.c:1934
 msgid ""
@@ -12906,7 +12930,7 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:134
 msgid "Server _Type: "
-msgstr "Seurt servijer :"
+msgstr "Seurt servijer : "
 
 #: ../mail/mail-config.glade.h:135
 msgid "Sig_ning certificate:"
@@ -14418,19 +14442,19 @@ msgstr ""
 msgid "Exchange Settings"
 msgstr ""
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:609
+#: ../plugins/exchange-operations/exchange-account-setup.c:610
 msgid "_OWA URL:"
 msgstr ""
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:635
+#: ../plugins/exchange-operations/exchange-account-setup.c:636
 msgid "A_uthenticate"
 msgstr ""
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:828
+#: ../plugins/exchange-operations/exchange-account-setup.c:829
 msgid "Authentication Type"
 msgstr ""
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:842
+#: ../plugins/exchange-operations/exchange-account-setup.c:843
 msgid "Ch_eck for Supported Types"
 msgstr ""
 
@@ -15283,24 +15307,28 @@ msgid ""
 msgstr ""
 
 #: ../plugins/ipod-sync/sync.c:174 ../plugins/ipod-sync/sync.c:202
+#, fuzzy
 msgid "Could not export data!"
-msgstr ""
+msgstr "Ne oa ket tu da gemmañ ar ger-kuzh."
 
 #: ../plugins/ipod-sync/sync.c:203
 msgid "Exporting data failed."
 msgstr ""
 
 #: ../plugins/ipod-sync/sync.c:231
+#, fuzzy
 msgid "Could not open addressbook!"
-msgstr ""
+msgstr "Dic'houest da gargañ ar c'harned-chomlec'h"
 
 #: ../plugins/ipod-sync/sync.c:232
+#, fuzzy
 msgid "Could not open the Evolution addressbook to export data."
-msgstr ""
+msgstr "Kuitaet en deus karned chomlec'h Evolution hep abeg."
 
 #: ../plugins/ipod-sync/sync.c:291
+#, fuzzy
 msgid "Could not open calendar/todo!"
-msgstr ""
+msgstr "N'eus ket tu dilemel ar c'harned chomlec'h."
 
 #: ../plugins/ipod-sync/sync.c:292
 msgid "Could not open the Evolution calendar/todo list to export data."
@@ -16516,99 +16544,107 @@ msgid "Default window height"
 msgstr ""
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:5
-msgid "Default window width"
+msgid "Default window state"
 msgstr ""
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:6
-msgid "ID or alias of the component to be shown by default at start-up."
+msgid "Default window width"
 msgstr ""
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:7
-msgid "Last upgraded configuration version"
+msgid "ID or alias of the component to be shown by default at start-up."
 msgstr ""
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:8
+msgid "Last upgraded configuration version"
+msgstr ""
+
+#: ../shell/apps_evolution_shell.schemas.in.in.h:9
 msgid ""
 "List of paths for the folders to be synchronized to disk for offline usage"
 msgstr ""
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:9
+#: ../shell/apps_evolution_shell.schemas.in.in.h:10
 msgid "Printer settings"
 msgstr ""
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:10
+#: ../shell/apps_evolution_shell.schemas.in.in.h:11
 msgid "Sidebar is visible"
 msgstr ""
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:11
+#: ../shell/apps_evolution_shell.schemas.in.in.h:12
 msgid "Skip development warning dialog"
 msgstr ""
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:12 ../shell/main.c:474
+#: ../shell/apps_evolution_shell.schemas.in.in.h:13 ../shell/main.c:474
 msgid "Start in offline mode"
 msgstr ""
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:13
+#: ../shell/apps_evolution_shell.schemas.in.in.h:14
 msgid ""
 "The configuration version of Evolution, with major/minor/configuration level "
 "(for example \"2.6.0\")."
 msgstr ""
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:14
+#: ../shell/apps_evolution_shell.schemas.in.in.h:15
 msgid "The default height for the main window, in pixels."
 msgstr ""
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:15
+#: ../shell/apps_evolution_shell.schemas.in.in.h:16
 msgid "The default width for the main window, in pixels."
 msgstr ""
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:16
+#: ../shell/apps_evolution_shell.schemas.in.in.h:17
 msgid "The default width for the sidebar, in pixels."
 msgstr ""
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:17
+#: ../shell/apps_evolution_shell.schemas.in.in.h:18
 msgid ""
 "The last upgraded configuration version of Evolution, with major/minor/"
 "configuration level (for example \"2.6.0\")."
 msgstr ""
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:18
+#: ../shell/apps_evolution_shell.schemas.in.in.h:19
 msgid ""
 "The style of the window buttons. Can be \"text\", \"icons\", \"both\", "
 "\"toolbar\". If \"toolbar\" is set, the style of the buttons is determined "
 "by the GNOME toolbar setting."
 msgstr ""
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:19
+#: ../shell/apps_evolution_shell.schemas.in.in.h:20
 msgid "Toolbar is visible"
 msgstr ""
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:20
+#: ../shell/apps_evolution_shell.schemas.in.in.h:21
 msgid "Whether Evolution will start up in offline mode instead of online mode."
 msgstr ""
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:21
-msgid "Whether the sidebar should be visible."
-msgstr ""
-
 #: ../shell/apps_evolution_shell.schemas.in.in.h:22
-msgid "Whether the toolbar should be visible."
+msgid "Whether or not the window should be maximized."
 msgstr ""
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:23
+msgid "Whether the sidebar should be visible."
+msgstr ""
+
+#: ../shell/apps_evolution_shell.schemas.in.in.h:24
+msgid "Whether the toolbar should be visible."
+msgstr ""
+
+#: ../shell/apps_evolution_shell.schemas.in.in.h:25
 msgid ""
 "Whether the warning dialog in development versions of Evolution is skipped."
 msgstr ""
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:24
+#: ../shell/apps_evolution_shell.schemas.in.in.h:26
 msgid "Whether the window buttons should be visible."
 msgstr ""
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:25
+#: ../shell/apps_evolution_shell.schemas.in.in.h:27
 msgid "Window button style"
 msgstr ""
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:26
+#: ../shell/apps_evolution_shell.schemas.in.in.h:28
 msgid "Window buttons are visible"
 msgstr ""
 
@@ -16734,19 +16770,19 @@ msgstr ""
 msgid "Work Offline"
 msgstr ""
 
-#: ../shell/e-shell-window.c:368
+#: ../shell/e-shell-window.c:371
 msgid "Evolution is currently online. Click on this button to work offline."
 msgstr ""
 
-#: ../shell/e-shell-window.c:376
+#: ../shell/e-shell-window.c:379
 msgid "Evolution is in the process of going offline."
 msgstr ""
 
-#: ../shell/e-shell-window.c:383
+#: ../shell/e-shell-window.c:386
 msgid "Evolution is currently offline. Click on this button to work online."
 msgstr ""
 
-#: ../shell/e-shell-window.c:783
+#: ../shell/e-shell-window.c:786
 #, c-format
 msgid "Switch to %s"
 msgstr ""
@@ -20298,8 +20334,9 @@ msgid "Minicard Test"
 msgstr ""
 
 #: ../widgets/text/e-entry-test.c:50
+#, fuzzy
 msgid "Copyright (C) 2000, Helix Code, Inc."
-msgstr ""
+msgstr "Copyright (C) 2000, Ximian, Inc."
 
 #: ../widgets/text/e-entry-test.c:52
 msgid "This should test the minicard canvas item"
