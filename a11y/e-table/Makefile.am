@@ -24,22 +24,4 @@ libgal_a11y_etable_la_SOURCES =		\
 	gal-a11y-e-table-click-to-add-factory.c	\
 	gal-a11y-e-table-factory.c		
 
-libgal_a11y_etableincludedir = $(privincludedir)/a11y/e-table
 
-libgal_a11y_etableinclude_HEADERS =		\
-	gal-a11y-e-tree.h			\
-	gal-a11y-e-tree-factory.h		\
-	gal-a11y-e-cell.h			\
-	gal-a11y-e-cell-text.h			\
-	gal-a11y-e-cell-tree.h			\
-	gal-a11y-e-cell-toggle.h		\
-	gal-a11y-e-cell-popup.h			\
-	gal-a11y-e-cell-registry.h		\
-	gal-a11y-e-cell-vbox.h			\
-	gal-a11y-e-table.h			\
-	gal-a11y-e-table-item.h			\
-	gal-a11y-e-table-click-to-add-factory.h	\
-	gal-a11y-e-table-click-to-add.h		\
-	gal-a11y-e-table-column-header.h	\
-	gal-a11y-e-table-item-factory.h		\
-	gal-a11y-e-table-factory.h

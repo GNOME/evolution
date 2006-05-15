@@ -1,3 +1,9 @@
+2006-05-15  Harish Krishnaswamy  <kharish@novell.com>
+
+	Patch submitted by Li Yuan <li.yuan@sun.com>
+	* Makefile.am, e-table/Makefile.am, 
+	e-text/Makefile.am: Do not install header files.
+
 2006-05-08  Li Yuan <li.yuan@sun.com>
 
 	Fix for #333279.

@@ -10,8 +10,4 @@ libgal_a11y_etext_la_SOURCES =			\
 	gal-a11y-e-text-factory.c		\
 	gal-a11y-e-text.c
 
-libgal_a11y_etextincludedir = $(privincludedir)/a11y/e-text
 
-libgal_a11y_etextinclude_HEADERS =		\
-	gal-a11y-e-text-factory.h		\
-	gal-a11y-e-text.h
