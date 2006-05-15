@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD.gu\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-05-11 06:03+0200\n"
-"PO-Revision-Date: 2006-05-11 12:18+0530\n"
+"POT-Creation-Date: 2006-05-15 05:55+0200\n"
+"PO-Revision-Date: 2006-05-15 10:19+0530\n"
 "Last-Translator: Ankit Patel <ankit644@yahoo.com>\n"
 "Language-Team: Gujarati <indianoss-gujarati@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -13,6 +13,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.9.1\n"
 "Plural-Forms: nplurals=2; plural=(n!=1);\n\n"
+"\n"
 "\n"
 "\n"
 "\n"
@@ -1353,10 +1354,8 @@ msgid "_Calendar:"
 msgstr "કેલેન્ડર (_C):"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:29
-#: ../ui/evolution-event-editor.xml.h:27 ../ui/evolution-memo-editor.xml.h:6
-#: ../ui/evolution-task-editor.xml.h:18
-msgid "_Categories"
-msgstr "વર્ગો (_C)"
+msgid "_Categories..."
+msgstr "વર્ગો (_C)..."
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:30
 msgid "_City:"
@@ -4360,8 +4359,8 @@ msgstr "ઘણા બધા દિવસોની બાબતો છુટી �
 #: ../calendar/conduits/calendar/calendar-conduit.c:1433
 #: ../calendar/conduits/memo/memo-conduit.c:854
 #: ../calendar/conduits/memo/memo-conduit.c:855
-#: ../calendar/conduits/todo/todo-conduit.c:1032
-#: ../calendar/conduits/todo/todo-conduit.c:1033
+#: ../calendar/conduits/todo/todo-conduit.c:1038
+#: ../calendar/conduits/todo/todo-conduit.c:1039
 msgid "Could not start evolution-data-server"
 msgstr "ઈવોલ્યુશન-માહિતી-સર્વર ચાલુ કરી શકાયુ નહિં"
 
@@ -7133,25 +7132,25 @@ msgid "Delete _All Occurrences"
 msgstr "બધા વારાઓ કાઢી નાંખો (_A)"
 
 #. To Translators: It will display "Organiser: NameOfTheUser <email@ofuser.com>"
-#: ../calendar/gui/e-calendar-view.c:2179
+#: ../calendar/gui/e-calendar-view.c:2182
 #, c-format
 msgid "Organizer: %s <%s>"
 msgstr "આયોજક: %s <%s>"
 
 #. With SunOne accouts, there may be no ':' in organiser.value
-#: ../calendar/gui/e-calendar-view.c:2183
+#: ../calendar/gui/e-calendar-view.c:2186
 #, c-format
 msgid "Organizer: %s"
 msgstr "આયોજક: %s"
 
 #. To Translators: It will display "Location: PlaceOfTheMeeting"
-#: ../calendar/gui/e-calendar-view.c:2199 ../calendar/gui/print.c:2336
+#: ../calendar/gui/e-calendar-view.c:2202 ../calendar/gui/print.c:2336
 #, c-format
 msgid "Location: %s"
 msgstr "સ્થળ: %s"
 
 #. To Translators: It will display "Time: ActualStartDateAndTime (DurationOfTheMeeting)"
-#: ../calendar/gui/e-calendar-view.c:2230
+#: ../calendar/gui/e-calendar-view.c:2233
 #, c-format
 msgid "Time: %s %s"
 msgstr "સમય: %s %s"
@@ -15142,7 +15141,9 @@ msgstr "ફોલ્ડરો દર્શાવી શકતા નથી."
 msgid ""
 "Changes to options for Exchange account \"{0}\" will only take effect after "
 "restarting Evolution."
-msgstr "ફેરબદલી ખાતા \"{0}\" માટેના વિકલ્પોમાં ફેરફારો માત્ર ઈવોલ્યુશન પુનઃશરૂ કર્યા પછી જ અસર આપશે."
+msgstr ""
+"ફેરબદલી ખાતા \"{0}\" માટેના વિકલ્પોમાં ફેરફારો માત્ર ઈવોલ્યુશન પુનઃશરૂ કર્યા પછી જ અસર "
+"આપશે."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:4
 msgid "Could not authenticate to server."
@@ -18550,6 +18551,11 @@ msgstr "શું સમયને વ્યસ્ત તરીકે બતા�
 #: ../ui/evolution-event-editor.xml.h:26
 msgid "_Alarms"
 msgstr "એલાર્મ (_A)"
+
+#: ../ui/evolution-event-editor.xml.h:27 ../ui/evolution-memo-editor.xml.h:6
+#: ../ui/evolution-task-editor.xml.h:18
+msgid "_Categories"
+msgstr "વર્ગો (_C)"
 
 #: ../ui/evolution-event-editor.xml.h:28 ../ui/evolution-memo-editor.xml.h:7
 #: ../ui/evolution-task-editor.xml.h:19
