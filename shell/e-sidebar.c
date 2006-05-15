@@ -136,7 +136,7 @@ button_toggled_callback (GtkToggleButton *toggle_button,
 			 ESidebar *sidebar)
 {
 	int id = 0;
-	gboolean is_actived = FALSE;
+	gboolean is_active = FALSE;
 	GSList *p;
 
 	if (sidebar->priv->in_toggle)
@@ -145,7 +145,7 @@ button_toggled_callback (GtkToggleButton *toggle_button,
 	sidebar->priv->in_toggle = TRUE;
 
 	if (gtk_toggle_button_get_active (toggle_button))
-		is_actived = TRUE;
+		is_active = TRUE;
 
 	for (p = sidebar->priv->buttons; p != NULL; p = p->next) {
 		Button *button = p->data;
@@ -160,7 +160,7 @@ button_toggled_callback (GtkToggleButton *toggle_button,
 
 	sidebar->priv->in_toggle = FALSE;
 
-	if (is_actived)
+	if (is_active)
 		g_signal_emit (sidebar, signals[BUTTON_SELECTED], 0, id);
 }
 
