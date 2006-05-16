@@ -1,3 +1,9 @@
+2006-05-16  Harish Krishnaswamy  <kharish@novell.com>
+
+	* Makefile.am, e-table/Makefile.am
+	e-text/Makefile.am: Revert the earlier patch.
+	They are needed, after all.
+
 2006-05-15  Harish Krishnaswamy  <kharish@novell.com>
 
 	Patch submitted by Li Yuan <li.yuan@sun.com>
