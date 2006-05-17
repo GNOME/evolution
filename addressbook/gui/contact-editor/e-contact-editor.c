@@ -2551,19 +2551,40 @@ source_selected (GtkWidget *source_option_menu, ESource *source, EContactEditor 
 						   (EBookCallback) new_target_cb, editor);
 }
 
-static void
-full_name_response (GtkDialog *dialog, int response, EContactEditor *editor)
+static gboolean
+full_name_key_press_event( GtkWidget *widget, GdkEventKey *event, EContactEditor *editor)
 {
-	EContactName *name;
-	GtkWidget *fname_widget;
-	int style = 0;
-	gboolean editable = FALSE;
+	if (event->keyval == GDK_Return) {
+		gtk_dialog_response (GTK_DIALOG (widget), GTK_RESPONSE_OK);
+		return TRUE;
+	}
+	return FALSE;
+}
 
-	g_object_get (dialog, 
-		      "editable", &editable,
+static void
+full_name_clicked (GtkWidget *button, EContactEditor *editor)
+{
+	GtkDialog *dialog = GTK_DIALOG (e_contact_editor_fullname_new (editor->name));
+	gboolean fullname_supported;
+	int result;
+
+	fullname_supported = is_field_supported (editor, E_CONTACT_FULL_NAME);
+
+	g_object_set (dialog,
+		      "editable", fullname_supported & editor->target_editable,
 		      NULL);
 
-	if (editable && response == GTK_RESPONSE_OK) {
+	g_signal_connect (GTK_WIDGET (dialog), "key-press-event", G_CALLBACK (full_name_key_press_event), editor);
+
+	gtk_widget_show (GTK_WIDGET(dialog));
+	result = gtk_dialog_run (dialog);
+	gtk_widget_hide (GTK_WIDGET (dialog));
+
+	if (fullname_supported && editor->target_editable && result == GTK_RESPONSE_OK) {
+		EContactName *name;
+		GtkWidget *fname_widget;
+		int style = 0;
+
 		g_object_get (dialog,
 			      "name", &name,
 			      NULL);
@@ -2585,45 +2606,11 @@ full_name_response (GtkDialog *dialog, int response, EContactEditor *editor)
 
 		file_as_set_style(editor, style);
 	}
-	gtk_widget_hide (GTK_WIDGET (dialog));
-}
-
-static gint
-full_name_editor_delete_event_cb (GtkWidget *widget, GdkEvent *event, gpointer data)
-{
-	if (widget) {
-		if (GTK_IS_WIDGET (widget))
-			gtk_widget_destroy(widget);
-		}
-	return TRUE;
+	gtk_widget_destroy (GTK_WIDGET (dialog));
 }
 
 static void
-full_name_clicked (GtkWidget *button, EContactEditor *editor)
-{
-	GtkDialog *dialog = GTK_DIALOG (e_contact_editor_fullname_new (editor->name));
-	gboolean fullname_supported;
-	
-	
-	fullname_supported = is_field_supported (editor, E_CONTACT_FULL_NAME);
-
-	g_object_set (dialog,
-		      "editable", fullname_supported & editor->target_editable,
-		      NULL);
-
-	g_signal_connect(dialog, "response",
-			G_CALLBACK (full_name_response), editor);
-	
-	/* Close the fullname dialog if the editor is closed */
-	g_signal_connect_swapped (EAB_EDITOR (editor), "editor_closed",
-			    G_CALLBACK (full_name_editor_delete_event_cb), GTK_WIDGET (dialog));
-
-	gtk_widget_show (GTK_WIDGET(dialog));
-}
-
-
-static void
-categories_response (GtkDialog *dialog, int response, EContactEditor *editor)
+response (GtkDialog *dialog, int response, EContactEditor *editor)
 {
 	const char *categories;
 	GtkWidget *entry = glade_xml_get_widget(editor->gui, "entry-categories");
@@ -2638,13 +2625,22 @@ categories_response (GtkDialog *dialog, int response, EContactEditor *editor)
 	gtk_widget_hide(GTK_WIDGET(dialog));
 }
 
-static gint
-categories_editor_delete_event_cb (GtkWidget *widget, GdkEvent *event, gpointer data)
+static gboolean
+categories_key_press_event( GtkWidget *widget, GdkEventKey *event, EContactEditor *editor)
 {
-	if (widget) {
+	if (event->keyval == GDK_Return) {
+		gtk_dialog_response (GTK_DIALOG (widget), GTK_RESPONSE_OK);
+		return TRUE;
+	}
+	return FALSE;
+}
+
+static gint
+editor_delete_event_cb (GtkWidget *widget, GdkEvent *event, gpointer data)
+{
+	if (widget)
 		if (GTK_IS_WIDGET (widget))
 			gtk_widget_destroy(widget);
-		}
 	return TRUE;
 }
 
@@ -2666,12 +2662,14 @@ categories_clicked (GtkWidget *button, EContactEditor *editor)
 		return;
 	}
 	
+	g_signal_connect (GTK_WIDGET (dialog), "key-press-event", G_CALLBACK (categories_key_press_event), editor);
+
 	g_signal_connect(dialog, "response",
-			G_CALLBACK (categories_response), editor);
+			G_CALLBACK (response), editor);
 	
 	/* Close the category dialog if the editor is closed*/
 	g_signal_connect_swapped (EAB_EDITOR (editor), "editor_closed",
-			    G_CALLBACK (categories_editor_delete_event_cb), GTK_WIDGET (dialog));
+			    G_CALLBACK (editor_delete_event_cb), GTK_WIDGET (dialog));
 	
 	gtk_widget_show(GTK_WIDGET(dialog));
 	g_free (categories);
@@ -3061,14 +3059,14 @@ e_contact_editor_is_valid (EABEditor *editor)
 
 	widget = glade_xml_get_widget (ce->gui, "dateedit-birthday");
 	if (!(e_date_edit_date_is_valid (E_DATE_EDIT (widget)))) {
-		g_string_append_printf (errmsg, "'%s' has an invalid format",
+		g_string_append_printf (errmsg, _("'%s' has an invalid format"),
 					e_contact_pretty_name (E_CONTACT_BIRTH_DATE));
 		validation_error = TRUE;
 	}
 
 	widget = glade_xml_get_widget (ce->gui, "dateedit-anniversary");
 	if (!(e_date_edit_date_is_valid (E_DATE_EDIT (widget)))) {
-		g_string_append_printf (errmsg, "%s'%s' has an invalid format",
+		g_string_append_printf (errmsg, _("%s'%s' has an invalid format"),
 					validation_error ? ",\n" : "",
 					e_contact_pretty_name (E_CONTACT_ANNIVERSARY));
 		validation_error = TRUE;
@@ -3083,7 +3081,7 @@ e_contact_editor_is_valid (EABEditor *editor)
 	
 		if (is_non_string_field (field_id)) {
 			if (e_contact_get_const (ce->contact, field_id) == NULL) {
-				g_string_append_printf (errmsg, "%s'%s' is empty",
+				g_string_append_printf (errmsg, _("%s'%s' is empty"),
 							validation_error ? ",\n" : "",
 							e_contact_pretty_name (field_id));
 				validation_error = TRUE;
@@ -3094,7 +3092,7 @@ e_contact_editor_is_valid (EABEditor *editor)
 			const char *text = e_contact_get_const (ce->contact, field_id);
 
 			if (STRING_IS_EMPTY (text)) {
-				g_string_append_printf (errmsg, "%s'%s' is empty",
+				g_string_append_printf (errmsg, _("%s'%s' is empty"),
 							validation_error ? ",\n" : "",
 							e_contact_pretty_name (field_id));
 				validation_error = TRUE;
