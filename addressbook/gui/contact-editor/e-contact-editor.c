@@ -3061,14 +3061,14 @@ e_contact_editor_is_valid (EABEditor *editor)
 
 	widget = glade_xml_get_widget (ce->gui, "dateedit-birthday");
 	if (!(e_date_edit_date_is_valid (E_DATE_EDIT (widget)))) {
-		g_string_append_printf (errmsg, "'%s' has an invalid format",
+		g_string_append_printf (errmsg, _("'%s' has an invalid format"),
 					e_contact_pretty_name (E_CONTACT_BIRTH_DATE));
 		validation_error = TRUE;
 	}
 
 	widget = glade_xml_get_widget (ce->gui, "dateedit-anniversary");
 	if (!(e_date_edit_date_is_valid (E_DATE_EDIT (widget)))) {
-		g_string_append_printf (errmsg, "%s'%s' has an invalid format",
+		g_string_append_printf (errmsg, _("%s'%s' has an invalid format"),
 					validation_error ? ",\n" : "",
 					e_contact_pretty_name (E_CONTACT_ANNIVERSARY));
 		validation_error = TRUE;
@@ -3083,7 +3083,7 @@ e_contact_editor_is_valid (EABEditor *editor)
 	
 		if (is_non_string_field (field_id)) {
 			if (e_contact_get_const (ce->contact, field_id) == NULL) {
-				g_string_append_printf (errmsg, "%s'%s' is empty",
+				g_string_append_printf (errmsg, _("%s'%s' is empty"),
 							validation_error ? ",\n" : "",
 							e_contact_pretty_name (field_id));
 				validation_error = TRUE;
@@ -3094,7 +3094,7 @@ e_contact_editor_is_valid (EABEditor *editor)
 			const char *text = e_contact_get_const (ce->contact, field_id);
 
 			if (STRING_IS_EMPTY (text)) {
-				g_string_append_printf (errmsg, "%s'%s' is empty",
+				g_string_append_printf (errmsg, _("%s'%s' is empty"),
 							validation_error ? ",\n" : "",
 							e_contact_pretty_name (field_id));
 				validation_error = TRUE;
