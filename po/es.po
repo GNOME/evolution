@@ -1,6 +1,4 @@
 # translation of Evolution to Spanish
-# Copyright © 2000-2002, 2006 Free Software Foundation, Inc.
-# This file is distributed under the same license as the evolution package.
 # Carlos Perelló Marín <carlos@gnome-db.org>, 2000-2001.
 # Héctor García Álvarez <hector@scouts-es.org>, 2000-2002.
 # Ismael Olea <ismael@olea.org>, 2001, (revisiones) 2003.
@@ -8,19 +6,21 @@
 # Héctor García Álvarez <hector@scouts-es.org>, 2002.
 # Pablo Gonzalo del Campo <pablodc@bigfoot.com>,2003 (revisión).
 # Francisco Javier F. Serrador <serrador@cvs.gnome.org>, 2003, 2004, 2005, 2006.
+# Copyright © 2000-2002, 2006 Free Software Foundation, Inc.
+# This file is distributed under the same license as the evolution package.
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution.gnome-2-14\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-05-08 22:24+0200\n"
-"PO-Revision-Date: 2006-05-08 22:24+0200\n"
+"PO-Revision-Date: 2006-05-17 01:56+0200\n"
 "Last-Translator: Francisco Javier F. Serrador <serrador@cvs.gnome.org>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms:  nplurals=2; plural=(n != 1);\n"
-"X-Generator: KBabel 1.10.2\n"
+"X-Generator: KBabel 1.11.2\n"
 
 #: ../a11y/addressbook/ea-addressbook-view.c:94
 #: ../a11y/addressbook/ea-addressbook-view.c:103
@@ -435,9 +435,7 @@ msgstr "Esta libreta de direcciones no se pudo abrir."
 
 #: ../addressbook/addressbook.error.xml.h:22
 msgid "This addressbook server does not have any suggested search bases."
-msgstr ""
-"Este servidor de libretas de direcciones no tiene ninguna de las bases de "
-"búsqueda sugeridas."
+msgstr "Este servidor de libretas de direcciones no tiene ninguna de las bases de búsqueda sugeridas."
 
 #: ../addressbook/addressbook.error.xml.h:23
 msgid ""
@@ -454,15 +452,15 @@ msgstr "Este servidor no soporta el esquema de información LDAPv3."
 
 #: ../addressbook/addressbook.error.xml.h:25
 msgid "Unable to open addressbook"
-msgstr "Es imposible abrir la libreta de direcciones"
+msgstr "No se pudo abrir la libreta de direcciones"
 
 #: ../addressbook/addressbook.error.xml.h:26
 msgid "Unable to perform search."
-msgstr "Es imposible efectuar la búsqueda."
+msgstr "No se pudo efectuar la búsqueda."
 
 #: ../addressbook/addressbook.error.xml.h:27
 msgid "Unable to save {0}."
-msgstr "Es imposible guardar {0}."
+msgstr "No se pudo guardar {0}."
 
 #: ../addressbook/addressbook.error.xml.h:28
 msgid "Would you like to save your changes?"
@@ -473,8 +471,8 @@ msgid ""
 "You are attempting to move a contact from one addressbook to another but it "
 "cannot be removed from the source. Do you want to save a copy instead?"
 msgstr ""
-"Está moviendo un contacto desde una libreta a otra, pero no puede ser "
-"eliminado de la de origen. ¿Quiere guardar una copia en vez de mover?"
+"Está moviendo un contacto desde una libreta a otra, pero éste no se puede "
+"eliminar de la de origen. ¿Quiere guardar una copia en su lugar?"
 
 #: ../addressbook/addressbook.error.xml.h:30
 msgid ""
@@ -494,9 +492,7 @@ msgstr "Ha hecho modificaciones a este contacto. ¿Desea guardar estos cambios?"
 
 #: ../addressbook/addressbook.error.xml.h:32
 msgid "Your contacts for {0} will not be available until Evolution is restarted."
-msgstr ""
-"Sus contactos para {0} no estarán disponibles hasta que Evolution sea "
-"reiniciado."
+msgstr "Sus contactos para {0} no estarán disponibles hasta que Evolution sea reiniciado."
 
 #: ../addressbook/addressbook.error.xml.h:33 ../mail/em-vfolder-rule.c:496
 #: ../plugins/groupwise-features/junk-settings.glade.h:4
@@ -646,7 +642,7 @@ msgstr "Libreta de direcciones nueva"
 
 #: ../addressbook/gui/component/addressbook-component.c:243
 msgid "Address _Book"
-msgstr "Libreta de _direcciones"
+msgstr "Libreta de direcciones"
 
 #: ../addressbook/gui/component/addressbook-component.c:244
 msgid "Create a new address book"
@@ -1105,7 +1101,7 @@ msgid ""
 "This is the maximum number of entries to download. Setting this number to be "
 "too large will slow down your address book."
 msgstr ""
-"Este es el máximo número de entradas para descargar.  Si pone este número "
+"Este es el máximo número de entradas para descargar. Si pone este número "
 "demasiado alto ralentizará su libreta de direcciones."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:43
@@ -1114,7 +1110,7 @@ msgid ""
 "setting this to \"Email Address\" requires anonymous access to your ldap "
 "server."
 msgstr ""
-"Este es el método que usará Evolution para autenticarle a usted.  Note que "
+"Este es el método que usará Evolution para autenticarle a usted. Note que "
 "establecer esto a «Dirección de correo-e» requiere acceso anónimo a su "
 "servidor ldap."
 
@@ -2793,7 +2789,7 @@ msgid ""
 "exists in this folder.  Would you like to add it anyway?"
 msgstr ""
 "La dirección o el nombre modificados de este contacto\n"
-"ya existen en esta carpeta.  ¿Quiere añadirlo de todos modos?"
+"ya existen en esta carpeta. ¿Quiere añadirlo de todos modos?"
 
 #: ../addressbook/gui/merging/eab-contact-duplicate-detected.glade.h:2
 msgid "New Contact:"
@@ -2809,7 +2805,7 @@ msgid ""
 "in this folder.  Would you like to add it anyway?"
 msgstr ""
 "El nombre o la dirección de correo-e de este contacto ya existe\n"
-"en esta carpeta.  ¿Quiere añadirlo de todos modos?"
+"en esta carpeta. ¿Quiere añadirlo de todos modos?"
 
 #. We attach subitems below
 #: ../addressbook/gui/widgets/addresstypes.xml.h:1
@@ -3451,7 +3447,7 @@ msgid ""
 "We were unable to open this addressbook.  This either means you have entered "
 "an incorrect URI, or the LDAP server is unreachable."
 msgstr ""
-"No se pudo abrir esta libreta de direcciones.  Esto significa que ha "
+"No se pudo abrir esta libreta de direcciones. Esto significa que ha "
 "introducido una URI errónea, o que el servidor LDAP es inaccesible."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:117
@@ -4025,7 +4021,7 @@ msgid ""
 "All information in these journal entries will be deleted and can not be "
 "restored."
 msgstr ""
-"Toda la información en  estas entradas del diario se borrarán y no se podrán "
+"Toda la información en estas entradas del diario se borrarán y no se podrán "
 "recuperar."
 
 #: ../calendar/calendar.error.xml.h:4
@@ -5756,7 +5752,7 @@ msgstr "%s  Ha hecho cambios. ¿Olvido los cambios y cierro el editor?"
 #: ../calendar/gui/dialogs/changed-comp.c:79
 #, c-format
 msgid "%s  You have made no changes, close the editor?"
-msgstr "%s  No ha hecho cambios, ¿cerrar el editor?"
+msgstr "%s  No ha hecho cambios, ¿quiere cerrar el editor?"
 
 #: ../calendar/gui/dialogs/changed-comp.c:84
 msgid "This event has been changed."
@@ -5773,12 +5769,12 @@ msgstr "Esta entrada del diario ha cambiado."
 #: ../calendar/gui/dialogs/changed-comp.c:101
 #, c-format
 msgid "%s  You have made changes. Forget those changes and update the editor?"
-msgstr "%s  Ha realizado cambios. ¿Olvido estos cambios y actualizo el editor?"
+msgstr "%s  Ha realizado cambios. ¿Quiere olvidar estos cambios y actualizar el editor?"
 
 #: ../calendar/gui/dialogs/changed-comp.c:103
 #, c-format
 msgid "%s  You have made no changes, update the editor?"
-msgstr "%s  No ha realizado cambios, ¿actualizar el editor?"
+msgstr "%s  No ha realizado cambios, ¿quiere actualizar el editor?"
 
 #: ../calendar/gui/dialogs/comp-editor-page.c:515
 #, c-format
@@ -5941,7 +5937,7 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/comp-editor.c:2845
 msgid "Unable to use current version!"
-msgstr "Imposible usar la versión actual."
+msgstr "No se pudo usar la versión actual."
 
 #: ../calendar/gui/dialogs/copy-source-dialog.c:61
 msgid "Could not open source"
@@ -6065,7 +6061,7 @@ msgstr "La fecha de inicio está equivocada"
 
 #: ../calendar/gui/dialogs/event-page.c:1267
 msgid "End date is wrong"
-msgstr "La fecha de finalización  está equivocada"
+msgstr "La fecha de finalización está equivocada"
 
 #: ../calendar/gui/dialogs/event-page.c:1290
 msgid "Start time is wrong"
@@ -6073,7 +6069,7 @@ msgstr "La hora de inicio está equivocada"
 
 #: ../calendar/gui/dialogs/event-page.c:1297
 msgid "End time is wrong"
-msgstr "La  hora de finalización  está equivocada"
+msgstr "La hora de finalización está equivocada"
 
 #: ../calendar/gui/dialogs/event-page.c:1452
 #: ../calendar/gui/dialogs/meeting-page.c:469
@@ -6304,7 +6300,7 @@ msgstr "Nota"
 #: ../calendar/gui/dialogs/memo-page.c:551
 #, c-format
 msgid "Unable to open memos in '%s'."
-msgstr "No es posible abrir las notas en «%s»."
+msgstr "No se pudieron abrir las notas en «%s»."
 
 #: ../calendar/gui/dialogs/memo-page.glade.h:2
 #: ../calendar/gui/dialogs/task-page.c:434
@@ -6642,7 +6638,7 @@ msgstr "La fecha de vencimiento es errónea"
 #: ../calendar/gui/dialogs/task-page.c:1649
 #, c-format
 msgid "Unable to open tasks in '%s'."
-msgstr "No es posible abrir las tareas en «%s»."
+msgstr "No se pudieron abrir las tareas en «%s»."
 
 #: ../calendar/gui/dialogs/task-page.glade.h:2
 msgid "Categor_ies..."
@@ -8118,7 +8114,7 @@ msgstr "Fallo al actualizar las notas."
 #, c-format
 msgid "Unable to open the memo list '%s' for creating events and meetings"
 msgstr ""
-"No es posible abrir la lista de notas «%s» para crear acontecimientos y "
+"No se pudo abrir la lista de notas «%s» para crear acontecimientos y "
 "reuniones"
 
 #: ../calendar/gui/memos-component.c:884
@@ -8184,7 +8180,7 @@ msgstr ""
 #. FIXME: set proper domain/code
 #: ../calendar/gui/migration.c:765 ../calendar/gui/migration.c:933
 msgid "Unable to migrate old settings from evolution/config.xmldb"
-msgstr "No es posible migrar la configuración antigua desde evolution/config.xmldb"
+msgstr "No se pudo migrar la configuración antigua desde evolution/config.xmldb"
 
 #. FIXME: domain/code
 #: ../calendar/gui/migration.c:794
@@ -8196,7 +8192,7 @@ msgstr "No se pudo migrar el calendario «%s»"
 #: ../calendar/gui/migration.c:962
 #, c-format
 msgid "Unable to migrate tasks `%s'"
-msgstr "No es posible migrar las tareas en «%s»"
+msgstr "No se pudieron migrar las tareas en «%s»"
 
 #: ../calendar/gui/print.c:493
 msgid "1st"
@@ -8454,7 +8450,7 @@ msgstr "Fallo al actualizar las tareas."
 #, c-format
 msgid "Unable to open the task list '%s' for creating events and meetings"
 msgstr ""
-"No es posible abrir la lista de tareas «%s» para crear acontecimientos y "
+"No se pudo abrir la lista de tareas «%s» para crear acontecimientos y "
 "reuniones"
 
 #: ../calendar/gui/tasks-component.c:890
@@ -11987,7 +11983,7 @@ msgstr "No se pudo crear la carpeta nueva: «%s»: %s"
 #: ../mail/em-migrate.c:1674
 #, c-format
 msgid "Unable to copy folder `%s' to `%s': %s"
-msgstr "No se pudo copiar el la carpeta «%s» a «%s»: %s"
+msgstr "No se pudo copiar la carpeta «%s» a «%s»: %s"
 
 #: ../mail/em-migrate.c:1859
 #, c-format
@@ -12002,22 +11998,22 @@ msgstr "No se pudo abrir los datos antiguos POP keep-on-server «%s»: %s"
 #: ../mail/em-migrate.c:2077
 #, c-format
 msgid "Unable to create POP3 keep-on-server data directory `%s': %s"
-msgstr "Fallo al crear directorio de datos POP3 keep-on-server  «%s»: %s"
+msgstr "No se pudo crear el directorio de datos POP3 keep-on-server «%s»: %s"
 
 #: ../mail/em-migrate.c:2106
 #, c-format
 msgid "Unable to copy POP3 keep-on-server data `%s': %s"
-msgstr "No se pudo copiar los datos POP3 keep-on-server «%s»: %s"
+msgstr "No se pudieron copiar los datos POP3 keep-on-server «%s»: %s"
 
 #: ../mail/em-migrate.c:2577 ../mail/em-migrate.c:2589
 #, c-format
 msgid "Failed to create local mail storage `%s': %s"
-msgstr "Fallo al crear almacén de correo local  «%s»: %s"
+msgstr "Falló al crear el almacén de correo local «%s»: %s"
 
 #: ../mail/em-migrate.c:2712
 #, c-format
 msgid "Unable to create local mail folders at `%s': %s"
-msgstr "No se pudo crear las carpetas de correo local en: «%s»: %s"
+msgstr "No se pudieron crear las carpetas de correo local en: «%s»: %s"
 
 #: ../mail/em-migrate.c:2731
 msgid ""
@@ -14347,7 +14343,7 @@ msgstr ""
 
 #: ../mail/mail.error.xml.h:111
 msgid "Unable to connect to the GroupWise server."
-msgstr "No es posible conectarse con el servidor GroupWise."
+msgstr "No se pudo conectar con el servidor GroupWise."
 
 #: ../mail/mail.error.xml.h:112
 msgid ""
@@ -14541,7 +14537,7 @@ msgstr "Reenviar"
 
 #: ../mail/message-tag-followup.c:80
 msgid "No Response Necessary"
-msgstr "No es necesaria una respuesta"
+msgstr "Respuesta innecesaria"
 
 #: ../mail/message-tag-followup.c:82 ../ui/evolution-mail-message.xml.h:80
 msgid "Reply"
@@ -14581,7 +14577,7 @@ msgstr "El asunto o el remitente contiene"
 
 #: ../plugins/addressbook-file/org-gnome-addressbook-file.eplug.xml.h:1
 msgid "Local Address Books"
-msgstr "Libretas local de direcciones"
+msgstr "Libretas locales de direcciones"
 
 #: ../plugins/addressbook-file/org-gnome-addressbook-file.eplug.xml.h:2
 msgid "Provides core functionality for local address books."
@@ -14592,8 +14588,8 @@ msgid ""
 "A formatter plugin which displays audio attachments inline and allows you to "
 "play them directly from evolution."
 msgstr ""
-"Un complemento de formato que muestra los adjuntos de sonido en línea y "
-"permite reproducirlos directamente desde evolution."
+"Un complemento formateador que muestra los adjuntos de sonido en línea y "
+"permite reproducirlos directamente desde Evolution."
 
 #: ../plugins/audio-inline/org-gnome-audio-inline.eplug.xml.h:2
 msgid "Audio inline plugin"
@@ -14688,7 +14684,7 @@ msgid ""
 "reply to messages. Also fills in IM contact information from your buddy "
 "lists."
 msgstr ""
-"Rellena automáticamente su libreta de contactos con los nombres y "
+"Rellena automáticamente su libreta de direcciones con los nombres y "
 "direcciones de correo-e cuando contesta a los correos. También rellena la "
 "información de contacto de MI de su lista de amigos."
 
@@ -14871,7 +14867,7 @@ msgid ""
 "This option will connect to the Exchange server using standard plaintext "
 "password authentication."
 msgstr ""
-"Esta opción conectará con el servidor Exchange usando autenticación con  "
+"Esta opción conectará con el servidor Exchange usando autenticación con "
 "contraseña estándar de texto simple."
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:257
@@ -15482,11 +15478,11 @@ msgstr "Inténtelo con una contraseña diferente."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:62
 msgid "Unable to add user to access control list:"
-msgstr "No  puede añadirse el usuario a la lista de control de acceso:"
+msgstr "No se pudo añadir el usuario a la lista de control de acceso:"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:63
 msgid "Unable to edit delegates."
-msgstr "Imposible editar delegados."
+msgstr "No de pudieron editar los delegados."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:64
 msgid "Unknown error looking up {0}"
@@ -15548,7 +15544,7 @@ msgstr "Su contraseña ha caducado."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:77
 msgid "{0} cannot be added to an access control list"
-msgstr "{0} no  puede añadirse a la lista de control de acceso"
+msgstr "{0} no se puede añadir a la lista de control de acceso"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:78
 msgid "{0} is already a delegate"
@@ -15560,7 +15556,7 @@ msgstr "{0} ya está en la lista"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-tasks-subscription.xml.h:1
 msgid "Subscribe to Other User's Tasks"
-msgstr "Subscribirse a las  tareas de otros usuarios"
+msgstr "Subscribirse a las tareas de otros usuarios"
 
 #: ../plugins/exchange-operations/org-gnome-folder-permissions.xml.h:1
 msgid "Check folder permissions"
@@ -16602,7 +16598,7 @@ msgid ""
 "This message does not contain the header information required for this "
 "action."
 msgstr ""
-"Este mensaje no  contiene la información de cabecera requerida para esta "
+"Este mensaje no contiene la información de cabecera requerida para esta "
 "acción."
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:17
@@ -17217,7 +17213,7 @@ msgid ""
 "by the GNOME toolbar setting."
 msgstr ""
 "El estilo de los botones de la ventana. Puede ser \"text\", \"icons\", \"both"
-"\", \"toolbar\". Si  se selecciona \"toolbar\", el estilo de los botones se "
+"\", \"toolbar\". Si se selecciona \"toolbar\", el estilo de los botones se "
 "determina por la configuración de la barra de herramientas de Gnome."
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:20
@@ -17781,7 +17777,7 @@ msgstr "Introduzca la contraseña para «%s»"
 #. we're setting the password initially
 #: ../smime/gui/component.c:70
 msgid "Enter new password for certificate database"
-msgstr "Introduzca una contraseña nueva para  la base de datos de certificados"
+msgstr "Introduzca una contraseña nueva para la base de datos de certificados"
 
 #: ../smime/gui/component.c:72
 msgid "Enter new password"
@@ -17795,7 +17791,7 @@ msgid ""
 "  Subject: %s\n"
 msgstr ""
 "Emitido a:\n"
-"  Asunto: %s\n"
+"   Asunto: %s\n"
 
 #: ../smime/gui/e-cert-selector.c:122
 #, c-format
@@ -17804,7 +17800,7 @@ msgid ""
 "  Subject: %s\n"
 msgstr ""
 "Emitido por:\n"
-"  Asunto: %s\n"
+"     Asunto: %s\n"
 
 #: ../smime/gui/e-cert-selector.c:174
 msgid "Select certificate"
@@ -18219,7 +18215,7 @@ msgstr "Cambia las propiedades de la carpeta seleccionada"
 
 #: ../ui/evolution-addressbook.xml.h:4
 msgid "Co_py All Contacts To..."
-msgstr "Co_piar todos los contactos a..."
+msgstr "Co_piar todos los contactos a…"
 
 #: ../ui/evolution-addressbook.xml.h:5
 msgid "Contact _Preview"
@@ -18273,7 +18269,7 @@ msgstr "Reenviar contacto"
 
 #: ../ui/evolution-addressbook.xml.h:19
 msgid "Mo_ve All Contacts To..."
-msgstr "Mo_ver todos los contactos a..."
+msgstr "Mo_ver todos los contactos a…"
 
 #: ../ui/evolution-addressbook.xml.h:20
 msgid "Move Selected Contacts to Another Folder..."
@@ -18374,7 +18370,7 @@ msgstr "A_cciones"
 
 #: ../ui/evolution-addressbook.xml.h:47
 msgid "_Copy Contact to..."
-msgstr "_Copiar contacto a..."
+msgstr "_Copiar contacto a…"
 
 #: ../ui/evolution-addressbook.xml.h:48
 msgid "_Copy Folder Contacts To"
@@ -18390,7 +18386,7 @@ msgstr "_Reenviar contacto…"
 
 #: ../ui/evolution-addressbook.xml.h:53
 msgid "_Move Contact to..."
-msgstr "_Mover contacto a..."
+msgstr "_Mover contacto a…"
 
 #: ../ui/evolution-addressbook.xml.h:54
 msgid "_Move Folder Contacts To"
@@ -20582,7 +20578,7 @@ msgid ""
 "Standard\n"
 "Low"
 msgstr ""
-"Indefinido\n"
+"Sin definir\n"
 "Alto\n"
 "Estándar\n"
 "Bajo"
