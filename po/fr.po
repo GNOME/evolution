@@ -14,14 +14,14 @@
 # Vincent Carriere <carriere_vincent@yahoo.fr>, 2005.
 # Vincent Untz <vuntz@gnome.org>, 2005.
 # Stéphane Raimbault <stephane.raimbault@free.fr>, 2005-2006.
-# ZeBob <zebob.m@gmail.com>, 2006.
+# Robert-André Mauchin <zebob.m@gmail.com>, 2006.
 # Jonathan Ernst <jonathan@ernstfamily.ch>, 2006.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: evolution 2.5.92\n"
+"Project-Id-Version: evolution 2.6.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-05-11 21:29+0200\n"
+"POT-Creation-Date: 2006-05-18 21:24+0200\n"
 "PO-Revision-Date: 2006-05-08 19:54+0200\n"
 "Last-Translator: Jonathan Ernst <jonathan@ernstfamily.ch>\n"
 "Language-Team: French <gnomefr@traduc.org>\n"
@@ -358,8 +358,8 @@ msgid ""
 msgstr ""
 "Vérifiez que votre mot de passe est correctement orthographié et que vous "
 "utilisez une méthode de connexion supportée. Souvenez-vous que beaucoup de "
-"mots de passe sont sensibles à la casse : caps lock devrait peut-être être "
-"activé."
+"mots de passe sont sensibles à la casse ; le verrouillage majuscules est "
+"peut-être actif."
 
 #: ../addressbook/addressbook.error.xml.h:6
 msgid "Could not get schema information for LDAP server."
@@ -394,7 +394,7 @@ msgstr "Erreur lors de l'enregistrement de {0} vers {1} : {2}"
 
 #: ../addressbook/addressbook.error.xml.h:12
 msgid "Failed to authenticate with LDAP server."
-msgstr "L'authentification sur le serveur LDAP a échoué"
+msgstr "L'authentification sur le serveur LDAP a échoué."
 
 #: ../addressbook/addressbook.error.xml.h:13
 msgid "GroupWise Address book creation:"
@@ -495,7 +495,7 @@ msgstr ""
 "Vous êtes connecté à un serveur GroupWise non supporté, ce qui peut "
 "engendrer des problèmes à l'utilisation d'Evolution. Pour de meilleurs "
 "résultats, il est recommandé de mettre à niveau votre serveur vers une "
-"version supportée."
+"version supportée"
 
 #: ../addressbook/addressbook.error.xml.h:31
 msgid ""
@@ -806,7 +806,7 @@ msgstr "Renommer le dossier"
 #: ../addressbook/gui/component/addressbook-view.c:442
 #: ../mail/em-folder-utils.c:511
 msgid "Folder names cannot contain '/'"
-msgstr "Les noms des dossiers ne peuvent pas contenir le caractère « / »."
+msgstr "Les noms des dossiers ne peuvent pas contenir le caractère « / »"
 
 #: ../addressbook/gui/component/addressbook-view.c:445
 msgid "A Folder with this name already exists"
@@ -1401,7 +1401,7 @@ msgstr "_Libre/Occupé :"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:36
 msgid "_Home Page:"
-msgstr "_Site internet :"
+msgstr "_Site Web :"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:37
 msgid "_Manager:"
@@ -2566,6 +2566,22 @@ msgstr ""
 "La donnée sur le contact n'est pas valide :\n"
 "\n"
 
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3062
+#, c-format
+msgid "'%s' has an invalid format"
+msgstr "« %s » a un format invalide"
+
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3069
+#, c-format
+msgid "%s'%s' has an invalid format"
+msgstr "%s « %s » a un format invalude"
+
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3084
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3095
+#, c-format
+msgid "%s'%s' is empty"
+msgstr "%s « %s » est vide"
+
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:3110
 msgid "Invalid contact."
 msgstr "Contact invalide"
@@ -3307,7 +3323,7 @@ msgstr "Position"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:364
 msgid "Video Conferencing"
-msgstr "Vidéo conférence"
+msgstr "Visioconférence"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:365
 #: ../addressbook/gui/widgets/eab-contact-display.c:380
@@ -3341,7 +3357,7 @@ msgstr "Fonction"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:594
 msgid "Home page"
-msgstr "Site internet"
+msgstr "Page Web personnelle"
 
 #. E_BOOK_ERROR_OK
 #: ../addressbook/gui/widgets/eab-gui-util.c:50
@@ -4599,7 +4615,7 @@ msgstr "_Durée du report :"
 #: ../ui/evolution-subscribe.xml.h:10 ../ui/evolution-tasks.xml.h:25
 #: ../ui/evolution.xml.h:40
 msgid "_Edit"
-msgstr "_Édition"
+msgstr "É_dition"
 
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:5
 msgid "_Snooze"
@@ -4629,12 +4645,12 @@ msgid "You have %d alarms"
 msgstr "%d alarmes sont présentes"
 
 #. FIXME
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1349
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1373
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1344
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1368
 msgid "Warning"
 msgstr "Avertissement"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1353
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1348
 msgid ""
 "Evolution does not support calendar reminders with\n"
 "email notifications yet, but this reminder was\n"
@@ -4647,7 +4663,7 @@ msgstr ""
 "un courriel. Evolution affichera une fenêtre\n"
 "d'avertissement classique à la place."
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1379
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1374
 #, c-format
 msgid ""
 "An Evolution Calendar reminder is about to trigger. This reminder is "
@@ -4664,7 +4680,7 @@ msgstr ""
 "\n"
 "Voulez-vous vraiment lancer ce programme ?"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1393
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1388
 msgid "Do not ask me about this program again."
 msgstr "Ne plus m'interroger à propos de ce programme."
 
@@ -5207,7 +5223,7 @@ msgstr "jours"
 #: ../calendar/gui/migration.c:594 ../calendar/gui/migration.c:1102
 #: ../calendar/gui/tasks-component.c:217
 msgid "On The Web"
-msgstr "Sur internet"
+msgstr "Sur le Web"
 
 #: ../calendar/gui/calendar-component.c:253 ../calendar/gui/migration.c:403
 msgid "Birthdays & Anniversaries"
@@ -6028,7 +6044,7 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/comp-editor.c:2845
 msgid "Unable to use current version!"
-msgstr "Impossible d'utiliser la version courante !"
+msgstr "Impossible d'utiliser la version actuelle !"
 
 #: ../calendar/gui/dialogs/copy-source-dialog.c:61
 msgid "Could not open source"
@@ -7116,7 +7132,7 @@ msgstr "Enregistrer sous..."
 
 #: ../calendar/gui/e-calendar-table.c:1175 ../calendar/gui/e-memo-table.c:853
 msgid "Open _Web Page"
-msgstr "Ouvrir le _site internet"
+msgstr "Ouvrir le _site Web"
 
 #: ../calendar/gui/e-calendar-table.c:1177
 #: ../calendar/gui/e-calendar-view.c:1581
@@ -11570,7 +11586,7 @@ msgstr "Examen des dossiers dans « %s »"
 #: ../ui/evolution-message-composer.xml.h:56 ../ui/evolution-tasks.xml.h:30
 #: ../ui/evolution.xml.h:52
 msgid "_View"
-msgstr "Afficha_ge"
+msgstr "_Affichage"
 
 #: ../mail/em-folder-tree.c:2043
 msgid "Open in _New Window"
@@ -14205,7 +14221,7 @@ msgid ""
 msgstr ""
 "Vérifiez que votre mot de passe est orthographié correctement. Souvenez-vous "
 "que beaucoup de mots de passe sont sensibles à la casse ; le verrouillage "
-"des majuscules a peut-être été activé."
+"majuscules est peut-être actif."
 
 #: ../mail/mail.error.xml.h:41
 msgid "Could not save signature file."
@@ -14413,7 +14429,7 @@ msgstr "Réellement supprimer le dossier « {0} » et tous ses sous-dossiers�
 
 #: ../mail/mail.error.xml.h:86
 msgid "Search Folders automatically updated."
-msgstr "Dossiers de recherche automatiquements mis à jours."
+msgstr "Dossiers de recherche automatiquement mis à jour."
 
 #: ../mail/mail.error.xml.h:87
 msgid "Send Receipt"
@@ -15497,7 +15513,7 @@ msgstr "Impossible d'obtenir les permissions du dossier pour les délégués."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:12
 msgid "Could not find Exchange Web Storage System."
-msgstr "Impossible de trouver le système de stockage web Exchange."
+msgstr "Impossible de trouver le système de stockage Web Exchange."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:13
 msgid "Could not locate server {0}."
@@ -15779,7 +15795,7 @@ msgstr "Désabonnement au dossier « %s »"
 #: ../plugins/folder-unsubscribe/org-gnome-mail-folder-unsubscribe.eplug.xml.h:1
 msgid "Allows unsubscribing of mail folders in the folder tree context menu."
 msgstr ""
-"Autorise la désinscription de dossiers de courriel dans l'arborescence des "
+"Autorise la désabonnement de dossiers de courriel dans l'arborescence des "
 "dossiers du menu contextuel."
 
 #: ../plugins/folder-unsubscribe/org-gnome-mail-folder-unsubscribe.eplug.xml.h:2
@@ -15792,11 +15808,11 @@ msgstr "Liste de contrôle"
 
 #: ../plugins/groupwise-account-setup/org-gnome-gw-account-setup.eplug.xml.h:1
 msgid "Groupwise Account Setup"
-msgstr "Configuration d'un compte Groupwise"
+msgstr "Configuration d'un compte GroupWise"
 
 #: ../plugins/groupwise-features/junk-mail-settings.c:77
 msgid "Junk Settings"
-msgstr "Paramètres de pourriel"
+msgstr "Paramètres du pourriel"
 
 #: ../plugins/groupwise-features/junk-mail-settings.c:90
 msgid "<b>Junk Mail Settings</b>"
@@ -15833,7 +15849,7 @@ msgstr "_Liste des pourriels"
 
 #: ../plugins/groupwise-features/org-gnome-compose-send-options.xml.h:1
 msgid "Add Send Options to groupwise messages"
-msgstr "Ajouter les options d'envoi au messages groupwise"
+msgstr "Ajouter les options d'envoi au messages GroupWise"
 
 #: ../plugins/groupwise-features/org-gnome-compose-send-options.xml.h:2
 #: ../ui/evolution-event-editor.xml.h:15 ../ui/evolution-task-editor.xml.h:8
@@ -15843,11 +15859,11 @@ msgstr "Options d'envoi"
 
 #: ../plugins/groupwise-features/org-gnome-groupwise-features.eplug.xml.h:1
 msgid "A plugin for the features in Groupwise accounts."
-msgstr "Un greffon pour les fonctionnalités des comptes Groupwise."
+msgstr "Un greffon pour les fonctionnalités des comptes GroupWise."
 
 #: ../plugins/groupwise-features/org-gnome-groupwise-features.eplug.xml.h:2
 msgid "Groupwise Features"
-msgstr "Fonctionnalités de Groupwise"
+msgstr "Fonctionnalités de GroupWise"
 
 #: ../plugins/groupwise-features/process-meeting.c:49
 msgid "Accept Tentatively"
@@ -16042,19 +16058,19 @@ msgstr "Synchronisation avec l'iPod"
 
 #: ../plugins/ipod-sync/sync.c:158
 msgid "No output directory!"
-msgstr "Aucun dossier de sortie"
+msgstr "Aucun répertoire de sortie !"
 
 #: ../plugins/ipod-sync/sync.c:159
 msgid ""
 "The output directory was not found on iPod! Please ensure that iPod has been "
 "correctly set up and try again."
 msgstr ""
-"Le dossier de sortie n'a pas été trouvé sur l'iPod. Veuillez-vous assurer "
-"que l'iPod a été configuré correctement et essayez à nouveau."
+"Le répertoire de sortie n'a pas été trouvé sur l'iPod ! Veuillez-vous "
+"assurer que l'iPod a été configuré correctement et essayez à nouveau."
 
 #: ../plugins/ipod-sync/sync.c:174 ../plugins/ipod-sync/sync.c:202
 msgid "Could not export data!"
-msgstr "Impossible d'exporter les données."
+msgstr "Impossible d'exporter les données !"
 
 #: ../plugins/ipod-sync/sync.c:203
 msgid "Exporting data failed."
@@ -16062,7 +16078,7 @@ msgstr "L'export des données a échoué."
 
 #: ../plugins/ipod-sync/sync.c:231
 msgid "Could not open addressbook!"
-msgstr "Impossible d'ouvrir le carnet d'adresses."
+msgstr "Impossible d'ouvrir le carnet d'adresses !"
 
 #: ../plugins/ipod-sync/sync.c:232
 msgid "Could not open the Evolution addressbook to export data."
@@ -16072,7 +16088,7 @@ msgstr ""
 
 #: ../plugins/ipod-sync/sync.c:291
 msgid "Could not open calendar/todo!"
-msgstr "Impossible d'ouvrir le calendrier/tâche."
+msgstr "Impossible d'ouvrir le calendrier/tâche !"
 
 #: ../plugins/ipod-sync/sync.c:292
 msgid "Could not open the Evolution calendar/todo list to export data."
@@ -16445,7 +16461,7 @@ msgstr "<b>%s</b> a proposé les changements suivants à la réunion :"
 #, c-format
 msgid "<b>%s</b> through %s has declined the following meeting changes:"
 msgstr ""
-"<b>%s</b> par l'intermédaire de %s a refusé les changements suivants à la "
+"<b>%s</b> par l'intermédiaire de %s a refusé les changements suivants à la "
 "réunion :"
 
 #: ../plugins/itip-formatter/itip-view.c:385
@@ -16742,8 +16758,8 @@ msgid ""
 "Provide actions for common mailing list commands (subscribe, "
 "unsubscribe, ...)."
 msgstr ""
-"Fournit les actions communes aux listes de diffusion (subscribe, "
-"unsubscribe, etc)."
+"Fournit les actions communes aux listes de diffusion (abonnement, "
+"désabonnement, etc)."
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:7
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:11
@@ -16821,7 +16837,7 @@ msgid ""
 "\n"
 "Header: {1}"
 msgstr ""
-"L'en-tête de ce message est malformé et ne peut pas être traité.\n"
+"L'en-tête de ce message est non conforme et ne peut pas être traité.\n"
 "\n"
 "En-tête : {1}"
 
@@ -16869,7 +16885,7 @@ msgstr "S'inscrire à la liste de diffusion à laquelle le message appartient"
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:10
 msgid "Unsubscribe to the mailing list this message belongs to"
 msgstr ""
-"Se désinscrire de la liste de diffusion à laquelle le message appartient"
+"Se désabonner de la liste de diffusion à laquelle le message appartient"
 
 #: ../plugins/mark-all-read/org-gnome-mark-all-read.eplug.xml.h:1
 msgid "Mark All Read"
@@ -17018,7 +17034,7 @@ msgstr "Écrit un historique de données des événements tracés."
 
 #: ../plugins/publish-calendar/org-gnome-publish-calendar.eplug.xml.h:1
 msgid "Allows calendars to be published to the web"
-msgstr "Autorise les calendriers a être publiés sur le web"
+msgstr "Autorise les calendriers a être publiés sur le Web"
 
 #: ../plugins/publish-calendar/org-gnome-publish-calendar.eplug.xml.h:2
 msgid "Calendar Publishing"
@@ -17626,7 +17642,7 @@ msgstr ""
 "Vincent Carriere <carriere_vincent@yahoo.fr>\n"
 "Vincent Untz <vuntz@gnome.org>\n"
 "Stéphane Raimbault <stephane.raimbault@free.fr>\n"
-"ZeBob <zebob.m@gmail.com>\n"
+"Robert-André Mauchin <zebob.m@gmail.com>\n"
 "Jonathan Ernst <jonathan@ernstfamily.ch>"
 
 #: ../shell/e-shell-window-commands.c:806
@@ -17776,7 +17792,7 @@ msgstr ""
 "\n"
 "Si vous découvrez des anomalies, veuillez nous les rapporter sur\n"
 "bugzilla.gnome.org. Ce produit est fournit sans aucune garantie et\n"
-"n'est pas destiné à des individus sujets à de violents accès de colère !\n"
+"n'est pas destiné à des individus sujets à de violents accès de colère.\n"
 "\n"
 "Nous espérons que vous apprécierez le résultat de notre dur labeur,\n"
 "et nous attendons impatiemment vos contributions !\n"
@@ -17925,7 +17941,7 @@ msgstr ""
 "Votre configuration système ne correspond pas à votre configuration "
 "d'Evolution.\n"
 "\n"
-"Cliquez sur aide pour les détails."
+"Cliquez sur aide pour les détails"
 
 #: ../shell/shell.error.xml.h:26
 msgid ""
@@ -18227,7 +18243,7 @@ msgstr "Faire confiance à ce CA pour identifier les développeurs de logiciel."
 
 #: ../smime/gui/smime-ui.glade.h:41
 msgid "Trust this CA to identify web sites."
-msgstr "Faire confiance à ce CA pour identifier les sites web."
+msgstr "Faire confiance à ce CA pour identifier les sites Web."
 
 #: ../smime/gui/smime-ui.glade.h:42
 msgid "View"
@@ -18662,7 +18678,7 @@ msgstr "_Déplacer le contact vers..."
 
 #: ../ui/evolution-addressbook.xml.h:54
 msgid "_Move Folder Contacts To"
-msgstr "_Déplacer le dossier de contacts vers..."
+msgstr "_Déplacer le dossier de contacts vers"
 
 #: ../ui/evolution-addressbook.xml.h:55 ../ui/evolution.xml.h:46
 msgid "_New"
@@ -18878,11 +18894,11 @@ msgstr "_Fichier"
 
 #: ../ui/evolution-editor.xml.h:19 ../ui/evolution.xml.h:43
 msgid "_Help"
-msgstr "_Aide"
+msgstr "Aid_e"
 
 #: ../ui/evolution-editor.xml.h:20
 msgid "_Insert"
-msgstr "_Insérer"
+msgstr "_Insertion"
 
 #: ../ui/evolution-editor.xml.h:21
 msgid "_Options"
@@ -20123,7 +20139,7 @@ msgstr "Soumettre un _rapport d'anomalie"
 
 #: ../ui/evolution.xml.h:32
 msgid "Submit a bug report using Bug Buddy"
-msgstr "Soumettre un rapport d'anomalie en utilisant Bug Buddy."
+msgstr "Soumettre un rapport d'anomalie en utilisant Bug Buddy"
 
 #: ../ui/evolution.xml.h:33
 msgid "Toggle whether we are working offline."
@@ -20469,7 +20485,7 @@ msgstr "La date doit être dans le format : %s"
 
 #: ../widgets/misc/e-cell-percent.c:76
 msgid "The percent value must be between 0 and 100, inclusive"
-msgstr "La pourcentage doit être compris entre 0 et 100 inclus."
+msgstr "La pourcentage doit être compris entre 0 et 100 inclus"
 
 #: ../widgets/misc/e-charset-picker.c:64
 msgid "Baltic"
@@ -20552,7 +20568,7 @@ msgstr "Codage des caractères"
 
 #: ../widgets/misc/e-charset-picker.c:234
 msgid "Enter the character set to use"
-msgstr "Saisissez le jeu de caractères à utiliser."
+msgstr "Saisissez le jeu de caractères à utiliser"
 
 #: ../widgets/misc/e-charset-picker.c:341
 msgid "Other..."
@@ -20925,7 +20941,7 @@ msgstr "Cliquez ici pour aller à l'URL"
 
 #: ../widgets/misc/gal-categories.glade.h:2
 msgid "Edit Master Category List..."
-msgstr "Éditer la liste maître des catégories "
+msgstr "Éditer la liste maître des catégories..."
 
 #: ../widgets/misc/gal-categories.glade.h:3
 msgid "Item(s) belong to these _categories:"
