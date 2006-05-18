@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-05-08 20:54+0300\n"
-"PO-Revision-Date: 2006-05-08 20:53+0300\n"
+"POT-Creation-Date: 2006-05-18 09:56+0300\n"
+"PO-Revision-Date: 2006-05-18 09:57+0300\n"
 "Last-Translator: Alexander Shopov <ash@contact.bg>\n"
 "Language-Team: Bulgarian <dict@fsa-bg.org>\n"
 "MIME-Version: 1.0\n"
@@ -1347,10 +1347,8 @@ msgid "_Calendar:"
 msgstr "_Календар:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:29
-#: ../ui/evolution-event-editor.xml.h:27 ../ui/evolution-memo-editor.xml.h:6
-#: ../ui/evolution-task-editor.xml.h:18
-msgid "_Categories"
-msgstr "_Категории"
+msgid "_Categories..."
+msgstr "Ка_тегории..."
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:30
 msgid "_City:"
@@ -2543,6 +2541,22 @@ msgstr ""
 "Информацията на контакта е невалидна:\n"
 "\n"
 
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3064
+#, c-format
+msgid "'%s' has an invalid format"
+msgstr "„%s“ е с невалиден формат"
+
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3071
+#, c-format
+msgid "%s'%s' has an invalid format"
+msgstr "%s„%s“ е с невалиден формат"
+
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3086
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3097
+#, c-format
+msgid "%s'%s' is empty"
+msgstr "%s„%s“ е празен"
+
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:3112
 msgid "Invalid contact."
 msgstr "Невалиден контакт."
@@ -3314,7 +3328,7 @@ msgstr "Факс"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:525
 msgid "work"
-msgstr "работа"
+msgstr "на работа"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:532
 msgid "WWW"
@@ -3878,7 +3892,7 @@ msgstr "Сенки"
 
 #. FIXME: Take care of i18n
 #: ../addressbook/printing/e-contact-print.glade.h:36
-#: ../plugins/exchange-operations/exchange-account-setup.c:955
+#: ../plugins/exchange-operations/exchange-account-setup.c:956
 #: ../plugins/exchange-operations/exchange-calendar.c:231
 #: ../plugins/exchange-operations/exchange-contacts.c:218
 msgid "Size:"
@@ -4405,8 +4419,8 @@ msgstr "Разделяне на събития, по-дълги от един д
 #: ../calendar/conduits/calendar/calendar-conduit.c:1433
 #: ../calendar/conduits/memo/memo-conduit.c:854
 #: ../calendar/conduits/memo/memo-conduit.c:855
-#: ../calendar/conduits/todo/todo-conduit.c:1032
-#: ../calendar/conduits/todo/todo-conduit.c:1033
+#: ../calendar/conduits/todo/todo-conduit.c:1038
+#: ../calendar/conduits/todo/todo-conduit.c:1039
 msgid "Could not start evolution-data-server"
 msgstr "evolution-data-server не може да се стартира"
 
@@ -7213,25 +7227,25 @@ msgid "Delete _All Occurrences"
 msgstr "Изтриване на всички _събития"
 
 #. To Translators: It will display "Organiser: NameOfTheUser <email@ofuser.com>"
-#: ../calendar/gui/e-calendar-view.c:2179
+#: ../calendar/gui/e-calendar-view.c:2182
 #, c-format
 msgid "Organizer: %s <%s>"
 msgstr "Организатор: %s <%s>"
 
 #. With SunOne accouts, there may be no ':' in organiser.value
-#: ../calendar/gui/e-calendar-view.c:2183
+#: ../calendar/gui/e-calendar-view.c:2186
 #, c-format
 msgid "Organizer: %s"
 msgstr "Организатор: %s"
 
 #. To Translators: It will display "Location: PlaceOfTheMeeting"
-#: ../calendar/gui/e-calendar-view.c:2199 ../calendar/gui/print.c:2336
+#: ../calendar/gui/e-calendar-view.c:2202 ../calendar/gui/print.c:2336
 #, c-format
 msgid "Location: %s"
 msgstr "Местоположение: %s"
 
 #. To Translators: It will display "Time: ActualStartDateAndTime (DurationOfTheMeeting)"
-#: ../calendar/gui/e-calendar-view.c:2230
+#: ../calendar/gui/e-calendar-view.c:2233
 #, c-format
 msgid "Time: %s %s"
 msgstr "Време: %s %s"
@@ -15009,19 +15023,19 @@ msgstr "Размер на папките"
 msgid "Exchange Settings"
 msgstr "Настройки на Exchange"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:609
+#: ../plugins/exchange-operations/exchange-account-setup.c:610
 msgid "_OWA URL:"
 msgstr "_Адрес-УРЛ за OWA:"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:635
+#: ../plugins/exchange-operations/exchange-account-setup.c:636
 msgid "A_uthenticate"
 msgstr "_Удостоверяване"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:828
+#: ../plugins/exchange-operations/exchange-account-setup.c:829
 msgid "Authentication Type"
 msgstr "Тип удостоверяване"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:842
+#: ../plugins/exchange-operations/exchange-account-setup.c:843
 msgid "Ch_eck for Supported Types"
 msgstr "_Проверка за поддържани типове"
 
@@ -15341,11 +15355,9 @@ msgstr "Папките не могат да бъдат показани."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:3
 msgid ""
-"Changes to Exchange account configuration will take place after you quit and "
-"restart Evolution."
-msgstr ""
-"Промените в настройките на абонаментите към Exchange ще влязат в сила след "
-"като рестартирате Evolution."
+"Changes to options for Exchange account \"{0}\" will only take effect after "
+"restarting Evolution."
+msgstr "Промените в настройките на абонамента към Exchange „{0}“ ще влязат в сила след като рестартирате Evolution."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:4
 msgid "Could not authenticate to server."
@@ -15505,8 +15517,8 @@ msgid "Password successfully changed."
 msgstr "Паролата е променена успешно."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:48
-msgid "Please restart Evolution"
-msgstr "Рестартирайте Evolution"
+msgid "Please restart Evolution for changes to take effect"
+msgstr "За да влязат промените в сила, рестартирайте Evolution"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:49
 msgid "Please select a user."
@@ -18815,6 +18827,11 @@ msgstr "Превключване между това дали времето д�
 #: ../ui/evolution-event-editor.xml.h:26
 msgid "_Alarms"
 msgstr "_Аларми"
+
+#: ../ui/evolution-event-editor.xml.h:27 ../ui/evolution-memo-editor.xml.h:6
+#: ../ui/evolution-task-editor.xml.h:18
+msgid "_Categories"
+msgstr "_Категории"
 
 #: ../ui/evolution-event-editor.xml.h:28 ../ui/evolution-memo-editor.xml.h:7
 #: ../ui/evolution-task-editor.xml.h:19
