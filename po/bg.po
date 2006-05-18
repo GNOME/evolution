@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-05-18 09:56+0300\n"
-"PO-Revision-Date: 2006-05-18 09:57+0300\n"
+"POT-Creation-Date: 2006-05-18 11:24+0300\n"
+"PO-Revision-Date: 2006-05-18 11:24+0300\n"
 "Last-Translator: Alexander Shopov <ash@contact.bg>\n"
 "Language-Team: Bulgarian <dict@fsa-bg.org>\n"
 "MIME-Version: 1.0\n"
@@ -4981,6 +4981,8 @@ msgid ""
 "Transparency of the events in calendar views (A value between 0 and 10, "
 "opaque by default)."
 msgstr ""
+"Степен на прозрачност за събитията в календарния изглед (число в интервала "
+"0÷10, по подразбиране събитията са непрозрачни)."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:64
 msgid "Twenty four hour time format"
@@ -12246,7 +12248,7 @@ msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.in.h:24
 msgid "Enable or disable type ahead search feature"
-msgstr ""
+msgstr "Вклюване/изключване на търсене с автоматично довършване"
 
 #: ../mail/evolution-mail.schemas.in.in.h:25
 msgid ""
@@ -12255,6 +12257,10 @@ msgid ""
 "bar by just typing the folder name and the selection jumps automatically to "
 "that folder."
 msgstr ""
+"Включване на търсенето в страничната лента. Това позволява да стартирате "
+"интерактивни търсения като просто въведете текста. Например - така лесно "
+"можете да откривате и да избирате папка в страничната лента като въведете "
+"името й."
 
 #: ../mail/evolution-mail.schemas.in.in.h:26
 msgid "Enable/disable caret mode"
@@ -15357,7 +15363,9 @@ msgstr "Папките не могат да бъдат показани."
 msgid ""
 "Changes to options for Exchange account \"{0}\" will only take effect after "
 "restarting Evolution."
-msgstr "Промените в настройките на абонамента към Exchange „{0}“ ще влязат в сила след като рестартирате Evolution."
+msgstr ""
+"Промените в настройките на абонамента към Exchange „{0}“ ще влязат в сила "
+"след като рестартирате Evolution."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:4
 msgid "Could not authenticate to server."
