@@ -13,10 +13,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Evolution HEAD\n"
+"Project-Id-Version: Evolution 2.6\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-02-16 06:14+0100\n"
-"PO-Revision-Date: 2006-03-28 19:42+0300\n"
+"PO-Revision-Date: 2006-05-07 00:08+0300\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -367,6 +367,11 @@ msgid ""
 "Please use some other GroupWise mail client once, to get your GroupWise "
 "Frequent Contacts and Groupwise Personal Contacts folders."
 msgstr ""
+"Käesolevaga on sul Evolutioniga võimalik ligi pääseda ainult Groupwise "
+"süsteemsetele aadressiraamatutele (GroupWise System Address Book). Groupwise "
+"sagedaste (GroupWise Frequent Contacts) ja isiklike (Groupwise Personal "
+"Contacts) kontaktide kaustadele ligipääskuks kasuta mõnda muud Groupwise "
+"postiklienti."
 
 #: ../addressbook/addressbook.error.xml.h:9
 msgid "Delete address book '{0}'?"
@@ -1078,6 +1083,8 @@ msgid ""
 "This is the maximum number of entries to download. Setting this number to be "
 "too large will slow down your address book."
 msgstr ""
+"See on kirjete allalaadimise suurim kogus. Selle väärtuse liiga suureks "
+"määramine aeglustab aadressiraamatu tööd."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:43
 msgid ""
@@ -1094,6 +1101,8 @@ msgid ""
 "This is the name for this server that will appear in your Evolution folder "
 "list. It is for display purposes only. "
 msgstr ""
+"See on serveri nimi kuvamiseks Evolutioni kaustaloendis. Seda kasutatakse "
+"ainult kuvamise eesmärgil."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:45
 msgid ""
@@ -4932,8 +4941,8 @@ msgstr ""
 msgid ""
 "Units for determining when to hide tasks, \"minutes\", \"hours\" or \"days\"."
 msgstr ""
-"Ühikud määramaks, millal ülesandeid peita, \"minutes\" (minutid), \"hours\" "
-"(tunnid) või \"days\" (päevad)."
+"Ühikud määramaks, millal ülesandeid peita, \"minutes\" (minutid), \"hours"
+"\" (tunnid) või \"days\" (päevad)."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:64
 msgid "Week start"
@@ -6170,7 +6179,7 @@ msgstr "_Asukoht:"
 #: ../calendar/gui/dialogs/event-page.glade.h:14
 #: ../calendar/gui/dialogs/task-page.glade.h:6
 msgid "Su_mmary:"
-msgstr "Kokku_võte:"
+msgstr "Kokkuvõt_e:"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:16
 msgid "_Alarm"
@@ -11990,8 +11999,8 @@ msgid ""
 "Unable to read settings from previous Evolution install, `evolution/config."
 "xmldb' does not exist or is corrupt."
 msgstr ""
-"Eelmisest Evolutioni paigaldusest pole võimalik sätteid lugeda, "
-"`evolution/configxmldb' pole olemas või on see rikutud."
+"Eelmisest Evolutioni paigaldusest pole võimalik sätteid lugeda, `evolution/"
+"configxmldb' pole olemas või on see rikutud."
 
 #: ../mail/em-popup.c:557 ../mail/em-popup.c:568
 msgid "_Reply to sender"
@@ -12227,8 +12236,8 @@ msgid ""
 "List of labels known to the mail component of Evolution. The list contains "
 "strings containing name:color where color uses the HTML hex encoding."
 msgstr ""
-"Evolutioni sõnumikomponendile teadaolevate siltide loend. Sisaldab "
-"nimi:värvus vorminus sõnumeid, kus värvus on kirjeldatud HTML-ile sarnaselt "
+"Evolutioni sõnumikomponendile teadaolevate siltide loend. Sisaldab nimi:"
+"värvus vorminus sõnumeid, kus värvus on kirjeldatud HTML-ile sarnaselt "
 "kuueteistkümnendsüsteemis."
 
 #: ../mail/evolution-mail.schemas.in.in.h:36
@@ -12441,8 +12450,8 @@ msgid ""
 msgstr ""
 "See võti peaks sisaldama XML-struktuuride nimekirja, mis kirjeldavad "
 "kohandatud päiseid ja nende kuvamise tingimusi. XML-struktuuri vorming on "
-"&lt;header enabled&gt; - kui seda päiserida tuleks kuvada, siis on "
-"\"enabled\" määratud."
+"&lt;header enabled&gt; - kui seda päiserida tuleks kuvada, siis on \"enabled"
+"\" määratud."
 
 #: ../mail/evolution-mail.schemas.in.in.h:85
 msgid "Thread the message list."
@@ -13148,8 +13157,7 @@ msgstr "Sõnumiredaktor"
 msgid ""
 "Note: you will not be prompted for a password until you connect for the "
 "first time"
-msgstr ""
-"Märkus: parooli ei küsita enne kui esimesel ühendumisel"
+msgstr "Märkus: parooli ei küsita enne kui esimesel ühendumisel"
 
 #: ../mail/mail-config.glade.h:103
 msgid "Or_ganization:"
@@ -16364,8 +16372,7 @@ msgstr "Puudub salvestusmeedia"
 #: ../plugins/mail-remote/org-gnome-evolution-mail-remote.eplug.xml.h:1
 msgid ""
 "A plugin which implements a CORBA interface for accessing mail data remotely."
-msgstr ""
-"Plugin, mis teostab CORBA liidese sõnumite andmete kaugligipääsuks."
+msgstr "Plugin, mis teostab CORBA liidese sõnumite andmete kaugligipääsuks."
 
 #: ../plugins/mail-remote/org-gnome-evolution-mail-remote.eplug.xml.h:2
 msgid "Mail Remote"
@@ -17040,7 +17047,7 @@ msgstr "Akna vaikimisi kõrgus"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:5
 msgid "Default window width"
-msgstr "Akna vaikimisi laius."
+msgstr "Akna vaikimisi laius"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:6
 msgid "ID or alias of the component to be shown by default at start-up."
@@ -17053,8 +17060,7 @@ msgstr "Viimati uuendatud seadistuste versioon"
 #: ../shell/apps_evolution_shell.schemas.in.in.h:8
 msgid ""
 "List of paths for the folders to be synchronized to disk for offline usage"
-msgstr ""
-"Autonoomses režiimis kettale sünkroniseeritavate kaustade radade loend"
+msgstr "Autonoomses režiimis kettale sünkroniseeritavate kaustade radade loend"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:9
 msgid "Printer settings"
@@ -17117,15 +17123,15 @@ msgstr "Tööriistariba on nähtav"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:20
 msgid "Whether Evolution will start up in offline mode instead of online mode."
-msgstr ""
+msgstr "Millal Evolution alustab võrgurežiimi asemel autonoomses režiimis."
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:21
 msgid "Whether the sidebar should be visible."
-msgstr "Millal külgpaan peaks olema nähtav."
+msgstr "Millal külgpaan peaks nähtav olema."
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:22
 msgid "Whether the toolbar should be visible."
-msgstr "Millal tööriistariba peaks olema nähtav."
+msgstr "Millal tööriistariba peaks nähtav olema."
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:23
 msgid ""
@@ -17814,7 +17820,8 @@ msgstr "Usalda selle sertifikaadi autentsust"
 
 #: ../smime/gui/smime-ui.glade.h:39
 msgid "Trust this CA to identify email users."
-msgstr "Seda sertifitseerimiskeskust usaldatakse e-post kasutajate tuvastamisel"
+msgstr ""
+"Seda sertifitseerimiskeskust usaldatakse e-post kasutajate tuvastamisel"
 
 #: ../smime/gui/smime-ui.glade.h:40
 msgid "Trust this CA to identify software developers."
@@ -18511,7 +18518,7 @@ msgstr "Laiendatud saatmisvalikute lisamine"
 
 #: ../ui/evolution-event-editor.xml.h:10
 msgid "Make this a recurring event"
-msgstr "Muuda seekordne sündmus korduvaks"
+msgstr "Selle sündmuse muutmine korduvaks"
 
 #: ../ui/evolution-event-editor.xml.h:11 ../ui/evolution-memo-editor.xml.h:4
 #: ../ui/evolution-task-editor.xml.h:6
@@ -19752,7 +19759,7 @@ msgstr "Ainult _ikoonid"
 
 #: ../ui/evolution.xml.h:47
 msgid "_Quick Reference"
-msgstr "_Kiirviide"
+msgstr "_Välkjuhend"
 
 #: ../ui/evolution.xml.h:48
 msgid "_Quit"
@@ -20273,6 +20280,8 @@ msgid ""
 "Mouse-based interactive map widget for selecting timezone. Keyboard users "
 "should select the timezone from the below combo box instead."
 msgstr ""
+"Hiirel põhinev interaktiivne kaart ajavööndi valimiseks. "
+"Klaviatuurikasutajad peaksid ajavööndi valima allolevast valikukastist."
 
 #: ../widgets/misc/e-pilot-settings.c:103
 msgid "Sync with:"
