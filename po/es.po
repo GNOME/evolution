@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-05-15 22:57+0200\n"
-"PO-Revision-Date: 2006-05-15 23:10+0200\n"
+"POT-Creation-Date: 2006-05-19 18:55+0200\n"
+"PO-Revision-Date: 2006-05-19 18:56+0200\n"
 "Last-Translator: Francisco Javier F. Serrador <serrador@cvs.gnome.org>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -2551,6 +2551,22 @@ msgid ""
 msgstr ""
 "Los datos del contacto son inválidos:\n"
 "\n"
+
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3064
+#, c-format
+msgid "'%s' has an invalid format"
+msgstr "«%s» tiene un formato inválido"
+
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3071
+#, c-format
+msgid "%s'%s' has an invalid format"
+msgstr "%s«%s» tiene un formato inválido"
+
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3086
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3097
+#, c-format
+msgid "%s'%s' is empty"
+msgstr "%s«%s» está vacío"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:3112
 msgid "Invalid contact."
@@ -15331,8 +15347,8 @@ msgid ""
 "Changes to options for Exchange account \"{0}\" will only take effect after "
 "restarting Evolution."
 msgstr ""
-"Los cambios a las opciones de la cuenta Exchange «{0}» sólo tendrán lugar después "
-"de reiniciar Evolution."
+"Los cambios a las opciones de la cuenta Exchange «{0}» sólo tendrán lugar "
+"después de reiniciar Evolution."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:4
 msgid "Could not authenticate to server."
