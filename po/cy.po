@@ -29,8 +29,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-05-02 21:44+0100\n"
-"PO-Revision-Date: 2006-05-02 20:41-0000\n"
+"POT-Creation-Date: 2006-05-19 21:58+0100\n"
+"PO-Revision-Date: 2006-05-19 21:46-0000\n"
 "Last-Translator: Rhys Jones <rhys@sucs.org>\n"
 "Language-Team: Cymraeg <gnome-cy@pengwyn.linux.org.uk>\n"
 "MIME-Version: 1.0\n"
@@ -2563,6 +2563,22 @@ msgstr ""
 "Mae'r data cyswllt yn annilys:\n"
 "\n"
 
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3062
+#, c-format
+msgid "'%s' has an invalid format"
+msgstr "Mae gan '%s' ffurf annilys"
+
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3069
+#, c-format
+msgid "%s'%s' has an invalid format"
+msgstr "Mae gan %s'%s' ffurf annilys"
+
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3084
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3095
+#, c-format
+msgid "%s'%s' is empty"
+msgstr "Mae %s'%s' yn wag"
+
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:3110
 msgid "Invalid contact."
 msgstr "Cyswllt annilys."
@@ -3893,7 +3909,7 @@ msgstr "Graddliwio"
 
 #. FIXME: Take care of i18n
 #: ../addressbook/printing/e-contact-print.glade.h:36
-#: ../plugins/exchange-operations/exchange-account-setup.c:955
+#: ../plugins/exchange-operations/exchange-account-setup.c:962
 #: ../plugins/exchange-operations/exchange-calendar.c:231
 #: ../plugins/exchange-operations/exchange-contacts.c:218
 msgid "Size:"
@@ -7225,25 +7241,25 @@ msgid "Delete _All Occurrences"
 msgstr "Dileu _Pob digwyddiadau"
 
 #. To Translators: It will display "Organiser: NameOfTheUser <email@ofuser.com>"
-#: ../calendar/gui/e-calendar-view.c:2030
+#: ../calendar/gui/e-calendar-view.c:2033
 #, c-format
 msgid "Organizer: %s <%s>"
 msgstr "Trefnydd: %s <%s>"
 
 #. With SunOne accouts, there may be no ':' in organiser.value
-#: ../calendar/gui/e-calendar-view.c:2034
+#: ../calendar/gui/e-calendar-view.c:2037
 #, c-format
 msgid "Organizer: %s"
 msgstr "Trefnydd: %s"
 
 #. To Translators: It will display "Location: PlaceOfTheMeeting"
-#: ../calendar/gui/e-calendar-view.c:2050 ../calendar/gui/print.c:2336
+#: ../calendar/gui/e-calendar-view.c:2053 ../calendar/gui/print.c:2336
 #, c-format
 msgid "Location: %s"
 msgstr "Lleoliad: %s"
 
 #. To Translators: It will display "Time: ActualStartDateAndTime (DurationOfTheMeeting)"
-#: ../calendar/gui/e-calendar-view.c:2081
+#: ../calendar/gui/e-calendar-view.c:2084
 #, c-format
 msgid "Time: %s %s"
 msgstr "Amser: %s %s"
@@ -15036,19 +15052,19 @@ msgstr "Maint Ffolderi"
 msgid "Exchange Settings"
 msgstr "Gosodiadau Exchange"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:609
+#: ../plugins/exchange-operations/exchange-account-setup.c:610
 msgid "_OWA URL:"
 msgstr "LAU _OWA:"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:635
+#: ../plugins/exchange-operations/exchange-account-setup.c:636
 msgid "A_uthenticate"
 msgstr "D_ilysu"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:828
+#: ../plugins/exchange-operations/exchange-account-setup.c:829
 msgid "Authentication Type"
 msgstr "Math Dilysiant"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:842
+#: ../plugins/exchange-operations/exchange-account-setup.c:843
 msgid "Ch_eck for Supported Types"
 msgstr "_Gwirio am Fathau wedi Cynnal"
 
