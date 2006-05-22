@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-05-03 19:14+0300\n"
-"PO-Revision-Date: 2006-05-03 19:19+0300\n"
+"POT-Creation-Date: 2006-05-22 07:15+0300\n"
+"PO-Revision-Date: 2006-05-22 07:16+0300\n"
 "Last-Translator: Ilkka Tuohela <hile@iki.fi>\n"
 "Language-Team: Finnish <gnome-fi-laatu@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -2540,6 +2540,22 @@ msgstr ""
 "Yhteystieto on virheellinen:\n"
 "\n"
 
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3062
+#, c-format
+msgid "'%s' has an invalid format"
+msgstr "\"%s\" sisältää virheellistä muotoilua"
+
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3069
+#, c-format
+msgid "%s'%s' has an invalid format"
+msgstr "%s\"%s\" sisältää virheellistä muotoilua"
+
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3084
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3095
+#, c-format
+msgid "%s'%s' is empty"
+msgstr "%s\"%s\" on tyhjä"
+
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:3110
 msgid "Invalid contact."
 msgstr "Virheellinen yhteystieto."
@@ -3856,7 +3872,7 @@ msgstr "Varjostus"
 
 #. FIXME: Take care of i18n
 #: ../addressbook/printing/e-contact-print.glade.h:36
-#: ../plugins/exchange-operations/exchange-account-setup.c:955
+#: ../plugins/exchange-operations/exchange-account-setup.c:962
 #: ../plugins/exchange-operations/exchange-calendar.c:231
 #: ../plugins/exchange-operations/exchange-contacts.c:218
 msgid "Size:"
@@ -7142,25 +7158,25 @@ msgid "Delete _All Occurrences"
 msgstr "Poista _kaikki tapahtumakerrat"
 
 #. To Translators: It will display "Organiser: NameOfTheUser <email@ofuser.com>"
-#: ../calendar/gui/e-calendar-view.c:2030
+#: ../calendar/gui/e-calendar-view.c:2033
 #, c-format
 msgid "Organizer: %s <%s>"
 msgstr "Järjestäjä: %s <%s>"
 
 #. With SunOne accouts, there may be no ':' in organiser.value
-#: ../calendar/gui/e-calendar-view.c:2034
+#: ../calendar/gui/e-calendar-view.c:2037
 #, c-format
 msgid "Organizer: %s"
 msgstr "Järjestäjä: %s"
 
 #. To Translators: It will display "Location: PlaceOfTheMeeting"
-#: ../calendar/gui/e-calendar-view.c:2050 ../calendar/gui/print.c:2336
+#: ../calendar/gui/e-calendar-view.c:2053 ../calendar/gui/print.c:2336
 #, c-format
 msgid "Location: %s"
 msgstr "Sijainti: %s"
 
 #. To Translators: It will display "Time: ActualStartDateAndTime (DurationOfTheMeeting)"
-#: ../calendar/gui/e-calendar-view.c:2081
+#: ../calendar/gui/e-calendar-view.c:2084
 #, c-format
 msgid "Time: %s %s"
 msgstr "Aika: %s %s"
@@ -14902,19 +14918,19 @@ msgstr "Kansioiden koko"
 msgid "Exchange Settings"
 msgstr "Exchangen asetukset"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:609
+#: ../plugins/exchange-operations/exchange-account-setup.c:610
 msgid "_OWA URL:"
 msgstr "_OWA URL:"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:635
+#: ../plugins/exchange-operations/exchange-account-setup.c:636
 msgid "A_uthenticate"
 msgstr "K_irjautuminen"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:828
+#: ../plugins/exchange-operations/exchange-account-setup.c:829
 msgid "Authentication Type"
 msgstr "Kirjautumisen tyyppi"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:842
+#: ../plugins/exchange-operations/exchange-account-setup.c:843
 msgid "Ch_eck for Supported Types"
 msgstr "Tar_kista tuetut tyypit"
 
