@@ -1,3 +1,9 @@
+2006-05-22  Harish Krishnaswamy  <kharish@novell.com>
+
+	* gui/memos-component.c: Revert one change from the
+	previous commit as the string is not already translated
+	and breaks the string freeze.
+
 2006-05-22  Hiroyuki Ikezoe  <poincare@ikezoe.net>
 
 	**Fixes bug #331418
