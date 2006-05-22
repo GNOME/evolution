@@ -1,3 +1,7 @@
+2006-05-22  Harish Krishnaswamy  <kharish@novell.com>
+
+	* configure.in: Update intltool requirements.
+
 2006-05-09  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* configure.in: Patch from Brian Pepple to achieve
