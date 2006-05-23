@@ -15867,7 +15867,7 @@ msgstr "Nemohu otevřít kalendář '%s'."
 #: ../plugins/itip-formatter/itip-formatter.c:407
 #, c-format
 msgid "An appointment in the calendar '%s' conflicts with this meeting"
-msgstr "Událost v kalendáři '%s' je v rozporu s schůzkou"
+msgstr "Událost v kalendáři '%s' koliduje se schůzkou"
 
 #: ../plugins/itip-formatter/itip-formatter.c:433
 #, c-format
@@ -16304,7 +16304,7 @@ msgstr "_Otevřít kalendář"
 #: ../plugins/itip-formatter/itip-view.c:736
 #: ../plugins/itip-formatter/itip-view.c:741
 msgid "_Accept"
-msgstr "_Příjmout"
+msgstr "_Přijmout"
 
 #: ../plugins/itip-formatter/itip-view.c:713
 msgid "_Decline all"
