@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD.gu\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-05-18 05:59+0200\n"
-"PO-Revision-Date: 2006-05-18 10:45+0530\n"
+"POT-Creation-Date: 2006-05-22 22:56+0200\n"
+"PO-Revision-Date: 2006-05-23 09:16+0530\n"
 "Last-Translator: Ankit Patel <ankit644@yahoo.com>\n"
 "Language-Team: Gujarati <indianoss-gujarati@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -13,6 +13,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.9.1\n"
 "Plural-Forms: nplurals=2; plural=(n!=1);\n\n"
+"\n"
 "\n"
 "\n"
 "\n"
@@ -823,10 +824,11 @@ msgstr "નવી સરનામા પુસ્તિકા (_N)"
 #: ../calendar/gui/calendar-component.c:538
 #: ../calendar/gui/e-calendar-table.c:1268
 #: ../calendar/gui/e-calendar-view.c:1728 ../calendar/gui/e-memo-table.c:869
-#: ../calendar/gui/tasks-component.c:443 ../mail/em-folder-tree.c:2061
-#: ../mail/em-folder-view.c:1096 ../ui/evolution-addressbook.xml.h:49
-#: ../ui/evolution-calendar.xml.h:40 ../ui/evolution-mail-list.xml.h:30
-#: ../ui/evolution-memos.xml.h:16 ../ui/evolution-tasks.xml.h:24
+#: ../calendar/gui/memos-component.c:452 ../calendar/gui/tasks-component.c:443
+#: ../mail/em-folder-tree.c:2061 ../mail/em-folder-view.c:1096
+#: ../ui/evolution-addressbook.xml.h:49 ../ui/evolution-calendar.xml.h:40
+#: ../ui/evolution-mail-list.xml.h:30 ../ui/evolution-memos.xml.h:16
+#: ../ui/evolution-tasks.xml.h:24
 msgid "_Delete"
 msgstr "કાઢી નાંખો (_D)"
 
@@ -836,7 +838,7 @@ msgstr "Vcard તરીકે સંગ્રહો..."
 
 #: ../addressbook/gui/component/addressbook-view.c:961
 #: ../calendar/gui/calendar-component.c:539
-#: ../calendar/gui/tasks-component.c:444
+#: ../calendar/gui/memos-component.c:453 ../calendar/gui/tasks-component.c:444
 msgid "_Properties..."
 msgstr "ગુણધર્મો (_P)..."
 
@@ -2968,12 +2970,13 @@ msgstr "કાપો (_t)"
 #: ../calendar/gui/dialogs/comp-editor.c:445
 #: ../calendar/gui/e-calendar-table.c:1256
 #: ../calendar/gui/e-calendar-view.c:1713 ../calendar/gui/e-memo-table.c:860
-#: ../calendar/gui/tasks-component.c:442 ../composer/e-msg-composer.c:3120
-#: ../mail/em-folder-tree.c:986 ../mail/em-folder-view.c:1082
-#: ../mail/message-list.c:1742 ../ui/evolution-addressbook.xml.h:46
-#: ../ui/evolution-calendar.xml.h:39 ../ui/evolution-composer-entries.xml.h:13
-#: ../ui/evolution-editor.xml.h:17 ../ui/evolution-mail-message.xml.h:104
-#: ../ui/evolution-memos.xml.h:15 ../ui/evolution-tasks.xml.h:23
+#: ../calendar/gui/memos-component.c:451 ../calendar/gui/tasks-component.c:442
+#: ../composer/e-msg-composer.c:3120 ../mail/em-folder-tree.c:986
+#: ../mail/em-folder-view.c:1082 ../mail/message-list.c:1742
+#: ../ui/evolution-addressbook.xml.h:46 ../ui/evolution-calendar.xml.h:39
+#: ../ui/evolution-composer-entries.xml.h:13 ../ui/evolution-editor.xml.h:17
+#: ../ui/evolution-mail-message.xml.h:104 ../ui/evolution-memos.xml.h:15
+#: ../ui/evolution-tasks.xml.h:23
 msgid "_Copy"
 msgstr "નકલ કરો (_C)"
 
@@ -5669,7 +5672,6 @@ msgid "Task List Properties"
 msgstr "બાબત યાદી ગુણધર્મો"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:594
-#: ../calendar/gui/memos-component.c:450
 msgid "New Memo List"
 msgstr "નવી મેમો યાદી"
 
@@ -8040,22 +8042,9 @@ msgstr "iCalendar જાણકારી"
 msgid "You must be an attendee of the event."
 msgstr "તમે ઘટનાના સભાસદ હોવા જ જોઈએ."
 
-#: ../calendar/gui/memos-component.c:451 ../ui/evolution-addressbook.xml.h:6
-#: ../ui/evolution-composer-entries.xml.h:1 ../ui/evolution-memos.xml.h:2
-#: ../ui/evolution-tasks.xml.h:2
-msgid "Copy"
-msgstr "નકલ કરો"
-
-#: ../calendar/gui/memos-component.c:452 ../mail/em-filter-i18n.h:11
-#: ../ui/evolution-addressbook.xml.h:15 ../ui/evolution-calendar.xml.h:5
-#: ../ui/evolution-mail-message.xml.h:25 ../ui/evolution-memos.xml.h:6
-#: ../ui/evolution-tasks.xml.h:6
-msgid "Delete"
-msgstr "કાઢી નાખો"
-
-#: ../calendar/gui/memos-component.c:453
-msgid "Properties..."
-msgstr "ગુણધર્મો..."
+#: ../calendar/gui/memos-component.c:450
+msgid "_New Memo List"
+msgstr "નવી મેમો યાદી (_N)"
 
 #: ../calendar/gui/memos-component.c:526
 #, c-format
@@ -11047,6 +11036,12 @@ msgstr "મેળવેલ તારીખ"
 #: ../mail/em-filter-i18n.h:10
 msgid "Date sent"
 msgstr "મોકલ્યાની તારીખ"
+
+#: ../mail/em-filter-i18n.h:11 ../ui/evolution-addressbook.xml.h:15
+#: ../ui/evolution-calendar.xml.h:5 ../ui/evolution-mail-message.xml.h:25
+#: ../ui/evolution-memos.xml.h:6 ../ui/evolution-tasks.xml.h:6
+msgid "Delete"
+msgstr "કાઢી નાખો"
 
 #: ../mail/em-filter-i18n.h:12
 msgid "Deleted"
@@ -18078,6 +18073,12 @@ msgstr "બધા સંપર્કોની નકલ અંહિ કરો (
 #: ../ui/evolution-addressbook.xml.h:5
 msgid "Contact _Preview"
 msgstr "સંપર્ક પૂર્વદર્શન (_P)"
+
+#: ../ui/evolution-addressbook.xml.h:6
+#: ../ui/evolution-composer-entries.xml.h:1 ../ui/evolution-memos.xml.h:2
+#: ../ui/evolution-tasks.xml.h:2
+msgid "Copy"
+msgstr "નકલ કરો"
 
 #: ../ui/evolution-addressbook.xml.h:7
 msgid "Copy Selected Contacts to Another Folder..."
