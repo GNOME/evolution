@@ -74,6 +74,7 @@ typedef struct {
 	GtkWidget *dialog;
 	GtkWidget *snooze_time_min;
 	GtkWidget *snooze_time_hrs;
+	GtkWidget *snooze_btn; 
 	GtkWidget *minutes_label;
 	GtkWidget *hrs_label;
 	GtkWidget *description;
@@ -140,12 +141,17 @@ dialog_response_cb (GtkDialog *dialog, guint response_id, gpointer user_data)
 	GtkTreeModel *model = NULL;
 	AlarmFuncInfo *funcinfo = NULL;
 	GtkTreeSelection *selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (an->treeview));
+	
+	if (gtk_tree_selection_get_selected (selection, &model, &iter)) {
+		gtk_tree_model_get (model, &iter, ALARM_FUNCINFO_COLUMN, &funcinfo, -1);
+	}
 
-	if (gtk_tree_selection_get_selected (selection, &model, &iter))
-		gtk_tree_model_get (model, &iter, ALARM_FUNCINFO_COLUMN, &funcinfo, -1);	
-
+	if (!funcinfo) {
+		 GtkTreeModel *model = gtk_tree_view_get_model (GTK_TREE_VIEW (an->treeview));
+		 gboolean valid = gtk_tree_model_get_iter_first (model, &iter);
+		 gtk_tree_model_get (model, &iter, ALARM_FUNCINFO_COLUMN, &funcinfo, -1);
+	}
 	g_return_if_fail (funcinfo);
-
 	switch (response_id) {
 	case GTK_RESPONSE_CLOSE:
 	case GTK_RESPONSE_DELETE_EVENT:
@@ -253,6 +259,7 @@ notified_alarms_dialog_new (void)
 	an->treeview = glade_xml_get_widget (an->xml, "appointments-treeview");
 	an->scrolledwindow = glade_xml_get_widget (an->xml, "treeview-scrolledwindow");
 	snooze_btn = glade_xml_get_widget (an->xml, "snooze-button");
+	an->snooze_btn = snooze_btn;
 	edit_btn = glade_xml_get_widget (an->xml, "edit-button");
 
 	if (!(an->dialog && an->scrolledwindow && an->treeview && an->snooze_time_min && an->snooze_time_hrs 
@@ -396,13 +403,14 @@ tree_selection_changed_cb (GtkTreeSelection *selection, gpointer user_data)
 {
 	GtkTreeModel *model;
 	GtkTreeIter iter;
-
+	AlarmNotify *an = user_data;
+	
 	if (gtk_tree_selection_get_selected (selection, &model, &iter))
 	{
-		AlarmNotify *an = user_data;
 		gchar *summary, *description, *location;
 		time_t occur_start, occur_end;
-		
+
+		gtk_widget_set_sensitive (an->snooze_btn, TRUE);
 		gtk_tree_model_get (model, &iter, ALARM_SUMMARY_COLUMN, &summary, -1);
 		gtk_tree_model_get (model, &iter, ALARM_DESCRIPTION_COLUMN, &description, -1);
 		gtk_tree_model_get (model, &iter, ALARM_LOCATION_COLUMN, &location, -1);
@@ -411,6 +419,8 @@ tree_selection_changed_cb (GtkTreeSelection *selection, gpointer user_data)
 		gtk_tree_model_get (model, &iter, ALARM_FUNCINFO_COLUMN, &an->cur_funcinfo, -1);
 		
 		fill_in_labels (an, summary, description, location, occur_start, occur_end);
+	} else {
+		gtk_widget_set_sensitive (an->snooze_btn, FALSE);		 
 	}
 }
 

@@ -192,6 +192,7 @@ static void remove_client_alarms (ClientAlarms *ca);
 static void update_cqa (CompQueuedAlarms *cqa, ECalComponent *comp);
 static void update_qa (ECalComponentAlarms *alarms, QueuedAlarm *qa); 
 static void tray_list_remove_cqa (CompQueuedAlarms *cqa);
+static void on_dialog_objs_removed_cb (ECal *client, GList *objects, gpointer data);
 
 /* Alarm queue engine */
 
@@ -708,7 +709,7 @@ query_objects_changed_async (EThread *e, AlarmMsg *msg, void *data)
 
 		if (!found) {
 			d(printf("%s:%d (query_objects_changed_async) - No Alarm found for client %d\n",__FILE__, __LINE__, ca->client));
-			tray_list_remove_cqa (lookup_comp_queued_alarms (ca, l->data));
+			tray_list_remove_cqa (lookup_comp_queued_alarms (ca, id));
 			remove_comp (ca, id);
 			g_hash_table_remove (ca->uid_alarms_hash, id);
 			e_cal_component_free_id (id);
@@ -719,7 +720,7 @@ query_objects_changed_async (EThread *e, AlarmMsg *msg, void *data)
 
 		cqa = lookup_comp_queued_alarms (ca, id);
 		if (!cqa) {
-			d(printf("%s:%d (query_objects_changed_async) - No currently queued alarms for %s\n",__FILE__, __LINE__, id->uid));			 
+			d(printf("%s:%d (query_objects_changed_async) - No currently queued alarms for %s\n",__FILE__, __LINE__, id->uid));
 			add_component_alarms (ca, alarms);
 			g_object_unref (comp);
 			comp = NULL;
@@ -970,6 +971,8 @@ free_tray_icon_data (TrayIconData *tray_data)
 	g_object_unref (tray_data->client);
 	tray_data->client = NULL;
 
+	g_signal_handlers_disconnect_matched (tray_data->query, G_SIGNAL_MATCH_FUNC,
+					      0, 0, NULL, on_dialog_objs_removed_cb, NULL);
 	g_object_unref (tray_data->query);
 	tray_data->query = NULL;
 

@@ -1,3 +1,12 @@
+2006-05-23  Srinivasa Ragavan  <sragavan@novell.com>
+
+	More alarm fixes
+
+	* gui/alarm-notify/alarm-notify-dialog.c: (dialog_response_cb),
+	(notified_alarms_dialog_new), (tree_selection_changed_cb):
+	* gui/alarm-notify/alarm-queue.c: (query_objects_changed_async),
+	(free_tray_icon_data):
+
 2006-05-22  Hiroyuki Ikezoe  <poincare@ikezoe.net>
 
 	**Fixes bug #331418
