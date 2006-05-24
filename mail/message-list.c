@@ -900,10 +900,10 @@ ml_duplicate_value (ETreeModel *etm, int col, const void *value, void *data)
 	case COL_FROM:
 	case COL_SUBJECT:
 	case COL_TO:
+	case COL_SENDER:		
 	case COL_FOLLOWUP_FLAG:
 	case COL_LOCATION:
 		return g_strdup (value);
-	case COL_SENDER:
 	default:
 		g_assert_not_reached ();
 	}
@@ -932,9 +932,9 @@ ml_free_value (ETreeModel *etm, int col, void *value, void *data)
 	case COL_TO:
 	case COL_FOLLOWUP_FLAG:
 	case COL_LOCATION:
+	case COL_SENDER:		
 		g_free (value);
 		break;
-	case COL_SENDER:
 	default:
 		g_assert_not_reached ();
 	}
@@ -962,8 +962,8 @@ ml_initialize_value (ETreeModel *etm, int col, void *data)
 	case COL_TO:
 	case COL_FOLLOWUP_FLAG:
 	case COL_LOCATION:
-		return g_strdup ("");
 	case COL_SENDER:
+		return g_strdup ("");
 	default:
 		g_assert_not_reached ();
 	}
@@ -993,8 +993,8 @@ ml_value_is_empty (ETreeModel *etm, int col, const void *value, void *data)
 	case COL_TO:
 	case COL_FOLLOWUP_FLAG:
 	case COL_LOCATION:
+	case COL_SENDER:		
 		return !(value && *(char *)value);
-	case COL_SENDER:
 	default:
 		g_assert_not_reached ();
 		return FALSE;
@@ -1058,8 +1058,8 @@ ml_value_to_string (ETreeModel *etm, int col, const void *value, void *data)
 	case COL_TO:
 	case COL_FOLLOWUP_FLAG:
 	case COL_LOCATION:
+	case COL_SENDER:		
 		return g_strdup (value);
-	case COL_SENDER:
 	default:
 		g_assert_not_reached ();
 		return NULL;

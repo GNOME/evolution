@@ -1,3 +1,11 @@
+2006-05-24  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fixes bug #342676
+	
+	* message-list.c: (ml_duplicate_value), (ml_free_value),
+	(ml_initialize_value), (ml_value_is_empty), (ml_value_to_string):
+	* message-list.etspec: Fixed the column sorter right.
+
 2006-05-04  Jeffrey Stedfast  <fejj@novell.com>
 
 	* mail-component.c (mail_component_remove_store): Ref the store
