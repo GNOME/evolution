@@ -322,10 +322,11 @@ build_quick_add_dialog (QuickAdd *qa)
 	book = e_book_new_default_addressbook (NULL);
 	e_source_option_menu_select (E_SOURCE_OPTION_MENU (qa->option_menu), e_book_get_source(book));
 	if (qa->book) {
-		g_object_unref (book);
+		g_object_unref (qa->book);
 		qa->book = NULL;
 	}
 	qa->book = book ;
+	source_selected(qa->option_menu, e_source_option_menu_peek_selected (qa->option_menu), qa);
 	g_signal_connect (qa->option_menu, "source_selected", G_CALLBACK (source_selected), qa);
 	
 	g_object_unref (source_list);	
@@ -370,7 +371,6 @@ build_quick_add_dialog (QuickAdd *qa)
 			    GTK_WIDGET (table),
 			    FALSE, FALSE, 0);
 	gtk_widget_show_all (GTK_WIDGET (table));
-			  
 	
 	return dialog;
 }

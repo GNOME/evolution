@@ -1,5 +1,10 @@
 2006-05-25  Devashish Sharma  <sdevashish@novell.com>
 
+	* gui/contact-editor/e-contact-quick-add.c : Right click add to
+	contacts doesnt work on email addresses in received mails.
+
+2006-05-25  Devashish Sharma  <sdevashish@novell.com>
+
 	* gui/widgets/eab-contact-display.c : Name of some fields differ 
 	when seen in preview pane and contact editor (Video Chat in contact
 	editor and Video Conferencing in preview pane).
