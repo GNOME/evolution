@@ -1097,8 +1097,7 @@ e_calendar_table_on_save_as (EPopup *ep, EPopupItem *pitem, void *data)
 	ECalModelComponent *comp_data;
 	char *filename;
 	char *ical_string;
-	FILE *file;
-
+	
 	comp_data = e_calendar_table_get_selected_comp (cal_table);
 	if (comp_data == NULL)
 		return;
@@ -1112,16 +1111,10 @@ e_calendar_table_on_save_as (EPopup *ep, EPopupItem *pitem, void *data)
 		g_warning ("Couldn't convert item to a string");
 		return;
 	}
+
+	e_write_file_uri (filename, ical_string);
 	
-	file = g_fopen (filename, "w");
-	if (file == NULL) {
-		g_warning ("Couldn't save item");
-		return;
-	}
-	
-	fprintf (file, "%s", ical_string);
 	g_free (ical_string);
-	fclose (file);
 }
 
 static void

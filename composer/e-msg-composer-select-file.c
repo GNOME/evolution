@@ -83,6 +83,7 @@ get_selector(struct _EMsgComposer *composer, const char *title, guint32 flags)
 							 NULL);
 	
 	gtk_dialog_set_default_response (GTK_DIALOG (selection), GTK_RESPONSE_OK);
+	gtk_file_chooser_set_local_only (selection, FALSE);
 	
 	if ((flags & SELECTOR_MODE_SAVE) == 0)
 		gtk_file_chooser_set_select_multiple ((GtkFileChooser *) selection, (flags & SELECTOR_MODE_MULTI));
@@ -192,14 +193,16 @@ select_attach_response(GtkWidget *selector, guint response, struct _EMsgComposer
 		GSList *names;
 		EMsgComposerSelectAttachFunc func = g_object_get_data((GObject *)selector, "callback");
 		GtkToggleButton *showinline = g_object_get_data((GObject *)selector, "show-inline");
-		char *path;
+		char *path = NULL;
 
 #ifdef USE_GTKFILECHOOSER
-		char *filename;
-		names = gtk_file_chooser_get_filenames (GTK_FILE_CHOOSER (selector));
+		char *filename = NULL;
+		names = gtk_file_chooser_get_uris (GTK_FILE_CHOOSER (selector));
 		filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (selector));
-		path = g_path_get_dirname (filename);
-		g_free (filename);
+		if (!filename) {
+			path = g_path_get_dirname (filename);
+			g_free (filename);
+		}
 #else
 		char **files;
 		int i;
@@ -215,7 +218,8 @@ select_attach_response(GtkWidget *selector, guint response, struct _EMsgComposer
 
 		path = g_path_get_dirname (gtk_file_selection_get_filename (GTK_FILE_SELECTION (selector)));		
 #endif
-		g_object_set_data_full ((GObject *) composer, "attach_path", path, g_free);
+		if (path)
+			g_object_set_data_full ((GObject *) composer, "attach_path", path, g_free);
 
 		func(composer, names, gtk_toggle_button_get_active(showinline));
 		

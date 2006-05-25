@@ -1,3 +1,18 @@
+2006-05-25  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Added support to save calendar/events/attachments to remote
+	shares in Calenda/Memo/Tasks components.
+
+	* gui/dialogs/cal-attachment-select-file.c: (run_selector),
+	(comp_editor_select_file_attachments):
+	* gui/dialogs/comp-editor.c: (drop_action), (cab_add),
+	(menu_insert_attachment_cb):
+	* gui/e-cal-popup.c: (temp_save_part):
+	* gui/e-calendar-table.c: (e_calendar_table_on_save_as):
+	* gui/e-calendar-view.c: (on_save_as),
+	(e_calendar_view_get_tooltips):
+	* gui/e-memo-table.c: (e_memo_table_on_save_as):
+
 2006-05-23  Srinivasa Ragavan  <sragavan@novell.com>
 
 	More alarm fixes

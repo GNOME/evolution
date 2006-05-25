@@ -295,7 +295,7 @@ drop_action(CompEditor *editor, GdkDragContext *context, guint32 action, GtkSele
 				else
 					e_attachment_bar_attach_remote_file
 						(E_ATTACHMENT_BAR (editor->priv->attachment_bar),
-					 	str);
+						 str, "attachment");
 
 				camel_url_free (url);
 				g_free (str);
@@ -1060,8 +1060,18 @@ cab_add(EPopup *ep, EPopupItem *item, void *data)
 	if (!file_list)
 		return;
 	for (i = 0; i < file_list->len; i++) {
-		e_attachment_bar_attach (bar, file_list->pdata[i], is_inline ? "inline" : "attachment");
+		CamelURL *url;
+
+		url = camel_url_new (file_list->pdata[i], NULL);
+		if (url == NULL)
+			continue;
+
+		if (!g_ascii_strcasecmp (url->protocol, "file"))
+			 e_attachment_bar_attach (bar, url->path, is_inline ? "inline" : "attachment");
+		else 
+			 e_attachment_bar_attach_remote_file (bar, file_list->pdata[i], is_inline ? "inline" : "attachment");
 		g_free (file_list->pdata[i]);
+		camel_url_free (url);
 	}
 	
 	g_ptr_array_free (file_list, TRUE);	
@@ -1355,8 +1365,18 @@ menu_insert_attachment_cb (BonoboUIComponent *uic,
 	if (!file_list)
 		return;
 	for (i = 0; i < file_list->len; i++) {
-		e_attachment_bar_attach (bar, file_list->pdata[i], is_inline ? "inline" : "attachment");
+		CamelURL *url;
+
+		url = camel_url_new (file_list->pdata[i], NULL);
+		if (url == NULL)
+			continue;
+
+		if (!g_ascii_strcasecmp (url->protocol, "file"))
+			 e_attachment_bar_attach (bar, url->path, is_inline ? "inline" : "attachment");
+		else 
+			 e_attachment_bar_attach_remote_file (bar, file_list->pdata[i], is_inline ? "inline" : "attachment");
 		g_free (file_list->pdata[i]);
+		camel_url_free (url);
 	}
 	
 	g_ptr_array_free (file_list, TRUE);		

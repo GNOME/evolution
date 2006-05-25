@@ -733,8 +733,7 @@ e_memo_table_on_save_as (EPopup *ep, EPopupItem *pitem, void *data)
 	ECalModelComponent *comp_data;
 	char *filename;
 	char *ical_string;
-	FILE *file;
-
+	
 	comp_data = get_selected_comp (memo_table);
 	if (comp_data == NULL)
 		return;
@@ -748,16 +747,9 @@ e_memo_table_on_save_as (EPopup *ep, EPopupItem *pitem, void *data)
 		g_warning ("Couldn't convert item to a string");
 		return;
 	}
-	
-	file = g_fopen (filename, "w");
-	if (file == NULL) {
-		g_warning ("Couldn't save item");
-		return;
-	}
-	
-	fprintf (file, ical_string);
+
+	e_write_file_uri (filename, ical_string);	
 	g_free (ical_string);
-	fclose (file);
 }
 
 static void

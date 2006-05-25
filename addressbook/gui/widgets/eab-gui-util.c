@@ -340,28 +340,30 @@ static void
 save_it(GtkWidget *widget, SaveAsInfo *info)
 {
 	const char *filename;
+	char *uri;
 	gint error = 0;
 	gint response = 0;
 	
 
 #ifdef USE_GTKFILECHOOSER
 	filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (info->filesel));
+	uri = gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (info->filesel));	
 #else
 	filename = gtk_file_selection_get_filename (GTK_FILE_SELECTION (info->filesel));
 #endif
-
-	error = e_write_file (filename, info->vcard, O_WRONLY | O_CREAT | O_EXCL | O_TRUNC);
-
-	if (error == EEXIST) {
+	
+	if (filename && g_file_test (filename, G_FILE_TEST_EXISTS)) {
 		response = file_exists(GTK_WINDOW (info->filesel), filename);
 		switch (response) {
 			case GTK_RESPONSE_ACCEPT : /* Overwrite */
-				e_write_file(filename, info->vcard, O_WRONLY | O_CREAT | O_TRUNC);
 				break;
 			case GTK_RESPONSE_CANCEL : /* cancel */
 				return;
 		}
-	} else if (error != 0) {
+	}
+
+	error = e_write_file_uri (uri, info->vcard);	    
+	if (error != 0) {
 		char *err_str_ext;
 		if (info->has_multiple_contacts) {
 			/* more than one, finding the total number of contacts might
@@ -379,9 +381,10 @@ save_it(GtkWidget *widget, SaveAsInfo *info)
 		 */
 		e_error_run (GTK_WINDOW (info->filesel), "addressbook:save-error", 
 					 err_str_ext, filename, g_strerror (errno));
+		gtk_widget_destroy(GTK_WIDGET(info->filesel));
 		return;
 	}
-	
+	    
 	gtk_widget_destroy(GTK_WIDGET(info->filesel));
 }
 
@@ -522,6 +525,7 @@ eab_contact_save (char *title, EContact *contact, GtkWindow *parent_window)
 
 	gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (filesel), g_get_home_dir ());
 	gtk_file_chooser_set_current_name (GTK_FILE_CHOOSER (filesel), file);
+	gtk_file_chooser_set_local_only (filesel, FALSE);
 	
 	info->filesel = filesel;
 	info->vcard = e_vcard_to_string (E_VCARD (contact), EVC_FORMAT_VCARD_30);
@@ -574,6 +578,7 @@ eab_contact_list_save (char *title, GList *list, GtkWindow *parent_window)
 					       GTK_STOCK_SAVE, GTK_RESPONSE_ACCEPT,
 					       NULL);
 	gtk_dialog_set_default_response (GTK_DIALOG (filesel), GTK_RESPONSE_ACCEPT);
+	gtk_file_chooser_set_local_only (filesel, FALSE);
 #else
 	filesel = gtk_file_selection_new(title);
 #endif

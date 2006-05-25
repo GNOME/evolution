@@ -90,6 +90,23 @@ extern struct _CamelSession *session;
 
 #define d(x)
 
+static gboolean
+emu_file_check_local (const char *name)
+{
+	CamelURL *url;
+	gboolean local = FALSE;
+
+	url = camel_url_new (name, NULL);
+	if (url == NULL)
+		return TRUE;
+
+	if (!g_ascii_strcasecmp (url->protocol, "file")) 
+		local = TRUE;
+		
+	camel_url_free (url);
+
+	return local;
+}
 /**
  * em_utils_prompt_user:
  * @parent: parent window
@@ -374,6 +391,7 @@ emu_get_save_filesel (GtkWidget *parent, const char *title, const char *name, Gt
 					       GTK_STOCK_SAVE, GTK_RESPONSE_OK,
 					       NULL);
 	gtk_dialog_set_default_response (GTK_DIALOG (filesel), GTK_RESPONSE_OK);
+	gtk_file_chooser_set_local_only (filesel, FALSE);
 #else
 	char *filename;
 
@@ -454,20 +472,22 @@ static void
 emu_save_part_response(GtkWidget *filesel, int response, CamelMimePart *part)
 {
 	const char *path;
+	const char *uri;
 	
 	if (response == GTK_RESPONSE_OK) {
 #ifdef USE_GTKFILECHOOSER
+		uri = gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (filesel));
 		path = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (filesel));
 #else
 		path = gtk_file_selection_get_filename (GTK_FILE_SELECTION (filesel));
 #endif
-		
-		if (!emu_can_save((GtkWindow *)filesel, path))
+
+		if (emu_file_check_local(uri) && !emu_can_save((GtkWindow *)filesel, path))
 			return;
 
 		emu_update_save_path(path, FALSE);
 		/* FIXME: popup error if it fails? */
-		mail_save_part(part, path, NULL, NULL, FALSE);
+		mail_save_part(part, uri, NULL, NULL, FALSE);
 	}
 
 	gtk_widget_destroy((GtkWidget *)filesel);
@@ -512,7 +532,7 @@ emu_save_parts_response (GtkWidget *filesel, int response, GSList *parts)
         GSList *selected;
         if (response == GTK_RESPONSE_OK) {
 #ifdef USE_GTKFILECHOOSER
-                path = gtk_file_chooser_get_current_folder (GTK_FILE_CHOOSER (filesel));
+                path = gtk_file_chooser_get_current_folder_uri (GTK_FILE_CHOOSER (filesel));
 #else
                 path = gtk_file_selection_get_filename (GTK_FILE_SELECTION (filesel));
 #endif
@@ -627,7 +647,7 @@ emu_save_messages_response(GtkWidget *filesel, int response, struct _save_messag
 	
 	if (response == GTK_RESPONSE_OK) {
 #ifdef USE_GTKFILECHOOSER
-		path = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (filesel));
+		path = gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (filesel));
 #else
 		path = gtk_file_selection_get_filename (GTK_FILE_SELECTION (filesel));
 #endif

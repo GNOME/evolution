@@ -260,6 +260,7 @@ save_ok (GtkWidget *widget, gpointer data)
 {
 	GtkWidget *fs;
 	char **filename = data;
+	char *uri;
 	const char *path;
 	int btn = GTK_RESPONSE_YES;
 	GConfClient *gconf = gconf_client_get_default();
@@ -268,6 +269,7 @@ save_ok (GtkWidget *widget, gpointer data)
 	fs = gtk_widget_get_toplevel (widget);
 #ifdef USE_GTKFILECHOOSER
 	path = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (fs));
+	uri = gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (fs));
 #else
 	path = gtk_file_selection_get_filename (GTK_FILE_SELECTION (fs));
 #endif
@@ -291,7 +293,7 @@ save_ok (GtkWidget *widget, gpointer data)
 		dir = g_path_get_dirname (path);
 		gconf_client_set_string(gconf, "/apps/evolution/mail/save_dir", dir, NULL);
 		g_free (dir);
-		*filename = g_strdup (path);
+		*filename = uri;
 	}
 	g_object_unref(gconf);
 	
@@ -333,7 +335,8 @@ e_file_dialog_save (const char *title, const char *fname)
 						 NULL);
 	gtk_dialog_set_default_response (GTK_DIALOG (selection), GTK_RESPONSE_ACCEPT);
         gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (selection), dir);
- 
+	gtk_file_chooser_set_local_only (selection, FALSE);
+	
         if (fname)
 	        gtk_file_chooser_set_current_name(GTK_FILE_CHOOSER (selection), fname);
      
@@ -365,19 +368,21 @@ save_folder_ok (GtkWidget *widget, gpointer data)
 {
 	GtkWidget *fs;
 	char **filename = data;
+	char *uri;
 	const char *path;
 	GConfClient *gconf = gconf_client_get_default();
 	
 	fs = gtk_widget_get_toplevel (widget);
 #ifdef USE_GTKFILECHOOSER
 	path = gtk_file_chooser_get_current_folder (GTK_FILE_CHOOSER (fs));
+	uri = gtk_file_chooser_get_current_folder_uri (GTK_FILE_CHOOSER (fs));
 #else
 	path = gtk_file_selection_get_filename (GTK_FILE_SELECTION (fs));
 #endif
 	
 	gconf_client_set_string(gconf, "/apps/evolution/mail/save_dir", path, NULL);
 	g_object_unref(gconf);
-	*filename = g_strdup (path);
+	*filename = uri;
 	
 	gtk_main_quit ();
 }
@@ -419,6 +424,7 @@ e_file_dialog_save_folder (const char *title)
 						 GTK_STOCK_SAVE, GTK_RESPONSE_ACCEPT,
 						 NULL);
 	gtk_dialog_set_default_response (GTK_DIALOG (selection), GTK_RESPONSE_ACCEPT);
+	gtk_file_chooser_set_local_only (selection, FALSE);
 	gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (selection), dir);
 
 	g_signal_connect (G_OBJECT (selection), "response", G_CALLBACK (folderchooser_response), &filename);

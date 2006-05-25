@@ -1,5 +1,15 @@
 2006-05-25  Srinivasa Ragavan  <sragavan@novell.com>
 
+	** Added remote shares save/load support across evolution.
+	
+	* em-utils.c: (emu_file_check_local), (emu_get_save_filesel),
+	(emu_save_part_response), (emu_save_parts_response),
+	(emu_save_messages_response): Added code to save messages/attachments
+	to remote shares.
+	* mail-ops.c: (save_messages_save), (save_part_save):
+
+2006-05-25  Srinivasa Ragavan  <sragavan@novell.com>
+
 	** fixes bug #342092
 	
 	* em-popup.c: (emp_standard_menu_factory): Read the mime

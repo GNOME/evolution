@@ -41,6 +41,7 @@
 #include <camel/camel-mime-filter-from.h>
 #include <camel/camel-stream-filter.h>
 #include <camel/camel-stream-fs.h>
+#include <camel/camel-stream-vfs.h>
 #include <camel/camel-mime-filter-charset.h>
 #include <camel/camel-offline-folder.h>
 #include <camel/camel-offline-store.h>
@@ -1985,14 +1986,7 @@ save_messages_save (struct _mail_msg *mm)
 	int fd, i;
 	char *from;
 	
-	fd = g_open (m->path, O_WRONLY | O_CREAT | O_TRUNC | O_BINARY, 0666);
-	if (fd == -1) {
-		camel_exception_setv(&mm->ex, CAMEL_EXCEPTION_SYSTEM,
-				     _("Unable to create output file: %s\n %s"), m->path, strerror(errno));
-		return;
-	}
-	
-	stream = camel_stream_fs_new_with_fd(fd);
+	stream = camel_stream_vfs_new_with_uri (m->path, O_WRONLY | O_CREAT | O_TRUNC, 0666);
 	from_filter = camel_mime_filter_from_new();
 	filtered_stream = camel_stream_filter_new_with_stream(stream);
 	camel_stream_filter_add(filtered_stream, (CamelMimeFilter *)from_filter);
@@ -2099,13 +2093,13 @@ save_part_save (struct _mail_msg *mm)
 	CamelStream *stream;
 	
 	if(!m->readonly){
-		if (!(stream = camel_stream_fs_new_with_name (m->path, O_WRONLY | O_CREAT | O_TRUNC, 0666))) {
+		if (!(stream = camel_stream_vfs_new_with_uri (m->path, O_WRONLY | O_CREAT | O_TRUNC, 0666))) {
 			camel_exception_setv (&mm->ex, CAMEL_EXCEPTION_SYSTEM,
 					      _("Cannot create output file: %s:\n %s"),
 					      m->path, g_strerror (errno));
 			return;
 		}
-	} else if (!(stream = camel_stream_fs_new_with_name (m->path, O_WRONLY | O_CREAT | O_TRUNC, 0444))) {
+	} else if (!(stream = camel_stream_vfs_new_with_uri (m->path, O_WRONLY | O_CREAT | O_TRUNC, 0444))) {
 		camel_exception_setv (&mm->ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("Cannot create output file: %s:\n %s"),
 				      m->path, g_strerror (errno));

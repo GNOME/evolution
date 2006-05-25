@@ -1,3 +1,10 @@
+2006-05-25  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Added code to save vcards/addressbooks to remote shares
+
+	* gui/widgets/eab-gui-util.c: (save_it), (eab_contact_save),
+	(eab_contact_list_save):
+
 2006-05-17  Roozbeh Pournader  <roozbeh@farsiweb.info>
 
 	Fix for gnome bug #341931, farsiweb #562

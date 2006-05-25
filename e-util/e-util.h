@@ -154,6 +154,8 @@ char     *e_read_file                                                      (cons
 int       e_write_file                                                     (const char        *filename,
 									    const char        *data,
 									    int                flags);
+int       e_write_file_uri                                                 (const char        *filename,
+									    const char        *data);
 int       e_write_file_mkstemp                                             (char              *filename,
 									    const char        *data);
 

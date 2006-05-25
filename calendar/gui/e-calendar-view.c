@@ -1239,9 +1239,8 @@ on_save_as (EPopup *ep, EPopupItem *pitem, void *data)
 	GList *selected;
 	char *filename;
 	char *ical_string;
-	FILE *file;
 	ECalendarViewEvent *event;
-
+	
 	selected = e_calendar_view_get_selected_events (cal_view);
 	if (!selected)
 		return;
@@ -1256,16 +1255,9 @@ on_save_as (EPopup *ep, EPopupItem *pitem, void *data)
 		g_warning ("Couldn't convert item to a string");
 		return;
 	}
-	
-	file = g_fopen (filename, "w");
-	if (file == NULL) {
-		g_warning ("Couldn't save item");
-		return;
-	}
-	
-	fprintf (file, "%s", ical_string);
+
+	e_write_file_uri (filename, ical_string);
 	g_free (ical_string);
-	fclose (file);
 
 	g_list_free (selected);
 }
@@ -2138,6 +2130,7 @@ e_calendar_view_get_tooltips (ECalendarViewEventData *data)
 
 	default_zone = e_calendar_view_get_timezone  (data->cal_view);
 	pevent = data->get_view_event (data->cal_view, data->day, data->event_num);
+
 	client = pevent->comp_data->client;
 
 	clone_comp = icalcomponent_new_clone (pevent->comp_data->icalcomp);

@@ -1782,8 +1782,19 @@ add_to_bar (EMsgComposer *composer, GSList *names, int is_inline)
 	EMsgComposerPrivate *p = composer->priv;
 
 	while (names) {
-		e_attachment_bar_attach((EAttachmentBar *)p->attachment_bar, names->data, is_inline ? "inline" : "attachment");
+		CamelURL *url;
+
+		url = camel_url_new (names->data, NULL);
+		if (url == NULL)
+			continue;
+
+		if (!g_ascii_strcasecmp (url->protocol, "file")) {		
+			e_attachment_bar_attach((EAttachmentBar *)p->attachment_bar, url->path, is_inline ? "inline" : "attachment");
+		} else {
+			e_attachment_bar_attach_remote_file ((EAttachmentBar *)p->attachment_bar, names->data, is_inline ? "inline" : "attachment");			
+		}
 		names = g_slist_next(names);
+		camel_url_free (url);
 	}
 }
 	
@@ -2969,7 +2980,7 @@ drop_action(EMsgComposer *composer, GdkDragContext *context, guint32 action, Gtk
 				} else	{
 					e_attachment_bar_attach_remote_file 
 						(E_ATTACHMENT_BAR (p->attachment_bar),
-						str);
+						 str, "attachment");
 				}
 				g_free (str);
 				camel_url_free (url);

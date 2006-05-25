@@ -37,7 +37,7 @@
 #include <libedataserverui/e-source-selector.h>
 
 #include <camel/camel-mime-part.h>
-#include <camel/camel-stream-fs.h>
+#include <camel/camel-stream-vfs.h>
 #include "e-util/e-util.h"
 #include "e-util/e-i18n.h"
 #include "e-util/e-mktemp.h"
@@ -135,7 +135,7 @@ temp_save_part(CamelMimePart *part, char *path, gboolean file)
 	}
 
 	wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (part));
-	stream = camel_stream_fs_new_with_name (path, O_RDWR|O_CREAT|O_TRUNC, 0600);
+	stream = camel_stream_vfs_new_with_uri (path, O_WRONLY|O_CREAT|O_TRUNC, 0600);
 
 	if (!stream) {
 		/* TODO handle error conditions */
