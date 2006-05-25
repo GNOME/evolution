@@ -2427,6 +2427,9 @@ emfv_list_selection_change(ETree *tree, EMFolderView *emfv)
 static void
 emfv_format_link_clicked(EMFormatHTMLDisplay *efhd, const char *uri, EMFolderView *emfv)
 {
+	if (!strncmp (uri, "##", 2))
+		return;
+		
 	if (!g_ascii_strncasecmp (uri, "mailto:", 7)) {
 		em_utils_compose_new_message_with_mailto (uri, emfv->folder_uri);
 	} else if (*uri == '#') {
@@ -2823,6 +2826,8 @@ emfv_on_url_cb (GObject *emitter, const char *url, EMFolderView *emfv)
 			g_free(addr);
 			camel_url_free(curl);
 			camel_object_unref(cia);
+		} else if (!strncmp (url, "##", 2)) {
+			nice_url = g_strdup_printf (_("Click to hide/unhide addresses"), url);
 		} else
 			nice_url = g_strdup_printf (_("Click to open %s"), url);
 	}

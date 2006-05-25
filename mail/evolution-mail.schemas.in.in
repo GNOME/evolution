@@ -430,6 +430,36 @@
     </schema>
 
     <schema>
+      <key>/schemas/apps/evolution/mail/display/address_compress</key>
+      <applyto>/apps/evolution/mail/display/address_compress</applyto>
+      <owner>evolution-mail</owner>
+      <type>boolean</type>
+      <default>true</default>
+      <locale name="C">
+         <short>Compress display of addresses in TO/CC/BCC</short>
+         <long>
+	 Compress display of addresses in TO/CC/BCC to the number 
+	 specified in address_count.
+         </long>
+      </locale>
+    </schema>
+    
+    <schema>
+      <key>/schemas/apps/evolution/mail/display/address_count</key>
+      <applyto>/apps/evolution/mail/display/address_count</applyto>
+      <owner>evolution-mail</owner>
+      <type>int</type>
+      <default>5</default>
+      <locale name="C">
+         <short>Number of addresses to display in TO/CC/BCC</short>
+         <long>
+         This sets the number of addresses to show in default message list
+	 view, beyond which a '...' is shown.
+         </long>
+      </locale>
+    </schema>
+    
+    <schema>
       <key>/schemas/apps/evolution/mail/display/thread_subject</key>
       <applyto>/apps/evolution/mail/display/thread_subject</applyto>
       <owner>evolution-mail</owner>

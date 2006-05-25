@@ -106,6 +106,10 @@ typedef struct {
 	guint spell_notify_id;
 	guint mark_citations__notify_id;
 	guint citation_colour_notify_id;
+	guint address_count_notify_id;
+	guint address_compress_notify_id;	
+	gboolean address_compress;	
+	gint address_count;
 	
 	GPtrArray *mime_types;
 	guint mime_types_notify_id;
@@ -321,6 +325,20 @@ gconf_style_changed (GConfClient *client, guint cnxn_id,
 }
 
 static void
+gconf_address_count_changed (GConfClient *client, guint cnxn_id,
+			     GConfEntry *entry, gpointer user_data)
+{
+	config->address_count = gconf_client_get_int (config->gconf, "/apps/evolution/mail/display/address_count", NULL);
+}
+
+static void
+gconf_address_compress_changed (GConfClient *client, guint cnxn_id,
+			     GConfEntry *entry, gpointer user_data)
+{
+	config->address_compress = gconf_client_get_bool (config->gconf, "/apps/evolution/mail/display/address_compress", NULL);
+}
+
+static void
 gconf_mime_types_changed (GConfClient *client, guint cnxn_id,
 			  GConfEntry *entry, gpointer user_data)
 {
@@ -352,6 +370,10 @@ mail_config_init (void)
 			      GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
 	config->font_notify_id = gconf_client_notify_add (config->gconf, "/apps/evolution/mail/display/fonts",
 							  gconf_style_changed, NULL, NULL, NULL);
+	config->font_notify_id = gconf_client_notify_add (config->gconf, "/apps/evolution/mail/display/address_compress",
+							  gconf_address_compress_changed, NULL, NULL, NULL);		
+	config->font_notify_id = gconf_client_notify_add (config->gconf, "/apps/evolution/mail/display/address_count",
+							  gconf_address_count_changed, NULL, NULL, NULL);	
 	config->spell_notify_id = gconf_client_notify_add (config->gconf, "/GNOME/Spell",
 							   gconf_style_changed, NULL, NULL, NULL);
 	config->mark_citations__notify_id = gconf_client_notify_add (config->gconf, "/apps/evolution/mail/display/mark_citations",
@@ -373,7 +395,8 @@ mail_config_init (void)
 	
 	config_cache_labels ();
 	config_cache_mime_types ();
-	
+	config->address_compress = gconf_client_get_bool (config->gconf, "/apps/evolution/mail/display/address_compress", NULL);
+	config->address_count = gconf_client_get_int (config->gconf, "/apps/evolution/mail/display/address_count", NULL);
 	config->accounts = e_account_list_new (config->gconf);
 	config->signatures = e_signature_list_new (config->gconf);
 }
@@ -504,6 +527,15 @@ GSList *
 mail_config_get_labels (void)
 {
 	return config->labels;
+}
+
+int
+mail_config_get_address_count (void)
+{	
+	if (!config->address_compress)
+		return -1;
+
+	return config->address_count;
 }
 
 const char *

@@ -133,6 +133,7 @@ struct _EAccountList *mail_config_get_accounts (void);
 void mail_config_add_account (struct _EAccount *account);
 void mail_config_remove_account (struct _EAccount *account);
 void mail_config_set_default_account (struct _EAccount *account);
+int mail_config_get_address_count (void);
 
 void mail_config_remove_account_proxies (struct _EAccount *account);
 void mail_config_prune_proxies (void);

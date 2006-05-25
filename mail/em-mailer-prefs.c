@@ -449,6 +449,16 @@ mark_seen_timeout_changed (GtkSpinButton *spin, EMMailerPrefs *prefs)
 }
 
 static void
+address_compress_count_changed (GtkSpinButton *spin, EMMailerPrefs *prefs)
+{
+	int count;
+	
+	count = (int) gtk_spin_button_get_value (prefs->address_count);
+	
+	gconf_client_set_int (prefs->gconf, "/apps/evolution/mail/display/address_count", count, NULL);
+}
+
+static void
 spin_button_init (EMMailerPrefs *prefs, GtkSpinButton *spin, const char *key, float div, GCallback value_changed)
 {
 	GError *err = NULL;
@@ -540,7 +550,7 @@ toggle_button_init (EMMailerPrefs *prefs, GtkToggleButton *toggle, int not, cons
 	
 	bool = gconf_client_get_bool (prefs->gconf, key, NULL);
 	gtk_toggle_button_set_active (toggle, not ? !bool : bool);
-	
+
 	if (toggled) {
 		g_object_set_data ((GObject *) toggle, "key", (void *) key);
 		g_signal_connect (toggle, "toggled", toggled, prefs);
@@ -755,6 +765,16 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs)
 	spin_button_init (prefs, prefs->timeout,
 			  "/apps/evolution/mail/display/mark_seen_timeout",
 			  1000.0, G_CALLBACK (mark_seen_timeout_changed));
+
+	prefs->address_toggle = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "address_checkbox"));
+	toggle_button_init (prefs, prefs->address_toggle, FALSE,
+			    "/apps/evolution/mail/display/address_compress",
+			    G_CALLBACK (toggle_button_toggled));
+	
+	prefs->address_count = GTK_SPIN_BUTTON (glade_xml_get_widget (gui, "address_spin"));
+	spin_button_init (prefs, prefs->address_count,
+			  "/apps/evolution/mail/display/address_count",
+			  1, G_CALLBACK (address_compress_count_changed));
 	
 	prefs->charset = GTK_OPTION_MENU (glade_xml_get_widget (gui, "omenuCharset"));
 	charset_menu_init (prefs);

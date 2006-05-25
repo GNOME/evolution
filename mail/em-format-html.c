@@ -563,6 +563,16 @@ efh_url_requested(GtkHTML *html, const char *url, GtkHTMLStream *handle, EMForma
 	} else if (g_ascii_strncasecmp(url, "http:", 5) == 0 || g_ascii_strncasecmp(url, "https:", 6) == 0) {
 		d(printf(" adding job, get %s\n", url));
 		job = em_format_html_job_new(efh, emfh_gethttp, g_strdup(url));
+	} else if  (g_ascii_strncasecmp(url, "/", 1) == 0) {
+		char *data = NULL;
+		int length = 0;
+		gboolean status;
+		
+		status = g_file_get_contents (url, &data, &length, NULL);
+		if (status)
+			gtk_html_stream_write (handle, data, length);
+
+		gtk_html_stream_close(handle, status? GTK_HTML_STREAM_OK : GTK_HTML_STREAM_ERROR);
 	} else {
 		d(printf("HTML Includes reference to unknown uri '%s'\n", url));
 		gtk_html_stream_close(handle, GTK_HTML_STREAM_ERROR);
@@ -1442,7 +1452,7 @@ efh_format_text_header (EMFormatHTML *emfh, CamelStream *stream, const char *lab
 		html = value;
 	else
 		html = mhtml = camel_text_to_html (value, emfh->text_html_flags, 0);
-	
+
 	if (emfh->simple_headers) {
 		fmt = "<b>%s</b>: %s<br>";
 	} else {
@@ -1451,8 +1461,11 @@ efh_format_text_header (EMFormatHTML *emfh, CamelStream *stream, const char *lab
 				fmt = "<tr><td><b>%s:</b> %s</td></tr>";
 			else
 				fmt = "<tr><td>%s: %s</td></tr>";
+		} else if (flags & EM_FORMAT_HTML_HEADER_NODEC) {
+			fmt = "<tr><th align=\"right\" valign=\"top\" nowrap>%s<b>&nbsp;</b></th><td valign=top>%s</td></tr>";
 		} else {
-			if (flags & EM_FORMAT_HEADER_BOLD)
+			
+			if (flags & EM_FORMAT_HEADER_BOLD) 
 				fmt = "<tr><th align=\"right\" valign=\"top\" nowrap>%s:<b>&nbsp;</b></th><td>%s</td></tr>";
 			else
 				fmt = "<tr><td align=\"right\" valign=\"top\" nowrap>%s:<b>&nbsp;</b></td><td>%s</td></tr>";
@@ -1469,19 +1482,28 @@ static char *addrspec_hdrs[] = {
 	"resent-to", "resent-cc", "resent-bcc", NULL
 };
 
-#if 0
 /* FIXME: include Sender and Resent-* headers too? */
 /* For Translators only: The following strings are used in the header table in the preview pane */
 static char *i18n_hdrs[] = {
 	N_("From"), N_("Reply-To"), N_("To"), N_("Cc"), N_("Bcc")
 };
-#endif
 
-static void
-efh_format_address (GString *out, struct _camel_header_address *a)
+static gchar *
+efh_format_address (EMFormatHTML *efh, GString *out, struct _camel_header_address *a, gchar *field)
 {
 	guint32 flags = CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES;
 	char *name, *mailto, *addr;
+	int i=0;
+	gboolean wrap = FALSE;
+	char *str = NULL;
+	int limit = mail_config_get_address_count ();
+
+	if (field ) {
+		if ((!strcmp (field, i18n_hdrs[2]) && !(efh->header_wrap_flags & EM_FORMAT_HTML_HEADER_TO))
+		    || (!strcmp (field, i18n_hdrs[3]) && !(efh->header_wrap_flags & EM_FORMAT_HTML_HEADER_CC))
+		    || (!strcmp (field, i18n_hdrs[4]) && !(efh->header_wrap_flags & EM_FORMAT_HTML_HEADER_BCC)))
+		    wrap = TRUE;
+	}
 	
 	while (a) {
 		if (a->name)
@@ -1517,7 +1539,7 @@ efh_format_address (GString *out, struct _camel_header_address *a)
 			break;
 		case CAMEL_HEADER_ADDRESS_GROUP:
 			g_string_append_printf (out, "%s: ", name);
-			efh_format_address (out, a->v.members);
+			efh_format_address (efh, out, a->v.members, NULL);
 			g_string_append_printf (out, ";");
 			break;
 		default:
@@ -1526,11 +1548,54 @@ efh_format_address (GString *out, struct _camel_header_address *a)
 		}
 		
 		g_free (name);
-		
+
+		i++;
 		a = a->next;
 		if (a)
 			g_string_append (out, ", ");
+
+		/* Let us add a '...' if we have more addresses */
+		if (limit > 0 && wrap && a && (i>(limit-1))) {
+			
+			if (!strcmp (field, i18n_hdrs[2])) {
+				
+				g_string_append (out, "<a href=\"##TO##\">...</a>");
+				str = g_strdup ("<a href=\"##TO##\"><img src="EVOLUTION_ICONSDIR"\"/plus.png\" /></a>  ");
+				
+				return str;
+			}
+			else if (!strcmp (field, i18n_hdrs[3])) {
+				g_string_append (out, "<a href=\"##CC##\">...</a>");
+				str = g_strdup ("<a href=\"##CC##\"><img src="EVOLUTION_ICONSDIR"\"/plus.png\" /></a>  ");
+
+				return str;
+			}
+			else if (!strcmp (field, i18n_hdrs[4])) {
+				g_string_append (out, "<a href=\"##BCC##\">...</a>");
+				str = g_strdup ("<a href=\"##BCC##\"><img src="EVOLUTION_ICONSDIR"\"/plus.png\" /></a>  ");
+
+				return str;
+			}
+		}
+		
 	}
+
+	if (limit > 0 && i>(limit-1)) {
+
+		
+		if (!strcmp (field, i18n_hdrs[2])) {
+			str = g_strdup_printf ("<a href=\"##TO##\"><img src="EVOLUTION_ICONSDIR"\"/minus.png\" /></a>  ");
+		}
+		else if (!strcmp (field, i18n_hdrs[3])) {
+			str = g_strdup ("<a href=\"##CC##\"><img src="EVOLUTION_ICONSDIR"\"/minus.png\" /></a>  ");
+		}
+		else if (!strcmp (field, i18n_hdrs[4])) {
+			str = g_strdup ("<a href=\"##BCC##\"><img src="EVOLUTION_ICONSDIR"\"/minus.png\" /></a>  ");
+		}
+	}
+
+	return str;
+	 
 }
 
 static void
@@ -1540,6 +1605,7 @@ efh_format_header(EMFormat *emf, CamelStream *stream, CamelMedium *part, struct 
 	char *name, *value = NULL, *p;
 	const char *label, *txt;
 	int addrspec = 0, i;
+	char *str_field = NULL;
 	
 	name = alloca(strlen(header->name)+1);
 	strcpy(name, header->name);
@@ -1555,6 +1621,7 @@ efh_format_header(EMFormat *emf, CamelStream *stream, CamelMedium *part, struct 
 	if (addrspec) {
 		struct _camel_header_address *addrs;
 		GString *html;
+		char *img;
 		
 		if (!(addrs = camel_header_address_decode(header->value, emf->charset ? emf->charset : emf->default_charset)))
 			return;
@@ -1573,7 +1640,15 @@ efh_format_header(EMFormat *emf, CamelStream *stream, CamelMedium *part, struct 
 		label = _(name);
 		
 		html = g_string_new("");
-		efh_format_address(html, addrs);
+		img = efh_format_address(emf, html, addrs, label);
+		
+		if (img) {
+//			str_field = g_strdup_printf ("<table><tr><td valign=top>%s</td><td valign=top><b>%s:</b></td></tr></table>", img, label);
+			str_field = g_strdup_printf ("%s%s:", img, label);			
+			label = str_field;
+			flags |= EM_FORMAT_HTML_HEADER_NODEC;
+			g_free (img);
+		}
 		camel_header_address_unref(addrs);
 		txt = value = html->str;
 		g_string_free(html, FALSE);
@@ -1660,6 +1735,7 @@ efh_format_header(EMFormat *emf, CamelStream *stream, CamelMedium *part, struct 
 	efh_format_text_header(efh, stream, label, txt, flags);
 	
 	g_free(value);
+	g_free (str_field);
 }
 
 static void

@@ -687,6 +687,9 @@ efhd_html_button_press_event (GtkWidget *widget, GdkEventButton *event, EMFormat
 
 	d(printf("popup button pressed\n"));
 
+	if (uri && !strncmp (uri, "##", 2))
+	    return TRUE;
+	    
 	if (uri) {
 		puri = em_format_find_puri((EMFormat *)efhd, uri);
 		d(printf("poup event, uri = '%s' part = '%p'\n", uri, puri?puri->part:NULL));
@@ -725,13 +728,32 @@ static void
 efhd_html_link_clicked (GtkHTML *html, const char *url, EMFormatHTMLDisplay *efhd)
 {
 	d(printf("link clicked event '%s'\n", url));
-	g_signal_emit((GObject *)efhd, efhd_signals[EFHD_LINK_CLICKED], 0, url);
+	if (url && !strncmp(url, "##", 2)) {
+		if (!strcmp (url, "##TO##"))
+			if (!(((EMFormatHTML *) efhd)->header_wrap_flags & EM_FORMAT_HTML_HEADER_TO))
+				((EMFormatHTML *) efhd)->header_wrap_flags |= EM_FORMAT_HTML_HEADER_TO;
+			else
+				((EMFormatHTML *) efhd)->header_wrap_flags &= ~EM_FORMAT_HTML_HEADER_TO;
+		else if (!strcmp (url, "##CC##"))
+			if (!(((EMFormatHTML *) efhd)->header_wrap_flags & EM_FORMAT_HTML_HEADER_CC))
+				((EMFormatHTML *) efhd)->header_wrap_flags |= EM_FORMAT_HTML_HEADER_CC;
+			else
+				((EMFormatHTML *) efhd)->header_wrap_flags &= ~EM_FORMAT_HTML_HEADER_CC;
+		else if (!strcmp (url, "##BCC##"))
+			if (!(((EMFormatHTML *) efhd)->header_wrap_flags & EM_FORMAT_HTML_HEADER_BCC))
+				((EMFormatHTML *) efhd)->header_wrap_flags |= EM_FORMAT_HTML_HEADER_BCC;
+			else
+				((EMFormatHTML *) efhd)->header_wrap_flags &= ~EM_FORMAT_HTML_HEADER_BCC;
+		em_format_redraw((EMFormat *)efhd);     
+	} else
+	    g_signal_emit((GObject *)efhd, efhd_signals[EFHD_LINK_CLICKED], 0, url);
 }
 
 static void
 efhd_html_on_url (GtkHTML *html, const char *url, EMFormatHTMLDisplay *efhd)
 {
 	d(printf("on_url event '%s'\n", url));
+
 	g_signal_emit((GObject *)efhd, efhd_signals[EFHD_ON_URL], 0, url);
 }
 
@@ -1119,6 +1141,7 @@ static void efhd_format_clone(EMFormat *emf, CamelFolder *folder, const char *ui
 			efhd->priv->show_bar = ((EMFormatHTMLDisplay *)src)->priv->show_bar;
 		else
 			efhd->priv->show_bar = FALSE;
+		((EMFormatHTML *) emf)->header_wrap_flags = 0;
 	}
 
 	((EMFormatClass *)efhd_parent)->format_clone(emf, folder, uid, msg, src);

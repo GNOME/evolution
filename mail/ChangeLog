@@ -1,3 +1,23 @@
+2006-05-25  Srinivasa Ragavan  <sragavan@novell.com>
+
+	Added support for collapsible headers for To/Cc/Bcc fields.
+
+	* em-folder-view.c: (emfv_format_link_clicked), (emfv_on_url_cb):
+	* em-format-html-display.c: (efhd_html_button_press_event),
+	(efhd_html_link_clicked), (efhd_html_on_url), (efhd_format_clone):
+	* em-format-html.c: (efh_url_requested), (efh_format_text_header),
+	(efh_format_address), (efh_format_header):
+	* em-format-html.h:
+	* em-mailer-prefs.c: (address_compress_count_changed),
+	(toggle_button_init), (em_mailer_prefs_construct):
+	* em-mailer-prefs.h:
+	* evolution-mail.schemas.in.in:
+	* mail-config.c: (gconf_address_count_changed),
+	(gconf_address_compress_changed), (mail_config_init),
+	(mail_config_get_labels), (mail_config_get_address_count):
+	* mail-config.glade:
+	* mail-config.h:
+
 2006-05-24  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fixes bug #342676

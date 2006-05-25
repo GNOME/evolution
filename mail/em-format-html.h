@@ -43,6 +43,12 @@ struct _CamelMimePart;
 struct _CamelMedium;
 struct _CamelStream;
 
+enum _em_format_html_header_flags {
+	EM_FORMAT_HTML_HEADER_TO = 1<<0,
+	EM_FORMAT_HTML_HEADER_CC = 1<<1,
+	EM_FORMAT_HTML_HEADER_BCC = 1<<2,
+};
+
 /* A HTMLJob will be executed in another thread, in sequence,
    It's job is to write to its stream, close it if successful,
    then exit */
@@ -132,6 +138,7 @@ struct _EMFormatHTMLPObject {
 
 #define EM_FORMAT_HTML_HEADER_NOCOLUMNS (EM_FORMAT_HEADER_LAST)
 #define EM_FORMAT_HTML_HEADER_HTML (EM_FORMAT_HEADER_LAST<<1) /* header already in html format */
+#define EM_FORMAT_HTML_HEADER_NODEC (EM_FORMAT_HEADER_LAST<<2) /* header already in html format */
 #define EM_FORMAT_HTML_HEADER_LAST (EM_FORMAT_HEADER_LAST<<8)
 
 #define EM_FORMAT_HTML_VPAD "<table cellspacing=0 cellpadding=3><tr><td><a name=\"padding\"></a></td></tr></table>\n"
@@ -186,6 +193,7 @@ struct _EMFormatHTML {
 	unsigned int simple_headers:1; /* simple header format, no box/table */
 	unsigned int hide_headers:1; /* no headers at all */
 	unsigned int show_rupert:1; /* whether we print rupert or not */
+	guint32 header_wrap_flags; 
 };
 
 struct _EMFormatHTMLClass {
