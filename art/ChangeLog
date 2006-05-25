@@ -1,3 +1,11 @@
+2006-05-25  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Added new icons to evolution.
+
+	* Makefile.am: Added them to build.
+	* minus.png: + icon.
+	* plus.png: - icon.
+
 2006-03-06  Veerapuram Varadhan  <vvaradhan@novell.com>
 
 	* Makefile.am (images_DATA): Add query-free-busy.png

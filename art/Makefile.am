@@ -6,7 +6,9 @@ images_DATA = \
 	offline.png			\
 	online.png			\
 	world_map-960.png		\
-	query-free-busy.png
+	query-free-busy.png		\
+	plus.png			\
+	minus.png
 
 install-data-local:
 	$(mkinstalldirs) $(DESTDIR)$(datadir)/pixmaps
