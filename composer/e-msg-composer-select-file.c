@@ -61,8 +61,8 @@ get_selector(struct _EMsgComposer *composer, const char *title, guint32 flags)
 {
 	GtkWidget *selection;
 	GtkWidget *showinline = NULL;
-	char *path;
 	GList *icon_list;
+	char *path;
 	
 	path = g_object_get_data ((GObject *) composer, "attach_path");
 	
@@ -194,12 +194,12 @@ select_attach_response(GtkWidget *selector, guint response, struct _EMsgComposer
 		EMsgComposerSelectAttachFunc func = g_object_get_data((GObject *)selector, "callback");
 		GtkToggleButton *showinline = g_object_get_data((GObject *)selector, "show-inline");
 		char *path = NULL;
-
+		
 #ifdef USE_GTKFILECHOOSER
 		char *filename = NULL;
 		names = gtk_file_chooser_get_uris (GTK_FILE_CHOOSER (selector));
 		filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (selector));
-		if (!filename) {
+		if (filename) {
 			path = g_path_get_dirname (filename);
 			g_free (filename);
 		}

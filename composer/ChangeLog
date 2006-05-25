@@ -1,5 +1,9 @@
 2006-05-25  Jeffrey Stedfast  <fejj@novell.com>
 
+	* e-msg-composer-select-file.c (select_attach_response): Replace
+	'if (!filename)' with 'if (filename)', fixes a bug in Srini's
+	patch.
+
 	* e-msg-composer-hdrs.c (header_new_recipient): Set the visible
 	field to FALSE.
 
