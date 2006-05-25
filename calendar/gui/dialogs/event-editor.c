@@ -386,12 +386,20 @@ static BonoboUIVerb verbs [] = {
 };
 
 static EPixmap pixmaps[] = {
+	/* NOTE: If adding or removing elements in this array, make
+	 * sure the index of the element where the pathname to the
+	 * icons is filled in at run-time in event_editor_init() are
+	 * updated, too.
+	 */
 	E_PIXMAP ("/Toolbar/ActionAlarm", "stock_alarm", E_ICON_SIZE_LARGE_TOOLBAR),
 	E_PIXMAP ("/Toolbar/ActionAllDayEvent", "stock_new-24h-appointment", E_ICON_SIZE_LARGE_TOOLBAR),
 	E_PIXMAP ("/Toolbar/ViewTimeZone", "stock_timezone", E_ICON_SIZE_LARGE_TOOLBAR),	
 	E_PIXMAP ("/Toolbar/ActionRecurrence", "stock_task-recurring", E_ICON_SIZE_LARGE_TOOLBAR),	
 	E_PIXMAP ("/commands/ActionRecurrence", "stock_task-recurring", E_ICON_SIZE_LARGE_TOOLBAR),		
-	E_PIXMAP ("/Toolbar/ActionFreeBusy", EVOLUTION_ICONSDIR"/query-free-busy.png", E_ICON_SIZE_LARGE_TOOLBAR),			
+	/* This will have an absolute path to the png file filled in
+	 * at run-time, see event_editor_init().
+	 */
+	E_PIXMAP ("/Toolbar/ActionFreeBusy", NULL, E_ICON_SIZE_LARGE_TOOLBAR),
 	E_PIXMAP_END
 };
 
@@ -513,6 +521,11 @@ event_editor_init (EventEditor *ee)
 		editor->uic, "ActionFreeBusy", 
 		menu_action_freebusy_cb, editor);
 
+	/* NOTE: Make sure the 5 below corresponds to the correct
+	 * element in the pixmaps array.
+	 */
+	if (!pixmaps[5].name)
+		pixmaps[5].name = g_build_filename (EVOLUTION_ICONSDIR, "query-free-busy.png", NULL);
 	e_pixmaps_update (editor->uic, pixmaps);
 
 	bonobo_ui_component_thaw (editor->uic, NULL);	
