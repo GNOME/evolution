@@ -1,3 +1,9 @@
+2006-05-25  Devashish Sharma  <sdevashish@novell.com>
+
+	* gui/widgets/eab-contact-display.c : Name of some fields differ 
+	when seen in preview pane and contact editor (Video Chat in contact
+	editor and Video Conferencing in preview pane).
+
 2006-05-25  Devashish Sharma  <sdevashish@novel.com>
 
 	* gui/contact-list-editor/e-contact-list-editor.c : Contacts
