@@ -9,25 +9,27 @@
 2006-03-09  Sam Yang  <sam.yang@sun.com>
 
 	** Fixes #333971
-	
-	* e-msg-composer.c: (e_msg_composer_insert_paragraph_after): 
-	Remove text-default-color command that resets customized text color
-	to default, so stops composer color combo from receiving signal to 
-	refresh color preview when inserting a new line.	
+
+	* e-msg-composer.c (e_msg_composer_insert_paragraph_after): Remove
+	text-default-color command that resets customized text color to
+	default, so stops composer color combo from receiving signal to
+	refresh color preview when inserting a new line.
 
 2006-04-24  Srinivasa Ragavan  <sragavan@novell.com>
 
 	Adding support for ENameSelectorList in composer. It is a enhanced
 	version of Name Selector, which provides a list view to the entry
 	data.
-	* e-msg-composer-hdrs.c: (create_addressbook_entry),
-	(header_new_recipient), (attach_couple): Added ENameSelectorList to
+
+	* e-msg-composer-hdrs.c (create_addressbook_entry),
+	(header_new_recipient, attach_couple): Added ENameSelectorList to
 	composer.
 
 2006-04-05  Simon Zheng  <simon.zheng@sun.com>
 
 	** Fixes bug #333213
-	* e-msg-composer.c: (best_encoding): According to POSIX.1
+
+	* e-msg-composer.c (best_encoding): According to POSIX.1
 	specfication, if iconv() encounts non-identical characters, it'll
 	return the number of non-identical conversation performed. i.e.
 	returning positive value means exception as well as -1.
@@ -37,7 +39,7 @@
 	** Fix for bug #268584
 	
 	* e-msg-composer-attachment.glade:
-	* e-msg-composer-select-file.c: (get_selector):
+	* e-msg-composer-select-file.c (get_selector):
 	set the accelerate key for "Suggest Suggest automatic display of
 	attachment"
 
@@ -45,9 +47,9 @@
 
 	** Fixes bug #324742
 
-	* e-msg-composer.c (drop_action) (attachment_guess_mime_type):
-	Modified to add images in plain text mode and other files in both 
-	html and plain text mode as attachment during DnD. 
+	* e-msg-composer.c (drop_action, attachment_guess_mime_type):
+	Modified to add images in plain text mode and other files in both
+	html and plain text mode as attachment during DnD.
 
 2006-02-16  Tor Lillqvist  <tml@novell.com>
 
@@ -57,33 +59,39 @@
 
 2006-02-09  Frederic Crozat  <fcrozat@mandriva.com>
 
-	* e-msg-composer-hdrs.c: (e_msg_composer_hdrs_get_internal),
-	(e_msg_composer_hdrs_get_to), (e_msg_composer_hdrs_get_cc),
+	* e-msg-composer-hdrs.c (e_msg_composer_hdrs_get_internal),
+	(e_msg_composer_hdrs_get_to, e_msg_composer_hdrs_get_cc),
 	(e_msg_composer_hdrs_get_bcc): Factorize some code.
 
 2006-02-07  Andre Klapper <a9016009@gmx.de>
+
 	* mail-composer.error.xml: fixing a patch to again fix 325276.
 
 2006-01-24  Kjartan Maraas  <kmaraas@gnome.org>
 
-	* e-msg-composer-hdrs.c: (account_removed_cb),
+	* e-msg-composer-hdrs.c (account_removed_cb),
 	(header_new_recipient): Use guint for 1 bit bitfield, use
 	g_slist_delete_link instead of g_slist_remove_link+g_slist_free1,
 	Remove some unused vars.
-	* e-msg-composer.c: (build_message), (set_editor_text),
+
+	* e-msg-composer.c (build_message, set_editor_text),
 	(autosave_manager_query_load_orphans),
 	(e_msg_composer_new_with_message): Remove unused vars and rename
 	a local variable with a name clash.
-	* evolution-composer.c: (evolution_composer_init): Remove unused var
+
+	* evolution-composer.c (evolution_composer_init): Remove unused var
+
 	* listener.c: Remove stray semi colon.
 
 2006-1-13  Johnny Jacob  <johnnyjacob@gmail.com>
 
 	** Fixes bug #323127
-	* e-msg-composer.c (create_composer) : Add a Expander
-	for attachments bar.
+
+	* e-msg-composer.c (create_composer): Add a Expander for
+	attachments bar.
 	(show_attachments): Show/Hide attachment bar.
-	(attachment_expander_activate_cb) : Event handler for attachment bar.
+	(attachment_expander_activate_cb): Event handler for attachment
+	bar.
 
 2006-01-13  Srinivasa Ragavan  <sragavan@novell.com>
 
@@ -96,21 +104,21 @@
 
 	** See bug #246237
 
-	* e-msg-composer.c 
-	(create_composer):
-	(subject_changed_cb):
-	Modified to change window title to "Compose Message"
+	* e-msg-composer.c (create_composer):
+	(subject_changed_cb): Modified to change window title to "Compose
+	Message"
 
 2006-01-06  Simon Zheng <simon.zheng@sun.com>
 
 	* e-msg-composer-hdrs.h: use libedataserver/e-account.h 
 	instead of e-util/e-account.h.
+
 	* evolution-composer.c: use libedataserver/e-account-list.h 
 	instead of e-util/e-account-list.h.
 
 2005-12-17  Tor Lillqvist  <tml@novell.com>
 
-	* e-msg-composer.c
+	* e-msg-composer.c:
 	* e-msg-composer-attachment.c: Include <gtk/gtk.h> instead of
 	attempting to hand-pick individual GTK headers. Use gstdio
 	wrappers. Use GDir instead of dirent. Use g_mkstemp() instead of
@@ -123,8 +131,10 @@
 2005-11-23  Johnny Jacob <johnnyjacob@gmail.com>
 	
 	** See Bug # 246245
-	* e-msg-composer-select-file.c (e_msg_composer_select_file_attachments):   
-	Changed the title caption from "Attach file(s)" to "Insert Attachment".
+
+	* e-msg-composer-select-file.c
+	(e_msg_composer_select_file_attachments): Changed the title
+	caption from "Attach file(s)" to "Insert Attachment".
 
 2005-12-07  Parthasarathi Susarla <sparthasarathi@novell.com>
 	
@@ -133,17 +143,17 @@
 	(menu_insert_priority_cb):
 	(setup_ui):
 	(e_msg_composer_get_priority):
-	(e_msg_composer_set_priority):
-	Add support for setting priority of a message.
+	(e_msg_composer_set_priority): Add support for setting priority of
+	a message.
 
 2005-12-05  Parthasarathi Susarla <sparthasarathi@novell.com>
 	
 	** See bug #322863
-	* e-msg-composer.c: (e_msg_composer_new_with_message):
-	Check if the account indeed exists before freeing/duping it.
-	The account would typically not exist, when redirecting mails
-	originated from other accounts which are not configured in ones 
-	machine.
+
+	* e-msg-composer.c (e_msg_composer_new_with_message): Check if the
+	account indeed exists before freeing/duping it.  The account would
+	typically not exist, when redirecting mails originated from other
+	accounts which are not configured in ones machine.
 
 2005-11-26  Tor Lillqvist  <tml@novell.com>
 
@@ -154,16 +164,16 @@
 	Windows. No effect on functionality on Unix.
 
 2005-10-22  Parthasarathi Susarla <sparthasarathi@novell.com>
-	
-	* e-msg-composer.c: (get_file_content):
-	use composer->priv->charset instead of p->charset. This fixes 
-	a crash
+
+	* e-msg-composer.c (get_file_content): use composer->priv->charset
+	instead of p->charset. This fixes a crash
 
 2005-10-21 Vivek Jain <jvivek@novell.com>
 	
 	Comitted NotZed's patch given on #314701
 	
 	** See bug #314701.
+
 	* e-msg-composer-hdrs.c (get_account_store_url): don't dereference
 	a null url or create an empty one.
 
@@ -184,9 +194,8 @@
 	
 	** See bug #315987
 
-	* e-msg-composer-hdrs.c: (create_from_optionmenu):
-	Load the account info in the From header only if the
-	account is enabled
+	* e-msg-composer-hdrs.c (create_from_optionmenu): Load the account
+	info in the From header only if the account is enabled
 
 2005-10-04  Srinivasa Ragavan <sragavan@novell.com>
 
@@ -199,9 +208,9 @@
 
 	** See bug 317337
 
-	* e-msg-composer.c: (e_msg_composer_new_with_message):
-	Set the proper account name in account_name, so that
-	the from header is set properly.
+	* e-msg-composer.c (e_msg_composer_new_with_message): Set the
+	proper account name in account_name, so that the from header is
+	set properly.
 	
 2005-08-22  Srinivasa Ragavan <sragavan@novell.com>
 
@@ -242,7 +251,7 @@
 
 2005-07-26  Jody Goldberg <jody@gnome.org>
 
-	* Makefile.am : Fix build breakage due to extra whitespace after a
+	* Makefile.am: Fix build breakage due to extra whitespace after a
 	  backslash.
 
 2005-07-26  Harish Krishnaswamy  <kharish@novell.com>
@@ -250,6 +259,7 @@
 	* Makefile.am: Fix make distcheck issues.
 
 2005-07-21 Devashish Sharma <sdevashish@novell.com>
+
 	* e-message-composer.c: Added Shortcut for Save Draft
 	-(Ctrl+Shift+s) and a toolbar button for the same.
 	Fixes #219242
@@ -274,14 +284,15 @@
 
 	** See bug #309869
 
-        * e-msg-composer-hdrs.c: moves the focus to the corresponding
+	* e-msg-composer-hdrs.c: moves the focus to the corresponding
 	header buttons' entry fields.
 
 2005-07-13  Kjartan Maraas  <kmaraas@gnome.org>
 
-	* e-msg-composer-select-file.c: (select_attach_response): Don't
+	* e-msg-composer-select-file.c (select_attach_response): Don't
 	leak the file name here.
-	* e-msg-composer.c: (build_message): Don't allocate charset twice.
+
+	* e-msg-composer.c (build_message): Don't allocate charset twice.
 
 2005-07-13  Tor Lillqvist  <tml@novell.com>
 
@@ -293,11 +304,12 @@
 	* Makefile.am: Removed em-attachment* from the build.
 	Remains in the CVS, just incase to revert in case of issues.
 	Should go away after 2.3.5.
-	
-	* e-msg-composer.c: (add_inlined_images) (build_message) (menu_file_close_cb) 
-	(setup_ui) (attach_message) (drop_action) (e_msg_composer_unrealize) 
-	(create_composer) (handle_mailto) (e_msg_composer_add_header)
-	Changed the code to use e_attachment_* from em_attachment*
+
+	* e-msg-composer.c (add_inlined_images, build_message):
+	(menu_file_close_cb, setup_ui, attach_message, drop_action):
+	(e_msg_composer_unrealize, create_composer, handle_mailto):
+	(e_msg_composer_add_header): Changed the code to use
+	e_attachment_* from em_attachment*
 
 	* e-msg-composer.h: Added removed old header includes
 
@@ -321,15 +333,18 @@
 
 	* e-msg-composer-select-file.c (select_attach_response): Show
 	attachment bar when attachments are added
-	e-msg-composer.c (attachment_bar_changed_cb), (drop_action),
-	(drag_data_received), (create_composer): Added support to
-	DnD targets to the composer GtkHTML window. Also show the 
-	attachment bar when there are attachments and hide when all
-	attachments are removed.
+
+	* e-msg-composer.c (attachment_bar_changed_cb, drop_action),
+	(drag_data_received, create_composer): Added support to DnD
+	targets to the composer GtkHTML window. Also show the attachment
+	bar when there are attachments and hide when all attachments are
+	removed.
 	 
 2005-05-24  Srinivasa Ragavan <sragavan@novell.com>
-	* e-msg-composer-attachment.c (e_msg_composer_attachment_new_from_mime_part);
-	Fixed a bug, which considered forwarded mails as remote files.
+
+	* e-msg-composer-attachment.c
+	(e_msg_composer_attachment_new_from_mime_part); Fixed a bug, which
+	considered forwarded mails as remote files.
 
 2005-05-24  Srinivasa Ragavan <sragavan@novell.com>
 
@@ -338,18 +353,18 @@
 
 2005-05-23  Srinivasa Ragavan <sragavan@novell.com>
 
-	* e-msg-composer-attachment-bar.c, e-msg-composer-attachment-bar.h,
-	  e-msg-composer-attachment.c, e-msg-composer-attachment.h, e-msg-composer.c,
-	  e-msg-composer.h, mail-composer.error.xml : Added attachment of remote URL.
-	  The dnd of url, downloads the files and attaches to the mail.
-
+	* e-msg-composer-attachment-bar.[c,h]:
+	* e-msg-composer-attachment.[c,h]: 
+	* e-msg-composer.[c,h]:
+	* mail-composer.error.xml: Added attachment of remote URL. The dnd
+	  of url, downloads the files and attaches to the mail.
 
 2005-05-16  Srinivasa Ragavan <sragavan@novell.com>
 
-	* e-msg-composer.c (set_editor_text) (menu_edit_delete_all_cb)
-	  (setup_ui) (attachment_bar_changed_cb) (create_composer)
-	  (e_msg_composer_new_from_url): Removed the expander in the 
-	  composer attachment and made it visible all the times.
+	* e-msg-composer.c (set_editor_text, menu_edit_delete_all_cb)
+	(setup_ui, attachment_bar_changed_cb, create_composer)
+	(e_msg_composer_new_from_url): Removed the expander in the
+	composer attachment and made it visible all the times.
 	  
 2005-05-16  Not Zed  <NotZed@Ximian.com>
 
@@ -433,7 +448,8 @@
 
 	* e-msg-composer-attachment-bar.c:
 	(e_msg_composer_attachment_bar_new):
-	* e-msg-composer.c: (create_composer):
+
+	* e-msg-composer.c (create_composer):
 
 2005-02-10  Not Zed  <NotZed@Ximian.com>
 
