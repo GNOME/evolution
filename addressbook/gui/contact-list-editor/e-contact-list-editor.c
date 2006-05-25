@@ -23,6 +23,7 @@
 #include "e-contact-list-editor.h"
 #include <e-util/e-icon-factory.h>
 #include <e-util/e-util-private.h>
+#include <e-util/e-error.h>
 
 #include <string.h>
 
@@ -667,6 +668,27 @@ e_contact_list_editor_create_table(gchar *name,
 	return table;
 }
 
+static gboolean 
+contact_already_exists (EContactListModel *model, const char *email) 
+{
+	int row_count;
+	int row;
+	char *list_email;
+	row_count = e_table_model_row_count (E_TABLE_MODEL (model));
+	for (row = 0; row < row_count; row ++) {
+		list_email = (char *) e_destination_get_email(e_contact_list_model_get_destination (model, row));
+		 if (strcmp (list_email, email) == 0) {
+			 if (e_error_run (NULL, "addressbook:ask-list-add-exists",
+						 email) != GTK_RESPONSE_YES)
+				 return TRUE;
+			 else
+				 return FALSE;
+			 break;
+		 }
+	}
+	return FALSE;
+}
+
 static void
 add_to_model (EContactListEditor *editor, GList *destinations)
 {
@@ -674,7 +696,13 @@ add_to_model (EContactListEditor *editor, GList *destinations)
 
 	for (l = destinations; l; l = g_list_next (l)) {
 		EDestination *destination = l->data;
-		e_contact_list_model_add_destination (E_CONTACT_LIST_MODEL(editor->model), destination);
+		if (e_destination_get_email (destination)) {
+			if (! contact_already_exists (E_CONTACT_LIST_MODEL (editor->model)
+					, e_destination_get_email (destination))) {
+				e_contact_list_model_add_destination (E_CONTACT_LIST_MODEL (editor->model),
+								  destination);
+			}
+		}
 	}
 }
 
@@ -973,12 +1001,15 @@ table_drag_data_received_cb (ETable *table, int row, int col,
 			EContact *contact = c->data;
 
 			if (!e_contact_get (contact, E_CONTACT_IS_LIST)) { 
-				if (e_contact_get (contact, E_CONTACT_EMAIL)) {
-					e_contact_list_model_add_contact (E_CONTACT_LIST_MODEL (editor->model),
-									  contact,
+				if (e_contact_get (contact, E_CONTACT_EMAIL_1)) {
+					if (! contact_already_exists (E_CONTACT_LIST_MODEL (editor->model)
+							, e_contact_get (contact, E_CONTACT_EMAIL_1))) {
+						e_contact_list_model_add_contact (E_CONTACT_LIST_MODEL (editor->model),
+										  contact,
 									  0  /* Hard-wired for default e-mail */);
 		
-					changed = TRUE;
+						changed = TRUE;
+					}
 				}
 				else
 					g_warning ("Contact with no email-ids listed can't be added to a Contact-List");

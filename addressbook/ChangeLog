@@ -1,3 +1,8 @@
+2006-05-25  Devashish Sharma  <sdevashish@novel.com>
+
+	* gui/contact-list-editor/e-contact-list-editor.c : Contacts
+	added to a contact list cant be added again.
+
 2006-05-25  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Added code to save vcards/addressbooks to remote shares
