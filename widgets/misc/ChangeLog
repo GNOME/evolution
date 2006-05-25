@@ -1,3 +1,14 @@
+2006-05-25  Srinivasa Ragavan  <sragavan@novell.com>
+
+	Added code to specify the attachment type for remote files.
+	Also added code to save files to CamelStreamVfs
+
+	* e-attachment-bar.c: (update), (eab_icon_clicked_cb),
+	(e_attachment_bar_attach_remote_file):
+	* e-attachment-bar.h:
+	* e-attachment.c: (e_attachment_new_remote_file),
+	(e_attachment_build_remote_file):
+
 2006-05-04  Rajeev Ramanathan  <rajeevramanathan_2004@yahoo.co.in>
 
 	Added patch to enable build without cairo using ENABLE_CAIRO macro.

@@ -926,8 +926,8 @@ eab_icon_clicked_cb (EAttachmentBar *bar, GdkEvent *event, gpointer *dummy)
 			if (!attachment->store_uri) {
 				CamelURL *curl;
 				
-				path = temp_save_part (attachment->body);				
-				curl  = camel_url_new ("file:", NULL);
+				path = temp_save_part (attachment->body);
+				curl  = camel_url_new ("file://", NULL);
 				camel_url_set_path ( curl, path);
 				attachment->store_uri = camel_url_to_string (curl, 0);
 				camel_url_free (curl);
@@ -1227,7 +1227,7 @@ e_attachment_bar_get_download_count (EAttachmentBar *bar)
 
 void 
 e_attachment_bar_attach_remote_file (EAttachmentBar *bar,
-				     const gchar *url)
+				     const gchar *url, const char *disposition)
 {
 	EAttachment *attachment;
 	CamelException ex;
@@ -1239,7 +1239,7 @@ e_attachment_bar_attach_remote_file (EAttachmentBar *bar,
 		bar->priv->path = e_mkdtemp("attach-XXXXXX");
 
 	camel_exception_init (&ex);
-	attachment = e_attachment_new_remote_file (url, "attachment", bar->priv->path, &ex);
+	attachment = e_attachment_new_remote_file (url, disposition, bar->priv->path, &ex);
 	g_signal_connect (attachment, "update", G_CALLBACK(update_remote_file), bar);
 	if (attachment) {
 		add_common (bar, attachment);
