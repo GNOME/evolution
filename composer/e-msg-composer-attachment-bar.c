@@ -813,7 +813,7 @@ attach_to_multipart (CamelMultipart *multipart,
 					default_charset = buf = get_default_charset ();
 				
 				/* FIXME: We should really check that this fits within the
-                                   default_charset and if not find one that does and/or
+				   default_charset and if not find one that does and/or
 				   allow the user to specify? */
 			}
 			

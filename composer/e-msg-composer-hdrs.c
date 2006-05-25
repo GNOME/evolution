@@ -191,13 +191,13 @@ address_button_clicked_cb (GtkButton *button, gpointer data)
 	hdrs = emchas->hdrs;
 	priv = hdrs->priv;
 	
-	if(button == (GtkButton *)hdrs->priv->to.label)
-		gtk_widget_grab_focus(hdrs->priv->to.entry);
-	else if(button == (GtkButton *)priv->cc.label)
-		gtk_widget_grab_focus(hdrs->priv->cc.entry);
-	else if(button == (GtkButton *)priv->bcc.label)
-		gtk_widget_grab_focus(hdrs->priv->bcc.entry);
-
+	if (button == (GtkButton *) hdrs->priv->to.label)
+		gtk_widget_grab_focus (hdrs->priv->to.entry);
+	else if (button == (GtkButton *) priv->cc.label)
+		gtk_widget_grab_focus (hdrs->priv->cc.entry);
+	else if (button == (GtkButton *) priv->bcc.label)
+		gtk_widget_grab_focus (hdrs->priv->bcc.entry);
+	
 	name_selector_dialog = e_name_selector_peek_dialog (priv->name_selector);
 	gtk_widget_show (GTK_WIDGET (name_selector_dialog));
 }
@@ -593,6 +593,7 @@ header_new_recipient (EMsgComposerHdrs *hdrs, const char *name, const char *tip)
 			      NULL);
 	
 	ret.entry = create_addressbook_entry (hdrs, name);
+	ret.visible = FALSE;
 	
 	return ret;
 }
@@ -611,7 +612,8 @@ static void
 create_headers (EMsgComposerHdrs *hdrs)
 {
 	EMsgComposerHdrsPrivate *priv = hdrs->priv;
-	AtkObject *a11y;	
+	AtkObject *a11y;
+	
 	/*
 	 * Reply-To:
 	 *
@@ -667,10 +669,9 @@ create_headers (EMsgComposerHdrs *hdrs)
 			      NULL);
 	
 	priv->post_to.entry = gtk_entry_new ();
-	a11y = gtk_widget_get_accessible (priv->post_to.entry);
-	if (a11y != NULL) {
+	if ((a11y = gtk_widget_get_accessible (priv->post_to.entry)))
 		atk_object_set_name (a11y, _("Post To:"));	
-	}
+	
 	g_signal_connect(priv->post_to.entry, "changed",
 			 G_CALLBACK (post_entry_changed_cb), hdrs);
 }
@@ -1143,8 +1144,7 @@ e_msg_composer_hdrs_set_from_account (EMsgComposerHdrs *hdrs,
 		item = l->data;
 		
 		account = g_object_get_data ((GObject *) item, "account");
-		if (account_can_send (account))
-		{
+		if (account_can_send (account)) {
 			if (account_name) {
 				if (account->name && !strcmp (account_name, account->name)) {
 					/* set the correct optionlist item */
