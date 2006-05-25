@@ -1,5 +1,12 @@
 2006-05-25  Srinivasa Ragavan  <sragavan@novell.com>
 
+	** fixes bug #342092
+	
+	* em-popup.c: (emp_standard_menu_factory): Read the mime
+	from the right file.
+
+2006-05-25  Srinivasa Ragavan  <sragavan@novell.com>
+
 	Added support for collapsible headers for To/Cc/Bcc fields.
 
 	* em-folder-view.c: (emfv_format_link_clicked), (emfv_on_url_cb):

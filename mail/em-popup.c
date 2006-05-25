@@ -707,7 +707,7 @@ emp_standard_menu_factory(EPopup *emp, void *data)
 		break; }
 	case EM_POPUP_TARGET_PART: {
 		EMPopupTargetPart *t = (EMPopupTargetPart *)emp->target;
-		mime_type = g_strdup(t->mime_type);
+		mime_type = camel_data_wrapper_get_mime_type((CamelDataWrapper *)t->part);
 		filename = camel_mime_part_get_filename(t->part);		
 
 		items = emp_standard_object_popups;
@@ -736,7 +736,7 @@ emp_standard_menu_factory(EPopup *emp, void *data)
 		items = NULL;
 		len = 0;
 	}
-
+	
 	if (mime_type) {
 		apps = gnome_vfs_mime_get_all_applications(mime_type);
 		
