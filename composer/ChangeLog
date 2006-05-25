@@ -1,5 +1,8 @@
 2006-05-25  Jeffrey Stedfast  <fejj@novell.com>
 
+	* e-msg-composer.c (drop_action): Instead of g_free()ing 'str' in
+	the if and else blocks, just g_free it after the if-else block.
+
 	* e-msg-composer-select-file.c (select_attach_response): Replace
 	'if (!filename)' with 'if (filename)', fixes a bug in Srini's
 	patch.
