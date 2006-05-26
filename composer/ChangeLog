@@ -1,8 +1,9 @@
 2006-04-05  Simon Zheng  <simon.zheng@sun.com>
 
 	** Fixes bug #333213
-	* e-msg-composer.c: (best_encoding): According to POSIX.1 
-	specfication, if iconv() encounting non-identical characters, it 
+
+	* e-msg-composer.c (best_encoding): According to POSIX.1
+	specfication, if iconv() encounting non-identical characters, it
 	returns the number of non-identical conversation performed. i.e.
 	returning positive value means exception as well as -1.
 
@@ -10,9 +11,9 @@
 
 	** Fixes bug #324742
 
-	* e-msg-composer.c (drop_action) (attachment_guess_mime_type):
-	Modified to add images in plain text mode and other files in both 
-	html and plain text mode as attachment during DnD. 
+	* e-msg-composer.c (drop_action, attachment_guess_mime_type):
+	Modified to add images in plain text mode and other files in both
+	html and plain text mode as attachment during DnD.
 
 2006-02-16  Tor Lillqvist  <tml@novell.com>
 
@@ -22,11 +23,12 @@
 
 2006-02-09  Frederic Crozat  <fcrozat@mandriva.com>
 
-	* e-msg-composer-hdrs.c: (e_msg_composer_hdrs_get_internal),
-	(e_msg_composer_hdrs_get_to), (e_msg_composer_hdrs_get_cc),
+	* e-msg-composer-hdrs.c (e_msg_composer_hdrs_get_internal),
+	(e_msg_composer_hdrs_get_to, e_msg_composer_hdrs_get_cc),
 	(e_msg_composer_hdrs_get_bcc): Factorize some code.
 
 2006-02-07  Andre Klapper <a9016009@gmx.de>
+
 	* mail-composer.error.xml: fixing a patch to again fix 325276.
 
 2006-01-24  Kjartan Maraas  <kmaraas@gnome.org>
