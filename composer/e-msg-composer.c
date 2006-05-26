@@ -2924,8 +2924,9 @@ drop_action(EMsgComposer *composer, GdkDragContext *context, guint32 action, Gtk
 	CamelURL *url;
 	CamelMimeMessage *msg;
 	char *content_type;
-	int i, success=FALSE, delete=FALSE;
+	int i, success = FALSE, delete = FALSE;
 	EMsgComposerPrivate *p = composer->priv;
+	gboolean is_image;
 	
 	switch (info) {
 	case DND_TYPE_MESSAGE_RFC822:
@@ -2954,8 +2955,8 @@ drop_action(EMsgComposer *composer, GdkDragContext *context, guint32 action, Gtk
 		
 		for (i = 0; urls[i] != NULL; i++) {
 			str = g_strstrip (urls[i]);
-			if (urls[i][0] == '#') {
-				g_free(str);
+			if (str[0] == '#' || str[0] == '\0') {
+				g_free (str);
 				continue;
 			}
 			
