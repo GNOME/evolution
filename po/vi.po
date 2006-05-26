@@ -15709,7 +15709,7 @@ msgstr "_Liên lạc..."
 
 #: ../plugins/groupwise-features/properties.glade.h:12
 msgid "_Customize notification message"
-msgstr "Tủy _chỉnh thư thông báo"
+msgstr "Tuỳ _chỉnh thư thông báo"
 
 #: ../plugins/groupwise-features/properties.glade.h:13
 msgid "_Not Shared"
