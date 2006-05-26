@@ -1,98 +1,99 @@
 2006-05-25  Srinivasa Ragavan  <sragavan@novell.com>
 
-	Added code to specify the attachment type for remote files.
-	Also added code to save files to CamelStreamVfs
-
-	* e-attachment-bar.c: (update), (eab_icon_clicked_cb),
+	* e-attachment-bar.c (update, eab_icon_clicked_cb),
 	(e_attachment_bar_attach_remote_file):
+	
 	* e-attachment-bar.h:
-	* e-attachment.c: (e_attachment_new_remote_file),
-	(e_attachment_build_remote_file):
+
+	* e-attachment.c (e_attachment_new_remote_file),
+	(e_attachment_build_remote_file): Added code to specify the
+	attachment type for remote files.  Also added code to save files
+	to CamelStreamVfs
 
 2006-05-04  Rajeev Ramanathan  <rajeevramanathan_2004@yahoo.co.in>
 
-	Added patch to enable build without cairo using ENABLE_CAIRO macro.
-	Also it fixes a bold issue, where entire evolution appears with bold
-	text.
-
-	* e-calendar-item.c: (e_calendar_item_draw),
-	(e_calendar_item_draw_month), (e_calendar_item_draw_day_numbers),
-	(layout_set_day_text):
+	* e-calendar-item.c (e_calendar_item_draw),
+	(e_calendar_item_draw_month, e_calendar_item_draw_day_numbers),
+	(layout_set_day_text): enable build without cairo using
+	ENABLE_CAIRO macro. Also it fixes a bold issue, where entire
+	evolution appears with bold text.
 
 2006-04-27  Boby Wang <boby.wang@sun.com>
 
 	** Fixes bug #339138
 
-	* e-calendar.c: (e_calendar_init):
-	Correct the button's accessible name.
+	* e-calendar.c (e_calendar_init): Correct the button's accessible
+	name.
 
 2006-04-27  Boby Wang  <boby.wang@sun.com>
 
 	** Fixes bug #332821
-	* e-expander.c: (e_expander_class_init):
-	Implement the accessibility of EExpander.
+
+	* e-expander.c (e_expander_class_init): Implement the
+	accessibility of EExpander.
 
 2006-04-26  Srinivasa Ragavan  <sragavan@novell.com>
 
-	* e-search-bar.c: (append_xml_menu_item), (setup_bonobo_menus): Added
+	* e-search-bar.c (append_xml_menu_item, setup_bonobo_menus): Added
 	icons to search menu.
 
 2006-04-26  Srinivasa Ragavan  <sragavan@novell.com>
-	
-	* e-search-bar.c: (add_button), (e_search_bar_construct): Adding icons
-	for find and clear buttons. (Patch from PR Suman)
+
+	* e-search-bar.c (add_button, e_search_bar_construct): Adding
+	icons for find and clear buttons. (Patch from PR Suman)
 
 2006-04-26  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Patch from charu_jayaprakasam@yahoo.com fixes bug #335861
-	
-	* e-search-bar.c: (e_search_bar_construct): Change the mnemonics for
-	Find Now button.
+
+	* e-search-bar.c (e_search_bar_construct): Change the mnemonics
+	for Find Now button.
 
 2006-04-24  Srinivasa Ragavan  <sragavan@novell.com>
 
+	* e-calendar-item.c (e_calendar_item_draw),
+	(e_calendar_item_draw_month, e_calendar_item_draw_day_numbers):
 	Used Cairo to draw the Tag Calendar. (Rajeev)
-	* e-calendar-item.c: (e_calendar_item_draw),
-	(e_calendar_item_draw_month), (e_calendar_item_draw_day_numbers):
 
 2006-04-22  Srinivasa Ragavan  <sragavan@novell.com>
 
-
-	* e-attachment-bar.c: (e_attachment_bar_create_attachment_cache):
+	* e-attachment-bar.c (e_attachment_bar_create_attachment_cache):
 	Added a new function that creates a attachment with a image cache.
 
 2006-03-28  Li Yuan  <li.yuan@sun.com>
 
 	**Fixes bug #335618
-	* e-selection-model-array.c: (e_selection_model_array_delete_rows):
-	If the row being deleted is the last one, we should change the 
+
+	* e-selection-model-array.c (e_selection_model_array_delete_rows):
+	If the row being deleted is the last one, we should change the
 	selection_start_row.
 
 2006-03-06  Simon Zheng  <simon.zheng@sun.com>
 
 	Fixes bug #332140
-	* e-attachment-bar.c: (temp_save_part):
-	Changed to transfer filenames from utf-8 to glib encoding 
-	before really saving files.
+
+	* e-attachment-bar.c (temp_save_part): Changed to transfer
+	filenames from utf-8 to glib encoding before really saving files.
 
 2006-03-06  Jeff Cai  <jeff.cai@sun.com>
 
 	** Fixes for 333235
-	* e-combo-button.c: (paint): If width of a widget is 0, 
-	don't draw it.
+
+	* e-combo-button.c (paint): If width of a widget is 0, don't draw
+	it.
 
 2006-02-28  Devashish Sharma  <sdevashish@novell.com>
 
-	* e-reflow.c :(do_adjustment): Check and see if reflow->items 
-	and reflow->items[row] are NULL or not.
-	Fixes Bug # 331998.
+	* e-reflow.c (do_adjustment): Check and see if reflow->items and
+	reflow->items[row] are NULL or not.  Fixes Bug # 331998.
+
 	Patch submitted by Irene Huang <Irene.Huang@sun.com>
 
 2006-02-24  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fixes bug #322789
-	
-	* e-image-chooser.c: (set_image_from_data): Added code to get the
+
+	* e-image-chooser.c (set_image_from_data): Added code to get the
 	pixbuf after closing the loaded.
 
 2006-02-13  Andre Klapper  <a9016009@gmx.de>
@@ -111,16 +112,16 @@
 2006-01-16  Nancy Cai <nancy.cai@sun.com>
 
 	** Fixes bug #326649
-	
-	* e-multi-config-dialog.c: (set_page_timeout_callback):
-	make the preferences dialog's keyboard navigation more consistent.	
+
+	* e-multi-config-dialog.c (set_page_timeout_callback): make the
+	preferences dialog's keyboard navigation more consistent.
 
 2006-01-13  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fixes bug #326265
 
-	* e-charset-picker.c: (e_charset_picker_bonobo_ui_populate):
-	Added mnemonics to "Character Encoding" menu.
+	* e-charset-picker.c (e_charset_picker_bonobo_ui_populate): Added
+	mnemonics to "Character Encoding" menu.
 
 2006-01-11  Chenthill Palanisamy  <pchenthill@novell.com>
 
@@ -144,29 +145,29 @@
 	*e-util-marshal.list: removed
 
 2006-01-06  Parthasarathi Susarla <sparthasarathi@novell.com>
-	
-	* e-search-bar.c:(clear_verb_cb): assign the data first
-	before accessing it.
+
+	* e-search-bar.c (clear_verb_cb): assign the data first before
+	accessing it.
 
 2006-01-02  Harish Krishnaswamy  <kharish@novell.com>
 
 	reviewed by: Srinivasa Ragavan <sragavan@novell.com>
 
-	* e-canvas-background.c: (ecb_style_set): Set the
-	foreground only if the widget has already been realized.
-	Fixes #309618.
+	* e-canvas-background.c (ecb_style_set): Set the foreground only
+	if the widget has already been realized.  Fixes #309618.
 
 2005-12-21  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fixes bug #324590
 
-	* e-search-bar.c: (search_now_verb_cb), (clear_verb_cb): Added
-	code to clear search entry from menu.
+	* e-search-bar.c (search_now_verb_cb, clear_verb_cb): Added code
+	to clear search entry from menu.
 
 2005-12-20  Johnny Jacob  <johnnyjacob@gmail.com>
 
 	** See Bug #246233
-	* e-filter-bar.c: (member_activated) : Changed "Search Editor" to
+
+	* e-filter-bar.c (member_activated): Changed "Search Editor" to
 	"Searches"
 
 2005-12-18  Tor Lillqvist  <tml@novell.com>
@@ -188,44 +189,46 @@
 
 2005-12-15  Srinivasa Ragavan  <sragavan@novell.com>
 
-	* e-filter-bar.c: (rule_advanced_response), (option_changed),
-	(set_property): Added code to Show color in search widget.
-	* e-search-bar.c: (entry_activated_cb),
-	(activate_button_clicked_cb), (clear_button_clicked_cb): Added
-	code to show color in search widget, when the filter is active.
+	* e-filter-bar.c (rule_advanced_response, option_changed)
+	(set_property): Added code to Show color in search widget.  *
+
+	* e-search-bar.c (entry_activated_cb),
+	(activate_button_clicked_cb, clear_button_clicked_cb): Added code
+	to show color in search widget, when the filter is active.
 
 2005-11-24  Tor Lillqvist  <tml@novell.com>
 
-	* e-dateedit.c
+	* e-dateedit.c:
 	* e-cell-date-edit.c: Include e-time-utils.h from libedataserver
 	instead of using evolution's copy which is going away.
 
 2005-11-23  Johnny Jacob  <johnnyjacob@gmail.com>
 
-	* e-dateedit.c: (on_date_entry_focus_out) (on_time_entry_focus_out) :
+	* e-dateedit.c (on_date_entry_focus_out, on_time_entry_focus_out):
 	Validation for date and time during focus out event.
 
 2005-11-22  Johnny Jacob  <johnnyjacob@gmail.com>
 
 	** See Bug #303856
-	* e-dateedit.c: (create_children) : Added a signal handler
-	for date_entry's "key_release_event".
+
+	* e-dateedit.c (create_children): Added a signal handler for
+	date_entry's "key_release_event".
 
 2005-11-17  Harish Krishnaswamy  <kharish@novell.com>
 
-	* e-attachment-bar.c: (update), (e_attachment_bar_set_width):
-	Fix a division-by-zero error crasher.
+	* e-attachment-bar.c (update, e_attachment_bar_set_width): Fix a
+	division-by-zero error crasher.
 
 2005-11-15  Srinivasa Ragavan <sragavan@novell.com>
 
-	* e-attachment-bar.[ch] (e_attachment_bar_get_all_attachments): Added
+	* e-attachment-bar.c (e_attachment_bar_get_all_attachments): Added
 	a function to get all attachments of the attachment bar for plugin
 	purposes.
 
 2005-11-14  Chenthill Palanisamy  <pchenthill@novell.com>
 
-	* e-dateedit.c: (create_children): Adjusted the size
-	for the dateedit widgets.
+	* e-dateedit.c (create_children): Adjusted the size for the
+	dateedit widgets.
 
 2005-11-14  Srinivasa Ragavan <sragavan@novell.com>
 
@@ -239,8 +242,8 @@
 	
 2005-09-28  Tor Lillqvist  <tml@novell.com>
 
-	* e-charset-picker.c (e_charset_picker_new,
-	e_charset_picker_bonobo_ui_populate): Use g_ascii_strcasecmp()
+	* e-charset-picker.c (e_charset_picker_new)
+	(e_charset_picker_bonobo_ui_populate): Use g_ascii_strcasecmp()
 	instead of strcasecmp(). We are comparing to strings known to be
 	plain ASCII, so just casefolding ASCII is enough. Also better for
 	portability.
@@ -277,29 +280,31 @@
 
 2005-08-17  Srinivasa Ragavan <sragavan@novell.com>
 
-	* e-attachment-bar.c 
-	eab_drag_data_get: Use camel_url to construct url
-	(eab_icon_clicked_cb) (e_attachment_bar_new): 
-	Fixed part of bug #312224. It handles double click on a attachment
-	icon and calls gnome_url_show.
+	* e-attachment-bar.c (eab_drag_data_get): Use camel_url to
+	construct url
+	(eab_icon_clicked_cb, e_attachment_bar_new): Fixed part of bug
+	#312224. It handles double click on a attachment icon and calls
+	gnome_url_show.
 
-	* e-attachment.[ch] (finalise) (init): Add a new member to preserve
+	* e-attachment.c (finalise, init): Add a new member to preserve
 	the stored location
-	(e_attachment_new)(e_attachment_build_remote_file): Camel_url to 
+	(e_attachment_new)(e_attachment_build_remote_file): Camel_url to
 	construct urls
 	
 2005-08-16  Srinivasa Ragavan <sragavan@novell.com>
 
-	* e-attachment.c (download_to_local_path) (e_attachment_edit): Fixed
-	few warnings
+	* e-attachment.c (download_to_local_path, e_attachment_edit):
+	Fixed few warnings
 
 2005-08-16  Srinivasa Ragavan <sragavan@novell.com>
 
-	* e-attachment.c (finalise) (e_attachment_new) (e_attachment_build_remote_file)
-	(e_attachment_new_from_mime_part) (ok_cb): Maintain the filename of the 
-	attachment in the structure and free it in finalize.
-	* e-attachment-bar.c (update): For display consider the filename from the 
-	structure before from the part.
+	* e-attachment.c (finalise, e_attachment_new)
+	(e_attachment_build_remote_file, e_attachment_new_from_mime_part)
+	(ok_cb): Maintain the filename of the attachment in the structure
+	and free it in finalize.
+
+	* e-attachment-bar.c (update): For display consider the filename
+	from the structure before from the part.
 
 2005-08-03  Not Zed  <NotZed@Ximian.com>
 
@@ -308,59 +313,69 @@
 
 2005-08-11  Srinivasa Ragavan <sragavan@novell.com>
 
-	* e-attachment-bar.[ch] (e_attachment_bar_refresh): Added a function
+	* e-attachment-bar.c (e_attachment_bar_refresh): Added a function
 	to force refresh/resize the icons.
 
 2005-08-02  David Malcolm  <dmalcolm@redhat.com>
 
-	* e-attachment-bar.c: (update_remote_file): escape the "%" character 
-	correctly.
+	* e-attachment-bar.c (update_remote_file): escape the "%"
+	character correctly.
 
 2005-07-29  Srinivasa Ragavan <sragavan@novell.com>
 
-	* e-attachment.c: (e_attachment_new_from_mime_part) used ref instead of 
-	copying the entire mime part.
+	* e-attachment.c (e_attachment_new_from_mime_part): used ref
+	instead of copying the entire mime part.
 
 2005-07-15  Diego Gonzalez    <diego@pemas.net>
 
-	* e-image-chooser.c(image_drag_data_received_cb): modificatio to
+	* e-image-chooser.c (image_drag_data_received_cb): modificatio to
 	avoid getting into an infinite loop. Also remove some debug
 	output.
 	(set_image_from_data): substitute calls to gdk_pixbuf_unref and
 	gdk_pixbuf_ref and use g_object_ref/unref instead. The first ones
-	are deprecated API.
-	Fixes #310488
+	are deprecated API.  Fixes #310488
 
 2005-07-25  Srinivasa Ragavan <sragavan@novell.com>
 
-	* e-attachment-bar,c: (e_attachment_bar_remove_selected) (e_attachment_bar_edit_selected)
-	(e_attachment_bar_get_attachment) (e_attachment_bar_get_parts) 
-	(e_attachment_bar_get_download_count) (e_attachment_bar_attach_remote_file): Added 
-	checks for the parameters.
+	* e-attachment-bar.c (e_attachment_bar_remove_selected)
+	(e_attachment_bar_edit_selected)
+	(e_attachment_bar_get_attachment, e_attachment_bar_get_parts)
+	(e_attachment_bar_get_download_count)
+	(e_attachment_bar_attach_remote_file): Added checks for the
+	parameters.
 	
 2005-07-20  Vivek Jain  <jvivek@novell.com>
-	
-	* e-send-options.h : ESendOptionsDialogClass: has a member new virtual
-	method for default callback of "sod_response"
-	* e-send-options.c : introduced a new signal "sod_response"
-	captures the response for the child dialog and makes it available at the
-	object level (useful for the external members invoking the dialog)
+
+	* e-send-options.h: ESendOptionsDialogClass: has a member new
+	virtual method for default callback of "sod_response"
+
+	* e-send-options.c: introduced a new signal "sod_response"
+	captures the response for the child dialog and makes it available
+	at the object level (useful for the external members invoking the
+	dialog)
 
 2005-07-20  Srinivasa Ragavan <sragavan@novell.com>
 
-	* e-attachment-bar.[ch]:(remove_attachment) (update) (e_attachment_bar_get_selector) 
-	(e_attachment_bar_get_attachment) (destroy) (init) (e_attachment_bar_new) 
-	(e_attachment_bar_add_attachment) (e_attachment_bar_attach_remote_file)
-	Cleaned up most of it. Added the DnD.
-	* e-attachment.[ch]: (real_changed) (class_init) (init) (e_attachment_new) 
-	(e_attachment_new_remote_file) (e_attachment_build_remote_file): Moved the
-	remote download code from bar to here and few cleanups.
+	* e-attachment-bar.c (remove_attachment, update)
+	(e_attachment_bar_get_selector, e_attachment_bar_get_attachment)
+	(destroy, init, e_attachment_bar_new)
+	(e_attachment_bar_add_attachment)
+	(e_attachment_bar_attach_remote_file): Cleaned up most of
+	it. Added the DnD.
+
+	* e-attachment.c (real_changed, class_init, init)
+	(e_attachment_new, e_attachment_new_remote_file)
+	(e_attachment_build_remote_file): Moved the remote download code
+	from bar to here and few cleanups.
 	
 2005-07-11  Srinivasa Ragavan <sragavan@novell.com>
 	
-	* Makefile.am: Added e-attachment-bar.[ch] e-attachment.[ch]
-	e-attachment.glade.
-	* e-attachment.[ch]: Merge of em-attachment.[ch] and cal-attachment.[ch]
+	* Makefile.am: Added e-attachment-bar.[ch], e-attachment.[ch],
+	and e-attachment.glade.
+
+	* e-attachment.[ch]: Merge of em-attachment.[ch] and
+	cal-attachment.[ch]
+
 	* e-attachment-bar.[ch]: Merge of em-attachment-bar.[ch] and
 	cal-attachment-bar.[ch].
 
@@ -372,8 +387,8 @@
 
 2005-05-31  Li Yuan  <li.yuan@sun.com>
 
-	* e-dateedit.c:(e_date_edit_update_date_entry):
-	add relation to date_button.
+	* e-dateedit.c (e_date_edit_update_date_entry): add relation to
+	date_button.
 
 	Fixes #302267
 
@@ -388,11 +403,11 @@
 
 2005-05-12  Shreyas Srinivasan	<sshreyas@novell.com>
 
-	* e-send-options.c : Fixed #272005
-	
+	* e-send-options.c: Fixed #272005
+
 2005-05-06  Sarfraaz Ahmed <asarfraaz@novell.com>
 
-	* e-send-options.glade : Fixed a typo. #273095
+	* e-send-options.glade: Fixed a typo. #273095
 
 2005-05-06  Harish Krishnaswamy  <kharish@novell.com>
 
@@ -414,8 +429,7 @@
 
 2005-02-02  Li Yuan  <li.yuan@sun.com>
 
-	* e-url-entry.c: (init):
-	add a11y name to url link button.
+	* e-url-entry.c (init): add a11y name to url link button.
 
 2005-01-26  Rodney Dawes  <dobey@novell.com>
 
@@ -429,8 +443,7 @@
 
 2005-01-24  Mengjie Yu  <meng-jie.yu@sun.com>
 
-	* e-search-bar.c: (set_option):
-	add a11y name for the option menu.
+	* e-search-bar.c (set_option): add a11y name for the option menu.
 
 2005-01-20  Not Zed  <NotZed@Ximian.com>
 
@@ -443,47 +456,49 @@
 
 2005-01-20  Harry Lu  <harry.lu@sun.com>
 
-	* e-search-bar.c: (activate_by_subitems): add a translater note.
+	* e-search-bar.c (activate_by_subitems): add a translater note.
 
 2005-01-19  Harry Lu  <harry.lu@sun.com>
 
 	Fix for 46359, enable "Alt+Down Arrow" to show the popup for
 	e-combo-cell-editable.c.
 
-	* e-combo-cell-editable.c: (show_popup): rewrite it to a more
+	* e-combo-cell-editable.c (show_popup): rewrite it to a more
 	generic function.
 	(button_clicked_cb): call the new show_popup function.
 	(entry_key_press_event_cb): show popup if "Alt+Down Arrow".
 	(ecce_grab_focus): new function.
-	(ecce_class_init): add grab_focus handler so that the entry
-	can get focus.
+	(ecce_class_init): add grab_focus handler so that the entry can
+	get focus.
 
 2005-01-17  Harry Lu  <harry.lu@sun.com>
 
 	Fix for 62831.
 
-	* e-search-bar.c: (activate_by_subitems): add an a11y name for 
-	the search entry.
+	* e-search-bar.c (activate_by_subitems): add an a11y name for the
+	search entry.
 
 2005-01-12 Chenthill Palanisamy <pchenthill@novell.com>
 
-	* e-send-options.c: (e_send_options_get_widgets_data),
-	(e_send_options_fill_widgets_with_data): Get the value
-	for the autodelete toggle button
-	(page_changed_cb): Do not hide the classification label 
-	and its combo box here. 
+	* e-send-options.c (e_send_options_get_widgets_data),
+	(e_send_options_fill_widgets_with_data): Get the value for the
+	autodelete toggle button
+	(page_changed_cb): Do not hide the classification label and its
+	combo box here.
 
 2005-01-10 Chenthill Palanisamy <pchenthill@novell.com>
 
-	* e-send-options.c: (e_send_options_get_widgets_data),
-	(e_send_options_fill_widgets_with_data), (page_changed_cb),
-	(init_widgets), (get_widgets), (setup_widgets),
-	(e_sendoptions_set_global), (e_sendoptions_dialog_run),
-	(e_sendoptions_dialog_finalize), (e_sendoptions_dialog_dispose),
-	(e_sendoptions_dialog_init), (e_sendoptions_dialog_class_init),
-	(e_sendoptions_dialog_get_type): Added code to support global options.
-	Filled the finalize and dispose functions.
+	* e-send-options.c (e_send_options_get_widgets_data),
+	(e_send_options_fill_widgets_with_data, page_changed_cb),
+	(init_widgets, get_widgets, setup_widgets),
+	(e_sendoptions_set_global, e_sendoptions_dialog_run),
+	(e_sendoptions_dialog_finalize, e_sendoptions_dialog_dispose),
+	(e_sendoptions_dialog_init, e_sendoptions_dialog_class_init),
+	(e_sendoptions_dialog_get_type): Added code to support global
+	options.  Filled the finalize and dispose functions.
+
 	* e-send-options.glade: Changed a label id.
+
 	* e-send-options.h: Added the set_global function.
 
 2005-01-06  JP Rosevear  <jpr@novell.com>
@@ -498,18 +513,22 @@
 2005-01-06 Chenthill Palanisamy <pchenthill@novell.com>
 	
 	merging send options
+
 	* Makefile.am:
+
 	* e-send-options.[ch]: Widgets for the send options dialog
+
 	* e-send-options.glade:	Contains interface for the dialog
 
 2005-01-04  Harry Lu  <harry.lu@sun.com>
 
-	* misc/e-combo-button.c: (e_combo_button_popup): new internal function
-	to popup the menu.
+	* misc/e-combo-button.c (e_combo_button_popup): new internal
+	function to popup the menu.
 	(impl_button_press_event): call the new function.
 	(e_combo_button_class_init): init a11y.
 	(e_combo_button_get_label): new function to return label.
 	(e_combo_button_popup_menu): new function to popup menu.
+
 	* misc/e-combo-button.h: add function declarations.
 
 2004-12-17  Not Zed  <NotZed@Ximian.com>
@@ -560,24 +579,24 @@
 
 2004-10-28  Li Yuan  <li.yuan@sun.com>
 
-	* e-calendar.c: (e_calendar_init), (e_calendar_new): Make
+	* e-calendar.c (e_calendar_init, e_calendar_new): Make
 	accessibility name and description translatable.  Add a atk name
 	for the two buttons so that they can be UI grabbed by GOK.
-	
-	* e-dateedit.c: (e_date_edit_new), (create_children): Add a name
-	for atk object.  Make accessibility name and description
-	translatable.  Add name and description for the date_entry,
-	date_button and time_combo.
+
+	* e-dateedit.c (e_date_edit_new, create_children): Add a name for
+	atk object.  Make accessibility name and description translatable.
+	Add name and description for the date_entry, date_button and
+	time_combo.
 	(e_date_edit_show_date_popup), (hide_date_popup): Grab and ungrab
 	keyboard.  add_relation(): New function to add labelled_by
 	relation for entry and combobox.
-	
-	* e-map.c: (e_map_new): Add a name for world map widget.  Make
+
+	* e-map.c (e_map_new): Add a name for world map widget.  Make
 	accessibility name and description translatable.  Set the atk role
 	to image.
-	
-	* e-multi-config-dialog.c: (e_multi_config_dialog_add_page): Add
-	an atk name for the page.
+
+	* e-multi-config-dialog.c (e_multi_config_dialog_add_page): Add an
+	atk name for the page.
 	
 2004-10-27  JP Rosevear  <jpr@novell.com>
 
@@ -594,16 +613,16 @@
 
 2004-10-08  Harry Lu  <harry.lu@sun.com>
 
-	* e-source-selector.c: (e_source_selector_popup_menu),
-	(class_init): implement popup_menu so that popup menu can
-	be shown with Shift+F10.
+	* e-source-selector.c (e_source_selector_popup_menu),
+	(class_init): implement popup_menu so that popup menu can be shown
+	with Shift+F10.
 
 2004-10-06  JP Rosevear  <jpr@novell.com>
  
  	Fixes #66164
  	
- 	* e-cell-date-edit.c (e_cell_date_edit_get_popup_pos): replicate
- 	fix to e-cell-combo.c by NotZed
+	* e-cell-date-edit.c (e_cell_date_edit_get_popup_pos): replicate
+	fix to e-cell-combo.c by NotZed
 	
 2004-10-01  Not Zed  <NotZed@Ximian.com>
 
@@ -642,8 +661,8 @@
 
 2004-07-26  JP Rosevear  <jpr@novell.com>
  
- 	* e-search-bar.c (setup_bonobo_menus): use ctrl-shift-q to clear
- 	search bar
+	* e-search-bar.c (setup_bonobo_menus): use ctrl-shift-q to clear
+	search bar
 	
 2004-07-20  Not Zed  <NotZed@Ximian.com>
 
