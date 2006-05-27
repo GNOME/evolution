@@ -401,7 +401,7 @@ update (EAttachmentBar *bar)
 				else if (attachment->sign == CAMEL_CIPHER_VALIDITY_SIGN_GOOD)
 					sign = e_icon_factory_get_icon ("stock_signature-ok", E_ICON_SIZE_MENU);
 				else
-					sign = e_icon_factory_get_icon "stock_signature", E_ICON_SIZE_MENU);
+					sign = e_icon_factory_get_icon ("stock_signature", E_ICON_SIZE_MENU);
 				
 				x = gdk_pixbuf_get_width (pixbuf) - 17;
 				y = gdk_pixbuf_get_height (pixbuf) - 17;
