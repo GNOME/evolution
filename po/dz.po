@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 2-14\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-04-05 05:09+0200\n"
-"PO-Revision-Date: 2006-04-10 18:33+0530\n"
+"POT-Creation-Date: 2006-05-24 04:40+0200\n"
+"PO-Revision-Date: 2006-05-24 14:30+0530\n"
 "Last-Translator: Mindu Dorji\n"
 "Language-Team: DZONGKHA <pgeyleg@dit.gov.bt>\n"
 "MIME-Version: 1.0\n"
@@ -58,32 +58,32 @@ msgstr "འབྲེལ་ས:"
 msgid "evolution minicard"
 msgstr "ཨི་བོ་ལུ་ཤཱན་གྱི་ ཤོག་བྱང་ཆུང་བ།"
 
-#: ../a11y/calendar/ea-cal-view-event.c:235
+#: ../a11y/calendar/ea-cal-view-event.c:266
 msgid "It has alarms."
 msgstr "འདི་ལུ་འཇིགས་བརྡ་འདུག"
 
-#: ../a11y/calendar/ea-cal-view-event.c:238
+#: ../a11y/calendar/ea-cal-view-event.c:269
 msgid "It has recurrences."
 msgstr "འདི་ལུ་སླར་འབྱུང་འདུག"
 
-#: ../a11y/calendar/ea-cal-view-event.c:241
+#: ../a11y/calendar/ea-cal-view-event.c:272
 msgid "It is a meeting."
 msgstr "འདི་འཛོམས་འདུ་ཅིག་ཨིན་པས།"
 
-#: ../a11y/calendar/ea-cal-view-event.c:247
+#: ../a11y/calendar/ea-cal-view-event.c:278
 #, c-format
 msgid "Calendar Event: Summary is %s."
 msgstr "ཟླ་ཐོའི་བྱུང་ལས་: བཅུད་དོན་%s.ཨིན།"
 
-#: ../a11y/calendar/ea-cal-view-event.c:249
+#: ../a11y/calendar/ea-cal-view-event.c:280
 msgid "Calendar Event: It has no summary."
 msgstr "ཟླ་ཐོའི་བྱུང་ལས་: འདི་ལུ་བཅུད་དོན་མིན་འདུག"
 
-#: ../a11y/calendar/ea-cal-view-event.c:268
+#: ../a11y/calendar/ea-cal-view-event.c:299
 msgid "calendar view event"
 msgstr "ཟླ་ཐོའི་མཐོང་སྣང་བྱུང་ལས།"
 
-#: ../a11y/calendar/ea-cal-view-event.c:485
+#: ../a11y/calendar/ea-cal-view-event.c:528
 msgid "Grab Focus"
 msgstr "ཆེད་དམིགས་བཟུང་།"
 
@@ -113,7 +113,7 @@ msgid "a table to view and select the current time range"
 msgstr "ད་ལྟོའི་དུས་ཡུན་ཁྱབ་ཚད་ བལྟ་ནི་དང་ སེལ་འཐུ་འབད་ནིའི་ཐིག་ཁྲམ་ཅིག"
 
 #: ../a11y/calendar/ea-day-view.c:149
-#: ../a11y/calendar/ea-week-view.c:151
+#: ../a11y/calendar/ea-week-view.c:150
 #, c-format
 msgid "It has %d event."
 msgid_plural "It has %d events."
@@ -121,7 +121,7 @@ msgstr[0] "འདི་ལུ་ བྱུང་ལས་%dའདུག"
 msgstr[1] "འདི་ལུ་བྱུང་ལས་%dའདུག"
 
 #: ../a11y/calendar/ea-day-view.c:151
-#: ../a11y/calendar/ea-week-view.c:153
+#: ../a11y/calendar/ea-week-view.c:152
 msgid "It has no events."
 msgstr "འདི་ལུ་བྱུང་ལས་ཚུ་མིན་འདུག"
 
@@ -217,21 +217,21 @@ msgstr "འཕར་མཆོང་ཨེབ་རྟ།"
 msgid "Click here, you can find more events."
 msgstr "ནཱ་ལུ་ཨེབ་གཏང་འབད། བྱུང་ལས་ཧེང་བཀལ་འཐོབ་ཚུགས།"
 
-#: ../a11y/calendar/ea-week-view.c:158
+#: ../a11y/calendar/ea-week-view.c:157
 #, c-format
 msgid "Month View: %s. %s"
 msgstr "ཟླ་ཐོའི་མཐོང་སྣང་: %s. %s"
 
-#: ../a11y/calendar/ea-week-view.c:162
+#: ../a11y/calendar/ea-week-view.c:161
 #, c-format
 msgid "Week View: %s. %s"
 msgstr "བདུན་ཕྲག་མཐོང་སྣང་: %s. %s"
 
-#: ../a11y/calendar/ea-week-view.c:193
+#: ../a11y/calendar/ea-week-view.c:192
 msgid "calendar view for a month"
 msgstr "ཟླཝ་ཅིག་གི་དོན་ལུ་ ཟླ་ཐོའི་མཐོང་སྣང་།"
 
-#: ../a11y/calendar/ea-week-view.c:195
+#: ../a11y/calendar/ea-week-view.c:194
 msgid "calendar view for one or more weeks"
 msgstr "བདུན་ཕྲག་གཅིག་གམ་ དེ་ལས་མང་བའི་ ཟླ་ཐོའི་མཐོང་སྣང་།"
 
@@ -502,10 +502,10 @@ msgstr "ནཱ་ལུ་ རང་བཞིན་མཇུག་སྡུད�
 
 #. Create the contacts group
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:5
-#: ../addressbook/gui/component/addressbook-view.c:1334
+#: ../addressbook/gui/component/addressbook-view.c:1335
 #: ../calendar/gui/calendar-component.c:247
 #: ../calendar/gui/migration.c:400
-#: ../plugins/exchange-operations/exchange-folder.c:585
+#: ../plugins/exchange-operations/exchange-folder.c:586
 msgid "Contacts"
 msgstr "འབྲེལ་ས་ཚུ།"
 
@@ -770,6 +770,7 @@ msgstr "ཁ་བྱང་ཀི་དེབ་གསརཔ།(_N)"
 #: ../calendar/gui/e-calendar-table.c:1194
 #: ../calendar/gui/e-calendar-view.c:1617
 #: ../calendar/gui/e-memo-table.c:869
+#: ../calendar/gui/memos-component.c:452
 #: ../calendar/gui/tasks-component.c:443
 #: ../mail/em-folder-tree.c:2054
 #: ../mail/em-folder-view.c:1091
@@ -787,11 +788,12 @@ msgstr "ཝི་ཤོག་བྱང་བཟུམ་སྦེ་སྲུང
 
 #: ../addressbook/gui/component/addressbook-view.c:958
 #: ../calendar/gui/calendar-component.c:539
+#: ../calendar/gui/memos-component.c:453
 #: ../calendar/gui/tasks-component.c:444
 msgid "_Properties..."
 msgstr "རྒྱུ་དངོས་ཚུ་...(_P)"
 
-#: ../addressbook/gui/component/addressbook-view.c:1345
+#: ../addressbook/gui/component/addressbook-view.c:1346
 msgid "Contact Source Selector"
 msgstr "འབྲེལ་སའི་འབྱུང་ཁུངས་སེལ་བྱེད།"
 
@@ -800,12 +802,12 @@ msgid "Accessing LDAP Server anonymously"
 msgstr "མིང་མེད་ཐོག་ལས་ ཨེལ་ཌི་ཨེ་པི་ སར་བར་ལུ་ འཛུལ་སྤྱོད་འབད་དོ།"
 
 #: ../addressbook/gui/component/addressbook.c:197
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:492
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:495
 msgid "Failed to authenticate.\n"
 msgstr "བདེན་བཤད་འབད་མ་ཚུགས།\n"
 
 #: ../addressbook/gui/component/addressbook.c:204
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:471
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:474
 #, c-format
 msgid "Enter password for %s (user %s)"
 msgstr "%s གི་དོན་ལས་ ཆོག་ཡིག་བཙུགས། (ལག་ལེན་པ་%s)"
@@ -2452,6 +2454,22 @@ msgstr ""
 "འབྲེལ་སའི་གནད་སྡུད་དེ་ ནུས་མེད་ཨིན་པས།:\n"
 "\n"
 
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3062
+#, c-format
+msgid "'%s' has an invalid format"
+msgstr "'%s'ལུ་ནུས་མེད་རྩ་སྒྲིག་ཅིག་འདུག"
+
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3069
+#, c-format
+msgid "%s'%s' has an invalid format"
+msgstr "%s'%s'ལུ་ནུས་མེད་རྩ་སྒྲིག་ཅིག་འདུག"
+
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3084
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3095
+#, c-format
+msgid "%s'%s' is empty"
+msgstr "%s'%s'སྟོངམ་ཨིན་པས།"
+
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:3110
 msgid "Invalid contact."
 msgstr "ནུས་མེད་འབྲེལ་ས།"
@@ -2609,8 +2627,8 @@ msgstr "ཨའི་ཨེམ་ཞབས་ཏོག: (_I)"
 
 #: ../addressbook/gui/contact-editor/im.glade.h:5
 #: ../plugins/calendar-weather/calendar-weather.c:409
-#: ../plugins/exchange-operations/exchange-calendar.c:239
-#: ../plugins/exchange-operations/exchange-contacts.c:228
+#: ../plugins/exchange-operations/exchange-calendar.c:242
+#: ../plugins/exchange-operations/exchange-contacts.c:235
 msgid "_Location:"
 msgstr "གནས་ཁོངས་: (_L)"
 
@@ -2859,6 +2877,7 @@ msgstr "བཏོག (_C)"
 #: ../calendar/gui/e-calendar-table.c:1182
 #: ../calendar/gui/e-calendar-view.c:1602
 #: ../calendar/gui/e-memo-table.c:860
+#: ../calendar/gui/memos-component.c:451
 #: ../calendar/gui/tasks-component.c:442
 #: ../composer/e-msg-composer.c:3120
 #: ../mail/em-folder-tree.c:979
@@ -3662,7 +3681,7 @@ msgstr "རྩ་སྒྲིག"
 #: ../widgets/table/e-table-field-chooser-dialog.c:91
 #: ../widgets/table/e-table-field-chooser-item.c:649
 #: ../widgets/table/e-table-field-chooser.c:91
-#: ../widgets/table/e-table-header-item.c:1825
+#: ../widgets/table/e-table-header-item.c:1826
 #: ../widgets/table/e-table-selection-model.c:318
 msgid "Header"
 msgstr "མགོ་ཡིག"
@@ -3766,9 +3785,9 @@ msgstr "ནག་གྲིབ་བཟོ་བ།"
 
 #. FIXME: Take care of i18n
 #: ../addressbook/printing/e-contact-print.glade.h:36
-#: ../plugins/exchange-operations/exchange-account-setup.c:955
-#: ../plugins/exchange-operations/exchange-calendar.c:229
-#: ../plugins/exchange-operations/exchange-contacts.c:211
+#: ../plugins/exchange-operations/exchange-account-setup.c:962
+#: ../plugins/exchange-operations/exchange-calendar.c:231
+#: ../plugins/exchange-operations/exchange-contacts.c:218
 msgid "Size:"
 msgstr "ཚད:"
 
@@ -4181,7 +4200,7 @@ msgstr "བསྒྱུར་བཅོས་ཚུ་སྲུངས།(_S)"
 
 #: ../calendar/calendar.error.xml.h:71
 #: ../composer/mail-composer.error.xml.h:31
-#: ../mail/mail.error.xml.h:134
+#: ../mail/mail.error.xml.h:130
 msgid "_Send"
 msgstr "གཏང་། (_S)"
 
@@ -4305,9 +4324,9 @@ msgstr "བརྗེད་ཐོ་ཚུ།"
 #: ../calendar/gui/tasks-control.c:475
 #: ../calendar/importers/icalendar-importer.c:80
 #: ../calendar/importers/icalendar-importer.c:741
-#: ../plugins/exchange-operations/exchange-folder.c:591
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:384
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:591
+#: ../plugins/exchange-operations/exchange-folder.c:592
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:387
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:594
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:12
 msgid "Tasks"
 msgstr "ལས་ཀ་ཚུ།"
@@ -4867,10 +4886,10 @@ msgstr "དཔར་བསྐྲུན།"
 #: ../calendar/gui/calendar-component.c:709
 #: ../calendar/gui/dialogs/calendar-setup.c:370
 #: ../calendar/gui/gnome-cal.c:2111
-#: ../plugins/exchange-operations/exchange-folder.c:579
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:383
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:413
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:590
+#: ../plugins/exchange-operations/exchange-folder.c:580
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:386
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:416
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:593
 #: ../plugins/hula-account-setup/camel-hula-listener.c:379
 #: ../plugins/hula-account-setup/camel-hula-listener.c:408
 #: ../plugins/publish-calendar/publish-calendar.glade.h:5
@@ -5244,7 +5263,7 @@ msgid "Display"
 msgstr "བཀྲམ་སྟོན།"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:17
-#: ../calendar/gui/dialogs/event-editor.c:572
+#: ../calendar/gui/dialogs/event-editor.c:574
 #: ../ui/evolution-event-editor.xml.h:8
 msgid "Free/Busy"
 msgstr "དལཝ/ཁོམ་མེད།"
@@ -6354,8 +6373,8 @@ msgstr "<span weight=\"bold\">གནས་ཚད་</span>"
 #: ../calendar/gui/e-cal-model-tasks.c:655
 #: ../calendar/gui/e-calendar-table.c:461
 #: ../calendar/gui/e-itip-control.c:891
-#: ../calendar/gui/e-meeting-store.c:195
-#: ../calendar/gui/e-meeting-store.c:218
+#: ../calendar/gui/e-meeting-store.c:193
+#: ../calendar/gui/e-meeting-store.c:216
 #: ../calendar/gui/print.c:2369
 #: ../plugins/save-calendar/csv-format.c:390
 msgid "Completed"
@@ -6587,7 +6606,7 @@ msgstr "མ་ཤེས་པའི་རྒྱུ་རྐྱེན་ཅིག
 
 #: ../calendar/gui/e-cal-component-memo-preview.c:72
 #: ../calendar/gui/e-cal-component-preview.c:70
-#: ../mail/em-folder-view.c:2823
+#: ../mail/em-folder-view.c:2822
 #, c-format
 msgid "Click to open %s"
 msgstr "%s ཁ་ཕྱེ་ནི་ལུ་ ཨེབ་གཏང་འབད།"
@@ -6693,9 +6712,9 @@ msgstr ""
 #: ../calendar/gui/e-cal-model-tasks.c:1005
 #: ../calendar/gui/e-cal-model.c:924
 #: ../calendar/gui/e-meeting-list-view.c:193
-#: ../calendar/gui/e-meeting-store.c:167
-#: ../calendar/gui/e-meeting-store.c:177
-#: ../calendar/gui/e-meeting-store.c:770
+#: ../calendar/gui/e-meeting-store.c:165
+#: ../calendar/gui/e-meeting-store.c:175
+#: ../calendar/gui/e-meeting-store.c:761
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:5
 msgid "Yes"
 msgstr "ཨིན།"
@@ -6703,7 +6722,7 @@ msgstr "ཨིན།"
 #: ../calendar/gui/e-cal-model-tasks.c:1005
 #: ../calendar/gui/e-cal-model.c:924
 #: ../calendar/gui/e-meeting-list-view.c:194
-#: ../calendar/gui/e-meeting-store.c:179
+#: ../calendar/gui/e-meeting-store.c:177
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:2
 msgid "No"
 msgstr "མེན།"
@@ -6717,9 +6736,9 @@ msgstr "མེན།"
 #: ../calendar/gui/e-itip-control.c:1285
 #: ../calendar/gui/e-meeting-list-view.c:169
 #: ../calendar/gui/e-meeting-list-view.c:183
-#: ../calendar/gui/e-meeting-store.c:125
-#: ../calendar/gui/e-meeting-store.c:160
-#: ../calendar/gui/e-meeting-store.c:223
+#: ../calendar/gui/e-meeting-store.c:123
+#: ../calendar/gui/e-meeting-store.c:158
+#: ../calendar/gui/e-meeting-store.c:221
 #: ../mail/em-utils.c:1309
 #: ../plugins/itip-formatter/itip-formatter.c:240
 #: ../plugins/itip-formatter/itip-formatter.c:1651
@@ -7026,26 +7045,26 @@ msgid "Delete _All Occurrences"
 msgstr "འབྱུང་བ་ཆ་མཉམ་བཏོན་གཏང་། (_A)"
 
 #. To Translators: It will display "Organiser: NameOfTheUser <email@ofuser.com>"
-#: ../calendar/gui/e-calendar-view.c:2030
+#: ../calendar/gui/e-calendar-view.c:2033
 #, c-format
 msgid "Organizer: %s <%s>"
 msgstr "འགོ་འདྲེན་པ་:%s <%s>"
 
 #. With SunOne accouts, there may be no ':' in organiser.value
-#: ../calendar/gui/e-calendar-view.c:2034
+#: ../calendar/gui/e-calendar-view.c:2037
 #, c-format
 msgid "Organizer: %s"
 msgstr "འགོ་འདྲེན་པ་:%s"
 
 #. To Translators: It will display "Location: PlaceOfTheMeeting"
-#: ../calendar/gui/e-calendar-view.c:2050
+#: ../calendar/gui/e-calendar-view.c:2053
 #: ../calendar/gui/print.c:2336
 #, c-format
 msgid "Location: %s"
 msgstr "གནས་ཁོངས་:%s"
 
 #. To Translators: It will display "Time: ActualStartDateAndTime (DurationOfTheMeeting)"
-#: ../calendar/gui/e-calendar-view.c:2081
+#: ../calendar/gui/e-calendar-view.c:2084
 #, c-format
 msgid "Time: %s %s"
 msgstr "ཆུ་ཚོད་:%s %s"
@@ -7212,8 +7231,8 @@ msgstr "<br> འོག་གི་བརྡ་དོན་ཚུ་ བསྐྱ
 
 #: ../calendar/gui/e-itip-control.c:1132
 #: ../calendar/gui/e-meeting-list-view.c:205
-#: ../calendar/gui/e-meeting-store.c:187
-#: ../calendar/gui/e-meeting-store.c:210
+#: ../calendar/gui/e-meeting-store.c:185
+#: ../calendar/gui/e-meeting-store.c:208
 #: ../calendar/gui/itip-utils.c:669
 #: ../plugins/itip-formatter/itip-formatter.c:1639
 msgid "Accepted"
@@ -7227,8 +7246,8 @@ msgstr "ངེས་མེད་སྦེ་ དང་ལེན་འབད་�
 
 #: ../calendar/gui/e-itip-control.c:1140
 #: ../calendar/gui/e-meeting-list-view.c:206
-#: ../calendar/gui/e-meeting-store.c:189
-#: ../calendar/gui/e-meeting-store.c:212
+#: ../calendar/gui/e-meeting-store.c:187
+#: ../calendar/gui/e-meeting-store.c:210
 #: ../calendar/gui/itip-utils.c:675
 #: ../calendar/gui/itip-utils.c:704
 #: ../plugins/itip-formatter/itip-formatter.c:1645
@@ -7557,74 +7576,74 @@ msgid "Resources"
 msgstr "ཐོན་ཁུངས་ཚུ།"
 
 #: ../calendar/gui/e-meeting-list-view.c:165
-#: ../calendar/gui/e-meeting-store.c:100
-#: ../calendar/gui/e-meeting-store.c:117
-#: ../calendar/gui/e-meeting-store.c:764
+#: ../calendar/gui/e-meeting-store.c:98
+#: ../calendar/gui/e-meeting-store.c:115
+#: ../calendar/gui/e-meeting-store.c:755
 msgid "Individual"
 msgstr "ངོ་རྐྱང་།"
 
 #: ../calendar/gui/e-meeting-list-view.c:166
-#: ../calendar/gui/e-meeting-store.c:102
-#: ../calendar/gui/e-meeting-store.c:119
+#: ../calendar/gui/e-meeting-store.c:100
+#: ../calendar/gui/e-meeting-store.c:117
 #: ../widgets/table/e-table-config-no-group.glade.h:7
 #: ../widgets/table/e-table-config.glade.h:6
 msgid "Group"
 msgstr "སྡེ་ཚན།"
 
 #: ../calendar/gui/e-meeting-list-view.c:167
-#: ../calendar/gui/e-meeting-store.c:104
-#: ../calendar/gui/e-meeting-store.c:121
+#: ../calendar/gui/e-meeting-store.c:102
+#: ../calendar/gui/e-meeting-store.c:119
 msgid "Resource"
 msgstr "ཐོན་ཁུངས།"
 
 #: ../calendar/gui/e-meeting-list-view.c:168
-#: ../calendar/gui/e-meeting-store.c:106
-#: ../calendar/gui/e-meeting-store.c:123
+#: ../calendar/gui/e-meeting-store.c:104
+#: ../calendar/gui/e-meeting-store.c:121
 msgid "Room"
 msgstr "ཁང་མིག"
 
 #: ../calendar/gui/e-meeting-list-view.c:179
-#: ../calendar/gui/e-meeting-store.c:135
-#: ../calendar/gui/e-meeting-store.c:152
+#: ../calendar/gui/e-meeting-store.c:133
+#: ../calendar/gui/e-meeting-store.c:150
 msgid "Chair"
 msgstr "རྐང་ཁྲི།"
 
 #: ../calendar/gui/e-meeting-list-view.c:180
-#: ../calendar/gui/e-meeting-store.c:137
-#: ../calendar/gui/e-meeting-store.c:154
-#: ../calendar/gui/e-meeting-store.c:767
+#: ../calendar/gui/e-meeting-store.c:135
+#: ../calendar/gui/e-meeting-store.c:152
+#: ../calendar/gui/e-meeting-store.c:758
 msgid "Required Participant"
 msgstr "དགོ་པའི་བཅའ་མར་གཏོགས་མི།"
 
 #: ../calendar/gui/e-meeting-list-view.c:181
-#: ../calendar/gui/e-meeting-store.c:139
-#: ../calendar/gui/e-meeting-store.c:156
+#: ../calendar/gui/e-meeting-store.c:137
+#: ../calendar/gui/e-meeting-store.c:154
 msgid "Optional Participant"
 msgstr "གདམ་ཁ་ཅན་གྱི་ བཅའ་མར་གཏོགས་མི།"
 
 #: ../calendar/gui/e-meeting-list-view.c:182
-#: ../calendar/gui/e-meeting-store.c:141
-#: ../calendar/gui/e-meeting-store.c:158
+#: ../calendar/gui/e-meeting-store.c:139
+#: ../calendar/gui/e-meeting-store.c:156
 msgid "Non-Participant"
 msgstr "བཅའ་མར་མ་གཏོགས་མི།"
 
 #: ../calendar/gui/e-meeting-list-view.c:204
-#: ../calendar/gui/e-meeting-store.c:185
-#: ../calendar/gui/e-meeting-store.c:208
-#: ../calendar/gui/e-meeting-store.c:777
+#: ../calendar/gui/e-meeting-store.c:183
+#: ../calendar/gui/e-meeting-store.c:206
+#: ../calendar/gui/e-meeting-store.c:768
 msgid "Needs Action"
 msgstr "བྱ་བ་དགོཔ།"
 
 #: ../calendar/gui/e-meeting-list-view.c:207
-#: ../calendar/gui/e-meeting-store.c:191
-#: ../calendar/gui/e-meeting-store.c:214
+#: ../calendar/gui/e-meeting-store.c:189
+#: ../calendar/gui/e-meeting-store.c:212
 #: ../calendar/gui/e-meeting-time-sel.c:410
 msgid "Tentative"
 msgstr "ངེས་མེད།"
 
 #: ../calendar/gui/e-meeting-list-view.c:208
-#: ../calendar/gui/e-meeting-store.c:193
-#: ../calendar/gui/e-meeting-store.c:216
+#: ../calendar/gui/e-meeting-store.c:191
+#: ../calendar/gui/e-meeting-store.c:214
 #: ../calendar/gui/itip-utils.c:678
 #: ../plugins/itip-formatter/itip-formatter.c:1648
 msgid "Delegated"
@@ -7635,15 +7654,15 @@ msgstr "བགོ་སྤེལ་འབད་ཡོདཔ།"
 msgid "Attendee                          "
 msgstr "འཛོམས་མི།"
 
-#: ../calendar/gui/e-meeting-store.c:197
-#: ../calendar/gui/e-meeting-store.c:220
+#: ../calendar/gui/e-meeting-store.c:195
+#: ../calendar/gui/e-meeting-store.c:218
 msgid "In Process"
 msgstr "ལས་སྦྱོར་འབད་བའི་བསྒང་།"
 
 #. This is a strftime() format string %A = full weekday name,
 #. %B = full month name, %d = month day, %Y = full year.
 #: ../calendar/gui/e-meeting-time-sel-item.c:442
-#: ../calendar/gui/e-meeting-time-sel.c:2098
+#: ../calendar/gui/e-meeting-time-sel.c:2100
 msgid "%A, %B %d, %Y"
 msgstr "%A, %B %d, %Y"
 
@@ -7652,7 +7671,7 @@ msgstr "%A, %B %d, %Y"
 #. This is a strftime() format string %a = abbreviated weekday name,
 #. %m = month number, %d = month day, %Y = full year.
 #: ../calendar/gui/e-meeting-time-sel-item.c:446
-#: ../calendar/gui/e-meeting-time-sel.c:2131
+#: ../calendar/gui/e-meeting-time-sel.c:2133
 msgid "%a %m/%d/%Y"
 msgstr "%a %m/%d/%Y"
 
@@ -7948,28 +7967,6 @@ msgstr "ཁྱོད་ བྱུང་ལས་དེ་གི་ ངོ་འ�
 #: ../calendar/gui/itip-utils.c:937
 msgid "You must be an attendee of the event."
 msgstr "ཨའི་ཟླ་ཐོའི་བརྡ་དོན།"
-
-#: ../calendar/gui/memos-component.c:451
-#: ../ui/evolution-addressbook.xml.h:6
-#: ../ui/evolution-composer-entries.xml.h:1
-#: ../ui/evolution-memos.xml.h:2
-#: ../ui/evolution-tasks.xml.h:2
-msgid "Copy"
-msgstr "འདྲ་བཤུས།"
-
-#: ../calendar/gui/memos-component.c:452
-#: ../mail/em-filter-i18n.h:11
-#: ../ui/evolution-addressbook.xml.h:15
-#: ../ui/evolution-calendar.xml.h:5
-#: ../ui/evolution-mail-message.xml.h:25
-#: ../ui/evolution-memos.xml.h:6
-#: ../ui/evolution-tasks.xml.h:6
-msgid "Delete"
-msgstr "བཏོན་གཏང་།"
-
-#: ../calendar/gui/memos-component.c:453
-msgid "Properties..."
-msgstr "རྒྱུ་དངོས་ཚུ་..."
 
 #: ../calendar/gui/memos-component.c:526
 #, c-format
@@ -10169,7 +10166,7 @@ msgstr "&quot;{0}&quot;ལུ་བརྟེན་ཏེ་ ཁྱོད་ཀ�
 
 #: ../composer/mail-composer.error.xml.h:5
 #: ../e-util/e-system.error.xml.h:1
-#: ../mail/mail.error.xml.h:19
+#: ../mail/mail.error.xml.h:18
 msgid "Because &quot;{1}&quot;."
 msgstr " &quot;{1}&quot;ལུ་རྟེན་ཏེ།"
 
@@ -10438,7 +10435,7 @@ msgid "File exists &quot;{0}&quot;."
 msgstr "ཡིག་སྣོད་&quot;{0}&quot;འདུག"
 
 #: ../e-util/e-system.error.xml.h:7
-#: ../mail/mail.error.xml.h:133
+#: ../mail/mail.error.xml.h:129
 msgid "_Overwrite"
 msgstr "ཚབ་སྲུང་འབད། (_O)"
 
@@ -10615,7 +10612,7 @@ msgid "Missing file name."
 msgstr "ཡིག་སྣོད་ཀྱི་མིང་བརླག་སྟོར།"
 
 #: ../filter/filter.error.xml.h:6
-#: ../mail/mail.error.xml.h:71
+#: ../mail/mail.error.xml.h:70
 msgid "Missing name."
 msgstr "མིང་བརླག་སྟོར།"
 
@@ -10918,14 +10915,14 @@ msgstr "མིང་རྟགས(ཚུ)"
 msgid "-------- Forwarded Message --------"
 msgstr "-----གདོང་བསྐྱོད་འབད་ཡོད་པའི་འཕྲིན་དོན་-----"
 
-#: ../mail/em-composer-utils.c:1666
+#: ../mail/em-composer-utils.c:1665
 msgid "an unknown sender"
 msgstr "སྐྱེལ་མི་ ངོ་མ་ཤེསཔ་ཅིག"
 
 #. Note to translators: this is the attribution string used when quoting messages.
 #. * each ${Variable} gets replaced with a value. To see a full list of available
 #. * variables, see em-composer-utils.c:1514
-#: ../mail/em-composer-utils.c:1713
+#: ../mail/em-composer-utils.c:1712
 msgid "On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} ${TimeZone}, ${Sender} wrote:"
 msgstr "$ལུ་ (ཨེབ་བིརིབ་ ཝིཀ་ཌེ་ ནེམ) $(ལོ)-$(ཟླཝ)-$(གཟའ) $ ལུ(ཆུ་ཚོད་༢༤): $(སྐར་མ)།$(ཆུ་ཚོད་གླིང་སྡེ)་$(སྐྱེལ་མི) བྲིས་ཡོདཔ་:"
 
@@ -10969,6 +10966,15 @@ msgstr "ཚེས་གྲངས་ཐོབ་ཡོད།"
 #: ../mail/em-filter-i18n.h:10
 msgid "Date sent"
 msgstr "ཚེས་གྲངས་བཏང་ཡོད།"
+
+#: ../mail/em-filter-i18n.h:11
+#: ../ui/evolution-addressbook.xml.h:15
+#: ../ui/evolution-calendar.xml.h:5
+#: ../ui/evolution-mail-message.xml.h:25
+#: ../ui/evolution-memos.xml.h:6
+#: ../ui/evolution-tasks.xml.h:6
+msgid "Delete"
+msgstr "བཏོན་གཏང་།"
 
 #: ../mail/em-filter-i18n.h:12
 msgid "Deleted"
@@ -11257,7 +11263,7 @@ msgstr "ཟིན་བྲིས་ཚུ།"
 #. translators: standard local mailbox names
 #: ../mail/em-folder-tree-model.c:487
 #: ../mail/mail-component.c:150
-#: ../plugins/exchange-operations/exchange-folder.c:597
+#: ../plugins/exchange-operations/exchange-folder.c:598
 msgid "Inbox"
 msgstr "ཨིན་བོགསི།"
 
@@ -11356,7 +11362,7 @@ msgid "_Rename..."
 msgstr "བསྐྱར་མིང་བཏགས་...(_R)"
 
 #: ../mail/em-folder-tree.c:2060
-#: ../mail/mail.error.xml.h:130
+#: ../mail/mail.error.xml.h:126
 msgid "_Empty Trash"
 msgstr "_ཕྱགས་ཧོད་སྟོངམ་བཏོན། (_E)"
 
@@ -11506,38 +11512,38 @@ msgid "Filter on _Mailing List"
 msgstr "འཕྲིན་གཏང་ཐོ་ཡིག་ལུ་བཙགས། (_M)"
 
 #. default charset used in mail view
-#: ../mail/em-folder-view.c:1968
-#: ../mail/em-folder-view.c:2012
+#: ../mail/em-folder-view.c:1967
+#: ../mail/em-folder-view.c:2011
 msgid "Default"
 msgstr "སྔོན་སྒྲིག་འབད།"
 
-#: ../mail/em-folder-view.c:2111
+#: ../mail/em-folder-view.c:2110
 #: ../plugins/print-message/org-gnome-print-message.eplug.xml.h:2
 #: ../plugins/print-message/print-message.c:87
 msgid "Print Message"
 msgstr "འཕྲིན་དོན་དཔར་བསྐྲུན་འབད།"
 
-#: ../mail/em-folder-view.c:2267
+#: ../mail/em-folder-view.c:2266
 msgid "Unable to retrieve message"
 msgstr "འཕྲིན་དོན་སླར་འདྲེན་འབད་མི་ཚུགས་པས།"
 
-#: ../mail/em-folder-view.c:2460
+#: ../mail/em-folder-view.c:2459
 msgid "_Copy Link Location"
 msgstr "འབྲེལ་ལམ་གནས་ཁོངས་ འདྲ་བཤུས་རྐྱབས། (_C)"
 
-#: ../mail/em-folder-view.c:2462
+#: ../mail/em-folder-view.c:2461
 msgid "Create _Search Folder"
 msgstr "འཚོལ་ཞིབ་སྣོད་འཛིན་ གསར་བསྐྲུན་འབད།(_S)"
 
-#: ../mail/em-folder-view.c:2463
+#: ../mail/em-folder-view.c:2462
 msgid "_From this Address"
 msgstr "ཁ་བྱང་འདི་ནང་ལས། (_F)"
 
-#: ../mail/em-folder-view.c:2464
+#: ../mail/em-folder-view.c:2463
 msgid "_To this Address"
 msgstr "ཁ་བྱང་འདི་ནང་ལུ། (_T)"
 
-#: ../mail/em-folder-view.c:2818
+#: ../mail/em-folder-view.c:2817
 #, c-format
 msgid "Click to mail %s"
 msgstr "ཡིག་འཕྲིན་%sལུ་ ཨེབ་གཏང་འབད།"
@@ -11817,7 +11823,7 @@ msgstr "%s མཉམ་སྦྲགས།"
 
 #: ../mail/em-format.c:1141
 #: ../mail/em-format.c:1289
-#: ../mail/em-format.c:1576
+#: ../mail/em-format.c:1591
 msgid "Could not parse S/MIME message: Unknown error"
 msgstr "ཨེསི་/མ་ཡིམ་ འཕྲིན་དོན་ལུ་ མིང་དཔྱད་འབད་མ་ཚུགས: མ་ཤེས་པའི་འཛོལ་བ།"
 
@@ -11835,12 +11841,12 @@ msgid "Unsupported signature format"
 msgstr "རྒྱབ་སྐྱོར་མེད་པའི་ མིང་རྟགས་ཀྱི་རྩ་སྒྲིག"
 
 #: ../mail/em-format.c:1454
-#: ../mail/em-format.c:1518
+#: ../mail/em-format.c:1520
 msgid "Error verifying signature"
 msgstr "མིང་རྟགས་བདེན་སྦྱོར་འབད་ནི་ལུ་འཛོལ་བ།"
 
 #: ../mail/em-format.c:1454
-#: ../mail/em-format.c:1518
+#: ../mail/em-format.c:1520
 msgid "Unknown error verifying signature"
 msgstr "མིང་རྟགས་བདེན་སྦྱོར་འབད་ནི་ལུ་ མ་ཤེས་པའི་འཛོལ་བ།"
 
@@ -13695,225 +13701,225 @@ msgstr "སྣོད་འཛིན་མིང་&quot;{1}&quot;འབད་མ
 msgid ""
 "A non-empty folder at &quot;{1}&quot; already exists.\n"
 "\n"
-"You can choose to ignore this folder, overwrite or append its contents, or quit.\n"
+"You can choose to ignore this folder, overwrite or append its contents, or quit."
 msgstr ""
 "&quot;{1}&quot;ལུ་ སྟོངམ་མེན་པའི་ སྣོད་འཛིན་ཅིག་ ཧེ་མ་ལས་རང་འདུག\n"
 "\n"
-"ཁྱོད་ཀྱིས་སྣོད་འཛིན་འདི་ སྣང་མེད་སྦེ་བཞག་རུང་ ཚབ་སྲུང་འབད་རུང་ ཡང་ཅིན་ དེ་གི་ནང་དོན་ཚུ་མཇུག་བསྣོན་འབད་རུང་བཏུབ་ སྤང་རུང་བཏུབ་ཨིན།\n"
+"ཁྱོད་ཀྱིས་སྣོད་འཛིན་འདི་ སྣང་མེད་སྦེ་བཞག་རུང་ ཚབ་སྲུང་འབད་རུང་ ཡང་ཅིན་ དེ་གི་ནང་དོན་ཚུ་མཇུག་བསྣོན་འབད་རུང་བཏུབ་ སྤང་རུང་བཏུབ་ཨིན།"
 
-#: ../mail/mail.error.xml.h:6
+#: ../mail/mail.error.xml.h:5
 msgid "A read receipt notification has been requested for &quot;{1}&quot;. Send the receipt notification to {0}?"
 msgstr "&quot;{1}&quot གི་དོན་ལུ་ འབྱོར་རྟགས་ལྷག་པའི་བརྡ་བསྐུལ་གྱི་ཞུ་བ་ཅིག་འབད་ནུག འབྱོར་རྟགས་ཀྱི་བརྡ་བསྐུལ་དེ་ {0}ལུ་གཏང་ནི་ཨིན?"
 
-#: ../mail/mail.error.xml.h:7
+#: ../mail/mail.error.xml.h:6
 msgid "A signature already exists with the name &quot;{0}&quot;. Please specify a different name."
 msgstr "མཚན་རྟགས་མིང་&quot;{1}&quot;འབད་མི་ཅིག་ ཧེ་མ་ལས་རང་འདུག མིང་སོ་སོ་ཅིག་གསལ་བཀོད་འབད་གནང་།"
 
-#: ../mail/mail.error.xml.h:8
+#: ../mail/mail.error.xml.h:7
 msgid "Adding a meaningful Subject line to your messages will give your recipients an idea of what your mail is about."
 msgstr "ཁྱོད་ཀྱི་འཕྲིན་དོན་ལུ་ དོན་ལྡན་དང་ལྡན་པའི་ དོན་ཚན་གྱལ་རིམ་ཅིག་ ཁ་སྐོང་བརྐྱབས་པཅིན་ ཁྱོད་ཀྱི་ལེན་མཁན་ཚུ་གིས་ ཁྱོད་ཀྱི་ཡིག་འཕྲིན་དེ་ ག་ཅིའི་སྐོར་ལས་ཨིན་ན་ ཧ་ལམ་ཅིག་ ཧ་གོ་ཚུགས།"
 
-#: ../mail/mail.error.xml.h:9
+#: ../mail/mail.error.xml.h:8
 msgid "Are you sure you want to delete this account and all its proxies?"
 msgstr "ཁྱོད་ཀྱིས་རྩིས་ཐོ་འདི་དང་ དེ་གི་པོ་རག་སི་ཚུ་ཆ་མཉམ་ ངེས་པར་དུ་ བཏོན་གཏང་ནི་ཨིན་ན?"
 
-#: ../mail/mail.error.xml.h:10
+#: ../mail/mail.error.xml.h:9
 msgid "Are you sure you want to delete this account?"
 msgstr "ཁྱོད་ཀྱིས་རྩིས་ཐོ་འདི་ ངེས་པར་དུ་ བཏོན་གཏང་ནི་ཨིན་ན?"
 
-#: ../mail/mail.error.xml.h:11
+#: ../mail/mail.error.xml.h:10
 msgid "Are you sure you want to disable this account and delete all its proxies?"
 msgstr "ཁྱོད་ཀྱིས་རྩིས་ཐོ་འདི་ལྕོགས་མིན་བཟོ་སྟེ་ དེ་གི་པོ་རག་སི་ཚུ་ཆ་མཉམ་ ངེས་པར་དུ་ བཏོན་གཏང་ནི་ཨིན་ན?"
 
-#: ../mail/mail.error.xml.h:12
+#: ../mail/mail.error.xml.h:11
 msgid "Are you sure you want to open {0} messages at once?"
 msgstr "ཁྱོད་ཀྱིས་ འཕྲིན་དོན་(0) དུས་གཅིག་ལུ་ཁ་ཕྱེ་ནི་ ངེས་ཏིག་ཨིན་ན?"
 
-#: ../mail/mail.error.xml.h:13
+#: ../mail/mail.error.xml.h:12
 msgid "Are you sure you want to permanently remove all the deleted messages in all folders?"
 msgstr "ཁྱོད་ཀྱིས་སྣོད་འཛིན་ཆ་མཉམ་ནང་ལས་ བཏོན་བཞག་མི་ འཕྲིན་དོན་ཆ་མཉམ་རང་ ངེས་པར་དུ་ རྟག་བརྟན་སྦེ་ རྩ་བསྐྲད་གཏང་ནི་ཨིན་ན?"
 
-#: ../mail/mail.error.xml.h:14
+#: ../mail/mail.error.xml.h:13
 msgid "Are you sure you want to permanently remove all the deleted messages in folder &quot;{0}&quot;?"
 msgstr "ཁྱོད་ཀྱིས་ སྣོད་འཛིན་&quot;{0}&quot; ནང་ལུ་ བཏོན་བཞག་མི་ འཕྲིན་དོན་ཆ་མཉམ་རང་ ངེས་པར་དུ་ རྟག་བརྟན་སྦེ་ རྩ་བསྐྲད་གཏང་ནི་ཨིན་ན?"
 
-#: ../mail/mail.error.xml.h:15
+#: ../mail/mail.error.xml.h:14
 msgid "Are you sure you want to send a message in HTML format?"
 msgstr "ཁྱོད་ཀྱིས་ ཨེཆ་ཊི་ཨེམ་ཨེལ་རྩ་སྒྲིག་ནང་ འཕྲིན་དོན་ཅིག་གཏང་ནི་ ངེས་ཏིག་ཨིན་ན?"
 
-#: ../mail/mail.error.xml.h:16
+#: ../mail/mail.error.xml.h:15
 msgid "Are you sure you want to send a message with only BCC recipients?"
 msgstr "ཁྱོད་ཀྱིས་འཕྲིན་དོན་ཅིག་ བི་སི་སི་ ལེན་མཁན་ཚུ་རྐྱངམ་ལུ་ གཏང་ནི་ངེས་ཏིག་ཨིན་ན?"
 
-#: ../mail/mail.error.xml.h:17
+#: ../mail/mail.error.xml.h:16
 msgid "Are you sure you want to send a message without a subject?"
 msgstr "ཁྱོད་ཀྱིས་ འཕྲིན་དོན་ཅིག་ དོན་ཚན་ཅིག་མེད་པར་གཏང་ནི་ ངེས་ཏིག་ཨིན་ན?"
 
-#: ../mail/mail.error.xml.h:18
+#: ../mail/mail.error.xml.h:17
 msgid "Because &quot;{0}&quot;."
 msgstr "&quot;{0}&quot; ལུ་བརྟེན་ཏེ།"
 
-#: ../mail/mail.error.xml.h:20
+#: ../mail/mail.error.xml.h:19
 msgid "Because &quot;{2}&quot;."
 msgstr "&quot;{2}&quot;ལུ་བརྟེན་ཏེ།"
 
-#: ../mail/mail.error.xml.h:21
+#: ../mail/mail.error.xml.h:20
 msgid "Blank Signature"
 msgstr "མིང་རྟགས་སྟོངམ།"
 
-#: ../mail/mail.error.xml.h:22
+#: ../mail/mail.error.xml.h:21
 msgid "Cannot add Search Folder &quot;{0}&quot;."
 msgstr "&quot;{0}&quot;འཚོལ་ཞིབ་སྣོད་འཛིན་ ཁ་སྐོང་བརྐྱབ་མི་ཚུགས་པས།"
 
-#: ../mail/mail.error.xml.h:23
+#: ../mail/mail.error.xml.h:22
 msgid "Cannot copy folder &quot;{0}&quot; to &quot;{1}&quot;."
 msgstr "སྣོད་འཛིན་&quot;{0}&quot;དེ་ &quot;{1}&quot;ལུ་ འདྲ་བཤུས་བརྐྱབ་མི་ཚུགས།"
 
-#: ../mail/mail.error.xml.h:24
+#: ../mail/mail.error.xml.h:23
 msgid "Cannot create folder &quot;{0}&quot;."
 msgstr "སྣོད་འཛིན་&quot;{0}&quot;གསར་བསྐྲུན་འབད་མི་ཚུགས་པས།"
 
-#: ../mail/mail.error.xml.h:25
+#: ../mail/mail.error.xml.h:24
 msgid "Cannot create temporary save directory."
 msgstr "གནས་སྐབས་སྲུང་བཞག་གི་ སྣོད་ཐོ་གསར་བསྐྲུན་འབད་མི་ཚུགས།"
 
-#: ../mail/mail.error.xml.h:26
+#: ../mail/mail.error.xml.h:25
 msgid "Cannot create the save directory, because &quot;{1}&quot;"
 msgstr "&quot;{1}&quot;ལུ་བརྟེན་ཏེ་ སྲུང་བཞག་སྣོད་ཐོ་ གསར་བསྐྲུན་འབད་མི་ཚུགས་པས།"
 
-#: ../mail/mail.error.xml.h:27
+#: ../mail/mail.error.xml.h:26
 msgid "Cannot delete folder &quot;{0}&quot;."
 msgstr "སྣོད་འཛིན་&quot;{0}&quot;བཏོན་གཏང་མི་ཚུགས་པས།"
 
-#: ../mail/mail.error.xml.h:28
+#: ../mail/mail.error.xml.h:27
 msgid "Cannot delete system folder &quot;{0}&quot;."
 msgstr "རིམ་ལུགས་སྣོད་འཛིན་&quot;{0}&quot;བཏོན་གཏང་མི་ཚུགས་པས།"
 
-#: ../mail/mail.error.xml.h:29
+#: ../mail/mail.error.xml.h:28
 msgid "Cannot edit Search Folder &quot;{0}&quot; as it does not exist."
 msgstr "འཚོལ་ཞིབ་སྣོད་འཛིན་&quot;{0}&quot;དེ་མེདཔ་ལས་བརྟེན་ ཞུན་དག་བརྐྱབ་མི་ཚུགས་པས།"
 
-#: ../mail/mail.error.xml.h:30
+#: ../mail/mail.error.xml.h:29
 msgid "Cannot move folder &quot;{0}&quot; to &quot;{1}&quot;."
 msgstr "སྣོད་འཛིན་&quot;{0}&quot;དེ་ &quot;{1}&quot;ལུ་ སྤོ་བཤུད་འབད་མི་ཚུགས་པས།"
 
-#: ../mail/mail.error.xml.h:31
+#: ../mail/mail.error.xml.h:30
 msgid "Cannot open source &quot;{1}&quot;"
 msgstr "འབྱུང་ཁུངས་&quot;{1}&quot;ཁ་ཕྱེ་མི་ཚུགས་པས།"
 
-#: ../mail/mail.error.xml.h:32
+#: ../mail/mail.error.xml.h:31
 msgid "Cannot open source &quot;{2}&quot;."
 msgstr "འབྱུང་ཁུངས་&quot;{2}&quot;ཁ་ཕྱེ་མ་ཚུགས་པས།"
 
-#: ../mail/mail.error.xml.h:33
+#: ../mail/mail.error.xml.h:32
 msgid "Cannot open target &quot;{2}&quot;."
 msgstr "དམིགས་གཏད་&quot;{2}&quot;ཁ་ཕྱེ་མི་ཚུགས་པས།"
 
-#: ../mail/mail.error.xml.h:34
+#: ../mail/mail.error.xml.h:33
 msgid "Cannot read the license file &quot;{0}&quot;, due to an installation problem. You will not be able to use this provider until you can accept its license."
 msgstr "གཞི་བཙུགས་ཀྱི་ དཀའ་ངལ་ཅིག་ལུ་བརྟེན་ཏེ་ ཆོག་ཐམ་ཡིག་སྣོད་&quot;{0}&quotདེ་ ལྷག་མ་ཚུགས། ཁྱོད་ཀྱིས་བྱིན་མཁན་གྱི་ཆོག་ཐམ་དེ་ དང་ལེན་མ་འབད་ཚུན་ཚོད་ བྱིན་མཁན་དེ་ ལག་ལེན་འཐབ་མི་ཚུགས།"
 
-#: ../mail/mail.error.xml.h:35
+#: ../mail/mail.error.xml.h:34
 msgid "Cannot rename &quot;{0}&quot; to &quot;{1}&quot;."
 msgstr "&quot;{0}&quot;དེ་ &quot;{1}&quot;ལུ་ བསྐྱར་མིང་བཏགས་མི་ཚུགས་པས།"
 
-#: ../mail/mail.error.xml.h:36
+#: ../mail/mail.error.xml.h:35
 msgid "Cannot rename or move system folder &quot;{0}&quot;."
 msgstr "རིམ་ལུགས་སྣོད་འཛིན་&quot;{0}&quot;ལུ་ བསྐྱར་མིང་བཏགས་ནི་དང་ སྤོ་བཤུད་འབད་ནི་ཚུ་མི་བཏུབ་པས།"
 
-#: ../mail/mail.error.xml.h:37
+#: ../mail/mail.error.xml.h:36
 msgid "Cannot save changes to account."
 msgstr "རྩིས་ཐོ་ལུ་ བསྒྱུར་བཅོས་ཚུ་ བསྲུང་མི་ཚུགས་པས།"
 
-#: ../mail/mail.error.xml.h:38
+#: ../mail/mail.error.xml.h:37
 msgid "Cannot save to directory &quot;{0}&quot;."
 msgstr "སྣོད་ཐོ་&quot;{0}&quot;ལུ་ བསྲུང་མི་ཚུགས་པས།"
 
-#: ../mail/mail.error.xml.h:39
+#: ../mail/mail.error.xml.h:38
 msgid "Cannot save to file &quot;{0}&quot;."
 msgstr "ཡིག་སྣོད་&quot;{0}&quot;ལུ་ བསྲུང་མི་ཚུགས།"
 
-#: ../mail/mail.error.xml.h:40
+#: ../mail/mail.error.xml.h:39
 msgid "Cannot set signature script &quot;{0}&quot;."
 msgstr "མིང་རྟགས་ཡིག་ཚུགས་&quot;{0}&quot; གཞི་སྒྲིག་འབད་མི་ཚུགས་པས།"
 
-#: ../mail/mail.error.xml.h:41
+#: ../mail/mail.error.xml.h:40
 msgid "Check to make sure your password is spelled correctly. Remember that many passwords are case sensitive; your caps lock might be on."
 msgstr "ཁྱོད་རའི་ཆོག་ཡིག་གི་ཡིག་སྡེབ་ འཛོལ་མ་འཛོལ་ ཞིབ་དཔྱད་འབད། ཆོག་ཡིག་ལེ་ཤ་ཅིག་ལུ་ ཡི་གུ་ཆེ་ཆུང་གི་ཉེན་ཁ་ཡོདཔ་ སེམས་ཁར་བཞག ཁྱོད་ཀྱི་ཚུགས་ལྡེ་དེ་ ཨེབ་སྟེ་ཡོདཔ་འོང་།།"
 
-#: ../mail/mail.error.xml.h:42
+#: ../mail/mail.error.xml.h:41
 msgid "Could not save signature file."
 msgstr "མིང་རྟགས་ཡིག་སྣོད་ བསྲུང་མི་ཚུགས།"
 
-#: ../mail/mail.error.xml.h:43
+#: ../mail/mail.error.xml.h:42
 msgid "Delete &quot;{0}&quot;?"
 msgstr "&quot;{0}&quot;བཏོན་གཏང་ནི་ཨིན་ན?"
 
-#: ../mail/mail.error.xml.h:44
+#: ../mail/mail.error.xml.h:43
 msgid "Delete account?"
 msgstr "རྩིས་ཐོ་བཏོན་གཏང་ནི་ཨིན་ན?"
 
-#: ../mail/mail.error.xml.h:45
+#: ../mail/mail.error.xml.h:44
 msgid "Discard changes?"
 msgstr "བསྒྱུར་བཅོས་ཚུ་ བཏོན་བཀོག་ནི་ཨིན་ན?"
 
-#: ../mail/mail.error.xml.h:46
+#: ../mail/mail.error.xml.h:45
 msgid "Do not delete"
 msgstr "བཏོན་མ་གཏང་།"
 
-#: ../mail/mail.error.xml.h:47
+#: ../mail/mail.error.xml.h:46
 msgid "Do not disable"
 msgstr "ལྕོགས་མིན་མ་བཟོ།"
 
-#: ../mail/mail.error.xml.h:48
+#: ../mail/mail.error.xml.h:47
 msgid "Do you want the operation to be performed in the subfolders?"
 msgstr "ཁྱོད་ཀྱིས་བཀོལ་སྤྱོད་ཚུ་ ཡན་ལག་སྣོད་འཛིན་ཚུ་ནང་འབད་ནི་ཨིན་ན?"
 
-#: ../mail/mail.error.xml.h:49
+#: ../mail/mail.error.xml.h:48
 msgid "Do you want to mark all messages as read?"
 msgstr "འཕྲིན་དོན་ཆ་མཉམ་རང་ ལྷག་ཡོདཔ་སྦེ་ རྟགས་བཀལ་ནི་ཨིན་ན།"
 
-#: ../mail/mail.error.xml.h:50
+#: ../mail/mail.error.xml.h:49
 msgid "Do you wish to save your changes?"
 msgstr "བསྒྱུར་བཅོས་ཚུ་ བསྲུང་ནི་ཨིན་ན?"
 
-#: ../mail/mail.error.xml.h:51
+#: ../mail/mail.error.xml.h:50
 msgid "Enter password."
 msgstr "ཆོག་ཡིག་བཙུགས།"
 
-#: ../mail/mail.error.xml.h:52
+#: ../mail/mail.error.xml.h:51
 msgid "Error loading filter definitions."
 msgstr "ཚགས་མའི་ངེས་ཚིག་ མངོན་གསལ་འབད་ནི་ལུ་འཛོལ་བ།"
 
-#: ../mail/mail.error.xml.h:53
+#: ../mail/mail.error.xml.h:52
 msgid "Error while performing operation."
 msgstr "བཀོལ་སྤྱོད་ལག་ལེན་འཐབ་པའི་སྐབས་ལུ་འཛོལ་བ།"
 
-#: ../mail/mail.error.xml.h:54
+#: ../mail/mail.error.xml.h:53
 msgid "Error while {0}."
 msgstr "{0}གི་སྐབས་ལུ་འཛོལ་བ།"
 
-#: ../mail/mail.error.xml.h:55
+#: ../mail/mail.error.xml.h:54
 msgid "File exists but cannot overwrite it."
 msgstr "ཡིག་སྣོད་འདུག་ དེ་འབདཝ་ ཚབ་སྲུང་འབད་མི་བཏུབ་པས།"
 
-#: ../mail/mail.error.xml.h:56
+#: ../mail/mail.error.xml.h:55
 msgid "File exists but is not a regular file."
 msgstr "ཡིག་སྣོད་འདུག་ དེ་འབདཝ་ད་ དུས་རྒྱུན་གྱི་ ཡིག་སྣོད་ཅིག་མེན་པས།"
 
-#: ../mail/mail.error.xml.h:57
+#: ../mail/mail.error.xml.h:56
 msgid "If you continue, you will not be able to recover these messages."
 msgstr "ཁྱོད་ཀྱིས་ འཕྲོ་མཐུད་པ་ཅིན་ འཕྲིན་དོན་འདི་ཚུ་ སླར་གསོ་་འབད་མི་ཚུགས།"
 
-#: ../mail/mail.error.xml.h:58
+#: ../mail/mail.error.xml.h:57
 msgid "If you delete the folder, all of its contents and its subfolders contents will be deleted permanently."
 msgstr "ཁྱོད་ཀྱིས་སྣོད་འཛིན་དེ་བཏོན་གཏང་པ་ཅིན་ དེ་གི་ནང་དོན་དང་ དེ་གི་ཡན་ལག་སྣོད་འཛིན་ཚུ་གི་ ནང་དོན་ཆ་མཉམ་རང་ རྟག་བརྟན་སྦེ་ བཏོན་གཏང་འོང་།"
 
-#: ../mail/mail.error.xml.h:59
+#: ../mail/mail.error.xml.h:58
 msgid "If you proceed, all proxy accounts will be deleted permanently."
 msgstr "ཁྱོད་ཀྱིས་འཕྲོ་མཐུད་དེ་འབད་བ་ཅིན་ པོ་རོག་སི་རྩིས་ཐོ་ཆ་མཉམ་རང་ རྟག་བརྟན་སྦེ་ བཏོན་གཏང་འོང་།"
 
-#: ../mail/mail.error.xml.h:60
+#: ../mail/mail.error.xml.h:59
 msgid ""
 "If you proceed, the account information and\n"
 "all proxy information will be deleted permanently."
@@ -13921,63 +13927,63 @@ msgstr ""
 "ཁྱོད་ཀྱིས་འཕྲོ་མཐུད་དེ་འབད་བ་ཅིན་ རྩིས་ཐོའི་བརྡ་དོན་དང་\n"
 "པོ་རོག་སི་བརྡ་དོན་ཆ་མཉམ་རང་ རྟག་བརྟན་སྦེ་ བཏོན་གཏང་འོང་།"
 
-#: ../mail/mail.error.xml.h:62
+#: ../mail/mail.error.xml.h:61
 msgid "If you proceed, the account information will be deleted permanently."
 msgstr "ཁྱོད་ཀྱིས་འཕྲོ་མཐུད་དེ་འབད་བ་ཅིན་ རྩིས་ཐོའི་བརྡ་དོན་དེ་ རྟག་བརྟན་སྦེ་ བཏོན་གཏང་འོང་།"
 
-#: ../mail/mail.error.xml.h:63
+#: ../mail/mail.error.xml.h:62
 msgid "If you quit, these messages will not be sent until Evolution is started again."
 msgstr "ཁྱོད་ཀྱིས་སྤང་པ་ཅིན་ འཕྲིན་དོན་འདི་ཚུ་ ཨི་བོ་ལུ་ཤཱན་ ལོག་འགོ་མ་བཙུགས་ཚུན་ཚོད་མི་གཏང་།"
 
-#: ../mail/mail.error.xml.h:64
+#: ../mail/mail.error.xml.h:63
 msgid "Ignore"
 msgstr "སྣང་མེད་བཞག"
 
-#: ../mail/mail.error.xml.h:65
+#: ../mail/mail.error.xml.h:64
 msgid "Invalid authentication"
 msgstr "ནུས་མེད་བདེན་བཤད།"
 
-#: ../mail/mail.error.xml.h:66
+#: ../mail/mail.error.xml.h:65
 msgid "Mail filters automatically updated."
 msgstr "ཡིག་འཕྲིན་ཚགས་མ་ཚུ་ རང་བཞིན་གྱིས་ དུས་མཐུན་བཟོ་ཡི།"
 
-#: ../mail/mail.error.xml.h:67
+#: ../mail/mail.error.xml.h:66
 msgid "Many email systems add an Apparently-To header to messages that only have BCC recipients. This header, if added, will list all of your recipients to your message anyway. To avoid this, you should add at least one To: or CC: recipient."
 msgstr "ཁྱོད་ཀྱིས་བཏང་བའི་བསྒང་ཡོད་མི་ འབྲེལ་སའི་ཐོ་ཡིག་དེ་ ལེན་མཁན་གྱི་ཐོ་ཡིག་ སྦ་བཞག་ནི་ལུ་ རིམ་སྒྲིག་འབད་ནུག གློག་འཕྲིན་རིམ་ལུགས་ ལེ་ཤ་ཅིག་གིས་རང་ བི་སི་སི་ལེན་མཁན་ཡོད་མི་འཕྲིན་དོན་ཚུ་རྐྱངམ་ལུ་ གཏང་ཡུལ་གྱི་ མགོ་ཡིག་ཅིག་ ཁ་སྐོང་བརྐྱབ་ཨིན། མགོ་ཡིག་འདི་ ཁ་སྐོང་རྐྱབས་བ་ཅིན་ ཁྱོད་ཀྱི་ལེན་མཁན་ ཆ་མཉམ་རང་ ཁྱོད་ཀྱི་འཕྲིན་དོན་གང་རུང་ནང་ ཐོ་བཀོད་འབདཝ་ཨིན། འདི་སྤང་ནིའི་དོན་ལུ་ ཁྱོད་ཀྱིས་ ཉུང་ཤོས་རང་ གཏང་ལུ: ཡང་ཅིན་ སི་སི་: ལེན་མཁན་གཅིག་ ཁ་སྐོང་བརྐྱབ་དགོ   "
 
-#: ../mail/mail.error.xml.h:68
+#: ../mail/mail.error.xml.h:67
 msgid "Mark all messages as read"
 msgstr "འཕྲིན་དོན་ཆ་མཉམ་རང་ ལྷག་ཡོདཔ་སྦེ་ རྟགས་བཀལ།"
 
-#: ../mail/mail.error.xml.h:69
+#: ../mail/mail.error.xml.h:68
 msgid "Mark all messages as read in the selected folder"
 msgstr "སེལ་འཐུ་འབད་མི་སྣོད་འཛིན་ནང་གི་ འཕྲིན་དོན་ཆ་མཉམ་ ལྷག་ཡོདཔ་སྦེ་ རྟགས་བཀལ། "
 
-#: ../mail/mail.error.xml.h:70
+#: ../mail/mail.error.xml.h:69
 msgid "Missing folder."
 msgstr "བརླག་སྟོར་ཞུགས་མི་སྣོད་འཛིན།"
 
-#: ../mail/mail.error.xml.h:72
+#: ../mail/mail.error.xml.h:71
 msgid "No sources selected."
 msgstr "འབྱུང་ཁུངས་ག་ནི་ཡང་ སེལ་འཐུ་མ་འབད་བས།"
 
-#: ../mail/mail.error.xml.h:73
+#: ../mail/mail.error.xml.h:72
 msgid "Opening too many messages at once may take a long time."
 msgstr "འཕྲིན་དོན་མང་རབས་ཅིག་ དེ་འཕྲལ་ལས་ ཁ་ཕྱེ་བ་ཅིན་ ཡུན་རིངམ་འགོར་འོང་།"
 
-#: ../mail/mail.error.xml.h:74
+#: ../mail/mail.error.xml.h:73
 msgid "Please check your account settings and try again."
 msgstr "ཁྱོད་རའི་རྩིས་ཐོའི་གཞི་སྒྲིག་ལུ་ ཞིབ་དཔྱད་འབད་ཞིནམ་ལས་ ལོག་སྟེ་འབད་རྩོལ་བསྐྱེད་གནང་།"
 
-#: ../mail/mail.error.xml.h:75
+#: ../mail/mail.error.xml.h:74
 msgid "Please enable the account or send using another account."
 msgstr "རྩིས་ཐོ་ལྕོགས་ཅན་བཟོ་ ཡང་ན་ རྩིས་ཐོ་གཞན་ཅིག་ ལག་ལེན་འཐབ་སྟེ་སྐྱེལ་གཏང་།"
 
-#: ../mail/mail.error.xml.h:76
+#: ../mail/mail.error.xml.h:75
 msgid "Please enter a valid email address in the To: field. You can search for email addresses by clicking on the To: button next to the entry box."
 msgstr "གཏང་ལུ་: ས་སྒོ་ནང་ལུ་ ནུས་ཅན་གྱི་ གློག་འཕྲིན་ཁ་བྱང་ཅིག་ བཙུགས་གནང་། ཁྱོད་ཀྱིས་ ཐོ་བཀོད་སྒྲོམ་གྱི་ སྦོ་ལོགས་ཁར་ཡོད་མི་ གཏང་ལུ་ ཨེབ་རྟ་གུ་ ཨེབ་གཏང་འབདཝ་ད་ གློག་འཕྲིན་ཁ་བྱང་ཚུ་ འཚོལ་ཞིབ་འབད་ཚུགས།"
 
-#: ../mail/mail.error.xml.h:77
+#: ../mail/mail.error.xml.h:76
 msgid ""
 "Please make sure the following recipients are willing and able to receive HTML email:\n"
 "{0}\n"
@@ -13987,58 +13993,58 @@ msgstr ""
 "{0}\n"
 "གང་རུང་སྦེ་གཏང་།"
 
-#: ../mail/mail.error.xml.h:80
+#: ../mail/mail.error.xml.h:79
 msgid "Please provide an unique name to identify this signature."
 msgstr "མིང་རྟགས་འདི་ ངོས་འཛིན་གྱི་དོན་ལུ་ མཐུན་མིན་གྱི་མིང་ཅིག་བྱིན།"
 
-#: ../mail/mail.error.xml.h:81
+#: ../mail/mail.error.xml.h:80
 msgid "Please wait."
 msgstr "བསྒུག་སྡོད་གནང་།"
 
-#: ../mail/mail.error.xml.h:82
+#: ../mail/mail.error.xml.h:81
 msgid "Problem migrating old mail folder &quot;{0}&quot;."
 msgstr "ཡིག་འཕྲིན་སྣོད་འཛིན་རྙིངམ་ &quot;{0}&quot;གཞིས་སྤོ་འབད་ནི་ལུ་དཀའ་ངལ།"
 
-#: ../mail/mail.error.xml.h:83
+#: ../mail/mail.error.xml.h:82
 msgid "Querying server"
 msgstr "སར་བར་ལུ་ འདྲི་དཔྱད་འབད་དོ།"
 
-#: ../mail/mail.error.xml.h:84
+#: ../mail/mail.error.xml.h:83
 msgid "Querying server for a list of supported authentication mechanisms."
 msgstr "རྒྱབ་སྐྱོར་ཡོད་པའི་ བདེན་བཤད་ཐབས་རིག་གི་ ཐོ་ཡིག་ཅིག་གི་དོན་ལས་ སར་བར་ལུ་ འདྲི་དཔྱད་འབད་དོ།"
 
-#: ../mail/mail.error.xml.h:85
+#: ../mail/mail.error.xml.h:84
 msgid "Read receipt requested."
 msgstr "འབྱོར་རྟགས་ཞུ་བ་ལྷག "
 
-#: ../mail/mail.error.xml.h:86
+#: ../mail/mail.error.xml.h:85
 msgid "Really delete folder &quot;{0}&quot; and all of its subfolders?"
 msgstr "སྣོད་འཛིན་&quot;{0}&quot;དང་ དེ་གི་ཡན་ལག་སྣོད་འཛིན་ ཆ་མཉམ་རང་ ཐད་རི་འབའ་རི་ བཏོན་གཏང་ནི་ཨིན་ན?"
 
-#: ../mail/mail.error.xml.h:87
+#: ../mail/mail.error.xml.h:86
 msgid "Search Folders automatically updated."
 msgstr "འཚོལ་ཞིབ་སྣོད་འཛིན་ཚུ་ རང་བཞིན་གྱིས་ དུས་མཐུན་བཟོ་ཡོད།"
 
-#: ../mail/mail.error.xml.h:88
+#: ../mail/mail.error.xml.h:87
 msgid "Send Receipt"
 msgstr "འབྱོར་རྟགས་སྐྱེལ།"
 
-#: ../mail/mail.error.xml.h:89
+#: ../mail/mail.error.xml.h:88
 msgid "Signature Already Exists"
 msgstr "མིང་རྟགས་ཧེ་མ་ལས་རང་འདུག"
 
-#: ../mail/mail.error.xml.h:90
+#: ../mail/mail.error.xml.h:89
 msgid "System folders are required for Ximian Evolution to function correctly and cannot be renamed, moved, or deleted."
 msgstr "རིམ་ལུགས་སྣོད་འཛིན་ཚུ་ ཟི་མི་ཡཱན་ ཨི་བོ་ལུ་ཤཱན་ ཚུལ་མཐུན་སྦེ་ ལཱ་འབད་ནིའི་དོན་ལུ་དགོཔ་ལས་ བསྐྱར་མིང་བཏགས་ནི་དང་ སྤོ་བཤུད་འབད་ནི་ བཏོན་གཏང་ནི་ཚུ་མི་བཏུབ།"
 
-#: ../mail/mail.error.xml.h:91
+#: ../mail/mail.error.xml.h:90
 msgid ""
 "The contact list you are sending to is configured to hide list recipients.\n"
 "\n"
 "Many email systems add an Apparently-To header to messages that only have BCC recipients. This header, if added, will list all of your recipients in your message. To avoid this, you should add at least one To: or CC: recipient. "
 msgstr "ཁྱོད་ཀྱིས་བཏང་བའི་བསྒང་ཡོད་མི་ འབྲེལ་སའི་ཐོ་ཡིག་དེ་ ལེན་མཁན་གྱི་ཐོ་ཡིག་ སྦ་བཞག་ནི་ལུ་ རིམ་སྒྲིག་འབད་ནུག གློག་འཕྲིན་རིམ་ལུགས་ ལེ་ཤ་ཅིག་གིས་རང་ བི་སི་སི་ལེན་མཁན་ཡོད་མི་འཕྲིན་དོན་ཚུ་རྐྱངམ་ལུ་ གཏང་ཡུལ་གྱི་ མགོ་ཡིག་ཅིག་ ཁ་སྐོང་བརྐྱབ་ཨིན། མགོ་ཡིག་འདི་ ཁ་སྐོང་བརྐྱབས་པ་ཅིན་ ཁྱོད་ཀྱི་ལེན་མཁན་ ཆ་མཉམ་རང་ ཁྱོད་ཀྱི་འཕྲིན་དོན་ནང་ ཐོ་བཀོད་འབདཝ་ཨིན། འདི་སྤང་ནིའི་དོན་ལུ་ ཁྱོད་ཀྱིས་ ཉུང་ཤོས་རང་ གཏང་ལུ: ཡང་ཅིན་ སི་སི་: ལེན་མཁན་གཅིག་ ཁ་སྐོང་བརྐྱབ་དགོ"
 
-#: ../mail/mail.error.xml.h:94
+#: ../mail/mail.error.xml.h:93
 msgid ""
 "The following Search Folder(s):\n"
 "{0}\n"
@@ -14052,7 +14058,7 @@ msgstr ""
 "&quot;{1}&quot;ལག་ལེན་འཐབ་སྟེ་\n"
 "དུས་མཐུན་བཟོ་ཡི།"
 
-#: ../mail/mail.error.xml.h:99
+#: ../mail/mail.error.xml.h:98
 msgid ""
 "The following filter rule(s):\n"
 "{0}\n"
@@ -14066,85 +14072,77 @@ msgstr ""
 "ལག་ལེན་འཐབ་སྟེ་\n"
 "དུས་མཐུན་བཟོ་ཡི།"
 
-#: ../mail/mail.error.xml.h:104
-msgid ""
-"The message was sent via the &quot;sendmail&quot; external application. Sendmail reports the following error: status 67: mail not sent.\n"
-"The message is stored in the Outbox folder. Check the message for errors and resend."
-msgstr ""
-"འཕྲིན་དོན་འདི་ ཕྱི་ཁའི་གློག་རིམ་ &quot;sendmail&quot;བརྒྱུད་དེ་བཏང་ནུག སེནཌི་མེལ་གྱིས་ འོག་གི་འཛོལ་བ་དེ་ སྙན་ཞུ་འབད་མིའི་ནང་ གནས་ཚད་༦༧:འབད་མི་ ཡིག་འཕྲིན་དེ་ བཏང་མ་ཚུགས་ཟེར་ཨིན་པས།\n"
-"འཕྲིན་དོན་འདི་ ཕྱི་སྒྲོམ་སྣོད་འཛིན་ནང་ གསོག་འཇོག་འབད་དེ་འདུག འཕྲིན་དོན་གྱི་འཛོལ་བ་ ཞིབ་དཔྱད་འབད་ཞིནམ་ལས་ ལོག་སྟེ་གཏང་།"
-
-#: ../mail/mail.error.xml.h:106
+#: ../mail/mail.error.xml.h:103
 msgid "The script file must exist and be executable."
 msgstr "ཡིག་ཚུགས་ཡིག་སྣོད་དེ་ ཕྱིར་བཏོན་ཞིནམ་ལས་ ལག་ལེན་འཐབ་བཏུབ་བཟོ་དགོ"
 
-#: ../mail/mail.error.xml.h:107
+#: ../mail/mail.error.xml.h:104
 msgid ""
 "This folder may have been added implicitly,\n"
 "go to the Search Folder editor to add it explicitly, if required."
 msgstr "སྣོད་འཛིན་འདི་ བསམ་པའི་སྒོ་ལས་ ཁ་སྐོང་བརྐྱབས་བརྐྱབས་་འོང་ནི་ཨིནམ་ལས་ སོ་སོ་སྦེ་ ཁ་སྐོང་བརྐྱབ་ནིའི་དོན་ལུ་ དགོས་མཁོ་འབྱུང་པ་ཅིན་ འཚོལ་ཞིབ་་སྣོད་འཛིན་ ཞུན་དགཔ་ལུ་སོང་།།"
 
-#: ../mail/mail.error.xml.h:109
+#: ../mail/mail.error.xml.h:106
 msgid "This message cannot be sent because the account you chose to send with is not enabled"
 msgstr "ཁྱོད་ཀྱིས་གདམ་ཁ་བརྐྱབས་མི་ རྩིས་ཐོ་དེ་ལྕོགས་ཅན་མེནམ་ལས་ འཕྲིན་དོན་འདི་གཏང་མི་ཚུགས།"
 
-#: ../mail/mail.error.xml.h:110
+#: ../mail/mail.error.xml.h:107
 msgid "This message cannot be sent because you have not specified any recipients"
 msgstr "ཁྱོད་ཀྱིས་ལེན་མཁན་ག་ནི་ཡང་ གསལ་བཀོད་མ་འབདཝ་ལས་ འཕྲིན་དོན་འདི་ གཏང་མི་ཚུགས།"
 
-#: ../mail/mail.error.xml.h:111
+#: ../mail/mail.error.xml.h:108
 msgid "This server does not support this type of authentication and may not support authentication at all."
 msgstr "སར་བར་འདི་གིས་ བདེན་བཤད་འདི་བཟུམ་ལུ་ རྒྱབ་སྐྱོར་མི་འབདཝ་ལས་ མ་གཞི་ལས་རང་ བདེན་བཤད་ལུ་ རྒྱབ་སྐྱོར་མི་འབདཝ་འོང་།"
 
-#: ../mail/mail.error.xml.h:112
+#: ../mail/mail.error.xml.h:109
 msgid "This signature has been changed, but has not been saved."
 msgstr "མིང་རྟགས་འདི་ བསྒྱུར་བཅོས་འབད་ནུག་ དེ་འབདཝ་ད་ མ་བསྲུངས་པས།"
 
-#: ../mail/mail.error.xml.h:113
+#: ../mail/mail.error.xml.h:110
 msgid "This will mark all messages as read in the selected folder and its subfolders."
 msgstr "འདི་གིས་ སེལ་འཐུ་འབད་མི་སྣོད་འཛིན་དང་ སྣོད་འཛིན་ཡན་ལག་ཚུ་ནང འཕྲིན་དོན་ཆ་མཉམ་ ལྷག་ཡོདཔ་སྦེ་ རྟགས་བཀལ་འོང་། "
 
-#: ../mail/mail.error.xml.h:114
+#: ../mail/mail.error.xml.h:111
 msgid "Unable to connect to the GroupWise server."
 msgstr "སྡེ་རིམ་སར་བར་ལུ་མཐུད་མ་ཚུགས།"
 
-#: ../mail/mail.error.xml.h:115
+#: ../mail/mail.error.xml.h:112
 msgid "Unable to open the drafts folder for this account. Use the system drafts folder instead?"
 msgstr "རྩིས་ཐོ་འདི་གི་དོན་ལས་ ཟིན་བྲིས་སྣོད་འཛིན་ ཁ་ཕྱེ་མ་ཚུགས། དེ་གི་ཚབ་ལུ་ རིམ་ལུགས་ཟིན་བྲིས་ཀྱི་སྣོད་འཛིན་ ལག་ལེན་འཐབ། "
 
-#: ../mail/mail.error.xml.h:116
+#: ../mail/mail.error.xml.h:113
 msgid "Unable to read license file."
 msgstr "ཆོག་ཐམ་ཡིག་སྣོད་ ལྷག་མ་ཚུགས།"
 
-#: ../mail/mail.error.xml.h:117
+#: ../mail/mail.error.xml.h:114
 msgid "Use _Default"
 msgstr "སྔོན་སྒྲིག་ལག་ལེན་འཐབ། (_D)"
 
-#: ../mail/mail.error.xml.h:118
+#: ../mail/mail.error.xml.h:115
 msgid "Use default drafts folder?"
 msgstr "སྔོན་སྒྲིག་ཟིན་བྲིས་ཀྱི་སྣོད་འཛིན་ ལག་ལེན་འཐབ།"
 
-#: ../mail/mail.error.xml.h:119
+#: ../mail/mail.error.xml.h:116
 msgid "You have not filled in all of the required information."
 msgstr "ཁྱོད་ཀྱིས་ གོས་མཁོའི་ཡོད་པའི་ བརྡ་དོན་ཆ་མཉམ་ཚངམ་སྦེ་ མ་བཀང་པས།"
 
-#: ../mail/mail.error.xml.h:120
+#: ../mail/mail.error.xml.h:117
 msgid "You have unsent messages, do you wish to quit anyway?"
 msgstr "ཁྱོད་ཀྱིས་འཕྲིན་དོན་ཚུ་ བཏང་བཤོལ་འབད་ཡི། གང་རུང་སྦེ་ སྤང་ནི་ཨིན་ན?"
 
-#: ../mail/mail.error.xml.h:121
+#: ../mail/mail.error.xml.h:118
 msgid "You may not create two accounts with the same name."
 msgstr "ཁྱོད་ཀྱིས མིང་ཅོག་གཅིགཔ་འབད་མི་ རྩིས་ཐོ་གཉིས་ གསར་སྐྲུན་འབད་ནི་མི་འོང་།"
 
-#: ../mail/mail.error.xml.h:122
+#: ../mail/mail.error.xml.h:119
 msgid "You must name this Search Folder."
 msgstr "ཁྱོད་ཀྱིས་འཚོལ་ཞིབ་སྣོད་འཛིན་འདི་ལུ་ མིང་བཏགས་དགོ།"
 
-#: ../mail/mail.error.xml.h:123
+#: ../mail/mail.error.xml.h:120
 msgid "You must specify a folder."
 msgstr "ཁྱོད་ཀྱིས་སྣོད་འཛིན་ཅིག་ གསལ་བཀོད་འབད་དགོ"
 
-#: ../mail/mail.error.xml.h:124
+#: ../mail/mail.error.xml.h:121
 msgid ""
 "You must specify at least one folder as a source.\n"
 "Either by selecting the folders individually, and/or by selecting all local folders, all remote folders, or both."
@@ -14153,27 +14151,23 @@ msgstr ""
 "དེ་ཡང་ སྣོད་འཛིན་སོ་སོ་སྦེ་ སེལ་འཐུ་འབད་ཏེ་འབད་རུང་ ཉེ་གནས་ཀྱི་སྣོད་འཛིན་ ཆ་མཉམ་སེལ་འཐུ་འབད་རུང་\n"
 "ཐག་རིང་གི་སྣོད་འཛིན་ ཆ་མཉམ་སེལ་འཐུ་འབད་རུང་ ཡང་ཅིན་ དེ་གཉིས་ཆ་རང་ སེལ་འཐུ་འབད་བའི་ཐོག་ལས་འབད་དགོ"
 
-#: ../mail/mail.error.xml.h:126
+#: ../mail/mail.error.xml.h:123
 msgid "Your login to your server &quot;{0}&quot; as &quot;{0}&quot; failed."
 msgstr "ཁྱོད་ཀྱིས་སར་བར་&quot;{0}&quot;དེ་ &quot;{0}&quot;བཟུམ་སྦེ་ ནང་བསྐྱོད་འབད་མ་ཚུགས།"
 
-#: ../mail/mail.error.xml.h:127
-msgid "Your message with the subject &quot;{0}&quot; was not delivered."
-msgstr "ཁྱོད་ཀྱི་འཕྲིན་དོན་ དོན་ཚན་&quot;{0}&quot;འབད་མི་དེ་ འགྲེམ་སྤེལ་མ་འབད་བས།"
-
-#: ../mail/mail.error.xml.h:128
+#: ../mail/mail.error.xml.h:124
 msgid "_Append"
 msgstr "མཇུག་བསྣོན་འབད། (_A)"
 
-#: ../mail/mail.error.xml.h:129
+#: ../mail/mail.error.xml.h:125
 msgid "_Discard changes"
 msgstr "བསྒྱུར་བཅོས་ཚུ་བཏོན་བཀོག (_D)"
 
-#: ../mail/mail.error.xml.h:131
+#: ../mail/mail.error.xml.h:127
 msgid "_Expunge"
 msgstr "རྩ་མེད་གཏང་། (_E)"
 
-#: ../mail/mail.error.xml.h:132
+#: ../mail/mail.error.xml.h:128
 msgid "_Open Messages"
 msgstr "འཕྲིན་དོན་ཚུ་ཁ་ཕྱེ། (_O)"
 
@@ -14250,7 +14244,7 @@ msgstr "%b %d %Y"
 msgid "Messages"
 msgstr "འཕྲིན་དོན་ཚུ།"
 
-#: ../mail/message-list.c:3441
+#: ../mail/message-list.c:3442
 msgid "Generating message list"
 msgstr "འཕྲིད་དོན་ཐོ་ཡིག་ བཟོ་བསྐྲུན་འབད་དོ།"
 
@@ -14667,24 +14661,24 @@ msgstr "སྣོད་འཛིན་ཚུ་གི་ཚད།"
 msgid "Exchange Settings"
 msgstr "ཨེགསི་ཅེནཇི་ གཞི་སྒྲིག་ཚུ།"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:609
+#: ../plugins/exchange-operations/exchange-account-setup.c:610
 msgid "_OWA URL:"
 msgstr "ཨོ་ཌབ་ལུ་ཨེ་ ཡུ་ཨར་ཨེལ་: (_O)"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:635
+#: ../plugins/exchange-operations/exchange-account-setup.c:636
 msgid "A_uthenticate"
 msgstr "བདེན་བཤད་འབད། (_u)"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:828
+#: ../plugins/exchange-operations/exchange-account-setup.c:829
 msgid "Authentication Type"
 msgstr "བདེན་བཤད་ཀྱི་དབྱེ་བ།"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:842
+#: ../plugins/exchange-operations/exchange-account-setup.c:843
 msgid "Ch_eck for Supported Types"
 msgstr "རྒྱབ་སྐྱོར་ཅན་གྱི་ དབྱེ་བ་ཡོད་མེད་ ཞིབ་དཔྱད་འབད། (_e)"
 
-#: ../plugins/exchange-operations/exchange-calendar.c:193
-#: ../plugins/exchange-operations/exchange-contacts.c:167
+#: ../plugins/exchange-operations/exchange-calendar.c:191
+#: ../plugins/exchange-operations/exchange-contacts.c:166
 msgid ""
 "Evolution is in offline mode. You cannot create or modify folders now.\n"
 "Please switch to online mode for such operations."
@@ -14860,14 +14854,14 @@ msgstr "ཨེགསི་ཅེནཇི་ སྣོད་འཛིན་ག�
 msgid "Unsubscribe Folder..."
 msgstr "སྣོད་འཛིན་ཚུ་ལུ་ མཁོ་མངགས་བཤོལ་..."
 
-#: ../plugins/exchange-operations/exchange-folder.c:463
-#: ../plugins/exchange-operations/exchange-folder.c:523
+#: ../plugins/exchange-operations/exchange-folder.c:464
+#: ../plugins/exchange-operations/exchange-folder.c:524
 #, c-format
 msgid "Really unsubscribe from folder \"%s\"?"
 msgstr "སྣོད་འཛིན་\"%s\"ནང་ལས་ ཐད་རི་འབའ་རི་ མངགས་བཤོལ་འབད་ནི་ཨིན་ན?"
 
-#: ../plugins/exchange-operations/exchange-folder.c:475
-#: ../plugins/exchange-operations/exchange-folder.c:535
+#: ../plugins/exchange-operations/exchange-folder.c:476
+#: ../plugins/exchange-operations/exchange-folder.c:536
 #, c-format
 msgid "Unsubscribe from \"%s\""
 msgstr "\"%s\"ནང་ལས་ མངགས་བཤོལ་འབད།"
@@ -15279,7 +15273,7 @@ msgstr "སྣོད་འཛིན་རྩ་འབྲེལ་གྱི་ �
 msgid "Unsubscribe Folders"
 msgstr "སྣོད་འཛིན་ཚུ་ལུ་ མཁོ་མངགས་བཤོལ།"
 
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:414
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:417
 msgid "Checklist"
 msgstr "ངེས་ཐོ།"
 
@@ -16773,91 +16767,99 @@ msgid "Default window height"
 msgstr "སྒོ་སྒྲིག་གི་མཐོ་ཚད་ སྔོན་སྒྲིག་འབད།"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:5
+msgid "Default window state"
+msgstr "སྔོན་སྒྲིག་སྒོ་སྒྲིག་གི་གནས་ལུགས།"
+
+#: ../shell/apps_evolution_shell.schemas.in.in.h:6
 msgid "Default window width"
 msgstr "སྒོ་སྒྲིག་གི་རྒྱ་ཚད་ སྔོན་སྒྲིག་འབད།"
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:6
+#: ../shell/apps_evolution_shell.schemas.in.in.h:7
 msgid "ID or alias of the component to be shown by default at start-up."
 msgstr "འགོ་བཙུགས་སྐབས་ སྔོན་སྒྲིག་འབད་སྟོན་ནིའི་ ཆ་ཤས་ཀྱི་ ཨའི་ཌི་ ཡང་ན་ མིང་གཞན།"
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:7
+#: ../shell/apps_evolution_shell.schemas.in.in.h:8
 msgid "Last upgraded configuration version"
 msgstr "མཐའ་མཇུག་གི་ དུས་མཐུན་བཟོ་བའི་ རིམ་སྒྲིག་ཐོན་རིམ།"
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:8
+#: ../shell/apps_evolution_shell.schemas.in.in.h:9
 msgid "List of paths for the folders to be synchronized to disk for offline usage"
 msgstr "ཨོཕ་ལ་ཡིན་ ལག་ལེན་གྱི་ ཌིཀསི་ལུ་ མཉམ་འབྱུང་འབད་ནིའི་ སྣོད་འཛིན་གྱི་དོན་ལུ་ འགྲུལ་ལམ་གྱི་ཐོ་ཡིག"
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:9
+#: ../shell/apps_evolution_shell.schemas.in.in.h:10
 msgid "Printer settings"
 msgstr "དཔར་འཕྲུལ་གཞི་སྒྲིག"
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:10
+#: ../shell/apps_evolution_shell.schemas.in.in.h:11
 msgid "Sidebar is visible"
 msgstr "ལག་ཆས་ཕྲ་རིང་མཐོང་ཚུགས་པས།"
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:11
+#: ../shell/apps_evolution_shell.schemas.in.in.h:12
 msgid "Skip development warning dialog"
 msgstr "གོང་འཕེལ་ཉེན་བརྡའི་ ཌའི་ལོག་གོམ་སྟེ་འགྱོ།"
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:12
+#: ../shell/apps_evolution_shell.schemas.in.in.h:13
 #: ../shell/main.c:474
 msgid "Start in offline mode"
 msgstr "ཨོཕ་ལ་ཡིན་ ཐབས་ལམ་ནང་ འགོ་བཙུགས།"
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:13
+#: ../shell/apps_evolution_shell.schemas.in.in.h:14
 msgid "The configuration version of Evolution, with major/minor/configuration level (for example \"2.6.0\")."
 msgstr "ཨི་བོ་ལུ་ཤཱན་གྱི་ རིམ་སྒྲིག་ཐོན་རིམ་ སྦོམ་/ཆུང་ཀུ་/རིམ་སྒྲིག་གནས་རིམ་ དང་བཅསཔ་སྦེ།(དཔེར་ན་\"2.6.0\")བཟུམ།"
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:14
+#: ../shell/apps_evolution_shell.schemas.in.in.h:15
 msgid "The default height for the main window, in pixels."
 msgstr "སྒོ་སྒྲིག་གཙོ་བའི་དོན་ལུ་ སྔོན་སྒྲིག་འབད་མི་མཐོ་ཚད་ པིག་སེལསི་ནང་།"
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:15
+#: ../shell/apps_evolution_shell.schemas.in.in.h:16
 msgid "The default width for the main window, in pixels."
 msgstr "སྒོ་སྒྲིག་གཙོ་བའི་དོན་ལུ་ སྔོན་སྒྲིག་འབད་མི་རྒྱ་ཚད་ པིག་སེལསི་ནང་།"
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:16
+#: ../shell/apps_evolution_shell.schemas.in.in.h:17
 msgid "The default width for the sidebar, in pixels."
 msgstr "ཟུར་ཁའི་ཕྲ་རིང་དོན་ལུ་ སྔོན་སྒྲིག་འབད་མི་རྒྱ་ཚད་ པིག་སེལསི་ནང་།"
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:17
+#: ../shell/apps_evolution_shell.schemas.in.in.h:18
 msgid "The last upgraded configuration version of Evolution, with major/minor/configuration level (for example \"2.6.0\")."
 msgstr "མཐའ་མཇུག་དུས་མཐུན་བཟོ་མི་ ཨི་བོ་ལུ་ཤཱན་གྱི་ རིམ་སྒྲིག་ཐོན་རིམ་ སྦོམ་/ཆུང་ཀུ་/རིམ་སྒྲིག་གནས་རིམ་དང་བཅསཔ་སྦེ།(དཔེར་ན་\"2.6.0\")བཟུམ།"
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:18
+#: ../shell/apps_evolution_shell.schemas.in.in.h:19
 msgid "The style of the window buttons. Can be \"text\", \"icons\", \"both\", \"toolbar\". If \"toolbar\" is set, the style of the buttons is determined by the GNOME toolbar setting."
 msgstr "སྒོ་སྒྲིག་ཨེབ་རྟའི་བཟོ་རྣམ། \"text\", \"icons\", \"both\", \"toolbar\" འོང་སྲིད། གལ་སྲིད་\"toolbar\" གཞི་སྒྲིག་འབད་བ་ཅིན་ ཨེབ་རྟའི་བཟོ་རྣམ་དེ་ ཇི་ནོམ་ལག་ཆས་ཕྲ་རིང་ གཞི་སྒྲིག་གིས་གཏན་འབེབས་བཟོཝ་ཨིན།"
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:19
+#: ../shell/apps_evolution_shell.schemas.in.in.h:20
 msgid "Toolbar is visible"
 msgstr "ལག་ཆས་ཕྲ་རིང་ མཐོང་ཚུགས་པས།"
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:20
+#: ../shell/apps_evolution_shell.schemas.in.in.h:21
 msgid "Whether Evolution will start up in offline mode instead of online mode."
 msgstr "ཨི་བོ་ལུ་ཤཱན་དེ་ ཨཱོན་ལ་ཡིན་ ཐབས་ལམ་གྱི་ཚབ་ལུ་ ཨོཕ་ལ་ཡིན་་ ཐབས་ལམ་ནང་ འགོ་བཙུགས་ནི་ཨིན་ན།"
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:21
+#: ../shell/apps_evolution_shell.schemas.in.in.h:22
+msgid "Whether or not the window should be maximized."
+msgstr "སྒོ་སྒྲིག་དེ་སྦོམ་བཟོ་དགོཔ་ཨིན་ན་མེན།"
+
+#: ../shell/apps_evolution_shell.schemas.in.in.h:23
 msgid "Whether the sidebar should be visible."
 msgstr "ལག་ཆས་ཕྲ་རིང་དེ་ མཐོང་དགོཔ་ཨིན་ན།"
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:22
+#: ../shell/apps_evolution_shell.schemas.in.in.h:24
 msgid "Whether the toolbar should be visible."
 msgstr "ལག་ཆས་ཕྲ་རིང་དེ་ མཐོང་དགོཔ་ཨིན་ན།"
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:23
+#: ../shell/apps_evolution_shell.schemas.in.in.h:25
 msgid "Whether the warning dialog in development versions of Evolution is skipped."
 msgstr "ཨི་བོ་ལུ་ཤཱན་གྱི་ གོང་འཕེལ་ཐོན་རིམ་ནང་གི་ ཉེན་བརྡའི་ཌའི་ལོག་དེ་ གོམ་སྟེ་འགྱོ་ཡི་ག"
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:24
+#: ../shell/apps_evolution_shell.schemas.in.in.h:26
 msgid "Whether the window buttons should be visible."
 msgstr "སྒོ་སྒྲིག་གི་ཨེབ་རྟ་ཚུ་ མཐོང་དགོཔ་ཨིན་ན།"
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:25
+#: ../shell/apps_evolution_shell.schemas.in.in.h:27
 msgid "Window button style"
 msgstr "སྒོ་སྒྲིག་གི་ཨེབ་རྟའི་བཟོ་རྣམ།"
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:26
+#: ../shell/apps_evolution_shell.schemas.in.in.h:28
 msgid "Window buttons are visible"
 msgstr "སྒོ་སྒྲིག་གི་ཨེབ་རྟ་ཚུ་ མཐོང་ཚུགས།"
 
@@ -16989,19 +16991,19 @@ msgstr "ཨོཕ་ལ་ཡིན་གུ་ ལཱ་འབད། (_W)"
 msgid "Work Offline"
 msgstr "ཨོཕ་ལ་ཡིན་གུ་ ལཱ་འབད།"
 
-#: ../shell/e-shell-window.c:368
+#: ../shell/e-shell-window.c:371
 msgid "Evolution is currently online. Click on this button to work offline."
 msgstr "ད་ལྟོ་ ཨི་བོ་ལུ་ཤཱན་ ཨཱོན་ལ་ཡིན་གུ་ཡོད། ཨོཕ་ལ་ཡིན་གུ་ བཀལ་ནིའི་དོན་ལུ་ ཨེབ་རྟ་འདི་ལུ་ཨེབ་གཏང་འབད།"
 
-#: ../shell/e-shell-window.c:376
+#: ../shell/e-shell-window.c:379
 msgid "Evolution is in the process of going offline."
 msgstr "ཨི་བོ་ལུ་ཤཱན་ ཨོཕ་ལ་ཡིན་གུ་ འགྱོ་བའི་བསྒང་ཨིན་མས།"
 
-#: ../shell/e-shell-window.c:383
+#: ../shell/e-shell-window.c:386
 msgid "Evolution is currently offline. Click on this button to work online."
 msgstr "ད་ལྟོ་ཨི་བོ་ལུ་ཤཱན་ ཨོཕ་ལ་ཡིན་གུ་ཨིན་མས། ཨཱོན་ལ་ཡིན་གུ་ བཀལ་ནིའི་དོན་ལུ་ ཨེབ་རྟ་འདི་གུ་ ཨེབ་གཏང་འབད།"
 
-#: ../shell/e-shell-window.c:783
+#: ../shell/e-shell-window.c:786
 #, c-format
 msgid "Switch to %s"
 msgstr "%s ལུ་སོར་བསྒྱུར་འབད།"
@@ -17790,6 +17792,13 @@ msgstr "འབྲེལ་ས་ཚུ་ཆ་མཉམ་རང་ འདྲ�
 #: ../ui/evolution-addressbook.xml.h:5
 msgid "Contact _Preview"
 msgstr "འབྲེལ་སའི་སྔོན་ལྟ།(_P)"
+
+#: ../ui/evolution-addressbook.xml.h:6
+#: ../ui/evolution-composer-entries.xml.h:1
+#: ../ui/evolution-memos.xml.h:2
+#: ../ui/evolution-tasks.xml.h:2
+msgid "Copy"
+msgstr "འདྲ་བཤུས།"
 
 #: ../ui/evolution-addressbook.xml.h:7
 msgid "Copy Selected Contacts to Another Folder..."
@@ -19647,7 +19656,7 @@ msgid "_Edit..."
 msgstr "ཞུན་དག་...(_E)"
 
 #: ../widgets/menus/gal-view-factory-etable.c:39
-#: ../widgets/table/e-table-header-item.c:1839
+#: ../widgets/table/e-table-header-item.c:1840
 #: ../widgets/table/e-table-scrolled.c:222
 #: ../widgets/table/e-table-scrolled.c:223
 msgid "Table"
@@ -20111,12 +20120,12 @@ msgstr "ཚིག་ཡིག"
 msgid "Find _Now"
 msgstr "ད་ལྟོ་རང་འཚོལ། (_N)"
 
-#: ../widgets/misc/e-selection-model-array.c:546
+#: ../widgets/misc/e-selection-model-array.c:547
 #: ../widgets/table/e-tree-selection-model.c:811
 msgid "Cursor Row"
 msgstr "འོད་རྟགས་གྲལ་ཐིག"
 
-#: ../widgets/misc/e-selection-model-array.c:553
+#: ../widgets/misc/e-selection-model-array.c:554
 #: ../widgets/table/e-tree-selection-model.c:818
 msgid "Cursor Column"
 msgstr "འོད་རྟགས་ཀེར་ཐིག"
@@ -20449,14 +20458,14 @@ msgstr "ས་སྒོ་འདི་ཚུ་ གོ་རིམ་ནང་�
 #: ../widgets/table/e-table-field-chooser-dialog.c:77
 #: ../widgets/table/e-table-field-chooser-item.c:635
 #: ../widgets/table/e-table-field-chooser.c:77
-#: ../widgets/table/e-table-header-item.c:1804
+#: ../widgets/table/e-table-header-item.c:1805
 msgid "DnD code"
 msgstr "ཌི་ཨེན་ཌི་་ཀོཌི།"
 
 #: ../widgets/table/e-table-field-chooser-dialog.c:84
 #: ../widgets/table/e-table-field-chooser-item.c:642
 #: ../widgets/table/e-table-field-chooser.c:84
-#: ../widgets/table/e-table-header-item.c:1818
+#: ../widgets/table/e-table-header-item.c:1819
 msgid "Full Header"
 msgstr "མགོ་ཡིག་ཆ་ཚང་།"
 
@@ -20633,18 +20642,18 @@ msgstr "ཀེར་ཐིག་ཚུ་རྩ་སྒྲིག་འབད་
 msgid "Customize Current View..."
 msgstr "ད་ལྟོའི་མཐོང་སྣང་སྲོལ་སྒྲིག་འབད་..."
 
-#: ../widgets/table/e-table-header-item.c:1811
+#: ../widgets/table/e-table-header-item.c:1812
 #: ../widgets/text/e-entry.c:1263
 #: ../widgets/text/e-entry.c:1264
 msgid "Fontset"
 msgstr "ཡིག་གཟུགས་གཞི་སྒྲིག"
 
-#: ../widgets/table/e-table-header-item.c:1832
+#: ../widgets/table/e-table-header-item.c:1833
 #: ../widgets/table/e-table-sorter.c:175
 msgid "Sort Info"
 msgstr "དབྱེ་སེལ་གྱི་བརྡ་དོན།"
 
-#: ../widgets/table/e-table-header-item.c:1846
+#: ../widgets/table/e-table-header-item.c:1847
 #: ../widgets/table/e-tree-scrolled.c:221
 #: ../widgets/table/e-tree-scrolled.c:222
 msgid "Tree"
@@ -20868,6 +20877,20 @@ msgstr "ཨའི་ཨེམ་སྐབས་དོན།"
 msgid "Handle Popup"
 msgstr "པོཔ་ཨཔ་ལེགས་སྐྱོང་འཐབ།"
 
+#~ msgid "Properties..."
+#~ msgstr "རྒྱུ་དངོས་ཚུ་..."
+#~ msgid ""
+#~ "The message was sent via the &quot;sendmail&quot; external application. "
+#~ "Sendmail reports the following error: status 67: mail not sent.\n"
+#~ "The message is stored in the Outbox folder. Check the message for errors "
+#~ "and resend."
+#~ msgstr ""
+#~ "འཕྲིན་དོན་འདི་ ཕྱི་ཁའི་གློག་རིམ་ &quot;sendmail&quot;བརྒྱུད་དེ་བཏང་ནུག སེནཌི་མེལ་གྱིས་ འོག་གི་"
+#~ "འཛོལ་བ་དེ་ སྙན་ཞུ་འབད་མིའི་ནང་ གནས་ཚད་༦༧:འབད་མི་ ཡིག་འཕྲིན་དེ་ བཏང་མ་ཚུགས་ཟེར་ཨིན་པས།\n"
+#~ "འཕྲིན་དོན་འདི་ ཕྱི་སྒྲོམ་སྣོད་འཛིན་ནང་ གསོག་འཇོག་འབད་དེ་འདུག འཕྲིན་དོན་གྱི་འཛོལ་བ་ ཞིབ་དཔྱད་འབད་"
+#~ "ཞིནམ་ལས་ ལོག་སྟེ་གཏང་།"
+#~ msgid "Your message with the subject &quot;{0}&quot; was not delivered."
+#~ msgstr "ཁྱོད་ཀྱི་འཕྲིན་དོན་ དོན་ཚན་&quot;{0}&quot;འབད་མི་དེ་ འགྲེམ་སྤེལ་མ་འབད་བས།"
 #~ msgid "Addressbook"
 #~ msgstr "ཁ་བྱང་ཀི་དེབ།"
 #~ msgid ""
