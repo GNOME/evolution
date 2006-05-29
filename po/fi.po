@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-05-22 07:15+0300\n"
-"PO-Revision-Date: 2006-05-22 07:16+0300\n"
+"PO-Revision-Date: 2006-05-29 21:58+0300\n"
 "Last-Translator: Ilkka Tuohela <hile@iki.fi>\n"
 "Language-Team: Finnish <gnome-fi-laatu@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -4111,7 +4111,7 @@ msgstr "haluatko varmasti poistaa tämän tehtävän?"
 
 #: ../calendar/calendar.error.xml.h:21
 msgid "Are you sure you want to send the appointment without a summary?"
-msgstr "Haluatko varmasti lähettää ilman tapaamisen ilman yhteenvetoa?"
+msgstr "Haluatko varmasti lähettää tapaamisen ilman yhteenvetoa?"
 
 #: ../calendar/calendar.error.xml.h:22
 msgid "Are you sure you want to send the task without a summary?"
