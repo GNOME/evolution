@@ -1138,11 +1138,8 @@ setup_create_ecal (CalendarComponent *calendar_component, CalendarComponentView 
 							 GTK_MESSAGE_WARNING, GTK_BUTTONS_OK,
 							 _("Unable to open the calendar '%s' for creating events and meetings"), 
 							 e_source_peek_name (source));
-
 			gtk_dialog_run (GTK_DIALOG (dialog));
 			gtk_widget_destroy (dialog);
-			g_object_unref (priv->create_ecal);
-			priv->create_ecal = NULL;
 
 			return NULL;
 		}

@@ -103,7 +103,6 @@ static gint idle_cb (void *data);
 
 static char *default_component_id = NULL;
 static char *evolution_debug_log = NULL;
-static gchar **remaining_args;
 
 static void
 no_windows_left_cb (EShell *shell, gpointer data)
@@ -131,7 +130,6 @@ kill_dataserver (void)
 	system (KILL_PROCESS_CMD " -9 evolution-data-server-1.0 2> /dev/null");
 	system (KILL_PROCESS_CMD " -9 evolution-data-server-1.2 2> /dev/null");
 	system (KILL_PROCESS_CMD " -9 evolution-data-server-1.4 2> /dev/null");
-	system (KILL_PROCESS_CMD " -9 evolution-data-server-1.6 2> /dev/null");
 
 	system (KILL_PROCESS_CMD " -9 lt-evolution-alarm-notify 2> /dev/null");
 	system (KILL_PROCESS_CMD " -9 evolution-alarm-notify 2> /dev/null");
@@ -245,7 +243,7 @@ show_development_warning(void)
                   "\n"
 		  "We hope that you enjoy the results of our hard work, and we\n"
 		  "eagerly await your contributions!\n"),
-		"2.6.1");
+		"2.4.2.1");
 	label = gtk_label_new (text);
 	g_free(text);
 
@@ -463,45 +461,44 @@ setup_segv_redirect (void)
 #define setup_segv_redirect() 0
 #endif
 
-static const GOptionEntry options[] = {
-	{ "component", 'c', 0, G_OPTION_ARG_STRING, &default_component_id,
-	  N_("Start Evolution activating the specified component"), NULL },
-	{ "offline", '\0', 0, G_OPTION_ARG_NONE, &start_offline,
-	  N_("Start in offline mode"), NULL },
-	{ "online", '\0', 0, G_OPTION_ARG_NONE, &start_online,
-	  N_("Start in online mode"), NULL },
-#ifdef KILL_PROCESS_CMD
-	{ "force-shutdown", '\0', 0, G_OPTION_ARG_NONE, &killev, 
-	  N_("Forcibly shut down all Evolution components"), NULL },
-#endif
-#if DEVELOPMENT
-	{ "force-migrate", '\0', 0, G_OPTION_ARG_NONE, &force_migrate, 
-	  N_("Forcibly re-migrate from Evolution 1.4"), NULL },
-#endif
-	{ "debug", '\0', 0, G_OPTION_ARG_STRING, &evolution_debug_log, 
-	  N_("Send the debugging output of all components to a file."), NULL },
-	{ "disable-eplugin", '\0', 0, G_OPTION_ARG_NONE, &disable_eplugin, 
-	  N_("Disable loading of any plugins."), NULL },
-	{ "setup-only", '\0', G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_NONE,
-	  &setup_only, NULL, NULL },
-	{ G_OPTION_REMAINING, 0, 0, G_OPTION_ARG_STRING_ARRAY, &remaining_args, NULL, NULL },
-	{ NULL }
-};
-
 int
 main (int argc, char **argv)
 {
 #ifdef G_OS_WIN32
 	extern void link_shutdown (void);
 #endif
-
+	struct poptOption options[] = {
+		{ "component", 'c', POPT_ARG_STRING, &default_component_id, 0,
+		  N_("Start Evolution activating the specified component"), NULL },
+		{ "offline", '\0', POPT_ARG_NONE, &start_offline, 0, 
+		  N_("Start in offline mode"), NULL },
+		{ "online", '\0', POPT_ARG_NONE, &start_online, 0, 
+		  N_("Start in online mode"), NULL },
+#ifdef KILL_PROCESS_CMD
+		{ "force-shutdown", '\0', POPT_ARG_NONE, &killev, 0, 
+		  N_("Forcibly shut down all Evolution components"), NULL },
+#endif
+#if DEVELOPMENT
+		{ "force-migrate", '\0', POPT_ARG_NONE, &force_migrate, 0, 
+		  N_("Forcibly re-migrate from Evolution 1.4"), NULL },
+#endif
+		{ "debug", '\0', POPT_ARG_STRING, &evolution_debug_log, 0, 
+		  N_("Send the debugging output of all components to a file."), NULL },
+		{ "disable-eplugin", '\0', POPT_ARG_NONE, &disable_eplugin, 0, 
+		  N_("Disable loading of any plugins."), NULL },
+		{ "setup-only", '\0', POPT_ARG_NONE | POPT_ARGFLAG_DOC_HIDDEN,
+		  &setup_only, 0, NULL, NULL },
+		{ NULL, '\0', 0, NULL, 0, NULL, NULL }
+	};
 #if DEVELOPMENT
 	GConfClient *client;
 	gboolean skip_warning_dialog;
 #endif
 	GSList *uri_list;
+	GValue popt_context_value = { 0, };
 	GnomeProgram *program;
-	GOptionContext *context;
+	poptContext popt_context;
+	const char **args;
 	GList *icon_list;
 	char *filename;
 
@@ -512,13 +509,9 @@ main (int argc, char **argv)
 	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
 	textdomain (GETTEXT_PACKAGE);
 
-	context = g_option_context_new (_("- The Evolution PIM and Email Client"));
-
-	g_option_context_add_main_entries (context, options, GETTEXT_PACKAGE);
-
 	program = gnome_program_init (PACKAGE "-" BASE_VERSION, VERSION, LIBGNOMEUI_MODULE, argc, argv, 
 				      GNOME_PROGRAM_STANDARD_PROPERTIES,
-				      GNOME_PARAM_GOPTION_CONTEXT, context,
+				      GNOME_PARAM_POPT_TABLE, options,
 				      GNOME_PARAM_HUMAN_READABLE_NAME, _("Evolution"),
 				      NULL);
 
@@ -578,14 +571,18 @@ main (int argc, char **argv)
 
 	uri_list = NULL;
 
-	if (remaining_args != NULL) {
+	g_value_init (&popt_context_value, G_TYPE_POINTER);
+	g_object_get_property (G_OBJECT (program), GNOME_PARAM_POPT_CONTEXT, &popt_context_value);
+	popt_context = g_value_get_pointer (&popt_context_value);
+	args = poptGetArgs (popt_context);
+	if (args != NULL) {
 		const char **p;
 
-		for (p = (const char**)remaining_args; *p != NULL; p++)
+		for (p = args; *p != NULL; p++)
 			uri_list = g_slist_prepend (uri_list, (char *) *p);
 	}
 	uri_list = g_slist_reverse (uri_list);
-	
+	g_value_unset (&popt_context_value);
 
 	gnome_sound_init ("localhost");
 

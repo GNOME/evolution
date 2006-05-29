@@ -500,7 +500,6 @@ emfv_setup_view_instance(EMFolderView *emfv)
 	gboolean outgoing;
 	char *id;
 	static GalViewCollection *collection = NULL;
-	CamelFolderInfo *fi = NULL;
 
 	g_assert(emfv->folder);
 	g_assert(emfv->folder_uri);
@@ -559,12 +558,8 @@ emfv_setup_view_instance(EMFolderView *emfv)
 	id = mail_config_folder_to_safe_url (emfv->folder);
 	p->view_instance = gal_view_instance_new (collection, id);
 	g_free (id);
-
-	fi = camel_store_get_folder_info (emfv->folder->parent_store,
-					  emfv->folder->full_name,
-					  CAMEL_STORE_FOLDER_INFO_SUBSCRIBED,
-					  NULL);	
-	if (outgoing || (fi && ((fi->flags & CAMEL_FOLDER_TYPE_MASK) == CAMEL_FOLDER_TYPE_SENT)))
+	
+	if (outgoing)
 		gal_view_instance_set_default_view(p->view_instance, "As_Sent_Folder");
 	
 	gal_view_instance_load(p->view_instance);
@@ -2427,9 +2422,6 @@ emfv_list_selection_change(ETree *tree, EMFolderView *emfv)
 static void
 emfv_format_link_clicked(EMFormatHTMLDisplay *efhd, const char *uri, EMFolderView *emfv)
 {
-	if (!strncmp (uri, "##", 2))
-		return;
-		
 	if (!g_ascii_strncasecmp (uri, "mailto:", 7)) {
 		em_utils_compose_new_message_with_mailto (uri, emfv->folder_uri);
 	} else if (*uri == '#') {
@@ -2826,8 +2818,6 @@ emfv_on_url_cb (GObject *emitter, const char *url, EMFolderView *emfv)
 			g_free(addr);
 			camel_url_free(curl);
 			camel_object_unref(cia);
-		} else if (!strncmp (url, "##", 2)) {
-			nice_url = g_strdup_printf (_("Click to hide/unhide addresses"), url);
 		} else
 			nice_url = g_strdup_printf (_("Click to open %s"), url);
 	}

@@ -1,4 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+
 /*
  * Authors :
  *  Damon Chaplin <damon@ximian.com>
@@ -77,7 +78,6 @@
 #define E_DAY_VIEW_DATE_X_PAD	4
 
 #define E_DAY_VIEW_LARGE_FONT_PTSIZE 18
-#define E_DAY_VIEW_SMALL_FONT_PTSIZE 10
 
 /* The offset from the top/bottom of the canvas before auto-scrolling starts.*/
 #define E_DAY_VIEW_AUTO_SCROLL_OFFSET	16
@@ -739,7 +739,6 @@ e_day_view_init (EDayView *day_view)
 	day_view->auto_scroll_timeout_id = 0;
 
 	day_view->large_font_desc = NULL;
-	day_view->small_font_desc = NULL;
 
 	/* String to use in 12-hour time format for times in the morning. */
 	day_view->am_string = _("am");
@@ -894,7 +893,7 @@ e_day_view_init (EDayView *day_view)
 
 	day_view->drag_rect_item =
 		gnome_canvas_item_new (canvas_group,
-				       gnome_canvas_rect_get_type (),				       
+				       gnome_canvas_rect_get_type (),
 				       "width_pixels", 1,
 				       NULL);
 	gnome_canvas_item_hide (day_view->drag_rect_item);
@@ -1032,11 +1031,6 @@ e_day_view_destroy (GtkObject *object)
 	if (day_view->large_font_desc) {
 		pango_font_description_free (day_view->large_font_desc);
 		day_view->large_font_desc = NULL;
-	}
-
-	if (day_view->small_font_desc) {
-		pango_font_description_free (day_view->small_font_desc);
-		day_view->small_font_desc = NULL;
 	}
 
 	if (day_view->normal_cursor) {
@@ -1193,35 +1187,6 @@ e_day_view_unrealize (GtkWidget *widget)
 		(*GTK_WIDGET_CLASS (e_day_view_parent_class)->unrealize)(widget);
 }
 
-static GdkColor
-e_day_view_get_text_color (EDayView *day_view, EDayViewEvent *event, GtkWidget *widget)
-{
-	GdkColor color, bg_color;
-	guint16 red, green, blue; 
-	gdouble	cc = 65535.0;
-	
-	red = day_view->colors[E_DAY_VIEW_COLOR_EVENT_BACKGROUND].red;
-       	green = day_view->colors[E_DAY_VIEW_COLOR_EVENT_BACKGROUND].green;
-       	blue = day_view->colors[E_DAY_VIEW_COLOR_EVENT_BACKGROUND].blue;
-
-	if (gdk_color_parse (e_cal_model_get_color_for_component (e_calendar_view_get_model (E_CALENDAR_VIEW (day_view)), event->comp_data),
-       	     &bg_color)) {
-                GdkColormap *colormap;
-       		colormap = gtk_widget_get_colormap (GTK_WIDGET (day_view));
-	        if (gdk_colormap_alloc_color (colormap, &bg_color, TRUE, TRUE)) {
-       		        red = bg_color.red;
-			green = bg_color.green;
-	                blue = bg_color.blue;
-                }
-       	}
-
-	if ((red/cc > 0.7) || (green/cc > 0.7) || (blue/cc > 0.7 ))
-		color = widget->style->text[GTK_STATE_NORMAL];
-	else
-		color = widget->style->text[GTK_STATE_ACTIVE];
-
-	return color;
-}
 
 static void
 e_day_view_style_set (GtkWidget *widget,
@@ -1243,7 +1208,6 @@ e_day_view_style_set (GtkWidget *widget,
 	PangoLayout *layout;
 	gint week_day, event_num;
 	EDayViewEvent *event;
-	GdkColor color;
 
 	if (GTK_WIDGET_CLASS (e_day_view_parent_class)->style_set)
 		(*GTK_WIDGET_CLASS (e_day_view_parent_class)->style_set)(widget, previous_style);
@@ -1254,22 +1218,18 @@ e_day_view_style_set (GtkWidget *widget,
 	for (week_day = 0; week_day < E_DAY_VIEW_MAX_DAYS; week_day++){
 		for (event_num = 0; event_num < day_view->events[week_day]->len; event_num++) {
 			event = &g_array_index (day_view->events[week_day], EDayViewEvent, event_num);
-			if (event->canvas_item) {
-				color = e_day_view_get_text_color (day_view, event, widget);
+			if (event->canvas_item)
 				gnome_canvas_item_set (event->canvas_item,
-						"fill_color_gdk", &color,
+						"fill_color_gdk", &widget->style->text[GTK_STATE_NORMAL],
 						NULL);
-			}
 		}
 	}
 	for (event_num = 0; event_num < day_view->long_events->len; event_num++) {
 		event = &g_array_index (day_view->long_events, EDayViewEvent, event_num);
-		if (event->canvas_item) {
-			color = e_day_view_get_text_color (day_view, event, widget);
+		if (event->canvas_item)
 			gnome_canvas_item_set (event->canvas_item,
-					"fill_color_gdk", &color,
+					"fill_color_gdk", &widget->style->text[GTK_STATE_NORMAL],
 					NULL);
-		}
 	}
 	gnome_canvas_item_set (day_view->main_canvas_top_resize_bar_item,
 			"fill_color_gdk", &day_view->colors[E_DAY_VIEW_COLOR_EVENT_VBAR],
@@ -1294,14 +1254,6 @@ e_day_view_style_set (GtkWidget *widget,
 	day_view->large_font_desc = pango_font_description_copy (font_desc);
 	pango_font_description_set_size (day_view->large_font_desc,
 					 E_DAY_VIEW_LARGE_FONT_PTSIZE * PANGO_SCALE);
-	
-	/* Create the small fonts. */
-	if (day_view->small_font_desc != NULL)
-		pango_font_description_free (day_view->small_font_desc);
-
-	day_view->small_font_desc = pango_font_description_copy (font_desc);
-	pango_font_description_set_size (day_view->small_font_desc,
-					 E_DAY_VIEW_SMALL_FONT_PTSIZE * PANGO_SCALE);
 
 	/* Recalculate the height of each row based on the font size. */
 	day_view->row_height =
@@ -4429,7 +4381,6 @@ e_day_view_reshape_long_event (EDayView *day_view,
 			num_icons++;
 		if (event->different_timezone)
 			num_icons++;
-
 		if (e_cal_component_has_organizer (comp))
 			num_icons++;
 		if (e_cal_component_has_attachments (comp))
@@ -4449,12 +4400,8 @@ e_day_view_reshape_long_event (EDayView *day_view,
 
 	if (!event->canvas_item) {
 		GtkWidget *widget;
-		GdkColor color;
 
 		widget = (GtkWidget *)day_view;
-
-		color = e_day_view_get_text_color (day_view, event, widget);
-
 		event->canvas_item =
 			gnome_canvas_item_new (GNOME_CANVAS_GROUP (GNOME_CANVAS (day_view->top_canvas)->root),
 					       e_text_get_type (),
@@ -4464,7 +4411,7 @@ e_day_view_reshape_long_event (EDayView *day_view,
 					       "editable", TRUE,
 					       "use_ellipsis", TRUE,
 					       "draw_background", FALSE,
-					       "fill_color_gdk", &color,
+					       "fill_color_gdk", &widget->style->text[GTK_STATE_NORMAL],
 					       "im_context", E_CANVAS (day_view->top_canvas)->im_context,
 					       NULL);
 		g_object_set_data (G_OBJECT (event->canvas_item), "event-num", GINT_TO_POINTER (event_num));
@@ -4636,12 +4583,8 @@ e_day_view_reshape_day_event (EDayView *day_view,
 
 		if (!event->canvas_item) {
 			GtkWidget *widget;
-			GdkColor color;
 
 			widget = (GtkWidget *)day_view;
-
-			color = e_day_view_get_text_color (day_view, event, widget);
-
 			event->canvas_item =
 				gnome_canvas_item_new (GNOME_CANVAS_GROUP (GNOME_CANVAS (day_view->main_canvas)->root),
 						       e_text_get_type (),
@@ -4651,7 +4594,7 @@ e_day_view_reshape_day_event (EDayView *day_view,
 						       "clip", TRUE,
 						       "use_ellipsis", TRUE,
 						       "draw_background", FALSE,
-						       "fill_color_gdk", &color,
+						       "fill_color_gdk", &widget->style->text[GTK_STATE_NORMAL],
 						       "im_context", E_CANVAS (day_view->main_canvas)->im_context,
 						       NULL);
 			g_object_set_data (G_OBJECT (event->canvas_item), "event-num", GINT_TO_POINTER (event_num));
@@ -4728,7 +4671,6 @@ e_day_view_reshape_main_canvas_resize_bars (EDayView *day_view)
 			       "x2", x + w - 1,
 			       "y2", y + h + E_DAY_VIEW_BAR_HEIGHT - 1,
 			       NULL);
-
 	gnome_canvas_item_show (day_view->main_canvas_bottom_resize_bar_item);
 }
 
@@ -5951,7 +5893,7 @@ e_day_view_on_text_item_event (GnomeCanvasItem *item,
 			pevent->tooltip = (GtkWidget *)g_object_get_data (G_OBJECT (day_view), "tooltip-window");
 			
 			if (pevent->tooltip) {
-				e_calendar_view_move_tip (pevent->tooltip, pevent->x+16, pevent->y+16);
+				gtk_window_move ((GtkWindow *)pevent->tooltip, ((int)((GdkEventMotion *)event)->x_root)+16, ((int)((GdkEventMotion *)event)->y_root) +16);
 			}
 
 			return TRUE;
@@ -7846,3 +7788,5 @@ e_day_view_get_num_events_selected (EDayView *day_view)
 
 	return (day_view->editing_event_day != -1) ? 1 : 0;
 }
+
+

@@ -6,15 +6,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eu\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-02-27 09:53+0100\n"
-"PO-Revision-Date: 2006-02-27 09:51+0100\n"
-"Last-Translator: Iñaki Larrañaga <dooteo@euskalgnu.org>\n"
+"POT-Creation-Date: 2006-05-10 18:41+0000\n"
+"PO-Revision-Date: 2006-05-10 18:43+0000\n"
+"Last-Translator: Iñaki Larrañaga Murgoitio <dooteo@euskalgnu.org>\n"
 "Language-Team: Basque <itzulpena@euskalgnu.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.10.2\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: Plural-Forms: Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "\n"
 
 #: ../a11y/addressbook/ea-addressbook-view.c:94
@@ -57,32 +57,32 @@ msgstr "Kontaktua: "
 msgid "evolution minicard"
 msgstr "evolution-en txarteltxoa"
 
-#: ../a11y/calendar/ea-cal-view-event.c:235
+#: ../a11y/calendar/ea-cal-view-event.c:266
 msgid "It has alarms."
 msgstr "Alarmak ditu."
 
-#: ../a11y/calendar/ea-cal-view-event.c:238
+#: ../a11y/calendar/ea-cal-view-event.c:269
 msgid "It has recurrences."
 msgstr "Errepikapenak ditu."
 
-#: ../a11y/calendar/ea-cal-view-event.c:241
+#: ../a11y/calendar/ea-cal-view-event.c:272
 msgid "It is a meeting."
 msgstr "Bilera bat da."
 
-#: ../a11y/calendar/ea-cal-view-event.c:247
+#: ../a11y/calendar/ea-cal-view-event.c:278
 #, c-format
 msgid "Calendar Event: Summary is %s."
 msgstr "Egutegi-gertaera: laburpena %s da."
 
-#: ../a11y/calendar/ea-cal-view-event.c:249
+#: ../a11y/calendar/ea-cal-view-event.c:280
 msgid "Calendar Event: It has no summary."
 msgstr "Egutegi-gertaera: ez du laburpenik."
 
-#: ../a11y/calendar/ea-cal-view-event.c:268
+#: ../a11y/calendar/ea-cal-view-event.c:299
 msgid "calendar view event"
 msgstr "Egutegi-gertaeren ikuspegia"
 
-#: ../a11y/calendar/ea-cal-view-event.c:485
+#: ../a11y/calendar/ea-cal-view-event.c:528
 msgid "Grab Focus"
 msgstr "Hartu fokua"
 
@@ -111,32 +111,32 @@ msgstr "Joan data jakin batera"
 msgid "a table to view and select the current time range"
 msgstr "taula uneko orduaren barrutia ikusteko eta hautatzeko"
 
-#: ../a11y/calendar/ea-day-view.c:146 ../a11y/calendar/ea-week-view.c:148
+#: ../a11y/calendar/ea-day-view.c:149 ../a11y/calendar/ea-week-view.c:150
 #, c-format
 msgid "It has %d event."
 msgid_plural "It has %d events."
 msgstr[0] "Gertaera %d du."
 msgstr[1] "%d gertaera ditu."
 
-#: ../a11y/calendar/ea-day-view.c:148 ../a11y/calendar/ea-week-view.c:150
+#: ../a11y/calendar/ea-day-view.c:151 ../a11y/calendar/ea-week-view.c:152
 msgid "It has no events."
 msgstr "Ez du gertaerarik."
 
-#: ../a11y/calendar/ea-day-view.c:152
+#: ../a11y/calendar/ea-day-view.c:155
 #, c-format
 msgid "Work Week View: %s. %s"
 msgstr "Lan-asteko ikuspegia: %s. %s"
 
-#: ../a11y/calendar/ea-day-view.c:155
+#: ../a11y/calendar/ea-day-view.c:158
 #, c-format
 msgid "Day View: %s. %s"
 msgstr "Eguneko ikuspegia: %s. %s"
 
-#: ../a11y/calendar/ea-day-view.c:186
+#: ../a11y/calendar/ea-day-view.c:189
 msgid "calendar view for a work week"
 msgstr "Lan-asteko egutegi-ikuspegia "
 
-#: ../a11y/calendar/ea-day-view.c:188
+#: ../a11y/calendar/ea-day-view.c:191
 msgid "calendar view for one or more days"
 msgstr "Egun baten edo gehiagoren egutegi-ikuspegia"
 
@@ -212,21 +212,21 @@ msgstr "Joan botoia"
 msgid "Click here, you can find more events."
 msgstr "Egin klik gertaera gehiago bilatzeko."
 
-#: ../a11y/calendar/ea-week-view.c:155
+#: ../a11y/calendar/ea-week-view.c:157
 #, c-format
 msgid "Month View: %s. %s"
 msgstr "Hileko ikuspegia: %s. %s"
 
-#: ../a11y/calendar/ea-week-view.c:159
+#: ../a11y/calendar/ea-week-view.c:161
 #, c-format
 msgid "Week View: %s. %s"
 msgstr "Asteko ikuspegia: %s. %s"
 
-#: ../a11y/calendar/ea-week-view.c:190
+#: ../a11y/calendar/ea-week-view.c:192
 msgid "calendar view for a month"
 msgstr "Hileko egutegi-ikuspegia"
 
-#: ../a11y/calendar/ea-week-view.c:192
+#: ../a11y/calendar/ea-week-view.c:194
 msgid "calendar view for one or more weeks"
 msgstr "Aste baten edo gehiagoren egutegi-ikuspegia"
 
@@ -403,10 +403,8 @@ msgid "The Evolution addressbook has quit unexpectedly."
 msgstr "Evolution-en helbide-liburua ustekabean itxi da."
 
 #: ../addressbook/addressbook.error.xml.h:18
-msgid ""
-"The image you have selected is large. Do you want to resize and store it?"
-msgstr ""
-"Hautatutako irudia handiegia da. Tamainaz aldatzea eta gordetzea nahi duzu?"
+msgid "The image you have selected is large. Do you want to resize and store it?"
+msgstr "Hautatutako irudia handiegia da. Tamainaz aldatzea eta gordetzea nahi duzu?"
 
 #: ../addressbook/addressbook.error.xml.h:19
 msgid ""
@@ -486,10 +484,8 @@ msgid ""
 msgstr "Kontaktuan aldaketak egin dituzu. Aldaketa hauek gordetzea nahi duzu?"
 
 #: ../addressbook/addressbook.error.xml.h:32
-msgid ""
-"Your contacts for {0} will not be available until Evolution is restarted."
-msgstr ""
-"{0}(r)en kontaktuak ez dira eskuragarri egongo Evolution berriro abiatu arte."
+msgid "Your contacts for {0} will not be available until Evolution is restarted."
+msgstr "{0}(r)en kontaktuak ez dira eskuragarri egongo Evolution berriro abiatu arte."
 
 #: ../addressbook/addressbook.error.xml.h:33 ../mail/em-vfolder-rule.c:496
 #: ../plugins/groupwise-features/junk-settings.glade.h:4
@@ -543,9 +539,9 @@ msgstr "Konfiguratu osatze automatikoa hemen"
 
 #. Create the contacts group
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:5
-#: ../addressbook/gui/component/addressbook-view.c:1334
+#: ../addressbook/gui/component/addressbook-view.c:1335
 #: ../calendar/gui/calendar-component.c:247 ../calendar/gui/migration.c:400
-#: ../plugins/exchange-operations/exchange-folder.c:585
+#: ../plugins/exchange-operations/exchange-folder.c:586
 msgid "Contacts"
 msgstr "Kontaktuak"
 
@@ -647,8 +643,7 @@ msgstr "Sortu helbide-liburu berria"
 
 #: ../addressbook/gui/component/addressbook-component.c:406
 msgid "Failed upgrading Address Book settings or folders."
-msgstr ""
-"Huts egin du Helbide-liburuaren ezarpenak edo karpetak bertsio-berritzean."
+msgstr "Huts egin du Helbide-liburuaren ezarpenak edo karpetak bertsio-berritzean."
 
 #: ../addressbook/gui/component/addressbook-config.c:329
 msgid "Base"
@@ -817,7 +812,7 @@ msgstr "Gorde VCard gisa..."
 msgid "_Properties..."
 msgstr "_Propietateak..."
 
-#: ../addressbook/gui/component/addressbook-view.c:1345
+#: ../addressbook/gui/component/addressbook-view.c:1346
 msgid "Contact Source Selector"
 msgstr "Kontaktu-iturburuaren hautatzailea"
 
@@ -826,12 +821,12 @@ msgid "Accessing LDAP Server anonymously"
 msgstr "LDAP zerbitzarian anonimoki sartzea"
 
 #: ../addressbook/gui/component/addressbook.c:197
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:492
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:495
 msgid "Failed to authenticate.\n"
 msgstr "Huts egin du autentifikatzean.\n"
 
 #: ../addressbook/gui/component/addressbook.c:204
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:471
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:474
 #, c-format
 msgid "Enter password for %s (user %s)"
 msgstr "Idatzi %s(r)en pasahitza (%s erabiltzailea)"
@@ -870,13 +865,11 @@ msgstr ""
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:7
 msgid "URI for the folder last used in the select names dialog"
-msgstr ""
-"Izenak hautatzeko elkarrizketa-koadroan azkena erabilitako karpetaren URIa"
+msgstr "Izenak hautatzeko elkarrizketa-koadroan azkena erabilitako karpetaren URIa"
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:8
 msgid "URI for the folder last used in the select names dialog."
-msgstr ""
-"Izenak hautatzeko elkarrizketa-koadroan azkena erabilitako karpetaren URIa."
+msgstr "Izenak hautatzeko elkarrizketa-koadroan azkena erabilitako karpetaren URIa."
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:9
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:63
@@ -958,8 +951,7 @@ msgid "Email address"
 msgstr "Helbide elektronikoa"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:20
-msgid ""
-"Evolution will use this email address to authenticate you with the server."
+msgid "Evolution will use this email address to authenticate you with the server."
 msgstr ""
 "Evolution-ek helbide elektroniko hau erabiliko du zu zerbitzarian "
 "autentifikatzeko"
@@ -1197,12 +1189,9 @@ msgstr "txartel"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:60
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:8
-#: ../calendar/gui/alarm-notify/util.c:65
-#: ../calendar/gui/alarm-notify/util.c:67
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:26
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:14
-#: ../calendar/gui/dialogs/event-page.glade.h:20 ../calendar/gui/misc.c:112
-#: ../calendar/gui/misc.c:114 ../filter/filter.glade.h:16
+#: ../calendar/gui/dialogs/event-page.glade.h:20 ../filter/filter.glade.h:16
 #: ../mail/em-account-editor.c:2021
 #: ../plugins/calendar-http/calendar-http.c:286
 #: ../plugins/calendar-weather/calendar-weather.c:563
@@ -1461,7 +1450,7 @@ msgstr "Helbidea"
 #: ../addressbook/gui/widgets/e-minicard-view.c:520
 #: ../addressbook/gui/widgets/e-minicard.c:175
 #: ../widgets/menus/gal-define-views-model.c:181
-#: ../widgets/table/e-cell-text.c:1772 ../widgets/text/e-entry.c:1312
+#: ../widgets/table/e-cell-text.c:1777 ../widgets/text/e-entry.c:1312
 #: ../widgets/text/e-entry.c:1313 ../widgets/text/e-text.c:3607
 #: ../widgets/text/e-text.c:3608
 msgid "Editable"
@@ -2470,7 +2459,7 @@ msgstr "Zerbitzua"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:128
 #: ../calendar/gui/e-cal-list-view.etspec.h:3
-#: ../plugins/publish-calendar/publish-calendar.c:478
+#: ../plugins/publish-calendar/publish-calendar.c:497
 #: ../plugins/save-calendar/csv-format.c:400
 msgid "Location"
 msgstr "Kokalekua"
@@ -2534,15 +2523,15 @@ msgstr "Aldatuta"
 msgid "Contact Editor - %s"
 msgstr "Kontaktu-editorea - %s"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2759
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2773
 msgid "Please select an image for this contact"
 msgstr "Hautatu irudi bat kontaktu honentzat"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2760
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2774
 msgid "No image"
 msgstr "Irudirik ez"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3044
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3058
 msgid ""
 "The contact data is invalid:\n"
 "\n"
@@ -2550,7 +2539,7 @@ msgstr ""
 "Kontaktu-data ez da baliozkoa:\n"
 "\n"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3096
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3110
 msgid "Invalid contact."
 msgstr "kontaktua ez da balizkoa."
 
@@ -2707,8 +2696,8 @@ msgstr "_Berehalako mezularitzako zerbitzua:"
 
 #: ../addressbook/gui/contact-editor/im.glade.h:5
 #: ../plugins/calendar-weather/calendar-weather.c:409
-#: ../plugins/exchange-operations/exchange-calendar.c:236
-#: ../plugins/exchange-operations/exchange-contacts.c:224
+#: ../plugins/exchange-operations/exchange-calendar.c:242
+#: ../plugins/exchange-operations/exchange-contacts.c:235
 msgid "_Location:"
 msgstr "_Kokalekua:"
 
@@ -2751,8 +2740,7 @@ msgstr "_Hautatu"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:12
 msgid "_Type an email address or drag a contact into the list below:"
-msgstr ""
-"_Idatzi helbide elektronikoa edo arrastatu kontaktua beheko zerrendara:"
+msgstr "_Idatzi helbide elektronikoa edo arrastatu kontaktua beheko zerrendara:"
 
 #: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:163
 #: ../addressbook/gui/widgets/e-addressbook-model.c:296
@@ -2879,7 +2867,7 @@ msgstr "Iturburua"
 #: ../addressbook/gui/widgets/e-addressbook-view.c:244
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:11
 #: ../calendar/gui/e-calendar-table.etspec.h:13
-#: ../calendar/gui/e-meeting-list-view.c:480
+#: ../calendar/gui/e-meeting-list-view.c:486
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:11
 #: ../calendar/gui/e-memo-table.etspec.h:5
 msgid "Type"
@@ -2892,7 +2880,7 @@ msgid "Save as VCard..."
 msgstr "Gorde VCard gisa..."
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:957
-#: ../calendar/gui/dialogs/comp-editor.c:1086
+#: ../calendar/gui/dialogs/comp-editor.c:1088
 #: ../calendar/gui/e-calendar-table.c:1174
 #: ../calendar/gui/e-calendar-view.c:1595 ../calendar/gui/e-memo-table.c:852
 #: ../ui/evolution-addressbook.xml.h:56
@@ -3112,7 +3100,7 @@ msgstr "Irrati-telefonoa"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:33
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:9
-#: ../calendar/gui/e-meeting-list-view.c:491
+#: ../calendar/gui/e-meeting-list-view.c:497
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:9
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:725
 msgid "Role"
@@ -3151,7 +3139,7 @@ msgstr "Web gunea"
 #: ../addressbook/gui/widgets/e-minicard-label.c:115
 #: ../addressbook/gui/widgets/e-minicard.c:138
 #: ../widgets/misc/e-canvas-vbox.c:96 ../widgets/misc/e-canvas-vbox.c:97
-#: ../widgets/misc/e-reflow.c:1434 ../widgets/misc/e-reflow.c:1435
+#: ../widgets/misc/e-reflow.c:1436 ../widgets/misc/e-reflow.c:1437
 #: ../widgets/table/e-table-click-to-add.c:516
 #: ../widgets/table/e-table-col.c:98
 #: ../widgets/table/e-table-field-chooser-item.c:656
@@ -3159,7 +3147,7 @@ msgstr "Web gunea"
 #: ../widgets/table/e-table-group-container.c:968
 #: ../widgets/table/e-table-group-leaf.c:629
 #: ../widgets/table/e-table-group-leaf.c:630
-#: ../widgets/table/e-table-item.c:3021 ../widgets/table/e-table-item.c:3022
+#: ../widgets/table/e-table-item.c:3022 ../widgets/table/e-table-item.c:3023
 #: ../widgets/text/e-text.c:3649 ../widgets/text/e-text.c:3650
 msgid "Width"
 msgstr "Zabalera"
@@ -3167,14 +3155,14 @@ msgstr "Zabalera"
 #: ../addressbook/gui/widgets/e-minicard-label.c:122
 #: ../addressbook/gui/widgets/e-minicard.c:145
 #: ../widgets/misc/e-canvas-vbox.c:108 ../widgets/misc/e-canvas-vbox.c:109
-#: ../widgets/misc/e-reflow.c:1442 ../widgets/misc/e-reflow.c:1443
+#: ../widgets/misc/e-reflow.c:1444 ../widgets/misc/e-reflow.c:1445
 #: ../widgets/table/e-table-click-to-add.c:523
 #: ../widgets/table/e-table-field-chooser-item.c:663
 #: ../widgets/table/e-table-group-container.c:960
 #: ../widgets/table/e-table-group-container.c:961
 #: ../widgets/table/e-table-group-leaf.c:622
 #: ../widgets/table/e-table-group-leaf.c:623
-#: ../widgets/table/e-table-item.c:3027 ../widgets/table/e-table-item.c:3028
+#: ../widgets/table/e-table-item.c:3028 ../widgets/table/e-table-item.c:3029
 #: ../widgets/text/e-text.c:3657 ../widgets/text/e-text.c:3658
 msgid "Height"
 msgstr "Altuera"
@@ -3691,19 +3679,19 @@ msgstr "Evolution-eko CSV edo Tab inportatzailea"
 msgid "Importing ..."
 msgstr "Inportatzen..."
 
-#: ../addressbook/importers/evolution-ldif-importer.c:761
+#: ../addressbook/importers/evolution-ldif-importer.c:754
 msgid "LDAP Data Interchange Format (.ldif)"
 msgstr "LDAP datuak trukatzeko formatua (.ldif)"
 
-#: ../addressbook/importers/evolution-ldif-importer.c:762
+#: ../addressbook/importers/evolution-ldif-importer.c:755
 msgid "Evolution LDIF importer"
 msgstr "Evolution-en LDIF inportatzailea"
 
-#: ../addressbook/importers/evolution-vcard-importer.c:554
+#: ../addressbook/importers/evolution-vcard-importer.c:547
 msgid "VCard (.vcf, .gcrd)"
 msgstr "VCard (.vcf, .gcrd)"
 
-#: ../addressbook/importers/evolution-vcard-importer.c:555
+#: ../addressbook/importers/evolution-vcard-importer.c:548
 msgid "Evolution VCard Importer"
 msgstr "Evolution-en Vcard inportatzailea"
 
@@ -3766,7 +3754,7 @@ msgstr "Formatua"
 #: ../widgets/table/e-table-field-chooser-dialog.c:91
 #: ../widgets/table/e-table-field-chooser-item.c:649
 #: ../widgets/table/e-table-field-chooser.c:91
-#: ../widgets/table/e-table-header-item.c:1825
+#: ../widgets/table/e-table-header-item.c:1826
 #: ../widgets/table/e-table-selection-model.c:318
 msgid "Header"
 msgstr "Goiburua"
@@ -3870,9 +3858,9 @@ msgstr "Itzaldura"
 
 #. FIXME: Take care of i18n
 #: ../addressbook/printing/e-contact-print.glade.h:36
-#: ../plugins/exchange-operations/exchange-account-setup.c:955
-#: ../plugins/exchange-operations/exchange-calendar.c:226
-#: ../plugins/exchange-operations/exchange-contacts.c:207
+#: ../plugins/exchange-operations/exchange-account-setup.c:962
+#: ../plugins/exchange-operations/exchange-calendar.c:231
+#: ../plugins/exchange-operations/exchange-contacts.c:218
 msgid "Size:"
 msgstr "Tamaina:"
 
@@ -3912,8 +3900,7 @@ msgstr "Copyright (C) 2000, Ximian, Inc."
 
 #: ../addressbook/printing/test-contact-print-style-editor.c:56
 msgid "This should test the contact print style editor widget"
-msgstr ""
-"Kontaktuak inprimatzeko estilo-editorearen trepeta probatu beharko luke honek"
+msgstr "Kontaktuak inprimatzeko estilo-editorearen trepeta probatu beharko luke honek"
 
 #: ../addressbook/printing/test-print.c:52
 msgid "Contact Print Test"
@@ -3962,18 +3949,15 @@ msgid "Export in asynchronous mode"
 msgstr "Esportatu modu asinkronoan"
 
 #: ../addressbook/tools/evolution-addressbook-export.c:63
-msgid ""
-"The number of cards in one output file in asychronous mode, default size 100."
-msgstr ""
-"Irteera-fitxategiko txartel-kopurua modu asinkronoan; tamaina lehenetsia: 100"
+msgid "The number of cards in one output file in asychronous mode, default size 100."
+msgstr "Irteera-fitxategiko txartel-kopurua modu asinkronoan; tamaina lehenetsia: 100"
 
 #: ../addressbook/tools/evolution-addressbook-export.c:63
 msgid "NUMBER"
 msgstr "KOPURUA"
 
 #: ../addressbook/tools/evolution-addressbook-export.c:91
-msgid ""
-"Command line arguments error, please use --help option to see the usage."
+msgid "Command line arguments error, please use --help option to see the usage."
 msgstr "Komando-lerroko argumentuen errorea, idatzi --help erabilera ikusteko."
 
 #: ../addressbook/tools/evolution-addressbook-export.c:105
@@ -4029,8 +4013,7 @@ msgstr ""
 "berreskuratu."
 
 #: ../calendar/calendar.error.xml.h:4
-msgid ""
-"All information in this journal will be deleted and can not be restored."
+msgid "All information in this journal will be deleted and can not be restored."
 msgstr ""
 "Egunkariaren informazio guztia ezabatu egingo da eta ezin izango da "
 "berreskuratu."
@@ -4050,8 +4033,7 @@ msgstr ""
 "berreskuratu."
 
 #: ../calendar/calendar.error.xml.h:7
-msgid ""
-"All information on this appointment will be deleted and can not be restored."
+msgid "All information on this appointment will be deleted and can not be restored."
 msgstr ""
 "Hitzorduaren informazio guztia ezabatu egingo da eta ezin izango da "
 "berreskuratu."
@@ -4065,8 +4047,7 @@ msgstr ""
 "berreskuratu."
 
 #: ../calendar/calendar.error.xml.h:9
-msgid ""
-"All information on this meeting will be deleted and can not be restored."
+msgid "All information on this meeting will be deleted and can not be restored."
 msgstr ""
 "Bilera honen informazio guztia ezabatu egingo da eta ezin izango da "
 "berreskuratu."
@@ -4166,8 +4147,7 @@ msgstr ""
 "onartzeko aukera eskainiz."
 
 #: ../calendar/calendar.error.xml.h:32
-msgid ""
-"Email invitations will be sent to all participants and allow them to reply."
+msgid "Email invitations will be sent to all participants and allow them to reply."
 msgstr ""
 "Gonbiteak posta elektronikoz bidaliko zaie parte-hartzeile guztiei eta "
 "erantzutea baimenduko die."
@@ -4302,8 +4282,7 @@ msgstr ""
 
 #: ../calendar/calendar.error.xml.h:57
 msgid "Would you like to send all the participants a cancelation notice?"
-msgstr ""
-"Partaide guztiei bertan behera uztearen jakinarazpena bidaltzea nahi duzu?"
+msgstr "Partaide guztiei bertan behera uztearen jakinarazpena bidaltzea nahi duzu?"
 
 #: ../calendar/calendar.error.xml.h:58
 msgid "Would you like to send meeting invitations to participants?"
@@ -4366,7 +4345,7 @@ msgid "_Save Changes"
 msgstr "_Gorde aldaketak"
 
 #: ../calendar/calendar.error.xml.h:71
-#: ../composer/mail-composer.error.xml.h:31 ../mail/mail.error.xml.h:134
+#: ../composer/mail-composer.error.xml.h:31 ../mail/mail.error.xml.h:130
 msgid "_Send"
 msgstr "_Bidali"
 
@@ -4479,14 +4458,14 @@ msgid "Memos"
 msgstr "Zirkularrak"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:13
-#: ../calendar/gui/e-calendar-table.c:525 ../calendar/gui/e-tasks.c:1329
+#: ../calendar/gui/e-calendar-table.c:525 ../calendar/gui/e-tasks.c:1347
 #: ../calendar/gui/print.c:1828 ../calendar/gui/tasks-component.c:521
 #: ../calendar/gui/tasks-component.c:1012 ../calendar/gui/tasks-control.c:475
 #: ../calendar/importers/icalendar-importer.c:80
 #: ../calendar/importers/icalendar-importer.c:741
-#: ../plugins/exchange-operations/exchange-folder.c:591
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:384
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:591
+#: ../plugins/exchange-operations/exchange-folder.c:592
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:387
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:594
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:12
 msgid "Tasks"
 msgstr "Zereginak"
@@ -4505,9 +4484,6 @@ msgid "Evolution Calendar alarm notification service"
 msgstr "Evolution-en egutegiaren alarma bidezko jakinarazpen-zerbitzua"
 
 #: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:115
-#: ../calendar/gui/alarm-notify/util.c:65
-#: ../calendar/gui/alarm-notify/util.c:67 ../calendar/gui/misc.c:112
-#: ../calendar/gui/misc.c:114
 msgid "minute"
 msgid_plural "minutes"
 msgstr[0] "minutu"
@@ -4640,67 +4616,34 @@ msgstr "Ezin izan da sortu alarma bidezko jakinarazpen-zerbitzuaren fabrika"
 msgid "invalid time"
 msgstr "baliogabeko ordua"
 
-#. Can't be zero
-#: ../calendar/gui/alarm-notify/util.c:58
+#. Translator: Entire string is like "Pop up an alert %d hours before start of appointment"
+#: ../calendar/gui/alarm-notify/util.c:66 ../calendar/gui/e-alarm-list.c:408
+#: ../calendar/gui/misc.c:113
 #, c-format
-msgid "(%ld seconds)"
-msgstr "(%ld segundo)"
+msgid "%d hour"
+msgid_plural "%d hours"
+msgstr[0] "ordu %d"
+msgstr[1] "%d ordu"
+
+#. Translator: Entire string is like "Pop up an alert %d minutes before start of appointment"
+#: ../calendar/gui/alarm-notify/util.c:72 ../calendar/gui/e-alarm-list.c:414
+#: ../calendar/gui/misc.c:119
+#, c-format
+msgid "%d minute"
+msgid_plural "%d minutes"
+msgstr[0] "minutu %d"
+msgstr[1] "%d minutu"
 
 #. TRANSLATORS: here, "second" is the time division (like "minute"), not the ordinal number (like "third")
-#: ../calendar/gui/alarm-notify/util.c:65 ../calendar/gui/misc.c:112
+#. Translator: Entire string is like "Pop up an alert %d seconds before start of appointment"
+#. TRANSLATORS: here, "second" is the time division (like "minute"), not the ordinal number (like "third")
+#: ../calendar/gui/alarm-notify/util.c:76 ../calendar/gui/e-alarm-list.c:420
+#: ../calendar/gui/misc.c:123
 #, c-format
-msgid "(%d %s %d %s)"
-msgstr "(%d %s %d %s)"
-
-#. TRANSLATORS: here, "second" is the ordinal number (like "third"), not the time division (like "minute")
-#. * Entire string is for example: This appointment recurs/Every [x] month(s) on the [second] [Monday] [forever]'
-#. * (dropdown menu options are in [square brackets]). This means that after 'second', either the string 'day' or
-#. * the name of a week day (like 'Monday' or 'Friday') always follow.
-#.
-#: ../calendar/gui/alarm-notify/util.c:65
-#: ../calendar/gui/dialogs/recurrence-page.c:998 ../calendar/gui/misc.c:112
-msgid "second"
-msgstr "bigarren"
-
-#: ../calendar/gui/alarm-notify/util.c:65 ../calendar/gui/misc.c:112
-#: ../filter/filter.glade.h:18 ../mail/mail-config.glade.h:178
-msgid "seconds"
-msgstr "segundo igarotakoan"
-
-#: ../calendar/gui/alarm-notify/util.c:67 ../calendar/gui/misc.c:114
-#, c-format
-msgid "(%d %s)"
-msgstr "(%d %s)"
-
-#: ../calendar/gui/alarm-notify/util.c:78 ../calendar/gui/misc.c:125
-#, c-format
-msgid " %u second"
-msgstr "segundo %u "
-
-#: ../calendar/gui/alarm-notify/util.c:78 ../calendar/gui/misc.c:125
-#, c-format
-msgid " %u seconds"
-msgstr " %u segundo"
-
-#: ../calendar/gui/alarm-notify/util.c:80 ../calendar/gui/misc.c:127
-#, c-format
-msgid " %u minute"
-msgstr "minutu %u"
-
-#: ../calendar/gui/alarm-notify/util.c:80 ../calendar/gui/misc.c:127
-#, c-format
-msgid " %u minutes"
-msgstr " %u minutu"
-
-#: ../calendar/gui/alarm-notify/util.c:82 ../calendar/gui/misc.c:129
-#, c-format
-msgid "%u hour"
-msgstr "ordu %u"
-
-#: ../calendar/gui/alarm-notify/util.c:82 ../calendar/gui/misc.c:129
-#, c-format
-msgid "%u hours"
-msgstr "%u ordu"
+msgid "%d second"
+msgid_plural "%d seconds"
+msgstr[0] "segundo %d"
+msgstr[1] "%d segundo"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:1
 msgid "Alarm programs"
@@ -4723,10 +4666,8 @@ msgid "Calendars to run alarms for"
 msgstr "Alarmak exekutatzeko egutegiak - "
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:6
-msgid ""
-"Color to draw the Marcus Bains Line in the Time bar (empty for default)."
-msgstr ""
-"Kolorea Marcus Bains-en linea ordu-barran marrazteko (hutsik lehenespenez)."
+msgid "Color to draw the Marcus Bains Line in the Time bar (empty for default)."
+msgstr "Kolorea Marcus Bains-en linea ordu-barran marrazteko (hutsik lehenespenez)."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:7
 msgid "Color to draw the Marcus Bains line in the Day View."
@@ -4979,8 +4920,7 @@ msgid "Units for a default reminder, \"minutes\", \"hours\" or \"days\"."
 msgstr "Oroigarri lehenetsiaren unitateak (\"minutu\", \"ordu\" edo \"egun\")."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:62
-msgid ""
-"Units for determining when to hide tasks, \"minutes\", \"hours\" or \"days\"."
+msgid "Units for determining when to hide tasks, \"minutes\", \"hours\" or \"days\"."
 msgstr ""
 "Unitateak zereginak noiz ezkutatu zehazteko (\"minutu\", \"ordu\" edo \"egun"
 "\")."
@@ -5003,8 +4943,7 @@ msgstr "Hitzordua edo zeregina ezabatzean berrespena eskatuko den edo ez."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:68
 msgid "Whether to ask for confirmation when expunging appointments and tasks."
-msgstr ""
-"Hitzorduak eta zereginak betiko borratzean berrespena eskatuko den edo ez."
+msgstr "Hitzorduak eta zereginak betiko borratzean berrespena eskatuko den edo ez."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:69
 msgid ""
@@ -5021,8 +4960,7 @@ msgstr ""
 "ez."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:71
-msgid ""
-"Whether to draw the Marcus Bains Line (line at current time) in the calendar."
+msgid "Whether to draw the Marcus Bains Line (line at current time) in the calendar."
 msgstr "Marcus Bains-en linea (uneko orduan) egutegian marraztuko den edo ez."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:72
@@ -5035,8 +4973,7 @@ msgstr "Hitzorduen oroigarri lehenetsi bat ezarriko den edo ez"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:74
 msgid "Whether to show RSVP field in the event/task/meeting editor"
-msgstr ""
-"RSPV eremua gertaeren/bileren/zereginen editorean erakutsiko den ala ez."
+msgstr "RSPV eremua gertaeren/bileren/zereginen editorean erakutsiko den ala ez."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:75
 msgid "Whether to show categories field in the event/meeting editor"
@@ -5044,19 +4981,15 @@ msgstr "Kategoriak eremua gertaeren/bileren editorean erakutsiko den ala ez."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:76
 msgid "Whether to show role field in the event/task/meeting editor"
-msgstr ""
-"Araua eremua gertaeren/bileren/zereginen editorean erakutsiko den ala ez."
+msgstr "Araua eremua gertaeren/bileren/zereginen editorean erakutsiko den ala ez."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:77
 msgid "Whether to show status field in the event/task/meeting editor"
-msgstr ""
-"Egoera eremua gertaeren/bileren/zereginen editorean erakutsiko den ala ez."
+msgstr "Egoera eremua gertaeren/bileren/zereginen editorean erakutsiko den ala ez."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:78
-msgid ""
-"Whether to show times in twenty four hour format instead of using am/pm."
-msgstr ""
-"Am/pm erabili beharrean orduak 24 orduko formatuan bistaratuko diren edo ez."
+msgid "Whether to show times in twenty four hour format instead of using am/pm."
+msgstr "Am/pm erabili beharrean orduak 24 orduko formatuan bistaratuko diren edo ez."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:79
 msgid "Whether to show timezone field in the event/meeting editor"
@@ -5064,8 +4997,7 @@ msgstr "Ordu-zona eremua gertaeren/bileren editorean erakutsiko den ala ez."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:80
 msgid "Whether to show type field in the event/task/meeting editor"
-msgstr ""
-"Mota eremua gertaeren/bileren/zereginen editorean erakutsiko den ala ez."
+msgstr "Mota eremua gertaeren/bileren/zereginen editorean erakutsiko den ala ez."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:81
 msgid "Whether to show week numbers in the date navigator."
@@ -5122,10 +5054,10 @@ msgstr "Inprimatu"
 #: ../calendar/gui/calendar-component.c:709
 #: ../calendar/gui/dialogs/calendar-setup.c:370
 #: ../calendar/gui/gnome-cal.c:2111
-#: ../plugins/exchange-operations/exchange-folder.c:579
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:383
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:413
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:590
+#: ../plugins/exchange-operations/exchange-folder.c:580
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:386
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:416
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:593
 #: ../plugins/hula-account-setup/camel-hula-listener.c:379
 #: ../plugins/hula-account-setup/camel-hula-listener.c:408
 #: ../plugins/publish-calendar/publish-calendar.glade.h:5
@@ -5387,7 +5319,7 @@ msgstr "minutu"
 msgid "start of appointment"
 msgstr "hitzordu-hasiera baino"
 
-#: ../calendar/gui/dialogs/alarm-list-dialog.c:232
+#: ../calendar/gui/dialogs/alarm-list-dialog.c:235
 msgid "Action/Trigger"
 msgstr "Ekintza/Abiarazlea"
 
@@ -5463,8 +5395,7 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:7
 #, no-c-format
-msgid ""
-"<i>%u and %d will be replaced by user and domain from the email address.</i>"
+msgid "<i>%u and %d will be replaced by user and domain from the email address.</i>"
 msgstr ""
 "<i>%u eta %d aldagaiak helbide elektronikoko erabiltzaileagatik eta "
 "domeinugatik ordeztuko dira.</i>"
@@ -5505,7 +5436,7 @@ msgid "Display"
 msgstr "Bistaratu"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:17
-#: ../calendar/gui/dialogs/event-editor.c:572
+#: ../calendar/gui/dialogs/event-editor.c:574
 #: ../ui/evolution-event-editor.xml.h:8
 msgid "Free/Busy"
 msgstr "'Libre/okupatuta"
@@ -5863,30 +5794,30 @@ msgstr "_Lekuz aldatu"
 msgid "Cancel _Drag"
 msgstr "Bertan behera _utzi arrastatzea"
 
-#: ../calendar/gui/dialogs/comp-editor.c:800
+#: ../calendar/gui/dialogs/comp-editor.c:802
 msgid "Could not update object"
 msgstr "Ezin izan da objektua eguneratu"
 
-#: ../calendar/gui/dialogs/comp-editor.c:943 ../composer/e-msg-composer.c:2479
+#: ../calendar/gui/dialogs/comp-editor.c:945 ../composer/e-msg-composer.c:2479
 #, c-format
 msgid "<b>%d</b> Attachment"
 msgid_plural "<b>%d</b> Attachments"
 msgstr[0] "Eranskin <b>%d</b>"
 msgstr[1] "<b>%d</b> eranskin"
 
-#: ../calendar/gui/dialogs/comp-editor.c:975
+#: ../calendar/gui/dialogs/comp-editor.c:977
 msgid "Hide Attachment _Bar"
 msgstr "Ezkutatu eranskin-_barra"
 
-#: ../calendar/gui/dialogs/comp-editor.c:978
-#: ../calendar/gui/dialogs/comp-editor.c:1442
+#: ../calendar/gui/dialogs/comp-editor.c:980
+#: ../calendar/gui/dialogs/comp-editor.c:1444
 msgid "Show Attachment _Bar"
 msgstr "Erakutsi eranskin-_barra"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1087
-#: ../calendar/gui/dialogs/event-page.c:1897
+#: ../calendar/gui/dialogs/comp-editor.c:1089
+#: ../calendar/gui/dialogs/event-page.c:1894
 #: ../calendar/gui/dialogs/meeting-page.c:899
-#: ../calendar/gui/dialogs/task-page.c:1202
+#: ../calendar/gui/dialogs/task-page.c:1198
 #: ../composer/e-msg-composer-attachment-bar.c:470
 #: ../composer/e-msg-composer.c:3619
 #: ../plugins/groupwise-features/junk-settings.glade.h:8
@@ -5895,82 +5826,81 @@ msgstr "Erakutsi eranskin-_barra"
 msgid "_Remove"
 msgstr "_Kendu"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1088
+#: ../calendar/gui/dialogs/comp-editor.c:1090
 #: ../composer/e-msg-composer-attachment-bar.c:471
 #: ../composer/e-msg-composer.c:3620 ../mail/em-folder-tree.c:2058
 #: ../ui/evolution-addressbook.xml.h:59 ../ui/evolution-mail-list.xml.h:33
 msgid "_Properties"
 msgstr "_Propietateak"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1090
+#: ../calendar/gui/dialogs/comp-editor.c:1092
 #: ../composer/e-msg-composer-attachment-bar.c:473
 #: ../composer/e-msg-composer.c:3622
 msgid "_Add attachment..."
 msgstr "_Gehitu eranskina..."
 
-#: ../calendar/gui/dialogs/comp-editor.c:1466
-#: ../mail/em-format-html-display.c:2063
+#: ../calendar/gui/dialogs/comp-editor.c:1468
+#: ../mail/em-format-html-display.c:2065
 msgid "Show Attachments"
 msgstr "Erakutsi eranskinak"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1467
+#: ../calendar/gui/dialogs/comp-editor.c:1469
 msgid "Press space key to toggle attachment bar"
 msgstr "Sakatu Zuriunea tekla eranskin-barra txandakatzeko"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2074
-#: ../calendar/gui/dialogs/comp-editor.c:2117
+#: ../calendar/gui/dialogs/comp-editor.c:2076
+#: ../calendar/gui/dialogs/comp-editor.c:2119
 msgid "Edit Appointment"
 msgstr "Editatu hitzordua"
-
-#: ../calendar/gui/dialogs/comp-editor.c:2080
-#: ../calendar/gui/dialogs/comp-editor.c:2123
-#, c-format
-msgid "Meeting - %s"
-msgstr "Bilera - %s"
 
 #: ../calendar/gui/dialogs/comp-editor.c:2082
 #: ../calendar/gui/dialogs/comp-editor.c:2125
 #, c-format
+msgid "Meeting - %s"
+msgstr "Bilera - %s"
+
+#: ../calendar/gui/dialogs/comp-editor.c:2084
+#: ../calendar/gui/dialogs/comp-editor.c:2127
+#, c-format
 msgid "Appointment - %s"
 msgstr "Hitzordua - %s"
-
-#: ../calendar/gui/dialogs/comp-editor.c:2086
-#: ../calendar/gui/dialogs/comp-editor.c:2129
-#, c-format
-msgid "Assigned Task - %s"
-msgstr "Esleitutako zeregina - %s "
 
 #: ../calendar/gui/dialogs/comp-editor.c:2088
 #: ../calendar/gui/dialogs/comp-editor.c:2131
 #, c-format
+msgid "Assigned Task - %s"
+msgstr "Esleitutako zeregina - %s "
+
+#: ../calendar/gui/dialogs/comp-editor.c:2090
+#: ../calendar/gui/dialogs/comp-editor.c:2133
+#, c-format
 msgid "Task - %s"
 msgstr "Zeregina - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2091
-#: ../calendar/gui/dialogs/comp-editor.c:2134
+#: ../calendar/gui/dialogs/comp-editor.c:2093
+#: ../calendar/gui/dialogs/comp-editor.c:2136
 #, c-format
 msgid "Journal entry - %s"
 msgstr "Egunkariko sarrera - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2102
-#: ../calendar/gui/dialogs/comp-editor.c:2144
+#: ../calendar/gui/dialogs/comp-editor.c:2104
+#: ../calendar/gui/dialogs/comp-editor.c:2146
 msgid "No summary"
 msgstr "Laburpenik ez"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2652
-#: ../composer/e-msg-composer-attachment-bar.c:307 ../mail/em-utils.c:464
-#: ../mail/em-utils.c:501 ../widgets/misc/e-attachment-bar.c:339
+#: ../calendar/gui/dialogs/comp-editor.c:2654
+#: ../composer/e-msg-composer-attachment-bar.c:307 ../mail/em-utils.c:498
+#: ../mail/em-utils.c:535 ../widgets/misc/e-attachment-bar.c:339
 msgid "attachment"
 msgstr "eranskina"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2741
-#: ../calendar/gui/dialogs/comp-editor.c:2795
-#: ../calendar/gui/dialogs/comp-editor.c:2819
+#: ../calendar/gui/dialogs/comp-editor.c:2743
+#: ../calendar/gui/dialogs/comp-editor.c:2797
+#: ../calendar/gui/dialogs/comp-editor.c:2821
 msgid "Changes made to this item may be discarded if an update arrives"
-msgstr ""
-"Eguneratze bat heltzen bada, honi egindako aldaketak galdu egin litezke"
+msgstr "Eguneratze bat heltzen bada, honi egindako aldaketak galdu egin litezke"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2843
+#: ../calendar/gui/dialogs/comp-editor.c:2845
 msgid "Unable to use current version!"
 msgstr "Ezin da uneko bertsioa erabili!"
 
@@ -5996,8 +5926,7 @@ msgstr "Zeregina ezin izan da ezabatu, corba errore bat gertatu delako"
 
 #: ../calendar/gui/dialogs/delete-error.c:60
 msgid "The journal entry could not be deleted due to a corba error"
-msgstr ""
-"Egunkariko sarrera ezin izan da ezabatu, corba errore bat gertatu delako"
+msgstr "Egunkariko sarrera ezin izan da ezabatu, corba errore bat gertatu delako"
 
 #: ../calendar/gui/dialogs/delete-error.c:63
 msgid "The item could not be deleted due to a corba error"
@@ -6058,106 +5987,106 @@ msgid "Recurrence"
 msgstr "Errepikapena"
 
 #: ../calendar/gui/dialogs/event-page.c:807
-#: ../calendar/gui/dialogs/event-page.c:2717
+#: ../calendar/gui/dialogs/event-page.c:2714
 msgid "This event has alarms"
 msgstr "Gertaerak alarmak ditu."
 
-#: ../calendar/gui/dialogs/event-page.c:875
+#: ../calendar/gui/dialogs/event-page.c:872
 #: ../calendar/gui/dialogs/event-page.glade.h:7
 msgid "Cale_ndar:"
 msgstr "_Egutegia:"
 
-#: ../calendar/gui/dialogs/event-page.c:881
+#: ../calendar/gui/dialogs/event-page.c:878
 #: ../calendar/gui/dialogs/event-page.glade.h:13
 #: ../calendar/gui/dialogs/meeting-page.glade.h:5
-#: ../calendar/gui/dialogs/task-page.c:446
+#: ../calendar/gui/dialogs/task-page.c:441
 msgid "Or_ganizer:"
 msgstr "_Antolatzailea:"
 
-#: ../calendar/gui/dialogs/event-page.c:919
+#: ../calendar/gui/dialogs/event-page.c:916
 msgid "_Delegatees"
 msgstr "_Delegatuak"
 
-#: ../calendar/gui/dialogs/event-page.c:921
+#: ../calendar/gui/dialogs/event-page.c:918
 msgid "Atte_ndees"
 msgstr "_Partaideak"
 
-#: ../calendar/gui/dialogs/event-page.c:1089
+#: ../calendar/gui/dialogs/event-page.c:1086
 msgid "Event with no start date"
 msgstr "Hasiera-datarik gabeko gertaera"
 
-#: ../calendar/gui/dialogs/event-page.c:1092
+#: ../calendar/gui/dialogs/event-page.c:1089
 msgid "Event with no end date"
 msgstr "Amaiera-datarik gabeko gertaera"
 
-#: ../calendar/gui/dialogs/event-page.c:1260
-#: ../calendar/gui/dialogs/task-page.c:852
+#: ../calendar/gui/dialogs/event-page.c:1257
+#: ../calendar/gui/dialogs/task-page.c:848
 msgid "Start date is wrong"
 msgstr "Hasierako data gaizki dago"
 
-#: ../calendar/gui/dialogs/event-page.c:1270
+#: ../calendar/gui/dialogs/event-page.c:1267
 msgid "End date is wrong"
 msgstr "Amaierako data gaizki dago"
 
-#: ../calendar/gui/dialogs/event-page.c:1293
+#: ../calendar/gui/dialogs/event-page.c:1290
 msgid "Start time is wrong"
 msgstr "Hasierako ordua gaizki dago"
 
-#: ../calendar/gui/dialogs/event-page.c:1300
+#: ../calendar/gui/dialogs/event-page.c:1297
 msgid "End time is wrong"
 msgstr "Amaierako ordua gaizki dago"
 
-#: ../calendar/gui/dialogs/event-page.c:1455
+#: ../calendar/gui/dialogs/event-page.c:1452
 #: ../calendar/gui/dialogs/meeting-page.c:469
-#: ../calendar/gui/dialogs/task-page.c:909
+#: ../calendar/gui/dialogs/task-page.c:905
 msgid "The organizer selected no longer has an account."
 msgstr "Hautatutako antolatzaileak ez du konturik orain."
 
-#: ../calendar/gui/dialogs/event-page.c:1461
+#: ../calendar/gui/dialogs/event-page.c:1458
 #: ../calendar/gui/dialogs/meeting-page.c:475
-#: ../calendar/gui/dialogs/task-page.c:915
+#: ../calendar/gui/dialogs/task-page.c:911
 msgid "An organizer is required."
 msgstr "Antolatzailea behar da."
 
-#: ../calendar/gui/dialogs/event-page.c:1476
+#: ../calendar/gui/dialogs/event-page.c:1473
 #: ../calendar/gui/dialogs/meeting-page.c:490
-#: ../calendar/gui/dialogs/task-page.c:930
+#: ../calendar/gui/dialogs/task-page.c:926
 msgid "At least one attendee is required."
 msgstr "Partaide bat behar da gutxienez."
 
-#: ../calendar/gui/dialogs/event-page.c:1898
+#: ../calendar/gui/dialogs/event-page.c:1895
 #: ../calendar/gui/dialogs/meeting-page.c:900
-#: ../calendar/gui/dialogs/task-page.c:1203
+#: ../calendar/gui/dialogs/task-page.c:1199
 msgid "_Add "
 msgstr "_Gehitu "
 
-#: ../calendar/gui/dialogs/event-page.c:2624
+#: ../calendar/gui/dialogs/event-page.c:2621
 #, c-format
 msgid "Unable to open the calendar '%s'."
 msgstr "Ezin da '%s' egutegia ireki."
 
-#: ../calendar/gui/dialogs/event-page.c:2920
+#: ../calendar/gui/dialogs/event-page.c:2924
 #, c-format
 msgid "%d day before appointment"
 msgid_plural "%d days before appointment"
 msgstr[0] "Hitzordua baino egun %d lehenago"
 msgstr[1] "Hitzordua baino %d egun lehenago"
 
-#: ../calendar/gui/dialogs/event-page.c:2928
+#: ../calendar/gui/dialogs/event-page.c:2932
 #, c-format
 msgid "%d hour before appointment"
 msgid_plural "%d hours before appointment"
 msgstr[0] "Hitzordua baino ordu %d lehenago"
 msgstr[1] "Hitzordua baino %d ordu lehenago"
 
-#: ../calendar/gui/dialogs/event-page.c:2936
+#: ../calendar/gui/dialogs/event-page.c:2940
 #, c-format
 msgid "%d minute before appointement"
 msgid_plural "%d minutes before appointment"
 msgstr[0] "Hitzordua baino minutu %d lehenago"
 msgstr[1] "Hitzordua baino %d minutu lehenago"
 
-#: ../calendar/gui/dialogs/event-page.c:2952
+#: ../calendar/gui/dialogs/event-page.c:2956
 msgid "Customize"
 msgstr "Pertsonalizatu"
 
@@ -6166,7 +6095,7 @@ msgstr "Pertsonalizatu"
 #. When "None" is selected we want the field to be cleared.
 #. Note that we don't show this here, since by default a 'None' date
 #. is not permitted.
-#: ../calendar/gui/dialogs/event-page.c:2957
+#: ../calendar/gui/dialogs/event-page.c:2961
 #: ../calendar/gui/dialogs/meeting-page.c:321
 #: ../calendar/gui/dialogs/meeting-page.glade.h:4
 #: ../calendar/gui/e-cal-model-tasks.c:649
@@ -6295,14 +6224,14 @@ msgstr "Kidea"
 
 #. To translators: RSVP means "please reply"
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:8
-#: ../calendar/gui/e-meeting-list-view.c:503
+#: ../calendar/gui/e-meeting-list-view.c:509
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:8
 msgid "RSVP"
 msgstr "RSVP"
 
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:10
 #: ../calendar/gui/e-calendar-table.etspec.h:10
-#: ../calendar/gui/e-meeting-list-view.c:514
+#: ../calendar/gui/e-meeting-list-view.c:520
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:10 ../mail/em-filter-i18n.h:63
 #: ../mail/message-list.etspec.h:12
 msgid "Status"
@@ -6339,7 +6268,7 @@ msgid "Unable to open memos in '%s'."
 msgstr "Ezin dira zirkularrak ireki: '%s'."
 
 #: ../calendar/gui/dialogs/memo-page.glade.h:2
-#: ../calendar/gui/dialogs/task-page.c:439
+#: ../calendar/gui/dialogs/task-page.c:434
 #: ../calendar/gui/dialogs/task-page.glade.h:9
 msgid "_Group:"
 msgstr "_Taldea:"
@@ -6397,10 +6326,8 @@ msgid "You are modifying a recurring task. What would you like to modify?"
 msgstr "Zeregin errepikatu bat aldatzen ari zara. Zer aldatu nahi duzu?"
 
 #: ../calendar/gui/dialogs/recur-comp.c:62
-msgid ""
-"You are modifying a recurring journal entry. What would you like to modify?"
-msgstr ""
-"Egunkariko sarrera errepikatu bat aldatzen ari zara. Zer aldatu nahi duzu?"
+msgid "You are modifying a recurring journal entry. What would you like to modify?"
+msgstr "Egunkariko sarrera errepikatu bat aldatzen ari zara. Zer aldatu nahi duzu?"
 
 #: ../calendar/gui/dialogs/recur-comp.c:90
 msgid "This Instance Only"
@@ -6439,6 +6366,15 @@ msgstr "-"
 #: ../calendar/gui/dialogs/recurrence-page.c:992
 msgid "first"
 msgstr "lehen"
+
+#. TRANSLATORS: here, "second" is the ordinal number (like "third"), not the time division (like "minute")
+#. * Entire string is for example: This appointment recurs/Every [x] month(s) on the [second] [Monday] [forever]'
+#. * (dropdown menu options are in [square brackets]). This means that after 'second', either the string 'day' or
+#. * the name of a week day (like 'Monday' or 'Friday') always follow.
+#.
+#: ../calendar/gui/dialogs/recurrence-page.c:998
+msgid "second"
+msgstr "bigarren"
 
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [third] [Monday] [forever]'
 #. * (dropdown menu options are in [square brackets]). This means that after 'third', either the string 'day' or
@@ -6584,7 +6520,7 @@ msgstr "<span weight=\"bold\">Egoera</span>"
 #: ../calendar/gui/e-cal-model-tasks.c:347
 #: ../calendar/gui/e-cal-model-tasks.c:655
 #: ../calendar/gui/e-calendar-table.c:461 ../calendar/gui/e-itip-control.c:891
-#: ../calendar/gui/e-meeting-store.c:195 ../calendar/gui/e-meeting-store.c:218
+#: ../calendar/gui/e-meeting-store.c:193 ../calendar/gui/e-meeting-store.c:216
 #: ../calendar/gui/print.c:2369 ../plugins/save-calendar/csv-format.c:390
 msgid "Completed"
 msgstr "Eginda"
@@ -6660,11 +6596,11 @@ msgstr "_Zeregina"
 msgid "Task Details"
 msgstr "Zereginaren xehetasunak"
 
-#: ../calendar/gui/dialogs/task-page.c:825
+#: ../calendar/gui/dialogs/task-page.c:821
 msgid "Due date is wrong"
 msgstr "Mugaeguna gaizki dago"
 
-#: ../calendar/gui/dialogs/task-page.c:1653
+#: ../calendar/gui/dialogs/task-page.c:1649
 #, c-format
 msgid "Unable to open tasks in '%s'."
 msgstr "Ezin dira hemengo zereginak ireki: '%s'."
@@ -6748,30 +6684,6 @@ msgid_plural "%d weeks"
 msgstr[0] "aste %d"
 msgstr[1] "%d aste"
 
-#. Translator: Entire string is like "Pop up an alert %d hours before start of appointment"
-#: ../calendar/gui/e-alarm-list.c:408
-#, c-format
-msgid "%d hour"
-msgid_plural "%d hours"
-msgstr[0] "ordu %d"
-msgstr[1] "%d ordu"
-
-#. Translator: Entire string is like "Pop up an alert %d minutes before start of appointment"
-#: ../calendar/gui/e-alarm-list.c:414
-#, c-format
-msgid "%d minute"
-msgid_plural "%d minutes"
-msgstr[0] "minutu %d"
-msgstr[1] "%d minutu"
-
-#. Translator: Entire string is like "Pop up an alert %d seconds before start of appointment"
-#: ../calendar/gui/e-alarm-list.c:420
-#, c-format
-msgid "%d second"
-msgid_plural "%d seconds"
-msgstr[0] "segundo %d"
-msgstr[1] "%d segundo"
-
 #: ../calendar/gui/e-alarm-list.c:464
 msgid "Unknown action to be performed"
 msgstr "Egin beharreko ekintza ezezaguna"
@@ -6833,7 +6745,7 @@ msgid "%s for an unknown trigger type"
 msgstr "abiarazle-mota ezezagunaren %s"
 
 #: ../calendar/gui/e-cal-component-memo-preview.c:72
-#: ../calendar/gui/e-cal-component-preview.c:70 ../mail/em-folder-view.c:2823
+#: ../calendar/gui/e-cal-component-preview.c:70 ../mail/em-folder-view.c:2822
 #, c-format
 msgid "Click to open %s"
 msgstr "Egin klik %s irekitzeko"
@@ -6932,27 +6844,27 @@ msgstr ""
 
 #: ../calendar/gui/e-cal-model-tasks.c:1005 ../calendar/gui/e-cal-model.c:924
 #: ../calendar/gui/e-meeting-list-view.c:193
-#: ../calendar/gui/e-meeting-store.c:167 ../calendar/gui/e-meeting-store.c:177
-#: ../calendar/gui/e-meeting-store.c:770
+#: ../calendar/gui/e-meeting-store.c:165 ../calendar/gui/e-meeting-store.c:175
+#: ../calendar/gui/e-meeting-store.c:761
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:5
 msgid "Yes"
 msgstr "Bai"
 
 #: ../calendar/gui/e-cal-model-tasks.c:1005 ../calendar/gui/e-cal-model.c:924
 #: ../calendar/gui/e-meeting-list-view.c:194
-#: ../calendar/gui/e-meeting-store.c:179
+#: ../calendar/gui/e-meeting-store.c:177
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:2
 msgid "No"
 msgstr "Ez"
 
 #. This is the default filename used for temporary file creation
 #: ../calendar/gui/e-cal-model.c:327 ../calendar/gui/e-cal-popup.c:107
-#: ../calendar/gui/e-cal-popup.c:122 ../calendar/gui/e-cal-popup.c:167
+#: ../calendar/gui/e-cal-popup.c:124 ../calendar/gui/e-cal-popup.c:171
 #: ../calendar/gui/e-itip-control.c:1144 ../calendar/gui/e-itip-control.c:1285
 #: ../calendar/gui/e-meeting-list-view.c:169
 #: ../calendar/gui/e-meeting-list-view.c:183
-#: ../calendar/gui/e-meeting-store.c:125 ../calendar/gui/e-meeting-store.c:160
-#: ../calendar/gui/e-meeting-store.c:223 ../mail/em-utils.c:1274
+#: ../calendar/gui/e-meeting-store.c:123 ../calendar/gui/e-meeting-store.c:158
+#: ../calendar/gui/e-meeting-store.c:221 ../mail/em-utils.c:1309
 #: ../plugins/itip-formatter/itip-formatter.c:240
 #: ../plugins/itip-formatter/itip-formatter.c:1651
 #: ../plugins/plugin-manager/plugin-manager.c:68
@@ -6969,35 +6881,35 @@ msgstr "Errepikatua"
 msgid "Assigned"
 msgstr "Esleitua"
 
-#: ../calendar/gui/e-cal-popup.c:173 ../mail/em-popup.c:412
+#: ../calendar/gui/e-cal-popup.c:177 ../mail/em-popup.c:412
 msgid "Save As..."
 msgstr "Gorde honela..."
 
-#: ../calendar/gui/e-cal-popup.c:189 ../mail/em-format-html-display.c:1911
+#: ../calendar/gui/e-cal-popup.c:193 ../mail/em-format-html-display.c:1913
 msgid "Select folder to save selected attachments..."
 msgstr "Hautatu karpeta hautatutako eranskina gordetzeko..."
 
-#: ../calendar/gui/e-cal-popup.c:218 ../mail/em-popup.c:437
+#: ../calendar/gui/e-cal-popup.c:222 ../mail/em-popup.c:437
 #, c-format
 msgid "untitled_image.%s"
 msgstr "irudi_izengabea.%s"
 
-#: ../calendar/gui/e-cal-popup.c:272 ../calendar/gui/e-calendar-table.c:1176
+#: ../calendar/gui/e-cal-popup.c:276 ../calendar/gui/e-calendar-table.c:1176
 #: ../calendar/gui/e-calendar-view.c:1596 ../calendar/gui/e-memo-table.c:854
 #: ../mail/em-folder-view.c:1087 ../mail/em-popup.c:554 ../mail/em-popup.c:565
 msgid "_Save As..."
 msgstr "_Gorde honela..."
 
-#: ../calendar/gui/e-cal-popup.c:273 ../mail/em-popup.c:555
+#: ../calendar/gui/e-cal-popup.c:277 ../mail/em-popup.c:555
 #: ../mail/em-popup.c:566
 msgid "Set as _Background"
 msgstr "Ezarri _atzeko plano gisa"
 
-#: ../calendar/gui/e-cal-popup.c:274
+#: ../calendar/gui/e-cal-popup.c:278
 msgid "_Save Selected"
 msgstr "_Gorde hautatutakoa"
 
-#: ../calendar/gui/e-cal-popup.c:396 ../mail/em-popup.c:775
+#: ../calendar/gui/e-cal-popup.c:400 ../mail/em-popup.c:775
 #, c-format
 msgid "Open in %s..."
 msgstr "Ireki honekin: %s..."
@@ -7405,12 +7317,11 @@ msgstr "Pertsona ezezaguna"
 msgid ""
 "<br> Please review the following information, and then select an action from "
 "the menu below."
-msgstr ""
-"<br> Aztertu ondorengo informazioa, eta hautatu ekintza bat beheko menuan."
+msgstr "<br> Aztertu ondorengo informazioa, eta hautatu ekintza bat beheko menuan."
 
 #: ../calendar/gui/e-itip-control.c:1132
 #: ../calendar/gui/e-meeting-list-view.c:205
-#: ../calendar/gui/e-meeting-store.c:187 ../calendar/gui/e-meeting-store.c:210
+#: ../calendar/gui/e-meeting-store.c:185 ../calendar/gui/e-meeting-store.c:208
 #: ../calendar/gui/itip-utils.c:669
 #: ../plugins/itip-formatter/itip-formatter.c:1639
 msgid "Accepted"
@@ -7423,7 +7334,7 @@ msgstr "Oraingoz onartua"
 
 #: ../calendar/gui/e-itip-control.c:1140
 #: ../calendar/gui/e-meeting-list-view.c:206
-#: ../calendar/gui/e-meeting-store.c:189 ../calendar/gui/e-meeting-store.c:212
+#: ../calendar/gui/e-meeting-store.c:187 ../calendar/gui/e-meeting-store.c:210
 #: ../calendar/gui/itip-utils.c:675 ../calendar/gui/itip-utils.c:704
 #: ../plugins/itip-formatter/itip-formatter.c:1645
 msgid "Declined"
@@ -7433,12 +7344,10 @@ msgstr "Ukatua"
 msgid ""
 "The meeting has been canceled, however it could not be found in your "
 "calendars"
-msgstr ""
-"Bilera bertan behera utzi da, hala ere ezin izan da zure egutegietan aurkitu"
+msgstr "Bilera bertan behera utzi da, hala ere ezin izan da zure egutegietan aurkitu"
 
 #: ../calendar/gui/e-itip-control.c:1226
-msgid ""
-"The task has been canceled, however it could not be found in your task lists"
+msgid "The task has been canceled, however it could not be found in your task lists"
 msgstr ""
 "Zeregina bertan behera utzi da, hala ere ezin izan da zure zereginen "
 "zerrendetan aurkitu"
@@ -7752,81 +7661,81 @@ msgid "Resources"
 msgstr "Baliabideak"
 
 #: ../calendar/gui/e-meeting-list-view.c:165
-#: ../calendar/gui/e-meeting-store.c:100 ../calendar/gui/e-meeting-store.c:117
-#: ../calendar/gui/e-meeting-store.c:764
+#: ../calendar/gui/e-meeting-store.c:98 ../calendar/gui/e-meeting-store.c:115
+#: ../calendar/gui/e-meeting-store.c:755
 msgid "Individual"
 msgstr "Indibiduala"
 
 #: ../calendar/gui/e-meeting-list-view.c:166
-#: ../calendar/gui/e-meeting-store.c:102 ../calendar/gui/e-meeting-store.c:119
+#: ../calendar/gui/e-meeting-store.c:100 ../calendar/gui/e-meeting-store.c:117
 #: ../widgets/table/e-table-config-no-group.glade.h:7
 #: ../widgets/table/e-table-config.glade.h:6
 msgid "Group"
 msgstr "Taldea"
 
 #: ../calendar/gui/e-meeting-list-view.c:167
-#: ../calendar/gui/e-meeting-store.c:104 ../calendar/gui/e-meeting-store.c:121
+#: ../calendar/gui/e-meeting-store.c:102 ../calendar/gui/e-meeting-store.c:119
 msgid "Resource"
 msgstr "Baliabidea"
 
 #: ../calendar/gui/e-meeting-list-view.c:168
-#: ../calendar/gui/e-meeting-store.c:106 ../calendar/gui/e-meeting-store.c:123
+#: ../calendar/gui/e-meeting-store.c:104 ../calendar/gui/e-meeting-store.c:121
 msgid "Room"
 msgstr "Gela"
 
 #: ../calendar/gui/e-meeting-list-view.c:179
-#: ../calendar/gui/e-meeting-store.c:135 ../calendar/gui/e-meeting-store.c:152
+#: ../calendar/gui/e-meeting-store.c:133 ../calendar/gui/e-meeting-store.c:150
 msgid "Chair"
 msgstr "Mahaiburua"
 
 #: ../calendar/gui/e-meeting-list-view.c:180
-#: ../calendar/gui/e-meeting-store.c:137 ../calendar/gui/e-meeting-store.c:154
-#: ../calendar/gui/e-meeting-store.c:767
+#: ../calendar/gui/e-meeting-store.c:135 ../calendar/gui/e-meeting-store.c:152
+#: ../calendar/gui/e-meeting-store.c:758
 msgid "Required Participant"
 msgstr "Beharrezko partaidea"
 
 #: ../calendar/gui/e-meeting-list-view.c:181
-#: ../calendar/gui/e-meeting-store.c:139 ../calendar/gui/e-meeting-store.c:156
+#: ../calendar/gui/e-meeting-store.c:137 ../calendar/gui/e-meeting-store.c:154
 msgid "Optional Participant"
 msgstr "Aukerako partaidea"
 
 #: ../calendar/gui/e-meeting-list-view.c:182
-#: ../calendar/gui/e-meeting-store.c:141 ../calendar/gui/e-meeting-store.c:158
+#: ../calendar/gui/e-meeting-store.c:139 ../calendar/gui/e-meeting-store.c:156
 msgid "Non-Participant"
 msgstr "Ez-partaidea"
 
 #: ../calendar/gui/e-meeting-list-view.c:204
-#: ../calendar/gui/e-meeting-store.c:185 ../calendar/gui/e-meeting-store.c:208
-#: ../calendar/gui/e-meeting-store.c:777
+#: ../calendar/gui/e-meeting-store.c:183 ../calendar/gui/e-meeting-store.c:206
+#: ../calendar/gui/e-meeting-store.c:768
 msgid "Needs Action"
 msgstr "Ekintza behar du"
 
 #: ../calendar/gui/e-meeting-list-view.c:207
-#: ../calendar/gui/e-meeting-store.c:191 ../calendar/gui/e-meeting-store.c:214
+#: ../calendar/gui/e-meeting-store.c:189 ../calendar/gui/e-meeting-store.c:212
 #: ../calendar/gui/e-meeting-time-sel.c:410
 msgid "Tentative"
 msgstr "Behin-behinekoa"
 
 #: ../calendar/gui/e-meeting-list-view.c:208
-#: ../calendar/gui/e-meeting-store.c:193 ../calendar/gui/e-meeting-store.c:216
+#: ../calendar/gui/e-meeting-store.c:191 ../calendar/gui/e-meeting-store.c:214
 #: ../calendar/gui/itip-utils.c:678
 #: ../plugins/itip-formatter/itip-formatter.c:1648
 msgid "Delegated"
 msgstr "Delegatua"
 
 #. The extra space is just a hack to occupy more space for Attendee
-#: ../calendar/gui/e-meeting-list-view.c:464
+#: ../calendar/gui/e-meeting-list-view.c:470
 msgid "Attendee                          "
 msgstr "Partaidea                         "
 
-#: ../calendar/gui/e-meeting-store.c:197 ../calendar/gui/e-meeting-store.c:220
+#: ../calendar/gui/e-meeting-store.c:195 ../calendar/gui/e-meeting-store.c:218
 msgid "In Process"
 msgstr "Egiten ari da"
 
 #. This is a strftime() format string %A = full weekday name,
 #. %B = full month name, %d = month day, %Y = full year.
 #: ../calendar/gui/e-meeting-time-sel-item.c:442
-#: ../calendar/gui/e-meeting-time-sel.c:2098
+#: ../calendar/gui/e-meeting-time-sel.c:2100
 msgid "%A, %B %d, %Y"
 msgstr "%A, %Y.eko %Bren %da"
 
@@ -7835,7 +7744,7 @@ msgstr "%A, %Y.eko %Bren %da"
 #. This is a strftime() format string %a = abbreviated weekday name,
 #. %m = month number, %d = month day, %Y = full year.
 #: ../calendar/gui/e-meeting-time-sel-item.c:446
-#: ../calendar/gui/e-meeting-time-sel.c:2131
+#: ../calendar/gui/e-meeting-time-sel.c:2133
 msgid "%a %m/%d/%Y"
 msgstr "%a, %Y/%m/%d"
 
@@ -7921,7 +7830,7 @@ msgstr "Egin klik zirkularra gehitzeko"
 msgid "Memo sort"
 msgstr "Zirkularren ordena"
 
-#: ../calendar/gui/e-memos.c:724 ../calendar/gui/e-tasks.c:818
+#: ../calendar/gui/e-memos.c:724 ../calendar/gui/e-tasks.c:836
 #: ../calendar/gui/gnome-cal.c:2557
 #, c-format
 msgid ""
@@ -7940,7 +7849,7 @@ msgstr "Zirkularrak kargatzen"
 msgid "Opening memos at %s"
 msgstr "%s - zirkularrak irekitzen"
 
-#: ../calendar/gui/e-memos.c:1026 ../calendar/gui/e-tasks.c:1221
+#: ../calendar/gui/e-memos.c:1026 ../calendar/gui/e-tasks.c:1239
 msgid "Deleting selected objects..."
 msgstr "Hautatutako objektuak ezabatzen..."
 
@@ -7949,20 +7858,20 @@ msgstr "Hautatutako objektuak ezabatzen..."
 msgid "Enter the password for %s"
 msgstr "Idatzi %s(r)en pasahitza"
 
-#: ../calendar/gui/e-tasks.c:866
+#: ../calendar/gui/e-tasks.c:884
 msgid "Loading tasks"
 msgstr "Zereginak kargatzen"
 
-#: ../calendar/gui/e-tasks.c:953
+#: ../calendar/gui/e-tasks.c:971
 #, c-format
 msgid "Opening tasks at %s"
 msgstr "%s - zereginak irekitzen"
 
-#: ../calendar/gui/e-tasks.c:1198
+#: ../calendar/gui/e-tasks.c:1216
 msgid "Completing tasks..."
 msgstr "Zereginak egiten..."
 
-#: ../calendar/gui/e-tasks.c:1248
+#: ../calendar/gui/e-tasks.c:1266
 msgid "Expunging"
 msgstr "Betiko borratzen"
 
@@ -8161,8 +8070,7 @@ msgstr "Huts egin du zirkularrak bertsio-berritzean."
 #: ../calendar/gui/memos-component.c:871
 #, c-format
 msgid "Unable to open the memo list '%s' for creating events and meetings"
-msgstr ""
-"Ezin izan da '%s' zirkularren zerrenda ireki gertaerak eta bilerak sortzeko"
+msgstr "Ezin izan da '%s' zirkularren zerrenda ireki gertaerak eta bilerak sortzeko"
 
 #: ../calendar/gui/memos-component.c:884
 msgid "There is no calendar available for creating memos"
@@ -8238,12 +8146,6 @@ msgstr "Ezin da `%s' egutegia migratu"
 #, c-format
 msgid "Unable to migrate tasks `%s'"
 msgstr "Ezin dira `%s' zereginak migratu"
-
-#. Can't be zero
-#: ../calendar/gui/misc.c:105
-#, c-format
-msgid "(%d seconds)"
-msgstr "(%d segundo)"
 
 #: ../calendar/gui/print.c:493
 msgid "1st"
@@ -8500,8 +8402,7 @@ msgstr "Huts egin du zereginak bertsio-berritzean."
 #: ../calendar/gui/tasks-component.c:877
 #, c-format
 msgid "Unable to open the task list '%s' for creating events and meetings"
-msgstr ""
-"Ezin izan da '%s' zereginen zerrenda ireki gertaerak eta bilerak sortzeko"
+msgstr "Ezin izan da '%s' zereginen zerrenda ireki gertaerak eta bilerak sortzeko"
 
 #: ../calendar/gui/tasks-component.c:890
 msgid "There is no calendar available for creating tasks"
@@ -10154,7 +10055,7 @@ msgid "%.0fG"
 msgstr "%.0fG"
 
 #: ../composer/e-msg-composer-attachment-bar.c:740
-#: ../widgets/misc/e-attachment-bar.c:986
+#: ../widgets/misc/e-attachment-bar.c:988
 msgid "Attachment Bar"
 msgstr "Eranskin-barra"
 
@@ -10264,8 +10165,7 @@ msgid "Insert Attachment"
 msgstr "Txertatu eranskina"
 
 #: ../composer/e-msg-composer.c:828
-msgid ""
-"Cannot sign outgoing message: No signing certificate set for this account"
+msgid "Cannot sign outgoing message: No signing certificate set for this account"
 msgstr ""
 "Ezin da sinatu irteerako mezua: ez dago sinadura-ziurtagiririk kontu "
 "honentzat"
@@ -10351,11 +10251,10 @@ msgstr ""
 
 #: ../composer/mail-composer.error.xml.h:4
 msgid "Because &quot;{0}&quot;, you may need to select different mail options."
-msgstr ""
-"&quot;{0}&quot; dela eta beste posta-aukera batzuk hautatu beharko dituzu"
+msgstr "&quot;{0}&quot; dela eta beste posta-aukera batzuk hautatu beharko dituzu"
 
 #: ../composer/mail-composer.error.xml.h:5 ../e-util/e-system.error.xml.h:1
-#: ../mail/mail.error.xml.h:19
+#: ../mail/mail.error.xml.h:18
 msgid "Because &quot;{1}&quot;."
 msgstr "Arrazoia: &quot;{1}&quot;."
 
@@ -10415,8 +10314,7 @@ msgstr ""
 
 #: ../composer/mail-composer.error.xml.h:17
 msgid "The file `{0}' is not a regular file and cannot be sent in a message."
-msgstr ""
-"'{0}' fitxategia ez da fitxategi arrunta eta ezin da mezu batean bidali."
+msgstr "'{0}' fitxategia ez da fitxategi arrunta eta ezin da mezu batean bidali."
 
 #: ../composer/mail-composer.error.xml.h:18
 msgid ""
@@ -10472,11 +10370,11 @@ msgstr "_Gorde mezua"
 
 #: ../data/evolution.desktop.in.in.h:1
 #: ../plugins/default-mailer/org-gnome-default-mailer.error.xml.h:2
-#: ../shell/main.c:514
+#: ../shell/main.c:515
 msgid "Evolution"
 msgstr "Evolution"
 
-#: ../data/evolution.desktop.in.in.h:2 ../shell/e-shell-window-commands.c:544
+#: ../data/evolution.desktop.in.in.h:2 ../shell/e-shell-window-commands.c:575
 msgid "Groupware Suite"
 msgstr "Talde-lanerako suitea"
 
@@ -10646,7 +10544,7 @@ msgstr "Gainidatzi nahi duzu?"
 msgid "File exists &quot;{0}&quot;."
 msgstr "&quot;{0}&quot; fitxategia badago lehendik."
 
-#: ../e-util/e-system.error.xml.h:7 ../mail/mail.error.xml.h:133
+#: ../e-util/e-system.error.xml.h:7 ../mail/mail.error.xml.h:129
 msgid "_Overwrite"
 msgstr "_Gainidatzi"
 
@@ -10814,7 +10712,7 @@ msgstr "Data falta da."
 msgid "Missing file name."
 msgstr "Fitxategi-izena falta da."
 
-#: ../filter/filter.error.xml.h:6 ../mail/mail.error.xml.h:71
+#: ../filter/filter.error.xml.h:6 ../mail/mail.error.xml.h:70
 msgid "Missing name."
 msgstr "Izena falta da."
 
@@ -10886,6 +10784,10 @@ msgstr "lehenago"
 msgid "months"
 msgstr "hilabete"
 
+#: ../filter/filter.glade.h:18 ../mail/mail-config.glade.h:178
+msgid "seconds"
+msgstr "segundo igarotakoan"
+
 #: ../filter/filter.glade.h:19
 msgid "the current time"
 msgstr "uneko ordua"
@@ -10915,16 +10817,14 @@ msgid "Composer Preferences"
 msgstr "Mezuak prestatzeko hobespenak"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:2
-msgid ""
-"Configure mail preferences, including security and message display, here"
+msgid "Configure mail preferences, including security and message display, here"
 msgstr ""
 "Konfiguratu hemen posta-hobespenak, segurtasuna eta mezu-bistaratzea, "
 "besteak beste."
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:3
 msgid "Configure spell-checking, signatures, and the message composer here"
-msgstr ""
-"Konfiguratu hemen ortografia-egiaztatzailea, sinadurak eta mezu-prestatzailea"
+msgstr "Konfiguratu hemen ortografia-egiaztatzailea, sinadurak eta mezu-prestatzailea"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:4
 msgid "Configure your email accounts here"
@@ -11065,7 +10965,7 @@ msgstr "[lehenetsia]"
 #. g_object_set((GObject *)renderer, "activatable", TRUE, NULL);
 #: ../mail/em-account-prefs.c:518 ../mail/em-composer-prefs.c:930
 #: ../plugins/plugin-manager/plugin-manager.c:205
-#: ../plugins/publish-calendar/publish-calendar.c:474
+#: ../plugins/publish-calendar/publish-calendar.c:493
 msgid "Enabled"
 msgstr "Gaituta"
 
@@ -11094,7 +10994,7 @@ msgstr "Gehitu sinaduraren script-a"
 msgid "Signature(s)"
 msgstr "Sinadura(k)"
 
-#: ../mail/em-composer-utils.c:873 ../mail/em-format-quote.c:389
+#: ../mail/em-composer-utils.c:874 ../mail/em-format-quote.c:389
 msgid "-------- Forwarded Message --------"
 msgstr "-------- Birbidalitako mezua --------"
 
@@ -11429,7 +11329,7 @@ msgstr "Zirriborroa"
 
 #. translators: standard local mailbox names
 #: ../mail/em-folder-tree-model.c:487 ../mail/mail-component.c:150
-#: ../plugins/exchange-operations/exchange-folder.c:597
+#: ../plugins/exchange-operations/exchange-folder.c:598
 msgid "Inbox"
 msgstr "Sarrerako ontzia"
 
@@ -11515,7 +11415,7 @@ msgstr "Kar_peta berria..."
 msgid "_Rename..."
 msgstr "Izena _aldatu..."
 
-#: ../mail/em-folder-tree.c:2060 ../mail/mail.error.xml.h:130
+#: ../mail/em-folder-tree.c:2060 ../mail/mail.error.xml.h:126
 msgid "_Empty Trash"
 msgstr "Hustu _zakarrontzia"
 
@@ -11658,37 +11558,37 @@ msgid "Filter on _Mailing List"
 msgstr "Po_sta-zerrendaren araberako iragazkia"
 
 #. default charset used in mail view
-#: ../mail/em-folder-view.c:1968 ../mail/em-folder-view.c:2012
+#: ../mail/em-folder-view.c:1967 ../mail/em-folder-view.c:2011
 msgid "Default"
 msgstr "Lehenetsia"
 
-#: ../mail/em-folder-view.c:2111
+#: ../mail/em-folder-view.c:2110
 #: ../plugins/print-message/org-gnome-print-message.eplug.xml.h:2
 #: ../plugins/print-message/print-message.c:87
 msgid "Print Message"
 msgstr "Inprimatu mezua"
 
-#: ../mail/em-folder-view.c:2267
+#: ../mail/em-folder-view.c:2266
 msgid "Unable to retrieve message"
 msgstr "Ezin da mezua eskuratu"
 
-#: ../mail/em-folder-view.c:2460
+#: ../mail/em-folder-view.c:2459
 msgid "_Copy Link Location"
 msgstr "_Kopiatu estekaren helbidea"
 
-#: ../mail/em-folder-view.c:2462
+#: ../mail/em-folder-view.c:2461
 msgid "Create _Search Folder"
 msgstr "Sortu _bilaketa-karpeta"
 
-#: ../mail/em-folder-view.c:2463
+#: ../mail/em-folder-view.c:2462
 msgid "_From this Address"
 msgstr "_Helbidetik"
 
-#: ../mail/em-folder-view.c:2464
+#: ../mail/em-folder-view.c:2463
 msgid "_To this Address"
 msgstr "_Helbidera"
 
-#: ../mail/em-folder-view.c:2818
+#: ../mail/em-folder-view.c:2817
 #, c-format
 msgid "Click to mail %s"
 msgstr "Egin klik %s bidaltzeko"
@@ -11803,64 +11703,64 @@ msgstr "_Ikusi ziurtagiria"
 msgid "This certificate is not viewable"
 msgstr "Ziurtagiri hau ez da ikusteko modukoa"
 
-#: ../mail/em-format-html-display.c:1172
+#: ../mail/em-format-html-display.c:1174
 msgid "Completed on %B %d, %Y, %l:%M %p"
 msgstr "Osatua: %Y %B %d, %l:%M %p"
 
-#: ../mail/em-format-html-display.c:1180
+#: ../mail/em-format-html-display.c:1182
 msgid "Overdue:"
 msgstr "Atzeratua:"
 
-#: ../mail/em-format-html-display.c:1183
+#: ../mail/em-format-html-display.c:1185
 msgid "by %B %d, %Y, %l:%M %p"
 msgstr " - %Y %B %d, %l:%M %p"
 
-#: ../mail/em-format-html-display.c:1243
+#: ../mail/em-format-html-display.c:1245
 msgid "_View Inline"
 msgstr "_Ikusi barnean"
 
-#: ../mail/em-format-html-display.c:1244
+#: ../mail/em-format-html-display.c:1246
 msgid "_Hide"
 msgstr "E_zkutatu"
 
-#: ../mail/em-format-html-display.c:1245
+#: ../mail/em-format-html-display.c:1247
 msgid "_Fit to Width"
 msgstr "_Doitu zabalera"
 
-#: ../mail/em-format-html-display.c:1246
+#: ../mail/em-format-html-display.c:1248
 msgid "Show _Original Size"
 msgstr "Erakutsi jatorrizko ta_maina"
 
-#: ../mail/em-format-html-display.c:1665 ../mail/mail-config.glade.h:45
+#: ../mail/em-format-html-display.c:1667 ../mail/mail-config.glade.h:45
 #: ../mail/message-list.etspec.h:1
 msgid "Attachment"
 msgstr "Eranskina"
 
-#: ../mail/em-format-html-display.c:1872
+#: ../mail/em-format-html-display.c:1874
 msgid "Select folder to save all attachments..."
 msgstr "Hautatu karpeta eranskin guztiak gordetzeko..."
 
-#: ../mail/em-format-html-display.c:1919
+#: ../mail/em-format-html-display.c:1921
 msgid "_Save Selected..."
 msgstr "_Gorde hautatutakoa..."
 
 #. Cant i put in the number of attachments here ?
-#: ../mail/em-format-html-display.c:1986
+#: ../mail/em-format-html-display.c:1988
 #, c-format
 msgid "%d attachme_nt"
 msgid_plural "%d attachme_nts"
 msgstr[0] "_Eranskin %d"
 msgstr[1] "%d _eranskin"
 
-#: ../mail/em-format-html-display.c:1993 ../mail/em-format-html-display.c:2069
+#: ../mail/em-format-html-display.c:1995 ../mail/em-format-html-display.c:2071
 msgid "S_ave"
 msgstr "_Gorde"
 
-#: ../mail/em-format-html-display.c:2004
+#: ../mail/em-format-html-display.c:2006
 msgid "S_ave All"
 msgstr "Gorde _denak"
 
-#: ../mail/em-format-html-display.c:2065
+#: ../mail/em-format-html-display.c:2067
 msgid "No Attachment"
 msgstr "Eranskinik ez"
 
@@ -11971,7 +11871,7 @@ msgstr "Berri-taldeak"
 msgid "%s attachment"
 msgstr "%s eranskina"
 
-#: ../mail/em-format.c:1141 ../mail/em-format.c:1289 ../mail/em-format.c:1576
+#: ../mail/em-format.c:1141 ../mail/em-format.c:1289 ../mail/em-format.c:1591
 msgid "Could not parse S/MIME message: Unknown error"
 msgstr "Ezin izan da S/MIME mezua analizatu: errore ezezaguna"
 
@@ -11987,11 +11887,11 @@ msgstr "Enkriptatze-mota ez onartua multipart/enkriptatuarentzat"
 msgid "Unsupported signature format"
 msgstr "Sinadura-formatu ez onartua"
 
-#: ../mail/em-format.c:1454 ../mail/em-format.c:1518
+#: ../mail/em-format.c:1454 ../mail/em-format.c:1520
 msgid "Error verifying signature"
 msgstr "Errorea sinadura egiaztatzean"
 
-#: ../mail/em-format.c:1454 ../mail/em-format.c:1518
+#: ../mail/em-format.c:1454 ../mail/em-format.c:1520
 msgid "Unknown error verifying signature"
 msgstr "Errore ezezaguna sinadura egiaztatzean"
 
@@ -12094,8 +11994,7 @@ msgstr "_Gehitu helbide-liburuan"
 
 #: ../mail/em-subscribe-editor.c:615
 msgid "This store does not support subscriptions, or they are not enabled."
-msgstr ""
-"Biltegi honek ez du onartzen harpidetzarik, edo, bestela, desgaituta daude."
+msgstr "Biltegi honek ez du onartzen harpidetzarik, edo, bestela, desgaituta daude."
 
 #: ../mail/em-subscribe-editor.c:644
 msgid "Subscribed"
@@ -12122,20 +12021,20 @@ msgstr "Ez erakutsi mezu hau berriro."
 msgid "Message Filters"
 msgstr "Posta-iragazkiak"
 
-#: ../mail/em-utils.c:462 ../mail/em-utils.c:499
+#: ../mail/em-utils.c:496 ../mail/em-utils.c:533
 msgid "message"
 msgstr "mezua"
 
-#: ../mail/em-utils.c:634
+#: ../mail/em-utils.c:668
 msgid "Save Message..."
 msgstr "Gorde mezua..."
 
-#: ../mail/em-utils.c:683
+#: ../mail/em-utils.c:717
 msgid "Add address"
 msgstr "Gehitu helbidea"
 
 #. Drop filename for messages from a mailbox
-#: ../mail/em-utils.c:1167
+#: ../mail/em-utils.c:1201
 #, c-format
 msgid "Messages from %s"
 msgstr "Mezu-bidaltzailea: %s"
@@ -12309,8 +12208,7 @@ msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.in.h:36
 msgid "List of mime types to check for bonobo component viewers"
-msgstr ""
-"Bonobo osagaien ikustaileentzat egiaztatu beharreko mime-moten zerrenda"
+msgstr "Bonobo osagaien ikustaileentzat egiaztatu beharreko mime-moten zerrenda"
 
 #: ../mail/evolution-mail.schemas.in.in.h:37
 msgid "List of protocol names whose license has been accepted."
@@ -12372,8 +12270,7 @@ msgstr "Mezuen leihoaren zabalera lehenetsia"
 
 #: ../mail/evolution-mail.schemas.in.in.h:50
 msgid "Message-display style (\"normal\", \"full headers\", \"source\")"
-msgstr ""
-"Mezuak bistaratzeko estiloa (\"normala\", \"goiburu osoak\", \"iturburua\")"
+msgstr "Mezuak bistaratzeko estiloa (\"normala\", \"goiburu osoak\", \"iturburua\")"
 
 #: ../mail/evolution-mail.schemas.in.in.h:51
 msgid "Minimum days between emptying the trash on exit"
@@ -12400,10 +12297,8 @@ msgid "Prompt the user when he or she tries to expunge a folder."
 msgstr "Abisatu erabiltzaileari, karpeta bat betiko borratu aurretik."
 
 #: ../mail/evolution-mail.schemas.in.in.h:57
-msgid ""
-"Prompt the user when he or she tries to send a message without a Subject."
-msgstr ""
-"Abisatu erabiltzaileari, mezu bat gairik gabe bidaltzen saiatzen denean."
+msgid "Prompt the user when he or she tries to send a message without a Subject."
+msgstr "Abisatu erabiltzaileari, mezu bat gairik gabe bidaltzen saiatzen denean."
 
 #: ../mail/evolution-mail.schemas.in.in.h:58
 msgid "Prompt when user expunges"
@@ -12415,8 +12310,7 @@ msgstr "Abisatu erabiltzaileak Bcc bakarrik betetzen duenean"
 
 #: ../mail/evolution-mail.schemas.in.in.h:60
 msgid "Prompt when user tries to open 10 or more messages at once"
-msgstr ""
-"Abisatu erabiltzaileak 10 mezu edo gehiago aldi berean irekitzen saiatzean"
+msgstr "Abisatu erabiltzaileak 10 mezu edo gehiago aldi berean irekitzen saiatzean"
 
 #: ../mail/evolution-mail.schemas.in.in.h:61
 msgid ""
@@ -12496,8 +12390,7 @@ msgstr "Terminaleko letra-tipoa"
 
 #: ../mail/evolution-mail.schemas.in.in.h:81
 msgid "The last time empty trash was run, in days since the epoch."
-msgstr ""
-"Zakarrontzia hustu zen azken aldia, Garaiaren hasieratik iragandako egunetan."
+msgstr "Zakarrontzia hustu zen azken aldia, Garaiaren hasieratik iragandako egunetan."
 
 #: ../mail/evolution-mail.schemas.in.in.h:82
 msgid "The terminal font for mail display"
@@ -13393,8 +13286,7 @@ msgstr "_Mota:"
 msgid ""
 "The list of languages here reflects only the languages for which you have a "
 "dictionary installed."
-msgstr ""
-"Hiztegia instalatuta daukaten hizkuntzak bakarrik azaltzen dira zerrendan."
+msgstr "Hiztegia instalatuta daukaten hizkuntzak bakarrik azaltzen dira zerrendan."
 
 #: ../mail/mail-config.glade.h:143
 msgid ""
@@ -13895,8 +13787,7 @@ msgid "New Search Folder"
 msgstr "Bilaketa berrien karpeta"
 
 #: ../mail/mail.error.xml.h:1
-msgid ""
-"A folder named &quot;{1}&quot; already exists. Please use a different name."
+msgid "A folder named &quot;{1}&quot; already exists. Please use a different name."
 msgstr "&quot;{1}&quot; izeneko karpeta bat badago. Erabili beste izen bat."
 
 #: ../mail/mail.error.xml.h:2
@@ -13904,14 +13795,14 @@ msgid ""
 "A non-empty folder at &quot;{1}&quot; already exists.\n"
 "\n"
 "You can choose to ignore this folder, overwrite or append its contents, or "
-"quit.\n"
+"quit."
 msgstr ""
 "Hutsik ez dagoen &quot;{1}&quot; karpeta badago lehendik.\n"
 "\n"
 "Karpeta honi ez ikusi egitea aukera dezakezu, gainidaztea, bere edukia "
-"eranstea edo irtetzea aukera dezakezu.\n"
+"eranstea edo irtetzea aukera dezakezu."
 
-#: ../mail/mail.error.xml.h:6
+#: ../mail/mail.error.xml.h:5
 msgid ""
 "A read receipt notification has been requested for &quot;{1}&quot;. Send the "
 "receipt notification to {0}?"
@@ -13919,13 +13810,13 @@ msgstr ""
 "&quot;{1}&quot;(e)k irakurragiria eskatu duen jakinarazpena. Bidali  "
 "irakurragiriaren jakinarazpena {0}(r)i?"
 
-#: ../mail/mail.error.xml.h:7
+#: ../mail/mail.error.xml.h:6
 msgid ""
 "A signature already exists with the name &quot;{0}&quot;. Please specify a "
 "different name."
 msgstr "&quot;{0}&quot; izeneko karpeta bat badago. Erabili beste izen bat."
 
-#: ../mail/mail.error.xml.h:8
+#: ../mail/mail.error.xml.h:7
 msgid ""
 "Adding a meaningful Subject line to your messages will give your recipients "
 "an idea of what your mail is about."
@@ -13933,24 +13824,23 @@ msgstr ""
 "Mezuaren Gaian lerro esanguratsu bat idaztean jasotzaileei zure mezuaren "
 "edukiari buruz argibideak ematen diezu."
 
-#: ../mail/mail.error.xml.h:9
+#: ../mail/mail.error.xml.h:8
 msgid "Are you sure you want to delete this account and all its proxies?"
 msgstr "Ziur zaude kontu hau eta dagokion proxy guztiak ezabatu nahi duzula?"
 
-#: ../mail/mail.error.xml.h:10
+#: ../mail/mail.error.xml.h:9
 msgid "Are you sure you want to delete this account?"
 msgstr "Ziur zaude kontu hau ezabatu nahi duzula?"
 
-#: ../mail/mail.error.xml.h:11
-msgid ""
-"Are you sure you want to disable this account and delete all its proxies?"
+#: ../mail/mail.error.xml.h:10
+msgid "Are you sure you want to disable this account and delete all its proxies?"
 msgstr "Ziur zaude kontu hau eta dagokion proxy guztiak ezabatu nahi duzula?"
 
-#: ../mail/mail.error.xml.h:12
+#: ../mail/mail.error.xml.h:11
 msgid "Are you sure you want to open {0} messages at once?"
 msgstr "Ziur zaude {0} mezuak aldi berean irekitzea nahi dituzula?"
 
-#: ../mail/mail.error.xml.h:13
+#: ../mail/mail.error.xml.h:12
 msgid ""
 "Are you sure you want to permanently remove all the deleted messages in all "
 "folders?"
@@ -13958,7 +13848,7 @@ msgstr ""
 "Ziur zaude karpeta guztietako ezabatutako mezu guztiak betiko kendu nahi "
 "dituzula?"
 
-#: ../mail/mail.error.xml.h:14
+#: ../mail/mail.error.xml.h:13
 msgid ""
 "Are you sure you want to permanently remove all the deleted messages in "
 "folder &quot;{0}&quot;?"
@@ -13966,80 +13856,79 @@ msgstr ""
 "Ziur zaude &quot;{0}&quot; karpetan dauden ezabatutako mezuak betiko kendu "
 "nahi dituzula?"
 
-#: ../mail/mail.error.xml.h:15
+#: ../mail/mail.error.xml.h:14
 msgid "Are you sure you want to send a message in HTML format?"
 msgstr "Ziur zaude mezua HTML formatuan bidali nahi duzula?"
 
-#: ../mail/mail.error.xml.h:16
+#: ../mail/mail.error.xml.h:15
 msgid "Are you sure you want to send a message with only BCC recipients?"
 msgstr "Ziur zaude mezua BCC hartzaileekin bakarrik bidali nahi duzula?"
 
-#: ../mail/mail.error.xml.h:17
+#: ../mail/mail.error.xml.h:16
 msgid "Are you sure you want to send a message without a subject?"
 msgstr "Ziur zaude mezua gairik gabe bidali nahi duzula?"
 
-#: ../mail/mail.error.xml.h:18
+#: ../mail/mail.error.xml.h:17
 msgid "Because &quot;{0}&quot;."
 msgstr "Arrazoia: &quot;{0}&quot;."
 
-#: ../mail/mail.error.xml.h:20
+#: ../mail/mail.error.xml.h:19
 msgid "Because &quot;{2}&quot;."
 msgstr "Arrazoia: &quot;{2}&quot;."
 
-#: ../mail/mail.error.xml.h:21
+#: ../mail/mail.error.xml.h:20
 msgid "Blank Signature"
 msgstr "Sinadura hutsa"
 
-#: ../mail/mail.error.xml.h:22
+#: ../mail/mail.error.xml.h:21
 msgid "Cannot add Search Folder &quot;{0}&quot;."
 msgstr "Ezin da &quot;{0}&quot; karpeta birtuala gehitu"
 
-#: ../mail/mail.error.xml.h:23
+#: ../mail/mail.error.xml.h:22
 msgid "Cannot copy folder &quot;{0}&quot; to &quot;{1}&quot;."
 msgstr "Ezin da &quot;{0}&quot; karpeta &quot;{1}&quot;(e)n kopiatu."
 
-#: ../mail/mail.error.xml.h:24
+#: ../mail/mail.error.xml.h:23
 msgid "Cannot create folder &quot;{0}&quot;."
 msgstr "Ezin da &quot;{0}&quot; karpeta sortu."
 
-#: ../mail/mail.error.xml.h:25
+#: ../mail/mail.error.xml.h:24
 msgid "Cannot create temporary save directory."
 msgstr "Ezin da sortu aldi baterako gordetzeko direktorioa."
 
-#: ../mail/mail.error.xml.h:26
+#: ../mail/mail.error.xml.h:25
 msgid "Cannot create the save directory, because &quot;{1}&quot;"
 msgstr "Ezin izan da direktorioan gorde. Arrazoia: &quot;{1}&quot;"
 
-#: ../mail/mail.error.xml.h:27
+#: ../mail/mail.error.xml.h:26
 msgid "Cannot delete folder &quot;{0}&quot;."
 msgstr "Ezin da &quot;{0}&quot; karpeta ezabatu."
 
-#: ../mail/mail.error.xml.h:28
+#: ../mail/mail.error.xml.h:27
 msgid "Cannot delete system folder &quot;{0}&quot;."
 msgstr "Ezin da &quot;{0}&quot; karpeta ezabatu."
 
-#: ../mail/mail.error.xml.h:29
+#: ../mail/mail.error.xml.h:28
 msgid "Cannot edit Search Folder &quot;{0}&quot; as it does not exist."
-msgstr ""
-"Ezin da &quot;{0}&quot; karpeta birtuala editatu, karpeta hori ez dagoelako."
+msgstr "Ezin da &quot;{0}&quot; karpeta birtuala editatu, karpeta hori ez dagoelako."
 
-#: ../mail/mail.error.xml.h:30
+#: ../mail/mail.error.xml.h:29
 msgid "Cannot move folder &quot;{0}&quot; to &quot;{1}&quot;."
 msgstr "Ezin da &quot;{0}&quot; karpeta &quot;{1}&quot;(e)ra eraman."
 
-#: ../mail/mail.error.xml.h:31
+#: ../mail/mail.error.xml.h:30
 msgid "Cannot open source &quot;{1}&quot;"
 msgstr "Ezin da ireki &quot;{1}&quot; iturburua."
 
-#: ../mail/mail.error.xml.h:32
+#: ../mail/mail.error.xml.h:31
 msgid "Cannot open source &quot;{2}&quot;."
 msgstr "Ezin da ireki &quot;{2}&quot; iturburua."
 
-#: ../mail/mail.error.xml.h:33
+#: ../mail/mail.error.xml.h:32
 msgid "Cannot open target &quot;{2}&quot;."
 msgstr "Ezin da ireki &quot;{2}&quot; helburua."
 
-#: ../mail/mail.error.xml.h:34
+#: ../mail/mail.error.xml.h:33
 msgid ""
 "Cannot read the license file &quot;{0}&quot;, due to an installation "
 "problem. You will not be able to use this provider until you can accept its "
@@ -14048,31 +13937,31 @@ msgstr ""
 "Ezin da &quot;{0}&quot; lizentzia-fitxategia irakurri instalazioko arazoa "
 "dela medio. Ezingo duzu hornitzaile hau erabili bere lizentzia onartu arte."
 
-#: ../mail/mail.error.xml.h:35
+#: ../mail/mail.error.xml.h:34
 msgid "Cannot rename &quot;{0}&quot; to &quot;{1}&quot;."
 msgstr "Ezin da izena aldatu: &quot;{0}&quot; --> &quot;{1}&quot;."
 
-#: ../mail/mail.error.xml.h:36
+#: ../mail/mail.error.xml.h:35
 msgid "Cannot rename or move system folder &quot;{0}&quot;."
 msgstr "Ezin da sistemako &quot;{0}&quot; karpeta izenez edo lekuz aldatu."
 
-#: ../mail/mail.error.xml.h:37
+#: ../mail/mail.error.xml.h:36
 msgid "Cannot save changes to account."
 msgstr "Ezin dira gorde kontuko aldaketak."
 
-#: ../mail/mail.error.xml.h:38
+#: ../mail/mail.error.xml.h:37
 msgid "Cannot save to directory &quot;{0}&quot;."
 msgstr "Ezin izan da &quot;{0}&quot; direktorioan gorde."
 
-#: ../mail/mail.error.xml.h:39
+#: ../mail/mail.error.xml.h:38
 msgid "Cannot save to file &quot;{0}&quot;."
 msgstr "Ezin izan da &quot;{0}&quot; fitxategian gorde."
 
-#: ../mail/mail.error.xml.h:40
+#: ../mail/mail.error.xml.h:39
 msgid "Cannot set signature script &quot;{0}&quot;."
 msgstr "Ezin da sinaduraren &quot;{0}&quot; script-a ezarri."
 
-#: ../mail/mail.error.xml.h:41
+#: ../mail/mail.error.xml.h:40
 msgid ""
 "Check to make sure your password is spelled correctly. Remember that many "
 "passwords are case sensitive; your caps lock might be on."
@@ -14081,71 +13970,71 @@ msgstr ""
 "maiuskulaz eta minuskulaz ezberdinak izaten direla. Agian maiuskulak "
 "aktibatuta dituzu."
 
-#: ../mail/mail.error.xml.h:42
+#: ../mail/mail.error.xml.h:41
 msgid "Could not save signature file."
 msgstr "Ezin izan da sinadura-fitxategia gorde."
 
-#: ../mail/mail.error.xml.h:43
+#: ../mail/mail.error.xml.h:42
 msgid "Delete &quot;{0}&quot;?"
 msgstr "Ezabatu &quot;{0}&quot;?"
 
-#: ../mail/mail.error.xml.h:44
+#: ../mail/mail.error.xml.h:43
 msgid "Delete account?"
 msgstr "Kontua ezabatu nahi duzu?"
 
-#: ../mail/mail.error.xml.h:45
+#: ../mail/mail.error.xml.h:44
 msgid "Discard changes?"
 msgstr "Desegin aldaketak?"
 
-#: ../mail/mail.error.xml.h:46
+#: ../mail/mail.error.xml.h:45
 msgid "Do not delete"
 msgstr "Ez ezabatu"
 
-#: ../mail/mail.error.xml.h:47
+#: ../mail/mail.error.xml.h:46
 msgid "Do not disable"
 msgstr "Ez desgaitu"
 
-#: ../mail/mail.error.xml.h:48
+#: ../mail/mail.error.xml.h:47
 msgid "Do you want the operation to be performed in the subfolders?"
 msgstr "Eragiketa hau azpidirektorioetan egitea nahi duzu?"
 
-#: ../mail/mail.error.xml.h:49
+#: ../mail/mail.error.xml.h:48
 msgid "Do you want to mark all messages as read?"
 msgstr "Mezu guztiak irakurritako gisa markatzea nahi dituzu?"
 
-#: ../mail/mail.error.xml.h:50
+#: ../mail/mail.error.xml.h:49
 msgid "Do you wish to save your changes?"
 msgstr "Aldaketak gorde nahi dituzu?"
 
-#: ../mail/mail.error.xml.h:51
+#: ../mail/mail.error.xml.h:50
 msgid "Enter password."
 msgstr "Idatzi pasahitza."
 
-#: ../mail/mail.error.xml.h:52
+#: ../mail/mail.error.xml.h:51
 msgid "Error loading filter definitions."
 msgstr "Errorea iragazki-definizioak kargatzean."
 
-#: ../mail/mail.error.xml.h:53
+#: ../mail/mail.error.xml.h:52
 msgid "Error while performing operation."
 msgstr "Errorea eragiketa egitean."
 
-#: ../mail/mail.error.xml.h:54
+#: ../mail/mail.error.xml.h:53
 msgid "Error while {0}."
 msgstr "Errorea: {0}."
 
-#: ../mail/mail.error.xml.h:55
+#: ../mail/mail.error.xml.h:54
 msgid "File exists but cannot overwrite it."
 msgstr "Fitxategia badago, baina ezin da gainidatzi."
 
-#: ../mail/mail.error.xml.h:56
+#: ../mail/mail.error.xml.h:55
 msgid "File exists but is not a regular file."
 msgstr "Fitxategia badago, baina ez da fitxategi erregularra."
 
-#: ../mail/mail.error.xml.h:57
+#: ../mail/mail.error.xml.h:56
 msgid "If you continue, you will not be able to recover these messages."
 msgstr "Jarraitzen baduzu, ezingo dituzu mezu hauek berreskuratu."
 
-#: ../mail/mail.error.xml.h:58
+#: ../mail/mail.error.xml.h:57
 msgid ""
 "If you delete the folder, all of its contents and its subfolders contents "
 "will be deleted permanently."
@@ -14153,11 +14042,11 @@ msgstr ""
 "Karpeta ezabatzen baduzu bere edukin eta azpikarpeta guztiak betiko ezabatu "
 "egingo dira."
 
-#: ../mail/mail.error.xml.h:59
+#: ../mail/mail.error.xml.h:58
 msgid "If you proceed, all proxy accounts will be deleted permanently."
 msgstr "Aurrera jarraituz gero, proxy-kontu guztiak betiko ezabatuko da."
 
-#: ../mail/mail.error.xml.h:60
+#: ../mail/mail.error.xml.h:59
 msgid ""
 "If you proceed, the account information and\n"
 "all proxy information will be deleted permanently."
@@ -14165,11 +14054,11 @@ msgstr ""
 "Aurrera jarraituz gero, kontuaren informazioa \n"
 "eta dagokion proxy-en informazio guztia betiko ezabatuko da."
 
-#: ../mail/mail.error.xml.h:62
+#: ../mail/mail.error.xml.h:61
 msgid "If you proceed, the account information will be deleted permanently."
 msgstr "Aurrera jarraituz gero, kontuaren informazioa betiko ezabatuko da."
 
-#: ../mail/mail.error.xml.h:63
+#: ../mail/mail.error.xml.h:62
 msgid ""
 "If you quit, these messages will not be sent until Evolution is started "
 "again."
@@ -14177,19 +14066,19 @@ msgstr ""
 "Irteten bazara, mezu hauek ez dira bidaliko harik eta Evolution berriro "
 "abiarazi arte."
 
-#: ../mail/mail.error.xml.h:64
+#: ../mail/mail.error.xml.h:63
 msgid "Ignore"
 msgstr "Ez ikusi egin"
 
-#: ../mail/mail.error.xml.h:65
+#: ../mail/mail.error.xml.h:64
 msgid "Invalid authentication"
 msgstr "Autentifikazio baliogabea"
 
-#: ../mail/mail.error.xml.h:66
+#: ../mail/mail.error.xml.h:65
 msgid "Mail filters automatically updated."
 msgstr "Posta-iragazkiak automatikoki eguneratu dira."
 
-#: ../mail/mail.error.xml.h:67
+#: ../mail/mail.error.xml.h:66
 msgid ""
 "Many email systems add an Apparently-To header to messages that only have "
 "BCC recipients. This header, if added, will list all of your recipients to "
@@ -14201,35 +14090,35 @@ msgstr ""
 "zerrendatuko dira mezuan. Hori gerta ez dadin, gutxienez hartzaile bat "
 "zehaztu behar da Nori: edo Cc: hartzailean."
 
-#: ../mail/mail.error.xml.h:68
+#: ../mail/mail.error.xml.h:67
 msgid "Mark all messages as read"
 msgstr "Markatu mezu guztiak irakurritako gisa"
 
-#: ../mail/mail.error.xml.h:69
+#: ../mail/mail.error.xml.h:68
 msgid "Mark all messages as read in the selected folder"
 msgstr "Markatu mezuak irakurritako gisa hautatutako karpetan"
 
-#: ../mail/mail.error.xml.h:70
+#: ../mail/mail.error.xml.h:69
 msgid "Missing folder."
 msgstr "Karpeta falta da."
 
-#: ../mail/mail.error.xml.h:72
+#: ../mail/mail.error.xml.h:71
 msgid "No sources selected."
 msgstr "Ez da iturbururik hautatu"
 
-#: ../mail/mail.error.xml.h:73
+#: ../mail/mail.error.xml.h:72
 msgid "Opening too many messages at once may take a long time."
 msgstr "Mezu gehiegi batera irekitzeak denbora nahikoa denbora hartuko du."
 
-#: ../mail/mail.error.xml.h:74
+#: ../mail/mail.error.xml.h:73
 msgid "Please check your account settings and try again."
 msgstr "Egiaztatu kontuaren ezarpenak eta saiatu berriro."
 
-#: ../mail/mail.error.xml.h:75
+#: ../mail/mail.error.xml.h:74
 msgid "Please enable the account or send using another account."
 msgstr "Gaitu kontua edo bidali beste kontu bat erabiliz."
 
-#: ../mail/mail.error.xml.h:76
+#: ../mail/mail.error.xml.h:75
 msgid ""
 "Please enter a valid email address in the To: field. You can search for "
 "email addresses by clicking on the To: button next to the entry box."
@@ -14237,7 +14126,7 @@ msgstr ""
 "Idatzi baliozko helbide elektroniko bat Nori: eremuan. Helbide elektronikoak "
 "bilatzeko, sarrera-koadroaren ondoko Nori: botoian klik egin dezakezu."
 
-#: ../mail/mail.error.xml.h:77
+#: ../mail/mail.error.xml.h:76
 msgid ""
 "Please make sure the following recipients are willing and able to receive "
 "HTML email:\n"
@@ -14249,51 +14138,51 @@ msgstr ""
 "{0}\n"
 "Bidali dena den?"
 
-#: ../mail/mail.error.xml.h:80
+#: ../mail/mail.error.xml.h:79
 msgid "Please provide an unique name to identify this signature."
 msgstr "Eman izen bakarra sinadura hau identifikatzeko."
 
-#: ../mail/mail.error.xml.h:81
+#: ../mail/mail.error.xml.h:80
 msgid "Please wait."
 msgstr "Itxaron."
 
-#: ../mail/mail.error.xml.h:82
+#: ../mail/mail.error.xml.h:81
 msgid "Problem migrating old mail folder &quot;{0}&quot;."
 msgstr "Arazoak &quot;{0}&quot; postontzi zaharretik migratzean."
 
-#: ../mail/mail.error.xml.h:83
+#: ../mail/mail.error.xml.h:82
 msgid "Querying server"
 msgstr "Zerbitzaria kontsultatzen"
 
-#: ../mail/mail.error.xml.h:84
+#: ../mail/mail.error.xml.h:83
 msgid "Querying server for a list of supported authentication mechanisms."
 msgstr ""
 "Zerbitzaria kontsultatzen onartutako autentifikazio-mekanismoak zerrenda "
 "eskuratzeko."
 
-#: ../mail/mail.error.xml.h:85
+#: ../mail/mail.error.xml.h:84
 msgid "Read receipt requested."
 msgstr "Erantzutea eskatu da."
 
-#: ../mail/mail.error.xml.h:86
+#: ../mail/mail.error.xml.h:85
 msgid "Really delete folder &quot;{0}&quot; and all of its subfolders?"
 msgstr ""
 "Ziur zaude &quot;{0}&quot; karpeta (eta bere azpikarpeta guztiak) ezabatu "
 "nahi duzula?"
 
-#: ../mail/mail.error.xml.h:87
+#: ../mail/mail.error.xml.h:86
 msgid "Search Folders automatically updated."
 msgstr "Bilaketa-karpeta automatikoki eguneratu dira."
 
-#: ../mail/mail.error.xml.h:88
+#: ../mail/mail.error.xml.h:87
 msgid "Send Receipt"
 msgstr "Bidali irakurragiria"
 
-#: ../mail/mail.error.xml.h:89
+#: ../mail/mail.error.xml.h:88
 msgid "Signature Already Exists"
 msgstr "Ziurtagiria badago lehendik ere"
 
-#: ../mail/mail.error.xml.h:90
+#: ../mail/mail.error.xml.h:89
 msgid ""
 "System folders are required for Ximian Evolution to function correctly and "
 "cannot be renamed, moved, or deleted."
@@ -14301,7 +14190,7 @@ msgstr ""
 "Ximian Evolution-ek sistemako karpetak behar ditu ongi funtzionatzeko eta "
 "ezin ditu izenez aldatu, lekuz aldatu edo ezabatu."
 
-#: ../mail/mail.error.xml.h:91
+#: ../mail/mail.error.xml.h:90
 msgid ""
 "The contact list you are sending to is configured to hide list recipients.\n"
 "\n"
@@ -14317,7 +14206,7 @@ msgstr ""
 "zerrendatuko dira mezuan. Hori gerta ez dadin, gutxienez hartzaile bat "
 "zehaztu behar da Nori: edo Cc: hartzailean. "
 
-#: ../mail/mail.error.xml.h:94
+#: ../mail/mail.error.xml.h:93
 msgid ""
 "The following Search Folder(s):\n"
 "{0}\n"
@@ -14331,7 +14220,7 @@ msgstr ""
 "    &quot;{1}&quot;\n"
 "eta eguneratu egin dira."
 
-#: ../mail/mail.error.xml.h:99
+#: ../mail/mail.error.xml.h:98
 msgid ""
 "The following filter rule(s):\n"
 "{0}\n"
@@ -14345,23 +14234,11 @@ msgstr ""
 "    &quot;{1}&quot;\n"
 "eta eguneratu egin dira."
 
-#: ../mail/mail.error.xml.h:104
-msgid ""
-"The message was sent via the &quot;sendmail&quot; external application. "
-"Sendmail reports the following error: status 67: mail not sent.\n"
-"The message is stored in the Outbox folder. Check the message for errors and "
-"resend."
-msgstr ""
-"Mezua kanpoko &quot;sendmail&quot; aplikazioaren bidez bidali da. Sendmail-"
-"ek honako errorearekin erantzun du: 67 egoera: mezua ez da bidali.\n"
-"Mezua Irteerako karpetan gorde da. Begiratu mezua erroreak aurkitzeko eta "
-"bidali berriro."
-
-#: ../mail/mail.error.xml.h:106
+#: ../mail/mail.error.xml.h:103
 msgid "The script file must exist and be executable."
 msgstr "Script fitxategia existitzeaz gain exekutagarria izan behar du."
 
-#: ../mail/mail.error.xml.h:107
+#: ../mail/mail.error.xml.h:104
 msgid ""
 "This folder may have been added implicitly,\n"
 "go to the Search Folder editor to add it explicitly, if required."
@@ -14370,7 +14247,7 @@ msgstr ""
 "joan Bilaketa-karpetaren editorera esplizitoki gehitzeko, beharrezkoa izanez "
 "gero."
 
-#: ../mail/mail.error.xml.h:109
+#: ../mail/mail.error.xml.h:106
 msgid ""
 "This message cannot be sent because the account you chose to send with is "
 "not enabled"
@@ -14378,12 +14255,11 @@ msgstr ""
 "Mezu hau ezin da bidali, bidaltzeko hautatu duzun kontua ez dagoelako "
 "gaituta."
 
-#: ../mail/mail.error.xml.h:110
-msgid ""
-"This message cannot be sent because you have not specified any recipients"
+#: ../mail/mail.error.xml.h:107
+msgid "This message cannot be sent because you have not specified any recipients"
 msgstr "Mezu hau ezin da bidali, ez diozulako hartzailerik zehaztu"
 
-#: ../mail/mail.error.xml.h:111
+#: ../mail/mail.error.xml.h:108
 msgid ""
 "This server does not support this type of authentication and may not support "
 "authentication at all."
@@ -14391,21 +14267,21 @@ msgstr ""
 "Zerbitzari honek ez du onartzen mota honetako autentifikaziorik, eta "
 "beharbada ez du onartuko inolako autentifikaziorik."
 
-#: ../mail/mail.error.xml.h:112
+#: ../mail/mail.error.xml.h:109
 msgid "This signature has been changed, but has not been saved."
 msgstr "Sinadura hau aldatu egin duzu, baina ez duzu gorde."
 
-#: ../mail/mail.error.xml.h:113
+#: ../mail/mail.error.xml.h:110
 msgid ""
 "This will mark all messages as read in the selected folder and its "
 "subfolders."
 msgstr "Honek mezuak irakurritako gisa hautatutako karpetan"
 
-#: ../mail/mail.error.xml.h:114
+#: ../mail/mail.error.xml.h:111
 msgid "Unable to connect to the GroupWise server."
 msgstr "Huts egin du GroupWise zerbitzariarekin konektatzean"
 
-#: ../mail/mail.error.xml.h:115
+#: ../mail/mail.error.xml.h:112
 msgid ""
 "Unable to open the drafts folder for this account. Use the system drafts "
 "folder instead?"
@@ -14413,39 +14289,39 @@ msgstr ""
 "Ezin da ireki kontu honen zirriborroen karpeta. Horren ordez sistemaren "
 "zirriborro-karpeta erabili nahi duzu?"
 
-#: ../mail/mail.error.xml.h:116
+#: ../mail/mail.error.xml.h:113
 msgid "Unable to read license file."
 msgstr "Ezin da lizetzia-fitxategia irakurri."
 
-#: ../mail/mail.error.xml.h:117
+#: ../mail/mail.error.xml.h:114
 msgid "Use _Default"
 msgstr "Erabili _lehenetsia"
 
-#: ../mail/mail.error.xml.h:118
+#: ../mail/mail.error.xml.h:115
 msgid "Use default drafts folder?"
 msgstr "Zirriborroen karpeta lehenetsia erabili nahi duzu?"
 
-#: ../mail/mail.error.xml.h:119
+#: ../mail/mail.error.xml.h:116
 msgid "You have not filled in all of the required information."
 msgstr "Ez duzu eman eskatu zaizun informazio guztia."
 
-#: ../mail/mail.error.xml.h:120
+#: ../mail/mail.error.xml.h:117
 msgid "You have unsent messages, do you wish to quit anyway?"
 msgstr "Bidali gabeko mezuak dituzu. Hala ere irten nahi duzu?"
 
-#: ../mail/mail.error.xml.h:121
+#: ../mail/mail.error.xml.h:118
 msgid "You may not create two accounts with the same name."
 msgstr "Ezin dituzu izen bereko bi kontu izan."
 
-#: ../mail/mail.error.xml.h:122
+#: ../mail/mail.error.xml.h:119
 msgid "You must name this Search Folder."
 msgstr "Bilaketa-karpetari izena eman behar diozu."
 
-#: ../mail/mail.error.xml.h:123
+#: ../mail/mail.error.xml.h:120
 msgid "You must specify a folder."
 msgstr "Karpeta bat zehaztu behar duzu."
 
-#: ../mail/mail.error.xml.h:124
+#: ../mail/mail.error.xml.h:121
 msgid ""
 "You must specify at least one folder as a source.\n"
 "Either by selecting the folders individually, and/or by selecting all local "
@@ -14455,28 +14331,23 @@ msgstr ""
 "Karpetak banaka hauta ditzakezu, eta/edo karpeta lokal guztiak\n"
 "hautatu, edo urruneko karpeta guztiak, edo biak."
 
-#: ../mail/mail.error.xml.h:126
+#: ../mail/mail.error.xml.h:123
 msgid "Your login to your server &quot;{0}&quot; as &quot;{0}&quot; failed."
-msgstr ""
-"Huts egin du &quot;{0}&quot;zerbitzarian &quot;{0}&quot; gisa saioa hastean."
+msgstr "Huts egin du &quot;{0}&quot;zerbitzarian &quot;{0}&quot; gisa saioa hastean."
 
-#: ../mail/mail.error.xml.h:127
-msgid "Your message with the subject &quot;{0}&quot; was not delivered."
-msgstr "&quot;{0}&quot; gaia duen mezua ezin izan da bidali."
-
-#: ../mail/mail.error.xml.h:128
+#: ../mail/mail.error.xml.h:124
 msgid "_Append"
 msgstr "Era_ntsi"
 
-#: ../mail/mail.error.xml.h:129
+#: ../mail/mail.error.xml.h:125
 msgid "_Discard changes"
 msgstr "_Ez gorde"
 
-#: ../mail/mail.error.xml.h:131
+#: ../mail/mail.error.xml.h:127
 msgid "_Expunge"
 msgstr "_Borratu betiko"
 
-#: ../mail/mail.error.xml.h:132
+#: ../mail/mail.error.xml.h:128
 msgid "_Open Messages"
 msgstr "_Ireki mezuak"
 
@@ -14547,7 +14418,7 @@ msgstr "%Y %b %d"
 msgid "Messages"
 msgstr "Mezuak"
 
-#: ../mail/message-list.c:3441
+#: ../mail/message-list.c:3442
 msgid "Generating message list"
 msgstr "Mezuen zerrenda sortzen"
 
@@ -14722,8 +14593,7 @@ msgstr "Kontaktu automatikoak"
 
 #. Enable BBDB checkbox
 #: ../plugins/bbdb/bbdb.c:454
-msgid ""
-"_Automatically create entries in the addressbook when responding to mail"
+msgid "_Automatically create entries in the addressbook when responding to mail"
 msgstr "_Automatikoki sortutako sarrerak helbide-liburuan mezuei erantzutean"
 
 #: ../plugins/bbdb/bbdb.c:475
@@ -14732,8 +14602,7 @@ msgstr "Berehalako mezularitzako kontaktuak"
 
 #. Enable Gaim Checkbox
 #: ../plugins/bbdb/bbdb.c:490
-msgid ""
-"Periodically synchronize contact information and images from gaim buddy list"
+msgid "Periodically synchronize contact information and images from gaim buddy list"
 msgstr ""
 "Sinkronizatu aldizka kontaktuen datuak eta irudiak Gaim-eko lagunen "
 "zerrendatik"
@@ -14842,8 +14711,7 @@ msgstr "Eguraldi-egutegiak"
 msgid ""
 "A test plugin which demonstrates a popup menu plugin which lets you copy "
 "things to the clipboard."
-msgstr ""
-"Probako plugin-a menu-leihoa agertarazten duena gauzak arbelean kopiatzeko."
+msgstr "Probako plugin-a menu-leihoa agertarazten duena gauzak arbelean kopiatzeko."
 
 #: ../plugins/copy-tool/org-gnome-copy-tool.eplug.xml.h:2
 msgid "Copy _Email Address"
@@ -14858,8 +14726,7 @@ msgid "Check whether Evolution is the default mailer"
 msgstr "Begiratu Evolution posta-bezero lehenetsia den"
 
 #: ../plugins/default-mailer/apps-evolution-mail-prompts-checkdefault.schemas.in.in.h:2
-msgid ""
-"Every time Evolution starts, check whether or not it is the default mailer."
+msgid "Every time Evolution starts, check whether or not it is the default mailer."
 msgstr ""
 "Evolution abiatzen den bakoitzean begiratu lehenespeneko posta-bezeroa den "
 "edo ez."
@@ -14995,24 +14862,24 @@ msgstr "Karpeten tamaina"
 msgid "Exchange Settings"
 msgstr "Exchange-ren ezarpenak"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:609
+#: ../plugins/exchange-operations/exchange-account-setup.c:610
 msgid "_OWA URL:"
 msgstr "_OWA URLa:"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:635
+#: ../plugins/exchange-operations/exchange-account-setup.c:636
 msgid "A_uthenticate"
 msgstr "A_utentifikatu"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:828
+#: ../plugins/exchange-operations/exchange-account-setup.c:829
 msgid "Authentication Type"
 msgstr "Autentifikazio-mota: "
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:842
+#: ../plugins/exchange-operations/exchange-account-setup.c:843
 msgid "Ch_eck for Supported Types"
 msgstr " _Begiratu zein mota onartzen diren "
 
-#: ../plugins/exchange-operations/exchange-calendar.c:194
-#: ../plugins/exchange-operations/exchange-contacts.c:167
+#: ../plugins/exchange-operations/exchange-calendar.c:191
+#: ../plugins/exchange-operations/exchange-contacts.c:166
 msgid ""
 "Evolution is in offline mode. You cannot create or modify folders now.\n"
 "Please switch to online mode for such operations."
@@ -15192,14 +15059,14 @@ msgstr "Exchange-ren karpeta-zuhaitza"
 msgid "Unsubscribe Folder..."
 msgstr "Kendu karpetaren harpidetza..."
 
-#: ../plugins/exchange-operations/exchange-folder.c:463
-#: ../plugins/exchange-operations/exchange-folder.c:523
+#: ../plugins/exchange-operations/exchange-folder.c:464
+#: ../plugins/exchange-operations/exchange-folder.c:524
 #, c-format
 msgid "Really unsubscribe from folder \"%s\"?"
 msgstr "\"%s\" karpetaren harpidetza kentzea nahi duzu?"
 
-#: ../plugins/exchange-operations/exchange-folder.c:475
-#: ../plugins/exchange-operations/exchange-folder.c:535
+#: ../plugins/exchange-operations/exchange-folder.c:476
+#: ../plugins/exchange-operations/exchange-folder.c:536
 #, c-format
 msgid "Unsubscribe from \"%s\""
 msgstr "\"%s\" karpetaren harpidetza kentzen"
@@ -15468,8 +15335,7 @@ msgstr "Ziurtatu zerbitzari-izena ongi idatzita dagoela eta saiatu berriro."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:42
 msgid "Make sure the username and password are correct and try again."
-msgstr ""
-"Ziurtatu erabiltzaile-izena eta pasahitza zuzenak direla eta saiatu berriro."
+msgstr "Ziurtatu erabiltzaile-izena eta pasahitza zuzenak direla eta saiatu berriro."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:43
 msgid "No Global Catalog server configured for this account."
@@ -15636,7 +15502,7 @@ msgstr ""
 msgid "Unsubscribe Folders"
 msgstr "Kendu karpeten harpidetza"
 
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:414
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:417
 msgid "Checklist"
 msgstr "Egiaztapen-zerrenda"
 
@@ -15877,8 +15743,7 @@ msgstr "iCalendar formatua (.ics)"
 
 #: ../plugins/ipod-sync/org-gnome-ipod-sync-evolution.eplug.xml.h:1
 msgid "Synchronize the selected task/calendar/addressbook with Apple iPod"
-msgstr ""
-"Sinkronizatu hautatutako zeregina/egutegia/helbide-liburua Apple iPod-arekin"
+msgstr "Sinkronizatu hautatutako zeregina/egutegia/helbide-liburua Apple iPod-arekin"
 
 #: ../plugins/ipod-sync/org-gnome-ipod-sync-evolution.eplug.xml.h:2
 msgid "Synchronize to iPod"
@@ -16251,8 +16116,7 @@ msgstr "<b>%s</b>(e)k dagoen bilera batean sartu nahi du:"
 
 #: ../plugins/itip-formatter/itip-view.c:367
 #, c-format
-msgid ""
-"<b>%s</b> wishes to receive the latest information for the following meeting:"
+msgid "<b>%s</b> wishes to receive the latest information for the following meeting:"
 msgstr "<b>%s</b>(e)k honako bileraren informazio berria jaso nahi du:"
 
 #: ../plugins/itip-formatter/itip-view.c:370
@@ -16325,8 +16189,7 @@ msgstr "<b>%s</b>(e)k zeregin batean sartu nahi du:"
 msgid ""
 "<b>%s</b> wishes to receive the latest information for the following "
 "assigned task:"
-msgstr ""
-"<b>%s</b>(e)k honako zeregin-esleipenaren informazio berria jaso nahi du:"
+msgstr "<b>%s</b>(e)k honako zeregin-esleipenaren informazio berria jaso nahi du:"
 
 #: ../plugins/itip-formatter/itip-view.c:438
 #, c-format
@@ -16336,8 +16199,7 @@ msgstr "<b>%s</b>(e)k zeregin-esleipenari buruz honakoa erantzun du:"
 #: ../plugins/itip-formatter/itip-view.c:442
 #, c-format
 msgid "<b>%s</b> through %s has canceled the following assigned task:"
-msgstr ""
-"<b>%s</b>(e)k %s(e)n bidez honako zeregin-esleipena bertan behera utzi du:"
+msgstr "<b>%s</b>(e)k %s(e)n bidez honako zeregin-esleipena bertan behera utzi du:"
 
 #: ../plugins/itip-formatter/itip-view.c:444
 #, c-format
@@ -16458,10 +16320,8 @@ msgid "This meeting has been delegated"
 msgstr "Bilera hau delegatu egin da"
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:4
-msgid ""
-"This response is not from a current attendee. Add the sender as an attendee?"
-msgstr ""
-"Erantzun hau ez da uneko partaide batena.  Bidaltzailea partaide gisa gehitu?"
+msgid "This response is not from a current attendee. Add the sender as an attendee?"
+msgstr "Erantzun hau ez da uneko partaide batena.  Bidaltzailea partaide gisa gehitu?"
 
 #: ../plugins/mail-account-disable/mail-account-disable.c:47
 msgid "Proxy _Logout"
@@ -16494,8 +16354,7 @@ msgid "No store available"
 msgstr "Ez dago biltegi erabilgarririk."
 
 #: ../plugins/mail-remote/org-gnome-evolution-mail-remote.eplug.xml.h:1
-msgid ""
-"A plugin which implements a CORBA interface for accessing mail data remotely."
+msgid "A plugin which implements a CORBA interface for accessing mail data remotely."
 msgstr ""
 "Urrunetik posta-datuak eskuratzeko CORBA interfazea inplementatzen duen "
 "plugin-a"
@@ -16847,7 +16706,7 @@ msgstr "Helbideak"
 msgid "_Publish Calendar Information"
 msgstr "_Argitaratu egutegiaren informazioa"
 
-#: ../plugins/publish-calendar/publish-calendar.c:386
+#: ../plugins/publish-calendar/publish-calendar.c:399
 msgid "Are you sure you want to remove this URL?"
 msgstr "Ziur zaude URL hau kendu nahi duzula?"
 
@@ -17186,40 +17045,42 @@ msgid "Default window height"
 msgstr "Albo-panelaren altuera lehenetsia"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:5
+msgid "Default window state"
+msgstr "Leihoaren egoera lehenetsia"
+
+#: ../shell/apps_evolution_shell.schemas.in.in.h:6
 msgid "Default window width"
 msgstr "Leihoaren zabalera lehenetsia"
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:6
+#: ../shell/apps_evolution_shell.schemas.in.in.h:7
 msgid "ID or alias of the component to be shown by default at start-up."
 msgstr "Lehenespenez abioan erakutsi beharreko IDa edo aliasa."
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:7
+#: ../shell/apps_evolution_shell.schemas.in.in.h:8
 msgid "Last upgraded configuration version"
 msgstr "Azken bertsio-berritutako konfigurazio-bertsioa"
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:8
-msgid ""
-"List of paths for the folders to be synchronized to disk for offline usage"
-msgstr ""
-"Lineaz kanpo erabiltzeko, diskora sinkronizatzeko karpeten bideen zerrenda"
-
 #: ../shell/apps_evolution_shell.schemas.in.in.h:9
+msgid "List of paths for the folders to be synchronized to disk for offline usage"
+msgstr "Lineaz kanpo erabiltzeko, diskora sinkronizatzeko karpeten bideen zerrenda"
+
+#: ../shell/apps_evolution_shell.schemas.in.in.h:10
 msgid "Printer settings"
 msgstr "Inprimagailuaren ezarpenak"
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:10
+#: ../shell/apps_evolution_shell.schemas.in.in.h:11
 msgid "Sidebar is visible"
 msgstr "Albo-barra ikusgai dago"
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:11
+#: ../shell/apps_evolution_shell.schemas.in.in.h:12
 msgid "Skip development warning dialog"
 msgstr "Saltatu garapen-abisuaren elkarrizketa-koadroa"
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:12 ../shell/main.c:473
+#: ../shell/apps_evolution_shell.schemas.in.in.h:13 ../shell/main.c:474
 msgid "Start in offline mode"
 msgstr "Hasi lineaz kanpo"
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:13
+#: ../shell/apps_evolution_shell.schemas.in.in.h:14
 msgid ""
 "The configuration version of Evolution, with major/minor/configuration level "
 "(for example \"2.6.0\")."
@@ -17227,19 +17088,19 @@ msgstr ""
 "Evolution-en konfigurazio-bertsioa, konfigurazio maila altuarekin/baxuarekin "
 "(\"2.6.0\" adibidez)."
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:14
+#: ../shell/apps_evolution_shell.schemas.in.in.h:15
 msgid "The default height for the main window, in pixels."
 msgstr "Leiho nagusiaren altuera lehenetsia, pixeletan."
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:15
+#: ../shell/apps_evolution_shell.schemas.in.in.h:16
 msgid "The default width for the main window, in pixels."
 msgstr "Leiho nagusiaren zabalera lehenetsia, pixeletan."
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:16
+#: ../shell/apps_evolution_shell.schemas.in.in.h:17
 msgid "The default width for the sidebar, in pixels."
 msgstr "Albo-panelaren zabalera lehenetsia, pixeletan."
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:17
+#: ../shell/apps_evolution_shell.schemas.in.in.h:18
 msgid ""
 "The last upgraded configuration version of Evolution, with major/minor/"
 "configuration level (for example \"2.6.0\")."
@@ -17247,7 +17108,7 @@ msgstr ""
 "Azken bertsio-berritutako Evolution-en konfigurazio-bertsioa, konfigurazio "
 "maila altuarekin/baxuarekin (\"2.6.0\" adibidez)."
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:18
+#: ../shell/apps_evolution_shell.schemas.in.in.h:19
 msgid ""
 "The style of the window buttons. Can be \"text\", \"icons\", \"both\", "
 "\"toolbar\". If \"toolbar\" is set, the style of the buttons is determined "
@@ -17257,36 +17118,39 @@ msgstr ""
 "izan daiteke. \"Tresna-barra\" ezartzen bada botoien estiloa GNOMEko tresna-"
 "barraren ezarpenak zehaztuko du."
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:19
+#: ../shell/apps_evolution_shell.schemas.in.in.h:20
 msgid "Toolbar is visible"
 msgstr "Tresna-barra ikusgai dago"
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:20
+#: ../shell/apps_evolution_shell.schemas.in.in.h:21
 msgid "Whether Evolution will start up in offline mode instead of online mode."
 msgstr "Evolution lineaz kanpoko moduan abiarazi behar den edo ez"
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:21
+#: ../shell/apps_evolution_shell.schemas.in.in.h:22
+msgid "Whether or not the window should be maximized."
+msgstr "Leihoa maximizatu behar den edo ez."
+
+#: ../shell/apps_evolution_shell.schemas.in.in.h:23
 msgid "Whether the sidebar should be visible."
 msgstr "Alboko barra ikusgai izango den edo ez."
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:22
+#: ../shell/apps_evolution_shell.schemas.in.in.h:24
 msgid "Whether the toolbar should be visible."
 msgstr "Tresna-barra ikusgai izango den edo ez."
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:23
-msgid ""
-"Whether the warning dialog in development versions of Evolution is skipped."
+#: ../shell/apps_evolution_shell.schemas.in.in.h:25
+msgid "Whether the warning dialog in development versions of Evolution is skipped."
 msgstr "Garapen-abisuaren elkarrizketa-koadroa saltatu behar den edo ez"
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:24
+#: ../shell/apps_evolution_shell.schemas.in.in.h:26
 msgid "Whether the window buttons should be visible."
 msgstr "Leihoko botoiak ikusgai egongo diren edo ez."
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:25
+#: ../shell/apps_evolution_shell.schemas.in.in.h:27
 msgid "Window button style"
 msgstr "Leihoko botoi-estiloa"
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:26
+#: ../shell/apps_evolution_shell.schemas.in.in.h:28
 msgid "Window buttons are visible"
 msgstr "Leihoko botoiak ikusgai daude"
 
@@ -17405,39 +17269,37 @@ msgstr "Ezin izan da Bug Buddy exekutatu."
 #. The translator-credits string is for translators to list
 #. * per language credits for translation, displayed in the
 #. * about box
-#: ../shell/e-shell-window-commands.c:530
+#: ../shell/e-shell-window-commands.c:561
 msgid "translator-credits"
 msgstr ""
 "Hizkuntza Politikarako Sailburuordetza <hizpol@ej-gv.es>\n"
 "Iñaki Larrañaga Murgoitio <dooteo@euskalgnu.org>"
 
-#: ../shell/e-shell-window-commands.c:775
+#: ../shell/e-shell-window-commands.c:806
 msgid "_Work Online"
 msgstr "_Lan egin linean"
 
-#: ../shell/e-shell-window-commands.c:788 ../ui/evolution.xml.h:54
+#: ../shell/e-shell-window-commands.c:819 ../ui/evolution.xml.h:54
 msgid "_Work Offline"
 msgstr "_Lan egin lineaz kanpo"
 
-#: ../shell/e-shell-window-commands.c:801
+#: ../shell/e-shell-window-commands.c:832
 msgid "Work Offline"
 msgstr "Lan egin lineaz kanpo"
 
-#: ../shell/e-shell-window.c:368
+#: ../shell/e-shell-window.c:371
 msgid "Evolution is currently online. Click on this button to work offline."
-msgstr ""
-"Evolution linean dago. Egin klik botoi honetan lineaz kanpo lan egiteko."
+msgstr "Evolution linean dago. Egin klik botoi honetan lineaz kanpo lan egiteko."
 
-#: ../shell/e-shell-window.c:376
+#: ../shell/e-shell-window.c:379
 msgid "Evolution is in the process of going offline."
 msgstr "Evolution lineaz kanpo jartzeko prozesuan dago."
 
-#: ../shell/e-shell-window.c:383
+#: ../shell/e-shell-window.c:386
 msgid "Evolution is currently offline. Click on this button to work online."
-msgstr ""
-"Evolution lineaz kanpo dago.  Egin klik botoi honetan linean lan egiteko."
+msgstr "Evolution lineaz kanpo dago.  Egin klik botoi honetan linean lan egiteko."
 
-#: ../shell/e-shell-window.c:783
+#: ../shell/e-shell-window.c:786
 #, c-format
 msgid "Switch to %s"
 msgstr "Aldatu hona: %s"
@@ -17485,8 +17347,7 @@ msgstr "Sortu probako elementu berria"
 
 #: ../shell/import.glade.h:1
 msgid "Click \"Import\" to begin importing the file into Evolution. "
-msgstr ""
-"Egin klik \"Inportatu\"n fitxategia Evolution-era inportatzen hasteko. "
+msgstr "Egin klik \"Inportatu\"n fitxategia Evolution-era inportatzen hasteko. "
 
 #: ../shell/import.glade.h:2
 msgid "Evolution Import Assistant"
@@ -17523,7 +17384,7 @@ msgstr ""
 "inportatzeko prozesuan zehar gidatuko zaitu."
 
 #. Preview/Alpha/Beta version warning message
-#: ../shell/main.c:230
+#: ../shell/main.c:231
 #, no-c-format
 msgid ""
 "Hi.  Thanks for taking the time to download this preview release\n"
@@ -17559,7 +17420,7 @@ msgstr ""
 "Gogorik lan egin dugu, eta espero dugu emaitza zure gustukoa izango\n"
 "dela eta zure ekarpena egitera animatuko zarela!\n"
 
-#: ../shell/main.c:254
+#: ../shell/main.c:255
 msgid ""
 "Thanks\n"
 "The Evolution Team\n"
@@ -17567,35 +17428,35 @@ msgstr ""
 "Eskerrik asko\n"
 "Evolution taldea\n"
 
-#: ../shell/main.c:261
+#: ../shell/main.c:262
 msgid "Do not tell me again"
 msgstr "Ez esan berriro"
 
-#: ../shell/main.c:471
+#: ../shell/main.c:472
 msgid "Start Evolution activating the specified component"
 msgstr "Abiarazi Evolution zehaztutako osagaia aktibatuz"
 
-#: ../shell/main.c:475
+#: ../shell/main.c:476
 msgid "Start in online mode"
 msgstr "Hasi linean"
 
-#: ../shell/main.c:478
+#: ../shell/main.c:479
 msgid "Forcibly shut down all Evolution components"
 msgstr "Behartu evolution-en osagai guztiak ixtea"
 
-#: ../shell/main.c:482
+#: ../shell/main.c:483
 msgid "Forcibly re-migrate from Evolution 1.4"
 msgstr "Behartu Evolution 1.4etik migratzera"
 
-#: ../shell/main.c:485
+#: ../shell/main.c:486
 msgid "Send the debugging output of all components to a file."
 msgstr "Bidali osagai guztien arazketa-irteera fitxategi batera."
 
-#: ../shell/main.c:487
+#: ../shell/main.c:488
 msgid "Disable loading of any plugins."
 msgstr "Desgaitu edozein plugin kargatzea."
 
-#: ../shell/main.c:518
+#: ../shell/main.c:519
 #, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
@@ -17987,8 +17848,7 @@ msgstr "Fidatu ziurtagiri-emaile honetaz posta-erabiltzaileak identifikatzeko."
 
 #: ../smime/gui/smime-ui.glade.h:39
 msgid "Trust this CA to identify email users."
-msgstr ""
-"Fidatu ziurtagiri-emaile honetaz software-garatzaileak identifikatzeko."
+msgstr "Fidatu ziurtagiri-emaile honetaz software-garatzaileak identifikatzeko."
 
 #: ../smime/gui/smime-ui.glade.h:40
 msgid "Trust this CA to identify software developers."
@@ -18007,15 +17867,12 @@ msgid "You have certificates from these organizations that identify you:"
 msgstr "Identifikatzen zaituzten erakunde horien ziurtagiriak dituzu:"
 
 #: ../smime/gui/smime-ui.glade.h:44
-msgid ""
-"You have certificates on file that identify these certificate authorities:"
-msgstr ""
-"Ziurtagiri-emaileok identifikatzen dituzten ziurtagiriak dituzu artxibatuta:"
+msgid "You have certificates on file that identify these certificate authorities:"
+msgstr "Ziurtagiri-emaileok identifikatzen dituzten ziurtagiriak dituzu artxibatuta:"
 
 #: ../smime/gui/smime-ui.glade.h:45
 msgid "You have certificates on file that identify these people:"
-msgstr ""
-"Pertsona hauek identifikatzen dituzten ziurtagiriak dituzu artxibatuta:"
+msgstr "Pertsona hauek identifikatzen dituzten ziurtagiriak dituzu artxibatuta:"
 
 #: ../smime/gui/smime-ui.glade.h:46
 msgid "Your Certificates"
@@ -18908,8 +18765,7 @@ msgid "Hide _Read Messages"
 msgstr "Ezkutatu _irakurritako mezuak"
 
 #: ../ui/evolution-mail-list.xml.h:15
-msgid ""
-"Hide deleted messages rather than displaying them with a line through them"
+msgid "Hide deleted messages rather than displaying them with a line through them"
 msgstr "Ezkutatu ezabatutako mezuak, marratuta erakutsi beharrean"
 
 #: ../ui/evolution-mail-list.xml.h:16
@@ -19792,8 +19648,7 @@ msgstr "Sortu karpeta hau erakusten duen leiho berri bat"
 
 #: ../ui/evolution.xml.h:6
 msgid "Display window buttons using the desktop toolbar setting"
-msgstr ""
-"Bistaratu leihoko botoiak mahagaineko tresna-barraren ezarpenak erabiliz"
+msgstr "Bistaratu leihoko botoiak mahagaineko tresna-barraren ezarpenak erabiliz"
 
 #: ../ui/evolution.xml.h:7
 msgid "Display window buttons with icons and text"
@@ -20072,7 +19927,7 @@ msgid "_Edit..."
 msgstr "E_ditatu..."
 
 #: ../widgets/menus/gal-view-factory-etable.c:39
-#: ../widgets/table/e-table-header-item.c:1839
+#: ../widgets/table/e-table-header-item.c:1840
 #: ../widgets/table/e-table-scrolled.c:222
 #: ../widgets/table/e-table-scrolled.c:223
 msgid "Table"
@@ -20198,17 +20053,17 @@ msgstr "Y1"
 msgid "Y2"
 msgstr "Y2"
 
-#: ../widgets/misc/e-canvas-vbox.c:102 ../widgets/misc/e-reflow.c:1427
+#: ../widgets/misc/e-canvas-vbox.c:102 ../widgets/misc/e-reflow.c:1429
 #: ../widgets/table/e-table-group-container.c:974
 #: ../widgets/table/e-table-group-leaf.c:636
-#: ../widgets/table/e-table-item.c:3014
+#: ../widgets/table/e-table-item.c:3015
 msgid "Minimum width"
 msgstr "Gutxieneko zabalera"
 
-#: ../widgets/misc/e-canvas-vbox.c:103 ../widgets/misc/e-reflow.c:1428
+#: ../widgets/misc/e-canvas-vbox.c:103 ../widgets/misc/e-reflow.c:1430
 #: ../widgets/table/e-table-group-container.c:975
 #: ../widgets/table/e-table-group-leaf.c:637
-#: ../widgets/table/e-table-item.c:3015
+#: ../widgets/table/e-table-item.c:3016
 msgid "Minimum Width"
 msgstr "Gutxieneko zabalera"
 
@@ -20465,15 +20320,15 @@ msgstr "Sinkronizatu erregistro pribatuak:"
 msgid "Sync Categories:"
 msgstr "Sinkronizatu kategoriak:"
 
-#: ../widgets/misc/e-reflow.c:1449 ../widgets/misc/e-reflow.c:1450
+#: ../widgets/misc/e-reflow.c:1451 ../widgets/misc/e-reflow.c:1452
 msgid "Empty message"
 msgstr "Mezu _hutsa"
 
-#: ../widgets/misc/e-reflow.c:1456 ../widgets/misc/e-reflow.c:1457
+#: ../widgets/misc/e-reflow.c:1458 ../widgets/misc/e-reflow.c:1459
 msgid "Reflow model"
 msgstr "Ordezte-modeloa"
 
-#: ../widgets/misc/e-reflow.c:1463 ../widgets/misc/e-reflow.c:1464
+#: ../widgets/misc/e-reflow.c:1465 ../widgets/misc/e-reflow.c:1466
 msgid "Column width"
 msgstr "Zutabe-zabalera"
 
@@ -20517,13 +20372,13 @@ msgstr "Testua"
 msgid "Find _Now"
 msgstr "Bilatu _orain"
 
-#: ../widgets/misc/e-selection-model-array.c:546
+#: ../widgets/misc/e-selection-model-array.c:547
 #: ../widgets/table/e-tree-selection-model.c:811
 msgid "Cursor Row"
 msgstr "Kurtsore-errenkada"
 
 #
-#: ../widgets/misc/e-selection-model-array.c:553
+#: ../widgets/misc/e-selection-model-array.c:554
 #: ../widgets/table/e-tree-selection-model.c:818
 msgid "Cursor Column"
 msgstr "Kurtsore-zutabea"
@@ -20716,25 +20571,25 @@ msgstr "Enfokatutako zutabea"
 msgid "Unselected Column"
 msgstr "Desautatutako zutabea"
 
-#: ../widgets/table/e-cell-text.c:1744
+#: ../widgets/table/e-cell-text.c:1749
 msgid "Strikeout Column"
 msgstr "Zutabe marratua"
 
-#: ../widgets/table/e-cell-text.c:1751
+#: ../widgets/table/e-cell-text.c:1756
 msgid "Underline Column"
 msgstr "Azpimarratu zutabea"
 
 #
-#: ../widgets/table/e-cell-text.c:1758
+#: ../widgets/table/e-cell-text.c:1763
 msgid "Bold Column"
 msgstr "Zutabe lodia"
 
 #
-#: ../widgets/table/e-cell-text.c:1765
+#: ../widgets/table/e-cell-text.c:1770
 msgid "Color Column"
 msgstr "Zutabe koloreduna"
 
-#: ../widgets/table/e-cell-text.c:1779
+#: ../widgets/table/e-cell-text.c:1784
 msgid "BG Color Column"
 msgstr "Atzeko planoaren koloreko zutabea"
 
@@ -20856,14 +20711,14 @@ msgstr "_Erakutsi eremuak ordenean:"
 #: ../widgets/table/e-table-field-chooser-dialog.c:77
 #: ../widgets/table/e-table-field-chooser-item.c:635
 #: ../widgets/table/e-table-field-chooser.c:77
-#: ../widgets/table/e-table-header-item.c:1804
+#: ../widgets/table/e-table-header-item.c:1805
 msgid "DnD code"
 msgstr "DnD kodea"
 
 #: ../widgets/table/e-table-field-chooser-dialog.c:84
 #: ../widgets/table/e-table-field-chooser-item.c:642
 #: ../widgets/table/e-table-field-chooser.c:84
-#: ../widgets/table/e-table-header-item.c:1818
+#: ../widgets/table/e-table-header-item.c:1819
 msgid "Full Header"
 msgstr "Goiburu osoak"
 
@@ -20907,7 +20762,7 @@ msgstr "%s (%%%d elementu)"
 #: ../widgets/table/e-table-group-container.c:898
 #: ../widgets/table/e-table-group-leaf.c:573
 #: ../widgets/table/e-table-group-leaf.c:574
-#: ../widgets/table/e-table-item.c:2972 ../widgets/table/e-table-item.c:2973
+#: ../widgets/table/e-table-item.c:2973 ../widgets/table/e-table-item.c:2974
 msgid "Alternating Row Colors"
 msgstr "Errenkada-kolore txandakatuak"
 
@@ -20915,7 +20770,7 @@ msgstr "Errenkada-kolore txandakatuak"
 #: ../widgets/table/e-table-group-container.c:905
 #: ../widgets/table/e-table-group-leaf.c:580
 #: ../widgets/table/e-table-group-leaf.c:581
-#: ../widgets/table/e-table-item.c:2979 ../widgets/table/e-table-item.c:2980
+#: ../widgets/table/e-table-item.c:2980 ../widgets/table/e-table-item.c:2981
 #: ../widgets/table/e-tree.c:3265 ../widgets/table/e-tree.c:3266
 msgid "Horizontal Draw Grid"
 msgstr "Marrazteko sareta horizontala"
@@ -20924,7 +20779,7 @@ msgstr "Marrazteko sareta horizontala"
 #: ../widgets/table/e-table-group-container.c:912
 #: ../widgets/table/e-table-group-leaf.c:587
 #: ../widgets/table/e-table-group-leaf.c:588
-#: ../widgets/table/e-table-item.c:2986 ../widgets/table/e-table-item.c:2987
+#: ../widgets/table/e-table-item.c:2987 ../widgets/table/e-table-item.c:2988
 #: ../widgets/table/e-tree.c:3271 ../widgets/table/e-tree.c:3272
 msgid "Vertical Draw Grid"
 msgstr "Marrazteko sareta bertikala"
@@ -20933,7 +20788,7 @@ msgstr "Marrazteko sareta bertikala"
 #: ../widgets/table/e-table-group-container.c:919
 #: ../widgets/table/e-table-group-leaf.c:594
 #: ../widgets/table/e-table-group-leaf.c:595
-#: ../widgets/table/e-table-item.c:2993 ../widgets/table/e-table-item.c:2994
+#: ../widgets/table/e-table-item.c:2994 ../widgets/table/e-table-item.c:2995
 #: ../widgets/table/e-tree.c:3277 ../widgets/table/e-tree.c:3278
 msgid "Draw focus"
 msgstr "Marraztu fokua"
@@ -20942,7 +20797,7 @@ msgstr "Marraztu fokua"
 #: ../widgets/table/e-table-group-container.c:926
 #: ../widgets/table/e-table-group-leaf.c:601
 #: ../widgets/table/e-table-group-leaf.c:602
-#: ../widgets/table/e-table-item.c:3000 ../widgets/table/e-table-item.c:3001
+#: ../widgets/table/e-table-item.c:3001 ../widgets/table/e-table-item.c:3002
 msgid "Cursor mode"
 msgstr "Kurtsore-modua"
 
@@ -20950,7 +20805,7 @@ msgstr "Kurtsore-modua"
 #: ../widgets/table/e-table-group-container.c:933
 #: ../widgets/table/e-table-group-leaf.c:615
 #: ../widgets/table/e-table-group-leaf.c:616
-#: ../widgets/table/e-table-item.c:2965 ../widgets/table/e-table-item.c:2966
+#: ../widgets/table/e-table-item.c:2966 ../widgets/table/e-table-item.c:2967
 msgid "Selection model"
 msgstr "Hautapen modeloa"
 
@@ -20958,7 +20813,7 @@ msgstr "Hautapen modeloa"
 #: ../widgets/table/e-table-group-container.c:940
 #: ../widgets/table/e-table-group-leaf.c:608
 #: ../widgets/table/e-table-group-leaf.c:609
-#: ../widgets/table/e-table-item.c:3007 ../widgets/table/e-table-item.c:3008
+#: ../widgets/table/e-table-item.c:3008 ../widgets/table/e-table-item.c:3009
 #: ../widgets/table/e-table.c:3301 ../widgets/table/e-tree.c:3259
 #: ../widgets/table/e-tree.c:3260
 msgid "Length Threshold"
@@ -20968,7 +20823,7 @@ msgstr "Luzera-muga"
 #: ../widgets/table/e-table-group-container.c:947
 #: ../widgets/table/e-table-group-leaf.c:650
 #: ../widgets/table/e-table-group-leaf.c:651
-#: ../widgets/table/e-table-item.c:3041 ../widgets/table/e-table-item.c:3042
+#: ../widgets/table/e-table-item.c:3042 ../widgets/table/e-table-item.c:3043
 #: ../widgets/table/e-table.c:3308 ../widgets/table/e-tree.c:3291
 #: ../widgets/table/e-tree.c:3292
 msgid "Uniform row height"
@@ -21029,32 +20884,32 @@ msgstr "Eman formatu zutabeei..."
 msgid "Customize Current View..."
 msgstr "Pertsonalizatu uneko ikuspegia..."
 
-#: ../widgets/table/e-table-header-item.c:1811 ../widgets/text/e-entry.c:1263
+#: ../widgets/table/e-table-header-item.c:1812 ../widgets/text/e-entry.c:1263
 #: ../widgets/text/e-entry.c:1264
 msgid "Fontset"
 msgstr "Letra-tipoak"
 
 #
-#: ../widgets/table/e-table-header-item.c:1832
+#: ../widgets/table/e-table-header-item.c:1833
 #: ../widgets/table/e-table-sorter.c:175
 msgid "Sort Info"
 msgstr "Ordenatu informazioa"
 
-#: ../widgets/table/e-table-header-item.c:1846
+#: ../widgets/table/e-table-header-item.c:1847
 #: ../widgets/table/e-tree-scrolled.c:221
 #: ../widgets/table/e-tree-scrolled.c:222
 msgid "Tree"
 msgstr "Zuhaitza"
 
-#: ../widgets/table/e-table-item.c:2951 ../widgets/table/e-table-item.c:2952
+#: ../widgets/table/e-table-item.c:2952 ../widgets/table/e-table-item.c:2953
 msgid "Table header"
 msgstr "Taulako goiburua"
 
-#: ../widgets/table/e-table-item.c:2958 ../widgets/table/e-table-item.c:2959
+#: ../widgets/table/e-table-item.c:2959 ../widgets/table/e-table-item.c:2960
 msgid "Table model"
 msgstr "Taulako eredua"
 
-#: ../widgets/table/e-table-item.c:3034 ../widgets/table/e-table-item.c:3035
+#: ../widgets/table/e-table-item.c:3035 ../widgets/table/e-table-item.c:3036
 msgid "Cursor row"
 msgstr "Kurtsore-zutabea"
 
@@ -21218,3 +21073,4 @@ msgstr "BM testuingurua"
 #: ../widgets/text/e-text.c:3706 ../widgets/text/e-text.c:3707
 msgid "Handle Popup"
 msgstr "Kudeatu laster-leihoa"
+

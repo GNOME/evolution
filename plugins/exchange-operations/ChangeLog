@@ -1,44 +1,37 @@
 2006-05-11  Sankar P  <psankar@novell.com>
 
-	* exchange-account-setup.c: (btn_chpass_clicked):
-	Do not print the password in the terminal.
-	
-2006-05-10  Sushma Rai  <rsushma@novell.com>
-	
-	* exchange-config-listener.c (account_changed): Using the HIGified
-	notification message. 
-
-	* org-gnome-exchange-operations.error.xml: Similar,
-	Fixes #302825.
+	* exchange-account-setup.c: 
+	Do not display password in the terminal
 
 2006-05-10  Sushma Rai  <rsushma@novell.com>
 
-	* exchange-account-setup.c (owa_authenticate_user): Display error
+	* exchange-account-setup.c 
+	(org_gnome_exchange_show_folder_size_factory): Not showing the worng 
+	folder size 0 KB in offline mode. See #339266.
+
+2006-05-10  Sushma Rai  <rsushma@novell.com>
+
+	* exchange-account-setup.c (owa_authenticate_user): Display error 
 	message only in case of authentication failure and not on cancelling
 	authentication operation. Fixes #332131
 
 2006-04-19  Sushma Rai  <rsushma@novell.com>
 
-	* exchange-contacts.c (e_exchange_contacts_commit): Setting the
+	* exchange-contacts.c (e_exchange_contacts_commit): Setting the 
 	e-source properties on both successful creation and rename of a folder.
 	
 	* exchange-calendar.c (e_exchange_calendar_commit): Similar.
 	Fixes #338876 and #328578.
 
-2006-04-19  Sushma Rai  <rsushma@novell.com>
-
-	* exchange-account-setup.c (owa_authenticate_user): Changed the 
-	function signature. Fixes #329371.
-
 2006-04-17  Sushma Rai  <rsushma@novell.com>
 
-	* exchange-contacts.c (e_exchange_contacts_check): Return TRUE in case
+	* exchange-contacts.c (e_exchange_contacts_check): Return TRUE incase
 	of non-exchange accounts.
 
-	* exchange-calendar.c (e_exchange_calendar_check): Similar. 
+	* exchange-calendar.c (e_exchange_calendar_check): Similar.
 	Fixes #338198.
 
-2006-04-10  Sushma Rai  <rsushma@novell.com>
+2006-03-10  Sushma Rai  <rsushma@novell.com>
 
 	* exchange-operations.[ch] (is_exchange_personal_folder): Added new to
 	check if a folder is a personal folder or not.
@@ -53,7 +46,7 @@
 	(e_exchange_calendar_check)(e_exchange_calendar_commit): Similar.
 	Fixes #328813 and #315522.
 
-2006-04-06  Sushma Rai  <rsushma@novell.com>
+2006-03-10  Sushma Rai  <rsushma@novell.com>
 
 	* exchange-operations.c (exchange_operations_update_child_esources):
 	Checking for ruri NULL.
@@ -61,11 +54,11 @@
 	* exchange-folder.c (org_gnome_exchange_check_address_book_subscribed):
 	Freeing uri.
 
-	* exchange-contacts.c (e_exchange_contacts_get_contacts): Defined as 
-	static. 
-	(e_exchange_contacts_pcontacts): Setting contacts_src_exists for GAL 
-	folder. 
-	(e_exchange_contacts_check): Checking for new folder creation and also 
+	* exchange-contacts.c (e_exchange_contacts_get_contacts): Defined as
+	static.
+	(e_exchange_contacts_pcontacts): Setting contacts_src_exists for GAL
+	folder.
+	(e_exchange_contacts_check): Checking for new folder creation and also
 	not allowing rename of GAL and Contacts folders.
 	(e_exchange_contacts_commit): Corrected the way relative URI was being
 	constructed during rename operation. Handling the return value of the
@@ -73,7 +66,7 @@
 
 	* exchange-calendar.c (e_exchange_calendar_get_calendars): Defined as a
 	static function.
-	(e_exchange_calendar_check): Not allowing the rename of standard 
+	(e_exchange_calendar_check): Not allowing the rename of standard
 	calendar and tasks folders.
 	(e_exchange_calendar_commit): Corrected the way relative URI was being
 	formed during rename operation. Also, handling the return value of the

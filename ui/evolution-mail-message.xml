@@ -318,7 +318,7 @@
         </placeholder>
 
         <placeholder name="MessageNavigation">
-          <submenu name="GoTo" _label="_Go To" pixtype="stock" pixname="gtk-jump-to">
+          <submenu name="GoTo" _label="_Go To">
             <menuitem name="MailNext" verb="" _label="_Next Message"/>
             <menuitem name="MailNextUnread" verb="" _label="Next _Unread Message"/>
             <menuitem name="MailNextFlagged" verb="" _label="Next _Important Message"/>

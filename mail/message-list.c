@@ -158,8 +158,6 @@ static GtkTargetEntry ml_drop_types[] = {
 #define COL_TO_WIDTH_MIN       (32)
 #define COL_SIZE_EXPANSION     (6.0)
 #define COL_SIZE_WIDTH_MIN     (32)
-#define COL_SENDER_EXPANSION     (24.0)
-#define COL_SENDER_WIDTH_MIN     (32)
 
 enum {
 	NORMALISED_SUBJECT,
@@ -900,10 +898,10 @@ ml_duplicate_value (ETreeModel *etm, int col, const void *value, void *data)
 	case COL_FROM:
 	case COL_SUBJECT:
 	case COL_TO:
-	case COL_SENDER:		
 	case COL_FOLLOWUP_FLAG:
 	case COL_LOCATION:
 		return g_strdup (value);
+		
 	default:
 		g_assert_not_reached ();
 	}
@@ -932,7 +930,6 @@ ml_free_value (ETreeModel *etm, int col, void *value, void *data)
 	case COL_TO:
 	case COL_FOLLOWUP_FLAG:
 	case COL_LOCATION:
-	case COL_SENDER:		
 		g_free (value);
 		break;
 	default:
@@ -962,7 +959,6 @@ ml_initialize_value (ETreeModel *etm, int col, void *data)
 	case COL_TO:
 	case COL_FOLLOWUP_FLAG:
 	case COL_LOCATION:
-	case COL_SENDER:
 		return g_strdup ("");
 	default:
 		g_assert_not_reached ();
@@ -993,7 +989,6 @@ ml_value_is_empty (ETreeModel *etm, int col, const void *value, void *data)
 	case COL_TO:
 	case COL_FOLLOWUP_FLAG:
 	case COL_LOCATION:
-	case COL_SENDER:		
 		return !(value && *(char *)value);
 	default:
 		g_assert_not_reached ();
@@ -1058,7 +1053,6 @@ ml_value_to_string (ETreeModel *etm, int col, const void *value, void *data)
 	case COL_TO:
 	case COL_FOLLOWUP_FLAG:
 	case COL_LOCATION:
-	case COL_SENDER:		
 		return g_strdup (value);
 	default:
 		g_assert_not_reached ();
@@ -1296,19 +1290,7 @@ ml_tree_value_at (ETreeModel *etm, ETreePath path, int col, void *model_data)
 		camel_object_get(folder, NULL, CAMEL_OBJECT_DESCRIPTION, &name, 0);
 		return name;
 	}
-	case COL_SENDER:{
-		char **sender_name;
-        	str = camel_message_info_from (msg_info);
-	        if(str!=""){
-			sender_name=g_strsplit(str,"<",2);
-			return (void *)(*sender_name);
-		}
-		else
-			return (void *)("");
-		
-                g_strfreev(sender_name); 
-	}
- 	default:
+	default:
 		g_assert_not_reached ();
 		return NULL;
 	}

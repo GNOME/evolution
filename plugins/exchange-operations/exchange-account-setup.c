@@ -461,7 +461,7 @@ owa_authenticate_user(GtkWidget *button, EConfig *config)
 		exchange_params->is_ntlm = TRUE;
 	else
 		exchange_params->is_ntlm = FALSE;
-	valid =  e2k_validate_user (owa_url, &url->user, exchange_params, 
+	valid =  e2k_validate_user (owa_url, url->user, exchange_params, 
 						&remember_password, &result);
 
 	if (!valid && result != E2K_AUTOCONFIG_CANCELLED)
@@ -928,6 +928,7 @@ org_gnome_exchange_show_folder_size_factory (EPlugin *epl, EConfigHookItemFactor
 	GtkVBox *vbx;
 	GtkHBox *hbx_size;
 	char *folder_name, *folder_size;
+	int mode;
 
 	service = CAMEL_SERVICE (camel_folder_get_parent_store (cml_folder));
 	if (!service)
@@ -939,11 +940,16 @@ org_gnome_exchange_show_folder_size_factory (EPlugin *epl, EConfigHookItemFactor
 
 	if (g_ascii_strcasecmp (provider->protocol, "exchange"))
 		return NULL;
+
+	account = exchange_operations_get_exchange_account ();
+	exchange_account_is_offline (account, &mode);
+	if (mode == OFFLINE_MODE)
+		return NULL;
 	
 	folder_name = (char*) camel_folder_get_name (cml_folder);
 	if (!folder_name)
 		folder_name = g_strdup ("name");
-	account = exchange_operations_get_exchange_account ();
+
 	model = exchange_account_folder_size_get_model (account);
 	if (model)
 		folder_size = g_strdup_printf ("%s KB", exchange_folder_size_get_val (model, folder_name));

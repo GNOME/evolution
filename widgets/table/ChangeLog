@@ -1,9 +1,3 @@
-2006-05-12  Hiroyuki Ikezoe  <poincare@ikezoe.net>
-
-	** Fixes bug #341530.
-	* e-table.h:
-	Removed duplicate delcaration of e_table_commi_click_to_add.
-
 2006-04-10  Jeff Cai <jeff.cai@sun.com>
 
 	** Fixes bug #327035

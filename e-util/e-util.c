@@ -39,7 +39,6 @@
 #include <glib/gstdio.h>
 #include <gtk/gtk.h>
 #include <libgnome/gnome-util.h>
-#include <libgnomevfs/gnome-vfs.h>
 
 #ifdef G_OS_WIN32
 #include <windows.h>
@@ -236,35 +235,6 @@ e_write_file(const char *filename, const char *data, int flags)
 	if (close(fd) != 0) {
 		return errno;
 	}
-	return 0;
-}
-
-gint
-e_write_file_uri (const char *filename, const char *data)
-{
-	guint64 length = strlen(data);
-	guint64 bytes;
-	GnomeVFSResult result;
-	GnomeVFSHandle *handle = NULL;
-
-	result = gnome_vfs_create (&handle, filename, GNOME_VFS_OPEN_WRITE, TRUE, 0755);
-	if (result != GNOME_VFS_OK) {
-		g_warning ("Couldn't save item");
-		return 1;
-	}
-	
-	while (length > 0) {
-		gnome_vfs_write(handle, data, length, &bytes);
-		if (bytes > 0) {
-			length -= bytes;
-			data += bytes;
-		} else {
-			gnome_vfs_close(handle);
-			return 1;
-		}
-	}
-
-	gnome_vfs_close (handle);
 	return 0;
 }
 

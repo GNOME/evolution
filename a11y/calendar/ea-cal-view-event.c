@@ -1,4 +1,6 @@
 /* -*- Mode: C++; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+/* vim:expandtab:shiftwidth=8:tabstop=8:
+ */
 /* Evolution Accessibility: ea-cal-view-event.c
  *
  * Copyright (C) 2003 Ximian, Inc.
@@ -131,7 +133,7 @@ ea_cal_view_event_class_init (EaCalViewEventClass *klass)
 
 	parent_class = g_type_class_peek_parent (klass);
 
-	gobject_class->dispose = ea_cal_view_event_dispose;
+        gobject_class->dispose = ea_cal_view_event_dispose;
 
 	class->get_name = ea_cal_view_event_get_name;
 	class->get_description = ea_cal_view_event_get_description;

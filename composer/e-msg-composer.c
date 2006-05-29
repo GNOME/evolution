@@ -1782,19 +1782,8 @@ add_to_bar (EMsgComposer *composer, GSList *names, int is_inline)
 	EMsgComposerPrivate *p = composer->priv;
 
 	while (names) {
-		CamelURL *url;
-		
-		if (!(url = camel_url_new (names->data, NULL)))
-			continue;
-		
-		if (!g_ascii_strcasecmp (url->protocol, "file")) {		
-			e_attachment_bar_attach((EAttachmentBar *)p->attachment_bar, url->path, is_inline ? "inline" : "attachment");
-		} else {
-			e_attachment_bar_attach_remote_file ((EAttachmentBar *)p->attachment_bar, names->data, is_inline ? "inline" : "attachment");			
-		}
-		
-		camel_url_free (url);
-		names = names->next;
+		e_attachment_bar_attach((EAttachmentBar *)p->attachment_bar, names->data, is_inline ? "inline" : "attachment");
+		names = g_slist_next(names);
 	}
 }
 	
@@ -2924,9 +2913,8 @@ drop_action(EMsgComposer *composer, GdkDragContext *context, guint32 action, Gtk
 	CamelURL *url;
 	CamelMimeMessage *msg;
 	char *content_type;
-	int i, success = FALSE, delete = FALSE;
+	int i, success=FALSE, delete=FALSE;
 	EMsgComposerPrivate *p = composer->priv;
-	gboolean is_image;
 	
 	switch (info) {
 	case DND_TYPE_MESSAGE_RFC822:
@@ -2955,33 +2943,37 @@ drop_action(EMsgComposer *composer, GdkDragContext *context, guint32 action, Gtk
 		
 		for (i = 0; urls[i] != NULL; i++) {
 			str = g_strstrip (urls[i]);
-			if (str[0] == '#' || str[0] == '\0') {
-				g_free (str);
+			if (urls[i][0] == '#') {
+				g_free(str);
 				continue;
 			}
-			
+
 			if (!g_ascii_strncasecmp (str, "mailto:", 7)) {
 				handle_mailto (composer, str);
+				g_free (str);
 			} else {
-				if (!(url = camel_url_new (str, NULL))) {
+				url = camel_url_new (str, NULL);
+
+				if (url == NULL) {
 					g_free (str);
 					continue;
 				}
-				
+
 				if (!g_ascii_strcasecmp (url->protocol, "file")) {
-					type = attachment_guess_mime_type (str);
-					if (strncmp (type, "image", 5) || (!p->send_html && !strncmp (type, "image", 5)))
-						e_attachment_bar_attach (E_ATTACHMENT_BAR (p->attachment_bar),
-									 url->path, "attachment");
+						type=attachment_guess_mime_type (str);
+						if (strncmp (type, "image", 5) || (!p->send_html && !strncmp (type, "image", 5)))
+							e_attachment_bar_attach
+							(E_ATTACHMENT_BAR (p->attachment_bar),
+						 	url->path,
+							"attachment");
 				} else	{
-					e_attachment_bar_attach_remote_file (E_ATTACHMENT_BAR (p->attachment_bar),
-									     str, "attachment");
+					e_attachment_bar_attach_remote_file 
+						(E_ATTACHMENT_BAR (p->attachment_bar),
+						str);
 				}
-				
+				g_free (str);
 				camel_url_free (url);
 			}
-			
-			g_free (str);
 		}
 		
 		g_free (urls);
@@ -2996,11 +2988,13 @@ drop_action(EMsgComposer *composer, GdkDragContext *context, guint32 action, Gtk
 		camel_mime_part_set_content (mime_part, selection->data, selection->length, content_type);
 		camel_mime_part_set_disposition (mime_part, "inline");
 		
-		e_attachment_bar_attach_mime_part (E_ATTACHMENT_BAR (p->attachment_bar), mime_part);
+		e_attachment_bar_attach_mime_part
+			(E_ATTACHMENT_BAR (p->attachment_bar),
+			 mime_part);
 		
 		camel_object_unref (mime_part);
 		g_free (content_type);
-		
+
 		success = TRUE;
 		break;
 	case DND_TYPE_X_UID_LIST: {
@@ -3094,9 +3088,10 @@ drop_action(EMsgComposer *composer, GdkDragContext *context, guint32 action, Gtk
 		break;
 	}
 
-	if (e_attachment_bar_get_num_attachments(E_ATTACHMENT_BAR(p->attachment_bar)))
+	if (e_attachment_bar_get_num_attachments(E_ATTACHMENT_BAR(p->attachment_bar))) {
 		show_attachments (composer, TRUE);
-	
+	}
+
 	gtk_drag_finish(context, success, delete, time);
 }
 
@@ -6265,6 +6260,7 @@ e_msg_composer_insert_paragraph_after (EMsgComposer *composer)
 	if (!p->in_signature_insert) {
 	      CORBA_char *orig, *signature;
 	      /* FIXME check for insert-paragraph command */
+	      GNOME_GtkHTML_Editor_Engine_runCommand (p->eeditor_engine, "text-default-color", &ev);
 	      GNOME_GtkHTML_Editor_Engine_runCommand (p->eeditor_engine, "italic-off", &ev);
 	
 	      orig = GNOME_GtkHTML_Editor_Engine_getParagraphData (p->eeditor_engine, "orig", &ev);
