@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD.dz\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-05-03 21:52+0200\n"
-"PO-Revision-Date: 2006-05-08 15:48+0530\n"
+"POT-Creation-Date: 2006-05-28 21:57+0200\n"
+"PO-Revision-Date: 2006-05-30 10:08+0530\n"
 "Last-Translator: Mindu Dorji\n"
 "Language-Team: DZONGKHA <pgeyleg@dit.gov.bt>\n"
 "MIME-Version: 1.0\n"
@@ -156,9 +156,10 @@ msgstr "%A %d %b %Y"
 #. specifiers or add anything.
 #: ../a11y/calendar/ea-gnome-calendar.c:190
 #: ../calendar/gui/calendar-component.c:664
-#: ../calendar/gui/e-day-view-top-item.c:801
-#: ../calendar/gui/e-day-view.c:1517
-#: ../calendar/gui/e-week-view-main-item.c:333
+#: ../calendar/gui/e-day-view-top-item.c:1315
+#: ../calendar/gui/e-day-view.c:1551
+#: ../calendar/gui/e-week-view-main-item.c:319
+#: ../calendar/gui/e-week-view-main-item.c:533
 msgid "%a %d %b"
 msgstr "%a %d %b"
 
@@ -189,9 +190,10 @@ msgstr "%d %b %Y"
 #. change the specifiers or add anything.
 #: ../a11y/calendar/ea-gnome-calendar.c:220
 #: ../calendar/gui/calendar-component.c:690
-#: ../calendar/gui/e-day-view-top-item.c:805
-#: ../calendar/gui/e-day-view.c:1533
-#: ../calendar/gui/e-week-view-main-item.c:347
+#: ../calendar/gui/e-day-view-top-item.c:1319
+#: ../calendar/gui/e-day-view.c:1567
+#: ../calendar/gui/e-week-view-main-item.c:333
+#: ../calendar/gui/e-week-view-main-item.c:547
 msgid "%d %b"
 msgstr "%d %b"
 
@@ -767,9 +769,10 @@ msgstr "ཁ་བྱང་ཀི་དེབ་གསརཔ།(_N)"
 #: ../addressbook/gui/component/addressbook-view.c:957
 #: ../addressbook/gui/widgets/e-addressbook-view.c:979
 #: ../calendar/gui/calendar-component.c:538
-#: ../calendar/gui/e-calendar-table.c:1268
-#: ../calendar/gui/e-calendar-view.c:1728
-#: ../calendar/gui/e-memo-table.c:869
+#: ../calendar/gui/e-calendar-table.c:1261
+#: ../calendar/gui/e-calendar-view.c:1720
+#: ../calendar/gui/e-memo-table.c:861
+#: ../calendar/gui/memos-component.c:452
 #: ../calendar/gui/tasks-component.c:443
 #: ../mail/em-folder-tree.c:2061
 #: ../mail/em-folder-view.c:1096
@@ -787,6 +790,7 @@ msgstr "ཝི་ཤོག་བྱང་སྦེ་སྲུངས་..."
 
 #: ../addressbook/gui/component/addressbook-view.c:961
 #: ../calendar/gui/calendar-component.c:539
+#: ../calendar/gui/memos-component.c:453
 #: ../calendar/gui/tasks-component.c:444
 msgid "_Properties..."
 msgstr "རྒྱུ་དངོས་ཚུ་...(_P)"
@@ -843,7 +847,7 @@ msgid "URI for the folder last used in the select names dialog."
 msgstr "མིང་སེལ་འཐུའི་ཌའི་ལོག་ནང་ མཐའ་མཇུག་ལག་ལེན་འཐབ་མི་ སྣོད་འཛིན་གྱི་དོན་ལུ་ ཡུ་ཨར་ཨའི།"
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:9
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:65
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:67
 msgid "Vertical pane position"
 msgstr "ཀེར་ཕྲང་པེན་གྱི་གནས་ས།"
 
@@ -1172,7 +1176,7 @@ msgstr "ཨེ་ཨའི་ཨེམ།"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:12
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:274
-#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:170
+#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:171
 #: ../addressbook/gui/contact-list-editor/e-contact-list-editor.etspec.h:1
 #: ../addressbook/gui/widgets/e-minicard.c:182
 msgid "Contact"
@@ -1252,11 +1256,8 @@ msgid "_Calendar:"
 msgstr "ཟླ་ཐོ་: (_C)"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:29
-#: ../ui/evolution-event-editor.xml.h:27
-#: ../ui/evolution-memo-editor.xml.h:6
-#: ../ui/evolution-task-editor.xml.h:18
-msgid "_Categories"
-msgstr "དབྱེ་རིམ། (_C)"
+msgid "_Categories..."
+msgstr "དབྱེ་རིམ་ཚུ་...(_C)"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:30
 msgid "_City:"
@@ -1352,7 +1353,7 @@ msgstr "ཁ་བྱང་།"
 #: ../addressbook/gui/contact-editor/e-contact-editor-fullname.c:96
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:142
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:302
-#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:184
+#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:185
 #: ../addressbook/gui/widgets/e-addressbook-model.c:310
 #: ../addressbook/gui/widgets/e-addressbook-reflow-adapter.c:398
 #: ../addressbook/gui/widgets/e-minicard-label.c:164
@@ -2451,6 +2452,22 @@ msgstr ""
 "འབྲེལ་སའི་གནད་སྡུད་དེ་ ནུས་མེད་ཨིན་པས།:\n"
 "\n"
 
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3064
+#, c-format
+msgid "'%s' has an invalid format"
+msgstr "'%s'ལུ་ནུས་མེད་རྩ་སྒྲིག་ཅིག་འདུག"
+
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3071
+#, c-format
+msgid "%s'%s' has an invalid format"
+msgstr "%s'%s'ལུ་ནུས་མེད་རྩ་སྒྲིག་ཅིག་འདུག"
+
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3086
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3097
+#, c-format
+msgid "%s'%s' is empty"
+msgstr "%s'%s'སྟོངམ་ཨིན་མས།"
+
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:3112
 msgid "Invalid contact."
 msgstr "ནུས་མེད་འབྲེལ་ས།"
@@ -2463,15 +2480,15 @@ msgstr "ཀུ་ཡིག་-ཨེཌི་ལུ་འབྲེལ་བ་�
 msgid "_Edit Full"
 msgstr "ཆ་ཚང་ཞུན་དག (_E)"
 
-#: ../addressbook/gui/contact-editor/e-contact-quick-add.c:337
+#: ../addressbook/gui/contact-editor/e-contact-quick-add.c:338
 msgid "_Full name"
 msgstr "མིང་ཆ་ཚང་། (_F)"
 
-#: ../addressbook/gui/contact-editor/e-contact-quick-add.c:347
+#: ../addressbook/gui/contact-editor/e-contact-quick-add.c:348
 msgid "E-_mail"
 msgstr "གློག་འཕྲིན།  (_m)"
 
-#: ../addressbook/gui/contact-editor/e-contact-quick-add.c:357
+#: ../addressbook/gui/contact-editor/e-contact-quick-add.c:358
 msgid "_Select Address Book"
 msgstr "ཁ་བྱང་ཀི་དེབ་སེལ་འཐུ་འབད།(_S)"
 
@@ -2607,6 +2624,7 @@ msgid "_IM Service:"
 msgstr "ཨའི་ཨེམ་ཞབས་ཏོག་: (_I)"
 
 #: ../addressbook/gui/contact-editor/im.glade.h:5
+#: ../calendar/gui/dialogs/event-page.glade.h:16
 #: ../plugins/calendar-weather/calendar-weather.c:409
 #: ../plugins/exchange-operations/exchange-calendar.c:242
 #: ../plugins/exchange-operations/exchange-contacts.c:235
@@ -2622,7 +2640,7 @@ msgid "Add an email to the List"
 msgstr "ཐོ་ཡིག་ལུ་ གློག་འཕྲིན་ཅིག་ ཁ་སྐོང་རྐྱབས།"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:5
-#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:846
+#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:874
 msgid "Contact List Editor"
 msgstr "འབྲེལ་སའི་ཐོ་ཡིག་ཞུན་དགཔ།"
 
@@ -2654,7 +2672,7 @@ msgstr "སེལ་འཐུ་འབད། (_S)"
 msgid "_Type an email address or drag a contact into the list below:"
 msgstr "འོག་གི་ཐོ་ཡིག་ནང་ལུ་ གློག་འཕྲིན་ཁ་བྱང་ཅིག་ ཡིག་དཔར་རྐྱབས་ ཡང་ཅིན་ འབྲེལ་ས་ཅིག་ འདྲུད་དེ་སྐྱེལ། (_T)"
 
-#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:163
+#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:164
 #: ../addressbook/gui/widgets/e-addressbook-model.c:296
 #: ../addressbook/gui/widgets/e-addressbook-reflow-adapter.c:384
 #: ../addressbook/gui/widgets/e-addressbook-view.c:223
@@ -2663,15 +2681,15 @@ msgstr "འོག་གི་ཐོ་ཡིག་ནང་ལུ་ གློ�
 msgid "Book"
 msgstr "ཀི་དེབ།"
 
-#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:177
+#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:178
 msgid "Is New List"
 msgstr "ཐོ་ཡིག་གསརཔ་ཨིན།"
 
-#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:719
+#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:747
 msgid "_Members"
 msgstr "འཐུས་མི་ཚུ། (_M)"
 
-#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:722
+#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:750
 msgid "Contact List Members"
 msgstr "འབྲེལ་སའི་ཐོ་ཡིག་འཐུས་མི།"
 
@@ -2794,10 +2812,10 @@ msgid "Save as VCard..."
 msgstr "ཝི་ཤོག་བྱང་བཟུམ་སྦེ་ སྲུངས།..."
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:957
-#: ../calendar/gui/dialogs/comp-editor.c:1088
-#: ../calendar/gui/e-calendar-table.c:1248
-#: ../calendar/gui/e-calendar-view.c:1706
-#: ../calendar/gui/e-memo-table.c:852
+#: ../calendar/gui/dialogs/comp-editor.c:1098
+#: ../calendar/gui/e-calendar-table.c:1241
+#: ../calendar/gui/e-calendar-view.c:1698
+#: ../calendar/gui/e-memo-table.c:844
 #: ../ui/evolution-addressbook.xml.h:56
 msgid "_Open"
 msgstr "ཁ་ཕྱེ། (_O)"
@@ -2855,11 +2873,12 @@ msgstr "བཏོག (_t)"
 #: ../addressbook/gui/widgets/e-addressbook-view.c:977
 #: ../calendar/gui/calendar-component.c:537
 #: ../calendar/gui/dialogs/comp-editor.c:445
-#: ../calendar/gui/e-calendar-table.c:1256
-#: ../calendar/gui/e-calendar-view.c:1713
-#: ../calendar/gui/e-memo-table.c:860
+#: ../calendar/gui/e-calendar-table.c:1249
+#: ../calendar/gui/e-calendar-view.c:1705
+#: ../calendar/gui/e-memo-table.c:852
+#: ../calendar/gui/memos-component.c:451
 #: ../calendar/gui/tasks-component.c:442
-#: ../composer/e-msg-composer.c:3120
+#: ../composer/e-msg-composer.c:3125
 #: ../mail/em-folder-tree.c:986
 #: ../mail/em-folder-view.c:1082
 #: ../mail/message-list.c:1742
@@ -3189,7 +3208,7 @@ msgid "_Open Link in Browser"
 msgstr "བརའུ་ཟར་ནང་ལུ་ འབྲེལ་ལམ་ཁ་ཕྱེ། (_O)"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:164
-#: ../mail/em-folder-view.c:2464
+#: ../mail/em-folder-view.c:2467
 msgid "_Copy Link Location"
 msgstr "འབྲེལ་ལམ་གནས་ཁོངས་ འདྲ་བཤུས་རྐྱབས། (_C)"
 
@@ -3227,8 +3246,8 @@ msgid "Position"
 msgstr "གནས་ས།"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:519
-msgid "Video Conferencing"
-msgstr "གློག་ཐོག་ཞལ་འཛོམས"
+msgid "Video Chat"
+msgstr "གློག་ཐོག་ཁ་སླབ།"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:520
 #: ../addressbook/gui/widgets/eab-contact-display.c:535
@@ -3244,13 +3263,12 @@ msgid "work"
 msgstr "ལཱ་གཡོག"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:532
-msgid "WWW"
-msgstr "ཌབ་ལུ་ཌབ་ལུ་ཌབ་ལུ།"
+msgid "Home Page"
+msgstr "ཁྱིམ་གྱི་ཤོག་ལེབ།"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:533
-#: ../addressbook/gui/widgets/eab-contact-display.c:757
-msgid "Blog"
-msgstr "བོལོག"
+msgid "Web Log"
+msgstr "ཝེབ་དྲན་དེབ།"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:540
 msgid "personal"
@@ -3263,6 +3281,10 @@ msgstr "ལས་གཡོག་གི་མགོ་མིང་།"
 #: ../addressbook/gui/widgets/eab-contact-display.c:749
 msgid "Home page"
 msgstr "ཁྱིམ་གྱི་ཤོག་ལེབ།"
+
+#: ../addressbook/gui/widgets/eab-contact-display.c:757
+msgid "Blog"
+msgstr "བོལོག"
 
 #. E_BOOK_ERROR_OK
 #: ../addressbook/gui/widgets/eab-gui-util.c:50
@@ -3428,7 +3450,7 @@ msgid "Error adding list"
 msgstr "ཐོ་ཡིག་ཁ་སྐོང་བརྐྱབ་ནི་ལུ་འཛོལ་བ།"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:187
-#: ../addressbook/gui/widgets/eab-gui-util.c:695
+#: ../addressbook/gui/widgets/eab-gui-util.c:700
 msgid "Error adding contact"
 msgstr "འབྲེལ་ས་ཁ་སྐོང་བརྐྱབ་ནི་ལུ་འཛོལ་བ།"
 
@@ -3445,7 +3467,7 @@ msgid "Error removing list"
 msgstr "ཐོ་ཡིག་རྩ་བསྐྲད་གཏང་ནི་ལུ་འཛོལ་བ།"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:210
-#: ../addressbook/gui/widgets/eab-gui-util.c:650
+#: ../addressbook/gui/widgets/eab-gui-util.c:655
 msgid "Error removing contact"
 msgstr "འབྲེལ་ས་རྩ་བསྐྲད་གཏང་ནི་ལུ་འཛོལ་བ།"
 
@@ -3480,57 +3502,57 @@ msgstr "ཚབ་སྲུང་འབད།"
 #. more than one, finding the total number of contacts might
 #. * hit performance while saving large number of contacts
 #.
-#: ../addressbook/gui/widgets/eab-gui-util.c:370
-#: ../addressbook/gui/widgets/eab-gui-util.c:373
+#: ../addressbook/gui/widgets/eab-gui-util.c:372
+#: ../addressbook/gui/widgets/eab-gui-util.c:375
 msgid "contact"
 msgid_plural "contacts"
 msgstr[0] "འབྲེལ་ས།"
 msgstr[1] "འབྲེལ་ས།"
 
 #. This is a filename. Translators take note.
-#: ../addressbook/gui/widgets/eab-gui-util.c:420
+#: ../addressbook/gui/widgets/eab-gui-util.c:423
 msgid "card.vcf"
 msgstr "ཤོག་བྱང་.ཝི་སི་ཨེཕ།"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:457
+#: ../addressbook/gui/widgets/eab-gui-util.c:460
 msgid "Select Address Book"
 msgstr "ཁ་བྱང་ཀི་དེབ་སེལ་འཐུ་འབད།"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:596
+#: ../addressbook/gui/widgets/eab-gui-util.c:601
 msgid "list"
 msgstr "ཐོ་ཡིག"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:756
+#: ../addressbook/gui/widgets/eab-gui-util.c:761
 msgid "Move contact to"
 msgstr "འབྲེལ་ས་ལུ་ སྤོ་བཤུད་འབད།"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:758
+#: ../addressbook/gui/widgets/eab-gui-util.c:763
 msgid "Copy contact to"
 msgstr "འབྲེལ་ས་ལུ་ འདྲ་བཤུས་རྐྱབས།"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:761
+#: ../addressbook/gui/widgets/eab-gui-util.c:766
 msgid "Move contacts to"
 msgstr "འབྲེལ་ས་ཚུ་སྤོ་བཤུད་འབད་ཡུལ།"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:763
+#: ../addressbook/gui/widgets/eab-gui-util.c:768
 msgid "Copy contacts to"
 msgstr "འབྲེལ་ས་ཚུ་འདྲ་བཤུས་བརྐྱབ་ཡུལ།"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:989
+#: ../addressbook/gui/widgets/eab-gui-util.c:994
 msgid "Multiple VCards"
 msgstr "སྣ་མང་ཝི་ཤོག་བྱང་།"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:992
+#: ../addressbook/gui/widgets/eab-gui-util.c:997
 #, c-format
 msgid "VCard for %s"
 msgstr "%sགི་དོན་ལས་ ཝི་ཤོག་བྱང་།"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:1033
-#: ../addressbook/gui/widgets/eab-gui-util.c:1051
+#: ../addressbook/gui/widgets/eab-gui-util.c:1038
+#: ../addressbook/gui/widgets/eab-gui-util.c:1056
 msgid "Contact information"
 msgstr "འབྲེལ་སའི་བརྡ་དོན།"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:1053
+#: ../addressbook/gui/widgets/eab-gui-util.c:1058
 #, c-format
 msgid "Contact information for %s"
 msgstr "%sགི་དོན་ལུ་འབྲེལ་སའི་བརྡ་དོན།"
@@ -3784,7 +3806,7 @@ msgstr "ནག་གྲིབ་བཟོ་བ།"
 
 #. FIXME: Take care of i18n
 #: ../addressbook/printing/e-contact-print.glade.h:36
-#: ../plugins/exchange-operations/exchange-account-setup.c:955
+#: ../plugins/exchange-operations/exchange-account-setup.c:956
 #: ../plugins/exchange-operations/exchange-calendar.c:231
 #: ../plugins/exchange-operations/exchange-contacts.c:218
 msgid "Size:"
@@ -4228,8 +4250,8 @@ msgstr "ཉིན་མོའི་སྣ་མང་བྱུང་ལས་ཚ
 #: ../calendar/conduits/calendar/calendar-conduit.c:1433
 #: ../calendar/conduits/memo/memo-conduit.c:854
 #: ../calendar/conduits/memo/memo-conduit.c:855
-#: ../calendar/conduits/todo/todo-conduit.c:1032
-#: ../calendar/conduits/todo/todo-conduit.c:1033
+#: ../calendar/conduits/todo/todo-conduit.c:1038
+#: ../calendar/conduits/todo/todo-conduit.c:1039
 msgid "Could not start evolution-data-server"
 msgstr "ཨི་བོ་ལུ་ཤཱན་ གནད་སྡུད་སར་བར་ འགོ་བཙུགས་མ་ཚུགས།"
 
@@ -4346,13 +4368,13 @@ msgstr "ལས་ཀ་ཚུ། (_T)"
 msgid "Evolution Calendar alarm notification service"
 msgstr "ཨི་བོ་ལུ་ཤཱན་ ཟླ་ཐོའི་འཇིགས་བརྡ་གི་ བརྡ་བསྐུལ་ཞབས་ཏོག"
 
-#: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:115
+#: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:116
 msgid "minute"
 msgid_plural "minutes"
 msgstr[0] "སྐར་མ།"
 msgstr[1] "སྐར་མ་ཚུ།"
 
-#: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:130
+#: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:131
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:6
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:24
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:13
@@ -4365,7 +4387,7 @@ msgid_plural "hours"
 msgstr[0] "ཆུ་ཚོད་ཚུ།"
 msgstr[1] "ཆུ་ཚོད་ཚུ།"
 
-#: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:270
+#: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:277
 msgid "Start time"
 msgstr "འགོ་བཙུགས་དུས་ཚོད།"
 
@@ -4376,8 +4398,8 @@ msgstr "ངོ་འཕྲད་ཚུ།"
 
 #. Location
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:2
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1609
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1615
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1612
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1618
 #: ../calendar/gui/e-itip-control.c:1113
 #: ../plugins/itip-formatter/itip-view.c:880
 msgid "Location:"
@@ -4415,31 +4437,31 @@ msgstr "ཉིན་གཉིད་ཁུག་ནི། (_S)"
 msgid "location of appointment"
 msgstr "ངོ་འཕྲད་ཀྱི་གནས་ཁོངས།"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1445
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1591
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1448
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1594
 msgid "No summary available."
 msgstr "བཅུད་དོན་མི་འཐོབ་པས།"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1454
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1456
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1457
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1459
 msgid "No description available."
 msgstr "འགྲེལ་བཤད་མི་འཐོབ་པས།"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1464
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1467
 msgid "No location information available."
 msgstr "གནས་ཁོངས་ཀྱི་བརྡ་དོན་མི་འཐོབ་པས།"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1523
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1526
 #, c-format
 msgid "You have %d alarms"
 msgstr "འདི་ལུ་འཇིགས་བརྡ་%dའདུག"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1689
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1715
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1692
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1718
 msgid "Warning"
 msgstr "ཉེན་བརྡ།"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1693
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1696
 msgid ""
 "Evolution does not support calendar reminders with\n"
 "email notifications yet, but this reminder was\n"
@@ -4451,7 +4473,7 @@ msgstr ""
 "གཏང་ནིའི་དོན་ལུ་ རིམ་སྒྲིག་འབད་ནུག དེ་གི་ཚབ་ལུ་ ཨི་བོ་ལུ་ཤཱན་ \n"
 "དུས་རྒྱུན་གྱི་ ཌའི་ལོག་སྒྲོམ་ཅིག་ བཀྲམ་སྟོན་འབད་འོང་།"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1721
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1724
 #, c-format
 msgid ""
 "An Evolution Calendar reminder is about to trigger. This reminder is configured to run the following program:\n"
@@ -4466,7 +4488,7 @@ msgstr ""
 "\n"
 "ཁྱོད་ཀྱིས་ ལས་རིམ་འདི་ གཡོག་བཀོལ་ནི་ ངེས་ཏིག་ཨིན་ན།"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1735
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1738
 msgid "Do not ask me about this program again."
 msgstr "ང་ལུ་ ལས་རིམ་འདི་གི་སྐོར་ལས་ ལོག་སྟེ་མ་འདྲི།"
 
@@ -4567,297 +4589,305 @@ msgid "Default reminder value"
 msgstr "སྔོན་སྒྲིག་དྲན་བསྐུལ་གྱི་བེ་ལུ།"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:14
+msgid "Event Gradient"
+msgstr "བྱུང་ལས་ཀྱི་སྟེགས་རིས།"
+
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:15
 msgid "Event Transparency"
 msgstr "འབྱུང་ལས་ཀྱི་དྭངས་གསལ།"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:15
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:16
 msgid "Free/busy server URLs"
 msgstr "སར་བར་ཡུ་ཨར་ཨེལ་ དལཝ/ཁོམ་མེད།"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:16
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:17
 msgid "Free/busy template URL"
 msgstr "ཊེམ་པེལེཊི་ ཡུ་ཨར་ཨེལ་ དལཝ/ཁོམ་མེད།"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:17
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:18
+msgid "Gradient of the events in calendar views."
+msgstr "ཟླ་ཐོ་མཐོང་བྱེད་ནང་ བྱུང་ལས་ཀྱི་སྟེགས་རིས།"
+
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:19
 msgid "Hide completed tasks"
 msgstr "མཇུག་བསྡུ་ཚར་མི་ལས་ཀ་ཚུ་ སྦ་བཞག"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:18
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:20
 msgid "Hide task units"
 msgstr "ལས་ཀའི་ཆ་ཕྲན་ཚུ་སྦ་བཞག"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:19
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:21
 msgid "Hide task value"
 msgstr "ལས་ཀའི་བེ་ལུ་ སྦ་བཞག"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:20
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:22
 msgid "Horizontal pane position"
 msgstr "ཐད་སྙོམས་པེན་གྱི་གནས་ས།"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:21
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:23
 msgid "Hour the workday ends on, in twenty four hour format, 0 to 23."
 msgstr "ཉིན་ལཱ་མཇུག་བསྡུ་བའི་ཆུ་ཚོད་ ཆུ་ཚོད་ཁལ་གཅིག་བཞི་གི་རྩ་སྒྲིག་ནང་ ༠ ལས་ ༢༣ སྦེ་བཟོ།"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:22
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:24
 msgid "Hour the workday starts on, in twenty four hour format, 0 to 23."
 msgstr "ཉིན་ལཱ་འགོ་བཙུགས་པའི་ཆུ་ཚོད་ ཆུ་ཚོད་ཁལ་གཅིག་བཞི་གི་རྩ་སྒྲིག་ནང་ ༠ ལས་ ༢༣ སྦེ་བཟོ།"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:23
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:25
 msgid "Intervals shown in Day and Work Week views, in minutes."
 msgstr "བར་མཚམས་ཚུ་ ཉིན་མའི་གྲངས་ནང་སྟོན་ཡོདཔ་དང་ ལཱ་གི་བདུན་ཕྲག་མཐོང་སྣང་ནང་ སྐར་མའི་གྲངས་ནང་སྟོན་ཡོད།"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:24
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:26
 msgid "Last alarm time"
 msgstr "འཇིགས་བརྡའི་ཆུ་ཚོད་མཇུག་མམ།"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:25
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:27
 msgid "List of server URLs for free/busy publishing."
 msgstr "དལཝ་/ཁོམ་མེད་དཔེ་བསྐྲུན་གྱི་དོན་ལུ་ སར་བར་ཡུ་ཨར་ཨེལ་གྱི་ཐོ་ཡིག"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:26
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:28
 msgid "Marcus Bains Line"
 msgstr "མར་ཀཱསི་བཱེནསི་ཐིག"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:27
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:29
 msgid "Marcus Bains Line Color - Day View"
 msgstr "མར་ཀཱསི་བཱེནསི་ ཐིག་གི་ཚོས་གཞི་ - ཉིན་མའི་ཚོས་གཞི།"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:28
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:30
 msgid "Marcus Bains Line Color - Time bar"
 msgstr "མར་ཀཱསི་བཱེནསི་ ཐིག་གི་ཚོས་གཞི་ - ཆུ་ཚོད་ཕྲ་རིང་།"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:29
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:31
 msgid "Minute the workday ends on, 0 to 59."
 msgstr "ཉིན་ལཱ་མཇུག་བསྡུ་བའི་སྐར་མ་ ༠ ལས་ ༥༩།"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:30
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:32
 msgid "Minute the workday starts on, 0 to 59."
 msgstr "ཉིན་ལཱ་འགོ་བཙུགས་ཀྱི་སྐར་མ་ ༠ ལས་ ༥༩།"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:31
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:33
 msgid "Month view horizontal pane position"
 msgstr "ཐད་སྙོམས་པེན་གནས་སའི་ ཟླ་བའི་མཐོང་སྣང་།"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:32
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:34
 msgid "Month view vertical pane position"
 msgstr "ཀེར་ཕྲང་པེན་གནས་སའི་ ཟླ་བའི་མཐོང་སྣང་།"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:33
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:35
 msgid "Number of units for determining a default reminder."
 msgstr "སྔོན་སྒྲིག་དྲན་བསྐུལ་ཅིག་ ཐག་བཅད་ནིའི་དོན་ལུ་ ཆ་ཕྲན་གྱི་གྱངས་ཁ།"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:34
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:36
 msgid "Number of units for determining when to hide tasks."
 msgstr "ལས་ཀ་ཚུ་ ནམ་སྦ་བཞག་དགོཔ་ཨིན་ན་ བརྡ་སྟོན་ནིའི་དོན་ལུ་ ཆ་ཕྲན་གྱི་གྱངས་ཁ།"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:35
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:37
 msgid "Overdue tasks color"
 msgstr "ཧེ་མ་ལས་རན་པའི་ ལས་ཀའི་ཚོས་གཞི།"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:36
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:38
 msgid "Position of the horizontal pane, between the date navigator calendar and the task list when not in the month view, in pixels."
 msgstr "ཟླ་བའི་མཐོང་སྣང་ནང་མེན་པའི་སྐབས་ ཚེས་གྲངས་འགྲུལ་བསྐྱོད་པའི་ཟླ་ཐོ་དང་ ལས་ཀའི་ཐོ་ཡིག་གི་བར་ན་ ཐད་སྙོམས་པེན་གྱི་གནས་ས་ པིག་སེལ་ནང་།"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:37
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:39
 msgid "Position of the horizontal pane, between the view and the date navigator calendar and task list in the month view, in pixels."
 msgstr "ཟླ་བའི་མཐོང་སྣང་ནང་ མཐོང་སྣང་དང་ ཚེས་གྲངས་འགྲུལ་བསྐྱོད་པའི་ཟླ་ཐོ་ དེ་ལས་ ལས་ཀའི་ཐོ་ཡིག་གི་བར་ན་ ཐད་སྙོམས་པེན་གྱི་གནས་ས་ པིག་སེལ་ནང་། "
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:38
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:40
 msgid "Position of the vertical pane, between the task list and the task preview pane, in pixels."
 msgstr "ལས་ཀའི་ཐོ་ཡིག་དང་ ལས་ཀའི་སྔོན་ལྟ་པེན་གྱི་བར་ན་ ཀེར་ཕྲང་པེན་གྱི་གནས་ས་ པིག་སེལ་ནང་།"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:39
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:41
 msgid "Position of the vertical pane, between the view and the date navigator calendar and task list in the month view, in pixels."
 msgstr "ཟླ་བའི་མཐོང་སྣང་ནང་ མཐོང་སྣང་དང་ ཚེས་གྲངས་འགྲུལ་བསྐྱོད་པའི་ཟླ་ཐོ་ དེ་ལས་ ལས་ཀའི་ཐོ་ཡིག་གི་བར་ན་ ཀེར་ཕྲང་པེན་གྱི་གནས་ས་ པིག་སེལ་ནང་། "
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:40
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:42
 msgid "Position of the vertical pane, between the view and the date navigator calendar and task list when not in the month view, in pixels."
 msgstr "ཟླ་བའི་མཐོང་སྣང་ནང་ མཐོང་སྣང་དང་ ཚེས་གྲངས་འགྲུལ་བསྐྱོད་པའི་ཟླ་ཐོ་ དེ་ལས་ ལས་ཀའི་ཐོ་ཡིག་གི་བར་ན་ ཀེར་ཕྲང་པེན་གྱི་གནས་ས་ པིག་སེལ་ནང་། "
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:41
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:43
 msgid "Programs that are allowed to be run by alarms."
 msgstr "འཇིགས་བརྡ་གིས་ གཡོག་བཀོལ་ཆོག་པའི་ ལས་རིམ་ཚུ།"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:42
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:44
 msgid "Show RSVP field in the event/task/meeting editor"
 msgstr "འབྱུང་ལས་/ལས་ཀ་/འཛོམས་འདུའི་ཞུན་དགཔ་ནང་ ངོས་ལེན་གྱི་ས་སྒོ་སྟོན།"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:43
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:45
 msgid "Show Role field in the event/task/meeting editor"
 msgstr "འབྱུང་ལས་/ལས་ཀ་/འཛོམས་འདུའི་ཞུན་དགཔ་ནང་ ལས་འགན་གྱི་ས་སྒོ་སྟོན།"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:44
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:46
 msgid "Show appointment end times in week and month views"
 msgstr "བདུན་ཕྲག་དང་ ཟླ་བའི་མཐོང་སྣང་ཚུ་ནང་ ངོ་འཕྲད་མཇུག་བསྡུ་བའི་ཆུ་ཚོད་ཚུ་སྟོན།"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:45
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:47
 msgid "Show categories field in the event/meeting/task editor"
 msgstr "འབྱུང་ལས་/ལས་ཀ་/འཛོམས་འདུའི་ཞུན་དགཔ་ནང་ ལས་འགན་གྱི་ས་སྒོ་སྟོན།"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:46
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:48
 msgid "Show display alarms in notification tray"
 msgstr "བརྡ་བསྐུལ་ནང་ བཀྲམ་སྟོན་འཇིགས་བརྡ་སྟོན།"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:47
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:49
 msgid "Show status field in the event/task/meeting editor"
 msgstr "འབྱུང་ལས་/ལས་ཀ་/འཛོམས་འདུའི་ཞུན་དགཔ་ནང་ གནས་ཚད་ཀྱི་ས་སྒོ་སྟོན།"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:48
-#: ../mail/evolution-mail.schemas.in.in.h:75
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:50
+#: ../mail/evolution-mail.schemas.in.in.h:78
 msgid "Show the \"Preview\" pane"
 msgstr "\"Preview\" གི་པེན་དེ་སྟོན།"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:49
-#: ../mail/evolution-mail.schemas.in.in.h:76
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:51
+#: ../mail/evolution-mail.schemas.in.in.h:79
 msgid "Show the \"Preview\" pane."
 msgstr "\"Preview\" གི་པེན་དེ་སྟོན།"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:50
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:52
 msgid "Show timezone field in the event/meeting editor"
 msgstr "འབྱུང་ལས་/ལས་ཀ་/འཛོམས་འདུའི་ཞུན་དགཔ་ནང་ ཆུ་ཚོད་གླིང་སྡེའི་ས་སྒོ་སྟོན།"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:51
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:53
 msgid "Show type field in the event/task/meeting editor"
 msgstr "འབྱུང་ལས་/ལས་ཀ་/འཛོམས་འདུའི་ཞུན་དགཔ་ནང་ དབྱེ་བའི་ས་སྒོ་སྟོན།"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:52
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:54
 msgid "Show week numbers in date navigator"
 msgstr "ཚེས་གྲངས་འགྲུལ་བསྐྱོད་ནང་ བདུན་ཕྲག་གི་ཨང་ཚུ་སྟོན།"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:53
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:55
 msgid "Tasks due today color"
 msgstr "ད་རིས་རན་པའི་ ལས་ཀའི་ཚོས་གཞི།"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:54
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:56
 msgid "Tasks vertical pane position"
 msgstr "ལས་ཀའི་ཀེར་ཕྲང་ པེན་གྱི་གནས་ས།"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:56
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:58
 #, no-c-format
 msgid "The URL template to use as a free/busy data fallback, %u is replaced by the user part of the mail address and %d is replaced by the domain."
 msgstr "དལཝ་དང་ཁོམ་མེད་ གནད་སྡུད་ཀྱི་ གློ་བུར་རྒྱབ་ཐག་སྦེ་ ལག་ལེན་འཐབ་ནིའི་ ཡུ་ཨར་ཨེལ་ཊེམ་པེལེཊི། %uགི་ཚབ་ལུ་ ཡིག་འཕྲིན་ཁ་བྱང་ ལག་ལེན་པའི་ཡན་ལག་བཙུགས་ནི་དང་ %dགི་ཚབ་ལུ་ ཌོ་མེན་བཙུགས་ནི་ཨིན།"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:57
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:59
 msgid "The default timezone to use for dates and times in the calendar, as an untranslated Olsen timezone database location like \"America/New York\"."
 msgstr "ཟླ་ཐོའི་ནང་ ཨཱོལ་སེན་ ཆུ་ཚོད་གླིང་སྡེའི་ གནད་སྡུད་གཞི་རྟེན་གནས་ཁོངས་ དཔེར་ན་ \"America/New York\" བཟུམ་སྦེ་ སྐད་བསྒྱུར་མ་འབད་བར་ ཟླ་ཐོའི་ནང་ ཚེས་གྲངས་དང་ ཆུ་ཚོད་ཀྱི་དོན་ལུ་ ལག་ལེན་འཐབ་ནིའི་ སྔོན་སྒྲིག་ཆུ་ཚོད་ཀྱི་གླིང་སྡེ།"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:58
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:60
 msgid "Time divisions"
 msgstr "ཆུ་ཚོད་བགོ་བཀྲམ། "
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:59
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:61
 msgid "Time the last alarm ran, in time_t."
 msgstr "མཐའ་མཇུག་འཇིགས་བརྡ་བྱིན་པའི་ཆུ་ཚོད་ ཆུ་ཚོད་ཊི་ནང་། (_t)"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:60
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:62
 msgid "Timezone"
 msgstr "ཆུ་ཚོད་གླིང་སྡེ།"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:61
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:63
 msgid "Transparency of the events in calendar views (A value between 0 and 10, opaque by default)."
 msgstr "ཟླ་ཐོའི་མཐོང་སྣང་ཚུ་ནང་ འབྱུང་ལས་ཚུ་གི་དྭངས་གསལ། (༠ དང་ ༡༠ གི་བར་ན་འབད་མི་བེ་ལུ་ཅིག སྔོན་སྒྲིག་ཐོག་ལས་དྭངས་སྒྲིབ་ཅན)"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:62
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:64
 msgid "Twenty four hour time format"
 msgstr "ཆུ་ཚོད་ཁལ་གཅིག་བཞི་གི་ དུས་ཚོད་རྩ་་སྒྲིག"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:63
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:65
 msgid "Units for a default reminder, \"minutes\", \"hours\" or \"days\"."
 msgstr "སྔོན་སྒྲིག་དྲན་བསྐུལ་པ་ཅིག་གི་དོན་ལུ་ ཆ་ཕྲན་ཚུ་ \"minutes\", \"hours\" ཡང་ན་ \"days\""
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:64
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:66
 msgid "Units for determining when to hide tasks, \"minutes\", \"hours\" or \"days\"."
 msgstr "ལས་ཀ་སྦ་བཞག་ནིའི་ བརྡ་སྟོན་གྱི་དོན་ལུ་ ཆ་ཕྲན་ཚུ་  \"minutes\", \"hours\" ཡང་ན་ \"days\""
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:66
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:68
 msgid "Week start"
 msgstr "བདུན་ཕྲག་འགོ་བཙུགས།"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:67
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:69
 msgid "Weekday the week starts on, from Sunday (0) to Saturday (6)."
 msgstr "བདུན་ཕྲག་འགོ་བཙུགས་ཀྱི་ཉིནམ་ གཟའ་ཟླཝ་(༠)ལས་ གཟའ་ཉིམ་(༦)།"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:68
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:70
 msgid "Whether or not to use the notification tray for display alarms."
 msgstr "འཇིགས་བསྐུལ་བཀྲམ་སྟོན་གྱི་དོན་ལུ་ བརྡ་བསྐུལ་སྣོད་ ལག་ལེན་འཐབ་ནི་ཨིན་ན་མེན། "
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:69
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:71
 msgid "Whether to ask for confirmation when deleting an appointment or task."
 msgstr "ངོ་འཕྲད་དམ་ ལས་ཀ་ཅིག་ བཏོན་བཏང་བའི་སྐབས་ ངེས་གཏན་སྦེ་ འདྲི་དགོཔ་ཨིན་ན། "
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:70
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:72
 msgid "Whether to ask for confirmation when expunging appointments and tasks."
 msgstr "ངོ་འཕྲད་དམ་ ལས་ཀ་ཚུ་ རྩ་མེད་བཏང་བའི་སྐབས་ ངེས་གཏན་སྦེ་ འདྲི་དགོཔ་ཨིན་ན།"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:71
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:73
 msgid "Whether to compress weekends in the month view, which puts Saturday and Sunday in the space of one weekday."
 msgstr "གཟའ་ཉིམ་དང་ཟླཝ་གཉིས་ བདུན་ཕྲག་གི་ ཉིནམ་གཅིག་གི་ ས་སྟོང་ནང་བཙུགས་ནིའི་དོན་ལུ་ བདུན་མཐའ་ཚུ་ ཟླ་བའི་མཐོང་སྣང་ནང་ ཨེབ་བཙུགས་འབད་དགོཔ་ཨིན་ན། "
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:72
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:74
 msgid "Whether to display the end time of events in the week and month views."
 msgstr "བྱུང་ལས་མཇུག་བསྡུ་བའི་ཆུ་ཚོད་དེ་ བདུན་ཕྲག་དང་ ཟླ་བའི་མཐོང་སྣང་ཚུ་ནང་ བཀྲམ་སྟོན་འབད་དགོཔ་ཨིན་ན།"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:73
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:75
 msgid "Whether to draw the Marcus Bains Line (line at current time) in the calendar."
 msgstr "ཟླ་ཐོའི་ནང་ མར་ཀཱསི་བཱེནསི་ཐིག་(ད་ལྟོའི་ཆུ་ཚོད་ཀྱི་ཐིག་) འཐེན་ནི་ཨིན་ཨིན་མེན།"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:74
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:76
 msgid "Whether to hide completed tasks in the tasks view."
 msgstr "མཇུག་བསྡུ་བའི་ལས་ཀ་ཚུ་ ལས་ཀའི་མཐོང་སྣང་ནང་ སྦ་བཞག་དགོཔ་ཨིན་ན།"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:75
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:77
 msgid "Whether to set a default reminder for appointments."
 msgstr "ངོ་འཕྲད་ཚུ་གི་དོན་ལས་ སྔོན་སྒྲིག་བརྡ་བསྐུལ་པ་ཅིག་ གཞི་སྒྲིག་འབད་དགོཔ་ཨིན་ན།"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:76
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:78
 msgid "Whether to show RSVP field in the event/task/meeting editor"
 msgstr "འབྱུང་ལས་/ལས་ཀ་/འཛོམས་འདུ་ན་དག་པའི་ནང་ ངོས་ལེན་སྟོན་དགོཔ་ཨིན་ན།"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:77
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:79
 msgid "Whether to show categories field in the event/meeting editor"
 msgstr "འབྱུང་ལས་/ལས་ཀ་/འཛོམས་འདུ་ན་དག་པའི་ནང་ དབྱེ་ཁག་ཚུ་སྟོན་དགོཔ་ཨིན་ན།"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:78
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:80
 msgid "Whether to show role field in the event/task/meeting editor"
 msgstr "འབྱུང་ལས་/ལས་ཀ་/འཛོམས་འདུ་ན་དག་པའི་ནང་ ལས་འགན་ས་སྒོ་སྟོན་དགོཔ་ཨིན་ན།"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:79
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:81
 msgid "Whether to show status field in the event/task/meeting editor"
 msgstr "འབྱུང་ལས་/ལས་ཀ་/འཛོམས་འདུ་ན་དག་པའི་ནང་ གནས་ཚད་ས་སྒོ་སྟོན་དགོཔ་ཨིན་ན།"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:80
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:82
 msgid "Whether to show times in twenty four hour format instead of using am/pm."
 msgstr "སྔ་ཆ་/ཕྱི་ཆའི་ཚབ་ལུ་ དུས་ཚོད་ཚུ་ ཆུ་ཚོད་ཁལ་གཅིག་བཞི་གི་ རྩ་སྒྲིག་ནང་ སྟོན་དགོཔ་ཨིན་ན།"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:81
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:83
 msgid "Whether to show timezone field in the event/meeting editor"
 msgstr "འབྱུང་ལས་/འཛོམས་འདུ་ན་དག་པའི་ནང་ ཆུ་ཚོད་གླིང་སྡེ་སྟོན་དགོཔ་ཨིན་ན།"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:82
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:84
 msgid "Whether to show type field in the event/task/meeting editor"
 msgstr "འབྱུང་ལས་/ལས་ཀ་/འཛོམས་འདུ་ན་དག་པའི་ནང་ དབྱེ་བའི་ས་སྒོ་སྟོན་དགོཔ་ཨིན་ན།"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:83
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:85
 msgid "Whether to show week numbers in the date navigator."
 msgstr "ཚེས་གྲངས་འགྲུལ་བསྐྱོད་ནང་ བདུན་ཕྲག་གི་ཨང་གྲངས་ཚུ་ སྟོན་དགོཔ་ཨིན་ན།"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:84
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:86
 msgid "Work days"
 msgstr "ལཱ་གི་ཉིནམ།"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:85
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:87
 msgid "Workday end hour"
 msgstr "ལཱ་གི་ཉིནམ་ མཇུག་བསྡུ་བའི་ཆུ་ཚོད།"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:86
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:88
 msgid "Workday end minute"
 msgstr "ལཱ་གི་ཉིནམ་ མཇུག་བསྡུ་བའི་སྐར་མ།"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:87
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:89
 msgid "Workday start hour"
 msgstr "ལཱ་གི་ཉིནམ་ འགོ་བཙུགས་ཀྱི་ཆུ་ཚོད།"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:88
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:90
 msgid "Workday start minute"
 msgstr "ལཱ་གི་ཉིནམ་ འགོ་བཙུགས་ཀྱི་སྐར་མ།"
 
@@ -5171,16 +5201,16 @@ msgstr "ཁ་སྐོང་རྐྱབས། (_d)"
 msgid "Alarms"
 msgstr "འཇིགས་བརྡ་ཚུ།"
 
-#: ../calendar/gui/dialogs/cal-attachment-select-file.c:96
-#: ../calendar/gui/dialogs/cal-attachment-select-file.c:115
+#: ../calendar/gui/dialogs/cal-attachment-select-file.c:97
+#: ../calendar/gui/dialogs/cal-attachment-select-file.c:116
 #: ../calendar/gui/dialogs/cal-attachment.glade.h:6
 #: ../composer/e-msg-composer-attachment.glade.h:5
-#: ../composer/e-msg-composer-select-file.c:97
-#: ../composer/e-msg-composer-select-file.c:117
+#: ../composer/e-msg-composer-select-file.c:98
+#: ../composer/e-msg-composer-select-file.c:118
 msgid "_Suggest automatic display of attachment"
 msgstr "མཉམ་སྦྲགས་རང་བཞིན་བཀྲམ་སྟོན་གྱི་ བསམ་འཆར་བཀོད།(_S)"
 
-#: ../calendar/gui/dialogs/cal-attachment-select-file.c:190
+#: ../calendar/gui/dialogs/cal-attachment-select-file.c:191
 msgid "Attach file(s)"
 msgstr "ཡིག་སྣོད་(ཚུ)མཉམ་སྦྲགས་འབད།"
 
@@ -5367,7 +5397,7 @@ msgid "Thursday"
 msgstr "པ་སངས།"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:42
-#: ../calendar/gui/dialogs/event-page.glade.h:15
+#: ../calendar/gui/dialogs/event-page.glade.h:14
 msgid "Time _zone:"
 msgstr "ཆུ་ཚོད་ཀྱི་གླིང་སྡེ་: (_z) "
 
@@ -5494,7 +5524,6 @@ msgid "Task List Properties"
 msgstr "ལས་ཀའི་ཐོ་ཡིག་གི་རྒྱུ་དངོས།"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:594
-#: ../calendar/gui/memos-component.c:450
 msgid "New Memo List"
 msgstr "བརྗེད་ཐོའི་ཐོ་ཡིག་གསརཔ།"
 
@@ -5608,7 +5637,7 @@ msgid "Due "
 msgstr "རན་པ།"
 
 #: ../calendar/gui/dialogs/comp-editor.c:207
-#: ../composer/e-msg-composer.c:2850
+#: ../composer/e-msg-composer.c:2861
 #, c-format
 msgid "Attached message - %s"
 msgstr "མཉམ་སྦྲགས་འཕྲིན་དོན་-- %s།"
@@ -5616,8 +5645,8 @@ msgstr "མཉམ་སྦྲགས་འཕྲིན་དོན་-- %s།"
 #. translators, this count will always be >1
 #: ../calendar/gui/dialogs/comp-editor.c:212
 #: ../calendar/gui/dialogs/comp-editor.c:382
-#: ../composer/e-msg-composer.c:2855
-#: ../composer/e-msg-composer.c:3056
+#: ../composer/e-msg-composer.c:2866
+#: ../composer/e-msg-composer.c:3062
 #, c-format
 msgid "Attached message"
 msgid_plural "%d attached messages"
@@ -5625,7 +5654,7 @@ msgstr[0] "མཉམ་སྦྲགས་འཕྲིན་དོན།"
 msgstr[1] "མཉམ་སྦྲགས་འཕྲིན་དོན་%d།"
 
 #: ../calendar/gui/dialogs/comp-editor.c:446
-#: ../composer/e-msg-composer.c:3121
+#: ../composer/e-msg-composer.c:3126
 #: ../mail/em-folder-tree.c:987
 #: ../mail/em-folder-utils.c:368
 #: ../mail/em-folder-view.c:978
@@ -5634,7 +5663,7 @@ msgid "_Move"
 msgstr "སྤོ་བཤུད་འབད། (_M)"
 
 #: ../calendar/gui/dialogs/comp-editor.c:448
-#: ../composer/e-msg-composer.c:3123
+#: ../composer/e-msg-composer.c:3128
 #: ../mail/em-folder-tree.c:989
 #: ../mail/message-list.c:1745
 msgid "Cancel _Drag"
@@ -5645,7 +5674,7 @@ msgid "Could not update object"
 msgstr "དངོས་པོ་དུས་མཐུན་བཟོ་མ་ཚུགས།"
 
 #: ../calendar/gui/dialogs/comp-editor.c:945
-#: ../composer/e-msg-composer.c:2479
+#: ../composer/e-msg-composer.c:2490
 #, c-format
 msgid "<b>%d</b> Attachment"
 msgid_plural "<b>%d</b> Attachments"
@@ -5657,101 +5686,101 @@ msgid "Hide Attachment _Bar"
 msgstr "མཉམ་སྦྲགས་ཕྲ་རིང་སྦ་བཞག(_B)"
 
 #: ../calendar/gui/dialogs/comp-editor.c:980
-#: ../calendar/gui/dialogs/comp-editor.c:1445
+#: ../calendar/gui/dialogs/comp-editor.c:1465
 msgid "Show Attachment _Bar"
 msgstr "མཉམ་སྦྲགས་ཕྲ་རིང་སྟོན།(_B)"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1089
+#: ../calendar/gui/dialogs/comp-editor.c:1099
 #: ../calendar/gui/dialogs/event-page.c:1894
 #: ../calendar/gui/dialogs/meeting-page.c:899
 #: ../calendar/gui/dialogs/task-page.c:1198
 #: ../composer/e-msg-composer-attachment-bar.c:470
-#: ../composer/e-msg-composer.c:3619
+#: ../composer/e-msg-composer.c:3624
 #: ../plugins/groupwise-features/junk-settings.glade.h:8
 #: ../plugins/groupwise-features/properties.glade.h:14
 #: ../widgets/table/e-table-config.glade.h:18
 msgid "_Remove"
 msgstr "རྩ་བསྐྲད་གཏང་། (_R)"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1090
+#: ../calendar/gui/dialogs/comp-editor.c:1100
 #: ../composer/e-msg-composer-attachment-bar.c:471
-#: ../composer/e-msg-composer.c:3620
+#: ../composer/e-msg-composer.c:3625
 #: ../mail/em-folder-tree.c:2065
 #: ../ui/evolution-addressbook.xml.h:59
 #: ../ui/evolution-mail-list.xml.h:33
 msgid "_Properties"
 msgstr "རྒྱུ་དངོས་ཚུ།(_P)"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1092
+#: ../calendar/gui/dialogs/comp-editor.c:1102
 #: ../composer/e-msg-composer-attachment-bar.c:473
-#: ../composer/e-msg-composer.c:3622
+#: ../composer/e-msg-composer.c:3627
 msgid "_Add attachment..."
 msgstr "མཉམ་སྦྲགས་ཁ་སྐོང་རྐྱབས་...(_A)"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1469
-#: ../mail/em-format-html-display.c:2068
+#: ../calendar/gui/dialogs/comp-editor.c:1489
+#: ../mail/em-format-html-display.c:2091
 msgid "Show Attachments"
 msgstr "མཉམ་སྦྲགས་ཚུ་སྟོན།"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1470
+#: ../calendar/gui/dialogs/comp-editor.c:1490
 msgid "Press space key to toggle attachment bar"
 msgstr "མཉམ་སྦྲགས་ཕྲ་རིང་ སོར་སྟོན་འབད་ནིའི་དོན་ལུ་ བར་སྟོང་ལྡེ་མིག་ཨེབ།"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2077
-#: ../calendar/gui/dialogs/comp-editor.c:2120
+#: ../calendar/gui/dialogs/comp-editor.c:2097
+#: ../calendar/gui/dialogs/comp-editor.c:2140
 msgid "Edit Appointment"
 msgstr "ངོ་འཕྲད་ཞུན་དག་རྐྱབས།"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2083
-#: ../calendar/gui/dialogs/comp-editor.c:2126
+#: ../calendar/gui/dialogs/comp-editor.c:2103
+#: ../calendar/gui/dialogs/comp-editor.c:2146
 #, c-format
 msgid "Meeting - %s"
 msgstr "འཛོམས་འདུ་- %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2085
-#: ../calendar/gui/dialogs/comp-editor.c:2128
+#: ../calendar/gui/dialogs/comp-editor.c:2105
+#: ../calendar/gui/dialogs/comp-editor.c:2148
 #, c-format
 msgid "Appointment - %s"
 msgstr "ངོ་འཕྲད་- %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2089
-#: ../calendar/gui/dialogs/comp-editor.c:2132
+#: ../calendar/gui/dialogs/comp-editor.c:2109
+#: ../calendar/gui/dialogs/comp-editor.c:2152
 #, c-format
 msgid "Assigned Task - %s"
 msgstr "འགན་སྤྲོད་ལས་ཀ་- %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2091
-#: ../calendar/gui/dialogs/comp-editor.c:2134
+#: ../calendar/gui/dialogs/comp-editor.c:2111
+#: ../calendar/gui/dialogs/comp-editor.c:2154
 #, c-format
 msgid "Task - %s"
 msgstr "ལས་ཀ་- %s\""
 
-#: ../calendar/gui/dialogs/comp-editor.c:2094
-#: ../calendar/gui/dialogs/comp-editor.c:2137
+#: ../calendar/gui/dialogs/comp-editor.c:2114
+#: ../calendar/gui/dialogs/comp-editor.c:2157
 #, c-format
 msgid "Journal entry - %s"
 msgstr "གསར་དེབ་ཐོ་བཀོད་- %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2105
-#: ../calendar/gui/dialogs/comp-editor.c:2147
+#: ../calendar/gui/dialogs/comp-editor.c:2125
+#: ../calendar/gui/dialogs/comp-editor.c:2167
 msgid "No summary"
 msgstr "བཅུད་དོན་མིན་འདུག"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2655
+#: ../calendar/gui/dialogs/comp-editor.c:2675
 #: ../composer/e-msg-composer-attachment-bar.c:307
-#: ../mail/em-utils.c:498
-#: ../mail/em-utils.c:535
-#: ../widgets/misc/e-attachment-bar.c:399
+#: ../mail/em-utils.c:518
+#: ../mail/em-utils.c:555
+#: ../widgets/misc/e-attachment-bar.c:363
 msgid "attachment"
 msgstr "མཉམ་སྦྲགས།"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2744
-#: ../calendar/gui/dialogs/comp-editor.c:2798
-#: ../calendar/gui/dialogs/comp-editor.c:2822
+#: ../calendar/gui/dialogs/comp-editor.c:2764
+#: ../calendar/gui/dialogs/comp-editor.c:2818
+#: ../calendar/gui/dialogs/comp-editor.c:2842
 msgid "Changes made to this item may be discarded if an update arrives"
 msgstr "དུས་མཐུན་ཅིག་བྱུང་པ་ཅིན་ རྣམ་གྲངས་འདི་ལུ་ བསྒྱུར་བཅོས་འབད་མི་ཚུ་ བཏོན་བཀོག་འོང་།"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2846
+#: ../calendar/gui/dialogs/comp-editor.c:2866
 msgid "Unable to use current version!"
 msgstr "ད་ལྟོའི་ཐོན་རིམ་དེ་ ལག་ལེན་འཐབ་མི་ཚུགས་པས།"
 
@@ -5852,7 +5881,7 @@ msgid "Cale_ndar:"
 msgstr "ཟླ་ཐོ་: (_n)"
 
 #: ../calendar/gui/dialogs/event-page.c:878
-#: ../calendar/gui/dialogs/event-page.glade.h:13
+#: ../calendar/gui/dialogs/event-page.glade.h:12
 #: ../calendar/gui/dialogs/meeting-page.glade.h:5
 #: ../calendar/gui/dialogs/task-page.c:441
 msgid "Or_ganizer:"
@@ -5955,7 +5984,7 @@ msgstr "སྲོལ་སྒྲིག་འབད།"
 #: ../calendar/gui/dialogs/meeting-page.glade.h:4
 #: ../calendar/gui/e-cal-model-tasks.c:649
 #: ../calendar/gui/e-itip-control.c:1099
-#: ../composer/e-msg-composer.c:2271
+#: ../composer/e-msg-composer.c:2282
 #: ../filter/filter-rule.c:889
 #: ../mail/em-account-editor.c:701
 #: ../mail/em-account-editor.c:1388
@@ -6008,16 +6037,12 @@ msgstr "འགྲེལ་བཤད་: (_D)"
 msgid "Event Description"
 msgstr "བྱུང་ལས་ཀྱི་འགྲེལ་བཤད།"
 
-#: ../calendar/gui/dialogs/event-page.glade.h:12
-msgid "Locat_ion:"
-msgstr "གནས་ཁོངས་: (_i)"
-
-#: ../calendar/gui/dialogs/event-page.glade.h:14
+#: ../calendar/gui/dialogs/event-page.glade.h:13
 #: ../calendar/gui/dialogs/task-page.glade.h:6
 msgid "Su_mmary:"
 msgstr "བཅུད་དོན་: (_m)"
 
-#: ../calendar/gui/dialogs/event-page.glade.h:16
+#: ../calendar/gui/dialogs/event-page.glade.h:15
 msgid "_Alarm"
 msgstr "འཇིགས་བརྡ། (_A)"
 
@@ -6616,7 +6641,7 @@ msgstr "མ་ཤེས་པའི་རྒྱུ་རྐྱེན་ཅིག
 
 #: ../calendar/gui/e-cal-component-memo-preview.c:72
 #: ../calendar/gui/e-cal-component-preview.c:70
-#: ../mail/em-folder-view.c:2827
+#: ../mail/em-folder-view.c:2832
 #, c-format
 msgid "Click to open %s"
 msgstr "%s ཁ་ཕྱེ་ནི་ལུ་ ཨེབ་གཏང་འབད།"
@@ -6749,11 +6774,11 @@ msgstr "མེན།"
 #: ../calendar/gui/e-meeting-store.c:124
 #: ../calendar/gui/e-meeting-store.c:159
 #: ../calendar/gui/e-meeting-store.c:222
-#: ../mail/em-utils.c:1309
+#: ../mail/em-utils.c:1329
 #: ../plugins/itip-formatter/itip-formatter.c:240
 #: ../plugins/itip-formatter/itip-formatter.c:1651
 #: ../plugins/plugin-manager/plugin-manager.c:68
-#: ../widgets/misc/e-attachment-bar.c:746
+#: ../widgets/misc/e-attachment-bar.c:718
 #: ../widgets/misc/e-charset-picker.c:63
 msgid "Unknown"
 msgstr "མ་ཤེསཔ།"
@@ -6772,7 +6797,7 @@ msgid "Save As..."
 msgstr "དེ་སྦེ་སྲུངས་..."
 
 #: ../calendar/gui/e-cal-popup.c:193
-#: ../mail/em-format-html-display.c:1916
+#: ../mail/em-format-html-display.c:1939
 msgid "Select folder to save selected attachments..."
 msgstr "སེལ་འཐུ་འབད་མི་ མཉམ་སྦྲགས་ཚུ་ བསྲུང་ནི་འི་དོན་ལུ་ སྣོད་འཛིན་སེལ་འཐུ་འབད།"
 
@@ -6783,9 +6808,9 @@ msgid "untitled_image.%s"
 msgstr "མགོ་མིང་མ་བཏགས་པའི་གཟུགས་བརྙན་%s། (_i)"
 
 #: ../calendar/gui/e-cal-popup.c:276
-#: ../calendar/gui/e-calendar-table.c:1250
-#: ../calendar/gui/e-calendar-view.c:1707
-#: ../calendar/gui/e-memo-table.c:854
+#: ../calendar/gui/e-calendar-table.c:1243
+#: ../calendar/gui/e-calendar-view.c:1699
+#: ../calendar/gui/e-memo-table.c:846
 #: ../mail/em-folder-view.c:1092
 #: ../mail/em-popup.c:554
 #: ../mail/em-popup.c:565
@@ -6864,22 +6889,22 @@ msgstr "སེལ་འཐུ་འབད་མི་དངོས་པོ་ �
 msgid "Updating objects"
 msgstr "དངོས་པོ་དུས་མཐུན་བཟོ་དོ།"
 
-#: ../calendar/gui/e-calendar-table.c:1106
-#: ../calendar/gui/e-calendar-view.c:1249
-#: ../calendar/gui/e-memo-table.c:742
+#: ../calendar/gui/e-calendar-table.c:1105
+#: ../calendar/gui/e-calendar-view.c:1248
+#: ../calendar/gui/e-memo-table.c:741
 #: ../composer/e-msg-composer.c:1349
 msgid "Save as..."
 msgstr "དེ་སྦེ་སྲུངས་..."
 
-#: ../calendar/gui/e-calendar-table.c:1249
-#: ../calendar/gui/e-memo-table.c:853
+#: ../calendar/gui/e-calendar-table.c:1242
+#: ../calendar/gui/e-memo-table.c:845
 msgid "Open _Web Page"
 msgstr "ཝེབ་ཤོག་ལེབ་ཁ་ཕྱེ། (_W)"
 
-#: ../calendar/gui/e-calendar-table.c:1251
-#: ../calendar/gui/e-calendar-view.c:1692
-#: ../calendar/gui/e-calendar-view.c:1708
-#: ../calendar/gui/e-memo-table.c:855
+#: ../calendar/gui/e-calendar-table.c:1244
+#: ../calendar/gui/e-calendar-view.c:1684
+#: ../calendar/gui/e-calendar-view.c:1700
+#: ../calendar/gui/e-memo-table.c:847
 #: ../mail/em-folder-view.c:1093
 #: ../plugins/print-message/org-gnome-print-message.xml.h:3
 #: ../ui/evolution-addressbook.xml.h:58
@@ -6890,9 +6915,9 @@ msgstr "ཝེབ་ཤོག་ལེབ་ཁ་ཕྱེ། (_W)"
 msgid "_Print..."
 msgstr "དཔར་བསྐྲུན་...(_P)"
 
-#: ../calendar/gui/e-calendar-table.c:1255
-#: ../calendar/gui/e-calendar-view.c:1712
-#: ../calendar/gui/e-memo-table.c:859
+#: ../calendar/gui/e-calendar-table.c:1248
+#: ../calendar/gui/e-calendar-view.c:1704
+#: ../calendar/gui/e-memo-table.c:851
 #: ../ui/evolution-addressbook.xml.h:2
 #: ../ui/evolution-calendar.xml.h:1
 #: ../ui/evolution-memos.xml.h:1
@@ -6900,10 +6925,10 @@ msgstr "དཔར་བསྐྲུན་...(_P)"
 msgid "C_ut"
 msgstr "བཏོག (_C)"
 
-#: ../calendar/gui/e-calendar-table.c:1257
-#: ../calendar/gui/e-calendar-view.c:1695
-#: ../calendar/gui/e-calendar-view.c:1714
-#: ../calendar/gui/e-memo-table.c:861
+#: ../calendar/gui/e-calendar-table.c:1250
+#: ../calendar/gui/e-calendar-view.c:1687
+#: ../calendar/gui/e-calendar-view.c:1706
+#: ../calendar/gui/e-memo-table.c:853
 #: ../ui/evolution-addressbook.xml.h:57
 #: ../ui/evolution-calendar.xml.h:43
 #: ../ui/evolution-composer-entries.xml.h:15
@@ -6913,30 +6938,30 @@ msgstr "བཏོག (_C)"
 msgid "_Paste"
 msgstr "སྦྱར། (_P)"
 
-#: ../calendar/gui/e-calendar-table.c:1261
+#: ../calendar/gui/e-calendar-table.c:1254
 #: ../ui/evolution-tasks.xml.h:22
 msgid "_Assign Task"
 msgstr "ལས་ཀ་འགན་སྤྲོད་འབད། (_A)"
 
-#: ../calendar/gui/e-calendar-table.c:1262
-#: ../calendar/gui/e-memo-table.c:865
+#: ../calendar/gui/e-calendar-table.c:1255
+#: ../calendar/gui/e-memo-table.c:857
 #: ../ui/evolution-tasks.xml.h:26
 msgid "_Forward as iCalendar"
 msgstr "ཨའི་ཟླ་ཐོ་བཟུམ་སྦེ་ གདོང་བསྐྱོད་འབད། (_F)"
 
-#: ../calendar/gui/e-calendar-table.c:1263
+#: ../calendar/gui/e-calendar-table.c:1256
 msgid "_Mark as Complete"
 msgstr "མཇུག་བསྡུཝ་སྦེ་ རྟགས་བཀལ། (_M)"
 
-#: ../calendar/gui/e-calendar-table.c:1264
+#: ../calendar/gui/e-calendar-table.c:1257
 msgid "_Mark Selected Tasks as Complete"
 msgstr "སེལ་འཐུ་འབད་མི་ ལས་ཀ་ཚུ་ མཇུག་བསྡུཝ་སྦེ་ རྟགས་བཀལ། (_M)"
 
-#: ../calendar/gui/e-calendar-table.c:1269
+#: ../calendar/gui/e-calendar-table.c:1262
 msgid "_Delete Selected Tasks"
 msgstr "སེལ་འཐུ་འབད་མི་ ལས་ཀ་ཚུ་བཏོན་གཏང་། (_D)"
 
-#: ../calendar/gui/e-calendar-table.c:1502
+#: ../calendar/gui/e-calendar-table.c:1495
 #: ../calendar/gui/e-calendar-table.etspec.h:4
 msgid "Click to add a task"
 msgstr "ལས་ཀ་ཅིག་ ཁ་སྐོང་བརྐྱབ་ནི་ལུ་ ཨེབ་གཏང་འབད།"
@@ -6972,68 +6997,68 @@ msgstr "འགོ་བཙུགས་ཚེས་གྲངས།"
 msgid "Task sort"
 msgstr "ལས་ཀའི་དབྱེ་སེལ།"
 
-#: ../calendar/gui/e-calendar-view.c:1375
+#: ../calendar/gui/e-calendar-view.c:1367
 msgid "Moving items"
 msgstr "འགུལ་བསྐྱོད་འབད་མི་རྣམ་གྲངས།"
 
-#: ../calendar/gui/e-calendar-view.c:1377
+#: ../calendar/gui/e-calendar-view.c:1369
 msgid "Copying items"
 msgstr "རྣམ་གྲངས་ཚུ་ འདྲ་བཤུས་རྐྱབ་དོ།"
 
-#: ../calendar/gui/e-calendar-view.c:1686
+#: ../calendar/gui/e-calendar-view.c:1678
 msgid "New _Appointment..."
 msgstr "ངོ་འཕྲད་གསརཔ་...(_A)"
 
-#: ../calendar/gui/e-calendar-view.c:1687
+#: ../calendar/gui/e-calendar-view.c:1679
 msgid "New All Day _Event"
 msgstr "ཉིནམ་གང་གི་ བྱུང་ལས་གསརཔ།(_E)"
 
-#: ../calendar/gui/e-calendar-view.c:1688
+#: ../calendar/gui/e-calendar-view.c:1680
 msgid "New _Meeting"
 msgstr "འཛོམས་འདུ་གསརཔ།(_M)"
 
-#: ../calendar/gui/e-calendar-view.c:1689
+#: ../calendar/gui/e-calendar-view.c:1681
 msgid "New _Task"
 msgstr "ལས་ཀ་གསརཔ།(_T)"
 
 #. FIXME: hook in this somehow
-#: ../calendar/gui/e-calendar-view.c:1699
+#: ../calendar/gui/e-calendar-view.c:1691
 msgid "_Current View"
 msgstr "ད་ལྟོའི་མཐོང་སྣང་། (_C)"
 
-#: ../calendar/gui/e-calendar-view.c:1701
+#: ../calendar/gui/e-calendar-view.c:1693
 msgid "Select T_oday"
 msgstr "ད་རིས་ སེལ་འཐུ་འབད། (_o)"
 
-#: ../calendar/gui/e-calendar-view.c:1702
+#: ../calendar/gui/e-calendar-view.c:1694
 msgid "_Select Date..."
 msgstr "ཚེས་གྲངས་སེལ་འཐུ་འབད་...(_S)"
 
-#: ../calendar/gui/e-calendar-view.c:1718
+#: ../calendar/gui/e-calendar-view.c:1710
 msgid "Cop_y to Calendar..."
 msgstr "ཟླ་ཐོ་ལུ་འདྲ་བཤུས་རྐྱབས་...(_y)"
 
-#: ../calendar/gui/e-calendar-view.c:1719
+#: ../calendar/gui/e-calendar-view.c:1711
 msgid "Mo_ve to Calendar..."
 msgstr "ཟླ་ཐོ་ལུ་སྤོ་བཤུད་འབད་... (_v)"
 
-#: ../calendar/gui/e-calendar-view.c:1720
+#: ../calendar/gui/e-calendar-view.c:1712
 msgid "_Delegate Meeting..."
 msgstr "འཛོམས་འདུ་བགོ་སྤེལ་འབད་...(_D)"
 
-#: ../calendar/gui/e-calendar-view.c:1721
+#: ../calendar/gui/e-calendar-view.c:1713
 msgid "_Schedule Meeting..."
 msgstr "འཛོམས་འདུའི་འཆར་རིམ་བཀོད་...(_S)"
 
-#: ../calendar/gui/e-calendar-view.c:1722
+#: ../calendar/gui/e-calendar-view.c:1714
 msgid "_Forward as iCalendar..."
 msgstr "ཨའི་ཟླ་ཐོ་བཟུམ་སྦེ་ གདོང་བསྐྱོད་འབད་...(_F)"
 
-#: ../calendar/gui/e-calendar-view.c:1723
+#: ../calendar/gui/e-calendar-view.c:1715
 msgid "_Reply"
 msgstr "ལན་གསལ།(_R)"
 
-#: ../calendar/gui/e-calendar-view.c:1724
+#: ../calendar/gui/e-calendar-view.c:1716
 #: ../mail/em-folder-view.c:1087
 #: ../mail/em-popup.c:559
 #: ../mail/em-popup.c:570
@@ -7041,40 +7066,40 @@ msgstr "ལན་གསལ།(_R)"
 msgid "Reply to _All"
 msgstr "ཆ་མཉམ་ལུ་ལན་གསལ་གཏང་། (_A)"
 
-#: ../calendar/gui/e-calendar-view.c:1729
+#: ../calendar/gui/e-calendar-view.c:1721
 msgid "Make this Occurrence _Movable"
 msgstr "འབྱུང་བ་འདི་ སྤོ་བཤུད་འབད་བཏུབ་བཟོ། (_M)"
 
-#: ../calendar/gui/e-calendar-view.c:1730
+#: ../calendar/gui/e-calendar-view.c:1722
 #: ../ui/evolution-calendar.xml.h:9
 msgid "Delete this _Occurrence"
 msgstr "འབྱུང་བ་འདི་ བཏོན་གཏང་། (_O)"
 
-#: ../calendar/gui/e-calendar-view.c:1731
+#: ../calendar/gui/e-calendar-view.c:1723
 msgid "Delete _All Occurrences"
 msgstr "འབྱུང་བ་ཆ་མཉམ་བཏོན་གཏང་། (_A)"
 
 #. To Translators: It will display "Organiser: NameOfTheUser <email@ofuser.com>"
-#: ../calendar/gui/e-calendar-view.c:2179
+#: ../calendar/gui/e-calendar-view.c:2175
 #, c-format
 msgid "Organizer: %s <%s>"
 msgstr "འགོ་འདྲེན་པ་:%s <%s>"
 
 #. With SunOne accouts, there may be no ':' in organiser.value
-#: ../calendar/gui/e-calendar-view.c:2183
+#: ../calendar/gui/e-calendar-view.c:2179
 #, c-format
 msgid "Organizer: %s"
 msgstr "འགོ་འདྲེན་པ་:%s"
 
 #. To Translators: It will display "Location: PlaceOfTheMeeting"
-#: ../calendar/gui/e-calendar-view.c:2199
+#: ../calendar/gui/e-calendar-view.c:2195
 #: ../calendar/gui/print.c:2336
 #, c-format
 msgid "Location: %s"
 msgstr "གནས་ཁོངས་:%s"
 
 #. To Translators: It will display "Time: ActualStartDateAndTime (DurationOfTheMeeting)"
-#: ../calendar/gui/e-calendar-view.c:2230
+#: ../calendar/gui/e-calendar-view.c:2226
 #, c-format
 msgid "Time: %s %s"
 msgstr "ཆུ་ཚོད་:%s %s"
@@ -7104,7 +7129,7 @@ msgstr ""
 #. * to change the length of the time division in the calendar day view, e.g.
 #. * a day is displayed in 24 "60 minute divisions" or 48 "30 minute divisions"
 #.
-#: ../calendar/gui/e-day-view-time-item.c:586
+#: ../calendar/gui/e-day-view-time-item.c:808
 #, c-format
 msgid "%02i minute divisions"
 msgstr "%02i སྐར་མའི་སྡེ་ཚན།"
@@ -7115,9 +7140,10 @@ msgstr "%02i སྐར་མའི་སྡེ་ཚན།"
 #. month, %B = full month name. You can change the
 #. order but don't change the specifiers or add
 #. anything.
-#: ../calendar/gui/e-day-view-top-item.c:797
-#: ../calendar/gui/e-day-view.c:1500
-#: ../calendar/gui/e-week-view-main-item.c:324
+#: ../calendar/gui/e-day-view-top-item.c:1311
+#: ../calendar/gui/e-day-view.c:1534
+#: ../calendar/gui/e-week-view-main-item.c:310
+#: ../calendar/gui/e-week-view-main-item.c:524
 #: ../calendar/gui/print.c:1525
 msgid "%A %d %B"
 msgstr "%A %d %B"
@@ -7756,11 +7782,11 @@ msgstr "འགོ་བཙུགས་ཆུ་ཚོད་: (_S)"
 msgid "_End time:"
 msgstr "མཇུག་བསྡུ་བའི་ཆུ་ཚོད་: (_E)"
 
-#: ../calendar/gui/e-memo-table.c:870
+#: ../calendar/gui/e-memo-table.c:862
 msgid "_Delete Selected Memos"
 msgstr "སེལ་འཐུ་འབད་མི་བརྗེད་ཐོ་ཚུ་བཏོན་གཏང་། (_D)"
 
-#: ../calendar/gui/e-memo-table.c:993
+#: ../calendar/gui/e-memo-table.c:985
 #: ../calendar/gui/e-memo-table.etspec.h:2
 msgid "Click to add a memo"
 msgstr "བརྗེད་ཐོ་ཅིག་ ཁ་སྐོང་བརྐྱབ་ནི་ལུ་ཨེབ་གཏང་འབད།"
@@ -7823,7 +7849,8 @@ msgstr "དུས་ཚོད་གླིང་སྡེ་སེལ་འཐུ
 #. strftime format %d = day of month, %B = full
 #. month name. You can change the order but don't
 #. change the specifiers or add anything.
-#: ../calendar/gui/e-week-view-main-item.c:341
+#: ../calendar/gui/e-week-view-main-item.c:327
+#: ../calendar/gui/e-week-view-main-item.c:541
 #: ../calendar/gui/print.c:1509
 msgid "%d %B"
 msgstr "%d %B"
@@ -7978,27 +8005,9 @@ msgstr "ཁྱོད་ བྱུང་ལས་དེ་གི་ ངོ་འ�
 msgid "You must be an attendee of the event."
 msgstr "ཨའི་ཟླ་ཐོའི་བརྡ་དོན།"
 
-#: ../calendar/gui/memos-component.c:451
-#: ../ui/evolution-addressbook.xml.h:6
-#: ../ui/evolution-composer-entries.xml.h:1
-#: ../ui/evolution-memos.xml.h:2
-#: ../ui/evolution-tasks.xml.h:2
-msgid "Copy"
-msgstr "འདྲ་བཤུས།"
-
-#: ../calendar/gui/memos-component.c:452
-#: ../mail/em-filter-i18n.h:11
-#: ../ui/evolution-addressbook.xml.h:15
-#: ../ui/evolution-calendar.xml.h:5
-#: ../ui/evolution-mail-message.xml.h:25
-#: ../ui/evolution-memos.xml.h:6
-#: ../ui/evolution-tasks.xml.h:6
-msgid "Delete"
-msgstr "བཏོན་གཏང་།"
-
-#: ../calendar/gui/memos-component.c:453
-msgid "Properties..."
-msgstr "རྒྱུ་དངོས་ཚུ་..."
+#: ../calendar/gui/memos-component.c:450
+msgid "_New Memo List"
+msgstr "བརྗེད་ཐོའི་ཐོ་ཡིག་གསརཔ།(_N)"
 
 #: ../calendar/gui/memos-component.c:526
 #, c-format
@@ -10009,7 +10018,7 @@ msgid "%.0fG"
 msgstr "%.0fG"
 
 #: ../composer/e-msg-composer-attachment-bar.c:740
-#: ../widgets/misc/e-attachment-bar.c:1048
+#: ../widgets/misc/e-attachment-bar.c:1022
 msgid "Attachment Bar"
 msgstr "མཉམ་སྦྲགས་ཕྲ་རིང་།"
 
@@ -10017,18 +10026,18 @@ msgstr "མཉམ་སྦྲགས་ཕྲ་རིང་།"
 #: ../composer/e-msg-composer-attachment.c:203
 #: ../composer/e-msg-composer-attachment.c:297
 #: ../composer/e-msg-composer-attachment.c:313
-#: ../widgets/misc/e-attachment.c:238
-#: ../widgets/misc/e-attachment.c:254
-#: ../widgets/misc/e-attachment.c:441
-#: ../widgets/misc/e-attachment.c:457
+#: ../widgets/misc/e-attachment.c:241
+#: ../widgets/misc/e-attachment.c:256
+#: ../widgets/misc/e-attachment.c:439
+#: ../widgets/misc/e-attachment.c:456
 #, c-format
 msgid "Cannot attach file %s: %s"
 msgstr "ཡིག་སྣོད་%s: %sམཉམ་སྦྲགས་འབད་མ་ཚུགས།"
 
 #: ../composer/e-msg-composer-attachment.c:195
 #: ../composer/e-msg-composer-attachment.c:305
-#: ../widgets/misc/e-attachment.c:246
-#: ../widgets/misc/e-attachment.c:449
+#: ../widgets/misc/e-attachment.c:249
+#: ../widgets/misc/e-attachment.c:448
 #, c-format
 msgid "Cannot attach file %s: not a regular file"
 msgstr "ཡིག་སྣོད་%s: མཉམ་སྦྲགས་འབད་མི་ཚུགས་པས། དུས་རྒྱུན་གྱི་ཡིག་སྣོད་ཅིག་མེན་པས།"
@@ -10052,60 +10061,60 @@ msgstr "ཁ་བྱང་ཀི་དེབ་ཀྱི་དོན་ལས་
 #. * because that causes from_changed to be called, which
 #. * expects the reply_to fields to be initialized.
 #.
-#: ../composer/e-msg-composer-hdrs.c:622
+#: ../composer/e-msg-composer-hdrs.c:624
 msgid "_Reply-To:"
 msgstr "ལན་གསལ་གཏང་ཡུལ་:(_R)"
 
 #.
 #. * From
 #.
-#: ../composer/e-msg-composer-hdrs.c:629
+#: ../composer/e-msg-composer-hdrs.c:631
 msgid "Fr_om:"
 msgstr "ལས་:(_o)"
 
 #.
 #. * Subject
 #.
-#: ../composer/e-msg-composer-hdrs.c:636
+#: ../composer/e-msg-composer-hdrs.c:638
 msgid "S_ubject:"
 msgstr "དོན་ཚན་:(_u)"
 
-#: ../composer/e-msg-composer-hdrs.c:645
+#: ../composer/e-msg-composer-hdrs.c:647
 msgid "_To:"
 msgstr "ལུ་: (_T)"
 
-#: ../composer/e-msg-composer-hdrs.c:646
+#: ../composer/e-msg-composer-hdrs.c:648
 msgid "Enter the recipients of the message"
 msgstr "འཕྲིན་དོན་ལེན་མཁན་བཙུགས།"
 
-#: ../composer/e-msg-composer-hdrs.c:649
+#: ../composer/e-msg-composer-hdrs.c:651
 msgid "_Cc:"
-msgstr "སི་སི་: (_C)"
+msgstr "ཤོག་ནང་འདྲ་བཤུས་: (_C)"
 
-#: ../composer/e-msg-composer-hdrs.c:650
+#: ../composer/e-msg-composer-hdrs.c:652
 msgid "Enter the addresses that will receive a carbon copy of the message"
 msgstr "འཕྲིན་དོན་གྱི་ཤོག་གནག་འདྲ་བཤུས་ཅིག་འཐོབ་ནིའི་ ཁ་བྱང་ཚུ་བཙུགས།"
 
-#: ../composer/e-msg-composer-hdrs.c:653
+#: ../composer/e-msg-composer-hdrs.c:655
 msgid "_Bcc:"
-msgstr "བི་སི་སི་: (_C)"
+msgstr "མཐོང་མེད་ཤོག་ནག་འདྲ་བཤུས་: (_B)"
 
-#: ../composer/e-msg-composer-hdrs.c:654
+#: ../composer/e-msg-composer-hdrs.c:656
 msgid "Enter the addresses that will receive a carbon copy of the message without appearing in the recipient list of the message."
 msgstr "འཕྲིད་དོན་ལེན་མཁན་གྱི་ ཐོ་ཡིག་ནང་མ་ཐོན་པར་ འཕྲིན་དོན་གྱི་ ཤོག་གནག་འདྲ་བཤུས་ཅིག་འཐོབ་ནིའི་ ཁ་བྱང་ཚུ་བཙུགས།"
 
 #.
 #. * Post-To
 #.
-#: ../composer/e-msg-composer-hdrs.c:661
+#: ../composer/e-msg-composer-hdrs.c:663
 msgid "_Post To:"
 msgstr "གནས་བསྐྱོད་ཡུལ་: (_P)"
 
-#: ../composer/e-msg-composer-hdrs.c:666
+#: ../composer/e-msg-composer-hdrs.c:668
 msgid "Click here to select folders to post to"
 msgstr "གནས་བསྐྱོད་འབད་ནིའི་ ཡིག་སྣོད་ཚུ་སེལ་འཐུ་འབད་ནི་ལུ་ ནཱ་ལུ་ཨེབ་གཏང་འབད།"
 
-#: ../composer/e-msg-composer-hdrs.c:672
+#: ../composer/e-msg-composer-hdrs.c:673
 msgid "Post To:"
 msgstr "གནས་བསྐྱོད་ཡུལ:"
 
@@ -10113,7 +10122,7 @@ msgstr "གནས་བསྐྱོད་ཡུལ:"
 msgid "A_ttach"
 msgstr "མཉམ་སྦྲགས་འབད།(_t)"
 
-#: ../composer/e-msg-composer-select-file.c:239
+#: ../composer/e-msg-composer-select-file.c:243
 msgid "Insert Attachment"
 msgstr "མཉམ་སྦྲགསབཙུགས།"
 
@@ -10126,13 +10135,13 @@ msgid "Cannot encrypt outgoing message: No encryption certificate set for this a
 msgstr "ཕྱིར་གཏང་འཕྲིན་དོན་ གསང་བ་བཟོ་མི་ཚུགས་པས། རྩིས་ཐོ་འདི་གི་དོན་ལས་ གསང་བཟོའི་ལག་ཁྱེར་ གཞི་སྒྲིག་མ་འབད་བས།"
 
 #: ../composer/e-msg-composer.c:1295
-#: ../composer/e-msg-composer.c:2508
+#: ../composer/e-msg-composer.c:2519
 msgid "Hide _Attachment Bar"
 msgstr "མཉམ་སྦྲགས་ཕྲ་རིང་སྦ་བཞག(_A)"
 
 #: ../composer/e-msg-composer.c:1298
-#: ../composer/e-msg-composer.c:2511
-#: ../composer/e-msg-composer.c:3865
+#: ../composer/e-msg-composer.c:2522
+#: ../composer/e-msg-composer.c:3870
 msgid "Show _Attachment Bar"
 msgstr "མཉམ་སྦྲགས་ཕྲ་རིང་སྟོན།(_A)"
 
@@ -10159,24 +10168,24 @@ msgstr "མགོ་མིང་མ་བཏགས་པའི་འཕྲིན
 msgid "Open File"
 msgstr "ཡིག་སྣོད་ཁ་ཕྱེ།"
 
-#: ../composer/e-msg-composer.c:2151
+#: ../composer/e-msg-composer.c:2162
 #: ../mail/em-account-editor.c:606
 #: ../mail/em-account-editor.c:651
 #: ../mail/em-account-editor.c:718
 msgid "Autogenerated"
 msgstr "རང་བཞིན་གྱིས་བཟོ་བསྐྲུན་འབད་ཡོདཔ།"
 
-#: ../composer/e-msg-composer.c:2254
+#: ../composer/e-msg-composer.c:2265
 msgid "Si_gnature:"
 msgstr "མིང་རྟགས:(_g)"
 
-#: ../composer/e-msg-composer.c:2522
-#: ../composer/e-msg-composer.c:3747
-#: ../composer/e-msg-composer.c:3750
+#: ../composer/e-msg-composer.c:2533
+#: ../composer/e-msg-composer.c:3752
+#: ../composer/e-msg-composer.c:3755
 msgid "Compose Message"
 msgstr "འཕྲིན་དོན་བརྩམས།"
 
-#: ../composer/e-msg-composer.c:4974
+#: ../composer/e-msg-composer.c:4979
 msgid "<b>(The composer contains a non-text message body, which cannot be edited.)<b>"
 msgstr "<b>(རྩོམ་མཁན་ལུ་ ཚིག་ཡིག་མེན་པའི་ འཕྲིན་དོན་མ་གཟུགས་ཅིག་ཡོད་མི་དེ་ ཞུན་དག་འབད་མི་བཏུབ་པས)། <b>"
 
@@ -10411,7 +10420,7 @@ msgstr "འཕྲིད་དོན་དེ་ འཕྲིན་སྐྱེ�
 msgid "When you receive an email with a read receipt request, what should Evolution do?"
 msgstr "ཁྱོད་ཀྱིས་ ལྷག་ཡོད་པའི་འབྱོར་རྟགས་དགོ་པའི་ ཞུ་བ་དང་སྦྲགས་ཏེ་ འཕྲིད་དོན་ཅིག་ཐོབ་པའི་སྐབས ཨི་བོ་ལུ་ཤཱན་གྱིས་ ག་ཅི་འབད་དགོཔ་ཨིན་ན?"
 
-#: ../e-util/e-dialog-utils.c:281
+#: ../e-util/e-dialog-utils.c:283
 msgid ""
 "A file by that name already exists.\n"
 "Overwrite it?"
@@ -10419,7 +10428,7 @@ msgstr ""
 "མིང་དེ་ཡོད་མི་ ཡིག་སྣོད་ཅིག་ ཧེ་མ་ལས་རང་འདུག.\n"
 "ཚབ་སྲུང་འབད་ནི་ཨིན་ན?"
 
-#: ../e-util/e-dialog-utils.c:283
+#: ../e-util/e-dialog-utils.c:285
 #: ../e-util/e-system.error.xml.h:6
 msgid "Overwrite file?"
 msgstr "ཡིག་སྣོད་སླར་བསྲུང་འབད་ནི་ཨིན་ན?"
@@ -10615,12 +10624,12 @@ msgstr "ཐེརེཌི་གྲངས་སུ་བཙུགས།"
 
 #: ../filter/filter-rule.c:986
 #: ../filter/filter.glade.h:3
-#: ../mail/em-utils.c:311
+#: ../mail/em-utils.c:328
 msgid "Incoming"
 msgstr "ནང་འབྱོར།"
 
 #: ../filter/filter-rule.c:986
-#: ../mail/em-utils.c:312
+#: ../mail/em-utils.c:329
 msgid "Outgoing"
 msgstr "ཕྱིར་གཏང་།"
 
@@ -10718,7 +10727,7 @@ msgid "months"
 msgstr "ཟླཝ།"
 
 #: ../filter/filter.glade.h:18
-#: ../mail/mail-config.glade.h:178
+#: ../mail/mail-config.glade.h:180
 msgid "seconds"
 msgstr "སྐར་ཆ།"
 
@@ -10927,7 +10936,7 @@ msgstr "གནད་སྤེལ་ལམ་ལུགས།"
 
 #: ../mail/em-composer-prefs.c:311
 #: ../mail/em-composer-prefs.c:437
-#: ../mail/mail-config.c:967
+#: ../mail/mail-config.c:999
 msgid "Unnamed"
 msgstr "མིང་མ་བཏགསཔ།"
 
@@ -10999,6 +11008,15 @@ msgstr "ཚེས་གྲངས་ཐོབ་ཡོད།"
 #: ../mail/em-filter-i18n.h:10
 msgid "Date sent"
 msgstr "ཚེས་གྲངས་བཏང་ཡོད།"
+
+#: ../mail/em-filter-i18n.h:11
+#: ../ui/evolution-addressbook.xml.h:15
+#: ../ui/evolution-calendar.xml.h:5
+#: ../ui/evolution-mail-message.xml.h:25
+#: ../ui/evolution-memos.xml.h:6
+#: ../ui/evolution-tasks.xml.h:6
+msgid "Delete"
+msgstr "བཏོན་གཏང་།"
 
 #: ../mail/em-filter-i18n.h:12
 msgid "Deleted"
@@ -11211,7 +11229,7 @@ msgid "Stop Processing"
 msgstr "ལས་སྦྱོར་བཀག"
 
 #: ../mail/em-filter-i18n.h:65
-#: ../mail/em-format-html.c:1584
+#: ../mail/em-format-html.c:1659
 #: ../mail/em-format-quote.c:313
 #: ../mail/em-format.c:849
 #: ../mail/em-mailer-prefs.c:90
@@ -11348,7 +11366,7 @@ msgid "_Move to Folder"
 msgstr "སྣོད་འཛིན་ལུ་ སྤོ་བཤུད་འབད། (_M)"
 
 #: ../mail/em-folder-tree.c:1690
-#: ../mail/mail-ops.c:1059
+#: ../mail/mail-ops.c:1060
 #, c-format
 msgid "Scanning folders in \"%s\""
 msgstr "སྣོད་འཛིན་ཚུ་\"%s\"ནང་ལུ་ ཞིབ་ལྟ་འབད་དོ།"
@@ -11552,22 +11570,26 @@ msgstr "འཕྲིན་དོན་དཔར་བསྐྲུན་འབད
 msgid "Unable to retrieve message"
 msgstr "འཕྲིན་དོན་སླར་འདྲེན་འབད་མི་ཚུགས་པས།"
 
-#: ../mail/em-folder-view.c:2466
+#: ../mail/em-folder-view.c:2469
 msgid "Create _Search Folder"
 msgstr "འཚོལ་ཞིབ་སྣོད་འཛིན་ གསར་བསྐྲུན་འབད།(_S)"
 
-#: ../mail/em-folder-view.c:2467
+#: ../mail/em-folder-view.c:2470
 msgid "_From this Address"
 msgstr "ཁ་བྱང་འདི་ནང་ལས། (_F)"
 
-#: ../mail/em-folder-view.c:2468
+#: ../mail/em-folder-view.c:2471
 msgid "_To this Address"
 msgstr "ཁ་བྱང་འདི་ནང་ལུ། (_T)"
 
-#: ../mail/em-folder-view.c:2822
+#: ../mail/em-folder-view.c:2825
 #, c-format
 msgid "Click to mail %s"
 msgstr "ཡིག་འཕྲིན་%sལུ་ ཨེབ་གཏང་འབད།"
+
+#: ../mail/em-folder-view.c:2830
+msgid "Click to hide/unhide addresses"
+msgstr "ཁ་བྱང་ཚུ་སྦ་ནི་/སྦ་བཤོལ་འབད་ནི་ལུ་ ཨེབ་གཏང་འབད།"
 
 #. message-search popup match count string
 #: ../mail/em-format-html-display.c:499
@@ -11575,146 +11597,146 @@ msgstr "ཡིག་འཕྲིན་%sལུ་ ཨེབ་གཏང་འབ
 msgid "Matches: %d"
 msgstr "%d མཐུན་པས།"
 
-#: ../mail/em-format-html-display.c:759
-#: ../mail/em-format-html.c:607
+#: ../mail/em-format-html-display.c:781
+#: ../mail/em-format-html.c:617
 msgid "Unsigned"
 msgstr "མིང་རྟགས་མ་བཀོདཔ།"
 
-#: ../mail/em-format-html-display.c:759
+#: ../mail/em-format-html-display.c:781
 msgid "This message is not signed. There is no guarantee that this message is authentic."
 msgstr "འཕྲིན་དོན་འདི་ལུ་ མིང་རྟགས་མ་བཀོདཔ་ལས་ འཕྲིན་དོན་འདི་ བདེན་པ་ཨིན་པའི་ ཉེན་ལེན་འབད་མི་ཚུགས།"
 
-#: ../mail/em-format-html-display.c:760
-#: ../mail/em-format-html.c:608
+#: ../mail/em-format-html-display.c:782
+#: ../mail/em-format-html.c:618
 msgid "Valid signature"
 msgstr "ནུས་ཅན་མིང་རྟགས།"
 
-#: ../mail/em-format-html-display.c:760
+#: ../mail/em-format-html-display.c:782
 msgid "This message is signed and is valid meaning that it is very likely that this message is authentic."
 msgstr "འཕྲིན་དོན་འདི་ལུ་ མིང་རྟགས་བཀོད་དེ་ ནུས་ཅན་ཨིནམ་ལས་ འཕྲིན་དོན་འདི་ ངེས་བདེན་འོང་ནི་མས།"
 
-#: ../mail/em-format-html-display.c:761
-#: ../mail/em-format-html.c:609
+#: ../mail/em-format-html-display.c:783
+#: ../mail/em-format-html.c:619
 msgid "Invalid signature"
 msgstr "ནུས་མེད་མིང་རྟགས།"
 
-#: ../mail/em-format-html-display.c:761
+#: ../mail/em-format-html-display.c:783
 msgid "The signature of this message cannot be verified, it may have been altered in transit."
 msgstr "འཕྲིན་དོན་འདི་གི་ མིང་རྟགས་འདི་ བདེན་སྦྱོར་འབད་མི་ཚུགས་པས། གཏོང་ལེན་ནང་ལུ་ མེདཔ་བཏང་གདའཔ་འོང་ནི་མས།"
 
-#: ../mail/em-format-html-display.c:762
+#: ../mail/em-format-html-display.c:784
 msgid "Valid signature, cannot verify sender"
 msgstr "མིང་རྟགས་ནུས་ཅན་ཨིན་པས། དེ་འབདཝ་ད་ གཏང་མི་བདེན་སྦྱོར་འབད་མི་ཚུགས་པས།"
 
-#: ../mail/em-format-html-display.c:762
+#: ../mail/em-format-html-display.c:784
 msgid "This message is signed with a valid signature, but the sender of the message cannot be verified."
 msgstr "འཕྲིན་དོན་འདི་ལུ་ ནུས་ཅན་མིང་རྟགས་ཅིག་བཀོད་ནུག དེ་འབདཝ་ད་ འཕྲིན་དོན་གཏང་མི་དེ་ བདེན་སྦྱོར་འབད་མི་ཚུགས་པས།"
 
-#: ../mail/em-format-html-display.c:768
-#: ../mail/em-format-html.c:616
+#: ../mail/em-format-html-display.c:790
+#: ../mail/em-format-html.c:626
 msgid "Unencrypted"
 msgstr "གསང་བ་མ་བཟོཝ།"
 
-#: ../mail/em-format-html-display.c:768
+#: ../mail/em-format-html-display.c:790
 msgid "This message is not encrypted. Its content may be viewed in transit across the Internet."
 msgstr "འཕྲིན་དོན་འདི་ གསང་བ་མ་བཟོཝ་ལས་ འདི་གི་ནང་དོན་ཚུ་ ཨིན་ཊར་ནེཊི་བརྒྱུད་དེ་ གཏོང་ལེན་འབད་བའི་སྐབས་མཐོང་འོང་།"
 
-#: ../mail/em-format-html-display.c:769
-#: ../mail/em-format-html.c:617
+#: ../mail/em-format-html-display.c:791
+#: ../mail/em-format-html.c:627
 msgid "Encrypted, weak"
 msgstr "གསང་བཟོ་ལེགས་ཤོམ་མ་འགྱོ་བས།"
 
-#: ../mail/em-format-html-display.c:769
+#: ../mail/em-format-html-display.c:791
 msgid "This message is encrypted, but with a weak encryption algorithm. It would be difficult, but not impossible for an outsider to view the content of this message in a practical amount of time."
 msgstr "འཕྲིན་དོན་འདི་ གསང་བཟོའི་ཨཱལ་གོ་རི་དམ་ ཤུགས་མེད་ཅིག་གི་ཐོག་ལས་གསང་བ་བཟོ་ནུག ཕྱི་མི་ཅིག་གིས་ འཕྲིན་དོན་འདི་གི་ནང་དོན་ཚུ་ མཐོང་ཚུགས་པར་ ལཱ་ཁག་མཚམས་ཅིག་ཡོད་རུང་ དུས་ཡུན་རན་ཏོག་ཏོ་ཅིག་ནང་ མཐོང་མ་ཚུགསཔ་མེད།"
 
-#: ../mail/em-format-html-display.c:770
-#: ../mail/em-format-html.c:618
+#: ../mail/em-format-html-display.c:792
+#: ../mail/em-format-html.c:628
 msgid "Encrypted"
 msgstr "གསང་བ་བཟོ་ནུག"
 
-#: ../mail/em-format-html-display.c:770
+#: ../mail/em-format-html-display.c:792
 msgid "This message is encrypted.  It would be difficult for an outsider to view the content of this message."
 msgstr "འཕྲིན་དོན་འདི་ གསང་བ་བཟོ་ཡོདཔ་ལས་ འདི་གི་ནང་དོན་ཚུ་ ཕྱི་མི་ཅིག་གིས་ མཐོང་མི་ཚུགས།"
 
-#: ../mail/em-format-html-display.c:771
-#: ../mail/em-format-html.c:619
+#: ../mail/em-format-html-display.c:793
+#: ../mail/em-format-html.c:629
 msgid "Encrypted, strong"
 msgstr "སྒྲིང་སྒྲིང་སྦེ་ གསང་བ་བཟོ་ནུག"
 
-#: ../mail/em-format-html-display.c:771
+#: ../mail/em-format-html-display.c:793
 msgid "This message is encrypted, with a strong encryption algorithm. It would be very difficult for an outsider to view the content of this message in a practical amount of time."
 msgstr "འཕྲིན་དོན་འདི་ གསང་བཟོའི་ཨཱལ་གོ་རི་དམ་ སྒྲིང་སྒྲིང་ཅིག་གི་ཐོག་ལས་ གསང་བ་བཟོ་ནུག  ཕྱི་མི་ཅིག་གིས་ དུས་ཡུན་རན་ཏོག་ཏོ་ཅིག་ནང་ འཕྲིན་དོན་འདི་གི་ནང་དོན་ཚུ་ མཐོང་ཚུགས་པར་ལཱ་ཁག་ཡོད།"
 
-#: ../mail/em-format-html-display.c:872
+#: ../mail/em-format-html-display.c:894
 #: ../smime/gui/smime-ui.glade.h:48
 msgid "_View Certificate"
 msgstr "ལག་ཁྱེར་ལུ་སྟོན། (_V)"
 
-#: ../mail/em-format-html-display.c:887
+#: ../mail/em-format-html-display.c:909
 msgid "This certificate is not viewable"
 msgstr "ལག་ཁྱེར་འདི་ མཐོང་མི་ཚུགས།"
 
-#: ../mail/em-format-html-display.c:1177
+#: ../mail/em-format-html-display.c:1200
 msgid "Completed on %B %d, %Y, %l:%M %p"
 msgstr "%B %d, %Y, %l:%M %p ལུ་མཇུག་བསྡུ་ཡོད།"
 
-#: ../mail/em-format-html-display.c:1185
+#: ../mail/em-format-html-display.c:1208
 msgid "Overdue:"
 msgstr "ཧེ་མ་ལས་རན་ཡོདཔ།"
 
-#: ../mail/em-format-html-display.c:1188
+#: ../mail/em-format-html-display.c:1211
 msgid "by %B %d, %Y, %l:%M %p"
 msgstr "%B %d, %Y, %l:%M %pལས།"
 
-#: ../mail/em-format-html-display.c:1248
+#: ../mail/em-format-html-display.c:1271
 msgid "_View Inline"
 msgstr "ཨིན་ལའིན་ལུ་སྟོན། (_V)"
 
-#: ../mail/em-format-html-display.c:1249
+#: ../mail/em-format-html-display.c:1272
 msgid "_Hide"
 msgstr "སྦ་བཞག (_H)"
 
-#: ../mail/em-format-html-display.c:1250
+#: ../mail/em-format-html-display.c:1273
 msgid "_Fit to Width"
 msgstr "རྒྱ་ཚད་ལུ་ཚུད་སྒྲིག་འབད།(_F)"
 
-#: ../mail/em-format-html-display.c:1251
+#: ../mail/em-format-html-display.c:1274
 msgid "Show _Original Size"
 msgstr "ཐོག་མའི་་ཚད་སྟོན། (_O)"
 
-#: ../mail/em-format-html-display.c:1670
+#: ../mail/em-format-html-display.c:1693
 #: ../mail/mail-config.glade.h:45
 #: ../mail/message-list.etspec.h:1
 msgid "Attachment"
 msgstr "མཉམ་སྦྲགས།"
 
-#: ../mail/em-format-html-display.c:1877
+#: ../mail/em-format-html-display.c:1900
 msgid "Select folder to save all attachments..."
 msgstr "མཉམ་སྦྲགས་ཆ་མཉམ་བསྲུང་ནིའི་དོན་ལུ་ སྣོད་འཛིན་སེལ་འཐུ་འབད།"
 
-#: ../mail/em-format-html-display.c:1924
+#: ../mail/em-format-html-display.c:1947
 msgid "_Save Selected..."
 msgstr "སེལ་འཐུ་འབད་མི་་སྲུངས་...(_S)"
 
 #. Cant i put in the number of attachments here ?
-#: ../mail/em-format-html-display.c:1991
+#: ../mail/em-format-html-display.c:2014
 #, c-format
 msgid "%d attachme_nt"
 msgid_plural "%d attachme_nts"
 msgstr[0] "མཉམ་སྦྲགས་%d། (_n)"
 msgstr[1] "མཉམ་སྦྲགས་%d།(-nt)"
 
-#: ../mail/em-format-html-display.c:1998
-#: ../mail/em-format-html-display.c:2074
+#: ../mail/em-format-html-display.c:2021
+#: ../mail/em-format-html-display.c:2097
 msgid "S_ave"
 msgstr "སྲུངས། (_a)"
 
-#: ../mail/em-format-html-display.c:2009
+#: ../mail/em-format-html-display.c:2032
 msgid "S_ave All"
 msgstr "ཆ་མཉམ་སྲུངས།(_a)"
 
-#: ../mail/em-format-html-display.c:2070
+#: ../mail/em-format-html-display.c:2093
 msgid "No Attachment"
 msgstr "མཉམ་སྦྲགས་མིན་འདུག"
 
@@ -11729,44 +11751,44 @@ msgstr "ཤོག་གྲངས་%d ལས་%d།"
 msgid "Retrieving `%s'"
 msgstr "`%s'སླར་འདྲེན་འབད་དོ།"
 
-#: ../mail/em-format-html.c:610
+#: ../mail/em-format-html.c:620
 msgid "Valid signature but cannot verify sender"
 msgstr "མིང་རྟགས་ནུས་ཅན་ཨིན་རུང་ གཏང་མི་བདེན་སྦྱོར་འབད་མི་ཚུགས་པས།"
 
-#: ../mail/em-format-html.c:881
+#: ../mail/em-format-html.c:891
 msgid "Malformed external-body part."
 msgstr "ཕྱིའི་མ་གཟུགས་ཡན་ལག་གི་ བཟོ་རྣམ་གྱུར་སོང་ནུག"
 
-#: ../mail/em-format-html.c:911
+#: ../mail/em-format-html.c:921
 #, c-format
 msgid "Pointer to FTP site (%s)"
 msgstr "ཨེཕ་ཊི་པི་་ས་ཁོངས་(%s)ལུ་ དཔག་བྱེད།"
 
-#: ../mail/em-format-html.c:922
+#: ../mail/em-format-html.c:932
 #, c-format
 msgid "Pointer to local file (%s) valid at site \"%s\""
 msgstr "ས་ཁོངས་\"%s\"ལུ་ ནུས་ཅན་ཨིན་མི་ ཉེ་གནས་ཀྱི་ཡིག་སྣོད་(%s)ལུ་དཔག་བྱེད།"
 
-#: ../mail/em-format-html.c:924
+#: ../mail/em-format-html.c:934
 #, c-format
 msgid "Pointer to local file (%s)"
 msgstr "ཉེ་གནས་ཀྱི་ཡིག་སྣོད་(%s)ལུ་དཔག་བྱེད།"
 
-#: ../mail/em-format-html.c:945
+#: ../mail/em-format-html.c:955
 #, c-format
 msgid "Pointer to remote data (%s)"
 msgstr "ཐག་རིང་གི་གནད་སྡུད་(%s)ལུ་དཔག་བྱེད།"
 
-#: ../mail/em-format-html.c:956
+#: ../mail/em-format-html.c:966
 #, c-format
 msgid "Pointer to unknown external data (\"%s\" type)"
 msgstr "མ་ཤེས་པའི་ ཕྱི་ཁའི་གནད་སྡུད་ (དབྱེ་བ་\"%s\" ལུ)དཔག་བྱེད།"
 
-#: ../mail/em-format-html.c:1183
+#: ../mail/em-format-html.c:1193
 msgid "Formatting message"
 msgstr "འཕྲིན་དོན་རྩ་སྒྲིག་འབད་དོ།"
 
-#: ../mail/em-format-html.c:1476
+#: ../mail/em-format-html.c:1488
 #: ../mail/em-format-quote.c:200
 #: ../mail/em-format.c:844
 #: ../mail/em-mailer-prefs.c:85
@@ -11775,14 +11797,14 @@ msgstr "འཕྲིན་དོན་རྩ་སྒྲིག་འབད་ད
 msgid "From"
 msgstr "ལས།"
 
-#: ../mail/em-format-html.c:1476
+#: ../mail/em-format-html.c:1488
 #: ../mail/em-format-quote.c:200
 #: ../mail/em-format.c:845
 #: ../mail/em-mailer-prefs.c:86
 msgid "Reply-To"
 msgstr "ལན་གསལ་གཏང་ཡུལ།"
 
-#: ../mail/em-format-html.c:1476
+#: ../mail/em-format-html.c:1488
 #: ../mail/em-format-quote.c:200
 #: ../mail/em-format.c:846
 #: ../mail/em-mailer-prefs.c:87
@@ -11790,38 +11812,38 @@ msgstr "ལན་གསལ་གཏང་ཡུལ།"
 msgid "To"
 msgstr "ལུ།"
 
-#: ../mail/em-format-html.c:1476
+#: ../mail/em-format-html.c:1488
 #: ../mail/em-format-quote.c:200
 #: ../mail/em-format.c:847
 #: ../mail/em-mailer-prefs.c:88
 msgid "Cc"
-msgstr "སི་སི"
+msgstr "ཤོག་ནག་འདྲ་བཤུས།"
 
-#: ../mail/em-format-html.c:1476
+#: ../mail/em-format-html.c:1488
 #: ../mail/em-format-quote.c:200
 #: ../mail/em-format.c:848
 #: ../mail/em-mailer-prefs.c:89
 msgid "Bcc"
-msgstr "བི་སི་སི"
+msgstr "མཐོང་མེད་ཤོག་ནག་འདྲ་བཤུས།"
 
 #. pseudo-header
-#: ../mail/em-format-html.c:1588
+#: ../mail/em-format-html.c:1663
 #: ../mail/em-format-quote.c:322
-#: ../mail/em-mailer-prefs.c:999
+#: ../mail/em-mailer-prefs.c:1019
 msgid "Mailer"
 msgstr "སྦྲག་སྣོད"
 
 #. translators: strftime format for local time equivalent in Date header display, with day
-#: ../mail/em-format-html.c:1615
+#: ../mail/em-format-html.c:1690
 msgid "<I> (%a, %R %Z)</I>"
 msgstr "<I> (%a, %R %Z)</I>"
 
 #. translators: strftime format for local time equivalent in Date header display, without day
-#: ../mail/em-format-html.c:1618
+#: ../mail/em-format-html.c:1693
 msgid "<I> (%R %Z)</I>"
 msgstr "<I> (%R %Z)</I>"
 
-#: ../mail/em-format-html.c:1628
+#: ../mail/em-format-html.c:1703
 #: ../mail/em-format-quote.c:329
 #: ../mail/em-format.c:850
 #: ../mail/em-mailer-prefs.c:91
@@ -11831,7 +11853,7 @@ msgstr "<I> (%R %Z)</I>"
 msgid "Date"
 msgstr "ཚེས་གྲངས།"
 
-#: ../mail/em-format-html.c:1651
+#: ../mail/em-format-html.c:1726
 #: ../mail/em-format.c:851
 #: ../mail/em-mailer-prefs.c:92
 msgid "Newsgroups"
@@ -11982,29 +12004,29 @@ msgstr "སར་བར་ཅིག་ སེལ་འཐུ་འབད་ག�
 msgid "No server has been selected"
 msgstr "སར་བར་གཅིག་ཡང་ སེལ་འཐུ་མ་འབད་བས།"
 
-#: ../mail/em-utils.c:124
+#: ../mail/em-utils.c:141
 msgid "Do not show this message again."
 msgstr "འཕྲིན་དོན་འདི་ ལོག་སྟེ་མ་སྟོན།"
 
-#: ../mail/em-utils.c:319
+#: ../mail/em-utils.c:336
 msgid "Message Filters"
 msgstr "འཕྲིན་དོན་ཚགས་མ་ཚུ།"
 
-#: ../mail/em-utils.c:496
-#: ../mail/em-utils.c:533
+#: ../mail/em-utils.c:516
+#: ../mail/em-utils.c:553
 msgid "message"
 msgstr "འཕྲིན་དོན།"
 
-#: ../mail/em-utils.c:668
+#: ../mail/em-utils.c:688
 msgid "Save Message..."
 msgstr "འཕྲིན་དོན་སྲུངས་..."
 
-#: ../mail/em-utils.c:717
+#: ../mail/em-utils.c:737
 msgid "Add address"
 msgstr "ཁ་བྱང་ཁ་སྐོང་རྐྱབས།"
 
 #. Drop filename for messages from a mailbox
-#: ../mail/em-utils.c:1201
+#: ../mail/em-utils.c:1221
 #, c-format
 msgid "Messages from %s"
 msgstr "%sནང་ལས་ འཕྲིན་དོན་ཚུ།"
@@ -12046,406 +12068,422 @@ msgid "Composer Window default width"
 msgstr "རྩོམ་མཁན་སྒོ་སྒྲིག་གི་ སྔོན་སྒྲིག་རྒྱ་ཚད།"
 
 #: ../mail/evolution-mail.schemas.in.in.h:8
+msgid "Compress display of addresses in TO/CC/BCC"
+msgstr "གཏང་ཡུལ་/ཤོག་ནག་འདྲ་བཤུས་/མཐོང་མེད་ཤོག་ནག་འདྲ་བཤུས་ནང་ལུ་ ཁ་བྱང་ཚུ་གི་བཀྲམ་སྟོན་ཨེབ་བཙུགས་འབད།"
+
+#: ../mail/evolution-mail.schemas.in.in.h:9
+msgid "Compress display of addresses in TO/CC/BCC to the number specified in address_count."
+msgstr "ཁ་བྱང་གྲངས་རྩིས་ནང་ལུ་ གསལ་བཀོད་འབད་མི་ཨང་གྲངས་ནང་ གཏང་ཡུལ་/ཤོག་ནག་འདྲ་བཤུས་/མཐོང་མེད་ཤོག་ནག་འདྲ་བཤུས་ནང་ལུ་ ཁ་བྱང་ཚུ་གི་བཀྲམ་སྟོན་ཨེབ་བཙུགས་འབད།"
+
+#: ../mail/evolution-mail.schemas.in.in.h:10
 msgid "Default charset in which to compose messages"
 msgstr "འཕྲིན་དོན་ཚུ་བརྩམ་ནིའི་ ཡིག་འབྲུའི་གཞི་སྒྲིག་ སྔོན་སྒྲིག་འབད།"
 
-#: ../mail/evolution-mail.schemas.in.in.h:9
+#: ../mail/evolution-mail.schemas.in.in.h:11
 msgid "Default charset in which to compose messages."
 msgstr "འཕྲིན་དོན་ཚུ་བརྩམ་ནིའི་ ཡིག་འབྲུའི་གཞི་སྒྲིག་ སྔོན་སྒྲིག་འབད།"
 
-#: ../mail/evolution-mail.schemas.in.in.h:10
+#: ../mail/evolution-mail.schemas.in.in.h:12
 msgid "Default charset in which to display messages"
 msgstr "འཕྲིན་དོན་ཚུ་ བཀྲམ་སྟོན་འབད་ནིའི་ ཡིག་འབྲུའི་གཞི་སྒྲིག་ སྔོན་སྒྲིག་འབད།"
 
-#: ../mail/evolution-mail.schemas.in.in.h:11
+#: ../mail/evolution-mail.schemas.in.in.h:13
 msgid "Default charset in which to display messages."
 msgstr "འཕྲིན་དོན་ཚུ་ བཀྲམ་སྟོན་འབད་ནིའི་ ཡིག་འབྲུའི་གཞི་སྒྲིག་ སྔོན་སྒྲིག་འབད།"
 
-#: ../mail/evolution-mail.schemas.in.in.h:12
+#: ../mail/evolution-mail.schemas.in.in.h:14
 msgid "Default forward style"
 msgstr "གདོང་བསྐྱོད་བཟོ་རྣམ་ སྔོན་སྒྲིག་འབད།"
 
-#: ../mail/evolution-mail.schemas.in.in.h:13
+#: ../mail/evolution-mail.schemas.in.in.h:15
 msgid "Default height of the Composer Window"
 msgstr "རྩོམ་མཁན་གྱི་ སྒོ་སྒྲིག་་མཐོ་ཚད་ སྔོན་སྒྲིག་འབད།"
 
-#: ../mail/evolution-mail.schemas.in.in.h:14
+#: ../mail/evolution-mail.schemas.in.in.h:16
 msgid "Default height of the Message Window"
 msgstr "འཕྲིན་དོན་གྱི་ སྒོ་སྒྲིག་་མཐོ་ཚད་ སྔོན་སྒྲིག་འབད"
 
-#: ../mail/evolution-mail.schemas.in.in.h:15
+#: ../mail/evolution-mail.schemas.in.in.h:17
 msgid "Default height of the Subscribe dialog"
 msgstr "མཁོ་མངགས་ ཌའི་དྲན་དེབ་མཐོ་ཚད་ སྔོན་སྒྲིག་འབད།"
 
-#: ../mail/evolution-mail.schemas.in.in.h:16
+#: ../mail/evolution-mail.schemas.in.in.h:18
 msgid "Default reply style"
 msgstr "ལན་གསལ་བཟོ་རྣམ་ སྔོན་སྒྲིག་འབད།"
 
-#: ../mail/evolution-mail.schemas.in.in.h:17
+#: ../mail/evolution-mail.schemas.in.in.h:19
 msgid "Default width of the Composer Window"
 msgstr "རྩོམ་མཁན་གྱི་ སྒོ་སྒྲིག་་རྒྱ་ཚད་ སྔོན་སྒྲིག་འབད།"
 
-#: ../mail/evolution-mail.schemas.in.in.h:18
+#: ../mail/evolution-mail.schemas.in.in.h:20
 msgid "Default width of the Message Window"
 msgstr "འཕྲིན་དོན་གྱི་སྒོ་སྒྲིག་རྒྱ་ཚད་ སྔོན་སྒྲིག་འབད།"
 
-#: ../mail/evolution-mail.schemas.in.in.h:19
+#: ../mail/evolution-mail.schemas.in.in.h:21
 msgid "Default width of the Subscribe dialog"
 msgstr "མཁོ་མངགས་ཌའི་དྲན་དེབ་རྒྱ་ཚད་ སྔོན་སྒྲིག་འབད།"
 
-#: ../mail/evolution-mail.schemas.in.in.h:20
+#: ../mail/evolution-mail.schemas.in.in.h:22
 msgid "Draw spelling error indicators on words as you type."
 msgstr "ཁྱོད་ཀྱིས་ ཡིག་དཔར་བརྐྱབས་མི་ མིང་ཚིག་ཚུ་ལུ་ ཡིག་སྡེབ་འཛོལ་བའི་བརྡ་སྟོན་པ་འབྲི།"
 
-#: ../mail/evolution-mail.schemas.in.in.h:21
+#: ../mail/evolution-mail.schemas.in.in.h:23
 msgid "Empty Trash folders on exit"
 msgstr "ཕྱིར་ཐོན་སྐབས་ ཕྱགས་ཧོད་སྣོད་འཛིན་ཚུ་ སྟོངམ་བཏོན།"
 
-#: ../mail/evolution-mail.schemas.in.in.h:22
+#: ../mail/evolution-mail.schemas.in.in.h:24
 msgid "Empty all Trash folders when exiting Evolution."
 msgstr "ཨི་བོ་ལུ་ཤཱན་ ཕྱིར་ཐོན་སྐབས་ ཕྱགས་ཧོད་སྣོད་འཛིན་ ཆ་མཉམ་སྟོངམ་བཏོན།"
 
-#: ../mail/evolution-mail.schemas.in.in.h:23
+#: ../mail/evolution-mail.schemas.in.in.h:25
 msgid "Enable caret mode, so that you can see a cursor when reading mail."
 msgstr "ཀེ་རེཊི་ཐབས་ལམ་ ལྕོགས་ཅན་བཟོ། དེ་ལས་ཁྱོད་ཀྱིས་ ཡིག་འཕྲིན་ལྷག་པའི་སྐབས་ འོད་རྟགས་ཅིག་མཐོང་ཚུགས།"
 
-#: ../mail/evolution-mail.schemas.in.in.h:24
+#: ../mail/evolution-mail.schemas.in.in.h:26
 msgid "Enable or disable type ahead search feature"
 msgstr "ཁྱད་རྣམ་འཚོལ་ཞིབ་མ་འབད་བའི་གོང་ལུ་ དབྱེ་བ་ལྕོགས་ཅན་བཟོ་ ཡང་ན་ ལྕོགས་མིན་བཟོ།"
 
-#: ../mail/evolution-mail.schemas.in.in.h:25
+#: ../mail/evolution-mail.schemas.in.in.h:27
 msgid "Enable side bar search feature so that you can start interactive searching by typing in the text. Use is that you can easily find a folder in that side bar by just typing the folder name and the selection jumps automatically to that folder."
 msgstr "ཟུར་ཁའི་ཕྲ་རིང་འཚོལ་ཞིབ་ཁྱད་རྣམ་དེ་ལྕོགས་ཅན་བཟོ། དེ་ལས་ཁྱོད་ཀྱིས་ཚིག་ཡིག་ཡིག་དཔར་བརྐྱབས་ཐོག་ལས་ ཕན་ཚུན་འབྲེལ་བའི་འཚོལ་ཞིབ་ འགོ་བཙུགས་ཚུགས། ལག་ལེན་དེ་ཡང་ ཁྱོད་ཀྱིས་སྣོད་འཛིན་གྱི་མིང་དེ་ ཡིག་དཔར་བརྐྱབས་དང་ སྣོད་འཛིན་གྱི་མིང་དེ་ ཟུར་ཁའི་ཕྲ་རིང་ནང་ འཇམ་ཏོང་ཏོ་སྦེ་འཚོལ་འཐོབ་ནི་དི་ སེལ་འཐུ་དེ་གིས་ རང་བཞིན་གྱིས་སྣོད་འཛིན་དེ་ཁར་ མཆོང་འགྱོཝ་ཨིན།"
 
-#: ../mail/evolution-mail.schemas.in.in.h:26
+#: ../mail/evolution-mail.schemas.in.in.h:28
 msgid "Enable/disable caret mode"
 msgstr "ཀེ་རེཊི་ཐབས་ལམ་ ལྕོགས་ཅན་བཟོ/ལྕོགས་མིན་བཟོ།"
 
-#: ../mail/evolution-mail.schemas.in.in.h:27
+#: ../mail/evolution-mail.schemas.in.in.h:29
 msgid "Height of the message-list pane"
 msgstr "འཕྲིན་དོན་ཐོ་ཡིག་པེན་གྱི་མཐོ་ཚད།"
 
-#: ../mail/evolution-mail.schemas.in.in.h:28
+#: ../mail/evolution-mail.schemas.in.in.h:30
 msgid "Height of the message-list pane."
 msgstr "འཕྲིན་དོན་ཐོ་ཡིག་པེན་གྱི་ མཐོ་ཚད།"
 
-#: ../mail/evolution-mail.schemas.in.in.h:29
+#: ../mail/evolution-mail.schemas.in.in.h:31
 msgid "If a user tries to open 10 or more messages at one time, ask the user if they really want to do it."
 msgstr "ལག་ལེན་པ་ཅིག་གིས་ དུས་གཅིག་ལུ་ འཕྲིན་དོན་༡༠ ཡང་ན་ དེ་ལས་ལྷག་སྟེ་ ཁ་ཕྱེ་ཐབས་འབད་བ་ཅིན་ ལག་ལེན་པ་དེ་ལུ་ ངེས་པར་དུ་ དེ་སྦེ་འབད་དགོཔ་ཨིན་ན་དྲིས།"
 
-#: ../mail/evolution-mail.schemas.in.in.h:30
+#: ../mail/evolution-mail.schemas.in.in.h:32
 msgid "If there isn't a builtin viewer for a particular mime-type inside Evolution, any mime-types appearing in this list which map to a bonobo-component viewer in GNOME's mime-type database may be used for displaying content."
 msgstr "ཨི་བོ་ལུ་ཤཱན་ནང་ མ་ཡིམ་དབྱེ་བ་སོ་སོའི་དོན་ལུ་ ནང་བསྒྲིགས་མཐོང་བྱེད་མེད་པ་ཅིན་ ནང་དོན་བཀྲམ་སྟོན་གྱི་དོན་ལས་ ཇི་ནོམ་གྱི་ མ་ཡིམ་དབྱེ་བ་གི་ གནད་སྡུད་གཞི་རྟེན་གྱི་ ཐོ་ཡིག་ནང་ བོ་ནོ་བོ་ཆ་ཤས་ནང་ཐོན་མི་ མ་ཡིམ་དབྱེ་བ་ག་ཅི་ཨིན་རུང་ ལག་ལེན་འཐབ་ཚུགས།"
 
-#: ../mail/evolution-mail.schemas.in.in.h:31
+#: ../mail/evolution-mail.schemas.in.in.h:33
 msgid "Last time empty trash was run"
 msgstr "མཐའ་མཇུག་ཕྱགས་ཧོད་སྟོངམ་ བཏོན་པའི་དུས་ཚོད།"
 
-#: ../mail/evolution-mail.schemas.in.in.h:32
+#: ../mail/evolution-mail.schemas.in.in.h:34
 msgid "List of Labels and their associated colors"
 msgstr "ཁ་ཡིག་ཚུ་གི་ཐོ་ཡིག་དང་ དེ་ཚུ་དང་འབྲེལ་བའི་ཚོས་གཞི་ཚུ།"
 
-#: ../mail/evolution-mail.schemas.in.in.h:33
+#: ../mail/evolution-mail.schemas.in.in.h:35
 msgid "List of accepted licenses"
 msgstr "དང་ལེན་འབད་མི་ ཆོག་ཐམ་ཚུ་གི་ཐོ་ཡིག"
 
-#: ../mail/evolution-mail.schemas.in.in.h:34
+#: ../mail/evolution-mail.schemas.in.in.h:36
 msgid "List of accounts"
 msgstr "རྩིས་ཐོ་ཚུ་གི་ཐོ་ཡིག"
 
-#: ../mail/evolution-mail.schemas.in.in.h:35
+#: ../mail/evolution-mail.schemas.in.in.h:37
 msgid "List of accounts known to the mail component of Evolution. The list contains strings naming subdirectories relative to /apps/evolution/mail/accounts."
 msgstr "ཨི་བོ་ལུ་ཤཱན་ འཕྲིན་དོན་ཆ་ཤས་ཀྱིས་ ཧ་གོ་བའི་ རྩིས་ཐོའི་ཐོ་ཡིག ཐོ་ཡིག་དེ་ནང་ གློག་རིམ་/ཨི་བོ་ལུ་ཤཱན་/ཡིག་འཕྲིན་/རྩིས་ཐོ་ཚུ་དང་འབྲེལ་བའི་ ཡན་ལག་སྣོད་ཐོ་ཚུ་གི་ ཡིག་རྒྱུན་ཚུ་ཡོད།"
 
-#: ../mail/evolution-mail.schemas.in.in.h:36
+#: ../mail/evolution-mail.schemas.in.in.h:38
 msgid "List of custom headers and whether they are enabled."
 msgstr "སྲོལ་སྒྲིག་མགོ་ཡིག་གི་ ཐོ་ཡིག་དང་ དེ་ཚུ་ལྕོགས་ཅན་ཨིནམ་མེནམ།"
 
-#: ../mail/evolution-mail.schemas.in.in.h:37
+#: ../mail/evolution-mail.schemas.in.in.h:39
 msgid "List of labels known to the mail component of Evolution. The list contains strings containing name:color where color uses the HTML hex encoding."
 msgstr "ཨི་བོ་ལུ་ཤཱན་ འཕྲིན་དོན་ཆ་ཤས་ཀྱིས་ ཧ་གོ་བའི་ ཁ་བྱང་ཐོ་ཡིག ཐོ་ཡིག་དེ་ནང་ ཚོས་གཞི་གིས་ ཨེཆ་ཊི་ཨེམ་ཨེལ་ ཧེགསི་ ཨིན་ཀོ་ཌིང་ ལག་ལེན་འཐབ་སའི་ ཚོས་གཞི་མིང་གི་ ཡིག་རྒྱུན་ཚུ་ཡོད།"
 
-#: ../mail/evolution-mail.schemas.in.in.h:38
+#: ../mail/evolution-mail.schemas.in.in.h:40
 msgid "List of mime types to check for bonobo component viewers"
 msgstr "བོ་ནོ་བོ་གི་ཆ་ཤས་ མཐོང་བྱེད་ཡོད་མེད་ ཞིབ་དཔྱད་འབད་ནིའི་ མ་ཡིམ་གྱི་ དབྱེ་བ་ཚུ་གི་ཐོ་ཡིག"
 
-#: ../mail/evolution-mail.schemas.in.in.h:39
+#: ../mail/evolution-mail.schemas.in.in.h:41
 msgid "List of protocol names whose license has been accepted."
 msgstr "ཆོག་ཐམ་དང་ལེན་འབད་ཡོད་པའི་ གནད་སྤེལ་ལམ་ལུགས་ཀྱི་ མིང་ཚུ་གི་ཐོ་ཡིག"
 
-#: ../mail/evolution-mail.schemas.in.in.h:40
+#: ../mail/evolution-mail.schemas.in.in.h:42
 msgid "Load images for HTML messages over http"
 msgstr "ཨེཆ་ཊི་ཊི་པི་གུ་ལུ་ ཨེཆ་ཊི་ཨེམ་ཨེལ་གྱི་དོན་ལུ་ གཟུགས་བརྙན་ཚུ་ མངོན་གསལ་འབད།"
 
-#: ../mail/evolution-mail.schemas.in.in.h:41
+#: ../mail/evolution-mail.schemas.in.in.h:43
 msgid "Load images for HTML messages over http(s). Possible values are: 0 - Never load images off the net 1 - Load images in mail from contacts 2 - Always load images off the net"
 msgstr "ཨེཆ་ཊི་ཊི་པི་ཚུ་གུ་ལུ་ ཨེཆ་ཊི་ཨེམ་ཨེལ་གྱི་དོན་ལུ་ འཕྲིན་དོན་ཚུ་མངོན་གསལ་འབད། སྲིད་པའིང་བེ་ལུསི་ཚུ་:༠-ནམ་ཡང་ནེཊི་གི་ཕྱི་ཁར་ གཟུགས་བརྙན་ཚུ་མངོན་གསལ་མ་འབད། ༡-འབྲེལ་ས་ཚུ་ནང་ལས་ ཡཔག་འཕྲིན་ནང་ གཟུགས་བརྙན་མངོན་གསལ་འབད། ༢-ཨ་རྟག་ར་ ནེཊི་གི་ཕྱི་ཁར་ གཟུགས་བརྙན་མངོན་གསལ་འབད།"
 
-#: ../mail/evolution-mail.schemas.in.in.h:42
+#: ../mail/evolution-mail.schemas.in.in.h:44
 msgid "Log filter actions"
 msgstr "དྲན་དེབ་ཚགས་ནིའི་བྱ་བ་ཚུ།"
 
-#: ../mail/evolution-mail.schemas.in.in.h:43
+#: ../mail/evolution-mail.schemas.in.in.h:45
 msgid "Log filter actions to the specified log file."
 msgstr "གསལ་བཀོད་འབད་མི་ དྲན་དེབ་སྣོད་འཛིན་ལུ་ དྲན་དེབ་ཚགས་ནིའི་བྱ་བ་ཚུ།"
 
-#: ../mail/evolution-mail.schemas.in.in.h:44
+#: ../mail/evolution-mail.schemas.in.in.h:46
 msgid "Logfile to log filter actions"
 msgstr "དྲན་དེབ་སྣོད་འཛིན་ལས་ དྲན་དེབ་ཚགས་ནིའི་བྱ་བ་ཚུ་ལུ །"
 
-#: ../mail/evolution-mail.schemas.in.in.h:45
+#: ../mail/evolution-mail.schemas.in.in.h:47
 msgid "Logfile to log filter actions."
 msgstr "དྲན་དེབ་སྣོད་འཛིན་ལས་ དྲན་དེབ་ཚགས་ནིའི་བྱ་བ་ཚུ་ལུ།"
 
-#: ../mail/evolution-mail.schemas.in.in.h:46
+#: ../mail/evolution-mail.schemas.in.in.h:48
 msgid "Mark as Seen after specified timeout"
 msgstr "གསལ་བཀོད་འབད་མི་ ངལ་མཚམས་མཐོང་ཡོདཔ་སྦེ་ རྟགས་བཀལ།"
 
-#: ../mail/evolution-mail.schemas.in.in.h:47
+#: ../mail/evolution-mail.schemas.in.in.h:49
 msgid "Mark as Seen after specified timeout."
 msgstr "གསལ་བཀོད་འབད་མི་ ངལ་མཚམས་མཐོང་ཡོདཔ་སྦེ་ རྟགས་བཀལ།"
 
-#: ../mail/evolution-mail.schemas.in.in.h:48
+#: ../mail/evolution-mail.schemas.in.in.h:50
 msgid "Mark citations in the message \"Preview\""
 msgstr "འཕྲིན་དོན་གྱི་ \"Preview\" ནང་ལུ་ འདྲེན་ཚིག་ཚུ་ལུ་ རྟགས་བཀལ།"
 
-#: ../mail/evolution-mail.schemas.in.in.h:49
+#: ../mail/evolution-mail.schemas.in.in.h:51
 msgid "Mark citations in the message \"Preview\"."
 msgstr "འཕྲིན་དོན་གྱི་ \"Preview\" ནང་ལུ་ འདྲེན་ཚིག་ཚུ་ལུ་ རྟགས་བཀལ།"
 
-#: ../mail/evolution-mail.schemas.in.in.h:50
+#: ../mail/evolution-mail.schemas.in.in.h:52
 msgid "Message Window default height"
 msgstr "འཕྲིན་དོན་སྒོ་སྒྲིག་གི་ སྔོན་སྒྲིག་མཐོ་ཚད།"
 
-#: ../mail/evolution-mail.schemas.in.in.h:51
+#: ../mail/evolution-mail.schemas.in.in.h:53
 msgid "Message Window default width"
 msgstr "འཕྲིན་དོན་སྒོ་སྒྲིག་གི་ སྔོན་སྒྲིག་རྒྱ་ཚད།"
 
-#: ../mail/evolution-mail.schemas.in.in.h:52
+#: ../mail/evolution-mail.schemas.in.in.h:54
 msgid "Message-display style (\"normal\", \"full headers\", \"source\")"
 msgstr "འཕྲིན་དོན་བཀྲམ་སྟོན་གྱི་བཟོ་རྣམ།(\"normal\", \"full headers\", \"source\")"
 
-#: ../mail/evolution-mail.schemas.in.in.h:53
+#: ../mail/evolution-mail.schemas.in.in.h:55
 msgid "Minimum days between emptying the trash on exit"
 msgstr "ཕྱིར་ཐོན་སྐབས་ ཕྱགས་ཧོད་སྟོངམ་བཏོན་པའི་ བར་ན་གི་ ཉིན་གྲངས་ཉུང་མཐའ།"
 
-#: ../mail/evolution-mail.schemas.in.in.h:54
+#: ../mail/evolution-mail.schemas.in.in.h:56
 msgid "Minimum time between emptying the trash on exit, in days."
 msgstr "ཕྱིར་ཐོན་སྐབས་ ཕྱགས་ཧོད་སྟོངམ་བཏོན་པའི་ བར་ན་གི་ དུས་ཚོད་ཉུང་མཐའ་ ཉིན་གྲངས་ནང་།"
 
-#: ../mail/evolution-mail.schemas.in.in.h:55
+#: ../mail/evolution-mail.schemas.in.in.h:57
 msgid "New Mail Notify sound file"
 msgstr "ཡིག་འཕྲིན་གསར་པའི་ བརྡ་བསྐུལ་གྱི་སྒྲ་སྐད་ཡིག་སྣོད།"
 
-#: ../mail/evolution-mail.schemas.in.in.h:56
+#: ../mail/evolution-mail.schemas.in.in.h:58
 msgid "New Mail Notify type"
 msgstr "ཡིག་འཕྲིན་གསར་པའི་ བརྡ་བསྐུལ་གྱི་དབྱེ་བ།"
 
-#: ../mail/evolution-mail.schemas.in.in.h:57
+#: ../mail/evolution-mail.schemas.in.in.h:59
+msgid "Number of addresses to display in TO/CC/BCC"
+msgstr "གཏང་ཡུལ་/ཤོག་ནག་འདྲ་བཤུས་/མཐོང་མེད་ཤོག་ནག་འདྲ་བཤུས་ནང་ལུ་ བཀྲམ་སྟོན་འབད་ནིའི་ཁ་བྱང་གི་གྱངས་ཁ།"
+
+#: ../mail/evolution-mail.schemas.in.in.h:60
 msgid "Prompt on empty subject"
 msgstr "དོན་ཚན་སྟོངམ་ལུ་ ནུས་སྤེལ་འབད།"
 
-#: ../mail/evolution-mail.schemas.in.in.h:58
+#: ../mail/evolution-mail.schemas.in.in.h:61
 msgid "Prompt the user when he or she tries to expunge a folder."
 msgstr "ལག་ལེན་པ་ ཁོའམ་མོ་གིས་ སྣོད་འཛིན་ཅིག་ རྩ་མེད་གཏང་ནིའི་འབད་རྩོལ་བསྐྱེད་པའི་སྐབས་ནུས་སྤེལ་འབད།"
 
-#: ../mail/evolution-mail.schemas.in.in.h:59
+#: ../mail/evolution-mail.schemas.in.in.h:62
 msgid "Prompt the user when he or she tries to send a message without a Subject."
 msgstr "ལག་ལེན་པ་ ཁོའམ་མོ་གིས་ དོན་ཚན་མེད་པའི་ འཕྲིན་དོན་ཅིག་ གཏང་ནིའི་འབད་རྩོལ་བསྐྱེད་པའི་སྐབས་ནུས་སྤེལ་འབད།"
 
-#: ../mail/evolution-mail.schemas.in.in.h:60
+#: ../mail/evolution-mail.schemas.in.in.h:63
 msgid "Prompt when user expunges"
 msgstr "ལག་ལེན་པ་གིས་ ཕྱིར་བསྐྲད་འབདཝ་ད་ ནུས་སྤེལ་འབད།"
 
-#: ../mail/evolution-mail.schemas.in.in.h:61
+#: ../mail/evolution-mail.schemas.in.in.h:64
 msgid "Prompt when user only fills Bcc"
-msgstr "ལག་ལེན་པ་གིས་ མ་མཐོང་བའི་ཤོག་ནག་འདྲ་བཤུས་ རྐྱངམ་གཅིག་བཀང་པའི་སྐབས་ ནུས་སྤེལ་འབད།"
+msgstr "ལག་ལེན་པ་གིས་ མཐོང་མེད་ཤོག་ནག་འདྲ་བཤུས་རྐྱངམ་གཅིག་བཀང་པའི་སྐབས་ ནུས་སྤེལ་འབད།"
 
-#: ../mail/evolution-mail.schemas.in.in.h:62
+#: ../mail/evolution-mail.schemas.in.in.h:65
 msgid "Prompt when user tries to open 10 or more messages at once"
 msgstr "ལག་ལེན་པ་གིས་ དུས་གཅིག་ལུ་ འཕྲིན་དོན་ ༡༠ པའམ་ དེ་ལས་མངམ་ ཁ་ཕྱེ་ནིའི་འབད་རྩོལ་བསྐྱེད་པའི་སྐབས་ ནུས་སྤེལ་འབད།"
 
-#: ../mail/evolution-mail.schemas.in.in.h:63
+#: ../mail/evolution-mail.schemas.in.in.h:66
 msgid "Prompt when user tries to send HTML mail to recipients that may not want to receive HTML mail."
 msgstr "ལག་ལེན་པ་གིས་ ཨེཆ་ཊི་ཨེམ་ཨེལ་ ཡིག་འཕྲིན་འཐོབ་འདོད་མེད་མི་ཚུ་ལུ་ ཨེཆ་ཊི་ཨེམ་ཨེལ་ འཕྲིན་དོན་གཏང་ནིའི་འབད་རྩོལ་བསྐྱེད་པའི་སྐབས་ནུས་སྤེལ་འབད།"
 
-#: ../mail/evolution-mail.schemas.in.in.h:64
+#: ../mail/evolution-mail.schemas.in.in.h:67
 msgid "Prompt when user tries to send a message with no To or Cc recipients."
-msgstr "ལག་ལེན་པ་ཅིག་གིས་ ལེན་མཁན་ག་ལུའམ་ འདྲ་དེ་ལུ་ཟེརཝ་མེད་པའི་ འཕྲིན་དོན་གཏང་ནིའི་འབད་རྩོལ་བསྐྱེད་པའི་སྐབས་ ནུས་སྤེལ་འབད།"
+msgstr "ལག་ལེན་པ་གིས་ གཏོང་ཡུལ་ ཡང་ ཤོག་ནག་འདྲ་བཤུས་ དེ་ལུ་ཟེར་མེད་པའི་ འཕྲིན་དོན་གཏང་ནིའི་འབད་རྩོལ་བསྐྱེད་པའི་སྐབས་ ནུས་སྤེལ་འབད།"
 
-#: ../mail/evolution-mail.schemas.in.in.h:65
+#: ../mail/evolution-mail.schemas.in.in.h:68
 msgid "Prompt when user tries to send unwanted HTML"
 msgstr "ལག་ལེན་པ་གིས་ མ་དགོ་པའི་ ཨེཆ་ཊི་ཨེམ་ཨེལ་ གཏང་ནིའི་འབད་རྩོལ་བསྐྱེད་པའི་སྐབས་ ནུས་སྤེལ་འབད།"
 
-#: ../mail/evolution-mail.schemas.in.in.h:66
+#: ../mail/evolution-mail.schemas.in.in.h:69
 msgid "Recognize links in text and replace them."
 msgstr "ཚིག་ཡིག་ཚུ་ནང་ འབྲེལ་ལམ་ངོས་འཛིན་འབད་དེ་ ཚབ་མ་བཙུགས།"
 
-#: ../mail/evolution-mail.schemas.in.in.h:67
+#: ../mail/evolution-mail.schemas.in.in.h:70
 msgid "Recognize smileys in text and replace them with images."
 msgstr "ཚིག་ཡིག་ནང་ སིམའི་ལིསི་ ངོས་འཛིན་འབད་དེ་ དེ་ཚུ་གི་ཚབ་ལུ་ གཟུགས་བརྙན་བཙུགས།"
 
-#: ../mail/evolution-mail.schemas.in.in.h:68
+#: ../mail/evolution-mail.schemas.in.in.h:71
 msgid "Run junk test on incoming mail"
 msgstr "ནང་འབྱོར་ཡིག་འཕྲིན་ཚུ་ལུ་ མཁོ་མེད་ཀྱི་བརྟག་ཞིབ་འབད།"
 
-#: ../mail/evolution-mail.schemas.in.in.h:69
+#: ../mail/evolution-mail.schemas.in.in.h:72
 msgid "Send HTML mail by default"
 msgstr "ཨེཆ་ཊི་ཨེམ་ཨེལ་ཡིག་འཕྲིན་ སྔོན་སྒྲིག་ཐོག་ལས་གཏང་། "
 
-#: ../mail/evolution-mail.schemas.in.in.h:70
+#: ../mail/evolution-mail.schemas.in.in.h:73
 msgid "Send HTML mail by default."
 msgstr "ཨེཆ་ཊི་ཨེམ་ཨེལ་ཡིག་འཕྲིན་ སྔོན་སྒྲིག་ཐོག་ལས་གཏང་།"
 
-#: ../mail/evolution-mail.schemas.in.in.h:71
+#: ../mail/evolution-mail.schemas.in.in.h:74
 msgid "Show Animations"
 msgstr "བསྒུལ་པར་སྟོན།"
 
-#: ../mail/evolution-mail.schemas.in.in.h:72
+#: ../mail/evolution-mail.schemas.in.in.h:75
 msgid "Show animated images as animations."
 msgstr "བསྒུལ་པར་གཟུགས་བརྙན་ཚུ་ བསྒུལ་པར་བཟུམ་སྦེ་སྟོན།"
 
-#: ../mail/evolution-mail.schemas.in.in.h:73
+#: ../mail/evolution-mail.schemas.in.in.h:76
 msgid "Show deleted messages (with a strike-through) in the message-list."
 msgstr "བཏོན་གཏང་མི་ འཕྲིན་དོན་ཚུ་ འཕྲིན་དོན་ཐོ་ཡིག་ནང་ (སྦུག་འབྲེག་དང་བཅསཔ་སྦེ)སྟོན།"
 
-#: ../mail/evolution-mail.schemas.in.in.h:74
+#: ../mail/evolution-mail.schemas.in.in.h:77
 msgid "Show deleted messages in the message-list"
 msgstr "བཏོན་གཏང་མི་འཕྲིན་དོན་ཚུ་ འཕྲིན་དོན་ཐོ་ཡིག་ནང་སྟོན།"
 
-#: ../mail/evolution-mail.schemas.in.in.h:77
+#: ../mail/evolution-mail.schemas.in.in.h:80
 msgid "Sound file to play when new mail arrives."
 msgstr "ཡིག་འཕྲིན་གསརཔ་ལྷོདཔ་ད་ གཏང་ནིའི་སྒྲ་སྐད་ཡིག་སྣོད།"
 
-#: ../mail/evolution-mail.schemas.in.in.h:78
+#: ../mail/evolution-mail.schemas.in.in.h:81
 msgid "Specifies the type of New Mail Notification the user wishes to use."
 msgstr "ལག་ལེན་པ་གིས་ ལག་ལེན་འཐབ་འདོད་ཡོད་མི་ ཡིག་འཕྲིན་བརྡ་བསྐུལ་གསར་པའི་དབྱེ་བ་དེ་ གསལ་བཀོད་འབད།"
 
-#: ../mail/evolution-mail.schemas.in.in.h:79
+#: ../mail/evolution-mail.schemas.in.in.h:82
 msgid "Spell check inline"
 msgstr "ཡིག་སྡེབ་ཞིབ་དཔྱད་ཀྱི་ ཨིན་ལའིན།"
 
-#: ../mail/evolution-mail.schemas.in.in.h:80
+#: ../mail/evolution-mail.schemas.in.in.h:83
 msgid "Subscribe dialog default height"
 msgstr "ཌའི་ལོག་སྔོན་སྒྲིག་གི་མཐོ་ཚད་ མཁོ་མངགས་འབད།"
 
-#: ../mail/evolution-mail.schemas.in.in.h:81
+#: ../mail/evolution-mail.schemas.in.in.h:84
 msgid "Subscribe dialog default width"
 msgstr "ཌའི་ལོག་སྔོན་སྒྲིག་གི་རྒྱ་ཚད་ མཁོ་མངགས་འབད།"
 
-#: ../mail/evolution-mail.schemas.in.in.h:82
+#: ../mail/evolution-mail.schemas.in.in.h:85
 msgid "Terminal font"
 msgstr "ཊར་མི་ནཱལ་ ཡིག་གཟུགས།"
 
-#: ../mail/evolution-mail.schemas.in.in.h:83
+#: ../mail/evolution-mail.schemas.in.in.h:86
 msgid "The last time empty trash was run, in days since the epoch."
 msgstr "གལ་ཅན་དུས་ཚོད་ལས་ཚུར་ ཕྱགས་ཧོད་སྟོངམ་སྟོན་པའི་ མཐའ་མཇུག་གི་དུས་ཚོད་ ཉིན་གྲངས་ནང་།"
 
-#: ../mail/evolution-mail.schemas.in.in.h:84
+#: ../mail/evolution-mail.schemas.in.in.h:87
 msgid "The terminal font for mail display"
 msgstr "ཡིག་འཕྲིན་བཀྲམ་སྟོན་གྱི་དོན་ལས་ ཊར་མི་ནཱལ་ཡིག་གཟུགས།"
 
-#: ../mail/evolution-mail.schemas.in.in.h:85
+#: ../mail/evolution-mail.schemas.in.in.h:88
 msgid "The variable width font for mail display"
 msgstr "ཡིག་འཕྲིན་བཀྲམ་སྟོན་གྱི་དོན་ལས་ ཡིག་གཟུགས་རྒྱ་ཚད་ཀྱི་འགྱུར་བ།"
 
-#: ../mail/evolution-mail.schemas.in.in.h:86
+#: ../mail/evolution-mail.schemas.in.in.h:89
 msgid "This key should contain a list of XML structures specifying custom headers, and whether they are to be displayed. The format of the XML structure is &lt;header enabled&gt; - set enabled if the header is to be displayed in the mail view."
 msgstr "ལྡེ་མིག་འདི་ནང་ ཨེགསི་ཨེམ་ཨེལ་གྱི་ གཞི་བཀོད་ཀྱི་ཐོ་ཡིག་ཅིག་ཡོད་དགོཔ་ད་ དེ་གིས་སྲོལ་སྒྲིག་མགོ་ཡིག་ཚུ་དང་ དེ་ཚུ་བཀྲམ་སྟོན་ འབད་དགོ་ག་མིན་དགོ་ཚུ་ གསལ་བཀོད་འབདཝ་ཨིན། ཨེགསི་ཨེམ་ཨེལ་ གཞི་བཀོད་ཀྱི་རྩ་སྒྲིག་དེ་ &lt;header enabled&gtཨིན། ཡིག་འཕྲིན་མཐོང་སྣང་ནང་ མགོ་ཡིག་བཀྲམ་སྟོན་ འབད་དགོ་པ་ཅིན་ ལྕོགས་ཅན་བཟོ།"
 
-#: ../mail/evolution-mail.schemas.in.in.h:87
+#: ../mail/evolution-mail.schemas.in.in.h:90
+msgid "This sets the number of addresses to show in default message list view, beyond which a '...' is shown."
+msgstr "འདི་གིས་སྔོན་སྒྲིག་འཕྲིན་དོན་ཐོ་ཡིག་མཐོང་བྱེད་ནང་སྟོན་ནིའི་ ཁ་བྱང་གི་གྱངས་ཁ་གཞི་སྒྲིག་འབདཝ་ཨིན། དེ་ལས་བརྒལཝ་ད་ '...' ཅིག་སྟོནམ་ཨིན།"
+
+#: ../mail/evolution-mail.schemas.in.in.h:91
 msgid "Thread the message list."
 msgstr "འཕྲིན་དོན་ཐོ་ཡིག་ ཐེ་རེཌི་འབད།"
 
-#: ../mail/evolution-mail.schemas.in.in.h:88
+#: ../mail/evolution-mail.schemas.in.in.h:92
 msgid "Thread the message-list"
 msgstr "འཕྲིན་དོན་ཐོ་ཡིག་ ཐེ་རེཌི་འབད།"
 
-#: ../mail/evolution-mail.schemas.in.in.h:89
+#: ../mail/evolution-mail.schemas.in.in.h:93
 msgid "Thread the message-list based on Subject"
 msgstr "དོན་ཚན་ལུ་ གཞི་བཞག་སྟེ་ འཕྲིན་དོན་ཐོ་ཡིག་ ཐེ་རེཌི་འབད།"
 
-#: ../mail/evolution-mail.schemas.in.in.h:90
+#: ../mail/evolution-mail.schemas.in.in.h:94
 msgid "Timeout for marking message as Seen"
 msgstr "འཕྲིན་དོན་མཐོང་ཡོདཔ་སྦེ་ རྟགས་བཀལ་ནིའི་དུས་ཚོད་ཀྱི་ ངལ་མཚམས།"
 
-#: ../mail/evolution-mail.schemas.in.in.h:91
+#: ../mail/evolution-mail.schemas.in.in.h:95
 msgid "Timeout for marking message as Seen."
 msgstr "འཕྲིན་དོན་མཐོང་ཡོདཔ་སྦེ་ རྟགས་བཀལ་ནིའི་དུས་ཚོད་ཀྱི་ ངལ་མཚམས།"
 
-#: ../mail/evolution-mail.schemas.in.in.h:92
+#: ../mail/evolution-mail.schemas.in.in.h:96
 msgid "UID string of the default account."
 msgstr "སྔོན་སྒྲིག་རྩིས་ཐོའི་ ཡུ་ཨའི་ཌི་ ཡིག་རྒྱུན།"
 
-#: ../mail/evolution-mail.schemas.in.in.h:93
+#: ../mail/evolution-mail.schemas.in.in.h:97
 msgid "Use Spamassassin daemon and client"
 msgstr "སི་པ་མ་ས་སིན་ ཌེ་མཱོན་དང་ ཞབས་ཏོག་སྤྱོད་མི་ ལག་ལེན་འཐབ།"
 
-#: ../mail/evolution-mail.schemas.in.in.h:94
+#: ../mail/evolution-mail.schemas.in.in.h:98
 msgid "Use Spamassassin daemon and client (spamc/spamd)"
 msgstr "སི་པ་མ་ས་སིན་ ཌེ་མཱོན་དང་ ཞབས་ཏོག་སྤྱོད་མི་ ལག་ལེན་འཐབ།(ཨེསི་པི་ཨེ་ཨེམ་སི/ཨེསི་པི་ཨེ་ཨེམ་ཌི)"
 
-#: ../mail/evolution-mail.schemas.in.in.h:95
+#: ../mail/evolution-mail.schemas.in.in.h:99
 msgid "Use custom fonts"
 msgstr "སྲོལ་སྒྲིག་ཡིག་གཟུགས་ ལག་ལེན་འཐབ།"
 
-#: ../mail/evolution-mail.schemas.in.in.h:96
+#: ../mail/evolution-mail.schemas.in.in.h:100
 msgid "Use custom fonts for displaying mail"
 msgstr "ཡིག་འཕྲིན་བཀྲམ་སྟོན་འབད་ནིའི་དོན་ལུ་ སྲོལ་སྒྲིག་ཡིག་གཟུགས་ ལག་ལེན་འཐབ།"
 
-#: ../mail/evolution-mail.schemas.in.in.h:97
+#: ../mail/evolution-mail.schemas.in.in.h:101
 msgid "Use only local spam tests."
 msgstr "ཉེ་གནས་ཀྱི་ སི་པམ་ བརྟག་ཞིབ་རྐྱངམ་གཅིག་ ལག་ལེན་འཐབ།"
 
-#: ../mail/evolution-mail.schemas.in.in.h:98
+#: ../mail/evolution-mail.schemas.in.in.h:102
 msgid "Use only the local spam tests (no DNS)."
 msgstr "ཉེ་གནས་ཀྱི་ སི་པམ་བརྟག་ཞིབ་རྐྱངམ་གཅིག་ ལག་ལེན་འཐབ། (ཌི་ཨེན་ཨེསི་ ལག་ལེན་མ་འཐབ)"
 
-#: ../mail/evolution-mail.schemas.in.in.h:99
+#: ../mail/evolution-mail.schemas.in.in.h:103
 msgid "Variable width font"
 msgstr "འགྱུར་བའི་ཡིག་གཟུགས་ཀྱི་རྒྱ་ཚད།"
 
-#: ../mail/evolution-mail.schemas.in.in.h:100
-msgid "View/Bcc menu item is checked"
-msgstr "མཐོང་སྣང་/བི་སི་སི་ དཀར་ཆག་རྣམ་གྲངས་ ཞིབ་དཔྱད་འབད་ཡི།"
-
-#: ../mail/evolution-mail.schemas.in.in.h:101
-msgid "View/Bcc menu item is checked."
-msgstr "མཐོང་སྣང་/བི་སི་སི་ དཀར་ཆག་རྣམ་གྲངས་ ཞིབ་དཔྱད་འབད་ཡི།"
-
-#: ../mail/evolution-mail.schemas.in.in.h:102
-msgid "View/Cc menu item is checked"
-msgstr "མཐོང་སྣང་/སི་སི་ དཀར་ཆག་རྣམ་གྲངས་ ཞིབ་དཔྱད་འབད་ཡི།།"
-
-#: ../mail/evolution-mail.schemas.in.in.h:103
-msgid "View/Cc menu item is checked."
-msgstr "མཐོང་སྣང་/སི་སི་ དཀར་ཆག་རྣམ་གྲངས་ ཞིབ་དཔྱད་འབད་ཡི།།"
-
 #: ../mail/evolution-mail.schemas.in.in.h:104
+msgid "View/Bcc menu item is checked"
+msgstr "མཐོང་སྣང་/མཐོང་མེད་ཤོག་ནག་འདྲ་བཤུས་དཀར་ཆག་རྣམ་གྲངས་ ཞིབ་དཔྱད་འབད་ཡི།"
+
+#: ../mail/evolution-mail.schemas.in.in.h:105
+msgid "View/Bcc menu item is checked."
+msgstr "མཐོང་སྣང་/མཐོང་མེད་ཤོག་ནག་འདྲ་བཤུས་དཀར་ཆག་རྣམ་གྲངས་ ཞིབ་དཔྱད་འབད་ཡི།"
+
+#: ../mail/evolution-mail.schemas.in.in.h:106
+msgid "View/Cc menu item is checked"
+msgstr "མཐོང་སྣང་/ཤོག་ནག་འདྲ་བཤུས་དཀར་ཆག་རྣམ་གྲངས་ ཞིབ་དཔྱད་འབད་ཡི།།"
+
+#: ../mail/evolution-mail.schemas.in.in.h:107
+msgid "View/Cc menu item is checked."
+msgstr "མཐོང་སྣང་/ཤོག་ནག་འདྲ་བཤུས་ དཀར་ཆག་རྣམ་གྲངས་ ཞིབ་དཔྱད་འབད་ཡི།།"
+
+#: ../mail/evolution-mail.schemas.in.in.h:108
 msgid "View/From menu item is checked"
 msgstr "དཀར་ཆག་རྣམ་གྲངས་ནང་ལས་ སྟོན་ནི་ཞིབ་དཔྱད་འབད་ཡི།།"
 
-#: ../mail/evolution-mail.schemas.in.in.h:105
+#: ../mail/evolution-mail.schemas.in.in.h:109
 msgid "View/From menu item is checked."
 msgstr "དཀར་ཆག་རྣམ་གྲངས་ནང་ལས་ སྟོན་ནི་ཞིབ་དཔྱད་འབད་ཡི།"
 
-#: ../mail/evolution-mail.schemas.in.in.h:106
+#: ../mail/evolution-mail.schemas.in.in.h:110
 msgid "View/PostTo menu item is checked"
 msgstr "མཐོང་སྣང་/དཀར་ཆག་རྣམ་གྲངས་ལུ་ གནས་བསྐྱོད་འབད་ནི་ ཞིབ་དཔྱད་འབད་ཡི།"
 
-#: ../mail/evolution-mail.schemas.in.in.h:107
+#: ../mail/evolution-mail.schemas.in.in.h:111
 msgid "View/PostTo menu item is checked."
 msgstr "མཐོང་སྣང་/དཀར་ཆག་རྣམ་གྲངས་ལུ་ གནས་བསྐྱོད་འབད་ནི་ ཞིབ་དཔྱད་འབད་ཡི།"
 
-#: ../mail/evolution-mail.schemas.in.in.h:108
+#: ../mail/evolution-mail.schemas.in.in.h:112
 msgid "View/ReplyTo menu item is checked"
 msgstr "མཐོང་སྣང་/དཀར་ཆག་རྣམ་གྲངས་ལུ་ ལན་གསལ་འབད་ནི་ ཞིབ་དཔྱད་འབད་ཡི།"
 
-#: ../mail/evolution-mail.schemas.in.in.h:109
+#: ../mail/evolution-mail.schemas.in.in.h:113
 msgid "View/ReplyTo menu item is checked."
 msgstr "མཐོང་སྣང་/དཀར་ཆག་རྣམ་གྲངས་ལུ་ ལན་གསལ་འབད་ནི་ ཞིབ་དཔྱད་འབད་ཡི།"
 
-#: ../mail/evolution-mail.schemas.in.in.h:110
+#: ../mail/evolution-mail.schemas.in.in.h:114
 msgid "Whether or not to fall back on threading by subjects when the messages do not contain In-Reply-To or References headers."
 msgstr "འཕྲིན་དོན་ཚུ་ནང་ དེ་གི་ལན་ལུ་བའམ་ འབྲེལ་གཏུགས་ཀྱི་མགོ་ཡིག་ བཀོད་བཀོདཔ་མེད་པའི་སྐབས་ དོན་ཚན་བཞིན་དུ་སྦེ་ གློ་བུར་རྒྱབ་ཐག་ལུ་ ཐེ་རེཌི་འབད་དགོཔ་ཨིན་ན་མེན།"
 
@@ -12868,11 +12906,11 @@ msgstr "གསང་བཟོས་འཕྲིན་དོན་ གཏང་�
 
 #: ../mail/mail-config.glade.h:40
 msgid "Alway_s carbon-copy (cc) to:"
-msgstr "ཨ་རྟག་ར་ཤོག་གནག་འདྲ་བཤུས་གཏང་ཡུལ་:\"(_s)"
+msgstr "ཨ་རྟག་ར་ ཤོག་གནག་འདྲ་བཤུས་གཏང་ཡུལ་:།(_s)"
 
 #: ../mail/mail-config.glade.h:41
 msgid "Always _blind carbon-copy (bcc) to:"
-msgstr "ཨ་རྟག་ར་ མཐོང་མེད་ཤོག་གནག་འདྲ་བཤུས་གཏང་ཡུལ་: (_b)"
+msgstr "ཨ་རྟག་ར་ མཐོང་མེད་ཤོག་ནག་འདྲ་བཤུས་གཏང་ཡུལ་: (_b)"
 
 #: ../mail/mail-config.glade.h:42
 msgid "Always _trust keys in my keyring when encrypting"
@@ -13310,18 +13348,26 @@ msgid "_Show image animations"
 msgstr "གཟུགས་བརྙན་གྱི་བསྒུལ་པར་སྟོན།(_S)"
 
 #: ../mail/mail-config.glade.h:174
+msgid "_Shrink To / Cc / Bcc headers to "
+msgstr "གཏང་ཡུལ་/ཤོག་ནག་འདྲ་བཤུས་/མཐོང་མེད་ཤོག་ནག་འདྲ་བཤུས་ཀྱི་མགོ་ཡིག་ཚུ་སྐུམས།(_S)"
+
+#: ../mail/mail-config.glade.h:175
 msgid "_Use Secure Connection:"
 msgstr "མཐའ་བཙན་ཅན་གྱི་མཐུད་ལམ་ ལག་ལེན་འཐབ་: (_U)"
 
-#: ../mail/mail-config.glade.h:175
+#: ../mail/mail-config.glade.h:176
 msgid "_Use the same fonts as other applications"
 msgstr "གློག་རིམ་གཞན་ཟུམ་གྱི་ ཡིག་གཟུགས་ཚུ་ ལག་ལེན་འཐབ། (_U)"
 
-#: ../mail/mail-config.glade.h:176
+#: ../mail/mail-config.glade.h:177
+msgid "addresses"
+msgstr "ཁ་བྱང་།"
+
+#: ../mail/mail-config.glade.h:178
 msgid "color"
 msgstr "ཚོས་གཞི།"
 
-#: ../mail/mail-config.glade.h:177
+#: ../mail/mail-config.glade.h:179
 msgid "description"
 msgstr "འགྲེལ་བཤད།"
 
@@ -13437,147 +13483,138 @@ msgstr "ཉེ་གནས་ཀྱི་ ཤུགས་ལྡན་སྣོ�
 msgid "Pinging %s"
 msgstr "%s པིང་འབད་དོ"
 
-#: ../mail/mail-ops.c:104
+#: ../mail/mail-ops.c:105
 msgid "Filtering Folder"
 msgstr "སྣོད་འཛིན་འཚག་དོ།"
 
-#: ../mail/mail-ops.c:265
+#: ../mail/mail-ops.c:266
 msgid "Fetching Mail"
 msgstr "ཡིག་འཕྲིན་ལེན་དོ།"
 
 #. sending mail, filtering failed
-#: ../mail/mail-ops.c:565
+#: ../mail/mail-ops.c:566
 #, c-format
 msgid "Failed to apply outgoing filters: %s"
 msgstr "ཕྱིར་གཏང་གི་ཚགས་མ་%s ཚུ་ ལག་ལེན་འཐབ་མ་ཚུགས།"
 
-#: ../mail/mail-ops.c:577
-#: ../mail/mail-ops.c:606
+#: ../mail/mail-ops.c:578
+#: ../mail/mail-ops.c:607
 #, c-format
 msgid ""
 "Failed to append to %s: %s\n"
 "Appending to local `Sent' folder instead."
 msgstr "%s: %sལུ་ མཇུག་བསྣོན་འབད་མ་ཚུགས། དེ་གི་ཚབ་ལུ་ ཉེ་གནས་ལུ་བཏང་ཡོད་པའི་སྣོད་འཛིན་ལུ་ མཇུག་བསྣོན་འབད་དོ། "
 
-#: ../mail/mail-ops.c:623
+#: ../mail/mail-ops.c:624
 #, c-format
 msgid "Failed to append to local `Sent' folder: %s"
 msgstr "ཉེ་གནས་ལུ་ ‘བཏང་ཡོད་པའི་’ སྣོད་འཛིན་%sལུ་ མཇུག་བསྣོན་འབད་མ་ཚུགས།"
 
-#: ../mail/mail-ops.c:735
+#: ../mail/mail-ops.c:736
 #, c-format
 msgid "Sending message %d of %d"
 msgstr "འཕྲིན་དོན་%d ལས་ %dབཏང་དོ།"
 
-#: ../mail/mail-ops.c:760
+#: ../mail/mail-ops.c:761
 #, c-format
 msgid "Failed to send %d of %d messages"
 msgstr "འཕྲིན་དོན་%dལས་%dབཏང་མ་ཚུགས།"
 
-#: ../mail/mail-ops.c:762
+#: ../mail/mail-ops.c:763
 #: ../mail/mail-send-recv.c:623
 msgid "Canceled."
 msgstr "ཆ་མེད་བཏང་ཡོད།"
 
-#: ../mail/mail-ops.c:764
+#: ../mail/mail-ops.c:765
 msgid "Complete."
 msgstr "ཡོངས་སྒྲུབ།"
 
-#: ../mail/mail-ops.c:861
+#: ../mail/mail-ops.c:862
 msgid "Saving message to folder"
 msgstr "འཕྲིན་དོན་སྣོད་འཛིན་ལུ་ སྲུང་བཞག་འབད་དོ།"
 
-#: ../mail/mail-ops.c:946
+#: ../mail/mail-ops.c:947
 #, c-format
 msgid "Moving messages to %s"
 msgstr "འཕྲིན་དོན་ཚུ་ %s ལུ་ སྤོ་བཤུད་འབད་དོ།"
 
-#: ../mail/mail-ops.c:946
+#: ../mail/mail-ops.c:947
 #, c-format
 msgid "Copying messages to %s"
 msgstr "འཕྲིན་དོན་ཚུ་%sལུ་ འདྲ་བཤུས་རྐྱབ་དོ།"
 
-#: ../mail/mail-ops.c:1169
+#: ../mail/mail-ops.c:1170
 msgid "Forwarded messages"
 msgstr "གདོང་བསྐྱོད་འབད་ཡོད་པའི་འཕྲིན་དོན་ཚུ།"
 
-#: ../mail/mail-ops.c:1212
+#: ../mail/mail-ops.c:1213
 #, c-format
 msgid "Opening folder %s"
 msgstr "སྣོད་འཛིན་%sཁ་ཕྱེ་དོ།"
 
-#: ../mail/mail-ops.c:1284
+#: ../mail/mail-ops.c:1285
 #, c-format
 msgid "Opening store %s"
 msgstr "མཛོད་ཁང་%sཁ་ཕྱེ་དོ།"
 
-#: ../mail/mail-ops.c:1362
+#: ../mail/mail-ops.c:1363
 #, c-format
 msgid "Removing folder %s"
 msgstr "སྣོད་འཛིན་%s སྤོ་བཤུད་འབད་དོ།"
 
-#: ../mail/mail-ops.c:1456
+#: ../mail/mail-ops.c:1457
 #, c-format
 msgid "Storing folder '%s'"
 msgstr "སྣོད་འཛིན་%sགསོག་འཇོག་འབད་དོ།"
 
-#: ../mail/mail-ops.c:1521
+#: ../mail/mail-ops.c:1522
 #, c-format
 msgid "Expunging and storing account '%s'"
 msgstr "རྩིས་ཐོ་'%s'རྩ་མེད་བཏང་སྟེ་ གསོག་འཇོག་འབད་དོ།"
 
-#: ../mail/mail-ops.c:1522
+#: ../mail/mail-ops.c:1523
 #, c-format
 msgid "Storing account '%s'"
 msgstr "རྩིས་ཐོ་'%s'གསོག་འཇོག་འབད་དོ།"
 
-#: ../mail/mail-ops.c:1577
+#: ../mail/mail-ops.c:1578
 msgid "Refreshing folder"
 msgstr "སྣོད་འཛིན་ཡང་སེལ་འབད་དོ།"
 
-#: ../mail/mail-ops.c:1613
-#: ../mail/mail-ops.c:1664
+#: ../mail/mail-ops.c:1614
+#: ../mail/mail-ops.c:1665
 msgid "Expunging folder"
 msgstr "སྣོད་འཛིན་རྩ་མེད་བཏང་དོ།"
 
-#: ../mail/mail-ops.c:1661
+#: ../mail/mail-ops.c:1662
 #, c-format
 msgid "Emptying trash in '%s'"
 msgstr "'%s'ནང་ལུ་ ཕྱགས་ཧོད་སྟོངམ་བཏོན་དོ།"
 
-#: ../mail/mail-ops.c:1662
+#: ../mail/mail-ops.c:1663
 msgid "Local Folders"
 msgstr "ཉེ་གནས་ཀྱི་སྣོད་འཛིན་ཚུ།"
 
-#: ../mail/mail-ops.c:1745
+#: ../mail/mail-ops.c:1746
 #, c-format
 msgid "Retrieving message %s"
 msgstr "འཕྲིན་དོན་%s སླར་འདྲེན་འབད་དོ།"
 
-#: ../mail/mail-ops.c:1855
+#: ../mail/mail-ops.c:1856
 #, c-format
 msgid "Retrieving %d message"
 msgid_plural "Retrieving %d messages"
 msgstr[0] "འཕྲིན་དོན་%dསླར་འདྲེན་འབད་དོ།"
 msgstr[1] "འཕྲིན་དོན་%d སླར་འདྲེན་འབད་དོ།"
 
-#: ../mail/mail-ops.c:1941
+#: ../mail/mail-ops.c:1942
 #, c-format
 msgid "Saving %d message"
 msgid_plural "Saving %d messsages"
 msgstr[0] "འཕྲིན་དོན་ %d སྲུང་བཞག་འབད་དོ།"
 msgstr[1] "་འཕྲིན་དོན་ཚུ་ %d སྲུང་བཞག་འབད་དོ།"
 
-#: ../mail/mail-ops.c:1991
-#, c-format
-msgid ""
-"Unable to create output file: %s\n"
-" %s"
-msgstr ""
-"ཨའུཊི་པུཊི་ཡིག་སྣོད་: %s བཟོ་མ་ཚུགས།\n"
-" %s"
-
-#: ../mail/mail-ops.c:2019
+#: ../mail/mail-ops.c:2013
 #, c-format
 msgid ""
 "Error saving messages to: %s:\n"
@@ -13586,12 +13623,12 @@ msgstr ""
 "འཕྲིན་དོན་ཚུ་ %s ནང་ སྲུང་བཞག་འབད་ནི་ལུ་འཛོལ་བ།\n"
 " %s"
 
-#: ../mail/mail-ops.c:2091
+#: ../mail/mail-ops.c:2085
 msgid "Saving attachment"
 msgstr "མཉམ་སྦྲགས་སྲུང་བཞག་འབད་དོ།"
 
+#: ../mail/mail-ops.c:2098
 #: ../mail/mail-ops.c:2104
-#: ../mail/mail-ops.c:2110
 #, c-format
 msgid ""
 "Cannot create output file: %s:\n"
@@ -13600,22 +13637,22 @@ msgstr ""
 "ཨའུཊི་པུཊི་ཡིག་སྣོད་ %s བཟོ་མ་ཚུགས།\n"
 "\" %s\""
 
-#: ../mail/mail-ops.c:2120
+#: ../mail/mail-ops.c:2114
 #, c-format
 msgid "Could not write data: %s"
 msgstr "གནད་སྡུད་%sའབྲི་མ་ཚུགས།"
 
-#: ../mail/mail-ops.c:2269
+#: ../mail/mail-ops.c:2263
 #, c-format
 msgid "Disconnecting from %s"
 msgstr "%sནང་ལས་ མཐུད་ལམ་བཏོག་བཏང་དོ།"
 
-#: ../mail/mail-ops.c:2269
+#: ../mail/mail-ops.c:2263
 #, c-format
 msgid "Reconnecting to %s"
 msgstr "%sལུ་ སླར་མཐུད་འབད་དོ།"
 
-#: ../mail/mail-ops.c:2385
+#: ../mail/mail-ops.c:2379
 msgid "Checking Service"
 msgstr "ཞབས་ཏོག་ཞིབ་དཔྱད་འབད་དོ།"
 
@@ -13783,7 +13820,7 @@ msgstr "ཁྱོད་ཀྱིས་ ཨེཆ་ཊི་ཨེམ་ཨེ�
 
 #: ../mail/mail.error.xml.h:15
 msgid "Are you sure you want to send a message with only BCC recipients?"
-msgstr "ཁྱོད་ཀྱིས་འཕྲིན་དོན་ཅིག་ བི་སི་སི་ ལེན་མཁན་ཚུ་རྐྱངམ་ལུ་ གཏང་ནི་ངེས་ཏིག་ཨིན་ན?"
+msgstr "ཁྱོད་ཀྱིས་འཕྲིན་དོན་ཅིག་ མཐོང་མེད་ཤོག་ནག་འདྲ་བཤུས་ ལེན་མཁན་ཚུ་རྐྱངམ་ལུ་ གཏང་ནི་ངེས་ཏིག་ཨིན་ན?"
 
 #: ../mail/mail.error.xml.h:16
 msgid "Are you sure you want to send a message without a subject?"
@@ -13983,7 +14020,7 @@ msgstr "ཡིག་འཕྲིན་ཚགས་མ་ཚུ་ རང་བ�
 
 #: ../mail/mail.error.xml.h:66
 msgid "Many email systems add an Apparently-To header to messages that only have BCC recipients. This header, if added, will list all of your recipients to your message anyway. To avoid this, you should add at least one To: or CC: recipient."
-msgstr "ཁྱོད་ཀྱིས་བཏང་བའི་བསྒང་ཡོད་མི་ འབྲེལ་སའི་ཐོ་ཡིག་དེ་ ལེན་མཁན་གྱི་ཐོ་ཡིག་ སྦ་བཞག་ནི་ལུ་ རིམ་སྒྲིག་འབད་ནུག གློག་འཕྲིན་རིམ་ལུགས་ ལེ་ཤ་ཅིག་གིས་རང་ བི་སི་སི་ལེན་མཁན་ཡོད་མི་འཕྲིན་དོན་ཚུ་རྐྱངམ་ལུ་ གཏང་ཡུལ་གྱི་ མགོ་ཡིག་ཅིག་ ཁ་སྐོང་བརྐྱབ་ཨིན། མགོ་ཡིག་འདི་ ཁ་སྐོང་རྐྱབས་བ་ཅིན་ ཁྱོད་ཀྱི་ལེན་མཁན་ ཆ་མཉམ་རང་ ཁྱོད་ཀྱི་འཕྲིན་དོན་གང་རུང་ནང་ ཐོ་བཀོད་འབདཝ་ཨིན། འདི་སྤང་ནིའི་དོན་ལུ་ ཁྱོད་ཀྱིས་ ཉུང་ཤོས་རང་ གཏང་ལུ: ཡང་ཅིན་ སི་སི་: ལེན་མཁན་གཅིག་ ཁ་སྐོང་བརྐྱབ་དགོ   "
+msgstr "ཁྱོད་ཀྱིས་བཏང་བའི་བསྒང་ཡོད་མི་ འབྲེལ་སའི་ཐོ་ཡིག་དེ་ ལེན་མཁན་གྱི་ཐོ་ཡིག་ སྦ་བཞག་ནི་ལུ་ རིམ་སྒྲིག་འབད་ནུག གློག་འཕྲིན་རིམ་ལུགས་ ལེ་ཤ་ཅིག་གིས་རང་ མཐོང་མེད་ཤོག་ནག་འདྲ་བཤུས་ ལེན་མཁན་ཡོད་མི་འཕྲིན་དོན་ཚུ་རྐྱངམ་ལུ་ གཏང་ཡུལ་གྱི་ མགོ་ཡིག་ཅིག་ ཁ་སྐོང་བརྐྱབ་ཨིན། མགོ་ཡིག་འདི་ ཁ་སྐོང་རྐྱབས་བ་ཅིན་ ཁྱོད་ཀྱི་ལེན་མཁན་ ཆ་མཉམ་རང་ ཁྱོད་ཀྱི་འཕྲིན་དོན་གང་རུང་ནང་ ཐོ་བཀོད་འབདཝ་ཨིན། འདི་སྤང་ནིའི་དོན་ལུ་ ཁྱོད་ཀྱིས་ ཉུང་ཤོས་རང་ གཏང་ལུ: ཡང་ཅིན་ སི་སི་: ལེན་མཁན་གཅིག་ ཁ་སྐོང་བརྐྱབ་དགོ   "
 
 #: ../mail/mail.error.xml.h:67
 msgid "Mark all messages as read"
@@ -14076,7 +14113,7 @@ msgid ""
 "The contact list you are sending to is configured to hide list recipients.\n"
 "\n"
 "Many email systems add an Apparently-To header to messages that only have BCC recipients. This header, if added, will list all of your recipients in your message. To avoid this, you should add at least one To: or CC: recipient. "
-msgstr "ཁྱོད་ཀྱིས་བཏང་བའི་བསྒང་ཡོད་མི་ འབྲེལ་སའི་ཐོ་ཡིག་དེ་ ལེན་མཁན་གྱི་ཐོ་ཡིག་ སྦ་བཞག་ནི་ལུ་ རིམ་སྒྲིག་འབད་ནུག གློག་འཕྲིན་རིམ་ལུགས་ ལེ་ཤ་ཅིག་གིས་རང་ བི་སི་སི་ལེན་མཁན་ཡོད་མི་འཕྲིན་དོན་ཚུ་རྐྱངམ་ལུ་ གཏང་ཡུལ་གྱི་ མགོ་ཡིག་ཅིག་ ཁ་སྐོང་བརྐྱབ་ཨིན། མགོ་ཡིག་འདི་ ཁ་སྐོང་བརྐྱབས་པ་ཅིན་ ཁྱོད་ཀྱི་ལེན་མཁན་ ཆ་མཉམ་རང་ ཁྱོད་ཀྱི་འཕྲིན་དོན་ནང་ ཐོ་བཀོད་འབདཝ་ཨིན། འདི་སྤང་ནིའི་དོན་ལུ་ ཁྱོད་ཀྱིས་ ཉུང་ཤོས་རང་ གཏང་ལུ: ཡང་ཅིན་ སི་སི་: ལེན་མཁན་གཅིག་ ཁ་སྐོང་བརྐྱབ་དགོ"
+msgstr "ཁྱོད་ཀྱིས་བཏང་བའི་བསྒང་ཡོད་མི་ འབྲེལ་སའི་ཐོ་ཡིག་དེ་ ལེན་མཁན་གྱི་ཐོ་ཡིག་ སྦ་བཞག་ནི་ལུ་ རིམ་སྒྲིག་འབད་ནུག གློག་འཕྲིན་རིམ་ལུགས་ ལེ་ཤ་ཅིག་གིས་རང་ མཐོང་མེད་ཤོག་ནག་འདྲ་བཤུས་ ལེན་མཁན་ཡོད་མི་འཕྲིན་དོན་ཚུ་རྐྱངམ་ལུ་ གཏང་ཡུལ་གྱི་ མགོ་ཡིག་ཅིག་ ཁ་སྐོང་བརྐྱབ་ཨིན། མགོ་ཡིག་འདི་ ཁ་སྐོང་བརྐྱབས་པ་ཅིན་ ཁྱོད་ཀྱི་ལེན་མཁན་ ཆ་མཉམ་རང་ ཁྱོད་ཀྱི་འཕྲིན་དོན་ནང་ ཐོ་བཀོད་འབདཝ་ཨིན། འདི་སྤང་ནིའི་དོན་ལུ་ ཁྱོད་ཀྱིས་ ཉུང་ཤོས་རང་ གཏང་ལུ: ཡང་ཅིན་ སི་སི་: ལེན་མཁན་གཅིག་ ཁ་སྐོང་བརྐྱབ་དགོ"
 
 #: ../mail/mail.error.xml.h:93
 msgid ""
@@ -14691,19 +14728,19 @@ msgstr "སྣོད་འཛིན་ཚུ་གི་ཚད།"
 msgid "Exchange Settings"
 msgstr "ཨེགསི་ཅེནཇི་ གཞི་སྒྲིག་ཚུ།"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:609
+#: ../plugins/exchange-operations/exchange-account-setup.c:610
 msgid "_OWA URL:"
 msgstr "ཨོ་ཌབ་ལུ་ཨེ་ ཡུ་ཨར་ཨེལ་: (_O)"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:635
+#: ../plugins/exchange-operations/exchange-account-setup.c:636
 msgid "A_uthenticate"
 msgstr "བདེན་བཤད་འབད། (_u"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:828
+#: ../plugins/exchange-operations/exchange-account-setup.c:829
 msgid "Authentication Type"
 msgstr "བདེན་བཤད་ཀྱི་དབྱེ་བ།"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:842
+#: ../plugins/exchange-operations/exchange-account-setup.c:843
 msgid "Ch_eck for Supported Types"
 msgstr "རྒྱབ་སྐྱོར་ཅན་གྱི་ དབྱེ་བ་ཡོད་མེད་ ཞིབ་དཔྱད་འབད། (_e)"
 
@@ -15013,8 +15050,8 @@ msgid "Cannot display folders."
 msgstr "སྣོད་འཛིན་ཚུ་བཀྲམ་སྟོན་འབད་མི་ཚུགས།"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:3
-msgid "Changes to Exchange account configuration will take place after you quit and restart Evolution."
-msgstr "ཨེགསི་ཅེནཇི་རྩིས་ཐོའི་རིམ་སྒྲིག་ལུ་ བསྒྱུར་བཅོས་འབད་མི་ཚུ་ ཁྱོད་ཀྱིས་ཨི་བོ་ལུ་ཤཱན་ སྤངས་ཞིནམ་ལས་ ལོག་འགོ་བཙུགས་པའི་ཤུལ་ལུ་ བསྒྱིར་བཅོས་འགྱོ་འོང་།"
+msgid "Changes to options for Exchange account \"{0}\" will only take effect after restarting Evolution."
+msgstr "ཨེགསི་ཅེནཇི་རྩིས་ཐོ \"{0}\" ལུ་ བསྒྱུར་བཅོས་འབད་མི་ཚུ་ ཁྱོད་ཀྱིས་ཨི་བོ་ལུ་ཤཱན་ ལོག་འགོ་བཙུགས་པའི་ཤུལ་རྐྱངམ་གཅིག་ ནུས་པ་འཐོབ་འོང་།"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:4
 msgid "Could not authenticate to server."
@@ -15165,8 +15202,8 @@ msgid "Password successfully changed."
 msgstr "ཆོག་ཡིག་མཐར་འཁྱོལ་སྦེ་སོར་ནུག།"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:48
-msgid "Please restart Evolution"
-msgstr "ཨི་བོ་ལུ་ཤཱན་ ལོག་འགོ་བཙུགས་གནང་།"
+msgid "Please restart Evolution for changes to take effect"
+msgstr "བསྒྱུར་བཅོས་ཚུ་ལུ་ ནུས་པ་འཐོབ་ནིའི་དོན་ལུ་ ཨི་བོ་ལུ་ཤཱན་ལོག་འགོ་བཙུགས་གནང་།"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:49
 msgid "Please select a user."
@@ -16685,7 +16722,7 @@ msgid "RDF format (.rdf)"
 msgstr "ཨར་ཌི་ཨེཕ་ རྩ་སྒྲིག(.ཨར་ཌི་ཨེཕ)"
 
 #: ../plugins/save-calendar/save-calendar.c:169
-#: ../plugins/save-calendar/save-calendar.c:179
+#: ../plugins/save-calendar/save-calendar.c:180
 msgid "Select destination file"
 msgstr "འགྲོ་ཡུལ་གྱི་ཡིག་སྣོད་ སེལ་འཐུ་འབད།"
 
@@ -17836,6 +17873,13 @@ msgstr "འབྲེལ་ས་ཆ་མཉམ་འདྲ་བཤུས་བ
 msgid "Contact _Preview"
 msgstr "འབྲེལ་སའི་སྔོན་ལྟ།(_P)"
 
+#: ../ui/evolution-addressbook.xml.h:6
+#: ../ui/evolution-composer-entries.xml.h:1
+#: ../ui/evolution-memos.xml.h:2
+#: ../ui/evolution-tasks.xml.h:2
+msgid "Copy"
+msgstr "འདྲ་བཤུས།"
+
 #: ../ui/evolution-addressbook.xml.h:7
 msgid "Copy Selected Contacts to Another Folder..."
 msgstr "སེལ་འཐུ་འབད་མི་འབྲེལ་ས་ཚུ་ སྣོད་འཛིན་གཞན་མི་ནང་ འདྲ་བཤུས་རྐྱབས་..."
@@ -18363,6 +18407,12 @@ msgstr "ཆུ་ཚོད་ཁོམ་མེད་སྦེ་ སྟོན�
 #: ../ui/evolution-event-editor.xml.h:26
 msgid "_Alarms"
 msgstr "འཇིགས་བརྡ་ཚུ།(_A)"
+
+#: ../ui/evolution-event-editor.xml.h:27
+#: ../ui/evolution-memo-editor.xml.h:6
+#: ../ui/evolution-task-editor.xml.h:18
+msgid "_Categories"
+msgstr "དབྱེ་རིམ། (_C)"
 
 #: ../ui/evolution-event-editor.xml.h:28
 #: ../ui/evolution-memo-editor.xml.h:7
@@ -19211,7 +19261,7 @@ msgstr "འཕྲིན་དོན་འདི་ ཁྱོད་རའི་ �
 
 #: ../ui/evolution-message-composer.xml.h:35
 msgid "Toggles whether the BCC field is displayed"
-msgstr "བི་སི་སི་ས་སྒོ་དེ་ བཀྲམ་སྟོན་འབད་མ་འབད་ སོར་སྟོན་འབདཝ་ཨིན།"
+msgstr "མཐོང་མེད་ཤོག་ནག་འདྲ་བཤུས་ས་སྒོ་དེ་ བཀྲམ་སྟོན་འབད་མ་འབད་ སོར་སྟོན་འབདཝ་ཨིན།"
 
 #: ../ui/evolution-message-composer.xml.h:36
 msgid "Toggles whether the CC field is displayed"
@@ -19235,7 +19285,7 @@ msgstr "གཏང་ཡུལ་གྱི་་སྒོ་དེ་ བཀྲ�
 
 #: ../ui/evolution-message-composer.xml.h:42
 msgid "_Bcc Field"
-msgstr "བི་སི་སི་ས་སྒོ། (_B"
+msgstr "མཐོང་མེད་ཤོག་ནག་འདྲ་བཤུས་ས་སྒོ། (_B)"
 
 #: ../ui/evolution-message-composer.xml.h:43
 msgid "_Cc Field"
@@ -19760,12 +19810,13 @@ msgstr "མཉམ་སྦྲགས་རང་བཞིན་གྱིས་ �
 
 #. Translators: These are the first characters of each day of the
 #. week, 'M' for 'Monday', 'T' for Tuesday etc.
-#: ../widgets/misc/e-calendar-item.c:416
+#: ../widgets/misc/e-calendar-item.c:418
 msgid "MTWTFSS"
 msgstr "ཨེམ་ཊི་ཌབ་ལུ་ཊི་ཨེཕ་ཨེསི་ཨེསི།"
 
 #. This is a strftime() format. %B = Month name, %Y = Year.
-#: ../widgets/misc/e-calendar-item.c:1112
+#: ../widgets/misc/e-calendar-item.c:1095
+#: ../widgets/misc/e-calendar-item.c:1748
 msgid "%B %Y"
 msgstr "%B %Y"
 
@@ -20914,6 +20965,20 @@ msgstr "ཨའི་ཨེམ་སྐབས་དོན།"
 msgid "Handle Popup"
 msgstr "པོཔ་ཨཔ་ལེགས་སྐྱོང་འཐབ།"
 
+#~ msgid "Video Conferencing"
+#~ msgstr "གློག་ཐོག་ཞལ་འཛོམས"
+#~ msgid "WWW"
+#~ msgstr "ཌབ་ལུ་ཌབ་ལུ་ཌབ་ལུ།"
+#~ msgid "Locat_ion:"
+#~ msgstr "གནས་ཁོངས་: (_i)"
+#~ msgid "Properties..."
+#~ msgstr "རྒྱུ་དངོས་ཚུ་..."
+#~ msgid ""
+#~ "Unable to create output file: %s\n"
+#~ " %s"
+#~ msgstr ""
+#~ "ཨའུཊི་པུཊི་ཡིག་སྣོད་: %s བཟོ་མ་ཚུགས།\n"
+#~ " %s"
 #~ msgid "Addressbook"
 #~ msgstr "ཁ་བྱང་ཀི་དེབ།"
 #~ msgid ""
