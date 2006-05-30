@@ -88,7 +88,7 @@ Many email systems add an Apparently-To header to messages that only have BCC re
     <secondary>{1}</secondary>
   </error>
 
-  <error id="async-error-nodescribe" type="error">
+  <error id="async-error-nodescribe" type="error" scroll="yes">
     <_primary>Error while performing operation.</_primary>
     <secondary>{0}</secondary>
   </error>

@@ -1,3 +1,8 @@
+2006-05-30  Srinivasa Ragavan  <sragavan@novell.com>
+	
+	* e-error.c: (ee_load), (e_error_newv): Added a new property
+	called scroll, to show the messages in a scrolled view port.
+
 2006-05-25  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* e-dialog-utils.c: (save_ok), (e_file_dialog_save),

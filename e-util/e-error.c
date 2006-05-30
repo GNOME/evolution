@@ -35,7 +35,8 @@
 #include <gtk/gtkwindow.h>
 #include <gtk/gtklabel.h>
 #include <gtk/gtkimage.h>
-
+#include <gtk/gtkscrolledwindow.h>
+#include <gtk/gtkwindow.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-url.h>
 
@@ -62,6 +63,7 @@ struct _e_error {
 	char *primary;
 	char *secondary;
 	char *help_uri;
+	gboolean scroll;
 	struct _e_error_button *buttons;
 };
 
@@ -215,6 +217,8 @@ ee_load(const char *path)
 
 			e = g_malloc0(sizeof(*e));
 			e->id = g_strdup(tmp);
+			e->scroll = FALSE;
+
 			xmlFree(tmp);
 			lastbutton = (struct _e_error_button *)&e->buttons;
 
@@ -233,6 +237,13 @@ ee_load(const char *path)
 			tmp = xmlGetProp(error, "default");
 			if (tmp) {
 				e->default_response = map_response(tmp);
+				xmlFree(tmp);
+			}
+			
+			tmp = xmlGetProp(error, "scroll");
+			if (tmp) {
+				if (!strcmp(tmp, "yes"))
+					e->scroll = TRUE;
 				xmlFree(tmp);
 			}
 
@@ -406,7 +417,7 @@ e_error_newv(GtkWindow *parent, const char *tag, const char *arg0, va_list ap)
 	struct _e_error_table *table;
 	struct _e_error *e;
 	struct _e_error_button *b;
-	GtkWidget *hbox, *w;
+	GtkWidget *hbox, *w, *scroll=NULL;
 	char *tmp, *domain, *id;
 	GString *out;
 	GPtrArray *args;
@@ -524,12 +535,22 @@ e_error_newv(GtkWindow *parent, const char *tag, const char *arg0, va_list ap)
 
 	g_ptr_array_free(args, TRUE);
 
+	if (e->scroll) {
+		scroll = gtk_scrolled_window_new (NULL, NULL);
+		gtk_scrolled_window_set_policy ((GtkScrolledWindow *)scroll, GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
+	}
 	w = gtk_label_new(NULL);
 	gtk_label_set_selectable((GtkLabel *)w, TRUE);
 	gtk_label_set_line_wrap((GtkLabel *)w, TRUE);
 	gtk_label_set_markup((GtkLabel *)w, out->str);
 	g_string_free(out, TRUE);
-	gtk_box_pack_start((GtkBox *)hbox, w, FALSE, FALSE, 0);
+	if (e->scroll) {
+		gtk_scrolled_window_add_with_viewport ((GtkScrolledWindow *)scroll, w);
+		gtk_box_pack_start((GtkBox *)hbox, scroll, FALSE, FALSE, 0);
+		gtk_window_set_default_size ((GtkWindow *)dialog, 360, 180);
+	} else 
+		gtk_box_pack_start((GtkBox *)hbox, w, FALSE, FALSE, 0);
+		
 	gtk_widget_show_all(hbox);
 
 	gtk_box_pack_start((GtkBox *)dialog->vbox, hbox, TRUE, TRUE, 0);

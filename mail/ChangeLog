@@ -1,3 +1,9 @@
+2006-05-30  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fixes bug #332936
+	* mail.error.xml: Used a new property called scroll
+	that adds the multilines error messages into a viewport.
+
 2006-05-25  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Added remote shares save/load support across evolution.
