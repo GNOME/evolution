@@ -739,23 +739,17 @@ add_button (ESearchBar *esb,
 	    const char *stock, 
 	    GCallback callback)
 {
-	GtkWidget *label;
 	GtkWidget *holder;
 	GtkWidget *button;
 	GtkWidget *image;
 
-	label = gtk_label_new_with_mnemonic (text);
-	gtk_misc_set_padding (GTK_MISC (label), 2, 0);
-	gtk_widget_show (label);
-	
 	/* See the comment in `put_in_spacer_widget()' to understand
 	   why we have to do this.  */
 	
 	image = gtk_image_new_from_stock (stock, GTK_ICON_SIZE_BUTTON);
-	button = gtk_button_new_from_stock (text);
+	button = gtk_button_new_with_mnemonic (text);
 	gtk_button_set_image (button, image);
 	gtk_widget_show (button);
-	gtk_container_add (GTK_CONTAINER (button), label);
 	
 	holder = put_in_spacer_widget (button);
 	gtk_widget_show (holder);
