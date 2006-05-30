@@ -1,3 +1,9 @@
+2006-05-30  Li Yuan  <li.yuan@sun.com>
+
+	Fix for #341381.
+	* message-list.c: (message_list_set_folder):
+	We should lock e-tree-memory when we change it.
+
 2006-05-04  Jeffrey Stedfast  <fejj@novell.com>
 
 	* mail-component.c (mail_component_remove_store): Ref the store

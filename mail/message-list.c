@@ -2809,6 +2809,7 @@ folder_changed (CamelObject *o, gpointer event_data, gpointer user_data)
 void
 message_list_set_folder (MessageList *message_list, CamelFolder *folder, const char *uri, gboolean outgoing)
 {
+	ETreeModel *etm = message_list->model;
 	gboolean hide_deleted;
 	GConfClient *gconf;
 	CamelException ex;
@@ -2836,7 +2837,9 @@ message_list_set_folder (MessageList *message_list, CamelFolder *folder, const c
 		save_hide_state (message_list);
 	}
 	
+	e_tree_memory_freeze(E_TREE_MEMORY(etm));	
 	clear_tree (message_list);
+	e_tree_memory_thaw(E_TREE_MEMORY(etm));
 	
 	if (message_list->folder) {
 		camel_object_unhook_event((CamelObject *)message_list->folder, "folder_changed",
