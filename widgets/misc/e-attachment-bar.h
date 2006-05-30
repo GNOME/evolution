@@ -48,13 +48,12 @@ extern "C" {
 
 typedef struct _EAttachmentBar EAttachmentBar;
 typedef struct _EAttachmentBarClass EAttachmentBarClass;
-typedef struct _EAttachmentBarPrivate EAttachmentBarPrivate;
 
 struct _EAttachmentBar {
 	GnomeIconList parent;
 	gboolean expand;
-
-	EAttachmentBarPrivate *priv;
+	
+	struct _EAttachmentBarPrivate *priv;
 };
 
 struct _EAttachmentBarClass {
@@ -68,12 +67,12 @@ GtkType e_attachment_bar_get_type (void);
 
 GtkWidget *e_attachment_bar_new (GtkAdjustment *adj);
 void e_attachment_bar_to_multipart (EAttachmentBar *bar, CamelMultipart *multipart,
-						 const char *default_charset);
+				    const char *default_charset);
 guint e_attachment_bar_get_num_attachments (EAttachmentBar *bar);
-void e_attachment_bar_attach (EAttachmentBar *bar, const char *file_name, char *disposition);
+void e_attachment_bar_attach (EAttachmentBar *bar, const char *file_name, const char *disposition);
 void e_attachment_bar_attach_mime_part (EAttachmentBar *bar, CamelMimePart *part);
 int e_attachment_bar_get_download_count (EAttachmentBar *bar);
-void e_attachment_bar_attach_remote_file (EAttachmentBar *bar,const gchar *url);
+void e_attachment_bar_attach_remote_file (EAttachmentBar *bar, const char *url);
 GSList *e_attachment_bar_get_attachment (EAttachmentBar *bar, int id);
 void e_attachment_bar_add_attachment (EAttachmentBar *bar, EAttachment *attachment);
 void e_attachment_bar_edit_selected (EAttachmentBar *bar);

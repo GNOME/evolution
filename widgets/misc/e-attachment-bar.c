@@ -65,18 +65,16 @@
 #define ICON_BORDER 2
 #define ICON_TEXT_SPACING 2
 
-
 static GnomeIconListClass *parent_class = NULL;
 
 struct _EAttachmentBarPrivate {
 	GtkWidget *attach;	/* attachment file dialogue, if active */
-
-	GList *attachments;
-	guint num_attachments;
-	gchar *path;
+	
+	gboolean batch_unref;
+	GPtrArray *attachments;
+	char *path;
 };
 
-
 enum {
 	CHANGED,
 	LAST_SIGNAL
@@ -84,10 +82,8 @@ enum {
 
 static guint signals[LAST_SIGNAL] = { 0 };
 
-
 static void update (EAttachmentBar *bar);
 
-
 static char *
 size_to_string (gulong size)
 {
@@ -120,17 +116,13 @@ size_to_string (gulong size)
 /* Attachment handling functions.  */
 
 static void
-free_attachment_list (EAttachmentBar *bar)
+attachment_destroy (EAttachmentBar *bar, EAttachment *attachment)
 {
-	EAttachmentBarPrivate *priv;
-	GList *p;
+	if (bar->priv->batch_unref)
+		return;
 	
-	priv = bar->priv;
-	
-	for (p = priv->attachments; p != NULL; p = p->next)
-		g_object_unref (p->data);
-	
-	priv->attachments = NULL;
+	if (g_ptr_array_remove (bar->priv->attachments, attachment))
+		g_signal_emit (bar, signals[CHANGED], 0);
 }
 
 static void
@@ -146,13 +138,9 @@ add_common (EAttachmentBar *bar,
 {
 	g_return_if_fail (attachment != NULL);
 	
-	g_signal_connect (attachment, "changed",
-			  G_CALLBACK (attachment_changed_cb),
-			  bar);
-	
-	bar->priv->attachments = g_list_append (bar->priv->attachments,
-						attachment);
-	bar->priv->num_attachments++;
+	g_ptr_array_add (bar->priv->attachments, attachment);
+	g_object_weak_ref ((GObject *) attachment, (GWeakNotify) attachment_destroy, bar);
+	g_signal_connect (attachment, "changed", G_CALLBACK (attachment_changed_cb), bar);
 	
 	update (bar);
 	
@@ -186,27 +174,7 @@ add_from_file (EAttachmentBar *bar,
 	}
 }
 
-static void
-remove_attachment (EAttachmentBar *bar,
-		   EAttachment *attachment)
-{
-	g_return_if_fail (E_IS_ATTACHMENT_BAR (bar));
-	g_return_if_fail (g_list_find (bar->priv->attachments, attachment) != NULL);
 
-	bar->priv->attachments = g_list_remove (bar->priv->attachments,
-						attachment);
-	bar->priv->num_attachments--;
-	if (attachment->editor_gui != NULL) {
-		GtkWidget *dialog = glade_xml_get_widget (attachment->editor_gui, "dialog");
-		g_signal_emit_by_name (dialog, "response", GTK_RESPONSE_CLOSE);
-	}
-	
-	g_object_unref(attachment);
-	
-	g_signal_emit (bar, signals[CHANGED], 0);
-}
-
-
 /* Icon list contents handling.  */
 
 static void
@@ -215,7 +183,7 @@ calculate_height_width(EAttachmentBar *bar, int *new_width, int *new_height)
         int width, height, icon_width;
         PangoFontMetrics *metrics;
         PangoContext *context;
-			
+	
         context = gtk_widget_get_pango_context ((GtkWidget *) bar);
         metrics = pango_context_get_metrics (context, ((GtkWidget *) bar)->style->font_desc, pango_context_get_language (context));
         width = PANGO_PIXELS (pango_font_metrics_get_approximate_char_width (metrics)) * 15;
@@ -236,10 +204,10 @@ calculate_height_width(EAttachmentBar *bar, int *new_width, int *new_height)
 static void
 update (EAttachmentBar *bar)
 {
-	EAttachmentBarPrivate *priv;
+	struct _EAttachmentBarPrivate *priv;
 	GnomeIconList *icon_list;
-	GList *p;
 	int bar_width, bar_height;
+	int i;
 	
 	priv = bar->priv;
 	icon_list = GNOME_ICON_LIST (bar);
@@ -249,15 +217,15 @@ update (EAttachmentBar *bar)
 	gnome_icon_list_clear (icon_list);
 	
 	/* FIXME could be faster, but we don't care.  */
-	for (p = priv->attachments; p != NULL; p = p->next) {
+	for (i = 0; i < priv->attachments->len; i++) {
 		EAttachment *attachment;
 		CamelContentType *content_type;
 		char *size_string, *label;
 		GdkPixbuf *pixbuf=NULL;
 		const char *desc;
 		
-		attachment = p->data;
-
+		attachment = priv->attachments->pdata[i];
+		
 		if (!attachment->is_available_local) {
 			/* stock_attach would be better, but its fugly scaled up */
 			pixbuf = e_icon_factory_get_icon("stock_unknown", E_ICON_SIZE_DIALOG);
@@ -267,6 +235,7 @@ update (EAttachmentBar *bar)
 			}
 			continue;
 		}
+		
 		content_type = camel_mime_part_get_content_type (attachment->body);
 		/* Get the image out of the attachment 
 		   and create a thumbnail for it */
@@ -407,14 +376,14 @@ update (EAttachmentBar *bar)
 	/* Resize */
 	if (bar->expand) {
 		gtk_widget_get_size_request ((GtkWidget *)bar, &bar_width, &bar_height);
-	
-		if (bar->priv->num_attachments) {
+		
+		if (bar->priv->attachments->len) {
 			int per_col, rows, height, width;
-	
+			
 			calculate_height_width(bar, &width, &height);
 			per_col = bar_width / width;
 			per_col = (per_col ? per_col : 1);
-			rows = (bar->priv->num_attachments + per_col -1 )/ per_col;
+			rows = (bar->priv->attachments->len + per_col -1) / per_col;
 			gtk_widget_set_size_request ((GtkWidget *)bar, bar_width, rows * height);
 		}
 	}
@@ -452,47 +421,35 @@ update_remote_file (EAttachment *attachment, EAttachmentBar *bar)
 void
 e_attachment_bar_remove_selected (EAttachmentBar *bar)
 {
-	GnomeIconList *icon_list;
+	struct _EAttachmentBarPrivate *priv;
 	EAttachment *attachment;
-	GList *attachment_list, *p;
-	int num = 0, left, dlen;
-
-	g_return_if_fail (bar != NULL);
+	int id, left, nrem = 0;
+	GList *items;
+	
 	g_return_if_fail (E_IS_ATTACHMENT_BAR (bar));
 	
-	icon_list = GNOME_ICON_LIST (bar);
+	priv = bar->priv;
 	
-	/* Weee!  I am especially proud of this piece of cheesy code: it is
-           truly awful.  But unless one attaches a huge number of files, it
-           will not be as greedy as intended.  FIXME of course.  */
+	if (!(items = gnome_icon_list_get_selection ((GnomeIconList *) bar)))
+		return;
 	
-	attachment_list = NULL;
-	p = gnome_icon_list_get_selection (icon_list);
-	dlen = g_list_length (p);
-	for ( ; p != NULL; p = p->next) {
-		num = GPOINTER_TO_INT (p->data);
-		attachment = E_ATTACHMENT (g_list_nth_data (bar->priv->attachments, num));
-
-		/* We need to check if there are duplicated index in the return list of 
-		   gnome_icon_list_get_selection() because of gnome bugzilla bug #122356.
-		   FIXME in the future. */
-
-		if (g_list_find (attachment_list, attachment) == NULL) {
-			attachment_list = g_list_prepend (attachment_list, attachment);
+	while (items != NULL) {
+		if ((id = GPOINTER_TO_INT (items->data) - nrem) < priv->attachments->len) {
+			/* Note: this removes the item from the array due to the weak_ref callback */
+			attachment = priv->attachments->pdata[id];
+			g_object_unref (attachment);
+			nrem++;
 		}
+		
+		items = items->next;
 	}
-	
-	for (p = attachment_list; p != NULL; p = p->next)
-		remove_attachment (bar, E_ATTACHMENT (p->data));
-	
-	g_list_free (attachment_list);
 	
 	update (bar);
 	
-	left = gnome_icon_list_get_num_icons (icon_list);
-	num = num - dlen + 1;
-	if (left > 0)
-		gnome_icon_list_focus_icon (icon_list, left > num ? num : left - 1);
+	id++;
+	
+	if ((left = gnome_icon_list_get_num_icons ((GnomeIconList *) bar)) > 0)
+		gnome_icon_list_focus_icon ((GnomeIconList *) bar, left > id ? id : left - 1);
 }
 
 void
@@ -503,120 +460,136 @@ e_attachment_bar_set_width(EAttachmentBar *bar, int bar_width)
 	calculate_height_width(bar, &width, &height);
 	per_col = bar_width / width;
 	per_col = (per_col ? per_col : 1);
-	rows = (bar->priv->num_attachments + per_col - 1) / per_col;
+	rows = (bar->priv->attachments->len + per_col - 1) / per_col;
 	gtk_widget_set_size_request ((GtkWidget *)bar, bar_width, rows * height);
 }
 
 void
 e_attachment_bar_edit_selected (EAttachmentBar *bar)
 {
-	GnomeIconList *icon_list;
-	GList *selection, *attach;
-	int num;
-
-	g_return_if_fail (bar != NULL);
+	struct _EAttachmentBarPrivate *priv;
+	EAttachment *attachment;
+	GList *items;
+	int id;
+	
 	g_return_if_fail (E_IS_ATTACHMENT_BAR (bar));
 	
-	icon_list = GNOME_ICON_LIST (bar);
+	priv = bar->priv;
 	
-	selection = gnome_icon_list_get_selection (icon_list);
-	if (selection) {
-		num = GPOINTER_TO_INT (selection->data);
-		attach = g_list_nth (bar->priv->attachments, num);
-		if (attach)
-			e_attachment_edit ((EAttachment *)attach->data, GTK_WIDGET (bar));
+	items = gnome_icon_list_get_selection ((GnomeIconList *) bar);
+	while (items != NULL) {
+		if ((id = GPOINTER_TO_INT (items->data)) < priv->attachments->len) {
+			attachment = priv->attachments->pdata[id];
+			e_attachment_edit (attachment, GTK_WIDGET (bar));
+		}
+		
+		items = items->next;
 	}
 }
 
 GtkWidget **
 e_attachment_bar_get_selector(EAttachmentBar *bar)
 {
-	g_return_val_if_fail (bar != NULL, 0);
-	g_return_val_if_fail (E_IS_ATTACHMENT_BAR (bar), 0);
+	g_return_val_if_fail (E_IS_ATTACHMENT_BAR (bar), NULL);
 	
 	return &bar->priv->attach;
 }
 
+
+/**
+ * e_attachment_bar_get_selected:
+ * @bar: an #EAttachmentBar object
+ *
+ * Returns a newly allocated #GSList of ref'd #EAttachment objects
+ * representing the selected items in the #EAttachmentBar Icon List.
+ **/
 GSList *
 e_attachment_bar_get_selected (EAttachmentBar *bar)
 {
+	struct _EAttachmentBarPrivate *priv;
 	GSList *attachments = NULL;
-	GList *p;
-
-	g_return_val_if_fail (bar != NULL, 0);
-	g_return_val_if_fail (E_IS_ATTACHMENT_BAR (bar), 0);
-
-	p = gnome_icon_list_get_selection((GnomeIconList *)bar);
-	for ( ; p != NULL; p = p->next) {
-		int num = GPOINTER_TO_INT(p->data);
-		EAttachment *attachment = g_list_nth_data(bar->priv->attachments, num);
-			
-		if (attachment && g_slist_find(attachments, attachment) == NULL) {
-			g_object_ref(attachment);
-			attachments = g_slist_prepend(attachments, attachment);
+	EAttachment *attachment;
+	GList *items;
+	int id;
+	
+	g_return_val_if_fail (E_IS_ATTACHMENT_BAR (bar), NULL);
+	
+	priv = bar->priv;
+	
+	items = gnome_icon_list_get_selection ((GnomeIconList *) bar);
+	
+	while (items != NULL) {
+		if ((id = GPOINTER_TO_INT (items->data)) < priv->attachments->len) {
+			attachment = priv->attachments->pdata[id];
+			attachments = g_slist_prepend (attachments, attachment);
+			g_object_ref (attachment);
 		}
+		
+		items = items->next;
 	}
-	attachments = g_slist_reverse(attachments);
+	
+	attachments = g_slist_reverse (attachments);
 	
 	return attachments;
 }
 
 /* FIXME: Cleanup this, since there is a api to get selected attachments */
-/* if id != -1, then use it as an index for target of the popup */
+/**
+ * e_attachment_bar_get_attachment:
+ * @bar: an #EAttachmentBar object
+ * @id: Index of the desired attachment or -1 to request all selected attachments
+ *
+ * Returns a newly allocated #GSList of ref'd #EAttachment objects
+ * representing the requested item(s) in the #EAttachmentBar Icon
+ * List.
+ **/
 GSList *
 e_attachment_bar_get_attachment (EAttachmentBar *bar, int id)
 {
-	GSList *attachments = NULL;
-	GList *p;
+	struct _EAttachmentBarPrivate *priv;
 	EAttachment *attachment;
-
-	g_return_val_if_fail (bar != NULL, 0);
-	g_return_val_if_fail (E_IS_ATTACHMENT_BAR (bar), 0);
-
-	/* We need to check if there are duplicated index in the return list of 
-	   gnome_icon_list_get_selection() because of gnome bugzilla bug #122356.
-	   FIXME in the future. */
-
-	if (id == -1
-	    || (attachment = g_list_nth_data(bar->priv->attachments, id)) == NULL) {
-		p = gnome_icon_list_get_selection((GnomeIconList *)bar);
-		for ( ; p != NULL; p = p->next) {
-			int num = GPOINTER_TO_INT(p->data);
-			EAttachment *attachment = g_list_nth_data(bar->priv->attachments, num);
-			
-			if (attachment && g_slist_find(attachments, attachment) == NULL) {
-				g_object_ref(attachment);
-				attachments = g_slist_prepend(attachments, attachment);
-			}
-		}
-		attachments = g_slist_reverse(attachments);
-	} else {
-		g_object_ref(attachment);
-		attachments = g_slist_prepend(attachments, attachment);
-	}
+	GSList *attachments;
+	
+	g_return_val_if_fail (E_IS_ATTACHMENT_BAR (bar), NULL);
+	
+	priv = bar->priv;
+	
+	if (id == -1 || id > priv->attachments->len)
+		return e_attachment_bar_get_selected (bar);
+	
+	attachment = priv->attachments->pdata[id];
+	attachments = g_slist_prepend (NULL, attachment);
+	g_object_ref (attachment);
 	
 	return attachments;
 }
 
+
+/**
+ * e_attachment_bar_get_all_attachments:
+ * @bar: an #EAttachmentBar object
+ *
+ * Returns a newly allocated #GSList of ref'd #EAttachment objects.
+ **/
 GSList *
 e_attachment_bar_get_all_attachments (EAttachmentBar *bar)
 {
+	struct _EAttachmentBarPrivate *priv;
 	GSList *attachments = NULL;
-	GList *p;
 	EAttachment *attachment;
-
-	g_return_val_if_fail (bar != NULL, 0);
-	g_return_val_if_fail (E_IS_ATTACHMENT_BAR (bar), 0);
-
-        for ( p = bar->priv->attachments; p!= NULL; p = p->next) {
-                attachment = p->data;
-                if (attachment && attachment->is_available_local) {
+	int i;
+	
+	g_return_val_if_fail (E_IS_ATTACHMENT_BAR (bar), NULL);
+	
+	priv = bar->priv;
+	
+	for (i = priv->attachments->len - 1; i >= 0; i--) {
+		attachment = priv->attachments->pdata[i];
+		if (attachment->is_available_local) {
+			attachments = g_slist_prepend (attachments, attachment);
 			g_object_ref (attachment);
-                        attachments= g_slist_prepend(attachments, attachment);
 		}
-        }
-
-	attachments = g_slist_reverse(attachments);
+	}
 	
 	return attachments;
 }
@@ -625,20 +598,22 @@ e_attachment_bar_get_all_attachments (EAttachmentBar *bar)
 GSList *
 e_attachment_bar_get_parts (EAttachmentBar *bar)
 {
-        EAttachment *attachment;
-        GList *p = NULL;
-	GSList *part_list = NULL;
-
-	g_return_val_if_fail (bar != NULL, 0);
-	g_return_val_if_fail (E_IS_ATTACHMENT_BAR (bar), 0);
-
-        for ( p = bar->priv->attachments; p!= NULL; p = p->next) {
-                attachment = p->data;
-                if (attachment && attachment->is_available_local)
-                        part_list = g_slist_prepend(part_list, attachment->body);
-        }
+	struct _EAttachmentBarPrivate *priv;
+	EAttachment *attachment;
+	GSList *parts = NULL;
+	int i;
 	
-        return part_list;
+	g_return_val_if_fail (E_IS_ATTACHMENT_BAR (bar), NULL);
+	
+	priv = bar->priv;
+	
+	for (i = 0; i < priv->attachments->len; i++) {
+		attachment = priv->attachments->pdata[i];
+		if (attachment->is_available_local)
+			parts = g_slist_prepend (parts, attachment->body);
+	}
+	
+        return parts;
 }
 
 /* GtkObject methods.  */
@@ -646,20 +621,26 @@ e_attachment_bar_get_parts (EAttachmentBar *bar)
 static void
 destroy (GtkObject *object)
 {
-	EAttachmentBar *bar;
+	EAttachmentBar *bar = (EAttachmentBar *) object;
+	struct _EAttachmentBarPrivate *priv = bar->priv;
+	EAttachment *attachment;
+	int i;
 	
-	bar = E_ATTACHMENT_BAR (object);
-	
-	if (bar->priv) {
-		free_attachment_list (bar);
-
-		if (bar->priv->attach)
-			gtk_widget_destroy(bar->priv->attach);
-
-		if (bar->priv->path)
-			g_free (bar->priv->path);
-
-		g_free (bar->priv);
+	if ((priv = bar->priv)) {
+		priv->batch_unref = TRUE;
+		for (i = 0; i < priv->attachments->len; i++) {
+			attachment = priv->attachments->pdata[i];
+			g_object_unref (attachment);
+		}
+		g_ptr_array_free (priv->attachments, TRUE);
+		
+		if (priv->attach)
+			gtk_widget_destroy (priv->attach);
+		
+		if (priv->path)
+			g_free (priv->path);
+		
+		g_free (priv);
 		bar->priv = NULL;
 	}
 	
@@ -723,51 +704,54 @@ temp_save_part(CamelMimePart *part)
 static void
 eab_drag_data_get(EAttachmentBar *bar, GdkDragContext *drag, GtkSelectionData *data, guint info, guint time)
 {
-	char *path;
-	GList *tmp;
-	gchar **uris;
-	int length, i=0;
-
+	struct _EAttachmentBarPrivate *priv = bar->priv;
+	EAttachment *attachment;
+	char *path, **uris;
+	int len, n, i = 0;
+	CamelURL *url;
+	GList *items;
+	
 	if (info)
 		return;
 	
-	tmp = gnome_icon_list_get_selection (GNOME_ICON_LIST(bar));
-	length = g_list_length (tmp);
-
-	uris = g_malloc0(sizeof(bar) * (length+1));
-
-	for (; tmp; tmp = tmp->next) {
-		int num = GPOINTER_TO_INT(tmp->data);
-		EAttachment *attachment = g_list_nth_data(bar->priv->attachments, num);	
-		CamelURL *curl;
-
+	items = gnome_icon_list_get_selection (GNOME_ICON_LIST (bar));
+	len = g_list_length (items);
+	
+	uris = g_malloc0 (sizeof (char *) * (len + 1));
+	
+	for ( ; items != NULL; items = items->next) {
+		if (!((n = GPOINTER_TO_INT (items->data)) < priv->attachments->len))
+			continue;
+		
+		attachment = priv->attachments->pdata[n];
+		
 		if (!attachment->is_available_local)
 			continue;
-
+		
 		if (attachment->store_uri) {
-			uris[i] = attachment->store_uri;
-			i++;
+			uris[i++] = attachment->store_uri;
 			continue;
 		}
-		path = temp_save_part(attachment->body);
-		/* If we are not able to save, ignore it*/
-		if (path == NULL) 
+		
+		/* If we are not able to save, ignore it */
+		if (!(path = temp_save_part (attachment->body)))
 			continue;
 		
-		curl = camel_url_new("file:", NULL);
-		camel_url_set_path (curl, path);
-		attachment->store_uri = camel_url_to_string (curl, 0);
-		camel_url_free(curl);		
-		g_free(path);
+		url = camel_url_new ("file:", NULL);
+		camel_url_set_path (url, path);
+		attachment->store_uri = camel_url_to_string (url, 0);
+		camel_url_free (url);
+		g_free (path);
 		
-		uris[i] = attachment->store_uri;
-		i++;
+		uris[i++] = attachment->store_uri;
 	}
-	uris[i]=0;
-	gtk_selection_data_set_uris(data, uris);
+	
+	uris[i] = NULL;
+	
+	gtk_selection_data_set_uris (data, uris);
 	
 	g_free (uris);
-
+	
 	return;
 }
 
@@ -922,13 +906,13 @@ class_init (EAttachmentBarClass *klass)
 static void
 init (EAttachmentBar *bar)
 {
-	EAttachmentBarPrivate *priv;
+	struct _EAttachmentBarPrivate *priv;
 	
-	priv = g_new (EAttachmentBarPrivate, 1);
+	priv = g_new (struct _EAttachmentBarPrivate, 1);
 	
 	priv->attach = NULL;
-	priv->attachments = NULL;
-	priv->num_attachments = 0;
+	priv->batch_unref = FALSE;
+	priv->attachments = g_ptr_array_new ();
 	priv->path = NULL;
 	
 	bar->priv = priv;
@@ -1093,41 +1077,39 @@ e_attachment_bar_to_multipart (EAttachmentBar *bar,
 			       CamelMultipart *multipart,
 			       const char *default_charset)
 {
-	EAttachmentBarPrivate *priv;
-	GList *p;
+	struct _EAttachmentBarPrivate *priv;
+	EAttachment *attachment;
+	int i;
 	
 	g_return_if_fail (E_IS_ATTACHMENT_BAR (bar));
 	g_return_if_fail (CAMEL_IS_MULTIPART (multipart));
 	
 	priv = bar->priv;
 	
-	for (p = priv->attachments; p != NULL; p = p->next) {
-		EAttachment *attachment;
-		
-		attachment = E_ATTACHMENT (p->data);
+	for (i = 0; i < priv->attachments->len; i++) {
+		attachment = priv->attachments->pdata[i];
 		if (attachment->is_available_local)
 			attach_to_multipart (multipart, attachment, default_charset);
 	}
 }
 
-
+
 guint
 e_attachment_bar_get_num_attachments (EAttachmentBar *bar)
 {
-	g_return_val_if_fail (bar != NULL, 0);
 	g_return_val_if_fail (E_IS_ATTACHMENT_BAR (bar), 0);
 	
-	return bar->priv->num_attachments;
+	return bar->priv->attachments->len;
 }
 
-
+
 void
 e_attachment_bar_attach (EAttachmentBar *bar,
-			 const gchar *file_name,
+			 const char *file_name,
 			 char *disposition)
 {
 	g_return_if_fail (E_IS_ATTACHMENT_BAR (bar));
-	g_return_if_fail ( file_name != NULL && disposition != NULL);
+	g_return_if_fail (file_name != NULL && disposition != NULL);
 	
 	add_from_file (bar, file_name, disposition);
 }
@@ -1136,7 +1118,6 @@ void
 e_attachment_bar_add_attachment (EAttachmentBar *bar,
 				 EAttachment *attachment)
 {
-	g_return_if_fail (bar != NULL);
 	g_return_if_fail (E_IS_ATTACHMENT_BAR (bar));
 	
 	add_common (bar, attachment);
@@ -1145,34 +1126,29 @@ e_attachment_bar_add_attachment (EAttachmentBar *bar,
 int 
 e_attachment_bar_get_download_count (EAttachmentBar *bar)
 {
-	EAttachmentBarPrivate *priv;
-	GList *p;
-	int count=0;
+	struct _EAttachmentBarPrivate *priv;
+	EAttachment *attachment;
+	int i, n = 0;
 	
-	g_return_val_if_fail (bar != NULL, 0);
 	g_return_val_if_fail (E_IS_ATTACHMENT_BAR (bar), 0);
 	
 	priv = bar->priv;
 	
-	for (p = priv->attachments; p != NULL; p = p->next) {
-		EAttachment *attachment;
-		
-		attachment = p->data;
+	for (i = 0; i < priv->attachments->len; i++) {
+		attachment = priv->attachments->pdata[i];
 		if (!attachment->is_available_local)
-			count++;
+			n++;
 	}
-
-	return count;
+	
+	return n;
 }
 
 void 
-e_attachment_bar_attach_remote_file (EAttachmentBar *bar,
-				     const gchar *url)
+e_attachment_bar_attach_remote_file (EAttachmentBar *bar, const char *url)
 {
 	EAttachment *attachment;
 	CamelException ex;
 
-	g_return_if_fail ( bar!=NULL );
 	g_return_if_fail (E_IS_ATTACHMENT_BAR (bar));
 
 	if (!bar->priv->path)
@@ -1180,8 +1156,8 @@ e_attachment_bar_attach_remote_file (EAttachmentBar *bar,
 
 	camel_exception_init (&ex);
 	attachment = e_attachment_new_remote_file (url, "attachment", bar->priv->path, &ex);
-	g_signal_connect (attachment, "update", G_CALLBACK(update_remote_file), bar);
 	if (attachment) {
+		g_signal_connect (attachment, "update", G_CALLBACK (update_remote_file), bar);
 		add_common (bar, attachment);
 	} else {
 		e_error_run((GtkWindow *)gtk_widget_get_toplevel((GtkWidget *)bar), "mail-composer:no-attach",
@@ -1194,7 +1170,6 @@ void
 e_attachment_bar_attach_mime_part (EAttachmentBar *bar,
 				   CamelMimePart *part)
 {
-	g_return_if_fail ( bar!=NULL );
 	g_return_if_fail (E_IS_ATTACHMENT_BAR (bar));
 	
 	add_from_mime_part (bar, part);

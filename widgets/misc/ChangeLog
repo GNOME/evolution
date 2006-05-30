@@ -1,3 +1,46 @@
+2006-05-26  Jeffrey Stedfast  <fejj@novell.com>
+
+	Fix for Novell bug #178631
+
+	* e-attachment-bar.c: Changed the EAttachmentBarPrivate struct, we
+	no longer use a linked list, instead we use a GPtrArray - faster,
+	simpler (plus all the code used indexes anyway, so it was really
+	bizarre).
+	(free_attachment_list): Removed.
+	(attachment_destroy): New GWeakNotify callback for when an
+	EAttachment object gets destroyed. Remove the attachment from the
+	attachments array.
+	(add_common): Updated to add to an array rather than a linked
+	list. Also weak_ref the attachment object.
+	(remove_attachment): Removed.
+	(update): Updated to use the array instead of linked list of
+	attachments.
+	(e_attachment_bar_remove_selected): Same.
+	(e_attachment_bar_set_width): Same.
+	(e_attachment_bar_edit_selected): Same.
+	(e_attachment_bar_get_selected): Same.
+	(e_attachment_bar_get_attachment): Same.
+	(e_attachment_bar_get_all_attachments): Same and also optimised
+	since we can cheat now without having to g_slist_reverse.
+	(e_attachment_bar_get_parts): Same.
+	(destroy): Same.
+	(eab_drag_data_get): Same.
+	(init): Init attachments to a g_ptr_array_new
+	(e_attachment_bar_to_multipart): Updated to use the attachments
+	array.
+	(e_attachment_bar_get_num_attachments): Updated to return the
+	attachments->len.
+	(e_attachment_bar_get_download_count): Updated to use the array.
+
+	* e-attachment.c (finalise): Close the editor dialog if it is
+	open.
+	(async_progress_update_cb): If the phase is COMPLETE but the
+	file_size is 0, then treat it as an error. In the error case,
+	unref the attachment object (this will magically remove it from
+	the EAttachmentBar).
+	(close_cb): Don't unref the attachment object here anymore.
+	(e_attachment_edit): Don't ref the EAttachment anymore.
+
 2006-03-28  Li Yuan  <li.yuan@sun.com>
 
 	**Fixes bug #335618

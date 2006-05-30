@@ -78,12 +78,16 @@ changed (EAttachment *attachment)
 /* GtkObject methods.  */
 
 static void
-finalise(GObject *object)
+finalise (GObject *object)
 {
-	EAttachment *attachment;
+	EAttachment *attachment = (EAttachment *) object;
+	GtkWidget *dialog;
 	
-	attachment = E_ATTACHMENT (object);
-
+	if (attachment->editor_gui != NULL) {
+		dialog = glade_xml_get_widget (attachment->editor_gui, "dialog");
+		g_signal_emit_by_name (dialog, "response", GTK_RESPONSE_CLOSE);
+	}
+	
 	if (attachment->is_available_local) {
 		camel_object_unref (attachment->body);
 		if (attachment->pixbuf_cache != NULL)
@@ -93,10 +97,10 @@ finalise(GObject *object)
 			gnome_vfs_async_cancel(attachment->handle);
 		g_free (attachment->description);
 	}
-
+	
 	g_free (attachment->file_name);
 	g_free (attachment->store_uri);
-
+	
 	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
 
@@ -208,7 +212,7 @@ attachment_guess_mime_type (const char *file_name)
 	return type;
 }
 
-
+
 /**
  * e_attachment_new:
  * @file_name: filename to attach
@@ -324,7 +328,6 @@ async_progress_update_cb (GnomeVFSAsyncHandle      *handle,
 {
 	switch (info->status) {
 	case GNOME_VFS_XFER_PROGRESS_STATUS_OK:
-	{
 		if (info->file_size) {
 			download_info->attachment->percentage = info->bytes_copied*100/info->file_size;
 			g_signal_emit (download_info->attachment, signals[UPDATE], 0);
@@ -336,6 +339,9 @@ async_progress_update_cb (GnomeVFSAsyncHandle      *handle,
 		if (info->phase == GNOME_VFS_XFER_PHASE_COMPLETED) {
 			CamelException ex;
 			
+			if (!info->file_size)
+				goto error;
+			
 			download_info->attachment->is_available_local = TRUE;
 			download_info->attachment->handle = NULL;
 			camel_exception_init (&ex);
@@ -346,13 +352,12 @@ async_progress_update_cb (GnomeVFSAsyncHandle      *handle,
 			g_free (download_info);
 		}
 		return TRUE;
-	}
 	case GNOME_VFS_XFER_PROGRESS_STATUS_VFSERROR:
-		gnome_vfs_async_cancel (handle);
+	error:
+		g_object_unref (download_info->attachment);
 		g_free (download_info->file_name);
 		g_free (download_info);
 		return FALSE;
-
 	default:
 		break;
 	}
@@ -599,8 +604,6 @@ close_cb (GtkWidget *widget, gpointer data)
 	g_object_unref (attachment->editor_gui);
 	attachment->editor_gui = NULL;
 	
-	g_object_unref (attachment);
-	
 	destroy_dialog_data (dialog_data);
 }
 
@@ -673,7 +676,6 @@ e_attachment_edit (EAttachment *attachment, GtkWidget *parent)
 	char *type;
 	char *filename;
 	
-	g_return_if_fail (attachment != NULL);
 	g_return_if_fail (E_IS_ATTACHMENT (attachment));
 	
 	if (attachment->editor_gui != NULL) {
@@ -704,7 +706,6 @@ e_attachment_edit (EAttachment *attachment, GtkWidget *parent)
 		 GTK_WINDOW (gtk_widget_get_toplevel (parent)));
 	
 	dialog_data = g_new (DialogData, 1);
-	g_object_ref (attachment);
 	dialog_data->attachment = attachment;
 	dialog_data->dialog = glade_xml_get_widget (editor_gui, "dialog");
 	dialog_data->file_name_entry = GTK_ENTRY (
