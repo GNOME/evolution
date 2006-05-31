@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-05-29 16:25+0200\n"
-"PO-Revision-Date: 2006-05-29 16:32+0200\n"
+"PO-Revision-Date: 2006-05-31 16:05+0200\n"
 "Last-Translator: Francisco Javier F. Serrador <serrador@cvs.gnome.org>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -18725,7 +18725,7 @@ msgstr "_Archivo"
 
 #: ../ui/evolution-editor.xml.h:20 ../ui/evolution.xml.h:40
 msgid "_Help"
-msgstr "A_yuda"
+msgstr "Ay_uda"
 
 #: ../ui/evolution-editor.xml.h:21
 msgid "_Options"
