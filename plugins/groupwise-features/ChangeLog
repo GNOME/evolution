@@ -1,3 +1,8 @@
+2006-05-31  David Richards  <drichard@largo.com>
+
+	* proxy-login-dialog.glade:
+	Increases the height of the dialog to make it easily usable
+	
 2006-03-01  Sankar P  <psankar@novell.com>
 
 	* proxy-login.c: (proxy_get_password) 
