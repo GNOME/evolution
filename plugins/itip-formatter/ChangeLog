@@ -1,3 +1,13 @@
+2006-05-31  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #340296
+	* itip-formatter.c: (cal_opened_cb), (start_calendar_server),
+	(find_cal_opened_cb): Set the default timezone before the calendar
+	is opened.
+	(find_server), (format_itip_object): If the mail account has the associated
+	calendar, then do not open all the calendars. Open the current calendar
+	and other calendars marked for conflict search.
+
 2006-02-14  Veerapuram Varadhan <vvaradhan@novell.com>
 
 	* itip-formatter.c (itip_formatter_page_factory): A typo fix from
