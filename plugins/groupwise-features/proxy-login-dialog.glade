@@ -6,6 +6,7 @@
 
 <widget class="GtkDialog" id="proxy_login_dialog">
   <property name="visible">True</property>
+  <property name="height_request">325</property>
   <property name="title" translatable="yes">Proxy Login</property>
   <property name="type">GTK_WINDOW_TOPLEVEL</property>
   <property name="window_position">GTK_WIN_POS_NONE</property>
