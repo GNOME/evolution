@@ -1,3 +1,8 @@
+2006-06-01  Harish Krishnaswamy  <kharish@novell.com>
+
+	* e-attachment-bar.c: (e_attachment_bar_attach): Synch method signature
+	with its declaration. This was a build-breaker.
+
 2006-05-26  Jeffrey Stedfast  <fejj@novell.com>
 
 	Fix for Novell bug #178631

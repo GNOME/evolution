@@ -1106,7 +1106,7 @@ e_attachment_bar_get_num_attachments (EAttachmentBar *bar)
 void
 e_attachment_bar_attach (EAttachmentBar *bar,
 			 const char *file_name,
-			 char *disposition)
+			 const char *disposition)
 {
 	g_return_if_fail (E_IS_ATTACHMENT_BAR (bar));
 	g_return_if_fail (file_name != NULL && disposition != NULL);
