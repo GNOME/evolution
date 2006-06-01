@@ -36,7 +36,6 @@
 #include <evolution-shell-component-utils.h>
 #include "event-page.h"
 #include "recurrence-page.h"
-#include "meeting-page.h"
 #include "schedule-page.h"
 #include "cancel-comp.h"
 #include "event-editor.h"

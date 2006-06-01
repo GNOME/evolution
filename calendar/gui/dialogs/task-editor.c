@@ -37,7 +37,6 @@
 
 #include "task-page.h"
 #include "task-details-page.h"
-#include "meeting-page.h"
 #include "cancel-comp.h"
 #include "../calendar-config.h"
 #include "task-editor.h"
