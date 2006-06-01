@@ -1,3 +1,10 @@
+2006-06-01  Harish Krishnaswamy  <kharish@novell.com>
+
+	* gui/dialogs/Makefile.am, gui/dialogs/event-editor.c,
+	gui/dialogs/task-editor.c: Remove redundant files 
+	meeting-page.[ch], cal-attachment.glade and references
+	in includes.
+
 2006-05-25  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Added support to save calendar/events/attachments to remote

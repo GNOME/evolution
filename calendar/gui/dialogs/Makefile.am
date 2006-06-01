@@ -58,8 +58,6 @@ libcal_dialogs_la_SOURCES =	\
 	memo-editor.h		\
 	memo-page.c		\
 	memo-page.h		\
-	meeting-page.c		\
-	meeting-page.h		\
 	recurrence-page.c	\
 	recurrence-page.h	\
 	recur-comp.c		\
