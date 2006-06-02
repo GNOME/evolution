@@ -1,3 +1,9 @@
+2006-06-02  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	** Fixes bug 343494
+	* e-search-bar.c: (add_button): Use gtk_button_set_image if GTK+ is
+	2.6 or higher.
+
 2006-05-30  Li Yuan <li.yuan@sun.com>
 
 	Fix for #343280.

@@ -35,6 +35,7 @@
 #include <gtk/gtkmenuitem.h>
 #include <gtk/gtkoptionmenu.h>
 #include <gtk/gtkmain.h>
+#include <gtk/gtkversion.h>
 
 #include <misc/e-unicode.h>
 #include <misc/e-gui-utils.h>
@@ -743,14 +744,31 @@ add_button (ESearchBar *esb,
 	GtkWidget *button;
 	GtkWidget *image;
 
+#if !GTK_CHECK_VERSION (2,6,0)
+	GtkWidget *hbox = gtk_hbox_new (FALSE, 2);
+ 	GtkWidget *label = gtk_label_new_with_mnemonic (text);
+
+ 	gtk_misc_set_padding (GTK_MISC (label), 2, 0);
+#endif
+
 	/* See the comment in `put_in_spacer_widget()' to understand
 	   why we have to do this.  */
 	
 	image = gtk_image_new_from_stock (stock, GTK_ICON_SIZE_BUTTON);
 	button = gtk_button_new_with_mnemonic (text);
-	gtk_button_set_image (button, image);
+#if GTK_CHECK_VERSION (2,6,0)
+	gtk_button_set_image (GTK_BUTTON (button), image);
+#else	
+	gtk_widget_show (image);
+	gtk_box_pack_start (GTK_BOX (hbox), image, FALSE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, TRUE, 0);
+	gtk_widget_show (hbox);
+ 	
+	button = gtk_button_new ();
+	gtk_container_add (GTK_CONTAINER (button), hbox);
+#endif
 	gtk_widget_show (button);
-	
+
 	holder = put_in_spacer_widget (button);
 	gtk_widget_show (holder);
 	
