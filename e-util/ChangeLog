@@ -1,3 +1,8 @@
+2006-06-02  Frederic Peters <fpeters@entrouvert.com>
+
+	* e-error.c: Set new scroll member to false in static 
+	declarations. Fixes build breaker #343446.
+
 2006-05-30  Srinivasa Ragavan  <sragavan@novell.com>
 	
 	* e-error.c: (ee_load), (e_error_newv): Added a new property
