@@ -497,16 +497,14 @@ emfv_list_display_view(GalViewInstance *instance, GalView *view, EMFolderView *e
 static void
 emfv_setup_view_instance(EMFolderView *emfv)
 {
-	struct _EMFolderViewPrivate *p = emfv->priv;
-	gboolean outgoing;
-	char *id;
 	static GalViewCollection *collection = NULL;
-	CamelFolderInfo *fi = NULL;
-	gboolean show_wide = gconf_client_get_bool (mail_config_get_gconf_client (), "/apps/evolution/mail/display/show_wide", NULL);
+	struct _EMFolderViewPrivate *p = emfv->priv;
+	gboolean outgoing, show_wide;
+	char *id;
 	
 	g_assert(emfv->folder);
 	g_assert(emfv->folder_uri);
-
+	
 	if (collection == NULL) {
 		ETableSpecification *spec;
 		GalViewFactory *factory;
@@ -552,18 +550,16 @@ emfv_setup_view_instance(EMFolderView *emfv)
 		g_object_unref(p->view_menus);
 		p->view_menus = NULL;
 	}
-
-	outgoing = em_utils_folder_is_drafts (emfv->folder, emfv->folder_uri)
-		|| em_utils_folder_is_sent (emfv->folder, emfv->folder_uri)
-		|| em_utils_folder_is_outbox (emfv->folder, emfv->folder_uri);
 	
 	/* TODO: should this go through mail-config api? */
 	id = mail_config_folder_to_safe_url (emfv->folder);
 	p->view_instance = gal_view_instance_new (collection, id);
-
+	
+	show_wide = gconf_client_get_bool (mail_config_get_gconf_client (), "/apps/evolution/mail/display/show_wide", NULL);
+	
 	if (show_wide) {
 		char *safe_id, *filename;
-
+		
 		/* Force to use the wide view */
 		g_free (p->view_instance->custom_filename);
 		g_free (p->view_instance->current_view_filename);		
@@ -577,20 +573,19 @@ emfv_setup_view_instance(EMFolderView *emfv)
 		g_free (safe_id);
 	}
 	g_free (id);
-
-	fi = camel_store_get_folder_info (emfv->folder->parent_store,
-					  emfv->folder->full_name,
-					  CAMEL_STORE_FOLDER_INFO_SUBSCRIBED,
-					  NULL);	
-	if (outgoing || (fi && ((fi->flags & CAMEL_FOLDER_TYPE_MASK) == CAMEL_FOLDER_TYPE_SENT))) {
+	
+	outgoing = em_utils_folder_is_drafts (emfv->folder, emfv->folder_uri)
+		|| em_utils_folder_is_sent (emfv->folder, emfv->folder_uri)
+		|| em_utils_folder_is_outbox (emfv->folder, emfv->folder_uri);
+	
+	if (outgoing) {
 		if (show_wide)
 			gal_view_instance_set_default_view(p->view_instance, "Wide_View_Sent");
 		else
 			gal_view_instance_set_default_view(p->view_instance, "As_Sent_Folder");
-	} else if (show_wide){
+	} else if (show_wide) {
 		gal_view_instance_set_default_view(p->view_instance, "Wide_View_Normal");
 	}
-	
 	
 	gal_view_instance_load(p->view_instance);
 	
